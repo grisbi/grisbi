@@ -127,79 +127,83 @@ gboolean charge_operations ( void )
 {
   struct stat buffer_stat;
   xmlDocPtr doc;
+  int result;
 
   /* vérification de la permission du fichier */
 
-  stat ( nom_fichier_comptes,
-	 &buffer_stat);
-  if ( buffer_stat.st_mode != 33152 && etat.alerte_permission )
+  result = stat ( nom_fichier_comptes, &buffer_stat);
+  
+  if ( result != -1 && 
+       buffer_stat.st_mode != 33152 && etat.alerte_permission )
     propose_changement_permissions();
 
  
   /* on commence par ouvrir le fichier en xml */
   /*   si marche pas, essaye d'ouvrir la version 0.3.1 */
-
-  doc = xmlParseFile ( nom_fichier_comptes );
-
-  if ( doc )
+  
+  if ( result != -1 )
     {
-      /* vérifications d'usage */
-      xmlNodePtr root = xmlDocGetRootElement(doc);
+      doc = xmlParseFile ( nom_fichier_comptes );
 
-      if ( !root
-	   ||
-	   !root->name
-	   ||
-	   g_strcasecmp ( root->name,
-			  "Grisbi" ))
+      if ( doc )
 	{
-	  dialogue ( _("Invalid accounts file") );
+	  /* vérifications d'usage */
+	  xmlNodePtr root = xmlDocGetRootElement(doc);
+
+	  if ( !root
+	       ||
+	       !root->name
+	       ||
+	       g_strcasecmp ( root->name,
+			      "Grisbi" ))
+	    {
+	      dialogue ( _("Invalid accounts file") );
+	      xmlFreeDoc ( doc );
+	      return ( FALSE );
+	    }
+
+	  /* récupère la version de fichier */
+
+	  if (( !strcmp (  xmlNodeGetContent ( root->childs->childs ),
+			   "0.3.2" )))
+	    return ( charge_operations_version_0_3_2 ( doc ));
+
+	  if (( !strcmp (  xmlNodeGetContent ( root->childs->childs ),
+			   "0.3.3" )))
+	    return ( charge_operations_version_0_3_2 ( doc ));
+
+	  if (( !strcmp (  xmlNodeGetContent ( root->childs->childs ),
+			   "0.4.0" )))
+	    return ( charge_operations_version_0_4_0 ( doc ));
+
+	  if (( !strcmp (  xmlNodeGetContent ( root->childs->childs ),
+			   "0.4.1" )))
+	    return ( charge_operations_version_0_4_1 ( doc ));
+	  if (( !strcmp (  xmlNodeGetContent ( root->childs->childs ),
+			   "0.5.0" )))
+	    return ( charge_operations_version_0_5_0 ( doc ));
+
+	  /* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
+	  /* la version nécessaire pour l'ouvrir */
+
+
+	  dialogue ( g_strdup_printf ( _("Grisbi version %s is needed to open this file"),
+				       xmlNodeGetContent ( root->childs->childs->next )));
+
 	  xmlFreeDoc ( doc );
+
 	  return ( FALSE );
 	}
 
-      /* récupère la version de fichier */
-
-        if (( !strcmp (  xmlNodeGetContent ( root->childs->childs ),
-			 "0.3.2" )))
-	  return ( charge_operations_version_0_3_2 ( doc ));
-
-        if (( !strcmp (  xmlNodeGetContent ( root->childs->childs ),
-			 "0.3.3" )))
-	  return ( charge_operations_version_0_3_2 ( doc ));
-
-        if (( !strcmp (  xmlNodeGetContent ( root->childs->childs ),
-			 "0.4.0" )))
-	  return ( charge_operations_version_0_4_0 ( doc ));
-
-        if (( !strcmp (  xmlNodeGetContent ( root->childs->childs ),
-			 "0.4.1" )))
-	  return ( charge_operations_version_0_4_1 ( doc ));
-        if (( !strcmp (  xmlNodeGetContent ( root->childs->childs ),
-			 "0.5.0" )))
-	  return ( charge_operations_version_0_5_0 ( doc ));
-
-	/* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
-	/* la version nécessaire pour l'ouvrir */
-
-
-	dialogue ( g_strdup_printf ( _("Grisbi version %s is needed to open this file"),
-				     xmlNodeGetContent ( root->childs->childs->next )));
-
-	xmlFreeDoc ( doc );
-
-	return ( FALSE );
-    }
-  else
-    {
       dialogue ( _("Invalid accounts file") );
       return ( FALSE );
     }
-    
-  dialogue ( _("Invalid accounts file or file version prior to 0.3.1.") );
-
-  return ( FALSE );
-
+  else
+    {
+      dialogue (g_strdup_printf (_("Cannot open file %s: %s"), nom_fichier_comptes,
+				   latin2utf8 (strerror(errno))));
+      return FALSE;
+    }
 }
 /***********************************************************************************************************/
 
@@ -8308,7 +8312,7 @@ gboolean enregistre_fichier ( gboolean force )
 
   if ( resultat == -1 )
     {
-      dialogue ( g_strdup_printf ( _("Error saving the file: %s\n\nError:\n%s"),
+      dialogue ( g_strdup_printf ( _("Error saving file '%s'\n\nError:\n%s"),
 				   nom_fichier_comptes, strerror ( errno ) ));
       return ( FALSE );
     }
@@ -8386,7 +8390,8 @@ void fichier_marque_ouvert ( gint ouvert )
   if (!(pointeur_fichier_comptes = fopen ( nom_fichier_comptes, "r+")) )
     {
       dialogue ( g_strconcat ( _("Error opening and locking file.\n"),
-			       strerror ( errno ),
+			       /* FIXME: oooh, serious braindammage expected there */
+			       latin2utf8 (strerror (errno)), 
 			       NULL ));
       return;
     }
@@ -8530,7 +8535,7 @@ gboolean enregistre_categ ( gchar *nom_categ )
     {
       dialogue ( g_strdup_printf ( _("Error saving the file: %s\n\nError:\n%s"),
 				   nom_categ,
-				   strerror ( errno ) ));
+				   latin2utf8 (strerror ( errno ) )));
       return ( FALSE );
     }
 
@@ -8877,7 +8882,7 @@ gboolean enregistre_ib ( gchar *nom_ib )
   if ( resultat == -1 )
     {
       dialogue ( g_strconcat ( _("Error saving the file: %s\n\nError:\n"),
-			       nom_ib, strerror ( errno ),
+			       nom_ib, latin2utf8 (strerror ( errno )),
 			       NULL ));
       return ( FALSE );
     }

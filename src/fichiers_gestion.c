@@ -213,19 +213,15 @@ void ouverture_confirmee ( void )
 	  if ( etat.sauvegarde_demarrage )
 	    {
 	      gchar *nom;
-	      gint i;
+	      gint i, result;
 	      gchar **parametres;
-
-	      dialogue ( _("Loading of the file failed. Grisbi will now try to load\nthe last automatic backup.\nYou will loose all you made since this backup."));
 
 	      /* on crée le nom de la sauvegarde */
 
 	      nom = nom_fichier_comptes;
 	      i=0;
 
-	      parametres = g_strsplit ( nom_fichier_comptes,
-					"/",
-					0);
+	      parametres = g_strsplit ( nom_fichier_comptes, "/", 0);
 	      while ( parametres[i] )
 		i++;
 
@@ -235,6 +231,14 @@ void ouverture_confirmee ( void )
 						  ".bak",
 						  NULL );
 	      g_strfreev ( parametres );
+
+	      result = open ( nom_fichier_comptes, O_RDONLY);
+	      if (result == -1)
+		return;
+	      else
+		close (result);
+
+	      dialogue ( _("Loading of the file failed. Grisbi will now try to load\nthe last automatic backup.\nYou will loose all you made since this backup."));
 
 	      mise_en_route_attente ( _("Loading backup") );
 
