@@ -4,11 +4,11 @@ Main Grisbi authors:
 Programming:
   Alain Portal (dionysos[at]grisbi.org)
   Benjamin Drieu (bdrieu[at]april.org)
-  Cédric Auger (cedric[at]grisbi.org)
-  François Terrot (francois.terrot[at]grisbi.org)
+  CÃ©dric Auger (cedric[at]grisbi.org)
+  FranÃ§ois Terrot (francois.terrot[at]grisbi.org)
 
 Graphics:
-  André Pascual (andre[at]linuxgraphic.org)
+  AndrÃ© Pascual (andre[at]linuxgraphic.org)
   Jakub 'jimmac' Steiner (jimmac[at]ximian.com)
   Tuomas 'tigert' Kuosmanen (tigert[at]gimp.org)
 
@@ -22,6 +22,7 @@ Translation:
   Alain Portal (dionysos[at]grisbi.org) (English)
   Benjamin Drieu (bdrieu[at]april.org) (English)
   Daniel Cartron (doc[at]grisbi.org) (English)
+  Flavio Henrique Somensi (fsomensi[at]users.sourceforge.net) (Brazilian Portuguese)
   Giorgio Mandolfo (giorgio[at]pollycoke.org) (Italian)
   Martin Stromberger (Fabiolla[at]aon.at) (German)
 
@@ -29,8 +30,8 @@ Packaging:
   Alain Pichon (alain.pichon[at]grisbi.org)
   Alain Portal (dionysos[at]grisbi.org)
   Benjamin Drieu (benj[at]debian.org)
-  François Terrot (francois.terrot[at]grisbi.org)
-  Gérald Niel (slackware[at]grisbi.org)
+  FranÃ§ois Terrot (francois.terrot[at]grisbi.org)
+  GÃ©rald Niel (slackware[at]grisbi.org)
   Pascal Bleser (guru[at]linuxbe.org)
   PMF (ugly.duck[at]gmx.de)
   Sylvain Glaize (mokona[at]puupuu.org)
