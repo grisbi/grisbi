@@ -29,166 +29,166 @@
 ** Définition de la barre des menus**
 ***********************************************/
 
-
-GnomeUIInfo menu_fichier [] = 
+void init_menus ( GtkWidget * win )
 {
-  GNOMEUIINFO_ITEM_STOCK (_("Nouveau"), 
-			  _("Création d'un nouveau fichier"),
-			  nouveau_fichier,
-			  GNOME_STOCK_MENU_NEW),
-  GNOMEUIINFO_MENU_OPEN_ITEM ( ouvrir_fichier, NULL),
-  GNOMEUIINFO_SEPARATOR,
-  GNOMEUIINFO_MENU_SAVE_ITEM ( enregistrement_fichier, NULL),
-  GNOMEUIINFO_MENU_SAVE_AS_ITEM ( enregistrer_fichier_sous, NULL),
-  GNOMEUIINFO_MENU_PRINT_ITEM ( impression_fichier, NULL),
-  GNOMEUIINFO_SEPARATOR,
-  GNOMEUIINFO_SUBTREE ( _("Derniers fichiers"),
-			&menu_derniers_fichiers),
-  GNOMEUIINFO_SEPARATOR,
-  GNOMEUIINFO_SUBTREE (_("Importer"),
-		       &menu_importer),
-  GNOMEUIINFO_SUBTREE (_("Exporter"),
-		       &menu_exporter),
-  GNOMEUIINFO_SEPARATOR,
-  GNOMEUIINFO_MENU_CLOSE_ITEM ( fermer_fichier, NULL),
-  GNOMEUIINFO_MENU_EXIT_ITEM ( fermeture_grisbi, NULL),
-  GNOMEUIINFO_END
-};
+  static GnomeUIInfo tmp_menu_cloture [] = 
+    {
+      GNOMEUIINFO_END
+    };
 
+  static GnomeUIInfo tmp_menu_comptes [] = 
+    {
+      GNOMEUIINFO_ITEM_STOCK (N_("Nouveau compte"), 
+			      N_("Créer un nouveau compte"),
+			      nouveau_compte,
+			      GNOME_STOCK_PIXMAP_BOOK_OPEN),
+      GNOMEUIINFO_ITEM_STOCK (N_("Supprimer un compte"), 
+			      N_("Supprimer un compte"),
+			      supprimer_compte,
+			      GNOME_STOCK_MENU_TRASH),
+      GNOMEUIINFO_SEPARATOR,
+      GNOMEUIINFO_ITEM_STOCK (N_("Propriétés du compte"), 
+			      N_("Propriétés du compte"),
+			      affiche_detail_compte,
+			      GNOME_STOCK_MENU_ABOUT),
+      GNOMEUIINFO_SEPARATOR,
+      GNOMEUIINFO_SUBTREE (N_("Comptes cloturés"),
+			   &tmp_menu_cloture),
+      GNOMEUIINFO_END
+    };
 
+  static GnomeUIInfo tmp_menu_parametres [] = 
+    {
+      GNOMEUIINFO_ITEM_DATA  ( N_("Général"),
+			       N_("Général"),
+			       preferences,
+			       NULL,
+			       NULL ),
+      GNOMEUIINFO_ITEM_DATA  ( N_("Fichiers"),
+			       N_("Fichiers"),
+			       preferences,
+			       GINT_TO_POINTER ( 1 ),
+			       NULL ),
+      GNOMEUIINFO_ITEM_DATA  ( N_("Échéances"),
+			       N_("Échéances"),
+			       preferences,
+			       GINT_TO_POINTER ( 2 ),
+			       NULL ),
+      GNOMEUIINFO_ITEM_DATA  ( N_("Affichage"),
+			       N_("Affichage"),
+			       preferences,
+			       GINT_TO_POINTER ( 3 ),
+			       NULL ),
+      GNOMEUIINFO_ITEM_DATA  ( N_("Applet"),
+			       N_("Applet"),
+			       preferences,
+			       GINT_TO_POINTER ( 4 ),
+			       NULL ),
+      GNOMEUIINFO_ITEM_DATA  ( N_("Devises"),
+			       N_("Devises"),
+			       preferences,
+			       GINT_TO_POINTER ( 5 ),
+			       NULL ),
+      GNOMEUIINFO_ITEM_DATA  ( N_("Banques"),
+			       N_("Banques"),
+			       preferences,
+			       GINT_TO_POINTER ( 6 ),
+			       NULL ),
+      GNOMEUIINFO_ITEM_DATA  ( N_("Exercices"),
+			       N_("Exercices"),
+			       preferences,
+			       GINT_TO_POINTER ( 7 ),
+			       NULL ),
+      GNOMEUIINFO_ITEM_DATA  ( N_("Types d'opérations"),
+			       N_("Types d'opérations"),
+			       preferences,
+			       GINT_TO_POINTER ( 8 ),
+			       NULL ),
+      GNOMEUIINFO_END
+    };
 
-GnomeUIInfo menu_comptes [] = 
-{
-  GNOMEUIINFO_ITEM_STOCK (_("Nouveau compte"), 
-			  _("Créer un nouveau compte"),
-			  nouveau_compte,
-			  GNOME_STOCK_PIXMAP_BOOK_OPEN),
-  GNOMEUIINFO_ITEM_STOCK (_("Supprimer un compte"), 
-			  _("Supprimer un compte"),
-			  supprimer_compte,
-			  GNOME_STOCK_MENU_TRASH),
-  GNOMEUIINFO_SEPARATOR,
-  GNOMEUIINFO_ITEM_STOCK (_("Propriétés du compte"), 
-			  _("Propriétés du compte"),
-			  affiche_detail_compte,
-			  GNOME_STOCK_MENU_ABOUT),
-  GNOMEUIINFO_SEPARATOR,
-  GNOMEUIINFO_SUBTREE (_("Comptes cloturés"),
-		       &menu_cloture),
-  GNOMEUIINFO_END
-};
+  static GnomeUIInfo tmp_menu_importer [] = 
+    {
+      GNOMEUIINFO_ITEM_STOCK ( N_(" Fichier QIF"),
+			       N_("Importation de fichiers QIF"),
+			       importer_fichier_qif,
+			       GNOME_STOCK_PIXMAP_CONVERT ),
+      GNOMEUIINFO_END
+    };
 
+  static GnomeUIInfo tmp_menu_exporter [] = 
+    {
+      GNOMEUIINFO_ITEM_STOCK ( N_(" Fichier QIF"),
+			       N_("Exportation de fichiers QIF"),
+			       exporter_fichier_qif,
+			       GNOME_STOCK_PIXMAP_REMOVE ),
+      GNOMEUIINFO_END
+    };
 
-GnomeUIInfo menu_parametres [] = 
-{
-  GNOMEUIINFO_ITEM_DATA  ( _("Général"),
-			   _("Général"),
-			   preferences,
-			   NULL,
-			   NULL ),
-  GNOMEUIINFO_ITEM_DATA  ( _("Fichiers"),
-			   _("Fichiers"),
-			   preferences,
-			   GINT_TO_POINTER ( 1 ),
-			   NULL ),
-  GNOMEUIINFO_ITEM_DATA  ( _("Échéances"),
-			   _("Échéances"),
-			   preferences,
-			   GINT_TO_POINTER ( 2 ),
-			   NULL ),
-  GNOMEUIINFO_ITEM_DATA  ( _("Affichage"),
-			   _("Affichage"),
-			   preferences,
-			   GINT_TO_POINTER ( 3 ),
-			   NULL ),
-  GNOMEUIINFO_ITEM_DATA  ( _("Applet"),
-			   _("Applet"),
-			   preferences,
-			   GINT_TO_POINTER ( 4 ),
-			   NULL ),
-  GNOMEUIINFO_ITEM_DATA  ( _("Devises"),
-			   _("Devises"),
-			   preferences,
-			   GINT_TO_POINTER ( 5 ),
-			   NULL ),
-  GNOMEUIINFO_ITEM_DATA  ( _("Banques"),
-			   _("Banques"),
-			   preferences,
-			   GINT_TO_POINTER ( 6 ),
-			   NULL ),
-  GNOMEUIINFO_ITEM_DATA  ( _("Exercices"),
-			   _("Exercices"),
-			   preferences,
-			   GINT_TO_POINTER ( 7 ),
-			   NULL ),
-  GNOMEUIINFO_ITEM_DATA  ( _("Types d'opérations"),
-			   _("Types d'opérations"),
-			   preferences,
-			   GINT_TO_POINTER ( 8 ),
-			   NULL ),
-  GNOMEUIINFO_END
-};
+  static GnomeUIInfo tmp_menu_derniers_fichiers [] = 
+    {
+      GNOMEUIINFO_END
+    };
 
+  static GnomeUIInfo tmp_help_menu [] =
+    {
+      GNOMEUIINFO_HELP ( "grisbi" ),
+      GNOMEUIINFO_MENU_ABOUT_ITEM (  a_propos,
+				     GINT_TO_POINTER (1)  ),
+      GNOMEUIINFO_END
+    };
 
-GnomeUIInfo menu_importer [] = 
-{
-  GNOMEUIINFO_ITEM_STOCK ( _(" Fichier QIF"),
-			   _("Importation de fichiers QIF"),
-			   importer_fichier_qif,
-			   GNOME_STOCK_PIXMAP_CONVERT ),
-  GNOMEUIINFO_END
-};
+  static GnomeUIInfo tmp_menu_fichier [] = 
+    {
+      GNOMEUIINFO_ITEM_STOCK (N_("Nouveau"), 
+			      N_("Création d'un nouveau fichier"),
+			      nouveau_fichier,
+			      GNOME_STOCK_MENU_NEW),
+      GNOMEUIINFO_MENU_OPEN_ITEM ( ouvrir_fichier, NULL),
+      GNOMEUIINFO_SEPARATOR,
+      GNOMEUIINFO_MENU_SAVE_ITEM ( enregistrement_fichier, NULL),
+      GNOMEUIINFO_MENU_SAVE_AS_ITEM ( enregistrer_fichier_sous, NULL),
+      GNOMEUIINFO_MENU_PRINT_ITEM ( impression_fichier, NULL),
+      GNOMEUIINFO_SEPARATOR,
+      GNOMEUIINFO_SUBTREE ( N_("Derniers fichiers"),
+			    &tmp_menu_derniers_fichiers),
+      GNOMEUIINFO_SEPARATOR,
+      GNOMEUIINFO_SUBTREE (N_("Importer"),
+			   &tmp_menu_importer),
+      GNOMEUIINFO_SUBTREE (N_("Exporter"),
+			   &tmp_menu_exporter),
+      GNOMEUIINFO_SEPARATOR,
+      GNOMEUIINFO_MENU_CLOSE_ITEM ( fermer_fichier, NULL),
+      GNOMEUIINFO_MENU_EXIT_ITEM ( fermeture_grisbi, NULL),
+      GNOMEUIINFO_END
+    };
 
+  static GnomeUIInfo tmp_menu_principal [15] = 
+    {
+      GNOMEUIINFO_SUBTREE (N_("Fichier"),
+			   &tmp_menu_fichier),
+      GNOMEUIINFO_SUBTREE (N_("Comptes"),
+			   &tmp_menu_comptes),
+      GNOMEUIINFO_SUBTREE (N_("Configuration"),
+			   &tmp_menu_parametres),
+      GNOMEUIINFO_SUBTREE (N_("Aide"),
+			   &tmp_help_menu),
+      GNOMEUIINFO_END
+    };
 
+  menu_principal = tmp_menu_principal;
+  menu_fichier = tmp_menu_fichier;
+  help_menu = tmp_help_menu;
+  menu_derniers_fichiers = tmp_menu_derniers_fichiers;
+  menu_exporter = tmp_menu_exporter;
+  menu_importer = tmp_menu_importer;
+  menu_parametres = tmp_menu_parametres;
+  menu_comptes = tmp_menu_comptes;
+  menu_cloture = tmp_menu_cloture;
 
-GnomeUIInfo menu_exporter [] = 
-{
-  GNOMEUIINFO_ITEM_STOCK ( _(" Fichier QIF"),
-			   _("Exportation de fichiers QIF"),
-			   exporter_fichier_qif,
-			   GNOME_STOCK_PIXMAP_REMOVE ),
-  GNOMEUIINFO_END
-};
-
-GnomeUIInfo menu_derniers_fichiers [] = 
-{
-  GNOMEUIINFO_END
-};
-
-
-
-GnomeUIInfo menu_cloture [] = 
-{
-  GNOMEUIINFO_END
-};
-
-
-/***********************************************
-** Définition du menu d'aide                  **
-***********************************************/
-
-GnomeUIInfo help_menu [] =
-{
-  GNOMEUIINFO_HELP ( _("grisbi") ),
-  GNOMEUIINFO_MENU_ABOUT_ITEM (  a_propos,
-				 GINT_TO_POINTER (1)  ),
-  GNOMEUIINFO_END
-};
-
-
-GnomeUIInfo menu_principal [] = 
-{
-  GNOMEUIINFO_SUBTREE (_("Fichier"),
-		       &menu_fichier),
-  GNOMEUIINFO_SUBTREE (_("Comptes"),
-		       &menu_comptes),
-  GNOMEUIINFO_SUBTREE (_("Configuration"),
-		       &menu_parametres),
-  GNOMEUIINFO_SUBTREE (_("Aide"),
-		       &help_menu),
-  GNOMEUIINFO_END
-};
-
+  gnome_app_create_menus ( GNOME_APP ( win ), 
+			   menu_principal );
+}
 
 
 

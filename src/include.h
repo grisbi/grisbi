@@ -1,5 +1,6 @@
 /* fichier d'en tête include.h */
 
+#include "config.h"
 
 #include <gnome.h>
 #include <stdio.h>

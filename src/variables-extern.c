@@ -14,15 +14,15 @@ enum menu_fichier_widget {
   IMPORTER, EXPORTER, SEP4,
   FERMER, QUITTER, MAX_MENU_FICHIER
 };
-extern GnomeUIInfo menu_fichier [MAX_MENU_FICHIER+1];
-extern GnomeUIInfo menu_comptes [7]; 
-extern GnomeUIInfo help_menu [3];
-extern GnomeUIInfo menu_principal [5]; 
-extern GnomeUIInfo menu_parametres [10];
-extern GnomeUIInfo menu_importer [2];
-extern GnomeUIInfo menu_exporter [2];
-extern GnomeUIInfo menu_derniers_fichiers [1]; 
-extern GnomeUIInfo menu_cloture [1];
+extern GnomeUIInfo * menu_fichier;
+extern GnomeUIInfo * menu_comptes; 
+extern GnomeUIInfo * help_menu;
+extern GnomeUIInfo * menu_principal; 
+extern GnomeUIInfo * menu_parametres;
+extern GnomeUIInfo * menu_importer;
+extern GnomeUIInfo * menu_exporter;
+extern GnomeUIInfo * menu_derniers_fichiers; 
+extern GnomeUIInfo * menu_cloture;
 
 
 

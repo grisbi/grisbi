@@ -48,8 +48,8 @@
 int main (int argc, char *argv[])
 {
   setlocale (LC_ALL, "");
-  bindtextdomain ("Grisbi", LOCALEDIR);
-  textdomain ("Grisbi");
+  bindtextdomain ("grisbi", LOCALEDIR);
+  textdomain ("grisbi");
 
   gnome_init (_("Grisbi"), VERSION, argc, argv);
 
@@ -78,9 +78,8 @@ int main (int argc, char *argv[])
 			  FALSE );
 
 /*   création des menus */
-
-  gnome_app_create_menus ( GNOME_APP ( window ), 
-			   menu_principal );
+  
+  init_menus ( window );
 
   /* on grise les fonctions inutiles au départ */
 

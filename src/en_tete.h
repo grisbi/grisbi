@@ -19,6 +19,7 @@ gint tente_modif_taille ( GtkWidget *win,
 /* fichier menu.c */
 /********************/ 
 
+void init_menus ( GtkWidget * );
 void efface_derniers_fichiers_ouverts ( void );
 void affiche_derniers_fichiers_ouverts ( void );
 

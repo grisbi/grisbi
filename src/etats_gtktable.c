@@ -2594,4 +2594,5 @@ gint gtktable_affiche_titres_colonnes ( gint ligne )
 gint gtktable_finish ()
 {
   /* Nothing to do in GTK */
+  return 1;
 }

@@ -2,16 +2,15 @@
 /* ainsi que toutes les définitions diverses */
 
 
-
-GnomeUIInfo menu_fichier [15];
-GnomeUIInfo menu_comptes [7]; 
-GnomeUIInfo help_menu [3];
-GnomeUIInfo menu_principal [5]; 
-GnomeUIInfo menu_parametres [10];
-GnomeUIInfo menu_importer [2];
-GnomeUIInfo menu_exporter [2];
-GnomeUIInfo menu_derniers_fichiers [1]; 
-GnomeUIInfo menu_cloture [1];
+const GnomeUIInfo * menu_fichier;
+const GnomeUIInfo * menu_comptes; 
+const GnomeUIInfo * help_menu;
+const GnomeUIInfo * menu_principal; 
+const GnomeUIInfo * menu_parametres;
+const GnomeUIInfo * menu_importer;
+const GnomeUIInfo * menu_exporter;
+const GnomeUIInfo * menu_derniers_fichiers; 
+const GnomeUIInfo * menu_cloture;
 
 
 /*********************/ 
