@@ -174,9 +174,9 @@ GtkWidget *creation_fenetre_principale (void )
 /* 	gtk_clist_set_column_title ( GTK_CLIST ( arbre_categ ), */
 /* 				     0, */
 /* 				     _("Categories list (transactions)") ); */
-	gtk_clist_set_column_title ( GTK_CLIST ( arbre_imputation ),
-				     0,
-				     _("Budgetary lines list (transactions)") );
+/* 	gtk_clist_set_column_title ( GTK_CLIST ( arbre_imputation ), */
+/* 				     0, */
+/* 				     _("Budgetary lines list (transactions)") ); */
     }
 
 
