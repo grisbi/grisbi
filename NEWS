@@ -1,7 +1,8 @@
 New in version 0.5.5 :
  - Bug fixes
+ - Brazilian Portuguese translation thanks to Flavio Henrique Somensi
 
-New in version 0.5.4 :
+New in version 0.5.4 (never released) :
  - Bug fixes
  - Use selected transaction as template
  - Function to test reconciliation
