@@ -701,6 +701,9 @@ gint gtktable_affiche_total_categories ( gint ligne )
 	  label = gtk_label_new ( g_strdup_printf ( "%4.2f %s",
 						    montant_categ_etat,
 						    devise_categ_etat -> code_devise ));
+	  gtk_misc_set_alignment ( GTK_MISC ( label ),
+				   1,
+				   0.5 );
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
 			     GTK_TABLE ( table_etat ) -> ncols -1, GTK_TABLE ( table_etat ) -> ncols,
@@ -891,6 +894,9 @@ gint gtktable_affiche_total_sous_categ ( gint ligne )
 	  label = gtk_label_new ( g_strdup_printf ( "%4.2f %s",
 						    montant_sous_categ_etat,
 						    devise_categ_etat -> code_devise ));
+	  gtk_misc_set_alignment ( GTK_MISC ( label ),
+				   1,
+				   0.5 );
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
 			     GTK_TABLE ( table_etat ) -> ncols -1, GTK_TABLE ( table_etat ) -> ncols,
@@ -1071,6 +1077,9 @@ gint gtktable_affiche_total_ib ( gint ligne )
 	  label = gtk_label_new ( g_strdup_printf ( "%4.2f %s",
 						    montant_ib_etat,
 						    devise_ib_etat -> code_devise ));
+	  gtk_misc_set_alignment ( GTK_MISC ( label ),
+				   1,
+				   0.5 );
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
 			     GTK_TABLE ( table_etat ) -> ncols -1, GTK_TABLE ( table_etat ) -> ncols,
@@ -1256,6 +1265,9 @@ gint gtktable_affiche_total_sous_ib ( gint ligne )
 	  label = gtk_label_new ( g_strdup_printf ( "%4.2f %s",
 						    montant_sous_ib_etat,
 						    devise_ib_etat -> code_devise ));
+	  gtk_misc_set_alignment ( GTK_MISC ( label ),
+				   1,
+				   0.5 );
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
 			     GTK_TABLE ( table_etat ) -> ncols -1, GTK_TABLE ( table_etat ) -> ncols,
@@ -1434,6 +1446,9 @@ gint gtktable_affiche_total_compte ( gint ligne )
 	  label = gtk_label_new ( g_strdup_printf ( "%4.2f %s",
 						    montant_compte_etat,
 						    devise_compte_en_cours_etat -> code_devise ));
+	  gtk_misc_set_alignment ( GTK_MISC ( label ),
+				   1,
+				   0.5 );
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
 			     GTK_TABLE ( table_etat ) -> ncols -1, GTK_TABLE ( table_etat ) -> ncols,
@@ -1610,6 +1625,9 @@ gint gtktable_affiche_total_tiers ( gint ligne )
 	  label = gtk_label_new ( g_strdup_printf ( "%4.2f %s",
 						    montant_tiers_etat,
 						    devise_tiers_etat -> code_devise ));
+	  gtk_misc_set_alignment ( GTK_MISC ( label ),
+				   1,
+				   0.5 );
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
 			     GTK_TABLE ( table_etat ) -> ncols -1, GTK_TABLE ( table_etat ) -> ncols,
@@ -1951,6 +1969,9 @@ gint gtktable_affiche_total_periode ( struct structure_operation *operation,
       label = gtk_label_new ( g_strdup_printf ( "%4.2f %s",
 						montant_periode_etat,
 						devise_generale_etat -> code_devise ));
+      gtk_misc_set_alignment ( GTK_MISC ( label ),
+			       1,
+			       0.5 );
       gtk_table_attach ( GTK_TABLE ( table_etat ),
 			 label,
 			 GTK_TABLE ( table_etat ) -> ncols - 1, GTK_TABLE ( table_etat ) -> ncols,
@@ -2672,7 +2693,7 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 	}
 
       gtk_misc_set_alignment ( GTK_MISC ( label ),
-			       0,
+			       1,
 			       0.5 );
       gtk_widget_set_style ( label,
 			     style_label_nom_compte );
@@ -2692,8 +2713,8 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 
 /*****************************************************************************************************/
 gint gtktable_affiche_total_partiel ( gdouble total_partie,
-			     gint ligne,
-			     gint type )
+				      gint ligne,
+				      gint type )
 {
   GtkWidget *label;
   GtkWidget *separateur;
@@ -2785,6 +2806,9 @@ gint gtktable_affiche_total_partiel ( gdouble total_partie,
   label = gtk_label_new ( g_strdup_printf ( "%4.2f %s",
 					    total_partie,
 					    devise_generale_etat -> code_devise ));
+  gtk_misc_set_alignment ( GTK_MISC ( label ),
+			   1,
+			   0.5 );
   gtk_table_attach ( GTK_TABLE ( table_etat ),
 		     label,
 		     GTK_TABLE ( table_etat ) -> ncols - 1, GTK_TABLE ( table_etat ) -> ncols,
@@ -2837,7 +2861,7 @@ gint gtktable_affiche_total_partiel ( gdouble total_partie,
 
 /*****************************************************************************************************/
 gint gtktable_affiche_total_general ( gdouble total_general,
-			     gint ligne )
+				      gint ligne )
 {
   GtkWidget *label;
   GtkWidget *separateur;
@@ -2917,6 +2941,9 @@ gint gtktable_affiche_total_general ( gdouble total_general,
   label = gtk_label_new ( g_strdup_printf ( "%4.2f %s",
 					    total_general,
 					    devise_generale_etat -> code_devise ));
+  gtk_misc_set_alignment ( GTK_MISC ( label ),
+			   1,
+			   0.5 );
   gtk_table_attach ( GTK_TABLE ( table_etat ),
 		     label,
 		     GTK_TABLE ( table_etat ) -> ncols -1, GTK_TABLE ( table_etat ) -> ncols,

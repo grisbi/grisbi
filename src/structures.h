@@ -503,12 +503,13 @@ struct struct_comparaison_montants_etat
 struct struct_comparaison_textes_etat
 {
   gint lien_struct_precedente;    /* -1=1ère comparaison, 0=et, 1=ou, 2=sauf */
-  gint champ;                      /* 0=tiers, 1=pc, 2=notes, 3=ref banc, 4=chq */
+  gint champ;                      /* 0=tiers, 1= info tiers, 2= categ, 3=ib, 4=note, 5=ref banc, 6=pc, 7=chq, 8=rappr */
 
   /* pour les comparaisons de txt */
 
   gint operateur;                   /* 0=contient, 1=ne contient pas, 2=commence par, 3=se termine par, 4=vide, 5=non vide */
   gchar *texte;
+  gint utilise_txt;                 /* pour les chaps à no (chq, pc), à 1 si on les utilise comme txt, 0 sinon */
 
   /* pour les comparaisons de chq */
 
@@ -518,18 +519,23 @@ struct struct_comparaison_textes_etat
   gint comparateur_2;            /* 0= =, 1= <, 2= <=, 3= >, 4= >=, 5= != */
   gint montant_2;
 
+
+  /* adr des widget utilisés */
+
   GtkWidget *vbox_ligne;
   GtkWidget *bouton_lien;
   GtkWidget *bouton_champ;
 
   /* pourles comparaisons de txt */
 
+  GtkWidget *bouton_utilise_txt;    /* sensitif en cas de champ à no */
   GtkWidget *hbox_txt;
   GtkWidget *bouton_operateur;
   GtkWidget *entree_txt;
 
   /* pour les comparaisons de chq */
 
+  GtkWidget *bouton_utilise_no;    /* sensitif en cas de champ à no */
   GtkWidget *hbox_chq;
   GtkWidget *bouton_comparateur_1;
   GtkWidget *entree_montant_1;

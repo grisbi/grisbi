@@ -945,6 +945,7 @@ void importer_etat ( void )
 void dupliquer_etat ( void )
 {
   struct struct_etat *etat;
+  GSList *liste_tmp;
 
   etat = calloc ( 1,
 		  sizeof ( struct struct_etat ));
@@ -979,6 +980,65 @@ void dupliquer_etat ( void )
   etat -> no_categ = g_slist_copy ( etat_courant -> no_categ );
   etat -> no_ib = g_slist_copy ( etat_courant -> no_ib );
   etat -> no_tiers = g_slist_copy ( etat_courant -> no_tiers );
+
+
+  /* on fait une copie de la liste des textes */
+
+  if ( etat -> liste_struct_comparaison_textes )
+    {
+      etat -> liste_struct_comparaison_textes = NULL;
+
+      liste_tmp = etat_courant -> liste_struct_comparaison_textes;
+
+      while ( liste_tmp )
+	{
+	  struct struct_comparaison_textes_etat *ancien_comp_textes;
+	  struct struct_comparaison_textes_etat *comp_textes;
+
+	  ancien_comp_textes = liste_tmp -> data;
+
+	  comp_textes = calloc ( 1,
+				   sizeof ( struct struct_comparaison_textes_etat ));
+
+	  memcpy ( comp_textes,
+		   ancien_comp_textes,
+		   sizeof ( struct struct_comparaison_textes_etat ));
+
+	  comp_textes -> texte = g_strdup ( comp_textes -> texte );
+
+	  etat -> liste_struct_comparaison_textes = g_slist_append ( etat -> liste_struct_comparaison_textes,
+								     comp_textes );
+	  liste_tmp = liste_tmp -> next;
+	}
+    }
+
+  /* on fait une copie de la liste des montants */
+
+  if ( etat -> liste_struct_comparaison_montants )
+    {
+      etat -> liste_struct_comparaison_montants = NULL;
+
+      liste_tmp = etat_courant -> liste_struct_comparaison_montants;
+
+      while ( liste_tmp )
+	{
+	  struct struct_comparaison_montants_etat *ancien_comp_montants;
+	  struct struct_comparaison_montants_etat *comp_montants;
+
+	  ancien_comp_montants = liste_tmp -> data;
+
+	  comp_montants = calloc ( 1,
+				   sizeof ( struct struct_comparaison_montants_etat ));
+
+	  memcpy ( comp_montants,
+		   ancien_comp_montants,
+		   sizeof ( struct struct_comparaison_montants_etat ));
+
+	  etat -> liste_struct_comparaison_montants = g_slist_append ( etat -> liste_struct_comparaison_montants,
+								       comp_montants );
+	  liste_tmp = liste_tmp -> next;
+	}
+    }
 
 
 

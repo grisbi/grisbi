@@ -70,12 +70,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc );
 gboolean charge_operations_version_0_4_0 ( xmlDocPtr doc );
 gboolean enregistre_fichier ( void );
 gchar *itoa ( gint integer );
-gchar *vire_les_points_virgules ( gchar *origine );
-gchar *vire_les_accolades ( gchar *origine );
 void fichier_marque_ouvert ( gint ouvert );
-gboolean enregistre_etat ( gchar *nom_etat );
-gboolean charge_etat ( gchar *nom_etat );
-gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc );
 gboolean enregistre_categ ( gchar *nom_categ );
 gboolean charge_categ ( gchar *nom_categ );
 gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc );
@@ -946,6 +941,7 @@ void ajoute_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_tex
 GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat *comp_textes );
 void retire_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_textes_etat *ancien_comp_textes );
 GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_textes );
+void sensitive_hbox_fonction_bouton_txt ( struct struct_comparaison_textes_etat *comp_textes );
 GtkWidget *cree_bouton_operateur_txt ( struct struct_comparaison_textes_etat *comp_textes );
 GtkWidget *onglet_etat_montant ( void );
 void remplit_liste_comparaisons_montants_etat ( void );
@@ -1121,3 +1117,12 @@ void toggled_bouton_affichage_liste ( GtkWidget *bouton,
 void changement_taille_liste_affichage ( GtkWidget *clist,
 					 GtkAllocation *allocation );
 void recuperation_noms_colonnes_et_tips ( void );
+
+
+/************************/ 
+/* fichier etat_io.c */
+/************************/ 
+
+gboolean charge_etat ( gchar *nom_etat );
+gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc );
+gboolean enregistre_etat ( gchar *nom_etat );

@@ -41,6 +41,7 @@ grisbi_SOURCES = 		\
 	exercice.c		\
 	imputation_budgetaire.c	\
 	affichage.c		\
+	etat_io.c		\
 	etats_onglet.c		\
 	etats_config.c		\
 	etats_calculs.c		\

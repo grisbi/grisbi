@@ -239,8 +239,13 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 		      /* à ce niveau, texte est soit null, soit contient le texte dans lequel on effectue la recherche */
 		      /* on vérifie maintenant en fontion de l'opérateur */
+		      /* si c'est un chq ou une pc et que utilise_txt, on utilise leur no */
 
-		      if ( comp_textes -> champ == 4 )
+		      if ( ( comp_textes -> champ == 6
+			     ||
+			     comp_textes -> champ == 7 )
+			   &&
+			   !comp_textes -> utilise_txt )
 			{
 			  if ( texte )
 			    ope_dans_test = verifie_chq_test_etat ( comp_textes,
@@ -757,27 +762,96 @@ gchar *recupere_texte_test_etat ( struct structure_operation *operation,
       break;
 
     case 1:
-      /* pc */
+      /* info du tiers */
 
-      texte = operation -> no_piece_comptable;
+      if ( operation -> tiers )
+	{
+	  struct struct_tiers *tiers;
+
+	  tiers = g_slist_find_custom ( liste_struct_tiers,
+					GINT_TO_POINTER ( operation -> tiers ),
+					(GCompareFunc) recherche_tiers_par_no ) -> data;
+
+	  texte = tiers -> texte;
+	}
+      else
+	texte = NULL;
       break;
 
     case 2:
+      /* categ */
+
+      if ( operation -> categorie )
+	{
+	  struct struct_categ *categ;
+
+	  categ = g_slist_find_custom ( liste_struct_categories,
+					GINT_TO_POINTER ( operation -> categorie ),
+					(GCompareFunc) recherche_categorie_par_no ) -> data;
+
+	  texte = categ -> nom_categ;
+	}
+      else
+	texte = NULL;
+      break;
+
+    case 3:
+      /* ib */
+
+      if ( operation -> imputation )
+	{
+	  struct struct_imputation *ib;
+
+	  ib = g_slist_find_custom ( liste_struct_imputation,
+				     GINT_TO_POINTER ( operation -> imputation ),
+				     (GCompareFunc) recherche_imputation_par_no ) -> data;
+
+	  texte = ib -> nom_imputation;
+	}
+      else
+	texte = NULL;
+      break;
+
+    case 4:
       /* notes  */
 
       texte = operation -> notes;
       break;
 
-    case 3:
+    case 5:
       /* ref bancaires  */
 
       texte = operation -> info_banque_guichet;
       break;
 
-    case 4:
+    case 6:
+      /* pc */
+
+      texte = operation -> no_piece_comptable;
+      break;
+
+
+    case 7:
       /* chq  */
 
       texte = operation -> contenu_type;
+      break;
+
+    case 8:
+      /* no rappr */
+
+      if ( operation -> no_rapprochement )
+	{
+	  struct struct_no_rapprochement *rappr;
+
+	  rappr = g_slist_find_custom ( liste_no_rapprochements,
+					GINT_TO_POINTER ( operation -> no_rapprochement ),
+					(GCompareFunc) recherche_no_rapprochement_par_no ) -> data;
+
+	  texte = rappr -> nom_rapprochement;
+	}
+      else
+	texte = NULL;
       break;
 
     default:
@@ -791,7 +865,6 @@ gchar *recupere_texte_test_etat ( struct structure_operation *operation,
 
 /*****************************************************************************************************/
 /* vérifie si l'opé passe le test du texte */
-/* pour tous les champs sauf chq */
 /*****************************************************************************************************/
 
 gint verifie_texte_test_etat ( struct struct_comparaison_textes_etat *comp_textes,
@@ -800,9 +873,6 @@ gint verifie_texte_test_etat ( struct struct_comparaison_textes_etat *comp_texte
   gint ope_dans_test;
   gchar *position;
 
-  if ( !comp_textes -> texte )
-    return (0);
-
   ope_dans_test = 0;
 
   switch ( comp_textes -> operateur )
@@ -810,7 +880,9 @@ gint verifie_texte_test_etat ( struct struct_comparaison_textes_etat *comp_texte
     case 0:
       /* contient  */
 
-      if ( texte_ope )
+      if ( texte_ope
+	   &&
+	   comp_textes -> texte )
 	{
 	  position = strstr ( texte_ope,
 			      comp_textes -> texte );
@@ -823,7 +895,9 @@ gint verifie_texte_test_etat ( struct struct_comparaison_textes_etat *comp_texte
     case 1:
       /* ne contient pas  */
 
-      if ( texte_ope )
+      if ( texte_ope
+	   &&
+	   comp_textes -> texte )
 	{
 	  position = strstr ( texte_ope,
 			      comp_textes -> texte );
@@ -838,7 +912,9 @@ gint verifie_texte_test_etat ( struct struct_comparaison_textes_etat *comp_texte
     case 2:
       /* commence par  */
 
-      if ( texte_ope )
+      if ( texte_ope
+	   &&
+	   comp_textes -> texte )
 	{
 	  position = strstr ( texte_ope,
 			      comp_textes -> texte );
@@ -851,7 +927,9 @@ gint verifie_texte_test_etat ( struct struct_comparaison_textes_etat *comp_texte
     case 3:
       /* se termine par  */
 
-      if ( texte_ope )
+      if ( texte_ope
+	   &&
+	   comp_textes -> texte )
 	{
 	  position = strstr ( texte_ope,
 			      comp_textes -> texte );

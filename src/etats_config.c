@@ -984,6 +984,7 @@ void recuperation_info_perso_etat ( void )
   etat_courant -> devise_de_calcul_general = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_devise_general_etat ) -> menu_item ),
 										   "no_devise" ));
   etat_courant -> inclure_dans_tiers = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclure_dans_tiers ));
+  mise_a_jour_tiers ();
 
   /* récupération des dates */
 
@@ -1326,6 +1327,7 @@ void recuperation_info_perso_etat ( void )
 
 	  comp_textes -> champ = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_textes -> bouton_champ ) -> menu_item ),
 										   "no_champ" ));
+	  comp_textes -> utilise_txt = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( comp_textes -> bouton_utilise_txt ));
 	  comp_textes -> operateur = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_textes -> bouton_operateur ) -> menu_item ),
 										   "no_operateur" ));
 	  comp_textes -> texte = g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_txt ))));
@@ -4684,17 +4686,34 @@ void remplit_liste_comparaisons_textes_etat ( void )
       gtk_entry_set_text ( GTK_ENTRY ( comp_textes -> entree_montant_2 ),
 			   itoa ( comp_textes -> montant_2 ));
 
+      if ( comp_textes -> utilise_txt )
+	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( comp_textes -> bouton_utilise_txt ),
+				       TRUE );
+      else
+	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( comp_textes -> bouton_utilise_no ),
+				       TRUE );
+
+
       /* on désensitive tous ce qui est nécessaire */
 
-      if ( comp_textes -> champ == 4 )
+      if ( comp_textes -> champ == 6
+	   ||
+	   comp_textes -> champ == 7 )
 	{
-	  /*  comme par défaut hbox_chq est désensitif, on doit le resensitiver */
-	  desensitive_widget ( comp_textes -> hbox_txt );
-	  sensitive_widget ( comp_textes -> hbox_chq );
+	  /* 	  on est sur un chq ou une pc */
+	  /* on rend sensitif les check button et la hbox correspondante */
+
+	  sensitive_widget ( comp_textes -> bouton_utilise_txt );
+	  sensitive_widget ( comp_textes -> bouton_utilise_no );
+	  sensitive_hbox_fonction_bouton_txt ( comp_textes );
 	}
       else
-	desensitive_widget ( comp_textes -> hbox_chq );
-
+	{
+	  desensitive_widget ( comp_textes -> bouton_utilise_txt );
+	  desensitive_widget ( comp_textes -> bouton_utilise_no );
+	  desensitive_widget ( comp_textes -> hbox_chq );
+	  sensitive_widget ( comp_textes -> hbox_txt );
+	}
       /* on sensitive/désensitive l'entrée txt*/
 
       if ( comp_textes -> operateur >= 4 )
@@ -4756,6 +4775,10 @@ void ajoute_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_tex
 
   /*   par défaut, la ligne de chq est non sensitive */
 
+  gtk_widget_set_sensitive ( comp_textes -> bouton_utilise_txt,
+			     FALSE );
+  gtk_widget_set_sensitive ( comp_textes -> bouton_utilise_no,
+			     FALSE );
   gtk_widget_set_sensitive ( comp_textes -> hbox_chq,
 			     FALSE );
 
@@ -4822,12 +4845,14 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
 		       0 );
   gtk_widget_show ( label );
 
-  /*   avant de créer le bouton des champs, on doit créer hbox_txt et hbox_chq */
+  /*   avant de créer le bouton des champs, on doit créer hbox_txt, hbox_chq et les 2 check button */
 
   comp_textes -> hbox_txt = gtk_hbox_new ( FALSE,
 					   5 );
   comp_textes -> hbox_chq = gtk_hbox_new ( FALSE,
 					   5 );
+  comp_textes -> bouton_utilise_txt = gtk_radio_button_new ( NULL );
+  comp_textes -> bouton_utilise_no = gtk_radio_button_new ( gtk_radio_button_group ( GTK_RADIO_BUTTON( comp_textes -> bouton_utilise_txt )));
 
   comp_textes -> bouton_champ = cree_bouton_champ ( comp_textes );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
@@ -4837,6 +4862,43 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
 		       0 );
 
   /* la suite se met dans hbox_txt */
+  /* en 2ème ligne */
+
+  hbox = gtk_hbox_new ( FALSE,
+			5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       hbox,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( hbox );
+
+  label = gtk_label_new ( "" );
+  gtk_widget_set_usize ( label,
+			 150,
+			 FALSE );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
+
+  /* on met le check button utilisé en cas de champ à no */
+
+  gtk_signal_connect ( GTK_OBJECT ( comp_textes -> bouton_utilise_txt ),
+		       "toggled",
+		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+		       comp_textes -> hbox_txt );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       comp_textes -> bouton_utilise_txt,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( comp_textes -> bouton_utilise_txt );
+
+
+  /* on met maintenant le comparateur txt */
 
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       comp_textes -> hbox_txt,
@@ -4880,42 +4942,35 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
 		       0 );
   gtk_widget_show ( hbox );
 
-
-  /* on met les bouton ajouter et supprimer */
-  /* on les met ici car on est en pack_end */
-
-  bouton = gtk_button_new_with_label ( _("Retirer"));
-  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			  GTK_RELIEF_NONE );
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
-			      "clicked",
-			      GTK_SIGNAL_FUNC ( retire_ligne_liste_comparaisons_textes_etat ),
-			      (GtkObject *) comp_textes );
-  gtk_box_pack_end ( GTK_BOX ( hbox ),
-		       bouton,
+  label = gtk_label_new ( "" );
+  gtk_widget_set_usize ( label,
+			 150,
+			 FALSE );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       label,
 		       FALSE,
 		       FALSE,
 		       0 );
-  gtk_widget_show ( bouton );
+  gtk_widget_show ( label );
 
-  bouton = gtk_button_new_with_label ( _("Ajouter"));
-  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			  GTK_RELIEF_NONE );
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
-			      "clicked",
-			      GTK_SIGNAL_FUNC ( ajoute_ligne_liste_comparaisons_textes_etat ),
-			      (GtkObject *) comp_textes );
-  gtk_box_pack_end ( GTK_BOX ( hbox ),
-		       bouton,
+
+  /* on met le check button utilisé en cas de champ à no */
+
+  gtk_signal_connect ( GTK_OBJECT ( comp_textes -> bouton_utilise_no ),
+		       "toggled",
+		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+		       comp_textes -> hbox_chq );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       comp_textes -> bouton_utilise_no,
 		       FALSE,
 		       FALSE,
 		       0 );
-  gtk_widget_show ( bouton );
+  gtk_widget_show ( comp_textes -> bouton_utilise_no );
 
 
   /* mise en place de la hbox des montants de chq */
 
-  gtk_box_pack_end ( GTK_BOX ( hbox ),
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       comp_textes -> hbox_chq,
 		       FALSE,
 		       FALSE,
@@ -5010,6 +5065,37 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
 		       0 );
   gtk_widget_show ( comp_textes -> entree_montant_2 );
 
+  /* on met les bouton ajouter et supprimer */
+
+  bouton = gtk_button_new_with_label ( _("Ajouter"));
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
+			      "clicked",
+			      GTK_SIGNAL_FUNC ( ajoute_ligne_liste_comparaisons_textes_etat ),
+			      (GtkObject *) comp_textes );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton );
+
+  bouton = gtk_button_new_with_label ( _("Retirer"));
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
+			      "clicked",
+			      GTK_SIGNAL_FUNC ( retire_ligne_liste_comparaisons_textes_etat ),
+			      (GtkObject *) comp_textes );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton );
+
+
   return ( vbox );
 }
 /*****************************************************************************************************/
@@ -5051,7 +5137,7 @@ void retire_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_tex
 /*****************************************************************************************************/
 /* cette fonction crée un option_menu avec les noms de champs de txt, et rend (non-)sensitif */
 /* la hbox correspondante ( txt ou chq ) */
-/* il faut donc que hbox_txt et hbox_chq soient déjà créées */
+/* il faut donc que hbox_txt,  hbox_chq et les 2 check button soient déjà créées */
 /*****************************************************************************************************/
 
 GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_textes )
@@ -5059,6 +5145,14 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
   GtkWidget *bouton;
   GtkWidget *menu;
   GtkWidget *menu_item;
+
+  /*   pour chaque item, on désensitive les check button et la ligne des tests de no, et */
+  /* on rend sensitif la ligne des test en txt */
+  /*     sauf pour les items à no (chq et pc) où on rend sensitif les check button et la */
+  /*     ligne correspondans au check button, et désensitive celle où le check button n'est pas */
+  /* mis */
+
+
 
   bouton = gtk_option_menu_new ();
   gtk_widget_show ( bouton );
@@ -5079,9 +5173,17 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 			      "activate",
 			      GTK_SIGNAL_FUNC ( desensitive_widget ),
 			      GTK_OBJECT ( comp_textes -> hbox_chq ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( desensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( desensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("la pièce comptable"));
+  menu_item = gtk_menu_item_new_with_label ( _("l'information du tiers"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5095,9 +5197,17 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 			      "activate",
 			      GTK_SIGNAL_FUNC ( desensitive_widget ),
 			      GTK_OBJECT ( comp_textes -> hbox_chq ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( desensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( desensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("la note"));
+  menu_item = gtk_menu_item_new_with_label ( _("la catégorie"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5111,9 +5221,17 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 			      "activate",
 			      GTK_SIGNAL_FUNC ( desensitive_widget ),
 			      GTK_OBJECT ( comp_textes -> hbox_chq ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( desensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( desensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("la référence bancaire"));
+  menu_item = gtk_menu_item_new_with_label ( _("l'imputation budgétaire"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5127,9 +5245,17 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 			      "activate",
 			      GTK_SIGNAL_FUNC ( desensitive_widget ),
 			      GTK_OBJECT ( comp_textes -> hbox_chq ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( desensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( desensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("le numéro de chèque"));
+  menu_item = gtk_menu_item_new_with_label ( _("la note"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5137,12 +5263,109 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 			GINT_TO_POINTER ( 4 ));
   gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 			      "activate",
-			      GTK_SIGNAL_FUNC ( desensitive_widget ),
+			      GTK_SIGNAL_FUNC ( sensitive_widget ),
 			      GTK_OBJECT ( comp_textes -> hbox_txt ));
   gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 			      "activate",
-			      GTK_SIGNAL_FUNC ( sensitive_widget ),
+			      GTK_SIGNAL_FUNC ( desensitive_widget ),
 			      GTK_OBJECT ( comp_textes -> hbox_chq ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( desensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( desensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("la référence bancaire"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_champ",
+			GINT_TO_POINTER ( 5 ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( sensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> hbox_txt ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( desensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> hbox_chq ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( desensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( desensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("la pièce comptable"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_champ",
+			GINT_TO_POINTER ( 6 ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( sensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( sensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( sensitive_hbox_fonction_bouton_txt ),
+			      (GtkObject *) comp_textes );
+  gtk_widget_show ( menu_item );
+
+
+  menu_item = gtk_menu_item_new_with_label ( _("le numéro de chèque"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_champ",
+			GINT_TO_POINTER ( 7 ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( sensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( sensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( sensitive_hbox_fonction_bouton_txt ),
+			      (GtkObject *) comp_textes );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("le numéro de rapprochement"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_champ",
+			GINT_TO_POINTER ( 8 ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( sensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> hbox_txt ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( desensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> hbox_chq ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( desensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( desensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
   gtk_widget_show ( menu_item );
 
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton ),
@@ -5150,6 +5373,21 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
   gtk_widget_show ( menu );
 
   return ( bouton );
+}
+/*****************************************************************************************************/
+
+
+/*****************************************************************************************************/
+/* cette fonction est appellée lorsqu'on sélectionne un champ de texte à no */
+/* elle rend sensitif la hbox correspondant au check button */
+/*****************************************************************************************************/
+
+void sensitive_hbox_fonction_bouton_txt ( struct struct_comparaison_textes_etat *comp_textes )
+{
+  sens_desensitive_pointeur ( comp_textes -> bouton_utilise_txt,
+			      comp_textes -> hbox_txt );
+  sens_desensitive_pointeur ( comp_textes -> bouton_utilise_no,
+			      comp_textes -> hbox_chq );
 }
 /*****************************************************************************************************/
 
