@@ -127,7 +127,7 @@ GtkWidget *onglet_exercices ( void )
 				      0, TRUE );
   gtk_clist_column_titles_passive ( GTK_CLIST ( clist_exercices_parametres ));
   gtk_signal_connect_object  ( GTK_OBJECT ( fenetre_preferences ),
-			       "apply",
+			       "close",
 			       GTK_SIGNAL_FUNC ( gtk_clist_unselect_all ),
 			       GTK_OBJECT ( clist_exercices_parametres ));
   gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
