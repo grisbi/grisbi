@@ -147,8 +147,12 @@ gboolean charge_operations ( void )
 	    return ( FALSE );
 	}
 
-	dialogue_error (g_strdup_printf (_("Cannot open file '%s': %s"), nom_fichier_comptes,
-					 latin2utf8 (strerror(errno))));
+	if ( errno )
+	    dialogue_error (g_strdup_printf (_("Cannot open file '%s': %s"), nom_fichier_comptes,
+					     latin2utf8 (strerror(errno))));
+	else
+	    dialogue_error (g_strdup_printf (_("Cannot open file '%s' : this is not a grisbi file"), nom_fichier_comptes ));
+
 	remove_file_from_last_opened_files_list ( nom_fichier_comptes );
 	return ( FALSE );
     }
