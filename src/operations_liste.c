@@ -62,8 +62,9 @@ GtkJustification col_justs[] = { GTK_JUSTIFY_CENTER,
     GTK_JUSTIFY_RIGHT,
     GTK_JUSTIFY_RIGHT };
 
-gint allocation_precedente;
-gint allocation_encore_avant;
+gint allocation_precedente = 0;
+gint allocation_encore_avant = 0;
+gint allocation_compte_precedent = -1;
 
 /* contient la chaine de la dernière date entrée */
 
@@ -377,7 +378,6 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( onglet ),
 				     GTK_POLICY_AUTOMATIC,
 				     GTK_POLICY_AUTOMATIC);
-    gtk_widget_show ( onglet );
 
     /* création de l'onglet */
 
@@ -394,13 +394,12 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 			 "map",
 			 GTK_SIGNAL_FUNC ( verification_mise_a_jour_liste ),
 			 NULL );
-    gtk_signal_connect_after ( GTK_OBJECT ( liste ),
+    gtk_signal_connect_after ( GTK_OBJECT ( onglet ),
 			       "realize",
 			       GTK_SIGNAL_FUNC ( onglet_compte_realize ),
 			       liste );
     gtk_container_add ( GTK_CONTAINER ( onglet ),
 			liste );
-    gtk_widget_show ( liste );
 
     /* le fait de mettre des tips sur les titres rend les boutons sensitifs ; */
     /* on va détourner le click pour ne pas faire enfoncer le bouton */
@@ -435,6 +434,9 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 	gtk_clist_set_column_justification ( GTK_CLIST ( liste ),
 					     i,
 					     col_justs[i] );
+	gtk_clist_set_column_resizeable ( GTK_CLIST ( liste ),
+					  i,
+					  !etat.largeur_auto_colonnes );
     }
 
     /* véifie le simple ou double click */
@@ -460,18 +462,22 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 
     /* on ajoute l'onglet au notebook des comptes */
 
-    CLIST_OPERATIONS = liste;
-
-    /* par défaut, le classement de la liste s'effectue par date */
-
-    LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
-				      (GCompareFunc) classement_sliste );
-
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
 			       onglet,
 			       gtk_label_new ( NOM_DU_COMPTE ) );
 
+    CLIST_OPERATIONS = liste;
+
+    /* par défaut, le classement de la liste s'effectue par date */
+
+    if ( LISTE_OPERATIONS )
+      LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
+					(GCompareFunc) classement_sliste );
+
     remplissage_liste_operations ( no_compte );
+
+    gtk_widget_show ( onglet );
+    gtk_widget_show ( liste );
 }
 /******************************************************************************/
 
@@ -538,6 +544,9 @@ void remplissage_liste_operations ( gint compte )
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
 
     /* freeze la clist */
+
+    if ( ! GTK_IS_CLIST (CLIST_OPERATIONS) )
+      return;
 
     gtk_clist_freeze ( GTK_CLIST ( CLIST_OPERATIONS ));
 
@@ -2258,18 +2267,17 @@ void changement_taille_liste_ope ( GtkWidget *clist,
     /* 	un joli effet glissant pendant l'affichage d'un bouton du formulaire */
     /* 	c'est résolu dans l'instable de manière plus jolie !! */
 
-    if ( allocation -> width
-	 ==
-	 allocation_precedente )
+    if ( allocation_compte_precedent == compte &&
+	 allocation -> width == allocation_precedente )
 	return;
 
-    if ( allocation -> width
-	 ==
-	 allocation_encore_avant )
+    if ( allocation_compte_precedent == compte &&
+	 allocation -> width == allocation_encore_avant )
 	return;
 
      allocation_precedente = allocation_encore_avant;
      allocation_encore_avant = allocation -> width;
+     allocation_compte_precedent = compte;
 
     if ( allocation )
 	largeur = allocation -> width;

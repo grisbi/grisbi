@@ -282,6 +282,9 @@ gboolean gtk_list_button_press_event ( GtkWidget *button,
     GList *liste_tmp;
 
 
+    if (! dragging_button ||
+	!GTK_IS_BOX( dragging_button -> parent ))
+
     if ( dragging_button )
 	gtk_list_button_release_event ( button,
 					ev );
