@@ -30,7 +30,7 @@ GtkNotebook * preference_frame;
 gint preference_selected = -1;
 GtkTreeSelection * selection;
 GtkWidget * button_close, * button_help;
-
+GtkWidget *tree_view;
 
 
 /**
@@ -59,8 +59,8 @@ GtkWidget * create_preferences_tree ( )
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
 				  GTK_POLICY_NEVER,
 				  GTK_POLICY_AUTOMATIC);
-  tree = gtk_tree_view_new();
-  gtk_tree_view_set_model (GTK_TREE_VIEW (tree), 
+  tree_view = gtk_tree_view_new();
+  gtk_tree_view_set_model (GTK_TREE_VIEW (tree_view), 
 			   GTK_TREE_MODEL (preference_tree_model));
 
   /* Make column */
@@ -70,23 +70,48 @@ GtkWidget * create_preferences_tree ( )
 					      cell,
 					      "text", 0,
 					      NULL);
-  gtk_tree_view_append_column (GTK_TREE_VIEW (tree),
+  gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view),
 			       GTK_TREE_VIEW_COLUMN (column));
 
   /* Handle select */
-  selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree));
+  selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
   g_signal_connect (selection, "changed", 
 		    ((GCallback)selectionne_liste_preference), 
 		    preference_tree_model);
 
   /* Put the tree in the scroll */
-  gtk_container_add (GTK_CONTAINER (sw), tree);
+  gtk_container_add (GTK_CONTAINER (sw), tree_view);
 
   /* expand all rows after the treeview widget has been realized */
-  g_signal_connect (tree, "realize",
+  g_signal_connect (tree_view, "realize",
 		    ((GCallback)gtk_tree_view_expand_all), NULL);
 
   return sw;
+}
+
+
+
+/**
+ *
+ *
+ */
+gboolean select_row_from_page ( GtkTreeModel *model,
+				GtkTreePath *path,
+				GtkTreeIter *iter,
+				gint page )
+{
+  int i;
+
+  gtk_tree_model_get (GTK_TREE_MODEL(model), iter, 1, &i, -1);
+  printf ("> %d, %d\n", i, page);
+  if ( i == page )
+    {
+      GtkTreeSelection * s = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view));
+      gtk_tree_selection_select_iter ( s, iter );
+      return TRUE;
+    }
+
+  return FALSE;
 }
 
 
@@ -100,8 +125,8 @@ GtkWidget * create_preferences_tree ( )
  */
 void preferences ( gint page )
 {
-  GtkWidget *tree, *right, *w, *vbox, *hbox, *hbox2, *separator,
-    *button_ok, *button_cancel;
+  GtkWidget *right, *w, *vbox, *hbox, *hbox2, *separator, 
+    *button_ok, *button_cancel, *tree;
   GtkTreeIter iter, iter2;
   GtkTreePath * path;
 
@@ -253,8 +278,9 @@ void preferences ( gint page )
 
   if ( page != NOT_A_PAGE )
     {
-      /* FIXME: iterate over iters to select the one corresponding to
-	 page */
+      gtk_tree_model_foreach ( GTK_TREE_MODEL(preference_tree_model),
+			       (GtkTreeModelForeachFunc) select_row_from_page, 
+			       (gpointer) page );
     }
 
   while ( 1 )
