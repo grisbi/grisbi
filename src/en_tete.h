@@ -82,7 +82,7 @@ gboolean enregistre_ib ( gchar *nom_ib );
 gboolean charge_ib ( gchar *nom_ib );
 gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc );
 void propose_changement_permissions ( void );
-double my_strtod ( const char *nptr, char **endptr );
+double my_strtod ( char *nptr, char **endptr );
 
 
 
@@ -223,9 +223,9 @@ void entree_perd_focus ( GtkWidget *entree,
 void clique_champ_formulaire ( GtkWidget *entree,
 			       GdkEventButton *ev,
 			       gint *no_origine );
-void touches_champ_formulaire ( GtkWidget *widget,
-				GdkEventKey *ev,
-				gint *no_origine );
+gboolean touches_champ_formulaire ( GtkWidget *widget,
+				    GdkEventKey *ev,
+				    gint *no_origine );
 void ferme_calendrier ( GtkWidget *popup );
 void  touche_calendrier ( GtkWidget *popup,
 			  GdkEventKey *ev,
@@ -262,6 +262,7 @@ void incremente_decremente_date ( GtkWidget *entree,
 				  gint demande );
 gint place_type_choix_type ( GtkWidget *option_menu,
 			     gint type );
+void increment_decrement_champ ( GtkWidget *entry, gint increment );
 
 
 
