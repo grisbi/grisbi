@@ -276,8 +276,8 @@ void update_currency_widgets()
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( detail_devise_compte ),
 			     creation_option_menu_devises ( 0,
 							    liste_struct_devises ));
-  gtk_signal_connect_object ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_devise_compte  ) -> menu ),
-			      "selection-done",
+  gtk_signal_connect_object ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_devise_compte  ) ),
+			      "changed",
 			      GTK_SIGNAL_FUNC ( modif_detail_compte ),
 			      GTK_OBJECT ( hbox_boutons_modif ) );
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
@@ -511,7 +511,7 @@ new_currency_list ()
     }
 
   /* Create tree view */
-  treeview = gtk_tree_view_new_with_model (model);
+  treeview = gtk_tree_view_new_with_model (GTK_TREE_MODEL(model));
   gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
   g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview)), 
 		    "changed", 
@@ -559,9 +559,12 @@ new_currency_list ()
   gtk_tree_view_column_set_clickable (GTK_TREE_VIEW_COLUMN (column), TRUE);
 
   /* Sort columns accordingly */
-  gtk_tree_sortable_set_default_sort_func (model, sort_tree, NULL, NULL);
-  gtk_tree_sortable_set_sort_func (model, COUNTRY_NAME_COLUMN, sort_tree, NULL, NULL);
-  gtk_tree_sortable_set_sort_column_id (model, COUNTRY_NAME_COLUMN, GTK_SORT_ASCENDING);
+  gtk_tree_sortable_set_default_sort_func (GTK_TREE_SORTABLE(model), 
+					   sort_tree, NULL, NULL);
+  gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE(model), COUNTRY_NAME_COLUMN, 
+				   sort_tree, NULL, NULL);
+  gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE(model), 
+					COUNTRY_NAME_COLUMN, GTK_SORT_ASCENDING);
 
   /* expand all rows after the treeview widget has been realized */
   g_signal_connect (treeview, "realize",
@@ -1088,201 +1091,108 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 			      gdouble taux_change,
 			      gdouble frais_change)
 {
-  GtkWidget *dialog;
-  GtkWidget *label;
-  GtkWidget *entree;
-  GtkWidget *menu;
-  GtkWidget *item;
-  GtkWidget *hbox;
+  GtkWidget *dialog, *label, *entree, *menu, *item, *hbox, *entree_frais;
   gint resultat;
-  GtkWidget *entree_frais;
   
-
   dialog = gnome_dialog_new ( _("Entry of the exchange rate"),
-			      GNOME_STOCK_BUTTON_OK,
-			      NULL );
-  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
-				 GTK_WINDOW ( window ));
-  gtk_signal_connect ( GTK_OBJECT ( dialog),
-		       "delete_event",
+			      GNOME_STOCK_BUTTON_OK, NULL );
+  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), GTK_WINDOW ( window ));
+  gtk_signal_connect ( GTK_OBJECT ( dialog), "delete_event",
 		       GTK_SIGNAL_FUNC ( blocage_boites_dialogues ),
 		       NULL );
 
-
-
-
   label = gtk_label_new ( COLON(_("Please enter the exchange rate")) );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       20 );
-  gtk_widget_show ( label );
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ), label,
+		       FALSE, FALSE, 20 );
 
   /* création de la ligne du change */
 
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( hbox );
+  hbox = gtk_hbox_new ( FALSE, 5 );
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ), hbox,
+		       FALSE, FALSE, 0);
 
   label = gtk_label_new ( POSTSPACIFY(_("A")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( label );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
+		       FALSE, FALSE, 0);
 
   option_menu_devise_1= gtk_option_menu_new ();
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       option_menu_devise_1,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( option_menu_devise_1 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), option_menu_devise_1,
+		       FALSE, FALSE, 0);
 
   label = gtk_label_new ( SPACIFY(_("equals")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( label );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
+		       FALSE, FALSE, 0);
 
   entree = gtk_entry_new ();
-  gtk_widget_set_usize ( entree,
-			 100,
-			 FALSE );
+  gtk_widget_set_usize ( entree, 100, FALSE );
   gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
 				 GTK_EDITABLE ( entree ));
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       entree,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( entree );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), entree,
+		       FALSE, FALSE, 0);
 
   option_menu_devise_2 = gtk_option_menu_new ();
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       option_menu_devise_2,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( option_menu_devise_2 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), option_menu_devise_2,
+		       FALSE, FALSE, 0);
 
-      /* création du menu de la 1ère devise ( le menu comporte la devise courante et celle associée ) */
-
+  /* création du menu de la 1ère devise ( le menu comporte la devise
+     courante et celle associée ) */
   menu = gtk_menu_new ();
 
   item = gtk_menu_item_new_with_label ( devise -> nom_devise );
-  gtk_object_set_data ( GTK_OBJECT ( item ),
-			"adr_devise",
-			devise );
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    item );
-  gtk_widget_show ( item );
+  gtk_object_set_data ( GTK_OBJECT ( item ), "adr_devise", devise );
+  gtk_menu_append ( GTK_MENU ( menu ), item );
 
   item = gtk_menu_item_new_with_label ( devise_compte -> nom_devise );
-  gtk_object_set_data ( GTK_OBJECT ( item ),
-			"adr_devise",
-			devise_compte );
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    item );
-  gtk_widget_show ( item );
+  gtk_object_set_data ( GTK_OBJECT ( item ), "adr_devise", devise_compte );
+  gtk_menu_append ( GTK_MENU ( menu ), item );
 
-
-  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( option_menu_devise_1 ),
-			     menu );
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( option_menu_devise_1 ), menu );
   gtk_signal_connect ( GTK_OBJECT ( GTK_OPTION_MENU ( option_menu_devise_1 )-> menu ),
 		       "selection_done",
 		       GTK_SIGNAL_FUNC ( devise_selectionnee ),
 		       NULL );
-  gtk_widget_show ( menu );
-	  
 
 
-      /* création du menu de la 2ème devise ( le menu comporte la devise courante et celle associée ) */
-
+  /* création du menu de la 2ème devise ( le menu comporte la devise
+     courante et celle associée ) */
   menu = gtk_menu_new ();
 
   item = gtk_menu_item_new_with_label ( devise -> nom_devise );
-  gtk_object_set_data ( GTK_OBJECT ( item ),
-			"adr_devise",
-			devise );
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    item );
-  gtk_widget_show ( item );
+  gtk_object_set_data ( GTK_OBJECT ( item ), "adr_devise", devise );
+  gtk_menu_append ( GTK_MENU ( menu ), item );
 
   item = gtk_menu_item_new_with_label ( devise_compte -> nom_devise );
-  gtk_object_set_data ( GTK_OBJECT ( item ),
-			"adr_devise",
-			devise_compte );
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    item );
-  gtk_widget_show ( item );
+  gtk_object_set_data ( GTK_OBJECT ( item ), "adr_devise", devise_compte );
+  gtk_menu_append ( GTK_MENU ( menu ), item );
 
-
-  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( option_menu_devise_2 ),
-			     menu );
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( option_menu_devise_2 ), menu );
   gtk_signal_connect ( GTK_OBJECT ( GTK_OPTION_MENU ( option_menu_devise_2 ) -> menu ),
 		       "selection_done",
 		       GTK_SIGNAL_FUNC ( devise_selectionnee ),
 		       GINT_TO_POINTER ( 1 ));
-  gtk_widget_show ( menu );
+
  
-
-
-
-
   /* création de la ligne des frais de change */
-
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( hbox );
+  hbox = gtk_hbox_new ( FALSE, 5 );
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ), hbox,
+		       FALSE, FALSE, 5 );
 
   label = gtk_label_new ( COLON(_("Exchange fees")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( label );
-
+  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
+		       FALSE, FALSE, 5 );
 
   entree_frais = gtk_entry_new ();
   gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
 				 GTK_EDITABLE ( entree_frais ));
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       entree_frais,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( entree_frais );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), entree_frais,
+		       FALSE, FALSE, 5 );
 
   label = gtk_label_new ( devise_compte -> nom_devise );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( label );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
+		       FALSE, FALSE, 5 );
 
-
-      /* choix des 1ère et 2ème devise */
-
-  if ( taux_change
-       ||
-       frais_change )
+  /* choix des 1ère et 2ème devise */
+  if ( taux_change || frais_change )
     {
 
       if ( une_devise_compte_egale_x_devise_ope )
@@ -1300,28 +1210,25 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 					1 );
 	}
       gtk_entry_set_text ( GTK_ENTRY ( entree ),
-			   g_strdup_printf ( "%f",
-					     taux_change ));
+			   g_strdup_printf ( "%f", taux_change ));
       gtk_entry_set_text ( GTK_ENTRY ( entree_frais ),
-			   g_strdup_printf ( "%4.2f",
-					     fabs ( frais_change )));
+			   g_strdup_printf ( "%4.2f", fabs ( frais_change )));
 
     }
   else
     {
-      /* vérifie s'il y a déjà une association entre la devise du compte et la devise de l'opération */
-
+      /* vérifie s'il y a déjà une association entre la devise du
+	 compte et la devise de l'opération */
       if ( devise_compte -> no_devise_en_rapport == devise -> no_devise )
 	{
-	  /* il y a une association de la devise du compte vers la devise de l'opération */
-
+	  /* il y a une association de la devise du compte vers la
+	     devise de l'opération */
 	  gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devise_1 ),
 					devise_compte -> une_devise_1_egale_x_devise_2 );
 	  gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devise_2 ),
 					!( devise_compte -> une_devise_1_egale_x_devise_2 ));
 
-	  /*       si un change est déjà entré, on l'affiche */
-	  
+	  /* si un change est déjà entré, on l'affiche */
 	  if ( devise_compte -> date_dernier_change )
 	    gtk_entry_set_text ( GTK_ENTRY ( entree ),
 				 g_strdup_printf ( "%f",
@@ -1330,15 +1237,13 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
       else
 	if ( devise -> no_devise_en_rapport == devise_compte -> no_devise )
 	  {
-	    /* il y a une association de la devise de l'opération vers la devise du compte */
-
+	    /* il y a une association de la devise de l'opération
+	       vers la devise du compte */
 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devise_1 ),
 					  !(devise -> une_devise_1_egale_x_devise_2 ));
 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devise_2 ),
 					  devise -> une_devise_1_egale_x_devise_2 );
-
-	    /*       si un change est déjà entré, on l'affiche */
-	  
+	    /* si un change est déjà entré, on l'affiche */
 	    if ( devise -> date_dernier_change )
 	      gtk_entry_set_text ( GTK_ENTRY ( entree ),
 				   g_strdup_printf ( "%f",
@@ -1347,7 +1252,6 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
       else
 	{
 	  /* il n'y a aucun rapport établi entre les 2 devises */
-
 	  gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devise_1 ),
 					1 );
 	  gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devise_2 ),
@@ -1355,10 +1259,8 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 	}
     }
 
-
-
-/* on lance la fenetre */
-
+  /* on lance la fenetre */
+  gtk_widget_show_all ( dialog );
   resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
 
   if ( !resultat )
@@ -1453,12 +1355,12 @@ GtkWidget *onglet_devises ( void )
   vbox_pref = new_vbox_with_title_and_icon ( _("Currencies"),
 					     "currencies.png" );
 
-  paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
+  paddingbox = new_paddingbox_with_title (vbox_pref, TRUE,
 					  _("Known currencies"));
   
   hbox = gtk_hbox_new ( FALSE, 5 );
   gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-		       FALSE, FALSE, 0);
+		       TRUE, TRUE, 0);
 
   /* Currency list */
   scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
@@ -1477,8 +1379,7 @@ GtkWidget *onglet_devises ( void )
 				       1, GTK_JUSTIFY_CENTER);
   gtk_clist_set_column_justification ( GTK_CLIST ( clist_devises_parametres ),
 				       2, GTK_JUSTIFY_CENTER);
-  gtk_signal_connect_object  ( GTK_OBJECT ( fenetre_preferences ),
-			       "apply",
+  gtk_signal_connect_object  ( GTK_OBJECT ( fenetre_preferences ), "apply",
 			       GTK_SIGNAL_FUNC ( gtk_clist_unselect_all ),
 			       GTK_OBJECT ( clist_devises_parametres ));
   gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
@@ -1581,10 +1482,6 @@ GtkWidget *onglet_devises ( void )
 		       "changed",
 		       GTK_SIGNAL_FUNC ( changement_nom_entree_devise ),
 		       NULL );
-  gtk_signal_connect ( GTK_OBJECT ( entree_nom_devise_parametres ),
-		       "changed",
-		       activer_bouton_appliquer,
-		       NULL );
   gtk_table_attach ( GTK_TABLE ( table ),
 		     entree_nom_devise_parametres, 
 		     1, 2, 0, 1, 
@@ -1605,10 +1502,6 @@ GtkWidget *onglet_devises ( void )
 		       "changed",
 		       GTK_SIGNAL_FUNC ( changement_code_entree_devise ),
 		       NULL );
-  gtk_signal_connect  ( GTK_OBJECT ( entree_code_devise_parametres ),
-			"changed",
-			activer_bouton_appliquer,
-			NULL );
   gtk_table_attach ( GTK_TABLE ( table ),
 		     entree_code_devise_parametres, 
 		     1, 2, 1, 2,
@@ -1629,10 +1522,6 @@ GtkWidget *onglet_devises ( void )
 		       "changed",
 		       GTK_SIGNAL_FUNC ( changement_iso_code_entree_devise ),
 		       NULL );
-  gtk_signal_connect  ( GTK_OBJECT ( entree_iso_code_devise_parametres ),
-			"changed",
-			activer_bouton_appliquer,
-			NULL );
   gtk_table_attach ( GTK_TABLE ( table ),
 		     entree_iso_code_devise_parametres, 
 		     1, 2, 2, 3,
@@ -1640,8 +1529,8 @@ GtkWidget *onglet_devises ( void )
 		     0, 0 );
 
   /* Will switch to Euro? */
-  check_button_euro = new_checkbox_with_title( _("Will switch to Euro"),
-					       NULL, change_passera_euro );
+  check_button_euro = new_checkbox_with_title( _("Will switch to Euro"), NULL, 
+					       ((GtkSignalFunc*) change_passera_euro) );
   gtk_box_pack_start ( GTK_BOX ( paddingbox ), check_button_euro,
 		       FALSE, FALSE, 0);
 
@@ -1683,10 +1572,6 @@ GtkWidget *onglet_devises ( void )
 		       FALSE, FALSE, 0);
 
   entree_conversion = gtk_entry_new ();
-  gtk_signal_connect ( GTK_OBJECT ( entree_conversion ),
-		       "changed",
-		       activer_bouton_appliquer,
-		       NULL );
   gtk_widget_set_usize ( entree_conversion,
 			 100,
 			 FALSE );
@@ -1737,8 +1622,9 @@ gboolean selection_ligne_devise ( GtkWidget *liste,
   gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_code_devise_parametres ),
 				     GTK_SIGNAL_FUNC ( changement_code_entree_devise ),
 				     NULL );
-  gtk_entry_set_text ( GTK_ENTRY ( entree_code_devise_parametres ),
-		       devise -> code_devise );
+  if (devise -> code_devise)
+    gtk_entry_set_text ( GTK_ENTRY ( entree_code_devise_parametres ),
+			 devise -> code_devise );
   gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_code_devise_parametres ),
 				       GTK_SIGNAL_FUNC ( changement_code_entree_devise ),
 				       NULL );
@@ -1757,14 +1643,10 @@ gboolean selection_ligne_devise ( GtkWidget *liste,
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( option_menu_devises ),
 			     creation_option_menu_devises ( devise -> no_devise,
 							    liste_struct_devises ));
-  gtk_signal_connect ( GTK_OBJECT ( GTK_OPTION_MENU ( option_menu_devises ) -> menu ),
-		       "selection-done",
+  gtk_signal_connect ( GTK_OBJECT ( GTK_OPTION_MENU ( option_menu_devises )),
+		       "changed",
 		       GTK_SIGNAL_FUNC ( changement_devise_associee ),
 		       liste );
-  gtk_signal_connect ( GTK_OBJECT ( GTK_OPTION_MENU ( option_menu_devises) -> menu ),
-		       "selection-done",
-		       activer_bouton_appliquer,
-		       NULL );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( check_button_euro ),
 				 devise -> passage_euro );
 
@@ -2073,21 +1955,14 @@ gboolean changement_devise_associee ( GtkWidget *menu_devises,
 			    "adr_devise",
 			    gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( option_menu_devises ) -> menu_item ),
 						  "adr_devise" ));
-      gtk_menu_append ( GTK_MENU ( menu ),
-			item );
+      gtk_menu_append ( GTK_MENU ( menu ), item );
       gtk_widget_show ( item );
 
 
       gtk_option_menu_set_menu ( GTK_OPTION_MENU ( devise_1 ),
 				 menu );
-      gtk_signal_connect ( GTK_OBJECT ( menu ),
-			   "selection-done",
-			   activer_bouton_appliquer,
-			   NULL );
-
       gtk_widget_show ( menu );
 	  
-
 
       /* création du menu de la 2ème devise ( le menu comporte la devise courante et celle associée ) */
 
@@ -2113,10 +1988,6 @@ gboolean changement_devise_associee ( GtkWidget *menu_devises,
 
       gtk_option_menu_set_menu ( GTK_OPTION_MENU ( devise_2 ),
 				 menu );
-      gtk_signal_connect ( GTK_OBJECT ( menu ),
-			   "selection-done",
-			   activer_bouton_appliquer,
-			   NULL );
 
       gtk_widget_show ( menu );
  
