@@ -201,7 +201,7 @@ gint latex_initialise (GSList * opes_selectionnees)
 
   if ( etat.print_config.printer || etat.print_config.filetype == POSTSCRIPT_FILE )
     {
-      tempname = (tempnam ( ".", "gsbpt" ));
+      tempname = g_strdup_printf ( "gsbpt%5d", g_random_int_range (0,99999) );
       filename =  g_strdup_printf ( "%s.tex", tempname );
     }
   else
@@ -301,7 +301,6 @@ gint latex_finish ()
 				       etat.print_config.printer_filename) );
 	  unlink ( g_strdup_printf ("%s.tex", tempname) );
 	  unlink ( g_strdup_printf ("%s.aux", tempname) );
-	  unlink ( g_strdup_printf ("%s.dvi", tempname) );
 	  unlink ( g_strdup_printf ("%s.log", tempname) );
 	  if ( !system ( command ) )
 	    {
@@ -317,9 +316,9 @@ gint latex_finish ()
 	    }
 	  else
 	    {
-	      printf (">%s<\n", command);
 	      dialogue_error ( _("dvips was unable to complete, see console output for details.") );
 	    }
+	  unlink ( g_strdup_printf ("%s.dvi", tempname) );
 	}
 
       if ( etat.print_config.printer )
