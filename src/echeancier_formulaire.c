@@ -1134,6 +1134,7 @@ gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
 
 
 /***********************************************************************************************************/
+
 void affiche_cache_le_formulaire_echeancier ( void )
 {
 
