@@ -36,7 +36,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
-"POT-Creation-Date: 2004-12-23 15:18+0100\n"
+"POT-Creation-Date: 2004-12-24 01:18+0100\n"
 "PO-Revision-Date: 2004-12-19 23:53+0100\n"
 "Last-Translator: Martin Stromberger <fabiolla@aon.at>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -520,7 +520,7 @@ msgstr "vierte Zeile"
 msgid "Payer/payee"
 msgstr "Auftraggeber/Empfänger"
 
-#: src/affichage_liste.c:816 src/equilibrage.c:1639
+#: src/affichage_liste.c:816 src/equilibrage.c:1638
 msgid "Payment method"
 msgstr "Zahlungsweise"
 
@@ -1197,9 +1197,9 @@ msgid "Add a subcategory"
 msgstr "Unterkategorie hinzufügen"
 
 #. on met le bouton exporter
-#: src/categories_onglet.c:428 src/etats_onglet.c:365 src/export.c:419
+#: src/categories_onglet.c:428 src/etats_onglet.c:365 src/export.c:418
 #: src/imputation_budgetaire.c:340 src/menu.c:77 src/traitement_variables.c:90
-#: src/traitement_variables.c:210
+#: src/traitement_variables.c:213
 msgid "Export"
 msgstr "Exportiern"
 
@@ -1374,17 +1374,17 @@ msgid "Export categories"
 msgstr "Kategorien exportieren - Grisbi"
 
 #: src/categories_onglet.c:3052 src/erreur.c:218 src/erreur.c:220
-#: src/etats_onglet.c:1186 src/fichiers_gestion.c:544
+#: src/etats_onglet.c:1185 src/fichiers_gestion.c:544
 #: src/fichiers_gestion.c:546 src/imputation_budgetaire.c:2792
 msgid "Save file"
 msgstr "Datei speichern"
 
-#: src/categories_onglet.c:3053 src/etats_onglet.c:1187
+#: src/categories_onglet.c:3053 src/etats_onglet.c:1186
 #: src/imputation_budgetaire.c:2793
 msgid "File exists. Do you want to overwrite it?"
 msgstr "Die vorhandene Datei ersetzen?"
 
-#: src/categories_onglet.c:3058 src/etats_onglet.c:1192
+#: src/categories_onglet.c:3058 src/etats_onglet.c:1191
 #: src/imputation_budgetaire.c:2798
 #, c-format
 msgid "Invalid filename \"%s\"!"
@@ -1418,51 +1418,49 @@ msgstr "Die zwei Kategorien zusammenführen"
 msgid "Replace the old categories list"
 msgstr "Die alte Kategorienliste ersetzen"
 
-#: src/categories_onglet.c:3209 src/etats_onglet.c:1250
+#: src/categories_onglet.c:3209 src/etats_onglet.c:1249
 #: src/imputation_budgetaire.c:2947
 msgid "Cannot import file."
 msgstr "Die Datei kann nicht importiert werden."
 
-#. si l'utilisateur n'abandonne pas, faire
-#: src/check.c:56
-msgid ""
-"This will check that the last reconciliation amounts matches with total "
-"amounts of reconcilied transactions (and initial balance)."
-msgstr ""
-"Dieser Vorgang überprüft, ob die letzten Abstimmungsbeträge mit den "
-"Gesamtabstimmungsbeträgen und dem Erföffnungssaldo übereinstimmen."
-
-#: src/check.c:119
+#: src/check.c:106
 #, fuzzy, c-format
 msgid ""
-"Last reconciliation amount : %f\n"
-"Computed reconciliation amount : %f\n"
+"<span weight=\"bold\">%s</span>\n"
+"  Last reconciliation amount : %4.2f%s\n"
+"  Computed reconciliation amount : %4.2f%s\n"
 "\n"
-"Do you to continue test?"
 msgstr ""
 "Letzter Abstimmungsbetrag : %f\n"
 "Berechneter Abstimmungsbetrag : %f"
 
-#: src/check.c:124
-#, c-format
-msgid "Account name : %s\n"
-msgstr "Kontoname : %s\n"
-
-#: src/check.c:139
-msgid "About reconciliation, your accounting is sane."
-msgstr "Information zur Abstimmung, Ihre Konten sind ausgeglichen."
-
-#: src/check.c:144
-#, fuzzy, c-format
-msgid ""
-"There are %d accounts in your file.  %d were tested.\n"
-"In %d account(s), stored and computed reconciliation don't match.  You "
-"should correct this quickly.\n"
-"Generally, in affected accounts, there are too many reconciled transactions. "
-"And these transactions are transfert between your Grisbi accounts."
+#: src/check.c:121
+msgid "Grisbi found no known inconsistency in accounts processed."
 msgstr ""
-"In %d Konten am %d stimmen der gespeicherte und der berechnete "
-"Abstimmungsbetrag nicht überein. Bitte beheben Sie diese Abweichung."
+
+#: src/check.c:122
+msgid "No inconsistency found."
+msgstr ""
+
+#: src/check.c:126
+msgid ""
+"Grisbi found accounts where reconciliation totals are inconsistent with the "
+"sum of reconcilied transactions.  Generally, the cause is too many transfers "
+"to other accounts are reconciled.  You have to manually unreconcile some "
+"transferts in inconsistent accounts.\n"
+"The following accounts are inconsistent:\n"
+"\n"
+msgstr ""
+
+#: src/check.c:135
+#, c-format
+msgid "%d accounts have inconsistencies."
+msgstr ""
+
+#: src/check.c:140
+#, fuzzy
+msgid "An account has inconsistencies."
+msgstr "Das neue Konto kann nicht angelegt werden."
 
 #: src/comptes_gestion.c:88
 msgid "Account details"
@@ -1644,13 +1642,13 @@ msgstr ""
 "Währung gelöscht."
 
 #. mise en place des boutons du bas
-#: src/comptes_onglet.c:159 src/menu.c:103
+#: src/comptes_onglet.c:159 src/menu.c:102
 msgid "New account"
 msgstr "Neues Konto"
 
 #. mise en place du bouton "supprimer un compte"
-#: src/comptes_onglet.c:169 src/menu.c:104 src/traitement_variables.c:96
-#: src/traitement_variables.c:216
+#: src/comptes_onglet.c:169 src/menu.c:103 src/traitement_variables.c:99
+#: src/traitement_variables.c:222
 msgid "Remove an account"
 msgstr "Konto löschen"
 
@@ -3416,20 +3414,20 @@ msgstr "Es gibt eine Abweichung"
 msgid "Last statement: %02d/%02d/%d"
 msgstr "Letze Abstimmung: %02d/%02d/%d"
 
-#: src/equilibrage.c:1602 src/operations_onglet.c:83 src/parametres.c:258
+#: src/equilibrage.c:1601 src/operations_onglet.c:83 src/parametres.c:258
 #: src/type_operations.c:250
 msgid "Reconciliation"
 msgstr "Abstimmung"
 
-#: src/equilibrage.c:1606
+#: src/equilibrage.c:1605
 msgid "Reconciliation: sort transactions"
 msgstr "Abstimmung : sortiert nach Buchungen"
 
-#: src/equilibrage.c:1654
+#: src/equilibrage.c:1653
 msgid "Sort by date"
 msgstr "sortiert nach Datum"
 
-#: src/equilibrage.c:1671
+#: src/equilibrage.c:1670
 msgid "Split neutral payment methods"
 msgstr "Neutrale Zahlungsweisen aufsplitten"
 
@@ -3934,13 +3932,13 @@ msgid "Dates"
 msgstr "Daten"
 
 #. mise en place de la frame des comptes
-#: src/etats_config.c:135 src/etats_config.c:7129 src/export.c:399
-#: src/fenetre_principale.c:89 src/menu.c:101 src/menu.c:102 src/menu.c:103
-#: src/menu.c:104 src/menu.c:105 src/menu.c:106 src/operations_comptes.c:382
+#: src/etats_config.c:135 src/etats_config.c:7129 src/export.c:398
+#: src/fenetre_principale.c:89 src/menu.c:100 src/menu.c:101 src/menu.c:102
+#: src/menu.c:103 src/menu.c:104 src/menu.c:105 src/operations_comptes.c:382
 #: src/operations_comptes.c:387 src/operations_comptes.c:448
 #: src/operations_comptes.c:461 src/operations_onglet.c:71
-#: src/traitement_variables.c:96 src/traitement_variables.c:216
-#: src/traitement_variables.c:219
+#: src/traitement_variables.c:99 src/traitement_variables.c:222
+#: src/traitement_variables.c:225
 msgid "Accounts"
 msgstr "Konten"
 
@@ -4610,7 +4608,7 @@ msgstr "Die Buchungen nach Zahlungsweise auswählen"
 msgid "Select methods of payment to include"
 msgstr "Die Zahlungsweisen für den Bericht auswählen"
 
-#: src/etats_latex.c:240 src/export.c:257 src/qif.c:1016
+#: src/etats_latex.c:240 src/export.c:256 src/qif.c:1016
 #, c-format
 msgid "File '%s' already exists"
 msgstr "Die Datei '%s' ist bereits vorhanden"
@@ -4634,28 +4632,28 @@ msgstr ""
 #. Reports menu
 #: src/etats_onglet.c:95 src/etats_onglet.c:300 src/etats_onglet.c:303
 #: src/etats_onglet.c:306 src/etats_onglet.c:309 src/etats_onglet.c:312
-#: src/etats_onglet.c:315 src/etats_onglet.c:1074 src/etats_onglet.c:1077
-#: src/etats_onglet.c:1080 src/etats_onglet.c:1083 src/etats_onglet.c:1086
-#: src/etats_onglet.c:1089 src/etats_onglet.c:1119 src/etats_onglet.c:1122
-#: src/etats_onglet.c:1125 src/etats_onglet.c:1128 src/etats_onglet.c:1131
-#: src/etats_onglet.c:1134 src/fenetre_principale.c:120 src/menu.c:109
-#: src/menu.c:110 src/menu.c:111 src/menu.c:112 src/menu.c:113 src/menu.c:114
-#: src/menu.c:115 src/menu.c:116 src/menu.c:117 src/menu.c:118 src/menu.c:119
-#: src/menu.c:120 src/menu.c:121 src/menu.c:122 src/traitement_variables.c:120
-#: src/traitement_variables.c:123 src/traitement_variables.c:126
-#: src/traitement_variables.c:129 src/traitement_variables.c:132
-#: src/traitement_variables.c:135 src/traitement_variables.c:138
-#: src/traitement_variables.c:141 src/traitement_variables.c:243
-#: src/traitement_variables.c:246 src/traitement_variables.c:249
+#: src/etats_onglet.c:315 src/etats_onglet.c:1073 src/etats_onglet.c:1076
+#: src/etats_onglet.c:1079 src/etats_onglet.c:1082 src/etats_onglet.c:1085
+#: src/etats_onglet.c:1088 src/etats_onglet.c:1118 src/etats_onglet.c:1121
+#: src/etats_onglet.c:1124 src/etats_onglet.c:1127 src/etats_onglet.c:1130
+#: src/etats_onglet.c:1133 src/fenetre_principale.c:120 src/menu.c:108
+#: src/menu.c:109 src/menu.c:110 src/menu.c:111 src/menu.c:112 src/menu.c:113
+#: src/menu.c:114 src/menu.c:115 src/menu.c:116 src/menu.c:117 src/menu.c:118
+#: src/menu.c:119 src/menu.c:120 src/menu.c:121 src/traitement_variables.c:123
+#: src/traitement_variables.c:126 src/traitement_variables.c:129
+#: src/traitement_variables.c:132 src/traitement_variables.c:135
+#: src/traitement_variables.c:138 src/traitement_variables.c:141
+#: src/traitement_variables.c:144 src/traitement_variables.c:249
 #: src/traitement_variables.c:252 src/traitement_variables.c:255
 #: src/traitement_variables.c:258 src/traitement_variables.c:261
-#: src/traitement_variables.c:264
+#: src/traitement_variables.c:264 src/traitement_variables.c:267
+#: src/traitement_variables.c:270
 msgid "Reports"
 msgstr "Berichte"
 
 #. mise en place du bouton ajouter
-#: src/etats_onglet.c:236 src/etats_onglet.c:736 src/menu.c:111
-#: src/traitement_variables.c:120 src/traitement_variables.c:243
+#: src/etats_onglet.c:236 src/etats_onglet.c:736 src/menu.c:110
+#: src/traitement_variables.c:123 src/traitement_variables.c:249
 msgid "New report"
 msgstr "Neuer Bericht"
 
@@ -4665,9 +4663,9 @@ msgid "Customize report"
 msgstr "Bericht anpassen"
 
 #. on met le bouton dupliquer
-#: src/etats_onglet.c:271 src/etats_onglet.c:300 src/etats_onglet.c:1074
-#: src/etats_onglet.c:1119 src/menu.c:113 src/traitement_variables.c:126
-#: src/traitement_variables.c:249
+#: src/etats_onglet.c:271 src/etats_onglet.c:300 src/etats_onglet.c:1073
+#: src/etats_onglet.c:1118 src/menu.c:112 src/traitement_variables.c:129
+#: src/traitement_variables.c:255
 msgid "Clone report"
 msgstr "Bericht klonen"
 
@@ -4676,33 +4674,33 @@ msgstr "Bericht klonen"
 msgid "Delete report"
 msgstr "Bericht löschen"
 
-#: src/etats_onglet.c:303 src/etats_onglet.c:1077 src/etats_onglet.c:1122
-#: src/menu.c:114 src/traitement_variables.c:129
-#: src/traitement_variables.c:252
+#: src/etats_onglet.c:303 src/etats_onglet.c:1076 src/etats_onglet.c:1121
+#: src/menu.c:113 src/traitement_variables.c:132
+#: src/traitement_variables.c:258
 msgid "Print report"
 msgstr "Bericht drucken"
 
-#: src/etats_onglet.c:306 src/etats_onglet.c:1083 src/etats_onglet.c:1128
-#: src/menu.c:118 src/traitement_variables.c:135
-#: src/traitement_variables.c:258
+#: src/etats_onglet.c:306 src/etats_onglet.c:1082 src/etats_onglet.c:1127
+#: src/menu.c:117 src/traitement_variables.c:138
+#: src/traitement_variables.c:264
 msgid "Export report file"
 msgstr "Bericht exportieren"
 
-#: src/etats_onglet.c:309 src/etats_onglet.c:1080 src/etats_onglet.c:1125
-#: src/menu.c:115 src/traitement_variables.c:132
-#: src/traitement_variables.c:255
+#: src/etats_onglet.c:309 src/etats_onglet.c:1079 src/etats_onglet.c:1124
+#: src/menu.c:114 src/traitement_variables.c:135
+#: src/traitement_variables.c:261
 msgid "Export report as HTML..."
 msgstr "Als Html exportieren..."
 
-#: src/etats_onglet.c:312 src/etats_onglet.c:1086 src/etats_onglet.c:1131
-#: src/menu.c:120 src/traitement_variables.c:138
-#: src/traitement_variables.c:261
+#: src/etats_onglet.c:312 src/etats_onglet.c:1085 src/etats_onglet.c:1130
+#: src/menu.c:119 src/traitement_variables.c:141
+#: src/traitement_variables.c:267
 msgid "Remove report"
 msgstr "Bericht löschen"
 
-#: src/etats_onglet.c:315 src/etats_onglet.c:1089 src/etats_onglet.c:1134
-#: src/menu.c:122 src/traitement_variables.c:141
-#: src/traitement_variables.c:264
+#: src/etats_onglet.c:315 src/etats_onglet.c:1088 src/etats_onglet.c:1133
+#: src/menu.c:121 src/traitement_variables.c:144
+#: src/traitement_variables.c:270
 msgid "Edit report"
 msgstr "Bericht bearbeiten"
 
@@ -4861,15 +4859,15 @@ msgstr "Bericht löschen \"%s\"?"
 msgid "This will irreversibly remove this report.  There is no undo for this."
 msgstr "Der Bericht wird gelöscht. Es gibt keine Wiederherstellung."
 
-#: src/etats_onglet.c:1160
+#: src/etats_onglet.c:1159
 msgid "Export report"
 msgstr "Bericht exportieren - Grisbi"
 
-#: src/etats_onglet.c:1200 src/imputation_budgetaire.c:2805
+#: src/etats_onglet.c:1199 src/imputation_budgetaire.c:2805
 msgid "Cannot save file."
 msgstr "Datei kann nicht gespeichert werden."
 
-#: src/etats_onglet.c:1225
+#: src/etats_onglet.c:1224
 msgid "Import a report"
 msgstr "Bericht importieren - Grisbi"
 
@@ -5002,62 +5000,63 @@ msgstr ""
 "in den Datumsbereich fallen \n"
 "werden die Buchungen nicht geändert."
 
-#: src/export.c:155
+#: src/export.c:154
 msgid "Export files"
 msgstr "Datei(en) exportieren - Grisbi"
 
-#: src/export.c:167 src/qif.c:929
+#: src/export.c:166 src/qif.c:929
 msgid "Select accounts to export"
 msgstr "Die zu exportierenden Konten auswählen"
 
-#: src/export.c:259 src/qif.c:1018
+#: src/export.c:258 src/qif.c:1018
 msgid ""
 "This will irreversibly overwrite previous file.  There is no undo for this."
 msgstr "Dieser Vorgang wird die bestehende Datei überschreiben."
 
-#: src/export.c:267 src/qif.c:1023
+#: src/export.c:266 src/qif.c:1023
 #, c-format
 msgid "File name '%s' invalid !"
 msgstr "Der Dateiname '%s' ist ungültig!"
 
-#: src/export.c:336 src/qif.c:909
+#: src/export.c:335 src/qif.c:909
 msgid "Your file must have a name (saved) to be exported."
 msgstr "Die Datei muss vor dem Export gespeichert werden."
 
-#: src/export.c:340
+#: src/export.c:339
 msgid "Export format does not define currencies."
 msgstr "Das Dateiformat unterstützt keine Währungen."
 
-#: src/export.c:341 src/qif.c:915
+#: src/export.c:340 src/qif.c:915
 msgid "All transactions will be converted into currency of their account."
 msgstr "Alle Buchungen werden in die Währung des Kontos konvertiert."
 
-#: src/export.c:399 src/menu.c:106 src/operations_comptes.c:382
+#: src/export.c:398 src/menu.c:105 src/operations_comptes.c:382
 #: src/operations_comptes.c:387 src/operations_comptes.c:448
-#: src/operations_comptes.c:461 src/traitement_variables.c:219
+#: src/operations_comptes.c:461 src/traitement_variables.c:225
 msgid "Closed accounts"
 msgstr "Geschlossene Konten"
 
 #. To add a new supported format, just add a new line here ...
-#: src/export.c:416
+#: src/export.c:415
 msgid "Accounts to QIF file ..."
 msgstr "In eine Qif Datei exportieren..."
 
-#: src/export.c:417
+#: src/export.c:416
 msgid "Accounts to CSV file ..."
 msgstr "In eine Csv Datei exportieren..."
 
 #. File menu
-#: src/export.c:419 src/menu.c:65 src/menu.c:66 src/menu.c:67 src/menu.c:68
+#: src/export.c:418 src/menu.c:65 src/menu.c:66 src/menu.c:67 src/menu.c:68
 #: src/menu.c:69 src/menu.c:70 src/menu.c:71 src/menu.c:72 src/menu.c:73
 #: src/menu.c:74 src/menu.c:75 src/menu.c:76 src/menu.c:77 src/menu.c:79
-#: src/menu.c:80 src/menu.c:81 src/menu.c:82 src/menu.c:83 src/menu.c:84
-#: src/menu.c:201 src/menu.c:205 src/menu.c:223 src/menu.c:244 src/menu.c:255
+#: src/menu.c:80 src/menu.c:81 src/menu.c:82 src/menu.c:83 src/menu.c:200
+#: src/menu.c:204 src/menu.c:222 src/menu.c:243 src/menu.c:254
 #: src/print_config.c:168 src/traitement_variables.c:58
 #: src/traitement_variables.c:65 src/traitement_variables.c:87
 #: src/traitement_variables.c:90 src/traitement_variables.c:93
-#: src/traitement_variables.c:204 src/traitement_variables.c:207
+#: src/traitement_variables.c:96 src/traitement_variables.c:207
 #: src/traitement_variables.c:210 src/traitement_variables.c:213
+#: src/traitement_variables.c:216 src/traitement_variables.c:219
 msgid "File"
 msgstr "Datei"
 
@@ -5864,16 +5863,16 @@ msgid "_Open"
 msgstr "_Öffnen..."
 
 #: src/menu.c:70 src/traitement_variables.c:58 src/traitement_variables.c:65
-#: src/traitement_variables.c:204
+#: src/traitement_variables.c:207
 msgid "Save"
 msgstr "Speichern"
 
-#: src/menu.c:71 src/traitement_variables.c:87 src/traitement_variables.c:207
+#: src/menu.c:71 src/traitement_variables.c:87 src/traitement_variables.c:210
 msgid "Save as"
 msgstr "Speichern unter..."
 
-#: src/menu.c:73 src/menu.c:201 src/menu.c:205 src/menu.c:223 src/menu.c:244
-#: src/menu.c:255
+#: src/menu.c:73 src/menu.c:200 src/menu.c:204 src/menu.c:222 src/menu.c:243
+#: src/menu.c:254
 msgid "Recently opened files"
 msgstr "Zuletzt geöffnete Dateien"
 
@@ -5881,124 +5880,121 @@ msgstr "Zuletzt geöffnete Dateien"
 msgid "QIF\\/OFX\\/Gnucash file ..."
 msgstr "Qif\\/Ofx\\/Gnucash Datei..."
 
-#: src/menu.c:80 src/menu.c:81
-msgid "Debug"
+#: src/menu.c:80 src/traitement_variables.c:96 src/traitement_variables.c:219
+#, fuzzy
+msgid "Debug file"
 msgstr "Debuggen"
 
-#: src/menu.c:81
-msgid "Reconciliations"
-msgstr "Abstimmungen"
-
-#: src/menu.c:83 src/traitement_variables.c:93 src/traitement_variables.c:213
+#: src/menu.c:82 src/traitement_variables.c:93 src/traitement_variables.c:216
 msgid "Close"
 msgstr "Schließen"
 
-#: src/menu.c:84
+#: src/menu.c:83
 msgid "Exit"
 msgstr "Beenden"
 
 #. Edit menu
-#: src/menu.c:87 src/menu.c:88 src/menu.c:89 src/menu.c:90 src/menu.c:91
-#: src/menu.c:92 src/menu.c:93 src/menu.c:94 src/menu.c:95 src/menu.c:96
-#: src/menu.c:97 src/menu.c:98 src/operations_comptes.c:405
+#: src/menu.c:86 src/menu.c:87 src/menu.c:88 src/menu.c:89 src/menu.c:90
+#: src/menu.c:91 src/menu.c:92 src/menu.c:93 src/menu.c:94 src/menu.c:95
+#: src/menu.c:96 src/menu.c:97 src/operations_comptes.c:405
 #: src/operations_comptes.c:410 src/operations_comptes.c:489
 #: src/operations_comptes.c:505 src/operations_comptes.c:512
-#: src/traitement_variables.c:99 src/traitement_variables.c:102
-#: src/traitement_variables.c:105 src/traitement_variables.c:108
-#: src/traitement_variables.c:111 src/traitement_variables.c:114
-#: src/traitement_variables.c:117 src/traitement_variables.c:222
-#: src/traitement_variables.c:225 src/traitement_variables.c:228
+#: src/traitement_variables.c:102 src/traitement_variables.c:105
+#: src/traitement_variables.c:108 src/traitement_variables.c:111
+#: src/traitement_variables.c:114 src/traitement_variables.c:117
+#: src/traitement_variables.c:120 src/traitement_variables.c:228
 #: src/traitement_variables.c:231 src/traitement_variables.c:234
 #: src/traitement_variables.c:237 src/traitement_variables.c:240
+#: src/traitement_variables.c:243 src/traitement_variables.c:246
 msgid "Edit"
 msgstr "Bearbeiten"
 
 #. New transaction
-#: src/menu.c:89 src/operations_liste.c:2655 src/traitement_variables.c:99
-#: src/traitement_variables.c:222
+#: src/menu.c:88 src/operations_liste.c:2655 src/traitement_variables.c:102
+#: src/traitement_variables.c:228
 msgid "New transaction"
 msgstr "Neue Buchung"
 
 #. New transaction from
-#: src/menu.c:90 src/operations_liste.c:2663 src/traitement_variables.c:102
-#: src/traitement_variables.c:225
+#: src/menu.c:89 src/operations_liste.c:2663 src/traitement_variables.c:105
+#: src/traitement_variables.c:231
 msgid "Use selected transaction as a template"
 msgstr "Die ausgewählte Buchung als Vorlage verwenden"
 
-#: src/menu.c:91 src/traitement_variables.c:105 src/traitement_variables.c:228
+#: src/menu.c:90 src/traitement_variables.c:108 src/traitement_variables.c:234
 msgid "Remove transaction"
 msgstr "Buchung löschen"
 
 #. Clone transaction
-#: src/menu.c:92 src/operations_liste.c:2683 src/traitement_variables.c:108
-#: src/traitement_variables.c:231
+#: src/menu.c:91 src/operations_liste.c:2683 src/traitement_variables.c:111
+#: src/traitement_variables.c:237
 msgid "Clone transaction"
 msgstr "Buchung klonen"
 
 #. Edit transaction
-#: src/menu.c:93 src/operations_liste.c:2642 src/traitement_variables.c:111
-#: src/traitement_variables.c:234
+#: src/menu.c:92 src/operations_liste.c:2642 src/traitement_variables.c:114
+#: src/traitement_variables.c:240
 msgid "Edit transaction"
 msgstr "Buchung bearbeiten"
 
 #. Convert to scheduled transaction
-#: src/menu.c:95 src/operations_liste.c:2696 src/traitement_variables.c:114
-#: src/traitement_variables.c:237
+#: src/menu.c:94 src/operations_liste.c:2696 src/traitement_variables.c:117
+#: src/traitement_variables.c:243
 msgid "Convert transaction to scheduled transaction"
 msgstr "Buchung regelmäßg ausführen"
 
 #. Move to another account
-#: src/menu.c:96 src/operations_comptes.c:405 src/operations_comptes.c:410
+#: src/menu.c:95 src/operations_comptes.c:405 src/operations_comptes.c:410
 #: src/operations_comptes.c:490 src/operations_comptes.c:505
 #: src/operations_comptes.c:512 src/operations_liste.c:2706
-#: src/traitement_variables.c:117 src/traitement_variables.c:240
+#: src/traitement_variables.c:120 src/traitement_variables.c:246
 msgid "Move transaction to another account"
 msgstr "Buchung verschieben"
 
-#: src/menu.c:98
+#: src/menu.c:97
 msgid "Preferences"
 msgstr "Einstellungen"
 
-#: src/menu.c:117 src/traitement_variables.c:123
-#: src/traitement_variables.c:246
+#: src/menu.c:116 src/traitement_variables.c:126
+#: src/traitement_variables.c:252
 msgid "Import report file"
 msgstr "Bericht importieren"
 
 #. Help menu
-#: src/menu.c:125 src/menu.c:126 src/menu.c:127 src/menu.c:128 src/menu.c:129
-#: src/menu.c:130 src/menu.c:131 src/menu.c:132 src/menu.c:133 src/menu.c:134
+#: src/menu.c:124 src/menu.c:125 src/menu.c:126 src/menu.c:127 src/menu.c:128
+#: src/menu.c:129 src/menu.c:130 src/menu.c:131 src/menu.c:132 src/menu.c:133
 msgid "Help"
 msgstr "Hilfe"
 
-#: src/menu.c:127
+#: src/menu.c:126
 msgid "Grisbi Manual"
 msgstr "Grisbi Handbuch"
 
-#: src/menu.c:128
+#: src/menu.c:127
 msgid "Quickstart"
 msgstr "Schnellstart"
 
-#: src/menu.c:129
+#: src/menu.c:128
 msgid "Translation"
 msgstr "Übersetzung"
 
-#: src/menu.c:130
+#: src/menu.c:129
 msgid "About"
 msgstr "Über"
 
-#: src/menu.c:132
+#: src/menu.c:131
 msgid "Grisbi website"
 msgstr "Grisbi Webseite"
 
-#: src/menu.c:133
+#: src/menu.c:132
 msgid "Report a bug"
 msgstr "Einen Fehler melden"
 
-#: src/menu.c:134
+#: src/menu.c:133
 msgid "On line User's guide"
 msgstr "Online Handbuch"
 
-#: src/menu.c:292 src/menu.c:296 src/menu.c:300
+#: src/menu.c:291 src/menu.c:295 src/menu.c:299
 msgid "C"
 msgstr "C"
 
@@ -6688,3 +6684,31 @@ msgid "This transfer has a reconciled contra-transaction, deletion canceled."
 msgstr ""
 "Diese Buchung hat eine abgestimmte Gegenbuchung, die Löschung wurde "
 "abgebrochen."
+
+#~ msgid ""
+#~ "This will check that the last reconciliation amounts matches with total "
+#~ "amounts of reconcilied transactions (and initial balance)."
+#~ msgstr ""
+#~ "Dieser Vorgang überprüft, ob die letzten Abstimmungsbeträge mit den "
+#~ "Gesamtabstimmungsbeträgen und dem Erföffnungssaldo übereinstimmen."
+
+#~ msgid "Account name : %s\n"
+#~ msgstr "Kontoname : %s\n"
+
+#~ msgid "About reconciliation, your accounting is sane."
+#~ msgstr "Information zur Abstimmung, Ihre Konten sind ausgeglichen."
+
+#, fuzzy
+#~ msgid ""
+#~ "There are %d accounts in your file.  %d were tested.\n"
+#~ "In %d account(s), stored and computed reconciliation don't match.  You "
+#~ "should correct this quickly.\n"
+#~ "Generally, in affected accounts, there are too many reconciled "
+#~ "transactions. And these transactions are transfert between your Grisbi "
+#~ "accounts."
+#~ msgstr ""
+#~ "In %d Konten am %d stimmen der gespeicherte und der berechnete "
+#~ "Abstimmungsbetrag nicht überein. Bitte beheben Sie diese Abweichung."
+
+#~ msgid "Reconciliations"
+#~ msgstr "Abstimmungen"
