@@ -1,3 +1,21 @@
+grisbi (0.5.4-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Benjamin Drieu <bdrieu@april.org>  Fri, 24 Dec 2004 11:58:37 +0100
+
+grisbi (0.5.3-1) unstable; urgency=low
+
+  * New upstream version
+
+ -- Benjamin Drieu <bdrieu@april.org>  Fri, 26 Nov 2004 11:45:57 +0100
+
+grisbi (0.5.2-1) unstable; urgency=low
+
+  * New upstream version
+
+ -- Benjamin Drieu <benj@debian.org>  Thu, 14 Oct 2004 17:36:30 +0200
+
 grisbi (0.5.1-1) unstable; urgency=low
 
   * New upstream version
