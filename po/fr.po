@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-01 21:51+0100\n"
-"PO-Revision-Date: 2004-03-01 22:01GMT\n"
+"POT-Creation-Date: 2004-03-03 20:24+0100\n"
+"PO-Revision-Date: 2004-03-03 20:24+0100\n"
 "Last-Translator: Benjamin Drieu <bdrieu@april.org>\n"
 "Language-Team: Francais <traduction@grisbi.org>\n"
 "MIME-Version: (null)\n"
@@ -260,8 +260,8 @@ msgstr "Tiers"
 #: src/affichage_liste.c:32 src/echeancier_formulaire.c:1066
 #: src/echeancier_formulaire.c:2367 src/etats_config.c:262
 #: src/etats_affiche.c:1946 src/operations_formulaire.c:1112
-#: src/operations_formulaire.c:3371 src/ventilation.c:944
-#: src/ventilation.c:1465
+#: src/operations_formulaire.c:3371 src/ventilation.c:936
+#: src/ventilation.c:1457
 msgid "Budgetary line"
 msgstr "Imputation budgétaire"
 
@@ -271,8 +271,8 @@ msgstr "Imputation budgétaire"
 #: src/echeancier_formulaire.c:986 src/echeancier_formulaire.c:2359
 #: src/imputation_budgetaire.c:154 src/operations_formulaire.c:876
 #: src/operations_formulaire.c:3359 src/type_operations.c:143
-#: src/type_operations.c:420 src/type_operations.c:862 src/ventilation.c:890
-#: src/ventilation.c:909 src/ventilation.c:1461
+#: src/type_operations.c:420 src/type_operations.c:862 src/ventilation.c:882
+#: src/ventilation.c:901 src/ventilation.c:1453
 msgid "Debit"
 msgstr "Débit"
 
@@ -283,8 +283,8 @@ msgstr "Débit"
 #: src/echeancier_formulaire.c:2361 src/imputation_budgetaire.c:170
 #: src/operations_formulaire.c:961 src/operations_formulaire.c:1313
 #: src/operations_formulaire.c:3361 src/type_operations.c:157
-#: src/type_operations.c:427 src/type_operations.c:858 src/ventilation.c:862
-#: src/ventilation.c:937 src/ventilation.c:1463
+#: src/type_operations.c:427 src/type_operations.c:858 src/ventilation.c:854
+#: src/ventilation.c:929 src/ventilation.c:1455
 msgid "Credit"
 msgstr "Crédit"
 
@@ -322,7 +322,7 @@ msgstr "P/R"
 #: src/affichage_liste.c:977 src/echeancier_formulaire.c:1076
 #: src/echeancier_formulaire.c:2371 src/etats_affiche.c:1974
 #: src/operations_formulaire.c:1118 src/operations_formulaire.c:3373
-#: src/ventilation.c:951 src/ventilation.c:1467
+#: src/ventilation.c:943 src/ventilation.c:1459
 msgid "Voucher"
 msgstr "Pièce comptable"
 
@@ -332,7 +332,7 @@ msgstr "Pièce comptable"
 #: src/echeancier_formulaire.c:1082 src/echeancier_formulaire.c:2373
 #: src/echeancier_liste.c:467 src/etats_affiche.c:1953
 #: src/operations_formulaire.c:1125 src/operations_formulaire.c:3376
-#: src/ventilation.c:51 src/ventilation.c:841 src/ventilation.c:1459
+#: src/ventilation.c:51 src/ventilation.c:833 src/ventilation.c:1451
 msgid "Notes"
 msgstr "Remarques"
 
@@ -391,7 +391,8 @@ msgstr "Ajuster la taille des colonnes selon le tableau ci-dessus"
 
 #: src/affichage_liste.c:127
 msgid "Remember display settings for each account separately"
-msgstr "Retenir les caractéristiques de l'affichage séparément pour chaque compte"
+msgstr ""
+"Retenir les caractéristiques de l'affichage séparément pour chaque compte"
 
 #: src/affichage_liste.c:133
 msgid "Revert to defaults"
@@ -1214,8 +1215,8 @@ msgstr "Opération ventilée"
 #: src/echeancier_liste.c:1226 src/operations_formulaire.c:1004
 #: src/operations_formulaire.c:1961 src/operations_formulaire.c:2412
 #: src/operations_formulaire.c:2957 src/operations_liste.c:1578
-#: src/ventilation.c:748 src/ventilation.c:1550 src/ventilation.c:1628
-#: src/ventilation.c:1996 src/ventilation.c:2329
+#: src/ventilation.c:740 src/ventilation.c:1542 src/ventilation.c:1620
+#: src/ventilation.c:1988 src/ventilation.c:2323
 msgid "Transfer"
 msgstr "Virement"
 
@@ -1245,20 +1246,19 @@ msgid "Enter name for export"
 msgstr "Entrer un nom pour l'export"
 
 #: src/categories_onglet.c:3082 src/erreur.c:203 src/erreur.c:205
-#: src/etats_onglet.c:1370 src/fichiers_gestion.c:515
-#: src/fichiers_gestion.c:578 src/fichiers_gestion.c:580
-#: src/fichiers_gestion.c:629 src/fichiers_gestion.c:631
-#: src/imputation_budgetaire.c:2821 src/qif.c:1486
+#: src/etats_onglet.c:1370 src/fichiers_gestion.c:559
+#: src/fichiers_gestion.c:561 src/fichiers_gestion.c:609
+#: src/fichiers_gestion.c:611 src/imputation_budgetaire.c:2821 src/qif.c:1486
 msgid "Save file"
 msgstr "Enregistrer le fichier"
 
 #: src/categories_onglet.c:3086 src/etats_onglet.c:1374
-#: src/fichiers_gestion.c:519 src/imputation_budgetaire.c:2825 src/qif.c:1490
+#: src/imputation_budgetaire.c:2825 src/qif.c:1490
 msgid "File exists. Do you want to overwrite it?"
 msgstr "Le fichier existe. Voulez-vous l'écraser ?"
 
 #: src/categories_onglet.c:3105 src/etats_onglet.c:1393
-#: src/fichiers_gestion.c:541 src/imputation_budgetaire.c:2844 src/qif.c:1508
+#: src/imputation_budgetaire.c:2844 src/qif.c:1508
 #, c-format
 msgid "Invalid filename \"%s\"!"
 msgstr "Nom de fichier \"%s\" invalide !"
@@ -1428,8 +1428,8 @@ msgstr ""
 "Êtes-vous sûr de vouloir passer le compte \"%s\" à l'euro ?"
 
 #: src/comptes_gestion.c:1839
-msgid "exchange rate beetween the 2 currencies is 0."
-msgstr "Le taux de change entre les deyx monnaies est nul."
+msgid "exchange rate between the 2 currencies is 0."
+msgstr "Le taux de change entre les deux monnaies est nul."
 
 #: src/comptes_gestion.c:1846 src/devises.c:378 src/devises.c:992
 #: src/devises.c:1813 src/devises.c:1895 src/devises.c:2242 src/devises.c:2247
@@ -1443,8 +1443,8 @@ msgstr "Le taux de change entre les deyx monnaies est nul."
 #: src/etats_calculs.c:2593 src/etats_calculs.c:2598
 #: src/operations_formulaire.c:2706 src/operations_formulaire.c:2707
 #: src/operations_liste.c:1510 src/operations_liste.c:1512
-#: src/ventilation.c:2881 src/ventilation.c:2883 src/ventilation.c:3099
-#: src/ventilation.c:3101
+#: src/ventilation.c:2893 src/ventilation.c:2895 src/ventilation.c:3111
+#: src/ventilation.c:3113
 msgid "Euro"
 msgstr "Euro"
 
@@ -1463,8 +1463,8 @@ msgid "Remove an account"
 msgstr "Supprimer un compte"
 
 #: src/comptes_traitements.c:145 src/comptes_traitements.c:155
-#: src/operations_formulaire.c:2244 src/operations_liste.c:2689
-#: src/operations_liste.c:2866
+#: src/operations_formulaire.c:2244 src/operations_liste.c:2693
+#: src/operations_liste.c:2872
 msgid "Cannot allocate memory, bad things will happen soon"
 msgstr "Erreur dans l'allocation de mémoire, ça va très mal se passer"
 
@@ -1482,7 +1482,9 @@ msgstr "Supprimer le compte \"%s\" ?"
 msgid ""
 "This will irreversibly remove this account and all operations that were "
 "previously contained.  There is no undo for this."
-msgstr "Cela détruira irrémédiablement votre compte ainsi que toutes les opérations qui y étaient précédemment.  Il n'y a pas d'annulation possible."
+msgstr ""
+"Cela détruira irrémédiablement votre compte ainsi que toutes les opérations "
+"qui y étaient précédemment.  Il n'y a pas d'annulation possible."
 
 #: src/comptes_traitements.c:546
 msgid "Deposit"
@@ -2855,7 +2857,7 @@ msgstr "Dernier taux de change"
 msgid "No exchange rate defined"
 msgstr "Aucun change défini"
 
-#: src/dialog.c:110 src/fichiers_io.c:6446 src/fichiers_io.c:9347
+#: src/dialog.c:164 src/fichiers_io.c:6453 src/fichiers_io.c:9353
 msgid "Do not show this message again"
 msgstr "Ne plus montrer ce message"
 
@@ -2875,7 +2877,7 @@ msgstr "Choix du mode de règlement"
 
 #: src/echeancier_formulaire.c:408 src/echeancier_formulaire.c:409
 #: src/operations_formulaire.c:416 src/operations_formulaire.c:417
-#: src/ventilation.c:572 src/ventilation.c:573
+#: src/ventilation.c:568 src/ventilation.c:569
 msgid "Choose the financial year"
 msgstr "Choix de l'exercice"
 
@@ -2940,7 +2942,7 @@ msgstr "Années"
 
 #: src/echeancier_formulaire.c:1055 src/echeancier_formulaire.c:2363
 #: src/operations_formulaire.c:1099 src/operations_formulaire.c:3366
-#: src/ventilation.c:834 src/ventilation.c:1457
+#: src/ventilation.c:826 src/ventilation.c:1449
 msgid "Categories : Sub-categories"
 msgstr "Catégories : Sous-catégories"
 
@@ -3125,7 +3127,7 @@ msgstr "Dernier relevé : %02d/%02d/%d"
 
 #. mise en place de la frame des comptes
 #: src/equilibrage.c:1582 src/etats_config.c:136 src/etats_config.c:7110
-#: src/fenetre_principale.c:84 src/menu.c:156 src/operations_onglet.c:80
+#: src/fenetre_principale.c:84 src/menu.c:177 src/operations_onglet.c:80
 msgid "Accounts"
 msgstr "Comptes"
 
@@ -3192,8 +3194,8 @@ msgstr "Ce fichier n'est pas un état Grisbi"
 
 #. à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors
 #. la version nécessaire pour l'ouvrir
-#: src/etat_io.c:71 src/fichiers_io.c:222 src/fichiers_io.c:8796
-#: src/fichiers_io.c:9147
+#: src/etat_io.c:71 src/fichiers_io.c:222 src/fichiers_io.c:8802
+#: src/fichiers_io.c:9153
 #, c-format
 msgid "Grisbi version %s is needed to open this file"
 msgstr "Pour ouvrir ce fichier, il vous faut la version %s de Grisbi"
@@ -3521,7 +3523,8 @@ msgstr "Inclure les virements de ou vers les comptes d'actif et de passif"
 
 #: src/etats_config.c:2573
 msgid "Include transfers from or to accounts not in this report"
-msgstr "Inclure les virements de ou vers les comptes ne figurant pas dans l'état"
+msgstr ""
+"Inclure les virements de ou vers les comptes ne figurant pas dans l'état"
 
 #: src/etats_config.c:2586
 msgid "Include transfers from or to these accounts"
@@ -3843,7 +3846,8 @@ msgstr "Afficher le nombre d'opérations avec les totaux"
 
 #: src/etats_config.c:6239
 msgid "Consider the third parties of this report as a multiple third party."
-msgstr "Inclure cet état dans la liste des tiers du formulaire de saisie d'opération."
+msgstr ""
+"Inclure cet état dans la liste des tiers du formulaire de saisie d'opération."
 
 #: src/etats_config.c:6310
 msgid "Display the information about"
@@ -4221,11 +4225,15 @@ msgstr "Impossible d'ouvrir le fichier '%s': %s\n"
 
 #: src/etats_latex.c:246
 msgid "LaTeX run was unable to complete, see console output for details."
-msgstr "L'exécution de LaTeX a échoué, consulter la sortie de la console pour plus de détails."
+msgstr ""
+"L'exécution de LaTeX a échoué, consulter la sortie de la console pour plus "
+"de détails."
 
 #: src/etats_latex.c:254
 msgid "dvips was unable to complete, see console output for details."
-msgstr "L'exécution de dvips a échoué, consulter la sortie de la console pour plus de détails."
+msgstr ""
+"L'exécution de dvips a échoué, consulter la sortie de la console pour plus "
+"de détails."
 
 #: src/etats_onglet.c:88 src/fenetre_principale.c:115
 msgid "Reports"
@@ -4355,7 +4363,8 @@ msgstr ""
 #. etat vierge
 #: src/etats_onglet.c:1118
 msgid "This report is an empty one. You need to customise it entirely."
-msgstr "Cette option crée un état vierge dans lequel vous devez tous configurer."
+msgstr ""
+"Cette option crée un état vierge dans lequel vous devez tous configurer."
 
 #. remise de chèques
 #: src/etats_onglet.c:1124
@@ -4597,7 +4606,7 @@ msgstr ""
 msgid "Formatting transactions"
 msgstr "Mise en forme des opérations"
 
-#: src/fichiers_gestion.c:418 src/fichiers_gestion.c:607
+#: src/fichiers_gestion.c:418 src/fichiers_gestion.c:588
 msgid "Save file?"
 msgstr "Voulez-vous enregistrer le fichier ?"
 
@@ -4609,16 +4618,30 @@ msgstr "Création d'un nom de fichier de comptes"
 msgid "Enter a name for the account file"
 msgstr "Entrer un nom pour le fichier de comptes"
 
+#: src/fichiers_gestion.c:515
+msgid "File already exists"
+msgstr "Le fichier existe déjà"
+
+#: src/fichiers_gestion.c:516
+#, c-format
+msgid "Do you want to overwrite file \"%s\"?"
+msgstr "Voulez-vous écraser le fichier \"%s\" ?"
+
+#: src/fichiers_gestion.c:524
+#, c-format
+msgid "Invalid filename: \"%s\"!"
+msgstr "Nom de fichier invalide: \"%s\" !"
+
 #. Création de la fenêtre principale
-#: src/fichiers_gestion.c:766 src/fichiers_gestion.c:777 src/main.c:133
+#: src/fichiers_gestion.c:746 src/fichiers_gestion.c:757 src/main.c:133
 msgid "Grisbi"
 msgstr "Grisbi"
 
-#: src/fichiers_gestion.c:775
+#: src/fichiers_gestion.c:755
 msgid "Grisbi - No name"
 msgstr "Grisbi - Sans nom"
 
-#: src/fichiers_gestion.c:805
+#: src/fichiers_gestion.c:786
 msgid "Saving backup"
 msgstr "Enregistrement de la sauvegarde"
 
@@ -4637,10 +4660,17 @@ msgid ""
 "Warning: Grisbi data format has changed. Grisbi made a backup under '%s'.\n"
 "Keep it for a while just in case."
 msgstr ""
-"Attention, le format de données a changé ; Grisbi a fait une sauvegarde de votre ancien fichier sous le nom : '%s'.\n"
-"Gardez-la un certain temps pour pouvoir éventuellement y revenir en cas de problème."
+"Attention, le format de données a changé ; Grisbi a fait une sauvegarde de "
+"votre ancien fichier sous le nom : '%s'.\n"
+"Gardez-la un certain temps pour pouvoir éventuellement y revenir en cas de "
+"problème."
 
-#: src/fichiers_io.c:306 src/fichiers_io.c:2033 src/fichiers_io.c:4256
+#: src/fichiers_io.c:306 src/fichiers_io.c:2034 src/fichiers_io.c:4259
+#, c-format
+msgid "File \"%s\" is already opened"
+msgstr "Le fichier \"%s\" est déjà ouvert"
+
+#: src/fichiers_io.c:307 src/fichiers_io.c:2035 src/fichiers_io.c:4260
 msgid ""
 "Either this file is already opened by another user or it wasn't closed "
 "correctly (maybe Grisbi crashed?).\n"
@@ -4654,7 +4684,7 @@ msgstr ""
 "Préférences. »"
 
 #. FIXME
-#: src/fichiers_io.c:1900
+#: src/fichiers_io.c:1901
 msgid ""
 "There was a bug in versions before 0.4.0, which could lead to orphan "
 "transactions (either transfers without countra-transaction, or breakdown "
@@ -4670,15 +4700,16 @@ msgstr ""
 "Grisbi a cherché de telles opérations et a trouvé:\n"
 "\n"
 
-#: src/fichiers_io.c:1906
+#: src/fichiers_io.c:1907
 msgid "breakdown transactions, all of them were deleted.\n"
 msgstr "opérations ventilées, toutes ont été effacées.\n"
 
-#: src/fichiers_io.c:1913
+#: src/fichiers_io.c:1914
 msgid "transfers without contra-transaction, which categories were deleted.\n"
-msgstr "virements sans contre opération, dont les catégories ont été effacées.\n"
+msgstr ""
+"virements sans contre opération, dont les catégories ont été effacées.\n"
 
-#: src/fichiers_io.c:1918
+#: src/fichiers_io.c:1919
 msgid ""
 "These modifications should not impact on neither Grisbi's behavior nor your "
 "accounts balances."
@@ -4686,45 +4717,53 @@ msgstr ""
 "Ces modifications ne devraient pas modifier le comportement de Grisbi ni les "
 "soldes de vos comptes."
 
-#: src/fichiers_io.c:6444
+#: src/fichiers_io.c:6449
+#, c-format
+msgid "Can not save file \"%s\""
+msgstr "Impossible d'enregistrer le fichier \"%s\""
+
+#: src/fichiers_io.c:6451
 #, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked.  Please save it "
 "with another name or activate the \"%s\" option in setup.  Alternatively, "
 "choose the \"%s\" option below."
-msgstr "Grisbi n'a pas pu sauvegaeder ce fichier car il est marqué comme utilisé.  Veuillez le sauvegarder sous un autre nom ou activer l'option \"%s\" dans la configurations.  Alternativement, choisissez l'option \"%s\" ci dessous."
+msgstr ""
+"Grisbi n'a pas pu sauvegarder ce fichier car il est marqué comme utilisé.  "
+"Veuillez le sauvegarder sous un autre nom ou activer l'option \"%s\" dans la "
+"configurations.  Alternativement, choisissez l'option \"%s\" ci dessous."
 
-#: src/fichiers_io.c:6445 src/parametres.c:449
+#: src/fichiers_io.c:6452 src/parametres.c:449
 msgid "Force saving of locked files"
 msgstr "Forcer l'enregistrement des fichiers verrouillés"
 
-#: src/fichiers_io.c:8499 src/fichiers_io.c:8750 src/fichiers_io.c:9102
+#: src/fichiers_io.c:8505 src/fichiers_io.c:8756 src/fichiers_io.c:9108
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr "Impossible de sauvegarder le fichier '%s': %s"
 
-#: src/fichiers_io.c:8576
+#: src/fichiers_io.c:8582
 #, c-format
 msgid "Cannot lock file '%s': %s"
 msgstr "Impossible de marquer le fichier '%s' comme utilisé: %s"
 
-#: src/fichiers_io.c:8782
+#: src/fichiers_io.c:8788
 msgid "This file is not a Grisbi category list file"
 msgstr "Ce fichier n'est pas une liste de catégories Grisbi"
 
-#: src/fichiers_io.c:8805
+#: src/fichiers_io.c:8811
 msgid "Invalid categories file"
 msgstr "Fichier de catégories invalide."
 
-#: src/fichiers_io.c:9133
+#: src/fichiers_io.c:9139
 msgid "This file is not a grisbi budgetary lines file"
 msgstr "Ce fichier n'est pas une liste d'imputaions budgétaires Grisbi"
 
-#: src/fichiers_io.c:9156
+#: src/fichiers_io.c:9162
 msgid "Invalid budgetary lines file"
 msgstr "Fichier d'imputations budgétaires invalide."
 
-#: src/fichiers_io.c:9344
+#: src/fichiers_io.c:9350
 msgid ""
 "Your account file should not be readable by anybody else, but it is. You "
 "should change its permissions.\n"
@@ -4780,7 +4819,8 @@ msgstr "Matthieu Pupat (thieum.tieum@free.fr) : paquets Mandrake"
 
 #: src/help.c:49
 msgid "Francois Terrot (francois@terrot.net): Windows packaging, cygwin port"
-msgstr "Francois Terrot (francois@terrot.net) : paquets Windows, portage cygwin"
+msgstr ""
+"Francois Terrot (francois@terrot.net) : paquets Windows, portage cygwin"
 
 #: src/help.c:50
 msgid "Thierry Thomas (thierry@pompo.net): FreeBSD packaging"
@@ -5051,19 +5091,55 @@ msgstr "Supprimer une opération"
 msgid "Remove selected transaction"
 msgstr "Supprimer l'opération sélectionée"
 
-#: src/menu.c:152
+#. Clone transaction
+#: src/menu.c:145 src/operations_liste.c:2558
+msgid "Clone transaction"
+msgstr "Cloner l'opération"
+
+#: src/menu.c:146
+msgid "Clone selected transaction"
+msgstr "Cloner l'opération sélectionée"
+
+#. Edit transaction
+#: src/menu.c:149 src/operations_liste.c:2568
+msgid "Edit transaction"
+msgstr "Éditer l'opération"
+
+#: src/menu.c:150
+msgid "Edit selected transaction"
+msgstr "Éditer l'opération sélectionée"
+
+#. Convert to scheduled transaction
+#: src/menu.c:154 src/operations_liste.c:2580
+msgid "Convert transaction to scheduled transaction"
+msgstr "Convertir l'opération en échéance"
+
+#: src/menu.c:155
+msgid "Convert selected transaction to scheduled transaction"
+msgstr "Convertir l'opération sélectionnée en échéance"
+
+#. Move to another account
+#: src/menu.c:158 src/operations_liste.c:2590
+msgid "Move transaction to another account"
+msgstr "Déplacer l'opération vers un autre compte"
+
+#: src/menu.c:159
+msgid "Move selected transaction to another account"
+msgstr "Déplacer l'opération sélectionnée vers un autre compte"
+
+#: src/menu.c:173
 msgid "File"
 msgstr "Fichier"
 
-#: src/menu.c:154
+#: src/menu.c:175
 msgid "Edit"
 msgstr "Édition"
 
-#: src/menu.c:158
+#: src/menu.c:179
 msgid "Help"
 msgstr "Aide"
 
-#: src/menu.c:189 src/menu.c:234
+#: src/menu.c:210 src/menu.c:255
 msgid "File/Recently opened files/"
 msgstr "Fichier/Derniers fichiers/"
 
@@ -5106,7 +5182,7 @@ msgid "Breakdown"
 msgstr "Ventilation"
 
 #: src/operations_formulaire.c:1013 src/operations_formulaire.c:2420
-#: src/operations_formulaire.c:2969 src/ventilation.c:757
+#: src/operations_formulaire.c:2969 src/ventilation.c:749
 msgid "Deleted account"
 msgstr "Compte supprimé"
 
@@ -5117,7 +5193,8 @@ msgstr "Récupération des ventilations ?"
 
 #: src/operations_formulaire.c:1864
 msgid "Do you want to recover all the lines of the last breakdown?"
-msgstr "Voulez-vous récupérer aussi les opérations de la dernière ventilation ?"
+msgstr ""
+"Voulez-vous récupérer aussi les opérations de la dernière ventilation ?"
 
 #: src/operations_formulaire.c:2115 src/operations_formulaire.c:2546
 #: src/tiers_onglet.c:1429
@@ -5160,7 +5237,9 @@ msgstr ""
 
 #: src/operations_formulaire.c:2555
 msgid "A transaction with a multiple third party must be a new one."
-msgstr "Une opération dont le tiers est un état doit forcemment être une nouvelle opération."
+msgstr ""
+"Une opération dont le tiers est un état doit forcemment être une nouvelle "
+"opération."
 
 #: src/operations_formulaire.c:2589
 msgid "Invalid multiple third party."
@@ -5199,39 +5278,24 @@ msgid "Imposible to delete a reconciled transaction."
 msgstr "Impossible de supprimer une opération relevée."
 
 #: src/operations_liste.c:2025
-msgid "The contra-transaction of this transfer is reconciled, deletion impossible."
-msgstr "La contre-opération de ce virement est relevée, la suppression est impossible."
+msgid ""
+"The contra-transaction of this transfer is reconciled, deletion impossible."
+msgstr ""
+"La contre-opération de ce virement est relevée, la suppression est "
+"impossible."
 
 #: src/operations_liste.c:2073
 msgid ""
 "One of the breakdown lines is a transfer whose contra-transaction is "
 "reconciled.  Deletion canceled."
-msgstr "Une des opérations de la ventilation est un virement dont la contre-opération est relevée.  La suppression est annulée."
+msgstr ""
+"Une des opérations de la ventilation est un virement dont la contre-"
+"opération est relevée.  La suppression est annulée."
 
 #. Delete transaction
 #: src/operations_liste.c:2548
 msgid "Delete transaction"
 msgstr "Supprimer l'opération"
-
-#. Clone transaction
-#: src/operations_liste.c:2558
-msgid "Clone transaction"
-msgstr "Cloner l'opération"
-
-#. Edit transaction
-#: src/operations_liste.c:2568
-msgid "Edit transaction"
-msgstr "Éditer l'opération"
-
-#. Convert to scheduled transaction
-#: src/operations_liste.c:2580
-msgid "Convert to scheduled transaction"
-msgstr "Convertir en échéance"
-
-#. Move to another account
-#: src/operations_liste.c:2590
-msgid "Move to another account"
-msgstr "Déplacer vers un autre compte"
 
 #: src/operations_onglet.c:169
 msgid "Form"
@@ -5273,7 +5337,8 @@ msgstr "Ne pas avertir lorsque les seuils minimums sont atteints"
 #. Display a warning message if account file is readable by someone else
 #: src/parametres.c:361
 msgid "Do not warn if account file is readable by someone else"
-msgstr "Ne pas avertir lorsque le fichier de compte est lisible par quelqu'un d'autre"
+msgstr ""
+"Ne pas avertir lorsque le fichier de compte est lisible par quelqu'un d'autre"
 
 #. Display a warning message if file is already opened
 #: src/parametres.c:367
@@ -5285,7 +5350,8 @@ msgid "Scheduler warnings"
 msgstr "Alertes de l'échéancier"
 
 #: src/parametres.c:380
-msgid "Number of days before a warning message advertising a scheduled transaction"
+msgid ""
+"Number of days before a warning message advertising a scheduled transaction"
 msgstr "Nombre de jours précédant le rappel d'une échéance"
 
 #: src/parametres.c:433
@@ -5397,7 +5463,8 @@ msgstr "Importer un autre compte ?"
 
 #: src/qif.c:933
 msgid "Problem recovering the dates in the QIF file. Import canceled."
-msgstr "Problème dans la récupération des dates du fichier QIF. Opération annulée"
+msgstr ""
+"Problème dans la récupération des dates du fichier QIF. Opération annulée"
 
 #. création des listes d'opé
 #: src/qif.c:1260
@@ -5406,7 +5473,8 @@ msgstr "Le traitement des informations peut prendre un certain temps ..."
 
 #: src/qif.c:1338
 msgid "You must name (save) your file to be able to export it."
-msgstr "Vous devez nommer ( enregistrer ) votre fichier pour pouvoir l'exporter."
+msgstr ""
+"Vous devez nommer ( enregistrer ) votre fichier pour pouvoir l'exporter."
 
 #: src/qif.c:1343
 msgid ""
@@ -5414,7 +5482,8 @@ msgid ""
 "All transactions will be converted to appropriate account's currency."
 msgstr ""
 "Le format QIF ne gére pas les devises.\n"
-"Toutes les opérations seront converties dans la devise de leur compte respectif."
+"Toutes les opérations seront converties dans la devise de leur compte "
+"respectif."
 
 #: src/qif.c:1345
 msgid "Export QIF files"
@@ -5555,33 +5624,50 @@ msgstr "Somme ventilée"
 msgid "Not assigned"
 msgstr "Non affecté"
 
-#: src/ventilation.c:554 src/ventilation.c:555
+#: src/ventilation.c:550 src/ventilation.c:551
 msgid "Associated method of payment"
 msgstr "Type d'opération associée"
 
-#: src/ventilation.c:1569
+#: src/ventilation.c:1561
 msgid "The associated account for this transfer is invalid"
 msgstr "Le compte associé au virement est invalide"
 
-#: src/ventilation.c:1575
+#: src/ventilation.c:1567
 msgid "It's impossible to transfer an account to itself"
 msgstr "Impossible de virer un compte sur lui-même"
 
-#: src/ventilation.c:1581
+#: src/ventilation.c:1573
 msgid "No account associated with the transfer"
 msgstr "Aucun compte associé au virement"
 
-#: src/ventilation.c:2167
+#: src/ventilation.c:2160
 msgid "This transaction has a reconciled breakdown line, deletion canceled."
-msgstr "L'opération ventilée de cette opération est relevée, la suppression est annulée."
+msgstr ""
+"L'opération ventilée de cette opération est relevée, la suppression est "
+"annulée."
 
-#: src/ventilation.c:2194
+#: src/ventilation.c:2187
 msgid "This transfer has a reconciled contra-transaction, deletion canceled."
-msgstr "La contre-opération de ce virement est relevée on ne peut donc les supprimer."
+msgstr ""
+"La contre-opération de ce virement est relevée on ne peut donc les supprimer."
 
-#: src/ventilation.c:2716
+#: src/ventilation.c:2522
+msgid "Incomplete breakdown"
+msgstr "Ventilation incomplète"
+
+#: src/ventilation.c:2523
+msgid ""
+"Transaction amount isn't fully broken down.\n"
+"Proceed anyway?"
+msgstr ""
+"Le montant de la transaction n'est pas totalement ventilé.\n"
+"Continuer quand même ?"
+
+#: src/ventilation.c:2728
 msgid "A breakdown line is to be deleted though it is not yet registered."
-msgstr "Une opé de ventilation a été marquée pour la suppression alors qu'elle n'était pas encore enregistrée."
+msgstr ""
+"Une opé de ventilation a été marquée pour la suppression alors qu'elle "
+"n'était pas encore enregistrée."
 
 #~ msgid "Select an account"
 #~ msgstr "Sélection d'un compte"
@@ -5968,4 +6054,3 @@ msgstr "Une opé de ventilation a été marquée pour la suppression alors qu'el
 #~ msgstr ""
 #~ "Afficher tous les modes de règlement\n"
 #~ "dans le formulaire"
-

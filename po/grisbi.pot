@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-01 21:51+0100\n"
+"POT-Creation-Date: 2004-03-03 20:24+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -259,8 +259,8 @@ msgstr ""
 #: src/affichage_liste.c:32 src/echeancier_formulaire.c:1066
 #: src/echeancier_formulaire.c:2367 src/etats_config.c:262
 #: src/etats_affiche.c:1946 src/operations_formulaire.c:1112
-#: src/operations_formulaire.c:3371 src/ventilation.c:944
-#: src/ventilation.c:1465
+#: src/operations_formulaire.c:3371 src/ventilation.c:936
+#: src/ventilation.c:1457
 msgid "Budgetary line"
 msgstr ""
 
@@ -270,8 +270,8 @@ msgstr ""
 #: src/echeancier_formulaire.c:986 src/echeancier_formulaire.c:2359
 #: src/imputation_budgetaire.c:154 src/operations_formulaire.c:876
 #: src/operations_formulaire.c:3359 src/type_operations.c:143
-#: src/type_operations.c:420 src/type_operations.c:862 src/ventilation.c:890
-#: src/ventilation.c:909 src/ventilation.c:1461
+#: src/type_operations.c:420 src/type_operations.c:862 src/ventilation.c:882
+#: src/ventilation.c:901 src/ventilation.c:1453
 msgid "Debit"
 msgstr ""
 
@@ -282,8 +282,8 @@ msgstr ""
 #: src/echeancier_formulaire.c:2361 src/imputation_budgetaire.c:170
 #: src/operations_formulaire.c:961 src/operations_formulaire.c:1313
 #: src/operations_formulaire.c:3361 src/type_operations.c:157
-#: src/type_operations.c:427 src/type_operations.c:858 src/ventilation.c:862
-#: src/ventilation.c:937 src/ventilation.c:1463
+#: src/type_operations.c:427 src/type_operations.c:858 src/ventilation.c:854
+#: src/ventilation.c:929 src/ventilation.c:1455
 msgid "Credit"
 msgstr ""
 
@@ -321,7 +321,7 @@ msgstr ""
 #: src/affichage_liste.c:977 src/echeancier_formulaire.c:1076
 #: src/echeancier_formulaire.c:2371 src/etats_affiche.c:1974
 #: src/operations_formulaire.c:1118 src/operations_formulaire.c:3373
-#: src/ventilation.c:951 src/ventilation.c:1467
+#: src/ventilation.c:943 src/ventilation.c:1459
 msgid "Voucher"
 msgstr ""
 
@@ -331,7 +331,7 @@ msgstr ""
 #: src/echeancier_formulaire.c:1082 src/echeancier_formulaire.c:2373
 #: src/echeancier_liste.c:467 src/etats_affiche.c:1953
 #: src/operations_formulaire.c:1125 src/operations_formulaire.c:3376
-#: src/ventilation.c:51 src/ventilation.c:841 src/ventilation.c:1459
+#: src/ventilation.c:51 src/ventilation.c:833 src/ventilation.c:1451
 msgid "Notes"
 msgstr ""
 
@@ -1207,8 +1207,8 @@ msgstr ""
 #: src/echeancier_liste.c:1226 src/operations_formulaire.c:1004
 #: src/operations_formulaire.c:1961 src/operations_formulaire.c:2412
 #: src/operations_formulaire.c:2957 src/operations_liste.c:1578
-#: src/ventilation.c:748 src/ventilation.c:1550 src/ventilation.c:1628
-#: src/ventilation.c:1996 src/ventilation.c:2329
+#: src/ventilation.c:740 src/ventilation.c:1542 src/ventilation.c:1620
+#: src/ventilation.c:1988 src/ventilation.c:2323
 msgid "Transfer"
 msgstr ""
 
@@ -1238,20 +1238,19 @@ msgid "Enter name for export"
 msgstr ""
 
 #: src/categories_onglet.c:3082 src/erreur.c:203 src/erreur.c:205
-#: src/etats_onglet.c:1370 src/fichiers_gestion.c:515
-#: src/fichiers_gestion.c:578 src/fichiers_gestion.c:580
-#: src/fichiers_gestion.c:629 src/fichiers_gestion.c:631
-#: src/imputation_budgetaire.c:2821 src/qif.c:1486
+#: src/etats_onglet.c:1370 src/fichiers_gestion.c:559
+#: src/fichiers_gestion.c:561 src/fichiers_gestion.c:609
+#: src/fichiers_gestion.c:611 src/imputation_budgetaire.c:2821 src/qif.c:1486
 msgid "Save file"
 msgstr ""
 
 #: src/categories_onglet.c:3086 src/etats_onglet.c:1374
-#: src/fichiers_gestion.c:519 src/imputation_budgetaire.c:2825 src/qif.c:1490
+#: src/imputation_budgetaire.c:2825 src/qif.c:1490
 msgid "File exists. Do you want to overwrite it?"
 msgstr ""
 
 #: src/categories_onglet.c:3105 src/etats_onglet.c:1393
-#: src/fichiers_gestion.c:541 src/imputation_budgetaire.c:2844 src/qif.c:1508
+#: src/imputation_budgetaire.c:2844 src/qif.c:1508
 #, c-format
 msgid "Invalid filename \"%s\"!"
 msgstr ""
@@ -1409,7 +1408,7 @@ msgid ""
 msgstr ""
 
 #: src/comptes_gestion.c:1839
-msgid "exchange rate beetween the 2 currencies is 0."
+msgid "exchange rate between the 2 currencies is 0."
 msgstr ""
 
 #: src/comptes_gestion.c:1846 src/devises.c:378 src/devises.c:992
@@ -1424,8 +1423,8 @@ msgstr ""
 #: src/etats_calculs.c:2593 src/etats_calculs.c:2598
 #: src/operations_formulaire.c:2706 src/operations_formulaire.c:2707
 #: src/operations_liste.c:1510 src/operations_liste.c:1512
-#: src/ventilation.c:2881 src/ventilation.c:2883 src/ventilation.c:3099
-#: src/ventilation.c:3101
+#: src/ventilation.c:2893 src/ventilation.c:2895 src/ventilation.c:3111
+#: src/ventilation.c:3113
 msgid "Euro"
 msgstr ""
 
@@ -1444,8 +1443,8 @@ msgid "Remove an account"
 msgstr ""
 
 #: src/comptes_traitements.c:145 src/comptes_traitements.c:155
-#: src/operations_formulaire.c:2244 src/operations_liste.c:2689
-#: src/operations_liste.c:2866
+#: src/operations_formulaire.c:2244 src/operations_liste.c:2693
+#: src/operations_liste.c:2872
 msgid "Cannot allocate memory, bad things will happen soon"
 msgstr ""
 
@@ -2831,7 +2830,7 @@ msgstr ""
 msgid "No exchange rate defined"
 msgstr ""
 
-#: src/dialog.c:110 src/fichiers_io.c:6446 src/fichiers_io.c:9347
+#: src/dialog.c:164 src/fichiers_io.c:6453 src/fichiers_io.c:9353
 msgid "Do not show this message again"
 msgstr ""
 
@@ -2851,7 +2850,7 @@ msgstr ""
 
 #: src/echeancier_formulaire.c:408 src/echeancier_formulaire.c:409
 #: src/operations_formulaire.c:416 src/operations_formulaire.c:417
-#: src/ventilation.c:572 src/ventilation.c:573
+#: src/ventilation.c:568 src/ventilation.c:569
 msgid "Choose the financial year"
 msgstr ""
 
@@ -2916,7 +2915,7 @@ msgstr ""
 
 #: src/echeancier_formulaire.c:1055 src/echeancier_formulaire.c:2363
 #: src/operations_formulaire.c:1099 src/operations_formulaire.c:3366
-#: src/ventilation.c:834 src/ventilation.c:1457
+#: src/ventilation.c:826 src/ventilation.c:1449
 msgid "Categories : Sub-categories"
 msgstr ""
 
@@ -3095,7 +3094,7 @@ msgstr ""
 
 #. mise en place de la frame des comptes
 #: src/equilibrage.c:1582 src/etats_config.c:136 src/etats_config.c:7110
-#: src/fenetre_principale.c:84 src/menu.c:156 src/operations_onglet.c:80
+#: src/fenetre_principale.c:84 src/menu.c:177 src/operations_onglet.c:80
 msgid "Accounts"
 msgstr ""
 
@@ -3156,8 +3155,8 @@ msgstr ""
 
 #. à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors
 #. la version nécessaire pour l'ouvrir
-#: src/etat_io.c:71 src/fichiers_io.c:222 src/fichiers_io.c:8796
-#: src/fichiers_io.c:9147
+#: src/etat_io.c:71 src/fichiers_io.c:222 src/fichiers_io.c:8802
+#: src/fichiers_io.c:9153
 #, c-format
 msgid "Grisbi version %s is needed to open this file"
 msgstr ""
@@ -4518,7 +4517,7 @@ msgstr ""
 msgid "Formatting transactions"
 msgstr ""
 
-#: src/fichiers_gestion.c:418 src/fichiers_gestion.c:607
+#: src/fichiers_gestion.c:418 src/fichiers_gestion.c:588
 msgid "Save file?"
 msgstr ""
 
@@ -4530,16 +4529,30 @@ msgstr ""
 msgid "Enter a name for the account file"
 msgstr ""
 
+#: src/fichiers_gestion.c:515
+msgid "File already exists"
+msgstr ""
+
+#: src/fichiers_gestion.c:516
+#, c-format
+msgid "Do you want to overwrite file \"%s\"?"
+msgstr ""
+
+#: src/fichiers_gestion.c:524
+#, c-format
+msgid "Invalid filename: \"%s\"!"
+msgstr ""
+
 #. Création de la fenêtre principale
-#: src/fichiers_gestion.c:766 src/fichiers_gestion.c:777 src/main.c:133
+#: src/fichiers_gestion.c:746 src/fichiers_gestion.c:757 src/main.c:133
 msgid "Grisbi"
 msgstr ""
 
-#: src/fichiers_gestion.c:775
+#: src/fichiers_gestion.c:755
 msgid "Grisbi - No name"
 msgstr ""
 
-#: src/fichiers_gestion.c:805
+#: src/fichiers_gestion.c:786
 msgid "Saving backup"
 msgstr ""
 
@@ -4559,7 +4572,12 @@ msgid ""
 "Keep it for a while just in case."
 msgstr ""
 
-#: src/fichiers_io.c:306 src/fichiers_io.c:2033 src/fichiers_io.c:4256
+#: src/fichiers_io.c:306 src/fichiers_io.c:2034 src/fichiers_io.c:4259
+#, c-format
+msgid "File \"%s\" is already opened"
+msgstr ""
+
+#: src/fichiers_io.c:307 src/fichiers_io.c:2035 src/fichiers_io.c:4260
 msgid ""
 "Either this file is already opened by another user or it wasn't closed "
 "correctly (maybe Grisbi crashed?).\n"
@@ -4568,7 +4586,7 @@ msgid ""
 msgstr ""
 
 #. FIXME
-#: src/fichiers_io.c:1900
+#: src/fichiers_io.c:1901
 msgid ""
 "There was a bug in versions before 0.4.0, which could lead to orphan "
 "transactions (either transfers without countra-transaction, or breakdown "
@@ -4578,21 +4596,26 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/fichiers_io.c:1906
+#: src/fichiers_io.c:1907
 msgid "breakdown transactions, all of them were deleted.\n"
 msgstr ""
 
-#: src/fichiers_io.c:1913
+#: src/fichiers_io.c:1914
 msgid "transfers without contra-transaction, which categories were deleted.\n"
 msgstr ""
 
-#: src/fichiers_io.c:1918
+#: src/fichiers_io.c:1919
 msgid ""
 "These modifications should not impact on neither Grisbi's behavior nor your "
 "accounts balances."
 msgstr ""
 
-#: src/fichiers_io.c:6444
+#: src/fichiers_io.c:6449
+#, c-format
+msgid "Can not save file \"%s\""
+msgstr ""
+
+#: src/fichiers_io.c:6451
 #, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked.  Please save it "
@@ -4600,37 +4623,37 @@ msgid ""
 "choose the \"%s\" option below."
 msgstr ""
 
-#: src/fichiers_io.c:6445 src/parametres.c:449
+#: src/fichiers_io.c:6452 src/parametres.c:449
 msgid "Force saving of locked files"
 msgstr ""
 
-#: src/fichiers_io.c:8499 src/fichiers_io.c:8750 src/fichiers_io.c:9102
+#: src/fichiers_io.c:8505 src/fichiers_io.c:8756 src/fichiers_io.c:9108
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr ""
 
-#: src/fichiers_io.c:8576
+#: src/fichiers_io.c:8582
 #, c-format
 msgid "Cannot lock file '%s': %s"
 msgstr ""
 
-#: src/fichiers_io.c:8782
+#: src/fichiers_io.c:8788
 msgid "This file is not a Grisbi category list file"
 msgstr ""
 
-#: src/fichiers_io.c:8805
+#: src/fichiers_io.c:8811
 msgid "Invalid categories file"
 msgstr ""
 
-#: src/fichiers_io.c:9133
+#: src/fichiers_io.c:9139
 msgid "This file is not a grisbi budgetary lines file"
 msgstr ""
 
-#: src/fichiers_io.c:9156
+#: src/fichiers_io.c:9162
 msgid "Invalid budgetary lines file"
 msgstr ""
 
-#: src/fichiers_io.c:9344
+#: src/fichiers_io.c:9350
 msgid ""
 "Your account file should not be readable by anybody else, but it is. You "
 "should change its permissions.\n"
@@ -4934,19 +4957,55 @@ msgstr ""
 msgid "Remove selected transaction"
 msgstr ""
 
-#: src/menu.c:152
+#. Clone transaction
+#: src/menu.c:145 src/operations_liste.c:2558
+msgid "Clone transaction"
+msgstr ""
+
+#: src/menu.c:146
+msgid "Clone selected transaction"
+msgstr ""
+
+#. Edit transaction
+#: src/menu.c:149 src/operations_liste.c:2568
+msgid "Edit transaction"
+msgstr ""
+
+#: src/menu.c:150
+msgid "Edit selected transaction"
+msgstr ""
+
+#. Convert to scheduled transaction
+#: src/menu.c:154 src/operations_liste.c:2580
+msgid "Convert transaction to scheduled transaction"
+msgstr ""
+
+#: src/menu.c:155
+msgid "Convert selected transaction to scheduled transaction"
+msgstr ""
+
+#. Move to another account
+#: src/menu.c:158 src/operations_liste.c:2590
+msgid "Move transaction to another account"
+msgstr ""
+
+#: src/menu.c:159
+msgid "Move selected transaction to another account"
+msgstr ""
+
+#: src/menu.c:173
 msgid "File"
 msgstr ""
 
-#: src/menu.c:154
+#: src/menu.c:175
 msgid "Edit"
 msgstr ""
 
-#: src/menu.c:158
+#: src/menu.c:179
 msgid "Help"
 msgstr ""
 
-#: src/menu.c:189 src/menu.c:234
+#: src/menu.c:210 src/menu.c:255
 msgid "File/Recently opened files/"
 msgstr ""
 
@@ -4989,7 +5048,7 @@ msgid "Breakdown"
 msgstr ""
 
 #: src/operations_formulaire.c:1013 src/operations_formulaire.c:2420
-#: src/operations_formulaire.c:2969 src/ventilation.c:757
+#: src/operations_formulaire.c:2969 src/ventilation.c:749
 msgid "Deleted account"
 msgstr ""
 
@@ -5090,26 +5149,6 @@ msgstr ""
 #. Delete transaction
 #: src/operations_liste.c:2548
 msgid "Delete transaction"
-msgstr ""
-
-#. Clone transaction
-#: src/operations_liste.c:2558
-msgid "Clone transaction"
-msgstr ""
-
-#. Edit transaction
-#: src/operations_liste.c:2568
-msgid "Edit transaction"
-msgstr ""
-
-#. Convert to scheduled transaction
-#: src/operations_liste.c:2580
-msgid "Convert to scheduled transaction"
-msgstr ""
-
-#. Move to another account
-#: src/operations_liste.c:2590
-msgid "Move to another account"
 msgstr ""
 
 #: src/operations_onglet.c:169
@@ -5425,30 +5464,40 @@ msgstr ""
 msgid "Not assigned"
 msgstr ""
 
-#: src/ventilation.c:554 src/ventilation.c:555
+#: src/ventilation.c:550 src/ventilation.c:551
 msgid "Associated method of payment"
 msgstr ""
 
-#: src/ventilation.c:1569
+#: src/ventilation.c:1561
 msgid "The associated account for this transfer is invalid"
 msgstr ""
 
-#: src/ventilation.c:1575
+#: src/ventilation.c:1567
 msgid "It's impossible to transfer an account to itself"
 msgstr ""
 
-#: src/ventilation.c:1581
+#: src/ventilation.c:1573
 msgid "No account associated with the transfer"
 msgstr ""
 
-#: src/ventilation.c:2167
+#: src/ventilation.c:2160
 msgid "This transaction has a reconciled breakdown line, deletion canceled."
 msgstr ""
 
-#: src/ventilation.c:2194
+#: src/ventilation.c:2187
 msgid "This transfer has a reconciled contra-transaction, deletion canceled."
 msgstr ""
 
-#: src/ventilation.c:2716
+#: src/ventilation.c:2522
+msgid "Incomplete breakdown"
+msgstr ""
+
+#: src/ventilation.c:2523
+msgid ""
+"Transaction amount isn't fully broken down.\n"
+"Proceed anyway?"
+msgstr ""
+
+#: src/ventilation.c:2728
 msgid "A breakdown line is to be deleted though it is not yet registered."
 msgstr ""
