@@ -97,8 +97,8 @@ struct passwd *getpwuid (uid_t uid)
 
     // Get and display the user name.
     GetUserName(lpszSystemInfo, &cchBuff);
-    g_strlcat  (current_user.pw_name,lpszSystemInfo,MAX_PATH);
-    g_strlcat  (current_user.pw_gecos,lpszSystemInfo,MAX_PATH);
+    g_strlcpy  (current_user.pw_name,lpszSystemInfo,MAX_PATH);
+    g_strlcpy  (current_user.pw_gecos,lpszSystemInfo,MAX_PATH);
     return     &current_user; 
 }
 
