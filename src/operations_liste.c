@@ -841,14 +841,14 @@ void remplissage_liste_operations ( gint compte )
 
     /* on met les soldes en bas */
 
-    gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
-			 g_strdup_printf ( PRESPACIFY(_("Checked balance: %4.2f %s")),
-					   SOLDE_POINTE,
-					   devise_name_by_no ( DEVISE )));
-    gtk_label_set_text ( GTK_LABEL ( solde_label ),
-			 g_strdup_printf ( PRESPACIFY(_("Current balance: %4.2f %s")),
-					   SOLDE_COURANT,
-					   devise_name_by_no ( DEVISE )));
+/*     gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ), */
+/* 			 g_strdup_printf ( PRESPACIFY(_("Checked balance: %4.2f %s")), */
+/* 					   SOLDE_POINTE, */
+/* 					   devise_name_by_no ( DEVISE ))); */
+/*     gtk_label_set_text ( GTK_LABEL ( solde_label ), */
+/* 			 g_strdup_printf ( PRESPACIFY(_("Current balance: %4.2f %s")), */
+/* 					   SOLDE_COURANT, */
+/* 					   devise_name_by_no ( DEVISE ))); */
 }
 /******************************************************************************/
 
@@ -3136,6 +3136,7 @@ gboolean affichage_traits_liste_operation ( void )
     /*     ça peut ralentir bcp... à vérifier  */
 
     fenetre = gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ));
+
     gdk_drawable_get_size ( GDK_DRAWABLE ( fenetre ),
 			    &largeur,
 			    &hauteur );

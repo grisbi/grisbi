@@ -197,7 +197,7 @@ gboolean change_page_notebook ( GtkNotebook *notebook,
 
 	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
-	    if ( !STORE_LISTE_OPERATIONS )
+	    if ( VALUE_AJUSTEMENT_LISTE_OPERATIONS == -1 )
 	    {
 		gint i;
 

@@ -49,6 +49,8 @@
 #include "parametres.h"
 #include "traitement_variables.h"
 #include "utils.h"
+#include "operations_liste.h"
+#include "operations_comptes.h"
 
 
 
@@ -58,6 +60,7 @@
 GtkWidget *window_vbox_principale;
 GtkWidget *menu_general;
 GtkItemFactory *item_factory_menu_general;
+gint id_fonction_idle;
 
 
 /***********************************************************************************************
@@ -143,10 +146,6 @@ int main (int argc, char *argv[])
 			    GTK_SIGNAL_FUNC ( fermeture_grisbi ),
 			    NULL );
 
-	gtk_signal_connect ( GTK_OBJECT ( window ),
-			     "size-allocate",
-			     GTK_SIGNAL_FUNC ( tente_modif_taille ),
-			     NULL );
 	gtk_window_set_policy ( GTK_WINDOW ( window ),
 				TRUE,
 				TRUE,
@@ -204,6 +203,11 @@ int main (int argc, char *argv[])
 
 	initialisation_couleurs_listes ();
 
+	/* 	on met en place l'idle */
+
+	id_fonction_idle = g_idle_add ( (GSourceFunc) utilisation_temps_idle,
+					NULL );
+	
 	/* on vérifie les arguments de ligne de commande */
 
 	demande_page = 0;
@@ -407,21 +411,77 @@ int main (int argc, char *argv[])
 /************************************************************************************************/
 
 
-
 /************************************************************************************************/
-gint tente_modif_taille ( GtkWidget *win,
-			  GtkAllocation *requisition,
-			  gpointer null )
+gboolean utilisation_temps_idle ( gpointer null )
 {
+    gint i;
 
-    if ( requisition -> width < 800 )
-	gtk_signal_emit_stop_by_name ( GTK_OBJECT ( window ),
-				       "size-allocate" );
-    /*     gtk_widget_set_usize ( window, */
-    /* 			   850, */
-    /* 			   requisition -> height ); */
+    if ( !nb_comptes )
+	return TRUE;
 
-    return ( TRUE );
+/*     dans l'ordre, on va créer et remplir la liste d'opé du compte courant, */
+/*     le 1er à être ouvert, puis les autres comptes */
 
+/*     création du list_store du compte courant */
+
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+
+    if ( !STORE_LISTE_OPERATIONS )
+    {
+	if ( DEBUG )
+	    printf ( "remplissage compte courant no %d par idle\n", compte_courant );
+	remplissage_liste_operations ( compte_courant );
+	return TRUE;
+    }
+
+/*     création du tree_view du compte_courant */
+
+    if ( !gtk_tree_view_get_model ( GTK_TREE_VIEW (TREE_VIEW_LISTE_OPERATIONS)))
+    {
+	if ( DEBUG )
+	    printf ( "attribution compte courant no %d par idle\n", compte_courant);
+	gtk_tree_view_set_model ( GTK_TREE_VIEW (TREE_VIEW_LISTE_OPERATIONS),
+				  GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ));
+	gtk_widget_realize ( TREE_VIEW_LISTE_OPERATIONS );
+	return TRUE;
+    }
+ 
+/*     création du list_store des différents comptes */
+	
+    for ( i=0 ; i<nb_comptes ; i++ )
+    {
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+
+	if ( !STORE_LISTE_OPERATIONS )
+	{
+	    if ( DEBUG )
+		printf ( "remplissage compte %d par idle\n", i );
+	    remplissage_liste_operations ( i );
+	    return TRUE;
+	}
+    }
+
+/*     création des tree_view des différents comptes */
+
+    for ( i=0 ; i<nb_comptes ; i++ )
+    {
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+
+	if ( !gtk_tree_view_get_model ( GTK_TREE_VIEW (TREE_VIEW_LISTE_OPERATIONS)))
+	{
+	    if ( DEBUG )
+		printf ( "attribution compte %d par idle\n", i );
+	    gtk_tree_view_set_model ( GTK_TREE_VIEW (TREE_VIEW_LISTE_OPERATIONS),
+				      GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ));
+	    gtk_widget_realize ( TREE_VIEW_LISTE_OPERATIONS );
+	    return TRUE;
+	}
+    }
+
+	
+
+    id_fonction_idle = 0; 
+    return FALSE;
 }
 /************************************************************************************************/
+

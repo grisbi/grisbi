@@ -40,10 +40,12 @@
 #include "utils.h"
 #include "ventilation.h"
 #include "gtk_list_button.h"
+#include "main.h"
 
 
 
 extern GtkItemFactory *item_factory_menu_general;
+extern gint id_fonction_idle;
 
 
 
@@ -362,19 +364,36 @@ gboolean changement_compte ( gint *compte)
     /*     si le list_store a déjà été créé, on ne fait juste que l'afficher, sinon on le crée puis l'affiche */
 
     if ( !STORE_LISTE_OPERATIONS )
+    {
+	/* 	on commence par arrêter les appels à l'idle */
+
+	if ( id_fonction_idle )
+	{
+	    g_source_remove ( id_fonction_idle );
+	    id_fonction_idle = 0;
+	}
 	remplissage_liste_operations ( compte_courant );
-    
-    gtk_tree_view_set_model ( GTK_TREE_VIEW (TREE_VIEW_LISTE_OPERATIONS),
-			      GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ));
+    }
 
-    /*     on affiche le tree_view */
+    if ( !gtk_tree_view_get_model ( GTK_TREE_VIEW (TREE_VIEW_LISTE_OPERATIONS)))
+    {
+	if ( id_fonction_idle )
+	{
+	    g_source_remove ( id_fonction_idle );
+	    id_fonction_idle = 0;
+	}
 
-    gtk_widget_show ( SCROLLED_WINDOW_LISTE_OPERATIONS );
+	gtk_tree_view_set_model ( GTK_TREE_VIEW (TREE_VIEW_LISTE_OPERATIONS),
+				  GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ));
+	gtk_widget_realize ( TREE_VIEW_LISTE_OPERATIONS );
+	while ( g_main_iteration (FALSE));
 
+	/* 	on remet en place l'idle */
 
-    /*     on affiche complètement la liste avant de la bouger en bas ou de restaurer la value */
-
-    while ( g_main_iteration (FALSE));
+	id_fonction_idle = g_idle_add ( (GSourceFunc) utilisation_temps_idle,
+					NULL );
+	
+    }
 
     /*     on restore ou initialise la value du tree_view */
     /* 	si VALUE_AJUSTEMENT_LISTE_OPERATIONS = -1, c'est que c'est la première ouverture, on se met tout en bas */
@@ -391,6 +410,10 @@ gboolean changement_compte ( gint *compte)
     else
 	gtk_adjustment_set_value ( GTK_ADJUSTMENT ( gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
 				   VALUE_AJUSTEMENT_LISTE_OPERATIONS );
+
+    /*     on affiche le tree_view */
+
+    gtk_widget_show ( SCROLLED_WINDOW_LISTE_OPERATIONS );
 
     return FALSE;
 }
