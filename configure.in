@@ -1,6 +1,6 @@
 AC_INIT(src/main.c)
 
-AM_INIT_AUTOMAKE(grisbi, 1.0 )
+AM_INIT_AUTOMAKE(clovis, 1.0 )
 AM_CONFIG_HEADER(config.h)
 
 AM_ACLOCAL_INCLUDE(macros)
@@ -38,7 +38,7 @@ dnl ALL_LINGUAS=""
 dnl AM_GNU_GETTEXT
 
 dnl Subst prefix
-prefix=`gnome-config gnomeui --prefix 2>/dev/null`
+dnl prefix=`gnome-config gnomeui --prefix 2>/dev/null`
 AC_SUBST(prefix)
 
 EXTRA_GNOME_LIBS=``
@@ -47,8 +47,8 @@ EXTRA_GNOME_CFLAGS=``
 AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)
 
-CFLAGS="$CFLAGS `$GNOME_CONFIG --cflags gnome gtk glib applets xml gdk_pixbuf`"
-LDFLAGS="$LDFLAGS `$GNOME_CONFIG --libs gnome gtk glib applets xml gdk_pixbuf`"
+CFLAGS="$CFLAGS `$GNOME_CONFIG --cflags gnome gtk glib applets xml`"
+LDFLAGS="$LDFLAGS `$GNOME_CONFIG --libs gnome gtk glib applets xml`"
 
 AC_SUBST(CFLAGS)
 AC_SUBST(CPPFLAGS)
