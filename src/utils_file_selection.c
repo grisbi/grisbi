@@ -28,6 +28,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "include.h"
 #include "utils_file_selection.h"
 #include <gtk/gtk.h>
 
