@@ -348,7 +348,6 @@ GtkWidget *creation_verification_ventilation ( void )
     gtk_widget_show ( bouton );
 
     bouton = gtk_button_new_from_stock (GTK_STOCK_OK);
-
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
     gtk_signal_connect ( GTK_OBJECT ( bouton ),
@@ -699,7 +698,6 @@ GtkWidget *creation_formulaire_ventilation ( void )
 		       FALSE,
 		       0 );
     gtk_widget_show ( bouton );
-
 
     /*   met l'adr de l'opé dans le formulaire à -1 */
 
@@ -2633,7 +2631,11 @@ void quitter_ventilation ( void )
 
     gtk_widget_show ( barre_outils );
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_listes_operations ), compte_courant + 1 );
-    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ), 0 );
+    if ( etat.equilibrage )
+	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ), 2 );
+    else
+	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ), 0 );
+
     gtk_widget_show ( formulaire );
 
     /* On a réaffiché le formulaire, on peut débloquer les fonctions
