@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # autogen.sh glue for Grisbi
-# $Id: autogen.sh,v 1.1.2.9 2004/12/16 09:41:59 dionysos-sf Exp $
+# $Id: autogen.sh,v 1.1.2.10 2005/01/07 19:24:18 benj2 Exp $
 #
 # Requires: automake, autoconf, dpkg-dev
 
@@ -31,7 +31,7 @@ then
 fi
 
 # Refresh GNU autotools toolchain.
-for i in config.guess config.sub missing install-sh mkinstalldirs ; do
+for i in config.guess config.sub missing install-sh mkinstalldirs depcomp ; do
 	test -r $PATH_AUTOMAKE/${i} && {
 		rm -f ${i}
 		cp $PATH_AUTOMAKE/${i} .
