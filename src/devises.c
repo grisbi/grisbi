@@ -1,7 +1,6 @@
 /* Fichier devises.c */
 /* s'occupe de tout ce qui concerne les devises */
 
-
 /*     Copyright (C) 2000-2003  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
@@ -27,6 +26,7 @@
 #include "en_tete.h"
 
 
+GtkWidget *entree_nom, *entree_code, *entree_iso_code;
 
 static struct iso_4217_currency iso_4217_currencies[] = {
   { "ET", "Afrique", "Birr", "Ethiopie", "ETB", NULL },
@@ -202,6 +202,8 @@ static struct iso_4217_currency iso_4217_currencies[] = {
 };
 
 
+
+
 gint
 sort_tree (GtkTreeModel *model,
 	   GtkTreeIter *a,
@@ -216,26 +218,52 @@ sort_tree (GtkTreeModel *model,
 
   gtk_tree_model_get_value (model, a, CONTINENT_NAME_COLUMN, &value1);
   gtk_tree_model_get_value (model, b, CONTINENT_NAME_COLUMN, &value2);
-  continent1 = g_value_get_string(&value1);
-  continent2 = g_value_get_string(&value2);
+  continent1 = (gchar *) g_value_get_string(&value1);
+  continent2 = (gchar *) g_value_get_string(&value2);
 
   gtk_tree_model_get_value (model, a, COUNTRY_NAME_COLUMN, &value3);
   gtk_tree_model_get_value (model, b, COUNTRY_NAME_COLUMN, &value4);
-  country1 = g_value_get_string(&value3);
-  country2 = g_value_get_string(&value4);
+  country1 = (gchar *) g_value_get_string(&value3);
+  country2 = (gchar *) g_value_get_string(&value4);
 
   if (! strcmp(continent1, continent2))
     {
-      printf (">>> country: %d\n", strcmp(country1, country2));
       return strcmp(country1, country2);
     }
   else
     {
-      printf (">>> continent: %d\n", strcmp(continent1, continent2));
       return strcmp(continent1, continent2);
     }
 }
 
+
+gboolean
+select_currency_in_iso_list (GtkTreeSelection *selection,
+			     GtkTreeModel *model)
+{
+  GtkTreeIter iter;
+  GValue value1 = {0, };
+  GValue value2 = {0, };
+  GValue value3 = {0, };
+
+  if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
+    return;
+
+  gtk_tree_model_get_value (model, &iter, CURRENCY_NAME_COLUMN, &value1);
+  gtk_tree_model_get_value (model, &iter, CURRENCY_ISO_CODE_COLUMN, &value2);
+  gtk_tree_model_get_value (model, &iter, CURRENCY_NICKNAME_COLUMN, &value3);
+
+  if (g_value_get_string(&value1))
+    gtk_entry_set_text ( GTK_ENTRY ( entree_nom ), 
+			 g_value_get_string(&value1) );
+  if (g_value_get_string(&value2))
+    gtk_entry_set_text ( GTK_ENTRY ( entree_iso_code ), 
+			 g_value_get_string(&value2) );
+  if (g_value_get_string(&value3))
+    gtk_entry_set_text ( GTK_ENTRY ( entree_code ), 
+			 g_value_get_string(&value3) );
+
+}
 
 
 /* ***************************************************************************************************** */
@@ -259,7 +287,7 @@ void creation_devises_de_base ( void )
   devise -> no_devise = 1;
   devise -> nom_devise= g_strdup ( _("Euro") );
   devise -> code_iso4217_devise = g_strdup ( _("EUR") );
-  devise -> code_devise = g_strdup ( _("�") );
+  devise -> code_devise = g_strdup ( _("€") );
   devise -> passage_euro = 0;
   devise -> date_dernier_change = NULL;
   devise -> une_devise_1_egale_x_devise_2 = 0;
@@ -383,7 +411,7 @@ new_currency_list ()
 				       GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
 				  GTK_POLICY_NEVER,
-				  GTK_POLICY_AUTOMATIC);
+				  GTK_POLICY_ALWAYS);
   /* create tree store */
   model = gtk_tree_store_new (NUM_CURRENCIES_COLUMNS,
 			      G_TYPE_STRING,
@@ -421,12 +449,12 @@ new_currency_list ()
   /* create tree view */
   treeview = gtk_tree_view_new_with_model (model);
   gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
-  gtk_tree_selection_set_mode (gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview)),
-			       GTK_SELECTION_MULTIPLE);
-
+  g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview)), 
+		    "changed", 
+		    G_CALLBACK (select_currency_in_iso_list),
+		    model);
 
   cell = gtk_cell_renderer_text_new ();
-  g_object_set (cell, "xalign", 0.0, NULL);
   col_offset = 
     gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview),
 						 -1, _("Country name"),
@@ -437,7 +465,6 @@ new_currency_list ()
   gtk_tree_view_column_set_clickable (GTK_TREE_VIEW_COLUMN (column), TRUE);
 
   cell = gtk_cell_renderer_text_new ();
-  g_object_set (cell, "xalign", 0.0, NULL);
   col_offset = 
     gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview),
 						 -1, _("Currency name"),
@@ -448,7 +475,6 @@ new_currency_list ()
   gtk_tree_view_column_set_clickable (GTK_TREE_VIEW_COLUMN (column), TRUE);
 
   cell = gtk_cell_renderer_text_new ();
-  g_object_set (cell, "xalign", 0.0, NULL);
   col_offset = 
     gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview),
 						 -1, _("ISO Code"), 
@@ -459,10 +485,9 @@ new_currency_list ()
   gtk_tree_view_column_set_clickable (GTK_TREE_VIEW_COLUMN (column), TRUE);
 
   cell = gtk_cell_renderer_text_new ();
-  g_object_set (cell, "xalign", 0.0, NULL);
   col_offset = 
     gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview),
-						 -1, _("Nickname"), 
+						 -1, _("Sign"), 
 						 cell, "text",
 						 CURRENCY_NICKNAME_COLUMN,
 						 NULL);
@@ -480,6 +505,7 @@ new_currency_list ()
 
   gtk_widget_set_usize ( treeview, FALSE, 200 );
   gtk_container_add (GTK_CONTAINER (sw), treeview);
+  gtk_container_set_resize_mode (GTK_CONTAINER (sw), GTK_RESIZE_PARENT);
 
   return sw;
 }
@@ -496,25 +522,18 @@ new_currency_list ()
 void ajout_devise ( GtkWidget *bouton,
 		    GtkWidget *widget )
 {
-  GtkWidget *dialog;
-  GtkWidget *label;
-  gint resultat;
-  GtkWidget *hbox;
-  GtkWidget *entree_nom;
-  GtkWidget *entree_code, *entree_iso_code;
-  GtkWidget *check_bouton;
-  GtkWidget*hbox_passage_euro;
-  GtkWidget *entree_conversion_euro;
+  GtkWidget *dialog, *label, *hbox, *table;
+  GtkWidget *check_bouton, *entree_conversion_euro;
+  GtkWidget *label_nom_devise, *list, *paddingbox;
   struct struct_devise *devise;
-  gchar *nom_devise;
-  gchar *code_devise, *code_iso4217_devise;
-  GtkWidget *label_nom_devise;
-  GtkWidget * list;
+  gchar *nom_devise, *code_devise, *code_iso4217_devise;
+  gint resultat;
 
   dialog = gnome_dialog_new ( _("Add a currency"),
 				GNOME_STOCK_BUTTON_OK,
 				GNOME_STOCK_BUTTON_CANCEL,
 				NULL );
+  gtk_container_set_border_width ( GTK_WIDGET ( dialog ), 10 );
   gtk_signal_connect ( GTK_OBJECT ( dialog ),
 		       "destroy",
 		       GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
@@ -528,156 +547,114 @@ void ajout_devise ( GtkWidget *bouton,
   gnome_dialog_set_default ( GNOME_DIALOG ( dialog ),
 			    0 );
 
+  paddingbox = 
+    paddingbox_new_with_title (GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+			       _("ISO 4217 currencies"));
   list = new_currency_list ();
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ), list,
+  gtk_box_pack_start ( paddingbox , list,
 		       FALSE, FALSE, 5 );
-  gtk_widget_show_all ( list );
 
+  paddingbox = 
+    paddingbox_new_with_title (GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+			       _("Currency details"));
+  
+  /* Create table */
+  table = gtk_table_new ( 2, 2, FALSE );
+  gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
+		       table,
+		       TRUE, TRUE, 0 );
 
-  label = gtk_label_new ( COLON(_("New currency")) );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( label );
-
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( hbox );
-
-
-  label = gtk_label_new ( COLON(_("Currency name")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( label );
-
+  /* Currency name */
+  label = gtk_label_new (COLON(_("Currency name")));
+  gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+  gtk_label_set_justify ( label, GTK_JUSTIFY_RIGHT );
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     label, 
+		     0, 1, 0, 1,
+		     GTK_SHRINK | GTK_FILL, 0,
+		     0, 0 );
   entree_nom = gtk_entry_new ();
-
   gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
 				 GTK_EDITABLE ( entree_nom ));
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       entree_nom,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( entree_nom );
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     entree_nom, 1, 2, 0, 1,
+		     GTK_EXPAND|GTK_FILL, 0,
+		     0, 0 );
 
+  /* Currency ISO code */
+  label = gtk_label_new (COLON(_("Currency ISO 4217 code")));
+  gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+  gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     label, 
+		     0, 1, 1, 2,
+		     GTK_SHRINK | GTK_FILL, 0,
+		     0, 0 );
+  entree_iso_code = gtk_entry_new ();
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     entree_iso_code, 1, 2, 1, 2,
+		     GTK_EXPAND|GTK_FILL, 0,
+		     0, 0 );
+
+  /* Currency usual sign */
+  label = gtk_label_new (COLON(_("Currency sign")));
+  gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+  gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     label,
+		     0, 1, 2, 3,
+		     GTK_SHRINK | GTK_FILL, 0,
+		     0, 0 );
+  entree_code = gtk_entry_new ();
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     entree_code, 1, 2, 2, 3,
+		     GTK_EXPAND|GTK_FILL, 0,
+		     0, 0 );
+
+  /* Swith to Euro */
+  paddingbox = 
+    paddingbox_new_with_title (GTK_WIDGET ( GNOME_DIALOG ( dialog ) -> vbox ),
+			       _("Euro zone currency"));
+
+  check_bouton = gtk_check_button_new_with_label ( _("Will switch to euro") );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), check_bouton,
+		       TRUE, TRUE, 0 );
 
   hbox = gtk_hbox_new ( FALSE, 5 );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ), hbox,
-		       FALSE, FALSE, 5 );
-  gtk_widget_show ( hbox );
-
-  label = gtk_label_new ( COLON(_("Currency code")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( label );
-
-  entree_code = gtk_entry_new ();
-  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
-				 GTK_EDITABLE ( entree_code ));
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       entree_code,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( entree_code );
-
-
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( hbox );
-
-  label = gtk_label_new ( COLON(_("Currency ISO 4217 code")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( label );
-
-  entree_iso_code = gtk_entry_new ();
-  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
-				 GTK_EDITABLE ( entree_iso_code ));
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       entree_iso_code,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( entree_iso_code );
-
-  check_bouton = gtk_check_button_new_with_label ( _("This currency will switch to the euro") );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       check_bouton,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( check_bouton );
-
-  hbox_passage_euro = gtk_hbox_new ( FALSE,
-				     5  );
-  gtk_signal_connect ( GTK_OBJECT ( check_bouton ),
-		       "toggled",
-		       GTK_SIGNAL_FUNC ( passe_a_l_euro ),
-		       hbox_passage_euro );
-  gtk_widget_set_sensitive ( hbox_passage_euro,
-			     FALSE );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       hbox_passage_euro,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( hbox_passage_euro );
- 
-  label = gtk_label_new ( POSTSPACIFY(_("1 Euro equals")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox_passage_euro ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( label );
-
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
+		       TRUE, TRUE, 0 );
+  label = gtk_label_new ( POSTSPACIFY(_("One Euro equals")) );
+  gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+  gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
+		       TRUE, TRUE, 0 );
   entree_conversion_euro = gtk_entry_new ();
   gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
 				 GTK_EDITABLE ( entree_conversion_euro ));
-  gtk_box_pack_start ( GTK_BOX ( hbox_passage_euro ),
-		       entree_conversion_euro,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( entree_conversion_euro );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), entree_conversion_euro,
+		       TRUE, TRUE, 0 );
 
+  /* Do not activate the "Switch to euro" stuff */
+  gtk_widget_set_sensitive (entree_conversion_euro, FALSE );
+  gtk_widget_set_sensitive (label, FALSE );
+  gtk_signal_connect ( GTK_OBJECT ( check_bouton ),
+		       "toggled",
+		       GTK_SIGNAL_FUNC ( passe_a_l_euro ),
+		       entree_conversion_euro);
+  gtk_signal_connect ( GTK_OBJECT ( check_bouton ),
+		       "toggled",
+		       GTK_SIGNAL_FUNC ( passe_a_l_euro ),
+		       label);
 
-  /* mise en place du label_nom_devise qui contiendra le nom de la devise dès que l'entrée nom_devise perd le focus */
-
-  label_nom_devise = gtk_label_new ( NULL );
-  gtk_box_pack_start ( GTK_BOX ( hbox_passage_euro ),
-		       label_nom_devise,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( label_nom_devise );
-
+  /* Currency name.  This label will be labeled after the entree_nom
+     widget. */
+  label_nom_devise = gtk_label_new ( _("...") );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), label_nom_devise,
+		       FALSE, FALSE, 5 );
 
   gtk_signal_connect ( GTK_OBJECT ( entree_nom ),
-		       "focus-out-event",
+		       "changed",
 		       GTK_SIGNAL_FUNC ( nom_nouvelle_devise_defini ),
 		       label_nom_devise );
 
@@ -685,7 +662,7 @@ void ajout_devise ( GtkWidget *bouton,
   gtk_editable_set_position ( GTK_EDITABLE ( entree_nom ),
 			   0 );
  reprise_dialog:
-
+  gtk_widget_show_all ( GTK_WIDGET ( dialog ) );
   resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
 
 
@@ -697,7 +674,9 @@ void ajout_devise ( GtkWidget *bouton,
       code_devise = g_strstrip ( g_strdup ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_code ))));
       code_iso4217_devise = g_strstrip ( g_strdup ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_iso_code ))));
  
-      if ( strlen ( nom_devise ) && strlen ( code_devise ) )
+      if ( strlen ( nom_devise ) && 
+	   (strlen ( code_devise ) ||
+	    strlen ( code_iso4217_devise )))
 	{
 	  GtkWidget *menu;
 	  GtkWidget *item;
@@ -823,14 +802,22 @@ gint bloque_echap_choix_devise ( GtkWidget *dialog,
 /***********************************************************************************************************/
 
 gboolean nom_nouvelle_devise_defini ( GtkWidget *entree,
-				  GdkEventFocus *ev,
-				  GtkWidget *label )
+				      GtkWidget *label )
 {
   gchar *nom_devise;
 
-  if ( strlen ( nom_devise = g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-    gtk_label_set_text ( GTK_LABEL ( label ),
-			 nom_devise );
+  nom_devise = g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )));
+  
+  if ( nom_devise || !strlen (nom_devise) )
+    {
+      gtk_label_set_text ( GTK_LABEL ( label ),
+			   nom_devise );
+    }
+  else 
+    {
+      gtk_label_set_text ( GTK_LABEL ( label ),
+			   _("...") );
+    }
 
   return FALSE;
 }
@@ -1059,7 +1046,7 @@ gint selection_devise ( gchar *nom_du_compte )
 
 
 /***********************************************************************************************************/
-void passe_a_l_euro ( GtkWidget *toggle_bouton,
+gboolean passe_a_l_euro ( GtkWidget *toggle_bouton,
 		      GtkWidget *hbox )
 {
 
@@ -1070,8 +1057,7 @@ void passe_a_l_euro ( GtkWidget *toggle_bouton,
     gtk_widget_set_sensitive ( hbox,
 			       FALSE );
 
-
-
+  return FALSE;
 }
 /***********************************************************************************************************/
 
@@ -1449,16 +1435,18 @@ GtkWidget *onglet_devises ( void )
   GSList *liste_tmp;
   gchar *titres_devise [3] = { _("Currency"),
 			       _("Code ISO"),
-			       _("Code") };
+			       _("Sign") };
   GtkWidget *bouton;
   GtkWidget *hbox;
 
   vbox_pref = new_vbox_with_title_and_icon ( _("Currencies"),
 					     "pixmaps/currencies.png" );
 
+  paddingbox = paddingbox_new_with_title (vbox_pref, 
+					  _("Known currencies"));
+  
   hbox = gtk_hbox_new ( FALSE, 5 );
-  gtk_container_set_border_width ( GTK_CONTAINER ( hbox ), 10 );
-  gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox,
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 		       FALSE, FALSE, 0);
   gtk_widget_show ( hbox );
 
@@ -1468,8 +1456,7 @@ GtkWidget *onglet_devises ( void )
 		       FALSE, FALSE, 0);
   gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				   GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_widget_set_usize ( GTK_WIDGET ( scrolled_window ),
-			 FALSE, 120 );
+  gtk_widget_set_usize ( GTK_WIDGET ( scrolled_window ), FALSE, 120 );
   gtk_widget_show ( scrolled_window );
 
   clist_devises_parametres = gtk_clist_new_with_titles ( 3, titres_devise );
@@ -1477,12 +1464,13 @@ GtkWidget *onglet_devises ( void )
 				      0, TRUE );
   gtk_clist_set_column_auto_resize ( GTK_CLIST ( clist_devises_parametres ) ,
 				      1, TRUE );
+  gtk_clist_set_column_auto_resize ( GTK_CLIST ( clist_devises_parametres ) ,
+				      2, TRUE );
   gtk_clist_column_titles_passive ( GTK_CLIST ( clist_devises_parametres ));
   gtk_clist_set_column_justification ( GTK_CLIST ( clist_devises_parametres ),
 				       1, GTK_JUSTIFY_CENTER);
   gtk_clist_set_column_justification ( GTK_CLIST ( clist_devises_parametres ),
-				       2, GTK_JUSTIFY_RIGHT);
-  /* FIXME ? */
+				       2, GTK_JUSTIFY_CENTER);
   gtk_signal_connect_object  ( GTK_OBJECT ( fenetre_preferences ),
 			       "apply",
 			       GTK_SIGNAL_FUNC ( gtk_clist_unselect_all ),
@@ -1606,11 +1594,11 @@ GtkWidget *onglet_devises ( void )
   gtk_signal_connect ( GTK_OBJECT ( clist_devises_parametres ),
 		       "select-row",
 		       GTK_SIGNAL_FUNC ( selection_ligne_devise ),
-		       frame );
+		       paddingbox );
   gtk_signal_connect ( GTK_OBJECT ( clist_devises_parametres ),
 		       "unselect-row",
 		       GTK_SIGNAL_FUNC ( deselection_ligne_devise ),
-		       frame );
+		       paddingbox );
 
   /* Create currency name entry */
   hbox = gtk_hbox_new ( FALSE, 5 );
@@ -1637,7 +1625,7 @@ GtkWidget *onglet_devises ( void )
   hbox = gtk_hbox_new ( FALSE, 5 );
   gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 		       FALSE, FALSE, 0);
-  label = gtk_label_new ( COLON(_("Code")) );
+  label = gtk_label_new ( COLON(_("Sign")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 		       FALSE, FALSE, 0);
   gtk_widget_show ( label );
@@ -1780,30 +1768,21 @@ gboolean selection_ligne_devise ( GtkWidget *liste,
   /* met le nom et le code de la devise */
 
   gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_nom_devise_parametres ),
-				     changement_nom_entree_devise,
+				     GTK_SIGNAL_FUNC ( changement_nom_entree_devise ),
 				     NULL );
   gtk_entry_set_text ( GTK_ENTRY ( entree_nom_devise_parametres ),
 		       devise -> nom_devise );
   gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_nom_devise_parametres ),
-				       gnome_property_box_changed,
-				       fenetre_preferences );
-  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_nom_devise_parametres ),
-				       changement_nom_entree_devise,
+				       GTK_SIGNAL_FUNC ( changement_nom_entree_devise ),
 				       NULL );
 
   gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_code_devise_parametres ),
-				     gnome_property_box_changed,
-				     fenetre_preferences );
-  gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_code_devise_parametres ),
-				     changement_code_entree_devise,
+				     GTK_SIGNAL_FUNC ( changement_code_entree_devise ),
 				     NULL );
   gtk_entry_set_text ( GTK_ENTRY ( entree_code_devise_parametres ),
 		       devise -> code_devise );
   gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_code_devise_parametres ),
-				       gnome_property_box_changed,
-				       fenetre_preferences );
-  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_code_devise_parametres ),
-				       changement_code_entree_devise,
+				       GTK_SIGNAL_FUNC ( changement_code_entree_devise ),
 				       NULL );
 
 
@@ -1820,25 +1799,14 @@ gboolean selection_ligne_devise ( GtkWidget *liste,
 		       "selection-done",
 		       activer_bouton_appliquer,
 		       NULL );
-  /* FIXME ? */
-  gtk_signal_handler_block_by_func ( GTK_OBJECT ( check_button_euro ),
-				     GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
-				     fenetre_preferences );
-
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( check_button_euro ),
 				 devise -> passage_euro );
 
-  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( check_button_euro ),
-				       GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
-				       fenetre_preferences );
- 
   change_passera_euro ( check_button_euro,
 			liste );
 
-  gtk_widget_set_sensitive ( frame,
-			     TRUE );
-  gtk_widget_set_sensitive ( bouton_supprimer_devise,
-			     TRUE );
+  gtk_widget_set_sensitive ( frame, TRUE );
+  gtk_widget_set_sensitive ( bouton_supprimer_devise, TRUE );
 
   if ( !strcmp ( devise -> nom_devise,
 		 _("Euro") ) )
@@ -1878,35 +1846,22 @@ gboolean deselection_ligne_devise ( GtkWidget *liste,
 
   /* retire le nom et le code de la devise */
   
-  /* FIXME ? */
   gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_nom_devise_parametres ),
-				     gnome_property_box_changed,
-				     fenetre_preferences );
-  gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_nom_devise_parametres ),
-				     changement_nom_entree_devise,
+				     GTK_SIGNAL_FUNC ( changement_nom_entree_devise ),
 				     NULL );
   gtk_entry_set_text ( GTK_ENTRY ( entree_nom_devise_parametres ),
 		       "" );
   gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_nom_devise_parametres ),
-				       gnome_property_box_changed,
-				       fenetre_preferences );
-  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_nom_devise_parametres ),
-				       changement_nom_entree_devise,
+				       GTK_SIGNAL_FUNC ( changement_nom_entree_devise ),
 				       NULL );
 
   gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_code_devise_parametres ),
-				     gnome_property_box_changed,
-				     fenetre_preferences );
-  gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_code_devise_parametres ),
-				     changement_code_entree_devise,
+				     GTK_SIGNAL_FUNC ( changement_code_entree_devise ),
 				     NULL );
   gtk_entry_set_text ( GTK_ENTRY ( entree_code_devise_parametres ),
 		       "" );
   gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_code_devise_parametres ),
-				       gnome_property_box_changed,
-				       fenetre_preferences );
-  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_code_devise_parametres ),
-				       changement_code_entree_devise,
+				       GTK_SIGNAL_FUNC ( changement_code_entree_devise ),
 				       NULL );
 
 
@@ -1957,12 +1912,9 @@ gboolean deselection_ligne_devise ( GtkWidget *liste,
 	    
 
 
-  gtk_widget_set_sensitive ( check_button_euro,
-			     TRUE );
-  gtk_widget_set_sensitive ( frame,
-			     FALSE );
-  gtk_widget_set_sensitive ( bouton_supprimer_devise,
-			     FALSE );
+  gtk_widget_set_sensitive ( check_button_euro, TRUE );
+  gtk_widget_set_sensitive ( frame, FALSE );
+  gtk_widget_set_sensitive ( bouton_supprimer_devise, FALSE );
 
   return FALSE;
 }
@@ -2018,16 +1970,9 @@ gboolean change_passera_euro ( GtkWidget *bouton,
 				 menu );
       gtk_widget_show ( menu );
 
-      gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_conversion ),
-					 GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
-					 fenetre_preferences );
-
       gtk_entry_set_text ( GTK_ENTRY ( entree_conversion ),
 			   g_strdup_printf ( "%f",
 					     devise -> change ));
-      gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_conversion ),
-					   GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
-					   fenetre_preferences );
       /* on rend le tout sensitif */
 
       gtk_widget_set_sensitive ( hbox_ligne_change,
@@ -2072,16 +2017,9 @@ gboolean change_passera_euro ( GtkWidget *bouton,
 			       date );
 	  /* mise en place du change courant */
 
-	  gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_conversion ),
-					     GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
-					     fenetre_preferences );
 	  gtk_entry_set_text ( GTK_ENTRY ( entree_conversion ),
 			       g_strdup_printf ( "%f",
 						 devise -> change ));
-	  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_conversion ),
-					       GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
-					       fenetre_preferences );
-
 	}
       else
 	{
@@ -2089,14 +2027,8 @@ gboolean change_passera_euro ( GtkWidget *bouton,
 			       _("No exchange rate defined")  );
 	  /* mise en place du change courant */
 	  
-	  gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_conversion ),
-					     GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
-					     fenetre_preferences );
 	  gtk_entry_set_text ( GTK_ENTRY ( entree_conversion ),
 			       "" );
-	  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_conversion ),
-					       GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
-					       fenetre_preferences );
 	}
 
       gtk_widget_show ( label_date_dernier_change );
@@ -2143,7 +2075,8 @@ gboolean changement_devise_associee ( GtkWidget *menu_devises,
 
   devise_associee = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( option_menu_devises ) -> menu_item ),
 					  "adr_devise" );
-  if ( devise_associee != devise_associee &&
+  if ( devise_associee &&
+       devise_associee != devise_nulle &&
        devise_associee -> no_devise )
     {
       gtk_widget_set_sensitive ( hbox_ligne_change,
@@ -2231,16 +2164,8 @@ gboolean changement_devise_associee ( GtkWidget *menu_devises,
      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( devise_2 ),
 				menu );
 
-     /* FIXME ? */
-     gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_conversion ),
-					GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
-					fenetre_preferences );
       gtk_entry_set_text ( GTK_ENTRY ( entree_conversion ),
 			   "" );
-      gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_conversion ),
-					   GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
-					   fenetre_preferences );
-
       gtk_widget_set_sensitive ( hbox_ligne_change,
 				 FALSE );
     }
