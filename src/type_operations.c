@@ -1,9 +1,9 @@
 /* Ce fichier s'occupe de la gestion des types d'opérations */
 /* type_operations.c */
 
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
-/*			2003 Benjamin Drieu (bdrieu@april.org) */
-/* 			http://www.grisbi.org */
+/*     Copyright (C) 2000-2003  Cédric Auger */
+/* 			cedric@grisbi.org */
+/* 			http:// www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
 /*     it under the terms of the GNU General Public License as published by */
@@ -26,73 +26,32 @@
 #include "en_tete.h"
 
 
-/** Columns for payment methods tree */
-enum payment_methods_columns {
-  PAYMENT_METHODS_NAME_COLUMN = 0,
-  PAYMENT_METHODS_NUMBERING_COLUMN,
-  PAYMENT_METHODS_TYPE_COLUMN,
-  PAYMENT_METHODS_DEFAULT_COLUMN,
-  PAYMENT_METHODS_ACTIVABLE_COLUMN,
-  PAYMENT_METHODS_VISIBLE_COLUMN,
-  NUM_PAYMENT_METHODS_COLUMNS,
-};
+/* ************************************************************************************************************** */
+/* renvoie la page qui sera dans les paramètres */
+/* ************************************************************************************************************** */
 
-/** Global to handle sensitiveness */
-GtkWidget * details_paddingbox;
-
-
-static void
-item_toggled (GtkCellRendererToggle *cell,
-	      gchar                 *path_str,
-	      gpointer               data)
-{
-  GtkTreeModel *model = (GtkTreeModel *)data;
-  GtkTreePath *path = gtk_tree_path_new_from_string (path_str);
-  GtkTreeIter iter;
-  gboolean toggle_item;
-
-  gint *column;
-
-  /* get toggled iter */
-  gtk_tree_model_get_iter (model, &iter, path);
-  gtk_tree_model_get (model, &iter, 
-		      PAYMENT_METHODS_DEFAULT_COLUMN, &toggle_item, 
-		      -1);
-
-  /* do something with the value */
-  toggle_item ^= 1;
-
-  /* set new value */
-  gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 
-		      PAYMENT_METHODS_DEFAULT_COLUMN, toggle_item, 
-		      -1);
-
-  /* clean up */
-  gtk_tree_path_free (path);
-}
-
-
-
-/**
- * Creates the "Payment methods" tab.  It uses a nice GtkTreeView.
- *
- * \returns A newly allocated vbox
- */
 GtkWidget *onglet_types_operations ( void )
 {
-  GtkWidget *vbox_pref, *hbox, *scrolled_window, *paddingbox;
-  GtkWidget *vbox, *table, *menu, *item, *label, *bouton;
-  GtkWidget *treeview;
-  GtkTreeStore *model;
-  GtkTreeViewColumn *column;
-  GtkCellRenderer *cell;
-  GtkTreeIter account_iter, debit_iter, credit_iter, child_iter;
+  GtkWidget *onglet;
+  GtkWidget *hbox;
+  GtkWidget *frame;
+  GtkWidget *scrolled_window;
+  gchar *titres[2] = { _("Accounts"),
+		       _("Default") };
   gint i;
+  GtkWidget *vbox;
+  GtkWidget *hbox2;
+  GtkWidget *menu;
+  GtkWidget *item;
+  GtkWidget *label;
+  GtkWidget *bouton;
+  GtkWidget *vbox2;
+  GtkWidget *separateur;
 
-  vbox_pref = new_vbox_with_title_and_icon ( _("Reconciliation"),
-					     "reconciliation.png" );
 
-  /* Copy lists so that we work on temporary lists. */
+/*   on fait une copie de tous les types, et les met dans une liste temporaire */
+/* la même chose pour les tris */
+
   liste_tmp_types = malloc ( nb_comptes * sizeof (gpointer));
   type_defaut_debit = malloc ( nb_comptes * sizeof (gint));
   type_defaut_credit = malloc ( nb_comptes * sizeof (gint));
@@ -102,7 +61,7 @@ GtkWidget *onglet_types_operations ( void )
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
-  for ( i = 0 ; i < nb_comptes ; i++ )
+  for ( i=0 ; i<nb_comptes ; i++ )
     {
       GSList *liste_tmp;
       GSList *liste_types_tmp;
@@ -158,84 +117,75 @@ GtkWidget *onglet_types_operations ( void )
       p_tab_nom_de_compte_variable++;
     }
 
-  /* Now we have a model, create view */
-  vbox_pref = new_vbox_with_title_and_icon ( _("Payment methods"),
-					     "payment-methods.png" );
+  /*   onglet : une hbox */
 
-  /* Known payment methods */
-  paddingbox = new_paddingbox_with_title (vbox_pref, TRUE,
-					  _("Known payment methods"));
-  hbox = gtk_hbox_new ( FALSE, 6 );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-		       TRUE, TRUE, 0 );
+  onglet = gtk_hbox_new ( FALSE,
+			  5 );
+  gtk_widget_show ( onglet );
 
 
-  /* Create tree */
-  scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
+  /* frame contenant les types d'opérations */
+
+  frame = gtk_frame_new ( _("Method of payment") );
+  gtk_box_pack_start ( GTK_BOX ( onglet ),
+		       frame,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( frame );
+
+  hbox = gtk_hbox_new ( FALSE,
+			5 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( hbox ),
+				   5 );
+  gtk_container_add ( GTK_CONTAINER ( frame ),
+		      hbox );
+  gtk_widget_show ( hbox );
+
+  /*   mise en place de la partie de gauche : l'arbre sur les boutons ajouter-retirer */
+
+  vbox = gtk_vbox_new ( FALSE,
+			5 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       vbox,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( vbox );
+
+
+  /* mise en place de l'arbre */
+
+  scrolled_window = gtk_scrolled_window_new ( NULL,
+					      NULL );
   gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				   GTK_POLICY_AUTOMATIC,
 				   GTK_POLICY_AUTOMATIC );
-  gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-					GTK_SHADOW_ETCHED_IN );
-  gtk_box_pack_start ( GTK_BOX ( hbox ), scrolled_window,
-		       TRUE, TRUE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       scrolled_window,
+		       TRUE,
+		       TRUE,
+		       0 );
+  gtk_widget_show ( scrolled_window );
 
-  /* Create tree view */
-  model = gtk_tree_store_new (NUM_PAYMENT_METHODS_COLUMNS,
-			      G_TYPE_STRING,
-			      G_TYPE_STRING,
-			      G_TYPE_UINT,
-			      G_TYPE_BOOLEAN,
-			      G_TYPE_BOOLEAN,
-			      G_TYPE_BOOLEAN);
-  treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (model) );
-  gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
-  g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview)), 
-		    "changed", 
-		    G_CALLBACK (select_payment_method),
-		    model);
-
-  /* Account */
-  cell = gtk_cell_renderer_text_new ();
-  column = gtk_tree_view_column_new ( );
-  gtk_tree_view_column_pack_end ( column, cell, TRUE );
-  gtk_tree_view_column_set_title ( column, _("Account") );
-  gtk_tree_view_column_set_attributes (column, cell,
-				       "text", PAYMENT_METHODS_NAME_COLUMN,
-				       NULL);
-  gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column);
-
-  /* Numbering */
-  cell = gtk_cell_renderer_text_new ();
-  column = gtk_tree_view_column_new ( );
-  gtk_tree_view_column_pack_end ( column, cell, TRUE );
-  gtk_tree_view_column_set_title ( column, _("Numbering") );
-  gtk_tree_view_column_set_attributes (column, cell,
-				       "text", PAYMENT_METHODS_NUMBERING_COLUMN,
-				       NULL);
-  gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column);
-
-  /* Defaults */
-  cell = gtk_cell_renderer_toggle_new ();
-  g_signal_connect (cell, "toggled", G_CALLBACK (item_toggled), model);
-  gtk_cell_renderer_toggle_set_radio ( GTK_CELL_RENDERER_TOGGLE(cell), TRUE );
-  column = gtk_tree_view_column_new ( );
-  gtk_tree_view_column_pack_end ( column, cell, FALSE );
-  gtk_tree_view_column_set_title ( column, _("Default") );
-  gtk_tree_view_column_set_attributes (column, cell,
-				       "active", PAYMENT_METHODS_DEFAULT_COLUMN,
-				       "activatable", PAYMENT_METHODS_ACTIVABLE_COLUMN,
-				       "visible", PAYMENT_METHODS_VISIBLE_COLUMN,
-				       NULL);
-  gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column);
-
-  /* expand all rows after the treeview widget has been realized */
-  g_signal_connect (treeview, "realize",
-		    G_CALLBACK (gtk_tree_view_expand_all), NULL);
+  arbre_types_operations = gtk_ctree_new_with_titles ( 2,
+				      0,
+				      titres );
+  gtk_clist_column_titles_passive ( GTK_CLIST ( arbre_types_operations ));
+  gtk_clist_set_column_auto_resize ( GTK_CLIST ( arbre_types_operations ),
+				     0,
+				     TRUE );
+  gtk_ctree_set_line_style ( GTK_CTREE ( arbre_types_operations ),
+			     GTK_CTREE_LINES_DOTTED );
+  gtk_ctree_set_expander_style ( GTK_CTREE ( arbre_types_operations ),
+				 GTK_CTREE_EXPANDER_CIRCULAR );
   gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
-		      treeview );
+		      arbre_types_operations );
+  gtk_widget_show ( arbre_types_operations );
 
-  /* Fill tree, iter over with accounts */
+
+  /* remplissage de l'arbre : on fait le tour de tous les comptes */
+
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
   for ( i=0 ; i<nb_comptes ; i++ )
@@ -246,86 +196,97 @@ GtkWidget *onglet_types_operations ( void )
       gchar *ligne[2];
       GSList *liste_tmp;
 
-      gtk_tree_store_append (model, &account_iter, NULL);
-      gtk_tree_store_set (model, &account_iter,
-			  PAYMENT_METHODS_NAME_COLUMN, NOM_DU_COMPTE,
-			  PAYMENT_METHODS_NUMBERING_COLUMN, FALSE,
-			  PAYMENT_METHODS_TYPE_COLUMN, FALSE,
-			  PAYMENT_METHODS_DEFAULT_COLUMN, FALSE,
-			  PAYMENT_METHODS_ACTIVABLE_COLUMN, FALSE, 
-			  PAYMENT_METHODS_VISIBLE_COLUMN, FALSE, 
-			  -1 );
 
-      /* Create the "Debit" node */
-      gtk_tree_store_append (model, &debit_iter, &account_iter);
-      gtk_tree_store_set (model, &debit_iter,
-			  PAYMENT_METHODS_NAME_COLUMN, _("Debit"),
-			  PAYMENT_METHODS_NUMBERING_COLUMN, FALSE,
-			  PAYMENT_METHODS_TYPE_COLUMN, FALSE,
-			  PAYMENT_METHODS_DEFAULT_COLUMN, FALSE,
-			  PAYMENT_METHODS_ACTIVABLE_COLUMN, FALSE, 
-			  PAYMENT_METHODS_VISIBLE_COLUMN, FALSE, 
-			  -1 );
+      ligne[0] = NOM_DU_COMPTE;
+      ligne[1] = NULL;
 
-      /* Create the "Debit" node */
-      gtk_tree_store_append (model, &credit_iter, &account_iter);
-      gtk_tree_store_set (model, &credit_iter,
-			  PAYMENT_METHODS_NAME_COLUMN, _("Credit"),
-			  PAYMENT_METHODS_NUMBERING_COLUMN, FALSE,
-			  PAYMENT_METHODS_TYPE_COLUMN, FALSE,
-			  PAYMENT_METHODS_DEFAULT_COLUMN, FALSE,
-			  PAYMENT_METHODS_ACTIVABLE_COLUMN, FALSE, 
-			  PAYMENT_METHODS_VISIBLE_COLUMN, FALSE, 
-			  -1 );
+      node_compte = gtk_ctree_insert_node ( GTK_CTREE ( arbre_types_operations ),
+					    NULL,
+					    NULL,
+					    ligne,
+					    0,
+					    NULL, NULL,
+					    NULL, NULL,
+					    FALSE,
+					    FALSE );
+
+      gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_types_operations ),
+				    node_compte,
+				    GINT_TO_POINTER ( i ) );
+
+      /*       pour chaque compte on ajout débit et crédit */
+
+      ligne[0] = _("Debit");
+      ligne[1] = NULL;
+
+      node_debit = gtk_ctree_insert_node ( GTK_CTREE ( arbre_types_operations ),
+					   node_compte,
+					   NULL,
+					   ligne,
+					   0,
+					   NULL, NULL,
+					   NULL, NULL,
+					   FALSE,
+					   FALSE );
+
+      ligne[0] = _("Credit");
+      ligne[1] = NULL;
+
+      node_credit = gtk_ctree_insert_node ( GTK_CTREE ( arbre_types_operations ),
+					   node_compte,
+					   NULL,
+					   ligne,
+					   0,
+					   NULL, NULL,
+					   NULL, NULL,
+					   FALSE,
+					   FALSE );
 
 
-      /* Iter over account payment methods */
+      /* fait le tour des types d'opé du compte */
+
       liste_tmp = liste_tmp_types[i];
 
       while ( liste_tmp )
 	{
 	  struct struct_type_ope *type_ope;
-	  GtkTreeIter * parent_iter;
-	  GtkTreeIter method_iter;
-	  gboolean isdefault;
-	  gchar * number;
+	  GtkCTreeNode *node_parent;
+	  GtkCTreeNode *node_type;
 
 	  type_ope = liste_tmp->data;
+
+	  ligne[0] = type_ope -> nom_type;
 
 	  if ( type_ope -> no_type == TYPE_DEFAUT_DEBIT
 	       ||
 	       type_ope -> no_type == TYPE_DEFAUT_CREDIT )
-	    isdefault = 1;
+	    ligne[1] = "x";
 	  else
-	    isdefault = 0;
+	    ligne[1] = NULL;
 
 	  if ( !type_ope -> signe_type )
-	    parent_iter = &account_iter;
+	    node_parent = node_compte;
 	  else
 	    if ( type_ope -> signe_type == 1 )
-	      parent_iter = &debit_iter;
+	      node_parent = node_debit;
 	    else
-	      parent_iter = &credit_iter;
+	      node_parent = node_credit;
 
-	  if ( type_ope -> numerotation_auto )
-	    {
-	      number = itoa ( type_ope -> no_en_cours );
-	    }
-	  else
-	    {
-	      number = "";
-	    }
+	  node_type = gtk_ctree_insert_node ( GTK_CTREE ( arbre_types_operations ),
+					      node_parent,
+					      NULL,
+					      ligne,
+					      0,
+					      NULL, NULL,
+					      NULL, NULL,
+					      FALSE,
+					      FALSE );
 
-	  /* Insert a child node */
-	  gtk_tree_store_append (model, &method_iter, parent_iter);
-	  gtk_tree_store_set (model, &method_iter,
-			      PAYMENT_METHODS_NAME_COLUMN, type_ope -> nom_type,
-			      PAYMENT_METHODS_NUMBERING_COLUMN, number,
-			      PAYMENT_METHODS_TYPE_COLUMN, type_ope -> signe_type,
-			      PAYMENT_METHODS_DEFAULT_COLUMN, isdefault,
-			      PAYMENT_METHODS_ACTIVABLE_COLUMN, TRUE, 
-			      PAYMENT_METHODS_VISIBLE_COLUMN, TRUE, 
-			      -1 );
+	  /* on associe au type l'adr de sa structure */
+
+	  gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_types_operations ),
+					node_type,
+					type_ope );
 
 	  liste_tmp = liste_tmp -> next;
 	}
@@ -334,198 +295,482 @@ GtkWidget *onglet_types_operations ( void )
     }
 
 
-  /* Create "Add" & "Remove" buttons */
-  vbox = gtk_vbox_new ( FALSE, 6 );
-  gtk_box_pack_start ( GTK_BOX ( hbox ), vbox,
-		       FALSE, FALSE, 0 );
+  /* mise en place des boutons ajouter et supprimer */
 
-  /* "Add payment method" button */
-  bouton_ajouter_type = gtk_button_new_from_stock (GTK_STOCK_ADD);
+  hbox2 = gtk_hbox_new ( FALSE,
+			 5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       hbox2,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( hbox2 );
+
+  bouton_ajouter_type = gnome_stock_button ( GNOME_STOCK_PIXMAP_ADD );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_ajouter_type ),
 			  GTK_RELIEF_NONE );
-  gtk_widget_set_sensitive ( bouton_ajouter_type, FALSE );
+  gtk_widget_set_sensitive ( bouton_ajouter_type,
+			     FALSE );
   gtk_signal_connect ( GTK_OBJECT ( bouton_ajouter_type ),
 		       "clicked",
 		       (GtkSignalFunc ) ajouter_type_operation,
 		       NULL );
-  gtk_box_pack_start ( GTK_BOX ( vbox ), bouton_ajouter_type,
-		       TRUE, FALSE, 5 );
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton_ajouter_type ),
+			      "clicked",
+			      gnome_property_box_changed,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_box_pack_start ( GTK_BOX ( hbox2 ),
+		       bouton_ajouter_type,
+		       TRUE,
+		       FALSE,
+		       5 );
+  gtk_widget_show ( bouton_ajouter_type );
 
-  /* "Remove payment method" button */
-  bouton_retirer_type = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
+  bouton_retirer_type = gnome_stock_button ( GNOME_STOCK_PIXMAP_REMOVE );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_retirer_type ),
 			  GTK_RELIEF_NONE );
-  gtk_widget_set_sensitive ( bouton_retirer_type, FALSE );
+  gtk_widget_set_sensitive ( bouton_retirer_type,
+			     FALSE );
   gtk_signal_connect ( GTK_OBJECT ( bouton_retirer_type ),
 		       "clicked",
 		       (GtkSignalFunc ) supprimer_type_operation,
 		       NULL );
-  gtk_box_pack_start ( GTK_BOX ( vbox ), bouton_retirer_type,
-		       TRUE, FALSE, 5 );
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton_retirer_type ),
+			      "clicked",
+			      gnome_property_box_changed,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_box_pack_start ( GTK_BOX ( hbox2 ),
+		       bouton_retirer_type,
+		       TRUE,
+		       FALSE,
+		       5 );
+  gtk_widget_show ( bouton_retirer_type );
 
-  /* Payment method details */
-  details_paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
-						  _("Payment method details"));
-  gtk_widget_set_sensitive ( details_paddingbox, FALSE );
 
-  /* Payment method name */
-  table = gtk_table_new ( 2, 2, FALSE );
-  gtk_table_set_col_spacings ( GTK_TABLE ( table ), 6 );
-  gtk_table_set_row_spacings ( GTK_TABLE ( table ), 6 );
-  gtk_box_pack_start ( GTK_BOX ( details_paddingbox ), table,
-		       TRUE, TRUE, 6 );
+  /* mise en place du détail des types */
 
+  vbox2 = gtk_vbox_new ( FALSE,
+			5 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       vbox2,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( vbox2 );
+
+
+  /* mise en place de la vbox qui sera sensitive ou non */
+
+  vbox = gtk_vbox_new ( FALSE,
+			5 );
+  gtk_widget_set_sensitive ( vbox,
+			     FALSE );
+  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
+		       vbox,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( vbox );
+
+  /* mise en place de la ligne de modification du nom */
+
+  hbox2 = gtk_hbox_new ( FALSE,
+			 5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       hbox2,
+		       FALSE,
+		       FALSE,
+		       10 );
+  gtk_widget_show ( hbox2 );
+
+ 
   label = gtk_label_new ( COLON(_("Name")) );
-  gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
-  gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-  gtk_table_attach ( GTK_TABLE ( table ),
-		     label, 0, 1, 0, 1,
-		     GTK_SHRINK | GTK_FILL, 0,
-		     0, 0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox2 ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
+
   entree_type_nom = gtk_entry_new ();
-  gtk_signal_connect ( GTK_OBJECT ( entree_type_nom ), /* FIXME: check this*/
+  gtk_widget_set_usize ( entree_type_nom,
+			 100,
+			 FALSE );
+  gtk_signal_connect ( GTK_OBJECT ( entree_type_nom ),
 		       "changed",
 		       GTK_SIGNAL_FUNC ( modification_entree_nom_type ),
 		       NULL );
-  gtk_table_attach ( GTK_TABLE ( table ),
-		     entree_type_nom, 1, 2, 0, 1,
-		     GTK_EXPAND | GTK_FILL, 0,
-		     0, 0 );
+  gtk_signal_connect_object ( GTK_OBJECT ( entree_type_nom ),
+			      "changed",
+			      gnome_property_box_changed,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_box_pack_start ( GTK_BOX ( hbox2 ),
+		       entree_type_nom,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( entree_type_nom );
 
-  /* Automatic numbering */
-  label = gtk_label_new ( COLON(_("Automatic numbering")) );
-  gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
-  gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-  gtk_table_attach ( GTK_TABLE ( table ),
-		     label, 0, 1, 1, 2,
-		     GTK_SHRINK | GTK_FILL, 0,
-		     0, 0 );
+
+  /* mise en place du bouton fait apparaitre l'entrée */
+
+  bouton_type_apparaitre_entree = gtk_check_button_new_with_label ( _("Include additionnal data") );
+  gtk_signal_connect ( GTK_OBJECT ( bouton_type_apparaitre_entree ),
+		       "toggled",
+		       GTK_SIGNAL_FUNC ( modification_type_affichage_entree ),
+		       NULL );
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton_type_apparaitre_entree ),
+			      "toggled",
+			      gnome_property_box_changed,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       bouton_type_apparaitre_entree,
+		       FALSE,
+		       FALSE,
+		       10 );
+  gtk_widget_show ( bouton_type_apparaitre_entree );
+
+  /* mise en place de la ligne numérotation auto / numéro en cours */
+
+  hbox2 = gtk_hbox_new ( FALSE,
+			 5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       hbox2,
+		       FALSE,
+		       FALSE,
+		       10 );
+  gtk_widget_show ( hbox2 );
+
+ 
+  bouton_type_numerotation_automatique = gtk_check_button_new_with_label ( _("Automatic numbering") );
+  gtk_signal_connect ( GTK_OBJECT (bouton_type_numerotation_automatique  ),
+		       "toggled",
+		       GTK_SIGNAL_FUNC ( modification_type_numerotation_auto ),
+		       NULL );
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton_type_numerotation_automatique ),
+			      "toggled",
+			      gnome_property_box_changed,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_box_pack_start ( GTK_BOX ( hbox2 ),
+		       bouton_type_numerotation_automatique,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show (bouton_type_numerotation_automatique  );
+
   entree_type_dernier_no = gtk_entry_new ();
-  gtk_table_attach ( GTK_TABLE ( table ),
-		     entree_type_dernier_no, 1, 2, 1, 2,
-		     GTK_EXPAND | GTK_FILL, 0,
-		     0, 0 );
+  gtk_widget_set_usize ( entree_type_dernier_no,
+			 100,
+			 FALSE );
   gtk_signal_connect ( GTK_OBJECT (entree_type_dernier_no  ),
 		       "changed",
 		       GTK_SIGNAL_FUNC ( modification_entree_type_dernier_no ),
 		       NULL );
+  gtk_signal_connect_object ( GTK_OBJECT ( entree_type_dernier_no ),
+			      "changed",
+			      gnome_property_box_changed,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_box_pack_start ( GTK_BOX ( hbox2 ),
+		       entree_type_dernier_no,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( entree_type_dernier_no );
 
-  /* Payment method type */
-  label = gtk_label_new ( COLON(_("Type")) );
-  gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
-  gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-  gtk_table_attach ( GTK_TABLE ( table ),
-		     label, 0, 1, 2, 3,
-		     GTK_SHRINK | GTK_FILL, 0,
-		     0, 0 );
 
-  /* Create menu */
+/* mise en place du choix neutre / débit / crédit */
+
+  hbox2 = gtk_hbox_new ( FALSE,
+			 5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       hbox2,
+		       FALSE,
+		       FALSE,
+		       10 );
+  gtk_widget_show ( hbox2 );
+
   bouton_signe_type = gtk_option_menu_new ();
   menu = gtk_menu_new();
-  /* Neutral type */
+
   item = gtk_menu_item_new_with_label ( _("Neutral") );
   gtk_signal_connect_object ( GTK_OBJECT ( item ),
 			      "activate",
 			      GTK_SIGNAL_FUNC ( modification_type_signe ),
 			      NULL );
-  gtk_menu_append ( GTK_MENU ( menu ), item );
-  /* Debit type */
+  gtk_signal_connect_object ( GTK_OBJECT ( item ),
+			      "activate",
+			      gnome_property_box_changed,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    item );
+  gtk_widget_show ( item );
+
   item = gtk_menu_item_new_with_label ( _("Debit") );
   gtk_signal_connect_object ( GTK_OBJECT ( item ),
 			      "activate",
 			      GTK_SIGNAL_FUNC ( modification_type_signe ),
 			      GINT_TO_POINTER (1) );
-  gtk_menu_append ( GTK_MENU ( menu ), item );
-  /* Credit type */
+  gtk_signal_connect_object ( GTK_OBJECT ( item ),
+			      "activate",
+			      gnome_property_box_changed,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    item );
+  gtk_widget_show ( item );
+
   item = gtk_menu_item_new_with_label ( _("Credit") );
   gtk_signal_connect_object ( GTK_OBJECT ( item ),
 			      "activate",
 			      GTK_SIGNAL_FUNC ( modification_type_signe ),
 			      GINT_TO_POINTER (2) );
-  gtk_menu_append ( GTK_MENU ( menu ), item );
-  /* Set menu */
-  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_signe_type ), menu );
-  gtk_table_attach ( GTK_TABLE ( table ),
-		     bouton_signe_type, 1, 2, 2, 3,
-		     GTK_EXPAND | GTK_FILL, 0,
-		     0, 0 );
+  gtk_signal_connect_object ( GTK_OBJECT ( item ),
+			      "activate",
+			      gnome_property_box_changed,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    item );
+  gtk_widget_show ( item );
 
-  return ( vbox_pref );
+
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_signe_type ),
+			     menu );
+  gtk_box_pack_start ( GTK_BOX ( hbox2 ),
+		       bouton_signe_type,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_signe_type );
+
+  /* mise en place du choix par défaut */
+
+  bouton_type_choix_defaut = gtk_check_button_new_with_label ( _("Default") );
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton_type_choix_defaut ),
+			      "toggled",
+			      GTK_SIGNAL_FUNC ( modification_type_par_defaut ),
+			      NULL );
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton_type_choix_defaut ),
+			      "toggled",
+			      gnome_property_box_changed,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_box_pack_start ( GTK_BOX ( hbox2 ),
+		       bouton_type_choix_defaut,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_type_choix_defaut );
+
+
+  /* on connecte les sélection de la liste */
+
+  gtk_signal_connect ( GTK_OBJECT ( arbre_types_operations ),
+		       "tree-select-row",
+		       GTK_SIGNAL_FUNC ( selection_ligne_arbre_types ),
+		       vbox );
+  gtk_signal_connect ( GTK_OBJECT ( arbre_types_operations ),
+		       "tree-unselect-row",
+		       GTK_SIGNAL_FUNC ( deselection_ligne_arbre_types ),
+		       vbox );
+
+  /* mise en place de l'affichage séparé débit/crédit ou tout ensemble */
+
+  separateur = gtk_hseparator_new ();
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       separateur,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( separateur );
+
+
+  bouton_type_choix_affichage_formulaire = gtk_check_button_new_with_label ( _("Display all the methods of payment\nin the form") );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON( bouton_type_choix_affichage_formulaire ),
+				 etat.affiche_tous_les_types );
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton_type_choix_affichage_formulaire ),
+			      "toggled",
+			      gnome_property_box_changed,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
+		       bouton_type_choix_affichage_formulaire,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_type_choix_affichage_formulaire );
+
+  if ( !nb_comptes )
+    gtk_widget_set_sensitive ( bouton_type_choix_affichage_formulaire,
+			       FALSE );
+
+  /* mise en place de la liste de tri */
+
+
+  frame = gtk_frame_new ( _("Reconciliation: sort transactions") );
+  gtk_box_pack_start ( GTK_BOX ( onglet ),
+		       frame,
+		       TRUE,
+		       TRUE,
+		       0 );
+  gtk_widget_show ( frame );
+
+  /* on met une vbox dans la frame */
+
+  vbox2 = gtk_vbox_new ( FALSE,
+			 5 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( vbox2 ),
+				   5 );
+  gtk_container_add ( GTK_CONTAINER ( frame ),
+		      vbox2 );
+  gtk_widget_show ( vbox2 );
+
+  /*   la partie du haut : tri par date ou par type */
+
+  bouton_type_tri_date = gtk_radio_button_new_with_label ( NULL,
+							   _("Sort by date") );
+  gtk_widget_set_sensitive ( bouton_type_tri_date,
+			     FALSE );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_type_tri_date ),
+				 TRUE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton_type_tri_date ),
+		       "toggled",
+		       GTK_SIGNAL_FUNC ( modif_tri_date_ou_type ),
+		       NULL );
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton_type_tri_date ),
+			      "toggled",
+			      gnome_property_box_changed,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
+		       bouton_type_tri_date,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_type_tri_date );
+
+  bouton_type_tri_type = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_type_tri_date )),
+							   _("Sort by method of payment") );
+  gtk_widget_set_sensitive ( bouton_type_tri_type,
+			     FALSE );
+  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
+		       bouton_type_tri_type,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_type_tri_type );
+
+
+  /* la partie du milieu est une hbox avec les types */
+
+  hbox = gtk_hbox_new ( FALSE,
+			 5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
+		       hbox,
+		       TRUE,
+		       TRUE,
+		       0 );
+  gtk_widget_show ( hbox );
+
+
+  /* mise en place de la liste qui contient les types classés */
+
+  scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       scrolled_window,
+		       TRUE,
+		       TRUE,
+		       0);
+  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_AUTOMATIC);
+  gtk_widget_show ( scrolled_window );
+
+
+  type_liste_tri = gtk_clist_new ( 1 );
+  gtk_widget_set_sensitive ( type_liste_tri,
+			     FALSE );
+  gtk_clist_set_column_auto_resize ( GTK_CLIST ( type_liste_tri ) ,
+				     0,
+				     TRUE );
+  gtk_clist_set_reorderable ( GTK_CLIST ( type_liste_tri ),
+			      TRUE );
+  gtk_clist_set_use_drag_icons ( GTK_CLIST ( type_liste_tri ),
+				 TRUE );
+  gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
+		      type_liste_tri );
+  gtk_signal_connect ( GTK_OBJECT ( type_liste_tri ),
+		       "select_row",
+		       (GtkSignalFunc ) selection_type_liste_tri,
+		       NULL );
+  gtk_signal_connect ( GTK_OBJECT ( type_liste_tri ),
+		       "unselect_row",
+		       (GtkSignalFunc ) deselection_type_liste_tri,
+		       NULL );
+  gtk_signal_connect_object ( GTK_OBJECT ( type_liste_tri ),
+			      "row_move",
+			      gnome_property_box_changed,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_signal_connect_after ( GTK_OBJECT ( type_liste_tri ),
+			     "row_move",
+			     GTK_SIGNAL_FUNC ( save_ordre_liste_type_tri ),
+			     NULL );
+  gtk_widget_show ( type_liste_tri );
+
+      
+  /* on place ici les flèches sur le côté de la liste */
+
+  vbox_fleches_tri = gtk_vbutton_box_new ();
+  gtk_widget_set_sensitive ( vbox_fleches_tri,
+			     FALSE );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       vbox_fleches_tri,
+		       FALSE,
+		       FALSE,
+		       0);
+  gtk_widget_show ( vbox_fleches_tri );
+
+  bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_UP );
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "clicked",
+		       (GtkSignalFunc ) deplacement_type_tri_haut,
+		       NULL );
+  gtk_container_add ( GTK_CONTAINER ( vbox_fleches_tri ),
+		      bouton );
+  gtk_widget_show ( bouton );
+
+  bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_DOWN );
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "clicked",
+		       (GtkSignalFunc ) deplacement_type_tri_bas,
+		       NULL);
+  gtk_container_add ( GTK_CONTAINER ( vbox_fleches_tri ),
+		      bouton );
+  gtk_widget_show ( bouton );
+
+  /* la partie du bas contient des check buttons */
+
+  bouton_type_neutre_inclut = gtk_check_button_new_with_label ( _("Include the mixed methods of payment in the incomes/outgoings") );
+  gtk_widget_set_sensitive ( bouton_type_neutre_inclut,
+			     FALSE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton_type_neutre_inclut ),
+		       "toggled",
+		       GTK_SIGNAL_FUNC ( inclut_exclut_les_neutres ),
+		       NULL );
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton_type_neutre_inclut ),
+			      "toggled",
+			      gnome_property_box_changed,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
+		       bouton_type_neutre_inclut,
+		       FALSE,
+		       FALSE,
+		       0);
+  gtk_widget_show ( bouton_type_neutre_inclut );
+
+return ( onglet );
 }
+/* ************************************************************************************************************** */
 
-
-/**
- * Callback used when a payment method is selected in payment methods
- * list.
- */
-gboolean
-select_payment_method (GtkTreeSelection *selection,
-		       GtkTreeModel *model)
-{
-  GtkTreeIter iter;
-  GValue value_name = {0, };
-  GValue value_numbering = {0, };
-  GValue value_type = {0, };
-  gboolean good;
-
-  gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_type_nom ),
-				     modification_entree_nom_type, NULL );
-  gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_type_dernier_no ),
-				     modification_entree_type_dernier_no, NULL );
-
-  good = gtk_tree_selection_get_selected (selection, NULL, &iter);
-  gtk_tree_model_get_value (model, &iter, PAYMENT_METHODS_VISIBLE_COLUMN, 
-			    &value_name);
-
-  if (! good ||
-      ! g_value_get_boolean(&value_name))
-    {
-      gtk_entry_set_text ( GTK_ENTRY ( entree_type_nom ), "");
-      gtk_entry_set_text ( GTK_ENTRY ( entree_type_dernier_no ), "" );
-      gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_signe_type ),
-				    0);	/* We set menu to "Neutral" as
-					   a default*/
-      gtk_widget_set_sensitive ( details_paddingbox, FALSE );
-    }
-  else
-    {
-      gtk_tree_model_get_value (model, &iter, PAYMENT_METHODS_NUMBERING_COLUMN, 
-				&value_numbering);
-      gtk_tree_model_get_value (model, &iter, PAYMENT_METHODS_TYPE_COLUMN, 
-				&value_type);
-      gtk_widget_set_sensitive ( details_paddingbox, TRUE );
-      gtk_entry_set_text ( GTK_ENTRY ( entree_type_nom ),
-			   g_value_get_string(&value_name) );
-      gtk_entry_set_text ( GTK_ENTRY ( entree_type_dernier_no ),
-			   g_value_get_string(&value_numbering) );
-      gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_signe_type ),
-				    g_value_get_uint(&value_type));
-    }
-
-  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_type_nom ),
-				       modification_entree_nom_type, NULL );
-  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_type_dernier_no ),
-				       modification_entree_type_dernier_no, NULL );
-}
-
-
-
-/**
- * Callback used when a payment method is deselected in payment
- * methods list. */
-gboolean
-deselect_payment_method (GtkTreeSelection *selection,
-			 GtkTreeModel *model)
-{
-/*   gtk_entry_set_text ( GTK_ENTRY ( entree_type_nom ), "" ); */
-/*   gtk_entry_set_text ( GTK_ENTRY ( entree_type_dernier_no ), "" ); */
-/*   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_type_choix_defaut ), */
-/* 				 FALSE ); */
-
-/*   gtk_widget_set_sensitive ( entree_type_nom, FALSE ); */
-/*   gtk_widget_set_sensitive ( entree_type_dernier_no, FALSE ); */
-/*   gtk_widget_set_sensitive ( bouton_type_choix_defaut, FALSE ); */
-}
 
 
 /* ************************************************************************************************************** */
@@ -534,171 +779,218 @@ void selection_ligne_arbre_types ( GtkWidget *arbre,
 				   gint col,
 				   GtkWidget *vbox )
 {
-/*   struct struct_type_ope *type_ope; */
-/*   GtkCTreeNode *node_banque; */
-/*   gint no_compte; */
+  struct struct_type_ope *type_ope;
+  GtkCTreeNode *node_banque;
+  gint no_compte;
 
-/*   gtk_widget_set_sensitive ( bouton_ajouter_type, TRUE ); */
+  gtk_widget_set_sensitive ( bouton_ajouter_type,
+			     TRUE );
 
-/*   type_ope = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_types_operations ), */
-/* 					   node ); */
+  type_ope = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_types_operations ),
+					   node );
 
-/*   /\* on resensitive les boutons du tri *\/ */
+  /* on resensitive les boutons du tri */
 
-/*   gtk_widget_set_sensitive ( bouton_type_tri_date, */
-/* 			     TRUE ); */
-/*   gtk_widget_set_sensitive ( bouton_type_tri_type, */
-/* 			     TRUE ); */
-
-
-/*   /\* on va remonter jusqu'au nom de la banque pour afficher les tris correspondant *\/ */
-
-/*   node_banque = node; */
-/*   while ( GTK_CTREE_ROW ( node_banque ) -> level != 1 ) */
-/*     node_banque = GTK_CTREE_ROW ( node_banque ) -> parent; */
-
-/*   no_compte = GPOINTER_TO_INT ( gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_types_operations ), */
-/* 							      node_banque )); */
-
-/*   /\* on associe le no de la banque au bouton bouton_type_tri_date *\/ */
-
-/*   gtk_object_set_data ( GTK_OBJECT ( bouton_type_tri_date ), */
-/* 			"no_compte", */
-/* 			GINT_TO_POINTER ( no_compte )); */
-
-/*   /\* on affiche les caractéristiques du tri de la banque *\/ */
-
-/*   /\*   on commence par remplir la liste *\/ */
-
-/*   remplit_liste_tri_par_type(no_compte); */
-
-/*   gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_type_neutre_inclut ), */
-/* 				     inclut_exclut_les_neutres, */
-/* 				     NULL ); */
-/*   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_type_tri_type ), */
-/* 				 tri_tmp[no_compte] ); */
-/*   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_type_neutre_inclut ), */
-/* 				 neutres_inclus_tmp[no_compte] ); */
-/*   gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_type_neutre_inclut ), */
-/* 				       inclut_exclut_les_neutres, */
-/* 				       NULL ); */
+  gtk_widget_set_sensitive ( bouton_type_tri_date,
+			     TRUE );
+  gtk_widget_set_sensitive ( bouton_type_tri_type,
+			     TRUE );
 
 
+  /* on va remonter jusqu'au nom de la banque pour afficher les tris correspondant */
 
-/*   /\*   si on est sur débit ou crédit ou sur un nom de banque on se barre *\/ */
+  node_banque = node;
+  while ( GTK_CTREE_ROW ( node_banque ) -> level != 1 )
+    node_banque = GTK_CTREE_ROW ( node_banque ) -> parent;
 
-/*   if ( !type_ope || GTK_CTREE_ROW ( node ) -> level == 1 ) */
-/*     return; */
+  no_compte = GPOINTER_TO_INT ( gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_types_operations ),
+							      node_banque ));
 
-/*   /\*   une structure est associée à la ligne sélectionnée : *\/ */
+  /* on associe le no de la banque au bouton bouton_type_tri_date */
 
-/*   /\* on commence par annuler toutes les connection des widgets qu'on va changer ici *\/ */
+  gtk_object_set_data ( GTK_OBJECT ( bouton_type_tri_date ),
+			"no_compte",
+			GINT_TO_POINTER ( no_compte ));
 
-/*   gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_type_nom ), */
-/* 				     modification_entree_nom_type, */
-/* 				     NULL ); */
-/*   gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_type_apparaitre_entree ), */
-/* 				     modification_type_affichage_entree, */
-/* 				     NULL ); */
-/*   gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_type_numerotation_automatique ), */
-/* 				     modification_type_numerotation_auto, */
-/* 				     NULL ); */
-/*   gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_type_dernier_no ), */
-/* 				     modification_entree_type_dernier_no, */
-/* 				     NULL ); */
-/*   gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_type_choix_defaut ), */
-/* 				     modification_type_par_defaut, */
-/* 				     NULL ); */
+  /* on affiche les caractéristiques du tri de la banque */
 
-/*   gtk_widget_set_sensitive ( bouton_retirer_type, */
-/* 			     TRUE ); */
+  /*   on commence par remplir la liste */
 
-/*   gtk_widget_set_sensitive ( vbox, */
-/* 			     TRUE ); */
+  remplit_liste_tri_par_type(no_compte);
 
-/*   gtk_entry_set_text ( GTK_ENTRY ( entree_type_nom ), */
-/* 		       type_ope -> nom_type ); */
+  gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_type_tri_date ),
+				     gnome_property_box_changed,
+				     fenetre_preferences );
+  gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_type_neutre_inclut ),
+				     gnome_property_box_changed,
+				     fenetre_preferences );
+  gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_type_neutre_inclut ),
+				     inclut_exclut_les_neutres,
+				     NULL );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_type_tri_type ),
+				 tri_tmp[no_compte] );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_type_neutre_inclut ),
+				 neutres_inclus_tmp[no_compte] );
+  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_type_tri_date ),
+				       gnome_property_box_changed,
+				       fenetre_preferences );
+  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_type_neutre_inclut ),
+				       gnome_property_box_changed,
+				       fenetre_preferences );
+  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_type_neutre_inclut ),
+				       inclut_exclut_les_neutres,
+				       NULL );
 
-/*   if ( type_ope -> affiche_entree ) */
-/*     { */
-/*       gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_type_apparaitre_entree ), */
-/* 				     TRUE ); */
-/*       gtk_widget_set_sensitive ( bouton_type_numerotation_automatique, */
-/* 				 TRUE ); */
 
-/*       if ( type_ope -> numerotation_auto ) */
-/* 	{ */
-/* 	  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_type_numerotation_automatique ), */
-/* 					 TRUE ); */
-/* 	  gtk_widget_set_sensitive ( entree_type_dernier_no, */
-/* 				     TRUE ); */
-/* 	  gtk_entry_set_text ( GTK_ENTRY ( entree_type_dernier_no ), */
-/* 			       itoa ( type_ope -> no_en_cours )); */
-/* 	} */
-/*       else */
-/* 	{ */
-/* 	  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_type_numerotation_automatique ), */
-/* 					 FALSE ); */
-/* 	  gtk_widget_set_sensitive ( entree_type_dernier_no, */
-/* 				     FALSE ); */
-/* 	} */
-/*     } */
-/*   else */
-/*     { */
-/*       gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_type_apparaitre_entree ), */
-/* 				     FALSE ); */
-/*       gtk_widget_set_sensitive ( bouton_type_numerotation_automatique, */
-/* 				 FALSE ); */
-/*       gtk_widget_set_sensitive ( entree_type_dernier_no, */
-/* 				 FALSE ); */
-/*     } */
 
-/*   gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_signe_type ), */
-/* 				type_ope -> signe_type ); */
+  /*   si on est sur débit ou crédit ou sur un nom de banque on se barre */
 
-/*   if ( type_ope -> signe_type ) */
-/*     { */
-/*       gtk_widget_set_sensitive ( bouton_type_choix_defaut, */
-/* 				 TRUE ); */
+  if ( !type_ope || GTK_CTREE_ROW ( node ) -> level == 1 )
+    return;
 
-/*       p_tab_nom_de_compte_variable = p_tab_nom_de_compte + type_ope -> no_compte; */
+  /*   une structure est associée à la ligne sélectionnée : */
 
-/*       if ( type_ope -> no_type == type_defaut_debit[type_ope -> no_compte] */
-/* 	   || */
-/* 	   type_ope -> no_type == type_defaut_credit[type_ope -> no_compte] ) */
-/* 	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_type_choix_defaut ), */
-/* 				       TRUE ); */
-/*       else */
-/* 	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_type_choix_defaut ), */
-/* 				       FALSE ); */
-/*     } */
-/*   else */
-/*     gtk_widget_set_sensitive ( bouton_type_choix_defaut, */
-/* 			       FALSE ); */
+  /* on commence par annuler toutes les connection des widgets qu'on va changer ici */
+
+  gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_type_nom ),
+				     modification_entree_nom_type,
+				     NULL );
+  gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_type_apparaitre_entree ),
+				     modification_type_affichage_entree,
+				     NULL );
+  gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_type_numerotation_automatique ),
+				     modification_type_numerotation_auto,
+				     NULL );
+  gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_type_dernier_no ),
+				     modification_entree_type_dernier_no,
+				     NULL );
+  gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_type_choix_defaut ),
+				     modification_type_par_defaut,
+				     NULL );
+  gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_type_nom ),
+				     GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
+				     fenetre_preferences );
+  gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_type_apparaitre_entree ),
+				     GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
+				     fenetre_preferences );
+  gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_type_numerotation_automatique ),
+				     GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
+				     fenetre_preferences );
+  gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_type_dernier_no ),
+				     GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
+				     fenetre_preferences );
+  gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_type_choix_defaut ),
+				     GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
+				     fenetre_preferences );
+
+
+
+  gtk_widget_set_sensitive ( bouton_retirer_type,
+			     TRUE );
+
+  gtk_widget_set_sensitive ( vbox,
+			     TRUE );
+
+  gtk_entry_set_text ( GTK_ENTRY ( entree_type_nom ),
+		       type_ope -> nom_type );
+
+  if ( type_ope -> affiche_entree )
+    {
+      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_type_apparaitre_entree ),
+				     TRUE );
+      gtk_widget_set_sensitive ( bouton_type_numerotation_automatique,
+				 TRUE );
+
+      if ( type_ope -> numerotation_auto )
+	{
+	  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_type_numerotation_automatique ),
+					 TRUE );
+	  gtk_widget_set_sensitive ( entree_type_dernier_no,
+				     TRUE );
+	  gtk_entry_set_text ( GTK_ENTRY ( entree_type_dernier_no ),
+			       itoa ( type_ope -> no_en_cours ));
+	}
+      else
+	{
+	  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_type_numerotation_automatique ),
+					 FALSE );
+	  gtk_widget_set_sensitive ( entree_type_dernier_no,
+				     FALSE );
+	}
+    }
+  else
+    {
+      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_type_apparaitre_entree ),
+				     FALSE );
+      gtk_widget_set_sensitive ( bouton_type_numerotation_automatique,
+				 FALSE );
+      gtk_widget_set_sensitive ( entree_type_dernier_no,
+				 FALSE );
+    }
+
+  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_signe_type ),
+				type_ope -> signe_type );
+
+  if ( type_ope -> signe_type )
+    {
+      gtk_widget_set_sensitive ( bouton_type_choix_defaut,
+				 TRUE );
+
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + type_ope -> no_compte;
+
+      if ( type_ope -> no_type == type_defaut_debit[type_ope -> no_compte]
+	   ||
+	   type_ope -> no_type == type_defaut_credit[type_ope -> no_compte] )
+	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_type_choix_defaut ),
+				       TRUE );
+      else
+	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_type_choix_defaut ),
+				       FALSE );
+    }
+  else
+    gtk_widget_set_sensitive ( bouton_type_choix_defaut,
+			       FALSE );
   
-/*   /\* on associe le node à l'entrée du nom *\/ */
+  /* on associe le node à l'entrée du nom */
 
-/*   gtk_object_set_data ( GTK_OBJECT ( entree_type_nom ), */
-/* 			"adr_node", */
-/* 			node ); */
+  gtk_object_set_data ( GTK_OBJECT ( entree_type_nom ),
+			"adr_node",
+			node );
 
-/*   /\* on remet les connections *\/ */
+  /* on remet les connections */
 
-/*   gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_type_nom ), */
-/* 				       modification_entree_nom_type, */
-/* 				       NULL ); */
-/*   gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_type_apparaitre_entree ), */
-/* 				       modification_type_affichage_entree, */
-/* 				       NULL ); */
-/*   gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_type_numerotation_automatique ), */
-/* 				       modification_type_numerotation_auto, */
-/* 				       NULL ); */
-/*   gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_type_dernier_no ), */
-/* 				       modification_entree_type_dernier_no, */
-/* 				       NULL ); */
-/*   gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_type_choix_defaut ), */
-/* 				       modification_type_par_defaut, */
-/* 				       NULL ); */
+  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_type_nom ),
+				       modification_entree_nom_type,
+				       NULL );
+  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_type_apparaitre_entree ),
+				       modification_type_affichage_entree,
+				       NULL );
+  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_type_numerotation_automatique ),
+				       modification_type_numerotation_auto,
+				       NULL );
+  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_type_dernier_no ),
+				       modification_entree_type_dernier_no,
+				       NULL );
+  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_type_choix_defaut ),
+				       modification_type_par_defaut,
+				       NULL );
+
+  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_type_nom ),
+				     GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
+				     fenetre_preferences );
+  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_type_apparaitre_entree ),
+				     GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
+				     fenetre_preferences );
+  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_type_numerotation_automatique ),
+				     GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
+				     fenetre_preferences );
+  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_type_dernier_no ),
+				     GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
+				     fenetre_preferences );
+  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_type_choix_defaut ),
+				     GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
+				     fenetre_preferences );
+
 
 }
 /* ************************************************************************************************************** */
@@ -713,67 +1005,88 @@ void deselection_ligne_arbre_types ( GtkWidget *arbre,
 {
 
 
-/*   /\* on vire le no de la banque associé au bouton bouton_type_tri_date *\/ */
+  /* on vire le no de la banque associé au bouton bouton_type_tri_date */
 
-/*   gtk_object_set_data ( GTK_OBJECT ( bouton_type_tri_date ), */
-/* 			"no_compte", */
-/* 			NULL ); */
+  gtk_object_set_data ( GTK_OBJECT ( bouton_type_tri_date ),
+			"no_compte",
+			NULL );
 
-/*   /\* on se remet sur classement par date pour désensitiver la liste *\/ */
+  /* on se remet sur classement par date pour désensitiver la liste */
 
-/*   gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_type_tri_date ), */
-/* 				     modif_tri_date_ou_type, */
-/* 				     NULL ); */
-/*   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_type_tri_date ), */
-/* 				 TRUE ); */
-/*   gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_type_tri_date ), */
-/* 				       modif_tri_date_ou_type, */
-/* 				       NULL ); */
+  gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_type_tri_date ),
+				     gnome_property_box_changed,
+				     fenetre_preferences );
+  gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_type_tri_date ),
+				     modif_tri_date_ou_type,
+				     NULL );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_type_tri_date ),
+				 TRUE );
+  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_type_tri_date ),
+				       modif_tri_date_ou_type,
+				       NULL );
+  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_type_tri_date ),
+				       gnome_property_box_changed,
+				       fenetre_preferences );
 
-/*   /\* on desensitive les boutons du tri *\/ */
+  /* on desensitive les boutons du tri */
 
-/*   gtk_widget_set_sensitive ( bouton_type_tri_date, */
-/* 			     FALSE ); */
-/*   gtk_widget_set_sensitive ( bouton_type_tri_type, */
-/* 			     FALSE ); */
+  gtk_widget_set_sensitive ( bouton_type_tri_date,
+			     FALSE );
+  gtk_widget_set_sensitive ( bouton_type_tri_type,
+			     FALSE );
 
-/*   gtk_widget_set_sensitive ( bouton_type_neutre_inclut, */
-/* 			     FALSE ); */
-/*   gtk_widget_set_sensitive ( type_liste_tri, */
-/* 			     FALSE ); */
-
-
-/*   /\* on efface la liste des tris *\/ */
-
-/*   gtk_clist_clear ( GTK_CLIST ( type_liste_tri )); */
-
-
-/*   gtk_widget_set_sensitive ( vbox, */
-/* 			     FALSE ); */
-/*   gtk_widget_set_sensitive ( bouton_ajouter_type, */
-/* 			     FALSE ); */
-/*   gtk_widget_set_sensitive ( bouton_retirer_type, */
-/* 			     FALSE ); */
-
-/*   gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_type_nom ), */
-/* 				     modification_entree_nom_type, */
-/* 				     NULL ); */
-/*   gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_type_nom ), */
-/* 				       modification_entree_nom_type, */
-/* 				       NULL ); */
-
-/*   gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_type_dernier_no ), */
-/* 				     modification_entree_type_dernier_no, */
-/* 				     NULL ); */
-/*   gtk_entry_set_text ( GTK_ENTRY ( entree_type_dernier_no ), "" ); */
-/*   gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_type_dernier_no ), */
-/* 				       modification_entree_type_dernier_no, */
-/* 				       NULL ); */
+  gtk_widget_set_sensitive ( bouton_type_neutre_inclut,
+			     FALSE );
+  gtk_widget_set_sensitive ( type_liste_tri,
+			     FALSE );
 
 
-/*   gtk_object_set_data ( GTK_OBJECT ( entree_type_nom ), */
-/* 			"adr_node", */
-/* 			NULL ); */
+  /* on efface la liste des tris */
+
+  gtk_clist_clear ( GTK_CLIST ( type_liste_tri ));
+
+
+  gtk_widget_set_sensitive ( vbox,
+			     FALSE );
+  gtk_widget_set_sensitive ( bouton_ajouter_type,
+			     FALSE );
+  gtk_widget_set_sensitive ( bouton_retirer_type,
+			     FALSE );
+
+  gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_type_nom ),
+				     modification_entree_nom_type,
+				     NULL );
+  gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_type_nom ),
+				     GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
+				     fenetre_preferences );
+  gtk_entry_set_text ( GTK_ENTRY ( entree_type_nom ),
+		       "" );
+  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_type_nom ),
+				     GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
+				     fenetre_preferences );
+  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_type_nom ),
+				       modification_entree_nom_type,
+				       NULL );
+
+  gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_type_dernier_no ),
+				     modification_entree_type_dernier_no,
+				     NULL );
+  gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_type_dernier_no ),
+				     GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
+				     fenetre_preferences );
+  gtk_entry_set_text ( GTK_ENTRY ( entree_type_dernier_no ),
+		       "" );
+  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_type_dernier_no ),
+				     GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
+				     fenetre_preferences );
+  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_type_dernier_no ),
+				       modification_entree_type_dernier_no,
+				       NULL );
+
+
+  gtk_object_set_data ( GTK_OBJECT ( entree_type_nom ),
+			"adr_node",
+			NULL );
 }
 /* ************************************************************************************************************** */
 
@@ -796,11 +1109,11 @@ void modification_entree_nom_type ( void )
   gtk_ctree_node_set_text ( GTK_CTREE ( arbre_types_operations ),
 			    node,
 			    0,
-			    g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_type_nom ))));
+			    g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_type_nom ))));
 
   /* et on le sauve dans les types tmp */
 
-  type_ope -> nom_type = g_strstrip ( g_strdup ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_type_nom ))));
+  type_ope -> nom_type = g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( entree_type_nom ))));
 
   /* on réaffiche la liste du tri pour appliquer le changement */
 
@@ -837,8 +1150,15 @@ void modification_type_affichage_entree ( void )
 				 FALSE );
     }
 
+  gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_type_numerotation_automatique ),
+				     GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
+				     fenetre_preferences );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_type_numerotation_automatique ),
 				 FALSE );
+  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_type_numerotation_automatique ),
+				     GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
+				     fenetre_preferences );
+
 }
 /* ************************************************************************************************************** */
 
@@ -884,7 +1204,7 @@ void modification_entree_type_dernier_no ( void )
   type_ope = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_types_operations ),
 					   node );
 
-  type_ope -> no_en_cours = atoi ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_type_dernier_no ))));
+  type_ope -> no_en_cours = atoi ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_type_dernier_no ))));
 
 }
 /* ************************************************************************************************************** */

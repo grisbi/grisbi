@@ -86,14 +86,14 @@ GtkWidget *creation_barre_outils ( void )
 		      hbox2 );
   gtk_widget_show ( hbox2 );
 
-  fleche_haut = gnome_pixmap_new_from_xpm_d ( (const gchar **) image_fleche_haut_xpm );
+  fleche_haut = gnome_pixmap_new_from_xpm_d ( image_fleche_haut_xpm );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       fleche_haut,
 		       FALSE,
 		       FALSE,
 		       0 );
 
-  fleche_bas = gnome_pixmap_new_from_xpm_d ( (const gchar **) image_fleche_bas_xpm );
+  fleche_bas = gnome_pixmap_new_from_xpm_d ( image_fleche_bas_xpm );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       fleche_bas,
 		       FALSE,
@@ -137,7 +137,7 @@ GtkWidget *creation_barre_outils ( void )
 			 _("Four lines per transaction"),
 			 _("Four lines per transaction") );
 
-  icone = gnome_pixmap_new_from_xpm_d ( (const gchar **) ope_4_xpm );
+  icone = gnome_pixmap_new_from_xpm_d ( ope_4_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton_ope_4_lignes ),
 		      icone );
   gtk_signal_connect ( GTK_OBJECT ( bouton_ope_4_lignes ),
@@ -166,7 +166,7 @@ GtkWidget *creation_barre_outils ( void )
 			 _("Three lines per transaction"),
 			 _("Three lines per transaction") );
 
-  icone = gnome_pixmap_new_from_xpm_d ( (const gchar **) ope_3_xpm );
+  icone = gnome_pixmap_new_from_xpm_d ( ope_3_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton_ope_3_lignes ),
 		      icone );
   gtk_signal_connect ( GTK_OBJECT ( bouton_ope_3_lignes ),
@@ -194,7 +194,7 @@ GtkWidget *creation_barre_outils ( void )
 			 _("Two lines per transaction"),
 			 _("Two lines per transaction") );
 
-  icone = gnome_pixmap_new_from_xpm_d ( (const gchar **) ope_2_xpm );
+  icone = gnome_pixmap_new_from_xpm_d ( ope_2_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton_ope_2_lignes ),
 		      icone );
   gtk_signal_connect ( GTK_OBJECT ( bouton_ope_2_lignes ),
@@ -223,7 +223,7 @@ GtkWidget *creation_barre_outils ( void )
 			 _("One line per transaction"),
 			 _("One line per transaction") );
 
-  icone = gnome_pixmap_new_from_xpm_d ( (const gchar **) ope_1_xpm );
+  icone = gnome_pixmap_new_from_xpm_d ( ope_1_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton_ope_1_lignes ),
 		      icone );
   gtk_widget_set_usize ( bouton_ope_1_lignes,
@@ -261,7 +261,7 @@ GtkWidget *creation_barre_outils ( void )
   gtk_widget_set_usize ( bouton_affiche_r,
 			 15,
 			 15 );
-  icone = gnome_pixmap_new_from_xpm_d ( (const gchar **) (const gchar **) ope_avec_r );
+  icone = gnome_pixmap_new_from_xpm_d ( ope_avec_r );
   gtk_container_add ( GTK_CONTAINER ( bouton_affiche_r ),
 		      icone );
   gtk_signal_connect ( GTK_OBJECT ( bouton_affiche_r ),
@@ -285,7 +285,7 @@ GtkWidget *creation_barre_outils ( void )
 			 bouton_enleve_r,
 			 _("Mask reconciled transactions"),
 			 _("Mask reconciled transactions") );
-  icone = gnome_pixmap_new_from_xpm_d ( (const gchar **) ope_sans_r );
+  icone = gnome_pixmap_new_from_xpm_d ( ope_sans_r );
   gtk_container_add ( GTK_CONTAINER ( bouton_enleve_r ),
 		      icone );
   gtk_widget_set_usize ( bouton_enleve_r,
@@ -748,14 +748,14 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 		      hbox2 );
   gtk_widget_show ( hbox2 );
 
-  fleche_haut_echeancier = gnome_pixmap_new_from_xpm_d ( (const gchar **) image_fleche_haut_xpm );
+  fleche_haut_echeancier = gnome_pixmap_new_from_xpm_d ( image_fleche_haut_xpm );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       fleche_haut_echeancier,
 		       FALSE,
 		       FALSE,
 		       0 );
 
-  fleche_bas_echeancier = gnome_pixmap_new_from_xpm_d ( (const gchar **) image_fleche_bas_xpm );
+  fleche_bas_echeancier = gnome_pixmap_new_from_xpm_d ( image_fleche_bas_xpm );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       fleche_bas_echeancier,
 		       FALSE,
@@ -828,7 +828,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
 			 bouton,
 			 _("Close tree"),
 			 _("Close tree") );
-  icone = gnome_pixmap_new_from_xpm_d ( (const gchar **) liste_0_xpm );
+  icone = gnome_pixmap_new_from_xpm_d ( liste_0_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton ),
 		      icone );
   gtk_widget_set_usize ( bouton,
@@ -857,7 +857,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
 			 bouton,
 			 _("Display accounts"),
 			 _("Display accounts") );
-  icone = gnome_pixmap_new_from_xpm_d ( (const gchar **) liste_1_xpm );
+  icone = gnome_pixmap_new_from_xpm_d ( liste_1_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton ),
 		      icone );
   gtk_widget_set_usize ( bouton,
@@ -886,7 +886,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
 			 bouton,
 			 _("Display transactions"),
 			 _("Display transactions") );
-  icone = gnome_pixmap_new_from_xpm_d ( (const gchar **) liste_2_xpm );
+  icone = gnome_pixmap_new_from_xpm_d ( liste_2_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton ),
 		      icone );
   gtk_widget_set_usize ( bouton,
@@ -953,7 +953,7 @@ GtkWidget *creation_barre_outils_categ ( void )
 			 bouton,
 			 _("Close tree"),
 			 _("Close tree") );
-  icone = gnome_pixmap_new_from_xpm_d ( (const gchar **) liste_0_xpm );
+  icone = gnome_pixmap_new_from_xpm_d ( liste_0_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton ),
 		      icone );
   gtk_widget_set_usize ( bouton,
@@ -982,7 +982,7 @@ GtkWidget *creation_barre_outils_categ ( void )
 			 bouton,
 			 _("Display sub-divisions"),
 			 _("Display sub-divisions") );
-  icone = gnome_pixmap_new_from_xpm_d ( (const gchar **) liste_1_xpm );
+  icone = gnome_pixmap_new_from_xpm_d ( liste_1_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton ),
 		      icone );
   gtk_widget_set_usize ( bouton,
@@ -1011,7 +1011,7 @@ GtkWidget *creation_barre_outils_categ ( void )
 			 bouton,
 			 _("Display accounts"),
 			 _("Display accounts") );
-  icone = gnome_pixmap_new_from_xpm_d ( (const gchar **) liste_2_xpm );
+  icone = gnome_pixmap_new_from_xpm_d ( liste_2_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton ),
 		      icone );
   gtk_widget_set_usize ( bouton,
@@ -1040,7 +1040,7 @@ GtkWidget *creation_barre_outils_categ ( void )
 			 bouton,
 			 _("Display transactions"),
 			 _("Display transactions") );
-  icone = gnome_pixmap_new_from_xpm_d ( (const gchar **) liste_3_xpm );
+  icone = gnome_pixmap_new_from_xpm_d ( liste_3_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton ),
 		      icone );
   gtk_widget_set_usize ( bouton,
@@ -1108,7 +1108,7 @@ GtkWidget *creation_barre_outils_imputation ( void )
 			 bouton,
 			 _("Close tree"),
 			 _("Close tree") );
-  icone = gnome_pixmap_new_from_xpm_d ( (const gchar **) liste_0_xpm );
+  icone = gnome_pixmap_new_from_xpm_d ( liste_0_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton ),
 		      icone );
   gtk_widget_set_usize ( bouton,
@@ -1137,7 +1137,7 @@ GtkWidget *creation_barre_outils_imputation ( void )
 			 bouton,
 			 _("Display sub-divisions"),
 			 _("Display sub-divisions") );
-  icone = gnome_pixmap_new_from_xpm_d ( (const gchar **) liste_1_xpm );
+  icone = gnome_pixmap_new_from_xpm_d ( liste_1_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton ),
 		      icone );
   gtk_widget_set_usize ( bouton,
@@ -1166,7 +1166,7 @@ GtkWidget *creation_barre_outils_imputation ( void )
 			 bouton,
 			 _("Display accounts"),
 			 _("Display accounts") );
-  icone = gnome_pixmap_new_from_xpm_d ( (const gchar **) liste_2_xpm );
+  icone = gnome_pixmap_new_from_xpm_d ( liste_2_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton ),
 		      icone );
   gtk_widget_set_usize ( bouton,
@@ -1195,7 +1195,7 @@ GtkWidget *creation_barre_outils_imputation ( void )
 			 bouton,
 			 _("Display transactions"),
 			 _("Display transactions") );
-  icone = gnome_pixmap_new_from_xpm_d ( (const gchar **) liste_3_xpm );
+  icone = gnome_pixmap_new_from_xpm_d ( liste_3_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton ),
 		      icone );
   gtk_widget_set_usize ( bouton,

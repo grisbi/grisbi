@@ -1,8 +1,5 @@
 /* ComboFix Widget
- *
- *     Copyright (C)	2001 Cédric Auger (cedric@grisbi.org) 
- *			2003 Benjamin Drieu (bdrieu@april.org) 
- * 			http://www.grisbi.org
+ * Copyright (C) 2001 Cédric Auger
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -21,7 +18,7 @@
  */
 
 #include "gtkcombofix.h"
-#include <gdk/gdkkeysyms.h>
+
 
 
 /* Liste des fonctions statiques */
@@ -30,44 +27,44 @@ static void gtk_combofix_class_init ( GtkComboFixClass *klass );
 static void gtk_combofix_init ( GtkComboFix *combofix );
 static gint classe_alphabetique ( gchar *string_1,
 			      gchar *string_2 );
-static gboolean change_arrow ( GtkWidget *bouton,
+static void change_arrow ( GtkWidget *bouton,
 			   GtkComboFix *combofix );
-static gboolean affiche_proposition ( GtkWidget *entree,
+static void affiche_proposition ( GtkWidget *entree,
 				  gchar *texte,
 				  gint longueur,
 				  gint *position,
 				  GtkComboFix *combofix );
-static gboolean realize_scrolled_window ( GtkWidget *vbox,
+static void realize_scrolled_window ( GtkWidget *vbox,
 				      GtkAllocation *allocation,
 				      GtkComboFix *combofix );
-static gboolean gtk_combofix_button_press ( GtkWidget *widget,
+static void gtk_combofix_button_press ( GtkWidget *widget,
 					GdkEventButton *ev,
 					GtkComboFix *combofix );
-static gboolean met_en_prelight ( GtkWidget *event_box,
+static void met_en_prelight ( GtkWidget *event_box,
 			      GdkEventMotion *ev,
 			      GtkComboFix *combofix );
-static gboolean click_sur_label ( GtkWidget *event_box,
+static void click_sur_label ( GtkWidget *event_box,
 			      GdkEventButton *ev,
 			      GtkComboFix *combofix );
-static gboolean  focus_out_combofix ( GtkWidget *widget,
+static void  focus_out_combofix ( GtkWidget *widget,
 				  GdkEvent *ev,
 				  GtkComboFix *combofix );
-static gboolean met_selection ( GtkWidget *entry,
+static void met_selection ( GtkWidget *entry,
 			    GdkRectangle *area,
 			    GtkComboFix *combofix );
-static gboolean verifie_efface_texte ( GtkWidget *entree,
+static void verifie_efface_texte ( GtkWidget *entree,
 				   gint start,
 				   gint end,
 				   GtkComboFix *combofix );
-static gboolean efface_texte ( GtkWidget *entree,
+static void efface_texte ( GtkWidget *entree,
 			   gint start,
 			   gint end,
 			   GtkComboFix *combofix );
-static gboolean touche_pressee ( GtkWidget *entry,
+static void touche_pressee ( GtkWidget *entry,
 			     GdkEventKey *ev,
 			     GtkComboFix *combofix );
 static GSList *classe_combofix ( GSList *liste );
-static gboolean touche_pressee_dans_popup ( GtkWidget *popup,
+static void touche_pressee_dans_popup ( GtkWidget *popup,
 					GdkEventKey *event,
 					GtkComboFix *combofix );
 
@@ -77,7 +74,6 @@ static gboolean touche_pressee_dans_popup ( GtkWidget *popup,
 static gint rafraichir_selection = 0;
 
 
-static gint bloque_proposition = 0;
 
 
 /* **************************************************************************************************** */
@@ -180,7 +176,7 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
 		       GTK_SIGNAL_FUNC ( focus_out_combofix ),
 		       combofix );
   gtk_signal_connect ( GTK_OBJECT ( combofix->entry ),
-		       "expose-event",
+		       "draw",
 		       GTK_SIGNAL_FUNC ( met_selection ),
 		       combofix );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
@@ -222,11 +218,11 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
 			  FALSE,
 			  TRUE );
   gtk_signal_connect ( GTK_OBJECT ( combofix->popup ),
-		       "button-press-event",
+		       "button_press_event",
 		       GTK_SIGNAL_FUNC ( gtk_combofix_button_press ),
 		       combofix );
   gtk_signal_connect ( GTK_OBJECT ( combofix -> popup ),
-		       "key-press-event", 
+		       "key_press_event", 
 		       GTK_SIGNAL_FUNC ( touche_pressee_dans_popup ),
 		       combofix );
 
@@ -525,7 +521,7 @@ static gint classe_alphabetique ( gchar *string_1,
 /* appelée lors de click sur la flèche */
 /* **************************************************************************************************** */
 
-static gboolean change_arrow ( GtkWidget *bouton,
+static void change_arrow ( GtkWidget *bouton,
 			   GtkComboFix *combofix )
 {
   /* nécessaire de mettre le grab_focus en premier pour le fonctionnement avec grisbi */
@@ -556,8 +552,6 @@ static gboolean change_arrow ( GtkWidget *bouton,
 			    0,
 			    combofix );
     }
-
-  return TRUE;
 } 
 /* **************************************************************************************************** */
 
@@ -569,7 +563,7 @@ static gboolean change_arrow ( GtkWidget *bouton,
 /* ou lorsque du texte est effacé : dans ce cas entree = NULL */
 /* **************************************************************************************************** */
 
-static gboolean affiche_proposition ( GtkWidget *entree,
+static void affiche_proposition ( GtkWidget *entree,
 				  gchar *texte,
 				  gint longueur,
 				  gint *position,
@@ -589,9 +583,6 @@ static gboolean affiche_proposition ( GtkWidget *entree,
   GSList *liste_affichee;
   gchar *categorie;
   gint ligne_en_cours;
-
-  if (bloque_proposition)
-    return;
 
 #define COULEUR_RED  40000
 #define COULEUR_GREEN  40000
@@ -628,14 +619,14 @@ static gboolean affiche_proposition ( GtkWidget *entree,
 	    *position = 0;
 	}
 
-      return TRUE;
+      return;
     }
 
   /* recherche de la complétion */
 
  recherche_completion:
 
-  chaine = (gchar *) gtk_entry_get_text ( GTK_ENTRY ( combofix -> entry ));
+  chaine = gtk_entry_get_text ( GTK_ENTRY ( combofix -> entry ));
   completion = NULL;
 
   if ( strlen ( chaine ) )
@@ -701,7 +692,7 @@ static gboolean affiche_proposition ( GtkWidget *entree,
 
 	  rafraichir_selection = 1;
 	}
-      return TRUE;
+      return;
     }
 
 
@@ -714,7 +705,7 @@ static gboolean affiche_proposition ( GtkWidget *entree,
   if ( entree == GINT_TO_POINTER ( -1 ) )
     chaine = texte;
   else
-    chaine = (char *) gtk_entry_get_text ( GTK_ENTRY ( combofix->entry ));
+    chaine = gtk_entry_get_text ( GTK_ENTRY ( combofix->entry ));
 
 
   liste_tmp = combofix->liste;
@@ -799,7 +790,7 @@ static gboolean affiche_proposition ( GtkWidget *entree,
 		    gtk_grab_remove ( combofix -> popup );
 		    gdk_pointer_ungrab ( GDK_CURRENT_TIME );
 		  }
-		return TRUE;
+		return;
 	      }
 	    sous_liste_tmp = sous_liste_tmp -> next;
 	  }
@@ -877,7 +868,7 @@ static gboolean affiche_proposition ( GtkWidget *entree,
 		gtk_grab_remove ( combofix -> popup );
 		gdk_pointer_ungrab ( GDK_CURRENT_TIME );
 	      }
-	    return TRUE;
+	    return;
 	  }
 
 	liste_tmp = liste_tmp -> next;
@@ -993,11 +984,11 @@ static gboolean affiche_proposition ( GtkWidget *entree,
 				      "texte",
 				      string );
 		gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				     "enter-notify-event",
+				     "enter_notify_event",
 				     GTK_SIGNAL_FUNC ( met_en_prelight ),
 				     combofix );
 		gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				     "button-press-event",
+				     "button_press_event",
 				     GTK_SIGNAL_FUNC ( click_sur_label ),
 				     combofix );
 
@@ -1038,11 +1029,11 @@ static gboolean affiche_proposition ( GtkWidget *entree,
 						    string + 1,
 						    NULL ));
 		gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				     "enter-notify-event",
+				     "enter_notify_event",
 				     GTK_SIGNAL_FUNC ( met_en_prelight ),
 				     combofix );
 		gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				     "button-press-event",
+				     "button_press_event",
 				     GTK_SIGNAL_FUNC ( click_sur_label ),
 				     combofix );
 
@@ -1106,11 +1097,11 @@ static gboolean affiche_proposition ( GtkWidget *entree,
 				  "texte",
 				  string );
 	    gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				 "enter-notify-event",
+				 "enter_notify_event",
 				 GTK_SIGNAL_FUNC ( met_en_prelight ),
 				 combofix );
 	    gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				 "button-press-event",
+				 "button_press_event",
 				 GTK_SIGNAL_FUNC ( click_sur_label ),
 				 combofix );
 
@@ -1151,11 +1142,11 @@ static gboolean affiche_proposition ( GtkWidget *entree,
 						string + 1,
 						NULL ));
 	    gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				 "enter-notify-event",
+				 "enter_notify_event",
 				 GTK_SIGNAL_FUNC ( met_en_prelight ),
 				 combofix );
 	    gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				 "button-press-event",
+				 "button_press_event",
 				 GTK_SIGNAL_FUNC ( click_sur_label ),
 				 combofix );
 
@@ -1208,7 +1199,7 @@ static gboolean affiche_proposition ( GtkWidget *entree,
   if ( !GTK_WIDGET_REALIZED ( combofix->popup ) )
     {
       if ( !completion || !g_slist_length ( combofix->event_box ))
-	return TRUE;
+	return;
 
       gtk_container_add ( GTK_CONTAINER ( GTK_BIN ( combofix -> popup ) -> child  ),
 			  scrolled_window );
@@ -1232,7 +1223,7 @@ static gboolean affiche_proposition ( GtkWidget *entree,
 	gfloat value;
 
 	if ( !completion  || !g_slist_length ( combofix->event_box ))
-	  return TRUE;
+	  return;
 
 	value = gtk_scrolled_window_get_vadjustment ( GTK_SCROLLED_WINDOW  ( combofix->box ) ) -> value;
 
@@ -1265,7 +1256,7 @@ static gboolean affiche_proposition ( GtkWidget *entree,
 
 	    gtk_grab_remove ( combofix -> popup );
 	    gdk_pointer_ungrab ( GDK_CURRENT_TIME );
-	    return TRUE;
+	    return;
 	  }
 
 	gtk_widget_destroy ( combofix->box );
@@ -1276,14 +1267,13 @@ static gboolean affiche_proposition ( GtkWidget *entree,
 	gtk_widget_show_all ( combofix->popup );
 
       }
-  
-  return TRUE;
+
 }
 /* **************************************************************************************************** */
 
 
 /* **************************************************************************************************** */
-static gboolean realize_scrolled_window ( GtkWidget *vbox,
+static void realize_scrolled_window ( GtkWidget *vbox,
 				      GtkAllocation *allocation,
 				      GtkComboFix *combofix )
 {
@@ -1348,7 +1338,6 @@ static gboolean realize_scrolled_window ( GtkWidget *vbox,
 			     x,
 			     y );
 
-  return TRUE;
 }
 /* **************************************************************************************************** */
 
@@ -1360,7 +1349,7 @@ static gboolean realize_scrolled_window ( GtkWidget *vbox,
 /* une autre fonction se charge de récupérer le label si c'est un click sur la popup */
 /* **************************************************************************************************** */
 
-static gboolean gtk_combofix_button_press ( GtkWidget *widget,
+static void gtk_combofix_button_press ( GtkWidget *widget,
 					GdkEventButton *ev,
 					GtkComboFix *combofix )
 {
@@ -1373,27 +1362,27 @@ static gboolean gtk_combofix_button_press ( GtkWidget *widget,
        ( ev -> y_root > ( GTK_WIDGET ( combofix->popup ) -> allocation.y ))
        &&
        ( ev -> x_root < ( GTK_WIDGET ( combofix->popup ) -> allocation.y +  GTK_WIDGET ( combofix->popup ) -> allocation. height)))
-    return TRUE;
+    return;
 
   gtk_widget_hide (combofix->popup);
 
   gtk_grab_remove ( combofix -> popup );
   gdk_pointer_ungrab ( GDK_CURRENT_TIME );
 
-  return TRUE;
+
 }
 /* **************************************************************************************************** */
 
 
 /* **************************************************************************************************** */
-static gboolean met_en_prelight ( GtkWidget *event_box,
+static void met_en_prelight ( GtkWidget *event_box,
 			      GdkEventMotion *ev,
 			      GtkComboFix *combofix )
 {
   if ( !combofix->event_box )
     {
       combofix -> label_selectionne = 0;
-      return TRUE;
+      return;
     }
 
   /* efface l'ancienne sélection */
@@ -1410,14 +1399,14 @@ static gboolean met_en_prelight ( GtkWidget *event_box,
   combofix -> label_selectionne  = g_slist_index ( combofix -> event_box,
 						   event_box );
 
-  return TRUE;
+
 }
 /* **************************************************************************************************** */
 
 
 
 /* **************************************************************************************************** */
-static gboolean click_sur_label ( GtkWidget *event_box,
+static void click_sur_label ( GtkWidget *event_box,
 			      GdkEventButton *ev,
 			      GtkComboFix *combofix )
 {
@@ -1428,14 +1417,14 @@ static gboolean click_sur_label ( GtkWidget *event_box,
   gdk_pointer_ungrab ( GDK_CURRENT_TIME );
   gtk_widget_hide ( combofix->popup );
 
-  return TRUE;
+
 }
 /* **************************************************************************************************** */
 
 
 
 /* **************************************************************************************************** */
-static gboolean focus_out_combofix ( GtkWidget *widget,
+static void  focus_out_combofix ( GtkWidget *widget,
 				  GdkEvent *ev,
 				  GtkComboFix *combofix )
 {
@@ -1467,10 +1456,10 @@ static gboolean focus_out_combofix ( GtkWidget *widget,
       gchar *chaine;
       GSList *liste_tmp;
 
-      chaine = g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( combofix -> entry ) ) );
+      chaine = g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( combofix -> entry ) ) );
 
       if ( !strlen ( chaine ) )
-	return TRUE;
+	return;
 
       liste_tmp = combofix->liste_completion;
 
@@ -1502,10 +1491,11 @@ static gboolean focus_out_combofix ( GtkWidget *widget,
 
 
 /* **************************************************************************************************** */
-static gboolean met_selection ( GtkWidget *entry,
+static void met_selection ( GtkWidget *entry,
 			    GdkRectangle *area,
 			    GtkComboFix *combofix )
 {
+
   if ( GTK_WIDGET_HAS_FOCUS ( combofix->entry ) && rafraichir_selection == 1 )
     {
       gtk_entry_select_region ( GTK_ENTRY ( combofix->entry ),
@@ -1513,8 +1503,6 @@ static gboolean met_selection ( GtkWidget *entry,
 				-1);
       rafraichir_selection = 0;
     }
-
-  return FALSE;
 }
 /* **************************************************************************************************** */
 
@@ -1522,7 +1510,7 @@ static gboolean met_selection ( GtkWidget *entry,
 /* **************************************************************************************************** */
 /* vérifie avant d'effacer une partie du texte si force_text est mis, que le résultat fait partit de la liste */
 /* **************************************************************************************************** */
-static gboolean verifie_efface_texte ( GtkWidget *entree,
+static void verifie_efface_texte ( GtkWidget *entree,
 				   gint start,
 				   gint end,
 				   GtkComboFix *combofix )
@@ -1534,12 +1522,12 @@ static gboolean verifie_efface_texte ( GtkWidget *entree,
   /* si force_text n'est pas mis, on s'en va */
 
   if ( !combofix->force_text )
-    return TRUE;
+    return;
 
   /*   si la liste est nulle, on s'en va */
 
   if ( !combofix -> liste )
-    return TRUE;
+    return;
 
   /* crée la future chaine */
 
@@ -1561,7 +1549,7 @@ static gboolean verifie_efface_texte ( GtkWidget *entree,
 			    liste_tmp->data, 
 			    strlen ( chaine ) ) )
 	/*       la partie du mot fait partie de la liste -> on s'en va */
-	return TRUE;
+	return;
     while ( ( liste_tmp = liste_tmp -> next ) );
 
   /*   pas trouvé dans la liste -> stoppe le signal */
@@ -1578,7 +1566,7 @@ static gboolean verifie_efface_texte ( GtkWidget *entree,
     gtk_editable_set_position ( GTK_EDITABLE ( combofix -> entry ),
 				start );
 
-  return TRUE;
+
 }
 /* **************************************************************************************************** */
 
@@ -1589,7 +1577,7 @@ static gboolean verifie_efface_texte ( GtkWidget *entree,
 /* en mettant le 1er arg de affiche_proposition à NULL */
 /* **************************************************************************************************** */
 
-static gboolean efface_texte ( GtkWidget *entree,
+static void efface_texte ( GtkWidget *entree,
 			   gint start,
 			   gint end,
 			   GtkComboFix *combofix )
@@ -1607,7 +1595,6 @@ static gboolean efface_texte ( GtkWidget *entree,
 			  0,
 			  0,
 			  combofix );
-  return TRUE;
 
 }
 /* **************************************************************************************************** */
@@ -1627,12 +1614,16 @@ void gtk_combofix_set_text ( GtkComboFix *combofix,
   g_return_if_fail (GTK_IS_COMBOFIX (combofix));
   g_return_if_fail ( text);
 
-  /* FIXME: gruik but I cannot understand how to *completely* inhibit
-     this signal ... this happened to work fine with GTK1.2 [benj] */
-  bloque_proposition = 1;
+  
+  gtk_signal_handler_block_by_func ( GTK_OBJECT ( combofix->entry ),
+				     GTK_SIGNAL_FUNC ( affiche_proposition ),
+				     combofix );
   gtk_entry_set_text ( GTK_ENTRY ( combofix -> entry ),
 		       text );
-  bloque_proposition = 0;
+  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( combofix->entry ),
+				       GTK_SIGNAL_FUNC ( affiche_proposition ),
+				       combofix );
+
 }
 /* **************************************************************************************************** */
 
@@ -1694,37 +1685,41 @@ gchar *gtk_combofix_get_text ( GtkComboFix *combofix )
   g_return_val_if_fail (GTK_IS_COMBOFIX (combofix), NULL);
 
 
-  return ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( combofix->entry ) ));
+  return ( gtk_entry_get_text ( GTK_ENTRY ( combofix->entry ) ));
 }
 /* **************************************************************************************************** */
 
 
 /* **************************************************************************************************** */
 
-static gboolean touche_pressee ( GtkWidget *entry,
+static void touche_pressee ( GtkWidget *entry,
 			     GdkEventKey *ev,
 			     GtkComboFix *combofix )
 {
   GtkAdjustment *ajustement;
 
   if ( !combofix -> liste )
-    return FALSE;
+    return;
 
   switch ( ev -> keyval )
     {
 
       /* touche gauche ou droite pressée s'il y a une sélection, vire la sélection et place le curseur à la fin de cette sélection */
-    case GDK_Left :
-    case GDK_Right :
-    case GDK_Tab :
-      gtk_grab_remove ( combofix -> popup );
-      gdk_pointer_ungrab ( GDK_CURRENT_TIME );
-      gtk_widget_hide ( combofix->popup );
-      return FALSE;
+    case 65361 :
+    case 65363 :
+      if ( ( GTK_EDITABLE ( combofix -> entry ) -> selection_end_pos - GTK_EDITABLE ( combofix -> entry ) -> selection_start_pos ) != 0 )
+	gtk_editable_set_position ( GTK_EDITABLE ( combofix -> entry ),
+				    MAX ( GTK_EDITABLE ( combofix -> entry ) -> selection_start_pos,
+					  GTK_EDITABLE ( combofix -> entry ) -> selection_end_pos ) );
+
+      gtk_editable_select_region ( GTK_EDITABLE ( combofix -> entry ),
+				   0,
+				   0 );
+      break;
 
       /*       touche entrée : prend le label sélectionné puis vire la popup */
-    case GDK_KP_Enter :
-    case GDK_Return :
+    case 65293 :
+    case 65421 :
       if ( GTK_WIDGET_VISIBLE ( combofix -> popup ) &&   combofix -> label_selectionne != -1 )
       {
 	gtk_combofix_set_text ( combofix,
@@ -1733,8 +1728,9 @@ static gboolean touche_pressee ( GtkWidget *entry,
 				       "key-press-event" );
       }
 
+
       /*       touches échap  : vire la popup et  la sélection */
-    case GDK_Escape:
+    case 65307:
       if ( GTK_WIDGET_VISIBLE ( combofix -> popup ))
 	{
 	  gtk_grab_remove ( combofix -> popup );
@@ -1751,7 +1747,7 @@ static gboolean touche_pressee ( GtkWidget *entry,
      
       /* flèche bas */
 
-    case GDK_Down:
+    case 65364:
       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( combofix -> entry ),
 				     "key-press-event" );
       /*     si la popup n'est pas affichée à cause de l'arrow, descend l'arrow, affiche la liste */
@@ -1793,7 +1789,7 @@ static gboolean touche_pressee ( GtkWidget *entry,
  
       /* flèche haut */
 
-    case GDK_Up:
+    case 65362:
       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( combofix -> entry ),
 				     "key-press-event" );
 
@@ -1823,7 +1819,7 @@ static gboolean touche_pressee ( GtkWidget *entry,
 
       /* page up */
 
-    case GDK_Page_Up:
+    case 65365:
       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( combofix -> entry ),
 				     "key-press-event" );
 
@@ -1864,7 +1860,7 @@ static gboolean touche_pressee ( GtkWidget *entry,
 
       /* page down */
 
-    case GDK_Page_Down:
+    case 65366:
       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( combofix -> entry ),
 				     "key-press-event" );
       /*     si la popup n'est pas affichée à cause de l'arrow, descend l'arrow, affiche la liste */
@@ -1915,9 +1911,9 @@ static gboolean touche_pressee ( GtkWidget *entry,
 				     GTK_STATE_PRELIGHT );
 	    }
 	}
-      break;
+
     }
-  return FALSE;
+
 }
 /* **************************************************************************************************** */
 
@@ -2170,15 +2166,14 @@ void gtk_combofix_set_list ( GtkComboFix *combofix,
 
 
 /* **************************************************************************************************** */
-static gboolean touche_pressee_dans_popup ( GtkWidget *popup,
+static void touche_pressee_dans_popup ( GtkWidget *popup,
 					GdkEventKey *event,
 					GtkComboFix *combofix )
 {
   gtk_signal_emit_by_name ( GTK_OBJECT ( combofix -> entry ),
-			    "key-press-event",
+			    "key_press_event",
 			    event,
 			    malloc ( sizeof ( gboolean )) );
-  return FALSE;
 }
 /* **************************************************************************************************** */
 

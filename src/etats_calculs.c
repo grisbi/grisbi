@@ -27,6 +27,7 @@
 
 
 #include "etats_gtktable.h"
+#include "etats_gnomeprint.h"
 
 
 /*****************************************************************************************************/
@@ -188,6 +189,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 	    no_exercice_recherche = exo_precedent -> no_exercice;
 
 	  break;
+
 	}
     }
 
@@ -1461,6 +1463,15 @@ gint compare_montants_etat ( gdouble montant_ope,
 
 
 /*****************************************************************************************************/
+/* Fonction d'impression de l'état */
+/*****************************************************************************************************/
+void impression_etat ( struct struct_etat *etat )
+{
+  affichage_etat ( etat, &gnomeprint_affichage );
+}
+
+
+/*****************************************************************************************************/
 /* Fonction de rafraichissement de l'état */
 /*****************************************************************************************************/
 void rafraichissement_etat ( struct struct_etat *etat )
@@ -2258,7 +2269,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 	      ligne = affichage -> affiche_titre_depenses_etat ( ligne );
 	    }
 	  else
-	    continue;
+	    goto fin_boucle_affichage_etat;
 	}
       else
 	{
@@ -2286,7 +2297,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 		  /* 	      s'il n'y a pas de dépenses non plus, on sort de la boucle */
  
 		  if ( !liste_ope_depenses )
-		    continue;
+		    goto fin_boucle_affichage_etat;
 
 		  ligne = affichage -> affiche_titre_depenses_etat ( ligne );
 		}
@@ -2299,7 +2310,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 	      if ( liste_ope_revenus )
 		pointeur_tmp = liste_ope_revenus;
 	      else
-		continue;
+		goto fin_boucle_affichage_etat;
 	    }
 	}
 
@@ -2651,6 +2662,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 						      ligne,
 						      i );
 
+    fin_boucle_affichage_etat:
     }
 
   /* on affiche maintenant le total général */
