@@ -34,6 +34,13 @@ GtkWidget * new_text_area ( gchar ** value, GCallback * hook );
 GtkWidget * list_font_name_label, * list_font_size_label;
 GtkWidget * general_font_name_label, * general_font_size_label;
 
+/** Button used to store a nice preview of the homepage logo */
+GtkWidget *logo_button;
+
+/** GtkImage containing the preview  */
+GtkWidget *preview;
+
+
 
 /**
  * Updates transaction form according to state "etat"
@@ -209,7 +216,6 @@ onglet_display_transaction_form ( void )
 }
 
 
-
 /**
  * Creates the "Fonts & logo" tab.  This function creates some buttons
  * that are borrowed from applications like gedit.
@@ -220,8 +226,8 @@ GtkWidget * onglet_display_fonts ( void )
 {
   GtkWidget *hbox, *vbox_pref;
   GtkWidget *label, *paddingbox;
-  GtkWidget *table, *font_button, *logo_button;
-  GtkWidget *hbox_font, *init_button, *preview;
+  GtkWidget *table, *font_button;
+  GtkWidget *hbox_font, *init_button;
   GdkPixbuf * pixbuf;
 
   vbox_pref = new_vbox_with_title_and_icon ( _("Fonts & logo"),
@@ -243,7 +249,8 @@ GtkWidget * onglet_display_fonts ( void )
   pixbuf = gdk_pixbuf_new_from_file (chemin_logo, NULL);
   if (!pixbuf)
     {
-      preview = gtk_image_new_from_stock (GTK_STOCK_MISSING_IMAGE, 32);
+      preview = gtk_image_new_from_stock ( GTK_STOCK_MISSING_IMAGE, 
+					   GTK_ICON_SIZE_BUTTON );
     }
   else
     {
@@ -700,10 +707,9 @@ void choix_fonte_general ( GtkWidget *bouton,
 /* **************************************************************************************************************************** */
 void modification_logo_accueil ( void )
 {
-  GtkWidget *dialog;
-  GtkWidget *choix;
+  GtkWidget *dialog, *choix, *bouton;
+  GdkPixbuf * pixbuf;
   gint resultat;
-  GtkWidget *bouton;
 
   dialog = gnome_dialog_new ( _("Select a new logo"),
 			      GNOME_STOCK_BUTTON_OK,
@@ -741,13 +747,6 @@ void modification_logo_accueil ( void )
     }
   if ( nb_comptes )
     {
-      /* on vire l'ancien logo et la séparation */
-      
-/*       if (chemin_logo) */
-/* 	{ */
-/* 	  gtk_widget_destroy ( ((GtkBoxChild *)(GTK_BOX ( page_accueil ) -> children -> data )) -> widget ); */
-/* 	}   */
-
       /* on change le logo */
       chemin_logo = gnome_pixmap_entry_get_filename ( GNOME_PIXMAP_ENTRY(choix) );
 
@@ -760,12 +759,41 @@ void modification_logo_accueil ( void )
 	}
       else
 	{
+	  /* Update homepage logo */
 	  gtk_widget_destroy ( logo_accueil ); 
 	  logo_accueil =  gnome_pixmap_new_from_file ( chemin_logo );
 	  gtk_box_pack_start ( GTK_BOX ( page_accueil ), logo_accueil,
 			       FALSE, FALSE, 0 );
 	  gtk_widget_show ( logo_accueil );
-  	}
+	}
+
+      /* Update preview */
+      pixbuf = gdk_pixbuf_new_from_file (chemin_logo, NULL);
+      gtk_container_remove (GTK_CONTAINER(logo_button), preview);
+      if (!pixbuf)
+	{
+	  preview = gtk_image_new_from_stock ( GTK_STOCK_MISSING_IMAGE, 
+					       GTK_ICON_SIZE_BUTTON );
+	}
+      else
+	{
+	  if ( gdk_pixbuf_get_width(pixbuf) > 64 ||
+	       gdk_pixbuf_get_height(pixbuf) > 64)
+	    {
+	      GdkPixbuf * tmp;
+	      tmp = gdk_pixbuf_new ( GDK_COLORSPACE_RGB, TRUE, 8, 
+				     gdk_pixbuf_get_width(pixbuf)/2, 
+				     gdk_pixbuf_get_height(pixbuf)/2 );
+	      gdk_pixbuf_scale ( pixbuf, tmp, 0, 0, 
+				 gdk_pixbuf_get_width(pixbuf)/2, 
+				 gdk_pixbuf_get_height(pixbuf)/2,
+				 0, 0, 0.5, 0.5, GDK_INTERP_HYPER );
+	      pixbuf = tmp;
+	    }
+	  preview = gtk_image_new_from_pixbuf (pixbuf);
+	}
+      gtk_widget_show ( preview );
+      gtk_container_add ( GTK_CONTAINER(logo_button), preview );
     }
 
   gnome_dialog_close ( GNOME_DIALOG ( dialog ));
