@@ -100,12 +100,10 @@ gboolean recuperation_donnees_gnucash ( gchar * filename )
   if ( doc )
   {
       xmlNodePtr root = xmlDocGetRootElement(doc);
-      xmlNodePtr root_node = NULL;
 
       if ( root )
       {
-	  root_node = root -> children;
-	  recuperation_donnees_gnucash_book ( root_node );
+	  recuperation_donnees_gnucash_book ( root );
       }
       else
       {
@@ -136,9 +134,9 @@ void recuperation_donnees_gnucash_book ( xmlNodePtr book_node )
     while ( child_node )
     {
 	/* Books are subdivisions of gnucash files */
-	if ( node_strcmp ( book_node, "book" ) )
+	if ( node_strcmp ( child_node, "book" ) )
         {
-	    recuperation_donnees_gnucash_book ( book_node );
+	    recuperation_donnees_gnucash_book ( child_node );
 	}
 
 	if ( node_strcmp(child_node, "account") )
@@ -150,9 +148,9 @@ void recuperation_donnees_gnucash_book ( xmlNodePtr book_node )
 		recuperation_donnees_gnucash_compte ( child_node );
 	    }
 	    else
-		{
-		    recuperation_donnees_gnucash_categorie ( child_node );
-		}
+	    {
+		recuperation_donnees_gnucash_categorie ( child_node );
+	    }
 	}
 	
 	if ( node_strcmp(child_node, "transaction") )
@@ -328,8 +326,9 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 	      split = new_split ( amount, account_name, categ_name );
 	      split_list = g_slist_append ( split_list, split );
 	      split -> notes = child_content(split_node, "memo");
-	      split -> p_r = p_r;
 	    }
+	  if ( p_r != OPERATION_NORMALE )
+	      split -> p_r = p_r;
 	}
 
       split_node = split_node -> next;
@@ -740,6 +739,7 @@ struct struct_ope_importation * new_transaction_from_split ( struct gnucash_spli
       contra_transaction -> notes = split -> notes;
       contra_transaction -> tiers = tiers;
       contra_transaction -> date = date;
+      contra_transaction -> p_r = split -> p_r;
 
       transaction -> categ = g_strconcat ( _("Transfer"), " : ",
 					   split -> contra_account, NULL);
