@@ -1773,9 +1773,10 @@ GtkWidget *onglet_etat_dates ( void )
   while ( plages_dates[i] )
     {
       gint ligne;
+      gchar * plage = _(plages_dates[i]);
 
       ligne = gtk_clist_append ( GTK_CLIST ( liste_plages_dates_etat ),
-				 &plages_dates[i] );
+				 &plage );
       i++;
     }
 

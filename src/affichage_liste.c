@@ -24,25 +24,23 @@
 #include "variables-extern.c"
 #include "en_tete.h"
 
-#define __(X) N_(X)
-
-gchar *labels_boutons [] = { __("Date"),
-			     __("Date de valeur"),
-			     __("Tiers"),
-			     __("Imputation budgétaire"),
-			     __("Débit"),
-			     __("Crédit"),
-			     __("Solde"),
-			     __("Montant (devise compte)"),
-			     __("Moyen de paiement"),
-			     __("N° rapprochement"),
-			     __("Exercice"),
-			     __("Catégorie"),
-			     __("P/R"),
-			     __("Pièce comptable"),
-			     __("Notes"),
-			     __("Infos banque/guichet"),
-			     __("N° opération"),
+gchar *labels_boutons [] = { N_("Date"),
+			     N_("Date de valeur"),
+			     N_("Tiers"),
+			     N_("Imputation budgétaire"),
+			     N_("Débit"),
+			     N_("Crédit"),
+			     N_("Solde"),
+			     N_("Montant (devise compte)"),
+			     N_("Moyen de paiement"),
+			     N_("N° rapprochement"),
+			     N_("Exercice"),
+			     N_("Catégorie"),
+			     N_("P/R"),
+			     N_("Pièce comptable"),
+			     N_("Notes"),
+			     N_("Infos banque/guichet"),
+			     N_("N° opération"),
 			     NULL };
 
 
@@ -161,7 +159,7 @@ GtkWidget *onglet_affichage_liste ( void )
       {
 	if ( labels_boutons[j+ i*6] )
 	  {
-	    boutons_affichage_liste[j + i*6] = gtk_toggle_button_new_with_label ( labels_boutons[j + i*6] );
+	    boutons_affichage_liste[j + i*6] = gtk_toggle_button_new_with_label ( _(labels_boutons[j + i*6]) );
 	    gtk_signal_connect ( GTK_OBJECT ( boutons_affichage_liste[j + i*6] ),
 				 "toggled",
 				 GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
