@@ -1184,7 +1184,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 
 
 /***********************************************************************************************************/
-void clique_champ_formulaire ( GtkWidget *entree,
+gboolean clique_champ_formulaire ( GtkWidget *entree,
 			       GdkEventButton *ev,
 			       gint *no_origine )
 {
@@ -1498,9 +1498,10 @@ void clique_champ_formulaire ( GtkWidget *entree,
 
 
     default:
-/*       gtk_widget_grab_focus ( GTK_WIDGET ( entree )); */
       break;
     }
+
+  return FALSE;
 }
 /***********************************************************************************************************/
 

@@ -218,7 +218,7 @@ gboolean entree_prend_focus ( GtkWidget *entree );
 gboolean entree_perd_focus ( GtkWidget *entree,
 			 GdkEventFocus *ev,
 			 gint *no_origine );
-void clique_champ_formulaire ( GtkWidget *entree,
+gboolean clique_champ_formulaire ( GtkWidget *entree,
 			       GdkEventButton *ev,
 			       gint *no_origine );
 gboolean touches_champ_formulaire ( GtkWidget *widget,

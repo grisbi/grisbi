@@ -60,7 +60,7 @@ static void efface_texte ( GtkWidget *entree,
 			   gint start,
 			   gint end,
 			   GtkComboFix *combofix );
-static void touche_pressee ( GtkWidget *entry,
+static gboolean touche_pressee ( GtkWidget *entry,
 			     GdkEventKey *ev,
 			     GtkComboFix *combofix );
 static GSList *classe_combofix ( GSList *liste );
@@ -1692,7 +1692,7 @@ gchar *gtk_combofix_get_text ( GtkComboFix *combofix )
 
 /* **************************************************************************************************** */
 
-static void touche_pressee ( GtkWidget *entry,
+static gboolean touche_pressee ( GtkWidget *entry,
 			     GdkEventKey *ev,
 			     GtkComboFix *combofix )
 {
@@ -1912,10 +1912,8 @@ static void touche_pressee ( GtkWidget *entry,
 	    }
 	}
 
-
-    default :
     }
-
+  return FALSE;
 }
 /* **************************************************************************************************** */
 
