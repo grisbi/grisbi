@@ -331,7 +331,7 @@ void supprimer_compte ( void )
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_modifie;
   p_tab_nom_de_compte_courant = p_tab_nom_de_compte + compte_courant;
-  nb_comptes--;
+//  nb_comptes--;
 
   g_slist_free ( LISTE_OPERATIONS );
   nom_compte_supprime = g_strdup ( NOM_DU_COMPTE );
@@ -345,6 +345,7 @@ void supprimer_compte ( void )
       p_tab_nom_de_compte_variable++;
     }
 
+  nb_comptes--;
 
   /* recherche les échéances pour les comptes plaçés après le compe supprimé */
   /* pour leur diminuer leur numéro de compte de 1 */
