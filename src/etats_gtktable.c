@@ -54,7 +54,7 @@ struct struct_etat_affichage gtktable_affichage = {
   gtktable_finish
 };
 
-gint gtktable_initialise ()
+gint gtktable_initialise (GSList * opes_selectionnees)
 {
   /* on peut maintenant créer la table */
   /* pas besoin d'indiquer la hauteur, elle grandit automatiquement */

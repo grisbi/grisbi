@@ -1325,7 +1325,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
   nom_compte_en_cours = NULL;
   nom_tiers_en_cours = NULL;
 
-  if (! affichage -> init ())
+  if (! affichage -> init (ope_selectionnees))
     {
       return;
     }
