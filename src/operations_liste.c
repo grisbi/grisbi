@@ -2566,7 +2566,7 @@ void popup_transaction_context_menu ( gboolean full )
 				    gtk_image_new_from_stock ( GTK_STOCK_CONVERT,
 							       GTK_ICON_SIZE_MENU ));
     g_signal_connect ( G_OBJECT(menu_item), "activate", schedule_selected_transaction, NULL );
-    if ( !full || OPERATION_SELECTIONNEE -> operation_ventilee )
+    if ( !full )
 	gtk_widget_set_sensitive ( menu_item, FALSE );
     gtk_menu_append ( menu, menu_item );
 
@@ -2599,7 +2599,7 @@ gboolean assert_selected_transaction ()
     if ( p_tab_nom_de_compte_courant )
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
     else 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     if ( OPERATION_SELECTIONNEE == GINT_TO_POINTER(-1) )
 	return FALSE;
@@ -2856,19 +2856,21 @@ schedule_transaction ( struct structure_operation * transaction )
 {
     struct operation_echeance *echeance;
 
-    echeance = (struct operation_echeance *) malloc ( sizeof(struct operation_echeance) );
+    echeance = (struct operation_echeance *) calloc ( 1,
+						      sizeof(struct operation_echeance) );
     if ( !echeance )
     {
 	dialogue ( _("Cannot allocate memory, bad things will happen soon") );
 	return(FALSE);
     }
 
-    echeance -> no_operation = 0;
     echeance -> compte = transaction -> no_compte;
-    echeance -> date = transaction -> date;
     echeance -> jour = transaction -> jour;
     echeance -> mois = transaction -> mois;
     echeance -> annee = transaction -> annee;
+    echeance -> date = g_date_new_dmy ( transaction -> jour,
+					transaction -> mois,
+					transaction -> annee );
 
     echeance -> montant = transaction -> montant;
     echeance -> devise = transaction -> devise;
@@ -2877,31 +2879,152 @@ schedule_transaction ( struct structure_operation * transaction )
     echeance -> categorie = transaction -> categorie;
     echeance -> sous_categorie = transaction -> sous_categorie;
 
-    echeance -> compte_virement = transaction -> relation_no_compte;
+/*     pour 1 virement, categ et sous categ sont à 0, et compte_virement contient le no de compte */
+/* 	mais si categ et sous categ sont à 0 et que ce n'est pas un virement ni une ventil, compte_virement = -1 */
+/*     on va changer ça la prochaine version, dès que c'est pas un virement -> -1 */
 
-    echeance -> notes = transaction -> notes;
+    if ( transaction -> relation_no_operation )
+    {
+	/* 	c'est un virement, on met la relation et on recherche le type de la contre opération */
+	
+	gpointer **save_ptab;
+	struct structure_operation *contre_operation;
+	
+	echeance -> compte_virement = transaction -> relation_no_compte;
+
+	save_ptab = p_tab_nom_de_compte_variable;
+
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + echeance -> compte_virement;
+	contre_operation = g_slist_find_custom ( LISTE_OPERATIONS,
+						 GINT_TO_POINTER ( transaction -> relation_no_operation ),
+						 (GCompareFunc) recherche_operation_par_no ) -> data;
+	echeance -> type_contre_ope = contre_operation -> type_ope;
+	p_tab_nom_de_compte_variable = save_ptab;
+    }
+    else
+	if ( !echeance -> categorie
+	     &&
+	     !transaction -> operation_ventilee )
+	    echeance -> compte_virement = -1;
+
+    echeance -> notes = g_strdup ( transaction -> notes );
     echeance -> type_ope = transaction -> type_ope;
-    echeance -> contenu_type = transaction -> contenu_type;
+    echeance -> contenu_type = g_strdup ( transaction -> contenu_type );
 
-    echeance -> auto_man = 0;
 
     echeance -> no_exercice = transaction -> no_exercice;
     echeance -> imputation = transaction -> imputation;
     echeance -> sous_imputation = transaction -> sous_imputation;
 
-    echeance -> periodicite = 0;
-    echeance -> intervalle_periodicite_personnalisee = 0;
-    echeance -> periodicite_personnalisee = 0;
-    echeance -> date_limite = NULL;
-    echeance -> jour_limite = 0;
-    echeance -> mois_limite = 0;
-    echeance -> annee_limite = 0;
+    echeance -> operation_ventilee = transaction -> operation_ventilee;
 
+/*     par défaut, on met en manuel, pour éviter si l'utilisateur se gourre dans la date, */
+/*     (c'est le cas, à 0 avec calloc) */
+/*     que l'opé soit enregistrée immédiatement ; de même on le met en mensuel par défaut */
+/* 	pour la même raison */
+
+    echeance -> periodicite = 2;
+    
     echeance -> no_operation = ++no_derniere_echeance;
     nb_echeances++;
     gsliste_echeances = g_slist_insert_sorted ( gsliste_echeances,
 						echeance,
 						(GCompareFunc) comparaison_date_echeance );
 
+/*     on récupère les opés de ventil si c'était une opé ventilée */
+
+    if ( echeance -> operation_ventilee )
+    {
+	GSList *liste_tmp;
+
+	liste_tmp = LISTE_OPERATIONS;
+
+	while ( liste_tmp )
+	{
+	    struct structure_operation *transaction_de_ventil;
+
+	    transaction_de_ventil = liste_tmp -> data;
+
+	    if ( transaction_de_ventil -> no_operation_ventilee_associee == transaction -> no_operation )
+	    {
+		struct operation_echeance *echeance_de_ventil;
+
+		echeance_de_ventil = calloc ( 1,
+					      sizeof ( struct operation_echeance));
+
+		if ( !echeance_de_ventil )
+		{
+		    dialogue ( _("Cannot allocate memory, bad things will happen soon") );
+		    return(FALSE);
+		}
+
+		echeance_de_ventil -> compte = transaction_de_ventil -> no_compte;
+		echeance_de_ventil -> jour = transaction_de_ventil -> jour;
+		echeance_de_ventil -> mois = transaction_de_ventil -> mois;
+		echeance_de_ventil -> annee = transaction_de_ventil -> annee;
+		echeance_de_ventil -> date = g_date_new_dmy ( transaction_de_ventil -> jour,
+						    transaction_de_ventil -> mois,
+						    transaction_de_ventil -> annee );
+
+		echeance_de_ventil -> montant = transaction_de_ventil -> montant;
+		echeance_de_ventil -> devise = transaction_de_ventil -> devise;
+
+		echeance_de_ventil -> tiers = transaction_de_ventil -> tiers;
+		echeance_de_ventil -> categorie = transaction_de_ventil -> categorie;
+		echeance_de_ventil -> sous_categorie = transaction_de_ventil -> sous_categorie;
+
+		/*     pour 1 virement, categ et sous categ sont à 0, et compte_virement contient le no de compte */
+		/* 	mais si categ et sous categ sont à 0 et que ce n'est pas un virement, compte_virement = -1 */
+		/*     on va changer ça la prochaine version, dès que c'est pas un virement -> -1 */
+
+		if ( transaction_de_ventil -> relation_no_operation )
+		{
+		    /* 	c'est un virement, on met la relation et on recherche le type de la contre opération */
+
+		    gpointer **save_ptab;
+		    struct structure_operation *contre_operation;
+
+		    echeance_de_ventil -> compte_virement = transaction_de_ventil -> relation_no_compte;
+
+		    save_ptab = p_tab_nom_de_compte_variable;
+
+		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + echeance_de_ventil -> compte_virement;
+		    contre_operation = g_slist_find_custom ( LISTE_OPERATIONS,
+							     GINT_TO_POINTER ( transaction_de_ventil -> relation_no_operation ),
+							     (GCompareFunc) recherche_operation_par_no ) -> data;
+		    echeance_de_ventil -> type_contre_ope = contre_operation -> type_ope;
+		    p_tab_nom_de_compte_variable = save_ptab;
+		}
+		else
+		    if ( !echeance_de_ventil -> categorie )
+			echeance_de_ventil -> compte_virement = -1;
+
+		echeance_de_ventil -> notes = g_strdup ( transaction_de_ventil -> notes );
+		echeance_de_ventil -> type_ope = transaction_de_ventil -> type_ope;
+		echeance_de_ventil -> contenu_type = g_strdup ( transaction_de_ventil -> contenu_type );
+
+
+		echeance_de_ventil -> no_exercice = transaction_de_ventil -> no_exercice;
+		echeance_de_ventil -> imputation = transaction_de_ventil -> imputation;
+		echeance_de_ventil -> sous_imputation = transaction_de_ventil -> sous_imputation;
+
+		echeance_de_ventil-> no_operation_ventilee_associee = echeance -> no_operation;
+
+		/*     par défaut, on met en manuel, pour éviter si l'utilisateur se gourre dans la date, */
+		/*     (c'est le cas, à 0 avec calloc) */
+		/*     que l'opé soit enregistrée immédiatement ; de même on le met en mensuel par défaut */
+		/* 	pour la même raison */
+
+		echeance_de_ventil -> periodicite = 2;
+
+		echeance_de_ventil -> no_operation = ++no_derniere_echeance;
+		nb_echeances++;
+		gsliste_echeances = g_slist_insert_sorted ( gsliste_echeances,
+							    echeance_de_ventil,
+							    (GCompareFunc) comparaison_date_echeance );
+	    }
+	    liste_tmp = liste_tmp -> next;
+	}
+    }
     return echeance;
 }

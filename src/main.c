@@ -151,6 +151,13 @@ int main (int argc, char *argv[])
 				TRUE,
 				FALSE );
 
+	/* 	création de la pixmap du logiciel */
+
+	gtk_window_set_default_icon_from_file ( g_strconcat(PIXMAPS_DIR,
+							    "/euro.gif",
+							    NULL),
+						NULL );
+
 	window_vbox_principale = gtk_vbox_new ( FALSE,
 						5 );
 	gtk_container_add ( GTK_CONTAINER ( window ),
