@@ -2452,7 +2452,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 
 		  if ( compte_virement == compte_courant )
 		    {
-		      dialogue_error ( _("An account can't be transfered on itself.") );
+		      dialogue_error ( _("Can't issue a transfer its own account.") );
 		      return (FALSE);
 		    }
 		}

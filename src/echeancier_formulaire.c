@@ -1515,7 +1515,7 @@ void fin_edition_echeance ( void )
 				     COMPTE_ECHEANCE,
 				     NULL )))
     {
-      dialogue_error ( _("An account can't be transfered on itself.") );
+      dialogue_error ( _("Can't issue a transfer its own account.") );
       return;
     }
 
