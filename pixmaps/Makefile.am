@@ -9,6 +9,7 @@ grisbi_pixmaps_DATA = \
 	financial-years.png \
 	fonts.png \
 	form.png \
+	import.png \
 	payment-methods.png \
 	reconciliation.png \
 	transaction-list.png \
