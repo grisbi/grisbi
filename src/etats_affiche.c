@@ -97,14 +97,24 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 	    if ( nom_categ_en_cours )
 	    {
 		if ( etat_courant -> afficher_nb_opes )
-		    text = g_strdup_printf ( _("Total %s (%d transactions)"), nom_categ_en_cours, nb_ope_categ_etat );
+		{
+		    if ( nb_ope_categ_etat <= 1 )
+			text = g_strdup_printf ( _("Total %s (%d transaction)"), nom_categ_en_cours, nb_ope_categ_etat );
+		    else
+			text = g_strdup_printf ( _("Total %s (%d transactions)"), nom_categ_en_cours, nb_ope_categ_etat );
+		}
 		else
 		    text =g_strconcat ( POSTSPACIFY(_("Total")), nom_categ_en_cours, NULL );
 	    }
 	    else
 	    {
 		if ( etat_courant -> afficher_nb_opes )
-		    text = g_strdup_printf ( COLON(_("Category total (%d transactions)")), nb_ope_categ_etat);
+		{
+		    if ( nb_ope_categ_etat <= 1 )
+			text = g_strdup_printf ( COLON(_("Category total (%d transaction)")), nb_ope_categ_etat);
+		    else
+			text = g_strdup_printf ( COLON(_("Category total (%d transactions)")), nb_ope_categ_etat);
+		}
 		else
 		    text = COLON(_("Category total"));
 	    }
@@ -126,8 +136,14 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 	    ligne--;
 
 	    if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( _("%4.2f %s (%d transactions)"), montant_categ_etat,
-					 devise_name ( devise_categ_etat ), nb_ope_categ_etat );
+	    {
+		if ( nb_ope_categ_etat <= 1 )
+		    text = g_strdup_printf ( _("%4.2f %s (%d transaction)"), montant_categ_etat,
+					     devise_name ( devise_categ_etat ), nb_ope_categ_etat );
+		else
+		    text = g_strdup_printf ( _("%4.2f %s (%d transactions)"), montant_categ_etat,
+					     devise_name ( devise_categ_etat ), nb_ope_categ_etat );
+	    }
 	    else
 		text =g_strdup_printf ( _("%4.2f %s"), montant_categ_etat, devise_name ( devise_categ_etat ) );
 
@@ -188,16 +204,28 @@ gint etat_affiche_affiche_total_sous_categ ( gint ligne )
 		 nom_ss_categ_en_cours )
 	    {
 		if ( etat_courant -> afficher_nb_opes )
-		    text = g_strdup_printf ( COLON(_("Total %s: %s (%d transactions)")), nom_categ_en_cours,
-					     nom_ss_categ_en_cours, nb_ope_sous_categ_etat );
+		{
+		    if ( nb_ope_sous_categ_etat <= 1 )
+			text = g_strdup_printf ( COLON(_("Total %s: %s (%d transaction)")), nom_categ_en_cours,
+						 nom_ss_categ_en_cours, nb_ope_sous_categ_etat );
+		    else
+			text = g_strdup_printf ( COLON(_("Total %s: %s (%d transactions)")), nom_categ_en_cours,
+						 nom_ss_categ_en_cours, nb_ope_sous_categ_etat );
+		}
 		else
 		    text = g_strdup_printf ( _("Total %s: %s"), nom_categ_en_cours, nom_ss_categ_en_cours );
 	    }
 	    else
 	    {
 		if ( etat_courant -> afficher_nb_opes )
-		    text = g_strdup_printf ( COLON(_("Sub-categories total (%d transactions)")),
-					     nb_ope_sous_categ_etat );
+		{
+		    if ( nb_ope_sous_categ_etat <= 1 )
+			text = g_strdup_printf ( COLON(_("Sub-categories total (%d transaction)")),
+						 nb_ope_sous_categ_etat );
+		    else
+			text = g_strdup_printf ( COLON(_("Sub-categories total (%d transactions)")),
+						 nb_ope_sous_categ_etat );
+		}
 		else
 		    text = COLON(_("Sub-categories total"));
 	    }
@@ -215,8 +243,14 @@ gint etat_affiche_affiche_total_sous_categ ( gint ligne )
 	    ligne--;
 
 	    if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( _("%4.2f %s (%d transactions)"), montant_sous_categ_etat,
-					 devise_name ( devise_categ_etat ), nb_ope_sous_categ_etat );
+	    {
+		if ( nb_ope_sous_categ_etat <= 1 )
+		    text = g_strdup_printf ( _("%4.2f %s (%d transaction)"), montant_sous_categ_etat,
+					     devise_name ( devise_categ_etat ), nb_ope_sous_categ_etat );
+		else
+		    text = g_strdup_printf ( _("%4.2f %s (%d transactions)"), montant_sous_categ_etat,
+					     devise_name ( devise_categ_etat ), nb_ope_sous_categ_etat );
+	    }
 	    else
 		text = g_strdup_printf ( _("%4.2f %s"), montant_sous_categ_etat, devise_name ( devise_categ_etat ) );
 
@@ -270,15 +304,26 @@ gint etat_affiche_affiche_total_ib ( gint ligne )
 	    if ( nom_ib_en_cours )
 	    {
 		if ( etat_courant -> afficher_nb_opes )
-		    text = g_strdup_printf ( _("Total %s (%d transactions)"), nom_ib_en_cours, nb_ope_ib_etat );
+		{
+		    if ( nb_ope_ib_etat <= 1 )
+			text = g_strdup_printf ( _("Total %s (%d transaction)"), nom_ib_en_cours, nb_ope_ib_etat );
+		    else
+			text = g_strdup_printf ( _("Total %s (%d transactions)"), nom_ib_en_cours, nb_ope_ib_etat );
+		}
 		else
 		    text = g_strconcat ( POSTSPACIFY(_("Total")), nom_ib_en_cours, NULL );
 	    }
 	    else
 	    {
 		if ( etat_courant -> afficher_nb_opes )
-		    text = g_strdup_printf ( COLON(_("Budgetary lines total: (%d transactions)")),
-					     nb_ope_ib_etat );
+		{
+		    if ( nb_ope_ib_etat <= 1 )
+			text = g_strdup_printf ( COLON(_("Budgetary lines total: (%d transaction)")),
+						 nb_ope_ib_etat );
+		    else
+			text = g_strdup_printf ( COLON(_("Budgetary lines total: (%d transactions)")),
+						 nb_ope_ib_etat );
+		}
 		else
 		    text = COLON(_("Budgetary lines total"));
 	    }
@@ -297,8 +342,14 @@ gint etat_affiche_affiche_total_ib ( gint ligne )
 	    ligne--;
 
 	    if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( _("%4.2f %s (%d transactions)"), montant_ib_etat,
-					 devise_name ( devise_ib_etat ), nb_ope_ib_etat );
+	    {
+		if ( nb_ope_ib_etat <= 1 )
+		    text = g_strdup_printf ( _("%4.2f %s (%d transaction)"), montant_ib_etat,
+					     devise_name ( devise_ib_etat ), nb_ope_ib_etat );
+		else
+		    text = g_strdup_printf ( _("%4.2f %s (%d transactions)"), montant_ib_etat,
+					     devise_name ( devise_ib_etat ), nb_ope_ib_etat );
+	    }
 	    else
 		text = g_strdup_printf ( _("%4.2f %s"), montant_ib_etat, devise_name ( devise_ib_etat ) );
 
@@ -355,16 +406,28 @@ gint etat_affiche_affiche_total_sous_ib ( gint ligne )
 		 nom_ss_ib_en_cours )
 	    {
 		if ( etat_courant -> afficher_nb_opes )
-		    text = g_strdup_printf ( COLON(_("Total %s: %s (%d transactions)")), nom_ib_en_cours,
-					     nom_ss_ib_en_cours, nb_ope_sous_ib_etat );
+		{
+		    if ( nb_ope_sous_ib_etat <= 1 )
+			text = g_strdup_printf ( COLON(_("Total %s: %s (%d transaction)")), nom_ib_en_cours,
+						 nom_ss_ib_en_cours, nb_ope_sous_ib_etat );
+		    else
+			text = g_strdup_printf ( COLON(_("Total %s: %s (%d transactions)")), nom_ib_en_cours,
+						 nom_ss_ib_en_cours, nb_ope_sous_ib_etat );
+		}
 		else
 		    text = g_strdup_printf ( _("Total %s: %s"), nom_ib_en_cours, nom_ss_ib_en_cours );
 	    }
 	    else
 	    {
 		if ( etat_courant -> afficher_nb_opes )
-		    text = g_strdup_printf ( COLON(_("Sub-budgetary lines total: (%d transactions)")),
-					     nb_ope_sous_ib_etat );
+		{
+		    if ( nb_ope_sous_ib_etat <= 1 )
+			text = g_strdup_printf ( COLON(_("Sub-budgetary lines total: (%d transaction)")),
+						 nb_ope_sous_ib_etat );
+		    else
+			text = g_strdup_printf ( COLON(_("Sub-budgetary lines total: (%d transactions)")),
+						 nb_ope_sous_ib_etat );
+		}
 		else
 		    text = COLON(_("Sub-budgetary lines total"));
 	    }
@@ -383,8 +446,14 @@ gint etat_affiche_affiche_total_sous_ib ( gint ligne )
 	    ligne--;
 
 	    if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( _("%4.2f %s (%d transactions)"), montant_sous_ib_etat,
-					 devise_name ( devise_ib_etat ), nb_ope_sous_ib_etat );
+	    {
+		if ( nb_ope_sous_ib_etat <= 1 )
+		    text = g_strdup_printf ( _("%4.2f %s (%d transaction)"), montant_sous_ib_etat,
+					     devise_name ( devise_ib_etat ), nb_ope_sous_ib_etat );
+		else
+		    text = g_strdup_printf ( _("%4.2f %s (%d transactions)"), montant_sous_ib_etat,
+					     devise_name ( devise_ib_etat ), nb_ope_sous_ib_etat );
+	    }
 	    else
 		text = g_strdup_printf ( _("%4.2f %s"), montant_sous_ib_etat, devise_name ( devise_ib_etat )) ;
 
@@ -434,14 +503,24 @@ gint etat_affiche_affiche_total_compte ( gint ligne )
 	    if ( nom_compte_en_cours )
 	    {
 		if ( etat_courant -> afficher_nb_opes )
-		    text = g_strdup_printf ( _("Total %s (%d transactions)"), nom_compte_en_cours, nb_ope_compte_etat );
+		{
+		    if ( nb_ope_compte_etat <= 1 )
+			text = g_strdup_printf ( _("Total %s (%d transaction)"), nom_compte_en_cours, nb_ope_compte_etat );
+		    else
+			text = g_strdup_printf ( _("Total %s (%d transactions)"), nom_compte_en_cours, nb_ope_compte_etat );
+		}
 		else
 		    text = g_strconcat ( POSTSPACIFY(_("Total")), nom_compte_en_cours, NULL );
 	    }
 	    else
 	    {
 		if ( etat_courant -> afficher_nb_opes )
-		    text = g_strdup_printf ( COLON(_("Account total: (%d transactions)")), nb_ope_compte_etat );
+		{
+		    if ( nb_ope_compte_etat <= 1 )
+			text = g_strdup_printf ( COLON(_("Account total: (%d transaction)")), nb_ope_compte_etat );
+		    else
+			text = g_strdup_printf ( COLON(_("Account total: (%d transactions)")), nb_ope_compte_etat );
+		}
 		else
 		    text = COLON(_("Account total"));
 	    }
@@ -460,8 +539,14 @@ gint etat_affiche_affiche_total_compte ( gint ligne )
 	    ligne--;
 
 	    if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( _("%4.2f %s (%d transactions)"), montant_compte_etat,
-					 devise_name ( devise_compte_en_cours_etat ), nb_ope_compte_etat );
+	    {
+		if ( nb_ope_compte_etat <= 1 )
+		    text = g_strdup_printf ( _("%4.2f %s (%d transaction)"), montant_compte_etat,
+					     devise_name ( devise_compte_en_cours_etat ), nb_ope_compte_etat );
+		else
+		    text = g_strdup_printf ( _("%4.2f %s (%d transactions)"), montant_compte_etat,
+					     devise_name ( devise_compte_en_cours_etat ), nb_ope_compte_etat );
+	    }
 	    else
 		text = g_strdup_printf ( _("%4.2f %s"), montant_compte_etat, devise_name (devise_compte_en_cours_etat) );
 
@@ -510,14 +595,24 @@ gint etat_affiche_affiche_total_tiers ( gint ligne )
 	    if ( nom_tiers_en_cours )
 	    {
 		if ( etat_courant -> afficher_nb_opes )
-		    text = g_strdup_printf ( _("Total %s (%d transactions)"), nom_tiers_en_cours, nb_ope_tiers_etat );
+		{
+		    if ( nb_ope_tiers_etat <= 1 )
+			text = g_strdup_printf ( _("Total %s (%d transaction)"), nom_tiers_en_cours, nb_ope_tiers_etat );
+		    else
+			text = g_strdup_printf ( _("Total %s (%d transactions)"), nom_tiers_en_cours, nb_ope_tiers_etat );
+		}
 		else
 		    text = g_strdup_printf ( _("Total %s"), nom_tiers_en_cours );
 	    }
 	    else
 	    {
 		if ( etat_courant -> afficher_nb_opes )
-		    text = g_strdup_printf ( COLON(_("Third party total: (%d transactions)")), nb_ope_tiers_etat );
+		{
+		    if ( nb_ope_tiers_etat <= 1 )
+			text = g_strdup_printf ( COLON(_("Third party total: (%d transaction)")), nb_ope_tiers_etat );
+		    else
+			text = g_strdup_printf ( COLON(_("Third party total: (%d transactions)")), nb_ope_tiers_etat );
+		}
 		else
 		    text = COLON(_("Third party total"));
 	    }
@@ -536,8 +631,14 @@ gint etat_affiche_affiche_total_tiers ( gint ligne )
 	    ligne--;
 
 	    if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( _("%4.2f %s (%d transactions)"), montant_tiers_etat,
-					 devise_name ( devise_tiers_etat ), nb_ope_tiers_etat );
+	    {
+		if ( nb_ope_tiers_etat <= 1 )
+		    text = g_strdup_printf ( _("%4.2f %s (%d transaction)"), montant_tiers_etat,
+					     devise_name ( devise_tiers_etat ), nb_ope_tiers_etat );
+		else
+		    text = g_strdup_printf ( _("%4.2f %s (%d transactions)"), montant_tiers_etat,
+					     devise_name ( devise_tiers_etat ), nb_ope_tiers_etat );
+	    }
 	    else
 		text = g_strdup_printf ( _("%4.2f %s"), montant_tiers_etat, devise_name ( devise_tiers_etat ) );
 
@@ -680,14 +781,26 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 	    g_date_add_days ( date_tmp,
 			      6 );
 	    if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( _("Result from %d/%d/%d to %d/%d/%d (%d transactions):"),
-					 g_date_day ( date_debut_periode ),
-					 g_date_month ( date_debut_periode ),
-					 g_date_year ( date_debut_periode ),
-					 g_date_day ( date_tmp ),
-					 g_date_month ( date_tmp ),
-					 g_date_year ( date_tmp ),
-					 nb_ope_periode_etat );
+	    {
+		if ( nb_ope_periode_etat <= 1 )
+		    text = g_strdup_printf ( _("Result from %d/%d/%d to %d/%d/%d (%d transaction):"),
+					     g_date_day ( date_debut_periode ),
+					     g_date_month ( date_debut_periode ),
+					     g_date_year ( date_debut_periode ),
+					     g_date_day ( date_tmp ),
+					     g_date_month ( date_tmp ),
+					     g_date_year ( date_tmp ),
+					     nb_ope_periode_etat );
+		else
+		    text = g_strdup_printf ( _("Result from %d/%d/%d to %d/%d/%d (%d transactions):"),
+					     g_date_day ( date_debut_periode ),
+					     g_date_month ( date_debut_periode ),
+					     g_date_year ( date_debut_periode ),
+					     g_date_day ( date_tmp ),
+					     g_date_month ( date_tmp ),
+					     g_date_year ( date_tmp ),
+					     nb_ope_periode_etat );
+	    }
 	    else
 		text = g_strdup_printf ( _("Result from %d/%d/%d to %d/%d/%d:"),
 					 g_date_day ( date_debut_periode ),
@@ -713,8 +826,14 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 			      date_debut_periode );
 
 	    if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( COLON(_("Result of %s (%d transactions)")),
-					 buffer, nb_ope_periode_etat );
+	    {
+		if ( nb_ope_periode_etat <= 1 )
+		    text = g_strdup_printf ( COLON(_("Result of %s (%d transaction)")),
+					     buffer, nb_ope_periode_etat );
+		else
+		    text = g_strdup_printf ( COLON(_("Result of %s (%d transactions)")),
+					     buffer, nb_ope_periode_etat );
+	    }
 	    else
 		text = g_strdup_printf ( COLON(_("Result of %s")),
 					 buffer );
@@ -735,8 +854,14 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 			      date_debut_periode );
 
 	    if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( COLON(_("Result for %s (%d transactions)")),
-					 buffer, nb_ope_periode_etat );
+	    {
+		if ( nb_ope_periode_etat <= 1 )
+		    text = g_strdup_printf ( COLON(_("Result for %s (%d transaction)")),
+					     buffer, nb_ope_periode_etat );
+		else
+		    text = g_strdup_printf ( COLON(_("Result for %s (%d transactions)")),
+					     buffer, nb_ope_periode_etat );
+	    }
 	    else
 		text = g_strdup_printf ( COLON(_("Result for %s")), buffer );
 	    break;
@@ -853,9 +978,16 @@ gint etat_affiche_affiche_total_exercice ( struct structure_operation *operation
 	{
 	    /* 	    les opés ont un exo */
 	    if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( COLON(_("Result of %s (%d transactions)")),
-					 exercice_name_by_no ( exo_en_cours_etat ),
-					 nb_ope_periode_etat );
+	    {
+		if ( nb_ope_periode_etat <= 1 )
+		    text = g_strdup_printf ( COLON(_("Result of %s (%d transaction)")),
+					     exercice_name_by_no ( exo_en_cours_etat ),
+					     nb_ope_periode_etat );
+		else
+		    text = g_strdup_printf ( COLON(_("Result of %s (%d transactions)")),
+					     exercice_name_by_no ( exo_en_cours_etat ),
+					     nb_ope_periode_etat );
+	    }
 	    else
 		text = g_strdup_printf ( COLON(_("Result of %s")),
 					 exercice_name_by_no ( exo_en_cours_etat ));
@@ -864,8 +996,14 @@ gint etat_affiche_affiche_total_exercice ( struct structure_operation *operation
 	{
 	    /* 	    les opés n'ont pas d'exo */
 	    if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( COLON(_("Result without financial year (%d transactions)")),
-					 nb_ope_periode_etat );
+	    {
+		if ( nb_ope_periode_etat <= 1 )
+		    text = g_strdup_printf ( COLON(_("Result without financial year (%d transaction)")),
+					     nb_ope_periode_etat );
+		else
+		    text = g_strdup_printf ( COLON(_("Result without financial year (%d transactions)")),
+					     nb_ope_periode_etat );
+	    }
 	    else
 		text = g_strdup_printf ( COLON(_("Result without financial year")));
 	}
@@ -1306,14 +1444,24 @@ gint etat_affiche_affiche_total_partiel ( gdouble total_partie,
     if ( type )
     {
 	if ( etat_courant -> afficher_nb_opes )
-	    text = g_strdup_printf ( COLON(_("Total expenses (%d transactions)")), nb_ope_partie_etat );
+	{
+	    if ( nb_ope_partie_etat <= 1 )
+		text = g_strdup_printf ( COLON(_("Total expenses (%d transaction)")), nb_ope_partie_etat );
+	    else
+		text = g_strdup_printf ( COLON(_("Total expenses (%d transactions)")), nb_ope_partie_etat );
+	}
 	else
 	    text = COLON(_("Total expenses"));
     }
     else
     {
 	if ( etat_courant -> afficher_nb_opes )
-	    text = g_strdup_printf ( COLON(_("Total income (%d transactions)")), nb_ope_partie_etat );
+	{
+	    if ( nb_ope_partie_etat <= 1 )
+		text = g_strdup_printf ( COLON(_("Total income (%d transaction)")), nb_ope_partie_etat );
+	    else
+		text = g_strdup_printf ( COLON(_("Total income (%d transactions)")), nb_ope_partie_etat );
+	}
 	else
 	    text = COLON(_("Total income"));
     }
@@ -1355,7 +1503,12 @@ gint etat_affiche_affiche_total_general ( gdouble total_general,
     ligne++;
 
     if ( etat_courant -> afficher_nb_opes )
-	text = g_strdup_printf ( COLON(_("General total (%d transactions)")), nb_ope_general_etat );
+    {
+	if ( nb_ope_general_etat <= 1 )
+	    text = g_strdup_printf ( COLON(_("General total (%d transaction)")), nb_ope_general_etat );
+	else
+	    text = g_strdup_printf ( COLON(_("General total (%d transactions)")), nb_ope_general_etat );
+    }
     else
 	text = COLON(_("General total"));
 
