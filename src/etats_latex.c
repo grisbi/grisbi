@@ -1,8 +1,7 @@
 /*  Fichier qui s'occupe d'afficher les états via une latex */
 /*      etats_latex.c */
 
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004 Benjamin Drieu (bdrieu@april.org)		      */
+/*     Copyright (C)	2004 Benjamin Drieu (bdrieu@april.org)		      */
 /* 			http://www.grisbi.org				      */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -28,8 +27,14 @@
 
 #include "etats_latex.h"
 
-enum alignement {
-  LEFT, CENTER, RIGHT,
+
+
+struct struct_etat_affichage latex_affichage = {
+  latex_initialise,
+  latex_finish,
+  latex_attach_hsep,
+  latex_attach_vsep,
+  latex_attach_label,
 };
 
 
@@ -38,8 +43,11 @@ enum alignement {
  *
  */
 void latex_attach_label ( gchar * text, int x, int x2, int y, int y2, 
-			     enum alignement align, struct structure_operation * ope )
+			  enum alignement align, struct structure_operation * ope )
 {
+  if ( !text )
+    text = "";
+
   printf ( "%s\n", text );
 }
 
@@ -51,7 +59,7 @@ void latex_attach_label ( gchar * text, int x, int x2, int y, int y2,
  */
 void latex_attach_vsep ( int x, int x2, int y, int y2)
 {
-  printf ( "|\n", text );
+  printf ( "|\n" );
 }
 
 
@@ -62,7 +70,7 @@ void latex_attach_vsep ( int x, int x2, int y, int y2)
  */
 void latex_attach_hsep ( int x, int x2, int y, int y2)
 {
-  printf ( "-\n", text );
+  printf ( "-\n" );
 }
 
 

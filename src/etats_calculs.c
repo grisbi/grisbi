@@ -1,9 +1,9 @@
 /*  Fichier qui s'occupe du calcul des états */
 /*      etats.c */
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
-/* 			http://www.grisbi.org */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004 Benjamin Drieu (bdrieu@april.org)		      */
+/* 			http://www.grisbi.org				      */
 
 /*     This program is free software; you can redistribute it and/or modify */
 /*     it under the terms of the GNU General Public License as published by */
@@ -26,6 +26,7 @@
 
 
 #include "etats_gtktable.h"
+#include "etats_latex.h"
 
 
 /*****************************************************************************************************/
@@ -1466,6 +1467,16 @@ void rafraichissement_etat ( struct struct_etat *etat )
 {
   affichage_etat ( etat, &gtktable_affichage );
 }
+
+
+/*****************************************************************************************************/
+/* Fonction d'impression de l'état */
+/*****************************************************************************************************/
+void impression_etat ( struct struct_etat *etat )
+{
+  affichage_etat ( etat, &latex_affichage );
+}
+
 
 /*****************************************************************************************************/
 /* Fonction de classement de la liste */

@@ -1,3 +1,7 @@
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004 Benjamin Drieu (bdrieu@april.org)		      */
+/* 			http://www.grisbi.org				      */
+
 /* Ce fichier contient toutes les variables globales définies */
 /* ainsi que toutes les définitions diverses */
 
@@ -624,6 +628,7 @@ struct struct_etat *etat_courant;
 GtkWidget *bouton_effacer_etat;
 GtkWidget *bouton_personnaliser_etat;
 GtkWidget *bouton_raffraichir_etat;
+GtkWidget *bouton_imprimer_etat;
 GtkWidget *bouton_exporter_etat;
 GtkWidget *bouton_importer_etat;
 GtkWidget *bouton_dupliquer_etat;
