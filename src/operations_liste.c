@@ -64,6 +64,11 @@ GtkJustification col_justs[] = { GTK_JUSTIFY_CENTER,
 gint allocation_precedente;
 gint allocation_encore_avant;
 
+/* contient la chaine de la dernière date entrée */
+
+gchar *derniere_date;
+
+
 extern struct operation_echeance *echeance_selectionnnee;
 extern gint no_derniere_echeance;
 extern GSList *gsliste_echeances; 
@@ -1372,8 +1377,11 @@ void edition_operation ( void )
 
 	    if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ) == style_entree_formulaire[ENGRIS] )
 	    {
+		if ( !derniere_date )
+		    derniere_date = gsb_today();
+
 		gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ),
-				     gsb_today() );
+				     derniere_date );
 	    }
 	}
 	gtk_entry_select_region ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ), 0, -1);

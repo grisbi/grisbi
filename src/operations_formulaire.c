@@ -52,6 +52,7 @@
 
 
 
+extern gchar *derniere_date;
 
 
 
@@ -1183,8 +1184,11 @@ gboolean clique_champ_formulaire ( GtkWidget *entree,
     {
 	if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ) == style_entree_formulaire[ENGRIS] )
 	{
+	    if ( !derniere_date )
+		derniere_date = gsb_today();
+
 	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ),
-				 gsb_today() );
+				 derniere_date );
 	    gtk_widget_set_style ( widget_formulaire_operations[TRANSACTION_FORM_DATE],
 				   style_entree_formulaire[ENCLAIR] );
 	}
@@ -2278,6 +2282,10 @@ void fin_edition ( void )
     }
     else
     {
+	/* 	c'était une nouvelle opé, on met à jour la dernière date */
+
+	derniere_date = g_strdup ( gtk_entry_get_text ( GTK_ENTRY (  widget_formulaire_operations[TRANSACTION_FORM_DATE] )));
+
 	formulaire_a_zero ();
 
 	clique_champ_formulaire ( widget_formulaire_operations[TRANSACTION_FORM_DATE],

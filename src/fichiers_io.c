@@ -8542,6 +8542,11 @@ void fichier_marque_ouvert ( gint ouvert )
     if ( compression_fichier )
 	return;
 
+    if ( !nom_fichier_comptes
+	 &&
+	 !strlen ( nom_fichier_comptes ))
+	return;
+
     /* ouverture du fichier */
 
     if (!(pointeur_fichier_comptes = fopen ( nom_fichier_comptes, "r+")) )

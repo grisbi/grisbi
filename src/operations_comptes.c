@@ -47,6 +47,7 @@
 
 
 extern GtkItemFactory *item_factory_menu_general;
+extern gchar *derniere_date;
 
 
 
@@ -338,6 +339,10 @@ gboolean changement_compte ( gint *compte)
 
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
 			    compte_courant + 1 );
+
+    /*     on réinitialise la dernière date à la date du jour */
+
+    derniere_date = NULL;
 
     return FALSE;
 }
