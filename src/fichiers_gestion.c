@@ -308,6 +308,8 @@ void ouverture_confirmee ( void )
 	    gchar **parametres;
 	    gint save_force_enregistrement;
 
+	    update_attente ( _("Autosave") );
+
 	    nom = nom_fichier_comptes;
 
 	    i=0;
@@ -342,7 +344,7 @@ void ouverture_confirmee ( void )
 	}
     }
 
-    update_attente ( _("Formatting transactions") );
+    update_attente ( _("Checking schedulers"));
 
     /*     on vérifie si des échéances sont à récupérer */
 
@@ -366,6 +368,8 @@ void ouverture_confirmee ( void )
     /* 	va afficher le message qu'une fois tous les comptes remplis */
     /* 	(donc après l'idle ) */
     
+    update_attente ( _("Checking amounts"));
+
     for ( i=0 ; i<nb_comptes ; i++ )
     {
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
@@ -382,6 +386,8 @@ void ouverture_confirmee ( void )
     mise_a_jour_fin_comptes_passifs = 1;
 
     /* on crée le notebook principal */
+
+    update_attente ( _("Making main window"));
 
     creation_fenetre_principale();
     

@@ -1666,6 +1666,47 @@ gchar* my_get_gsb_file_default_dir(void)
 #endif
 }
 
+
+
+/* ******************************************************************************* */
+/* my_strcasecmp : compare 2 chaines sensitive que ce soit utf8 ou ascii */
+/* ******************************************************************************* */
+gint my_strcmp ( gchar *chaine_1,
+		 gchar *chaine_2 )
+{
+    if ( chaine_1
+	 &&
+	 chaine_2 )
+    {
+	if ( g_utf8_validate ( chaine_1, -1, NULL )
+	     &&
+	     g_utf8_validate ( chaine_2, -1, NULL ))
+	{
+	    gint retour;
+ 	    gchar *new_1, *new_2;
+	    
+	    new_1 = g_utf8_collate_key ( chaine_1,
+					 -1 );
+	    new_2 = g_utf8_collate_key ( chaine_2,
+					 -1 );
+	    retour = strcmp ( new_1,
+			      new_2 );
+	    g_free ( new_1 );
+	    g_free ( new_2 );
+	    return ( retour );
+	}
+	else
+	    return ( strcmp ( chaine_1,
+			      chaine_2 ));
+    }
+
+    return 0;
+}
+/* ******************************************************************************* */
+
+
+
+
 /* ******************************************************************************* */
 /* my_strcasecmp : compare 2 chaines case-insensitive que ce soit utf8 ou ascii */
 /* ******************************************************************************* */

@@ -1070,8 +1070,8 @@ void raz_affichage_ope ( void )
 	/* on met à jour la liste et les boutons */
 
 	remplissage_tab_affichage_ope ( clist_affichage_liste );
-	demande_mise_a_jour_tous_comptes ();
-	verification_mise_a_jour_liste ();
+/* 	demande_mise_a_jour_tous_comptes (); */
+/* 	verification_mise_a_jour_liste (); */
 
 }
 /* ************************************************************************************************************** */

@@ -172,7 +172,7 @@ GtkWidget *creation_barre_outils ( void )
 			   15,
 			   15 );
     g_signal_connect_swapped ( GTK_OBJECT ( bouton_ope_lignes[0] ),
-			       "button-press-event",
+			       "toggled",
 			       GTK_SIGNAL_FUNC ( change_aspect_liste ),
 			       GINT_TO_POINTER ( 1 ) );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
@@ -199,7 +199,7 @@ GtkWidget *creation_barre_outils ( void )
     gtk_container_add ( GTK_CONTAINER ( bouton_ope_lignes[1] ),
 			icone );
     g_signal_connect_swapped ( GTK_OBJECT ( bouton_ope_lignes[1] ),
-			       "button-press-event",
+			       "toggled",
 			       GTK_SIGNAL_FUNC ( change_aspect_liste ),
 			       GINT_TO_POINTER ( 2 ) );
     gtk_widget_set_usize ( bouton_ope_lignes[1],
@@ -231,7 +231,7 @@ GtkWidget *creation_barre_outils ( void )
     gtk_container_add ( GTK_CONTAINER ( bouton_ope_lignes[2] ),
 			icone );
     g_signal_connect_swapped ( GTK_OBJECT ( bouton_ope_lignes[2] ),
-			       "button-press-event",
+			       "toggled",
 			       GTK_SIGNAL_FUNC ( change_aspect_liste ),
 			       GINT_TO_POINTER ( 3 ) );
     gtk_widget_set_usize ( bouton_ope_lignes[2],
@@ -261,7 +261,7 @@ GtkWidget *creation_barre_outils ( void )
     gtk_container_add ( GTK_CONTAINER ( bouton_ope_lignes[3] ),
 			icone );
     g_signal_connect_swapped ( GTK_OBJECT ( bouton_ope_lignes[3] ),
-			       "button-press-event",
+			       "toggled",
 			       GTK_SIGNAL_FUNC ( change_aspect_liste ),
 			       GINT_TO_POINTER ( 4 ) );
     gtk_widget_set_usize ( bouton_ope_lignes[3],
@@ -302,7 +302,7 @@ GtkWidget *creation_barre_outils ( void )
     gtk_container_add ( GTK_CONTAINER ( bouton_affiche_r ),
 			icone );
     g_signal_connect_swapped ( GTK_OBJECT ( bouton_affiche_r ),
-			       "button-press-event",
+			       "toggled",
 			       GTK_SIGNAL_FUNC ( change_aspect_liste ),
 			       GINT_TO_POINTER ( 5 ) );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
@@ -331,7 +331,7 @@ GtkWidget *creation_barre_outils ( void )
 			   15,
 			   15 );
     g_signal_connect_swapped ( GTK_OBJECT ( bouton_enleve_r ),
-			       "button-press-event",
+			       "toggled",
 			       GTK_SIGNAL_FUNC ( change_aspect_liste ),
 			       GINT_TO_POINTER ( 6 ) );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
@@ -366,223 +366,45 @@ GtkWidget *creation_barre_outils ( void )
 
 
 
-
 /****************************************************************************************************/
-gboolean change_aspect_liste ( gint demande )
+gboolean change_aspect_liste ( gint *demande )
 {
     p_tab_nom_de_compte_variable=p_tab_nom_de_compte_courant;
 
-    switch ( demande )
+/* FIXME : dès que gtk 2.4 à la maison, utiliser le gtk_tree_model_filter */
+
+
+    switch ( GPOINTER_TO_INT (demande))
     {
+	/* 	1, 2, 3 et 4 sont les nb de lignes qu'on demande à afficher */
+
 	case 1 :
-	    /*       si retient_affichage_par_compte est mis, on ne change que le compte courant, */
-	    /* sinon on change tous les comptes */
-
-	    if ( NB_LIGNES_OPE != 1 )
-	    {
-		if ( etat.retient_affichage_par_compte )
-		{
-		    NB_LIGNES_OPE = 1;
-		    MISE_A_JOUR = 1;
-		}
-		else
-		{
-		    gint i;
-
-		    for ( i=0 ; i<nb_comptes ; i++ )
-		    {
-			p_tab_nom_de_compte_variable=p_tab_nom_de_compte + i;
-			NB_LIGNES_OPE = 1;
-			MISE_A_JOUR = 1;
-		    }
-		    p_tab_nom_de_compte_variable=p_tab_nom_de_compte_courant;
-		}
-	    }
-	    gtk_button_clicked ( GTK_BUTTON ( bouton_ope_lignes[0] ));
-/* 	    doit mettre un g_main_iteration pour calmer le jeu en cas d'un clic très rapide */
-/* 		sinon il va réafficher 3 fois la liste d'opé... */
-	    while ( g_main_iteration ( FALSE ));
-
-	    break;
-
-
 	case 2 :
-
-	    /* ope 2 lignes */
-
-	    /*       si retient_affichage_par_compte est mis, on ne change que le compte courant, */
-	    /* sinon on change tous les comptes */
-
-	    if ( NB_LIGNES_OPE != 2 )
-	    {
-		if ( etat.retient_affichage_par_compte )
-		{
-		    NB_LIGNES_OPE = 2;
-		    MISE_A_JOUR = 1;
-		}
-		else
-		{
-		    gint i;
-
-		    for ( i=0 ; i<nb_comptes ; i++ )
-		    {
-			p_tab_nom_de_compte_variable=p_tab_nom_de_compte + i;
-			NB_LIGNES_OPE = 2;
-			MISE_A_JOUR = 1;
-		    }
-		    p_tab_nom_de_compte_variable=p_tab_nom_de_compte_courant;
-		}
-	    }
-	    gtk_button_clicked ( GTK_BUTTON ( bouton_ope_lignes[1] ));
-/* 	    doit mettre un g_main_iteration pour calmer le jeu en cas d'un clic très rapide */
-/* 		sinon il va réafficher 3 fois la liste d'opé... */
-	    while ( g_main_iteration ( FALSE ));
-
-	    break;
-
-
 	case 3 :
-
-	    /* ope 3 lignes */
-	    /*       si retient_affichage_par_compte est mis, on ne change que le compte courant, */
-	    /* sinon on change tous les comptes */
-
-	    if ( NB_LIGNES_OPE != 3 )
-	    {
-		if ( etat.retient_affichage_par_compte )
-		{
-		    NB_LIGNES_OPE = 3;
-		    MISE_A_JOUR = 1;
-		}
-		else
-		{
-		    gint i;
-
-		    for ( i=0 ; i<nb_comptes ; i++ )
-		    {
-			p_tab_nom_de_compte_variable=p_tab_nom_de_compte + i;
-			NB_LIGNES_OPE = 3;
-			MISE_A_JOUR = 1;
-		    }
-		    p_tab_nom_de_compte_variable=p_tab_nom_de_compte_courant;
-		}
-	    }
-	    gtk_button_clicked ( GTK_BUTTON ( bouton_ope_lignes[2] ));
-/* 	    doit mettre un g_main_iteration pour calmer le jeu en cas d'un clic très rapide */
-/* 		sinon il va réafficher 3 fois la liste d'opé... */
-	    while ( g_main_iteration ( FALSE ));
-
-	    break;
-
 	case 4 :
 
-	    /*       si retient_affichage_par_compte est mis, on ne change que le compte courant, */
-	    /* sinon on change tous les comptes */
-
-	    if ( NB_LIGNES_OPE != 4 )
-	    {
-		if ( etat.retient_affichage_par_compte )
-		{
-		    NB_LIGNES_OPE = 4;
-		    MISE_A_JOUR = 1;
-		}
-		else
-		{
-		    gint i;
-
-		    for ( i=0 ; i<nb_comptes ; i++ )
-		    {
-			p_tab_nom_de_compte_variable=p_tab_nom_de_compte + i;
-			NB_LIGNES_OPE = 4;
-			MISE_A_JOUR = 1;
-		    }
-		    p_tab_nom_de_compte_variable=p_tab_nom_de_compte_courant;
-		}
-	    }
-
-	    gtk_button_clicked ( GTK_BUTTON ( bouton_ope_lignes[3] ));
-/* 	    doit mettre un g_main_iteration pour calmer le jeu en cas d'un clic très rapide */
-/* 		sinon il va réafficher 3 fois la liste d'opé... */
-	    while ( g_main_iteration ( FALSE ));
+	    mise_a_jour_affichage_lignes ( GPOINTER_TO_INT (demande));
 
 	    break;
-
-
 
 	case 5 :
 
 	    /* ope avec r */
-	    /*       si retient_affichage_par_compte est mis, on ne change que le compte courant, */
-	    /* sinon on change tous les comptes */
 
-	    if ( !AFFICHAGE_R )
-	    {
-		if ( etat.retient_affichage_par_compte )
-		{
-		    AFFICHAGE_R = 1;
-		    MISE_A_JOUR = 1;
-		}
-		else
-		{
-		    gint i;
+	    mise_a_jour_affichage_r ( 1 );
 
-		    for ( i=0 ; i<nb_comptes ; i++ )
-		    {
-			p_tab_nom_de_compte_variable=p_tab_nom_de_compte + i;
-			AFFICHAGE_R = 1;
-			MISE_A_JOUR = 1;
-		    }
-		    p_tab_nom_de_compte_variable=p_tab_nom_de_compte_courant;
-		}
-	    }
-		    gtk_button_clicked ( GTK_BUTTON ( bouton_affiche_r ));
-/* 	    doit mettre un g_main_iteration pour calmer le jeu en cas d'un clic très rapide */
-/* 		sinon il va réafficher 3 fois la liste d'opé... */
-	    while ( g_main_iteration ( FALSE ));
-
-    break;
+	    break;
 
 	case 6 :
 
 	    /* ope sans r */
-	    /*       si retient_affichage_par_compte est mis, on ne change que le compte courant, */
-	    /* sinon on change tous les comptes */
 
-	    if ( AFFICHAGE_R )
-	    {
-		if ( etat.retient_affichage_par_compte )
-		{
-		    AFFICHAGE_R = 0;
-		    MISE_A_JOUR = 1;
-		}
-		else
-		{
-		    gint i;
-
-		    for ( i=0 ; i<nb_comptes ; i++ )
-		    {
-			p_tab_nom_de_compte_variable=p_tab_nom_de_compte + i;
-			AFFICHAGE_R = 0;
-			MISE_A_JOUR = 1;
-		    }
-		    p_tab_nom_de_compte_variable=p_tab_nom_de_compte_courant;
-		}
-	    }
-	    gtk_button_clicked ( GTK_BUTTON (bouton_enleve_r ));
-/* 	    doit mettre un g_main_iteration pour calmer le jeu en cas d'un clic très rapide */
-/* 		sinon il va réafficher 3 fois la liste d'opé... */
-	    while ( g_main_iteration ( FALSE ));
+	    mise_a_jour_affichage_r ( 0 );
 
 	    break;
-
     }
 
-    /*   si un compte était affiché en ce moment, on le met à jour si necessaire */
 
-    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general )) == 1 )
-	verification_mise_a_jour_liste ();
-
-    modification_fichier ( TRUE );
     return ( TRUE );
 }
 /* ***************************************************************************************************** */
@@ -1190,6 +1012,21 @@ void mise_a_jour_boutons_caract_liste ( gint no_compte )
 {
     p_tab_nom_de_compte_variable=p_tab_nom_de_compte + no_compte;
 
+    /*     on veut juste mettre les boutons à jour, sans redessiner la liste */
+    /*     on bloque donc les appels aux fonctions */
+
+    g_signal_handlers_block_by_func ( G_OBJECT ( bouton_ope_lignes[0] ),
+				      G_CALLBACK ( change_aspect_liste ),
+				      GINT_TO_POINTER (1));
+    g_signal_handlers_block_by_func ( G_OBJECT ( bouton_ope_lignes[1] ),
+				      G_CALLBACK ( change_aspect_liste ),
+				      GINT_TO_POINTER (2));
+    g_signal_handlers_block_by_func ( G_OBJECT ( bouton_ope_lignes[2] ),
+				      G_CALLBACK ( change_aspect_liste ),
+				      GINT_TO_POINTER (3));
+    g_signal_handlers_block_by_func ( G_OBJECT ( bouton_ope_lignes[3] ),
+				      G_CALLBACK ( change_aspect_liste ),
+				      GINT_TO_POINTER (4));
     switch ( NB_LIGNES_OPE )
     {
 	case 1:
@@ -1205,20 +1042,46 @@ void mise_a_jour_boutons_caract_liste ( gint no_compte )
 					   TRUE );
 	    break;
 	case 4:
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_lignes[4] ),
+	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_lignes[3] ),
 					   TRUE );
 	    break;
     }
 
+    g_signal_handlers_unblock_by_func ( G_OBJECT ( bouton_ope_lignes[0] ),
+					G_CALLBACK ( change_aspect_liste ),
+					GINT_TO_POINTER (1));
+    g_signal_handlers_unblock_by_func ( G_OBJECT ( bouton_ope_lignes[1] ),
+					G_CALLBACK ( change_aspect_liste ),
+					GINT_TO_POINTER (2));
+    g_signal_handlers_unblock_by_func ( G_OBJECT ( bouton_ope_lignes[2] ),
+					G_CALLBACK ( change_aspect_liste ),
+					GINT_TO_POINTER (3));
+    g_signal_handlers_unblock_by_func ( G_OBJECT ( bouton_ope_lignes[3] ),
+					G_CALLBACK ( change_aspect_liste ),
+					GINT_TO_POINTER (4));
 
 
     /* on met maintenant le bouton r ou pas r */
 
+    g_signal_handlers_block_by_func ( G_OBJECT ( bouton_affiche_r ),
+				      G_CALLBACK ( change_aspect_liste ),
+				      GINT_TO_POINTER (5));
+    g_signal_handlers_block_by_func ( G_OBJECT ( bouton_enleve_r ),
+				      G_CALLBACK ( change_aspect_liste ),
+				      GINT_TO_POINTER (6));
     if ( AFFICHAGE_R )
 	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_r ),
 				       TRUE );
     else
 	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_enleve_r ),
 				       TRUE );
+
+    g_signal_handlers_unblock_by_func ( G_OBJECT ( bouton_affiche_r ),
+					G_CALLBACK ( change_aspect_liste ),
+					GINT_TO_POINTER (5));
+    g_signal_handlers_unblock_by_func ( G_OBJECT ( bouton_enleve_r ),
+					G_CALLBACK ( change_aspect_liste ),
+					GINT_TO_POINTER (6));
+
 }
 /*******************************************************************************************/

@@ -79,7 +79,12 @@ GtkWidget *label_equilibrage_pointe;
 GtkWidget *label_equilibrage_ecart;
 GtkWidget *bouton_ok_equilibrage;
 GSList *liste_struct_rapprochements;            /* contient la liste des structures de no_rapprochement */
-gint ancien_nb_lignes_ope;              /* contient l'ancien nb_lignes_ope */
+
+/* ces 3 variables retiennent les données de l'utilisateur avant rapprochement */
+
+gint ancien_nb_lignes_ope;
+gint ancien_r_modifiable;
+gint ancien_retient_affichage_par_compte;
 
 
 extern GtkWidget *bouton_ope_lignes[4];
@@ -480,13 +485,6 @@ void equilibrage ( void )
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-    if ( !NB_OPE_COMPTE )
-    {
-	dialogue_error ( _("This account does not contain any transaction") );
-	return;
-    }
-
-
     /* efface le label propriétés du compte */
 
     gtk_widget_hide ( label_proprietes_operations_compte );
@@ -538,7 +536,14 @@ void equilibrage ( void )
 
 		partie_num = itoa ( my_atoi ( partie_num ) + 1 );
 
-		/* si la nouvelle partie numérique est plus petite que l'ancienne, */
+		/* si la nouvelle partie numérique est plus petite que l'ancien
+    if ( id_fonction_idle )
+    {
+	g_source_remove ( id_fonction_idle );
+	id_fonction_idle = 0;
+    }
+
+ne, */
 		/* c'est que des 0 ont été shuntés, on va les rajouter ici */
 
 		nouvelle_longueur = strlen ( partie_num );
@@ -637,30 +642,25 @@ void equilibrage ( void )
 				   TRUE );
 
 
-    /* affiche la liste en opé simplifiées */
-    /* on n'appelle pas change_aspect_liste pour éviter de refaire la liste d'opé */
-    /*     maintenant, elle sera refaite en changeant l'état des R */
-    /* de même que le tri sera fait avec la mise à jour de la liste */
+    /* affiche la liste en opé simplifiées sans R*/
+
+    /*     déjà on passe en choix par compte pour éviter de refaire toutes les listes */
+
+    ancien_retient_affichage_par_compte = etat.retient_affichage_par_compte;
+    etat.retient_affichage_par_compte = 1;
+
+    /*     on passe en non affichage des R */
+
+    ancien_r_modifiable = AFFICHAGE_R;
+    AFFICHAGE_R = 0;
+    gtk_button_clicked ( GTK_BUTTON ( bouton_enleve_r ));
+
+    /*     on affiche les opés sur 1 ligne */
 
     ancien_nb_lignes_ope = NB_LIGNES_OPE;
+    gtk_button_clicked ( GTK_BUTTON ( bouton_ope_lignes[0] ));
 
-    if ( NB_LIGNES_OPE != 1 )
-    {
-	gtk_button_clicked ( GTK_BUTTON ( bouton_ope_lignes[0] ));
-	NB_LIGNES_OPE = 1;
-    }
 
-    /* on vire les opérations rapprochées */
-    /*     et réaffiche la liste */
-
-    etat.valeur_r_avant_rapprochement = AFFICHAGE_R;
-
-/* FIXME : remettre le tri de la liste en fonction des choix utilisateurs... */
-
-    gtk_button_clicked ( GTK_BUTTON ( bouton_enleve_r ));
-    AFFICHAGE_R = 0;
-    MISE_A_JOUR = 1;
-    verification_mise_a_jour_liste ();
 
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
 			    2 );
@@ -759,21 +759,21 @@ void annuler_equilibrage ( void )
 
     etat.equilibrage = 0;
 
+    /*     on restaure la config de l'utilisateur */
+
     NB_LIGNES_OPE = ancien_nb_lignes_ope;
     gtk_button_clicked ( GTK_BUTTON ( bouton_ope_lignes[NB_LIGNES_OPE-1]));
 
-    AFFICHAGE_R = etat.valeur_r_avant_rapprochement;
+    AFFICHAGE_R = ancien_r_modifiable;
     if ( AFFICHAGE_R )
 	gtk_button_clicked ( GTK_BUTTON (bouton_affiche_r ));
     else
 	gtk_button_clicked ( GTK_BUTTON ( bouton_enleve_r));
 
-    MISE_A_JOUR = 1;
+    etat.retient_affichage_par_compte = ancien_retient_affichage_par_compte;
 
-    verification_mise_a_jour_liste ();
 
     gtk_widget_show ( label_proprietes_operations_compte );
-
 }
 /******************************************************************************/
 

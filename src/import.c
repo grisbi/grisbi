@@ -1449,8 +1449,6 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import,
 
 	compte -> gsliste_operations = g_slist_append ( compte -> gsliste_operations,
 							operation );
-	compte -> nb_operations++;
-
 
 	liste_tmp = liste_tmp -> next;
     }
@@ -2108,8 +2106,6 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 
     LISTE_OPERATIONS = g_slist_append ( LISTE_OPERATIONS,
 					operation );
-    NB_OPE_COMPTE++;
-
     return ( operation );
 }
 /* *******************************************************************************/

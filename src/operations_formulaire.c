@@ -2397,7 +2397,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
     }
 
     /* pour les types qui sont à incrÃ©mentation automatique ( surtout les chÃ¨ques ) */
-    /* on fait le tour des operations pour voir si le no n'a pas déjà été utilisÃƒƒƒƒƒƒ© */
+    /* on fait le tour des operations pour voir si le no n'a pas déjà été utilisÃƒƒƒƒƒƒƒƒ© */
     /* si operation n'est pas nul, c'est une modif donc on ne fait pas ce test */
 
     if ( GTK_WIDGET_VISIBLE ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] ))
@@ -3178,48 +3178,58 @@ void ajout_operation ( struct structure_operation *operation )
 	stop_idle = 1;
     }
 
-    /*     si la liste n'est pas finie, on la finie avant */
-	
-     verification_list_store_termine ( operation -> no_compte );
-
     /* on met l'opé dant la liste en la classant */
     /*     cette fonction place en même temps p_tab_nom_de_compte_variable */
 
     insere_operation_dans_liste ( operation );
 
-    /* on recherche l'iter de l'opé suivante */
-    /*     on est sûr que l'opé va être trouvée vu qu'on vient de l'ajouter */
+    /*     on ne met à jour le store que si l'opé est affichée, cad si c'est une opé de ventil */
+    /* 	ou R et que les R ne sont pas affichés, on ne fait rien */
 
-    liste_tmp = g_slist_find ( LISTE_OPERATIONS,
-			       operation ) -> next;
+    if ( !(operation -> no_operation_ventilee_associee
+	   ||
+	   ( operation -> pointe == 3
+	     &&
+	     AFFICHAGE_R )))
+    {
+	/*     si la liste n'est pas finie, on la finie avant */
 
-    if ( liste_tmp )
-	operation_suivante = liste_tmp -> data;
-    else
-	operation_suivante = GINT_TO_POINTER (-1);
+	verification_list_store_termine ( operation -> no_compte );
 
-    /*     on recherche l'iter de l'opé suivant pour insérer l'opé juste avant */
+	/* on recherche l'iter de l'opé suivante */
+	/*     on est sûr que l'opé va être trouvée vu qu'on vient de l'ajouter */
 
-    iter = cherche_iter_operation ( operation_suivante );
+	liste_tmp = g_slist_find ( LISTE_OPERATIONS,
+				   operation ) -> next;
 
-    /*     on insère l'iter de l'opération qu'on ajoute */
+	if ( liste_tmp )
+	    operation_suivante = liste_tmp -> data;
+	else
+	    operation_suivante = GINT_TO_POINTER (-1);
 
-    remplit_ligne_operation ( operation,
-			      iter );
+	/*     on recherche l'iter de l'opé suivant pour insérer l'opé juste avant */
 
-    /*     on recherche l'iter de l'opération qu'on vient d'ajouter */
-    /* 	pour mettre à jour les couleurs et les soldes */
-    /*     il est nécessaire de faire une copie d'iter, car chaque fonction va */
-    /* 	le modifier */
+	iter = cherche_iter_operation ( operation_suivante );
 
-    iter = cherche_iter_operation ( operation );
+	/*     on insère l'iter de l'opération qu'on ajoute */
 
-    update_couleurs_background ( operation -> no_compte,
-				 gtk_tree_iter_copy (iter));
-    update_soldes_list_store ( operation -> no_compte,
-			       gtk_tree_iter_copy (iter));
-    selectionne_ligne ( OPERATION_SELECTIONNEE );
-    ajuste_scrolling_liste_operations_a_selection ( operation -> no_compte );
+	remplit_ligne_operation ( operation,
+				  iter );
+
+	/*     on recherche l'iter de l'opération qu'on vient d'ajouter */
+	/* 	pour mettre à jour les couleurs et les soldes */
+	/*     il est nécessaire de faire une copie d'iter, car chaque fonction va */
+	/* 	le modifier */
+
+	iter = cherche_iter_operation ( operation );
+
+	update_couleurs_background ( operation -> no_compte,
+				     gtk_tree_iter_copy (iter));
+	update_soldes_list_store ( operation -> no_compte,
+				   gtk_tree_iter_copy (iter));
+	selectionne_ligne ( OPERATION_SELECTIONNEE );
+	ajuste_scrolling_liste_operations_a_selection ( operation -> no_compte );
+    }
 
     /*     calcul du solde courant */
 
@@ -3269,7 +3279,6 @@ void insere_operation_dans_liste ( struct structure_operation *operation )
 	LISTE_OPERATIONS = g_slist_insert_sorted ( LISTE_OPERATIONS,
 						   operation,
 						   (GCompareFunc) CLASSEMENT_COURANT );
-	NB_OPE_COMPTE++;
     }
 }
 /******************************************************************************/

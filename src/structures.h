@@ -67,7 +67,6 @@ struct {
     guint modification_fichier;
     guint ctrl;
     guint equilibrage;
-    guint valeur_r_avant_rapprochement;
     guint r_modifiable;
     guint dernier_fichier_auto;
     guint sauvegarde_auto;             /* utilisé pour enregistrer le fichier automatiquementà la fermeture */
@@ -185,7 +184,6 @@ struct donnees_compte
     gchar *id_compte;            /*cet id est rempli lors d'un import ofx, il est invisible à l'utilisateur*/
     gint type_de_compte;          /* 0 = bancaire, 1 = espèce, 2 = passif, 3= actif */
     gchar *nom_de_compte;
-    gint nb_operations;
     gdouble solde_initial;
     gdouble solde_mini_voulu;
     gdouble solde_mini_autorise;
@@ -218,7 +216,8 @@ struct donnees_compte
     gint type_defaut_credit;            /* no du type par défaut */
     gint affichage_r;            /* à 1 si les R sont affichés pour ce compte */
     gint nb_lignes_ope;           /* contient le nb de lignes pour une opé (1, 2, 3, 4 ) */
-    gpointer classement_courant;       /* pointe sur la fonction de classement en cours */
+    gint (*classement_courant) ( struct structure_operation *operation_1,
+				 struct structure_operation *operation_2 );      /* pointe sur la fonction de classement en cours */
     GtkTreeViewColumn *colonne_classement;         /* contient le no de colonne qui a été clické pour le classement */
     gint classement_croissant;          /*à 1 si on utilise le classement croissant, du haut de la liste vers le bas*/
     gint no_classement;                    /*contient le no du classement*/
@@ -235,7 +234,7 @@ struct donnees_compte
 
     GSList *slist_derniere_ope_ajoutee;   /*pointe sur la struct sliste de la dernière opé ajoutée au list_store ou -1 si fini*/
     gint couleur_background_fini;      /*à 1 une fois que le background a été fait*/
-    gint affichage_solde_fini;         /*à 1 une fois que les soldes des opés ont été affichés */
+    gint affichage_solde_fini;         /*à 1 une fois que les soldes des opés ont été affichés(se met à 0 tout seul quand on essaie d'afficher le solde) */
     gint selection_operation_fini;      /*à 1 une fois que l'opération a été sélectionnée */
 };
 
@@ -247,7 +246,6 @@ struct donnees_compte
 #define ID_COMPTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> id_compte
 #define TYPE_DE_COMPTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> type_de_compte
 #define NOM_DU_COMPTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> nom_de_compte
-#define NB_OPE_COMPTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> nb_operations
 #define SOLDE_INIT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> solde_initial
 #define SOLDE_MINI_VOULU ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> solde_mini_voulu 
 #define SOLDE_MINI ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> solde_mini_autorise
@@ -616,7 +614,7 @@ struct struct_comparaison_textes_etat
 
     /* pourles comparaisons de txt */
 
-    GtkWidget *bouton_utilise_txt;    /* sensitif en cas de champ à no */
+    GtkWidget *bouton_utilise_txt;    /* sensitif en cas de champ Ã  no */
     GtkWidget *hbox_txt;
     GtkWidget *bouton_operateur;
     GtkWidget *entree_txt;

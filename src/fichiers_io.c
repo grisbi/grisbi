@@ -153,7 +153,7 @@ gboolean charge_operations ( void )
 		return ( charge_operations_version_0_5_0 ( doc ));
 	    if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
 			     "0.5.1" )))
-		return ( charge_operations_version_0_5_0 ( doc ));
+		return ( charge_operations_version_0_5_1 ( doc ));
 
 	    /* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
 	    /* la version nécessaire pour l'ouvrir */
@@ -427,10 +427,6 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 				if ( !strcmp ( node_detail -> name,
 					       "Type_de_compte" ))
 				    TYPE_DE_COMPTE = my_atoi ( xmlNodeGetContent ( node_detail ));
-
-				if ( !strcmp ( node_detail -> name,
-					       "Nb_opérations" ))
-				    NB_OPE_COMPTE = my_atoi ( xmlNodeGetContent ( node_detail ));
 
 				if ( !strcmp ( node_detail -> name,
 					       "Devise" ))
@@ -1797,7 +1793,6 @@ void supprime_operations_orphelines ( void )
 		    liste_tmp = liste_tmp -> next;
 		    LISTE_OPERATIONS = g_slist_remove ( LISTE_OPERATIONS,
 							operation );
-		    NB_OPE_COMPTE--;
 		    nb_ventil++;
 		}
 	    }
@@ -2248,10 +2243,6 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 				if ( !strcmp ( node_detail -> name,
 					       "Type_de_compte" ))
 				    TYPE_DE_COMPTE = my_atoi ( xmlNodeGetContent ( node_detail ));
-
-				if ( !strcmp ( node_detail -> name,
-					       "Nb_operations" ))
-				    NB_OPE_COMPTE = my_atoi ( xmlNodeGetContent ( node_detail ));
 
 				if ( !strcmp ( node_detail -> name,
 					       "Devise" ))
@@ -4583,10 +4574,6 @@ gboolean charge_operations_version_0_5_1 ( xmlDocPtr doc )
 					TYPE_DE_COMPTE = my_atoi ( xmlNodeGetContent ( node_detail ));
 
 				    if ( !strcmp ( node_detail -> name,
-						   "Nb_operations" ))
-					NB_OPE_COMPTE = my_atoi ( xmlNodeGetContent ( node_detail ));
-
-				    if ( !strcmp ( node_detail -> name,
 						   "Devise" ))
 					DEVISE = my_atoi ( xmlNodeGetContent ( node_detail ));
 
@@ -6833,11 +6820,6 @@ gboolean enregistre_fichier ( gboolean force )
 			  NULL,
 			  "Type_de_compte",
 			  itoa ( TYPE_DE_COMPTE ));
-
-	xmlNewTextChild ( node_compte,
-			  NULL,
-			  "Nb_operations",
-			  itoa ( NB_OPE_COMPTE ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,

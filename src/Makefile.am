@@ -126,6 +126,7 @@ grisbi_INCLUDES =		\
 	search_glist.h
 
 
+
 EXTRA_DIST = grisbi.desktop grisbi.keys grisbi.mime $(grisbi_INCLUDES)
 
 mimedir = $(datadir)/mime-info

@@ -428,7 +428,7 @@ gint classement_sliste_par_devise ( struct structure_operation *operation_1,
     if ( devise_1 )
     {
 	if ( devise_2 )
-	    retour = strcmp ( devise_1,
+	    retour = my_strcmp ( devise_1,
 			      devise_2 );
 	else
 	    retour = -1;
@@ -473,8 +473,8 @@ gint classement_sliste_par_tiers ( struct structure_operation *operation_1,
     if ( tiers_1 )
     {
 	if ( tiers_2 )
-	    retour = strcmp ( tiers_1,
-			      tiers_2 );
+	    retour = my_strcmp ( tiers_1,
+				 tiers_2 );
 	else
 	    retour = -1;
     }
@@ -522,7 +522,7 @@ gint classement_sliste_par_categories ( struct structure_operation *operation_1,
     {
 	if ( categ_2 )
 	    /* 	    cas le plus simple : ce sont 2 categ normales */
-	    retour = strcmp ( categ_1,
+	    retour = my_strcmp ( categ_1,
 			      categ_2 );
 	else
 	    retour = -1;
@@ -604,7 +604,7 @@ gint classement_sliste_par_imputation ( struct structure_operation *operation_1,
     if ( ib_1 )
     {
 	if ( ib_2 )
-	    retour = strcmp ( ib_1,
+	    retour = my_strcmp ( ib_1,
 			      ib_2 );
 	else
 	    retour = -1;
@@ -646,7 +646,7 @@ gint classement_sliste_par_notes ( struct structure_operation *operation_1,
     if ( operation_1 -> notes )
     {
 	if ( operation_2 -> notes )
-	    retour = g_strcasecmp ( operation_1 -> notes,
+	    retour = my_strcasecmp ( operation_1 -> notes,
 				    operation_2 -> notes );
 	else
 	    retour = -1;
@@ -720,7 +720,7 @@ gint classement_sliste_par_no_rapprochement ( struct structure_operation *operat
     if ( rapr_1 )
     {
 	if ( rapr_2 )
-	    retour = strcmp ( rapr_1, 
+	    retour = my_strcmp ( rapr_1, 
 			      rapr_2 );
 	else
 	    retour = -1;
@@ -829,7 +829,7 @@ gint classement_sliste_par_pc ( struct structure_operation *operation_1,
     if ( operation_1 -> no_piece_comptable )
     {
 	if ( operation_2 -> no_piece_comptable )
-	    retour = g_strcasecmp ( operation_1 -> no_piece_comptable,
+	    retour = my_strcasecmp ( operation_1 -> no_piece_comptable,
 				    operation_2 -> no_piece_comptable );
 	else
 	    retour = -1;
@@ -871,7 +871,7 @@ gint classement_sliste_par_ibg ( struct structure_operation *operation_1,
     if ( operation_1 -> info_banque_guichet )
     {
 	if ( operation_2 -> info_banque_guichet )
-	    retour = g_strcasecmp ( operation_1 -> info_banque_guichet,
+	    retour = my_strcasecmp ( operation_1 -> info_banque_guichet,
 				    operation_2 -> info_banque_guichet );
 	else
 	    retour = -1;
@@ -920,7 +920,7 @@ gint classement_sliste_par_type_ope ( struct structure_operation *operation_1,
 	    type_2 = type_ope_name_by_no ( operation_2 -> type_ope,
 					   operation_2 -> no_compte );
 
-	    retour = strcmp ( type_1,
+	    retour = my_strcmp ( type_1,
 			      type_2 );
 
 	    if ( !retour )
@@ -928,7 +928,7 @@ gint classement_sliste_par_type_ope ( struct structure_operation *operation_1,
 		if ( operation_1 -> contenu_type )
 		{
 		    if ( operation_2 -> contenu_type )
-			retour = strcmp ( operation_1 -> contenu_type,
+			retour = my_strcmp ( operation_1 -> contenu_type,
 					  operation_2 -> contenu_type );
 		    else
 			retour = -1;

@@ -359,17 +359,37 @@ gboolean changement_compte ( gint *compte)
      verification_list_store_termine ( compte_courant );
 
 
-    /*     on restore ou initialise la value du tree_view */
-    /* 	si VALUE_AJUSTEMENT_LISTE_OPERATIONS = -1, c'est que c'est la première ouverture, on se met tout en bas */
-    /* 	sinon on restore l'ancienne value */
+     /*     on restore ou initialise la value du tree_view */
+     /* 	si VALUE_AJUSTEMENT_LISTE_OPERATIONS = -1, c'est que c'est la première ouverture, on se met tout en bas */
+     /* 	sinon on restore l'ancienne value */
+
 
     if ( VALUE_AJUSTEMENT_LISTE_OPERATIONS == -1 )
     {
 	GtkAdjustment *ajustment;
+	gint arret_idle = 0;
+
+	/* 	on doit arrêter l'idle pour pouvoir faire fonctionner g_main_iteration */
+
+	if ( id_fonction_idle )
+	{
+	    g_source_remove ( id_fonction_idle );
+	    id_fonction_idle = 0;
+	    arret_idle = 1;
+	}
+
+	while ( g_main_iteration (FALSE));
 
 	ajustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ));
 	gtk_adjustment_set_value ( GTK_ADJUSTMENT ( ajustment ),
 				   ajustment -> upper - ajustment -> page_size );
+
+	/*     on remet l'idle en marche */
+
+	if ( arret_idle )
+	    id_fonction_idle = g_idle_add ( (GSourceFunc) utilisation_temps_idle,
+					    NULL );
+
     }
     else
 	gtk_adjustment_set_value ( GTK_ADJUSTMENT ( gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),

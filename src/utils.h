@@ -56,6 +56,8 @@ void spin_button_set_value ( GtkWidget * spin, gdouble * value );
 gboolean set_double ( GtkWidget * spin, gdouble * dummy );
 GtkWidget * my_file_chooser ();
 void browse_file ( GtkButton *button, gpointer data );
+gint my_strcmp ( gchar *chaine_1,
+		 gchar *chaine_2 );
 gint my_strcasecmp ( gchar *chaine_1,
 		     gchar *chaine_2 );
 gint my_strncasecmp ( gchar *chaine_1,
