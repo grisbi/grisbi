@@ -25,7 +25,7 @@ imputation budgétaire et comment en tirer le meilleur parti, lisez le paragraphe
 <BR>
 <A NAME="toc66"></A>
 <H2><A NAME="htoc90">12.1</A>&nbsp;&nbsp;La liste des imputations budgétaires</H2><A NAME="budgetarylines-list"></A>
-Cette liste reprend toutes les imputations de votre fichier par ordre alphabétique, et 
+Cette liste (voir figure <A HREF="#budgetarylines-list-img">12.1</A>) reprend toutes les imputations de votre fichier par ordre alphabétique, et 
 affiche également le montant total des opérations affectées à cette imputation, 
 le total par compte lorsque plusieurs comptes sont concernés, et la date de la 
 dernière opération.<BR>
@@ -34,38 +34,73 @@ De plus, si vous avez coché la case <I><FONT COLOR=maroon>Afficher le nombre d'é
 le menu <I><FONT COLOR=maroon>Configuration/Affichage</FONT></I> (voir le paragraphe <A HREF="grisbi-manuel020.html#setup-form">18.4.4</A>) 
 le nombre d'écritures (ou d'opérations) imputées à une (sous-)imputation sera
 affichée entre parenthèses à la suite de son nom. La suite de la configuration
-de l'imputation budgétaire se fait en modification comme expliqué ci-après.<BR>
+de l'imputation budgétaire se fait en modification comme expliqué ci-après.
+<BLOCKQUOTE><DIV ALIGN=center></DIV>
+<DIV ALIGN=center>
+<IMG SRC="grisbi-manuel055.png">
+</DIV>
 <BR>
+<DIV ALIGN=center>Figure 12.1&nbsp;: Liste des imputations budgétaires</DIV><BR>
+
+<A NAME="budgetarylines-list-img"></A>
+<DIV ALIGN=center></DIV></BLOCKQUOTE>
+
 Vous pouvez vous déplacer dans cette liste avec les flèches <TT>&lt;Haut&gt;</TT> et
 <TT>&lt;Bas&gt;</TT>, puis sélectionner une (sous-)imputation budgétaire avec la barre
 d'espace. Ou bien vous pouvez cliquer sur la ligne.<BR>
 <BR>
 Les informations la concernant apparaissent alors dans la zone 
-d'édition.
+d'édition (voir figure <A HREF="#budgetarylines-infos-img">12.2</A>).
+<BLOCKQUOTE><DIV ALIGN=center></DIV>
+<DIV ALIGN=center>
+<IMG SRC="grisbi-manuel056.png">
+</DIV>
 <BR>
-<BR>
+<DIV ALIGN=center>Figure 12.2&nbsp;: Imputations budgétaires : zone d'édition/modification</DIV><BR>
+
+<A NAME="budgetarylines-infos-img"></A>
+<DIV ALIGN=center></DIV></BLOCKQUOTE>
+
 <A NAME="toc67"></A>
 <H2><A NAME="htoc91">12.2</A>&nbsp;&nbsp;Création d'une imputation ou sous-imputation
 budgétaire</H2><A NAME="budgetarylines-new"></A>
 Outre la possibilité de créer une imputation budgétaire dans le formulaire de
 saisie d'une opération, vous pouvez aussi en créer directement dans cet onglet
 en cliquant sur le bouton <I><FONT COLOR=maroon>Ajouter une imputation budgétaire</FONT></I>. Une boîte de 
-dialogue 
+dialogue (voir figure <A HREF="#budgetarylines-new-img">12.3</A>) 
 s'ouvre vous demandant le nom de l'imputation budgétaire. Les autres 
 informations devront être saisies en modification comme expliqué ci-après.<BR>
 <BR>
 Attention à bien enregistrer l'imputation avec le bon classement (débit ou 
-crédit).<BR>
+crédit).
+<BLOCKQUOTE><DIV ALIGN=center></DIV>
+<DIV ALIGN=center>
+<IMG SRC="grisbi-manuel057.png">
+</DIV>
 <BR>
+<DIV ALIGN=center>Figure 12.3&nbsp;: Imputations budgétaires : création d'une nouvelle imputation</DIV><BR>
+
+<A NAME="budgetarylines-new-img"></A>
+<DIV ALIGN=center></DIV></BLOCKQUOTE>
+
 Le bouton <I><FONT COLOR=maroon>Ajouter une sous-imputation budgétaire</FONT></I>
 <A NAME="budgetarylines-newsub"></A> ne devient actif que lorsqu'une imputation
 budgétaire est sélectionnée dans la liste des imputations budgétaires.<BR>
 <BR>
 En cliquant sur ce bouton vous ferez apparaître une boîte de dialogue vous 
 demandant le nom de la nouvelle 
-sous-imputation. 
-La sous-imputation créée sera alors rattachée à l'imputation sélectionnée.<BR>
+sous-imputation (voir figure <A HREF="#budgetarylines-newsub-img">12.4</A>)
+La sous-imputation créée sera alors rattachée à l'imputation sélectionnée.
+<BLOCKQUOTE><DIV ALIGN=center></DIV>
+<DIV ALIGN=center>
+<IMG SRC="grisbi-manuel058.png">
+</DIV>
 <BR>
+<DIV ALIGN=center>Figure 12.4&nbsp;: Imputations budgétaires : création d'une nouvelle sous-imputation</DIV><BR>
+
+<A NAME="budgetarylines-newsub-img"></A>
+<DIV ALIGN=center></DIV></BLOCKQUOTE>
+
 <A NAME="toc68"></A>
 <H2><A NAME="htoc92">12.3</A>&nbsp;&nbsp;Modification d'une imputation ou sous-imputation budgétaire</H2>
 <A NAME="budgetarylines-modify"></A>
@@ -81,16 +116,26 @@ enregistrer les modifications ou non.<BR>
 <A NAME="budgetarylines-delete"></A>
 Vous pouvez décider de supprimer une imputation ou une sous-imputation 
 budgétaire en la sélectionnant dans la liste de droite et en cliquant sur le 
-bouton <I><FONT COLOR=maroon>Supprimer</FONT></I>. Un message d'alerte  vous proposera soit de ré-affecter les 
+bouton <I><FONT COLOR=maroon>Supprimer</FONT></I>. Un message d'alerte (voir figure 
+<A HREF="#budgetarylines-delete-img">12.5</A>)  vous proposera soit de ré-affecter les 
 opérations de cette (sous-)imputation à une autre imputation ou 
-sous-imputation budgétaire, soit de les supprimer purement et simplement.<BR>
+sous-imputation budgétaire, soit de les supprimer purement et simplement.
+<BLOCKQUOTE><DIV ALIGN=center></DIV>
+<DIV ALIGN=center>
+<IMG SRC="grisbi-manuel059.png">
+</DIV>
 <BR>
+<DIV ALIGN=center>Figure 12.5&nbsp;: Suppression d'une imputation budgétaire</DIV><BR>
+
+<A NAME="budgetarylines-delete-img"></A>
+<DIV ALIGN=center></DIV></BLOCKQUOTE>
+
 <A NAME="toc70"></A>
 <H2><A NAME="htoc94">12.5</A>&nbsp;&nbsp;Les opérations d'une imputation 
 budgétaire</H2><A NAME="budgetarylines-transactions"></A>
 Vous remarquez complètement à gauche du nom de chaque imputation ou
 sous-imputation budgétaire un signe 
-(+).
+(+) (voir figure <A HREF="#budgetarylines-list-img">12.1</A>).
 <BR>
 <BR>
 Si vous cliquez dessus (ou bien si vous double-cliquez sur le nom de
@@ -122,13 +167,13 @@ Les icônes de cette barre agissent comme suit :
 <BR>
 <LI>si une imputation est sélectionnée (on le fait en cliquant dessus dans la liste), l'icône agit uniquement sur cette imputation. Il est possible de désélectionner cette imputation en cliquant une nouvelle fois dessus;<BR>
 <BR>
-<LI>l'icône <IMG SRC="grisbi-manuel017.png"> ferme l'arbre (seule la liste des imputations est affichée) ;<BR>
+<LI>l'icône <IMG SRC="grisbi-manuel060.png"> ferme l'arbre (seule la liste des imputations est affichée) ;<BR>
 <BR>
-<LI>l'icône <IMG SRC="grisbi-manuel018.png"> affiche les sous-divisions, c'est à dire les sous-imputations, de l'imputation sélectionnée ou de la liste complète;<BR>
+<LI>l'icône <IMG SRC="grisbi-manuel061.png"> affiche les sous-divisions, c'est à dire les sous-imputations, de l'imputation sélectionnée ou de la liste complète;<BR>
 <BR>
-<LI>l'icône <IMG SRC="grisbi-manuel019.png"> affiche le premier niveau d'informations, donc les comptes, pour l'imputation sélectionnée ou pour la liste complète ;<BR>
+<LI>l'icône <IMG SRC="grisbi-manuel062.png"> affiche le premier niveau d'informations, donc les comptes, pour l'imputation sélectionnée ou pour la liste complète ;<BR>
 <BR>
-<LI>l'icône <IMG SRC="grisbi-manuel020.png"> affiche le deuxième niveau d'informations, donc les opérations de chaque compte, pour l'imputation sélectionnée ou pour la liste complète.</UL>
+<LI>l'icône <IMG SRC="grisbi-manuel063.png"> affiche le deuxième niveau d'informations, donc les opérations de chaque compte, pour l'imputation sélectionnée ou pour la liste complète.</UL>
  
 <A NAME="toc71"></A>
 <H2><A NAME="htoc95">12.6</A>&nbsp;&nbsp;Imports exports</H2><A NAME="budgetlines-importexport"></A> 

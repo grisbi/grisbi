@@ -18,8 +18,20 @@
 
 <H1><A NAME="htoc119">Chapitre&nbsp;16</A>&nbsp;&nbsp;Création d'un état</H1><A NAME="reportscreation"></A>
 Tout ce qui va suivre concerne la création d'un état ex-nihilo, mais aussi
-la modification d'un état pré-existant.<BR>
+la modification d'un état pré-existant. Pour créer ou modifier un état vous devez avoir sélectionné un état préformaté et être passé en mode modification.<BR>
 <BR>
+L'onglet des états affiche alors les onglets 
+d'édition (voir figure <A HREF="#reportcreation-datas">16.1</A>).
+<BLOCKQUOTE><DIV ALIGN=center></DIV>
+<DIV ALIGN=center>
+<IMG SRC="grisbi-manuel068.png">
+</DIV>
+<BR>
+<DIV ALIGN=center>Figure 16.1&nbsp;: Création d'un état : les onglets d'édition</DIV><BR>
+
+<A NAME="reportcreation-datas"></A>
+<DIV ALIGN=center></DIV></BLOCKQUOTE>
+
 La création d'un état se décompose en trois étapes :
 <UL><LI>la sélection des informations que vous voulez extraire de votre 
 fichier de comptes. Par défaut, Grisbi considère que vous désirez utiliser 
@@ -78,14 +90,39 @@ de virement ;<BR>
 <BR>
 <LI>le fait qu'une opération soit rapprochée ou non ;</UL>
 L'onglet <I><FONT COLOR=maroon>Sélection</FONT></I> possède donc logiquement quasiment 
-autant de sous-onglets que la liste ci-dessus possède d'items.<BR>
+autant de sous-onglets 
+(voir figure <A HREF="#reportcreation-datas-tabs">16.2</A>).
 <BR>
+<BR>
+que la liste ci-dessus possède d'items.
+<BLOCKQUOTE><DIV ALIGN=center></DIV>
+<DIV ALIGN=center>
+<IMG SRC="grisbi-manuel069.png">
+</DIV>
+<BR>
+<DIV ALIGN=center>Figure 16.2&nbsp;: Création d'état : les sous-onglets de l'onglet de sélection</DIV><BR>
+
+<A NAME="reportcreation-datas-tabs"></A>
+<DIV ALIGN=center></DIV></BLOCKQUOTE>
+
 Nous maintenant détailler les possibilités de ces options de sélection.<BR>
 <BR>
 
 <H3><A NAME="htoc121">16.1.1</A>&nbsp;&nbsp;Dates</H3><A NAME="reportscreation-dates"></A>
+Vous pouvez choisir d'èutiliser soit des plages de dates soit des exercices si vous en avez défini.<BR>
+<BR>
 
 <H4>Dates</H4>
+<BLOCKQUOTE><DIV ALIGN=center></DIV>
+<DIV ALIGN=center>
+<IMG SRC="grisbi-manuel070.png">
+</DIV>
+<BR>
+<DIV ALIGN=center>Figure 16.3&nbsp;: Création d'un état : sélection d'après la date</DIV><BR>
+
+<A NAME="reportcreation-datas-dates-img"></A>
+<DIV ALIGN=center></DIV></BLOCKQUOTE>
+
 C'est le choix par défaut. Vous pouvez sélectionner :
 <UL><LI>toutes les dates (par défaut) ;<BR>
 <BR>
@@ -119,6 +156,16 @@ C'est le choix par défaut. Vous pouvez sélectionner :
  
 
 <H4>Exercices</H4>
+<BLOCKQUOTE><DIV ALIGN=center></DIV>
+<DIV ALIGN=center>
+<IMG SRC="grisbi-manuel071.png">
+</DIV>
+<BR>
+<DIV ALIGN=center>Figure 16.4&nbsp;: Création d'un état : sélection d'après les exercices</DIV><BR>
+
+<A NAME="reportcreation-datas-financialyear-img"></A>
+<DIV ALIGN=center></DIV></BLOCKQUOTE>
+
 Si vous décidez de sélectionner vos opérations par exercice, vous devrez cocher la case correspondante, le choix par défaut étant de sélectionner les opérations par dates. Pour tout savoir sur les exercices, lisez le paragraphe <A HREF="grisbi-manuel021.html#tips-financialyear">19.8</A>.<BR>
 <BR>
 Vous pouvez sélectionner : 
@@ -130,6 +177,16 @@ Vous pouvez sélectionner :
  
 
 <H3><A NAME="htoc122">16.1.2</A>&nbsp;&nbsp;Virements</H3>
+<BLOCKQUOTE><DIV ALIGN=center></DIV>
+<DIV ALIGN=center>
+<IMG SRC="grisbi-manuel072.png">
+</DIV>
+<BR>
+<DIV ALIGN=center>Figure 16.5&nbsp;: Création d'un état : sélection d'après les virements</DIV><BR>
+
+<A NAME="reportcreation-datas-transfers-img"></A>
+<DIV ALIGN=center></DIV></BLOCKQUOTE>
+
 Vous choisissez ici la façon dont votre état traitera les opérations de virement entre comptes. <BR>
 <BR>
 Vous pouvez :
@@ -159,23 +216,73 @@ Vous pouvez :
  
 
 <H3><A NAME="htoc123">16.1.3</A>&nbsp;&nbsp;Comptes</H3><A NAME="reportscreation-accounts"></A>
+<BLOCKQUOTE><DIV ALIGN=center></DIV>
+<DIV ALIGN=center>
+<IMG SRC="grisbi-manuel073.png">
+</DIV>
+<BR>
+<DIV ALIGN=center>Figure 16.6&nbsp;: Création d'un état : sélection d'après les comptes</DIV><BR>
+
+<A NAME="reportcreation-datas-accounts-img"></A>
+<DIV ALIGN=center></DIV></BLOCKQUOTE>
+
 Si vous décidez de sélectionner vos opérations en fonction des comptes où elles ont élé enregistrées, vous devez cocher la case qui par défaut ne l'est pas. Ceci rendra active la liste des comptes de votre fichier, ainsi que les boutons de sélection par type de comptes. Les sélections se font de la même façon que pour l'onglet des <I><FONT COLOR=maroon>Virements</FONT></I>.<BR>
 <BR>
 
 <H3><A NAME="htoc124">16.1.4</A>&nbsp;&nbsp;Tiers</H3><A NAME="reportscreation-thirdparties"></A>
+<BLOCKQUOTE><DIV ALIGN=center></DIV>
+<DIV ALIGN=center>
+<IMG SRC="grisbi-manuel074.png">
+</DIV>
+<BR>
+<DIV ALIGN=center>Figure 16.7&nbsp;: Création d'un état : sélection d'après les tiers</DIV><BR>
+
+<A NAME="reportcreation-datas-thirdparts-img"></A>
+<DIV ALIGN=center></DIV></BLOCKQUOTE>
+
 Dans cet onglet vous pouvez (si vous cochez la case, vous commencez à connaître le principe...) sélectionner vos opérations en fonction du tiers avec lequel elles ont été enregistrées. La liste qui apparaît vous permet de (dé)sélectionner les tiers individuellement avec un clic gauche, les boutons <I><FONT COLOR=maroon>Sélectionner tout</FONT></I> et <I><FONT COLOR=maroon>Déselectionner tout</FONT></I> vous permettant d'accélérer cette sélection.<BR>
 <BR>
 
 <H3><A NAME="htoc125">16.1.5</A>&nbsp;&nbsp;Catégories</H3><A NAME="reportscreation-categories"></A>
+<BLOCKQUOTE><DIV ALIGN=center></DIV>
+<DIV ALIGN=center>
+<IMG SRC="grisbi-manuel075.png">
+</DIV>
+<BR>
+<DIV ALIGN=center>Figure 16.8&nbsp;: Création d'un état : sélection d'après les catégories</DIV><BR>
+
+<A NAME="reportcreation-datas-categories-img"></A>
+<DIV ALIGN=center></DIV></BLOCKQUOTE>
+
 L'onglet <I><FONT COLOR=maroon>Catégories</FONT></I> fonctionne comme celui des tiers (ce n'est pas la première fois) avec une petite différence : vous pouvez en plus utiliser les boutons <I><FONT COLOR=maroon>Catégories de recettes</FONT></I> et <I><FONT COLOR=maroon>Catégories de dépenses</FONT></I>.
 Vous pouvez également cocher la case <I><FONT COLOR=maroon>Exclure les opérations sans catégories</FONT></I>. Si vous avez choisi d'avoir des opérations de ce genre ça peut vous servir.<BR>
 <BR>
 
 <H3><A NAME="htoc126">16.1.6</A>&nbsp;&nbsp;Imputations budgétaires</H3><A NAME="reportscreation-budgetlines"></A>
-Est-il besoin de l'écrire? C'est exactement la même chose que l'onglet <I><FONT COLOR=maroon>Catégories</FONT></I>...<BR>
+<BLOCKQUOTE><DIV ALIGN=center></DIV>
+<DIV ALIGN=center>
+<IMG SRC="grisbi-manuel076.png">
+</DIV>
+<BR>
+<DIV ALIGN=center>Figure 16.9&nbsp;: Création d'un état : sélection d'après les imputations budgétaires</DIV><BR>
+
+<A NAME="reportcreation-datas-budgetlines-img"></A>
+<DIV ALIGN=center></DIV></BLOCKQUOTE>
+
+Est-il besoin de l'écrire? C'est exactement le même principe que l'onglet <I><FONT COLOR=maroon>Catégories</FONT></I>...<BR>
 <BR>
 
 <H3><A NAME="htoc127">16.1.7</A>&nbsp;&nbsp;Texte</H3><A NAME="reportscreation-text"></A>
+<BLOCKQUOTE><DIV ALIGN=center></DIV>
+<DIV ALIGN=center>
+<IMG SRC="grisbi-manuel077.png">
+</DIV>
+<BR>
+<DIV ALIGN=center>Figure 16.10&nbsp;: Création d'un état : sélection d'après le texte</DIV><BR>
+
+<A NAME="reportcreation-datas-text-img"></A>
+<DIV ALIGN=center></DIV></BLOCKQUOTE>
+
 Voici un onglet qui va vous permettre des sélections intéressantes. En effet il vous autorise à sélectionner des opérations par rapport au texte contenu dans les champs suivants :
 <UL><LI>le tiers ;<BR>
 <BR>
@@ -246,6 +353,16 @@ Si vous constatez qu'un critère n'est plus judicieux, vous pouvez le supprimer t
 <BR>
 
 <H3><A NAME="htoc128">16.1.8</A>&nbsp;&nbsp;Montant</H3><A NAME="reportscreation-amount"></A>
+<BLOCKQUOTE><DIV ALIGN=center></DIV>
+<DIV ALIGN=center>
+<IMG SRC="grisbi-manuel078.png">
+</DIV>
+<BR>
+<DIV ALIGN=center>Figure 16.11&nbsp;: Création d'un état : sélection d'après le montant</DIV><BR>
+
+<A NAME="reportcreation-datas-amounts-img"></A>
+<DIV ALIGN=center></DIV></BLOCKQUOTE>
+
 L'onglet de sélection d'après les montant reprend une partie de l'onglet <I><FONT COLOR=maroon>Textes</FONT></I> à savoir qu'une fois que vous avez coché la case idoine, vous pouvez utiliser de la même façon les opérateurs numériques suivants :
 <UL><LI>est égal à ;<BR>
 <BR>
@@ -273,10 +390,30 @@ Vous pouvez en outre décider d'exclure de l'état les opérations dont le montant 
 <BR>
 
 <H3><A NAME="htoc129">16.1.9</A>&nbsp;&nbsp;Mode de réglement</H3><A NAME="reportscreation-paiementmode"></A>
+<BLOCKQUOTE><DIV ALIGN=center></DIV>
+<DIV ALIGN=center>
+<IMG SRC="grisbi-manuel079.png">
+</DIV>
+<BR>
+<DIV ALIGN=center>Figure 16.12&nbsp;: Création d'un état : sélection d'après le mode de paiement</DIV><BR>
+
+<A NAME="reportcreation-datas-modes-img"></A>
+<DIV ALIGN=center></DIV></BLOCKQUOTE>
+
 Après avoir coché la case, la liste des modes de règlements définis pour votre fichier de comptes devient active et vou pouvez (dé)sélectionner ceux que vous voulez inclure dans l'état avec un clic gauche.<BR>
 <BR>
 
 <H3><A NAME="htoc130">16.1.10</A>&nbsp;&nbsp;Divers</H3><A NAME="reportscreation-misc"></A>
+<BLOCKQUOTE><DIV ALIGN=center></DIV>
+<DIV ALIGN=center>
+<IMG SRC="grisbi-manuel080.png">
+</DIV>
+<BR>
+<DIV ALIGN=center>Figure 16.13&nbsp;: Création d'un état : autres sélections</DIV><BR>
+
+<A NAME="reportcreation-datas-misc-img"></A>
+<DIV ALIGN=center></DIV></BLOCKQUOTE>
+
 
 <H4>Opérations rapprochées</H4>
 En cliquant la case adéquate vous pouvez choisir de sélectionner :
@@ -305,8 +442,17 @@ Vous pouvez choisir de regrouper vos opérations selon :
 <LI>les tiers ;<BR>
 <BR>
 <LI>les comptes.</UL>
-La première chose à faire est de déterminer quels sont les niveaux que vous voulez utiliser parmi les quatre disponibles. Il est rare qu'ils soient tous les quatre nécessaires. Il se peut tout-à-fait que vous désiriez n'en utiliser aucun. Pour utiliser un niveau iol suffit tout simplement de cocher la case correspondante.<BR>
+La première chose à faire est de déterminer quels sont les niveaux que vous voulez utiliser parmi les quatre disponibles. Il est rare qu'ils soient tous les quatre nécessaires. Il se peut tout-à-fait que vous désiriez n'en utiliser aucun. Pour utiliser un niveau il suffit tout simplement de cocher la case correspondante.
+<BLOCKQUOTE><DIV ALIGN=center></DIV>
+<DIV ALIGN=center>
+<IMG SRC="grisbi-manuel081.png">
+</DIV>
 <BR>
+<DIV ALIGN=center>Figure 16.14&nbsp;: Création d'un état : organisation des données</DIV><BR>
+
+<A NAME="reportcreation-orga-img"></A>
+<DIV ALIGN=center></DIV></BLOCKQUOTE>
+
 Par défaut aucun niveau n'est sélectionné, et l'ordre est celui indique ci-dessus. Ce qui veut dire que si vous sélectionnée les quatre niveaux et que vous gardiez l'ordre par défaut, vos opérations seraient 
 regroupées au niveau 1 par catégories. À l'intérieur de chaque catégorie, 
 les opérations seraient regroupées par imputation budgétaire. À l'intérieur de 
@@ -343,7 +489,9 @@ Enfin vous pouvez définir le premier jour de la semaine si vous souhaitez sépare
 <H2><A NAME="htoc134">16.3</A>&nbsp;&nbsp;Affichage</H2><A NAME="reportscreation-display"></A>
 Cet onglet vous permet de définir la façon dont les données sélectionnées et organisées seront affichées.<BR>
 <BR>
-Il comprend les quatre sous-onglets suivants :
+Il comprend les quatre sous-onglets 
+suivants (voir figure <A HREF="#reportcreation-display-tabs">16.15</A>) :
+
 <UL><LI>Généralités ;<BR>
 <BR>
 <LI>Titres ;<BR>
@@ -352,8 +500,28 @@ Il comprend les quatre sous-onglets suivants :
 <BR>
 <LI>Devise.</UL>
  
+<BLOCKQUOTE><DIV ALIGN=center></DIV>
+<DIV ALIGN=center>
+<IMG SRC="grisbi-manuel082.png">
+</DIV>
+<BR>
+<DIV ALIGN=center>Figure 16.15&nbsp;: Création d'état : les sous-onglets de l'onglet d'affichage</DIV><BR>
+
+<A NAME="reportcreation-display-tabs"></A>
+<DIV ALIGN=center></DIV></BLOCKQUOTE>
+
 
 <H3><A NAME="htoc135">16.3.1</A>&nbsp;&nbsp;Généralités</H3><A NAME="reportscreation-name"></A>
+<BLOCKQUOTE><DIV ALIGN=center></DIV>
+<DIV ALIGN=center>
+<IMG SRC="grisbi-manuel083.png">
+</DIV>
+<BR>
+<DIV ALIGN=center>Figure 16.16&nbsp;: Création d'un état : sous onglet général de l'affichage</DIV><BR>
+
+<A NAME="reportcreation-display-main-img"></A>
+<DIV ALIGN=center></DIV></BLOCKQUOTE>
+
 Vous définissez dans cet onglet :
 <UL><LI>le nom de l'état : il est totalement à votre convenance ;<BR>
 <BR>
@@ -374,6 +542,16 @@ Dans ce cas il vous suffit de créer l'état qui listera tous les tiers qui vous i
  
 
 <H3><A NAME="htoc136">16.3.2</A>&nbsp;&nbsp;Titres</H3><A NAME="reportscreation-titles"></A>
+<BLOCKQUOTE><DIV ALIGN=center></DIV>
+<DIV ALIGN=center>
+<IMG SRC="grisbi-manuel084.png">
+</DIV>
+<BR>
+<DIV ALIGN=center>Figure 16.17&nbsp;: Création d'un état : afichage des titres</DIV><BR>
+
+<A NAME="reportcreation-display-titles-img"></A>
+<DIV ALIGN=center></DIV></BLOCKQUOTE>
+
 Ce sous-onglet dépend étroitement des choix de regroupement que vous avez fait dans l'onglet <I><FONT COLOR=maroon>Organisation</FONT></I>.
 En effet seuls les niveaux sélectionnés seront actifs, les autres sont grisés. <BR>
 <BR>
@@ -426,6 +604,16 @@ Vous pouvez choisir d'afficher :
  
 
 <H3><A NAME="htoc137">16.3.3</A>&nbsp;&nbsp;Opérations</H3><A NAME="reportscreation-transactions"></A>
+<BLOCKQUOTE><DIV ALIGN=center></DIV>
+<DIV ALIGN=center>
+<IMG SRC="grisbi-manuel085.png">
+</DIV>
+<BR>
+<DIV ALIGN=center>Figure 16.18&nbsp;: Création d'un état : affichage des opérations</DIV><BR>
+
+<A NAME="reportcreation-display-transactions-img"></A>
+<DIV ALIGN=center></DIV></BLOCKQUOTE>
+
 Dans cet onglet vous pouvez déterminer la façon dont les opérations sélectionnées seront affichées.<BR>
 <BR>
 
@@ -466,6 +654,16 @@ Par contre cette option ralenti le temps de création de l'état, donc n'en abusez
 <BR>
 
 <H3><A NAME="htoc138">16.3.4</A>&nbsp;&nbsp;Devise</H3><A NAME="reportscreation-currencies"></A>
+<BLOCKQUOTE><DIV ALIGN=center></DIV>
+<DIV ALIGN=center>
+<IMG SRC="grisbi-manuel086.png">
+</DIV>
+<BR>
+<DIV ALIGN=center>Figure 16.19&nbsp;: Création d'un état : choix des devises</DIV><BR>
+
+<A NAME="reportcreation-display-currencies-img"></A>
+<DIV ALIGN=center></DIV></BLOCKQUOTE>
+
 Les montants des opérations sont affichés dans la devise où elles ont été enregistrées, 
 mais le total est fait dans une seule devise que vous pouvez choisir 
 ici. Il faut bien sur que vous ayez au préalable créé cette devise (voir 
