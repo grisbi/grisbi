@@ -187,7 +187,8 @@ void preferences ( gint page )
 		      0, _("Transactions list"),
 		      1, TRANSACTIONS_PAGE,
 		      -1);
-  gtk_notebook_append_page (preference_frame, onglet_affichage_operations(), NULL);
+  gtk_notebook_append_page (preference_frame, 
+			    GTK_WIDGET(onglet_affichage_operations()), NULL);
 
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
@@ -1911,23 +1912,28 @@ gint verifie_affichage_applet ( void )
 GtkWidget *
 new_paddingbox_with_title (GtkWidget * parent, gboolean fill, gchar * title)
 {
-  GtkWidget * hbox, *paddingbox, *label;
+  GtkWidget *vbox, *hbox, *paddingbox, *label;
 
+  vbox = gtk_vbox_new ( FALSE, 0 );
+  if ( parent )
+    {
+      gtk_box_pack_start ( GTK_BOX ( parent ), vbox,
+			   fill, fill, 0);
+    }
+
+  /* Creating labe */
   label = gtk_label_new ( "" );
   gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 1 );
   gtk_label_set_markup ( GTK_LABEL ( label ), 
 			 g_strconcat ("<span weight=\"bold\">",
-				      title,
-				      "</span>",
-				      NULL ) );
-  if ( parent )
-    {
-      gtk_box_pack_start ( GTK_BOX ( parent ), label,
-			   FALSE, FALSE, 0);
-    }
+				      title, "</span>", NULL ) );
+  gtk_box_pack_start ( GTK_BOX ( vbox ), label,
+		       FALSE, FALSE, 0);
+  gtk_widget_show ( label );
 
+  /* Creating horizontal box */
   hbox = gtk_hbox_new ( FALSE, 0 );
-  gtk_box_pack_start ( GTK_BOX ( parent ), hbox,
+  gtk_box_pack_start ( GTK_BOX ( vbox ), hbox,
 		       fill, fill, 0);
 
   /* Some padding.  ugly but the HiG advises it this way ;-) */
@@ -1944,8 +1950,6 @@ new_paddingbox_with_title (GtkWidget * parent, gboolean fill, gchar * title)
   label = gtk_label_new ( "    " );
   gtk_box_pack_end ( GTK_BOX ( paddingbox ), label,
 		     FALSE, FALSE, 0 );
-
-  gtk_widget_show_all ( hbox );
 
   return paddingbox;
 }
