@@ -1,23 +1,26 @@
-/*  Fichier qui gère la liste des opérations */
-/*      liste_operations.c */
-
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
-/* 			http://www.grisbi.org */
-
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/* ************************************************************************** */
+/*  Fichier qui gère la liste des opérations                                  */
+/* 			liste_operations.c                                    */
+/*                                                                            */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004 Alain Portal (dionysos@grisbi.org) 	      */
+/* 			http://www.grisbi.org   			      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
 
 
@@ -25,8 +28,32 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "en_tete.h"
-
-
+/*
+  #define TRANSACTION_COL_NB_CHECK 0
+  #define TRANSACTION_COL_NB_DATE 1
+  #define TRANSACTION_COL_NB_PARTY 2
+  #define TRANSACTION_COL_NB_PR 3
+  #define TRANSACTION_COL_NB_DEBIT 4
+  #define TRANSACTION_COL_NB_CREDIT 5
+  #define TRANSACTION_COL_NB_BALANCE 6
+*/
+  #define NB_COLS_TRANSACTION 7
+/*
+  gint transaction_col_width[NB_COLS_TRANSACTION] = { 10,
+						      26,
+						      20,
+						      14,
+						      14,
+						      28,
+						      8};
+*/
+  GtkJustification col_justs[] = { GTK_JUSTIFY_CENTER,
+				   GTK_JUSTIFY_CENTER,
+				   GTK_JUSTIFY_LEFT,
+				   GTK_JUSTIFY_CENTER,
+				   GTK_JUSTIFY_RIGHT,
+				   GTK_JUSTIFY_RIGHT,
+				   GTK_JUSTIFY_RIGHT };
 
 /*******************************************************************************************/
 /*  Routine qui crée la fenêtre de la liste des opé  */
@@ -256,7 +283,7 @@ void creation_listes_operations ( void )
 
       /* création de l'onglet */
 
-      liste = gtk_clist_new_with_titles ( 7,
+      liste = gtk_clist_new_with_titles ( NB_COLS_TRANSACTION,
 					  titres_colonnes_liste_operations );
       gtk_widget_set_usize ( GTK_WIDGET ( liste ),
 			     1,
@@ -284,7 +311,7 @@ void creation_listes_operations ( void )
 
       tooltip = gtk_tooltips_new ();
 
-      for ( j=0 ; j<7 ; j++ )
+      for ( j = 0 ; j < NB_COLS_TRANSACTION ; j++ )
 	{
 	  gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltip ),
 				 GTK_CLIST (liste)->column[j].button,
@@ -301,50 +328,29 @@ void creation_listes_operations ( void )
       gtk_clist_set_selection_mode ( GTK_CLIST ( liste ),
 				     GTK_SELECTION_MULTIPLE );
 
-
       /* On annule la fonction bouton des titres */
 
-      gtk_clist_column_titles_passive ( GTK_CLIST ( liste));
-
-
+      gtk_clist_column_titles_passive ( GTK_CLIST ( liste ) );
 
       /* justification du contenu des cellules */
+      /* colonnes redimensionnables ou non */
 
-
-      gtk_clist_set_column_justification ( GTK_CLIST ( liste),
-					   0,
-					   GTK_JUSTIFY_CENTER);
-      gtk_clist_set_column_justification ( GTK_CLIST ( liste),
-					   1,
-					   GTK_JUSTIFY_CENTER);
-      gtk_clist_set_column_justification ( GTK_CLIST ( liste),
-					   2,
-					   GTK_JUSTIFY_LEFT);
-      gtk_clist_set_column_justification ( GTK_CLIST ( liste),
-					   3,
-					   GTK_JUSTIFY_CENTER);
-      gtk_clist_set_column_justification ( GTK_CLIST ( liste),
-					   4,
-					   GTK_JUSTIFY_RIGHT);
-      gtk_clist_set_column_justification ( GTK_CLIST ( liste),
-					   5,
-					   GTK_JUSTIFY_RIGHT);
-      gtk_clist_set_column_justification ( GTK_CLIST ( liste),
-					   6,
-					   GTK_JUSTIFY_RIGHT);
-
-      for ( j=0 ; j<7 ; j++ )
-	gtk_clist_set_column_resizeable ( GTK_CLIST ( liste ),
-					  j,
-					  !etat.largeur_auto_colonnes );
-
+      for ( j = 0 ; j < NB_COLS_TRANSACTION ; j++ )
+	{
+	 gtk_clist_set_column_justification ( GTK_CLIST ( liste ),
+					      j,
+					      col_justs[j] );
+	 gtk_clist_set_column_resizeable ( GTK_CLIST ( liste ),
+					   j,
+					   !etat.largeur_auto_colonnes );
+	}
+       
        /* vérifie le simple ou double click */
 
       gtk_signal_connect ( GTK_OBJECT (liste),
 			   "button_press_event",
 			   GTK_SIGNAL_FUNC (selectionne_ligne_souris),
 			   NULL );
-
 
       /*   vérifie la touche entrée, haut et bas */
 
@@ -353,14 +359,12 @@ void creation_listes_operations ( void )
 			   GTK_SIGNAL_FUNC (traitement_clavier_liste),
 			   NULL );
 
-  
       /* attente du relachement de ctrl+p */
 
       gtk_signal_connect ( GTK_OBJECT (liste),
 			   "key_release_event",
 			   GTK_SIGNAL_FUNC (fin_ctrl),
 			   NULL );
-
 
       /* on ajoute l'onglet au notebook des comptes */
 
@@ -429,7 +433,7 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 
   /* création de l'onglet */
 
-  liste = gtk_clist_new_with_titles ( 7,
+  liste = gtk_clist_new_with_titles ( NB_COLS_TRANSACTION,
 				      titres_colonnes_liste_operations );
   gtk_widget_set_usize ( GTK_WIDGET ( liste ),
 			 1,
@@ -457,7 +461,7 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 
   tooltip = gtk_tooltips_new ();
 
-  for ( i=0 ; i<6 ; i++ )
+  for ( i=0 ; i<NB_COLS_TRANSACTION ; i++ )
     {
       gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltip ),
 			     GTK_CLIST (liste)->column[i].button,
@@ -484,29 +488,13 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 
   /* justification du contenu des cellules */
 
-
-  gtk_clist_set_column_justification ( GTK_CLIST ( liste),
-				       0,
-				       GTK_JUSTIFY_CENTER);
-  gtk_clist_set_column_justification ( GTK_CLIST ( liste),
-				       1,
-				       GTK_JUSTIFY_CENTER);
-  gtk_clist_set_column_justification ( GTK_CLIST ( liste),
-				       2,
-				       GTK_JUSTIFY_LEFT);
-  gtk_clist_set_column_justification ( GTK_CLIST ( liste),
-				       3,
-				       GTK_JUSTIFY_CENTER);
-  gtk_clist_set_column_justification ( GTK_CLIST ( liste),
-				       4,
-				       GTK_JUSTIFY_RIGHT);
-  gtk_clist_set_column_justification ( GTK_CLIST ( liste),
-				       5,
-				       GTK_JUSTIFY_RIGHT);
-  gtk_clist_set_column_justification ( GTK_CLIST ( liste),
-				       6,
-				       GTK_JUSTIFY_RIGHT);
-
+  for ( i = 0 ; i < NB_COLS_TRANSACTION ; i++ )
+    {
+     gtk_clist_set_column_justification ( GTK_CLIST ( liste ),
+					  i,
+					  col_justs[i] );
+    }
+       
 
   /* vérifie le simple ou double click */
 
@@ -765,7 +753,7 @@ void remplissage_liste_operations ( gint compte )
 
   /* affiche la ligne blanche du bas */
 
-  for ( j=0 ; j<NB_LIGNES_OPE ; j++ )
+  for ( j = 0 ; j < NB_LIGNES_OPE ; j++ )
     {
       /* on met à NULL tout les pointeurs */
 
@@ -842,24 +830,36 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
       /* mise en forme de la date */
 
     case 1:
-      return ( g_strconcat ( itoa ( operation -> jour ),
+/*      return ( g_strconcat ( itoa ( operation -> jour ),
 			     "/",
 			     itoa ( operation -> mois ),
 			     "/",
 			     itoa ( operation -> annee ),
-			     NULL ));
+			     NULL ));*/
+      temp = g_strdup_printf ( "%02d/%02d/%04d",
+			       g_date_day ( operation -> date ),
+			       g_date_month ( operation -> date ),
+			       g_date_year ( operation -> date ) );
+      return ( temp );
       break;
 
       /* mise en forme de la date de valeur */
 
     case 2:
       if ( operation -> jour_bancaire )
-	return ( g_strconcat ( itoa ( operation -> jour_bancaire ),
+        {
+         temp = g_strdup_printf ( "%02d/%02d/%04d",
+				  g_date_day ( operation -> date_bancaire ),
+				  g_date_month ( operation -> date_bancaire ),
+				  g_date_year ( operation -> date_bancaire ) );
+	 return ( temp );
+	}
+/*	return ( g_strconcat ( itoa ( operation -> jour_bancaire ),
 			       "/",
 			       itoa ( operation -> mois_bancaire ),
 			       "/",
 			       itoa ( operation -> annee_bancaire ),
-			       NULL ));
+			       NULL ));*/
       else
 	return ( NULL );
       break;
@@ -968,7 +968,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 	  return ( temp );
 	}
       else
-	return (NULL);
+	return ( NULL );
 
       break;
 
@@ -999,7 +999,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 				     devise_compte -> code_devise ));
 	}
       else
-	return (NULL);
+	return ( NULL );
       
       break;
 
@@ -1199,8 +1199,7 @@ void selectionne_ligne_souris ( GtkCList *liste,
 				GdkEventButton *evenement,
 				gpointer data)
 {
-  gint colonne, x, y;
-  gint ligne;
+  gint ligne, colonne, x, y;
 
 
   /*   si le click se situe dans les menus, c'est qu'on redimensionne, on fait rien */
@@ -1461,8 +1460,10 @@ void selectionne_ligne ( gint compte )
 void edition_operation ( void )
 {
   struct structure_operation *operation;
-  gchar date [11];
-  gchar date_bancaire [11];
+/*  gchar date [11];
+  gchar date_bancaire [11]; */
+  gchar *date ;
+  gchar *date_bancaire ;
   GSList *liste_tmp;
   struct struct_devise *devise;
 
@@ -1517,11 +1518,17 @@ void edition_operation ( void )
 		       itoa ( operation -> no_operation ));
 
   /* mise en forme de la date */
+/*
+  g_date_strftime ( date,
+		    11,
+		    "%d/%m/%Y",
+		    operation -> date);
+*/
 
-  g_date_strftime (  date,
-		     11,
-		     "%d/%m/%Y",
-		     operation -> date);
+  date = g_strdup_printf ( "%02d/%02d/%04d",
+			   g_date_day ( operation -> date ),
+			   g_date_month ( operation -> date ),
+			   g_date_year ( operation -> date ) );
 
   entree_prend_focus ( widget_formulaire_operations[1] );
   gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[1] ),
@@ -1662,10 +1669,17 @@ void edition_operation ( void )
 
   if ( operation->date_bancaire )
     {
+/*      
       g_date_strftime (  date_bancaire,
 			 11,
 			 "%d/%m/%Y",
 			 operation -> date_bancaire );
+*/
+      date_bancaire = g_strdup_printf ( "%02d/%02d/%04d",
+					g_date_day ( operation -> date_bancaire ),
+					g_date_month ( operation -> date_bancaire ),
+					g_date_year ( operation -> date_bancaire ) );
+
       entree_prend_focus ( widget_formulaire_operations[7] );
 
       gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[7] ),
@@ -2415,12 +2429,12 @@ void changement_taille_liste_ope ( GtkWidget *clist,
   /*     sinon, on y met les valeurs fixes */
 
   if ( etat.largeur_auto_colonnes )
-    for ( i=0 ; i<7 ; i++ )
+    for ( i = 0 ; i < NB_COLS_TRANSACTION ; i++ )
       gtk_clist_set_column_width ( GTK_CLIST ( clist ),
 				   i,
 				   rapport_largeur_colonnes[i] * largeur / 100 );
   else
-    for ( i=0 ; i<7 ; i++ )
+    for ( i = 0 ; i < NB_COLS_TRANSACTION ; i++ )
       gtk_clist_set_column_width ( GTK_CLIST ( clist ),
 				   i,
 				   taille_largeur_colonnes[i] );
