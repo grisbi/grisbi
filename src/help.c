@@ -63,7 +63,7 @@ void a_propos ( GtkWidget *bouton,
       _("Alain Portal (dionysos[at]grisbi.org) : English"),
       _("Benjamin Drieu (bdrieu[at]april.org) : English"),
       _("Daniel Cartron (cartron[at]grisbi.org) : English"),
-      _("Flavio Henrique Somensi (fsomensi[at]users.sourceforge.net) : Brazilian Portuguese"),
+      _("Flavio Henrique Somensi (flavio[at]opens.com.br): Brazilian Portuguese"),
       _("Giorgio Mandolfo (giorgio[at]pollycoke.org) : Italian"),
       _("Martin Stromberger (Fabiolla[at]aon.at): German"),
       NULL };
