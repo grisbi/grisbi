@@ -2845,21 +2845,21 @@ void exporter_categ ( void )
 	    {
 		if ( S_ISREG ( test_fichier.st_mode ) )
 		{
-		    if ( !question_yes_no_hint ( _("Save file"),
-						 _("File exists. Do you want to overwrite it?")))
+		    if ( !question_yes_no_hint ( g_strdup_printf ( _("File '%s' already exists."), nom_categ ),
+						 _("Do you want to overwrite it?")))
 			return;
 		}
 		else
 		{
-		    dialogue ( g_strdup_printf ( _("Invalid filename \"%s\"!"),
-						 nom_categ));
+		    dialogue_error_hint ( g_strdup_printf ( _("File \"%s\" exists and is not a regular file."),
+							    nom_categ),
+					  g_strdup_printf ( _("Error saving file '%s'." ), nom_categ ) );
 		    return;
 		}
 	    }
 
 	    if ( !enregistre_categ ( nom_categ ))
 	    {
-		dialogue ( _("Error saving file.") );
 		return;
 	    }
 
@@ -2953,3 +2953,7 @@ void importer_categ ( void )
 }
 /* **************************************************************************************************** */
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

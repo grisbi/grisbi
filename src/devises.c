@@ -689,7 +689,8 @@ reprise_dialog:
 		     ||
 		     devise_par_code_iso ( code_iso4217_devise ))
 		{
-		    dialogue ( _("Currency already exists." ));
+		    dialogue_error_hint ( _("Currency names or iso 4217 codes should be unique.  Please choose a new name for the currency."),
+					  g_strdup_printf ( _("Currency '%s' already exists." ), nom_devise ));
 		    goto reprise_dialog;
 		}
 
@@ -717,7 +718,8 @@ reprise_dialog:
 	    }
 	    else
 	    {
-		dialogue ( _("All fields are not filled in!") );
+		dialogue_warning_hint ( _("Currency name and either currency ISO4217 code or currency nickname should be set."),
+					_("All fields are not filled in") );
 		goto reprise_dialog;
 	    }
 	    break;
@@ -728,7 +730,8 @@ reprise_dialog:
 
 	    if ( !liste_struct_devises )
 	    {
-		dialogue ( _("You must define at least one currency for your file!" ));
+		dialogue_error_hint ( _("At least one currency has to be defined in every Grisbi file.  Currencies are needed to compute balances and create transactions." ),
+				      _("No currency has been defined.") );
 		goto reprise_dialog;
 	    }
     }
@@ -836,8 +839,10 @@ void retrait_devise ( GtkWidget *bouton,
 
     if ( devise_trouvee )
     {
-	dialogue ( g_strdup_printf ( _("The %s currency is used in the current account.\nYou can't delete it."),
-				     devise -> nom_devise ) ) ;
+	dialogue_error_hint ( g_strdup_printf ( _("Currency '%s' is used in current account.  Grisbi can't delete it."),
+						devise -> nom_devise ),
+			      g_strdup_printf ( _("Impossible to remove currency '%s'"), 
+						devise -> nom_devise) );
 	return;
     }
 
@@ -1542,3 +1547,7 @@ struct struct_devise * find_currency_from_iso4217_list ( gchar * currency_name )
 }
 /* ***************************************************************************************** */
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

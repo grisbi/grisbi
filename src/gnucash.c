@@ -28,6 +28,7 @@
 #include "gnucash.h"
 #include "utils_str.h"
 #include "utils_files.h"
+#include "utils_xml.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -623,3 +624,7 @@ struct struct_ope_importation * new_transaction_from_split ( struct gnucash_spli
 
   return transaction;
 }
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

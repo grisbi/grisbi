@@ -5151,8 +5151,7 @@ gboolean modification_etat_ouverture_fichier ( gboolean fichier_ouvert )
 
 	etat.fichier_deja_ouvert = 0;
 
-	fichier = utf8_fopen ( nom_fichier_lock,
-			  "w" );
+	fichier = utf8_fopen ( nom_fichier_lock, "w" );
 
 	if ( !fichier )
 	{
@@ -5313,9 +5312,8 @@ gboolean enregistre_categ ( gchar *nom_categ )
 
     if ( resultat == -1 )
     {
-	dialogue_error ( g_strdup_printf ( _("Cannot save file '%s': %s"),
-					   nom_categ,
-					   latin2utf8 (strerror ( errno ) )));
+	dialogue_error_hint ( latin2utf8 ( strerror(errno) ),
+			      g_strdup_printf ( _("Error saving file '%s'." ), nom_categ ) );
 	return ( FALSE );
     }
 
@@ -5964,3 +5962,7 @@ void propose_changement_permissions ( void )
 
 
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

@@ -1255,7 +1255,7 @@ void supprimer_tiers ( GtkWidget *bouton,
 	struct struct_tiers *nouveau_tiers;
 
 	dialog = dialogue_special_no_run ( GTK_MESSAGE_WARNING, GTK_BUTTONS_OK_CANCEL,
-					   make_hint ( _("Selected third party still contains transactions."),
+					   make_hint ( g_strdup_printf (_("Third party '%s' still contains transactions."), tiers -> nom_tiers ),
 						       _("If you want to remove this third party but want to keep transactions, you can transfer them to another third party.  Otherwise, transactions can be simply deleted along with this third party.") ));
 
 	/*       mise en place du choix tranfert vers un autre tiers */
@@ -1745,3 +1745,7 @@ void appui_sur_ajout_tiers ( void )
 /* **************************************************************************************************** */
 
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

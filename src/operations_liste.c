@@ -3195,7 +3195,7 @@ struct structure_operation *  clone_transaction ( struct structure_operation * o
     new_transaction = (struct structure_operation *) malloc ( sizeof(struct structure_operation) );
     if ( !new_transaction )
     {
-	dialogue ( _("Cannot allocate memory, bad things will happen soon") );
+	dialogue_error_memory ();
 	return(FALSE);
     }
 
@@ -3489,7 +3489,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
 						      sizeof(struct operation_echeance) );
     if ( !echeance )
     {
-	dialogue ( _("Cannot allocate memory, bad things will happen soon") );
+	dialogue_error_memory ();
 	return(FALSE);
     }
 
@@ -3582,7 +3582,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
 
 		if ( !echeance_de_ventil )
 		{
-		    dialogue ( _("Cannot allocate memory, bad things will happen soon") );
+		    dialogue_error_memory ();
 		    return(FALSE);
 		}
 
@@ -4821,3 +4821,7 @@ void classe_liste_operations ( gint no_compte )
 }
 /******************************************************************************/
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

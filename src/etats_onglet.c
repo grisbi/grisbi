@@ -33,6 +33,7 @@
 #include "utils.h"
 #include "etats_config.h"
 #include "utils_file_selection.h"
+#include "utils_files.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -1205,21 +1206,21 @@ void exporter_etat ( void )
 	    {
 		if ( S_ISREG ( test_fichier.st_mode ) )
 		{
-		    if ( !question_yes_no_hint ( _("Save file"),
-						 _("File exists. Do you want to overwrite it?")))
+		    if ( ! question_yes_no_hint ( g_strdup_printf ( _("File '%s' already exists."), nom_etat ),
+						  _("Do you want to overwrite it?") ) )
 			return;
 		}
 		else
 		{
-		    dialogue ( g_strdup_printf ( _("Invalid filename \"%s\"!"),
-						 nom_etat ));
+		    dialogue_error_hint ( g_strdup_printf ( _("File \"%s\" exists and is not a regular file."),
+							    nom_etat ),
+					  g_strdup_printf ( _("Error saving file '%s'." ), nom_etat ) );
 		    return;
 		}
 	    }
 
 	    if ( !enregistre_etat ( nom_etat ))
 	    {
-		dialogue ( _("Cannot save file.") );
 		return;
 	    }
 
@@ -1269,7 +1270,6 @@ void importer_etat ( void )
 
 	    if ( !charge_etat ( nom_etat ))
 	    {
-		dialogue ( _("Cannot import file.") );
 		return;
 	    }
 
@@ -1419,3 +1419,7 @@ void dupliquer_etat ( void )
 }
 /*****************************************************************************************************/
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

@@ -1158,14 +1158,18 @@ void recuperation_info_perso_etat ( void )
 	 &&
 	 !format_date ( entree_date_init_etat ))
     {
-	dialogue_error ( _("Invalid custom initial date") );
+	dialogue_error_hint ( _("Grisbi can't parse date.  For a list of date formats that Grisbi can use, refer to Grisbi manual."),
+			      g_strdup_printf ( _("Invalid initial date '%s'"), 
+						gtk_entry_get_text(GTK_ENTRY(entree_date_init_etat)) ) );
 	return;
     }
 
     if ( strlen ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_finale_etat )))
 	 &&
 	 !format_date ( entree_date_finale_etat )) {
-	dialogue_error ( _("Invalid custom final date") );
+	dialogue_error_hint ( _("Grisbi can't parse date.  For a list of date formats that Grisbi can use, refer to Grisbi manual."),
+			      g_strdup_printf ( _("Invalid final date '%s'"), 
+						gtk_entry_get_text(GTK_ENTRY(entree_date_finale_etat)) ) );
 	return;
     }
 
@@ -1306,7 +1310,9 @@ void recuperation_info_perso_etat ( void )
 	 &&
 	 etat_courant -> utilise_detail_exo == 3 )
     {
-	dialogue ( _("All the financial years have been selected. Grisbi will run faster\nwithout the \"Detail financial years\" option") );
+	dialogue_special ( GTK_MESSAGE_INFO, 
+			   make_hint ( _("Performance issue."),
+				       _("All financial years have been selected.  Grisbi will run faster without the \"Detail financial years\" option activated.") ) );
 	etat_courant -> utilise_detail_exo = FALSE;
     }
 
@@ -1383,7 +1389,9 @@ void recuperation_info_perso_etat ( void )
 	 &&
 	 etat_courant -> utilise_detail_comptes )
     {
-	dialogue ( _("All the accounts have been selected. Grisbi will run faster\nwithout the \"Detail accounts used\" option") );
+	dialogue_special ( GTK_MESSAGE_INFO, 
+			   make_hint ( _("Performance issue."),
+				       _("All accounts have been selected.  Grisbi will run faster without the \"Detail accounts used\" option activated.") ) );
 	etat_courant -> utilise_detail_comptes = FALSE;
     }
 
@@ -1457,7 +1465,9 @@ void recuperation_info_perso_etat ( void )
 	 &&
 	 etat_courant -> utilise_detail_categ )
     {
-	dialogue ( _("All the categories have been selected. Grisbi will run faster\nwithout  the \"Detail categories used \" option") );
+	dialogue_special ( GTK_MESSAGE_INFO, 
+			   make_hint ( _("Performance issue."),
+				       _("All categories have been selected.  Grisbi will run faster without the \"Detail categories used\" option activated.") ) );
 	etat_courant -> utilise_detail_categ = FALSE;
     }
 
@@ -1504,7 +1514,9 @@ void recuperation_info_perso_etat ( void )
 	 &&
 	 etat_courant -> utilise_detail_ib )
     {
-	dialogue ( _("All budgetary lines have been selected.  Grisbi will run faster\nwithout \"Detail the budgetary lines used\" option") );
+	dialogue_special ( GTK_MESSAGE_INFO, 
+			   make_hint ( _("Performance issue."),
+				       _("All budgetary lines have been selected.  Grisbi will run faster without the \"Detail budgetary lines used\" option activated.") ) );
 	etat_courant -> utilise_detail_ib = FALSE;
     }
 
@@ -1549,7 +1561,9 @@ void recuperation_info_perso_etat ( void )
 	 &&
 	 etat_courant -> utilise_detail_tiers )
     {
-	dialogue ( _("All the third parts have been selected. Grisbi will run faster\nwithout the \"Detail the third parties\" option") );
+	dialogue_special ( GTK_MESSAGE_INFO, 
+			   make_hint ( _("Performance issue."),
+				       _("All third parties have been selected.  Grisbi will run faster without the \"Detail third parties used\" option activated.") ) );
 	etat_courant -> utilise_detail_tiers = FALSE;
     }
 
@@ -1719,7 +1733,9 @@ void recuperation_info_perso_etat ( void )
 	 &&
 	 etat_courant -> utilise_mode_paiement )
     {
-	dialogue ( _("All methods of payment have been selected. Grisbi will run faster without the \"Select the transactions based on payment method\" option") );
+	dialogue_special ( GTK_MESSAGE_INFO, 
+			   make_hint ( _("Performance issue."),
+				       _("All methods of payment have been selected.  Grisbi will run faster without the \"Detail methods of payment used\" option activated.") ) );
 	etat_courant -> utilise_mode_paiement = FALSE;
     }
 
@@ -2289,8 +2305,6 @@ gboolean pression_touche_date_etat ( GtkWidget *widget,
 	       la saisie de l'échéance */
 	    else
 	    {
-		/* ALAIN-FIXME */
-/* 		dialogue("prévoir autre chose"); */
 	      return FALSE;
 	    }
 	    return TRUE;
@@ -7855,3 +7869,7 @@ void selectionne_liste_modes_paiement_etat_courant ( void )
 
 
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

@@ -349,14 +349,16 @@ void ouverture_confirmee ( void )
 	    if ( charge_operations ( nom ) )
 	    {
 		/* on a réussi a charger la sauvegarde */
-		dialogue ( _("Grisbi was unable to load file.  However, Grisbi loaded a backup file instead.\nHowever, all changes made since this backup were possibly lost."));
+		dialogue_error_hint ( _("Grisbi was unable to load file.  However, Grisbi loaded a backup file instead but all changes made since this backup were possibly lost."),
+				      g_strdup_printf ( _("Error loading file '%s'"), nom_fichier_comptes) );
 	    }
 	    else
 	    {
 		/* le chargement de la sauvegarde a échoué */
 
 		annulation_attente ();
-		dialogue ( _("Grisbi was unable to load file.  Additionnaly, Grisbi was unable to load a backup file instead."));
+		dialogue_error_hint ( _("Grisbi was unable to load file.  Additionally, Grisbi was unable to load a backup file instead."),
+				      g_strdup_printf ( _("Error loading file '%s'"), nom_fichier_comptes) );
 		return;
 	    }
 	}
@@ -733,14 +735,15 @@ gchar *demande_nom_enregistrement ( void )
 	    {
 		if ( S_ISREG ( test_fichier.st_mode ) )
 		{
-		    if ( ! question_yes_no_hint (_("File already exists"),
-						 g_strdup_printf (_("Do you want to overwrite file \"%s\"?"), nouveau_nom ) ) )
+		    if ( ! question_yes_no_hint ( g_strdup_printf ( _("File '%s' already exists."), nouveau_nom ),
+						  _("Do you want to overwrite it?") ) )
 			return NULL;
 		}
 		else
 		{
-		    dialogue_error ( g_strdup_printf ( _("Invalid filename: \"%s\"!"),
-						       nouveau_nom ));
+		    dialogue_error_hint ( g_strdup_printf ( _("File \"%s\" exists and is not a regular file."),
+							    nouveau_nom ),
+					  g_strdup_printf ( _("Error saving file '%s'." ), nouveau_nom ) );
 		    return NULL;
 		}
 	    }
@@ -1051,3 +1054,7 @@ void remove_file_from_last_opened_files_list ( gchar * nom_fichier )
 /****************************************************************************/
 
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

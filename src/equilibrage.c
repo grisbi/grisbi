@@ -924,7 +924,8 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
 
     if ( fabs ( solde_final - solde_initial - operations_pointees ) >= 0.01 )
     {
-	dialogue ( _("There is a variance"));
+	dialogue_warning_hint ( _("There is a variance in balances, check that both final balance and initial balance minus marked transactions are equal."),
+				_("Reconciliation can't be completed.") );
 	return FALSE;
     }
 
@@ -945,10 +946,10 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
     {
 	if ( !nb_parametres || nb_parametres == -1 )
 	{
-	    dialogue_error ( _("Invalid date") );
+	    dialogue_error_hint ( _("Grisbi can't parse date.  It should be of the form 'dd/mm/yyyy'."),
+				  g_strdup_printf ( _("Invalid date '%s'"), text ) );
 	    return FALSE;
 	}
-
 
 	date = g_date_new ();
 	g_date_set_time ( date,
@@ -965,7 +966,9 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
 			     date_releve_mois,
 			     date_releve_annee))
     {
-	dialogue_error ( _("Invalid date") );
+	dialogue_error_hint ( _("Date format looks valid but date is valid according to calendar."),
+			      g_strdup_printf ( _("Invalid date '%s'"), text ) );
+	return FALSE;
 	return FALSE;
     }
 
@@ -1621,3 +1624,7 @@ GtkWidget * tab_display_reconciliation ( void )
 }
 
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

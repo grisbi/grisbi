@@ -257,7 +257,7 @@ gint latex_initialise (GSList * opes_selectionnees)
     out = utf8_fopen ( filename, "w+x" );
     if ( ! out )
     {
-	dialogue_error ( g_strdup_printf ("File '%s' already exists", filename ));;
+	dialogue_error ( g_strdup_printf ("File '%s' already exists.", filename ));;
 	return FALSE;
     }
 
@@ -408,13 +408,13 @@ void latex_safe ( gchar * text )
 	switch ( * text )
 	{
 	    /* FIXME: this is very iso8859-1 centric */
-	    case 'Ã‚':
-		if ( *(text+1) == 'Â«' )
+	    case 'Ã':
+		if ( *(text+1) == '«' )
 		{
 		    fprintf ( out, "<<" );
 		    text++;
 		}
-		else if ( *(text+1) == 'Â»' )
+		else if ( *(text+1) == '»' )
 		{
 		    fprintf ( out, ">>" );
 		    text++;
@@ -445,3 +445,7 @@ void latex_safe ( gchar * text )
     }
 
 }
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

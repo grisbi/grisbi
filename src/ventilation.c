@@ -1419,25 +1419,29 @@ void fin_edition_ventilation ( void )
 
 		    if ( compte_vire == -1 )
 		    {
-			dialogue_error ( _("The associated account for this transfer is invalid") );
+			dialogue_error_hint ( _("Associated account of this transfer does not exist.  Please associate a valid account with this transfer."),
+					      _("Invalid transfer.") );
 			return;
 		    }
 
 		    if ( compte_vire == -2 )
 		    {
-			dialogue_error ( _("The associated account for this transfer is closed") );
+			dialogue_error_hint ( _("Associated account of this transfer is closed.  Please associate a valid account with this transfer."),
+					      _("Invalid transfer.") );
 			return;
 		    }
 
 		    if ( compte_vire == compte_courant )
 		    {
-			dialogue_error ( _("It's impossible to transfer an account to itself") );
+			dialogue_error_hint ( _("Transfers can't be associated with their own account.  Please associate another account with this transfer."),
+					      _("Invalid transfer."));
 			return;
 		    }
 		}
 		else
 		{
-		    dialogue_error ( _("No account associated with the transfer") );
+		    dialogue_error_hint ( _("Transfer is not associated with an account.  Please associate a valid account with this transfer."),
+					  _("Invalid transfer.") );
 		    return;
 		}
 	    }
@@ -2459,10 +2463,7 @@ void valider_ventilation ( void )
 	gtk_object_set_data ( GTK_OBJECT ( formulaire ),
 			      "liste_adr_ventilation",
 			      GINT_TO_POINTER ( -1 ) );
-    /*
-       if ( gtk_object_get_data ( GTK_OBJECT ( formulaire ), "liste_adr_ventilation" ) == GINT_TO_POINTER ( -1 ) )
-       dialogue("Liste nulle");
-       */
+
     if ( fabs ( montant_operation_ventilee - somme_ventilee ) >= 0.000001 )
     {
 	if ( ! question_yes_no_hint ( _("Incomplete breakdown"),
@@ -3296,3 +3297,7 @@ void ajuste_scrolling_liste_ventilations_a_selection ( void )
 
 
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

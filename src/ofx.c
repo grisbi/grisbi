@@ -179,26 +179,9 @@ int ofx_proc_status_cb(struct OfxStatusData data)
 /* *******************************************************************************/
 int ofx_proc_security_cb(struct OfxSecurityData data)
 {
-    printf ( "ofx_proc_security_cb :\n" );
-    printf ( "unique_id_valid %d\n", data.unique_id_valid );
-    printf ( "unique_id %s\n", data.unique_id );
-    printf ( "unique_id_type_valid %d\n", data.unique_id_type_valid );
-    printf ( "unique_id_type %s\n", data.unique_id_type );
-    printf ( "secname_valid %d\n", data.secname_valid );
-    printf ( "secname %s\n", data.secname );
-    printf ( "ticker_valid %d\n", data.ticker_valid );
-    printf ( "ticker %s\n", data.ticker );
-    printf ( "unitprice_valid %d\n", data.unitprice_valid );
-    printf ( "unitprice %f\n", data.unitprice );
-    printf ( "date_unitprice_valid %d\n", data.date_unitprice_valid );
-    printf ( "date_unitprice %s\n", ctime ( &data.date_unitprice ));
-    printf ( "currency_valid %d\n", data.currency_valid );
-    printf ( "currency %s\n", data.currency );
-    printf ( "memo_valid %d\n", data.memo_valid );
-    printf ( "memo %s\n", data.memo );
-
-    dialogue ( _("That file contains something on proc_security_cb.\nI didn't have any file to test that function.\nPlease contact the grisbi team to implement that function."));
-
+    dialogue_conditional_hint ( _("Security feature not implemented"), 
+				_("This file contains security informations, which processing is not implemented at this moment."),
+				&(etat.display_message_ofx_security) );
 
     return 0;
 }
@@ -500,3 +483,7 @@ int ofx_proc_statement_cb(struct OfxStatementData data)
 
 
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

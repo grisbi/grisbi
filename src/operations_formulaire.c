@@ -2111,8 +2111,8 @@ void recuperation_ope_filles_completion_tiers ( struct structure_operation *oper
 
     /* affiche la question de récupération */
 
-    result = question_yes_no_hint ( _("This is a breakdown transaction"),
-				    _("Recover breakdown?"));
+    result = question_yes_no_hint ( _("Recover breakdown?"),
+				    _("This is a breakdown of transaction, associated transactions can be recovered as in last transaction with this third party.") );
 
     if ( !result )
 	return;
@@ -4041,3 +4041,7 @@ GtkWidget *widget_formulaire_par_element ( gint no_element )
 }
 /******************************************************************************/
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

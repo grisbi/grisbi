@@ -175,7 +175,7 @@ gint initialisation_nouveau_compte ( type_compte_t type_de_compte )
 
     if  (!(p_tab_nom_de_compte = realloc ( p_tab_nom_de_compte, ( nb_comptes + 1 )* sizeof ( gpointer ) )))
     {
-	dialogue ( _("Cannot allocate memory, bad things will happen soon") );
+	dialogue_error_memory ();
 	return (-1);
     };
 
@@ -184,7 +184,7 @@ gint initialisation_nouveau_compte ( type_compte_t type_de_compte )
     if  (!(*p_tab_nom_de_compte_variable = calloc ( 1,
 						    sizeof (struct donnees_compte) )) )
     {
-	dialogue ( _("Cannot allocate memory, bad things will happen soon") );
+	dialogue_error_memory ();
 	return (-1);
     };
 
@@ -775,3 +775,7 @@ type_compte_t demande_type_nouveau_compte ( void )
 
 
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

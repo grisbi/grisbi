@@ -1460,7 +1460,9 @@ void fin_edition_echeance ( void )
 
     if ( !modifie_date ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] ))
     {
-	dialogue_error ( PRESPACIFY(_("Invalid date")) );
+	dialogue_error_hint ( _("Grisbi can't parse date.  For a list of date formats that Grisbi can use, refer to Grisbi manual."),
+			      g_strdup_printf ( _("Invalid date '%s'"), 
+						gtk_entry_get_text ( GTK_ENTRY(widget_formulaire_echeancier[SCHEDULER_FORM_DATE]) ) ) );
 	gtk_widget_grab_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] );
 	gtk_entry_select_region ( GTK_ENTRY (  widget_formulaire_echeancier[SCHEDULER_FORM_DATE]),
 				  0,
@@ -1474,7 +1476,9 @@ void fin_edition_echeance ( void )
 		  _("None") ))
 	if ( !modifie_date ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] ))
 	{
-	    dialogue_error ( PRESPACIFY(_("Invalid limit date")) );
+	    dialogue_error_hint ( _("Grisbi can't parse date.  For a list of date formats that Grisbi can use, refer to Grisbi manual."),
+				  g_strdup_printf ( _("Invalid final date '%s'"), 
+						    gtk_entry_get_text ( GTK_ENTRY(widget_formulaire_echeancier[SCHEDULER_FORM_DATE]) ) ) );
 	    gtk_widget_grab_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] );
 	    gtk_entry_select_region ( GTK_ENTRY (  widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE]),
 				      0,
@@ -1509,7 +1513,8 @@ void fin_edition_echeance ( void )
 		 ope_ventil -> relation_no_compte == 
 		 recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ))
 	      {
-		dialogue_error ( _("This breakdown of transaction has a transfer on itself.  Either change the sub transaction to transfer on another account or change account of the transaction itself.") );
+		  dialogue_error_hint ( _("This breakdown of transaction has a transfer on itself.  Either change the sub transaction to transfer on another account or change account of the transaction itself."),
+					_("Invalid breakdown of transaction."));
 		return;
 	      }
 
@@ -1534,7 +1539,8 @@ void fin_edition_echeance ( void )
 				       COMPTE_ECHEANCE,
 				       NULL )))
     {
-	dialogue_error ( _("Can't issue a transfer its own account.") );
+	dialogue_error_hint ( _("Transfers can't be associated with their own account.  Please associate another account with this transfer."),
+			      _("Invalid transfer."));
 	return;
     }
 
@@ -1553,7 +1559,8 @@ void fin_edition_echeance ( void )
 	if ( !tableau_char[1] ||
 	     !strlen ( tableau_char[1] ) )
 	{
-	    dialogue_error ( _("There is no associated account for this transfer.") );
+	    dialogue_error_hint ( _("Transfer is not associated with an account.  Please associate a valid account with this transfer."),
+				  _("Invalid transfer.") );
 	    return;
 	}
 
@@ -1575,7 +1582,8 @@ void fin_edition_echeance ( void )
 
 	    if ( compte_virement == -1 )
 	    {
-		dialogue_warning ( _("Associated account of this transfer is invalid.") );
+		dialogue_error_hint ( _("Associated account of this transfer does not exist.  Please associate a valid account with this transfer."),
+				      _("Invalid transfer.") );
 		return;
 	    }
 	}
@@ -1592,7 +1600,8 @@ void fin_edition_echeance ( void )
 	 ((struct struct_type_ope  *)( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ) -> menu_item ),
 							     "adr_type" )))->numerotation_auto )
     {
-	dialogue ( PRESPACIFY(_("Impossible to create or entry an automatic scheduled transaction\n with a cheque or a method of payment with an automatic incremental number.")) );
+	dialogue_error_hint ( _("Impossible to create or entry an automatic scheduled transaction\n with a cheque or a method of payment with an automatic incremental number."),
+			      _("Invalid scheduled transaction.") );
 	return;
     }
 
@@ -2994,3 +3003,7 @@ void basculer_vers_ventilation_echeances ( void )
 /******************************************************************************/
 
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

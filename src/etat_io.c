@@ -80,7 +80,8 @@ gboolean charge_etat ( gchar *nom_etat )
 	     g_strcasecmp ( doc->children->name,
 			    "Grisbi_etat" ))
 	{
-	    dialogue ( _("This file is not a Grisbi report") );
+	    dialogue_error_hint ( _("Grisbi is unable to parse this file as a report file.  Be sure it is valid."), 
+				  _("Invalid Grisbi report file") );
 	    xmlFreeDoc ( doc );
 	    return ( FALSE );
 	}
@@ -96,7 +97,8 @@ gboolean charge_etat ( gchar *nom_etat )
     }
     else
     {
-	dialogue ( _("Invalid report file") );
+	dialogue_error_hint ( _("Grisbi is unable to parse this file as a report file.  Be sure it is valid."), 
+			      _("Invalid Grisbi report file") );
 	return ( FALSE );
     }
 }
@@ -1699,9 +1701,8 @@ gboolean enregistre_etat ( gchar *nom_etat )
 
     if ( resultat == -1 )
     {
-	dialogue ( g_strdup_printf ( _("Error saving the file %s\n\nError:\n%s"),
-				     nom_etat,
-				     strerror ( errno ) ) );
+	dialogue_error_hint ( latin2utf8 ( strerror(errno) ),
+			      g_strdup_printf ( _("Error saving file '%s'."), nom_etat ) );
 	return ( FALSE );
     }
 
@@ -1710,3 +1711,7 @@ gboolean enregistre_etat ( gchar *nom_etat )
 }
 /***********************************************************************************************************/
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

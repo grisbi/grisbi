@@ -138,7 +138,7 @@ void payment_method_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
 	else
 	{
 	    /* Should not happen theorically */
-	    dialogue ( _("Serious brain damage expected.") );
+	    dialogue_error_brain_damage () ;
 	}
 
 	/* set new value */
@@ -906,7 +906,8 @@ void ajouter_type_operation ( void )
 		if (! gtk_tree_model_iter_children( GTK_TREE_MODEL(model),
 						    &child, &iter ))
 		    /* Should not happen! */
-		    dialogue (_("Serious brain damage expected."));
+		    dialogue_error_brain_damage ();
+
 
 		final = &child;
 		type_final = 1;	/* Debit */
@@ -1541,3 +1542,7 @@ void changement_choix_type_echeancier ( struct struct_type_ope *type )
 /* ************************************************************************************************************** */
 
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

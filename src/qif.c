@@ -1026,15 +1026,16 @@ choix_liste_fichier:
 	{
 	    if ( S_ISREG ( test_fichier.st_mode ) )
 	    {
-		if ( ! question_yes_no_hint ( g_strdup_printf (_("File '%s' already exists"),
-							       nom_fichier_qif),	     
-					      _("This will irreversibly overwrite previous file.  There is no undo for this.")) )
+		if ( ! question_yes_no_hint ( g_strdup_printf (_("File '%s' already exists."),
+							       nom_fichier_qif),
+					      _("Do you want to overwrite it?")) )
 		    goto choix_liste_fichier;
 	    }
 	    else
 	    {
-		dialogue ( g_strdup_printf ( _("File name '%s' invalid !"),
-					     nom_fichier_qif ));
+		dialogue_error_hint ( g_strdup_printf ( _("File \"%s\" exists and is not a regular file."),
+							nom_fichier_qif),
+				      g_strdup_printf ( _("Error saving file '%s'." ), nom_fichier_qif ) );
 		goto choix_liste_fichier;
 	    }
 	}
@@ -1059,8 +1060,10 @@ choix_liste_fichier:
 
 	if ( !( fichier_qif = utf8_fopen ( nom_fichier_qif,
 				      "w" ) ))
-	    dialogue ( g_strdup_printf ( _("Error for the file \"%s\" :\n%s"),
-					 nom_fichier_qif, strerror ( errno ) ));
+
+	    dialogue_error_hint ( latin2utf8 ( strerror(errno) ),
+				  g_strdup_printf ( _("Error opening file '%s'"),
+						    nom_fichier_qif ) );
 	else
 	{
 	    GSList *pointeur_tmp;
@@ -1499,3 +1502,7 @@ void click_compte_export_qif ( GtkWidget *bouton,
 }
 /* *******************************************************************************/
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

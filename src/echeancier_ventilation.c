@@ -1640,20 +1640,24 @@ void fin_edition_ventilation_echeances ( void )
 
 		    if ( compte_vire == -1 )
 		    {
-			dialogue_error ( _("The associated account for this transfer is invalid") );
+			dialogue_error_hint ( _("Associated account of this transfer does not exist.  Please associate a valid account with this transfer."),
+					      _("Invalid transfer.") );
 			return;
 		    }
 
 		    if ( compte_vire == GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ) -> menu_item ),
 										"no_compte" )) )
 		    {
-			dialogue_error ( _("It's impossible to transfer an account to itself") );
+			dialogue_error_hint ( _("Transfers can't be associated with their own account.  Please associate another account with this transfer."),
+					      _("Invalid transfer."));
+
 			return;
 		    }
 		}
 		else
 		{
-		    dialogue_error ( _("No account associated with the transfer") );
+		    dialogue_error_hint ( _("Transfer is not associated with an account.  Please associate a valid account with this transfer."),
+					  _("Invalid transfer.") );
 		    return;
 		}
 	    }
@@ -2429,10 +2433,7 @@ void valider_ventilation_echeances ( void )
 	gtk_object_set_data ( GTK_OBJECT ( formulaire_echeancier ),
 			      "liste_adr_ventilation",
 			      GINT_TO_POINTER ( -1 ) );
-    /*
-       if ( gtk_object_get_data ( GTK_OBJECT ( formulaire_echeancier ), "liste_adr_ventilation" ) == GINT_TO_POINTER ( -1 ) )
-       dialogue("Liste nulle");
-       */
+
     if ( fabs ( montant_operation_ventilee_echeances - somme_ventilee_echeances ) >= 0.000001 )
     {
 	if ( ! question_yes_no_hint ( _("Incomplete breakdown"),
@@ -2618,7 +2619,7 @@ void validation_ope_de_ventilation_echeances ( struct operation_echeance *operat
 	    /* petite protection quand même, normalement le texte ne devrait jamais apparaitre */
 
 	    if ( !ope_ventil -> no_operation )
-		dialogue_warning ( _("A breakdown line is to be deleted though it is not yet registered."));
+		dialogue_warning ( _("A breakdown line is to be deleted thought it is not yet registered."));
 	    else
 		supprime_echeance ( echeance_par_no (ope_ventil -> no_operation ));
 	}
@@ -2736,3 +2737,7 @@ void validation_ope_de_ventilation_echeances ( struct operation_echeance *operat
     }
 }
 /***********************************************************************************************************/
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
