@@ -8545,7 +8545,7 @@ void fichier_marque_ouvert ( gint ouvert )
 
   if ( retour != EOF )
     {
-#ifdef CYGWIN || defined(__FreeBSD__)
+#if defined( CYGWIN ) || defined(__FreeBSD__)
 
       /* CYGWIN ne pouvant maitrise l'acces bufferise au fichier de
        * Windows, il gere 2 curseurs de fichiers differents afin de
