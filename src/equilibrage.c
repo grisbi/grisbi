@@ -654,7 +654,7 @@ void sortie_entree_date_equilibrage ( GtkWidget *entree )
 {
   /* si l'entrée contenant la date est vide, alors on met la date du jour */
 
-  if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))) == 0  )
+  if ( strlen ( g_strstrip ( (gchar*) gtk_entry_get_text ( GTK_ENTRY ( entree )))) == 0  )
     gtk_entry_set_text ( GTK_ENTRY ( entree ), gsb_today() );
 
   format_date ( entree );
