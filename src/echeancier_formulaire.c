@@ -2701,7 +2701,8 @@ void incrementation_echeance ( struct operation_echeance *echeance )
     {
 	GtkWidget *label;
 
-	if ( GTK_BIN ( frame_etat_echeances_finies ) -> child )
+	if ( GTK_IS_WIDGET ( frame_etat_echeances_finies ) &&
+	     GTK_CONTAINER ( frame_etat_echeances_finies ) -> focus_child )
 	{
 	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + echeance ->compte;
 
