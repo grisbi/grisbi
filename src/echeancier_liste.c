@@ -635,9 +635,6 @@ gboolean traitement_clavier_liste_echeances ( GtkCList *liste_echeances,
       supprime_echeance ();
       break;
 
-
-
-    default :
     }
 
   return ( TRUE );    
@@ -1041,16 +1038,16 @@ void edition_echeance ( void )
 
   /*   si le formulaire est caché, on le montre */
 
-  if ( !etat.formulaire_echeancier_toujours_affiche )
-    {
+      gtk_widget_hide ( fleche_haut_echeancier );
+      gtk_widget_show ( fleche_bas_echeancier );
+
+      gtk_widget_show ( frame_formulaire_echeancier );
+      etat.formulaire_echeancier_toujours_affiche = 1;
       gtk_widget_show ( frame_formulaire_echeancier );
       gtk_signal_connect ( GTK_OBJECT ( frame_formulaire_echeancier ),
 			   "draw",
 			   GTK_SIGNAL_FUNC ( verifie_ligne_selectionnee_echeance_visible ),
 			   NULL );
-    }
-
-  
 
   /* si c'est une nouvelle échéance, on met la date courante, la sélectionne et lui donne le focus */
 
@@ -1402,7 +1399,6 @@ void supprime_echeance ( void )
       remplissage_liste_echeance ();
       break;
 
-    default:
     }
 
   mise_a_jour_calendrier();
@@ -2031,7 +2027,6 @@ void modification_affichage_echeances ( gint *origine )
 
       break;
 
-    default :
     }
 
   remplissage_liste_echeance ();
