@@ -502,7 +502,11 @@ GtkWidget *onglet_categories ( void )
 						       "text", CATEGORY_TREE_TEXT_COLUMN, 
 						       "weight", CATEGORY_TREE_FONT_COLUMN,
 						       NULL);
-    gtk_tree_view_append_column ( GTK_TREE_VIEW ( arbre_categ ), GTK_TREE_VIEW_COLUMN ( column ) );
+#if GTK_CHECK_VERSION(2,4,0)
+    gtk_tree_view_column_set_expand ( column, TRUE );
+#endif
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( arbre_categ ), 
+				  GTK_TREE_VIEW_COLUMN ( column ) );
 
     /* Make account column */
     cell = gtk_cell_renderer_text_new ();
@@ -510,7 +514,8 @@ GtkWidget *onglet_categories ( void )
 						       "text", CATEGORY_TREE_ACCOUNT_COLUMN, 
 						       "weight", CATEGORY_TREE_FONT_COLUMN,
 						       NULL);
-    gtk_tree_view_append_column ( GTK_TREE_VIEW ( arbre_categ ), GTK_TREE_VIEW_COLUMN ( column ) );
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( arbre_categ ), 
+				  GTK_TREE_VIEW_COLUMN ( column ) );
 
     /* Make balance column */
     cell = gtk_cell_renderer_text_new ();
@@ -519,7 +524,8 @@ GtkWidget *onglet_categories ( void )
 						       "weight", CATEGORY_TREE_FONT_COLUMN,
 						       "xalign", CATEGORY_TREE_XALIGN_COLUMN,
 						       NULL);
-    gtk_tree_view_append_column ( GTK_TREE_VIEW ( arbre_categ ), GTK_TREE_VIEW_COLUMN ( column ) );
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( arbre_categ ), 
+				  GTK_TREE_VIEW_COLUMN ( column ) );
 
     gtk_container_add ( GTK_CONTAINER ( scroll_window ), arbre_categ );
     gtk_widget_show ( arbre_categ );
@@ -2888,7 +2894,7 @@ gboolean categ_column_expanded  (GtkTreeView * treeview, GtkTreeIter * iter, Gtk
 				 gpointer user_data ) 
 {
     GtkTreeIter child_iter;
-    gchar *name, *text[4];
+    gchar *name;
     gint no_categ, no_sous_categ;
 
     gtk_tree_model_iter_children(GTK_TREE_MODEL(categ_tree_model), 
@@ -2932,39 +2938,56 @@ gboolean categ_column_expanded  (GtkTreeView * treeview, GtkTreeIter * iter, Gtk
 		     !operation -> relation_no_operation &&
 		     !operation -> operation_ventilee )
 		{
+		    gchar * label, * notes = NULL; /* free */
+
 		    if ( operation -> notes )
 		    {
-			if ( operation -> no_operation_ventilee_associee )
-			    text[0] = g_strdup_printf ( _("%02d/%02d/%04d (breakdown) [ %s ]"),
-							operation -> jour,
-							operation -> mois,
-							operation -> annee,
-							operation -> notes );
-			else
-			    text[0] = g_strdup_printf ( "%02d/%02d/%04d [ %s ]",
-							operation -> jour,
-							operation -> mois,
-							operation -> annee,
-							operation -> notes );
+			if ( strlen ( operation -> notes ) > 30 )
+			{
+			    gchar * tmp = (operation -> notes) + 30;
+
+			    tmp = strchr ( tmp, ' ' );
+			    if ( !tmp )
+			    {
+				/* We do not risk splitting the string
+				   in the middle of a UTF-8 accent
+				   ... the end is probably near btw. */
+				notes = operation -> notes;
+			    }
+			    else 
+			    {
+				gchar * trunc = g_strndup ( operation -> notes, 
+							    ( tmp - operation -> notes ) );
+				notes = g_strconcat ( trunc, " ...", NULL );
+				free ( trunc );
+			    }
+			}
+			else 
+			{
+			    notes = operation -> notes;
+			}
 		    }
-		    else
+
+		    label = g_strdup_printf ( _("%02d/%02d/%04d"),
+					      operation -> jour,
+					      operation -> mois,
+					      operation -> annee );
+ 
+		    if ( notes )
 		    {
-			if ( operation -> no_operation_ventilee_associee )
-			    text[0] = g_strdup_printf ( _("%02d/%02d/%04d (breakdown)"),
-							operation -> jour,
-							operation -> mois,
-							operation -> annee );
-			else
-			    text[0] = g_strdup_printf ( "%02d/%02d/%04d",
-							operation -> jour,
-							operation -> mois,
-							operation -> annee );
+			label = g_strconcat ( label, " : ", notes, NULL );
 		    }
-		 
+
+		    if ( operation -> no_operation_ventilee_associee )
+		    {
+			label = g_strconcat ( label, " (", _("breakdown"), ")", NULL );
+		    }
+
 		    if ( first )
 		    {
 			gtk_tree_store_set (GTK_TREE_STORE(categ_tree_model), &child_iter, 
-					    CATEGORY_TREE_TEXT_COLUMN, text[0],
+					    CATEGORY_TREE_TEXT_COLUMN, label,
+					    CATEGORY_TREE_ACCOUNT_COLUMN, NOM_DU_COMPTE,
 					    CATEGORY_TREE_BALANCE_COLUMN, g_strdup_printf ( "%4.2f %s", 
 											    operation -> montant,
 											    devise_code ( devise_par_no ( operation -> devise ) ) ),
@@ -2976,7 +2999,7 @@ gboolean categ_column_expanded  (GtkTreeView * treeview, GtkTreeIter * iter, Gtk
 		    {
 			gtk_tree_store_append(GTK_TREE_STORE(categ_tree_model), &child_iter, iter);
 			gtk_tree_store_set (GTK_TREE_STORE(categ_tree_model), &child_iter, 
-					    CATEGORY_TREE_TEXT_COLUMN, text[0],
+					    CATEGORY_TREE_TEXT_COLUMN, label,
 					    CATEGORY_TREE_ACCOUNT_COLUMN, NOM_DU_COMPTE,
 					    CATEGORY_TREE_BALANCE_COLUMN, g_strdup_printf ( "%4.2f %s", 
 											    operation -> montant,
@@ -2984,10 +3007,6 @@ gboolean categ_column_expanded  (GtkTreeView * treeview, GtkTreeIter * iter, Gtk
 					    CATEGORY_TREE_XALIGN_COLUMN, 1.0,
 					    -1 );
 		    }
-   
-		    text[1] = NULL;
-		    text[2] = NULL;
-		    text[3] = NULL;
 		}
 		
 		pointeur_ope = pointeur_ope -> next;
