@@ -872,14 +872,14 @@ void update_liste_comptes_accueil ( void )
 				      7, 8,
 				      i, i+1 );
 	  gtk_widget_show ( pLabel );
+
+	  /* ATTENTION : les sommes effectuées ici présupposent que */
+	  /* TOUS les comptes sont dans la MÊME DEVISE !!!!!        */
+	  solde_global_courant += SOLDE_COURANT ;
+	  solde_global_pointe += SOLDE_POINTE ;
 	}
 
       i++;
-      
-      /* ATTENTION : les sommes effectuées ici présupposent que */
-      /* TOUS les comptes sont dans la MÊME DEVISE !!!!!        */
-      solde_global_courant += SOLDE_COURANT ;
-      solde_global_pointe += SOLDE_POINTE ;
     }
   while ( ( ordre_comptes_variable = ordre_comptes_variable->next ) );
 
