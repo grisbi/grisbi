@@ -1,4 +1,4 @@
-# translation of de.po to 
+# translation of de.po to
 # translation of de.po to Deutsch
 # translation of de.po to
 # translation of de.po to
@@ -32,21 +32,21 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 # Martin Stromberger <mstromberger@aon.at>, 2004.
 # Benjamin Drieu <bdrieu@april.org>, 2004.
-# Martin Stromberger <fabiolla@aon.at>, 2004.
-# Alain PORTAL <alain@localhost.localdomain>, 2005
+# Martin Stromberger <fabiolla@aon.at>, 2004, 2005.
+# Alain PORTAL <alain@localhost.localdomain>, 2005.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2005-01-01 16:59+0100\n"
-"PO-Revision-Date: 2005-01-01 18:07+0100\n"
-"Last-Translator: Alain PORTAL <alain@localhost.localdomain>\n"
-"Language-Team:  <fr@li.org>\n"
+"PO-Revision-Date: 2005-01-01 23:08+0100\n"
+"Last-Translator: Martin Stromberger <fabiolla@aon.at>\n"
+"Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Report-Msgid-Bugs-To: \n"
-"X-Generator: KBabel 1.0\n"
+"X-Generator: KBabel 1.9.1\n"
 
 #: src/accueil.c:120
 msgid "No user"
@@ -140,8 +140,7 @@ msgstr "%4.2f %s Soll in %s"
 #: src/accueil.c:1794 src/accueil.c:1829
 #, c-format
 msgid "Balance of account %s is under wanted and authorised minima!"
-msgstr ""
-"Der Saldo des Kontos %s ist unter dem festgelegtem und zulässigen Minimum!"
+msgstr "Der Saldo des Kontos %s ist unter dem festgelegtem und zulässigen Minimum!"
 
 #: src/accueil.c:1800
 #, c-format
@@ -321,7 +320,7 @@ msgstr "Empfänger"
 #: src/operations_formulaire.c:3333 src/ventilation.c:968
 #: src/ventilation.c:1493
 msgid "Budgetary line"
-msgstr "Buchungszeile"
+msgstr "Budgeteintrag"
 
 #. Debit type
 #: src/affichage_liste.c:39 src/affichage_liste.c:768
@@ -541,7 +540,7 @@ msgstr "Nr"
 #: src/affichage_liste.c:1045 src/etats_config.c:147 src/etats_config.c:7333
 #: src/fenetre_principale.c:110
 msgid "Budgetary lines"
-msgstr "Buchungszeilen"
+msgstr "Budgeteinträge"
 
 #: src/banque.c:122 src/comptes_traitements.c:135
 #: src/comptes_traitements.c:145 src/operations_formulaire.c:2201
@@ -1402,10 +1401,8 @@ msgstr "Kategorien importieren - Grisbi"
 
 #. il y a déjà des opérations dans le fichier, on ne peut que fusionner
 #: src/categories_onglet.c:3139
-msgid ""
-"File already contains transactions, the two categories lists will be merged."
-msgstr ""
-"Die Datei enthält bereits Buchungen, die Kategorien werden zusammengeführt."
+msgid "File already contains transactions, the two categories lists will be merged."
+msgstr "Die Datei enthält bereits Buchungen, die Kategorien werden zusammengeführt."
 
 #: src/categories_onglet.c:3149 src/imputation_budgetaire.c:2887
 msgid "Do you want"
@@ -1439,8 +1436,7 @@ msgstr ""
 
 #: src/check.c:121
 msgid "Grisbi found no known inconsistency in accounts processed."
-msgstr ""
-"Grisbi hat keine bekannte Inkonsistenz in den bearbeiteten Konten gefunden."
+msgstr "Grisbi hat keine bekannte Inkonsistenz in den bearbeiteten Konten gefunden."
 
 #: src/check.c:122
 msgid "No inconsistency found."
@@ -3071,7 +3067,7 @@ msgstr "Währung für den Kategorienbereich"
 
 #: src/devises.c:1665
 msgid "Currency for budgetary lines tree"
-msgstr "Währung für den Buchungszeilenbereich"
+msgstr "Währung der Budgeteinträge"
 
 #: src/devises.c:1876
 msgid "Last exchange rate"
@@ -3293,8 +3289,7 @@ msgstr "Eine geplante Buchung löschen"
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
 "transaction?"
-msgstr ""
-"Wollen Sie nur dieses Vorkommen, oder die gesamte geplante Buchung löschen?"
+msgstr "Wollen Sie nur dieses Vorkommen, oder die gesamte geplante Buchung löschen?"
 
 #: src/echeancier_liste.c:1405
 msgid "All the occurences"
@@ -3541,12 +3536,12 @@ msgstr "Kategorie %s nicht gefunden.\n"
 #: src/etat_io.c:937
 #, c-format
 msgid "%sBudget line %s not found.\n"
-msgstr "%sBuchungszeile %s nicht gefunden.\n"
+msgstr "%sBudgeteintrag %s nicht gefunden.\n"
 
 #: src/etat_io.c:940
 #, c-format
 msgid "Budget line %s not found.\n"
-msgstr "Buchungszeile %s nicht gefunden.\n"
+msgstr "Budgeteintrag %s nicht gefunden.\n"
 
 #: src/etat_io.c:981
 #, c-format
@@ -3645,30 +3640,30 @@ msgstr "Unterkategorien gesamt"
 #: src/etats_affiche.c:321
 #, c-format
 msgid "Budgetary lines total: (%d transaction)"
-msgstr "Buchungszeilen gesamt: (%d Buchung)"
+msgstr "Budgeteinträge gesamt: (%d Buchung)"
 
 #: src/etats_affiche.c:324
 #, c-format
 msgid "Budgetary lines total: (%d transactions)"
-msgstr "Buchungszeilen gesamt: (%d Buchungen)"
+msgstr "Budgeteinträge gesamt: (%d Buchungen)"
 
 #: src/etats_affiche.c:328
 msgid "Budgetary lines total"
-msgstr "Buchungszeilen gesamt"
+msgstr "Budgeteinträge gesamt"
 
 #: src/etats_affiche.c:425
 #, c-format
 msgid "Sub-budgetary lines total: (%d transaction)"
-msgstr "Teilbuchungszeilen gesamt: (%d Buchung)"
+msgstr "Teil-Budgeteinträge gesamt: (%d Buchung)"
 
 #: src/etats_affiche.c:428
 #, c-format
 msgid "Sub-budgetary lines total: (%d transactions)"
-msgstr "Teilbuchungszeilen gesamt: (%d Buchungen)"
+msgstr "Teil-Budgeteinträge gesamt: (%d Buchungen)"
 
 #: src/etats_affiche.c:432
 msgid "Sub-budgetary lines total"
-msgstr "Teilbuchungszeilen gesamt"
+msgstr "Teil-Budgeteinträge gesamt"
 
 #: src/etats_affiche.c:520
 #, c-format
@@ -3824,11 +3819,11 @@ msgstr "Keine Unterkategorie"
 
 #: src/etats_affiche.c:1784
 msgid "No budgetary line"
-msgstr "Keine Buchungszeile"
+msgstr "Kein Budgeteintrag"
 
 #: src/etats_affiche.c:1872
 msgid "No sub-budgetary line"
-msgstr "Keine Teilbuchungszeile"
+msgstr "Kein Teil-Budgeteintrag"
 
 #: src/etats_affiche.c:2044
 msgid "Incomes"
@@ -4005,9 +4000,9 @@ msgid ""
 "All budgetary lines have been selected.  Grisbi will run faster\n"
 "without \"Detail the budgetary lines used\" option"
 msgstr ""
-"Es wurden alle Buchungszeilen ausgewählt.  Die Reporterstellung dauert "
+"Es wurden alle Budgeteinträge ausgewählt.  Die Reporterstellung dauert "
 "länger\n"
-"mit der \"Buchungszeilen Details\" Einstellung"
+"mit der \"Budgeteinträge Details\" Einstellung"
 
 #: src/etats_config.c:1330
 msgid ""
@@ -4136,23 +4131,23 @@ msgstr "Buchungen ohne Kategorien nicht berücksichtigen"
 
 #: src/etats_config.c:3134
 msgid "Detail budgetary lines"
-msgstr "Buchungszeilen Details"
+msgstr "Budgeteinträge Details"
 
 #: src/etats_config.c:3172
 msgid "Select the budgetary lines to include in the report"
-msgstr "Die Buchungszeilen für den Bericht auswählen"
+msgstr "Die Budgeteinträge für den Bericht auswählen"
 
 #: src/etats_config.c:3248
 msgid "Income budget lines"
-msgstr "Buchungszeilen Einnahmen"
+msgstr "Budgeteinträge Einnahmen"
 
 #: src/etats_config.c:3262
 msgid "Outgoing budget lines"
-msgstr "Buchungszeilen Ausgaben"
+msgstr "Budgeteinträge Ausgaben"
 
 #: src/etats_config.c:3285
 msgid "Exclude transactions without budgetary line"
-msgstr "Buchungen ohne Buchungszeile nicht berücksichtigen"
+msgstr "Buchungen ohne Budgeteintrag nicht berücksichtigen"
 
 #: src/etats_config.c:3404
 msgid "Detail third parties"
@@ -4206,11 +4201,11 @@ msgstr "die Unterkategorie"
 
 #: src/etats_config.c:4320 src/etats_config.c:6463
 msgid "the budgetary line"
-msgstr "die Buchungszeile"
+msgstr "den Budgeteintrag"
 
 #: src/etats_config.c:4348 src/etats_config.c:6479
 msgid "the sub-budgetary line"
-msgstr "die Teilbuchungszeile"
+msgstr "der Teil-Budgeteintrag"
 
 #: src/etats_config.c:4376
 msgid "the note"
@@ -4372,7 +4367,7 @@ msgstr "Sammelbuchungen pro Kategorie"
 
 #: src/etats_config.c:5740
 msgid "Group transactions by budgetary line"
-msgstr "Sammelbuchungen pro Buchungszeile"
+msgstr "Buchungen nach Budgeteintrag zusammenfassen"
 
 #. choix du type de classement
 #: src/etats_config.c:5751
@@ -4421,8 +4416,7 @@ msgstr "Name des Berichts"
 
 #: src/etats_config.c:6243
 msgid "Diplay the number of transactions with the totals"
-msgstr ""
-"Die Anzahl der Buchungen in einem Verhältnis zu allen Buchungen anzeigen"
+msgstr "Die Anzahl der Buchungen in einem Verhältnis zu allen Buchungen anzeigen"
 
 #: src/etats_config.c:6262
 msgid "Consider the third parties of this report as a multiple third party."
@@ -4490,7 +4484,7 @@ msgstr "Kategorie"
 
 #: src/etats_config.c:6718
 msgid "budgetary line"
-msgstr "Buchungszeile"
+msgstr "Budgeteintrag"
 
 #: src/etats_config.c:6726
 msgid "note"
@@ -4534,7 +4528,7 @@ msgstr "Währung der Kategorien"
 
 #: src/etats_config.c:7003
 msgid "Budgetary lines currency"
-msgstr "Währung der Buchungszeile"
+msgstr "Währung der Budgeteinträge"
 
 #: src/etats_config.c:7051
 msgid "Amount comparison currency"
@@ -4588,26 +4582,26 @@ msgstr "\"Keine Unterkategorie\" anzeigen wenn keine vorhanden ist"
 
 #: src/etats_config.c:7350
 msgid "Display the (sub-)budget line name"
-msgstr "Den Namen der (Teil)buchungszeile anzeigen"
+msgstr "Den Namen des (Teil-)Budgeteintrag anzeigen"
 
 #. permet d'afficher un sous total lors de chgt d'ib
 #. activé uniquement si on utilise les ib
 #: src/etats_config.c:7366
 msgid "Display a sub-total for each budgetary line"
-msgstr "Eine Teilsumme für jede Buchungszeile anzeigen"
+msgstr "Eine Teilsumme für jeden Budgeteintrag anzeigen"
 
 #. mise en place du bouton pour afficher les sous categ
 #: src/etats_config.c:7381
 msgid "Display sub-budget lines"
-msgstr "Teilbuchungszeilen anzeigen"
+msgstr "Teil-Budgeteinträge anzeigen"
 
 #: src/etats_config.c:7394
 msgid "Display a sub-total for each sub-budget line"
-msgstr "Eine Teilsumme für jede Unterbuchungszeile anzeigen"
+msgstr "Eine Teilsumme für jeden Teil-Budgeteintrag anzeigen"
 
 #: src/etats_config.c:7408
 msgid "Display \"No sub-budgetary line\" if none"
-msgstr " \"Keine Unterbuchungszeile\" anzeigen wenn keine vorhanden ist"
+msgstr " \"Keinen Teil-Budgeteintrag\" anzeigen wenn keiner vorhanden ist"
 
 #. on met dans la partie de gauche une liste contenant les modes de paiement à
 #. sélectionner
@@ -5020,8 +5014,7 @@ msgid "Select accounts to export"
 msgstr "Die zu exportierenden Konten auswählen"
 
 #: src/export.c:258 src/qif.c:1018
-msgid ""
-"This will irreversibly overwrite previous file.  There is no undo for this."
+msgid "This will irreversibly overwrite previous file.  There is no undo for this."
 msgstr "Dieser Vorgang wird die bestehende Datei überschreiben."
 
 #: src/export.c:266 src/qif.c:1023
@@ -5089,7 +5082,7 @@ msgstr "Kategorien (Buchungen)"
 
 #: src/fenetre_principale.c:137
 msgid "Budgetary lines list (transactions)"
-msgstr "Buchungszeilen (Buchungen)"
+msgstr "Budgeteinträge (Buchungen)"
 
 #: src/fichier_configuration.c:411
 msgid "File : "
@@ -5207,8 +5200,7 @@ msgstr "Die Datei '%s' kann nicht geöffnet werden: %s"
 #: src/fichiers_io.c:155
 #, c-format
 msgid "Cannot open file '%s' : this is not a grisbi file"
-msgstr ""
-"Die Datei %s kann nicht geöffnet werden. Diese Datei ist keine Grisbi Datei"
+msgstr "Die Datei %s kann nicht geöffnet werden. Diese Datei ist keine Grisbi Datei"
 
 #: src/fichiers_io.c:197
 #, c-format
@@ -5388,8 +5380,7 @@ msgid "Alain Pichon (alain.pichon[at]grisbi.org): Fedora and RHEL packaging"
 msgstr "Alain Pichon (alain.pichon[at]grisbi.org): Fedora Paketverwaltung"
 
 #: src/help.c:48
-msgid ""
-"Alain Portal <dionysos[at]grisbi.org>: Programming, manual, RedHat packaging"
+msgid "Alain Portal <dionysos[at]grisbi.org>: Programming, manual, RedHat packaging"
 msgstr ""
 "Alain Portal (dionysos[at]grisbi.org): Programmierung, Handbuch, RedHat "
 "Paketverwaltung"
@@ -5404,8 +5395,7 @@ msgstr "Axel Rousseau (axel584[at]axel584.org): Mitarbeiter"
 
 #: src/help.c:51
 msgid "Benjamin Drieu (bdrieu[at]april.org) : Programming, Debian packaging"
-msgstr ""
-"Benjamin Drieu (bdrieu[at]april.org) : Programmierung, Debian Paketverwaltung"
+msgstr "Benjamin Drieu (bdrieu[at]april.org) : Programmierung, Debian Paketverwaltung"
 
 #: src/help.c:52
 msgid "Cedric Auger (cedric[at]grisbi.org) : Programming"
@@ -5429,8 +5419,7 @@ msgstr ""
 
 #: src/help.c:56
 msgid "Gerald Niel (gerald.niel[at]grisbi.org): Slackware packaging, website"
-msgstr ""
-"Gerald Niel (gerald.niel[at]grisbi.org): Slackware Paketverwaltung, Webseite"
+msgstr "Gerald Niel (gerald.niel[at]grisbi.org): Slackware Paketverwaltung, Webseite"
 
 #: src/help.c:57
 msgid "PMF (ugly.duck[at]gmx.de): Zaurus packaging"
@@ -5686,24 +5675,24 @@ msgstr " Tage im Bereich des Datums der importierten Buchung."
 
 #: src/imputation_budgetaire.c:67
 msgid "Budgetary lines list"
-msgstr "Buchungszeilen Liste"
+msgstr "Budgeteinträge Liste"
 
 #: src/imputation_budgetaire.c:68
 msgid "Amount per budget line"
-msgstr "Betrag Buchungszeile"
+msgstr "Betrag Budgeteintrag"
 
 #: src/imputation_budgetaire.c:69
 msgid "Amount per sub-budget line"
-msgstr "Betrag Unterbuchungszeile"
+msgstr "Betrag Teil-Budgeteintrag"
 
 #. mise en place des boutons ajout d'1 imput / sous-imput
 #: src/imputation_budgetaire.c:271
 msgid "Add a budget line"
-msgstr "Eine neue Buchungszeile hinzufügen"
+msgstr "Einen neuen Budgeteintrag hinzufügen"
 
 #: src/imputation_budgetaire.c:285
 msgid "Add a sub-budget line"
-msgstr "Eine neue Unterbuchungszeile hinzufügen"
+msgstr "Einen neuen Teil-Budgeteintrag hinzufügen"
 
 #. mise en place du bouton fusionner avec les catégories
 #: src/imputation_budgetaire.c:313
@@ -5713,20 +5702,20 @@ msgstr "Kategorien zusammenführen"
 #: src/imputation_budgetaire.c:682 src/imputation_budgetaire.c:772
 #, c-format
 msgid "No sub-budget line (%d)"
-msgstr "Keine Unterbuchungszeile (%d)"
+msgstr "Kein Teil-Budgeteintrag (%d)"
 
 #: src/imputation_budgetaire.c:685 src/imputation_budgetaire.c:775
 msgid "No sub-budget line"
-msgstr "Keine Unterbuchungszeile"
+msgstr "Kein Teil-Budgeteintrag"
 
 #: src/imputation_budgetaire.c:744
 #, c-format
 msgid "No budget line (%d)"
-msgstr "Keine Buchungszeile (%d)"
+msgstr "Kein Budgeteintrag (%d)"
 
 #: src/imputation_budgetaire.c:747
 msgid "No budget line"
-msgstr "Keine Buchungszeile"
+msgstr "Kein Budgeteintrag"
 
 #: src/imputation_budgetaire.c:1068
 #, c-format
@@ -5735,7 +5724,7 @@ msgstr "%d/%d/%d : %4.2f %s [ %s ]"
 
 #: src/imputation_budgetaire.c:1591
 msgid "Delete a budgetary line"
-msgstr "Eine Buchungszeile löschen"
+msgstr "Einen Budgeteintrag löschen"
 
 #: src/imputation_budgetaire.c:1598
 msgid ""
@@ -5743,7 +5732,7 @@ msgid ""
 "\n"
 "You can"
 msgstr ""
-"Einige Buchungen sind immer noch Buchungszeilen zugeordnet.\n"
+"Einigen Buchungen sind immer noch Budgeteinträge zugeordnet.\n"
 "\n"
 "Sie können"
 
@@ -5753,15 +5742,15 @@ msgstr "Die Buchungen verschieben nach"
 
 #: src/imputation_budgetaire.c:1708
 msgid "Just delete the budgetary line."
-msgstr "Die Buchungszeile löschen."
+msgstr "Den Budgeteintrag löschen."
 
 #: src/imputation_budgetaire.c:1734 src/imputation_budgetaire.c:2064
 msgid "Please enter a budgetary line!"
-msgstr "Bitte eine Buchungszeile eingeben!"
+msgstr "Bitte einen Budgeteintrag eingeben!"
 
 #: src/imputation_budgetaire.c:1922
 msgid "Deleting a budgetaty line"
-msgstr "Eine Buchungszeile löschen"
+msgstr "Einen Budgeteintrag löschen"
 
 #: src/imputation_budgetaire.c:1929
 msgid ""
@@ -5769,40 +5758,40 @@ msgid ""
 "\n"
 "You can"
 msgstr ""
-"Einige Buchungen sind immer noch Teilbuchungszeilen zugeordnet.\n"
+"Einigen Buchungen sind immer noch Teil-Budgeteinträge zugeordnet.\n"
 "\n"
 "Sie können"
 
 #: src/imputation_budgetaire.c:2038
 msgid "Just delete the sub-budgetary line."
-msgstr "Nur diese Unterbuchungszeile löschen."
+msgstr "Nur diesen Teil-Budgeteintrag löschen."
 
 #: src/imputation_budgetaire.c:2319
 msgid ""
 "Budgetary lines names must be both unique and not empty.  Please use another "
 "name for this budgetary line."
 msgstr ""
-"Buchungszeilen müssen eindeutig sein. Weiters ist die Eingabe einer leeren "
+"Budgeteinträge müssen eindeutig sein. Weiters ist die Eingabe einer leeren "
 "Bezeichnung nicht zulässig.  Verwenden Sie bitte eine andere Bezeichnung."
 
 #: src/imputation_budgetaire.c:2320
 #, c-format
 msgid "Budgetary line '%s' already exists."
-msgstr "Die Buchungszeile '%s' ist bereits vorhanden."
+msgstr "Der Budgeteintrag '%s' ist bereits vorhanden."
 
 #: src/imputation_budgetaire.c:2361
 msgid ""
 "Sub-budgetary lines names must be both unique and not empty.  Please use "
 "another name for this sub-budgetary line."
 msgstr ""
-"Teilbuchungszeilen müssen eindeutig sein. Weiters ist die Eingabe einer "
+"Teil-Budgeteinträge müssen eindeutig sein. Weiters ist die Eingabe einer "
 "leeren Bezeichnung nicht zulässig.  Verwenden Sie bitte eine andere "
 "Bezeichnung."
 
 #: src/imputation_budgetaire.c:2362
 #, c-format
 msgid "Sub-budgetary line '%s' already exists."
-msgstr "Die Teilbuchungszeile '%s' ist bereits vorhanden."
+msgstr "Der Teil-Budgeteintrag '%s' ist bereits vorhanden."
 
 #: src/imputation_budgetaire.c:2384
 msgid ""
@@ -5813,7 +5802,7 @@ msgid ""
 "Do you want to continue anyway?"
 msgstr ""
 "Achtung: Dieser Vorgang wird alle Kategorien und Unterkategorien den "
-"Buchungszeilen zuordnen.\n"
+"Budgeteinträgen zuordnen.\n"
 "Dieser Vorgang kann nicht abgebrochen werden.\n"
 "Wenn Sie sich nicht sicher sind, sollten Sie diesen Schritt nicht "
 "ausführen.\n"
@@ -5821,28 +5810,28 @@ msgstr ""
 
 #: src/imputation_budgetaire.c:2642
 msgid "New budgetary line"
-msgstr "Neue Buchungszeile"
+msgstr "Neuer Budgeteintrag"
 
 #: src/imputation_budgetaire.c:2643
 msgid "Enter the name of the new budgetary line"
-msgstr "Den Namen der Buchungszeile eingeben"
+msgstr "Den Namen des Budgeteintrag eingeben"
 
 #: src/imputation_budgetaire.c:2699
 msgid "New sub-budgetary line"
-msgstr "Neue Unterbuchungszeile"
+msgstr "Neuer Teil-Budgeteintrag"
 
 #: src/imputation_budgetaire.c:2700
 msgid "Enter the name of the new sub-budgetary line"
-msgstr "Den Namen der Unterbuchungszeile eingeben"
+msgstr "Den Namen des Teil-Budgeteintrag eingeben"
 
 #: src/imputation_budgetaire.c:2769
 msgid "Export the budgetary lines"
-msgstr "Die Buchungszeilen exportieren"
+msgstr "Die Budgeteinträge exportieren"
 
 #. on permet de remplacer/fusionner la liste
 #: src/imputation_budgetaire.c:2833 src/imputation_budgetaire.c:2858
 msgid "Import the budgetary lines"
-msgstr "Die Buchungszeilen importieren"
+msgstr "Die Budgeteinträge importieren"
 
 #. il y a déjà des opérations dans le fichier, on ne peut que fusionner
 #: src/imputation_budgetaire.c:2877
@@ -5850,16 +5839,16 @@ msgid ""
 "File already contains transactions, the two budgetary lines lists will be "
 "merged."
 msgstr ""
-"Die Datei enthält bereits Buchungszeilen, die Buchungszeilen werden "
+"Die Datei enthält bereits Budgeteinträge, die Budgeteinträge werden "
 "zusammengeführt."
 
 #: src/imputation_budgetaire.c:2905
 msgid "Merge the two lists of budgetary lines"
-msgstr "Die zwei Listen der Buchungszeilen zusammenführen"
+msgstr "Die zwei Listen der Budgeteinträge zusammenführen"
 
 #: src/imputation_budgetaire.c:2913
 msgid "Replace the old list of budgetary lines"
-msgstr "Die alte Liste von Buchungszeilen ersetzen"
+msgstr "Die alte Liste von Budgeteinträgen ersetzen"
 
 #: src/main.c:140
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
@@ -6164,8 +6153,7 @@ msgstr "Splittbuchung wiederherstellen?"
 
 #: src/operations_formulaire.c:1820
 msgid "Do you want to recover all the lines of the last breakdown?"
-msgstr ""
-"Sollen alle Buchungszeilen der letzten Aufsplittung wiederhergestellt werden?"
+msgstr "Sollen alle Budgeteinträge der letzten Aufsplittung wiederhergestellt werden?"
 
 #: src/operations_formulaire.c:2072 src/operations_formulaire.c:2524
 #: src/tiers_onglet.c:1429
@@ -6209,8 +6197,7 @@ msgstr ""
 
 #: src/operations_formulaire.c:2533
 msgid "A transaction with a multiple third party must be a new one."
-msgstr ""
-"Es kann nur eine neue Buchung an mehrere Empfänger durchgeführt werden."
+msgstr "Es kann nur eine neue Buchung an mehrere Empfänger durchgeführt werden."
 
 #: src/operations_formulaire.c:2567
 msgid "Invalid multiple third party."
@@ -6253,18 +6240,14 @@ msgid "Imposible to delete a reconciled transaction."
 msgstr "Eine abgestimmte Buchung kann nicht gelöscht werden."
 
 #: src/operations_liste.c:2103
-msgid ""
-"The contra-transaction of this transfer is reconciled, deletion impossible."
-msgstr ""
-"Die Gegenbuchung ist bereits abgestimmt, eine Löschung ist nicht möglich."
+msgid "The contra-transaction of this transfer is reconciled, deletion impossible."
+msgstr "Die Gegenbuchung ist bereits abgestimmt, eine Löschung ist nicht möglich."
 
 #: src/operations_liste.c:2151
 msgid ""
 "One of the breakdown lines is a transfer whose contra-transaction is "
 "reconciled.  Deletion canceled."
-msgstr ""
-"Eine der ausgewählten Buchungszeilen enthält eine abgestimmte Gegenbuchung, "
-"der Löschvorgang wird abgebrochen."
+msgstr "Ein ausgewählter Abstimmungsbetrag enthält eine Gegenbuchung. Die Löschung wird abgebrochen."
 
 #. Delete transaction
 #: src/operations_liste.c:2671
@@ -6332,8 +6315,7 @@ msgid "Scheduler warnings"
 msgstr "Planer Meldungen"
 
 #: src/parametres.c:415
-msgid ""
-"Number of days before a warning message advertising a scheduled transaction"
+msgid "Number of days before a warning message advertising a scheduled transaction"
 msgstr "Hinweis für eine geplante Buchung (Tage davor) anzeigen"
 
 #: src/parametres.c:479
@@ -6715,3 +6697,4 @@ msgid "This transfer has a reconciled contra-transaction, deletion canceled."
 msgstr ""
 "Diese Buchung hat eine abgestimmte Gegenbuchung, die Löschung wurde "
 "abgebrochen."
+
