@@ -602,11 +602,17 @@ GtkWidget *radio_button_utilise_dates;
 GtkWidget *liste_exo_etat;
 GtkWidget *vbox_generale_exo_etat;
 GtkWidget *bouton_detaille_exo_etat;
+GtkWidget *bouton_separe_exo_etat;
 GtkWidget *liste_plages_dates_etat;
 GtkWidget *entree_date_init_etat;
 GtkWidget *entree_date_finale_etat;
 GtkWidget *vbox_utilisation_exo;
 GtkWidget *vbox_utilisation_date;
+GtkWidget *bouton_separe_plages_etat;
+GtkWidget *bouton_type_separe_plages_etat;
+GtkWidget *bouton_debut_semaine;
+GtkWidget *bouton_type_separe_perso_etat;
+GtkWidget *entree_separe_perso_etat;
 
 GtkWidget *liste_comptes_etat;
 GtkWidget *bouton_detaille_comptes_etat;

@@ -1493,7 +1493,7 @@ des paramètres." );
 
   fichier_marque_ouvert ( TRUE );
 
-  modification_fichier ( FALSE );
+  modification_fichier ( TRUE );
 
   return ( TRUE );
 }
@@ -2931,7 +2931,8 @@ des paramètres." );
 		    {
 		      struct struct_etat *etat;
 		      
-		      etat = malloc ( sizeof ( struct struct_etat ));
+		      etat = calloc ( 1,
+				      sizeof ( struct struct_etat ));
 
 		      etat -> no_etat = atoi ( xmlGetProp ( node_detail,
 						 "No" ));
@@ -2967,6 +2968,9 @@ des paramètres." );
 			}
 
 							 
+		      etat -> separation_par_exo = atoi ( xmlGetProp ( node_detail,
+								       "Exo_separation" ));
+							  			  
 		      etat -> no_plage_date = atoi ( xmlGetProp ( node_detail,
 								  "Plage_date" ));
 
@@ -3006,6 +3010,21 @@ des paramètres." );
 		      else
 			etat -> date_perso_fin = NULL;
 
+		      etat -> separation_par_plage = atoi ( xmlGetProp ( node_detail,
+								       "Plage_separation" ));
+							  			  
+		      etat -> type_separation_plage = atoi ( xmlGetProp ( node_detail,
+								       "Plage_type_sep" ));
+							  			  
+		      etat -> jour_debut_semaine = atoi ( xmlGetProp ( node_detail,
+								       "Debut_sem" ));
+							  			  
+		      etat -> type_separation_perso = atoi ( xmlGetProp ( node_detail,
+								       "Plage_type_perso" ));
+							  			  
+		      etat -> delai_separation_perso = atoi ( xmlGetProp ( node_detail,
+								       "Plage_delai_perso" ));
+							  			  
 		      etat -> type_classement = atoi ( xmlGetProp ( node_detail,
 								  "Type_classement" ));
 
@@ -4516,6 +4535,10 @@ gboolean enregistre_fichier ( void )
 		   pointeur_char );
 
       xmlSetProp ( node_etat,
+		   "Exo_separation",
+		   itoa ( etat -> separation_par_exo ));
+
+      xmlSetProp ( node_etat,
 		   "Plage_date",
 		   itoa ( etat -> no_plage_date ));
 
@@ -4543,6 +4566,26 @@ gboolean enregistre_fichier ( void )
 	xmlSetProp ( node_etat,
 		     "Date_fin",
 		     NULL );
+
+      xmlSetProp ( node_etat,
+		   "Plage_separation",
+		   itoa ( etat -> separation_par_plage ));
+
+      xmlSetProp ( node_etat,
+		   "Plage_type_sep",
+		   itoa ( etat -> type_separation_plage ));
+
+      xmlSetProp ( node_etat,
+		   "Debut_sem",
+		   itoa ( etat -> jour_debut_semaine ));
+
+      xmlSetProp ( node_etat,
+		   "Plage_type_perso",
+		   itoa ( etat -> type_separation_perso ));
+
+      xmlSetProp ( node_etat,
+		   "Plage_delai_perso",
+		   itoa ( etat -> delai_separation_perso ));
 
       xmlSetProp ( node_etat,
 		   "Type_classement",

@@ -396,10 +396,16 @@ struct struct_etat
 
   gint exo_date;         /* 1-> utilise l'exo / 0 -> utilise une plage de date */
   gint utilise_detail_exo;
-  GSList *no_exercices;            /* liste des no dexos utilisés dans l'état */
+  GSList *no_exercices;            /* liste des no d'exos utilisés dans l'état */
+  gint separation_par_exo;       /* 1=oui, 0=non */
   gint no_plage_date;       /* 0=perso, 1=toutes ... */
   GDate *date_perso_debut;
   GDate *date_perso_fin;
+  gint separation_par_plage;       /* 1=oui, 0=non */
+  gint type_separation_plage;        /*  0=semaines, 1=mois, 2=année, 3=perso */
+  gint jour_debut_semaine;           /* 0=lundi ... */
+  gint type_separation_perso;        /* 0=jour, 1=mois, 2=année */
+  gint delai_separation_perso;
 
   gint type_classement;
 
@@ -408,7 +414,7 @@ struct struct_etat
 
   gint utilise_categ;
   gint utilise_detail_categ;
-  GSList *no_categ;  /* à -1 pour ttes les categ */
+  GSList *no_categ;
   gint inclusion_virements_passif;    /* vers comptes passifs/actifs */
   gint inclusion_virements_hors_etat;
   gint pas_inclusion_virements;

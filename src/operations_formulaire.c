@@ -1596,8 +1596,16 @@ gboolean modifie_date ( GtkWidget *entree )
   pointeur_entry = g_strstrip ( gtk_entry_get_text ( GTK_ENTRY (entree)) );
 
   if ( !strlen ( pointeur_entry ))
-    gtk_entry_set_text ( GTK_ENTRY ( entree ),
-			 date_jour() );
+    {
+      /*       si on est dans la conf des états, on ne met pas la date du jour, on */
+      /* laisse vide */
+
+      if ( entree != entree_date_init_etat
+	   &&
+	   entree != entree_date_finale_etat )
+	gtk_entry_set_text ( GTK_ENTRY ( entree ),
+			     date_jour() );
+    }
   else
     {
       date = g_date_new ();
@@ -1695,7 +1703,7 @@ gboolean modifie_date ( GtkWidget *entree )
 	  }
       g_strfreev ( tab_date );
 
-		if ( g_date_valid_dmy ( jour, mois, annee) )
+      if ( g_date_valid_dmy ( jour, mois, annee) )
 	gtk_entry_set_text ( GTK_ENTRY ( entree ),
 					g_strdup_printf ( "%02d/%02d/%d", jour, mois, annee ));
       else

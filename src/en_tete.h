@@ -840,6 +840,7 @@ gint recherche_etat_par_no ( struct struct_etat *etat,
 void personnalisation_etat (void);
 GtkWidget *onglet_etat_generalites ( struct struct_etat *etat );
 GtkWidget *onglet_etat_dates ( struct struct_etat *etat );
+void verifie_separation_exo_possible ( void );
 void changement_choix_date_etat ( void );
 void click_liste_etat ( GtkCList *liste,
 			GdkEventButton *evenement,
@@ -849,6 +850,8 @@ void clique_sur_entree_date_etat ( GtkWidget *entree,
 void date_selectionnee_etat ( GtkCalendar *calendrier,
 			      GtkWidget *popup );
 void click_detaille_exo_etat ( void );
+void change_separation_result_periode ( void );
+void modif_type_separation_dates ( gint *origine );
 GtkWidget *onglet_etat_comptes ( struct struct_etat *etat );
 void click_detaille_comptes_etat ( void );
 GtkWidget *onglet_etat_categories ( struct struct_etat *etat );

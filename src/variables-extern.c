@@ -626,11 +626,17 @@ extern GtkWidget *radio_button_utilise_dates;
 extern GtkWidget *liste_exo_etat;
 extern GtkWidget *vbox_generale_exo_etat;
 extern GtkWidget *bouton_detaille_exo_etat;
+extern GtkWidget *bouton_separe_exo_etat;
 extern GtkWidget *liste_plages_dates_etat;
 extern GtkWidget *entree_date_init_etat;
 extern GtkWidget *entree_date_finale_etat;
 extern GtkWidget *vbox_utilisation_exo;
 extern GtkWidget *vbox_utilisation_date;
+extern GtkWidget *bouton_separe_plages_etat;
+extern GtkWidget *bouton_type_separe_plages_etat;
+extern GtkWidget *bouton_debut_semaine;
+extern GtkWidget *bouton_type_separe_perso_etat;
+extern GtkWidget *entree_separe_perso_etat;
 
 extern GtkWidget *liste_comptes_etat;
 extern GtkWidget *bouton_detaille_comptes_etat;

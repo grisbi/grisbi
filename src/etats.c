@@ -55,6 +55,15 @@ gchar *liste_type_classement[] = {
   "Tiers -> Catégories -> I.B.",
   NULL };
 
+gchar *jours_semaine[] = {
+  "Lundi",
+  "Mardi",
+  "Mercredi",
+  "Jeudi",
+  "Vendredi",
+  "Samedi",
+  "Dimanche",
+  NULL };
 
 
 
@@ -784,6 +793,8 @@ void personnalisation_etat (void)
       pointeur_liste = pointeur_liste -> next;
     }
 
+  etat -> separation_par_exo = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_separe_exo_etat ));
+
   etat -> no_plage_date = GPOINTER_TO_INT ( GTK_CLIST ( liste_plages_dates_etat ) -> selection -> data );
 
   if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_date_init_etat ))))
@@ -819,6 +830,15 @@ void personnalisation_etat (void)
 						mois,
 						annee );
     }
+
+  etat -> separation_par_plage = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_separe_plages_etat ));
+  etat -> type_separation_plage = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_type_separe_plages_etat ) -> menu_item ),
+									  "type" ));
+  etat -> jour_debut_semaine = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_debut_semaine ) -> menu_item ),
+									  "jour" ));
+  etat -> type_separation_perso = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_type_separe_perso_etat ) -> menu_item ),
+									  "type" ));
+  etat -> delai_separation_perso = atoi ( gtk_entry_get_text ( GTK_ENTRY ( entree_separe_perso_etat )));
 
   /* récupération des comptes */
 
@@ -1082,6 +1102,8 @@ GtkWidget *onglet_etat_dates ( struct struct_etat *etat )
   GtkWidget *hbox;
   GtkWidget *label;
   GtkWidget *frame;
+  GtkWidget *menu;
+  GtkWidget *menu_item;
 
   widget_retour = gtk_hbox_new ( FALSE,
 				 5 );
@@ -1171,6 +1193,14 @@ GtkWidget *onglet_etat_dates ( struct struct_etat *etat )
   gtk_clist_set_column_auto_resize ( GTK_CLIST ( liste_exo_etat ),
 				     0,
 				     TRUE );
+  gtk_signal_connect ( GTK_OBJECT ( liste_exo_etat ),
+		       "select-row",
+		       GTK_SIGNAL_FUNC ( verifie_separation_exo_possible ),
+		       NULL );
+  gtk_signal_connect ( GTK_OBJECT ( liste_exo_etat ),
+		       "unselect-row",
+		       GTK_SIGNAL_FUNC ( verifie_separation_exo_possible ),
+		       NULL );
   gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
 		      liste_exo_etat );
   gtk_widget_show ( liste_exo_etat );
@@ -1198,6 +1228,14 @@ GtkWidget *onglet_etat_dates ( struct struct_etat *etat )
 
       pointeur_liste = pointeur_liste -> next;
     }
+
+  bouton_separe_exo_etat = gtk_check_button_new_with_label ( "Séparer les résultats par exercice" );
+  gtk_box_pack_start ( GTK_BOX ( vbox_utilisation_exo ),
+		       bouton_separe_exo_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_separe_exo_etat );
 
   separateur = gtk_vseparator_new ();
   gtk_box_pack_start ( GTK_BOX ( widget_retour ),
@@ -1230,13 +1268,20 @@ GtkWidget *onglet_etat_dates ( struct struct_etat *etat )
 
   /* on met en dessous une liste avec les plages de date proposées */
 
-  vbox_utilisation_date = gtk_vbox_new ( FALSE,
-					5 );
+  frame = gtk_frame_new (NULL);
   gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       vbox_utilisation_date,
+		       frame,
 		       TRUE,
 		       TRUE,
 		       0 );
+  gtk_widget_show ( frame );
+
+  vbox_utilisation_date = gtk_vbox_new ( FALSE,
+					5 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( vbox_utilisation_date ),
+				   10 );
+  gtk_container_add ( GTK_CONTAINER ( frame ),
+		      vbox_utilisation_date );
   gtk_widget_show ( vbox_utilisation_date );
 
   scrolled_window = gtk_scrolled_window_new ( FALSE,
@@ -1355,6 +1400,204 @@ GtkWidget *onglet_etat_dates ( struct struct_etat *etat )
 		       0 );
   gtk_widget_show ( entree_date_finale_etat );
 
+  
+  /* on permet ensuite la séparation des résultats */
+
+  separateur = gtk_hseparator_new ();
+  gtk_box_pack_start ( GTK_BOX ( vbox_utilisation_date ),
+		       separateur,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( separateur );
+
+
+  bouton_separe_plages_etat = gtk_check_button_new_with_label ( "Séparer les résultats par période" );
+  gtk_signal_connect ( GTK_OBJECT ( bouton_separe_plages_etat ),
+		       "toggled",
+		       GTK_SIGNAL_FUNC ( change_separation_result_periode ),
+		       NULL );
+  gtk_box_pack_start ( GTK_BOX ( vbox_utilisation_date ),
+		       bouton_separe_plages_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_separe_plages_etat );
+
+  /* mise en place de la ligne type - choix perso */
+
+  hbox = gtk_hbox_new ( FALSE,
+			5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox_utilisation_date ),
+		       hbox,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( hbox );
+
+ 
+
+  bouton_type_separe_plages_etat = gtk_option_menu_new ();
+
+  menu = gtk_menu_new ();
+
+  menu_item = gtk_menu_item_new_with_label ( "Semaine" );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"type",
+			NULL );
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( modif_type_separation_dates ),
+			      NULL );
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( "Mois" );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"type",
+			GINT_TO_POINTER (1) );
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( modif_type_separation_dates ),
+			      GINT_TO_POINTER (1) );
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( "Année" );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"type",
+			GINT_TO_POINTER (2));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( modif_type_separation_dates ),
+			      GINT_TO_POINTER (2));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( "Personnalisé" );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"type",
+			GINT_TO_POINTER (3));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( modif_type_separation_dates ),
+			      GINT_TO_POINTER (3));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_type_separe_plages_etat ),
+			     menu );
+  gtk_widget_show ( menu );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton_type_separe_plages_etat,
+		       FALSE, 
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_type_separe_plages_etat );
+
+  entree_separe_perso_etat = gtk_entry_new ();
+  gtk_widget_set_usize ( entree_separe_perso_etat,
+			 50,
+			 FALSE );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       entree_separe_perso_etat,
+		       FALSE, 
+		       FALSE,
+		       0 );
+  gtk_widget_show ( entree_separe_perso_etat );
+
+
+  bouton_type_separe_perso_etat = gtk_option_menu_new ();
+
+  menu = gtk_menu_new ();
+
+  menu_item = gtk_menu_item_new_with_label ( "Jours" );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"type",
+			GINT_TO_POINTER (0));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( "Mois" );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"type",
+			GINT_TO_POINTER (1));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( "Ans" );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"type",
+			GINT_TO_POINTER (2));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_type_separe_perso_etat ),
+			     menu );
+  gtk_widget_show ( menu );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton_type_separe_perso_etat,
+		       FALSE, 
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_type_separe_perso_etat );
+
+  /* mise en place de la ligne de début de semaine */
+
+  hbox = gtk_hbox_new ( FALSE,
+			5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox_utilisation_date ),
+		       hbox,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( hbox );
+
+  label = gtk_label_new ( "La semaine commence le " );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       label,
+		       FALSE, 
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
+
+
+  bouton_debut_semaine = gtk_option_menu_new ();
+
+  menu = gtk_menu_new ();
+
+  i = 0;
+
+  while ( jours_semaine[i] )
+    {
+      menu_item = gtk_menu_item_new_with_label ( jours_semaine[i] );
+      gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			    "jour",
+			    GINT_TO_POINTER (i));
+      gtk_menu_append ( GTK_MENU ( menu ),
+			menu_item );
+      gtk_widget_show ( menu_item );
+      i++;
+    }
+
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_debut_semaine ),
+			     menu );
+  gtk_widget_show ( menu );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton_debut_semaine,
+		       FALSE, 
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_debut_semaine );
+
+
 
   /* on remplit maintenant en fonction des données */
 
@@ -1393,6 +1636,25 @@ GtkWidget *onglet_etat_dates ( struct struct_etat *etat )
     }
 
 
+  /* on grise/dégrise le bouton de séparation par exo suivant qu'il y ai plusieurs exos sélectionnés */
+
+  if ( etat -> no_exercices
+       &&
+       g_slist_length ( etat -> no_exercices ) > 1 )
+    {
+      gtk_widget_set_sensitive ( bouton_separe_exo_etat,
+				 TRUE );
+      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_separe_exo_etat ),
+				     etat -> separation_par_exo );
+    }
+  else
+    {
+      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_separe_exo_etat ),
+				     FALSE );
+      gtk_widget_set_sensitive ( bouton_separe_exo_etat,
+				 FALSE );
+    }
+
   /* on sélectionne la plage de date */
 
   gtk_clist_select_row ( GTK_CLIST ( liste_plages_dates_etat ),
@@ -1430,7 +1692,62 @@ GtkWidget *onglet_etat_dates ( struct struct_etat *etat )
 					   g_date_month ( etat -> date_perso_fin ),
 					   g_date_year ( etat -> date_perso_fin )));
 
+  /* on remplit les détails de la séparation des dates */
+
+  if ( etat -> separation_par_plage )
+    {
+      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_separe_plages_etat ),
+				     TRUE );
+      gtk_widget_set_sensitive ( bouton_type_separe_plages_etat,
+				 TRUE );
+      modif_type_separation_dates ( GINT_TO_POINTER ( etat -> type_separation_plage ));
+    }
+  else
+    {
+      gtk_widget_set_sensitive ( bouton_type_separe_plages_etat,
+				 FALSE );
+      gtk_widget_set_sensitive ( bouton_debut_semaine,
+				 FALSE );
+      gtk_widget_set_sensitive ( bouton_type_separe_perso_etat,
+				 FALSE );
+      gtk_widget_set_sensitive ( entree_separe_perso_etat,
+				 FALSE );
+    }
+
+  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_type_separe_plages_etat ),
+				etat -> type_separation_plage );
+  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_debut_semaine ),
+				etat -> jour_debut_semaine );
+  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_type_separe_perso_etat ),
+				etat -> type_separation_perso );
+
+  if ( etat -> delai_separation_perso )
+    gtk_entry_set_text ( GTK_ENTRY ( entree_separe_perso_etat ),
+			 itoa ( etat -> delai_separation_perso ));
+
+
   return ( widget_retour );
+}
+/*****************************************************************************************************/
+
+
+/*****************************************************************************************************/
+/* vérifie que plusieurs lignes de la liste des exos sont sélectionnées */
+/* pour pouvoir séparer les résultats */
+/*****************************************************************************************************/
+
+void verifie_separation_exo_possible ( void )
+{
+  if ( g_list_length ( GTK_CLIST ( liste_exo_etat ) -> selection ) > 1 )
+    gtk_widget_set_sensitive ( bouton_separe_exo_etat,
+			       TRUE );
+  else
+    {
+      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_separe_exo_etat ),
+				     FALSE );
+      gtk_widget_set_sensitive ( bouton_separe_exo_etat,
+				 FALSE );
+    }
 }
 /*****************************************************************************************************/
 
@@ -1694,6 +2011,67 @@ void click_detaille_exo_etat ( void )
 /*****************************************************************************************************/
 
 
+/*****************************************************************************************************/
+void change_separation_result_periode ( void )
+{
+  if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_separe_plages_etat )))
+    {
+      gtk_widget_set_sensitive ( bouton_type_separe_plages_etat,
+				 TRUE );
+      modif_type_separation_dates ( gtk_object_get_data ( GTK_OBJECT ( bouton_type_separe_plages_etat ),
+							  "type" ));
+    }
+  else
+    {
+      gtk_widget_set_sensitive ( bouton_type_separe_plages_etat,
+				 FALSE );
+      gtk_widget_set_sensitive ( bouton_debut_semaine,
+				 FALSE );
+      gtk_widget_set_sensitive ( bouton_type_separe_perso_etat,
+				 FALSE );
+      gtk_widget_set_sensitive ( entree_separe_perso_etat,
+				 FALSE );
+    }
+}
+/*****************************************************************************************************/
+
+
+
+/*****************************************************************************************************/
+void modif_type_separation_dates ( gint *origine )
+{
+
+  switch ( GPOINTER_TO_INT ( origine ))
+    {
+    case 0:
+      gtk_widget_set_sensitive ( bouton_debut_semaine,
+				 TRUE );
+      gtk_widget_set_sensitive ( bouton_type_separe_perso_etat,
+				 FALSE );
+      gtk_widget_set_sensitive ( entree_separe_perso_etat,
+				 FALSE );
+      break;
+
+    case 1:
+    case 2:
+      gtk_widget_set_sensitive ( bouton_debut_semaine,
+				 FALSE );
+      gtk_widget_set_sensitive ( bouton_type_separe_perso_etat,
+				 FALSE );
+      gtk_widget_set_sensitive ( entree_separe_perso_etat,
+				 FALSE );
+      break;
+
+    case 3:
+      gtk_widget_set_sensitive ( bouton_debut_semaine,
+				 FALSE );
+      gtk_widget_set_sensitive ( bouton_type_separe_perso_etat,
+				 TRUE );
+      gtk_widget_set_sensitive ( entree_separe_perso_etat,
+				 TRUE );
+    }
+}
+/*****************************************************************************************************/
 
 
 
