@@ -170,8 +170,11 @@ int main (int argc, char *argv[])
 			    window_vbox_principale );
 	gtk_widget_show ( window_vbox_principale );
 
-	/*   création des menus */
 
+	init_variables ();
+	charge_configuration();
+
+	/*   création des menus */
 	menu_general = init_menus ( window_vbox_principale );
 	gtk_box_pack_start ( GTK_BOX ( window_vbox_principale ),
 			     menu_general,
@@ -182,12 +185,9 @@ int main (int argc, char *argv[])
 	/* on grise les fonctions inutiles au départ */
 
 	menus_sensitifs ( FALSE );
-	init_variables ();
 
 	style_label_nom_compte = NULL;
 
-
-	charge_configuration();
 
 	/* on met dans le menu les derniers fichiers ouverts */
 
