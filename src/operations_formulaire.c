@@ -2788,11 +2788,8 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
     {
       /* c'est une devise étrangère, on demande le taux de change et les frais de change */
 
-      demande_taux_de_change ( devise_compte,
-			       devise,
-			       1,
-			       ( gdouble ) 0,
-			       ( gdouble ) 0 );
+      demande_taux_de_change ( devise_compte, devise, 1,
+			       ( gdouble ) 0, ( gdouble ) 0, FALSE );
 
       operation -> taux_change = taux_de_change[0];
       operation -> frais_change = taux_de_change[1];
@@ -3269,11 +3266,8 @@ void validation_virement_operation ( struct structure_operation *operation,
     {
       /* c'est une devise étrangère, on demande le taux de change et les frais de change */
 	  
-      demande_taux_de_change ( devise_compte_2,
-			       devise,
-			       1,
-			       (gdouble ) 0,
-			       (gdouble ) 0 );
+      demande_taux_de_change ( devise_compte_2, devise, 1,
+			       (gdouble ) 0, (gdouble ) 0, FALSE );
 
       contre_operation -> taux_change = taux_de_change[0];
       contre_operation -> frais_change = taux_de_change[1];
@@ -3658,11 +3652,10 @@ void click_sur_bouton_voir_change ( void )
 				 GINT_TO_POINTER ( operation -> devise ),
 				 ( GCompareFunc ) recherche_devise_par_no ) -> data;
 
-  demande_taux_de_change ( devise_compte,
-			   devise,
+  demande_taux_de_change ( devise_compte, devise,
 			   operation -> une_devise_compte_egale_x_devise_ope,
-			   operation -> taux_change,
-			   operation -> frais_change );
+			   operation -> taux_change, operation -> frais_change, 
+			   TRUE );
       
   if ( taux_de_change[0] ||  taux_de_change[1] )
     {

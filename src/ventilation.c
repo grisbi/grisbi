@@ -2877,7 +2877,8 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 							       devise_compte_1,
 							       1,
 							       (gdouble ) 0,
-							       (gdouble ) 0 );
+							       (gdouble ) 0,
+							       FALSE );
 
 				      ope_modifiee_2 -> taux_change = taux_de_change[0];
 				      ope_modifiee_2 -> frais_change = taux_de_change[1];
@@ -3090,11 +3091,8 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 		    {
 		      /* c'est une devise étrangère, on demande le taux de change et les frais de change */
 	  
-		      demande_taux_de_change ( devise_compte_2,
-					       devise_compte_1,
-					       1,
-					       (gdouble ) 0,
-					       (gdouble ) 0 );
+		      demande_taux_de_change ( devise_compte_2, devise_compte_1, 1,
+					       (gdouble ) 0, (gdouble ) 0, FALSE );
 
 		      nouvelle_ope_2 -> taux_change = taux_de_change[0];
 		      nouvelle_ope_2 -> frais_change = taux_de_change[1];
