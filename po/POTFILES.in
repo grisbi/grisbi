@@ -74,3 +74,8 @@ src/utils_str.c
 src/utils_tiers.c
 src/utils_types.c
 src/ventilation.c
+src/traitement_variables_constants.h
+src/etats_config_constants.h
+src/devises_constants.h
+src/categories_onglet_constants.h
+src/affichage_liste_constants.h
