@@ -5,6 +5,7 @@
 /* contient toutes les structures du prog */
 
 #include "print_config.h"
+#include "constants.h"
 
 
 #define VERSION_FICHIER "0.5.1"
@@ -177,7 +178,6 @@ struct structure_operation
 };
 
 
-#define TRANSACTION_LIST_COL_NB 7
 
 struct donnees_compte
 {
@@ -677,33 +677,6 @@ struct iso_4217_currency
 
 #define STANDARD_WIDTH 6
 #define STANDARD_DIALOG_WIDTH 12
-
-
-
-/* Widget numbers for transaction form */
-enum transaction_form_widget {
-    TRANSACTION_FORM_OP_NB = 0,
-    TRANSACTION_FORM_DATE = 1,
-    TRANSACTION_FORM_PARTY = 2,
-    TRANSACTION_FORM_DEBIT = 3,
-    TRANSACTION_FORM_CREDIT = 4,
-    TRANSACTION_FORM_DEVISE = 5,
-    TRANSACTION_FORM_CHANGE,
-    TRANSACTION_FORM_VALUE_DATE,
-    TRANSACTION_FORM_CATEGORY,
-    TRANSACTION_FORM_TYPE,
-    TRANSACTION_FORM_CHEQUE = 10,
-    TRANSACTION_FORM_EXERCICE,
-    TRANSACTION_FORM_BUDGET,
-    TRANSACTION_FORM_CONTRA,
-    TRANSACTION_FORM_VOUCHER,
-    TRANSACTION_FORM_BREAKDOWN = 15,
-    TRANSACTION_FORM_NOTES,
-    TRANSACTION_FORM_BANK,
-    TRANSACTION_FORM_MODE = 18,
-};
-
-
 
 
 
