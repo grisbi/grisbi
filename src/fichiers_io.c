@@ -451,7 +451,6 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 	case 51:
 
 
-
 	    break;
 
 	    /* ************************************* */
@@ -470,7 +469,7 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 
 	    dialogue_error ( g_strdup_printf ( _("Grisbi version %s is needed to open this file.\nYou are using version %s."),
 					       version -> version_fichier,
-					       version -> version_grisbi ));
+					       VERSION ));
 
 	    return ( FALSE );
     }
