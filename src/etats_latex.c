@@ -25,9 +25,11 @@
 #include "variables-extern.c"
 #include "en_tete.h"
 
+#include "etats.h"
 #include "etats_latex.h"
 
 int lastline = 0;
+int lastcol = 0;
 int last_is_hsep = 0;
 FILE * out;
 
@@ -45,34 +47,50 @@ struct struct_etat_affichage latex_affichage = {
  * FIXME: TODO
  *
  */
-void latex_attach_label ( gchar * text, int x, int x2, int y, int y2, 
+void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
 			  enum alignement align, struct structure_operation * ope )
 {
   gchar * safe_text;
+  int pad, realsize, realcolumns;
 
   if ( !text )
     text = "";
 
-  fprintf ( out, "%% %d,%d -> %d,%d : %s\n", x, x2, y, y2, text );
+/*   fprintf ( out, "%% %d,%d -> %d,%d : %s\n", x, y, x2, y2, text ); */
 
   if ( y >= lastline )
     {
+      lastcol = 0;
       lastline = y2;
       if ( ! last_is_hsep )
 	{
-	  int pad;
 	  fprintf ( out, "\\\\\n" );
-	  for ( pad = 0 ; pad < x ; pad ++ )
-	    latex_attach_label ( NULL, pad, pad+1, y, y2, align, ope );
 	}
     }
-  else
+
+  for ( pad = lastcol ; pad < x ; pad ++ )
+    fprintf ( out, "&" );
+
+  if ( (x2 - x) > 1 )
+    fprintf ( out, "\\multicolumn{%d}{l}{", (x2 - x) );
+
+  realsize = (x2 - x);
+  if ( realsize > 1 )
     {
-      fprintf ( out, "&{\\vrule}&", text );
+      realsize /= 2;
+      if ( x == 0 )
+	realsize ++;
     }
+  if ( etat_courant -> afficher_opes )
+    realcolumns = (float)((nb_colonnes / 2) + 1);
+  else 
+    realcolumns = nb_colonnes;
 
-
-  fprintf ( out, "\\begin{minipage}{\\hsize}\n" );
+  fprintf ( out, 
+	    "\\fboxsep \\parskip\n"
+	    "\\fboxrule 0pt\n"
+	    "\\begin{boxedminipage}{%f\\textwidth}\n", 
+	    (float) realsize / (float) realcolumns );
 
   switch ( align )
     {
@@ -88,14 +106,37 @@ void latex_attach_label ( gchar * text, int x, int x2, int y, int y2,
       break;
     }
 
-  safe_text = latex_safe(text);
-  fprintf ( out, "%s\n\\end{minipage}", safe_text );
-  free ( safe_text );
+  if ( ((int) properties) & TEXT_BOLD )
+    {
+      fprintf ( out, "\\bf\n");
+    }
+  if ( ((int) properties) & TEXT_ITALIC )
+    {
+      fprintf ( out, "\\em\n");
+    }
+  if ( ((int) properties) & TEXT_HUGE )
+    {
+      fprintf ( out, "\\huge\n");
+    }
+  if ( ((int) properties) & TEXT_LARGE )
+    {
+      fprintf ( out, "\\Large\n");
+    }
+  if ( ((int) properties) & TEXT_SMALL )
+    {
+      fprintf ( out, "\\small\n");
+    }
 
-/*   if ( x2 < nb_colonnes ) */
-/*     fprintf ( out, "&{\\vrule}&", text ); */
+  latex_safe(text);
+  fprintf ( out, "\\end{boxedminipage}", safe_text );
+
+  if ( (x2 - x) > 1 )
+    fprintf ( out, "}\n" );
+
+  fprintf ( out, "&" );
 
   last_is_hsep = 0;
+  lastcol = x2;
 }
 
 
@@ -116,6 +157,7 @@ void latex_attach_vsep ( int x, int x2, int y, int y2)
   fprintf ( out, "{\\vrule}&" );
 
   last_is_hsep = 0;
+  lastcol = x2;
 }
 
 
@@ -126,15 +168,14 @@ void latex_attach_vsep ( int x, int x2, int y, int y2)
  */
 void latex_attach_hsep ( int x, int x2, int y, int y2)
 {
-/*   if ( y > lastline ) */
-/*     {       */
-      if ( ! last_is_hsep )
-	fprintf ( out, "\\\\\n" );
-      lastline = y2;
-/*     } */
+  if ( ! last_is_hsep )
+    fprintf ( out, "\\\\\n" );
+  lastline = y2;
+  
   fprintf ( out, "\\hline\n" );
 
   last_is_hsep = 1;
+  lastcol = x2;
 }
 
 
@@ -142,6 +183,7 @@ void latex_attach_hsep ( int x, int x2, int y, int y2)
 gint latex_initialise (GSList * opes_selectionnees)
 {
   int i;
+  gfloat colwidth;
 
   out = fopen ("toto.tex", "w");
   if (! out)
@@ -156,17 +198,36 @@ gint latex_initialise (GSList * opes_selectionnees)
 	   "\\usepackage{a4}\n"
 	   "\\usepackage[utf8]{inputenc}\n"
 	   "\\usepackage{eurosym}\n"
-	   "\\usepackage{landscape}\n"
+	   "\\usepackage{portland}\n"
+	   "\\usepackage{boxedminipage}\n"
 	   "\\usepackage{longtable}\n"
+	   "\\usepackage{vmargin}\n"
+	   "\\setpapersize{A4}\n"
+	   "\\setmarginsrb{1cm}{1cm}{1cm}{1cm}{0cm}{0cm}{0cm}{0cm}\n\n"
 	   "\\begin{document}\n\n"
+	   "\\landscape\n"
+	   "\\tabcolsep 0pt\n"
 	   "\\begin{longtable}[l]{");
 
-  for (i = 1 ; i < nb_colonnes ; i++)
+    if ( etat_courant -> afficher_opes )
     {
-      fprintf (out, "p{3cm}c");
+      colwidth = 27.7 / ((float) (nb_colonnes / 2) + 1 );
+      fprintf ( out, "p{%fcm}", colwidth);
+      for (i = 0 ; i < nb_colonnes/2 ; i++)
+	{
+	  fprintf ( out, "p{%fcm}p{1pt}", colwidth );
+	}
+      fprintf ( out, "}" );
     }
-
-  fprintf (out, "p{3cm}}\n");
+  else 
+    {
+      colwidth = 27.7 / (float) nb_colonnes;
+      for (i = 0 ; i < nb_colonnes ; i++)
+	{
+	  fprintf (out, "p{%fcm}", colwidth);
+	}
+      fprintf (out, "p{1pt}}\n", colwidth);
+    }
 
   return 1;
 }
@@ -175,7 +236,7 @@ gint latex_initialise (GSList * opes_selectionnees)
 
 gint latex_finish ()
 {
-  fprintf (out, "\\end{longtable}\n"
+  fprintf (out, "\n\\end{longtable}\n"
 	   "\\end{document}\n");
 
   fclose (out);
@@ -183,36 +244,47 @@ gint latex_finish ()
   if ( system ( "latex -interaction=nonstopmode toto.tex" ) > 0 )
     dialogue ( _("LaTeX run was unable to complete, see console output for details.") );
   else 
-    system ( "xdvi toto.dvi &" );
+    {
+      if ( !system ( "dvips -t landscape toto.dvi" ) )
+	{
+	  system ( "gv toto.ps &" );
+	}
+      else 
+	dialogue ( _("dvips was unable to complete, see console output for details.") );
+    }
   
   return 1;
 }
 
 
 
-gchar * latex_safe ( gchar * text ) {
-  gchar * safe_text, *tmp;
+void latex_safe ( gchar * text ) 
+{
+    gboolean start = 1;
 
   if ( ! text || ! strlen(text))
-    return "";
+    return;
 
-  safe_text = malloc ( strlen(text) * 2 );
-
-  for ( tmp = safe_text ; * text; text ++, tmp++ )
+  for ( ; * text; text ++ )
     {
       switch ( * text )
 	{
+	case ' ':
+	  if ( start )
+	    fprintf ( out, "~" );
+	  else
+	    fprintf ( out, "%c", *text );
+	  break;
+
 	case '&':
 	case '\\':
-	  *tmp = '\\';
-	  *tmp++;
+	  fprintf ( out, "\\" );
 
 	default:
-	  *tmp = *text;
+	  start = 0;
+	  fprintf ( out, "%c", *text );
 	  break;
 	}
     }
-  *tmp = 0;
 
-  return safe_text;
 }
