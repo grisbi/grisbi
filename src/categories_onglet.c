@@ -65,7 +65,7 @@ gchar *categories_de_base_debit [] = {
   N_("Financial expenses : Charges"),
   N_("Financial expenses : Refunding"),
   N_("Professionnal expenses : Non refundable"),
-  N_("Professionnal expenses : Refundable"),
+  N_("Financial expenses : Refundable"),
   N_("Taxes : Miscelanious"),
   N_("Taxes : Income"),
   N_("Taxes : Land"),
@@ -308,9 +308,7 @@ GtkWidget *onglet_categories ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  /* FIXME */
-  bouton_modif_categ_modifier = gtk_button_new_from_stock (GTK_STOCK_APPLY);
-/*   bouton_modif_categ_modifier = gnome_stock_button ( GNOME_STOCK_BUTTON_APPLY ); */
+  bouton_modif_categ_modifier = gnome_stock_button ( GNOME_STOCK_BUTTON_APPLY );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_modif_categ_modifier ),
 			  GTK_RELIEF_NONE );
   gtk_widget_set_sensitive ( bouton_modif_categ_modifier,
@@ -326,9 +324,7 @@ GtkWidget *onglet_categories ( void )
 		       0 );
   gtk_widget_show ( bouton_modif_categ_modifier );
 
-  /* FIXME */
-  bouton_modif_categ_annuler = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
-/*   bouton_modif_categ_annuler = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL ); */
+  bouton_modif_categ_annuler = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_modif_categ_annuler ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton_modif_categ_annuler ),
@@ -344,9 +340,7 @@ GtkWidget *onglet_categories ( void )
 		       0 );
   gtk_widget_show ( bouton_modif_categ_annuler);
 
-  /* FIXME */
-  bouton_supprimer_categ = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
-/*   bouton_supprimer_categ = gnome_stock_button ( GNOME_STOCK_PIXMAP_REMOVE ); */
+  bouton_supprimer_categ = gnome_stock_button ( GNOME_STOCK_PIXMAP_REMOVE );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_supprimer_categ ),
 			  GTK_RELIEF_NONE );
   gtk_widget_set_sensitive ( bouton_supprimer_categ,
@@ -625,7 +619,7 @@ void remplit_arbre_categ ( void )
       if ( tab_montant_categ[place_categ+1] )
 	text[1] = g_strdup_printf ( "%4.2f %s",
 				    tab_montant_categ[place_categ+1],
-				    devise_name ( devise_compte ) );
+				    devise_compte -> code_devise );
       else
 	text[1] = NULL;
       text[2] = NULL;
@@ -682,7 +676,7 @@ void remplit_arbre_categ ( void )
 	       tab_montant_sous_categ[place_categ][place_sous_categ+1] )
 	    text[2] = g_strdup_printf ( "%4.2f %s",
 					tab_montant_sous_categ[place_categ][place_sous_categ+1],
-					devise_name ( devise_compte ) );
+					devise_compte -> code_devise );
 	  else
 	    text[2] = NULL;
 
@@ -748,7 +742,7 @@ void remplit_arbre_categ ( void )
 	  if ( tab_montant_sous_categ[place_categ][0] )
 	    text[2] = g_strdup_printf ( "%4.2f %s",
 					tab_montant_sous_categ[place_categ][0],
-					devise_name ( devise_compte ) );
+					devise_compte -> code_devise );
 	  else
 	    text[2] = NULL;
 
@@ -808,7 +802,7 @@ void remplit_arbre_categ ( void )
 
       text[1] = g_strdup_printf ( "%4.2f %s",
 				  tab_montant_categ[0],
-				  devise_name ( devise_compte ) );
+				  devise_compte -> code_devise );
       text[2] = NULL;
       text[3] = NULL;
 
@@ -838,7 +832,7 @@ void remplit_arbre_categ ( void )
       text[1] = NULL;
       text[2] = g_strdup_printf ( "%4.2f %s",
 				  tab_montant_categ[0],
-				  devise_name ( devise_compte ) );
+				  devise_compte -> code_devise );
       text[3] = NULL;
 
       ligne_sous_categ = gtk_ctree_insert_node ( GTK_CTREE ( arbre_categ ),
@@ -1428,12 +1422,12 @@ void clique_sur_modifier_categ ( void )
 				     "adr_struct_categ" );
 
 
-      if ( strcmp ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_categ ))),
+      if ( strcmp ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_nom_categ ))),
 		    categ -> nom_categ ))
 	{
 	  free ( categ -> nom_categ );
 
-	  categ -> nom_categ = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_categ ))) );
+	  categ -> nom_categ = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_nom_categ ))) );
 
 
 	  node = GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_categ ) -> selection ) -> data );
@@ -1471,7 +1465,7 @@ void clique_sur_modifier_categ ( void )
 
       free ( sous_categ -> nom_sous_categ );
 
-      sous_categ -> nom_sous_categ = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_categ ))) );
+      sous_categ -> nom_sous_categ = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_nom_categ ))) );
 
 
       node = GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_categ ) -> selection ) -> data );
@@ -1554,6 +1548,11 @@ void supprimer_categ ( void )
   GtkCTreeNode *node;
   gint i;
   gint ope_trouvee;
+  gint echeance_trouvee;
+
+  /* ALAIN-FIXME il y a des GSList *liste_tmp un peu partout dans cette fonction,
+  il faudrait voir si on ne peut pas se contenter d'une seule */
+  GSList *liste_tmp2;
 
 
   if ( !gtk_object_get_data ( GTK_OBJECT (  entree_nom_categ ),
@@ -1597,8 +1596,29 @@ void supprimer_categ ( void )
       p_tab_nom_de_compte_variable++;
     }
 
+  /* fait le tour des échéances pour en trouver une qui a cette catégorie  */
 
-  if ( ope_trouvee )
+  liste_tmp2 = gsliste_echeances;
+  echeance_trouvee = 0;
+
+  while ( liste_tmp2 )
+    {
+      struct operation_echeance *echeance;
+
+      echeance = liste_tmp2 -> data;
+
+      if ( echeance -> categorie == categ -> no_categ )
+        {
+          echeance_trouvee = 1;
+          liste_tmp2 = NULL;
+        }
+      else
+      liste_tmp2 = liste_tmp2 -> next;
+    }
+
+
+
+  if ( ope_trouvee || echeance_trouvee )
     {
       GtkWidget *dialog;
       GtkWidget *label;
@@ -1886,7 +1906,11 @@ void supprimer_sous_categ ( void )
   GtkCTreeNode *node;
   gint i;
   gint ope_trouvee;
-
+  gint echeance_trouvee;
+  
+  /* ALAIN-FIXME il y a des GSList *liste_tmp un peu partout dans cette fonction,
+  il faudrait voir si on ne peut pas se contenter d'une seule */
+  GSList *liste_tmp2;
 
 
   node = GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_categ ) -> selection ) -> data );
@@ -1932,7 +1956,27 @@ void supprimer_sous_categ ( void )
     }
 
 
-  if ( ope_trouvee )
+  /* fait le tour des échéances pour en trouver une qui a cette catégorie  */
+
+  liste_tmp2 = gsliste_echeances;
+  echeance_trouvee = 0;
+
+  while ( liste_tmp2 )
+    {
+      struct operation_echeance *echeance;
+
+      echeance = liste_tmp2 -> data;
+
+      if ( echeance -> categorie == categ -> no_categ && echeance -> sous_categorie == sous_categ -> no_sous_categ )
+        {
+          echeance_trouvee = 1;
+          liste_tmp2 = NULL;
+        }
+      else
+      liste_tmp2 = liste_tmp2 -> next;
+    }
+
+  if ( ope_trouvee || echeance_trouvee )
     {
       GtkWidget *dialog;
       GtkWidget *label;
@@ -2171,9 +2215,6 @@ void supprimer_sous_categ ( void )
 
       liste_tmp = gsliste_echeances;
 
-
-  modification_fichier(TRUE);
-
       while ( liste_tmp )
 	{
 	  struct operation_echeance *echeance;
@@ -2194,6 +2235,7 @@ void supprimer_sous_categ ( void )
 	  liste_tmp = liste_tmp -> next;
 	}
 
+      modification_fichier(TRUE);
 
       demande_mise_a_jour_tous_comptes ();
 
@@ -2805,7 +2847,7 @@ gchar *calcule_total_montant_categ_par_compte ( gint categ,
   if ( retour_int )
     return ( g_strdup_printf ( "%4.2f %s",
 			       retour_int,
-			       devise_name ( devise_compte ) ));
+			       devise_compte -> code_devise ));
   else
     return ( NULL );
 }
@@ -2994,7 +3036,7 @@ void exporter_categ ( void )
   switch ( resultat )
     {
     case 0 :
-      nom_categ = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
+      nom_categ = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
 
       gnome_dialog_close ( GNOME_DIALOG ( dialog ));
 
@@ -3190,7 +3232,7 @@ void importer_categ ( void )
   switch ( resultat )
     {
     case 0 :
-      nom_categ = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
+      nom_categ = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
 
       gnome_dialog_close ( GNOME_DIALOG ( dialog ));
 

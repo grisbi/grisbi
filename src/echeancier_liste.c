@@ -387,9 +387,8 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
 		      hbox2 );
   gtk_widget_show ( hbox2 );
 
-  /* FIXME */
-/*   icone = gnome_stock_new_with_icon ( GNOME_STOCK_PIXMAP_REFRESH ); */
-  icone = gtk_image_new_from_stock (GTK_STOCK_PRINT, GTK_ICON_SIZE_BUTTON);  
+
+  icone = gnome_stock_new_with_icon ( GNOME_STOCK_PIXMAP_REFRESH );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       icone,
 		       FALSE,
@@ -636,6 +635,9 @@ gboolean traitement_clavier_liste_echeances ( GtkCList *liste_echeances,
       supprime_echeance ();
       break;
 
+
+
+    default :
     }
 
   return ( TRUE );    
@@ -1168,16 +1170,21 @@ void edition_echeance ( void )
 	  categorie =  g_slist_find_custom ( liste_struct_categories,
 					     GINT_TO_POINTER ( echeance_selectionnnee -> categorie ),
 					     (GCompareFunc) recherche_categorie_par_no ) ->data;
+	  
+	  /* ALAIN-FIXME on teste la valeur de retour du pointeur suite à la découverte du bug #122
+	  s'il est nul, on ne fait rien. Il faudrait prévoir quelque chose */
+	  if ( categorie != NULL )
+	    {
+	      texte = categorie -> nom_categ;
 
-	  texte = categorie -> nom_categ;
-
-	  if ( echeance_selectionnnee -> sous_categorie )
-	    texte = g_strconcat ( texte,
-				  " : ",
-				  ((struct struct_sous_categ *)(g_slist_find_custom ( categorie -> liste_sous_categ,
-										      GINT_TO_POINTER ( echeance_selectionnnee -> sous_categorie ),
-										      (GCompareFunc) recherche_sous_categorie_par_no )->data)) -> nom_sous_categ,
-				  NULL );
+	      if ( echeance_selectionnnee -> sous_categorie )
+		texte = g_strconcat ( texte,
+				    " : ",
+				    ((struct struct_sous_categ *)(g_slist_find_custom ( categorie -> liste_sous_categ,
+										        GINT_TO_POINTER ( echeance_selectionnnee -> sous_categorie ),
+										        (GCompareFunc) recherche_sous_categorie_par_no )->data)) -> nom_sous_categ,
+				    NULL );
+	    }
 	}
       else
 	{
@@ -1400,6 +1407,7 @@ void supprime_echeance ( void )
       remplissage_liste_echeance ();
       break;
 
+    default:
     }
 
   mise_a_jour_calendrier();
@@ -1990,7 +1998,7 @@ void modification_affichage_echeances ( gint *origine )
 
     case 5:
 
-      affichage_echeances_perso_nb_libre = atoi ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree_personnalisation_affichage_echeances ))));
+      affichage_echeances_perso_nb_libre = atoi ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_personnalisation_affichage_echeances ))));
 
       break;
 
@@ -2028,6 +2036,7 @@ void modification_affichage_echeances ( gint *origine )
 
       break;
 
+    default :
     }
 
   remplissage_liste_echeance ();
