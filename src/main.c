@@ -3,13 +3,14 @@
 /* Programme de gestion financière personnelle                                   */
 /*           	  license : GPL                                                  */
 /*                                                                               */
-/* 	          Version : 0.4.1                                                */
-/*      Auteur : Cédric Auger   ( cedric@grisbi.org )                            */
-/*                                http://www.grisbi.org                          */
+/*     Copyright (C)    2000-2003 Cédric Auger (cedric@grisbi.org)               */
+/*                      2003 Benjamin Drieu (bdrieu@april.org)                   */
+/*                      http://www.grisbi.org                                    */
+*      Version : 0.5.0                                                           */
+/*                                                                               */
 /* *******************************************************************************/
 
 /* *******************************************************************************/
-/*     Copyright (C) 2000-2003  Cédric Auger                                     */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
 /*     it under the terms of the GNU General Public License as published by      */
@@ -24,6 +25,7 @@
 /*     You should have received a copy of the GNU General Public License         */
 /*     along with this program; if not, write to the Free Software               */
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                               */
 /* *******************************************************************************/
 
 
