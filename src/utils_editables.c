@@ -273,7 +273,6 @@ gboolean set_text_from_area ( GtkTextBuffer *buffer, gpointer dummy )
 
 
 
-/******************************************************************************/
 /**
  *  Increment or decrement the value of a GtkEntry.
  *
@@ -289,17 +288,16 @@ void increment_decrement_champ ( GtkWidget *entry, gint increment )
 
     gtk_entry_set_text ( GTK_ENTRY ( entry ), itoa ( number ) );
 }
-/******************************************************************************/
 
 
 
 
-/******************************************************************************/
-/* calcule le total du contenu de l'entrÃ©e donnÃ©e en argument */
-/* accepte les + et les - */
-/* \param entry entrÃ©e d'un montant */
-/* \return gdouble total de ce qui est dans l'entrÃ©e */
-/******************************************************************************/
+/**
+ * calcule le total du contenu de l'entrÃ©e donnÃ©e en argument 
+ * accepte les + et les - 
+ * \param entry entrÃ©e d'un montant 
+ * \return gdouble total de ce qui est dans l'entrÃ©e 
+ */
 gdouble calcule_total_entree ( GtkWidget *entry )
 {
     gchar *string;
@@ -330,6 +328,4 @@ gdouble calcule_total_entree ( GtkWidget *entry )
 
     return total;
 }
-/******************************************************************************/
-
 
