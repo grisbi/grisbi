@@ -25,6 +25,7 @@
 #include "en_tete.h"
 
 #include "./xpm/export.xpm"
+#include "./xpm/import.xpm"
 
 
 /***********************************************
@@ -114,7 +115,7 @@ void init_menus ( GtkWidget * win )
       GNOMEUIINFO_ITEM ( N_("QIF File"),
 			       N_("Import QIF file"),
 			       importer_fichier_qif,
-			       export_xpm ),
+			       import_xpm ),
 /*       GNOMEUIINFO_ITEM_STOCK ( N_("Fichier QIF GD"), */
 /* 			       N_("Import QIF files"), */
 /* 			       iqc_fichier, */
@@ -174,10 +175,8 @@ void init_menus ( GtkWidget * win )
       GNOMEUIINFO_SUBTREE ( N_("Recently opened files"),
 			    &tmp_menu_derniers_fichiers),
       GNOMEUIINFO_SEPARATOR,
-      GNOMEUIINFO_SUBTREE (N_("Import"),
-			   &tmp_menu_importer),
-      GNOMEUIINFO_SUBTREE (N_("Export"),
-			   &tmp_menu_exporter),
+      GNOMEUIINFO_SUBTREE (N_("Import"), &tmp_menu_importer),
+      GNOMEUIINFO_SUBTREE (N_("Export"), &tmp_menu_exporter),
       GNOMEUIINFO_SEPARATOR,
       GNOMEUIINFO_MENU_CLOSE_ITEM ( fermer_fichier, NULL),
       GNOMEUIINFO_MENU_EXIT_ITEM ( fermeture_grisbi, NULL),
