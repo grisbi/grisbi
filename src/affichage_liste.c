@@ -63,7 +63,7 @@ GtkWidget *onglet_affichage_liste ( void )
   /*   à la base, on met une vbox */
 
   onglet = new_vbox_with_title_and_icon ( _("Transaction list"),
-					  "pixmaps/transaction-list.png" );
+					  "transaction-list.png" );
 
   /* mise en place de la clist_affichage_liste */
   /*   on lui met des titres redimensionnables */

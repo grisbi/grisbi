@@ -89,7 +89,7 @@ onglet_display_transaction_form ( void )
   GtkWidget *table, *bouton;
 
   vbox_pref = new_vbox_with_title_and_icon ( _("Transaction form"),
-					     "pixmaps/form.png" );
+					     "form.png" );
 
   /* What to do if RETURN is pressed into transaction form */
   paddingbox = paddingbox_new_with_title (vbox_pref, 
@@ -241,7 +241,7 @@ GtkWidget * onglet_display_fonts ( void )
   GtkWidget *hbox_font, *init_button;
 
   vbox_pref = new_vbox_with_title_and_icon ( _("Fonts & logo"),
-					     "pixmaps/fonts.png" );
+					     "fonts.png" );
 
 
   /* Change Grisbi Logo */
@@ -395,7 +395,7 @@ GtkWidget *onglet_display_addresses ( void )
   GtkWidget *onglet;
 
   vbox_pref = new_vbox_with_title_and_icon ( _("Addresses & titles"),
-					     "pixmaps/addresses.png" );
+					     "addresses.png" );
 
   /* mise en place du titre du fichier */
 

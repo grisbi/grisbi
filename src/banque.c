@@ -745,7 +745,7 @@ GtkWidget *onglet_banques ( void )
   GtkWidget *hbox;
 
   vbox_pref = new_vbox_with_title_and_icon ( _("Banks"),
-					     "pixmaps/bank.png" );
+					     "bank.png" );
 
   gtk_widget_show ( vbox_pref );
 

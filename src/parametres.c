@@ -360,12 +360,12 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
   /* Icon */
   if ( image_filename )
     {
-      image = gtk_image_new_from_file ( image_filename );
-      gtk_box_pack_start ( GTK_BOX ( hbox ),
-			   image,
-			   FALSE,
-			   FALSE,
-			   0);
+      image = gtk_image_new_from_file (g_strconcat(PIXMAPS_DIR,
+						   "/",
+						   image_filename,
+						   NULL));
+      gtk_box_pack_start ( GTK_BOX ( hbox ), image,
+			   FALSE, FALSE, 0);
       gtk_widget_show ( image );
     }
 
@@ -405,7 +405,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
   GtkWidget *paddingbox, *label;
 
   vbox_pref = new_vbox_with_title_and_icon ( _("Messages & warnings"),
-					     "pixmaps/warnings.png" );
+					     "warnings.png" );
 
   hbox_pref = gtk_hbox_new ( FALSE,
 			     5 );
@@ -530,7 +530,7 @@ GtkWidget *onglet_fichier ( void )
   GtkWidget *label;
 
   vbox_pref = new_vbox_with_title_and_icon ( _("Files"),
-					     "pixmaps/files.png" );
+					     "files.png" );
 
   /* Account file handling */
   paddingbox = paddingbox_new_with_title (vbox_pref, 

@@ -1428,7 +1428,7 @@ GtkWidget *onglet_devises ( void )
   GtkWidget *hbox;
 
   vbox_pref = new_vbox_with_title_and_icon ( _("Currencies"),
-					     "pixmaps/currencies.png" );
+					     "currencies.png" );
 
   paddingbox = paddingbox_new_with_title (vbox_pref, 
 					  _("Known currencies"));
