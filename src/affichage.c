@@ -238,7 +238,7 @@ GtkWidget * onglet_display_fonts ( void )
   GtkWidget *hbox, *vbox_pref;
   GtkWidget *label, *paddingbox;
   GtkWidget *table, *font_button, *logo_button;
-  GtkWidget *hbox_font;
+  GtkWidget *hbox_font, *init_button;
 
   vbox_pref = new_vbox_with_title_and_icon ( _("Fonts & logo"),
 					     "pixmaps/fonts.png" );
@@ -288,7 +288,7 @@ GtkWidget * onglet_display_fonts ( void )
   gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
   gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
   gtk_box_pack_start ( GTK_BOX ( paddingbox ), table,
-		       TRUE, TRUE, 0 );
+		       FALSE, FALSE, 0 );
 
   /* Change general font */
   label = gtk_label_new (COLON(_("General font")));
@@ -368,10 +368,15 @@ GtkWidget * onglet_display_fonts ( void )
 		     list_font_size_label,
 		     fonte_liste);
 
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ), table,
-		       TRUE, TRUE, 0 );
+  hbox = gtk_hbox_new ( FALSE, 5 );
+  gtk_box_pack_end ( GTK_BOX ( vbox_pref ), hbox,
+		     FALSE, FALSE, 0 );
+  init_button = gtk_button_new_with_label ( SPACIFY(_("Restore defaults fonts")) );
+  gtk_box_pack_end ( GTK_BOX ( hbox ), init_button,
+		     FALSE, FALSE, 0 );
+  g_signal_connect (init_button, "clicked", 
+		    G_CALLBACK (init_fonts), NULL);
 
-  
   return vbox_pref;
 }
 
@@ -1266,6 +1271,28 @@ void update_font_button(GtkWidget * name_label,
 }
 
 
+/**
+ * Reset fonts to their initial value, that is "Sans 10".  Update
+ * fonts buttons as well.
+ *
+ * \param button Button that was clicked
+ * \param user_data Not used but required by signal
+ */
+gboolean init_fonts ( GtkWidget * button,
+		      gpointer user_data)
+{
+  fonte_liste = "Sans 10";
+  fonte_general = "Sans 10";
+  update_font_button (list_font_name_label, 
+		      list_font_size_label, 
+		      fonte_liste);
+  update_font_button (general_font_name_label, 
+		      general_font_size_label, 
+		      fonte_general);
+}
+
+
+
 /* **************************************************************************************************************************** */
 void choix_fonte ( GtkWidget *bouton,
 		   gchar *fonte,
@@ -1300,7 +1327,7 @@ void choix_fonte ( GtkWidget *bouton,
   
   if ( nb_comptes )
     {
-      font = gdk_font_load ( fonte );
+      font = gdk_font_load ( fonte_liste );
 
       /* Use font */
       /* FIXME FONTS ... this does not work !!! */
@@ -1366,9 +1393,9 @@ void choix_fonte_general ( GtkWidget *bouton,
   fonte_general = fontname;
 
   style_general = gtk_widget_get_style ( window );
-  gtk_style_set_font (style_general, gdk_font_load ( fonte ));
+  gtk_style_set_font (style_general, gdk_font_load ( fonte_general ));
   style_general = gtk_widget_get_default_style ();
-  gtk_style_set_font (style_general, gdk_font_load ( fonte ));
+  gtk_style_set_font (style_general, gdk_font_load ( fonte_general ));
 
   if ( nb_comptes )
     {
