@@ -34,7 +34,6 @@
 
 /*START_STATIC*/
 static gboolean set_boolean ( GtkWidget * checkbox, guint * dummy);
-static gboolean set_double ( GtkWidget * spin, gdouble * dummy);
 static GtkWidget * new_stock_image_label ( gchar * stock_id, gchar * name );
 static GtkWidget * new_image_label ( gchar * image_name, gchar * name );
 /*END_STATIC*/
@@ -202,7 +201,55 @@ gboolean set_boolean ( GtkWidget * checkbox, guint * dummy)
  * \param hook An optional function to execute as a handler if the
  * textview's contents are modified.
  */
-GtkWidget * new_spin_button ( gint * value, 
+GtkWidget * new_int_spin_button ( gint * value, 
+				  gdouble lower, gdouble upper, 
+				  gdouble step_increment, gdouble page_increment, 
+				  gdouble page_size, 
+				  gdouble climb_rate, guint digits,
+				  GCallback hook )
+{
+    GtkWidget * spin;
+    GtkAdjustment * adjustment;
+    gint initial = 0;
+
+    if ( value )  /* Sanity check */
+	initial = *value;
+
+    adjustment = GTK_ADJUSTMENT( gtk_adjustment_new ( initial, lower, upper, 
+						      step_increment, page_increment,
+						      page_size ));
+    spin = gtk_spin_button_new ( adjustment, climb_rate, digits );
+    gtk_spin_button_set_numeric ( GTK_SPIN_BUTTON (spin), TRUE );
+    g_object_set_data ( G_OBJECT (spin), "pointer", value);
+    g_object_set_data ( G_OBJECT (spin), "adj", adjustment);
+
+    g_object_set_data ( G_OBJECT (spin), "value-changed",
+			(gpointer) g_signal_connect_swapped ( GTK_OBJECT (adjustment),
+							      "value-changed", 
+							      (GCallback) set_int_from_spin, 
+							      spin));
+    if ( hook )
+    {
+	g_object_set_data ( G_OBJECT (spin), "hook",
+			    (gpointer) g_signal_connect_swapped ( GTK_OBJECT (adjustment), 
+								  "value-changed", 
+								  (GCallback) hook, spin ));
+    }
+
+    return spin;
+}
+
+
+
+/**
+ * Creates a new GtkSpinButton with a pointer to a string that will be
+ * modified according to the spin's value.
+ *
+ * \param value A pointer to a string
+ * \param hook An optional function to execute as a handler if the
+ * textview's contents are modified.
+ */
+GtkWidget * new_spin_button ( gdouble * value, 
 			      gdouble lower, gdouble upper, 
 			      gdouble step_increment, gdouble page_increment, 
 			      gdouble page_size, 
@@ -227,7 +274,8 @@ GtkWidget * new_spin_button ( gint * value,
     g_object_set_data ( G_OBJECT (spin), "value-changed",
 			(gpointer) g_signal_connect_swapped ( GTK_OBJECT (adjustment),
 							      "value-changed", 
-							      (GCallback) set_double, spin));
+							      (GCallback) set_double_from_spin, 
+							      spin));
     if ( hook )
     {
 	g_object_set_data ( G_OBJECT (spin), "hook",
@@ -245,7 +293,7 @@ GtkWidget * new_spin_button ( gint * value,
  *  TODO: document
  *
  */
-void spin_button_set_value ( GtkWidget * spin, gdouble * value )
+void spin_button_set_value ( GtkWidget * spin, gint * value )
 {
     GtkAdjustment * adjustment;
 
@@ -282,16 +330,56 @@ void spin_button_set_value ( GtkWidget * spin, gdouble * value )
 
 
 /**
- * Set an integer to the value of a spin button.  Normally called via
+ *  TODO: document
+ *
+ */
+void spin_button_set_value_double ( GtkWidget * spin, gdouble * value )
+{
+    GtkAdjustment * adjustment;
+
+    adjustment = g_object_get_data ( G_OBJECT(spin), "adj" );
+    if (!adjustment)
+	return;
+
+    /* Block everything */
+    if ( g_object_get_data ((GObject*) spin, "value-changed") > 0 )
+	g_signal_handler_block ( GTK_OBJECT(adjustment),
+				 (gulong) g_object_get_data ((GObject*) spin, 
+							     "value-changed"));
+    if ( g_object_get_data ((GObject*) spin, "hook") > 0 )
+	g_signal_handler_block ( GTK_OBJECT(adjustment),
+				 (gulong) g_object_get_data ((GObject*) spin, "hook"));
+
+    if (value)
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON(spin), *value);
+    else
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON(spin), 0);
+
+    g_object_set_data ( G_OBJECT(spin), "pointer", value);
+
+    /* Unblock everything */
+    if ( g_object_get_data ((GObject*) spin, "value-changed") > 0 )
+	g_signal_handler_unblock ( GTK_OBJECT(adjustment),
+				   (gulong) g_object_get_data ((GObject*) spin, 
+							       "value-changed"));
+    if ( g_object_get_data ((GObject*) spin, "hook") > 0 )
+	g_signal_handler_unblock ( GTK_OBJECT(adjustment),
+				   (gulong) g_object_get_data ((GObject*) spin, "hook"));
+}
+
+
+
+/**
+ * Set an int to the value of a spin button.  Normally called via
  * a GTK "changed" signal handler.
  * 
  * \param spin a pointer to a spinbutton widget.
  * \param dummy unused
  */
-gboolean set_double ( GtkWidget * spin, gdouble * dummy)
+gboolean set_int_from_spin ( GtkWidget * spin, gint * dummy)
 {
-   gint *data;
-
+    gint *data;
+    
     data = g_object_get_data ( G_OBJECT(spin), "pointer" );
 
     if ( data )
@@ -300,6 +388,56 @@ gboolean set_double ( GtkWidget * spin, gdouble * dummy)
     }
 
 	/* Mark file as modified */
+    modification_fichier ( TRUE );
+    return (FALSE);
+}
+
+
+
+/**
+ * Set an double to the value of a spin button.  Normally called via
+ * a GTK "changed" signal handler.
+ * 
+ * \param spin a pointer to a spinbutton widget.
+ * \param dummy unused
+ */
+gboolean set_double_from_spin ( GtkWidget * spin, gdouble * dummy)
+{
+    gdouble *data;
+    
+    data = g_object_get_data ( G_OBJECT(spin), "pointer" );
+
+    if ( data )
+    {
+	*data = gtk_spin_button_get_value ( GTK_SPIN_BUTTON(spin) );
+    }
+
+	/* Mark file as modified */
+    modification_fichier ( TRUE );
+    return (FALSE);
+}
+
+
+
+/**
+ * Set an integer to the value of a menu.  Normally called via a GTK
+ * "changed" signal handler.
+ * 
+ * \param menu a pointer to a menu widget.
+ * \param dummy unused
+ */
+gboolean set_int_from_menu ( GtkWidget * menu, gint * dummy)
+{
+    gint *data;
+    
+    data = g_object_get_data ( G_OBJECT(menu), "pointer" );
+
+    if ( data )
+    {
+	*data = (gtk_option_menu_get_history ( GTK_OPTION_MENU ( menu )) + 1);
+    }
+
+    /* Mark file as modified */
     modification_fichier ( TRUE );
     return (FALSE);
 }
@@ -435,7 +573,7 @@ GtkWidget * new_stock_image_label ( gchar * stock_id, gchar * name )
 
 GtkWidget * new_image_label ( gchar * image_name, gchar * name )
 {
-    GtkWidget * hbox, * vbox, * label, * image;
+    GtkWidget * vbox, * label, * image;
 
     /* Define image */
     image = gtk_image_new_from_file (g_strconcat(PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
