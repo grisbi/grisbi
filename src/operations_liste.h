@@ -21,18 +21,15 @@ void edition_operation ( void );
 void p_press (void);
 void r_press (void);
 void supprime_operation ( struct structure_operation *operation );
-void changement_taille_liste_ope ( GtkWidget *clist,
-				   GtkAllocation *allocation,
-				   gint *compte );
+gboolean changement_taille_liste_ope ( GtkWidget *clist,
+				       GtkAllocation *allocation,
+				       gint *compte );
 void focus_a_la_liste ( void );
 void demande_mise_a_jour_tous_comptes ( void );
 void verification_mise_a_jour_liste ( void );
 void mise_a_jour_solde ( gint compte );
 void verifie_ligne_selectionnee_visible ( void );
-void changement_taille_colonne ( GtkWidget *clist,
-				 gint colonne,
-				 gint largeur );
-
+gboolean changement_taille_colonne ( GtkWidget *clist, gint colonne, gint largeur );
 
 gboolean assert_selected_transaction ();
 void new_transaction ( );
