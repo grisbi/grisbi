@@ -35,7 +35,6 @@
 #include "constants.h"
 #include "traitement_variables.h"
 
-extern gchar *nom_navigateur_web;
 
 
 /* ************************************************************************* */
@@ -654,10 +653,7 @@ GtkWidget *cree_bouton_url ( const gchar *adr,
 gboolean lance_navigateur_web ( const gchar *url )
 {
 
-    system ( g_strconcat ( nom_navigateur_web,
-			   " ",
-			   url,
-			   NULL ));
+    system ( g_strconcat ( etat.browser_command, " ", url, NULL ) );
     return FALSE;
 
 }
