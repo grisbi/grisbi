@@ -581,6 +581,8 @@ GtkWidget *liste_type_classement_etat;
 GtkWidget *bouton_opes_r_et_non_r_etat;
 GtkWidget *bouton_opes_non_r_etat;
 GtkWidget *bouton_opes_r_etat;
+GtkWidget *bouton_opes_p_etat;
+GtkWidget *bouton_opes_ni_p_ni_r_etat;
 GtkWidget *bouton_afficher_opes;
 GtkWidget *bouton_afficher_nb_opes;
 GtkWidget *bouton_afficher_date_opes;

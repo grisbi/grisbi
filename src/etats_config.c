@@ -297,15 +297,22 @@ void personnalisation_etat (void)
 			   0,
 			   0 );
 
-    if ( etat_courant -> afficher_r )
+    if ( etat_courant -> afficher_r != 0 )
     {
 	if ( etat_courant -> afficher_r == 1 )
 	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_opes_non_r_etat ),
 					   TRUE );
 	else
-	    if ( etat_courant -> afficher_r )
+	    if ( etat_courant -> afficher_r == 2 )
 		gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_opes_r_etat ),
 					       TRUE );
+	    else
+		if ( etat_courant -> afficher_r == 3 )
+		    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_opes_p_etat ),
+						   TRUE );
+		else
+		    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_opes_ni_p_ni_r_etat ),
+						   TRUE );
     }
     else
 	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_opes_r_et_non_r_etat ),
@@ -1006,7 +1013,17 @@ void recuperation_info_perso_etat ( void )
 	if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_opes_non_r_etat )) )
 	    etat_courant -> afficher_r = 1;
 	else
-	    etat_courant -> afficher_r = 2;
+	{
+	    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_opes_r_etat )) )
+		etat_courant -> afficher_r = 2;
+	    else
+	    {
+		if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_opes_p_etat )) )
+		    etat_courant -> afficher_r = 3;
+		else
+		    etat_courant -> afficher_r = 4;
+	    }
+	}
     }
 
     /* récupération de l'affichage des opés */
@@ -5577,6 +5594,32 @@ GtkWidget *onglet_etat_divers ( void )
 			 FALSE,
 			 0 );
     gtk_widget_show ( bouton_opes_r_etat );
+
+    bouton_opes_p_etat = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_opes_r_et_non_r_etat )),
+							   _("The checked transactions") );
+    gtk_signal_connect_object ( GTK_OBJECT ( bouton_opes_p_etat ),
+				"toggled",
+				GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
+				GINT_TO_POINTER ( 9 ));
+    gtk_box_pack_start ( GTK_BOX ( vbox ),
+			 bouton_opes_p_etat,
+			 FALSE,
+			 FALSE,
+			 0 );
+    gtk_widget_show ( bouton_opes_p_etat );
+
+    bouton_opes_ni_p_ni_r_etat = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_opes_r_et_non_r_etat )),
+							   _("The neither reconciled neither checked transactions") );
+    gtk_signal_connect_object ( GTK_OBJECT ( bouton_opes_ni_p_ni_r_etat ),
+				"toggled",
+				GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
+				GINT_TO_POINTER ( 9 ));
+    gtk_box_pack_start ( GTK_BOX ( vbox ),
+			 bouton_opes_ni_p_ni_r_etat,
+			 FALSE,
+			 FALSE,
+			 0 );
+    gtk_widget_show ( bouton_opes_ni_p_ni_r_etat );
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );

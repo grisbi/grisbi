@@ -420,7 +420,13 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		    if ( ( etat -> afficher_r == 1 &&
 			   operation -> pointe == RECONCILED_TRANSACTION ) ||
 			 ( etat -> afficher_r == 2 &&
-			   operation -> pointe != RECONCILED_TRANSACTION ))
+			   operation -> pointe != RECONCILED_TRANSACTION ) ||
+			 ( etat -> afficher_r == 3 &&
+			   ( operation -> pointe == RECONCILED_TRANSACTION || operation -> pointe == UNCHECKED_TRANSACTION )) ||
+			 ( etat -> afficher_r == 4 &&
+			   operation -> pointe != UNCHECKED_TRANSACTION ))
+
+
 			goto operation_refusee;
 		}
 

@@ -591,6 +591,8 @@ extern GtkWidget *liste_type_classement_etat;
 extern GtkWidget *bouton_opes_r_et_non_r_etat;
 extern GtkWidget *bouton_opes_non_r_etat;
 extern GtkWidget *bouton_opes_r_etat;
+extern GtkWidget *bouton_opes_p_etat;
+extern GtkWidget *bouton_opes_ni_p_ni_r_etat;
 extern GtkWidget *bouton_afficher_opes;
 extern GtkWidget *bouton_afficher_nb_opes;
 extern GtkWidget *bouton_afficher_date_opes;
