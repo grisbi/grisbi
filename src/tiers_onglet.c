@@ -31,6 +31,7 @@
 #include "echeancier_liste.h"
 #include "erreur.h"
 #include "etats_config.h"
+#include "fichiers_io.h"
 #include "gtkcombofix.h"
 #include "operations_comptes.h"
 #include "operations_liste.h"
