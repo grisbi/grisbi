@@ -3,7 +3,7 @@
 /* 			etats_config.c                                        */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004 Alain Portal (aportal@univ-monpt2.fr) 	      */
+/*			2004 Alain Portal (aportal@univ-montp2.fr) 	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
