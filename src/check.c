@@ -45,16 +45,16 @@ void reconciliation_check ( void )
 {
   gint affected_account = 0;
   gint tested_account = 0;
-  GSList *pUserAccountsList;
-  gchar *pHint, *pText;
+  GSList *pUserAccountsList = NULL;
+  gchar *pHint = NULL, *pText;
 
   /* s'il n'y a pas de compte, on quitte */
   if ( !nb_comptes )
     return;
 
   /* si l'utilisateur n'abandonne pas, faire */
-  pText = g_strdup_printf ( _("This will check that the last reconciliation amounts matches with "
-			      "total amounts of reconcilied transactions (and initial balance).") );
+  pText = _("This will check that the last reconciliation amounts matches with "
+	    "total amounts of reconcilied transactions (and initial balance).");
   if ( question_yes_no ( pText ))
   {
     /* On fera la vérification des comptes dans l'ordre préféré
@@ -105,7 +105,6 @@ void reconciliation_check ( void )
 								    pTransaction -> frais_change );
 	  }
 	  pTransactionList = pTransactionList -> next;
-	  free ( pTransaction );
 	}
 
 	if ( fabs ( reconcilied_amount - SOLDE_DERNIER_RELEVE ) >= 0.01 )
@@ -126,17 +125,17 @@ void reconciliation_check ( void )
 	       et de travailler directement avec ordre_comptes. */
 	    pUserAccountsList -> next = NULL;
 	  }
+	  free ( pHint );
+	  free ( pText );
 	}
 	tested_account++;
-	free ( pTransactionList );
       }
     }
     while ( (  pUserAccountsList = pUserAccountsList -> next ) );
 
     if ( !affected_account )
     {
-      pText =  g_strdup_printf ( _("About reconciliation, your accounting is sane."));
-      dialogue ( pText );
+	dialogue ( _("About reconciliation, your accounting is sane.") );
     }
     else
     {
@@ -150,9 +149,8 @@ void reconciliation_check ( void )
 				tested_account,
 				affected_account );
       dialogue ( pText );
+      free ( pText );
     }
   }
-  free ( pText );
-  free ( pHint );
   g_slist_free ( pUserAccountsList );
 }
