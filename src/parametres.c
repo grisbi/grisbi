@@ -2235,27 +2235,58 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
  */
 GtkWidget *
 new_checkbox_with_title ( gchar * label,
-			  guint * data )
+			  guint * data,
+			  GtkSignalFunc * hook)
 {
   GtkWidget * checkbox;
 
   checkbox = gtk_check_button_new_with_label ( label );
-  if (data && *data)
+  
+  checkbox_set_value ( checkbox, data, TRUE );
+
+  if (hook)
     {
-      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( checkbox ),
-				     TRUE );      
+      gtk_object_set_data ( GTK_OBJECT ( checkbox ), "hook", 
+			    g_signal_connect ( GTK_OBJECT ( checkbox ), "toggled",
+					       GTK_SIGNAL_FUNC ( hook ), data ));
     }
 
-  gtk_signal_connect ( GTK_OBJECT ( checkbox ), "toggled",
-		       GTK_SIGNAL_FUNC ( set_boolean ), data );
+  gtk_object_set_data ( GTK_OBJECT ( checkbox ), "set-boolean", 
+			g_signal_connect ( GTK_OBJECT ( checkbox ), "toggled",
+					   GTK_SIGNAL_FUNC ( set_boolean ), data ));
+ 
+  return checkbox;
+}
 
-  /* FIXME: deactivate when we will be full "implicit apply" */
-  gtk_signal_connect_object ( GTK_OBJECT ( checkbox ),
-			      "toggled",
-			      activer_bouton_appliquer,
-			      GTK_OBJECT (fenetre_preferences));
-  gtk_widget_show ( checkbox );
-  
+/**
+ * FIXME: document!
+ *
+ *
+ */
+void
+checkbox_set_value ( GtkWidget * checkbox, guint * data, gboolean update )
+{
+  if (data)
+    {
+      gulong hook_uid = gtk_object_get_data ( GTK_OBJECT(checkbox), "hook" );
+
+      if ( hook_uid >= 0 )
+	g_signal_handler_block ( checkbox, hook_uid);
+      g_signal_handler_block ( checkbox,
+			       gtk_object_get_data ( GTK_OBJECT(checkbox), 
+						     "set-boolean" ));
+      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( checkbox ),
+				     *data );      
+      if ( hook_uid >= 0 )
+	g_signal_handler_unblock ( checkbox, hook_uid );
+      g_signal_handler_unblock ( checkbox,
+				 gtk_object_get_data ( GTK_OBJECT(checkbox), 
+						       "set-boolean" ));
+    }
+
+  if (update)
+    gtk_object_set_data ( GTK_OBJECT ( checkbox ), "pointer", data);
+
   return checkbox;
 }
 
@@ -2268,8 +2299,99 @@ new_checkbox_with_title ( gchar * label,
  * \param data a pointer to an integer that is to be modified.
  */
 gboolean
-set_boolean ( GtkWidget * checkbox,
-	      guint * data)
+set_boolean ( GtkWidget * checkbox, guint * dummy)
 {
-  *data = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(checkbox));
+  gpointer *data;
+
+  data = gtk_object_get_data ( GTK_OBJECT ( checkbox ), "pointer");
+  if (data)
+    *data = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(checkbox));
+
+  return FALSE;
+}
+
+
+/* FIXME: move it ! */
+gboolean
+set_text (GtkEntry *entry, gchar *value, 
+	  gint length, gint * position)
+{
+  gchar ** data;
+
+  data = gtk_object_get_data ( GTK_OBJECT ( entry ), "pointer");
+  if (data)
+    *data = g_strdup ((gchar*) gtk_entry_get_text ( GTK_ENTRY (entry) ));
+
+  return FALSE;
+}
+
+
+/* FIXME: move it ! */
+GtkWidget *
+new_text_entry ( gchar ** value,
+		 GCallback * hook )
+{
+  GtkWidget * entry;
+
+  entry = gtk_entry_new ();
+
+  if (value && *value)
+    gtk_entry_set_text ( GTK_ENTRY(entry), *value );
+
+  gtk_object_set_data ( GTK_OBJECT ( entry ), "pointer", value);
+
+  gtk_object_set_data ( GTK_OBJECT ( entry ), "insert-hook", 
+			g_signal_connect_after (GTK_OBJECT(entry), "insert-text",
+						G_CALLBACK(hook), NULL));
+  gtk_object_set_data ( GTK_OBJECT ( entry ), "delete-hook", 
+			g_signal_connect_after (GTK_OBJECT(entry), "delete-text",
+						G_CALLBACK(hook), NULL));
+  gtk_object_set_data ( GTK_OBJECT ( entry ), "insert-text", 
+			g_signal_connect_after (GTK_OBJECT(entry), "insert-text",
+						G_CALLBACK(set_text), NULL));
+  gtk_object_set_data ( GTK_OBJECT ( entry ), "delete-text", 
+			g_signal_connect_after (GTK_OBJECT(entry), "delete-text",
+						G_CALLBACK(set_text), NULL));
+
+  return entry;
+}
+
+
+/* FIXME: move it ! */
+GtkWidget *
+new_radiogroup_with_title (GtkWidget * parent,
+			   gchar * title, gchar * choice1, gchar * choice2,
+			   guint * data, GCallback * hook)
+{
+  GtkWidget * button1, *button2, *paddingbox;
+
+  paddingbox = new_paddingbox_with_title (parent, FALSE, COLON(title));
+  
+  button1 = gtk_radio_button_new_with_label ( NULL, choice1 );
+  gtk_box_pack_start (GTK_BOX(paddingbox), button1,
+		      FALSE, FALSE, 0 );
+  button2 = gtk_radio_button_new_with_label ( gtk_radio_button_group (button1), choice2 );
+  gtk_box_pack_start (GTK_BOX(paddingbox), button2,
+		      FALSE, FALSE, 0 );
+
+  if (data)
+    {
+      if (*data)
+	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button2 ), TRUE );
+      else
+	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button1 ), TRUE );
+    }
+
+  gtk_object_set_data ( GTK_OBJECT ( button2 ),
+			"pointer", data);
+  g_signal_connect ( GTK_OBJECT ( button2 ), "toggled",
+		     set_boolean, NULL );
+
+  if (hook)
+    {
+      g_signal_connect ( GTK_OBJECT ( button2 ), "toggled",
+			 GTK_SIGNAL_FUNC ( hook ), data );
+    }
+
+  return paddingbox;
 }

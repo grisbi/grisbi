@@ -382,8 +382,13 @@ GtkWidget * new_paddingbox_with_title ( GtkWidget * parent,
 					gchar * title );
 GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
 					  gchar * image_filename);
-GtkWidget * new_checkbox_with_title ( gchar * label, guint * data );
-gboolean set_boolean ( GtkWidget * checkbox, guint * data);
+GtkWidget * new_checkbox_with_title ( gchar *, guint *, GtkSignalFunc * );
+gboolean set_boolean ( GtkWidget * checkbox, guint * dummy);
+GtkWidget * new_text_entry ( gchar **, GCallback * );
+gboolean set_text ( GtkEntry *, gchar *, gint, gint * );
+gboolean update_homepage_title ( GtkEntry *, gchar *, gint, gint * );
+GtkWidget * new_radiogroup_with_title ( GtkWidget *, gchar *, gchar *, gchar *, 
+					guint *, GCallback * );
 
 
 /***********************************/ 

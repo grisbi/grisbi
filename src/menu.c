@@ -160,8 +160,8 @@ void init_menus ( GtkWidget * win )
 
   static GnomeUIInfo tmp_menu_fichier [] = 
     {
-      GNOMEUIINFO_ITEM_STOCK (N_("New"), 
-			      N_("Create a new accounts file"),
+      GNOMEUIINFO_ITEM_STOCK (N_("New account file"), 
+			      N_("Create a new account file"),
 			      nouveau_fichier,
 			      GNOME_STOCK_MENU_NEW),
       GNOMEUIINFO_MENU_OPEN_ITEM ( ouvrir_fichier, NULL),

@@ -172,13 +172,18 @@ GtkWidget *creation_onglet_accueil ( void )
   if ( titre_fichier )
     {
       label_titre_fichier = gtk_label_new ( titre_fichier );
-      gtk_box_pack_start ( GTK_BOX ( base ),
-			   label_titre_fichier,
-			   FALSE,
-			   FALSE,
-			   0 );
-      gtk_widget_show ( label_titre_fichier );
     }
+  else
+    {
+      label_titre_fichier = gtk_label_new ( "" );
+    }
+
+  gtk_box_pack_start ( GTK_BOX ( base ),
+		       label_titre_fichier,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label_titre_fichier );
 
   /* séparation haut-bas */
 /*

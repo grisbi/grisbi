@@ -41,10 +41,12 @@ void nouveau_fichier ( void )
   init_variables ( FALSE );
 
   type_de_compte = demande_type_nouveau_compte ();
+  if ( type_de_compte == -1 )
+    return;
 
   no_compte = initialisation_nouveau_compte ( type_de_compte );
 
-  /* si la création s'est mal placée, on se barre */
+  /* si la création s'est mal passée, on se barre */
 
   if ( no_compte == -1 )
     return;

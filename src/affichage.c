@@ -31,51 +31,94 @@ GtkWidget * list_font_name_label, * list_font_size_label;
 GtkWidget * general_font_name_label, * general_font_size_label;
 
 
+/**
+ * Updates transaction form according to state "etat"
+ *
+ * \param checkbox Widget that triggers this event.  Normally not
+ * needed there.
+ * \param data A pointer to some random data passed to this hook.  Not
+ * used there.
+ */
+gboolean
+update_transaction_form ( GtkWidget * checkbox,
+			  gpointer data )
+{
+  if ( nb_comptes )
+    {
+      if ( etat.affiche_no_operation )
+	gtk_widget_show ( widget_formulaire_operations[0] );
+      else
+	gtk_widget_hide ( widget_formulaire_operations[0] );
+
+
+      gtk_widget_set_sensitive ( widget_formulaire_operations[7],
+				 etat.affiche_date_bancaire );
+
+      gtk_widget_set_sensitive ( widget_formulaire_operations[11],
+				 etat.utilise_exercice );
+      gtk_widget_set_sensitive ( widget_formulaire_ventilation[6],
+				 etat.utilise_exercice );
+      gtk_widget_set_sensitive ( widget_formulaire_echeancier[9],
+				 etat.utilise_exercice );
+
+      gtk_widget_set_sensitive ( widget_formulaire_operations[12],
+				 etat.utilise_imputation_budgetaire );
+      gtk_widget_set_sensitive ( page_imputations,
+				 etat.utilise_imputation_budgetaire );
+      gtk_widget_set_sensitive ( widget_formulaire_ventilation[4],
+				 etat.utilise_imputation_budgetaire );
+      gtk_widget_set_sensitive ( widget_formulaire_echeancier[10],
+				 etat.utilise_imputation_budgetaire );
+
+      gtk_widget_set_sensitive ( widget_formulaire_operations[14],
+				 etat.utilise_piece_comptable );
+      gtk_widget_set_sensitive ( widget_formulaire_ventilation[7],
+				 etat.utilise_piece_comptable );
+      gtk_widget_set_sensitive ( widget_formulaire_echeancier[12],
+				 etat.utilise_piece_comptable );
+
+      gtk_widget_set_sensitive ( widget_formulaire_operations[17],
+				 etat.utilise_info_banque_guichet );
+      gtk_widget_set_sensitive ( widget_formulaire_echeancier[11],
+				 etat.utilise_info_banque_guichet );
+
+      if ( etat.affiche_boutons_valider_annuler )
+	{
+	  gtk_widget_show ( separateur_formulaire_operations );
+	  gtk_widget_show ( hbox_valider_annuler_ope );
+	  gtk_widget_show ( separateur_formulaire_echeancier );
+	  gtk_widget_show ( hbox_valider_annuler_echeance );
+	}
+      else
+	{
+	  gtk_widget_hide ( separateur_formulaire_operations );
+	  gtk_widget_hide ( hbox_valider_annuler_ope );
+	  gtk_widget_hide ( separateur_formulaire_echeancier );
+	  gtk_widget_hide ( hbox_valider_annuler_echeance );
+
+	  affiche_cache_le_formulaire ();
+	  affiche_cache_le_formulaire ();
+	}
+    }
+}
+
+
 GtkWidget *
 onglet_display_transaction_form ( void )
 {
   GtkWidget *hbox, *vbox_pref;
   GtkWidget *label, *paddingbox;
-  GtkWidget *table, *bouton;
+  GtkWidget *table, *bouton, *radiogroup;
 
   vbox_pref = new_vbox_with_title_and_icon ( _("Transaction form"),
 					     "form.png" );
 
   /* What to do if RETURN is pressed into transaction form */
-  paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
-					  _("Pressing RETURN in transaction form"));
-  bouton_entree_enregistre = 
-    gtk_radio_button_new_with_label ( NULL,
-				      SPACIFY(_("saves transaction")) );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-		       bouton_entree_enregistre,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_entree_enregistre );
-
-  bouton_entree_enregistre_pas = 
-    gtk_radio_button_new_with_label 
-    ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_entree_enregistre )),
-      SPACIFY(_("selects next field")) );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-		       bouton_entree_enregistre_pas,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_entree_enregistre_pas );
-
-  if ( etat.entree == 1 )
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_entree_enregistre ),
-				   TRUE );
-  else
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_entree_enregistre_pas ),
-				   TRUE );
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton_entree_enregistre ),
-			      "toggled",
-			      activer_bouton_appliquer,
-			      GTK_OBJECT (fenetre_preferences));
-
+  radiogroup = new_radiogroup_with_title (vbox_pref,
+					  _("Pressing RETURN in transaction form"),
+					  _("selects next field"),
+					  _("terminates transaction"),
+					  &etat.entree, NULL);
 
   /* Displayed fields */
   paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
@@ -89,7 +132,8 @@ onglet_display_transaction_form ( void )
 
   gtk_table_attach ( GTK_TABLE ( table ),
 		     new_checkbox_with_title (_("Transaction number"),
-					      &etat.affiche_no_operation),
+					      &etat.affiche_no_operation,
+					      G_CALLBACK(update_transaction_form)),
 		     0, 1, 0, 1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -97,7 +141,8 @@ onglet_display_transaction_form ( void )
 
   gtk_table_attach ( GTK_TABLE ( table ),
 		     new_checkbox_with_title (_("Value date"),
-					      &etat.affiche_date_bancaire),
+					      &etat.affiche_date_bancaire,
+					      G_CALLBACK(update_transaction_form)),
 		     0, 1, 1, 2,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -105,7 +150,8 @@ onglet_display_transaction_form ( void )
 
   gtk_table_attach ( GTK_TABLE ( table ),
 		     new_checkbox_with_title (_("Financial year"),
-					      &etat.utilise_exercice),
+					      &etat.utilise_exercice,
+					      G_CALLBACK(update_transaction_form)),
 		     0, 1, 2, 3,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -113,7 +159,8 @@ onglet_display_transaction_form ( void )
 
   gtk_table_attach ( GTK_TABLE ( table ),
 		     new_checkbox_with_title (_("Budgetary information"),
-					      &etat.utilise_imputation_budgetaire),
+					      &etat.utilise_imputation_budgetaire,
+					      G_CALLBACK(update_transaction_form)),
 		     0, 1, 3, 4,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -121,7 +168,8 @@ onglet_display_transaction_form ( void )
 
   gtk_table_attach ( GTK_TABLE ( table ),
 		     new_checkbox_with_title (_("Voucher number"),
-					      &etat.utilise_piece_comptable),
+					      &etat.utilise_piece_comptable,
+					      G_CALLBACK(update_transaction_form)),
 		     1, 2, 0, 1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -129,7 +177,8 @@ onglet_display_transaction_form ( void )
 
   gtk_table_attach ( GTK_TABLE ( table ),
 		     new_checkbox_with_title (_("Bank reference"),
-					      &etat.utilise_info_banque_guichet),
+					      &etat.utilise_info_banque_guichet,
+					      G_CALLBACK(update_transaction_form)),
 		     1, 2, 1, 2,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -137,40 +186,20 @@ onglet_display_transaction_form ( void )
 
   gtk_table_attach ( GTK_TABLE ( table ),
 		     new_checkbox_with_title (_("'Accept' and 'Cancel' buttons"),
-					      &etat.affiche_boutons_valider_annuler),
+					      &etat.affiche_boutons_valider_annuler,
+					      G_CALLBACK(update_transaction_form)),
 		     1, 2, 2, 3,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
 		     0, 0 );
 
   /* How to display financial year */
-  paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
-					  COLON(_("By default, use financial year:")));
-  
-  bouton_affichage_auto_exercice = gtk_radio_button_new_with_label ( NULL,
-								     _("according to transaction date") );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-		       bouton_affichage_auto_exercice,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( bouton_affichage_auto_exercice );
-
-  bouton = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON (bouton_affichage_auto_exercice)),
-					     _("last selected financial year") );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-		       bouton,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( bouton );
-
-  if ( etat.affichage_exercice_automatique )
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affichage_auto_exercice ),
-				   TRUE );
-  else
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton ),
-				   TRUE );
+  radiogroup = new_radiogroup_with_title (vbox_pref,
+					  _("By default, use financial year"),
+					  _("last selected financial year"),
+					  _("according to transaction date"),
+					  &etat.affichage_exercice_automatique, 
+					  NULL);
 
   return vbox_pref;
 }
@@ -357,14 +386,8 @@ GtkWidget *onglet_display_addresses ( void )
   gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 		       FALSE, FALSE, 0);
 
-  entree_titre_fichier = gtk_entry_new ();
-  if ( titre_fichier )
-    gtk_entry_set_text ( GTK_ENTRY ( entree_titre_fichier ),
-			 titre_fichier );
-  gtk_signal_connect_object ( GTK_OBJECT ( entree_titre_fichier ),
-			      "changed",
-			      activer_bouton_appliquer,
-			      GTK_OBJECT (fenetre_preferences));
+  entree_titre_fichier = new_text_entry (&titre_fichier,
+					 G_CALLBACK(update_homepage_title));
   gtk_box_pack_start ( GTK_BOX ( hbox ), entree_titre_fichier,
 		       TRUE, TRUE, 0);
 
@@ -1450,3 +1473,16 @@ void remise_a_zero_logo ( GtkWidget *bouton,
 				   TRUE );
 }
 /* **************************************************************************************************************************** */
+
+
+
+/* FIXME: document it ! */
+gboolean
+update_homepage_title (GtkEntry *entry, gchar *value, 
+		       gint length, gint * position)
+{
+  gtk_label_set_text ( label_titre_fichier, 
+		       gtk_entry_get_text (GTK_ENTRY (entry)) );
+
+  return FALSE;
+}

@@ -364,42 +364,12 @@ GtkWidget *onglet_affichage_liste ( void )
     }
 
   /* Then add the "sort by" buttons */
-  paddingbox = new_paddingbox_with_title (onglet, FALSE,
-					  _("Sort transaction list"));
-  gtk_box_pack_start ( GTK_BOX ( onglet ),
-		       paddingbox,
-		       FALSE,
-		       FALSE,
-		       0 );
-  bouton_classer_liste_par_date = gtk_radio_button_new_with_label ( NULL,
-								    _("by date") );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-		       bouton_classer_liste_par_date,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_classer_liste_par_date );
-
-  bouton_classer_liste_par_date_bancaire = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_classer_liste_par_date)),
-									     _("by value date") );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-		       bouton_classer_liste_par_date_bancaire,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_classer_liste_par_date_bancaire );
-
-  if ( etat.classement_par_date )
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_classer_liste_par_date ),
-				   TRUE );
-  else
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_classer_liste_par_date_bancaire ),
-				   TRUE );
-
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton_classer_liste_par_date ),
-			      "toggled",
-			      activer_bouton_appliquer,
-			      GTK_OBJECT (fenetre_preferences));
+  /* FIXME: THERE IS NOTHING THAT THIS OPTION CAN CHANGE ! */
+/*   paddingbox = new_radiogroup_with_title (onglet, */
+/* 					  _("Sort transaction list"), */
+/* 					  _("by value date"), */
+/* 					  _("by date"), */
+/* 					  &etat.classement_par_date, NULL); */
 
   return ( onglet );
 }
