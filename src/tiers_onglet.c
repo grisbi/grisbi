@@ -1135,6 +1135,29 @@ void supprimer_tiers ( GtkWidget *bouton,
       p_tab_nom_de_compte_variable++;
     }
 
+  /* fait le tour des échéances pour vérifier s'il reste une opé à ce tiers */
+
+  if ( !ope_trouvee )
+    {
+      pointeur_ope = gsliste_echeances;
+
+      while ( pointeur_ope )
+	{
+	  struct operation_echeance *echeance;
+
+	  echeance = pointeur_ope -> data;
+
+	  if ( echeance -> tiers == tiers -> no_tiers )
+	    {
+	      pointeur_ope = NULL;
+	      ope_trouvee = 1;
+	    }
+	  else
+	    pointeur_ope = pointeur_ope -> next;
+	}
+    }
+
+
 
   if ( ope_trouvee )
     {

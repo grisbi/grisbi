@@ -722,38 +722,40 @@ void choix_fonte ( GtkWidget *bouton,
 
   fonte_liste = g_strdup ( fonte );
 
-  font = gdk_font_load ( fonte );
-
-  /* applique la fonte  */
-  
-  style_couleur [0] -> font = font;
-  style_couleur [1] -> font = font;
-  style_rouge_couleur [0] -> font = font;
-  style_rouge_couleur [1] -> font = font;
-
-/* récupère la hauteur de la fonte */
-
-  tab_font = g_strsplit ( fonte,
-			  "-",
-			  FALSE );
-
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
-  for ( i = 0 ; i < nb_comptes ; i++ )
+  if ( nb_comptes )
     {
+      font = gdk_font_load ( fonte );
 
-      gtk_clist_set_row_height ( GTK_CLIST ( CLIST_OPERATIONS ),
-				 g_strtod ( tab_font[7],
-					    NULL ) + 2 );
-      gtk_clist_set_row_height ( GTK_CLIST ( liste_echeances ),
-				 g_strtod ( tab_font[7],
-					    NULL ) + 2 );
+      /* applique la fonte  */
+  
+      style_couleur [0] -> font = font;
+      style_couleur [1] -> font = font;
+      style_rouge_couleur [0] -> font = font;
+      style_rouge_couleur [1] -> font = font;
 
-      p_tab_nom_de_compte_variable++;
+      /* récupère la hauteur de la fonte */
+
+      tab_font = g_strsplit ( fonte,
+			      "-",
+			      FALSE );
+
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+
+      for ( i = 0 ; i < nb_comptes ; i++ )
+	{
+
+	  gtk_clist_set_row_height ( GTK_CLIST ( CLIST_OPERATIONS ),
+				     g_strtod ( tab_font[7],
+						NULL ) + 2 );
+	  gtk_clist_set_row_height ( GTK_CLIST ( liste_echeances ),
+				     g_strtod ( tab_font[7],
+						NULL ) + 2 );
+
+	  p_tab_nom_de_compte_variable++;
+	}
+
+      g_strfreev ( tab_font );
     }
-
-  g_strfreev ( tab_font );
-
 }
 /* **************************************************************************************************************************** */
 
@@ -775,18 +777,21 @@ void choix_fonte_general ( GtkWidget *bouton,
   style_general = gtk_widget_get_default_style ();
   style_general -> font = gdk_font_load ( fonte );
 
-  gtk_notebook_set_page ( GTK_NOTEBOOK ( GNOME_PROPERTY_BOX ( fenetre_preferences ) -> notebook ),
-			  0 );
-  gtk_notebook_set_page ( GTK_NOTEBOOK ( GNOME_PROPERTY_BOX ( fenetre_preferences ) -> notebook ),
-			  3 );
+  if ( nb_comptes )
+    {
+      gtk_notebook_set_page ( GTK_NOTEBOOK ( GNOME_PROPERTY_BOX ( fenetre_preferences ) -> notebook ),
+			      0 );
+      gtk_notebook_set_page ( GTK_NOTEBOOK ( GNOME_PROPERTY_BOX ( fenetre_preferences ) -> notebook ),
+			      3 );
 
-  gtk_widget_destroy ( notebook_general );
-  gtk_widget_destroy ( GNOME_APP ( window ) -> menubar );
-  GNOME_APP ( window ) -> menubar = NULL;
-  gnome_app_create_menus ( GNOME_APP ( window ), 
-			   menu_principal );
+      gtk_widget_destroy ( notebook_general );
+      gtk_widget_destroy ( GNOME_APP ( window ) -> menubar );
+      GNOME_APP ( window ) -> menubar = NULL;
+      gnome_app_create_menus ( GNOME_APP ( window ), 
+			       menu_principal );
 
-  ouverture_confirmee ();
+      ouverture_confirmee ();
+    }
 }
 /* **************************************************************************************************************************** */
 
@@ -856,7 +861,7 @@ void modification_logo_accueil ( void )
       if (chemin_logo)
 	{
 	  gtk_widget_destroy ( ((GtkBoxChild *)(GTK_BOX ( page_accueil ) -> children -> data )) -> widget );
-	}
+	}  
 
       /* on change le logo */
 

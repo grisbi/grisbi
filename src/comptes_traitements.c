@@ -382,6 +382,13 @@ void supprimer_compte ( void )
       p_tab_nom_de_compte_variable++;
     }
 
+  /* le compte courant de l'onglet de comptes est diminué de 1 ou reste */
+  /* à 0 s'il l'était */
+
+  if ( compte_courant_onglet )
+    compte_courant_onglet--;
+
+
   /* retire le bouton du compte dans la liste des comptes */
   /*   pour cela, on efface vbox_liste_comptes et on le recrée */
 
