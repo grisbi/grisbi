@@ -207,7 +207,7 @@ void fill_payment_method_tree ()
 
 	    if ( type_ope -> numerotation_auto )
 	    {
-		number = automatic_numbering_get_new_number ( type_ope ) - 1;
+		number = itoa ( type_ope -> no_en_cours );
 	    }
 	    else
 	    {
@@ -1656,28 +1656,10 @@ void changement_choix_type_echeancier ( struct struct_type_ope *type )
  */
 gchar * automatic_numbering_get_new_number ( struct struct_type_ope * type )
 {
-    gpointer ** p_tab_nom_de_compte_type = p_tab_nom_de_compte + type -> no_compte;
-    GSList * tmp = NULL;
-    gint max = type -> no_en_cours ;
-
-    tmp = (* (struct donnees_compte **) p_tab_nom_de_compte_type) -> gsliste_operations;
-    
-    while ( tmp )
+    if ( type )
     {
-	struct structure_operation * transaction = tmp -> data;
-
-	if ( transaction )
-	{
-	    if ( transaction -> contenu_type && 
-		 transaction -> type_ope == type -> no_type &&
-		 my_atoi ( transaction -> contenu_type ) > max )
-	    {
-		max = atoi ( transaction -> contenu_type );
-	    }
-	}
-
-	tmp = tmp -> next;
+	return itoa ( type -> no_en_cours  + 1 );
     }
 
-    return itoa ( max + 1 );
+    return "1";
 }
