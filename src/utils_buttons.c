@@ -337,7 +337,7 @@ GtkWidget *cree_bouton_url ( const gchar *adr,
  *
  */
 GtkWidget * new_stock_button_with_label ( gchar * stock_id, gchar * name, 
-					  GCallback callback )
+					  GCallback callback, gpointer data )
 {
     GtkWidget * button, *vbox;
 
@@ -351,7 +351,7 @@ GtkWidget * new_stock_button_with_label ( gchar * stock_id, gchar * name,
 
     if ( callback )
     {
-	g_signal_connect ( G_OBJECT(button), "clicked", G_CALLBACK(callback), NULL );
+	g_signal_connect ( G_OBJECT(button), "clicked", G_CALLBACK(callback), data );
     }
     return button;
 }
@@ -359,7 +359,7 @@ GtkWidget * new_stock_button_with_label ( gchar * stock_id, gchar * name,
 
 
 GtkWidget * new_stock_button_with_label_menu ( gchar * stock_id, gchar * name, 
-					       GCallback callback )
+					       GCallback callback, gpointer data )
 {
     GtkWidget * button, * vbox, * hbox, * arrow;
 
@@ -379,7 +379,7 @@ GtkWidget * new_stock_button_with_label_menu ( gchar * stock_id, gchar * name,
 
     if ( callback )
     {
-	g_signal_connect ( G_OBJECT(button), "clicked", G_CALLBACK(callback), NULL );
+	g_signal_connect ( G_OBJECT(button), "clicked", G_CALLBACK(callback), data );
     }
 
     return button;
@@ -393,7 +393,8 @@ GtkWidget * new_stock_image_label ( gchar * stock_id, gchar * name )
     /* Define label */
     label = gtk_label_new ( name );
     gtk_label_set_text_with_mnemonic ( GTK_LABEL(label), name );
-
+    gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
+    
     /* define image */
     image = gtk_image_new_from_stock ( stock_id, GTK_ICON_SIZE_LARGE_TOOLBAR );
     vbox = gtk_vbox_new ( FALSE, 0 );
