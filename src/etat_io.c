@@ -38,11 +38,11 @@ gboolean charge_etat ( gchar *nom_etat )
     {
       /* vérifications d'usage */
 
-      if ( !doc->root
+      if ( !doc->children
 	   ||
-	   !doc->root->name
+	   !doc->children->name
 	   ||
-	   g_strcasecmp ( doc->root->name,
+	   g_strcasecmp ( doc->children->name,
 			  "Grisbi_etat" ))
 	{
 	  dialogue ( _("This file is not a Grisbi report") );
@@ -52,7 +52,7 @@ gboolean charge_etat ( gchar *nom_etat )
 
       /* récupère la version de fichier */
 
-      if (( !strcmp (  xmlNodeGetContent ( doc->root->childs->childs ),
+      if (( !strcmp (  xmlNodeGetContent ( doc->children->children->children ),
 		       "0.4.0" )))
 	return ( charge_etat_version_0_4_0 ( doc ));
 
@@ -60,7 +60,7 @@ gboolean charge_etat ( gchar *nom_etat )
       /* la version nécessaire pour l'ouvrir */
 
       dialogue ( g_strdup_printf ( _("Grisbi version %s is needed to open this file"),
-				   xmlNodeGetContent ( doc->root->childs->childs->next )));
+				   xmlNodeGetContent ( doc->children->children->children->next )));
 
       xmlFreeDoc ( doc );
 
@@ -91,7 +91,7 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
   /* on place node sur les generalites */
 
-  node = doc -> root -> childs;
+  node = doc -> children -> children;
 
   while ( node )
     {
@@ -102,7 +102,7 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
 	  /* node_generalites va faire le tour des generalites */
 
-	  node_generalites = node -> childs;
+	  node_generalites = node -> children;
 
 	  while ( node_generalites )
 	    {
@@ -122,7 +122,7 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 	{
 	  xmlNodePtr node_detail_etat;
 
-	  node_detail_etat = node -> childs;
+	  node_detail_etat = node -> children;
 
 	  while ( node_detail_etat )
 	    {
@@ -262,7 +262,7 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_exo;
 
-		  node_exo = node_detail_etat -> childs;
+		  node_exo = node_detail_etat -> children;
 
 		  /*  on fait le tour des exos */
 
@@ -340,7 +340,7 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_compte;
 
-		  node_compte = node_detail_etat -> childs;
+		  node_compte = node_detail_etat -> children;
 
 		  /*  on fait le tour des comptes */
 
@@ -381,7 +381,7 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_compte;
 
-		  node_compte = node_detail_etat -> childs;
+		  node_compte = node_detail_etat -> children;
 
 		  /*  on fait le tour des comptes */
 
@@ -418,7 +418,7 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_categ;
 
-		  node_categ = node_detail_etat -> childs;
+		  node_categ = node_detail_etat -> children;
 
 		  /*  on fait le tour des categ */
 
@@ -479,7 +479,7 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_ib;
 
-		  node_ib = node_detail_etat -> childs;
+		  node_ib = node_detail_etat -> children;
 
 		  /*  on fait le tour des ib */
 
@@ -539,7 +539,7 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_tiers;
 
-		  node_tiers = node_detail_etat -> childs;
+		  node_tiers = node_detail_etat -> children;
 
 		  /*  on fait le tour des tiers */
 
@@ -581,7 +581,7 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_comp_textes;
 
-		  node_comp_textes = node_detail_etat -> childs;
+		  node_comp_textes = node_detail_etat -> children;
 
 		  /*  on fait le tour des comparaisons */
 
@@ -635,7 +635,7 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_comp_montants;
 
-		  node_comp_montants = node_detail_etat -> childs;
+		  node_comp_montants = node_detail_etat -> children;
 
 		  /*  on fait le tour des comparaisons */
 
@@ -683,7 +683,7 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_mode_paiement;
 
-		  node_mode_paiement = node_detail_etat -> childs;
+		  node_mode_paiement = node_detail_etat -> children;
 
 		  /*  on fait le tour des modes de paiement */
 
@@ -1006,14 +1006,14 @@ gboolean enregistre_etat ( gchar *nom_etat )
 
   /* la racine est grisbi */
 
-  doc->root = xmlNewDocNode ( doc,
+  doc->children = xmlNewDocNode ( doc,
 			      NULL,
 			      "Grisbi_etat",
 			      NULL );
 
   /* on commence à ajouter les generalites */
 
-  node = xmlNewChild ( doc->root,
+  node = xmlNewChild ( doc->children,
 		       NULL,
 		       "Generalites",
 		       NULL );
@@ -1033,7 +1033,7 @@ gboolean enregistre_etat ( gchar *nom_etat )
 		    etat_courant -> nom_etat );
 
 
-  node = xmlNewChild ( doc->root,
+  node = xmlNewChild ( doc->children,
 		       NULL,
 		       "Details",
 		       NULL );

@@ -61,11 +61,8 @@ gint gtktable_initialise (GSList * opes_selectionnees)
   /* on peut maintenant créer la table */
   /* pas besoin d'indiquer la hauteur, elle grandit automatiquement */
 
-  table_etat = gtk_table_new ( 0,
-			       nb_colonnes,
-			       FALSE );
-  gtk_table_set_col_spacings ( GTK_TABLE ( table_etat ),
-			       5 );
+  table_etat = gtk_table_new ( 0, nb_colonnes, FALSE );
+  gtk_table_set_col_spacings ( GTK_TABLE ( table_etat ), 5 );
   if ( GTK_BIN ( scrolled_window_etat ) -> child )
     gtk_container_remove ( GTK_CONTAINER ( scrolled_window_etat ),
 			   GTK_BIN ( scrolled_window_etat ) -> child );

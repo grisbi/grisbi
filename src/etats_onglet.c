@@ -41,89 +41,67 @@ GtkWidget *creation_onglet_etats ( void )
   etat_courant = NULL;
 
 
-  onglet = gtk_hbox_new ( FALSE,
-			  10 );
-  gtk_container_set_border_width ( GTK_CONTAINER ( onglet ),
-				   10 );
+  onglet = gtk_hbox_new ( FALSE, 10 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( onglet ), 10 );
   gtk_widget_show ( onglet );
 
 
   /*   création de la fenetre des noms des états */
   /* on reprend le principe des comptes dans la fenetre des opés */
-
   frame_liste_etats = gtk_frame_new ( NULL );
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame_liste_etats ),
 			      GTK_SHADOW_IN );
-  gtk_box_pack_start ( GTK_BOX ( onglet ),
-		       frame_liste_etats,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX ( onglet ), frame_liste_etats,
+		       FALSE, FALSE, 0 );
   gtk_widget_show (frame_liste_etats);
-
   /* on y met les rapports et les boutons */
-
   gtk_container_add ( GTK_CONTAINER ( frame_liste_etats ),
 		      creation_liste_etats ());
 
 
+  /* Frame de droite */
+  frame = gtk_frame_new ( NULL );
+  gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), GTK_SHADOW_IN );
+  gtk_box_pack_start ( GTK_BOX ( onglet ), frame, TRUE, TRUE, 0 );
+  gtk_widget_show (frame);
 
   /* création du notebook contenant l'état et la config */
-
   notebook_etats = gtk_notebook_new ();
-  gtk_notebook_set_show_tabs ( GTK_NOTEBOOK ( notebook_etats ),
-			       FALSE );
-  gtk_box_pack_start ( GTK_BOX ( onglet ),
-		       notebook_etats,
-		       TRUE,
-		       TRUE,
-		       0 );
+  gtk_notebook_set_show_tabs ( GTK_NOTEBOOK ( notebook_etats ), FALSE );
+  gtk_notebook_set_show_border ( GTK_NOTEBOOK(notebook_etats), FALSE );
+  gtk_container_add ( GTK_CONTAINER(frame), notebook_etats);
   gtk_widget_show ( notebook_etats );
 
 
   /* création de la partie droite */
 
-  vbox = gtk_vbox_new ( FALSE,
-			10 );
-  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_etats ),
-			     vbox,
-			     gtk_label_new ( _("Reports display")));
+  vbox = gtk_vbox_new ( FALSE, 10 );
+  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_etats ), vbox, gtk_label_new ( _("Reports")));
   gtk_widget_show ( vbox );
 
 
   /*  Création de la partie contenant l'état */
 
   frame = gtk_frame_new ( NULL );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       frame,
-		       TRUE,
-		       TRUE,
-		       0 );
-  gtk_frame_set_shadow_type ( GTK_FRAME ( frame ),
-			      GTK_SHADOW_IN );
+  gtk_box_pack_start ( GTK_BOX ( vbox ), frame, TRUE, TRUE, 0 );
+  gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), GTK_SHADOW_NONE );
   gtk_widget_show (frame);
 
   /* on y met une scrolled window qui sera remplit par l'état */
 
-  scrolled_window_etat = gtk_scrolled_window_new ( FALSE,
-						   FALSE );
+  scrolled_window_etat = gtk_scrolled_window_new ( FALSE, FALSE );
+  gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window_etat), GTK_SHADOW_NONE );
   gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window_etat ),
-				   GTK_POLICY_AUTOMATIC,
-				   GTK_POLICY_AUTOMATIC );
-  gtk_container_add ( GTK_CONTAINER ( frame ),
-		      scrolled_window_etat );
+				   GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
+  gtk_container_add ( GTK_CONTAINER ( frame ), scrolled_window_etat );
   gtk_widget_show ( scrolled_window_etat );
 
   /* création de la partie contenant les boutons (personnaliser ...) */
 
   frame = gtk_frame_new ( NULL );
-  gtk_frame_set_shadow_type ( GTK_FRAME ( frame_droite_bas ),
-			      GTK_SHADOW_IN );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       frame,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), GTK_SHADOW_NONE );
+  gtk_box_pack_start ( GTK_BOX ( vbox ), frame,
+		       FALSE, FALSE, 0 );
   gtk_widget_show (frame);
 
   /* on y met les boutons */
@@ -162,8 +140,7 @@ GtkWidget *creation_liste_etats ( void )
 
   onglet = gtk_vbox_new ( FALSE,
 			  10);
-  gtk_container_set_border_width ( GTK_CONTAINER ( onglet ),
-				   10 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( onglet ), 10 );
   gtk_widget_show ( onglet );
 
 
@@ -171,13 +148,9 @@ GtkWidget *creation_liste_etats ( void )
   /*   on place le label dans une frame */
 
   frame = gtk_frame_new ( NULL );
-  gtk_frame_set_shadow_type ( GTK_FRAME ( frame ),
-			      GTK_SHADOW_ETCHED_OUT );
-  gtk_box_pack_start ( GTK_BOX (onglet),
-		       frame,
-		       FALSE,
-		       TRUE,
-		       0);
+  gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), GTK_SHADOW_IN );
+  gtk_box_pack_start ( GTK_BOX (onglet), frame,
+		       FALSE, TRUE, 0);
   gtk_widget_show (frame);
 
 
@@ -227,13 +200,9 @@ GtkWidget *creation_liste_etats ( void )
   /* ajout des boutons pour supprimer / ajouter un état */
 
   frame = gtk_frame_new ( NULL );
-  gtk_frame_set_shadow_type ( GTK_FRAME ( frame ),
-			      GTK_SHADOW_ETCHED_IN );
-  gtk_box_pack_start ( GTK_BOX ( onglet ),
-		       frame,
-		       FALSE,
-		       TRUE,
-		       0);
+  gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), GTK_SHADOW_ETCHED_IN );
+  gtk_box_pack_start ( GTK_BOX ( onglet ), frame,
+		       FALSE, TRUE, 0);
   gtk_widget_show ( frame );
 
 
@@ -334,8 +303,7 @@ GtkWidget *creation_barre_boutons_etats ( void )
   GtkWidget *widget_retour;
   GtkWidget *bouton;
 
-  widget_retour = gtk_hbox_new ( FALSE,
-				 5 );
+  widget_retour = gtk_hbox_new ( FALSE, 5 );
   gtk_widget_show ( widget_retour );
 
   /* on met le bouton rafraichir */
@@ -347,47 +315,30 @@ GtkWidget *creation_barre_boutons_etats ( void )
 			      "clicked",
 			      GTK_SIGNAL_FUNC ( rafraichissement_etat ),
 			      NULL );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
-		       bouton_raffraichir_etat,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_set_sensitive ( bouton_raffraichir_etat,
-			     FALSE );
+  gtk_box_pack_start ( GTK_BOX ( widget_retour ), bouton_raffraichir_etat,
+		       FALSE, FALSE, 0 );
+  gtk_widget_set_sensitive ( bouton_raffraichir_etat, FALSE );
   gtk_widget_show ( bouton_raffraichir_etat );
 
   /* on met le bouton exporter */
 
   bouton_exporter_etat = gtk_button_new_with_label ( _("Export") );
-  gtk_button_set_relief ( GTK_BUTTON ( bouton_exporter_etat ),
-			  GTK_RELIEF_NONE );
-  gtk_widget_set_sensitive ( bouton_exporter_etat,
-			     FALSE );
-  gtk_signal_connect ( GTK_OBJECT ( bouton_exporter_etat ),
-		       "clicked",
-		       GTK_SIGNAL_FUNC ( exporter_etat ),
-		       NULL );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
-		       bouton_exporter_etat,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_button_set_relief ( GTK_BUTTON ( bouton_exporter_etat ), GTK_RELIEF_NONE );
+  gtk_widget_set_sensitive ( bouton_exporter_etat, FALSE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton_exporter_etat ), "clicked",
+		       GTK_SIGNAL_FUNC ( exporter_etat ), NULL );
+  gtk_box_pack_start ( GTK_BOX ( widget_retour ), bouton_exporter_etat,
+		       FALSE, FALSE, 0 );
   gtk_widget_show ( bouton_exporter_etat );
 
   /* on met le bouton importer */
 
   bouton_importer_etat = gtk_button_new_with_label ( _("Import") );
-  gtk_button_set_relief ( GTK_BUTTON ( bouton_importer_etat ),
-			  GTK_RELIEF_NONE );
-  gtk_signal_connect ( GTK_OBJECT ( bouton_importer_etat ),
-		       "clicked",
-		       GTK_SIGNAL_FUNC ( importer_etat ),
-		       NULL );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
-		       bouton_importer_etat,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_button_set_relief ( GTK_BUTTON ( bouton_importer_etat ), GTK_RELIEF_NONE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton_importer_etat ), "clicked",
+		       GTK_SIGNAL_FUNC ( importer_etat ), NULL );
+  gtk_box_pack_start ( GTK_BOX ( widget_retour ), bouton_importer_etat,
+		       FALSE, FALSE, 0 );
   gtk_widget_show ( bouton_importer_etat );
 
   return ( widget_retour );
@@ -1417,7 +1368,7 @@ void exporter_etat ( void )
 
       if ( !enregistre_etat ( nom_etat ))
 	{
-	  dialogue ( "L'enregistrement a échoué." );
+	  dialogue ( _("Cannot save file.") );
 	  return;
 	}
 
@@ -1502,7 +1453,7 @@ void importer_etat ( void )
 
       if ( !charge_etat ( nom_etat ))
 	{
-	  dialogue ( "L'importation a échoué." );
+	  dialogue ( _("Cannot import file.") );
 	  return;
 	}
 
