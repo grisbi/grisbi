@@ -119,7 +119,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	/* Help menu */
 	{menu_name(_("Help"), NULL, NULL), NULL, NULL, 0, "<Branch>", NULL },
 	{menu_name(_("Help"), "Detach", NULL),    NULL,  NULL, 0, "<Tearoff>", NULL },
-	{menu_name(_("Help"), _("Manual"), NULL),   NULL, affiche_aide_locale, 1, NULL, NULL },
+	{menu_name(_("Help"), _("Grisbi Manual"), NULL),   NULL, affiche_aide_locale, 1, NULL, NULL },
 	{menu_name(_("Help"), _("Quickstart"), NULL),   NULL, affiche_aide_locale, 2, "<StockItem>", GTK_STOCK_INDEX },
 	{menu_name(_("Help"), _("Translation"), NULL),   NULL, affiche_aide_locale, 3, NULL, NULL },
 	{menu_name(_("Help"), _("About"), NULL),   NULL, G_CALLBACK (a_propos ) , 1, NULL, NULL },
