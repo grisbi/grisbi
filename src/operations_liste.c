@@ -3240,11 +3240,8 @@ struct structure_operation *  clone_transaction ( struct structure_operation * o
 	return(FALSE);
     }
 
-#ifndef _WIN32
-    bcopy ( operation, new_transaction, sizeof(struct structure_operation) );
-#else
     memcpy(new_transaction, operation, sizeof(struct structure_operation) );
-#endif
+
     new_transaction -> no_operation = 0;
     new_transaction -> no_rapprochement = 0;
 
