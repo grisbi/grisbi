@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # autogen.sh glue for Grisbi
-# $Id: autogen.sh,v 1.7 2004/06/16 10:02:43 benj2 Exp $
+# $Id: autogen.sh,v 1.8 2004/12/16 09:44:00 dionysos-sf Exp $
 #
 # Requires: automake, autoconf, dpkg-dev
 
@@ -9,6 +9,11 @@ PATH_AUTOMAKE=/usr/share/automake
 
 # test for some distribution...
 # Y'a pas plus simple ?
+
+if test -x /usr/share/automake-1.8
+then
+	PATH_AUTOMAKE=/usr/share/automake-1.8
+fi
 
 if test -x /usr/share/automake-1.7
 then
