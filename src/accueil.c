@@ -35,6 +35,7 @@
 #include "echeancier_liste.h"
 #include "devises.h"
 #include "operations_comptes.h"
+#include "operations_liste.h"
 #include "echeancier_formulaire.h"
 #include "tiers_onglet.h"
 #include "imputation_budgetaire.h"
@@ -952,17 +953,22 @@ void update_liste_echeances_auto_accueil ( void )
 {
     if ( echeances_saisies )
     {
-	GtkWidget *vbox;
-	GtkWidget *label;
+	GtkWidget *vbox, *label, *event_box, *hbox;
 	GSList *pointeur_liste;
-	GtkWidget *hbox;
 	struct structure_operation *operation;
+	GtkStyle *style_selectable;
+	GdkColor gray_color;
 
 	/* s'il y avait déjà un fils dans la frame, le détruit */
 	gtk_notebook_remove_page ( GTK_NOTEBOOK ( frame_etat_echeances_auto_accueil ), 0 );
 	/* on affiche la seconde frame dans laquelle on place les échéances à saisir */
 	show_paddingbox ( frame_etat_echeances_auto_accueil );
 
+	gray_color.red =   0.61 * 65535 ;
+	gray_color.green = 0.61 * 65535 ;
+	gray_color.blue =  0.61 * 65535 ;
+	style_selectable = gtk_style_copy ( gtk_widget_get_style ( frame_etat_echeances_auto_accueil ));
+	style_selectable->fg[GTK_STATE_PRELIGHT] = gray_color;
 
 	/* on y place la liste des échéances */
 
@@ -979,6 +985,21 @@ void update_liste_echeances_auto_accueil ( void )
 	    hbox = gtk_hbox_new ( TRUE, 5 );
 	    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 	    gtk_widget_show (  hbox );
+
+	    event_box = gtk_event_box_new ();
+	    gtk_signal_connect ( GTK_OBJECT ( event_box ),
+				 "enter-notify-event",
+				 GTK_SIGNAL_FUNC ( met_en_prelight ),
+				 NULL );
+	    gtk_signal_connect ( GTK_OBJECT ( event_box ),
+				 "leave-notify-event",
+				 GTK_SIGNAL_FUNC ( met_en_normal ),
+				 NULL );
+	    gtk_signal_connect ( GTK_OBJECT ( event_box ),
+				 "button-press-event",
+				 (GtkSignalFunc) select_expired_scheduled_transaction,
+				 operation );
+	    gtk_widget_show ( event_box );
 
 	    /* label à gauche */
 
@@ -999,7 +1020,9 @@ void update_liste_echeances_auto_accueil ( void )
 
 
 	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
-	    gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 5 );
+	    gtk_widget_set_style ( label, style_selectable );
+	    gtk_box_pack_start ( GTK_BOX ( hbox ), event_box, TRUE, TRUE, 5 );
+	    gtk_container_add ( GTK_CONTAINER ( event_box ), label );
 	    gtk_widget_show ( label  );
 
 	    /* label à droite */
@@ -1022,7 +1045,7 @@ void update_liste_echeances_auto_accueil ( void )
 							 NOM_DU_COMPTE ));
 
 	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
-	    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, TRUE, 0 );
+	    gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 5 );
 	    gtk_widget_show ( label );
 
 	    pointeur_liste = pointeur_liste -> next;
@@ -1216,3 +1239,14 @@ void mise_a_jour_fin_comptes_passifs ( void )
     }
 }
 /* ************************************************************************* */
+
+
+
+gboolean select_expired_scheduled_transaction ( GtkWidget * event_box, GdkEventButton *event,
+						struct structure_operation * operation )
+{
+  changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
+  OPERATION_SELECTIONNEE = operation;
+  selectionne_ligne ( compte_courant );
+  edition_operation ();
+}
