@@ -39,14 +39,16 @@ void a_propos ( GtkWidget *bouton,
 
   const gchar *generalites = _("Grisbi is a personnal accounting application for Linux\nSuch a program allows you to sort your financial transactions, whatever they are, in a convenient and intuitive way.  Thus, you will be able to manage them as to fit your needs the more you can.\nGrisbi aims both at simplicty and efficiency for common use, and at a powerful use for power users.  We will always try to respect this as features will come.");
 
-  const gchar *auteurs[] = { _("Cedric Auger <cedric@grisbi.org>: Programming"),
-			    _("Daniel Cartron <doc@grisbi.org>: Manual, website, consultancy"),
-			    _("Benjamin Drieu <bdrieu@april.org>: Programming, Debian packaging"),
-			    _("Alain Portal <dionysos@grisbi.org>: Programming, RedHat packaging"),
-			    _("Gerald Niel <gerald.niel@grisbi.org>: RPM packaging, website"),
-			    _("Andre Pascual <andre@linuxgraphic.org>: Logo"),
-			    _("Jakub 'jimmac' Steiner <jimmac@ximian.com>: Icons"),
-			    _("Tigert <tigert@gimp.org>: Icons"),
+  const gchar *auteurs[] = { _("Cedric Auger (cedric@grisbi.org) : Programming"),
+			     _("Daniel Cartron (doc@grisbi.org) : Manual, website, consultancy"),
+			     _("Benjamin Drieu (bdrieu@april.org) : Programming, Debian packaging"),
+			     _("Alain Portal <dionysos@grisbi.org>: Programming, RedHat packaging"),
+			     _("Gerald Niel <gerald.niel@grisbi.org>: Slackware packaging, website"),
+			     _("Matthieu Puppat <tieum.tieum@free.fr>: Mandrake packaging"),
+			     _("Francois Terrot <francois@terrot.net>: Windows packaging, cygwin port"),
+			     _("Thierry Thomas <thierry@pompo.net>: FreeBSD packaging"),
+			     _("Dominique Parisot <parisot@villey-le-sec.com>: contributor"),
+			     _("Andre Pascual (andre@linuxgraphic.org) : Logo"),
 			    NULL };
   const gchar *traducteurs[] = { _("Daniel Cartron (cartron@grisbi.org) : English"),
 				 NULL };
