@@ -512,7 +512,6 @@ gint bloque_echap_choix_devise ( GtkWidget *dialog,
 				 GdkEventKey *key,
 				 gpointer null );
 gboolean nom_nouvelle_devise_defini ( GtkWidget *entree,
-				      GdkEventFocus *ev,
 				      GtkWidget *label );
 void retrait_devise ( GtkWidget *bouton,
 		      GtkWidget *liste );
@@ -521,8 +520,8 @@ gint recherche_devise_par_nom ( struct struct_devise *devise,
 gint recherche_devise_par_no ( struct struct_devise *devise,
 			       gint *no_devise );
 gint selection_devise ( gchar *nom_du_compte );
-void passe_a_l_euro ( GtkWidget *toggle_bouton,
-		      GtkWidget *hbox );
+gboolean passe_a_l_euro ( GtkWidget *toggle_bouton,
+			  GtkWidget *hbox );
 void demande_taux_de_change ( struct struct_devise *devise_compte,
 			      struct struct_devise *devise,
 			      gint une_devise_compte_egale_x_devise_ope,
