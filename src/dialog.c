@@ -38,7 +38,8 @@
  *
  * \param text Text to display in window
  * \param hint Hint to display
- */void dialogue_hint ( gchar *text, gchar *hint )
+ */
+void dialogue_hint ( gchar *text, gchar *hint )
 {
   dialogue_special ( GTK_MESSAGE_INFO, make_hint(hint, text) );
 }
@@ -93,6 +94,7 @@ void dialogue_warning ( gchar *text )
 }
 
 
+
 /**
  * Display a warning dialog window with an optional hint.
  *
@@ -103,6 +105,7 @@ void dialogue_warning_hint ( gchar *text, gchar * hint )
 {
   dialogue_special ( GTK_MESSAGE_WARNING, make_hint(hint, text) );
 }
+
 
 
 /**
@@ -126,6 +129,30 @@ void dialogue_special ( GtkMessageType param, gchar * text )
 }
 
 
+
+/**
+ * Display a dialog window with arbitrary icon.
+ *
+ * \param param Type of Window to display
+ * \param text Text to display in window
+ */
+GtkWidget * dialogue_special_no_run ( GtkMessageType param, GtkButtonsType buttons,
+				      gchar * text )
+{
+  GtkWidget *dialog;
+
+  dialog = gtk_message_dialog_new ( GTK_WINDOW (window), 
+				    GTK_DIALOG_DESTROY_WITH_PARENT,
+				    param, buttons, text );
+  gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
+  
+  gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
+
+  return dialog;
+}
+
+
+
 /**
  * This function pop ups a dialog with a hint (first sentence, in
  * bold), an informal text and a checkbox that allow this message not
@@ -142,6 +169,7 @@ void dialogue_conditional_hint ( gchar *hint, gchar * text, int * var )
 {
   dialogue_conditional ( make_hint(hint, text), var );
 }
+
 
 
 /**
@@ -180,6 +208,7 @@ void dialogue_conditional ( gchar *text, int * var )
 }
 
 
+
 /**
  * Alias for question_yes_no().
  *
@@ -190,6 +219,7 @@ gboolean question ( gchar *texte )
 {
   return question_yes_no ( texte );
 }
+
 
 
 /**
@@ -206,6 +236,7 @@ gboolean question_yes_no_hint ( gchar * hint, gchar *texte )
 {
   return question_yes_no ( make_hint ( hint, texte ) );
 }
+
 
 
 /**
