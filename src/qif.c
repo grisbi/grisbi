@@ -842,8 +842,8 @@ void exporter_fichier_qif ( void )
     }
 
   
-  dialogue_conditional_hint ( _("QIF format does not define currencies."), 
-			      _("All transactions will be converted into currency of their account."),
+  dialogue_conditional_info_hint ( _("QIF format does not define currencies."), 
+				   _("All transactions will be converted into currency of their account."),
 			      &etat.display_message_qif_export_currency ); 
 
   dialog = gtk_dialog_new_with_buttons ( _("Export QIF files"),
@@ -860,7 +860,7 @@ void exporter_fichier_qif ( void )
   paddingbox = new_paddingbox_with_title ( GTK_DIALOG(dialog)->vbox, FALSE,
 					   _("Select accounts to export") );
   gtk_box_set_spacing ( GTK_BOX(GTK_DIALOG(dialog)->vbox), 6 );
-  gtk_container_set_border_width ( paddingbox, 6 );
+  gtk_container_set_border_width ( GTK_CONTAINER(paddingbox), 6 );
 
   table = gtk_table_new ( 3, nb_comptes, FALSE );
   gtk_container_set_border_width ( GTK_CONTAINER ( table ), 10 );
@@ -874,7 +874,7 @@ void exporter_fichier_qif ( void )
   for ( i = 0 ; i < nb_comptes ; i++ )
     {
 
-      check_button = gtk_check_button_new ();
+      check_button = gtk_check_button_new_with_label ( NOM_DU_COMPTE );
       gtk_table_attach ( GTK_TABLE ( table ),
 			 check_button,
 			 0, 1,
@@ -883,19 +883,6 @@ void exporter_fichier_qif ( void )
 			 GTK_SHRINK | GTK_FILL,
 			 0, 0 );
       gtk_widget_show ( check_button );
-
-      label = gtk_label_new ( NOM_DU_COMPTE );
-      gtk_misc_set_alignment ( GTK_MISC ( label ),
-			       0,
-			       0.5 );
-      gtk_table_attach ( GTK_TABLE ( table ),
-			 label,
-			 1, 2,
-			 i, i+1,
-			 GTK_SHRINK | GTK_FILL,
-			 GTK_SHRINK | GTK_FILL,
-			 0, 0 );
-      gtk_widget_show ( label );
 
       entree = gnome_file_entry_new ("qif", _("Exportation of a QIF file"));
       gtk_widget_set_usize ( GTK_WIDGET ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( entree ) )),
@@ -916,7 +903,7 @@ void exporter_fichier_qif ( void )
 			    GINT_TO_POINTER ( i ));
       gtk_table_attach ( GTK_TABLE ( table ),
 			 entree,
-			 2, 3,
+			 1, 2,
 			 i, i+1,
 			 GTK_SHRINK | GTK_FILL,
 			 GTK_SHRINK | GTK_FILL,
