@@ -38,6 +38,10 @@ typedef struct
     gdouble current_balance;
     gdouble marked_balance;
 
+    /** @name remaining of the minimun balance message */
+    gint mini_balance_wanted_message;
+    gint mini_balance_authorized_message;
+
     /** @name transactions list : contains a list of transactions structures */
     GSList *transactions_list;
 
@@ -90,13 +94,16 @@ gdouble gsb_account_get_adjustment_value ( gint no_account );
 gpointer gsb_account_get_column ( gint no_account,
 				  gint no_column );
 gdouble gsb_account_get_current_balance ( gint no_account );
+GDate *gsb_account_get_current_reconcile_date ( gint no_account );
 gpointer gsb_account_get_current_transaction ( gint no_account );
 gchar *gsb_account_get_id ( gint no_account );
 gdouble gsb_account_get_init_balance ( gint no_account );
 kind_account gsb_account_get_kind ( gint no_account );
 gdouble gsb_account_get_marked_balance ( gint no_account );
 gdouble gsb_account_get_mini_balance_authorized ( gint no_account );
+gboolean gsb_account_get_mini_balance_authorized_message ( gint no_account );
 gdouble gsb_account_get_mini_balance_wanted ( gint no_account );
+gboolean gsb_account_get_mini_balance_wanted_message ( gint no_account );
 gchar *gsb_account_get_name ( gint no_account );
 gint gsb_account_get_nb_rows ( gint no_account );
 gboolean gsb_account_get_r ( gint no_account );
@@ -111,6 +118,8 @@ gboolean gsb_account_set_column ( gint no_account,
 				  gpointer column );
 gboolean gsb_account_set_current_balance ( gint no_account,
 					   gdouble balance );
+gboolean gsb_account_set_current_reconcile_date ( gint no_account,
+						  GDate *date );
 gboolean gsb_account_set_current_transaction ( gint no_account,
 					       gpointer transaction );
 gboolean gsb_account_set_id ( gint no_account,
@@ -123,8 +132,12 @@ gboolean gsb_account_set_marked_balance ( gint no_account,
 					  gdouble balance );
 gboolean gsb_account_set_mini_balance_authorized ( gint no_account,
 						   gdouble balance );
+gboolean gsb_account_set_mini_balance_authorized_message ( gint no_account,
+							   gboolean value );
 gboolean gsb_account_set_mini_balance_wanted ( gint no_account,
 					       gdouble balance );
+gboolean gsb_account_set_mini_balance_wanted_message ( gint no_account,
+						       gboolean value );
 gboolean gsb_account_set_name ( gint no_account,
 				gchar *name );
 gboolean gsb_account_set_nb_rows ( gint no_account,

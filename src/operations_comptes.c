@@ -199,7 +199,7 @@ GtkWidget *creation_liste_comptes (void)
 
     if ( nb_comptes )
 	label_releve = gtk_label_new ( g_strconcat ( COLON(_("Last statement")),
-						     DATE_DERNIER_RELEVE,
+						     gsb_account_get_current_reconcile_date (compte_courant),
 						     NULL ) );
     else
 	label_releve = gtk_label_new ( COLON(_("Last statement")) );
@@ -337,12 +337,12 @@ gboolean changement_compte ( gint *compte)
 
     /*     mise en place de la date du dernier relevé */
 
-    if ( DATE_DERNIER_RELEVE )
+    if ( gsb_account_get_current_reconcile_date (compte_courant) )
 	gtk_label_set_text ( GTK_LABEL ( label_releve ),
 			     g_strdup_printf ( _("Last statement: %02d/%02d/%d"), 
-					       g_date_day ( DATE_DERNIER_RELEVE ),
-					       g_date_month ( DATE_DERNIER_RELEVE ),
-					       g_date_year ( DATE_DERNIER_RELEVE ) ));
+					       g_date_day ( gsb_account_get_current_reconcile_date (compte_courant) ),
+					       g_date_month ( gsb_account_get_current_reconcile_date (compte_courant) ),
+					       g_date_year ( gsb_account_get_current_reconcile_date (compte_courant) ) ));
 
     else
 	gtk_label_set_text ( GTK_LABEL ( label_releve ),

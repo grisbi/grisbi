@@ -598,11 +598,11 @@ void equilibrage ( void )
 
     /* récupère l'ancienne date et l'augmente d'1 mois et le met dans entree_nouvelle_date_equilibrage */
 
-    if ( DATE_DERNIER_RELEVE )
+    if ( gsb_account_get_current_reconcile_date (compte_courant) )
     {
-	date = g_date_new_dmy ( g_date_day ( DATE_DERNIER_RELEVE ),
-				g_date_month ( DATE_DERNIER_RELEVE ),
-				g_date_year ( DATE_DERNIER_RELEVE ));
+	date = g_date_new_dmy ( g_date_day ( gsb_account_get_current_reconcile_date (compte_courant) ),
+				g_date_month ( gsb_account_get_current_reconcile_date (compte_courant) ),
+				g_date_year ( gsb_account_get_current_reconcile_date (compte_courant) ));
 
 	gtk_label_set_text ( GTK_LABEL ( label_ancienne_date_equilibrage ),
 			     g_strdup_printf ( "%02d/%02d/%d",
@@ -975,10 +975,10 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
 	return FALSE;
 	return FALSE;
     }
-
-    DATE_DERNIER_RELEVE = g_date_new_dmy ( date_releve_jour,
-					   date_releve_mois,
-					   date_releve_annee );
+    gsb_account_set_current_reconcile_date ( compte_courant,
+					     g_date_new_dmy ( date_releve_jour,
+							      date_releve_mois,
+							      date_releve_annee ));
 
     gtk_label_set_text ( GTK_LABEL ( label_releve ),
 			 g_strdup_printf ( _("Last statement: %02d/%02d/%d"), 

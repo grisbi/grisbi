@@ -1001,9 +1001,10 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 				     strlen (xmlNodeGetContent (node_detail)) > 0 )
 				{
 				    pointeur_char = g_strsplit ( xmlNodeGetContent ( node_detail ), "/", 3 );
-				    DATE_DERNIER_RELEVE = g_date_new_dmy ( my_atoi ( pointeur_char [0] ),
-									   my_atoi ( pointeur_char [1] ),
-									   my_atoi ( pointeur_char [2] ));
+				    gsb_account_set_current_reconcile_date ( no_compte,
+									     g_date_new_dmy ( my_atoi ( pointeur_char [0] ),
+											      my_atoi ( pointeur_char [1] ),
+											      my_atoi ( pointeur_char [2] )));
 				    g_strfreev ( pointeur_char );
 				}
 			    }
@@ -1378,14 +1379,18 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 
 	    if ( gsb_account_get_current_balance (no_compte) < gsb_account_get_mini_balance_wanted (no_compte) )
-		MESSAGE_SOUS_MINI_VOULU = 0;
+		gsb_account_set_mini_balance_wanted_message ( no_compte,
+							      0 );
 	    else
-		MESSAGE_SOUS_MINI_VOULU = 1;
+		gsb_account_set_mini_balance_wanted_message ( no_compte,
+							      1 );
 
 	    if ( gsb_account_get_current_balance (no_compte) < gsb_account_get_mini_balance_authorized (no_compte) )
-		MESSAGE_SOUS_MINI = 0;
+		gsb_account_set_mini_balance_authorized_message ( no_compte,
+								  0 );
 	    else
-		MESSAGE_SOUS_MINI = 1;
+		gsb_account_set_mini_balance_authorized_message ( no_compte,
+								  1 );
 
 	    /*       la selection au depart est en bas de la liste */
 
@@ -3222,12 +3227,12 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 
 	/* mise en forme de la date du dernier releve */
 
-	if ( DATE_DERNIER_RELEVE )
-	    pointeur_char = g_strconcat ( itoa ( g_date_day ( DATE_DERNIER_RELEVE ) ),
+	if ( gsb_account_get_current_reconcile_date (i) )
+	    pointeur_char = g_strconcat ( itoa ( g_date_day ( gsb_account_get_current_reconcile_date (i) ) ),
 					  "/",
-					  itoa ( g_date_month ( DATE_DERNIER_RELEVE ) ),
+					  itoa ( g_date_month ( gsb_account_get_current_reconcile_date (i) ) ),
 					  "/",
-					  itoa ( g_date_year ( DATE_DERNIER_RELEVE ) ),
+					  itoa ( g_date_year ( gsb_account_get_current_reconcile_date (i) ) ),
 					  NULL );
 	else
 	    pointeur_char = NULL;

@@ -1124,7 +1124,8 @@ void modification_details_compte ( void )
 	gsb_account_set_mini_balance_authorized ( compte_courant_onglet, 
 						  my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_autorise ))),
 							      NULL ));
-	MESSAGE_SOUS_MINI = 0;
+	gsb_account_set_mini_balance_authorized_message ( compte_courant_onglet,
+							  0 );
 
 	mise_a_jour_liste_comptes_accueil = 1;
 	mise_a_jour_soldes_minimaux = 1;
@@ -1141,7 +1142,8 @@ void modification_details_compte ( void )
 	gsb_account_set_mini_balance_wanted ( compte_courant_onglet, 
 					      my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_voulu ))),
 							  NULL ));
-	MESSAGE_SOUS_MINI_VOULU = 0;
+	gsb_account_set_mini_balance_wanted_message ( compte_courant_onglet,
+						      0 );
 
 	mise_a_jour_soldes_minimaux = 1;
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;

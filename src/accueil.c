@@ -1946,7 +1946,7 @@ void affiche_dialogue_soldes_minimaux ( void )
 	     &&
 	     gsb_account_get_kind (i) != GSB_TYPE_LIABILITIES
 	     &&
-	     !MESSAGE_SOUS_MINI
+	     !gsb_account_get_mini_balance_authorized_message (i)
 	     &&
 	     !patience_en_cours )
 	{
@@ -1954,14 +1954,16 @@ void affiche_dialogue_soldes_minimaux ( void )
 	    {
 		liste_autorise_et_voulu = g_slist_append ( liste_autorise_et_voulu,
 							   gsb_account_get_name (i) );
-		MESSAGE_SOUS_MINI_VOULU = 1;
+		gsb_account_set_mini_balance_wanted_message ( i,
+							      1 );
 	    }
 	    else
 	    {
 		liste_autorise = g_slist_append ( liste_autorise,
 						  gsb_account_get_name (i) );
 	    }
-	    MESSAGE_SOUS_MINI = 1;
+	    gsb_account_set_mini_balance_authorized_message ( i,
+							      1 );
 	}
 
 	if ( solde_courant < solde_mini_voulu
@@ -1970,21 +1972,24 @@ void affiche_dialogue_soldes_minimaux ( void )
 	     &&
 	     gsb_account_get_kind (i) != GSB_TYPE_LIABILITIES
 	     &&
-	     !MESSAGE_SOUS_MINI_VOULU
+	     !gsb_account_get_mini_balance_wanted_message (i)
 	     &&
 	     !patience_en_cours )
 	    {
 		liste_voulu = g_slist_append ( liste_voulu,
 					       gsb_account_get_name (i) );
-		MESSAGE_SOUS_MINI_VOULU = 1;
+		gsb_account_set_mini_balance_wanted_message ( i,
+							      1 );
 	    }
 
 	/* 	si on repasse au dessus des seuils, c'est comme si on n'avait rien affiché */
 
 	if ( solde_courant > solde_mini )
-	    MESSAGE_SOUS_MINI = 0;
+	    gsb_account_set_mini_balance_authorized_message ( i,
+							      0 );
 	if ( solde_courant > solde_mini_voulu )
-	    MESSAGE_SOUS_MINI_VOULU = 0;
+	    gsb_account_set_mini_balance_wanted_message ( i,
+							  0 );
     }
 
     /*     on crée le texte récapilutatif */

@@ -449,8 +449,10 @@ void ouverture_confirmee ( void )
 
 	/* 	on met à jour les affichage solde mini et autres */
 
-	MESSAGE_SOUS_MINI = gsb_account_get_current_balance (i) < gsb_account_get_mini_balance_authorized (i);
-	MESSAGE_SOUS_MINI_VOULU = gsb_account_get_current_balance (i) < gsb_account_get_mini_balance_wanted (i);
+	gsb_account_set_mini_balance_authorized_message ( i,
+							  gsb_account_get_current_balance (i) < gsb_account_get_mini_balance_authorized (i));
+	gsb_account_set_mini_balance_wanted_message ( i,
+						      gsb_account_get_current_balance (i) < gsb_account_get_mini_balance_wanted (i) );
 
 	/*     on initialise la fonction de classement  */
 

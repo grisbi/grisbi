@@ -859,3 +859,119 @@ gboolean gsb_account_set_current_transaction ( gint no_account,
 
 
 
+/** get the value of mini_balance_wanted_message  on the account given
+ * \param no_account no of the account
+ * \return mini_balance_wanted_message or 0 if the account doesn't exist
+ * */
+gboolean gsb_account_get_mini_balance_wanted_message ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return 0;
+
+    return account -> mini_balance_wanted_message;
+}
+
+
+/** set the value of mini_balance_wanted_message in the account given
+ * \param no_account no of the account
+ * \param value 
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_mini_balance_wanted_message ( gint no_account,
+						       gboolean value )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> mini_balance_wanted_message = value;
+
+    return TRUE;
+}
+
+
+/** get the value of mini_balance_authorized_message  on the account given
+ * \param no_account no of the account
+ * \return mini_balance_authorized_message or 0 if the account doesn't exist
+ * */
+gboolean gsb_account_get_mini_balance_authorized_message ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return 0;
+
+    return account -> mini_balance_authorized_message;
+}
+
+
+/** set the value of mini_balance_authorized_message in the account given
+ * \param no_account no of the account
+ * \param value 
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_mini_balance_authorized_message ( gint no_account,
+							   gboolean value )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> mini_balance_authorized_message = value;
+
+    return TRUE;
+}
+
+
+
+/** get the reconcile_date of the account
+ * \param no_account no of the account
+ * \return a GDate of the reconcile date or NULL if the account doesn't exist
+ * */
+GDate *gsb_account_get_current_reconcile_date ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return NULL;
+
+    return account -> reconcile_date;
+}
+
+
+/** set the reconcile_date of the account
+ * \param no_account no of the account
+ * \param date date to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_current_reconcile_date ( gint no_account,
+						  GDate *date )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> reconcile_date = date;
+
+    return TRUE;
+}
+
+
+
