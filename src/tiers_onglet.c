@@ -826,7 +826,7 @@ gboolean verifie_double_click ( GtkWidget *liste, GdkEventButton *ev, gpointer n
 {
     if ( ev -> type == GDK_2BUTTON_PRESS )
     {
-	expand_selected_category();
+	expand_selected_tiers (NULL, NULL, NULL);
     }
 
     return FALSE;
