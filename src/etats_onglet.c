@@ -358,21 +358,21 @@ GtkWidget *creation_barre_boutons_etats ( void )
 
   /* on met le bouton imprimer */
 
-  bouton_imprimer_etat = gtk_button_new_with_label ( _("Print") );
-  gtk_button_set_relief ( GTK_BUTTON ( bouton_imprimer_etat ),
-			  GTK_RELIEF_NONE );
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton_imprimer_etat ),
-			      "clicked",
-			      GTK_SIGNAL_FUNC ( impression_etat ),
-			      NULL );
-  gtk_widget_set_sensitive ( bouton_imprimer_etat,
-			     FALSE );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
-		       bouton_imprimer_etat,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_imprimer_etat );
+/*   bouton_imprimer_etat = gtk_button_new_with_label ( _("Print") ); */
+/*   gtk_button_set_relief ( GTK_BUTTON ( bouton_imprimer_etat ), */
+/* 			  GTK_RELIEF_NONE ); */
+/*   gtk_signal_connect_object ( GTK_OBJECT ( bouton_imprimer_etat ), */
+/* 			      "clicked", */
+/* 			      GTK_SIGNAL_FUNC ( impression_etat ), */
+/* 			      NULL ); */
+/*   gtk_widget_set_sensitive ( bouton_imprimer_etat, */
+/* 			     FALSE ); */
+/*   gtk_box_pack_start ( GTK_BOX ( widget_retour ), */
+/* 		       bouton_imprimer_etat, */
+/* 		       FALSE, */
+/* 		       FALSE, */
+/* 		       0 ); */
+/*   gtk_widget_show ( bouton_imprimer_etat ); */
 
   /* on met le bouton exporter */
 
@@ -1240,8 +1240,8 @@ void efface_etat ( void )
 			   "" );
       gtk_widget_set_sensitive ( bouton_personnaliser_etat,
 				 FALSE );
-      gtk_widget_set_sensitive ( bouton_imprimer_etat,
-				 FALSE );
+/*       gtk_widget_set_sensitive ( bouton_imprimer_etat, */
+/* 				 FALSE ); */
       gtk_widget_set_sensitive ( bouton_exporter_etat,
 				 FALSE );
       gtk_widget_set_sensitive ( bouton_dupliquer_etat,

@@ -167,12 +167,8 @@ extern gint ancienne_ligne_selection;
 extern GtkStyle *style_couleur [2];
 extern GtkStyle *style_rouge_couleur [2];
 extern GtkStyle *style_gris;                     /* utilisé pour le grisé des échéances */
-extern gchar * fonte_liste;
-extern gchar * fonte_general;
-extern gchar * list_font_name; /* FIXME FONTS: remove */
-extern gchar * list_font_size; /* FIXME FONTS: remove */
-extern gchar * general_font_name; /* FIXME FONTS: remove */
-extern gchar * general_font_size; /* FIXME FONTS: remove */
+extern gchar *fonte_liste;                                     /*  adr de la fonte en cours ou NULL si non choisie */
+extern gchar *fonte_general;                                     /*  adr de la fonte en cours ou NULL si non choisie */
 extern GtkWidget *hbox_comptes_equilibrage;
 extern GtkWidget *formulaire;
 extern GtkWidget *pointeur_fenetre_nouveau_compte;
@@ -362,7 +358,7 @@ extern GtkWidget *separateur_manu_auto;
 extern GtkWidget *separateur_auto_mini;
 extern GtkWidget *separateur_ech_finies_soldes_mini;
 extern GtkWidget *separateur_des_soldes_mini;
-extern GtkWidget *dialogue_echeance;
+
 
 
 /***********************************/ 
@@ -439,7 +435,6 @@ extern GtkWidget *clist_devises_parametres;
 extern GtkWidget *bouton_supprimer_devise;
 extern GtkWidget *entree_nom_devise_parametres;
 extern GtkWidget *entree_code_devise_parametres;
-extern GtkWidget *entree_iso_code_devise_parametres;
 extern GtkWidget *check_button_euro;                    /*bouton passera à l'euro */
 extern GtkWidget *hbox_devise_associee;                  /* ligne contenant l'option menu de la devise associée */
 extern GtkWidget *label_date_dernier_change;       /* affiche soit aucun change entré, soit la date du dernier change */
@@ -652,7 +647,7 @@ extern GtkWidget *bouton_etat_courant;          /* adr du bouton de l'état en co
 extern struct struct_etat *etat_courant;
 extern GtkWidget *bouton_effacer_etat;
 extern GtkWidget *bouton_personnaliser_etat;
-extern GtkWidget *bouton_raffraichir_etat;
+/* extern GtkWidget *bouton_imprimer_etat; */
 extern GtkWidget *bouton_exporter_etat;
 extern GtkWidget *bouton_importer_etat;
 extern GtkWidget *bouton_dupliquer_etat;

@@ -147,12 +147,8 @@ gint ancienne_ligne_selection;
 GtkStyle *style_couleur [2];
 GtkStyle *style_rouge_couleur [2];
 GtkStyle *style_gris;                     /* utilisé pour le grisé des échéances */
-gchar * fonte_liste;
-gchar * fonte_general;
-gchar * list_font_name; /* FIXME FONTS: remove */
-gchar * list_font_size; /* FIXME FONTS: remove */
-gchar * general_font_name; /* FIXME FONTS: remove */
-gchar * general_font_size; /* FIXME FONTS: remove */
+gchar *fonte_liste;                                     /*  adr de la fonte en cours ou NULL si non choisie */
+gchar *fonte_general;                                     /*  adr de la fonte en cours ou NULL si non choisie */
 GtkWidget *hbox_comptes_equilibrage;
 GtkWidget *formulaire;
 GtkWidget *pointeur_fenetre_nouveau_compte;
@@ -333,7 +329,6 @@ GtkWidget *separateur_manu_auto;
 GtkWidget *separateur_auto_mini;
 GtkWidget *separateur_ech_finies_soldes_mini;
 GtkWidget *separateur_des_soldes_mini;
-GtkWidget *dialogue_echeance;
 
 
 /***********************************/ 
@@ -406,7 +401,6 @@ gint nb_devises_tmp;                             /*  utilisé à la place de nb_de
 GtkWidget *clist_devises_parametres;
 GtkWidget *bouton_supprimer_devise;
 GtkWidget *entree_nom_devise_parametres;
-GtkWidget *entree_iso_code_devise_parametres;
 GtkWidget *entree_code_devise_parametres;
 GtkWidget *check_button_euro;                    /*bouton passera à l'euro */
 GtkWidget *hbox_devise_associee;                  /* ligne contenant l'option menu de la devise associée */
@@ -620,7 +614,7 @@ GtkWidget *bouton_etat_courant;          /* adr du bouton de l'état en cours, po
 struct struct_etat *etat_courant;
 GtkWidget *bouton_effacer_etat;
 GtkWidget *bouton_personnaliser_etat;
-GtkWidget *bouton_raffraichir_etat;
+/* GtkWidget *bouton_imprimer_etat; */
 GtkWidget *bouton_exporter_etat;
 GtkWidget *bouton_importer_etat;
 GtkWidget *bouton_dupliquer_etat;
