@@ -1680,49 +1680,53 @@ void remplit_liste_tri_par_type ( gint no_compte )
   
   while ( liste_tmp )
     {
+      GSList *liste_tmp2;
       struct struct_type_ope *type_ope;
       gchar *texte[1];
       gint no_ligne;
 
+      liste_tmp2 = g_slist_find_custom ( liste_tmp_types[no_compte],
+					 GINT_TO_POINTER ( abs ( GPOINTER_TO_INT ( liste_tmp -> data ))),
+					 (GCompareFunc) recherche_type_ope_par_no );
 
-      type_ope = g_slist_find_custom ( liste_tmp_types[no_compte],
-				       GINT_TO_POINTER ( abs ( GPOINTER_TO_INT ( liste_tmp -> data ))),
-				       (GCompareFunc) recherche_type_ope_par_no ) -> data;
+      if ( liste_tmp2 )
+	{
+	  type_ope = liste_tmp2 -> data;
 
-      texte[0] = type_ope -> nom_type;
+	  texte[0] = type_ope -> nom_type;
 
-      if ( type_ope -> signe_type == 1 )
-	texte[0] = g_strconcat ( texte[0],
-				 " ( - )",
-				 NULL );
-      else
-	if ( type_ope -> signe_type == 2 )
-	  texte[0] = g_strconcat ( texte[0],
-				   " ( + )",
-				   NULL );
-	else
-	  if ( neutres_inclus_tmp[no_compte] )
-	    {
-	      /* si c'est un type neutre et qu'ils sont inclus, celui-ci est soit positif soit négatif */
+	  if ( type_ope -> signe_type == 1 )
+	    texte[0] = g_strconcat ( texte[0],
+				     " ( - )",
+				     NULL );
+	  else
+	    if ( type_ope -> signe_type == 2 )
+	      texte[0] = g_strconcat ( texte[0],
+				       " ( + )",
+				       NULL );
+	    else
+	      if ( neutres_inclus_tmp[no_compte] )
+		{
+		  /* si c'est un type neutre et qu'ils sont inclus, celui-ci est soit positif soit négatif */
 	    
-	      if ( GPOINTER_TO_INT ( liste_tmp -> data ) < 0 )
-		texte[0] = g_strconcat ( texte[0],
-					 " ( - )",
-					 NULL );
-	      else
-		texte[0] = g_strconcat ( texte[0],
-					 " ( + )",
-					 NULL );
+		  if ( GPOINTER_TO_INT ( liste_tmp -> data ) < 0 )
+		    texte[0] = g_strconcat ( texte[0],
+					     " ( - )",
+					     NULL );
+		  else
+		    texte[0] = g_strconcat ( texte[0],
+					     " ( + )",
+					     NULL );
 
-	    }
+		}
 
-      no_ligne = gtk_clist_append ( GTK_CLIST ( type_liste_tri ),
-				    texte );
+	  no_ligne = gtk_clist_append ( GTK_CLIST ( type_liste_tri ),
+					texte );
 
-      gtk_clist_set_row_data ( GTK_CLIST ( type_liste_tri ),
-			       no_ligne,
-			       liste_tmp -> data );
-
+	  gtk_clist_set_row_data ( GTK_CLIST ( type_liste_tri ),
+				   no_ligne,
+				   liste_tmp -> data );
+	}
       liste_tmp = liste_tmp -> next;
     }
 }
@@ -1807,7 +1811,6 @@ void save_ordre_liste_type_tri ( void )
     liste_tri_tmp[no_compte] = g_slist_append ( liste_tri_tmp[no_compte],
 						gtk_clist_get_row_data ( GTK_CLIST ( type_liste_tri ),
 									 i ));
-
 }
 /* ************************************************************************************************************** */
 

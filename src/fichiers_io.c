@@ -1838,7 +1838,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 				  gint i;
 
 				  pointeur_char = g_strsplit ( xmlNodeGetContent ( node_detail ),
-							       "-",
+							       "/",
 							       0 );
 
 				  i = 0;
@@ -3208,7 +3208,7 @@ gboolean enregistre_fichier ( void )
 	{
 	  if ( pointeur_char )
 	    pointeur_char = g_strconcat ( pointeur_char,
-					  "-",
+					  "/",
 					  itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
 					  NULL );
 	  else
@@ -4184,20 +4184,27 @@ gchar *itoa ( gint integer )
   div_t result_div;
   gchar *chaine;
   gint i = 0;
+  gint num;
 
   chaine = malloc ( 11*sizeof (char) );
+  num = abs(integer);
 
   do
     {
-      result_div = div ( integer, 10 );
+      result_div = div ( num, 10 );
       chaine[i] = result_div.rem + 48;
       i++;
     }
-  while ( ( integer = result_div.quot ) != 0 );
+  while ( ( num = result_div.quot ));
 
   chaine[i] = 0;
 
   g_strreverse ( chaine );
+
+  if ( integer < 0 )
+    chaine = g_strconcat ( "-",
+			   chaine,
+			   NULL );
 
   return ( chaine );
 }
