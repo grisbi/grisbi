@@ -44,7 +44,7 @@ extern gpointer **p_tab_nom_de_compte_variable;
 /* *******************************************************************************/
 gboolean recuperation_donnees_csv ( FILE *fichier )
 {
-	gchar *pointeur_char;
+    gchar *pointeur_char;
 	struct struct_compte_importation *compte;
 	gint retour = 0;
 	gchar **tab_lignecourante;
@@ -306,7 +306,8 @@ gboolean recuperation_donnees_csv ( FILE *fichier )
 				printf(_("DEBUG kik0r : Categ found %s\n"),operation -> categ); // DEBUG
 				
 				/* on enregistre l'opé */
-				if ( retour != EOF && operation && operation -> date_tmp )
+
+				if ( retour != EOF && operation && operation -> date )
 				{
 					compte -> operations_importees = g_slist_append ( compte -> operations_importees,operation );
 				}
@@ -341,7 +342,7 @@ gboolean recuperation_donnees_csv ( FILE *fichier )
 	
 	}
 	while ( retour != EOF );
-	
+
 	return ( TRUE );
 }
 /* *******************************************************************************/
