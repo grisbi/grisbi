@@ -165,6 +165,15 @@ gint get_line_from_file ( FILE *fichier,
 
     *string = pointeur_char;
 
+    if ( c == '\r' )
+      {
+	c =(gchar)fgetc(fichier);
+	if ( c != '\n' )
+	  {
+	    ungetc ( c, fichier );
+	  }
+      }
+
     if ( feof(fichier))
 	return EOF;
     else
