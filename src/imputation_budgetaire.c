@@ -2503,56 +2503,61 @@ void calcule_total_montant_imputation ( void )
 	    if ( operation -> imputation )
 	    {
 		struct struct_imputation *imputation;
+		GSList * occurence;
 
 		/* il y a une catégorie */
 
-		imputation = g_slist_find_custom ( liste_struct_imputation,
-						   GINT_TO_POINTER ( operation -> imputation ),
-						   (GCompareFunc) recherche_imputation_par_no ) -> data;
-
-		/* recherche la place du tiers dans la liste */
-
-		place_imputation = g_slist_index ( liste_struct_imputation,
-						   imputation );
-
-		/* crée la place pour les sous catég de cette imputation si ce n'est déjà fait */
-
-		if ( !tab_montant_sous_imputation[place_imputation] )
+		occurence = g_slist_find_custom ( liste_struct_imputation,
+						  GINT_TO_POINTER ( operation -> imputation ),
+						  (GCompareFunc) recherche_imputation_par_no );
+		if ( occurence )
 		{
-		    gint nb_sous_imputation;
+		    imputation = occurence -> data;
 
-		    nb_sous_imputation = g_slist_length ( imputation -> liste_sous_imputation );
+		    /* recherche la place du tiers dans la liste */
 
-		    /* on réserve nb_sous_imputation + 1 pour aucune sous imputation qui sera en [0] */
+		    place_imputation = g_slist_index ( liste_struct_imputation,
+						       imputation );
 
-		    tab_montant_sous_imputation[place_imputation] = calloc ( nb_sous_imputation + 1,
-									     sizeof ( float ));
-		    nb_ecritures_par_sous_imputation[place_imputation] = calloc ( nb_sous_imputation + 1,
-										  sizeof ( gint ));
-		}
+		    /* crée la place pour les sous catég de cette imputation si ce n'est déjà fait */
 
-		tab_montant_imputation[place_imputation+1] = tab_montant_imputation[place_imputation+1] + montant;
-		nb_ecritures_par_imputation[place_imputation+1]++;
-
-		/* on ajoute maintenant le montant à la sous imputation si elle existe */
-
-		if ( operation -> sous_imputation )
-		{
-		    gint place_sous_imputation;
-
-		    place_sous_imputation = g_slist_position ( imputation -> liste_sous_imputation,
-							       g_slist_find_custom ( imputation -> liste_sous_imputation,
-										     GINT_TO_POINTER ( operation -> sous_imputation ),
-										     (GCompareFunc) recherche_sous_imputation_par_no ));
-		    tab_montant_sous_imputation[place_imputation][place_sous_imputation+1] = tab_montant_sous_imputation[place_imputation][place_sous_imputation+1] + montant;
-		    nb_ecritures_par_sous_imputation[place_imputation][place_sous_imputation+1]++;
-		}
-		else
-		{
-		    if ( tab_montant_sous_imputation[place_imputation] )
+		    if ( !tab_montant_sous_imputation[place_imputation] )
 		    {
-			tab_montant_sous_imputation[place_imputation][0] = tab_montant_sous_imputation[place_imputation][0] + montant;
-			nb_ecritures_par_sous_imputation[place_imputation][0]++;
+			gint nb_sous_imputation;
+
+			nb_sous_imputation = g_slist_length ( imputation -> liste_sous_imputation );
+
+			/* on réserve nb_sous_imputation + 1 pour aucune sous imputation qui sera en [0] */
+
+			tab_montant_sous_imputation[place_imputation] = calloc ( nb_sous_imputation + 1,
+										 sizeof ( float ));
+			nb_ecritures_par_sous_imputation[place_imputation] = calloc ( nb_sous_imputation + 1,
+										      sizeof ( gint ));
+		    }
+
+		    tab_montant_imputation[place_imputation+1] = tab_montant_imputation[place_imputation+1] + montant;
+		    nb_ecritures_par_imputation[place_imputation+1]++;
+
+		    /* on ajoute maintenant le montant à la sous imputation si elle existe */
+
+		    if ( operation -> sous_imputation )
+		    {
+			gint place_sous_imputation;
+
+			place_sous_imputation = g_slist_position ( imputation -> liste_sous_imputation,
+								   g_slist_find_custom ( imputation -> liste_sous_imputation,
+											 GINT_TO_POINTER ( operation -> sous_imputation ),
+											 (GCompareFunc) recherche_sous_imputation_par_no ));
+			tab_montant_sous_imputation[place_imputation][place_sous_imputation+1] = tab_montant_sous_imputation[place_imputation][place_sous_imputation+1] + montant;
+			nb_ecritures_par_sous_imputation[place_imputation][place_sous_imputation+1]++;
+		    }
+		    else
+		    {
+			if ( tab_montant_sous_imputation[place_imputation] )
+			{
+			    tab_montant_sous_imputation[place_imputation][0] = tab_montant_sous_imputation[place_imputation][0] + montant;
+			    nb_ecritures_par_sous_imputation[place_imputation][0]++;
+			}
 		    }
 		}
 	    }
