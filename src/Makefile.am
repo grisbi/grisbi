@@ -42,6 +42,7 @@ sources = 			\
 	imputation_budgetaire.c	\
 	main.c			\
 	menu.c			\
+	ofx.c                   \
 	operations_classement.c	\
 	operations_comptes.c	\
 	operations_formulaire.c \
@@ -60,11 +61,7 @@ sources = 			\
 	utils.c			\
 	search_glist.c
 
-if NOOFX
 grisbi_SOURCES = $(sources)
-else
-grisbi_SOURCES = $(sources) ofx.c
-endif
 
 grisbi_INCLUDES =		\
 	accueil.h		\
