@@ -1529,6 +1529,41 @@ void fin_edition_echeance ( void )
 	return;
     }
 
+    /*     si c'est une ventilation, vérifie qu'aucune ventilation n'est un virement sur lui-même */
+    /* 	peut arriver si modifie le compte d'une échéance */
+
+    if ( !strcmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ))),
+		   _("Breakdown of transaction") ))
+    {
+	GSList *liste_ventil;
+	gint compte_echeance;
+
+	/* 	on commence  par rechercher le compte de l'échéance */
+	
+	compte_echeance = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT]  ) -> menu_item ),
+								  "no_compte" ) );
+	liste_ventil = gtk_object_get_data ( GTK_OBJECT ( formulaire_echeancier ),
+					     "liste_adr_ventilation" );
+	while ( liste_ventil
+		&&
+		liste_ventil != GINT_TO_POINTER (-1))
+	{
+		struct struct_ope_ventil *ope_ventil;
+
+		ope_ventil = liste_ventil -> data;
+
+		if ( ope_ventil -> relation_no_operation
+		     &&
+		     ope_ventil -> relation_no_compte == compte_echeance )
+		{
+		    dialogue_error ( _( "A breakdown of transaction is a transfer to this account.\n" ));
+		    return;
+		}
+
+	    liste_ventil = liste_ventil -> next;
+	}
+    }
+
     /* si c'est un virement, on vérifie que le compte existe  */
 
 
