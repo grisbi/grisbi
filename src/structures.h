@@ -1,3 +1,6 @@
+#ifndef STRUCTURES_H
+#define STRUCTURES_H
+
 /* fichier d'en tête structures.h */
 /* contient toutes les structures du prog */
 
@@ -741,5 +744,4 @@ struct struct_ope_importation
     gint ope_de_ventilation;
 };
 
-
-
+#endif
