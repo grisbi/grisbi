@@ -1,8 +1,6 @@
 #ifndef METATREE_H
 #define METATREE_H
 
-
-
 /** Interface between various tree data and metatree */
 typedef struct metatree_interface {
     /* Read operations */
@@ -35,8 +33,10 @@ typedef struct metatree_interface {
     void (* scheduled_set_sub_div_id) (struct operation_echeance *, int);
 
     /* Write operations on div */
+    gint (* add_div) ();
+    gint (* add_sub_div) (int);
     gboolean (* remove_div) (int);
-    gboolean (* remove_sub_div) (int, int);
+    gboolean (* remove_sub_div) (int,int);
     gboolean (* add_transaction_to_div) (struct structure_operation *, int);
     gboolean (* add_transaction_to_sub_div) (struct structure_operation *, int, int);
     gboolean (* remove_transaction_from_div) (struct structure_operation *, int);
@@ -102,6 +102,8 @@ gboolean find_destination_blob ( MetatreeInterface * iface, gpointer categ,
 gboolean find_associated_transactions ( MetatreeInterface * iface, 
 					gint no_categ, gint no_sous_categ );
 void expand_arbre_categ ( GtkWidget *bouton, gint depth );
+void appui_sur_ajout_categorie ( GtkWidget * button, GtkTreeModel * model );
+void appui_sur_ajout_sous_categorie ( GtkWidget * button, GtkTreeModel * model );
 /*END_DECLARATION*/
 
 #endif

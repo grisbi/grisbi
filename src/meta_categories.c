@@ -47,6 +47,8 @@ gint category_transaction_div_id (struct structure_operation *);
 gint category_transaction_sub_div_id (struct structure_operation *);
 void category_transaction_set_div_id (struct structure_operation *, int);
 void category_transaction_set_sub_div_id (struct structure_operation *, int);
+gint category_add_div ();
+gint category_add_sub_div (int);
 gboolean category_remove_div (int);
 gboolean category_remove_sub_div (int, int);
 gboolean category_add_transaction_to_div (struct structure_operation *, int);
@@ -90,6 +92,8 @@ static MetatreeInterface _category_interface = {
     category_scheduled_set_div_id,
     category_scheduled_set_sub_div_id,
 
+    category_add_div,
+    category_add_sub_div,
     category_remove_div,
     category_remove_sub_div,
     category_add_transaction_to_div,
@@ -97,6 +101,7 @@ static MetatreeInterface _category_interface = {
     category_remove_transaction_from_div,
     category_remove_transaction_from_sub_div,
 };
+
 MetatreeInterface * category_interface = &_category_interface;
 
 /* liste des structures de catég */
@@ -399,6 +404,65 @@ void category_scheduled_set_sub_div_id ( struct operation_echeance * scheduled,
 {
     if ( scheduled )
 	scheduled -> sous_categorie = no_sub_div;
+}
+
+
+
+/**
+ *
+ *
+ */
+gint category_add_div ()
+{
+    struct struct_categ * new_category;
+    gchar * name;
+    int i = 1;
+
+    /** Find a unique name for category */
+    name =  _("New category");
+
+    while ( categ_par_nom ( name, 0, 0, 0 ) )
+    {
+	i++;
+	name = g_strdup_printf ( _("New category #%d"), i ); 
+    }
+
+    new_category = categ_par_nom ( name, 1, 0, 0 );
+    mise_a_jour_combofix_categ();
+
+    return new_category -> no_categ;
+}
+
+
+
+/**
+ *
+ *
+ */
+gint category_add_sub_div ( int div_id )
+{
+    struct struct_categ * parent_category;
+    struct struct_sous_categ * new_sub_category;
+    gchar * name;
+    int i = 1;
+
+    parent_category = category_get_div_pointer ( div_id );
+
+    /** Find a unique name for category */
+    name =  _("New sub-category");
+
+    while ( sous_categ_par_nom ( parent_category, name, 0 ) )
+    {
+	i++;
+	name = g_strdup_printf ( _("New sub-category #%d"), i ); 
+    }
+
+    new_sub_category = sous_categ_par_nom ( parent_category, name, 1 );
+
+    mise_a_jour_combofix_categ();
+/*     modif_categ = 0; */
+
+    return new_sub_category -> no_sous_categ;
 }
 
 
