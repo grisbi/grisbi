@@ -225,7 +225,7 @@ int ofx_proc_security_cb ( struct OfxSecurityData data )
 /*     printf ( "memo %s\n", data.memo ); */
 
     dialogue ( _("That file contains something on proc_security_cb.\nI didn't have any file to test that function.\nPlease contact the grisbi team to implement that function."));
-
+    return 0; 
 }
 /* *******************************************************************************/
 
