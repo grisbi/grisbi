@@ -18,6 +18,7 @@
 # translation of pt_BR.po to
 # translation of pt_BR.po to
 # translation of pt_BR.po to
+# translation of pt_BR.po to
 # translation of pt_BR.po to Brazilian Portuguese
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
@@ -29,7 +30,7 @@ msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-04 14:32+0100\n"
-"PO-Revision-Date: 2005-01-04 08:13-0200\n"
+"PO-Revision-Date: 2005-01-04 12:33-0200\n"
 "Last-Translator: \n"
 "Language-Team:  <pt@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1399,10 +1400,8 @@ msgstr "Importar uma lista de categorias"
 
 #. il y a dÃ©jÃ  des opÃ©rations dans le fichier, on ne peut que fusionner
 #: src/categories_onglet.c:3139
-msgid ""
-"File already contains transactions, the two categories lists will be merged."
-msgstr ""
-"Arquivo contém transações, as duas categorias exibidas serão mescladas."
+msgid "File already contains transactions, the two categories lists will be merged."
+msgstr "Arquivo contém transações, as duas categorias exibidas serão mescladas."
 
 #: src/categories_onglet.c:3149 src/imputation_budgetaire.c:2887
 msgid "Do you want"
@@ -1617,8 +1616,7 @@ msgstr "Converte conta \"%s\" para Euro?"
 
 #: src/comptes_gestion.c:1213
 msgid "Euro conversion is irreversible, are you sure you want to continue?"
-msgstr ""
-"Conversão para Euro é irreversível, você tem certeza que deseja continuar ?"
+msgstr "Conversão para Euro é irreversível, você tem certeza que deseja continuar ?"
 
 #: src/comptes_gestion.c:1233
 msgid "Exchange rate between the 2 currencies is 0."
@@ -3467,8 +3465,7 @@ msgstr "Grisbi fez uma arquivo de backup as %s ."
 
 #: src/erreur.c:233
 msgid "Please report this problem to http://www.grisbi.org/bugtracking/"
-msgstr ""
-"Por favor, reporte este problema para http://www.grisbi.org/bugtracking/"
+msgstr "Por favor, reporte este problema para http://www.grisbi.org/bugtracking/"
 
 #: src/erreur.c:237
 msgid "Grisbi terminated due to a segmentation fault."
@@ -4058,7 +4055,7 @@ msgstr "Data inicial"
 msgid "Final date"
 msgstr "Data final"
 
-#. on met dans la partie de gauche une liste contenant les comptes Ã 
+#. on met dans la partie de gauche une liste contenant les comptes Ã
 #. sÃ©lectionner
 #: src/etats_config.c:2290
 msgid "Select transactions only for given accounts"
@@ -4104,8 +4101,7 @@ msgstr "Não incluir transferências"
 
 #: src/etats_config.c:2574
 msgid "Include transfers from or to accounts not in this report"
-msgstr ""
-"Transferências incluidas a partir ou para contas não estão neste relatório"
+msgstr "Transferências incluidas a partir ou para contas não estão neste relatório"
 
 #: src/etats_config.c:2587
 msgid "Include transfers from or to these accounts"
@@ -4610,7 +4606,7 @@ msgstr "Exibir um sub-total para cada sub-orçamento"
 msgid "Display \"No sub-budgetary line\" if none"
 msgstr "Exibir \"Nenhum sub-orçamento\" se não existir"
 
-#. on met dans la partie de gauche une liste contenant les modes de paiement Ã 
+#. on met dans la partie de gauche une liste contenant les modes de paiement Ã
 #. sÃ©lectionner
 #: src/etats_config.c:7455
 msgid "Select the transactions by method of payment"
@@ -4627,8 +4623,7 @@ msgstr "Arquivo %s já existe"
 
 #: src/etats_latex.c:328
 msgid "LaTeX run was unable to complete, see console output for details."
-msgstr ""
-"LaTeX foi incapaz de terminar, veja a saída no console para maiores detalhes."
+msgstr "LaTeX foi incapaz de terminar, veja a saída no console para maiores detalhes."
 
 #: src/etats_latex.c:348
 msgid "Cannot send job to printer"
@@ -4636,8 +4631,7 @@ msgstr "Não posso enviar trabalho para imprimir"
 
 #: src/etats_latex.c:354
 msgid "dvips was unable to complete, see console output for details."
-msgstr ""
-"dvips foi incapaz de terminar, veja a saída no console para maiores detalhes."
+msgstr "dvips foi incapaz de terminar, veja a saída no console para maiores detalhes."
 
 #. Reports menu
 #: src/etats_onglet.c:95 src/etats_onglet.c:300 src/etats_onglet.c:303
@@ -5020,8 +5014,7 @@ msgid "Select accounts to export"
 msgstr "Selecionar contas para exportar"
 
 #: src/export.c:258 src/qif.c:1018
-msgid ""
-"This will irreversibly overwrite previous file.  There is no undo for this."
+msgid "This will irreversibly overwrite previous file.  There is no undo for this."
 msgstr ""
 "Isto irá sobrescrever irreversívelmente o arquivo anterior. Você não terá "
 "como recuperá-lo."
@@ -5214,8 +5207,7 @@ msgstr "Não posso abrir arquivo '%s': %s"
 #: src/fichiers_io.c:155
 #, c-format
 msgid "Cannot open file '%s' : this is not a grisbi file"
-msgstr ""
-"Não posso abrir o arquivo '%s' ; este não é um arquivo no formato grisbi"
+msgstr "Não posso abrir o arquivo '%s' ; este não é um arquivo no formato grisbi"
 
 #: src/fichiers_io.c:197
 #, c-format
@@ -5267,8 +5259,7 @@ msgstr "Transações divididas, todas ela serão apagadas.\n"
 
 #: src/fichiers_io.c:1834
 msgid "transfers without contra-transaction, which categories were deleted.\n"
-msgstr ""
-"transferência sem uma contra-transação, cujas categorias foram apagadas.\n"
+msgstr "transferência sem uma contra-transação, cujas categorias foram apagadas.\n"
 
 #: src/fichiers_io.c:1839
 msgid ""
@@ -5394,18 +5385,14 @@ msgstr ""
 "virão."
 
 #: src/help.c:47
-#, fuzzy
 msgid "Alain Pichon (alain.pichon[at]grisbi.org): RHEL packaging"
-msgstr ""
-"Alain Pichon (alain.pichon[at]grisbi.org): Pacotes para Fedora and RHEL"
+msgstr "Alain Pichon (alain.pichon[at]grisbi.org): Pacotes para RHEL"
 
 #: src/help.c:48
-#, fuzzy
 msgid ""
 "Alain Portal <dionysos[at]grisbi.org>: Programming, manual, Fedora and "
 "RedHat packaging"
-msgstr ""
-"Alain Portal <dionysos[at]grisbi.org>: Programador, Manual, pacotes RedHat"
+msgstr "Alain Portal <dionysos[at]grisbi.org>: Programador, Manual, pacotes RedHat e Fedora"
 
 #: src/help.c:49
 msgid "Andre Pascual (andre[at]linuxgraphic.org) : Logo"
@@ -5435,8 +5422,7 @@ msgstr "Dominique Parisot (parisot[at]villey-le-sec.com): colaborador"
 msgid ""
 "Francois Terrot (grisbi[at]terrot.net): Windows packaging and port, "
 "programming"
-msgstr ""
-"Francois Terrot (grisbi[at]terrot.net): pacotes Windows port, programador"
+msgstr "Francois Terrot (grisbi[at]terrot.net): pacotes Windows port, programador"
 
 #: src/help.c:56
 msgid "Gerald Niel (gerald.niel[at]grisbi.org): Slackware packaging, website"
@@ -5480,8 +5466,7 @@ msgstr "Martin Stromberger (Fabiolla[at]aon.at): German"
 
 #: src/help.c:73
 msgid "Development list (discuss, participate, criticize, ...) : "
-msgstr ""
-"Lista de desnnvolvedores (discussões, participantes, sugestões, ...) : "
+msgstr "Lista de desnnvolvedores (discussões, participantes, sugestões, ...) : "
 
 #: src/help.c:75 src/help.c:81
 msgid "subscribe"
@@ -6256,8 +6241,7 @@ msgid "Imposible to delete a reconciled transaction."
 msgstr "Impossível apagar uma transação reconciliada"
 
 #: src/operations_liste.c:2103
-msgid ""
-"The contra-transaction of this transfer is reconciled, deletion impossible."
+msgid "The contra-transaction of this transfer is reconciled, deletion impossible."
 msgstr ""
 "A contra transação para esta transferência está reconciliada, Não é possível "
 "apagá-la."
@@ -6336,8 +6320,7 @@ msgid "Scheduler warnings"
 msgstr "Mensagens da agenda"
 
 #: src/parametres.c:415
-msgid ""
-"Number of days before a warning message advertising a scheduled transaction"
+msgid "Number of days before a warning message advertising a scheduled transaction"
 msgstr "Número de dias antes de exibir mensagens de transações agendadas"
 
 #: src/parametres.c:479
@@ -6616,7 +6599,7 @@ msgstr "Terceiro '%s' já existe"
 #. Should not happen!
 #: src/type_operations.c:106 src/type_operations.c:875
 msgid "Serious brain damage expected."
-msgstr "Sérios danos esperados."
+msgstr "Erro de alocação de memória."
 
 #: src/type_operations.c:261
 msgid "Known payment methods"
@@ -6719,3 +6702,4 @@ msgid "This transfer has a reconciled contra-transaction, deletion canceled."
 msgstr ""
 "Esta transferência tem uma contra-transação reconciliada, Não é possível "
 "apagá-la."
+
