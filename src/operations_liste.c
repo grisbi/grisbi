@@ -2643,8 +2643,10 @@ void new_transaction ()
 
   gtk_clist_unselect_all ( GTK_CLIST ( CLIST_OPERATIONS ) );
   echap_formulaire();
-  formulaire_a_zero ();
+
+  OPERATION_SELECTIONNEE = -1;
   edition_operation ();
+
   gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 }
 
