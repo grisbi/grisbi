@@ -45,7 +45,6 @@ GtkTreeSelection * selection;
 GtkWidget * button_close, * button_help;
 GtkWidget *tree_view;
 GtkWidget * bouton_display_lock_active;
-gchar *nom_navigateur_web;
 
 
 /**
@@ -159,7 +158,7 @@ void preferences ( gint page )
     hbox = gtk_hbox_new ( FALSE, 0 );
     gtk_paned_add2(GTK_PANED(hpaned), hbox);
 
-    gtk_box_pack_start ( GTK_BOX ( hbox ), gtk_label_new ( "    " ),
+    gtk_box_pack_start ( GTK_BOX ( hbox ), gtk_label_new ( "  " ),
 			 FALSE, FALSE, 0 ); /* FIXME: ugly! */
 
     /* Frame for preferences */
@@ -190,7 +189,7 @@ void preferences ( gint page )
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 			&iter,
-			0, _("Softwares"),
+			0, _("Programs"),
 			1, SOFTWARE_PAGE,
 			-1);
     gtk_notebook_append_page (preference_frame, onglet_programmes(), NULL);
@@ -647,56 +646,55 @@ void fermeture_preferences ( GtkWidget *button,
 /* *******************************************************************************/
 GtkWidget *onglet_programmes (void)
 {
-    GtkWidget *vbox_pref;
-    GtkWidget *hbox;
-    GtkWidget *label;
-    GtkWidget *entree;
+    GtkWidget *vbox_pref, *label, *entree, *paddingbox, *table;
+    GtkSizeGroup *size_group;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Softwares"),
-					       "files.png" ); 
-    hbox = gtk_hbox_new ( FALSE,
-			  0 );
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-			 hbox,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( hbox );
+    size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
-    label = gtk_label_new ( _("Web browser : "));
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 label,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( label );
+    vbox_pref = new_vbox_with_title_and_icon ( _("Programs"), "exec.png" ); 
 
-    entree = gtk_entry_new ();
-    if ( nom_navigateur_web )
-	gtk_entry_set_text ( GTK_ENTRY ( entree ),
-			     nom_navigateur_web );
-    g_signal_connect ( G_OBJECT ( entree ),
-		       "focus-out-event",
-		       G_CALLBACK ( changement_nom_navigateur_web ),
-		       NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 entree,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( entree );
+    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Print support"));
+    
+    table = gtk_table_new ( 0, 2, FALSE );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 0 );
+    gtk_table_set_col_spacings ( GTK_TABLE(table), 6 );
+    gtk_table_set_row_spacings ( GTK_TABLE(table), 6 );
 
+    label = gtk_label_new ( _("LaTeX command"));
+    gtk_size_group_add_widget ( size_group, label );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+    gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
+		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
+    entree = new_text_entry ( &etat.latex_command, NULL );
+    gtk_table_attach ( GTK_TABLE(table), entree, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+
+    label = gtk_label_new ( _("dvips command"));
+    gtk_size_group_add_widget ( size_group, label );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+    gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
+		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
+    entree = new_text_entry ( &etat.dvips_command, NULL );
+    gtk_table_attach ( GTK_TABLE(table), entree, 1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+
+
+    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Misc"));
+
+    table = gtk_table_new ( 0, 2, FALSE );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 0 );
+    gtk_table_set_col_spacings ( GTK_TABLE(table), 6 );
+    gtk_table_set_row_spacings ( GTK_TABLE(table), 6 );
+
+    label = gtk_label_new ( _("Web browser"));
+    gtk_size_group_add_widget ( size_group, label );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+    gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
+		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
+    entree = new_text_entry ( &etat.browser_command, NULL );
+    gtk_table_attach ( GTK_TABLE(table), entree, 1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+
+    gtk_size_group_set_mode ( size_group, GTK_SIZE_GROUP_HORIZONTAL );
+    gtk_widget_show_all ( vbox_pref );
 
     return ( vbox_pref );
 }
 /* *******************************************************************************/
-
-/* *******************************************************************************/
-gboolean changement_nom_navigateur_web ( GtkWidget *entree )
-{
-    nom_navigateur_web = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( entree )));
-
-    return ( FALSE );
-}
-/* *******************************************************************************/
-
