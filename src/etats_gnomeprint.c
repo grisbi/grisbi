@@ -74,10 +74,10 @@ gfloat red=0, green=0, blue=0;
 /*  - pc : le contexte d'impression */
 /*  - diverses polices */
 /*****************************************************************************************************/
-gint gnomeprint_initialise ()
+gint gnomeprint_initialise (GSList * opes_selectionnees)
 {
   GnomePrintDialog *gpd;
-  GnomePaper * paper;
+/*   GnomePaper * paper; */
   static int copies=1, collate;
 
   gpd = GNOME_PRINT_DIALOG (gnome_print_dialog_new(_("Impression de Grisbi"), 
@@ -100,8 +100,8 @@ gint gnomeprint_initialise ()
   gnome_print_dialog_get_copies(gpd, &copies, &collate);
   gnome_print_master_set_copies(gpm, copies, collate);
   gnome_print_master_set_printer(gpm, gnome_print_dialog_get_printer(gpd));
-  paper = gnome_paper_with_size (841.88976, 595.27559); 
-  gnome_print_master_set_paper ( gpm, paper ); 
+/*   paper = gnome_paper_with_size (841.88976, 595.27559);  */
+/*   gnome_print_master_set_paper ( gpm, paper );  */
        
 
   gnome_dialog_close (GNOME_DIALOG(gpd));
@@ -115,9 +115,250 @@ gint gnomeprint_initialise ()
   tmp_x = point_x = HMARGIN;
   tmp_y = point_y = gnome_paper_psheight(gnome_print_master_get_paper(gpm)) - VMARGIN;
 
+  do_print_text_page(pc, text_font, opes_selectionnees);
+
   return 1;
 }
 /*****************************************************************************************************/
+
+
+gdouble columns_max[32];
+gdouble columns_total[32];
+gdouble columns_pos[32];
+gdouble columns_min[32];
+gdouble columns_size[32];
+
+char *columns[256][256];
+
+GSList * text_to_words (guchar *text)
+{
+  GSList * words;
+  const guchar *p;
+  guchar *ub, *u;
+  guchar * e = text + strlen(text);
+
+  /* Split text into words & convert to utf-8 */
+  ub = g_new (guchar, (e - text) * 2 + 1);
+  u = ub;
+  words = NULL;
+  p = text;
+  while (p < e) {
+    while ((p < e) && (*p <= ' ')) p++;
+    if (p < e) {
+      words = g_slist_append (words, u);
+      while ((p < e) && (*p > ' ')) {
+ 	u += g_unichar_to_utf8 (*p++, u);
+      }
+      *u++ = '\0';
+    }
+  }
+  return words;
+}
+
+
+void
+show_words(GnomePrintContext *pc, GnomeFont *font, GSList *words, 
+	   gdouble x, gdouble y, gdouble mwidth)
+{
+  gint space;
+  ArtPoint spadv;
+  gdouble accwidth = 0.0;
+  gdouble fontheight;
+
+  fontheight = gnome_font_get_ascender (font) + gnome_font_get_descender (font);
+
+  while (words != NULL)
+    {
+      gdouble width;
+      GnomeGlyphList * gl;
+
+      gl = gnome_glyphlist_from_text_dumb (font, 0x000000ff, 0.0, 0.0, "");
+      gnome_font_get_glyph_stdadvance (font, space, &spadv);
+      /* FIXME: gnome_font_get_width_string semble être confus à cause
+	 des caractères unicode. */
+      width = gnome_font_get_width_string (font, (gchar *) words->data);
+
+      if (accwidth && ((accwidth+width) > mwidth))
+	{
+	  y-=(1.0*fontheight);
+	  accwidth=0;
+	}
+
+      gnome_glyphlist_moveto (gl, x+accwidth, y);
+
+      if (words->next) accwidth += spadv.x; 
+      accwidth += width;
+
+      gnome_glyphlist_advance (gl, TRUE);
+      gnome_glyphlist_text_dumb (gl, words->data);
+      gnome_print_moveto (pc, 0.0, 0.0);
+      gnome_print_glyphlist (pc, gl);
+      gnome_glyphlist_unref (gl);
+      words = words->next;
+    }
+}
+
+
+void
+text_get_min_max (GnomePrintContext * pc, GnomeFont * font,
+		  GSList * words, 
+		  gdouble * min, gdouble * max)
+{
+  gdouble fontheight;
+  gint space;
+  gdouble accwidth;
+  ArtPoint spadv;
+  gdouble maxword=0;
+
+  if (!font) return;
+  fontheight = gnome_font_get_ascender (font) + gnome_font_get_descender (font);
+  space = gnome_font_face_lookup_default (gnome_font_get_face (font), ' ');
+
+  accwidth = 0.0;
+  while (words != NULL)
+    {
+      gdouble width;
+      GnomeGlyphList * gl;
+
+      gl = gnome_glyphlist_from_text_dumb (font, 0x000000ff, 0.0, 0.0, "");
+
+      gnome_font_get_glyph_stdadvance (font, space, &spadv);
+      gnome_glyphlist_moveto (gl, 10.0+accwidth, 100.0);
+
+      width = gnome_font_get_width_string (font, (gchar *) words->data);
+      if (words->next) accwidth += (spadv.x/2);
+      accwidth += width;
+
+      if (width > maxword)
+	{
+	  maxword = width;
+	}
+
+      printf ("%s\n", words->data, width);
+
+/*       gnome_glyphlist_advance (gl, TRUE); */
+/*       gnome_glyphlist_text_dumb (gl, words->data); */
+/*       gnome_print_moveto (pc, 0.0, 0.0); */
+/*       gnome_print_glyphlist (pc, gl); */
+      gnome_glyphlist_unref (gl);
+      words = words->next;
+    }
+
+  *max=accwidth;
+  *min=maxword;
+}
+
+
+void
+do_print_text_page (GnomePrintContext *pc, GnomeFont *font, GSList * list)
+{
+  GSList * words;
+  int i=0, maxi, column;
+  gdouble total_text=0;
+  gdouble total_width = 300;
+  struct structure_operation *operation;
+
+  gnome_print_beginpage (pc, "Glyph test page");
+  gnome_print_setrgbcolor (pc, 0.0, 0.0, 0.0);
+  gnome_print_setlinewidth (pc, 1.0);
+
+  maxi=0;
+  while (list)
+    {
+      operation = list -> data;
+      columns[maxi][0] = g_strdup_printf ( "%4.2f", operation -> no_compte);
+      columns[maxi][1] = g_strdup_printf ( "%4.2f", operation -> imputation);
+      columns[maxi][2] = operation -> notes;
+      columns[maxi][3] = g_strdup_printf ( "%4.2f", operation -> montant);
+      list=list->next;
+      maxi++;
+    }
+  maxi=10;
+
+  for (i=0; i<maxi; i++)
+    {
+      for (column=0; column<4; column++)
+	{
+	  gdouble min, max;
+	  words = text_to_words(columns[i][column]);
+	  text_get_min_max(pc, font, words, &min, &max);
+	  if (min > columns_min[column])
+	    {
+	      columns_min[column] = min;
+	    }
+	  columns_total[column] += max;
+	  g_slist_free (words);	  
+	}
+    }
+  
+  gnome_print_setlinewidth (pc, 1.0);
+  gnome_print_moveto (pc, 10, 800);
+  gnome_print_lineto (pc, 10, 200);
+  gnome_print_lineto (pc, total_width+10, 200);
+  gnome_print_lineto (pc, total_width+10, 800);
+  gnome_print_closepath (pc);
+  gnome_print_stroke (pc);
+
+  for (column=0; column<4; column++)
+    {
+      total_text += columns_total[column];
+    }
+
+  for (column=0; column<4; column++)
+    {
+      if (((columns_total[column]/total_text) * total_width) <
+	  columns_min[column])
+	{
+	  printf (">> %f, %f\n", columns_min[column], ((columns_total[column]/total_text) * total_width));
+	  columns_max[column] = columns_min[column];
+	  total_width -= columns_min[column];
+	  total_text -= columns_total[column];
+	}
+      else
+	{
+	  columns_max[column]=0;
+	}
+    }
+
+  for (column=0; column<4; column++)
+    {
+      if (! columns_max[column])
+	{
+	  columns_max[column] = ((columns_total[column]/total_text) * total_width);
+	  printf ("++ %d, %f, %f, %f\n", column, columns_max[column], columns_total[column], total_text);
+	}
+      if (column > 0)
+	{
+	  columns_pos[column] = columns_pos[column-1] + columns_max[column-1];
+	  printf ("** %d, %f, %f\n", column, columns_pos[column-1], columns_pos[column]);
+	}
+      printf ("-- %d, %f, %f, %f\n", column, columns_max[column], columns_total[column], total_text);
+      gnome_print_gsave (pc);
+      gnome_print_setlinewidth (pc, 1);
+      gnome_print_moveto (pc, columns_pos[column]+10, 800);
+      gnome_print_lineto (pc, columns_pos[column]+10, 200);
+      gnome_print_stroke (pc);
+      gnome_print_grestore (pc);
+    }
+
+  for (i=0; i<maxi; i++)
+    {
+      for (column=0; column<4; column++)
+	{
+	  words = text_to_words(columns[i][column]);
+	  show_words(pc, font, words, 10+columns_pos[column], 750-i*30, columns_max[column]);
+	  g_slist_free (words);	  
+	}
+    }
+
+/*   words = text_to_words("1 2 3 4 5 6"); */
+/*   text_get_min_max(pc, font, words, &min, &max); */
+/*   printf (">> %.2f, %.2f\n", min, max); */
+/*   show_words(pc, font, words, 20, 400, 50); */
+/*   g_slist_free (words); */
+
+  gnome_print_showpage (pc);
+}
 
 /*****************************************************************************************************/
 /* passe à la page suivante si nécessaire */
