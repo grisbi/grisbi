@@ -15,7 +15,7 @@ goto endofperl
 #  -------------------------------------------------------------------------
 #                               GRISBI for Windows
 #  -------------------------------------------------------------------------
-# $Id: autogen.bat,v 1.2 2004/08/15 14:38:11 teilginn Exp $
+# $Id: autogen.bat,v 1.3 2004/08/22 20:17:13 teilginn Exp $
 #  -------------------------------------------------------------------------
 # 
 #  Copyleft 2004 (c) François Terrot
@@ -38,6 +38,9 @@ goto endofperl
 #  History:
 #
 #  $Log: autogen.bat,v $
+#  Revision 1.3  2004/08/22 20:17:13  teilginn
+#  add support for current gtk-2.2.4-3
+#
 #  Revision 1.2  2004/08/15 14:38:11  teilginn
 #  autogen script and templates for Windows
 #
@@ -857,6 +860,33 @@ __END__
         <copy from=${grisbidir}/pixmaps ignore=['CVS','Makefile','topic']>.</copy>
     </target>
 </prefix>
+</gtk>
+<gtk version="2.2.4-3">
+<prefix>
+    <target name=dlls dest= >
+        <copy from=${gtkbindir}/bin >/dll$/</copy>
+        <copy from=${gtkbindir}/lib >/dll$/</copy>
+    </target>
+    <target name=etc dest=etc>
+        <copy from=${gtkbindir}/etc ignore=['.*~$']>fonts</copy>
+        <copy from=${gtkbindir}/etc ignore=['.*~$']>gtk-2.0</copy>
+        <copy from=${gtkbindir}/etc ignore=['.*~$']>pango</copy>
+    </target>
+    <target name=lib dest=lib>
+        <copy from=${gtkbindir}/lib ignore=['include','.*h$']>gtk-2.0</copy>
+        <copy from=${gtkbindir}/lib ignore=['include','.*h$']>pango</copy>
+    </target>
+    <target name=it dest= >
+        <copy dest=lib   from=${gtkbindir}/lib >locale/it</copy>
+        <copy dest=share from=${gtkbindir}/share >locale/it</copy>
+    </target>
+    <target name=fr dest= >
+        <copy dest=lib   from=${gtkbindir}/lib >locale/fr</copy>
+        <copy dest=share from=${gtkbindir}/share >locale/fr</copy>
+    </target>
+</prefix>
+<libs>
+</libs>
 </gtk>
 <gtk version="2.4.3">
 <prefix>
