@@ -67,10 +67,6 @@ static gboolean verification_retrait_possible ( struct organisation_formulaire *
 
 gint allocation_precedente_organisation_formulaire;
 
-/* utilisé pour bloquer l'agrandissement de la largeur des col du formulaire */
-
-gdouble x_blocage = 0;
-
 /* titre des colonnes de la liste de configuration du formulaire */
 
 gchar *nom_colonne[6] = {
@@ -136,6 +132,7 @@ GtkWidget *creation_liste_organisation_formulaire ( void )
     GtkWidget *paddingbox;
     GtkWidget *table;
     gint no_element_en_cours;
+    GtkWidget *scrolled_window;
 
 
 
@@ -195,7 +192,22 @@ GtkWidget *creation_liste_organisation_formulaire ( void )
     gtk_widget_set_sensitive ( option_menu_comptes_choix_formulaire,
 			       etat.formulaire_distinct_par_compte );
 
+    /*     mise en place du scrolled window */
+    /* 	il est utilisé pour éviter l'agrandissement de la fenetre de conf */
+    /* 	si l'utilisateur change de trop la largeur des colonnes */
     
+    scrolled_window = gtk_scrolled_window_new ( FALSE,
+						FALSE );
+    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+				     GTK_POLICY_ALWAYS,
+				     GTK_POLICY_NEVER );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox),
+			 scrolled_window,
+			 TRUE,
+			 TRUE,
+			 0 );
+    gtk_widget_show ( scrolled_window );
+
     /*     création du store */
 
     store = gtk_list_store_new ( 6,
@@ -209,11 +221,8 @@ GtkWidget *creation_liste_organisation_formulaire ( void )
     /*     on crée maintenant le tree_view */
 
     tree_view_organisation_formulaire = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( store ));
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-			 tree_view_organisation_formulaire,
-			 FALSE,
-			 FALSE,
-			 0 );
+    gtk_container_add ( GTK_CONTAINER ( scrolled_window),
+			tree_view_organisation_formulaire );
     gtk_widget_show ( tree_view_organisation_formulaire );
 
     /*     on crée les colonnes */
@@ -919,7 +928,6 @@ gboolean allocation_liste_organisation_formulaire ( GtkWidget *tree_view,
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + recupere_no_compte ( option_menu_comptes_choix_formulaire );
 
-
     for ( i=0 ; i < ORGANISATION_FORMULAIRE -> nb_colonnes - 1 ; i++ )
 	gtk_tree_view_column_set_fixed_width ( gtk_tree_view_get_column ( GTK_TREE_VIEW ( tree_view ),
 									  i ),
@@ -947,19 +955,6 @@ gboolean change_taille_colonne_organisation_formulaire ( GtkWidget *tree_view,
 	return FALSE;
     
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + recupere_no_compte ( option_menu_comptes_choix_formulaire );
-
-/*     la partie suivant bloque si on va trop vers la droite pour éviter un agrandissement de la */
-/* 	taille de la fenetre de préférences */
-/* 	FIXME : si l'utilisateur va trop vite, marche pas... */
-
-    if ( gtk_tree_view_column_get_width ( gtk_tree_view_get_column ( GTK_TREE_VIEW ( tree_view ),
-								     ORGANISATION_FORMULAIRE -> nb_colonnes - 1 )) <= 5 
-	 && 
-	 motion -> x >= x_blocage )
-	return TRUE;
-    
-    x_blocage = motion -> x;
-
 
     /*     on récupère la taille des colonnes et vérifie avec la dernière s'il y a eu modification */
     /* 	ou non  */

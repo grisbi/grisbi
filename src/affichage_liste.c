@@ -28,6 +28,7 @@
 #include "utils.h"
 #include "traitement_variables.h"
 #include "utils_buttons.h"
+#include "affichage.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -90,6 +91,7 @@ GSList *lignes_affichage_trois_lignes;
 extern gint allocation_precedente;
 extern gint col_depart_drag;
 extern gint compte_courant;
+extern GtkWidget *formulaire;
 extern gint ligne_depart_drag;
 extern GSList *liste_labels_titres_colonnes_liste_ope ;
 extern gint nb_comptes;
@@ -113,6 +115,7 @@ GtkWidget *onglet_affichage_liste ( void )
     gchar *titres [] = { _("Col1"), _("Col2"), _("Col3"), _("Col4"), 
 	_("Col5"), _("Col6"), _("Col7") };
 	gint i, j;
+	GtkWidget *scrolled_window;
 
 	ligne_depart_drag = 0;
 	col_depart_drag = 0;
@@ -124,6 +127,22 @@ GtkWidget *onglet_affichage_liste ( void )
 
 	paddingbox = new_paddingbox_with_title (onglet, FALSE,
 						_("Transactions list preview"));
+
+	/*     mise en place du scrolled window */
+	/* 	il est utilisé pour éviter l'agrandissement de la fenetre de conf */
+	/* 	si l'utilisateur change de trop la largeur des colonnes */
+
+	scrolled_window = gtk_scrolled_window_new ( FALSE,
+						    FALSE );
+	gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+					 GTK_POLICY_ALWAYS,
+					 GTK_POLICY_NEVER );
+	gtk_box_pack_start ( GTK_BOX ( paddingbox),
+			     scrolled_window,
+			     TRUE,
+			     TRUE,
+			     0 );
+	gtk_widget_show ( scrolled_window );
 
 	/* mise en place de la clist_affichage_liste */
 	/*   on lui met des titres redimensionnables */
@@ -139,8 +158,8 @@ GtkWidget *onglet_affichage_liste ( void )
 			     "button_release_event",
 			     GTK_SIGNAL_FUNC ( lache_bouton_classement_liste ),
 			     NULL );
-	gtk_box_pack_start ( GTK_BOX ( paddingbox ), clist_affichage_liste,
-			     FALSE, FALSE, 0 );
+	gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
+			    clist_affichage_liste );
 
 
 	paddingbox = new_paddingbox_with_title (onglet, FALSE,
@@ -1035,3 +1054,53 @@ void raz_affichage_ope ( void )
 
 }
 /* ************************************************************************************************************** */
+
+
+
+/* ************************************************************************************************************** */
+/* renvoie le widget contenu dans l'onglet divers du formulaire/liste des paramètres */
+/* ************************************************************************************************************** */
+GtkWidget *onglet_diverse_form_and_lists ( void )
+{
+    GtkWidget *vbox_pref;
+    GtkWidget *paddingbox;
+    GtkWidget *radiogroup;
+
+
+    vbox_pref = new_vbox_with_title_and_icon ( _("Form and lists : diverse"),
+					       "form.png" );
+
+    /* What to do if RETURN is pressed into transaction form */
+    radiogroup = new_radiogroup_with_title (vbox_pref,
+					    _("Pressing RETURN in transaction form"),
+					    _("selects next field"),
+					    _("terminates transaction"),
+					    &etat.entree, NULL);
+
+    /* Displayed fields */
+    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
+					    COLON(_("Displayed fields")));
+
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
+			 new_checkbox_with_title (_("'Accept' and 'Cancel' buttons"),
+						  &etat.affiche_boutons_valider_annuler,
+						  ((GCallback) update_transaction_form)),
+			 FALSE, FALSE, 0 );
+
+    /* How to display financial year */
+    radiogroup = new_radiogroup_with_title (vbox_pref,
+					    _("By default, use financial year"),
+					    _("last selected financial year"),
+					    _("according to transaction date"),
+					    &etat.affichage_exercice_automatique, 
+					    NULL);
+
+    if ( !nb_comptes )
+    {
+	gtk_widget_set_sensitive ( vbox_pref, FALSE );
+    }
+
+    return vbox_pref;
+}
+/* ************************************************************************************************************** */
+

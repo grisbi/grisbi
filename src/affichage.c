@@ -31,7 +31,6 @@
 #include "affichage_formulaire.h"
 #include "main.h"
 #include "traitement_variables.h"
-#include "utils_buttons.h"
 #include "utils.h"
 #include "utils_editables.h"
 /*END_INCLUDE*/
@@ -56,7 +55,6 @@ static void update_font_button(GtkWidget * name_label,
 static void update_fonte_listes ( void );
 static gboolean update_homepage_title (GtkEntry *entry, gchar *value, 
 				gint length, gint * position);
-static gboolean update_transaction_form ( GtkWidget * checkbox, gpointer data );
 /*END_STATIC*/
 
 
@@ -133,20 +131,11 @@ gboolean update_transaction_form ( GtkWidget * checkbox, gpointer data )
 GtkWidget *onglet_display_transaction_form ( void )
 {
     GtkWidget *vbox_pref;
-    GtkWidget *paddingbox;
-    GtkWidget *radiogroup;
     GtkWidget *liste_organisation;
 
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Transaction form"),
 					       "form.png" );
-
-    /* What to do if RETURN is pressed into transaction form */
-    radiogroup = new_radiogroup_with_title (vbox_pref,
-					    _("Pressing RETURN in transaction form"),
-					    _("selects next field"),
-					    _("terminates transaction"),
-					    &etat.entree, NULL);
 
     /*     organisation du formulaire */
 
@@ -157,23 +146,6 @@ GtkWidget *onglet_display_transaction_form ( void )
     gtk_widget_show ( liste_organisation );
 
     
-    /* Displayed fields */
-    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
-					    COLON(_("Displayed fields")));
-
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-			 new_checkbox_with_title (_("'Accept' and 'Cancel' buttons"),
-						  &etat.affiche_boutons_valider_annuler,
-						  ((GCallback) update_transaction_form)),
-			 FALSE, FALSE, 0 );
-
-    /* How to display financial year */
-    radiogroup = new_radiogroup_with_title (vbox_pref,
-					    _("By default, use financial year"),
-					    _("last selected financial year"),
-					    _("according to transaction date"),
-					    &etat.affichage_exercice_automatique, 
-					    NULL);
 
     if ( !nb_comptes )
     {
