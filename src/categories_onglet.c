@@ -3013,7 +3013,7 @@ void exporter_categ ( void )
     switch ( resultat )
     {
 	case GTK_RESPONSE_OK :
-	    nom_categ =gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom ));
+	    nom_categ = file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom ));
 
 	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
