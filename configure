@@ -4263,9 +4263,9 @@ echo "configure:4245: checking GA_CFLAGS" >&5
   fi
 
   if test $succeeded = yes; then
-      APPLET=true; CFLAGS="$CFLAGS $GA_CFLAGS; LDFLAGS="$LDFLAGS $GA_LDFLAGS"
+      APPLET=true; CFLAGS="$CFLAGS $GA_CFLAGS"; LDFLAGS="$LDFLAGS $GA_LDFLAGS"; 
   else
-      echo "configure: warning: "Gnome library Applets is not installed" 1>&2 
+      echo "configure: warning: Gnome library Applets is not installed" 1>&2  
   fi
 
 
