@@ -149,6 +149,7 @@ static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint
 {/* {{{ */
     GtkWidget *dialog, *table, *account_entry, *paddingbox, *check_button = NULL;
     gchar *sFilename = NULL;
+    gchar *sDirname = NULL;
     GtkWidget *pScroll, *pVBox;
     GtkAdjustment *pScrollHorizontalSize;
 
@@ -184,6 +185,10 @@ static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint
     gtk_table_set_col_spacings ( GTK_TABLE ( table ), 12 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), table, TRUE, TRUE, 0 );
 
+    sDirname = g_strconcat ( g_path_get_dirname ( nom_fichier_comptes ),
+			     "/",
+			     NULL);
+
     /* on met chaque compte dans la table */
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
@@ -199,8 +204,7 @@ static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint
 			   0, 0 );
 
 	account_entry = gtk_entry_new ();
-	sFilename = g_strconcat ( nom_fichier_comptes,
-				  "_",
+	sFilename = g_strconcat ( sDirname,
 				  g_strdelimit ( safe_file_name(NOM_DU_COMPTE),
 						 " ", '_' ),
 				  g_strdup(format->extension),
@@ -231,6 +235,7 @@ static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint
 	p_tab_nom_de_compte_variable++;
 	g_free ( sFilename );
     }
+    g_free ( sDirname );
 
     g_selected_entries = NULL;
     
