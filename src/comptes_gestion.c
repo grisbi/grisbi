@@ -812,7 +812,7 @@ void remplissage_details_compte ( void )
 
 /*     remplissage des infos sur la banque */
 
-    banque = banque_par_no ( BANQUE );
+    banque = banque_par_no ( gsb_account_get_bank (compte_courant_onglet) );
     
     if ( banque )
     {
@@ -835,9 +835,9 @@ void remplissage_details_compte ( void )
 			     "" );
     }
 
-    if ( NO_GUICHET )
+    if ( gsb_account_get_bank_branch_code (compte_courant_onglet) )
 	gtk_entry_set_text ( GTK_ENTRY ( detail_guichet ),
-			     NO_GUICHET );
+			     gsb_account_get_bank_branch_code (compte_courant_onglet) );
     else
 	gtk_entry_set_text ( GTK_ENTRY ( detail_guichet ),
 			     "" );
@@ -1049,16 +1049,18 @@ void modification_details_compte ( void )
 
 
     /* enregistrement de l'établissement financier */
-
-    BANQUE = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_option_menu_banque ) -> menu_item ),
-						     "no_banque" ));
+    gsb_account_set_bank ( compte_courant_onglet,
+			   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_option_menu_banque ) -> menu_item ),
+								   "no_banque" )));
 
     /* enregistrement du no de guichet */
 
-    NO_GUICHET = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_guichet ))));
+    gsb_account_set_bank_branch_code ( compte_courant_onglet,
+				       g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_guichet )))));
 
-    if ( !strlen ( NO_GUICHET ))
-	NO_GUICHET = NULL;
+    if ( !strlen ( gsb_account_get_bank_branch_code (compte_courant_onglet) ))
+	gsb_account_set_bank ( compte_courant_onglet,
+			       NULL );
 
     /* enregistrement du no de compte */
 

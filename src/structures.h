@@ -308,8 +308,8 @@ struct donnees_compte
 /* #define DERNIER_NO_RAPPROCHEMENT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> dernier_no_rapprochement */
 /* #define MISE_A_JOUR ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> mise_a_jour */
 /* #define DEVISE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> devise */
-#define BANQUE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> banque
-#define NO_GUICHET ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> no_guichet
+/* #define BANQUE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> banque */
+/* #define NO_GUICHET ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> no_guichet */
 #define NO_COMPTE_BANQUE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> no_compte_banque
 #define CLE_COMPTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> cle_compte
 #define COMPTE_CLOTURE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> compte_cloture

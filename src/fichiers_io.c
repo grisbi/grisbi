@@ -961,11 +961,13 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Banque" ))
-				BANQUE = my_atoi ( xmlNodeGetContent ( node_detail ));
+				gsb_account_set_bank ( no_compte,
+						       my_atoi ( xmlNodeGetContent ( node_detail )));
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Guichet" ))
-				NO_GUICHET = xmlNodeGetContent ( node_detail );
+				gsb_account_set_bank ( no_compte,
+						       xmlNodeGetContent ( node_detail ) );
 
 			    if ( !strcmp ( node_detail -> name,
 					   "No_compte_banque" ))
@@ -1019,7 +1021,7 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 			    if ( !strcmp ( node_detail -> name,
 					   "Dernier_no_de_rapprochement" ))
 				gsb_account_set_reconcile_last_number ( no_compte,
-									my_atoi ( xmlNodeGetContent ( node_detail ) );
+									my_atoi ( xmlNodeGetContent ( node_detail )));
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Compte_cloture" ))
@@ -3279,12 +3281,12 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Banque",
-			  itoa ( BANQUE ));
+			  itoa ( gsb_account_get_bank (i) ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Guichet",
-			  NO_GUICHET );
+			  gsb_account_get_bank_branch_code (i) );
 
 	xmlNewTextChild ( node_compte,
 			  NULL,

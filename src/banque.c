@@ -146,10 +146,9 @@ gboolean update_bank_menu ()
 				GTK_SIGNAL_FUNC ( modif_detail_compte ),
 				GTK_OBJECT ( hbox_boutons_modif ) );
 
-    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + compte_courant_onglet;
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( detail_option_menu_banque ),
 				  g_slist_index ( liste_struct_banques,
-						  banque_par_no ( BANQUE )) +1 );
+						  banque_par_no ( gsb_account_get_bank (compte_courant_onglet))) +1 );
 
     return FALSE;
 }
@@ -234,7 +233,7 @@ void supprime_banque ( GtkWidget *bouton,
 
     for ( i=0 ; i < nb_comptes ; i++ )
     {
-	if ( BANQUE == bank_nb_to_remove )
+	if ( gsb_account_get_bank (i) == bank_nb_to_remove )
 	    bank_is_used = TRUE;
 	p_tab_nom_de_compte_variable++;
     }
@@ -257,10 +256,12 @@ void supprime_banque ( GtkWidget *bouton,
 
 	for ( i=0 ; i < nb_comptes ; i++ )
 	{
-	    if ( BANQUE == bank_nb_to_remove )
-		BANQUE = 0;
-	    if ( BANQUE > bank_nb_to_remove )
-		BANQUE--;
+	    if ( gsb_account_get_bank (i) == bank_nb_to_remove )
+		gsb_account_set_bank ( i,
+				       0 );
+	    if ( gsb_account_get_bank (i) > bank_nb_to_remove )
+		gsb_account_set_bank ( i,
+				       gsb_account_get_bank (i));
 	    p_tab_nom_de_compte_variable++;
 	}
 

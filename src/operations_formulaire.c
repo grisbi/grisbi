@@ -3988,7 +3988,6 @@ void degrise_formulaire_operations ( void )
 	gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
 				   TRUE );
 
-    if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_gsb_account_get_currency (compte_courant) ))
 	gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_par_element (TRANSACTION_FORM_DEVISE) ),
 				   TRUE );
 

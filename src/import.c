@@ -1269,7 +1269,8 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 			       3 );
 	if ( tab_str[1] )
 	{
-	    NO_GUICHET = g_strdup ( tab_str[1] );
+	    gsb_account_set_bank ( no_compte,
+				   g_strdup ( tab_str[1] ) );
 
 	    if ( tab_str[2] )
 	    {
