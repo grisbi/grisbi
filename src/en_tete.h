@@ -837,7 +837,7 @@ void remise_a_zero_logo ( GtkWidget *bouton,
 
 
 /***********************************/ 
-/* fichier etats.c */
+/* fichier etats_onglet.c */
 /***********************************/ 
 
 GtkWidget *creation_onglet_etats ( void );
@@ -850,6 +850,13 @@ void changement_etat ( GtkWidget *bouton,
 		       struct struct_etat *etat );
 gint recherche_etat_par_no ( struct struct_etat *etat,
 			     gint *no_etat );
+void exporter_etat ( void );
+void importer_etat ( void );
+
+/***********************************/ 
+/* fichier etats_config.c */
+/***********************************/ 
+
 void personnalisation_etat (void);
 GtkWidget *onglet_etat_generalites ( struct struct_etat *etat );
 void click_haut_classement_etat ( void );
@@ -874,6 +881,11 @@ void click_type_ib_etat ( gint type );
 GtkWidget *onglet_etat_tiers ( struct struct_etat *etat );
 GtkWidget *onglet_etat_texte ( struct struct_etat *etat );
 GtkWidget *onglet_etat_montant ( struct struct_etat *etat );
+
+/***********************************/ 
+/* fichier etats_calculs.c */
+/***********************************/ 
+
 void affichage_etat ( struct struct_etat *etat, 
 		      struct struct_etat_affichage *affichage );
 void impression_etat ( struct struct_etat *etat );
@@ -883,8 +895,6 @@ gint classement_liste_opes_etat ( struct structure_operation *operation_1,
 void etape_finale_affichage_etat ( GSList *ope_selectionnees, 
 				   struct struct_etat_affichage *affichage );
 void denote_struct_sous_jaccentes ( gint origine );
-void exporter_etat ( void );
-void importer_etat ( void );
 
 
 /***********************************/ 

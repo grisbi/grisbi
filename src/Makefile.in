@@ -1,6 +1,6 @@
-# Makefile.in generated automatically by automake 1.4-p4 from Makefile.am
+# Makefile.in generated automatically by automake 1.4-p6 from Makefile.am
 
-# Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
+# Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
@@ -62,7 +62,6 @@ POST_UNINSTALL = :
 host_alias = @host_alias@
 host_triplet = @host@
 BUILD_INCLUDED_LIBINTL = @BUILD_INCLUDED_LIBINTL@
-CATALOGS = @CATALOGS@
 CATOBJEXT = @CATOBJEXT@
 CC = @CC@
 CFLAGS = @CFLAGS@
@@ -71,7 +70,6 @@ EXTRA_GNOME_CFLAGS = @EXTRA_GNOME_CFLAGS@
 EXTRA_GNOME_LIBS = @EXTRA_GNOME_LIBS@
 GENCAT = @GENCAT@
 GLIBC21 = @GLIBC21@
-GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
 GNOMEGNORBA_LIBS = @GNOMEGNORBA_LIBS@
 GNOMEUI_LIBS = @GNOMEUI_LIBS@
@@ -90,22 +88,26 @@ GTKXMHTML_LIBS = @GTKXMHTML_LIBS@
 GTK_CFLAGS = @GTK_CFLAGS@
 GTK_CONFIG = @GTK_CONFIG@
 GTK_LIBS = @GTK_LIBS@
+HAVE_LIB = @HAVE_LIB@
 INSTOBJEXT = @INSTOBJEXT@
 INTLBISON = @INTLBISON@
 INTLLIBS = @INTLLIBS@
 INTLOBJS = @INTLOBJS@
 INTL_LIBTOOL_SUFFIX_PREFIX = @INTL_LIBTOOL_SUFFIX_PREFIX@
 LDFLAGS = @LDFLAGS@
+LIB = @LIB@
 LIBICONV = @LIBICONV@
+LIBINTL = @LIBINTL@
+LTLIB = @LTLIB@
+LTLIBICONV = @LTLIBICONV@
+LTLIBINTL = @LTLIBINTL@
 MAKEINFO = @MAKEINFO@
 MKINSTALLDIRS = @MKINSTALLDIRS@
-MSGFMT = @MSGFMT@
 ORBIT_CFLAGS = @ORBIT_CFLAGS@
 ORBIT_CONFIG = @ORBIT_CONFIG@
 ORBIT_IDL = @ORBIT_IDL@
 ORBIT_LIBS = @ORBIT_LIBS@
 PACKAGE = @PACKAGE@
-POFILES = @POFILES@
 POSUB = @POSUB@
 PTHREAD_LIB = @PTHREAD_LIB@
 RANLIB = @RANLIB@
@@ -123,7 +125,7 @@ INCLUDES = -I$(top_srcdir) -I$(includedir) $(GNOME_INCLUDEDIR) $(EXTRA_GNOME_CFL
 
 bin_PROGRAMS = grisbi
 
-grisbi_SOURCES =  	accueil.c			fenetre_principale.c		operations_liste.c		banque.c			fichier_configuration.c		operations_onglet.c		barre_outils.c			fichiers_gestion.c		parametres.c			categories_onglet.c		fichiers_io.c			patienter.c			comptes_gestion.c		gtk_combofix.c			qif.c				comptes_traitements.c		help.c				tiers_onglet.c			devises.c			main.c				traitement_variables.c		echeancier_formulaire.c		menu.c				echeancier_liste.c		operations_classement.c		equilibrage.c			operations_comptes.c		ventilation.c			erreur.c			operations_formulaire.c 	type_operations.c		exercice.c			imputation_budgetaire.c		affichage.c			etats.c				etats_gtktable.c		etats_gnomeprint.c		impression.c
+grisbi_SOURCES =  	accueil.c			fenetre_principale.c		operations_liste.c		banque.c			fichier_configuration.c		operations_onglet.c		barre_outils.c			fichiers_gestion.c		parametres.c			categories_onglet.c		fichiers_io.c			patienter.c			comptes_gestion.c		gtk_combofix.c			qif.c				comptes_traitements.c		help.c				tiers_onglet.c			devises.c			main.c				traitement_variables.c		echeancier_formulaire.c		menu.c				echeancier_liste.c		operations_classement.c		equilibrage.c			operations_comptes.c		ventilation.c			erreur.c			operations_formulaire.c 	type_operations.c		exercice.c			imputation_budgetaire.c		affichage.c			etats_onglet.c			etats_config.c			etats_calculs.c			etats_gtktable.c		etats_gnomeprint.c		impression.c
 
 
 grisbi_LDADD = $(GNOME_LIBDIR)	$(GNOMEUI_LIBS) $(EXTRA_GNOME_LIBS) -lgnomeprint
@@ -156,7 +158,8 @@ traitement_variables.o echeancier_formulaire.o menu.o \
 echeancier_liste.o operations_classement.o equilibrage.o \
 operations_comptes.o ventilation.o erreur.o operations_formulaire.o \
 type_operations.o exercice.o imputation_budgetaire.o affichage.o \
-etats.o etats_gtktable.o etats_gnomeprint.o impression.o
+etats_onglet.o etats_config.o etats_calculs.o etats_gtktable.o \
+etats_gnomeprint.o impression.o
 grisbi_DEPENDENCIES = 
 grisbi_LDFLAGS = 
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -175,17 +178,17 @@ DEP_FILES =  .deps/accueil.P .deps/affichage.P .deps/banque.P \
 .deps/barre_outils.P .deps/categories_onglet.P .deps/comptes_gestion.P \
 .deps/comptes_traitements.P .deps/devises.P \
 .deps/echeancier_formulaire.P .deps/echeancier_liste.P \
-.deps/equilibrage.P .deps/erreur.P .deps/etats.P \
-.deps/etats_gnomeprint.P .deps/etats_gtktable.P .deps/exercice.P \
-.deps/fenetre_principale.P .deps/fichier_configuration.P \
-.deps/fichiers_gestion.P .deps/fichiers_io.P .deps/gtk_combofix.P \
-.deps/help.P .deps/impression.P .deps/imputation_budgetaire.P \
-.deps/main.P .deps/menu.P .deps/operations_classement.P \
-.deps/operations_comptes.P .deps/operations_formulaire.P \
-.deps/operations_liste.P .deps/operations_onglet.P .deps/parametres.P \
-.deps/patienter.P .deps/qif.P .deps/tiers_onglet.P \
-.deps/traitement_variables.P .deps/type_operations.P \
-.deps/ventilation.P
+.deps/equilibrage.P .deps/erreur.P .deps/etats_calculs.P \
+.deps/etats_config.P .deps/etats_gnomeprint.P .deps/etats_gtktable.P \
+.deps/etats_onglet.P .deps/exercice.P .deps/fenetre_principale.P \
+.deps/fichier_configuration.P .deps/fichiers_gestion.P \
+.deps/fichiers_io.P .deps/gtk_combofix.P .deps/help.P \
+.deps/impression.P .deps/imputation_budgetaire.P .deps/main.P \
+.deps/menu.P .deps/operations_classement.P .deps/operations_comptes.P \
+.deps/operations_formulaire.P .deps/operations_liste.P \
+.deps/operations_onglet.P .deps/parametres.P .deps/patienter.P \
+.deps/qif.P .deps/tiers_onglet.P .deps/traitement_variables.P \
+.deps/type_operations.P .deps/ventilation.P
 SOURCES = $(grisbi_SOURCES)
 OBJECTS = $(grisbi_OBJECTS)
 
@@ -320,7 +323,7 @@ TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
 	  awk '    { files[$$0] = 1; } \
 	       END { for (i in files) print i; }'`; \
 	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
-	  || (cd $(srcdir) && etags $(ETAGS_ARGS) $$tags  $$unique $(LISP) -o $$here/TAGS)
+	  || (cd $(srcdir) && etags -o $$here/TAGS $(ETAGS_ARGS) $$tags  $$unique $(LISP))
 
 mostlyclean-tags:
 

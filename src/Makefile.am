@@ -40,7 +40,9 @@ grisbi_SOURCES = 		\
 	exercice.c		\
 	imputation_budgetaire.c	\
 	affichage.c		\
-	etats.c			\
+	etats_onglet.c		\
+	etats_config.c		\
+	etats_calculs.c		\
 	etats_gtktable.c	\
 	etats_gnomeprint.c	\
 	impression.c
