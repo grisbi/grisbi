@@ -14,13 +14,13 @@ subdir = po
 top_builddir = ..
 
 SHELL = /bin/sh
-MAKE=make
+
 
 srcdir = .
 top_srcdir = ..
 
 
-prefix = /hebus2/grisbi
+prefix = /usr/local
 exec_prefix = ${prefix}
 datadir = ${prefix}/share
 localedir = $(datadir)/locale
@@ -28,8 +28,8 @@ gettextsrcdir = $(datadir)/gettext/po
 
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
-MKINSTALLDIRS = ./mkinstalldirs
-mkinstalldirs = $(SHELL) `case "$(MKINSTALLDIRS)" in /*) echo "$(MKINSTALLDIRS)" ;; *) echo "$(top_builddir)/$(MKINSTALLDIRS)" ;; esac`
+MKINSTALLDIRS = $(top_builddir)/./mkinstalldirs
+mkinstalldirs = $(MKINSTALLDIRS)
 
 CC = gcc
 GMSGFMT = /usr/bin/msgfmt
@@ -38,7 +38,7 @@ XGETTEXT = /usr/bin/xgettext
 MSGMERGE = msgmerge
 
 DEFS = -DHAVE_CONFIG_H
-CFLAGS = -g -O2 -DORBIT2=1 -pthread -I/usr/include/libgnome-2.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/orbit-2.0 -I/usr/include/libbonobo-2.0 -I/usr/include/gconf/2 -I/usr/include/gnome-vfs-2.0 -I/usr/lib/gnome-vfs-2.0/include -I/usr/include/linc-1.0 -I/usr/include/bonobo-activation-2.0 -I/usr/include/libgnomeui-2.0 -I/usr/include/libgnomecanvas-2.0 -I/usr/include/gtk-2.0 -I/usr/include/libart-2.0 -I/usr/include/libbonoboui-2.0 -I/usr/include/pango-1.0 -I/usr/include/freetype2 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/X11R6/include -I/usr/include/libxml2  
+CFLAGS = -g -O2 -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/pango-1.0 -I/usr/include/freetype2 -I/usr/X11R6/include -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/libxml2  
 CPPFLAGS = 
 
 INCLUDES = -I.. -I$(top_srcdir)/intl
