@@ -58,7 +58,7 @@
 int main (int argc, char *argv[])
 {
   struct sigaction sig_sev;
-  gchar *texte = _("Permet de choisir la page de démarrage du logiciel");
+  gchar *texte = _("Selects initial tab");
   gchar *short_texte = "w[,x[,y[,z]]]]";
   poptContext ctx;
   gint demande_page;
