@@ -4443,6 +4443,10 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 			  GINT_TO_POINTER ( 0 ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
+				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
+				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
 				GTK_OBJECT ( comp_textes -> hbox_txt ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
@@ -4451,7 +4455,7 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 				GTK_OBJECT ( comp_textes -> hbox_chq ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
-				GTK_SIGNAL_FUNC ( desensitive_widget ),
+				GTK_SIGNAL_FUNC ( sensitive_widget ),
 				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
@@ -4467,6 +4471,10 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 			  GINT_TO_POINTER ( 1 ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
+				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
+				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
 				GTK_OBJECT ( comp_textes -> hbox_txt ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
@@ -4475,7 +4483,7 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 				GTK_OBJECT ( comp_textes -> hbox_chq ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
-				GTK_SIGNAL_FUNC ( desensitive_widget ),
+				GTK_SIGNAL_FUNC ( sensitive_widget ),
 				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
@@ -4491,6 +4499,10 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 			  GINT_TO_POINTER ( 2 ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
+				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
+				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
 				GTK_OBJECT ( comp_textes -> hbox_txt ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
@@ -4499,7 +4511,7 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 				GTK_OBJECT ( comp_textes -> hbox_chq ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
-				GTK_SIGNAL_FUNC ( desensitive_widget ),
+				GTK_SIGNAL_FUNC ( sensitive_widget ),
 				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
@@ -4515,6 +4527,10 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 			  GINT_TO_POINTER ( 3 ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
+				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
+				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
 				GTK_OBJECT ( comp_textes -> hbox_txt ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
@@ -4523,7 +4539,7 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 				GTK_OBJECT ( comp_textes -> hbox_chq ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
-				GTK_SIGNAL_FUNC ( desensitive_widget ),
+				GTK_SIGNAL_FUNC ( sensitive_widget ),
 				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
@@ -4539,6 +4555,10 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 			  GINT_TO_POINTER ( 4 ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
+				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
+				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
 				GTK_OBJECT ( comp_textes -> hbox_txt ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
@@ -4547,7 +4567,7 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 				GTK_OBJECT ( comp_textes -> hbox_chq ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
-				GTK_SIGNAL_FUNC ( desensitive_widget ),
+				GTK_SIGNAL_FUNC ( sensitive_widget ),
 				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
@@ -4563,6 +4583,10 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 			  GINT_TO_POINTER ( 5 ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
+				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
+				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
 				GTK_OBJECT ( comp_textes -> hbox_txt ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
@@ -4571,7 +4595,7 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 				GTK_OBJECT ( comp_textes -> hbox_chq ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
-				GTK_SIGNAL_FUNC ( desensitive_widget ),
+				GTK_SIGNAL_FUNC ( sensitive_widget ),
 				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
@@ -4587,6 +4611,10 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 			  GINT_TO_POINTER ( 6 ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
+				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
+				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
 				GTK_OBJECT ( comp_textes -> hbox_txt ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
@@ -4595,7 +4623,7 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 				GTK_OBJECT ( comp_textes -> hbox_chq ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
-				GTK_SIGNAL_FUNC ( desensitive_widget ),
+				GTK_SIGNAL_FUNC ( sensitive_widget ),
 				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
@@ -4611,6 +4639,10 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 			  GINT_TO_POINTER ( 7 ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
+				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
+				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
 				GTK_OBJECT ( comp_textes -> hbox_txt ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
@@ -4619,7 +4651,7 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 				GTK_OBJECT ( comp_textes -> hbox_chq ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
-				GTK_SIGNAL_FUNC ( desensitive_widget ),
+				GTK_SIGNAL_FUNC ( sensitive_widget ),
 				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
