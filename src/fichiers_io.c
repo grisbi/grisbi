@@ -264,6 +264,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 				 "_version_0_3_3",
 				 NULL );
 
+  /* FIXME: potential security problems there !!! */
   system ( g_strdup_printf ( "cp %s %s",
 			     nom_fichier_comptes,
 			     nom_sauvegarde ));
@@ -6440,7 +6441,9 @@ gboolean enregistre_fichier ( gboolean force )
 
   if ( etat.fichier_deja_ouvert && !etat.force_enregistrement && !force )
     {
-      dialogue_conditional ( _("Either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving locked files\" option in setup."), &(etat.display_message_lock_active ) );
+      dialogue_conditional ( g_strdup_printf( _("Grisbi was unable to save this file because it is locked.  Please save it with another name or activate the \"%s\" option in setup.  Alternatively, choose the \"%s\" option below."),
+					      _("Force saving of locked files"),
+					      _("Do not show this message again")), &(etat.force_enregistrement ) );
       return ( FALSE );
     }
 
