@@ -1,9 +1,8 @@
 /* Fichier banque.c */
 /* s'occupe de tout ce qui concerne les banques */
 
-
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
+/*			2003 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
