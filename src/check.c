@@ -441,7 +441,7 @@ gboolean contra_transaction_check ( void )
 /* financial_years_check.                                                     */
 /* Cette fonction est appelée après la création de toutes les listes          */
 /* Elle permet de vérifier la cohérence des exercices des opérations          */
-/* avec l'opération mère. En effetsuite à la découverte du bogue #542                                        */
+/* de ventilation avec l'opération mère (Bogue #542).                         */
 /******************************************************************************/
 gboolean financial_years_check ( void )
 {
