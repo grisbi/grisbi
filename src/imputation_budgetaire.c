@@ -2553,12 +2553,12 @@ void calcule_total_montant_imputation ( void )
 
 
 /* **************************************************************************************************** */
-gchar *calcule_total_montant_imputation_par_compte ( gint imputation,
-						     gint sous_imputation,
+gchar *calcule_total_montant_imputation_par_compte ( gint imputation, gint sous_imputation, 
 						     gint no_compte )
 {
   gdouble retour_int;
   GSList *liste_tmp;
+  struct struct_devise * devise;
 
   retour_int = 0;
   nb_ecritures_par_comptes = 0;
@@ -2595,10 +2595,13 @@ gchar *calcule_total_montant_imputation_par_compte ( gint imputation,
       liste_tmp = liste_tmp -> next;
     }
 
+  devise = g_slist_find_custom ( liste_struct_devises, GINT_TO_POINTER(DEVISE),
+				 ( GCompareFunc ) recherche_devise_par_no) -> data;
+
   if ( retour_int )
     return ( g_strdup_printf ( "%4.2f %s",
 			       retour_int,
-			       devise_compte -> code_devise ));
+			       devise -> code_devise ));
   else
     return ( NULL );
 }

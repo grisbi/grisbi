@@ -1606,11 +1606,11 @@ gfloat *calcule_total_montant_tiers ( void )
 
 
 /* **************************************************************************************************** */
-gchar *calcule_total_montant_tiers_par_compte ( gint no_tiers,
-					       gint no_compte )
+gchar *calcule_total_montant_tiers_par_compte ( gint no_tiers, gint no_compte )
 {
   gdouble retour_int;
   GSList *liste_tmp;
+  struct struct_devise * devise;
 
   retour_int = 0;
   nb_ecritures_par_comptes = 0;
@@ -1643,10 +1643,13 @@ gchar *calcule_total_montant_tiers_par_compte ( gint no_tiers,
       liste_tmp = liste_tmp -> next;
     }
 
+  devise = g_slist_find_custom ( liste_struct_devises, GINT_TO_POINTER(DEVISE),
+				 ( GCompareFunc ) recherche_devise_par_no) -> data;
+
   if ( nb_ecritures_par_comptes )
     return ( g_strdup_printf ( "%4.2f %s",
 			       retour_int,
-			       devise_compte -> code_devise ));
+			       devise -> code_devise ));
   else
     return ( NULL );
 }
