@@ -1954,7 +1954,6 @@ void fin_edition_echeance ( void )
 	    gsliste_echeances = g_slist_insert_sorted ( gsliste_echeances,
 							echeance,
 							(GCompareFunc) comparaison_date_echeance );
-	g_strfreev ( tableau_char );
     }
     else
     {
@@ -1991,6 +1990,7 @@ void fin_edition_echeance ( void )
 					    operation ->mois,
 					    operation ->annee);
 
+	g_strfreev ( tableau_char );
 
 	/* récupération du no de compte */
 
@@ -2353,8 +2353,6 @@ void fin_edition_echeance ( void )
 	gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_MODE] );
 	gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQUENCY] );
 	gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQUENCY] );
-	g_strfreev ( tableau_char );
-
     }
 
 
