@@ -6176,7 +6176,7 @@ GtkWidget *page_organisation_donnees ( void )
 
   while ( jours_semaine[i] )
     {
-      menu_item = gtk_menu_item_new_with_label ( jours_semaine[i] );
+      menu_item = gtk_menu_item_new_with_label ( _(jours_semaine[i]) );
       gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			    _("day"),
 			    GINT_TO_POINTER (i));
