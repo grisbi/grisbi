@@ -150,7 +150,9 @@ int main (int argc, char *argv[])
     win32_set_app_path(argv[0]);
 #endif
 
-	/*   setlocale (LC_ALL, ""); */
+	bindtextdomain ("grisbi-tips", LOCALEDIR);
+	bind_textdomain_codeset ("grisbi-tips", "UTF-8");
+
 	bindtextdomain (PACKAGE, LOCALEDIR);
 	bind_textdomain_codeset (PACKAGE, "UTF-8");
 	textdomain (PACKAGE);
