@@ -179,10 +179,6 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 	    else
 	    {
 /* 		pour l'instant html non implémenté */
-
-		    dialogue ( g_strdup_printf ( _("The file \"%s\" cannot be recognized for the importation.\nIf it is a QIF or OFX file,\nplease contact the grisbi team to resolve the problem."),
-						 liste_selection[i] ));
-			
 		if ( pointeur_char[0] == '<' )
 		    recuperation_donnees_html ( fichier );
 		else
@@ -611,7 +607,7 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 			  menu_item );
 	gtk_widget_show ( menu_item );
 
-	menu_item = gtk_menu_item_new_with_label ( _("Mark the transactions"));
+	menu_item = gtk_menu_item_new_with_label ( _("Mark transactions"));
 	gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			      "no_action",
 			      GINT_TO_POINTER ( 2 ) );
@@ -1501,8 +1497,9 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 		/* 		    on propose encore d'arrêter... */
 
 
-		if ( question_yes_no ( _("The id of the imported and chosen accounts are not the same.\nPerhaps you choose a wrong account ?\nIf you choose to continue, the id of the account will be changed.\nDo you want to continue ?")))
-		    ID_COMPTE = g_strdup ( compte_import -> id_compte );
+	      if ( question_yes_no_hint ( _("The id of the imported and chosen accounts are different"),
+					  _("Perhaps you choose a wrong account ?  If you choose to continue, the id of the account will be changed.  Do you want to continue ?")))
+		ID_COMPTE = g_strdup ( compte_import -> id_compte );
 		else
 		    return;
 	    }
@@ -1810,7 +1807,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 				 0 );
 	    gtk_widget_show ( ope_import -> bouton );
 
-	    label = gtk_label_new ( g_strdup_printf ( _("Transactions to import : %d/%d/%d ; %s ; %4.2f"),
+	    label = gtk_label_new ( g_strdup_printf ( _("Transactions to import : %02d/%02d/%04d ; %s ; %4.2f"),
 						      g_date_day ( ope_import -> date ),
 						      g_date_month ( ope_import -> date ),
 						      g_date_year ( ope_import -> date ),
@@ -1850,7 +1847,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 		tiers = _("no third party");
 
 	    if ( operation -> notes )
-		label = gtk_label_new ( g_strdup_printf ( _("Transaction found : %d/%d/%d ; %s ; %4.2f ; %s"),
+		label = gtk_label_new ( g_strdup_printf ( _("Transaction found : %02d/%02d/%04d ; %s ; %4.2f ; %s"),
 							  g_date_day ( operation -> date ),
 							  g_date_month ( operation -> date ),
 							  g_date_year ( operation -> date ),
@@ -1858,7 +1855,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 							  operation -> montant,
 							  operation -> notes ));
 	    else
-		label = gtk_label_new ( g_strdup_printf ( _("Transaction found : %d/%d/%d ; %s ; %4.2f"),
+		label = gtk_label_new ( g_strdup_printf ( _("Transaction found : %02d/%02d/%04d ; %s ; %4.2f"),
 							  g_date_day ( operation -> date ),
 							  g_date_month ( operation -> date ),
 							  g_date_year ( operation -> date ),
@@ -2227,7 +2224,8 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 		/* 		    on propose encore d'arrêter... */
 
 
-		if ( question_yes_no ( _("The id of the imported and chosen accounts are not the same.\nPerhaps you choose a wrong account ?\nIf you choose to continue, the id of the account will be changed.\nDo you want to continue ?")))
+	      if ( question_yes_no_hint ( _("The id of the imported and chosen accounts are different"),
+					  _("Perhaps you choose a wrong account ?  If you choose to continue, the id of the account will be changed.  Do you want to continue ?")))
 		    ID_COMPTE = g_strdup ( compte_import -> id_compte );
 		else
 		    return;
@@ -2497,9 +2495,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
     if ( liste_opes_import_celibataires )
     {
-	GtkWidget *liste_ope_celibataires;
-	GtkWidget *dialog;
-	GtkWidget *label;
+	GtkWidget *liste_ope_celibataires, *dialog, *label, *scrolled_window;
 	gint result;
 	GtkListStore *store;
 	GtkCellRenderer *renderer;
@@ -2507,16 +2503,15 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 
 
-	dialog = gtk_dialog_new_with_buttons ( _("Orphelines transactions"),
+	dialog = gtk_dialog_new_with_buttons ( _("Orphaned transactions"),
 					       GTK_WINDOW ( window ),
 					       GTK_DIALOG_DESTROY_WITH_PARENT,
-					       GTK_STOCK_ADD,
-					       1,
-					       GTK_STOCK_CLOSE,
-					       GTK_RESPONSE_CLOSE,
+					       GTK_STOCK_ADD, 1,
+					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					       GTK_STOCK_OK, GTK_RESPONSE_OK,
 					       NULL );
 
-	label = gtk_label_new ( _("Mark the transactions you want to add to the list and click the add button"));
+	label = gtk_label_new ( _("Mark transactions you want to add to the list and click the add button"));
 	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
 			     label,
 			     FALSE,
@@ -2547,7 +2542,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 	    gtk_list_store_set ( store,
 				 &iter,
 				 0, FALSE,
-				 1, g_strdup_printf ( "%d/%d/%d",
+				 1, g_strdup_printf ( "%02d/%02d/%04d",
 						      g_date_get_day ( ope_import -> date ),
 						      g_date_get_month ( ope_import -> date ),
 						      g_date_get_year ( ope_import -> date )),
@@ -2565,12 +2560,19 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 	g_object_set_data ( G_OBJECT ( liste_ope_celibataires ),
 			    "liste_ope",
 			    liste_opes_import_celibataires );
+	scrolled_window = gtk_scrolled_window_new ( FALSE, FALSE );
+	gtk_widget_set_usize ( scrolled_window, FALSE, 300 );
 	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			     liste_ope_celibataires,
-			     FALSE,
-			     FALSE,
+			     scrolled_window,
+			     TRUE,
+			     TRUE,
 			     0 );
-	gtk_widget_show ( liste_ope_celibataires );
+	gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+					 GTK_POLICY_AUTOMATIC,
+					 GTK_POLICY_AUTOMATIC );
+	gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+						liste_ope_celibataires );
+	gtk_widget_show_all ( scrolled_window );
 
 	/* on affiche les colonnes */
 
@@ -2646,11 +2648,8 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 
     switch ( result )
     {
-	case GTK_RESPONSE_CLOSE:
-	    gtk_widget_destroy ( dialog );
-	    break;
-
 	case 1:
+	case GTK_RESPONSE_OK:
 	    /* on ajoute la ou les opés marquées à la liste d'opés en les pointant d'un T
 	       puis on les retire de la liste des orphelines
 	       s'il ne reste plus d'opés orphelines, on ferme la boite de dialogue */
@@ -2745,7 +2744,12 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 
 	    modification_fichier ( TRUE );
 
-	    break;
+	    if ( result != GTK_RESPONSE_OK )
+	      break;
+
+    default:
+      gtk_widget_destroy ( dialog );
+      break;
     }
 
     return ( FALSE );
