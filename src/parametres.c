@@ -1819,6 +1819,7 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
       if ( nb_comptes )
 	{
 	  reaffiche_liste_comptes ();
+	  reaffiche_liste_comptes_onglet ();
 	  update_liste_comptes_accueil();
 	  modification_fichier ( TRUE );
 	  demande_mise_a_jour_tous_comptes();
