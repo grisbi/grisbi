@@ -36,6 +36,7 @@
 #include "barre_outils.h"
 #include "echeancier_ventilation.h"
 #include "devises.h"
+#include "dialog.h"
 #include "utils_devises.h"
 #include "operations_formulaire.h"
 #include "utils_dates.h"
@@ -1299,45 +1300,26 @@ void supprime_echeance ( struct operation_echeance *echeance )
 
     if ( echeance -> periodicite )
     {
-	GtkWidget *dialog;
-	GtkWidget *label;
+	GtkWidget * dialog;
+	gchar * occurences = "";
 
-	dialog = gtk_dialog_new_with_buttons ( _("Delete a scheduled transaction maturity"),
-					       GTK_WINDOW (window),
-					       GTK_DIALOG_MODAL,
-					       _("Only this one"),0,
-					       _("All the occurences"),1,
-					       GTK_STOCK_CANCEL,2,
-					       NULL );
+	occurences = g_strdup_printf ( _("%02d/%02d/%d : %s [%4.2f %s]"),
+				       echeance -> jour,
+				       echeance -> mois,
+				       echeance -> annee,
+				       tiers_name_by_no ( echeance -> tiers, FALSE ),
+				       echeance -> montant,
+				       devise_name ( devise_par_no (echeance->devise) ) );
 
-	label = gtk_label_new ( SPACIFY(_("Do you want to delete just this occurrence or the whole scheduled transaction?")) );
-	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			     label,
-			     FALSE,
-			     FALSE,
-			     0 );
-	gtk_widget_show ( label );
-
-	label = gtk_label_new ( g_strdup_printf ( "%02d/%02d/%d : %s [%4.2f]",
-						  echeance -> jour,
-						  echeance -> mois,
-						  echeance -> annee,
-						  tiers_name_by_no (echeance -> tiers, FALSE ),
-						  echeance -> montant ));
-
-	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			     label,
-			     FALSE,
-			     FALSE,
-			     0 );
-	gtk_widget_show ( label );
-
-
-
-	gtk_box_set_homogeneous ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-				  TRUE );
-	gtk_dialog_set_default_response ( GTK_DIALOG ( dialog ),
-					  2 );
+	dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
+					   make_hint ( _("Delete this scheduled transaction?"),
+						       g_strconcat ( _("Do you want to delete just this occurrence or the whole scheduled transaction?\n\n"),
+								     occurences, NULL )));
+	gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
+				 GTK_STOCK_CANCEL, 2,
+				 _("All the occurences"), 1,
+				 _("Only this one"), 0,
+				 NULL );
 
 	resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 	gtk_widget_destroy ( dialog );
