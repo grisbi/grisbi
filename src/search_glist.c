@@ -114,7 +114,9 @@ gint recherche_banque_par_no ( struct struct_banque *banque,
 gint recherche_devise_par_nom ( struct struct_devise *devise,
 				gchar *nom )
 {
-    return ( devise && g_strcasecmp ( g_strstrip ( devise_name(devise) ), nom ) );
+    
+  if ( ! devise ) return FALSE;
+  return ( g_strcasecmp ( devise_name(devise), nom ) );
 }
 /* ************************************************************************************************************ */
 
@@ -123,7 +125,8 @@ gint recherche_devise_par_nom ( struct struct_devise *devise,
 gint recherche_devise_par_code ( struct struct_devise *devise,
 				gchar *code )
 {
-    return ( devise && g_strcasecmp ( g_strstrip ( devise_code(devise) ), code ) );
+  if ( ! devise ) return FALSE;
+  return ( g_strcasecmp ( g_strstrip ( devise_code(devise) ), code ) );
 }
 /* ************************************************************************************************************ */
 
