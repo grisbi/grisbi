@@ -1339,6 +1339,8 @@ gboolean clique_champ_formulaire_echeancier ( GtkWidget *entree,
 	  gtk_widget_size_request ( GTK_WIDGET ( popup ),
 				    taille_popup );
 	  
+	  /* pour la soustraire à la position de l'entrée date */
+	  
 	  y_cal -= taille_popup -> height;
 	  
 	  /* si une des coordonnées est négative, alors la fonction
