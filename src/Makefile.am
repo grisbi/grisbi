@@ -6,50 +6,50 @@ bin_PROGRAMS = grisbi
 
 grisbi_SOURCES = 		\
 	accueil.c		\
-	fenetre_principale.c	\
-	operations_liste.c	\
+	affichage.c		\
+	affichage_liste.c	\
 	banque.c		\
-	fichier_configuration.c	\
-	operations_onglet.c	\
 	barre_outils.c		\
-	fichiers_gestion.c	\
-	parametres.c		\
+	calendar.c		\
 	categories_onglet.c	\
-	fichiers_io.c		\
-	patienter.c		\
 	comptes_gestion.c	\
 	comptes_onglet.c	\
-	gtk_combofix.c		\
-	qif.c			\
 	comptes_traitements.c	\
-	help.c			\
-	tiers_onglet.c		\
 	devises.c		\
-	main.c			\
-	traitement_variables.c	\
 	echeancier_formulaire.c	\
-	menu.c			\
 	echeancier_liste.c	\
-	operations_classement.c	\
 	equilibrage.c		\
-	operations_comptes.c	\
-	ventilation.c		\
 	erreur.c		\
-	operations_formulaire.c \
-	type_operations.c	\
-	exercice.c		\
-	imputation_budgetaire.c	\
-	affichage.c		\
 	etat_io.c		\
-	etats_onglet.c		\
-	etats_config.c		\
-	etats_calculs.c		\
-	etats_support.c		\
 	etats_affiche.c		\
-	etats_latex.c		\
+	etats_calculs.c		\
+	etats_config.c		\
 	etats_gtktable.c	\
-	affichage_liste.c
-
+	etats_latex.c		\
+	etats_onglet.c		\
+	etats_support.c		\
+	exercice.c		\
+	fenetre_principale.c	\
+	fichier_configuration.c	\
+	fichiers_gestion.c	\
+	fichiers_io.c		\
+	gtk_combofix.c		\
+	help.c			\
+	imputation_budgetaire.c	\
+	main.c			\
+	menu.c			\
+	operations_classement.c	\
+	operations_comptes.c	\
+	operations_formulaire.c \
+	operations_liste.c	\
+	operations_onglet.c	\
+	parametres.c		\
+	patienter.c		\
+	qif.c			\
+	tiers_onglet.c		\
+	traitement_variables.c	\
+	type_operations.c	\
+	ventilation.c
 
 
 #grisbi_LDADD =	$(GNOME_LIBDIR)	$(GNOMEUI_LIBS)
