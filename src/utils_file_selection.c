@@ -74,11 +74,10 @@ GtkWidget* file_selection_new(const gchar      *title,const  gint properties)
 
     if (FILE_SELECTION_PROPERTY(properties,FILE_SELECTION_IS_SAVE_DIALOG) && !FILE_SELECTION_PROPERTY(properties,FILE_SELECTION_NOOVERWRITECHECK))
      {
-        g_signal_connect_data  (GTK_OBJECT ( GTK_FILE_SELECTION ( filesel ) -> ok_button),
-                                "clicked",
-                                GTK_SIGNAL_FUNC(file_selection_overwrite_file_check),
-                                GTK_OBJECT (filesel),
-                                NULL,0);
+        g_signal_connect_swapped  (GTK_OBJECT ( GTK_FILE_SELECTION ( filesel ) -> ok_button),
+				   "clicked",
+				   GTK_SIGNAL_FUNC(file_selection_overwrite_file_check),
+				   GTK_OBJECT (filesel) );
     }
 
 #endif
@@ -103,10 +102,12 @@ GtkWidget* file_selection_new(const gchar      *title,const  gint properties)
  */      
 void file_selection_overwrite_file_check( GtkWidget *selection_fichier, gboolean* presult)
 { /* {{{ */
-    gchar* filename =  g_strdup ( gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( selection_fichier)) );
+    gchar* filename;
     struct stat test_file;
-    
     gboolean result = TRUE;
+
+    filename = g_strdup ( gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( selection_fichier)) );
+
     if (!strlen(filename))
     {
         result = FALSE;
@@ -127,16 +128,51 @@ void file_selection_overwrite_file_check( GtkWidget *selection_fichier, gboolean
         
     }
 
+    gtk_dialog_response(GTK_DIALOG(GTK_FILE_SELECTION(selection_fichier)),
+			(result) ? GTK_RESPONSE_OK : GTK_RESPONSE_NONE);
+
+} /* }}} file_selection_check_filename */
+
+
+
+/** Validate the selected filename from a GtkFileSelection.  Check if file exists.
+ *
+ * \param selection_fichier GtkFileSelection widget
+ * \param presult           pointer on a gboolean you want to retrieve the result in
+ *      *presult = TRUE if the filename is ok (file does exist)
+ *      *presult = FALSE in all other cases
+ *      if presult is set to NULL, the function send a "response" event to the widget
+ *      GTK_RESPONSE_OK or GTK_RESPONSE_NONE
+ *      
+ *      \todo check if the file name is not empty
+ */      
+gboolean file_selection_check_filename ( GtkWidget *selection_fichier, gboolean* presult)
+{ /* {{{ */
+    gchar* filename =  g_strdup ( gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( selection_fichier)) );
+    struct stat test_file;
+    
+    gboolean result = TRUE;
+    if (!strlen(filename))
+    {
+        result = FALSE;
+    }
+    else if ( utf8_stat ( filename, &test_file ) == -1 || 
+	      !S_ISREG ( test_file.st_mode ) )
+    {
+	dialogue_error_hint ( g_strdup_printf ( _("Either file \"%s\" does not exist or it is not a regular file."),
+						filename),
+			      g_strdup_printf ( _("Error opening file '%s'." ), filename ) );
+	result = FALSE;
+    }
+
     if (presult)
     {
         *presult = result;
     }
-    else
-    {
-        gtk_dialog_response(GTK_DIALOG(GTK_FILE_SELECTION(selection_fichier)),
-                            (result) ? GTK_RESPONSE_OK : GTK_RESPONSE_NONE);
-    }
+
+    return result;
 } /* }}} file_selection_check_filename */
+
 
 
 /** file_selection_set_entry.

@@ -34,7 +34,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef _H_UTILS_FILE_SELECTION_
-#define _H_UTILS_FILE_SELECTION_ "$Id: utils_file_selection.h,v 1.2 2004/09/12 15:50:01 teilginn Exp $"
+#define _H_UTILS_FILE_SELECTION_ "$Id: utils_file_selection.h,v 1.3 2004/09/15 16:16:11 benj2 Exp $"
 
 #include <gtk/gtk.h>
 
@@ -55,5 +55,6 @@ void   file_selection_set_filename(GtkFileSelection* filsel,const gchar* utf8fil
 gchar* file_selection_get_filename(GtkFileSelection* filesel);
 gchar** file_selection_get_selections(GtkFileSelection* filesel);
 gchar* file_selection_get_last_directory(GtkFileSelection* filesel,gboolean ended);
+gboolean file_selection_check_filename ( GtkWidget *selection_fichier, gboolean* presult);
 
 #endif
