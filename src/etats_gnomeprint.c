@@ -64,17 +64,17 @@ gfloat red=0, green=0, blue=0;
 
 
 
-my_gnome_print_dialog_new (const char *title, int flags)
-{
-	GtkWidget *w;
+/* my_gnome_print_dialog_new (const char *title, int flags) */
+/* { */
+/* 	GtkWidget *w; */
 
-	w = GTK_WIDGET ( gtk_type_new (gnome_print_dialog_get_type ()));
-	if (GNOME_PRINT_DIALOG (w)->printer == NULL)
-		return NULL;
-	gnome_dialog_constructv(GNOME_DIALOG(w), title, print_buttons());
-	init_body(GNOME_PRINT_DIALOG(w), flags);
-	return w;
-}
+/* 	w = GTK_WIDGET ( gtk_type_new (gnome_print_dialog_get_type ())); */
+/* 	if (GNOME_PRINT_DIALOG (w)->printer == NULL) */
+/* 		return NULL; */
+/* 	gnome_dialog_constructv(GNOME_DIALOG(w), title, print_buttons()); */
+/* 	init_body(GNOME_PRINT_DIALOG(w), flags); */
+/* 	return w; */
+/* } */
 
 
 
