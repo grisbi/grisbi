@@ -1281,7 +1281,8 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 		temp = g_strdup ( tab_str[2] );
 
 		temp[strlen (temp) - 1 ] = 0;
-		NO_COMPTE_BANQUE = temp;
+		gsb_account_set_bank_account_number ( no_compte,
+						      temp );
 	    }
 	}
 	g_strfreev ( tab_str );
