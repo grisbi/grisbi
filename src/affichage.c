@@ -784,12 +784,6 @@ void change_logo_accueil ( GtkWidget *widget, gpointer user_data )
     }
 
   /* on sauvegarde le chemin */
-
-  gnome_config_set_string ( "/Grisbi/Affichage/Chemin_du_logo",
-			    chemin_logo );
-  gnome_config_sync();
-  modification_fichier ( TRUE );
-
 }
 
 
