@@ -2813,10 +2813,10 @@ struct structure_operation *  clone_transaction ( struct structure_operation * o
     new_transaction -> no_operation = 0;
     ajout_operation ( new_transaction );
 
-    if ( operation -> relation_no_operation != 0 || operation -> relation_no_compte != 0 )
+    if ( new_transaction -> relation_no_operation != 0 || new_transaction -> relation_no_compte != 0 )
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
-	validation_virement_operation ( operation, 0, NOM_DU_COMPTE );
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + new_transaction -> relation_no_compte;
+	validation_virement_operation ( new_transaction, 0, NOM_DU_COMPTE );
     }
 
     if ( operation -> operation_ventilee )
