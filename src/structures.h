@@ -2,7 +2,7 @@
 /* contient toutes les structures du prog */
 
 
-/* #define VERSION "0.4.0" */
+#define VERSION_FICHIER "0.4.0"
 
 /* Chemin des fichiers */
 

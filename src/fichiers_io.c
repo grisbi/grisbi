@@ -66,22 +66,33 @@ gboolean charge_operations ( void )
 	  xmlFreeDoc ( doc );
 	  return ( FALSE );
 	}
+      printf ( "%s / %s\n", xmlNodeGetContent ( doc->root->childs->childs ),
+	       xmlNodeGetContent ( doc->root->childs->childs->next ));
 
-      /* récupère la version */
+      /* récupère la version de fichier */
 
         if (( !strcmp (  xmlNodeGetContent ( doc->root->childs->childs ),
 			 "0.3.2" )))
 	  return ( charge_operations_version_0_3_2 ( doc ));
 
-        if (( !strncmp (  xmlNodeGetContent ( doc->root->childs->childs ),
-			 "0.4", 3 )))
+        if (( !strcmp (  xmlNodeGetContent ( doc->root->childs->childs ),
+			 "0.3.3" )))
+	  return ( charge_operations_version_0_3_2 ( doc ));
+
+        if (( !strcmp (  xmlNodeGetContent ( doc->root->childs->childs ),
+			 "0.4.0" )))
 	  return ( charge_operations_version_0_4_0 ( doc ));
 
+	/* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
+	/* la version nécessaire pour l'ouvrir */
 
-      dialogue ( _(" Version inconnue "));
-      xmlFreeDoc ( doc );
 
-      return ( FALSE );
+	dialogue ( g_strdup_printf ( _("Pour ouvrir ce fichier, il vous faut la version %s de Grisbi "),
+				     xmlNodeGetContent ( doc->root->childs->childs->next )));
+
+	xmlFreeDoc ( doc );
+
+	return ( FALSE );
     }
   else
     {
@@ -101,7 +112,7 @@ gboolean charge_operations ( void )
 
 
 /*****************************************************************************/
-/* ajout de la 0.3.2 : passage au xml */
+/* ajout de la 0.3.2 et 0.3.3 */
 /*****************************************************************************/
 
 gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
@@ -3390,7 +3401,12 @@ gboolean enregistre_fichier ( void )
 		       NULL );
   xmlNewTextChild ( node,
 		    NULL,
-		    "Version",
+		    "Version_fichier",
+		    VERSION_FICHIER );
+
+  xmlNewTextChild ( node,
+		    NULL,
+		    "Version_grisbi",
 		    VERSION );
 
   /* on met fichier_ouvert à 0 car si c'est une backup ... */
