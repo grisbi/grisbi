@@ -46,12 +46,47 @@ extern gint patience_en_cours;
 
 
 /*****************************************************************************************************************/
-/* fonction appelée lors de la demande de fermeture du fichier de compte en cours */
+/* fonction appelée lors de la demande de fermeture de grisbi */
 /*****************************************************************************************************************/
 
 
 gboolean fermeture_grisbi ( void )
 {
+
+    /*     si le fichier n'est pas enregistré, on le propose */
+
+    if ( etat.modification_fichier )
+    {
+	gint retour;
+
+	retour = question_fermer_sans_enregistrer ();
+
+	switch ( retour )
+	{
+	    /* 	    on veut enregistrer */
+	    /* 	    si ça se passe pas bien, on arrête la fermeture */
+	    case GTK_RESPONSE_OK:
+		if ( !enregistrement_fichier(-1))
+		    return TRUE;
+		break;
+
+		/* on ne veut pas enregistrer */
+	    case GTK_RESPONSE_NO:
+
+		break;
+
+		/* 		on a annulé */
+	    default:
+		return TRUE;
+	}
+    }
+
+    /*     à ce niveau, soit le fichier a été enregistré, soit on ne veut pas l'enregistrer */
+    /* 	on ferme grisbi */
+
+    sauve_configuration ();
+
+    modification_etat_ouverture_fichier ( FALSE );
 
     /*       stoppe le timer */
 
@@ -61,25 +96,14 @@ gboolean fermeture_grisbi ( void )
 	id_temps = 0;
     }
 
-    sauve_configuration ();
-
-    /*   si le fichier est modifié, propose l'enregistrement */
-
-    if ( enregistrement_fichier(-1) )
-	gtk_main_quit();
-
-
-    /* si le fichier n'était pas déjà ouvert, met à 0 l'ouverture */
-
-    if ( !etat.fichier_deja_ouvert
-	 &&
-	 nb_comptes
-	 &&
-	 nom_fichier_comptes )
-	fichier_marque_ouvert ( FALSE );
-
-    return (TRUE );
+    gtk_main_quit();
+    return TRUE;
 }
+/*************************************************************************************************************/
+
+
+
+
 
 
 /*************************************************************************************************************/
@@ -180,8 +204,6 @@ void traitement_sigsegv ( gint signal_nb )
 	    errmsg = g_strconcat ( errmsg, _("Error occured saving file."), 
 				   "\n\n", NULL );
 	}
-
-	fichier_marque_ouvert ( FALSE );
     }
     else 
     {
@@ -211,12 +233,10 @@ void traitement_sigsegv ( gint signal_nb )
 						"/#grisbi_plantage_sans_nom#",
 						NULL );
 
-	if ( patience_en_cours )
-	    update_attente ( _("Save file") );
-	else
-	    mise_en_route_attente ( _("Save file") );
+	mise_en_route_attente ( _("Save file") );
 
-	enregistre_fichier ( 1 );
+	enregistre_fichier ( nom_fichier_comptes );
+
 	annulation_attente();
 
 	errmsg = g_strconcat ( errmsg, 
@@ -233,6 +253,9 @@ void traitement_sigsegv ( gint signal_nb )
     dialogue_error_hint ( errmsg, 
 			  _("Grisbi terminated due to a segmentation fault.") );
 
+    /*     on évite le message du fichier ouvert à la prochaine ouverture */
+
+    modification_etat_ouverture_fichier ( FALSE );
     exit(1);
 }
 

@@ -167,7 +167,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 									     FALSE,
 									     TRUE,
 									     TRUE,
-									     0 );
+									     50 );
     gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ) -> entry ),
 			 "key-press-event",
 			 GTK_SIGNAL_FUNC ( pression_touche_formulaire_echeancier ),

@@ -54,6 +54,14 @@ void mise_en_route_attente ( gchar *message )
     if ( DEBUG )
 	printf ( "mise_en_route_attente %s\n", message );
 
+    /*     s'il y a déjà une attente en cours, on l'update */
+
+    if ( patience_en_cours )
+    {
+	update_attente ( message );
+	return;
+    }
+
     /*     on doit absolument bloquer la fonction idle si elle est active */
     /* 	sinon le programme bloquera à la fin de cette fonction */
     /* 	par l'appel g_main_iteration */
@@ -142,6 +150,14 @@ void update_attente ( gchar *message )
     if ( DEBUG )
 	printf ( "update_attente %s\n", message );
 
+    /*     s'il n'y a pas de patience en cours, on la débute */
+
+    if ( !patience_en_cours )
+    {
+	mise_en_route_attente ( message );
+	return;
+    }
+
     if ( GTK_IS_LABEL ( label_patience ))
     {
 	gtk_label_set_text ( GTK_LABEL ( label_patience ),
@@ -159,12 +175,15 @@ void annulation_attente ()
 	printf ( "annulation_attente\n" );
 
     patience_en_cours = 0;
-    gtk_widget_destroy ( fenetre_patience );
+
+    if ( GTK_IS_WIDGET ( fenetre_patience ))
+	gtk_widget_destroy ( fenetre_patience );
 
     /*     on remet l'idle en marche */
 
-    id_fonction_idle = g_idle_add ( (GSourceFunc) utilisation_temps_idle,
-				    NULL );
+    if ( !id_fonction_idle )
+	id_fonction_idle = g_idle_add ( (GSourceFunc) utilisation_temps_idle,
+					NULL );
 	   
 }
 /* ******************************************************************************************** */

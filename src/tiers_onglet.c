@@ -1241,7 +1241,7 @@ void supprimer_tiers ( GtkWidget *bouton,
 				      TRUE,
 				      TRUE,
 				      TRUE,
-				      0 );
+				      50 );
 	gtk_box_pack_start ( GTK_BOX ( hbox ),
 			     combofix,
 			     FALSE,

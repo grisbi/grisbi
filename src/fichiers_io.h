@@ -1,8 +1,11 @@
-gboolean charge_operations ( void );
-gboolean enregistre_fichier ( gboolean force );
-gboolean enregistre_categ ( gchar *nom_categ );
+gboolean charge_operations ( gchar *nom_fichier );
+gboolean enregistre_fichier ( gchar *nouveau_fichier );
+
 gboolean charge_categ ( gchar *nom_categ );
-gboolean enregistre_ib ( gchar *nom_ib );
+gboolean enregistre_categ ( gchar *nom_categ );
+
 gboolean charge_ib ( gchar *nom_ib );
-void fichier_marque_ouvert ( gint ouvert );
+gboolean enregistre_ib ( gchar *nom_ib );
+
+gboolean modification_etat_ouverture_fichier ( gboolean fichier_ouvert );
 

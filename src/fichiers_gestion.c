@@ -45,6 +45,8 @@
 #include "utils.h"
 #include "affichage_liste.h"
 #include "echeancier_liste.h"
+#include "imputation_budgetaire.h"
+
 
 
 extern GtkWidget *window_vbox_principale;
@@ -236,7 +238,7 @@ void ouverture_confirmee ( void )
 
     /*  si charge opérations renvoie FALSE, c'est qu'il y a eu un pb et un message est déjà affiché */
 
-    if ( !charge_operations () )
+    if ( !charge_operations ( nom_fichier_comptes ) )
     {
 	/* 	  le chargement du fichier a planté, si l'option sauvegarde à l'ouverture est activée, on */
 	/* propose de charger l'ancien fichier */
@@ -251,21 +253,21 @@ void ouverture_confirmee ( void )
 
 	    /* on crée le nom de la sauvegarde */
 
-	    nom = nom_fichier_comptes;
+	    nom = g_strdup ( nom_fichier_comptes );
 	    i=0;
 
-	    parametres = g_strsplit ( nom_fichier_comptes, C_DIRECTORY_SEPARATOR, 0);
+	    parametres = g_strsplit ( nom, C_DIRECTORY_SEPARATOR, 0);
 	    while ( parametres[i] )
 		i++;
 
-	    nom_fichier_comptes = g_strconcat ( my_get_gsb_file_default_dir(),
-						C_DIRECTORY_SEPARATOR,
-						parametres [i-1],
-						".bak",
-						NULL );
+	    nom = g_strconcat ( my_get_gsb_file_default_dir(),
+				C_DIRECTORY_SEPARATOR,
+				parametres [i-1],
+				".bak",
+				NULL );
 	    g_strfreev ( parametres );
 
-	    result = open ( nom_fichier_comptes, O_RDONLY);
+	    result = open ( nom, O_RDONLY);
 	    if (result == -1)
 		return;
 	    else
@@ -273,17 +275,15 @@ void ouverture_confirmee ( void )
 
 	    mise_en_route_attente ( _("Loading backup") );
 
-	    if ( charge_operations () )
+	    if ( charge_operations ( nom ) )
 	    {
 		/* on a réussi a charger la sauvegarde */
 		dialogue ( _("Grisbi was unable to load file.  However, Grisbi loaded a backup file instead.\nHowever, all changes made since this backup were possibly lost."));
-		nom_fichier_comptes = nom;
 	    }
 	    else
 	    {
 		/* le chargement de la sauvegarde a échoué */
 
-		nom_fichier_comptes = nom;
 		annulation_attente ();
 		dialogue ( _("Grisbi was unable to load file.  Additionnaly, Grisbi was unable to load a backup file instead."));
 		return;
@@ -304,41 +304,34 @@ void ouverture_confirmee ( void )
 	{
 	    gchar *nom;
 	    gchar **parametres;
-	    gint save_force_enregistrement;
 
 	    update_attente ( _("Autosave") );
 
-	    nom = nom_fichier_comptes;
+	    nom = g_strdup ( nom_fichier_comptes );
 
 	    i=0;
 
 	    /* 	      on récupère uniquement le nom du fichier, pas le chemin */
 
-	    parametres = g_strsplit ( nom_fichier_comptes,
+	    parametres = g_strsplit ( nom,
 				      "/",
 				      0);
 
 	    while ( parametres[i] )
 		i++;
 
-	    nom_fichier_comptes = g_strconcat ( my_get_gsb_file_default_dir(),
-						"/.",
-						parametres [i-1],
-						".bak",
-						NULL );
+	    nom = g_strconcat ( my_get_gsb_file_default_dir(),
+				"/.",
+				parametres [i-1],
+				".bak",
+				NULL );
 
 	    g_strfreev ( parametres );
 
 	    /* on force l'enregistrement */
 
-	    save_force_enregistrement = etat.force_enregistrement;
-	    etat.force_enregistrement = 1;
+	    enregistre_fichier ( nom );
 
-	    enregistre_fichier ( TRUE );
-
-	    etat.force_enregistrement = save_force_enregistrement;
-
-	    nom_fichier_comptes = nom;
 	}
     }
 
@@ -348,14 +341,14 @@ void ouverture_confirmee ( void )
 
     verification_echeances_a_terme ();
 
+    /* affiche le nom du fichier de comptes dans le titre de la fenetre */
+
+    affiche_titre_fenetre();
+
     /* on save le nom du fichier dans les derniers ouverts */
 
     if (nom_fichier_comptes)
 	ajoute_nouveau_fichier_liste_ouverture ( nom_fichier_comptes );
-
-    /* affiche le nom du fichier de comptes dans le titre de la fenetre */
-
-    affiche_titre_fenetre();
 
     /*     récupère l'organisation des colonnes  */
 
@@ -387,6 +380,14 @@ void ouverture_confirmee ( void )
     mise_a_jour_liste_comptes_accueil = 1;
     mise_a_jour_soldes_minimaux = 1;
     mise_a_jour_fin_comptes_passifs = 1;
+
+    /* creation de la liste des categ pour le combofix */
+
+    creation_liste_categ_combofix ();
+
+    /* creation de la liste des imputations pour le combofix */
+
+    creation_liste_imputation_combofix ();
 
     /* on crée le notebook principal */
 
@@ -426,170 +427,74 @@ void ouverture_confirmee ( void )
 
 gboolean enregistrement_fichier ( gint origine )
 {
-    GtkWidget * dialog;
     gint etat_force, result;
+    gchar *nouveau_nom_enregistrement;
+
 
     etat_force = 0;
 
     if ( !etat.modification_fichier && origine != -2 )
 	return ( TRUE );
 
-    if ( origine == -1 )
-    {
-	gchar * hint;
-
-	hint = g_strdup_printf (_("Save changes to document '%s' before closing?"),
-				(nom_fichier_comptes ? g_path_get_basename(nom_fichier_comptes) : _("unnamed")));
-
-	dialog = gtk_message_dialog_new ( GTK_WINDOW (window), 
-					  GTK_DIALOG_DESTROY_WITH_PARENT,
-					  GTK_MESSAGE_WARNING, 
-					  GTK_BUTTONS_NONE,
-					  " " );
-	gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
-				 _("Close without saving"), GTK_RESPONSE_NO,
-				 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				 GTK_STOCK_SAVE, GTK_RESPONSE_OK,
-				 NULL );
-	gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), 
-			       make_hint ( hint, _("If you close without saving, all of your changes will be discarded.")) );
-
-	gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
-
-	switch ( gtk_dialog_run (GTK_DIALOG (dialog)) )
-	{
-	    case GTK_RESPONSE_OK :
-		gtk_widget_destroy ( dialog );
-		break;
-
-	    case GTK_RESPONSE_NO :
-		gtk_widget_destroy ( dialog );
-		return ( TRUE );
-
-	    default :
-		gtk_widget_destroy ( dialog );
-		return ( FALSE );
-	}
-    }
-
-    /* si le fichier de comptes n'a pas de nom, on le demande ici */
+    /* si le fichier de comptes n'a pas de nom ou si on enregistre sous un nouveau nom */
+    /*     c'est ici */
 
     if ( !nom_fichier_comptes || origine == -2 )
-    {
-	GtkWidget *fenetre_nom;
-	gint resultat;
-	struct stat test_fichier;
-
-	fenetre_nom = gtk_file_selection_new ( _("Name the accounts file"));
-	gtk_window_set_modal ( GTK_WINDOW ( fenetre_nom ),
-			       TRUE );
-	gtk_file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
-					  dernier_chemin_de_travail );
-	gtk_entry_set_text ( GTK_ENTRY ( GTK_FILE_SELECTION ( fenetre_nom )->selection_entry),
-			     ".gsb" );
-
-	resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
-
-	switch ( resultat )
-	{
-	    case GTK_RESPONSE_OK :
-		ancien_nom_fichier_comptes = nom_fichier_comptes;
-		nom_fichier_comptes =g_strdup (gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom )));
-
-		gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
-
-		/* vérification que c'est possible */
-
-		if ( !strlen ( nom_fichier_comptes ))
-		{
-		    nom_fichier_comptes = ancien_nom_fichier_comptes;
-		    return(FALSE);
-		}
-
-
-		if ( stat ( nom_fichier_comptes,
-			    &test_fichier ) != -1 )
-		{
-		    if ( S_ISREG ( test_fichier.st_mode ) )
-		    {
-			if ( ! question_yes_no_hint (_("File already exists"),
-						     g_strdup_printf (_("Do you want to overwrite file \"%s\"?"), nom_fichier_comptes) ) )
-			{
-			    nom_fichier_comptes = ancien_nom_fichier_comptes;
-			    return(FALSE);
-			}
-		    }
-		    else
-		    {
-			dialogue_error ( g_strdup_printf ( _("Invalid filename: \"%s\"!"),
-							   nom_fichier_comptes ));
-			nom_fichier_comptes = ancien_nom_fichier_comptes;
-			return(FALSE);
-		    }
-		}
-		break;
-
-	    default :
-		gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
-		return ( FALSE );
-	}
-    }
-
-    /*   on a maintenant un nom de fichier, on peut sauvegarder */
-    if ( etat.sauvegarde_auto || origine != -1 )
-    {
-	/*       si on fait un enregistrer sous, on peut forcer l'enregistrement */
-	etat_force = etat.force_enregistrement;
-
-	if ( origine == -2 && !etat.force_enregistrement )
-	    etat.force_enregistrement = 1;
-    }
-
-
-    if ( nom_fichier_backup && strlen(nom_fichier_backup) )
-	if ( !enregistrement_backup() )
-	    return ( FALSE );
-
-    if ( patience_en_cours )
-	update_attente ( _("Save file") );
+	nouveau_nom_enregistrement = demande_nom_enregistrement ();
     else
-	mise_en_route_attente ( _("Save file") );
+	nouveau_nom_enregistrement = nom_fichier_comptes;
 
-    result = enregistre_fichier ( 0 );
-    annulation_attente();
+    if ( !nouveau_nom_enregistrement )
+	return FALSE;
 
-    if ( etat.sauvegarde_auto || origine != -1 )
+    /*     on vérifie que le fichier n'est pas locké */
+
+    if ( etat.fichier_deja_ouvert
+	 &&
+	 !etat.force_enregistrement
+	 &&
+	 origine != -2 )
     {
-	etat.force_enregistrement = etat_force;
+	dialogue_conditional_hint ( g_strdup_printf( _("Can not save file \"%s\""), nom_fichier_comptes),
+				    g_strdup_printf( _("Grisbi was unable to save this file because it is locked.  Please save it with another name or activate the \"%s\" option in setup.  Alternatively, choose the \"%s\" option below."),
+						     _("Force saving of locked files"),
+						     _("Do not show this message again")), &(etat.force_enregistrement ) );
+	return ( FALSE );
     }
 
-    /*   on marque l'ancien fichier comme fermé s'il était fermé à l'ouverture */
+    /*   on a maintenant un nom de fichier */
+    /*     et on sait qu'on peut sauvegarder */
 
-    if ( result
-	 &&
-	 ancien_nom_fichier_comptes
-	 &&
-	 !etat.fichier_deja_ouvert )
+    mise_en_route_attente ( _("Save file") );
 
-    {
-	gchar *nom_tmp;
-
-	nom_tmp = nom_fichier_comptes;
-	nom_fichier_comptes = ancien_nom_fichier_comptes;
-	fichier_marque_ouvert ( FALSE );
-	nom_fichier_comptes = nom_tmp;
-    }
-
-    /*     si on a enregistré le fichier le fichier courant, celui ci peut être considérÃ© comme fermé à l'ouverture maintenant */
+    result = enregistre_fichier ( nouveau_nom_enregistrement );
 
     if ( result )
     {
+	/* 	l'enregistrement s'est bien passé, */
+	/* 	on délock le fichier (l'ancien ou le courant) */
+	    
+	modification_etat_ouverture_fichier ( FALSE );
+
+	nom_fichier_comptes = nouveau_nom_enregistrement;
+
+	/* 	... et locke le nouveau */
+
+	modification_etat_ouverture_fichier ( TRUE );
+
+	/* 	dans tout les cas, le fichier n'était plus ouvert à l'ouverture */
+
 	etat.fichier_deja_ouvert = 0;
 	modification_fichier ( FALSE );
 	affiche_titre_fenetre ();
-	fichier_marque_ouvert ( TRUE );
 	ajoute_nouveau_fichier_liste_ouverture ( nom_fichier_comptes );
     }
+
+    /*     on enregistre la backup si nécessaire */
+
+    enregistrement_backup();
+
+    annulation_attente();
 
     return ( result );
 }
@@ -602,6 +507,112 @@ gboolean enregistrer_fichier_sous ( void )
     return (  enregistrement_fichier ( -2 ) );
 }
 /* ************************************************************************************************************ */
+
+
+
+/* ************************************************************************************************************ */
+/* cette fonction est appelée lors de la fermeture de grisbi si le fichier est modifié */
+/* retourne : */
+/* GTK_RESPONSE_OK : veut enregistrer */
+/* GTK_RESPONSE_NO : veut pas enregistrer */
+/* autre gint : annuler */
+/* ************************************************************************************************************ */
+gint question_fermer_sans_enregistrer ( void )
+{
+    gchar * hint;
+    gint result;
+    GtkWidget *dialog;
+
+    hint = g_strdup_printf (_("Save changes to document '%s' before closing?"),
+			    (nom_fichier_comptes ? g_path_get_basename(nom_fichier_comptes) : _("unnamed")));
+
+    dialog = gtk_message_dialog_new ( GTK_WINDOW (window), 
+				      GTK_DIALOG_DESTROY_WITH_PARENT,
+				      GTK_MESSAGE_WARNING, 
+				      GTK_BUTTONS_NONE,
+				      " " );
+    gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
+			     _("Close without saving"), GTK_RESPONSE_NO,
+			     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+			     GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+			     NULL );
+    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), 
+			   make_hint ( hint, _("If you close without saving, all of your changes will be discarded.")) );
+
+    gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
+
+    result = gtk_dialog_run (GTK_DIALOG (dialog));
+    gtk_widget_destroy ( dialog );
+
+    return result;
+}
+/* ************************************************************************************************************ */
+
+
+
+/* ************************************************************************************************************ */
+/* cette fonction est appelée lors de l'enregistrement, s'il n'y a pas de nom */
+/* ou si on fait un enregistrement sous */
+/* elle renvoie le nouveau nom */
+/* ************************************************************************************************************ */
+gchar *demande_nom_enregistrement ( void )
+{
+    gchar *nouveau_nom;
+    GtkWidget *fenetre_nom;
+    gint resultat;
+    struct stat test_fichier;
+
+    fenetre_nom = gtk_file_selection_new ( _("Name the accounts file"));
+    gtk_window_set_modal ( GTK_WINDOW ( fenetre_nom ),
+			   TRUE );
+    gtk_file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
+				      dernier_chemin_de_travail );
+    gtk_entry_set_text ( GTK_ENTRY ( GTK_FILE_SELECTION ( fenetre_nom )->selection_entry),
+			 ".gsb" );
+
+    resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
+
+    switch ( resultat )
+    {
+	case GTK_RESPONSE_OK :
+	    nouveau_nom =g_strdup (gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom )));
+
+	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
+
+	    /* vérification que qque chose a été entré */
+
+	    if ( !strlen ( nouveau_nom ))
+		return NULL;
+
+
+	    if ( stat ( nouveau_nom,
+			&test_fichier ) != -1 )
+	    {
+		if ( S_ISREG ( test_fichier.st_mode ) )
+		{
+		    if ( ! question_yes_no_hint (_("File already exists"),
+						 g_strdup_printf (_("Do you want to overwrite file \"%s\"?"), nouveau_nom ) ) )
+			return NULL;
+		}
+		else
+		{
+		    dialogue_error ( g_strdup_printf ( _("Invalid filename: \"%s\"!"),
+						       nouveau_nom ));
+		    return NULL;
+		}
+	    }
+	    break;
+
+	default :
+	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
+	    return NULL;
+    }
+
+    return nouveau_nom;
+}
+/* ************************************************************************************************************ */
+
+
 
 
 
@@ -637,7 +648,7 @@ gboolean fermer_fichier ( void )
 	 nb_comptes
 	 &&
 	 nom_fichier_comptes )
-	fichier_marque_ouvert ( FALSE );
+	modification_etat_ouverture_fichier ( FALSE );
 
     /*       stoppe le timer */
 
@@ -743,25 +754,22 @@ void affiche_titre_fenetre ( void )
 
 gboolean enregistrement_backup ( void )
 {
-    gchar *buffer;
     gboolean retour;
 
     if ( !nom_fichier_backup || !strlen(nom_fichier_backup) )
 	return FALSE;
 
-    buffer = nom_fichier_comptes;
-    nom_fichier_comptes = nom_fichier_backup;
+    update_attente ( _("Saving backup") );
+
+    mise_en_route_attente ( _("Saving backup") );
 
     xmlSetCompressMode ( compression_backup );
 
-    mise_en_route_attente ( _("Saving backup") );
-    retour = enregistre_fichier( 1 );
-
-    if ( !retour )
-	annulation_attente();
+    retour = enregistre_fichier( nom_fichier_backup );
 
     xmlSetCompressMode ( compression_fichier );
-    nom_fichier_comptes = buffer;
+
+    annulation_attente();
 
     return ( retour );
 }
@@ -863,3 +871,30 @@ void ajoute_nouveau_fichier_liste_ouverture ( gchar *path_fichier )
     affiche_derniers_fichiers_ouverts();
 }
 /* ************************************************************************************************************ */
+
+
+/****************************************************************************/
+void remove_file_from_last_opened_files_list ( gchar * nom_fichier )
+{
+    gint i, j;
+
+    efface_derniers_fichiers_ouverts();
+
+    for ( i = 0 ; i < nb_derniers_fichiers_ouverts ; i++ )
+    {
+	if ( ! strcmp (nom_fichier_comptes, tab_noms_derniers_fichiers_ouverts[i]) )
+	{
+	    for ( j = i; j < nb_derniers_fichiers_ouverts-1; j++ )
+	    {
+		tab_noms_derniers_fichiers_ouverts[j] = tab_noms_derniers_fichiers_ouverts[j+1];
+
+	    }
+	    break;
+	}
+    }
+    nb_derniers_fichiers_ouverts--;
+    affiche_derniers_fichiers_ouverts();
+}
+/****************************************************************************/
+
+

@@ -183,7 +183,7 @@ GtkWidget *creation_formulaire ( void )
 										      FALSE,
 										      TRUE,
 										      TRUE,
-										      0 );
+										      50 );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       widget_formulaire_operations[TRANSACTION_FORM_PARTY],
 		       2, 3, 0, 1,

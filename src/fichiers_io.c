@@ -37,6 +37,7 @@
 #include "operations_classement.h"
 #include "operations_onglet.h"
 #include "devises.h"
+#include "fichiers_gestion.h"
 
 /* structure utilisée pour récupérer les nos de versions */
 
@@ -71,7 +72,6 @@ static void propose_changement_permissions ( void );
 static gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc );
 static gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc );
 
-static void remove_file_from_last_opened_files_list ( gchar * nom_fichier );
 
 
 
@@ -100,7 +100,7 @@ extern gint mise_a_jour_combofix_imputation_necessaire;
 /** Procédure qui charge les opérations en mémoire sous forme de structures**/
 /****************************************************************************/
 
-gboolean charge_operations ( void )
+gboolean charge_operations ( gchar *nom_fichier )
 {
     struct stat buffer_stat;
     xmlDocPtr doc;
@@ -112,7 +112,7 @@ gboolean charge_operations ( void )
 
     /* vérification de la permission du fichier */
 
-    result = stat ( nom_fichier_comptes, &buffer_stat);
+    result = stat ( nom_fichier, &buffer_stat);
 
     if ( result != -1 && 
 	 buffer_stat.st_mode != 33152 && !etat.display_message_file_readable )
@@ -123,7 +123,7 @@ gboolean charge_operations ( void )
 
     if ( result != -1 )
     {
-	doc = xmlParseFile ( nom_fichier_comptes );
+	doc = xmlParseFile ( nom_fichier );
 
 	if ( doc )
 	{
@@ -167,16 +167,16 @@ gboolean charge_operations ( void )
 
 	}
 
-	dialogue_error (g_strdup_printf (_("Cannot open file '%s': %s"), nom_fichier_comptes,
+	dialogue_error (g_strdup_printf (_("Cannot open file '%s': %s"), nom_fichier,
 					 latin2utf8 (strerror(errno))));
-	remove_file_from_last_opened_files_list ( nom_fichier_comptes );
+	remove_file_from_last_opened_files_list ( nom_fichier );
 	return ( FALSE );
     }
     else
     {
-	dialogue_error (g_strdup_printf (_("Cannot open file '%s': %s"), nom_fichier_comptes,
+	dialogue_error (g_strdup_printf (_("Cannot open file '%s': %s"), nom_fichier,
 					 latin2utf8 (strerror(errno))));
-	remove_file_from_last_opened_files_list ( nom_fichier_comptes );
+	remove_file_from_last_opened_files_list ( nom_fichier );
 	return FALSE;
     }
 }
@@ -335,6 +335,8 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 
 	    modification_fichier ( TRUE );
 	    
+
+
 	    /* ************************************* */
 	    /* 	    ouverture d'un fichier 0.5.1     */
 	    /* ************************************* */
@@ -371,17 +373,9 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 	   stat ( chemin_logo, &buffer_stat) == -1 ))
 	chemin_logo = LOGO_PATH;
 
-    /* creation de la liste des categ pour le combofix */
-
-    creation_liste_categ_combofix ();
-
-    /* creation de la liste des imputations pour le combofix */
-
-    creation_liste_imputation_combofix ();
-
     /* on marque le fichier comme ouvert */
 
-    fichier_marque_ouvert ( TRUE );
+    modification_etat_ouverture_fichier ( TRUE );
 
 
     return TRUE;
@@ -559,16 +553,6 @@ gboolean recuperation_generalites_xml ( xmlNodePtr node_generalites )
 {
     while ( node_generalites )
     {
-/* 	if ( !strcmp ( node_generalites -> name, */
-/* 		       "Fichier_ouvert" )) */
-/* 	    if ( (etat.fichier_deja_ouvert  = my_atoi ( xmlNodeGetContent ( node_generalites )))) */
-/* 	    { */
-/* 		dialogue_conditional_hint ( g_strdup_printf( _("File \"%s\" is already opened"), nom_fichier_comptes), */
-/* 					    _("Either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving locked files\" option in setup."),  */
-/* 					    &(etat.display_message_lock_active) ); */
-/* 	    } */
-
-
 	if ( !strcmp ( node_generalites -> name,
 		       "Backup" ))
 	    nom_fichier_backup = xmlNodeGetContent ( node_generalites );
@@ -2737,7 +2721,7 @@ gboolean recuperation_etats_xml ( xmlNodePtr node_etats )
 /* retourne FALSE : pas de nom => gtkfileselection a pris la main ou erreur */
 /***********************************************************************************************************/
 
-gboolean enregistre_fichier ( gboolean force )
+gboolean enregistre_fichier ( gchar *nouveau_fichier )
 {
     xmlDocPtr doc;
     xmlNodePtr node;
@@ -2749,28 +2733,22 @@ gboolean enregistre_fichier ( gboolean force )
     gint i, j;
     GSList *pointeur_liste_2;
     struct stat buffer_stat;
-    gint nouveau_fichier;
+    gint mettre_permission;
 
-    /*   si le fichier est dejà ouvert par un autre, ne peut enregistrer */
 
-    if ( etat.fichier_deja_ouvert && !etat.force_enregistrement && !force )
-    {
-	dialogue_conditional_hint ( g_strdup_printf( _("Can not save file \"%s\""), nom_fichier_comptes),
+    /*     on ne se préocupe plus des ouvertures et autre à ce niveau */
+    /*     cette fonction enregistre le fichier sans avertissement(écrasement, fichier déjà ouvert...) */
+    /* 	tout doit être fait avant */
 
-				    g_strdup_printf( _("Grisbi was unable to save this file because it is locked.  Please save it with another name or activate the \"%s\" option in setup.  Alternatively, choose the \"%s\" option below."),
-						     _("Force saving of locked files"),
-						     _("Do not show this message again")), &(etat.force_enregistrement ) );
-	return ( FALSE );
-    }
-
+    
     /* on regarde ici si le fichier existe */
     /*   s'il n'existe pas on mettre ses permissions à 600, sinon on les laisse comme ça */
 
-    if ( stat ( nom_fichier_comptes,
+    if ( stat ( nouveau_fichier,
 		&buffer_stat ) == -1 )
-	nouveau_fichier = 1;
+	mettre_permission = 1;
     else
-	nouveau_fichier = 0;
+	mettre_permission = 0;
 
 
     etat.en_train_de_sauvegarder = 1;
@@ -2801,17 +2779,6 @@ gboolean enregistre_fichier ( gboolean force )
 		      NULL,
 		      "Version_grisbi",
 		      VERSION );
-
-    /* on met fichier_ouvert à 0 car si c'est une backup ... */
-    /* qd c'est un enregistrement normal, la mise à 1 se fait plus tard */
-
-    xmlNewTextChild ( node,
-		      NULL,
-		      "Fichier_ouvert",
-		      "0" );
-
-    if ( force )
-	etat.fichier_deja_ouvert = 0;
 
     xmlNewTextChild ( node,
 		      NULL,
@@ -4849,7 +4816,7 @@ gboolean enregistre_fichier ( gboolean force )
 #ifndef _WIN32
     xmlIndentTreeOutput = 1;
 #endif
-    resultat = xmlSaveFormatFile ( nom_fichier_comptes, doc, 1 );
+    resultat = xmlSaveFormatFile ( nouveau_fichier, doc, 1 );
 
     /* on libère la memoire */
 
@@ -4858,15 +4825,15 @@ gboolean enregistre_fichier ( gboolean force )
     if ( resultat == -1 )
     {
 	dialogue_error ( g_strdup_printf ( _("Cannot save file '%s': %s"),
-					   nom_fichier_comptes, latin2utf8(strerror(errno)) ));
+					   nouveau_fichier, latin2utf8(strerror(errno)) ));
 	return ( FALSE );
     }
 
 
     /* si c'est un nouveau fichier, on met à 600 ses permissions */
 
-    if ( nouveau_fichier )
-	chmod ( nom_fichier_comptes,
+    if ( mettre_permission )
+	chmod ( nouveau_fichier,
 		S_IRUSR | S_IWUSR );
 
 
@@ -4879,79 +4846,137 @@ gboolean enregistre_fichier ( gboolean force )
 
 
 /***********************************************************************************************************/
-/* ouvre le fichier, recherche <Fichier_ouvert> */
-/* et le met à la valeur demandee */
+/* crée ou supprime un fichier du nom .nom.swp */
+/* renvoie true si ok */
 /***********************************************************************************************************/
 
-void fichier_marque_ouvert ( gint ouvert )
+gboolean modification_etat_ouverture_fichier ( gboolean fichier_ouvert )
 {
-    gchar buffer[17];
-    gint retour;
+    struct stat buffer_stat;
+    int result;
+    gchar *nom_fichier_swap;
+    gchar **tab_str;
+    gint i;
 
-    /* FIXME : virer ça ; faire .swp à la place */
 
-    if ( compression_fichier )
-	return;
+    /*     on efface et on recommence... bon, changement de technique : lors de l'ouverture */
+    /* 	d'un fichier, on crée un fichier .nom.swp qu'on efface à sa fermeture */
 
-    /* ouverture du fichier */
+    /*     si on ne force pas l'enregistrement et si le fichier était déjà ouvert, on ne fait rien */
 
-    if (!(pointeur_fichier_comptes = fopen ( nom_fichier_comptes, "r+")) )
+    if ( etat.fichier_deja_ouvert
+	 &&
+	 !etat.force_enregistrement )
+	return TRUE;
+
+    /*     on commence par vérifier que le fichier de nom_fichier_comptes existe bien */
+
+    result = stat ( nom_fichier_comptes, &buffer_stat);
+
+    if ( result == -1 )
     {
-	dialogue_error ( g_strdup_printf ( _("Cannot lock file '%s': %s"),
-					   nom_fichier_comptes,
-					   latin2utf8 (strerror (errno)) ));
-	return;
+	dialogue_error (g_strdup_printf (_("Cannot open file to mark it as used\n'%s': %s"),
+					 nom_fichier_comptes,
+					 latin2utf8 (strerror(errno))));
+	return FALSE;
     }
 
-    do
-	retour = fscanf ( pointeur_fichier_comptes, 
-			  "%16s",
-			  buffer);
-    while ( strcmp ( buffer,
-		     "<Fichier_ouvert>" )
-	    &&
-	    retour != EOF );
 
-    /*   s'il n'a rien trouve, c'est que c'etait la version 0.3.1 et on passe */
+    /*     création du nom du fichier swp */
 
-    if ( retour != EOF )
+    tab_str = g_strsplit ( nom_fichier_comptes,
+			   "/",
+			   0 );
+
+    i=0;
+
+    while ( tab_str[i+1] )
+	i++;
+
+    tab_str[i] = g_strconcat ( ".",
+			       tab_str[i],
+			       ".swp",
+			       NULL );
+    nom_fichier_swap = g_strjoinv ( "/",
+				   tab_str );
+    g_strfreev ( tab_str );
+
+    printf ( "%s\n", nom_fichier_swap );
+
+    
+    /*     maintenant on sépare entre l'effacement ou la création du fichier swp */
+
+    if ( fichier_ouvert )
     {
-#if defined (CYGWIN) || defined (__FreeBSD__)
+	/* 	on ouvre le fichier, donc on crée le fichier de swap */
 
-	/* CYGWIN ne pouvant maitrise l'acces bufferise au fichier de
-	 * Windows, il gere 2 curseurs de fichiers differents afin de
-	 * maitriser la bufferisation en lecture des fichiers: le
-	 * curseur reel au sein du fichier, et un curseur de lecture
-	 * simule.  Lors d'un lecture, CYGWIN lit le fichier par
-	 * morceaux (le curseur reel est place apres la fin du dernier
-	 * morceau lu).  Les fonctions de lecture n'accedent pas en
-	 * direct au fichier.  Elles utilisent le curseur de lecture
-	 * qu'elles deplacent au sein du buffer memorise. Par contre la
-	 * position ce curseur en lecture represente bien la position
-	 * reelle du caractere lu au sein du fichier.  (ftell renvoi
-	 * cette position correctement) Les fonctions d'ecriture
-	 * accedent en direct au fichier, donc elles n'utilisent que le
-	 * curseur reel.
-	 * 
-	 * Pour ecrire apres le dernier caractere lu, il faut donc
-	 * repositionne le curseur reel a la positon du curseur de
-	 * lecture simule
-	 *
-	 * -- francois@terrot.net
-	 *
-	 * Il semble que FreeBSD rencontre le même problème.  Peut-être
-	 * est-ce le cas d'autres UNIX ? -- benj
-	 */
-	fseek(pointeur_fichier_comptes,ftell(pointeur_fichier_comptes),SEEK_SET);
+	FILE *fichier;
 
-#endif /* CYGWIN + __FreeBSD__ */
+	/* 	commence par tester si ce fichier existe, si c'est le cas on prévient l'utilisateur */
+	/* 	    avec possibilité d'annuler l'action ou d'effacer le fichier de swap */
 
-	fprintf ( pointeur_fichier_comptes, itoa ( ouvert ));
+	result = stat ( nom_fichier_swap, &buffer_stat);
+
+	if ( result != -1 )
+	{
+	    /* 	    le fichier de swap existe */
+
+	    dialogue_conditional_hint ( g_strdup_printf( _("File \"%s\" is already opened"),
+							 nom_fichier_comptes),
+					_("Either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving locked files\" option in setup."),
+					&(etat.display_message_lock_active) );
+	    
+	    /* 	    on retourne true, vu que le fichier est déjà créé et qu'on a prévenu */
+
+	    etat.fichier_deja_ouvert = 1;
+	    return TRUE;
+	}
+
+	etat.fichier_deja_ouvert = 0;
+
+	fichier = fopen ( nom_fichier_swap,
+			  "w" );
+
+	if ( !fichier )
+	{
+	    dialogue_error (g_strdup_printf (_("Cannot write swap file :'%s': %s"),
+					     nom_fichier_comptes,
+					     latin2utf8 (strerror(errno))));
+	    return FALSE;
+	}
+
+	fclose ( fichier );
+	return TRUE;
     }
+    else
+    {
+	/* 	on ferme le fichier, donc on détruit le fichier de swap */
 
-    fclose ( pointeur_fichier_comptes );
+	etat.fichier_deja_ouvert = 0;
 
-    return;
+	/* 	on vérifie d'abord que ce fichier existe */
+
+	result = stat ( nom_fichier_swap, &buffer_stat);
+
+	if ( result == -1 )
+	{
+	    /* 	    le fichier de swap n'existe */
+	    /* 	    on s'en fout, de toute façon fallait le virer, on s'en va */
+
+	    return TRUE;
+	}
+
+	result = remove ( nom_fichier_swap );
+
+	if ( result == -1 )
+	{
+	    dialogue_error (g_strdup_printf (_("Cannot erase swap file :'%s': %s"),
+					     nom_fichier_comptes,
+					     latin2utf8 (strerror(errno))));
+	    return FALSE;
+	}
+	return TRUE;
+    }
 }
 /***********************************************************************************************************/
 
@@ -5561,29 +5586,5 @@ void propose_changement_permissions ( void )
 }
 /***********************************************************************************************************/
 
-
-/****************************************************************************/
-void remove_file_from_last_opened_files_list ( gchar * nom_fichier )
-{
-    gint i, j;
-
-    efface_derniers_fichiers_ouverts();
-
-    for ( i = 0 ; i < nb_derniers_fichiers_ouverts ; i++ )
-    {
-	if ( ! strcmp (nom_fichier_comptes, tab_noms_derniers_fichiers_ouverts[i]) )
-	{
-	    for ( j = i; j < nb_derniers_fichiers_ouverts-1; j++ )
-	    {
-		tab_noms_derniers_fichiers_ouverts[j] = tab_noms_derniers_fichiers_ouverts[j+1];
-
-	    }
-	    break;
-	}
-    }
-    nb_derniers_fichiers_ouverts--;
-    affiche_derniers_fichiers_ouverts();
-}
-/****************************************************************************/
 
 

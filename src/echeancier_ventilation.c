@@ -2581,7 +2581,7 @@ void validation_ope_de_ventilation_echeances ( struct operation_echeance *operat
 	}
 	else
 	{
-	    /* l'opération ne doit pas être supprimée, c'est qu'elle doit être créée ou modifiée */
+	    /* l'opération ne doit pas être supprimée, c'est qu'elle doit être créée ou modifiÃÂ©e */
 	    /* 	  on n'a pas à s'embêter avec des changements de virements ou autres trucs bizarres, dans */
 	    /* ce cas il y aura eu une suppression puis une nouvelle opération */
 

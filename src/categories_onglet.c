@@ -2430,6 +2430,9 @@ void creation_liste_categ_combofix ( void )
     GSList *liste_categ_special;
     gint i;
 
+    if ( DEBUG )
+	printf ( "creation_liste_categ_combofix\n" );
+
     liste_categories_combofix = NULL;
     liste_categories_ventilation_combofix = NULL;
     liste_categ_credit = NULL;

@@ -2234,6 +2234,9 @@ void creation_liste_imputation_combofix ( void )
     GSList *liste_imputation_credit;
     GSList *liste_imputation_debit;
 
+    if ( DEBUG )
+	printf ( "creation_liste_imputation_combofix\n" );
+
     liste_imputations_combofix = NULL;
     liste_imputation_credit = NULL;
     liste_imputation_debit = NULL;
