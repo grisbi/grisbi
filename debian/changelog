@@ -1,6 +1,12 @@
+grisbi (0.4.1+0.4.2-pre2-1) unstable; urgency=low
+
+  * New upstream version (0.4.2-pre2).
+
+ -- Benjamin Drieu <benj@debian.org>  Tue, 16 Dec 2003 15:32:10 +0100
+
 grisbi (0.4.1+0.4.2-pre1-1) unstable; urgency=low
 
-  * New upstream version (pre 0.4.2).
+  * New upstream version (0.4.2-pre1).
 
  -- Benjamin Drieu <benj@debian.org>  Fri,  5 Dec 2003 13:18:04 +0100
 
