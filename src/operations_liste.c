@@ -2296,7 +2296,7 @@ gboolean changement_taille_liste_ope ( GtkWidget *clist,
 
     /* Yet another kludge to avoid breakage due to #392 fix (closes: #470) */
     if ( compte != compte_courant_onglet )
-	return;
+	return TRUE;
 
     /* si la largeur de grisbi est < 700, on fait rien */
 
@@ -2420,7 +2420,7 @@ gboolean changement_taille_liste_ope ( GtkWidget *clist,
 			   col6,
 			   FALSE  );
 
-    return;
+    return TRUE;
 }
 /******************************************************************************/
 
