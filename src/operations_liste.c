@@ -3158,15 +3158,16 @@ struct structure_operation *  clone_transaction ( struct structure_operation * o
  */
 void move_selected_operation_to_account ( GtkMenuItem * menu_item )
 {
-    gint account;
+    gint target_account, source_account;
+    gpointer ** tmp = p_tab_nom_de_compte_variable;
 
     if (! assert_selected_transaction()) return;
 
-    account = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT(menu_item), 
-						      "no_compte" ) );  
+    source_account = NO_COMPTE;
+    target_account = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT(menu_item), 
+							     "no_compte" ) );  
 
-    move_operation_to_account ( OPERATION_SELECTIONNEE,
-				account );
+    move_operation_to_account ( OPERATION_SELECTIONNEE, target_account );
 
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 
@@ -3177,6 +3178,21 @@ void move_selected_operation_to_account ( GtkMenuItem * menu_item )
     if ( mise_a_jour_combofix_imputation_necessaire )
 	mise_a_jour_combofix_imputation ();
 
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + source_account;
+
+    SOLDE_COURANT = calcule_solde_compte ( source_account );
+    SOLDE_POINTE = calcule_solde_pointe_compte ( source_account );
+
+    gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
+			 g_strdup_printf ( PRESPACIFY(_("Checked balance: %4.2f %s")),
+					   SOLDE_POINTE,
+					   devise_name_by_no ( DEVISE )));
+    gtk_label_set_text ( GTK_LABEL ( solde_label ),
+			 g_strdup_printf ( PRESPACIFY(_("Current balance: %4.2f %s")),
+					   SOLDE_COURANT,
+					   devise_name_by_no ( DEVISE )));
+
+    p_tab_nom_de_compte_variable = tmp;
     modification_fichier ( TRUE );
 }
 
