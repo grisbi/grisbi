@@ -1,3 +1,10 @@
+grisbi (0.4.0-3) unstable; urgency=low
+
+  * Update config.guess to help mipsel builds (Closes: #183528)
+  * Remove doc-base entry until I build a grisbi-doc package (Closes: #169374)
+
+ -- Benjamin Drieu <benj@debian.org>  Thu,  6 Mar 2003 15:36:42 +0100
+
 grisbi (0.4.0-2) unstable; urgency=low
 
   * Update missing build deps (closes: #182557).  Sigh.
