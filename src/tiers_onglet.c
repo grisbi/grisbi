@@ -1249,40 +1249,14 @@ void supprimer_tiers ( GtkWidget *bouton,
 
     if ( ope_trouvee )
     {
-	GtkWidget *dialog;
-	GtkWidget *label;
-	gint resultat;
-	GtkWidget *separation;
-	GtkWidget *hbox;
-	GtkWidget *bouton_tiers_generique;
-	GtkWidget *combofix;
-	GSList *liste_combofix;
-	GSList *pointeur;
-	GtkWidget *bouton_transfert;
-	gint i;
-	gint nouveau_no;
+	GtkWidget *dialog, *hbox, *bouton_tiers_generique, *combofix, *bouton_transfert;
+	GSList *liste_combofix, *pointeur;
+	gint i, resultat, nouveau_no;
 	struct struct_tiers *nouveau_tiers;
 
-	dialog = gtk_dialog_new_with_buttons ( _("Delete a third party"),
-					       GTK_WINDOW (window),
-					       GTK_DIALOG_MODAL,
-					       GTK_STOCK_OK,0,
-					       GTK_STOCK_CANCEL,1,
-					       NULL);
-
-	label = gtk_label_new ( COLON(_("Some transactions are still assigned to this third party.\n\nYou can")) );
-	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			     label,
-			     FALSE,
-			     FALSE,
-			     0 );
-
-	separation = gtk_hseparator_new ( );
-	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			     separation,
-			     FALSE,
-			     FALSE,
-			     0 );
+	dialog = dialogue_special_no_run ( GTK_MESSAGE_WARNING, GTK_BUTTONS_OK_CANCEL,
+					   make_hint ( _("Selected third party still contains transactions."),
+						       _("If you want to remove this third party but want to keep transactions, you can transfer them to another third party.  Otherwise, transactions can be simply deleted along with this third party.") ));
 
 	/*       mise en place du choix tranfert vers un autre tiers */
 
@@ -1352,20 +1326,19 @@ void supprimer_tiers ( GtkWidget *bouton,
 retour_dialogue:
 	resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
 
-	if ( resultat )
-	{
-	    if ( resultat == 1 )
-		gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
+	if ( resultat != GTK_RESPONSE_OK )
+	  {
+	    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
 	    return;
-	}
-
+	  }
 
 	if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_transfert )) )
 	{
 
 	    if ( !strlen (gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ))))
 	    {
-		dialogue ( _("Please enter a third party.") );
+		dialogue_warning_hint ( _("It is compulsory to specify a destination third party to move transactions but no third party was entered."),
+					_("Please enter a third party!"));
 		goto retour_dialogue;
 	    }
 
