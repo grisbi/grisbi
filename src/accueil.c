@@ -5,7 +5,7 @@
 /*                                  accueil.c                                 */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003 Benjamin Drieu (bdrieu@april.org)		      */
+/*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003 Alain Portal (dionysos@grisbi.org)		      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
@@ -1055,6 +1055,9 @@ void update_liste_echeances_manuelles_accueil ( void )
 
       style_label->fg[GTK_STATE_PRELIGHT] = couleur_jaune;
       style_label->fg[GTK_STATE_NORMAL] = couleur_bleue;
+      style_label->fg[GTK_STATE_INSENSITIVE] = couleur_bleue;
+      style_label->fg[GTK_STATE_SELECTED] = couleur_bleue;
+      style_label->fg[GTK_STATE_ACTIVE] = couleur_bleue;
 
 
       pointeur_liste = g_slist_sort(echeances_a_saisir,
@@ -1335,19 +1338,19 @@ void mise_a_jour_soldes_minimaux ( void )
 	  gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0);
 	  gtk_widget_show ( label );
 
-	  if ( !MESSAGE_SOUS_MINI )
+	  if ( !MESSAGE_SOUS_MINI && !patience_en_cours )
 	    {
 	      if ( solde_courant < solde_mini_voulu )
 		{
-		  if ( !patience_en_cours )
-		    dialogue ( g_strdup_printf (_("Warning, balance of account %s is under wanted and authorised minima!"), 
-			       NOM_DU_COMPTE ));
+		  dialogue_conditional ( g_strdup_printf (_("Balance of account %s is under wanted and authorised minima!"), 
+							  NOM_DU_COMPTE ), &(etat.display_message_minimum_alert));
 		  MESSAGE_SOUS_MINI_VOULU = 1;
 		}
 	      else
-		if ( !patience_en_cours )
-		  dialogue ( g_strdup_printf (_("Warning, the balance of the account %s  is under the authorised minimum!"),
-			     NOM_DU_COMPTE ));
+		{
+		  dialogue_conditional ( g_strdup_printf (_("Balance of account %s is under authorised minimum!"),
+							  NOM_DU_COMPTE ), &(etat.display_message_minimum_alert));
+		}
 	      MESSAGE_SOUS_MINI = 1;
 	    }
 
@@ -1372,19 +1375,19 @@ void mise_a_jour_soldes_minimaux ( void )
 			       FALSE, FALSE, 0 );
 	  gtk_widget_show ( label );
 
-	  if ( !MESSAGE_SOUS_MINI_VOULU )
+	  if ( !MESSAGE_SOUS_MINI_VOULU && !patience_en_cours)
 	    {
 	      if ( solde_courant < solde_mini )
 		{
-		  if ( !patience_en_cours )
-		    dialogue ( g_strdup_printf ( _("Warning, balance of account %s is under wanted and authorised minima!"),
-						 NOM_DU_COMPTE));
+		  dialogue_conditional ( g_strdup_printf ( _("Balance of account %s is under wanted and authorised minima!"),
+							     NOM_DU_COMPTE), &(etat.display_message_minimum_alert) );
 		  MESSAGE_SOUS_MINI = 1;
 		}
 	      else
-		if ( !patience_en_cours )
-		  dialogue ( g_strdup_printf ( _("Warning, the balance of the account %s is under the wanted minimum!"),
-					       NOM_DU_COMPTE ));
+		{
+		  dialogue_conditional ( g_strdup_printf ( _("Balance of account %s is under wanted minimum!"),
+							   NOM_DU_COMPTE ), &(etat.display_message_minimum_alert));
+		}
 	      MESSAGE_SOUS_MINI_VOULU = 1;
 	    }
 
@@ -1400,6 +1403,7 @@ void mise_a_jour_soldes_minimaux ( void )
       p_tab_nom_de_compte_variable++;
     }
 
+  update_liste_comptes_accueil ();
 }
 /* ************************************************************************* */
 
