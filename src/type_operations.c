@@ -86,6 +86,7 @@ extern GtkWidget *fenetre_preferences;
 extern GtkWidget *formulaire;
 extern GtkWidget *label_saisie_modif;
 extern gint nb_comptes;
+extern GSList *ordre_comptes;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkTreeSelection * selection;
@@ -161,13 +162,15 @@ void payment_method_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
 void fill_payment_method_tree ()
 {
     GtkTreeIter account_iter, debit_iter, credit_iter;
-    gint i;
+    GSList *pUserAccountsList = NULL;
+
+    pUserAccountsList = g_slist_copy ( ordre_comptes );
 
     /* Fill tree, iter over with accounts */
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
-    for ( i=0 ; i<nb_comptes ; i++ )
+    do
     {
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( pUserAccountsList -> data );
+
 	GSList *liste_tmp;
 
 	gtk_tree_store_append (model, &account_iter, NULL);
@@ -176,7 +179,7 @@ void fill_payment_method_tree ()
 			    PAYMENT_METHODS_NUMBERING_COLUMN, "",
 			    /* This is a hack: account number is put in 
 			       Debit/Credit nodes */
-			    PAYMENT_METHODS_TYPE_COLUMN, i,
+			    PAYMENT_METHODS_TYPE_COLUMN, GPOINTER_TO_INT ( pUserAccountsList -> data ),
 			    PAYMENT_METHODS_DEFAULT_COLUMN, FALSE,
 			    PAYMENT_METHODS_ACTIVABLE_COLUMN, FALSE, 
 			    PAYMENT_METHODS_VISIBLE_COLUMN, FALSE, 
@@ -190,7 +193,7 @@ void fill_payment_method_tree ()
 			    PAYMENT_METHODS_NUMBERING_COLUMN, "",
 			    /* This is a hack: account number is put in 
 			       Debit/Credit nodes */
-			    PAYMENT_METHODS_TYPE_COLUMN, i,
+			    PAYMENT_METHODS_TYPE_COLUMN, GPOINTER_TO_INT ( pUserAccountsList -> data ),
 			    PAYMENT_METHODS_DEFAULT_COLUMN, FALSE,
 			    PAYMENT_METHODS_ACTIVABLE_COLUMN, FALSE, 
 			    PAYMENT_METHODS_VISIBLE_COLUMN, FALSE, 
@@ -204,7 +207,7 @@ void fill_payment_method_tree ()
 			    PAYMENT_METHODS_NUMBERING_COLUMN, "",
 			    /* This is a hack: account number is put in 
 			       Debit/Credit nodes */
-			    PAYMENT_METHODS_TYPE_COLUMN, i,
+			    PAYMENT_METHODS_TYPE_COLUMN, GPOINTER_TO_INT ( pUserAccountsList -> data ),
 			    PAYMENT_METHODS_DEFAULT_COLUMN, FALSE,
 			    PAYMENT_METHODS_ACTIVABLE_COLUMN, FALSE, 
 			    PAYMENT_METHODS_VISIBLE_COLUMN, FALSE, 
@@ -263,9 +266,9 @@ void fill_payment_method_tree ()
 
 	    liste_tmp = liste_tmp -> next;
 	}
-
-	p_tab_nom_de_compte_variable++;
     }
+    while ( (  pUserAccountsList = pUserAccountsList -> next ) );
+    g_slist_free ( pUserAccountsList );
 }
 
 
