@@ -1,0 +1,3176 @@
+# Grisbi translation into French
+# Copyright (C) 2003	Daniel Cartron <daniel@cartron.org>, 2003
+#			Benjamin Drieu <bdrieu@april.org>, 2003
+#			Alain Portal <aportal@univ-montp2.fr>, 2003
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: en\n"
+"POT-Creation-Date: 2003-04-15 10:01+0200\n"
+"PO-Revision-Date: 2003-06-26 16:45+0200\n"
+"Last-Translator: Alain PORTAL <aportal@univ-montp2.fr>\n"
+"Language-Team:  <traduction@grisbi.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 0.9.6\n"
+
+msgid "No user"
+msgstr "Pas d'utilisateur"
+
+msgid "User"
+msgstr "Utilisateur"
+
+msgid "Account balances"
+msgstr "Solde des comptes"
+
+msgid "Closed liabilities accounts"
+msgstr "Comptes passifs terminés"
+
+msgid "Manual scheduled transactions at maturity date"
+msgstr "Echéances manuelles arrivées à terme"
+
+msgid "Automatic scheduled transactions entered"
+msgstr "Echéances automatiques saisies"
+
+msgid "Closed scheduled transactions"
+msgstr "Echéances terminées"
+
+msgid "Minimum authorised balances"
+msgstr "Soldes minimaux autorisés"
+
+msgid "Minimum wanted balances"
+msgstr "Soldes minimaux voulus"
+
+msgid "Enter a scheduled transaction"
+msgstr "Saisie d'une échéance"
+
+msgid "No third party defined"
+msgstr "Aucun tiers défini"
+
+msgid "%4.2f %s credit on %s"
+msgstr "Crédit de %4.2f %s sur %s"
+
+msgid "%4.2f %s debit on %s"
+msgstr "Débit de %4.2f %s sur %s"
+
+msgid "The balances of the following accounts are under the authorized minimum"
+msgstr "Les comptes suivants sont sous le seuil minimal autorisé"
+
+msgid "Warning, balance of account %s is under wanted and authorised minima!"
+msgstr ""
+"Attention, le compte %s est passé sous les seuils minimaux autorisés et "
+"voulus !"
+
+msgid "Warning, the balance of the account %s  is under the authorised minimum!"
+msgstr "Attention, le compte %s est passé sous le seuil minimal autorisé !"
+
+msgid "The balances of the following accounts are under the wanted minimum"
+msgstr "Les comptes suivants sont sous le seuil minimal voulu"
+
+msgid "Warning, the balance of the account %s is under the wanted minimum!"
+msgstr "Attention, le compte %s est passé sous le seuil minimal voulu !"
+
+msgid "The following liabilities accounts are closed"
+msgstr "Les comptes de passif suivants sont soldés"
+
+msgid "The following liabilities account is closed"
+msgstr "Le compte de passif suivant est soldé"
+
+msgid ": Change lists font /"
+msgstr ": Modifier la fonte des listes /"
+
+msgid "Init"
+msgstr "RAZ"
+
+msgid ": Change general font /"
+msgstr ": Modifier la fonte générale /"
+
+msgid "Change homepage logo"
+msgstr "Modifier le logo de l'accueil"
+
+msgid "Accounts display order"
+msgstr "Ordre d'affichage des comptes"
+
+msgid "No account defined"
+msgstr "Aucun compte défini"
+
+msgid "Transactions list and form"
+msgstr "Comptabilité et formulaire"
+
+msgid "Display the number of the edited transaction."
+msgstr "Afficher le numéro de l'opération éditée."
+
+msgid "Display the value date of the transactions."
+msgstr "Afficher la date de valeur des opérations."
+
+msgid "Use financial years."
+msgstr "Utiliser les Exercices."
+
+msgid "Use budgetary informations."
+msgstr "Utiliser les Imputations Budgétaires."
+
+msgid "Use the voucher number field."
+msgstr "Utiliser l'entrée des Pièces Comptables."
+
+msgid "Use the bank references field."
+msgstr "Utiliser l'entrée des informations Banque / Guichet."
+
+msgid "Display 'Accept' and 'Cancel' transaction buttons."
+msgstr "Afficher les boutons Valider et Annuler l'opération."
+
+msgid "Third parties, categories and budgetary info lists."
+msgstr "Listes des Tiers, Catégories et I.B."
+
+msgid "Currency"
+msgstr "Devise"
+
+msgid "Display the number of transactions."
+msgstr "Afficher le nombre d'écritures."
+
+msgid "Sort the transaction list"
+msgstr "Tri de la liste d'opérations"
+
+msgid "by date"
+msgstr "Classer par date"
+
+msgid "by value date"
+msgstr "Classer par date de valeur"
+
+msgid "Select a new logo"
+msgstr "Sélection d'un nouveau logo"
+
+msgid "Select a new logo"
+msgstr "Choisir un nouveau logo"
+
+msgid "Reset to default logo"
+msgstr "Rétablir le logo de Grisbi"
+
+msgid "Date"
+msgstr "Date"
+
+msgid "Value date"
+msgstr "Date de valeur"
+
+msgid "Third party"
+msgstr "Tiers"
+
+msgid "Budgetary line"
+msgstr "Imputation budgétaire"
+
+msgid "Debit"
+msgstr "Débit"
+
+msgid "Credit"
+msgstr "Crédit"
+
+msgid "Balance"
+msgstr "Solde"
+
+msgid "Amount (account currency)"
+msgstr "Montant (devise compte)"
+
+msgid "Method of payment"
+msgstr "Moyen de paiement"
+
+msgid "Reconciliation reference"
+msgstr "N° rapprochement"
+
+msgid "Financial year"
+msgstr "Exercice"
+
+msgid "Category"
+msgstr "Catégorie"
+
+msgid "C/R"
+msgstr "P/R"
+
+msgid "Voucher"
+msgstr "Pièce comptable"
+
+msgid "Notes"
+msgstr "Notes"
+
+msgid "Bank references"
+msgstr "Infos banque/guichet"
+
+msgid "Transaction number"
+msgstr "N° opération"
+
+msgid "Col1"
+msgstr "Col1"
+
+msgid "Col2"
+msgstr "Col2"
+
+msgid "Col3"
+msgstr "Col3"
+
+msgid "Col4"
+msgstr "Col4"
+
+msgid "Col5"
+msgstr "Col5"
+
+msgid "Col6"
+msgstr "Col6"
+
+msgid "Col7"
+msgstr "Col7"
+
+msgid "Information displayed in list:"
+msgstr "Informations affichées dans la liste :"
+
+msgid "Revert to defaults"
+msgstr "Rétablir les réglages par défaut"
+
+msgid "Adjust column size according to this table"
+msgstr "Ajuster la taille des colonnes selon le tableau ci-dessus"
+
+msgid "Remember display settings for each account separately"
+msgstr "Retenir les caractéristiques de l'affichage séparément pour chaque compte"
+
+msgid "Display for a line the"
+msgstr "Afficher pour une ligne la"
+
+msgid "Display for two lines the"
+msgstr "Afficher pour deux lignes les"
+
+msgid "Display for three lines the"
+msgstr "Afficher pour trois lignes les"
+
+msgid "first line"
+msgstr "1ère ligne"
+
+msgid "second line"
+msgstr "2ème ligne"
+
+msgid "third line"
+msgstr "3ème ligne"
+
+msgid "fourth line"
+msgstr "4ème ligne"
+
+msgid "New bank"
+msgstr "Nouvelle banque"
+
+msgid "You must name this bank."
+msgstr "Vous devez donner un nom à la banque."
+
+msgid "Confirmation of bank removal"
+msgstr "Confirmation de suppression de banque"
+
+msgid "Are you sure you want to remove bank '%s'?\n"
+msgstr "Etes-vous sûr de vouloir supprimer la banque %s ?\n"
+
+msgid "None"
+msgstr "Aucun"
+
+msgid "Information about the bank"
+msgstr "Détail d'une banque"
+
+msgid "Bank"
+msgstr "Banque"
+
+msgid "Phone number"
+msgstr "Téléphone"
+
+msgid "E-Mail"
+msgstr "Mail"
+
+msgid "Website"
+msgstr "Web"
+
+msgid "Contact name"
+msgstr "Correspondant"
+
+msgid "Fax"
+msgstr "Fax"
+
+msgid "Notes"
+msgstr "Remarques"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Bank sort code"
+msgstr "Code Banque"
+
+msgid "Address"
+msgstr "Adresse"
+
+msgid "E-Mail"
+msgstr "E-Mail"
+
+msgid "Confirmation of changes"
+msgstr "Confirmation de modification"
+
+msgid "The bank has changed"
+msgstr "Des modifications ont été apportées à la banque"
+
+msgid ""
+"\n"
+"\n"
+"Do you want to save your changes?"
+msgstr ""
+"\n"
+"\n"
+"Voulez-vous les enregistrer ?"
+
+msgid "Display/Hide form"
+msgstr "Affiche / Masque le formulaire"
+
+msgid "Four lines per transaction"
+msgstr "4 lignes par opération"
+
+msgid "Three lines per transaction"
+msgstr "3 lignes par opération"
+
+msgid "Two lines per transaction"
+msgstr "2 lignes par opération"
+
+msgid "One line per transaction"
+msgstr "1 ligne par opération"
+
+msgid "Display reconciled transactions"
+msgstr "Opérations rapprochées non masquées"
+
+msgid "Mask reconciled transactions"
+msgstr "Opérations rapprochées masquées"
+
+msgid "Account transactions"
+msgstr "Opérations du compte"
+
+msgid "Display/hide form"
+msgstr "Affiche / masque le formulaire"
+
+msgid "Close tree"
+msgstr "Fermer l'arbre"
+
+msgid "Display accounts"
+msgstr "Afficher les comptes"
+
+msgid "Display transactions"
+msgstr "Afficher les opérations"
+
+msgid "Display sub-divisions"
+msgstr "Afficher les sous-divisions"
+
+msgid "Food : Bar"
+msgstr "Alimentation : Bar"
+
+msgid "Food : Baker"
+msgstr "Alimentation : Boulangerie"
+
+msgid "Food : Canteen"
+msgstr "Alimentation : Cantine"
+
+msgid "Food : Sweets"
+msgstr "Alimentation : Confiserie"
+
+msgid "Food : Misc"
+msgstr "Alimentation : Divers"
+
+msgid "Food : Grocery"
+msgstr "Alimentation : Epicerie"
+
+msgid "Food : Restaurant"
+msgstr "Alimentation : Restaurant"
+
+msgid "Food : Self-service"
+msgstr "Alimentation : Self"
+
+msgid "Food : Supermarket"
+msgstr "Alimentation : Supermarché"
+
+msgid "Pets : Food"
+msgstr "Animaux domestiques : Alimentation"
+
+msgid "Pets : Various supplies"
+msgstr "Animaux domestiques : Fournitures diverses"
+
+msgid "Pets : Grooming"
+msgstr "Animaux domestiques : Toilettage"
+
+msgid "Pets : Veterinary surgeon"
+msgstr "Animaux domestiques : Vétérinaire"
+
+msgid "Insurance : Car"
+msgstr "Assurance : Automobile"
+
+msgid "Insurance : Health"
+msgstr "Assurance : Santé"
+
+msgid "Insurance : House"
+msgstr "Assurance : Habitation"
+
+msgid "Insurance : Civil liability"
+msgstr "Assurance : Responsabilité civile"
+
+msgid "Insurance : Life"
+msgstr "Assurance : Vie"
+
+msgid "Car : Fuel"
+msgstr "Automobile : Carburant"
+
+msgid "Car : Repairs"
+msgstr "Automobile : Réparation"
+
+msgid "Car : Maintenance"
+msgstr "Automobile : Entretien"
+
+msgid "Car : Parking"
+msgstr "Automobile : Stationnement"
+
+msgid "Car : Fines"
+msgstr "Automobile : Amendes"
+
+msgid "Misc."
+msgstr "Divers"
+
+msgid "Gifts"
+msgstr "Dons"
+
+msgid "Children : Nurse"
+msgstr "Enfants : Crèche / Nourrice"
+
+msgid "Children : Misc."
+msgstr "Enfants : Frais divers"
+
+msgid "Children : Studies"
+msgstr "Enfants : Etudes"
+
+msgid "Studies : Lessons"
+msgstr "Etudes : Cours"
+
+msgid "Studies : Scool fees"
+msgstr "Etudes : Frais de scolarité"
+
+msgid "Studies : Books"
+msgstr "Etudes : Livres"
+
+msgid "Miscelanious : Gifts"
+msgstr "Frais divers : Cadeaux"
+
+msgid "Financial expenses : Miscelanious"
+msgstr "Frais financiers : Divers"
+
+msgid "Financial expenses : Bank charges"
+msgstr "Frais financiers : Frais bancaires"
+
+msgid "Financial expenses : Loan/Mortgage"
+msgstr "Frais financiers : Emprunt"
+
+msgid "Financial expenses : Charges"
+msgstr "Frais financiers : Charges d'emprunts"
+
+msgid "Financial expenses : Refunding"
+msgstr "Frais financiers : Remboursement"
+
+msgid "Professionnal expenses : Non refundable"
+msgstr "Frais professionnels : Non remboursés"
+
+msgid "Financial expenses : Refundable"
+msgstr "Frais professionnels : Remboursés"
+
+msgid "Taxes : Miscelanious"
+msgstr "Impôts : Autres impôts"
+
+msgid "Taxes : Income"
+msgstr "Impôts : Impôt sur le revenu"
+
+msgid "Taxes : Land"
+msgstr "Impôts : Impôts locaux"
+
+msgid "Housing : Hotel"
+msgstr "Logement : Hotel"
+
+msgid "Housing : Rent"
+msgstr "Logement : Loyer"
+
+msgid "Housing : TV"
+msgstr "Logement : Abonnement TV"
+
+msgid "Housing : Furnitures"
+msgstr "Logement : Ameublement"
+
+msgid "Housing : Charges"
+msgstr "Logement : Charges"
+
+msgid "Housing : Heating"
+msgstr "Logement : Chauffage"
+
+msgid "Housing : Decoration"
+msgstr "Logement : Décoration"
+
+msgid "Housing : Water"
+msgstr "Logement : Eau"
+
+msgid "Housing : Electricity"
+msgstr "Logement : Electricité"
+
+msgid "Housing : White products"
+msgstr "Logement : Electroménager"
+
+msgid "Housing : Equipment"
+msgstr "Logement : Equipement"
+
+msgid "Housing : Gaz"
+msgstr "Logement : Gaz"
+
+msgid "Housiing : Garden"
+msgstr "Logement : Jardin"
+
+msgid "Housing : House keeper"
+msgstr "Logement : Salarié à domicile"
+
+msgid "Housing : Phone"
+msgstr "Logement : Téléphone"
+
+msgid "Leisures : Snooker"
+msgstr "Loisirs : Billard"
+
+msgid "Leisures : Bowling"
+msgstr "Loisirs : Bowling"
+
+msgid "Leisures : Movies"
+msgstr "Loisirs : Cinéma"
+
+msgid "Leisures : Night club"
+msgstr "Loisirs : Discothèque"
+
+msgid "Leisures : IT"
+msgstr "Loisirs : Informatique"
+
+msgid "Leisures : Games"
+msgstr "Loisirs : Jeux"
+
+msgid "Leisures : Books"
+msgstr "Loisirs : Lecture"
+
+msgid "Leisures : Parks"
+msgstr "Loisirs : Parc d'attraction"
+
+msgid "Leisures : Concerts"
+msgstr "Loisirs : Spectacle"
+
+msgid "Leisures : Sports"
+msgstr "Loisirs : Sport"
+
+msgid "Leisures : Video"
+msgstr "Loisirs : Vidéo"
+
+msgid "Leisures : Travels"
+msgstr "Loisirs : Voyage"
+
+msgid "Leisures : Equipment"
+msgstr "Loisirs : Equipement"
+
+msgid "Leisures : Museums/Exhibitions"
+msgstr "Loisirs : Musée / Exposition"
+
+msgid "Loan/Mortgage : Capital"
+msgstr "Prêt : Capital"
+
+msgid "Health : Insurance"
+msgstr "Santé : Assurance"
+
+msgid "Health : Dentist"
+msgstr "Santé : Dentiste"
+
+msgid "Health : Hospital"
+msgstr "Santé : Hôpital"
+
+msgid "Health : Kinesitherapist"
+msgstr "Santé : Kinésithérapeute"
+
+msgid "Health : Doctor"
+msgstr "Santé : Médecin"
+
+msgid "Health : Ophtalmologist"
+msgstr "Santé : Ophtalmologiste"
+
+msgid "Health : Osteopath"
+msgstr "Santé : Ostéopathe"
+
+msgid "Health : Chemist"
+msgstr "Santé : Pharmacie"
+
+msgid "Health : Social security"
+msgstr "Santé : Sécurité sociale"
+
+msgid "Care : Hairdresser"
+msgstr "Soins : Coiffeur"
+
+msgid "Care : Clothing"
+msgstr "Soins : Habillement"
+
+msgid "Transport : Bus"
+msgstr "Transport : Bus"
+
+msgid "Transport : Metro"
+msgstr "Transport : Métro"
+
+msgid "Transport : Toll"
+msgstr "Transport : Péage"
+
+msgid "Transport : Train"
+msgstr "Transport : Train"
+
+msgid "Transport : Tramway"
+msgstr "Transport : Tramway"
+
+msgid "Transport : Travels"
+msgstr "Transport : Voyage"
+
+msgid "Hollydays : Housing"
+msgstr "Vacances : Logement"
+
+msgid "Hollydays : Visits"
+msgstr "Vacances : Visites"
+
+msgid "Hollydays : Travels"
+msgstr "Vacances : Voyages"
+
+msgid "Other incomes : Unemployment benefit"
+msgstr "Autres revenus : Allocation chômage"
+
+msgid "Other incomes : Family allowance"
+msgstr "Autres revenus : Allocation familiales"
+
+msgid "Other incomes : Tax credit"
+msgstr "Autres revenus : Crédit d'impôt"
+
+msgid "Other incomes : Gamble"
+msgstr "Autres revenus : Jeu"
+
+msgid "Other incomes : Mutual insurance"
+msgstr "Autres revenus : Mutuelle santé"
+
+msgid "Other incomes : Social security"
+msgstr "Autres revenus : Sécurité sociale"
+
+msgid "Retirement : Retirement Fund"
+msgstr "Retraite : Pensions"
+
+msgid "Retirement : Pension"
+msgstr "Retraite : Régime général"
+
+msgid "Retirement : Supplementary pension"
+msgstr "Retraite : Retraite complémentaire"
+
+msgid "Investment incomes : Dividends"
+msgstr "Revenus de placement : Dividendes"
+
+msgid "Investment incomes : Interests"
+msgstr "Revenus de placement : Intérêts"
+
+msgid "Investment incomes : Capital gain"
+msgstr "Revenus de placement : Plus-values"
+
+msgid "Salary : Overtime"
+msgstr "Salaire : Heures supplémentaires"
+
+msgid "Salary : Leave allowance"
+msgstr "Salaire : Primes congés"
+
+msgid "Salary : Misc. premiums"
+msgstr "Salaire : Primes diverses"
+
+msgid "Salary : Success fee"
+msgstr "Salaire : Primes résultats"
+
+msgid "Salary : Net salary"
+msgstr "Salaire : Salaire net"
+
+msgid "Misc. incomes : Gifts"
+msgstr "Revenus divers : Cadeaux"
+
+msgid "Misc. incomes : Refunds"
+msgstr "Revenus divers : Remboursement"
+
+msgid "Misc. incomes : Second hand sales"
+msgstr "Revenus divers : Vente occasion"
+
+msgid "Categories list"
+msgstr "Liste des catégories"
+
+msgid "Amount per category"
+msgstr "Montant par catégorie"
+
+msgid "Amount per subcategory"
+msgstr "Montant par sous-catégorie"
+
+msgid "Amount per account"
+msgstr "Montant par compte"
+
+msgid "Information"
+msgstr "Informations"
+
+msgid "Sorting"
+msgstr "Classement"
+
+msgid "Add a category"
+msgstr "Ajouter une catégorie"
+
+msgid "Add a subcategory"
+msgstr "Ajouter une sous-catégorie"
+
+msgid "Export"
+msgstr "Exporter"
+
+msgid "Import"
+msgstr "Importer"
+
+msgid "No sub-category (%d)"
+msgstr "Aucune sous-catégorie (%d)"
+
+msgid "No sub-category"
+msgstr "Aucune sous-catégorie"
+
+msgid "No category (%d)"
+msgstr "Aucune catégorie (%d)"
+
+msgid "No category"
+msgstr "Aucune catégorie"
+
+msgid "%d/%d/%d : %4.2f %s (breakdown) [ %s ]"
+msgstr "%d/%d/%d : %4.2f %s (ventilation) [ %s ]"
+
+msgid "%d/%d/%d : %4.2f %s (breakdown)"
+msgstr "%d/%d/%d : %4.2f %s (ventilation)"
+
+msgid "Remove a category"
+msgstr "Suppression d'une catégorie"
+
+msgid ""
+"Selected category still contains transactions.\n"
+"\n"
+"You may"
+msgstr ""
+"La catégorie sélectionnée contient encore des opérations.\n"
+"\n"
+"Vous pouvez"
+
+msgid "Transfer transactions to category"
+msgstr "Transférer les opérations sur la catégorie"
+
+msgid "Just remove this category."
+msgstr "Supprimer simplement cette catégorie."
+
+msgid "Please enter a category!"
+msgstr "Veuillez entrer une catégorie !"
+
+msgid "Remove category"
+msgstr "Suppression d'une sous-catégorie"
+
+msgid ""
+"Selected sub-category still contains transactions.\n"
+"\n"
+"You may"
+msgstr ""
+"La sous-catégorie sélectionnée contient encore des opérations.\n"
+"\n"
+"Vous pouvez"
+
+msgid "Just remove this sub-category."
+msgstr "Supprimer simplement cette sous-catégorie."
+
+msgid "Breakdown of transaction"
+msgstr "Opération ventilée"
+
+msgid "Transfer"
+msgstr "Virement"
+
+msgid "New category"
+msgstr "Nouvelle catégorie"
+
+msgid "Enter name for new category"
+msgstr "Entrer le nom de la nouvelle catégorie"
+
+msgid "New sub-category"
+msgstr "Nouvelle sous-catégorie"
+
+msgid "Enter name for new sub-category"
+msgstr "Entrer le nom de la nouvelle sous-catégorie"
+
+msgid "Export categories"
+msgstr "Exporter les catégories"
+
+msgid "Enter name for export"
+msgstr "Entrer un nom pour l'export"
+
+msgid "Save file"
+msgstr "Enregistrer le fichier"
+
+msgid "File exists. Do you want to overwrite it?"
+msgstr "Le fichier existe. Voulez-vous l'écraser ?"
+
+msgid "Invalid filename \"%s\"!"
+msgstr "Nom de fichier \"%s\" invalide !"
+
+msgid "Import a category list"
+msgstr "Importer une liste de catégories"
+
+msgid "Enter a filename"
+msgstr "Entrer le nom du fichier"
+
+msgid "Account name"
+msgstr "Nom du compte"
+
+msgid "Account type"
+msgstr "Type du compte"
+
+msgid "Account currency"
+msgstr "Devise du compte"
+
+msgid "Convert this account to euros"
+msgstr "Passer ce compte à l'euro"
+
+msgid "Closed account"
+msgstr "Compte clôturé"
+
+msgid "Account holder"
+msgstr "Titulaire du compte"
+
+msgid "Common address is holder's address"
+msgstr "L'adresse commune est celle du titulaire"
+
+msgid "Holder has his own address"
+msgstr "Le titulaire a sa propre adresse"
+
+msgid "Financial institution"
+msgstr "Etablissement financier"
+
+msgid "Details"
+msgstr "Détails"
+
+msgid "New financial institution"
+msgstr "Nouvel établissement"
+
+msgid "Bank sort code"
+msgstr "Code de la banque"
+
+msgid "Bank branch code"
+msgstr "Guichet / Agence"
+
+msgid "Account number / Key"
+msgstr "Numéro de compte / Clé"
+
+msgid "Initial balance"
+msgstr "Solde initial"
+
+msgid "Minimum authorised balance"
+msgstr "Solde minimal autorisé"
+
+msgid "Minimum wanted balance"
+msgstr "Solde minimal voulu"
+
+msgid "Comments"
+msgstr "Commentaires"
+
+msgid "Bank account"
+msgstr "Compte bancaire"
+
+msgid "Cash account"
+msgstr "Compte de caisse"
+
+msgid "Liabilities account"
+msgstr "Compte de passif"
+
+msgid "Assets account"
+msgstr "Compte d'actif"
+
+msgid "Account has no name!"
+msgstr "Le compte n'a pas de nom !"
+
+msgid "Confirm currency change"
+msgstr "Confirmation de changement de devise"
+
+msgid ""
+"Be carefull, you are changing from a currency that is in the euro zone\n"
+"(%s) to one that isn't (%s). Transactions in euros will be lost!\n"
+"\n"
+"Do you confirm this change?"
+msgstr ""
+"Attention, vous passez d'une devise qui passera à l'euro (%s)\n"
+"à une qui n'y passera pas (%s). Les paiements en euro du compte seront "
+"perdus !\n"
+"\n"
+"Confirmez vous le changement ?"
+
+msgid "Apply changes to account?"
+msgstr "Appliquer les modifications au compte ?"
+
+msgid ""
+"Account \"%s\" has been modified.\n"
+"\n"
+"\n"
+"Do you want to save changes?"
+msgstr ""
+"Des modifications ont été apportées au compte \"%s\"\n"
+"\n"
+"\n"
+"Voulez-vous les enregistrer ?"
+
+msgid "Confirm euro conversion"
+msgstr "Confirmation de passage à l'euro"
+
+msgid ""
+"Warning, euro conversion is irreversible!\n"
+"\n"
+"Are you sure you want to convert account \"%s\" to euros?"
+msgstr ""
+"Attention, le passage à l'euro est une opération irréversible !\n"
+"\n"
+"Êtes-vous sûr de vouloir passer le compte \"%s\" à l'euro ?"
+
+msgid "Error: exchange rate beetween the 2 currencies is 0."
+msgstr "Erreur : le taux de change entre les 2 monnaies est de 0."
+
+msgid "Euro"
+msgstr "Euro"
+
+msgid "Impossible to find the Euro currency, it has probably been deleted."
+msgstr "La monnaie Euro est introuvable, elle a dû être effacée des devises."
+
+msgid "New account"
+msgstr "Nouveau compte"
+
+msgid "Remove an account"
+msgstr "Supprimer un compte"
+
+msgid "Error: cannot allocate memory for this new account!"
+msgstr "Erreur dans l'allocation de mémoire pour créer un nouveau compte !"
+
+msgid "No name"
+msgstr "Sans nom"
+
+msgid "Select an account"
+msgstr "Sélection d'un compte"
+
+msgid ""
+"Select the account to delete:\n"
+"\n"
+"\n"
+"(Be careful, the account will be permanently deleted!\n"
+"If you just want to close the account, you must\n"
+"go to the account properties.)"
+msgstr ""
+"Choisir le compte à supprimer :\n"
+"\n"
+"\n"
+"( Attention, il s'agit d'un suppression définitive !\n"
+" Pour clôturer un compte, il faut\n"
+"aller dans le détail du compte concerné. )"
+
+msgid "Deposit"
+msgstr "Dépôt"
+
+msgid "Credit card"
+msgstr "C.B."
+
+msgid "Direct debit"
+msgstr "Prélèvement"
+
+msgid "Cheque"
+msgstr "Chèque"
+
+msgid "E"
+msgstr "E"
+
+msgid "None"
+msgstr "Aucune"
+
+msgid "Add a currency"
+msgstr "Ajout d'une devise"
+
+msgid "New currency"
+msgstr "Nouvelle devise"
+
+msgid "Currency name"
+msgstr "Nom de la devise"
+
+msgid "Currency code"
+msgstr "Code de la devise"
+
+msgid "This currency will switch to the euro"
+msgstr "Cette monnaie passera à l'euro"
+
+msgid "1 Euro equals"
+msgstr "1 Euro vaut"
+
+msgid "All fields are not filled in!"
+msgstr "Tous les champs ne sont pas remplis !"
+
+msgid ""
+"The %s currency is used in the current account.\n"
+"You can't delete it."
+msgstr ""
+"La devise %s est utilisée dans le fichier courant.\n"
+"Vous ne pouvez la supprimer."
+
+msgid "Select a currency"
+msgstr "Sélection d'une devise"
+
+msgid "Please choose a currency for account \"%s\":\n"
+msgstr "Veuillez sélectionner une devise pour le compte \"%s\" :\n"
+
+msgid "Add a currency"
+msgstr "Ajouter une devise"
+
+msgid "Entry of the exchange rate"
+msgstr "Entrée du taux de change"
+
+msgid "Please enter the exchange rate"
+msgstr "Veuillez entrer le taux de change"
+
+msgid "A"
+msgstr "Un"
+
+msgid "equals"
+msgstr "vaut"
+
+msgid "Exchange fees"
+msgstr "Frais de change"
+
+msgid "Code"
+msgstr "Code"
+
+msgid "Will switch to the Euro"
+msgstr "Passera à l'Euro"
+
+msgid "Associated currency"
+msgstr "Devise associée"
+
+msgid "No exchange rate defined"
+msgstr "Aucun change défini"
+
+msgid "Choose currency"
+msgstr "Choix de la devise"
+
+msgid "Choose the account"
+msgstr "Choix du compte affecté"
+
+msgid "Choose the method of payment"
+msgstr "Choix du mode de règlement"
+
+msgid "Choose the financial year"
+msgstr "Choix de l'exercice"
+
+msgid "Automatic/manual scheduled transaction"
+msgstr "Échéance automatique / manuelle"
+
+msgid "Manual"
+msgstr "Manuel"
+
+msgid "Automatic"
+msgstr "Automatique"
+
+msgid "Frequency"
+msgstr "Fréquence de l'échéance"
+
+msgid "Once"
+msgstr "Une fois"
+
+msgid "Weekly"
+msgstr "Hebdomadaire"
+
+msgid "Monthly"
+msgstr "Mensuel"
+
+msgid "Yearly"
+msgstr "Annuel"
+
+msgid "Custom"
+msgstr "Personnalisé"
+
+msgid "Custom frequency"
+msgstr "Périodicité personnalisée"
+
+msgid "Days"
+msgstr "Jours"
+
+msgid "Months"
+msgstr "Mois"
+
+msgid "Years"
+msgstr "Années"
+
+msgid "Categories : Sub-categories"
+msgstr "Catégories : Sous-catégories"
+
+msgid "Transfer reference"
+msgstr "n° Virement"
+
+msgid "Bank references"
+msgstr "Informations banque/guichet"
+
+msgid "Limit date"
+msgstr "Date limite"
+
+msgid "Cancel"
+msgstr "Annuler"
+
+msgid "Error: invalid date"
+msgstr "Erreur : La date est invalide"
+
+msgid "Error: invalid limit date"
+msgstr "Erreur : La date limite est invalide"
+
+msgid ""
+"Error: impossible to transfer an account   \n"
+"    on itself"
+msgstr ""
+"Erreur : impossibilité de virer un compte   \n"
+"    sur lui-même"
+
+msgid "Warning: the associated account for this transfer is invalid"
+msgstr "Erreur : le compte associé au virement est invalide"
+
+msgid ""
+"Impossible to create or entry an automatic scheduled transaction\n"
+" with a cheque or a method of payment with an automatic incremental number."
+msgstr ""
+"Impossible de créer ou saisir une échéance automatique\n"
+" avec un chèque ou un mode de règlement à incrémentation automatique."
+
+msgid "Input"
+msgstr "Saisie"
+
+msgid "Modification"
+msgstr "Modif"
+
+msgid "Display scheduled transactions"
+msgstr "Affichage des échéances"
+
+msgid "Of month"
+msgstr "Du mois"
+
+msgid "Of next two months"
+msgstr "Des 2 prochains mois"
+
+msgid "Of year"
+msgstr "De l'année"
+
+msgid "All"
+msgstr "Toutes"
+
+msgid "Custom"
+msgstr "Personnalisées"
+
+msgid "Show"
+msgstr "Afficher"
+
+msgid "Enter"
+msgstr "Saisir"
+
+msgid "Frequency"
+msgstr "Périodicité"
+
+msgid "Account"
+msgstr "Compte"
+
+msgid "Mode"
+msgstr "Mode"
+
+msgid "Amount"
+msgstr "Montant"
+
+msgid "Monthly"
+msgstr "Mensuelle"
+
+msgid "Yearly"
+msgstr "Annuelle"
+
+msgid "%d months"
+msgstr "%d mois"
+
+msgid "%d years"
+msgstr "%d ans"
+
+msgid "%d days"
+msgstr "%d jours"
+
+msgid "Delete a scheduled transaction maturity"
+msgstr "Effacer une échéance"
+
+msgid "Only this one"
+msgstr "Juste celle-ci"
+
+msgid "All the occurences"
+msgstr "Toutes les occurences"
+
+msgid ""
+"Do you want to delete just this occurrence or the whole "
+"scheduled transaction?"
+msgstr "Voulez-vous effacer juste cette occurence ou l'échéance complète ?"
+
+msgid "%02d/%02d/%d : [No third party] [%4.2f]"
+msgstr "%02d/%02d/%d : [Aucun Tiers] [%4.2f]"
+
+msgid "Reconciliation reference"
+msgstr "N° de rapprochement"
+
+msgid ""
+"If reconciliation reference ends in a digit, it is automatically incremented "
+"at each reconciliation."
+msgstr ""
+"Si le n° de rapprochement est terminé par un chiffre, celui-ci est "
+"automatiquement incrémenté à chaque nouveau rapprochement."
+
+msgid "Reconciliation reference"
+msgstr "Numéro de rapprochement"
+
+msgid "Final balance"
+msgstr "Solde final"
+
+msgid "Checking"
+msgstr "Pointage"
+
+msgid "Variance"
+msgstr "Écart"
+
+msgid "Valid"
+msgstr "Valider"
+
+msgid "This account does not contain any transaction"
+msgstr "Il n'y a aucune opérations dans ce compte"
+
+msgid "Error: invalid date"
+msgstr "Erreur : date invalide"
+
+msgid "Checked balance: %4.2f %s"
+msgstr "Solde pointé : %4.2f %s"
+
+msgid "There is a variance"
+msgstr "L'écart n'est pas de zéro"
+
+msgid "Last statement: %02d/%02d/%d"
+msgstr "Dernier relevé : %02d/%02d/%d"
+
+msgid "Log message"
+msgstr "Message de log"
+
+msgid "This operation returned a message"
+msgstr "Cette opération a retourné un message"
+
+msgid ""
+"Ooops, Grisbi crashed while loading the file (segfault).\n"
+"Either the file is corrupted, or it is a major bug.\n"
+"Try to load the file again. If you can repeat this crash, could you report "
+"it on Grisbi's bugtracker (http://www.grisbi.org/bugtracking/)?\n"
+"It would really help us to fix it.\n"
+"Thanks a lot!"
+msgstr ""
+"Oups, Grisbi a planté pendant le chargement du fichier (erreur de "
+"segmentation).\n"
+"Soit celui-ci est corrompu, soit il s'agit d'un bug grave.\n"
+"Réessayez de le charger.  Si vous arrivez à recréer ce bug, pouvez-vous nous "
+"le décrire sur le site de grisbi (http://www.grisbi.org/bugtracking/) ?\n"
+"Ceci nous aiderait beaucoup pour le corriger.\n"
+"Merci !"
+
+msgid ""
+"Ooops, Grisbi crashed while trying to save the file (segfault).\n"
+"So it's impossible to save your file.\n"
+"If you can repeat this crash, could you report it on Grisbi's bugtracker "
+"(http://www.grisbi.org/bugtracking/)?\n"
+"It would really help us to fix it.\n"
+"Thanks a lot!"
+msgstr ""
+"Oups, Grisbi a planté pendant la sauvegarde du fichier (erreur de "
+"segmentation).\n"
+"Celle-ci est donc impossible.  Si vous arrivez à recréer ce bug, pouvez-vous "
+"nous le décrire sur le site de grisbi (http://www.grisbi.org/bugtracking/) "
+"?\n"
+"Ceci nous aiderait beaucoup pour le corriger.\n"
+"Merci !"
+
+msgid ""
+"Ooops, Grisbi crashed (segfault).\n"
+"No matter, you didn't modify anything.\n"
+"If you can repeat this crash, could you report it on Grisbi's bugtracker "
+"(http://www.grisbi.org/bugtracking/)?\n"
+"It would really help us to fix it.\n"
+"Thanks a lot!"
+msgstr ""
+"Oups, Grisbi a planté (erreur de segmentation).\n"
+"C'est pas bien grave, vous n'aviez pas fait de modifications,\n"
+"cependant si vous arrivez à recréer le bug, pouvez-vous nous le décrire sur "
+"le site de grisbi (http://www.grisbi.org/bugtracking/) ?\n"
+"Ceci nous aiderait beaucoup pour le corriger.\n"
+"Merci !"
+
+msgid "Save file"
+msgstr "Enregistrement du fichier"
+
+msgid ""
+"Ooops, Grisbi crashed (segfault).\n"
+"Grisbi tried to save your file before, with the name %s.\n"
+"Try to load it, with a bit of luck you won't loose anything.\n"
+"If you can repeat this crash, could you report it on Grisbi's bugtracker "
+"(http://www.grisbi.org/bugtracking/)?\n"
+"It would really help us to fix it.\n"
+"Thanks a lot!"
+msgstr ""
+"Oups, Grisbi a planté (erreur de segmentation).\n"
+"Il a essayé de sauvegarder le fichier juste avant, sous le nom %s.\n"
+"Essayez de l'ouvrir, avec un peu de chances vous n'aurez rien perdu.\n"
+"De plus, si vous arrivez à recréer le bug, pouvez-vous nous le décrire sur "
+"le site de grisbi (http://www.grisbi.org/bugtracking/) ?\n"
+"Ceci nous aiderait beaucoup pour le corriger.\n"
+"Merci !"
+
+msgid "This file is not a Grisbi report"
+msgstr "Ce fichier n'est pas un état Grisbi"
+
+msgid "Grisbi version %s is needed to open this file"
+msgstr "Pour ouvrir ce fichier, il vous faut la version %s de Grisbi"
+
+msgid "Invalid report file"
+msgstr "Fichier d'état invalide."
+
+msgid "%sCurrency %s not found.\n"
+msgstr "%sDevise %s non trouvée.\n"
+
+msgid "Currency %s not found.\n"
+msgstr "Devise %s non trouvée.\n"
+
+msgid "%sFinancial year %s not found.\n"
+msgstr "%sExercice %s non trouvé.\n"
+
+msgid "Financial year %s not found.\n"
+msgstr "Exercice %s non trouvé.\n"
+
+msgid "%sAccount %s not found.\n"
+msgstr "%sCompte %s non trouvé.\n"
+
+msgid "Account %s not found.\n"
+msgstr "Compte %s non trouvé.\n"
+
+msgid "%sCategory %s not found.\n"
+msgstr "%sCatégorie %s non trouvée.\n"
+
+msgid "Category %s not found.\n"
+msgstr "Catégorie %s non trouvée.\n"
+
+msgid "%sBudget line %s not found.\n"
+msgstr "%sImputation %s non trouvée.\n"
+
+msgid "Budget line %s not found.\n"
+msgstr "Imputation %s non trouvée.\n"
+
+msgid "%sThird party %s not found.\n"
+msgstr "%sTiers %s non trouvé.\n"
+
+msgid "Third party %s not found.\n"
+msgstr "Tiers %s non trouvé.\n"
+
+msgid ""
+"Error saving the file %s\n"
+"\n"
+"Error:\n"
+"%s"
+msgstr ""
+"Erreur dans l'enregistrement du fichier %s\n"
+"\n"
+"Erreur :\n"
+"%s"
+
+msgid "Year to date"
+msgstr "Cumul à ce jour"
+
+msgid "Current month"
+msgstr "Mois en cours"
+
+msgid "Current year"
+msgstr "Année en cours"
+
+msgid "Month to date"
+msgstr "Cumul mensuel"
+
+msgid "Year to date"
+msgstr "Cumul annuel"
+
+msgid "Previous month"
+msgstr "Mois précédent"
+
+msgid "Previous year"
+msgstr "Année précédente"
+
+msgid "Last 30 days"
+msgstr "30 derniers jours"
+
+msgid "Last 3 months"
+msgstr "3 derniers mois"
+
+msgid "Last 6 months"
+msgstr "6 derniers mois"
+
+msgid "Last 12 months"
+msgstr "12 derniers mois"
+
+msgid "Monday"
+msgstr "Lundi"
+
+msgid "Tuesday"
+msgstr "Mardi"
+
+msgid "Wednesday"
+msgstr "Mercredi"
+
+msgid "Thursday"
+msgstr "Jeudi"
+
+msgid "Friday"
+msgstr "Vendredi"
+
+msgid "Saturday"
+msgstr "Samedi"
+
+msgid "Sunday"
+msgstr "Dimanche"
+
+msgid "Reports setup"
+msgstr "Configuration états"
+
+msgid "Data selection"
+msgstr "Sélection des données"
+
+msgid "Dates"
+msgstr "Dates"
+
+msgid "Transfers"
+msgstr "Virements"
+
+msgid "Accounts"
+msgstr "Comptes"
+
+msgid "Categories"
+msgstr "Catégories"
+
+msgid "Budgetary lines"
+msgstr "Imputations budgétaires"
+
+msgid "Texts"
+msgstr "Textes"
+
+msgid "Amounts"
+msgstr "Montants"
+
+msgid "Methods of payment"
+msgstr "Mode de règlement"
+
+msgid "Data organisation"
+msgstr "Organisation des données"
+
+msgid "Data display"
+msgstr "Affichage des données"
+
+msgid "Invalid custom initial date"
+msgstr "La date initiale personnelle est invalide"
+
+msgid "Invalid custom final date"
+msgstr "La date finale personnelle est invalide"
+
+msgid ""
+"All the financial years have been selected. Grisbi will run faster\n"
+"without the \"Detail financial years\" option"
+msgstr ""
+"Tous les exercices ont été sélectionnés ; Grisbi sera plus rapide\n"
+"en retirant l'option \"Détailler les exercices utilisés\""
+
+msgid ""
+"All the accounts have been selected. Grisbi will run faster\n"
+"without the \"Detail accounts used\" option"
+msgstr ""
+"Tous les comptes ont été sélectionnés ; Grisbi sera plus rapide\n"
+"en retirant l'option \"Détailler les comptes utilisés\""
+
+msgid ""
+"All the categories have been selected. Grisbi will run faster\n"
+"without  the \"Detail categories used \" option"
+msgstr ""
+"Toutes les catégories ont été sélectionnées ; Grisbi sera plus rapide\n"
+"en retirant l'option \"Détailler les catégories utilisées\""
+
+msgid ""
+"All budgetary lines have been selected.  Grisbi will run faster\n"
+"without \"Detail the budgetary lines used\" option"
+msgstr ""
+"Toutes les imputations budgétaires ont été sélectionnées ; Grisbi sera plus "
+"rapide\n"
+"en retirant l'option \"Détailler les imputations budgétaires utilisées\""
+
+msgid ""
+"All the third parts have been selected. Grisbi will run faster\n"
+"without the \"Detail the third parties\" option"
+msgstr ""
+"Tous les tiers ont été sélectionnés ; Grisbi sera plus rapide\n"
+"en retirant l'option \"Détailler les tiers utilisés\""
+
+msgid ""
+"All the méthods of payment have been selected. Grisbi will run faster\n"
+" without the \"Select the transactions based on payment method\" option"
+msgstr ""
+"Tous les modes de règlement ont été sélectionnés\n"
+"Grisbi sera plus rapide en retirant l'option\n"
+"\"Sélectionner les opérations en fonction des modes de règlement\""
+
+msgid "Use dates ranges"
+msgstr "Utiliser des plages de dates"
+
+msgid "Use financial years"
+msgstr "Utiliser les exercices"
+
+msgid "All financial years"
+msgstr "Tous les exercices"
+
+msgid "Current financial year"
+msgstr "Exercice courant"
+
+msgid "Former financial year"
+msgstr "Exercice précédent"
+
+msgid "Detail financial years"
+msgstr "Détailler les exercices utilisés"
+
+msgid "Initial date"
+msgstr "Date initiale"
+
+msgid "Final date"
+msgstr "Date finale"
+
+msgid "Select transactions only for given accounts"
+msgstr "Sélectionner les opérations uniquement sur certains comptes"
+
+msgid "Select the accounts included in the report"
+msgstr "Sélectionner les comptes à inclure dans l'état"
+
+msgid "Select all"
+msgstr "Sélectionner tout"
+
+msgid "Unselect all"
+msgstr "Désélectionner tout"
+
+msgid "Select bank accounts"
+msgstr "Sélectionner les comptes bancaires"
+
+msgid "Select cash accounts"
+msgstr "Sélectionner les comptes de caisse"
+
+msgid "Select liabilities accounts"
+msgstr "Sélectionner les comptes de passif"
+
+msgid "Select assets accounts"
+msgstr "Sélectionner les comptes d'actif"
+
+msgid "Do not include transfers"
+msgstr "Ne pas inclure les virements"
+
+msgid "Include transfers from or to assets or liabilities accounts"
+msgstr "Inclure les virements de ou vers les comptes d'actif et de passif"
+
+msgid "Include transfers from or to accounts not in this report"
+msgstr "Inclure les virements de ou vers les comptes ne figurant pas dans l'état"
+
+msgid "Include transfers from or to these accounts"
+msgstr "Inclure les virements de ou vers les comptes"
+
+msgid "Exclude the transactions which are not transfers"
+msgstr "Exclure les opérations qui ne sont pas des virements"
+
+msgid "Detail categories"
+msgstr "Détailler les catégories utilisées"
+
+msgid "Select categories to include"
+msgstr "Sélectionner les catégories à inclure dans l'état"
+
+msgid "Income categories"
+msgstr "Catégories de revenus"
+
+msgid "Outgoing categories"
+msgstr "Catégories de dépenses"
+
+msgid "Exclude transactions with no category"
+msgstr "Exclure les opérations sans catégorie"
+
+msgid "Detail budgetary lines"
+msgstr "Détailler les imputations budgétaires utilisées"
+
+msgid "Select the budgetary lines to include in the report"
+msgstr "Sélectionner les imputations budgétaires à inclure dans l'état"
+
+msgid "Income budget lines"
+msgstr "I.B. de revenus"
+
+msgid "Outgoing budget lines"
+msgstr "I.B. de dépenses"
+
+msgid "Exclude transactions without budgetary line"
+msgstr "Exclure les opérations sans imputation budgétaire"
+
+msgid "Detail third parties"
+msgstr "Détailler les tiers utilisés"
+
+msgid "Select third parties to include in this report"
+msgstr "Sélectionner les tiers à inclure dans l'état"
+
+msgid "Select transactions according to the text"
+msgstr "Sélectionner les opérations par rapport à du texte"
+
+msgid "Transactions whose"
+msgstr "Opérations dont"
+
+msgid "is"
+msgstr "est"
+
+msgid "to"
+msgstr "à"
+
+msgid "Add"
+msgstr "Ajouter"
+
+msgid "Remove"
+msgstr "Retirer"
+
+msgid "the third party"
+msgstr "le tiers"
+
+msgid "the third party information"
+msgstr "l'information du tiers"
+
+msgid "the category"
+msgstr "la catégorie"
+
+msgid "the sub-category"
+msgstr "la sous-catégorie"
+
+msgid "the budgetary line"
+msgstr "l'imputation budgétaire"
+
+msgid "the sub-budgetary line"
+msgstr "la sous-imputation budgétaire"
+
+msgid "the note"
+msgstr "la note"
+
+msgid "the bank reference"
+msgstr "la référence bancaire"
+
+msgid "the voucher"
+msgstr "la pièce comptable"
+
+msgid "the cheque number"
+msgstr "le numéro de chèque"
+
+msgid "the reconciliation reference"
+msgstr "le numéro de rapprochement"
+
+msgid "contains"
+msgstr "contient"
+
+msgid "doesn't contain"
+msgstr "ne contient pas"
+
+msgid "begins with"
+msgstr "commence par"
+
+msgid "ends with"
+msgstr "se termine par"
+
+msgid "is empty"
+msgstr "est vide"
+
+msgid "isn't empty"
+msgstr "est non vide"
+
+msgid "Select the transactions by amount"
+msgstr "Sélectionner les opérations d'après les montants"
+
+msgid "Exclude the transactions with a null amount"
+msgstr "Exclure les opérations dont le montant est nul"
+
+msgid "Transactions with an amount of"
+msgstr "Opérations dans lesquelles le montant est"
+
+msgid "and"
+msgstr "et"
+
+msgid "or"
+msgstr "ou"
+
+msgid "except"
+msgstr "sauf"
+
+msgid "equal"
+msgstr "égal"
+
+msgid "less than"
+msgstr "inférieur"
+
+msgid "less than or equal"
+msgstr "inférieur ou égal"
+
+msgid "greater than"
+msgstr "supérieur"
+
+msgid "greater than or equal"
+msgstr "supérieur ou égal"
+
+msgid "different from"
+msgstr "différent de"
+
+msgid "null"
+msgstr "nul"
+
+msgid "not null"
+msgstr "non nul"
+
+msgid "positive"
+msgstr "positif"
+
+msgid "negative"
+msgstr "négatif"
+
+msgid "the biggest"
+msgstr "le plus grand"
+
+msgid "stop"
+msgstr "stop"
+
+msgid "Reconciled transactions"
+msgstr "Opérations rapprochées"
+
+msgid "All transactions"
+msgstr "Toutes les opérations"
+
+msgid "Non reconciled transactions"
+msgstr "Les opérations non rapprochées"
+
+msgid "The reconciled transactions"
+msgstr "Les opérations rapprochées"
+
+msgid "Do not detail reconciled transactions"
+msgstr "Ne pas détailler les opérations ventilées"
+
+msgid "Informations used for the group"
+msgstr "Informations utilisées pour le regroupement"
+
+msgid "Group transactions by account"
+msgstr "Regrouper les opérations par compte"
+
+msgid "Group transactions by third party"
+msgstr "Regrouper les opérations par tiers"
+
+msgid "Group transactions by category"
+msgstr "Regrouper les opérations par catégorie"
+
+msgid "Group transactions by budgetary line"
+msgstr "Regrouper les opérations par imputation budgétaire"
+
+msgid "Group level organisation"
+msgstr "Organisation des niveaux de regroupement"
+
+msgid "Split incomes and outgoings"
+msgstr "Séparer les revenus et les dépenses"
+
+msgid "Split by financial year"
+msgstr "Séparer les résultats par exercice"
+
+msgid "Split by period"
+msgstr "Séparer les résultats par période"
+
+msgid "Week"
+msgstr "Semaine"
+
+msgid "Year"
+msgstr "Année"
+
+msgid "The week begins on"
+msgstr "La semaine commence le"
+
+msgid "day"
+msgstr "jour"
+
+msgid "Generalities"
+msgstr "Généralités"
+
+msgid "Titles"
+msgstr "Titres"
+
+msgid "Transactions"
+msgstr "Opérations"
+
+msgid "Currencies"
+msgstr "Devises"
+
+msgid "Report name"
+msgstr "Nom de l'état"
+
+msgid "Diplay the number of transactions with the totals"
+msgstr "Afficher le nombre d'opérations avec les totaux"
+
+msgid "Consider the third parties of this report as a multiple third party."
+msgstr "Inclure cet état dans la liste des tiers du formulaire de saisie d'opération."
+
+msgid "Display the information about"
+msgstr "Afficher les informations sur"
+
+msgid "the transaction number"
+msgstr "le n° d'opération"
+
+msgid "the date"
+msgstr "la date"
+
+msgid "the financial year"
+msgstr "l'exercice"
+
+msgid "the notes"
+msgstr "les notes"
+
+msgid "the method of payment"
+msgstr "le mode de règlement"
+
+msgid "the cheque/transfer number"
+msgstr "le n° de chèque/virement"
+
+msgid "the bank reference"
+msgstr "l'information banque-guichet"
+
+msgid "the reconciliation reference"
+msgstr "le n° de rapprochement"
+
+msgid "Display the column titles"
+msgstr "Afficher les titres des colonnes"
+
+msgid "every section"
+msgstr "à chaque changement de section"
+
+msgid "at the top of the report"
+msgstr "en haut de l'état"
+
+msgid "Sort the transactions by"
+msgstr "Classement des opérations par"
+
+msgid "date"
+msgstr "date"
+
+msgid "transaction number"
+msgstr "n° d'opérations"
+
+msgid "third party"
+msgstr "tiers"
+
+msgid "category"
+msgstr "catégorie"
+
+msgid "budgetary line"
+msgstr "imputation budgétaire"
+
+msgid "note"
+msgstr "note"
+
+msgid "method of payment"
+msgstr "mode de règlement"
+
+msgid "cheque/transfer number"
+msgstr "n° de chèque/virement"
+
+msgid "voucher"
+msgstr "pièce comptable"
+
+msgid "bank reference"
+msgstr "information bancaire"
+
+msgid "reconciliation reference"
+msgstr "n° de rapprochement"
+
+msgid "Make transactions clickable"
+msgstr "Rendre les opérations interactives"
+
+msgid "General totals currency"
+msgstr "Devise utilisée pour les totaux généraux"
+
+msgid "Third parties currency"
+msgstr "Devise utilisée pour les tiers"
+
+msgid "Categories currency"
+msgstr "Devise utilisée pour les catégories"
+
+msgid "Budgetary lines currency"
+msgstr "Devise utilisée pour les imputations budgétaires"
+
+msgid "Amount comparison currency"
+msgstr "Devise utilisée pour les comparaisons de montant"
+
+msgid "Display account name"
+msgstr "Afficher le nom du compte"
+
+msgid "Display a sub-total for each account"
+msgstr "Afficher un sous-total lors d'un changement de compte"
+
+msgid "Display third party's name"
+msgstr "Afficher le nom du tiers"
+
+msgid "Dsplay a sub-total for each third party"
+msgstr "Afficher un sous-total lors du changement de tiers"
+
+msgid "Display the (sub)category's name"
+msgstr "Afficher le nom de la (sous-)catégorie"
+
+msgid "Display a sub-total for each category"
+msgstr "Afficher un sous-total lors du changement de catégorie"
+
+msgid "Display sub-categories"
+msgstr "Afficher les sous-catégories"
+
+msgid "Display a sub-total for each sub-category"
+msgstr "Afficher un sous-total lors du changement de sous-catégorie"
+
+msgid "Display \" No sub-category\" if none"
+msgstr "Afficher \"Pas de sous-catégorie\" si absente"
+
+msgid "Display the (sub-)budget line name"
+msgstr "Afficher le nom de la (sous-)imputation"
+
+msgid "Display a sub-total for each budgetary line"
+msgstr "Afficher un sous-total lors du changement d'imputation"
+
+msgid "Display sub-budget lines"
+msgstr "Afficher les sous-imputations"
+
+msgid "Display a sub-total for each sub-budget line"
+msgstr "Afficher un sous-total lors du changement de sous-imputation"
+
+msgid "Display \"No sub-budgetary line\" if none"
+msgstr "Afficher \"Pas de sous-imputation\" si absente"
+
+msgid "Select the transactions by method of payment"
+msgstr "Sélectionner les opérations en fonction des modes de règlement"
+
+msgid "Select methods of payment to include"
+msgstr "Sélectionner les modes de règlement à inclure dans l'état"
+
+msgid "Grisbi Print"
+msgstr "Impression de Grisbi"
+
+msgid "Transfer to %s"
+msgstr "Virement vers %s"
+
+msgid "Transfer from %s"
+msgstr "Virement de %s"
+
+msgid "Total %s (%d transactions)"
+msgstr "Total %s ( %d opérations )"
+
+msgid "Total "
+msgstr "Total "
+
+msgid "Category total"
+msgstr "Total Catégorie "
+
+msgid "operations ): "
+msgstr " opérations ) : "
+
+msgid "Category total: "
+msgstr "Total Catégorie : "
+
+msgid "Total %s"
+msgstr "Total %s"
+
+msgid "Budgetary lines total"
+msgstr "Total Imputations budgétaires"
+
+msgid "Third party total: "
+msgstr "Total Tiers : "
+
+msgid "Outgoings total (%d transactions): "
+msgstr "Total dépenses (%d opérations) : "
+
+msgid "Outgoings total: "
+msgstr "Total dépenses : "
+
+msgid "Incomes total (%d transactions):"
+msgstr "Total revenus (%d opérations) : "
+
+msgid "Incomes total: "
+msgstr "Total revenus : "
+
+msgid "General total (%d transactions): "
+msgstr "Total général (%d opérations) : "
+
+msgid "General total: "
+msgstr "Total général : "
+
+msgid "No category"
+msgstr "Pas de catégorie"
+
+msgid "No budgetary line"
+msgstr "Pas d'imputation budgétaire"
+
+msgid "No third party"
+msgstr "Pas de tiers"
+
+msgid "Incomes"
+msgstr "Revenus"
+
+msgid "Outgoings"
+msgstr "Dépenses"
+
+msgid "N°"
+msgstr "N°"
+
+msgid "Method of payment"
+msgstr "Type"
+
+msgid "Bank references"
+msgstr "Info banque/guichet"
+
+msgid "Statement"
+msgstr "Relevé"
+
+msgid "Print Preview"
+msgstr "Prévisualisation de l'impression de Grisbi"
+
+msgid "Total"
+msgstr "Total"
+
+msgid "Category total (%d transactions)"
+msgstr "Total Catégorie ( %d opérations )"
+
+msgid "Category total"
+msgstr "Total Catégorie"
+
+msgid "Total %s: %s (%d transactions)"
+msgstr "Total %s : %s ( %d opérations )"
+
+msgid "Total %s: %s"
+msgstr "Total %s : %s"
+
+msgid "Sub-categories total (%d transactions)"
+msgstr "Total sous-catégories ( %d opérations )"
+
+msgid "Sub-categories total"
+msgstr "Total Sous-catégories"
+
+msgid "Budgetary lines total: (%d transactions)"
+msgstr "Total Imputations budgétaires : ( %d opérations )"
+
+msgid "Sub-budgetary lines total: (%d transactions)"
+msgstr "Total Sous-imputations budgétaires : ( %d opérations )"
+
+msgid "Sub-budgetary lines total"
+msgstr "Total Sous-imputations budgétaires"
+
+msgid "Account total: (%d transactions)"
+msgstr "Total Compte : ( %d opérations )"
+
+msgid "Account total"
+msgstr "Total Compte"
+
+msgid "Third party total: (%d transactions)"
+msgstr "Total Tiers : ( %d opérations )"
+
+msgid "Third party total"
+msgstr "Total Tiers"
+
+msgid "Result from %d/%d/%d to %d/%d/%d (%d transactions):"
+msgstr "Résultat du %d/%d/%d au %d/%d/%d (%d opérations) :"
+
+msgid "Result from %d/%d/%d to %d/%d/%d:"
+msgstr "Résultat du %d/%d/%d au %d/%d/%d :"
+
+msgid "Result of %s (%d transactions)"
+msgstr "Résultat de %s (%d opérations )"
+
+msgid "Result of %s"
+msgstr "Résultat de %s"
+
+msgid "Result of the year%s (%d transactions)"
+msgstr "Résultat de l'année%s ( %d opérations )"
+
+msgid "Result of the year%s"
+msgstr "Résultat de l'année%s"
+
+msgid "Outgoings total (%d transactions)"
+msgstr "Total dépenses (%d opérations)"
+
+msgid "Outgoing total"
+msgstr "Total dépenses"
+
+msgid "Incomes total (%d transactions)"
+msgstr "Total revenus (%d opérations)"
+
+msgid "Income total"
+msgstr "Total revenus"
+
+msgid "General total (%d transactions)"
+msgstr "Total général (%d opérations)"
+
+msgid "General total"
+msgstr "Total général"
+
+msgid "No subcategory"
+msgstr "Pas de sous-catégorie"
+
+msgid "No sub-budgetary line"
+msgstr "Pas de sous-imputation"
+
+msgid "Reports display"
+msgstr "Affichage états"
+
+msgid "Add a report"
+msgstr "Ajouter un état"
+
+msgid "Customise the report"
+msgstr "Personnaliser l'état"
+
+msgid "Duplicate the report"
+msgstr "Dupliquer l'état"
+
+msgid "Delete the report"
+msgstr "Effacer l'état"
+
+msgid "Refresh"
+msgstr "Rafraichir"
+
+msgid "Print"
+msgstr "Imprimer"
+
+msgid "Create a report"
+msgstr "Création d'un état"
+
+msgid "Select report type:"
+msgstr "Sélectionner le type d'état voulu :"
+
+msgid "Description:"
+msgstr "Description :"
+
+msgid "Last month incomes and outgoings"
+msgstr "Revenus et dépenses du mois dernier"
+
+msgid "Current month incomes and outgoings"
+msgstr "Revenus et dépenses du mois en cours"
+
+msgid "Annual budget"
+msgstr "Budget annuel"
+
+msgid "Cheques deposit"
+msgstr "Remise de chèques"
+
+msgid "Monthly outgoings by third party"
+msgstr "Dépenses mensuelles par tiers"
+
+msgid "Search"
+msgstr "Recherche"
+
+msgid "Blank report"
+msgstr "État vierge"
+
+msgid "Previous month incomes and outgoings"
+msgstr "Revenus et dépenses du mois précédent"
+
+msgid "New report"
+msgstr "Nouvel état"
+
+msgid "Unknown report type, creation cancelled"
+msgstr "Type d'état inconnu, création abandonnée"
+
+msgid ""
+"This report displays totals for last month's transactions sorted by "
+"categories and sub-categories. You just need to select the account(s). By "
+"default, all accounts are selected."
+msgstr ""
+"Cet état affiche les totaux classés par catégorie et sous-catégorie des "
+"opérations du mois dernier. Il suffira de choisir le ou les comptes et de "
+"valider (par-défaut, tous les comptes sont utilisés)."
+
+msgid ""
+"This report displays totals of current month's transactions sorted by "
+"categories and sub-categories. You just need to select the account(s). By "
+"default, all accounts are selected."
+msgstr ""
+"Cet état affiche les totaux classés par catégorie et sous-catégorie des "
+"opérations du mois en cours. Il suffira de choisir le ou les comptes et de "
+"valider (par-défaut, tous les comptes sont utilisés)."
+
+msgid ""
+"This report displays annual budget. You just need to select the account(s). "
+"By default all accounts are selected."
+msgstr ""
+"Cet état affiche le budget annuel. Il suffira de choisir le ou les comptes "
+"et de valider (par-défaut, tous les comptes sont utilisés)."
+
+msgid "This report is an empty one. You need to customise it entirely."
+msgstr "Cette option crée un état vierge dans lequel vous devez tous configurer."
+
+msgid ""
+"This report displays the cheques deposit. You just need to select the "
+"account(s). By default all accounts are selected."
+msgstr ""
+"Cet état affiche les chèques encaissés. Il suffira de choisir le ou les "
+"comptes et de valider (par-défaut, tous les comptes sont utilisés)."
+
+msgid ""
+"This report displays current month's outgoings sorted by third parties. You "
+"just need to select the account(s). By default all accounts areselected."
+msgstr ""
+"Cet état affiche les dépenses du mois classées par tiers. Il suffira de "
+"choisir le ou les comptes et de valider (par-défaut, tous les comptes sont "
+"utilisés)."
+
+msgid ""
+"This report displays all the information for all transactions of all accounts "
+"for the current year. You just have to add the amount, date, third parties "
+"etc. criteria thant you want. "
+"By default the transactions are clickables."
+msgstr ""
+"Cet état affiche toutes les informations de toutes les opérations de tous "
+"les comptes pour l'année courante. Il vous suffit de rajouter les critères "
+"de recherche (par montant, tiers, date, etc.) qui vous intéressent. Les "
+"opérations sont interactives par défaut."
+
+msgid "???? should not be displayed..."
+msgstr "????  ne devrait pas être affiché ..."
+
+msgid "Confirm the deletion of a report"
+msgstr "Confirmation de la suppression d'un état"
+
+msgid "Do you really want to delete report %s?"
+msgstr "Êtes-vous sûr de vouloir supprimer l'état %s ?"
+
+msgid "Export a report"
+msgstr "Exporter un état"
+
+msgid "Import a report"
+msgstr "Importer un état"
+
+msgid "all financial years"
+msgstr "tous les exercices"
+
+msgid "current financial year"
+msgstr "exercice courant"
+
+msgid "former financial year"
+msgstr "exercice précédent"
+
+msgid "financial years"
+msgstr "exercices"
+
+msgid "financial year"
+msgstr "exercice"
+
+msgid "all dates"
+msgstr "toutes les dates"
+
+msgid "Result from %d/%d/%d to %d/%d/%d"
+msgstr "du %d/%d/%d au %d/%d/%d"
+
+msgid "Custom dates ranges not filled"
+msgstr "plages perso non remplies"
+
+msgid "total at %d/%d/%d"
+msgstr "cumul au %d/%d/%d"
+
+msgid "%s %d"
+msgstr "%s %d"
+
+msgid "year %d"
+msgstr "année %d"
+
+msgid "month total at %d/%d/%d"
+msgstr "cumul mensuel au %d/%d/%d"
+
+msgid "year total at %d/%d/%d"
+msgstr "cumul annuel au %d/%d/%d"
+
+msgid "from %s %d"
+msgstr "de %s %d"
+
+msgid "to %s %d"
+msgstr "à %s %d"
+
+msgid "Automatic association"
+msgstr "Association automatique"
+
+msgid "Start"
+msgstr "Début"
+
+msgid "End"
+msgstr "Fin"
+
+msgid "Displayed in the form"
+msgstr "Affiché dans le formulaire"
+
+msgid "Display of the financial year"
+msgstr "Affichage de l'exercice"
+
+msgid "Automatic display according to the date"
+msgstr "Affichage automatique selon la date"
+
+msgid "Automatic display of last selected financial year"
+msgstr "Affichage du dernier exercice choisi"
+
+msgid "New financial year"
+msgstr "Nouvel exercice"
+
+msgid "Confirm the deletion of this financial year"
+msgstr "Confirmation de suppression de l'exercice"
+
+msgid "Do you really want to delete the financial year:\n"
+msgstr "Etes-vous sûr de vouloir supprimer l'exercice :\n"
+
+msgid ""
+"The financial year %s had been modified.\n"
+"\n"
+"Do you want to save the changes?"
+msgstr ""
+"Des modifications ont été apportées à l'exercice : %s\n"
+"\n"
+"Voulez-vous les enregistrer ?"
+
+msgid "The financial year must have a name."
+msgstr "Vous devez donner un nom à l'exercice."
+
+msgid "Not displayed"
+msgstr "Non affiché"
+
+msgid "Automatic association for the financial year"
+msgstr "Association automatique d'exercice"
+
+msgid ""
+"This function assigns each transaction without a financial year to the\n"
+"one related to its transaction date.  If no financial year matches,\n"
+"the transaction will not be changed."
+msgstr ""
+"Cette fonction associe chaque opération sans exercice avec l'exercice lui "
+"correspondant.\n"
+"Si aucun exercice ne correspond, l'opération sera inchangée."
+
+msgid "Main page"
+msgstr "Accueil"
+
+msgid "Scheduler"
+msgstr "Échéancier"
+
+msgid "Budgetary lines"
+msgstr "Imputations Budgétaires"
+
+msgid "Reports"
+msgstr "États"
+
+msgid "Third parties list (transactions)"
+msgstr "Liste des tiers (écritures)"
+
+msgid "Categories list (transactions)"
+msgstr "Liste des catégories (écritures)"
+
+msgid "Budgetary lines list (transactions)"
+msgstr "Liste des imputations budgétaires (écritures)"
+
+msgid "Open an accounts file"
+msgstr "Ouverture d'un fichier de comptes"
+
+msgid "Load an accounts file"
+msgstr "Chargement du fichier"
+
+msgid ""
+"Loading of the file failed. Grisbi will now try to load\n"
+"the last automatic backup.\n"
+"You will loose all you made since this backup."
+msgstr ""
+"Le chargement du fichier a échoué. Grisbi va maintenant essayer de charger\n"
+"la sauvegarde automatique réalisée lors de la dernière ouverture.\n"
+"(vous perdrez donc tous ce que vous avez fait lors de l'ouverture précédente)"
+
+msgid "Loading backup"
+msgstr "Chargement de la sauvegarde"
+
+msgid ""
+"Failed to load backup. Please contact the developpement\n"
+" team. They will try to recover your data."
+msgstr ""
+"Le chargement de la sauvegarde a échoué. Veuillez contacter les "
+"développeurs\n"
+"pour essayer de restaurer vos données."
+
+msgid "Problem loading file!"
+msgstr "Problème lors du chargement du fichier !"
+
+msgid "Formatting transactions"
+msgstr "Mise en forme des opérations"
+
+msgid "Save file?"
+msgstr "Voulez-vous enregistrer le fichier ?"
+
+msgid "Name the accounts file"
+msgstr "Création d'un nom de fichier de comptes"
+
+msgid "Enter a name for the account file"
+msgstr "Entrer un nom pour le fichier de comptes"
+
+msgid "Grisbi"
+msgstr "Grisbi"
+
+msgid "Grisbi - No name"
+msgstr "Grisbi - Sans nom"
+
+msgid "Saving backup"
+msgstr "Enregistrement de la sauvegarde"
+
+msgid "Invalid accounts file"
+msgstr "Fichier de compte invalide."
+
+msgid "Invalid accounts file or file version prior to 0.3.1."
+msgstr "Fichier de compte invalide ou inférieur à la version 0.3.1."
+
+msgid ""
+"Warning: Grisbi data format has changed. Grisbi made a backup of your file\n"
+"named %s. \n"
+"Keep it for a while just in case."
+msgstr ""
+"Attention, le format de données a changé ; Grisbi a fait une sauvegarde de "
+"votre ancien fichier\n"
+"sous le nom : %s.\n"
+"Gardez-la un certain temps pour pouvoir éventuellement y revenir en cas de "
+"gros bug découvert."
+
+msgid ""
+"Warning: either this file is already opened by another user or it wasn't\n"
+"closed correctly (maybe Grisbi crashed?).\n"
+"Grisbi will however overwrite the file.\n"
+"We advise you not to use this option except if you know excactly what\n"
+"you are doing (i.e. nobody else uses this file for the moment).\n"
+"\n"
+"You can deactivate this option in the setup."
+msgstr ""
+"Attention, le fichier semble déjà ouvert par un autre utilisateur ou n'a pas "
+"été fermé correctement (plantage ?).\n"
+"Cependant Grisbi va forcer l'enregistrement ; cette option est déconseillée\n"
+" sauf si vous êtes sûr que personne d'autre n'utilise le fichier pour le "
+"moment.\n"
+"La désactivation de cette option s'effectue dans le menu de configuration"
+
+msgid ""
+"Warning: either this file is already opened by another user or it wasn't "
+"closed\n"
+"closed correctly (maybe Grisbi crashed?).\n"
+"Grisbi can't save the file unless you activate the \"Force saving\" \n"
+"option in the setup."
+msgstr ""
+"Attention, le fichier semble déjà ouvert pas un autre utilisateur ou n'a pas "
+"été fermé correctement (plantage ?).\n"
+"Vous ne pourrez enregistrer vos modification qu'en activant l'option "
+"\"Forcer l'enregistrement\" des paramètres."
+
+msgid ""
+"Warning: either this file is already opened by another user or it hasn'tbeen "
+"\n"
+"closed correctly (maybe Grisbi crashed?).\n"
+"Grisbi will however overwrite the file.\n"
+"We advise you not to use this option except if you know excactly what\n"
+"you are doing (i.e. nobody else uses the file for the moment).\n"
+"\n"
+"You can deactivate this option in the setup."
+msgstr ""
+"Attention, le fichier semble dejà ouvert pas un autre utilisateur.\n"
+"Cependant Grisbi va forcer l'enregistrement ; cette option est déconseillée\n"
+" sauf si vous êtes sûr que personne d'autre n'utilise le fichier pour le "
+"moment.\n"
+"La désactivation de cette option s'effectue dans le menu de configuration"
+
+msgid ""
+"Warning: either this file is already opened by another user or it wasn't\n"
+"closed correctly (maybe Grisbi crashed?).\n"
+"Grisbi can't save the file unless you activate the \"Force saving\" \n"
+"option in the setup."
+msgstr ""
+"Attention, le fichier semble dejà ouvert pas un autre utilisateur.\n"
+"Vous ne pourrez enregistrer vos modification qu'en activant l'option "
+"\"Forcer l'enregistrement\" des paramètres."
+
+msgid ""
+"Warning: either this file is already open by another user or it hasn'tbeen \n"
+"closed correctly (maybe Grisbi crashed?).\n"
+"Grisbi can't save the file unless you activate the \"Force save\" \n"
+"option in the setup."
+msgstr ""
+"Fichier ouvert par un autre utilisateur, enregistrement impossible\n"
+"Vous pouvez forcer l'enregistrement à partir des paramètres."
+
+msgid ""
+"Error saving the file: %s\n"
+"\n"
+"Error:\n"
+"%s"
+msgstr ""
+"Erreur dans l'enregistrement du fichier : %s\n"
+"\n"
+"\n"
+"\n"
+"Erreur :\n"
+"%s"
+
+msgid "Error opening and locking file.\n"
+msgstr ""
+"Erreur dans la tentative d'ouvrir le fichier\n"
+"pour le déclarer comme utilisé\n"
+"\n"
+
+msgid "This file is not a Grisbi category list file"
+msgstr "Ce fichier n'est pas une liste de catégories Grisbi"
+
+msgid "Invalid categories file"
+msgstr "Fichier de catégories invalide."
+
+msgid ""
+"Error saving the file: %s\n"
+"\n"
+"Error:\n"
+msgstr ""
+"Erreur dans l'enregistrement du fichier %s\n"
+"\n"
+"Erreur :\n"
+
+msgid "This file is not a grisbi budgetary lines file"
+msgstr "Ce fichier n'est pas une liste d'imputaions budgétaires Grisbi"
+
+msgid "Invalid budgetary lines file"
+msgstr "Fichier d'imputations budgétaires invalide."
+
+msgid "Permission fix"
+msgstr "Modification de permission"
+
+msgid ""
+"Your account file should not be readable by anybody else,\n"
+"but it is. You should change its permissions.\n"
+"Should I fix this now?\n"
+msgstr ""
+"Votre fichier de compte ne devrait pas être lisible par qui que ce soit\n"
+"d'autre que vous ; or, il l'est.\n"
+"Voulez-vous que je me charge de changer ses permissions ?\n"
+"(Ce message est désactivable dans les paramètres)\n"
+
+msgid "Programming"
+msgstr "Programming"
+
+msgid "Documentation writing, Internet site design, Accountancy and ergonomy advices"
+msgstr "Documentation writing, Internet site design, Accountancy and ergonomy advices"
+
+msgid "Programming, Debian packaging"
+msgstr "Programming, Debian packaging"
+
+msgid "RPM packaging, Internet site design"
+msgstr "RPM packaging, Internet site design"
+
+msgid "Logo design"
+msgstr "Logo"
+
+msgid "License GNU GPL"
+msgstr "License GNU GPL"
+
+msgid "Personnal accounting program"
+msgstr "Programme de gestion financière personnelle"
+
+msgid "Website: http://www.grisbi.org"
+msgstr "WEB : http://www.grisbi.org/"
+
+msgid "Subscribe to the development mailing list"
+msgstr "Inscription à la liste de développement"
+
+msgid "Subscribe to the information mailing list"
+msgstr "Inscription à la liste d'information"
+
+msgid "(New version announcements)"
+msgstr "(Annonces de sortie de nouvelle version)"
+
+msgid "On line User's guide"
+msgstr "Documentation en ligne"
+
+msgid "(On line illustrated User's guide)"
+msgstr "(Documentation illustrée sur le site de Grisbi)"
+
+msgid "Budgetary lines list"
+msgstr "Liste des imputations budgétaires"
+
+msgid "Amount per budget line"
+msgstr "Montant par IB"
+
+msgid "Amount per sub-budget line"
+msgstr "Montant par sous-IB"
+
+msgid "Add a budget line"
+msgstr "Ajouter une imputation"
+
+msgid "Add a sub-budget line"
+msgstr "Ajouter une sous-imputation"
+
+msgid "Merge categories"
+msgstr "Fusionner les catégories"
+
+msgid "No sub-budget line (%d)"
+msgstr "Aucune sous-imputation (%d)"
+
+msgid "No sub-budget line"
+msgstr "Aucune sous-imputation"
+
+msgid "No budget line (%d]"
+msgstr "Aucune imputation (%d)"
+
+msgid "No budget line"
+msgstr "Aucune imputation"
+
+msgid "%d/%d/%d : %4.2f %s [ %s ]"
+msgstr "%d/%d/%d : %4.2f %s [ %s ]"
+
+msgid "Delete a budgetary line"
+msgstr "Suppression d'une imputation"
+
+msgid ""
+"Some transactions are still assigned to this budgetary line.\n"
+"\n"
+"You can"
+msgstr ""
+"L'imputation sélectionnée contient encore des opérations.\n"
+"\n"
+"Vous pouvez"
+
+msgid "Move the transactions to"
+msgstr "Transférer les opérations sur l'imputation"
+
+msgid "Just delete the budgetary line."
+msgstr " Supprimer simplement cette imputation."
+
+msgid "Please enter a budgetary line!"
+msgstr "Veuillez entrer une imputation !"
+
+msgid "Deleting a budgetaty line"
+msgstr "Suppression d'une sous-imputation"
+
+msgid ""
+"Some transactions are still assigned to this sub-budgetary line.\n"
+"\n"
+"You can"
+msgstr ""
+"La sous-imputation sélectionnée contient encore des opérations.\n"
+"\n"
+"Vous pouvez"
+
+msgid "Just delete the sub-budgetary line."
+msgstr "Supprimer simplement cette sous-imputation."
+
+msgid ""
+"Warning: this will add all the categories and subcategories to the budgetary "
+"lines!\n"
+"Besides you can't cancel this afterwards.\n"
+"We advise you not to use this unless you know exactly what you are doing.\n"
+"Do you want to continue anyway?"
+msgstr ""
+"Attention, cette opération va ajouter aux Imputations Budgétaires les "
+"catégories\n"
+"et sous-catégories qui ne s'y trouvent pas.\n"
+"De plus, cette opération est irréversible (pas d'annulation)\n"
+"Êtes-vous sûr de continuer ?"
+
+msgid "New budgetary line"
+msgstr "Nouvelle imputation"
+
+msgid "Enter the name of the new budgetary line"
+msgstr "Entrer le nom de la nouvelle imputation"
+
+msgid "New sub-budgetary line"
+msgstr "Nouvelle sous-imputation"
+
+msgid "Enter the name of the new sub-budgetary line"
+msgstr "Entrer le nom de la nouvelle sous-imputation"
+
+msgid "Export the budgetary lines"
+msgstr "Exporter les imputations budgétaires"
+
+msgid "Import the budgetary lines"
+msgstr "Importer une liste d'imputations budgétaires"
+
+msgid "Error on sigaction: SIGSEGV won't be trapped\n"
+msgstr "Erreur sur sigaction, le signal SIGSEGV ne sera pas détourné\n"
+
+msgid "Create a new account"
+msgstr "Créer un nouveau compte"
+
+msgid "Closed accounts"
+msgstr "Comptes cloturés"
+
+msgid "Main"
+msgstr "Général"
+
+msgid "Files"
+msgstr "Fichiers"
+
+msgid "Scheduler"
+msgstr "Échéances"
+
+msgid "Display"
+msgstr "Affichage"
+
+msgid "Applet"
+msgstr "Applet"
+
+msgid "Banks"
+msgstr "Banques"
+
+msgid "Financial years"
+msgstr "Exercices"
+
+msgid "Informations"
+msgstr "Informations affichées"
+
+msgid "QIF File"
+msgstr "Fichier QIF"
+
+msgid "Import QIF files"
+msgstr "Importation de fichiers QIF"
+
+msgid "Export QIF files"
+msgstr "Exportation de fichiers QIF"
+
+msgid "Grisbi website"
+msgstr "Site Grisbi"
+
+msgid "Report a bug"
+msgstr "Signaler un bug"
+
+msgid "On line User's guide"
+msgstr "Documentation sur le site"
+
+msgid "New"
+msgstr "Nouveau"
+
+msgid "Create a new accounts file"
+msgstr "Création d'un nouveau fichier"
+
+msgid "Recently opened files"
+msgstr "Derniers fichiers"
+
+msgid "File"
+msgstr "Fichier"
+
+msgid "Setup"
+msgstr "Configuration"
+
+msgid "Help"
+msgstr "Aide"
+
+msgid "File/Recently opened files/"
+msgstr "Fichier/Derniers fichiers/"
+
+msgid "Accounts/Closed accounts/"
+msgstr "Comptes/Comptes cloturés/"
+
+msgid "Last statement"
+msgstr "Dernier relevé"
+
+msgid "Reconcile"
+msgstr "Rapprocher"
+
+msgid "Last statement: none"
+msgstr "Dernier relevé : Aucun"
+
+msgid "Current balance: %4.2f %s"
+msgstr "Solde courant : %4.2f %s"
+
+msgid "Change"
+msgstr "Change"
+
+msgid "Contra-transaction method of payment"
+msgstr "Mode de règlement de la contre-opération"
+
+msgid "Breakdown"
+msgstr "Ventilation"
+
+msgid "Deleted account"
+msgstr "Compte supprimé"
+
+msgid "Cheque/Transfer number"
+msgstr "n° Chèque/Virement"
+
+msgid "Recover breakdown?"
+msgstr "Récupération des ventilations ?"
+
+msgid "Do you want to recover all the lines of the last breakdown?"
+msgstr "Voulez-vous récupérer aussi les opérations de la dernière ventilation ?"
+
+msgid "Report"
+msgstr "État"
+
+msgid "Error: no third party selected for this report."
+msgstr "Erreur: cet état ne comporte pas de tiers sélectionnés."
+
+msgid "Error: you must enter a date."
+msgstr "Erreur : il faut obligatoirement entrer une date."
+
+msgid "Error: invalid date."
+msgstr "Erreur : La date de valeur est invalide"
+
+msgid ""
+"Selected method of payment has an automatic incremental number\n"
+"but doesn't contain any number.\n"
+"Continue anyway?"
+msgstr ""
+"Le mode de règlement choisi est à numérotation automatique mais ne contient "
+"aucun numéro.\n"
+"Souhaitez-vous continuer ?"
+
+msgid ""
+"Warning: this cheque number is already used.\n"
+"Continue anyway?"
+msgstr ""
+"Attention, le numéro du chèque est déjà utilisé.\n"
+"Souhaitez-vous continuer ?"
+
+msgid "Error: a transaction with a multiple third party must be a new one."
+msgstr ""
+"Erreur : Une opération dont le tiers est un état doit forcemment être une "
+"nouvelle opération."
+
+msgid "Error: invalid multiple third party."
+msgstr "Erreur : Le nom de l'état dans le tiers est invalide."
+
+msgid "Reconciled balance"
+msgstr "Solde pointé"
+
+msgid "Curent balance"
+msgstr "Solde courant"
+
+msgid "Account breakdown"
+msgstr "Ventilation du compte"
+
+msgid "Transfer to a deleted account"
+msgstr "Virement vers un compte supprimé"
+
+msgid "Transfer from a deleted account"
+msgstr "Virement d'un compte supprimé"
+
+msgid "Transfer: deleted account"
+msgstr "Virement : Compte supprimé"
+
+msgid "Auto"
+msgstr "Auto"
+
+msgid "Imposible to delete a reconciled transaction..."
+msgstr "Impossible de supprimer une opération relevée ..."
+
+msgid ""
+"The contra-transaction of this transfer is reconciled,\n"
+"deletion impossible..."
+msgstr ""
+"La contre-opération de ce virement est relevée,\n"
+"la suppression est impossible ..."
+
+msgid ""
+"One of the breakdown lines is a transfer whose contra-transaction is "
+"reconciled.\n"
+"Deletion canceled..."
+msgstr ""
+"Une des opération de la ventilation est un virement dont la contre-opération "
+"est relevée.\n"
+"La suppression est annulée ..."
+
+msgid "Reconciliation"
+msgstr "Equilibrage"
+
+msgid "Form"
+msgstr "Formulaire"
+
+msgid "Grisbi setup"
+msgstr "Configuration Grisbi"
+
+msgid "Methods of payment"
+msgstr "Modes de règlement"
+
+msgid "ENTER means save the transaction"
+msgstr "ENTREE provoque l'enregistrement de l'opération"
+
+msgid "ENTER means switch beetween the form fields"
+msgstr "ENTREE permet le passage entre les champs du formulaire"
+
+msgid "Warning message if the minimum balances are over minimum level defined"
+msgstr "Message d'alerte en cas de dépassement des seuils mini définis"
+
+msgid "No warnings"
+msgstr "Pas de message d'alerte"
+
+msgid "Warning message if the file is readable by someone else"
+msgstr "Message d'alerte lorsque la permission du fichier n'est pas de 600"
+
+msgid "File name"
+msgstr "Titre du fichier"
+
+msgid "Common address"
+msgstr "Adresse commune"
+
+msgid "Secondary address"
+msgstr "Adresse secondaire"
+
+msgid "Automatic loading of the last file used"
+msgstr "Chargement automatique du dernier fichier consulté"
+
+msgid "Start without automatic loading"
+msgstr "Démarrage sans chargement automatique"
+
+msgid "Automatically save while closing"
+msgstr "Enregistrer automatiquement en fermant"
+
+msgid "Ask each time for saving"
+msgstr "Demander à chaque fois pour enregistrer"
+
+msgid "Force saving"
+msgstr "Forcer l'enregistrement"
+
+msgid "Save only if the file isn't open by another user"
+msgstr "N'enregistrer que si le fichier n'est pas utilisé par un autre utilisateur"
+
+msgid "Automatic backup"
+msgstr "Faire une sauvegarde automatique (backup)"
+
+msgid "Grisbi backup"
+msgstr "Backup Grisbi"
+
+msgid "Backup at each opening (~/.filename.bak)"
+msgstr "Faire une sauvegarde à chaque ouverture (~/.nom_du_fichier.bak)"
+
+msgid "Memorise last opened files"
+msgstr "Mémorisation des derniers fichiers ouverts"
+
+msgid "File compression level"
+msgstr "Niveau de compression du fichier"
+
+msgid "Backup compression level"
+msgstr "Niveau de compression de la sauvegarde"
+
+msgid "Number of days before a warning message advertising a scheduled transaction"
+msgstr "Nombre de jours précédant le rappel d'une échéance"
+
+msgid "Use the applet for checking scheduled transactions"
+msgstr "Utiliser l'applet de vérification des échéances"
+
+msgid "List of the account files that will be checked"
+msgstr "Liste des comptes vérifiés au démarrage"
+
+msgid "Looking for the Grisbi file"
+msgstr "Recherche de fichier Grisbi"
+
+msgid "Enter the accounts file"
+msgstr "Entrez le nom du fichier de comptes"
+
+msgid "Grisbi file"
+msgstr "Fichier Grisbi"
+
+msgid "This accounts file has already been checked!"
+msgstr "Ce fichier est déjà vérifié au démarrage !"
+
+msgid "This file is not a grisbi file"
+msgstr "Ce n'est pas un fichier de compte Grisbi."
+
+msgid "Error:\n"
+msgstr "Erreur :\n"
+
+msgid "Warning: the compression disables the multi-users checking."
+msgstr ""
+"Attention, la compression du fichier empêche la vérification "
+"multi-utilisateurs."
+
+msgid "Third parties list"
+msgstr "Liste des tiers"
+
+msgid "Wait please..."
+msgstr "Veuillez patienter ..."
+
+msgid "Select a QIF file"
+msgstr "Sélection d'un fichier QIF"
+
+msgid "The file \"%s\" is not a QIF file"
+msgstr "Le fichier \"%s\" n'est pas un fichier QIF"
+
+msgid "Credit card"
+msgstr "Carte de crédit"
+
+msgid "Imported account with no name"
+msgstr "Compte importé sans nom"
+
+msgid "This file is empty!"
+msgstr "Le fichier ne contient aucune opération !"
+
+msgid "List of the imported accounts"
+msgstr "Liste des comptes importés"
+
+msgid "Account to import:\n"
+msgstr "Compte à importer :\n"
+
+msgid "Accounts to import:\n"
+msgstr "Comptes à importer :\n"
+
+msgid ""
+"\n"
+"Any other account to import?"
+msgstr ""
+"\n"
+"Y a t'il d'autres compte à importer ?"
+
+msgid "Problem recovering the dates in the QIF file. Import canceled."
+msgstr "Problème dans la récupération des dates du fichier QIF. Opération annulée"
+
+msgid "Processing the information can be long..."
+msgstr "Le traitement des informations peut prendre un certain temps ..."
+
+msgid "You must name (save) your file to be able to export it."
+msgstr "Vous devez nommer ( enregistrer ) votre fichier pour pouvoir l'exporter."
+
+msgid ""
+"Warning: QIF files don't use currencies.\n"
+"All transactions will be converted to appropriate account's currency."
+msgstr ""
+"Attention, le format QIF ne gérant pas les devises,\n"
+"toutes les opérations seront converties dans la devise de leur compte "
+"respectif."
+
+msgid "Export QIF files"
+msgstr "Exporter des fichiers QIF"
+
+msgid "Select the accounts to export"
+msgstr "Sélectionner les comptes à exporter"
+
+msgid "Export a QIF file"
+msgstr "Exportation d'un fichier QIF"
+
+msgid ""
+"The following error occured for the file \"%s\":\n"
+"%s"
+msgstr ""
+"L'erreur suivante s'est produite pour le fichier \"%s\" :\n"
+"%s"
+
+msgid "Amount per third party"
+msgstr "Montant par tiers"
+
+msgid "Last date"
+msgstr "Dernière date"
+
+msgid "Add a third party"
+msgstr "Ajouter un tiers"
+
+msgid "Delete a third party"
+msgstr "Suppression d'un tiers"
+
+msgid ""
+"Some transactions are still assigned to this third party.\n"
+"\n"
+"You can"
+msgstr ""
+"Le tiers sélectionné contient encore des opérations.\n"
+"\n"
+"Vous pouvez"
+
+msgid "Transfer the transactions to"
+msgstr "Transférer les opérations sur le tiers"
+
+msgid "Just delete this third party."
+msgstr "Supprimer simplement ce tiers."
+
+msgid "Please enter a third party."
+msgstr "Veuillez entrer un tiers."
+
+msgid "New third party"
+msgstr "Nouveau tiers"
+
+msgid "Enter the new third party's name"
+msgstr "Entrer le nom du nouveau tiers"
+
+msgid "Default"
+msgstr "Défaut"
+
+msgid "Method of payment"
+msgstr "Types d'opérations"
+
+msgid "Include additionnal data"
+msgstr "Peut entrer des données supplémentaires"
+
+msgid "Automatic numbering"
+msgstr "Numérotation automatique"
+
+msgid "Neutral"
+msgstr "Neutre"
+
+msgid "Default"
+msgstr "Par-défaut"
+
+msgid ""
+"Display all the methods of payment\n"
+"in the form"
+msgstr ""
+"Afficher tous les modes de règlement\n"
+"dans le formulaire"
+
+msgid "Reconciliation: sort transactions"
+msgstr "Rapprochement : tri des opérations"
+
+msgid "Sort by date"
+msgstr "Tri par date"
+
+msgid "Sort by method of payment"
+msgstr "Tri par mode de règlement"
+
+msgid "Include the mixed methods of payment in the incomes/outgoings"
+msgstr "Inclure les modes de règlement mixtes dans les Crédits / Débits"
+
+msgid "Delete a method of payment"
+msgstr "Suppression d'un mode de règlement"
+
+msgid ""
+"Some transactions are still registered with this method of payment,\n"
+"though this deletion is irreversible. The changes about the method\n"
+"of payment will be registered."
+msgstr ""
+"Des opérations sont encore affectées au mode de règlement sélectionné,\n"
+"cette suppression sera donc irréversible et les modifications concernant\n"
+"les modes de règlement seront enregistrées."
+
+msgid "Move the transactions to"
+msgstr "Transférer les opérations sur"
+
+msgid "Break down amount"
+msgstr "Somme ventilée"
+
+msgid "Not assigned"
+msgstr "Non affecté"
+
+msgid "Associated method of payment"
+msgstr "Type d'opération associée"
+
+msgid "Error: it's impossible to transfer an account to itself"
+msgstr "Erreur : impossible de virer un compte sur lui-même"
+
+msgid "Error: no account associated with the transfer"
+msgstr "Erreur : aucun compte associé au virement."
+
+msgid ""
+"This transaction has a reconciled breakdown line,\n"
+"deletion canceled..."
+msgstr ""
+"L'opération ventilée de cette opération est relevée,\n"
+" la suppression est annulée ..."
+
+msgid ""
+"This transfer has a reconciled contra-transaction,\n"
+"deletion canceled..."
+msgstr ""
+"La contre-opération de ce virement est relevée\n"
+"on ne peut donc les supprimer ..."
+
+msgid ""
+"Strange... a breakdown line is to be deleted though it is not "
+"yet registered..."
+msgstr ""
+"Bizarre ... une opé de ventilation a été marquée pour la suppression alors\n"
+"qu'elle n'était pas encore enregistrée..."
+
