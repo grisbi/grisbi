@@ -47,7 +47,7 @@ static struct iso_4217_currency iso_4217_currencies[] = {
     { N_("Asia"), N_("Indonesian Rupiah"), N_("Indonesia"), "IDR", NULL, TRUE },
     { N_("Asia"), N_("Iranian Rial"), N_("Iran"), "IRR", NULL, TRUE },
     { N_("Asia"), N_("Iraqi Dinar"), N_("Iraq"), "IQD", NULL, TRUE },
-    { N_("Asia"), N_("Japanese Yen"), N_("Japan"), "JPY", "ÃÂ¥", TRUE },
+    { N_("Asia"), N_("Japanese Yen"), N_("Japan"), "JPY", "¥", TRUE },
     { N_("Asia"), N_("Jordanian Dinar"), N_("Jordan"), "JOD", NULL, TRUE },
     { N_("Asia"), N_("Kuwaiti Dinar"), N_("Kuwait"), "KWD", NULL, TRUE },
     { N_("Asia"), N_("Lao Kip"), N_("Lao People's Democratic Republic"), "LAK", NULL, TRUE },
@@ -88,7 +88,7 @@ static struct iso_4217_currency iso_4217_currencies[] = {
     { N_("Europe"), N_("Czech Koruna"), N_("Czech Republic"), "CZK", NULL, TRUE },
     { N_("Europe"), N_("Danish Krone"), N_("Denmark"), "DKK", NULL, TRUE },
     { N_("Europe"), N_("Deutsche Mark"), N_("Germany"), "DEM", NULL, FALSE },
-    { N_("Europe"), N_("Euro"), N_("CEE"), "EUR", "Ã¢ÂÂ¬", TRUE },
+    { N_("Europe"), N_("Euro"), N_("CEE"), "EUR", "€", TRUE },
     { N_("Europe"), N_("Finnish Markka"), N_("Finland"), "FIM", NULL, FALSE },
     { N_("Europe"), N_("French Franc"), N_("France"), "FRF", NULL, FALSE },
     { N_("Europe"), N_("Gibraltar Pound"), N_("Gibraltar"), "GIP", NULL, TRUE },
@@ -105,7 +105,7 @@ static struct iso_4217_currency iso_4217_currencies[] = {
     { N_("Europe"), N_("Norwegian Krone"), N_("Norway"), "NOK", NULL, TRUE },
     { N_("Europe"), N_("Polish Zloty"), N_("Poland"), "PLZ", NULL, FALSE },
     { N_("Europe"), N_("Portuguese Escudo"), N_("Portugal"), "PTE", NULL, FALSE },
-    { N_("Europe"), N_("Pound Sterling"), N_("United Kingdom"), "GBP", "ÃÂ£", TRUE },
+    { N_("Europe"), N_("Pound Sterling"), N_("United Kingdom"), "GBP", "£", TRUE },
     { N_("Europe"), N_("Romanian Leu"), N_("Romania"), "ROL", NULL, TRUE },
     { N_("Europe"), N_("Slovak Koruna"), N_("Slovakia"), "SKK", NULL, TRUE },
     { N_("Europe"), N_("Slovene Tolar"), N_("Slovenia"), "SIT", NULL, TRUE },
@@ -164,4 +164,3 @@ enum currency_list_column {
     CONTINENT_NAME_COLUMN,
     NUM_CURRENCIES_COLUMNS,
 };
-
