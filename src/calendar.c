@@ -455,6 +455,22 @@ gchar *gsb_today ( void )
 /******************************************************************************/
 
 /******************************************************************************/
+/* fonction qui retourne la date du jour au format GDate                      */
+/******************************************************************************/
+GDate *gdate_today ( void )
+{
+  time_t today_time;
+  GDate *date;
+
+  time ( &today_time );
+  date = g_date_new_dmy ( gmtime ( &today_time ) -> tm_mday,
+			  gmtime ( &today_time ) -> tm_mon + 1,
+			  gmtime ( &today_time ) -> tm_year + 1900 );
+  return ( date );
+}
+/******************************************************************************/
+
+/******************************************************************************/
 /* Fonction format_date                                                       */
 /* Prend en argument une entrée contenant une date                            */
 /* Vérifie la validité et la modifie si seulement une partie est donnée       */
