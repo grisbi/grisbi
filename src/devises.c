@@ -2038,7 +2038,7 @@ gdouble calcule_montant_devise_renvoi ( gdouble montant_init,
 					gdouble taux_change,
 					gdouble frais_change )
 {
-    gdouble montant;
+    gdouble montant = 0;
 
     /* tout d'abord, si les 2 devises sont les mêmes, on renvoie le montant directement */
 
@@ -2079,10 +2079,24 @@ gdouble calcule_montant_devise_renvoi ( gdouble montant_init,
 	     !strcmp ( devise_compte -> nom_devise, _("Euro") ))
 	    montant = montant_init / devise_operation -> change;
 	else
-	    if ( une_devise_compte_egale_x_devise_ope )
-		montant = montant_init / taux_change - frais_change;
+	    if ( taux_change )
+	    {
+		if ( une_devise_compte_egale_x_devise_ope )
+		    montant = montant_init / taux_change - frais_change;
+		else
+		    montant = montant_init * taux_change - frais_change;
+	    }
 	    else
-		montant = montant_init * taux_change - frais_change;
+	    {
+		if ( devise_operation -> no_devise_en_rapport == no_devise_renvoi &&
+		     devise_operation -> change )
+		{
+		    if ( devise_operation -> une_devise_1_egale_x_devise_2 )
+			montant = montant_init * devise_operation -> change - frais_change;
+		    else
+			montant = montant_init / devise_operation -> change - frais_change;
+		} 
+	    }
 
     montant = ( rint (montant * 100 )) / 100;
 
