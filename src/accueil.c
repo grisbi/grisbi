@@ -6,7 +6,7 @@
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
-/*			2003 Alain Portal (dionysos@grisbi.org)		      */
+/*			2003-2004 Alain Portal (dionysos@grisbi.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -339,7 +339,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 			      GNOME_STOCK_BUTTON_CANCEL,
 			      NULL );
   gtk_widget_set_usize ( GTK_WIDGET ( dialog ),
-			 600,
+			 750,
 			 FALSE );
   gtk_signal_connect ( GTK_OBJECT ( dialog ),
 		       "destroy",
@@ -350,6 +350,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
   gnome_dialog_set_default ( GNOME_DIALOG ( dialog ),
 			     0 );
 
+  gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER );
 
   /* met le formulaire dans la boite de dialogue */
 
