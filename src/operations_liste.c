@@ -884,7 +884,9 @@ void remplissage_liste_operations ( gint compte )
 
 		  /* mise en forme de la date de valeur */
 
-		  if ( operation -> date_bancaire )
+		  if ( operation -> date_bancaire
+		       &&
+		       etat.affiche_date_bancaire )
 		    {
 		      g_date_strftime (  date_bancaire,
 					 11,
@@ -1167,7 +1169,7 @@ void remplissage_liste_operations ( gint compte )
 	  if ( nb_lignes_ope != 1 && devise_operation )
 	    gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
 				 ligne + 1,
-				 4,
+				 5,
 				 g_strdup_printf ( "(%4.2f %s)",
 						   montant,
 						   devise_compte -> code_devise ));
@@ -2380,7 +2382,7 @@ void changement_taille_liste_ope ( GtkWidget *clist,
 
 
 
-  chiffres = ( 12 * largeur) / 100;
+  chiffres = ( 11 * largeur) / 100;
   p = ( 3 * largeur) / 100;
   date = ( 13 * largeur) / 100;
 

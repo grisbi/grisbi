@@ -62,8 +62,14 @@ void init_variables ( gboolean ouverture );
 
 
 gboolean charge_operations ( void );
+gboolean charge_operations_version_0_3_0 ( void );
+gboolean recherche_ope_liee_par_no_et_par_compte ( struct struct_ope_liee *struct_ope_liee,
+						   struct structure_operation *operation );
+gboolean recherche_ope_ventilee_liee_par_no_et_par_compte ( struct struct_ope_liee *struct_ope_liee,
+							    struct structure_operation *operation );
+gboolean recherche_ope_de_ventil_liee_par_no_et_par_compte ( struct struct_ope_liee *struct_ope_liee,
+							     struct structure_operation *operation );
 gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc );
-gboolean charge_operations_version_0_3_3 ( xmlDocPtr doc );
 gboolean enregistre_fichier ( void );
 gchar *itoa ( gint integer );
 gchar *vire_les_points_virgules ( gchar *origine );
@@ -84,7 +90,6 @@ void ouverture_fichier_par_menu ( GtkWidget *menu,
 				  gchar *nom );
 void fichier_selectionne ( GtkWidget *selection_fichier);
 void ouverture_confirmee ( void );
-gboolean impression_fichier ( gint origine );
 gboolean enregistrement_fichier ( gint origine );
 gboolean enregistrer_fichier_sous ( void );
 gboolean fermer_fichier ( void );
@@ -344,8 +349,8 @@ gint recherche_echeance_par_no ( struct operation_echeance *echeance,
 				 gint no_echeance );
 void verifie_ligne_selectionnee_echeance_visible ( void );
 void modification_affichage_echeances ( gint *origine );
-void date_suivante_echeance ( struct operation_echeance *echeance,
-			      GDate *date_courante );
+GDate *date_suivante_echeance ( struct operation_echeance *echeance,
+				GDate *date_courante );
 gint classement_liste_echeances ( GtkWidget *liste,
 				  GtkCListRow *ligne_1,
 				  GtkCListRow *ligne_2 );
@@ -752,7 +757,6 @@ GtkWidget *creation_menu_exercices ( void );
 gint cherche_no_menu_exercice ( gint no_demande );
 void affiche_exercice_par_date ( GtkWidget *entree_date,
 				 GtkWidget *option_menu_exercice );
-void association_automatique ( void );
 
 
 
@@ -822,76 +826,3 @@ void choix_fonte_general ( GtkWidget *bouton,
 void modification_logo_accueil ( void );
 void remise_a_zero_logo ( GtkWidget *bouton,
 			  GtkWidget *pixmap_entry );
-
-
-/***********************************/ 
-/* fichier etats.c */
-/***********************************/ 
-
-GtkWidget *creation_onglet_etats ( void );
-GtkWidget *creation_liste_etats ( void );
-GtkWidget *creation_barre_boutons_etats ( void );
-void remplissage_liste_etats ( void );
-void ajout_etat ( void );
-void efface_etat ( void );
-void changement_etat ( GtkWidget *bouton,
-		       struct struct_etat *etat );
-gint recherche_etat_par_no ( struct struct_etat *etat,
-			     gint *no_etat );
-void personnalisation_etat (void);
-GtkWidget *onglet_etat_generalites ( struct struct_etat *etat );
-void sens_desensitive_pointeur ( GtkWidget *boutton,
-				 GtkWidget *widget );
-GtkWidget *onglet_etat_dates ( struct struct_etat *etat );
-void click_liste_etat ( GtkCList *liste,
-			GdkEventButton *evenement,
-			gint origine );
-void clique_sur_entree_date_etat ( GtkWidget *entree,
-				   GdkEventButton *ev );
-void date_selectionnee_etat ( GtkCalendar *calendrier,
-			      GtkWidget *popup );
-void change_separation_result_periode ( void );
-void modif_type_separation_dates ( gint *origine );
-GtkWidget *onglet_etat_comptes ( struct struct_etat *etat );
-GtkWidget *onglet_etat_categories ( struct struct_etat *etat );
-void click_type_categ_etat ( gint type );
-GtkWidget *onglet_etat_ib ( struct struct_etat *etat );
-void click_type_ib_etat ( gint type );
-GtkWidget *onglet_etat_tiers ( struct struct_etat *etat );
-GtkWidget *onglet_etat_texte ( struct struct_etat *etat );
-GtkWidget *onglet_etat_montant ( struct struct_etat *etat );
-void affichage_etat ( struct struct_etat *etat );
-gint classement_liste_opes_etat ( struct structure_operation *operation_1,
-				  struct structure_operation *operation_2 );
-void etat_c_i_co ( GSList *ope_selectionnees );
-gint affiche_total_categories ( GtkWidget *table_etat,
-				gdouble montant_categ,
-				gint ligne );
-gint affiche_total_sous_categ ( GtkWidget *table_etat,
-				gdouble montant_sous_categ,
-				gint ligne );
-gint affiche_total_ib ( GtkWidget *table_etat,
-			gdouble montant_ib,
-			gint ligne );
-gint affiche_total_sous_ib ( GtkWidget *table_etat,
-			     gdouble montant_sous_ib,
-			     gint ligne );
-gint affiche_total_compte ( GtkWidget *table_etat,
-			    gdouble montant_compte,
-			    gint ligne );
-gint affiche_total_tiers ( GtkWidget *table_etat,
-			   gdouble montant_tiers,
-			   gint ligne );
-void etat_c_co_i ( GSList *ope_selectionnees );
-void etat_i_c_co ( GSList *ope_selectionnees );
-void etat_i_co_c ( GSList *ope_selectionnees );
-void etat_co_i_c ( GSList *ope_selectionnees );
-void etat_co_c_i ( GSList *ope_selectionnees );
-
-
-
-/***********************************/ 
-/* fichier impression.c */
-/***********************************/ 
-
-gboolean imprime_fichier ( void );

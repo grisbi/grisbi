@@ -375,7 +375,7 @@ GtkWidget *onglet_affichage ( void )
   gtk_widget_show ( bouton_afficher_no_operation );
 
 	/* GDC : bouton pour choisir d'afficher ou non la date réelle (colonne et champ) */
-  bouton_afficher_date_bancaire = gtk_check_button_new_with_label ( "Afficher la date bancaire des opérations." );
+  bouton_afficher_date_bancaire = gtk_check_button_new_with_label ( "Afficher la date de valeur des opérations." );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_date_bancaire ),
 				 etat.affiche_date_bancaire );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_afficher_date_bancaire ),
@@ -581,7 +581,7 @@ GtkWidget *onglet_affichage ( void )
   gtk_widget_show ( bouton_classer_liste_par_date );
 
   bouton_classer_liste_par_date_bancaire = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_classer_liste_par_date)),
-									     "Classer par date bancaire" );
+									     "Classer par date de valeur" );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_classer_liste_par_date_bancaire ),
 			      "toggled",
 			      gnome_property_box_changed,

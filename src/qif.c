@@ -1730,15 +1730,19 @@ void exporter_fichier_qif ( void )
 
 		      /* met le chèque si c'est un type à numérotation automatique */
 
-		      type = g_slist_find_custom ( TYPES_OPES,
-						   GINT_TO_POINTER ( operation -> type_ope ),
-						   (GCompareFunc) recherche_type_ope_par_no ) -> data;
+		      pointeur = g_slist_find_custom ( TYPES_OPES,
+						       GINT_TO_POINTER ( operation -> type_ope ),
+						       (GCompareFunc) recherche_type_ope_par_no );
+		      
+		      if ( pointeur )
+			{
+			  type = pointeur -> data;
 
-		      if ( type -> numerotation_auto )
-			fprintf ( fichier_qif,
-				  "N%s\n",
-				  operation -> contenu_type );
-
+			  if ( type -> numerotation_auto )
+			    fprintf ( fichier_qif,
+				      "N%s\n",
+				      operation -> contenu_type );
+			}
 
 		      /* met le tiers */
 
@@ -1750,7 +1754,6 @@ void exporter_fichier_qif ( void )
 			fprintf ( fichier_qif,
 				  "P%s\n",
 				  ((struct struct_tiers *)(pointeur -> data )) -> nom_tiers );
-
 
 
 		      /*  on met soit un virement, soit une ventilation, soit les catégories */

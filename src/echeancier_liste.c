@@ -714,10 +714,6 @@ void remplissage_liste_echeance ( void )
 	}
     }
 
-  /* on classe les échéances par date */
-
-/*   gsliste_echeances = g_slist_sort ( gsliste_echeances, */
-/* 				     (GCompareFunc) comparaison_date_echeance);  */
 
   gtk_clist_freeze ( GTK_CLIST ( liste_echeances ) );
 
@@ -823,7 +819,7 @@ void remplissage_liste_echeance ( void )
 				       ligne_clist,
 				       echeance );
 
-/* si c'est un doublon, on met le style en gris */
+	      /* si c'est un doublon, on met le style en gris */
 
 	      if ( !echeance )
 		gtk_clist_set_row_style ( GTK_CLIST ( liste_echeances ),
@@ -832,8 +828,8 @@ void remplissage_liste_echeance ( void )
 
 	      /* c'est maintenant qu'on voit si on sort ou pas ... */
 
-	      date_suivante_echeance ( ECHEANCE_COURANTE,
-				       date_courante );
+	      date_courante = date_suivante_echeance ( ECHEANCE_COURANTE,
+						       date_courante );
 
 	      if ( date_courante
 		   &&
@@ -2032,13 +2028,13 @@ void modification_affichage_echeances ( gint *origine )
 /* renvoie null si la date limite est dépassée ou si c'est une fois */
 /* ***************************************************************************************************** */
 
-void date_suivante_echeance ( struct operation_echeance *echeance,
-			      GDate *date_courante )
+GDate *date_suivante_echeance ( struct operation_echeance *echeance,
+				GDate *date_courante )
 {
   if ( !echeance -> periodicite )
     {
       date_courante = NULL;
-      return;
+      return ( date_courante );
     }
 
   /* périodicité hebdomadaire */
@@ -2084,6 +2080,8 @@ void date_suivante_echeance ( struct operation_echeance *echeance,
        g_date_compare ( date_courante,
 			echeance -> date_limite ) > 0 )
     date_courante = NULL;
+
+  return ( date_courante );
 }
 /* ***************************************************************************************************** */
 
