@@ -2897,8 +2897,10 @@ GtkWidget *onglet_importation (void)
 			 0 );
     gtk_widget_show ( label );
 
-
-
+    if ( !nb_comptes )
+    {
+	gtk_widget_set_sensitive ( vbox_pref, FALSE );
+    }
 
     return ( vbox_pref );
 }

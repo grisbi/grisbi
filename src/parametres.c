@@ -708,6 +708,11 @@ GtkWidget *onglet_programmes (void)
     gtk_size_group_set_mode ( size_group, GTK_SIZE_GROUP_HORIZONTAL );
     gtk_widget_show_all ( vbox_pref );
 
+    if ( !nb_comptes )
+    {
+	gtk_widget_set_sensitive ( vbox_pref, FALSE );
+    }
+
     return ( vbox_pref );
 }
 /* *******************************************************************************/
