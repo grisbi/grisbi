@@ -2,13 +2,18 @@ New in version 0.5.0 :
 
  - GTK2 support
  - libxml2 support
- - UTF-8 native support
- - totally redesigned preference windows
- - improved user interface
- - improved segfault handling
- - improved warning messages so that users can ignore some types of warnings
- - exchange rates are cached so that users don't need to type them repeatedly
- - test
+ - native UTF-8 support
+ - totally redesign preferences windows
+ - improve user interface
+ - improve segfault handling
+ - improve warning messages so that users can ignore some types of warnings
+ - exchange rates are cached for a session so that users don't need to
+   type them repeatedly
+ - add context menu on transactions list
+ - reports now support text faces (bold, slant, large, huge, small)
+ - reports printing via LaTeX
+ - new logo with our mascot over an euro sign
+ - application menu improvements
 
 New in version 0.4.3 : 
  - Bug fixes
