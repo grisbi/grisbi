@@ -1,3 +1,72 @@
+2004-11-26 11:26  Benjamin Drieu <bdrieu@april.org>
+
+	* src/equilibrage.c: Do not check for nb of transactions since this
+	  can forbid reconciliation in some cases.
+
+2004-11-25 20:54  Flavio Henrique Somensi <flavio@opens.com.br>
+
+	* po/pt_BR.po: First translation to Brazilian-Portuguese.
+
+2004-11-25 18:44  Benjamin Drieu <bdrieu@april.org>
+
+	* po/pt.po, po/pt_BR.po, configure.in: Rename locale
+
+2004-11-25 16:31  Benjamin Drieu <bdrieu@april.org>
+
+	* configure.in: Add portuguese language
+
+2004-11-25 16:20  Benjamin Drieu <bdrieu@april.org>
+
+	* po/: es.po, pt.po: Update languages
+
+2004-11-25 15:59  Benjamin Drieu <bdrieu@april.org>
+
+	* src/devises.c: Add some more currencies
+
+2004-11-23 14:40  Benjamin Drieu <bdrieu@april.org>
+
+	* src/categories_onglet.c: Kludge this file to avoid a segmentation
+	  fault on some cases
+
+2004-11-23 14:39  Benjamin Drieu <bdrieu@april.org>
+
+	* src/csv.c: Fix compile time warning
+
+2004-11-19 22:57  Francois Terrot <francois@terrot.net>
+
+	* win32/win32utils.c: Make grisbi.rc coded using utf8 charset
+	  (close #483)
+
+2004-11-19 22:45  Francois Terrot <francois@terrot.net>
+
+	* win32/pwd.c: Need also to overwrite pw_gecos (used in accueil.c)
+	  instead of appending (closes: #462)
+
+2004-11-19 12:54  Benjamin Drieu <bdrieu@april.org>
+
+	* intl/: COPYING.LIB-2.0, COPYING.LIB-2.1, ChangeLog, Makefile.in,
+	  VERSION, bindtextdom.c, config.charset, dcgettext.c,
+	  dcigettext.c, dcngettext.c, dgettext.c, dngettext.c,
+	  eval-plural.h, explodename.c, finddomain.c, gettext.c, gettext.h,
+	  gettextP.h, gmo.h, hash-string.h, intl-compat.c, l10nflist.c,
+	  libgettext.h, libgnuintl.h, libgnuintl.h.in, loadinfo.h,
+	  loadmsgcat.c, localcharset.c, localcharset.h, locale.alias,
+	  localealias.c, localename.c, log.c, ngettext.c, os2compat.c,
+	  os2compat.h, osdep.c, plural-exp.c, plural-exp.h, plural.c,
+	  plural.y, printf-args.c, printf-args.h, printf-parse.c,
+	  printf-parse.h, printf.c, relocatable.c, relocatable.h,
+	  textdomain.c, vasnprintf.c, vasnprintf.h, vasnwprintf.h,
+	  wprintf-parse.h, xsize.h: Update to a new embedded libintl
+	  version for systems that don't ship intl
+
+2004-11-19 12:46  Benjamin Drieu <bdrieu@april.org>
+
+	* NEWS, README: Update to 0.5.3
+
+2004-11-19 12:42  Benjamin Drieu <bdrieu@april.org>
+
+	* ChangeLog: Update Changelog just to make dionysos happy :-)
+
 2004-11-19  Benjamin Drieu <bdrieu@april.org>
 
 	* AUTHORS: Update AUTHORS
