@@ -1219,35 +1219,18 @@ gboolean clique_champ_formulaire_echeancier ( GtkWidget *entree,
 	{
 	  GtkWidget *popup;
 	  GtkWidget *popup_boxv;
-	  GtkRequisition *taille_entree;
-	  gint x, y;
+	  GtkRequisition *taille_popup;
+	  gint x_cal, y_cal;
 	  GtkWidget *calendrier;
 	  int cal_jour, cal_mois, cal_annee;
 	  GtkWidget *bouton;
 	  GtkWidget *frame;
-
-	  /* cherche la position où l'on va mettre la popup */
-
-	  taille_entree = malloc ( sizeof ( GtkRequisition ));
-
-	  gdk_window_get_origin ( GTK_WIDGET ( entree ) -> window,
-				  &x,
-				  &y );
-	  gtk_widget_size_request ( GTK_WIDGET ( entree ),
-				    taille_entree );
-  
-	  y = y + taille_entree->height;
-
 
 	  /* création de la popup */
 
 	  popup = gtk_window_new ( GTK_WINDOW_POPUP );
 	  gtk_window_set_modal ( GTK_WINDOW (popup),
 				 TRUE);
-	  gtk_widget_set_uposition ( GTK_WIDGET ( popup ),
-				     x,
-				     y );
-
 
 	  /* création de l'intérieur de la popup */
 
@@ -1340,6 +1323,38 @@ gboolean clique_champ_formulaire_echeancier ( GtkWidget *entree,
 			       0 );
 	  gtk_widget_show ( bouton );
 
+	  /* cherche la position où l'on va mettre la popup */
+	  /* on récupère la position de l'entrée date par rapport à laquelle on va placer la popup */
+	  
+	  gdk_window_get_origin ( GTK_WIDGET ( entree ) -> window,
+				  &x_cal,
+				  &y_cal );
+
+	  /* on récupère la taille de la popup */
+	  
+	  taille_popup = malloc ( sizeof ( GtkRequisition ));
+	  gtk_widget_size_request ( GTK_WIDGET ( popup ),
+				    taille_popup );
+	  
+	  y_cal -= taille_popup -> height;
+	  
+	  /* si une des coordonnées est négative, alors la fonction
+	  gtk_widget_set_uposition échoue et affiche la popup en 0,0 */
+	  
+	  if ( x_cal < 0 )
+	  	x_cal = 0 ;
+	  
+	  if ( y_cal < 0 )
+	  	y_cal = 0 ;
+	  
+	  /* on place la popup */
+	  
+	  gtk_widget_set_uposition ( GTK_WIDGET ( popup ),
+				     x_cal,
+				     y_cal );
+
+	  /* et on la montre */
+	  
 	  gtk_widget_show (popup);
       
 	  gdk_pointer_grab ( popup -> window, 
