@@ -1403,7 +1403,8 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 			gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ), g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) ) ) );
 		}
 
-		if ( ( ev -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
+		if ( ( ev -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK ||
+		     ev -> keyval != GDK_KP_Add )
 		    inc_dec_date ( widget_formulaire_operations[origine], ONE_DAY );
 		else
 		    inc_dec_date ( widget_formulaire_operations[origine], ONE_WEEK );
@@ -1452,7 +1453,8 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 			gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ), g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) ) ) );
 		}
 
-		if ( ( ev -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
+		if ( ( ev -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK ||
+		     ev -> keyval != GDK_KP_Subtract )
 		    inc_dec_date ( widget_formulaire_operations[origine], - ONE_DAY );
 		else
 		    inc_dec_date ( widget_formulaire_operations[origine], - ONE_WEEK );
