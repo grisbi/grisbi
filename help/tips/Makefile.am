@@ -15,6 +15,8 @@ MSGMERGE = msgmerge
 GMOFILES=fr.gmo
 localedir = ${datadir}/locale
 
+all:	$(GMOFILES)
+
 tips.pot:	tips.txt
 	xgettext --language=shell --keyword=- -o tips.pot -s tips.txt
 
