@@ -1175,7 +1175,7 @@ void fill_reconciliation_tree ()
 			    RECONCILIATION_NAME_COLUMN, gsb_account_get_name (GPOINTER_TO_INT ( pUserAccountsList -> data )),
 			    RECONCILIATION_VISIBLE_COLUMN, TRUE,
 			    RECONCILIATION_SORT_COLUMN, ! TRI,
-			    RECONCILIATION_SPLIT_NEUTRAL_COLUMN, NEUTRES_INCLUS,
+			    RECONCILIATION_SPLIT_NEUTRAL_COLUMN, gsb_account_get_split_neutral_payment (GPOINTER_TO_INT ( pUserAccountsList -> data )),
 			    RECONCILIATION_ACCOUNT_COLUMN, p_tab_nom_de_compte_variable,
 			    RECONCILIATION_TYPE_COLUMN, -1,
 			    -1 );
@@ -1199,7 +1199,7 @@ void fill_reconciliation_tree ()
 		      ||
 		      !type_ope -> signe_type)
 		     &&
-		     NEUTRES_INCLUS 
+		     gsb_account_get_split_neutral_payment (GPOINTER_TO_INT ( pUserAccountsList -> data )) 
 		     &&
 		     GPOINTER_TO_INT(liste_tmp->data) < 0 )
 		    nom = g_strconcat ( type_ope -> nom_type, " ( - )", NULL );
@@ -1208,7 +1208,7 @@ void fill_reconciliation_tree ()
 			 ||
 			 ! type_ope -> signe_type)
 			&&
-			NEUTRES_INCLUS
+			gsb_account_get_split_neutral_payment (GPOINTER_TO_INT ( pUserAccountsList -> data ))
 			&&
 			GPOINTER_TO_INT(liste_tmp->data) > 0 )
 			nom = g_strconcat ( type_ope -> nom_type, " ( + )", NULL );
@@ -1466,7 +1466,10 @@ void reconcile_include_neutral_toggled ( GtkCellRendererToggle *cell,
 			-1);
 
     toggle ^= 1;
-    NEUTRES_INCLUS = toggle;
+
+    /* FIXME : remplacer adr_compte par le no de compte */
+    gsb_account_set_split_neutral_payment ( adr_compte,
+					    toggle );
 
     /* set new value */
     gtk_tree_store_set (GTK_TREE_STORE (reconcile_model), &iter, 

@@ -791,17 +791,17 @@ void remplissage_details_compte ( void )
 						  devise ));
 
 
-    if ( TITULAIRE )
+    if ( gsb_account_get_holder_name (compte_courant_onglet) )
 	gtk_entry_set_text ( GTK_ENTRY ( detail_titulaire_compte ),
-			     TITULAIRE );
+			     gsb_account_get_holder_name (compte_courant_onglet) );
     else
 	gtk_entry_set_text ( GTK_ENTRY ( detail_titulaire_compte ),
 			     "" );
 
     gtk_text_buffer_set_text ( gtk_text_view_get_buffer (GTK_TEXT_VIEW (detail_adresse_titulaire)),
- 			       ( ADRESSE_TITULAIRE ? ADRESSE_TITULAIRE : "") , -1 );
+ 			       ( gsb_account_get_holder_address (compte_courant_onglet) ? gsb_account_get_holder_address (compte_courant_onglet) : "") , -1 );
 
-    if ( ADRESSE_TITULAIRE )
+    if ( gsb_account_get_holder_address (compte_courant_onglet) )
     {
 	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( GTK_RADIO_BUTTON ( detail_bouton_adresse_commune ) -> group -> data ),
 				       TRUE );
@@ -925,10 +925,12 @@ void modification_details_compte ( void )
 
     /* récupération du titulaire */
 
-    TITULAIRE = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_titulaire_compte ))));
+    gsb_account_set_holder_name ( compte_courant_onglet,
+				  g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_titulaire_compte )))) );
 
-    if ( !strlen ( TITULAIRE ))
-	TITULAIRE = NULL;
+    if ( !strlen ( gsb_account_get_holder_name (compte_courant_onglet) ))
+	gsb_account_set_holder_name ( compte_courant_onglet,
+				      NULL );
 
 
     /* vérification du type de compte */
@@ -1018,22 +1020,27 @@ void modification_details_compte ( void )
         buffer = gtk_text_view_get_buffer ( GTK_TEXT_VIEW (detail_adresse_titulaire) );
 	gtk_text_buffer_get_iter_at_offset ( buffer, &start, 0 );
 	gtk_text_buffer_get_iter_at_offset ( buffer, &end, -1 );
-	ADRESSE_TITULAIRE = gtk_text_buffer_get_text ( buffer , &start, &end, TRUE );
+	gsb_account_set_holder_address ( compte_courant_onglet,
+					 gtk_text_buffer_get_text ( buffer , &start, &end, TRUE ) );
 
-	if ( strlen ( ADRESSE_TITULAIRE ))
+	if ( strlen ( gsb_account_get_holder_address (compte_courant_onglet) ))
 	{
-	    ADRESSE_TITULAIRE = g_strdelimit ( ADRESSE_TITULAIRE,
+	    gsb_account_set_holder_address ( compte_courant_onglet,
+					     g_strdelimit ( gsb_account_get_holder_address (compte_courant_onglet),
 					       "{",
-					       '(' );
-	    ADRESSE_TITULAIRE = g_strdelimit ( ADRESSE_TITULAIRE,
+					       '(' ) );
+	    gsb_account_set_holder_address ( compte_courant_onglet,
+					     g_strdelimit ( gsb_account_get_holder_address (compte_courant_onglet),
 					       "}",
-					       ')' );
+					       ')' ) );
 	}
 	else
-	    ADRESSE_TITULAIRE = NULL;
+	    gsb_account_set_holder_address ( compte_courant_onglet,
+					     NULL );
     }
     else
-	ADRESSE_TITULAIRE = NULL;
+	gsb_account_set_holder_address ( compte_courant_onglet,
+					 NULL );
 
 
     /* enregistrement de l'établissement financier */

@@ -947,7 +947,8 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Titulaire" ))
-				TITULAIRE = xmlNodeGetContent ( node_detail );
+				gsb_account_set_holder_name ( no_compte,
+							       xmlNodeGetContent ( node_detail ));
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Type_de_compte" ))
@@ -1047,7 +1048,8 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Adresse_du_titulaire" ))
-				ADRESSE_TITULAIRE = xmlNodeGetContent ( node_detail );
+				gsb_account_set_holder_address ( no_compte,
+								 xmlNodeGetContent ( node_detail ) );
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Type_defaut_debit" ))
@@ -1063,7 +1065,8 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Neutres_inclus" ))
-				NEUTRES_INCLUS = my_atoi ( xmlNodeGetContent ( node_detail ));
+				gsb_account_set_split_neutral_payment ( no_compte,
+									my_atoi ( xmlNodeGetContent ( node_detail )) );
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Ordre_du_tri" ))
@@ -3272,7 +3275,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Titulaire",
-			  TITULAIRE );
+			  gsb_account_get_holder_name (i) );
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
@@ -3361,7 +3364,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Adresse_du_titulaire",
-			  ADRESSE_TITULAIRE );
+			  gsb_account_get_holder_address (i) );
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
@@ -3386,7 +3389,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Neutres_inclus",
-			  itoa ( NEUTRES_INCLUS ));
+			  itoa ( gsb_account_get_split_neutral_payment (i) ));
 
 	/* mise en place de l'ordre du tri */
 

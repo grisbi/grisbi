@@ -98,10 +98,13 @@ gchar *gsb_account_get_bank_branch_code ( gint no_account );
 gint gsb_account_get_closed_account ( gint no_account );
 gpointer gsb_account_get_column ( gint no_account,
 				  gint no_column );
+gchar *gsb_account_get_comment ( gint no_account );
 gint gsb_account_get_currency ( gint no_account );
 gdouble gsb_account_get_current_balance ( gint no_account );
 GDate *gsb_account_get_current_reconcile_date ( gint no_account );
 gpointer gsb_account_get_current_transaction ( gint no_account );
+gchar *gsb_account_get_holder_address ( gint no_account );
+gchar *gsb_account_get_holder_name ( gint no_account );
 gchar *gsb_account_get_id ( gint no_account );
 gdouble gsb_account_get_init_balance ( gint no_account );
 kind_account gsb_account_get_kind ( gint no_account );
@@ -116,6 +119,9 @@ gboolean gsb_account_get_r ( gint no_account );
 gdouble gsb_account_get_reconcile_balance ( gint no_account );
 gint gsb_account_get_reconcile_last_number ( gint no_account );
 gpointer gsb_account_get_scrolled_window ( gint no_account );
+GSList *gsb_account_get_sort_list ( gint no_account );
+gint gsb_account_get_sort_type ( gint no_account );
+gint gsb_account_get_split_neutral_payment ( gint no_account );
 gpointer gsb_account_get_store ( gint no_account );
 GSList *gsb_account_get_transactions_list ( gint no_account );
 gpointer gsb_account_get_tree_view ( gint no_account );
@@ -135,6 +141,8 @@ gboolean gsb_account_set_closed_account ( gint no_account,
 gboolean gsb_account_set_column ( gint no_account,
 				  gint no_column,
 				  gpointer column );
+gboolean gsb_account_set_comment ( gint no_account,
+				   gchar *comment );
 gboolean gsb_account_set_currency ( gint no_account,
 				    gint currency );
 gboolean gsb_account_set_current_balance ( gint no_account,
@@ -143,6 +151,10 @@ gboolean gsb_account_set_current_reconcile_date ( gint no_account,
 						  GDate *date );
 gboolean gsb_account_set_current_transaction ( gint no_account,
 					       gpointer transaction );
+gboolean gsb_account_set_holder_address ( gint no_account,
+					  gchar *holder_address );
+gboolean gsb_account_set_holder_name ( gint no_account,
+				       gchar *holder_name );
 gboolean gsb_account_set_id ( gint no_account,
 			      gchar *id );
 gboolean gsb_account_set_init_balance ( gint no_account,
@@ -171,6 +183,12 @@ gboolean gsb_account_set_reconcile_last_number ( gint no_account,
 						 gint number );
 gboolean gsb_account_set_scrolled_window ( gint no_account,
 					   gpointer scrolled_window );
+gboolean gsb_account_set_sort_list ( gint no_account,
+				     GSList *list );
+gboolean gsb_account_set_sort_type ( gint no_account,
+				     gint sort_type );
+gboolean gsb_account_set_split_neutral_payment ( gint no_account,
+						 gint split_neutral_payment );
 gboolean gsb_account_set_store ( gint no_account,
 				 gpointer store );
 gboolean gsb_account_set_transactions_list ( gint no_account,

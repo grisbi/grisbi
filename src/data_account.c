@@ -1397,5 +1397,159 @@ gboolean gsb_account_set_sort_type ( gint no_account,
 }
 
 
+/** get the sort_list  of the account
+ * \param no_account no of the account
+ * \return the g_slist or NULL if the account doesn't exist
+ * */
+GSList *gsb_account_get_sort_list ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return NULL;
+
+    return account -> sort_list;
+}
+
+
+/** set the sort_list list of the account
+ * \param no_account no of the account
+ * \param list g_slist to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_sort_list ( gint no_account,
+				     GSList *list )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> sort_list = list;
+
+    return TRUE;
+}
+
+
+/** get split_neutral_payment on the account given
+ * \param no_account no of the account
+ * \return split_neutral_payment or 0 if the account doesn't exist
+ * */
+gint gsb_account_get_split_neutral_payment ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return 0;
+
+    return account -> split_neutral_payment;
+}
+
+
+/** set split_neutral_payment in the account given
+ * \param no_account no of the account
+ * \param split_neutral_payment split_neutral_payment to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_split_neutral_payment ( gint no_account,
+						 gint split_neutral_payment )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> split_neutral_payment = split_neutral_payment;
+
+    return TRUE;
+}
+
+
+/** get the holder_name of the account
+ * \param no_account no of the account
+ * \return holder_name or NULL if the account doesn't exist
+ * */
+gchar *gsb_account_get_holder_name ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return NULL;
+
+    return account -> holder_name;
+}
+
+
+/** set the holder_name of the account
+ * \param no_account no of the account
+ * \param holder_name holder_name to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_holder_name ( gint no_account,
+				       gchar *holder_name )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> holder_name = holder_name;
+
+    return TRUE;
+}
+
+
+/** get the holder_address of the account
+ * \param no_account no of the account
+ * \return holder_address or NULL if the account doesn't exist
+ * */
+gchar *gsb_account_get_holder_address ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return NULL;
+
+    return account -> holder_address;
+}
+
+
+/** set the holder_address of the account
+ * \param no_account no of the account
+ * \param holder_address holder_address to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_holder_address ( gint no_account,
+					  gchar *holder_address )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> holder_address = holder_address;
+
+    return TRUE;
+}
+
+
+
+
 
 
