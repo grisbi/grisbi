@@ -101,6 +101,7 @@ gchar*  csv_field_notes      = NULL; /*!< notes (string) */
 gchar*  csv_field_exercice   = NULL; /*!< exercices (string) optional depending of global grisbi configuration */
 gchar*  csv_field_piece      = NULL; /*!< (string) */
 gchar*  csv_field_cheque     = NULL; /*!< cheques */
+gchar*  csv_field_rappro     = NULL; /*!< reconciliation number (string) */
 
 /**
  * \brief clear temporary variable used to store field to display.
@@ -140,6 +141,7 @@ static void csv_clear_fields(gboolean clear_all)
     CSV_CLEAR_FIELD(csv_field_exercice);
     CSV_CLEAR_FIELD(csv_field_piece);
     CSV_CLEAR_FIELD(csv_field_cheque);
+    CSV_CLEAR_FIELD(csv_field_rappro);
 } /* }}} csv_clear_fields */
 
 
@@ -179,6 +181,7 @@ static void csv_add_record(FILE* file,gboolean clear_all)
     CSV_STR_FIELD(file,csv_field_sous_imput);
     CSV_STR_FIELD(file,csv_field_notes);
     CSV_STR_FIELD(file,csv_field_piece);
+    CSV_STR_FIELD(file,csv_field_rappro);
     CSV_END_RECORD(file);
     csv_clear_fields(clear_all);
 
@@ -246,6 +249,7 @@ void export_accounts_to_csv (GSList* export_entries_list )
                 csv_field_imput      = g_strdup(_("Budgetary lines"));
                 csv_field_sous_imput = g_strdup(_("Sub-budgetary lines"));
                 csv_field_piece      = g_strdup(_("Voucher"));
+                csv_field_rappro     = g_strdup(_("Reconcialiation number"));
             }
 
             csv_add_record(fichier_csv,TRUE);
@@ -313,6 +317,17 @@ void export_accounts_to_csv (GSList* export_entries_list )
                         if ( pointeur )
                             csv_field_tiers = g_strdup ( ((struct struct_tiers *)(pointeur -> data )) -> nom_tiers );
 
+                        /* met le rapprochement */
+	 		if ( operation -> no_rapprochement )
+			{
+                        pointeur = g_slist_find_custom ( liste_no_rapprochements,
+                                                         GINT_TO_POINTER ( operation -> no_rapprochement ),
+                                                         (GCompareFunc) recherche_no_rapprochement_par_no );
+
+                        CSV_CLEAR_FIELD(csv_field_rappro);
+                        if ( pointeur )
+                            csv_field_rappro = g_strdup ( ((struct struct_no_rapprochement *)(pointeur->data)) -> nom_rapprochement );
+			}
 
                         /* met le montant, transforme la devise si necessaire */
 
@@ -534,7 +549,6 @@ void export_accounts_to_csv (GSList* export_entries_list )
                             }
                             csv_add_record(fichier_csv,TRUE);
                         }
-
 
                     }
 
