@@ -55,14 +55,14 @@ void a_propos ( GtkWidget *bouton,
 			   "mailto:devel-subscribe@grisbi.org",
 			   _("subscribe"),
 			   COLON(_("Bug report")),
-			   "http://www.grisbi.org/bugtracking",
-			   "http://www.grisbi.org/bugtracking",
+			   "http://www.grisbi.org/bugtracking.html",
+			   "http://www.grisbi.org/bugtracking.html",
 			   _("Information list (new releases announces, ...) : "),
 			   "mailto:infos-subscribe@grisbi.org",
 			   _("subscribe"),
 			   COLON(_("Grisbi documentation")),
-			   "http://www.grisbi.org/modules.php?name=Documentation",
-			   "http://www.grisbi.org/modules.php?name=Documentation",
+			   "http://www.grisbi.org/manuel.html",
+			   "http://www.grisbi.org/manuel.html",
 			   NULL };
 
   const gchar *license = "This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA";
@@ -84,33 +84,22 @@ void a_propos ( GtkWidget *bouton,
 
   /* mise en forme de l'onglet de généralités */
 
-  vbox = gtk_vbox_new ( FALSE,
-			5 );
-  gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
-				   10 );
+  vbox = gtk_vbox_new ( FALSE, 5 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 10 );
   gtk_widget_show ( vbox );
 
-  label = gtk_label_new ( g_strconcat ( "Grisbi ",
-					VERSION,
-					"\n\n",
-					NULL ));
+  label = gtk_label_new ( g_strconcat ( "Grisbi ", VERSION, "\n\n", NULL ));
   gtk_label_set_markup ( GTK_LABEL (label), 
 			 g_strconcat ( "<span size=\"large\" weight=\"bold\">",
 				       
-				       "Grisbi ",
-					VERSION,
-					"</span>",
-					NULL ) );
+				       "Grisbi ", VERSION, "</span>", NULL ) );
 
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX ( vbox ), label,
+		       FALSE, FALSE, 0 );
   gtk_widget_show ( label );
 
-
   label = gtk_label_new ( generalites );
+  gtk_label_set_selectable ( GTK_LABEL ( label ), TRUE );
   gtk_label_set_line_wrap ( GTK_LABEL ( label ),
 			    TRUE );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
@@ -254,6 +243,7 @@ void a_propos ( GtkWidget *bouton,
   gtk_widget_show ( vbox );
 
   label = gtk_label_new ( license );
+  gtk_label_set_selectable ( label, TRUE );
   gtk_label_set_line_wrap ( GTK_LABEL ( label ),
 			    TRUE );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
