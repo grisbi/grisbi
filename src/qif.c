@@ -74,8 +74,7 @@ void selection_fichier_qif ( void )
 				 GTK_WINDOW ( window ));
   gtk_window_set_modal ( GTK_WINDOW ( fenetre ),
 			 TRUE );
-  gtk_clist_set_selection_mode ( GTK_CLIST ( GTK_FILE_SELECTION( fenetre ) -> file_list ),
-				 GTK_SELECTION_EXTENDED );
+  gtk_file_selection_set_select_multiple ( GTK_FILE_SELECTION ( fenetre ), TRUE );
   gtk_file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre ),
 				    dernier_chemin_de_travail );
 
@@ -1297,11 +1296,10 @@ void traitement_donnees_brutes ( void )
 
   /* mise à jour de l'accueil */
 
-  update_liste_comptes_accueil ();
   mise_a_jour_soldes_minimaux ();
-  /* actualise la liste des comptes dans l'onglet accueil
-     ferme le bogue #185 */
+  reaffiche_liste_comptes();
   reaffiche_liste_comptes_onglet();
+  update_liste_comptes_accueil ();
   affiche_titre_fenetre ();
   annulation_attente();
 
