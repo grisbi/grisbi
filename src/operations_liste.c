@@ -1171,9 +1171,6 @@ gboolean selectionne_ligne_souris ( GtkCList *liste,
       }
     }
 
-    if ( col == -1 )
-      return FALSE;
-
     /* si le click se situe dans les menus, c'est qu'on redimensionne, on fait rien */
 
     if ( evenement -> window != liste -> clist_window )
