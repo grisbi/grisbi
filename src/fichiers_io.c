@@ -4729,7 +4729,8 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 
 				operation -> id_operation = xmlGetProp ( node_ope,
 								"Id" );
-			      if ( !strlen ( operation -> id_operation ))
+				if ( operation -> id_operation &&
+				     !strlen ( operation -> id_operation ))
 				operation -> id_operation = NULL;
 
 			      pointeur_char = g_strsplit ( xmlGetProp ( node_ope , "D" ), "/", 3 );
