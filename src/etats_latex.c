@@ -431,6 +431,7 @@ void latex_safe ( gchar * text )
 		    fprintf ( out, "%c", *text );
 		break;
 
+	    case '%':
 	    case '&':
 	    case '\\':
 		fprintf ( out, "\\" );
