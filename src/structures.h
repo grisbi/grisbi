@@ -73,6 +73,8 @@ struct {
   guint en_train_de_sauvegarder;
   guint en_train_de_charger;
   guint display_message_lock_active;
+  guint display_message_file_readable;
+  guint display_message_minimum_alert;
 } etat;
 
 
@@ -564,16 +566,15 @@ enum alignement {
   LEFT, CENTER, RIGHT,
 };
 
+/** Device independant drawing functions for reports */
 struct struct_etat_affichage
 {
-  gint (* initialise) ();
-  gint (* finish) ();
-  void (* attach_hsep) (int, int, int, int);
-  void (* attach_vsep) (int, int, int, int);
-  void (* attach_label) (gchar *, int, int, int, int, enum alignement, struct structure_operation *);
+  gint (* initialise) ();	/** Initialisation of drawing session  */
+  gint (* finish) ();		/** End of drawing session  */
+  void (* attach_hsep) (int, int, int, int); /** Draw horizontal separator (aka "-")  */
+  void (* attach_vsep) (int, int, int, int); /** Draw vertical separator (aka "|") */
+  void (* attach_label) (gchar *, gdouble, int, int, int, int, enum alignement, struct structure_operation *); /** Drraw a label with properties  */
 };
-
-
 
 
 /* struture d'une opé de ventil */
@@ -621,13 +622,13 @@ struct iso_4217_currency
 enum preference_page  {
   NOT_A_PAGE = -1,
   FILES_PAGE,
+  FONTS_AND_LOGO_PAGE,
   MESSAGES_AND_WARNINGS_PAGE,
   ADDRESSES_AND_TITLES_PAGE,
   TRANSACTION_FORM_PAGE,
   TRANSACTIONS_LIST_PAGE,
   TRANSACTIONS_PAGE,
   RECONCILIATION_PAGE,
-  FONTS_AND_LOGO_PAGE,
   CURRENCIES_PAGE,
   BANKS_PAGE,
   FINANCIAL_YEARS_PAGE,
