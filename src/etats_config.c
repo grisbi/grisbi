@@ -183,9 +183,7 @@ void personnalisation_etat (void)
 			   0 );
       gtk_widget_show ( hbox );
 
-      /* FIXME */
       bouton = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
-/*       bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL ); */
       gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			      GTK_RELIEF_NONE );
       gtk_signal_connect ( GTK_OBJECT ( bouton ),
@@ -199,9 +197,7 @@ void personnalisation_etat (void)
 			   0 );
       gtk_widget_show ( bouton);
 
-  /* FIXME */
       bouton = gtk_button_new_from_stock (GTK_STOCK_APPLY);
-/*       bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_APPLY ); */
       gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			      GTK_RELIEF_NONE );
       gtk_signal_connect ( GTK_OBJECT ( bouton ),
@@ -5676,7 +5672,7 @@ GtkWidget *onglet_etat_divers ( void )
 		      vbox );
   gtk_widget_show ( vbox );
 
-  label = gtk_label_new ( "Sélectionner :" );
+  label = gtk_label_new ( _("Select") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       label,
 		       FALSE,
