@@ -402,7 +402,7 @@ faire : */
     for ( p = nptr; p < nptr + strlen(nptr); p++ )
     {
 	/* si c'est un espace ou le signe +, on passe au caractère suivant */
-	if ( isspace(*p) || *p == '+' )
+	if ( g_ascii_isspace(*p) || *p == '+' )
 	    continue;
 
 	/* si c'est le signe -, on positionne invert à 1 et on passe
