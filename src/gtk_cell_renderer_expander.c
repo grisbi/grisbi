@@ -365,15 +365,16 @@ static void gtk_cell_renderer_expander_render (GtkCellRenderer      *cell,
     style = GTK_EXPANDER_COLLAPSED;
 
 
-  gtk_paint_expander (widget->style,
-                      window,
-                      state,
-                      expose_area,
-                      widget,
-                      "cellcheck",
-		      cell_area->x + cell_area->width / 2,
-		      cell_area->y + cell_area->height / 2,
-		      style );
+  if ( cell->is_expander )
+    gtk_paint_expander (widget->style,
+			window,
+			state,
+			expose_area,
+			widget,
+			"cellcheck",
+			cell_area->x + cell_area->width / 2,
+			cell_area->y + cell_area->height / 2,
+			style );
 
 }
 
