@@ -2,7 +2,7 @@
 /* s'occupe de tout ce qui concerne les devises */
 
 
-/*     Copyright (C) 2000-2003  C�dric Auger */
+/*     Copyright (C) 2000-2003  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -28,11 +28,221 @@
 
 
 
+static struct iso_4217_currency iso_4217_currencies[] = {
+  { "ET", "Afrique", "Birr", "Ethiopie", "ETB", NULL },
+  { "GH", "Afrique", "Cedi", "Ghana", "GHC", NULL },
+  { "GM", "Afrique", "Dalasie", "Gambie", "GMD", NULL },
+  { "DZ", "Afrique", "Dinar algérien", "Algérie", "DZD", NULL },
+  { "LY", "Afrique", "Dinar Iybien", "Lybie", "LYD", NULL },
+  { "TN", "Afrique", "Dinar tunisien", "Tunisie", "TND", NULL },
+  { "MA", "Afrique", "Dirham marocain", "Maroc", "MAD", NULL },
+  { "ST", "Afrique", "Dobra", "Sâo Tomé - Principe", "STD", NULL },
+  { "LR", "Afrique", "Dollar libérien", "Libéria", "LRD", NULL },
+  { "GQ", "Afrique", "Ekwele", "Guinée Equatoriale", "GQE", NULL },
+  { "NE", "Afrique", "Franc CFA (BCEAO)", "Niger", "XOF", NULL },
+  { "SN", "Afrique", "Franc CFA (BCEAO)", "Senegal", "XOF", NULL },
+  { "CM", "Afrique", "Franc CFA (BEAC)", "Cameroun", "XAF", NULL },
+  { "CG", "Afrique", "Franc CFA (BEAC)", "Congo", "XAF", NULL },
+  { "TD", "Afrique", "Franc CFA (BEAC)", "Tchad", "XAF", NULL },
+  { "DJ", "Afrique", "Franc de Djibouti", "Djibouti", "DIF", NULL },
+  { "KM", "Afrique", "Franc des Comores", "Comores", "KMF", NULL },
+  { "BI", "Afrique", "Franc du Burundi", "Burundi", "BIF", NULL },
+  { "RW", "Afrique", "Franc du Rwanda", "Rwanda", "RWF", NULL },
+  { "MG", "Afrique", "Franc malgache", "Madagascar", "MGF", NULL },
+  { "ML", "Afrique", "Franc malien", "Mali", "MLF", NULL },
+  { "MW", "Afrique", "Kwacha", "Malawi", "MWK", NULL },
+  { "ZM", "Afrique", "Kwacha", "Zambie", "ZMK", NULL },
+  { "AO", "Afrique", "Kwanza", "Angola", "AOK", NULL },
+  { "SL", "Afrique", "Leone", "Sierra Leone", "SLL", NULL },
+  { "SZ", "Afrique", "Lilangeni", "Swaziland", "SZL", NULL },
+  { "EG", "Afrique", "Livre égyptienne", "Egypte", "EGP", NULL },
+  { "SD", "Afrique", "Livre soudanaise", "Soudan", "SDP", NULL },
+  { "MZ", "Afrique", "Metical", "Mozambique", "MZM", NULL },
+  { "NG", "Afrique", "Naira", "Nigeria", "NGN", NULL },
+  { "MR", "Afrique", "Ouguija", "Mauritanie", "MRO", NULL },
+  { "GW", "Afrique", "Peso de Guinée-Bissau", "Guinée-Bissau", "GWP", NULL },
+  { "BW", "Afrique", "Pula", "Botswana", "BWP", NULL },
+  { "ZA", "Afrique", "Rand", "Afrique du Sud", "ZAR", NULL },
+  { "LS", "Afrique", "Rand", "Lesotho", "ZAR", NULL },
+  { "NA", "Afrique", "Rand", "Namibie", "ZAR", NULL },
+  { "SC", "Afrique", "Roupie des Seychelles", "Seychelles", "SCR", NULL },
+  { "SO", "Afrique", "Shilling de Somalie", "Somalie", "SOS", NULL },
+  { "TZ", "Afrique", "Shilling de Tanzanie", "Tanzanie", "TZS", NULL },
+  { "KE", "Afrique", "Shilling du Kenya", "Kenya", "KES", NULL },
+  { "UG", "Afrique", "Shilling ougandais", "Ouganda", "UGS", NULL },
+  { "GN", "Afrique", "Syli", "Guinée", "GNS", NULL },
+  { "ZW", "Afrique", "Zimbabwe dollar", "Zimbabwe", "ZWD", NULL },
+  { "PA", "Amérique centrale", "Balboa", "Panama", "PAB", NULL },
+  { "CR", "Amérique centrale", "Colon", "Costa Rica", "CRC", NULL },
+  { "NI", "Amérique centrale", "Cordoba", "Nicaragua", "NIC", NULL },
+  { "BZ", "Amérique centrale", "Dollar de Belize", "Belize", "BZD", NULL },
+  { "HN", "Amérique centrale", "Lempira", "Honduras", "HNL", NULL },
+  { "GT", "Amérique centrale", "Quetzal", "Guatemala", "GTQ", NULL },
+  { "CA", "Amérique du Nord", "Dollar canadien", "Canada", "CAD", NULL },
+  { "BB", "Amérique du Nord", "Dollar de Barbade", "Barbade", "BBD", NULL },
+  { "TT", "Amérique du Nord", "Dollar de la Trinité", "Trinité-et-Tobago", "TTD", NULL },
+  { "BS", "Amérique du Nord", "Dollar des Bahamas", "Bahamas", "BSD", NULL },
+  { "BM", "Amérique du Nord", "Dollar des Bermudes", "Berrnudes", "BMD", NULL },
+  { "KY", "Amérique du Nord", "Dollar des Caimanes", "Iles Caimanes", "KYD", NULL },
+  { "GD", "Amérique du Nord", "Dollar des Caraïbes", "Grenade", "XCD", NULL },
+  { "LC", "Amérique du Nord", "Dollar des Caraïbes", "St. Lucia", "XCD", NULL },
+  { "US", "Amérique du Nord", "Dollar des Etats-Unis", "Etats-Unis", "USD", "$" },
+  { "JM", "Amérique du Nord", "Dollar jamaicain", "Jamaique", "JMD", NULL },
+  { "AN", "Amérique du Nord", "Florin des Antilles néerl.", "Curaçao e.a.", "ANG", NULL },
+  { "GP", "Amérique du Nord", "Franc français", "Guadeloupe", "FRF", NULL },
+  { "MQ", "Amérique du Nord", "Franc français", "Martinique e.a.", "FRF", NULL },
+  { "HT", "Amérique du Nord", "Gourde", "Haïti", "HTG", NULL },
+  { "CU", "Amérique du Nord", "Peso cubain", "Cuba", "CUP", NULL },
+  { "DO", "Amérique du Nord", "Peso dominicain", "Rép.  Dominicaine", "DOP", NULL },
+  { "MX", "Amérique du Nord", "Peso mexicain", "Mexique", "MXP", NULL },
+  { "AR", "Amérique du Sud", "Austral", "Argentine", "ARA", NULL },
+  { "VE", "Amérique du Sud", "Bolivar", "Vénézuela", "VEB", NULL },
+  { "BR", "Amérique du Sud", "Cruzeiro", "Brésil", "BRC", NULL },
+  { "GY", "Amérique du Sud", "Dollar de Guyane", "Guyane", "GYD", NULL },
+  { "SR", "Amérique du Sud", "Florin de Surinam", "Surinam", "SRG", NULL },
+  { "PY", "Amérique du Sud", "Guarani", "Paraguay", "PYG", NULL },
+  { "AR", "Amérique du Sud", "Peso argentin", "Argentine", "ARP", NULL },
+  { "BO", "Amérique du Sud", "Peso bolivien", "Bolivie", "BOP", NULL },
+  { "CL", "Amérique du Sud", "Peso chilien", "Chili", "CLP", NULL },
+  { "CO", "Amérique du Sud", "Peso colombien", "Colombie", "COP", NULL },
+  { "UY", "Amérique du Sud", "Peso uruguayen", "Uruguay", "UYP", NULL },
+  { "PE", "Amérique du Sud", "Sol", "Pérou", "PES", NULL },
+  { "EC", "Amérique du Sud", "Sucre", "Equateur", "ECS", NULL },
+  { "AF", "Asie", "Afghani", "Afghanistan", "AFA", NULL },
+  { "TH", "Asie", "Baht", "Thailande", "THB", NULL },
+  { "BH", "Asie", "Dinar de Bahrein", "Bahrein", "BHD", NULL },
+  { "IQ", "Asie", "Dinar irakien", "Irak", "IQD", NULL },
+  { "JO", "Asie", "Dinar jordanien", "Jordanie", "JOD", NULL },
+  { "KW", "Asie", "Dinar koweitien", "Koweit", "KWD", NULL },
+  { "AE", "Asie", "Dirham des E A.U.", "Emirats Arabes Unis", "AED", NULL },
+  { "BN", "Asie", "Dollar de Brunei", "Brunei", "BND", NULL },
+  { "HK", "Asie", "Dollar de Hong Kong", "Hong Kong", "HKD", NULL },
+  { "SG", "Asie", "Dollar de Singapour", "Singapour", "SGD", NULL },
+  { "TW", "Asie", "Dollar taïwanien", "Taïwan", "TWD", NULL },
+  { "VN", "Asie", "Dong", "Viêt-nam", "VND", NULL },
+  { "LA", "Asie", "Kip", "Laos", "LAK", NULL },
+  { "CY", "Asie", "Livre cypriote", "Chypre", "CYP", NULL },
+  { "LB", "Asie", "Livre libanaise", "Liban", "LBP", NULL },
+  { "SY", "Asie", "Livre syrienne", "Syrie", "SYP", NULL },
+  { "TR", "Asie", "Livre turque", "Turquie", "TRL", NULL },
+  { "MO", "Asie", "Pataca", "Macao", "MOP", NULL },
+  { "PH", "Asie", "Peso philippin", "Philippines", "PHP", NULL },
+  { "QA", "Asie", "Rial du Qatar", "Qatar", "QAR", NULL },
+  { "IR", "Asie", "Rial iranien", "Iran", "IRR", NULL },
+  { "OM", "Asie", "Rial omani", "Oman", "OMR", NULL },
+  { "KH", "Asie", "Riel", "Cambodge", "KHR", NULL },
+  { "MY", "Asie", "Ringgit", "Malaisie", "MYR", NULL },
+  { "YE", "Asie", "Riyal du Yémen", "Yémen du Nord (Rép. arab.)", "YER", NULL },
+  { "SA", "Asie", "Riyal saoudien", "Arabie Saoudite", "SAR", NULL },
+  { "RU", "Asie", "Rouble de Russie", "Russie", "RUR", NULL },
+  { "LK", "Asie", "Roupie de Sri Lanka", "Sri Lanka", "LKR", NULL },
+  { "NP", "Asie", "Roupie du Népal", "Népal", "NPR", NULL },
+  { "PK", "Asie", "Roupie du Pakistan", "Pakistan", "PKR", NULL },
+  { "BT", "Asie", "Roupie indienne", "Buthan", "INR", NULL },
+  { "IN", "Asie", "Roupie indienne", "Inde", "INR", NULL },
+  { "ID", "Asie", "Rupiah", "Indonésie", "IDR", NULL },
+  { "IL", "Asie", "Shékel", "Israël", "ILS", NULL },
+  { "BD", "Asie", "Taka", "Bangladesh", "BDT", NULL },
+  { "MN", "Asie", "Tugrik", "Mongolie", "MNT", NULL },
+  { "KR", "Asie", "Won", "Corée du Sud", "KRW", NULL },
+  { "KP", "Asie", "Won nord-coréen", "Corée du Nord", "KPW", NULL },
+  { "JP", "Asie", "Yen", "Japon", "JPY", "¥" },
+  { "CN", "Asie", "Yuan Ren-min-bi", "Chine", "CNY", NULL },
+  { "DK", "Europe", "Couronne danoise", "Danemark", "DKK", NULL },
+  { "IS", "Europe", "Couronne islandaise", "Islande", "ISK", NULL },
+  { "NO", "Europe", "Couronne norvégienne", "Norvège", "NOK", NULL },
+  { "SK", "Europe", "Couronne slovaque", "Slovaquie", "SKK", NULL },
+  { "SE", "Europe", "Couronne suédoise", "Suède", "SEK", NULL },
+  { "CZ", "Europe", "Couronne tchèque", "Tchéquie", "CZK", NULL },
+  { "DE", "Europe", "Deutsche mark", "Allemagne", "DEM", NULL },
+  { "HR", "Europe", "Dinar croate", "Croatie", "HRD", NULL },
+  { "GR", "Europe", "Drachme", "Grèce", "GRD", NULL },
+  { "PT", "Europe", "Escudo portugais", "Portugal (Açores-Madère)", "PTE", NULL },
+  { "NL", "Europe", "Florin néerlandais", "Pays-Bas", "NLG", NULL },
+  { "HU", "Europe", "Forint", "Hongrie", "HUF", NULL },
+  { "BE", "Europe", "Franc belge", "Belgique", "BEF", NULL },
+  { "FR", "Europe", "Franc français", "France", "FRF", NULL },
+  { "LU", "Europe", "Franc luxembourgeois", "Luxembourg", "LUF", NULL },
+  { "LI", "Europe", "Franc suisse", "Liechtenstein", "CHF", NULL },
+  { "CH", "Europe", "Franc suisse", "Suisse", "CHF", NULL },
+  { "AL", "Europe", "Lek", "Albanie", "ALL", NULL },
+  { "RO", "Europe", "Leu", "Roumanie", "ROL", NULL },
+  { "BG", "Europe", "Lev", "Bulgarie", "BGL", NULL },
+  { "IT", "Europe", "Lire italienne", "Italie", "ITL", NULL },
+  { "SM", "Europe", "Lire italienne", "San Marino", "ITL", NULL },
+  { "VA", "Europe", "Lire italienne", "Vatican (St Siège)", "ITL", NULL },
+  { "GI", "Europe", "Livre de Gibraltar", "Gibraltar", "GIP", NULL },
+  { "IE", "Europe", "Livre irlandaise", "Irlande", "IEP", NULL },
+  { "MT", "Europe", "Livre maltaise", "Malte", "MTP", NULL },
+  { "GB", "Europe", "Livre sterling", "Royaume-Uni", "GBP", "£" },
+  { "FI", "Europe", "Mark finlandais", "Finlande", "FIM", NULL },
+  { "SI", "Europe", "Monnaie slovène", "Slovénie", "SIT", NULL },
+  { "YU", "Europe", "Nouveau dinar yougoslave", "Yougoslavie", "YUD", NULL },
+  { "ES", "Europe", "Peseta espagnole", "Espagne", "ESP", NULL },
+  { "AT", "Europe", "Schilling autrichien", "Autriche", "ATS", NULL },
+  { "PL", "Europe", "Zloty", "Pologne", "PLZ", NULL },
+  { "AU", "Océanie", "Dollar australien", "Australie", "AUD", NULL },
+  { "KI", "Océanie", "Dollar australien", "Kiribati", "AUD", NULL },
+  { "NR", "Océanie", "Dollar australien", "Nauru", "AUD", NULL },
+  { "TV", "Océanie", "Dollar australien", "Tuvalu", "AUD", NULL },
+  { "FJ", "Océanie", "Dollar de Fidji", "Fidji", "FJD", NULL },
+  { "SB", "Océanie", "Dollar de Salomon", "Iles Salomon", "SBD", NULL },
+  { "CK", "Océanie", "Dollar néo-zélandais", "Cook Islands", "NZD", NULL },
+  { "NZ", "Océanie", "Dollar néo-zélandais", "Nouvelle-Zélande", "NZD", NULL },
+  { "TP", "Océanie", "Escudo de Timor", "Timor", "TPE", NULL },
+  { "WF", "Océanie", "Franc CFP", "Iles Wallis &amp; Futuna", "XPF", NULL },
+  { "NC", "Océanie", "Franc CFP", "Nouvelle-Calédonie", "XPF", NULL },
+  { "PA", "Océanie", "Dollar des Etats-Unis", "Océanie américaine", "USD", "$" },
+  { "PF", "Océanie", "Franc CFP", "Polynésie française", "XPF", NULL },
+  { "PG", "Océanie", "Kina", "Papouasie - Nouvelle-Guinée", "PGK", NULL },
+  { "TO", "Océanie", "Pa'anga", "Tonga", "TOP", NULL },
+  { "WS", "Océanie", "Tala", "Samoa occidental", "WST", NULL },
+  { "VU", "Océanie", "Vatu", "Vanuatu", "VUV", NULL },
+  { NULL },
+};
+
+
+gint
+sort_tree (GtkTreeModel *model,
+	   GtkTreeIter *a,
+	   GtkTreeIter *b,
+	   gpointer user_data)
+{
+  GValue value1 = {0, };
+  GValue value2 = {0, };
+  GValue value3 = {0, };
+  GValue value4 = {0, };
+  gchar * continent1, * continent2, * country1, * country2;
+
+  gtk_tree_model_get_value (model, a, CONTINENT_NAME_COLUMN, &value1);
+  gtk_tree_model_get_value (model, b, CONTINENT_NAME_COLUMN, &value2);
+  continent1 = g_value_get_string(&value1);
+  continent2 = g_value_get_string(&value2);
+
+  gtk_tree_model_get_value (model, a, COUNTRY_NAME_COLUMN, &value3);
+  gtk_tree_model_get_value (model, b, COUNTRY_NAME_COLUMN, &value4);
+  country1 = g_value_get_string(&value3);
+  country2 = g_value_get_string(&value4);
+
+  if (! strcmp(continent1, continent2))
+    {
+      printf (">>> country: %d\n", strcmp(country1, country2));
+      return strcmp(country1, country2);
+    }
+  else
+    {
+      printf (">>> continent: %d\n", strcmp(continent1, continent2));
+      return strcmp(continent1, continent2);
+    }
+}
+
+
+
 /* ***************************************************************************************************** */
 /* Fonction creation_devises_de_base */
-/* appel� lors de l'ouverture d'un nouveau fichier ou lors */
+/* appelé lors de l'ouverture d'un nouveau fichier ou lors */
 /* de l'ouverture de la version 0.2.5 */
-/* met en m�moire les devises de base : l'euro et le franc */
+/* met en mémoire les devises de base : l'euro et le franc */
 /* ***************************************************************************************************** */
 
 void creation_devises_de_base ( void )
@@ -42,14 +252,14 @@ void creation_devises_de_base ( void )
 
   liste_struct_devises = NULL;
 
-  /* cr�ation de l'euro */
+  /* création de l'euro */
 
   devise = malloc ( sizeof ( struct struct_devise ));
 
   devise -> no_devise = 1;
   devise -> nom_devise= g_strdup ( _("Euro") );
   devise -> code_iso4217_devise = g_strdup ( _("EUR") );
-  devise -> code_devise = g_strdup ( _("€") );
+  devise -> code_devise = g_strdup ( _("â¬") );
   devise -> passage_euro = 0;
   devise -> date_dernier_change = NULL;
   devise -> une_devise_1_egale_x_devise_2 = 0;
@@ -69,11 +279,11 @@ void creation_devises_de_base ( void )
 
 /* **************************************************************************************************** */
 /* Fonction creation_option_menu_devises */
-/* retourne le menu d'un option menu avec les diff�rentes devises d�finies */
+/* retourne le menu d'un option menu avec les différentes devises définies */
 /* si devise_cachee = -1, met toutes les devises sous forme de leur sigle */
-/* sinon, ne met pas la devise correspondant � devise_cachee ( 0 = aucune ) */
-/* liste_tmp est la liste utilis�e : soit liste_struct_devises dans le cas g�n�ral, */
-/*                       soit liste_struct_devises_tmp dans le cas des param�tres */
+/* sinon, ne met pas la devise correspondant à devise_cachee ( 0 = aucune ) */
+/* liste_tmp est la liste utilisée : soit liste_struct_devises dans le cas général, */
+/*                       soit liste_struct_devises_tmp dans le cas des paramètres */
 /* **************************************************************************************************** */
 
 GtkWidget *creation_option_menu_devises ( gint devise_cachee,
@@ -158,12 +368,12 @@ new_currency_list ()
   gchar ** continent;
   gchar * continents[] = {
     "Afrique",
-    "Am�rique centrale",
-    "Am�rique du Nord",
-    "Am�rique du Sud",
+    "Amérique centrale",
+    "Amérique du Nord",
+    "Amérique du Sud",
     "Asie",
     "Europe",
-    "Oc�anie",
+    "Océanie",
     NULL,
   };
   gint col_offset;
@@ -178,6 +388,8 @@ new_currency_list ()
   model = gtk_tree_store_new (NUM_CURRENCIES_COLUMNS,
 			      G_TYPE_STRING,
 			      G_TYPE_STRING,
+			      G_TYPE_STRING,
+			      G_TYPE_STRING,
 			      G_TYPE_STRING);
 
   for (continent = continents; *continent; continent++)
@@ -186,19 +398,21 @@ new_currency_list ()
       gtk_tree_store_set (model, &iter,
 			  COUNTRY_NAME_COLUMN, *continent,
 			  CURRENCY_NAME_COLUMN, FALSE,
-			  CURRENCY_ISO_CODE, FALSE,
-			  CURRENCY_NICKNAME, FALSE,
+			  CURRENCY_ISO_CODE_COLUMN, FALSE,
+			  CURRENCY_NICKNAME_COLUMN, FALSE,
+			  CONTINENT_NAME_COLUMN, *continent,
 			  -1);
 
-      while (currency->country_code && 
-	     !strcmp(currency->continent, *continent))
+      while (currency -> country_code && 
+	     !strcmp(currency -> continent, *continent))
 	{
 	  gtk_tree_store_append (model, &child_iter, &iter);
 	  gtk_tree_store_set (model, &child_iter,
 			      COUNTRY_NAME_COLUMN, currency -> country_name,
 			      CURRENCY_NAME_COLUMN, currency -> currency_name,
-			      CURRENCY_ISO_CODE, currency -> currency_code,
-			      CURRENCY_NICKNAME, currency -> currency_nickname,
+			      CURRENCY_ISO_CODE_COLUMN, currency -> currency_code,
+			      CURRENCY_NICKNAME_COLUMN, currency -> currency_nickname,
+			      CONTINENT_NAME_COLUMN, currency -> continent,
 			      -1);
 	  currency++;
 	}
@@ -206,51 +420,16 @@ new_currency_list ()
 
   /* create tree view */
   treeview = gtk_tree_view_new_with_model (model);
-  g_object_unref (model);
   gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
   gtk_tree_selection_set_mode (gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview)),
 			       GTK_SELECTION_MULTIPLE);
 
 
-  /* Columns renderers */
   cell = gtk_cell_renderer_text_new ();
   g_object_set (cell, "xalign", 0.0, NULL);
   col_offset = 
     gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview),
-						 -1, "Country code",
-						 cell, "text",
-						 COUNTRY_CODE_COLUMN,
-						 NULL);
-  column = gtk_tree_view_get_column (GTK_TREE_VIEW (treeview), col_offset - 1);
-  gtk_tree_view_column_set_clickable (GTK_TREE_VIEW_COLUMN (column), TRUE);
-  
-  cell = gtk_cell_renderer_text_new ();
-  g_object_set (cell, "xalign", 0.0, NULL);
-  col_offset = 
-    gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview),
-						 -1, "Continent",
-						 cell, "text",
-						 CONTINENT_COLUMN,
-						 NULL);
-  column = gtk_tree_view_get_column (GTK_TREE_VIEW (treeview), col_offset - 1);
-  gtk_tree_view_column_set_clickable (GTK_TREE_VIEW_COLUMN (column), TRUE);
-
-  cell = gtk_cell_renderer_text_new ();
-  g_object_set (cell, "xalign", 0.0, NULL);
-  col_offset = 
-    gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview),
-						 -1, "Currency name",
-						 cell, "text",
-						 CURRENCY_NAME_COLUMN,
-						 NULL);
-  column = gtk_tree_view_get_column (GTK_TREE_VIEW (treeview), col_offset - 1);
-  gtk_tree_view_column_set_clickable (GTK_TREE_VIEW_COLUMN (column), TRUE);
-
-  cell = gtk_cell_renderer_text_new ();
-  g_object_set (cell, "xalign", 0.0, NULL);
-  col_offset = 
-    gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview),
-						 -1, "Country name",
+						 -1, _("Country name"),
 						 cell, "text",
 						 COUNTRY_NAME_COLUMN,
 						 NULL);
@@ -261,12 +440,39 @@ new_currency_list ()
   g_object_set (cell, "xalign", 0.0, NULL);
   col_offset = 
     gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview),
-						 -1, "Currency name", 
+						 -1, _("Currency name"),
 						 cell, "text",
 						 CURRENCY_NAME_COLUMN,
 						 NULL);
   column = gtk_tree_view_get_column (GTK_TREE_VIEW (treeview), col_offset - 1);
   gtk_tree_view_column_set_clickable (GTK_TREE_VIEW_COLUMN (column), TRUE);
+
+  cell = gtk_cell_renderer_text_new ();
+  g_object_set (cell, "xalign", 0.0, NULL);
+  col_offset = 
+    gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview),
+						 -1, _("ISO Code"), 
+						 cell, "text",
+						 CURRENCY_ISO_CODE_COLUMN,
+						 NULL);
+  column = gtk_tree_view_get_column (GTK_TREE_VIEW (treeview), col_offset - 1);
+  gtk_tree_view_column_set_clickable (GTK_TREE_VIEW_COLUMN (column), TRUE);
+
+  cell = gtk_cell_renderer_text_new ();
+  g_object_set (cell, "xalign", 0.0, NULL);
+  col_offset = 
+    gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview),
+						 -1, _("Nickname"), 
+						 cell, "text",
+						 CURRENCY_NICKNAME_COLUMN,
+						 NULL);
+  column = gtk_tree_view_get_column (GTK_TREE_VIEW (treeview), col_offset - 1);
+  gtk_tree_view_column_set_clickable (GTK_TREE_VIEW_COLUMN (column), TRUE);
+
+  /* Sort columns accordingly */
+  gtk_tree_sortable_set_default_sort_func (model, sort_tree, NULL, NULL);
+  gtk_tree_sortable_set_sort_func (model, COUNTRY_NAME_COLUMN, sort_tree, NULL, NULL);
+  gtk_tree_sortable_set_sort_column_id (model, COUNTRY_NAME_COLUMN, GTK_SORT_ASCENDING);
 
   /* expand all rows after the treeview widget has been realized */
   g_signal_connect (treeview, "realize",
@@ -282,9 +488,9 @@ new_currency_list ()
 
 /***********************************************************************************************************/
 /* Fonction ajout_devise */
-/* appel�e pour cr�er une nouvelle devise */
+/* appelée pour créer une nouvelle devise */
 /* le widget est soit un option menu si l'appel vient du chargement de la version 0.2.4, dans ce cas on utilise liste_struct_devises */
-/* soit c'est la clist des param�tres, dans ce cas on utilise liste_struct_devises_tmp */
+/* soit c'est la clist des paramètres, dans ce cas on utilise liste_struct_devises_tmp */
 /***********************************************************************************************************/
 
 void ajout_devise ( GtkWidget *bouton,
@@ -366,13 +572,9 @@ void ajout_devise ( GtkWidget *bouton,
   gtk_widget_show ( entree_nom );
 
 
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       5 );
+  hbox = gtk_hbox_new ( FALSE, 5 );
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ), hbox,
+		       FALSE, FALSE, 5 );
   gtk_widget_show ( hbox );
 
   label = gtk_label_new ( COLON(_("Currency code")) );
@@ -463,7 +665,7 @@ void ajout_devise ( GtkWidget *bouton,
   gtk_widget_show ( entree_conversion_euro );
 
 
-  /* mise en place du label_nom_devise qui contiendra le nom de la devise d�s que l'entr�e nom_devise perd le focus */
+  /* mise en place du label_nom_devise qui contiendra le nom de la devise dès que l'entrée nom_devise perd le focus */
 
   label_nom_devise = gtk_label_new ( NULL );
   gtk_box_pack_start ( GTK_BOX ( hbox_passage_euro ),
@@ -518,9 +720,9 @@ void ajout_devise ( GtkWidget *bouton,
 
 
 	  /* 	  si le widget est une clist, c'est que l'appel vient du menu de configuration, */
-	  /* on met la liste � jour et on ajoute la devise � liste_struct_devises_tmp */
-	  /* 	    sinon, c'est que c'est le chargement de la version 0.2.5, on met l'option menu et liste_struct_devises � jour */
-	  /* � retirer � partir de la 0.2.7 */
+	  /* on met la liste à jour et on ajoute la devise à liste_struct_devises_tmp */
+	  /* 	    sinon, c'est que c'est le chargement de la version 0.2.5, on met l'option menu et liste_struct_devises à jour */
+	  /* à retirer à partir de la 0.2.7 */
 
 	  if ( GTK_IS_CLIST ( widget ))
 	    {
@@ -542,7 +744,7 @@ void ajout_devise ( GtkWidget *bouton,
 					ligne_liste,
 					devise );
 
-	      /* d�grise appliquer dans param�tres */
+	      /* dégrise appliquer dans paramètres */
 
 	      activer_bouton_appliquer ( );
 
@@ -597,7 +799,7 @@ gint bloque_echap_choix_devise ( GtkWidget *dialog,
 				 gpointer null )
 {
 
-  /* emp�che la touche echap de fermer la fenetre */
+  /* empèche la touche echap de fermer la fenetre */
 
   if ( key -> keyval == 65307 )
     {
@@ -616,8 +818,8 @@ gint bloque_echap_choix_devise ( GtkWidget *dialog,
 
 /***********************************************************************************************************/
 /* Fonction nom_nouvelle_devise_defini */
-/* appel�e lorsque l'utilisateur a d�fini le nouveau nom de la devise */
-/* affiche le nom de la devise derri�re l'entr�e pour la conversion en euro */
+/* appelée lorsque l'utilisateur a défini le nouveau nom de la devise */
+/* affiche le nom de la devise derrière l'entrée pour la conversion en euro */
 /***********************************************************************************************************/
 
 gboolean nom_nouvelle_devise_defini ( GtkWidget *entree,
@@ -653,8 +855,8 @@ void retrait_devise ( GtkWidget *bouton,
   devise = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
 				    ligne_selection_devise );
 
-  /*   recherche dans tous les comptes, les op�s et les �ch�ances si la devise n'est pas utilis�e */
-  /* si elle l'est, emp�che sa suppression */
+  /*   recherche dans tous les comptes, les opés et les échéances si la devise n'est pas utilisée */
+  /* si elle l'est, empêche sa suppression */
 
   devise_trouvee = 0;
 
@@ -751,7 +953,7 @@ gint recherche_devise_par_nom ( struct struct_devise *devise,
 
 /***********************************************************************************************************/
 /* Fonction recherche_devise_par_no */
-/* appel�e par un g_slist_find_custom */
+/* appelée par un g_slist_find_custom */
 /***********************************************************************************************************/
 
 gint recherche_devise_par_no ( struct struct_devise *devise,
@@ -769,7 +971,7 @@ gint recherche_devise_par_no ( struct struct_devise *devise,
 /***********************************************************************************************************/
 /* Fonction selection_devise */
 /* permet de choisir une devise pour un compte */
-/* utilis�e quand la devise d'un compte est supprim�e, pour le r�affecter */
+/* utilisée quand la devise d'un compte est supprimée, pour le réaffecter */
 /* et pour l'importation d'un fichier qif */
 /***********************************************************************************************************/
 
@@ -878,9 +1080,9 @@ void passe_a_l_euro ( GtkWidget *toggle_bouton,
 
 /***********************************************************************************************************/
 /* Fonction demande_taux_de_change : */
-/* affiche une fenetre permettant d'entrer le taux de change entre la devise du compte et la devise demand�e */
+/* affiche une fenetre permettant d'entrer le taux de change entre la devise du compte et la devise demandée */
 /* renvoie ce taux de change */
-/* le taux renvoy� est <0 si une_devise_compte_egale_x_devise_ope = 1, > 0 sinon */
+/* le taux renvoyé est <0 si une_devise_compte_egale_x_devise_ope = 1, > 0 sinon */
 /***********************************************************************************************************/
 
 void demande_taux_de_change ( struct struct_devise *devise_compte,
@@ -920,7 +1122,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 		       20 );
   gtk_widget_show ( label );
 
-  /* cr�ation de la ligne du change */
+  /* création de la ligne du change */
 
   hbox = gtk_hbox_new ( FALSE,
 			5 );
@@ -976,7 +1178,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 		       0);
   gtk_widget_show ( option_menu_devise_2 );
 
-      /* cr�ation du menu de la 1�re devise ( le menu comporte la devise courante et celle associ�e ) */
+      /* création du menu de la 1ère devise ( le menu comporte la devise courante et celle associée ) */
 
   menu = gtk_menu_new ();
 
@@ -1007,7 +1209,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 	  
 
 
-      /* cr�ation du menu de la 2�me devise ( le menu comporte la devise courante et celle associ�e ) */
+      /* création du menu de la 2ème devise ( le menu comporte la devise courante et celle associée ) */
 
   menu = gtk_menu_new ();
 
@@ -1040,7 +1242,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 
 
 
-  /* cr�ation de la ligne des frais de change */
+  /* création de la ligne des frais de change */
 
   hbox = gtk_hbox_new ( FALSE,
 			5 );
@@ -1079,7 +1281,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
   gtk_widget_show ( label );
 
 
-      /* choix des 1�re et 2�me devise */
+      /* choix des 1ère et 2ème devise */
 
   if ( taux_change
        ||
@@ -1110,18 +1312,18 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
     }
   else
     {
-      /* v�rifie s'il y a d�j� une association entre la devise du compte et la devise de l'op�ration */
+      /* vérifie s'il y a déjà une association entre la devise du compte et la devise de l'opération */
 
       if ( devise_compte -> no_devise_en_rapport == devise -> no_devise )
 	{
-	  /* il y a une association de la devise du compte vers la devise de l'op�ration */
+	  /* il y a une association de la devise du compte vers la devise de l'opération */
 
 	  gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devise_1 ),
 					devise_compte -> une_devise_1_egale_x_devise_2 );
 	  gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devise_2 ),
 					!( devise_compte -> une_devise_1_egale_x_devise_2 ));
 
-	  /*       si un change est d�j� entr�, on l'affiche */
+	  /*       si un change est déjà entré, on l'affiche */
 	  
 	  if ( devise_compte -> date_dernier_change )
 	    gtk_entry_set_text ( GTK_ENTRY ( entree ),
@@ -1131,14 +1333,14 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
       else
 	if ( devise -> no_devise_en_rapport == devise_compte -> no_devise )
 	  {
-	    /* il y a une association de la devise de l'op�ration vers la devise du compte */
+	    /* il y a une association de la devise de l'opération vers la devise du compte */
 
 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devise_1 ),
 					  !(devise -> une_devise_1_egale_x_devise_2 ));
 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devise_2 ),
 					  devise -> une_devise_1_egale_x_devise_2 );
 
-	    /*       si un change est d�j� entr�, on l'affiche */
+	    /*       si un change est déjà entré, on l'affiche */
 	  
 	    if ( devise -> date_dernier_change )
 	      gtk_entry_set_text ( GTK_ENTRY ( entree ),
@@ -1147,7 +1349,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 	  }
       else
 	{
-	  /* il n'y a aucun rapport �tabli entre les 2 devises */
+	  /* il n'y a aucun rapport établi entre les 2 devises */
 
 	  gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devise_1 ),
 					1 );
@@ -1195,9 +1397,9 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 
 /***********************************************************************************************************/
 /* Fonction devise_selectionnee */
-/* appel�e lorsqu'on selectionne une des 2 devises de la fenetre de demande du taux de change */
-/* change automatiquement le 2�me option_menu */
-/* entr�e : origine = 0 : c'est le 1er option menu qui a �t� chang� */
+/* appelée lorsqu'on selectionne une des 2 devises de la fenetre de demande du taux de change */
+/* change automatiquement le 2ème option_menu */
+/* entrée : origine = 0 : c'est le 1er option menu qui a été changé */
 /*              origine = 1 sinon */
 /***********************************************************************************************************/
 
@@ -1208,7 +1410,7 @@ gboolean devise_selectionnee ( GtkWidget *menu_shell,
 
   if ( origine )
     {
-      /* le 2�me option menu a �t� chang� */
+      /* le 2ème option menu a été changé */
 
       position = g_list_index ( GTK_MENU_SHELL ( menu_shell ) -> children,
 				GTK_OPTION_MENU ( option_menu_devise_2 ) -> menu_item );
@@ -1218,7 +1420,7 @@ gboolean devise_selectionnee ( GtkWidget *menu_shell,
     }
   else
     {
-      /* le 1er option menu a �t� chang� */
+      /* le 1er option menu a été changé */
 
       position = g_list_index ( GTK_MENU_SHELL ( menu_shell ) -> children,
 				GTK_OPTION_MENU ( option_menu_devise_1 ) -> menu_item );
@@ -1295,7 +1497,7 @@ GtkWidget *onglet_devises ( void )
     gtk_widget_set_sensitive ( vbox, FALSE );
   else
     {
-      /* on cr�e la liste_struct_devises_tmp qui est un copie de liste_struct_devises originale */
+      /* on crée la liste_struct_devises_tmp qui est un copie de liste_struct_devises originale */
       /* avec laquelle on travaillera dans les parametres */
 
       liste_struct_devises_tmp = NULL;
@@ -1353,7 +1555,7 @@ GtkWidget *onglet_devises ( void )
 	  ligne_insert = gtk_clist_append ( GTK_CLIST ( clist_devises_parametres ),
 					    ligne );
 
-	  /* on associe � la ligne la struct de la devise */
+	  /* on associe à la ligne la struct de la devise */
 
 	  gtk_clist_set_row_data ( GTK_CLIST ( clist_devises_parametres ),
 				   ligne_insert,
@@ -1488,7 +1690,7 @@ GtkWidget *onglet_devises ( void )
   gtk_widget_show ( check_button_euro );
 
 
-  /* Cr�ation de la ligne devise associ�e */
+  /* Création de la ligne devise associée */
   hbox_devise_associee = gtk_hbox_new ( FALSE, 5 );
   gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox_devise_associee,
 		       FALSE, FALSE, 0);
@@ -1505,13 +1707,13 @@ GtkWidget *onglet_devises ( void )
   gtk_widget_show ( option_menu_devises );
 
 
-  /* Cr�ation de la ligne de change entre les devises */
+  /* Création de la ligne de change entre les devises */
   label_date_dernier_change = gtk_label_new ( NULL );
   gtk_box_pack_start ( GTK_BOX ( paddingbox ), label_date_dernier_change,
 		       FALSE, FALSE, 0);
   gtk_widget_show ( label_date_dernier_change );
 
-  /* Cr�ation de la ligne du change */
+  /* Création de la ligne du change */
   hbox_ligne_change = gtk_hbox_new ( FALSE, 5 );
   gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox_ligne_change,
 		       FALSE, FALSE, 0);
@@ -1559,7 +1761,7 @@ GtkWidget *onglet_devises ( void )
 
 /* **************************************************************************************************************************** */
 /* Fonction selection_ligne_devise */
-/* appel�e lorsqu'on s�lectionne une devise dans la liste */
+/* appelée lorsqu'on sélectionne une devise dans la liste */
 /* **************************************************************************************************************************** */
 
 gboolean selection_ligne_devise ( GtkWidget *liste,
@@ -1605,7 +1807,7 @@ gboolean selection_ligne_devise ( GtkWidget *liste,
 				       NULL );
 
 
-  /* cr�e le menu des devises en enlevant la devise courante */
+  /* crée le menu des devises en enlevant la devise courante */
 
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( option_menu_devises ),
 			     creation_option_menu_devises ( devise -> no_devise,
@@ -1658,7 +1860,7 @@ gboolean selection_ligne_devise ( GtkWidget *liste,
 
 /* **************************************************************************************************************************** */
 /* Fonction deselection_ligne_devise */
-/* appel�e lorsqu'on d�s�lectionne une devise dans la liste */
+/* appelée lorsqu'on désélectionne une devise dans la liste */
 /* **************************************************************************************************************************** */
 
 gboolean deselection_ligne_devise ( GtkWidget *liste,
@@ -1710,7 +1912,7 @@ gboolean deselection_ligne_devise ( GtkWidget *liste,
 
   if ( ( devise -> passage_euro = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( check_button_euro ) )) )
     {
-      /* c'est une devise qui passera � l'euro */
+      /* c'est une devise qui passera à l'euro */
 
       devise -> une_devise_1_egale_x_devise_2 = 0;
       devise -> no_devise_en_rapport = 1;
@@ -1721,7 +1923,7 @@ gboolean deselection_ligne_devise ( GtkWidget *liste,
     }
   else
     {
-      /*       si le change a chang�, c'est qu'il y a une mise � jours */
+      /*       si le change a changé, c'est qu'il y a une mise à jours */
 
       if ( g_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_conversion )),
 		      NULL )
@@ -1734,7 +1936,7 @@ gboolean deselection_ligne_devise ( GtkWidget *liste,
 	}
 
 
-      /* qu'il y ait un changement dans le change ou pas, on r�cup�re toutes les autres valeurs */
+      /* qu'il y ait un changement dans le change ou pas, on récupère toutes les autres valeurs */
 
       devise -> no_devise_en_rapport =  ((struct struct_devise *)(gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( option_menu_devises ) -> menu_item ),
 											"adr_devise" ))) -> no_devise;
@@ -1770,7 +1972,7 @@ gboolean deselection_ligne_devise ( GtkWidget *liste,
 
 /* **************************************************************************************************************************** */
 /* Fonction change_passera_euro */
-/* appel�e quand appuie sur le bouton Passera � l'euro */
+/* appelée quand appuie sur le bouton Passera à l'euro */
 /* **************************************************************************************************************************** */
 
 gboolean change_passera_euro ( GtkWidget *bouton,
@@ -1803,7 +2005,7 @@ gboolean change_passera_euro ( GtkWidget *bouton,
       gtk_widget_show ( menu );
 
 
-      /*       on met la devise dans le 2�me menu */
+      /*       on met la devise dans le 2ème menu */
 
       menu = gtk_menu_new ();
 
@@ -1924,7 +2126,7 @@ gboolean change_passera_euro ( GtkWidget *bouton,
 
 /* **************************************************************************************************************************** */
 /* Fonction changement_devise_associee */
-/* appel�e lorsqu'on change la devise compar�e */
+/* appelée lorsqu'on change la devise comparée */
 /* **************************************************************************************************************************** */
 
 gboolean changement_devise_associee ( GtkWidget *menu_devises,
@@ -1947,7 +2149,7 @@ gboolean changement_devise_associee ( GtkWidget *menu_devises,
       gtk_widget_set_sensitive ( hbox_ligne_change,
 				 TRUE );
 
-      /* cr�ation du menu de la 1�re devise ( le menu comporte la devise courante et celle associ�e ) */
+      /* création du menu de la 1ère devise ( le menu comporte la devise courante et celle associée ) */
 
       menu = gtk_menu_new ();
 
@@ -1980,7 +2182,7 @@ gboolean changement_devise_associee ( GtkWidget *menu_devises,
 	  
 
 
-      /* cr�ation du menu de la 2�me devise ( le menu comporte la devise courante et celle associ�e ) */
+      /* création du menu de la 2ème devise ( le menu comporte la devise courante et celle associée ) */
 
       menu = gtk_menu_new ();
 
@@ -2012,7 +2214,7 @@ gboolean changement_devise_associee ( GtkWidget *menu_devises,
       gtk_widget_show ( menu );
  
 
-      /* choix des 1�re et 2�me devise */
+      /* choix des 1ère et 2ème devise */
 
       gtk_option_menu_set_history ( GTK_OPTION_MENU ( devise_1 ),
 				    !( devise -> une_devise_1_egale_x_devise_2 ));
@@ -2107,9 +2309,9 @@ gboolean changement_iso_code_entree_devise ( void )
 
 
 /* **************************************************************************************************************************** */
-/* cette fonction prend en argument un montant, la devise de renvoi (en g�n�ral la devise du compte) */
-/*      et la devise du montant donn� en argument */
-/* elle renvoie le montant de l'op�ration dans la devise de renvoi */
+/* cette fonction prend en argument un montant, la devise de renvoi (en général la devise du compte) */
+/*      et la devise du montant donné en argument */
+/* elle renvoie le montant de l'opération dans la devise de renvoi */
 /* **************************************************************************************************************************** */
 
 gdouble calcule_montant_devise_renvoi ( gdouble montant_init,
@@ -2121,7 +2323,7 @@ gdouble calcule_montant_devise_renvoi ( gdouble montant_init,
 {
   gdouble montant;
 
-  /* tout d'abord, si les 2 devises sont les m�mes, on renvoie le montant directement */
+  /* tout d'abord, si les 2 devises sont les mêmes, on renvoie le montant directement */
 
   if ( no_devise_renvoi == no_devise_montant )
     return ( montant_init );
@@ -2130,7 +2332,7 @@ gdouble calcule_montant_devise_renvoi ( gdouble montant_init,
   /* on utilise les variables globales devise_compte et devise_operation pour */
   /* gagner du temps */
 
-  /* r�cup�re la devise du compte si n�cessaire */
+  /* récupère la devise du compte si nécessaire */
 
   if ( !devise_compte
        ||
@@ -2139,7 +2341,7 @@ gdouble calcule_montant_devise_renvoi ( gdouble montant_init,
 					  GINT_TO_POINTER ( no_devise_renvoi ),
 					  ( GCompareFunc ) recherche_devise_par_no) -> data;
 
-  /* r�cup�re la devise de l'op�ration si n�cessaire */
+  /* récupère la devise de l'opération si nécessaire */
 
   if ( !devise_operation
        ||
