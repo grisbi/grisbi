@@ -20,7 +20,7 @@
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 #include "include.h"
-#include "account_constants.h"
+#include "gsb_account.h"
 
 
 /*START_INCLUDE*/
@@ -29,7 +29,7 @@
 #include "utils_categories.h"
 #include "search_glist.h"
 #include "etats_affiche.h"
-#include "data_account.h"
+#include "gsb_account.h"
 #include "utils_str.h"
 #include "utils_ib.h"
 #include "utils_rapprochements.h"

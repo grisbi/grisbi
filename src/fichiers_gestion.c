@@ -42,7 +42,7 @@
 #include "dialog.h"
 #include "erreur.h"
 #include "utils_file_selection.h"
-#include "data_account.h"
+#include "gsb_account.h"
 #include "operations_comptes.h"
 #include "traitement_variables.h"
 #include "main.h"

@@ -1,7 +1,5 @@
 /*START_DECLARATION*/
 void affiche_cache_le_formulaire ( void );
-void basculer_vers_ventilation ( GtkWidget *bouton,
-				 gpointer null );
 gboolean clique_champ_formulaire ( GtkWidget *entree,
 				   GdkEventButton *ev,
 				   gint *no_origine );

@@ -28,7 +28,7 @@
 #include "operations_liste.h"
 #include "utils_devises.h"
 #include "dialog.h"
-#include "data_account.h"
+#include "gsb_account.h"
 #include "operations_comptes.h"
 #include "gtk_combofix.h"
 #include "utils_str.h"

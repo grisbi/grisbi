@@ -27,7 +27,7 @@
 #include "include.h"
 #include "echeancier_formulaire_constants.h"
 #include "operations_formulaire_constants.h"
-#include "account_constants.h"
+#include "gsb_account.h"
 
 /*START_INCLUDE*/
 #include "comptes_traitements.h"
@@ -38,7 +38,7 @@
 #include "dialog.h"
 #include "utils_echeances.h"
 #include "fichiers_gestion.h"
-#include "data_account.h"
+#include "gsb_account.h"
 #include "operations_comptes.h"
 #include "comptes_onglet.h"
 #include "main.h"

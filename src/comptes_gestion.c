@@ -35,7 +35,7 @@
 #include "utils_devises.h"
 #include "dialog.h"
 #include "operations_formulaire.h"
-#include "data_account.h"
+#include "gsb_account.h"
 #include "operations_comptes.h"
 #include "comptes_onglet.h"
 #include "categories_onglet.h"

@@ -28,7 +28,7 @@
 /*START_INCLUDE*/
 #include "etats_gtktable.h"
 #include "barre_outils.h"
-#include "data_account.h"
+#include "gsb_account.h"
 #include "operations_comptes.h"
 #include "operations_liste.h"
 #include "utils.h"

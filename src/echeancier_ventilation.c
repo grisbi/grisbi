@@ -41,7 +41,7 @@
 #include "dialog.h"
 #include "utils_echeances.h"
 #include "operations_formulaire.h"
-#include "data_account.h"
+#include "gsb_account.h"
 #include "operations_liste.h"
 #include "gtk_combofix.h"
 #include "utils_ib.h"

@@ -34,7 +34,7 @@
 #include "dialog.h"
 #include "utils_devises.h"
 #include "utils_editables.h"
-#include "data_account.h"
+#include "gsb_account.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"

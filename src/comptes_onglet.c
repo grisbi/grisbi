@@ -27,7 +27,7 @@
 #include "comptes_onglet.h"
 #include "comptes_gestion.h"
 #include "comptes_traitements.h"
-#include "data_account.h"
+#include "gsb_account.h"
 #include "operations_comptes.h"
 #include "gtk_list_button.h"
 /*END_INCLUDE*/

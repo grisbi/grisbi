@@ -27,7 +27,7 @@
 /*START_INCLUDE*/
 #include "operations_comptes.h"
 #include "equilibrage.h"
-#include "data_account.h"
+#include "gsb_account.h"
 #include "comptes_onglet.h"
 #include "operations_liste.h"
 #include "gtk_list_button.h"
@@ -64,7 +64,6 @@ extern GtkItemFactory *item_factory_menu_general;
 extern gchar *last_date;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint nb_colonnes;
-extern GtkWidget *notebook_comptes_equilibrage;
 extern GtkWidget *notebook_general;
 extern GtkWidget *tree_view;
 /*END_EXTERN*/

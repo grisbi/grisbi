@@ -27,7 +27,7 @@
 
 #include "include.h"
 #include "accueil_constants.h"
-#include "account_constants.h"
+#include "gsb_account.h"
 
 
 /*START_INCLUDE*/
@@ -37,7 +37,7 @@
 #include "echeancier_liste.h"
 #include "dialog.h"
 #include "echeancier_formulaire.h"
-#include "data_account.h"
+#include "gsb_account.h"
 #include "operations_comptes.h"
 #include "operations_liste.h"
 #include "gtk_list_button.h"

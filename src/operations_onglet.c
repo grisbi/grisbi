@@ -30,7 +30,7 @@
 #include "operations_liste.h"
 #include "operations_formulaire.h"
 #include "operations_comptes.h"
-#include "data_account.h"
+#include "gsb_account.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

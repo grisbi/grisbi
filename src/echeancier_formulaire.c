@@ -30,7 +30,6 @@
 /*START_INCLUDE*/
 #include "echeancier_formulaire.h"
 #include "exercice.h"
-#include "operations_formulaire.h"
 #include "utils_editables.h"
 #include "utils_categories.h"
 #include "comptes_traitements.h"
@@ -39,7 +38,8 @@
 #include "devises.h"
 #include "utils_devises.h"
 #include "dialog.h"
-#include "data_account.h"
+#include "operations_formulaire.h"
+#include "gsb_account.h"
 #include "calendar.h"
 #include "utils_dates.h"
 #include "gtk_combofix.h"
