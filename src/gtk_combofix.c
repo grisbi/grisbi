@@ -75,9 +75,9 @@ static gboolean touche_pressee_dans_popup ( GtkWidget *popup,
 /* Variables globales */
 
 static gint rafraichir_selection = 0;
-
-
 static gint bloque_proposition = 0;
+static gint case_sensitive = 0;
+
 
 
 /* **************************************************************************************************** */
@@ -570,25 +570,17 @@ static gboolean change_arrow ( GtkWidget *bouton,
 /* **************************************************************************************************** */
 
 static gboolean affiche_proposition ( GtkWidget *entree,
-				  gchar *texte,
-				  gint longueur,
-				  gint *position,
-				  GtkComboFix *combofix )
+				      gchar *texte,
+				      gint longueur,
+				      gint *position,
+				      GtkComboFix *combofix )
 {
+  GSList *liste_tmp, *liste_affichee;
   GtkStyle *style_label;
-  GtkWidget *liste;
-  GSList *liste_tmp;
-  gchar *chaine;
-  GtkWidget *label;
-  GtkWidget *event_box;
-  gint menu_rempli;
-  gint menu_rempli_ok;
-  gchar *completion;
-  GtkWidget *scrolled_window;
   GdkColor couleur_bleue;
-  GSList *liste_affichee;
-  gchar *categorie;
-  gint ligne_en_cours;
+  GtkWidget *liste, *scrolled_window, *label, *event_box;
+  gint menu_rempli, menu_rempli_ok, ligne_en_cours, i;
+  gchar *chaine, *completion, *categorie;
 
   if (bloque_proposition)
     return;
@@ -635,6 +627,15 @@ static gboolean affiche_proposition ( GtkWidget *entree,
 
  recherche_completion:
 
+  for ( i=0; texte && i < strlen(texte); i++)
+    {
+      if ( isupper(texte[i]) )
+	{
+	  case_sensitive = 1;
+	  break;
+	}
+    }
+
   chaine = (gchar *) gtk_entry_get_text ( GTK_ENTRY ( combofix -> entry ));
   completion = NULL;
 
@@ -644,10 +645,16 @@ static gboolean affiche_proposition ( GtkWidget *entree,
 
       while ( liste_tmp && !completion )
 	{
-	  if ( !g_strncasecmp ( chaine,
-				liste_tmp->data, 
-				strlen ( chaine ) ) )
-	    completion = liste_tmp -> data;
+	  if ( !case_sensitive )
+	    {
+	      if ( !g_strncasecmp ( chaine, liste_tmp->data, strlen ( chaine ) ) )
+		completion = liste_tmp -> data;
+	    }
+	  else
+	    {
+	      if ( !strncmp ( chaine, liste_tmp->data, strlen ( chaine ) ) )
+		completion = liste_tmp -> data;
+	    }
 	  
 	  liste_tmp = liste_tmp -> next;
 	}
@@ -1444,6 +1451,8 @@ static gboolean focus_out_combofix ( GtkWidget *widget,
   gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 				 "focus-out-event" );
 
+  case_sensitive = 0;
+
   gtk_widget_get_pointer ( GTK_WIDGET ( combofix ),
 			   &x,
 			   &y );
@@ -1523,13 +1532,14 @@ static gboolean met_selection ( GtkWidget *entry,
 /* vérifie avant d'effacer une partie du texte si force_text est mis, que le résultat fait partit de la liste */
 /* **************************************************************************************************** */
 static gboolean verifie_efface_texte ( GtkWidget *entree,
-				   gint start,
-				   gint end,
-				   GtkComboFix *combofix )
+				       gint start,
+				       gint end,
+				       GtkComboFix *combofix )
 {
   gchar *chaine;
   gint longueur;
   GSList *liste_tmp;
+
 
   /* si force_text n'est pas mis, on s'en va */
 
