@@ -424,9 +424,8 @@ gboolean enregistrement_fichier ( gint origine )
     if ( !etat.modification_fichier && origine != -2 )
 	return ( TRUE );
 
-    if ( origine == -1
-	 &&
-	 !etat.sauvegarde_auto )
+    if ( origine == -1 &&
+	 (!etat.sauvegarde_auto || !nom_fichier_comptes) )
     {
 	gchar * hint;
 
@@ -536,7 +535,6 @@ gboolean enregistrement_fichier ( gint origine )
 	if ( origine == -2 && !etat.force_enregistrement )
 	    etat.force_enregistrement = 1;
     }
-
 
     if ( nom_fichier_backup && strlen(nom_fichier_backup) )
 	if ( !enregistrement_backup() )
