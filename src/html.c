@@ -26,7 +26,6 @@
 
 /*START_INCLUDE*/
 #include "html.h"
-#include "dialog.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

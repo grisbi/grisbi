@@ -33,50 +33,42 @@
 
 
 /*START_INCLUDE*/
-#include "affichage_formulaire.h"
-#include "barre_outils.h"
-#include "dialog.h"
-#include "etats_config.h"
-#include "fichiers_io.h"
-#include "gtk_combofix.h"
 #include "imputation_budgetaire.h"
-#include "meta_budgetary.h"
 #include "metatree.h"
-#include "operations_comptes.h"
-#include "operations_formulaire.h"
-#include "operations_liste.h"
-#include "search_glist.h"
-#include "tiers_onglet.h"
-#include "traitement_variables.h"
-#include "utils.h"
-#include "utils_buttons.h"
-#include "utils_devises.h"
-#include "utils_editables.h"
-#include "utils_file_selection.h"
-#include "utils_files.h"
 #include "utils_ib.h"
-#include "utils_operations.h"
-#include "utils_str.h"
+#include "fichiers_io.h"
+#include "operations_liste.h"
+#include "dialog.h"
+#include "utils_devises.h"
+#include "utils_file_selection.h"
+#include "gtk_combofix.h"
+#include "traitement_variables.h"
+#include "utils_buttons.h"
+#include "utils.h"
+#include "utils_editables.h"
+#include "parametres.h"
+#include "etats_config.h"
+#include "affichage_formulaire.h"
+#include "operations_formulaire.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
 static void appui_sur_ajout_imputation ( void );
 static void appui_sur_ajout_sous_imputation ( void );
+static gboolean budgetary_line_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
+					GtkSelectionData * selection_data );
 static void clique_sur_annuler_imputation ( void );
 static void clique_sur_modifier_imputation ( void );
+static GtkWidget *creation_barre_outils_ib ( void );
+static gboolean edit_budgetary_line ( GtkWidget * button, GtkTreeView * view );
 static void enleve_selection_ligne_imputation ( void );
 static void exporter_ib ( void );
 static void fusion_categories_imputation ( void );
 static void importer_ib ( void );
 static void modification_du_texte_imputation ( void );
+static gboolean popup_budgetary_line_view_mode_menu ( GtkWidget * button );
 static void supprimer_imputation ( void );
 static void supprimer_sous_imputation ( void );
-static gboolean budgetary_line_drag_data_get ( GtkTreeDragSource * drag_source, 
-					       GtkTreePath * path,
-					       GtkSelectionData * selection_data );
-GtkWidget *creation_barre_outils_ib ( void );
-gboolean popup_budgetary_line_view_mode_menu ( GtkWidget * button );
-gboolean edit_budgetary_line ( GtkWidget * button, GtkTreeView * view );
 /*END_STATIC*/
 
 
@@ -106,19 +98,18 @@ gint no_devise_totaux_ib;
 
 
 /*START_EXTERN*/
-extern gint compte_courant;
+extern MetatreeInterface * budgetary_interface ;
 extern gchar *dernier_chemin_de_travail;
 extern struct struct_devise *devise_compte;
-extern struct struct_devise *devise_operation;
 extern struct struct_etat *etat_courant;
 extern GtkWidget *formulaire;
 extern GSList *liste_struct_categories;
 extern GSList *liste_struct_echeances;
 extern GdkBitmap *masque_ferme;
 extern GdkBitmap *masque_ouvre;
+extern GtkTreeStore *model;
 extern gint modif_imputation;
 extern gint nb_comptes;
-extern gint nb_ecritures_par_comptes;
 extern gint no_derniere_operation;
 extern gint no_devise_totaux_tiers;
 extern gpointer **p_tab_nom_de_compte;

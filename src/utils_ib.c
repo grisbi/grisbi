@@ -32,21 +32,20 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-struct struct_sous_imputation *sous_imputation_par_no ( gint no_imputation,
-							gint no_sous_imputation );
+static void reset_budgetary_line_counters ();
 /*END_STATIC*/
 
 
 /*START_EXTERN*/
 extern GSList *liste_struct_imputation;
 extern gint mise_a_jour_combofix_imputation_necessaire;
+extern gint nb_comptes;
 extern gint nb_enregistrements_imputations;
 extern gint no_derniere_imputation;
-extern gint nb_comptes;
+extern gint no_devise_totaux_ib;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
 extern struct struct_imputation * without_budgetary_line;
-extern gint no_devise_totaux_ib;
 /*END_EXTERN*/
 
 

@@ -38,6 +38,7 @@
 #include "fichiers_gestion.h"
 #include "qif.h"
 #include "erreur.h"
+#include "tip.h"
 #include "import.h"
 #include "etats_calculs.h"
 #include "utils.h"
@@ -46,7 +47,6 @@
 #include "comptes_traitements.h"
 #include "etats_config.h"
 #include "parametres.h"
-#include "tip.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

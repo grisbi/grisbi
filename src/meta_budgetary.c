@@ -23,58 +23,65 @@
 #include "include.h"
 
 /*START_INCLUDE*/
-#include "imputation_budgetaire.h"
 #include "meta_budgetary.h"
-#include "metatree.h"
-#include "search_glist.h"
-#include "structures.h"
-#include "utils_devises.h"
 #include "utils_ib.h"
+#include "utils_devises.h"
+#include "imputation_budgetaire.h"
 /*END_INCLUDE*/
 
 
 /*START_STATIC*/
-gpointer budgetary_line_get_without_div_pointer ();
-gpointer budgetary_line_get_div_pointer (int);
-gpointer budgetary_line_get_sub_div_pointer (int, int);
-gpointer budgetary_line_get_div_pointer_from_name (gchar *,gboolean);
-gpointer budgetary_line_get_sub_div_pointer_from_name (int, gchar *,gboolean);
-gint budgetary_line_div_nb_transactions (gpointer);
-gint budgetary_line_sub_div_nb_transactions (gpointer,gpointer);
-gchar * budgetary_line_div_name (gpointer);
-gchar * budgetary_line_sub_div_name (gpointer);
-gdouble budgetary_line_div_balance (gpointer);
-gdouble budgetary_line_sub_div_balance (gpointer,gpointer);
-gint budgetary_line_div_id (gpointer);
-gint budgetary_line_sub_div_id (gpointer);
-gint budgetary_line_transaction_div_id (struct structure_operation *);
-gint budgetary_line_transaction_sub_div_id (struct structure_operation *);
-void budgetary_line_transaction_set_div_id (struct structure_operation *, int);
-void budgetary_line_transaction_set_sub_div_id (struct structure_operation *, int);
-gint budgetary_line_add_div ();
-gint budgetary_line_add_sub_div (int);
-gboolean budgetary_line_remove_div (int);
-gboolean budgetary_line_remove_sub_div (int, int);
-gboolean budgetary_line_add_transaction_to_div (struct structure_operation *, int);
-gboolean budgetary_line_add_transaction_to_sub_div (struct structure_operation *, int, int);
-gboolean budgetary_line_remove_transaction_from_div (struct structure_operation *, int);
-gboolean budgetary_line_remove_transaction_from_sub_div (struct structure_operation *, int, int);
-GSList * budgetary_line_div_list ( );
-GSList * budgetary_line_div_sub_div_list (gpointer);
-gint budgetary_line_div_type (gpointer);
-gint budgetary_line_scheduled_div_id (struct operation_echeance *);
-gint budgetary_line_scheduled_sub_div_id (struct operation_echeance *);
-void budgetary_line_scheduled_set_div_id (struct operation_echeance *, int);
-void budgetary_line_scheduled_set_sub_div_id (struct operation_echeance *, int);
-struct struct_devise * budgetary_line_tree_currency ( );
+static gint budgetary_line_add_div ();
+static gint budgetary_line_add_sub_div ( int div_id );
+static gboolean budgetary_line_add_transaction_to_div ( struct structure_operation * trans, 
+						 int div_id );
+static gboolean budgetary_line_add_transaction_to_sub_div ( struct structure_operation * trans, 
+						     int div_id, int sub_div_id );
+static gdouble budgetary_line_div_balance ( gpointer div );
+static gint budgetary_line_div_id ( gpointer budgetary_line );
+static GSList * budgetary_line_div_list ( );
+static gchar * budgetary_line_div_name ( gpointer div );
+static gint budgetary_line_div_nb_transactions ( gpointer div );
+static GSList * budgetary_line_div_sub_div_list ( gpointer div );
+static gint budgetary_line_div_type ( gpointer div );
+static gpointer budgetary_line_get_div_pointer ( int div_id );
+static gpointer budgetary_line_get_div_pointer_from_name ( gchar * name, gboolean create );
+static gpointer budgetary_line_get_sub_div_pointer ( int div_id, int sub_div_id );
+static gpointer budgetary_line_get_sub_div_pointer_from_name ( int div_id, gchar * name, 
+							gboolean create );
+static gpointer budgetary_line_get_without_div_pointer ( );
+static gboolean budgetary_line_remove_div ( int div_id );
+static gboolean budgetary_line_remove_sub_div ( int div_id, int sub_div_id );
+static gboolean budgetary_line_remove_transaction_from_div ( struct structure_operation * trans, 
+						      int div_id );
+static gboolean budgetary_line_remove_transaction_from_sub_div ( struct structure_operation * trans, 
+							  int div_id, int sub_div_id );
+static gint budgetary_line_scheduled_div_id ( struct operation_echeance * scheduled );
+static void budgetary_line_scheduled_set_div_id ( struct operation_echeance * scheduled, 
+					   int no_div );
+static void budgetary_line_scheduled_set_sub_div_id ( struct operation_echeance * scheduled, 
+					       int no_sub_div );
+static gint budgetary_line_scheduled_sub_div_id ( struct operation_echeance * scheduled );
+static gdouble budgetary_line_sub_div_balance ( gpointer div, gpointer sub_div );
+static gint budgetary_line_sub_div_id ( gpointer sub_budgetary_line );
+static gchar * budgetary_line_sub_div_name ( gpointer sub_div );
+static gint budgetary_line_sub_div_nb_transactions ( gpointer div, gpointer sub_div );
+static gint budgetary_line_transaction_div_id ( struct structure_operation * transaction );
+static void budgetary_line_transaction_set_div_id ( struct structure_operation * transaction, 
+					     int no_div );
+static void budgetary_line_transaction_set_sub_div_id ( struct structure_operation * transaction, 
+						 int no_sub_div );
+static gint budgetary_line_transaction_sub_div_id ( struct structure_operation * transaction );
+static struct struct_devise * budgetary_line_tree_currency ( );
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern GSList *liste_struct_imputation;
 extern gint mise_a_jour_combofix_imputation_necessaire;
-extern GSList * liste_struct_imputation;
+extern GtkTreeStore *model;
 extern gint nb_enregistrements_imputations;
 extern gint no_devise_totaux_ib;
-/*START_EXTERN*/
+/*END_EXTERN*/
 
 
 static MetatreeInterface _budgetary_interface = {

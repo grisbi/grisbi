@@ -9,5 +9,5 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 			      gboolean force );
 struct struct_devise * find_currency_from_iso4217_list ( gchar * currency_name );
 GtkWidget *onglet_devises ( void );
-GtkWidget * tab_display_totals ( void );
+GtkWidget *tab_display_totals ( void );
 /*END_DECLARATION*/

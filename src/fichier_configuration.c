@@ -23,17 +23,17 @@
 
 #include "include.h"
 #include "fichier_configuration_constants.h"
+#include "xmlnames.h"
 
 
 /*START_INCLUDE*/
 #include "fichier_configuration.h"
 #include "dialog.h"
 #include "utils_str.h"
+#include "configuration.h"
 #include "main.h"
 #include "utils_files.h"
 #include "print_config.h"
-#include "configuration.h"
-#include "xmlnames.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -69,6 +69,7 @@ PangoFontDescription *pango_desc_fonte_liste;
 extern gint compte_courant;
 extern gint decalage_echeance;
 extern GtkWidget *formulaire;
+extern gint max;
 extern gint nb_comptes;
 extern gchar *nom_fichier_comptes;
 extern gpointer **p_tab_nom_de_compte;

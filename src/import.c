@@ -33,13 +33,14 @@
 #include "import.h"
 #include "devises.h"
 #include "patienter.h"
+#include "utils.h"
 #include "utils_montants.h"
 #include "utils_categories.h"
 #include "operations_liste.h"
 #include "comptes_gestion.h"
-#include "utils.h"
 #include "utils_devises.h"
 #include "dialog.h"
+#include "utils_file_selection.h"
 #include "utils_files.h"
 #include "traitement_variables.h"
 #include "fichiers_gestion.h"
@@ -51,20 +52,20 @@
 #include "utils_operations.h"
 #include "operations_comptes.h"
 #include "comptes_onglet.h"
+#include "import_csv.h"
 #include "gnucash.h"
 #include "html.h"
 #include "ofx.h"
 #include "qif.h"
-#include "import_csv.h"
 #include "utils_comptes.h"
+#include "imputation_budgetaire.h"
 #include "utils_tiers.h"
-#include "utils_file_selection.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-//static gboolean affichage_recapitulatif_importation ( void );
 static void ajout_devise_dans_liste_import ( void );
 static void ajout_opes_importees ( struct struct_compte_importation *compte_import );
+static enum import_type autodetect_file_type ( FILE * fichier, gchar * pointeur_char );
 static gboolean changement_valeur_echelle_recherche_date_import ( GtkWidget *spin_button );
 static gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 				       gint result,
@@ -73,6 +74,7 @@ static gboolean click_sur_liste_opes_orphelines ( GtkCellRendererToggle *rendere
 					   gchar *ligne,
 					   GtkTreeModel *store );
 static void confirmation_enregistrement_ope_import ( struct struct_compte_importation *compte_import );
+static GtkWidget * create_file_format_import_menu ();
 static void creation_compte_importe ( struct struct_compte_importation *compte_import );
 static void cree_liens_virements_ope_import ( void );
 static void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
@@ -80,12 +82,10 @@ static void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 static struct structure_operation *enregistre_ope_importee ( struct struct_ope_importation *operation_import,
 						      gint no_compte );
 static gboolean fichier_choisi_importation ( GtkWidget *fenetre );
+static gboolean filetype_changed ( GtkOptionMenu * option_menu, gpointer user_data );
 static void pointe_opes_importees ( struct struct_compte_importation *compte_import );
 static void selection_fichiers_import ( void );
 static void traitement_operations_importees ( void );
-GtkWidget * create_file_format_import_menu ();
-gboolean filetype_changed ( GtkOptionMenu * option_menu, gpointer user_data );
-enum import_type autodetect_file_type ( FILE * fichier, gchar * pointeur_char );
 /*END_STATIC*/
 
 
@@ -120,12 +120,12 @@ extern GtkTreeStore *model;
 extern gint nb_comptes;
 extern gint no_derniere_operation;
 extern GtkWidget *notebook_listes_operations;
+extern GSList *ordre_comptes;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkTreeSelection * selection;
 extern GtkWidget *tree_view;
 extern GtkWidget *window;
-extern GSList *ordre_comptes;
 /*END_EXTERN*/
 
 

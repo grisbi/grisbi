@@ -29,43 +29,33 @@
 
 /*START_INCLUDE*/
 #include "categories_onglet.h"
-#include "utils_devises.h"
-#include "utils_categories.h"
-#include "operations_comptes.h"
-#include "tiers_onglet.h"
-#include "fichiers_io.h"
-#include "barre_outils.h"
-#include "operations_liste.h"
-#include "dialog.h"
 #include "metatree.h"
-#include "meta_categories.h"
+#include "utils_categories.h"
+#include "fichiers_io.h"
+#include "dialog.h"
+#include "utils_file_selection.h"
 #include "gtk_combofix.h"
-#include "utils_str.h"
-#include "traitement_variables.h"
-#include "utils_operations.h"
+#include "utils_buttons.h"
+#include "utils.h"
+#include "utils_editables.h"
 #include "etats_config.h"
 #include "affichage_formulaire.h"
 #include "operations_formulaire.h"
-#include "utils.h"
-#include "utils_file_selection.h"
-#include "utils_files.h"
-#include "utils_buttons.h"
-#include "utils_comptes.h"
-#include "utils_tiers.h"
-#include "utils_editables.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
+			       GtkSelectionData * selection_data );
 static void clique_sur_annuler_categ ( void );
 static void clique_sur_modifier_categ ( void );
+static GtkWidget *creation_barre_outils_categ ( void );
+static gboolean edit_category ( GtkWidget * button, GtkTreeView * view );
 static gboolean enleve_selection_ligne_categ ( void );
 static gboolean exporter_categ ( GtkButton * widget, gpointer data );
 static void importer_categ ( void );
 static void merge_liste_categories ( void );
 static void modification_du_texte_categ ( void );
-static gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
-				      GtkSelectionData * selection_data );
-gboolean edit_category ( GtkWidget * button, GtkTreeView * view );
+static gboolean popup_category_view_mode_menu ( GtkWidget * button );
 /*END_STATIC*/
 
 
@@ -99,22 +89,17 @@ int no_devise_totaux_categ;
 
 
 /*START_EXTERN*/
-extern gint compte_courant;
+extern MetatreeInterface * category_interface ;
 extern gchar *dernier_chemin_de_travail;
 extern struct struct_etat *etat_courant;
 extern GtkWidget *formulaire;
 extern GSList *liste_categories_ventilation_combofix;
-extern GSList *liste_struct_echeances;
-extern GdkBitmap *masque_ferme;
-extern GdkBitmap *masque_ouvre;
+extern GtkTreeStore *model;
 extern gint modif_categ;
 extern gint nb_comptes;
-extern gint nb_ecritures_par_comptes;
 extern gint no_derniere_operation;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-extern GdkPixmap *pixmap_ferme;
-extern GdkPixmap *pixmap_ouvre;
 extern GtkTreeSelection * selection;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];

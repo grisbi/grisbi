@@ -1,4 +1,5 @@
 /*START_DECLARATION*/
+gboolean assert_account_loaded ();
 void demarrage_idle ( void );
 void desensitive_widget ( GtkWidget *widget );
 gboolean lance_navigateur_web ( const gchar *url );
@@ -17,8 +18,5 @@ void sensitive_widget ( GtkWidget *widget );
 gboolean termine_idle ( void );
 void update_ecran ( void );
 gpointer **verification_p_tab ( gchar *fonction_appelante );
-gboolean assert_account_loaded ();
-
-
 /*END_DECLARATION*/
 

@@ -51,22 +51,16 @@
 #include "operations_liste.h"
 #include "fichier_configuration.h"
 #include "utils.h"
+#include "tip.h"
 #include "erreur.h"
 #include "traitement_variables.h"
-#include "utils_str.h"
-#include "utils_files.h"
 #include "fichiers_gestion.h"
+#include "parse_cmdline.h"
 #include "etats_config.h"
 #include "parametres.h"
 #include "etats_calculs.h"
 #include "etats_onglet.h"
-#include "tip.h"
-#include "parse_cmdline.h"
-#ifdef _WIN32
-// Special include for Windows only
-#include "win32utils.h"
-#include "win32gtkutils.h"
-#endif
+#include "utils_files.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

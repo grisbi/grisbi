@@ -27,20 +27,29 @@
 
 /*START_INCLUDE*/
 #include "utils_operations.h"
+#include "utils_ib.h"
+#include "utils_categories.h"
+#include "utils_tiers.h"
 #include "search_glist.h"
-#include "meta_categories.h"
-#include "meta_budgetary.h"
-#include "meta_payee.h"
+#include "metatree.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static void update_transaction_in_budgetary_line_tree ( struct structure_operation * transaction );
+static void update_transaction_in_categ_tree ( struct structure_operation * transaction );
+static void update_transaction_in_payee_tree ( struct structure_operation * transaction );
 /*END_STATIC*/
 
 
 /*START_EXTERN*/
+extern MetatreeInterface * budgetary_interface ;
+extern GtkTreeStore *budgetary_line_tree_model;
+extern GtkTreeStore * categ_tree_model;
+extern MetatreeInterface * category_interface ;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-extern GtkTreeModel * categ_tree_model, * payee_tree_model, * budgetary_line_tree_model;
+extern MetatreeInterface * payee_interface ;
+extern GtkTreeStore *payee_tree_model;
 /*END_EXTERN*/
 
 

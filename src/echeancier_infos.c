@@ -29,8 +29,8 @@
 
 /*START_INCLUDE*/
 #include "echeancier_infos.h"
-#include "echeancier_liste.h"
 #include "utils_str.h"
+#include "echeancier_liste.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -51,7 +51,6 @@ gint affichage_echeances_perso_j_m_a;        /* contient 0 (jours), 1 (mois), 2 
 extern GtkWidget *bouton_saisir_echeancier;
 extern GSList *liste_struct_echeances;
 extern FILE * out;
-extern GtkTreeSelection * selection;
 /*END_EXTERN*/
 
 

@@ -38,8 +38,8 @@
 #include "utils.h"
 
 /*START_EXTERN*/
-extern GSList *liste_comptes_importes;
 extern AB_BANKING *gbanking;
+extern GSList *liste_comptes_importes;
 /*END_EXTERN*/
 
 

@@ -15,8 +15,6 @@
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*                                                                               */
 /* *******************************************************************************/
-
-/*START_DECLARATION*/
 #ifndef   __PARSE_CMDLINE_H
 #define   __PARSE_CMDLINE_H
 
@@ -44,4 +42,7 @@ typedef struct _cmdline_options cmdline_options;
 gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt);
 
 #endif  /* ifndef __PARSE_CMDLINE_H */
+
+/*START_DECLARATION*/
+gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt);
 /*END_DECLARATION*/

@@ -33,9 +33,6 @@
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
-#ifdef HAVE_G2BANKING
-# include <g2banking/jobview.h>
-#endif
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -60,17 +57,17 @@ gint modif_imputation;
 
 
 /*START_EXTERN*/
-extern GtkWidget *arbre_categ;
-extern GtkWidget *arbre_imputation;
-extern GtkWidget *arbre_tiers;
+extern GtkTreeStore *budgetary_line_tree_model;
+extern GtkTreeStore * categ_tree_model;
 extern gint compte_courant;
+extern AB_BANKING *gbanking;
 extern gint id_temps;
 extern GtkWidget *label_temps;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
+extern GtkTreeStore *payee_tree_model;
 extern gchar *tips_col_liste_operations[7];
 extern GtkTooltips *tooltips_general_grisbi;
-extern GtkTreeModel * payee_tree_model, * categ_tree_model, * budgetary_line_tree_model;
 /*END_EXTERN*/
 
 #ifdef HAVE_G2BANKING

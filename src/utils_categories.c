@@ -28,26 +28,29 @@
 /*START_INCLUDE*/
 #include "utils_categories.h"
 #include "utils_devises.h"
-#include "search_glist.h"
 #include "metatree.h"
+#include "search_glist.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
 static void reset_category_counters ();
+static void update_category_in_trees ( struct struct_categ * category, 
+				struct struct_sous_categ * sub_category );
 /*END_STATIC*/
 
 
 /*START_EXTERN*/
+extern GtkTreeStore * categ_tree_model;
+extern MetatreeInterface * category_interface ;
 extern GSList *liste_struct_categories;
 extern gint mise_a_jour_combofix_categ_necessaire;
-extern gint nb_enregistrements_categories;
-extern gint no_derniere_categorie;
 extern gint nb_comptes;
+extern gint nb_enregistrements_categories, no_derniere_categorie;
+extern gint nb_enregistrements_categories, no_derniere_categorie;
+extern int no_devise_totaux_categ;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-extern gint no_devise_totaux_categ;
-extern MetatreeInterface * category_interface;
-extern GtkTreeModel * categ_tree_model;
+extern struct struct_categ * without_category;
 /*END_EXTERN*/
 
 struct struct_categ * without_category;

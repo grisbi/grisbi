@@ -36,8 +36,8 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-/* static gint recherche_devise_par_code ( struct struct_devise *devise, */
-/* 				gchar *code ); */
+static gint recherche_devise_par_code ( struct struct_devise *devise,
+				gchar *code );
 /*END_STATIC*/
 
 

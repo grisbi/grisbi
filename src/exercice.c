@@ -24,6 +24,7 @@
 #include "operations_formulaire_constants.h"
 #include "echeancier_formulaire_constants.h"
 #include "ventilation_constants.h"
+#include "echeancier_ventilation_constants.h"
 
 
 /*START_INCLUDE*/
@@ -36,7 +37,6 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "dialog.h"
-#include "operations_formulaire.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -81,8 +81,8 @@ extern gint nb_comptes;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
-extern GtkWidget *widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_TOTAL_WIDGET];
 extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
+extern GtkWidget *widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_TOTAL_WIDGET];
 /*END_EXTERN*/
 
 
@@ -122,13 +122,14 @@ gboolean update_financial_year_list ( GtkEntry *entry, gchar *value,
  */
 gboolean update_financial_year_menus ()
 {
-    if ( widget_formulaire_operations[TRANSACTION_FORM_EXERCICE] &&
-	 GTK_OPTION_MENU(widget_formulaire_operations[TRANSACTION_FORM_EXERCICE]) -> menu )
-    {
-	gtk_widget_destroy ( GTK_OPTION_MENU(widget_formulaire_operations[TRANSACTION_FORM_EXERCICE]) -> menu );
-	gtk_option_menu_set_menu ( GTK_OPTION_MENU (widget_formulaire_operations[TRANSACTION_FORM_EXERCICE]),
-				   creation_menu_exercices (0) );
-    }
+/* FIXME : what to do and do it again with the new form */
+/*     if ( widget_formulaire_operations[TRANSACTION_FORM_EXERCICE] && */
+/* 	 GTK_OPTION_MENU(widget_formulaire_operations[TRANSACTION_FORM_EXERCICE]) -> menu ) */
+/*     { */
+/* 	gtk_widget_destroy ( GTK_OPTION_MENU(widget_formulaire_operations[TRANSACTION_FORM_EXERCICE]) -> menu ); */
+/* 	gtk_option_menu_set_menu ( GTK_OPTION_MENU (widget_formulaire_operations[TRANSACTION_FORM_EXERCICE]), */
+/* 				   creation_menu_exercices (0) ); */
+/*     } */
 
     if ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_EXERCICE] &&
 	 GTK_OPTION_MENU(widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_EXERCICE]) -> menu )

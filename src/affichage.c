@@ -29,11 +29,11 @@
 #include "fichiers_gestion.h"
 #include "operations_liste.h"
 #include "affichage_formulaire.h"
+#include "utils_file_selection.h"
 #include "main.h"
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_editables.h"
-#include "utils_file_selection.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

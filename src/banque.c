@@ -30,10 +30,10 @@
 #include "banque.h"
 #include "comptes_gestion.h"
 #include "dialog.h"
-#include "search_glist.h"
+#include "utils_editables.h"
 #include "traitement_variables.h"
 #include "utils.h"
-#include "utils_editables.h"
+#include "search_glist.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

@@ -26,32 +26,31 @@
 
 /*START_INCLUDE*/
 #include "gnucash.h"
+#include "utils_xml.h"
 #include "dialog.h"
 #include "utils_str.h"
 #include "utils_files.h"
-#include "utils_xml.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static struct struct_compte_importation * find_imported_account_by_name ( gchar * name );
 static struct struct_compte_importation * find_imported_account_by_uid ( gchar * guid );
 static struct gnucash_category * find_imported_categ_by_uid ( gchar * guid );
+static struct gnucash_split * find_split ( GSList * split_list, gdouble amount, 
+				    struct struct_compte_importation * account, 
+				    struct gnucash_category * categ );
 static gchar * get_currency ( xmlNodePtr currency_node );
 static gdouble gnucash_value ( gchar * value );
+static struct gnucash_split * new_split ( gdouble amount, gchar * account, gchar * categ );
+static struct struct_ope_importation * new_transaction_from_split ( struct gnucash_split * split,
+							     gchar * tiers, GDate * date );
 static xmlDocPtr parse_gnucash_file ( gchar * filename );
 static void recuperation_donnees_gnucash_book ( xmlNodePtr book_node );
 static void recuperation_donnees_gnucash_categorie ( xmlNodePtr categ_node );
 static void recuperation_donnees_gnucash_compte ( xmlNodePtr compte_node );
 static void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node );
-struct gnucash_split * find_split ( GSList * split_list, gdouble amount, 
-				    struct struct_compte_importation * account, 
-				    struct gnucash_category * categ );
-void update_split ( struct gnucash_split * split, gdouble amount, gchar * account, 
-		    gchar * categ );
-struct gnucash_split * new_split ( gdouble amount, gchar * account, gchar * categ );
-struct struct_compte_importation * find_imported_account_by_uid ( gchar * guid );
-struct struct_compte_importation * find_imported_account_by_name ( gchar * name );
-struct struct_ope_importation * new_transaction_from_split ( struct gnucash_split * split,
-							     gchar * tiers, GDate * date );
+static void update_split ( struct gnucash_split * split, gdouble amount, 
+		    gchar * account, gchar * categ );
 /*END_STATIC*/
 
 /*START_EXTERN*/

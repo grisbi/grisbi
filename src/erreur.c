@@ -31,29 +31,25 @@
 /*START_INCLUDE*/
 #include "erreur.h"
 #include "patienter.h"
+#include "utils.h"
 #include "dialog.h"
 #include "fichiers_io.h"
 #include "fichiers_gestion.h"
 #include "traitement_variables.h"
+#include "utils_str.h"
 #include "utils_files.h"
 #include "fichier_configuration.h"
-#if __GLIBC__ == 2 && __GLIBC_MINOR__ >= 1
-#define HAVE_BACKTRACE
-#endif
-#ifdef HAVE_BACKTRACE
-# include <execinfo.h> /* pour le backtrace, linux uniquement pour l'instant */
-#endif
-#ifdef HAVE_G2BANKING
-# include <g2banking/gbanking.h>
-#endif
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gchar *get_debug_time ( void );
+static void print_backtrace ( void );
 /*END_STATIC*/
 
 gint debugging_grisbi;
 
 /*START_EXTERN*/
+extern AB_BANKING *gbanking;
 extern gint id_temps;
 extern gchar *log_message;
 extern gchar *nom_fichier_comptes;

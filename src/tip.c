@@ -22,23 +22,21 @@
 
 
 #include "include.h"
-
+#include "fichier_configuration_constants.h"
 
 #define START_INCLUDE
-#include "fichier_configuration_constants.h"
-#include "dialog.h"
 #include "tip.h"
+#include "dialog.h"
 #include "utils_buttons.h"
 #define END_INCLUDE
 
 #define START_STATIC
-gchar * get_next_tip ();
-gchar * get_prev_tip ();
-gchar * format_tip ( gchar * tip );
-void change_button_sensitiveness ( GtkWidget * dialog, gint button, gboolean state );
-gint max;
+static void change_button_sensitiveness ( GtkWidget * dialog, gint button, gboolean state );
+static gchar * format_tip ( gchar * tip );
+static gchar * get_next_tip ();
 #define END_STATIC
 
+gint max;
 
 /** 
  * Display a tip forcefully, even if show_tip option has been disabled.

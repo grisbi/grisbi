@@ -60,6 +60,8 @@ struct structure_position_solde
 #include "dialog.h"
 #include "echeancier_liste.h"
 #include "equilibrage.h"
+#include "configuration.h"
+#include "format.h"
 #include "gtk_combofix.h"
 #include "utils_str.h"
 #include "main.h"
@@ -71,6 +73,7 @@ struct structure_position_solde
 #include "utils_categories.h"
 #include "utils_ib.h"
 #include "utils_operations.h"
+#include "parametres.h"
 #include "utils_rapprochements.h"
 #include "utils_dates.h"
 #include "utils_tiers.h"
@@ -89,14 +92,9 @@ static struct structure_operation *  clone_transaction ( struct structure_operat
 static void creation_titres_tree_view ( void );
 static GtkWidget *creation_tree_view_operations ( void );
 static GSList *cree_slist_affichee ( gint no_compte );
-static gint gtk_list_store_reorder_func (gconstpointer a,
-				  gconstpointer b,
-				  gpointer      user_data);
 static gboolean move_operation_to_account ( struct structure_operation * transaction,
 				     gint account );
 static void move_selected_operation_to_account ( GtkMenuItem * menu_item );
-static void my_list_store_reorder (GtkListStore *store,
-			    gint         *new_order);
 static void my_list_store_sort ( gint no_compte,
 			  GSList *liste_avant_classement,
 			  GSList *liste_apres_classement );
@@ -4053,98 +4051,6 @@ void show_balance_labels ( void )
 
 
 
-/******************************************************************************************************************/
-/* la partie suivante est un copier/coller de gtk 2.2 car il y a un bug */
-/* qui est réparé dans la version 2.4 */
-/* FIXME : cette partie sera à virer plus tard, quand tout le monde aura gtk 2.4 ... */
-/******************************************************************************************************************/
-
-/* Sorting and reordering */
-typedef struct _SortTuple
-{
-  gint offset;
-  GSList *el;
-} SortTuple;
-
-/* Reordering */
-gint gtk_list_store_reorder_func (gconstpointer a,
-				  gconstpointer b,
-				  gpointer      user_data)
-{
-  SortTuple *a_reorder;
-  SortTuple *b_reorder;
-
-  a_reorder = (SortTuple *)a;
-  b_reorder = (SortTuple *)b;
-
-  if (a_reorder->offset < b_reorder->offset)
-    return -1;
-  if (a_reorder->offset > b_reorder->offset)
-    return 1;
-
-  return 0;
-}
-
-/**
- * gtk_list_store_reorder:
- * @store: A #GtkTreeStore.
- * @new_order: An integer array indicating the new order for the list.
- *
- * Reorders @store to follow the order indicated by @new_order. Note that
- * this function only works with unsorted stores.
- *
- * Since: 2.2
- **/
-void my_list_store_reorder (GtkListStore *store,
-			    gint         *new_order)
-{
-  gint i;
-  GSList *current_list;
-  GtkTreePath *path;
-  SortTuple *sort_array;
-
-  g_return_if_fail (GTK_IS_LIST_STORE (store));
-  g_return_if_fail (new_order != NULL);
-
-  sort_array = g_new (SortTuple, store->length);
-
-  current_list = store->root;
-
-  for (i = 0; i < store->length; i++)
-    {
-/* 	la correction du bug est ici... */
-      sort_array[new_order[i]].offset = i;
-      sort_array[i].el = current_list;
-
-      current_list = current_list->next;
-    }
-
-  g_qsort_with_data (sort_array,
-		     store->length,
-		     sizeof (SortTuple),
-		     gtk_list_store_reorder_func,
-		     NULL);
-
-
-  for (i = 0; i < store->length - 1; i++)
-    (GSList *) (sort_array[i].el)->next = (GSList *) (sort_array[i+1].el);
-
-  store->root = (GSList *) (sort_array[0].el);
-  store->tail = (GSList *) (sort_array[store->length-1].el);
-  ((GSList *) (store->tail))->next = NULL;
-
-  /* emit signal */
-  path = gtk_tree_path_new ();
-  gtk_tree_model_rows_reordered (GTK_TREE_MODEL (store),
-				 path, NULL, new_order);
-  gtk_tree_path_free (path);
-  g_free (sort_array);
-}
-/******************************************************************************************************************/
-/* FIN DU COPIER COLLER GTK 2.2 */
-/******************************************************************************************************************/
-
-
 
 
 
@@ -4181,11 +4087,10 @@ void my_list_store_sort ( gint no_compte,
 	pos[i] = i;
 
 
-    /* FIXME : si gtk2.4 appeler gtk_list_store_reorder */
-    /* 	    sinon my_list_store_reorder  */
+    /* FIXME : bug dans cette fonction avant GTK 2.4 */
 
-    my_list_store_reorder ( STORE_LISTE_OPERATIONS,
-			    pos );
+    gtk_list_store_reorder ( STORE_LISTE_OPERATIONS,
+			     pos );
 
     g_slist_free ( liste_avant_classement );
     g_slist_free ( liste_apres_classement );
@@ -4810,11 +4715,10 @@ void mise_a_jour_affichage_lignes ( gint nb_lignes )
 
 	    /* 	    il reste à classer les lignes dans leurs opés */
 
-	    /* FIXME : si gtk2.4 appeler gtk_list_store_reorder */
-	    /* 	    sinon my_list_store_reorder  */
+	    /* FIXME : bug dans cette fonction avant GTK 2.4 */
 
-	    my_list_store_reorder ( STORE_LISTE_OPERATIONS,
-				    pos );
+	    gtk_list_store_reorder ( STORE_LISTE_OPERATIONS,
+				     pos );
 
 	    free (pos);
 

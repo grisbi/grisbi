@@ -35,6 +35,7 @@ struct recuperation_version
 
 /*START_INCLUDE*/
 #include "fichiers_io.h"
+#include "utils_xml.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "utils_devises.h"
@@ -46,9 +47,7 @@ struct recuperation_version
 #include "fichiers_gestion.h"
 #include "search_glist.h"
 #include "operations_liste.h"
-#include <gtk/gtk.h>
 #include "utils_files.h"
-#include "utils_xml.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -127,18 +126,20 @@ extern gint nb_banques;
 extern gint nb_colonnes;
 extern gint nb_devises;
 extern gint nb_echeances;
-extern gint nb_enregistrements_categories;
+extern gint nb_enregistrements_categories, no_derniere_categorie;
 extern gint nb_enregistrements_imputations;
 extern gint nb_enregistrements_tiers;
 extern gint nb_exercices;
 extern gint no_dernier_etat;
 extern gint no_dernier_tiers;
 extern gint no_derniere_banque;
-extern gint no_derniere_categorie;
+extern gint nb_enregistrements_categories, no_derniere_categorie;
 extern gint no_derniere_devise;
 extern gint no_derniere_echeance;
 extern gint no_derniere_exercice;
 extern gint no_derniere_imputation;
+extern int no_devise_totaux_categ;
+extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern GtkWidget *nom_banque;
 extern GtkWidget *nom_correspondant;
@@ -155,7 +156,6 @@ extern GtkWidget *tel_correspondant;
 extern gint valeur_echelle_recherche_date_import;
 extern GtkWidget *web_banque;
 extern GtkWidget *window;
-extern gint no_devise_totaux_tiers, no_devise_totaux_categ, no_devise_totaux_ib; 
 /*END_EXTERN*/
 
 

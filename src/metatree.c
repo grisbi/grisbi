@@ -25,27 +25,60 @@
 /*START_INCLUDE*/
 #include "metatree.h"
 #include "barre_outils.h"
-#include "dialog.h"
 #include "operations_comptes.h"
-#include "operations_liste.h"
-#include "traitement_variables.h"
-#include "utils_devises.h"
-#include "utils_str.h"
-#include "utils_tiers.h"
 #include "utils_comptes.h"
+#include "operations_liste.h"
+#include "utils_devises.h"
+#include "dialog.h"
+#include "gtk_combofix.h"
+#include "utils_str.h"
+#include "traitement_variables.h"
+#include "utils_tiers.h"
 /*END_INCLUDE*/
 
 
 /*START_STATIC*/
+static gboolean division_node_maybe_expand ( GtkTreeModel *model, GtkTreePath *path, 
+				      GtkTreeIter *iter, gpointer data );
+static void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter, 
+			    struct structure_operation * operation );
+static gboolean find_associated_transactions ( MetatreeInterface * iface, 
+					gint no_division, gint no_sub_division );
+static gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model, 
+				 gpointer division, gpointer sub_division, 
+				 gint * no_div, gint * no_sub_div );
+static gboolean metatree_get ( GtkTreeModel * model, GtkTreePath * path,
+			gint column, gpointer * data );
+static gboolean metatree_get_row_properties ( GtkTreeModel * tree_model, GtkTreePath * path, 
+				       gchar ** text, gint * lvl1, gint * lvl2, 
+				       gpointer * data );
+static enum meta_tree_row_type metatree_get_row_type ( GtkTreeModel * tree_model, 
+						GtkTreePath * path );
+static void move_transaction_to_sub_division ( struct structure_operation * transaction,
+					GtkTreeModel * model,
+					GtkTreePath * orig_path, GtkTreePath * dest_path,
+					gint no_division, gint no_sub_division );
+static gboolean search_for_div_or_subdiv ( GtkTreeModel *model, GtkTreePath *path,
+				    GtkTreeIter *iter, gpointer * pointers);
+static gboolean search_for_pointer ( GtkTreeModel *model, GtkTreePath *path,
+			      GtkTreeIter *iter, gpointer * pointers);
+static void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
+			      MetatreeInterface * iface, 
+			      gpointer sub_division, gint no_division );
 /*END_STATIC*/
 
 
 /*START_EXTERN*/
+extern gint compte_courant;
+extern GtkWidget *formulaire;
+extern GSList *liste_struct_echeances;
+extern GtkTreeStore *model;
+extern gint nb_comptes;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-extern gint nb_comptes;
-extern GSList *liste_struct_echeances;
-extern gint compte_courant;
+extern GtkTreeSelection * selection;
+extern GtkWidget *tree_view;
+extern GtkWidget *treeview;
 /*END_EXTERN*/
 
 

@@ -42,9 +42,9 @@
 #include "utils_str.h"
 #include "utils.h"
 #include "etats_config.h"
+#include "utils_buttons.h"
 #include "affichage_formulaire.h"
 #include "operations_formulaire.h"
-#include "utils_buttons.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -65,6 +65,7 @@ static gboolean deselection_ligne_devise ( GtkWidget *liste,
 static gboolean devise_selectionnee ( GtkWidget *menu_shell, gint origine );
 static void fill_currency_list ( GtkTreeView * view, gboolean include_obsolete );
 static GtkWidget * new_currency_list ();
+static GtkWidget * new_currency_option_menu ( gint * value, GCallback hook );
 static gboolean rebuild_currency_list ( GtkWidget * checkbox, GtkTreeView * view );
 static void retrait_devise ( GtkWidget *bouton,
 		      GtkWidget *liste );
@@ -149,6 +150,9 @@ extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern GtkTreeStore *model;
 extern gint nb_comptes;
+extern int no_devise_totaux_categ;
+extern gint no_devise_totaux_ib;
+extern gint no_devise_totaux_tiers;
 extern GtkWidget *onglet_config_etat;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
@@ -156,7 +160,6 @@ extern GtkTreeSelection * selection;
 extern GtkWidget *treeview;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *window;
-extern gint no_devise_totaux_tiers, no_devise_totaux_categ, no_devise_totaux_ib; 
 /*END_EXTERN*/
 
 

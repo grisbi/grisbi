@@ -16,11 +16,12 @@
 /*                                                                               */
 /* *******************************************************************************/
 
+#include "include.h"
+
 /*START_INCLUDE*/
-#include   <string.h>
-#include   "include.h"
-#include   "config.h"
-#include   "parse_cmdline.h"
+#include "parse_cmdline.h"
+#include "main.h"
+#include "utils_str.h"
 /*END_INCLUDE*/
 
 /* Definitions des options (à ne pas traduire)                               */
@@ -34,19 +35,13 @@
 #define  SHORT_OPT_VERSION   "-v"
 
 /*START_STATIC*/
-static gboolean  is_option(gchar *argv, gchar *o);     
+static gboolean  is_option(gchar *argv, gchar *o);
 static gboolean  is_option_with_arg(gchar *argv, gchar *o);
-static gboolean  show_version(); /* affichage version grisbi			     */
-static gboolean  show_help();    /* affiche l'aide sur les commandes	     */
-static gboolean  show_usage();	 /* résumé des options (en cas d'erreur)     */
-
-/* parse --onglet=w[,x[,y[,z]]]		     */
-/* retourne TRUE si pas d'erreur         */
-/* no: numero d'argument courant (pointeur car le parsing peut faire passer à l'argument suivant) */
-static gboolean  parse_onglet(char **argv, int argc, int* no, cmdline_options* pOpt);	
-
-/* no d'onglet valide ? (option --onglet)*/
-static gboolean  is_valid_window_number(gint w); 
+static gboolean  is_valid_window_number(gint w);
+static gboolean  parse_onglet(char **argv, int argc, int *no, cmdline_options* pOpt);
+static gboolean   show_help();
+static gboolean   show_usage();
+static gboolean   show_version();
 /*END_STATIC*/
 
 

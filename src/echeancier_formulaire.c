@@ -49,6 +49,7 @@
 #include "utils_comptes.h"
 #include "echeancier_liste.h"
 #include "utils_tiers.h"
+#include "utils_operations.h"
 #include "ventilation.h"
 #include "echeancier_ventilation.h"
 /*END_INCLUDE*/

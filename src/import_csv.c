@@ -19,27 +19,18 @@
 /*     along with this program; if not, write to the Free Software */
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
+#include "include.h"
 
 /*START_INCLUDE*/
-#include "include.h"
-#include "structures.h"
-#include "erreur.h"
 #include "import_csv.h"
-#include "dialog.h"
-#include "devises.h"
-#include "search_glist.h"
-#include "utils_files.h"
 #include "utils_str.h"
+#include "erreur.h"
+#include "dialog.h"
+#include "utils_files.h"
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
 extern GSList *liste_comptes_importes;
-extern GSList *liste_struct_categories;
-extern GSList *liste_struct_tiers;
-extern gint nb_comptes;
-extern gchar *nom_fichier_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 /*END_EXTERN*/
 
 /* definition temporaire pour indiquer l'en tete du debug CSV, qui */

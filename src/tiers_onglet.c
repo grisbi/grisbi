@@ -30,33 +30,23 @@
 
 /*START_INCLUDE*/
 #include "tiers_onglet.h"
-#include "utils_devises.h"
-#include "barre_outils.h"
-#include "operations_comptes.h"
-#include "operations_liste.h"
-#include "dialog.h"
-#include "gtk_combofix.h"
-#include "utils_str.h"
-#include "traitement_variables.h"
-#include "echeancier_liste.h"
-#include "etats_config.h"
-#include "meta_payee.h"
 #include "metatree.h"
 #include "utils_tiers.h"
+#include "gtk_combofix.h"
 #include "utils_buttons.h"
-#include "affichage_formulaire.h"
-#include "operations_formulaire.h"
-#include "utils_tiers.h"
 #include "utils.h"
 #include "utils_editables.h"
+#include "etats_config.h"
+#include "affichage_formulaire.h"
+#include "operations_formulaire.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static GtkWidget *creation_barre_outils_tiers ( void );
+static gboolean edit_payee ( GtkWidget * button, GtkTreeView * view );
 static gboolean payee_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
-				      GtkSelectionData * selection_data );
+			       GtkSelectionData * selection_data );
 static gboolean popup_payee_view_mode_menu ( GtkWidget * button );
-GtkWidget *creation_barre_outils_tiers ( void );
-gboolean edit_payee ( GtkWidget * button, GtkTreeView * view );
 /*END_STATIC*/
 
 
@@ -114,18 +104,14 @@ GtkTreeStore *payee_tree_model;
 
 
 /*START_EXTERN*/
-extern gint compte_courant;
-extern struct struct_devise *devise_operation;
 extern struct struct_etat *etat_courant;
 extern GtkWidget *formulaire;
-extern GSList *liste_struct_echeances;
 extern GSList *liste_struct_etats;
-extern gint mise_a_jour_liste_echeances_auto_accueil;
-extern gint mise_a_jour_liste_echeances_manuelles_accueil;
+extern GtkTreeStore *model;
 extern gint modif_tiers;
-extern gint nb_comptes;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
+extern MetatreeInterface * payee_interface ;
 extern GtkTreeSelection * selection;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *window;

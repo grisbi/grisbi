@@ -24,16 +24,15 @@
 
 /*START_INCLUDE*/
 #include "etats_onglet.h"
+#include "etats_calculs.h"
 #include "etat_io.h"
 #include "dialog.h"
+#include "utils_file_selection.h"
 #include "gtk_list_button.h"
-#include "etats_calculs.h"
 #include "menu.h"
 #include "traitement_variables.h"
 #include "utils.h"
 #include "etats_config.h"
-#include "etats_html.h"
-#include "utils_file_selection.h"
 #include "utils_files.h"
 /*END_INCLUDE*/
 
@@ -44,6 +43,7 @@ static void changement_etat ( GtkWidget *bouton,
 		       struct struct_etat *etat );
 static GtkWidget *creation_barre_boutons_etats ( void );
 static GtkWidget *creation_liste_etats ( void );
+static void export_etat_vers_html ( struct struct_etat *etat );
 /*END_STATIC*/
 
 
@@ -78,8 +78,10 @@ GtkWidget *onglet_config_etat;
 
 /*START_EXTERN*/
 extern gchar *dernier_chemin_de_travail;
+extern struct struct_etat_affichage html_affichage ;
 extern GtkItemFactory *item_factory_menu_general;
 extern GtkWidget *notebook_general;
+extern GtkTreeSelection * selection;
 extern GtkWidget *window;
 /*END_EXTERN*/
 

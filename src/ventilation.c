@@ -40,6 +40,7 @@
 #include "devises.h"
 #include "utils_devises.h"
 #include "dialog.h"
+#include "equilibrage.h"
 #include "gtk_combofix.h"
 #include "utils_ib.h"
 #include "utils_str.h"

@@ -85,13 +85,13 @@ extern gint compte_courant;
 extern GtkWidget *fenetre_preferences;
 extern GtkWidget *formulaire;
 extern GtkWidget *label_saisie_modif;
+extern gint max;
 extern gint nb_comptes;
 extern GSList *ordre_comptes;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkTreeSelection * selection;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
-extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
 /*END_EXTERN*/
 
 

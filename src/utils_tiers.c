@@ -27,22 +27,23 @@
 
 /*START_INCLUDE*/
 #include "utils_tiers.h"
-#include "utils_devises.h"
 #include "tiers_onglet.h"
+#include "utils_devises.h"
 #include "search_glist.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static void reset_payee_counters ();
 /*END_STATIC*/
 
 
 /*START_EXTERN*/
 extern GSList *liste_struct_tiers;
-extern struct struct_tiers * without_payee;
 extern gint nb_comptes;
+extern gint no_devise_totaux_tiers;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-extern gint no_devise_totaux_tiers;
+extern struct struct_tiers * without_payee;
 /*END_EXTERN*/
 
 

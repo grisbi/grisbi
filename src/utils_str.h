@@ -1,4 +1,5 @@
 /*START_DECLARATION*/
+gint count_char_from_string ( gchar *search_char, gchar *string );
 gchar *get_line_from_string ( gchar *string );
 gchar *itoa ( gint integer );
 gchar * latin2utf8 (char * inchar);
@@ -16,5 +17,4 @@ gint my_strncasecmp ( gchar *chaine_1,
 		      gchar *chaine_2,
 		      gint longueur );
 double my_strtod ( char *nptr, char **endptr );
-gint count_char_from_string ( gchar *search_char, gchar *string );
 /*END_DECLARATION*/

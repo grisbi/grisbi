@@ -29,6 +29,7 @@
 #include "utils_files.h"
 #include "print_config.h"
 #include "dialog.h"
+#include "utils_file_selection.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

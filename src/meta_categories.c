@@ -23,55 +23,64 @@
 #include "include.h"
 
 /*START_INCLUDE*/
-#include "categories_onglet.h"
 #include "meta_categories.h"
-#include "metatree.h"
-#include "structures.h"
 #include "utils_categories.h"
 #include "utils_devises.h"
+#include "categories_onglet.h"
 /*END_INCLUDE*/
 
 
 /*START_STATIC*/
-gpointer category_get_without_div_pointer ();
-gpointer category_get_div_pointer (int);
-gpointer category_get_sub_div_pointer (int, int);
-gpointer category_get_div_pointer_from_name (gchar *,gboolean);
-gpointer category_get_sub_div_pointer_from_name (int, gchar *,gboolean);
-gint category_div_nb_transactions (gpointer);
-gint category_sub_div_nb_transactions (gpointer,gpointer);
-gchar * category_div_name (gpointer);
-gchar * category_sub_div_name (gpointer);
-gdouble category_div_balance (gpointer);
-gdouble category_sub_div_balance (gpointer,gpointer);
-gint category_div_id (gpointer);
-gint category_sub_div_id (gpointer);
-gint category_transaction_div_id (struct structure_operation *);
-gint category_transaction_sub_div_id (struct structure_operation *);
-void category_transaction_set_div_id (struct structure_operation *, int);
-void category_transaction_set_sub_div_id (struct structure_operation *, int);
-gint category_add_div ();
-gint category_add_sub_div (int);
-gboolean category_remove_div (int);
-gboolean category_remove_sub_div (int, int);
-gboolean category_add_transaction_to_div (struct structure_operation *, int);
-gboolean category_add_transaction_to_sub_div (struct structure_operation *, int, int);
-gboolean category_remove_transaction_from_div (struct structure_operation *, int);
-gboolean category_remove_transaction_from_sub_div (struct structure_operation *, int, int);
-GSList * category_div_list ( );
-GSList * category_div_sub_div_list (gpointer);
-gint category_div_type (gpointer);
-gint category_scheduled_div_id (struct operation_echeance *);
-gint category_scheduled_sub_div_id (struct operation_echeance *);
-void category_scheduled_set_div_id (struct operation_echeance *, int);
-void category_scheduled_set_sub_div_id (struct operation_echeance *, int);
-struct struct_devise * category_tree_currency ( );
+static gint category_add_div ();
+static gint category_add_sub_div ( int div_id );
+static gboolean category_add_transaction_to_div ( struct structure_operation * trans, 
+					   int div_id );
+static gboolean category_add_transaction_to_sub_div ( struct structure_operation * trans, 
+					       int div_id, int sub_div_id );
+static gdouble category_div_balance ( gpointer div );
+static gint category_div_id ( gpointer category );
+static GSList * category_div_list ( );
+static gchar * category_div_name ( gpointer div );
+static gint category_div_nb_transactions ( gpointer div );
+static GSList * category_div_sub_div_list ( gpointer div );
+static gint category_div_type ( gpointer div );
+static gpointer category_get_div_pointer ( int div_id );
+static gpointer category_get_div_pointer_from_name ( gchar * name, gboolean create );
+static gpointer category_get_sub_div_pointer ( int div_id, int sub_div_id );
+static gpointer category_get_sub_div_pointer_from_name ( int div_id, gchar * name, gboolean create );
+static gpointer category_get_without_div_pointer ( );
+static gboolean category_remove_div ( int div_id );
+static gboolean category_remove_sub_div ( int div_id, int sub_div_id );
+static gboolean category_remove_transaction_from_div ( struct structure_operation * trans, 
+						int div_id );
+static gboolean category_remove_transaction_from_sub_div ( struct structure_operation * trans, 
+						    int div_id, int sub_div_id );
+static gint category_scheduled_div_id ( struct operation_echeance * scheduled );
+static void category_scheduled_set_div_id ( struct operation_echeance * scheduled, 
+				     int no_div );
+static void category_scheduled_set_sub_div_id ( struct operation_echeance * scheduled, 
+					 int no_sub_div );
+static gint category_scheduled_sub_div_id ( struct operation_echeance * scheduled );
+static gdouble category_sub_div_balance ( gpointer div, gpointer sub_div );
+static gint category_sub_div_id ( gpointer sub_category );
+static gchar * category_sub_div_name ( gpointer sub_div );
+static gint category_sub_div_nb_transactions ( gpointer div, gpointer sub_div );
+static gint category_transaction_div_id ( struct structure_operation * transaction );
+static void category_transaction_set_div_id ( struct structure_operation * transaction, 
+				       int no_div );
+static void category_transaction_set_sub_div_id ( struct structure_operation * transaction, 
+					   int no_sub_div );
+static gint category_transaction_sub_div_id ( struct structure_operation * transaction );
+static struct struct_devise * category_tree_currency ( );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 extern GSList *liste_struct_categories;
-extern gint nb_enregistrements_categories;
-extern gint no_devise_totaux_categ;
+extern GtkTreeStore *model;
+extern gint modif_categ;
+extern gint nb_enregistrements_categories, no_derniere_categorie;
+extern int no_devise_totaux_categ;
+extern struct struct_categ * without_category;
 /*END_EXTERN*/
 
 

@@ -54,15 +54,14 @@
 #include "ventilation.h"
 #include "operations_formulaire.h"
 #include "echeancier_formulaire.h"
-#include "categories_onglet.h"
 #include "menu.h"
+#include "traitement_variables.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
 static void demande_expand_arbre ( GtkWidget *bouton,
-				   gint liste );
+			    gint liste );
 static void mise_a_jour_boutons_grille ( void );
-static GtkWidget *creation_barre_outils_tiers ( void );
 /*END_STATIC*/
 
 
@@ -91,10 +90,6 @@ GtkWidget *fleche_bas;
 
 
 /*START_EXTERN*/
-extern GtkWidget *arbre_categ;
-extern GtkWidget *arbre_imputation;
-extern GtkWidget *arbre_tiers;
-extern GtkWidget *barre_outils;
 extern gboolean block_menu_cb ;
 extern gint compte_courant;
 extern GtkWidget *formulaire;
@@ -102,7 +97,6 @@ extern GtkItemFactory *item_factory_menu_general;
 extern gint nb_comptes;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-extern GtkTreeSelection * selection;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *tree_view_liste_echeances;
 extern GtkWidget *tree_view_liste_ventilations;

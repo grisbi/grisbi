@@ -23,60 +23,66 @@
 #include "include.h"
 
 /*START_INCLUDE*/
-#include "imputation_budgetaire.h"
 #include "meta_payee.h"
-#include "metatree.h"
-#include "search_glist.h"
-#include "structures.h"
-#include "tiers_onglet.h"
-#include "traitement_variables.h"
-#include "utils_devises.h"
 #include "utils_tiers.h"
+#include "tiers_onglet.h"
+#include "utils_devises.h"
+#include "traitement_variables.h"
 /*END_INCLUDE*/
 
 
 /*START_STATIC*/
-gpointer payee_get_without_div_pointer ();
-gpointer payee_get_div_pointer (int);
-gpointer payee_get_sub_div_pointer (int, int);
-gpointer payee_get_div_pointer_from_name (gchar *,gboolean);
-gpointer payee_get_sub_div_pointer_from_name (int, gchar *,gboolean);
-gint payee_div_nb_transactions (gpointer);
-gint payee_sub_div_nb_transactions (gpointer,gpointer);
-gchar * payee_div_name (gpointer);
-gchar * payee_sub_div_name (gpointer);
-gdouble payee_div_balance (gpointer);
-gdouble payee_sub_div_balance (gpointer,gpointer);
-gint payee_div_id (gpointer);
-gint payee_sub_div_id (gpointer);
-gint payee_transaction_div_id (struct structure_operation *);
-gint payee_transaction_sub_div_id (struct structure_operation *);
-void payee_transaction_set_div_id (struct structure_operation *, int);
-void payee_transaction_set_sub_div_id (struct structure_operation *, int);
-gint payee_add_div ();
-gint payee_add_sub_div (int);
-gboolean payee_remove_div (int);
-gboolean payee_remove_sub_div (int, int);
-gboolean payee_add_transaction_to_div (struct structure_operation *, int);
-gboolean payee_add_transaction_to_sub_div (struct structure_operation *, int, int);
-gboolean payee_remove_transaction_from_div (struct structure_operation *, int);
-gboolean payee_remove_transaction_from_sub_div (struct structure_operation *, int, int);
-GSList * payee_div_list ( );
-GSList * payee_div_sub_div_list (gpointer);
-gint payee_div_type (gpointer);
-gint payee_scheduled_div_id (struct operation_echeance *);
-gint payee_scheduled_sub_div_id (struct operation_echeance *);
-void payee_scheduled_set_div_id (struct operation_echeance *, int);
-void payee_scheduled_set_sub_div_id (struct operation_echeance *, int);
-struct struct_devise * payee_tree_currency ( );
+static gint payee_add_div ();
+static gint payee_add_sub_div ( int div_id );
+static gboolean payee_add_transaction_to_div ( struct structure_operation * trans, 
+					int div_id );
+static gboolean payee_add_transaction_to_sub_div ( struct structure_operation * trans, 
+					    int div_id, int sub_div_id );
+static gdouble payee_div_balance ( gpointer div );
+static gint payee_div_id ( gpointer payee );
+static GSList * payee_div_list ( );
+static gchar * payee_div_name ( gpointer div );
+static gint payee_div_nb_transactions ( gpointer div );
+static GSList * payee_div_sub_div_list ( gpointer div );
+static gint payee_div_type ( gpointer div );
+static gpointer payee_get_div_pointer ( int div_id );
+static gpointer payee_get_div_pointer_from_name ( gchar * name, gboolean create );
+static gpointer payee_get_sub_div_pointer ( int div_id, int sub_div_id );
+static gpointer payee_get_sub_div_pointer_from_name ( int div_id, gchar * name, 
+					       gboolean create );
+static gpointer payee_get_without_div_pointer ( );
+static gboolean payee_remove_div ( int div_id );
+static gboolean payee_remove_sub_div ( int div_id, int sub_div_id );
+static gboolean payee_remove_transaction_from_div ( struct structure_operation * trans, 
+					     int div_id );
+static gboolean payee_remove_transaction_from_sub_div ( struct structure_operation * trans, 
+						 int div_id, int sub_div_id );
+static gint payee_scheduled_div_id ( struct operation_echeance * scheduled );
+static void payee_scheduled_set_div_id ( struct operation_echeance * scheduled, 
+				  int no_div );
+static void payee_scheduled_set_sub_div_id ( struct operation_echeance * scheduled, 
+				      int no_sub_div );
+static gint payee_scheduled_sub_div_id ( struct operation_echeance * scheduled );
+static gdouble payee_sub_div_balance ( gpointer div, gpointer sub_div );
+static gint payee_sub_div_id ( gpointer sub_payee );
+static gchar * payee_sub_div_name ( gpointer sub_div );
+static gint payee_sub_div_nb_transactions ( gpointer div, gpointer sub_div );
+static gint payee_transaction_div_id ( struct structure_operation * transaction );
+static void payee_transaction_set_div_id ( struct structure_operation * transaction, 
+				    int no_div );
+static void payee_transaction_set_sub_div_id ( struct structure_operation * transaction, 
+					int no_sub_div );
+static gint payee_transaction_sub_div_id ( struct structure_operation * transaction );
+static struct struct_devise * payee_tree_currency ( );
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern GSList *liste_struct_tiers;
 extern gint mise_a_jour_combofix_tiers_necessaire;
-extern GSList * liste_struct_tiers;
+extern GtkTreeStore *model;
 extern gint nb_enregistrements_tiers;
 extern gint no_devise_totaux_tiers;
-/*START_EXTERN*/
+/*END_EXTERN*/
 
 
 static MetatreeInterface _payee_interface = {

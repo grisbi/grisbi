@@ -42,6 +42,7 @@
 #include "comptes_traitements.h"
 #include "dialog.h"
 #include "erreur.h"
+#include "utils_file_selection.h"
 #include "traitement_variables.h"
 #include "main.h"
 #include "utils_files.h"
@@ -50,7 +51,6 @@
 #include "fichier_configuration.h"
 #include "utils.h"
 #include "echeancier_liste.h"
-#include "utils_file_selection.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -79,6 +79,7 @@ extern gint id_temps;
 extern GtkItemFactory *item_factory_menu_general;
 extern GSList *liste_struct_echeances;
 extern GSList *liste_struct_etats;
+extern gint max;
 extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;

@@ -16,6 +16,8 @@ GtkWidget *creation_fenetre_operations ( void );
 GtkWidget *creation_tree_view_operations_par_compte ( gint no_compte );
 void demande_mise_a_jour_tous_comptes ( void );
 void edition_operation ( void );
+gint find_p_r_col ();
+void hide_balance_labels ( void );
 void mise_a_jour_affichage_lignes ( gint nb_lignes );
 void mise_a_jour_affichage_r ( gint affichage_r );
 void mise_a_jour_labels_soldes ( void );
@@ -30,6 +32,7 @@ void remplit_ligne_operation ( struct structure_operation *operation,
 void selectionne_ligne ( struct structure_operation *nouvelle_operation_selectionnee );
 gboolean selectionne_ligne_souris ( GtkWidget *tree_view,
 				    GdkEventButton *evenement );
+void show_balance_labels ( void );
 void supprime_operation ( struct structure_operation *operation );
 gboolean traitement_clavier_liste ( GtkWidget *widget_variable,
 				    GdkEventKey *evenement );
@@ -40,8 +43,5 @@ void update_soldes_list_store ( gint compte,
 				GtkTreeIter *iter_debut );
 void update_titres_tree_view ( void );
 void verification_list_store_termine ( gint no_compte );
-void show_balance_labels ( void );
-void hide_balance_labels ( void );
-gint find_p_r_col ();
 /*END_DECLARATION*/
 
