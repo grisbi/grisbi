@@ -3,7 +3,7 @@
 /* 			formulaire.c                                          */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003 Benjamin Drieu (bdrieu@april.org)		      */
+/*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2004 Alain Portal (dionysos@grisbi.org) 	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
@@ -34,26 +34,6 @@
 # define ONE_WEEK 7
 # define ONE_MONTH 30
 # define ONE_YEAR 365
-
-# define TRANSACTION_FORM_OP_NB 0
-# define TRANSACTION_FORM_DATE 1
-# define TRANSACTION_FORM_PARTY 2
-# define TRANSACTION_FORM_DEBIT 3
-# define TRANSACTION_FORM_CREDIT 4
-# define TRANSACTION_FORM_DEVISE 5
-# define TRANSACTION_FORM_CHANGE 6
-# define TRANSACTION_FORM_VALUE_DATE 7
-# define TRANSACTION_FORM_CATEGORY 8
-# define TRANSACTION_FORM_TYPE 9
-# define TRANSACTION_FORM_CHEQUE 10
-# define TRANSACTION_FORM_EXERCICE 11
-# define TRANSACTION_FORM_BUDGET 12
-# define TRANSACTION_FORM_CONTRA 13
-# define TRANSACTION_FORM_VOUCHER 14
-# define TRANSACTION_FORM_BREAKDOWN 15
-# define TRANSACTION_FORM_NOTES 16
-# define TRANSACTION_FORM_BANK 17
-# define TRANSACTION_FORM_MODE 18
 
 
 /******************************************************************************/
@@ -259,7 +239,7 @@ GtkWidget *creation_formulaire ( void )
 					liste_struct_devises );
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ),
 			     menu );
-  gtk_signal_connect_after ( GTK_OBJECT ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ),
+  gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ),
 		       "key-press-event",
 		       GTK_SIGNAL_FUNC ( touches_champ_formulaire ),
 		       GINT_TO_POINTER ( TRANSACTION_FORM_DEVISE ) );
@@ -280,7 +260,7 @@ GtkWidget *creation_formulaire ( void )
 		       "clicked",
 		       GTK_SIGNAL_FUNC ( click_sur_bouton_voir_change ),
 		       NULL );
-  gtk_signal_connect_after ( GTK_OBJECT ( widget_formulaire_operations[TRANSACTION_FORM_CHANGE] ),
+  gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_operations[TRANSACTION_FORM_CHANGE] ),
 		       "key-press-event",
 		       GTK_SIGNAL_FUNC ( touches_champ_formulaire ),
 		       GINT_TO_POINTER ( TRANSACTION_FORM_CHANGE ) );
@@ -305,7 +285,7 @@ GtkWidget *creation_formulaire ( void )
 		       "button-press-event",
 		       GTK_SIGNAL_FUNC ( clique_champ_formulaire ),
 		       GINT_TO_POINTER ( TRANSACTION_FORM_VALUE_DATE )  );
-  gtk_signal_connect_after ( GTK_OBJECT ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ),
+  gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ),
 		       "key-press-event",
 		       GTK_SIGNAL_FUNC ( touches_champ_formulaire ),
 		       GINT_TO_POINTER ( TRANSACTION_FORM_VALUE_DATE )  );
@@ -391,7 +371,7 @@ GtkWidget *creation_formulaire ( void )
 			 widget_formulaire_operations[TRANSACTION_FORM_TYPE],
 			 _("Choose the method of payment"),
 			 _("Choose the method of payment") );
-  gtk_signal_connect_after ( GTK_OBJECT ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ),
+  gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ),
 		       "key-press-event",
 		       GTK_SIGNAL_FUNC ( touches_champ_formulaire ),
 		       GINT_TO_POINTER ( TRANSACTION_FORM_TYPE ) );
@@ -425,7 +405,7 @@ GtkWidget *creation_formulaire ( void )
   menu = gtk_menu_new ();
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_EXERCICE] ),
 			     creation_menu_exercices (0) );
-  gtk_signal_connect_after ( GTK_OBJECT ( widget_formulaire_operations[TRANSACTION_FORM_EXERCICE] ),
+  gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_operations[TRANSACTION_FORM_EXERCICE] ),
 		       "key-press-event",
 		       GTK_SIGNAL_FUNC ( touches_champ_formulaire ),
 		       GINT_TO_POINTER ( TRANSACTION_FORM_EXERCICE ) );
@@ -461,7 +441,7 @@ GtkWidget *creation_formulaire ( void )
 		       "button-press-event",
 		       GTK_SIGNAL_FUNC ( clique_champ_formulaire ),
 		       GINT_TO_POINTER ( TRANSACTION_FORM_BUDGET ) );
-  gtk_signal_connect_after ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET] ) -> entry ),
+  gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET] ) -> entry ),
 		       "key-press-event",
 		       GTK_SIGNAL_FUNC ( touches_champ_formulaire ),
 		       GINT_TO_POINTER ( TRANSACTION_FORM_BUDGET ) );
@@ -487,7 +467,7 @@ GtkWidget *creation_formulaire ( void )
 			 widget_formulaire_operations[TRANSACTION_FORM_CONTRA],
 			 _("Contra-transaction method of payment"),
 			 _("Contra-transaction method of payment") );
-  gtk_signal_connect_after ( GTK_OBJECT ( widget_formulaire_operations[TRANSACTION_FORM_CONTRA] ),
+  gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_operations[TRANSACTION_FORM_CONTRA] ),
 			     "key-press-event",
 			     GTK_SIGNAL_FUNC ( touches_champ_formulaire ),
 			     GINT_TO_POINTER ( TRANSACTION_FORM_CONTRA ) );
@@ -511,7 +491,7 @@ GtkWidget *creation_formulaire ( void )
 		       "button-press-event",
 		       GTK_SIGNAL_FUNC ( clique_champ_formulaire ),
 		       GINT_TO_POINTER ( TRANSACTION_FORM_VOUCHER ) );
-  gtk_signal_connect_after ( GTK_OBJECT ( widget_formulaire_operations[TRANSACTION_FORM_VOUCHER] ),
+  gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_operations[TRANSACTION_FORM_VOUCHER] ),
 			     "key-press-event",
 			     GTK_SIGNAL_FUNC ( touches_champ_formulaire ),
 			     GINT_TO_POINTER ( TRANSACTION_FORM_VOUCHER ) );
@@ -537,7 +517,7 @@ GtkWidget *creation_formulaire ( void )
 		       "clicked",
 		       GTK_SIGNAL_FUNC ( basculer_vers_ventilation ),
 		       NULL );
-  gtk_signal_connect_after ( GTK_OBJECT ( widget_formulaire_operations[TRANSACTION_FORM_BREAKDOWN] ),
+  gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_operations[TRANSACTION_FORM_BREAKDOWN] ),
 		       "key-press-event",
 		       GTK_SIGNAL_FUNC ( touches_champ_formulaire ),
 		       GINT_TO_POINTER ( TRANSACTION_FORM_BREAKDOWN ) );
@@ -562,7 +542,7 @@ GtkWidget *creation_formulaire ( void )
 		       "button-press-event",
 		       GTK_SIGNAL_FUNC ( clique_champ_formulaire ),
 		       GINT_TO_POINTER ( TRANSACTION_FORM_NOTES ) );
-  gtk_signal_connect_after ( GTK_OBJECT ( widget_formulaire_operations[TRANSACTION_FORM_NOTES] ),
+  gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_operations[TRANSACTION_FORM_NOTES] ),
 			     "key-press-event",
 			     GTK_SIGNAL_FUNC ( touches_champ_formulaire ),
 			     GINT_TO_POINTER ( TRANSACTION_FORM_NOTES ) );
@@ -589,7 +569,7 @@ GtkWidget *creation_formulaire ( void )
 		       "button-press-event",
 		       GTK_SIGNAL_FUNC ( clique_champ_formulaire ),
 		       GINT_TO_POINTER ( TRANSACTION_FORM_BANK ) );
-  gtk_signal_connect_after ( GTK_OBJECT ( widget_formulaire_operations[TRANSACTION_FORM_BANK] ),
+  gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_operations[TRANSACTION_FORM_BANK] ),
 		       "key-press-event",
 		       GTK_SIGNAL_FUNC ( touches_champ_formulaire ),
 		       GINT_TO_POINTER ( TRANSACTION_FORM_BANK ) );
