@@ -303,7 +303,8 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 			     "Fichier_ouvert" ))
 		if ( (etat.fichier_deja_ouvert  = atoi ( xmlNodeGetContent ( node_generalites ))))
 		  {
-		    dialogue_conditional ( _("Either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving locked files\" option in setup."), &(etat.display_message_lock_active) );
+		    dialogue_conditional_hint ( g_strdup_printf( _("File \"%s\" is already opened"), nom_fichier_comptes),
+						_("Either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving locked files\" option in setup."), &(etat.display_message_lock_active) );
 		  }	    
 
 	      if ( !strcmp ( node_generalites -> name,
@@ -2030,7 +2031,9 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 			     "Fichier_ouvert" ))
 		if ( (etat.fichier_deja_ouvert  = atoi ( xmlNodeGetContent ( node_generalites ))))
 		  {
-		    dialogue_conditional ( _("Either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving locked files\" option in setup."), &(etat.display_message_lock_active) );
+		    dialogue_conditional_hint ( g_strdup_printf( _("File \"%s\" is already opened"), nom_fichier_comptes),
+						_("Either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving locked files\" option in setup."), 
+						&(etat.display_message_lock_active) );
 		  }
 	    
 
@@ -4253,7 +4256,9 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 			     "Fichier_ouvert" ))
 		if ( (etat.fichier_deja_ouvert  = atoi ( xmlNodeGetContent ( node_generalites ))))
 		  {
-		    dialogue_conditional ( _("Either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving locked files\" option in setup."), &(etat.display_message_lock_active) );
+		    dialogue_conditional_hint ( g_strdup_printf( _("File \"%s\" is already opened"), nom_fichier_comptes),
+						_("Either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving locked files\" option in setup."), 
+						&(etat.display_message_lock_active) );
 		  }
 	    
 
@@ -6441,9 +6446,11 @@ gboolean enregistre_fichier ( gboolean force )
 
   if ( etat.fichier_deja_ouvert && !etat.force_enregistrement && !force )
     {
-      dialogue_conditional ( g_strdup_printf( _("Grisbi was unable to save this file because it is locked.  Please save it with another name or activate the \"%s\" option in setup.  Alternatively, choose the \"%s\" option below."),
-					      _("Force saving of locked files"),
-					      _("Do not show this message again")), &(etat.force_enregistrement ) );
+      dialogue_conditional_hint ( g_strdup_printf( _("Can not save file \"%s\""), nom_fichier_comptes),
+				  
+				  g_strdup_printf( _("Grisbi was unable to save this file because it is locked.  Please save it with another name or activate the \"%s\" option in setup.  Alternatively, choose the \"%s\" option below."),
+						   _("Force saving of locked files"),
+						   _("Do not show this message again")), &(etat.force_enregistrement ) );
       return ( FALSE );
     }
 
@@ -8493,11 +8500,10 @@ gboolean enregistre_fichier ( gboolean force )
 
   xmlFreeDoc ( doc );
 
-
   if ( resultat == -1 )
     {
       dialogue_error ( g_strdup_printf ( _("Cannot save file '%s': %s"),
-				   nom_fichier_comptes, latin2utf8(strerror(errno)) ));
+					 nom_fichier_comptes, latin2utf8(strerror(errno)) ));
       return ( FALSE );
     }
 
