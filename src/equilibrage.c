@@ -1229,14 +1229,29 @@ void fill_reconciliation_tree ()
 	  
 	  if ( TYPES_OPES )
 	    result = g_slist_find_custom ( TYPES_OPES,
-					   liste_tmp -> data,
+					   abs(GPOINTER_TO_INT(liste_tmp -> data)),
 					   (GCompareFunc) recherche_type_ope_par_no);
 	  if ( result )
 	    {
+	      gchar * nom;
+
 	      type_ope = result -> data;
-	      gtk_tree_store_append (reconcile_model, &payment_method_iter, &account_iter);
+	      gtk_tree_store_append (reconcile_model, &payment_method_iter, 
+				     &account_iter);
+	      
+	      if ( type_ope -> signe_type == 1 ||
+		   ! type_ope -> signe_type && NEUTRES_INCLUS &&
+		   GPOINTER_TO_INT(liste_tmp->data) < 0 )
+		nom = g_strconcat ( type_ope -> nom_type, " ( - )", NULL );
+	      else if (type_ope -> signe_type == 2 ||
+		       ! type_ope -> signe_type && NEUTRES_INCLUS &&
+		       GPOINTER_TO_INT(liste_tmp->data) > 0 )
+		nom = g_strconcat ( type_ope -> nom_type, " ( + )", NULL );
+	      else
+		nom = type_ope -> nom_type;
+
 	      gtk_tree_store_set (reconcile_model, &payment_method_iter,
-				  RECONCILIATION_NAME_COLUMN, type_ope -> nom_type,
+				  RECONCILIATION_NAME_COLUMN, nom,
 				  RECONCILIATION_VISIBLE_COLUMN, FALSE,
 				  RECONCILIATION_SORT_COLUMN, FALSE,
 				  RECONCILIATION_SPLIT_NEUTRAL_COLUMN, FALSE,
@@ -1336,12 +1351,13 @@ void deplacement_type_tri_haut ( GtkWidget * button, gpointer data )
 	}
     }
 
-  select_reconciliation_entry ( reconcile_selection, reconcile_model );
+  select_reconciliation_entry ( reconcile_selection, 
+				GTK_TREE_MODEL(reconcile_model) );
 
   for ( elt = LISTE_TRI ; elt -> next ; elt = elt -> next )
     {
       if ( elt -> next &&
-	   elt -> next -> data == no_type )
+	   GPOINTER_TO_INT(elt -> next -> data) == no_type )
 	{
 	  LISTE_TRI = g_slist_remove ( LISTE_TRI, no_type );
 	  LISTE_TRI = g_slist_insert_before ( LISTE_TRI, elt, no_type );
@@ -1425,7 +1441,7 @@ void reconcile_by_date_toggled ( GtkCellRendererToggle *cell,
 
   gtk_tree_model_get (GTK_TREE_MODEL(reconcile_model), &iter, 
 		      RECONCILIATION_SORT_COLUMN, &toggle, 
-		      RECONCILIATION_ACCOUNT_COLUMN, p_tab_nom_de_compte_variable,
+		      RECONCILIATION_ACCOUNT_COLUMN, &p_tab_nom_de_compte_variable,
 		      -1);
 
   toggle ^= 1;
@@ -1457,7 +1473,81 @@ void reconcile_by_date_toggled ( GtkCellRendererToggle *cell,
 void reconcile_include_neutral_toggled ( GtkCellRendererToggle *cell, 
 					 gchar *path_str, gpointer data )
 {
-  
+  GSList * liste_tmp;
+  GtkTreePath * treepath;
+  GtkTreeIter iter, operation;
+  gboolean toggle, good, clear_tree = 0;
+  struct struct_type_ope * type_ope = NULL;
+ 
+  treepath = gtk_tree_path_new_from_string ( path_str );
+  gtk_tree_model_get_iter ( GTK_TREE_MODEL (reconcile_model),
+			    &iter, treepath );
+
+  gtk_tree_model_get (GTK_TREE_MODEL(reconcile_model), &iter, 
+		      RECONCILIATION_SPLIT_NEUTRAL_COLUMN, &toggle, 
+		      RECONCILIATION_ACCOUNT_COLUMN, &p_tab_nom_de_compte_variable,
+		      -1);
+ 
+  toggle ^= 1;
+  NEUTRES_INCLUS = toggle;
+
+  /* set new value */
+  gtk_tree_store_set (GTK_TREE_STORE (reconcile_model), &iter, 
+		      RECONCILIATION_SPLIT_NEUTRAL_COLUMN, toggle, 
+		      -1);
+
+  if ( toggle )
+    {
+      liste_tmp = LISTE_TRI;
+
+      while ( liste_tmp )
+	{
+	  struct struct_type_ope *type_ope;
+
+	  if ( GPOINTER_TO_INT ( liste_tmp->data ) > 0 )
+	    {
+	      GSList * result = g_slist_find_custom ( TYPES_OPES,
+						      liste_tmp->data,
+						      (GCompareFunc) recherche_type_ope_par_no );
+	      if (result)
+		type_ope = result->data;
+	      if ( type_ope && !type_ope->signe_type )
+		{
+		  LISTE_TRI = g_slist_append ( LISTE_TRI,
+					       GINT_TO_POINTER ( - GPOINTER_TO_INT ( liste_tmp->data )));
+
+		  printf(">>> Adding %s\n", type_ope->nom_type);
+		  clear_tree = 1;
+		}
+
+	    }
+	  liste_tmp = liste_tmp -> next;
+	}
+    }
+  else
+    {
+      /* on efface tous les nombres négatifs de la liste */
+
+      liste_tmp = LISTE_TRI;
+
+      while ( liste_tmp )
+	{
+	  if ( GPOINTER_TO_INT ( liste_tmp->data ) < 0 )
+	    {
+	      LISTE_TRI = g_slist_remove ( LISTE_TRI, liste_tmp -> data );
+	      liste_tmp = LISTE_TRI;
+	      clear_tree = 1;
+	    }
+	  else
+	    liste_tmp = liste_tmp -> next;
+	}
+    }
+
+  if ( clear_tree )
+    {
+      gtk_tree_store_clear ( GTK_TREE_STORE(reconcile_model) );
+      fill_reconciliation_tree ( );
+    } 
 }
 
 
