@@ -416,22 +416,12 @@ void personnalisation_etat (void)
 				 FALSE );
       gtk_widget_set_sensitive ( bouton_debut_semaine,
 				 FALSE );
-/*       gtk_widget_set_sensitive ( bouton_type_separe_perso_etat, */
-/* 				 FALSE ); */
-/*       gtk_widget_set_sensitive ( entree_separe_perso_etat, */
-/* 				 FALSE ); */
     }
 
   gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_type_separe_plages_etat ),
 				etat_courant -> type_separation_plage );
   gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_debut_semaine ),
 				etat_courant -> jour_debut_semaine );
-/*   gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_type_separe_perso_etat ), */
-/* 				etat_courant -> type_separation_perso ); */
-
-/*   if ( etat_courant -> delai_separation_perso ) */
-/*     gtk_entry_set_text ( GTK_ENTRY ( entree_separe_perso_etat ), */
-/* 			 itoa ( etat_courant -> delai_separation_perso )); */
 
 
   /* onglet comptes */
@@ -452,6 +442,9 @@ void personnalisation_etat (void)
 
   sens_desensitive_pointeur ( bouton_regroupe_ope_compte_etat,
 			      bouton_affiche_sous_total_compte );
+
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_comptes ),
+				 etat_courant -> afficher_nom_compte );
 
 
   /* onglet virements */
@@ -529,6 +522,10 @@ void personnalisation_etat (void)
 
   selectionne_devise_categ_etat_courant ();
 
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_categ ),
+				 etat_courant -> afficher_nom_categ );
+
+
   /* onglet ib */
 
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_ib_etat ),
@@ -567,6 +564,9 @@ void personnalisation_etat (void)
 
   selectionne_devise_ib_etat_courant ();
 
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_ib ),
+				 etat_courant -> afficher_nom_ib );
+
   /* onglet tiers */
 
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_tiers_etat ),
@@ -592,6 +592,9 @@ void personnalisation_etat (void)
   /* mise en forme de la devise */
 
   selectionne_devise_tiers_etat_courant ();
+
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_tiers ),
+				 etat_courant -> afficher_nom_tiers );
 
   /*  onglet texte */
 
@@ -1081,9 +1084,6 @@ void recuperation_info_perso_etat ( void )
 										  "type" ));
   etat_courant -> jour_debut_semaine = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_debut_semaine ) -> menu_item ),
 									       "jour" ));
-/*   etat_courant -> type_separation_perso = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_type_separe_perso_etat ) -> menu_item ), */
-/* 										  "type" )); */
-/*   etat_courant -> delai_separation_perso = atoi ( gtk_entry_get_text ( GTK_ENTRY ( entree_separe_perso_etat ))); */
 
   /* récupération des comptes */
 
@@ -1119,6 +1119,7 @@ void recuperation_info_perso_etat ( void )
   
   etat_courant -> regroupe_ope_par_compte = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_regroupe_ope_compte_etat ));
   etat_courant -> affiche_sous_total_compte = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_compte ));
+  etat_courant -> afficher_nom_compte = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_comptes ));
 
 
   /* récupération des virements */
@@ -1198,6 +1199,8 @@ void recuperation_info_perso_etat ( void )
 
   etat_courant -> devise_de_calcul_categ = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_devise_categ_etat ) -> menu_item ),
 										   "no_devise" ));
+  etat_courant -> afficher_nom_categ = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_categ ));
+
 
   /*   récupération des ib */
 
@@ -1242,6 +1245,7 @@ void recuperation_info_perso_etat ( void )
 
   etat_courant -> devise_de_calcul_ib = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_devise_ib_etat ) -> menu_item ),
 										   "no_devise" ));
+  etat_courant -> afficher_nom_ib = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_ib ));
 
 
 
@@ -1283,6 +1287,7 @@ void recuperation_info_perso_etat ( void )
 
   etat_courant -> devise_de_calcul_tiers = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_devise_tiers_etat ) -> menu_item ),
 										   "no_devise" ));
+  etat_courant -> afficher_nom_tiers = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_tiers ));
 
 
   /* récupération du texte */
@@ -2466,18 +2471,6 @@ GtkWidget *onglet_etat_dates ( void )
 		    menu_item );
   gtk_widget_show ( menu_item );
 
-/*   menu_item = gtk_menu_item_new_with_label ( _("Personnalisé") ); */
-/*   gtk_object_set_data ( GTK_OBJECT ( menu_item ), */
-/* 			"type", */
-/* 			GINT_TO_POINTER (3)); */
-/*   gtk_signal_connect_object ( GTK_OBJECT ( menu_item ), */
-/* 			      "activate", */
-/* 			      GTK_SIGNAL_FUNC ( modif_type_separation_dates ), */
-/* 			      GINT_TO_POINTER (3)); */
-/*   gtk_menu_append ( GTK_MENU ( menu ), */
-/* 		    menu_item ); */
-/*   gtk_widget_show ( menu_item ); */
-
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_type_separe_plages_etat ),
 			     menu );
   gtk_widget_show ( menu );
@@ -2488,55 +2481,6 @@ GtkWidget *onglet_etat_dates ( void )
 		       0 );
   gtk_widget_show ( bouton_type_separe_plages_etat );
 
-/*   entree_separe_perso_etat = gtk_entry_new (); */
-/*   gtk_widget_set_usize ( entree_separe_perso_etat, */
-/* 			 50, */
-/* 			 FALSE ); */
-/*   gtk_box_pack_start ( GTK_BOX ( hbox ), */
-/* 		       entree_separe_perso_etat, */
-/* 		       FALSE,  */
-/* 		       FALSE, */
-/* 		       0 ); */
-/*   gtk_widget_show ( entree_separe_perso_etat ); */
-
-
-/*   bouton_type_separe_perso_etat = gtk_option_menu_new (); */
-
-/*   menu = gtk_menu_new (); */
-
-/*   menu_item = gtk_menu_item_new_with_label ( _("Jours") ); */
-/*   gtk_object_set_data ( GTK_OBJECT ( menu_item ), */
-/* 			"type", */
-/* 			GINT_TO_POINTER (0)); */
-/*   gtk_menu_append ( GTK_MENU ( menu ), */
-/* 		    menu_item ); */
-/*   gtk_widget_show ( menu_item ); */
-
-/*   menu_item = gtk_menu_item_new_with_label ( _("Mois") ); */
-/*   gtk_object_set_data ( GTK_OBJECT ( menu_item ), */
-/* 			"type", */
-/* 			GINT_TO_POINTER (1)); */
-/*   gtk_menu_append ( GTK_MENU ( menu ), */
-/* 		    menu_item ); */
-/*   gtk_widget_show ( menu_item ); */
-
-/*   menu_item = gtk_menu_item_new_with_label ( _("Ans") ); */
-/*   gtk_object_set_data ( GTK_OBJECT ( menu_item ), */
-/* 			"type", */
-/* 			GINT_TO_POINTER (2)); */
-/*   gtk_menu_append ( GTK_MENU ( menu ), */
-/* 		    menu_item ); */
-/*   gtk_widget_show ( menu_item ); */
-
-/*   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_type_separe_perso_etat ), */
-/* 			     menu ); */
-/*   gtk_widget_show ( menu ); */
-/*   gtk_box_pack_start ( GTK_BOX ( hbox ), */
-/* 		       bouton_type_separe_perso_etat, */
-/* 		       FALSE,  */
-/* 		       FALSE, */
-/* 		       0 ); */
-/*   gtk_widget_show ( bouton_type_separe_perso_etat ); */
 
   /* mise en place de la ligne de début de semaine */
 
@@ -3058,8 +3002,26 @@ GtkWidget *onglet_etat_comptes ( void )
   gtk_widget_show ( bouton );
 
 
-  bouton_regroupe_ope_compte_etat = gtk_check_button_new_with_label ( _("Regrouper les opérations par compte") );
+  hbox = gtk_hbox_new ( FALSE,
+			5 );
   gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
+		       hbox,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( hbox );
+
+  vbox = gtk_vbox_new ( FALSE,
+			5 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       vbox,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( vbox );
+
+  bouton_regroupe_ope_compte_etat = gtk_check_button_new_with_label ( _("Regrouper les opérations par compte") );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_regroupe_ope_compte_etat,
 		       FALSE,
 		       FALSE,
@@ -3067,7 +3029,7 @@ GtkWidget *onglet_etat_comptes ( void )
   gtk_widget_show ( bouton_regroupe_ope_compte_etat );
 
   bouton_affiche_sous_total_compte = gtk_check_button_new_with_label ( _("Afficher un sous-total lors d'un changement de compte") );
-  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_affiche_sous_total_compte,
 		       FALSE,
 		       FALSE,
@@ -3078,6 +3040,25 @@ GtkWidget *onglet_etat_comptes ( void )
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
 		       bouton_affiche_sous_total_compte );
+
+  vbox = gtk_vbox_new ( FALSE,
+			5 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       vbox,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( vbox );
+
+  bouton_afficher_noms_comptes = gtk_check_button_new_with_label ( _("Afficher le nom du compte") );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       bouton_afficher_noms_comptes,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_afficher_noms_comptes );
+
+
 
   return ( widget_retour );
 }
@@ -3608,6 +3589,14 @@ GtkWidget *onglet_etat_categories ( void )
 		       0 );
   gtk_widget_show ( bouton_devise_categ_etat );
 
+  bouton_afficher_noms_categ = gtk_check_button_new_with_label ( _("Afficher le nom de la (sous-)catégorie") );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       bouton_afficher_noms_categ,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_afficher_noms_categ );
+
 
 
 
@@ -4010,6 +3999,14 @@ GtkWidget *onglet_etat_ib ( void )
 		       0 );
   gtk_widget_show ( bouton_devise_ib_etat );
 
+  bouton_afficher_noms_ib = gtk_check_button_new_with_label ( _("Afficher le nom de la (sous-)imputation") );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       bouton_afficher_noms_ib,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_afficher_noms_ib );
+
 
   return ( widget_retour );
 }
@@ -4096,6 +4093,7 @@ GtkWidget *onglet_etat_tiers ( void )
   GtkWidget *scrolled_window;
   GtkWidget *bouton;
   GtkWidget *hbox;
+  GtkWidget *hbox2;
   GtkWidget *vbox_onglet;
 
   widget_retour = gtk_scrolled_window_new ( FALSE,
@@ -4267,8 +4265,26 @@ GtkWidget *onglet_etat_tiers ( void )
   gtk_widget_show ( bouton );
 
 
-  bouton_affiche_sous_total_tiers = gtk_check_button_new_with_label ( _("Afficher un sous-total lors du changement de tiers") );
+  hbox2 = gtk_hbox_new ( FALSE,
+			 5 );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       hbox2,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( hbox2 );
+
+  vbox2 = gtk_vbox_new ( FALSE,
+			 5 );
+  gtk_box_pack_start ( GTK_BOX ( hbox2 ),
+		       vbox2,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( vbox2 );
+
+  bouton_affiche_sous_total_tiers = gtk_check_button_new_with_label ( _("Afficher un sous-total lors du changement de tiers") );
+  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
 		       bouton_affiche_sous_total_tiers,
 		       FALSE,
 		       FALSE,
@@ -4277,7 +4293,7 @@ GtkWidget *onglet_etat_tiers ( void )
 
   hbox = gtk_hbox_new ( FALSE,
 			5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
+  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
 		       hbox,
 		       FALSE,
 		       FALSE,
@@ -4302,6 +4318,23 @@ GtkWidget *onglet_etat_tiers ( void )
 		       FALSE,
 		       0 );
   gtk_widget_show ( bouton_devise_tiers_etat );
+
+  vbox2 = gtk_vbox_new ( FALSE,
+			 5 );
+  gtk_box_pack_start ( GTK_BOX ( hbox2 ),
+		       vbox2,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( vbox2 );
+
+  bouton_afficher_noms_tiers = gtk_check_button_new_with_label ( _("Afficher le nom du tiers") );
+  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
+		       bouton_afficher_noms_tiers,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_afficher_noms_tiers );
 
 
   return ( widget_retour );

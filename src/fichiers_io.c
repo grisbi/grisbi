@@ -3253,66 +3253,16 @@ des paramètres.") );
 		      else
 			etat -> date_perso_fin = NULL;
 
-		      if (xmlGetProp ( node_detail, "Utilise_plages" ))
-			{
-			  etat -> separation_par_plage = atoi ( xmlGetProp ( node_detail,
-									     "Utilise_plages" ));
-			}
-		      else
-			{
-			  etat -> separation_par_plage = 0;
-			}
-
-		      if (xmlGetProp ( node_detail, "Sep_plages"))
-			{
-			  etat -> type_separation_plage = atoi ( xmlGetProp ( node_detail,
-									      "Sep_plages" ));
-			}
-		      else
-			{
-			  etat -> type_separation_plage = 0;
-			}			
-
-		      if (xmlGetProp ( node_detail, "Deb_sem_plages" ))
-			{
-			  etat -> jour_debut_semaine = atoi ( xmlGetProp ( node_detail,
-									   "Deb_sem_plages" ));
-			}
-		      else 
-			{
-			  etat -> jour_debut_semaine = 0;
-			}
-
-		      if (xmlGetProp ( node_detail, "Sep_perso_plages" ))
-			{
-			  etat -> type_separation_perso = atoi ( xmlGetProp ( node_detail,
-									      "Sep_perso_plages" ));
-			}
-		      else 
-			{
-			  etat -> type_separation_perso = 0;
-			}
-
-		      if (xmlGetProp ( node_detail, "Delai_perso_plages" ))
-			{
-			  etat -> delai_separation_perso = atoi ( xmlGetProp ( node_detail,
-									       "Delai_perso_plages" ));
-			}
-		      else 
-			{
-			  etat -> delai_separation_perso = 0;
-			}
+		      etat -> separation_par_plage = atoi ( xmlGetProp ( node_detail,
+									 "Utilise_plages" ));
+		      etat -> type_separation_plage = atoi ( xmlGetProp ( node_detail,
+									  "Sep_plages" ));
+		      etat -> jour_debut_semaine = atoi ( xmlGetProp ( node_detail,
+								       "Deb_sem_plages" ));
 
 
-		      if (xmlGetProp ( node_detail, "Detail_comptes" ))
-			{
-			  etat -> utilise_detail_comptes = atoi ( xmlGetProp ( node_detail,
-									       "Detail_comptes" ));
-			}
-		      else 
-			{
-			  etat -> utilise_detail_comptes = 0;
-			}
+		      etat -> utilise_detail_comptes = atoi ( xmlGetProp ( node_detail,
+									   "Detail_comptes" ));
 
 		      etat -> no_comptes = NULL;
 
@@ -3343,6 +3293,9 @@ des paramètres.") );
 
 		      etat -> affiche_sous_total_compte = atoi ( xmlGetProp ( node_detail,
 									    "Total_compte" ));
+
+		      etat -> afficher_nom_compte = atoi ( xmlGetProp ( node_detail,
+									"Aff_nom_compte" ));
 
 		      etat -> type_virement = atoi ( xmlGetProp ( node_detail,
 						     "Type_vir" ));
@@ -3444,6 +3397,9 @@ des paramètres.") );
 		      etat -> devise_de_calcul_categ = atoi ( xmlGetProp ( node_detail,
 									"Devise_categ" ));
 
+		      etat -> afficher_nom_categ = atoi ( xmlGetProp ( node_detail,
+									"Aff_nom_categ" ));
+
 		      etat -> utilise_ib = atoi ( xmlGetProp ( node_detail,
 								  "IB" ));
 		      etat -> utilise_detail_ib = atoi ( xmlGetProp ( node_detail,
@@ -3490,6 +3446,9 @@ des paramètres.") );
 		      etat -> devise_de_calcul_ib = atoi ( xmlGetProp ( node_detail,
 									"Devise_ib" ));
 
+		      etat -> afficher_nom_ib = atoi ( xmlGetProp ( node_detail,
+								    "Aff_nom_ib" ));
+
 		      etat -> utilise_tiers = atoi ( xmlGetProp ( node_detail,
 								  "Tiers" ));
 		      etat -> utilise_detail_tiers = atoi ( xmlGetProp ( node_detail,
@@ -3523,6 +3482,9 @@ des paramètres.") );
 
 		      etat -> devise_de_calcul_tiers = atoi ( xmlGetProp ( node_detail,
 									"Devise_tiers" ));
+
+		      etat -> afficher_nom_tiers = atoi ( xmlGetProp ( node_detail,
+								       "Aff_nom_tiers" ));
 
 		      if ( strlen ( xmlGetProp ( node_detail,
 						 "Texte" )))
@@ -5236,14 +5198,6 @@ gboolean enregistre_fichier ( void )
 		   "Deb_sem_plages",
 		   itoa ( etat -> jour_debut_semaine ));
 
-      xmlSetProp ( node_etat,
-		   "Sep_perso_plages",
-		   itoa ( etat -> type_separation_perso ));
-
-      xmlSetProp ( node_etat,
-		   "Delai_perso_plages",
-		   itoa ( etat -> delai_separation_perso ));
-
 
       xmlSetProp ( node_etat,
 		   "Detail_comptes",
@@ -5276,6 +5230,10 @@ gboolean enregistre_fichier ( void )
       xmlSetProp ( node_etat,
 		   "Total_compte",
 		   itoa ( etat -> affiche_sous_total_compte ));
+
+      xmlSetProp ( node_etat,
+		   "Aff_nom_compte",
+		   itoa ( etat -> afficher_nom_compte ));
 
       xmlSetProp ( node_etat,
 		   "Type_vir",
@@ -5360,6 +5318,10 @@ gboolean enregistre_fichier ( void )
 		   itoa ( etat -> devise_de_calcul_categ ));
 
       xmlSetProp ( node_etat,
+		   "Aff_nom_categ",
+		   itoa ( etat -> afficher_nom_categ ));
+
+      xmlSetProp ( node_etat,
 		   "IB",
 		   itoa ( etat -> utilise_ib ));
 
@@ -5412,6 +5374,10 @@ gboolean enregistre_fichier ( void )
 		   itoa ( etat -> devise_de_calcul_ib ));
 
       xmlSetProp ( node_etat,
+		   "Aff_nom_ib",
+		   itoa ( etat -> afficher_nom_ib ));
+
+      xmlSetProp ( node_etat,
 		   "Tiers",
 		   itoa ( etat -> utilise_tiers ));
 
@@ -5446,6 +5412,10 @@ gboolean enregistre_fichier ( void )
       xmlSetProp ( node_etat,
 		   "Devise_tiers",
 		   itoa ( etat -> devise_de_calcul_tiers ));
+
+      xmlSetProp ( node_etat,
+		   "Aff_nom_tiers",
+		   itoa ( etat -> afficher_nom_tiers ));
 
       xmlSetProp ( node_etat,
 		   "Texte",
@@ -5888,14 +5858,6 @@ gboolean enregistre_etat ( gchar *nom_etat )
 	       itoa ( etat_courant -> jour_debut_semaine ));
 
   xmlSetProp ( node,
-	       "Sep_perso_plages",
-	       itoa ( etat_courant -> type_separation_perso ));
-
-  xmlSetProp ( node,
-	       "Delai_perso_plages",
-	       itoa ( etat_courant -> delai_separation_perso ));
-
-  xmlSetProp ( node,
 	       "Detail_comptes",
 	       itoa ( etat_courant -> utilise_detail_comptes ));
 
@@ -5926,6 +5888,10 @@ gboolean enregistre_etat ( gchar *nom_etat )
   xmlSetProp ( node,
 	       "Total_compte",
 	       itoa ( etat_courant -> affiche_sous_total_compte ));
+
+  xmlSetProp ( node,
+	       "Aff_nom_compte",
+	       itoa ( etat_courant -> afficher_nom_compte ));
 
   xmlSetProp ( node,
 	       "Type_vir",
@@ -6008,6 +5974,12 @@ gboolean enregistre_etat ( gchar *nom_etat )
 	       itoa ( etat_courant -> devise_de_calcul_categ ));
 
   xmlSetProp ( node,
+	       "Aff_nom_categ",
+	       itoa ( etat_courant -> afficher_nom_categ ));
+
+
+
+  xmlSetProp ( node,
 	       "IB",
 	       itoa ( etat_courant -> utilise_ib ));
 
@@ -6060,6 +6032,10 @@ gboolean enregistre_etat ( gchar *nom_etat )
 	       itoa ( etat_courant -> devise_de_calcul_ib ));
 
   xmlSetProp ( node,
+	       "Aff_nom_ib",
+	       itoa ( etat_courant -> afficher_nom_ib ));
+
+  xmlSetProp ( node,
 	       "Tiers",
 	       itoa ( etat_courant -> utilise_tiers ));
 
@@ -6094,6 +6070,10 @@ gboolean enregistre_etat ( gchar *nom_etat )
   xmlSetProp ( node,
 	       "Devise_tiers",
 	       itoa ( etat_courant -> devise_de_calcul_tiers ));
+
+  xmlSetProp ( node,
+	       "Aff_nom_tiers",
+	       itoa ( etat_courant -> afficher_nom_tiers ));
 
   xmlSetProp ( node,
 	       "Texte",
@@ -6429,12 +6409,6 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 	  etat -> jour_debut_semaine = atoi ( xmlGetProp ( node,
 							   "Deb_sem_plages" ));
 
-	  etat -> type_separation_perso = atoi ( xmlGetProp ( node,
-							      "Sep_perso_plages" ));
-
-	  etat -> delai_separation_perso = atoi ( xmlGetProp ( node,
-							       "Delai_perso_plages" ));
-
 
 	  etat -> utilise_detail_comptes = atoi ( xmlGetProp ( node,
 							       "Detail_comptes" ));
@@ -6468,6 +6442,9 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
 	  etat -> affiche_sous_total_compte = atoi ( xmlGetProp ( node,
 								  "Total_compte" ));
+
+	  etat -> afficher_nom_compte = atoi ( xmlGetProp ( node,
+								  "Aff_nom_compte" ));
 
 	  etat -> type_virement = atoi ( xmlGetProp ( node,
 						      "Type_vir" ));
@@ -6542,6 +6519,8 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
 	  etat -> devise_de_calcul_categ = atoi ( xmlGetProp ( node,
 							       "Devise_categ" ));
+	  etat -> afficher_nom_categ = atoi ( xmlGetProp ( node,
+							   "Aff_nom_categ" ));
 
 	  etat -> utilise_ib = atoi ( xmlGetProp ( node,
 						   "IB" ));
@@ -6589,6 +6568,9 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 	  etat -> devise_de_calcul_ib = atoi ( xmlGetProp ( node,
 							    "Devise_ib" ));
 
+	  etat -> afficher_nom_ib = atoi ( xmlGetProp ( node,
+							    "Aff_nom_ib" ));
+
 	  etat -> utilise_tiers = atoi ( xmlGetProp ( node,
 						      "Tiers" ));
 	  etat -> utilise_detail_tiers = atoi ( xmlGetProp ( node,
@@ -6622,6 +6604,9 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
 	  etat -> devise_de_calcul_tiers = atoi ( xmlGetProp ( node,
 							       "Devise_tiers" ));
+
+	  etat -> afficher_nom_tiers = atoi ( xmlGetProp ( node,
+							       "Aff_nom_tiers" ));
 
 	  if ( strlen ( xmlGetProp ( node,
 				     "Texte" )))

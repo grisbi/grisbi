@@ -697,14 +697,13 @@ extern GtkWidget *vbox_utilisation_date;
 extern GtkWidget *bouton_separe_plages_etat;
 extern GtkWidget *bouton_type_separe_plages_etat;
 extern GtkWidget *bouton_debut_semaine;
-/* extern GtkWidget *bouton_type_separe_perso_etat; */
-/* extern GtkWidget *entree_separe_perso_etat; */
 
 extern GtkWidget *liste_comptes_etat;
 extern GtkWidget *bouton_detaille_comptes_etat;
 extern GtkWidget *vbox_generale_comptes_etat;
 extern GtkWidget *bouton_regroupe_ope_compte_etat;
 extern GtkWidget *bouton_affiche_sous_total_compte;
+extern GtkWidget *bouton_afficher_noms_comptes;
 
 extern GtkWidget *bouton_inclusion_virements_actifs_etat;
 extern GtkWidget *bouton_inclusion_virements_hors_etat;
@@ -724,6 +723,7 @@ extern GtkWidget *bouton_affiche_sous_total_sous_categ;
 extern GtkWidget *bouton_exclure_ope_sans_categ;
 extern GtkWidget *bouton_devise_categ_etat;
 extern GtkWidget *bouton_afficher_pas_de_sous_categ;
+extern GtkWidget *bouton_afficher_noms_categ;
 
 extern GtkWidget *bouton_utilise_ib_etat;
 extern GtkWidget *vbox_generale_ib_etat;
@@ -736,6 +736,7 @@ extern GtkWidget *bouton_affiche_sous_total_sous_ib;
 extern GtkWidget *bouton_exclure_ope_sans_ib;
 extern GtkWidget *bouton_devise_ib_etat;
 extern GtkWidget *bouton_afficher_pas_de_sous_ib;
+extern GtkWidget *bouton_afficher_noms_ib;
 
 extern GtkWidget *bouton_utilise_tiers_etat;
 extern GtkWidget *vbox_generale_tiers_etat;
@@ -744,6 +745,7 @@ extern GtkWidget *hbox_detaille_tiers_etat;
 extern GtkWidget *liste_tiers_etat;
 extern GtkWidget *bouton_affiche_sous_total_tiers;
 extern GtkWidget *bouton_devise_tiers_etat;
+extern GtkWidget *bouton_afficher_noms_tiers;
 
 extern GtkWidget *entree_texte_etat;
 

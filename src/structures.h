@@ -425,10 +425,8 @@ struct struct_etat
   GDate *date_perso_debut;
   GDate *date_perso_fin;
   gint separation_par_plage;       /* 1=oui, 0=non */
-  gint type_separation_plage;        /*  0=semaines, 1=mois, 2=année, 3=perso */
+  gint type_separation_plage;        /*  0=semaines, 1=mois, 2=année */
   gint jour_debut_semaine;           /* 0=lundi ... */
-  gint type_separation_perso;        /* 0=jour, 1=mois, 2=année */
-  gint delai_separation_perso;
 
   GList *type_classement;  /* liste de no : 1=caté,2=ss categ,3=ib,4=ss ib,5=compte,6=tiers */
 
@@ -436,6 +434,7 @@ struct struct_etat
   GSList *no_comptes;
   gint regroupe_ope_par_compte;
   gint affiche_sous_total_compte;
+  gint afficher_nom_compte;
 
   gint type_virement;   /* 0: pas de virements / 1:seulement les virements vers comptes actifs-passifs/2:virements hors état/3:perso */
   GSList *no_comptes_virements;
@@ -450,6 +449,7 @@ struct struct_etat
   gint exclure_ope_sans_categ;
   gint devise_de_calcul_categ;
   gint afficher_pas_de_sous_categ;
+  gint afficher_nom_categ;
 
   gint utilise_ib;
   gint utilise_detail_ib;
@@ -460,12 +460,14 @@ struct struct_etat
   gint exclure_ope_sans_ib;
   gint devise_de_calcul_ib;
   gint afficher_pas_de_sous_ib;
+  gint afficher_nom_ib;
 
   gint utilise_tiers;
   gint utilise_detail_tiers;
   GSList *no_tiers;
   gint affiche_sous_total_tiers;
   gint devise_de_calcul_tiers;
+  gint afficher_nom_tiers;
 
   gchar *texte;
 

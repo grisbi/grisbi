@@ -54,6 +54,7 @@ struct struct_etat_affichage gtktable_affichage = {
   gtktable_finish
 };
 
+/*****************************************************************************************************/
 gint gtktable_initialise (GSList * opes_selectionnees)
 {
   /* on peut maintenant créer la table */
@@ -74,12 +75,478 @@ gint gtktable_initialise (GSList * opes_selectionnees)
   
   return 1;
 }
+/*****************************************************************************************************/
 
 
+/*****************************************************************************************************/
 gint gtktable_affiche_titre ( gint ligne )
 {
   GtkWidget *label;
-  label = gtk_label_new ( etat_courant -> nom_etat );
+  gchar *titre;
+  GDate *date_jour;
+
+  date_jour = g_date_new ();
+  g_date_set_time ( date_jour,
+		    time ( NULL ));
+
+  titre = etat_courant -> nom_etat;
+
+  if ( etat_courant -> exo_date )
+    {
+      GSList *liste_tmp;
+      struct struct_exercice *exo;
+      struct struct_exercice *exo_courant;
+      struct struct_exercice *exo_precedent;
+
+      /* initialise les variables pour la recherche d'exo */
+
+      liste_tmp = liste_struct_exercices;
+
+      exo_courant = NULL;
+      exo_precedent = NULL;
+      exo = NULL;
+
+      switch ( etat_courant -> utilise_detail_exo )
+	{
+	case 0:
+	  /* tous les exos */
+
+	  titre = g_strconcat ( titre,
+				", tous les exercices",
+				NULL );
+	  break;
+
+	case 1:
+	  /* exercice courant */
+
+	  /* on recherche l'exo courant */
+
+	  while ( liste_tmp )
+	    {
+	      exo = liste_tmp -> data;
+
+	      if ( g_date_compare ( date_jour,
+				    exo -> date_debut ) >= 0
+		   &&
+		   g_date_compare ( date_jour,
+				    exo -> date_fin ) <= 0 )
+		liste_tmp = NULL;
+	      else
+		liste_tmp = liste_tmp -> next;
+	    }
+
+	  /* 	  à ce niveau, exo contient l'exercice courant ou NULL */
+
+	  if ( exo )
+	    titre = g_strconcat ( titre,
+				  ", exercice courant (",
+				  exo -> nom_exercice,
+				  ")",
+				  NULL );
+	  else
+	    titre = g_strconcat ( titre,
+				  ", exercice courant",
+				  NULL );
+	  break;
+
+	case 2:
+	  /* exo précédent */
+	  /* on recherche l'exo précédent */
+
+	  while ( liste_tmp )
+	    {
+	      struct struct_exercice *exo;
+
+	      exo = liste_tmp -> data;
+
+	      if ( exo_courant )
+		{
+		  /* exo_courant est forcemment après exo_precedent */
+		  /* si l'exo en court est après exo_courant, on met exo_courant */
+		  /* dans exo_precedent, et l'exo en court dans exo_courant */
+		  /*   sinon, on compare avec exo_precedent */
+
+		  if ( g_date_compare ( exo -> date_debut,
+					exo_courant -> date_fin ) >= 0 )
+		    {
+		      exo_precedent = exo_courant;
+		      exo_courant = exo;
+		    }
+		  else
+		    {
+		      /* l'exo en cours est avant exo_courant, on le compare à exo_precedent */
+
+		      if ( !exo_precedent
+			   ||
+			   g_date_compare ( exo -> date_debut,
+					    exo_precedent -> date_fin ) >= 0 )
+			exo_precedent = exo;
+		    }
+		}
+	      else
+		exo_courant = exo;
+
+
+	      liste_tmp = liste_tmp -> next;
+	    }
+
+	  /* 	  à ce niveau, exo_precedent contient l'exercice précédent ou NULL */
+
+	  if ( exo_precedent )
+	    titre = g_strconcat ( titre,
+				  ", exercice précédent (",
+				  exo_precedent -> nom_exercice,
+				  ")",
+				  NULL );
+	  else
+	    titre = g_strconcat ( titre,
+				  ", exercice précédent",
+				  NULL );
+	  break;
+
+	case 3:
+	  /* exos perso */
+	  /* 	  un ou plusieurs exos ont été sélectionnés, on récupère le nom de chacuns */
+
+	  liste_tmp = etat_courant -> no_exercices;
+
+	  if ( g_slist_length ( liste_tmp ) > 1 )
+	    titre = g_strconcat ( titre,
+				  ", exercices ",
+				  NULL );
+	  else
+	    titre = g_strconcat ( titre,
+				  ", exercice ",
+				  NULL );
+
+	  while ( liste_tmp )
+	    {
+	      exo = g_slist_find_custom ( liste_struct_exercices,
+					  liste_tmp -> data,
+					  (GCompareFunc) recherche_exercice_par_no ) -> data;
+
+	      if ( liste_tmp == g_slist_last ( etat_courant -> no_exercices ))
+		titre = g_strconcat ( titre,
+				      exo -> nom_exercice,
+				      NULL );
+	      else
+		titre = g_strconcat ( titre,
+				      exo -> nom_exercice,
+				      ", ",
+				      NULL );
+	      liste_tmp = liste_tmp -> next;
+	    }
+
+
+
+	  break;
+	}
+    }     
+  else
+    {
+      /* c'est une plage de dates qui a été entrée */
+
+      gchar buffer_date[15];
+      gchar buffer_date_2[15];
+      GDate *date_tmp;
+
+      switch ( etat_courant -> no_plage_date )
+	{
+	case 0:
+	  /* toutes */
+
+	  titre = g_strconcat ( titre,
+				", toutes les dates",
+				NULL );
+	  break;
+
+	case 1:
+	  /* plage perso */
+
+	  titre = g_strconcat ( titre,
+				g_strdup_printf ( ", du %d/%d/%d au %d/%d/%d",
+						  g_date_day ( etat_courant -> date_perso_debut ),
+						  g_date_month ( etat_courant -> date_perso_debut ),
+						  g_date_year ( etat_courant -> date_perso_debut ),
+						  g_date_day ( etat_courant -> date_perso_fin ),
+						  g_date_month ( etat_courant -> date_perso_fin ),
+						  g_date_year ( etat_courant -> date_perso_fin )),
+				NULL );
+	  break;
+
+	case 2:
+	  /* cumul à ce jour */
+
+	  titre = g_strconcat ( titre,
+				g_strdup_printf ( ", cumul au %d/%d/%d",
+						  g_date_day ( date_jour ),
+						  g_date_month ( date_jour ),
+						  g_date_year ( date_jour )),
+				NULL );
+	  break;
+
+	case 3:
+	  /* mois en cours */
+
+	  g_date_strftime ( buffer_date,
+			    14,
+			    "%B",
+			    date_jour );
+
+	  if ( buffer_date[0] == 'a'
+	       ||
+	       buffer_date[0] == 'o' )
+	    titre = g_strconcat ( titre,
+				  g_strdup_printf ( ", mois d'%s %d",
+						    buffer_date,
+						    g_date_year ( date_jour )),
+				  NULL );
+	  else
+	    titre = g_strconcat ( titre,
+				  g_strdup_printf ( ", mois de %s %d",
+						    buffer_date,
+						    g_date_year ( date_jour )),
+				  NULL );
+	  break;
+
+	case 4:
+	  /* année en cours */
+
+	  titre = g_strconcat ( titre,
+				g_strdup_printf ( ", année %d",
+						  g_date_year ( date_jour )),
+				NULL );
+	  break;
+
+	case 5:
+	  /* cumul mensuel */
+
+	  titre = g_strconcat ( titre,
+				g_strdup_printf ( ", cumul mensuel au %d/%d/%d",
+						  g_date_day ( date_jour ),
+						  g_date_month ( date_jour ),
+						  g_date_year ( date_jour )),
+				NULL );
+	  break;
+
+	case 6:
+	  /* cumul annuel */
+
+	  titre = g_strconcat ( titre,
+				g_strdup_printf ( ", cumul annuel au %d/%d/%d",
+						  g_date_day ( date_jour ),
+						  g_date_month ( date_jour ),
+						  g_date_year ( date_jour )),
+				NULL );
+	  break;
+
+	case 7:
+	  /* mois précédent */
+
+	  g_date_subtract_months ( date_jour,
+				    1 );
+	  g_date_strftime ( buffer_date,
+			    14,
+			    "%B",
+			    date_jour );
+
+	  if ( buffer_date[0] == 'a'
+	       ||
+	       buffer_date[0] == 'o' )
+	    titre = g_strconcat ( titre,
+				  g_strdup_printf ( ", mois d'%s %d",
+						    buffer_date,
+						    g_date_year ( date_jour )),
+				  NULL );
+	  else
+	    titre = g_strconcat ( titre,
+				  g_strdup_printf ( ", mois de %s %d",
+						    buffer_date,
+						    g_date_year ( date_jour )),
+				  NULL );
+	  break;
+
+	case 8:
+	  /* année précédente */
+
+	  titre = g_strconcat ( titre,
+				g_strdup_printf ( ", année %d",
+						  g_date_year ( date_jour ) - 1),
+				NULL );
+	  break;
+
+	case 9:
+	  /* 30 derniers jours */
+
+	  date_tmp = g_date_new ();
+	  g_date_set_time ( date_tmp,
+			    time ( NULL ));
+
+	  g_date_subtract_days ( date_tmp,
+				 30 );
+
+	  titre = g_strconcat ( titre,
+				g_strdup_printf ( ", du %d/%d/%d au %d/%d/%d",
+						  g_date_day ( date_tmp ),
+						  g_date_month ( date_tmp ),
+						  g_date_year (date_tmp  ),
+						  g_date_day ( date_jour ),
+						  g_date_month ( date_jour ),
+						  g_date_year ( date_jour )),
+				NULL );
+	  break;
+
+	case 10:
+	  /* 3 derniers mois */
+
+	  date_tmp = g_date_new ();
+	  g_date_set_time ( date_tmp,
+			    time ( NULL ));
+	  g_date_subtract_months ( date_tmp,
+				   3 );
+	  g_date_strftime ( buffer_date_2,
+			    14,
+			    "%B",
+			    date_tmp );
+	  g_date_strftime ( buffer_date,
+			    14,
+			    "%B",
+			    date_jour );
+
+
+	  if ( buffer_date_2[0] == 'a'
+	       ||
+	       buffer_date_2[0] == 'o' )
+	    titre = g_strconcat ( titre,
+				  g_strdup_printf ( ", du mois d'%s %d ",
+						    buffer_date_2,
+						    g_date_year ( date_tmp )),
+				  NULL );
+	  else
+	    titre = g_strconcat ( titre,
+				  g_strdup_printf ( ", du mois de %s %d ",
+						    buffer_date_2,
+						    g_date_year ( date_tmp )),
+				  NULL );
+
+	  if ( buffer_date[0] == 'a'
+	       ||
+	       buffer_date[0] == 'o' )
+	    titre = g_strconcat ( titre,
+				  g_strdup_printf ( "au mois d'%s %d",
+						    buffer_date,
+						    g_date_year ( date_jour )),
+				  NULL );
+	  else
+	    titre = g_strconcat ( titre,
+				  g_strdup_printf ( "au mois de %s %d",
+						    buffer_date,
+						    g_date_year ( date_jour )),
+				  NULL );
+	  break;
+
+	case 11:
+	  /* 6 derniers mois */
+
+	  date_tmp = g_date_new ();
+	  g_date_set_time ( date_tmp,
+			    time ( NULL ));
+	  g_date_subtract_months ( date_tmp,
+				   6 );
+	  g_date_strftime ( buffer_date_2,
+			    14,
+			    "%B",
+			    date_tmp );
+	  g_date_strftime ( buffer_date,
+			    14,
+			    "%B",
+			    date_jour );
+
+
+	  if ( buffer_date_2[0] == 'a'
+	       ||
+	       buffer_date_2[0] == 'o' )
+	    titre = g_strconcat ( titre,
+				  g_strdup_printf ( ", du mois d'%s %d ",
+						    buffer_date_2,
+						    g_date_year ( date_tmp )),
+				  NULL );
+	  else
+	    titre = g_strconcat ( titre,
+				  g_strdup_printf ( ", du mois de %s %d ",
+						    buffer_date_2,
+						    g_date_year ( date_tmp )),
+				  NULL );
+
+	  if ( buffer_date[0] == 'a'
+	       ||
+	       buffer_date[0] == 'o' )
+	    titre = g_strconcat ( titre,
+				  g_strdup_printf ( "au mois d'%s %d",
+						    buffer_date,
+						    g_date_year ( date_jour )),
+				  NULL );
+	  else
+	    titre = g_strconcat ( titre,
+				  g_strdup_printf ( "au mois de %s %d",
+						    buffer_date,
+						    g_date_year ( date_jour )),
+				  NULL );
+	  break;
+
+	case 12:
+	  /* 12 derniers mois */
+
+	  date_tmp = g_date_new ();
+	  g_date_set_time ( date_tmp,
+			    time ( NULL ));
+	  g_date_subtract_months ( date_tmp,
+				   12 );
+	  g_date_strftime ( buffer_date_2,
+			    14,
+			    "%B",
+			    date_tmp );
+	  g_date_strftime ( buffer_date,
+			    14,
+			    "%B",
+			    date_jour );
+
+
+	  if ( buffer_date_2[0] == 'a'
+	       ||
+	       buffer_date_2[0] == 'o' )
+	    titre = g_strconcat ( titre,
+				  g_strdup_printf ( ", du mois d'%s %d ",
+						    buffer_date_2,
+						    g_date_year ( date_tmp )),
+				  NULL );
+	  else
+	    titre = g_strconcat ( titre,
+				  g_strdup_printf ( ", du mois de %s %d ",
+						    buffer_date_2,
+						    g_date_year ( date_tmp )),
+				  NULL );
+
+	  if ( buffer_date[0] == 'a'
+	       ||
+	       buffer_date[0] == 'o' )
+	    titre = g_strconcat ( titre,
+				  g_strdup_printf ( "au mois d'%s %d",
+						    buffer_date,
+						    g_date_year ( date_jour )),
+				  NULL );
+	  else
+	    titre = g_strconcat ( titre,
+				  g_strdup_printf ( "au mois de %s %d",
+						    buffer_date,
+						    g_date_year ( date_jour )),
+				  NULL );
+	  break;
+	}
+    }
+
+
+  label = gtk_label_new ( titre );
   gtk_table_attach ( GTK_TABLE ( table_etat ),
 		     label,
 		     0, GTK_TABLE ( table_etat ) -> ncols,
@@ -91,8 +558,10 @@ gint gtktable_affiche_titre ( gint ligne )
 
   return 1;
 }
+/*****************************************************************************************************/
 
 
+/*****************************************************************************************************/
 gint gtktable_affiche_separateur ( gint ligne )
 {
   GtkWidget * separateur;
@@ -108,6 +577,7 @@ gint gtktable_affiche_separateur ( gint ligne )
 
   return ligne + 1;
 }
+/*****************************************************************************************************/
 
 
 /*****************************************************************************************************/
@@ -2107,59 +2577,63 @@ gint gtktable_affiche_categ_etat ( struct structure_operation *operation,
 	  ligne = gtktable_affichage . affiche_total_categories ( ligne );
 	}
 
-      if ( operation -> categorie )
-	{
-	  nom_categ_en_cours = ((struct struct_categ *)(g_slist_find_custom ( liste_struct_categories,
-									      GINT_TO_POINTER ( operation -> categorie ),
-									      (GCompareFunc) recherche_categorie_par_no ) -> data )) -> nom_categ;
-	  pointeur_char = g_strconcat ( decalage_categ,
-					nom_categ_en_cours,
-					NULL );
-	  ancienne_categ_speciale_etat = 0;
-	}
+      /*       si on a demandé de ne pas afficher les noms des catég, on saute la partie suivante */
 
-      else
+      if ( etat_courant -> afficher_nom_categ )
 	{
-	  if ( operation -> relation_no_operation )
+	  if ( operation -> categorie )
 	    {
+	      nom_categ_en_cours = ((struct struct_categ *)(g_slist_find_custom ( liste_struct_categories,
+										  GINT_TO_POINTER ( operation -> categorie ),
+										  (GCompareFunc) recherche_categorie_par_no ) -> data )) -> nom_categ;
 	      pointeur_char = g_strconcat ( decalage_categ,
-					    _("Virements"),
+					    nom_categ_en_cours,
 					    NULL );
-	      ancienne_categ_speciale_etat = 1;
+	      ancienne_categ_speciale_etat = 0;
 	    }
 	  else
 	    {
-	      if ( operation -> operation_ventilee )
+	      if ( operation -> relation_no_operation )
 		{
 		  pointeur_char = g_strconcat ( decalage_categ,
-						_("Opération ventilée"),
+						_("Virements"),
 						NULL );
-		  ancienne_categ_speciale_etat = 2;
+		  ancienne_categ_speciale_etat = 1;
 		}
 	      else
 		{
-		  pointeur_char = g_strconcat ( decalage_categ,
-						_("Pas de catégorie"),
-						NULL );
-		  ancienne_categ_speciale_etat = 3;
+		  if ( operation -> operation_ventilee )
+		    {
+		      pointeur_char = g_strconcat ( decalage_categ,
+						    _("Opération ventilée"),
+						    NULL );
+		      ancienne_categ_speciale_etat = 2;
+		    }
+		  else
+		    {
+		      pointeur_char = g_strconcat ( decalage_categ,
+						    _("Pas de catégorie"),
+						    NULL );
+		      ancienne_categ_speciale_etat = 3;
+		    }
 		}
 	    }
+
+	  label = gtk_label_new ( pointeur_char );
+	  gtk_misc_set_alignment ( GTK_MISC ( label ),
+				   0,
+				   0.5 );
+	  gtk_table_attach ( GTK_TABLE ( table_etat ),
+			     label,
+			     0, 1,
+			     ligne, ligne + 1,
+			     GTK_SHRINK | GTK_FILL,
+			     GTK_SHRINK | GTK_FILL,
+			     0, 0 );
+	  gtk_widget_show ( label );
+
+	  ligne++;
 	}
-
-      label = gtk_label_new ( pointeur_char );
-      gtk_misc_set_alignment ( GTK_MISC ( label ),
-			       0,
-			       0.5 );
-      gtk_table_attach ( GTK_TABLE ( table_etat ),
-			 label,
-			 0, 1,
-			 ligne, ligne + 1,
-			 GTK_SHRINK | GTK_FILL,
-			 GTK_SHRINK | GTK_FILL,
-			 0, 0 );
-      gtk_widget_show ( label );
-
-      ligne++;
 
       ligne_debut_partie = ligne;
       denote_struct_sous_jaccentes ( 1 );
@@ -2179,7 +2653,7 @@ gint gtktable_affiche_categ_etat ( struct structure_operation *operation,
 /*****************************************************************************************************/
 gint gtktable_affiche_sous_categ_etat ( struct structure_operation *operation,
 			       			       gchar *decalage_sous_categ,
-			       gint ligne )
+					gint ligne )
 {
   gchar *pointeur_char;
   GtkWidget *label;
@@ -2216,47 +2690,51 @@ gint gtktable_affiche_sous_categ_etat ( struct structure_operation *operation,
 	  ligne = gtktable_affichage . affiche_total_sous_categ ( ligne );
 	}
 
+      /*       si on a demandé de ne pas afficher les noms des ss-catég, on saute la partie suivante */
 
-      categ = g_slist_find_custom ( liste_struct_categories,
-				    GINT_TO_POINTER ( operation -> categorie ),
-				    (GCompareFunc) recherche_categorie_par_no ) -> data;
+      if ( etat_courant -> afficher_nom_categ )
+	{
+	  categ = g_slist_find_custom ( liste_struct_categories,
+					GINT_TO_POINTER ( operation -> categorie ),
+					(GCompareFunc) recherche_categorie_par_no ) -> data;
 
-      if ( operation -> sous_categorie )
-	{
-	  nom_ss_categ_en_cours = ((struct struct_sous_categ *)(g_slist_find_custom ( categ->liste_sous_categ,
-										      GINT_TO_POINTER ( operation -> sous_categorie ),
-										      (GCompareFunc) recherche_sous_categorie_par_no ) -> data )) -> nom_sous_categ;
-	  pointeur_char = g_strconcat ( decalage_sous_categ,
-					nom_ss_categ_en_cours,
-					NULL );
-	}
-      else
-	{
-	  if ( etat_courant -> afficher_pas_de_sous_categ )
-	    pointeur_char = g_strconcat ( decalage_sous_categ,
-					  _("Pas de sous-catégorie"),
-					  NULL );
+	  if ( operation -> sous_categorie )
+	    {
+	      nom_ss_categ_en_cours = ((struct struct_sous_categ *)(g_slist_find_custom ( categ->liste_sous_categ,
+											  GINT_TO_POINTER ( operation -> sous_categorie ),
+											  (GCompareFunc) recherche_sous_categorie_par_no ) -> data )) -> nom_sous_categ;
+	      pointeur_char = g_strconcat ( decalage_sous_categ,
+					    nom_ss_categ_en_cours,
+					    NULL );
+	    }
 	  else
-	    pointeur_char = "";
+	    {
+	      if ( etat_courant -> afficher_pas_de_sous_categ )
+		pointeur_char = g_strconcat ( decalage_sous_categ,
+					      _("Pas de sous-catégorie"),
+					      NULL );
+	      else
+		pointeur_char = "";
+	    }
+
+	  label = gtk_label_new ( pointeur_char );
+	  gtk_misc_set_alignment ( GTK_MISC ( label ),
+				   0,
+				   0.5 );
+	  gtk_table_attach ( GTK_TABLE ( table_etat ),
+			     label,
+			     0,1,
+			     ligne, ligne + 1,
+			     GTK_SHRINK | GTK_FILL,
+			     GTK_SHRINK | GTK_FILL,
+			     0, 0 );
+	  gtk_widget_show ( label );
+
+	  ligne++;
 	}
-
-      label = gtk_label_new ( pointeur_char );
-      gtk_misc_set_alignment ( GTK_MISC ( label ),
-			       0,
-			       0.5 );
-      gtk_table_attach ( GTK_TABLE ( table_etat ),
-			 label,
-			 0,1,
-			 ligne, ligne + 1,
-			 GTK_SHRINK | GTK_FILL,
-			 GTK_SHRINK | GTK_FILL,
-			 0, 0 );
-      gtk_widget_show ( label );
-
-      ligne++;
-
-      ligne_debut_partie = ligne;
-      denote_struct_sous_jaccentes ( 2 );
+ 
+     ligne_debut_partie = ligne;
+     denote_struct_sous_jaccentes ( 2 );
 
      ancienne_sous_categ_etat = operation -> sous_categorie;
 
@@ -2308,34 +2786,39 @@ gint gtktable_affiche_ib_etat ( struct structure_operation *operation,
 	  ligne = gtktable_affichage . affiche_total_ib ( ligne );
 	}
  
-      if ( operation -> imputation )
+      /*       si on a demandé de ne pas afficher les noms des ib, on saute la partie suivante */
+
+      if ( etat_courant -> afficher_nom_ib )
 	{
-	  nom_ib_en_cours = ((struct struct_imputation *)(g_slist_find_custom ( liste_struct_imputation,
-										GINT_TO_POINTER ( operation -> imputation ),
-										(GCompareFunc) recherche_imputation_par_no ) -> data )) -> nom_imputation;
-	  pointeur_char = g_strconcat ( decalage_ib,
-					nom_ib_en_cours,
-					NULL );
+	  if ( operation -> imputation )
+	    {
+	      nom_ib_en_cours = ((struct struct_imputation *)(g_slist_find_custom ( liste_struct_imputation,
+										    GINT_TO_POINTER ( operation -> imputation ),
+										    (GCompareFunc) recherche_imputation_par_no ) -> data )) -> nom_imputation;
+	      pointeur_char = g_strconcat ( decalage_ib,
+					    nom_ib_en_cours,
+					    NULL );
+	    }
+	  else
+	    pointeur_char = g_strconcat ( decalage_ib,
+					  _("Pas d'imputation budgétaire"),
+					  NULL );
+
+	  label = gtk_label_new ( pointeur_char );
+	  gtk_misc_set_alignment ( GTK_MISC ( label ),
+				   0,
+				   0.5 );
+	  gtk_table_attach ( GTK_TABLE ( table_etat ),
+			     label,
+			     0, 1,
+			     ligne, ligne + 1,
+			     GTK_SHRINK | GTK_FILL,
+			     GTK_SHRINK | GTK_FILL,
+			     0, 0 );
+	  gtk_widget_show ( label );
+
+	  ligne++;
 	}
-      else
-	pointeur_char = g_strconcat ( decalage_ib,
-				      _("Pas d'imputation budgétaire"),
-				      NULL );
-
-      label = gtk_label_new ( pointeur_char );
-      gtk_misc_set_alignment ( GTK_MISC ( label ),
-			       0,
-			       0.5 );
-      gtk_table_attach ( GTK_TABLE ( table_etat ),
-			 label,
-			 0, 1,
-			 ligne, ligne + 1,
-			 GTK_SHRINK | GTK_FILL,
-			 GTK_SHRINK | GTK_FILL,
-			 0, 0 );
-      gtk_widget_show ( label );
-
-      ligne++;
 
       ligne_debut_partie = ligne;
       denote_struct_sous_jaccentes ( 3 );
@@ -2397,43 +2880,48 @@ gint gtktable_affiche_sous_ib_etat ( struct structure_operation *operation,
 	  ligne = gtktable_affichage . affiche_total_sous_ib ( ligne );
 	}
  
-      imputation = g_slist_find_custom ( liste_struct_imputation,
-					 GINT_TO_POINTER ( operation -> imputation ),
-					 (GCompareFunc) recherche_imputation_par_no ) -> data;
+      /*       si on a demandé de ne pas afficher les noms des ss-ib, on saute la partie suivante */
 
-      if ( operation -> sous_imputation )
+      if ( etat_courant -> afficher_nom_ib )
 	{
-	  nom_ss_ib_en_cours = ((struct struct_sous_imputation *)(g_slist_find_custom ( imputation->liste_sous_imputation,
-											GINT_TO_POINTER ( operation -> sous_imputation ),
-											(GCompareFunc) recherche_sous_imputation_par_no ) -> data )) -> nom_sous_imputation;
-	  pointeur_char = g_strconcat ( decalage_sous_ib,
-					nom_ss_ib_en_cours,
-					NULL );
-	}
-      else
-	{
-	  if ( etat_courant -> afficher_pas_de_sous_ib )
-	    pointeur_char = g_strconcat ( decalage_sous_ib,
-					  _("Pas de sous-imputation"),
-					  NULL );
+	  imputation = g_slist_find_custom ( liste_struct_imputation,
+					     GINT_TO_POINTER ( operation -> imputation ),
+					     (GCompareFunc) recherche_imputation_par_no ) -> data;
+
+	  if ( operation -> sous_imputation )
+	    {
+	      nom_ss_ib_en_cours = ((struct struct_sous_imputation *)(g_slist_find_custom ( imputation->liste_sous_imputation,
+											    GINT_TO_POINTER ( operation -> sous_imputation ),
+											    (GCompareFunc) recherche_sous_imputation_par_no ) -> data )) -> nom_sous_imputation;
+	      pointeur_char = g_strconcat ( decalage_sous_ib,
+					    nom_ss_ib_en_cours,
+					    NULL );
+	    }
 	  else
-	    pointeur_char = "";
+	    {
+	      if ( etat_courant -> afficher_pas_de_sous_ib )
+		pointeur_char = g_strconcat ( decalage_sous_ib,
+					      _("Pas de sous-imputation"),
+					      NULL );
+	      else
+		pointeur_char = "";
+	    }
+
+	  label = gtk_label_new ( pointeur_char );
+	  gtk_misc_set_alignment ( GTK_MISC ( label ),
+				   0,
+				   0.5 );
+	  gtk_table_attach ( GTK_TABLE ( table_etat ),
+			     label,
+			     0, 1,
+			     ligne, ligne + 1,
+			     GTK_SHRINK | GTK_FILL,
+			     GTK_SHRINK | GTK_FILL,
+			     0, 0 );
+	  gtk_widget_show ( label );
+
+	  ligne++;
 	}
-
-      label = gtk_label_new ( pointeur_char );
-      gtk_misc_set_alignment ( GTK_MISC ( label ),
-			       0,
-			       0.5 );
-      gtk_table_attach ( GTK_TABLE ( table_etat ),
-			 label,
-			 0, 1,
-			 ligne, ligne + 1,
-			 GTK_SHRINK | GTK_FILL,
-			 GTK_SHRINK | GTK_FILL,
-			 0, 0 );
-      gtk_widget_show ( label );
-
-      ligne++;
 
       ligne_debut_partie = ligne;
       denote_struct_sous_jaccentes ( 4 );
@@ -2487,27 +2975,32 @@ gint gtktable_affiche_compte_etat ( struct structure_operation *operation,
 	  ligne = gtktable_affichage . affiche_total_compte ( ligne );
 	}
  
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+      /*       si on a demandé de ne pas afficher les noms des comptes, on saute la partie suivante */
 
-      pointeur_char = g_strconcat ( decalage_compte,
-				    NOM_DU_COMPTE,
-				    NULL );
-      nom_compte_en_cours = NOM_DU_COMPTE;
+      if ( etat_courant -> afficher_nom_compte )
+	{
+	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
-      label = gtk_label_new ( pointeur_char );
-      gtk_misc_set_alignment ( GTK_MISC ( label ),
-			       0,
-			       0.5 );
-      gtk_table_attach ( GTK_TABLE ( table_etat ),
-			 label,
-			 0, 1,
-			 ligne, ligne + 1,
-			 GTK_SHRINK | GTK_FILL,
-			 GTK_SHRINK | GTK_FILL,
-			 0, 0 );
-      gtk_widget_show ( label );
+	  pointeur_char = g_strconcat ( decalage_compte,
+					NOM_DU_COMPTE,
+					NULL );
+	  nom_compte_en_cours = NOM_DU_COMPTE;
 
-      ligne++;
+	  label = gtk_label_new ( pointeur_char );
+	  gtk_misc_set_alignment ( GTK_MISC ( label ),
+				   0,
+				   0.5 );
+	  gtk_table_attach ( GTK_TABLE ( table_etat ),
+			     label,
+			     0, 1,
+			     ligne, ligne + 1,
+			     GTK_SHRINK | GTK_FILL,
+			     GTK_SHRINK | GTK_FILL,
+			     0, 0 );
+	  gtk_widget_show ( label );
+
+	  ligne++;
+	}
 
       ligne_debut_partie = ligne;
       denote_struct_sous_jaccentes ( 5 );
@@ -2561,35 +3054,40 @@ gint gtktable_affiche_tiers_etat ( struct structure_operation *operation,
 	  ligne = gtktable_affichage . affiche_total_tiers ( ligne );
 	}
 
-      if ( operation -> tiers )
+      /*       si on a demandé de ne pas afficher les noms des tiers, on saute la partie suivante */
+
+      if ( etat_courant -> afficher_nom_tiers )
 	{
-	  nom_tiers_en_cours = ((struct struct_tiers *)(g_slist_find_custom ( liste_struct_tiers,
-									      GINT_TO_POINTER ( operation -> tiers ),
-									      (GCompareFunc) recherche_tiers_par_no ) -> data )) -> nom_tiers;
-	  pointeur_char = g_strconcat ( decalage_tiers,
-					nom_tiers_en_cours,
-					NULL );
+	  if ( operation -> tiers )
+	    {
+	      nom_tiers_en_cours = ((struct struct_tiers *)(g_slist_find_custom ( liste_struct_tiers,
+										  GINT_TO_POINTER ( operation -> tiers ),
+										  (GCompareFunc) recherche_tiers_par_no ) -> data )) -> nom_tiers;
+	      pointeur_char = g_strconcat ( decalage_tiers,
+					    nom_tiers_en_cours,
+					    NULL );
+	    }
+	  else
+	    pointeur_char = g_strconcat ( decalage_tiers,
+					  _("Pas de tiers"),
+					  NULL );
+
+	  label = gtk_label_new ( pointeur_char );
+	  gtk_misc_set_alignment ( GTK_MISC ( label ),
+				   0,
+				   0.5 );
+	  gtk_table_attach ( GTK_TABLE ( table_etat ),
+			     label,
+			     0, 1,
+			     ligne, ligne + 1,
+			     GTK_SHRINK | GTK_FILL,
+			     GTK_SHRINK | GTK_FILL,
+			     0, 0 );
+	  gtk_widget_show ( label );
+	
+
+	  ligne++;
 	}
-      else
-	pointeur_char = g_strconcat ( decalage_tiers,
-				      _("Pas de tiers"),
-				      NULL );
-
-      label = gtk_label_new ( pointeur_char );
-      gtk_misc_set_alignment ( GTK_MISC ( label ),
-			       0,
-			       0.5 );
-      gtk_table_attach ( GTK_TABLE ( table_etat ),
-			 label,
-			 0, 1,
-			 ligne, ligne + 1,
-			 GTK_SHRINK | GTK_FILL,
-			 GTK_SHRINK | GTK_FILL,
-			 0, 0 );
-      gtk_widget_show ( label );
-
-
-      ligne++;
 
       ligne_debut_partie = ligne;
       denote_struct_sous_jaccentes ( 6 );

@@ -1322,9 +1322,9 @@ void mise_a_jour_fin_comptes_passifs ( void )
       gtk_widget_show ( label );
 
       if ( g_slist_length ( liste_tmp ) > 1 )
-	label = gtk_label_new (_("Les comptes de passif suivants sont arrivés à terme :"));
+	label = gtk_label_new (_("Les comptes de passif suivants sont soldés :"));
       else
-	label = gtk_label_new (_("Le compte de passif suivant est arrivé à terme :"));
+	label = gtk_label_new (_("Le compte de passif suivant est soldé :"));
       gtk_misc_set_alignment ( GTK_MISC ( label ),
 			       0,
 			       0.5 );
