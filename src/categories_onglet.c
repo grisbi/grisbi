@@ -988,12 +988,10 @@ void ouverture_node_categ ( GtkWidget *arbre,
 	      
 	      operation = pointeur_ope -> data;
 
-	      if ( operation -> categorie == no_categ
-		   &&
-		   operation -> sous_categorie == no_sous_categ
-		   &&
-		   !operation -> relation_no_operation
-		   &&
+	      if ( operation &&
+		   operation -> categorie == no_categ &&
+		   operation -> sous_categorie == no_sous_categ &&
+		   !operation -> relation_no_operation &&
 		   !operation -> operation_ventilee )
 		{
 		  /* affiche le compte courant */
@@ -1103,17 +1101,16 @@ void ouverture_node_categ ( GtkWidget *arbre,
 
 	  operation = pointeur_ope -> data;
 
-	  devise_operation = g_slist_find_custom ( liste_struct_devises,
-						   GINT_TO_POINTER ( operation -> devise ),
-						   ( GCompareFunc ) recherche_devise_par_no ) -> data;
+	  if ( operation )
+	    devise_operation = g_slist_find_custom ( liste_struct_devises,
+						     GINT_TO_POINTER ( operation -> devise ),
+						     ( GCompareFunc ) recherche_devise_par_no ) -> data;
 
-	  if ( operation -> categorie == no_categ
-	       &&
-	       operation -> sous_categorie == no_sous_categ
-	       &&
-	       !operation -> relation_no_operation
-	       &&
-	       !operation -> operation_ventilee  )
+	  if ( operation &&
+	       operation -> categorie == no_categ &&
+	       operation -> sous_categorie == no_sous_categ &&
+	       !operation -> relation_no_operation &&
+	       !operation -> operation_ventilee )
 	    {
 		      if ( operation -> notes )
 			{
