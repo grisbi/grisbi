@@ -424,7 +424,8 @@ gboolean change_aspect_liste ( gint demande )
 	case 0:
 	    /* 	    changement de l'affichage de la grille */
 
-	    etat.affichage_grille = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_grille ));
+/* 	    etat.affichage_grille = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_grille )); */
+	  etat.affichage_grille = ! etat.affichage_grille;
 
 	    if ( etat.affichage_grille )
 	    {
@@ -463,7 +464,8 @@ gboolean change_aspect_liste ( gint demande )
 	    block_menu_cb = TRUE;
 	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
 						 menu_name(_("View"), _("Show grid"), NULL) );
-	    gtk_check_menu_item_set_active( widget, etat.affichage_grille );
+	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), 
+					    etat.affichage_grille );
 	    block_menu_cb = FALSE;
 
 	    break;
@@ -473,25 +475,25 @@ gboolean change_aspect_liste ( gint demande )
 	case 1 :
 	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
 						 menu_name(_("View"), _("Show one line per transaction"), NULL) );
-	    gtk_check_menu_item_set_active( widget, TRUE );
+	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE );
 	    mise_a_jour_affichage_lignes ( demande );
 	    break;
 	case 2 :
 	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
 						 menu_name(_("View"), _("Show two lines per transaction"), NULL) );
-	    gtk_check_menu_item_set_active( widget, TRUE );
+	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE );
 	    mise_a_jour_affichage_lignes ( demande );
 	    break;
 	case 3 :
 	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
 						 menu_name(_("View"), _("Show three lines per transaction"), NULL) );
-	    gtk_check_menu_item_set_active( widget, TRUE );
+	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE );
 	    mise_a_jour_affichage_lignes ( demande );
 	    break;
 	case 4 :
 	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
 						 menu_name(_("View"), _("Show four lines per transaction"), NULL) );
-	    gtk_check_menu_item_set_active( widget, TRUE );
+	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE );
 	    mise_a_jour_affichage_lignes ( demande );
 	    break;
 
@@ -504,7 +506,7 @@ gboolean change_aspect_liste ( gint demande )
 	    block_menu_cb = TRUE;
 	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
 						 menu_name(_("View"), _("Show reconciled transactions"), NULL) );
-	    gtk_check_menu_item_set_active( widget, TRUE );
+	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE );
 	    block_menu_cb = FALSE;
 
 	    break;
@@ -518,7 +520,7 @@ gboolean change_aspect_liste ( gint demande )
 	    block_menu_cb = TRUE;
 	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
 						 menu_name(_("View"), _("Show reconciled transactions"), NULL) );
-	    gtk_check_menu_item_set_active( widget, FALSE );
+	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), FALSE );
 	    block_menu_cb = FALSE;
 
 	    break;
@@ -1167,7 +1169,6 @@ void mise_a_jour_boutons_caract_liste ( gint no_compte )
 					   TRUE );
 	    break;
     }
-
     g_signal_handlers_unblock_by_func ( G_OBJECT ( bouton_ope_lignes[0] ),
 					G_CALLBACK ( change_aspect_liste ),
 					GINT_TO_POINTER (1));
@@ -1203,6 +1204,16 @@ void mise_a_jour_boutons_caract_liste ( gint no_compte )
     g_signal_handlers_unblock_by_func ( G_OBJECT ( bouton_enleve_r ),
 					G_CALLBACK ( change_aspect_liste ),
 					GINT_TO_POINTER (6));
+
+    /* On met maintenant le bouton grille ou pas */
+    g_signal_handlers_block_by_func ( G_OBJECT ( bouton_grille ),
+				      G_CALLBACK ( change_aspect_liste ),
+				      GINT_TO_POINTER (0));
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_grille ), 
+				   etat.affichage_grille );
+    g_signal_handlers_unblock_by_func ( G_OBJECT ( bouton_grille ),
+					G_CALLBACK ( change_aspect_liste ),
+					GINT_TO_POINTER (0));
 
 }
 /*******************************************************************************************/
