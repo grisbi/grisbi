@@ -3246,6 +3246,7 @@ struct structure_operation *  clone_transaction ( struct structure_operation * o
     memcpy(new_transaction, operation, sizeof(struct structure_operation) );
 #endif
     new_transaction -> no_operation = 0;
+    new_transaction -> no_rapprochement = 0;
 
     if ( operation -> pointe == OPERATION_RAPPROCHEE ||
 	 operation -> pointe == OPERATION_TELERAPPROCHEE )
