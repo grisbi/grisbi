@@ -2352,15 +2352,22 @@ gint verification_validation_operation ( struct structure_operation *operation )
       if ( tableau_char[1] )
 	tableau_char[1] = g_strstrip ( tableau_char[1] );
 
+      /* ALAIN-FIXME : ce premier test est-il vraiment nécessaire ? */
+      
       if ( strlen ( tableau_char[0] ) )
 	{
-	  if ( !strcmp ( tableau_char[0], _("Transfer") ) &&
-	       tableau_char[1] &&
-	       strlen ( tableau_char[1] ) )
+	  /* Si c'est un virement, on fait les vérifications */
+	  if ( !strcmp ( tableau_char[0], _("Transfer") ) )
 	    {
-	      /* c'est un virement, on fait les vérifications */
-	      /* si c'est un virement vers un compte supprimé, laisse passer */
-
+	      /* S'il n'y a rien après "Transfer", alors : */
+	      if ( !tableau_char[1] ||
+	           !strlen ( tableau_char[1] ) )
+	        {
+		 dialogue ( PRESPACIFY(_("Error: there is no associated account for this transfer.")));
+		 return (FALSE);
+	        }
+	      /* Si ce n'est pas un virement vers un compte supprimé, alors */
+	      
 	      if ( strcmp ( tableau_char[1], _("Deleted account") ) )
 		{
 		  /* recherche le no de compte du virement */

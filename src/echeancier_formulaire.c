@@ -1347,9 +1347,11 @@ void fin_edition_echeance ( void )
   /* vérification que ce n'est pas un virement sur lui-même */
 
   if ( !g_strcasecmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ))),
-		       g_strconcat ( COLON(_("Transfer")), COMPTE_ECHEANCE, NULL )))
+		       g_strconcat ( COLON(_("Transfer")),
+				     COMPTE_ECHEANCE,
+				     NULL )))
     {
-      dialogue ( PRESPACIFY(_("Error: impossible to transfer an account on itself")));
+      dialogue ( PRESPACIFY(_("Error: impossible to transfer an account on itself.")));
       return;
     }
 
@@ -1359,12 +1361,20 @@ void fin_edition_echeance ( void )
 
   if ( !g_strncasecmp ( pointeur_char, _("Transfer"), 8 ))
     {
-      gint i;
-
       tableau_char = g_strsplit ( pointeur_char, ":", 2 );
+	      
+	      /* S'il n'y a rien après "Transfer", alors : */
+	      if ( !tableau_char[1] ||
+	           !strlen ( tableau_char[1] ) )
+	        {
+		 dialogue ( PRESPACIFY(_("Error: there is no associated account for this transfer.")));
+		 return;
+	        }
 	  
       if ( tableau_char[1] )
 	{
+	  gint i;
+
 	  tableau_char[1] = g_strstrip ( tableau_char[1] );
 	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 	  compte_virement = -1;
