@@ -45,14 +45,14 @@ INCLUDES = -I.. -I$(top_srcdir)/intl
 
 COMPILE = $(CC) -c $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS) $(XCFLAGS)
 
-POFILES =  en.po
-GMOFILES =  en.gmo
+POFILES =  fr.po
+GMOFILES =  fr.gmo
 DISTFILES = ChangeLog Makefile.in.in POTFILES.in $(PACKAGE).pot \
 $(POFILES) $(GMOFILES)
 
 POTFILES = \
 
-CATALOGS =  en.gmo
+CATALOGS =  fr.gmo
 
 .SUFFIXES:
 .SUFFIXES: .c .o .po .pox .gmo .mo

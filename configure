@@ -3706,7 +3706,7 @@ else
 fi
 
 
-ALL_LINGUAS="en"
+ALL_LINGUAS="fr"
 # Make sure we can run config.sub.
 $ac_config_sub sun4 >/dev/null 2>&1 ||
   { { echo "$as_me:$LINENO: error: cannot run $ac_config_sub" >&5
