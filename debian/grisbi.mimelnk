@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=0.92
+Encoding=UTF-8
+Comment=Grisbi
+MimeType=application/x-grisbi
+Type=MimeType
+Icon=/usr/share/pixmaps/grisbi.png
+Hidden=false
+Patterns=*.gsb;*.grisbi;
