@@ -322,6 +322,8 @@ gboolean changement_compte ( gint *compte)
     focus_a_la_liste ();
     etat.ancienne_date = 0;
 
+    reaffiche_liste_comptes ();
+
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
 			    compte_courant + 1 );
 
