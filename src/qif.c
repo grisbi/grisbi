@@ -1143,13 +1143,12 @@ choix_liste_fichier:
 
 			/* met le pointage */
 
-			if ( operation -> pointe == 1
-			     ||
-			     operation -> pointe == 3 )
+			if ( operation -> pointe == OPERATION_POINTEE ||
+			     operation -> pointe == OPERATION_TELERAPPROCHEE )
 			    fprintf ( fichier_qif,
 				      "C*\n" );
 			else
-			    if ( operation -> pointe == 2 )
+			    if ( operation -> pointe == OPERATION_RAPPROCHEE )
 				fprintf ( fichier_qif,
 					  "CX\n" );
 
@@ -1602,13 +1601,12 @@ void export_qif (GSList* export_entries_list )
 
 			/* met le pointage */
 
-			if ( operation -> pointe == 1
-			     ||
-			     operation -> pointe == 3 )
+			if ( operation -> pointe == OPERATION_POINTEE ||
+			     operation -> pointe == OPERATION_TELERAPPROCHEE )
 			    fprintf ( fichier_qif,
 				      "C*\n" );
 			else
-			    if ( operation -> pointe == 2 )
+			    if ( operation -> pointe == OPERATION_RAPPROCHEE )
 				fprintf ( fichier_qif,
 					  "CX\n" );
 

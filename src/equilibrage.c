@@ -808,7 +808,7 @@ void pointe_equilibrage ( int p_ligne )
 	return;
 
 
-    if ( operation -> pointe == 2 )
+    if ( operation -> pointe == OPERATION_RAPPROCHEE )
 	return;
 
 
@@ -827,7 +827,7 @@ void pointe_equilibrage ( int p_ligne )
 	operations_pointees = operations_pointees - montant;
 	SOLDE_POINTE = SOLDE_POINTE - montant;
 
-	operation -> pointe = 0;
+	operation -> pointe = OPERATION_NORMALE;
 
 	gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
 			     p_ligne,
@@ -839,7 +839,7 @@ void pointe_equilibrage ( int p_ligne )
 	operations_pointees = operations_pointees + montant;
 	SOLDE_POINTE = SOLDE_POINTE + montant;
 
-	operation -> pointe = 1;
+	operation -> pointe = OPERATION_POINTEE;
 
 	gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
 			     p_ligne,
@@ -1033,9 +1033,9 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
 
 	operation = pointeur_liste_ope -> data;
 
-	if ( operation -> pointe == 1 )
+	if ( operation -> pointe == OPERATION_POINTEE )
 	{
-	    operation -> pointe = 2;
+	    operation -> pointe = OPERATION_RAPPROCHEE;
 	    operation -> no_rapprochement = DERNIER_NO_RAPPROCHEMENT;
 	}
 
@@ -1119,8 +1119,7 @@ void calcule_total_pointe_compte ( gint no_compte )
 
 	/* on ne prend en compte l'opé que si c'est pas une opé de ventil */
 
-	if ( operation -> pointe == 1
-	     &&
+	if ( operation -> pointe == OPERATION_POINTEE &&
 	     !operation -> no_operation_ventilee_associee )
 	{
 	    gdouble montant;

@@ -2420,7 +2420,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 		if ( !operation -> pointe )
 		{
-		    operation -> pointe = 3;
+		    operation -> pointe = OPERATION_TELERAPPROCHEE;
 
 		    /* si c'est une opé ventilée , on recherche les opé filles pour leur mettre le même pointage que la même */
 
@@ -2436,7 +2436,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 			    ope_fille = liste_ope -> data;
 
 			    if ( ope_fille -> no_operation_ventilee_associee == operation -> no_operation )
-				ope_fille -> pointe = 3;
+				ope_fille -> pointe = OPERATION_TELERAPPROCHEE;
 
 			    liste_ope = liste_ope -> next;
 			}
@@ -2513,7 +2513,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 			if ( !operation -> pointe )
 			{
-			    operation -> pointe = 3;
+			    operation -> pointe = OPERATION_TELERAPPROCHEE;
 
 			    /* si c'est une opé ventilée, on recherche les opé filles pour leur mettre le même pointage que la même */
 
@@ -2528,7 +2528,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 				    ope_fille = liste_ope -> data;
 
 				    if ( ope_fille -> no_operation_ventilee_associee == operation -> no_operation )
-					ope_fille -> pointe = 3;
+					ope_fille -> pointe = OPERATION_TELERAPPROCHEE;
 
 				    liste_ope = liste_ope -> next;
 				}
@@ -2738,7 +2738,7 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 
 		    operation = enregistre_ope_importee ( ope_import,
 							  ope_import -> no_compte	);
-		    operation -> pointe = 3;
+		    operation -> pointe = OPERATION_TELERAPPROCHEE;
 
 		    /* on a enregistré l'opé, on la retire maintenant de la liste et de la sliste */
 

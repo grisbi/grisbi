@@ -406,8 +406,8 @@ gint classement_sliste_par_date_rp ( struct structure_operation *pTransaction1,
     /* si l'opération 1 est rapprochée alors que l'opération 2 ne l'est pas,
        ou si l'opération 1 est pointée et l'opération 2 n'est ni pointée, ni
        rapprochée, alors on dit que l'opération 1 est antérieure */
-    if ( ( pTransaction1 -> pointe == 2 && pTransaction2 -> pointe != 2 )
-	 || ( pTransaction1 -> pointe == 1 && pTransaction2 -> pointe == 0 ))
+    if ( ( pTransaction1 -> pointe == OPERATION_RAPPROCHEE && pTransaction2 -> pointe != OPERATION_RAPPROCHEE )
+	 || ( pTransaction1 -> pointe == OPERATION_POINTEE && pTransaction2 -> pointe == OPERATION_NORMALE ))
     {
 	sort_result = -1;
     }
@@ -415,8 +415,8 @@ gint classement_sliste_par_date_rp ( struct structure_operation *pTransaction1,
     {
 	/* même raisonnement que ci-dessus, sauf que l'on interverti opération 1
 	   et opération 2 */
-	if ( ( pTransaction2 -> pointe == 2 && pTransaction1 -> pointe != 2 )
-	     || ( pTransaction2 -> pointe == 1 && pTransaction1 -> pointe == 0 ))
+	if ( ( pTransaction2 -> pointe == OPERATION_RAPPROCHEE && pTransaction1 -> pointe != OPERATION_RAPPROCHEE )
+	     || ( pTransaction2 -> pointe == OPERATION_POINTEE && pTransaction1 -> pointe == OPERATION_NORMALE ))
 	{
 	    sort_result = 1;
 	}

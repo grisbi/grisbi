@@ -572,9 +572,8 @@ void remplissage_liste_operations ( gint compte )
 
 	    /* si c'est une opé de ventilation, on la saute */
 
-	    if ( !operation -> no_operation_ventilee_associee
-		 &&
-		 operation -> pointe == 2 )
+	    if ( !operation -> no_operation_ventilee_associee &&
+		 operation -> pointe == OPERATION_RAPPROCHEE )
 	    {
 		montant = calcule_montant_devise_renvoi ( operation -> montant,
 							  DEVISE,
@@ -610,7 +609,7 @@ void remplissage_liste_operations ( gint compte )
 
 	    /* si l'opération est relevée et qu'on ne désire pas les afficher, on passe la suite  */
 
-	    if ( AFFICHAGE_R || operation -> pointe != 2 )
+	    if ( AFFICHAGE_R || operation -> pointe != OPERATION_RAPPROCHEE )
 	    {
 		/*  on calcule les soldes courant */
 
@@ -1093,15 +1092,15 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 	    /* mise en forme R/P */
 
 	case 13:
-	    if ( operation -> pointe == 1 )
+	    if ( operation -> pointe == OPERATION_POINTEE )
 		return ( _("P") );
 	    else
 	    {
-		if ( operation -> pointe == 2 )
+		if ( operation -> pointe == OPERATION_RAPPROCHEE )
 		    return ( _("R") );
 		else
 		{
-		    if ( operation -> pointe == 3 )
+		    if ( operation -> pointe == OPERATION_TELERAPPROCHEE )
 			return ( _("T"));
 		    else
 			return ( NULL );
@@ -1544,7 +1543,7 @@ void edition_operation ( void )
 
     /* si l'opération est relevé , on désensitive les entrées de crédit et débit */
 
-    if ( operation -> pointe == 2 )
+    if ( operation -> pointe == OPERATION_RAPPROCHEE )
     {
 	gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT],
 				   FALSE );
@@ -1648,7 +1647,7 @@ void edition_operation ( void )
 
 	    /* si l'opération est relevée , on empèche le changement de virement */
 
-	    if ( operation -> pointe == 2 )
+	    if ( operation -> pointe == OPERATION_RAPPROCHEE )
 		gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY],
 					   FALSE );
 
@@ -1659,7 +1658,7 @@ void edition_operation ( void )
 						(GCompareFunc) recherche_operation_par_no ) -> data;
 
 	    /* 	  si la contre opération est relevée , on désensitive les categ et les montants */
-	    if ( operation_2 -> pointe == 2 )
+	    if ( operation_2 -> pointe == OPERATION_RAPPROCHEE )
 	    {
 		gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT],
 					   FALSE );
@@ -1851,7 +1850,7 @@ void p_press (void)
     if ( OPERATION_SELECTIONNEE == GINT_TO_POINTER ( -1 ) )
 	return;
 
-    if ( OPERATION_SELECTIONNEE -> pointe == 2 )
+    if ( OPERATION_SELECTIONNEE -> pointe == OPERATION_RAPPROCHEE )
 	return;
 
     if ( OPERATION_SELECTIONNEE -> pointe )
@@ -1867,7 +1866,7 @@ void p_press (void)
 	    operations_pointees = operations_pointees - montant;
 
 	SOLDE_POINTE = SOLDE_POINTE - montant;
-	OPERATION_SELECTIONNEE -> pointe = 0;
+	OPERATION_SELECTIONNEE -> pointe = OPERATION_NORMALE;
 
 	gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
 			     gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
@@ -1890,7 +1889,7 @@ void p_press (void)
 	    operations_pointees = operations_pointees + montant;
 
 	SOLDE_POINTE = SOLDE_POINTE + montant;
-	OPERATION_SELECTIONNEE -> pointe = 1;
+	OPERATION_SELECTIONNEE -> pointe = OPERATION_POINTEE;
 
 	gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
 			     gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
@@ -1995,11 +1994,11 @@ void r_press (void)
     if ( OPERATION_SELECTIONNEE == GINT_TO_POINTER ( -1 ) )
 	return;
 
-    if ( OPERATION_SELECTIONNEE -> pointe == 0 )
+    if ( OPERATION_SELECTIONNEE -> pointe == OPERATION_NORMALE )
     {
 	/* on relève l'opération */
 
-	OPERATION_SELECTIONNEE -> pointe = 2;
+	OPERATION_SELECTIONNEE -> pointe = OPERATION_RAPPROCHEE;
 
 	/* on met soit le R, soit on change la sélection vers l'opé suivante */
 
@@ -2025,10 +2024,10 @@ void r_press (void)
 	modification_fichier( TRUE );
     }
     else
-	if ( OPERATION_SELECTIONNEE -> pointe == 2 )
+	if ( OPERATION_SELECTIONNEE -> pointe == OPERATION_RAPPROCHEE )
 	{
 	    /* dérelève l'opération */
-	    OPERATION_SELECTIONNEE -> pointe = 0;
+	    OPERATION_SELECTIONNEE -> pointe = OPERATION_NORMALE;
 	    gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
 				 gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
 								OPERATION_SELECTIONNEE ),
@@ -2086,7 +2085,7 @@ void supprime_operation ( struct structure_operation *operation )
 
     /* l'opération ne doit pas être pointée */
 
-    if ( operation -> pointe == 2 )
+    if ( operation -> pointe == OPERATION_RAPPROCHEE )
     {
 	dialogue_error ( _("Impossible to delete a reconciled transaction.") );
 	return;
@@ -2111,7 +2110,7 @@ void supprime_operation ( struct structure_operation *operation )
 	{
 	    ope_liee =  liste_tmp -> data;
 
-	    if ( ope_liee -> pointe == 2 )
+	    if ( ope_liee -> pointe == OPERATION_RAPPROCHEE )
 	    {
 		dialogue_error ( _("The contra-transaction of this transfer is reconciled, deletion impossible.") );
 		return;
@@ -2159,7 +2158,7 @@ void supprime_operation ( struct structure_operation *operation )
 							     GINT_TO_POINTER ( ope_test -> relation_no_operation ),
 							     (GCompareFunc) recherche_operation_par_no ) -> data;
 
-		    if ( contre_operation -> pointe == 2 )
+		    if ( contre_operation -> pointe == OPERATION_RAPPROCHEE )
 		    {
 			dialogue_error ( _("One of the breakdown lines is a transfer whose contra-transaction is reconciled.  Deletion canceled."));
 			return;
@@ -2248,7 +2247,7 @@ void supprime_operation ( struct structure_operation *operation )
 
 	    operation = pointeur_liste_ope -> data;
 
-	    if ( operation -> pointe == 1 )
+	    if ( operation -> pointe == OPERATION_POINTEE )
 		operations_pointees = operations_pointees + operation -> montant;
 
 	    pointeur_liste_ope = pointeur_liste_ope -> next;
