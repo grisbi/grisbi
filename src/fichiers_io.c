@@ -8545,7 +8545,7 @@ void fichier_marque_ouvert ( gint ouvert )
 
   if ( retour != EOF )
     {
-#if defined( CYGWIN ) || defined(__FreeBSD__)
+#if defined (CYGWIN) || defined (__FreeBSD__)
 
       /* CYGWIN ne pouvant maitrise l'acces bufferise au fichier de
        * Windows, il gere 2 curseurs de fichiers differents afin de
@@ -8554,7 +8554,7 @@ void fichier_marque_ouvert ( gint ouvert )
        * simule.  Lors d'un lecture, CYGWIN lit le fichier par
        * morceaux (le curseur reel est place apres la fin du dernier
        * morceau lu).  Les fonctions de lecture n'accedent pas en
-       * direct au fichier.Elles utilisent le curseur de lecture
+       * direct au fichier.  Elles utilisent le curseur de lecture
        * qu'elles deplacent au sein du buffer memorise. Par contre la
        * position ce curseur en lecture represente bien la position
        * reelle du caractere lu au sein du fichier.  (ftell renvoi
@@ -8567,6 +8567,9 @@ void fichier_marque_ouvert ( gint ouvert )
        * lecture simule
        *
        * -- francois@terrot.net
+       *
+       * Il semble que FreeBSD rencontre le même problème.  Peut-être
+       * est-ce le cas d'autres UNIX ? -- benj
        */
       fseek(pointeur_fichier_comptes,ftell(pointeur_fichier_comptes),SEEK_SET);
 
