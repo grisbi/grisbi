@@ -868,6 +868,9 @@ GtkWidget *onglet_banques ( void )
   gtk_widget_set_usize ( remarque_banque, FALSE, 100 );
   gtk_container_add ( GTK_CONTAINER ( scrolled_window ), remarque_banque );
 
+  /* Select first entry if applicable */
+  gtk_clist_select_row ( GTK_CLIST(clist_banques_parametres), 0, 0 );
+
   return ( vbox_pref );
 }
 
