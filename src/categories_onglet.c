@@ -3105,7 +3105,7 @@ void importer_categ ( void )
     {
 	/*       il y a déjà des opérations dans le fichier, on ne peut que fusionner */
 
-	label = gtk_label_new ( _("The file has already some transactions,\nthe two categories liste will be merged." ));
+	label = gtk_label_new ( _("The file already has some transactions, the two categories lists will be merged." ));
 	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
 			     label,
 			     FALSE,
@@ -3115,7 +3115,7 @@ void importer_categ ( void )
     }
     else
     {
-	label = gtk_label_new ( _("Do you want :" ));
+	label = gtk_label_new ( COLON(_("Do you want" )));
 	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
 			     label,
 			     FALSE,

@@ -2870,7 +2870,7 @@ void importer_ib ( void )
 
 	menu = gtk_menu_new ();
 
-	menu_item = gtk_menu_item_new_with_label ( _("Merge the two lists of IB" ));
+	menu_item = gtk_menu_item_new_with_label ( _("Merge the two lists of budgetary lines" ));
 	gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			      "choix",
 			      NULL );
@@ -2878,7 +2878,7 @@ void importer_ib ( void )
 			  menu_item );
 	gtk_widget_show ( menu_item );
 
-	menu_item = gtk_menu_item_new_with_label ( _("Replace the old list of IB" ));
+	menu_item = gtk_menu_item_new_with_label ( _("Replace the old list of budgetary lines" ));
 	gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			      "choix",
 			      GINT_TO_POINTER ( 1 ));
