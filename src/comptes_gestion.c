@@ -583,12 +583,9 @@ GtkWidget *creation_details_compte ( void )
   gtk_widget_show ( hbox2 );
 
   bouton_detail = gtk_button_new_with_label ( _("Details") );
-  gtk_button_set_relief ( GTK_BUTTON ( bouton_detail ),
-			  GTK_RELIEF_NONE );
-  gtk_signal_connect ( GTK_OBJECT ( bouton_detail ),
-		       "clicked",
-		       GTK_SIGNAL_FUNC ( affiche_detail_banque ),
-		       NULL );
+  gtk_button_set_relief ( GTK_BUTTON ( bouton_detail ), GTK_RELIEF_NONE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton_detail ), "clicked",
+		       GTK_SIGNAL_FUNC ( view_bank ), NULL );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 			    bouton_detail,
 			    FALSE,
@@ -604,13 +601,10 @@ GtkWidget *creation_details_compte ( void )
 		       5 );
   gtk_widget_show ( separateur );
 
-  bouton = gtk_button_new_with_label ( _("New financial institution") );
-  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			  GTK_RELIEF_NONE );
-  gtk_signal_connect ( GTK_OBJECT ( bouton ),
-		       "clicked",
-		       GTK_SIGNAL_FUNC ( preferences ),
-		       (GtkObject *) 6 );
+  bouton = gtk_button_new_with_label ( _("New bank") );
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ), GTK_RELIEF_NONE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ), "clicked",
+		       GTK_SIGNAL_FUNC ( edit_bank ), NULL );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 			    bouton,
 			    FALSE,

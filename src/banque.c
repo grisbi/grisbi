@@ -41,18 +41,21 @@ gboolean update_bank_list ( GtkEntry *entry, gchar *value,
 {
   struct struct_banque * bank;
 
-  bank = gtk_clist_get_row_data ( GTK_CLIST ( clist_banques_parametres ),
-				  ligne_selection_banque );
-  if ( gtk_object_get_data ( GTK_OBJECT(nom_banque), "pointer" ))
+  if ( GTK_IS_CLIST ( clist_banques_parametres ) )
     {
-      if (gtk_entry_get_text (GTK_ENTRY(nom_banque)))
-	gtk_clist_set_text ( GTK_CLIST(clist_banques_parametres),
-			     ligne_selection_banque, 0,
-			     gtk_entry_get_text ( GTK_ENTRY(nom_banque)) );
-      if (gtk_entry_get_text (GTK_ENTRY(nom_correspondant)))
-	gtk_clist_set_text ( GTK_CLIST(clist_banques_parametres),
-			     ligne_selection_banque, 1, 
-			     gtk_entry_get_text (GTK_ENTRY(nom_correspondant)));
+      bank = gtk_clist_get_row_data ( GTK_CLIST ( clist_banques_parametres ),
+				      ligne_selection_banque );
+      if ( gtk_object_get_data ( GTK_OBJECT(nom_banque), "pointer" ))
+	{
+	  if (gtk_entry_get_text (GTK_ENTRY(nom_banque)))
+	    gtk_clist_set_text ( GTK_CLIST(clist_banques_parametres),
+				 ligne_selection_banque, 0,
+				 gtk_entry_get_text ( GTK_ENTRY(nom_banque)) );
+	  if (gtk_entry_get_text (GTK_ENTRY(nom_correspondant)))
+	    gtk_clist_set_text ( GTK_CLIST(clist_banques_parametres),
+				 ligne_selection_banque, 1, 
+				 gtk_entry_get_text (GTK_ENTRY(nom_correspondant)));
+	}
     }
 
   update_bank_menu();
@@ -90,15 +93,17 @@ gboolean update_bank_menu ()
 /* appelée par le bouton ajouter de l'onglet banques des paramètres */
 /* ***************************************************************************************************** */
 
-void ajout_banque ( GtkWidget *bouton,
-		    GtkWidget *clist )
+struct struct_banque * ajout_banque ( GtkWidget *bouton, GtkWidget *clist )
 {
   struct struct_banque *banque;
   gchar *ligne[1];
   gint ligne_insert;
 
-  /* enlève la sélection de la liste ( ce qui nettoie les entrées ) */
-  gtk_clist_unselect_all ( GTK_CLIST ( clist ));
+  if ( clist && GTK_IS_CLIST(clist) )
+    {
+      /* enlève la sélection de la liste ( ce qui nettoie les entrées ) */
+      gtk_clist_unselect_all ( GTK_CLIST ( clist ));
+    }
 
   /* crée une nouvelle banque au nom de "nouvelle banque" en mettant
      tous les paramètres à 0 et le no à -1 */
@@ -111,19 +116,24 @@ void ajout_banque ( GtkWidget *bouton,
 
   nb_banques++;
 
-  ligne_insert = gtk_clist_append ( GTK_CLIST ( clist ), ligne );
+  if ( clist && GTK_IS_CLIST(clist) )
+    {
+      ligne_insert = gtk_clist_append ( GTK_CLIST ( clist ), ligne );
 
-  /* on associe à la ligne la struct de la banque */
-  gtk_clist_set_row_data ( GTK_CLIST ( clist ), ligne_insert, banque );
+      /* on associe à la ligne la struct de la banque */
+      gtk_clist_set_row_data ( GTK_CLIST ( clist ), ligne_insert, banque );
 
-  /* on sélectionne le nouveau venu */
-  gtk_clist_select_row ( GTK_CLIST ( clist ), ligne_insert, 0 );
+      /* on sélectionne le nouveau venu */
+      gtk_clist_select_row ( GTK_CLIST ( clist ), ligne_insert, 0 );
 
-  /* on sélectionne le "nouvelle banque" et lui donne le focus */
-  gtk_entry_select_region ( GTK_ENTRY ( nom_banque ), 0, -1 );
-  gtk_widget_grab_focus ( nom_banque );
+      /* on sélectionne le "nouvelle banque" et lui donne le focus */
+      gtk_entry_select_region ( GTK_ENTRY ( nom_banque ), 0, -1 );
+      gtk_widget_grab_focus ( nom_banque );
+    }
 
   update_bank_menu ();
+
+  return banque;
 }
 
 
@@ -261,286 +271,9 @@ GtkWidget *creation_menu_banques ( void )
 /* ************************************************************************************************************ */
 
 
-/* **************************************************************************************************************************** */
-/* Fonction affiche_detail_banque */
-/* appelée par le bouton "détails" des détails de comptes */
-/* crée une fenêtre avec les coordonnées de la banque */
-/* **************************************************************************************************************************** */
-
+/** TODO: remove this obsolete function */
 void affiche_detail_banque ( GtkWidget *bouton,
 			     gpointer null )
-{
-  GtkWidget *dialogue;
-  GtkWidget *table;
-  GtkWidget *label;
-  struct struct_banque *banque;
-  GtkWidget *separateur;
-
-  banque = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_option_menu_banque ) -> menu_item ),
-				 "adr_banque" );
-
-  if ( !banque )
-    return;
-
-  dialogue = gnome_dialog_new ( _("Information about the bank"),
-/* 				GNOME_STOCK_PIXMAP_PROPERTIES, */
-				GNOME_STOCK_BUTTON_CLOSE,
-				NULL );
-  gtk_window_set_transient_for ( GTK_WINDOW ( dialogue ),
-				 GTK_WINDOW ( window ));
-
-
-
-  table = gtk_table_new ( 2, 11, FALSE );
-  gtk_table_set_row_spacings ( GTK_TABLE ( table ),
-			       10 );
-  gtk_table_set_col_spacings ( GTK_TABLE ( table ),
-			       10 );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue ) -> vbox ), table,
-		       FALSE, FALSE, 0 );
-  gtk_widget_show ( table );
-
-
-  /* mise en place du nom */
-
-  label = gtk_label_new ( COLON(_("Bank")) );
-  gtk_misc_set_alignment ( GTK_MISC ( label ),
-			   0,
-			   0.5 );
-  gtk_table_attach_defaults ( GTK_TABLE ( table ),
-			      label,
-			      0, 1, 0, 1 );			     
-  gtk_widget_show ( label );
-
-  label = gtk_label_new ( banque -> nom_banque );
-  gtk_misc_set_alignment ( GTK_MISC ( label ),
-			   0,
-			   0.5 );
-  gtk_table_attach_defaults ( GTK_TABLE ( table ),
-			      label,
-			      1, 2, 0, 1 );			     
-  gtk_widget_show ( label );
-
-
-  /* mise en place de l'adresse */
-
-  if ( banque -> adr_banque )
-    {
-      label = gtk_label_new ( banque -> adr_banque );
-      gtk_misc_set_alignment ( GTK_MISC ( label ),
-			       0,
-			       0.5 );
-      gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				  label,
-				  1, 2, 1, 2 );			     
-      gtk_widget_show ( label );
-    }
-
-
-
-  /* mise en place du téléphone */
-
-  if ( banque -> tel_banque )
-    {
-      label = gtk_label_new ( COLON(_("Phone")) );
-      gtk_misc_set_alignment ( GTK_MISC ( label ),
-			       0,
-			       0.5 );
-      gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				  label,
-				  0, 1, 2, 3 );			     
-      gtk_widget_show ( label );
-
-      label = gtk_label_new ( banque -> tel_banque );
-      gtk_misc_set_alignment ( GTK_MISC ( label ),
-			       0,
-			       0.5 );
-      gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				  label,
-				  1, 2, 2, 3 );			     
-      gtk_widget_show ( label );
-    }
-
-
-  if ( banque -> email_banque )
-    {
-      label = gtk_label_new ( COLON(_("E-Mail")) );
-      gtk_misc_set_alignment ( GTK_MISC ( label ),
-			       0,
-			       0.5 );
-      gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				  label,
-				  0, 1, 3, 4 );			     
-      gtk_widget_show ( label );
-
-      label = gtk_label_new ( banque -> email_banque );
-      gtk_misc_set_alignment ( GTK_MISC ( label ),
-			       0,
-			       0.5 );
-      gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				  label,
-				  1, 2, 3, 4 );			     
-      gtk_widget_show ( label );
-    }
-      
-  if ( banque -> web_banque )
-    {
-      label = gtk_label_new ( COLON(_("Website")) );
-      gtk_misc_set_alignment ( GTK_MISC ( label ),
-			       0,
-			       0.5 );
-      gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				  label,
-				  0, 1, 4, 5 );			     
-      gtk_widget_show ( label );
-
-      label = gnome_href_new ( banque -> web_banque,
-			       banque -> web_banque );
-      gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				  label,
-				  1, 2, 4, 5 );			     
-      gtk_widget_show ( label );
-    }
-
-
-  /* mise en place du correspondant */
-
-  separateur = gtk_hseparator_new ();
-  gtk_table_attach_defaults ( GTK_TABLE ( table ),
-			      separateur,
-			      0, 2, 5, 6 );			     
-  gtk_widget_show ( separateur );
-
-
-  if ( banque -> nom_correspondant )
-    {
-      /* mise en place du nom */
-
-      label = gtk_label_new ( COLON(_("Contact name")) );
-      gtk_misc_set_alignment ( GTK_MISC ( label ),
-			       0,
-			       0.5 );
-      gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				  label,
-				  0, 1, 6, 7 );			     
-      gtk_widget_show ( label );
-
-      label = gtk_label_new ( banque -> nom_correspondant );
-      gtk_misc_set_alignment ( GTK_MISC ( label ),
-			       0,
-			       0.5 );
-      gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				  label,
-				  1, 2, 6, 7 );			     
-      gtk_widget_show ( label );
-    }
-
-  /* mise en place du téléphone */
-
-  if ( banque -> tel_correspondant )
-    {
-      label = gtk_label_new ( COLON(_("Phone")) );
-      gtk_misc_set_alignment ( GTK_MISC ( label ),
-			       0,
-			       0.5 );
-      gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				  label,
-				  0, 1, 7, 8 );			     
-      gtk_widget_show ( label );
-
-      label = gtk_label_new ( banque -> tel_correspondant );
-      gtk_misc_set_alignment ( GTK_MISC ( label ),
-			       0,
-			       0.5 );
-      gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				  label,
-				  1, 2, 7, 8 );			     
-      gtk_widget_show ( label );
-    }
-
-  /* mise en place du fax */
-
-  if ( banque -> fax_correspondant )
-    {
-      label = gtk_label_new ( COLON(_("Fax")) );
-      gtk_misc_set_alignment ( GTK_MISC ( label ),
-			       0,
-			       0.5 );
-      gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				  label,
-				  0, 1, 8, 9 );			     
-      gtk_widget_show ( label );
-
-      label = gtk_label_new ( banque -> fax_correspondant );
-      gtk_misc_set_alignment ( GTK_MISC ( label ),
-			       0,
-			       0.5 );
-      gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				  label,
-				  1, 2, 8, 9 );			     
-      gtk_widget_show ( label );
-    }
-
-
-  if ( banque -> email_correspondant )
-    {
-      label = gtk_label_new ( COLON(_("E-Mail")) );
-      gtk_misc_set_alignment ( GTK_MISC ( label ),
-			       0,
-			       0.5 );
-      gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				  label,
-				  0, 1, 9, 10 );			     
-      gtk_widget_show ( label );
-
-      label = gtk_label_new ( banque -> email_correspondant );
-      gtk_misc_set_alignment ( GTK_MISC ( label ),
-			       0,
-			       0.5 );
-      gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				  label,
-				  1, 2, 9, 10 );			     
-      gtk_widget_show ( label );
-    }
-      
-
-
-  if ( banque -> remarque_banque )
-    {
-      label = gtk_label_new ( COLON(_("Notes")) );
-      gtk_misc_set_alignment ( GTK_MISC ( label ),
-			       0,
-			       0.5 );
-      gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				  label,
-				  0, 1, 10, 11 );			     
-      gtk_widget_show ( label );
-
-      label = gtk_label_new ( banque -> remarque_banque );
-      gtk_misc_set_alignment ( GTK_MISC ( label ),
-			       0,
-			       0 );
-      gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				  label,
-				  1, 2, 10, 11 );			     
-      gtk_widget_show ( label );
-    }
-
-  switch (gnome_dialog_run_and_close ( GNOME_DIALOG ( dialogue )))
-    {
-    case 1:			/* Close */
-      return;
-      /** TODO: implement link to bank preferences window */
-/*     case 0:			/\* Properties *\/ */
-/*       preferences ( BANKS_PAGE ); */
-/*       gtk_clist_select_row ( (GtkCList *) clist_banques_parametres,  */
-/* 			     banque -> no_banque-1, 0 ); */
-/*       return; */
-    case -1:			/* Something went wrong or user closed
-				   dialog with window manager */
-      return;
-    }
-
 }
 /* **************************************************************************************************************************** */
 
@@ -565,9 +298,7 @@ GtkWidget *onglet_banques ( void )
   gchar *bank_cols_titles [2] = {_("Bank"),
 				 _("Contact name") };
 
-  vbox_pref = new_vbox_with_title_and_icon ( _("Banks"),
-					     "banks.png" );
-
+  vbox_pref = new_vbox_with_title_and_icon ( _("Banks"), "banks.png" );
 
   /* Create bank list */
   paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
@@ -665,11 +396,7 @@ GtkWidget *onglet_banques ( void )
                                  GTK_SHADOW_NONE );
   gtk_widget_set_sensitive ( vbox2, FALSE );
 
-  /* Bank details */
-  paddingbox = new_paddingbox_with_title ( vbox2, FALSE,
-					   _("Bank details") );
-  gtk_box_set_child_packing (GTK_BOX(vbox_pref), paddingbox, 
-			     FALSE, FALSE, 5, GTK_PACK_START);
+  bank_form ( vbox2 );
 
   /* Active only if a bank is selected */
   gtk_signal_connect ( GTK_OBJECT ( clist_banques_parametres ),
@@ -680,6 +407,96 @@ GtkWidget *onglet_banques ( void )
 		       "unselect-row",
 		       GTK_SIGNAL_FUNC ( deselection_ligne_banque ),
 		       vbox2 );
+
+  /* Select first entry if applicable */
+  gtk_clist_select_row ( GTK_CLIST(clist_banques_parametres), 0, 0 );
+
+  return ( vbox_pref );
+}
+
+
+/**
+ * Fills in bank details widgets with corresponding stuff.  Make them
+ * active as well.
+ *
+ * \param liste		gtkclist containing banks
+ * \param ligne		selected bank
+ * \param colonne	not used, for handler's sake only
+ * \param ev button	event, not used, for handler's sake only
+ * \param frame		widget or widget group to activate
+ */
+void selection_ligne_banque ( GtkWidget *liste,
+			      gint ligne,
+			      gint colonne,
+			      GdkEventButton *ev,
+			      GtkWidget *frame )
+{
+  struct struct_banque *banque;
+
+  ligne_selection_banque = ligne;
+  banque = gtk_clist_get_row_data ( GTK_CLIST ( liste ), ligne );
+
+  update_bank_form ( banque, frame );
+}
+
+
+
+/**
+ * Clear bank details widgets.  Make them unactive as well.
+ *
+ * \param liste		gtkclist containing banks
+ * \param ligne		previously selected bank
+ * \param colonne	not used, for handler's sake only
+ * \param ev button	event, not used, for handler's sake only
+ * \param frame		widget or widget group to deactivate
+ */
+void deselection_ligne_banque ( GtkWidget *liste,
+				gint ligne,
+				gint colonne,
+				GdkEventButton *ev,
+				GtkWidget *frame )
+{
+  struct struct_banque *banque;
+
+  entry_set_value ( nom_banque, NULL );
+  entry_set_value ( code_banque, NULL );
+  entry_set_value ( tel_banque, NULL );
+  entry_set_value ( email_banque, NULL );
+  entry_set_value ( web_banque, NULL );
+  entry_set_value ( nom_correspondant, NULL );
+  entry_set_value ( tel_correspondant, NULL );
+  entry_set_value ( fax_correspondant, NULL );
+  entry_set_value ( email_correspondant, NULL );
+
+  text_area_set_value ( adr_banque, NULL );
+  text_area_set_value ( remarque_banque, NULL );
+  
+  gtk_widget_set_sensitive ( frame, FALSE );
+  gtk_widget_set_sensitive ( bouton_supprimer_banque, FALSE );
+}
+
+
+
+/* **************************************************************************************************************************** */
+void modif_detail_banque ( GtkWidget *entree,
+			   gpointer null )
+{
+
+  gtk_widget_set_sensitive ( hbox_boutons_modif_banque,
+			     TRUE );
+
+}
+/* **************************************************************************************************************************** */
+
+
+GtkWidget * bank_form ( GtkWidget * parent )
+{
+  GtkWidget * paddingbox, *vbox, *table, *label, *scrolled_window;
+  GtkSizeGroup * size_group;
+
+  /* Bank details */
+  paddingbox = new_paddingbox_with_title ( parent, FALSE,
+					   _("Bank details") );
 
   /* Create a table to align things nicely */
   table = gtk_table_new ( 2, 2, FALSE );
@@ -787,9 +604,8 @@ GtkWidget *onglet_banques ( void )
 		     GTK_EXPAND | GTK_FILL, 0,
 		     0, 0 );
 
-
   /* Contact */
-  paddingbox = new_paddingbox_with_title ( vbox2, FALSE, _("Contact") );
+  paddingbox = new_paddingbox_with_title ( parent, FALSE, _("Contact") );
   table = gtk_table_new ( 2, 2, FALSE );
   gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
   gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
@@ -856,9 +672,8 @@ GtkWidget *onglet_banques ( void )
 		     GTK_EXPAND | GTK_FILL, 0,
 		     0, 0 );
 
-
   /* Notes */
-  paddingbox = new_paddingbox_with_title ( vbox2, FALSE, _("Notes") );
+  paddingbox = new_paddingbox_with_title ( parent, FALSE, _("Notes") );
   scrolled_window = gtk_scrolled_window_new ( FALSE, FALSE );
   gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				   GTK_POLICY_NEVER,
@@ -871,98 +686,82 @@ GtkWidget *onglet_banques ( void )
   gtk_widget_set_usize ( remarque_banque, FALSE, 100 );
   gtk_container_add ( GTK_CONTAINER ( scrolled_window ), remarque_banque );
 
-  /* Select first entry if applicable */
-  gtk_clist_select_row ( GTK_CLIST(clist_banques_parametres), 0, 0 );
-
-  return ( vbox_pref );
+  return parent;
 }
 
 
 
-/**
- * Fills in bank details widgets with corresponding stuff.  Make them
- * active as well.
- *
- * \param liste		gtkclist containing banks
- * \param ligne		selected bank
- * \param colonne	not used, for handler's sake only
- * \param ev button	event, not used, for handler's sake only
- * \param frame		widget or widget group to activate
- */
-void selection_ligne_banque ( GtkWidget *liste,
-			      gint ligne,
-			      gint colonne,
-			      GdkEventButton *ev,
-			      GtkWidget *frame )
+void update_bank_form ( struct struct_banque * bank, GtkWidget * frame )
 {
-  struct struct_banque *banque;
+  entry_set_value ( nom_banque, &(bank -> nom_banque) );
+  entry_set_value ( code_banque, &(bank -> code_banque) );
+  entry_set_value ( tel_banque, &(bank -> tel_banque) );
+  entry_set_value ( email_banque, &(bank -> email_banque) );
+  entry_set_value ( web_banque, &(bank -> web_banque) );
 
-  ligne_selection_banque = ligne;
-  banque = gtk_clist_get_row_data ( GTK_CLIST ( liste ), ligne );
-
-  entry_set_value ( nom_banque, &(banque -> nom_banque) );
-  entry_set_value ( code_banque, &(banque -> code_banque) );
-  entry_set_value ( tel_banque, &(banque -> tel_banque) );
-  entry_set_value ( email_banque, &(banque -> email_banque) );
-  entry_set_value ( web_banque, &(banque -> web_banque) );
-
-  entry_set_value ( nom_correspondant, &(banque -> nom_correspondant) );
-  entry_set_value ( tel_correspondant, &(banque -> tel_correspondant) );
-  entry_set_value ( email_correspondant, &(banque -> email_correspondant) );
-  entry_set_value ( fax_correspondant, &(banque -> fax_correspondant) );
+  entry_set_value ( nom_correspondant, &(bank -> nom_correspondant) );
+  entry_set_value ( tel_correspondant, &(bank -> tel_correspondant) );
+  entry_set_value ( email_correspondant, &(bank -> email_correspondant) );
+  entry_set_value ( fax_correspondant, &(bank -> fax_correspondant) );
   
-  text_area_set_value ( adr_banque, &(banque -> adr_banque) );
-  text_area_set_value ( remarque_banque, &(banque -> remarque_banque) );
+  text_area_set_value ( adr_banque, &(bank -> adr_banque) );
+  text_area_set_value ( remarque_banque, &(bank -> remarque_banque) );
 
   gtk_widget_set_sensitive ( frame, TRUE );
-  gtk_widget_set_sensitive ( bouton_supprimer_banque, TRUE );
+  if ( GTK_IS_WIDGET(bouton_supprimer_banque))
+    gtk_widget_set_sensitive ( bouton_supprimer_banque, TRUE );
 }
 
 
 
-/**
- * Clear bank details widgets.  Make them unactive as well.
- *
- * \param liste		gtkclist containing banks
- * \param ligne		previously selected bank
- * \param colonne	not used, for handler's sake only
- * \param ev button	event, not used, for handler's sake only
- * \param frame		widget or widget group to deactivate
- */
-void deselection_ligne_banque ( GtkWidget *liste,
-				gint ligne,
-				gint colonne,
-				GdkEventButton *ev,
-				GtkWidget *frame )
+void view_bank ( GtkWidget * button, gpointer data )
 {
-  struct struct_banque *banque;
+  struct struct_banque * bank;
 
-  entry_set_value ( nom_banque, NULL );
-  entry_set_value ( code_banque, NULL );
-  entry_set_value ( tel_banque, NULL );
-  entry_set_value ( email_banque, NULL );
-  entry_set_value ( web_banque, NULL );
-  entry_set_value ( nom_correspondant, NULL );
-  entry_set_value ( tel_correspondant, NULL );
-  entry_set_value ( fax_correspondant, NULL );
-  entry_set_value ( email_correspondant, NULL );
+  bank = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_option_menu_banque ) -> menu_item ),
+			       "adr_banque" ); 
 
-  text_area_set_value ( adr_banque, NULL );
-  text_area_set_value ( remarque_banque, NULL );
-  
-  gtk_widget_set_sensitive ( frame, FALSE );
-  gtk_widget_set_sensitive ( bouton_supprimer_banque, FALSE );
+  if ( !bank )
+    return;
+
+  edit_bank ( button, bank );
 }
 
 
 
-/* **************************************************************************************************************************** */
-void modif_detail_banque ( GtkWidget *entree,
-			   gpointer null )
+void edit_bank ( GtkWidget * button, struct struct_banque * bank )
 {
+  GtkWidget * dialog, *form, * scrolled_window, *vbox;
 
-  gtk_widget_set_sensitive ( hbox_boutons_modif_banque,
-			     TRUE );
+  dialog = gtk_dialog_new_with_buttons ( _("Edit bank"),
+					 GTK_WINDOW(window),
+					 GTK_DIALOG_DESTROY_WITH_PARENT,
+					 GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
+					 NULL );
 
+  scrolled_window = gtk_scrolled_window_new ( FALSE, FALSE );
+  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+				   GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC );
+  gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window), 
+					GTK_SHADOW_NONE );
+  gtk_container_add ( GTK_CONTAINER ( GTK_DIALOG(dialog)->vbox ), scrolled_window );
+  gtk_widget_set_usize ( scrolled_window, 600, 400 );
+
+  vbox = gtk_vbox_new ( FALSE, 6 );
+  gtk_container_set_border_width ( GTK_CONTAINER (vbox), 12 );
+  form = bank_form ( vbox );
+  gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrolled_window), vbox);
+  gtk_viewport_set_shadow_type ( GTK_VIEWPORT (GTK_BIN(scrolled_window) -> child ),
+                                 GTK_SHADOW_NONE );
+
+  gtk_widget_show_all ( GTK_DIALOG(dialog)->vbox );
+
+  if (! bank )
+    {
+      bank = ajout_banque ( NULL, NULL );
+    }
+  update_bank_form ( bank, GTK_DIALOG(dialog)->vbox );
+
+  gtk_dialog_run (GTK_DIALOG(dialog));
+  gtk_widget_destroy ( dialog );
 }
-/* **************************************************************************************************************************** */
