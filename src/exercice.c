@@ -992,7 +992,10 @@ GtkWidget *creation_menu_exercices ( void )
 
       exercice = pointeur -> data;
 
-      if ( exercice->affiche_dans_formulaire )
+      /* met à TRUE volontairement pour cacher le bug quand l'exo n'est pas affiché */
+      /* corrigé dans la version 0.4 */
+
+      if ( TRUE /* exercice->affiche_dans_formulaire */ )
 	{
 	  menu_item = gtk_menu_item_new_with_label ( exercice -> nom_exercice );
 	  gtk_menu_append ( GTK_MENU ( menu ),
