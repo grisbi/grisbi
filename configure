@@ -815,7 +815,7 @@ fi
 
 
 PACKAGE=grisbi
-VERSION=0.4
+VERSION=0.4.0
 
 
 
@@ -4160,10 +4160,10 @@ echo "configure:4159: checking GNOMELIBS_CFLAGS" >&5
 	do
 	if $GNOME_CONFIG --cflags "$i" ; then
 	    GNOMELIBS_TMPCFLAGS=`$GNOME_CONFIG --cflags "$i"`
-	    GNOMELIBS_CFLAGS="GNOMELIBS_CFLAGS GNOMELIBS_TMPCFLAGS"
+	    GNOMELIBS_CFLAGS="$GNOMELIBS_CFLAGS $GNOMELIBS_TMPCFLAGS"
 	    
 	    GNOMELIBS_TMPLIBS=`$GNOME_CONFIG --libs "$i"`
-	    GNOMELIBS_LIBS="GNOMELIBS_LIBS GNOMELIBS_TMPLIBS"
+	    GNOMELIBS_LIBS="$GNOMELIBS_LIBS $GNOMELIBS_TMPLIBS"
 	else
 	    GNOMELIBS_CFLAGS=""
 	    GNOMELIBS_LIBS=""
@@ -4183,7 +4183,7 @@ echo "configure:4159: checking GNOMELIBS_CFLAGS" >&5
   fi
 
 CFLAGS="$GNOMELIBS_CFLAGS"
-LDFLAGS="$GNOMELIBS_LDFLAGS"
+LDFLAGS="$GNOMELIBS_LIBS"
 
 APPLET="false"
 
@@ -4246,10 +4246,10 @@ echo "configure:4245: checking GA_CFLAGS" >&5
 	do
 	if $GNOME_CONFIG --cflags "$i" ; then
 	    GA_TMPCFLAGS=`$GNOME_CONFIG --cflags "$i"`
-	    GA_CFLAGS="GA_CFLAGS GA_TMPCFLAGS"
+	    GA_CFLAGS="$GA_CFLAGS $GA_TMPCFLAGS"
 	    
 	    GA_TMPLIBS=`$GNOME_CONFIG --libs "$i"`
-	    GA_LIBS="GA_LIBS GA_TMPLIBS"
+	    GA_LIBS="$GA_LIBS $GA_TMPLIBS"
 	else
 	    GA_CFLAGS=""
 	    GA_LIBS=""
@@ -4263,7 +4263,7 @@ echo "configure:4245: checking GA_CFLAGS" >&5
   fi
 
   if test $succeeded = yes; then
-      APPLET=true; CFLAGS="$CFLAGS $GA_CFLAGS"; LDFLAGS="$LDFLAGS $GA_LDFLAGS"; 
+      APPLET=true; CFLAGS="$CFLAGS $GA_CFLAGS"; LDFLAGS="$LDFLAGS $GA_LIBS"; 
   else
       echo "configure: warning: Gnome library Applets is not installed" 1>&2  
   fi
