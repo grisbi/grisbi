@@ -1358,11 +1358,11 @@ gboolean traitement_clavier_liste ( GtkCList *liste,
       r_press ();
       break;
 
-    default : return (TRUE);
+    default : return (FALSE);
     }
 
 
-  return (TRUE);
+  return (FALSE);
 }
 /***************************************************************************************************/
 
