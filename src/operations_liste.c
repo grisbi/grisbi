@@ -320,7 +320,14 @@ void creation_listes_operations ( void )
 			     GTK_SIGNAL_FUNC ( traitement_clavier_liste ),
 			     NULL );
 
-	/* on ajoute l'onglet au notebook des comptes */
+	/* sauvegarde les redimensionnement des colonnes */
+
+    gtk_signal_connect ( GTK_OBJECT ( liste ),
+			 "resize_column",
+			 GTK_SIGNAL_FUNC ( changement_taille_colonne ),
+			 NULL );
+
+    /* on ajoute l'onglet au notebook des comptes */
 
 	gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
 				   onglet,
