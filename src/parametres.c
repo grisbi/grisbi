@@ -31,6 +31,9 @@ gint preference_selected = -1;
 GtkTreeSelection * selection;
 GtkWidget * button_close, * button_help;
 
+/** FIXME move it */
+gboolean set_text_from_area ( GtkTextBuffer *buffer, gpointer tamere );
+
 
 /**
  * Creates a simple TreeView and a TreeModel to handle preference
@@ -234,7 +237,7 @@ void preferences ( gint page )
     }
 
   gtk_widget_show_all ( hpaned );
-  gtk_container_set_border_width ( hpaned, 6 );
+  gtk_container_set_border_width ( GTK_CONTAINER(hpaned), 6 );
   gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(fenetre_preferences) -> vbox ), 
 		       hpaned, TRUE, TRUE, 0);
 
@@ -434,61 +437,31 @@ GtkWidget *onglet_fichier ( void )
 					  _("Account files handling"));
 
   /* Automatically load last file on startup? */
-  bouton_avec_demarrage = 
-    gtk_check_button_new_with_label ( SPACIFY(_("Automatically load last file on startup")) );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ), 
-		       bouton_avec_demarrage, 
+  bouton_avec_demarrage =
+    new_checkbox_with_title (_("Automatically load last file on startup"),
+			     &(etat.dernier_fichier_auto), NULL );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_avec_demarrage, 
 		       FALSE, FALSE, 0 );
-/*   gtk_widget_show ( bouton_avec_demarrage ); */
-  if ( etat.dernier_fichier_auto == 1 )
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_avec_demarrage ),
-				   TRUE );
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton_avec_demarrage ),
-			      "toggled",
-			      activer_bouton_appliquer,
-			      GTK_OBJECT (fenetre_preferences));
 
-  /* Automatically save on exit? */
-  bouton_save_auto = 
-    gtk_check_button_new_with_label (SPACIFY(_("Automatically save on exit")) );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-		       bouton_save_auto,
+  bouton_save_auto = new_checkbox_with_title (_("Automatically save on exit"),
+					      &(etat.sauvegarde_auto), NULL);
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_save_auto, 
 		       FALSE, FALSE, 0 );
-  gtk_widget_show (bouton_save_auto );
-  if ( etat.sauvegarde_auto == 1 )
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_save_auto ),
-				   TRUE );
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton_save_auto ),
-			      "toggled",
-			      activer_bouton_appliquer,
-			      GTK_OBJECT (fenetre_preferences));
 
   /* Warn if file is used by someone else? */
-  bouton_force_enregistrement =
-    gtk_check_button_new_with_label (SPACIFY(_("Warn if file is used by someone else")) );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-		       bouton_force_enregistrement,
+  bouton_force_enregistrement = 
+    new_checkbox_with_title ( _("Warn if file is used by someone else"),
+			      &(etat.force_enregistrement), NULL );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_force_enregistrement,
 		       FALSE, FALSE, 0 );
-  gtk_widget_show ( bouton_force_enregistrement );
-  if ( etat.force_enregistrement )
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_force_enregistrement ),
-				   TRUE );
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton_force_enregistrement ),
-			      "toggled",
-			      activer_bouton_appliquer,
-			      GTK_OBJECT (fenetre_preferences));
 
   /* Compression level of files */
   hbox = gtk_hbox_new ( FALSE, 5 );
   gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 		       FALSE, FALSE, 0 );
-  gtk_widget_show ( hbox );
-
   label = gtk_label_new ( COLON(_("File compression level")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 		       FALSE, FALSE, 0 );
-  gtk_widget_show ( label );
-
   spin_button_compression_fichier = 
     gtk_spin_button_new ( GTK_ADJUSTMENT 
 			  ( gtk_adjustment_new ( compression_fichier,
@@ -500,25 +473,48 @@ GtkWidget *onglet_fichier ( void )
 			      "changed",
 			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       spin_button_compression_fichier,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( spin_button_compression_fichier );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button_compression_fichier,
+		       FALSE, FALSE, 0 );
+
+  /* Memorize last opened files in menu */
+  hbox = gtk_hbox_new ( FALSE, 5 );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
+		       FALSE, FALSE, 0 );
+  label = gtk_label_new ( COLON(_("Memorise last opened files")) );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
+		       FALSE, FALSE, 0 );
+  spin_button_derniers_fichiers_ouverts = 
+    gtk_spin_button_new ( GTK_ADJUSTMENT ( gtk_adjustment_new ( nb_max_derniers_fichiers_ouverts,
+								0, 20, 1, 5, 1 )),
+			  1, 0 );
+  gtk_spin_button_set_numeric ( GTK_SPIN_BUTTON ( spin_button_derniers_fichiers_ouverts ),
+				TRUE );
+  gtk_signal_connect_object ( GTK_OBJECT ( spin_button_derniers_fichiers_ouverts ),
+			      "changed",
+			      activer_bouton_appliquer,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button_derniers_fichiers_ouverts,
+		       FALSE, FALSE, 0 );
+
+
+
 
   /* Backups */
   paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
 					  _("Backups"));
 
+  /* Backup at each opening? */
+  bouton_save_demarrage = 
+    new_checkbox_with_title ( _("Make a backup copy after opening files"),
+			      &(etat.sauvegarde_demarrage), NULL );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_save_demarrage,
+		       FALSE, FALSE, 0 );
+
   /* Automatic backup ? */
-  bouton_demande_backup = gtk_check_button_new_with_label ( _("Automatic backup") );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-		       bouton_demande_backup,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_demande_backup );
+  bouton_demande_backup = new_checkbox_with_title (_("Make a backup copy before saving files"),
+						   NULL, changement_choix_backup);
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_demande_backup,
+		       FALSE, FALSE, 0 );
 
   if ( nb_comptes )
     {
@@ -529,16 +525,7 @@ GtkWidget *onglet_fichier ( void )
 	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_demande_backup ),
 				       FALSE );
 
-      gtk_signal_connect_object ( GTK_OBJECT ( bouton_demande_backup ),
-				  "toggled",
-				  GTK_SIGNAL_FUNC ( activer_bouton_appliquer),
-				  GTK_OBJECT (fenetre_preferences));
-      gtk_signal_connect ( GTK_OBJECT ( bouton_demande_backup ),
-			   "toggled",
-			   GTK_SIGNAL_FUNC ( changement_choix_backup ),
-			   NULL );
-
-      /* mise en forme de l'entrée du chemin de la backup */
+      /* Mise en forme de l'entrée du chemin de la backup */
       hbox = gtk_hbox_new ( FALSE, 5 );
       gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 			   FALSE, FALSE, 0 );
@@ -571,34 +558,14 @@ GtkWidget *onglet_fichier ( void )
 				  "changed",
 				  activer_bouton_appliquer,
 				  GTK_OBJECT (fenetre_preferences));
-      gtk_box_pack_start ( GTK_BOX ( hbox ),
-			   entree_chemin_backup,
-			   FALSE,
-			   FALSE,
-			   0 );
+      gtk_box_pack_start ( GTK_BOX ( hbox ), entree_chemin_backup,
+			   FALSE, FALSE, 0 );
       gtk_widget_show ( entree_chemin_backup );
-
-
     }
-    else
-      gtk_widget_set_sensitive ( bouton_demande_backup,
-				 FALSE );
-
-
-  /* Backup at each opening? */
-  bouton_save_demarrage = gtk_check_button_new_with_label ( _("Backup at each opening (~/.filename.bak)") );
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton_save_demarrage ),
-			      "toggled",
-			      GTK_SIGNAL_FUNC ( activer_bouton_appliquer),
-			      GTK_OBJECT (fenetre_preferences));
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-		       bouton_save_demarrage,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_save_demarrage );
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_save_demarrage ),
-				 etat.sauvegarde_demarrage );
+  else
+    {
+      gtk_widget_set_sensitive ( bouton_demande_backup, FALSE );
+    }
 
 
   /* Compression level of backups */
@@ -625,43 +592,6 @@ GtkWidget *onglet_fichier ( void )
   gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button_compression_backup,
 		     FALSE, FALSE, 0 );
   gtk_widget_show ( spin_button_compression_backup );
-
-
-  /* mise en forme de la demande du nombre de derniers fichiers à garder en mémoire */
-
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( hbox );
-
-  label = gtk_label_new ( COLON(_("Memorise last opened files")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( label );
-
-  spin_button_derniers_fichiers_ouverts = 
-    gtk_spin_button_new ( GTK_ADJUSTMENT ( gtk_adjustment_new ( nb_max_derniers_fichiers_ouverts,
-								0, 20, 1, 5, 1 )),
-			  1, 0 );
-  gtk_spin_button_set_numeric ( GTK_SPIN_BUTTON ( spin_button_derniers_fichiers_ouverts ),
-				TRUE );
-  gtk_signal_connect_object ( GTK_OBJECT ( spin_button_derniers_fichiers_ouverts ),
-			      "changed",
-			      activer_bouton_appliquer,
-			      GTK_OBJECT (fenetre_preferences));
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       spin_button_derniers_fichiers_ouverts,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( spin_button_derniers_fichiers_ouverts );
 
   gtk_widget_show_all ( vbox_pref );
   return ( vbox_pref );
@@ -974,12 +904,13 @@ void supprimer_verification ( GtkWidget *bouton_supp,
 void changement_choix_backup ( GtkWidget *bouton,
 			       gpointer pointeur )
 {
-  if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_demande_backup ) ) )
-    gtk_widget_set_sensitive ( GTK_WIDGET ( entree_chemin_backup ),
-			       TRUE );
+  if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_demande_backup )))
+    gtk_widget_set_sensitive ( GTK_WIDGET ( entree_chemin_backup ), TRUE );
   else
-    gtk_widget_set_sensitive ( GTK_WIDGET ( entree_chemin_backup ),
-			       FALSE );
+    {
+      gtk_widget_set_sensitive ( GTK_WIDGET ( entree_chemin_backup ), FALSE );
+      nom_fichier_backup = NULL;
+    }
 }
 /* **************************************************************************************************************************** */
 
@@ -2311,7 +2242,7 @@ void checkbox_set_value ( GtkWidget * checkbox, guint * data, gboolean update )
 gboolean
 set_boolean ( GtkWidget * checkbox, guint * dummy)
 {
-  gpointer *data;
+  gboolean *data;
 
   data = gtk_object_get_data ( GTK_OBJECT ( checkbox ), "pointer");
   if (data)
@@ -2329,9 +2260,8 @@ set_boolean ( GtkWidget * checkbox, guint * dummy)
  * \param length Handler parameter.  Not used.
  * \param position Handler parameter.  Not used.
  */
-gboolean
-set_text (GtkEntry *entry, gchar *value, 
-	  gint length, gint * position)
+gboolean set_text (GtkEntry *entry, gchar *value, 
+		   gint length, gint * position)
 {
   gchar ** data;
 
@@ -2704,4 +2634,104 @@ void entry_set_value ( GtkWidget * entry, gchar ** value )
   if (gtk_object_get_data ( entry, "delete-text" ))
     g_signal_handler_unblock ( GTK_OBJECT(entry),
 			       gtk_object_get_data ( entry, "delete-text" ));
+}
+
+
+/**
+ * Creates a new GtkTextView with a pointer to a string that will be
+ * modified according to the text view's value.
+ *
+ * \param value A pointer to a string
+ * \param hook An optional function to execute as a handler if the
+ * entry's contents are modified.
+ */
+GtkWidget * new_text_area ( gchar ** value, GCallback * hook )
+{
+  GtkWidget * text_view;
+  GtkTextBuffer *buffer;
+
+  text_view = gtk_text_view_new ();
+  buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
+  gtk_text_view_set_pixels_above_lines (GTK_TEXT_VIEW (text_view), 3);
+  gtk_text_view_set_pixels_below_lines (GTK_TEXT_VIEW (text_view), 3);
+  gtk_text_view_set_left_margin (GTK_TEXT_VIEW (text_view), 3);
+  gtk_text_view_set_right_margin (GTK_TEXT_VIEW (text_view), 3);
+  gtk_text_view_set_wrap_mode ( GTK_TEXT_VIEW (text_view), GTK_WRAP_WORD );
+
+  if (value && *value)
+    gtk_text_buffer_set_text (buffer, *value, -1);
+ 
+  g_object_set_data ( G_OBJECT ( buffer ), "pointer", value);
+
+  g_object_set_data ( G_OBJECT ( buffer ), "change-text",
+			g_signal_connect (G_OBJECT(buffer),
+					  "changed",
+					  G_CALLBACK(set_text_from_area),
+					  NULL));
+  if ( hook )
+    g_object_set_data ( G_OBJECT ( buffer ), "change-hook",
+			  g_signal_connect (G_OBJECT(buffer),
+					    "changed",
+					    G_CALLBACK(hook),
+					    NULL));
+  return text_view;
+}
+
+
+/** 
+ * TODO: document
+ */
+void text_area_set_value ( GtkWidget * text_view, gchar ** value )
+{
+  GtkTextBuffer * buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
+
+  /* Block everything */
+  if (g_object_get_data ( G_OBJECT(buffer), "change-hook" ))
+    g_signal_handler_block ( G_OBJECT(buffer),
+			     g_object_get_data ( G_OBJECT(buffer), "change-hook" ));
+  if (g_object_get_data ( G_OBJECT(buffer), "change-text" ))
+    g_signal_handler_block ( G_OBJECT(buffer),
+			     g_object_get_data ( G_OBJECT(buffer), "change-text" ));
+
+  /* Fill in value */
+  if (value && *value)
+    gtk_text_buffer_set_text (buffer, *value, -1 );
+  else
+    gtk_text_buffer_set_text (buffer, "", -1 );
+
+  if ( value )
+    g_object_set_data ( buffer, "pointer", value );
+
+  /* Unblock everything */
+  if (g_object_get_data ( buffer, "change-hook" ))
+    g_signal_handler_unblock ( G_OBJECT(buffer),
+			       g_object_get_data ( buffer, "change-hook" ));
+  if (g_object_get_data ( buffer, "change-text" ))
+    g_signal_handler_unblock ( G_OBJECT(buffer),
+			       g_object_get_data ( buffer, "change-text" ));
+}
+
+
+/**
+ * Set a string to the value of an GtkTextView
+ *
+ * \param entry The reference GtkEntry
+ * \param value Handler parameter.  Not used.
+ * \param length Handler parameter.  Not used.
+ * \param position Handler parameter.  Not used.
+ */
+gboolean set_text_from_area ( GtkTextBuffer *buffer, gpointer tamere )
+{
+  GtkTextIter start, end;
+  gchar ** data;
+
+  data = g_object_get_data ( G_OBJECT ( buffer ), "pointer");
+
+  gtk_text_buffer_get_iter_at_offset ( buffer, &start, 0 );
+  gtk_text_buffer_get_iter_at_offset ( buffer, &end, -1 );
+
+  if (data)
+    *data = g_strdup ( gtk_text_buffer_get_text (buffer, &start, &end, 0) );
+
+  return FALSE;
 }

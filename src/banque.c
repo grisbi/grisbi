@@ -26,6 +26,10 @@
 #include "en_tete.h"
 
 
+/** FIXME move it */
+GtkWidget * new_text_area ( gchar ** value, GCallback * hook );
+
+
 /** 
  * Update bank name in list.  Normally called as a signal handler.
  *
@@ -126,238 +130,20 @@ void ajout_banque ( GtkWidget *bouton,
 
 
 
-/* ***************************************************************************************************** */
-/* Fonction applique_modif_banque */
-/* appelée par le bouton appliquer qui devient sensitif lorsqu'on modifie la banque des paramètres */
-/* ***************************************************************************************************** */
-
+/** FIXME: remove + remove in en_tete.h
+ */
 void applique_modif_banque ( GtkWidget *liste )
 {
-  struct struct_banque *banque;
-
-  banque = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
-				    ligne_selection_banque );
-
-  if ( !strlen ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( nom_banque )))))
-    {
-      dialogue ( _("You must name this bank.") );
-      return;
-    }
-
-  if ( banque -> no_banque == -1 )
-    {
-      banque -> no_banque = ++no_derniere_banque_tmp;
-      nb_banques_tmp++;
-    }
-
-  banque -> nom_banque = g_strdup ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( nom_banque ))));
-
-  banque -> code_banque = g_strdup ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( code_banque ))));
-  if ( !strlen ( banque -> code_banque ))
-    banque -> code_banque = NULL;
-
-  banque -> tel_banque = g_strdup ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( tel_banque ))));
-  if ( !strlen ( banque -> tel_banque ))
-    banque -> tel_banque = NULL;
-
-  banque -> email_banque = g_strdup ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( email_banque ))));
-  if ( !strlen ( banque -> email_banque ))
-    banque -> email_banque = NULL;
-
-  banque -> web_banque = g_strdup ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( web_banque ))));
-  if ( !strlen ( banque -> web_banque ))
-    banque -> web_banque = NULL;
-
-
-  banque -> nom_correspondant = g_strdup ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( nom_correspondant ))));
-  if ( !strlen ( banque -> nom_correspondant ))
-    banque -> nom_correspondant = NULL;
-
-  banque -> tel_correspondant = g_strdup ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( tel_correspondant ))));
-  if ( !strlen ( banque -> tel_correspondant ))
-    banque -> tel_correspondant = NULL;
-
-  banque -> email_correspondant = g_strdup ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( email_correspondant ))));
-  if ( !strlen ( banque -> email_correspondant ))
-    banque -> email_correspondant = NULL;
-
-  banque -> fax_correspondant = g_strdup ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( fax_correspondant ))));
-  if ( !strlen ( banque -> fax_correspondant ))
-    banque -> fax_correspondant = NULL;
-
-  banque -> adr_banque = g_strdup ( g_strstrip ( gtk_editable_get_chars (GTK_EDITABLE ( adr_banque ),
-									 0,
-									 -1 )) );
-    if ( strlen ( banque -> adr_banque ))
-      {
-	banque -> adr_banque = g_strdelimit ( banque -> adr_banque,
-					      "{",
-					      '(' );
-	banque -> adr_banque = g_strdelimit ( banque -> adr_banque,
-					      "}",
-					      ')' );
-      }
-    else
-      banque -> adr_banque = NULL;
-
-
-  banque -> remarque_banque = g_strdup ( g_strstrip ( gtk_editable_get_chars (GTK_EDITABLE ( remarque_banque ),
-									 0,
-									      -1 )) );
-    if ( strlen ( banque -> remarque_banque ))
-      {
-	banque -> remarque_banque = g_strdelimit ( banque -> remarque_banque,
-					      "{",
-					      '(' );
-	banque -> remarque_banque = g_strdelimit ( banque -> remarque_banque,
-					      "}",
-					      ')' );
-      }
-    else
-      banque -> remarque_banque = NULL;
-
-  gtk_widget_set_sensitive ( hbox_boutons_modif_banque,
-			     FALSE );
-
-/* met le nom dans la liste */
-
-  gtk_clist_set_text ( GTK_CLIST ( liste ),
-		       ligne_selection_banque,
-		       0,
-		       banque -> nom_banque );
-  gtk_clist_set_text ( GTK_CLIST ( liste ),
-		       ligne_selection_banque,
-		       1,
-		       banque -> nom_correspondant );
-
-  gnome_property_box_changed ( GNOME_PROPERTY_BOX ( fenetre_preferences));
 }
 /* ***************************************************************************************************** */
 
 
-/* **************************************************************************************************************************** */
-/* Fonction annuler_modif_banque */
-/* appelée lorsqu'on clicke sur le bouton annuler dans les paramètres */
-/* **************************************************************************************************************************** */
-
+/** FIXME: remove + remove in en_tete.h
+ */
 void annuler_modif_banque ( GtkWidget *bouton,
 			      GtkWidget *liste )
 {
-  struct struct_banque *banque;
-
-  banque = gtk_clist_get_row_data ( GTK_CLIST ( clist_banques_parametres ),
-				    ligne_selection_banque );
-
-/* si c'était une nouvelle banque, on la supprime */
-
-  if ( banque -> no_banque == -1 )
-    {
-      gtk_clist_unselect_all ( GTK_CLIST ( clist_banques_parametres ));
-      return;
-      gtk_clist_remove ( GTK_CLIST ( clist_banques_parametres ),
-			 ligne_selection_banque );
-      liste_struct_banques = g_slist_remove ( liste_struct_banques,
-					      banque );
-      free ( banque );
-      return;
-    }
-
-/* sinon, on remplit tous les champs avec l'ancienne banque */
-
-  gtk_entry_set_text ( GTK_ENTRY ( nom_banque ),
-		       banque -> nom_banque );
-
-  if ( banque -> code_banque )
-    gtk_entry_set_text ( GTK_ENTRY ( code_banque ),
-			 banque -> code_banque );
-  else
-    gtk_entry_set_text ( GTK_ENTRY ( code_banque ),
-			 "" );
-  
-  if ( banque -> tel_banque )
-    gtk_entry_set_text ( GTK_ENTRY ( tel_banque ),
-			 banque -> tel_banque );
-  else
-    gtk_entry_set_text ( GTK_ENTRY ( tel_banque ),
-			 "" );
-
-  if ( banque -> email_banque )
-    gtk_entry_set_text ( GTK_ENTRY ( email_banque ),
-			 banque -> email_banque  );
-  else
-    gtk_entry_set_text ( GTK_ENTRY ( email_banque ),
-			 "" );
-
-  if ( banque -> web_banque )
-    gtk_entry_set_text ( GTK_ENTRY ( web_banque ),
-			 banque -> web_banque );
-  else
-    gtk_entry_set_text ( GTK_ENTRY ( web_banque ),
-			 "" );
-
-  if ( banque -> nom_correspondant )
-    gtk_entry_set_text ( GTK_ENTRY ( nom_correspondant ),
-			 banque -> nom_correspondant );
-  else
-    gtk_entry_set_text ( GTK_ENTRY ( nom_correspondant ),
-			 "" );
-
-  if ( banque -> tel_correspondant )
-    gtk_entry_set_text ( GTK_ENTRY ( tel_correspondant ),
-			 banque -> tel_correspondant );
-  else
-    gtk_entry_set_text ( GTK_ENTRY ( tel_correspondant ),
-			 "" );
-
-  if ( banque -> email_correspondant )
-    gtk_entry_set_text ( GTK_ENTRY ( email_correspondant ),
-			 banque -> email_correspondant );
-  else
-    gtk_entry_set_text ( GTK_ENTRY ( email_correspondant ),
-			 "" );
-
-  if ( banque -> fax_correspondant )
-    gtk_entry_set_text ( GTK_ENTRY ( fax_correspondant ),
-			 banque -> fax_correspondant );
-  else
-    gtk_entry_set_text ( GTK_ENTRY ( fax_correspondant ),
-			 "" );
-
-  gtk_text_set_point ( GTK_TEXT ( adr_banque ),
-		       0 );
-  gtk_text_forward_delete ( GTK_TEXT ( adr_banque ),
-			    gtk_text_get_length ( GTK_TEXT ( adr_banque ) ) );
-  if ( banque -> adr_banque )
-    {
-      gtk_text_insert ( GTK_TEXT ( adr_banque ),
-			NULL,
-			NULL,
-			NULL,
-			banque -> adr_banque,
-			-1 );
-    }
-
-  gtk_text_set_point ( GTK_TEXT ( remarque_banque ),
-		       0 );
-  gtk_text_forward_delete ( GTK_TEXT ( remarque_banque ),
-			    gtk_text_get_length ( GTK_TEXT ( remarque_banque ) ) );
-  if ( banque -> remarque_banque )
-    gtk_text_insert ( GTK_TEXT ( remarque_banque ),
-		      NULL,
-		      NULL,
-		      NULL,
-		      banque -> remarque_banque,
-		      -1 );
-  else
-    gtk_entry_set_text ( GTK_ENTRY ( remarque_banque ),
-			 "" );
-
-  gtk_widget_set_sensitive ( hbox_boutons_modif_banque,
-			     FALSE );
-
 }
-/* **************************************************************************************************************************** */
-
 
 
 /* **************************************************************************************************************************** */
@@ -775,7 +561,6 @@ GtkWidget *onglet_banques ( void )
   GtkWidget *scrolled_window, *vbox, *vbox2, *hvbox;
   GtkWidget *bouton, *hbox, *paddingbox, *table;
   GtkSizeGroup * size_group;
-  GtkTextBuffer *buffer;
  
   GSList *liste_tmp;
   gchar *bank_cols_titles [2] = {_("Bank"),
@@ -947,18 +732,10 @@ GtkWidget *onglet_banques ( void )
   gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				   GTK_POLICY_NEVER,
 				   GTK_POLICY_AUTOMATIC );
-  adr_banque = gtk_text_new ( FALSE, FALSE );
-  gtk_widget_set_usize ( adr_banque, FALSE, 50 );
-  gtk_editable_set_editable ( GTK_EDITABLE ( adr_banque ), TRUE );
-  /* Create the text view */
-  adr_banque = gtk_text_view_new ();
-  buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (adr_banque));
-/*   gtk_text_buffer_set_text (buffer, "Hello, this is some text", -1); */
   gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window), 
 					GTK_SHADOW_IN );
-  gtk_text_view_set_indent (GTK_TEXT_VIEW(adr_banque), 3);
-  gtk_text_view_set_wrap_mode ( GTK_TEXT_VIEW(adr_banque), GTK_WRAP_WORD );
-
+  /* Create the text view */
+  adr_banque = new_text_area ( NULL, NULL ) ;
   gtk_container_add ( GTK_CONTAINER ( scrolled_window ), adr_banque );
   gtk_size_group_add_widget ( size_group, adr_banque );
   gtk_table_attach ( GTK_TABLE ( table ),
@@ -1087,22 +864,15 @@ GtkWidget *onglet_banques ( void )
   gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				   GTK_POLICY_NEVER,
 				   GTK_POLICY_AUTOMATIC );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window,
-		       TRUE, TRUE, 5 );
-  remarque_banque = gtk_text_view_new ();
-  buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (remarque_banque));
-/*   gtk_text_buffer_set_text (buffer, "Remarques sur ma banque a moi", -1); */
   gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window), 
 					GTK_SHADOW_IN );
-  gtk_text_view_set_indent ( GTK_TEXT_VIEW(remarque_banque), 3 );
-  gtk_text_view_set_wrap_mode ( GTK_TEXT_VIEW(remarque_banque), GTK_WRAP_WORD );
-/*   remarque_banque = gtk_text_new ( FALSE, FALSE ); */
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window,
+		       TRUE, TRUE, 5 );
+  remarque_banque = new_text_area ( NULL, NULL );
   gtk_widget_set_usize ( remarque_banque, FALSE, 100 );
-  gtk_editable_set_editable ( GTK_EDITABLE ( remarque_banque ), TRUE );
   gtk_container_add ( GTK_CONTAINER ( scrolled_window ), remarque_banque );
 
   return ( vbox_pref );
-
 }
 
 
@@ -1128,9 +898,6 @@ void selection_ligne_banque ( GtkWidget *liste,
   ligne_selection_banque = ligne;
   banque = gtk_clist_get_row_data ( GTK_CLIST ( liste ), ligne );
 
-/*   gtk_entry_set_text ( GTK_ENTRY ( nom_banque ), */
-/* 		       banque -> nom_banque ); */
-
   entry_set_value ( nom_banque, &(banque -> nom_banque) );
   entry_set_value ( code_banque, &(banque -> code_banque) );
   entry_set_value ( tel_banque, &(banque -> tel_banque) );
@@ -1141,17 +908,12 @@ void selection_ligne_banque ( GtkWidget *liste,
   entry_set_value ( tel_correspondant, &(banque -> tel_correspondant) );
   entry_set_value ( email_correspondant, &(banque -> email_correspondant) );
   entry_set_value ( fax_correspondant, &(banque -> fax_correspondant) );
+  
+  text_area_set_value ( adr_banque, &(banque -> adr_banque) );
+  text_area_set_value ( remarque_banque, &(banque -> remarque_banque) );
 
-  if ( banque -> adr_banque )
-    gtk_text_buffer_set_text (gtk_text_view_get_buffer(GTK_TEXT_VIEW(adr_banque)),
-			      banque -> adr_banque, -1);
-
-  if ( banque -> remarque_banque )
-    gtk_text_buffer_set_text (gtk_text_view_get_buffer(GTK_TEXT_VIEW(remarque_banque)),
-			      banque -> remarque_banque, -1);
-
-   gtk_widget_set_sensitive ( frame, TRUE );
-   gtk_widget_set_sensitive ( bouton_supprimer_banque, TRUE );
+  gtk_widget_set_sensitive ( frame, TRUE );
+  gtk_widget_set_sensitive ( bouton_supprimer_banque, TRUE );
 }
 
 
@@ -1182,10 +944,9 @@ void deselection_ligne_banque ( GtkWidget *liste,
   entry_set_value ( tel_correspondant, NULL );
   entry_set_value ( fax_correspondant, NULL );
   entry_set_value ( email_correspondant, NULL );
-  gtk_text_buffer_set_text (gtk_text_view_get_buffer(GTK_TEXT_VIEW(adr_banque)),
-			    "", -1);
-  gtk_text_buffer_set_text (gtk_text_view_get_buffer(GTK_TEXT_VIEW(remarque_banque)),
-			    "", -1);
+
+  text_area_set_value ( adr_banque, NULL );
+  text_area_set_value ( remarque_banque, NULL );
   
   gtk_widget_set_sensitive ( frame, FALSE );
   gtk_widget_set_sensitive ( bouton_supprimer_banque, FALSE );
