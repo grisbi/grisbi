@@ -247,6 +247,10 @@ gint comparaison_date_list_ope ( struct structure_operation *ope_1,
 void formulaire_a_zero (void);
 gchar *date_jour ( void );
 void affiche_cache_le_formulaire ( void );
+
+/*dOm fonction callback */
+void affiche_cache_commentaire_echeancier( void );
+
 void allocation_taille_formulaire ( GtkWidget *widget,
 				    gpointer null );
 void efface_formulaire ( GtkWidget *widget,

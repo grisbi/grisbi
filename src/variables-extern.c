@@ -63,6 +63,8 @@ extern GtkWidget *label_releve;                    /* adr du label du dernier re
 
 extern GtkWidget *notebook_listes_operations;          /*  adr du notebook qui contient les opés de chaque compte */
 extern GtkWidget *bouton_affiche_cache_formulaire;
+/* dOm : bouton qui affiche ou cache le commentaire dans l'echeancier */
+extern GtkWidget *bouton_affiche_commentaire_echeancier;
 extern GtkWidget *fleche_haut;                        /* adr de l'icone de la flèche vers le haut  */
 extern GtkWidget *fleche_bas;                        /* adr de l'icone de la flèche vers le bas  */
 extern GtkWidget *frame_droite_bas;                  /* adr de la frame contenant le formulaire */
