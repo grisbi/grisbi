@@ -1,7 +1,7 @@
 /* ce fichier de la gestion du format qif */
 
 
-/*     Copyright (C) 2000-2001  Cédric Auger */
+/*     Copyright (C) 2000-2002  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -52,7 +52,7 @@ void selection_fichier_qif ( void )
   GtkWidget *fenetre;
 
 
-  fenetre = gtk_file_selection_new ( "Sélection d'un fichier QIF" );
+  fenetre = gtk_file_selection_new ( _("Sélection d'un fichier QIF") );
   gtk_window_set_transient_for ( GTK_WINDOW ( fenetre ),
 				 GTK_WINDOW ( window ));
   gtk_window_set_modal ( GTK_WINDOW ( fenetre ),
@@ -155,9 +155,9 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 		     "!Option",
 		     7 ))
 	{
-	  dialogue ( g_strconcat ( "Le fichier ",
+	  dialogue ( g_strconcat ( _("Le fichier "),
 				   nom_fichier_qif,
-				   " n'est pas un fichier QIF",
+				   _(" n'est pas un fichier QIF"),
 				   NULL ));
 	  free ( pointeur_char );
 	  return;
@@ -314,7 +314,7 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 	{
 	  /* c'est un compte ccard */
 
-	  compte -> nom_de_compte = "Carte de crédit";
+	  compte -> nom_de_compte = _("Carte de crédit");
 	  compte -> solde_initial = 0;
 	  retour = 0;
 	}
@@ -323,7 +323,7 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 
       if ( retour == EOF )
 	{
-	  dialogue ( "Le fichier ne contient aucune opération !" );
+	  dialogue ( _("Le fichier ne contient aucune opération !") );
 	  return;
 	}
 
@@ -608,7 +608,7 @@ void traitement_donnees_brutes ( void )
   /* on permet ici de récupérer d'autres comptes */
 
 
-  dialog = gnome_dialog_new ( "Liste des comptes importés",
+  dialog = gnome_dialog_new ( _("Liste des comptes importés"),
 			      GNOME_STOCK_BUTTON_YES,
 			      GNOME_STOCK_BUTTON_NO,
 			      GNOME_STOCK_BUTTON_CANCEL,
@@ -619,9 +619,9 @@ void traitement_donnees_brutes ( void )
 			     0 );
 
   if ( g_slist_length ( liste_comptes_qif ) == 1 )
-    label = gtk_label_new ( "Compte à importer :\n" );
+    label = gtk_label_new ( _("Compte à importer :\n") );
   else
-    label = gtk_label_new ( "Comptes à importer :\n" );
+    label = gtk_label_new ( _("Comptes à importer :\n") );
 
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
@@ -680,7 +680,7 @@ void traitement_donnees_brutes ( void )
       liste_tmp = liste_tmp -> next;
     }
 
-  label = gtk_label_new ( "\nY a t'il d'autres compte à importer ?" );
+  label = gtk_label_new ( _("\nY a t'il d'autres compte à importer ?") );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
 		       FALSE,
@@ -955,7 +955,7 @@ void traitement_donnees_brutes ( void )
 		{
 		  if ( format_date )
 		    {
-		      dialogue ( "Problème dans la récupération des dates du fichier QIF. Opération annulée" );
+		      dialogue ( _("Problème dans la récupération des dates du fichier QIF. Opération annulée") );
 		      return;
 		    }
 
@@ -1284,7 +1284,7 @@ void traitement_donnees_brutes ( void )
 
   /* création des listes d'opé */
 
-  mise_en_route_attente ( "Le traitement des informations peut prendre un certain temps ..." );
+  mise_en_route_attente ( _("Le traitement des informations peut prendre un certain temps ...") );
 
   if ( nouveau_fichier )
     {
@@ -1363,14 +1363,14 @@ void exporter_fichier_qif ( void )
 
   if ( !nom_fichier_comptes )
     {
-      dialogue ( "Vous devez nommer ( enregistrer ) votre fichier pour pouvoir l'exporter. " );
+      dialogue ( _("Vous devez nommer ( enregistrer ) votre fichier pour pouvoir l'exporter. ") );
       return;
     }
 
 
-  dialogue ( "Attention, le format QIF ne gérant pas les devises,\ntoutes les opérations seront converties dans la devise de leur compte respectif." );
+  dialogue ( _("Attention, le format QIF ne gérant pas les devises,\ntoutes les opérations seront converties dans la devise de leur compte respectif.") );
 
-  dialog = gnome_dialog_new ( "Exporter des fichiers QIF",
+  dialog = gnome_dialog_new ( _("Exporter des fichiers QIF"),
 			      GNOME_STOCK_BUTTON_OK,
 			      GNOME_STOCK_BUTTON_CANCEL,
 			      NULL );
@@ -1381,7 +1381,7 @@ void exporter_fichier_qif ( void )
 		       GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
 		        "destroy" );
 
-  label = gtk_label_new ( "Sélectionner les comptes à exporter :" );
+  label = gtk_label_new ( _("Sélectionner les comptes à exporter :") );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
 		       FALSE,
@@ -1441,7 +1441,7 @@ void exporter_fichier_qif ( void )
 			 0, 0 );
       gtk_widget_show ( label );
 
-      entree = gnome_file_entry_new ("qif", "Exportation d'un fichier QIF");
+      entree = gnome_file_entry_new ("qif", _("Exportation d'un fichier QIF"));
       gtk_widget_set_usize ( GTK_WIDGET ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( entree ) )),
 			     300,
 			     FALSE );
@@ -1511,11 +1511,11 @@ void exporter_fichier_qif ( void )
 	    {
 	      GtkWidget *etes_vous_sur;
 
-	      etes_vous_sur = gnome_dialog_new ( "Enregistrer le fichier",
+	      etes_vous_sur = gnome_dialog_new ( _("Enregistrer le fichier"),
 						 GNOME_STOCK_BUTTON_YES,
 						 GNOME_STOCK_BUTTON_NO,
 						 NULL );
-	      label = gtk_label_new ( "Le fichier existe. Voulez-vous l'écraser ?" );
+	      label = gtk_label_new ( _("Le fichier existe. Voulez-vous l'écraser ?") );
 	      gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( etes_vous_sur ) -> vbox ),
 				   label,
 				   TRUE,
@@ -1533,9 +1533,9 @@ void exporter_fichier_qif ( void )
 	    }
 	  else
 	    {
-	      dialogue ( g_strconcat ( "Nom de fichier \"",
+	      dialogue ( g_strconcat ( _("Nom de fichier \"("),
 				       nom_fichier_qif,
-				       "\" invalide !",
+				       _(")\" invalide !"),
 				       NULL ));
 	      goto choix_liste_fichier;
 	    }
@@ -1561,7 +1561,7 @@ void exporter_fichier_qif ( void )
 
       if ( !( fichier_qif = fopen ( nom_fichier_qif,
 				    "w" ) ))
-	dialogue ( g_strconcat ( "L'erreur suivante s'est produite pour le fichier\n",
+	dialogue ( g_strconcat ( _("L'erreur suivante s'est produite pour le fichier\n"),
 				 nom_fichier_qif,
 				 " :\n",
 				 strerror ( errno ),
@@ -1583,7 +1583,9 @@ void exporter_fichier_qif ( void )
 	    fprintf ( fichier_qif,
 		      "!Type:Cash\n" );
 	  else
-	    if ( TYPE_DE_COMPTE == 2 )
+	    if ( TYPE_DE_COMPTE == 2
+		 ||
+		 TYPE_DE_COMPTE == 3 )
 	      fprintf ( fichier_qif,
 			"!Type:Oth L\n" );
 	    else
@@ -1702,12 +1704,12 @@ void exporter_fichier_qif ( void )
 
 			  if ( devise_compte -> passage_euro
 			       &&
-			       !strcmp ( devise_operation -> nom_devise, "Euro" ) )
+			       !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
 			    montant = operation -> montant * devise_compte -> change;
 			  else
 			    if ( devise_operation -> passage_euro
 				 &&
-				 !strcmp ( devise_compte -> nom_devise, "Euro" ))
+				 !strcmp ( devise_compte -> nom_devise, _("Euro") ))
 			      montant = operation -> montant / devise_operation -> change;
 			    else
 			      if ( operation -> une_devise_compte_egale_x_devise_ope )
@@ -1754,6 +1756,7 @@ void exporter_fichier_qif ( void )
 			fprintf ( fichier_qif,
 				  "P%s\n",
 				  ((struct struct_tiers *)(pointeur -> data )) -> nom_tiers );
+
 
 
 		      /*  on met soit un virement, soit une ventilation, soit les catégories */

@@ -19,8 +19,11 @@ gint tente_modif_taille ( GtkWidget *win,
 /* fichier menu.c */
 /********************/ 
 
+void init_menus ( GtkWidget * );
 void efface_derniers_fichiers_ouverts ( void );
 void affiche_derniers_fichiers_ouverts ( void );
+void lien_web ( GtkWidget *widget,
+		gint origine );
 
 /********************/ 
 /* fichier erreurs.c */
@@ -62,20 +65,22 @@ void init_variables ( gboolean ouverture );
 
 
 gboolean charge_operations ( void );
-gboolean charge_operations_version_0_3_0 ( void );
-gboolean recherche_ope_liee_par_no_et_par_compte ( struct struct_ope_liee *struct_ope_liee,
-						   struct structure_operation *operation );
-gboolean recherche_ope_ventilee_liee_par_no_et_par_compte ( struct struct_ope_liee *struct_ope_liee,
-							    struct structure_operation *operation );
-gboolean recherche_ope_de_ventil_liee_par_no_et_par_compte ( struct struct_ope_liee *struct_ope_liee,
-							     struct structure_operation *operation );
 gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc );
+gboolean charge_operations_version_0_4_0 ( xmlDocPtr doc );
 gboolean enregistre_fichier ( void );
 gchar *itoa ( gint integer );
 gchar *vire_les_points_virgules ( gchar *origine );
 gchar *vire_les_accolades ( gchar *origine );
 void fichier_marque_ouvert ( gint ouvert );
-
+gboolean enregistre_etat ( gchar *nom_etat );
+gboolean charge_etat ( gchar *nom_etat );
+gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc );
+gboolean enregistre_categ ( gchar *nom_categ );
+gboolean charge_categ ( gchar *nom_categ );
+gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc );
+gboolean enregistre_ib ( gchar *nom_ib );
+gboolean charge_ib ( gchar *nom_ib );
+gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc );
 
 
 
@@ -90,6 +95,7 @@ void ouverture_fichier_par_menu ( GtkWidget *menu,
 				  gchar *nom );
 void fichier_selectionne ( GtkWidget *selection_fichier);
 void ouverture_confirmee ( void );
+gboolean impression_fichier ( gint origine );
 gboolean enregistrement_fichier ( gint origine );
 gboolean enregistrer_fichier_sous ( void );
 gboolean fermer_fichier ( void );
@@ -149,7 +155,7 @@ GtkWidget *creation_onglet_operations ( void );
 /* fichier operations_comptes.c */
 /************************/ 
 
-GtkWidget *creation_onglet_comptes (void);
+GtkWidget *creation_liste_comptes (void);
 GtkWidget *comptes_appel ( gint no_de_compte );
 void changement_compte_par_menu ( GtkWidget *menu,
 				  gint *compte );
@@ -241,10 +247,43 @@ void click_sur_bouton_voir_change ( void );
 void degrise_formulaire_operations ( void );
 void incremente_decremente_date ( GtkWidget *entree,
 				  gint demande );
-gint demande_correspondance_type ( struct structure_operation *operation,
-				   struct structure_operation *contre_operation );
-gint place_type_choix_type ( GtkWidget *option_menu,
-			     gint type );
+
+
+
+
+/************************/ 
+/* fichier comptes_onglet.c */
+/************************/ 
+
+
+GtkWidget *creation_onglet_compte ( void );
+GtkWidget *creation_liste_comptes_onglet ( void );
+GtkWidget *comptes_appel_onglet ( gint no_de_compte );
+void changement_compte_onglet ( GtkWidget *bouton,
+				gint compte );
+void reaffiche_liste_comptes_onglet ( void );
+
+
+
+
+/***********************************/ 
+/* fichier comptes_gestion.c */
+/***********************************/ 
+
+GtkWidget *creation_details_compte ( void );
+GtkWidget *creation_menu_type_compte ( void );
+void changement_bouton_adresse_commune_perso ( void );
+void modif_detail_compte ( GtkWidget *hbox );
+void remplissage_details_compte ( void );
+gint recherche_banque_par_no ( struct struct_banque *banque,
+			       gint *no_banque );
+void modification_details_compte ( void );
+void sort_du_detail_compte ( void );
+void passage_a_l_euro ( GtkWidget *bouton,
+			gpointer null );
+gint recherche_devise_par_nom ( struct struct_devise *devise,
+				gchar *nom );
+void changement_de_banque ( void );
 
 
 /************************/ 
@@ -354,7 +393,7 @@ gint recherche_echeance_par_no ( struct operation_echeance *echeance,
 void verifie_ligne_selectionnee_echeance_visible ( void );
 void modification_affichage_echeances ( gint *origine );
 GDate *date_suivante_echeance ( struct operation_echeance *echeance,
-				GDate *date_courante );
+			      GDate *date_courante );
 gint classement_liste_echeances ( GtkWidget *liste,
 				  GtkCListRow *ligne_1,
 				  GtkCListRow *ligne_2 );
@@ -501,37 +540,10 @@ void changement_code_entree_devise ( void );
 
 
 GtkWidget *creation_barre_outils ( void );
-void affiche_detail_compte ( void );
-void affiche_detail_liste_ope ( void );
 void change_aspect_liste ( GtkWidget *bouton,
 			   gint demande );
 GtkWidget *creation_barre_outils_echeancier ( void );
 
-
-
-/***********************************/ 
-/* fichier gestion_comptes.c */
-/***********************************/ 
-
-
-
-GtkWidget *creation_details_compte ( void );
-GtkWidget *creation_menu_type_compte ( void );
-void changement_bouton_adresse_commune_perso ( void );
-void modif_detail_compte ( GtkWidget *hbox );
-void remplissage_details_compte ( void );
-gint recherche_banque_par_no ( struct struct_banque *banque,
-			       gint *no_banque );
-void modification_details_compte ( void );
-void sort_du_detail_compte ( GtkWidget *notebook,
-			     GtkNotebookPage *page,
-			     gint page_num,
-			     gpointer null );
-void passage_a_l_euro ( GtkWidget *bouton,
-			gpointer null );
-gint recherche_devise_par_nom ( struct struct_devise *devise,
-				gchar *nom );
-void changement_de_banque ( void );
 
 
 /************************/ 
@@ -574,8 +586,7 @@ void clique_champ_formulaire_ventilation ( void );
 void entree_ventilation_perd_focus ( GtkWidget *entree,
 				     GdkEventFocus *ev,
 				     gint *no_origine );
-void ventiler_operation ( gdouble montant,
-			  gint signe );
+void ventiler_operation ( gdouble montant );
 void changement_taille_liste_ventilation ( GtkWidget *clist,
 					   GtkAllocation *allocation,
 					   gpointer null );
@@ -680,6 +691,8 @@ gchar *calcule_total_montant_categ_par_compte ( gint categ,
 						gint no_compte );
 void appui_sur_ajout_categorie ( void );
 void appui_sur_ajout_sous_categorie ( void );
+void exporter_categ ( void );
+void importer_categ ( void );
 
 
 
@@ -811,6 +824,8 @@ gchar *calcule_total_montant_imputation_par_compte ( gint imputation,
 						     gint no_compte );
 void appui_sur_ajout_imputation ( void );
 void appui_sur_ajout_sous_imputation ( void );
+void exporter_ib ( void );
+void importer_ib ( void );
 
 
 /***********************************/ 
@@ -972,7 +987,7 @@ gint gtktable_finish ( );
 /* fichier etats_gnomeprint.c */
 /***********************************/ 
 
-gint gnomeprint_initialise ( GSList * );
+gint gnomeprint_initialise ( );
 gint gnomeprint_affiche_titre ( gint ligne );
 gint gnomeprint_affiche_separateur ( gint ligne );
 gint gnomeprint_affiche_total_categories ( gint ligne );
@@ -1014,14 +1029,10 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne );
 gint gnomeprint_finish ( );
 
 void gnomeprint_affiche_texte ( char * texte, GnomeFont * font );
-void gnomeprint_set_color ( gchar red, gchar green, gchar blue );
+void gnomeprint_set_color ( gfloat red, gfloat green, gfloat blue );
 void gnomeprint_commit_point ( );
 void gnomeprint_commit_x ( );
 void gnomeprint_commit_y ( );
 void gnomeprint_move_point ( gfloat x, gfloat y ); 
 void gnomeprint_update_point ( );
 void gnomeprint_rectangle ( gfloat x1, gfloat y1, gfloat x2, gfloat y2 );
-
-void gnomeprint_show_words(GnomePrintContext *, GnomeFont *, GSList *, gdouble);
-void show_words(GnomePrintContext *, GnomeFont *, GSList *, gdouble, gdouble, gdouble);
-void gnomeprint_balancer_colonnes (GnomePrintContext *, GnomeFont *, GSList *);

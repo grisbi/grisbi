@@ -1,7 +1,7 @@
 /* Ce fichier s'occupe des différents paramètres d'affichage réglés dans les paramètres */
 /* affichage.c */
 
-/*     Copyright (C) 2000-2001  Cédric Auger */
+/*     Copyright (C) 2000-2002  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http:// www.grisbi.org */
 
@@ -92,7 +92,7 @@ GtkWidget *onglet_affichage ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-  label = gtk_label_new ( " : Modifier la fonte des listes" );
+  label = gtk_label_new ( _(" : Modifier la fonte des listes") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -129,7 +129,7 @@ GtkWidget *onglet_affichage ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-  label = gtk_label_new ( " : Modifier la fonte générale" );
+  label = gtk_label_new ( _(" : Modifier la fonte générale") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -166,7 +166,7 @@ GtkWidget *onglet_affichage ( void )
 		       0 );
   gtk_widget_show_all ( bouton );
 
-  label = gtk_label_new ( " : Modifier le logo de l'accueil" );
+  label = gtk_label_new ( _(" : Modifier le logo de l'accueil") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -196,7 +196,7 @@ GtkWidget *onglet_affichage ( void )
 		       TRUE,
 		       0);
   
-  frame = gtk_frame_new ( " Ordre d'affichage des comptes " );
+  frame = gtk_frame_new ( _(" Ordre d'affichage des comptes ") );
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame ),
 			      GTK_SHADOW_ETCHED_OUT );
   gtk_container_set_border_width ( GTK_CONTAINER ( frame ),
@@ -210,7 +210,7 @@ GtkWidget *onglet_affichage ( void )
 
   if ( !ordre_comptes )
     {
-      label = gtk_label_new ( "Aucun compte défini" );
+      label = gtk_label_new ( _("Aucun compte défini") );
       gtk_container_add ( GTK_CONTAINER ( frame ),
 			  label );
    }
@@ -346,7 +346,7 @@ GtkWidget *onglet_affichage ( void )
 		       0 );
   gtk_widget_show ( vbox );
 
-  frame = gtk_frame_new ( "Comptabilité et formulaire" );
+  frame = gtk_frame_new ( _("Comptabilité et formulaire") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       frame,
 		       FALSE,
@@ -360,7 +360,7 @@ GtkWidget *onglet_affichage ( void )
 		      vbox2 );
   gtk_widget_show ( vbox2 );
 
-  bouton_afficher_no_operation = gtk_check_button_new_with_label ( "Afficher le numéro de l'opération éditée." );
+  bouton_afficher_no_operation = gtk_check_button_new_with_label ( _("Afficher le numéro de l'opération éditée.") );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_operation ),
 				 etat.affiche_no_operation );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_afficher_no_operation ),
@@ -375,7 +375,7 @@ GtkWidget *onglet_affichage ( void )
   gtk_widget_show ( bouton_afficher_no_operation );
 
 	/* GDC : bouton pour choisir d'afficher ou non la date réelle (colonne et champ) */
-  bouton_afficher_date_bancaire = gtk_check_button_new_with_label ( "Afficher la date de valeur des opérations." );
+  bouton_afficher_date_bancaire = gtk_check_button_new_with_label ( _("Afficher la date de valeur des opérations.") );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_date_bancaire ),
 				 etat.affiche_date_bancaire );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_afficher_date_bancaire ),
@@ -390,7 +390,7 @@ GtkWidget *onglet_affichage ( void )
   gtk_widget_show ( bouton_afficher_date_bancaire );
 	/* FinGDC */
 
-  bouton_utiliser_exercices = gtk_check_button_new_with_label ( "Utiliser les Exercices." );
+  bouton_utiliser_exercices = gtk_check_button_new_with_label ( _("Utiliser les Exercices.") );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utiliser_exercices ),
 				 etat.utilise_exercice );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_utiliser_exercices ),
@@ -404,7 +404,7 @@ GtkWidget *onglet_affichage ( void )
 		       0 );
   gtk_widget_show ( bouton_utiliser_exercices );
 
-  bouton_utiliser_imputation_budgetaire = gtk_check_button_new_with_label ( "Utiliser les Imputations Budgétaires." );
+  bouton_utiliser_imputation_budgetaire = gtk_check_button_new_with_label ( _("Utiliser les Imputations Budgétaires.") );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utiliser_imputation_budgetaire ),
 				 etat.utilise_imputation_budgetaire );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_utiliser_imputation_budgetaire ),
@@ -418,7 +418,7 @@ GtkWidget *onglet_affichage ( void )
 		       0 );
   gtk_widget_show ( bouton_utiliser_imputation_budgetaire );
 
-  bouton_utiliser_piece_comptable = gtk_check_button_new_with_label ( "Utiliser l'entrée des Pièces Comptables." );
+  bouton_utiliser_piece_comptable = gtk_check_button_new_with_label ( _("Utiliser l'entrée des Pièces Comptables.") );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utiliser_piece_comptable ),
 				 etat.utilise_piece_comptable );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_utiliser_piece_comptable ),
@@ -432,7 +432,7 @@ GtkWidget *onglet_affichage ( void )
 		       0 );
   gtk_widget_show ( bouton_utiliser_piece_comptable );
 
-  bouton_utiliser_info_banque_guichet = gtk_check_button_new_with_label ( "Utiliser l'entrée des informations Banque / Guichet." );
+  bouton_utiliser_info_banque_guichet = gtk_check_button_new_with_label ( _("Utiliser l'entrée des informations Banque / Guichet.") );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utiliser_info_banque_guichet ),
 				 etat.utilise_info_banque_guichet );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_utiliser_info_banque_guichet ),
@@ -446,7 +446,7 @@ GtkWidget *onglet_affichage ( void )
 		       0 );
   gtk_widget_show ( bouton_utiliser_info_banque_guichet );
 
-  bouton_afficher_boutons_valider_annuler = gtk_check_button_new_with_label ( "Afficher les boutons Valider et Annuler l'opération." );
+  bouton_afficher_boutons_valider_annuler = gtk_check_button_new_with_label ( _("Afficher les boutons Valider et Annuler l'opération.") );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_boutons_valider_annuler ),
 				 etat.affiche_boutons_valider_annuler );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_afficher_boutons_valider_annuler ),
@@ -464,7 +464,7 @@ GtkWidget *onglet_affichage ( void )
 
   /* mise en place de la frame sur l'affichage des listes */
 
-  frame = gtk_frame_new ( "Listes des Tiers, Catégories et I.B." );
+  frame = gtk_frame_new ( _("Listes des Tiers, Catégories et I.B.") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       frame,
 		       FALSE,
@@ -489,7 +489,7 @@ GtkWidget *onglet_affichage ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( "Devise :" );
+  label = gtk_label_new ( _("Devise :") );
   gtk_box_pack_start ( GTK_BOX (hbox  ),
 		       label,
 		       FALSE,
@@ -518,7 +518,7 @@ GtkWidget *onglet_affichage ( void )
 									 ( GCompareFunc ) recherche_devise_par_no )));
   /* affichage du nb d'écritures */
 
-  bouton_afficher_nb_ecritures = gtk_check_button_new_with_label ( "Afficher le nombre d'écritures." );
+  bouton_afficher_nb_ecritures = gtk_check_button_new_with_label ( _("Afficher le nombre d'écritures.") );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_nb_ecritures ),
 				 etat.affiche_nb_ecritures_listes );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_afficher_nb_ecritures ),
@@ -553,7 +553,7 @@ GtkWidget *onglet_affichage ( void )
 		       0 );
   gtk_widget_show ( vbox );
 
-  frame = gtk_frame_new ( "Tri de la liste d'opérations" );
+  frame = gtk_frame_new ( _("Tri de la liste d'opérations") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       frame,
 		       FALSE,
@@ -568,7 +568,7 @@ GtkWidget *onglet_affichage ( void )
   gtk_widget_show ( vbox2 );
 
   bouton_classer_liste_par_date = gtk_radio_button_new_with_label ( NULL,
-								    "Classer par date" );
+								    _("Classer par date") );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_classer_liste_par_date ),
 			      "toggled",
 			      gnome_property_box_changed,
@@ -581,7 +581,7 @@ GtkWidget *onglet_affichage ( void )
   gtk_widget_show ( bouton_classer_liste_par_date );
 
   bouton_classer_liste_par_date_bancaire = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_classer_liste_par_date)),
-									     "Classer par date de valeur" );
+									     _("Classer par date de valeur") );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_classer_liste_par_date_bancaire ),
 			      "toggled",
 			      gnome_property_box_changed,
@@ -747,7 +747,7 @@ void modification_logo_accueil ( void )
   gint resultat;
   GtkWidget *bouton;
 
-  dialog = gnome_dialog_new ( "Sélection d'un nouveau logo",
+  dialog = gnome_dialog_new ( _("Sélection d'un nouveau logo"),
 			      GNOME_STOCK_BUTTON_OK,
 			      GNOME_STOCK_BUTTON_CANCEL,
 			      NULL );
@@ -755,7 +755,7 @@ void modification_logo_accueil ( void )
 				 GTK_WINDOW ( fenetre_preferences ));
 
   choix = gnome_pixmap_entry_new ( "path_logo_grisbi",
-				   "Choisir un nouveau logo",
+				   _("Choisir un nouveau logo"),
 				   TRUE );
   gtk_widget_set_usize ( choix,
 			 300,
@@ -773,7 +773,7 @@ void modification_logo_accueil ( void )
 		       0 );
   gtk_widget_show ( choix );
 
-  bouton = gtk_button_new_with_label ( "Rétablir le logo de Grisbi" );
+  bouton = gtk_button_new_with_label ( _("Rétablir le logo de Grisbi") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),

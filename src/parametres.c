@@ -1,6 +1,6 @@
 /* permet la configuration du logiciel */
 
-/*     Copyright (C) 2000-2001  Cédric Auger */
+/*     Copyright (C) 2000-2002  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -35,7 +35,7 @@ void preferences ( GtkWidget *widget,
 
   fenetre_preferences = gnome_property_box_new ();
   gtk_window_set_title ( GTK_WINDOW ( fenetre_preferences ),
-			 "Configuration Grisbi" );
+			 _("Configuration Grisbi") );
   gtk_window_set_transient_for ( GTK_WINDOW (fenetre_preferences),
 				 GTK_WINDOW (window));
   gtk_window_set_modal ( GTK_WINDOW (fenetre_preferences),
@@ -50,34 +50,34 @@ void preferences ( GtkWidget *widget,
 
   gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
 				   onglet_general(),
-				   gtk_label_new ( "Général" ) );
+				   gtk_label_new ( _("Général") ) );
 
 
 /* création du 2ème onglet */
 
   gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
 				   onglet_fichier(),
-				   gtk_label_new ( "Fichiers"  ));
+				   gtk_label_new ( _("Fichiers")  ));
 
 /* création du 3ème onglet */
 
   gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
 				   onglet_echeances(),
-				   gtk_label_new ( "Échéances" ) );
+				   gtk_label_new ( _("Échéances") ) );
 
 
 /* création du 4ème onglet */
 
   gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
 				   onglet_affichage(),
-				   gtk_label_new ( "Affichage" ) );
+				   gtk_label_new ( _("Affichage") ) );
 
 
 /* création du 5ème onglet */
 
   gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
 				   onglet_applet(),
-				   gtk_label_new ( "Applet" ) );
+				   gtk_label_new ( _("Applet") ) );
 
 
 
@@ -85,26 +85,26 @@ void preferences ( GtkWidget *widget,
 
   gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
 				   onglet_devises(),
-				   gtk_label_new ( "Devises" ) );
+				   gtk_label_new ( _("Devises") ) );
 
 
 /* création du 7ème onglet */
 
   gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
 				   onglet_banques(),
-				   gtk_label_new ( "Banques" ) );
+				   gtk_label_new ( _("Banques") ) );
 
 /* création du 9ème onglet */
 
   gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
 				   onglet_exercices(),
-				   gtk_label_new ( "Exercices" ) );
+				   gtk_label_new ( _("Exercices") ) );
 
 /* création du 9ème onglet */
 
   gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
 				   onglet_types_operations(),
-				   gtk_label_new ( "Types d'opérations" ) );
+				   gtk_label_new ( _("Types d'opérations") ) );
 
 /* connection du bouton appliquer */
 
@@ -175,7 +175,7 @@ GtkWidget *onglet_general ( void )
 /* action de la touche entree */
 
   bouton_entree_enregistre = gtk_radio_button_new_with_label ( NULL,
-						       " ENTREE provoque l'enregistrement de l'opération " );
+						       _(" ENTREE provoque l'enregistrement de l'opération ") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_entree_enregistre,
 		       FALSE,
@@ -184,7 +184,7 @@ GtkWidget *onglet_general ( void )
   gtk_widget_show ( bouton_entree_enregistre );
 
   bouton_entree_enregistre_pas = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_entree_enregistre )),
-								   " ENTREE permet le passage entre les champs du formulaire " );
+								   _(" ENTREE permet le passage entre les champs du formulaire ") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_entree_enregistre_pas,
 		       FALSE,
@@ -217,7 +217,7 @@ GtkWidget *onglet_general ( void )
 /* affichage ou non d'un message d'alerte quand passage sous les soldes minis */
 
   bouton_solde_mini = gtk_radio_button_new_with_label ( NULL,
-							" Message d'alerte en cas de dépassement des seuils mini définis " );
+							_(" Message d'alerte en cas de dépassement des seuils mini définis ") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_solde_mini,
 		       FALSE,
@@ -226,7 +226,7 @@ GtkWidget *onglet_general ( void )
   gtk_widget_show ( bouton_solde_mini );
 
    bouton_pas_solde_mini= gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_solde_mini )),
-						     " Pas de message d'alerte " );
+						     _(" Pas de message d'alerte ") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_pas_solde_mini,
 		       FALSE,
@@ -261,7 +261,7 @@ GtkWidget *onglet_general ( void )
 /* affichage ou non d'un message d'alerte sur la permission du fichier de compte */
 
   bouton_affiche_permission = gtk_radio_button_new_with_label ( NULL,
-							" Message d'alerte lorsque la permission du fichier n'est pas de 600 " );
+							_(" Message d'alerte lorsque la permission du fichier n'est pas de 600 ") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_affiche_permission,
 		       FALSE,
@@ -270,7 +270,7 @@ GtkWidget *onglet_general ( void )
   gtk_widget_show ( bouton_affiche_permission );
 
   bouton_affiche_pas_permission = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_affiche_permission )),
-							   " Pas de message d'alerte " );
+							   _(" Pas de message d'alerte ") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_affiche_pas_permission,
 		       FALSE,
@@ -336,7 +336,7 @@ GtkWidget *onglet_general ( void )
 		       0);
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( "Titre du fichier : " );
+  label = gtk_label_new ( _("Titre du fichier : ") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -374,7 +374,7 @@ GtkWidget *onglet_general ( void )
 		       0);
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( "Adresse commune : " );
+  label = gtk_label_new ( _("Adresse commune : ") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -478,7 +478,7 @@ GtkWidget *onglet_fichier ( void )
 /* configuration du démarrage automatique du dernier fichier ou non */
 
   bouton_avec_demarrage = gtk_radio_button_new_with_label ( NULL,
-							    " Chargement automatique du dernier fichier consulté " );
+							    _(" Chargement automatique du dernier fichier consulté ") );
   gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
 		       bouton_avec_demarrage,
 		       FALSE,
@@ -487,7 +487,7 @@ GtkWidget *onglet_fichier ( void )
   gtk_widget_show ( bouton_avec_demarrage );
 
   bouton_sans_demarrage = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_avec_demarrage )),
-						     " Démarrage sans chargement automatique " );
+						     _(" Démarrage sans chargement automatique ") );
   gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
 		       bouton_sans_demarrage,
 		       FALSE,
@@ -519,7 +519,7 @@ GtkWidget *onglet_fichier ( void )
 /* configuration de la sauvegarde automatique */
 
   bouton_save_auto = gtk_radio_button_new_with_label ( NULL,
-							    " Enregistrer automatiquement en fermant " );
+							    _(" Enregistrer automatiquement en fermant ") );
   gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
 		       bouton_save_auto,
 		       FALSE,
@@ -528,7 +528,7 @@ GtkWidget *onglet_fichier ( void )
   gtk_widget_show (bouton_save_auto  );
 
   bouton_save_non_auto = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_save_auto )),
-							   " Demander à chaque fois pour enregistrer " );
+							   _(" Demander à chaque fois pour enregistrer ") );
   gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
 		       bouton_save_non_auto,
 		       FALSE,
@@ -560,7 +560,7 @@ GtkWidget *onglet_fichier ( void )
 /* configuration de l'enregistrement forcé */
 
   bouton_force_enregistrement = gtk_radio_button_new_with_label ( NULL,
-							    " Forcer l'enregistrement " );
+							    _(" Forcer l'enregistrement ") );
   gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
 		       bouton_force_enregistrement,
 		       FALSE,
@@ -569,7 +569,7 @@ GtkWidget *onglet_fichier ( void )
   gtk_widget_show ( bouton_force_enregistrement );
 
   bouton_force_pas_enregistrement = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_force_enregistrement )),
-							   " N'enregistrer que si le fichier n'est pas utilisé par un autre utilisateur " );
+							   _(" N'enregistrer que si le fichier n'est pas utilisé par un autre utilisateur ") );
   gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
 		       bouton_force_pas_enregistrement,
 		       FALSE,
@@ -624,7 +624,7 @@ GtkWidget *onglet_fichier ( void )
 
   /* mise en forme de la demande de backup */
 
-  bouton_demande_backup = gtk_check_button_new_with_label ( "Faire une sauvegarde automatique (backup)" );
+  bouton_demande_backup = gtk_check_button_new_with_label ( _("Faire une sauvegarde automatique (backup)") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_demande_backup,
 		       FALSE,
@@ -653,7 +653,7 @@ GtkWidget *onglet_fichier ( void )
       /* mise en forme de l'entrée du chemin de la backup */
 
       entree_chemin_backup = gnome_file_entry_new ( "backup_grisbi",
-						    "Backup Grisbi" );
+						    _("Backup Grisbi") );
 
       if ( nom_fichier_backup )
 	{
@@ -703,7 +703,7 @@ GtkWidget *onglet_fichier ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( "Mémorisation des derniers fichiers ouverts : " );
+  label = gtk_label_new ( _("Mémorisation des derniers fichiers ouverts : ") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -743,7 +743,7 @@ GtkWidget *onglet_fichier ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( "Niveau de compression du fichier : " );
+  label = gtk_label_new ( _("Niveau de compression du fichier : ") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -783,7 +783,7 @@ GtkWidget *onglet_fichier ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( "Niveau de compression de la sauvegarde : " );
+  label = gtk_label_new ( _("Niveau de compression de la sauvegarde : ") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -855,7 +855,7 @@ GtkWidget *onglet_echeances ( void )
 
 /*   configuration du nb de jours avant la prise d'une échéance  */
 
-  label = gtk_label_new ( " Nombre de jours précédant le rappel d'une échéance : " );
+  label = gtk_label_new ( _(" Nombre de jours précédant le rappel d'une échéance : ") );
   gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
 		       label,
 		       FALSE,
@@ -949,7 +949,7 @@ GtkWidget *onglet_applet ( void )
 
 /* affichage ou non de l'applet */
 
-  bouton_affichage_applet = gtk_check_button_new_with_label ( "Utiliser l'applet de vérification des échéances" );
+  bouton_affichage_applet = gtk_check_button_new_with_label ( _("Utiliser l'applet de vérification des échéances") );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affichage_applet ),
 				  verifie_affichage_applet () );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_affichage_applet ),
@@ -977,7 +977,7 @@ GtkWidget *onglet_applet ( void )
 
 /* affiche la liste des comptes à vérifier */
 
-  frame_demarrage = gtk_frame_new ( " Liste des comptes vérifiés au démarrage " );
+  frame_demarrage = gtk_frame_new ( _(" Liste des comptes vérifiés au démarrage ") );
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame_demarrage ),
 			      GTK_SHADOW_ETCHED_OUT );
   gtk_widget_set_sensitive ( GTK_WIDGET ( frame_demarrage ),
@@ -1150,7 +1150,7 @@ void ajouter_verification ( GtkWidget *bouton_add,
   GSList *pointeur_liste;
   FILE *fichier;
 
-  dialogue_box = gnome_dialog_new ( "Recherche de fichier Grisbi",
+  dialogue_box = gnome_dialog_new ( _("Recherche de fichier Grisbi"),
 				GNOME_STOCK_BUTTON_OK,
 				GNOME_STOCK_BUTTON_CANCEL,
 				NULL );
@@ -1165,7 +1165,7 @@ void ajouter_verification ( GtkWidget *bouton_add,
 		       GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
 		        "destroy" );
 
-  label = gtk_label_new ( "Entrez le nom du fichier de comptes : " );
+  label = gtk_label_new ( _("Entrez le nom du fichier de comptes : ") );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue_box ) -> vbox ),
 		       label,
 		       TRUE,
@@ -1175,7 +1175,7 @@ void ajouter_verification ( GtkWidget *bouton_add,
 
 
   fenetre_choix_fichier = gnome_file_entry_new ( "fichier_grisbi",
-						 "Fichier Grisbi" );
+						 _("Fichier Grisbi") );
   gnome_file_entry_set_default_path ( GNOME_FILE_ENTRY ( fenetre_choix_fichier ),
 				      dernier_chemin_de_travail );
   
@@ -1209,7 +1209,7 @@ void ajouter_verification ( GtkWidget *bouton_add,
 	    if ( !strcmp ( pointeur_liste -> data, nom_fichier ) )
 	      {
 		gnome_dialog_close  ( GNOME_DIALOG ( dialogue_box ) );
-		dialogue ( " Ce fichier est déjà vérifié au démarrage ! ");
+		dialogue ( _(" Ce fichier est déjà vérifié au démarrage ! "));
 		return;
 	      }
 	  while ( ( pointeur_liste = pointeur_liste-> next ));
@@ -1236,7 +1236,7 @@ void ajouter_verification ( GtkWidget *bouton_add,
 			"<Grisbi>" ))
 	    {
 	      gnome_dialog_close  ( GNOME_DIALOG ( dialogue_box ) );
-	      dialogue ( "Ce n'est pas un fichier de compte Grisbi." );
+	      dialogue ( _("Ce n'est pas un fichier de compte Grisbi.") );
 	      fclose ( fichier );
 	      return;
 	    }
@@ -1246,7 +1246,7 @@ void ajouter_verification ( GtkWidget *bouton_add,
       else
 	{
 	  gnome_dialog_close  ( GNOME_DIALOG ( dialogue_box ) );
-	  dialogue ( g_strconcat ( "Erreur :\n",
+	  dialogue ( g_strconcat ( _("Erreur :\n"),
 				   strerror ( errno ),
 				   NULL ));
 	  return;
@@ -1496,7 +1496,7 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
       xmlSetCompressMode ( compression_fichier );
 
       if ( compression_fichier )
-	dialogue ( "Attention, la compression du fichier empêche la vérification multi-utilisateurs." );
+	dialogue ( _("Attention, la compression du fichier empêche la vérification multi-utilisateurs.") );
 
       break;
 
@@ -1529,6 +1529,7 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 	gtk_widget_show ( widget_formulaire_operations[0] );
       else
 	gtk_widget_hide ( widget_formulaire_operations[0] );
+
 
       if ( ( etat.affiche_date_bancaire = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_date_bancaire ))))
 	gtk_widget_show ( widget_formulaire_operations[7] );
@@ -1632,25 +1633,25 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 	    {
 	      gtk_clist_set_column_title ( GTK_CLIST ( arbre_tiers ),
 					   0,
-					   "Liste des tiers (écritures)" );
+					   _("Liste des tiers (écritures)") );
 	      gtk_clist_set_column_title ( GTK_CLIST ( arbre_categ ),
 					   0,
-					   "Liste des catégories (écritures)" );
+					   _("Liste des catégories (écritures)") );
 	      gtk_clist_set_column_title ( GTK_CLIST ( arbre_imputation ),
 					   0,
-					   "Liste des imputations budgétaires (écritures)" );
+					   _("Liste des imputations budgétaires (écritures)") );
 	    }
 	  else
 	    {
 	      gtk_clist_set_column_title ( GTK_CLIST ( arbre_tiers ),
 					   0,
-					   "Liste des tiers" );
+					   _("Liste des tiers") );
 	      gtk_clist_set_column_title ( GTK_CLIST ( arbre_categ ),
 					   0,
-					   "Liste des catégories" );
+					   _("Liste des catégories") );
 	      gtk_clist_set_column_title ( GTK_CLIST ( arbre_imputation ),
 					   0,
-					   "Liste des imputations budgétaires" );
+					   _("Liste des imputations budgétaires") );
 	    }
 
 	    mise_a_jour_tiers ();
@@ -1693,7 +1694,7 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 	    }
 	}
 
-      if ( fichier_a_verifier_tmp )
+      if ( fichier_a_verifier_tmp != NULL )
 	{
 	  GSList *fichier_a_verifier_tmp_variable;
 	  
@@ -1831,6 +1832,29 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 						       g_slist_find_custom ( liste_struct_devises,
 									     GINT_TO_POINTER ( no_devise_totaux_tiers ),
 									     ( GCompareFunc ) recherche_devise_par_no )));
+
+      /* on recrée les boutons de devises dans la conf de l'état */
+
+      if ( onglet_config_etat )
+	{
+	  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_devise_categ_etat ),
+				     creation_option_menu_devises ( 0,
+								    liste_struct_devises ));
+	  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_devise_ib_etat ),
+				     creation_option_menu_devises ( 0,
+								    liste_struct_devises ));
+	  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_devise_tiers_etat ),
+				     creation_option_menu_devises ( 0,
+								    liste_struct_devises ));
+	  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_devise_montant_etat ),
+				     creation_option_menu_devises ( 0,
+								    liste_struct_devises ));
+
+	  selectionne_devise_categ_etat_courant ();
+	  selectionne_devise_ib_etat_courant ();
+	  selectionne_devise_tiers_etat_courant ();
+	}
+
       mise_a_jour_tiers ();
       mise_a_jour_categ ();
       mise_a_jour_imputation ();
@@ -2006,6 +2030,15 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 
       etat.affichage_exercice_automatique = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affichage_auto_exercice ));
 
+      /* on remplit à nouveau la liste des exos de la conf de l'état */
+
+      remplissage_liste_exo_etats ();
+
+      /* on resélectionne dans cette liste ce qui était sélectionné */
+
+      selectionne_liste_exo_etat_courant ();
+
+
       modification_fichier ( TRUE );
       break;
 
@@ -2105,43 +2138,16 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 
       if ( (menu = creation_menu_types ( 1, compte_courant , 0 )))
 	{
-	  gint pos_type;
-
 	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
 	  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
 				     menu );
-
-	  pos_type = cherche_no_menu_type ( TYPE_DEFAUT_DEBIT );
-
-	  if ( pos_type != -1 )
-	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
-					  pos_type );
-	  else
-	    {
-	      struct struct_type_ope *type;
-
-	      gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
-					    0 );
-	      TYPE_DEFAUT_DEBIT = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu_item ),
-									  "no_type" ));
-
-	      /* on affiche l'entrée des chèques si nécessaire */
-
-	      type = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu_item ),
-					   "adr_type" );
-
-	      if ( type -> affiche_entree )
-		gtk_widget_show ( widget_formulaire_operations[10] );
-	    }
-
+	  gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
+					cherche_no_menu_type ( TYPE_DEFAUT_DEBIT ) );
 	  gtk_widget_show ( widget_formulaire_operations[9] );
 	}
       else
-	{
-	  gtk_widget_hide ( widget_formulaire_operations[9] );
-	  gtk_widget_hide ( widget_formulaire_operations[10] );
-	}
+	gtk_widget_hide ( widget_formulaire_operations[9] );
 
       demande_mise_a_jour_tous_comptes ();
       verification_mise_a_jour_liste ();

@@ -2,7 +2,7 @@
 /* s'occupe de tout ce qui concerne les devises */
 
 
-/*     Copyright (C) 2000-2001  Cédric Auger */
+/*     Copyright (C) 2000-2002  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -47,8 +47,8 @@ void creation_devises_de_base ( void )
   devise = malloc ( sizeof ( struct struct_devise ));
 
   devise -> no_devise = 1;
-  devise -> nom_devise= g_strdup ( "Euro" );
-  devise -> code_devise = g_strdup ( "E" );
+  devise -> nom_devise= g_strdup ( _("Euro") );
+  devise -> code_devise = g_strdup ( _("E") );
   devise -> passage_euro = 0;
   devise -> date_dernier_change = NULL;
   devise -> une_devise_1_egale_x_devise_2 = 0;
@@ -64,8 +64,8 @@ void creation_devises_de_base ( void )
   devise = malloc ( sizeof ( struct struct_devise ));
 
   devise -> no_devise = 2;
-  devise -> nom_devise= g_strdup ( "Franc Français" );
-  devise -> code_devise = g_strdup ( "FRF" );
+  devise -> nom_devise= g_strdup ( _("Franc Français") );
+  devise -> code_devise = g_strdup ( _("FRF") );
   devise -> passage_euro = 1;
   devise -> date_dernier_change = NULL;
   devise -> une_devise_1_egale_x_devise_2 = 0;
@@ -87,7 +87,7 @@ void creation_devises_de_base ( void )
 /* Fonction creation_option_menu_devises */
 /* retourne le menu d'un option menu avec les différentes devises définies */
 /* si devise_cachee = -1, met toutes les devises sous forme de leur sigle */
-/* sinon, ne met pas le devise correspondant à devise_cachee ( 0 = aucune ) */
+/* sinon, ne met pas la devise correspondant à devise_cachee ( 0 = aucune ) */
 /* liste_tmp est la liste utilisée : soit liste_struct_devises dans le cas général, */
 /*                       soit liste_struct_devises_tmp dans le cas des paramètres */
 /* **************************************************************************************************** */
@@ -106,7 +106,7 @@ GtkWidget *creation_option_menu_devises ( gint devise_cachee,
 
       /* le 1er item c'est aucune devise */
 
-      menu_item = gtk_menu_item_new_with_label ( "Aucune" );
+      menu_item = gtk_menu_item_new_with_label ( _("Aucune") );
       gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			    "adr_devise",
 			    devise_nulle );
@@ -187,7 +187,7 @@ void ajout_devise ( GtkWidget *bouton,
   gchar *code_devise;
   GtkWidget *label_nom_devise;
 
-  dialog = gnome_dialog_new ( "Ajout d'une devise",
+  dialog = gnome_dialog_new ( _("Ajout d'une devise"),
 				GNOME_STOCK_BUTTON_OK,
 				GNOME_STOCK_BUTTON_CANCEL,
 				NULL );
@@ -204,7 +204,7 @@ void ajout_devise ( GtkWidget *bouton,
   gnome_dialog_set_default ( GNOME_DIALOG ( dialog ),
 			    0 );
 
-  label = gtk_label_new ( "Nouvelle devise :" );
+  label = gtk_label_new ( _("Nouvelle devise :") );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
 		       FALSE,
@@ -222,7 +222,7 @@ void ajout_devise ( GtkWidget *bouton,
   gtk_widget_show ( hbox );
 
 
-  label = gtk_label_new ( "Nom de la devise :" );
+  label = gtk_label_new ( _("Nom de la devise :") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -251,7 +251,7 @@ void ajout_devise ( GtkWidget *bouton,
   gtk_widget_show ( hbox );
 
 
-  label = gtk_label_new ( "Code de la devise :" );
+  label = gtk_label_new ( _("Code de la devise :") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -269,7 +269,7 @@ void ajout_devise ( GtkWidget *bouton,
 		       5 );
   gtk_widget_show ( entree_code );
 
-  check_bouton = gtk_check_button_new_with_label ( "Cette monnaie passera à l'euro" );
+  check_bouton = gtk_check_button_new_with_label ( _("Cette monnaie passera à l'euro") );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       check_bouton,
 		       FALSE,
@@ -292,7 +292,7 @@ void ajout_devise ( GtkWidget *bouton,
 		       5 );
   gtk_widget_show ( hbox_passage_euro );
  
-  label = gtk_label_new ( "1 Euro vaut " );
+  label = gtk_label_new ( _("1 Euro vaut ") );
   gtk_box_pack_start ( GTK_BOX ( hbox_passage_euro ),
 		       label,
 		       FALSE,
@@ -424,7 +424,7 @@ void ajout_devise ( GtkWidget *bouton,
 	}
       else
 	{
-	  dialogue ( "Tous les champs ne sont pas remplis !\n " );
+	  dialogue ( _("Tous les champs ne sont pas remplis !\n ") );
 	  goto reprise_dialog;
 	}
       break;
@@ -557,16 +557,16 @@ void retrait_devise ( GtkWidget *bouton,
   /* si c'est l'euro qu'on veut supprimer, on interdit */
 
   if ( !strcmp ( devise -> nom_devise,
-		 "Euro" ))
+		 _("Euro") ))
     devise_trouvee = 1;
 
 
 
   if ( devise_trouvee )
     {
-      dialogue ( g_strconcat ( "La devise ",
+      dialogue ( g_strconcat ( _("La devise "),
 			       devise -> nom_devise,
-			       " est utilisée dans le fichier courant.\nVous ne pouvez la supprimer.",
+			       _(" est utilisée dans le fichier courant.\nVous ne pouvez la supprimer."),
 			       NULL ) );
       return;
     }
@@ -620,7 +620,7 @@ gint selection_devise ( gchar *nom_du_compte )
   gint resultat;
 
 
-  dialogue = gnome_dialog_new ( "Sélection d'une devise",
+  dialogue = gnome_dialog_new ( _("Sélection d'une devise"),
 				GNOME_STOCK_BUTTON_OK,
 				NULL );
   gtk_window_set_transient_for ( GTK_WINDOW ( dialogue ),
@@ -634,7 +634,7 @@ gint selection_devise ( gchar *nom_du_compte )
 		       GTK_SIGNAL_FUNC ( bloque_echap_choix_devise ),
 		       NULL );
 
-  label = gtk_label_new ( g_strconcat ( "Veuillez sélectionner une devise pour le compte\n",
+  label = gtk_label_new ( g_strconcat ( _("Veuillez sélectionner une devise pour le compte\n"),
 					nom_du_compte,
 					" :",
 					NULL ) );
@@ -669,7 +669,7 @@ gint selection_devise ( gchar *nom_du_compte )
 		       0 );
   gtk_widget_show ( option_menu );
 
-  bouton = gtk_button_new_with_label ( "Ajouter une devise ..." );
+  bouton = gtk_button_new_with_label ( _("Ajouter une devise ...") );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
 		       "clicked",
 		       GTK_SIGNAL_FUNC ( ajout_devise ),
@@ -738,7 +738,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
   GtkWidget *entree_frais;
   
 
-  dialog = gnome_dialog_new ( "Entrée du taux de change",
+  dialog = gnome_dialog_new ( _("Entrée du taux de change"),
 			      GNOME_STOCK_BUTTON_OK,
 			      NULL );
   gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
@@ -751,7 +751,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 
 
 
-  label = gtk_label_new ( "Veuillez entrer le taux de change :" );
+  label = gtk_label_new ( _("Veuillez entrer le taux de change :") );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
 		       FALSE,
@@ -770,7 +770,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 		       0);
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( "Un " );
+  label = gtk_label_new ( _("Un ") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -786,7 +786,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 		       0);
   gtk_widget_show ( option_menu_devise_1 );
 
-  label = gtk_label_new ( " vaut " );
+  label = gtk_label_new ( _(" vaut ") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -890,7 +890,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 		       5 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( "Frais de change : " );
+  label = gtk_label_new ( _("Frais de change : ") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -1087,8 +1087,8 @@ GtkWidget *onglet_devises ( void )
   GSList *liste_tmp;
   GtkWidget *scrolled_window;
   GtkWidget *vbox;
-  gchar *titres_devise [2] = { "Devise",
-			       "Code" };
+  gchar *titres_devise [2] = { _("Devise"),
+			       _("Code") };
   GtkWidget *bouton;
   GtkWidget *hbox;
 
@@ -1346,7 +1346,7 @@ GtkWidget *onglet_devises ( void )
 		       0);
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( "Nom : " );
+  label = gtk_label_new ( _("Nom : ") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -1378,7 +1378,7 @@ GtkWidget *onglet_devises ( void )
 		       0);
   gtk_widget_show ( separateur );
 
-  label = gtk_label_new ( "Code : " );
+  label = gtk_label_new ( _("Code : ") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -1405,7 +1405,7 @@ GtkWidget *onglet_devises ( void )
 
   /*   en dessous on met le bouton passera à l'euro */
 
-  check_button_euro = gtk_check_button_new_with_label ( "Passera à l'Euro" );
+  check_button_euro = gtk_check_button_new_with_label ( _("Passera à l'Euro") );
   gtk_signal_connect ( GTK_OBJECT ( check_button_euro ),
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( change_passera_euro ),
@@ -1433,7 +1433,7 @@ GtkWidget *onglet_devises ( void )
 		       0);
   gtk_widget_show ( hbox_devise_associee );
 
-  label = gtk_label_new ( "Devise associée : " );
+  label = gtk_label_new ( _("Devise associée : ") );
   gtk_box_pack_start ( GTK_BOX ( hbox_devise_associee ),
 		       label,
 		       FALSE,
@@ -1472,7 +1472,7 @@ GtkWidget *onglet_devises ( void )
 		       0);
   gtk_widget_show ( hbox_ligne_change );
 
-  label = gtk_label_new ( "Un " );
+  label = gtk_label_new ( _("Un ") );
   gtk_box_pack_start ( GTK_BOX ( hbox_ligne_change ),
 		       label,
 		       FALSE,
@@ -1488,7 +1488,7 @@ GtkWidget *onglet_devises ( void )
 		       0);
   gtk_widget_show ( devise_1 );
 
-  label = gtk_label_new ( " vaut " );
+  label = gtk_label_new ( _(" vaut ") );
   gtk_box_pack_start ( GTK_BOX ( hbox_ligne_change ),
 		       label,
 		       FALSE,
@@ -1613,7 +1613,7 @@ void selection_ligne_devise ( GtkWidget *liste,
 			     TRUE );
 
   if ( !strcmp ( devise -> nom_devise,
-		 "Euro" ) )
+		 _("Euro") ) )
     {
       gtk_widget_set_sensitive ( check_button_euro,
 				 FALSE );
@@ -1765,7 +1765,7 @@ void change_passera_euro ( GtkWidget *bouton,
 
       menu = gtk_menu_new ();
 
-      item = gtk_menu_item_new_with_label ( "Euro" );
+      item = gtk_menu_item_new_with_label ( _("Euro") );
       gtk_menu_append ( GTK_MENU ( menu ),
 			item );
       gtk_widget_show ( item );
@@ -1856,7 +1856,7 @@ void change_passera_euro ( GtkWidget *bouton,
       else
 	{
 	  gtk_label_set_text ( GTK_LABEL ( label_date_dernier_change ),
-			       "Aucun change défini"  );
+			       _("Aucun change défini")  );
 	  /* mise en place du change courant */
 	  
 	  gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_conversion ),

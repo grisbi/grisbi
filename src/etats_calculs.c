@@ -662,9 +662,7 @@ void affichage_etat ( struct struct_etat *etat,
 		    case 3:
 		      /* mois en cours */
 
-		      if ( g_date_month ( date_jour ) != g_date_month ( operation -> date )
-			   ||
-			   g_date_year ( date_jour ) != g_date_year ( operation -> date ))
+		      if ( g_date_month ( date_jour ) != g_date_month ( operation -> date ))
 			goto operation_refusee;
 		      break;
 
@@ -680,10 +678,8 @@ void affichage_etat ( struct struct_etat *etat,
 
 		      if ( g_date_month ( date_jour ) != g_date_month ( operation -> date )
 			   ||
-			   g_date_year ( date_jour ) != g_date_year ( operation -> date )
-			   ||
 			   g_date_compare ( date_jour,
-					    operation -> date ) < 0 )
+					    operation -> date ) > 0 )
 			goto operation_refusee;
 		      break;
 
@@ -693,7 +689,7 @@ void affichage_etat ( struct struct_etat *etat,
 		      if ( g_date_year ( date_jour ) != g_date_year ( operation -> date )
 			   ||
 			   g_date_compare ( date_jour,
-					    operation -> date ) < 0 )
+					    operation -> date ) > 0 )
 			goto operation_refusee;
 		      break;
 
@@ -703,9 +699,7 @@ void affichage_etat ( struct struct_etat *etat,
 		      g_date_subtract_months ( date_jour,
 					       1 );
 
-		      if ( g_date_month ( date_jour ) != g_date_month ( operation -> date )
-			   ||
-			   g_date_year ( date_jour ) != g_date_year ( operation -> date ))
+		      if ( g_date_month ( date_jour ) != g_date_month ( operation -> date ))
 			goto operation_refusee;
 		      break;
 
@@ -1355,25 +1349,6 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
        !etat_courant -> type_affichage_titres )
     ligne = affichage -> affiche_titres_colonnes ( ligne );
 
-  /*       on met directement les adr des devises de categ, ib et tiers en global pour */
-  /* gagner de la vitesse */
-
-  devise_categ_etat = g_slist_find_custom ( liste_struct_devises,
-					    GINT_TO_POINTER ( etat_courant -> devise_de_calcul_categ ),
-					    ( GCompareFunc ) recherche_devise_par_no) -> data;
-
-  devise_ib_etat = g_slist_find_custom ( liste_struct_devises,
-					 GINT_TO_POINTER ( etat_courant -> devise_de_calcul_ib ),
-					 ( GCompareFunc ) recherche_devise_par_no) -> data;
-
-  devise_tiers_etat = g_slist_find_custom ( liste_struct_devises,
-					    GINT_TO_POINTER ( etat_courant -> devise_de_calcul_tiers ),
-					    ( GCompareFunc ) recherche_devise_par_no) -> data;
-
-  devise_generale_etat = g_slist_find_custom ( liste_struct_devises,
-					       GINT_TO_POINTER ( etat_courant -> devise_de_calcul_general ),
-					       ( GCompareFunc ) recherche_devise_par_no) -> data;
-
   for ( i=0 ; i<2 ; i++ )
     {
       ancienne_categ_etat = -1;
@@ -1397,6 +1372,25 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
       changement_de_groupe_etat = 0;
       debut_affichage_etat = 1;
       devise_compte_en_cours_etat = NULL;
+
+      /*       on met directement les adr des devises de categ, ib et tiers en global pour */
+      /* gagner de la vitesse */
+
+      devise_categ_etat = g_slist_find_custom ( liste_struct_devises,
+						GINT_TO_POINTER ( etat_courant -> devise_de_calcul_categ ),
+						( GCompareFunc ) recherche_devise_par_no) -> data;
+
+      devise_ib_etat = g_slist_find_custom ( liste_struct_devises,
+						GINT_TO_POINTER ( etat_courant -> devise_de_calcul_ib ),
+						( GCompareFunc ) recherche_devise_par_no) -> data;
+
+      devise_tiers_etat = g_slist_find_custom ( liste_struct_devises,
+						GINT_TO_POINTER ( etat_courant -> devise_de_calcul_tiers ),
+						( GCompareFunc ) recherche_devise_par_no) -> data;
+
+      devise_generale_etat = g_slist_find_custom ( liste_struct_devises,
+						   GINT_TO_POINTER ( etat_courant -> devise_de_calcul_general ),
+						   ( GCompareFunc ) recherche_devise_par_no) -> data;
 
       /* on met ici le pointeur sur les revenus ou sur les dépenses */
       /* en vérifiant qu'il y en a */

@@ -1,7 +1,7 @@
 /*  Fichier qui gère la liste des comptes, la partie gauche de l'onglet opérations */
 /*      operations_comptes.c */
 
-/*     Copyright (C) 2000-2001  Cédric Auger */
+/*     Copyright (C) 2000-2002  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -32,7 +32,7 @@
 /*** Création de la fenêtre de comptes ***/
 /* **************************************************************************************************** */
 
-GtkWidget *creation_onglet_comptes (void)
+GtkWidget *creation_liste_comptes (void)
 {
   GtkWidget *onglet;
   GtkWidget *frame_label_compte_courant;
@@ -94,8 +94,7 @@ GtkWidget *creation_onglet_comptes (void)
   gtk_widget_show ( scrolled_window );
   
 
-  /*  Maintenant, création d'une vbox placée dans gest_comptes_fils */
-  /*  dans laquelle on mettra les boutons */
+  /*  création d'une vbox contenant la liste des comptes */
 
   vbox_liste_comptes = gtk_vbox_new ( FALSE,
 				      10);
@@ -145,10 +144,10 @@ GtkWidget *creation_onglet_comptes (void)
 
 
 	      gnome_app_insert_menus ( GNOME_APP ( window ),
-				       "Comptes/Comptes cloturés/",
+				       _("Comptes/Comptes cloturés/"),
 				       menu );
 
-	      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[5].widget ),
+	      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[3].widget ),
 					 TRUE );
 	    }
 	  else
@@ -186,11 +185,11 @@ GtkWidget *creation_onglet_comptes (void)
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
   if ( nb_comptes )
-    label_releve = gtk_label_new ( g_strconcat ( "Dernier relevé : ",
+    label_releve = gtk_label_new ( g_strconcat ( _("Dernier relevé : "),
 						 DATE_DERNIER_RELEVE,
 						 NULL ) );
   else
-    label_releve = gtk_label_new ( "Dernier relevé : " );
+    label_releve = gtk_label_new ( _("Dernier relevé : ") );
 
   gtk_box_pack_start ( GTK_BOX ( vbox_frame_equilibrage ),
 		       label_releve,
@@ -202,7 +201,7 @@ GtkWidget *creation_onglet_comptes (void)
 
   /* mise en place du bouton équilibrage */
 
-  bouton = gtk_button_new_with_label ( "Rapprocher" );
+  bouton = gtk_button_new_with_label ( _("Rapprocher") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE);
   gtk_box_pack_start ( GTK_BOX ( vbox_frame_equilibrage ),
@@ -390,26 +389,26 @@ void changement_compte ( gint *compte)
 
   if ( DATE_DERNIER_RELEVE )
     gtk_label_set_text ( GTK_LABEL ( label_releve ),
-			 g_strdup_printf ( "Dernier relevé : %02d/%02d/%d", 
+			 g_strdup_printf ( _("Dernier relevé : %02d/%02d/%d"), 
 					     g_date_day ( DATE_DERNIER_RELEVE ),
 					     g_date_month ( DATE_DERNIER_RELEVE ),
 					     g_date_year ( DATE_DERNIER_RELEVE ) ));
 
   else
     gtk_label_set_text ( GTK_LABEL ( label_releve ),
-			 "Dernier relevé : Aucun" );
+			 _("Dernier relevé : Aucun") );
 
 
   /* affiche le solde final en bas */
 
   gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
-		       g_strdup_printf ( " Solde pointé : %4.2f %s",
+		       g_strdup_printf ( _(" Solde pointé : %4.2f %s"),
 					 SOLDE_POINTE,
 					 ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 											 GINT_TO_POINTER ( DEVISE ),
 											 (GCompareFunc) recherche_devise_par_no )-> data )) -> code_devise) );
   gtk_label_set_text ( GTK_LABEL ( solde_label ),
-		       g_strdup_printf ( " Solde courant : %4.2f %s",
+		       g_strdup_printf ( _(" Solde courant : %4.2f %s"),
 					 SOLDE_COURANT,
 					 ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 											 GINT_TO_POINTER ( DEVISE ),
@@ -433,11 +432,8 @@ void changement_compte ( gint *compte)
   focus_a_la_liste ();
   etat.ancienne_date = 0;
 
-  if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_liste )))
-    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
-			    compte_courant + 2 );
-  else
-      remplissage_details_compte ();
+  gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
+			  compte_courant + 1 );
 }
 /* ********************************************************************************************************** */
 
@@ -467,12 +463,12 @@ void reaffiche_liste_comptes ( void )
     {
       if ( COMPTE_CLOTURE )
 	gnome_app_remove_menus ( GNOME_APP ( window ),
-				 "Comptes/Comptes cloturés/",
+				 _("Comptes/Comptes cloturés/"),
 				 2 );
       p_tab_nom_de_compte_variable++;
     }
 
-  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[5].widget ),
+  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[3].widget ),
 			     FALSE );
 
   /*  Création d'une icone et du nom par compte, et placement dans la liste selon l'ordre désiré  */
@@ -512,10 +508,10 @@ void reaffiche_liste_comptes ( void )
 
 
 	      gnome_app_insert_menus ( GNOME_APP ( window ),
-				       "Comptes/Comptes cloturés/",
+				       _("Comptes/Comptes cloturés/"),
 				       menu );
 
-	      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[5].widget ),
+	      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[3].widget ),
 					 TRUE );
 	    }
 	  else

@@ -7,15 +7,22 @@
 extern gchar *categories_de_base [];
 
 
-extern GnomeUIInfo menu_fichier [14];
-extern GnomeUIInfo menu_comptes [7]; 
-extern GnomeUIInfo help_menu [3];
-extern GnomeUIInfo menu_principal [5]; 
-extern GnomeUIInfo menu_parametres [10];
-extern GnomeUIInfo menu_importer [2];
-extern GnomeUIInfo menu_exporter [2];
-extern GnomeUIInfo menu_derniers_fichiers [1]; 
-extern GnomeUIInfo menu_cloture [1];
+enum menu_fichier_widget {
+  NOUVEAU, OUVRIR, SEP1, 
+  SAUVER, SAUVER_SOUS, SEP2,
+  DERNIERS_FICHIERS, SEP3,
+  IMPORTER, EXPORTER, SEP4,
+  FERMER, QUITTER, MAX_MENU_FICHIER
+};
+extern GnomeUIInfo * menu_fichier;
+extern GnomeUIInfo * menu_comptes; 
+extern GnomeUIInfo * help_menu;
+extern GnomeUIInfo * menu_principal; 
+extern GnomeUIInfo * menu_parametres;
+extern GnomeUIInfo * menu_importer;
+extern GnomeUIInfo * menu_exporter;
+extern GnomeUIInfo * menu_derniers_fichiers; 
+extern GnomeUIInfo * menu_cloture;
 
 
 
@@ -29,9 +36,19 @@ extern GtkWidget *window;
 extern GtkWidget *statusbar;
 
 
+/***********************************/ 
+/* fichier comptes_onglet.c */
+/***********************************/ 
+
+extern GtkWidget *bouton_supprimer_compte;
+extern GtkWidget *bouton_ouvert;
+extern GtkWidget *label_compte_courant_onglet;
+extern gint compte_courant_onglet;
+extern GtkWidget *vbox_liste_comptes_onglet;
+
 
 /***********************************/ 
-/* fichier liste_comptes.c */
+/* fichier operations_comptes.c */
 /***********************************/ 
 
 extern GtkWidget *label_compte_courant;
@@ -41,7 +58,7 @@ extern GtkWidget *label_releve;                    /* adr du label du dernier re
 
 
 /***********************************/ 
-/* fichier liste_operations.c */
+/* fichier operations_liste.c */
 /***********************************/ 
 
 extern GtkWidget *notebook_listes_operations;          /*  adr du notebook qui contient les opés de chaque compte */
@@ -121,9 +138,11 @@ extern GtkWidget *notebook_general;       /* adr du notebook de base */
 extern GtkWidget *page_accueil;           /* adr de l'onglet accueil */
 extern GtkWidget *page_operations;        /* adr de l'onglet opérations ( ancien gest_main ) */
 extern GtkWidget *page_echeancier;        /* adr de l'onglet échéances */
+extern GtkWidget *page_comptes;        /* adr de l'onglet comptes */
 extern GtkWidget *page_tiers;             /* adr de l'onglet tiers */
 extern GtkWidget *page_categories;             /* adr de l'onglet categories */
 extern GtkWidget *page_imputations;             /* adr de l'onglet ib */
+extern GtkWidget *page_etats;             /* adr de l'onglet etats */
 extern GtkWidget *notebook_comptes_equilibrage;
 extern GtkWidget *notebook_formulaire;
 extern gint modif_tiers;
@@ -463,8 +482,6 @@ extern GtkWidget *label_montant_operation_ventilee;                       /*  la
 extern struct structure_operation *ligne_selectionnee_ventilation;              /* struct ope ligne sélectionnée */
 extern gdouble montant_operation_ventilee;
 extern gdouble somme_ventilee;
-extern GtkWidget *bouton_credit;                          /* adr du radio_button crédit */
-extern GtkWidget *bouton_debit;                          /* adr du radio_button crédit */
 extern gint enregistre_ope_au_retour;            /* à 1 si au click du bouton valider on enregistre l'opé */
 
 
@@ -489,8 +506,6 @@ extern GtkWidget *bouton_ope_semi_completes;
 extern GtkWidget *bouton_ope_simples;
 extern GtkWidget *bouton_affiche_r;
 extern GtkWidget *bouton_enleve_r;
-extern GtkWidget *bouton_affiche_liste;
-extern GtkWidget *bouton_affiche_detail_compte;
 extern GtkWidget *label_proprietes_operations_compte;
 
 
@@ -603,3 +618,172 @@ extern GtkWidget *bouton_choix_devise_totaux_tiers;
 extern GtkWidget *bouton_afficher_nb_ecritures;
 extern GtkWidget *bouton_classer_liste_par_date;
 extern GtkWidget *bouton_classer_liste_par_date_bancaire;
+
+
+/***********************************/ 
+/* fichier etats_onglet.c */
+/***********************************/ 
+
+extern GSList *liste_struct_etats;
+extern gint no_dernier_etat;
+extern GtkWidget *frame_liste_etats;
+extern GtkWidget *label_etat_courant;        /* label en haut de la liste des états */
+extern GtkWidget *vbox_liste_etats;          /* vbox contenant la liste des états */
+extern GtkWidget *bouton_etat_courant;          /* adr du bouton de l'état en cours, pour le refermer qd change */
+extern struct struct_etat *etat_courant;
+extern GtkWidget *bouton_effacer_etat;
+extern GtkWidget *bouton_personnaliser_etat;
+extern GtkWidget *bouton_imprimer_etat;
+extern GtkWidget *bouton_exporter_etat;
+extern GtkWidget *bouton_importer_etat;
+extern GtkWidget *scrolled_window_etat;          /* contient l'état en cours */
+extern gint nb_colonnes;
+extern gint ligne_debut_partie;
+extern GtkWidget *notebook_etats;
+extern GtkWidget *onglet_affichage_etat;
+extern GtkWidget *onglet_config_etat;
+
+
+/***********************************/ 
+/* fichier etats_config.c */
+/***********************************/ 
+
+extern GtkWidget *entree_nom_etat;
+extern GtkWidget *liste_type_classement_etat;
+extern GtkWidget *bouton_opes_r_et_non_r_etat;
+extern GtkWidget *bouton_opes_non_r_etat;
+extern GtkWidget *bouton_opes_r_etat;
+extern GtkWidget *bouton_afficher_opes;
+extern GtkWidget *bouton_afficher_date_opes;
+extern GtkWidget *bouton_afficher_tiers_opes;
+extern GtkWidget *bouton_afficher_categ_opes;
+extern GtkWidget *bouton_afficher_sous_categ_opes;
+extern GtkWidget *bouton_afficher_ib_opes;
+extern GtkWidget *bouton_afficher_sous_ib_opes;
+extern GtkWidget *bouton_afficher_notes_opes;
+extern GtkWidget *bouton_afficher_pc_opes;
+extern GtkWidget *bouton_afficher_infobd_opes;
+extern GtkWidget *bouton_afficher_no_ope;
+extern GtkWidget *bouton_afficher_type_ope;
+extern GtkWidget *bouton_afficher_no_rappr;
+extern GtkWidget *bouton_afficher_no_cheque;
+extern GtkWidget *bouton_afficher_exo_opes;
+extern GtkWidget *bouton_pas_detailler_ventilation;
+extern GtkWidget *bouton_devise_general_etat;
+extern GtkWidget *bouton_afficher_titres_colonnes;
+extern GtkWidget *bouton_titre_changement;
+extern GtkWidget *bouton_titre_en_haut;
+extern GtkWidget *frame_onglet_generalites;
+
+extern GtkWidget *radio_button_utilise_exo;
+extern GtkWidget *radio_button_utilise_dates;
+extern GtkWidget *liste_exo_etat;
+extern GtkWidget *vbox_generale_exo_etat;
+extern GtkWidget *bouton_exo_tous;
+extern GtkWidget *bouton_exo_courant;
+extern GtkWidget *bouton_exo_precedent;
+extern GtkWidget *bouton_detaille_exo_etat;
+extern GtkWidget *bouton_separe_exo_etat;
+extern GtkWidget *liste_plages_dates_etat;
+extern GtkWidget *entree_date_init_etat;
+extern GtkWidget *entree_date_finale_etat;
+extern GtkWidget *vbox_utilisation_exo;
+extern GtkWidget *vbox_utilisation_date;
+extern GtkWidget *bouton_separe_plages_etat;
+extern GtkWidget *bouton_type_separe_plages_etat;
+extern GtkWidget *bouton_debut_semaine;
+/* extern GtkWidget *bouton_type_separe_perso_etat; */
+/* extern GtkWidget *entree_separe_perso_etat; */
+
+extern GtkWidget *liste_comptes_etat;
+extern GtkWidget *bouton_detaille_comptes_etat;
+extern GtkWidget *vbox_generale_comptes_etat;
+extern GtkWidget *bouton_regroupe_ope_compte_etat;
+extern GtkWidget *bouton_affiche_sous_total_compte;
+
+extern GtkWidget *bouton_inclusion_virements_actifs_etat;
+extern GtkWidget *bouton_inclusion_virements_hors_etat;
+extern GtkWidget *bouton_non_inclusion_virements;
+extern GtkWidget *bouton_inclusion_virements_perso;
+extern GtkWidget *liste_comptes_virements;
+extern GtkWidget *bouton_exclure_non_virements_etat;
+
+extern GtkWidget *bouton_utilise_categ_etat;
+extern GtkWidget *vbox_generale_categ_etat;
+extern GtkWidget *bouton_detaille_categ_etat;
+extern GtkWidget *hbox_detaille_categ_etat;
+extern GtkWidget *bouton_afficher_sous_categ;
+extern GtkWidget *liste_categ_etat;
+extern GtkWidget *bouton_affiche_sous_total_categ;
+extern GtkWidget *bouton_affiche_sous_total_sous_categ;
+extern GtkWidget *bouton_exclure_ope_sans_categ;
+extern GtkWidget *bouton_devise_categ_etat;
+extern GtkWidget *bouton_afficher_pas_de_sous_categ;
+
+extern GtkWidget *bouton_utilise_ib_etat;
+extern GtkWidget *vbox_generale_ib_etat;
+extern GtkWidget *bouton_detaille_ib_etat;
+extern GtkWidget *hbox_detaille_ib_etat;
+extern GtkWidget *liste_ib_etat;
+extern GtkWidget *bouton_afficher_sous_ib;
+extern GtkWidget *bouton_affiche_sous_total_ib;
+extern GtkWidget *bouton_affiche_sous_total_sous_ib;
+extern GtkWidget *bouton_exclure_ope_sans_ib;
+extern GtkWidget *bouton_devise_ib_etat;
+extern GtkWidget *bouton_afficher_pas_de_sous_ib;
+
+extern GtkWidget *bouton_utilise_tiers_etat;
+extern GtkWidget *vbox_generale_tiers_etat;
+extern GtkWidget *bouton_detaille_tiers_etat;
+extern GtkWidget *hbox_detaille_tiers_etat;
+extern GtkWidget *liste_tiers_etat;
+extern GtkWidget *bouton_affiche_sous_total_tiers;
+extern GtkWidget *bouton_devise_tiers_etat;
+
+extern GtkWidget *entree_texte_etat;
+
+extern GtkWidget *bouton_inclut_choix_positif_negatif_etat;
+extern GtkWidget *bouton_choix_positif_negatif_etat;
+extern GtkWidget *bouton_inclut_choix_valeur_etat;
+extern GtkWidget *hbox_choix_valeur_etat;
+extern GtkWidget *bouton_choix_operateur_valeur_etat;
+extern GtkWidget *entree_choix_valeur_etat;
+extern GtkWidget *bouton_inclut_choix_inclusion_valeur_etat;
+extern GtkWidget *hbox_choix_inclut_etat;
+extern GtkWidget *entree_choix_inclut_inf_etat;
+extern GtkWidget *bouton_choix_operateur_inclut_inf_etat;
+extern GtkWidget *bouton_choix_operateur_inclut_sup_etat;
+extern GtkWidget *entree_choix_inclut_sup_etat;
+extern GtkWidget *bouton_choix_montant_nul;
+extern GtkWidget *bouton_devise_montant_etat;
+
+extern gint ancienne_ib_etat;
+extern gint ancienne_sous_ib_etat;
+extern gint ancienne_categ_etat;
+extern gint ancienne_categ_speciale_etat;
+extern gint ancienne_sous_categ_etat;
+extern gint ancien_compte_etat;
+extern gint ancien_tiers_etat;
+extern gdouble montant_categ_etat;
+extern gdouble montant_sous_categ_etat;
+extern gdouble montant_ib_etat;
+extern gdouble montant_sous_ib_etat;
+extern gdouble montant_compte_etat;
+extern gdouble montant_tiers_etat;
+extern gdouble montant_periode_etat;
+extern GDate *date_debut_periode;
+extern gint changement_de_groupe_etat;
+extern gint debut_affichage_etat;
+extern struct struct_devise *devise_compte_en_cours_etat;
+extern struct struct_devise *devise_categ_etat;
+extern struct struct_devise *devise_ib_etat;
+extern struct struct_devise *devise_tiers_etat;
+extern struct struct_devise *devise_generale_etat;
+
+extern gchar *nom_categ_en_cours;
+extern gchar *nom_ss_categ_en_cours;
+extern gchar *nom_ib_en_cours;
+extern gchar *nom_ss_ib_en_cours;
+extern gchar *nom_compte_en_cours;
+extern gchar *nom_tiers_en_cours;
+extern gint titres_affiches;

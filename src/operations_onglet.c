@@ -1,7 +1,7 @@
 /*  Fichier qui s'occupe de former les différentes fenêtres de l'onglet des opés */
 /*      onglet_operations.c */
 
-/*     Copyright (C) 2000-2001  Cédric Auger */
+/*     Copyright (C) 2000-2002  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -68,21 +68,21 @@ GtkWidget *creation_onglet_operations ( void )
   /*  Création de la fenêtre des comptes */
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
-			     creation_onglet_comptes (),
-			     gtk_label_new ( "Comptes" ) );
+			     creation_liste_comptes (),
+			     gtk_label_new ( _("Comptes") ) );
 
 
   /* création de la fenetre de ventilation */
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
 			     creation_verification_ventilation (),
-			     gtk_label_new ( "Ventilation" ) );
+			     gtk_label_new ( _("Ventilation") ) );
   
   /* création de la fenetre de l'équilibrage */
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
 			     creation_fenetre_equilibrage (),
-			     gtk_label_new ( "Equilibrage" ) );
+			     gtk_label_new ( _("Equilibrage") ) );
   
 
 
@@ -158,7 +158,7 @@ GtkWidget *creation_onglet_operations ( void )
 				   10);
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_formulaire ),
 			     formulaire,
-			     gtk_label_new ( "Formulaire" ) );
+			     gtk_label_new ( _("Formulaire") ) );
   gtk_widget_show (formulaire);
 
 
@@ -166,7 +166,7 @@ GtkWidget *creation_onglet_operations ( void )
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_formulaire ),
 			     creation_formulaire_ventilation (),
-			     gtk_label_new ( "Ventilation" ) );
+			     gtk_label_new ( _("Ventilation") ) );
   
 
   /* on remet la fenetre du formulaire sur le formulaire  */

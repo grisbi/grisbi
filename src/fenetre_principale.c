@@ -1,7 +1,7 @@
 /*  Fichier qui s'occupe de former les différentes fenêtres de travail */
 /*      fenetre_principale.c */
 
-/*     Copyright (C) 2000-2001  Cédric Auger */
+/*     Copyright (C) 2000-2002  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -51,7 +51,7 @@ GtkWidget *creation_fenetre_principale (void )
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
 			     page_accueil,
-			     gtk_label_new (" Accueil ") );
+			     gtk_label_new (_(" Accueil ")) );
 
   /*  Céation de la fenêtre principale qui contient d'un côté */
   /*  les comptes, et de l'autre les opérations */
@@ -60,38 +60,55 @@ GtkWidget *creation_fenetre_principale (void )
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
 			     page_operations,
-			     gtk_label_new (" Opérations ") );
+			     gtk_label_new (_(" Opérations ")) );
 
 /*   création de la fenetre des echéances */
 
   page_echeancier = creation_onglet_echeancier();
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
 			     page_echeancier,
-			     gtk_label_new (" Échéancier ") );
+			     gtk_label_new (_(" Échéancier ")) );
+
+/*   création de la fenetre des comptes */
+
+  page_comptes = creation_onglet_comptes();
+  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
+			     page_comptes,
+			     gtk_label_new (_(" Comptes ")) );
 
 /* Création de la fenetre des tiers */
 
   page_tiers = onglet_tiers();
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
 			     page_tiers,
-			     gtk_label_new (" Tiers ") );
+			     gtk_label_new (_(" Tiers ")) );
 
   /* création de la fenetre des categories */
 
   page_categories = onglet_categories();
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
 			     page_categories,
-			     gtk_label_new (" Catégories ") );
+			     gtk_label_new (_(" Catégories ")) );
 
   /* création de la fenetre des imputations budgétaires */
 
   page_imputations = onglet_imputations();
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
 			     page_imputations,
-			     gtk_label_new (" Imputations Budgétaires ") );
+			     gtk_label_new (_(" Imputations Budgétaires ")) );
 
   if ( !etat.utilise_imputation_budgetaire )
     gtk_widget_hide ( page_imputations );
+
+  /* création de la fenetre des états */
+
+  page_etats = creation_onglet_etats ();
+  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
+			     page_etats,
+			     gtk_label_new (_(" États ")) );
+
+
+
 
   /* change les titres des colonnes si nécessaire */
 
@@ -99,13 +116,13 @@ GtkWidget *creation_fenetre_principale (void )
     {
       gtk_clist_set_column_title ( GTK_CLIST ( arbre_tiers ),
 				   0,
-				   "Liste des tiers (écritures)" );
+				   _("Liste des tiers (écritures)") );
       gtk_clist_set_column_title ( GTK_CLIST ( arbre_categ ),
 				   0,
-				   "Liste des catégories (écritures)" );
+				   _("Liste des catégories (écritures)") );
       gtk_clist_set_column_title ( GTK_CLIST ( arbre_imputation ),
 				   0,
-				   "Liste des imputations budgétaires (écritures)" );
+				   _("Liste des imputations budgétaires (écritures)") );
     }
 
 

@@ -171,7 +171,7 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
 			     "delete-text",
 			     GTK_SIGNAL_FUNC ( efface_texte  ),
 			     combofix );
-  gtk_signal_connect_after ( GTK_OBJECT ( combofix->entry ),
+  gtk_signal_connect ( GTK_OBJECT ( combofix->entry ),
 		       "focus-out-event",
 		       GTK_SIGNAL_FUNC ( focus_out_combofix ),
 		       combofix );
@@ -253,17 +253,14 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
 /* force_text :            TRUE ( le texte doit correspondre à la liste ) / FALSE */
 /* affiche_liste :         TRUE ( la liste sera affichée en tapant le mot ) / FALSE */
 /* classement_auto : TRUE ( la liste est toujours classée par ordre alphabétique ) / FALSE  */
-/* lignes_max : contient le nb maximal de lignes affichées de la liste, si 0=les affiche toutes, */
-/* s'il est dépassé, n'affiche rien */
-/*                                                                                                               */
+/*                                                                                                                                      */
 /* retour : le widget gtk_combofix ( une hbox contenant l'entrée et d'une arrow ) */
 /* **************************************************************************************************** */
 
 GtkWidget *gtk_combofix_new ( GSList *liste,
 			      gint force_text,
 			      gint affiche_liste,
-			      gint classement_auto,
-			      gint lignes_max )
+			      gint classement_auto )
 {
   GSList *pointeur;
   gchar *derniere_categ;
@@ -285,7 +282,6 @@ GtkWidget *gtk_combofix_new ( GSList *liste,
     }
 
 
-
 /* remplit les champs de la combofix */
 
   combofix -> force_text = force_text;
@@ -293,7 +289,6 @@ GtkWidget *gtk_combofix_new ( GSList *liste,
   combofix -> affiche_liste = affiche_liste;
   combofix -> complex = 0;
   combofix -> auto_sort = classement_auto;
-  combofix -> lignes_max = lignes_max;
 
 
   if ( affiche_liste )
@@ -338,6 +333,15 @@ GtkWidget *gtk_combofix_new ( GSList *liste,
       pointeur = pointeur -> next;
     }
 
+
+/*   classe la liste de completion */
+
+  combofix -> liste_completion = g_slist_sort ( combofix -> liste_completion,
+						(GCompareFunc) classe_alphabetique );
+
+  if ( classement_auto )
+    gtk_combofix_sort ( GTK_COMBOFIX ( combofix ));
+
   return ( GTK_WIDGET ( combofix ) );
 }
 /* **************************************************************************************************** */
@@ -353,17 +357,14 @@ GtkWidget *gtk_combofix_new ( GSList *liste,
 /* force_text :            TRUE ( le texte doit correspondre à la liste ) / FALSE */
 /* affiche_liste :         TRUE ( la liste sera affichée en tapant le mot ) / FALSE */
 /* classement_auto : TRUE ( la liste est toujours classée par ordre alphabétique ) / FALSE  */
-/* lignes_max : contient le nb maximal de lignes affichées de la liste, si 0=les affiche toutes, */
-/* s'il est dépassé, n'affiche rien */
-/*                                                                                                                                    */
+/*                                                                                                                                      */
 /* retour : le widget gtk_combofix ( une hbox contenant l'entrée et d'une arrow ) */
 /* **************************************************************************************************** */
 
 GtkWidget *gtk_combofix_new_complex ( GSList *liste,
 				      gint force_text,
 				      gint affiche_liste,
-				      gint classement_auto,
-				      gint lignes_max )
+				      gint classement_auto )
 {
   GSList *pointeur;
   gchar *derniere_categ;
@@ -397,6 +398,7 @@ GtkWidget *gtk_combofix_new_complex ( GSList *liste,
       pointeur = pointeur -> next;
     }
 
+
   /* remplit les champs de la combofix */
 
   combofix -> force_text = force_text;
@@ -404,7 +406,6 @@ GtkWidget *gtk_combofix_new_complex ( GSList *liste,
   combofix -> affiche_liste = affiche_liste;
   combofix -> complex = 1;
   combofix -> auto_sort = classement_auto;
-  combofix -> lignes_max = lignes_max;
 
   if ( affiche_liste )
     gtk_arrow_set ( GTK_ARROW ( GTK_BIN ( combofix -> arrow ) -> child ),
@@ -452,6 +453,15 @@ GtkWidget *gtk_combofix_new_complex ( GSList *liste,
 	}
       pointeur = pointeur -> next;
     }
+ 
+  /*   classe la liste de completion */
+
+  combofix -> liste_completion = g_slist_sort ( combofix -> liste_completion,
+						(GCompareFunc) classe_alphabetique );
+
+  if ( classement_auto )
+    gtk_combofix_sort ( GTK_COMBOFIX ( combofix ));
+
 
   return ( GTK_WIDGET ( combofix ) );
 }
@@ -578,14 +588,12 @@ static void affiche_proposition ( GtkWidget *entree,
   gint menu_rempli;
   gint menu_rempli_ok;
   gchar *completion;
+  gchar *categorie;
   GtkWidget *scrolled_window;
   GdkColor couleur_bleue;
-  GSList *liste_affichee;
-  gchar *categorie;
-  gint ligne_en_cours;
 
-#define COULEUR_RED  40000
-#define COULEUR_GREEN  40000
+#define COULEUR_RED  55000
+#define COULEUR_GREEN  55000
 #define COULEUR_BLUE  65535
 
   /* Initialisation des couleurs */
@@ -594,9 +602,6 @@ static void affiche_proposition ( GtkWidget *entree,
   couleur_bleue.green = COULEUR_GREEN;
   couleur_bleue.blue = COULEUR_BLUE;
 
-  /*   pour éviter un warning lors de la compil : */
-
-  categorie = "";
 
 
   /*   si la liste de mot est nulle, soit force_text n'est pas mis, et on vire, soit il est mis, */
@@ -621,6 +626,7 @@ static void affiche_proposition ( GtkWidget *entree,
 
       return;
     }
+
 
   /* recherche de la complétion */
 
@@ -649,30 +655,18 @@ static void affiche_proposition ( GtkWidget *entree,
   /* commence par vérifier l'entrée si force_text = 1 */
   /* si le mot n'existe pas dans la liste autorisée, efface ce qui a été ajouté */
 
-  if ( combofix -> force_text
-       &&
-       !completion
-       &&
-       entree )
+  if ( combofix -> force_text && !completion && entree )
     {
       gtk_signal_handler_block_by_func ( GTK_OBJECT ( combofix->entry ),
 					 GTK_SIGNAL_FUNC ( efface_texte ),
 					 combofix );
-      if ( position )
-	{
-	  gtk_editable_delete_text ( GTK_EDITABLE ( combofix->entry ),
-				     *position - longueur,
-				     *position );
-	  (*position) = *position - longueur;
-	}
-      else
-	gtk_editable_delete_text ( GTK_EDITABLE ( combofix->entry ),
-				   0,
-				   -1 );
-
+      gtk_editable_delete_text ( GTK_EDITABLE ( combofix->entry ),
+				 *position - longueur,
+				 *position );
       gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( combofix->entry ),
 					   GTK_SIGNAL_FUNC ( efface_texte ),
 					   combofix );
+      (*position) = *position - longueur;
 
       goto recherche_completion;
     }
@@ -692,210 +686,8 @@ static void affiche_proposition ( GtkWidget *entree,
 
 	  rafraichir_selection = 1;
 	}
+
       return;
-    }
-
-
-  /* on commence à récupérer toutes les lignes qu'on va inclure dans la box */
-  /* si le nb de lignes est > à lignes_max, on n'affiche pas */
-
-
-  /* si on a clické sur l'arrow, on affiche toute la liste */
-
-  if ( entree == GINT_TO_POINTER ( -1 ) )
-    chaine = texte;
-  else
-    chaine = gtk_entry_get_text ( GTK_ENTRY ( combofix->entry ));
-
-
-  liste_tmp = combofix->liste;
-  liste_affichee = NULL;
-  ligne_en_cours = 0;
-
-  if ( combofix -> complex )
-    while ( liste_tmp )
-      {
-	GSList *sous_liste_tmp;
-	GSList *sous_liste_affichee;
-
-	/* protection si pas de catég à une sous-categ */
-
-	categorie = "";
-
-	sous_liste_tmp = liste_tmp -> data;
-	sous_liste_affichee = NULL;
-
-	while ( sous_liste_tmp )
-	  {
-	    gchar *string;
-
-	    string = g_strdup ( sous_liste_tmp -> data );
-	    
-	    /* la comparaison est différente selon que ce soit une catég ou une sous catég : */
-	    /*  pour une catég, on la compare directement avec l'entrée */
-	    /* pour une sous-catég, on compare categ : sous-categ avec l'entrée */
-
-	    if ( string[0] != '\t' )
-	      {
-		gchar *string_tot;
-		
-		/* c'est une catégorie */
-		/* sauvegarde de la catégorie pour tester les sous-catégories */
-
-		categorie = string;
-		string_tot = g_strconcat ( string,
-					   " : ",
-					   NULL );
-		if ( !g_strncasecmp ( chaine,
-				      string_tot,
-				      strlen ( chaine )) 
-		     ||
-		     !g_strncasecmp ( chaine,
-				      string_tot,
-				      strlen ( string_tot )))
-
-		  {
-		    /* cette catégorie devra être affichée */
-
-		    sous_liste_affichee = g_slist_append ( sous_liste_affichee,
-							   string );
-		    ligne_en_cours++;
-		  }
-	      }
-	    else
-	      {
-		if ( !g_strncasecmp ( chaine,
-				      g_strconcat ( categorie,
-						    " : ",
-						    string + 1,
-						    NULL ),
-				      strlen ( chaine )))
-		  {
-		    /* cette sous-catég devra être affichée */
- 
-		    sous_liste_affichee = g_slist_append ( sous_liste_affichee,
-							   string );
-		    ligne_en_cours++;
-		  }
-	      }
-
-	    if ( combofix -> lignes_max
-		 &&
-		 ligne_en_cours > combofix -> lignes_max )
-	      {
-		if ( GTK_WIDGET_VISIBLE ( combofix->popup ))
-		  {
-		    gtk_widget_hide ( combofix->popup );
-
-		    gtk_grab_remove ( combofix -> popup );
-		    gdk_pointer_ungrab ( GDK_CURRENT_TIME );
-		  }
-		return;
-	      }
-	    sous_liste_tmp = sous_liste_tmp -> next;
-	  }
-
-	/* on a fait le tour de la sous-liste du combofix complex */
-	/* on ajoute la sous-liste des textes à afficher dans liste_affichee */
-
-	liste_affichee = g_slist_append ( liste_affichee,
-					  sous_liste_affichee );
-
-	liste_tmp = liste_tmp -> next;
-      }
-  else
-    while ( liste_tmp )
-      {
-	gchar *string;
-
-	/* protection si pas de catég à une sous-categ */
-
-	categorie = "";
-
-	string = liste_tmp -> data;
-
-	/* la comparaison est différente selon que ce soit une catég ou une sous catég : */
-	/*  pour une catég, on la compare directement avec l'entrée */
-	/* pour une sous-catég, on compare categ : sous-categ avec l'entrée */
-
-	if ( string[0] != '\t' )
-	  {
-	    gchar *string_tot;
-
-	    /* sauvegarde de la catégorie pour tester les sous-catégories */
-
-	    categorie = string;
-	    string_tot = g_strconcat ( string,
-				       " : ",
-				       NULL );
-	    if ( !g_strncasecmp ( chaine,
-				  string_tot,
-				  strlen ( chaine ) ) 
-		 ||
-		 !g_strncasecmp ( chaine,
-				  string_tot,
-				  strlen ( string_tot )))
-
-	      {
-		liste_affichee = g_slist_append ( liste_affichee,
-						  string );
-		ligne_en_cours++;
-	      }
-	  }
-	else
-	  {
-	    if ( !g_strncasecmp ( chaine,
-				  g_strconcat ( categorie,
-						" : ",
-						string + 1,
-						NULL ),
-				  strlen ( chaine ) ) )
-	      {
-		liste_affichee = g_slist_append ( liste_affichee,
-						  string );
-		ligne_en_cours++;
-	      }
-	  }
-
-	if ( combofix -> lignes_max
-	     &&
-	     ligne_en_cours > combofix -> lignes_max )
-	  {
-	    if ( GTK_WIDGET_VISIBLE ( combofix->popup ))
-	      {
-		gtk_widget_hide ( combofix->popup );
-
-		gtk_grab_remove ( combofix -> popup );
-		gdk_pointer_ungrab ( GDK_CURRENT_TIME );
-	      }
-	    return;
-	  }
-
-	liste_tmp = liste_tmp -> next;
-      }
-
-
-  /*   si on est censé trier, c'est ici, où on ne trie que les lignes qu'on va afficher */
-
-
-  if ( combofix -> auto_sort )
-    {
-      if ( combofix -> complex )
-	{
-	  liste_tmp = liste_affichee;
-
-	  while ( liste_tmp )
-	    {
-	      liste_tmp -> data = classe_combofix ( liste_tmp -> data );
-	      liste_tmp = liste_tmp -> next;
-	    }
-	}
-      else
-	{
-	  liste_affichee = classe_combofix ( liste_affichee );
-/* 	  combofix -> liste_completion = g_slist_sort ( combofix -> liste_completion, */
-/* 							(GCompareFunc) classe_alphabetique ); */
-	}
     }
 
 
@@ -927,17 +719,31 @@ static void affiche_proposition ( GtkWidget *entree,
   style_label->bg[GTK_STATE_PRELIGHT] = couleur_bleue;
 
 
+/* si on a clické sur l'arrow, on affiche toute la liste */
+
+  if ( entree == GINT_TO_POINTER ( -1 ) )
+    chaine = texte;
+  else
+    chaine = gtk_entry_get_text ( GTK_ENTRY ( combofix->entry ));
 
 
-  liste_tmp = liste_affichee;
+  liste_tmp = combofix->liste;
 
   menu_rempli = 0;
   menu_rempli_ok = 0;
+
+  /* protection si pas de catég à une sous-categ */
+
+  categorie = "";
 
   if ( combofix -> complex )
     while ( liste_tmp )
       {
 	GSList *sous_liste_tmp;
+
+	/* protection si pas de catég à une sous-categ */
+
+	categorie = "";
 
 	sous_liste_tmp = liste_tmp -> data;
 
@@ -947,34 +753,182 @@ static void affiche_proposition ( GtkWidget *entree,
 
 	    string = g_strdup ( sous_liste_tmp -> data );
 
+	    /* la comparaison est différente selon que ce soit une catég ou une sous catég : */
+	    /*  pour une catég, on la compare directement avec l'entrée */
+	    /* pour une sous-catég, on compare categ : sous-categ avec l'entrée */
+
 	    if ( string[0] != '\t' )
 	      {
-		/* c'est une catégorie, on la met dans la liste */
+		gchar *string_tot;
 
-
-		/* on met la catég dans la variable qui sera utilisée dans l'affichage de la sous catég */
+		/* sauvegarde de la catégorie pour tester les sous-catégories */
 
 		categorie = string;
+		string_tot = g_strconcat ( string,
+					   " : ",
+					   NULL );
+		if ( !g_strncasecmp ( chaine,
+				      string_tot,
+				      strlen ( chaine ) ) 
+		  ||
+		    !g_strncasecmp ( chaine,
+				     string_tot,
+				     strlen ( string_tot )))
 
-		/* permet d'éviter d'avoir une barre en haut */
-
-		menu_rempli_ok = 1;
-
-		/* on met une séparation si nécessaire */
-
-		if ( menu_rempli )
 		  {
-		    label = gtk_hseparator_new ();
+		    /* permet d'éviter d'avoir une barre en haut */
+
+		    menu_rempli_ok = 1;
+
+		    /* on met une séparation si nécessaire */
+
+		    if ( menu_rempli )
+		      {
+			label = gtk_hseparator_new ();
+			gtk_box_pack_start ( GTK_BOX ( liste ),
+					     label,
+					     TRUE,
+					     TRUE,
+					     0 );
+			combofix->event_box = g_slist_append ( combofix->event_box,
+							       label );
+			menu_rempli = 0;
+		      }
+
+
+		    /* création de l'event_box */
+
+		    event_box = gtk_event_box_new ();
+		    gtk_widget_set_style ( event_box,
+					   style_label );
+		    gtk_object_set_data ( GTK_OBJECT ( event_box ),
+					  "texte",
+					  string );
+		    gtk_signal_connect ( GTK_OBJECT ( event_box ),
+					 "enter_notify_event",
+					 GTK_SIGNAL_FUNC ( met_en_prelight ),
+					 combofix );
+		    gtk_signal_connect ( GTK_OBJECT ( event_box ),
+					 "button_press_event",
+					 GTK_SIGNAL_FUNC ( click_sur_label ),
+					 combofix );
+
+		    /* création du label */
+
+		    label = gtk_label_new ( string );
+
+		    gtk_misc_set_alignment ( GTK_MISC ( label ),
+					     0,
+					     0.5 );
+		    gtk_widget_set_style ( label,
+					   style_label );
+		    gtk_container_add ( GTK_CONTAINER ( event_box ),
+					label );
+
 		    gtk_box_pack_start ( GTK_BOX ( liste ),
-					 label,
+					 event_box,
 					 TRUE,
 					 TRUE,
 					 0 );
 		    combofix->event_box = g_slist_append ( combofix->event_box,
-							   label );
-		    menu_rempli = 0;
+							   event_box );
 		  }
+	      }
+	    else
+	      {
+		if ( !g_strncasecmp ( chaine,
+				      g_strconcat ( categorie,
+						    " : ",
+						    string + 1,
+						    NULL ),
+				      strlen ( chaine ) ) )
+		  {
+		    /* création de l'event_box */
 
+		    event_box = gtk_event_box_new ();
+		    gtk_widget_set_style ( event_box,
+					   style_label );
+		    gtk_object_set_data ( GTK_OBJECT ( event_box ),
+					  "texte",
+					  g_strconcat ( categorie,
+							" : ",
+							string + 1,
+							NULL ));
+		    gtk_signal_connect ( GTK_OBJECT ( event_box ),
+					 "enter_notify_event",
+					 GTK_SIGNAL_FUNC ( met_en_prelight ),
+					 combofix );
+		    gtk_signal_connect ( GTK_OBJECT ( event_box ),
+					 "button_press_event",
+					 GTK_SIGNAL_FUNC ( click_sur_label ),
+					 combofix );
+
+		    string = g_strdelimit ( string,
+					    "\t",
+					    ' ' );
+		    string = g_strconcat ( "     ",
+					   string,
+					   NULL );
+
+		    label = gtk_label_new ( string );
+
+		    gtk_misc_set_alignment ( GTK_MISC ( label ),
+					     0,
+					     0.5 );
+		    gtk_widget_set_style ( label,
+					   style_label );
+		    gtk_container_add ( GTK_CONTAINER ( event_box ),
+					label );
+
+		    gtk_box_pack_start ( GTK_BOX ( liste ),
+					 event_box,
+					 TRUE,
+					 TRUE,
+					 0 );
+		    combofix->event_box = g_slist_append ( combofix->event_box,
+							   event_box );
+		  }
+	      }
+	    sous_liste_tmp = sous_liste_tmp -> next;
+	  }
+	if ( menu_rempli_ok )
+	  {
+	    menu_rempli = 1;
+	    menu_rempli_ok = 0;
+	  }
+
+	liste_tmp = liste_tmp -> next;
+      }
+  else
+    while ( liste_tmp )
+      {
+	gchar *string;
+
+	string = liste_tmp -> data;
+
+	/* la comparaison est différente selon que ce soit une catég ou une sous catég : */
+	/*  pour une catég, on la compare directement avec l'entrée */
+	/* pour une sous-catég, on compare categ : sous-categ avec l'entrée */
+
+	if ( string[0] != '\t' )
+	  {
+	    gchar *string_tot;
+
+	    /* sauvegarde de la catégorie pour tester les sous-catégories */
+
+	    categorie = string;
+	    string_tot = g_strconcat ( string,
+				       " : ",
+				       NULL );
+	    if ( !g_strncasecmp ( chaine,
+				  string_tot,
+				  strlen ( chaine ) ) 
+		 ||
+		 !g_strncasecmp ( chaine,
+				  string_tot,
+				  strlen ( string_tot )))
+
+	      {
 		/* création de l'event_box */
 
 		event_box = gtk_event_box_new ();
@@ -991,6 +945,7 @@ static void affiche_proposition ( GtkWidget *entree,
 				     "button_press_event",
 				     GTK_SIGNAL_FUNC ( click_sur_label ),
 				     combofix );
+
 
 		/* création du label */
 
@@ -1011,12 +966,17 @@ static void affiche_proposition ( GtkWidget *entree,
 				     0 );
 		combofix->event_box = g_slist_append ( combofix->event_box,
 						       event_box );
-		 
 	      }
-	    else
+	  }
+	else
+	  {
+	    if ( !g_strncasecmp ( chaine,
+				  g_strconcat ( categorie,
+						" : ",
+						string + 1,
+						NULL ),
+				  strlen ( chaine ) ) )
 	      {
-		/* c'est une sous-categ, on la met dans la liste avec un espace devant */
-
 		/* création de l'event_box */
 
 		event_box = gtk_event_box_new ();
@@ -1037,9 +997,6 @@ static void affiche_proposition ( GtkWidget *entree,
 				     GTK_SIGNAL_FUNC ( click_sur_label ),
 				     combofix );
 
-		string = g_strdelimit ( string,
-					"\t",
-					' ' );
 		string = g_strconcat ( "     ",
 				       string,
 				       NULL );
@@ -1062,118 +1019,10 @@ static void affiche_proposition ( GtkWidget *entree,
 		combofix->event_box = g_slist_append ( combofix->event_box,
 						       event_box );
 	      }
-	    sous_liste_tmp = sous_liste_tmp -> next;
-	  }
-
-	if ( menu_rempli_ok )
-	  {
-	    menu_rempli = 1;
-	    menu_rempli_ok = 0;
-	  }
-
-	liste_tmp = liste_tmp -> next;
-      }
-  else
-    while ( liste_tmp )
-      {
-	gchar *string;
-
-	string = liste_tmp -> data;
-
-	if ( string[0] != '\t' )
-	  {
-	    /* c'est une categ, on l'affiche */
-
-	    /* on met la catég dans la variable qui sera utilisée dans l'affichage de la sous catég */
-
-	    categorie = string;
-
-	    /* création de l'event_box */
-
-	    event_box = gtk_event_box_new ();
-	    gtk_widget_set_style ( event_box,
-				   style_label );
-	    gtk_object_set_data ( GTK_OBJECT ( event_box ),
-				  "texte",
-				  string );
-	    gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				 "enter_notify_event",
-				 GTK_SIGNAL_FUNC ( met_en_prelight ),
-				 combofix );
-	    gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				 "button_press_event",
-				 GTK_SIGNAL_FUNC ( click_sur_label ),
-				 combofix );
-
-
-	    /* création du label */
-
-	    label = gtk_label_new ( string );
-
-	    gtk_misc_set_alignment ( GTK_MISC ( label ),
-				     0,
-				     0.5 );
-	    gtk_widget_set_style ( label,
-				   style_label );
-	    gtk_container_add ( GTK_CONTAINER ( event_box ),
-				label );
-
-	    gtk_box_pack_start ( GTK_BOX ( liste ),
-				 event_box,
-				 TRUE,
-				 TRUE,
-				 0 );
-	    combofix->event_box = g_slist_append ( combofix->event_box,
-						   event_box );
-	  }
-	else
-	  {
-	    /* c'est une sous-categ, on la met dans la liste avec un espace devant */
-
-	    /* création de l'event_box */
-
-	    event_box = gtk_event_box_new ();
-	    gtk_widget_set_style ( event_box,
-				   style_label );
-	    gtk_object_set_data ( GTK_OBJECT ( event_box ),
-				  "texte",
-				  g_strconcat ( categorie,
-						" : ",
-						string + 1,
-						NULL ));
-	    gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				 "enter_notify_event",
-				 GTK_SIGNAL_FUNC ( met_en_prelight ),
-				 combofix );
-	    gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				 "button_press_event",
-				 GTK_SIGNAL_FUNC ( click_sur_label ),
-				 combofix );
-
-	    string = g_strconcat ( "     ",
-				   string,
-				   NULL );
-
-	    label = gtk_label_new ( string );
-
-	    gtk_misc_set_alignment ( GTK_MISC ( label ),
-				     0,
-				     0.5 );
-	    gtk_widget_set_style ( label,
-				   style_label );
-	    gtk_container_add ( GTK_CONTAINER ( event_box ),
-				label );
-
-	    gtk_box_pack_start ( GTK_BOX ( liste ),
-				 event_box,
-				 TRUE,
-				 TRUE,
-				 0 );
-	    combofix->event_box = g_slist_append ( combofix->event_box,
-						   event_box );
 	  }
 	liste_tmp = liste_tmp -> next;
       }
+
 
 
 
@@ -1410,6 +1259,7 @@ static void click_sur_label ( GtkWidget *event_box,
 			      GdkEventButton *ev,
 			      GtkComboFix *combofix )
 {
+
   gtk_combofix_set_text ( combofix,
 			  gtk_object_get_data ( GTK_OBJECT ( event_box ), "texte" ) );
 
@@ -1430,9 +1280,6 @@ static void  focus_out_combofix ( GtkWidget *widget,
 {
   gint x,y;
 
-  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
-				 "focus-out-event" );
-
   gtk_widget_get_pointer ( GTK_WIDGET ( combofix ),
 			   &x,
 			   &y );
@@ -1448,6 +1295,7 @@ static void  focus_out_combofix ( GtkWidget *widget,
       if ( gdk_window_at_pointer ( &x,&y ) != GTK_WIDGET ( combofix->arrow ) -> window )
 	gtk_widget_hide ( combofix->popup );
     }
+
 
   /*   si force_text est mis, il faut que le texte corresponde, sinon, met le 1er trouvé */
 
@@ -1480,11 +1328,11 @@ static void  focus_out_combofix ( GtkWidget *widget,
 
    }
 
-  /* vire la selection */
+      /* vire la selection */
 
-  gtk_entry_select_region ( GTK_ENTRY ( combofix -> entry ),
-			    0,
-			    0 );
+      gtk_entry_select_region ( GTK_ENTRY ( combofix -> entry ),
+				0,
+				0 );
  
 }
 /* **************************************************************************************************** */
@@ -1544,15 +1392,13 @@ static void verifie_efface_texte ( GtkWidget *entree,
 
   liste_tmp = combofix->liste_completion;
 
-  while ( liste_tmp )
-    {
+    do
       if ( !g_strncasecmp ( chaine,
 			    liste_tmp->data, 
 			    strlen ( chaine ) ) )
 	/*       la partie du mot fait partie de la liste -> on s'en va */
 	return;
-      liste_tmp = liste_tmp -> next;
-    }
+    while ( ( liste_tmp = liste_tmp -> next ) );
 
   /*   pas trouvé dans la liste -> stoppe le signal */
 
@@ -1700,6 +1546,7 @@ static void touche_pressee ( GtkWidget *entry,
 {
   GtkAdjustment *ajustement;
 
+
   if ( !combofix -> liste )
     return;
 
@@ -1791,11 +1638,10 @@ static void touche_pressee ( GtkWidget *entry,
       /* flèche haut */
 
     case 65362:
-      gtk_signal_emit_stop_by_name ( GTK_OBJECT ( combofix -> entry ),
-				     "key-press-event" );
-
       if ( combofix -> label_selectionne > 0 )
 	{
+	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( combofix -> entry ),
+					 "key-press-event" );
 
 	  gtk_widget_set_state ( GTK_WIDGET ( g_slist_nth_data ( combofix->event_box, combofix -> label_selectionne ) ),
 				 GTK_STATE_NORMAL );
@@ -1817,102 +1663,6 @@ static void touche_pressee ( GtkWidget *entry,
 				 GTK_STATE_PRELIGHT );
 	}
       break;
-
-      /* page up */
-
-    case 65365:
-      gtk_signal_emit_stop_by_name ( GTK_OBJECT ( combofix -> entry ),
-				     "key-press-event" );
-
-      if ( combofix -> label_selectionne > 0 )
-	{
-	  gint nb_labels_par_page;
-
-	  gtk_widget_set_state ( GTK_WIDGET ( g_slist_nth_data ( combofix->event_box, combofix -> label_selectionne )),
-				 GTK_STATE_NORMAL );
-
-	  /* on calcule combien il y a de labels dans une page */
-
-	  nb_labels_par_page = (combofix -> box) -> allocation.height / GTK_WIDGET ( g_slist_nth_data ( combofix->event_box, combofix -> label_selectionne )) -> allocation.height;
-
-	  combofix -> label_selectionne = combofix -> label_selectionne - nb_labels_par_page;
-
-	  if ( combofix -> label_selectionne < 0 )
-	    combofix -> label_selectionne = 0;
-
-	  if ( GTK_IS_HSEPARATOR ( GTK_WIDGET ( g_slist_nth_data ( combofix->event_box, combofix -> label_selectionne ) )))
-	    combofix -> label_selectionne--;
-
-	  ajustement = gtk_scrolled_window_get_vadjustment ( GTK_SCROLLED_WINDOW ( combofix -> box ));
-
-	  /* 	  si on est au dessus de la liste, on la décale vers le haut */
-
-	  while ( combofix -> label_selectionne* ( GTK_WIDGET ( g_slist_nth_data ( combofix->event_box, combofix -> label_selectionne ) )) -> allocation.height < ajustement -> value )
-	    gtk_adjustment_set_value ( ajustement,
-				       ajustement -> value - ajustement -> step_increment );
-
-	  gtk_widget_set_state ( GTK_WIDGET ( g_slist_nth_data ( combofix->event_box, combofix -> label_selectionne ) ),
-				 GTK_STATE_PRELIGHT );
-	}
-
-
-
-      break;
-
-      /* page down */
-
-    case 65366:
-      gtk_signal_emit_stop_by_name ( GTK_OBJECT ( combofix -> entry ),
-				     "key-press-event" );
-      /*     si la popup n'est pas affichée à cause de l'arrow, descend l'arrow, affiche la liste */
-      if ( combofix -> affiche_liste == 0 || !GTK_WIDGET_VISIBLE ( combofix->popup ) )
-	{
-	  gtk_widget_grab_focus ( GTK_WIDGET ( combofix -> arrow ));
-	  change_arrow ( NULL,
-			 combofix );
-	  gtk_widget_grab_focus ( GTK_WIDGET ( combofix -> entry ));
-	}
-      /*       si la popup est affichée, on descend dans la liste, sinon, c'est qu'il n'y avait aucune sélection possible */
-
-      if ( GTK_WIDGET_VISIBLE ( combofix->popup ) )
-	{
-	  if ( combofix -> label_selectionne < ( g_slist_length ( combofix->event_box )-1) || combofix -> label_selectionne == -1 )
-	    {
-	      gint nb_labels_par_page;
-
-	      if ( combofix -> label_selectionne != -1 )
-		{
-		  gtk_widget_set_state ( GTK_WIDGET ( g_slist_nth_data ( combofix->event_box, combofix -> label_selectionne ) ),
-					 GTK_STATE_NORMAL );
-
-		  /* on calcule combien il y a de labels dans une page */
-
-		  nb_labels_par_page = (combofix -> box) -> allocation.height / GTK_WIDGET ( g_slist_nth_data ( combofix->event_box, combofix -> label_selectionne )) -> allocation.height;
-		}
-	      else
-		nb_labels_par_page = 1;
-
-	      combofix -> label_selectionne = combofix -> label_selectionne + nb_labels_par_page;
-
-	      if ( combofix -> label_selectionne >= g_slist_length ( combofix -> event_box ))
-		combofix -> label_selectionne = g_slist_length ( combofix -> event_box ) - 1;
-
-	      if ( GTK_IS_HSEPARATOR( GTK_WIDGET ( g_slist_nth_data ( combofix->event_box, combofix -> label_selectionne ) )))
-		combofix -> label_selectionne++;
-	    
-	      ajustement = gtk_scrolled_window_get_vadjustment ( GTK_SCROLLED_WINDOW ( combofix -> box ));
-
-	      /* 	  si on est en dessous de la liste, on la décale vers le bas */
-
-	      while ( ( combofix -> label_selectionne + 1 )* ( GTK_WIDGET ( g_slist_nth_data ( combofix->event_box, combofix -> label_selectionne ) )) -> allocation.height > ajustement -> value + ajustement -> page_size )
-		gtk_adjustment_set_value ( ajustement,
-					   ajustement -> value + ajustement -> step_increment );
-
-	      gtk_widget_set_state ( GTK_WIDGET ( g_slist_nth_data ( combofix->event_box, combofix -> label_selectionne ) ),
-				     GTK_STATE_PRELIGHT );
-	    }
-	}
-
 
     default :
     }
@@ -2036,13 +1786,12 @@ static GSList *classe_combofix ( GSList *liste )
 
 /* **************************************************************************************************** */
 /* Fonction gtk_combofix_set_list : */
-/* change la liste du combofix  */
+/* efface l'ancienne liste si elle existe et met la nouvelle  */
 /* arguments :                           */
 /*       combofix : la combofix          */
 /*       liste : une gslist              */
 /*       complex : TRUE : complex / FALSE */
 /*       classement_auto : TRUE / FALSE   */
-/*       efface_ancienne_liste : TRUE / FALSE */
 /* **************************************************************************************************** */
 
 void gtk_combofix_set_list ( GtkComboFix *combofix,
@@ -2162,6 +1911,16 @@ void gtk_combofix_set_list ( GtkComboFix *combofix,
 
 	pointeur = pointeur -> next;
       }
+
+
+  /*   classe la liste de completion */
+
+  combofix -> liste_completion = g_slist_sort ( combofix -> liste_completion,
+						(GCompareFunc) classe_alphabetique );
+
+  if ( classement_auto )
+    gtk_combofix_sort ( GTK_COMBOFIX ( combofix ));
+
 }
 /* **************************************************************************************************** */
 
@@ -2177,25 +1936,5 @@ static void touche_pressee_dans_popup ( GtkWidget *popup,
 			    "key_press_event",
 			    event,
 			    malloc ( sizeof ( gboolean )) );
-}
-/* **************************************************************************************************** */
-
-
-
-/* **************************************************************************************************** */
-/* Fonction gtk_combofix_set_lignes_max : */
-/* permet de choisir le nombre maximal de lignes affichées dans la liste  */
-/* s'il vaut 0, toutes les lignes seront affichées */
-/* arguments :                           */
-/*       combofix : la combofix          */
-/*       liste : une gslist              */
-/*       complex : TRUE : complex / FALSE */
-/*       classement_auto : TRUE / FALSE   */
-/* **************************************************************************************************** */
-
-void gtk_combofix_set_lignes_max ( GtkComboFix *combofix,
-				   gint lignes_max )
-{
-  combofix -> lignes_max = lignes_max;
 }
 /* **************************************************************************************************** */
