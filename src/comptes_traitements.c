@@ -53,6 +53,7 @@ extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GSList *gsliste_echeances;
 extern struct operation_echeance *echeance_selectionnnee;
 extern gint nb_echeances;
+gint noname_account_number = 0;
 
 
 /* ************************************************************************** */
@@ -147,9 +148,11 @@ gint initialisation_nouveau_compte ( gint type_de_compte )
 
     p_tab_nom_de_compte_courant = p_tab_nom_de_compte + compte_courant;
 
+    noname_account_number++;
+
     /* insère ses paramètres ( comme c'est un appel à calloc, tout ce qui est à 0 est déjà initialisé )*/
 
-    NOM_DU_COMPTE = g_strdup ( _("No name") );
+    NOM_DU_COMPTE = g_strdup_printf ( _("No name %d"), noname_account_number );
     OPERATION_SELECTIONNEE = GINT_TO_POINTER ( -1 );
     DEVISE = 1;
     MISE_A_JOUR = 1;
