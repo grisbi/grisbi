@@ -13,5 +13,12 @@ struct struct_sous_categ *sous_categ_par_no ( gint no_categorie,
 struct struct_sous_categ *sous_categ_par_nom ( struct struct_categ *categ,
 					       gchar *nom_sous_categ,
 					       gboolean creer );
+void remove_transaction_from_category ( struct structure_operation * transaction,
+					struct struct_categ * category,
+					struct struct_sous_categ * sub_category );
+void add_transaction_to_category ( struct structure_operation * transaction,
+				   struct struct_categ * category,
+				   struct struct_sous_categ * sub_category );
+void calcule_total_montant_categ ( void );
 /*END_DECLARATION*/
 

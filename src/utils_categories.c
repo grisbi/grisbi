@@ -47,9 +47,7 @@ extern gpointer **p_tab_nom_de_compte_variable;
 extern gint no_devise_totaux_tiers;
 /*END_EXTERN*/
 
-
-
-
+struct struct_categ * without_category;
 
 
 
@@ -285,6 +283,12 @@ void calcule_total_montant_categ ( void )
 
     reset_category_counters();
 
+    without_category = calloc ( 1, sizeof ( struct struct_categ ));
+    without_category -> no_categ = 0;
+    without_category -> nom_categ = _("No category");
+    without_category -> type_categ = 0;
+    without_category -> no_derniere_sous_categ = 0;
+
     for ( i=0 ; i<nb_comptes ; i++ )
     {
 	GSList *liste_tmp;
@@ -312,6 +316,11 @@ void calcule_total_montant_categ ( void )
 							 operation -> sous_categorie );
 
 		add_transaction_to_category ( operation, categorie, sous_categorie );
+	    }
+	    else if ( ! operation -> operation_ventilee && 
+		      ! operation -> relation_no_operation )
+	    {
+		add_transaction_to_category ( operation, without_category, NULL );
 	    }
 
 	    liste_tmp = liste_tmp -> next;
@@ -351,6 +360,12 @@ void remove_transaction_from_category ( struct structure_operation * transaction
 	if ( !sub_category -> nb_transactions ) /* Cope with float errors */
 	    sub_category -> balance = 0.0;
     }
+    else 
+    {
+	category -> nb_direct_transactions --;
+	category -> direct_balance -= amount;
+    }
+
 }
 
 
@@ -381,6 +396,11 @@ void add_transaction_to_category ( struct structure_operation * transaction,
 	sub_category -> nb_transactions ++;
 	sub_category -> balance += amount;
     }
+    else 
+    {
+	category -> nb_direct_transactions ++;
+	category -> direct_balance += amount;
+    }
 }
 
 
@@ -392,6 +412,8 @@ void add_transaction_to_category ( struct structure_operation * transaction,
 void reset_category_counters ()
 {
     GSList * tmp;
+
+    without_category = NULL;
 
     tmp = liste_struct_categories;
     while ( tmp )
