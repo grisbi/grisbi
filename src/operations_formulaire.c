@@ -2793,8 +2793,6 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
 	}
 	else
 	    operation -> sous_imputation = 0;
-
-	g_strfreev ( tableau_char );
     }
     else
     {
