@@ -278,6 +278,46 @@ void preferences ( gint page )
 			-1);
     gtk_notebook_append_page (preference_frame, onglet_display_addresses(), NULL);
 
+    /* Display subtree */
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
+    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+			&iter,
+			0, _("Transactions"),
+			1, NOT_A_PAGE,
+			-1);
+
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+			&iter2,
+			0, _("Informations shown"),
+			1, TRANSACTIONS_LIST_PAGE,
+			-1);
+    gtk_notebook_append_page (preference_frame, onglet_affichage_liste(), NULL);
+
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+			&iter2,
+			0, _("List behavior"),
+			1, TRANSACTIONS_PAGE,
+			-1);
+    gtk_notebook_append_page (preference_frame, 
+			      GTK_WIDGET(onglet_affichage_operations()), NULL);
+
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+			&iter2,
+			0, _("Form content"),
+			1, TRANSACTION_FORM_PAGE,
+			-1);
+    gtk_notebook_append_page (preference_frame, onglet_display_transaction_form(), NULL);
+
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2,&iter );
+    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+			&iter2,
+			0, _("Form behavior"),
+			1, TRANSACTION_FORM_BEHAVIOR_PAGE,
+			-1);
+    gtk_notebook_append_page (preference_frame, onglet_diverse_form_and_lists(), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
@@ -286,54 +326,6 @@ void preferences ( gint page )
 			1, RECONCILIATION_PAGE,
 			-1);
     gtk_notebook_append_page (preference_frame, tab_display_reconciliation(), NULL);
-
-
-    /* form and list subtree */
-
-
-    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
-    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter,
-			0, _("Form and lists"),
-			1, NOT_A_PAGE,
-			-1);
-
-    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2,&iter );
-    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter2,
-			0, _("Diverse"),
-			1, TRANSACTION_DIVERSE_PAGE,
-			-1);
-    gtk_notebook_append_page (preference_frame, onglet_diverse_form_and_lists(), NULL);
-
-
-
-    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter2,
-			0, _("Transaction form"),
-			1, TRANSACTION_FORM_PAGE,
-			-1);
-    gtk_notebook_append_page (preference_frame, onglet_display_transaction_form(), NULL);
-
-    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter2,
-			0, _("Transactions list cells"),
-			1, TRANSACTIONS_LIST_PAGE,
-			-1);
-    gtk_notebook_append_page (preference_frame, onglet_affichage_liste(), NULL);
-
-    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter2,
-			0, _("Transactions list lines"),
-			1, TRANSACTIONS_PAGE,
-			-1);
-    gtk_notebook_append_page (preference_frame, 
-			      GTK_WIDGET(onglet_affichage_operations()), NULL);
-
-
 
     /* Resources subtree */
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
