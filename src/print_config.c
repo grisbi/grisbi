@@ -41,7 +41,6 @@ struct paper_config paper_sizes[8] = {
 };
 
 
-
 /** 
  * Open a dialog window which asks for information about paper,
  * margins, etc..
@@ -52,12 +51,14 @@ struct paper_config paper_sizes[8] = {
 gboolean print_config ( )
 {
   GtkWidget * dialog, *notebook;
+  struct print_config * config = NULL;
   gint response;
 
   /* Set up dialog */
   dialog = gtk_dialog_new_with_buttons ( _("Print"),
 					 GTK_WINDOW(window),
-					 GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_NO_SEPARATOR,
+					 GTK_DIALOG_DESTROY_WITH_PARENT | 
+					 GTK_DIALOG_NO_SEPARATOR,
 					 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					 GTK_STOCK_PRINT, GTK_RESPONSE_OK,
 					 NULL );
@@ -67,21 +68,35 @@ gboolean print_config ( )
   gtk_box_pack_start ( GTK_BOX(GTK_DIALOG(dialog)->vbox), notebook, TRUE, TRUE, 6 );
 
   /* Add tabs */
-  gtk_notebook_append_page ( GTK_NOTEBOOK(notebook), print_config_general(), 
+  gtk_notebook_append_page ( GTK_NOTEBOOK(notebook), print_config_general(dialog), 
 			     gtk_label_new (_("General")) );
 
-  gtk_notebook_append_page ( GTK_NOTEBOOK(notebook), print_config_paper(), 
+  gtk_notebook_append_page ( GTK_NOTEBOOK(notebook), print_config_paper(dialog), 
 			     gtk_label_new (_("Paper")) );
 
-  gtk_notebook_append_page ( GTK_NOTEBOOK(notebook), print_config_appearance(), 
-			     gtk_label_new (_("Appearance")) );
+/*   gtk_notebook_append_page ( GTK_NOTEBOOK(notebook), print_config_appearance(dialog),  */
+/* 			     gtk_label_new (_("Appearance")) ); */
 
   /* Finish dialog */
   gtk_widget_show_all ( dialog );
-  response = gtk_dialog_run (GTK_DIALOG (dialog));
+  response = gtk_dialog_run ( GTK_DIALOG (dialog) );
+
+  if ( response == GTK_RESPONSE_OK )
+    {
+      etat.print_config.printer = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON (g_object_get_data(G_OBJECT(dialog), "printer")) );
+      etat.print_config.printer_name = g_strdup ( gtk_entry_get_text ( GTK_ENTRY (g_object_get_data(G_OBJECT(dialog), "printer_name") )));
+      etat.print_config.printer_filename = g_strdup ( gtk_entry_get_text ( GTK_ENTRY (g_object_get_data(G_OBJECT(dialog), "printer_filename") )));
+
+      etat.print_config.filetype = gtk_option_menu_get_history ( GTK_OPTION_MENU (g_object_get_data(G_OBJECT(dialog), "filetype") ));
+      
+      etat.print_config.paper_config = paper_sizes [ gtk_option_menu_get_history ( GTK_OPTION_MENU (g_object_get_data(G_OBJECT(dialog), "paper_size"))) ];
+
+      etat.print_config.orientation = !gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON (g_object_get_data(G_OBJECT(dialog), "orientation")) );
+    }
+
   gtk_widget_destroy ( dialog );
 
-  return (response == GTK_RESPONSE_OK);
+  return response == GTK_RESPONSE_OK;
 }
 
 
@@ -159,6 +174,7 @@ GtkWidget * my_file_chooser ()
 
   entry = gtk_entry_new ( );
   gtk_box_pack_start ( GTK_BOX(hbox), entry, TRUE, TRUE, 0 );
+  g_object_set_data ( G_OBJECT(hbox), "entry", entry );
 
   button = gtk_button_new_with_label ( _("Browse") );
   gtk_box_pack_start ( GTK_BOX(hbox), button, FALSE, FALSE, 0 );
@@ -177,7 +193,7 @@ GtkWidget * my_file_chooser ()
  *
  * \return a pointer to a newly created GtkVbox
  */
-GtkWidget * print_config_general ()
+GtkWidget * print_config_general ( GtkWidget * dialog )
 {
   GtkWidget *vbox, *paddingbox, *table, *radio, *input, *omenu, *menu, *item;
 
@@ -197,28 +213,38 @@ GtkWidget * print_config_general ()
   radio = gtk_radio_button_new_with_label ( NULL, _("Printer") );
   gtk_table_attach ( GTK_TABLE(table), radio, 0, 1, 0, 1,
 		     GTK_SHRINK, GTK_SHRINK, 0, 0 );
+  g_object_set_data ( G_OBJECT(dialog), "printer", radio );
+
   input = gtk_entry_new ( );
   gtk_table_attach_defaults ( GTK_TABLE(table), input, 1, 2, 0, 1 );
+  g_object_set_data ( G_OBJECT(dialog), "printer_name", input );
+  gtk_entry_set_text ( GTK_ENTRY(input), etat.print_config.printer_name );
 
   /* Print to file */
-  radio = gtk_radio_button_new_with_label ( gtk_radio_button_group (GTK_RADIO_BUTTON(radio)),
-					    _("File") );
+  radio = gtk_radio_button_new_with_label ( gtk_radio_button_group (GTK_RADIO_BUTTON(radio)), _("File") );
   gtk_table_attach ( GTK_TABLE(table), radio, 0, 1, 1, 2,
 		     GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON(radio), !etat.print_config.printer );
+
   input = my_file_chooser ();
   gtk_table_attach_defaults ( GTK_TABLE(table), input, 1, 2, 1, 2 );
+  g_object_set_data ( G_OBJECT(dialog), "printer_filename", 
+		      g_object_get_data (G_OBJECT(input), "entry") );
+  gtk_entry_set_text ( GTK_ENTRY(g_object_get_data (G_OBJECT(input), "entry")),
+		       etat.print_config.printer_filename );
 
   /* Output file format */
   omenu = gtk_option_menu_new();
   menu = gtk_menu_new();
   gtk_option_menu_set_menu ( GTK_OPTION_MENU(omenu), menu );
+  g_object_set_data ( G_OBJECT(dialog), "filetype", omenu );
 
   item = gtk_menu_item_new_with_label ( _("Postscript file") );
   gtk_menu_append ( GTK_MENU ( menu ), item );
   item = gtk_menu_item_new_with_label ( _("LaTeX file") );
   gtk_menu_append ( GTK_MENU ( menu ), item );
+  gtk_option_menu_set_history ( GTK_OPTION_MENU(omenu), etat.print_config.filetype );
       
-  gtk_option_menu_set_history ( GTK_OPTION_MENU(omenu), 0 );
   gtk_table_attach_defaults ( GTK_TABLE(table), omenu, 1, 2, 2, 3 );
 
   return vbox;
@@ -232,10 +258,10 @@ GtkWidget * print_config_general ()
  *
  * \return a pointer to a newly created GtkVbox
  */
-GtkWidget * print_config_paper ()
+GtkWidget * print_config_paper ( GtkWidget * dialog )
 {
   GtkWidget *vbox, *paddingbox, *omenu, *menu, *item, *radio;
-  gint i;
+  gint i, history;
 
   vbox = gtk_vbox_new ( FALSE, 6 );
   gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
@@ -248,6 +274,7 @@ GtkWidget * print_config_paper ()
 
   menu = gtk_menu_new();
   gtk_option_menu_set_menu ( GTK_OPTION_MENU(omenu), menu );
+  g_object_set_data ( G_OBJECT(dialog), "paper_size", omenu );
 
   for ( i = 0; paper_sizes[i].name; i++ )
     {
@@ -255,10 +282,12 @@ GtkWidget * print_config_paper ()
 							    _(paper_sizes[i].name),
 							    paper_sizes[i].width/10,
 							    paper_sizes[i].height/10));
+      if ( !strcmp ( _(paper_sizes[i].name), etat.print_config.paper_config.name ))
+	history = i;
+      
       gtk_menu_append ( GTK_MENU ( menu ), item );
     }
-
-  gtk_option_menu_set_history ( GTK_OPTION_MENU(omenu), 1 );
+  gtk_option_menu_set_history ( GTK_OPTION_MENU(omenu), history );
 
   /* Paper orientation */
   paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Orientation") );
@@ -268,6 +297,9 @@ GtkWidget * print_config_paper ()
 
   radio = gtk_radio_button_new_with_label ( gtk_radio_button_group (GTK_RADIO_BUTTON(radio)), _("Landscape") );
   gtk_box_pack_start ( GTK_BOX(paddingbox), radio, FALSE, FALSE, 0 );
+  g_object_set_data ( G_OBJECT(dialog), "orientation", radio );
+
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON(radio), !etat.print_config.orientation );
 
   return vbox;
 }
@@ -279,7 +311,7 @@ GtkWidget * print_config_paper ()
  *
  * \return a pointer to a newly created GtkVbox
  */
-GtkWidget * print_config_appearance ()
+GtkWidget * print_config_appearance ( GtkWidget * dialog )
 {
   GtkWidget *vbox, *paddingbox;
 

@@ -28,11 +28,14 @@
 
 #include "etats.h"
 #include "etats_latex.h"
+#include "print_config.h"
 
 int lastline = 0;
 int lastcol = 0;
 int last_is_hsep = 0;
 FILE * out;
+struct print_config * printer_config;
+gchar * tempname;
 
 
 struct struct_etat_affichage latex_affichage = {
@@ -42,6 +45,7 @@ struct struct_etat_affichage latex_affichage = {
   latex_attach_vsep,
   latex_attach_label,
 };
+
 
 
 /**
@@ -89,10 +93,9 @@ void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y
     realcolumns = nb_colonnes;
 
   fprintf ( out, 
-	    "\\fboxsep \\parskip\n"
-	    "\\fboxrule 0pt\n"
-	    "\\begin{boxedminipage}{%f\\textwidth}\n", 
-	    (float) realsize / (float) realcolumns );
+	    "\\begin{boxedminipage}{%f\\text%s}\n", 
+	    (float) realsize / (float) realcolumns,
+	    ( etat.print_config.orientation == LANDSCAPE ? "height" : "width") );
 
   switch ( align )
     {
@@ -189,24 +192,32 @@ void latex_attach_hsep ( int x, int x2, int y, int y2)
 
 gint latex_initialise (GSList * opes_selectionnees)
 {
+  gfloat colwidth, real_width;
+  gchar * filename;
   int i;
-  gfloat colwidth;
 
-  if (! print_config ( ) )
+  if ( ! print_config() )
     return FALSE;
 
-  out = fopen ("toto.tex", "w");
-  if (! out)
+  if ( etat.print_config.printer || etat.print_config.filetype == POSTSCRIPT_FILE )
     {
-      fprintf ( stderr, _("Cannot open file '%s': %s\n"), "toto.tex", 
-		strerror(errno) );
+      tempname = (tempnam ( ".", "gsbpt" ));
+      filename =  g_strdup_printf ( "%s.tex", tempname );
+    }
+  else
+    {
+      filename = etat.print_config.printer_filename;
+    }
+
+  out = fopen ( filename, "w+x" );
+  if ( ! out )
+    {
+      dialogue_error ( g_strdup_printf ("File '%s' already exists", filename ));;
       return FALSE;
-     }
+    }
 
   fprintf (out, 
 	   "\\documentclass{article}\n\n"
-	   "\\usepackage{landscape}\n"
-	   "\\def\\printlandscape{\\special{landscape}}\n"
 	   "\\special{! TeXDict begin /landplus90{true}store end }\n"
 	   "\\usepackage{a4}\n"
 	   "\\usepackage[utf8]{inputenc}\n"
@@ -214,16 +225,36 @@ gint latex_initialise (GSList * opes_selectionnees)
 	   "\\usepackage{boxedminipage}\n"
 	   "\\usepackage{longtable}\n"
 	   "\\usepackage{vmargin}\n"
-	   "\\usepackage[T1]{fontenc}\n"
-	   "\\setpapersize{A4}\n"
+	   "\\usepackage[T1]{fontenc}\n");
+
+  if ( etat.print_config.orientation == LANDSCAPE )
+    {
+      fprintf (out,
+	       "\\usepackage{landscape}\n"
+	       "\\def\\printlandscape{\\special{landscape}}\n");
+    }
+
+  fprintf (out,
+	   "\\setpapersize{%s}\n"
 	   "\\setmarginsrb{1cm}{1cm}{1cm}{1cm}{0cm}{0cm}{0cm}{0cm}\n\n"
 	   "\\begin{document}\n\n"
+	   "\\fboxsep \\parskip\n"
+	   "\\fboxrule 0pt\n"
 	   "\\tabcolsep 0pt\n"
-	   "\\begin{longtable}[l]{");
+	   "\\begin{longtable}[l]{", etat.print_config.paper_config.name );
 
-    if ( etat_courant -> afficher_opes )
+  if ( etat.print_config.orientation == LANDSCAPE )
     {
-      colwidth = 27.7 / ((float) (nb_colonnes / 2) + 1 );
+      real_width = ((etat.print_config.paper_config.height-20)/10);
+    }
+  else
+    {
+      real_width = ((etat.print_config.paper_config.width-20)/10);
+    }
+  
+  if ( etat_courant -> afficher_opes )
+    {
+      colwidth = real_width / ((float) (nb_colonnes / 2) + 1 );
       fprintf ( out, "p{%fcm}", colwidth);
       for (i = 0 ; i < nb_colonnes/2 ; i++)
 	{
@@ -233,7 +264,7 @@ gint latex_initialise (GSList * opes_selectionnees)
     }
   else 
     {
-      colwidth = 27.7 / (float) nb_colonnes;
+      colwidth = real_width / (float) nb_colonnes;
       for (i = 0 ; i < nb_colonnes ; i++)
 	{
 	  fprintf (out, "p{%fcm}", colwidth);
@@ -248,22 +279,56 @@ gint latex_initialise (GSList * opes_selectionnees)
 
 gint latex_finish ()
 {
-  fprintf (out, "\n\\end{longtable}\n"
-	   "\\end{document}\n");
+  gchar * command;
 
+  fprintf (out, "\n"
+	   "\\end{longtable}\n"
+	   "\\end{document}\n");
   fclose (out);
 
-  if ( system ( "latex -interaction=nonstopmode toto.tex" ) > 0 )
-    dialogue ( _("LaTeX run was unable to complete, see console output for details.") );
-  else 
+  if ( etat.print_config.printer || etat.print_config.filetype == POSTSCRIPT_FILE )
     {
-      if ( !system ( "dvips -t landscape toto.dvi -o toto.ps" ) )
-	{
-	  system ( "gv toto.ps &" );
-	}
+      command = g_strdup_printf ( "latex -interaction=nonstopmode %s.tex", tempname );
+      if ( system ( command ) > 0 )
+	dialogue ( _("LaTeX run was unable to complete, see console output for details.") );
       else 
-	dialogue ( _("dvips was unable to complete, see console output for details.") );
-    }
+	{
+	  command = g_strdup_printf ( "dvips %s %s.dvi -o %s", 
+				      ( etat.print_config.orientation == LANDSCAPE ? "-t landscape" : ""),
+				      tempname,
+				      (etat.print_config.printer ? 
+				       (g_strconcat ( tempname, ".ps", NULL )) : 
+				       etat.print_config.printer_filename) );
+	  if ( !system ( command ) )
+	    {
+	      if ( etat.print_config.printer )
+		{
+		  command = g_strdup_printf ( "%s %s.ps", etat.print_config.printer_name, 
+					      tempname );
+		  if ( system ( command ) )
+		    {
+		      dialogue_error ( _("Cannot send job to printer") );
+		    }
+		}
+	    }
+	  else
+	    {
+	      printf (">%s<\n", command);
+	      dialogue_error ( _("dvips was unable to complete, see console output for details.") );
+	    }
+	}
+
+      printf (">> will unlink %s.tex\n", tempname);
+      printf (">> will unlink %s.aux\n", tempname);
+      printf (">> will unlink %s.dvi\n", tempname);
+      printf (">> will unlink %s.log\n", tempname);
+      if ( etat.print_config.printer )
+	{
+	  printf (">> will unlink %s.ps\n", tempname);
+	}
+
+      g_free ( tempname );
+    }  
   
   return 1;
 }
