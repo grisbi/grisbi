@@ -333,13 +333,12 @@ GtkWidget *creation_verification_ventilation ( void )
     gtk_widget_show ( hbox );
 
 
-    bouton = gtk_button_new_from_stock (GTK_STOCK_OK);
-
+    bouton = gtk_button_new_from_stock    (GTK_STOCK_CANCEL);
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
     gtk_signal_connect ( GTK_OBJECT ( bouton ),
 			 "clicked",
-			 GTK_SIGNAL_FUNC ( valider_ventilation ),
+			 GTK_SIGNAL_FUNC ( annuler_ventilation ),
 			 NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton,
@@ -348,12 +347,13 @@ GtkWidget *creation_verification_ventilation ( void )
 			 0 );
     gtk_widget_show ( bouton );
 
-    bouton = gtk_button_new_from_stock    (GTK_STOCK_CANCEL);
+    bouton = gtk_button_new_from_stock (GTK_STOCK_OK);
+
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
     gtk_signal_connect ( GTK_OBJECT ( bouton ),
 			 "clicked",
-			 GTK_SIGNAL_FUNC ( annuler_ventilation ),
+			 GTK_SIGNAL_FUNC ( valider_ventilation ),
 			 NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton,
@@ -672,12 +672,12 @@ GtkWidget *creation_formulaire_ventilation ( void )
     if ( etat.affiche_boutons_valider_annuler )
 	gtk_widget_show ( hbox_valider_annuler_ventil );
 
-    bouton = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
+    bouton = gtk_button_new_from_stock (GTK_STOCK_OK);
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
     gtk_signal_connect ( GTK_OBJECT ( bouton ),
 			 "clicked",
-			 GTK_SIGNAL_FUNC ( echap_formulaire_ventilation ),
+			 GTK_SIGNAL_FUNC ( fin_edition_ventilation ),
 			 NULL );
     gtk_box_pack_end ( GTK_BOX ( hbox_valider_annuler_ventil ),
 		       bouton,
@@ -686,12 +686,12 @@ GtkWidget *creation_formulaire_ventilation ( void )
 		       0 );
     gtk_widget_show ( bouton );
 
-    bouton = gtk_button_new_from_stock (GTK_STOCK_OK);
+    bouton = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
     gtk_signal_connect ( GTK_OBJECT ( bouton ),
 			 "clicked",
-			 GTK_SIGNAL_FUNC ( fin_edition_ventilation ),
+			 GTK_SIGNAL_FUNC ( echap_formulaire_ventilation ),
 			 NULL );
     gtk_box_pack_end ( GTK_BOX ( hbox_valider_annuler_ventil ),
 		       bouton,
