@@ -1,3 +1,9 @@
+grisbi (0.3.2-2) unstable; urgency=low
+
+  * Fix wrong build dependencies.  (Closes: #159239)
+
+ -- Benjamin Drieu <benj@debian.org>  Mon,  9 Sep 2002 10:34:31 +0200
+
 grisbi (0.3.2-1) unstable; urgency=low
 
   * Initial Release.  (Closes: #156667)
