@@ -17,10 +17,9 @@
 #include <errno.h>
 #include <math.h>
 #include "gtkcombofix.h"
-#include <gnome-xml/tree.h>
-#include <gnome-xml/parser.h>
 
 #include <libxml/encoding.h>
+#include <libxml/tree.h>
 
 #define GTK_ENABLE_BROKEN 1
 #include <gtk/gtktext.h>
