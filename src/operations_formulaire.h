@@ -1,6 +1,5 @@
 /*START_DECLARATION*/
 void affiche_cache_le_formulaire ( void );
-void ajout_operation ( struct structure_operation *operation );
 void basculer_vers_ventilation ( GtkWidget *bouton,
 				 gpointer null );
 gboolean clique_champ_formulaire ( GtkWidget *entree,
@@ -15,13 +14,14 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 gboolean entree_prend_focus ( GtkWidget *entree );
 gboolean fin_edition ( void );
 void formulaire_a_zero (void);
-void insere_operation_dans_liste ( struct structure_operation *operation );
+gboolean gsb_transactions_append_transaction ( struct structure_operation *transaction );
+gboolean gsb_transactions_list_append_new_transaction ( struct structure_operation *transaction );
 void place_type_formulaire ( gint no_type,
 			     gint no_option_menu,
 			     gchar *contenu );
 void remplissage_formulaire ( gint no_compte );
 struct organisation_formulaire *renvoie_organisation_formulaire ( void );
-void validation_virement_operation ( struct structure_operation *operation,
+void validation_virement_operation ( struct structure_operation *transaction,
 				     gint modification,
 				     gchar *nom_compte_vire );
 void verification_bouton_change_devise ( void );

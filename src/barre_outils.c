@@ -2,7 +2,7 @@
 /* Fichier qui s'occupe de la page d'accueil ( de démarrage lors de           */
 /* l'ouverture d'un fichier de comptes                                        */
 /*                                                                            */
-/*                                  accueil.c                                 */
+/*                                  barre_outis.c                             */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
 /*			     2004 Benjamin Drieu (bdrieu@april.org)	      */

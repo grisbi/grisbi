@@ -2129,9 +2129,10 @@ void fin_edition_echeance ( void )
 
 
 	/*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
-	/* 	c'est forcemment une nouvelle opé, donc on utilise ajout_operation */
+	/* 	c'est forcemment une nouvelle opé, donc on utilise gsb_transactions_list_append_new_transaction */
 
-	ajout_operation ( operation );
+	gsb_transactions_append_transaction ( operation );
+	gsb_transactions_list_append_new_transaction ( operation );
 
 	/* si c'est un virement, on crée la contre opération et met les relations */
 	/* FIXME : ça serait bien de faire apparaitre un bouton de contre type ope dans le formulaire qd virement */
@@ -2209,7 +2210,7 @@ void fin_edition_echeance ( void )
 	    /* 	    comme c'est une opé de ventilation, elle ne sera pas affiché et ne changera */
 	    /* 		rien au solde, donc on l'ajoute juste à la sliste */
 
-	    insere_operation_dans_liste ( operation_fille );
+	    gsb_transactions_append_transaction ( operation_fille );
 
 	    /* 	    on vérifie maintenant si c'est un virement */
 
@@ -2279,7 +2280,8 @@ void cree_contre_operation_echeance ( struct structure_operation *operation,
     /*     on ajoute maintenant cette opé dans la list_store des opés */
     /* 	comme cette opé a déjà un no, elle ne va pas être réajoutée à la sliste */
 
-    ajout_operation ( contre_operation );
+    gsb_transactions_append_transaction ( contre_operation );
+    gsb_transactions_list_append_new_transaction ( contre_operation );
 
 }
 /******************************************************************************/
@@ -2376,7 +2378,7 @@ struct structure_operation *ajoute_contre_operation_echeance_dans_liste ( struct
 
     /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
 
-    insere_operation_dans_liste ( contre_operation );
+    gsb_transactions_append_transaction ( contre_operation );
 
     /* on met maintenant les relations entre les différentes opé */
 

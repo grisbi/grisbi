@@ -1,7 +1,5 @@
 /*START_DECLARATION*/
 gboolean affichage_traits_liste_operation ( void );
-void ajoute_operations_compte_dans_list_store ( gint compte,
-						gint par_partie );
 gboolean changement_taille_liste_ope ( GtkWidget *tree_view,
 				       GtkAllocation *allocation );
 GtkTreeIter *cherche_iter_operation ( struct structure_operation *operation,
@@ -16,8 +14,12 @@ void demande_mise_a_jour_tous_comptes ( void );
 void edition_operation ( void );
 gint find_p_r_col ();
 gchar *gsb_transactions_get_category_real_name ( struct structure_operation *transaction );
+gboolean gsb_transactions_list_append_transaction ( struct structure_operation *transaction,
+						    gint no_account );
 gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 					      GdkEventButton *ev );
+gboolean gsb_transactions_list_fill_store ( gint no_account,
+					    gboolean by_part );
 gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
 					   GdkEventKey *ev );
 gboolean gsb_transactions_list_move_to_current_transaction ( gint no_account );
@@ -34,8 +36,6 @@ void new_transaction () ;
 gint recupere_hauteur_ligne_tree_view ( GtkWidget *tree_view );
 void remove_transaction ();
 void remplissage_liste_operations ( gint compte );
-void remplit_ligne_operation ( struct structure_operation *operation,
-			       GtkTreeIter *iter );
 gboolean set_visibles_rows_on_account ( gint no_account );
 void show_balance_labels ( void );
 void supprime_operation ( struct structure_operation *operation );

@@ -1720,7 +1720,7 @@ void verification_echeances_a_terme ( void )
 
 		/*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
 
-		insere_operation_dans_liste ( operation );
+		gsb_transactions_append_transaction ( operation );
 
 		/*   si c'était un virement, on crée une copie de l'opé, on l'ajoute à la liste puis on remplit les relations */
 
@@ -1798,7 +1798,7 @@ void verification_echeances_a_terme ( void )
 
 		    /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
 
-		    insere_operation_dans_liste ( operation_fille );
+		    gsb_transactions_append_transaction ( operation_fille );
 
 
 		    /* 	    on vérifie maintenant si c'est un virement */

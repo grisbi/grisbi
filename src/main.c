@@ -48,12 +48,12 @@
 /*START_INCLUDE*/
 #include "main.h"
 #include "menu.h"
-#include "operations_liste.h"
 #include "fichier_configuration.h"
 #include "utils.h"
 #include "tip.h"
 #include "erreur.h"
 #include "data_account.h"
+#include "operations_liste.h"
 #include "traitement_variables.h"
 #include "fichiers_gestion.h"
 #include "parse_cmdline.h"
@@ -468,7 +468,7 @@ gboolean utilisation_temps_idle ( gpointer null )
 	     !gsb_account_get_last_transaction (compte_courant) )
 	    printf ( "remplissage compte courant no %d par idle\n", compte_courant );
 
-	ajoute_operations_compte_dans_list_store ( compte_courant,
+	gsb_transactions_list_fill_store ( compte_courant,
 						   1 );
 	return TRUE;
     }
@@ -525,6 +525,13 @@ gboolean utilisation_temps_idle ( gpointer null )
     }
  	
 
+/*     uncomment that to make only the first account, to make it faster while programming */
+
+/*     id_fonction_idle = 0;  */
+/*     if ( DEBUG ) */
+/* 	printf ( "termine_idle\n" ); */
+/*     return FALSE; */
+
 /*     création du list_store des différents comptes */
 
     list_tmp = list_struct_accounts;
@@ -542,8 +549,8 @@ gboolean utilisation_temps_idle ( gpointer null )
 		 gsb_account_get_last_transaction (i) )
 		printf ( "remplissage compte %d par idle\n", i );
 
-	    ajoute_operations_compte_dans_list_store ( i,
-						       1 );
+	    gsb_transactions_list_fill_store ( i,
+					       1 );
 	    return TRUE;
 	}
 

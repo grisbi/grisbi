@@ -30,7 +30,6 @@
 
 /*START_INCLUDE*/
 #include "ventilation.h"
-#include "operations_formulaire.h"
 #include "utils_editables.h"
 #include "utils_categories.h"
 #include "operations_liste.h"
@@ -40,6 +39,7 @@
 #include "devises.h"
 #include "utils_devises.h"
 #include "dialog.h"
+#include "operations_formulaire.h"
 #include "equilibrage.h"
 #include "data_account.h"
 #include "gtk_combofix.h"
@@ -2927,7 +2927,8 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 			    nouvelle_ope_2 -> auto_man = ope_modifiee ->  auto_man;
 			    nouvelle_ope_2 -> no_exercice = ope_modifiee ->  no_exercice;
 
-			    ajout_operation ( nouvelle_ope_2 );
+			    gsb_transactions_append_transaction ( nouvelle_ope_2 );
+			    gsb_transactions_list_append_new_transaction ( nouvelle_ope_2 );
 
 			    /* on met les relations */
 
@@ -2938,8 +2939,8 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 
 			    /* 		    on réaffiche la contre opération pour faire apparaitre la catég */
 
-			    remplit_ligne_operation ( nouvelle_ope_2,
-						      NULL );
+			    gsb_transactions_list_append_transaction ( nouvelle_ope_2,
+								       nouvelle_ope_2 -> no_compte );
 			}
 		    }
 		}
@@ -3005,7 +3006,8 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 
 		/* on ajoute cette opé à la liste */
 
-		ajout_operation ( nouvelle_ope );
+		gsb_transactions_append_transaction ( nouvelle_ope );
+		gsb_transactions_list_append_new_transaction ( nouvelle_ope );
 
 		/* si cette opé de ventil est un virement, on crée la contre opération */
 
@@ -3088,7 +3090,8 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 		    nouvelle_ope_2 -> auto_man = nouvelle_ope -> auto_man;
 		    nouvelle_ope_2 -> no_exercice = nouvelle_ope -> no_exercice;
 
-		    ajout_operation ( nouvelle_ope_2 );
+		    gsb_transactions_append_transaction ( nouvelle_ope_2 );
+		    gsb_transactions_list_append_new_transaction ( nouvelle_ope_2 );
 
 		    /* on met les relations */
 
@@ -3099,8 +3102,8 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 
 		    /* 		    on réaffiche la contre opération pour faire apparaitre la catég */
 
-		    remplit_ligne_operation ( nouvelle_ope_2,
-					      NULL );
+		    gsb_transactions_list_append_transaction ( nouvelle_ope_2,
+							       nouvelle_ope_2 -> no_compte );
 		}
 	    }
 	}
