@@ -45,6 +45,7 @@ gdouble calcule_montant_devise_renvoi ( gdouble montant_init,
 					gdouble taux_change,
 					gdouble frais_change );
 gchar * devise_name (struct struct_devise * devise );
+gchar * devise_name_by_no ( gint no_devise );
 void create_change_menus (struct struct_devise *devise);
 void update_exchange_rate_cache ( struct struct_devise * currency1, 
 				  struct struct_devise * currency2,

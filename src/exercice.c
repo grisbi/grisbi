@@ -39,6 +39,7 @@
 GtkWidget *paddingbox_details;	/** Widget handling financial year details */
 
 extern GtkWidget *widget_formulaire_echeancier[19];
+extern GtkWidget *widget_formulaire_ventilation[8];
 
 
 /** 
@@ -810,7 +811,6 @@ void association_automatique ( void )
     }
 
     demande_mise_a_jour_tous_comptes ();
-    verification_mise_a_jour_liste();
 
     modification_fichier ( TRUE );
 }

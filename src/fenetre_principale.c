@@ -34,7 +34,13 @@
 #include "imputation_budgetaire.h"
 #include "operations_onglet.h"
 #include "tiers_onglet.h"
+#include "operations_comptes.h"
+#include "operations_liste.h"
 
+extern GtkWidget *tree_view_listes_operations;
+extern GSList *list_store_comptes;
+extern GtkTreeViewColumn *colonnes_liste_opes[7];
+extern GtkTooltips *tooltips_general_grisbi;
 
 
 
@@ -51,10 +57,10 @@ GtkWidget *creation_fenetre_principale (void )
 
     notebook_general = gtk_notebook_new();
 
-    gtk_signal_connect ( GTK_OBJECT ( notebook_general ),
-			 "switch_page",
-			 GTK_SIGNAL_FUNC ( change_page_notebook),
-			 NULL );
+    gtk_signal_connect_after ( GTK_OBJECT ( notebook_general ),
+			       "switch_page",
+			       GTK_SIGNAL_FUNC ( change_page_notebook),
+			       NULL );
 
 
     /* Création de la page d'accueil */
@@ -184,13 +190,28 @@ gboolean change_page_notebook ( GtkNotebook *notebook,
 
     switch ( numero_page )
     {
-	/* si on va sur la fenêtre des comptes => focus à la liste */
-
 	case 1:
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+	    /* 	    si on va sur l'onglet opérations et que la liste n'est pas déjà remplis, on la rempli */
+	    /* 		et on met la value à -2 pour dire à la fonction que c'est la 1-re fois */
+	    /* et dans ce cas, aussi, on remplit les tips de la liste maintenant qu'elle est créé */
 
-	    if ( GTK_IS_WIDGET ( CLIST_OPERATIONS ))
-		gtk_widget_grab_focus ( GTK_WIDGET ( CLIST_OPERATIONS ) );
+	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+
+	    if ( !g_slist_nth_data ( list_store_comptes,
+				     compte_courant ))
+	    {
+		gint i;
+
+		VALUE_AJUSTEMENT = -2; 
+		changement_compte ( GINT_TO_POINTER (compte_courant ));
+
+		for ( i=0 ; i<7 ; i++ )
+		    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
+					   GTK_TREE_VIEW_COLUMN ( colonnes_liste_opes[i] )->button,
+					   tips_col_liste_operations[i],
+					   tips_col_liste_operations[i] ); 
+	    }
+
 	    break;
 
 	    /*   pour les listes, si aucune ligne n'est affichée ( c'est le cas au départ ), */

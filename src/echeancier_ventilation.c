@@ -1320,8 +1320,6 @@ void selectionne_ligne_souris_ventilation_echeances ( GtkCList *liste,
 
     gtk_clist_unselect_all ( GTK_CLIST ( liste ) );
 
-    /* on met l'adr de la struct dans OPERATION_SELECTIONNEE */
-
     ligne_selectionnee_ventilation_echeances = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
 									ligne );
 
@@ -1955,7 +1953,7 @@ void fin_edition_ventilation_echeances ( void )
 void edition_operation_ventilation_echeances ( void )
 {
     struct struct_ope_ventil *operation;
-    GSList *liste_tmp;
+    gchar *char_tmp;
 
     /* on récupère la struc de l'opé de ventil, ou -1 si c'est une nouvelle */
 
@@ -2046,29 +2044,13 @@ void edition_operation_ventilation_echeances ( void )
     }
     else
     {
-	liste_tmp = g_slist_find_custom ( liste_struct_categories,
-					  GINT_TO_POINTER ( operation -> categorie ),
-					  ( GCompareFunc ) recherche_categorie_par_no );
-
-	if ( liste_tmp )
+	char_tmp = categorie_name_by_no ( operation -> categorie,
+					   operation -> sous_categorie );
+	if ( char_tmp )
 	{
-	    GSList *liste_tmp_2;
-
 	    entree_prend_focus (widget_formulaire_ventilation_echeances[0] );
-
-	    liste_tmp_2 = g_slist_find_custom ( (( struct struct_categ * )( liste_tmp -> data )) -> liste_sous_categ,
-						GINT_TO_POINTER ( operation -> sous_categorie ),
-						( GCompareFunc ) recherche_sous_categorie_par_no );
-	    if ( liste_tmp_2 )
-		gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[0] ),
-					g_strconcat ( (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ,
-						      " : ",
-						      (( struct struct_sous_categ * )( liste_tmp_2 -> data )) -> nom_sous_categ,
-						      NULL ));
-	    else
-		gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[0] ),
-					(( struct struct_categ * )( liste_tmp -> data )) -> nom_categ );
-
+	    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[0] ),
+				    char_tmp );
 	}
     }
 
@@ -2085,28 +2067,13 @@ void edition_operation_ventilation_echeances ( void )
 
     /* met en place l'imputation budgétaire */
 
-    liste_tmp = g_slist_find_custom ( liste_struct_imputation,
-				      GINT_TO_POINTER ( operation -> imputation ),
-				      ( GCompareFunc ) recherche_imputation_par_no );
-
-    if ( liste_tmp )
+    char_tmp = ib_name_by_no (  operation -> imputation,
+				operation -> sous_imputation );
+    if ( char_tmp )
     {
-	GSList *liste_tmp_2;
-
 	entree_prend_focus ( widget_formulaire_ventilation_echeances[4] );
-
-	liste_tmp_2 = g_slist_find_custom ( (( struct struct_imputation * )( liste_tmp -> data )) -> liste_sous_imputation,
-					    GINT_TO_POINTER ( operation -> sous_imputation ),
-					    ( GCompareFunc ) recherche_sous_imputation_par_no );
-	if ( liste_tmp_2 )
-	    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[4] ),
-				    g_strconcat ( (( struct struct_imputation * )( liste_tmp -> data )) -> nom_imputation,
-						  " : ",
-						  (( struct struct_sous_imputation * )( liste_tmp_2 -> data )) -> nom_sous_imputation,
-						  NULL ));
-	else
-	    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[4] ),
-				    (( struct struct_imputation * )( liste_tmp -> data )) -> nom_imputation );
+	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[4] ),
+				char_tmp );
     }
 
 
@@ -2273,7 +2240,6 @@ void ajoute_ope_sur_liste_ventilation_echeances ( struct struct_ope_ventil *oper
 {
     gchar *ligne[3];
     gint ligne_insertion;
-    GSList *liste_tmp;
 
     /*   si cette opération a été supprimée, on ne l'affiche pas */
 
@@ -2298,30 +2264,9 @@ void ajoute_ope_sur_liste_ventilation_echeances ( struct struct_ope_ventil *oper
     {
 	/* c'est des categ : sous categ */
 
-	liste_tmp = g_slist_find_custom ( liste_struct_categories,
-					  GINT_TO_POINTER ( operation -> categorie ),
-					  ( GCompareFunc ) recherche_categorie_par_no );
-
-
-	if ( liste_tmp )
-	{
-	    GSList *liste_tmp_2;
-
-	    liste_tmp_2 = g_slist_find_custom ( (( struct struct_categ * )( liste_tmp -> data )) -> liste_sous_categ,
-						GINT_TO_POINTER ( operation -> sous_categorie ),
-						( GCompareFunc ) recherche_sous_categorie_par_no );
-	    if ( liste_tmp_2 )
-		ligne [0] = g_strconcat ( (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ,
-					  " : ",
-					  (( struct struct_sous_categ * )( liste_tmp_2 -> data )) -> nom_sous_categ,
-					  NULL );
-	    else
-		ligne [0] = (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ;
-
-	}
-	else
-	    ligne[0] = NULL;
-    }
+	ligne[0] = categorie_name_by_no ( operation -> categorie,
+					  operation -> sous_categorie );
+   }
 
 
     /* mise en forme des notes */

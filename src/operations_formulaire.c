@@ -51,8 +51,11 @@
 #include "ventilation.h"
 
 
-
-
+extern GtkWidget *tree_view_listes_operations;
+extern gint hauteur_ligne_liste_opes;
+extern GSList *list_store_comptes;
+extern gint enregistre_ope_au_retour;
+extern gint ligne_selectionnee_ventilation;
 
 
 /******************************************************************************/
@@ -703,7 +706,7 @@ void echap_formulaire ( void )
     {
 	while ( liste_tmp )
 	{
-	    ligne_selectionnee_ventilation = liste_tmp -> data;
+	    ligne_selectionnee_ventilation = cherche_ligne_from_operation_ventilee (liste_tmp -> data);
 	    supprime_operation_ventilation ();
 	    liste_tmp = liste_tmp -> next;
 	}
@@ -712,10 +715,12 @@ void echap_formulaire ( void )
     formulaire_a_zero();
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-    gtk_widget_grab_focus ( CLIST_OPERATIONS );
 
     if ( !etat.formulaire_toujours_affiche )
 	gtk_widget_hide ( frame_droite_bas );
+
+    gtk_widget_grab_focus ( tree_view_listes_operations );
+
 }
 /******************************************************************************/
 
@@ -974,7 +979,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 		texte = _("Value date");
 	    break;
 
-	    /* sort des catégories : si c'est une opé ventilée, affiche le bouton de ventilation */
+	    /* sort des catÃ©gories : si c'est une opé ventilée, affiche le bouton de ventilation */
 	    /* si c'est un virement affiche le bouton des types de l'autre compte */
 
 	case TRANSACTION_FORM_CATEGORY :
@@ -1249,7 +1254,6 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	case GDK_Escape :		/* échap */
 
 	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-	    gtk_widget_grab_focus ( CLIST_OPERATIONS );
 	    echap_formulaire();
 	    break;
 
@@ -1272,7 +1276,6 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	    /* on fait perdre le focus au widget courant pour faire les changements automatiques si nécessaire */
 
 	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-	    gtk_widget_grab_focus ( CLIST_OPERATIONS );
 
 	    /* on donne le focus au widget suivant */
 
@@ -1364,7 +1367,6 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	    else
 	    {
 		p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-		gtk_widget_grab_focus ( CLIST_OPERATIONS );
 		fin_edition();
 	    }
 	    break;
@@ -1463,9 +1465,9 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 		return TRUE;
 	    }
 	    else 
-	      {
+	    {
 		return FALSE;
-	      }
+	    }
 	    break;
 
 	case GDK_Page_Up :		/* touche PgUp */
@@ -1571,6 +1573,7 @@ void completion_operation_par_tiers ( void )
     struct structure_operation *operation;
     GSList *pointeur_ope;
     gpointer ** p_tab_nom_de_compte_ope_trouvee;
+    gchar *char_tmp;
 
     /* s'il y a quelque chose dans les entrées débit/crédit ou catégories, on se barre */
 
@@ -1956,55 +1959,25 @@ void completion_operation_par_tiers ( void )
 	{
 	    /* c'est des catégories normales */
 
-	    liste_tmp = g_slist_find_custom ( liste_struct_categories,
-					      GINT_TO_POINTER ( operation -> categorie ),
-					      ( GCompareFunc ) recherche_categorie_par_no );
-
-	    if ( liste_tmp )
+	    char_tmp = categorie_name_by_no ( operation -> categorie,
+					      operation -> sous_categorie );
+	    if ( char_tmp )
 	    {
-		GSList *liste_tmp_2;
-
 		entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] );
-
-		liste_tmp_2 = g_slist_find_custom ( (( struct struct_categ * )( liste_tmp -> data )) -> liste_sous_categ,
-						    GINT_TO_POINTER ( operation -> sous_categorie ),
-						    ( GCompareFunc ) recherche_sous_categorie_par_no );
-		if ( liste_tmp_2 )
-		    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ),
-					    g_strconcat ( (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ,
-							  " : ",
-							  (( struct struct_sous_categ * )( liste_tmp_2 -> data )) -> nom_sous_categ,
-							  NULL ));
-		else
-		    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ),
-					    (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ );
+		gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ),
+					char_tmp );
 	    }
 	}
 
     /* met en place l'imputation budgétaire */
 
-    liste_tmp = g_slist_find_custom ( liste_struct_imputation,
-				      GINT_TO_POINTER ( operation -> imputation ),
-				      ( GCompareFunc ) recherche_imputation_par_no );
-
-    if ( liste_tmp )
+    char_tmp = ib_name_by_no ( operation -> imputation,
+			       operation -> sous_imputation );
+    if ( char_tmp )
     {
-	GSList *liste_tmp_2;
-
 	entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET] );
-
-	liste_tmp_2 = g_slist_find_custom ( (( struct struct_imputation * )( liste_tmp -> data )) -> liste_sous_imputation,
-					    GINT_TO_POINTER ( operation -> sous_imputation ),
-					    ( GCompareFunc ) recherche_sous_categorie_par_no );
-	if ( liste_tmp_2 )
-	    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET] ),
-				    g_strconcat ( (( struct struct_imputation * )( liste_tmp -> data )) -> nom_imputation,
-						  " : ",
-						  (( struct struct_sous_imputation * )( liste_tmp_2 -> data )) -> nom_sous_imputation,
-						  NULL ));
-	else
-	    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET] ),
-				    (( struct struct_imputation * )( liste_tmp -> data )) -> nom_imputation );
+	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET] ),
+				char_tmp );
     }
 
     /* mise en place de la pièce comptable */
@@ -2151,14 +2124,8 @@ void fin_edition ( void )
 	}
 	else
 	{
-	    struct struct_tiers *tiers;
-
-	    tiers = g_slist_find_custom ( liste_struct_tiers,
-					  liste_tmp -> data,
-					  (GCompareFunc) recherche_tiers_par_no ) -> data;
-
 	    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_PARTY] ),
-				    tiers -> nom_tiers );
+				    tiers_name_by_no ( GPOINTER_TO_INT (liste_tmp -> data), TRUE ));
 
 	    /* si le moyen de paiement est à incrémentation automatique, à partir de la 2ème opé, */
 	    /* on incrémente le contenu (no de chèque en général) */
@@ -2264,8 +2231,6 @@ void fin_edition ( void )
     if ( gtk_object_get_data ( GTK_OBJECT ( formulaire ),
 			       "adr_struct_ope" ) )
     {
-	gtk_widget_grab_focus ( GTK_WIDGET ( CLIST_OPERATIONS ));
-
 	formulaire_a_zero ();
 
 	if ( !etat.formulaire_toujours_affiche )
@@ -2428,7 +2393,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 	g_strfreev ( tableau_char );
     }
 
-    /* pour les types qui sont à incrémentation automatique ( surtout les chèques ) */
+    /* pour les types qui sont à incrémentation automatique ( surtout les chÃ¨ques ) */
     /* on fait le tour des operations pour voir si le no n'a pas déjà été utilisé */
     /* si operation n'est pas nul, c'est une modif donc on ne fait pas ce test */
 
@@ -3247,8 +3212,9 @@ void ajout_operation ( struct structure_operation *operation )
     {
 	operation -> no_operation = ++no_derniere_operation;
 
-	LISTE_OPERATIONS = g_slist_append ( LISTE_OPERATIONS,
-					    operation );
+	LISTE_OPERATIONS = g_slist_insert_sorted ( LISTE_OPERATIONS,
+						   operation,
+						   (GCompareFunc) CLASSEMENT_COURANT );
 	NB_OPE_COMPTE++;
     }
 
@@ -3258,8 +3224,8 @@ void ajout_operation ( struct structure_operation *operation )
 
     /* on classe la liste */
 
-    LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
-				      (GCompareFunc) classement_sliste );
+/*     LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS, */
+/* 				      (GCompareFunc) CLASSEMENT_COURANT ); */
 
     if ( operation -> no_compte == compte_courant )
 	verification_mise_a_jour_liste ();
@@ -3404,70 +3370,30 @@ void affiche_cache_le_formulaire ( void )
     }
     else
     {
+	GtkAdjustment *ajustement;
+
 	gtk_widget_hide ( fleche_haut );
 	gtk_widget_show ( fleche_bas );
 
 	gtk_widget_show ( frame_droite_bas );
 	etat.formulaire_toujours_affiche = 1;
+
+	/* 	si après avoir remonté le formulaire la ligne sélectionnée est cachée, */
+	/* 	on la remonte pour la mettre juste au dessus du formulaire */
+
+	while ( g_main_iteration ( FALSE ));
+	ajustement = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( tree_view_listes_operations ));
+
+	if ( (LIGNE_SELECTIONNEE+NB_LIGNES_OPE)*hauteur_ligne_liste_opes > (ajustement->value + ajustement->page_size))
+	    gtk_adjustment_set_value ( ajustement,
+				       (LIGNE_SELECTIONNEE+NB_LIGNES_OPE)*hauteur_ligne_liste_opes - ajustement->page_size );
     }
 
-    gtk_widget_grab_focus ( CLIST_OPERATIONS );
-
     p_tab_nom_de_compte_variable = save_ptab;
 }
 /******************************************************************************/
 
-/******************************************************************************/
-/* Fonction allocation_taille_formulaire                                      */
-/* appelée quand le formulaire est affiché                                    */
-/* modifie la liste pour qu'il n'y ait pas de changement                      */
-/******************************************************************************/
-void allocation_taille_formulaire ( GtkWidget *widget,
-				    gpointer null )
-{
-    GtkAdjustment *ajustement;
-    gpointer **save_ptab;
-    return;
-    save_ptab = p_tab_nom_de_compte_variable;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-
-    if ( !GTK_WIDGET_VISIBLE ( notebook_general ))
-	return;
-
-    ajustement = gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS ) );
-
-    /*   if ( ajustement -> value == ( ajustement -> upper - ajustement -> page_size )) */
-    /*        return; */
-
-    gtk_adjustment_set_value ( GTK_ADJUSTMENT ( ajustement ),
-			       ajustement -> value + GTK_WIDGET ( frame_droite_bas ) -> allocation.height + 10 );
-    p_tab_nom_de_compte_variable = save_ptab;
-}
-/******************************************************************************/
-
-/******************************************************************************/
-/* Fonction efface_formulaire                                                 */
-/* appelée quand le formulaire est effacé                                     */
-/* modifie la liste pour qu'il n'y ait pas de changement                      */
-/******************************************************************************/
-void efface_formulaire ( GtkWidget *widget,
-			 gpointer null )
-{
-    GtkAdjustment *ajustement;
-    gpointer **save_ptab;
-
-    save_ptab = p_tab_nom_de_compte_variable;
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-
-    ajustement = gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS ) );
-
-    gtk_adjustment_set_value ( GTK_ADJUSTMENT ( ajustement ),
-			       ajustement -> value - GTK_WIDGET ( frame_droite_bas ) -> allocation.height - 10 );
-
-    p_tab_nom_de_compte_variable = save_ptab;
-}
-/******************************************************************************/
 
 /******************************************************************************/
 /* Fonction basculer_vers_ventilation                                         */

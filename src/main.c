@@ -78,6 +78,7 @@ int main (int argc, char *argv[])
     struct sigaction sig_sev;
 #endif
     gint demande_page;
+    struct stat buffer_stat;
 
     /* on ajoute la possibilité de mettre l'option --onglet dans la ligne de commande */
     /* Permet d'ouvrir le fichier demandé sur l'onglet désiré  */
@@ -153,10 +154,11 @@ int main (int argc, char *argv[])
 
 	/* 	création de la pixmap du logiciel */
 
-	gtk_window_set_default_icon_from_file ( g_strconcat(PIXMAPS_DIR,
-							    "/euro.gif",
-							    NULL),
-						NULL );
+	if ( stat ( g_strconcat ( PIXMAPS_DIR, "/euro.gif", NULL ),&buffer_stat ) != -1 )
+	    gtk_window_set_default_icon_from_file ( g_strconcat(PIXMAPS_DIR,
+								"/euro.gif",
+								NULL),
+						    NULL );
 
 	window_vbox_principale = gtk_vbox_new ( FALSE,
 						5 );
@@ -201,25 +203,6 @@ int main (int argc, char *argv[])
 	/*   on applique la fonte aux listes si nécessaire */
 
 	initialisation_couleurs_listes ();
-
-	if ( etat.utilise_fonte_listes )
-	{
-	    /* 	on recharge la fonte */
-
-	    GdkFont *font;
-
-	    font = gdk_font_load ( fonte_liste );
-
-	    /* Use font */
-	    style_couleur[0] -> font_desc = pango_font_description_from_string(fonte_liste);
-	    style_couleur[1] -> font_desc = pango_font_description_from_string(fonte_liste);
-	    style_rouge_couleur[0] -> font_desc = pango_font_description_from_string(fonte_liste);
-	    style_rouge_couleur[1] -> font_desc = pango_font_description_from_string(fonte_liste);
-	    gtk_style_set_font (style_couleur [0], NULL);
-	    gtk_style_set_font (style_couleur [1], NULL);
-	    gtk_style_set_font (style_rouge_couleur [0], NULL);
-	    gtk_style_set_font (style_rouge_couleur [1], NULL);
-	}
 
 	/* on vérifie les arguments de ligne de commande */
 

@@ -31,4 +31,6 @@ gchar *calcule_total_montant_tiers_par_compte ( gint no_tiers,
 void appui_sur_ajout_tiers ( void );
 gboolean keypress_tiers ( GtkWidget *widget, GdkEventKey *ev, gint *no_origine );
 gboolean expand_selected_tiers ( GtkWidget *liste, GdkEventButton *ev, gpointer null );
+gchar *tiers_name_by_no ( gint no_tiers,
+			  gboolean return_null );
 

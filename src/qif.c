@@ -31,8 +31,8 @@
 #include "dialog.h"
 #include "search_glist.h"
 #include "utils.h"
-
-
+#include "tiers_onglet.h"
+#include "categories_onglet.h"
 
 
 /* *******************************************************************************/
@@ -550,7 +550,9 @@ changement_format_date:
 
 	/*   vérification qu'il y a une date, sinon on vire l'opé de toute manière */
 
-	if ( operation -> date_tmp )
+	if ( operation -> date_tmpp
+	     &&
+	     strlen ( g_strstrip ( operation -> date_tmp )) )
 	{	      
 	    /* récupération de la date qui est du format jj/mm/aaaa ou jj/mm/aa ou jj/mm'aa à partir de 2000 */
 	    /* 	      si format_date = 0, c'est sous la forme jjmm sinon mmjj */
@@ -1056,6 +1058,7 @@ choix_liste_fichier:
 		    GSList *pointeur;
 		    gdouble montant;
 		    struct struct_type_ope *type;
+		    gchar *char_tmp;
 
 		    operation = pointeur_tmp -> data;
 
@@ -1133,14 +1136,12 @@ choix_liste_fichier:
 
 			/* met le tiers */
 
-			pointeur = g_slist_find_custom ( liste_struct_tiers,
-							 GINT_TO_POINTER ( operation -> tiers ),
-							 (GCompareFunc) recherche_tiers_par_no );
+			char_tmp = tiers_name_by_no ( operation -> tiers, TRUE );
 
-			if ( pointeur )
+			if ( char_tmp )
 			    fprintf ( fichier_qif,
 				      "P%s\n",
-				      ((struct struct_tiers *)(pointeur -> data )) -> nom_tiers );
+				      char_tmp );
 
 
 
@@ -1206,54 +1207,24 @@ choix_liste_fichier:
 				    {
 					/* c'est du type categ : sous categ */
 
-					pointeur = g_slist_find_custom ( liste_struct_categories,
-									 GINT_TO_POINTER ( ope_test -> categorie ),
-									 (GCompareFunc) recherche_categorie_par_no );
+					gchar *char_tmp;
 
-					if ( pointeur )
+					char_tmp = categorie_name_by_no ( ope_test -> categorie,
+									  ope_test -> sous_categorie );
+					
+					if ( char_tmp )
 					{
-					    GSList *pointeur_2;
-					    struct struct_categ *categorie;
-
-					    categorie = pointeur -> data;
-
-					    pointeur_2 = g_slist_find_custom ( categorie -> liste_sous_categ,
-									       GINT_TO_POINTER ( ope_test -> sous_categorie ),
-									       (GCompareFunc) recherche_sous_categorie_par_no );
-					    if ( pointeur_2 )
+					    if ( !categ_ope_mise )
 					    {
-						if ( !categ_ope_mise )
-						{
-						    fprintf ( fichier_qif,
-							      "L%s\n",
-							      g_strconcat ( categorie -> nom_categ,
-									    ":",
-									    ((struct struct_sous_categ *)(pointeur_2->data)) -> nom_sous_categ,
-									    NULL ));
-						    categ_ope_mise = 1;
-						}
-
 						fprintf ( fichier_qif,
-							  "S%s\n",
-							  g_strconcat ( categorie -> nom_categ,
-									":",
-									((struct struct_sous_categ *)(pointeur_2->data)) -> nom_sous_categ,
-									NULL ));
+							  "L%s\n",
+							  char_tmp );
+						categ_ope_mise = 1;
 					    }
-					    else
-					    {
-						if ( !categ_ope_mise )
-						{
-						    fprintf ( fichier_qif,
-							      "L%s\n",
-							      categorie -> nom_categ );
-						    categ_ope_mise = 1;
-						}
 
-						fprintf ( fichier_qif,
-							  "S%s\n",
-							  categorie -> nom_categ );
-					    }
+					    fprintf ( fichier_qif,
+						      "S%s\n",
+						      char_tmp );
 					}
 				    }
 
@@ -1318,32 +1289,15 @@ choix_liste_fichier:
 			    {
 				/* c'est du type categ : sous-categ */
 
-				pointeur = g_slist_find_custom ( liste_struct_categories,
-								 GINT_TO_POINTER ( operation -> categorie ),
-								 (GCompareFunc) recherche_categorie_par_no );
+				gchar *char_tmp;
 
-				if ( pointeur )
-				{
-				    GSList *pointeur_2;
-				    struct struct_categ *categorie;
+				char_tmp = categorie_name_by_no ( operation -> categorie,
+								  operation -> sous_categorie );
 
-				    categorie = pointeur -> data;
-
-				    pointeur_2 = g_slist_find_custom ( categorie -> liste_sous_categ,
-								       GINT_TO_POINTER ( operation -> sous_categorie ),
-								       (GCompareFunc) recherche_sous_categorie_par_no );
-				    if ( pointeur_2 )
-					fprintf ( fichier_qif,
-						  "L%s\n",
-						  g_strconcat ( categorie -> nom_categ,
-								":",
-								((struct struct_sous_categ *)(pointeur_2->data)) -> nom_sous_categ,
-								NULL ));
-				    else
-					fprintf ( fichier_qif,
-						  "L%s\n",
-						  categorie -> nom_categ );
-				}
+				if ( char_tmp )
+				    fprintf ( fichier_qif,
+					      "L%s\n",
+					      char_tmp );
 			    }
 			}
 

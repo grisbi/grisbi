@@ -8,6 +8,7 @@ GtkWidget *onglet_display_addresses ( void );
 GtkWidget * onglet_display_transaction_form ( void );
 void deplacement_haut ( void );
 void deplacement_bas ( void );
+void update_fonte_listes ( void );
 void choix_fonte ( GtkWidget *bouton,
 		   gchar *fonte,
 		   gpointer null );

@@ -27,92 +27,20 @@
 #include "variables-extern.c"
 #include "gtkcombofix.h"
 #include "operations_classement.h"
+#include "devises.h"
+#include "tiers_onglet.h"
+#include "categories_onglet.h"
+#include "imputation_budgetaire.h"
+#include "equilibrage.h"
+#include "exercice.h"
+#include "search_glist.h"
+#include "type_operations.h"
 
 
-
-
-/* ************************************************************************** */
-/* Fonction de classement par défaut : par ordre de date                      */
-/* ************************************************************************** */
-gint classement_liste_par_date ( GtkWidget *liste,
-				 GtkCListRow *ligne_1,
-				 GtkCListRow *ligne_2 )
-{
-    struct structure_operation *operation_1;
-    struct structure_operation *operation_2;
-    gint retour;
-
-    operation_1 = ligne_1 -> data;
-    operation_2 = ligne_2 -> data;
-
-
-    if ( operation_1 == GINT_TO_POINTER ( -1 ) )
-	return ( 1 );
-
-    if ( operation_2 == GINT_TO_POINTER ( -1 ) )
-	return ( -1 );
-
-    if ( etat.classement_par_date )
-	/* on classe par date d'opération */
-	retour = g_date_compare ( operation_1 -> date, operation_2 -> date );
-    else
-    {
-	/* on classe par date bancaire, si elle existe */
-
-	if ( operation_1 -> date_bancaire )
-	{
-	    if ( operation_2 -> date_bancaire )
-		retour = g_date_compare ( operation_1 -> date_bancaire, operation_2 -> date_bancaire );
-	    else
-		retour = g_date_compare ( operation_1 -> date_bancaire, operation_2 -> date );
-	}
-	else
-	{
-	    if ( operation_2 -> date_bancaire )
-		retour = g_date_compare ( operation_1 -> date, operation_2 -> date_bancaire );
-	    else
-		retour = g_date_compare ( operation_1 -> date, operation_2 -> date );
-	}
-    }
-
-    if ( retour )
-	return ( retour );
-    else
-	return ( operation_1 -> no_operation - operation_2 -> no_operation );
-}
-/* ************************************************************************** */
 
 /* ************************************************************************** */
 /* classement par no d'opé (donc d'entrée)                                    */
-/* ************************************************************************** */
-gint classement_liste_par_no_ope ( GtkWidget *liste,
-				   GtkCListRow *ligne_1,
-				   GtkCListRow *ligne_2 )
-{
-    struct structure_operation *operation_1;
-    struct structure_operation *operation_2;
-
-    operation_1 = ligne_1 -> data;
-    operation_2 = ligne_2 -> data;
-
-    if ( operation_1 == GINT_TO_POINTER ( -1 ) )
-	return ( 1 );
-
-    if ( operation_2 == GINT_TO_POINTER ( -1 ) )
-	return ( -1 );
-
-    if ( operation_1 == NULL )
-	return ( 1 );
-
-    if ( operation_2 == NULL )
-	return ( -1 );
-
-    return ( operation_1 -> no_operation - operation_2 -> no_operation );
-}
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/* classement par no d'opé (donc d'entrée)                                    */
+/* FIXME : encore utilisé par les échéances */
 /* ************************************************************************** */
 gint classement_liste_par_no_ope_ventil ( GtkWidget *liste,
 					  GtkCListRow *ligne_1,
@@ -142,9 +70,9 @@ gint classement_liste_par_no_ope_ventil ( GtkWidget *liste,
 
 
 /* ************************************************************************** */
-gint classement_liste_par_tri_courant ( GtkWidget *liste,
-					GtkCListRow *ligne_1,
-					GtkCListRow *ligne_2 )
+gint classement_liste_equilibrage ( GtkWidget *liste,
+				    GtkCListRow *ligne_1,
+				    GtkCListRow *ligne_2 )
 {
     struct structure_operation *operation_1;
     struct structure_operation *operation_2;
@@ -219,43 +147,12 @@ gint classement_liste_par_tri_courant ( GtkWidget *liste,
 }
 /* ************************************************************************** */
 
-/* ************************************************************************** */
-/* cette fonction est appelée pour classer les opérations dans la sliste      */
-/* avant que cette liste ne soit affichée ; trie automatiquement la liste     */
-/* en fonction du moment                                                      */
-/* ************************************************************************** */
-gint classement_sliste ( struct structure_operation *operation_1,
-			 struct structure_operation *operation_2 )
-{
-    gpointer **save_ptab;
-    gint result;
-
-    save_ptab = p_tab_nom_de_compte_variable;
-
-    /* pour l'instant, soit on est en train d'équilibrer et c'est par tri courant,
-       uniquement si p_tab... est sur le compte courant
-       sinon c'est par date (qui utilise la date de valeur si nécessaire) */
-
-    if ( etat.equilibrage
-	 && ( p_tab_nom_de_compte_variable - p_tab_nom_de_compte ) == compte_courant )
-	result = classement_sliste_par_tri_courant ( operation_1, operation_2 );
-    else
-    {
-	if ( etat.classement_rp )
-	    result = classement_sliste_par_date_rp ( operation_1, operation_2 );
-	else
-	    result = classement_sliste_par_date ( operation_1, operation_2 );
-    }
-
-    p_tab_nom_de_compte_variable = save_ptab;
-
-    return ( result );
-}
-/* ************************************************************************** */
 
 /* ************************************************************************** */
 /* Fonction par défaut : par ordre de date                                    */
-/* et classe en fonction de r/p si demandé (FIXME : virer dans l'instable) */
+/* appelée aussi en fin de classement pour tout classement */
+/* classe par date ou date de valeur suivant la conf, puis par no d'opé */
+/* retour = -1 si operation_1 doit être placée en 1er */
 /* ************************************************************************** */
 gint classement_sliste_par_date ( struct structure_operation *operation_1,
 				  struct structure_operation *operation_2 )
@@ -291,75 +188,791 @@ gint classement_sliste_par_date ( struct structure_operation *operation_1,
 	    retour = g_date_compare ( operation_1 -> date, operation_2 -> date );
     }
 
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    if ( CLASSEMENT_CROISSANT )
+	retour = retour;
+    else
+	retour = -retour;
+
     if ( retour )
 	return ( retour );
     else
-	return ( operation_1 -> no_operation - operation_2 -> no_operation );
+	return ( classement_sliste_par_no ( operation_1,
+					    operation_2 ));
+}
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/* classement opérations par no */
+/* retour = -1 si operation_1 doit être placée en 1er */
+/* ************************************************************************** */
+gint classement_sliste_par_no ( struct structure_operation *operation_1,
+				struct structure_operation *operation_2 )
+{
+    gint retour;
+
+    retour = operation_1 -> no_operation - operation_2 -> no_operation;
+
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    if ( CLASSEMENT_CROISSANT )
+	retour = retour;
+    else
+	retour = -retour;
+
+    return ( retour );
 }
 /* ************************************************************************** */
 
 
 
 /* ************************************************************************** */
-/* identique à classement_liste_par_tri_courant sauf que classe une slist     */
+/* classement opérations R -> T -> P */
+/* retour = -1 si operation_1 doit être placée en 1er */
 /* ************************************************************************** */
-gint classement_sliste_par_tri_courant ( struct structure_operation *operation_1,
-					 struct structure_operation *operation_2 )
+gint classement_sliste_par_pointage ( struct structure_operation *operation_1,
+				     struct structure_operation *operation_2 )
 {
-    gint pos_type_ope_1;
-    gint pos_type_ope_2;
-    gint buffer;
-    gint sort_result;
+    gint retour;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+    retour = operation_2 -> pointe - operation_1 -> pointe;
 
-    /* On classe soit par le tri désiré, soit par date,
-       et dans ce cas on renvoie au tri normal */
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    if ( CLASSEMENT_CROISSANT )
+	retour = retour;
+    else
+	retour = -retour;
 
-    if ( !TRI || !LISTE_TRI )
+    if ( retour )
+	return ( retour );
+    else
+	return ( classement_sliste_par_date ( operation_1, operation_2 ));
+	    
+}
+/* ************************************************************************** */
+
+
+/* ************************************************************************** */
+/* classement opérations par debit */
+/* retour = -1 si operation_1 doit être placée en 1er */
+/* ************************************************************************** */
+gint classement_sliste_par_debit ( struct structure_operation *operation_1,
+				   struct structure_operation *operation_2 )
+{
+    gint retour;
+
+/*     on place les débits en premier, et par ordre croissant */
+/*     si la devise est identique, easy c'est direct, sinon on doit transformer les montant */
+/*     dans la devise du compte */
+
+    if ( operation_1 -> devise == operation_2 -> devise )
+	retour = operation_1 -> montant - operation_2 -> montant;
+    else
     {
-	if ( etat.classement_rp )
-	    sort_result = classement_sliste_par_date_rp ( operation_1, operation_2 );
+	gdouble montant_1, montant_2;
+
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1 -> no_compte;
+
+	montant_1 = calcule_montant_devise_renvoi ( operation_1 -> montant,
+						    DEVISE,
+						    operation_1 -> devise,
+						    operation_1 -> une_devise_compte_egale_x_devise_ope,
+						    operation_1 -> taux_change,
+						    operation_1 -> frais_change );
+	montant_2 = calcule_montant_devise_renvoi ( operation_2 -> montant,
+						    DEVISE,
+						    operation_2 -> devise,
+						    operation_2 -> une_devise_compte_egale_x_devise_ope,
+						    operation_2 -> taux_change,
+						    operation_2 -> frais_change );
+	retour = montant_1 - montant_2;
+    }
+
+     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    if ( CLASSEMENT_CROISSANT )
+	retour = retour;
+    else
+	retour = -retour;
+
+   if ( retour )
+	return ( retour );
+    else
+	return ( classement_sliste_par_date ( operation_1, operation_2 ));
+	    
+}
+/* ************************************************************************** */
+
+
+
+/* ************************************************************************** */
+/* classement opérations par credit */
+/* retour = -1 si operation_1 doit être placée en 1er */
+/* ************************************************************************** */
+gint classement_sliste_par_credit ( struct structure_operation *operation_1,
+				    struct structure_operation *operation_2 )
+{
+    gint retour;
+
+/*     on place les crédits en premier et par ordre croissant */
+/*     si la devise est identique, easy c'est direct, sinon on doit transformer les montant */
+/*     dans la devise du compte */
+
+    if ( operation_2 -> devise == operation_1 -> devise )
+	retour = operation_1 -> montant - operation_2 -> montant;
+    else
+    {
+	gdouble montant_1, montant_2;
+
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1 -> no_compte;
+
+	montant_1 = calcule_montant_devise_renvoi ( operation_1 -> montant,
+						    DEVISE,
+						    operation_1 -> devise,
+						    operation_1 -> une_devise_compte_egale_x_devise_ope,
+						    operation_1 -> taux_change,
+						    operation_1 -> frais_change );
+	montant_2 = calcule_montant_devise_renvoi ( operation_2 -> montant,
+						    DEVISE,
+						    operation_2 -> devise,
+						    operation_2 -> une_devise_compte_egale_x_devise_ope,
+						    operation_2 -> taux_change,
+						    operation_2 -> frais_change );
+	retour = montant_1 - montant_2;
+    }
+
+     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    if ( CLASSEMENT_CROISSANT )
+	retour = retour;
+    else
+	retour = -retour;
+
+   if ( retour )
+	return ( retour );
+    else
+	return ( classement_sliste_par_date ( operation_1, operation_2 ));
+	    
+}
+/* ************************************************************************** */
+
+
+
+
+
+/* ************************************************************************** */
+/* classement opérations par montant */
+/* retour = -1 si operation_1 doit être placée en 1er */
+/* ************************************************************************** */
+gint classement_sliste_par_montant ( struct structure_operation *operation_1,
+				     struct structure_operation *operation_2 )
+{
+    gint retour;
+
+/*     on classe cette fois par valeur absolue, du plus petit au plus grand */
+/*     si la devise est identique, easy c'est direct, sinon on doit transformer les montant */
+/*     dans la devise du compte */
+
+    if ( operation_1 -> devise == operation_2 -> devise )
+	retour = fabs(operation_1 -> montant) - fabs(operation_2 -> montant);
+    else
+    {
+	gdouble montant_1, montant_2;
+
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1 -> no_compte;
+
+	montant_1 = calcule_montant_devise_renvoi ( operation_1 -> montant,
+						    DEVISE,
+						    operation_1 -> devise,
+						    operation_1 -> une_devise_compte_egale_x_devise_ope,
+						    operation_1 -> taux_change,
+						    operation_1 -> frais_change );
+	montant_2 = calcule_montant_devise_renvoi ( operation_2 -> montant,
+						    DEVISE,
+						    operation_2 -> devise,
+						    operation_2 -> une_devise_compte_egale_x_devise_ope,
+						    operation_2 -> taux_change,
+						    operation_2 -> frais_change );
+	retour = fabs (montant_1) - fabs(montant_2);
+    }
+
+     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    if ( CLASSEMENT_CROISSANT )
+	retour = retour;
+    else
+	retour = -retour;
+
+   if ( retour )
+	return ( retour );
+    else
+	return ( classement_sliste_par_date ( operation_1, operation_2 ));
+	    
+}
+/* ************************************************************************** */
+
+
+
+/* ************************************************************************** */
+/* classement opérations par devise */
+/* retour = -1 si operation_1 doit être placée en 1er */
+/* ************************************************************************** */
+gint classement_sliste_par_devise ( struct structure_operation *operation_1,
+				     struct structure_operation *operation_2 )
+{
+    gint retour;
+    gchar *devise_1, *devise_2;
+
+    devise_1 = devise_name_by_no ( operation_1 -> devise );
+    devise_2 = devise_name_by_no ( operation_2 -> devise );
+
+    if ( devise_1 )
+    {
+	if ( devise_2 )
+	    retour = strcmp ( devise_1,
+			      devise_2 );
 	else
-	    sort_result = classement_sliste_par_date ( operation_1, operation_2 );
+	    retour = -1;
     }
     else
     {
-	/* si l'opération est négative et que le type est neutre et que les types
-	   neutres sont séparés, on lui met la position du type négatif */
-
-	if ( operation_1 -> montant < 0
-	     && ( buffer = g_slist_index ( LISTE_TRI, GINT_TO_POINTER ( -operation_1 -> type_ope ))) != -1 )
-	    pos_type_ope_1 = buffer;
+	if ( devise_2 )
+	    retour = 1;
 	else
-	    pos_type_ope_1 = g_slist_index ( LISTE_TRI, GINT_TO_POINTER ( operation_1 -> type_ope ));
-
-	if ( operation_2 -> montant < 0
-	     && ( buffer = g_slist_index ( LISTE_TRI, GINT_TO_POINTER ( -operation_2 -> type_ope ))) != -1 )
-	    pos_type_ope_2 = buffer;
-	else
-	    pos_type_ope_2 = g_slist_index ( LISTE_TRI, GINT_TO_POINTER ( operation_2 -> type_ope ));
-
-	/* s'elles ont le même type, on les classe par date */
-
-	if ( pos_type_ope_1 == pos_type_ope_2 )
-	{
-	    if ( etat.classement_rp )
-		sort_result = classement_sliste_par_date_rp ( operation_1, operation_2 );
-	    else
-		sort_result = classement_sliste_par_date ( operation_1, operation_2 );
-	}
-	else
-	{
-	    if ( pos_type_ope_1 < pos_type_ope_2 )
-		sort_result = -1;
-	    else
-		sort_result = 1;
-	}
+	    retour = 0;
     }
-    return( sort_result );
+
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    if ( CLASSEMENT_CROISSANT )
+	retour = retour;
+    else
+	retour = -retour;
+
+    if ( retour )
+	return ( retour );
+    else
+	return ( classement_sliste_par_date ( operation_1, operation_2 ));
+	    
 }
 /* ************************************************************************** */
+
+
+
+/* ************************************************************************** */
+/* classement opérations par tiers */
+/* retour = -1 si operation_1 doit être placée en 1er */
+/* ************************************************************************** */
+gint classement_sliste_par_tiers ( struct structure_operation *operation_1,
+				     struct structure_operation *operation_2 )
+{
+    gint retour;
+    gchar *tiers_1, *tiers_2;
+
+    tiers_1 = tiers_name_by_no ( operation_1 -> tiers, TRUE );
+    tiers_2 = tiers_name_by_no ( operation_2 -> tiers, TRUE );
+
+    if ( tiers_1 )
+    {
+	if ( tiers_2 )
+	    retour = strcmp ( tiers_1,
+			      tiers_2 );
+	else
+	    retour = -1;
+    }
+    else
+    {
+	if ( tiers_2 )
+	    retour = 1;
+	else
+	    retour = 0;
+    }
+
+     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    if ( CLASSEMENT_CROISSANT )
+	retour = retour;
+    else
+	retour = -retour;
+
+   if ( retour )
+	return ( retour );
+    else
+	return ( classement_sliste_par_date ( operation_1, operation_2 ));
+	    
+}
+/* ************************************************************************** */
+
+
+
+/* ************************************************************************** */
+/* classement opérations par catégories  */
+/* categ -> ventil -> virements -> pas de categ */
+/* retour = -1 si operation_1 doit être placée en 1er */
+/* ************************************************************************** */
+gint classement_sliste_par_categories ( struct structure_operation *operation_1,
+					struct structure_operation *operation_2 )
+{
+    gint retour;
+    gchar *categ_1, *categ_2;
+
+    categ_1 = categorie_name_by_no ( operation_1 -> categorie,
+				     operation_1 -> sous_categorie );
+    categ_2 = categorie_name_by_no ( operation_2 -> categorie,
+				     operation_2 -> sous_categorie );
+
+    if ( categ_1 )
+    {
+	if ( categ_2 )
+	    /* 	    cas le plus simple : ce sont 2 categ normales */
+	    retour = strcmp ( categ_1,
+			      categ_2 );
+	else
+	    retour = -1;
+    }
+    else
+    {
+	if ( categ_2 )
+	    retour = 1;
+	else
+	{
+	    /* 	    cas le plus compliqé : les opés sont soit virement, soit ventil */
+	    /* 	    on va placer les ventils avant les virements */
+	    if ( operation_1 -> operation_ventilee )
+	    {
+		if ( operation_2 -> operation_ventilee )
+		    /* 		    les 2 opés sont des ventils */
+		    retour = 0;
+		else
+		    retour = -1;
+	    }
+	    else
+	    {
+		if ( operation_2 -> operation_ventilee )
+		    retour = 1;
+		else
+		{
+		    /* 		    aucune des 2 ne sont des ventils */
+
+		    if ( operation_1 -> relation_no_operation )
+		    {
+			if ( operation_2 -> relation_no_operation )
+			    /* 			    toutes les 2 sont des virements */
+			    retour = 0;
+			else
+			    retour = -1;
+		    }
+		    else
+			if ( operation_2 -> relation_no_operation )
+			    retour = 1;
+			else
+			    /* 			    ce sont 2 opés sans categ */
+			    retour = 0;
+		}
+	    }
+	}
+    }
+	    
+     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    if ( CLASSEMENT_CROISSANT )
+	retour = retour;
+    else
+	retour = -retour;
+
+   if ( retour )
+	return ( retour );
+    else
+	return ( classement_sliste_par_date ( operation_1, operation_2 ));
+	    
+}
+/* ************************************************************************** */
+
+
+
+/* ************************************************************************** */
+/* classement opérations par imputation  */
+/* retour = -1 si operation_1 doit être placée en 1er */
+/* ************************************************************************** */
+gint classement_sliste_par_imputation ( struct structure_operation *operation_1,
+					struct structure_operation *operation_2 )
+{
+    gint retour;
+    gchar *ib_1, *ib_2;
+
+    ib_1 = ib_name_by_no ( operation_1 -> imputation,
+			   operation_1 -> sous_imputation );
+    ib_2 = ib_name_by_no ( operation_2 -> imputation,
+			   operation_2 -> sous_imputation );
+
+    if ( ib_1 )
+    {
+	if ( ib_2 )
+	    retour = strcmp ( ib_1,
+			      ib_2 );
+	else
+	    retour = -1;
+    }
+    else
+    {
+	if ( ib_2 )
+	    retour = 1;
+	else
+	    retour = 0;
+    }
+
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    if ( CLASSEMENT_CROISSANT )
+	retour = retour;
+    else
+	retour = -retour;
+
+
+    if ( retour )
+	return ( retour );
+    else
+	return ( classement_sliste_par_date ( operation_1, operation_2 ));
+	    
+}
+/* ************************************************************************** */
+
+
+
+/* ************************************************************************** */
+/* classement opérations par notes */
+/* retour = -1 si operation_1 doit être placée en 1er */
+/* ************************************************************************** */
+gint classement_sliste_par_notes ( struct structure_operation *operation_1,
+				   struct structure_operation *operation_2 )
+{
+    gint retour;
+
+    if ( operation_1 -> notes )
+    {
+	if ( operation_2 -> notes )
+	    retour = g_strcasecmp ( operation_1 -> notes,
+				    operation_2 -> notes );
+	else
+	    retour = -1;
+    }
+    else
+    {
+	if ( operation_2 -> notes )
+	    retour = 1;
+	else
+	    retour = 0;
+    }
+    
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    if ( CLASSEMENT_CROISSANT )
+	retour = retour;
+    else
+	retour = -retour;
+
+
+    if ( retour )
+	return ( retour );
+    else
+	return ( classement_sliste_par_date ( operation_1, operation_2 ));
+	    
+}
+/* ************************************************************************** */
+
+
+
+/* ************************************************************************** */
+/* classement opérations par auto/man */
+/* retour = -1 si operation_1 doit être placée en 1er */
+/* on met les opérations automatiques en 1er */
+/* ************************************************************************** */
+gint classement_sliste_par_auto_man ( struct structure_operation *operation_1,
+				      struct structure_operation *operation_2 )
+{
+    gint retour;
+
+    retour = operation_2 ->  auto_man - operation_1 -> auto_man;
+
+     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    if ( CLASSEMENT_CROISSANT )
+	retour = retour;
+    else
+	retour = -retour;
+
+   if ( retour )
+	return ( retour );
+    else
+	return ( classement_sliste_par_date ( operation_1, operation_2 ));
+	    
+}
+/* ************************************************************************** */
+
+
+
+/* ************************************************************************** */
+/* classement opérations par no de rapprochement */
+/* retour = -1 si operation_1 doit être placée en 1er */
+/* ************************************************************************** */
+gint classement_sliste_par_no_rapprochement ( struct structure_operation *operation_1,
+					      struct structure_operation *operation_2 )
+{
+    gint retour;
+    gchar *rapr_1, *rapr_2;
+
+    rapr_1 = rapprochement_name_by_no ( operation_1 -> no_rapprochement );
+    rapr_2 = rapprochement_name_by_no ( operation_2 -> no_rapprochement );
+
+    if ( rapr_1 )
+    {
+	if ( rapr_2 )
+	    retour = strcmp ( rapr_1, 
+			      rapr_2 );
+	else
+	    retour = -1;
+    }
+    else
+    {
+	if ( rapr_2 )
+	    retour = 1;
+	else
+	    retour = 0;
+    }
+
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    if ( CLASSEMENT_CROISSANT )
+	retour = retour;
+    else
+	retour = -retour;
+
+
+    if ( retour )
+	return ( retour );
+    else
+	return ( classement_sliste_par_date ( operation_1, operation_2 ));
+	    
+}
+/* ************************************************************************** */
+
+
+
+/* ************************************************************************** */
+/* classement opérations par exercice */
+/* retour = -1 si operation_1 doit être placée en 1er */
+/* ************************************************************************** */
+gint classement_sliste_par_exercice ( struct structure_operation *operation_1,
+				      struct structure_operation *operation_2 )
+{
+    gint retour;
+
+    if ( operation_1 -> no_exercice == operation_2 -> no_exercice )
+	retour = 0;
+    else
+    {
+	if ( operation_1 -> no_exercice )
+	{
+	    if ( operation_2 -> no_exercice )
+	    {
+		GSList *liste_tmp_1, *liste_tmp_2;
+
+		liste_tmp_1 = g_slist_find_custom ( liste_struct_exercices,
+						    GINT_TO_POINTER ( operation_1 -> no_exercice ),
+						    (GCompareFunc) recherche_exercice_par_no );
+		liste_tmp_2 = g_slist_find_custom ( liste_struct_exercices,
+						    GINT_TO_POINTER ( operation_2 -> no_exercice ),
+						    (GCompareFunc) recherche_exercice_par_no );
+
+		if ( liste_tmp_1 )
+		{
+		    if ( liste_tmp_2 )
+		    {
+			struct struct_exercice *exo_1, *exo_2;
+
+			exo_1 = liste_tmp_1 -> data;
+			exo_2 = liste_tmp_2 -> data;
+
+			retour = g_date_compare ( exo_1 -> date_debut,
+						  exo_2 -> date_debut );
+		    }
+		    else
+			retour = -1;
+		}
+		else
+		{
+		    if ( liste_tmp_2 )
+			retour = 1;
+		    else
+			retour = 0;
+		}
+	    }
+	    else
+		retour = -1;
+	}
+	else
+	{
+	    if ( operation_2 -> no_exercice )
+		retour = 1;
+	    else
+		retour = 0;
+	}
+    }
+
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    if ( CLASSEMENT_CROISSANT )
+	retour = retour;
+    else
+	retour = -retour;
+
+
+    if ( retour )
+	return ( retour );
+    else
+	return ( classement_sliste_par_date ( operation_1, operation_2 ));
+	    
+}
+/* ************************************************************************** */
+
+
+
+/* ************************************************************************** */
+/* classement opérations par piece comptable  */
+/* retour = -1 si operation_1 doit être placée en 1er */
+/* ************************************************************************** */
+gint classement_sliste_par_pc ( struct structure_operation *operation_1,
+				struct structure_operation *operation_2 )
+{
+    gint retour;
+
+    if ( operation_1 -> no_piece_comptable )
+    {
+	if ( operation_2 -> no_piece_comptable )
+	    retour = g_strcasecmp ( operation_1 -> no_piece_comptable,
+				    operation_2 -> no_piece_comptable );
+	else
+	    retour = -1;
+    }
+    else
+    {
+	if ( operation_2 -> no_piece_comptable )
+	    retour = 1;
+	else
+	    retour = 0;
+    }
+    
+   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    if ( CLASSEMENT_CROISSANT )
+	retour = retour;
+    else
+	retour = -retour;
+
+
+    if ( retour )
+	return ( retour );
+    else
+	return ( classement_sliste_par_date ( operation_1, operation_2 ));
+    
+}
+/* ************************************************************************** */
+
+
+
+/* ************************************************************************** */
+/* classement opérations par info banque_guichet */
+/* retour = -1 si operation_1 doit être placée en 1er */
+/* ************************************************************************** */
+gint classement_sliste_par_ibg ( struct structure_operation *operation_1,
+				 struct structure_operation *operation_2 )
+{
+    gint retour;
+
+    if ( operation_1 -> info_banque_guichet )
+    {
+	if ( operation_2 -> info_banque_guichet )
+	    retour = g_strcasecmp ( operation_1 -> info_banque_guichet,
+				    operation_2 -> info_banque_guichet );
+	else
+	    retour = -1;
+    }
+    else
+    {
+	if ( operation_2 -> info_banque_guichet )
+	    retour = 1;
+	else
+	    retour = 0;
+    }
+    
+
+   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    if ( CLASSEMENT_CROISSANT )
+	retour = retour;
+    else
+	retour = -retour;
+
+    if ( retour )
+	return ( retour );
+    else
+	return ( classement_sliste_par_date ( operation_1, operation_2 ));
+      
+}
+/* ************************************************************************** */
+
+
+
+/* ************************************************************************** */
+/* classement opérations par type d'opé */
+/* retour = -1 si operation_1 doit être placée en 1er */
+/* ************************************************************************** */
+gint classement_sliste_par_type_ope ( struct structure_operation *operation_1,
+				      struct structure_operation *operation_2 )
+{
+    gint retour;
+    gchar *type_1, *type_2;
+
+    if ( operation_1 -> type_ope )
+    {
+	if ( operation_2 -> type_ope )
+	{
+	    type_1 = type_ope_name_by_no ( operation_1 -> type_ope,
+					   operation_1 -> no_compte );
+	    type_2 = type_ope_name_by_no ( operation_2 -> type_ope,
+					   operation_2 -> no_compte );
+
+	    retour = strcmp ( type_1,
+			      type_2 );
+
+	    if ( !retour )
+	    {
+		if ( operation_1 -> contenu_type )
+		{
+		    if ( operation_2 -> contenu_type )
+			retour = strcmp ( operation_1 -> contenu_type,
+					  operation_2 -> contenu_type );
+		    else
+			retour = -1;
+		}
+		else
+		    if ( operation_2 -> contenu_type )
+			retour = 1;
+	    }
+	}
+	else
+	    retour = -1;
+    }
+    else
+    {
+	if ( operation_2 -> type_ope )
+	    retour = 1;
+	else
+	    retour = 0;
+    }
+
+   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    if ( CLASSEMENT_CROISSANT )
+	retour = retour;
+    else
+	retour = -retour;
+
+    if ( retour )
+	return ( retour );
+    else
+	return ( classement_sliste_par_date ( operation_1, operation_2 ));
+	    
+}
+/* ************************************************************************** */
+
+
+
 
 /* ************************************************************************** */
 /* classement d'une liste composée de chaines par ordre alphabétique          */
@@ -391,44 +1004,4 @@ gint classe_liste_alphabetique ( gchar *string_1,
 }
 /* ************************************************************************** */
 
-
-/* ************************************************************************** */
-/* par ordre de date en tenant compte de l'état         */
-/* (pointé, rapproché) des opérations. Les opérations rapprochées seront      */
-/* toujours classées en premier, suivies par les opérations pointées, puis    */
-/* par les opérations qui ne sont ni l'une, ni l'autre.                       */
-/* ************************************************************************** */
-gint classement_sliste_par_date_rp ( struct structure_operation *pTransaction1,
-				     struct structure_operation *pTransaction2 )
-{
-    gint sort_result;
-
-    /* si l'opération 1 est rapprochée alors que l'opération 2 ne l'est pas,
-       ou si l'opération 1 est pointée et l'opération 2 n'est ni pointée, ni
-       rapprochée, alors on dit que l'opération 1 est antérieure */
-    if ( ( pTransaction1 -> pointe == 2 && pTransaction2 -> pointe != 2 )
-	 || ( pTransaction1 -> pointe == 1 && pTransaction2 -> pointe == 0 ))
-    {
-	sort_result = -1;
-    }
-    else
-    {
-	/* même raisonnement que ci-dessus, sauf que l'on interverti opération 1
-	   et opération 2 */
-	if ( ( pTransaction2 -> pointe == 2 && pTransaction1 -> pointe != 2 )
-	     || ( pTransaction2 -> pointe == 1 && pTransaction1 -> pointe == 0 ))
-	{
-	    sort_result = 1;
-	}
-	else
-	{
-	    /* les deux opérations sont toutes les deux dans le même état
-	       (rapprochées, pointées ou ni l'un ni l'autre),
-	       alors on les classe par date */
-	    sort_result = classement_sliste_par_date( pTransaction1, pTransaction2);
-	}
-    }
-    return( sort_result );
-}
-/* ************************************************************************** */
 

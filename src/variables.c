@@ -132,16 +132,11 @@ gint modif_imputation;
 /* fichier fenetre.c */
 /*********************/ 
 
-/* variables */
-
 GtkStyle *style_derriere_selection;
 gint ancienne_ligne_selection;
 GtkStyle *style_couleur [2];
 GtkStyle *style_rouge_couleur [2];
 GtkStyle *style_gris;                     /* utilisé pour le grisé des échéances */
-gchar * fonte_liste;
-gchar * list_font_name;
-gchar * list_font_size;
 GtkWidget *hbox_comptes_equilibrage;
 GtkWidget *formulaire;
 GtkWidget *pointeur_fenetre_nouveau_compte;
@@ -384,24 +379,6 @@ gint nb_banques;
 gint no_derniere_banque;
 
 
-/***********************************/ 
-/* fichier ventilation.c */
-/***********************************/ 
-
-
-GtkWidget *liste_operations_ventilees;
-gint ancienne_largeur_ventilation;          /* magouille utilisée pour bloquer un signal size-allocate qui s'emballe */
-GtkWidget *widget_formulaire_ventilation[8];
-GtkWidget *separateur_formulaire_ventilations;
-GtkWidget *hbox_valider_annuler_ventil;
-GtkWidget *label_somme_ventilee;                       /*  label correspondant */
-GtkWidget *label_non_affecte;                       /*  label correspondant */
-GtkWidget *label_montant_operation_ventilee;                       /*  label correspondant */
-struct struct_ope_ventil *ligne_selectionnee_ventilation;              /* struct ope ligne sélectionnée */
-gdouble montant_operation_ventilee;
-gdouble somme_ventilee;
-gint enregistre_ope_au_retour;            /* à 1 si au click du bouton valider on enregistre l'opé */
-
 
 /***********************************/ 
 /* fichier qif.c */
@@ -420,27 +397,6 @@ GSList *liste_comptes_importes;
 GtkWidget *dialog_recapitulatif;
 GtkWidget *table_recapitulatif;
 gint virements_a_chercher;
-
-
-/***********************************/ 
-/* fichier barre_outils */
-/***********************************/ 
-
-GtkTooltips *tooltips;
-GtkWidget *bouton_affiche_cache_formulaire_echeancier;
-/* dOm : bouton d'affichage des commentaires dans echeancier */
-GtkWidget *bouton_affiche_commentaire_echeancier;
-GtkWidget *fleche_bas_echeancier;
-GtkWidget *fleche_haut_echeancier;
-GtkWidget *bouton_ope_4_lignes;
-GtkWidget *bouton_ope_3_lignes;
-GtkWidget *bouton_ope_2_lignes;
-GtkWidget *bouton_ope_1_lignes;
-GtkWidget *bouton_affiche_r;
-GtkWidget *bouton_enleve_r;
-GtkWidget *label_proprietes_operations_compte;
-
-
 
 
 /***********************************/ 

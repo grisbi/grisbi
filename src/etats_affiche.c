@@ -31,8 +31,11 @@
 #include "etats_support.h"
 #include "search_glist.h"
 #include "utils.h"
-
-
+#include "categories_onglet.h"
+#include "imputation_budgetaire.h"
+#include "tiers_onglet.h"
+#include "type_operations.h"
+#include "equilibrage.h"
 
 
 
@@ -905,9 +908,8 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 	{
 	    if ( operation -> tiers )
 	    {
-		text = ((struct struct_tiers *)(g_slist_find_custom ( liste_struct_tiers,
-								      GINT_TO_POINTER ( operation -> tiers ),
-								      (GCompareFunc) recherche_tiers_par_no )->data)) -> nom_tiers;
+		text = tiers_name_by_no ( operation -> tiers, TRUE );
+
 		if ( etat_courant -> ope_clickables )
 		{
 		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
@@ -929,24 +931,8 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 	    pointeur = NULL;
 
 	    if ( operation -> categorie )
-	    {
-		struct struct_categ *categ;
-
-		categ = g_slist_find_custom ( liste_struct_categories,
-					      GINT_TO_POINTER ( operation -> categorie ),
-					      (GCompareFunc) recherche_categorie_par_no ) -> data;
-		pointeur = categ -> nom_categ;
-
-		if ( operation -> sous_categorie
-		     &&
-		     etat_courant -> afficher_sous_categ_ope )
-		    pointeur = g_strconcat ( pointeur,
-					     " : ",
-					     ((struct struct_sous_categ *)(g_slist_find_custom ( categ -> liste_sous_categ,
-												 GINT_TO_POINTER ( operation -> sous_categorie ),
-												 (GCompareFunc) recherche_sous_categorie_par_no ) -> data )) -> nom_sous_categ,
-					     NULL );
-	    }
+		pointeur = categorie_name_by_no ( operation -> categorie,
+						  operation -> sous_categorie );
 	    else
 	    {
 		/* si c'est un virement, on le marque, sinon c'est qu'il n'y a pas de categ */
@@ -986,23 +972,10 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 	{
 	    if ( operation -> imputation )
 	    {
-		struct struct_imputation *ib;
 		gchar *pointeur;
 
-		ib = g_slist_find_custom ( liste_struct_imputation,
-					   GINT_TO_POINTER ( operation -> imputation ),
-					   (GCompareFunc) recherche_imputation_par_no ) -> data;
-		pointeur = ib -> nom_imputation;
-
-		if ( operation -> sous_imputation
-		     &&
-		     etat_courant -> afficher_sous_ib_ope )
-		    pointeur = g_strconcat ( pointeur,
-					     " : ",
-					     ((struct struct_sous_imputation *)(g_slist_find_custom ( ib -> liste_sous_imputation,
-												      GINT_TO_POINTER ( operation -> sous_imputation ),
-												      (GCompareFunc) recherche_sous_imputation_par_no ) -> data )) -> nom_sous_imputation,
-					     NULL );
+		pointeur = ib_name_by_no ( operation -> imputation,
+					   operation -> sous_imputation );
 
 		if ( etat_courant -> ope_clickables )
 		{
@@ -1045,22 +1018,10 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 
 	if ( etat_courant -> afficher_type_ope )
 	{
-	    GSList *pointeur;
-
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
-
-	    pointeur = g_slist_find_custom ( TYPES_OPES,
-					     GINT_TO_POINTER ( operation -> type_ope ),
-					     (GCompareFunc) recherche_type_ope_par_no );
-
-	    if ( pointeur )
+	    text = type_ope_name_by_no ( operation -> type_ope,
+					 operation -> no_compte );
+	    if ( text )
 	    {
-		struct struct_type_ope *type;
-
-		type = pointeur -> data;
-
-		text = type -> nom_type;
-
 		if ( etat_courant -> ope_clickables )
 		{
 		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
@@ -1141,22 +1102,10 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 
 	if ( etat_courant -> afficher_rappr_ope )
 	{
-	    GSList *pointeur;
+	    text = rapprochement_name_by_no ( operation -> no_rapprochement );
 
-	    pointeur = g_slist_find_custom ( liste_no_rapprochements,
-					     GINT_TO_POINTER ( operation -> no_rapprochement ),
-					     (GCompareFunc) recherche_no_rapprochement_par_no );
-
-	    if ( pointeur )
+	    if ( text )
 	    {
-		struct struct_no_rapprochement *rapprochement;
-
-		rapprochement = pointeur -> data;
-
-		if (rapprochement)
-		{
-		    text = rapprochement -> nom_rapprochement;
-
 		    if ( etat_courant -> ope_clickables )
 		    {
 			etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
@@ -1165,7 +1114,6 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 		    {
 			etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
 		    }
-		}
 	    }
 
 	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
@@ -1353,9 +1301,8 @@ gint etat_affiche_affiche_categ_etat ( struct structure_operation *operation,
 	{
 	    if ( operation -> categorie )
 	    {
-		nom_categ_en_cours = ((struct struct_categ *)(g_slist_find_custom ( liste_struct_categories,
-										    GINT_TO_POINTER ( operation -> categorie ),
-										    (GCompareFunc) recherche_categorie_par_no ) -> data )) -> nom_categ;
+		nom_categ_en_cours = categorie_name_by_no ( operation -> categorie,
+							    0 );
 		pointeur_char = g_strconcat ( decalage_categ,
 					      nom_categ_en_cours,
 					      NULL );
@@ -1424,8 +1371,6 @@ gint etat_affiche_affiche_sous_categ_etat ( struct structure_operation *operatio
 	 &&
 	 operation -> sous_categorie != ancienne_sous_categ_etat )
     {
-	struct struct_categ *categ;
-
 	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
 
 	if ( !debut_affichage_etat
@@ -1452,20 +1397,10 @@ gint etat_affiche_affiche_sous_categ_etat ( struct structure_operation *operatio
 
 	if ( etat_courant -> afficher_nom_categ )
 	{
-	    categ = g_slist_find_custom ( liste_struct_categories,
-					  GINT_TO_POINTER ( operation -> categorie ),
-					  (GCompareFunc) recherche_categorie_par_no ) -> data;
+	    pointeur_char = sous_categorie_name_by_no ( operation -> categorie,
+							operation -> sous_categorie );
 
-	    if ( operation -> sous_categorie )
-	    {
-		nom_ss_categ_en_cours = ((struct struct_sous_categ *)(g_slist_find_custom ( categ->liste_sous_categ,
-											    GINT_TO_POINTER ( operation -> sous_categorie ),
-											    (GCompareFunc) recherche_sous_categorie_par_no ) -> data )) -> nom_sous_categ;
-		pointeur_char = g_strconcat ( decalage_sous_categ,
-					      nom_ss_categ_en_cours,
-					      NULL );
-	    }
-	    else
+	    if ( !pointeur_char )
 	    {
 		if ( etat_courant -> afficher_pas_de_sous_categ )
 		    pointeur_char = g_strconcat ( decalage_sous_categ,
@@ -1538,9 +1473,9 @@ gint etat_affiche_affiche_ib_etat ( struct structure_operation *operation,
 	{
 	    if ( operation -> imputation )
 	    {
-		nom_ib_en_cours = ((struct struct_imputation *)(g_slist_find_custom ( liste_struct_imputation,
-										      GINT_TO_POINTER ( operation -> imputation ),
-										      (GCompareFunc) recherche_imputation_par_no ) -> data )) -> nom_imputation;
+		nom_ib_en_cours = ib_name_by_no ( operation -> imputation,
+						  0 );
+
 		pointeur_char = g_strconcat ( decalage_ib,
 					      nom_ib_en_cours,
 					      NULL );
@@ -1590,8 +1525,6 @@ gint etat_affiche_affiche_sous_ib_etat ( struct structure_operation *operation,
 	 &&
 	 operation -> sous_imputation != ancienne_sous_ib_etat )
     {
-	struct struct_imputation *imputation;
-
 	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
 
 	if ( !debut_affichage_etat
@@ -1618,19 +1551,12 @@ gint etat_affiche_affiche_sous_ib_etat ( struct structure_operation *operation,
 
 	if ( etat_courant -> afficher_nom_ib )
 	{
-	    imputation = g_slist_find_custom ( liste_struct_imputation,
-					       GINT_TO_POINTER ( operation -> imputation ),
-					       (GCompareFunc) recherche_imputation_par_no ) -> data;
-
-	    if ( operation -> sous_imputation )
-	    {
-		nom_ss_ib_en_cours = ((struct struct_sous_imputation *)(g_slist_find_custom ( imputation->liste_sous_imputation,
-											      GINT_TO_POINTER ( operation -> sous_imputation ),
-											      (GCompareFunc) recherche_sous_imputation_par_no ) -> data )) -> nom_sous_imputation;
+	    nom_ss_ib_en_cours = sous_ib_name_by_no ( operation -> imputation,
+						      operation -> sous_imputation );
+	    if ( nom_ss_ib_en_cours )
 		pointeur_char = g_strconcat ( decalage_sous_ib,
 					      nom_ss_ib_en_cours,
 					      NULL );
-	    }
 	    else
 	    {
 		if ( etat_courant -> afficher_pas_de_sous_ib )
@@ -1770,9 +1696,8 @@ gint etat_affiche_affiche_tiers_etat ( struct structure_operation *operation,
 	{
 	    if ( operation -> tiers )
 	    {
-		nom_tiers_en_cours = ((struct struct_tiers *)(g_slist_find_custom ( liste_struct_tiers,
-										    GINT_TO_POINTER ( operation -> tiers ),
-										    (GCompareFunc) recherche_tiers_par_no ) -> data )) -> nom_tiers;
+		nom_tiers_en_cours = tiers_name_by_no ( operation -> tiers, TRUE );
+
 		pointeur_char = g_strconcat ( decalage_tiers,
 					      nom_tiers_en_cours,
 					      NULL );

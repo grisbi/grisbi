@@ -30,7 +30,6 @@
 #include "echeancier_formulaire.h"
 
 
-
 #include "./xpm/ope_1.xpm"
 #include "./xpm/ope_2.xpm"
 #include "./xpm/ope_3.xpm"
@@ -48,7 +47,20 @@
 /** Used to display/hide comments in scheduler list */
 GtkWidget *scheduler_display_hide_comments;
 
+GtkWidget *bouton_affiche_cache_formulaire_echeancier;
+GtkWidget *bouton_affiche_commentaire_echeancier;
+GtkWidget *fleche_bas_echeancier;
+GtkWidget *fleche_haut_echeancier;
+GtkWidget *bouton_ope_lignes[4];
+GtkWidget *bouton_affiche_r;
+GtkWidget *bouton_enleve_r;
+GtkWidget *label_proprietes_operations_compte;
 
+
+
+
+extern GtkTooltips *tooltips_general_grisbi;
+extern GtkWidget *tree_view_listes_operations;
 
 /*******************************************************************************************/
 GtkWidget *creation_barre_outils ( void )
@@ -59,7 +71,11 @@ GtkWidget *creation_barre_outils ( void )
     GtkWidget *hbox2;
 
 
-    tooltips = gtk_tooltips_new ();
+    /*     on utilise le tooltip général */
+
+    if ( !tooltips_general_grisbi )
+	tooltips_general_grisbi = gtk_tooltips_new ();
+
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
@@ -80,7 +96,7 @@ GtkWidget *creation_barre_outils ( void )
     bouton_affiche_cache_formulaire = gtk_button_new ();
     gtk_button_set_relief ( GTK_BUTTON ( bouton_affiche_cache_formulaire ),
 			    GTK_RELIEF_NONE );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
 			   bouton_affiche_cache_formulaire,
 			   _("Display/Hide form"),
 			   _("Display/Hide form") );
@@ -135,118 +151,127 @@ GtkWidget *creation_barre_outils ( void )
     gtk_widget_show_all ( separateur );
 
 
-    /* bouton opérations 4 lignes */
+    /* bouton opérations 1 ligne */
 
-    bouton_ope_4_lignes = gtk_toggle_button_new ();
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_ope_4_lignes ),
+    bouton_ope_lignes[0] = gtk_radio_button_new ( FALSE );
+    gtk_toggle_button_set_mode ( GTK_TOGGLE_BUTTON ( bouton_ope_lignes[0]),
+				 FALSE );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton_ope_lignes[0] ),
 			    GTK_RELIEF_NONE );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
-			   bouton_ope_4_lignes,
-			   _("Four lines per transaction"),
-			   _("Four lines per transaction") );
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
+			   bouton_ope_lignes[0],
+			   _("One line per transaction"),
+			   _("One line per transaction") );
 
-    icone = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) ope_4_xpm ));
-    gtk_container_add ( GTK_CONTAINER ( bouton_ope_4_lignes ),
+    icone = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) ope_1_xpm ));
+    gtk_container_add ( GTK_CONTAINER ( bouton_ope_lignes[0] ),
 			icone );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_ope_4_lignes ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-			 GINT_TO_POINTER ( 0 ) );
-    gtk_widget_set_usize ( bouton_ope_4_lignes,
+    gtk_widget_set_usize ( bouton_ope_lignes[0],
 			   15,
 			   15 );
+    g_signal_connect_swapped ( GTK_OBJECT ( bouton_ope_lignes[0] ),
+			       "button-press-event",
+			       GTK_SIGNAL_FUNC ( change_aspect_liste ),
+			       GINT_TO_POINTER ( 1 ) );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_ope_4_lignes,
+			 bouton_ope_lignes[0],
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show_all ( bouton_ope_4_lignes );
+    gtk_widget_show_all ( bouton_ope_lignes[0] );
+
+
+    /* bouton opérations 2 lignes */
+
+    bouton_ope_lignes[1] = gtk_radio_button_new_from_widget ( GTK_RADIO_BUTTON ( bouton_ope_lignes[0] ));
+    gtk_toggle_button_set_mode ( GTK_TOGGLE_BUTTON ( bouton_ope_lignes[1]),
+				 FALSE );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton_ope_lignes[1] ),
+			    GTK_RELIEF_NONE );
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
+			   bouton_ope_lignes[1],
+			   _("Two lines per transaction"),
+			   _("Two lines per transaction") );
+
+    icone = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) ope_2_xpm ));
+    gtk_container_add ( GTK_CONTAINER ( bouton_ope_lignes[1] ),
+			icone );
+    g_signal_connect_swapped ( GTK_OBJECT ( bouton_ope_lignes[1] ),
+			       "button-press-event",
+			       GTK_SIGNAL_FUNC ( change_aspect_liste ),
+			       GINT_TO_POINTER ( 2 ) );
+    gtk_widget_set_usize ( bouton_ope_lignes[1],
+			   15,
+			   15 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ),
+			 bouton_ope_lignes[1],
+			 FALSE,
+			 FALSE,
+			 0 );
+    gtk_widget_show_all ( bouton_ope_lignes[1] );
+
 
 
 
     /* bouton opérations 3 lignes */
 
-    bouton_ope_3_lignes = gtk_toggle_button_new ();
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_ope_3_lignes ),
+    bouton_ope_lignes[2] = gtk_radio_button_new_from_widget ( GTK_RADIO_BUTTON ( bouton_ope_lignes[0] ));
+    gtk_toggle_button_set_mode ( GTK_TOGGLE_BUTTON ( bouton_ope_lignes[2]),
+				 FALSE );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton_ope_lignes[2] ),
 			    GTK_RELIEF_NONE );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
-			   bouton_ope_3_lignes,
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
+			   bouton_ope_lignes[2],
 			   _("Three lines per transaction"),
 			   _("Three lines per transaction") );
 
     icone = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) ope_3_xpm ));
-    gtk_container_add ( GTK_CONTAINER ( bouton_ope_3_lignes ),
+    gtk_container_add ( GTK_CONTAINER ( bouton_ope_lignes[2] ),
 			icone );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_ope_3_lignes ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-			 GINT_TO_POINTER ( 4 ) );
-    gtk_widget_set_usize ( bouton_ope_3_lignes,
+    g_signal_connect_swapped ( GTK_OBJECT ( bouton_ope_lignes[2] ),
+			       "button-press-event",
+			       GTK_SIGNAL_FUNC ( change_aspect_liste ),
+			       GINT_TO_POINTER ( 3 ) );
+    gtk_widget_set_usize ( bouton_ope_lignes[2],
 			   15,
 			   15 );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_ope_3_lignes,
+			 bouton_ope_lignes[2],
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show_all ( bouton_ope_3_lignes );
+    gtk_widget_show_all ( bouton_ope_lignes[2] );
 
 
-    /* bouton opérations 2 lignes */
+    /* bouton opérations 4 lignes */
 
-    bouton_ope_2_lignes = gtk_toggle_button_new ();
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_ope_2_lignes ),
+    bouton_ope_lignes[3] = gtk_radio_button_new_from_widget ( GTK_RADIO_BUTTON ( bouton_ope_lignes[0] ));
+    gtk_toggle_button_set_mode ( GTK_TOGGLE_BUTTON ( bouton_ope_lignes[3]),
+				 FALSE );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton_ope_lignes[3] ),
 			    GTK_RELIEF_NONE );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
-			   bouton_ope_2_lignes,
-			   _("Two lines per transaction"),
-			   _("Two lines per transaction") );
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
+			   bouton_ope_lignes[3],
+			   _("Four lines per transaction"),
+			   _("Four lines per transaction") );
 
-    icone = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) ope_2_xpm ));
-    gtk_container_add ( GTK_CONTAINER ( bouton_ope_2_lignes ),
+    icone = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) ope_4_xpm ));
+    gtk_container_add ( GTK_CONTAINER ( bouton_ope_lignes[3] ),
 			icone );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_ope_2_lignes ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-			 GINT_TO_POINTER ( 5 ) );
-    gtk_widget_set_usize ( bouton_ope_2_lignes,
+    g_signal_connect_swapped ( GTK_OBJECT ( bouton_ope_lignes[3] ),
+			       "button-press-event",
+			       GTK_SIGNAL_FUNC ( change_aspect_liste ),
+			       GINT_TO_POINTER ( 4 ) );
+    gtk_widget_set_usize ( bouton_ope_lignes[3],
 			   15,
 			   15 );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_ope_2_lignes,
+			 bouton_ope_lignes[3],
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show_all ( bouton_ope_2_lignes );
+    gtk_widget_show_all ( bouton_ope_lignes[3] );
 
-
-
-    /* bouton opérations 1 ligne */
-
-    bouton_ope_1_lignes = gtk_toggle_button_new ();
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_ope_1_lignes ),
-			    GTK_RELIEF_NONE );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
-			   bouton_ope_1_lignes,
-			   _("One line per transaction"),
-			   _("One line per transaction") );
-
-    icone = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) ope_1_xpm ));
-    gtk_container_add ( GTK_CONTAINER ( bouton_ope_1_lignes ),
-			icone );
-    gtk_widget_set_usize ( bouton_ope_1_lignes,
-			   15,
-			   15 );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_ope_1_lignes ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-			 GINT_TO_POINTER ( 1 ) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_ope_1_lignes,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show_all ( bouton_ope_1_lignes );
 
     separateur = gtk_vseparator_new ();
     gtk_box_pack_start ( GTK_BOX ( hbox ),
@@ -259,10 +284,12 @@ GtkWidget *creation_barre_outils ( void )
 
     /* bouton affiche opérations relevées */
 
-    bouton_affiche_r = gtk_toggle_button_new ();
+    bouton_affiche_r = gtk_radio_button_new ( NULL);
+    gtk_toggle_button_set_mode ( GTK_TOGGLE_BUTTON ( bouton_affiche_r ),
+				 FALSE );
     gtk_button_set_relief ( GTK_BUTTON ( bouton_affiche_r ),
 			    GTK_RELIEF_NONE );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
 			   bouton_affiche_r,
 			   _("Display reconciled transactions"),
 			   _("Display reconciled transactions") );
@@ -272,10 +299,10 @@ GtkWidget *creation_barre_outils ( void )
     icone = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) (const gchar **) ope_avec_r ));
     gtk_container_add ( GTK_CONTAINER ( bouton_affiche_r ),
 			icone );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_affiche_r ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-			 GINT_TO_POINTER ( 2 ) );
+    g_signal_connect_swapped ( GTK_OBJECT ( bouton_affiche_r ),
+			       "button-press-event",
+			       GTK_SIGNAL_FUNC ( change_aspect_liste ),
+			       GINT_TO_POINTER ( 5 ) );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_affiche_r,
 			 FALSE,
@@ -286,10 +313,12 @@ GtkWidget *creation_barre_outils ( void )
 
     /* bouton efface opérations relevées */
 
-    bouton_enleve_r = gtk_toggle_button_new ();
+    bouton_enleve_r = gtk_radio_button_new_from_widget ( GTK_RADIO_BUTTON ( bouton_affiche_r ));
+    gtk_toggle_button_set_mode ( GTK_TOGGLE_BUTTON (bouton_enleve_r ),
+				 FALSE );
     gtk_button_set_relief ( GTK_BUTTON ( bouton_enleve_r ),
 			    GTK_RELIEF_NONE );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
 			   bouton_enleve_r,
 			   _("Mask reconciled transactions"),
 			   _("Mask reconciled transactions") );
@@ -299,10 +328,10 @@ GtkWidget *creation_barre_outils ( void )
     gtk_widget_set_usize ( bouton_enleve_r,
 			   15,
 			   15 );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_enleve_r ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-			 GINT_TO_POINTER ( 3 ) );
+    g_signal_connect_swapped ( GTK_OBJECT ( bouton_enleve_r ),
+			       "button-press-event",
+			       GTK_SIGNAL_FUNC ( change_aspect_liste ),
+			       GINT_TO_POINTER ( 6 ) );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_enleve_r,
 			 FALSE,
@@ -337,52 +366,113 @@ GtkWidget *creation_barre_outils ( void )
 
 
 /****************************************************************************************************/
-void change_aspect_liste ( GtkWidget *bouton,
-			   gint demande )
+gboolean change_aspect_liste ( gint demande )
 {
-
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
     switch ( demande )
     {
-	case 0 :
+	case 1 :
+	    /*       si retient_affichage_par_compte est mis, on ne change que le compte courant, */
+	    /* sinon on change tous les comptes */
 
-	    /* ope 4 lignes */
-	    gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_4_lignes ),
-					       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					       NULL );
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_4_lignes ),
-					   TRUE );
-	    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_ope_4_lignes ),
-						 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-						 NULL );
+	    if ( NB_LIGNES_OPE != 1 )
+	    {
+		if ( etat.retient_affichage_par_compte )
+		{
+		    NB_LIGNES_OPE = 1;
+		    MISE_A_JOUR = 1;
+		}
+		else
+		{
+		    gint i;
 
-	    gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_1_lignes),
-					       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					       GINT_TO_POINTER ( 1 ));
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_1_lignes ),
-					   FALSE );
-	    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_ope_1_lignes),
-						 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-						 GINT_TO_POINTER ( 1 ));
+		    for ( i=0 ; i<nb_comptes ; i++ )
+		    {
+			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+			NB_LIGNES_OPE = 1;
+			MISE_A_JOUR = 1;
+		    }
+		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+		}
+	    }
+	    gtk_button_clicked ( GTK_BUTTON ( bouton_ope_lignes[0] ));
+/* 	    doit mettre un g_main_iteration pour calmer le jeu en cas d'un clic très rapide */
+/* 		sinon il va réafficher 3 fois la liste d'opé... */
+	    while ( g_main_iteration ( FALSE ));
 
-	    gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_3_lignes ),
-					       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					       GINT_TO_POINTER ( 4 ));
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_3_lignes ),
-					   FALSE );
-	    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_ope_3_lignes ),
-						 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-						 GINT_TO_POINTER ( 4 ));
+	    break;
 
-	    gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_2_lignes ),
-					       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					       GINT_TO_POINTER ( 5 ));
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_2_lignes ),
-					   FALSE );
-	    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_ope_2_lignes ),
-						 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-						 GINT_TO_POINTER ( 5 ));
+
+	case 2 :
+
+	    /* ope 2 lignes */
+
+	    /*       si retient_affichage_par_compte est mis, on ne change que le compte courant, */
+	    /* sinon on change tous les comptes */
+
+	    if ( NB_LIGNES_OPE != 2 )
+	    {
+		if ( etat.retient_affichage_par_compte )
+		{
+		    NB_LIGNES_OPE = 2;
+		    MISE_A_JOUR = 1;
+		}
+		else
+		{
+		    gint i;
+
+		    for ( i=0 ; i<nb_comptes ; i++ )
+		    {
+			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+			NB_LIGNES_OPE = 2;
+			MISE_A_JOUR = 1;
+		    }
+		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+		}
+	    }
+	    gtk_button_clicked ( GTK_BUTTON ( bouton_ope_lignes[1] ));
+/* 	    doit mettre un g_main_iteration pour calmer le jeu en cas d'un clic très rapide */
+/* 		sinon il va réafficher 3 fois la liste d'opé... */
+	    while ( g_main_iteration ( FALSE ));
+
+	    break;
+
+
+	case 3 :
+
+	    /* ope 3 lignes */
+	    /*       si retient_affichage_par_compte est mis, on ne change que le compte courant, */
+	    /* sinon on change tous les comptes */
+
+	    if ( NB_LIGNES_OPE != 3 )
+	    {
+		if ( etat.retient_affichage_par_compte )
+		{
+		    NB_LIGNES_OPE = 3;
+		    MISE_A_JOUR = 1;
+		}
+		else
+		{
+		    gint i;
+
+		    for ( i=0 ; i<nb_comptes ; i++ )
+		    {
+			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+			NB_LIGNES_OPE = 3;
+			MISE_A_JOUR = 1;
+		    }
+		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+		}
+	    }
+	    gtk_button_clicked ( GTK_BUTTON ( bouton_ope_lignes[2] ));
+/* 	    doit mettre un g_main_iteration pour calmer le jeu en cas d'un clic très rapide */
+/* 		sinon il va réafficher 3 fois la liste d'opé... */
+	    while ( g_main_iteration ( FALSE ));
+
+	    break;
+
+	case 4 :
 
 	    /*       si retient_affichage_par_compte est mis, on ne change que le compte courant, */
 	    /* sinon on change tous les comptes */
@@ -408,94 +498,18 @@ void change_aspect_liste ( GtkWidget *bouton,
 		}
 	    }
 
-	    break;
-
-	case 1 :
-
-	    /* ope 1 ligne */
-	    gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_4_lignes ),
-					       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					       NULL );
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_4_lignes ),
-					   FALSE );
-	    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_ope_4_lignes ),
-						 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-						 NULL );
-
-	    gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_1_lignes),
-					       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					       GINT_TO_POINTER ( 1 ));
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_1_lignes ),
-					   TRUE );
-	    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_ope_1_lignes),
-						 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-						 GINT_TO_POINTER ( 1 ));
-
-	    gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_3_lignes ),
-					       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					       GINT_TO_POINTER ( 4 ));
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_3_lignes ),
-					   FALSE );
-	    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_ope_3_lignes ),
-						 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-						 GINT_TO_POINTER ( 4 ));
-
-	    gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_2_lignes ),
-					       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					       GINT_TO_POINTER ( 5 ));
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_2_lignes ),
-					   FALSE );
-	    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_ope_2_lignes ),
-						 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-						 GINT_TO_POINTER ( 5 ));
-
-	    /*       si retient_affichage_par_compte est mis, on ne change que le compte courant, */
-	    /* sinon on change tous les comptes */
-
-	    if ( NB_LIGNES_OPE != 1 )
-	    {
-		if ( etat.retient_affichage_par_compte )
-		{
-		    NB_LIGNES_OPE = 1;
-		    MISE_A_JOUR = 1;
-		}
-		else
-		{
-		    gint i;
-
-		    for ( i=0 ; i<nb_comptes ; i++ )
-		    {
-			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
-			NB_LIGNES_OPE = 1;
-			MISE_A_JOUR = 1;
-		    }
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-		}
-	    }
+	    gtk_button_clicked ( GTK_BUTTON ( bouton_ope_lignes[3] ));
+/* 	    doit mettre un g_main_iteration pour calmer le jeu en cas d'un clic très rapide */
+/* 		sinon il va réafficher 3 fois la liste d'opé... */
+	    while ( g_main_iteration ( FALSE ));
 
 	    break;
 
-	case 2 :
+
+
+	case 5 :
 
 	    /* ope avec r */
-	    gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_enleve_r ),
-					       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					       GINT_TO_POINTER ( 3 ));
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_enleve_r ),
-					   FALSE );
-	    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_enleve_r ),
-						 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-						 GINT_TO_POINTER ( 3 ));
-
-	    gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_affiche_r ),
-					       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					       GINT_TO_POINTER ( 2 ));
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_r ),
-					   TRUE );
-	    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_affiche_r ),
-						 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-						 GINT_TO_POINTER ( 2 ));
-
 	    /*       si retient_affichage_par_compte est mis, on ne change que le compte courant, */
 	    /* sinon on change tous les comptes */
 
@@ -519,29 +533,16 @@ void change_aspect_liste ( GtkWidget *bouton,
 		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 		}
 	    }
-	    break;
+		    gtk_button_clicked ( GTK_BUTTON ( bouton_affiche_r ));
+/* 	    doit mettre un g_main_iteration pour calmer le jeu en cas d'un clic très rapide */
+/* 		sinon il va réafficher 3 fois la liste d'opé... */
+	    while ( g_main_iteration ( FALSE ));
 
-	case 3 :
+    break;
+
+	case 6 :
 
 	    /* ope sans r */
-	    gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_enleve_r ),
-					       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					       GINT_TO_POINTER ( 3 ));
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_enleve_r ),
-					   TRUE );
-	    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_enleve_r ),
-						 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-						 GINT_TO_POINTER ( 3 ));
-
-	    gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_affiche_r ),
-					       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					       GINT_TO_POINTER ( 2 ));
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_r ),
-					   FALSE );
-	    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_affiche_r ),
-						 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-						 GINT_TO_POINTER ( 2 ));
-
 	    /*       si retient_affichage_par_compte est mis, on ne change que le compte courant, */
 	    /* sinon on change tous les comptes */
 
@@ -565,150 +566,20 @@ void change_aspect_liste ( GtkWidget *bouton,
 		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 		}
 	    }
-	    break;
+	    gtk_button_clicked ( GTK_BUTTON (bouton_enleve_r ));
+/* 	    doit mettre un g_main_iteration pour calmer le jeu en cas d'un clic très rapide */
+/* 		sinon il va réafficher 3 fois la liste d'opé... */
+	    while ( g_main_iteration ( FALSE ));
 
-
-	case 4 :
-
-	    /* ope 3 lignes */
-
-	    gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_3_lignes ),
-					       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					       GINT_TO_POINTER ( 4 ));
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_3_lignes ),
-					   TRUE );
-	    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_ope_3_lignes ),
-						 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-						 GINT_TO_POINTER ( 4 ));
-
-	    gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_4_lignes ),
-					       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					       NULL );
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_4_lignes ),
-					   FALSE );
-	    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_ope_4_lignes ),
-						 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-						 NULL );
-
-	    gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_1_lignes),
-					       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					       GINT_TO_POINTER ( 1 ));
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_1_lignes ),
-					   FALSE );
-	    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_ope_1_lignes),
-						 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-						 GINT_TO_POINTER ( 1 ));
-
-	    gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_2_lignes ),
-					       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					       GINT_TO_POINTER ( 5 ));
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_2_lignes ),
-					   FALSE );
-	    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_ope_2_lignes ),
-						 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-						 GINT_TO_POINTER ( 5 ));
-
-	    /*       si retient_affichage_par_compte est mis, on ne change que le compte courant, */
-	    /* sinon on change tous les comptes */
-
-	    if ( NB_LIGNES_OPE != 3 )
-	    {
-		if ( etat.retient_affichage_par_compte )
-		{
-		    NB_LIGNES_OPE = 3;
-		    MISE_A_JOUR = 1;
-		}
-		else
-		{
-		    gint i;
-
-		    for ( i=0 ; i<nb_comptes ; i++ )
-		    {
-			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
-			NB_LIGNES_OPE = 3;
-			MISE_A_JOUR = 1;
-		    }
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-		}
-	    }
-	    break;
-
-	case 5 :
-
-	    /* ope 2 lignes */
-
-	    gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_2_lignes ),
-					       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					       GINT_TO_POINTER ( 5 ));
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_2_lignes ),
-					   TRUE );
-	    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_ope_2_lignes ),
-						 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-						 GINT_TO_POINTER ( 5 ));
-
-	    gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_4_lignes ),
-					       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					       NULL );
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_4_lignes ),
-					   FALSE );
-	    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_ope_4_lignes ),
-						 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-						 NULL );
-
-	    gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_3_lignes),
-					       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					       GINT_TO_POINTER ( 4 ));
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_3_lignes ),
-					   FALSE );
-	    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_ope_3_lignes),
-						 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-						 GINT_TO_POINTER ( 4 ));
-
-	    gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_1_lignes),
-					       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					       GINT_TO_POINTER ( 1 ));
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_1_lignes ),
-					   FALSE );
-	    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_ope_1_lignes),
-						 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-						 GINT_TO_POINTER ( 1 ));
-
-	    /*       si retient_affichage_par_compte est mis, on ne change que le compte courant, */
-	    /* sinon on change tous les comptes */
-
-	    if ( NB_LIGNES_OPE != 2 )
-	    {
-		if ( etat.retient_affichage_par_compte )
-		{
-		    NB_LIGNES_OPE = 2;
-		    MISE_A_JOUR = 1;
-		}
-		else
-		{
-		    gint i;
-
-		    for ( i=0 ; i<nb_comptes ; i++ )
-		    {
-			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
-			NB_LIGNES_OPE = 2;
-			MISE_A_JOUR = 1;
-		    }
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-		}
-	    }
 	    break;
 
     }
 
     /*   si un compte était affiché en ce moment, on le met à jour si necessaire */
 
-    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general ) ) == 1 )
-    {
+    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general )) == 1 )
 	verification_mise_a_jour_liste ();
-	selectionne_ligne ( compte_courant );
-    }
-
-    focus_a_la_liste ();
+    return ( TRUE );
 }
 /* ***************************************************************************************************** */
 
@@ -742,7 +613,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     bouton_affiche_cache_formulaire_echeancier = gtk_button_new ();
     gtk_button_set_relief ( GTK_BUTTON ( bouton_affiche_cache_formulaire_echeancier ),
 			    GTK_RELIEF_NONE );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
 			   bouton_affiche_cache_formulaire_echeancier,
 			   _("Display/hide form"),
 			   _("Display/hide form") );
@@ -805,7 +676,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 			scheduler_display_hide_comments );
     gtk_button_set_relief ( GTK_BUTTON ( bouton_affiche_commentaire_echeancier ),
 			    GTK_RELIEF_NONE );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
 			   bouton_affiche_commentaire_echeancier ,
 			   _("Display/hide comments"),
 			   _("Display/hide comments") );
@@ -858,7 +729,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     gtk_object_set_data ( GTK_OBJECT ( bouton ),
 			  "profondeur",
 			  GINT_TO_POINTER ( 0 ));
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
 			   bouton,
 			   _("Close tree"),
 			   _("Close tree") );
@@ -887,7 +758,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     gtk_object_set_data ( GTK_OBJECT ( bouton ),
 			  "profondeur",
 			  GINT_TO_POINTER ( 1 ));
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
 			   bouton,
 			   _("Display accounts"),
 			   _("Display accounts") );
@@ -916,7 +787,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     gtk_object_set_data ( GTK_OBJECT ( bouton ),
 			  "profondeur",
 			  GINT_TO_POINTER ( 2 ));
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
 			   bouton,
 			   _("Display transactions"),
 			   _("Display transactions") );
@@ -983,7 +854,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     gtk_object_set_data ( GTK_OBJECT ( bouton ),
 			  "profondeur",
 			  GINT_TO_POINTER ( 0 ));
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
 			   bouton,
 			   _("Close tree"),
 			   _("Close tree") );
@@ -1012,7 +883,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     gtk_object_set_data ( GTK_OBJECT ( bouton ),
 			  "profondeur",
 			  GINT_TO_POINTER ( 1 ));
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
 			   bouton,
 			   _("Display sub-divisions"),
 			   _("Display sub-divisions") );
@@ -1041,7 +912,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     gtk_object_set_data ( GTK_OBJECT ( bouton ),
 			  "profondeur",
 			  GINT_TO_POINTER ( 2 ));
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
 			   bouton,
 			   _("Display accounts"),
 			   _("Display accounts") );
@@ -1070,7 +941,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     gtk_object_set_data ( GTK_OBJECT ( bouton ),
 			  "profondeur",
 			  GINT_TO_POINTER ( 3 ));
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
 			   bouton,
 			   _("Display transactions"),
 			   _("Display transactions") );
@@ -1138,7 +1009,7 @@ GtkWidget *creation_barre_outils_imputation ( void )
     gtk_object_set_data ( GTK_OBJECT ( bouton ),
 			  "profondeur",
 			  GINT_TO_POINTER ( 0 ));
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
 			   bouton,
 			   _("Close tree"),
 			   _("Close tree") );
@@ -1167,7 +1038,7 @@ GtkWidget *creation_barre_outils_imputation ( void )
     gtk_object_set_data ( GTK_OBJECT ( bouton ),
 			  "profondeur",
 			  GINT_TO_POINTER ( 1 ));
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
 			   bouton,
 			   _("Display sub-divisions"),
 			   _("Display sub-divisions") );
@@ -1196,7 +1067,7 @@ GtkWidget *creation_barre_outils_imputation ( void )
     gtk_object_set_data ( GTK_OBJECT ( bouton ),
 			  "profondeur",
 			  GINT_TO_POINTER ( 2 ));
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
 			   bouton,
 			   _("Display accounts"),
 			   _("Display accounts") );
@@ -1225,7 +1096,7 @@ GtkWidget *creation_barre_outils_imputation ( void )
     gtk_object_set_data ( GTK_OBJECT ( bouton ),
 			  "profondeur",
 			  GINT_TO_POINTER ( 3 ));
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
 			   bouton,
 			   _("Display transactions"),
 			   _("Display transactions") );
@@ -1261,7 +1132,7 @@ GtkWidget *creation_barre_outils_imputation ( void )
 
 
 /*******************************************************************************************/
-/* étend l'arbre donné en argument en fonction du bouton cliqué (profondeur contenue */
+/* étend l'arbre donné en argument en fonction du bouton cliquÃ© (profondeur contenue */
 /* dans le bouton) */
 /*******************************************************************************************/
 
@@ -1315,97 +1186,35 @@ void mise_a_jour_boutons_caract_liste ( gint no_compte )
 {
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
-    /*   on va mettre les 4 boutons de lignes à false, puis met à true le bon bouton */
-
-    gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_4_lignes ),
-				       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-				       NULL );
-    gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_3_lignes ),
-				       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-				       GINT_TO_POINTER ( 4 ));
-    gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_2_lignes ),
-				       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-				       GINT_TO_POINTER ( 5 ));
-    gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_1_lignes),
-				       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-				       GINT_TO_POINTER ( 1 ));
-
-
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_1_lignes ),
-				   FALSE );
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_2_lignes ),
-				   FALSE );
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_3_lignes ),
-				   FALSE );
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_4_lignes ),
-				   FALSE );
-
     switch ( NB_LIGNES_OPE )
     {
 	case 1:
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_1_lignes ),
+	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_lignes[0] ),
 					   TRUE );
 	    break;
 	case 2:
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_2_lignes ),
+	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_lignes[1] ),
 					   TRUE );
 	    break;
 	case 3:
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_3_lignes ),
+	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_lignes[2] ),
 					   TRUE );
 	    break;
 	case 4:
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_4_lignes ),
+	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_lignes[4] ),
 					   TRUE );
 	    break;
     }
-
-    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_ope_1_lignes),
-					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					 GINT_TO_POINTER ( 1 ));
-    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_ope_2_lignes ),
-					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					 GINT_TO_POINTER ( 5 ));
-    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_ope_3_lignes ),
-					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					 GINT_TO_POINTER ( 4 ));
-    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_ope_4_lignes ),
-					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					 NULL );
 
 
 
     /* on met maintenant le bouton r ou pas r */
 
-    gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_enleve_r ),
-				       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-				       GINT_TO_POINTER ( 3 ));
-    gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_affiche_r ),
-				       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-				       GINT_TO_POINTER ( 2 ));
-
     if ( AFFICHAGE_R )
-    {
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_enleve_r ),
-				       FALSE );
 	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_r ),
 				       TRUE );
-    }
     else
-    {
 	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_enleve_r ),
 				       TRUE );
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_r ),
-				       FALSE );
-    }
-
-
-    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_affiche_r ),
-					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					 GINT_TO_POINTER ( 2 ));
-    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_enleve_r ),
-					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					 GINT_TO_POINTER ( 3 ));
-
 }
 /*******************************************************************************************/

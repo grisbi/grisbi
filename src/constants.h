@@ -1,5 +1,7 @@
 /* Fichier de définition de constantes constant.h */
 
+#define TRANSACTION_LIST_COL_NB 7
+
 /* Constantes qui définisent le numéro de widget dans le formulaire
    de saisie des opérations */
 # define TRANSACTION_FORM_OP_NB 0

@@ -43,6 +43,10 @@
 #include "type_operations.h"
 #include "utils.h"
 #include "constants.h"
+#include "tiers_onglet.h"
+#include "categories_onglet.h"
+#include "imputation_budgetaire.h"
+
 
 
 
@@ -91,6 +95,7 @@ gint affichage_echeances_perso_j_m_a;        /* contient 0 (jours), 1 (mois), 2 
 
 extern GtkWidget *label_saisie_modif;
 extern GtkWidget *widget_formulaire_echeancier[19];
+extern PangoFontDescription *pango_desc_fonte_liste;
 
 /*****************************************************************************/
 GtkWidget *creation_partie_gauche_echeancier ( void )
@@ -489,7 +494,7 @@ GtkWidget *creation_liste_echeances ( void )
 
 	    if ( etat.utilise_fonte_listes )
 	    {
-		gint size = pango_font_description_get_size (pango_font_description_from_string(fonte_liste));
+		gint size = pango_font_description_get_size (pango_desc_fonte_liste);
 		gtk_clist_set_row_height ( GTK_CLIST ( liste_echeances ),
 					   (size/PANGO_SCALE) + 7 );
 	    }
@@ -759,8 +764,6 @@ void remplissage_liste_echeance ( void )
 
     while ( pointeur_liste )
     {
-	GSList *pointeur_tmp;
-
 	if ( !ECHEANCE_COURANTE -> no_operation_ventilee_associee )
 	{
 	    /* mise en forme de la date */
@@ -801,13 +804,7 @@ void remplissage_liste_echeance ( void )
 
 	    /* mise en forme du tiers */
 
-	    pointeur_tmp = g_slist_find_custom ( liste_struct_tiers,
-						 GINT_TO_POINTER ( ECHEANCE_COURANTE -> tiers ),
-						 (GCompareFunc) recherche_tiers_par_no );
-	    if ( pointeur_tmp )
-		ligne[COL_NB_PARTY] = ((struct struct_tiers *)( pointeur_tmp-> data )) -> nom_tiers;
-	    else
-		ligne[COL_NB_PARTY] = NULL;
+	    ligne[COL_NB_PARTY] = tiers_name_by_no (ECHEANCE_COURANTE -> tiers, TRUE );
 
 	    /* mise en forme de auto/man */
 
@@ -1043,7 +1040,7 @@ void selectionne_echeance ( void )
 /*****************************************************************************/
 void edition_echeance ( void )
 {
-    GSList *pointeur_tmp;
+    gchar *char_tmp;
 
     /*   si le formulaire est caché, on le montre */
 
@@ -1083,14 +1080,13 @@ void edition_echeance ( void )
 
     /* mise en place du tiers */
 
-    pointeur_tmp = g_slist_find_custom ( liste_struct_tiers,
-					 GINT_TO_POINTER ( echeance_selectionnnee -> tiers ),
-					 (GCompareFunc) recherche_tiers_par_no );
-    if ( pointeur_tmp )
+    char_tmp = tiers_name_by_no ( echeance_selectionnnee -> tiers, TRUE );
+
+    if ( char_tmp )
     {
 	entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] );
 	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ),
-				((struct struct_tiers *)( pointeur_tmp-> data )) -> nom_tiers );
+				char_tmp );
     }
 
 
@@ -1170,19 +1166,9 @@ void edition_echeance ( void )
 	if ( echeance_selectionnnee -> categorie )
 	{
 	    /* 	    il y a donc des catégs/sous-catég */
-	    struct struct_categ *categorie;
 
-	    categorie =  g_slist_find_custom ( liste_struct_categories,
-					       GINT_TO_POINTER ( echeance_selectionnnee -> categorie ),
-					       (GCompareFunc) recherche_categorie_par_no ) ->data;
-	    texte = categorie -> nom_categ;
-	    if ( echeance_selectionnnee -> sous_categorie )
-		texte = g_strconcat ( texte,
-				      " : ",
-				      ((struct struct_sous_categ *)(g_slist_find_custom ( categorie -> liste_sous_categ,
-											  GINT_TO_POINTER ( echeance_selectionnnee -> sous_categorie ),
-											  (GCompareFunc) recherche_sous_categorie_par_no )->data)) -> nom_sous_categ,
-				      NULL );
+	   texte =  categorie_name_by_no ( echeance_selectionnnee -> categorie,
+					   echeance_selectionnnee -> sous_categorie );
 	}
 	else
 	{
@@ -1258,29 +1244,14 @@ void edition_echeance ( void )
 
     /* met en place l'imputation budgétaire */
 
+    char_tmp = ib_name_by_no ( echeance_selectionnnee -> imputation,
+			       echeance_selectionnnee -> sous_imputation );
 
-    pointeur_tmp = g_slist_find_custom ( liste_struct_imputation,
-					 GINT_TO_POINTER ( echeance_selectionnnee -> imputation ),
-					 ( GCompareFunc ) recherche_imputation_par_no );
-
-    if ( pointeur_tmp )
+    if ( char_tmp )
     {
-	GSList *pointeur_tmp_2;
-
 	entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY]);
-
-	pointeur_tmp_2 = g_slist_find_custom ( (( struct struct_imputation * )( pointeur_tmp -> data )) -> liste_sous_imputation,
-					       GINT_TO_POINTER ( echeance_selectionnnee -> sous_imputation ),
-					       ( GCompareFunc ) recherche_sous_categorie_par_no );
-	if ( pointeur_tmp_2 )
-	    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ),
-				    g_strconcat ( (( struct struct_imputation * )( pointeur_tmp -> data )) -> nom_imputation,
-						  " : ",
-						  (( struct struct_sous_imputation * )( pointeur_tmp_2 -> data )) -> nom_sous_imputation,
-						  NULL ));
-	else
-	    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ),
-				    (( struct struct_imputation * )( pointeur_tmp -> data )) -> nom_imputation );
+	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ),
+				char_tmp );
     }
 
     /* mise en place de l'automatisme */
@@ -1384,23 +1355,12 @@ void supprime_echeance ( struct operation_echeance *echeance )
 			     0 );
 	gtk_widget_show ( label );
 
-	if ( echeance -> tiers )
-	    label = gtk_label_new ( g_strdup_printf ( "%02d/%02d/%d : %s [%4.2f]",
-						      echeance -> jour,
-						      echeance -> mois,
-						      echeance -> annee,
-						      ((struct struct_tiers *)(g_slist_find_custom ( liste_struct_tiers,
-												     GINT_TO_POINTER ( echeance -> tiers ),
-												     (GCompareFunc ) recherche_tiers_par_no )->data )) -> nom_tiers,
-						      echeance -> montant ));
-	else
-	    label = gtk_label_new ( g_strdup_printf ( _("%02d/%02d/%d : [No third party] [%4.2f]"),
-						      echeance -> jour,
-						      echeance -> mois,
-						      echeance -> annee,
-						      echeance -> montant ));
-
-
+	label = gtk_label_new ( g_strdup_printf ( "%02d/%02d/%d : %s [%4.2f]",
+						  echeance -> jour,
+						  echeance -> mois,
+						  echeance -> annee,
+						  tiers_name_by_no (echeance -> tiers, FALSE ),
+						  echeance -> montant ));
 
 	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
 			     label,

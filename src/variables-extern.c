@@ -141,18 +141,11 @@ extern gint modif_imputation;
 /* fichier fenetre.c */
 /*********************/ 
 
-
-
-/* variables */
-
 extern GtkStyle *style_derriere_selection;
 extern gint ancienne_ligne_selection;
 extern GtkStyle *style_couleur [2];
 extern GtkStyle *style_rouge_couleur [2];
 extern GtkStyle *style_gris;                     /* utilisé pour le grisé des échéances */
-extern gchar * fonte_liste;
-extern gchar * list_font_name;
-extern gchar * list_font_size; 
 extern GtkWidget *hbox_comptes_equilibrage;
 extern GtkWidget *formulaire;
 extern GtkWidget *pointeur_fenetre_nouveau_compte;
@@ -404,24 +397,6 @@ extern gint nb_banques;
 extern gint no_derniere_banque;
 
 
-/***********************************/ 
-/* fichier ventilation.c */
-/***********************************/ 
-
-
-extern GtkWidget *liste_operations_ventilees;
-extern gint ancienne_largeur_ventilation;       /* magouille utilisée pour bloquer un signal size-allocate qui s'emballe */
-extern GtkWidget *widget_formulaire_ventilation[8];
-extern GtkWidget *separateur_formulaire_ventilations;
-extern GtkWidget *hbox_valider_annuler_ventil;
-extern GtkWidget *label_somme_ventilee;                       /*  label correspondant */
-extern GtkWidget *label_non_affecte;                       /*  label correspondant */
-extern GtkWidget *label_montant_operation_ventilee;                       /*  label correspondant */
-extern struct struct_ope_ventil *ligne_selectionnee_ventilation;              /* struct ope ligne sélectionnée */
-extern gdouble montant_operation_ventilee;
-extern gdouble somme_ventilee;
-extern gint enregistre_ope_au_retour;            /* à 1 si au click du bouton valider on enregistre l'opé */
-
 
 /***********************************/ 
 /* fichier qif.c */
@@ -439,23 +414,6 @@ extern GSList *liste_comptes_importes;
 extern GtkWidget *dialog_recapitulatif;
 extern GtkWidget *table_recapitulatif;
 extern gint virements_a_chercher;
-
-
-/***********************************/ 
-/* fichier barre_outils */
-/***********************************/ 
-
-extern GtkTooltips *tooltips;
-extern GtkWidget *bouton_affiche_cache_formulaire_echeancier;
-extern GtkWidget *fleche_bas_echeancier;
-extern GtkWidget *fleche_haut_echeancier;
-extern GtkWidget *bouton_ope_4_lignes;
-extern GtkWidget *bouton_ope_3_lignes;
-extern GtkWidget *bouton_ope_2_lignes;
-extern GtkWidget *bouton_ope_1_lignes;
-extern GtkWidget *bouton_affiche_r;
-extern GtkWidget *bouton_enleve_r;
-extern GtkWidget *label_proprietes_operations_compte;
 
 
 /***********************************/ 

@@ -30,6 +30,12 @@
 #include "etats_affiche.h"
 #include "search_glist.h"
 #include "utils.h"
+#include "categories_onglet.h"
+#include "imputation_budgetaire.h"
+#include "tiers_onglet.h"
+#include "type_operations.h"
+#include "equilibrage.h"
+
 
 
 /*****************************************************************************************************/
@@ -890,18 +896,7 @@ gchar *recupere_texte_test_etat ( struct structure_operation *operation,
 	case 0:
 	    /* tiers  */
 
-	    if ( operation -> tiers )
-	    {
-		struct struct_tiers *tiers;
-
-		tiers = g_slist_find_custom ( liste_struct_tiers,
-					      GINT_TO_POINTER ( operation -> tiers ),
-					      (GCompareFunc) recherche_tiers_par_no ) -> data;
-
-		texte = tiers -> nom_tiers;
-	    }
-	    else
-		texte = NULL;
+	    texte = tiers_name_by_no ( operation -> tiers, TRUE );
 	    break;
 
 	case 1:
@@ -924,84 +919,29 @@ gchar *recupere_texte_test_etat ( struct structure_operation *operation,
 	case 2:
 	    /* categ */
 
-	    if ( operation -> categorie )
-	    {
-		struct struct_categ *categ;
-
-		categ = g_slist_find_custom ( liste_struct_categories,
-					      GINT_TO_POINTER ( operation -> categorie ),
-					      (GCompareFunc) recherche_categorie_par_no ) -> data;
-
-		texte = categ -> nom_categ;
-	    }
-	    else
-		texte = NULL;
+	    texte = categorie_name_by_no ( operation -> categorie,
+					   0 );
 	    break;
 
 	case 3:
 	    /* ss-categ */
 
-	    if ( operation -> categorie
-		 &&
-		 operation -> sous_categorie )
-	    {
-		struct struct_categ *categ;
-		struct struct_sous_categ *ss_categ;
-
-		categ = g_slist_find_custom ( liste_struct_categories,
-					      GINT_TO_POINTER ( operation -> categorie ),
-					      (GCompareFunc) recherche_categorie_par_no ) -> data;
-
-
-		ss_categ = g_slist_find_custom ( categ -> liste_sous_categ,
-						 GINT_TO_POINTER ( operation -> sous_categorie ),
-						 (GCompareFunc) recherche_sous_categorie_par_no ) -> data;
-
-		texte = ss_categ -> nom_sous_categ;
-	    }
-	    else
-		texte = NULL;
+	    texte = sous_categorie_name_by_no ( operation -> categorie,
+						operation -> sous_categorie );
 	    break;
 
 	case 4:
 	    /* ib */
 
-	    if ( operation -> imputation )
-	    {
-		struct struct_imputation *ib;
-
-		ib = g_slist_find_custom ( liste_struct_imputation,
-					   GINT_TO_POINTER ( operation -> imputation ),
-					   (GCompareFunc) recherche_imputation_par_no ) -> data;
-
-		texte = ib -> nom_imputation;
-	    }
-	    else
-		texte = NULL;
+	    texte = ib_name_by_no ( operation -> imputation,
+				    0 );
 	    break;
 
 	case 5:
 	    /* ss-ib */
 
-	    if ( operation -> imputation
-		 &&
-		 operation -> sous_imputation )
-	    {
-		struct struct_imputation *ib;
-		struct struct_sous_imputation *ss_ib;
-
-		ib = g_slist_find_custom ( liste_struct_imputation,
-					   GINT_TO_POINTER ( operation -> imputation ),
-					   (GCompareFunc) recherche_imputation_par_no ) -> data;
-
-		ss_ib = g_slist_find_custom ( ib -> liste_sous_imputation,
-					      GINT_TO_POINTER ( operation -> sous_imputation ),
-					      (GCompareFunc) recherche_sous_imputation_par_no ) -> data;
-
-		texte = ss_ib -> nom_sous_imputation;
-	    }
-	    else
-		texte = NULL;
+	    texte = ib_name_by_no ( operation -> imputation,
+				    operation -> sous_imputation );
 	    break;
 
 	case 6:
@@ -1032,18 +972,7 @@ gchar *recupere_texte_test_etat ( struct structure_operation *operation,
 	case 10:
 	    /* no rappr */
 
-	    if ( operation -> no_rapprochement )
-	    {
-		struct struct_no_rapprochement *rappr;
-
-		rappr = g_slist_find_custom ( liste_no_rapprochements,
-					      GINT_TO_POINTER ( operation -> no_rapprochement ),
-					      (GCompareFunc) recherche_no_rapprochement_par_no ) -> data;
-
-		texte = rappr -> nom_rapprochement;
-	    }
-	    else
-		texte = NULL;
+	    texte = rapprochement_name_by_no ( operation -> no_rapprochement );
 	    break;
 
 	default:
@@ -1691,20 +1620,8 @@ gint classement_ope_perso_etat ( struct structure_operation *operation_1,
 		 !operation_2 -> tiers )
 		retour = operation_2 -> tiers - operation_1 -> tiers;
 	    else
-	    {
-		struct struct_tiers *tiers_1;
-		struct struct_tiers *tiers_2;
-
-		tiers_1 = g_slist_find_custom ( liste_struct_tiers,
-						GINT_TO_POINTER ( operation_1 -> tiers ),
-						(GCompareFunc) recherche_tiers_par_no ) -> data;
-		tiers_2 = g_slist_find_custom ( liste_struct_tiers,
-						GINT_TO_POINTER ( operation_2 -> tiers ),
-						(GCompareFunc) recherche_tiers_par_no ) -> data;
-
-		retour = g_strcasecmp ( tiers_1 -> nom_tiers,
-					tiers_2 -> nom_tiers );
-	    }
+		retour = g_strcasecmp ( tiers_name_by_no ( operation_1 -> tiers, TRUE ),
+					tiers_name_by_no ( operation_2 -> tiers, TRUE ));
 	    break;
 
 	case 3:
@@ -1723,36 +1640,8 @@ gint classement_ope_perso_etat ( struct structure_operation *operation_1,
 		       !operation_2 -> sous_categorie ))
 		    retour = operation_2 -> sous_categorie - operation_1 -> sous_categorie;
 		else
-		{
-		    struct struct_categ *categ_1;
-		    struct struct_categ *categ_2;
-
-		    categ_1 = g_slist_find_custom ( liste_struct_categories,
-						    GINT_TO_POINTER ( operation_1 -> categorie ),
-						    (GCompareFunc) recherche_categorie_par_no ) -> data;
-		    categ_2 = g_slist_find_custom ( liste_struct_categories,
-						    GINT_TO_POINTER ( operation_2 -> categorie ),
-						    (GCompareFunc) recherche_categorie_par_no ) -> data;
-
-		    if ( operation_1 -> categorie == operation_2 -> categorie )
-		    {
-			struct struct_sous_categ *ss_categ_1;
-			struct struct_sous_categ *ss_categ_2;
-
-			ss_categ_1 = g_slist_find_custom ( categ_1 -> liste_sous_categ,
-							   GINT_TO_POINTER ( operation_1 -> sous_categorie ),
-							   (GCompareFunc) recherche_sous_categorie_par_no ) -> data;
-			ss_categ_2 = g_slist_find_custom ( categ_2 -> liste_sous_categ,
-							   GINT_TO_POINTER ( operation_2 -> sous_categorie ),
-							   (GCompareFunc) recherche_sous_categorie_par_no ) -> data;
-
-			retour = g_strcasecmp ( ss_categ_1 -> nom_sous_categ,
-						ss_categ_2 -> nom_sous_categ );
-		    }
-		    else
-			retour = g_strcasecmp ( categ_1 -> nom_categ,
-						categ_2 -> nom_categ );
-		}
+		    retour = g_strcasecmp ( categorie_name_by_no ( operation_1 -> categorie, operation_1 -> sous_categorie ),
+					    categorie_name_by_no ( operation_2 -> categorie, operation_2 -> sous_categorie ));
 	    }
 	    break;
 
@@ -1772,36 +1661,8 @@ gint classement_ope_perso_etat ( struct structure_operation *operation_1,
 		       !operation_2 -> sous_imputation ))
 		    retour = operation_2 -> sous_imputation - operation_1 -> sous_imputation;
 		else
-		{
-		    struct struct_imputation *imputation_1;
-		    struct struct_imputation *imputation_2;
-
-		    imputation_1 = g_slist_find_custom ( liste_struct_imputation,
-							 GINT_TO_POINTER ( operation_1 -> imputation ),
-							 (GCompareFunc) recherche_imputation_par_no ) -> data;
-		    imputation_2 = g_slist_find_custom ( liste_struct_imputation,
-							 GINT_TO_POINTER ( operation_2 -> imputation ),
-							 (GCompareFunc) recherche_imputation_par_no ) -> data;
-
-		    if ( operation_1 -> imputation == operation_2 -> imputation )
-		    {
-			struct struct_sous_imputation *ss_imputation_1;
-			struct struct_sous_imputation *ss_imputation_2;
-
-			ss_imputation_1 = g_slist_find_custom ( imputation_1 -> liste_sous_imputation,
-								GINT_TO_POINTER ( operation_1 -> sous_imputation ),
-								(GCompareFunc) recherche_sous_imputation_par_no ) -> data;
-			ss_imputation_2 = g_slist_find_custom ( imputation_2 -> liste_sous_imputation,
-								GINT_TO_POINTER ( operation_2 -> sous_imputation ),
-								(GCompareFunc) recherche_sous_imputation_par_no ) -> data;
-
-			retour = g_strcasecmp ( ss_imputation_1 -> nom_sous_imputation,
-						ss_imputation_2 -> nom_sous_imputation );
-		    }
-		    else
-			retour = g_strcasecmp ( imputation_1 -> nom_imputation,
-						imputation_2 -> nom_imputation );
-		}
+		    retour = g_strcasecmp ( ib_name_by_no ( operation_1 -> imputation, operation_1 -> sous_imputation ),
+					    ib_name_by_no ( operation_2 -> imputation, operation_2 -> sous_imputation ));
 	    }
 	    break;
 
@@ -1829,23 +1690,10 @@ gint classement_ope_perso_etat ( struct structure_operation *operation_1,
 		/* les opés peuvent provenir de 2 comptes différents, il faut donc trouver les 2 types dans les */
 		/* listes différentes */
 
-		struct struct_type_ope *type_1;
-		struct struct_type_ope *type_2;
-
-		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1 -> no_compte;
-
-		type_1 = g_slist_find_custom ( TYPES_OPES,
-					       GINT_TO_POINTER ( operation_1 -> type_ope ),
-					       (GCompareFunc) recherche_type_ope_par_no ) -> data;
-
-		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_2 -> no_compte;
-
-		type_2 = g_slist_find_custom ( TYPES_OPES,
-					       GINT_TO_POINTER ( operation_2 -> type_ope ),
-					       (GCompareFunc) recherche_type_ope_par_no ) -> data;
-
-		retour = g_strcasecmp ( type_1 -> nom_type,
-					type_2 -> nom_type );
+		retour = g_strcasecmp ( type_ope_name_by_no ( operation_1 -> type_ope,
+							      operation_1 -> no_compte ),
+					type_ope_name_by_no ( operation_2 -> type_ope,
+							      operation_2 -> no_compte ));
 	    }
 	    break;
 
@@ -1893,20 +1741,8 @@ gint classement_ope_perso_etat ( struct structure_operation *operation_1,
 		 !operation_2 -> no_rapprochement )
 		retour = operation_2 -> no_rapprochement - operation_1 -> no_rapprochement;
 	    else
-	    {
-		struct struct_no_rapprochement *rappr_1;
-		struct struct_no_rapprochement *rappr_2;
-
-		rappr_1 = g_slist_find_custom ( liste_no_rapprochements,
-						GINT_TO_POINTER ( operation_1 -> no_rapprochement ),
-						(GCompareFunc) recherche_no_rapprochement_par_no ) -> data;
-		rappr_2 = g_slist_find_custom ( liste_no_rapprochements,
-						GINT_TO_POINTER ( operation_2 -> no_rapprochement ),
-						(GCompareFunc) recherche_no_rapprochement_par_no ) -> data;
-
-		retour = g_strcasecmp ( rappr_1 -> nom_rapprochement,
-					rappr_2 -> nom_rapprochement );
-	    }
+		retour = g_strcasecmp ( rapprochement_name_by_no( operation_1 -> no_rapprochement ),
+					rapprochement_name_by_no ( operation_2 -> no_rapprochement ));
 	    break;
 
 	default :

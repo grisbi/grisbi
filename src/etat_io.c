@@ -30,8 +30,9 @@
 #include "search_glist.h"
 #include "traitement_variables.h"
 #include "utils.h"
-
-
+#include "categories_onglet.h"
+#include "imputation_budgetaire.h"
+#include "tiers_onglet.h"
 
 
 
@@ -1404,7 +1405,8 @@ gboolean enregistre_etat ( gchar *nom_etat )
 
 	xmlSetProp ( node_3,
 		     "Nom",
-		     categ -> nom_categ );
+		      categorie_name_by_no ( GPOINTER_TO_INT ( pointeur_liste -> data ), 
+					     0 ));
 
 	pointeur_liste = pointeur_liste -> next;
     }
@@ -1469,20 +1471,16 @@ gboolean enregistre_etat ( gchar *nom_etat )
     while ( pointeur_liste )
     {
 	xmlNodePtr node_3;
-	struct struct_imputation *ib;
 
 	node_3 = xmlNewChild ( node_2,
 			       NULL,
 			       "Ib",
 			       NULL );
 
-	ib = g_slist_find_custom ( liste_struct_imputation,
-				   pointeur_liste -> data,
-				   (GCompareFunc) recherche_imputation_par_no ) -> data;
-
 	xmlSetProp ( node_3,
 		     "Nom",
-		     ib -> nom_imputation );
+		     ib_name_by_no( GPOINTER_TO_INT ( pointeur_liste -> data ),
+				    0 ));
 
 	pointeur_liste = pointeur_liste -> next;
     }
@@ -1546,20 +1544,15 @@ gboolean enregistre_etat ( gchar *nom_etat )
     while ( pointeur_liste )
     {
 	xmlNodePtr node_3;
-	struct struct_tiers *tiers;
 
 	node_3 = xmlNewChild ( node_2,
 			       NULL,
 			       "Tiers",
 			       NULL );
 
-	tiers = g_slist_find_custom ( liste_struct_tiers,
-				      pointeur_liste -> data,
-				      (GCompareFunc) recherche_tiers_par_no ) -> data;
-
 	xmlSetProp ( node_3,
 		     "Nom",
-		     tiers -> nom_tiers );
+		     tiers_name_by_no (GPOINTER_TO_INT(pointeur_liste -> data), TRUE));
 
 	pointeur_liste = pointeur_liste -> next;
     }

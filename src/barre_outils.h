@@ -1,6 +1,5 @@
 GtkWidget *creation_barre_outils ( void );
-void change_aspect_liste ( GtkWidget *bouton,
-			   gint demande );
+gboolean change_aspect_liste ( gint demande );
 GtkWidget *creation_barre_outils_echeancier ( void );
 GtkWidget *creation_barre_outils_tiers ( void );
 GtkWidget *creation_barre_outils_categ ( void );

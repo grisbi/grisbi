@@ -20,8 +20,6 @@ void recuperation_categorie_formulaire ( struct structure_operation *operation,
 void formulaire_a_zero (void);
 void affiche_cache_le_formulaire ( void );
 void affiche_cache_commentaire_echeancier( void );
-void allocation_taille_formulaire ( GtkWidget *widget, gpointer null );
-void efface_formulaire ( GtkWidget *widget, gpointer null );
 void basculer_vers_ventilation ( GtkWidget *bouton, gpointer null );
 void click_sur_bouton_voir_change ( void );
 void degrise_formulaire_operations ( void );

@@ -42,7 +42,7 @@
 #include "operations_liste.h"
 #include "patienter.h"
 #include "traitement_variables.h"
-
+#include "fichier_configuration.h"
 
 
 extern GtkWidget *window_vbox_principale;
@@ -359,10 +359,6 @@ void ouverture_confirmee ( void )
 
     creation_listes_operations ();
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-
-    changement_compte ( GINT_TO_POINTER ( compte_courant ) );
-
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
 			    0 );
 
@@ -381,21 +377,6 @@ void ouverture_confirmee ( void )
 			 TRUE,
 			 0 );
     gtk_widget_show ( notebook_general );
-
-    /* on met la fonte sur les différents widgets pour que kde la prenne en compte */
-
-    /* FIXME FNONTS */
-    /*   if ( fonte_general ) */
-    /*     { */
-    /*** BENJ FIXME
-      gtk_widget_get_style (label_temps) -> font = gdk_font_load ( fonte_general );
-      gtk_widget_get_style (frame_etat_comptes_accueil) -> font = gdk_font_load ( fonte_general );
-      gtk_widget_get_style (bouton_ok_equilibrage) -> font = gdk_font_load ( fonte_general );
-      gtk_widget_get_style (widget_formulaire_operations[TRANSACTION_FORM_DATE]) -> font = gdk_font_load ( fonte_general );
-      gtk_widget_get_style ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] )->menu_item ) -> font = gdk_font_load ( fonte_general );
-     ***/
-    /*     } */
-
 
     annulation_attente ();
 }
@@ -603,6 +584,9 @@ gboolean fermer_fichier ( void )
     if ( !nb_comptes )
 	return ( TRUE );
 
+/*     on enregistre la config */
+
+    sauve_configuration ();
 
     /* si l'enregistrement s'est mal passé, on se barre */
 

@@ -44,6 +44,8 @@
 
 
 extern GtkItemFactory *item_factory_menu_general;
+extern GtkWidget *tree_view_listes_operations;
+extern GSList *list_store_comptes;
 
 
 
@@ -66,6 +68,10 @@ GtkWidget *creation_liste_comptes (void)
 			    10);
     gtk_container_set_border_width ( GTK_CONTAINER ( onglet ),
 				     10 );
+    gtk_signal_connect ( GTK_OBJECT ( onglet ),
+			 "key_press_event",
+			 GTK_SIGNAL_FUNC ( traitement_clavier_liste ),
+			 NULL );
     gtk_widget_show ( onglet );
 
     /*  Création du label Comptes en haut */
@@ -236,12 +242,6 @@ gboolean changement_compte ( gint *compte)
 {
     GtkWidget *menu;
 
-    /*   si on n'est pas sur l'onglet comptes du notebook, on y passe */
-
-    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general ) ) != 1 )
-	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
-				1 );
-
     /* si on était dans une ventilation d'opération, alors on annule la ventilation */
 
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ) ) == 1 )
@@ -252,6 +252,30 @@ gboolean changement_compte ( gint *compte)
     echap_formulaire ();
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+    /*     on sauvegarde l'ajustement du compte en court */
+    /*     si VALUE_AJUSTEMENT = -2, c'est que c'est la première fois qu'on va sur l'onglet */
+    /* 	opérations, et on met donc VALUE_AJUSTEMENT à -1 */
+
+    if ( VALUE_AJUSTEMENT == -2 )
+	VALUE_AJUSTEMENT = -1;
+    else
+    {
+	VALUE_AJUSTEMENT = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( tree_view_listes_operations )) -> value;
+	/*   si on n'est pas sur l'onglet comptes du notebook, on y passe */
+
+	if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general ) ) != 1 )
+	    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
+				    1 );
+
+    } 
+    
+    /*     on retire la fleche du classement courant */
+
+    gtk_tree_view_column_set_sort_indicator ( COLONNE_CLASSEMENT,
+					      FALSE );
+
+    /*     on se place sur les données du nouveau compte */
 
     compte_courant = GPOINTER_TO_INT ( compte );
     p_tab_nom_de_compte_courant = p_tab_nom_de_compte + compte_courant;
@@ -324,11 +348,48 @@ gboolean changement_compte ( gint *compte)
 
     mise_a_jour_boutons_caract_liste ( compte_courant );
 
-    focus_a_la_liste ();
-    etat.ancienne_date = 0;
+    /*     on met la flèche sur le classement courant */
 
-    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
-			    compte_courant + 1 );
+    gtk_tree_view_column_set_sort_indicator ( COLONNE_CLASSEMENT,
+					      TRUE );
+     if ( CLASSEMENT_CROISSANT )
+	 gtk_tree_view_column_set_sort_order ( COLONNE_CLASSEMENT,
+					       GTK_SORT_ASCENDING );
+     else
+	 gtk_tree_view_column_set_sort_order ( COLONNE_CLASSEMENT,
+					       GTK_SORT_DESCENDING );
+     CLASSEMENT_COURANT = recupere_classement_par_no ( NO_CLASSEMENT );
+
+    /*     si le list_store a déjà été créé, on ne fait juste que l'afficher, sinon on le crée puis l'affiche */
+
+    if ( !g_slist_nth_data ( list_store_comptes,
+			     compte_courant ))
+	remplissage_liste_operations ( compte_courant );
+    
+    gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view_listes_operations),
+			      GTK_TREE_MODEL ( g_slist_nth_data ( list_store_comptes,
+								  compte_courant )));
+
+
+    /*     on affiche complètement la liste avant de la bouger en bas ou de restaurer la value */
+
+    while ( g_main_iteration (FALSE));
+
+    /*     on restore ou initialise la value du tree_view */
+    /* 	si VALUE_AJUSTEMENT = -1, c'est que c'est la première ouverture, on se met tout en bas */
+    /* 	sinon on restore l'ancienne value */
+
+    if ( VALUE_AJUSTEMENT == -1 )
+    {
+	GtkAdjustment *ajustment;
+
+	ajustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( tree_view_listes_operations ));
+	gtk_adjustment_set_value ( GTK_ADJUSTMENT ( ajustment ),
+				   ajustment -> upper - ajustment -> page_size );
+    }
+    else
+	gtk_adjustment_set_value ( GTK_ADJUSTMENT ( gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( tree_view_listes_operations )) ),
+				   VALUE_AJUSTEMENT );
 
     return FALSE;
 }

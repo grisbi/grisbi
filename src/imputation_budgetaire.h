@@ -28,3 +28,8 @@ void appui_sur_ajout_imputation ( void );
 void appui_sur_ajout_sous_imputation ( void );
 void exporter_ib ( void );
 void importer_ib ( void );
+gchar *ib_name_by_no ( gint no_ib,
+		       gint no_sous_ib );
+gchar *sous_ib_name_by_no ( gint no_ib,
+			    gint no_sous_ib );
+

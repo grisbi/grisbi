@@ -46,6 +46,7 @@
 
 extern GSList *gsliste_echeances; 
 extern GtkWidget *widget_formulaire_echeancier[19];
+extern GtkWidget *widget_formulaire_ventilation[8];
 
 
 
@@ -1309,9 +1310,11 @@ gboolean expand_selected_ib (  )
 	    remplissage_liste_operations ( compte_courant );
 	}
 
-	OPERATION_SELECTIONNEE = operation;
+/* 	OPERATION_SELECTIONNEE = operation; */
 
-	selectionne_ligne ( compte_courant );
+	/* FIXME : mettre l'opé et l'iter s'il existe */
+	selectionne_ligne ( compte_courant,
+			LIGNE_SELECTIONNEE );
     }
 
     return FALSE;
@@ -2480,7 +2483,7 @@ void calcule_total_montant_imputation ( void )
 	    {
 		struct struct_imputation *imputation;
 
-		/* il y a une catégorie */
+		/* il y a une ib */
 
 		imputation = g_slist_find_custom ( liste_struct_imputation,
 						   GINT_TO_POINTER ( operation -> imputation ),
@@ -2926,3 +2929,119 @@ void importer_ib ( void )
     }
 }
 /* **************************************************************************************************** */
+
+
+
+
+
+/* **************************************************************************************************** */
+/* cette fonction renvoie une chaine de la forme */
+/* soit ib : sous ib */
+/* soit ib si no_sous_ib=0 ou si la sous_ib n'existe pas */
+/* ou NULL si l'ib n'existe pas */
+/* **************************************************************************************************** */
+gchar *ib_name_by_no ( gint no_ib,
+		       gint no_sous_ib )
+{
+    gchar *retour;
+
+    if ( no_ib )
+    {
+	GSList *liste_tmp;
+
+	liste_tmp = g_slist_find_custom ( liste_struct_imputation,
+					  GINT_TO_POINTER ( no_ib ),
+					  (GCompareFunc) recherche_imputation_par_no );
+
+	if ( liste_tmp )
+	{
+	    struct struct_imputation *ib;
+
+	    ib = liste_tmp -> data;
+
+	    if ( no_sous_ib )
+		liste_tmp = g_slist_find_custom ( ib -> liste_sous_imputation,
+						  GINT_TO_POINTER ( no_sous_ib ),
+						  (GCompareFunc) recherche_sous_imputation_par_no );
+	    else
+		liste_tmp = NULL;
+
+	    if ( liste_tmp )
+	    {
+		struct struct_sous_imputation *sous_ib;
+
+		sous_ib = liste_tmp -> data;
+
+		retour = g_strconcat ( ib -> nom_imputation,
+				       " : ",
+				       sous_ib -> nom_sous_imputation,
+				       NULL );
+	    }
+	    else
+		retour = g_strdup ( ib -> nom_imputation );
+	}
+	else
+	    retour = NULL;
+    }
+    else
+	retour = NULL;
+    
+
+    return retour;
+}
+/* **************************************************************************************************** */
+
+
+/* **************************************************************************************************** */
+/* cette fonction renvoie une chaine de la forme */
+/* soit sous ib */
+/* ou NULL si l'ib ou la sous ib n'existent pas */
+/* **************************************************************************************************** */
+gchar *sous_ib_name_by_no ( gint no_ib,
+			    gint no_sous_ib )
+{
+    gchar *retour;
+
+    if ( no_ib )
+    {
+	GSList *liste_tmp;
+
+	liste_tmp = g_slist_find_custom ( liste_struct_imputation,
+					  GINT_TO_POINTER ( no_ib ),
+					  (GCompareFunc) recherche_imputation_par_no );
+
+	if ( liste_tmp )
+	{
+	    struct struct_imputation *ib;
+
+	    ib = liste_tmp -> data;
+
+	    if ( no_sous_ib )
+		liste_tmp = g_slist_find_custom ( ib -> liste_sous_imputation,
+						  GINT_TO_POINTER ( no_sous_ib ),
+						  (GCompareFunc) recherche_sous_imputation_par_no );
+	    else
+		liste_tmp = NULL;
+
+	    if ( liste_tmp )
+	    {
+		struct struct_sous_imputation *sous_ib;
+
+		sous_ib = liste_tmp -> data;
+
+		retour = g_strdup ( sous_ib -> nom_sous_imputation );
+	    }
+	    else
+		retour = NULL;
+	}
+	else
+	    retour = NULL;
+    }
+    else
+	retour = NULL;
+    
+
+    return retour;
+}
+/* **************************************************************************************************** */
+

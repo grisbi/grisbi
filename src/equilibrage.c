@@ -62,6 +62,12 @@ GtkTreeStore *reconcile_model;
 GtkWidget * button_move_up, * button_move_down;
 GtkTreeSelection * reconcile_selection;
 
+extern GtkWidget *tree_view_listes_operations;
+extern GtkWidget *bouton_ope_lignes[4];
+extern GtkWidget *label_proprietes_operations_compte;
+extern GtkWidget *bouton_affiche_r;
+extern GtkWidget *bouton_enleve_r;
+
 
 /******************************************************************************/
 GtkWidget *creation_fenetre_equilibrage ( void )
@@ -464,8 +470,8 @@ void equilibrage ( void )
     gtk_widget_hide ( label_proprietes_operations_compte );
 
     /* calcule le montant des opérations pointées */
-
-    calcule_total_pointe_compte ( compte_courant );
+    /* FIXME : à vérifie mais normalement, pas besoin de ça vu que c'est en temps réel... */
+    /*     calcule_total_pointe_compte ( compte_courant ); */
 
 
     /* récupère l'ancien no de rapprochement et essaie d'incrémenter la partie
@@ -473,25 +479,17 @@ void equilibrage ( void )
 
     if ( DERNIER_NO_RAPPROCHEMENT )
     {
-	GSList *liste_tmp;
+	gchar *new_rap;
 
-	liste_tmp = g_slist_find_custom ( liste_no_rapprochements,
-					  GINT_TO_POINTER ( DERNIER_NO_RAPPROCHEMENT ),
-					  (GCompareFunc) recherche_no_rapprochement_par_no );
+	new_rap = rapprochement_name_by_no ( DERNIER_NO_RAPPROCHEMENT );
 
-	if ( liste_tmp )
+	if ( new_rap )
 	{
-	    struct struct_no_rapprochement *rapprochement;
 	    gchar *pointeur_mobile;
 	    gchar *pointeur_fin;
-	    gchar *new_rap;
-
-	    rapprochement = liste_tmp -> data;
-
 
 	    /* on va créer une nouvelle chaine contenant la partie numérique */
 
-	    new_rap = g_strdup ( rapprochement -> nom_rapprochement );
 	    pointeur_fin = new_rap + (strlen ( new_rap ) - 1) * sizeof (gchar);
 	    pointeur_mobile = pointeur_fin;
 
@@ -544,8 +542,6 @@ void equilibrage ( void )
 					partie_num,
 					NULL );
 	    }
-	    else
-		new_rap = rapprochement -> nom_rapprochement;
 
 	    gtk_entry_set_text ( GTK_ENTRY ( entree_no_rapprochement ),
 				 new_rap );
@@ -620,36 +616,33 @@ void equilibrage ( void )
 
 
     /* affiche la liste en opé simplifiées */
+    /* on n'appelle pas change_aspect_liste pour éviter de refaire la liste d'opé */
+    /*     maintenant, elle sera refaite en changeant l'état des R */
+    /* de même que le tri sera fait avec la mise à jour de la liste */
 
     ancien_nb_lignes_ope = NB_LIGNES_OPE;
 
     if ( NB_LIGNES_OPE != 1 )
-	gtk_button_clicked ( GTK_BUTTON ( bouton_ope_1_lignes ));
+    {
+	gtk_button_clicked ( GTK_BUTTON ( bouton_ope_lignes[0] ));
+	NB_LIGNES_OPE = 1;
+    }
 
     /* on vire les opérations rapprochées */
+    /*     et réaffiche la liste */
 
     etat.valeur_r_avant_rapprochement = AFFICHAGE_R;
 
-    change_aspect_liste ( NULL,
-			  3 );
+/* FIXME : remettre le tri de la liste en fonction des choix utilisateurs... */
 
-
-    /* classe la liste des opés en fonction des types ou non */
-
-    if ( TRI && LISTE_TRI )
-	LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
-					  (GCompareFunc) classement_sliste );
-
-
-    remplissage_liste_operations ( compte_courant );
+    gtk_button_clicked ( GTK_BUTTON ( bouton_enleve_r ));
+    AFFICHAGE_R = 0;
+    MISE_A_JOUR = 1;
+    verification_mise_a_jour_liste ();
 
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
 			    2 );
 
-
-    /* la liste des opé prend le focus */
-
-    gtk_widget_grab_focus ( GTK_WIDGET ( CLIST_OPERATIONS ));
 }
 /******************************************************************************/
 
@@ -728,8 +721,7 @@ void modif_entree_solde_final_equilibrage ( void )
 /******************************************************************************/
 /* on annule l'équilibrage */
 /******************************************************************************/
-void annuler_equilibrage ( GtkWidget *bouton_ann,
-			   gpointer data)
+void annuler_equilibrage ( void )
 {
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
 			    0 );
@@ -738,36 +730,21 @@ void annuler_equilibrage ( GtkWidget *bouton_ann,
 
     etat.equilibrage = 0;
 
-    if ( ancien_nb_lignes_ope != NB_LIGNES_OPE )
-    {
-	if ( ancien_nb_lignes_ope == 4 )
-	    gtk_button_clicked ( GTK_BUTTON ( bouton_ope_4_lignes ));
-	else
-	{
-	    if ( ancien_nb_lignes_ope == 3 )
-		gtk_button_clicked ( GTK_BUTTON ( bouton_ope_3_lignes ));
-	    else
-		gtk_button_clicked ( GTK_BUTTON ( bouton_ope_2_lignes ));
-	}
-    }
+    NB_LIGNES_OPE = ancien_nb_lignes_ope;
+    gtk_button_clicked ( GTK_BUTTON ( bouton_ope_lignes[NB_LIGNES_OPE-1]));
 
+    AFFICHAGE_R = etat.valeur_r_avant_rapprochement;
+    if ( AFFICHAGE_R )
+	gtk_button_clicked ( GTK_BUTTON (bouton_affiche_r ));
+    else
+	gtk_button_clicked ( GTK_BUTTON ( bouton_enleve_r));
 
-    if ( etat.valeur_r_avant_rapprochement )
-	change_aspect_liste ( NULL,
-			      2 );
+    MISE_A_JOUR = 1;
 
-    LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
-				      (GCompareFunc) classement_sliste );
-
-
-    /*   gtk_clist_set_compare_func ( GTK_CLIST ( CLIST_OPERATIONS ), */
-    /* 			       (GtkCListCompareFunc) classement_liste_par_date ); */
-
-    remplissage_liste_operations ( compte_courant );
+    verification_mise_a_jour_liste ();
 
     gtk_widget_show ( label_proprietes_operations_compte );
 
-    focus_a_la_liste ();
 }
 /******************************************************************************/
 
@@ -779,21 +756,16 @@ void pointe_equilibrage ( int p_ligne )
 {
     struct structure_operation *operation;
     gdouble montant;
+    GtkTreeIter iter;
 
-    operation = gtk_clist_get_row_data ( GTK_CLIST ( CLIST_OPERATIONS ),
-					 p_ligne );
+    operation = cherche_operation_from_ligne ( p_ligne );
 
-
-    if ( operation == GINT_TO_POINTER ( -1 ) )
+    if ( operation == GINT_TO_POINTER ( -1 )
+	 ||
+	 operation -> pointe == 3 )
 	return;
-
-
-    if ( operation -> pointe == 2 )
-	return;
-
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-
 
     montant = calcule_montant_devise_renvoi ( operation -> montant,
 					      DEVISE,
@@ -802,6 +774,10 @@ void pointe_equilibrage ( int p_ligne )
 					      operation -> taux_change,
 					      operation -> frais_change );
 
+    gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations ))),
+					  &iter,
+					  itoa ( p_ligne ));
+
     if ( operation -> pointe )
     {
 	operations_pointees = operations_pointees - montant;
@@ -809,10 +785,10 @@ void pointe_equilibrage ( int p_ligne )
 
 	operation -> pointe = 0;
 
-	gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
-			     p_ligne,
-			     3,
-			     " ");
+	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations ))),
+			     &iter,
+			     3, NULL,
+			     -1 );
     }
     else
     {
@@ -820,11 +796,11 @@ void pointe_equilibrage ( int p_ligne )
 	SOLDE_POINTE = SOLDE_POINTE + montant;
 
 	operation -> pointe = 1;
-
-	gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
-			     p_ligne,
-			     3,
-			     _("P"));
+	
+	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations ))),
+			     &iter,
+			     3, _("P"),
+			     -1 );
     }
 
 
@@ -1028,43 +1004,9 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
 
     SOLDE_DERNIER_RELEVE = solde_final;
 
+    /*     on remet tout normal pour les opérations */
 
-    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
-			    0 );
-
-    etat.equilibrage = 0;
-
-    if ( ancien_nb_lignes_ope != NB_LIGNES_OPE )
-    {
-	if ( ancien_nb_lignes_ope == 4 )
-	    gtk_button_clicked ( GTK_BUTTON ( bouton_ope_4_lignes ));
-	else
-	{
-	    if ( ancien_nb_lignes_ope == 3 )
-		gtk_button_clicked ( GTK_BUTTON ( bouton_ope_3_lignes ));
-	    else
-		gtk_button_clicked ( GTK_BUTTON ( bouton_ope_2_lignes ));
-	}
-    }
-
-    if ( etat.valeur_r_avant_rapprochement )
-	change_aspect_liste ( NULL,
-			      2 );
-
-    LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
-				      (GCompareFunc) classement_sliste );
-
-    /*   gtk_clist_set_compare_func ( GTK_CLIST ( CLIST_OPERATIONS ), */
-    /* 			       (GtkCListCompareFunc) classement_liste_par_date ); */
-
-
-    remplissage_liste_operations ( compte_courant );
-
-    gtk_widget_show ( label_proprietes_operations_compte );
-
-    /*   on redonne le focus à la liste */
-
-    gtk_widget_grab_focus ( GTK_WIDGET ( CLIST_OPERATIONS ) );
+    annuler_equilibrage ();
 
     /* Update account list */
     update_liste_comptes_accueil ();
@@ -1113,6 +1055,7 @@ void calcule_total_pointe_compte ( gint no_compte )
     gtk_label_set_text ( GTK_LABEL ( label_equilibrage_pointe ),
 			 g_strdup_printf ( "%4.2f", 
 					   operations_pointees ));
+    /* FIXME : mettre à jour les pointé aussi dans l'accueil  */
 }
 /******************************************************************************/
 
@@ -1258,8 +1201,8 @@ void fill_reconciliation_tree ()
 		    nom = g_strconcat ( type_ope -> nom_type, " ( - )", NULL );
 		else 
 		    if ((type_ope -> signe_type == 2
-			||
-			! type_ope -> signe_type)
+			 ||
+			 ! type_ope -> signe_type)
 			&&
 			NEUTRES_INCLUS
 			&&
@@ -1695,5 +1638,31 @@ GtkWidget * tab_display_reconciliation ( void )
     return vbox_pref;
 }
 
+/* ********************************************************************************************************* */
+/* renvoie le nom du rapprochement ou NULL s'il n'existe pas */
+/* ********************************************************************************************************* */
+gchar *rapprochement_name_by_no ( gint no_rapprochement )
+{
+    if ( no_rapprochement )
+    {
+	GSList *liste_tmp;
 
+	liste_tmp = g_slist_find_custom ( liste_no_rapprochements,
+					  GINT_TO_POINTER ( no_rapprochement ),
+					  (GCompareFunc) recherche_no_rapprochement_par_no );
+	if ( liste_tmp )
+	{
+	    struct struct_no_rapprochement *rappr;
+
+	    rappr = liste_tmp -> data;
+
+	    return ( g_strdup ( rappr -> nom_rapprochement ));
+	}
+	else
+	    return NULL;
+    }
+    else
+	return NULL;
+}
+/* ********************************************************************************************************* */
 

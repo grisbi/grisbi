@@ -37,6 +37,7 @@
 #include "fichiers_io.h"
 #include "patienter.h"
 #include "utils.h"
+#include "ventilation.h"
 
 extern gint patience_en_cours;
 
@@ -60,6 +61,10 @@ gboolean fermeture_grisbi ( void )
 	id_temps = 0;
     }
 
+/*     la sauvegarde des largeurs de colonnes nécessite qu'on soit sur la liste des opés */
+
+    if ( etat.ventilation_en_cours )
+	quitter_ventilation();
 
     sauve_configuration ();
 
@@ -189,7 +194,10 @@ void traitement_sigsegv ( gint signal_nb )
 	   pas de nom de fichier, on le crée, sinon on rajoute #
 	   autour */
 
-        gsb_file_default_dir = (gchar *) my_get_gsb_file_default_dir();
+/* 	FIXME : trouve pas la fonction my_get_gsb_file_default_dir, met rien pour l'instant */
+		    
+/*         gsb_file_default_dir = (gchar *) my_get_gsb_file_default_dir(); */
+	gsb_file_default_dir = "";
 
 	if ( nom_fichier_comptes )
 	{

@@ -34,7 +34,7 @@
 #include "search_glist.h"
 #include "traitement_variables.h"
 #include "utils.h"
-
+#include "operations_classement.h"
 
 
 extern gint valeur_echelle_recherche_date_import;
@@ -44,6 +44,7 @@ extern gint affichage_echeances_perso_j_m_a;
 extern gint nb_echeances;
 extern gint no_derniere_echeance;
 extern GSList *gsliste_echeances; 
+extern GtkWidget *tree_view_listes_operations;
 
 /****************************************************************************/
 void remove_file_from_last_opened_files_list ( gchar * nom_fichier )
@@ -134,6 +135,9 @@ gboolean charge_operations ( void )
 		return ( charge_operations_version_0_4_1 ( doc ));
 	    if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
 			     "0.5.0" )))
+		return ( charge_operations_version_0_5_0 ( doc ));
+	    if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
+			     "0.5.1" )))
 		return ( charge_operations_version_0_5_0 ( doc ));
 
 	    /* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
@@ -368,6 +372,9 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 
 		    AFFICHAGE_R = 0;
 		    NB_LIGNES_OPE = 3;
+		    COLONNE_CLASSEMENT = GINT_TO_POINTER (-1);
+		    CLASSEMENT_CROISSANT = 1;
+
 
 		    /* on fait le tour dans l'arbre nom, cad : les détails, détails de type et détails des opérations */
 
@@ -535,6 +542,10 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 			if ( !NOM_DU_COMPTE )
 			    NOM_DU_COMPTE = g_strdup ( "" );
 
+			/*	la fonction de tri par défaut du compte est par date */
+
+			CLASSEMENT_COURANT = classement_sliste_par_date; 
+
 			/* on récupère ici le détail des types */
 
 			if ( !strcmp ( node_nom_comptes -> name,
@@ -555,17 +566,17 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 				if ( node_type -> type != XML_TEXT_NODE )
 				{
 				    type -> no_type = my_atoi ( xmlGetProp ( node_type,
-									  "No" ));
+									     "No" ));
 				    type -> nom_type = xmlGetProp ( node_type,
 								    "Nom" );
 				    type -> signe_type = my_atoi ( xmlGetProp ( node_type,
-									     "Signe" ));
+										"Signe" ));
 				    type -> affiche_entree = my_atoi ( xmlGetProp ( node_type,
-										 "Affiche_entree" ));
+										    "Affiche_entree" ));
 				    type -> numerotation_auto = my_atoi ( xmlGetProp ( node_type,
-										    "Numérotation_auto" ));
+										       "Numérotation_auto" ));
 				    type -> no_en_cours = my_atoi ( xmlGetProp ( node_type,
-									      "No_en_cours" ));
+										 "No_en_cours" ));
 
 				    type -> no_compte = NO_COMPTE;
 
@@ -600,7 +611,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 				if ( node_ope -> type != XML_TEXT_NODE )
 				{
 				    operation -> no_operation = my_atoi ( xmlGetProp ( node_ope,
-										    "No" ));
+										       "No" ));
 
 				    pointeur_char = g_strsplit ( xmlGetProp ( node_ope ,
 									      "D" ),
@@ -652,10 +663,10 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 								       NULL );
 
 				    operation -> devise = my_atoi ( xmlGetProp ( node_ope,
-									      "De" ));
+										 "De" ));
 
 				    operation -> une_devise_compte_egale_x_devise_ope = my_atoi ( xmlGetProp ( node_ope,
-													    "Rdc" ));
+													       "Rdc" ));
 
 				    operation -> taux_change = my_strtod ( xmlGetProp ( node_ope,
 											"Tc" ),
@@ -666,16 +677,16 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 									    NULL );
 
 				    operation -> tiers = my_atoi ( xmlGetProp ( node_ope,
-									     "T" ));
+										"T" ));
 
 				    operation -> categorie = my_atoi ( xmlGetProp ( node_ope,
-										 "C" ));
+										    "C" ));
 
 				    operation -> sous_categorie = my_atoi ( xmlGetProp ( node_ope,
-										      "Sc" ));
+											 "Sc" ));
 
 				    operation -> operation_ventilee = my_atoi ( xmlGetProp ( node_ope,
-											  "Ov" ));
+											     "Ov" ));
 
 				    operation -> notes = xmlGetProp ( node_ope,
 								      "N" );
@@ -683,7 +694,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 					operation -> notes = NULL;
 
 				    operation -> type_ope = my_atoi ( xmlGetProp ( node_ope,
-										"Ty" ));
+										   "Ty" ));
 
 				    operation -> contenu_type = xmlGetProp ( node_ope,
 									     "Ct" );
@@ -691,22 +702,22 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 					operation -> contenu_type = NULL;
 
 				    operation -> pointe = my_atoi ( xmlGetProp ( node_ope,
-									      "P" ));
+										 "P" ));
 
 				    operation -> auto_man = my_atoi ( xmlGetProp ( node_ope,
-										"A" ));
+										   "A" ));
 
 				    operation -> no_rapprochement = my_atoi ( xmlGetProp ( node_ope,
-											"R" ));
+											   "R" ));
 
 				    operation -> no_exercice = my_atoi ( xmlGetProp ( node_ope,
-										   "E" ));
+										      "E" ));
 
 				    operation -> imputation = my_atoi ( xmlGetProp ( node_ope,
-										  "I" ));
+										     "I" ));
 
 				    operation -> sous_imputation = my_atoi ( xmlGetProp ( node_ope,
-										       "Si" ));
+											  "Si" ));
 
 				    operation -> no_piece_comptable = xmlGetProp ( node_ope,
 										   "Pc" );
@@ -719,13 +730,13 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 					operation -> info_banque_guichet = NULL;
 
 				    operation -> relation_no_operation = my_atoi ( xmlGetProp ( node_ope,
-											     "Ro" ));
+												"Ro" ));
 
 				    operation -> relation_no_compte = my_atoi ( xmlGetProp ( node_ope,
-											  "Rc" ));
+											     "Rc" ));
 
 				    operation -> no_operation_ventilee_associee = my_atoi ( xmlGetProp ( node_ope,
-												      "Va" ));
+													 "Va" ));
 
 
 				    /* on met le compte associé */
@@ -757,7 +768,8 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 
 		    /*       la sélection au départ est en bas de la liste */
 
-		    OPERATION_SELECTIONNEE = GINT_TO_POINTER ( -1 );
+		    VALUE_AJUSTEMENT = -1;
+		    LIGNE_SELECTIONNEE = -1;
 
 
 		    /* on incrémente p_tab_nom_de_compte_variable pour le compte suivant */
@@ -828,7 +840,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 			if ( node_detail -> type != XML_TEXT_NODE )
 			{
 			    operation_echeance -> no_operation = my_atoi ( xmlGetProp ( node_detail,
-										     "No" ));
+											"No" ));
 
 			    pointeur_char = g_strsplit ( xmlGetProp ( node_detail ,
 								      "Date" ),
@@ -843,29 +855,29 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 			    g_strfreev ( pointeur_char );
 
 			    operation_echeance -> compte = my_atoi ( xmlGetProp ( node_detail,
-									       "Compte" ));
+										  "Compte" ));
 
 			    operation_echeance -> montant = my_strtod ( xmlGetProp ( node_detail,
 										     "Montant" ),
 									NULL );
 
 			    operation_echeance -> devise = my_atoi ( xmlGetProp ( node_detail,
-									       "Devise" ));
+										  "Devise" ));
 
 			    operation_echeance -> tiers = my_atoi ( xmlGetProp ( node_detail,
-									      "Tiers" ));
+										 "Tiers" ));
 
 			    operation_echeance -> categorie = my_atoi ( xmlGetProp ( node_detail,
-										  "Catégorie" ));
+										     "Catégorie" ));
 
 			    operation_echeance -> sous_categorie = my_atoi ( xmlGetProp ( node_detail,
-										       "Sous-catégorie" ));
+											  "Sous-catégorie" ));
 
 			    operation_echeance -> compte_virement = my_atoi ( xmlGetProp ( node_detail,
-											"Virement_compte" ));
+											   "Virement_compte" ));
 
 			    operation_echeance -> type_ope = my_atoi ( xmlGetProp ( node_detail,
-										 "Type" ));
+										    "Type" ));
 
 			    operation_echeance -> contenu_type = xmlGetProp ( node_detail,
 									      "Contenu_du_type" );
@@ -873,13 +885,13 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 				operation_echeance -> contenu_type = NULL;
 
 			    operation_echeance -> no_exercice = my_atoi ( xmlGetProp ( node_detail,
-										    "Exercice" ));
+										       "Exercice" ));
 
 			    operation_echeance -> imputation = my_atoi ( xmlGetProp ( node_detail,
-										   "Imputation" ));
+										      "Imputation" ));
 
 			    operation_echeance -> sous_imputation = my_atoi ( xmlGetProp ( node_detail,
-											"Sous-imputation" ));
+											   "Sous-imputation" ));
 
 			    operation_echeance -> notes = xmlGetProp ( node_detail,
 								       "Notes" );
@@ -887,16 +899,16 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 				operation_echeance -> notes = NULL;
 
 			    operation_echeance -> auto_man = my_atoi ( xmlGetProp ( node_detail,
-										 "Automatique" ));
+										    "Automatique" ));
 
 			    operation_echeance -> periodicite = my_atoi ( xmlGetProp ( node_detail,
-										    "Périodicité" ));
+										       "Périodicité" ));
 
 			    operation_echeance -> intervalle_periodicite_personnalisee = my_atoi ( xmlGetProp ( node_detail,
-													     "Intervalle_périodicité" ));
+														"Intervalle_périodicité" ));
 
 			    operation_echeance -> periodicite_personnalisee = my_atoi ( xmlGetProp ( node_detail,
-												  "Périodicité_personnalisée" ));
+												     "Périodicité_personnalisée" ));
 
 			    if ( strlen ( xmlGetProp ( node_detail ,
 						       "Date_limite" )))
@@ -992,7 +1004,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 			if ( node_detail -> type != XML_TEXT_NODE )
 			{
 			    tiers -> no_tiers = my_atoi ( xmlGetProp ( node_detail,
-								    "No" ));
+								       "No" ));
 			    tiers -> nom_tiers = xmlGetProp ( node_detail,
 							      "Nom" );
 			    tiers -> texte = xmlGetProp ( node_detail,
@@ -1001,7 +1013,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 				tiers -> texte = NULL;
 
 			    tiers -> liaison = my_atoi ( xmlGetProp ( node_detail,
-								   "Liaison" ));
+								      "Liaison" ));
 
 			    liste_struct_tiers = g_slist_append ( liste_struct_tiers,
 								  tiers );
@@ -1072,13 +1084,13 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 			if ( node_detail -> type != XML_TEXT_NODE )
 			{
 			    categorie -> no_categ = my_atoi ( xmlGetProp ( node_detail,
-									"No" ));
+									   "No" ));
 			    categorie -> nom_categ = xmlGetProp ( node_detail,
 								  "Nom" );
 			    categorie -> type_categ = my_atoi ( xmlGetProp ( node_detail,
-									  "Type" ));
+									     "Type" ));
 			    categorie -> no_derniere_sous_categ = my_atoi ( xmlGetProp ( node_detail,
-										      "No_dernière_sous_cagégorie" ));
+											 "No_dernière_sous_cagégorie" ));
 
 			    /*  pour chaque catégorie, on récupère les sous-catégories */
 
@@ -1093,7 +1105,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 						      sizeof ( struct struct_sous_categ ) );
 
 				sous_categ -> no_sous_categ = my_atoi ( xmlGetProp ( node_sous_categ,
-										  "No" ));
+										     "No" ));
 				sous_categ -> nom_sous_categ = xmlGetProp ( node_sous_categ,
 									    "Nom" );
 
@@ -1174,13 +1186,13 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 			if ( node_detail -> type != XML_TEXT_NODE )
 			{
 			    imputation -> no_imputation = my_atoi ( xmlGetProp ( node_detail,
-									      "No" ));
+										 "No" ));
 			    imputation -> nom_imputation = xmlGetProp ( node_detail,
 									"Nom" );
 			    imputation -> type_imputation = my_atoi ( xmlGetProp ( node_detail,
-										"Type" ));
+										   "Type" ));
 			    imputation -> no_derniere_sous_imputation = my_atoi ( xmlGetProp ( node_detail,
-											    "No_dernière_sous_imputation" ));
+											       "No_dernière_sous_imputation" ));
 
 			    /*  pour chaque catégorie, on récupère les sous-catégories */
 
@@ -1195,7 +1207,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 							   sizeof ( struct struct_sous_imputation ) );
 
 				sous_imputation -> no_sous_imputation = my_atoi ( latin2utf8(xmlGetProp ( node_sous_imputation,
-												       "No" )));
+													  "No" )));
 				sous_imputation -> nom_sous_imputation = latin2utf8(xmlGetProp ( node_sous_imputation,
 												 "Nom" ));
 
@@ -1277,7 +1289,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 			if ( node_detail -> type != XML_TEXT_NODE )
 			{
 			    devise -> no_devise = my_atoi ( latin2utf8(xmlGetProp ( node_detail,
-										 "No" )));
+										    "No" )));
 			    devise -> nom_devise = latin2utf8(xmlGetProp ( node_detail,
 									   "Nom" ));
 			    devise -> code_devise = latin2utf8(xmlGetProp ( node_detail,
@@ -1292,7 +1304,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 			    }
 
 			    devise -> passage_euro = my_atoi ( latin2utf8(xmlGetProp ( node_detail,
-										    "Passage_euro" )));
+										       "Passage_euro" )));
 
 			    if ( strlen ( latin2utf8(xmlGetProp ( node_detail,
 								  "Date_dernier_change" ))))
@@ -1313,9 +1325,9 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 				devise -> date_dernier_change = NULL;
 
 			    devise -> une_devise_1_egale_x_devise_2 = my_atoi ( latin2utf8(xmlGetProp ( node_detail,
-												     "Rapport_entre_devises" )));
+													"Rapport_entre_devises" )));
 			    devise -> no_devise_en_rapport = my_atoi ( latin2utf8(xmlGetProp ( node_detail,
-											    "Devise_en_rapport" )));
+											       "Devise_en_rapport" )));
 			    devise -> change = my_strtod ( latin2utf8(xmlGetProp ( node_detail,
 										   "Change" )),
 							   NULL );
@@ -1389,7 +1401,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 			if ( node_detail -> type != XML_TEXT_NODE )
 			{
 			    banque -> no_banque = my_atoi ( latin2utf8(xmlGetProp ( node_detail,
-										 "No" )));
+										    "No" )));
 			    banque -> nom_banque = latin2utf8(xmlGetProp ( node_detail,
 									   "Nom" ));
 			    banque -> code_banque = latin2utf8(xmlGetProp ( node_detail,
@@ -1501,7 +1513,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 			if ( node_detail -> type != XML_TEXT_NODE )
 			{
 			    exercice -> no_exercice = my_atoi ( latin2utf8(xmlGetProp ( node_detail,
-										     "No" )));
+											"No" )));
 			    exercice -> nom_exercice = latin2utf8(xmlGetProp ( node_detail,
 									       "Nom" ));
 
@@ -1542,7 +1554,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 				exercice -> date_fin = NULL;
 
 			    exercice -> affiche_dans_formulaire = my_atoi ( latin2utf8(xmlGetProp ( node_detail,
-												 "Affiché" )));
+												    "Affiché" )));
 
 			    liste_struct_exercices = g_slist_append ( liste_struct_exercices,
 								      exercice );
@@ -1590,7 +1602,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 			if ( node_detail -> type != XML_TEXT_NODE )
 			{
 			    rapprochement -> no_rapprochement = my_atoi ( latin2utf8(xmlGetProp ( node_detail,
-											       "No" )));
+												  "No" )));
 			    rapprochement -> nom_rapprochement = latin2utf8(xmlGetProp ( node_detail,
 											 "Nom" ));
 
@@ -1681,6 +1693,8 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
     rapport_largeur_colonnes[6] = 11;
 
 
+    switch_t_r ();
+    
     /* on marque le fichier comme ouvert */
 
     fichier_marque_ouvert ( TRUE );
@@ -2095,7 +2109,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 	    }
 	}
 
-/* 	s'il y avait un ancien logo mais qu'il n'existe plus, on met le logo par défaut */
+	/* 	s'il y avait un ancien logo mais qu'il n'existe plus, on met le logo par défaut */
 
 	if ( !chemin_logo
 	     ||
@@ -2197,6 +2211,9 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 		    *p_tab_nom_de_compte_variable = calloc ( 1,
 							     sizeof (struct donnees_compte));
+
+		    COLONNE_CLASSEMENT = GINT_TO_POINTER (-1);
+		    CLASSEMENT_CROISSANT = 1;
 
 		    /* on fait le tour dans l'arbre nom, cad : les details, details de type et details des operations */
 
@@ -2377,6 +2394,9 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 			if ( !NOM_DU_COMPTE )
 			    NOM_DU_COMPTE = g_strdup ( "" );
 
+			/*	la fonction de tri par défaut du compte est par date */
+
+			CLASSEMENT_COURANT = classement_sliste_par_date; 
 
 			/* on recupère ici le detail des types */
 
@@ -2399,13 +2419,13 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 				    type -> no_type = my_atoi ( xmlGetProp ( node_type, "No" ));
 				    type -> nom_type = xmlGetProp ( node_type, "Nom" );
 				    type -> signe_type = my_atoi ( xmlGetProp ( node_type,
-									     "Signe" ));
+										"Signe" ));
 				    type -> affiche_entree = my_atoi ( xmlGetProp ( node_type,
-										 "Affiche_entree" ));
+										    "Affiche_entree" ));
 				    type -> numerotation_auto = my_atoi ( xmlGetProp ( node_type,
-										    "Numerotation_auto" ));
+										       "Numerotation_auto" ));
 				    type -> no_en_cours = my_atoi ( xmlGetProp ( node_type,
-									      "No_en_cours" ));
+										 "No_en_cours" ));
 				    type -> no_compte = NO_COMPTE;
 				    TYPES_OPES = g_slist_append ( TYPES_OPES, type );
 				}
@@ -2492,16 +2512,16 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 									    NULL );
 
 				    operation -> tiers = my_atoi ( xmlGetProp ( node_ope,
-									     "T" ));
+										"T" ));
 
 				    operation -> categorie = my_atoi ( xmlGetProp ( node_ope,
-										 "C" ));
+										    "C" ));
 
 				    operation -> sous_categorie = my_atoi ( xmlGetProp ( node_ope,
-										      "Sc" ));
+											 "Sc" ));
 
 				    operation -> operation_ventilee = my_atoi ( xmlGetProp ( node_ope,
-											  "Ov" ));
+											     "Ov" ));
 
 				    operation -> notes = xmlGetProp ( node_ope,
 								      "N" );
@@ -2509,7 +2529,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 					operation -> notes = NULL;
 
 				    operation -> type_ope = my_atoi ( xmlGetProp ( node_ope,
-										"Ty" ));
+										   "Ty" ));
 
 				    operation -> contenu_type = xmlGetProp ( node_ope,
 									     "Ct" );
@@ -2517,22 +2537,22 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 					operation -> contenu_type = NULL;
 
 				    operation -> pointe = my_atoi ( xmlGetProp ( node_ope,
-									      "P" ));
+										 "P" ));
 
 				    operation -> auto_man = my_atoi ( xmlGetProp ( node_ope,
-										"A" ));
+										   "A" ));
 
 				    operation -> no_rapprochement = my_atoi ( xmlGetProp ( node_ope,
-											"R" ));
+											   "R" ));
 
 				    operation -> no_exercice = my_atoi ( xmlGetProp ( node_ope,
-										   "E" ));
+										      "E" ));
 
 				    operation -> imputation = my_atoi ( xmlGetProp ( node_ope,
-										  "I" ));
+										     "I" ));
 
 				    operation -> sous_imputation = my_atoi ( xmlGetProp ( node_ope,
-										       "Si" ));
+											  "Si" ));
 
 				    operation -> no_piece_comptable = xmlGetProp ( node_ope,
 										   "Pc" );
@@ -2545,13 +2565,13 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 					operation -> info_banque_guichet = NULL;
 
 				    operation -> relation_no_operation = my_atoi ( xmlGetProp ( node_ope,
-											     "Ro" ));
+												"Ro" ));
 
 				    operation -> relation_no_compte = my_atoi ( xmlGetProp ( node_ope,
-											  "Rc" ));
+											     "Rc" ));
 
 				    operation -> no_operation_ventilee_associee = my_atoi ( xmlGetProp ( node_ope,
-												      "Va" ));
+													 "Va" ));
 
 
 				    /* on met le compte associe */
@@ -2583,7 +2603,8 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 		    /*       la selection au depart est en bas de la liste */
 
-		    OPERATION_SELECTIONNEE = GINT_TO_POINTER ( -1 );
+		    VALUE_AJUSTEMENT = -1;
+		    LIGNE_SELECTIONNEE = -1;
 
 
 		    /* on incremente p_tab_nom_de_compte_variable pour le compte suivant */
@@ -2660,7 +2681,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 			if ( node_detail -> type != XML_TEXT_NODE )
 			{
 			    operation_echeance -> no_operation = my_atoi ( xmlGetProp ( node_detail,
-										     "No" ));
+											"No" ));
 
 			    pointeur_char = g_strsplit ( xmlGetProp ( node_detail ,
 								      "Date" ),
@@ -2675,29 +2696,29 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 			    g_strfreev ( pointeur_char );
 
 			    operation_echeance -> compte = my_atoi ( xmlGetProp ( node_detail,
-									       "Compte" ));
+										  "Compte" ));
 
 			    operation_echeance -> montant = my_strtod ( xmlGetProp ( node_detail,
 										     "Montant" ),
 									NULL );
 
 			    operation_echeance -> devise = my_atoi ( xmlGetProp ( node_detail,
-									       "Devise" ));
+										  "Devise" ));
 
 			    operation_echeance -> tiers = my_atoi ( xmlGetProp ( node_detail,
-									      "Tiers" ));
+										 "Tiers" ));
 
 			    operation_echeance -> categorie = my_atoi ( xmlGetProp ( node_detail,
-										  "Categorie" ));
+										     "Categorie" ));
 
 			    operation_echeance -> sous_categorie = my_atoi ( xmlGetProp ( node_detail,
-										       "Sous-categorie" ));
+											  "Sous-categorie" ));
 
 			    operation_echeance -> compte_virement = my_atoi ( xmlGetProp ( node_detail,
-											"Virement_compte" ));
+											   "Virement_compte" ));
 
 			    operation_echeance -> type_ope = my_atoi ( xmlGetProp ( node_detail,
-										 "Type" ));
+										    "Type" ));
 
 			    operation_echeance -> contenu_type = xmlGetProp ( node_detail,
 									      "Contenu_du_type" );
@@ -2705,13 +2726,13 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 				operation_echeance -> contenu_type = NULL;
 
 			    operation_echeance -> no_exercice = my_atoi ( xmlGetProp ( node_detail,
-										    "Exercice" ));
+										       "Exercice" ));
 
 			    operation_echeance -> imputation = my_atoi ( xmlGetProp ( node_detail,
-										   "Imputation" ));
+										      "Imputation" ));
 
 			    operation_echeance -> sous_imputation = my_atoi ( xmlGetProp ( node_detail,
-											"Sous-imputation" ));
+											   "Sous-imputation" ));
 
 			    operation_echeance -> notes = xmlGetProp ( node_detail,
 								       "Notes" );
@@ -2719,16 +2740,16 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 				operation_echeance -> notes = NULL;
 
 			    operation_echeance -> auto_man = my_atoi ( xmlGetProp ( node_detail,
-										 "Automatique" ));
+										    "Automatique" ));
 
 			    operation_echeance -> periodicite = my_atoi ( xmlGetProp ( node_detail,
-										    "Periodicite" ));
+										       "Periodicite" ));
 
 			    operation_echeance -> intervalle_periodicite_personnalisee = my_atoi ( xmlGetProp ( node_detail,
-													     "Intervalle_periodicite" ));
+														"Intervalle_periodicite" ));
 
 			    operation_echeance -> periodicite_personnalisee = my_atoi ( xmlGetProp ( node_detail,
-												  "Periodicite_personnalisee" ));
+												     "Periodicite_personnalisee" ));
 
 			    if ( strlen ( xmlGetProp ( node_detail ,
 						       "Date_limite" )))
@@ -2831,7 +2852,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 			if ( node_detail -> type != XML_TEXT_NODE )
 			{
 			    tiers -> no_tiers = my_atoi ( xmlGetProp ( node_detail,
-								    "No" ));
+								       "No" ));
 			    tiers -> nom_tiers = xmlGetProp ( node_detail,
 							      "Nom" );
 			    tiers -> texte = xmlGetProp ( node_detail,
@@ -2840,7 +2861,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 				tiers -> texte = NULL;
 
 			    tiers -> liaison = my_atoi ( xmlGetProp ( node_detail,
-								   "Liaison" ));
+								      "Liaison" ));
 
 			    liste_struct_tiers = g_slist_append ( liste_struct_tiers,
 								  tiers );
@@ -2917,13 +2938,13 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 			if ( node_detail -> type != XML_TEXT_NODE )
 			{
 			    categorie -> no_categ = my_atoi ( xmlGetProp ( node_detail,
-									"No" ));
+									   "No" ));
 			    categorie -> nom_categ = xmlGetProp ( node_detail,
 								  "Nom" );
 			    categorie -> type_categ = my_atoi ( xmlGetProp ( node_detail,
-									  "Type" ));
+									     "Type" ));
 			    categorie -> no_derniere_sous_categ = my_atoi ( xmlGetProp ( node_detail,
-										      "No_derniere_sous_cagegorie" ));
+											 "No_derniere_sous_cagegorie" ));
 
 			    /*  pour chaque categorie, on recupère les sous-categories */
 
@@ -2940,7 +2961,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 							  sizeof ( struct struct_sous_categ ) );
 
 				    sous_categ -> no_sous_categ = my_atoi ( xmlGetProp ( node_sous_categ,
-										      "No" ));
+											 "No" ));
 				    sous_categ -> nom_sous_categ = xmlGetProp ( node_sous_categ,
 										"Nom" );
 
@@ -3026,13 +3047,13 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 			if ( node_detail -> type != XML_TEXT_NODE )
 			{
 			    imputation -> no_imputation = my_atoi ( xmlGetProp ( node_detail,
-									      "No" ));
+										 "No" ));
 			    imputation -> nom_imputation = xmlGetProp ( node_detail,
 									"Nom" );
 			    imputation -> type_imputation = my_atoi ( xmlGetProp ( node_detail,
-										"Type" ));
+										   "Type" ));
 			    imputation -> no_derniere_sous_imputation = my_atoi ( xmlGetProp ( node_detail,
-											    "No_derniere_sous_imputation" ));
+											       "No_derniere_sous_imputation" ));
 
 			    /*  pour chaque categorie, on recupère les sous-categories */
 
@@ -3048,7 +3069,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 				    sous_imputation = calloc ( 1, sizeof ( struct struct_sous_imputation ) );
 
 				    sous_imputation -> no_sous_imputation = my_atoi ( xmlGetProp ( node_sous_imputation,
-												"No" ));
+												   "No" ));
 				    sous_imputation -> nom_sous_imputation = xmlGetProp ( node_sous_imputation,
 											  "Nom" );
 
@@ -3138,7 +3159,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 			if ( node_detail -> type != XML_TEXT_NODE )
 			{
 			    devise -> no_devise = my_atoi ( xmlGetProp ( node_detail,
-								      "No" ));
+									 "No" ));
 			    devise -> nom_devise = xmlGetProp ( node_detail,
 								"Nom" );
 			    devise -> code_iso4217_devise = xmlGetProp ( node_detail,
@@ -3158,7 +3179,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 			    }
 
 			    devise -> passage_euro = my_atoi ( xmlGetProp ( node_detail,
-									 "Passage_euro" ));
+									    "Passage_euro" ));
 
 			    if ( strlen ( xmlGetProp ( node_detail,
 						       "Date_dernier_change" )))
@@ -3179,9 +3200,9 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 				devise -> date_dernier_change = NULL;
 
 			    devise -> une_devise_1_egale_x_devise_2 = my_atoi ( xmlGetProp ( node_detail,
-											  "Rapport_entre_devises" ));
+											     "Rapport_entre_devises" ));
 			    devise -> no_devise_en_rapport = my_atoi ( xmlGetProp ( node_detail,
-										 "Devise_en_rapport" ));
+										    "Devise_en_rapport" ));
 			    devise -> change = my_strtod ( xmlGetProp ( node_detail,
 									"Change" ),
 							   NULL );
@@ -3257,7 +3278,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 			if ( node_detail -> type != XML_TEXT_NODE )
 			{
 			    banque -> no_banque = my_atoi ( xmlGetProp ( node_detail,
-								      "No" ));
+									 "No" ));
 			    banque -> nom_banque = xmlGetProp ( node_detail,
 								"Nom" );
 			    banque -> code_banque = xmlGetProp ( node_detail,
@@ -3368,7 +3389,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 			if ( node_detail -> type != XML_TEXT_NODE )
 			{
 			    exercice -> no_exercice = my_atoi ( xmlGetProp ( node_detail,
-									  "No" ));
+									     "No" ));
 			    exercice -> nom_exercice = xmlGetProp ( node_detail,
 								    "Nom" );
 
@@ -3409,7 +3430,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 				exercice -> date_fin = NULL;
 
 			    exercice -> affiche_dans_formulaire = my_atoi ( xmlGetProp ( node_detail,
-										      "Affiche" ));
+											 "Affiche" ));
 
 			    liste_struct_exercices = g_slist_append ( liste_struct_exercices,
 								      exercice );
@@ -3456,7 +3477,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 			if ( node_detail -> type != XML_TEXT_NODE )
 			{
 			    rapprochement -> no_rapprochement = my_atoi ( xmlGetProp ( node_detail,
-										    "No" ));
+										       "No" ));
 			    rapprochement -> nom_rapprochement = xmlGetProp ( node_detail,
 									      "Nom" );
 
@@ -4003,25 +4024,25 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 						if ( node_comp_textes -> type != XML_TEXT_NODE )
 						{
 						    comp_textes -> lien_struct_precedente = my_atoi ( xmlGetProp ( node_comp_textes,
-														"Lien_struct" ));
+														   "Lien_struct" ));
 						    comp_textes -> champ = my_atoi ( xmlGetProp ( node_comp_textes,
-											       "Champ" ));
+												  "Champ" ));
 						    comp_textes -> operateur = my_atoi ( xmlGetProp ( node_comp_textes,
-												   "Op" ));
+												      "Op" ));
 						    comp_textes -> texte = xmlGetProp ( node_comp_textes,
 											"Txt" );
 						    comp_textes -> utilise_txt = my_atoi ( xmlGetProp ( node_comp_textes,
-												     "Util_txt" ));
+													"Util_txt" ));
 						    comp_textes -> comparateur_1 = my_atoi ( xmlGetProp ( node_comp_textes,
-												       "Comp_1" ));
+													  "Comp_1" ));
 						    comp_textes -> lien_1_2 = my_atoi ( xmlGetProp ( node_comp_textes,
-												  "Lien_1_2" ));
+												     "Lien_1_2" ));
 						    comp_textes -> comparateur_2 = my_atoi ( xmlGetProp ( node_comp_textes,
-												       "Comp_2" ));
+													  "Comp_2" ));
 						    comp_textes -> montant_1 = my_atoi ( xmlGetProp ( node_comp_textes,
-												   "Mont_1" ));
+												      "Mont_1" ));
 						    comp_textes -> montant_2 = my_atoi ( xmlGetProp ( node_comp_textes,
-												   "Mont_2" ));
+												      "Mont_2" ));
 
 						    /* on a fini de remplir le détail de la comparaison, on l'ajoute à la liste */
 
@@ -4061,13 +4082,13 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 						if ( node_comp_montants -> type != XML_TEXT_NODE )
 						{
 						    comp_montants -> lien_struct_precedente = my_atoi ( xmlGetProp ( node_comp_montants,
-														  "Lien_struct" ));
+														     "Lien_struct" ));
 						    comp_montants -> comparateur_1 = my_atoi ( xmlGetProp ( node_comp_montants,
-													 "Comp_1" ));
+													    "Comp_1" ));
 						    comp_montants -> lien_1_2 = my_atoi ( xmlGetProp ( node_comp_montants,
-												    "Lien_1_2" ));
+												       "Lien_1_2" ));
 						    comp_montants -> comparateur_2 = my_atoi ( xmlGetProp ( node_comp_montants,
-													 "Comp_2" ));
+													    "Comp_2" ));
 						    comp_montants -> montant_1 = my_strtod ( xmlGetProp ( node_comp_montants,
 													  "Mont_1" ),
 											     NULL );
@@ -4140,6 +4161,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
     xmlFreeDoc ( doc );
 
     etat.en_train_de_charger = 0;
+    switch_t_r ();
 
     /* on marque le fichier comme ouvert */
 
@@ -4152,10 +4174,75 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 /***********************************************************************************************************/
 
 
+/***********************************************************************************************************/
+gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
+{
+
+    gint retour;
+    
+/* pour l'instant le fichier 0.5.1 ne diffère pas de la version 0.5.0 */
+/*     excepté un changement dans la notation du pointage */
+/*     rien=0 ; P=1 ; T=2 ; R=3 */
+/*     on fait donc le tour des opés pour inverser R et P */
+
+    retour = charge_operations_version_0_5_1 ( doc );
+
+    switch_t_r ();
+
+    return ( retour );
+
+}
+/***********************************************************************************************************/
 
 
 /***********************************************************************************************************/
-gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
+void switch_t_r ( void )
+{
+/* cette fonction fait le tour des opérations et change le marquage T et R des opés */
+/*     R devient pointe=3 */
+/*     T devient pointe=2 */
+
+/*     à n'appeler que pour une version antérieure à 0.5.1 */
+
+    gint i;
+
+    if ( !nb_comptes )
+	return;
+    
+    for ( i=0 ; i<nb_comptes ; i++ )
+    {	
+	GSList *liste_tmp;
+	
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+
+	liste_tmp = LISTE_OPERATIONS;
+
+	while ( liste_tmp )
+	{ 
+	    struct structure_operation *operation;
+
+	    operation = liste_tmp -> data;
+
+	    switch ( operation -> pointe )
+	    {
+		case 2 :
+		    operation -> pointe = 3;
+		    break;
+		case 3:
+		    operation -> pointe = 2;
+		    break;
+	    }
+	    liste_tmp = liste_tmp -> next;
+	}
+    }
+}
+/***********************************************************************************************************/
+
+
+
+
+/***********************************************************************************************************/
+gboolean charge_operations_version_0_5_1 ( xmlDocPtr doc )
 {
     xmlNodePtr node_1;
     xmlNodePtr root = xmlDocGetRootElement(doc);
@@ -4262,6 +4349,10 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		    chemin_logo = xmlNodeGetContent ( node_generalites );
 
 		if ( !strcmp ( node_generalites -> name,
+			       "Caracteristiques_par_compte" ))
+		    etat.retient_affichage_par_compte = my_atoi( xmlNodeGetContent (node_generalites ));
+
+		if ( !strcmp ( node_generalites -> name,
 			       "Affichage_opes" ))
 		{
 		    gchar **pointeur_char;
@@ -4339,7 +4430,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 	    }
 	}
 
-/* 	s'il y avait un ancien logo mais qu'il n'existe plus, on met le logo par défaut */
+	/* 	s'il y avait un ancien logo mais qu'il n'existe plus, on met le logo par défaut */
 
 	if ( !chemin_logo
 	     ||
@@ -4437,6 +4528,13 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 
 		    *p_tab_nom_de_compte_variable = calloc ( 1,
 							     sizeof (struct donnees_compte));
+
+/* 		    on met colonne_classement à -1, après chargement, soit elle contient le no de la */
+/* 			colonne pour classer, soit elle est restée à -1 si on vient d'une version antérieure */
+/* 			à la 0.5.1 */
+
+		    COLONNE_CLASSEMENT = GINT_TO_POINTER (-1);
+		    CLASSEMENT_CROISSANT = -1;
 
 		    /* on fait le tour dans l'arbre nom, cad : les details, details de type et details des operations */
 
@@ -4611,6 +4709,18 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 					    g_strfreev ( pointeur_char );
 					}
 				    }
+
+				    if ( !strcmp ( node_detail -> name,
+						   "Colonne_classement" ))
+					COLONNE_CLASSEMENT = GINT_TO_POINTER (my_atoi ( xmlNodeGetContent ( node_detail )));
+
+				    if ( !strcmp ( node_detail -> name,
+						   "Classement_croissant" ))
+					CLASSEMENT_CROISSANT = my_atoi ( xmlNodeGetContent ( node_detail ));
+
+				    if ( !strcmp ( node_detail -> name,
+						   "No_classement" ))
+					NO_CLASSEMENT = my_atoi ( xmlNodeGetContent ( node_detail ));
 				}
 				node_detail = node_detail -> next;
 			    }
@@ -4622,6 +4732,11 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 			if ( !NOM_DU_COMPTE )
 			    NOM_DU_COMPTE = g_strdup ( "" );
 
+/* 			si on ouvrait un fichier qui n'avait pas de classement, le sens */
+/* 			    est croissant */
+
+			if ( CLASSEMENT_CROISSANT == -1 )
+			    CLASSEMENT_CROISSANT = 1;
 
 			/* on recupère ici le detail des types */
 
@@ -4643,17 +4758,17 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 				if ( node_type -> type != XML_TEXT_NODE )
 				{
 				    type -> no_type = my_atoi ( xmlGetProp ( node_type,
-									  "No" ));
+									     "No" ));
 				    type -> nom_type = xmlGetProp ( node_type,
 								    "Nom" );
 				    type -> signe_type = my_atoi ( xmlGetProp ( node_type,
-									     "Signe" ));
+										"Signe" ));
 				    type -> affiche_entree = my_atoi ( xmlGetProp ( node_type,
-										 "Affiche_entree" ));
+										    "Affiche_entree" ));
 				    type -> numerotation_auto = my_atoi ( xmlGetProp ( node_type,
-										    "Numerotation_auto" ));
+										       "Numerotation_auto" ));
 				    type -> no_en_cours = my_atoi ( xmlGetProp ( node_type,
-									      "No_en_cours" ));
+										 "No_en_cours" ));
 
 				    type -> no_compte = NO_COMPTE;
 
@@ -4742,10 +4857,10 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 								       NULL );
 
 				    operation -> devise = my_atoi ( xmlGetProp ( node_ope,
-									      "De" ));
+										 "De" ));
 
 				    operation -> une_devise_compte_egale_x_devise_ope = my_atoi ( xmlGetProp ( node_ope,
-													    "Rdc" ));
+													       "Rdc" ));
 
 				    operation -> taux_change = my_strtod ( xmlGetProp ( node_ope,
 											"Tc" ),
@@ -4756,16 +4871,16 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 									    NULL );
 
 				    operation -> tiers = my_atoi ( xmlGetProp ( node_ope,
-									     "T" ));
+										"T" ));
 
 				    operation -> categorie = my_atoi ( xmlGetProp ( node_ope,
-										 "C" ));
+										    "C" ));
 
 				    operation -> sous_categorie = my_atoi ( xmlGetProp ( node_ope,
-										      "Sc" ));
+											 "Sc" ));
 
 				    operation -> operation_ventilee = my_atoi ( xmlGetProp ( node_ope,
-											  "Ov" ));
+											     "Ov" ));
 
 				    operation -> notes = xmlGetProp ( node_ope,
 								      "N" );
@@ -4773,7 +4888,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 					operation -> notes = NULL;
 
 				    operation -> type_ope = my_atoi ( xmlGetProp ( node_ope,
-										"Ty" ));
+										   "Ty" ));
 
 				    operation -> contenu_type = xmlGetProp ( node_ope,
 									     "Ct" );
@@ -4781,22 +4896,22 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 					operation -> contenu_type = NULL;
 
 				    operation -> pointe = my_atoi ( xmlGetProp ( node_ope,
-									      "P" ));
+										 "P" ));
 
 				    operation -> auto_man = my_atoi ( xmlGetProp ( node_ope,
-										"A" ));
+										   "A" ));
 
 				    operation -> no_rapprochement = my_atoi ( xmlGetProp ( node_ope,
-											"R" ));
+											   "R" ));
 
 				    operation -> no_exercice = my_atoi ( xmlGetProp ( node_ope,
-										   "E" ));
+										      "E" ));
 
 				    operation -> imputation = my_atoi ( xmlGetProp ( node_ope,
-										  "I" ));
+										     "I" ));
 
 				    operation -> sous_imputation = my_atoi ( xmlGetProp ( node_ope,
-										       "Si" ));
+											  "Si" ));
 
 				    operation -> no_piece_comptable = xmlGetProp ( node_ope,
 										   "Pc" );
@@ -4809,13 +4924,13 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 					operation -> info_banque_guichet = NULL;
 
 				    operation -> relation_no_operation = my_atoi ( xmlGetProp ( node_ope,
-											     "Ro" ));
+												"Ro" ));
 
 				    operation -> relation_no_compte = my_atoi ( xmlGetProp ( node_ope,
-											  "Rc" ));
+											     "Rc" ));
 
 				    operation -> no_operation_ventilee_associee = my_atoi ( xmlGetProp ( node_ope,
-												      "Va" ));
+													 "Va" ));
 
 
 				    /* on met le compte associe */
@@ -4847,7 +4962,8 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 
 		    /*       la selection au depart est en bas de la liste */
 
-		    OPERATION_SELECTIONNEE = GINT_TO_POINTER ( -1 );
+		    VALUE_AJUSTEMENT = -1;
+		    LIGNE_SELECTIONNEE = -1;
 
 
 		    /* on incremente p_tab_nom_de_compte_variable pour le compte suivant */
@@ -4918,7 +5034,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 			if ( node_detail -> type != XML_TEXT_NODE )
 			{
 			    operation_echeance -> no_operation = my_atoi ( xmlGetProp ( node_detail,
-										     "No" ));
+											"No" ));
 
 			    pointeur_char = g_strsplit ( xmlGetProp ( node_detail ,
 								      "Date" ),
@@ -4933,32 +5049,32 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 			    g_strfreev ( pointeur_char );
 
 			    operation_echeance -> compte = my_atoi ( xmlGetProp ( node_detail,
-									       "Compte" ));
+										  "Compte" ));
 
 			    operation_echeance -> montant = my_strtod ( xmlGetProp ( node_detail,
 										     "Montant" ),
 									NULL );
 
 			    operation_echeance -> devise = my_atoi ( xmlGetProp ( node_detail,
-									       "Devise" ));
+										  "Devise" ));
 
 			    operation_echeance -> tiers = my_atoi ( xmlGetProp ( node_detail,
-									      "Tiers" ));
+										 "Tiers" ));
 
 			    operation_echeance -> categorie = my_atoi ( xmlGetProp ( node_detail,
-										  "Categorie" ));
+										     "Categorie" ));
 
 			    operation_echeance -> sous_categorie = my_atoi ( xmlGetProp ( node_detail,
-										       "Sous-categorie" ));
+											  "Sous-categorie" ));
 
 			    operation_echeance -> compte_virement = my_atoi ( xmlGetProp ( node_detail,
-											"Virement_compte" ));
+											   "Virement_compte" ));
 
 			    operation_echeance -> type_ope = my_atoi ( xmlGetProp ( node_detail,
-										 "Type" ));
+										    "Type" ));
 
 			    operation_echeance -> type_contre_ope = my_atoi ( xmlGetProp ( node_detail,
-											"Type_contre_ope" ));
+											   "Type_contre_ope" ));
 
 			    operation_echeance -> contenu_type = xmlGetProp ( node_detail,
 									      "Contenu_du_type" );
@@ -4966,13 +5082,13 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 				operation_echeance -> contenu_type = NULL;
 
 			    operation_echeance -> no_exercice = my_atoi ( xmlGetProp ( node_detail,
-										    "Exercice" ));
+										       "Exercice" ));
 
 			    operation_echeance -> imputation = my_atoi ( xmlGetProp ( node_detail,
-										   "Imputation" ));
+										      "Imputation" ));
 
 			    operation_echeance -> sous_imputation = my_atoi ( xmlGetProp ( node_detail,
-											"Sous-imputation" ));
+											   "Sous-imputation" ));
 
 			    operation_echeance -> notes = xmlGetProp ( node_detail,
 								       "Notes" );
@@ -4980,16 +5096,16 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 				operation_echeance -> notes = NULL;
 
 			    operation_echeance -> auto_man = my_atoi ( xmlGetProp ( node_detail,
-										 "Automatique" ));
+										    "Automatique" ));
 
 			    operation_echeance -> periodicite = my_atoi ( xmlGetProp ( node_detail,
-										    "Periodicite" ));
+										       "Periodicite" ));
 
 			    operation_echeance -> intervalle_periodicite_personnalisee = my_atoi ( xmlGetProp ( node_detail,
-													     "Intervalle_periodicite" ));
+														"Intervalle_periodicite" ));
 
 			    operation_echeance -> periodicite_personnalisee = my_atoi ( xmlGetProp ( node_detail,
-												  "Periodicite_personnalisee" ));
+												     "Periodicite_personnalisee" ));
 
 			    if ( strlen ( xmlGetProp ( node_detail ,
 						       "Date_limite" )))
@@ -5016,10 +5132,10 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 			    }
 
 			    operation_echeance -> operation_ventilee = my_atoi ( xmlGetProp ( node_detail,
-											   "Ech_ventilee" ));
+											      "Ech_ventilee" ));
 
 			    operation_echeance -> no_operation_ventilee_associee = my_atoi ( xmlGetProp ( node_detail,
-												       "No_ech_associee" ));
+													  "No_ech_associee" ));
 
 
 
@@ -5092,7 +5208,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 			if ( node_detail -> type != XML_TEXT_NODE )
 			{
 			    tiers -> no_tiers = my_atoi ( xmlGetProp ( node_detail,
-								    "No" ));
+								       "No" ));
 			    tiers -> nom_tiers = xmlGetProp ( node_detail,
 							      "Nom" );
 			    tiers -> texte = xmlGetProp ( node_detail,
@@ -5101,7 +5217,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 				tiers -> texte = NULL;
 
 			    tiers -> liaison = my_atoi ( xmlGetProp ( node_detail,
-								   "Liaison" ));
+								      "Liaison" ));
 
 			    liste_struct_tiers = g_slist_append ( liste_struct_tiers,
 								  tiers );
@@ -5172,13 +5288,13 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 			if ( node_detail -> type != XML_TEXT_NODE )
 			{
 			    categorie -> no_categ = my_atoi ( xmlGetProp ( node_detail,
-									"No" ));
+									   "No" ));
 			    categorie -> nom_categ = xmlGetProp ( node_detail,
 								  "Nom" );
 			    categorie -> type_categ = my_atoi ( xmlGetProp ( node_detail,
-									  "Type" ));
+									     "Type" ));
 			    categorie -> no_derniere_sous_categ = my_atoi ( xmlGetProp ( node_detail,
-										      "No_derniere_sous_cagegorie" ));
+											 "No_derniere_sous_cagegorie" ));
 
 			    /*  pour chaque categorie, on recupère les sous-categories */
 
@@ -5194,7 +5310,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 				    sous_categ = calloc ( 1, sizeof ( struct struct_sous_categ ) );
 
 				    sous_categ -> no_sous_categ = my_atoi ( xmlGetProp ( node_sous_categ,
-										      "No" ));
+											 "No" ));
 				    sous_categ -> nom_sous_categ = xmlGetProp ( node_sous_categ,
 										"Nom" );
 
@@ -5276,13 +5392,13 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 			if ( node_detail -> type != XML_TEXT_NODE )
 			{
 			    imputation -> no_imputation = my_atoi ( xmlGetProp ( node_detail,
-									      "No" ));
+										 "No" ));
 			    imputation -> nom_imputation = xmlGetProp ( node_detail,
 									"Nom" );
 			    imputation -> type_imputation = my_atoi ( xmlGetProp ( node_detail,
-										"Type" ));
+										   "Type" ));
 			    imputation -> no_derniere_sous_imputation = my_atoi ( xmlGetProp ( node_detail,
-											    "No_derniere_sous_imputation" ));
+											       "No_derniere_sous_imputation" ));
 
 			    /*  pour chaque categorie, on recupère les sous-categories */
 
@@ -5298,7 +5414,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 				    sous_imputation = calloc ( 1, sizeof ( struct struct_sous_imputation ) );
 
 				    sous_imputation -> no_sous_imputation = my_atoi ( xmlGetProp ( node_sous_imputation,
-												"No" ));
+												   "No" ));
 				    sous_imputation -> nom_sous_imputation = xmlGetProp ( node_sous_imputation,
 											  "Nom" );
 
@@ -5384,7 +5500,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 			{
 
 			    devise -> no_devise = my_atoi ( xmlGetProp ( node_detail,
-								      "No" ));
+									 "No" ));
 			    devise -> nom_devise = xmlGetProp ( node_detail,
 								"Nom" );
 			    devise -> code_iso4217_devise = xmlGetProp ( node_detail,
@@ -5398,7 +5514,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 				devise -> code_iso4217_devise = NULL;
 
 			    devise -> passage_euro = my_atoi ( xmlGetProp ( node_detail,
-									 "Passage_euro" ));
+									    "Passage_euro" ));
 
 			    if ( strlen ( xmlGetProp ( node_detail,
 						       "Date_dernier_change" )))
@@ -5419,9 +5535,9 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 				devise -> date_dernier_change = NULL;
 
 			    devise -> une_devise_1_egale_x_devise_2 = my_atoi ( xmlGetProp ( node_detail,
-											  "Rapport_entre_devises" ));
+											     "Rapport_entre_devises" ));
 			    devise -> no_devise_en_rapport = my_atoi ( xmlGetProp ( node_detail,
-										 "Devise_en_rapport" ));
+										    "Devise_en_rapport" ));
 			    devise -> change = my_strtod ( xmlGetProp ( node_detail,
 									"Change" ),
 							   NULL );
@@ -5495,7 +5611,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 			if ( node_detail -> type != XML_TEXT_NODE )
 			{
 			    banque -> no_banque = my_atoi ( xmlGetProp ( node_detail,
-								      "No" ));
+									 "No" ));
 			    banque -> nom_banque = xmlGetProp ( node_detail,
 								"Nom" );
 			    banque -> code_banque = xmlGetProp ( node_detail,
@@ -5607,7 +5723,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 			if ( node_detail -> type != XML_TEXT_NODE )
 			{
 			    exercice -> no_exercice = my_atoi ( xmlGetProp ( node_detail,
-									  "No" ));
+									     "No" ));
 			    exercice -> nom_exercice = xmlGetProp ( node_detail,
 								    "Nom" );
 
@@ -5648,7 +5764,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 				exercice -> date_fin = NULL;
 
 			    exercice -> affiche_dans_formulaire = my_atoi ( xmlGetProp ( node_detail,
-										      "Affiche" ));
+											 "Affiche" ));
 
 			    liste_struct_exercices = g_slist_append ( liste_struct_exercices,
 								      exercice );
@@ -5696,7 +5812,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 			if ( node_detail -> type != XML_TEXT_NODE )
 			{
 			    rapprochement -> no_rapprochement = my_atoi ( xmlGetProp ( node_detail,
-										    "No" ));
+										       "No" ));
 			    rapprochement -> nom_rapprochement = xmlGetProp ( node_detail,
 									      "Nom" );
 
@@ -6242,25 +6358,25 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 						if ( node_comp_textes -> type != XML_TEXT_NODE )
 						{
 						    comp_textes -> lien_struct_precedente = my_atoi ( xmlGetProp ( node_comp_textes,
-														"Lien_struct" ));
+														   "Lien_struct" ));
 						    comp_textes -> champ = my_atoi ( xmlGetProp ( node_comp_textes,
-											       "Champ" ));
+												  "Champ" ));
 						    comp_textes -> operateur = my_atoi ( xmlGetProp ( node_comp_textes,
-												   "Op" ));
+												      "Op" ));
 						    comp_textes -> texte = xmlGetProp ( node_comp_textes,
 											"Txt" );
 						    comp_textes -> utilise_txt = my_atoi ( xmlGetProp ( node_comp_textes,
-												     "Util_txt" ));
+													"Util_txt" ));
 						    comp_textes -> comparateur_1 = my_atoi ( xmlGetProp ( node_comp_textes,
-												       "Comp_1" ));
+													  "Comp_1" ));
 						    comp_textes -> lien_1_2 = my_atoi ( xmlGetProp ( node_comp_textes,
-												  "Lien_1_2" ));
+												     "Lien_1_2" ));
 						    comp_textes -> comparateur_2 = my_atoi ( xmlGetProp ( node_comp_textes,
-												       "Comp_2" ));
+													  "Comp_2" ));
 						    comp_textes -> montant_1 = my_atoi ( xmlGetProp ( node_comp_textes,
-												   "Mont_1" ));
+												      "Mont_1" ));
 						    comp_textes -> montant_2 = my_atoi ( xmlGetProp ( node_comp_textes,
-												   "Mont_2" ));
+												      "Mont_2" ));
 
 						    /* on a fini de remplir le détail de la comparaison, on l'ajoute à la liste */
 
@@ -6300,13 +6416,13 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 						if ( node_comp_montants -> type != XML_TEXT_NODE )
 						{
 						    comp_montants -> lien_struct_precedente = my_atoi ( xmlGetProp ( node_comp_montants,
-														  "Lien_struct" ));
+														     "Lien_struct" ));
 						    comp_montants -> comparateur_1 = my_atoi ( xmlGetProp ( node_comp_montants,
-													 "Comp_1" ));
+													    "Comp_1" ));
 						    comp_montants -> lien_1_2 = my_atoi ( xmlGetProp ( node_comp_montants,
-												    "Lien_1_2" ));
+												       "Lien_1_2" ));
 						    comp_montants -> comparateur_2 = my_atoi ( xmlGetProp ( node_comp_montants,
-													 "Comp_2" ));
+													    "Comp_2" ));
 						    comp_montants -> montant_1 = my_strtod ( xmlGetProp ( node_comp_montants,
 													  "Mont_1" ),
 											     NULL );
@@ -6541,6 +6657,11 @@ gboolean enregistre_fichier ( gboolean force )
 		      NULL,
 		      "Chemin_logo",
 		      chemin_logo );
+
+    xmlNewChild ( node,
+		  NULL,
+		  "Caracteristiques_par_compte",
+		  itoa(etat.retient_affichage_par_compte));
 
     /* creation de l'ordre de l'affichage des opés */
 
@@ -6857,6 +6978,22 @@ gboolean enregistre_fichier ( gboolean force )
 			  NULL,
 			  "Ordre_du_tri",
 			  pointeur_char );
+
+	xmlNewTextChild ( node_compte,
+			  NULL,
+			  "Colonne_classement",
+			  itoa ( g_list_index ( gtk_tree_view_get_columns ( GTK_TREE_VIEW (tree_view_listes_operations )),
+						COLONNE_CLASSEMENT )));
+
+	xmlNewTextChild ( node_compte,
+			  NULL,
+			  "Classement_croissant",
+			  itoa ( CLASSEMENT_CROISSANT ));
+
+	xmlNewTextChild ( node_compte,
+			  NULL,
+			  "No_classement",
+			  itoa ( NO_CLASSEMENT ));
 
 	/* mise en place des types */
 
@@ -8888,9 +9025,9 @@ gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc )
 			categorie -> nom_categ = xmlGetProp ( node_detail,
 							      "Nom" );
 			categorie -> type_categ = my_atoi ( xmlGetProp ( node_detail,
-								      "Type" ));
+									 "Type" ));
 			categorie -> no_derniere_sous_categ = my_atoi ( xmlGetProp ( node_detail,
-										  "No_derniere_sous_cagegorie" ));
+										     "No_derniere_sous_cagegorie" ));
 
 			/*  pour chaque categorie, on recupère les sous-categories */
 
@@ -8905,7 +9042,7 @@ gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc )
 						  sizeof ( struct struct_sous_categ ) );
 
 			    sous_categ -> no_sous_categ = my_atoi ( xmlGetProp ( node_sous_categ,
-									      "No" ));
+										 "No" ));
 			    sous_categ -> nom_sous_categ = xmlGetProp ( node_sous_categ,
 									"Nom" );
 
@@ -9240,9 +9377,9 @@ gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc )
 			ib -> nom_imputation = latin2utf8(xmlGetProp ( node_detail,
 								       "Nom" ));
 			ib -> type_imputation = my_atoi ( latin2utf8(xmlGetProp ( node_detail,
-									       "Type" )));
+										  "Type" )));
 			ib -> no_derniere_sous_imputation = my_atoi ( latin2utf8(xmlGetProp ( node_detail,
-											   "No_derniere_sous_imputation" )));
+											      "No_derniere_sous_imputation" )));
 
 			/*  pour chaque ib, on recupère les sous-ib */
 
@@ -9257,7 +9394,7 @@ gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc )
 					       sizeof ( struct struct_sous_imputation ) );
 
 			    sous_ib -> no_sous_imputation = my_atoi ( latin2utf8(xmlGetProp ( node_sous_ib,
-											   "No" )));
+											      "No" )));
 			    sous_ib -> nom_sous_imputation = latin2utf8(xmlGetProp ( node_sous_ib,
 										     "Nom" ));
 

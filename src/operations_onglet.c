@@ -103,10 +103,6 @@ GtkWidget *creation_onglet_operations ( void )
 
     frame_droite_bas = gtk_frame_new ( NULL );
     gtk_frame_set_shadow_type ( GTK_FRAME ( frame_droite_bas ), GTK_SHADOW_IN );
-    gtk_signal_connect ( GTK_OBJECT ( frame_droite_bas ), "show",
-			 GTK_SIGNAL_FUNC ( allocation_taille_formulaire ), NULL );
-    gtk_signal_connect ( GTK_OBJECT ( frame_droite_bas ), "hide",
-			 GTK_SIGNAL_FUNC ( efface_formulaire ), NULL );
     gtk_box_pack_start ( GTK_BOX ( vbox ), frame_droite_bas, FALSE, FALSE, 0 );
 
 

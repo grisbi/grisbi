@@ -66,6 +66,8 @@ extern gint nb_echeances;
 extern GSList *gsliste_echeances; 
 extern struct operation_echeance *echeance_selectionnnee;
 extern gint enregistre_ope_au_retour_echeances; 
+extern GtkWidget *fleche_bas_echeancier;
+extern GtkWidget *fleche_haut_echeancier;
 
 
 
@@ -2444,7 +2446,7 @@ void cree_contre_operation_echeance ( struct structure_operation *operation,
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
     MISE_A_JOUR = 1;
-		    verification_mise_a_jour_liste ();
+    verification_mise_a_jour_liste ();
 }
 /******************************************************************************/
 
@@ -2786,6 +2788,7 @@ void completion_operation_par_tiers_echeancier ( void )
     struct structure_operation *operation;
     gint no_compte;
     GSList *pointeur_ope;
+    gchar *char_tmp;
 
     /* s'il y a quelque chose dans les crédit ou débit ou catégories, on se barre */
 
@@ -2962,29 +2965,14 @@ void completion_operation_par_tiers_echeancier ( void )
     }
     else
     {
-	liste_tmp = g_slist_find_custom ( liste_struct_categories,
-					  GINT_TO_POINTER ( operation -> categorie ),
-					  ( GCompareFunc ) recherche_categorie_par_no );
-
-	if ( liste_tmp )
+	char_tmp = categorie_name_by_no ( operation -> categorie,
+					  operation -> sous_categorie );
+	
+	if ( char_tmp )
 	{
-	    GSList *liste_tmp_2;
-
 	    entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY]);
-
-	    liste_tmp_2 = g_slist_find_custom ( (( struct struct_categ * )( liste_tmp -> data )) -> liste_sous_categ,
-						GINT_TO_POINTER ( operation -> sous_categorie ),
-						( GCompareFunc ) recherche_sous_categorie_par_no );
-	    if ( liste_tmp_2 )
-		gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ),
-					g_strconcat ( (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ,
-						      " : ",
-						      (( struct struct_sous_categ * )( liste_tmp_2 -> data )) -> nom_sous_categ,
-						      NULL ));
-	    else
-		gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ),
-					(( struct struct_categ * )( liste_tmp -> data )) -> nom_categ );
-
+	    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ),
+				    char_tmp );
 	}
     }
 
@@ -3049,28 +3037,14 @@ void completion_operation_par_tiers_echeancier ( void )
     /* met en place l'imputation budgétaire */
 
 
-    liste_tmp = g_slist_find_custom ( liste_struct_imputation,
-				      GINT_TO_POINTER ( operation -> imputation ),
-				      ( GCompareFunc ) recherche_imputation_par_no );
+    char_tmp = ib_name_by_no ( operation -> imputation,
+			       operation -> sous_imputation );
 
-    if ( liste_tmp )
+   if ( char_tmp )
     {
-	GSList *liste_tmp_2;
-
 	entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY]);
-
-	liste_tmp_2 = g_slist_find_custom ( (( struct struct_imputation * )( liste_tmp -> data )) -> liste_sous_imputation,
-					    GINT_TO_POINTER ( operation -> sous_imputation ),
-					    ( GCompareFunc ) recherche_sous_categorie_par_no );
-	if ( liste_tmp_2 )
-	    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ),
-				    g_strconcat ( (( struct struct_imputation * )( liste_tmp -> data )) -> nom_imputation,
-						  " : ",
-						  (( struct struct_sous_imputation * )( liste_tmp_2 -> data )) -> nom_sous_imputation,
-						  NULL ));
-	else
-	    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ),
-				    (( struct struct_imputation * )( liste_tmp -> data )) -> nom_imputation );
+	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ),
+				char_tmp );
     }
 
 

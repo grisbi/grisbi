@@ -56,9 +56,11 @@ gchar *labels_boutons [] = { N_("Date"),
 gint ancienne_allocation_liste;
 gint affichage_realise;
 
+extern GtkTreeViewColumn *colonnes_liste_opes[7];
+extern GtkWidget *tree_view_listes_operations;
 extern gint allocation_precedente;
+extern GSList *liste_labels_titres_colonnes_liste_ope;
 
-/* FIXME : !!!!!!!!!! DES QUE UPDATE DANS L'INSTABLE, REPRENDRE LE FICHIER SAUVÉ ET EFFACER CELUI LA !!!!!!!!!!!!!!!!!!!!!!!!!! */
 
 
 /** FIXME: document this */
@@ -182,42 +184,26 @@ gboolean change_choix_ajustement_auto_colonnes ( GtkWidget *bouton )
     /* etat.largeur_auto_colonnes est réglé automatiquement */
     /*     il ne reste qu'à modifier les colonnes elles même */
 
-    gint i,j;
+    gint i;
 
     if ( etat.largeur_auto_colonnes )
     {
 	allocation_precedente = 0;
-
-/* 	on transforme toutes les colonnes de tous les comptes en non resizeable */
-
-	for ( j=0 ; j < nb_comptes ; j++ )
-	{
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + j;
-
-	    for ( i = 0 ; i < 7 ; i++ )
-		gtk_clist_set_column_resizeable ( GTK_CLIST ( CLIST_OPERATIONS),
-						  i,
-						  FALSE );
-	    changement_taille_liste_ope ( CLIST_OPERATIONS,
-					  &(CLIST_OPERATIONS -> allocation),
-					  GINT_TO_POINTER(j) );
-	}
+	for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
+	    gtk_tree_view_column_set_resizable ( colonnes_liste_opes[i],
+						 FALSE );
+	changement_taille_liste_ope ( tree_view_listes_operations,
+				      &(tree_view_listes_operations -> allocation ));
     }
     else
     {
-	for ( j=0 ; j < nb_comptes ; j++ )
+	for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
 	{
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + j;
-	    for ( i = 0 ; i < 7 ; i++ )
-	    {
-		gtk_clist_set_column_resizeable ( GTK_CLIST ( CLIST_OPERATIONS ),
-						  i,
-						  TRUE );
-		taille_largeur_colonnes[i] = GTK_CLIST ( CLIST_OPERATIONS ) -> column[i].width;
-	    }
+	    gtk_tree_view_column_set_resizable ( colonnes_liste_opes[i],
+						 TRUE );
+	    taille_largeur_colonnes[i] = gtk_tree_view_column_get_fixed_width ( colonnes_liste_opes[i] );
 	}
    }
-    modification_fichier ( TRUE );
     return ( FALSE );
 }
 /***********************************************************************************************************************/
@@ -230,21 +216,8 @@ gboolean change_largeur_colonne ( GtkWidget *clist,
 {
     rapport_largeur_colonnes[colonne] = largeur*100/clist->allocation.width;
     if ( etat.largeur_auto_colonnes )
-    {
-	gint i,j;
-	
-	for ( j = 0 ; j<nb_comptes ; j++ )
-	{
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + j;
-
-	    for ( i = 0 ; i < 7 ; i++ )
-		gtk_clist_set_column_width ( GTK_CLIST ( CLIST_OPERATIONS),
-					     i,
-					     rapport_largeur_colonnes[i] * GTK_WIDGET ( CLIST_OPERATIONS ) -> allocation.width / 100 );
-	}
-    }
-						 
-    modification_fichier ( TRUE );
+	gtk_tree_view_column_set_fixed_width ( colonnes_liste_opes[colonne],
+					       rapport_largeur_colonnes[colonne] * tree_view_listes_operations -> allocation.width / 100 );
 
     return FALSE;
 }
@@ -282,7 +255,6 @@ gboolean transactions_list_display_modes_menu_changed  ( GtkWidget * menu_shell,
 
 
     demande_mise_a_jour_tous_comptes ();
-    verification_mise_a_jour_liste ();
     modification_fichier ( TRUE );
 
     return ( FALSE );
@@ -293,7 +265,6 @@ gboolean transactions_list_display_modes_menu_changed  ( GtkWidget * menu_shell,
 GtkWidget *onglet_affichage_operations ( void )
 {
     GtkWidget * vbox_pref, *table, *label, *paddingbox;
-    GtkWidget *bouton;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Transactions list"),
 					       "transaction-list.png" );
@@ -425,22 +396,6 @@ GtkWidget *onglet_affichage_operations ( void )
 					    _("by date"),
 					    &etat.classement_par_date, NULL);
 
-/*     on permet de regrouper les opérations pointées */
-
-    bouton = new_checkbox_with_title ( _("Bring together marked transactions"),
-							    &(etat.classement_rp),
-							    NULL );
-    gtk_signal_connect ( GTK_OBJECT ( bouton),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( demande_mise_a_jour_tous_comptes ),
-			 NULL );
-    gtk_signal_connect ( GTK_OBJECT ( bouton),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( verification_mise_a_jour_liste ),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), bouton,
-			 FALSE, FALSE, 0 );
-    gtk_widget_show ( bouton );
 
     if ( !nb_comptes )
     {
@@ -687,6 +642,10 @@ gboolean lache_bouton_classement_liste ( GtkWidget *clist,
     buffer_int = tab_affichage_ope[ligne_depart_drag][col_depart_drag];
     tab_affichage_ope[ligne_depart_drag][col_depart_drag] = tab_affichage_ope[ligne_arrivee_drag][col_arrivee_drag];
     tab_affichage_ope[ligne_arrivee_drag][col_arrivee_drag] = buffer_int;
+
+/*     on réaffiche les listes d'opé */
+
+    demande_mise_a_jour_tous_comptes ();
 
     return ( TRUE );
 }
@@ -991,6 +950,10 @@ void toggled_bouton_affichage_liste ( GtkWidget *bouton,
     }
 
     remplissage_tab_affichage_ope ( clist_affichage_liste );
+
+/*     on réaffiche les listes */
+    
+    demande_mise_a_jour_tous_comptes ();
 }
 /* ************************************************************************************************************** */
 
@@ -1024,77 +987,27 @@ void recuperation_noms_colonnes_et_tips ( void )
 		    ligne[j] = NULL;
 		    break;
 
-		case 1:
-		    ligne[j] = _("Date");
-		    break;
+		default:
+		    ligne[j] = g_slist_nth_data ( liste_labels_titres_colonnes_liste_ope,
+						  tab_affichage_ope[i][j] - 1 );
+		    /* 		    si on est sur date, on fait le tour des comptes pour vérifier s'il n'y */
+		    /* 			en a pas 1 avec COLONNE_CLASSEMENT=-1 ; dans ce cas, c'est la première */
+		    /* 			fois qu'on fait un classement, et ce classement est par date. on y met */
+		    /* 			donc le no de cette colonne */
 
-		case 2:
-		    ligne[j] = _("Value date");
-		    break;
+		    if ( !strcmp ( ligne[j],
+				   N_("Date")))
+		    {
+			gint k;
 
-		case 3:
-		    ligne[j] = _("Third party");
-		    break;
+			for ( k=0 ; k<nb_comptes ; k++ )
+			{
+			    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + k;
 
-		case 4:
-		    ligne[j] = _("Budgetary lines");
-		    break;
-
-		case 5:
-		    ligne[j] = _("Debit");
-		    break;
-
-		case 6:
-		    ligne[j] = _("Credit");
-		    break;
-
-		case 7:
-		    ligne[j] = _("Balance");
-		    break;
-
-		case 8:
-		    ligne[j] = _("Amount");
-		    break;
-
-		case 9:
-		    ligne[j] = _("Method of payment");
-		    break;
-
-		case 10:
-		    ligne[j] = _("Reconciliation ref.");
-		    break;
-
-		case 11:
-		    ligne[j] = _("Financial year");
-		    break;
-
-		case 12:
-		    ligne[j] = _("Category");
-		    break;
-
-		case 13:
-		    ligne[j] = _("C/R");
-		    break;
-
-		case 14:
-		    ligne[j] = _("Voucher");
-		    break;
-
-		case 15:
-		    ligne[j] = _("Notes");
-		    break;
-
-		case 16:
-		    ligne[j] = _("Bank references");
-		    break;
-
-		case 17:
-		    ligne[j] = _("Transaction number");
-		    break;
-
-		case 18:
-		    ligne[j] = _("Cheque/Transfer number");
-		    break;
+			    if ( COLONNE_CLASSEMENT == GINT_TO_POINTER (-1))
+				COLONNE_CLASSEMENT = GINT_TO_POINTER (j);
+			}
+		    }
 	    }
 
 	    /* 	  si on est sur la 1ère ligne, on met les titres ainsi que la 1ere ligne des tips */
@@ -1125,6 +1038,9 @@ void recuperation_noms_colonnes_et_tips ( void )
 		}
 	    }
 	}
+    /*     on met à jour les titres des listes d'opé */
+
+    update_titres_tree_view ();
 }
 /* ************************************************************************************************************** */
 

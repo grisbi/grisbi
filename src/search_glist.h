@@ -50,4 +50,6 @@ gint recherche_tiers_par_nom ( struct struct_tiers *tiers,
 			       gchar *ancien_tiers );
 gint recherche_type_ope_par_no ( struct struct_type_ope *type_ope,
 				 gint *no_type );
+gint cherche_string_equivalente_dans_slist ( gchar *string_list,
+					     gchar *string_cmp );
 

@@ -916,7 +916,6 @@ void modification_details_compte ( void )
     {
 	struct struct_devise *nouvelle_devise;
 	GSList *pointeur_liste;
-	gfloat value;
 
 	if ( !devise_compte
 	     ||
@@ -981,10 +980,12 @@ void modification_details_compte ( void )
 	}
 
 	DEVISE = nouvelle_devise -> no_devise;
+	
+/* FIXME : voir pourquoi remplissage opé et remettre l'ajustement */
 
-	value = gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value;
+/* 	value = gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value; */
 	remplissage_liste_operations ( compte_courant_onglet );
-	gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value = value;
+/* 	gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value = value; */
 
 	update_liste_comptes_accueil ();
 	update_liste_echeances_manuelles_accueil ();
@@ -1062,14 +1063,15 @@ void modification_details_compte ( void )
     if ( SOLDE_INIT != my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_init ))),
 				   NULL ) )
     {
-	gint value;
 
 	SOLDE_INIT = my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_init ))),
 				 NULL );
 
-	value = gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value;
+/* FIXME : voir pourquoi remplissage opé et remettre l'ajustement */
+
+/* 	value = gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value; */
 	remplissage_liste_operations ( compte_courant_onglet );
-	gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value = value;
+/* 	gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value = value; */
 
 	update_liste_comptes_accueil ();
 	mise_a_jour_soldes_minimaux();
@@ -1233,6 +1235,8 @@ void passage_a_l_euro ( GtkWidget *bouton, gpointer null )
     gint resultat;
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
+/* FIXME : passage à l'euro encore nécessaire ? */
+
 
     resultat = question_yes_no_hint ( g_strdup_printf ( _("Convert account \"%s\" to euro?"), 
 							NOM_DU_COMPTE ),
@@ -1243,7 +1247,6 @@ void passage_a_l_euro ( GtkWidget *bouton, gpointer null )
     {
 	GSList *pointeur;
 	gdouble change;
-	gfloat value;
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
@@ -1277,10 +1280,11 @@ void passage_a_l_euro ( GtkWidget *bouton, gpointer null )
 	SOLDE_MINI = SOLDE_MINI / change;
 	SOLDE_DERNIER_RELEVE = SOLDE_DERNIER_RELEVE / change;
 	DEVISE = (( struct struct_devise * )( pointeur -> data )) -> no_devise;
+/* FIXME : voir pourquoi remplissage opé et remettre l'ajustement */
 
-	value = gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value;
+/* 	value = gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value; */
 	remplissage_liste_operations ( compte_courant );
-	gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value = value;
+/* 	gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value = value; */
 
 	update_liste_comptes_accueil ();
 	remplissage_details_compte ();

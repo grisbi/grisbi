@@ -2249,6 +2249,30 @@ gchar * devise_name ( struct struct_devise * devise )
     return devise -> code_iso4217_devise;
 }
 
+/**
+ * Return either currency's name or currency's ISO4217 nickname if no
+ * name is found.
+ *
+ * \param devise A number of the currency
+ * informations.
+ *
+ * \return name or ISO4217 name of currency.
+ */
+gchar * devise_name_by_no ( gint no_devise )
+{
+    GSList *liste_tmp;
+
+    liste_tmp = g_slist_find_custom ( liste_struct_devises,
+				      GINT_TO_POINTER ( no_devise ),
+				      (GCompareFunc) recherche_devise_par_no );
+    
+    if ( liste_tmp )
+	return ( devise_name ( liste_tmp -> data ));
+    else
+	return ( NULL );
+}
+
+
 
 /**
  * Find whether echange rate between two currencies is known.  If so,

@@ -49,6 +49,7 @@ extern GtkWidget *widget_formulaire_echeancier[19];
 extern GSList *gsliste_echeances;
 extern struct operation_echeance *echeance_selectionnnee;
 extern gint nb_echeances;
+extern GSList *list_store_comptes;
 
 
 /* *********************************************************************************************************** */
@@ -57,7 +58,6 @@ extern gint nb_echeances;
 
 void  nouveau_compte ( void )
 {
-    GtkWidget *bouton;
     gint type_de_compte;
     gint no_compte;
 
@@ -79,21 +79,10 @@ void  nouveau_compte ( void )
     if ( no_compte == -1 )
 	return;
 
-    /* crée le nouveau bouton du compte et l'ajoute à la liste des comptes */
+    /* on crée la liste des opés : on met juste une place en plus à null dans le store_comptes */
 
-    bouton = comptes_appel( NO_COMPTE );
-    gtk_box_pack_start (GTK_BOX (vbox_liste_comptes),
-			bouton,
-			FALSE,
-			FALSE,
-			0);
-    gtk_widget_show (bouton);
-
-
-    /* on crée la liste des opés */
-
-    ajoute_nouvelle_liste_operation( NO_COMPTE );
-
+    list_store_comptes = g_slist_append ( list_store_comptes,
+					  NULL );
     /* on recrée les combofix des catégories */
 
     mise_a_jour_categ();
@@ -114,23 +103,16 @@ void  nouveau_compte ( void )
     gtk_widget_set_sensitive ( bouton_supprimer_compte,
 			       TRUE );
 
+    /* crée le nouveau bouton du compte et l'ajoute à la liste des comptes */
+
+    reaffiche_liste_comptes ();
 
     /* on crée le nouveau compte dans les propriétés des comptes */
 
-    bouton = comptes_appel_onglet ( nb_comptes - 1 );
-    gtk_box_pack_start (GTK_BOX (vbox_liste_comptes_onglet),
-			bouton,
-			FALSE,
-			FALSE,
-			0);
-    gtk_widget_show (bouton);
+    compte_courant_onglet = nb_comptes - 1;
+    reaffiche_liste_comptes_onglet ();
 
-    /* on se place sur le nouveau compte pour faire les modifs */
-
-    changement_compte_onglet ( ((GtkBoxChild *)(GTK_BOX ( bouton ) -> children -> data))->widget,
-			       nb_comptes - 1 );
-
-    /* on se met sur l'onglet de propriétés du compte */
+   /* on se met sur l'onglet de propriétés du compte */
 
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
 			    3 );
@@ -169,7 +151,7 @@ gint initialisation_nouveau_compte ( gint type_de_compte )
     /* insère ses paramètres ( comme c'est un appel à calloc, tout ce qui est à 0 est déjà initialisé )*/
 
     NOM_DU_COMPTE = g_strdup ( _("No name") );
-    OPERATION_SELECTIONNEE = GINT_TO_POINTER ( -1 );
+    LIGNE_SELECTIONNEE = -1;
     DEVISE = 1;
     MISE_A_JOUR = 1;
     NO_COMPTE = nb_comptes;

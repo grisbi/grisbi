@@ -56,6 +56,7 @@ GtkWidget * details_paddingbox;
 
 extern GtkWidget *widget_formulaire_echeancier[19];
 extern GtkWidget *label_saisie_modif;
+extern GtkWidget *widget_formulaire_ventilation[8];
 
 
 
@@ -1630,3 +1631,33 @@ void changement_choix_type_echeancier ( struct struct_type_ope *type )
 	gtk_widget_hide ( widget_formulaire_echeancier[8] );
 }
 /* ************************************************************************************************************** */
+
+
+/* ************************************************************************************************************** */
+/* renvoie le nom du type_ope correspondant au numéro donné */
+/* ou null */
+/* ************************************************************************************************************** */
+gchar *type_ope_name_by_no ( gint no_type_ope,
+			     gint no_de_compte )
+{
+    GSList *liste_tmp;
+
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_de_compte;
+
+    liste_tmp = g_slist_find_custom ( TYPES_OPES,
+				      GINT_TO_POINTER ( no_de_compte ),
+				      (GCompareFunc) recherche_type_ope_par_no );
+
+    if ( liste_tmp )
+    {
+	struct struct_type_ope *type_ope;
+
+	type_ope = liste_tmp -> data;
+
+	return ( type_ope -> nom_type );
+    }
+    else
+	return NULL;
+}
+/* ************************************************************************************************************** */
+

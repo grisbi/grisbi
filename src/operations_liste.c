@@ -50,6 +50,7 @@
 #include "type_operations.h"
 #include "utils.h"
 #include "ventilation.h"
+#include "constants.h"
 
 
 
@@ -63,7 +64,6 @@
 #define TRANSACTION_COL_NB_CREDIT 5
 #define TRANSACTION_COL_NB_BALANCE 6
 
-#define TRANSACTION_LIST_COL_NB 7
 #define TRANSACTION_LIST_ROWS_NB 4
 
 GtkJustification col_justs[] = { GTK_JUSTIFY_CENTER,
@@ -74,16 +74,55 @@ GtkJustification col_justs[] = { GTK_JUSTIFY_CENTER,
     GTK_JUSTIFY_RIGHT,
     GTK_JUSTIFY_RIGHT };
 
+/* tree_view qui affiche les listes d'opé ou les opés ventilées */
+
+GtkWidget *tree_view_listes_operations;
+
+/* les colonnes de la liste des opés */
+
+GtkTreeViewColumn *colonnes_liste_opes[7];
+
+/* les colonnes de la liste des ventils */
+
+GtkTreeViewColumn *colonnes_liste_ventils[3];
+
+/* liste des gtk_list_store, 1 store par compte, à NULL si non initialisé */
+
+GSList *list_store_comptes;
+
+/* hauteur d'une ligne de la liste des opés */
+
+gint hauteur_ligne_liste_opes;
+
+/* on va essayer de créer un object tooltip général pour grisbi */
+/* donc associer tous les autres tooltips à ce tooltip (FIXME) */
+
+GtkTooltips *tooltips_general_grisbi;
+
+/* le GdkGC correspondant aux lignes, créés au début une fois pour toute */
+
+GdkGC *gc_separateur_operation;
+
+/* utilisé pour éviter que ça s'emballe lors du réglage de la largeur des colonnes */
+
 gint allocation_precedente;
+
+GtkTreeViewColumn *colonne_classement_tmp;
+
 
 extern struct operation_echeance *echeance_selectionnnee;
 extern gint no_derniere_echeance;
 extern GSList *gsliste_echeances; 
 extern gint nb_echeances;
+extern GdkColor couleur_fond[2];
+extern GdkColor couleur_selection;
+extern PangoFontDescription *pango_desc_fonte_liste;
+extern GSList *liste_labels_titres_colonnes_liste_ope;
+extern GtkWidget *widget_formulaire_ventilation[8];
+extern gint ligne_selectionnee_ventilation;
 
 
-/* FIXME INSTABLE : REPRENDRE AUSSI L'ANCIEN FICHIER, VERIFIER QU'IL N'Y A PAS EU DE CORRECTIONS DE BUGS DANS CE FICHIER */
-/* AUTRES QUE L'AJUSTEMENT DE LA TAILLE DES COLONNES */
+
 
 /******************************************************************************/
 /*  Routine qui crée la fenêtre de la liste des opé  */
@@ -97,11 +136,12 @@ GtkWidget *creation_fenetre_operations ( void )
     /*   la fenetre des opé est une vbox : la liste en haut, le solde et  */
     /*     des boutons de conf au milieu, le formulaire en bas */
 
-/* FIXME: à virer sur l'instable */
-    allocation_precedente = 0;
-
     win_operations = gtk_vbox_new ( FALSE,
 				    5 );
+    gtk_signal_connect ( GTK_OBJECT ( win_operations ),
+			 "key_press_event",
+			 GTK_SIGNAL_FUNC ( traitement_clavier_liste ),
+			 NULL );
 
     /* création de la barre d'outils */
 
@@ -115,7 +155,7 @@ GtkWidget *creation_fenetre_operations ( void )
 
     /* création du notebook des opé */
 
-    notebook_listes_operations = initialisation_notebook_operations ();
+    notebook_listes_operations = initialisation_tree_view_operations ();
     gtk_box_pack_start ( GTK_BOX ( win_operations ),
 			 notebook_listes_operations,
 			 TRUE,
@@ -193,326 +233,319 @@ GtkWidget *creation_fenetre_operations ( void )
 /* Cette fonction crée le notebook et initialise les variables générales      */
 /* utilisées par les listes						      */
 /******************************************************************************/
-GtkWidget *initialisation_notebook_operations ( void )
+GtkWidget *initialisation_tree_view_operations ( void )
 {
-    /* création du notebook */
+    /*     FIXME changer le nom et la description de la fonction initialisation_tree_view_operations*/
 
-    notebook_listes_operations = gtk_notebook_new ();
-    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK ( notebook_listes_operations ),
-				 FALSE );
+    GtkWidget *scrolled_window;
 
-    /* création de l'onglet de la ventilation */
+    /*     nouveauté de gtk 2: on ne met plus d'onglets, on a différents gtk_list_store */
+    /* 	mais un seul gtk_tree_view */
+    /* donc remplacement de notebook_listes_operations par tree_view_listes_operations */
 
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
-			       creation_fenetre_ventilation (),
-			       gtk_label_new ( _("Account breakdown") ) );
+    /*     compatibilité : FIXME */
 
-    return ( notebook_listes_operations );
+    scrolled_window = gtk_scrolled_window_new ( NULL,
+						NULL );
+    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+				     GTK_POLICY_AUTOMATIC,
+				     GTK_POLICY_AUTOMATIC );
+
+    /*     création proprement dite du treeview */
+
+    tree_view_listes_operations = gtk_tree_view_new ();
+    g_signal_connect_after ( G_OBJECT ( tree_view_listes_operations ),
+			     "expose-event",
+			     G_CALLBACK ( affichage_traits_liste_operation ),
+			     NULL );
+    gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
+			tree_view_listes_operations );
+    gtk_widget_show ( tree_view_listes_operations );
+
+    /*     on peut sélectionner plusieurs lignes */
+
+    gtk_tree_selection_set_mode ( GTK_TREE_SELECTION ( gtk_tree_view_get_selection ( GTK_TREE_VIEW( tree_view_listes_operations ))),
+				  GTK_SELECTION_MULTIPLE );
+
+    /* vérifie le simple ou double click */
+
+    g_signal_connect ( G_OBJECT ( tree_view_listes_operations ),
+		       "button_press_event",
+		       G_CALLBACK ( selectionne_ligne_souris ),
+		       NULL );
+
+    /* vérifie la touche entrée, haut et bas */
+
+    g_signal_connect ( G_OBJECT ( tree_view_listes_operations ),
+		       "key_press_event",
+		       G_CALLBACK ( traitement_clavier_liste ),
+		       NULL );
+
+    /*     ajuste les colonnes si modification de la taille */
+
+    g_signal_connect ( G_OBJECT ( tree_view_listes_operations ),
+		       "size-allocate",
+		       G_CALLBACK ( changement_taille_liste_ope ),
+		       NULL );
+
+    /*     la hauteur est mise à 0 pour l'instant, elle sera remplie dès que nécessaire */
+
+    hauteur_ligne_liste_opes = 0;
+    gc_separateur_operation = NULL;
+
+    /*     normalement les colonnes sont déjà créés */
+    /* mais bon, on teste, sait on jamais... */
+
+    if ( colonnes_liste_opes[0] )
+    {
+	gint i;
+
+	for ( i=0 ; i<7 ; i++ )
+	{
+	    gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view_listes_operations ),
+					  GTK_TREE_VIEW_COLUMN ( colonnes_liste_opes[i] ));
+	    gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_opes[i] ),
+						 TRUE );
+	    g_signal_connect ( G_OBJECT ( colonnes_liste_opes[i] ),
+			       "clicked",
+			       G_CALLBACK ( click_sur_titre_colonne_operations ),
+			       GINT_TO_POINTER (i));
+
+	}
+
+	/* 	on fait le tour des comptes pour associer COLONNE_CLASSEMENT à l'adr de la colonne */
+
+	for ( i=0 ; i<nb_comptes ; i++ )
+	{
+	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+	    COLONNE_CLASSEMENT = colonnes_liste_opes[GPOINTER_TO_INT (COLONNE_CLASSEMENT)];
+	}
+
+/* 	on ajoute tout de suite les colonnes de la ventil, mais elles sont invisibles */
+
+	for ( i=0 ; i<3 ; i++ )
+	    gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view_listes_operations ),
+					  colonnes_liste_ventils[i] );
+    }
+    else
+	printf ( "bizarre, les colonnes n'ont pas encore été créés (operation_liste.c)...\n" );
+
+    
+    return ( scrolled_window );
 }
 /******************************************************************************/
 
+
+/******************************************************************************/
+/* cette fonction est appelée pour créer les tree_view_column des listes d'opé et */
+/* de ventil */
+/******************************************************************************/
+void creation_titres_tree_view ( void )
+{
+    gint i;
+    gfloat alignement[] = {
+	0.5,
+	0.5,
+	0.0,
+	0.5,
+	1.0,
+	1.0,
+	1.0
+    };
+    gchar *titres_liste_ventil[] = { 
+	_("Category"),
+	_("Notes"),
+	_("Amount")
+    };
+    gfloat alignement_ventil[] = {
+	0.0,
+	0.0,
+	1.0
+    };
+
+
+    if ( !titres_colonnes_liste_operations )
+	return;
+
+    if ( !tooltips_general_grisbi )
+	tooltips_general_grisbi = gtk_tooltips_new ();
+
+    /*     on commence par s'occuper des listes d'opérations */
+
+    for ( i=0 ; i<7 ; i++ )
+    {
+	colonnes_liste_opes[i] = gtk_tree_view_column_new_with_attributes ( titres_colonnes_liste_operations[i],
+									    gtk_cell_renderer_text_new (),
+									    "text", i,
+									    "background-gdk", 7,
+									    "font-desc", 11,
+									    NULL );
+	gtk_tree_view_column_set_alignment ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_opes[i] ),
+					     alignement[i] );
+	gtk_tree_view_column_set_sizing ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_opes[i] ),
+					  GTK_TREE_VIEW_COLUMN_FIXED );
+
+	if ( etat.largeur_auto_colonnes )
+	    gtk_tree_view_column_set_resizable ( colonnes_liste_opes[i],
+						 FALSE );
+	else
+	    gtk_tree_view_column_set_resizable ( colonnes_liste_opes[i],
+						 TRUE );
+
+    }
+
+    /*     pour la colonne no 6 (le solde), on rajoute le foreground */
+
+    gtk_tree_view_column_add_attribute ( colonnes_liste_opes[6],
+					 gtk_tree_view_column_get_cell_renderers ( colonnes_liste_opes[6] ) -> data,
+					 "foreground", 8 );
+
+    /*    on crée les titres de la liste de ventilation  */
+
+    for ( i=0 ; i<3 ; i++ )
+    {
+	colonnes_liste_ventils[i] = gtk_tree_view_column_new_with_attributes ( titres_liste_ventil[i],
+									       gtk_cell_renderer_text_new (),
+									       "text", i,
+									       "background-gdk", 4,
+									       "font-desc", 6,
+									       NULL );
+	gtk_tree_view_column_set_visible ( colonnes_liste_ventils[i],
+					   FALSE );
+	gtk_tree_view_column_set_alignment ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_ventils[i] ),
+					     alignement_ventil[i] );
+	gtk_tree_view_column_set_sizing ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_ventils[i] ),
+					  GTK_TREE_VIEW_COLUMN_FIXED );
+    }
+}
+/******************************************************************************/
+
+
+/******************************************************************************/
+/* cette fonction est appelée une fois que les titres et tips pour les col */
+/* de la liste d'opé ont été créés. donc soit on les crée, soit on les update */
+/******************************************************************************/
+void update_titres_tree_view ( void )
+{
+    gint i;
+
+    if ( !titres_colonnes_liste_operations )
+	return;
+
+    if ( !colonnes_liste_opes[0] )
+	creation_titres_tree_view ();
+
+
+    /*     on commence par s'occuper des listes d'opérations */
+
+    for ( i=0 ; i<7 ; i++ )
+    {
+	gtk_tree_view_column_set_title ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_opes[i] ),
+					 titres_colonnes_liste_operations[i] );
+
+	if ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_opes[i] )->button )
+	{
+	    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
+				   GTK_TREE_VIEW_COLUMN ( colonnes_liste_opes[i] )->button,
+				   tips_col_liste_operations[i],
+				   tips_col_liste_operations[i] ); 
+	}
+    }
+
+}
+/******************************************************************************/
+
+
+
 /******************************************************************************/
 /* Création de la liste des opé */
-/* cette fonction crée autant d'onglets que de comptes dans le notebook */
-/* elle y met les clist et les remplit */
+/* cette fonction crée autant de place pour les list_store que de comptes */
+/* elle les initialise à NULL et les ajoute dans list_store_comptes */
 /******************************************************************************/
 void creation_listes_operations ( void )
 {
     gint i;
-    GtkTooltips *tooltip;
+
+    list_store_comptes = NULL;
 
     for ( i = 0 ; i < nb_comptes ; i++ )
-    {
-	GtkWidget *onglet;
-	GtkWidget *liste;
-	gint j;
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
-
-
-	/*  Création de la scrolled window qui contient la clist */
-
-	onglet = gtk_scrolled_window_new ( NULL,
-					   NULL);
-	gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( onglet ),
-					 GTK_POLICY_AUTOMATIC,
-					 GTK_POLICY_AUTOMATIC);
-	gtk_widget_show ( onglet );
-
-
-	/* création de l'onglet */
-
-	liste = gtk_clist_new_with_titles ( TRANSACTION_LIST_COL_NB,
-					    titres_colonnes_liste_operations );
-	gtk_widget_set_usize ( GTK_WIDGET ( liste ),
-			       1,
-			       FALSE );
-	gtk_signal_connect ( GTK_OBJECT ( liste ),
-			     "size-allocate",
-			     GTK_SIGNAL_FUNC ( changement_taille_liste_ope ),
-			     GINT_TO_POINTER ( i ) );
-	gtk_signal_connect ( GTK_OBJECT ( liste ),
-			     "map",
-			     GTK_SIGNAL_FUNC ( verification_mise_a_jour_liste ),
-			     NULL );
-	gtk_signal_connect_after ( GTK_OBJECT ( onglet ),
-				   "realize",
-				   GTK_SIGNAL_FUNC ( onglet_compte_realize ),
-				   liste );
-	gtk_container_add ( GTK_CONTAINER ( onglet ),
-			    liste );
-	gtk_widget_show ( liste );
-
-	/*       si on utilise la police perso, on adapte la hauteur des lignes en fonction */
-
-	if ( etat.utilise_fonte_listes )
-	{
-	    gint size = pango_font_description_get_size (pango_font_description_from_string(fonte_liste));
-	    gtk_clist_set_row_height ( GTK_CLIST ( liste ),
-				       (size/PANGO_SCALE) + 7 );
-	}
-
-	/* on met les tooltips aux boutons de la clist */
-	/* le fait de mettre des tips sur les titres rend les boutons sensitifs */
-	/* on va détourner le click pour ne pas faire enfoncer le bouton */
-
-	tooltip = gtk_tooltips_new ();
-
-	for ( j = 0 ; j < TRANSACTION_LIST_COL_NB ; j++ )
-	{
-	    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltip ),
-				   GTK_CLIST ( liste ) -> column[j].button,
-				   tips_col_liste_operations[j],
-				   tips_col_liste_operations[j] );
-	    gtk_signal_connect ( GTK_OBJECT ( GTK_CLIST ( liste ) -> column[j].button ),
-				 "button-press-event",
-				 GTK_SIGNAL_FUNC ( empeche_pression_titre_colonne ),
-				 NULL );
-	}
-
-	/* on permet la sélection de plusieurs lignes */
-
-	gtk_clist_set_selection_mode ( GTK_CLIST ( liste ),
-				       GTK_SELECTION_MULTIPLE );
-
-	/* On annule la fonction bouton des titres */
-
-	gtk_clist_column_titles_passive ( GTK_CLIST ( liste ) );
-
-	/* justification du contenu des cellules */
-	/* colonnes redimensionnables ou non */
-
-	for ( j = 0 ; j < TRANSACTION_LIST_COL_NB ; j++ )
-	{
-	    gtk_clist_set_column_justification ( GTK_CLIST ( liste ),
-						 j,
-						 col_justs[j] );
-	    gtk_clist_set_column_resizeable ( GTK_CLIST ( liste ),
-					      j,
-					      !etat.largeur_auto_colonnes );
-	}
-
-	/* vérifie le simple ou double click */
-
-	gtk_signal_connect ( GTK_OBJECT ( liste ),
-			     "button_press_event",
-			     GTK_SIGNAL_FUNC ( selectionne_ligne_souris ),
-			     NULL );
-
-	/* vérifie la touche entrée, haut et bas */
-
-	gtk_signal_connect ( GTK_OBJECT ( liste ),
-			     "key_press_event",
-			     GTK_SIGNAL_FUNC ( traitement_clavier_liste ),
-			     NULL );
-
-	/* on ajoute l'onglet au notebook des comptes */
-
-	gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
-				   onglet,
-				   gtk_label_new ( NOM_DU_COMPTE ) );
-
-	CLIST_OPERATIONS = liste;
-
-	/* on classe la liste en fonction de la date */
-
-	LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
-					  (GCompareFunc) classement_sliste );
-
-	remplissage_liste_operations ( i );
-    }
+	list_store_comptes = g_slist_append ( list_store_comptes,
+					      NULL );
 
 }
 /******************************************************************************/
 
-/******************************************************************************/
-/* Fonction empeche_pression_titre_colonne */
-/* permet d'éviter que le bouton s'enfonce si on clicke dessus */
-/******************************************************************************/
-gint empeche_pression_titre_colonne ( GtkWidget *bouton )
-{
-    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( bouton ),
-				   "button_press_event");
-    return ( TRUE );
-}
-/******************************************************************************/
+
+
 
 /******************************************************************************/
-/* Création de la liste des opérations d'un nouveau compte */
-/******************************************************************************/
-void ajoute_nouvelle_liste_operation ( gint no_compte )
-{
-    GtkWidget *onglet;
-    GtkWidget *liste;
-    GtkTooltips *tooltip;
-    gint i;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-
-    /*  Création de la scrolled window qui contient la clist */
-
-    onglet = gtk_scrolled_window_new ( NULL,
-				       NULL);
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( onglet ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC);
-    gtk_widget_show ( onglet );
-
-    /* création de l'onglet */
-
-    liste = gtk_clist_new_with_titles ( TRANSACTION_LIST_COL_NB,
-					titres_colonnes_liste_operations );
-    gtk_widget_set_usize ( GTK_WIDGET ( liste ),
-			   1,
-			   FALSE );
-    gtk_signal_connect ( GTK_OBJECT ( liste ),
-			 "size-allocate",
-			 GTK_SIGNAL_FUNC ( changement_taille_liste_ope ),
-			 GINT_TO_POINTER ( no_compte ) );
-    gtk_signal_connect ( GTK_OBJECT ( liste ),
-			 "map",
-			 GTK_SIGNAL_FUNC ( verification_mise_a_jour_liste ),
-			 NULL );
-    gtk_signal_connect_after ( GTK_OBJECT ( liste ),
-			       "realize",
-			       GTK_SIGNAL_FUNC ( onglet_compte_realize ),
-			       liste );
-    gtk_container_add ( GTK_CONTAINER ( onglet ),
-			liste );
-    gtk_widget_show ( liste );
-
-    /* le fait de mettre des tips sur les titres rend les boutons sensitifs ; */
-    /* on va détourner le click pour ne pas faire enfoncer le bouton */
-
-    tooltip = gtk_tooltips_new ();
-
-    for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
-    {
-	gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltip ),
-			       GTK_CLIST ( liste ) -> column[i].button,
-			       tips_col_liste_operations[i],
-			       tips_col_liste_operations[i] );
-	gtk_signal_connect ( GTK_OBJECT ( GTK_CLIST ( liste ) -> column[i].button ),
-			     "button-press-event",
-			     GTK_SIGNAL_FUNC ( empeche_pression_titre_colonne ),
-			     NULL );
-    }
-
-    /* on permet la sélection de plusieurs lignes */
-
-    gtk_clist_set_selection_mode ( GTK_CLIST ( liste ),
-				   GTK_SELECTION_MULTIPLE );
-
-    /* On annule la fonction bouton des titres */
-
-    gtk_clist_column_titles_passive ( GTK_CLIST ( liste ) );
-
-    /* justification du contenu des cellules */
-
-    for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
-    {
-	gtk_clist_set_column_justification ( GTK_CLIST ( liste ),
-					     i,
-					     col_justs[i] );
-    }
-
-    /* vérifie le simple ou double click */
-
-    gtk_signal_connect ( GTK_OBJECT ( liste ),
-			 "button_press_event",
-			 GTK_SIGNAL_FUNC ( selectionne_ligne_souris ),
-			 NULL );
-
-    /*   vérifie la touche entrée, haut et bas */
-
-    gtk_signal_connect ( GTK_OBJECT ( liste ),
-			 "key_press_event",
-			 GTK_SIGNAL_FUNC ( traitement_clavier_liste ),
-			 NULL );
-
-    /* sauvegarde les redimensionnement des colonnes */
-
-    gtk_signal_connect ( GTK_OBJECT ( liste ),
-			 "resize_column",
-			 GTK_SIGNAL_FUNC ( changement_taille_colonne ),
-			 NULL );
-
-    /* on ajoute l'onglet au notebook des comptes */
-
-    CLIST_OPERATIONS = liste;
-
-    /* par défaut, le classement de la liste s'effectue par date */
-
-    LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
-				      (GCompareFunc) classement_sliste );
-
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
-			       onglet,
-			       gtk_label_new ( NOM_DU_COMPTE ) );
-
-    remplissage_liste_operations ( no_compte );
-}
-/******************************************************************************/
-
-/******************************************************************************/
-/* Fonction onglet_compte_realize */
-/* appelée lorsque la liste est affichée la 1ère fois */
-/* permet de se placer en bas de toutes les opés au départ */
-/******************************************************************************/
-void onglet_compte_realize ( GtkWidget *onglet,
-			     GtkWidget *liste )
-{
-    GtkAdjustment *adr_ajustement;
-
-    adr_ajustement = gtk_clist_get_vadjustment ( GTK_CLIST ( liste ) );
-
-    gtk_adjustment_set_value ( adr_ajustement,
-			       adr_ajustement -> upper - adr_ajustement -> page_size );
-}
-/******************************************************************************/
-
-/******************************************************************************/
-/* remplissage de la liste des opérations du compte donné en argument */
-/* par les opérations du compte courant */
+/* remplissage du list_store du compte donné en argument */
+/* cette fonction efface l'ancienne liste et la remplit avec les données actuelles */
+/* et place la sélection où elle était avant */
 /******************************************************************************/
 void remplissage_liste_operations ( gint compte )
 {
+    GtkListStore *list_store;
+    GtkTreeIter iter;
+    struct structure_operation *operation_selectionnee;
     GSList *liste_operations_tmp;
     gint couleur_en_cours;
     gchar *ligne_clist[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
     gint i, j;
-    gint ligne;
     gdouble montant;
+    gint ligne_selectionnee;
+
+    if ( DEBUG )
+	printf ( "remplissage_liste_operations\n" );
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
 
-    /* freeze la clist */
+    /*     on commence par récupérer le list_store correspondant */
 
-    gtk_clist_freeze ( GTK_CLIST ( CLIST_OPERATIONS ));
+    list_store = g_slist_nth_data ( list_store_comptes,
+				    compte );
 
-    /* efface la clist */
+    /*     on récupère l'adr de l'opé sélectionnée pour pouvoir remettre la sélection ensuite */
 
-    gtk_clist_clear ( GTK_CLIST ( CLIST_OPERATIONS ));
+    if ( LIGNE_SELECTIONNEE == -1
+	 ||
+	 !list_store )
+	operation_selectionnee = GINT_TO_POINTER ( -1 );
+    else
+	operation_selectionnee = cherche_operation_from_ligne ( LIGNE_SELECTIONNEE );
+
+    /* efface la liste si nécessaire */
+
+    if ( list_store ) 
+	gtk_list_store_clear ( GTK_LIST_STORE ( list_store ));
+    else
+    {
+	/* 	structure de la liste : */
+	/* 	    col 0 à 6 -> les données */
+	/* 	    col 7 -> la couleur du background */
+	/* 	    col 8 -> la couleur du solde */
+	/*	    col 9 -> adr de l'opération */
+	/*	    col 10 -> sauvegarde background quand ligne sélectionnée */
+	/*	    col 11 -> contient NULL ou l'adr de la pangofontdescription utilisée */
+
+	list_store = gtk_list_store_new ( 12,
+					  G_TYPE_STRING,
+					  G_TYPE_STRING,
+					  G_TYPE_STRING,
+					  G_TYPE_STRING,
+					  G_TYPE_STRING,
+					  G_TYPE_STRING,
+					  G_TYPE_STRING,
+					  GDK_TYPE_COLOR,
+					  G_TYPE_STRING,
+					  G_TYPE_POINTER,
+					  GDK_TYPE_COLOR,
+					  PANGO_TYPE_FONT_DESCRIPTION );
+
+	g_slist_nth ( list_store_comptes,
+		      compte ) -> data = list_store;
+    }
+
 
     /*   au départ, les soldes courant et pointé sont = au solde init */
 
@@ -559,6 +592,7 @@ void remplissage_liste_operations ( gint compte )
     /* affiche l'opération à l'écran en fonction de l'affichage de R */
 
     liste_operations_tmp = LISTE_OPERATIONS;
+    ligne_selectionnee = 0;
 
     while ( liste_operations_tmp )
     {
@@ -566,126 +600,161 @@ void remplissage_liste_operations ( gint compte )
 
 	operation = liste_operations_tmp -> data;
 
-	/* si c'est une opé de ventilation, on la saute */
+	/* si c'est une opé de ventilation, ou si elle est relevée mais que l'on ne veut pas les afficher */
 
-	if ( !operation -> no_operation_ventilee_associee )
+	if ( !(operation -> no_operation_ventilee_associee
+	       ||
+	       ( !AFFICHAGE_R
+		 &&
+		 operation -> pointe == 2 )))
 	{
 
-	    /* si l'opération est relevée et qu'on ne désire pas les afficher, on passe la suite  */
+	    /*  on calcule les soldes courant */
 
-	    if ( AFFICHAGE_R || operation -> pointe != 2 )
+	    montant = calcule_montant_devise_renvoi ( operation -> montant,
+						      DEVISE,
+						      operation -> devise,
+						      operation -> une_devise_compte_egale_x_devise_ope,
+						      operation -> taux_change,
+						      operation -> frais_change );
+
+	    /*   dans tous les cas, on ajoute ce montant au solde courant */
+
+	    solde_courant_affichage_liste = solde_courant_affichage_liste + montant;
+
+	    /* si l'opé est pointée ou relevée, on ajoute ce montant au solde pointé */
+
+	    if ( operation -> pointe )
+		solde_pointe_affichage_liste = solde_pointe_affichage_liste + montant;
+
+	    /* on fait le tour de tab_affichage_ope pour remplir les lignes du tableau */
+
+	    for ( i = 0 ; i < TRANSACTION_LIST_ROWS_NB ; i++ )
 	    {
-		/*  on calcule les soldes courant */
+		/* on ne passe que si la ligne doit être affichée */
 
-		montant = calcule_montant_devise_renvoi ( operation -> montant,
-							  DEVISE,
-							  operation -> devise,
-							  operation -> une_devise_compte_egale_x_devise_ope,
-							  operation -> taux_change,
-							  operation -> frais_change );
-
-		/*   dans tous les cas, on ajoute ce montant au solde courant */
-
-		solde_courant_affichage_liste = solde_courant_affichage_liste + montant;
-
-		/* si l'opé est pointée ou relevée, on ajoute ce montant au solde pointé */
-
-		if ( operation -> pointe )
-		    solde_pointe_affichage_liste = solde_pointe_affichage_liste + montant;
-
-		/* on fait le tour de tab_affichage_ope pour remplir les lignes du tableau */
-
-		for ( i = 0 ; i < TRANSACTION_LIST_ROWS_NB ; i++ )
+		if ( !i 
+		     ||
+		     NB_LIGNES_OPE == 4
+		     ||
+		     ( ( i == 1 || i == 2 )
+		       &&
+		       NB_LIGNES_OPE == 3 )
+		     ||
+		     ( i == 1 && NB_LIGNES_OPE == 2 ))
 		{
-		    /* on ne passe que si la ligne doit être affichée */
+		    gint ligne_affichee;
 
-		    if ( !i ||
-			 NB_LIGNES_OPE == 4 ||
-			 (( i == 1 || i == 2 ) && NB_LIGNES_OPE == 3 ) ||
-			 ( i == 1 && NB_LIGNES_OPE == 2 ))
+		    /*  en fonction de i (la ligne en cours) et NB_LIGNES_OPE, on retrouve la ligne qu'il faut */
+		    /* afficher selon les configurations */
+
+		    switch ( NB_LIGNES_OPE )
 		    {
-			gint ligne_affichee;
+			case 1:
+			    ligne_affichee = ligne_affichage_une_ligne;
+			    break;
 
-			/*  en fonction de i (la ligne en cours) et NB_LIGNES_OPE, on retrouve la ligne qu'il faut */
-			/* afficher selon les configurations */
+			case 2:
+			    if ( i )
+				ligne_affichee = GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> next -> data );
+			    else
+				ligne_affichee = GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> data );
+			    break;
 
-			switch ( NB_LIGNES_OPE )
-			{
-			    case 1:
-				ligne_affichee = ligne_affichage_une_ligne;
-				break;
+			case 3:
+			    switch ( i )
+			    {
+				case 0:
+				    ligne_affichee = GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> data );
+				    break;
 
-			    case 2:
-				if ( i )
-				    ligne_affichee = GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> next -> data );
-				else
-				    ligne_affichee = GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> data );
-				break;
+				case 1:
+				    ligne_affichee = GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> data );
+				    break;
 
-			    case 3:
-				switch ( i )
-				{
-				    case 0:
-					ligne_affichee = GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> data );
-					break;
+				case 2:
+				    ligne_affichee = GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> next -> data );
+				    break;
 
-				    case 1:
-					ligne_affichee = GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> data );
-					break;
+				default:
+				    ligne_affichee = 0;
+			    }
+			    break;
 
-				    case 2:
-					ligne_affichee = GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> next -> data );
-					break;
+			case 4:
+			    ligne_affichee = i;
+			    break;
 
-				    default:
-					ligne_affichee = 0;
-				}
-				break;
-
-			    case 4:
-				ligne_affichee = i;
-				break;
-
-			    default:
-				ligne_affichee = 0;
-			}
-
-
-			for ( j = 0 ; j < TRANSACTION_LIST_COL_NB ; j++ )
-			    ligne_clist[i][j] = recherche_contenu_cellule ( operation,
-									    tab_affichage_ope[ligne_affichee][j]  );
-
-			/* on affiche la ligne */
-
-			ligne = gtk_clist_append ( GTK_CLIST ( CLIST_OPERATIONS ),
-						   ligne_clist[i] );
-
-			/* on associe à cette ligne l'adr de la struct de l'opé */
-
-			gtk_clist_set_row_data ( GTK_CLIST (CLIST_OPERATIONS),
-						 ligne,
-						 operation);
-
-			/* on met la couleur de la ligne */
-
-			gtk_clist_set_row_style ( GTK_CLIST ( CLIST_OPERATIONS ),
-						  ligne,
-						  style_couleur [ couleur_en_cours ] );
-
-			/* si le solde courant est < 0, on recherche la position de l'affichage */
-			/* du solde et on le met en rouge si on le trouve */
-
-			if ( (int) solde_courant_affichage_liste < 0 )
-			    for ( j = 0 ; j < TRANSACTION_LIST_COL_NB ; j++ )
-				if ( tab_affichage_ope[ligne_affichee][j] == 7 )
-				    gtk_clist_set_cell_style ( GTK_CLIST ( CLIST_OPERATIONS ),
-							       ligne,
-							       j,
-							       style_rouge_couleur [ couleur_en_cours ] );
+			default:
+			    ligne_affichee = 0;
 		    }
+
+
+		    for ( j = 0 ; j < TRANSACTION_LIST_COL_NB ; j++ )
+			ligne_clist[i][j] = recherche_contenu_cellule ( operation,
+									tab_affichage_ope[ligne_affichee][j]  );
+
+		    /* on affiche la ligne composée de TRANSACTION_LIST_COL_NB colonnes */
+
+		    gtk_list_store_append ( list_store,
+					    &iter );
+
+		    for ( j=0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
+			gtk_list_store_set ( list_store,
+					     &iter,
+					     j, ligne_clist[i][j],
+					     -1 );
+
+		    /* 		    on met la couleur de la ligne */
+
+		    if ( operation_selectionnee == operation )
+		    {
+			gtk_list_store_set ( list_store,
+					     &iter,
+					     7, &couleur_selection,
+					     -1 );
+
+			gtk_list_store_set ( list_store,
+					     &iter,
+					     10, &couleur_fond[couleur_en_cours],
+					     -1 );
+			
+			if ( !ligne_selectionnee )
+			    ligne_selectionnee = atoi ( gtk_tree_model_get_string_from_iter ( GTK_TREE_MODEL ( list_store ),
+											      &iter ));
+		    }
+		    else
+			gtk_list_store_set ( list_store,
+					     &iter,
+					     7, &couleur_fond[couleur_en_cours],
+					     -1 );
+
+
+		    /* si le solde est <0, on le met en rouge */
+
+		    if ( solde_courant_affichage_liste <= 0.01 )
+			gtk_list_store_set ( list_store,
+					     &iter,
+					     8, "red",
+					     -1 );
+
+		    /* on associe à cette ligne l'adr de la struct de l'opé */
+
+		    gtk_list_store_set ( list_store,
+					 &iter,
+					 9, operation,
+					 -1 );
+
+		    /* 		    si on utilise une fonte perso, c'est ici */
+
+		    if ( etat.utilise_fonte_listes )
+			gtk_list_store_set ( list_store,
+					     &iter,
+					     11, pango_desc_fonte_liste,
+					     -1 );
 		}
-		couleur_en_cours = ( couleur_en_cours + 1 ) % 2;
 	    }
+	    couleur_en_cours = ( couleur_en_cours + 1 ) % 2;
 	}
 	liste_operations_tmp = liste_operations_tmp -> next;
     }
@@ -697,24 +766,49 @@ void remplissage_liste_operations ( gint compte )
     {
 	/* on met à NULL tout les pointeurs */
 
-	for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
-	    ligne_clist[0][i] = NULL;
+	gtk_list_store_append ( list_store,
+				&iter );
 
-	ligne = gtk_clist_append ( GTK_CLIST ( CLIST_OPERATIONS ),
-				   ligne_clist[0] );
+	for ( i=0 ; i<TRANSACTION_LIST_COL_NB ; i++ )
+	    gtk_list_store_set ( list_store,
+				 &iter,
+				 i, NULL,
+				 -1 );
 
-	/* on associe à cette ligne à -1 */
 
-	gtk_clist_set_row_data ( GTK_CLIST ( CLIST_OPERATIONS ),
-				 ligne,
-				 GINT_TO_POINTER ( -1 ));
+	/* 		    on met la couleur de la ligne */
 
-	/* on met la couleur de la ligne */
+	if ( operation_selectionnee == GINT_TO_POINTER (-1))
+	{
+	    gtk_list_store_set ( list_store,
+				 &iter,
+				 7, &couleur_selection,
+				 -1 );
 
-	gtk_clist_set_row_style ( GTK_CLIST ( CLIST_OPERATIONS ),
-				  ligne,
-				  style_couleur [ couleur_en_cours ] );
+	    gtk_list_store_set ( list_store,
+				 &iter,
+				 10, &couleur_fond[couleur_en_cours],
+				 -1 );
+	    
+	    if ( !ligne_selectionnee )
+		ligne_selectionnee = atoi ( gtk_tree_model_get_string_from_iter ( GTK_TREE_MODEL ( list_store ),
+										  &iter ));
+	}
+	else
+	    gtk_list_store_set ( list_store,
+				 &iter,
+				 7, &couleur_fond[couleur_en_cours],
+				 -1 );
+
+	/* on met le no d'opération de cette ligne à -1 */
+
+	gtk_list_store_set ( list_store,
+			     &iter,
+			     9, GINT_TO_POINTER (-1),
+			     -1 );
     }
+
+    LIGNE_SELECTIONNEE = ligne_selectionnee;
 
 
     /* on enregistre le solde final */
@@ -736,12 +830,6 @@ void remplissage_liste_operations ( gint compte )
 					   devise_name ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 												       GINT_TO_POINTER ( DEVISE ),
 												       (GCompareFunc) recherche_devise_par_no )-> data ))) );
-
-
-
-    selectionne_ligne ( compte );
-
-    gtk_clist_thaw ( GTK_CLIST ( CLIST_OPERATIONS ));
 }
 /******************************************************************************/
 
@@ -790,50 +878,15 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 	    /* mise en forme du tiers */
 
 	case 3:
-	    if ( operation -> tiers )
-	    {
-		liste_tmp = g_slist_find_custom ( liste_struct_tiers,
-						  GINT_TO_POINTER ( operation -> tiers ),
-						  ( GCompareFunc ) recherche_tiers_par_no );
-
-		if ( liste_tmp )
-		    return ( (( struct struct_tiers * )( liste_tmp -> data )) -> nom_tiers );
-		else
-		    return ( NULL );
-	    }
-	    else
-		return ( NULL );
+	    return ( tiers_name_by_no ( operation -> tiers, TRUE ));
 	    break;
 
 	    /* mise en forme de l'ib */
 
 	case 4:
-	    temp = NULL;
 
-	    if ( operation -> imputation )
-	    {
-		liste_tmp = g_slist_find_custom ( liste_struct_imputation,
-						  GINT_TO_POINTER ( operation -> imputation ),
-						  ( GCompareFunc ) recherche_imputation_par_no );
-
-		if ( liste_tmp )
-		{
-		    GSList *liste_tmp_2;
-
-		    liste_tmp_2 = g_slist_find_custom ( (( struct struct_categ * )( liste_tmp -> data )) -> liste_sous_categ,
-							GINT_TO_POINTER ( operation -> sous_imputation ),
-							( GCompareFunc ) recherche_sous_imputation_par_no );
-		    if ( liste_tmp_2 )
-			temp = g_strconcat ( (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ,
-					     " : ",
-					     (( struct struct_sous_categ * )( liste_tmp_2 -> data )) -> nom_sous_categ,
-					     NULL );
-		    else
-			temp = (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ;
-		}
-	    }
-
-	    return ( temp );
+	    temp = ib_name_by_no ( operation -> imputation,
+				   operation -> sous_imputation );
 	    break;
 
 
@@ -929,41 +982,14 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 	    /* mise en forme du moyen de paiement */
 
 	case 9:
-	    if ( operation -> type_ope
-		 &&
-		 TYPES_OPES )
-	    {
-		liste_tmp = g_slist_find_custom ( TYPES_OPES,
-						  GINT_TO_POINTER ( operation -> type_ope ),
-						  (GCompareFunc) recherche_type_ope_par_no );
-
-		if ( liste_tmp )
-		    return ( ((struct struct_type_ope *)(liste_tmp -> data)) -> nom_type );
-		else
-		    return ( NULL );
-	    }
-	    else
-		return ( NULL );
-
+	    return ( type_ope_name_by_no ( operation -> type_ope,
+					   operation -> no_compte ));
 	    break;
 
 	    /* mise en forme du no de rapprochement */
 
 	case 10:
-	    if ( operation -> no_rapprochement )
-	    {
-		liste_tmp = g_slist_find_custom ( liste_no_rapprochements,
-						  GINT_TO_POINTER ( operation -> no_rapprochement ),
-						  (GCompareFunc) recherche_no_rapprochement_par_no );
-
-		if ( liste_tmp )
-		    return ( ((struct struct_no_rapprochement *)(liste_tmp->data)) -> nom_rapprochement );
-		else
-		    return ( NULL );
-	    }
-	    else
-		return ( NULL );
-
+	    return ( rapprochement_name_by_no ( operation -> no_rapprochement ));
 	    break;
 
 	    /* mise en place de l'exo */
@@ -990,30 +1016,9 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 	    temp = NULL;
 
 	    if ( operation -> categorie )
-	    {
 		/* c'est une categ : ss categ */
-
-		liste_tmp = g_slist_find_custom ( liste_struct_categories,
-						  GINT_TO_POINTER ( operation -> categorie ),
-						  ( GCompareFunc ) recherche_categorie_par_no );
-
-		if ( liste_tmp )
-		{
-		    GSList *liste_tmp_2;
-
-		    liste_tmp_2 = g_slist_find_custom ( (( struct struct_categ * )( liste_tmp -> data )) -> liste_sous_categ,
-							GINT_TO_POINTER ( operation -> sous_categorie ),
-							( GCompareFunc ) recherche_sous_categorie_par_no );
-		    if ( liste_tmp_2 )
-			temp = g_strconcat ( (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ,
-					     " : ",
-					     (( struct struct_sous_categ * )( liste_tmp_2 -> data )) -> nom_sous_categ,
-					     NULL );
-		    else
-			temp = (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ;
-
-		}
-	    }
+		temp = categorie_name_by_no ( operation -> categorie,
+					      operation -> sous_categorie );
 	    else
 	    {
 		if ( operation -> relation_no_operation )
@@ -1121,95 +1126,129 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 /* Fonction selectionne_ligne_souris */
 /* place la sélection sur l'opé clickée */
 /******************************************************************************/
-gboolean selectionne_ligne_souris ( GtkCList *liste,
-				GdkEventButton *evenement,
-				gpointer data)
+gboolean selectionne_ligne_souris ( GtkWidget *tree_view,
+				    GdkEventButton *evenement )
 {
-    gint ligne, colonne, x, y;
+    gint x, y;
+    gint ligne, colonne;
+    GtkTreePath *path;
+    GtkTreeViewColumn *tree_colonne;
 
     /* si le click se situe dans les menus, c'est qu'on redimensionne, on fait rien */
 
-    if ( evenement -> window != liste -> clist_window )
-	return FALSE;
+    if ( evenement -> window != gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view )) )
+	return(FALSE);
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    /*     si on est en train de faire les ventils, on fait suivre */
 
-    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( CLIST_OPERATIONS ),
-				   "button_press_event");
+    if ( etat.ventilation_en_cours )
+	return ( selectionne_ligne_souris_ventilation ( tree_view,
+							evenement ));
 
     /* Récupération des coordonnées de la souris */
 
-    gdk_window_get_pointer ( GTK_CLIST ( CLIST_OPERATIONS ) -> clist_window,
+
+    gdk_window_get_pointer ( gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view )),
 			     &x,
 			     &y,
 			     FALSE );
 
-    gtk_clist_get_selection_info ( GTK_CLIST ( CLIST_OPERATIONS ),
-				   x,
-				   y,
-				   &ligne,
-				   &colonne);
+    /*     on récupère le path aux coordonnées */
+    /* 	si ce n'est pas une ligne de la liste, on se barre */
 
-    if ( !gtk_clist_get_row_data ( GTK_CLIST ( CLIST_OPERATIONS ), ligne ) )
+    if ( !gtk_tree_view_get_path_at_pos ( GTK_TREE_VIEW ( tree_view ),
+					  x,
+					  y,
+					  &path,
+					  &tree_colonne,
+					  NULL,
+					  NULL ))
     {
+	/* 	éventuellement, si c'est un clic du bouton droit, on affiche la popup partielle */
 	if ( evenement -> button == 3 )
 	    popup_transaction_context_menu ( FALSE );
-	return FALSE;
-    }
 
-    if ( etat.equilibrage &&
-	 colonne == TRANSACTION_COL_NB_PR &&
-	 !(ligne % NB_LIGNES_OPE) )
-	pointe_equilibrage ( ligne );
+	return (TRUE);
+    }
 
     /* Récupération de la 1ère ligne de l'opération cliquée */
 
+    ligne = atoi ( gtk_tree_path_to_string ( path ));
     ligne = ligne / NB_LIGNES_OPE * NB_LIGNES_OPE;
 
-    /*   vire l'ancienne sélection */
+    selectionne_ligne( compte_courant,
+		       ligne );
 
-    gtk_clist_unselect_all ( GTK_CLIST ( CLIST_OPERATIONS ) );
+    /*     si on est sur la ligne blanche et qu'on a fait un clic droit, on met le menu contextuel adapté */
 
-    /* on met l'adr de la struct dans OPERATION_SELECTIONNEE */
+    if ( evenement -> button == 3 )
+    {
+	struct structure_operation *operation = NULL;
+	GtkTreeIter iter;
 
-    OPERATION_SELECTIONNEE = gtk_clist_get_row_data ( GTK_CLIST ( CLIST_OPERATIONS ),
-						      ligne );
+	gtk_tree_model_get_iter ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ))),
+				  &iter,
+				  path );
 
-    selectionne_ligne( compte_courant );
+	gtk_tree_model_get ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ))),
+			     &iter,
+			     9, &operation,
+			     -1 );
+
+	if ( operation == GINT_TO_POINTER (-1))
+	{
+	    popup_transaction_context_menu ( FALSE );
+	    return(TRUE);
+	}
+    }
+
+    /*     on récupère la colonne cliquée au cas où on clique sur les P */
+
+    colonne = g_list_index ( gtk_tree_view_get_columns ( GTK_TREE_VIEW ( tree_view )),
+			     tree_colonne );
+
+    /*     si on est en train d'équilibrer, on fait le boulot */
+
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+
+    if ( etat.equilibrage 
+	 &&
+	 colonne == TRANSACTION_COL_NB_PR 
+	 &&
+	 !(ligne % NB_LIGNES_OPE) )
+	pointe_equilibrage ( ligne );
 
     /* si on a cliqué sur la colonne P/R alors que la touche CTRL
        est enfoncée, alors on (dé)pointe l'opération */
 
-    if ( ( ( evenement -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK ) &&
+    if ( ( ( evenement -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK )
+	 &&
 	 colonne == TRANSACTION_COL_NB_PR )
 	p_press ();
 
+    /*  si on a double-cliqué ou bouton droit sur une opération, c'est ici */
+
     if ( evenement -> type == GDK_2BUTTON_PRESS )
 	edition_operation ();
-    else if ( evenement -> button == 3 )
-	popup_transaction_context_menu ( TRUE );
     else
-	focus_a_la_liste ();
+	if ( evenement -> button == 3 )
+	    popup_transaction_context_menu ( TRUE );
 
-    return FALSE;
+    return ( TRUE );
 }
 /******************************************************************************/
 
 /******************************************************************************/
 /* Fonction traitement_clavier_liste */
-/* gère le clavier sur la clist */
+/* gère le clavier sur la liste des opés */
 /******************************************************************************/
-gboolean traitement_clavier_liste ( GtkCList *liste,
-				    GdkEventKey *evenement,
-				    gpointer origine)
+gboolean traitement_clavier_liste ( GtkWidget *widget_variable,
+				    GdkEventKey *evenement )
 {
-    gint ligne;
-
+    if ( etat.ventilation_en_cours )
+	return ( traitement_clavier_liste_ventilation ( evenement ));
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-
-    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( liste ),
-				   "key_press_event");
 
     switch ( evenement -> keyval )
     {
@@ -1222,40 +1261,23 @@ gboolean traitement_clavier_liste ( GtkCList *liste,
 	case GDK_Up :		/* touches flèche haut */
 	case GDK_KP_Up :
 
-	    ligne = gtk_clist_find_row_from_data ( GTK_CLIST ( liste ),
-						   OPERATION_SELECTIONNEE );
-	    if ( ligne )
-	    {
-		ligne= ligne - NB_LIGNES_OPE;
-
-		OPERATION_SELECTIONNEE = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
-								  ligne );
-		gtk_clist_unselect_all ( GTK_CLIST ( liste ) );
-		selectionne_ligne ( compte_courant );
-
-	    }
+	    if ( LIGNE_SELECTIONNEE )
+		selectionne_ligne ( compte_courant,
+				    LIGNE_SELECTIONNEE - NB_LIGNES_OPE );
 	    return TRUE;
 
 	case GDK_Down :		/* touches flèche bas */
 	case GDK_KP_Down :
 
-	    if ( OPERATION_SELECTIONNEE != GINT_TO_POINTER ( -1 ) )
-	    {
-		ligne = gtk_clist_find_row_from_data ( GTK_CLIST ( liste ),
-						       OPERATION_SELECTIONNEE );
-
-		ligne= ligne + NB_LIGNES_OPE;
-
-		OPERATION_SELECTIONNEE = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
-								  ligne );
-		gtk_clist_unselect_all ( GTK_CLIST ( liste ) );
-		selectionne_ligne ( compte_courant );
-
-	    }
+	    if ( LIGNE_SELECTIONNEE
+		 !=
+		 (GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations )))->length - NB_LIGNES_OPE))
+		selectionne_ligne ( compte_courant,
+				    LIGNE_SELECTIONNEE + NB_LIGNES_OPE );
 	    return TRUE;
 
 	case GDK_Delete:		/*  del  */
-	    supprime_operation ( OPERATION_SELECTIONNEE );
+	    supprime_operation ( cherche_operation_from_ligne (LIGNE_SELECTIONNEE ));
 	    return TRUE;
 
 	case GDK_P:			/* touche P */
@@ -1281,65 +1303,222 @@ gboolean traitement_clavier_liste ( GtkCList *liste,
 /******************************************************************************/
 
 /******************************************************************************/
-/* Routine qui sélectionne ou désélectionne l'opération */
+/* Routine qui sélectionne l'opération de la ligne envoyée en argument */
 /******************************************************************************/
-void selectionne_ligne ( gint compte )
+void selectionne_ligne ( gint compte,
+			 gint nouvelle_ligne )
 {
-    gint ligne;
+    GtkTreeIter iter;
+    gint i;
+    GdkColor *couleur;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
+    if ( DEBUG )
+	printf ( "selectionne_ligne\n" );
 
-    gtk_clist_unselect_all ( GTK_CLIST ( CLIST_OPERATIONS ));
+    /*     si on est déjà dessus, on se barre */
 
-    ligne = gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
-					   OPERATION_SELECTIONNEE );
+    if ( nouvelle_ligne == LIGNE_SELECTIONNEE )
+	return;
 
-    if ( ligne == -1 )
+    /*   vire l'ancienne sélection : consiste à remettre la couleur d'origine du background */
+
+    if ( LIGNE_SELECTIONNEE != -1
+	 &&
+	 gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations ))),
+					       &iter,
+					       itoa ( LIGNE_SELECTIONNEE )))
     {
-	OPERATION_SELECTIONNEE = GINT_TO_POINTER ( -1 );
-	ligne = gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
-					       OPERATION_SELECTIONNEE );
+	/* 	iter est maintenant positionné sur la 1ère ligne de l'opé à désélectionner */
+
+	for ( i=0 ; i<NB_LIGNES_OPE ; i++ )
+	{
+	    gtk_tree_model_get ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations ))),
+				 &iter,
+				 10, &couleur,
+				 -1 );
+	    gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations ))),
+				 &iter,
+				 7,couleur,
+				 -1 );
+	    gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations ))),
+				 &iter,
+				 10, NULL,
+				 -1 );
+
+	    gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations ))),
+				       &iter );
+	}
     }
 
+    LIGNE_SELECTIONNEE = nouvelle_ligne;
 
-    switch ( NB_LIGNES_OPE )
+    if ( gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations ))),
+					       &iter,
+					       itoa ( LIGNE_SELECTIONNEE )))
     {
-	case 4:
-	    gtk_clist_select_row ( GTK_CLIST ( CLIST_OPERATIONS ),
-				   ligne+3,
-				   0);
-	case 3:
-	    gtk_clist_select_row ( GTK_CLIST ( CLIST_OPERATIONS ),
-				   ligne+2,
-				   0);
-	case 2:
-	    gtk_clist_select_row ( GTK_CLIST ( CLIST_OPERATIONS ),
-				   ligne+1,
-				   0);
-	case 1:
-	    gtk_clist_select_row ( GTK_CLIST ( CLIST_OPERATIONS ),
-				   ligne,
-				   0);
+
+	/* 	iter est maintenant positionné sur la 1ère ligne de l'opé à sélectionner */
+
+	for ( i=0 ; i<NB_LIGNES_OPE ; i++ )
+	{
+	    gtk_tree_model_get ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations ))),
+				 &iter,
+				 7, &couleur,
+				 -1 );
+	    gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations ))),
+				 &iter,
+				 7, &couleur_selection,
+				 -1 );
+	    gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations ))),
+				 &iter,
+				 10, couleur,
+				 -1 );
+
+	    gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations ))),
+				       &iter );
+	}
     }
 
-    if ( gtk_clist_row_is_visible ( GTK_CLIST ( CLIST_OPERATIONS ), ligne + NB_LIGNES_OPE - 1) != GTK_VISIBILITY_FULL ||
-	 gtk_clist_row_is_visible ( GTK_CLIST ( CLIST_OPERATIONS ), ligne ) != GTK_VISIBILITY_FULL )
-    {
-	if ( ligne > gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value  / GTK_CLIST ( CLIST_OPERATIONS ) -> row_height  )
-	    gtk_clist_moveto ( GTK_CLIST ( CLIST_OPERATIONS ),
-			       ligne + NB_LIGNES_OPE - 1,
-			       0,
-			       1,
-			       0 );
-	else
-	    gtk_clist_moveto ( GTK_CLIST ( CLIST_OPERATIONS ),
-			       ligne,
-			       0,
-			       0,
-			       0 );
-    }
+    /*     on déplace le scrolling de la liste si nécessaire pour afficher la sélection */
+
+    ajuste_scrolling_liste_operations_a_selection ( compte_courant );
+
 }
 /******************************************************************************/
+
+
+/******************************************************************************/
+void ajuste_scrolling_liste_operations_a_selection ( gint compte )
+{
+/*     si compte = -1, c'est que l'on est sur les ventilations */
+
+    GtkAdjustment *v_adjustment;
+    gint y_ligne;
+    gint ligne_selectionnee;
+    gint nb_lignes_ope;
+
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
+    
+    if ( compte == -1 )
+    {
+	nb_lignes_ope = 1;
+	ligne_selectionnee = ligne_selectionnee_ventilation;
+    }
+    else
+    {
+	nb_lignes_ope = NB_LIGNES_OPE;
+	ligne_selectionnee = LIGNE_SELECTIONNEE;
+    }
+
+    /*     si on n'a pas encore récupéré la hauteur des lignes, on va le faire ici */
+
+    if ( !hauteur_ligne_liste_opes )
+	hauteur_ligne_liste_opes = recupere_hauteur_ligne_tree_view ( tree_view_listes_operations );
+
+    v_adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( tree_view_listes_operations ));
+
+    y_ligne = ligne_selectionnee * hauteur_ligne_liste_opes;
+
+    /*     si l'opé est trop haute, on la rentre et la met en haut */
+
+    if ( y_ligne < v_adjustment -> value )
+	gtk_adjustment_set_value ( GTK_ADJUSTMENT ( v_adjustment ),
+				   y_ligne );
+    else
+	if ( (y_ligne + hauteur_ligne_liste_opes*nb_lignes_ope ) > ( v_adjustment -> value + v_adjustment -> page_size ))
+	    gtk_adjustment_set_value ( GTK_ADJUSTMENT ( v_adjustment ),
+				       y_ligne + hauteur_ligne_liste_opes*nb_lignes_ope - v_adjustment -> page_size );
+
+}
+/******************************************************************************/
+
+
+
+/******************************************************************************/
+gint recupere_hauteur_ligne_tree_view ( GtkWidget *tree_view )
+{
+    GdkRectangle rectangle;
+
+    gtk_tree_view_get_background_area ( GTK_TREE_VIEW ( tree_view ),
+					gtk_tree_path_new_from_string ( "1" ),
+					NULL,
+					&rectangle );
+    return ( rectangle.height );
+}
+/******************************************************************************/
+
+
+
+
+/******************************************************************************/
+/* renvoie l'adr de l'opération correspondant  à la ligne envoyées */
+/* en argument */
+/******************************************************************************/
+struct structure_operation *cherche_operation_from_ligne ( gint ligne )
+{
+    GtkTreeIter iter;
+    struct structure_operation *operation;
+
+    if ( !gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations ))),
+					       &iter,
+					       itoa (ligne)))
+	return NULL;
+
+    gtk_tree_model_get ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations ))),
+			 &iter,
+			 9, &operation,
+			 -1 );
+
+    return ( operation );
+
+}
+/******************************************************************************/
+
+
+
+
+/******************************************************************************/
+/* fonction cherche_iter_operation */
+/* retrouve l'iter correspondant à l'opération donnée en argument dans la tree_view des opérations */
+/* renvoie null si pas trouvé */
+/******************************************************************************/
+GtkTreeIter *cherche_iter_operation ( struct structure_operation *operation )
+{
+    struct structure_operation *operation_tmp;
+    GtkTreeIter iter;
+
+    if ( !operation )
+	return NULL;
+
+    /*     on va faire le tour de la liste, et dès qu'une opé = operation */
+    /* 	on retourne son iter */
+
+    gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations ))),
+				    &iter );
+    operation_tmp = NULL;
+
+    do
+    {
+	gtk_tree_model_get ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations ))),
+			     &iter,
+			     9, &operation_tmp,
+			     -1 );
+    }
+    while ( operation_tmp != operation
+	    &&
+	    gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations ))),
+				       &iter ));
+
+    if ( operation_tmp == operation )
+	return ( gtk_tree_iter_copy ( &iter ));
+    else
+	return NULL;
+
+}
+/******************************************************************************/
+
+
+
 
 /******************************************************************************/
 /* Fonction edition_operation */
@@ -1353,10 +1532,11 @@ void edition_operation ( void )
     gchar *date_bancaire ;
     GSList *liste_tmp;
     struct struct_devise *devise;
+    gchar *char_temp;
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-    operation = OPERATION_SELECTIONNEE;
+    operation = cherche_operation_from_ligne (LIGNE_SELECTIONNEE );
     formulaire_a_zero ();
 
     /* on affiche le formulaire sans modifier l'état => si il n'est pas affiché normalement,
@@ -1422,13 +1602,9 @@ void edition_operation ( void )
 
     if ( operation -> tiers )
     {
-	liste_tmp = g_slist_find_custom ( liste_struct_tiers,
-					  GINT_TO_POINTER ( operation -> tiers ),
-					  ( GCompareFunc ) recherche_tiers_par_no );
-
 	entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_PARTY] );
 	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_PARTY] ),
-				(( struct struct_tiers * )( liste_tmp -> data )) -> nom_tiers );
+				tiers_name_by_no ( operation -> tiers, TRUE ));
     }
 
     /* mise en forme du débit / crédit */
@@ -1518,30 +1694,14 @@ void edition_operation ( void )
 
     /* mise en forme des catégories */
 
-    liste_tmp = g_slist_find_custom ( liste_struct_categories,
-				      GINT_TO_POINTER ( operation -> categorie ),
-				      ( GCompareFunc ) recherche_categorie_par_no );
+    char_temp = categorie_name_by_no ( operation -> categorie,
+				       operation -> sous_categorie );
 
-    if ( liste_tmp )
+    if ( char_temp )
     {
-	GSList *liste_tmp_2;
-
-	liste_tmp_2 = g_slist_find_custom ( (( struct struct_categ * )( liste_tmp -> data )) -> liste_sous_categ,
-					    GINT_TO_POINTER ( operation -> sous_categorie ),
-					    ( GCompareFunc ) recherche_sous_categorie_par_no );
-
 	entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] );
-
-	if ( liste_tmp_2 )
-	    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ),
-				    g_strconcat ( (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ,
-						  " : ",
-						  (( struct struct_sous_categ * )( liste_tmp_2 -> data )) -> nom_sous_categ,
-						  NULL ));
-	else
-	    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ),
-				    (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ );
-
+	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ),
+				char_temp );
     }
 
     /* mise en forme de la date réelle */
@@ -1689,28 +1849,15 @@ void edition_operation ( void )
 
     if ( !operation -> operation_ventilee )
     {
-	liste_tmp = g_slist_find_custom ( liste_struct_imputation,
-					  GINT_TO_POINTER ( operation -> imputation ),
-					  ( GCompareFunc ) recherche_imputation_par_no );
+	gchar *char_tmp;
 
-	if ( liste_tmp )
+	char_tmp = ib_name_by_no ( operation -> imputation,
+				   operation -> sous_imputation );
+	if ( char_tmp )
 	{
-	    GSList *liste_tmp_2;
-
 	    entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET]);
-
-	    liste_tmp_2 = g_slist_find_custom ( (( struct struct_imputation * )( liste_tmp -> data )) -> liste_sous_imputation,
-						GINT_TO_POINTER ( operation -> sous_imputation ),
-						( GCompareFunc ) recherche_sous_imputation_par_no );
-	    if ( liste_tmp_2 )
-		gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET] ),
-					g_strconcat ( (( struct struct_imputation * )( liste_tmp -> data )) -> nom_imputation,
-						      " : ",
-						      (( struct struct_sous_imputation * )( liste_tmp_2 -> data )) -> nom_sous_imputation,
-						      NULL ));
-	    else
-		gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET] ),
-					(( struct struct_imputation * )( liste_tmp -> data )) -> nom_imputation );
+	    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET] ),
+				    char_tmp );
 	}
     }
 
@@ -1767,66 +1914,68 @@ void edition_operation ( void )
 void p_press (void)
 {
     gdouble montant;
+    struct structure_operation *operation;
+    GtkTreeIter iter;
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
+    operation = cherche_operation_from_ligne ( LIGNE_SELECTIONNEE );
+
     /* si on est sur l'opération vide -> on se barre */
 
-    if ( OPERATION_SELECTIONNEE == GINT_TO_POINTER ( -1 ) )
+    if (operation  == GINT_TO_POINTER ( -1 )
+	||
+	operation -> pointe == 3 )
 	return;
+printf ( "ça passe\n" );
+    gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations ))),
+					  &iter,
+					  itoa ( LIGNE_SELECTIONNEE ));
 
-    if ( OPERATION_SELECTIONNEE -> pointe == 2 )
-	return;
-
-    if ( OPERATION_SELECTIONNEE -> pointe )
+    if ( operation -> pointe )
     {
-	montant = calcule_montant_devise_renvoi ( OPERATION_SELECTIONNEE -> montant,
+	montant = calcule_montant_devise_renvoi ( operation -> montant,
 						  DEVISE,
-						  OPERATION_SELECTIONNEE -> devise,
-						  OPERATION_SELECTIONNEE -> une_devise_compte_egale_x_devise_ope,
-						  OPERATION_SELECTIONNEE -> taux_change,
-						  OPERATION_SELECTIONNEE -> frais_change );
+						  operation -> devise,
+						  operation -> une_devise_compte_egale_x_devise_ope,
+						  operation -> taux_change,
+						  operation -> frais_change );
 
 	if ( etat.equilibrage )
 	    operations_pointees = operations_pointees - montant;
 
 	SOLDE_POINTE = SOLDE_POINTE - montant;
-	OPERATION_SELECTIONNEE -> pointe = 0;
+	operation -> pointe = 0;
 
-	gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
-			     gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
-							    OPERATION_SELECTIONNEE ),
-			     3,
-			     NULL );
-
-	modification_fichier( TRUE );
+	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations ))),
+			     &iter,
+			     3, NULL,
+			     -1 );
     }
     else
     {
-	montant = calcule_montant_devise_renvoi ( OPERATION_SELECTIONNEE -> montant,
+	montant = calcule_montant_devise_renvoi ( operation -> montant,
 						  DEVISE,
-						  OPERATION_SELECTIONNEE -> devise,
-						  OPERATION_SELECTIONNEE -> une_devise_compte_egale_x_devise_ope,
-						  OPERATION_SELECTIONNEE -> taux_change,
-						  OPERATION_SELECTIONNEE -> frais_change );
+						  operation -> devise,
+						  operation-> une_devise_compte_egale_x_devise_ope,
+						  operation-> taux_change,
+						  operation-> frais_change );
 
 	if ( etat.equilibrage )
 	    operations_pointees = operations_pointees + montant;
 
 	SOLDE_POINTE = SOLDE_POINTE + montant;
-	OPERATION_SELECTIONNEE -> pointe = 1;
+	operation -> pointe = 1;
 
-	gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
-			     gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
-							    OPERATION_SELECTIONNEE ),
-			     3,
-			     _("P"));
-	modification_fichier( TRUE );
+	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations ))),
+			     &iter,
+			     3, _("P"),
+			     -1 );
     }
 
     /* si c'est une opé ventilée, on recherche les opé filles pour leur mettre le même pointage que la mère */
 
-    if ( OPERATION_SELECTIONNEE -> operation_ventilee )
+    if ( operation -> operation_ventilee )
     {
 	/* p_tab est déjà pointé sur le compte courant */
 
@@ -1840,8 +1989,8 @@ void p_press (void)
 
 	    ope_fille = liste_tmp -> data;
 
-	    if ( ope_fille -> no_operation_ventilee_associee == OPERATION_SELECTIONNEE -> no_operation )
-		ope_fille -> pointe = OPERATION_SELECTIONNEE -> pointe;
+	    if ( ope_fille -> no_operation_ventilee_associee == operation -> no_operation )
+		ope_fille -> pointe = operation -> pointe;
 
 	    liste_tmp = liste_tmp -> next;
 	}
@@ -1887,15 +2036,9 @@ void p_press (void)
 					   SOLDE_POINTE,
 					   devise_name ( devise_compte )) );
 
-/*     si on a choisi de classer la liste avec les rp, on met à jour ici */
 
-    if ( etat.classement_rp )
-    {
-	demande_mise_a_jour_tous_comptes ();
-	verification_mise_a_jour_liste ();
-    }
-
-    /* ALAIN-FIXME : solution batarde me semble-t'il pour actualiser le solde pointé
+	modification_fichier( TRUE );
+/* ALAIN-FIXME : solution batarde me semble-t'il pour actualiser le solde pointé
        sur la fenêtre d'accueil après que l'on ait pointé l'opération */
 
     update_liste_comptes_accueil ();
@@ -1909,68 +2052,63 @@ void p_press (void)
 /******************************************************************************/
 void r_press (void)
 {
+    struct structure_operation *operation;
+    GtkTreeIter iter;
+
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+    operation = cherche_operation_from_ligne ( LIGNE_SELECTIONNEE );
+
 
     /* si on est sur l'opération vide -> on se barre */
 
-    if ( OPERATION_SELECTIONNEE == GINT_TO_POINTER ( -1 ) )
+    if ( operation == GINT_TO_POINTER ( -1 ))
 	return;
 
-    if ( OPERATION_SELECTIONNEE -> pointe == 0 )
+    gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations ))),
+					  &iter,
+					  itoa ( LIGNE_SELECTIONNEE ));
+
+    if ( !operation -> pointe )
     {
 	/* on relève l'opération */
 
-	OPERATION_SELECTIONNEE -> pointe = 2;
+	operation -> pointe = 3;
 
 	/* on met soit le R, soit on change la sélection vers l'opé suivante */
 
 	if ( AFFICHAGE_R )
-	    gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
-				 gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
-								OPERATION_SELECTIONNEE ),
-				 TRANSACTION_COL_NB_PR,
-				 _("R"));
+	    gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations ))),
+				 &iter,
+				 3, _("R"),
+				 -1 );
 	else
 	{
-	    /* l'opération va disparaitre, on met donc la sélection sur l'opé suivante */
+	    /*  l'opération va disparaitre, on met donc la sélection sur l'opé suivante */
 
-	    gint ligne;
-
-	    ligne = gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
-						   OPERATION_SELECTIONNEE );
-	    OPERATION_SELECTIONNEE = gtk_clist_get_row_data ( GTK_CLIST ( CLIST_OPERATIONS ),
-							      ligne + NB_LIGNES_OPE );
-	    remplissage_liste_operations ( compte_courant );
-	}
+	    LIGNE_SELECTIONNEE++;
+ 	    remplissage_liste_operations ( compte_courant );
+ 	}
 
 	modification_fichier( TRUE );
     }
     else
-	if ( OPERATION_SELECTIONNEE -> pointe == 2 )
+	if ( operation -> pointe == 3 )
 	{
 	    /* dé-relève l'opération */
-	    OPERATION_SELECTIONNEE -> pointe = 0;
-	    gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
-				 gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
-								OPERATION_SELECTIONNEE ),
-				 TRANSACTION_COL_NB_PR,
-				 NULL );
+
+	    gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations ))),
+				 &iter,
+				 3, NULL,
+				 -1 );
 
 	    modification_fichier( TRUE );
 	}
 
-    /* à ce niveau, on reteste OPERATION_SELECTIONNEE car comme on a peut être */
-    /* déplacé la sélection vers le bas, elle peut être revenue à -1 */
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-
-    if ( OPERATION_SELECTIONNEE == GINT_TO_POINTER ( -1 ) )
-	return;
-
     /* si c'est une ventilation, on fait le tour des opérations du compte pour */
     /* rechercher les opérations de ventilation associées à cette ventilation */
 
-    if ( OPERATION_SELECTIONNEE -> operation_ventilee )
+    if ( operation -> operation_ventilee )
     {
 	GSList *liste_tmp;
 
@@ -1982,8 +2120,8 @@ void r_press (void)
 
 	    operation = liste_tmp -> data;
 
-	    if ( operation -> no_operation_ventilee_associee == OPERATION_SELECTIONNEE -> no_operation )
-		operation -> pointe = OPERATION_SELECTIONNEE -> pointe;
+	    if ( operation -> no_operation_ventilee_associee == operation -> no_operation )
+		operation -> pointe = operation -> pointe;
 
 	    liste_tmp = liste_tmp -> next;
 	}
@@ -1997,7 +2135,7 @@ void r_press (void)
 void supprime_operation ( struct structure_operation *operation )
 {
     gint no_compte;
-
+    
     if ( operation == GINT_TO_POINTER ( -1 ) )
 	return;
 
@@ -2126,16 +2264,11 @@ void supprime_operation ( struct structure_operation *operation )
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
-    if ( OPERATION_SELECTIONNEE == operation )
+    if ( cherche_operation_from_ligne ( LIGNE_SELECTIONNEE ) == operation )
     {
-	gint ligne;
-
-	ligne = gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
-					       operation );
-	OPERATION_SELECTIONNEE = gtk_clist_get_row_data ( GTK_CLIST ( CLIST_OPERATIONS ),
-							  ligne + NB_LIGNES_OPE );
-	gtk_clist_unselect_all ( GTK_CLIST ( CLIST_OPERATIONS ) );
-	selectionne_ligne ( operation -> no_compte );
+	LIGNE_SELECTIONNEE = LIGNE_SELECTIONNEE + NB_LIGNES_OPE;
+	selectionne_ligne ( operation -> no_compte,
+			    LIGNE_SELECTIONNEE );
     }
 
     /* supprime l'opération dans la liste des opés */
@@ -2216,145 +2349,178 @@ void supprime_operation ( struct structure_operation *operation )
 /* appelée dès que la taille de la clist a changé			      */
 /* pour mettre la taille des différentes colonnes			      */
 /******************************************************************************/
-void changement_taille_liste_ope ( GtkWidget *clist,
-				   GtkAllocation *allocation,
-				   gint *compte )
+gboolean changement_taille_liste_ope ( GtkWidget *tree_view,
+				       GtkAllocation *allocation )
 {
-    gint i, j;
-    gint largeur;
+    gint i;
     gint col0, col1, col2, col3, col4, col5, col6;
-
-    /* si la largeur de grisbi est < 700, on fait rien */
-
-    if ( window -> allocation.width < 700 )
-	return;
 
     /*     pour éviter que le système ne s'emballe... */
 
     if ( allocation -> width
 	 ==
 	 allocation_precedente )
-	return;
+	return FALSE;
 
     allocation_precedente = allocation -> width;
 
-    if ( allocation )
-	largeur = allocation -> width;
-    else
-	largeur = clist -> allocation.width;
+/*     on sépare ici entre ventilation et liste normale */
 
-    /* si la largeur est automatique, on change la largeur des colonnes */
-    /* sinon, on y met les valeurs fixes */
-
-    for ( j=0 ; j<nb_comptes ; j++ )
+    if ( etat.ventilation_en_cours )
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + j;
+	gint categorie;
+	gint description;
+	gint montant;
+
+	categorie = ( 40 *allocation_precedente ) / 100;
+	description = ( 35 * allocation_precedente) / 100;
+	montant = ( 10 * allocation_precedente) / 100;
+
+	gtk_tree_view_column_set_fixed_width ( colonnes_liste_ventils[0],
+					       categorie );
+	gtk_tree_view_column_set_fixed_width ( colonnes_liste_ventils[1],
+					       description );
+	gtk_tree_view_column_set_fixed_width ( colonnes_liste_ventils[2],
+					       montant );
+
+
+	/* met les entrées du formulaire à la même taille */
+
+	col0 = allocation_precedente * 32  / 100;
+	col1 = allocation_precedente * 32  / 100;
+	col2 = allocation_precedente * 15  / 100;
+
+	/* 1ère ligne */
+
+	gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation[0] ),
+			       col0,
+			       FALSE );
+	gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation[1] ),
+			       col1,
+			       FALSE );
+	gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation[2] ),
+			       col2,
+			       FALSE );
+	gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation[3] ),
+			       col2,
+			       FALSE );
+
+	/* 2ème ligne */
+
+	gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation[4] ),
+			       col0,
+			       FALSE );
+	gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation[5] ),
+			       col1 / 2,
+			       FALSE );
+	gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation[6] ),
+			       col1/2,
+			       FALSE );
+	gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation[7] ),
+			       col2,
+			       FALSE );
+    }
+    else
+    {
+	/* si la largeur est automatique, on change la largeur des colonnes */
+	/* sinon, on y met les valeurs fixes */
 
 	if ( etat.largeur_auto_colonnes )
 	    for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
-		gtk_clist_set_column_width ( GTK_CLIST ( CLIST_OPERATIONS ),
-					     i,
-					     rapport_largeur_colonnes[i] * largeur / 100 );
+		gtk_tree_view_column_set_fixed_width ( colonnes_liste_opes[i],
+						       rapport_largeur_colonnes[i] * allocation_precedente / 100 );
 	else
 	    for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
-		gtk_clist_set_column_width ( GTK_CLIST ( CLIST_OPERATIONS ),
-					     i,
-					     taille_largeur_colonnes[i] );
+		if ( taille_largeur_colonnes[i] )
+		    gtk_tree_view_column_set_fixed_width ( colonnes_liste_opes[i],
+							   taille_largeur_colonnes[i]  );
+
+	/* met les entrées du formulaire selon une taille proportionnelle */
+
+	col0 = allocation_precedente * 5 / 100;
+	col1 = allocation_precedente * 12 / 100;
+	col2 = allocation_precedente * 30 / 100;
+	col3 = allocation_precedente * 12 / 100;
+	col4 = allocation_precedente * 12 / 100;
+	col5 = allocation_precedente * 12 / 100;
+	col6 = allocation_precedente * 12 / 100;
+
+	/* 1ère ligne */
+
+	gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_OP_NB] ),
+			       col0,
+			       FALSE );
+	gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ),
+			       col1,
+			       FALSE );
+	gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_PARTY] ),
+			       col2,
+			       FALSE  );
+	gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] ),
+			       col3,
+			       FALSE  );
+	gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT] ),
+			       col4,
+			       FALSE  );
+	gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ),
+			       col5,
+			       FALSE  );
+	gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_CHANGE] ),
+			       col6,
+			       FALSE  );
+
+	/* 2ème ligne */
+
+	gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ),
+			       col0+col1,
+			       FALSE );
+	gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ),
+			       col2,
+			       FALSE );
+	gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ),
+			       col3+col4,
+			       FALSE  );
+	gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] ),
+			       col5,
+			       FALSE  );
+
+	/* 3ème ligne */
+
+	gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_EXERCICE] ),
+			       col0+col1,
+			       FALSE );
+	gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET] ),
+			       col2,
+			       FALSE );
+	gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_VOUCHER] ),
+			       col5,
+			       FALSE  );
+
+	/* 4ème ligne */
+
+	gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_BREAKDOWN] ),
+			       col0+col1,
+			       FALSE );
+	gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_NOTES] ),
+			       col2,
+			       FALSE );
+	gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_BANK] ),
+			       col3+col4+col5,
+			       FALSE  );
+	gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_MODE] ),
+			       col6,
+			       FALSE  );
     }
-
-    /* met les entrées du formulaire selon une taille proportionnelle */
-
-    col0 = largeur * 5 / 100;
-    col1 = largeur * 12 / 100;
-    col2 = largeur * 30 / 100;
-    col3 = largeur * 12 / 100;
-    col4 = largeur * 12 / 100;
-    col5 = largeur * 12 / 100;
-    col6 = largeur * 12 / 100;
-
-    /* 1ère ligne */
-
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_OP_NB] ),
-			   col0,
-			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ),
-			   col1,
-			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_PARTY] ),
-			   col2,
-			   FALSE  );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] ),
-			   col3,
-			   FALSE  );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT] ),
-			   col4,
-			   FALSE  );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ),
-			   col5,
-			   FALSE  );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_CHANGE] ),
-			   col6,
-			   FALSE  );
-
-    /* 2ème ligne */
-
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ),
-			   col0+col1,
-			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ),
-			   col2,
-			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ),
-			   col3+col4,
-			   FALSE  );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] ),
-			   col5,
-			   FALSE  );
-
-    /* 3ème ligne */
-
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_EXERCICE] ),
-			   col0+col1,
-			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET] ),
-			   col2,
-			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_VOUCHER] ),
-			   col5,
-			   FALSE  );
-
-    /* 4ème ligne */
-
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_BREAKDOWN] ),
-			   col0+col1,
-			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_NOTES] ),
-			   col2,
-			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_BANK] ),
-			   col3+col4+col5,
-			   FALSE  );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_MODE] ),
-			   col6,
-			   FALSE  );
+    return ( FALSE );
 }
 /******************************************************************************/
 
-/******************************************************************************/
-/* Fonction focus_a_la_liste */
-/* donne le focus à la liste des opés en cours */
-/******************************************************************************/
-void focus_a_la_liste ( void )
-{
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-    gtk_widget_grab_focus ( GTK_WIDGET ( CLIST_OPERATIONS ) );
-}
-/******************************************************************************/
 
 /******************************************************************************/
 /* Fonction  demande_mise_a_jour_tous_comptes */
 /* met la variable MISE_A_JOUR de tous les comptes à 1 */
 /* ce qui fait que lorsqu'ils seront affichés, ils seront mis à jour avant */
+/* appelle aussi verification_mise_a_jour_liste pour mettre à jour la liste courante */
 /******************************************************************************/
 void demande_mise_a_jour_tous_comptes ( void )
 {
@@ -2370,6 +2536,8 @@ void demande_mise_a_jour_tous_comptes ( void )
 	p_tab_nom_de_compte_variable++;
     }
 
+    verification_mise_a_jour_liste ();
+
     p_tab_nom_de_compte_variable = save_p_tab;
 }
 /******************************************************************************/
@@ -2382,58 +2550,46 @@ void demande_mise_a_jour_tous_comptes ( void )
 void verification_mise_a_jour_liste ( void )
 {
     GtkAdjustment *ajustement;
-    gfloat haut, bas, value, page_size;
-    gfloat new_bas, new_value;
-    gint compte;
+    gfloat ratio;
+    gfloat nouvelle_value;
 
-    compte = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_listes_operations )) - 1;
+    if ( DEBUG )
+	printf ( "verifie_mise_a_jour_liste : compte %d\n", compte_courant );
 
-    if ( compte < 0 )
-	return;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     if ( !MISE_A_JOUR )
 	return;
+    
+    if ( !g_slist_nth_data ( list_store_comptes,
+			     compte_courant ))
+	return;
 
+    /*     on ne sait pas quelle va être la taille de la nouvelle liste */
+    /* 	on va utiliser un ratio entre ce qu'il y a en dessous de la pos */
+    /* 	actuelle et ce qu'il y a au dessus pour retrouver à peu près la */
+    /* 	même position au réaffichage */
 
-    ajustement = gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS ));
+    ajustement = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( tree_view_listes_operations ));
 
-    haut = ajustement -> upper;
-    bas = ajustement -> lower + ajustement -> page_size;
-    value = ajustement -> value;
-    page_size = ajustement -> page_size;
+    ratio = (ajustement -> upper - ajustement -> value ) / ajustement -> value;
+
 
     LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
-				      (GCompareFunc) classement_sliste );
+				      (GCompareFunc) CLASSEMENT_COURANT );
 
-    remplissage_liste_operations ( GPOINTER_TO_INT ( compte ) );
+    remplissage_liste_operations ( compte_courant );
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
+    while ( g_main_iteration ( FALSE ));
 
-    if ( ajustement -> page_size == ajustement -> upper )
-	gtk_adjustment_set_value ( GTK_ADJUSTMENT ( ajustement ),
-				   ajustement -> lower  );
-    else
-	if ( page_size == haut )
-	{
-	    gtk_clist_moveto ( GTK_CLIST ( CLIST_OPERATIONS ),
-			       gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
-							      OPERATION_SELECTIONNEE ),
-			       0,
-			       0.5,
-			       0 );
-	    selectionne_ligne ( compte );
-	}
-	else
-	{
-	    new_bas = ajustement -> lower + ajustement -> page_size;
+    /*     si la nouvelle value est plus basse que le bas, on l'ajuste pour qu'on se mette au bout */
+    /*  de la liste */
 
-	    new_value = ( ajustement -> upper - new_bas ) * value / ( haut - bas );
+    nouvelle_value = MIN ( ajustement -> upper - ajustement -> page_size,
+			   (ajustement -> upper) / (ratio + 1));
 
-	    gtk_adjustment_set_value ( GTK_ADJUSTMENT ( ajustement ),
-				       new_value );
-	}
+    gtk_adjustment_set_value ( ajustement,
+			       nouvelle_value);
     MISE_A_JOUR = 0;
 }
 /******************************************************************************/
@@ -2512,24 +2668,16 @@ void mise_a_jour_solde ( gint compte )
 /******************************************************************************/
 void verifie_ligne_selectionnee_visible ( void )
 {
-    selectionne_ligne ( compte_courant );
+    /* FIXME : mettre l'opé et l'iter s'il existe */
+    printf ( "FIXME : verifie_ligne_selectionnee_visible\n" );
+/*     selectionne_ligne ( compte_courant, */
+/* 			LIGNE_SELECTIONNEE ); */
 
-    gtk_signal_disconnect_by_func ( GTK_OBJECT ( frame_droite_bas ),
-				    GTK_SIGNAL_FUNC ( verifie_ligne_selectionnee_visible ),
-				    NULL );
+/*     gtk_signal_disconnect_by_func ( GTK_OBJECT ( frame_droite_bas ), */
+/* 				    GTK_SIGNAL_FUNC ( verifie_ligne_selectionnee_visible ), */
+/* 				    NULL ); */
 }
 /******************************************************************************/
-
-/******************************************************************************/
-void changement_taille_colonne ( GtkWidget *clist,
-				 gint colonne,
-				 gint largeur )
-{
-    echap_formulaire();
-    taille_largeur_colonnes[colonne] = largeur;
-}
-/******************************************************************************/
-
 
 /**
  * Pop up a menu with several actions to apply to current transaction.
@@ -2543,7 +2691,7 @@ void popup_transaction_context_menu ( gboolean full )
     else 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
-    if ( OPERATION_SELECTIONNEE == GINT_TO_POINTER(-1) )
+    if ( cherche_operation_from_ligne ( LIGNE_SELECTIONNEE ) == GINT_TO_POINTER(-1) )
 	full = FALSE;
 
     menu = gtk_menu_new ();
@@ -2633,7 +2781,7 @@ gboolean assert_selected_transaction ()
     else 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
-    if ( OPERATION_SELECTIONNEE == GINT_TO_POINTER(-1) )
+    if ( cherche_operation_from_ligne (LIGNE_SELECTIONNEE ) == GINT_TO_POINTER(-1) )
 	return FALSE;
 
     return TRUE;
@@ -2648,11 +2796,12 @@ void new_transaction ()
     /* We do not test it since we don't care about no selected
        transaction */
     assert_selected_transaction();
+    /* FIXME : tester ce que ça donne sans désélectionner l'opé en cours et en faisant nouvelle opé par click droit */
 
-    gtk_clist_unselect_all ( GTK_CLIST ( CLIST_OPERATIONS ) );
+    /*     gtk_clist_unselect_all ( GTK_CLIST ( CLIST_OPERATIONS ) ); */
     echap_formulaire();
-
-    OPERATION_SELECTIONNEE = GINT_TO_POINTER(-1);
+    /* FIXME : cette histoire de ligne_selectionnee = -1 quand c'est la ligne blanche ? */
+    LIGNE_SELECTIONNEE = -1;
     edition_operation ();
 
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
@@ -2666,7 +2815,7 @@ void remove_transaction ()
 {
     if (! assert_selected_transaction()) return;
 
-    supprime_operation ( OPERATION_SELECTIONNEE );
+    supprime_operation ( cherche_operation_from_ligne ( LIGNE_SELECTIONNEE ));
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 }
 
@@ -2678,7 +2827,7 @@ void clone_selected_transaction ()
 {
     if (! assert_selected_transaction()) return;
 
-    clone_transaction ( OPERATION_SELECTIONNEE );
+    clone_transaction ( cherche_operation_from_ligne ( LIGNE_SELECTIONNEE ));
 
     MISE_A_JOUR = 1;
     verification_mise_a_jour_liste ();
@@ -2720,7 +2869,7 @@ struct structure_operation *  clone_transaction ( struct structure_operation * o
     new_transaction -> no_operation = 0;
     ajout_operation ( new_transaction );
 
-    if ( operation -> relation_no_operation != 0 || operation -> relation_no_compte != 0 )
+    if ( operation -> relation_no_operation )
     {
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 	validation_virement_operation ( operation, 0, NOM_DU_COMPTE );
@@ -2770,7 +2919,7 @@ void move_selected_operation_to_account ( GtkMenuItem * menu_item )
     account = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT(menu_item), 
 						      "no_compte" ) );  
 
-    move_operation_to_account ( OPERATION_SELECTIONNEE, account );
+    move_operation_to_account ( cherche_operation_from_ligne ( LIGNE_SELECTIONNEE ), account );
 
     MISE_A_JOUR = 1;
     verification_mise_a_jour_liste ();
@@ -2841,7 +2990,7 @@ void move_operation_to_account ( struct structure_operation * transaction,
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + account;
     LISTE_OPERATIONS = g_slist_sort ( g_slist_append ( LISTE_OPERATIONS, transaction ),
-				      (GCompareFunc) classement_sliste );
+				      (GCompareFunc) CLASSEMENT_COURANT );
     NB_OPE_COMPTE++;
 
     transaction -> no_compte = account;
@@ -2860,7 +3009,7 @@ void schedule_selected_transaction ()
 
     if (! assert_selected_transaction()) return;
 
-    echeance = schedule_transaction ( OPERATION_SELECTIONNEE );
+    echeance = schedule_transaction ( cherche_operation_from_ligne ( LIGNE_SELECTIONNEE ));
 
     update_liste_echeances_auto_accueil ();
     remplissage_liste_echeance ();
@@ -3060,3 +3209,331 @@ schedule_transaction ( struct structure_operation * transaction )
     }
     return echeance;
 }
+
+
+/******************************************************************************/
+/* cette fonction affiche les traits verticaux et horizontaux sur la liste des opés */
+/******************************************************************************/
+void affichage_traits_liste_operation ( void )
+{
+
+    GdkWindow *fenetre;
+    gint i;
+    gint largeur, hauteur;
+    gint x, y;
+    GtkAdjustment *adjustment;
+    gint derniere_ligne;
+    gint nb_ligne_ope_tree_view;
+
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+
+    /*  FIXME   sachant qu'on appelle ça à chaque expose-event, cad très souvent ( dès que la souris passe dessus ), */
+    /*     ça peut ralentir bcp... à vérifier  */
+
+    fenetre = gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view_listes_operations ));
+    gdk_drawable_get_size ( GDK_DRAWABLE ( fenetre ),
+			    &largeur,
+			    &hauteur );
+
+    if ( !gc_separateur_operation )
+	gc_separateur_operation = gdk_gc_new ( GDK_DRAWABLE ( fenetre ));
+
+    /*     si la hauteur des lignes n'est pas encore calculée, on le fait ici */
+
+    if ( !hauteur_ligne_liste_opes )
+	hauteur_ligne_liste_opes = recupere_hauteur_ligne_tree_view ( tree_view_listes_operations );
+
+    /*     on commence par calculer la dernière ligne en pixel correspondant à la dernière opé de la liste */
+    /* 	pour éviter de dessiner les traits en dessous */
+
+    derniere_ligne = hauteur_ligne_liste_opes * GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations ))) -> length;
+    hauteur = MIN ( derniere_ligne,
+		    hauteur );
+
+    /*     le plus facile en premier... les lignes verticales */
+    /*     dépend de si on est en train de ventiler ou non */
+    /*     on en profite pour ajuster nb_ligne_ope_tree_view */
+
+    x=0;
+
+    if ( etat.ventilation_en_cours )
+    {
+	nb_ligne_ope_tree_view = 1;
+
+	for ( i=0 ; i<3 ; i++ )
+	{
+	    x = x + gtk_tree_view_column_get_width ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_ventils[i] ));
+	    gdk_draw_line ( GDK_DRAWABLE ( fenetre ),
+			    gc_separateur_operation,
+			    x, 0,
+			    x, hauteur );
+	}
+    }
+    else
+    {
+	nb_ligne_ope_tree_view = NB_LIGNES_OPE;
+
+	for ( i=0 ; i<6 ; i++ )
+	{
+	    x = x + gtk_tree_view_column_get_width ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_opes[i] ));
+	    gdk_draw_line ( GDK_DRAWABLE ( fenetre ),
+			    gc_separateur_operation,
+			    x, 0,
+			    x, hauteur );
+	}
+    }
+
+    /*     les lignes horizontales : il faut calculer la position y de chaque changement d'opé à l'écran */
+
+    /*     on calcule la position y de la 1ère ligne à afficher */
+
+    adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( tree_view_listes_operations ));
+
+    y = ( hauteur_ligne_liste_opes * nb_ligne_ope_tree_view ) * ( ceil ( adjustment->value / (hauteur_ligne_liste_opes* nb_ligne_ope_tree_view) )) - adjustment -> value;
+
+    do
+    {
+	gdk_draw_line ( GDK_DRAWABLE ( fenetre ),
+			gc_separateur_operation,
+			0, y, 
+			largeur, y );
+	y = y + hauteur_ligne_liste_opes*nb_ligne_ope_tree_view;
+    }
+    while ( y < ( adjustment -> value + adjustment -> page_size )
+	    &&
+	    y <= derniere_ligne );
+}
+/******************************************************************************/
+
+
+
+
+
+
+/******************************************************************************/
+gboolean click_sur_titre_colonne_operations ( GtkTreeViewColumn *colonne,
+					      gint *no_colonne )
+{
+    GtkWidget *menu, *menu_item;
+    gchar **tab_char;
+    gint i;
+
+
+/*     on récupère les popups du titre de la colonne */
+/* 	s'il n'y a rien dans la colonne, on se barre */
+/* 	celà veut dire aussi que pour trier en fonction d'un paramètre, */
+/*     ce paramètre doit être affiché dans la liste */
+
+    tab_char = g_strsplit ( tips_col_liste_operations[GPOINTER_TO_INT(no_colonne)],
+			    ", ",
+			    0 );
+    if ( !tab_char[0] )
+	return FALSE;
+
+/*     on met la de colonne en tmp */
+
+    colonne_classement_tmp = colonne;
+
+	/*     s'il n'y a qu'un choix possible, on n'affiche pas la popup, on trie */
+/* 	directement */
+
+    if ( !tab_char[1] )
+    {
+	if ( strcmp ( tab_char[0],
+		      N_("Balance")))
+	{
+	    changement_choix_tri_liste_operations ( tab_char[0] );
+	    g_strfreev ( tab_char );
+	    return FALSE;
+	}
+	else
+	    return FALSE;
+    }
+
+     menu = gtk_menu_new ();
+
+    /*  ligne trier par */
+
+    menu_item = gtk_menu_item_new_with_label ( _("Sort list by :") );
+
+/*     les 2 signaux sont bloqués pour éviter que la ligne s'affiche comme un bouton */
+/* pas réussi à faire autrement... */
+
+    g_signal_connect ( G_OBJECT ( menu_item),
+		       "enter-notify-event",
+		       G_CALLBACK ( gtk_true ),
+		       NULL );
+    g_signal_connect ( G_OBJECT ( menu_item),
+		       "motion-notify-event",
+		       G_CALLBACK ( gtk_true ),
+		       NULL );
+  
+    gtk_menu_append ( menu,
+		      menu_item );
+    gtk_widget_show_all ( menu_item );
+
+    menu_item = gtk_separator_menu_item_new ();
+    gtk_menu_append ( menu,
+		      menu_item );
+    gtk_widget_show ( menu_item );
+
+
+    i = 0;
+
+    while ( tab_char[i] )
+    {
+	if ( strcmp ( tab_char[i],
+		      N_("Balance")))
+	{
+	    menu_item = gtk_menu_item_new_with_label ( tab_char[i] );
+	    g_signal_connect_swapped ( G_OBJECT(menu_item),
+				       "activate",
+				       G_CALLBACK ( changement_choix_tri_liste_operations ),
+				       tab_char[i] );
+	    g_signal_connect_data ( G_OBJECT(menu_item),
+				    "activate",
+				    G_CALLBACK ( g_strfreev ),
+				    tab_char,
+				    NULL,
+				    G_CONNECT_AFTER | G_CONNECT_SWAPPED);
+	    gtk_menu_append ( menu,
+			      menu_item );
+	    gtk_widget_show ( menu_item );
+	}
+	i++;
+    }
+
+
+    gtk_menu_popup ( GTK_MENU(menu),
+		     NULL,
+		     NULL,
+		     NULL,
+		     NULL,
+		     3,
+		     gtk_get_current_event_time());
+    gtk_widget_show (menu);
+    
+    return FALSE;
+}					      
+/******************************************************************************/
+
+
+/******************************************************************************/
+void changement_choix_tri_liste_operations ( gchar *nom_tri )
+{
+/*  cette fonction est appelée quand on a cliqué sur un titre de colonne pour changer */
+/*      le tri de la liste d'opé */
+
+    gint no_tri;
+
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+    no_tri = g_slist_position ( liste_labels_titres_colonnes_liste_ope,
+				g_slist_find_custom ( liste_labels_titres_colonnes_liste_ope,
+						      nom_tri,
+						      (GCompareFunc) cherche_string_equivalente_dans_slist ));
+
+    CLASSEMENT_COURANT = recupere_classement_par_no ( no_tri );
+    
+    gtk_tree_view_column_set_sort_indicator ( COLONNE_CLASSEMENT,
+					      FALSE );
+
+    if ( COLONNE_CLASSEMENT == colonne_classement_tmp )
+    {
+	/* la liste était déjà trié par cette colonne, on change le sens de tri */
+
+	CLASSEMENT_CROISSANT = !CLASSEMENT_CROISSANT;
+    }
+    else
+    {
+	COLONNE_CLASSEMENT = colonne_classement_tmp;
+	CLASSEMENT_CROISSANT = 1;
+    }
+
+     gtk_tree_view_column_set_sort_indicator ( COLONNE_CLASSEMENT,
+					      TRUE );
+
+     if ( CLASSEMENT_CROISSANT )
+	 gtk_tree_view_column_set_sort_order ( COLONNE_CLASSEMENT,
+					       GTK_SORT_ASCENDING );
+     else
+	 gtk_tree_view_column_set_sort_order ( COLONNE_CLASSEMENT,
+					       GTK_SORT_DESCENDING );
+   
+    MISE_A_JOUR = 1;
+    verification_mise_a_jour_liste ();
+
+    modification_fichier ( TRUE );
+}
+/******************************************************************************/
+
+/******************************************************************************/
+gpointer recupere_classement_par_no ( gint no_tri )
+{
+
+    switch ( no_tri )
+    {
+	case 0:
+	    etat.classement_par_date = 1;
+	    return ( classement_sliste_par_date);
+	    break;
+	case 1:
+	    etat.classement_par_date = 0;
+	    return ( classement_sliste_par_date);
+	    break;
+	case 2:
+	    return ( classement_sliste_par_tiers);
+	    break;
+	case 3:
+	    return ( classement_sliste_par_imputation);
+	    break;
+	case 4:
+	    return ( classement_sliste_par_credit);
+	    break;
+	case 5:
+	    return ( classement_sliste_par_debit);
+	    break;
+	case 6:
+	    /* 	    balance, normalement ne devrait pas venir ici, dans le doute renvoie par date */
+	    return ( classement_sliste_par_date );
+	    break;
+	case 7:
+	    return ( classement_sliste_par_montant);
+	    break;
+	case 8:
+	    return ( classement_sliste_par_type_ope);
+	    break;
+	case 9:
+	    return ( classement_sliste_par_no_rapprochement);
+	    break;
+	case 10:
+	    return ( classement_sliste_par_exercice);
+	    break;
+	case 11:
+	    return ( classement_sliste_par_categories);
+	    break;
+	case 12:
+	    return ( classement_sliste_par_pointage);
+	    break;
+	case 13:
+	    return ( classement_sliste_par_pc);
+	    break;
+	case 14:
+	    return ( classement_sliste_par_notes);
+	    break;
+	case 15:
+	    return ( classement_sliste_par_ibg);
+	    break;
+	case 16:
+	    return ( classement_sliste_par_no);
+	    break;
+	case 17:
+	    return ( classement_sliste_par_no_rapprochement);
+	    break;
+	default :
+	    return ( classement_sliste_par_date);
+    }
+}
+/******************************************************************************/
+
+

@@ -417,6 +417,9 @@ void update_liste_comptes_accueil ( void )
     gint i;
 
 
+    if ( DEBUG )
+	printf ( "update_liste_comptes_accueil\n" );
+
     if ( !nb_comptes )
 	return;
 
@@ -841,6 +844,9 @@ gint classement_date_echeance ( struct operation_echeance * a,
 /* ************************************************************************* */
 void update_liste_echeances_manuelles_accueil ( void )
 {
+    if ( DEBUG )
+	printf ( "update_liste_echeances_manuelles_accueil\n" );
+
     verification_echeances_a_terme ();
 
     if ( echeances_a_saisir )
@@ -916,21 +922,11 @@ void update_liste_echeances_manuelles_accueil ( void )
 	    gtk_box_pack_start ( GTK_BOX ( hbox ), event_box, TRUE, TRUE, 5 );
 	    gtk_widget_show ( event_box  );
 
-
-	    if ( ECHEANCE_COURANTE -> tiers )
-		label = gtk_label_new ( g_strdup_printf ( "%02d/%02d/%d : %s",
-							  ECHEANCE_COURANTE->jour,
-							  ECHEANCE_COURANTE->mois,
-							  ECHEANCE_COURANTE->annee,
-							  ((struct struct_tiers *)(g_slist_find_custom ( liste_struct_tiers,
-													 GINT_TO_POINTER ( ECHEANCE_COURANTE->tiers ),
-													 (GCompareFunc) recherche_tiers_par_no )->data)) -> nom_tiers ) );
-	    else
-		label = gtk_label_new ( g_strdup_printf ( "%02d/%02d/%d : %s",
-							  ECHEANCE_COURANTE->jour,
-							  ECHEANCE_COURANTE->mois,
-							  ECHEANCE_COURANTE->annee,
-							  _("No third party defined") ));
+	    label = gtk_label_new ( g_strdup_printf ( "%02d/%02d/%d : %s",
+						      ECHEANCE_COURANTE->jour,
+						      ECHEANCE_COURANTE->mois,
+						      ECHEANCE_COURANTE->annee,
+						      tiers_name_by_no ( ECHEANCE_COURANTE->tiers, FALSE )));
 
 	    gtk_widget_set_style ( label, style_label );
 	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
@@ -981,6 +977,9 @@ void update_liste_echeances_manuelles_accueil ( void )
 /* ************************************************************************* */
 void update_liste_echeances_auto_accueil ( void )
 {
+    if ( DEBUG )
+	printf ( "update_liste_echeances_auto_accueil\n" );
+
     if ( echeances_saisies )
     {
 	GtkWidget *vbox, *label, *event_box, *hbox;
@@ -1033,21 +1032,11 @@ void update_liste_echeances_auto_accueil ( void )
 
 	    /* label à gauche */
 
-	    if ( operation ->tiers )
-		label = gtk_label_new ( g_strdup_printf ( "%02d/%02d/%d : %s",
-							  operation -> jour,
-							  operation -> mois,
-							  operation -> annee,
-							  ((struct struct_tiers *)(g_slist_find_custom ( liste_struct_tiers,
-													 GINT_TO_POINTER ( operation->tiers ),
-													 (GCompareFunc) recherche_tiers_par_no )->data)) -> nom_tiers ) );
-	    else
-		label = gtk_label_new ( g_strdup_printf ( "%02d/%02d/%d : %s",
-							  operation -> jour,
-							  operation -> mois,
-							  operation -> annee,
-							  _("No third party defined") ));
-
+	    label = gtk_label_new ( g_strdup_printf ( "%02d/%02d/%d : %s",
+						      operation -> jour,
+						      operation -> mois,
+						      operation -> annee,
+						      tiers_name_by_no (operation->tiers, FALSE)));
 
 	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
 	    gtk_widget_set_style ( label, style_selectable );
@@ -1106,6 +1095,9 @@ void mise_a_jour_soldes_minimaux ( void )
     GtkWidget *label;
     gint i;
 
+    if ( DEBUG )
+	printf ( "mise_a_jour_soldes_minimaux\n" );
+
     /* s'il y avait déjà un fils dans la frame, le détruit */
 
     gtk_notebook_remove_page ( GTK_NOTEBOOK ( frame_etat_soldes_minimaux_autorises ), 0 );
@@ -1149,7 +1141,7 @@ void mise_a_jour_soldes_minimaux ( void )
 
 	    if ( !MESSAGE_SOUS_MINI && !patience_en_cours )
 	    {
-		if ( (int) solde_courant < (int) solde_mini_voulu )
+		if ( solde_courant  - solde_mini_voulu <= 0.01 )
 		{
 		    dialogue_conditional ( g_strdup_printf (_("Balance of account %s is under wanted and authorised minima!"), 
 							    NOM_DU_COMPTE ), &(etat.display_message_minimum_alert));
@@ -1166,8 +1158,8 @@ void mise_a_jour_soldes_minimaux ( void )
 	    show_paddingbox ( frame_etat_soldes_minimaux_autorises );
 	}
 
-	if ( (int) solde_courant < (int) solde_mini_voulu && TYPE_DE_COMPTE != 2 &&
-	     (int) solde_courant > (int) solde_mini && TYPE_DE_COMPTE != 2)
+	if ( solde_courant - solde_mini_voulu <= 0.01 && TYPE_DE_COMPTE != 2 &&
+	     solde_courant - solde_mini >= 0.01 && TYPE_DE_COMPTE != 2)
 	{
 	    if ( !vbox_2 )
 	    {
@@ -1183,7 +1175,7 @@ void mise_a_jour_soldes_minimaux ( void )
 
 	    if ( !MESSAGE_SOUS_MINI_VOULU && !patience_en_cours )
 	    {
-		if ( (int) solde_courant < (int) solde_mini )
+		if ( solde_courant - solde_mini <= 0.01 )
 		{
 		    dialogue_conditional ( g_strdup_printf ( _("Balance of account %s is under wanted and authorised minima!"),
 							     NOM_DU_COMPTE), &(etat.display_message_minimum_alert) );
@@ -1200,9 +1192,9 @@ void mise_a_jour_soldes_minimaux ( void )
 	    show_paddingbox ( frame_etat_soldes_minimaux_voulus );
 	}
 
-	if ( (int) solde_courant > (int) solde_mini )
+	if ( solde_courant - solde_mini <= 0.01)
 	    MESSAGE_SOUS_MINI = 0;
-	if ( (int) solde_courant > (int) solde_mini_voulu )
+	if ( solde_courant - solde_mini_voulu >= 0.01)
 	    MESSAGE_SOUS_MINI_VOULU = 0;
 
 	p_tab_nom_de_compte_variable++;
@@ -1220,6 +1212,9 @@ void mise_a_jour_fin_comptes_passifs ( void )
     GtkWidget *label;
     GSList *liste_tmp;
     GSList *pointeur;
+
+    if ( DEBUG )
+	printf ( "mise_a_jour_fin_comptes_passifs\n" );
 
     gtk_notebook_remove_page ( GTK_NOTEBOOK(frame_etat_fin_compte_passif), 0 );
     hide_paddingbox ( frame_etat_fin_compte_passif );
@@ -1266,8 +1261,6 @@ gboolean select_expired_scheduled_transaction ( GtkWidget * event_box, GdkEventB
 						struct structure_operation * operation )
 {
     changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
-    OPERATION_SELECTIONNEE = operation;
-    selectionne_ligne ( compte_courant );
     edition_operation ();
-    return ( FALSE);
+    return ( FALSE );
 }

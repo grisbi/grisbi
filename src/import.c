@@ -937,18 +937,19 @@ void traitement_operations_importees ( void )
 	{
 	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
-	    if ( !CLIST_OPERATIONS )
-	    {
-		LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
-						  ( GCompareFunc ) classement_sliste );
+	    /* FIXME : avec la nouvelle liste d'opé... */
 
-		ajoute_nouvelle_liste_operation( i );
-	    }
+	    /* 	    if ( !CLIST_OPERATIONS ) */
+	    /* 	    { */
+	    /* 		LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS, */
+	    /* 						  ( GCompareFunc ) classement_sliste ); */
+	    /*  */
+	    /* 		ajoute_nouvelle_liste_operation( i ); */
+	    /* 	    } */
 	}
 	/* on met à jour tous les comptes */
 
 	demande_mise_a_jour_tous_comptes ();
-	verification_mise_a_jour_liste ();
 
 	/* on recrée les combofix des tiers et des catégories */
 
@@ -1260,9 +1261,9 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import,
 	    operation -> mois_bancaire = g_date_month ( operation_import -> date_de_valeur );
 	    operation -> annee_bancaire = g_date_year ( operation_import -> date_de_valeur );
 
-	    operation -> date_bancaire = g_date_new_dmy ( operation -> jour,
-							  operation -> mois,
-							  operation -> annee );
+	    operation -> date_bancaire = g_date_new_dmy ( operation -> jour_bancaire,
+							  operation -> mois_bancaire,
+							  operation -> annee_bancaire );
 	}
 
 	/* récupération du no de compte */
@@ -1502,15 +1503,19 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import,
     }
 
 
+/*     le classement courant est par date */
+
+    compte -> classement_courant = classement_sliste_par_date;
+
     /* on classe la liste */
 
     compte -> gsliste_operations = g_slist_sort ( compte -> gsliste_operations,
-						  (GCompareFunc) classement_sliste );
+						  (GCompareFunc) compte -> classement_courant );
 
     compte -> nb_lignes_ope = 3;
     compte -> solde_courant = solde_courant;
     compte -> date_releve = NULL;
-    compte -> operation_selectionnee = GINT_TO_POINTER ( -1 );
+    compte -> ligne_selectionnee = -1;
 
 
 }
@@ -1741,7 +1746,7 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
     /* on classe la liste */
 
     LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
-				      (GCompareFunc) classement_sliste );
+				      (GCompareFunc) CLASSEMENT_COURANT );
 }
 /* *******************************************************************************/
 
@@ -1871,12 +1876,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 				 0 );
 	    gtk_widget_show ( label );
 
-	    if ( operation -> tiers )
-		tiers = ((struct struct_tiers *)(g_slist_find_custom ( liste_struct_tiers,
-								       GINT_TO_POINTER ( operation -> tiers ),
-								       (GCompareFunc) recherche_tiers_par_no )->data))->nom_tiers;
-	    else
-		tiers = _("no third party");
+	    tiers = tiers_name_by_no ( operation -> tiers, FALSE );
 
 	    if ( operation -> notes )
 		label = gtk_label_new ( g_strdup_printf ( _("Transaction found : %02d/%02d/%04d ; %s ; %4.2f ; %s"),
@@ -2009,7 +2009,7 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 
     operation -> devise = operation_import -> devise;
 
-    /* récupération du tiers */
+    /* rÃ©cupération du tiers */
 
     if ( operation_import -> tiers )
     {
@@ -2746,7 +2746,6 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 	    /* on met à jour tous les comptes */
 
 	    demande_mise_a_jour_tous_comptes ();
-	    verification_mise_a_jour_liste ();
 
 	    /* on recrée les combofix des tiers et des catégories */
 

@@ -29,6 +29,31 @@
 #include "menu.h"
 #include "traitement_variables.h"
 
+GdkColor couleur_fond[2];
+GdkColor couleur_selection;
+GSList *liste_labels_titres_colonnes_liste_ope = NULL;
+
+gchar *labels_titres_colonnes_liste_ope[] = {
+    N_("Date"),
+    N_("Value date"),
+    N_("Third party"),
+    N_("Budgetary lines"),
+    N_("Debit"),
+    N_("Credit"),
+    N_("Balance"),
+    N_("Amount"),
+    N_("Method of payment"),
+    N_("Reconciliation ref."),
+    N_("Financial year"),
+    N_("Category"),
+    N_("C/R"),
+    N_("Voucher"),
+    N_("Notes"),
+    N_("Bank references"),
+    N_("Transaction number"),
+    N_("Cheque/Transfer number"),
+    NULL };
+
 
 extern gint valeur_echelle_recherche_date_import;
 extern GtkItemFactory *item_factory_menu_general;
@@ -39,6 +64,11 @@ extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre; 
 extern gint affichage_echeances_perso_j_m_a; 
 extern GSList *echeances_saisies;
+
+extern GtkTooltips *tooltips_general_grisbi;
+extern GtkTreeViewColumn *colonnes_liste_opes[7];
+extern GtkTreeViewColumn *colonnes_liste_ventils[3];
+
 
 
 /*****************************************************************************************************/
@@ -80,6 +110,7 @@ void modification_fichier ( gboolean modif )
 
 void init_variables ( gboolean ouverture )
 {
+    gint i;
 
     if ( ouverture )
     {
@@ -113,7 +144,6 @@ void init_variables ( gboolean ouverture )
 	ordre_comptes = NULL;
 	compte_courant = 0;
 	solde_label = NULL;
-	etat.ancienne_date = 0;
 	p_tab_nom_de_compte = NULL;
 
 	nom_fichier_backup = NULL;
@@ -193,6 +223,25 @@ void init_variables ( gboolean ouverture )
 	etat.fichier_deja_ouvert = 0;
 	valeur_echelle_recherche_date_import = 2;
 
+	tooltips_general_grisbi = NULL;
+
+	for ( i=0 ; i<7 ; i++ )
+	    colonnes_liste_opes[i] = NULL;
+	for ( i=0 ; i<3 ; i++ )
+	    colonnes_liste_ventils[i] = NULL;
+
+/* 	on initialise la liste des labels des titres de colonnes */
+
+	if ( !liste_labels_titres_colonnes_liste_ope )
+	{
+	    i=0;
+	    while ( labels_titres_colonnes_liste_ope[i] )
+	    {
+		liste_labels_titres_colonnes_liste_ope = g_slist_append ( liste_labels_titres_colonnes_liste_ope,
+									  labels_titres_colonnes_liste_ope[i] );
+		i++;
+	    }
+	}
     }
 }
 /*****************************************************************************************************/
@@ -240,21 +289,18 @@ void initialise_tab_affichage_ope ( void )
 /*****************************************************************************************************/
 void initialisation_couleurs_listes ( void )
 {
-    GdkColor couleur1;
-    GdkColor couleur2;
     GdkColor couleur_rouge;
-    GdkColor couleur_selection;
     GdkColor couleur_grise;
 
     /* Initialisation des couleurs de la clist */
 
-    couleur1.red = COULEUR1_RED ;
-    couleur1.green = COULEUR1_GREEN;
-    couleur1.blue = COULEUR1_BLUE;
+    couleur_fond[0].red = COULEUR1_RED ;
+    couleur_fond[0].green = COULEUR1_GREEN;
+    couleur_fond[0].blue = COULEUR1_BLUE;
 
-    couleur2.red = COULEUR2_RED;
-    couleur2.green = COULEUR2_GREEN;
-    couleur2.blue = COULEUR2_BLUE;
+    couleur_fond[1].red = COULEUR2_RED;
+    couleur_fond[1].green = COULEUR2_GREEN;
+    couleur_fond[1].blue = COULEUR2_BLUE;
 
     couleur_rouge.red = COULEUR_ROUGE_RED;
     couleur_rouge.green = COULEUR_ROUGE_GREEN;
@@ -270,19 +316,19 @@ void initialisation_couleurs_listes ( void )
     couleur_selection.green= COULEUR_SELECTION_GREEN ;
     couleur_selection.blue= COULEUR_SELECTION_BLUE;
 
-
+    /* FIXME : plus besoin des styles... */
     /* initialise les variables style_couleur_1 et style_couleur_2 qui serviront */
     /* à mettre la couleur de fond */
 
     style_couleur [0] = gtk_style_copy ( gtk_widget_get_style (GTK_WIDGET (window)) );
     style_couleur [0]->fg[GTK_STATE_NORMAL] = style_couleur [0]->black;
-    style_couleur [0]->base[GTK_STATE_NORMAL] = couleur2;
+    style_couleur [0]->base[GTK_STATE_NORMAL] = couleur_fond[2];
     style_couleur [0]->fg[GTK_STATE_SELECTED] = style_couleur [0]->black;
     style_couleur [0]->bg[GTK_STATE_SELECTED] = couleur_selection;
 
     style_couleur [1] = gtk_style_copy ( gtk_widget_get_style (GTK_WIDGET (window)) );
     style_couleur [1]->fg[GTK_STATE_NORMAL] = style_couleur [1]->black;
-    style_couleur [1]->base[GTK_STATE_NORMAL] = couleur1;
+    style_couleur [1]->base[GTK_STATE_NORMAL] = couleur_fond[1];
     style_couleur [1]->fg[GTK_STATE_SELECTED] = style_couleur [1]->black;
     style_couleur [1]->bg[GTK_STATE_SELECTED] = couleur_selection;
 
@@ -292,13 +338,13 @@ void initialisation_couleurs_listes ( void )
 
     style_rouge_couleur [0] = gtk_style_copy ( gtk_widget_get_style (GTK_WIDGET (window)) );
     style_rouge_couleur [0] ->fg[GTK_STATE_NORMAL] = couleur_rouge;
-    style_rouge_couleur [0] ->base[GTK_STATE_NORMAL] = couleur2;
+    style_rouge_couleur [0] ->base[GTK_STATE_NORMAL] = couleur_fond[2];
     style_rouge_couleur [0] ->fg[GTK_STATE_SELECTED] = couleur_rouge;
     style_rouge_couleur [0] ->bg[GTK_STATE_SELECTED] = couleur_selection;
 
     style_rouge_couleur [1] = gtk_style_copy ( gtk_widget_get_style (GTK_WIDGET (window)) );
     style_rouge_couleur [1] ->fg[GTK_STATE_NORMAL] = couleur_rouge;
-    style_rouge_couleur [1] ->base[GTK_STATE_NORMAL] = couleur1;
+    style_rouge_couleur [1] ->base[GTK_STATE_NORMAL] = couleur_fond[1];
     style_rouge_couleur [1] ->fg[GTK_STATE_SELECTED] = couleur_rouge;
     style_rouge_couleur [1] ->bg[GTK_STATE_SELECTED] = couleur_selection;
 

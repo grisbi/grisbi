@@ -29,3 +29,8 @@ void exporter_categ ( void );
 void importer_categ ( void );
 gboolean keypress_category ( GtkWidget *widget, GdkEventKey *ev, gint *no_origine );
 void expand_selected_category () ;
+gchar *categorie_name_by_no ( gint no_categorie,
+			      gint no_sous_categorie );
+gchar *sous_categorie_name_by_no ( gint no_categorie,
+				   gint no_sous_categorie );
+

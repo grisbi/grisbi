@@ -4,6 +4,8 @@ void supprime_operations_orphelines ( void );
 gboolean charge_operations_version_0_4_0 ( xmlDocPtr doc );
 gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc );
 gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc );
+void switch_t_r ( void );
+gboolean charge_operations_version_0_5_1 ( xmlDocPtr doc );
 gboolean enregistre_fichier ( gboolean force );
 void fichier_marque_ouvert ( gint ouvert );
 gboolean enregistre_categ ( gchar *nom_categ );

@@ -249,11 +249,12 @@ void gtktable_click_sur_ope_etat ( struct structure_operation *operation )
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
     if ( operation -> pointe == 2 && !AFFICHAGE_R )
-	change_aspect_liste ( NULL,
-			      2 );
+	change_aspect_liste ( 5 );
 
-    OPERATION_SELECTIONNEE = operation;
+/*     OPERATION_SELECTIONNEE = operation; */
 
-    selectionne_ligne ( compte_courant );
+    /* FIXME : mettre l'opé et l'iter s'il existe */
+    selectionne_ligne ( compte_courant,
+			LIGNE_SELECTIONNEE );
 }
 /*****************************************************************************************************/

@@ -683,7 +683,9 @@ GtkWidget *cree_bouton_url ( const gchar *adr,
 gboolean lance_navigateur_web ( const gchar *url )
 {
 
-  if ( system ( g_strconcat ( etat.browser_command, " ", url, "&", NULL ) ) != 0 )
+  if ( !strlen ( etat.browser_command )
+       ||
+       system ( g_strconcat ( etat.browser_command, " ", url, "&", NULL ) ) != 0 )
     {
       dialogue_error_hint ( g_strdup_printf ( _("Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.  Please adjust your settings to a valid executable."), url ),
 			    _("Cannot execute web browser") );

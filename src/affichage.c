@@ -28,6 +28,7 @@
 
 #include "banque.h"
 #include "operations_formulaire.h"
+#include "operations_liste.h"
 #include "search_glist.h"
 #include "traitement_variables.h"
 #include "utils.h"
@@ -49,6 +50,12 @@ extern GtkWidget *widget_formulaire_echeancier[19];
 extern GtkWidget *separateur_formulaire_echeancier;
 extern GtkWidget *hbox_valider_annuler_echeance;
 extern GtkWidget *liste_echeances;
+extern PangoFontDescription *pango_desc_fonte_liste;
+extern GSList *list_store_comptes;
+extern gint hauteur_ligne_liste_opes;
+extern GtkWidget *tree_view_listes_operations;
+extern GtkWidget *widget_formulaire_ventilation[8];
+
 
 /**
  * Updates transaction form according to state "etat"
@@ -245,7 +252,6 @@ GtkWidget * onglet_display_fonts ( void )
     vbox_pref = new_vbox_with_title_and_icon ( _("Fonts & logo"),
 					       "fonts.png" );
 
-
     /* Change Grisbi Logo */
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
 					     _("Grisbi logo") );
@@ -420,27 +426,20 @@ GtkWidget * onglet_display_fonts ( void )
 			  0 );
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 hbox,
-			 TRUE,
-			 TRUE,
-			 0 );
-
-    label = gtk_label_new ("");
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 label,
-			 TRUE,
-			 TRUE,
+			 FALSE,
+			 FALSE,
 			 0 );
 
     /* Create font button */
 
     font_button = gtk_button_new ();
     hbox_font = gtk_hbox_new ( FALSE, 0 );
-    list_font_name_label = gtk_label_new (list_font_name);
-    if ( fonte_liste )
-    {
-	gtk_widget_modify_font (list_font_name_label,
-				pango_font_description_from_string (fonte_liste));
-    }
+    if ( !pango_desc_fonte_liste )
+	pango_desc_fonte_liste = pango_font_description_from_string ("Sans 10" );
+
+    list_font_name_label = gtk_label_new (pango_font_description_to_string ( pango_desc_fonte_liste ));
+    gtk_widget_modify_font (list_font_name_label,
+				pango_desc_fonte_liste);
     gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
 			 list_font_name_label,
 			 TRUE, TRUE, 5 );
@@ -456,45 +455,31 @@ GtkWidget * onglet_display_fonts ( void )
 			 "clicked",
 			 GTK_SIGNAL_FUNC ( choix_fonte ),
 			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
+    gtk_box_pack_end ( GTK_BOX ( hbox ),
 			 font_button,
-			 TRUE,
-			 TRUE,
+			 FALSE,
+			 FALSE,
 			 0 );
 
     update_font_button(list_font_name_label,
 		       list_font_size_label,
-		       fonte_liste);
-
-    label = gtk_label_new ("");
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 label,
-			 TRUE,
-			 TRUE,
-			 0 );
+		       pango_font_description_to_string ( pango_desc_fonte_liste));
 
     /*     mise en place du raz de la fonte */
 
-    hbox = gtk_hbox_new ( TRUE,
+    hbox = gtk_hbox_new ( FALSE,
 			  0 );
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 hbox,
-			 TRUE,
-			 TRUE,
+			 FALSE,
+			 FALSE,
 			 0 );
 
-    label = gtk_label_new ("");
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 label,
-			 TRUE,
-			 TRUE,
-			 0 );
-
-    init_button = gtk_button_new_with_label ( SPACIFY(_("Revert to defaults fonts")) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
+    init_button = gtk_button_new_with_label ( SPACIFY(_("Revert to default font")) );
+    gtk_box_pack_end ( GTK_BOX ( hbox ),
 			 init_button,
 			 TRUE,
-			 TRUE,
+			 FALSE,
 			 0 );
 
     g_signal_connect (init_button, "clicked", 
@@ -504,13 +489,6 @@ GtkWidget * onglet_display_fonts ( void )
     {
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }
-
-    label = gtk_label_new ("");
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 label,
-			 TRUE,
-			 TRUE,
-			 0 );
 
 
     return vbox_pref;
@@ -564,48 +542,13 @@ gboolean change_choix_utilise_logo ( GtkWidget *check_button,
 gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
 					    GtkWidget *vbox )
 {
-    gint i;
-    PangoFontDescription *fonte_desc;
-    gint size;
 
     etat.utilise_fonte_listes = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( check_button ));
     gtk_widget_set_sensitive ( vbox,
 			       etat.utilise_fonte_listes );
 
-    /*     pour reprendre la fonte de base, on récupère celle de la liste des tiers, qui n'est pas modifiée */
+    update_fonte_listes ();
 
-    if ( etat.utilise_fonte_listes )
-	fonte_desc = pango_font_description_from_string(fonte_liste);
-    else
-	fonte_desc = pango_font_description_copy ( arbre_tiers -> style -> font_desc );
-
-    style_couleur[0] -> font_desc = fonte_desc;
-    style_couleur[1] -> font_desc =  fonte_desc;
-    style_rouge_couleur[0] -> font_desc = fonte_desc;
-    style_rouge_couleur[1] -> font_desc = fonte_desc;
-
-    gtk_style_set_font (style_couleur [0], NULL);
-    gtk_style_set_font (style_couleur [1], NULL);
-    gtk_style_set_font (style_rouge_couleur [0], NULL);
-    gtk_style_set_font (style_rouge_couleur [1], NULL);
-
-    /* Find font size */
-
-    size = pango_font_description_get_size ( fonte_desc);
-
-    if ( nb_comptes )
-    {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-	for ( i = 0 ; i < nb_comptes ; i++ )
-	{
-	    gtk_clist_set_row_height ( GTK_CLIST ( CLIST_OPERATIONS ),
-				       (size/PANGO_SCALE) + 7 );
-
-	    p_tab_nom_de_compte_variable++;
-	}
-	gtk_clist_set_row_height ( GTK_CLIST ( liste_echeances ),
-				   (size/PANGO_SCALE) + 7 );
-    }	
     return ( FALSE );
 }
 /* ********************************************************************** */
@@ -777,45 +720,74 @@ void update_font_button(GtkWidget * name_label,
 gboolean init_fonts ( GtkWidget * button,
 		      gpointer user_data)
 {
-    GdkFont *font;
-    gint i, size;
+    gchar *nom_init = "Sans 10";
 
-    fonte_liste = "Sans 10";
+
+    pango_desc_fonte_liste = pango_font_description_from_string ( nom_init );
+
     update_font_button (list_font_name_label, 
 			list_font_size_label, 
-			fonte_liste);
-    if ( nb_comptes )
-    {
-	font = gdk_font_load ( fonte_liste );
+			nom_init);
 
-	/* Use font */
-	style_couleur[0] -> font_desc = pango_font_description_from_string(fonte_liste);
-	style_couleur[1] -> font_desc = pango_font_description_from_string(fonte_liste);
-	style_rouge_couleur[0] -> font_desc = pango_font_description_from_string(fonte_liste);
-	style_rouge_couleur[1] -> font_desc = pango_font_description_from_string(fonte_liste);
-	gtk_style_set_font (style_couleur [0], NULL);
-	gtk_style_set_font (style_couleur [1], NULL);
-	gtk_style_set_font (style_rouge_couleur [0], NULL);
-	gtk_style_set_font (style_rouge_couleur [1], NULL);
+    update_fonte_listes ();
 
-	/* Find font size */
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-	size = pango_font_description_get_size (pango_font_description_from_string(fonte_liste));
 
-	for ( i = 0 ; i < nb_comptes ; i++ )
-	{
-	    gtk_clist_set_row_height ( GTK_CLIST ( CLIST_OPERATIONS ),
-				       (size/PANGO_SCALE) + 7 );
-	    p_tab_nom_de_compte_variable++;
-	}	
-
-	gtk_clist_set_row_height ( GTK_CLIST ( liste_echeances ),
-				   (size/PANGO_SCALE) + 7 );
-    }
     return ( FALSE );
 }
 /* **************************************************************************************************************************** */
 
+
+/* **************************************************************************************************************************** */
+void update_fonte_listes ( void )
+{
+    /* met à jour toutes les listes avec la fonte avec pango_desc_fonte_liste ou null */
+    /*     on va faire le tour de toutes les listes pour rajouter à la position 11 la fonte ou null  */
+
+    PangoFontDescription *fonte_desc;
+    GSList *liste_tmp;
+
+    /*     pour reprendre la fonte de base, on récupère celle de la liste des tiers, qui n'est pas modifiée */
+
+    if ( etat.utilise_fonte_listes )
+	fonte_desc = pango_desc_fonte_liste;
+    else
+	/* 	fonte_desc = pango_font_description_copy ( arbre_tiers -> style -> font_desc ); */
+	fonte_desc = NULL;
+
+    liste_tmp = list_store_comptes;
+
+    while ( liste_tmp )
+    {
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+
+	model = liste_tmp -> data;
+
+	if ( model
+	     &&
+	     gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ),
+					     &iter ))
+	    do
+	    {
+		gtk_list_store_set ( GTK_LIST_STORE (model),
+				     &iter,
+				     11, fonte_desc,
+				     -1 );
+	    }
+	    while ( gtk_tree_model_iter_next ( model,
+					       &iter ));
+
+	    liste_tmp = liste_tmp -> next;
+    }
+
+    /*     on affiche la liste puis change la hauteur des lignes */
+
+    while ( g_main_iteration ( FALSE ));
+    hauteur_ligne_liste_opes = 0;
+    ajuste_scrolling_liste_operations_a_selection ( compte_courant );
+
+}
+/* **************************************************************************************************************************** */
 
 
 /* **************************************************************************************************************************** */
@@ -823,15 +795,14 @@ void choix_fonte ( GtkWidget *bouton,
 		   gchar *fonte,
 		   gpointer null )
 {
-    GdkFont *font;
     gchar * fontname;
     GtkWidget * dialog;
-    gint i,size;
 
     dialog = gtk_font_selection_dialog_new (COLON(_("Transaction list font")));
-    if (fonte_liste)
+
+    if (pango_desc_fonte_liste)
 	gtk_font_selection_dialog_set_font_name (GTK_FONT_SELECTION_DIALOG(dialog), 
-						 fonte_liste);
+						 pango_font_description_to_string ( pango_desc_fonte_liste));
     gtk_window_set_modal ( GTK_WINDOW ( dialog ), 
 			   TRUE );
 
@@ -848,36 +819,10 @@ void choix_fonte ( GtkWidget *bouton,
 	    return;
     }
 
-    fonte_liste = fontname;
+    pango_desc_fonte_liste = pango_font_description_from_string ( fontname );
 
-    if ( nb_comptes )
-    {
-	font = gdk_font_load ( fonte_liste );
+    update_fonte_listes ();
 
-	/* Use font */
-	style_couleur[0] -> font_desc = pango_font_description_from_string(fontname);
-	style_couleur[1] -> font_desc = pango_font_description_from_string(fontname);
-	style_rouge_couleur[0] -> font_desc = pango_font_description_from_string(fontname);
-	style_rouge_couleur[1] -> font_desc = pango_font_description_from_string(fontname);
-	gtk_style_set_font (style_couleur [0], NULL);
-	gtk_style_set_font (style_couleur [1], NULL);
-	gtk_style_set_font (style_rouge_couleur [0], NULL);
-	gtk_style_set_font (style_rouge_couleur [1], NULL);
-
-	/* Find font size */
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-	size = pango_font_description_get_size (pango_font_description_from_string(fontname));
-
-	for ( i = 0 ; i < nb_comptes ; i++ )
-	{
-	    gtk_clist_set_row_height ( GTK_CLIST ( CLIST_OPERATIONS ),
-				       (size/PANGO_SCALE) + 7 );
-	    p_tab_nom_de_compte_variable++;
-	}	
-
-	gtk_clist_set_row_height ( GTK_CLIST ( liste_echeances ),
-				   (size/PANGO_SCALE) + 7 );
-    }
 }
 /* **************************************************************************************************************************** */
 

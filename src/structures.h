@@ -6,31 +6,12 @@
 
 #include "print_config.h"
 
-#define VERSION_FICHIER "0.5.0"
+#define VERSION_FICHIER "0.5.1"
 #define VERSION_FICHIER_ETAT "0.5.0"
 #define VERSION_FICHIER_CATEG "0.5.0"
 #define VERSION_FICHIER_IB "0.5.0"
 
-/* initialisation des couleurs */
-
-#define COULEUR1_RED  55000
-#define COULEUR1_GREEN  55000
-#define COULEUR1_BLUE  65535
-#define COULEUR2_RED  65535
-#define COULEUR2_GREEN  65535
-#define COULEUR2_BLUE  65535
-#define COULEUR_SELECTION_RED  63000
-#define COULEUR_SELECTION_GREEN  40000
-#define COULEUR_SELECTION_BLUE  40000
-#define COULEUR_ROUGE_RED  65535
-#define COULEUR_ROUGE_GREEN  0
-#define COULEUR_ROUGE_BLUE  0
-#define COULEUR_NOIRE_RED 0
-#define COULEUR_NOIRE_GREEN 0
-#define COULEUR_NOIRE_BLUE 0
-#define COULEUR_GRISE_RED 50000
-#define COULEUR_GRISE_GREEN 50000
-#define COULEUR_GRISE_BLUE 50000
+#define DEBUG 1
 
 #define COLON(s) (g_strconcat ( s, " : ", NULL ))
 #define SPACIFY(s) (g_strconcat ( " ", s, " ", NULL ))
@@ -61,7 +42,6 @@
 
 struct {
     guint modification_fichier;
-    guint ancienne_date;
     guint ctrl;
     guint equilibrage;
     guint valeur_r_avant_rapprochement;
@@ -94,7 +74,7 @@ struct {
     guint en_train_de_charger;
     guint utilise_logo;
     guint utilise_fonte_listes;
-    guint classement_rp;   /*à 1 si on veut un classement r/p avant les dates FIXME : à virer sur l'instable*/
+    gint ventilation_en_cours;        /*utilisé pour afficher les lignes sur la liste d'opé */
 
     /* Various display message stuff  */
     guint display_message_lock_active;
@@ -159,7 +139,7 @@ struct structure_operation
     guint type_ope;               /* variable suivant le type de compte */
     gchar *contenu_type;          /* ce peut être un no de chèque, de virement ou tout ce qu'on veut */
 
-    gshort pointe;            /*  0=rien, 1=pointée, 2=rapprochée, 3=T */
+    gshort pointe;            /*  0=rien, 1=P, 2=T, 3=R */
     gshort auto_man;           /* 0=manuel, 1=automatique */
     gint no_rapprochement;          /* contient le numéro du rapprochement si elle est rapprochée */
 
@@ -191,8 +171,8 @@ struct donnees_compte
     gdouble solde_courant;
     gdouble solde_pointe;
     GSList *gsliste_operations;
-    GtkWidget *clist_operations;        /* adr de la liste des opé */
-    struct structure_operation *operation_selectionnee;       /* contient l'adr de la struct de la ligne sélectinnée */
+    gint ligne_selectionnee;      /*contient le no de ligne en cours dans la liste des opés (!! ligne brute, dépend du nb de lignes par ope)*/
+    gint value_ajustement;          /* contient la value de l'ajustement du compte, avant d'avoir changé de compte */
     gint message_sous_mini;
     gint message_sous_mini_voulu;
     GDate *date_releve;
@@ -218,6 +198,10 @@ struct donnees_compte
     gint type_defaut_credit;            /* no du type par défaut */
     gint affichage_r;            /* à 1 si les R sont affichés pour ce compte */
     gint nb_lignes_ope;           /* contient le nb de lignes pour une opé (1, 2, 3, 4 ) */
+    gpointer classement_courant;       /* pointe sur la fonction de classement en cours */
+    GtkTreeViewColumn *colonne_classement;         /* contient le no de colonne qui a été clické pour le classement */
+    gint classement_croissant;          /*à 1 si on utilise le classement croissant, du haut de la liste vers le bas*/
+    gint no_classement;                    /*contient le no du classement*/
 };
 
 
@@ -235,8 +219,8 @@ struct donnees_compte
 #define SOLDE_COURANT ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> solde_courant
 #define SOLDE_POINTE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> solde_pointe
 #define LISTE_OPERATIONS ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> gsliste_operations
-#define CLIST_OPERATIONS ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> clist_operations
-#define OPERATION_SELECTIONNEE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> operation_selectionnee
+#define LIGNE_SELECTIONNEE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> ligne_selectionnee
+#define VALUE_AJUSTEMENT ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> value_ajustement
 #define MESSAGE_SOUS_MINI ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) ->  message_sous_mini
 #define MESSAGE_SOUS_MINI_VOULU ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) ->  message_sous_mini_voulu
 #define DATE_DERNIER_RELEVE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) ->  date_releve
@@ -262,6 +246,10 @@ struct donnees_compte
 #define TYPE_DEFAUT_CREDIT ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> type_defaut_credit
 #define AFFICHAGE_R ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> affichage_r
 #define NB_LIGNES_OPE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> nb_lignes_ope
+#define CLASSEMENT_COURANT ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> classement_courant
+#define COLONNE_CLASSEMENT ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> colonne_classement
+#define CLASSEMENT_CROISSANT ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> classement_croissant
+#define NO_CLASSEMENT ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> no_classement
 
 
 struct operation_echeance

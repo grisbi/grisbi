@@ -40,7 +40,7 @@
 #include "patienter.h"
 #include "type_operations.h"
 #include "utils.h"
-
+#include "constants.h"
 
 
 
@@ -51,12 +51,15 @@
 #define C_GRISBIRC  "\\grisbi.rc"
 #endif
 
+
+PangoFontDescription *pango_desc_fonte_liste;
+
 extern gint decalage_echeance;  
+extern GtkTreeViewColumn *colonnes_liste_opes[7];
 extern GtkWidget *paned_onglet_operations;
 extern GtkWidget *paned_onglet_echeancier;
 extern GtkWidget *paned_onglet_comptes;
 extern GtkWidget *paned_onglet_etats;
-
 
 
 /* ***************************************************************************************************** */
@@ -142,7 +145,7 @@ void charge_configuration ( void )
 		}
 
 		if ( !strcmp ( node_general -> name, "Fonte_des_listes" ) ) {
-		    fonte_liste = xmlNodeGetContent ( node_general);
+		    pango_desc_fonte_liste = pango_font_description_from_string (xmlNodeGetContent ( node_general));
 		}
 
 		if ( !strcmp ( node_general -> name, "Navigateur_web" ) ) {
@@ -175,9 +178,6 @@ void charge_configuration ( void )
 
 		node_general = node_general->next;
 	    }
-	}
-	if ( fonte_liste && !strlen( fonte_liste ) ) {
-	    fonte_liste = NULL;
 	}
 
 	if ( !strcmp ( node -> name, "IO" ) )
@@ -286,17 +286,11 @@ void charge_configuration ( void )
 		if ( !strcmp ( node_affichage -> name, "Tri_par_date" ) ) {
 		    etat.classement_par_date = my_atoi(xmlNodeGetContent ( node_affichage));
 		}
-		if ( !strcmp ( node_affichage -> name, "Regrouper_rp" ) ) {
-		    etat.classement_rp = my_atoi(xmlNodeGetContent ( node_affichage));
-		}
 		if ( !strcmp ( node_affichage -> name, "Affiche_boutons_valider_annuler" ) ) {
 		    etat.affiche_boutons_valider_annuler = my_atoi(xmlNodeGetContent ( node_affichage));
 		}
 		if ( !strcmp ( node_affichage -> name, "Largeur_auto_colonnes" ) ) {
 		    etat.largeur_auto_colonnes = my_atoi(xmlNodeGetContent ( node_affichage));
-		}
-		if ( !strcmp ( node_affichage -> name, "Caracteristiques_par_compte" ) ) {
-		    etat.retient_affichage_par_compte = my_atoi( xmlNodeGetContent ( node_affichage));
 		}
 		// boucler pour avoir les tailles des différentes colonnes
 		if ( !strcmp ( node_affichage -> name, "taille_largeur_colonne" ) ) {
@@ -387,6 +381,7 @@ void charge_configuration_ancien ( void )
     FILE *fichier;
     gchar *fichier_conf;
     gchar temp[100];
+    gchar *fonte;
 
     etat.fichier_animation_attente = g_strdup ( ANIM_PATH );
 
@@ -434,7 +429,7 @@ void charge_configuration_ancien ( void )
 		 &etat.entree );
 	sscanf ( temp,
 		 "Fonte_des_listes=%as",
-		 &fonte_liste );
+		 &fonte );
 	sscanf ( temp,
 		 "Force_enregistrement=%d",
 		 &etat.force_enregistrement );
@@ -531,8 +526,13 @@ void charge_configuration_ancien ( void )
 	dernier_chemin_de_travail = g_strconcat ( my_get_gsb_file_default_dir(),
 						  C_DIRECTORY_SEPARATOR,
 						  NULL );
-    if ( fonte_liste && !strlen( fonte_liste ) )
-	fonte_liste = NULL;
+    if ( fonte
+	 &&
+	 strlen( fonte ) )
+    {
+	fonte = latin2utf8 ( fonte );
+	pango_font_description_from_string ( fonte );
+    }
 
     xmlSetCompressMode ( compression_fichier );
 
@@ -542,7 +542,6 @@ void charge_configuration_ancien ( void )
     /* on transforme les chaines en utf8 */
 
     dernier_chemin_de_travail = latin2utf8 ( dernier_chemin_de_travail );
-    fonte_liste= latin2utf8 ( fonte_liste );
     nom_fichier_comptes = latin2utf8 ( nom_fichier_comptes );
 }
 /*************************************************************************************************** */
@@ -568,7 +567,7 @@ void raz_configuration ( void )
     etat.formulaire_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
     etat.formulaire_echeancier_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
     etat.affichage_exercice_automatique = 1;        /* l'exercice est choisi en fonction de la date */
-    fonte_liste = NULL;
+    pango_desc_fonte_liste = NULL;
     etat.force_enregistrement = 0;     /* par défaut, on ne force pas l'enregistrement */
     etat.affiche_tous_les_types = 0;   /* par défaut, on n'affiche ds le formulaire que les types du débit ou crédit */
     etat.classement_par_date = 1;  /* par défaut, on tri la liste des opés par les dates */
@@ -587,7 +586,7 @@ void raz_configuration ( void )
     etat.fichier_animation_attente = g_strdup ( ANIM_PATH );
 
 	/* Messages */
-	etat.display_message_lock_active = 0;
+    etat.display_message_lock_active = 0;
     etat.display_message_file_readable = 0;
     etat.display_message_minimum_alert = 0;
 
@@ -624,6 +623,12 @@ void sauve_configuration(void)
     // resultat de la sauvegarde
     gint resultat;
 
+    /*     on récupère les largeurs des colonnes de la liste d'opés */
+    /*     seulement si un fichier est encore en mémoire */
+
+    if ( nb_comptes )
+	for ( i=0 ; i<TRANSACTION_LIST_COL_NB ; i++ )
+	    taille_largeur_colonnes[i] = gtk_tree_view_column_get_width ( colonnes_liste_opes[i] );
 
     /* creation de l'arbre xml en memoire */
 
@@ -666,17 +671,23 @@ void sauve_configuration(void)
 		  itoa(etat.alerte_mini));
     xmlNewChild ( node,NULL, "Utilise_fonte_des_listes",itoa (etat.utilise_fonte_listes));
 
-    xmlNewChild ( node,NULL, "Fonte_des_listes",fonte_liste);
+    xmlNewChild ( node,NULL, "Fonte_des_listes",pango_font_description_to_string (pango_desc_fonte_liste));
     xmlNewChild ( node,NULL, "Animation_attente",etat.fichier_animation_attente);
     xmlNewChild ( node,NULL, "Navigateur_web",etat.browser_command);
-    xmlNewChild ( node,NULL, "Largeur_colonne_comptes_operation",
-		  itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_operations))));
-    xmlNewChild ( node,NULL, "Largeur_colonne_echeancier",
-		  itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_echeancier))));
-    xmlNewChild ( node,NULL, "Largeur_colonne_comptes_comptes",
-		  itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_comptes))));
-    xmlNewChild ( node,NULL, "Largeur_colonne_etats",
-		  itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_etats))));
+
+/*     on ne fait la sauvegarde que si les colonnes existent (compte non fermé) */
+	
+    if ( nb_comptes )
+    {
+	xmlNewChild ( node,NULL, "Largeur_colonne_comptes_operation",
+		      itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_operations))));
+	xmlNewChild ( node,NULL, "Largeur_colonne_echeancier",
+		      itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_echeancier))));
+	xmlNewChild ( node,NULL, "Largeur_colonne_comptes_comptes",
+		      itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_comptes))));
+	xmlNewChild ( node,NULL, "Largeur_colonne_etats",
+		      itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_etats))));
+    }
 
     /* sauvegarde de l'onglet I/O */
     node = xmlNewChild ( doc->children,NULL, "IO",NULL );
@@ -720,14 +731,10 @@ void sauve_configuration(void)
 		  itoa(etat.affiche_date_bancaire));
     xmlNewChild ( node,NULL, "Tri_par_date",
 		  itoa(etat.classement_par_date));
-    xmlNewChild ( node,NULL, "Regrouper_rp",
-		  itoa(etat.classement_rp));
     xmlNewChild ( node,NULL, "Affiche_boutons_valider_annuler",
 		  itoa(etat.affiche_boutons_valider_annuler));
     xmlNewChild ( node,NULL, "Largeur_auto_colonnes",
 		  itoa(etat.largeur_auto_colonnes));
-    xmlNewChild ( node,NULL, "Caracteristiques_par_compte",
-		  itoa(etat.retient_affichage_par_compte));
     for ( i=0 ; i<7 ; i++ ) {
 	node_2 = xmlNewChild ( node,NULL, "taille_largeur_colonne",
 			       itoa(taille_largeur_colonnes[i]));

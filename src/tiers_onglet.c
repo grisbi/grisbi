@@ -874,12 +874,11 @@ gboolean expand_selected_tiers ( GtkWidget *liste, GdkEventButton *ev, gpointer 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
     if ( operation -> pointe == 2 && !AFFICHAGE_R )
-	change_aspect_liste ( NULL,
-			      2 );
+	change_aspect_liste ( 5 );
 
-    OPERATION_SELECTIONNEE = operation;
-
-    selectionne_ligne ( compte_courant );
+    /* FIXME : mettre l'opé et l'iter s'il existe */
+    selectionne_ligne ( compte_courant,
+			LIGNE_SELECTIONNEE );
 
     return FALSE;
 }
@@ -1684,6 +1683,37 @@ void appui_sur_ajout_tiers ( void )
     mise_a_jour_tiers();
     modif_tiers = 0;
     modification_fichier(TRUE);
+}
+/* **************************************************************************************************** */
+
+
+/* **************************************************************************************************** */
+/* retourne le tiers en donnant comme argument son numéro */
+/* retour : soit le nom du tiers
+ * 	    soit No third party defined si return_null est FALSE et pas de tiers trouvé,
+ * 	    soit NULL si return_null est TRUE et pas de tiers trouvé */
+/* **************************************************************************************************** */
+
+gchar *tiers_name_by_no ( gint no_tiers,
+			  gboolean return_null )
+{
+    GSList *liste_tmp;
+
+    if ( no_tiers )
+	liste_tmp = g_slist_find_custom ( liste_struct_tiers,
+					  GINT_TO_POINTER ( no_tiers ),
+					  (GCompareFunc) recherche_tiers_par_no );
+    else
+	liste_tmp = NULL;
+
+
+    if (liste_tmp)
+	return ( ((struct struct_tiers *)(liste_tmp->data))->nom_tiers );
+    else
+	if ( return_null )
+	    return NULL;
+	else
+	    return ( g_strdup (_("No third party defined")));
 }
 /* **************************************************************************************************** */
 
