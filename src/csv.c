@@ -279,7 +279,6 @@ void export_accounts_to_csv (GSList* export_entries_list )
 
 	while ( pTransactionList )
 	{
-	  GSList *pMiscList;
 	  gdouble amount;
 
 	  pTransaction = pTransactionList -> data;
@@ -417,12 +416,10 @@ void export_accounts_to_csv (GSList* export_entries_list )
 	    if ( pTransaction -> operation_ventilee )
 	    {
 	      GSList *pBreakdownTransactionList;
-	      gint categ_ope_mise;
 
 	      csv_field_categ = g_strdup(_("Breakdown of transaction"));
 	      csv_add_record(csv_file,FALSE);
 
-	      categ_ope_mise = 0;
 	      pBreakdownTransactionList = LISTE_OPERATIONS;
 
 	      while ( pBreakdownTransactionList )
