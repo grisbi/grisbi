@@ -3691,14 +3691,15 @@ void formulaire_a_zero (void)
 /* si le formulaire était affichÃ©, le cache et vice-versa                     */
 /******************************************************************************/
 
+
 void affiche_cache_le_formulaire ( void )
 {
     GtkWidget * widget;
 
     if ( etat.formulaire_toujours_affiche )
     {
-	gtk_widget_hide ( fleche_bas );
-	gtk_widget_show ( fleche_haut );
+/* 	gtk_widget_hide ( fleche_bas ); */
+/* 	gtk_widget_show ( fleche_haut ); */
 
 	gtk_widget_hide ( frame_droite_bas );
 	etat.formulaire_toujours_affiche = 0;
@@ -3708,8 +3709,8 @@ void affiche_cache_le_formulaire ( void )
 	GtkAdjustment *ajustement;
 	gint position_ligne_selectionnee;
 
-	gtk_widget_hide ( fleche_haut );
-	gtk_widget_show ( fleche_bas );
+/* 	gtk_widget_hide ( fleche_haut ); */
+/* 	gtk_widget_show ( fleche_bas ); */
 
 	gtk_widget_show ( frame_droite_bas );
 	etat.formulaire_toujours_affiche = 1;
