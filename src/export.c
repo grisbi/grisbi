@@ -148,13 +148,14 @@ void signal_toggle_account_entry(GtkWidget* check_button,GtkWidget* account_entr
 static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint selected_format)
 {/* {{{ */
     GtkWidget *dialog, *table, *account_entry, *paddingbox, *check_button = NULL;
+    GSList *pAccountsOrderedList;
     gchar *sFilename = NULL;
     gchar *sDirname = NULL;
     GtkWidget *pScroll, *pVBox;
     GtkAdjustment *pScrollHorizontalSize;
+    gint i = 0;
 
     export_format* format = g_slist_nth_data(format_list,selected_format);
-    int i = 0;
 
     dialog = gtk_dialog_new_with_buttons ( _("Export files"),
 					   GTK_WINDOW(window),
@@ -189,11 +190,14 @@ static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint
 			     "/",
 			     NULL);
 
-    /* on met chaque compte dans la table */
+    /* On met chaque compte dans la table, dans l'ordre préféré de l'utilisateur */
+
+    pAccountsOrderedList = ordre_comptes;
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
-    for ( i = 0 ; i < nb_comptes ; i++ )
+    do
     {
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( pAccountsOrderedList -> data );
 	check_button = gtk_check_button_new_with_label ( NOM_DU_COMPTE );
 	gtk_table_attach ( GTK_TABLE ( table ),
 			   check_button,
@@ -215,7 +219,7 @@ static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint
 				   FALSE );
 	gtk_object_set_data ( GTK_OBJECT ( account_entry ),
 			      "no_compte",
-			      GINT_TO_POINTER ( i ));
+			      pAccountsOrderedList -> data );
 	gtk_table_attach ( GTK_TABLE ( table ),
 			   account_entry,
 			   1, 2,
@@ -224,17 +228,16 @@ static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint
 			   GTK_SHRINK | GTK_FILL,
 			   0, 0 );
 
-
-	/*       si on clique sur le check bouton, ça rend éditable l'entrée */
+	/* Si on clique sur le check bouton, ça rend éditable l'entrée */
 
 	gtk_signal_connect ( GTK_OBJECT ( check_button ),
 			     "toggled",
 			     GTK_SIGNAL_FUNC ( signal_toggle_account_entry ),
 			     account_entry );
-
-	p_tab_nom_de_compte_variable++;
+	i++;
 	g_free ( sFilename );
     }
+    while ( ( pAccountsOrderedList = pAccountsOrderedList -> next ) );
     g_free ( sDirname );
 
     g_selected_entries = NULL;
