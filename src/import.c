@@ -576,7 +576,7 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
     if ( compte -> devise )
     {
 	liste_tmp = g_slist_find_custom ( liste_struct_devises,
-					  compte -> devise,
+					  compte->devise,
 					  (GCompareFunc) recherche_devise_par_code_iso );
 
 	if ( liste_tmp )

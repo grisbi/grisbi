@@ -1288,7 +1288,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 			    if (! strcmp (devise -> nom_devise, "Euro"))
 			    {
 				devise -> code_devise = "€";
-				devise -> code_iso4217_devise = "EUR";
+				devise -> code_iso4217_devise = g_strdup ("EUR");
 			    }
 
 			    devise -> passage_euro = my_atoi ( latin2utf8(xmlGetProp ( node_detail,
@@ -3154,7 +3154,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 			    if (! strcmp (devise -> nom_devise, "Euro"))
 			    {
 				devise -> code_devise = "€";
-				devise -> code_iso4217_devise = "EUR";
+				devise -> code_iso4217_devise = g_strdup ("EUR");
 			    }
 
 			    devise -> passage_euro = my_atoi ( xmlGetProp ( node_detail,
