@@ -88,17 +88,15 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	{menu_name(_("File"), NULL, NULL),    NULL,  NULL, 0, "<Branch>", NULL },
 	{menu_name(_("File"), "Detach", NULL),    NULL,  NULL, 0, "<Tearoff>", NULL },
 	{menu_name(_("File"), _("New account file"), NULL),  NULL,  G_CALLBACK ( nouveau_fichier), 0, "<StockItem>", GTK_STOCK_NEW },
-	{menu_name(_("File"), _("_Open"), NULL),   "<CTRL>O", G_CALLBACK ( ouvrir_fichier ), 0, "<StockItem>", GTK_STOCK_OPEN },
+	{menu_name(_("File"), _("Open"), NULL),   "<CTRL>O", G_CALLBACK ( ouvrir_fichier ), 0, "<StockItem>", GTK_STOCK_OPEN },
 	{menu_name(_("File"), "Sep1", NULL),    NULL,  NULL, 0, "<Separator>", NULL },
 	{menu_name(_("File"), _("Save"), NULL),   NULL,  G_CALLBACK ( enregistrement_fichier ) , 1, "<StockItem>", GTK_STOCK_SAVE },
 	{menu_name(_("File"), _("Save as"), NULL),   NULL,  G_CALLBACK ( enregistrer_fichier_sous ), 0, "<StockItem>", GTK_STOCK_SAVE_AS },
 	{menu_name(_("File"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
 	{menu_name(_("File"), _("Recently opened files"), NULL), NULL,NULL , 0, "<Branch>",NULL, },
 	{menu_name(_("File"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
-	{menu_name(_("File"), _("Import"), NULL),   NULL,NULL , 0, "<Branch>",NULL  },
-	{menu_name(_("File"), _("Import"), _("QIF\\/OFX file ...")),   NULL, G_CALLBACK ( importer_fichier), 0, NULL ,NULL  },
-	{menu_name(_("File"), _("Export"), NULL),   NULL, NULL, 0, "<Branch>",NULL  },
-	{menu_name(_("File"), _("Export"), _("QIF file ...")),   NULL,G_CALLBACK ( exporter_fichier_qif ), 0, NULL ,NULL  },
+	{menu_name(_("File"), _("Import QIF\\/OFX\\/Gnucash file ..."), NULL),   NULL, G_CALLBACK ( importer_fichier), 0, "<StockItem>" ,GTK_STOCK_CONVERT  },
+	{menu_name(_("File"), _("Export QIF file ..."), NULL),   NULL,G_CALLBACK ( exporter_fichier_qif ), 0, "<StockItem>", GTK_STOCK_CONVERT  },
 	{menu_name(_("File"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
 	{menu_name(_("File"), _("Close"), NULL),   NULL,G_CALLBACK ( fermer_fichier ), 0, "<StockItem>", GTK_STOCK_CLOSE },
 	{menu_name(_("File"), _("Exit"), NULL),   NULL, G_CALLBACK ( fermeture_grisbi), 0, "<StockItem>", GTK_STOCK_QUIT },
@@ -236,11 +234,11 @@ void efface_derniers_fichiers_ouverts ( void )
 			      "\\" C_DIRECTORY_SEPARATOR );
 
 	gtk_item_factory_delete_item ( item_factory_menu_general,
-				       menu_name ( _("File"), _("Recently opened files"), tmp ));
+				       menu_name ( _("File"), _("_Recently opened files"), tmp ));
     }
 
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name ( _("File"), _("Recently opened files"), NULL )),
+							   menu_name ( _("File"), _("_Recently opened files"), NULL )),
 			       FALSE );
 
 }

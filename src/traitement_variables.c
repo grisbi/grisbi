@@ -366,7 +366,7 @@ void menus_sensitifs ( gboolean sensitif )
 							   menu_name(_("File"), _("Save as"), NULL)),
 			       sensitif );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("File"), _("Export"), NULL)),
+							   menu_name(_("File"), _("Export QIF file ..."), NULL)),
 			       sensitif );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							   menu_name(_("File"), _("Close"), NULL)),
