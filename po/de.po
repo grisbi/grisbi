@@ -37,7 +37,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-10-14 13:53+0200\n"
-"PO-Revision-Date: 2004-10-07 18:28+0200\n"
+"PO-Revision-Date: 2004-10-14 14:17+0200\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -5252,104 +5252,83 @@ msgstr ""
 "Das Ziel von Grisbi ist es, einfach und effizient zu sein."
 
 #: src/help.c:47
-#, fuzzy
 msgid "Alain Pichon (alain.pichon[at]grisbi.org): Fedora and RHEL packaging"
-msgstr "Alain Pichon (alain.pichon@grisbi.org): Fedora Paketverwaltung"
+msgstr "Alain Pichon (alain.pichon[at]grisbi.org): Fedora Paketverwaltung"
 
 #: src/help.c:48
-#, fuzzy
 msgid ""
 "Alain Portal <dionysos[at]grisbi.org>: Programming, manual, RedHat packaging"
-msgstr ""
-"Alain Portal <dionysos@grisbi.org>: Programmierung, Handbuch, RedHat "
-"Paketverwaltung"
+msgstr "Alain Portal (dionysos[at]grisbi.org): Programmierung, Handbuch, RedHat Paketverwaltung"
 
 #: src/help.c:49
-#, fuzzy
 msgid "Andre Pascual (andre[at]linuxgraphic.org) : Logo"
-msgstr "Andre Pascual (andre@linuxgraphic.org) : Logo"
+msgstr "Andre Pascual (andre[at]linuxgraphic.org) : Logo"
 
 #: src/help.c:50
-#, fuzzy
 msgid "Axel Rousseau (axel584[at]axel584.org): contributor"
-msgstr "Axel Rousseau (axel584@axel584.org): Mitarbeiter"
+msgstr "Axel Rousseau (axel584[at]axel584.org): Mitarbeiter"
 
 #: src/help.c:51
-#, fuzzy
 msgid "Benjamin Drieu (bdrieu[at]april.org) : Programming, Debian packaging"
-msgstr ""
-"Benjamin Drieu (bdrieu@april.org) : Programmierung, Debian Paketverwaltung"
+msgstr "Benjamin Drieu (bdrieu[at]april.org) : Programmierung, Debian Paketverwaltung"
 
 #: src/help.c:52
-#, fuzzy
 msgid "Cedric Auger (cedric[at]grisbi.org) : Programming"
-msgstr "Cedric Auger (cedric@grisbi.org) : Programmierung"
+msgstr "Cedric Auger (cedric[at]grisbi.org) : Programmierung"
 
 #: src/help.c:53
-#, fuzzy
 msgid "Daniel Cartron (doc[at]grisbi.org) : Manual, website, consultancy"
-msgstr "Daniel Cartron (doc@grisbi.org) : Handbuch, Webseite, Beratung"
+msgstr "Daniel Cartron (doc[at]grisbi.org) : Handbuch, Webseite, Beratung"
 
 #: src/help.c:54
-#, fuzzy
 msgid "Dominique Parisot (parisot[at]villey-le-sec.com): contributor"
-msgstr "Dominique Parisot (parisot@villey-le-sec.com): Mitarbeiter"
+msgstr "Dominique Parisot (parisot[at]villey-le-sec.com): Mitarbeiter"
 
 #: src/help.c:55
-#, fuzzy
 msgid ""
 "Francois Terrot (grisbi[at]terrot.net): Windows packaging and port, "
 "programming"
-msgstr ""
-"Francois Terrot (grisbi@terrot.net): Windows Paketverwaltung, Cygwin "
-"Portierung"
+msgstr "Francois Terrot (grisbi[at]terrot.net): Windows Paketverwaltung, Cygwin Portierung"
 
 #: src/help.c:56
-#, fuzzy
 msgid "Gerald Niel (gerald.niel[at]grisbi.org): Slackware packaging, website"
-msgstr ""
-"Gerald Niel (gerald.niel@grisbi.org): Slackware Paketverwaltung, Webseite"
+msgstr "Gerald Niel (gerald.niel[at]grisbi.org): Slackware Paketverwaltung, Webseite"
 
 #: src/help.c:57
 msgid "PMF (ugly.duck[at]gmx.de): Zaurus packaging"
-msgstr ""
+msgstr "PMF (ugly.duck[at]gmx.de): Slackware Paketverwaltung"
 
 #: src/help.c:58
 msgid "Pascal Bleser (guru[at]linuxbe.org): SuSE packaging"
-msgstr ""
+msgstr "Pascal Bleser (guru[at]linuxbe.org): SuSE Paketverwaltung"
 
 #: src/help.c:59
 msgid "Sylvain Glaize (mokona[at]puupuu.org): Mandrake packaging"
-msgstr ""
+msgstr "Sylvain Glaize (mokona[at]puupuu.org): Mandrake Paketverwaltung"
 
 #: src/help.c:60
-#, fuzzy
 msgid "Thierry Thomas (thierry[at]pompo.net): FreeBSD packaging"
-msgstr "Thierry Thomas (thierry@pompo.net): FreeBSD Paketverwaltung"
+msgstr "Thierry Thomas (thierry[at]pompo.net): FreeBSD Paketverwaltung"
 
 #: src/help.c:63
-#, fuzzy
 msgid "Alain Portal (dionysos[at]grisbi.org) : English"
-msgstr "Alain Portal (dionysos@grisbi.org) : Englisch"
+msgstr "Alain Portal (dionysos[at]grisbi.org) : Englisch"
 
 #: src/help.c:64
-#, fuzzy
 msgid "Benjamin Drieu (bdrieu[at]april.org) : English"
-msgstr "Benjamin Drieu (bdrieu@april.org) : Englisch"
+msgstr "Benjamin Drieu (bdrieu[at]april.org) : Englisch"
 
 #: src/help.c:65
-#, fuzzy
 msgid "Daniel Cartron (cartron[at]grisbi.org) : English"
-msgstr "Daniel Cartron (cartron@grisbi.org) : Englisch"
+msgstr "Daniel Cartron (cartron[at]grisbi.org) : Englisch"
 
 #: src/help.c:66
-#, fuzzy
 msgid "Giorgio Mandolfo (giorgio[at]pollycoke.org) : Italian"
-msgstr "Giorgio Mandolfo (giorgio@pollycoke.org) : Italienisch"
+msgstr "Giorgio Mandolfo (giorgio[at]pollycoke.org) : Italienisch"
 
 #: src/help.c:67
 msgid "Martin Stromberger (Fabiolla[at]aon.at): German"
-msgstr ""
+msgstr "Martin Stromberger (Fabiolla[at]aon.at): Deutsch"
 
 #: src/help.c:73
 msgid "Development list (discuss, participate, criticize, ...) : "
@@ -6470,10 +6449,10 @@ msgstr "Bitte einen Empfänger eingeben."
 msgid ""
 "Grisbi is unable to find this third party.  Be sure entered name is valid "
 "and that this third party exists."
-msgstr ""
+msgstr "Grisbi ist nicht in der Lage, diesen dritten Empfänger zu finden. Vergewissere dich, dass der Name gueltig ist und der dritte Empfänger existiert.\n"
 
 #: src/tiers_onglet.c:1296
-#, fuzzy, c-format
+#, c-format
 msgid "Third party %s not found."
 msgstr "Empfänger %s nicht gefunden.\n"
 
@@ -6607,9 +6586,3 @@ msgid "This transfer has a reconciled contra-transaction, deletion canceled."
 msgstr ""
 "Diese Buchung hat eine abgestimmte Gegenbuchung, die Löschung wurde "
 "abgebrochen."
-
-#~ msgid "Matthieu Puppat (tieum.tieum@free.fr): Mandrake packaging"
-#~ msgstr "Matthieu Puppat (tieum.tieum@free.fr): Mandrake Paketverwaltung"
-
-#~ msgid "QIF file ..."
-#~ msgstr "Qif Datei..."
