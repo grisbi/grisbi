@@ -41,7 +41,6 @@ extern guint  win32_get_last_error();
 //! \def defined CSIDL_FLAG_CREATE if needed
 #ifndef CSIDL_FLAG_CREATE
 #define CSIDL_FLAG_CREATE 0x8000
-#define CSIDL_FOLDER_MASK 0x7FFF
 #endif
 
 typedef HRESULT (__stdcall * PFNSHGETFOLDERPATHA)(HWND, int, HANDLE, DWORD, LPSTR);  // "SHGetFolderPathA"
