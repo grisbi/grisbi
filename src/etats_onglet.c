@@ -836,6 +836,8 @@ gboolean ajout_etat ( void )
 	    /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
 
 	    etat -> type_classement = g_list_append ( etat -> type_classement,
+						      GINT_TO_POINTER ( 6 ));
+	    etat -> type_classement = g_list_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 1 ));
 	    etat -> type_classement = g_list_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 2 ));
@@ -845,8 +847,6 @@ gboolean ajout_etat ( void )
 						      GINT_TO_POINTER ( 4 ));
 	    etat -> type_classement = g_list_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 5 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 6 ));
 
 	    /*   les devises sont à 1 (euro) */
 
@@ -872,10 +872,13 @@ gboolean ajout_etat ( void )
 	    etat -> afficher_categ_ope = 1;
 	    etat -> separer_revenus_depenses = 1;
 	    etat -> type_virement = 2;
-	    etat -> exclure_ope_sans_categ = 1;
+//	    etat -> exclure_ope_sans_categ = 1;
 	    etat -> affiche_sous_total_sous_categ = 1;
-	    etat -> exclure_ope_sans_ib = 1;
+//	    etat -> exclure_ope_sans_ib = 1;
 	    etat -> exclure_montants_nuls = 1;
+	    etat -> utilise_tiers = 1;
+	    etat -> affiche_sous_total_tiers = 1;
+	    etat -> afficher_nom_tiers = 1;
 
 
 	    /*   tout le reste est à NULL, ce qui est très bien */
@@ -884,7 +887,7 @@ gboolean ajout_etat ( void )
 
 	case 6:
 
-	    /* dépenses mensuelles par tiers */
+	    /* recherche */
 
 	    etat -> nom_etat = g_strdup ( _("Search") );
 
