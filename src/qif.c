@@ -470,20 +470,22 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 			liste_ope_brut = g_slist_append ( liste_ope_brut,
 							  ventilation );
 
-		      ventilation = calloc ( 1,
-					     sizeof ( struct struct_operation_qif ));
+		      if ( operation )
+			{
+			  ventilation = calloc ( 1,
+						 sizeof ( struct struct_operation_qif ));
+			  operation -> operation_ventilee = 1;
 
-		      operation -> operation_ventilee = 1;
+			  /* récupération des données de l'opération en cours */
 
-		      /* récupération des données de l'opération en cours */
+			  ventilation -> date = operation -> date;
+			  ventilation -> tiers = operation -> tiers;
+			  ventilation -> cheque = operation -> cheque;
+			  ventilation -> p_r = operation -> p_r;
+			  ventilation -> ope_de_ventilation = 1;
 
-		      ventilation -> date = operation -> date;
-		      ventilation -> tiers = operation -> tiers;
-		      ventilation -> cheque = operation -> cheque;
-		      ventilation -> p_r = operation -> p_r;
-		      ventilation -> ope_de_ventilation = 1;
-
-		      ventilation -> categ = g_strdup ( pointeur_char + 1 );
+			  ventilation -> categ = g_strdup ( pointeur_char + 1 );
+			}
 		    }
 
 
