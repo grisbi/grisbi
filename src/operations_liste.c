@@ -457,17 +457,17 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 
     /* sauvegarde les redimensionnement des colonnes */
 
+    gtk_signal_connect ( GTK_OBJECT ( liste ),
+			 "resize_column",
+			 GTK_SIGNAL_FUNC ( changement_taille_colonne ),
+			 NULL );
+
     CLIST_OPERATIONS = liste;
 
     /* par défaut, le classement de la liste s'effectue par date */
 
     LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
 				      (GCompareFunc) classement_sliste );
-
-    gtk_signal_connect ( GTK_OBJECT ( liste ),
-			 "resize_column",
-			 GTK_SIGNAL_FUNC ( changement_taille_colonne ),
-			 NULL );
 
     /* on ajoute l'onglet au notebook des comptes */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
@@ -2294,10 +2294,14 @@ gboolean changement_taille_liste_ope ( GtkWidget *clist,
     gint largeur;
     gint col0, col1, col2, col3, col4, col5, col6;
 
+    /* Yet another kludge to avoid breakage due to #392 fix (closes: #470) */
+    if ( compte != compte_courant_onglet )
+	return;
+
     /* si la largeur de grisbi est < 700, on fait rien */
 
     if ( window -> allocation.width < 700 )
-	return FALSE;
+	return TRUE;
 
     /*     pour éviter que le système ne s'emballe... */
     /*     encore plus grosse magouille avec allocation_encore_avant pour éviter */
@@ -2306,11 +2310,11 @@ gboolean changement_taille_liste_ope ( GtkWidget *clist,
 
     if ( allocation_compte_precedent == (gint) compte &&
 	 allocation -> width == allocation_precedente )
-	return FALSE;
+	return TRUE;
 
     if ( allocation_compte_precedent == (gint) compte &&
 	 allocation -> width == allocation_encore_avant )
-	return FALSE;
+	return TRUE;
 
      allocation_precedente = allocation_encore_avant;
      allocation_encore_avant = allocation -> width;
@@ -2416,7 +2420,7 @@ gboolean changement_taille_liste_ope ( GtkWidget *clist,
 			   col6,
 			   FALSE  );
 
-    return FALSE;
+    return;
 }
 /******************************************************************************/
 
@@ -2607,14 +2611,14 @@ gboolean changement_taille_colonne ( GtkWidget *clist, gint colonne, gint largeu
 {
     if ( !GTK_WIDGET_REALIZED(clist) )
     {
-      return FALSE;
+      return TRUE;
     }
 
     /* Why would we need to reset the form here? */
 /*     echap_formulaire(); */
     taille_largeur_colonnes[colonne] = largeur;
 
-    return FALSE;
+    return TRUE;
 }
 /******************************************************************************/
 
