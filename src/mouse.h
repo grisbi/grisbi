@@ -1,4 +1,4 @@
-/* Fichier de définition de constantes relatives à la souris mouse.h */
+/* Fichier de dÃ©finition de constantes relatives Ã  la souris mouse.h */
 
 # define LEFT_BUTTON 1
 # define MIDDLE_BUTTON 2

@@ -1,6 +1,6 @@
-/*  Fichier qui s'occupe d'afficher les états */
+/*  Fichier qui s'occupe d'afficher les Ã©tats */
 
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2004 Benjamin Drieu (bdrieu@april.org)		      */
 /* 			http://www.grisbi.org				      */
 
@@ -62,8 +62,8 @@ gint etat_affiche_affiche_separateur ( gint ligne )
 
 
 /*****************************************************************************************************/
-/* affiche le total à l'endroit donné de la table */
-/* si les catégories sont affichées */
+/* affiche le total Ã  l'endroit donnÃ© de la table */
+/* si les catÃ©gories sont affichÃ©es */
 /* retourne le ligne suivante de la table */
 /*****************************************************************************************************/
 gint etat_affiche_affiche_total_categories ( gint ligne )
@@ -74,9 +74,9 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 	 &&
 	 etat_courant -> affiche_sous_total_categ )
     {
-	/* si rien n'est affiché en dessous de la catég, on */
-	/* met le résultat sur la ligne de la catég */
-	/* sinon on fait une barre et on met le résultat */
+	/* si rien n'est affichÃ© en dessous de la catÃ©g, on */
+	/* met le rÃ©sultat sur la ligne de la catÃ©g */
+	/* sinon on fait une barre et on met le rÃ©sultat */
 
 	if ( etat_courant -> afficher_sous_categ
 	     ||
@@ -167,8 +167,8 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 
 
 /*****************************************************************************************************/
-/* affiche le total à l'endroit donné de la table */
-/* si les sous_categ sont affichées */
+/* affiche le total Ã  l'endroit donnÃ© de la table */
+/* si les sous_categ sont affichÃ©es */
 /* retourne le ligne suivante de la table */
 /*****************************************************************************************************/
 gint etat_affiche_affiche_total_sous_categ ( gint ligne )
@@ -181,9 +181,9 @@ gint etat_affiche_affiche_total_sous_categ ( gint ligne )
 	 &&
 	 etat_courant -> affiche_sous_total_sous_categ )
     {
-	/* si rien n'est affiché en dessous de la sous_categ, on */
-	/* met le résultat sur la ligne de la ss categ */
-	/* sinon on fait une barre et on met le résultat */
+	/* si rien n'est affichÃ© en dessous de la sous_categ, on */
+	/* met le rÃ©sultat sur la ligne de la ss categ */
+	/* sinon on fait une barre et on met le rÃ©sultat */
 
 	if ( etat_courant -> utilise_ib
 	     ||
@@ -271,8 +271,8 @@ gint etat_affiche_affiche_total_sous_categ ( gint ligne )
 
 
 /*****************************************************************************************************/
-/* affiche le total à l'endroit donné de la table */
-/* si les ib sont affichées */
+/* affiche le total Ã  l'endroit donnÃ© de la table */
+/* si les ib sont affichÃ©es */
 /* retourne le ligne suivante de la table */
 /*****************************************************************************************************/
 gint etat_affiche_affiche_total_ib ( gint ligne )
@@ -283,9 +283,9 @@ gint etat_affiche_affiche_total_ib ( gint ligne )
 	 &&
 	 etat_courant -> affiche_sous_total_ib )
     {
-	/* si rien n'est affiché en dessous de la ib, on */
-	/* met le résultat sur la ligne de l'ib */
-	/* sinon on fait une barre et on met le résultat */
+	/* si rien n'est affichÃ© en dessous de la ib, on */
+	/* met le rÃ©sultat sur la ligne de l'ib */
+	/* sinon on fait une barre et on met le rÃ©sultat */
 
 	if ( etat_courant -> afficher_sous_ib
 	     ||
@@ -370,8 +370,8 @@ gint etat_affiche_affiche_total_ib ( gint ligne )
 
 
 /*****************************************************************************************************/
-/* affiche le total à l'endroit donné de la table */
-/* si les sous_ib sont affichées */
+/* affiche le total Ã  l'endroit donnÃ© de la table */
+/* si les sous_ib sont affichÃ©es */
 /* retourne le ligne suivante de la table */
 /*****************************************************************************************************/
 gint etat_affiche_affiche_total_sous_ib ( gint ligne )
@@ -384,9 +384,9 @@ gint etat_affiche_affiche_total_sous_ib ( gint ligne )
 	 &&
 	 etat_courant -> affiche_sous_total_sous_ib )
     {
-	/* si rien n'est affiché en dessous de la sous ib, on */
-	/* met le résultat sur la ligne de la sous ib */
-	/* sinon on fait une barre et on met le résultat */
+	/* si rien n'est affichÃ© en dessous de la sous ib, on */
+	/* met le rÃ©sultat sur la ligne de la sous ib */
+	/* sinon on fait une barre et on met le rÃ©sultat */
 
 	if ( etat_courant -> regroupe_ope_par_compte
 	     ||
@@ -474,8 +474,8 @@ gint etat_affiche_affiche_total_sous_ib ( gint ligne )
 
 
 /*****************************************************************************************************/
-/* affiche le total à l'endroit donné de la table */
-/* si les compte sont affichées */
+/* affiche le total Ã  l'endroit donnÃ© de la table */
+/* si les compte sont affichÃ©es */
 /* retourne le ligne suivante de la table */
 /*****************************************************************************************************/
 gint etat_affiche_affiche_total_compte ( gint ligne )
@@ -486,9 +486,9 @@ gint etat_affiche_affiche_total_compte ( gint ligne )
 	 &&
 	 etat_courant -> affiche_sous_total_compte )
     {
-	/* si rien n'est affiché en dessous du compte, on */
-	/* met le résultat sur la ligne du compte */
-	/* sinon on fait une barre et on met le résultat */
+	/* si rien n'est affichÃ© en dessous du compte, on */
+	/* met le rÃ©sultat sur la ligne du compte */
+	/* sinon on fait une barre et on met le rÃ©sultat */
 
 	if ( etat_courant -> utilise_tiers
 	     ||
@@ -567,8 +567,8 @@ gint etat_affiche_affiche_total_compte ( gint ligne )
 
 
 /*****************************************************************************************************/
-/* affiche le total à l'endroit donné de la table */
-/* si les tiers sont affichées */
+/* affiche le total Ã  l'endroit donnÃ© de la table */
+/* si les tiers sont affichÃ©es */
 /* retourne le ligne suivante de la table */
 /*****************************************************************************************************/
 gint etat_affiche_affiche_total_tiers ( gint ligne )
@@ -579,9 +579,9 @@ gint etat_affiche_affiche_total_tiers ( gint ligne )
 	 &&
 	 etat_courant -> affiche_sous_total_tiers )
     {
-	/* si rien n'est affiché en dessous du tiers, on */
-	/* met le résultat sur la ligne du tiers */
-	/* sinon on fait une barre et on met le résultat */
+	/* si rien n'est affichÃ© en dessous du tiers, on */
+	/* met le rÃ©sultat sur la ligne du tiers */
+	/* sinon on fait une barre et on met le rÃ©sultat */
 
 	if ( etat_courant -> afficher_opes )
 	{
@@ -662,9 +662,9 @@ gint etat_affiche_affiche_total_tiers ( gint ligne )
 
 
 /*****************************************************************************************************/
-/* affiche le total de la période à l'endroit donné de la table */
+/* affiche le total de la pÃ©riode Ã  l'endroit donnÃ© de la table */
 /* retourne le ligne suivante de la table */
-/* si force = 0, vérifie les dates et affiche si nécessaire */
+/* si force = 0, vÃ©rifie les dates et affiche si nÃ©cessaire */
 /*   si force = 1, affiche le total (chgt de categ, ib ...) */
 /*****************************************************************************************************/
 gint etat_affiche_affiche_total_periode ( struct structure_operation *operation, gint ligne, gint force )
@@ -675,19 +675,19 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 
 	text = NULL;
 
-	/* si la date de début de période est nulle, on la met au début de la période la date de l'opération */
+	/* si la date de dÃ©but de pÃ©riode est nulle, on la met au dÃ©but de la pÃ©riode la date de l'opÃ©ration */
 
 	if ( !date_debut_periode )
 	{
 	    if ( operation )
 	    {
-		/*  il y a une opération, on va rechercher le début de la période qui la contient */
-		/* ça peut être le début de la semaine, du mois ou de l'année de l'opé */
+		/*  il y a une opÃ©ration, on va rechercher le dÃ©but de la pÃ©riode qui la contient */
+		/* Ã§a peut Ãªtre le dÃ©but de la semaine, du mois ou de l'annÃ©e de l'opÃ© */
 
 		switch ( etat_courant -> type_separation_plage )
 		{
 		    case 0:
-			/* séparation par semaine : on recherche le début de la semaine qui contient l'opé */
+			/* sÃ©paration par semaine : on recherche le dÃ©but de la semaine qui contient l'opÃ© */
 
 			date_debut_periode = g_date_new_dmy ( g_date_day ( operation -> date ),
 							      g_date_month ( operation -> date ),
@@ -705,7 +705,7 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 			break;
 
 		    case 1:
-			/* séparation par mois */
+			/* sÃ©paration par mois */
 
 			date_debut_periode = g_date_new_dmy ( 1,
 							      g_date_month ( operation -> date ),
@@ -713,7 +713,7 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 			break;
 
 		    case 2:
-			/* séparation par an */
+			/* sÃ©paration par an */
 
 			date_debut_periode = g_date_new_dmy ( 1,
 							      1,
@@ -726,7 +726,7 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 	    return ( ligne );
 	}
 
-	/* on vérifie maintenant s'il faut afficher un total ou pas */
+	/* on vÃ©rifie maintenant s'il faut afficher un total ou pas */
 
 	switch ( etat_courant -> type_separation_plage )
 	{
@@ -734,9 +734,9 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 	    GDate *date_tmp;
 
 	    case 0:
-	    /* séparation par semaine */
+	    /* sÃ©paration par semaine */
 
-	    /* 	  si c'est le même jour que l'opé précédente, on fait rien */
+	    /* 	  si c'est le mÃªme jour que l'opÃ© prÃ©cÃ©dente, on fait rien */
 
 	    if ( !force
 		 &&
@@ -744,7 +744,7 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 				   date_debut_periode ))
 		return ( ligne );
 
-	    /* 	  si on est en début de semaine, on met un sous total */
+	    /* 	  si on est en dÃ©but de semaine, on met un sous total */
 
 	    date_tmp = g_date_new_dmy ( g_date_day ( date_debut_periode ),
 					g_date_month ( date_debut_periode ),
@@ -760,7 +760,7 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 				    date_tmp ) < 0 ))
 		return ( ligne );
 
-	    /* on doit retrouver la date du début de semaine et y ajouter 6j pour afficher la période */
+	    /* on doit retrouver la date du dÃ©but de semaine et y ajouter 6j pour afficher la pÃ©riode */
 
 	    if ( g_date_weekday ( date_debut_periode )  != (etat_courant -> jour_debut_semaine + 1 ))
 	    {
@@ -813,7 +813,7 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 	    break;
 
 	    case 1:
-	    /* séparation par mois */
+	    /* sÃ©paration par mois */
 
 	    if ( !force
 		 &&
@@ -841,7 +841,7 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 	    break;
 
 	    case 2:
-	    /* séparation par an */
+	    /* sÃ©paration par an */
 
 	    if ( !force
 		 &&
@@ -867,7 +867,7 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 	    break;
 	}
 
-	/*       si on arrive ici, c'est qu'il y a un chgt de période ou que c'est forcé */
+	/*       si on arrive ici, c'est qu'il y a un chgt de pÃ©riode ou que c'est forcÃ© */
 
 	etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
 	ligne++;
@@ -887,19 +887,19 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 	montant_periode_etat = 0;
 	nb_ope_periode_etat = 0;
 
-	/* comme il y a un changement de période, on remet la date_debut_periode à celle du début de la période */
-	/* de l'opération  en cours */
+	/* comme il y a un changement de pÃ©riode, on remet la date_debut_periode Ã  celle du dÃ©but de la pÃ©riode */
+	/* de l'opÃ©ration  en cours */
 
 
 	if ( operation )
 	{
-	    /*  il y a une opération, on va rechercher le début de la période qui la contient */
-	    /* ça peut être le début de la semaine, du mois ou de l'année de l'opé */
+	    /*  il y a une opÃ©ration, on va rechercher le dÃ©but de la pÃ©riode qui la contient */
+	    /* Ã§a peut Ãªtre le dÃ©but de la semaine, du mois ou de l'annÃ©e de l'opÃ© */
 
 	    switch ( etat_courant -> type_separation_plage )
 	    {
 		case 0:
-		    /* séparation par semaine : on recherche le début de la semaine qui contient l'opé */
+		    /* sÃ©paration par semaine : on recherche le dÃ©but de la semaine qui contient l'opÃ© */
 
 		    date_debut_periode = g_date_new_dmy ( g_date_day ( operation -> date ),
 							  g_date_month ( operation -> date ),
@@ -917,7 +917,7 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 		    break;
 
 		case 1:
-		    /* séparation par mois */
+		    /* sÃ©paration par mois */
 
 		    date_debut_periode = g_date_new_dmy ( 1,
 							  g_date_month ( operation -> date ),
@@ -925,7 +925,7 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 		    break;
 
 		case 2:
-		    /* séparation par an */
+		    /* sÃ©paration par an */
 
 		    date_debut_periode = g_date_new_dmy ( 1,
 							  1,
@@ -945,9 +945,9 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 
 
 /*****************************************************************************************************/
-/* affiche le total de l'exo  à l'endroit donné de la table */
+/* affiche le total de l'exo  Ã  l'endroit donnÃ© de la table */
 /* retourne le ligne suivante de la table */
-/* si force = 0, vérifie les dates et affiche si nécessaire */
+/* si force = 0, vÃ©rifie les dates et affiche si nÃ©cessaire */
 /*   si force = 1, affiche le total (chgt de categ, ib ...) */
 /*****************************************************************************************************/
 gint etat_affiche_affiche_total_exercice ( struct structure_operation *operation, gint ligne, gint force )
@@ -958,8 +958,8 @@ gint etat_affiche_affiche_total_exercice ( struct structure_operation *operation
 
 	text = NULL;
 
-	/* 	si l'exo précédent est -1, on le met à l'exo de l'opé */
-	/* 	utilise ça car des opés peuvent ne pas avoir d'exo */
+	/* 	si l'exo prÃ©cÃ©dent est -1, on le met Ã  l'exo de l'opÃ© */
+	/* 	utilise Ã§a car des opÃ©s peuvent ne pas avoir d'exo */
 
 	if ( exo_en_cours_etat == -1 )
 	{
@@ -967,7 +967,7 @@ gint etat_affiche_affiche_total_exercice ( struct structure_operation *operation
 	    return ligne;
 	}
 	
-	/* on vérifie maintenant s'il faut afficher un total ou pas */
+	/* on vÃ©rifie maintenant s'il faut afficher un total ou pas */
 
 	if ( !force
 	     &&
@@ -976,7 +976,7 @@ gint etat_affiche_affiche_total_exercice ( struct structure_operation *operation
 
 	if ( exo_en_cours_etat )
 	{
-	    /* 	    les opés ont un exo */
+	    /* 	    les opÃ©s ont un exo */
 	    if ( etat_courant -> afficher_nb_opes )
 	    {
 		if ( nb_ope_periode_etat <= 1 )
@@ -994,7 +994,7 @@ gint etat_affiche_affiche_total_exercice ( struct structure_operation *operation
 	}
 	else
 	{
-	    /* 	    les opés n'ont pas d'exo */
+	    /* 	    les opÃ©s n'ont pas d'exo */
 	    if ( etat_courant -> afficher_nb_opes )
 	    {
 		if ( nb_ope_periode_etat <= 1 )
@@ -1010,7 +1010,7 @@ gint etat_affiche_affiche_total_exercice ( struct structure_operation *operation
 
     
     
-    /*       si on arrive ici, c'est qu'il y a un chgt de période ou que c'est forcé */
+    /*       si on arrive ici, c'est qu'il y a un chgt de pÃ©riode ou que c'est forcÃ© */
 
 	etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
 	ligne++;
@@ -1030,7 +1030,7 @@ gint etat_affiche_affiche_total_exercice ( struct structure_operation *operation
 	montant_exo_etat = 0;
 	nb_ope_exo_etat = 0;
 
-	/* comme il y a un changement d'état, on remet exo_en_cours_etat à celle de l'opé en cours */
+	/* comme il y a un changement d'Ã©tat, on remet exo_en_cours_etat Ã  celle de l'opÃ© en cours */
 
 	if ( operation )
 	    exo_en_cours_etat = operation -> no_exercice;
@@ -1050,15 +1050,15 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
     gint colonne;
     gchar * text;
 
-    /* on met tous les labels dans un event_box pour aller directement sur l'opé si elle est clickée */
+    /* on met tous les labels dans un event_box pour aller directement sur l'opÃ© si elle est clickÃ©e */
 
 
     if ( etat_courant -> afficher_opes )
     {
-	/* on affiche ce qui est demandé pour les opés */
+	/* on affiche ce qui est demandÃ© pour les opÃ©s */
 
 
-	/* si les titres ne sont pas affichés et qu'il faut le faire, c'est ici */
+	/* si les titres ne sont pas affichÃ©s et qu'il faut le faire, c'est ici */
 
 	if ( !titres_affiches
 	     &&
@@ -1069,7 +1069,7 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 
 	colonne = 1;
 
-	/*       pour chaque info, on vérifie si on l'opé doit être clickable */
+	/*       pour chaque info, on vÃ©rifie si on l'opÃ© doit Ãªtre clickable */
 	/* si c'est le cas, on place le label dans un event_box */
 
 	if ( etat_courant -> afficher_no_ope )
@@ -1176,7 +1176,7 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 	    else
 	    {
 		/* si c'est un virement, on le marque, sinon c'est qu'il n'y a pas de categ */
-		/* ou que c'est une opé ventilée, et on marque rien */
+		/* ou que c'est une opÃ© ventilÃ©e, et on marque rien */
 
 		if ( operation -> relation_no_operation )
 		{
@@ -1537,8 +1537,8 @@ gint etat_affiche_affiche_categ_etat ( struct structure_operation *operation,
 {
     gchar *pointeur_char;
 
-    /* vérifie qu'il y a un changement de catégorie */
-    /* ça peut être aussi chgt pour virement, ventilation ou pas de categ */
+    /* vÃ©rifie qu'il y a un changement de catÃ©gorie */
+    /* Ã§a peut Ãªtre aussi chgt pour virement, ventilation ou pas de categ */
 
     if ( etat_courant -> utilise_categ
 	 &&
@@ -1559,19 +1559,19 @@ gint etat_affiche_affiche_categ_etat ( struct structure_operation *operation,
 	       operation -> relation_no_operation ))))
     {
 
-	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
+	/* lorsqu'on est au dÃ©but de l'affichage de l'Ã©tat, on n'affiche pas de totaux */
 
 	if ( !debut_affichage_etat
 	     &&
 	     !changement_de_groupe_etat )
 	{
-	    /* on affiche le total de la période en le forçant */
+	    /* on affiche le total de la pÃ©riode en le forÃ§ant */
 
 	    ligne = etat_affiche_affiche_total_periode ( operation,
 							 ligne,
 							 1 );
 
-	    /* on ajoute les totaux de tout ce qu'il y a derrière la catégorie */
+	    /* on ajoute les totaux de tout ce qu'il y a derriÃ¨re la catÃ©gorie */
 
 	    ligne = etat_affiche_affiche_totaux_sous_jaccent ( 1,
 							       ligne );
@@ -1581,7 +1581,7 @@ gint etat_affiche_affiche_categ_etat ( struct structure_operation *operation,
 	    ligne = etat_affiche_affiche_total_categories ( ligne );
 	}
 
-	/*       si on a demandé de ne pas afficher les noms des catég, on saute la partie suivante */
+	/*       si on a demandÃ© de ne pas afficher les noms des catÃ©g, on saute la partie suivante */
 
 	if ( etat_courant -> afficher_nom_categ )
 	{
@@ -1660,19 +1660,19 @@ gint etat_affiche_affiche_sous_categ_etat ( struct structure_operation *operatio
     {
 	struct struct_categ *categ;
 
-	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
+	/* lorsqu'on est au dÃ©but de l'affichage de l'Ã©tat, on n'affiche pas de totaux */
 
 	if ( !debut_affichage_etat
 	     &&
 	     !changement_de_groupe_etat )
 	{
-	    /* on affiche le total de la période en le forçant */
+	    /* on affiche le total de la pÃ©riode en le forÃ§ant */
 
 	    ligne = etat_affiche_affiche_total_periode ( operation,
 							 ligne,
 							 1 );
 
-	    /* on ajoute les totaux de tout ce qu'il y a derrière la sous catégorie */
+	    /* on ajoute les totaux de tout ce qu'il y a derriÃ¨re la sous catÃ©gorie */
 
 	    ligne = etat_affiche_affiche_totaux_sous_jaccent ( 2,
 							       ligne );
@@ -1682,7 +1682,7 @@ gint etat_affiche_affiche_sous_categ_etat ( struct structure_operation *operatio
 	    ligne = etat_affiche_affiche_total_sous_categ ( ligne );
 	}
 
-	/*       si on a demandé de ne pas afficher les noms des ss-catég, on saute la partie suivante */
+	/*       si on a demandÃ© de ne pas afficher les noms des ss-catÃ©g, on saute la partie suivante */
 
 	if ( etat_courant -> afficher_nom_categ )
 	{
@@ -1744,19 +1744,19 @@ gint etat_affiche_affiche_ib_etat ( struct structure_operation *operation,
 	 &&
 	 operation -> imputation != ancienne_ib_etat )
     {
-	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
+	/* lorsqu'on est au dÃ©but de l'affichage de l'Ã©tat, on n'affiche pas de totaux */
 
 	if ( !debut_affichage_etat
 	     &&
 	     !changement_de_groupe_etat )
 	{
-	    /* on affiche le total de la période en le forçant */
+	    /* on affiche le total de la pÃ©riode en le forÃ§ant */
 
 	    ligne = etat_affiche_affiche_total_periode ( operation,
 							 ligne,
 							 1 );
 
-	    /* on ajoute les totaux de tout ce qu'il y a derrière l'ib */
+	    /* on ajoute les totaux de tout ce qu'il y a derriÃ¨re l'ib */
 
 	    ligne = etat_affiche_affiche_totaux_sous_jaccent ( 3,
 							       ligne );
@@ -1766,7 +1766,7 @@ gint etat_affiche_affiche_ib_etat ( struct structure_operation *operation,
 	    ligne = etat_affiche_affiche_total_ib ( ligne );
 	}
 
-	/*       si on a demandé de ne pas afficher les noms des ib, on saute la partie suivante */
+	/*       si on a demandÃ© de ne pas afficher les noms des ib, on saute la partie suivante */
 
 	if ( etat_courant -> afficher_nom_ib )
 	{
@@ -1826,19 +1826,19 @@ gint etat_affiche_affiche_sous_ib_etat ( struct structure_operation *operation,
     {
 	struct struct_imputation *imputation;
 
-	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
+	/* lorsqu'on est au dÃ©but de l'affichage de l'Ã©tat, on n'affiche pas de totaux */
 
 	if ( !debut_affichage_etat
 	     &&
 	     !changement_de_groupe_etat )
 	{
-	    /* on affiche le total de la période en le forçant */
+	    /* on affiche le total de la pÃ©riode en le forÃ§ant */
 
 	    ligne = etat_affiche_affiche_total_periode ( operation,
 							 ligne,
 							 1 );
 
-	    /* on ajoute les totaux de tout ce qu'il y a derrière la sous ib */
+	    /* on ajoute les totaux de tout ce qu'il y a derriÃ¨re la sous ib */
 
 	    ligne = etat_affiche_affiche_totaux_sous_jaccent ( 4,
 							       ligne );
@@ -1848,7 +1848,7 @@ gint etat_affiche_affiche_sous_ib_etat ( struct structure_operation *operation,
 	    ligne = etat_affiche_affiche_total_sous_ib ( ligne );
 	}
 
-	/*       si on a demandé de ne pas afficher les noms des ss-ib, on saute la partie suivante */
+	/*       si on a demandÃ© de ne pas afficher les noms des ss-ib, on saute la partie suivante */
 
 	if ( etat_courant -> afficher_nom_ib )
 	{
@@ -1909,19 +1909,19 @@ gint etat_affiche_affiche_compte_etat ( struct structure_operation *operation,
 	 &&
 	 operation -> no_compte != ancien_compte_etat )
     {
-	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
+	/* lorsqu'on est au dÃ©but de l'affichage de l'Ã©tat, on n'affiche pas de totaux */
 
 	if ( !debut_affichage_etat
 	     &&
 	     !changement_de_groupe_etat )
 	{
-	    /* on affiche le total de la période en le forçant */
+	    /* on affiche le total de la pÃ©riode en le forÃ§ant */
 
 	    ligne = etat_affiche_affiche_total_periode ( operation,
 							 ligne,
 							 1 );
 
-	    /* on ajoute les totaux de tout ce qu'il y a derrière le compte */
+	    /* on ajoute les totaux de tout ce qu'il y a derriÃ¨re le compte */
 
 	    ligne = etat_affiche_affiche_totaux_sous_jaccent ( 5,
 							       ligne );
@@ -1931,7 +1931,7 @@ gint etat_affiche_affiche_compte_etat ( struct structure_operation *operation,
 	    ligne = etat_affiche_affiche_total_compte ( ligne );
 	}
 
-	/*       si on a demandé de ne pas afficher les noms des comptes, on saute la partie suivante */
+	/*       si on a demandÃ© de ne pas afficher les noms des comptes, on saute la partie suivante */
 
 	if ( etat_courant -> afficher_nom_compte )
 	{
@@ -1976,19 +1976,19 @@ gint etat_affiche_affiche_tiers_etat ( struct structure_operation *operation,
 	 &&
 	 operation -> tiers != ancien_tiers_etat )
     {
-	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
+	/* lorsqu'on est au dÃ©but de l'affichage de l'Ã©tat, on n'affiche pas de totaux */
 
 	if ( !debut_affichage_etat
 	     &&
 	     !changement_de_groupe_etat )
 	{
-	    /* on affiche le total de la période en le forçant */
+	    /* on affiche le total de la pÃ©riode en le forÃ§ant */
 
 	    ligne = etat_affiche_affiche_total_periode ( operation,
 							 ligne,
 							 1 );
 
-	    /* on ajoute les totaux de tout ce qu'il y a derrière le tiers */
+	    /* on ajoute les totaux de tout ce qu'il y a derriÃ¨re le tiers */
 
 	    ligne = etat_affiche_affiche_totaux_sous_jaccent ( 6,
 							       ligne );
@@ -1998,7 +1998,7 @@ gint etat_affiche_affiche_tiers_etat ( struct structure_operation *operation,
 	    ligne = etat_affiche_affiche_total_tiers ( ligne );
 	}
 
-	/*       si on a demandé de ne pas afficher les noms des tiers, on saute la partie suivante */
+	/*       si on a demandÃ© de ne pas afficher les noms des tiers, on saute la partie suivante */
 
 	if ( etat_courant -> afficher_nom_tiers )
 	{
@@ -2075,7 +2075,7 @@ gint etat_affiche_affiche_titre_depenses_etat ( gint ligne )
 
 
 /*****************************************************************************************************/
-/* appelée lors de l'affichage d'une structure ( catég, ib ... ) */
+/* appelÃ©e lors de l'affichage d'une structure ( catÃ©g, ib ... ) */
 /* affiche le total de toutes les structures sous jaccentes */
 /*****************************************************************************************************/
 
@@ -2085,7 +2085,7 @@ gint etat_affiche_affiche_totaux_sous_jaccent ( gint origine,
     GList *pointeur_glist;
 
 
-    /* on doit partir du bout de la liste pour revenir vers la structure demandée */
+    /* on doit partir du bout de la liste pour revenir vers la structure demandÃ©e */
 
     pointeur_glist = g_list_last ( etat_courant -> type_classement );
 

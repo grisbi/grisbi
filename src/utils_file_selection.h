@@ -9,7 +9,7 @@
 /*                                                                            */
 /*                        file_selection.h                                    */
 /*                                                                            */
-/*     Copyright (C)	2004- xxxx François Terrot (grisbi@terrot.net)	      */
+/*     Copyright (C)	2004- xxxx FranÃ§ois Terrot (grisbi@terrot.net)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -28,7 +28,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef _H_UTILS_FILE_SELECTION_
-#define _H_UTILS_FILE_SELECTION_ "$Id: utils_file_selection.h,v 1.1.2.1 2004/08/27 20:44:17 teilginn Exp $"
+#define _H_UTILS_FILE_SELECTION_ "$Id: utils_file_selection.h,v 1.1.2.2 2004/12/15 13:05:48 dionysos-sf Exp $"
 
 #include <gtk/gtk.h>
 

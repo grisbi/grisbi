@@ -1,7 +1,7 @@
-/*  Fichier qui gère la liste des comptes, la partie gauche de l'onglet opérations */
+/*  Fichier qui gÃ¨re la liste des comptes, la partie gauche de l'onglet opÃ©rations */
 /*      operations_comptes.c */
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
+/*     Copyright (C) 2000-2003  CÃ©dric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -52,7 +52,7 @@ extern gchar *derniere_date;
 
 
 /* ********************************************************************************************************** */
-/*** Création de la fenêtre de comptes ***/
+/*** CrÃ©ation de la fenÃªtre de comptes ***/
 /* **************************************************************************************************** */
 
 GtkWidget *creation_liste_comptes (void)
@@ -64,7 +64,7 @@ GtkWidget *creation_liste_comptes (void)
     GtkWidget *vbox_frame_equilibrage;
     GtkWidget *scrolled_window;
 
-    /*  Création d'une fenêtre générale*/
+    /*  CrÃ©ation d'une fenÃªtre gÃ©nÃ©rale*/
 
     onglet = gtk_vbox_new ( FALSE,
 			    10);
@@ -72,7 +72,7 @@ GtkWidget *creation_liste_comptes (void)
 				     10 );
     gtk_widget_show ( onglet );
 
-    /*  Création du label Comptes en haut */
+    /*  CrÃ©ation du label Comptes en haut */
 
 
     /*   on place le label dans une frame */
@@ -99,9 +99,9 @@ GtkWidget *creation_liste_comptes (void)
     gtk_widget_show (label_compte_courant);
 
 
-    /*  Création de la fenêtre des comptes */
-    /*  qui peut contenir des barres de défilement si */
-    /*  nécessaire */
+    /*  CrÃ©ation de la fenÃªtre des comptes */
+    /*  qui peut contenir des barres de dÃ©filement si */
+    /*  nÃ©cessaire */
 
     scrolled_window = gtk_scrolled_window_new ( NULL,
 						NULL);
@@ -116,8 +116,8 @@ GtkWidget *creation_liste_comptes (void)
     gtk_widget_show ( scrolled_window );
 
 
-    /*  création d'une vbox contenant la liste des comptes */
-    /*     pour que le drag fonctionne, l'espacement doit être de 0 */
+    /*  crÃ©ation d'une vbox contenant la liste des comptes */
+    /*     pour que le drag fonctionne, l'espacement doit Ãªtre de 0 */
 
     vbox_liste_comptes = gtk_vbox_new ( FALSE,
 					0);
@@ -128,15 +128,15 @@ GtkWidget *creation_liste_comptes (void)
     gtk_widget_show (vbox_liste_comptes);
 
 
-    /*  Création d'une icone et du nom par compte, et placement dans la
-	liste selon l'ordre désiré  */
+    /*  CrÃ©ation d'une icone et du nom par compte, et placement dans la
+	liste selon l'ordre dÃ©sirÃ©  */
     if ( nb_comptes )
     {
 	reaffiche_liste_comptes ();
     }
 
-    /* ajoute le bouton et le label pour l'équilibrage de compte */
-    /* les 2 seront intégrés dans une frame */
+    /* ajoute le bouton et le label pour l'Ã©quilibrage de compte */
+    /* les 2 seront intÃ©grÃ©s dans une frame */
 
     frame_equilibrage = gtk_frame_new ( NULL );
     gtk_frame_set_shadow_type ( GTK_FRAME ( frame_equilibrage ),
@@ -175,7 +175,7 @@ GtkWidget *creation_liste_comptes (void)
     gtk_widget_show ( label_releve );
 
 
-    /* mise en place du bouton équilibrage */
+    /* mise en place du bouton Ã©quilibrage */
 
     bouton = gtk_button_new_with_label ( _("Reconcile") );
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
@@ -202,7 +202,7 @@ GtkWidget *creation_liste_comptes (void)
 
 /* ********************************************************************************************************** */
 /** Fonction qui renvoie un widget contenant un bouton **/
-/** de compte associé à son nom **/
+/** de compte associÃ© Ã  son nom **/
 /* ********************************************************************************************************** */
 
 GtkWidget *comptes_appel ( gint no_de_compte )
@@ -241,7 +241,7 @@ void changement_compte_par_menu ( gpointer null,
 
 
 /* ********************************************************************************************************** */
-/*  Routine appelée lors de changement de compte */
+/*  Routine appelÃ©e lors de changement de compte */
 /* ********************************************************************************************************** */
 
 gboolean changement_compte ( gint *compte)
@@ -254,7 +254,7 @@ gboolean changement_compte ( gint *compte)
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
 				1 );
 
-    /* si on était dans une ventilation d'opération, alors on annule la ventilation */
+    /* si on Ã©tait dans une ventilation d'opÃ©ration, alors on annule la ventilation */
 
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ) ) == 1 )
 	annuler_ventilation();
@@ -272,11 +272,11 @@ gboolean changement_compte ( gint *compte)
     /* change le nom du compte courant */
     gtk_label_set_text ( GTK_LABEL ( label_compte_courant), NOM_DU_COMPTE);
 
-    /* change les types d'opé et met le défaut */
+    /* change les types d'opÃ© et met le dÃ©faut */
 
     if ( (menu = creation_menu_types ( 1, compte_courant, 0  )))
     {
-	/* on joue avec les sensitive pour éviter que le 1er mot du menu ne reste grise */
+	/* on joue avec les sensitive pour Ã©viter que le 1er mot du menu ne reste grise */
 
 	gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_TYPE],
 				   TRUE );
@@ -320,7 +320,7 @@ gboolean changement_compte ( gint *compte)
 					   devise_name_by_no ( DEVISE )));
 
 
-    /* change le défaut de l'option menu des devises du formulaire */
+    /* change le dÃ©faut de l'option menu des devises du formulaire */
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ),
 				  g_slist_position ( liste_struct_devises,
@@ -328,7 +328,7 @@ gboolean changement_compte ( gint *compte)
 									   GINT_TO_POINTER ( DEVISE ),
 									   ( GCompareFunc ) recherche_devise_par_no )));
 
-    /* met les boutons R et nb lignes par opé comme il faut */
+    /* met les boutons R et nb lignes par opÃ© comme il faut */
 
     mise_a_jour_boutons_caract_liste ( compte_courant );
 
@@ -340,7 +340,7 @@ gboolean changement_compte ( gint *compte)
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
 			    compte_courant + 1 );
 
-    /*     on réinitialise la dernière date à la date du jour */
+    /*     on rÃ©initialise la derniÃ¨re date Ã  la date du jour */
 
     derniere_date = NULL;
 
@@ -351,7 +351,7 @@ gboolean changement_compte ( gint *compte)
 
 
 /* *********************************************************************************************************** */
-/*   on réaffiche la liste des comptes s'il y a eu un changement */
+/*   on rÃ©affiche la liste des comptes s'il y a eu un changement */
 /* *********************************************************************************************************** */
 
 void reaffiche_liste_comptes ( void )
@@ -366,7 +366,7 @@ void reaffiche_liste_comptes ( void )
 	gtk_container_remove ( GTK_CONTAINER ( vbox_liste_comptes ),
 			       (( GtkBoxChild *) ( GTK_BOX ( vbox_liste_comptes ) -> children -> data )) -> widget );
 
-    /* on efface les menus des comptes cloturés */
+    /* on efface les menus des comptes cloturÃ©s */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
@@ -388,8 +388,8 @@ void reaffiche_liste_comptes ( void )
 			       FALSE );
 
 
-    /* on efface dans le menu Édition la liste des comptes vers lesquels on peut
-       déplacer les opérations */
+    /* on efface dans le menu Ã‰dition la liste des comptes vers lesquels on peut
+       dÃ©placer les opÃ©rations */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
@@ -411,7 +411,7 @@ void reaffiche_liste_comptes ( void )
 			       FALSE );
 
 
-    /*  Création d'une icone et du nom par compte, et placement dans la liste selon l'ordre désiré  */
+    /*  CrÃ©ation d'une icone et du nom par compte, et placement dans la liste selon l'ordre dÃ©sirÃ©  */
 
     ordre_comptes_variable = ordre_comptes;
     do
@@ -449,7 +449,7 @@ void reaffiche_liste_comptes ( void )
 
 	    item_factory_entry -> callback = G_CALLBACK ( changement_compte_par_menu );
 
-	    /* 	    on rajoute 1 car sinon pour le compte 0 ça passerait pas... */
+	    /* 	    on rajoute 1 car sinon pour le compte 0 Ã§a passerait pas... */
 
 	    item_factory_entry -> callback_action = GPOINTER_TO_INT ( ordre_comptes_variable->data ) + 1;
 
@@ -467,8 +467,8 @@ void reaffiche_liste_comptes ( void )
     while ( (  ordre_comptes_variable = ordre_comptes_variable->next ) );
 
 
-    /* Création dans le menu Édition de la liste des comptes vers lesquels on
-       peut déplacer les opérations */
+    /* CrÃ©ation dans le menu Ã‰dition de la liste des comptes vers lesquels on
+       peut dÃ©placer les opÃ©rations */
 
     ordre_comptes_variable = ordre_comptes;
     do
@@ -492,7 +492,7 @@ void reaffiche_liste_comptes ( void )
 
 	    item_factory_entry -> callback = G_CALLBACK ( move_selected_operation_to_account_nb );
 
-	    /* 	    on rajoute 1 car sinon pour le compte 0 ça passerait pas... */
+	    /* 	    on rajoute 1 car sinon pour le compte 0 Ã§a passerait pas... */
 
 	    item_factory_entry -> callback_action = GPOINTER_TO_INT ( ordre_comptes_variable->data ) + 1;
 
@@ -505,7 +505,7 @@ void reaffiche_liste_comptes ( void )
 								   menu_name(_("Edit"), _("Move transaction to another account"), NULL)),
 				       TRUE );
 
-	    /* si c'est le compte courant, on grise l'entrée menu */
+	    /* si c'est le compte courant, on grise l'entrÃ©e menu */
 
 	    if ( p_tab_nom_de_compte_variable == p_tab_nom_de_compte + compte_courant )
 	    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
@@ -520,8 +520,8 @@ void reaffiche_liste_comptes ( void )
 
 
 /* *********************************************************************************************************** */
-/* cette fonction est appelée lorsque l'ordre des comptes a été changé, soit */
-/* par l'onglet de compte, soit par l'onglet de la liste des opérations */
+/* cette fonction est appelÃ©e lorsque l'ordre des comptes a Ã©tÃ© changÃ©, soit */
+/* par l'onglet de compte, soit par l'onglet de la liste des opÃ©rations */
 /* *********************************************************************************************************** */
 gboolean changement_ordre_liste_comptes ( GtkWidget *bouton )
 {
@@ -544,9 +544,9 @@ gboolean changement_ordre_liste_comptes ( GtkWidget *bouton )
 	liste_tmp = liste_tmp -> next;
     }
 
-    /*     on va vérifier que tous les comptes de l'ancienne liste sont présents dans la nouvelle */
-    /* 	car si l'on part de l'onglet des opérations, les compltes cloturés ne sont pas */
-    /* 	affichés */
+    /*     on va vÃ©rifier que tous les comptes de l'ancienne liste sont prÃ©sents dans la nouvelle */
+    /* 	car si l'on part de l'onglet des opÃ©rations, les compltes cloturÃ©s ne sont pas */
+    /* 	affichÃ©s */
 
     sliste_tmp = ordre_comptes;
 
@@ -562,10 +562,10 @@ gboolean changement_ordre_liste_comptes ( GtkWidget *bouton )
     g_slist_free ( ordre_comptes );
     ordre_comptes = nouvelle_liste_comptes;
 
-    /*     on réaffiche la liste des comptes de l'autre fenetre */
+    /*     on rÃ©affiche la liste des comptes de l'autre fenetre */
 
     if ( bouton -> parent == vbox_liste_comptes )
-	/* 	on est sur la liste des comptes de l'onglet opérations, donc on réaffiche l'onglet comptes */
+	/* 	on est sur la liste des comptes de l'onglet opÃ©rations, donc on rÃ©affiche l'onglet comptes */
 	reaffiche_liste_comptes_onglet ();
     else
 	reaffiche_liste_comptes ();

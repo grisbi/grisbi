@@ -1,7 +1,7 @@
 /* Fichier devises.c */
 /* s'occupe de tout ce qui concerne les devises */
 
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org) */
 /*			2003 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
@@ -329,7 +329,7 @@ void update_currency_widgets()
 									   ( GCompareFunc ) recherche_devise_par_no )));
 
 
-    /* on recrée les boutons de devises dans la conf de l'état */
+    /* on recrÃ©e les boutons de devises dans la conf de l'Ã©tat */
 
     if ( onglet_config_etat )
     {
@@ -657,8 +657,8 @@ GtkWidget * new_currency_list ()
 
 /***********************************************************************************************************/
 /* Fonction ajout_devise */
-/* appelée pour créer une nouvelle devise */
-/* soit c'est la clist des paramètres */
+/* appelÃ©e pour crÃ©er une nouvelle devise */
+/* soit c'est la clist des paramÃ¨tres */
 /* soit il est NULL, quand il provient de l'import */
 /***********************************************************************************************************/
 
@@ -786,7 +786,7 @@ reprise_dialog:
 
 
 		/* 	  si le widget n'est pas nul, c'est une clist, c'est que l'appel vient du menu de configuration, */
-		/* on met la liste à  jour et on ajoute la devise à  liste_struct_devises */
+		/* on met la liste Ã  jour et on ajoute la devise Ã  liste_struct_devises */
 
 		devise -> no_devise = ++no_derniere_devise;
 		liste_struct_devises = g_slist_append ( liste_struct_devises,
@@ -2124,7 +2124,7 @@ gchar * devise_name ( struct struct_devise * devise )
 
 
 /* renvoie le nom de la devise correspondante au no */
-/* ou null si pas trouvée */
+/* ou null si pas trouvÃ©e */
 
 gchar * devise_name_by_no ( gint no_devise )
 {

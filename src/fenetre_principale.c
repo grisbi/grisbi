@@ -1,7 +1,7 @@
-/*  Fichier qui s'occupe de former les différentes fenêtres de travail */
+/*  Fichier qui s'occupe de former les diffÃ©rentes fenÃªtres de travail */
 /*      fenetre_principale.c */
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
+/*     Copyright (C) 2000-2003  CÃ©dric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -40,14 +40,14 @@
 
 
 /**********************************************************************************************************
- ** Création de la fenêtre du gestionnaire de comptes **
+ ** CrÃ©ation de la fenÃªtre du gestionnaire de comptes **
  ** Renvoie le notebook **
  ***********************************************************************************************************/
 
 GtkWidget *creation_fenetre_principale (void )
 {
 
-    /* création du notebook de base */
+    /* crÃ©ation du notebook de base */
 
     notebook_general = gtk_notebook_new();
 
@@ -57,7 +57,7 @@ GtkWidget *creation_fenetre_principale (void )
 			 NULL );
 
 
-    /* Création de la page d'accueil */
+    /* CrÃ©ation de la page d'accueil */
 
     page_accueil = creation_onglet_accueil();
 
@@ -65,8 +65,8 @@ GtkWidget *creation_fenetre_principale (void )
 			       page_accueil,
 			       gtk_label_new (SPACIFY(_("Main page"))) );
 
-    /*  Céation de la fenêtre principale qui contient d'un côté */
-    /*  les comptes, et de l'autre les opérations */
+    /*  CÃ©ation de la fenÃªtre principale qui contient d'un cÃ´tÃ© */
+    /*  les comptes, et de l'autre les opÃ©rations */
 
     page_operations = creation_onglet_operations ();
 
@@ -74,35 +74,35 @@ GtkWidget *creation_fenetre_principale (void )
 			       page_operations,
 			       gtk_label_new (SPACIFY(_("Transactions"))) );
 
-    /*   création de la fenetre des echéances */
+    /*   crÃ©ation de la fenetre des echÃ©ances */
 
     page_echeancier = creation_onglet_echeancier();
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
 			       page_echeancier,
 			       gtk_label_new (SPACIFY(_("Scheduler"))) );
 
-    /*   création de la fenetre des comptes */
+    /*   crÃ©ation de la fenetre des comptes */
 
     page_comptes = creation_onglet_comptes ();
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
 			       page_comptes,
 			       gtk_label_new (SPACIFY(_("Accounts"))) );
 
-    /* Création de la fenetre des tiers */
+    /* CrÃ©ation de la fenetre des tiers */
 
     page_tiers = onglet_tiers();
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
 			       page_tiers,
 			       gtk_label_new (SPACIFY(_("Third party"))) );
 
-    /* création de la fenetre des categories */
+    /* crÃ©ation de la fenetre des categories */
 
     page_categories = onglet_categories();
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
 			       page_categories,
 			       gtk_label_new (SPACIFY(_("Categories"))) );
 
-    /* création de la fenetre des imputations budgétaires */
+    /* crÃ©ation de la fenetre des imputations budgÃ©taires */
 
     page_imputations = onglet_imputations();
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
@@ -112,7 +112,7 @@ GtkWidget *creation_fenetre_principale (void )
     gtk_widget_set_sensitive ( page_imputations,
 			       etat.utilise_imputation_budgetaire );
 
-    /* création de la fenetre des états */
+    /* crÃ©ation de la fenetre des Ã©tats */
 
     page_etats = creation_onglet_etats ();
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
@@ -122,7 +122,7 @@ GtkWidget *creation_fenetre_principale (void )
 
 
 
-    /* change les titres des colonnes si nécessaire */
+    /* change les titres des colonnes si nÃ©cessaire */
 
     if ( etat.affiche_nb_ecritures_listes )
     {
@@ -160,7 +160,7 @@ gboolean change_page_notebook ( GtkNotebook *notebook,
     }
 
 
-    /* remet l'horloge si revient à l'accueil */
+    /* remet l'horloge si revient Ã  l'accueil */
 
 
     if ( !numero_page )
@@ -183,7 +183,7 @@ gboolean change_page_notebook ( GtkNotebook *notebook,
 
     switch ( numero_page )
     {
-	/* si on va sur la fenêtre des comptes => focus à la liste */
+	/* si on va sur la fenÃªtre des comptes => focus Ã  la liste */
 
 	case 1:
 	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
@@ -192,7 +192,7 @@ gboolean change_page_notebook ( GtkNotebook *notebook,
 		gtk_widget_grab_focus ( GTK_WIDGET ( CLIST_OPERATIONS ) );
 	    break;
 
-	    /*   pour les listes, si aucune ligne n'est affichée ( c'est le cas au départ ), */
+	    /*   pour les listes, si aucune ligne n'est affichÃ©e ( c'est le cas au dÃ©part ), */
 	    /* on le fait ici */
 
 	case 4:

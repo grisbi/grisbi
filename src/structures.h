@@ -1,4 +1,4 @@
-/* fichier d'en tête structures.h */
+/* fichier d'en tÃªte structures.h */
 /* contient toutes les structures du prog */
 
 #include "print_config.h"
@@ -65,34 +65,34 @@ struct {
     guint valeur_r_avant_rapprochement;
     guint r_modifiable;
     guint dernier_fichier_auto;
-    guint sauvegarde_auto;             /* utilisé pour enregistrer le fichier automatiquementà la fermeture */
-    guint sauvegarde_demarrage;        /* utilisé pour enregistrer le fichier s'il s'est bien ouvert */
+    guint sauvegarde_auto;             /* utilisÃ© pour enregistrer le fichier automatiquementÃ  la fermeture */
+    guint sauvegarde_demarrage;        /* utilisÃ© pour enregistrer le fichier s'il s'est bien ouvert */
     guint entree;
     guint alerte_mini;
     guint formulaire_toujours_affiche;
     guint formulaire_echeancier_toujours_affiche;
-    guint formulaire_echeance_dans_fenetre;        /* à 1 lorsque le formulaire de l'échéancier est dans une fenetre à part */
-    guint alerte_permission;   /* à un si le message d'alerte s'affiche */
-    guint fichier_deja_ouvert;   /* à un si lors de l'ouverture, le fichier semblait déjà ouvert */
-    guint force_enregistrement;    /* à un si on force l'enregistrement */
-    guint affichage_exercice_automatique;   /* à 1 si exercice automatique selon la date, 0 si affiche le dernier choisi */
-    guint affiche_tous_les_types;      /* à 1 si tous les types sont dans le check button et non pas juste les débits ou crédits */
+    guint formulaire_echeance_dans_fenetre;        /* Ã  1 lorsque le formulaire de l'Ã©chÃ©ancier est dans une fenetre Ã  part */
+    guint alerte_permission;   /* Ã  un si le message d'alerte s'affiche */
+    guint fichier_deja_ouvert;   /* Ã  un si lors de l'ouverture, le fichier semblait dÃ©jÃ  ouvert */
+    guint force_enregistrement;    /* Ã  un si on force l'enregistrement */
+    guint affichage_exercice_automatique;   /* Ã  1 si exercice automatique selon la date, 0 si affiche le dernier choisi */
+    guint affiche_tous_les_types;      /* Ã  1 si tous les types sont dans le check button et non pas juste les dÃ©bits ou crÃ©dits */
     guint affiche_no_operation;
-    guint affiche_date_bancaire; /* GDC : à 1 si on veut afficher la colonne et le champ de la date réelle */
+    guint affiche_date_bancaire; /* GDC : Ã  1 si on veut afficher la colonne et le champ de la date rÃ©elle */
     guint utilise_exercice;
     guint utilise_imputation_budgetaire;
     guint utilise_piece_comptable;
     guint utilise_info_banque_guichet;
     guint affiche_boutons_valider_annuler;
     guint affiche_nb_ecritures_listes;
-    guint classement_par_date;   /* à 1 si le classement de la liste d'opé se fait par date */
+    guint classement_par_date;   /* Ã  1 si le classement de la liste d'opÃ© se fait par date */
     guint largeur_auto_colonnes;
-    guint retient_affichage_par_compte;   /* à 1 si les caractéristiques de l'affichage (R, non R ...) diffèrent par compte */
+    guint retient_affichage_par_compte;   /* Ã  1 si les caractÃ©ristiques de l'affichage (R, non R ...) diffÃ¨rent par compte */
     guint en_train_de_sauvegarder;
     guint en_train_de_charger;
     guint utilise_logo;
     guint utilise_fonte_listes;
-    guint classement_rp;   /*à 1 si on veut un classement r/p avant les dates FIXME : à virer sur l'instable*/
+    guint classement_rp;   /*Ã  1 si on veut un classement r/p avant les dates FIXME : Ã  virer sur l'instable*/
 
     /* Various display message stuff  */
     guint display_message_lock_active;
@@ -105,7 +105,7 @@ struct {
     gchar * latex_command;
     gchar * dvips_command;
 
-    /*     chemin de l'image affichée quand on patiente */
+    /*     chemin de l'image affichÃ©e quand on patiente */
 
     gchar *fichier_animation_attente;
 
@@ -121,7 +121,7 @@ struct {
 
 } etat;
 
-/** Etat de rapprochement d'une opération */
+/** Etat de rapprochement d'une opÃ©ration */
 enum operation_etat_rapprochement {
   OPERATION_NORMALE = 0,
   OPERATION_POINTEE,
@@ -134,7 +134,7 @@ struct structure_operation
 {
     guint no_operation;
 
-    gchar *id_operation;   /* utilisé lors d'import ofx pour éviter les doublons */
+    gchar *id_operation;   /* utilisÃ© lors d'import ofx pour Ã©viter les doublons */
 
     GDate *date;
     guint jour;
@@ -157,27 +157,27 @@ struct structure_operation
     guint tiers;        /*  no du tiers */
     guint categorie;
     guint sous_categorie;
-    gint operation_ventilee;        /* à 1 si c'est une opé ventilée */
+    gint operation_ventilee;        /* Ã  1 si c'est une opÃ© ventilÃ©e */
 
     gchar *notes;
 
     guint type_ope;               /* variable suivant le type de compte */
-    gchar *contenu_type;          /* ce peut être un no de chèque, de virement ou tout ce qu'on veut */
+    gchar *contenu_type;          /* ce peut Ãªtre un no de chÃ¨que, de virement ou tout ce qu'on veut */
 
-    gshort pointe;            /*  0=rien, 1=pointée, 2=rapprochée, 3=T */
+    gshort pointe;            /*  0=rien, 1=pointÃ©e, 2=rapprochÃ©e, 3=T */
     gshort auto_man;           /* 0=manuel, 1=automatique */
-    gint no_rapprochement;          /* contient le numéro du rapprochement si elle est rapprochée */
+    gint no_rapprochement;          /* contient le numÃ©ro du rapprochement si elle est rapprochÃ©e */
 
-    guint no_exercice;             /* exercice de l'opé */
+    guint no_exercice;             /* exercice de l'opÃ© */
     guint imputation;
     guint sous_imputation;
     gchar *no_piece_comptable;
     gchar *info_banque_guichet;
 
     guint relation_no_operation;
-    gint relation_no_compte;             /* attention, doit être à gint et pas guint car à -1 si compte supprimé */
+    gint relation_no_compte;             /* attention, doit Ãªtre Ã  gint et pas guint car Ã  -1 si compte supprimÃ© */
 
-    guint no_operation_ventilee_associee;      /* si c'est une opé d'une ventilation, contient le no de l'opé ventilée */
+    guint no_operation_ventilee_associee;      /* si c'est une opÃ© d'une ventilation, contient le no de l'opÃ© ventilÃ©e */
 };
 
 
@@ -186,8 +186,8 @@ struct structure_operation
 struct donnees_compte
 {
     gint no_compte;
-    gchar *id_compte;            /*cet id est rempli lors d'un import ofx, il est invisible à l'utilisateur*/
-    gint type_de_compte;          /* 0 = bancaire, 1 = espèce, 2 = passif, 3= actif */
+    gchar *id_compte;            /*cet id est rempli lors d'un import ofx, il est invisible Ã  l'utilisateur*/
+    gint type_de_compte;          /* 0 = bancaire, 1 = espÃ¨ce, 2 = passif, 3= actif */
     gchar *nom_de_compte;
     gint nb_operations;
     gdouble solde_initial;
@@ -196,33 +196,33 @@ struct donnees_compte
     gdouble solde_courant;
     gdouble solde_pointe;
     GSList *gsliste_operations;
-    GtkWidget *clist_operations;        /* adr de la liste des opé */
-    struct structure_operation *operation_selectionnee;       /* contient l'adr de la struct de la ligne sélectinnée */
+    GtkWidget *clist_operations;        /* adr de la liste des opÃ© */
+    struct structure_operation *operation_selectionnee;       /* contient l'adr de la struct de la ligne sÃ©lectinnÃ©e */
     gint message_sous_mini;
     gint message_sous_mini_voulu;
     GDate *date_releve;
     gdouble solde_releve;
     gint dernier_no_rapprochement;
     GtkWidget *icone_ouverte;              /* adr de l'icone ouverte */
-    GtkWidget *icone_fermee;              /* adr de l'icone fermée */
-    gint mise_a_jour;                      /* à 1 lorsque la liste doit être rafraichie à l'affichage */
+    GtkWidget *icone_fermee;              /* adr de l'icone fermÃ©e */
+    gint mise_a_jour;                      /* Ã  1 lorsque la liste doit Ãªtre rafraichie Ã  l'affichage */
     gint devise;                         /* contient le no de la devise du compte */
     gint banque;                                      /* 0 = aucune, sinon, no de banque */
     gchar *no_guichet;
     gchar *no_compte_banque;
     gchar *cle_compte;
-    gint compte_cloture;                          /* si = 1 => cloturé */
+    gint compte_cloture;                          /* si = 1 => cloturÃ© */
     gchar *commentaire;
     gint tri;                           /* si = 1 => tri en fonction des types, si 0 => des dates */
     GSList *liste_tri;                         /* contient la liste des types dans l'ordre du tri du compte */
-    gint neutres_inclus;                           /* si = 1 => les neutres sont inclus dans les débits/crédits */
+    gint neutres_inclus;                           /* si = 1 => les neutres sont inclus dans les dÃ©bits/crÃ©dits */
     gchar *titulaire;                  /* contient le nom du titulaire de ce compte */
-    gchar *adresse_titulaire;          /* à NULL si c'est l'adresse commune, contient l'adresse sinon */
-    GSList *liste_types_ope;         /* liste qui contient les struct de types d'opé du compte */
-    gint type_defaut_debit;            /* no du type par défaut */
-    gint type_defaut_credit;            /* no du type par défaut */
-    gint affichage_r;            /* à 1 si les R sont affichés pour ce compte */
-    gint nb_lignes_ope;           /* contient le nb de lignes pour une opé (1, 2, 3, 4 ) */
+    gchar *adresse_titulaire;          /* Ã  NULL si c'est l'adresse commune, contient l'adresse sinon */
+    GSList *liste_types_ope;         /* liste qui contient les struct de types d'opÃ© du compte */
+    gint type_defaut_debit;            /* no du type par dÃ©faut */
+    gint type_defaut_credit;            /* no du type par dÃ©faut */
+    gint affichage_r;            /* Ã  1 si les R sont affichÃ©s pour ce compte */
+    gint nb_lignes_ope;           /* contient le nb de lignes pour une opÃ© (1, 2, 3, 4 ) */
 };
 
 
@@ -288,11 +288,11 @@ struct operation_echeance
     gchar *notes;
 
     gint type_ope;        /* variable suivant le compte */
-    gchar *contenu_type;          /* ce peut être un no de chèque, de virement ou tout ce qu'on veut */
+    gchar *contenu_type;          /* ce peut Ãªtre un no de chÃ¨que, de virement ou tout ce qu'on veut */
 
     gshort auto_man;           /* 0=manuel, 1=automatique */
 
-    guint no_exercice;             /* exercice de l'opé */
+    guint no_exercice;             /* exercice de l'opÃ© */
     guint imputation;
     guint sous_imputation;
 
@@ -308,8 +308,8 @@ struct operation_echeance
     gint compte_virement;
     gint type_contre_ope;        /* variable suivant le compte */
 
-    gint operation_ventilee;        /* à 1 si c'est une opé ventilée */
-    guint no_operation_ventilee_associee;      /* si c'est une opé d'une ventilation, contient le no de l'opé ventilée */
+    gint operation_ventilee;        /* Ã  1 si c'est une opÃ© ventilÃ©e */
+    guint no_operation_ventilee_associee;      /* si c'est une opÃ© d'une ventilation, contient le no de l'opÃ© ventilÃ©e */
 };
 
 
@@ -322,8 +322,8 @@ struct struct_tiers
 {
     guint no_tiers;
     gchar *nom_tiers;
-    gchar *texte;                  /* contient le texte associé au tiers */
-    gint liaison;                    /* à 1 si ce tiers est lié à un autre logiciel */
+    gchar *texte;                  /* contient le texte associÃ© au tiers */
+    gint liaison;                    /* Ã  1 si ce tiers est liÃ© Ã  un autre logiciel */
 };
 
 
@@ -331,7 +331,7 @@ struct struct_categ
 {
     gint no_categ;
     gchar *nom_categ;
-    gint type_categ;                   /* 0=crédit ; 1 = débit ; 2 = spécial */
+    gint type_categ;                   /* 0=crÃ©dit ; 1 = dÃ©bit ; 2 = spÃ©cial */
     gint no_derniere_sous_categ;
     GSList *liste_sous_categ;
 };
@@ -353,9 +353,9 @@ struct struct_devise
     gchar *nom_devise;
     gchar *code_iso4217_devise;
     gchar *code_devise;
-    gint passage_euro;                                  /* à 1 si cette devise doit passer à l'euro */
+    gint passage_euro;                                  /* Ã  1 si cette devise doit passer Ã  l'euro */
 
-    GDate *date_dernier_change;                     /*   dernière mise à jour du change, NULL si aucun change */
+    GDate *date_dernier_change;                     /*   derniÃ¨re mise Ã  jour du change, NULL si aucun change */
     gint une_devise_1_egale_x_devise_2;       /* si = 1 : 1 nom_devise = "change" devise_en_rapport */
     gint no_devise_en_rapport;
     gdouble change;                                          /* taux de change */
@@ -397,9 +397,9 @@ struct struct_type_ope
 {
     gint no_type;
     gchar *nom_type;
-    gint signe_type;   /* 0=neutre, 1=débit, 2=crédit */
-    gint affiche_entree;    /* par ex pour virement, chèques ... */
-    gint numerotation_auto;        /* pour les chèques */
+    gint signe_type;   /* 0=neutre, 1=dÃ©bit, 2=crÃ©dit */
+    gint affiche_entree;    /* par ex pour virement, chÃ¨ques ... */
+    gint numerotation_auto;        /* pour les chÃ¨ques */
     gdouble no_en_cours;
     gint no_compte;
 };
@@ -408,7 +408,7 @@ struct struct_imputation
 {
     gint no_imputation;
     gchar *nom_imputation;
-    gint type_imputation;                   /* 0=crédit ; 1 = débit */
+    gint type_imputation;                   /* 0=crÃ©dit ; 1 = dÃ©bit */
     gint no_derniere_sous_imputation;
     GSList *liste_sous_imputation;
 };
@@ -420,9 +420,9 @@ struct struct_sous_imputation
 };
 
 
-/* la struct_ope_liee est utilisée pour le passage de la 0.3.1 à la 0.3.2 */
-/* pour transformer les no d'opés */
-/* à virer ensuite */
+/* la struct_ope_liee est utilisÃ©e pour le passage de la 0.3.1 Ã  la 0.3.2 */
+/* pour transformer les no d'opÃ©s */
+/* Ã  virer ensuite */
 
 struct struct_ope_liee
 {
@@ -433,8 +433,8 @@ struct struct_ope_liee
     gint ope_ventilee;
 };
 
-/* si en 2 parties, séparé d'un - */
-/* si la 2ème est un numéro, elle est incrémentée à chaque équilibrage */
+/* si en 2 parties, sÃ©parÃ© d'un - */
+/* si la 2Ã¨me est un numÃ©ro, elle est incrÃ©mentÃ©e Ã  chaque Ã©quilibrage */
 
 struct struct_no_rapprochement
 {
@@ -448,7 +448,7 @@ struct struct_etat
     gint no_etat;
     gchar *nom_etat;
 
-    gint afficher_r;         /* 0=ttes les opés, 1=que les opés non R, 2=que les opés R */
+    gint afficher_r;         /* 0=ttes les opÃ©s, 1=que les opÃ©s non R, 2=que les opÃ©s R */
     gint afficher_opes;
     gint afficher_nb_opes;
     gint afficher_date_ope;
@@ -465,27 +465,27 @@ struct struct_etat
     gint afficher_cheque_ope;
     gint afficher_rappr_ope;
     gint afficher_exo_ope;
-    gint type_classement_ope;     /* 0=date, 1=no opé, 2=tiers, 3=categ, 4=ib, 5=notes, 6=type ope, 7=no chq, 8=pc, 9=ibg, 10=no rappr */
+    gint type_classement_ope;     /* 0=date, 1=no opÃ©, 2=tiers, 3=categ, 4=ib, 5=notes, 6=type ope, 7=no chq, 8=pc, 9=ibg, 10=no rappr */
     gint pas_detailler_ventilation;
     gint separer_revenus_depenses;
     gint devise_de_calcul_general;
     gint afficher_titre_colonnes;
-    gint type_affichage_titres;        /* 0 = en haut, 1 = à chaque changement de section */
-    gint inclure_dans_tiers;        /* à 1 si on veut que cet état apparaisse dans la liste des tiers du formulaire */
-    gint ope_clickables;           /* à 1 si les opés peuvent être clickables */
+    gint type_affichage_titres;        /* 0 = en haut, 1 = Ã  chaque changement de section */
+    gint inclure_dans_tiers;        /* Ã  1 si on veut que cet Ã©tat apparaisse dans la liste des tiers du formulaire */
+    gint ope_clickables;           /* Ã  1 si les opÃ©s peuvent Ãªtre clickables */
 
     gint exo_date;         /* 1-> utilise l'exo / 0 -> utilise une plage de date */
-    gint utilise_detail_exo;   /* 0=tous, 1=exercice courant, 2=exercice précédent, 3=perso */
-    GSList *no_exercices;            /* liste des no d'exos utilisés dans l'état */
+    gint utilise_detail_exo;   /* 0=tous, 1=exercice courant, 2=exercice prÃ©cÃ©dent, 3=perso */
+    GSList *no_exercices;            /* liste des no d'exos utilisÃ©s dans l'Ã©tat */
     gint separation_par_exo;       /* 1=oui, 0=non */
     gint no_plage_date;       /* 0=perso, 1=toutes ... */
     GDate *date_perso_debut;
     GDate *date_perso_fin;
     gint separation_par_plage;       /* 1=oui, 0=non */
-    gint type_separation_plage;        /*  0=semaines, 1=mois, 2=année */
+    gint type_separation_plage;        /*  0=semaines, 1=mois, 2=annÃ©e */
     gint jour_debut_semaine;           /* 0=lundi ... */
 
-    GList *type_classement;  /* liste de no : 1=caté,2=ss categ,3=ib,4=ss ib,5=compte,6=tiers */
+    GList *type_classement;  /* liste de no : 1=catÃ©,2=ss categ,3=ib,4=ss ib,5=compte,6=tiers */
 
     gint utilise_detail_comptes;
     GSList *no_comptes;
@@ -493,7 +493,7 @@ struct struct_etat
     gint affiche_sous_total_compte;
     gint afficher_nom_compte;
 
-    gint type_virement;   /* 0: pas de virements / 1:seulement les virements vers comptes actifs-passifs/2:virements hors état/3:perso */
+    gint type_virement;   /* 0: pas de virements / 1:seulement les virements vers comptes actifs-passifs/2:virements hors Ã©tat/3:perso */
     GSList *no_comptes_virements;
     gint exclure_ope_non_virement;
 
@@ -541,7 +541,7 @@ struct struct_etat
 
 struct struct_comparaison_montants_etat
 {
-    gint lien_struct_precedente;    /* -1=1ère comparaison, 0=et, 1=ou, 2=sauf */
+    gint lien_struct_precedente;    /* -1=1Ã¨re comparaison, 0=et, 1=ou, 2=sauf */
     gint comparateur_1;            /* 0= =, 1= <, 2= <=, 3= >, 4= >=, 5= !=, 6= =0, 7= !=0, 8= >0, 9= <0 */
     gdouble montant_1;
     gint lien_1_2;                   /* 0=et, 1=ou, 2=sauf, 3=aucun */
@@ -560,7 +560,7 @@ struct struct_comparaison_montants_etat
 
 struct struct_comparaison_textes_etat
 {
-    gint lien_struct_precedente;    /* -1=1ère comparaison, 0=et, 1=ou, 2=sauf */
+    gint lien_struct_precedente;    /* -1=1Ã¨re comparaison, 0=et, 1=ou, 2=sauf */
     gint champ;                      /* 0=tiers, 1= info tiers, 2= categ, 3= ss categ, 4=ib, 5= ss-ib */
     /*                         6=note, 7=ref banc, 8=pc, 9=chq, 10=rappr */
 
@@ -568,7 +568,7 @@ struct struct_comparaison_textes_etat
 
     gint operateur;                   /* 0=contient, 1=ne contient pas, 2=commence par, 3=se termine par, 4=vide, 5=non vide */
     gchar *texte;
-    gint utilise_txt;                 /* pour les chaps à no (chq, pc), à 1 si on les utilise comme txt, 0 sinon */
+    gint utilise_txt;                 /* pour les chaps Ã  no (chq, pc), Ã  1 si on les utilise comme txt, 0 sinon */
 
     /* pour les comparaisons de chq */
 
@@ -579,7 +579,7 @@ struct struct_comparaison_textes_etat
     gint montant_2;
 
 
-    /* adr des widget utilisés */
+    /* adr des widget utilisÃ©s */
 
     GtkWidget *vbox_ligne;
     GtkWidget *bouton_lien;
@@ -587,14 +587,14 @@ struct struct_comparaison_textes_etat
 
     /* pourles comparaisons de txt */
 
-    GtkWidget *bouton_utilise_txt;    /* sensitif en cas de champ à no */
+    GtkWidget *bouton_utilise_txt;    /* sensitif en cas de champ Ã  no */
     GtkWidget *hbox_txt;
     GtkWidget *bouton_operateur;
     GtkWidget *entree_txt;
 
     /* pour les comparaisons de chq */
 
-    GtkWidget *bouton_utilise_no;    /* sensitif en cas de champ à no */
+    GtkWidget *bouton_utilise_no;    /* sensitif en cas de champ Ã  no */
     GtkWidget *hbox_chq;
     GtkWidget *bouton_comparateur_1;
     GtkWidget *entree_montant_1;
@@ -619,7 +619,7 @@ struct struct_etat_affichage
 };
 
 
-/* struture d'une opé de ventil */
+/* struture d'une opÃ© de ventil */
 
 struct struct_ope_ventil
 {
@@ -636,7 +636,7 @@ struct struct_ope_ventil
     guint sous_imputation;
     gchar *no_piece_comptable;
 
-    guint relation_no_operation;      /* contient le no de l'opé associée quand elle est déjà créée, -1 si c'est un virement non créé */
+    guint relation_no_operation;      /* contient le no de l'opÃ© associÃ©e quand elle est dÃ©jÃ  crÃ©Ã©e, -1 si c'est un virement non crÃ©Ã© */
     guint relation_no_compte;
     gint no_type_associe;
 
@@ -644,8 +644,8 @@ struct struct_ope_ventil
 
     gint no_exercice;
 
-    gint supprime;   /* à 1 quand cette opé doit être supprimée */
-    gint par_completion;    /*à 1 si cette opé a été ajoutée suite à une complétion de tiers*/
+    gint supprime;   /* Ã  1 quand cette opÃ© doit Ãªtre supprimÃ©e */
+    gint par_completion;    /*Ã  1 si cette opÃ© a Ã©tÃ© ajoutÃ©e suite Ã  une complÃ©tion de tiers*/
 };
 
 
@@ -665,7 +665,7 @@ struct iso_4217_currency
 #define STANDARD_DIALOG_WIDTH 12
 
 
-/* struture d'une importation : compte contient la liste des opés importées */
+/* struture d'une importation : compte contient la liste des opÃ©s importÃ©es */
 
 struct struct_compte_importation
 {
@@ -681,15 +681,15 @@ struct struct_compte_importation
     GDate *date_depart;
     GDate *date_fin;
 
-    GSList *operations_importees;          /* liste des struct des opés importées */
+    GSList *operations_importees;          /* liste des struct des opÃ©s importÃ©es */
 
     gdouble solde;
-    gchar *date_solde_qif;            /* utilisé temporairement pour un fichier qif */
+    gchar *date_solde_qif;            /* utilisÃ© temporairement pour un fichier qif */
 
-    GtkWidget *bouton_devise;             /* adr du bouton de la devise dans le récapitulatif */
-    GtkWidget *bouton_action;             /* adr du bouton de l'action dans le récapitulatif */
-    GtkWidget *bouton_type_compte;             /* adr du bouton du type de compte dans le récapitulatif */
-    GtkWidget *bouton_compte;             /* adr du bouton du compte dans le récapitulatif */
+    GtkWidget *bouton_devise;             /* adr du bouton de la devise dans le rÃ©capitulatif */
+    GtkWidget *bouton_action;             /* adr du bouton de l'action dans le rÃ©capitulatif */
+    GtkWidget *bouton_type_compte;             /* adr du bouton du type de compte dans le rÃ©capitulatif */
+    GtkWidget *bouton_compte;             /* adr du bouton du compte dans le rÃ©capitulatif */
 };
 
 
@@ -697,16 +697,16 @@ struct struct_ope_importation
 {
     gchar *id_operation;
 
-    gint no_compte;    /*  mis à jour si lors du marquage, si pas d'opé associée trouvée */
-    gint devise;      /* mis à jour au moment de l'enregistrement de l'opé */
+    gint no_compte;    /*  mis Ã  jour si lors du marquage, si pas d'opÃ© associÃ©e trouvÃ©e */
+    gint devise;      /* mis Ã  jour au moment de l'enregistrement de l'opÃ© */
     GDate *date;
     GDate *date_de_valeur;
-    gchar *date_tmp;      /* pour un fichier qif, utilisé en tmp avant de le transformer en gdate */
+    gchar *date_tmp;      /* pour un fichier qif, utilisÃ© en tmp avant de le transformer en gdate */
 
-    gint action;       /* ce champ est à 0 si on enregisre l'opé, à 1 si on ne l'enregistre pas (demandé lors d'ajout des opés à un compte existant) */
-    /*   et 2 si on ne veut pas l'enregistrer ni demander (une id qui a été retrouvée */
-    struct structure_operation *ope_correspondante; /* contient l'adrde l'opé qui correspond peut être à l'opé importée pour la présentation à l'utilisateur */
-    GtkWidget *bouton;  /*  adr du bouton si cette opé est douteuse et vérifiée par l'utilisateur */
+    gint action;       /* ce champ est Ã  0 si on enregisre l'opÃ©, Ã  1 si on ne l'enregistre pas (demandÃ© lors d'ajout des opÃ©s Ã  un compte existant) */
+    /*   et 2 si on ne veut pas l'enregistrer ni demander (une id qui a Ã©tÃ© retrouvÃ©e */
+    struct structure_operation *ope_correspondante; /* contient l'adrde l'opÃ© qui correspond peut Ãªtre Ã  l'opÃ© importÃ©e pour la prÃ©sentation Ã  l'utilisateur */
+    GtkWidget *bouton;  /*  adr du bouton si cette opÃ© est douteuse et vÃ©rifiÃ©e par l'utilisateur */
 
     gchar *tiers;
     gchar *notes;
@@ -720,7 +720,7 @@ struct struct_ope_importation
 
     gint type_de_transaction;
 
-    gint operation_ventilee;  /* à 1 si c'est une ventil, dans ce cas les opés de ventil suivent et ont ope_de_ventilation à 1 */
+    gint operation_ventilee;  /* Ã  1 si c'est une ventil, dans ce cas les opÃ©s de ventil suivent et ont ope_de_ventilation Ã  1 */
     gint ope_de_ventilation;
 };
 

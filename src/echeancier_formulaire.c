@@ -1,8 +1,8 @@
 /* ************************************************************************** */
-/* Ce fichier s'occupe de la gestion du formulaire de saisie des échéances    */
+/* Ce fichier s'occupe de la gestion du formulaire de saisie des Ã©chÃ©ances    */
 /*			echeances_formulaire.c                                */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Alain Portal (dionysos@grisbi.org)	      */
 /*			http://www.grisbi.org				      */
 /*                                                                            */
@@ -71,7 +71,7 @@ extern gint enregistre_ope_au_retour_echeances;
 
 
 /******************************************************************************/
-/*  Routine qui crée le formulaire et le renvoie */
+/*  Routine qui crÃ©e le formulaire et le renvoie */
 /******************************************************************************/
 GtkWidget *creation_formulaire_echeancier ( void )
 {
@@ -82,7 +82,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
     GtkWidget *table;
 
 
-    /* on crée le tooltips */
+    /* on crÃ©e le tooltips */
 
     tips = gtk_tooltips_new ();
 
@@ -92,7 +92,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
     gtk_widget_show ( formulaire_echeancier );
 
 
-    /*   création de la table */
+    /*   crÃ©ation de la table */
 
     table = gtk_table_new ( 6,
 			    4,
@@ -113,7 +113,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 
 
 
-    /* création du label saisie / modif */
+    /* crÃ©ation du label saisie / modif */
 
     label_saisie_modif = gtk_label_new ( "" );
     gtk_table_attach ( GTK_TABLE ( table ),
@@ -125,7 +125,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		       0,0);
 
 
-    /* création de l'entrée de la date */
+    /* crÃ©ation de l'entrÃ©e de la date */
 
     widget_formulaire_echeancier[SCHEDULER_FORM_DATE] = gtk_entry_new_with_max_length ( 10 );
     gtk_table_attach ( GTK_TABLE ( table ),
@@ -153,7 +153,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 			 NULL );
     gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] );
 
-    /* création du combofix des tiers */
+    /* crÃ©ation du combofix des tiers */
 
     widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] = gtk_combofix_new (  liste_tiers_combofix_echeancier,
 									     FALSE,
@@ -189,7 +189,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		       0, 0);
     gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] );
 
-    /* création de l'entrée des débits */
+    /* crÃ©ation de l'entrÃ©e des dÃ©bits */
 
     widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] = gtk_entry_new ();
     gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ),
@@ -218,7 +218,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
     gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] );
 
 
-    /* création de l'entrée des crédits */
+    /* crÃ©ation de l'entrÃ©e des crÃ©dits */
 
     widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] = gtk_entry_new ();
     gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ),
@@ -298,7 +298,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		       0, 0);
     gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] );
 
-    /* Affiche les catégories / sous-catégories */
+    /* Affiche les catÃ©gories / sous-catÃ©gories */
 
     widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] = gtk_combofix_new_complex ( liste_categories_combofix,
 										       FALSE,
@@ -334,8 +334,8 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		       0, 0);
     gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] );
 
-    /* Création de l'entrée du chèque, non affichée pour le moment
-       à créer avant l'option menu du type d'opé */
+    /* CrÃ©ation de l'entrÃ©e du chÃ¨que, non affichÃ©e pour le moment
+       Ã  crÃ©er avant l'option menu du type d'opÃ© */
 
     widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] = gtk_entry_new();
     gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] ),
@@ -382,7 +382,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		       GTK_SHRINK | GTK_FILL,
 		       0, 0);
 
-    /* le menu par défaut est celui des débits */
+    /* le menu par dÃ©faut est celui des dÃ©bits */
 
     if ( ( menu = creation_menu_types ( 1,
 					GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ) -> menu_item ),
@@ -425,7 +425,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
     gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE],
 			       etat.utilise_exercice );
 
-    /*  Affiche l'imputation budgétaire */
+    /*  Affiche l'imputation budgÃ©taire */
 
     widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] = gtk_combofix_new_complex ( liste_imputations_combofix,
 											FALSE,
@@ -465,7 +465,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
     gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY],
 			       etat.utilise_imputation_budgetaire );
 
-    /* bouton ventilation, pour accéder à la fenetre de ventil de l'échéance */
+    /* bouton ventilation, pour accÃ©der Ã  la fenetre de ventil de l'Ã©chÃ©ance */
 
     widget_formulaire_echeancier[SCHEDULER_FORM_BREAKDOWN] = gtk_button_new_with_label ( _("Breakdown"));
     gtk_button_set_relief ( GTK_BUTTON ( widget_formulaire_echeancier[SCHEDULER_FORM_BREAKDOWN] ),
@@ -487,8 +487,8 @@ GtkWidget *creation_formulaire_echeancier ( void )
 			 GINT_TO_POINTER ( SCHEDULER_FORM_BREAKDOWN ) );
 
 
-    /* création de l'entrée du no de pièce comptable
-       à ne pas mettre, mais on réserve encore le widget n°
+    /* crÃ©ation de l'entrÃ©e du no de piÃ¨ce comptable
+       Ã  ne pas mettre, mais on rÃ©serve encore le widget nÂ°
        ne pas l'effacer pour respecter les tabulations */
 
     widget_formulaire_echeancier[SCHEDULER_FORM_VOUCHER] = gtk_entry_new();
@@ -593,7 +593,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		       0, 0);
     gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES] );
 
-    /* Mise en place du menu de la fréquence */
+    /* Mise en place du menu de la frÃ©quence */
 
     widget_formulaire_echeancier[SCHEDULER_FORM_FREQUENCY] = gtk_option_menu_new ();
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
@@ -702,7 +702,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		       0, 0);
     gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQUENCY] );
 
-    /* entrée de la date limite, non affichée au départ */
+    /* entrÃ©e de la date limite, non affichÃ©e au dÃ©part */
 
     widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] = gtk_entry_new_with_max_length (11);
     gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] ),
@@ -730,7 +730,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		       0, 0);
     gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] );
 
-    /* et la gtk entry quand la fréquence est personnalisée, non affiché au départ */
+    /* et la gtk entry quand la frÃ©quence est personnalisÃ©e, non affichÃ© au dÃ©part */
 
     widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_NB] = gtk_entry_new ();
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
@@ -750,7 +750,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		       0, 0);
     gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_NB] );
 
-    /* le menu jour / mois / année */
+    /* le menu jour / mois / annÃ©e */
 
     widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_MENU] = gtk_option_menu_new ();
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
@@ -799,7 +799,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		       0, 0);
     gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_MENU] );
 
-    /* séparation d'avec les boutons */
+    /* sÃ©paration d'avec les boutons */
 
     separateur_formulaire_echeancier = gtk_hseparator_new ();
     gtk_box_pack_start ( GTK_BOX ( formulaire_echeancier ),
@@ -848,7 +848,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		       0 );
     gtk_widget_show ( bouton );
 
-    /* on associe au formulaire l'adr de l'échéance courante */
+    /* on associe au formulaire l'adr de l'Ã©chÃ©ance courante */
 
     gtk_object_set_data ( GTK_OBJECT ( formulaire_echeancier ),
 			  "adr_echeance",
@@ -873,7 +873,7 @@ void echap_formulaire_echeancier ( void )
 /******************************************************************************/
 
 /******************************************************************************/
-/* Fonction appelée quand une entry perd le focus */
+/* Fonction appelÃ©e quand une entry perd le focus */
 /* si elle ne contient rien, on remet la fonction en gris */
 /******************************************************************************/
 gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
@@ -883,18 +883,18 @@ gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
     gchar *texte;
     texte = NULL;
 
-    /* !!!!!!!mettre p_tab... en fonction du compte sélectionné */
+    /* !!!!!!!mettre p_tab... en fonction du compte sÃ©lectionnÃ© */
 
 
     switch ( GPOINTER_TO_INT ( no_origine ))
     {
-	/* on sort de la date, soit c'est vide, soit on la vérifie, la complète si nécessaire et met à jour l'exercice */
+	/* on sort de la date, soit c'est vide, soit on la vÃ©rifie, la complÃ¨te si nÃ©cessaire et met Ã  jour l'exercice */
 	case SCHEDULER_FORM_DATE :
 	    if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	    {
 		modifie_date ( entree );
 
-		/* on ne change l'exercice que si c'est une nouvelle échéance */
+		/* on ne change l'exercice que si c'est une nouvelle Ã©chÃ©ance */
 
 		if ( !gtk_object_get_data ( GTK_OBJECT ( formulaire_echeancier ),
 					    "adr_echeance" ))
@@ -905,7 +905,7 @@ gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
 		texte = _("Date");
 	    break;
 
-	    /* on sort du tiers : soit vide soit complète le reste de l'opé */
+	    /* on sort du tiers : soit vide soit complÃ¨te le reste de l'opÃ© */
 
 	case SCHEDULER_FORM_PARTY :
 	    if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
@@ -914,14 +914,14 @@ gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
 		texte = _("Third party");
 	    break;
 
-	    /* on sort du débit : soit vide, soit change le menu des types
+	    /* on sort du dÃ©bit : soit vide, soit change le menu des types
 	       s'il ne correspond pas */
 
 	case SCHEDULER_FORM_DEBIT :
 
 	    if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	    {
-		/* on commence par virer ce qu'il y avait dans les crédits */
+		/* on commence par virer ce qu'il y avait dans les crÃ©dits */
 
 		if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ) == style_entree_formulaire[ENCLAIR] )
 		{
@@ -938,7 +938,7 @@ gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
 		{
 		    if ( etat.affiche_tous_les_types )
 		    {
-			/* on ne modifie que le défaut */
+			/* on ne modifie que le dÃ©faut */
 
 			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ) -> menu_item ),
 														     "no_compte" ));
@@ -975,13 +975,13 @@ gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
 		texte = _("Debit");
 	    break;
 
-	    /* on sort du crédit : soit vide, soit change le menu des types
+	    /* on sort du crÃ©dit : soit vide, soit change le menu des types
 	       s'il n'y a aucun tiers ( <=> nouveau tiers ) */
 
 	case SCHEDULER_FORM_CREDIT :
 	    if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	    {
-		/* on commence par virer ce qu'il y avait dans les débits */
+		/* on commence par virer ce qu'il y avait dans les dÃ©bits */
 
 		if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
 		{
@@ -998,7 +998,7 @@ gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
 							     "signe_menu" )) == 1 )
 		{
 		    if ( etat.affiche_tous_les_types )
-			/* on ne modifie que le défaut */
+			/* on ne modifie que le dÃ©faut */
 		    {
 			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ) -> menu_item ),
 														     "no_compte" ));
@@ -1037,7 +1037,7 @@ gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
 		texte = _("Credit");
 	    break;
 
-	    /*       sort des catégories */
+	    /*       sort des catÃ©gories */
 
 	case SCHEDULER_FORM_CATEGORY :
 	    if ( !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
@@ -1081,8 +1081,8 @@ gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
 		texte = _("Notes");
 	    break;
 
-	    /* on sort de la date limite, soit c'est vide, soit on la vérifie,
-	       la complète si nécessaire */
+	    /* on sort de la date limite, soit c'est vide, soit on la vÃ©rifie,
+	       la complÃ¨te si nÃ©cessaire */
 	case SCHEDULER_FORM_FINAL_DATE :
 	    if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 		modifie_date ( entree );
@@ -1091,9 +1091,9 @@ gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
 	    break;
     }
 
-    /* l'entrée était vide, on remet le défaut
-       si l'origine était un combofix, il faut remettre le texte 
-       avec le gtk_combofix (sinon risque de complétion), donc utiliser l'origine */
+    /* l'entrÃ©e Ã©tait vide, on remet le dÃ©faut
+       si l'origine Ã©tait un combofix, il faut remettre le texte 
+       avec le gtk_combofix (sinon risque de complÃ©tion), donc utiliser l'origine */
 
     if ( texte )
     {
@@ -1147,11 +1147,11 @@ gboolean clique_champ_formulaire_echeancier ( GtkWidget *entree,
 					      gint *no_origine )
 {
     GtkWidget *popup_cal;
-    /* on rend sensitif tout ce qui ne l'était pas sur le formulaire */
+    /* on rend sensitif tout ce qui ne l'Ã©tait pas sur le formulaire */
 
     degrise_formulaire_echeancier ();
 
-    /* si l'entrée de la date et grise, on met la date courante */
+    /* si l'entrÃ©e de la date et grise, on met la date courante */
 
     if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] ) == style_entree_formulaire[ENGRIS] )
     {
@@ -1162,19 +1162,19 @@ gboolean clique_champ_formulaire_echeancier ( GtkWidget *entree,
 			       style_entree_formulaire[ENCLAIR] );
     }
 
-    /* si ev est null ( càd que ça ne vient pas d'un click mais appelé par ex
-       à la fin de fin_edition ), on se barre */
+    /* si ev est null ( cÃ d que Ã§a ne vient pas d'un click mais appelÃ© par ex
+       Ã  la fin de fin_edition ), on se barre */
 
     if ( !ev )
 	return FALSE;
 
-    /* énumération suivant l'entrée où on clique */
+    /* Ã©numÃ©ration suivant l'entrÃ©e oÃ¹ on clique */
 
     switch ( GPOINTER_TO_INT ( no_origine ) )
     {
 	case SCHEDULER_FORM_DATE :
 	case SCHEDULER_FORM_FINAL_DATE :
-	    /* click sur l'entrée de la date ou date limite */
+	    /* click sur l'entrÃ©e de la date ou date limite */
 
 	    /* si double click, on popup le calendrier */
 
@@ -1206,7 +1206,7 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 {
     GtkWidget *popup_cal;
 
-    /* si etat.entree = 1, la touche entrée finit l'opération ( fonction par défaut ) */
+    /* si etat.entree = 1, la touche entrÃ©e finit l'opÃ©ration ( fonction par dÃ©faut ) */
     /* sinon elle fait comme tab */
 
     if ( !etat.entree && ( ev -> keyval == GDK_Return || ev -> keyval == GDK_KP_Enter ))
@@ -1216,7 +1216,7 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
     switch ( ev -> keyval )
     {
 
-	case GDK_Escape :		/* échap */
+	case GDK_Escape :		/* Ã©chap */
 
 	    echap_formulaire_echeancier();
 	    return FALSE;
@@ -1230,7 +1230,7 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 		    gtk_entry_select_region ( GTK_ENTRY ( GTK_COMBOFIX ( widget ) -> entry ), 0, 0);
 
 	    /* on fait perdre le focus au widget courant pour faire
-	       les changements automatiques si nécessaire */
+	       les changements automatiques si nÃ©cessaire */
 	    gtk_widget_grab_focus ( liste_echeances );
 
 	    /* on donne le focus au widget suivant */
@@ -1244,7 +1244,7 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 		no_widget = ( no_widget + 1 ) % SCHEDULER_FORM_TOTAL_WIDGET;
 
 	    /* si on se retrouve sur la date et que etat.entree = 0,
-	       on enregistre l'opération */
+	       on enregistre l'opÃ©ration */
 
 	    if ( no_widget == SCHEDULER_FORM_DATE &&
 		 etat.entree == 0 )
@@ -1253,21 +1253,21 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 		return TRUE;
 	    }
 
-	    /* si le prochain est le débit, on vérifie s'il n'y a rien dans
-	       cette entrée et s'il y a quelque chose dans l'entrée du
-	       crédit */
+	    /* si le prochain est le dÃ©bit, on vÃ©rifie s'il n'y a rien dans
+	       cette entrÃ©e et s'il y a quelque chose dans l'entrÃ©e du
+	       crÃ©dit */
 
 	    if ( no_widget == SCHEDULER_FORM_DEBIT )
 	    {
-		/* si le débit est gris et le crédit est noir, on met sur le crédit */
+		/* si le dÃ©bit est gris et le crÃ©dit est noir, on met sur le crÃ©dit */
 
 		if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ) == style_entree_formulaire[ENGRIS] &&
 		     gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ) == style_entree_formulaire[ENCLAIR] )
 		    no_widget = SCHEDULER_FORM_CREDIT;
 	    }
 
-	    /* si le prochain est le crédit et que le débit a été rempli,
-	       on se met sur la devise et on efface le crédit */
+	    /* si le prochain est le crÃ©dit et que le dÃ©bit a Ã©tÃ© rempli,
+	       on se met sur la devise et on efface le crÃ©dit */
 
 	    if ( no_widget == SCHEDULER_FORM_CREDIT )
 		if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
@@ -1279,7 +1279,7 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 					 _("Credit") );
 		}
 
-	    /* on sélectionne le contenu de la nouvelle entrée */
+	    /* on sÃ©lectionne le contenu de la nouvelle entrÃ©e */
 	    if ( GTK_IS_COMBOFIX ( widget_formulaire_echeancier[no_widget] ) )
 	    {
 		gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_echeancier[no_widget] ) -> entry );
@@ -1293,7 +1293,7 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 	    }
 	    return TRUE;
 
-	case GDK_Return :		/* touches entrée */
+	case GDK_Return :		/* touches entrÃ©e */
 	case GDK_KP_Enter :
 
 	    if ( !etat.formulaire_echeance_dans_fenetre )
@@ -1324,11 +1324,11 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 		    }
 		}
 		/* si la touche CTRL n'est pas active, alors on valide simplement
-		   la saisie de l'échéance */
+		   la saisie de l'Ã©chÃ©ance */
 		else
 		{
 		    /* on fait perdre le focus au widget courant pour faire
-		       les changements automatiques si nécessaire */
+		       les changements automatiques si nÃ©cessaire */
 
 		    gtk_widget_grab_focus ( liste_echeances );
 		    fin_edition_echeance ();
@@ -1453,8 +1453,8 @@ void cache_personnalisation_echeancier ( void )
 
 /******************************************************************************/
 /* Fonction fin_edition_echeance */
-/* appelée pour soit valider une modif d'échéance ( ou nouvelle ), */
-/* ou pour saisir l'échéance */
+/* appelÃ©e pour soit valider une modif d'Ã©chÃ©ance ( ou nouvelle ), */
+/* ou pour saisir l'Ã©chÃ©ance */
 /******************************************************************************/
 void fin_edition_echeance ( void )
 {
@@ -1468,7 +1468,7 @@ void fin_edition_echeance ( void )
     compte_virement = 0;
     rafraichir_categ = 0;
 
-    /* on vérifie que les date et date_limite sont correctes */
+    /* on vÃ©rifie que les date et date_limite sont correctes */
 
     if ( !modifie_date ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] ))
     {
@@ -1494,7 +1494,7 @@ void fin_edition_echeance ( void )
 	    return;
 	}
 
-    /* vérifie  si c'est une opération ventilée, */
+    /* vÃ©rifie  si c'est une opÃ©ration ventilÃ©e, */
     /* si c'est le cas, si la liste des ventilation existe (soit adr de liste, soit -1), on va l'enregistrer plus tard */
     /* sinon on va ventiler tout de suite */
 
@@ -1517,7 +1517,7 @@ void fin_edition_echeance ( void )
     }
 
 
-    /* vérification que ce n'est pas un virement sur lui-même */
+    /* vÃ©rification que ce n'est pas un virement sur lui-mÃªme */
 
     if ( !g_strcasecmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ))),
 			 g_strconcat ( COLON(_("Transfer")),
@@ -1528,8 +1528,8 @@ void fin_edition_echeance ( void )
 	return;
     }
 
-    /*     si c'est une ventilation, vérifie qu'aucune ventilation n'est un virement sur lui-même */
-    /* 	peut arriver si modifie le compte d'une échéance */
+    /*     si c'est une ventilation, vÃ©rifie qu'aucune ventilation n'est un virement sur lui-mÃªme */
+    /* 	peut arriver si modifie le compte d'une Ã©chÃ©ance */
 
     if ( !strcmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ))),
 		   _("Breakdown of transaction") ))
@@ -1537,7 +1537,7 @@ void fin_edition_echeance ( void )
 	GSList *liste_ventil;
 	gint compte_echeance;
 
-	/* 	on commence  par rechercher le compte de l'échéance */
+	/* 	on commence  par rechercher le compte de l'Ã©chÃ©ance */
 	
 	compte_echeance = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT]  ) -> menu_item ),
 								  "no_compte" ) );
@@ -1562,7 +1562,7 @@ void fin_edition_echeance ( void )
 	}
     }
 
-    /* si c'est un virement, on vérifie que le compte existe  */
+    /* si c'est un virement, on vÃ©rifie que le compte existe  */
 
 
     pointeur_char = g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] )));
@@ -1573,7 +1573,7 @@ void fin_edition_echeance ( void )
 
 	tableau_char = g_strsplit ( pointeur_char, ":", 2 );
 
-	/* S'il n'y a rien après "Transfer", alors : */
+	/* S'il n'y a rien aprÃ¨s "Transfer", alors : */
 	if ( !tableau_char[1] ||
 	     !strlen ( tableau_char[1] ) )
 	{
@@ -1606,7 +1606,7 @@ void fin_edition_echeance ( void )
 	g_strfreev ( tableau_char );
     }
 
-    /* vérification si c'est une échéance auto que ce n'est pas un chèque */
+    /* vÃ©rification si c'est une Ã©chÃ©ance auto que ce n'est pas un chÃ¨que */
 
     if ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_MODE]  ) -> menu_item ),
 						 "auto_man" )) == 1
@@ -1620,21 +1620,21 @@ void fin_edition_echeance ( void )
 	return;
     }
 
-    /* récupération de l'opération : soit l'adr de la struct, soit NULL si nouvelle */
+    /* rÃ©cupÃ©ration de l'opÃ©ration : soit l'adr de la struct, soit NULL si nouvelle */
 
     echeance = gtk_object_get_data ( GTK_OBJECT ( formulaire_echeancier ),
 				     "adr_echeance" );
 
-    /* on sépare ici en 2 parties : si le label label_saisie_modif contient Modification, c'est une modif ou une nvelle échéance, */
-    /* s'il contient Saisie, on enregistre l'opé */
+    /* on sÃ©pare ici en 2 parties : si le label label_saisie_modif contient Modification, c'est une modif ou une nvelle Ã©chÃ©ance, */
+    /* s'il contient Saisie, on enregistre l'opÃ© */
 
     if ( strcmp ( GTK_LABEL ( label_saisie_modif ) -> label,
 		  _("Input") ) )
     {
-	/*       on commence ici la partie modification / nouvelle échéance */
+	/*       on commence ici la partie modification / nouvelle Ã©chÃ©ance */
 
-	/* si c'est une nouvelle échéance, on la crée */
-	/* et on lui met son numéro tout de suite */
+	/* si c'est une nouvelle Ã©chÃ©ance, on la crÃ©e */
+	/* et on lui met son numÃ©ro tout de suite */
 
 	if ( !echeance )
 	{
@@ -1644,7 +1644,7 @@ void fin_edition_echeance ( void )
 	    nb_echeances++;
 	}
 
-	/* récupère la date */
+	/* rÃ©cupÃ¨re la date */
 
 
 	pointeur_char = g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY (widget_formulaire_echeancier[SCHEDULER_FORM_DATE] )));
@@ -1666,7 +1666,7 @@ void fin_edition_echeance ( void )
 					   echeance ->annee);
 
 
-	/* récupération du tiers, s'il n'existe pas, on le crée */
+	/* rÃ©cupÃ©ration du tiers, s'il n'existe pas, on le crÃ©e */
 
 	if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
 	{
@@ -1685,7 +1685,7 @@ void fin_edition_echeance ( void )
 
 
 
-	/* récupération du montant */
+	/* rÃ©cupÃ©ration du montant */
 
 	if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
 	    echeance -> montant = -my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ))),
@@ -1694,19 +1694,19 @@ void fin_edition_echeance ( void )
 	    echeance -> montant = my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ))),
 					      NULL );
 
-	/* récupération de la devise */
+	/* rÃ©cupÃ©ration de la devise */
 
 	echeance -> devise = ((struct struct_devise *)( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE] ) -> menu_item ),
 									      "adr_devise" ))) -> no_devise;
 
-	/* récupération du no de compte */
+	/* rÃ©cupÃ©ration du no de compte */
 
 	echeance -> compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT]  ) -> menu_item ),
 								     "no_compte" ) );
 
 
-	/*   récupération des catégories / sous-catég, s'ils n'existent pas, on les crée */
-	/* s'il n'y a pas de catég, ce n'es pas un virement non plus, donc on met compte_virement à -1 */
+	/*   rÃ©cupÃ©ration des catÃ©gories / sous-catÃ©g, s'ils n'existent pas, on les crÃ©e */
+	/* s'il n'y a pas de catÃ©g, ce n'es pas un virement non plus, donc on met compte_virement Ã  -1 */
 
 	if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
 	{
@@ -1729,7 +1729,7 @@ void fin_edition_echeance ( void )
 		     && tableau_char[1]
 		     && strlen ( tableau_char[1]) )
 		{
-		    /* c'est un virement, il n'y a donc aucune catégorie */
+		    /* c'est un virement, il n'y a donc aucune catÃ©gorie */
 
 		    gint i;
 		    echeance -> categorie = 0;
@@ -1751,15 +1751,15 @@ void fin_edition_echeance ( void )
 		}
 		else
 		{
-		    /* 		    si c'est une opération ventilée, c'est ici que ça se passe ! */
+		    /* 		    si c'est une opÃ©ration ventilÃ©e, c'est ici que Ã§a se passe ! */
 
 
 		    if ( !strcmp ( tableau_char[0],
 				   _("Breakdown of transaction") ))
 		    {
-			/* c'est une ventilation, il n'y a donc aucune catégorie */
+			/* c'est une ventilation, il n'y a donc aucune catÃ©gorie */
 			/* on va appeler la fonction validation_ope_de_ventilation */
-			/* qui va créer les nouvelles opé */
+			/* qui va crÃ©er les nouvelles opÃ© */
 
 			validation_ope_de_ventilation_echeances ( echeance );
 			echeance -> categorie = 0;
@@ -1819,7 +1819,7 @@ void fin_edition_echeance ( void )
 	else
 	    echeance -> compte_virement = -1;
 
-	/* récupération du type d'opération */
+	/* rÃ©cupÃ©ration du type d'opÃ©ration */
 
 	if ( GTK_WIDGET_VISIBLE ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ))
 	{
@@ -1832,12 +1832,12 @@ void fin_edition_echeance ( void )
 		echeance -> contenu_type = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] ))));
 	}
 
-	/* récupération du no d'exercice */
+	/* rÃ©cupÃ©ration du no d'exercice */
 
 	echeance -> no_exercice = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ) -> menu_item ),
 									  "no_exercice" ));
 
-	/* récupération de l'imputation budgétaire */
+	/* rÃ©cupÃ©ration de l'imputation budgÃ©taire */
 
 	if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
 	{
@@ -1894,18 +1894,18 @@ void fin_edition_echeance ( void )
 	    g_strfreev ( tableau_char );
 	}
 
-	/*       récupération de auto_man */
+	/*       rÃ©cupÃ©ration de auto_man */
 
 	echeance -> auto_man = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_MODE]  ) -> menu_item ),
 								       "auto_man" ) );
 
-	/* récupération des notes */
+	/* rÃ©cupÃ©ration des notes */
 
 	if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES] ) == style_entree_formulaire[ENCLAIR] )
 	    echeance -> notes = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES] ))));
 
 
-	/* récupération de la fréquence */
+	/* rÃ©cupÃ©ration de la frÃ©quence */
 
 	echeance -> periodicite = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQUENCY]  ) -> menu_item ),
 									  "periodicite" ) );
@@ -1942,7 +1942,7 @@ void fin_edition_echeance ( void )
 	}
 
 
-	/* si c'est une nouvelle opé,  on l'ajoute à la liste */
+	/* si c'est une nouvelle opÃ©,  on l'ajoute Ã  la liste */
 
 	if ( !gtk_object_get_data ( GTK_OBJECT ( formulaire_echeancier ),
 				    "adr_echeance" ) )
@@ -1952,19 +1952,19 @@ void fin_edition_echeance ( void )
     }
     else
     {
-	/* on commence ici la partie saisie de l'échéance */
+	/* on commence ici la partie saisie de l'Ã©chÃ©ance */
 
 	struct structure_operation *operation;
 	gint virement;
 	struct struct_devise *devise;
 
-	/* crée l'opération */
+	/* crÃ©e l'opÃ©ration */
 
 	operation = calloc ( 1,
 			     sizeof ( struct structure_operation ) ); 
 
 
-	/* récupère la date */
+	/* rÃ©cupÃ¨re la date */
 
 
 	pointeur_char = g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY (widget_formulaire_echeancier[SCHEDULER_FORM_DATE] )));
@@ -1986,13 +1986,13 @@ void fin_edition_echeance ( void )
 					    operation ->annee);
 
 
-	/* récupération du no de compte */
+	/* rÃ©cupÃ©ration du no de compte */
 
 	operation -> no_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT]  ) -> menu_item ),
 									 "no_compte" ) );
 
 
-	/* récupération du tiers, s'il n'existe pas, on le crée */
+	/* rÃ©cupÃ©ration du tiers, s'il n'existe pas, on le crÃ©e */
 
 	if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
 	{
@@ -2010,7 +2010,7 @@ void fin_edition_echeance ( void )
 	}
 
 
-	/* rÃÂ©cupération du montant */
+	/* rÃƒÃ‚Â©cupÃ©ration du montant */
 
 	if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
 	    operation -> montant = -my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ))),
@@ -2019,14 +2019,14 @@ void fin_edition_echeance ( void )
 	    operation -> montant = my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ))),
 					       NULL );
 
-	/* récupération de la devise */
+	/* rÃ©cupÃ©ration de la devise */
 
 	devise = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE] ) -> menu_item),
 				       "adr_devise" );
 
 
-	/* si c'est la devise du compte ou si c'est un compte qui doit passer à l'euro ( la transfo se fait au niveau de l'affichage de la liste ) */
-	/* ou si c'est un compte en euro et l'opé est dans une devise qui doit passer à l'euro -> ok */
+	/* si c'est la devise du compte ou si c'est un compte qui doit passer Ã  l'euro ( la transfo se fait au niveau de l'affichage de la liste ) */
+	/* ou si c'est un compte en euro et l'opÃ© est dans une devise qui doit passer Ã  l'euro -> ok */
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
@@ -2047,7 +2047,7 @@ void fin_edition_echeance ( void )
 		||
 		( !strcmp ( devise_compte -> nom_devise, _("Euro") ) && devise -> passage_euro )))
 	{
-	    /* c'est une devise étrangère, on demande le taux de change et les frais de change */
+	    /* c'est une devise Ã©trangÃ¨re, on demande le taux de change et les frais de change */
 
 	    demande_taux_de_change ( devise_compte, devise, 1,
 				     (gdouble ) 0, (gdouble ) 0, FALSE );
@@ -2063,7 +2063,7 @@ void fin_edition_echeance ( void )
 	}
 
 
-	/*   récupération des catégories / sous-catég, s'ils n'existent pas, on les crée */
+	/*   rÃ©cupÃ©ration des catÃ©gories / sous-catÃ©g, s'ils n'existent pas, on les crÃ©e */
 
 	virement = 0;
 
@@ -2088,7 +2088,7 @@ void fin_edition_echeance ( void )
 		     && tableau_char[1]
 		     && strlen ( tableau_char[1]) )
 		{
-		    /* c'est un virement, il n'y a donc aucune catétorie */
+		    /* c'est un virement, il n'y a donc aucune catÃ©torie */
 
 		    operation -> categorie = 0;
 		    operation -> sous_categorie = 0;
@@ -2140,7 +2140,7 @@ void fin_edition_echeance ( void )
 	    g_strfreev ( tableau_char );
 	}
 
-	/* récupération du type d'opération */
+	/* rÃ©cupÃ©ration du type d'opÃ©ration */
 
 	if ( GTK_WIDGET_VISIBLE ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ))
 	{
@@ -2164,7 +2164,7 @@ void fin_edition_echeance ( void )
 	}
 
 
-	/* récupération du no d'exercice */
+	/* rÃ©cupÃ©ration du no d'exercice */
 
 	if ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ) -> menu_item ),
 						     "no_exercice" )) == -2 )
@@ -2174,7 +2174,7 @@ void fin_edition_echeance ( void )
 									       "no_exercice" ));
 
 
-	/* récupération de l'imputation budgétaire */
+	/* rÃ©cupÃ©ration de l'imputation budgÃ©taire */
 
 	if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
 	{
@@ -2231,30 +2231,30 @@ void fin_edition_echeance ( void )
 	    g_strfreev ( tableau_char );
 	}
 
-	/*       récupération de auto_man */
+	/*       rÃ©cupÃ©ration de auto_man */
 
 	operation -> auto_man = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_MODE]  ) -> menu_item ),
 									"auto_man" ) );
 
-	/* récupération des notes */
+	/* rÃ©cupÃ©ration des notes */
 
 	if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES] ) == style_entree_formulaire[ENCLAIR] )
 	    operation -> notes = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES] ))));
 
 
-	/*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
+	/*   on a fini de remplir l'opÃ©, on peut l'ajouter Ã  la liste */
 
 	ajout_operation ( operation );
 
-	/* si c'est un virement, on crée la contre opération et met les relations */
-	/* FIXME : ça serait bien de faire apparaitre un bouton de contre type ope dans le formulaire qd virement */
+	/* si c'est un virement, on crÃ©e la contre opÃ©ration et met les relations */
+	/* FIXME : Ã§a serait bien de faire apparaitre un bouton de contre type ope dans le formulaire qd virement */
 
 	if ( virement )
 	    cree_contre_operation_echeance ( operation,
 					     compte_virement,
 					     operation -> type_ope );
 
-	/* 	si c'était une échéance ventilée, c'est ici qu'on fait joujou */
+	/* 	si c'Ã©tait une Ã©chÃ©ance ventilÃ©e, c'est ici qu'on fait joujou */
 
 	pointeur_liste = gtk_object_get_data ( GTK_OBJECT ( formulaire_echeancier ),
 					       "liste_adr_ventilation" );
@@ -2265,7 +2265,7 @@ void fin_edition_echeance ( void )
 	    struct struct_ope_ventil *ope_ventil;
 	    struct structure_operation *operation_fille;
 
-	    /* 	    la mère est donc une ventil */
+	    /* 	    la mÃ¨re est donc une ventil */
 
 	    operation -> operation_ventilee = 1;
 
@@ -2288,7 +2288,7 @@ void fin_edition_echeance ( void )
 
 	    operation_fille -> no_exercice = ope_ventil -> no_exercice;
 
-	    /* 	    le reste est identique à la mère */
+	    /* 	    le reste est identique Ã  la mÃ¨re */
 
 	    operation_fille -> jour = operation -> jour;
 	    operation_fille -> mois = operation -> mois;
@@ -2319,15 +2319,15 @@ void fin_edition_echeance ( void )
 	    operation_fille -> operation_ventilee = 0;
 
 
-	    /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
+	    /*   on a fini de remplir l'opÃ©, on peut l'ajouter Ã  la liste */
 
 	    ajout_operation ( operation_fille );
 
-	    /* 	    on vérifie maintenant si c'est un virement */
+	    /* 	    on vÃ©rifie maintenant si c'est un virement */
 
 	    if ( ope_ventil -> relation_no_operation )
 	    {
-		/* cette opé de ventil est un virement */
+		/* cette opÃ© de ventil est un virement */
 
 		cree_contre_operation_echeance ( operation_fille,
 						 ope_ventil -> relation_no_compte,
@@ -2338,11 +2338,11 @@ void fin_edition_echeance ( void )
 	}
 
 
-	/* passe l'échéance à la prochaine date */
+	/* passe l'Ã©chÃ©ance Ã  la prochaine date */
 
 	incrementation_echeance ( echeance );
 
-	/* réaffiche les option menu de la périodicité, des banques et de l'automatisme, effacés pour une saisie d'opé */
+	/* rÃ©affiche les option menu de la pÃ©riodicitÃ©, des banques et de l'automatisme, effacÃ©s pour une saisie d'opÃ© */
 
 	gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_MODE] );
 	gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQUENCY] );
@@ -2376,7 +2376,7 @@ void cree_contre_operation_echeance ( struct structure_operation *operation,
 				      gint compte_virement,
 				      gint contre_type_ope )
 {
-    /*   si c'était un virement, on crée une copie de l'opé, on l'ajout à la liste puis on remplit les relations */
+    /*   si c'Ã©tait un virement, on crÃ©e une copie de l'opÃ©, on l'ajout Ã  la liste puis on remplit les relations */
 
     struct structure_operation *contre_operation;
     struct struct_devise *contre_devise;
@@ -2389,7 +2389,7 @@ void cree_contre_operation_echeance ( struct structure_operation *operation,
     contre_operation -> no_compte = compte_virement;
 
 
-    /* remplit la nouvelle opé */
+    /* remplit la nouvelle opÃ© */
 
     contre_operation -> jour = operation -> jour;
     contre_operation -> mois = operation -> mois;
@@ -2399,8 +2399,8 @@ void cree_contre_operation_echeance ( struct structure_operation *operation,
 					       contre_operation->annee);
     contre_operation -> montant = -operation -> montant;
 
-    /* si c'est la devise du compte ou si c'est un compte qui doit passer à l'euro ( la transfo se fait au niveau */
-    /* de l'affichage de la liste ) ou si c'est un compte en euro et l'opé est dans une devise qui doit passer à l'euro -> ok */
+    /* si c'est la devise du compte ou si c'est un compte qui doit passer Ã  l'euro ( la transfo se fait au niveau */
+    /* de l'affichage de la liste ) ou si c'est un compte en euro et l'opÃ© est dans une devise qui doit passer Ã  l'euro -> ok */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_virement;
 
@@ -2410,7 +2410,7 @@ void cree_contre_operation_echeance ( struct structure_operation *operation,
 
     contre_operation -> devise = operation -> devise;
 
-    /* récupération de la devise */
+    /* rÃ©cupÃ©ration de la devise */
 
     devise = g_slist_find_custom ( liste_struct_devises,
 				   GINT_TO_POINTER ( operation -> devise),
@@ -2424,7 +2424,7 @@ void cree_contre_operation_echeance ( struct structure_operation *operation,
 	    ||
 	    ( !strcmp ( contre_devise -> nom_devise, _("Euro") ) && devise -> passage_euro )))
     {
-	/* c'est une devise étrangère, on demande le taux de change et les frais de change */
+	/* c'est une devise Ã©trangÃ¨re, on demande le taux de change et les frais de change */
 
 	demande_taux_de_change ( contre_devise, devise, 1,
 				 (gdouble ) 0, (gdouble ) 0, FALSE );
@@ -2463,19 +2463,19 @@ void cree_contre_operation_echeance ( struct structure_operation *operation,
     contre_operation -> imputation = operation -> imputation;
     contre_operation -> sous_imputation = operation -> sous_imputation;
 
-    /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
+    /*   on a fini de remplir l'opÃ©, on peut l'ajouter Ã  la liste */
 
     ajout_operation ( contre_operation );
 
 
-    /* on met maintenant les relations entre les différentes opé */
+    /* on met maintenant les relations entre les diffÃ©rentes opÃ© */
 
     operation -> relation_no_operation = contre_operation -> no_operation;
     operation -> relation_no_compte = contre_operation -> no_compte;
     contre_operation -> relation_no_operation = operation -> no_operation;
     contre_operation -> relation_no_compte = operation -> no_compte;
 
-    /* on met à jour le compte courant pour le virement (il a été mis à jour avec ajout opération, mais sans les liens de virement) */
+    /* on met Ã  jour le compte courant pour le virement (il a Ã©tÃ© mis Ã  jour avec ajout opÃ©ration, mais sans les liens de virement) */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
@@ -2487,7 +2487,7 @@ void cree_contre_operation_echeance ( struct structure_operation *operation,
 
 
 /******************************************************************************/
-/* cette procédure compare 2 struct d'échéances entre elles au niveau de la date */
+/* cette procÃ©dure compare 2 struct d'Ã©chÃ©ances entre elles au niveau de la date */
 /* pour le classement */
 /******************************************************************************/
 gint comparaison_date_echeance (  struct operation_echeance *echeance_1,
@@ -2501,7 +2501,7 @@ gint comparaison_date_echeance (  struct operation_echeance *echeance_1,
 /******************************************************************************/
 void formulaire_echeancier_a_zero ( void )
 {
-    /* on met les styles des entrées au gris */
+    /* on met les styles des entrÃ©es au gris */
 
     gtk_widget_set_style ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE],
 			   style_entree_formulaire[ENGRIS] );
@@ -2585,13 +2585,13 @@ void formulaire_echeancier_a_zero ( void )
     gtk_label_set_text ( GTK_LABEL ( label_saisie_modif ),
 			 _("Modification") );
 
-    /* réaffiche les boutons effacés pour une saisie */
+    /* rÃ©affiche les boutons effacÃ©s pour une saisie */
 
     gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] );
     gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_MODE] );
     gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQUENCY] );
 
-    /* on associe au formulaire l'adr de l'échéance courante */
+    /* on associe au formulaire l'adr de l'Ã©chÃ©ance courante */
 
     gtk_object_set_data ( GTK_OBJECT ( formulaire_echeancier ),
 			  "adr_echeance",
@@ -2604,7 +2604,7 @@ void incrementation_echeance ( struct operation_echeance *echeance )
 {
     GDate *date_suivante;
 
-    /* périodicité hebdomadaire */
+    /* pÃ©riodicitÃ© hebdomadaire */
     if ( echeance -> periodicite == 1 )
     {
 	g_date_add_days ( echeance -> date,
@@ -2615,17 +2615,17 @@ void incrementation_echeance ( struct operation_echeance *echeance )
 			    0 );
     }
     else
-	/* périodicité mensuelle */
+	/* pÃ©riodicitÃ© mensuelle */
 	if ( echeance -> periodicite == 2 )
 	    g_date_add_months ( echeance -> date,
 				1 );
 	else
-	    /* périodicité annuelle */
+	    /* pÃ©riodicitÃ© annuelle */
 	    if ( echeance -> periodicite == 3 )
 		g_date_add_years ( echeance -> date,
 				   1 );
 	    else
-		/* périodicité perso */
+		/* pÃ©riodicitÃ© perso */
 		if ( !echeance -> intervalle_periodicite_personnalisee )
 		{
 		    g_date_add_days ( echeance -> date,
@@ -2643,15 +2643,15 @@ void incrementation_echeance ( struct operation_echeance *echeance )
 			g_date_add_years ( echeance -> date,
 					   echeance -> periodicite_personnalisee );
 
-    /* on recommence l'incrémentation sur la copie de la date pour avoir la date suivante */
-    /* permet de voir si c'était la dernière incrémentation */
+    /* on recommence l'incrÃ©mentation sur la copie de la date pour avoir la date suivante */
+    /* permet de voir si c'Ã©tait la derniÃ¨re incrÃ©mentation */
 
     date_suivante = g_date_new_dmy ( echeance -> date -> day,
 				     echeance -> date -> month,
 				     echeance -> date -> year ); 
 
 
-    /* périodicité hebdomadaire */
+    /* pÃ©riodicitÃ© hebdomadaire */
 
     if ( echeance -> periodicite == 1 )
     {
@@ -2662,17 +2662,17 @@ void incrementation_echeance ( struct operation_echeance *echeance )
 			    0 );
     }
     else
-	/* périodicité mensuelle */
+	/* pÃ©riodicitÃ© mensuelle */
 	if ( echeance -> periodicite == 2 )
 	    g_date_add_months ( date_suivante,
 				1 );
 	else
-	    /* périodicité annuelle */
+	    /* pÃ©riodicitÃ© annuelle */
 	    if ( echeance -> periodicite == 3 )
 		g_date_add_years ( date_suivante,
 				   1 );
 	    else
-		/* périodicité perso */
+		/* pÃ©riodicitÃ© perso */
 		if ( !echeance -> intervalle_periodicite_personnalisee )
 		{
 		    /* magouille car il semble y avoir un bug dans g_date_add_days qui ne fait pas l'addition si on ne met pas la ligne suivante */
@@ -2690,7 +2690,7 @@ void incrementation_echeance ( struct operation_echeance *echeance )
 					   echeance -> periodicite_personnalisee );
 
 
-    /* si l'échéance est finie, on la vire, sinon on met à jour les var jour, mois et année */
+    /* si l'Ã©chÃ©ance est finie, on la vire, sinon on met Ã  jour les var jour, mois et annÃ©e */
 
     if ( !echeance -> periodicite 
 	 ||
@@ -2805,8 +2805,8 @@ void incrementation_echeance ( struct operation_echeance *echeance )
 
 /******************************************************************************/
 /* Fonction completion_operation_par_tiers_echeancier */
-/* appelée lorsque le tiers perd le focus */
-/* récupère le tiers, et recherche la dernière opé associée à ce tiers */
+/* appelÃ©e lorsque le tiers perd le focus */
+/* rÃ©cupÃ¨re le tiers, et recherche la derniÃ¨re opÃ© associÃ©e Ã  ce tiers */
 /******************************************************************************/
 void completion_operation_par_tiers_echeancier ( void )
 {
@@ -2816,7 +2816,7 @@ void completion_operation_par_tiers_echeancier ( void )
     gint no_compte;
     GSList *pointeur_ope;
 
-    /* s'il y a quelque chose dans les crédit ou débit ou catégories, on se barre */
+    /* s'il y a quelque chose dans les crÃ©dit ou dÃ©bit ou catÃ©gories, on se barre */
 
     if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR]
 	 ||
@@ -2838,8 +2838,8 @@ void completion_operation_par_tiers_echeancier ( void )
     tiers = liste_tmp -> data;
 
 
-    /* on fait d'abord le tour du compte courant pour recherche une opé avec ce tiers */
-    /* s'il n'y a aucune opé correspondante, on fait le tour de tous les comptes */
+    /* on fait d'abord le tour du compte courant pour recherche une opÃ© avec ce tiers */
+    /* s'il n'y a aucune opÃ© correspondante, on fait le tour de tous les comptes */
 
     no_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT]  ) -> menu_item ),
 							"no_compte" ) );
@@ -2871,8 +2871,8 @@ void completion_operation_par_tiers_echeancier ( void )
 
     if ( !operation )
     {
-	/* aucune opération correspondant à ce tiers n'a été trouvée dans le compte courant */
-	/*       on recherche dans les autres comptes, la première trouvée fera l'affaire */
+	/* aucune opÃ©ration correspondant Ã  ce tiers n'a Ã©tÃ© trouvÃ©e dans le compte courant */
+	/*       on recherche dans les autres comptes, la premiÃ¨re trouvÃ©e fera l'affaire */
 
 	gint i;
 
@@ -2904,12 +2904,12 @@ void completion_operation_par_tiers_echeancier ( void )
 	}
     }
 
-    /* si on n'a trouvé aucune opération, on se tire */
+    /* si on n'a trouvÃ© aucune opÃ©ration, on se tire */
 
     if ( !operation )
 	return;
 
-    /* remplit les différentes entrées du formulaire */
+    /* remplit les diffÃ©rentes entrÃ©es du formulaire */
 
     /* remplit les montant */
 
@@ -2919,7 +2919,7 @@ void completion_operation_par_tiers_echeancier ( void )
 	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ),
 			     g_strdup_printf ( "%4.2f",
 					       -operation -> montant ));
-	/* met le menu des types débits */
+	/* met le menu des types dÃ©bits */
 
 	if ( !etat.affiche_tous_les_types )
 	{
@@ -2944,7 +2944,7 @@ void completion_operation_par_tiers_echeancier ( void )
 	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ),
 			     g_strdup_printf ( "%4.2f",
 					       operation -> montant ));
-	/* met le menu des types crédits */
+	/* met le menu des types crÃ©dits */
 
 	if ( !etat.affiche_tous_les_types )
 	{
@@ -2972,9 +2972,9 @@ void completion_operation_par_tiers_echeancier ( void )
 									   GINT_TO_POINTER ( operation -> devise ),
 									   ( GCompareFunc ) recherche_devise_par_no )));
 
-    /* mise en forme des catégories */
+    /* mise en forme des catÃ©gories */
 
-    /* vérifie si c'est un virement */
+    /* vÃ©rifie si c'est un virement */
 
     if ( operation -> relation_no_operation &&
 	 operation -> relation_no_compte != -1 )
@@ -3018,7 +3018,7 @@ void completion_operation_par_tiers_echeancier ( void )
 	}
     }
 
-    /* met l'option menu du type d'opé */
+    /* met l'option menu du type d'opÃ© */
 
     if ( GTK_WIDGET_VISIBLE ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ))
     {
@@ -3026,7 +3026,7 @@ void completion_operation_par_tiers_echeancier ( void )
 
 	place_type = cherche_no_menu_type_echeancier ( operation -> type_ope );
 
-	/*       si la place est trouvée, on la met, sinon on met à la place par défaut */
+	/*       si la place est trouvÃ©e, on la met, sinon on met Ã  la place par dÃ©faut */
 
 	if ( place_type != -1 )
 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
@@ -3050,7 +3050,7 @@ void completion_operation_par_tiers_echeancier ( void )
 		gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
 					      0 );
 
-		/*  on met ce type par défaut, vu que celui par défaut marche plus ... */
+		/*  on met ce type par dÃ©faut, vu que celui par dÃ©faut marche plus ... */
 
 		if ( operation -> montant < 0 )
 		    TYPE_DEFAUT_DEBIT = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ) -> menu_item ),
@@ -3059,7 +3059,7 @@ void completion_operation_par_tiers_echeancier ( void )
 		    TYPE_DEFAUT_CREDIT = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ) -> menu_item ),
 										 "no_type" ));
 
-		/* récupère l'adr du type pour afficher l'entrée si nécessaire */
+		/* rÃ©cupÃ¨re l'adr du type pour afficher l'entrÃ©e si nÃ©cessaire */
 
 		type = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ) -> menu_item ),
 					     "adr_type" );
@@ -3076,7 +3076,7 @@ void completion_operation_par_tiers_echeancier ( void )
 				   cherche_no_menu_exercice ( operation -> no_exercice,
 							      widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ));
 
-    /* met en place l'imputation budgétaire */
+    /* met en place l'imputation budgÃ©taire */
 
 
     liste_tmp = g_slist_find_custom ( liste_struct_imputation,
@@ -3135,8 +3135,8 @@ void degrise_formulaire_echeancier ( void )
 
 /******************************************************************************/
 /* Fonction basculer_vers_ventilation                                         */
-/* appelée par l'appui du bouton Ventilation...                               */
-/* permet de voir les opés ventilées d'une ventilation                        */
+/* appelÃ©e par l'appui du bouton Ventilation...                               */
+/* permet de voir les opÃ©s ventilÃ©es d'une ventilation                        */
 /******************************************************************************/
 void basculer_vers_ventilation_echeances ( void )
 {

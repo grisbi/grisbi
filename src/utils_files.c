@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                  utils_files.c			      */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 CÃƒÂ©dric Auger (cedric@grisbi.org)      */
+/*     Copyright (C)	2000-2003 CÃƒÆ’Ã‚Â©dric Auger (cedric@grisbi.org)      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (dionysos@grisbi.org)	      */
 /*			2004-     Francois Terrot (francois.terrot@grisbi.org)*/
@@ -117,8 +117,8 @@ gchar* my_get_gsb_file_default_dir(void)
 
 
 /* ******************************************************************************* */
-/* fonction qui récupère une ligne de charactère dans le pointeur de fichier donné en argument */
-/* elle alloue la mémoire nécessaire et place le pointeur en argument sur la mémoire allouée */
+/* fonction qui rÃ©cupÃ¨re une ligne de charactÃ¨re dans le pointeur de fichier donnÃ© en argument */
+/* elle alloue la mÃ©moire nÃ©cessaire et place le pointeur en argument sur la mÃ©moire allouÃ©e */
 /* renvoie 0 en cas de pb, eof en cas de fin de fichier, 1 sinon */
 /* ******************************************************************************* */
 gint get_line_from_file ( FILE *fichier,
@@ -132,13 +132,13 @@ gint get_line_from_file ( FILE *fichier,
     if ( !fichier )
 	return 0;
 	    
-    /*     on commence par allouer une taille de 30 caractères, qu'on augment ensuite de 30 par 30 */
+    /*     on commence par allouer une taille de 30 caractÃ¨res, qu'on augment ensuite de 30 par 30 */
 
     pointeur_char = (gchar*)realloc(pointeur_char,30*sizeof(gchar));
 
     if ( !pointeur_char )
     {
-	/* 	aie, pb de mémoire, on vire */
+	/* 	aie, pb de mÃ©moire, on vire */
 	dialogue_error ( _("Memory allocation error" ));
 	return 0;
     }
@@ -155,7 +155,7 @@ gint get_line_from_file ( FILE *fichier,
 
 	    if ( !pointeur_char )
 	    {
-		/* 	aie, pb de mémoire, on vire */
+		/* 	aie, pb de mÃ©moire, on vire */
 		dialogue_error ( _("Memory allocation error" ));
 		return 0;
 	    }

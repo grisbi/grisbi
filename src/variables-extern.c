@@ -1,9 +1,9 @@
-/* Ce fichier contient toutes les variables globales d�inies */
-/* ainsi que toutes les d�initions diverses */
+/* Ce fichier contient toutes les variables globales définies */
+/* ainsi que toutes les définitions diverses */
 
 #include "constants.h"
 
-/* cat�ories pr�entes lors de la 1�e installation */
+/* catégories présentes lors de la 1ère installation */
 
 extern gchar *categories_de_base [];
 
@@ -36,19 +36,19 @@ extern GtkWidget *vbox_liste_comptes_onglet;
 extern GtkWidget *label_compte_courant;
 extern int compte_courant;                        /*  n de compte en cours de visualisation */
 extern GtkWidget *vbox_liste_comptes;            /* adresse de la vbox contenant les icones de comptes */
-extern GtkWidget *label_releve;                    /* adr du label du dernier relev�*/
+extern GtkWidget *label_releve;                    /* adr du label du dernier relevé */
 
 
 /***********************************/ 
 /* fichier operations_liste.c */
 /***********************************/ 
 
-extern GtkWidget *notebook_listes_operations;          /*  adr du notebook qui contient les op� de chaque compte */
+extern GtkWidget *notebook_listes_operations;          /*  adr du notebook qui contient les opés de chaque compte */
 extern GtkWidget *bouton_affiche_cache_formulaire;
 /* dOm : bouton qui affiche ou cache le commentaire dans l'echeancier */
 extern GtkWidget *bouton_affiche_commentaire_echeancier;
-extern GtkWidget *fleche_haut;                        /* adr de l'icone de la fl�he vers le haut  */
-extern GtkWidget *fleche_bas;                        /* adr de l'icone de la fl�he vers le bas  */
+extern GtkWidget *fleche_haut;                        /* adr de l'icone de la flèche vers le haut  */
+extern GtkWidget *fleche_bas;                        /* adr de l'icone de la flèche vers le bas  */
 extern GtkWidget *frame_droite_bas;                  /* adr de la frame contenant le formulaire */
 extern GtkWidget *barre_outils;                           /* adr de la barre d'outils */
 extern gdouble solde_courant_affichage_liste;   /* valable uniquement pendant l'affichage de la liste */
@@ -75,7 +75,7 @@ extern gchar *buffer_dernier_fichier;
 extern gchar *nom_fichier_backup;
 extern gchar *dernier_chemin_de_travail;
 extern gint nb_derniers_fichiers_ouverts;          /* contient le nb de derniers fichiers ouverts */
-extern gint nb_max_derniers_fichiers_ouverts;        /* contient le nb max que peut contenir nb_derniers_fichiers_ouverts ( r�l�dans les param�res ) */
+extern gint nb_max_derniers_fichiers_ouverts;        /* contient le nb max que peut contenir nb_derniers_fichiers_ouverts ( réglé dans les paramètres ) */
 extern gchar **tab_noms_derniers_fichiers_ouverts;
 extern gint compression_fichier;
 extern gint compression_backup;
@@ -92,17 +92,17 @@ extern gint compression_backup;
 
 extern gchar *nom_fichier_comptes, *ancien_nom_fichier_comptes;
 extern gchar *buffer_nom_fichier_comptes;
-extern gchar buffer_en_tete[50];                      /* utilis�comme buffer lors de la lecture du fichier */
+extern gchar buffer_en_tete[50];                      /* utilisé comme buffer lors de la lecture du fichier */
 /* extern struct stat buffer_stat; */
 extern gint ancien_mask;
 extern FILE *pointeur_fichier_comptes;
 extern FILE *pointeur_fichier_comptes_tmp;
 extern int nb_comptes;
-extern gpointer ** p_tab_nom_de_compte;  /* pointe vers un tableau de pointeurs vers les comptes en m�oire*/
-extern gpointer ** p_tab_nom_de_compte_variable;  /* idem, mais utilis�pour se d�lacer */
+extern gpointer ** p_tab_nom_de_compte;  /* pointe vers un tableau de pointeurs vers les comptes en mémoire*/
+extern gpointer ** p_tab_nom_de_compte_variable;  /* idem, mais utilisé pour se déplacer */
 extern gpointer ** p_tab_nom_de_compte_courant;  /* pointe sur le tableau de pointeurs sur le compte courant*/
-extern GtkWidget * solde_label;   /*  pointeur vers le label qui contient le solde sous la liste des op�*/
-extern GtkWidget * solde_label_pointe;   /*  pointeur vers le label qui contient le solde pointe sous la liste des op�*/
+extern GtkWidget * solde_label;   /*  pointeur vers le label qui contient le solde sous la liste des opé */
+extern GtkWidget * solde_label_pointe;   /*  pointeur vers le label qui contient le solde pointe sous la liste des opé */
 extern gchar version[10];
 extern GSList *ordre_comptes;
 extern gchar *titre_fichier;
@@ -113,7 +113,7 @@ extern GSList *liste_struct_exercices;
 extern gint no_derniere_exercice;
 extern gint nb_exercices;
 
-extern gint no_derniere_operation;     /* contient le dernier num�o d'op�ation de tous les comptes r�nis */
+extern gint no_derniere_operation;     /* contient le dernier numéro d'opération de tous les comptes réunis */
 
 
 /*********************/ 
@@ -123,8 +123,8 @@ extern gint no_derniere_operation;     /* contient le dernier num�o d'op�ati
 
 extern GtkWidget *notebook_general;       /* adr du notebook de base */
 extern GtkWidget *page_accueil;           /* adr de l'onglet accueil */
-extern GtkWidget *page_operations;        /* adr de l'onglet op�ations ( ancien gest_main ) */
-extern GtkWidget *page_echeancier;        /* adr de l'onglet �h�nces */
+extern GtkWidget *page_operations;        /* adr de l'onglet opérations ( ancien gest_main ) */
+extern GtkWidget *page_echeancier;        /* adr de l'onglet échéances */
 extern GtkWidget *page_comptes;        /* adr de l'onglet comptes */
 extern GtkWidget *page_tiers;             /* adr de l'onglet tiers */
 extern GtkWidget *page_categories;             /* adr de l'onglet categories */
@@ -150,7 +150,7 @@ extern GtkStyle *style_derriere_selection;
 extern gint ancienne_ligne_selection;
 extern GtkStyle *style_couleur [2];
 extern GtkStyle *style_rouge_couleur [2];
-extern GtkStyle *style_gris;                     /* utilis�pour le gris�des �h�nces */
+extern GtkStyle *style_gris;                     /* utilisé pour le grisé des échéances */
 extern gchar * fonte_liste;
 extern gchar * list_font_name;
 extern gchar * list_font_size; 
@@ -160,7 +160,7 @@ extern GtkWidget *pointeur_fenetre_nouveau_compte;
 
 extern gint *no_operation_formulaire;
 
-extern gint operations_affichees;       /* nb d'op�affich�s ( variable en fonction qu'on affiche les R ou pas  */
+extern gint operations_affichees;       /* nb d'opé affichées ( variable en fonction qu'on affiche les R ou pas  */
 
 
 /************************/ 
@@ -249,9 +249,9 @@ extern GtkWidget *bouton_save_demarrage;
 extern GtkWidget *entree_jours;
 extern GtkWidget *bouton_2click_saisie, *bouton_2click_pas_saisie;
 
-extern GSList *liste_struct_exercices_tmp;                 /*  utilis� �la place de la liste des exercices pour les param�res */
-extern gint no_derniere_exercice_tmp;                            /*  utilis��la place de no_derniere_exercice pour les param�res */
-extern gint nb_exercices_tmp;                            /*  utilis��la place de nb_exercices pour les param�res */
+extern GSList *liste_struct_exercices_tmp;                 /*  utilisé à la place de la liste des exercices pour les paramêres */
+extern gint no_derniere_exercice_tmp;                            /*  utilisé à la place de no_derniere_exercice pour les paramètres */
+extern gint nb_exercices_tmp;                            /*  utilisé à la place de nb_exercices pour les paramètres */
 extern GtkWidget *clist_exercices_parametres;
 extern GtkWidget *bouton_supprimer_exercice;
 extern GtkWidget *nom_exercice;
@@ -304,10 +304,10 @@ extern GtkWidget *bouton_ajouter_tiers;
 
 extern gint nb_enregistrements_tiers;
 extern gint no_dernier_tiers;
-extern GList tiers_combo;                         /* liste des struct_chaine_completion pour la compl�ion  */
+extern GList tiers_combo;                         /* liste des struct_chaine_completion pour la complétion  */
 extern GSList *liste_struct_tiers;             /* contient la liste des struct liste_tiers de tous les tiers */
 extern GSList *liste_tiers_combofix;            /* liste des tiers pour le combofix */
-extern GSList *liste_tiers_combofix_echeancier;            /* liste des tiers pour le combofix de l'�h�ncier */
+extern GSList *liste_tiers_combofix_echeancier;            /* liste des tiers pour le combofix de l'échéancier */
 extern GDate **date_dernier_tiers;            /* contient la date du dernier tiers lors de l'affichage de chaque tiers */
 extern gint no_devise_totaux_tiers;
 extern gint *nb_ecritures_par_tiers;           /* variable tampon */
@@ -328,9 +328,9 @@ extern GtkWidget *bouton_supprimer_categ;
 extern GtkWidget *bouton_ajouter_categorie;
 extern GtkWidget *bouton_ajouter_sous_categorie;
 
-extern GSList *liste_struct_categories;    /* liste des structures de cat� */
+extern GSList *liste_struct_categories;    /* liste des structures de catég */
 extern GSList *liste_categories_combofix;        /*  liste des noms des categ et sous categ pour le combofix */
-extern gint nb_enregistrements_categories;        /* nombre de cat�ories */
+extern gint nb_enregistrements_categories;        /* nombre de catégories */
 extern gint no_derniere_categorie;
 extern gfloat *tab_montant_categ;            /* buffer */
 extern gfloat **tab_montant_sous_categ;            /* buffer */
@@ -358,15 +358,15 @@ extern GtkWidget *bouton_supprimer_devise;
 extern GtkWidget *entree_nom_devise_parametres;
 extern GtkWidget *entree_code_devise_parametres;
 extern GtkWidget *entree_iso_code_devise_parametres;
-extern GtkWidget *check_button_euro;                    /*bouton passera �l'euro */
-extern GtkWidget *hbox_devise_associee;                  /* ligne contenant l'option menu de la devise associ� */
-extern GtkWidget *label_date_dernier_change;       /* affiche soit aucun change entr� soit la date du dernier change */
+extern GtkWidget *check_button_euro;                    /*bouton passera à l'euro */
+extern GtkWidget *hbox_devise_associee;                  /* ligne contenant l'option menu de la devise associée */
+extern GtkWidget *label_date_dernier_change;       /* affiche soit aucun change entré, soit la date du dernier change */
 extern GtkWidget *hbox_ligne_change;                  /* hbox contenant le change entre les devises */
 extern GtkWidget *option_menu_devises;                  /* contient la devise avec laquelle on fait le change */
 extern GtkWidget *devise_1;                                      /* option menu qui contient la devise 1 */
 extern GtkWidget *devise_2;                                     /* option menu qui contient la devise 2 */
-extern GtkWidget *entree_conversion;                       /* entr� qui contient le change */
-extern gint ligne_selection_devise;               /* contient la ligne s�ectionn� dans la liste des devises */
+extern GtkWidget *entree_conversion;                       /* entrée qui contient le change */
+extern gint ligne_selection_devise;               /* contient la ligne sélectionnée dans la liste des devises */
 extern struct struct_devise *devise_compte;
 extern struct struct_devise *devise_operation;
 
@@ -408,17 +408,17 @@ extern gint no_derniere_banque;
 
 
 extern GtkWidget *liste_operations_ventilees;
-extern gint ancienne_largeur_ventilation;       /* magouille utilis� pour bloquer un signal size-allocate qui s'emballe */
+extern gint ancienne_largeur_ventilation;       /* magouille utilisée pour bloquer un signal size-allocate qui s'emballe */
 extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
 extern GtkWidget *separateur_formulaire_ventilations;
 extern GtkWidget *hbox_valider_annuler_ventil;
 extern GtkWidget *label_somme_ventilee;                       /*  label correspondant */
 extern GtkWidget *label_non_affecte;                       /*  label correspondant */
 extern GtkWidget *label_montant_operation_ventilee;                       /*  label correspondant */
-extern struct struct_ope_ventil *ligne_selectionnee_ventilation;              /* struct ope ligne s�ectionn� */
+extern struct struct_ope_ventil *ligne_selectionnee_ventilation;              /* struct ope ligne sélectionnée */
 extern gdouble montant_operation_ventilee;
 extern gdouble somme_ventilee;
-extern gint enregistre_ope_au_retour;            /* �1 si au click du bouton valider on enregistre l'op�*/
+extern gint enregistre_ope_au_retour;            /* à 1 si au click du bouton valider on enregistre l'opé */
 
 
 /***********************************/ 
@@ -490,9 +490,9 @@ extern gint *neutres_inclus_tmp;
 /***********************************/ 
 
 
-extern GSList *liste_struct_banques_tmp;             /*  utilis� �la place de la liste des banques pour les param�res */
-extern gint no_derniere_banque_tmp;                     /*  utilis��la place de no_derniere_banque pour les param�res */
-extern gint nb_banques_tmp;                            /*  utilis��la place de nb_banques pour les param�res */
+extern GSList *liste_struct_banques_tmp;             /*  utilisée à la place de la liste des banques pour les paramètres */
+extern gint no_derniere_banque_tmp;                     /*  utilisé à la place de no_derniere_banque pour les paramètres */
+extern gint nb_banques_tmp;                            /*  utilisé à la place de nb_banques pour les paramètres */
 extern GtkWidget *clist_banques_parametres;
 extern GtkWidget *bouton_supprimer_banque;
 extern GtkWidget *nom_banque;
@@ -525,9 +525,9 @@ extern GtkWidget *bouton_supprimer_imputation;
 extern GtkWidget *bouton_ajouter_imputation;
 extern GtkWidget *bouton_ajouter_sous_imputation;
 
-extern GSList *liste_struct_imputation;    /* liste des structures de cat� */
+extern GSList *liste_struct_imputation;    /* liste des structures de catég */
 extern GSList *liste_imputations_combofix;        /*  liste des noms des imputation et sous imputation pour le combofix */
-extern gint nb_enregistrements_imputations;        /* nombre de cat�ories */
+extern gint nb_enregistrements_imputations;        /* nombre de catégories */
 extern gint no_derniere_imputation;
 extern gfloat *tab_montant_imputation;             /* buffer */
 extern gfloat **tab_montant_sous_imputation;            /* buffer */
@@ -561,9 +561,9 @@ extern GtkWidget *bouton_classer_liste_par_date_bancaire;
 extern GSList *liste_struct_etats;
 extern gint no_dernier_etat;
 extern GtkWidget *frame_liste_etats;
-extern GtkWidget *label_etat_courant;        /* label en haut de la liste des �ats */
-extern GtkWidget *vbox_liste_etats;          /* vbox contenant la liste des �ats */
-extern GtkWidget *bouton_etat_courant;          /* adr du bouton de l'�at en cours, pour le refermer qd change */
+extern GtkWidget *label_etat_courant;        /* label en haut de la liste des états */
+extern GtkWidget *vbox_liste_etats;          /* vbox contenant la liste des états */
+extern GtkWidget *bouton_etat_courant;          /* adr du bouton de l'état en cours, pour le refermer qd change */
 extern struct struct_etat *etat_courant;
 extern GtkWidget *bouton_effacer_etat;
 extern GtkWidget *bouton_personnaliser_etat;
@@ -572,7 +572,7 @@ extern GtkWidget *bouton_imprimer_etat;
 extern GtkWidget *bouton_exporter_etat;
 extern GtkWidget *bouton_importer_etat;
 extern GtkWidget *bouton_dupliquer_etat;
-extern GtkWidget *scrolled_window_etat;          /* contient l'�at en cours */
+extern GtkWidget *scrolled_window_etat;          /* contient l'état en cours */
 extern gint nb_colonnes;
 extern gint ligne_debut_partie;
 extern GtkWidget *notebook_etats;
@@ -746,7 +746,7 @@ extern GtkWidget *liste_mode_paiement_etat;
 /* fichier etats_io.c */
 /***********************************/ 
 
-extern gchar *log_message;        /* utilis�comme log lors de l'import d'un �at */
+extern gchar *log_message;        /* utilisé comme log lors de l'import d'un état */
 
 
 
@@ -770,9 +770,9 @@ extern GtkWidget *bouton_affichage_lignes_trois_lignes_2;
 extern GtkWidget *bouton_affichage_lignes_trois_lignes_3;
 extern gint rapport_largeur_colonnes[7];    /* contient le % de chaque colonne */
 extern gint taille_largeur_colonnes[7];   /* contient la taille de chaque colonne */
-extern gint ligne_affichage_une_ligne;    /* contient le no de ligne �afficher lorsqu'on n'affiche qu'une ligne */
-extern GSList *lignes_affichage_deux_lignes;    /* contient les no de lignes �afficher lorsqu'on affiche deux lignes */
-extern GSList *lignes_affichage_trois_lignes;    /* contient les no de lignes �afficher lorsqu'on affiche trois lignes */
+extern gint ligne_affichage_une_ligne;    /* contient le no de ligne à afficher lorsqu'on n'affiche qu'une ligne */
+extern GSList *lignes_affichage_deux_lignes;    /* contient les no de lignes à afficher lorsqu'on affiche deux lignes */
+extern GSList *lignes_affichage_trois_lignes;    /* contient les no de lignes à afficher lorsqu'on affiche trois lignes */
 
 
 /************************/ 

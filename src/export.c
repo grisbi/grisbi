@@ -1,7 +1,7 @@
 /* ce fichier de la gestion du format qif */
 
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
+/*     Copyright (C) 2000-2003  CÃ©dric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -209,7 +209,7 @@ static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint
 	gtk_widget_show ( account_entry );
 
 
-	/*       si on clique sur le check bouton, ça rend éditable l'entrée */
+	/*       si on clique sur le check bouton, Ã§a rend Ã©ditable l'entrÃ©e */
 
 	gtk_signal_connect ( GTK_OBJECT ( check_button ),
 			     "toggled",
@@ -384,7 +384,7 @@ static void export_update_format_menu(GtkItemFactory* menu_bar,gchar* level1, gc
 
 	    item_factory_entry -> callback = G_CALLBACK ( changement_compte_par_menu );
 
-	    /* 	    on rajoute 1 car sinon pour le compte 0 ça passerait pas... */
+	    /* 	    on rajoute 1 car sinon pour le compte 0 Ã§a passerait pas... */
 
 	    item_factory_entry -> callback_action = GPOINTER_TO_INT ( ordre_comptes_variable->data ) + 1;
 

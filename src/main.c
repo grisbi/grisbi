@@ -1,9 +1,9 @@
 /* *******************************************************************************/
 /*                                 GRISBI                                        */
-/* Programme de gestion financière personnelle                                   */
+/* Programme de gestion financiÃ¨re personnelle                                   */
 /*           	  license : GPL                                                  */
 /*                                                                               */
-/*     Copyright (C)    2000-2003 Cédric Auger (cedric@grisbi.org)               */
+/*     Copyright (C)    2000-2003 CÃ©dric Auger (cedric@grisbi.org)               */
 /*                      2003 Benjamin Drieu (bdrieu@april.org)                   */
 /*                      http://www.grisbi.org                                    */
 /*      Version : 0.5.0                                                           */
@@ -30,7 +30,7 @@
 
 
 
-/* Fichier de base contenant la procédure main */
+/* Fichier de base contenant la procÃ©dure main */
 
 
 #include "include.h"
@@ -53,7 +53,7 @@
 
 
 
-/* vbox ajoutée dans la fenetre de base, contient le menu et la fenetre d'utilisation */
+/* vbox ajoutÃ©e dans la fenetre de base, contient le menu et la fenetre d'utilisation */
 
 GtkWidget *window_vbox_principale;
 GtkWidget *menu_general;
@@ -61,7 +61,7 @@ GtkItemFactory *item_factory_menu_general;
 
 
 /***********************************************************************************************
- ** Début de la procédure principale **
+ ** DÃ©but de la procÃ©dure principale **
  ***********************************************************************************************/
 
 /**                                                                              
@@ -79,31 +79,31 @@ int main (int argc, char *argv[])
 #endif
     gint demande_page;
 
-    /* on ajoute la possibilité de mettre l'option --onglet dans la ligne de commande */
-    /* Permet d'ouvrir le fichier demandé sur l'onglet désiré  */
-    /* w=-1 : fenêtre de configuration */
-    /*    x=numéro de l'onglet de configuration (0-9) */
+    /* on ajoute la possibilitÃ© de mettre l'option --onglet dans la ligne de commande */
+    /* Permet d'ouvrir le fichier demandÃ© sur l'onglet dÃ©sirÃ©  */
+    /* w=-1 : fenÃªtre de configuration */
+    /*    x=numÃ©ro de l'onglet de configuration (0-9) */
     /* w=0 : onglet d'accueil (identique sans argument) */
-    /* w=1 : onglet des opérations */
-    /* w=2 : onglet de l'échéancier */
+    /* w=1 : onglet des opÃ©rations */
+    /* w=2 : onglet de l'Ã©chÃ©ancier */
     /* w=3 : onglet des comptes */
     /* w=4 : onglet des tiers */
-    /* w=5 : onglet des catégories */
-    /* w=6 : onglet des imputations budgétaires */
-    /* w=7 : onglet des états */
-    /*   x=numéro de l'état à afficher */
-    /*   y=absent pour rester sur l'état, numéro de l'onglet principal de personnalisation sinon */
-    /*   z=numéro de l'onglet secondaire de la personnalisation */
+    /* w=5 : onglet des catÃ©gories */
+    /* w=6 : onglet des imputations budgÃ©taires */
+    /* w=7 : onglet des Ã©tats */
+    /*   x=numÃ©ro de l'Ã©tat Ã  afficher */
+    /*   y=absent pour rester sur l'Ã©tat, numÃ©ro de l'onglet principal de personnalisation sinon */
+    /*   z=numÃ©ro de l'onglet secondaire de la personnalisation */
 
     /*   Exemples : */
     /* grisbi --onglet=3 mes_comptes */
-    /* place grisbi directement sur l'échéancier du fichier mes_comptes */
+    /* place grisbi directement sur l'Ã©chÃ©ancier du fichier mes_comptes */
     /* grisbi --onglet=-1,3 mes_comptes */
     /* affiche la configuration de grisbi et la place sur Affichage */
     /* grisbi --onglet=7,2 mes_comptes */
-    /* affiche le 3ème état */
+    /* affiche le 3Ã¨me Ã©tat */
     /* grisbi --onglet=7,2,2,2 mes_comptes */
-    /* affiche l'onglet opération de l'onglet Affichage des données du 3ème état */
+    /* affiche l'onglet opÃ©ration de l'onglet Affichage des donnÃ©es du 3Ã¨me Ã©tat */
 
 #ifdef _WIN32
     /* we store the path of the running file to use it for pixmaps, help and locales .... */
@@ -120,7 +120,7 @@ int main (int argc, char *argv[])
 
 	gtk_init ( &argc, &argv );
 
-	/* on commence par détourner le signal SIGSEGV */
+	/* on commence par dÃ©tourner le signal SIGSEGV */
 #ifndef _WIN32
     /* sauf sous Windows*/
 	memset ( &sig_sev, 0, sizeof ( struct sigaction ));
@@ -132,7 +132,7 @@ int main (int argc, char *argv[])
 	    printf (_("Error on sigaction: SIGSEGV won't be trapped\n"));
 #endif
 
-	/*  Création de la fenêtre principale */
+	/*  CrÃ©ation de la fenÃªtre principale */
 
 	window = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
 
@@ -150,7 +150,7 @@ int main (int argc, char *argv[])
 				TRUE,
 				FALSE );
 
-	/* 	création de la pixmap du logiciel */
+	/* 	crÃ©ation de la pixmap du logiciel */
 
 	gtk_window_set_default_icon_from_file ( g_strconcat(PIXMAPS_DIR,
                                                             C_DIRECTORY_SEPARATOR,
@@ -164,7 +164,7 @@ int main (int argc, char *argv[])
 			    window_vbox_principale );
 	gtk_widget_show ( window_vbox_principale );
 
-	/*   création des menus */
+	/*   crÃ©ation des menus */
 
 	menu_general = init_menus ( window_vbox_principale );
 	gtk_box_pack_start ( GTK_BOX ( window_vbox_principale ),
@@ -173,7 +173,7 @@ int main (int argc, char *argv[])
 			     FALSE,
 			     0 );
 
-	/* on grise les fonctions inutiles au départ */
+	/* on grise les fonctions inutiles au dÃ©part */
 
 	init_variables ( FALSE );
 	style_label_nom_compte = NULL;
@@ -185,7 +185,7 @@ int main (int argc, char *argv[])
 
 	affiche_derniers_fichiers_ouverts ();
 
-	/*   si la taille avait déjà été sauvée, on remet l'ancienne taille à
+	/*   si la taille avait dÃ©jÃ  Ã©tÃ© sauvÃ©e, on remet l'ancienne taille Ã 
 	     la fenetre */
 	if ( largeur_window && hauteur_window )
 	    gtk_window_set_default_size ( GTK_WINDOW ( window ),
@@ -198,7 +198,7 @@ int main (int argc, char *argv[])
 
 	gtk_widget_show ( window );
 
-	/*   on applique la fonte aux listes si nécessaire */
+	/*   on applique la fonte aux listes si nÃ©cessaire */
 
 	initialisation_couleurs_listes ();
 
@@ -223,7 +223,7 @@ int main (int argc, char *argv[])
 	    gtk_style_set_font (style_gris, NULL);
 	}
 
-	/* on vérifie les arguments de ligne de commande */
+	/* on vÃ©rifie les arguments de ligne de commande */
 
 	demande_page = 0;
 
@@ -232,7 +232,7 @@ int main (int argc, char *argv[])
 	    case 1:
 		/* il n'y a aucun argument */
 
-		/* ouvre le dernier fichier s'il existe et si c'est demandé */
+		/* ouvre le dernier fichier s'il existe et si c'est demandÃ© */
 
 		if ( etat.dernier_fichier_auto
 		     &&
@@ -243,7 +243,7 @@ int main (int argc, char *argv[])
 		break;
 
 	    case 2:
-		/* l'argument peut être soit --onglet, soit le fichier à ouvrir */
+		/* l'argument peut Ãªtre soit --onglet, soit le fichier Ã  ouvrir */
 
 		if ( !strncmp ( argv[1],
 				"--",
@@ -251,7 +251,7 @@ int main (int argc, char *argv[])
 		{
 		    demande_page = 1;
 
-		    /* ouvre le dernier fichier s'il existe et si c'est demandé */
+		    /* ouvre le dernier fichier s'il existe et si c'est demandÃ© */
 
 		    if ( etat.dernier_fichier_auto
 			 &&
@@ -269,8 +269,8 @@ int main (int argc, char *argv[])
 
 	    case 3:
 		/* il y a --onglet et un nom de fichier */
-		/*       il faut que argv[1] commence par -- sinon on considère que c'est le nom de fichier */
-		/* et on oublie le 2ème argument */
+		/*       il faut que argv[1] commence par -- sinon on considÃ¨re que c'est le nom de fichier */
+		/* et on oublie le 2Ã¨me argument */
 
 		if ( !strncmp ( argv[1],
 				"--",
@@ -278,7 +278,7 @@ int main (int argc, char *argv[])
 		{
 		    demande_page = 1;
 
-		    /* ouvre le fichier demandé */
+		    /* ouvre le fichier demandÃ© */
 
 		    nom_fichier_comptes = argv[2];
 		    ouverture_confirmee();
@@ -291,7 +291,7 @@ int main (int argc, char *argv[])
 		break;
 	}
 
-	/*   à ce niveau, le fichier doit être chargé, on met sur l'onglet demandé si nécessaire */
+	/*   Ã  ce niveau, le fichier doit Ãªtre chargÃ©, on met sur l'onglet demandÃ© si nÃ©cessaire */
 
 	if ( nb_comptes
 	     &&
@@ -303,7 +303,7 @@ int main (int argc, char *argv[])
 					  "=",
 					  2 );
 
-	    /*       si le 2ème argument retourné est null, c'est qu'on avait marqué --onglet= */
+	    /*       si le 2Ã¨me argument retournÃ© est null, c'est qu'on avait marquÃ© --onglet= */
 	    /* et dans ce cas on fait rien */
 
 	    if ( split_argument[1] )
@@ -321,7 +321,7 @@ int main (int argc, char *argv[])
 		    case -1:
 			/* on demande l'onglet de configuration */
 
-			/* on affiche l'onglet du 2ème argument s'il existe */
+			/* on affiche l'onglet du 2Ã¨me argument s'il existe */
 
 			if ( split_chiffres[1] )
 			    preferences ( my_atoi ( split_chiffres[1] ));
@@ -343,12 +343,12 @@ int main (int argc, char *argv[])
 			break;
 
 		    case 7:
-			/* on demande l'onglet des états  */
+			/* on demande l'onglet des Ã©tats  */
 
 			gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
 						my_atoi ( split_chiffres[0] ));
 
-			/* s'il y a un chiffre ensuite, on ouvre l'état correspondant à ce chiffre */
+			/* s'il y a un chiffre ensuite, on ouvre l'Ã©tat correspondant Ã  ce chiffre */
 
 			if ( split_chiffres[1]
 			     &&
@@ -359,7 +359,7 @@ int main (int argc, char *argv[])
 			    liste_tmp = g_slist_nth ( liste_struct_etats,
 						      my_atoi ( split_chiffres[1] ));
 
-			    /* si on a sélectionné un état qui n'existait pas, on ouvre le 1er */
+			    /* si on a sÃ©lectionnÃ© un Ã©tat qui n'existait pas, on ouvre le 1er */
 
 			    if ( !liste_tmp )
 				liste_tmp = liste_struct_etats;

@@ -1,4 +1,4 @@
-/*  Fichier qui s'occupe d'afficher les états via une impression latex */
+/*  Fichier qui s'occupe d'afficher les Ã©tats via une impression latex */
 /*      etats_latex.c */
 
 /*     Copyright (C)	2004 Benjamin Drieu (bdrieu@april.org)		      */
@@ -389,13 +389,13 @@ void latex_safe ( gchar * text )
 	switch ( * text )
 	{
 	    /* FIXME: this is very iso8859-1 centric */
-	    case 'Â':
-		if ( *(text+1) == '«' )
+	    case 'Ã‚':
+		if ( *(text+1) == 'Â«' )
 		{
 		    fprintf ( latex_out, "<<" );
 		    text++;
 		}
-		else if ( *(text+1) == '»' )
+		else if ( *(text+1) == 'Â»' )
 		{
 		    fprintf ( latex_out, ">>" );
 		    text++;

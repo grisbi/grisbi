@@ -1,7 +1,7 @@
-/*  Fichier qui s'occupe de former les différentes fenêtres de l'paned_onglet_operations des opés */
+/*  Fichier qui s'occupe de former les diffÃ©rentes fenÃªtres de l'paned_onglet_operations des opÃ©s */
 /*      paned_onglet_operations_operations.c */
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
+/*     Copyright (C) 2000-2003  CÃ©dric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -51,8 +51,8 @@ GtkWidget *creation_onglet_operations ( void )
     gtk_container_set_border_width ( GTK_CONTAINER ( paned_onglet_operations ), 10 );
     gtk_widget_show ( paned_onglet_operations );
 
-    /*   création de la fenetre des comptes / ventilation / équilibrage
-	 à gauche */
+    /*   crÃ©ation de la fenetre des comptes / ventilation / Ã©quilibrage
+	 Ã  gauche */
     frame_gauche = gtk_frame_new ( NULL );
     gtk_frame_set_shadow_type ( GTK_FRAME ( frame_gauche ), GTK_SHADOW_IN );
     gtk_paned_pack1 ( GTK_PANED(paned_onglet_operations), frame_gauche, TRUE, TRUE );
@@ -65,29 +65,29 @@ GtkWidget *creation_onglet_operations ( void )
 			notebook_comptes_equilibrage );
     gtk_widget_show ( notebook_comptes_equilibrage );
 
-    /*  Création de la fenêtre des comptes */
+    /*  CrÃ©ation de la fenÃªtre des comptes */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
 			       creation_liste_comptes (),
 			       gtk_label_new ( _("Accounts") ) );
 
 
-   /* création de la fenetre de ventilation */
+   /* crÃ©ation de la fenetre de ventilation */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
 			       creation_verification_ventilation (),
 			       gtk_label_new ( _("Breakdown") ) );
 
 
-    /* création de la fenetre de l'équilibrage */
+    /* crÃ©ation de la fenetre de l'Ã©quilibrage */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
 			       creation_fenetre_equilibrage (),
 			       gtk_label_new ( _("Reconciliation") ) );
 
-    /* création de la partie droite */
+    /* crÃ©ation de la partie droite */
     vbox = gtk_vbox_new ( FALSE, 10 );
     gtk_paned_pack2 ( GTK_PANED(paned_onglet_operations), vbox, TRUE, TRUE );
     gtk_widget_show ( vbox );
 
-    /*  Création de la liste des opérations */
+    /*  CrÃ©ation de la liste des opÃ©rations */
     frame_droite_haut = gtk_frame_new ( NULL );
     gtk_box_pack_start ( GTK_BOX ( vbox ), frame_droite_haut, TRUE, TRUE, 0 );
     gtk_frame_set_shadow_type ( GTK_FRAME ( frame_droite_haut ), GTK_SHADOW_IN );
@@ -99,7 +99,7 @@ GtkWidget *creation_onglet_operations ( void )
     gtk_widget_show ( fenetre_operations ); 
 
 
-    /* création du formulaire */
+    /* crÃ©ation du formulaire */
 
     frame_droite_bas = gtk_frame_new ( NULL );
     gtk_frame_set_shadow_type ( GTK_FRAME ( frame_droite_bas ), GTK_SHADOW_IN );
@@ -110,8 +110,8 @@ GtkWidget *creation_onglet_operations ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox ), frame_droite_bas, FALSE, FALSE, 0 );
 
 
-    /* création du notebook du formulaire ( contient le formulaire et le
-       formulaire simplifié pour la ventilation ) */
+    /* crÃ©ation du notebook du formulaire ( contient le formulaire et le
+       formulaire simplifiÃ© pour la ventilation ) */
     notebook_formulaire = gtk_notebook_new ();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK( notebook_formulaire ), FALSE );
     gtk_container_add ( GTK_CONTAINER ( frame_droite_bas ), notebook_formulaire );
@@ -120,14 +120,14 @@ GtkWidget *creation_onglet_operations ( void )
     if ( etat.formulaire_toujours_affiche )
 	gtk_widget_show (frame_droite_bas);
 
-    /* création du formulaire */
+    /* crÃ©ation du formulaire */
     formulaire = creation_formulaire ();
     gtk_container_set_border_width ( GTK_CONTAINER ( formulaire ), 10);
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_formulaire ), formulaire,
 			       gtk_label_new ( _("Form") ) );
     gtk_widget_show (formulaire);
 
-    /* création de la fenetre de ventilation */
+    /* crÃ©ation de la fenetre de ventilation */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_formulaire ),
 			       creation_formulaire_ventilation (),
 			       gtk_label_new ( _("Breakdown") ) );

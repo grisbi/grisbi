@@ -1,7 +1,7 @@
 /* fichier qui barre d'outils */
 /*           barre_outils.c */
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
+/*     Copyright (C) 2000-2003  CÃ©dric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -136,7 +136,7 @@ GtkWidget *creation_barre_outils ( void )
     gtk_widget_show_all ( separateur );
 
 
-    /* bouton opérations 4 lignes */
+    /* bouton opÃ©rations 4 lignes */
 
     bouton_ope_4_lignes = gtk_toggle_button_new ();
     gtk_button_set_relief ( GTK_BUTTON ( bouton_ope_4_lignes ),
@@ -165,7 +165,7 @@ GtkWidget *creation_barre_outils ( void )
 
 
 
-    /* bouton opérations 3 lignes */
+    /* bouton opÃ©rations 3 lignes */
 
     bouton_ope_3_lignes = gtk_toggle_button_new ();
     gtk_button_set_relief ( GTK_BUTTON ( bouton_ope_3_lignes ),
@@ -193,7 +193,7 @@ GtkWidget *creation_barre_outils ( void )
     gtk_widget_show_all ( bouton_ope_3_lignes );
 
 
-    /* bouton opérations 2 lignes */
+    /* bouton opÃ©rations 2 lignes */
 
     bouton_ope_2_lignes = gtk_toggle_button_new ();
     gtk_button_set_relief ( GTK_BUTTON ( bouton_ope_2_lignes ),
@@ -222,7 +222,7 @@ GtkWidget *creation_barre_outils ( void )
 
 
 
-    /* bouton opérations 1 ligne */
+    /* bouton opÃ©rations 1 ligne */
 
     bouton_ope_1_lignes = gtk_toggle_button_new ();
     gtk_button_set_relief ( GTK_BUTTON ( bouton_ope_1_lignes ),
@@ -258,7 +258,7 @@ GtkWidget *creation_barre_outils ( void )
     gtk_widget_show_all ( separateur );
 
 
-    /* bouton affiche opérations relevées */
+    /* bouton affiche opÃ©rations relevÃ©es */
 
     bouton_affiche_r = gtk_toggle_button_new ();
     gtk_button_set_relief ( GTK_BUTTON ( bouton_affiche_r ),
@@ -285,7 +285,7 @@ GtkWidget *creation_barre_outils ( void )
     gtk_widget_show_all ( bouton_affiche_r );
 
 
-    /* bouton efface opérations relevées */
+    /* bouton efface opÃ©rations relevÃ©es */
 
     bouton_enleve_r = gtk_toggle_button_new ();
     gtk_button_set_relief ( GTK_BUTTON ( bouton_enleve_r ),
@@ -701,7 +701,7 @@ void change_aspect_liste ( GtkWidget *bouton,
 
     }
 
-    /*   si un compte était affiché en ce moment, on le met à jour si necessaire */
+    /*   si un compte Ã©tait affichÃ© en ce moment, on le met Ã  jour si necessaire */
 
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general ) ) == 1 )
     {
@@ -1263,7 +1263,7 @@ GtkWidget *creation_barre_outils_imputation ( void )
 
 
 /*******************************************************************************************/
-/* étend l'arbre donné en argument en fonction du bouton cliqué (profondeur contenue */
+/* Ã©tend l'arbre donnÃ© en argument en fonction du bouton cliquÃ© (profondeur contenue */
 /* dans le bouton) */
 /*******************************************************************************************/
 
@@ -1286,9 +1286,9 @@ void demande_expand_arbre ( GtkWidget *bouton,
 
     gtk_clist_freeze ( GTK_CLIST ( ctree ));
 
-    /* on doit faire ça étage par étage car il y a des ajouts à chaque ouverture de noeud */
+    /* on doit faire Ã§a Ã©tage par Ã©tage car il y a des ajouts Ã  chaque ouverture de noeud */
 
-    /*   récupère le noeud sélectionné, s'il n'y en a aucun, fera tout l'arbre */
+    /*   rÃ©cupÃ¨re le noeud sÃ©lectionnÃ©, s'il n'y en a aucun, fera tout l'arbre */
 
     noeud_selectionne = NULL;
 
@@ -1309,15 +1309,15 @@ void demande_expand_arbre ( GtkWidget *bouton,
 
 
 /*******************************************************************************************/
-/* cette fonction met les boutons du nb lignes par opé et de l'affichage de R en fonction du compte */
-/* envoyé en argument */
+/* cette fonction met les boutons du nb lignes par opÃ© et de l'affichage de R en fonction du compte */
+/* envoyÃ© en argument */
 /*******************************************************************************************/
 
 void mise_a_jour_boutons_caract_liste ( gint no_compte )
 {
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
-    /*   on va mettre les 4 boutons de lignes à false, puis met à true le bon bouton */
+    /*   on va mettre les 4 boutons de lignes Ã  false, puis met Ã  true le bon bouton */
 
     gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_4_lignes ),
 				       GTK_SIGNAL_FUNC ( change_aspect_liste ),

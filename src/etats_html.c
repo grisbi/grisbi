@@ -1,4 +1,4 @@
-/*  Fichier qui s'occupe d'afficher les états via une impression html */
+/*  Fichier qui s'occupe d'afficher les Ã©tats via une impression html */
 /*      etats_html.c */
 
 /*     Copyright (C)	2004 Benjamin Drieu (bdrieu@april.org)		      */

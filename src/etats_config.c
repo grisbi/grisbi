@@ -1,8 +1,8 @@
 /* ************************************************************************** */
-/* Ce fichier s'occupe de la configuration des états                          */
+/* Ce fichier s'occupe de la configuration des Ã©tats                          */
 /* 			etats_config.c                                        */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2004 Alain Portal (dionysos@grisbi.org) 	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
@@ -94,7 +94,7 @@ void personnalisation_etat (void)
 				   gtk_label_new ( _("Reports setup")));
 	gtk_widget_show ( onglet_config_etat );
 
-	/* on commence par créer le notebook parent de la config des états */
+	/* on commence par crÃ©er le notebook parent de la config des Ã©tats */
 
 	notebook_config_etat = gtk_notebook_new ();
 	gtk_notebook_set_scrollable ( GTK_NOTEBOOK ( notebook_config_etat ),
@@ -109,7 +109,7 @@ void personnalisation_etat (void)
 
 	/* on ajoute les onglets dans l'onglet de base correspondant */
 
-	/* remplissage de l'onglet de sélection */
+	/* remplissage de l'onglet de sÃ©lection */
 
 	notebook_selection = gtk_notebook_new ();
 	gtk_container_set_border_width ( GTK_CONTAINER ( notebook_selection ),
@@ -229,13 +229,13 @@ void personnalisation_etat (void)
     }
 
 
-    /* on va maintenant remplir toutes les infos de l'état */
+    /* on va maintenant remplir toutes les infos de l'Ã©tat */
 
 
-    /* onglet généralités */
+    /* onglet gÃ©nÃ©ralitÃ©s */
 
 
-    /* on met le nom de l'état */
+    /* on met le nom de l'Ã©tat */
 
     gtk_entry_set_text ( GTK_ENTRY ( entree_nom_etat ),
 			 etat_courant -> nom_etat );
@@ -363,7 +363,7 @@ void personnalisation_etat (void)
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclure_dans_tiers ),
 				   etat_courant -> inclure_dans_tiers );
 
-    /* on rend insensitif les sous qque choses si nécessaire */
+    /* on rend insensitif les sous qque choses si nÃ©cessaire */
 
     sens_desensitive_pointeur ( bouton_afficher_opes,
 				frame_onglet_generalites );
@@ -424,14 +424,14 @@ void personnalisation_etat (void)
     }
 
 
-    /* on sélectionne les exercices */
+    /* on sÃ©lectionne les exercices */
 
     selectionne_liste_exo_etat_courant ();
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_separe_exo_etat ),
 				   etat_courant -> separation_par_exo );
 
-    /* on sélectionne la plage de date */
+    /* on sÃ©lectionne la plage de date */
 
     gtk_clist_select_row ( GTK_CLIST ( liste_plages_dates_etat ),
 			   etat_courant -> no_plage_date,
@@ -468,7 +468,7 @@ void personnalisation_etat (void)
 					       g_date_month ( etat_courant -> date_perso_fin ),
 					       g_date_year ( etat_courant -> date_perso_fin )));
 
-    /* on remplit les détails de la séparation des dates */
+    /* on remplit les dÃ©tails de la sÃ©paration des dates */
 
     if ( etat_courant -> separation_par_plage )
     {
@@ -550,7 +550,7 @@ void personnalisation_etat (void)
 				   etat_courant -> exclure_ope_non_virement );
 
 
-    /* onglet catégories */
+    /* onglet catÃ©gories */
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_categ_etat ),
 				   etat_courant -> utilise_categ );
@@ -573,7 +573,7 @@ void personnalisation_etat (void)
 				hbox_detaille_categ_etat );
 
 
-    /* on sélectionne les catégories choisies */
+    /* on sÃ©lectionne les catÃ©gories choisies */
 
     selectionne_liste_categ_etat_courant ();
 
@@ -620,7 +620,7 @@ void personnalisation_etat (void)
 				hbox_detaille_ib_etat );
 
 
-    /* on sélectionne les ib choisies */
+    /* on sÃ©lectionne les ib choisies */
 
     selectionne_liste_ib_etat_courant ();
 
@@ -659,7 +659,7 @@ void personnalisation_etat (void)
 				hbox_detaille_tiers_etat );
 
 
-    /* on sélectionne les tiers choisies */
+    /* on sÃ©lectionne les tiers choisies */
 
     selectionne_liste_tiers_etat_courant();
 
@@ -714,7 +714,7 @@ void personnalisation_etat (void)
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_etats ),
 			    1 );
 
-    /* on empêche le changement d'état */
+    /* on empÃªche le changement d'Ã©tat */
 
     gtk_widget_set_sensitive ( frame_liste_etats,
 			       FALSE );
@@ -930,7 +930,7 @@ void recuperation_info_perso_etat ( void )
     struct struct_comparaison_textes_etat *comp_textes;
 
 
-    /* vérification que les dates init et finales sont correctes */
+    /* vÃ©rification que les dates init et finales sont correctes */
 
     if ( strlen ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_init_etat )))
 	 &&
@@ -948,8 +948,8 @@ void recuperation_info_perso_etat ( void )
     }
 
 
-    /* on récupère maintenant toutes les données */
-    /* récupération du nom du rapport */
+    /* on rÃ©cupÃ¨re maintenant toutes les donnÃ©es */
+    /* rÃ©cupÃ©ration du nom du rapport */
 
     pointeur_char = g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_etat )));
 
@@ -963,12 +963,12 @@ void recuperation_info_perso_etat ( void )
 	gtk_label_set_text ( GTK_LABEL ( label_etat_courant ),
 			     etat_courant -> nom_etat );
 
-	/* on réaffiche la liste des états */
+	/* on rÃ©affiche la liste des Ã©tats */
 
 	remplissage_liste_etats ();
     }
 
-    /* récupération du type de classement */
+    /* rÃ©cupÃ©ration du type de classement */
 
     g_list_free ( etat_courant -> type_classement );
 
@@ -995,7 +995,7 @@ void recuperation_info_perso_etat ( void )
 							      GINT_TO_POINTER ( 4 ));
     }
 
-    /* récupération de l'affichage ou non des R */
+    /* rÃ©cupÃ©ration de l'affichage ou non des R */
 
     if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_opes_r_et_non_r_etat )) )
 	etat_courant -> afficher_r = 0;
@@ -1007,7 +1007,7 @@ void recuperation_info_perso_etat ( void )
 	    etat_courant -> afficher_r = 2;
     }
 
-    /* récupération de l'affichage des opés */
+    /* rÃ©cupÃ©ration de l'affichage des opÃ©s */
 
     etat_courant -> afficher_opes = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_opes ));
     etat_courant -> afficher_nb_opes = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_nb_opes ));
@@ -1041,7 +1041,7 @@ void recuperation_info_perso_etat ( void )
     etat_courant -> inclure_dans_tiers = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclure_dans_tiers ));
 
 
-    /* récupération des dates */
+    /* rÃ©cupÃ©ration des dates */
 
     etat_courant -> exo_date = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( radio_button_utilise_exo ));
 
@@ -1076,7 +1076,7 @@ void recuperation_info_perso_etat ( void )
 	pointeur_liste = pointeur_liste -> next;
     }
 
-    /*   si tous les exos ont été sélectionnés, on met bouton_detaille_exo_etat à 0 (plus rapide) */
+    /*   si tous les exos ont Ã©tÃ© sÃ©lectionnÃ©s, on met bouton_detaille_exo_etat Ã  0 (plus rapide) */
 
     if ( ( g_list_length ( GTK_CLIST ( liste_exo_etat ) -> selection )
 	   ==
@@ -1133,7 +1133,7 @@ void recuperation_info_perso_etat ( void )
     etat_courant -> jour_debut_semaine = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_debut_semaine ) -> menu_item ),
 										 "jour" ));
 
-    /* récupération des comptes */
+    /* rÃ©cupÃ©ration des comptes */
 
     etat_courant -> utilise_detail_comptes = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_comptes_etat ));
 
@@ -1153,7 +1153,7 @@ void recuperation_info_perso_etat ( void )
 	pointeur_liste = pointeur_liste -> next;
     }
 
-    /*   si tous les comptes ont été sélectionnés, on met utilise_detail_comptes à 0 (plus rapide) */
+    /*   si tous les comptes ont Ã©tÃ© sÃ©lectionnÃ©s, on met utilise_detail_comptes Ã  0 (plus rapide) */
 
     if ( ( g_list_length ( GTK_CLIST ( liste_comptes_etat ) -> selection )
 	   ==
@@ -1170,7 +1170,7 @@ void recuperation_info_perso_etat ( void )
     etat_courant -> afficher_nom_compte = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_comptes ));
 
 
-    /* récupération des virements */
+    /* rÃ©cupÃ©ration des virements */
 
     if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_actifs_etat )))
 	etat_courant -> type_virement = 1;
@@ -1205,7 +1205,7 @@ void recuperation_info_perso_etat ( void )
 
 
 
-    /*   récupération des catégories */
+    /*   rÃ©cupÃ©ration des catÃ©gories */
 
     etat_courant -> utilise_categ = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_categ_etat ));
 
@@ -1227,7 +1227,7 @@ void recuperation_info_perso_etat ( void )
 	pointeur_liste = pointeur_liste -> next;
     }
 
-    /*   si tous les categ ont été sélectionnés, on met utilise_detail_categ à 0 (plus rapide) */
+    /*   si tous les categ ont Ã©tÃ© sÃ©lectionnÃ©s, on met utilise_detail_categ Ã  0 (plus rapide) */
 
     if ( ( g_list_length ( GTK_CLIST ( liste_categ_etat ) -> selection )
 	   ==
@@ -1250,7 +1250,7 @@ void recuperation_info_perso_etat ( void )
     etat_courant -> afficher_nom_categ = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_categ ));
 
 
-    /*   récupération des ib */
+    /*   rÃ©cupÃ©ration des ib */
 
     etat_courant -> utilise_ib = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_ib_etat ));
 
@@ -1274,7 +1274,7 @@ void recuperation_info_perso_etat ( void )
 
     etat_courant -> afficher_sous_ib = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_ib ));
 
-    /*   si toutes les ib ont été sélectionnés, on met utilise_detail_ib à 0 (plus rapide) */
+    /*   si toutes les ib ont Ã©tÃ© sÃ©lectionnÃ©s, on met utilise_detail_ib Ã  0 (plus rapide) */
 
     if ( ( g_list_length ( GTK_CLIST ( liste_ib_etat ) -> selection )
 	   ==
@@ -1297,7 +1297,7 @@ void recuperation_info_perso_etat ( void )
 
 
 
-    /*   récupération des tiers */
+    /*   rÃ©cupÃ©ration des tiers */
 
     etat_courant -> utilise_tiers = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_tiers_etat ));
 
@@ -1319,7 +1319,7 @@ void recuperation_info_perso_etat ( void )
 	pointeur_liste = pointeur_liste -> next;
     }
 
-    /*   si tous les tiers ont été sélectionnés, on met utilise_detail_tiers à 0 (plus rapide) */
+    /*   si tous les tiers ont Ã©tÃ© sÃ©lectionnÃ©s, on met utilise_detail_tiers Ã  0 (plus rapide) */
 
     if ( ( g_list_length ( GTK_CLIST ( liste_tiers_etat ) -> selection )
 	   ==
@@ -1339,12 +1339,12 @@ void recuperation_info_perso_etat ( void )
 
 
 
-    /* récupération du texte */
+    /* rÃ©cupÃ©ration du texte */
 
     etat_courant -> utilise_texte = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_texte ));
 
-    /* récupération de la liste des comparaisons de texte */
-    /*   il y a au moins une structure de créée, si celle si a l'entrée txt et 2 montants vides, */
+    /* rÃ©cupÃ©ration de la liste des comparaisons de texte */
+    /*   il y a au moins une structure de crÃ©Ã©e, si celle si a l'entrÃ©e txt et 2 montants vides, */
     /* c'est qu'il n'y a aucune liste */
 
     comp_textes = etat_courant -> liste_struct_comparaison_textes -> data;
@@ -1366,7 +1366,7 @@ void recuperation_info_perso_etat ( void )
     }
     else
     {
-	/* on a rentré au moins une comparaison */
+	/* on a rentrÃ© au moins une comparaison */
 	/* on rempli les champs de la structure */
 
 	GSList *liste_tmp;
@@ -1408,14 +1408,14 @@ void recuperation_info_perso_etat ( void )
 
 
 
-    /* récupération du montant */
+    /* rÃ©cupÃ©ration du montant */
 
     etat_courant -> utilise_montant = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_montant ));
     etat_courant -> choix_devise_montant = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_devise_montant_etat ) -> menu_item ),
 										   "no_devise" ));
 
-    /* récupération de la liste des comparaisons de montant */
-    /*   il y a au moins une structure de créée, si celle si a les 2 montants vides, */
+    /* rÃ©cupÃ©ration de la liste des comparaisons de montant */
+    /*   il y a au moins une structure de crÃ©Ã©e, si celle si a les 2 montants vides, */
     /* c'est qu'il n'y a aucune liste */
 
     comp_montants = etat_courant -> liste_struct_comparaison_montants -> data;
@@ -1435,7 +1435,7 @@ void recuperation_info_perso_etat ( void )
     }
     else
     {
-	/* on a rentré au moins une comparaison */
+	/* on a rentrÃ© au moins une comparaison */
 	/* on rempli les champs de la structure */
 
 	GSList *liste_tmp;
@@ -1469,7 +1469,7 @@ void recuperation_info_perso_etat ( void )
 
     etat_courant -> exclure_montants_nuls = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_nulles_etat ));
 
-    /* récupération des modes de paiement */
+    /* rÃ©cupÃ©ration des modes de paiement */
 
     etat_courant -> utilise_mode_paiement = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_mode_paiement_etat ));
 
@@ -1489,7 +1489,7 @@ void recuperation_info_perso_etat ( void )
 	pointeur_liste = pointeur_liste -> next;
     }
 
-    /*   si tous les modes de paiement ont été sélectionnés, on met utilise_mode_paiement à 0 (plus rapide) */
+    /*   si tous les modes de paiement ont Ã©tÃ© sÃ©lectionnÃ©s, on met utilise_mode_paiement Ã  0 (plus rapide) */
 
     if ( ( g_list_length ( GTK_CLIST ( liste_mode_paiement_etat ) -> selection )
 	   ==
@@ -1504,15 +1504,15 @@ void recuperation_info_perso_etat ( void )
 
     modification_fichier ( TRUE );
 
-    /* on fait une mise à jour des tiers pour afficher l'état dans la liste des tiers si nécessaire */
+    /* on fait une mise Ã  jour des tiers pour afficher l'Ã©tat dans la liste des tiers si nÃ©cessaire */
 
     mise_a_jour_tiers ();
 
-    /* on réaffiche l'état */
+    /* on rÃ©affiche l'Ã©tat */
 
     rafraichissement_etat ( etat_courant );
 
-    /* on repasse à la 1ère page du notebook */
+    /* on repasse Ã  la 1Ã¨re page du notebook */
 
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_etats ),
 			    0 );
@@ -1524,14 +1524,14 @@ void recuperation_info_perso_etat ( void )
 
 
 /******************************************************************************/
-/* vérifie pour la page donnée en argument si le label du notebook doit */
-/* être mis d'une couleur différente ou non */
+/* vÃ©rifie pour la page donnÃ©e en argument si le label du notebook doit */
+/* Ãªtre mis d'une couleur diffÃ©rente ou non */
 /******************************************************************************/
 void stylise_tab_label_etat ( gint *no_page )
 {
     GtkStyle *style;
 
-    /* par défaut le style est normal */
+    /* par dÃ©faut le style est normal */
 
     style = style_label_nom_compte;
 
@@ -1565,7 +1565,7 @@ void stylise_tab_label_etat ( gint *no_page )
 	    break;
 
 	case 4:
-	    /* page des catégories */
+	    /* page des catÃ©gories */
 
 	    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_categ_etat ))
 		 ||
@@ -1674,7 +1674,7 @@ GtkWidget *onglet_etat_dates ( void )
 			 0 );
     gtk_widget_show ( radio_button_utilise_dates );
 
-    /* on met en dessous une liste avec les plages de date proposées */
+    /* on met en dessous une liste avec les plages de date proposÃ©es */
 
     frame = gtk_frame_new (NULL);
     gtk_box_pack_start ( GTK_BOX ( vbox ),
@@ -1740,7 +1740,7 @@ GtkWidget *onglet_etat_dates ( void )
 	i++;
     }
 
-    /* séparation gauche-droite */
+    /* sÃ©paration gauche-droite */
 
     separateur = gtk_vseparator_new ();
     gtk_box_pack_start ( GTK_BOX ( hbox_onglet ),
@@ -1798,7 +1798,7 @@ GtkWidget *onglet_etat_dates ( void )
     gtk_widget_show ( vbox_utilisation_exo );
 
 
-    /*   on met le détail, exo courant ou précédent */
+    /*   on met le dÃ©tail, exo courant ou prÃ©cÃ©dent */
 
     bouton_exo_tous = gtk_radio_button_new_with_label ( NULL,
 							_("All financial years"));
@@ -1879,7 +1879,7 @@ GtkWidget *onglet_etat_dates ( void )
     remplissage_liste_exo_etats ();
 
 
-    /* on met ensuite la date perso de début */
+    /* on met ensuite la date perso de dÃ©but */
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
@@ -1969,7 +1969,7 @@ GtkWidget *onglet_etat_dates ( void )
 /******************************************************************************/
 
 /******************************************************************************/
-/* vérifie où l'on clique et empèche la désélection de ligne */
+/* vÃ©rifie oÃ¹ l'on clique et empÃ¨che la dÃ©sÃ©lection de ligne */
 /******************************************************************************/
 void click_liste_etat ( GtkCList *liste,
 			GdkEventButton *evenement,
@@ -1978,14 +1978,14 @@ void click_liste_etat ( GtkCList *liste,
     gint colonne, x, y;
     gint ligne;
 
-    /*   origine = 0 si ça vient des dates, dans ce cas on sensitive les entrées init et fin */
-    /* origine = 1 si ça vient du choix de type de classement */
+    /*   origine = 0 si Ã§a vient des dates, dans ce cas on sensitive les entrÃ©es init et fin */
+    /* origine = 1 si Ã§a vient du choix de type de classement */
 
 
     gtk_signal_emit_stop_by_name ( GTK_OBJECT ( liste ),
 				   "button_press_event");
 
-    /* Récupération des coordonnées de la souris */
+    /* RÃ©cupÃ©ration des coordonnÃ©es de la souris */
 
     gdk_window_get_pointer ( GTK_CLIST ( liste ) -> clist_window,
 			     &x,
@@ -2055,7 +2055,7 @@ gboolean pression_touche_date_etat ( GtkWidget *widget,
 
     switch ( ev -> keyval )
     {
-	case GDK_Return :		/* touches entrée */
+	case GDK_Return :		/* touches entrÃ©e */
 	case GDK_KP_Enter :
 
 	    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
@@ -2074,11 +2074,11 @@ gboolean pression_touche_date_etat ( GtkWidget *widget,
 		gtk_widget_grab_focus ( GTK_WIDGET ( popup_cal ) );
 	    }
 	    /* si la touche CTRL n'est pas active, alors on valide simplement
-	       la saisie de l'échéance */
+	       la saisie de l'Ã©chÃ©ance */
 	    else
 	    {
 		/* ALAIN-FIXME */
-/* 		dialogue("prévoir autre chose"); */
+/* 		dialogue("prÃ©voir autre chose"); */
 	      return FALSE;
 	    }
 	    return TRUE;
@@ -2145,7 +2145,7 @@ gboolean pression_touche_date_etat ( GtkWidget *widget,
 	    return FALSE;
     }
 
-    //  return TRUE; c'est le cas des opérations
+    //  return TRUE; c'est le cas des opÃ©rations
     return FALSE;
 }
 /******************************************************************************/
@@ -2153,7 +2153,7 @@ gboolean pression_touche_date_etat ( GtkWidget *widget,
 /******************************************************************************/
 gboolean sortie_entree_date_etat ( GtkWidget *entree )
 {
-    /* si l'entrée contenant la date est vide, alors on met la date du jour */
+    /* si l'entrÃ©e contenant la date est vide, alors on met la date du jour */
 
     if ( strlen ( g_strstrip ( (gchar*) gtk_entry_get_text ( GTK_ENTRY ( entree )))) == 0  )
 	gtk_entry_set_text ( GTK_ENTRY ( entree ), gsb_today() );
@@ -2284,8 +2284,8 @@ GtkWidget *onglet_etat_comptes ( void )
     gtk_widget_show ( vbox_onglet );
 
 
-    /* on met dans la partie de gauche une liste contenant les comptes à */
-    /* sélectionner */
+    /* on met dans la partie de gauche une liste contenant les comptes Ã  */
+    /* sÃ©lectionner */
 
     bouton_detaille_comptes_etat = gtk_check_button_new_with_label ( _("Select transactions only for given accounts"));
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_detaille_comptes_etat ),
@@ -2364,7 +2364,7 @@ GtkWidget *onglet_etat_comptes ( void )
     remplissage_liste_comptes_etats ();
 
 
-    /*   sur la partie de droite, on met les boutons (dé)sélectionner tout */
+    /*   sur la partie de droite, on met les boutons (dÃ©)sÃ©lectionner tout */
 
     vbox = gtk_vbox_new ( FALSE,
 			  5 );
@@ -2633,7 +2633,7 @@ GtkWidget *onglet_etat_virements ( void )
     remplissage_liste_comptes_virements ();
 
 
-    /*   sur la partie de droite, on met les boutons (dé)sélectionner tout */
+    /*   sur la partie de droite, on met les boutons (dÃ©)sÃ©lectionner tout */
 
     vbox = gtk_vbox_new ( FALSE,
 			  5 );
@@ -2734,7 +2734,7 @@ GtkWidget *onglet_etat_virements ( void )
 			 hbox_liste_comptes_virements );
 
 
-    /* on rajoute le bouton exclure les opé non virement */
+    /* on rajoute le bouton exclure les opÃ© non virement */
 
     bouton_exclure_non_virements_etat = gtk_check_button_new_with_label ( _("Exclude the transactions which are not transfers") );
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
@@ -2843,7 +2843,7 @@ GtkWidget *onglet_etat_categories ( void )
 					    vbox_onglet );
     gtk_widget_show ( vbox_onglet );
 
-    /* on propose de détailler les categ utilisées */
+    /* on propose de dÃ©tailler les categ utilisÃ©es */
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
@@ -2867,7 +2867,7 @@ GtkWidget *onglet_etat_categories ( void )
     gtk_widget_show ( bouton_detaille_categ_etat );
 
 
-    /* mise en place de la liste et des boutons de détaillage */
+    /* mise en place de la liste et des boutons de dÃ©taillage */
 
     hbox_detaille_categ_etat = gtk_hbox_new ( FALSE,
 					      5 );
@@ -2925,11 +2925,11 @@ GtkWidget *onglet_etat_categories ( void )
 			liste_categ_etat );
     gtk_widget_show ( liste_categ_etat );
 
-    /* on va remplir la liste avec les catégories */
+    /* on va remplir la liste avec les catÃ©gories */
 
     remplissage_liste_categ_etats ();
 
-    /*   sur la partie de droite, on met les boutons (dé)sélectionner tout */
+    /*   sur la partie de droite, on met les boutons (dÃ©)sÃ©lectionner tout */
 
     vbox = gtk_vbox_new ( FALSE,
 			  5 );
@@ -2996,7 +2996,7 @@ GtkWidget *onglet_etat_categories ( void )
 			 0 );
     gtk_widget_show ( bouton );
 
-    /* on propose d'exclure les opés sans catégories */
+    /* on propose d'exclure les opÃ©s sans catÃ©gories */
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
@@ -3027,9 +3027,9 @@ GtkWidget *onglet_etat_categories ( void )
 /******************************************************************************/
 void click_type_categ_etat ( gint type )
 {
-    /* type est 0 pour les revenus et 1 pour les dépenses */
-    /* fait le tour des catég dans la liste et sélectionne celles */
-    /* qui correspondent au type recherché */
+    /* type est 0 pour les revenus et 1 pour les dÃ©penses */
+    /* fait le tour des catÃ©g dans la liste et sÃ©lectionne celles */
+    /* qui correspondent au type recherchÃ© */
 
     gint i;
 
@@ -3140,7 +3140,7 @@ GtkWidget *onglet_etat_ib ( void )
     gtk_widget_show ( bouton_detaille_ib_etat );
 
 
-    /* mise en place de la liste et des boutons de détaillage */
+    /* mise en place de la liste et des boutons de dÃ©taillage */
 
     hbox_detaille_ib_etat = gtk_hbox_new ( FALSE,
 					   5 );
@@ -3202,7 +3202,7 @@ GtkWidget *onglet_etat_ib ( void )
 
     remplissage_liste_ib_etats ();
 
-    /*   sur la partie de droite, on met les boutons (dé)sélectionner tout */
+    /*   sur la partie de droite, on met les boutons (dÃ©)sÃ©lectionner tout */
 
     vbox = gtk_vbox_new ( FALSE,
 			  5 );
@@ -3299,9 +3299,9 @@ GtkWidget *onglet_etat_ib ( void )
 /******************************************************************************/
 void click_type_ib_etat ( gint type )
 {
-    /* type est 0 pour les revenus et 1 pour les dépenses */
-    /* fait le tour des catég dans la liste et sélectionne celles */
-    /* qui correspondent au type recherché */
+    /* type est 0 pour les revenus et 1 pour les dÃ©penses */
+    /* fait le tour des catÃ©g dans la liste et sÃ©lectionne celles */
+    /* qui correspondent au type recherchÃ© */
 
     gint i;
 
@@ -3410,7 +3410,7 @@ GtkWidget *onglet_etat_tiers ( void )
     gtk_widget_show ( bouton_detaille_tiers_etat );
 
 
-    /* mise en place de la liste et des boutons de détaillage */
+    /* mise en place de la liste et des boutons de dÃ©taillage */
 
     hbox_detaille_tiers_etat = gtk_hbox_new ( FALSE,
 					      5 );
@@ -3472,7 +3472,7 @@ GtkWidget *onglet_etat_tiers ( void )
 
     remplissage_liste_tiers_etats ();
 
-    /*   sur la partie de droite, on met les boutons (dé)sélectionner tout */
+    /*   sur la partie de droite, on met les boutons (dÃ©)sÃ©lectionner tout */
 
     vbox = gtk_vbox_new ( FALSE,
 			  5 );
@@ -3578,7 +3578,7 @@ GtkWidget *onglet_etat_texte ( void )
 
 
 
-    /* on commence par créer le choix d'utiliser le montant */
+    /* on commence par crÃ©er le choix d'utiliser le montant */
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
@@ -3616,7 +3616,7 @@ GtkWidget *onglet_etat_texte ( void )
 			 vbox_generale_textes_etat );
 
 
-    /* on va ensuite créer la liste qui contiendra les critères */
+    /* on va ensuite crÃ©er la liste qui contiendra les critÃ¨res */
     /* le remplissage ou la ligne vide se mettent plus tard */
 
     scrolled_window = gtk_scrolled_window_new ( FALSE,
@@ -3665,7 +3665,7 @@ void remplit_liste_comparaisons_textes_etat ( void )
     }
 
     /*   on fait le tour de la liste des comparaisons de texte, ajoute une ligne */
-    /* et la remplit à chaque fois */
+    /* et la remplit Ã  chaque fois */
 
     while ( liste_tmp )
     {
@@ -3673,7 +3673,7 @@ void remplit_liste_comparaisons_textes_etat ( void )
 
 	comp_textes = liste_tmp -> data;
 
-	/* on crée la ligne et remplit les widget de la structure */
+	/* on crÃ©e la ligne et remplit les widget de la structure */
 
 	comp_textes -> vbox_ligne = cree_ligne_comparaison_texte ( comp_textes );
 	gtk_box_pack_start ( GTK_BOX ( liste_textes_etat ),
@@ -3685,8 +3685,8 @@ void remplit_liste_comparaisons_textes_etat ( void )
 
 	/* on remplit maintenant les widget avec les valeurs de la stucture */
 
-	/*       s'il n'y a pas de lien avec la struct précédente, on le vire */
-	/* on rajoute le && car parfois le bouton de lien se met quand même en 1ère ligne */
+	/*       s'il n'y a pas de lien avec la struct prÃ©cÃ©dente, on le vire */
+	/* on rajoute le && car parfois le bouton de lien se met quand mÃªme en 1Ã¨re ligne */
 
 	if ( comp_textes -> lien_struct_precedente != -1
 	     &&
@@ -3726,7 +3726,7 @@ void remplit_liste_comparaisons_textes_etat ( void )
 					   TRUE );
 
 
-	/* on désensitive tous ce qui est nécessaire */
+	/* on dÃ©sensitive tous ce qui est nÃ©cessaire */
 
 	if ( comp_textes -> champ == 8
 	     ||
@@ -3748,12 +3748,12 @@ void remplit_liste_comparaisons_textes_etat ( void )
 	    desensitive_widget ( comp_textes -> hbox_chq );
 	    sensitive_widget ( comp_textes -> hbox_txt );
 	}
-	/* on sensitive/désensitive l'entrée txt*/
+	/* on sensitive/dÃ©sensitive l'entrÃ©e txt*/
 
 	if ( comp_textes -> operateur >= 4 )
 	    desensitive_widget ( comp_textes -> entree_txt );
 
-	/* on sensitive/désensitive les entrées de montant si nécessaire */
+	/* on sensitive/dÃ©sensitive les entrÃ©es de montant si nÃ©cessaire */
 
 	if ( comp_textes -> comparateur_1 == 6 )
 	    desensitive_widget ( comp_textes -> entree_montant_1 );
@@ -3761,7 +3761,7 @@ void remplit_liste_comparaisons_textes_etat ( void )
 	if ( comp_textes -> comparateur_2 == 6 )
 	    desensitive_widget ( comp_textes -> entree_montant_2 );
 
-	/* on sensitive/désensitive la hbox_2 si nécessaire */
+	/* on sensitive/dÃ©sensitive la hbox_2 si nÃ©cessaire */
 
 	if ( comp_textes -> lien_1_2 == 3 )
 	    desensitive_widget ( comp_textes -> hbox_partie_2 );
@@ -3773,7 +3773,7 @@ void remplit_liste_comparaisons_textes_etat ( void )
 
 /******************************************************************************/
 /* cette fonction ajoute une ligne vierge */
-/* si ancien_comp_textes n'est pas nul, la ligne est insérée juste après celle de l'argument */
+/* si ancien_comp_textes n'est pas nul, la ligne est insÃ©rÃ©e juste aprÃ¨s celle de l'argument */
 /******************************************************************************/
 
 void ajoute_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_textes_etat *ancien_comp_textes )
@@ -3781,7 +3781,7 @@ void ajoute_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_tex
     struct struct_comparaison_textes_etat *comp_textes;
     gint position;
 
-    /* on récupère tout de suite la position à laquelle il faut insérer la ligne */
+    /* on rÃ©cupÃ¨re tout de suite la position Ã  laquelle il faut insÃ©rer la ligne */
 
     if ( ancien_comp_textes )
 	position = g_slist_index ( etat_courant -> liste_struct_comparaison_textes,
@@ -3789,13 +3789,13 @@ void ajoute_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_tex
     else
 	position = 0;
 
-    /* on commence par créer une structure vide */
+    /* on commence par crÃ©er une structure vide */
 
     comp_textes = calloc ( 1,
 			   sizeof ( struct struct_comparaison_textes_etat ));
 
 
-    /* on crée la ligne et remplit les widget de la structure */
+    /* on crÃ©e la ligne et remplit les widget de la structure */
 
     comp_textes -> vbox_ligne = cree_ligne_comparaison_texte ( comp_textes );
     gtk_box_pack_start ( GTK_BOX ( liste_textes_etat ),
@@ -3806,7 +3806,7 @@ void ajoute_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_tex
     gtk_widget_show ( comp_textes -> vbox_ligne );
 
     /* on vire le lien de la ligne s'il n'y a pas encore de liste */
-    /*   (cad si c'est la 1ère ligne) */
+    /*   (cad si c'est la 1Ã¨re ligne) */
 
     if ( !etat_courant -> liste_struct_comparaison_textes )
     {
@@ -3814,7 +3814,7 @@ void ajoute_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_tex
 	comp_textes -> bouton_lien = NULL;
     }
 
-    /*   par défaut, le bouton bouton_lien_1_2 est sur stop */
+    /*   par dÃ©faut, le bouton bouton_lien_1_2 est sur stop */
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( comp_textes -> bouton_lien_1_2 ),
 				  3 );
@@ -3823,7 +3823,7 @@ void ajoute_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_tex
 			       FALSE );
 
 
-    /*   par défaut, la ligne de chq est non sensitive */
+    /*   par dÃ©faut, la ligne de chq est non sensitive */
 
     gtk_widget_set_sensitive ( comp_textes -> bouton_utilise_txt,
 			       FALSE );
@@ -3833,14 +3833,14 @@ void ajoute_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_tex
 			       FALSE );
 
 
-    /* on met la structure dans la liste à la position demandée */
+    /* on met la structure dans la liste Ã  la position demandÃ©e */
 
     etat_courant -> liste_struct_comparaison_textes = g_slist_insert ( etat_courant -> liste_struct_comparaison_textes,
 								       comp_textes,
 								       position );
 
 
-    /* on met la ligne à sa place dans la liste */
+    /* on met la ligne Ã  sa place dans la liste */
 
     gtk_box_reorder_child ( GTK_BOX ( liste_textes_etat ),
 			    comp_textes -> vbox_ligne,
@@ -3849,8 +3849,8 @@ void ajoute_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_tex
 /******************************************************************************/
 
 /******************************************************************************/
-/* crée la hbox de la ligne et la renvoie */
-/* remplie en même temps les widget de la struct envoyée en argument, sauf hbox_ligne */
+/* crÃ©e la hbox de la ligne et la renvoie */
+/* remplie en mÃªme temps les widget de la struct envoyÃ©e en argument, sauf hbox_ligne */
 /******************************************************************************/
 GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat *comp_textes )
 {
@@ -3865,7 +3865,7 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
 			  5 );
 
 
-    /* création de la 1ère ligne */
+    /* crÃ©ation de la 1Ã¨re ligne */
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
@@ -3892,7 +3892,7 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
 			 0 );
     gtk_widget_show ( label );
 
-    /*   avant de créer le bouton des champs, on doit créer hbox_txt, hbox_chq et les 2 check button */
+    /*   avant de crÃ©er le bouton des champs, on doit crÃ©er hbox_txt, hbox_chq et les 2 check button */
 
     comp_textes -> hbox_txt = gtk_hbox_new ( FALSE,
 					     5 );
@@ -3909,7 +3909,7 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
 			 0 );
 
     /* la suite se met dans hbox_txt */
-    /* en 2ème ligne */
+    /* en 2Ã¨me ligne */
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
@@ -3931,7 +3931,7 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
 			 0 );
     gtk_widget_show ( label );
 
-    /* on met le check button utilisé en cas de champ à no */
+    /* on met le check button utilisÃ© en cas de champ Ã  no */
 
     gtk_signal_connect ( GTK_OBJECT ( comp_textes -> bouton_utilise_txt ),
 			 "toggled",
@@ -3954,7 +3954,7 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
 			 0 );
     gtk_widget_show ( comp_textes -> hbox_txt );
 
-    /* avant de créer l'opérateur, on doit créer l'entrée de txt */
+    /* avant de crÃ©er l'opÃ©rateur, on doit crÃ©er l'entrÃ©e de txt */
 
     comp_textes -> entree_txt = gtk_entry_new ();
 
@@ -3965,7 +3965,7 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
 			 FALSE,
 			 0 );
 
-    /* on peut maintenant mettre l'entrée de txt */
+    /* on peut maintenant mettre l'entrÃ©e de txt */
 
     gtk_widget_set_usize ( comp_textes -> entree_txt,
 			   150,
@@ -3978,7 +3978,7 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
     gtk_widget_show ( comp_textes -> entree_txt );
 
 
-    /* on crée maintenant la 2ème ligne qui concerne les tests de chq */
+    /* on crÃ©e maintenant la 2Ã¨me ligne qui concerne les tests de chq */
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
@@ -4001,7 +4001,7 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
     gtk_widget_show ( label );
 
 
-    /* on met le check button utilisé en cas de champ à no */
+    /* on met le check button utilisÃ© en cas de champ Ã  no */
 
     gtk_signal_connect ( GTK_OBJECT ( comp_textes -> bouton_utilise_no ),
 			 "toggled",
@@ -4061,12 +4061,12 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
 
 
     /* la fonction cree_bouton_lien_montant va se servir de comp_montants -> hbox_partie_2 */
-    /* il faut donc créer celle ci avant l'appel de la fonction */
+    /* il faut donc crÃ©er celle ci avant l'appel de la fonction */
 
     comp_textes -> hbox_partie_2 = gtk_hbox_new ( FALSE,
 						  5 );
 
-    /* on crée alors le bouton de lien */
+    /* on crÃ©e alors le bouton de lien */
 
     comp_textes -> bouton_lien_1_2 = cree_bouton_lien ( comp_textes -> hbox_partie_2 );
     gtk_box_pack_start ( GTK_BOX ( comp_textes -> hbox_chq ),
@@ -4150,7 +4150,7 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
 /******************************************************************************/
 void retire_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_textes_etat *ancien_comp_textes )
 {
-    /* il faut qu'il y ai plus d'une ligne affichée */
+    /* il faut qu'il y ai plus d'une ligne affichÃ©e */
 
     if ( g_slist_length ( etat_courant -> liste_struct_comparaison_textes ) < 2 )
 	return;
@@ -4159,7 +4159,7 @@ void retire_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_tex
 
     gtk_widget_destroy ( ancien_comp_textes -> vbox_ligne );
 
-    /* si la structure qu'on retire est la 1ère, on vire le widget de lient */
+    /* si la structure qu'on retire est la 1Ã¨re, on vire le widget de lient */
 
     if ( !g_slist_index ( etat_courant -> liste_struct_comparaison_textes,
 			  ancien_comp_textes ))
@@ -4179,9 +4179,9 @@ void retire_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_tex
 /******************************************************************************/
 
 /******************************************************************************/
-/* cette fonction crée un option_menu avec les noms de champs de txt, et rend (non-)sensitif */
+/* cette fonction crÃ©e un option_menu avec les noms de champs de txt, et rend (non-)sensitif */
 /* la hbox correspondante ( txt ou chq ) */
-/* il faut donc que hbox_txt,  hbox_chq et les 2 check button soient déjà créées */
+/* il faut donc que hbox_txt,  hbox_chq et les 2 check button soient dÃ©jÃ  crÃ©Ã©es */
 /******************************************************************************/
 GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_textes )
 {
@@ -4189,10 +4189,10 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
     GtkWidget *menu;
     GtkWidget *menu_item;
 
-    /*   pour chaque item, on désensitive les check button et la ligne des tests de no, et */
+    /*   pour chaque item, on dÃ©sensitive les check button et la ligne des tests de no, et */
     /* on rend sensitif la ligne des test en txt */
-    /*     sauf pour les items à no (chq et pc) où on rend sensitif les check button et la */
-    /*     ligne correspondans au check button, et désensitive celle où le check button n'est pas */
+    /*     sauf pour les items Ã  no (chq et pc) oÃ¹ on rend sensitif les check button et la */
+    /*     ligne correspondans au check button, et dÃ©sensitive celle oÃ¹ le check button n'est pas */
     /* mis */
 
     bouton = gtk_option_menu_new ();
@@ -4494,7 +4494,7 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 /******************************************************************************/
 
 /******************************************************************************/
-/* cette fonction est appellée lorsqu'on sélectionne un champ de texte à no */
+/* cette fonction est appellÃ©e lorsqu'on sÃ©lectionne un champ de texte Ã  no */
 /* elle rend sensitif la hbox correspondant au check button */
 /******************************************************************************/
 void sensitive_hbox_fonction_bouton_txt ( struct struct_comparaison_textes_etat *comp_textes )
@@ -4507,7 +4507,7 @@ void sensitive_hbox_fonction_bouton_txt ( struct struct_comparaison_textes_etat 
 /******************************************************************************/
 
 /******************************************************************************/
-/* cette fonction crée un option_menu avec contient, ne contient pas ... */
+/* cette fonction crÃ©e un option_menu avec contient, ne contient pas ... */
 /******************************************************************************/
 GtkWidget *cree_bouton_operateur_txt ( struct struct_comparaison_textes_etat *comp_textes )
 {
@@ -4627,7 +4627,7 @@ GtkWidget *onglet_etat_montant ( void )
 
 
 
-    /* on commence par créer le choix d'utiliser le montant */
+    /* on commence par crÃ©er le choix d'utiliser le montant */
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
@@ -4666,7 +4666,7 @@ GtkWidget *onglet_etat_montant ( void )
 
 
 
-    /* on va ensuite créer la liste qui contiendra les critères */
+    /* on va ensuite crÃ©er la liste qui contiendra les critÃ¨res */
     /* le remplissage ou la ligne vide se mettent plus tard */
 
     scrolled_window = gtk_scrolled_window_new ( FALSE,
@@ -4688,7 +4688,7 @@ GtkWidget *onglet_etat_montant ( void )
     gtk_widget_show ( liste_montants_etat );
 
 
-    /* on rajoute le bouton exclure les opé dont le montant est nul */
+    /* on rajoute le bouton exclure les opÃ© dont le montant est nul */
 
     bouton_exclure_ope_nulles_etat = gtk_check_button_new_with_label ( _("Exclude the transactions with a null amount") );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_exclure_ope_nulles_etat ),
@@ -4731,7 +4731,7 @@ void remplit_liste_comparaisons_montants_etat ( void )
     }
 
     /*   on fait le tour de la liste des comparaisons de montant, ajoute une ligne */
-    /* et la remplit à chaque fois */
+    /* et la remplit Ã  chaque fois */
 
     while ( liste_tmp )
     {
@@ -4739,7 +4739,7 @@ void remplit_liste_comparaisons_montants_etat ( void )
 
 	comp_montants = liste_tmp -> data;
 
-	/* on crée la ligne et remplit les widget de la structure */
+	/* on crÃ©e la ligne et remplit les widget de la structure */
 
 	comp_montants -> hbox_ligne = cree_ligne_comparaison_montant ( comp_montants );
 	gtk_box_pack_start ( GTK_BOX ( liste_montants_etat ),
@@ -4751,8 +4751,8 @@ void remplit_liste_comparaisons_montants_etat ( void )
 
 	/* on remplit maintenant les widget avec les valeurs de la stucture */
 
-	/*       s'il n'y a pas de lien avec la struct précédente, on le vire */
-	/* on rajoute le && car parfois le bouton de lien se met quand même en 1ère ligne */
+	/*       s'il n'y a pas de lien avec la struct prÃ©cÃ©dente, on le vire */
+	/* on rajoute le && car parfois le bouton de lien se met quand mÃªme en 1Ã¨re ligne */
 
 	if ( comp_montants -> lien_struct_precedente != -1
 	     &&
@@ -4779,7 +4779,7 @@ void remplit_liste_comparaisons_montants_etat ( void )
 			     g_strdup_printf ( "%4.2f",
 					       comp_montants -> montant_2 ));
 
-	/* on sensitive/désensitive les entrées si nécessaire */
+	/* on sensitive/dÃ©sensitive les entrÃ©es si nÃ©cessaire */
 
 	if ( comp_montants -> comparateur_1 > 5 )
 	    desensitive_widget ( comp_montants -> entree_montant_1 );
@@ -4792,7 +4792,7 @@ void remplit_liste_comparaisons_montants_etat ( void )
 	    sensitive_widget ( comp_montants -> entree_montant_2 );
 
 
-	/* on sensitive/désensitive la hbox_2 si nécessaire */
+	/* on sensitive/dÃ©sensitive la hbox_2 si nÃ©cessaire */
 
 	if ( comp_montants -> lien_1_2 == 3 )
 	    desensitive_widget ( comp_montants -> hbox_partie_2 );
@@ -4806,7 +4806,7 @@ void remplit_liste_comparaisons_montants_etat ( void )
 
 /******************************************************************************/
 /* cette fonction ajoute une ligne vierge */
-/* si ancien_comp_montants n'est pas nul, la ligne est insérée juste après celle de l'argument */
+/* si ancien_comp_montants n'est pas nul, la ligne est insÃ©rÃ©e juste aprÃ¨s celle de l'argument */
 /******************************************************************************/
 
 void ajoute_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_montants_etat *ancien_comp_montants )
@@ -4814,7 +4814,7 @@ void ajoute_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_m
     struct struct_comparaison_montants_etat *comp_montants;
     gint position;
 
-    /* on récupère tout de suite la position à laquelle il faut insérer la ligne */
+    /* on rÃ©cupÃ¨re tout de suite la position Ã  laquelle il faut insÃ©rer la ligne */
 
     if ( ancien_comp_montants )
 	position = g_slist_index ( etat_courant -> liste_struct_comparaison_montants,
@@ -4822,13 +4822,13 @@ void ajoute_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_m
     else
 	position = 0;
 
-    /* on commence par créer une structure vide */
+    /* on commence par crÃ©er une structure vide */
 
     comp_montants = calloc ( 1,
 			     sizeof ( struct struct_comparaison_montants_etat ));
 
 
-    /* on crée la ligne et remplit les widget de la structure */
+    /* on crÃ©e la ligne et remplit les widget de la structure */
 
     comp_montants -> hbox_ligne = cree_ligne_comparaison_montant ( comp_montants );
     gtk_box_pack_start ( GTK_BOX ( liste_montants_etat ),
@@ -4839,7 +4839,7 @@ void ajoute_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_m
     gtk_widget_show ( comp_montants -> hbox_ligne );
 
     /* on vire le lien de la ligne s'il n'y a pas encore de liste */
-    /*   (cad si c'est la 1ère ligne) */
+    /*   (cad si c'est la 1Ã¨re ligne) */
 
     if ( !etat_courant -> liste_struct_comparaison_montants )
     {
@@ -4847,7 +4847,7 @@ void ajoute_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_m
 	comp_montants -> bouton_lien = NULL;
     }
 
-    /*   par défaut, le bouton bouton_lien_1_2 est sur stop */
+    /*   par dÃ©faut, le bouton bouton_lien_1_2 est sur stop */
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( comp_montants -> bouton_lien_1_2 ),
 				  3 );
@@ -4855,14 +4855,14 @@ void ajoute_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_m
     gtk_widget_set_sensitive ( comp_montants -> hbox_partie_2,
 			       FALSE );
 
-    /* on met la structure dans la liste à la position demandée */
+    /* on met la structure dans la liste Ã  la position demandÃ©e */
 
     etat_courant -> liste_struct_comparaison_montants = g_slist_insert ( etat_courant -> liste_struct_comparaison_montants,
 									 comp_montants,
 									 position );
 
 
-    /* on met la ligne à sa place dans la liste */
+    /* on met la ligne Ã  sa place dans la liste */
 
     gtk_box_reorder_child ( GTK_BOX ( liste_montants_etat ),
 			    comp_montants -> hbox_ligne,
@@ -4871,8 +4871,8 @@ void ajoute_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_m
 /******************************************************************************/
 
 /******************************************************************************/
-/* crée la hbox de la ligne et la renvoie */
-/* remplie en même temps les widget de la struct envoyée en argument, sauf hbox_ligne */
+/* crÃ©e la hbox de la ligne et la renvoie */
+/* remplie en mÃªme temps les widget de la struct envoyÃ©e en argument, sauf hbox_ligne */
 /******************************************************************************/
 GtkWidget *cree_ligne_comparaison_montant ( struct struct_comparaison_montants_etat *comp_montants )
 {
@@ -4928,12 +4928,12 @@ GtkWidget *cree_ligne_comparaison_montant ( struct struct_comparaison_montants_e
 
 
     /* la fonction cree_bouton_lien va se servir de comp_montants -> hbox_partie_2 */
-    /* il faut donc créer celle ci avant l'appel de la fonction */
+    /* il faut donc crÃ©er celle ci avant l'appel de la fonction */
 
     comp_montants -> hbox_partie_2 = gtk_hbox_new ( FALSE,
 						    5 );
 
-    /* on crée alors le bouton de lien */
+    /* on crÃ©e alors le bouton de lien */
 
     comp_montants -> bouton_lien_1_2 = cree_bouton_lien ( comp_montants -> hbox_partie_2 );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
@@ -5014,7 +5014,7 @@ GtkWidget *cree_ligne_comparaison_montant ( struct struct_comparaison_montants_e
 /******************************************************************************/
 
 /******************************************************************************/
-/* cette fonction crée un option_menu avec et/ou/sauf */
+/* cette fonction crÃ©e un option_menu avec et/ou/sauf */
 /******************************************************************************/
 GtkWidget *cree_bouton_lien_lignes_comparaison ( void )
 {
@@ -5060,7 +5060,7 @@ GtkWidget *cree_bouton_lien_lignes_comparaison ( void )
 /******************************************************************************/
 
 /******************************************************************************/
-/* cette fonction crée un option_menu avec =,<,<=,>,>=, nul, non nul, positif, nég */
+/* cette fonction crÃ©e un option_menu avec =,<,<=,>,>=, nul, non nul, positif, nÃ©g */
 /******************************************************************************/
 GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_etat *comp_montants )
 {
@@ -5202,8 +5202,8 @@ GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_
 /******************************************************************************/
 
 /******************************************************************************/
-/* cette fonction rend sensitive ou non l'entrée après le label après l'option menu du menu_item en argument */
-/* donc si on choisit nul, non nul, pos ou nég, on grise l'entrée */
+/* cette fonction rend sensitive ou non l'entrÃ©e aprÃ¨s le label aprÃ¨s l'option menu du menu_item en argument */
+/* donc si on choisit nul, non nul, pos ou nÃ©g, on grise l'entrÃ©e */
 /******************************************************************************/
 void change_comparaison_montant ( GtkWidget *menu_item,
 				  struct struct_comparaison_montants_etat *comp_montants )
@@ -5236,7 +5236,7 @@ void change_comparaison_montant ( GtkWidget *menu_item,
 /******************************************************************************/
 
 /******************************************************************************/
-/* cette fonction crée un option_menu avec =,<,<=,>,>= */
+/* cette fonction crÃ©e un option_menu avec =,<,<=,>,>= */
 /******************************************************************************/
 GtkWidget *cree_bouton_comparateur_texte ( struct struct_comparaison_textes_etat *comp_textes )
 {
@@ -5343,8 +5343,8 @@ GtkWidget *cree_bouton_comparateur_texte ( struct struct_comparaison_textes_etat
 /******************************************************************************/
 
 /******************************************************************************/
-/* cette fonction rend sensitive ou non l'entrée après le label après l'option menu du menu_item en argument */
-/* donc si on choisit nul, non nul, pos ou nég, on grise l'entrée */
+/* cette fonction rend sensitive ou non l'entrÃ©e aprÃ¨s le label aprÃ¨s l'option menu du menu_item en argument */
+/* donc si on choisit nul, non nul, pos ou nÃ©g, on grise l'entrÃ©e */
 /******************************************************************************/
 void change_comparaison_texte ( GtkWidget *menu_item,
 				struct struct_comparaison_textes_etat *comp_textes )
@@ -5368,7 +5368,7 @@ void change_comparaison_texte ( GtkWidget *menu_item,
 /******************************************************************************/
 
 /******************************************************************************/
-/* cette fonction crée un option_menu avec et/ou/aucun */
+/* cette fonction crÃ©e un option_menu avec et/ou/aucun */
 /******************************************************************************/
 
 GtkWidget *cree_bouton_lien ( GtkWidget *hbox )
@@ -5445,7 +5445,7 @@ GtkWidget *cree_bouton_lien ( GtkWidget *hbox )
 /******************************************************************************/
 void retire_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_montants_etat *ancien_comp_montants )
 {
-    /* il faut qu'il y ai plus d'une ligne affichée */
+    /* il faut qu'il y ai plus d'une ligne affichÃ©e */
 
     if ( g_slist_length ( etat_courant -> liste_struct_comparaison_montants ) < 2 )
 	return;
@@ -5454,7 +5454,7 @@ void retire_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_m
 
     gtk_widget_destroy ( ancien_comp_montants -> hbox_ligne );
 
-    /* si la structure qu'on retire est la 1ère, on vire le widget de lient */
+    /* si la structure qu'on retire est la 1Ã¨re, on vire le widget de lient */
 
     if ( !g_slist_index ( etat_courant -> liste_struct_comparaison_montants,
 			  ancien_comp_montants ))
@@ -5499,7 +5499,7 @@ GtkWidget *onglet_etat_divers ( void )
     gtk_widget_show ( vbox_onglet );
 
 
-    /* on peut sélectionner les opé R ou non R */
+    /* on peut sÃ©lectionner les opÃ© R ou non R */
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
@@ -5658,7 +5658,7 @@ GtkWidget *page_organisation_donnees ( void )
     gtk_widget_show ( vbox );
 
 
-    /* on permet de regrouper les opérations par compte */
+    /* on permet de regrouper les opÃ©rations par compte */
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
@@ -5678,7 +5678,7 @@ GtkWidget *page_organisation_donnees ( void )
     gtk_widget_show ( bouton_regroupe_ope_compte_etat );
 
 
-    /* on permet de regrouper les opérations par tiers */
+    /* on permet de regrouper les opÃ©rations par tiers */
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
@@ -5699,7 +5699,7 @@ GtkWidget *page_organisation_donnees ( void )
 
 
 
-    /* on permet de regrouper les opérations par categ */
+    /* on permet de regrouper les opÃ©rations par categ */
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
@@ -5719,7 +5719,7 @@ GtkWidget *page_organisation_donnees ( void )
 			 0 );
     gtk_widget_show ( bouton_utilise_categ_etat );
 
-    /* on permet de regrouper les opérations par ib */
+    /* on permet de regrouper les opÃ©rations par ib */
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
@@ -5792,7 +5792,7 @@ GtkWidget *page_organisation_donnees ( void )
 			liste_type_classement_etat );
     gtk_widget_show ( liste_type_classement_etat );
 
-    /* on place ici les flèches sur le côté de la liste */
+    /* on place ici les flÃ¨ches sur le cÃ´tÃ© de la liste */
 
     vbox = gtk_vbutton_box_new ();
 
@@ -5828,7 +5828,7 @@ GtkWidget *page_organisation_donnees ( void )
     gtk_widget_show_all ( vbox );
 
 
-    /* on permet la séparation des revenus et des dépenses */
+    /* on permet la sÃ©paration des revenus et des dÃ©penses */
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
@@ -5848,7 +5848,7 @@ GtkWidget *page_organisation_donnees ( void )
     gtk_widget_show ( bouton_separer_revenus_depenses );
 
 
-    /* on permet la séparation par exercice */
+    /* on permet la sÃ©paration par exercice */
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
@@ -5867,14 +5867,14 @@ GtkWidget *page_organisation_donnees ( void )
 			 0 );
     gtk_widget_show ( bouton_separe_exo_etat );
 
-    /* ce bouton est grisé ou non en fonction de l'utilisation ou non de l'exercice */
+    /* ce bouton est grisÃ© ou non en fonction de l'utilisation ou non de l'exercice */
 
     gtk_signal_connect ( GTK_OBJECT ( radio_button_utilise_exo ),
 			 "toggled",
 			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
 			 bouton_separe_exo_etat );
 
-    /* on permet ensuite la séparation des résultats par période */
+    /* on permet ensuite la sÃ©paration des rÃ©sultats par pÃ©riode */
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
@@ -5993,7 +5993,7 @@ GtkWidget *page_organisation_donnees ( void )
     gtk_widget_show ( bouton_type_separe_plages_etat );
 
 
-    /* mise en place de la ligne de début de semaine */
+    /* mise en place de la ligne de dÃ©but de semaine */
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
@@ -6079,7 +6079,7 @@ void click_haut_classement_etat ( void )
 		     node,
 		     NULL );
 
-    /* on attache l'enfant à son nouveau parent */
+    /* on attache l'enfant Ã  son nouveau parent */
 
     if ( node_enfant )
 	gtk_ctree_move ( GTK_CTREE ( liste_type_classement_etat ),
@@ -6126,7 +6126,7 @@ void click_bas_classement_etat ( void )
 		     node_enfant,
 		     NULL );
 
-    /* on attache l'enfant de l'enfant à son nouveau parent */
+    /* on attache l'enfant de l'enfant Ã  son nouveau parent */
 
     if ( node_enfant_enfant )
 	gtk_ctree_move ( GTK_CTREE ( liste_type_classement_etat ),
@@ -6142,7 +6142,7 @@ void click_bas_classement_etat ( void )
 /******************************************************************************/
 GtkWidget *page_affichage_donnees ( void )
 {
-    /* on crée un notebook */
+    /* on crÃ©e un notebook */
 
     notebook_aff_donnees = gtk_notebook_new ();
     gtk_notebook_set_scrollable ( GTK_NOTEBOOK (notebook_aff_donnees  ),
@@ -6223,7 +6223,7 @@ GtkWidget *onglet_affichage_etat_generalites ( void )
     gtk_widget_show ( entree_nom_etat );
 
 
-    /* afficher ou non le nb d'opés avec les totaux */
+    /* afficher ou non le nb d'opÃ©s avec les totaux */
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
@@ -6242,7 +6242,7 @@ GtkWidget *onglet_affichage_etat_generalites ( void )
 			 0 );
     gtk_widget_show ( bouton_afficher_nb_opes );
 
-    /* mise en place du bouton pour faire apparaitre l'état dans la liste des tiers */
+    /* mise en place du bouton pour faire apparaitre l'Ã©tat dans la liste des tiers */
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
@@ -6302,7 +6302,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			 0 );
     gtk_widget_show ( hbox );
 
-    /* afficher ou non les opés */
+    /* afficher ou non les opÃ©s */
 
     bouton_afficher_opes = gtk_check_button_new_with_label ( _("Display transactions") );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
@@ -6313,7 +6313,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
     gtk_widget_show ( bouton_afficher_opes );
 
 
-    /* demande les détails affichés dans les opérations */
+    /* demande les dÃ©tails affichÃ©s dans les opÃ©rations */
 
     hbox = gtk_hbox_new ( FALSE,
 			  0 );
@@ -6634,7 +6634,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			 0 );
     gtk_widget_show ( bouton_titre_en_haut );
 
-    /* mise en place du type de classement des opés */
+    /* mise en place du type de classement des opÃ©s */
 
     separateur = gtk_hseparator_new ();
     gtk_table_attach_defaults ( GTK_TABLE ( table ),
@@ -6770,7 +6770,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
     gtk_widget_show ( menu );
 
 
-    /* on propose de rendre clickable le détails des opérations */
+    /* on propose de rendre clickable le dÃ©tails des opÃ©rations */
 
     hbox = gtk_hbox_new ( FALSE,
 			  0 );
@@ -7153,7 +7153,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 
 
     /* on permet d'afficher un ss total lors de chgt de compte */
-    /* activé uniquement si on a regroupé les opés par compte */
+    /* activÃ© uniquement si on a regroupÃ© les opÃ©s par compte */
 
     bouton_affiche_sous_total_compte = gtk_check_button_new_with_label ( _("Display a sub-total for each account") );
     gtk_box_pack_start ( GTK_BOX ( vbox ),
@@ -7186,7 +7186,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			vbox );
     gtk_widget_show ( vbox );
 
-    /* permet d'afficher le nom du tiers, activé uniquement si on utilise les tiers */
+    /* permet d'afficher le nom du tiers, activÃ© uniquement si on utilise les tiers */
 
     bouton_afficher_noms_tiers = gtk_check_button_new_with_label ( _("Display third party's name") );
     gtk_box_pack_start ( GTK_BOX ( vbox ),
@@ -7202,7 +7202,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			 bouton_afficher_noms_tiers );
 
     /* permet d'afficher un ss total lors de chgt de tiers */
-    /* activé uniquement si on utilise les tiers */
+    /* activÃ© uniquement si on utilise les tiers */
 
     bouton_affiche_sous_total_tiers = gtk_check_button_new_with_label ( _("Dsplay a sub-total for each third party") );
     gtk_box_pack_start ( GTK_BOX ( vbox ),
@@ -7228,7 +7228,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
     gtk_widget_show ( hbox );
 
 
-    /* mise en place de la frame des catégories */
+    /* mise en place de la frame des catÃ©gories */
 
     frame = gtk_frame_new ( COLON(_("Categories")));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
@@ -7263,7 +7263,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			 bouton_afficher_noms_categ );
 
     /* permet d'afficher un sous total lors de chgt de categ */
-    /* activé uniquement si on utilise les categ */
+    /* activÃ© uniquement si on utilise les categ */
 
     bouton_affiche_sous_total_categ = gtk_check_button_new_with_label ( _("Display a sub-total for each category") );
     gtk_box_pack_start ( GTK_BOX ( vbox ),
@@ -7355,7 +7355,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			 bouton_afficher_noms_ib );
 
     /* permet d'afficher un sous total lors de chgt d'ib */
-    /* activé uniquement si on utilise les ib */
+    /* activÃ© uniquement si on utilise les ib */
 
     bouton_affiche_sous_total_ib = gtk_check_button_new_with_label ( _("Display a sub-total for each budgetary line") );
     gtk_box_pack_start ( GTK_BOX ( vbox ),
@@ -7443,8 +7443,8 @@ GtkWidget *onglet_etat_mode_paiement ( void )
     gtk_widget_show ( vbox_onglet );
 
 
-    /* on met dans la partie de gauche une liste contenant les modes de paiement à */
-    /* sélectionner */
+    /* on met dans la partie de gauche une liste contenant les modes de paiement Ã  */
+    /* sÃ©lectionner */
 
     bouton_detaille_mode_paiement_etat = gtk_check_button_new_with_label ( _("Select the transactions by method of payment"));
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_detaille_mode_paiement_etat ),
@@ -7524,7 +7524,7 @@ GtkWidget *onglet_etat_mode_paiement ( void )
 
 
 
-    /*   sur la partie de droite, on met les boutons (dé)sélectionner tout */
+    /*   sur la partie de droite, on met les boutons (dÃ©)sÃ©lectionner tout */
 
     vbox = gtk_vbox_new ( FALSE,
 			  5 );
@@ -7581,7 +7581,7 @@ void remplissage_liste_modes_paiement_etats ( void )
 
     gtk_clist_clear ( GTK_CLIST ( liste_mode_paiement_etat ) );
 
-    /* on va commencer par créer une liste de textes contenant les noms */
+    /* on va commencer par crÃ©er une liste de textes contenant les noms */
     /* des modes de paiement sans doublon */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
@@ -7608,8 +7608,8 @@ void remplissage_liste_modes_paiement_etats ( void )
 	p_tab_nom_de_compte_variable++;
     }
 
-    /* on a donc une liste de noms de types d'opé non redondant, on classe */
-    /* par ordre alphabétique et on affiche */
+    /* on a donc une liste de noms de types d'opÃ© non redondant, on classe */
+    /* par ordre alphabÃ©tique et on affiche */
 
     liste_nom_types = g_slist_sort ( liste_nom_types,
 				     (GCompareFunc) classe_liste_alphabetique );
@@ -7649,7 +7649,7 @@ void selectionne_liste_modes_paiement_etat_courant ( void )
     if ( !etat_courant -> noms_modes_paiement )
 	return;
 
-    /* on fait le tour de la liste pour voir s'il y a un état sélectionné */
+    /* on fait le tour de la liste pour voir s'il y a un Ã©tat sÃ©lectionnÃ© */
 
     for ( i=0 ; i < GTK_CLIST ( liste_mode_paiement_etat ) -> rows ; i++ )
     {

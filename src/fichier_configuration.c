@@ -1,7 +1,7 @@
-/* ce fichier se charge de toutes les opérations relatives à la
-   configuration sauvegardée */
+/* ce fichier se charge de toutes les opÃ©rations relatives Ã  la
+   configuration sauvegardÃ©e */
 
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org) */
 /*			2004 Axel Rousseau (axel584@axel584.org) */
 /*			2004 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
@@ -75,7 +75,7 @@ void charge_configuration ( void )
 
     doc = utf8_xmlParseFile ( g_strconcat ( my_get_grisbirc_dir(), C_GRISBIRC, NULL ) );
 
-    /* vérifications d'usage */
+    /* vÃ©rifications d'usage */
     root = xmlDocGetRootElement(doc);
 
     if ( !root
@@ -297,7 +297,7 @@ void charge_configuration ( void )
 		if ( !strcmp ( node_affichage -> name, "Caracteristiques_par_compte" ) ) {
 		    etat.retient_affichage_par_compte = my_atoi( xmlNodeGetContent ( node_affichage));
 		}
-		// boucler pour avoir les tailles des différentes colonnes
+		// boucler pour avoir les tailles des diffÃ©rentes colonnes
 		if ( !strcmp ( node_affichage -> name, "taille_largeur_colonne" ) ) {
 		    //int numero_colonne;
 		    //int largeur_colonne;
@@ -385,7 +385,7 @@ void charge_configuration ( void )
 
 /******************************************************************************************************************/
 /* Fonction charge_configuration */
-/* appelée à l'ouverture de grisbi, charge les préférences */
+/* appelÃ©e Ã  l'ouverture de grisbi, charge les prÃ©fÃ©rences */
 /******************************************************************************************************************/
 
 void charge_configuration_ancien ( void )
@@ -396,7 +396,7 @@ void charge_configuration_ancien ( void )
 
     etat.fichier_animation_attente = g_strdup ( ANIM_PATH );
 
-    /* modif -> vire gnome, donc fait tout à la main */
+    /* modif -> vire gnome, donc fait tout Ã  la main */
 
     fichier_conf = g_strconcat ( my_get_grisbirc_dir(),
 				 "/.gnome/Grisbi",
@@ -567,19 +567,19 @@ void raz_configuration ( void )
     largeur_window = 0;
     hauteur_window = 0;
 
-    etat.r_modifiable = 0;       /* on ne peux modifier les opé relevées */
+    etat.r_modifiable = 0;       /* on ne peux modifier les opÃ© relevÃ©es */
     etat.dernier_fichier_auto = 1;   /*  on n'ouvre pas directement le dernier fichier */
     buffer_dernier_fichier = g_strdup ( "" );
     etat.sauvegarde_auto = 0;    /* on ne sauvegarde pas automatiquement */
-    etat.entree = 1;    /* la touche entree provoque l'enregistrement de l'opération */
-    decalage_echeance = 3;     /* nb de jours avant l'échéance pour prévenir */
-    etat.formulaire_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
-    etat.formulaire_echeancier_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
+    etat.entree = 1;    /* la touche entree provoque l'enregistrement de l'opÃ©ration */
+    decalage_echeance = 3;     /* nb de jours avant l'Ã©chÃ©ance pour prÃ©venir */
+    etat.formulaire_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opÃ© */
+    etat.formulaire_echeancier_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opÃ© */
     etat.affichage_exercice_automatique = 1;        /* l'exercice est choisi en fonction de la date */
     fonte_liste = NULL;
-    etat.force_enregistrement = 0;     /* par défaut, on ne force pas l'enregistrement */
-    etat.affiche_tous_les_types = 0;   /* par défaut, on n'affiche ds le formulaire que les types du débit ou crédit */
-    etat.classement_par_date = 1;  /* par défaut, on tri la liste des opés par les dates */
+    etat.force_enregistrement = 0;     /* par dÃ©faut, on ne force pas l'enregistrement */
+    etat.affiche_tous_les_types = 0;   /* par dÃ©faut, on n'affiche ds le formulaire que les types du dÃ©bit ou crÃ©dit */
+    etat.classement_par_date = 1;  /* par dÃ©faut, on tri la liste des opÃ©s par les dates */
     etat.affiche_boutons_valider_annuler = 1;
     etat.classement_par_date = 1;
     dernier_chemin_de_travail = g_strconcat ( my_get_gsb_file_default_dir(),
@@ -588,7 +588,7 @@ void raz_configuration ( void )
     nb_derniers_fichiers_ouverts = 0;
     nb_max_derniers_fichiers_ouverts = 3;
     tab_noms_derniers_fichiers_ouverts = NULL;
-    compression_fichier = 0;     /* pas de compression par défaut */
+    compression_fichier = 0;     /* pas de compression par dÃ©faut */
     compression_backup = 0;
     etat.largeur_auto_colonnes = 1;
     etat.retient_affichage_par_compte = 0;
@@ -629,7 +629,7 @@ void raz_configuration ( void )
 
 /* ***************************************************************************************************** */
 /* Fonction sauve_configurationXML */
-/* Appelée à chaque changement de configuration */
+/* AppelÃ©e Ã  chaque changement de configuration */
 /* ***************************************************************************************************** */
 
 void sauve_configuration(void)
@@ -652,7 +652,7 @@ void sauve_configuration(void)
 
     doc->children = xmlNewDocNode ( doc,NULL, "Configuration",NULL );
 
-    /*   sauvegarde de la géométrie */
+    /*   sauvegarde de la gÃ©omÃ©trie */
     if ( GTK_WIDGET ( window) -> window ) 
     {
 	gtk_window_get_size (GTK_WINDOW ( window ),
@@ -670,7 +670,7 @@ void sauve_configuration(void)
     xmlNewChild ( node,NULL, "Height",
 		  itoa(hauteur_window));
 
-    /* sauvegarde de l'onglet général */
+    /* sauvegarde de l'onglet gÃ©nÃ©ral */
     node = xmlNewChild ( doc->children,NULL, "General",NULL );
     xmlNewChild ( node,NULL, "Modification_operations_rapprochees",
 		  itoa(etat.r_modifiable));
@@ -688,13 +688,13 @@ void sauve_configuration(void)
     xmlNewChild ( node,NULL, "Fonte_des_listes",fonte_liste);
     xmlNewChild ( node,NULL, "Animation_attente",etat.fichier_animation_attente);
 
-/*     on modifie la chaine si ça contient &, il semblerait que la libxml n'apprécie pas... */
+/*     on modifie la chaine si Ã§a contient &, il semblerait que la libxml n'apprÃ©cie pas... */
     
     xmlNewChild ( node,NULL, "Navigateur_web",my_strdelimit ( etat.browser_command,
 							      "&",
 							      "\\e" ));
 
-/*     on ne fait la sauvegarde que si les colonnes existent (compte non fermé) */
+/*     on ne fait la sauvegarde que si les colonnes existent (compte non fermÃ©) */
 	
     if ( nb_comptes )
     {
@@ -731,7 +731,7 @@ void sauve_configuration(void)
 	xmlSetProp ( node_2, "No", itoa (i));
     }
 
-    /* sauvegarde de l'onglet échéances */
+    /* sauvegarde de l'onglet Ã©chÃ©ances */
     node = xmlNewChild ( doc->children,NULL, "Echeances",NULL );
     xmlNewChild ( node,NULL, "Delai_rappel_echeances",
 		  itoa(decalage_echeance));
@@ -797,7 +797,7 @@ void sauve_configuration(void)
     resultat = utf8_xmlSaveFormatFile ( g_strconcat ( my_get_grisbirc_dir(), C_GRISBIRC,
 						 NULL), doc, 1 );
 
-    /* on libère la memoire */
+    /* on libÃ¨re la memoire */
     xmlFreeDoc ( doc );
     if ( resultat == -1 ) 
     {

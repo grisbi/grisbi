@@ -1,6 +1,6 @@
-/* ce fichier contient les paramètres de l'affichage de la liste d'opé */
+/* ce fichier contient les paramÃ¨tres de l'affichage de la liste d'opÃ© */
 
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org) */
 /*			2003 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
@@ -51,7 +51,7 @@ gchar *labels_boutons [] = { N_("Date"),
     N_("Transaction number"),
     NULL };
 
-/* utilisée pour éviter l'emballement de la connection allocation */
+/* utilisÃ©e pour Ã©viter l'emballement de la connection allocation */
 
 gint ancienne_allocation_liste;
 gint affichage_realise;
@@ -70,7 +70,7 @@ GtkWidget *onglet_affichage_liste ( void )
 	ligne_depart_drag = 0;
 	col_depart_drag = 0;
 
-	/*   à la base, on met une vbox */
+	/*   Ã  la base, on met une vbox */
 
 	onglet = new_vbox_with_title_and_icon ( _("Transactions list cells"),
 						"transaction-list.png" );
@@ -99,7 +99,7 @@ GtkWidget *onglet_affichage_liste ( void )
 	paddingbox = new_paddingbox_with_title (onglet, FALSE,
 						_("Transactions list contents"));
 
-	/* on crée maintenant une table de 3x6 boutons */
+	/* on crÃ©e maintenant une table de 3x6 boutons */
 	table = gtk_table_new ( 3, 6, FALSE );
 	gtk_box_pack_start ( GTK_BOX ( paddingbox ), table,
 			     FALSE, FALSE, 0 );
@@ -122,7 +122,7 @@ GtkWidget *onglet_affichage_liste ( void )
 		}
 	    }
 
-	/* on permet maintenant de choisir soi même la taille des colonnes */
+	/* on permet maintenant de choisir soi mÃªme la taille des colonnes */
 	bouton_choix_perso_colonnes = new_checkbox_with_title ( _("Adjust column size according to this table"),
 								&(etat.largeur_auto_colonnes),
 								NULL );
@@ -134,7 +134,7 @@ GtkWidget *onglet_affichage_liste ( void )
 			     FALSE, FALSE, 0 );
 
 
-	/* on permet maintenant de choisir soi-même la taille des colonnes */
+	/* on permet maintenant de choisir soi-mÃªme la taille des colonnes */
 	bouton_caracteristiques_lignes_par_compte = 
 	    new_checkbox_with_title ( _("Remember display settings for each account separately"),
 				      &(etat.retient_affichage_par_compte),
@@ -177,8 +177,8 @@ GtkWidget *onglet_affichage_liste ( void )
 /***********************************************************************************************************************/
 gboolean change_choix_ajustement_auto_colonnes ( GtkWidget *bouton )
 {
-    /* etat.largeur_auto_colonnes est réglé automatiquement */
-    /*     il ne reste qu'à modifier les colonnes elles même */
+    /* etat.largeur_auto_colonnes est rÃ©glÃ© automatiquement */
+    /*     il ne reste qu'Ã  modifier les colonnes elles mÃªme */
 
     gint i,j;
 
@@ -295,8 +295,8 @@ GtkWidget *onglet_affichage_operations ( void )
     vbox_pref = new_vbox_with_title_and_icon ( _("Transactions list"),
 					       "transaction-list.png" );
 
-    /* on permet de choisir quelle ligne seront affichées en fonction des caractéristiques de l'affichage */
-    /* pour opé simplifiée */
+    /* on permet de choisir quelle ligne seront affichÃ©es en fonction des caractÃ©ristiques de l'affichage */
+    /* pour opÃ© simplifiÃ©e */
 
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
 					    _("Display modes"));
@@ -367,7 +367,7 @@ GtkWidget *onglet_affichage_operations ( void )
 
     if ( nb_comptes )
     {
-	/* on place les lignes à afficher */
+	/* on place les lignes Ã  afficher */
 
 	gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_affichage_lignes_une_ligne ),
 				      ligne_affichage_une_ligne);
@@ -422,7 +422,7 @@ GtkWidget *onglet_affichage_operations ( void )
 					    _("by date"),
 					    &etat.classement_par_date, NULL);
 
-/*     on permet de regrouper les opérations pointées */
+/*     on permet de regrouper les opÃ©rations pointÃ©es */
 
     bouton = new_checkbox_with_title ( _("Bring together marked transactions"),
 							    &(etat.classement_rp),
@@ -446,7 +446,7 @@ GtkWidget *onglet_affichage_operations ( void )
 
 
 /* ************************************************************************************************************** */
-/* renvoie un menu contenant 1ère ligne, 2ème ligne, 3ème ligne, 4ème ligne */
+/* renvoie un menu contenant 1Ã¨re ligne, 2Ã¨me ligne, 3Ã¨me ligne, 4Ã¨me ligne */
 /* ************************************************************************************************************** */
 
 GtkWidget *cree_menu_quatres_lignes ( void )
@@ -506,11 +506,11 @@ gboolean allocation_clist_affichage_liste ( GtkWidget *clist,
 	return FALSE;
 
    
-    /* règle les largeurs de colonnes */
+    /* rÃ¨gle les largeurs de colonnes */
 
     ancienne_allocation_liste = allocation->width;
 
-    /* on met la largeur des colonnes en fonction de ce qui avait été enregistré */
+    /* on met la largeur des colonnes en fonction de ce qui avait Ã©tÃ© enregistrÃ© */
 
     for ( i=0 ; i<7 ; i++ )
 	gtk_clist_set_column_width ( GTK_CLIST ( clist ),
@@ -518,8 +518,8 @@ gboolean allocation_clist_affichage_liste ( GtkWidget *clist,
 				     rapport_largeur_colonnes[i] * ancienne_allocation_liste / 100 );
 
 
-    /*     cette variable sert à éviter que la liste des opés ne soit redimmensionnée un peu */
-    /* 	lors de l'affichage des préférences */
+    /*     cette variable sert Ã  Ã©viter que la liste des opÃ©s ne soit redimmensionnÃ©e un peu */
+    /* 	lors de l'affichage des prÃ©fÃ©rences */
 
     if ( !affichage_realise )
     {
@@ -560,7 +560,7 @@ gboolean pression_bouton_classement_liste ( GtkWidget *clist,
 		return ( FALSE );
 
 
-	    /* on crée le nouveau curseur */
+	    /* on crÃ©e le nouveau curseur */
 
 
 
@@ -588,7 +588,7 @@ gboolean pression_bouton_classement_liste ( GtkWidget *clist,
 	    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( clist ),
 					   "button_press_event");
 
-	    /* récupère et sauve les coordonnées de la liste au départ */
+	    /* rÃ©cupÃ¨re et sauve les coordonnÃ©es de la liste au dÃ©part */
 
 	    gtk_clist_get_selection_info ( GTK_CLIST ( clist ),
 					   ev -> x,
@@ -631,7 +631,7 @@ gboolean lache_bouton_classement_liste ( GtkWidget *clist,
     gtk_signal_emit_stop_by_name ( GTK_OBJECT ( clist ),
 				   "button_release_event");
 
-    /* récupère et sauve les coordonnées de la liste au départ */
+    /* rÃ©cupÃ¨re et sauve les coordonnÃ©es de la liste au dÃ©part */
 
     gtk_clist_get_selection_info ( GTK_CLIST ( clist ),
 				   ev -> x,
@@ -639,11 +639,11 @@ gboolean lache_bouton_classement_liste ( GtkWidget *clist,
 				   &ligne_arrivee_drag,
 				   &col_arrivee_drag );
 
-    /* on dégrab la souris */
+    /* on dÃ©grab la souris */
 
     gdk_pointer_ungrab ( GDK_CURRENT_TIME );
 
-    /* si la cellule de départ est la même que celle de l'arrivée, on se barre */
+    /* si la cellule de dÃ©part est la mÃªme que celle de l'arrivÃ©e, on se barre */
 
     if ( ligne_depart_drag == ligne_arrivee_drag
 	 &&
@@ -651,7 +651,7 @@ gboolean lache_bouton_classement_liste ( GtkWidget *clist,
 	return ( TRUE );
 
 
-    /* on échange les 2 textes */
+    /* on Ã©change les 2 textes */
 
     gtk_clist_get_text ( GTK_CLIST ( clist ),
 			 ligne_depart_drag,
@@ -675,17 +675,17 @@ gboolean lache_bouton_classement_liste ( GtkWidget *clist,
 			 col_depart_drag,
 			 buffer );
 
-    /* on échange les 2 nombres */
+    /* on Ã©change les 2 nombres */
 
     buffer_int = tab_affichage_ope[ligne_depart_drag][col_depart_drag];
     tab_affichage_ope[ligne_depart_drag][col_depart_drag] = tab_affichage_ope[ligne_arrivee_drag][col_arrivee_drag];
     tab_affichage_ope[ligne_arrivee_drag][col_arrivee_drag] = buffer_int;
 
-    /*     on met à jour les titres */
+    /*     on met Ã  jour les titres */
 
     update_titres_colonnes ();
 
-/*     on réaffiche les listes d'opé */
+/*     on rÃ©affiche les listes d'opÃ© */
 
     demande_mise_a_jour_tous_comptes ();
 
@@ -938,7 +938,7 @@ void remplissage_tab_affichage_ope ( GtkWidget *clist )
 
 
 /* ************************************************************************************************************** */
-/* Fonction appelée lorsqu'on click sur un bouton de l'affichage de la liste */
+/* Fonction appelÃ©e lorsqu'on click sur un bouton de l'affichage de la liste */
 /* retire ou met le texte correspondant dans le 1er emplacement libre de */
 /* la liste */
 /* ************************************************************************************************************** */
@@ -947,7 +947,7 @@ void toggled_bouton_affichage_liste ( GtkWidget *bouton,
 				      gint *no_bouton )
 {
     /* on travaille en fait sur tab_affichage_ope_tmp et un appel */
-    /* à remplissage_tab_affichage_ope va actualiser la liste */
+    /* Ã  remplissage_tab_affichage_ope va actualiser la liste */
 
     gint i, j;
 
@@ -955,8 +955,8 @@ void toggled_bouton_affichage_liste ( GtkWidget *bouton,
     {
 	/* on vient d'enfoncer le bouton */
 
-	/* on met ce no+1 dans la 1ère case de libre en commençant en haut à gauche */
-	/* si ce no est 9-1(moyen de paiement), on y met aussi 18 (no chèque) */
+	/* on met ce no+1 dans la 1Ã¨re case de libre en commenÃ§ant en haut Ã  gauche */
+	/* si ce no est 9-1(moyen de paiement), on y met aussi 18 (no chÃ¨que) */
 
 
 	for ( i = 0 ; i<4 ; i++ )
@@ -976,10 +976,10 @@ void toggled_bouton_affichage_liste ( GtkWidget *bouton,
     }
     else
     {
-	/*       on vient de désenfoncer le bouton */
+	/*       on vient de dÃ©senfoncer le bouton */
 
-	/* recherche le no de bouton dans le tableau et met 0 à la place */
-	/*       s'il s'agit du moyen de paiement(9), vire aussi le no de chèque(18) */
+	/* recherche le no de bouton dans le tableau et met 0 Ã  la place */
+	/*       s'il s'agit du moyen de paiement(9), vire aussi le no de chÃ¨que(18) */
 
 	for ( i = 0 ; i<4 ; i++ )
 	    for ( j = 0 ; j<7 ; j++ )
@@ -993,7 +993,7 @@ void toggled_bouton_affichage_liste ( GtkWidget *bouton,
 
     remplissage_tab_affichage_ope ( clist_affichage_liste );
 
-/*     on réaffiche les listes */
+/*     on rÃ©affiche les listes */
     
     demande_mise_a_jour_tous_comptes ();
 }
@@ -1002,7 +1002,7 @@ void toggled_bouton_affichage_liste ( GtkWidget *bouton,
 
 
 /* ************************************************************************************************************** */
-/* récupère les noms de colonnes ( en fait les objets de la 1ère ligne ), */
+/* rÃ©cupÃ¨re les noms de colonnes ( en fait les objets de la 1Ã¨re ligne ), */
 /* et ce qu'on met dans les tips des titres de colonnes */
 /* donc, remplit les variables tips_col_liste_operations et titres_colonnes_liste_operations */
 /* ************************************************************************************************************** */
@@ -1011,7 +1011,7 @@ void recuperation_noms_colonnes_et_tips ( void )
     gint i, j;
     gchar *ligne[7];
 
-    /* on met les titres et tips à NULL */
+    /* on met les titres et tips Ã  NULL */
 
     for ( j=0 ; j<7 ; j++ )
     {
@@ -1102,7 +1102,7 @@ void recuperation_noms_colonnes_et_tips ( void )
 		    break;
 	    }
 
-	    /* 	  si on est sur la 1ère ligne, on met les titres ainsi que la 1ere ligne des tips */
+	    /* 	  si on est sur la 1Ã¨re ligne, on met les titres ainsi que la 1ere ligne des tips */
 	    /* 	    sinon, on rajoute aux tips existant */
 
 	    if ( i )
@@ -1147,7 +1147,7 @@ void raz_affichage_ope ( void )
     gint largeur[7] = { 12, 12, 30, 5, 12, 12, 12 };
 
 
-	/* on remet tous les boutons à inactif */
+	/* on remet tous les boutons Ã  inactif */
 
 	for ( i = 0 ; i < 17 ; i++ )
 	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( boutons_affichage_liste[i] ),
@@ -1169,7 +1169,7 @@ void raz_affichage_ope ( void )
 					     clist_affichage_liste -> allocation.width * largeur[i] / 100 );
 	}
 
-	/* on met à jour la liste et les boutons */
+	/* on met Ã  jour la liste et les boutons */
 
 	remplissage_tab_affichage_ope ( clist_affichage_liste );
 	demande_mise_a_jour_tous_comptes ();

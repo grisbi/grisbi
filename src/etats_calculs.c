@@ -1,7 +1,7 @@
-/*  Fichier qui s'occupe du calcul des états */
+/*  Fichier qui s'occupe du calcul des Ã©tats */
 /*      etats.c */
 
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2004 Benjamin Drieu (bdrieu@april.org)		      */
 /* 			http://www.grisbi.org				      */
 
@@ -51,14 +51,14 @@ void affichage_etat ( struct struct_etat *etat,
 	affichage = &gtktable_affichage;
 
 
-    /*   selection des opérations */
-    /* on va mettre l'adresse des opés sélectionnées dans une liste */
+    /*   selection des opÃ©rations */
+    /* on va mettre l'adresse des opÃ©s sÃ©lectionnÃ©es dans une liste */
 
     liste_opes_selectionnees = recupere_opes_etat ( etat );
 
 
-    /*   à ce niveau, on a récupéré toutes les opés qui entreront dans */
-    /* l'état ; reste plus qu'à les classer et les afficher */
+    /*   Ã  ce niveau, on a rÃ©cupÃ©rÃ© toutes les opÃ©s qui entreront dans */
+    /* l'Ã©tat ; reste plus qu'Ã  les classer et les afficher */
     /* on classe la liste et l'affiche en fonction du choix du type de classement */
 
     etat_affichage_output = affichage;
@@ -70,10 +70,10 @@ void affichage_etat ( struct struct_etat *etat,
 
 
 /*****************************************************************************************************/
-/* cette fontion prend en argument l'adr d'un état, fait le tour de tous les comptes et */
-/* sélectionne les opérations qui appartiennent à cet état. elle renvoie une liste des */
-/* adr de ces opérations */
-/* elle est appelée pour l'affichage d'un état ou pour la récupération des tiers d'un état */
+/* cette fontion prend en argument l'adr d'un Ã©tat, fait le tour de tous les comptes et */
+/* sÃ©lectionne les opÃ©rations qui appartiennent Ã  cet Ã©tat. elle renvoie une liste des */
+/* adr de ces opÃ©rations */
+/* elle est appelÃ©e pour l'affichage d'un Ã©tat ou pour la rÃ©cupÃ©ration des tiers d'un Ã©tat */
 /*****************************************************************************************************/
 
 GSList *recupere_opes_etat ( struct struct_etat *etat )
@@ -85,8 +85,8 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
     liste_operations_etat = NULL;
 
-    /* si on utilise l'exercice courant ou précédent, on cherche ici */
-    /* le numéro de l'exercice correspondant */
+    /* si on utilise l'exercice courant ou prÃ©cÃ©dent, on cherche ici */
+    /* le numÃ©ro de l'exercice correspondant */
 
     no_exercice_recherche = 0;
 
@@ -127,7 +127,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 	}
 
 
-	/* si on veut l'exo précédent, c'est ici */
+	/* si on veut l'exo prÃ©cÃ©dent, c'est ici */
 
 	switch ( etat -> utilise_detail_exo )
 	{
@@ -139,7 +139,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		break;
 
 	    case 2:
-		/* on recherche l'exo précédent */
+		/* on recherche l'exo prÃ©cÃ©dent */
 
 		liste_tmp = liste_struct_exercices;
 
@@ -151,7 +151,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 		    if ( exo_courant )
 		    {
-			/* si l'exo est avant exo_courant et après exo_precedent, c'est le nouvel exo_precedent */
+			/* si l'exo est avant exo_courant et aprÃ¨s exo_precedent, c'est le nouvel exo_precedent */
 
 			if ( g_date_compare ( exo -> date_fin,
 					      exo_courant -> date_debut ) <= 0 )
@@ -168,8 +168,8 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		    }
 		    else
 		    {
-			/* 		      il n'y a pas d'exo courant, donc si l'exo est en date inférieur à la date du jour, */
-			/* et après l'exo_precedent, c'est le nouvel exo précédent */
+			/* 		      il n'y a pas d'exo courant, donc si l'exo est en date infÃ©rieur Ã  la date du jour, */
+			/* et aprÃ¨s l'exo_precedent, c'est le nouvel exo prÃ©cÃ©dent */
 
 			if ( g_date_compare ( exo -> date_fin,
 					      date_jour ) <= 0 )
@@ -197,10 +197,10 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
     }
 
 
-    /*   si on a utilisé "le plus grand" dans la recherche de texte, c'est ici qu'on recherche */
+    /*   si on a utilisÃ© "le plus grand" dans la recherche de texte, c'est ici qu'on recherche */
     /*     les plus grands no de chq, de rappr et de pc dans les comptes choisis */
 
-    /* commence par rechercher si on a utilisé "le plus grand" */
+    /* commence par rechercher si on a utilisÃ© "le plus grand" */
 
     liste_tmp = etat -> liste_struct_comparaison_textes;
 
@@ -222,7 +222,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 	    for ( i=0 ; i<nb_comptes ; i++ )
 	    {
-		/* on commence par vérifier que le compte fait partie de l'état */
+		/* on commence par vÃ©rifier que le compte fait partie de l'Ã©tat */
 
 		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
@@ -233,7 +233,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		{
 		    GSList *pointeur_tmp;
 
-		    /* on fait le tour de la liste des opés en recherchant le plus grand ds les 3 variables */
+		    /* on fait le tour de la liste des opÃ©s en recherchant le plus grand ds les 3 variables */
 
 		    pointeur_tmp = LISTE_OPERATIONS;
 
@@ -243,9 +243,9 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 			operation = pointeur_tmp -> data;
 
-			/* commence par le cheque, il faut que le type opé soit à incrémentation auto */
+			/* commence par le cheque, il faut que le type opÃ© soit Ã  incrÃ©mentation auto */
 			/* et le no le plus grand */
-			/* on ne recherche le type d'opé que si l'opé a un contenu du type et que celui ci */
+			/* on ne recherche le type d'opÃ© que si l'opÃ© a un contenu du type et que celui ci */
 			/* est > que dernier_chq */
 
 			if ( operation -> contenu_type 
@@ -267,7 +267,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			}
 
 
-			/* on récupère maintenant la plus grande pc */
+			/* on rÃ©cupÃ¨re maintenant la plus grande pc */
 
 			if ( operation -> no_piece_comptable
 			     &&
@@ -275,7 +275,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			    dernier_pc = my_atoi ( operation -> no_piece_comptable );
 
 
-			/* on récupère maintenant le dernier relevé */
+			/* on rÃ©cupÃ¨re maintenant le dernier relevÃ© */
 
 			if ( operation -> no_rapprochement > dernier_no_rappr )
 			    dernier_no_rappr = operation -> no_rapprochement;
@@ -293,7 +293,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
     for ( i=0 ; i<nb_comptes ; i++ )
     {
-	/* on commence par vérifier que le compte fait partie de l'état */
+	/* on commence par vÃ©rifier que le compte fait partie de l'Ã©tat */
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
@@ -302,10 +302,10 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 	     g_slist_index ( etat -> no_comptes,
 			     GINT_TO_POINTER ( i )) != -1 )
 	{
-	    /* 	  le compte est bon, passe à la suite de la sélection */
+	    /* 	  le compte est bon, passe Ã  la suite de la sÃ©lection */
 
 
-	    /* on va faire le tour de toutes les opés du compte */
+	    /* on va faire le tour de toutes les opÃ©s du compte */
 
 	    GSList *pointeur_tmp;
 
@@ -317,7 +317,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 		operation = pointeur_tmp -> data;
 
-		/* si c'est une opé ventilée, dépend de la conf */
+		/* si c'est une opÃ© ventilÃ©e, dÃ©pend de la conf */
 
 		if ( operation -> operation_ventilee
 		     &&
@@ -329,7 +329,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		     etat -> pas_detailler_ventilation )
 		    goto operation_refusee;
 
-		/* on vérifie ensuite si un texte est recherché */
+		/* on vÃ©rifie ensuite si un texte est recherchÃ© */
 
 		if ( etat -> utilise_texte )
 		{
@@ -347,13 +347,13 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			comp_textes = liste_tmp -> data;
 
 
-			/* on commence par récupérer le texte du champs recherché */
+			/* on commence par rÃ©cupÃ©rer le texte du champs recherchÃ© */
 
 			texte = recupere_texte_test_etat ( operation,
 							   comp_textes -> champ );
 
-			/* à ce niveau, texte est soit null, soit contient le texte dans lequel on effectue la recherche */
-			/* on vérifie maintenant en fontion de l'opérateur */
+			/* Ã  ce niveau, texte est soit null, soit contient le texte dans lequel on effectue la recherche */
+			/* on vÃ©rifie maintenant en fontion de l'opÃ©rateur */
 			/* si c'est un chq ou une pc et que utilise_txt, on utilise leur no */
 
 			if ( ( comp_textes -> champ == 8
@@ -374,13 +374,13 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			    ope_dans_test = verifie_texte_test_etat ( comp_textes,
 								      texte );
 
-			/* à ce niveau, ope_dans_test=1 si l'opé a passé ce test */
-			/* il faut qu'on fasse le lien avec la ligne précédente */
+			/* Ã  ce niveau, ope_dans_test=1 si l'opÃ© a passÃ© ce test */
+			/* il faut qu'on fasse le lien avec la ligne prÃ©cÃ©dente */
 
 			switch ( comp_textes -> lien_struct_precedente )
 			{
 			    case -1:
-				/* 1ère ligne  */
+				/* 1Ã¨re ligne  */
 
 				garde_ope = ope_dans_test;
 				break;
@@ -406,14 +406,14 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			liste_tmp = liste_tmp -> next;
 		    }
 
-		    /* on ne garde l'opération que si garde_ope = 1 */
+		    /* on ne garde l'opÃ©ration que si garde_ope = 1 */
 
 		    if ( !garde_ope )
 			goto operation_refusee;
 		}
 
 
-		/* on vérifie les R */
+		/* on vÃ©rifie les R */
 
 		if ( etat -> afficher_r )
 		{
@@ -428,7 +428,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		}
 
 
-		/*    vérification du montant nul */
+		/*    vÃ©rification du montant nul */
 
 		if ( etat -> exclure_montants_nuls
 		     &&
@@ -436,7 +436,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		    goto operation_refusee;
 
 
-		/* vérification des montants */
+		/* vÃ©rification des montants */
 
 		if ( etat -> utilise_montant )
 		{
@@ -462,7 +462,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 								  operation -> taux_change,
 								  operation -> frais_change );
 
-			/* on vérifie maintenant en fonction de la ligne de test si on garde cette opé */
+			/* on vÃ©rifie maintenant en fonction de la ligne de test si on garde cette opÃ© */
 
 			ope_dans_premier_test = compare_montants_etat ( montant,
 									comp_montants -> montant_1,
@@ -473,7 +473,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 									   comp_montants -> montant_2,
 									   comp_montants -> comparateur_2 );
 			else
-			    /* pour éviter les warning lors de la compil */
+			    /* pour Ã©viter les warning lors de la compil */
 			    ope_dans_second_test = 0;
 
 			switch ( comp_montants -> lien_1_2 )
@@ -505,14 +505,14 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 				ope_dans_test = 0;
 			}
 
-			/* à ce niveau, ope_dans_test=1 si l'opé a passé ce test */
-			/* il faut qu'on fasse le lien avec la ligne précédente */
+			/* Ã  ce niveau, ope_dans_test=1 si l'opÃ© a passÃ© ce test */
+			/* il faut qu'on fasse le lien avec la ligne prÃ©cÃ©dente */
 
 
 			switch ( comp_montants -> lien_struct_precedente )
 			{
 			    case -1:
-				/* 1ère ligne  */
+				/* 1Ã¨re ligne  */
 
 				garde_ope = ope_dans_test;
 				break;
@@ -538,7 +538,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			liste_tmp = liste_tmp -> next;
 		    }
 
-		    /* on ne garde l'opération que si garde_ope = 1 */
+		    /* on ne garde l'opÃ©ration que si garde_ope = 1 */
 
 		    if ( !garde_ope )
 			goto operation_refusee;
@@ -547,7 +547,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 
 
-		/* 	      on vérifie les virements */
+		/* 	      on vÃ©rifie les virements */
 
 		if ( operation -> relation_no_operation )
 		{
@@ -556,7 +556,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 		    if ( etat -> type_virement == 1 )
 		    {
-			/* on inclue l'opé que si le compte de virement */
+			/* on inclue l'opÃ© que si le compte de virement */
 			/* est un compte de passif ou d'actif */
 
 			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
@@ -572,10 +572,10 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		    {
 			if ( etat -> type_virement == 2 )
 			{
-			    /* on inclut l'opé que si le compte de virement n'est */
-			    /* pas présent dans l'état */
+			    /* on inclut l'opÃ© que si le compte de virement n'est */
+			    /* pas prÃ©sent dans l'Ã©tat */
 
-			    /*    si on ne détaille pas les comptes, on ne cherche pas, l'opé est refusée */
+			    /*    si on ne dÃ©taille pas les comptes, on ne cherche pas, l'opÃ© est refusÃ©e */
 			    if ( etat -> utilise_detail_comptes )
 			    {
 				if ( g_slist_index ( etat -> no_comptes,
@@ -587,7 +587,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			}
 			else
 			{
-			    /* on inclut l'opé que si le compte de virement est dans la liste */
+			    /* on inclut l'opÃ© que si le compte de virement est dans la liste */
 
 			    if ( g_slist_index ( etat -> no_comptes_virements,
 						 GINT_TO_POINTER ( operation -> relation_no_compte )) == -1 )
@@ -598,7 +598,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		}
 		else
 		{
-		    /* 		  l'opé n'est pas un virement, si on doit exclure les non virement, c'est ici */
+		    /* 		  l'opÃ© n'est pas un virement, si on doit exclure les non virement, c'est ici */
 
 		    if ( etat -> type_virement
 			 &&
@@ -607,8 +607,8 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		}
 
 
-		/* on va maintenant vérifier que les catég sont bonnes */
-		/* si on exclut les opés sans categ, on vérifie que c'est pas un virement ni une ventilation */
+		/* on va maintenant vÃ©rifier que les catÃ©g sont bonnes */
+		/* si on exclut les opÃ©s sans categ, on vÃ©rifie que c'est pas un virement ni une ventilation */
 
 		if ((( etat -> utilise_detail_categ
 		       &&
@@ -625,7 +625,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		    goto operation_refusee;
 
 
-		/* vérification de l'imputation budgétaire */
+		/* vÃ©rification de l'imputation budgÃ©taire */
 
 		if ( etat -> exclure_ope_sans_ib && !operation -> imputation )
 		    goto operation_refusee;
@@ -637,7 +637,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		    goto operation_refusee;
 
 
-		/* vérification du tiers */
+		/* vÃ©rification du tiers */
 
 		if ( etat -> utilise_detail_tiers
 		     &&
@@ -645,7 +645,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 				     GINT_TO_POINTER ( operation -> tiers )) == -1 )
 		    goto operation_refusee;
 
-		/* vérification du type d'opé */
+		/* vÃ©rification du type d'opÃ© */
 
 		if ( etat -> utilise_mode_paiement &&
 		     operation -> type_ope)
@@ -670,7 +670,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			goto operation_refusee;
 		}
 
-		/* vérifie la plage de date */
+		/* vÃ©rifie la plage de date */
 
 		if ( etat -> exo_date )
 		{
@@ -727,7 +727,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			    break;
 
 			case 2:
-			    /* cumul à ce jour */
+			    /* cumul Ã  ce jour */
 
 			    if ( g_date_compare ( date_jour,
 						  operation -> date ) < 0 )
@@ -744,7 +744,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			    break;
 
 			case 4:
-			    /* année en cours */
+			    /* annÃ©e en cours */
 
 			    if ( g_date_year ( date_jour ) != g_date_year ( operation -> date ))
 				goto operation_refusee;
@@ -773,7 +773,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			    break;
 
 			case 7:
-			    /* mois précédent */
+			    /* mois prÃ©cÃ©dent */
 
 			    g_date_subtract_months ( date_jour,
 						     1 );
@@ -785,7 +785,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			    break;
 
 			case 8:
-			    /* année précédente */
+			    /* annÃ©e prÃ©cÃ©dente */
 
 			    g_date_subtract_years ( date_jour,
 						    1 );
@@ -877,7 +877,7 @@ operation_refusee:
 
 
 /*****************************************************************************************************/
-/* récupère le texte pour faire le test sur les textes */
+/* rÃ©cupÃ¨re le texte pour faire le test sur les textes */
 /*****************************************************************************************************/
 
 gchar *recupere_texte_test_etat ( struct structure_operation *operation,
@@ -1056,7 +1056,7 @@ gchar *recupere_texte_test_etat ( struct structure_operation *operation,
 
 
 /*****************************************************************************************************/
-/* vérifie si l'opé passe le test du texte */
+/* vÃ©rifie si l'opÃ© passe le test du texte */
 /*****************************************************************************************************/
 
 gint verifie_texte_test_etat ( struct struct_comparaison_textes_etat *comp_textes,
@@ -1152,7 +1152,7 @@ gint verifie_texte_test_etat ( struct struct_comparaison_textes_etat *comp_texte
 
 
 /*****************************************************************************************************/
-/* vérifie si l'opé passe le test du chq */
+/* vÃ©rifie si l'opÃ© passe le test du chq */
 /*****************************************************************************************************/
 
 gint verifie_chq_test_etat ( struct struct_comparaison_textes_etat *comp_textes,
@@ -1162,12 +1162,12 @@ gint verifie_chq_test_etat ( struct struct_comparaison_textes_etat *comp_textes,
     gint ope_dans_premier_test;
     gint ope_dans_second_test;
 
-    /* pour éviter les warnings lors de la compil */
+    /* pour Ã©viter les warnings lors de la compil */
 
     ope_dans_premier_test = 0;
     ope_dans_second_test = 0;
 
-    /*   si on cherche le plus grand, on met la valeur recherchée à la place de montant_1 */
+    /*   si on cherche le plus grand, on met la valeur recherchÃ©e Ã  la place de montant_1 */
 
     if ( comp_textes -> comparateur_1 != 6 )
 	ope_dans_premier_test = compare_cheques_etat ( my_atoi ( no_chq ),
@@ -1197,7 +1197,7 @@ gint verifie_chq_test_etat ( struct struct_comparaison_textes_etat *comp_textes,
 
 	    case 10:
 		/* rappr */
-		/* no_chq contient le nom du rapprochement de l'opé, or pour le plus grand, on cherche */
+		/* no_chq contient le nom du rapprochement de l'opÃ©, or pour le plus grand, on cherche */
 		/* le no du rapprochement, on le cherche ici */
 
 		rapprochement = g_slist_find_custom ( liste_no_rapprochements,
@@ -1250,7 +1250,7 @@ gint verifie_chq_test_etat ( struct struct_comparaison_textes_etat *comp_textes,
 	}
     }
     else
-	/* pour éviter les warning lors de la compil */
+	/* pour Ã©viter les warning lors de la compil */
 	ope_dans_second_test = 0;
 
     switch ( comp_textes -> lien_1_2 )
@@ -1290,8 +1290,8 @@ gint verifie_chq_test_etat ( struct struct_comparaison_textes_etat *comp_textes,
 
 
 /*****************************************************************************************************/
-/* compare les 2 no de chq en fonction du comparateur donné en argument */
-/* renvoie 1 si l'opé passe le test, 0 sinon */
+/* compare les 2 no de chq en fonction du comparateur donnÃ© en argument */
+/* renvoie 1 si l'opÃ© passe le test, 0 sinon */
 /*****************************************************************************************************/
 
 gint compare_cheques_etat ( gint chq_ope,
@@ -1363,8 +1363,8 @@ gint compare_cheques_etat ( gint chq_ope,
 
 
 /*****************************************************************************************************/
-/* compare les 2 montants en fonction du comparateur donné en argument */
-/* renvoie 1 si l'opé passe le test, 0 sinon */
+/* compare les 2 montants en fonction du comparateur donnÃ© en argument */
+/* renvoie 1 si l'opÃ© passe le test, 0 sinon */
 /*****************************************************************************************************/
 
 gint compare_montants_etat ( gdouble montant_ope,
@@ -1447,7 +1447,7 @@ gint compare_montants_etat ( gdouble montant_ope,
 	    break;
 
 	case 9:
-	    /* négatif  */
+	    /* nÃ©gatif  */
 
 	    if ( montant_ope_int < 0 )
 		retour = 1;
@@ -1464,7 +1464,7 @@ gint compare_montants_etat ( gdouble montant_ope,
 
 
 /*****************************************************************************************************/
-/* Fonction de rafraichissement de l'état */
+/* Fonction de rafraichissement de l'Ã©tat */
 /*****************************************************************************************************/
 void rafraichissement_etat ( struct struct_etat *etat )
 {
@@ -1473,7 +1473,7 @@ void rafraichissement_etat ( struct struct_etat *etat )
 
 
 /*****************************************************************************************************/
-/* Fonction d'impression de l'état */
+/* Fonction d'impression de l'Ã©tat */
 /*****************************************************************************************************/
 void impression_etat ( struct struct_etat *etat )
 {
@@ -1524,8 +1524,8 @@ gint classement_liste_opes_etat ( struct structure_operation *operation_1,
 
 classement_suivant:
 
-    /*   si pointeur est nul, on a fait le tour du classement, les opés sont identiques */
-    /* si elles sont affichées, on classe classement demandé puis par no d'opé si identiques */
+    /*   si pointeur est nul, on a fait le tour du classement, les opÃ©s sont identiques */
+    /* si elles sont affichÃ©es, on classe classement demandÃ© puis par no d'opÃ© si identiques */
     /* sinon on repart en mettant -1 */
 
     if ( !pointeur )
@@ -1536,7 +1536,7 @@ classement_suivant:
 
     switch ( GPOINTER_TO_INT ( pointeur -> data ))
     {
-	/* classement des catégories */
+	/* classement des catÃ©gories */
 
 	case 1:
 
@@ -1545,9 +1545,9 @@ classement_suivant:
 		if ( operation_1 -> categorie != operation_2 -> categorie )
 		    return ( operation_1 -> categorie - operation_2 -> categorie );
 
-		/*     si  les catégories sont nulles, on doit départager entre virements, pas */
-		/* de categ ou opé ventilée */
-		/* on met en 1er les opés sans categ, ensuite les ventilations et enfin les virements */
+		/*     si  les catÃ©gories sont nulles, on doit dÃ©partager entre virements, pas */
+		/* de categ ou opÃ© ventilÃ©e */
+		/* on met en 1er les opÃ©s sans categ, ensuite les ventilations et enfin les virements */
 
 		if ( !operation_1 -> categorie )
 		{
@@ -1575,14 +1575,14 @@ classement_suivant:
 		}
 	    }
 
-	    /*       les catégories sont identiques, passe au classement suivant */
+	    /*       les catÃ©gories sont identiques, passe au classement suivant */
 
 	    pointeur = pointeur -> next;
 	    goto classement_suivant;
 
 	    break;
 
-	    /* classement des sous catégories */
+	    /* classement des sous catÃ©gories */
 
 	case 2:
 
@@ -1594,7 +1594,7 @@ classement_suivant:
 		    return ( operation_1 -> sous_categorie - operation_2 -> sous_categorie );
 	    }
 
-	    /*       les ss-catégories sont identiques, passe au classement suivant */
+	    /*       les ss-catÃ©gories sont identiques, passe au classement suivant */
 
 	    pointeur = pointeur -> next;
 	    goto classement_suivant;
@@ -1678,9 +1678,9 @@ classement_suivant:
 
 
 /*****************************************************************************************************/
-/* cette fonction est appelée quand l'opé a été classé dans sa categ, ib, compte ou tiers */
-/* et qu'elle doit être affichée ; on classe en fonction de la demande de la conf ( date, no, tiers ...) */
-/* si les 2 opés sont équivalentes à ce niveau, on classe par no d'opé */
+/* cette fonction est appelÃ©e quand l'opÃ© a Ã©tÃ© classÃ© dans sa categ, ib, compte ou tiers */
+/* et qu'elle doit Ãªtre affichÃ©e ; on classe en fonction de la demande de la conf ( date, no, tiers ...) */
+/* si les 2 opÃ©s sont Ã©quivalentes Ã  ce niveau, on classe par no d'opÃ© */
 /*****************************************************************************************************/
 
 gint classement_ope_perso_etat ( struct structure_operation *operation_1,
@@ -1698,7 +1698,7 @@ gint classement_ope_perso_etat ( struct structure_operation *operation_1,
 	    break;
 
 	case 1:
-	    /* no opé  */
+	    /* no opÃ©  */
 
 	    retour = operation_1 -> no_operation - operation_2 -> no_operation;
 	    break;
@@ -1826,7 +1826,7 @@ gint classement_ope_perso_etat ( struct structure_operation *operation_1,
 	    break;
 
 	case 5:
-	    /* note si une des 2 opés n'a pas de notes, elle va en 2ème */
+	    /* note si une des 2 opÃ©s n'a pas de notes, elle va en 2Ã¨me */
 
 	    if ( operation_1 -> notes
 		 &&
@@ -1846,8 +1846,8 @@ gint classement_ope_perso_etat ( struct structure_operation *operation_1,
 		retour = operation_2 -> type_ope - operation_1 -> type_ope;
 	    else
 	    {
-		/* les opés peuvent provenir de 2 comptes différents, il faut donc trouver les 2 types dans les */
-		/* listes différentes */
+		/* les opÃ©s peuvent provenir de 2 comptes diffÃ©rents, il faut donc trouver les 2 types dans les */
+		/* listes diffÃ©rentes */
 
 		struct struct_type_ope *type_1;
 		struct struct_type_ope *type_2;
@@ -1966,7 +1966,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
     GList *pointeur_glist;
 
 
-    /*   soit on sépare en revenus et dépenses, soit non */
+    /*   soit on sÃ©pare en revenus et dÃ©penses, soit non */
 
     liste_ope_revenus = NULL;
     liste_ope_depenses = NULL;
@@ -1975,10 +1975,10 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 
     if ( etat_courant -> separer_revenus_depenses )
     {
-	/* on commence par séparer la liste revenus et de dépenses */
-	/*   si le classement racine est la catégorie, on sépare par catégorie */
-	/* de revenu ou de dépense */
-	/* si c'est un autre, on sépare par montant positif ou négatif */
+	/* on commence par sÃ©parer la liste revenus et de dÃ©penses */
+	/*   si le classement racine est la catÃ©gorie, on sÃ©pare par catÃ©gorie */
+	/* de revenu ou de dÃ©pense */
+	/* si c'est un autre, on sÃ©pare par montant positif ou nÃ©gatif */
 
 	while ( pointeur_tmp )
 	{
@@ -1988,8 +1988,8 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 
 	    if ( GPOINTER_TO_INT ( pointeur_glist -> data ) == 1 )
 	    {
-		/* le classement racine est la catégorie */
-		/* s'il n'y a pas de catég, c'est un virement ou une ventilation */
+		/* le classement racine est la catÃ©gorie */
+		/* s'il n'y a pas de catÃ©g, c'est un virement ou une ventilation */
 		/*       dans ce cas, on classe en fonction du montant */
 
 		if ( operation -> categorie )
@@ -2019,7 +2019,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 	    }
 	    else
 	    {
-		/* le classement racine n'est pas la catég, on sépare en fonction du montant */
+		/* le classement racine n'est pas la catÃ©g, on sÃ©pare en fonction du montant */
 
 		if ( operation -> montant < 0 )
 		    liste_ope_depenses = g_slist_append ( liste_ope_depenses,
@@ -2032,12 +2032,12 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 	}
     }
     else
-	/*     on ne veut pas séparer en revenus et dépenses, on garde juste la liste d'opé telle quelle */
+	/*     on ne veut pas sÃ©parer en revenus et dÃ©penses, on garde juste la liste d'opÃ© telle quelle */
 
 	liste_ope_revenus = ope_selectionnees;
 
 
-    /* on va maintenant classer ces 2 listes dans l'ordre adéquat */
+    /* on va maintenant classer ces 2 listes dans l'ordre adÃ©quat */
 
     liste_ope_depenses = g_slist_sort ( liste_ope_depenses,
 					(GCompareFunc) classement_liste_opes_etat );
@@ -2045,17 +2045,17 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 				       (GCompareFunc) classement_liste_opes_etat );
 
 
-    /* calcul du décalage pour chaque classement */
+    /* calcul du dÃ©calage pour chaque classement */
     /* c'est une chaine vide qu'on ajoute devant le nom du */
     /*   classement ( tiers, ib ...) */
 
-    /* on met 2 espaces par décalage */
-    /*   normalement, pointeur_glist est déjà positionné */
+    /* on met 2 espaces par dÃ©calage */
+    /*   normalement, pointeur_glist est dÃ©jÃ  positionnÃ© */
 
     decalage_base = "";
 
-    /*   pour éviter le warning lors de la compilation, on met */
-    /* toutes les var char à "" */
+    /*   pour Ã©viter le warning lors de la compilation, on met */
+    /* toutes les var char Ã  "" */
 
     decalage_categ = "";
     decalage_sous_categ = "";
@@ -2068,7 +2068,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
     {
 	switch ( GPOINTER_TO_INT ( pointeur_glist -> data ))
 	{
-	    /* décalage de la catégorie */
+	    /* dÃ©calage de la catÃ©gorie */
 
 	    case 1:
 		if ( etat_courant -> utilise_categ )
@@ -2082,7 +2082,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 		}
 		break;
 
-		/* décalage de la ss-catégorie */
+		/* dÃ©calage de la ss-catÃ©gorie */
 
 	    case 2:
 		if ( etat_courant -> utilise_categ
@@ -2098,7 +2098,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 		}
 		break;
 
-		/* décalage de l'ib */
+		/* dÃ©calage de l'ib */
 
 	    case 3:
 		if ( etat_courant -> utilise_ib )
@@ -2112,7 +2112,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 		}
 		break;
 
-		/* décalage de la ss-ib */
+		/* dÃ©calage de la ss-ib */
 
 	    case 4:
 		if ( etat_courant -> utilise_ib
@@ -2128,7 +2128,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 		}
 		break;
 
-		/* décalage du compte */
+		/* dÃ©calage du compte */
 
 	    case 5:
 		if ( etat_courant -> regroupe_ope_par_compte )
@@ -2142,7 +2142,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 		}
 		break;
 
-		/* décalage du tiers */
+		/* dÃ©calage du tiers */
 
 	    case 6:
 		if ( etat_courant -> utilise_tiers )
@@ -2168,9 +2168,9 @@ pas_decalage:
 
 
     /*   calcul du nb de colonnes : */
-    /* 1ère pour les titres de structure */
-    /* la dernière pour les montants */
-    /* et entre les 2 pour l'affichage des opés -> variable */
+    /* 1Ã¨re pour les titres de structure */
+    /* la derniÃ¨re pour les montants */
+    /* et entre les 2 pour l'affichage des opÃ©s -> variable */
 
     nb_colonnes = 0;
 
@@ -2189,7 +2189,7 @@ pas_decalage:
 	nb_colonnes = nb_colonnes + etat_courant -> afficher_rappr_ope;
 	nb_colonnes = nb_colonnes + etat_courant -> afficher_exo_ope;
 
-	/* on ajoute les séparations */
+	/* on ajoute les sÃ©parations */
 
 	nb_colonnes = 2 * nb_colonnes - 1;
     }
@@ -2208,7 +2208,7 @@ pas_decalage:
 	return;
 
 
-    /* on commence à remplir le tableau */
+    /* on commence Ã  remplir le tableau */
 
     /* on met le titre */
 
@@ -2216,10 +2216,10 @@ pas_decalage:
     nb_ope_general_etat = 0;
     ligne = etat_affiche_affiche_titre ( 0 );
 
-    /* séparation */
+    /* sÃ©paration */
     ligne = etat_affiche_affiche_separateur (ligne);
 
-    /*   si nécessaire, on met les titres des colonnes */
+    /*   si nÃ©cessaire, on met les titres des colonnes */
 
     if ( etat_courant -> afficher_opes
 	 &&
@@ -2284,17 +2284,17 @@ pas_decalage:
 	debut_affichage_etat = 1;
 	devise_compte_en_cours_etat = NULL;
 
-	/* on met ici le pointeur sur les revenus ou sur les dépenses */
-	/* en vérifiant qu'il y en a */
+	/* on met ici le pointeur sur les revenus ou sur les dÃ©penses */
+	/* en vÃ©rifiant qu'il y en a */
 
 	if ( i )
 	{
 	    /* c'est le second passage */
-	    /* on met le pointeur sur les dépenses */
+	    /* on met le pointeur sur les dÃ©penses */
 
 	    if ( liste_ope_depenses )
 	    {
-		/* séparation */
+		/* sÃ©paration */
 		ligne = etat_affiche_affiche_separateur (ligne);
 		pointeur_tmp = liste_ope_depenses;
 
@@ -2307,11 +2307,11 @@ pas_decalage:
 	{
 	    /* c'est le premier passage */
 	    /* on met le pointeur sur les revenus */
-	    /* si on n'a pas demandé de séparer les débits et crédits, on ne met pas de titre */
+	    /* si on n'a pas demandÃ© de sÃ©parer les dÃ©bits et crÃ©dits, on ne met pas de titre */
 
 	    if ( etat_courant -> separer_revenus_depenses )
 	    {
-		/* on sépare les revenus des débits */
+		/* on sÃ©pare les revenus des dÃ©bits */
 
 		if ( liste_ope_revenus )
 		{
@@ -2321,12 +2321,12 @@ pas_decalage:
 		}
 		else
 		{
-		    /* il n'y a pas de revenus, on saute directement aux dépenses */
+		    /* il n'y a pas de revenus, on saute directement aux dÃ©penses */
 
 		    i++;
 		    pointeur_tmp = liste_ope_depenses;
 
-		    /* 	      s'il n'y a pas de dépenses non plus, on sort de la boucle */
+		    /* 	      s'il n'y a pas de dÃ©penses non plus, on sort de la boucle */
 
 		    if ( !liste_ope_depenses )
 			continue;
@@ -2336,8 +2336,8 @@ pas_decalage:
 	    }
 	    else
 	    {
-		/* 	      on ne sépare pas les débits et les crédits, donc pas de titre, juste */
-		/* une vérification qu'il y a des opérations */
+		/* 	      on ne sÃ©pare pas les dÃ©bits et les crÃ©dits, donc pas de titre, juste */
+		/* une vÃ©rification qu'il y a des opÃ©rations */
 
 		if ( liste_ope_revenus )
 		    pointeur_tmp = liste_ope_revenus;
@@ -2347,7 +2347,7 @@ pas_decalage:
 	}
 
 
-	/* on commence la boucle qui fait le tour de chaque opé */
+	/* on commence la boucle qui fait le tour de chaque opÃ© */
 
 	while ( pointeur_tmp )
 	{
@@ -2407,13 +2407,13 @@ pas_decalage:
 	    }
 
 
-	    /* on affiche si nécessaire le total de la période */
+	    /* on affiche si nÃ©cessaire le total de la pÃ©riode */
 
 	    ligne = etat_affiche_affiche_total_periode ( operation,
 							 ligne,
 							 0 );
 
-	    /* on affiche si nécessaire le total de  l'exercice */
+	    /* on affiche si nÃ©cessaire le total de  l'exercice */
 
 	    ligne = etat_affiche_affiche_total_exercice ( operation,
 							 ligne,
@@ -2424,7 +2424,7 @@ pas_decalage:
 	    ligne = etat_affiche_affichage_ligne_ope ( operation,
 						       ligne );
 
-	    /* on ajoute les montants que pour ceux affichés */
+	    /* on ajoute les montants que pour ceux affichÃ©s */
 
 	    /* calcule le montant de la categ */
 
@@ -2548,10 +2548,10 @@ pas_decalage:
 		    montant = operation -> montant;
 		else
 		{
-		    /* ce n'est pas la devise du compte, si le compte passe à l'euro et que la devise est l'euro, */
+		    /* ce n'est pas la devise du compte, si le compte passe Ã  l'euro et que la devise est l'euro, */
 		    /* utilise la conversion du compte, */
-		    /* si c'est une devise qui passe à l'euro et que la devise du compte est l'euro, utilise la conversion du compte */
-		    /* sinon utilise la conversion stockée dans l'opé */
+		    /* si c'est une devise qui passe Ã  l'euro et que la devise du compte est l'euro, utilise la conversion du compte */
+		    /* sinon utilise la conversion stockÃ©e dans l'opÃ© */
 
 		    devise_operation = g_slist_find_custom ( liste_struct_devises,
 							     GINT_TO_POINTER ( operation -> devise ),
@@ -2685,15 +2685,15 @@ pas_decalage:
 	}
 
 
-	/*   à la fin, on affiche les totaux des dernières lignes */
+	/*   Ã  la fin, on affiche les totaux des derniÃ¨res lignes */
 
-	/* on affiche le total de la période en le forçant */
+	/* on affiche le total de la pÃ©riode en le forÃ§ant */
 
 	ligne = etat_affiche_affiche_total_periode ( NULL,
 						     ligne,
 						     1 );
 
-	/* on affiche le total de l'exercice en le forçant */
+	/* on affiche le total de l'exercice en le forÃ§ant */
 
 	ligne = etat_affiche_affiche_total_exercice ( NULL,
 						     ligne,
@@ -2734,7 +2734,7 @@ pas_decalage:
 	}
 
 	/* on affiche le total de la partie en cours */
-	/* si les revenus et dépenses ne sont pas mélangés */
+	/* si les revenus et dÃ©penses ne sont pas mÃ©langÃ©s */
 
 	if ( etat_courant -> separer_revenus_depenses )
 	    ligne = etat_affiche_affiche_total_partiel ( total_partie,
@@ -2743,7 +2743,7 @@ pas_decalage:
 
     }
 
-    /* on affiche maintenant le total général */
+    /* on affiche maintenant le total gÃ©nÃ©ral */
 
     ligne = etat_affiche_affiche_total_general ( total_general,
 						 ligne );
@@ -2755,15 +2755,15 @@ pas_decalage:
 
 
 /*****************************************************************************************************/
-/* met tous les anciens_x_etat sous jaccents à l'origine à -1 */
+/* met tous les anciens_x_etat sous jaccents Ã  l'origine Ã  -1 */
 /*****************************************************************************************************/
 
 void denote_struct_sous_jaccentes ( gint origine )
 {
     GList *pointeur_glist;
 
-    /* on peut partir du bout de la liste pour revenir vers la structure demandée */
-    /* gros vulgaire copier coller de la fonction précédente */
+    /* on peut partir du bout de la liste pour revenir vers la structure demandÃ©e */
+    /* gros vulgaire copier coller de la fonction prÃ©cÃ©dente */
 
     pointeur_glist = g_list_last ( etat_courant -> type_classement );
 

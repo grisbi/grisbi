@@ -1,9 +1,9 @@
 
 /* Fichier echeancier_ventilation.c */
-/* s'occupe de tout ce qui concerne les ventilation des échéances */
+/* s'occupe de tout ce qui concerne les ventilation des Ã©chÃ©ances */
 
 
-/*     Copyright (C) 2000-2004  Cédric Auger */
+/*     Copyright (C) 2000-2004  CÃ©dric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -45,17 +45,17 @@
 
 GtkWidget *liste_echeances_ventilees;
 
-gint ancienne_largeur_ventilation_echeances;          /* magouille utilisée pour bloquer un signal size-allocate qui s'emballe */
+gint ancienne_largeur_ventilation_echeances;          /* magouille utilisÃ©e pour bloquer un signal size-allocate qui s'emballe */
 GtkWidget *widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_TOTAL_WIDGET];
 GtkWidget *separateur_formulaire_ventilations_echeances;
 GtkWidget *hbox_valider_annuler_ventil_echeances;
 GtkWidget *label_somme_ventilee_echeances_echeances;                       /*  label correspondant */
 GtkWidget *label_non_affecte_echeances;                       /*  label correspondant */
 GtkWidget *label_montant_operation_ventilee_echeances_echeances;                       /*  label correspondant */
-struct struct_ope_ventil *ligne_selectionnee_ventilation_echeances;              /* struct ope ligne sélectionnée */
+struct struct_ope_ventil *ligne_selectionnee_ventilation_echeances;              /* struct ope ligne sÃ©lectionnÃ©e */
 gdouble montant_operation_ventilee_echeances;
 gdouble somme_ventilee_echeances;
-gint enregistre_ope_au_retour_echeances;            /* à 1 si au click du bouton valider on enregistre l'opé */
+gint enregistre_ope_au_retour_echeances;            /* Ã  1 si au click du bouton valider on enregistre l'opÃ© */
 
 extern GSList *liste_categories_ventilation_combofix; 
 extern GtkWidget *formulaire_echeancier;
@@ -72,7 +72,7 @@ extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 
 /*******************************************************************************************/
 /* Fonction creation_fenetre_ventilation_echeances */
-/* crée la fenetre qui contient la liste des ventilation */
+/* crÃ©e la fenetre qui contient la liste des ventilation */
 /*******************************************************************************************/
 
 GtkWidget *creation_fenetre_ventilation_echeances ( void )
@@ -82,7 +82,7 @@ GtkWidget *creation_fenetre_ventilation_echeances ( void )
 	_("Notes"),
 	_("Amount") };
 
-	/* création de la scrolled window  */
+	/* crÃ©ation de la scrolled window  */
 
 	onglet = gtk_scrolled_window_new ( NULL,
 					   NULL);
@@ -92,7 +92,7 @@ GtkWidget *creation_fenetre_ventilation_echeances ( void )
 	gtk_widget_show ( onglet );
 
 
-	/* création de la liste */
+	/* crÃ©ation de la liste */
 
 	liste_echeances_ventilees = gtk_clist_new_with_titles ( 3,
 								titres );
@@ -100,7 +100,7 @@ GtkWidget *creation_fenetre_ventilation_echeances ( void )
 			       1,
 			       FALSE );
 
-	/*   par défaut, le classement de la liste s'effectue par no des opérations */
+	/*   par dÃ©faut, le classement de la liste s'effectue par no des opÃ©rations */
 
 	gtk_clist_set_compare_func ( GTK_CLIST ( liste_echeances_ventilees ),
 				     (GtkCListCompareFunc) classement_liste_par_no_ope_ventil );
@@ -143,7 +143,7 @@ GtkWidget *creation_fenetre_ventilation_echeances ( void )
 					     GTK_JUSTIFY_RIGHT);
 
 
-	/* vérifie le simple ou double click */
+	/* vÃ©rifie le simple ou double click */
 
 	gtk_signal_connect ( GTK_OBJECT ( liste_echeances_ventilees ),
 			     "button_press_event",
@@ -151,7 +151,7 @@ GtkWidget *creation_fenetre_ventilation_echeances ( void )
 			     NULL );
 
 
-	/*   vérifie la touche entrée, haut et bas */
+	/*   vÃ©rifie la touche entrÃ©e, haut et bas */
 
 	gtk_signal_connect ( GTK_OBJECT ( liste_echeances_ventilees ),
 			     "key_press_event",
@@ -168,7 +168,7 @@ GtkWidget *creation_fenetre_ventilation_echeances ( void )
 
 /*******************************************************************************************/
 /* Fonction  creation_verification_ventilation_echeances*/
-/* crée la fenetre à la place de la liste des comptes qui contient les boutons et l'état de la ventilation */
+/* crÃ©e la fenetre Ã  la place de la liste des comptes qui contient les boutons et l'Ã©tat de la ventilation */
 /*******************************************************************************************/
 
 GtkWidget *creation_verification_ventilation_echeances ( void )
@@ -182,7 +182,7 @@ GtkWidget *creation_verification_ventilation_echeances ( void )
     GtkWidget *bouton;
 
 
-    /* création de la vbox */
+    /* crÃ©ation de la vbox */
 
     onglet = gtk_vbox_new ( FALSE,
 			    10 );
@@ -191,7 +191,7 @@ GtkWidget *creation_verification_ventilation_echeances ( void )
     gtk_widget_show ( onglet );
 
 
-    /* création du titre "opération ventilée" */
+    /* crÃ©ation du titre "opÃ©ration ventilÃ©e" */
 
     frame = gtk_frame_new ( NULL );
     gtk_box_pack_start ( GTK_BOX ( onglet ),
@@ -207,7 +207,7 @@ GtkWidget *creation_verification_ventilation_echeances ( void )
     gtk_widget_show ( label );
 
 
-    /* création du tableau */
+    /* crÃ©ation du tableau */
 
     tableau = gtk_table_new ( 4,
 			      2,
@@ -374,7 +374,7 @@ GtkWidget *creation_verification_ventilation_echeances ( void )
 
 /*******************************************************************************************/
 /* Fonction creation_formulaire_ventilation_echeances */
-/* crée la fenetre qui contient e formulaire_echeancier pour la ventilation */
+/* crÃ©e la fenetre qui contient e formulaire_echeancier pour la ventilation */
 /*******************************************************************************************/
 
 GtkWidget *creation_formulaire_ventilation_echeances ( void )
@@ -385,11 +385,11 @@ GtkWidget *creation_formulaire_ventilation_echeances ( void )
     GtkWidget *bouton;
     GtkWidget *menu;
 
-    /* on crée le tooltips */
+    /* on crÃ©e le tooltips */
 
     tips = gtk_tooltips_new ();
 
-    /* création du formulaire_echeancier */
+    /* crÃ©ation du formulaire_echeancier */
 
     onglet = gtk_vbox_new ( FALSE,
 			    5 );
@@ -411,7 +411,7 @@ GtkWidget *creation_formulaire_ventilation_echeances ( void )
 			 0 );
     gtk_widget_show ( table );
 
-    /* mise en place des catégories */
+    /* mise en place des catÃ©gories */
 
     widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] = gtk_combofix_new_complex ( liste_categories_ventilation_combofix,
 									    FALSE,
@@ -475,7 +475,7 @@ GtkWidget *creation_formulaire_ventilation_echeances ( void )
 
 
 
-    /* mise en place du débit */
+    /* mise en place du dÃ©bit */
 
     widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] = gtk_entry_new ();
     gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] ),
@@ -503,7 +503,7 @@ GtkWidget *creation_formulaire_ventilation_echeances ( void )
     gtk_widget_show ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] );
 
 
-    /* mise en place du crédit */
+    /* mise en place du crÃ©dit */
 
     widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT] = gtk_entry_new ();
     gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT] ),
@@ -531,7 +531,7 @@ GtkWidget *creation_formulaire_ventilation_echeances ( void )
     gtk_widget_show ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT] );
 
 
-    /*  Affiche l'imputation budgétaire */
+    /*  Affiche l'imputation budgÃ©taire */
 
     widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY] = gtk_combofix_new_complex ( liste_imputations_combofix,
 									    FALSE,
@@ -571,8 +571,8 @@ GtkWidget *creation_formulaire_ventilation_echeances ( void )
 			       etat.utilise_imputation_budgetaire );
 
 
-    /* mise en place du type de l'opé associée en cas de virement */
-    /* non affiché au départ */
+    /* mise en place du type de l'opÃ© associÃ©e en cas de virement */
+    /* non affichÃ© au dÃ©part */
 
     widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] = gtk_option_menu_new ();
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
@@ -590,7 +590,7 @@ GtkWidget *creation_formulaire_ventilation_echeances ( void )
 		       GTK_SHRINK | GTK_FILL,
 		       0,0);
 
-    /* création du bouton de l'exo */
+    /* crÃ©ation du bouton de l'exo */
 
     widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_EXERCICE] = gtk_option_menu_new ();
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
@@ -615,7 +615,7 @@ GtkWidget *creation_formulaire_ventilation_echeances ( void )
     gtk_widget_set_sensitive ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_EXERCICE],
 			       etat.utilise_exercice );
 
-    /*   création de l'entrée du no de pièce comptable */
+    /*   crÃ©ation de l'entrÃ©e du no de piÃ¨ce comptable */
 
     widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_VOUCHER] = gtk_entry_new();
     gtk_table_attach ( GTK_TABLE (table),
@@ -645,7 +645,7 @@ GtkWidget *creation_formulaire_ventilation_echeances ( void )
     gtk_widget_set_sensitive ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_VOUCHER],
 			       etat.utilise_piece_comptable );
 
-    /* séparation d'avec les boutons */
+    /* sÃ©paration d'avec les boutons */
 
     separateur_formulaire_ventilations_echeances = gtk_hseparator_new ();
     gtk_box_pack_start ( GTK_BOX ( onglet ),
@@ -698,7 +698,7 @@ GtkWidget *creation_formulaire_ventilation_echeances ( void )
     gtk_widget_show ( bouton );
 
 
-    /*   met l'adr de l'opé dans le formulaire_echeancier à -1 */
+    /*   met l'adr de l'opÃ© dans le formulaire_echeancier Ã  -1 */
 
     gtk_object_set_data ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ),
 			  "adr_struct_ope",
@@ -716,7 +716,7 @@ GtkWidget *creation_formulaire_ventilation_echeances ( void )
 gboolean clique_champ_formulaire_ventilation_echeances ( void )
 {
 
-    /* on rend sensitif tout ce qui ne l'était pas sur le formulaire_echeancier */
+    /* on rend sensitif tout ce qui ne l'Ã©tait pas sur le formulaire_echeancier */
 
     gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] ),
 			       TRUE );
@@ -733,7 +733,7 @@ gboolean clique_champ_formulaire_ventilation_echeances ( void )
 
 
 /***********************************************************************************************************/
-/* Fonction appelée quand une entry perd le focus */
+/* Fonction appelÃ©e quand une entry perd le focus */
 /* si elle ne contient rien, on remet la fonction en gris */
 /***********************************************************************************************************/
 
@@ -746,12 +746,12 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 
     switch ( GPOINTER_TO_INT ( no_origine ))
     {
-	/* on sort des catégories */
+	/* on sort des catÃ©gories */
 	case SCHEDULER_BREAKDOWN_FORM_CATEGORY :
 	    if ( strlen ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	    {
 		/* si c'est un virement, on met le menu des types de l'autre compte */
-		/* si ce menu n'est pas déjà affiché */
+		/* si ce menu n'est pas dÃ©jÃ  affichÃ© */
 
 		gchar **tableau_char;
 
@@ -772,7 +772,7 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 			 && tableau_char[1]
 			 && strlen ( tableau_char[1]) )
 		    {
-			/* c'est un virement : on recherche le compte associé et on affiche les types de paiement */
+			/* c'est un virement : on recherche le compte associÃ© et on affiche les types de paiement */
 
 			gint i;
 
@@ -795,14 +795,14 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 				p_tab_nom_de_compte_variable++;
 			    }
 
-			    /* si on a touvé un compte de virement, que celui ci n'est pas le compte */
-			    /* courant et que son menu des types n'est pas encore affiché, on crée le menu */
+			    /* si on a touvÃ© un compte de virement, que celui ci n'est pas le compte */
+			    /* courant et que son menu des types n'est pas encore affichÃ©, on crÃ©e le menu */
 
 			    if ( compte_virement != -1
 				 &&
 				 compte_virement != compte_courant )
 			    {
-				/* si le menu affiché est déjà celui du compte de virement, on n'y touche pas */
+				/* si le menu affichÃ© est dÃ©jÃ  celui du compte de virement, on n'y touche pas */
 
 				if ( !GTK_WIDGET_VISIBLE ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] )
 				     ||
@@ -811,18 +811,18 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 				       !=
 				       compte_virement ))
 				{
-				    /* vérifie quel est le montant entré, affiche les types opposés de l'autre compte */
+				    /* vÃ©rifie quel est le montant entrÃ©, affiche les types opposÃ©s de l'autre compte */
 
 				    GtkWidget *menu;
 
 				    if ( gtk_widget_get_style ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY] ) == style_entree_formulaire[ENCLAIR] )
-					/* il y a un montant dans le crédit */
+					/* il y a un montant dans le crÃ©dit */
 					menu = creation_menu_types ( 1, compte_virement, 2  );
 				    else
-					/* il y a un montant dans le débit ou défaut */
+					/* il y a un montant dans le dÃ©bit ou dÃ©faut */
 					menu = creation_menu_types ( 2, compte_virement, 2  );
 
-				    /* si un menu à été créé, on l'affiche */
+				    /* si un menu Ã  Ã©tÃ© crÃ©Ã©, on l'affiche */
 
 				    if ( menu )
 				    {
@@ -832,7 +832,7 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 				    }
 
 				    /* on associe le no de compte de virement au formulaire_echeancier pour le retrouver */
-				    /* rapidement s'il y a un chgt débit/crédit */
+				    /* rapidement s'il y a un chgt dÃ©bit/crÃ©dit */
 
 				    gtk_object_set_data ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] ),
 							  "compte_virement",
@@ -864,7 +864,7 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 		texte = _("Notes");
 	    break;
 
-	    /* sort du débit */
+	    /* sort du dÃ©bit */
 	    /*   soit vide, soit change le menu des types s'il ne correspond pas */
 
 	case SCHEDULER_BREAKDOWN_FORM_DEBIT :
@@ -873,7 +873,7 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 		 &&
 		 gtk_widget_get_style ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
 	    {
-		/* on  commence par virer ce qu'il y avait dans les crédits */
+		/* on  commence par virer ce qu'il y avait dans les crÃ©dits */
 
 		if ( gtk_widget_get_style ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT] ) == style_entree_formulaire[ENCLAIR] )
 		{
@@ -885,8 +885,8 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 					 _("Credit") );
 		}
 
-		/* comme il y a eu un changement de signe, on change aussi le type de l'opé associée */
-		/* s'il est affiché */
+		/* comme il y a eu un changement de signe, on change aussi le type de l'opÃ© associÃ©e */
+		/* s'il est affichÃ© */
 
 		if ( GTK_WIDGET_VISIBLE ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] )
 		     &&
@@ -913,14 +913,14 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 		texte = _("Debit");
 	    break;
 
-	    /* sort du crédit */
+	    /* sort du crÃ©dit */
 
 	case SCHEDULER_BREAKDOWN_FORM_CREDIT :
 	    if ( strlen ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree ))))
 		 &&
 		 gtk_widget_get_style ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT] ) == style_entree_formulaire[ENCLAIR])
 	    {
-		/* on  commence par virer ce qu'il y avait dans les débits */
+		/* on  commence par virer ce qu'il y avait dans les dÃ©bits */
 
 		if ( gtk_widget_get_style ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
 		{
@@ -932,8 +932,8 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 					 _("Debit") );
 		}
 
-		/* comme il y a eu un changement de signe, on change aussi le type de l'opé associée */
-		/* s'il est affiché */
+		/* comme il y a eu un changement de signe, on change aussi le type de l'opÃ© associÃ©e */
+		/* s'il est affichÃ© */
 
 		if ( GTK_WIDGET_VISIBLE ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] )
 		     &&
@@ -967,7 +967,7 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 		texte = _("Budgetary line");
 	    break;
 
-	    /* sort de la pièce comptable */
+	    /* sort de la piÃ¨ce comptable */
 
 	case SCHEDULER_BREAKDOWN_FORM_VOUCHER :
 	    if ( !strlen ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
@@ -977,7 +977,7 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
     }
 
 
-    /* l'entrée était vide, on remet le défaut */
+    /* l'entrÃ©e Ã©tait vide, on remet le dÃ©faut */
 
     if ( texte )
     {
@@ -996,19 +996,19 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 
 /*******************************************************************************************/
 /* Fonction ventiler_operation_echeances */
-/* appelée lorsque la catégorie est Ventilation lors de l'enregistrement d'une opé */
-/* ou lors d'une modif d'une opé ventilée */
-/* Arguments : montant de l'opé */
+/* appelÃ©e lorsque la catÃ©gorie est Ventilation lors de l'enregistrement d'une opÃ© */
+/* ou lors d'une modif d'une opÃ© ventilÃ©e */
+/* Arguments : montant de l'opÃ© */
 /*******************************************************************************************/
 
 void ventiler_operation_echeances ( gdouble montant )
 {
-    /*   si liste_ope est NULL, c'est une nouvelle opé, les ventils ne peuvent être associées */
-    /* à un no d'opé, on les met donc à -1 */
-    /* si c'est != NULL, c'est que c'était déjà une ventilation, et on a appuyé sur voir pour */
+    /*   si liste_ope est NULL, c'est une nouvelle opÃ©, les ventils ne peuvent Ãªtre associÃ©es */
+    /* Ã  un no d'opÃ©, on les met donc Ã  -1 */
+    /* si c'est != NULL, c'est que c'Ã©tait dÃ©jÃ  une ventilation, et on a appuyÃ© sur voir pour */
     /* arriver ici */
 
-    /* on commence par mettre la taille au formulaire_echeancier et à la liste */
+    /* on commence par mettre la taille au formulaire_echeancier et Ã  la liste */
 
     ancienne_largeur_ventilation_echeances = 0;
     changement_taille_liste_ventilation_echeances  ( liste_echeances_ventilees,
@@ -1030,14 +1030,14 @@ void ventiler_operation_echeances ( gdouble montant )
 							  ligne_selectionnee_ventilation_echeances ),
 			   0 );
 
-    /* met à jour les labels */
+    /* met Ã  jour les labels */
 
     gtk_label_set_text ( GTK_LABEL ( label_somme_ventilee_echeances_echeances ),
 			 g_strdup_printf ( "%4.2f",
 					   somme_ventilee_echeances ) );
 
 
-    /*   s'il n'y a pas de montant total, celui ci = la somme ventilée */
+    /*   s'il n'y a pas de montant total, celui ci = la somme ventilÃ©e */
 
     if ( montant_operation_ventilee_echeances )
     {
@@ -1062,7 +1062,7 @@ void ventiler_operation_echeances ( gdouble montant )
 
 
     /* bloque les fonctions */
-    /* qui modifient la position dans la liste des opés */
+    /* qui modifient la position dans la liste des opÃ©s */
 
     /*     gtk_signal_handler_block_by_func ( GTK_OBJECT ( frame_droite_bas ), */
     /* 				       GTK_SIGNAL_FUNC(allocation_taille_formulaire), */
@@ -1107,8 +1107,8 @@ void ventiler_operation_echeances ( gdouble montant )
 
 /* ***************************************************************************************************** */
 /* Fonction changement_taille_liste_ventilation_echeances  */
-/* appelée dès que la taille de la clist a changé */
-/* pour mettre la taille des différentes colonnes */
+/* appelÃ©e dÃ¨s que la taille de la clist a changÃ© */
+/* pour mettre la taille des diffÃ©rentes colonnes */
 /* ***************************************************************************************************** */
 
 void changement_taille_liste_ventilation_echeances  ( GtkWidget *clist,
@@ -1145,13 +1145,13 @@ void changement_taille_liste_ventilation_echeances  ( GtkWidget *clist,
 				 2,
 				 montant );
 
-    /* met les entrées du formulaire_echeancier à la même taille */
+    /* met les entrÃ©es du formulaire_echeancier Ã  la mÃªme taille */
 
     col0 = largeur * 32  / 100;
     col1 = largeur * 32  / 100;
     col2 = largeur * 15  / 100;
 
-    /* 1ère ligne */
+    /* 1Ã¨re ligne */
 
     gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ),
 			   col0,
@@ -1166,7 +1166,7 @@ void changement_taille_liste_ventilation_echeances  ( GtkWidget *clist,
 			   col2,
 			   FALSE );
 
-    /* 2ème ligne */
+    /* 2Ã¨me ligne */
 
     gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY] ),
 			   col0,
@@ -1189,7 +1189,7 @@ void changement_taille_liste_ventilation_echeances  ( GtkWidget *clist,
 
 /***************************************************************************************************/
 /* Fonction traitement_clavier_liste */
-/* gère le clavier sur la clist */
+/* gÃ¨re le clavier sur la clist */
 /***************************************************************************************************/
 
 gboolean traitement_clavier_liste_ventilation_echeances ( GtkCList *liste,
@@ -1206,14 +1206,14 @@ gboolean traitement_clavier_liste_ventilation_echeances ( GtkCList *liste,
 
     switch ( evenement->keyval )
     {
-	/* entrée */
+	/* entrÃ©e */
 	case GDK_KP_Enter:
 	case GDK_Return:
 
 	    edition_operation_ventilation_echeances ();
 	    break;
 
-	case GDK_Up :		/* touches flèche haut */
+	case GDK_Up :		/* touches flÃ¨che haut */
 	case GDK_KP_Up :
 
 	    ligne = gtk_clist_find_row_from_data ( GTK_CLIST ( liste ),
@@ -1235,7 +1235,7 @@ gboolean traitement_clavier_liste_ventilation_echeances ( GtkCList *liste,
 	    break;
 
 
-	case GDK_Down :		/* touches flèche bas */
+	case GDK_Down :		/* touches flÃ¨che bas */
 	case GDK_KP_Down :
 
 	    if ( ligne_selectionnee_ventilation_echeances != GINT_TO_POINTER ( -1 ) )
@@ -1287,7 +1287,7 @@ gboolean traitement_clavier_liste_ventilation_echeances ( GtkCList *liste,
 
 /***************************************************************************************************/
 /* Fonction selectionne_ligne_souris */
-/* place la sélection sur l'opé clickée */
+/* place la sÃ©lection sur l'opÃ© clickÃ©e */
 /***************************************************************************************************/
 
 void selectionne_ligne_souris_ventilation_echeances ( GtkCList *liste,
@@ -1301,7 +1301,7 @@ void selectionne_ligne_souris_ventilation_echeances ( GtkCList *liste,
 				   "button_press_event");
 
 
-    /* Récupération des coordonnées de la souris */
+    /* RÃ©cupÃ©ration des coordonnÃ©es de la souris */
 
     gdk_window_get_pointer ( GTK_CLIST ( liste ) -> clist_window,
 			     &x,
@@ -1318,7 +1318,7 @@ void selectionne_ligne_souris_ventilation_echeances ( GtkCList *liste,
 				   ligne ) )
 	return;
 
-    /*   vire l'ancienne sélection */
+    /*   vire l'ancienne sÃ©lection */
 
     gtk_clist_unselect_all ( GTK_CLIST ( liste ) );
 
@@ -1343,7 +1343,7 @@ void selectionne_ligne_souris_ventilation_echeances ( GtkCList *liste,
 
 /***********************************************************************************************************/
 /* Fonction appui_touche_ventilation_echeances  */
-/* gére l'action du clavier sur les entrées du formulaire_echeancier de ventilation */
+/* gÃ©re l'action du clavier sur les entrÃ©es du formulaire_echeancier de ventilation */
 /***********************************************************************************************************/
 gboolean appui_touche_ventilation_echeances ( GtkWidget *entree, GdkEventKey *evenement,
 					      gint *no_origine )
@@ -1352,17 +1352,17 @@ gboolean appui_touche_ventilation_echeances ( GtkWidget *entree, GdkEventKey *ev
 
     origine = GPOINTER_TO_INT ( no_origine );
 
-    /*   si etat.entree = 1, la touche entrée finit l'opération (
-	 fonction par défaut ) sinon elle fait comme tab */
+    /*   si etat.entree = 1, la touche entrÃ©e finit l'opÃ©ration (
+	 fonction par dÃ©faut ) sinon elle fait comme tab */
 
     if ( !etat.entree && ( evenement -> keyval == GDK_Return || evenement -> keyval == GDK_KP_Enter ))
 	evenement->keyval = GDK_Tab ;
 
     switch (evenement->keyval)
     {
-	case GDK_Down :		/* touches flèche bas */
+	case GDK_Down :		/* touches flÃ¨che bas */
 	case GDK_KP_Down :
-	case GDK_Up :		/* touches flèche haut */
+	case GDK_Up :		/* touches flÃ¨che haut */
 	case GDK_KP_Up :
 
 	    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( entree ),
@@ -1376,7 +1376,7 @@ gboolean appui_touche_ventilation_echeances ( GtkWidget *entree, GdkEventKey *ev
 	    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( entree ),
 					   "key_press_event");
 
-	    /* on efface la sélection en cours si c'est une entrée ou un combofix */
+	    /* on efface la sÃ©lection en cours si c'est une entrÃ©e ou un combofix */
 
 	    if ( GTK_IS_ENTRY ( entree ))
 		gtk_entry_select_region ( GTK_ENTRY ( entree ), 0, 0);
@@ -1400,7 +1400,7 @@ gboolean appui_touche_ventilation_echeances ( GtkWidget *entree, GdkEventKey *ev
 			GTK_IS_BUTTON ( widget_formulaire_ventilation_echeances[origine] ) )))
 		origine = (origine + 1 ) % SCHEDULER_BREAKDOWN_FORM_TOTAL_WIDGET;
 
-	    /*       si on se retrouve sur les catég et que etat.entree = 0, on enregistre l'opérations */
+	    /*       si on se retrouve sur les catÃ©g et que etat.entree = 0, on enregistre l'opÃ©rations */
 
 	    if ( !origine && !etat.entree )
 	    {
@@ -1408,15 +1408,15 @@ gboolean appui_touche_ventilation_echeances ( GtkWidget *entree, GdkEventKey *ev
 		return(FALSE);
 	    }
 
-	    /* si on se retrouve sur le crédit et qu'il y a qque chose dans le débit, on passe au suivant */
-	    /*       à ce niveau, il n'y a pas eu encore de focus out donc on peut tester par strlen */
+	    /* si on se retrouve sur le crÃ©dit et qu'il y a qque chose dans le dÃ©bit, on passe au suivant */
+	    /*       Ã  ce niveau, il n'y a pas eu encore de focus out donc on peut tester par strlen */
 
 	    if ( origine == SCHEDULER_BREAKDOWN_FORM_CREDIT
 		 &&
 		 strlen ( (char *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] ))))
 		origine = (origine + 1 ) % SCHEDULER_BREAKDOWN_FORM_TOTAL_WIDGET;
 
-	    /* on sélectionne le contenu de la nouvelle entrée */
+	    /* on sÃ©lectionne le contenu de la nouvelle entrÃ©e */
 
 	    if ( GTK_IS_COMBOFIX ( widget_formulaire_ventilation_echeances[origine] ) )
 	    {
@@ -1467,7 +1467,7 @@ gboolean appui_touche_ventilation_echeances ( GtkWidget *entree, GdkEventKey *ev
 void echap_formulaire_ventilation_echeances ( void )
 {
 
-    /* on met les styles des entrées au gris */
+    /* on met les styles des entrÃ©es au gris */
 
     gtk_widget_set_style ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] )->entry,
 			   style_entree_formulaire[ENGRIS] );
@@ -1514,7 +1514,7 @@ void echap_formulaire_ventilation_echeances ( void )
 
     gtk_widget_hide ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] );
 
-    /*   met l'adr de l'opé dans le formulaire_echeancier à -1 */
+    /*   met l'adr de l'opÃ© dans le formulaire_echeancier Ã  -1 */
 
     gtk_object_set_data ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ),
 			  "adr_struct_ope",
@@ -1537,33 +1537,33 @@ void fin_edition_ventilation_echeances ( void )
     gint compte_vire;
     gint perte_ligne_selectionnee;
 
-    /* pour éviter les warnings lors de la compil */
+    /* pour Ã©viter les warnings lors de la compil */
 
     compte_vire = 0;
     tableau_char = NULL;
 
-    /* on met le focus sur la liste des opés pour éventuellement faire perdre le focus aux entrées des */
-    /* montants pour faire les modifs nécessaires automatiquement */
+    /* on met le focus sur la liste des opÃ©s pour Ã©ventuellement faire perdre le focus aux entrÃ©es des */
+    /* montants pour faire les modifs nÃ©cessaires automatiquement */
 
     gtk_window_set_focus ( GTK_WINDOW ( window ),
 			   liste_echeances_ventilees );
 
-    /* perte ligne sélectionnée sera à 1 s'il y a une magouille avec les virements et */
-    /* qu'on recrée une opé au lieu de la modifier. dans ce cas on remettra la ligne */
-    /* sélectionné sur la nouvelle opé */
+    /* perte ligne sÃ©lectionnÃ©e sera Ã  1 s'il y a une magouille avec les virements et */
+    /* qu'on recrÃ©e une opÃ© au lieu de la modifier. dans ce cas on remettra la ligne */
+    /* sÃ©lectionnÃ© sur la nouvelle opÃ© */
 
     perte_ligne_selectionnee = 0;
 
-    /*   dans cette fonction, on récupère les infos du formulaire_echeancier qu'on met dans une structure */
-    /* de ventilation, et on ajoute cette structure à celle en cours (ou modifie si elle existait */
-    /* déjà */
+    /*   dans cette fonction, on rÃ©cupÃ¨re les infos du formulaire_echeancier qu'on met dans une structure */
+    /* de ventilation, et on ajoute cette structure Ã  celle en cours (ou modifie si elle existait */
+    /* dÃ©jÃ  */
 
-    /* on vérifie si c'est un virement que le compte est valide et que ce n'est pas un virement sur lui-même */
+    /* on vÃ©rifie si c'est un virement que le compte est valide et que ce n'est pas un virement sur lui-mÃªme */
 
 
     if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
     {
-	/*       on split déjà les catég, sans libérer la variable, pour la récupérer ensuite pour les categ */
+	/*       on split dÃ©jÃ  les catÃ©g, sans libÃ©rer la variable, pour la rÃ©cupÃ©rer ensuite pour les categ */
 
 	tableau_char = g_strsplit ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ))),
 				    ":",
@@ -1617,7 +1617,7 @@ void fin_edition_ventilation_echeances ( void )
     }
 
 
-    /*   on récupère l'adresse de l'opération, soit c'est une modif, soit c'est une nouvelle (-1) */
+    /*   on rÃ©cupÃ¨re l'adresse de l'opÃ©ration, soit c'est une modif, soit c'est une nouvelle (-1) */
 
     operation = gtk_object_get_data ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ),
 				      "adr_struct_ope" );
@@ -1633,19 +1633,19 @@ void fin_edition_ventilation_echeances ( void )
 	modification = 1;
 
 
-    /*   récupération des catégories / sous-catég, s'ils n'existent pas, on les crée */
-    /* la variable tableau_char est déjà initialisée lors des tests du virement */
+    /*   rÃ©cupÃ©ration des catÃ©gories / sous-catÃ©g, s'ils n'existent pas, on les crÃ©e */
+    /* la variable tableau_char est dÃ©jÃ  initialisÃ©e lors des tests du virement */
 
-    /*   il y a 3 possibilités en rapport avec les virements : */
-    /* si l'ancienne opé était un virement, la nouvelle est : */
-    /* soit virement vers le même compte */
+    /*   il y a 3 possibilitÃ©s en rapport avec les virements : */
+    /* si l'ancienne opÃ© Ã©tait un virement, la nouvelle est : */
+    /* soit virement vers le mÃªme compte */
     /* soit virement vers un autre compte */
     /* soit ce n'est plus un virement */
-    /*     pour la 1ère, c'est une modif normale d'opé */
-    /*     pour les 2nde et 3ème, on supprime cette opé et en recrée une nouvelle */
+    /*     pour la 1Ã¨re, c'est une modif normale d'opÃ© */
+    /*     pour les 2nde et 3Ã¨me, on supprime cette opÃ© et en recrÃ©e une nouvelle */
 
-    /* il faut donc mettre la récup des catég en premier car il peut y avoir un changement au niveau des */
-    /* modif avec suppression de l'ancienne et création d'une nouvelle ope */
+    /* il faut donc mettre la rÃ©cup des catÃ©g en premier car il peut y avoir un changement au niveau des */
+    /* modif avec suppression de l'ancienne et crÃ©ation d'une nouvelle ope */
 
     if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
     {
@@ -1653,17 +1653,17 @@ void fin_edition_ventilation_echeances ( void )
 
 	if ( strlen ( tableau_char[0] ) )
 	{
-	    /* on vérifie ici si c'est un virement */
+	    /* on vÃ©rifie ici si c'est un virement */
 
 	    if ( strcmp ( tableau_char[0],
 			  _("Transfer") ) )
 	    {
-		/* ce n'est pas un virement, recherche les catég */
+		/* ce n'est pas un virement, recherche les catÃ©g */
 
 		GSList *pointeur_liste;
 
-		/* si c'est une modif d'opé et que l'ancienne opé était un virement */
-		/* on marque cette opé comme supprimée et on en fait une nouvelle */
+		/* si c'est une modif d'opÃ© et que l'ancienne opÃ© Ã©tait un virement */
+		/* on marque cette opÃ© comme supprimÃ©e et on en fait une nouvelle */
 
 		if ( modification
 		     &&
@@ -1676,7 +1676,7 @@ void fin_edition_ventilation_echeances ( void )
 		    perte_ligne_selectionnee = 1;
 		}
 
-		/* recherche des catégories */
+		/* recherche des catÃ©gories */
 
 		pointeur_liste = g_slist_find_custom ( liste_struct_categories,
 						       tableau_char[0],
@@ -1718,13 +1718,13 @@ void fin_edition_ventilation_echeances ( void )
 	    {
 		/* c'est un virement */
 
-		/* si c'est une nouvelle opé, on est content et on prend juste le compte de virement */
-		/* si c'est une modif d'opé et que l'ancienne n'était pas un virement, idem */
-		/* si l'ancienne était un virement vers le même compte, idem */
-		/* si l'ancienne était un virement vers un autre compte, c'est qu'on cherche les bugs ... */
-		/* dans ce cas, on marque l'opé comme supprimée et on en recrée une nouvelle */
+		/* si c'est une nouvelle opÃ©, on est content et on prend juste le compte de virement */
+		/* si c'est une modif d'opÃ© et que l'ancienne n'Ã©tait pas un virement, idem */
+		/* si l'ancienne Ã©tait un virement vers le mÃªme compte, idem */
+		/* si l'ancienne Ã©tait un virement vers un autre compte, c'est qu'on cherche les bugs ... */
+		/* dans ce cas, on marque l'opÃ© comme supprimÃ©e et on en recrÃ©e une nouvelle */
 
-		/* le no de compte du virement est déjà dans compte_vire */
+		/* le no de compte du virement est dÃ©jÃ  dans compte_vire */
 
 		if ( modification
 		     &&
@@ -1732,7 +1732,7 @@ void fin_edition_ventilation_echeances ( void )
 		     &&
 		     operation -> relation_no_compte != compte_vire )
 		{
-		    /* on supprime donc l'opé et en crée une nouvelle */
+		    /* on supprime donc l'opÃ© et en crÃ©e une nouvelle */
 
 		    operation -> supprime = 1;
 		    operation = calloc ( 1,
@@ -1741,12 +1741,12 @@ void fin_edition_ventilation_echeances ( void )
 		    perte_ligne_selectionnee = 1;
 		}
 
-		/* on met les no de categ à 0 */
+		/* on met les no de categ Ã  0 */
 
 		operation -> categorie = 0;
 		operation -> sous_categorie = 0;
 
-		/* on met le compte en relation si c'est une nouvelle opération */
+		/* on met le compte en relation si c'est une nouvelle opÃ©ration */
 
 		if ( !modification )
 		    operation -> relation_no_operation = -1;
@@ -1754,14 +1754,14 @@ void fin_edition_ventilation_echeances ( void )
 		operation -> relation_no_compte = compte_vire;
 	    }
 	}
-	/*       on peut maintenant libérer la variable tableau_char, qui ne sera plus utilisée */
+	/*       on peut maintenant libÃ©rer la variable tableau_char, qui ne sera plus utilisÃ©e */
 
 	g_strfreev ( tableau_char );
     }
     else
     {
-	/* il n'y a aucune catég, si c'est une modif d'opé et que cette opé était un virement, */
-	/* on marque cette opé comme supprimée et on en recrée une nouvelle */
+	/* il n'y a aucune catÃ©g, si c'est une modif d'opÃ© et que cette opÃ© Ã©tait un virement, */
+	/* on marque cette opÃ© comme supprimÃ©e et on en recrÃ©e une nouvelle */
 
 	if ( modification
 	     &&
@@ -1775,13 +1775,13 @@ void fin_edition_ventilation_echeances ( void )
 	}
     }
 
-    /* récupération du type d'opé associée s'il est affiché */
+    /* rÃ©cupÃ©ration du type d'opÃ© associÃ©e s'il est affichÃ© */
 
     if ( GTK_WIDGET_VISIBLE ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] ))
 	operation -> no_type_associe = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] ) -> menu_item ),
 									       "no_type" ));
 
-    /* récupération des notes */
+    /* rÃ©cupÃ©ration des notes */
 
     if ( gtk_widget_get_style ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_NOTES] ) == style_entree_formulaire[ENCLAIR] )
 	operation -> notes = g_strdup ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_NOTES] ))));
@@ -1789,10 +1789,10 @@ void fin_edition_ventilation_echeances ( void )
 	operation -> notes = NULL;
 
 
-    /* récupération du montant */
+    /* rÃ©cupÃ©ration du montant */
 
     if ( gtk_widget_get_style ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
-	/* c'est un débit */
+	/* c'est un dÃ©bit */
 	operation -> montant = -my_strtod ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] ))),
 					    NULL );
     else
@@ -1801,7 +1801,7 @@ void fin_edition_ventilation_echeances ( void )
 
 
 
-    /* récupération de l'imputation budgétaire */
+    /* rÃ©cupÃ©ration de l'imputation budgÃ©taire */
 
     if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
     {
@@ -1858,10 +1858,10 @@ void fin_edition_ventilation_echeances ( void )
 	g_strfreev ( tableau_char );
     }
 
-    /* récupération de l'exercice */
-    /* si l'exo est à -1, c'est que c'est sur non affiché */
-    /* soit c'est une modif d'opé et on touche pas à l'exo */
-    /* soit c'est une nouvelle opé et on met l'exo à 0 */
+    /* rÃ©cupÃ©ration de l'exercice */
+    /* si l'exo est Ã  -1, c'est que c'est sur non affichÃ© */
+    /* soit c'est une modif d'opÃ© et on touche pas Ã  l'exo */
+    /* soit c'est une nouvelle opÃ© et on met l'exo Ã  0 */
 
     if ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_EXERCICE] ) -> menu_item ),
 						 "no_exercice" )) == -1 )
@@ -1874,7 +1874,7 @@ void fin_edition_ventilation_echeances ( void )
 									   "no_exercice" ));
 
 
-    /* récupération du no de pièce comptable */
+    /* rÃ©cupÃ©ration du no de piÃ¨ce comptable */
 
     if ( gtk_widget_get_style ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_VOUCHER] ) == style_entree_formulaire[ENCLAIR] )
 	operation -> no_piece_comptable = g_strdup ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_VOUCHER] ))));
@@ -1883,25 +1883,25 @@ void fin_edition_ventilation_echeances ( void )
 
 
 
-    /* on a rempli l'opération, on l'ajoute à la liste */
+    /* on a rempli l'opÃ©ration, on l'ajoute Ã  la liste */
     /* si c'est pas une modif */
 
     if ( !modification )
     {
 	GSList *liste_struct_ventilations;
 
-	/* récupération de la liste de ventilations */
+	/* rÃ©cupÃ©ration de la liste de ventilations */
 
 	liste_struct_ventilations = gtk_object_get_data ( GTK_OBJECT ( formulaire_echeancier ),
 							  "liste_adr_ventilation" );
 
-	/*   si cette liste est à -1 (ce qui veut dire qu'elle est nulle en réalité mais */
-	/* qu'elle a déjà été éditée ), on la met à 0 */
+	/*   si cette liste est Ã  -1 (ce qui veut dire qu'elle est nulle en rÃ©alitÃ© mais */
+	/* qu'elle a dÃ©jÃ  Ã©tÃ© Ã©ditÃ©e ), on la met Ã  0 */
 
 	if ( liste_struct_ventilations == GINT_TO_POINTER ( -1 ))
 	    liste_struct_ventilations = NULL;
 
-	/* on ajoute l'opé */
+	/* on ajoute l'opÃ© */
 
 	liste_struct_ventilations = g_slist_append ( liste_struct_ventilations,
 						     operation );
@@ -1912,9 +1912,9 @@ void fin_edition_ventilation_echeances ( void )
     }
 
 
-    /*   si perte_ligne_selectionnee = 1, c'est qu'au lieu de modifier une opé (virement), on l'a */
-    /* effacé puis recréé une nouvelle. comme ça se fait que lors d'une modif d'opé, on remet */
-    /* la selection sur cette nouvelle opé */
+    /*   si perte_ligne_selectionnee = 1, c'est qu'au lieu de modifier une opÃ© (virement), on l'a */
+    /* effacÃ© puis recrÃ©Ã© une nouvelle. comme Ã§a se fait que lors d'une modif d'opÃ©, on remet */
+    /* la selection sur cette nouvelle opÃ© */
 
     if ( perte_ligne_selectionnee == 1 )
 	ligne_selectionnee_ventilation_echeances = operation;
@@ -1923,11 +1923,11 @@ void fin_edition_ventilation_echeances ( void )
     mise_a_jour_categ ();
     mise_a_jour_imputation ();
 
-    /* on met à jour la liste des ventilations */
+    /* on met Ã  jour la liste des ventilations */
 
     affiche_liste_ventilation_echeances ();
 
-    /* efface le formulaire_echeancier et prépare l'opé suivante */
+    /* efface le formulaire_echeancier et prÃ©pare l'opÃ© suivante */
 
     echap_formulaire_ventilation_echeances ();
 
@@ -1947,7 +1947,7 @@ void fin_edition_ventilation_echeances ( void )
 
 /***********************************************************************************************************/
 /* Fonction edition_operation_ventilation_echeances */
-/* appelé lors d'un double click ou entrée sur une opé de ventilation */
+/* appelÃ© lors d'un double click ou entrÃ©e sur une opÃ© de ventilation */
 /***********************************************************************************************************/
 
 void edition_operation_ventilation_echeances ( void )
@@ -1955,13 +1955,13 @@ void edition_operation_ventilation_echeances ( void )
     struct struct_ope_ventil *operation;
     GSList *liste_tmp;
 
-    /* on récupère la struc de l'opé de ventil, ou -1 si c'est une nouvelle */
+    /* on rÃ©cupÃ¨re la struc de l'opÃ© de ventil, ou -1 si c'est une nouvelle */
 
     operation = ligne_selectionnee_ventilation_echeances;
 
     echap_formulaire_ventilation_echeances ();
 
-    /* dégrise ce qui est nécessaire */
+    /* dÃ©grise ce qui est nÃ©cessaire */
 
     clique_champ_formulaire_ventilation_echeances ();
 
@@ -1969,7 +1969,7 @@ void edition_operation_ventilation_echeances ( void )
 			  "adr_struct_ope",
 			  operation );
 
-    /* si l'opé est -1, c'est que c'est une nouvelle opé */
+    /* si l'opÃ© est -1, c'est que c'est une nouvelle opÃ© */
 
     if ( operation == GINT_TO_POINTER ( -1 ) )
     {
@@ -1978,7 +1978,7 @@ void edition_operation_ventilation_echeances ( void )
     }
 
 
-    /*   l'opé n'est pas -1, c'est une modif, on remplit les champs */
+    /*   l'opÃ© n'est pas -1, c'est une modif, on remplit les champs */
 
     gtk_object_set_data ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ),
 			  "adr_struct_ope",
@@ -2002,7 +2002,7 @@ void edition_operation_ventilation_echeances ( void )
     }
 
 
-    /* mise en forme des catégories */
+    /* mise en forme des catÃ©gories */
 
     if ( operation -> relation_no_operation )
     {
@@ -2019,7 +2019,7 @@ void edition_operation_ventilation_echeances ( void )
 					      NOM_DU_COMPTE,
 					      NULL ));
 
-	/* on met le type de l'opé associée */
+	/* on met le type de l'opÃ© associÃ©e */
 
 	if ( operation -> montant < 0 )
 	    menu = creation_menu_types ( 2,
@@ -2081,7 +2081,7 @@ void edition_operation_ventilation_echeances ( void )
     }
 
 
-    /* met en place l'imputation budgétaire */
+    /* met en place l'imputation budgÃ©taire */
 
     liste_tmp = g_slist_find_custom ( liste_struct_imputation,
 				      GINT_TO_POINTER ( operation -> imputation ),
@@ -2114,7 +2114,7 @@ void edition_operation_ventilation_echeances ( void )
 				   cherche_no_menu_exercice ( operation -> no_exercice,
 							      widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_EXERCICE] ));
 
-    /* mise en place de la pièce comptable */
+    /* mise en place de la piÃ¨ce comptable */
 
     if ( operation -> no_piece_comptable )
     {
@@ -2124,7 +2124,7 @@ void edition_operation_ventilation_echeances ( void )
     }
 
 
-    /*   on a fini de remplir le formulaire, on donne le focus à la date */
+    /*   on a fini de remplir le formulaire, on donne le focus Ã  la date */
 
     if ( GTK_WIDGET_SENSITIVE ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ))
     {
@@ -2178,14 +2178,14 @@ void supprime_operation_ventilation_echeances ( void )
 			      "liste_adr_ventilation",
 			      liste_struct_ventilations );
     }
-    /*   si la sélection est sur l'opé qu'on supprime, on met la sélection sur celle du dessous */
+    /*   si la sÃ©lection est sur l'opÃ© qu'on supprime, on met la sÃ©lection sur celle du dessous */
 
     ligne = gtk_clist_find_row_from_data ( GTK_CLIST ( liste_echeances_ventilees ),
 					   operation );
     ligne_selectionnee_ventilation_echeances = gtk_clist_get_row_data ( GTK_CLIST ( liste_echeances_ventilees ),
 									ligne + 1 );
 
-    /* supprime l'opération de la liste */
+    /* supprime l'opÃ©ration de la liste */
 
     gtk_clist_remove ( GTK_CLIST ( liste_echeances_ventilees ),
 		       ligne );
@@ -2201,7 +2201,7 @@ void supprime_operation_ventilation_echeances ( void )
 
 /***********************************************************************************************************/
 /* Fonction affiche_liste_ventilation_echeances */
-/* récupère la liste des struct d'opé de ventil sur le formulaire_echeancier et affiche ces opés */
+/* rÃ©cupÃ¨re la liste des struct d'opÃ© de ventil sur le formulaire_echeancier et affiche ces opÃ©s */
 /***********************************************************************************************************/
 
 void affiche_liste_ventilation_echeances ( void )
@@ -2217,7 +2217,7 @@ void affiche_liste_ventilation_echeances ( void )
 
     gtk_clist_clear ( GTK_CLIST ( liste_echeances_ventilees ) );
 
-    /* récupère la liste des struct_ope_ventil */
+    /* rÃ©cupÃ¨re la liste des struct_ope_ventil */
 
     liste_tmp = gtk_object_get_data ( GTK_OBJECT ( formulaire_echeancier ),
 				      "liste_adr_ventilation" );
@@ -2230,7 +2230,7 @@ void affiche_liste_ventilation_echeances ( void )
     }
 
 
-    /* ajoute la ligne blanche associee à -1 */
+    /* ajoute la ligne blanche associee Ã  -1 */
 
     ligne[0] = NULL;
     ligne[1] = NULL;
@@ -2250,13 +2250,13 @@ void affiche_liste_ventilation_echeances ( void )
     mise_a_jour_couleurs_liste_ventilation_echeances ();
 
 
-    /* on sélectionne la ligne blanche */
+    /* on sÃ©lectionne la ligne blanche */
 
     selectionne_ligne_ventilation_echeances ();
 
     gtk_clist_thaw ( GTK_CLIST ( liste_echeances_ventilees ));
 
-    /* on met à jour les labels d'état */
+    /* on met Ã  jour les labels d'Ã©tat */
 
     calcule_montant_ventilation_echeances ();
 }
@@ -2264,7 +2264,7 @@ void affiche_liste_ventilation_echeances ( void )
 
 
 /***********************************************************************************************************/
-/* prend en argument une opé de ventil dont l'adr de la struct est donnée en argument */
+/* prend en argument une opÃ© de ventil dont l'adr de la struct est donnÃ©e en argument */
 /***********************************************************************************************************/
 
 void ajoute_ope_sur_liste_ventilation_echeances ( struct struct_ope_ventil *operation )
@@ -2273,13 +2273,13 @@ void ajoute_ope_sur_liste_ventilation_echeances ( struct struct_ope_ventil *oper
     gint ligne_insertion;
     GSList *liste_tmp;
 
-    /*   si cette opération a été supprimée, on ne l'affiche pas */
+    /*   si cette opÃ©ration a Ã©tÃ© supprimÃ©e, on ne l'affiche pas */
 
     if ( operation -> supprime )
 	return;
 
 
-    /* mise en forme des catégories */
+    /* mise en forme des catÃ©gories */
 
     if ( operation -> relation_no_operation )
     {
@@ -2335,7 +2335,7 @@ void ajoute_ope_sur_liste_ventilation_echeances ( struct struct_ope_ventil *oper
     ligne_insertion = gtk_clist_append ( GTK_CLIST ( liste_echeances_ventilees ),
 					 ligne );
 
-    /* on associe à cette ligne l'adr de la struct de l'opé */
+    /* on associe Ã  cette ligne l'adr de la struct de l'opÃ© */
 
     gtk_clist_set_row_data ( GTK_CLIST ( liste_echeances_ventilees ),
 			     ligne_insertion,
@@ -2352,7 +2352,7 @@ void calcule_montant_ventilation_echeances ( void )
     gint ligne;
     struct struct_ope_ventil *operation;
 
-    /* fait le tour de la liste pour retrouver les ventil affichée pour calculer le montant */
+    /* fait le tour de la liste pour retrouver les ventil affichÃ©e pour calculer le montant */
 
 
     ligne = 0;
@@ -2455,18 +2455,18 @@ void selectionne_ligne_ventilation_echeances ( void )
 
 /* ************************************************************************** */
 /* Fonction valider_ventilation_echeances                                               */
-/* appelée par appui du bouton valider                                        */
+/* appelÃ©e par appui du bouton valider                                        */
 /* ************************************************************************** */
 void valider_ventilation_echeances ( void )
 {
     /* Cette fonction est toute simple car la liste des structures des
-       ventilations a été mise à jour au fur et à mesure et toujours associée
-       au formulaire_echeancier des opérations. Donc, il faut juste réafficher ce qu'il faut
-       et return. C'est la validation réelle de l'opération qui créera/supprimera
-       toutes les opérations */
+       ventilations a Ã©tÃ© mise Ã  jour au fur et Ã  mesure et toujours associÃ©e
+       au formulaire_echeancier des opÃ©rations. Donc, il faut juste rÃ©afficher ce qu'il faut
+       et return. C'est la validation rÃ©elle de l'opÃ©ration qui crÃ©era/supprimera
+       toutes les opÃ©rations */
 
     /* Si par contre cette liste est null, on met -1 sur le formulaire_echeancier pour
-       montrer qu'on est passé par là et qu'on veut une liste nulle */
+       montrer qu'on est passÃ© par lÃ  et qu'on veut une liste nulle */
 
     /* On associe l'adresse de la nouvelle liste des ventilation au formulaire,
        met -1 si la liste est vide */
@@ -2497,12 +2497,12 @@ void valider_ventilation_echeances ( void )
 
 /* ************************************************************************** */
 /* Fonction annuler_ventilation_echeances                                               */
-/* appelée par appui du bouton annuler                                        */
+/* appelÃ©e par appui du bouton annuler                                        */
 /* ************************************************************************** */
 void annuler_ventilation_echeances ( void )
 {
-    /* Cette fonction remet la liste des structures de ventilation par défaut
-       en recherchant les opérations de ventilation dans la liste des opérations
+    /* Cette fonction remet la liste des structures de ventilation par dÃ©faut
+       en recherchant les opÃ©rations de ventilation dans la liste des opÃ©rations
        puis appelle valider ventilation */
 
     gtk_object_set_data ( GTK_OBJECT ( formulaire_echeancier ),
@@ -2516,12 +2516,12 @@ void annuler_ventilation_echeances ( void )
 
 /* ************************************************************************** */
 /* Fonction quitter_ventilation_echeances                                               */
-/* appelée valider_ventilation_echeances et quitter_ventilation_echeances                         */
+/* appelÃ©e valider_ventilation_echeances et quitter_ventilation_echeances                         */
 /* ************************************************************************** */
 void quitter_ventilation_echeances ( void )
 {
-    /* Cette fonction remet la liste des structures de ventilation par défaut
-       en recherchant les opérations de ventilation dans la liste des opérations
+    /* Cette fonction remet la liste des structures de ventilation par dÃ©faut
+       en recherchant les opÃ©rations de ventilation dans la liste des opÃ©rations
        puis appelle valider ventilation */
 
     gtk_widget_show ( barre_outils );
@@ -2529,7 +2529,7 @@ void quitter_ventilation_echeances ( void )
 			    0 );
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_calendrier_ventilations ),
 			    0 );
-    /*     on réaffiche le formulaire qu'on avait caché */
+    /*     on rÃ©affiche le formulaire qu'on avait cachÃ© */
     gtk_widget_show ( formulaire_echeancier );
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_formulaire_echeances ),
 			    0 );
@@ -2555,7 +2555,7 @@ void quitter_ventilation_echeances ( void )
 /* ************************************************************************** */
 
 /***********************************************************************************************************/
-/* Cette fonction prend une échéance en argument et crée la liste des opés de ventil */
+/* Cette fonction prend une Ã©chÃ©ance en argument et crÃ©e la liste des opÃ©s de ventil */
 /* qui correspondent avec des struct struct_ope_ventil */
 /* renvoie cette liste */
 /***********************************************************************************************************/
@@ -2569,7 +2569,7 @@ GSList *creation_liste_ope_de_ventil_echeances ( struct operation_echeance *oper
     liste_ventil = NULL;
     liste_operations = NULL;
 
-    /* si c'est une nouvelle opé, il n'y a aucun opé de ventil associée */
+    /* si c'est une nouvelle opÃ©, il n'y a aucun opÃ© de ventil associÃ©e */
 
     if ( !operation )
 	return ( NULL );
@@ -2583,7 +2583,7 @@ GSList *creation_liste_ope_de_ventil_echeances ( struct operation_echeance *oper
 
 	operation_2 = liste_tmp -> data;
 
-	/* si l'opération est une opé de ventil de l'opé demandée, on lui fait une struct struct_ope_ventil */
+	/* si l'opÃ©ration est une opÃ© de ventil de l'opÃ© demandÃ©e, on lui fait une struct struct_ope_ventil */
 
 	if ( operation_2 -> no_operation_ventilee_associee == operation -> no_operation )
 	{
@@ -2607,7 +2607,7 @@ GSList *creation_liste_ope_de_ventil_echeances ( struct operation_echeance *oper
 
 	    ope_ventil -> relation_no_compte = operation_2 -> compte_virement;
 
-	    /* 	    si c'est un virement, la categ, la sous categ sont à 0 */
+	    /* 	    si c'est un virement, la categ, la sous categ sont Ã  0 */
 	    /* 		et relation_no_compte != -1 (sinon c'est qu'il n'y a pas de categ) */
 
 	    if ( ope_ventil -> relation_no_compte != -1
@@ -2631,22 +2631,22 @@ GSList *creation_liste_ope_de_ventil_echeances ( struct operation_echeance *oper
 
 
 /***********************************************************************************************************/
-/* cette fonction est appelée lors de la validation d'une ventilation */
-/* l'opération en argument a déjà son numéro d'opé */
-/* ellse fait le tour des structures de ventil et crée/supprime/modifie */
-/* les opérations nécessaires */
+/* cette fonction est appelÃ©e lors de la validation d'une ventilation */
+/* l'opÃ©ration en argument a dÃ©jÃ  son numÃ©ro d'opÃ© */
+/* ellse fait le tour des structures de ventil et crÃ©e/supprime/modifie */
+/* les opÃ©rations nÃ©cessaires */
 /***********************************************************************************************************/
 
 void validation_ope_de_ventilation_echeances ( struct operation_echeance *operation )
 {
     GSList *liste_struct_ventilations;
 
-    /* récupération de la liste de ventilations */
+    /* rÃ©cupÃ©ration de la liste de ventilations */
 
     liste_struct_ventilations = gtk_object_get_data ( GTK_OBJECT ( formulaire_echeancier ),
 						      "liste_adr_ventilation" );
 
-    /*   si cette liste est à -1, c'est qu'elle est null, donc rien à faire */
+    /*   si cette liste est Ã  -1, c'est qu'elle est null, donc rien Ã  faire */
 
     if ( liste_struct_ventilations == GINT_TO_POINTER ( -1 ))
 	return;
@@ -2657,12 +2657,12 @@ void validation_ope_de_ventilation_echeances ( struct operation_echeance *operat
 
 	ope_ventil = liste_struct_ventilations -> data;
 
-	/*       si cette opé est supprimée, c'est ici */
-	/* cela sous entend qu'elle existait déjà */
+	/*       si cette opÃ© est supprimÃ©e, c'est ici */
+	/* cela sous entend qu'elle existait dÃ©jÃ  */
 
 	if ( ope_ventil -> supprime )
 	{
-	    /* petite protection quand même, normalement le texte ne devrait jamais apparaitre */
+	    /* petite protection quand mÃªme, normalement le texte ne devrait jamais apparaitre */
 
 	    if ( !ope_ventil -> no_operation )
 		dialogue_warning ( _("A breakdown line is to be deleted though it is not yet registered."));
@@ -2680,13 +2680,13 @@ void validation_ope_de_ventilation_echeances ( struct operation_echeance *operat
 	}
 	else
 	{
-	    /* l'opération ne doit pas être supprimée, c'est qu'elle doit être créée ou modifiée */
-	    /* 	  on n'a pas à s'embêter avec des changements de virements ou autres trucs bizarres, dans */
-	    /* ce cas il y aura eu une suppression puis une nouvelle opération */
+	    /* l'opÃ©ration ne doit pas Ãªtre supprimÃ©e, c'est qu'elle doit Ãªtre crÃ©Ã©e ou modifiÃ©e */
+	    /* 	  on n'a pas Ã  s'embÃªter avec des changements de virements ou autres trucs bizarres, dans */
+	    /* ce cas il y aura eu une suppression puis une nouvelle opÃ©ration */
 
 	    if ( ope_ventil -> no_operation )
 	    {
-		/* c'est une modif d'opération */
+		/* c'est une modif d'opÃ©ration */
 
 		GSList *tmp;
 
@@ -2700,7 +2700,7 @@ void validation_ope_de_ventilation_echeances ( struct operation_echeance *operat
 
 		    ope_modifiee = tmp -> data;
 
-		    /* on récupère d'abord les modifs de l'opé de ventil */
+		    /* on rÃ©cupÃ¨re d'abord les modifs de l'opÃ© de ventil */
 
 		    ope_modifiee -> montant = ope_ventil -> montant;
 		    ope_modifiee -> categorie = ope_ventil -> categorie;
@@ -2717,7 +2717,7 @@ void validation_ope_de_ventilation_echeances ( struct operation_echeance *operat
 		    ope_modifiee -> compte_virement = ope_ventil -> relation_no_compte;
 		    ope_modifiee -> type_contre_ope = ope_ventil -> no_type_associe;
 
-		    /* on récupère ensuite les modifs de la ventilation */
+		    /* on rÃ©cupÃ¨re ensuite les modifs de la ventilation */
 
 		    ope_modifiee -> jour = operation -> jour;
 		    ope_modifiee -> mois = operation -> mois;
@@ -2733,7 +2733,7 @@ void validation_ope_de_ventilation_echeances ( struct operation_echeance *operat
 		    ope_modifiee -> type_ope = operation -> type_ope;
 		    ope_modifiee -> auto_man = operation -> auto_man;
 
-		    /* théoriquement, cette ligne n'est pas nécessaire vu que c'est une modif d'opé de ventil */
+		    /* thÃ©oriquement, cette ligne n'est pas nÃ©cessaire vu que c'est une modif d'opÃ© de ventil */
 
 		    ope_modifiee -> no_operation_ventilee_associee = operation -> no_operation;
 		    ope_modifiee -> operation_ventilee = 1;
@@ -2743,15 +2743,15 @@ void validation_ope_de_ventilation_echeances ( struct operation_echeance *operat
 	    }
 	    else
 	    {
-		/* c'est une nouvelle opération */
-		/*  on la crée, l'ajoute et si c'est un virement on crée la contre opération */
+		/* c'est une nouvelle opÃ©ration */
+		/*  on la crÃ©e, l'ajoute et si c'est un virement on crÃ©e la contre opÃ©ration */
 
 		struct operation_echeance *nouvelle_ope;
 
 		nouvelle_ope = calloc ( 1,
 					sizeof ( struct operation_echeance ));
 
-		/* on récupère d'abord les modifs de l'opé de ventil */
+		/* on rÃ©cupÃ¨re d'abord les modifs de l'opÃ© de ventil */
 
 		ope_ventil -> relation_no_operation = -1;
 		nouvelle_ope -> montant = ope_ventil -> montant;
@@ -2770,7 +2770,7 @@ void validation_ope_de_ventilation_echeances ( struct operation_echeance *operat
 		nouvelle_ope -> type_contre_ope = ope_ventil -> no_type_associe;
 
 
-		/* on récupère ensuite les modifs de la ventilation */
+		/* on rÃ©cupÃ¨re ensuite les modifs de la ventilation */
 
 		nouvelle_ope -> jour = operation -> jour;
 		nouvelle_ope -> mois = operation -> mois;
@@ -2788,7 +2788,7 @@ void validation_ope_de_ventilation_echeances ( struct operation_echeance *operat
 		nouvelle_ope -> no_operation_ventilee_associee = operation -> no_operation;
 		nouvelle_ope -> operation_ventilee = 1;
 
-		/* on ajoute cette opé à la liste */
+		/* on ajoute cette opÃ© Ã  la liste */
 
 		nouvelle_ope -> no_operation = ++no_derniere_echeance;
 		nb_echeances++;

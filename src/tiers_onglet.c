@@ -1,7 +1,7 @@
 /* fichier qui s'occupe de l'onglet de gestion du tiers */
 /*           tiers_onglet.c */
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
+/*     Copyright (C) 2000-2003  CÃ©dric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -53,7 +53,7 @@ extern GSList *gsliste_echeances;
 
 /* **************************************************************************************************** */
 /* Fonction onglet_tiers : */
-/* crée et renvoie le widget contenu dans l'onglet */
+/* crÃ©e et renvoie le widget contenu dans l'onglet */
 /* **************************************************************************************************** */
 
 GtkWidget *onglet_tiers ( void )
@@ -73,7 +73,7 @@ GtkWidget *onglet_tiers ( void )
     GtkWidget *hbox;
     GtkWidget *scrolled_window_text;
 
-    /* création des pixmaps pour la liste */
+    /* crÃ©ation des pixmaps pour la liste */
     pixmap_ouvre = gdk_pixmap_create_from_xpm_d ( GTK_WIDGET(window) -> window,
 						  &masque_ouvre, NULL, 
 						  (gchar **) book_open_xpm );
@@ -81,7 +81,7 @@ GtkWidget *onglet_tiers ( void )
 						  &masque_ferme, NULL, 
 						  (gchar **) book_closed_xpm );
 
-    /* création de la fenêtre qui sera renvoyée */
+    /* crÃ©ation de la fenÃªtre qui sera renvoyÃ©e */
 
     onglet = gtk_hbox_new ( FALSE,
 			    5 );
@@ -90,7 +90,7 @@ GtkWidget *onglet_tiers ( void )
     gtk_widget_show ( onglet );
 
 
-    /*   création de la frame de gauche */
+    /*   crÃ©ation de la frame de gauche */
 
     frame = gtk_frame_new ( NULL );
     gtk_frame_set_shadow_type ( GTK_FRAME ( frame ),
@@ -167,7 +167,7 @@ GtkWidget *onglet_tiers ( void )
 
     gtk_widget_show_all ( scrolled_window_text );
 
-    /*   création des boutons modifier et annuler */
+    /*   crÃ©ation des boutons modifier et annuler */
 
     hbox = gtk_hbox_new ( TRUE,
 			  5 );
@@ -249,7 +249,7 @@ GtkWidget *onglet_tiers ( void )
     gtk_widget_show ( bouton_ajouter_tiers );
 
 
-    /*   création de la frame de droite */
+    /*   crÃ©ation de la frame de droite */
 
     frame = gtk_frame_new ( NULL );
     gtk_frame_set_shadow_type ( GTK_FRAME ( frame ),
@@ -277,7 +277,7 @@ GtkWidget *onglet_tiers ( void )
 			 FALSE,
 			 0 );
 
-    /* création de l'arbre principal */
+    /* crÃ©ation de l'arbre principal */
 
     scroll_window = gtk_scrolled_window_new ( NULL,
 					      NULL );
@@ -332,7 +332,7 @@ GtkWidget *onglet_tiers ( void )
 				      4,
 				      FALSE );
 
-    /* on met la fontion de tri alphabétique en prenant en compte les accents */
+    /* on met la fontion de tri alphabÃ©tique en prenant en compte les accents */
 
     gtk_clist_set_compare_func ( GTK_CLIST ( arbre_tiers ),
 				 (GtkCListCompareFunc) classement_alphabetique_tree );
@@ -367,12 +367,12 @@ GtkWidget *onglet_tiers ( void )
     gtk_widget_show ( arbre_tiers );
 
 
-    /* on met la fontion de tri alphabétique en prenant en compte les accents */
+    /* on met la fontion de tri alphabÃ©tique en prenant en compte les accents */
 
     gtk_clist_set_compare_func ( GTK_CLIST ( arbre_tiers ),
 				 (GtkCListCompareFunc) classement_alphabetique_tree );
 
-    /* la 1ère fois qu'on affichera les tiers, il faudra remplir la liste */
+    /* la 1Ã¨re fois qu'on affichera les tiers, il faudra remplir la liste */
 
     modif_tiers = 1;
 
@@ -412,7 +412,7 @@ void remplit_arbre_tiers ( void )
 					      GINT_TO_POINTER ( no_devise_totaux_tiers ),
 					      ( GCompareFunc ) recherche_devise_par_no) -> data;
 
-    /* récupère les montants des tiers */
+    /* rÃ©cupÃ¨re les montants des tiers */
 
     tab_montant = calcule_total_montant_tiers ();
 
@@ -437,7 +437,7 @@ void remplit_arbre_tiers ( void )
 	else
 	    text[1] = NULL;
 
-	/* nb_ecritures_par_tiers a été calculé dans cacule_total_montant_tiers */
+	/* nb_ecritures_par_tiers a Ã©tÃ© calculÃ© dans cacule_total_montant_tiers */
 
 	if ( etat.affiche_nb_ecritures_listes
 	     &&
@@ -475,7 +475,7 @@ void remplit_arbre_tiers ( void )
 					FALSE,
 					FALSE );
 
-	/* on associe à ce tiers à l'adr de sa struct */
+	/* on associe Ã  ce tiers Ã  l'adr de sa struct */
 
 	gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_tiers ),
 				      ligne,
@@ -496,7 +496,7 @@ void remplit_arbre_tiers ( void )
 					FALSE,
 					FALSE );
 
-	/* on associe le fils bidon à -1 */
+	/* on associe le fils bidon Ã  -1 */
 
 	gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_tiers ),
 				      ligne,
@@ -508,13 +508,13 @@ void remplit_arbre_tiers ( void )
 	liste_tiers_tmp = liste_tiers_tmp -> next;
     }
 
-    /* on efface les libère les tableaux */
+    /* on efface les libÃ¨re les tableaux */
 
     free ( tab_montant );
     free ( date_dernier_tiers );
     free ( nb_ecritures_par_tiers );
 
-    /* on trie par ordre alphabétique */
+    /* on trie par ordre alphabÃ©tique */
 
     gtk_ctree_sort_node ( GTK_CTREE ( arbre_tiers ),
 			  NULL );
@@ -544,8 +544,8 @@ gint classement_alphabetique_tree ( GtkWidget *tree,
 
 /* **************************************************************************************************** */
 /* Fonction ouverture_node_tiers */
-/* appeléé lorsqu'on ouvre un tiers ou le compte d'un tiers */
-/* remplit ce qui doit être affiché */
+/* appelÃ©Ã© lorsqu'on ouvre un tiers ou le compte d'un tiers */
+/* remplit ce qui doit Ãªtre affichÃ© */
 /* **************************************************************************************************** */
 
 void ouverture_node_tiers ( GtkWidget *arbre,
@@ -560,7 +560,7 @@ void ouverture_node_tiers ( GtkWidget *arbre,
 
     row = GTK_CTREE_ROW ( node );
 
-    /*   si le fiston = -1, c'est qu'il n'a pas encore été créé */
+    /*   si le fiston = -1, c'est qu'il n'a pas encore Ã©tÃ© crÃ©Ã© */
     /* dans le cas contraire, on vire */
 
     if ( GPOINTER_TO_INT ( gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_tiers ),
@@ -571,12 +571,12 @@ void ouverture_node_tiers ( GtkWidget *arbre,
 
     gtk_clist_freeze ( GTK_CLIST ( arbre_tiers ));
 
-    /* on commence par virer la ligne bidon qui était attachée à ce noeud */
+    /* on commence par virer la ligne bidon qui Ã©tait attachÃ©e Ã  ce noeud */
 
     gtk_ctree_remove_node ( GTK_CTREE ( arbre_tiers ),
 			    row -> children );
 
-    /* séparation entre ouverture de tiers ( 0 ) et ouverture de compte ( 1 ) */
+    /* sÃ©paration entre ouverture de tiers ( 0 ) et ouverture de compte ( 1 ) */
 
     if ( row -> level == 1)
     {
@@ -590,7 +590,7 @@ void ouverture_node_tiers ( GtkWidget *arbre,
 										       node ))) -> no_tiers;
 
 
-	/* on va scanner tous les comptes, dès qu'un tiers correspondant au tiers sélectionné est trouvé */
+	/* on va scanner tous les comptes, dÃ¨s qu'un tiers correspondant au tiers sÃ©lectionnÃ© est trouvÃ© */
 	/* on affiche le nom du compte */
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
@@ -639,7 +639,7 @@ void ouverture_node_tiers ( GtkWidget *arbre,
 							     FALSE,
 							     FALSE );
 
-		    /* associe le no de compte à la ligne du compte */
+		    /* associe le no de compte Ã  la ligne du compte */
 
 		    gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_tiers ),
 						  node_insertion,
@@ -659,7 +659,7 @@ void ouverture_node_tiers ( GtkWidget *arbre,
 							     FALSE,
 							     FALSE );
 
-		    /* associe le no de compte à la ligne du compte */
+		    /* associe le no de compte Ã  la ligne du compte */
 
 		    gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_tiers ),
 						  node_insertion,
@@ -677,7 +677,7 @@ void ouverture_node_tiers ( GtkWidget *arbre,
     else
     {
 	/* c'est une ouverture d'un compte */
-	/*       cette fois, on fait le tour de toutes les opés du compte pour afficher celles qui correspondent au tiers */
+	/*       cette fois, on fait le tour de toutes les opÃ©s du compte pour afficher celles qui correspondent au tiers */
 
 	guint no_tiers_selectionne;
 	GSList *pointeur_ope;
@@ -737,7 +737,7 @@ void ouverture_node_tiers ( GtkWidget *arbre,
 							 FALSE,
 							 FALSE );
 
-		/* on associe à cette opé l'adr de sa struct */
+		/* on associe Ã  cette opÃ© l'adr de sa struct */
 
 		gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_tiers ),
 					      node_insertion,
@@ -866,7 +866,7 @@ gboolean expand_selected_tiers ( GtkWidget *liste, GdkEventButton *ev, gpointer 
 	 GTK_CTREE_ROW ( ( GTK_CLIST ( arbre_tiers ) -> selection ) -> data ) -> level != 3 )
 	return FALSE;
 
-    /* passage sur le compte concerné */
+    /* passage sur le compte concernÃ© */
 
     operation = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_tiers ),
 					      GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_tiers ) -> selection ) -> data ) );
@@ -874,7 +874,7 @@ gboolean expand_selected_tiers ( GtkWidget *liste, GdkEventButton *ev, gpointer 
     changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
 
 
-    /* récupération de la ligne de l'opé dans la liste ; affichage de toutes les opé si nécessaire */
+    /* rÃ©cupÃ©ration de la ligne de l'opÃ© dans la liste ; affichage de toutes les opÃ© si nÃ©cessaire */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
@@ -960,7 +960,7 @@ void clique_sur_modifier_tiers ( GtkWidget *bouton_modifier,
     tiers =  gtk_object_get_data ( GTK_OBJECT (  text_box ),
 				   "adr_struct_tiers" );
 
-    /* si c'est une modif du nom, on doit réafficher la liste des tiers et les listes des opés, sinon, on change juste le texte */
+    /* si c'est une modif du nom, on doit rÃ©afficher la liste des tiers et les listes des opÃ©s, sinon, on change juste le texte */
 
     if ( strcmp ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_tiers ))),
 		  tiers -> nom_tiers ))
@@ -1065,8 +1065,8 @@ void clique_sur_annuler_tiers ( GtkWidget *bouton_annuler,
 
 /***********************************************************************************************************/
 /* Fonction ajoute_nouveau_tiers */
-/* appelée pour ajouter un nouveau tiers à la liste des tiers */
-/* entrée : le nouveau tiers */
+/* appelÃ©e pour ajouter un nouveau tiers Ã  la liste des tiers */
+/* entrÃ©e : le nouveau tiers */
 /* retour : le no de tiers */
 /***********************************************************************************************************/
 
@@ -1110,7 +1110,7 @@ void supprimer_tiers ( GtkWidget *bouton,
     tiers = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_tiers ),
 					  node );
 
-    /* on fait le tour de tous les comptes pour vérifier s'il reste une opé à ce tiers */
+    /* on fait le tour de tous les comptes pour vÃ©rifier s'il reste une opÃ© Ã  ce tiers */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
@@ -1128,7 +1128,7 @@ void supprimer_tiers ( GtkWidget *bouton,
 
 	    if ( operation -> tiers == tiers -> no_tiers )
 	    {
-		/* une opération associée à ce tiers a été trouvée  = > on sort de la recherche */
+		/* une opÃ©ration associÃ©e Ã  ce tiers a Ã©tÃ© trouvÃ©e  = > on sort de la recherche */
 
 		pointeur_ope = NULL;
 		i = nb_comptes;
@@ -1140,7 +1140,7 @@ void supprimer_tiers ( GtkWidget *bouton,
 	p_tab_nom_de_compte_variable++;
     }
 
-    /* fait le tour des échéances pour vérifier s'il reste une opé à ce tiers */
+    /* fait le tour des Ã©chÃ©ances pour vÃ©rifier s'il reste une opÃ© Ã  ce tiers */
 
     if ( !ope_trouvee )
     {
@@ -1285,7 +1285,7 @@ retour_dialogue:
 		goto retour_dialogue;
 	    }
 
-	    /* recherche du nouveau numéro de tiers */
+	    /* recherche du nouveau numÃ©ro de tiers */
 
 	    tmp = g_slist_find_custom ( liste_struct_tiers,
 					gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ) ),
@@ -1306,7 +1306,7 @@ retour_dialogue:
 	    nouveau_no = 0;
 
 
-	/* on fait le tour des opés pour mettre le nouveau numéro de tiers */
+	/* on fait le tour des opÃ©s pour mettre le nouveau numÃ©ro de tiers */
 
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
@@ -1330,7 +1330,7 @@ retour_dialogue:
 	}
 
 
-	/* fait le tour des échéances pour mettre le nouveau numéro de tiers */
+	/* fait le tour des Ã©chÃ©ances pour mettre le nouveau numÃ©ro de tiers */
 
 	pointeur_ope = gsliste_echeances;
 
@@ -1381,9 +1381,9 @@ void creation_liste_tiers_combofix ( void )
     GSList *pointeur;
     GSList *liste_tmp;
 
-    /* on commence à créer les 2 listes semblables de tous les tiers */
+    /* on commence Ã  crÃ©er les 2 listes semblables de tous les tiers */
     /*   celle du formulaire est de type complex, cad qu'elle contiendra 2 listes : */
-    /* les tiers et les états sélectionnés */
+    /* les tiers et les Ã©tats sÃ©lectionnÃ©s */
 
     pointeur = liste_struct_tiers;
     liste_tiers_combofix = NULL;
@@ -1399,12 +1399,12 @@ void creation_liste_tiers_combofix ( void )
 	pointeur = pointeur -> next;
     }
 
-    /* on ajoute liste tmp à liste_tiers_combofix */
+    /* on ajoute liste tmp Ã  liste_tiers_combofix */
 
     liste_tiers_combofix = g_slist_append ( liste_tiers_combofix,
 					    liste_tmp );
 
-    /* on fait maintenant le tour des états pour rajouter ceux qui ont été sélectionnés */
+    /* on fait maintenant le tour des Ã©tats pour rajouter ceux qui ont Ã©tÃ© sÃ©lectionnÃ©s */
 
     liste_tmp = NULL;
     pointeur = liste_struct_etats;
@@ -1435,7 +1435,7 @@ void creation_liste_tiers_combofix ( void )
 	pointeur = pointeur -> next;
     }
 
-    /* on ajoute liste tmp à liste_tiers_combofix */
+    /* on ajoute liste tmp Ã  liste_tiers_combofix */
 
     liste_tiers_combofix = g_slist_append ( liste_tiers_combofix,
 					    liste_tmp );
@@ -1448,8 +1448,8 @@ void creation_liste_tiers_combofix ( void )
 
 /* ***************************************************************************************************** */
 /* Fonction changement_taille_liste_tiers */
-/* appelée dès que la taille de la clist a changé ( fait aussi les catég et l'ib ) */
-/* pour mettre la taille des différentes colonnes */
+/* appelÃ©e dÃ¨s que la taille de la clist a changÃ© ( fait aussi les catÃ©g et l'ib ) */
+/* pour mettre la taille des diffÃ©rentes colonnes */
 /* ***************************************************************************************************** */
 
 gboolean changement_taille_liste_tiers ( GtkWidget *clist,
@@ -1486,7 +1486,7 @@ gboolean changement_taille_liste_tiers ( GtkWidget *clist,
 
 /* ***************************************************************************************************** */
 /* Fonction mise_a_jour_tiers */
-/* recrée la liste des combofix et l'applique à tous les combofix du tiers */
+/* recrÃ©e la liste des combofix et l'applique Ã  tous les combofix du tiers */
 /* ***************************************************************************************************** */
 
 void mise_a_jour_tiers ( void )
@@ -1514,7 +1514,7 @@ void mise_a_jour_tiers ( void )
 
 
 /* **************************************************************************************************** */
-/* crée un tableau de gint aussi gd que le nb de tiers */
+/* crÃ©e un tableau de gint aussi gd que le nb de tiers */
 /* et le renvoie */
 /* **************************************************************************************************** */
 
@@ -1523,7 +1523,7 @@ gfloat *calcule_total_montant_tiers ( void )
     gint i;
     gfloat *tab_retour;
 
-    /* on crée le tableau de retour */
+    /* on crÃ©e le tableau de retour */
 
     tab_retour = calloc ( nb_enregistrements_tiers,
 			  sizeof ( gfloat ));
@@ -1659,12 +1659,12 @@ void appui_sur_ajout_tiers ( void )
 	return;
       }
 
-    /* on l'ajoute à la liste des opés */
+    /* on l'ajoute Ã  la liste des opÃ©s */
 
     nouveau_tiers = ajoute_nouveau_tiers ( nom_tiers );
 
 
-    /* on l'ajoute directement au ctree et on fait le tri pour éviter de toute la réafficher */
+    /* on l'ajoute directement au ctree et on fait le tri pour Ã©viter de toute la rÃ©afficher */
 
     text[0] = nouveau_tiers -> nom_tiers;
     text[1] = NULL;
@@ -1683,7 +1683,7 @@ void appui_sur_ajout_tiers ( void )
 				    FALSE,
 				    FALSE );
 
-    /* on associe à ce tiers à l'adr de sa struct */
+    /* on associe Ã  ce tiers Ã  l'adr de sa struct */
 
     gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_tiers ),
 				  ligne,

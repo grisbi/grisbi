@@ -1,10 +1,10 @@
 /* ************************************************************************** */
-/* Fichier qui s'occupe de la page d'accueil ( de démarrage lors de           */
+/* Fichier qui s'occupe de la page d'accueil ( de dÃ©marrage lors de           */
 /* l'ouverture d'un fichier de comptes                                        */
 /*                                                                            */
 /*                                  accueil.c                                 */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
@@ -317,8 +317,8 @@ gboolean question_yes_no ( gchar *texte )
 
 /*************************************************************************************************************/
 /* fonction demande_texte */
-/* affiche une boite de dialogue qui demande l'entrée d'un texte */
-/* renvoie NULL si annulé ou le texte */
+/* affiche une boite de dialogue qui demande l'entrÃ©e d'un texte */
+/* renvoie NULL si annulÃ© ou le texte */
 /*************************************************************************************************************/
 gchar *demande_texte ( gchar *titre_fenetre,
 		       gchar *question )

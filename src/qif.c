@@ -1,7 +1,7 @@
 /* ce fichier de la gestion du format qif */
 
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
+/*     Copyright (C) 2000-2003  CÃ©dric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -49,7 +49,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
     gint pas_le_premier_compte = 0;
     gchar *type;
 
-    /* fichier pointe sur le fichier qui a été reconnu comme qif */
+    /* fichier pointe sur le fichier qui a Ã©tÃ© reconnu comme qif */
 
     rewind ( fichier );
     
@@ -60,8 +60,8 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
     {
 	do
 	{
-/* 	    si ce n'est pas le premier compte du fichier, pointeur_char est déjà sur la ligne du nouveau compte */
-/* 	    tans que pas_le_premier_compte = 1 ; du coup on le met à 2 s'il était à 1 */
+/* 	    si ce n'est pas le premier compte du fichier, pointeur_char est dÃ©jÃ  sur la ligne du nouveau compte */
+/* 	    tans que pas_le_premier_compte = 1 ; du coup on le met Ã  2 s'il Ã©tait Ã  1 */
 
 	    if ( pas_le_premier_compte != 1 )
 	    {
@@ -83,8 +83,8 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 				   "!Type",
 				   5 ))
 	    {
-		/* 	    à ce niveau on est sur un !type ou !Type, on vérifie maintenant qu'on supporte */
-		/* 		bien ce type ; si c'est le cas, on met retour à -1 */
+		/* 	    Ã  ce niveau on est sur un !type ou !Type, on vÃ©rifie maintenant qu'on supporte */
+		/* 		bien ce type ; si c'est le cas, on met retour Ã  -1 */
 
 		tab = g_strsplit ( pointeur_char,
 				   ":",
@@ -122,7 +122,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 		&&
 		retour != -2 );
 
-	/*     si on est déjà à la fin du fichier,on se barre */
+	/*     si on est dÃ©jÃ  Ã  la fin du fichier,on se barre */
 
 	if ( retour == EOF )
 	{
@@ -135,7 +135,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 		return TRUE;
 	}
 
-	/*     on est sur le début d'opérations d'un compte, on crée un nouveau compte */
+	/*     on est sur le dÃ©but d'opÃ©rations d'un compte, on crÃ©e un nouveau compte */
 	/* 	si on est ici, la variable type contient le type de compte */
 
 	compte = calloc ( 1,
@@ -145,7 +145,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 
 	compte -> origine = 0;
 
-	/* récupération du type de compte */
+	/* rÃ©cupÃ©ration du type de compte */
 
 	if ( !my_strcasecmp ( type,
 			      "bank" ))
@@ -155,8 +155,8 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 	    if ( !my_strcasecmp ( type,
 				  "invst" ))
 	    {
-/* 		on considère le compte d'investissement comme un compte bancaire mais met un */
-/* 		    warning car pas implémenté ; aucune idée si ça passe ou pas... */
+/* 		on considÃ¨re le compte d'investissement comme un compte bancaire mais met un */
+/* 		    warning car pas implÃ©mentÃ© ; aucune idÃ©e si Ã§a passe ou pas... */
 		compte -> type_de_compte = 0;
 		dialogue_warning ( _("Grisbi found an investment account, which is not implemented yet.  Nevertheless, Grisbi will try to import it as a bank account." ));
 	    }
@@ -185,16 +185,16 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 
 
 
-	/* récupère les autres données du compte */
+	/* rÃ©cupÃ¨re les autres donnÃ©es du compte */
 
-	/*       pour un type CCard, le qif commence directement une opé sans donner les */
-	/* 	caractéristiques de départ du compte, on crée donc un compte du nom */
-	/* "carte de crédit" avec un solde init de 0 */
+	/*       pour un type CCard, le qif commence directement une opÃ© sans donner les */
+	/* 	caractÃ©ristiques de dÃ©part du compte, on crÃ©e donc un compte du nom */
+	/* "carte de crÃ©dit" avec un solde init de 0 */
 
 	if ( my_strcasecmp ( type,
 			      "ccard" ))
 	{
-	    /* ce n'est pas une ccard, on récupère les infos */
+	    /* ce n'est pas une ccard, on rÃ©cupÃ¨re les infos */
 
 	    do
 	    {
@@ -204,7 +204,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 					      &pointeur_char );
 
 
-		/* récupération du solde initial ( on doit virer la , que money met pour séparer les milliers ) */
+		/* rÃ©cupÃ©ration du solde initial ( on doit virer la , que money met pour sÃ©parer les milliers ) */
 		/* on ne vire la , que s'il y a un . */
 
 		if ( pointeur_char[0] == 'T' )
@@ -234,7 +234,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 		}
 
 
-		/* récupération du nom du compte */
+		/* rÃ©cupÃ©ration du nom du compte */
 		/* 	      parfois, le nom est entre crochet et parfois non ... */
 
 		if ( pointeur_char[0] == 'L' )
@@ -266,7 +266,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 		    }
 		}
 
-		/* on récupère la date du fichier */
+		/* on rÃ©cupÃ¨re la date du fichier */
 		/*  on ne la traite pas maintenant mais quand on traitera toutes les dates */
 
 		if ( pointeur_char[0] == 'D' )
@@ -304,7 +304,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 	}
 
 
-	/* récupération des opérations en brut, on les traitera ensuite */
+	/* rÃ©cupÃ©ration des opÃ©rations en brut, on les traitera ensuite */
 
 	do
 	{
@@ -327,20 +327,20 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 		     &&
 		     pointeur_char[0] != '!' )
 		{
-		    /* on vire le 0d à la fin de la chaîne s'il y est  */
+		    /* on vire le 0d Ã  la fin de la chaÃ®ne s'il y est  */
 
 		    if ( pointeur_char [ strlen (pointeur_char)-1 ] == 13 )
 			pointeur_char [ strlen (pointeur_char)-1 ] = 0;
 
-		    /* récupération de la date */
-		    /* on la met pour l'instant dans date_tmp, et après avoir récupéré toutes */
-		    /* les opés on transformera les dates en gdate */
+		    /* rÃ©cupÃ©ration de la date */
+		    /* on la met pour l'instant dans date_tmp, et aprÃ¨s avoir rÃ©cupÃ©rÃ© toutes */
+		    /* les opÃ©s on transformera les dates en gdate */
 
 		    if ( pointeur_char[0] == 'D' )
 			operation -> date_tmp = g_strdup ( pointeur_char + 1 );
 
 
-		    /* récupération du pointage */
+		    /* rÃ©cupÃ©ration du pointage */
 
 		    if ( pointeur_char[0] == 'C' )
 		    {
@@ -351,7 +351,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 		    }
 
 
-		    /* récupération de la note */
+		    /* rÃ©cupÃ©ration de la note */
 
 		    if ( pointeur_char[0] == 'M' )
 		    {
@@ -367,7 +367,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 		    }
 
 
-		    /* récupération du montant ( on doit virer la , que money met pour séparer les milliers ) */
+		    /* rÃ©cupÃ©ration du montant ( on doit virer la , que money met pour sÃ©parer les milliers ) */
 		    /* on ne vire la , que s'il y a un . */
 
 		    if ( pointeur_char[0] == 'T' )
@@ -397,7 +397,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 			g_strfreev ( tab );
 		    }
 
-		    /* récupération du chèque */
+		    /* rÃ©cupÃ©ration du chÃ¨que */
 
 		    if ( pointeur_char[0] == 'N' )
 			operation -> cheque = my_strtod ( pointeur_char + 1,
@@ -405,7 +405,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 
 
 
-		    /* récupération du tiers */
+		    /* rÃ©cupÃ©ration du tiers */
 
 		    if ( pointeur_char[0] == 'P' )
 		    {
@@ -418,7 +418,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 		    }
 
 
-		    /* récupération des catég */
+		    /* rÃ©cupÃ©ration des catÃ©g */
 
 		    if ( pointeur_char[0] == 'L' )
 		    {
@@ -432,11 +432,11 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 
 
 
-		    /* récupération de la ventilation et de sa categ */
+		    /* rÃ©cupÃ©ration de la ventilation et de sa categ */
 
 		    if ( pointeur_char[0] == 'S' )
 		    {
-			/* on commence une ventilation, si une opé était en cours, on l'enregistre */
+			/* on commence une ventilation, si une opÃ© Ã©tait en cours, on l'enregistre */
 
 			if ( retour != EOF && operation && operation -> date_tmp )
 			{
@@ -446,7 +446,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 			}
 			else
 			{
-			    /*c'est la fin du fichier ou l'opé n'est pas valide, donc les ventils ne sont pas valides non plus */
+			    /*c'est la fin du fichier ou l'opÃ© n'est pas valide, donc les ventils ne sont pas valides non plus */
 
 			    free ( operation );
 
@@ -457,7 +457,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 			    ventilation = NULL;
 			}
 
-			/* si une ventilation était en cours, on l'enregistre */
+			/* si une ventilation Ã©tait en cours, on l'enregistre */
 
 			if ( ventilation )
 			    compte -> operations_importees = g_slist_append ( compte -> operations_importees,
@@ -470,7 +470,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 			{
 			    operation -> operation_ventilee = 1;
 
-			    /* récupération des données de l'opération en cours */
+			    /* rÃ©cupÃ©ration des donnÃ©es de l'opÃ©ration en cours */
 
 			    ventilation -> date_tmp = g_strdup ( operation -> date_tmp );
 			    ventilation -> tiers = operation -> tiers;
@@ -490,7 +490,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 		    }
 
 
-		    /* récupération de la note de ventilation */
+		    /* rÃ©cupÃ©ration de la note de ventilation */
 
 		    if ( pointeur_char[0] == 'E'
 			 &&
@@ -507,8 +507,8 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 			    ventilation -> notes = NULL;
 		    }
 
-		    /* récupération du montant de la ventilation */
-		    /* récupération du montant ( on doit virer la , que money met pour séparer les milliers ) */
+		    /* rÃ©cupÃ©ration du montant de la ventilation */
+		    /* rÃ©cupÃ©ration du montant ( on doit virer la , que money met pour sÃ©parer les milliers ) */
 		    /* on ne vire la , que s'il y a un . */
 
 		    if ( pointeur_char[0] == '$'
@@ -548,10 +548,10 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 		    &&
 		    pointeur_char[0] != '!' );
 
-	    /* 	à ce stade, soit on est à la fin d'une opération, soit à la fin du fichier */
+	    /* 	Ã  ce stade, soit on est Ã  la fin d'une opÃ©ration, soit Ã  la fin du fichier */
 
-	    /* 	    en théorie, on a toujours ^ à la fin d'une opération */
-	    /* 		donc si on en est à eof ou !, on n'enregistre pas l'opé */
+	    /* 	    en thÃ©orie, on a toujours ^ Ã  la fin d'une opÃ©ration */
+	    /* 		donc si on en est Ã  eof ou !, on n'enregistre pas l'opÃ© */
 
 	    if ( retour != EOF
 		 &&
@@ -569,8 +569,8 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 			   && 
 			   strlen ( g_strstrip (operation -> date_tmp ))))
 		    {
-			/* 	l'opération n'a pas de date, c'est pas normal. pour éviter de la perdre, on va lui */
-			/* 	 donner la date 01/01/1970 et on ajoute au tiers [opération sans date] */
+			/* 	l'opÃ©ration n'a pas de date, c'est pas normal. pour Ã©viter de la perdre, on va lui */
+			/* 	 donner la date 01/01/1970 et on ajoute au tiers [opÃ©ration sans date] */
 
 			operation -> date_tmp = g_strdup ( "01/01/1970" );
 			if ( operation -> tiers )
@@ -585,12 +585,12 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 		}
 	    }
 	}
-	/*     on continue à enregistrer les opés jusqu'à la fin du fichier ou jusqu'à un changement de compte */
+	/*     on continue Ã  enregistrer les opÃ©s jusqu'Ã  la fin du fichier ou jusqu'Ã  un changement de compte */
 	while ( retour != EOF
 		&&
 		pointeur_char[0] != '!' );
 
-	/* toutes les opérations du compte ont été récupérées */
+	/* toutes les opÃ©rations du compte ont Ã©tÃ© rÃ©cupÃ©rÃ©es */
 	/* on peut maintenant transformer la date_tmp en gdate */
 
 	format_date = 0;
@@ -607,11 +607,11 @@ changement_format_date:
 
 	    operation = liste_tmp -> data;
 
-	    /*   vérification qu'il y a une date, sinon on vire l'opé de toute manière */
+	    /*   vÃ©rification qu'il y a une date, sinon on vire l'opÃ© de toute maniÃ¨re */
 
 	    if ( operation -> date_tmp)
 	    {	      
-		/* récupération de la date qui est du format jj/mm/aaaa ou jj/mm/aa ou jj/mm'aa à partir de 2000 */
+		/* rÃ©cupÃ©ration de la date qui est du format jj/mm/aaaa ou jj/mm/aa ou jj/mm'aa Ã  partir de 2000 */
 		/* 	      si format_date = 0, c'est sous la forme jjmm sinon mmjj */
 
 
@@ -678,7 +678,7 @@ changement_format_date:
 					       NULL );
 			}
 
-			/* si on avait 'xx, en fait ça peut être 'xx ou 'xxxx ... */
+			/* si on avait 'xx, en fait Ã§a peut Ãªtre 'xx ou 'xxxx ... */
 
 			if ( strlen ( tab_str2[1] ) == 2 )
 			    annee = my_strtod ( tab_str2[1],
@@ -740,7 +740,7 @@ changement_format_date:
 	    }
 	    else
 	    {
-		/* il n'y a pas de date, on vire l'opé de la liste */
+		/* il n'y a pas de date, on vire l'opÃ© de la liste */
 
 		compte -> operations_importees = g_slist_remove ( compte -> operations_importees,
 								  liste_tmp -> data );
@@ -749,7 +749,7 @@ changement_format_date:
 	}
 
 
-	/* récupération de la date du fichier  */
+	/* rÃ©cupÃ©ration de la date du fichier  */
 	/* si format_date = 0, c'est sous la forme jjmm sinon mmjj */
 
 	if ( compte -> date_solde_qif )
@@ -820,7 +820,7 @@ changement_format_date:
 					   NULL );
 		    }
 
-		    /* si on avait 'xx, en fait ça peut être 'xx ou 'xxxx ... */
+		    /* si on avait 'xx, en fait Ã§a peut Ãªtre 'xx ou 'xxxx ... */
 
 		    if ( strlen ( tab_str2[1] ) == 2 )
 			annee = my_strtod ( tab_str2[1],
@@ -869,12 +869,12 @@ changement_format_date:
 	}
 
 
-	/* ajoute ce compte aux autres comptes importés */
+	/* ajoute ce compte aux autres comptes importÃ©s */
 
 	liste_comptes_importes = g_slist_append ( liste_comptes_importes,
 						  compte );
 
-	/*     si à la fin des opérations c'était un changement de compte et pas la fin du fichier, */
+	/*     si Ã  la fin des opÃ©rations c'Ã©tait un changement de compte et pas la fin du fichier, */
 	/*     on y retourne !!! */
 
 	pas_le_premier_compte = 1;
@@ -891,7 +891,7 @@ changement_format_date:
 
 
 /* *******************************************************************************/
-/* Affiche la fenêtre de sélection de fichier pour exporter en qif */
+/* Affiche la fenÃªtre de sÃ©lection de fichier pour exporter en qif */
 /* *******************************************************************************/
 
 void exporter_fichier_qif ( void )
@@ -971,7 +971,7 @@ void exporter_fichier_qif ( void )
 	gtk_widget_show ( entree );
 
 
-	/*       si on clique sur le check bouton, ça rend éditable l'entrée */
+	/*       si on clique sur le check bouton, Ã§a rend Ã©ditable l'entrÃ©e */
 
 	gtk_signal_connect ( GTK_OBJECT ( check_button ),
 			     "toggled",
@@ -996,7 +996,7 @@ choix_liste_fichier:
 	return;
     }
 
-    /* vérification que tous les fichiers sont enregistrables */
+    /* vÃ©rification que tous les fichiers sont enregistrables */
 
     liste_tmp = liste_entrees_exportation;
 
@@ -1031,7 +1031,7 @@ choix_liste_fichier:
 
 
 
-    /* on est sûr de l'enregistrement, c'est parti ... */
+    /* on est sÃ»r de l'enregistrement, c'est parti ... */
 
 
     liste_tmp = liste_entrees_exportation;
@@ -1076,7 +1076,7 @@ choix_liste_fichier:
 
 	    if ( LISTE_OPERATIONS )
 	    {
-		/* met la date de la 1ère opération comme dâte d'ouverture de compte */
+		/* met la date de la 1Ã¨re opÃ©ration comme dÃ¢te d'ouverture de compte */
 
 		operation = LISTE_OPERATIONS -> data;
 
@@ -1113,7 +1113,7 @@ choix_liste_fichier:
 					"]",
 					NULL ) );
 
-		/* on met toutes les opérations */
+		/* on met toutes les opÃ©rations */
 
 		pointeur_tmp = LISTE_OPERATIONS;
 
@@ -1126,8 +1126,8 @@ choix_liste_fichier:
 		    operation = pointeur_tmp -> data;
 
 
-		    /* si c'est une opé de ventilation, on la saute pas elle sera recherchée quand */
-		    /* son opé ventilée sera exportée */
+		    /* si c'est une opÃ© de ventilation, on la saute pas elle sera recherchÃ©e quand */
+		    /* son opÃ© ventilÃ©e sera exportÃ©e */
 
 		    if ( !operation -> no_operation_ventilee_associee )
 		    {
@@ -1181,7 +1181,7 @@ choix_liste_fichier:
 				  montant_tmp );
 
 
-			/* met le chèque si c'est un type à numérotation automatique */
+			/* met le chÃ¨que si c'est un type Ã  numÃ©rotation automatique */
 
 			pointeur = g_slist_find_custom ( TYPES_OPES,
 							 GINT_TO_POINTER ( operation -> type_ope ),
@@ -1210,11 +1210,11 @@ choix_liste_fichier:
 
 
 
-			/*  on met soit un virement, soit une ventilation, soit les catégories */
+			/*  on met soit un virement, soit une ventilation, soit les catÃ©gories */
 
-			/* si c'est une ventilation, on recherche toutes les opés de cette ventilation */
-			/* et les met à la suite */
-			/* la catégorie de l'opé sera celle de la première opé de ventilation */
+			/* si c'est une ventilation, on recherche toutes les opÃ©s de cette ventilation */
+			/* et les met Ã  la suite */
+			/* la catÃ©gorie de l'opÃ© sera celle de la premiÃ¨re opÃ© de ventilation */
 
 			if ( operation -> operation_ventilee )
 			{
@@ -1236,7 +1236,7 @@ choix_liste_fichier:
 				       ||
 				       ope_test -> relation_no_operation ))
 				{
-				    /* on commence par mettre la catég et sous categ de l'opé et de l'opé de ventilation */
+				    /* on commence par mettre la catÃ©g et sous categ de l'opÃ© et de l'opÃ© de ventilation */
 
 				    if ( ope_test -> relation_no_operation )
 				    {
@@ -1357,7 +1357,7 @@ choix_liste_fichier:
 			}
 			else
 			{
-			    /* si c'est un virement vers un compte supprimé, ça sera pris comme categ normale vide */
+			    /* si c'est un virement vers un compte supprimÃ©, Ã§a sera pris comme categ normale vide */
 
 			    if ( operation -> relation_no_operation
 				 &&
@@ -1422,7 +1422,7 @@ choix_liste_fichier:
 	    }
 	    else
 	    {
-		/* le compte n'a aucune opération enregistrée : on ne met pas de date, mais on fait l'ouverture du compte */
+		/* le compte n'a aucune opÃ©ration enregistrÃ©e : on ne met pas de date, mais on fait l'ouverture du compte */
 
 		/* met le solde initial */
 
@@ -1534,7 +1534,7 @@ void export_qif (GSList* export_entries_list )
 
 	    if ( LISTE_OPERATIONS )
 	    {
-		/* met la date de la 1ère opération comme dâte d'ouverture de compte */
+		/* met la date de la 1Ã¨re opÃ©ration comme dÃ¢te d'ouverture de compte */
 
 		operation = LISTE_OPERATIONS -> data;
 
@@ -1571,7 +1571,7 @@ void export_qif (GSList* export_entries_list )
 					"]",
 					NULL ) );
 
-		/* on met toutes les opérations */
+		/* on met toutes les opÃ©rations */
 
 		pointeur_tmp = LISTE_OPERATIONS;
 
@@ -1584,8 +1584,8 @@ void export_qif (GSList* export_entries_list )
 		    operation = pointeur_tmp -> data;
 
 
-		    /* si c'est une opé de ventilation, on la saute pas elle sera recherchée quand */
-		    /* son opé ventilée sera exportée */
+		    /* si c'est une opÃ© de ventilation, on la saute pas elle sera recherchÃ©e quand */
+		    /* son opÃ© ventilÃ©e sera exportÃ©e */
 
 		    if ( !operation -> no_operation_ventilee_associee )
 		    {
@@ -1639,7 +1639,7 @@ void export_qif (GSList* export_entries_list )
 				  montant_tmp );
 
 
-			/* met le chèque si c'est un type à numérotation automatique */
+			/* met le chÃ¨que si c'est un type Ã  numÃ©rotation automatique */
 
 			pointeur = g_slist_find_custom ( TYPES_OPES,
 							 GINT_TO_POINTER ( operation -> type_ope ),
@@ -1668,11 +1668,11 @@ void export_qif (GSList* export_entries_list )
 
 
 
-			/*  on met soit un virement, soit une ventilation, soit les catégories */
+			/*  on met soit un virement, soit une ventilation, soit les catÃ©gories */
 
-			/* si c'est une ventilation, on recherche toutes les opés de cette ventilation */
-			/* et les met à la suite */
-			/* la catégorie de l'opé sera celle de la première opé de ventilation */
+			/* si c'est une ventilation, on recherche toutes les opÃ©s de cette ventilation */
+			/* et les met Ã  la suite */
+			/* la catÃ©gorie de l'opÃ© sera celle de la premiÃ¨re opÃ© de ventilation */
 
 			if ( operation -> operation_ventilee )
 			{
@@ -1694,7 +1694,7 @@ void export_qif (GSList* export_entries_list )
 				       ||
 				       ope_test -> relation_no_operation ))
 				{
-				    /* on commence par mettre la catég et sous categ de l'opé et de l'opé de ventilation */
+				    /* on commence par mettre la catÃ©g et sous categ de l'opÃ© et de l'opÃ© de ventilation */
 
 				    if ( ope_test -> relation_no_operation )
 				    {
@@ -1815,7 +1815,7 @@ void export_qif (GSList* export_entries_list )
 			}
 			else
 			{
-			    /* si c'est un virement vers un compte supprimé, ça sera pris comme categ normale vide */
+			    /* si c'est un virement vers un compte supprimÃ©, Ã§a sera pris comme categ normale vide */
 
 			    if ( operation -> relation_no_operation
 				 &&
@@ -1880,7 +1880,7 @@ void export_qif (GSList* export_entries_list )
 	    }
 	    else
 	    {
-		/* le compte n'a aucune opération enregistrée : on ne met pas de date, mais on fait l'ouverture du compte */
+		/* le compte n'a aucune opÃ©ration enregistrÃ©e : on ne met pas de date, mais on fait l'ouverture du compte */
 
 		/* met le solde initial */
 

@@ -1,5 +1,5 @@
 /* ComboFix Widget
- * Copyright (C) 2001 Cédric Auger
+ * Copyright (C) 2001 CÃ©dric Auger
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -49,7 +49,7 @@ extern "C" {
   {
     GtkVBox vbox;
 
-    /* adr de l'entrée */
+    /* adr de l'entrÃ©e */
 
     GtkWidget *entry;
 
@@ -57,23 +57,23 @@ extern "C" {
 
     GSList *liste;
 
-    /* à 1 si on veut que la liste s'affiche en tapant, à 0 sinon */
+    /* Ã  1 si on veut que la liste s'affiche en tapant, Ã  0 sinon */
 
     gint affiche_liste;
 
-    /* à 1 si le texte doit obligatoirement correspondre à un mot dans la liste, à 0 sinon  */
+    /* Ã  1 si le texte doit obligatoirement correspondre Ã  un mot dans la liste, Ã  0 sinon  */
 
     gint force_text;
 
-    /* à 0 pour afficher toutes les lignes */
+    /* Ã  0 pour afficher toutes les lignes */
 
     gint lignes_max;
 
-    /* variables privées */
+    /* variables privÃ©es */
 
     /* liste complexe */
     gint complex;
-    /* adresse de la flèche  */
+    /* adresse de la flÃ¨che  */
     GtkWidget *arrow; 
     /*   adresse de la fenetre de la liste de la combofix */
     GtkWidget *popup;
@@ -81,11 +81,11 @@ extern "C" {
     GtkWidget *box;
     /* liste des event_box */
     GSList *event_box;
-    /* label sélectionné */
+    /* label sÃ©lectionnÃ© */
     gint label_selectionne;
-    /* liste des complétions */
+    /* liste des complÃ©tions */
     GSList *liste_completion;
-    /* automatiquement classé */
+    /* automatiquement classÃ© */
     gint auto_sort;
 
   };
@@ -102,14 +102,14 @@ extern "C" {
   /* **************************************************************************************************** */
   /* gtk_combofix_new : */
   /* arguments :             */
-  /* liste :                      liste de noms ( \t en début de chaine pour une sous catégorie ) */
-  /* force_text :            TRUE ( le texte doit correspondre à la liste ) / FALSE */
-  /* affiche_liste :         TRUE ( la liste sera affichée en tapant le mot ) / FALSE */
-  /* classement_auto : TRUE ( la liste est toujours classée par ordre alphabétique ) / FALSE  */
-  /* lignes_max : contient le nb maximal de lignes affichées de la liste, si 0=les affiche toutes, */
-  /* s'il est dépassé, n'affiche rien */
+  /* liste :                      liste de noms ( \t en dÃ©but de chaine pour une sous catÃ©gorie ) */
+  /* force_text :            TRUE ( le texte doit correspondre Ã  la liste ) / FALSE */
+  /* affiche_liste :         TRUE ( la liste sera affichÃ©e en tapant le mot ) / FALSE */
+  /* classement_auto : TRUE ( la liste est toujours classÃ©e par ordre alphabÃ©tique ) / FALSE  */
+  /* lignes_max : contient le nb maximal de lignes affichÃ©es de la liste, si 0=les affiche toutes, */
+  /* s'il est dÃ©passÃ©, n'affiche rien */
   /*                                                                                                                                      */
-  /* retour : le widget gtk_combofix ( une hbox contenant l'entrée et d'une arrow ) */
+  /* retour : le widget gtk_combofix ( une hbox contenant l'entrÃ©e et d'une arrow ) */
   /* **************************************************************************************************** */
 
   GtkWidget *gtk_combofix_new ( GSList *liste,
@@ -121,15 +121,15 @@ extern "C" {
   /* **************************************************************************************************** */
   /* gtk_combofix_new_complex : */
   /* arguments :                             */
-  /* liste :                      liste de liste de noms ( \t en début de chaine pour une sous catégorie ) */
-  /*                               chaque liste sera séparée d'une ligne */
-  /* force_text :            TRUE ( le texte doit correspondre à la liste ) / FALSE */
-  /* affiche_liste :         TRUE ( la liste sera affichée en tapant le mot ) / FALSE */
-  /* classement_auto : TRUE ( la liste est toujours classée par ordre alphabétique ) / FALSE  */
-  /* lignes_max : contient le nb maximal de lignes affichées de la liste, si 0=les affiche toutes, */
-  /* s'il est dépassé, n'affiche rien */
+  /* liste :                      liste de liste de noms ( \t en dÃ©but de chaine pour une sous catÃ©gorie ) */
+  /*                               chaque liste sera sÃ©parÃ©e d'une ligne */
+  /* force_text :            TRUE ( le texte doit correspondre Ã  la liste ) / FALSE */
+  /* affiche_liste :         TRUE ( la liste sera affichÃ©e en tapant le mot ) / FALSE */
+  /* classement_auto : TRUE ( la liste est toujours classÃ©e par ordre alphabÃ©tique ) / FALSE  */
+  /* lignes_max : contient le nb maximal de lignes affichÃ©es de la liste, si 0=les affiche toutes, */
+  /* s'il est dÃ©passÃ©, n'affiche rien */
   /*                                                                                                                                      */
-  /* retour : le widget gtk_combofix ( une hbox contenant l'entrée et d'une arrow ) */
+  /* retour : le widget gtk_combofix ( une hbox contenant l'entrÃ©e et d'une arrow ) */
   /* **************************************************************************************************** */
   
   GtkWidget *gtk_combofix_new_complex ( GSList *liste,
@@ -141,7 +141,7 @@ extern "C" {
 
   /* **************************************************************************************************** */
   /* fonction gtk_combofix_set_text */
-  /* arguments : le combofix et le texte à mettre dedans */
+  /* arguments : le combofix et le texte Ã  mettre dedans */
   /* affiche le texte correspondant dans le combofix */
   /* **************************************************************************************************** */
 
@@ -160,7 +160,7 @@ extern "C" {
 
   /* **************************************************************************************************** */
   /* Fonction gtk_combofix_force_text : */
-  /* lorsqu'il est activé, l'utilisateur est obligé de taper un texte présent dans la liste */
+  /* lorsqu'il est activÃ©, l'utilisateur est obligÃ© de taper un texte prÃ©sent dans la liste */
   /* argument : la combofix */
   /*                     booleen TRUE ( force ) / FALSE */
   /* **************************************************************************************************** */
@@ -171,7 +171,7 @@ extern "C" {
 
   /* **************************************************************************************************** */
   /* Fonction gtk_combofix_view_list : */
-  /* lorsqu'il est activé, une liste déroulante contenant les complétions possibles */
+  /* lorsqu'il est activÃ©, une liste dÃ©roulante contenant les complÃ©tions possibles */
   /* s'affiche avec la frappe de l'utilisateur */
   /* argument :  la combofix */
   /*                      booleen TRUE ( met la liste ) / FALSE */
@@ -183,9 +183,9 @@ extern "C" {
 
   /* **************************************************************************************************** */
   /* Fonction gtk_combofix_show_arrow : */
-  /* affiche ou non la flèche permettant d'afficher la liste */
+  /* affiche ou non la flÃ¨che permettant d'afficher la liste */
   /* argument : la combofix */
-  /*                     booleen TRUE ( affiche la flèche ) / FALSE */
+  /*                     booleen TRUE ( affiche la flÃ¨che ) / FALSE */
   /* **************************************************************************************************** */
 
   void gtk_combofix_show_arrow ( GtkComboFix *combofix,
@@ -194,7 +194,7 @@ extern "C" {
 
   /* **************************************************************************************************** */
   /* Fonction gtk_combofix_sort : */
-  /* classe la liste en respectant les différentes listes si c'est un complex, et en respectant les catég / sous-categ  */
+  /* classe la liste en respectant les diffÃ©rentes listes si c'est un complex, et en respectant les catÃ©g / sous-categ  */
   /* argument : la combofix */
   /* **************************************************************************************************** */
 
@@ -220,8 +220,8 @@ extern "C" {
 
   /* **************************************************************************************************** */
   /* Fonction gtk_combofix_set_lignes_max : */
-  /* permet de choisir le nombre maximal de lignes affichées dans la liste  */
-  /* s'il vaut 0, toutes les lignes seront affichées */
+  /* permet de choisir le nombre maximal de lignes affichÃ©es dans la liste  */
+  /* s'il vaut 0, toutes les lignes seront affichÃ©es */
   /* arguments :                           */
   /*       combofix : la combofix          */
   /*       liste : une gslist              */

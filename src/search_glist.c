@@ -4,7 +4,7 @@
 /*                                                                            */
 /*                                  search_glist.c                            */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (dionysos@grisbi.org)	      */
 /* 			http://www.grisbi.org				      */
@@ -67,8 +67,8 @@ gint recherche_sous_categorie_par_nom ( struct struct_sous_categ *sous_categorie
 
 /***************************************************************************************************/
 /* Fonction  recherche_categorie_par_no */
-/* appelée par un g_slist_find_custom */
-/* donne en arg la struct du tiers et le no du tiers recherché */
+/* appelÃ©e par un g_slist_find_custom */
+/* donne en arg la struct du tiers et le no du tiers recherchÃ© */
 /***************************************************************************************************/
 
 gint recherche_categorie_par_no ( struct struct_categ *categorie,
@@ -81,8 +81,8 @@ gint recherche_categorie_par_no ( struct struct_categ *categorie,
 
 /***************************************************************************************************/
 /* Fonction  recherche_sous_categorie_par_no */
-/* appelée par un g_slist_find_custom */
-/* donne en arg la struct du tiers et le no du tiers recherché */
+/* appelÃ©e par un g_slist_find_custom */
+/* donne en arg la struct du tiers et le no du tiers recherchÃ© */
 /***************************************************************************************************/
 
 gint recherche_sous_categorie_par_no ( struct struct_sous_categ *sous_categorie,
@@ -98,7 +98,7 @@ gint recherche_sous_categorie_par_no ( struct struct_sous_categ *sous_categorie,
 
 /* ************************************************************************************************************ */
 /* Fonction recherche_banque_par_no */
-/* appelée par g_slist_find_custom */
+/* appelÃ©e par g_slist_find_custom */
 /* ************************************************************************************************************ */
 
 gint recherche_banque_par_no ( struct struct_banque *banque,
@@ -112,8 +112,8 @@ gint recherche_banque_par_no ( struct struct_banque *banque,
 
 
 /* *********************************************************************************************************** */
-/* cette fonction est appelée pour chercher dans les échéances si certaines sont  */
-/* associées au compte en train d'être supprimé */
+/* cette fonction est appelÃ©e pour chercher dans les Ã©chÃ©ances si certaines sont  */
+/* associÃ©es au compte en train d'Ä™tre supprimÃ© */
 /* *********************************************************************************************************** */
 
 gint cherche_compte_dans_echeances ( struct operation_echeance *echeance,
@@ -157,7 +157,7 @@ gint recherche_devise_par_code_iso ( struct struct_devise *devise,
 
 /***********************************************************************************************************/
 /* Fonction recherche_devise_par_no */
-/* appelÃ©e par un g_slist_find_custom */
+/* appelÄ‚Å e par un g_slist_find_custom */
 /***********************************************************************************************************/
 
 gint recherche_devise_par_no ( struct struct_devise *devise,
@@ -235,7 +235,7 @@ gint recherche_exercice_par_nom ( struct struct_exercice *exercice,
 
 /***********************************************************************************************************/
 /* Fonction recherche_exercice_par_no */
-/* appelée par un g_slist_find_custom */
+/* appelÃ©e par un g_slist_find_custom */
 /***********************************************************************************************************/
 
 gint recherche_exercice_par_no ( struct struct_exercice *exercice,
@@ -251,8 +251,8 @@ gint recherche_exercice_par_no ( struct struct_exercice *exercice,
 
 /******************************************************************************/
 /* Fonction recherche_operation_par_cheque					      */
-/* appelée par un slist_find_custom					      */
-/* recherche une opé par son numéro de cheque dans la liste des opérations	      */
+/* appelÃ©e par un slist_find_custom					      */
+/* recherche une opÃ© par son numÃ©ro de cheque dans la liste des opÃ©rations	      */
 /******************************************************************************/
 gint recherche_operation_par_cheque ( struct structure_operation *operation,
 				      gint *no_chq )
@@ -312,8 +312,8 @@ gint recherche_sous_imputation_par_nom ( struct struct_sous_imputation *sous_imp
 
 /***************************************************************************************************/
 /* Fonction  recherche_imputation_par_no */
-/* appelée par un g_slist_find_custom */
-/* donne en arg la struct du tiers et le no du tiers recherché */
+/* appelÃ©e par un g_slist_find_custom */
+/* donne en arg la struct du tiers et le no du tiers recherchÃ© */
 /***************************************************************************************************/
 
 gint recherche_imputation_par_no ( struct struct_imputation *imputation,
@@ -326,8 +326,8 @@ gint recherche_imputation_par_no ( struct struct_imputation *imputation,
 
 /***************************************************************************************************/
 /* Fonction  recherche_imputation_par_no */
-/* appelée par un g_slist_find_custom */
-/* donne en arg la struct du tiers et le no du tiers recherché */
+/* appelÃ©e par un g_slist_find_custom */
+/* donne en arg la struct du tiers et le no du tiers recherchÃ© */
 /***************************************************************************************************/
 
 gint recherche_sous_imputation_par_no ( struct struct_sous_imputation *sous_imputation,
@@ -342,8 +342,8 @@ gint recherche_sous_imputation_par_no ( struct struct_sous_imputation *sous_impu
 
 /******************************************************************************/
 /* Fonction recherche_operation_par_no					      */
-/* appelée par un slist_find_custom					      */
-/* recherche une opé par son numéro d'opé dans la liste des opérations	      */
+/* appelÃ©e par un slist_find_custom					      */
+/* recherche une opÃ© par son numÃ©ro d'opÃ© dans la liste des opÃ©rations	      */
 /******************************************************************************/
 gint recherche_operation_par_no ( struct structure_operation *operation,
 				  gint *no_ope )
@@ -355,8 +355,8 @@ gint recherche_operation_par_no ( struct structure_operation *operation,
 
 /***************************************************************************************************/
 /* Fonction recherche tiers par no */
-/* appelée par un g_slist_find_custom */
-/* donne en arg la struct du tiers et le no du tiers recherché */
+/* appelÃ©e par un g_slist_find_custom */
+/* donne en arg la struct du tiers et le no du tiers recherchÃ© */
 /***************************************************************************************************/
 
 gint recherche_tiers_par_no ( struct struct_tiers *tiers,
@@ -370,8 +370,8 @@ gint recherche_tiers_par_no ( struct struct_tiers *tiers,
 
 /* **************************************************************************************************** */
 /* Fonction recherche_tiers_par_nom */
-/* appelée par un g_slist_find_custom */
-/* prend en arg la struct du tiers et le nom du tiers recherché */
+/* appelÃ©e par un g_slist_find_custom */
+/* prend en arg la struct du tiers et le nom du tiers recherchÃ© */
 /* **************************************************************************************************** */
 
 gint recherche_tiers_par_nom ( struct struct_tiers *tiers,

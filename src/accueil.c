@@ -1,10 +1,10 @@
 /* ************************************************************************** */
-/* Fichier qui s'occupe de la page d'accueil ( de dÈmarrage lors de           */
+/* Fichier qui s'occupe de la page d'accueil ( de d√©marrage lors de           */
 /* l'ouverture d'un fichier de comptes                                        */
 /*                                                                            */
 /*                                  accueil.c                                 */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 CÈdric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 C√©dric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (dionysos@grisbi.org)	      */
 /* 			http://www.grisbi.org				      */
@@ -65,12 +65,12 @@ GtkWidget *creation_onglet_accueil ( void )
     gchar *nom_utilisateur;
     struct passwd *utilisateur;
 
-    /*  la premiËre sÈparation : une hbox : ‡ gauche, le logo, ‡ droite le reste */
+    /*  la premi√®re s√©paration : une hbox : √† gauche, le logo, √† droite le reste */
 
     fenetre_accueil = gtk_hbox_new ( FALSE, 15 );
     gtk_widget_show ( fenetre_accueil );
 
-    /* crÈation du logo */
+    /* cr√©ation du logo */
 
     if ( !chemin_logo || !strlen ( chemin_logo ))
 	chemin_logo = g_strdup ( LOGO_PATH );
@@ -87,7 +87,7 @@ GtkWidget *creation_onglet_accueil ( void )
 	    logo_accueil = NULL;
     }
 
-    /* crÈation de la partie droite */
+    /* cr√©ation de la partie droite */
 
     base = gtk_vbox_new ( FALSE, 15 );
     gtk_box_pack_end ( GTK_BOX ( fenetre_accueil ), base, TRUE, TRUE, 0 );
@@ -101,7 +101,7 @@ GtkWidget *creation_onglet_accueil ( void )
     gtk_widget_show ( hbox );
 
 
-    /* rÈcupËre le nom de l'utilisateur, si nul, met le login */
+    /* r√©cup√®re le nom de l'utilisateur, si nul, met le login */
 
     utilisateur = getpwuid ( getuid () );
 
@@ -159,7 +159,7 @@ GtkWidget *creation_onglet_accueil ( void )
     gtk_widget_show ( label_titre_fichier );
 
 
-    /* on crÈe ‡ ce niveau base_scroll qui est aussi une vbox mais qui peut
+    /* on cr√©e √† ce niveau base_scroll qui est aussi une vbox mais qui peut
        scroller verticalement */
 
     base_scroll = gtk_scrolled_window_new ( NULL, NULL);
@@ -180,14 +180,14 @@ GtkWidget *creation_onglet_accueil ( void )
     gtk_widget_show (base_box_scroll);
 
 
-    /* on crÈe la premiËre frame dans laquelle on met les Ètats des comptes */
+    /* on cr√©e la premi√®re frame dans laquelle on met les √©tats des comptes */
     frame_etat_comptes_accueil = gtk_notebook_new ();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_comptes_accueil), FALSE );
     gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_comptes_accueil), FALSE );
     gtk_container_set_border_width ( GTK_CONTAINER(frame_etat_comptes_accueil), 0 );
     gtk_box_pack_start ( GTK_BOX(base_box_scroll), frame_etat_comptes_accueil, FALSE, FALSE, 0 );
 
-    /* on met la liste des comptes et leur Ètat dans la frame */
+    /* on met la liste des comptes et leur √©tat dans la frame */
     update_liste_comptes_accueil ();
     gtk_widget_show_all ( frame_etat_comptes_accueil );
 
@@ -202,7 +202,7 @@ GtkWidget *creation_onglet_accueil ( void )
     mise_a_jour_fin_comptes_passifs ();
 
 
-    /* mise en place de la partie des ÈchÈances manuelles ( non affichÈ ) */
+    /* mise en place de la partie des √©ch√©ances manuelles ( non affich√© ) */
     paddingbox = new_paddingbox_with_title ( base_box_scroll, FALSE,
 					     _("Manual scheduled transactions at maturity date") );
     frame_etat_echeances_manuelles_accueil = gtk_notebook_new ();
@@ -213,7 +213,7 @@ GtkWidget *creation_onglet_accueil ( void )
     gtk_box_pack_start ( GTK_BOX(paddingbox), frame_etat_echeances_manuelles_accueil, FALSE, FALSE, 6 );
 
 
-    /* mise en place de la partie des ÈchÈances auto  ( non affichÈ )*/
+    /* mise en place de la partie des √©ch√©ances auto  ( non affich√© )*/
     paddingbox = new_paddingbox_with_title ( base_box_scroll, FALSE,
 					     _("Automatic scheduled transactions entered") );
     frame_etat_echeances_auto_accueil = gtk_notebook_new ();
@@ -224,7 +224,7 @@ GtkWidget *creation_onglet_accueil ( void )
     gtk_box_pack_start ( GTK_BOX(paddingbox), frame_etat_echeances_auto_accueil, FALSE, FALSE, 6 );
 
 
-    /* partie des fin d'ÈchÈances */
+    /* partie des fin d'√©ch√©ances */
     paddingbox = new_paddingbox_with_title ( base_box_scroll, FALSE,
 					     _("Closed scheduled transactions") );
     frame_etat_echeances_finies = gtk_notebook_new ();
@@ -235,7 +235,7 @@ GtkWidget *creation_onglet_accueil ( void )
     gtk_box_pack_start ( GTK_BOX(paddingbox), frame_etat_echeances_finies, FALSE, FALSE, 6 );
 
 
-    /* partie des soldes minimaux autorisÈs */
+    /* partie des soldes minimaux autoris√©s */
     paddingbox = new_paddingbox_with_title ( base_box_scroll, FALSE,
 					     _("Accounts under authorized balance") );
     frame_etat_soldes_minimaux_autorises = gtk_notebook_new ();
@@ -298,7 +298,7 @@ void change_temps ( GtkWidget *label_temps )
 /* ************************************************************************* */
 
 /* ************************************************************************* */
-/*        Fonction appelÈe lorsqu'on clicke sur une ÈchÈance ‡ saisir        */
+/*        Fonction appel√©e lorsqu'on clicke sur une √©ch√©ance √† saisir        */
 /* ************************************************************************* */
 gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 				   GdkEventButton *event,
@@ -308,13 +308,13 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
     struct operation_echeance *ancienne_selection_echeance;
     gint resultat, width;
 
-    /* on sÈlectionne l'ÈchÈance demandÈe */
+    /* on s√©lectionne l'√©ch√©ance demand√©e */
     ancienne_selection_echeance = echeance_selectionnnee;
     echeance_selectionnnee = echeance;
 
     ancien_parent = formulaire_echeancier -> parent;
 
-    /* crÈe la boite de dialogue */
+    /* cr√©e la boite de dialogue */
     dialog = gtk_dialog_new_with_buttons ( _("Enter a scheduled transaction"),
 					   GTK_WINDOW ( window ),
 					   GTK_DIALOG_MODAL,
@@ -350,7 +350,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 
     gtk_widget_reparent ( formulaire_echeancier, ancien_parent );
 
-/*     en remettant la fenetre, elle passe en onglet 2, aprËs l'onglet du formulaire de */
+/*     en remettant la fenetre, elle passe en onglet 2, apr√®s l'onglet du formulaire de */
 /* 	ventilation ... on la remet en 1 */
 
     gtk_notebook_reorder_child ( GTK_NOTEBOOK ( notebook_formulaire_echeances ),
@@ -359,7 +359,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_formulaire_echeances ),
 			    0 );
 
-/*     de plus, on a perdu le nom de l'Ètiquette, c'est inutilisÈ pour l'instant mais on */
+/*     de plus, on a perdu le nom de l'√©tiquette, c'est inutilis√© pour l'instant mais on */
 /* 	sait jamais... */
 
     gtk_notebook_set_tab_label ( GTK_NOTEBOOK ( notebook_formulaire_echeances ),
@@ -395,7 +395,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 /* ************************************************************************* */
 /* Fonction update_liste_comptes_accueil                                     */
 /* affiche la liste des comptes et leur solde courant dans la frame qui leur */
-/* est rÈservÈe dans l'accueil                                               */
+/* est r√©serv√©e dans l'accueil                                               */
 /* ************************************************************************* */
 void update_liste_comptes_accueil ( void )
 {
@@ -415,8 +415,8 @@ void update_liste_comptes_accueil ( void )
     if ( !nb_comptes )
 	return;
 
-    /* Initialisation des couleurs des diffÈrents labels */
-    /* Pourra Ítre intÈgrÈ ‡ la configuration gÈnÈrale */
+    /* Initialisation des couleurs des diff√©rents labels */
+    /* Pourra √™tre int√©gr√© √† la configuration g√©n√©rale */
     CouleurSoldeAlarmeVerteNormal.red =     0.00 * 65535 ;
     CouleurSoldeAlarmeVerteNormal.green =   0.50 * 65535 ;
     CouleurSoldeAlarmeVerteNormal.blue =    0.00 * 65535 ;
@@ -445,15 +445,15 @@ void update_liste_comptes_accueil ( void )
     CouleurNomComptePrelight.green = 0.61 * 65535 ;
     CouleurNomComptePrelight.blue =  0.61 * 65535 ;
 
-    /* CrÈation d'un label juste pour en rÈcupÈrer le style */
+    /* Cr√©ation d'un label juste pour en r√©cup√©rer le style */
     pLabel = gtk_label_new ("");
 
-    /* Initialisation du style ´ Nom du compte ª */
+    /* Initialisation du style ¬´ Nom du compte ¬ª */
     pStyleLabelNomCompte = gtk_style_copy ( gtk_widget_get_style ( pLabel ));
     pStyleLabelNomCompte->fg[GTK_STATE_NORMAL] = CouleurNomCompteNormal;
     pStyleLabelNomCompte->fg[GTK_STATE_PRELIGHT] = CouleurNomComptePrelight;
 
-    /* CrÈation du cadre principal */
+    /* Cr√©ation du cadre principal */
     /*   gtk_notebook_remove_page ( GTK_NOTEBOOK (frame_etat_comptes_accueil), 0 ); */
 
     /* Remove previous child */
@@ -466,7 +466,7 @@ void update_liste_comptes_accueil ( void )
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_container_add ( GTK_CONTAINER ( frame_etat_comptes_accueil ), vbox );
 
-    /* PrÈparation de la sÈparation de l'affichage des comptes en fonction
+    /* Pr√©paration de la s√©paration de l'affichage des comptes en fonction
        de leur type */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
@@ -515,7 +515,7 @@ void update_liste_comptes_accueil ( void )
 	if ( !devise_is_used )
 	    continue;
 
-	/* CrÈation du tableau dans lequel seront stockÈs les comptes avec leur     */
+	/* Cr√©ation du tableau dans lequel seront stock√©s les comptes avec leur     */
 	/* solde.                                                                   */
 	paddingbox = new_paddingbox_with_title ( vbox, FALSE,
 						 g_strdup_printf (_("Account balances in %s"),
@@ -523,7 +523,7 @@ void update_liste_comptes_accueil ( void )
 	pTable = gtk_table_new ( nb_comptes_bancaires + 3, 8, FALSE );
 	gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
-	/* CrÈation et remplissage de la premiËre ligne du tableau */
+	/* Cr√©ation et remplissage de la premi√®re ligne du tableau */
 	pLabel = gtk_label_new (_("Reconciled balance"));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_HORIZ_CENTER, MISC_VERT_CENTER );
 	gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 2, 4, 0, 1 );
@@ -539,8 +539,8 @@ void update_liste_comptes_accueil ( void )
 	solde_global_courant = 0 ;
 	solde_global_pointe = 0 ;
 
-	/* Pour chaque compte non cloturÈ (pour chaque ligne), */
-	/* crÈer toutes les colonnes et les remplir            */
+	/* Pour chaque compte non clotur√© (pour chaque ligne), */
+	/* cr√©er toutes les colonnes et les remplir            */
 	do
 	{
 	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable->data );
@@ -550,23 +550,23 @@ void update_liste_comptes_accueil ( void )
 		 && TYPE_DE_COMPTE != 2
 		 && TYPE_DE_COMPTE != 3 )
 	    {
-		/* PremiËre colonne : vide */
+		/* Premi√®re colonne : vide */
 		pLabel = gtk_label_new ( g_strconcat ( (gchar *) NOM_DU_COMPTE, " : ", NULL ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_widget_set_style ( pLabel, pStyleLabelNomCompte );
 
-		/* Est-il rÈellement nÈcessaire de crÈer des labels vides pour */
+		/* Est-il r√©ellement n√©cessaire de cr√©er des labels vides pour */
 		/* remplir des colonnes vides d'un tableau ?                   */
 /* 		pLabel = gtk_label_new ( "" ); */
 /* 		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 0, 1, i, i+1 ); */
 /* 		gtk_widget_show ( pLabel ); */
 
-		/* DeuxiËme colonne : elle contient le nom du compte */
+		/* Deuxi√®me colonne : elle contient le nom du compte */
 		pLabel = gtk_label_new ( g_strconcat ( (gchar *) NOM_DU_COMPTE, " : ", NULL ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_widget_set_style ( pLabel, pStyleLabelNomCompte );
 
-		/* CrÈation d'une boite ‡ ÈvËnement qui sera rattachÈe au nom du compte */
+		/* Cr√©ation d'une boite √† √©v√®nement qui sera rattach√©e au nom du compte */
 		pEventBox = gtk_event_box_new ();
 		gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
 				     "enter-notify-event",
@@ -588,14 +588,14 @@ void update_liste_comptes_accueil ( void )
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 		gtk_widget_show ( pLabel );
 
-		/* Calcul du solde pointÈ : je ne sais plus pourquoi on fait
-		   ce calcul, sans doute le solde pointÈ n'est-il pas disponible
+		/* Calcul du solde point√© : je ne sais plus pourquoi on fait
+		   ce calcul, sans doute le solde point√© n'est-il pas disponible
 		   en tant que variable globale */
 		solde_pointe_affichage_liste = SOLDE_INIT;
 
-		/* on commence la boucle : fait le tour de toutes les opÈrations */
-		/* met ‡ jour les solde_courant_affichage_liste et solde_pointe_affichage_liste */
-		/* affiche l'opÈration ‡ l'Ècran en fonction de l'affichage de R */
+		/* on commence la boucle : fait le tour de toutes les op√©rations */
+		/* met √† jour les solde_courant_affichage_liste et solde_pointe_affichage_liste */
+		/* affiche l'op√©ration √† l'√©cran en fonction de l'affichage de R */
 		liste_operations_tmp = LISTE_OPERATIONS;
 
 		while ( liste_operations_tmp )
@@ -604,10 +604,10 @@ void update_liste_comptes_accueil ( void )
 
 		    operation = liste_operations_tmp -> data;
 
-		    /* si c'est une opÈ de ventilation, on la saute */
+		    /* si c'est une op√© de ventilation, on la saute */
 		    if ( !operation -> no_operation_ventilee_associee )
 		    {
-			/* quelle que soit l'opÈration (relevÈe ou non), on calcule les soldes courant */
+			/* quelle que soit l'op√©ration (relev√©e ou non), on calcule les soldes courant */
 			montant = calcule_montant_devise_renvoi ( operation -> montant,
 								  DEVISE,
 								  operation -> devise,
@@ -615,7 +615,7 @@ void update_liste_comptes_accueil ( void )
 								  operation -> taux_change,
 								  operation -> frais_change );
 
-			/* si l'opÈ est pointÈe ou relevÈe, on ajoute ce montant au solde pointÈ */
+			/* si l'op√© est point√©e ou relev√©e, on ajoute ce montant au solde point√© */
 			if ( operation -> pointe )
 			    solde_pointe_affichage_liste = solde_pointe_affichage_liste + montant;
 		    }
@@ -625,11 +625,11 @@ void update_liste_comptes_accueil ( void )
 		/* on enregistre le solde final */
 		SOLDE_POINTE = solde_pointe_affichage_liste;
 
-		/* TroisiËme colonne : elle contient le solde pointÈ du compte */
+		/* Troisi√®me colonne : elle contient le solde point√© du compte */
 		pLabel = gtk_label_new ( g_strdup_printf ( "%4.2f", SOLDE_POINTE ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 
-		/* Mise en place du style du label en fonction du solde pointÈ */
+		/* Mise en place du style du label en fonction du solde point√© */
 		pStyleLabelSoldePointe = gtk_style_copy ( gtk_widget_get_style ( pLabel ));
 		if ( SOLDE_POINTE >= SOLDE_MINI_VOULU )
 		{
@@ -651,7 +651,7 @@ void update_liste_comptes_accueil ( void )
 		}
 		gtk_widget_set_style ( pLabel, pStyleLabelSoldePointe );
 
-		/* CrÈation d'une boite ‡ ÈvËnement qui sera rattachÈe au solde courant du compte */
+		/* Cr√©ation d'une boite √† √©v√®nement qui sera rattach√©e au solde courant du compte */
 		pEventBox = gtk_event_box_new ();
 		gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
 				     "enter-notify-event",
@@ -673,7 +673,7 @@ void update_liste_comptes_accueil ( void )
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 		gtk_widget_show ( pLabel );
 
-		/* QuatriËme colonne : elle contient le symbole de la devise du compte */
+		/* Quatri√®me colonne : elle contient le symbole de la devise du compte */
 		pLabel = gtk_label_new ( devise_name_by_no (  DEVISE ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
@@ -682,12 +682,12 @@ void update_liste_comptes_accueil ( void )
 				   5, 0 );
 		gtk_widget_show ( pLabel );
 
-		/* CinquiËme colonne : vide */
+		/* Cinqui√®me colonne : vide */
 /* 		pLabel = gtk_label_new (""); */
 /* 		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 4, 5, i, i+1 ); */
 /* 		gtk_widget_show ( pLabel ); */
 
-		/* SixiËme colonne : elle contient le solde courant du compte */
+		/* Sixi√®me colonne : elle contient le solde courant du compte */
 		pLabel = gtk_label_new ( g_strdup_printf ( "%4.2f", SOLDE_COURANT ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 
@@ -713,7 +713,7 @@ void update_liste_comptes_accueil ( void )
 		}
 		gtk_widget_set_style ( pLabel, pStyleLabelSoldeCourant );
 
-		/* CrÈation d'une boite ‡ ÈvËnement qui sera rattachÈe au solde pointÈ du compte */
+		/* Cr√©ation d'une boite √† √©v√®nement qui sera rattach√©e au solde point√© du compte */
 		pEventBox = gtk_event_box_new ();
 		gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
 				     "enter-notify-event",
@@ -735,7 +735,7 @@ void update_liste_comptes_accueil ( void )
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 		gtk_widget_show ( pLabel );
 
-		/* SeptiËme colonne : elle contient le symbole de la devise du compte */
+		/* Septi√®me colonne : elle contient le symbole de la devise du compte */
 		pLabel = gtk_label_new ( devise_name_by_no ( DEVISE ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
@@ -744,13 +744,13 @@ void update_liste_comptes_accueil ( void )
 				   5, 0 );
 		gtk_widget_show ( pLabel );
 
-		/* HuitiËme colonne : vide */
+		/* Huiti√®me colonne : vide */
 /* 		pLabel = gtk_label_new (""); */
 /* 		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 7, 8, i, i+1 ); */
 /* 		gtk_widget_show ( pLabel ); */
 
-		/* ATTENTION : les sommes effectuÈes ici prÈsupposent que
-		   TOUS les comptes sont dans la M ME DEVISE !!!!!        */
+		/* ATTENTION : les sommes effectu√©es ici pr√©supposent que
+		   TOUS les comptes sont dans la M√äME DEVISE !!!!!        */
 		solde_global_courant += SOLDE_COURANT ;
 		solde_global_pointe += SOLDE_POINTE ;
 	    }
@@ -758,14 +758,14 @@ void update_liste_comptes_accueil ( void )
 	}
 	while ( ( ordre_comptes_variable = ordre_comptes_variable->next ) );
 
-	/* CrÈation de la (nb_comptes + 2)iËme ligne du tableau : vide */
+	/* Cr√©ation de la (nb_comptes + 2)i√®me ligne du tableau : vide */
 	pLabel = gtk_label_new ( "" );
 	gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 0, 1, i, i+1 );
 	gtk_widget_show ( pLabel );
 
-	/* CrÈation et remplissage de la (nb_comptes + 3)iËme ligne du tableau :
+	/* Cr√©ation et remplissage de la (nb_comptes + 3)i√®me ligne du tableau :
 	   elle contient la somme des soldes de chaque compte */
-	/* DeuxiËme colonne */
+	/* Deuxi√®me colonne */
 	pLabel = gtk_label_new ( COLON(_("Global balances")));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
@@ -774,7 +774,7 @@ void update_liste_comptes_accueil ( void )
 			   20, 0 );
 	gtk_widget_show ( pLabel );
 
-	/* TroisiËme colonne : elle contient le solde total pointÈ des comptes */
+	/* Troisi√®me colonne : elle contient le solde total point√© des comptes */
 	pLabel = gtk_label_new ( g_strdup_printf ( "%4.2f", solde_global_pointe ));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
@@ -783,7 +783,7 @@ void update_liste_comptes_accueil ( void )
 			   0, 0 );
 	gtk_widget_show ( pLabel );
 
-	/* QuatriËme colonne : elle contient le symbole de la devise du compte */
+	/* Quatri√®me colonne : elle contient le symbole de la devise du compte */
 	pLabel = gtk_label_new ( devise_name_by_no (((struct struct_devise *) devise -> data) -> no_devise ));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
@@ -792,7 +792,7 @@ void update_liste_comptes_accueil ( void )
 			   5, 0 );
 	gtk_widget_show ( pLabel );
 
-	/* SixiËme colonne : elle contient le solde total courant des comptes */
+	/* Sixi√®me colonne : elle contient le solde total courant des comptes */
 	pLabel = gtk_label_new ( g_strdup_printf ( "%4.2f", solde_global_courant ));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
@@ -801,7 +801,7 @@ void update_liste_comptes_accueil ( void )
 			   0, 0 );
 	gtk_widget_show ( pLabel );
 
-	/* SeptiËme colonne : elle contient le symbole de la devise du compte */
+	/* Septi√®me colonne : elle contient le symbole de la devise du compte */
 	pLabel = gtk_label_new ( devise_name_by_no (((struct struct_devise *) devise -> data) -> no_devise));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
@@ -837,7 +837,7 @@ void update_liste_comptes_accueil ( void )
 	    continue;
 
 
-	/* CrÈation du tableau dans lequel seront stockÈs les comptes avec leur     */
+	/* Cr√©ation du tableau dans lequel seront stock√©s les comptes avec leur     */
 	/* solde.                                                                   */
 	paddingbox = new_paddingbox_with_title ( vbox, FALSE,
 						 g_strdup_printf (_("Liabilities accounts balances in %s"),
@@ -845,7 +845,7 @@ void update_liste_comptes_accueil ( void )
 	pTable = gtk_table_new ( nb_comptes_passif + 3, 8, FALSE );
 	gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
-	/* CrÈation et remplissage de la premiËre ligne du tableau */
+	/* Cr√©ation et remplissage de la premi√®re ligne du tableau */
 	pLabel = gtk_label_new (_("Reconciled balance"));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_HORIZ_CENTER, MISC_VERT_CENTER );
 	gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 2, 4, 0, 1 );
@@ -861,8 +861,8 @@ void update_liste_comptes_accueil ( void )
 	solde_global_courant = 0 ;
 	solde_global_pointe = 0 ;
 
-	/* Pour chaque compte non cloturÈ (pour chaque ligne), */
-	/* crÈer toutes les colonnes et les remplir            */
+	/* Pour chaque compte non clotur√© (pour chaque ligne), */
+	/* cr√©er toutes les colonnes et les remplir            */
 	do
 	{
 	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable->data );
@@ -871,23 +871,23 @@ void update_liste_comptes_accueil ( void )
 		 DEVISE == ((struct struct_devise *) devise -> data) -> no_devise &&
 		 TYPE_DE_COMPTE == 2 )
 	    {
-		/* PremiËre colonne : vide */
+		/* Premi√®re colonne : vide */
 		pLabel = gtk_label_new ( g_strconcat ( (gchar *) NOM_DU_COMPTE, " : ", NULL ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_widget_set_style ( pLabel, pStyleLabelNomCompte );
 
-		/* Est-il rÈellement nÈcessaire de crÈer des labels vides pour */
+		/* Est-il r√©ellement n√©cessaire de cr√©er des labels vides pour */
 		/* remplir des colonnes vides d'un tableau ?                   */
 		pLabel = gtk_label_new ( "" );
 		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 0, 1, i, i+1 );
 		gtk_widget_show ( pLabel );
 
-		/* DeuxiËme colonne : elle contient le nom du compte */
+		/* Deuxi√®me colonne : elle contient le nom du compte */
 		pLabel = gtk_label_new ( g_strconcat ( (gchar *) NOM_DU_COMPTE, " : ", NULL ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_widget_set_style ( pLabel, pStyleLabelNomCompte );
 
-		/* CrÈation d'une boite ‡ ÈvËnement qui sera rattachÈe au nom du compte */
+		/* Cr√©ation d'une boite √† √©v√®nement qui sera rattach√©e au nom du compte */
 		pEventBox = gtk_event_box_new ();
 		gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
 				     "enter-notify-event",
@@ -909,14 +909,14 @@ void update_liste_comptes_accueil ( void )
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 		gtk_widget_show ( pLabel );
 
-		/* Calcul du solde pointÈ : je ne sais plus pourquoi on fait
-		   ce calcul, sans doute le solde pointÈ n'est-il pas disponible
+		/* Calcul du solde point√© : je ne sais plus pourquoi on fait
+		   ce calcul, sans doute le solde point√© n'est-il pas disponible
 		   en tant que variable globale */
 		solde_pointe_affichage_liste = SOLDE_INIT;
 
-		/* on commence la boucle : fait le tour de toutes les opÈrations */
-		/* met ‡ jour les solde_courant_affichage_liste et solde_pointe_affichage_liste */
-		/* affiche l'opÈration ‡ l'Ècran en fonction de l'affichage de R */
+		/* on commence la boucle : fait le tour de toutes les op√©rations */
+		/* met √† jour les solde_courant_affichage_liste et solde_pointe_affichage_liste */
+		/* affiche l'op√©ration √† l'√©cran en fonction de l'affichage de R */
 		liste_operations_tmp = LISTE_OPERATIONS;
 
 		while ( liste_operations_tmp )
@@ -925,10 +925,10 @@ void update_liste_comptes_accueil ( void )
 
 		    operation = liste_operations_tmp -> data;
 
-		    /* si c'est une opÈ de ventilation, on la saute */
+		    /* si c'est une op√© de ventilation, on la saute */
 		    if ( !operation -> no_operation_ventilee_associee )
 		    {
-			/* quelle que soit l'opÈration (relevÈe ou non), on calcule les soldes courant */
+			/* quelle que soit l'op√©ration (relev√©e ou non), on calcule les soldes courant */
 			montant = calcule_montant_devise_renvoi ( operation -> montant,
 								  DEVISE,
 								  operation -> devise,
@@ -936,7 +936,7 @@ void update_liste_comptes_accueil ( void )
 								  operation -> taux_change,
 								  operation -> frais_change );
 
-			/* si l'opÈ est pointÈe ou relevÈe, on ajoute ce montant au solde pointÈ */
+			/* si l'op√© est point√©e ou relev√©e, on ajoute ce montant au solde point√© */
 			if ( operation -> pointe )
 			    solde_pointe_affichage_liste = solde_pointe_affichage_liste + montant;
 		    }
@@ -946,11 +946,11 @@ void update_liste_comptes_accueil ( void )
 		/* on enregistre le solde final */
 		SOLDE_POINTE = solde_pointe_affichage_liste;
 
-		/* TroisiËme colonne : elle contient le solde pointÈ du compte */
+		/* Troisi√®me colonne : elle contient le solde point√© du compte */
 		pLabel = gtk_label_new ( g_strdup_printf ( "%4.2f", SOLDE_POINTE ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 
-		/* Mise en place du style du label en fonction du solde pointÈ */
+		/* Mise en place du style du label en fonction du solde point√© */
 		pStyleLabelSoldePointe = gtk_style_copy ( gtk_widget_get_style ( pLabel ));
 		if ( SOLDE_POINTE >= SOLDE_MINI_VOULU )
 		{
@@ -972,7 +972,7 @@ void update_liste_comptes_accueil ( void )
 		}
 		gtk_widget_set_style ( pLabel, pStyleLabelSoldePointe );
 
-		/* CrÈation d'une boite ‡ ÈvËnement qui sera rattachÈe au solde courant du compte */
+		/* Cr√©ation d'une boite √† √©v√®nement qui sera rattach√©e au solde courant du compte */
 		pEventBox = gtk_event_box_new ();
 		gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
 				     "enter-notify-event",
@@ -994,7 +994,7 @@ void update_liste_comptes_accueil ( void )
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 		gtk_widget_show ( pLabel );
 
-		/* QuatriËme colonne : elle contient le symbole de la devise du compte */
+		/* Quatri√®me colonne : elle contient le symbole de la devise du compte */
 		pLabel = gtk_label_new ( devise_name_by_no (  DEVISE ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
@@ -1003,12 +1003,12 @@ void update_liste_comptes_accueil ( void )
 				   5, 0 );
 		gtk_widget_show ( pLabel );
 
-		/* CinquiËme colonne : vide */
+		/* Cinqui√®me colonne : vide */
 		pLabel = gtk_label_new ("");
 		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 4, 5, i, i+1 );
 		gtk_widget_show ( pLabel );
 
-		/* SixiËme colonne : elle contient le solde courant du compte */
+		/* Sixi√®me colonne : elle contient le solde courant du compte */
 		pLabel = gtk_label_new ( g_strdup_printf ( "%4.2f", SOLDE_COURANT ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 
@@ -1034,7 +1034,7 @@ void update_liste_comptes_accueil ( void )
 		}
 		gtk_widget_set_style ( pLabel, pStyleLabelSoldeCourant );
 
-		/* CrÈation d'une boite ‡ ÈvËnement qui sera rattachÈe au solde pointÈ du compte */
+		/* Cr√©ation d'une boite √† √©v√®nement qui sera rattach√©e au solde point√© du compte */
 		pEventBox = gtk_event_box_new ();
 		gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
 				     "enter-notify-event",
@@ -1056,7 +1056,7 @@ void update_liste_comptes_accueil ( void )
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 		gtk_widget_show ( pLabel );
 
-		/* SeptiËme colonne : elle contient le symbole de la devise du compte */
+		/* Septi√®me colonne : elle contient le symbole de la devise du compte */
 		pLabel = gtk_label_new ( devise_name_by_no ( DEVISE ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
@@ -1065,13 +1065,13 @@ void update_liste_comptes_accueil ( void )
 				   5, 0 );
 		gtk_widget_show ( pLabel );
 
-		/* HuitiËme colonne : vide */
+		/* Huiti√®me colonne : vide */
 		pLabel = gtk_label_new ("");
 		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 7, 8, i, i+1 );
 		gtk_widget_show ( pLabel );
 
-		/* ATTENTION : les sommes effectuÈes ici prÈsupposent que
-		   TOUS les comptes sont dans la M ME DEVISE !!!!!        */
+		/* ATTENTION : les sommes effectu√©es ici pr√©supposent que
+		   TOUS les comptes sont dans la M√äME DEVISE !!!!!        */
 		solde_global_courant += SOLDE_COURANT ;
 		solde_global_pointe += SOLDE_POINTE ;
 	    }
@@ -1079,14 +1079,14 @@ void update_liste_comptes_accueil ( void )
 	}
 	while ( ( ordre_comptes_variable = ordre_comptes_variable->next ) );
 
-	/* CrÈation de la (nb_comptes + 2)iËme ligne du tableau : vide */
+	/* Cr√©ation de la (nb_comptes + 2)i√®me ligne du tableau : vide */
 	pLabel = gtk_label_new ( "" );
 	gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 0, 1, i, i+1 );
 	gtk_widget_show ( pLabel );
 
-	/* CrÈation et remplissage de la (nb_comptes + 3)iËme ligne du tableau :
+	/* Cr√©ation et remplissage de la (nb_comptes + 3)i√®me ligne du tableau :
 	   elle contient la somme des soldes de chaque compte */
-	/* DeuxiËme colonne */
+	/* Deuxi√®me colonne */
 	pLabel = gtk_label_new ( COLON(_("Global balances")));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
@@ -1095,7 +1095,7 @@ void update_liste_comptes_accueil ( void )
 			   20, 0 );
 	gtk_widget_show ( pLabel );
 
-	/* TroisiËme colonne : elle contient le solde total pointÈ des comptes */
+	/* Troisi√®me colonne : elle contient le solde total point√© des comptes */
 	pLabel = gtk_label_new ( g_strdup_printf ( "%4.2f", solde_global_pointe ));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
@@ -1104,7 +1104,7 @@ void update_liste_comptes_accueil ( void )
 			   0, 0 );
 	gtk_widget_show ( pLabel );
 
-	/* QuatriËme colonne : elle contient le symbole de la devise du compte */
+	/* Quatri√®me colonne : elle contient le symbole de la devise du compte */
 	pLabel = gtk_label_new ( devise_name_by_no (((struct struct_devise *) devise -> data) -> no_devise ));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
@@ -1113,7 +1113,7 @@ void update_liste_comptes_accueil ( void )
 			   5, 0 );
 	gtk_widget_show ( pLabel );
 
-	/* SixiËme colonne : elle contient le solde total courant des comptes */
+	/* Sixi√®me colonne : elle contient le solde total courant des comptes */
 	pLabel = gtk_label_new ( g_strdup_printf ( "%4.2f", solde_global_courant ));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
@@ -1122,7 +1122,7 @@ void update_liste_comptes_accueil ( void )
 			   0, 0 );
 	gtk_widget_show ( pLabel );
 
-	/* SeptiËme colonne : elle contient le symbole de la devise du compte */
+	/* Septi√®me colonne : elle contient le symbole de la devise du compte */
 	pLabel = gtk_label_new ( devise_name_by_no (((struct struct_devise *) devise -> data) -> no_devise));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
@@ -1158,7 +1158,7 @@ void update_liste_comptes_accueil ( void )
 	    continue;
 
 
-	/* CrÈation du tableau dans lequel seront stockÈs les comptes avec leur     */
+	/* Cr√©ation du tableau dans lequel seront stock√©s les comptes avec leur     */
 	/* solde.                                                                   */
 	paddingbox = new_paddingbox_with_title ( vbox, FALSE,
 						 g_strdup_printf (_("Assets accounts balances in %s"),
@@ -1166,7 +1166,7 @@ void update_liste_comptes_accueil ( void )
 	pTable = gtk_table_new ( nb_comptes_actif + 3, 8, FALSE );
 	gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
-	/* CrÈation et remplissage de la premiËre ligne du tableau */
+	/* Cr√©ation et remplissage de la premi√®re ligne du tableau */
 	pLabel = gtk_label_new (_("Reconciled balance"));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_HORIZ_CENTER, MISC_VERT_CENTER );
 	gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 2, 4, 0, 1 );
@@ -1182,8 +1182,8 @@ void update_liste_comptes_accueil ( void )
 	solde_global_courant = 0 ;
 	solde_global_pointe = 0 ;
 
-	/* Pour chaque compte non cloturÈ (pour chaque ligne), */
-	/* crÈer toutes les colonnes et les remplir            */
+	/* Pour chaque compte non clotur√© (pour chaque ligne), */
+	/* cr√©er toutes les colonnes et les remplir            */
 	do
 	{
 	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable->data );
@@ -1192,23 +1192,23 @@ void update_liste_comptes_accueil ( void )
 		 DEVISE == ((struct struct_devise *) devise -> data) -> no_devise &&
 		 TYPE_DE_COMPTE == 3 )
 	    {
-		/* PremiËre colonne : vide */
+		/* Premi√®re colonne : vide */
 		pLabel = gtk_label_new ( g_strconcat ( (gchar *) NOM_DU_COMPTE, " : ", NULL ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_widget_set_style ( pLabel, pStyleLabelNomCompte );
 
-		/* Est-il rÈellement nÈcessaire de crÈer des labels vides pour */
+		/* Est-il r√©ellement n√©cessaire de cr√©er des labels vides pour */
 		/* remplir des colonnes vides d'un tableau ?                   */
 		pLabel = gtk_label_new ( "" );
 		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 0, 1, i, i+1 );
 		gtk_widget_show ( pLabel );
 
-		/* DeuxiËme colonne : elle contient le nom du compte */
+		/* Deuxi√®me colonne : elle contient le nom du compte */
 		pLabel = gtk_label_new ( g_strconcat ( (gchar *) NOM_DU_COMPTE, " : ", NULL ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_widget_set_style ( pLabel, pStyleLabelNomCompte );
 
-		/* CrÈation d'une boite ‡ ÈvËnement qui sera rattachÈe au nom du compte */
+		/* Cr√©ation d'une boite √† √©v√®nement qui sera rattach√©e au nom du compte */
 		pEventBox = gtk_event_box_new ();
 		gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
 				     "enter-notify-event",
@@ -1230,14 +1230,14 @@ void update_liste_comptes_accueil ( void )
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 		gtk_widget_show ( pLabel );
 
-		/* Calcul du solde pointÈ : je ne sais plus pourquoi on fait
-		   ce calcul, sans doute le solde pointÈ n'est-il pas disponible
+		/* Calcul du solde point√© : je ne sais plus pourquoi on fait
+		   ce calcul, sans doute le solde point√© n'est-il pas disponible
 		   en tant que variable globale */
 		solde_pointe_affichage_liste = SOLDE_INIT;
 
-		/* on commence la boucle : fait le tour de toutes les opÈrations */
-		/* met ‡ jour les solde_courant_affichage_liste et solde_pointe_affichage_liste */
-		/* affiche l'opÈration ‡ l'Ècran en fonction de l'affichage de R */
+		/* on commence la boucle : fait le tour de toutes les op√©rations */
+		/* met √† jour les solde_courant_affichage_liste et solde_pointe_affichage_liste */
+		/* affiche l'op√©ration √† l'√©cran en fonction de l'affichage de R */
 		liste_operations_tmp = LISTE_OPERATIONS;
 
 		while ( liste_operations_tmp )
@@ -1246,10 +1246,10 @@ void update_liste_comptes_accueil ( void )
 
 		    operation = liste_operations_tmp -> data;
 
-		    /* si c'est une opÈ de ventilation, on la saute */
+		    /* si c'est une op√© de ventilation, on la saute */
 		    if ( !operation -> no_operation_ventilee_associee )
 		    {
-			/* quelle que soit l'opÈration (relevÈe ou non), on calcule les soldes courant */
+			/* quelle que soit l'op√©ration (relev√©e ou non), on calcule les soldes courant */
 			montant = calcule_montant_devise_renvoi ( operation -> montant,
 								  DEVISE,
 								  operation -> devise,
@@ -1257,7 +1257,7 @@ void update_liste_comptes_accueil ( void )
 								  operation -> taux_change,
 								  operation -> frais_change );
 
-			/* si l'opÈ est pointÈe ou relevÈe, on ajoute ce montant au solde pointÈ */
+			/* si l'op√© est point√©e ou relev√©e, on ajoute ce montant au solde point√© */
 			if ( operation -> pointe )
 			    solde_pointe_affichage_liste = solde_pointe_affichage_liste + montant;
 		    }
@@ -1267,11 +1267,11 @@ void update_liste_comptes_accueil ( void )
 		/* on enregistre le solde final */
 		SOLDE_POINTE = solde_pointe_affichage_liste;
 
-		/* TroisiËme colonne : elle contient le solde pointÈ du compte */
+		/* Troisi√®me colonne : elle contient le solde point√© du compte */
 		pLabel = gtk_label_new ( g_strdup_printf ( "%4.2f", SOLDE_POINTE ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 
-		/* Mise en place du style du label en fonction du solde pointÈ */
+		/* Mise en place du style du label en fonction du solde point√© */
 		pStyleLabelSoldePointe = gtk_style_copy ( gtk_widget_get_style ( pLabel ));
 		if ( SOLDE_POINTE >= SOLDE_MINI_VOULU )
 		{
@@ -1293,7 +1293,7 @@ void update_liste_comptes_accueil ( void )
 		}
 		gtk_widget_set_style ( pLabel, pStyleLabelSoldePointe );
 
-		/* CrÈation d'une boite ‡ ÈvËnement qui sera rattachÈe au solde courant du compte */
+		/* Cr√©ation d'une boite √† √©v√®nement qui sera rattach√©e au solde courant du compte */
 		pEventBox = gtk_event_box_new ();
 		gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
 				     "enter-notify-event",
@@ -1315,7 +1315,7 @@ void update_liste_comptes_accueil ( void )
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 		gtk_widget_show ( pLabel );
 
-		/* QuatriËme colonne : elle contient le symbole de la devise du compte */
+		/* Quatri√®me colonne : elle contient le symbole de la devise du compte */
 		pLabel = gtk_label_new ( devise_name_by_no (  DEVISE ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
@@ -1324,12 +1324,12 @@ void update_liste_comptes_accueil ( void )
 				   5, 0 );
 		gtk_widget_show ( pLabel );
 
-		/* CinquiËme colonne : vide */
+		/* Cinqui√®me colonne : vide */
 		pLabel = gtk_label_new ("");
 		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 4, 5, i, i+1 );
 		gtk_widget_show ( pLabel );
 
-		/* SixiËme colonne : elle contient le solde courant du compte */
+		/* Sixi√®me colonne : elle contient le solde courant du compte */
 		pLabel = gtk_label_new ( g_strdup_printf ( "%4.2f", SOLDE_COURANT ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 
@@ -1355,7 +1355,7 @@ void update_liste_comptes_accueil ( void )
 		}
 		gtk_widget_set_style ( pLabel, pStyleLabelSoldeCourant );
 
-		/* CrÈation d'une boite ‡ ÈvËnement qui sera rattachÈe au solde pointÈ du compte */
+		/* Cr√©ation d'une boite √† √©v√®nement qui sera rattach√©e au solde point√© du compte */
 		pEventBox = gtk_event_box_new ();
 		gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
 				     "enter-notify-event",
@@ -1377,7 +1377,7 @@ void update_liste_comptes_accueil ( void )
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 		gtk_widget_show ( pLabel );
 
-		/* SeptiËme colonne : elle contient le symbole de la devise du compte */
+		/* Septi√®me colonne : elle contient le symbole de la devise du compte */
 		pLabel = gtk_label_new ( devise_name_by_no ( DEVISE ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
@@ -1386,13 +1386,13 @@ void update_liste_comptes_accueil ( void )
 				   5, 0 );
 		gtk_widget_show ( pLabel );
 
-		/* HuitiËme colonne : vide */
+		/* Huiti√®me colonne : vide */
 		pLabel = gtk_label_new ("");
 		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 7, 8, i, i+1 );
 		gtk_widget_show ( pLabel );
 
-		/* ATTENTION : les sommes effectuÈes ici prÈsupposent que
-		   TOUS les comptes sont dans la M ME DEVISE !!!!!        */
+		/* ATTENTION : les sommes effectu√©es ici pr√©supposent que
+		   TOUS les comptes sont dans la M√äME DEVISE !!!!!        */
 		solde_global_courant += SOLDE_COURANT ;
 		solde_global_pointe += SOLDE_POINTE ;
 	    }
@@ -1400,14 +1400,14 @@ void update_liste_comptes_accueil ( void )
 	}
 	while ( ( ordre_comptes_variable = ordre_comptes_variable->next ) );
 
-	/* CrÈation de la (nb_comptes + 2)iËme ligne du tableau : vide */
+	/* Cr√©ation de la (nb_comptes + 2)i√®me ligne du tableau : vide */
 	pLabel = gtk_label_new ( "" );
 	gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 0, 1, i, i+1 );
 	gtk_widget_show ( pLabel );
 
-	/* CrÈation et remplissage de la (nb_comptes + 3)iËme ligne du tableau :
+	/* Cr√©ation et remplissage de la (nb_comptes + 3)i√®me ligne du tableau :
 	   elle contient la somme des soldes de chaque compte */
-	/* DeuxiËme colonne */
+	/* Deuxi√®me colonne */
 	pLabel = gtk_label_new ( COLON(_("Global balances")));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
@@ -1416,7 +1416,7 @@ void update_liste_comptes_accueil ( void )
 			   20, 0 );
 	gtk_widget_show ( pLabel );
 
-	/* TroisiËme colonne : elle contient le solde total pointÈ des comptes */
+	/* Troisi√®me colonne : elle contient le solde total point√© des comptes */
 	pLabel = gtk_label_new ( g_strdup_printf ( "%4.2f", solde_global_pointe ));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
@@ -1425,7 +1425,7 @@ void update_liste_comptes_accueil ( void )
 			   0, 0 );
 	gtk_widget_show ( pLabel );
 
-	/* QuatriËme colonne : elle contient le symbole de la devise du compte */
+	/* Quatri√®me colonne : elle contient le symbole de la devise du compte */
 	pLabel = gtk_label_new ( devise_name_by_no (((struct struct_devise *) devise -> data) -> no_devise ));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
@@ -1434,7 +1434,7 @@ void update_liste_comptes_accueil ( void )
 			   5, 0 );
 	gtk_widget_show ( pLabel );
 
-	/* SixiËme colonne : elle contient le solde total courant des comptes */
+	/* Sixi√®me colonne : elle contient le solde total courant des comptes */
 	pLabel = gtk_label_new ( g_strdup_printf ( "%4.2f", solde_global_courant ));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
@@ -1443,7 +1443,7 @@ void update_liste_comptes_accueil ( void )
 			   0, 0 );
 	gtk_widget_show ( pLabel );
 
-	/* SeptiËme colonne : elle contient le symbole de la devise du compte */
+	/* Septi√®me colonne : elle contient le symbole de la devise du compte */
 	pLabel = gtk_label_new ( devise_name_by_no (((struct struct_devise *) devise -> data) -> no_devise));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
@@ -1461,7 +1461,7 @@ void update_liste_comptes_accueil ( void )
 /* ************************************************************************* */
 
 /* ************************************************************************* */
-/* Classement de deux ÈchÈances d'opÈrations par date                        */
+/* Classement de deux √©ch√©ances d'op√©rations par date                        */
 /* ************************************************************************* */
 gint classement_date_echeance ( struct operation_echeance * a, 
 				struct operation_echeance * b )
@@ -1503,14 +1503,14 @@ void update_liste_echeances_manuelles_accueil ( void )
 	GtkWidget *hbox;
 	GdkColor couleur_bleue, couleur_jaune;
 
-	/* s'il y avait dÈj‡ un fils dans la frame, le dÈtruit */
+	/* s'il y avait d√©j√† un fils dans la frame, le d√©truit */
 	gtk_notebook_remove_page ( GTK_NOTEBOOK(frame_etat_echeances_manuelles_accueil), 0 );
 
 	/* on affiche la seconde frame dans laquelle on place les
-	   ÈchÈances ‡ saisir */
+	   √©ch√©ances √† saisir */
 	show_paddingbox ( frame_etat_echeances_manuelles_accueil );
 
-	/* on y place la liste des ÈchÈances */
+	/* on y place la liste des √©ch√©ances */
 	vbox = gtk_vbox_new ( FALSE, 6 );
 	gtk_container_add ( GTK_CONTAINER(frame_etat_echeances_manuelles_accueil), vbox );
 	gtk_widget_show ( vbox );
@@ -1520,7 +1520,7 @@ void update_liste_echeances_manuelles_accueil ( void )
 	/*       gtk_box_pack_start ( GTK_BOX (vbox ), label, FALSE, FALSE, 0 );
 		 gtk_widget_show ( label ); */
 
-	/* crÈation du style normal -> bleu */
+	/* cr√©ation du style normal -> bleu */
 	/* pointeur dessus -> jaune-rouge */
 
 	style_label = gtk_style_copy ( gtk_widget_get_style (label));
@@ -1549,7 +1549,7 @@ void update_liste_echeances_manuelles_accueil ( void )
 	    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 	    gtk_widget_show (  hbox );
 
-	    /* bouton ‡ gauche */
+	    /* bouton √† gauche */
 
 	    event_box = gtk_event_box_new ();
 	    gtk_signal_connect ( GTK_OBJECT ( event_box ),
@@ -1588,7 +1588,7 @@ void update_liste_echeances_manuelles_accueil ( void )
 	    gtk_container_add ( GTK_CONTAINER ( event_box ), label );
 	    gtk_widget_show ( label  );
 
-	    /* label ‡ droite */
+	    /* label √† droite */
 
 	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + ECHEANCE_COURANTE->compte;
 
@@ -1636,9 +1636,9 @@ void update_liste_echeances_auto_accueil ( void )
 	GtkStyle *style_selectable;
 	GdkColor gray_color;
 
-	/* s'il y avait dÈj‡ un fils dans la frame, le dÈtruit */
+	/* s'il y avait d√©j√† un fils dans la frame, le d√©truit */
 	gtk_notebook_remove_page ( GTK_NOTEBOOK ( frame_etat_echeances_auto_accueil ), 0 );
-	/* on affiche la seconde frame dans laquelle on place les ÈchÈances ‡ saisir */
+	/* on affiche la seconde frame dans laquelle on place les √©ch√©ances √† saisir */
 	show_paddingbox ( frame_etat_echeances_auto_accueil );
 
 	gray_color.red =   0.61 * 65535 ;
@@ -1647,7 +1647,7 @@ void update_liste_echeances_auto_accueil ( void )
 	style_selectable = gtk_style_copy ( gtk_widget_get_style ( frame_etat_echeances_auto_accueil ));
 	style_selectable->fg[GTK_STATE_PRELIGHT] = gray_color;
 
-	/* on y place la liste des ÈchÈances */
+	/* on y place la liste des √©ch√©ances */
 
 	vbox = gtk_vbox_new ( FALSE, 5 );
 	gtk_container_add ( GTK_CONTAINER ( frame_etat_echeances_auto_accueil ), vbox);
@@ -1678,7 +1678,7 @@ void update_liste_echeances_auto_accueil ( void )
 				 operation );
 	    gtk_widget_show ( event_box );
 
-	    /* label ‡ gauche */
+	    /* label √† gauche */
 
 	    if ( operation ->tiers )
 		label = gtk_label_new ( g_strdup_printf ( "%02d/%02d/%d : %s",
@@ -1702,7 +1702,7 @@ void update_liste_echeances_auto_accueil ( void )
 	    gtk_container_add ( GTK_CONTAINER ( event_box ), label );
 	    gtk_widget_show ( label  );
 
-	    /* label ‡ droite */
+	    /* label √† droite */
 
 	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation->no_compte;
 
@@ -1724,7 +1724,7 @@ void update_liste_echeances_auto_accueil ( void )
 	    pointeur_liste = pointeur_liste -> next;
 	}
 
-	/* comme des opÈs ont ÈtÈ saisies, on met ‡ jour les listes */
+	/* comme des op√©s ont √©t√© saisies, on met √† jour les listes */
 	mise_a_jour_tiers ();
 	mise_a_jour_categ ();
 	mise_a_jour_imputation ();
@@ -1738,7 +1738,7 @@ void update_liste_echeances_auto_accueil ( void )
 
 /* ************************************************************************* */
 /* Fonction mise_a_jour_soldes_minimaux */
-/* vÈrifie les soldes de tous les comptes, affiche un message d'alerte si nÈcessaire */
+/* v√©rifie les soldes de tous les comptes, affiche un message d'alerte si n√©cessaire */
 /* et ajoute dans l'accueil les comptes sous les soldes minimaux */
 /* ************************************************************************* */
 
@@ -1749,7 +1749,7 @@ void mise_a_jour_soldes_minimaux ( void )
     GtkWidget *label;
     gint i;
 
-    /* s'il y avait dÈj‡ un fils dans la frame, le dÈtruit */
+    /* s'il y avait d√©j√† un fils dans la frame, le d√©truit */
 
     gtk_notebook_remove_page ( GTK_NOTEBOOK ( frame_etat_soldes_minimaux_autorises ), 0 );
     gtk_notebook_remove_page ( GTK_NOTEBOOK ( frame_etat_soldes_minimaux_voulus ), 0 );

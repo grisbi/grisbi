@@ -4,7 +4,7 @@
 /*                                                                            */
 /*                                  fonctions_utiles.c                        */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 CÈdric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 C√©dric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (dionysos@grisbi.org)	      */
 /*			2003-2004 Francois Terrot (francois.terrot@grisbi.org)*/
@@ -98,9 +98,9 @@ GDate *gdate_today ( void )
 
 /******************************************************************************/
 /* Fonction modifie_date                                                      */
-/* prend en argument une entrÈe contenant une date                            */
-/* vÈrifie la validitÈ et la modifie si seulement une partie est donnÈe       */
-/* met la date du jour si l'entrÈe est vide                                   */
+/* prend en argument une entr√©e contenant une date                            */
+/* v√©rifie la validit√© et la modifie si seulement une partie est donn√©e       */
+/* met la date du jour si l'entr√©e est vide                                   */
 /* renvoie TRUE si la date est correcte                                       */
 /******************************************************************************/
 gboolean modifie_date ( GtkWidget *entree )
@@ -110,7 +110,7 @@ gboolean modifie_date ( GtkWidget *entree )
     GDate *date;
     gchar **tab_date;
 
-    /* si l'entrÈe est grise, on se barre */
+    /* si l'entr√©e est grise, on se barre */
 
     if (( gtk_widget_get_style ( entree ) == style_entree_formulaire[ENGRIS] ))
 	return ( FALSE );
@@ -119,7 +119,7 @@ gboolean modifie_date ( GtkWidget *entree )
 
     if ( !strlen ( pointeur_entry ))
     {
-	/* si on est dans la conf des Ètats, on ne met pas la date du jour, on */
+	/* si on est dans la conf des √©tats, on ne met pas la date du jour, on */
 	/* laisse vide */
 
 	if ( entree != entree_date_init_etat &&
@@ -136,7 +136,7 @@ gboolean modifie_date ( GtkWidget *entree )
 
 	if ( tab_date[2] && tab_date[1] )
 	{
-	    /*       on a rentrÈ les 3 chiffres de la date */
+	    /*       on a rentr√© les 3 chiffres de la date */
 
 	    jour = my_strtod ( tab_date[0],  NULL );
 	    mois = my_strtod ( tab_date[1], NULL );
@@ -151,7 +151,7 @@ gboolean modifie_date ( GtkWidget *entree )
 	else
 	    if ( tab_date[1] )
 	    {
-		/* 	on a rentrÈ la date sous la forme xx/xx , il suffit de mettre l'annÈe courante */
+		/* 	on a rentr√© la date sous la forme xx/xx , il suffit de mettre l'ann√©e courante */
 
 		jour = my_strtod ( tab_date[0], NULL );
 		mois = my_strtod ( tab_date[1], NULL );
@@ -160,8 +160,8 @@ gboolean modifie_date ( GtkWidget *entree )
 	    }
 	    else
 	    {
-		/* 	on a rentrÈ que le jour de la date, il faut mettre le mois et l'annÈe courante */
-		/* ou bien on a rentrÈ la date sous forme jjmm ou jjmmaa ou jjmmaaaa */
+		/* 	on a rentr√© que le jour de la date, il faut mettre le mois et l'ann√©e courante */
+		/* ou bien on a rentr√© la date sous forme jjmm ou jjmmaa ou jjmmaaaa */
 
 		gchar buffer[3];
 
@@ -241,9 +241,9 @@ gboolean modifie_date ( GtkWidget *entree )
 
 /******************************************************************************/
 /* Fonction format_date                                                       */
-/* Prend en argument une entrÈe contenant une date                            */
-/* VÈrifie la validitÈ et la modifie si seulement une partie est donnÈe       */
-/* Met la date du jour si l'entrÈe est vide                                   */
+/* Prend en argument une entr√©e contenant une date                            */
+/* V√©rifie la validit√© et la modifie si seulement une partie est donn√©e       */
+/* Met la date du jour si l'entr√©e est vide                                   */
 /* Renvoie TRUE si la date est correcte                                       */
 /******************************************************************************/
 gboolean format_date ( GtkWidget *entree )
@@ -271,7 +271,7 @@ gboolean format_date ( GtkWidget *entree )
 
 	if ( tab_date[2] && tab_date[1] )
 	{
-	    /* on a rentrÈ les 3 chiffres de la date */
+	    /* on a rentr√© les 3 chiffres de la date */
 	    jour = gsb_strtod ( tab_date[0],  NULL );
 	    mois = gsb_strtod ( tab_date[1], NULL );
 	    annee = gsb_strtod ( tab_date[2], NULL );
@@ -288,17 +288,17 @@ gboolean format_date ( GtkWidget *entree )
 	{
 	    if ( tab_date[1] )
 	    {
-		/* on a rentrÈ la date sous la forme xx/xx,
-		   il suffit de mettre l'annÈe courante */
+		/* on a rentr√© la date sous la forme xx/xx,
+		   il suffit de mettre l'ann√©e courante */
 		jour = gsb_strtod ( tab_date[0], NULL );
 		mois = gsb_strtod ( tab_date[1], NULL );
 		annee = g_date_year ( date );
 	    }
 	    else
 	    {
-		/* on a rentrÈ que le jour de la date,
-		   il faut mettre le mois et l'annÈe courante
-		   ou bien on a rentrÈ la date sous forme
+		/* on a rentr√© que le jour de la date,
+		   il faut mettre le mois et l'ann√©e courante
+		   ou bien on a rentr√© la date sous forme
 		   jjmm ou jjmmaa ou jjmmaaaa */
 		gchar buffer[3];
 
@@ -376,17 +376,17 @@ gboolean format_date ( GtkWidget *entree )
 
 /******************************************************************************/
 /* Fonction gsb_strtod (string to decimal)                                    */
-/* Convertie une chaine de caractËres en un nombre                            */
-/* ParamËtres d'entrÈe :                                                      */
-/*   - nptr : pointeur sur la chaine de caractËres ‡ convertir                */
-/*   - endptr : n'est pas utilisÈ, alors ‡ quoi peut-il bien servir ?         */
+/* Convertie une chaine de caract√®res en un nombre                            */
+/* Param√®tres d'entr√©e :                                                      */
+/*   - nptr : pointeur sur la chaine de caract√®res √† convertir                */
+/*   - endptr : n'est pas utilis√©, alors √† quoi peut-il bien servir ?         */
 /* Valeur de retour :                                                         */
-/*   - resultat : le rÈsultat de la conversion                                */
+/*   - resultat : le r√©sultat de la conversion                                */
 /* Variables locales :                                                        */
-/*   - entier : la partie entiËre du rÈsultat                                 */
-/*   - mantisse : la partie dÈcimale du rÈsultat                              */
-/*   - invert : le signe du rÈsultat (0 -> positif, 1 -> nÈgatif)             */
-/*   - p, m : pointeurs locaux sur la chaine de caractËres ‡ convertir        */
+/*   - entier : la partie enti√®re du r√©sultat                                 */
+/*   - mantisse : la partie d√©cimale du r√©sultat                              */
+/*   - invert : le signe du r√©sultat (0 -> positif, 1 -> n√©gatif)             */
+/*   - p, m : pointeurs locaux sur la chaine de caract√®res √† convertir        */
 /******************************************************************************/
 double gsb_strtod ( char *nptr, char **endptr )
 {
@@ -397,16 +397,16 @@ double gsb_strtod ( char *nptr, char **endptr )
     if (!nptr)
 	return 0;
 
-    /* Pour chacun des caractËres de la chaine, du dÈbut ‡ la fin de la chaine,
+    /* Pour chacun des caract√®res de la chaine, du d√©but √† la fin de la chaine,
 faire : */
     for ( p = nptr; p < nptr + strlen(nptr); p++ )
     {
-	/* si c'est un espace ou le signe +, on passe au caractËre suivant */
+	/* si c'est un espace ou le signe +, on passe au caract√®re suivant */
 	if ( g_ascii_isspace(*p) || *p == '+' )
 	    continue;
 
-	/* si c'est le signe -, on positionne invert ‡ 1 et on passe
-	   au caractËre suivant */
+	/* si c'est le signe -, on positionne invert √† 1 et on passe
+	   au caract√®re suivant */
 	if ( *p == '-' )
 	{
 	    invert = 1;
@@ -417,35 +417,35 @@ faire : */
 	if ( *p == ',' || *p == '.' )
 	{
 	    char *m;
-	    /* aller ‡ la fin de la chaine */
+	    /* aller √† la fin de la chaine */
 	    for ( m = p+1; m <= nptr+strlen(nptr) &&
 		    (isdigit(*m) || isspace(*m)); m++)
 	      ;
-		/* de la fin de la chaine au dernier caractËre avant le point
+		/* de la fin de la chaine au dernier caract√®re avant le point
 		   ou la virgule, faire : */
 		for ( --m; m > p; m-- )
 		{
 		    /* si c'est un chiffre, alors : */
 		    if (isdigit(*m))
 		    {
-			/* "dÈcalage" ‡ droite de la variable mantisse */
+			/* "d√©calage" √† droite de la variable mantisse */
 			mantisse /= 10;
-			/* ajout ‡ la variable mantisse de la valeur dÈcimale
-			   du caractËre pointÈ par m */
+			/* ajout √† la variable mantisse de la valeur d√©cimale
+			   du caract√®re point√© par m */
 			mantisse += (*m - '0');
 		    }
 		}
-	    /* "dÈcalage" ‡ droite de la variable mantisse */
+	    /* "d√©calage" √† droite de la variable mantisse */
 	    mantisse /= 10;
 	}
 
 	/* si c'est un chiffre, alors : */
 	if ( isdigit(*p) )
 	{
-	    /* "dÈcalage" ‡ gauche de la variable entier */
+	    /* "d√©calage" √† gauche de la variable entier */
 	    entier = entier * 10;
-	    /* ajout ‡ la variable entier de la valeur dÈcimale
-	       du caractËre pointÈ par p */
+	    /* ajout √† la variable entier de la valeur d√©cimale
+	       du caract√®re point√© par p */
 	    entier += (*p - '0');
 	}
 	else
@@ -530,7 +530,7 @@ gchar *itoa ( gint integer )
 /***********************************************************************************************************/
 
 /***********************************************************************************************************/
-/* cette fonction protËge atoi qui plante quand on lui envoie un null */
+/* cette fonction prot√®ge atoi qui plante quand on lui envoie un null */
 /***********************************************************************************************************/
 
 gint my_atoi ( gchar *chaine )
@@ -689,7 +689,7 @@ GtkWidget *cree_bouton_url ( const gchar *adr,
 gboolean lance_navigateur_web ( const gchar *url )
 {
 /*     si la commande du navigateur contient %s, on le remplace par url, */
-/*     sinon on ajoute l'url ‡ la fin et & */
+/*     sinon on ajoute l'url √† la fin et & */
 /*     sous Windows si la commande est vide ou equale a la valeur par defaut on lance le butineur par defaut (open) */
 
     gchar **split;
@@ -766,8 +766,8 @@ gchar *my_strdelimit ( gchar *string,
 		       gchar *delimiters,
 		       gchar *new_delimiters )
 {
-    /* fonction identique ‡ g_strdelimit, sauf que new_delimiters n'est pas limitÈ ‡ 1 caractËre */
-    /*     et la chaine renvoyÈe est une copie, pas l'original */
+    /* fonction identique √† g_strdelimit, sauf que new_delimiters n'est pas limit√© √† 1 caract√®re */
+    /*     et la chaine renvoy√©e est une copie, pas l'original */
 
     gchar **tab_str;
     gchar *retour;
@@ -1761,8 +1761,8 @@ gint my_strncasecmp ( gchar *chaine_1,
 
 
 /* ******************************************************************************* */
-/* fonction qui rÈcupËre une ligne de charactËre dans une chaine */
-/* elle alloue la mÈmoire nÈcessaire et n'incorpore pas le \n final */
+/* fonction qui r√©cup√®re une ligne de charact√®re dans une chaine */
+/* elle alloue la m√©moire n√©cessaire et n'incorpore pas le \n final */
 /* renvoie NULL en cas de pb */
 /* ******************************************************************************* */
 gchar *get_line_from_string ( gchar *string )

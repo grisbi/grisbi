@@ -1,8 +1,8 @@
 /* ************************************************************************** */
-/* Contient toutes les fonctions utilisées pour classer la liste des opé      */
+/* Contient toutes les fonctions utilisÃ©es pour classer la liste des opÃ©      */
 /* 			classement_liste.c                                    */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2004 Alain Portal (dionysos@grisbi.org) 	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
@@ -32,7 +32,7 @@
 
 
 /* ************************************************************************** */
-/* Fonction de classement par défaut : par ordre de date                      */
+/* Fonction de classement par dÃ©faut : par ordre de date                      */
 /* ************************************************************************** */
 gint classement_liste_par_date ( GtkWidget *liste,
 				 GtkCListRow *ligne_1,
@@ -53,7 +53,7 @@ gint classement_liste_par_date ( GtkWidget *liste,
 	return ( -1 );
 
     if ( etat.classement_par_date )
-	/* on classe par date d'opération */
+	/* on classe par date d'opÃ©ration */
 	retour = g_date_compare ( operation_1 -> date, operation_2 -> date );
     else
     {
@@ -83,7 +83,7 @@ gint classement_liste_par_date ( GtkWidget *liste,
 /* ************************************************************************** */
 
 /* ************************************************************************** */
-/* classement par no d'opé (donc d'entrée)                                    */
+/* classement par no d'opÃ© (donc d'entrÃ©e)                                    */
 /* ************************************************************************** */
 gint classement_liste_par_no_ope ( GtkWidget *liste,
 				   GtkCListRow *ligne_1,
@@ -112,7 +112,7 @@ gint classement_liste_par_no_ope ( GtkWidget *liste,
 /* ************************************************************************** */
 
 /* ************************************************************************** */
-/* classement par no d'opé (donc d'entrée)                                    */
+/* classement par no d'opÃ© (donc d'entrÃ©e)                                    */
 /* ************************************************************************** */
 gint classement_liste_par_no_ope_ventil ( GtkWidget *liste,
 					  GtkCListRow *ligne_1,
@@ -163,8 +163,8 @@ gint classement_liste_par_tri_courant ( GtkWidget *liste,
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-    /* si l'opération est négative et que le type est neutre et que les types
-       neutres sont séparés, on lui met la position du type négatif */
+    /* si l'opÃ©ration est nÃ©gative et que le type est neutre et que les types
+       neutres sont sÃ©parÃ©s, on lui met la position du type nÃ©gatif */
 
     if ( operation_1 -> montant < 0
 	 && ( buffer = g_slist_index ( LISTE_TRI, GINT_TO_POINTER ( -operation_1 -> type_ope ))) != -1 )
@@ -178,14 +178,14 @@ gint classement_liste_par_tri_courant ( GtkWidget *liste,
     else
 	pos_type_ope_2 = g_slist_index ( LISTE_TRI, GINT_TO_POINTER ( operation_2 -> type_ope ));
 
-    /* s'elles ont le même type, on les classe par date */
+    /* s'elles ont le mÃªme type, on les classe par date */
 
     if ( pos_type_ope_1 == pos_type_ope_2 )
     {
 	gint retour;
 
 	if ( etat.classement_par_date )
-	    /* on classe par date d'opération */
+	    /* on classe par date d'opÃ©ration */
 	    retour = g_date_compare ( operation_1 -> date, operation_2 -> date );
 	else
 	{
@@ -220,8 +220,8 @@ gint classement_liste_par_tri_courant ( GtkWidget *liste,
 /* ************************************************************************** */
 
 /* ************************************************************************** */
-/* cette fonction est appelée pour classer les opérations dans la sliste      */
-/* avant que cette liste ne soit affichée ; trie automatiquement la liste     */
+/* cette fonction est appelÃ©e pour classer les opÃ©rations dans la sliste      */
+/* avant que cette liste ne soit affichÃ©e ; trie automatiquement la liste     */
 /* en fonction du moment                                                      */
 /* ************************************************************************** */
 gint classement_sliste ( struct structure_operation *operation_1,
@@ -232,9 +232,9 @@ gint classement_sliste ( struct structure_operation *operation_1,
 
     save_ptab = p_tab_nom_de_compte_variable;
 
-    /* pour l'instant, soit on est en train d'équilibrer et c'est par tri courant,
+    /* pour l'instant, soit on est en train d'Ã©quilibrer et c'est par tri courant,
        uniquement si p_tab... est sur le compte courant
-       sinon c'est par date (qui utilise la date de valeur si nécessaire) */
+       sinon c'est par date (qui utilise la date de valeur si nÃ©cessaire) */
 
     if ( etat.equilibrage
 	 && ( p_tab_nom_de_compte_variable - p_tab_nom_de_compte ) == compte_courant )
@@ -254,8 +254,8 @@ gint classement_sliste ( struct structure_operation *operation_1,
 /* ************************************************************************** */
 
 /* ************************************************************************** */
-/* Fonction par défaut : par ordre de date                                    */
-/* et classe en fonction de r/p si demandé (FIXME : virer dans l'instable) */
+/* Fonction par dÃ©faut : par ordre de date                                    */
+/* et classe en fonction de r/p si demandÃ© (FIXME : virer dans l'instable) */
 /* ************************************************************************** */
 gint classement_sliste_par_date ( struct structure_operation *operation_1,
 				  struct structure_operation *operation_2 )
@@ -284,8 +284,8 @@ gint classement_sliste_par_date ( struct structure_operation *operation_1,
 		retour = g_date_compare ( operation_1 -> date, operation_2 -> date );
 	}
 
-	/* on a classé par date de valeur, si c'est la même date,
-	   alors on classe par date d'opération */
+	/* on a classÃ© par date de valeur, si c'est la mÃªme date,
+	   alors on classe par date d'opÃ©ration */
 
 	if ( !retour )
 	    retour = g_date_compare ( operation_1 -> date, operation_2 -> date );
@@ -301,7 +301,7 @@ gint classement_sliste_par_date ( struct structure_operation *operation_1,
 
 
 /* ************************************************************************** */
-/* identique à classement_liste_par_tri_courant sauf que classe une slist     */
+/* identique Ã  classement_liste_par_tri_courant sauf que classe une slist     */
 /* ************************************************************************** */
 gint classement_sliste_par_tri_courant ( struct structure_operation *operation_1,
 					 struct structure_operation *operation_2 )
@@ -313,7 +313,7 @@ gint classement_sliste_par_tri_courant ( struct structure_operation *operation_1
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-    /* On classe soit par le tri désiré, soit par date,
+    /* On classe soit par le tri dÃ©sirÃ©, soit par date,
        et dans ce cas on renvoie au tri normal */
 
     if ( !TRI || !LISTE_TRI )
@@ -325,8 +325,8 @@ gint classement_sliste_par_tri_courant ( struct structure_operation *operation_1
     }
     else
     {
-	/* si l'opération est négative et que le type est neutre et que les types
-	   neutres sont séparés, on lui met la position du type négatif */
+	/* si l'opÃ©ration est nÃ©gative et que le type est neutre et que les types
+	   neutres sont sÃ©parÃ©s, on lui met la position du type nÃ©gatif */
 
 	if ( operation_1 -> montant < 0
 	     && ( buffer = g_slist_index ( LISTE_TRI, GINT_TO_POINTER ( -operation_1 -> type_ope ))) != -1 )
@@ -340,7 +340,7 @@ gint classement_sliste_par_tri_courant ( struct structure_operation *operation_1
 	else
 	    pos_type_ope_2 = g_slist_index ( LISTE_TRI, GINT_TO_POINTER ( operation_2 -> type_ope ));
 
-	/* s'elles ont le même type, on les classe par date */
+	/* s'elles ont le mÃªme type, on les classe par date */
 
 	if ( pos_type_ope_1 == pos_type_ope_2 )
 	{
@@ -362,30 +362,30 @@ gint classement_sliste_par_tri_courant ( struct structure_operation *operation_1
 /* ************************************************************************** */
 
 /* ************************************************************************** */
-/* classement d'une liste composée de chaines par ordre alphabétique          */
+/* classement d'une liste composÃ©e de chaines par ordre alphabÃ©tique          */
 /* en prenant en compte les accents                                           */
 /* ************************************************************************** */
 gint classe_liste_alphabetique ( gchar *string_1,
 				 gchar *string_2 )
 {
-    /* comme la fonction g_strcasecmp met les accents derrière,
+    /* comme la fonction g_strcasecmp met les accents derriÃ¨re,
        on magouille pour les prendre en compte */
 
     string_1 = g_strdup ( string_1 );
-    string_1 = g_strdelimit ( string_1, "éÉèÈêÊ", 'e' );
-    string_1 = g_strdelimit ( string_1, "çÇ", 'c' );
-    string_1 = g_strdelimit ( string_1, "àÀ", 'a' );
-    string_1 = g_strdelimit ( string_1, "ùûÙÛ", 'u' );
-    string_1 = g_strdelimit ( string_1, "ôÔ", 'o' );
-    string_1 = g_strdelimit ( string_1, "îÎ", 'i' );
+    string_1 = g_strdelimit ( string_1, "Ã©Ã‰Ã¨ÃˆÃªÃŠ", 'e' );
+    string_1 = g_strdelimit ( string_1, "Ã§Ã‡", 'c' );
+    string_1 = g_strdelimit ( string_1, "Ã Ã€", 'a' );
+    string_1 = g_strdelimit ( string_1, "Ã¹Ã»Ã™Ã›", 'u' );
+    string_1 = g_strdelimit ( string_1, "Ã´Ã”", 'o' );
+    string_1 = g_strdelimit ( string_1, "Ã®Ã", 'i' );
 
     string_2 = g_strdup ( string_2 );
-    string_2 = g_strdelimit ( string_2, "éÉèÈêÊ", 'e' );
-    string_2 = g_strdelimit ( string_2, "çÇ", 'c' );
-    string_2 = g_strdelimit ( string_2, "àÀ", 'a' );
-    string_2 = g_strdelimit ( string_2, "ùûÙÛ", 'u' );
-    string_2 = g_strdelimit ( string_2, "ôÔ", 'o' );
-    string_2 = g_strdelimit ( string_2, "îÎ", 'i' );
+    string_2 = g_strdelimit ( string_2, "Ã©Ã‰Ã¨ÃˆÃªÃŠ", 'e' );
+    string_2 = g_strdelimit ( string_2, "Ã§Ã‡", 'c' );
+    string_2 = g_strdelimit ( string_2, "Ã Ã€", 'a' );
+    string_2 = g_strdelimit ( string_2, "Ã¹Ã»Ã™Ã›", 'u' );
+    string_2 = g_strdelimit ( string_2, "Ã´Ã”", 'o' );
+    string_2 = g_strdelimit ( string_2, "Ã®Ã", 'i' );
 
     return ( g_strcasecmp ( string_1, string_2 ));
 }
@@ -393,19 +393,19 @@ gint classe_liste_alphabetique ( gchar *string_1,
 
 
 /* ************************************************************************** */
-/* par ordre de date en tenant compte de l'état         */
-/* (pointé, rapproché) des opérations. Les opérations rapprochées seront      */
-/* toujours classées en premier, suivies par les opérations pointées, puis    */
-/* par les opérations qui ne sont ni l'une, ni l'autre.                       */
+/* par ordre de date en tenant compte de l'Ã©tat         */
+/* (pointÃ©, rapprochÃ©) des opÃ©rations. Les opÃ©rations rapprochÃ©es seront      */
+/* toujours classÃ©es en premier, suivies par les opÃ©rations pointÃ©es, puis    */
+/* par les opÃ©rations qui ne sont ni l'une, ni l'autre.                       */
 /* ************************************************************************** */
 gint classement_sliste_par_date_rp ( struct structure_operation *pTransaction1,
 				     struct structure_operation *pTransaction2 )
 {
     gint sort_result;
 
-    /* si l'opération 1 est rapprochée alors que l'opération 2 ne l'est pas,
-       ou si l'opération 1 est pointée et l'opération 2 n'est ni pointée, ni
-       rapprochée, alors on dit que l'opération 1 est antérieure */
+    /* si l'opÃ©ration 1 est rapprochÃ©e alors que l'opÃ©ration 2 ne l'est pas,
+       ou si l'opÃ©ration 1 est pointÃ©e et l'opÃ©ration 2 n'est ni pointÃ©e, ni
+       rapprochÃ©e, alors on dit que l'opÃ©ration 1 est antÃ©rieure */
     if ( ( pTransaction1 -> pointe == 2 && pTransaction2 -> pointe != 2 )
 	 || ( pTransaction1 -> pointe == 1 && pTransaction2 -> pointe == 0 ))
     {
@@ -413,8 +413,8 @@ gint classement_sliste_par_date_rp ( struct structure_operation *pTransaction1,
     }
     else
     {
-	/* même raisonnement que ci-dessus, sauf que l'on interverti opération 1
-	   et opération 2 */
+	/* mÃªme raisonnement que ci-dessus, sauf que l'on interverti opÃ©ration 1
+	   et opÃ©ration 2 */
 	if ( ( pTransaction2 -> pointe == 2 && pTransaction1 -> pointe != 2 )
 	     || ( pTransaction2 -> pointe == 1 && pTransaction1 -> pointe == 0 ))
 	{
@@ -422,8 +422,8 @@ gint classement_sliste_par_date_rp ( struct structure_operation *pTransaction1,
 	}
 	else
 	{
-	    /* les deux opérations sont toutes les deux dans le même état
-	       (rapprochées, pointées ou ni l'un ni l'autre),
+	    /* les deux opÃ©rations sont toutes les deux dans le mÃªme Ã©tat
+	       (rapprochÃ©es, pointÃ©es ou ni l'un ni l'autre),
 	       alors on les classe par date */
 	    sort_result = classement_sliste_par_date( pTransaction1, pTransaction2);
 	}

@@ -1,9 +1,9 @@
 /* ************************************************************************** */
-/* Contient toutes les procÈdures relatives aux erreurs et ‡ la fin du prog   */
+/* Contient toutes les proc√©dures relatives aux erreurs et √† la fin du prog   */
 /*                                                                            */
 /*                                  erreur.c                                  */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 CÈdric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 C√©dric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
@@ -46,7 +46,7 @@ extern gint patience_en_cours;
 
 
 /*****************************************************************************************************************/
-/* fonction appelÈe lors de la demande de fermeture du fichier de compte en cours */
+/* fonction appel√©e lors de la demande de fermeture du fichier de compte en cours */
 /*****************************************************************************************************************/
 
 
@@ -64,7 +64,7 @@ gboolean fermeture_grisbi ( void )
 
     sauve_configuration ();
 
-    /*   si le fichier est modifiÈ, propose l'enregistrement */
+    /*   si le fichier est modifi√©, propose l'enregistrement */
 
     if ( enregistrement_fichier(-1) )
 	gtk_main_quit();
@@ -72,7 +72,7 @@ gboolean fermeture_grisbi ( void )
       return TRUE;
 
 
-    /* si le fichier n'Ètait pas dÈj‡ ouvert, met ‡ 0 l'ouverture */
+    /* si le fichier n'√©tait pas d√©j√† ouvert, met √† 0 l'ouverture */
 
     if ( !etat.fichier_deja_ouvert
 	 &&
@@ -162,10 +162,10 @@ void traitement_sigsegv ( gint signal_nb )
 
     errmsg = _("Grisbi triggered a segmentation fault and cannot continue its execution.\n\n");
 
-    /*   il y a 3 possibilitÈs : */
-    /*     soit on Ètait en train de charger un fichier, c'est que celui-ci est corrompu */
-    /* soit on Ètait en train de sauver un fichier, et l‡ on peut rien faire */
-    /* sinon on essaie de sauver le fichier sous le nom entourÈ de # */
+    /*   il y a 3 possibilit√©s : */
+    /*     soit on √©tait en train de charger un fichier, c'est que celui-ci est corrompu */
+    /* soit on √©tait en train de sauver un fichier, et l√† on peut rien faire */
+    /* sinon on essaie de sauver le fichier sous le nom entour√© de # */
 
     if ( etat.en_train_de_charger || 
 	 etat.en_train_de_sauvegarder || 
@@ -189,14 +189,14 @@ void traitement_sigsegv ( gint signal_nb )
     else 
     {
 	/* c'est un bug pendant le fonctionnement de Grisbi s'il n'y a
-	   pas de nom de fichier, on le crÈe, sinon on rajoute #
+	   pas de nom de fichier, on le cr√©e, sinon on rajoute #
 	   autour */
 
         gsb_file_default_dir = (gchar *) my_get_gsb_file_default_dir();
 
 	if ( nom_fichier_comptes )
 	{
-	    /* on rÈcupËre le nome du fichier sans le chemin */
+	    /* on r√©cup√®re le nome du fichier sans le chemin */
 
 	    gchar **parametres;
 	    gint i=0;

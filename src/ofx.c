@@ -1,7 +1,7 @@
 /* ce fichier de la gestion du format ofx */
 
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
+/*     Copyright (C) 2000-2003  CÃ©dric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -44,7 +44,7 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 
 
 /* on doit mettre le compte en cours d'importation en global pour que la libofx puisse le traiter */
-/* de plus un fichier ofx peut intégrer plusieurs comptes, donc on crée une liste... */
+/* de plus un fichier ofx peut intÃ©grer plusieurs comptes, donc on crÃ©e une liste... */
 
 GSList *liste_comptes_importes_ofx;
 struct struct_compte_importation *compte_ofx_importation_en_cours;
@@ -67,7 +67,7 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
     ofx_proc_file ( 2,
 		    argv );
 
-    /*     le dernier compte n'a pas été ajouté à la liste */
+    /*     le dernier compte n'a pas Ã©tÃ© ajoutÃ© Ã  la liste */
 
     liste_comptes_importes_ofx = g_slist_append ( liste_comptes_importes_ofx,
 						  compte_ofx_importation_en_cours	);
@@ -88,7 +88,7 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 
 	liste_tmp = liste_comptes_importes_ofx;
 
-	/* ajoute le ou les compte aux autres comptes importés */
+	/* ajoute le ou les compte aux autres comptes importÃ©s */
 
 	while ( liste_tmp )
 	{
@@ -120,7 +120,7 @@ int ofx_proc_status_cb(struct OfxStatusData data)
     /*     printf ( "server_message_valid %d\n", data.server_message_valid ); */
     /*     printf ( "server_message %s\n\n", data . server_message ); */
 
-    /*     	on vérifie l'état, si c'est un warning, on l'affiche, si c'est une erreur, on vire */
+    /*     	on vÃ©rifie l'Ã©tat, si c'est un warning, on l'affiche, si c'est une erreur, on vire */
 
     if ( data.severity_valid )
     {
@@ -210,7 +210,7 @@ int ofx_proc_account_cb(struct OfxAccountData data)
     /*     printf ( "currency_valid %d\n", data.currency_valid ); */
     /*     printf ( "currency %s\n", data. currency); */
 
-    /*     si on revient ici et qu'un compte était en cours, c'est qu'il est fini et qu'on passe au compte */
+    /*     si on revient ici et qu'un compte Ã©tait en cours, c'est qu'il est fini et qu'on passe au compte */
     /* 	suivant... */
 
     if ( compte_ofx_importation_en_cours )
@@ -295,7 +295,7 @@ int ofx_proc_transaction_cb(struct OfxTransactionData data)
     /*     printf ( "memo_valid : %d  \n", data.memo_valid ); */
     /*     printf ( "memo : %s  \n\n\n\n", data.memo ); */
 
-    /* si à ce niveau le comtpe n'est pas créé, c'est qu'il y a un pb... */
+    /* si Ã  ce niveau le comtpe n'est pas crÃ©Ã©, c'est qu'il y a un pb... */
 
     if ( !compte_ofx_importation_en_cours )
     {
@@ -308,7 +308,7 @@ int ofx_proc_transaction_cb(struct OfxTransactionData data)
 	return 0;
     }
 
-    /*     c'est parti, on crée et remplit l'opération */
+    /*     c'est parti, on crÃ©e et remplit l'opÃ©ration */
 
     ope_import = calloc ( 1,
 			  sizeof ( struct struct_ope_importation ));
@@ -355,14 +355,14 @@ int ofx_proc_transaction_cb(struct OfxTransactionData data)
 	ope_import -> type_de_transaction = data.transactiontype;
 
     /*     on peut faire ici des ptites modifs en fonction du type de transaction, */
-    /*     mais tout n'est pas utilisé par les banques... */
+    /*     mais tout n'est pas utilisÃ© par les banques... */
 
     if ( data.transactiontype_valid )
     {
 	switch ( data.transactiontype )
 	{
 	    case OFX_CHECK:
-		/* 		   si c'est un chèque, svt ya pas de tiers, on va mettre chèque...  */
+		/* 		   si c'est un chÃ¨que, svt ya pas de tiers, on va mettre chÃ¨que...  */
 
 		if ( !ope_import -> tiers )
 		    ope_import -> tiers = g_strdup ( _("Check"));
@@ -426,7 +426,7 @@ int ofx_proc_transaction_cb(struct OfxTransactionData data)
 		break;
 	}
     }
-    /*     on ajoute l'opé à son compte */
+    /*     on ajoute l'opÃ© Ã  son compte */
 
     compte_ofx_importation_en_cours -> operations_importees = g_slist_append ( compte_ofx_importation_en_cours -> operations_importees,
 									       ope_import );

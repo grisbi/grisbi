@@ -1,6 +1,6 @@
 /* This file mange cvs export format */
 
-/*     Copyright (C) 2004-  François Terror */
+/*     Copyright (C) 2004-  FranÃ§ois Terror */
 /* 			francois.terrot at grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -272,7 +272,7 @@ void export_accounts_to_csv (GSList* export_entries_list )
 
             csv_add_record(fichier_csv,TRUE);
 
-            /* on met toutes les opérations */
+            /* on met toutes les opÃ©rations */
             if ( LISTE_OPERATIONS )
             {
                 pointeur_tmp = LISTE_OPERATIONS;
@@ -285,8 +285,8 @@ void export_accounts_to_csv (GSList* export_entries_list )
                     operation = pointeur_tmp -> data;
 
 
-                    /* si c'est une opé de ventilation, on la saute pas elle sera recherchée quand */
-                    /* son opé ventilée sera exportée */
+                    /* si c'est une opÃ© de ventilation, on la saute pas elle sera recherchÃ©e quand */
+                    /* son opÃ© ventilÃ©e sera exportÃ©e */
 
                     if ( !operation -> no_operation_ventilee_associee )
                     {
@@ -335,7 +335,7 @@ void export_accounts_to_csv (GSList* export_entries_list )
                             csv_field_debit  = g_strdup( montant_tmp );
                         }
 
-                        /* met le chèque si c'est un type à numérotation automatique */
+                        /* met le chÃ¨que si c'est un type Ã  numÃ©rotation automatique */
                         pointeur = g_slist_find_custom ( TYPES_OPES,
                                                          GINT_TO_POINTER ( operation -> type_ope ),
                                                          (GCompareFunc) recherche_type_ope_par_no );
@@ -390,11 +390,11 @@ void export_accounts_to_csv (GSList* export_entries_list )
                         {
                             csv_field_exercice  = g_strdup(exercice_name_by_no(operation -> no_exercice));
                         }
-                        /*  on met soit un virement, soit une ventilation, soit les catégories */
+                        /*  on met soit un virement, soit une ventilation, soit les catÃ©gories */
 
-                        /* si c'est une ventilation, on recherche toutes les opés de cette ventilation */
-                        /* et les met à la suite */
-                        /* la catégorie de l'opé sera celle de la première opé de ventilation */
+                        /* si c'est une ventilation, on recherche toutes les opÃ©s de cette ventilation */
+                        /* et les met Ã  la suite */
+                        /* la catÃ©gorie de l'opÃ© sera celle de la premiÃ¨re opÃ© de ventilation */
                         if ( operation -> operation_ventilee )
                         {
                             GSList *liste_ventil;
@@ -417,7 +417,7 @@ void export_accounts_to_csv (GSList* export_entries_list )
                                        ||
                                        ope_test -> relation_no_operation ))
                                 {
-                                    /* on commence par mettre la catég et sous categ de l'opé et de l'opé de ventilation */
+                                    /* on commence par mettre la catÃ©g et sous categ de l'opÃ© et de l'opÃ© de ventilation */
                                     csv_field_ventil  =  g_strdup("V"); // -> mark 
 
                                     if ( ope_test -> relation_no_operation )
@@ -490,7 +490,7 @@ void export_accounts_to_csv (GSList* export_entries_list )
                         else
                         {
 
-                            /* si c'est un virement vers un compte supprimé, ça sera pris comme categ normale vide */
+                            /* si c'est un virement vers un compte supprimÃ©, Ã§a sera pris comme categ normale vide */
 
                             if ( operation -> relation_no_operation
                                  &&

@@ -1,9 +1,9 @@
 #ifndef _CONSTANTS_H
 #define _CONSTANTS_H 1
-/* Fichier de définition de constantes constant.h */
+/* Fichier de dÃ©finition de constantes constant.h */
 
-/* Constantes qui définisent le numéro de colonne dans la liste des opérations
-   dans l'onglet opérations */
+/* Constantes qui dÃ©finisent le numÃ©ro de colonne dans la liste des opÃ©rations
+   dans l'onglet opÃ©rations */
 #define TRANSACTION_COL_NB_CHECK 0
 #define TRANSACTION_COL_NB_DATE 1
 #define TRANSACTION_COL_NB_PARTY 2
@@ -15,8 +15,8 @@
 
 #define TRANSACTION_LIST_ROWS_NB 4
 
-/* Constantes qui définisent le numéro de widget dans le formulaire
-   de saisie des opérations */
+/* Constantes qui dÃ©finisent le numÃ©ro de widget dans le formulaire
+   de saisie des opÃ©rations */
 # define TRANSACTION_FORM_OP_NB 0
 # define TRANSACTION_FORM_DATE 1
 # define TRANSACTION_FORM_PARTY 2
@@ -38,8 +38,8 @@
 # define TRANSACTION_FORM_MODE 18
 # define TRANSACTION_FORM_WIDGET_NB 19	 /* must be the last of the list */
 
-/* Constantes qui définisent le numéro de widget dans le formulaire
-   de ventilation des opérations */
+/* Constantes qui dÃ©finisent le numÃ©ro de widget dans le formulaire
+   de ventilation des opÃ©rations */
 # define TRANSACTION_BREAKDOWN_FORM_CATEGORY 0
 # define TRANSACTION_BREAKDOWN_FORM_NOTES 1
 # define TRANSACTION_BREAKDOWN_FORM_DEBIT 2
@@ -50,8 +50,8 @@
 # define TRANSACTION_BREAKDOWN_FORM_VOUCHER 7
 # define TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET 8	 /* must be the last of the list */
 
-/* Constantes qui définisent le numéro de widget dans le formulaire
-   de saisie des échéances */
+/* Constantes qui dÃ©finisent le numÃ©ro de widget dans le formulaire
+   de saisie des Ã©chÃ©ances */
 # define SCHEDULER_FORM_DATE 0
 # define SCHEDULER_FORM_PARTY 1
 # define SCHEDULER_FORM_DEBIT 2
@@ -73,8 +73,8 @@
 # define SCHEDULER_FORM_FREQ_CUSTOM_MENU 18
 # define SCHEDULER_FORM_TOTAL_WIDGET 19	 /* must be the last of the list */
 
-/* Constantes qui définisent le numéro de widget dans le formulaire
-   de ventilation des opérations planifiées */
+/* Constantes qui dÃ©finisent le numÃ©ro de widget dans le formulaire
+   de ventilation des opÃ©rations planifiÃ©es */
 # define SCHEDULER_BREAKDOWN_FORM_CATEGORY 0
 # define SCHEDULER_BREAKDOWN_FORM_NOTES 1
 # define SCHEDULER_BREAKDOWN_FORM_DEBIT 2
