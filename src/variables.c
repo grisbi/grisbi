@@ -107,6 +107,7 @@ gchar version[10];
 GSList *ordre_comptes;
 gchar *titre_fichier;
 gchar *adresse_commune;
+gchar *adresse_secondaire;
 
 GSList *liste_struct_exercices;
 gint no_derniere_exercice;
@@ -221,6 +222,7 @@ GtkWidget *bouton_solde_mini, *bouton_pas_solde_mini;
 GtkWidget *bouton_affiche_permission, *bouton_affiche_pas_permission;
 GtkWidget *entree_titre_fichier;
 GtkWidget *entree_adresse_commune;
+GtkWidget *entree_adresse_secondaire;
 
 GtkWidget *bouton_avec_demarrage, *bouton_sans_demarrage;
 GtkWidget *bouton_save_auto, *bouton_save_non_auto;

@@ -123,6 +123,7 @@ extern gchar version[10];
 extern GSList *ordre_comptes;
 extern gchar *titre_fichier;
 extern gchar *adresse_commune;
+extern gchar *adresse_secondaire;
 
 extern GSList *liste_struct_exercices;
 extern gint no_derniere_exercice;
@@ -244,6 +245,7 @@ extern GtkWidget *bouton_solde_mini, *bouton_pas_solde_mini;
 extern GtkWidget *bouton_affiche_permission, *bouton_affiche_pas_permission;
 extern GtkWidget *entree_titre_fichier;
 extern GtkWidget *entree_adresse_commune;
+extern GtkWidget *entree_adresse_secondaire;
 
 
 extern GtkWidget *bouton_avec_demarrage, *bouton_sans_demarrage;

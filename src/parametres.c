@@ -420,6 +420,58 @@ GtkWidget *onglet_general ( void )
 		      entree_adresse_commune );
   gtk_widget_show ( entree_adresse_commune );
 
+  /* mise en place de la seconde adresse */
+
+  hbox = gtk_hbox_new ( FALSE,
+			5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       hbox,
+		       FALSE,
+		       FALSE,
+		       0);
+  gtk_widget_show ( hbox );
+
+  label = gtk_label_new ( _("Adresse secondaire : ") );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0);
+  gtk_widget_show ( label );
+
+  scrolled_window = gtk_scrolled_window_new ( NULL,
+					      NULL );
+  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_AUTOMATIC );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       scrolled_window,
+		       FALSE,
+		       FALSE,
+		       0);
+  gtk_widget_show ( scrolled_window );
+
+  entree_adresse_secondaire = gtk_text_new ( FALSE,
+					  FALSE );
+  gtk_text_set_editable ( GTK_TEXT ( entree_adresse_secondaire ),
+			  TRUE );
+  if ( adresse_secondaire )
+    gtk_text_insert ( GTK_TEXT ( entree_adresse_secondaire ),
+		      NULL,
+		      NULL,
+		      NULL,
+		      adresse_secondaire,
+		      -1 );
+  gtk_signal_connect_object ( GTK_OBJECT ( entree_adresse_secondaire ),
+			      "changed",
+			      gnome_property_box_changed,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
+		      entree_adresse_secondaire );
+  gtk_widget_show ( entree_adresse_secondaire );
+
+
+
   separateur = gtk_hseparator_new ();
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       separateur,
@@ -429,9 +481,12 @@ GtkWidget *onglet_general ( void )
   gtk_widget_show ( separateur );
 
   if ( !nb_comptes )
-    gtk_widget_set_sensitive ( entree_adresse_commune,
-			       FALSE );
-
+    {
+      gtk_widget_set_sensitive ( entree_adresse_commune,
+				 FALSE );
+      gtk_widget_set_sensitive ( entree_adresse_secondaire,
+				 FALSE );
+    }
 
 
 
@@ -1450,6 +1505,51 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 	      modification_fichier ( TRUE );
 	    }
 	}
+
+      if ( adresse_secondaire )
+	{
+	  if ( strcmp ( adresse_secondaire,
+			g_strstrip ( gtk_editable_get_chars (GTK_EDITABLE ( entree_adresse_secondaire ),
+							     0,
+							     -1 ))))
+	    {
+	      modification_fichier ( TRUE );
+	      adresse_secondaire = g_strdup ( g_strstrip ( gtk_editable_get_chars (GTK_EDITABLE ( entree_adresse_secondaire ),
+										0,
+										-1 )));
+
+	      if ( strlen ( adresse_secondaire ))
+		{
+		  adresse_secondaire = g_strdelimit ( adresse_secondaire,
+						   "{",
+						   '(' );
+		  adresse_secondaire = g_strdelimit ( adresse_secondaire,
+						   "}",
+						   ')' );
+		}
+	      else
+		adresse_secondaire = NULL;
+	    }
+	}
+      else
+	{
+	  if ( strlen ( g_strstrip ( gtk_editable_get_chars (GTK_EDITABLE ( entree_adresse_secondaire ),
+							     0,
+							     -1 ))))
+	    {
+	      adresse_secondaire = g_strdup ( g_strstrip ( gtk_editable_get_chars (GTK_EDITABLE ( entree_adresse_secondaire ),
+										0,
+										-1 )));
+	      adresse_secondaire = g_strdelimit ( adresse_secondaire,
+					       "{",
+					       '(' );
+	      adresse_secondaire = g_strdelimit ( adresse_secondaire,
+					       "}",
+					       ')' );
+	      modification_fichier ( TRUE );
+	    }
+	}
+
       break;
 
 

@@ -1788,6 +1788,10 @@ des paramètres.") );
 		adresse_commune	= xmlNodeGetContent ( node_generalites );
 
 	      if ( !strcmp ( node_generalites -> name,
+			     "Adresse_secondaire" ))
+		adresse_secondaire = xmlNodeGetContent ( node_generalites );
+
+	      if ( !strcmp ( node_generalites -> name,
 			     "Utilise_exercices" ))
 		etat.utilise_exercice = atoi ( xmlNodeGetContent ( node_generalites ));
 
@@ -3949,6 +3953,10 @@ gboolean enregistre_fichier ( void )
 		    adresse_commune);
   xmlNewTextChild ( node,
 		    NULL,
+		    "Adresse_secondaire",
+		    adresse_secondaire);
+  xmlNewTextChild ( node,
+		    NULL,
 		    "Utilise_exercices",
 		    itoa (etat.utilise_exercice));
   xmlNewTextChild ( node,
@@ -5876,14 +5884,14 @@ gboolean enregistre_fichier ( void )
       xmlNewTextChild ( node_etat,
 			NULL,
 			"Detail_mod_paie",
-			itoa ( etat_courant -> utilise_mode_paiement ));
+			itoa ( etat -> utilise_mode_paiement ));
 
       node_2 = xmlNewChild ( node_etat,
 			     NULL,
 			     "Liste_mod_paie",
 			     NULL );
 
-      pointeur_liste = etat_courant -> noms_modes_paiement;
+      pointeur_liste = etat -> noms_modes_paiement;
       pointeur_char = NULL;
 
       while ( pointeur_liste )

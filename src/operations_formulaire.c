@@ -3996,20 +3996,23 @@ void degrise_formulaire_operations ( void )
 			     TRUE );
   gtk_widget_set_sensitive ( GTK_WIDGET ( hbox_valider_annuler_ope ),
 			     TRUE );
+
   /*   si le type par défaut est un chèque, on met le nouveau numéro */
 
-  type = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu_item ),
-			       "adr_type" );
-
-  if ( type -> numerotation_auto )
+  if ( GTK_WIDGET_VISIBLE ( widget_formulaire_operations[9] ))
     {
-      entree_prend_focus ( widget_formulaire_operations[10] );
+      type = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu_item ),
+				   "adr_type" );
 
-      if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[10] ))))
-	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[10] ),
-			     itoa ( type -> no_en_cours  + 1));
+      if ( type -> numerotation_auto )
+	{
+	  entree_prend_focus ( widget_formulaire_operations[10] );
+
+	  if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[10] ))))
+	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[10] ),
+				 itoa ( type -> no_en_cours  + 1));
+	}
     }
-    
 }
 /***********************************************************************************************************/
 
