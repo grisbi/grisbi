@@ -1,7 +1,9 @@
-/* ce fichier se charge de toutes les opérations relative à la configuration sauvegardée */
+/* ce fichier se charge de toutes les opérations relatives à la
+   configuration sauvegardée */
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
+/*			2004 Axel Rousseau (axel584@axel584.org) */
+/*			2004 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -22,13 +24,11 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
+
 #include "fichier_configuration.h"
+#include "fichiers_io.h"
+#include <libxml/tree.h>
 
-
-/******************************************************************************************************************/
-/* Fonction charge_configuration */
-/* appelée à l'ouverture de grisbi, charge les préférences */
-/******************************************************************************************************************/
 
 void charge_configuration ( void )
 {
@@ -36,19 +36,284 @@ void charge_configuration ( void )
   gchar **tab_noms_fichiers;
   gint i;
   gint flag;
+  xmlDocPtr doc;
+  xmlNodePtr node;
+  xmlNodePtr node_1;
+  int result;
   struct stat buffer_stat;
 
-  /*   on vérifie que le fichier de conf existe bien ; dans le cas contraire, on charge */
-  /* la conf par défaut */
+  if ( stat ( g_strconcat ( getenv ("HOME"),"/.grisbirc", NULL ),&buffer_stat ) == -1 ) {
+    if ( ! gnome_config_get_int( g_strconcat ( "/", FICHIER_CONF, "/Geometry/Width", NULL) )  )
+      {
+	raz_configuration ();
+	return;
+      }
+    else {
+      charge_configuration_ancien();
+      return;
+    }
+  }
 
-  if ( stat ( g_strconcat ( getenv ("HOME"), "/.gnome2/", FICHIER_CONF, NULL ),
-	      &buffer_stat ) == -1 )
+  doc = xmlParseFile ( g_strconcat ( getenv ("HOME"),"/.grisbirc", NULL ) );
+
+  /* vérifications d'usage */
+  xmlNodePtr root = xmlDocGetRootElement(doc);
+
+  if ( !root
+       ||
+       !root->name
+       ||
+       g_strcasecmp ( root->name,
+		      "Configuration" ))
+    {
+      xmlFreeDoc ( doc );
+      return;
+    }
+
+  /* On se place sur Generalite*/
+  node = root -> children;
+
+  while (node) {
+    if ( !strcmp ( node -> name,"Geometry" ) )
+      {
+	xmlNodePtr node_geometry;
+	node_geometry = node -> children;
+	while (node_geometry) {
+	  if ( !strcmp ( node_geometry -> name,"Width" ) ) {
+	    largeur_window = atoi(xmlNodeGetContent ( node_geometry));
+	  }
+	  if ( !strcmp ( node_geometry -> name,"Height" ) ) {
+	    hauteur_window = atoi(xmlNodeGetContent ( node_geometry));
+	  }
+	  node_geometry = node_geometry->next;
+	}
+      }
+    if ( !strcmp ( node -> name,"General" ) )
+      {
+	xmlNodePtr node_general;
+	node_general = node -> children;
+	while (node_general) {
+	  if ( !strcmp ( node_general -> name,"Modification_operations_rapprochees" ) ) {
+	    etat.r_modifiable = atoi(xmlNodeGetContent ( node_general));
+	  }
+	  if ( !strcmp ( node_general -> name,"Dernier_chemin_de_travail" ) ) {
+	    dernier_chemin_de_travail = xmlNodeGetContent ( node_general);
+	    if ( !dernier_chemin_de_travail )
+	      dernier_chemin_de_travail = g_strconcat ( getenv ("HOME"),"/",NULL );
+	  }
+	  if ( !strcmp ( node_general -> name,"Affichage_alerte_permission" ) ) {
+	    etat.alerte_permission = atoi(xmlNodeGetContent ( node_general));
+	  }
+	  if ( !strcmp ( node_general -> name,"Force_enregistrement" ) ) {
+	    etat.force_enregistrement = atoi(xmlNodeGetContent ( node_general));
+	  }
+	  if ( !strcmp ( node_general -> name,"Fonction_touche_entree" ) ) {
+	    etat.entree = atoi(xmlNodeGetContent ( node_general));
+	  }
+	  if ( !strcmp ( node_general -> name,"Affichage_messages_alertes" ) ) {
+	    etat.alerte_mini = atoi(xmlNodeGetContent ( node_general));
+	  }
+
+	  if ( !strcmp ( node_general -> name,"Fonte_des_listes" ) ) {
+	    fonte_liste = xmlNodeGetContent ( node_general);
+	  }
+
+	  if ( !strcmp ( node_general -> name,"Fonte_generale" ) ) {
+	    fonte_general = xmlNodeGetContent ( node_general);
+	  }
+	  node_general = node_general->next;
+	}
+      }
+    if ( fonte_liste && !strlen( fonte_liste ) ) {
+      fonte_liste = NULL;
+    }
+    if ( fonte_general && !strlen( fonte_general ) ) {
+      fonte_general = NULL;
+    }
+
+    if ( !strcmp ( node -> name,"IO" ) )
+      {
+	xmlNodePtr node_io;
+	node_io = node -> children;
+	while (node_io) {
+	  if ( !strcmp ( node_io -> name,"Chargement_auto_dernier_fichier" ) ) {
+	    etat.dernier_fichier_auto = atoi(xmlNodeGetContent ( node_io));
+	  }
+	  if ( !strcmp ( node_io -> name,"Nom_dernier_fichier" ) ) {
+	    nom_fichier_comptes = xmlNodeGetContent ( node_io);
+	  }
+	  if ( !strcmp ( node_io -> name,"Enregistrement_automatique" ) ) {
+	    etat.sauvegarde_auto = atoi(xmlNodeGetContent ( node_io));
+	  }
+	  if ( !strcmp ( node_io -> name,"Enregistrement_au_demarrage" ) ) {
+	    etat.sauvegarde_demarrage = atoi(xmlNodeGetContent ( node_io));
+	  }
+	  if ( !strcmp ( node_io -> name,"Nb_max_derniers_fichiers_ouverts" ) ) {
+	    nb_max_derniers_fichiers_ouverts = atoi(xmlNodeGetContent ( node_io));
+	  }
+	  if ( !strcmp ( node_io -> name,"Compression_fichier" ) ) {
+	    compression_fichier = atoi(xmlNodeGetContent ( node_io));
+	  }
+	  if ( !strcmp ( node_io -> name,"Compression_backup" ) ) {
+	    compression_backup = atoi(xmlNodeGetContent ( node_io));
+	  }
+	  if ( !strcmp ( node_io->name, "Liste_noms_derniers_fichiers_ouverts" ) ) {
+	    nb_derniers_fichiers_ouverts = 0;
+	    xmlNodePtr node_filename = node_io -> children;
+	    tab_noms_derniers_fichiers_ouverts = malloc ( nb_max_derniers_fichiers_ouverts * sizeof(gchar *) );
+	    while ( node_filename ) {
+	      if ( !strcmp ( node_filename -> name, "fichier" ) ) {
+		tab_noms_derniers_fichiers_ouverts[nb_derniers_fichiers_ouverts] = xmlNodeGetContent ( node_filename );
+		nb_derniers_fichiers_ouverts++;
+	      }
+	      node_filename = node_filename->next;
+	    }
+	  }
+
+	  node_io = node_io->next;
+	}
+      }
+    if ( !strcmp ( node -> name,"Echeances" ) )
+      {
+	xmlNodePtr node_echeances;
+	node_echeances = node -> children;
+	while (node_echeances) {
+	  if ( !strcmp ( node_echeances -> name,"Delai_rappel_echeances" ) ) {
+	    decalage_echeance = atoi(xmlNodeGetContent ( node_echeances));
+	  }
+	  node_echeances = node_echeances->next;
+	}
+      }
+    /*if ( !strcmp ( node -> name,"Applet" ) )
+      {
+      xmlNodePtr node_io;
+      node_io = node -> children;
+      while (node_io) {
+      if ( !strcmp ( node_io -> name,"Chargement_auto_dernier_fichier" ) ) {
+      etat.dernier_fichier_auto = atoi(xmlNodeGetContent ( node_io));
+      }
+      if ( !strcmp ( node_io -> name,"Nom_dernier_fichier" ) ) {
+      nom_fichier_comptes = xmlNodeGetContent ( node_io);
+      }
+      if ( !strcmp ( node_io -> name,"Enregistrement_automatique" ) ) {
+      etat.sauvegarde_auto = atoi(xmlNodeGetContent ( node_io));
+      }
+      if ( !strcmp ( node_io -> name,"Enregistrement_au_demarrage" ) ) {
+      etat.sauvegarde_demarrage = atoi(xmlNodeGetContent ( node_io));
+      }
+      if ( !strcmp ( node_io -> name,"Nb_max_derniers_fichiers_ouverts" ) ) {
+      nb_max_derniers_fichiers_ouverts = atoi(xmlNodeGetContent ( node_io));
+      }
+      if ( !strcmp ( node_io -> name,"Compression_fichier" ) ) {
+      compression_fichier = atoi(xmlNodeGetContent ( node_io));
+      }
+      if ( !strcmp ( node_io -> name,"Compression_backup" ) ) {
+      variable = xmlNodeGetContent ( node_io);
+      }
+      // boucler pour avoir la liste des derniers fichiers.
+      node_io = node_io->next;
+      }
+      }*/
+    if ( !strcmp ( node -> name,"Affichage" ) )
+      {
+	xmlNodePtr node_affichage;
+	node_affichage = node -> children;
+	while (node_affichage) {
+	  if ( !strcmp ( node_affichage -> name,"Affichage_formulaire" ) ) {
+	    etat.formulaire_toujours_affiche = atoi(xmlNodeGetContent ( node_affichage));
+	  }
+	  if ( !strcmp ( node_affichage -> name,"Affichage_formulaire_echeancier" ) ) {
+	    etat.formulaire_echeancier_toujours_affiche = atoi(xmlNodeGetContent ( node_affichage));
+	  }
+	  if ( !strcmp ( node_affichage -> name,"Affichage_tous_types" ) ) {
+	    etat.affiche_tous_les_types = atoi(xmlNodeGetContent ( node_affichage));
+	  }
+	  if ( !strcmp ( node_affichage -> name,"Affiche_no_operation" ) ) {
+	    etat.affiche_no_operation = atoi(xmlNodeGetContent ( node_affichage));
+	  }
+	  if ( !strcmp ( node_affichage -> name,"Affiche_date_bancaire" ) ) {
+	    etat.affiche_date_bancaire = atoi(xmlNodeGetContent ( node_affichage));
+	  }
+	  if ( !strcmp ( node_affichage -> name,"Tri_par_date" ) ) {
+	    etat.classement_par_date = atoi(xmlNodeGetContent ( node_affichage));
+	  }
+	  if ( !strcmp ( node_affichage -> name,"Affiche_boutons_valider_annuler" ) ) {
+	    etat.affiche_boutons_valider_annuler = atoi(xmlNodeGetContent ( node_affichage));
+	  }
+	  if ( !strcmp ( node_affichage -> name,"Largeur_auto_colonnes" ) ) {
+	    etat.largeur_auto_colonnes = atoi(xmlNodeGetContent ( node_affichage));
+	  }
+	  if ( !strcmp ( node_affichage -> name,"Caracteristiques_par_compte" ) ) {
+	    etat.retient_affichage_par_compte = atoi( xmlNodeGetContent ( node_affichage));
+	  }
+	  // boucler pour avoir les tailles des différentes colonnes
+	  if ( !strcmp ( node_affichage -> name,"taille_largeur_colonne" ) ) {
+	    //int numero_colonne;
+	    //int largeur_colonne;
+	    int numero_colonne = atoi(xmlGetProp ( node_affichage,"No"));
+	    int largeur_colonne = atoi(xmlNodeGetContent ( node_affichage));
+	    taille_largeur_colonnes[numero_colonne] = largeur_colonne;
+	  }
+	  if ( !strcmp ( node_affichage -> name,"Affichage_exercice_automatique" ) ) {
+	    etat.affichage_exercice_automatique = atoi(xmlNodeGetContent ( node_affichage));
+	  }
+	  if ( !strcmp ( node_affichage -> name,"Affichage_nb_ecritures" ) ) {
+	    etat.affiche_nb_ecritures_listes = atoi(xmlNodeGetContent ( node_affichage));
+	  }
+	  node_affichage = node_affichage->next;
+	}
+      }
+    if ( !strcmp ( node -> name,"Exercice" ) )
+      {
+	xmlNodePtr node_exercice;
+	node_exercice = node -> children;
+	while (node_exercice) {
+	  node_exercice = node_exercice->next;
+	}
+      }
+    if ( !strcmp ( node -> name,"Messages" ) )
+      {
+	xmlNodePtr node_messages;
+	node_messages = node -> children;
+	while (node_messages) {
+	  if ( !strcmp ( node_messages -> name,"display_message_lock_active" ) ) {
+	    etat.display_message_lock_active = atoi(xmlNodeGetContent ( node_messages));
+	  }
+	  if ( !strcmp ( node_messages -> name,"display_message_file_readable" ) ) {
+	    etat.display_message_file_readable = atoi(xmlNodeGetContent ( node_messages));
+	  }
+	  if ( !strcmp ( node_messages -> name,"display_message_minimum_alert" ) ) {
+	    etat.display_message_minimum_alert = atoi(xmlNodeGetContent ( node_messages));
+	  }
+	  node_messages = node_messages->next;
+	}
+      }
+    node = node -> next;
+  }
+}
+/* ***************************************************************************************************** */
+
+
+/******************************************************************************************************************/
+/* Fonction charge_configuration */
+/* appelée à l'ouverture de grisbi, charge les préférences */
+/******************************************************************************************************************/
+
+ void charge_configuration_ancien ( void )
+{
+  gint nb_fichiers_a_verifier;
+  gchar **tab_noms_fichiers;
+  gint i;
+  gint flag;
+  struct stat buffer_stat;
+
+  if ( ! gnome_config_get_int( g_strconcat ( "/", FICHIER_CONF, "/Geometry/Width", NULL) )  )
     {
       raz_configuration ();
       return;
     }
 
-  /* on récupère la taille de la fenêtre à l'arrêt précédent */
+   /*on récupère la taille de la fenêtre à l'arrêt précédent */
 
   largeur_window = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Geometry/Width", NULL ));
   hauteur_window = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Geometry/Height", NULL ));
@@ -63,9 +328,9 @@ void charge_configuration ( void )
 
   etat.entree = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonction_touche_entree", NULL ));
 
-  /* FIXME : do that with list_font_name & list_font_size */
-/*   fonte_liste = gnome_config_get_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonte_des_listes", NULL )); */
-/*   fonte_general = gnome_config_get_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonte_generale", NULL )); */
+  /*FIXME : do that with list_font_name & list_font_size */
+   fonte_liste = gnome_config_get_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonte_des_listes", NULL ));
+   fonte_general = gnome_config_get_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonte_generale", NULL ));
   etat.force_enregistrement = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Force_enregistrement", NULL ));
 
   if ( fonte_liste && !strlen( fonte_liste ) )
@@ -86,13 +351,11 @@ void charge_configuration ( void )
   compression_fichier = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/IO/Compression_fichier", NULL ));
   compression_backup = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/IO/Compression_backup", NULL ));
   xmlSetCompressMode ( compression_fichier );
-  
+
   gnome_config_get_vector ( g_strconcat ( "/", FICHIER_CONF, "/IO/Liste_noms_derniers_fichiers_ouverts", NULL ),
 			    &nb_derniers_fichiers_ouverts,
 			    &tab_noms_derniers_fichiers_ouverts );
 
-  /* quand il n'y a aucun dernier fichier ouvert, il en récupère quand même un vide */
-  /* ... on le vire ... */
 
   if ( nb_derniers_fichiers_ouverts == 1
        &&
@@ -120,14 +383,11 @@ void charge_configuration ( void )
   etat.retient_affichage_par_compte  = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Caracteristiques_par_compte", NULL ));
 
 
-
   etat.affichage_exercice_automatique  = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Exercice/Affichage_exercice_automatique", NULL ));
   etat.affiche_nb_ecritures_listes  = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Exercice/Affichage_nb_ecritures", NULL ));
 
   for ( i=0 ; i<7 ; i++ )
     taille_largeur_colonnes[i] = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Exercice/taille_largeur_colonne", itoa(i), NULL ));
-
-  /* remplissage de la liste des fichiers à vérifier */
 
   fichier_a_verifier = NULL;
 
@@ -135,14 +395,14 @@ void charge_configuration ( void )
     fichier_a_verifier = g_slist_append ( fichier_a_verifier,
 					  tab_noms_fichiers[i] );
 
-  /* Messages */
+
   etat.display_message_lock_active  = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Messages/display_message_lock_active", NULL ));
   etat.display_message_file_readable  = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Messages/display_message_file_readable", NULL ));
   etat.display_message_minimum_alert = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Messages/display_message_minimum_alert", NULL ));
 
 
 }
-/* ***************************************************************************************************** */
+/*************************************************************************************************** */
 
 
 
@@ -190,15 +450,165 @@ void raz_configuration ( void )
 }
 /* ***************************************************************************************************** */
 
+/* ***************************************************************************************************** */
+/* Fonction sauve_configurationXML */
+/* Appelée à chaque changement de configuration */
+/* ***************************************************************************************************** */
+
+void sauve_configurationXML(void)
+{
+  GSList *pointeur_fichier_a_verifier;
+  gint i, x, y;
+  gchar **tab_pointeurs;
+	// document XML (voir fichiers_io.c l.4000)
+  xmlDocPtr doc;
+  xmlNodePtr node;
+  xmlNodePtr node_1;
+  xmlNodePtr node_2;
+  char buff[15];
+	// resultat de la sauvegarde
+  gint resultat;
+
+
+  /* creation de l'arbre xml en memoire */
+
+  doc = xmlNewDoc("1.0");
+
+	/* la racine est "configuration" */
+
+  doc->children = xmlNewDocNode ( doc,NULL,"Configuration",NULL );
+
+  /*   sauvegarde de la géométrie */
+  if ( GTK_WIDGET ( window) -> window ) 
+    {
+      gtk_window_get_size (GTK_WINDOW ( window ),
+			   &largeur_window,&hauteur_window); // gtk2 ???
+    } 
+  else 
+    {
+    largeur_window = 0;
+    hauteur_window = 0;
+  }
+
+  node = xmlNewChild ( doc->children,NULL,"Geometry",NULL );
+  xmlNewChild ( node,NULL,"Width",
+		itoa(largeur_window));
+  xmlNewChild ( node,NULL,"Height",
+		itoa(hauteur_window));
+
+  /* sauvegarde de l'onglet général */
+  node = xmlNewChild ( doc->children,NULL,"General",NULL );
+  xmlNewChild ( node,NULL,"Modification_operations_rapprochees",
+		itoa(etat.r_modifiable));
+  xmlNewChild ( node,NULL,"Dernier_chemin_de_travail",dernier_chemin_de_travail);
+  xmlNewChild ( node,NULL,"Affichage_alerte_permission",
+		itoa(etat.alerte_permission));
+  xmlNewChild ( node,NULL,"Force_enregistrement",
+		itoa(etat.force_enregistrement));
+  xmlNewChild ( node,NULL,"Fonction_touche_entree",
+		itoa(etat.entree));
+  xmlNewChild ( node,NULL,"Affichage_messages_alertes",
+		itoa(etat.alerte_mini));
+  xmlNewChild ( node,NULL,"Fonte_des_listes",fonte_liste);
+  xmlNewChild ( node,NULL,"Fonte_generale",fonte_general);
+
+  /* sauvegarde de l'onglet I/O */
+  node = xmlNewChild ( doc->children,NULL,"IO",NULL );
+  xmlNewChild ( node,NULL,"Chargement_auto_dernier_fichier",
+		itoa(etat.dernier_fichier_auto));
+  xmlNewChild ( node,NULL,"Nom_dernier_fichier",nom_fichier_comptes);
+  xmlNewChild ( node,NULL,"Enregistrement_automatique",
+		itoa(etat.sauvegarde_auto));
+  xmlNewChild ( node,NULL,"Enregistrement_au_demarrage",
+		itoa(etat.sauvegarde_demarrage));
+  xmlNewChild ( node,NULL,"Nb_max_derniers_fichiers_ouverts",
+		itoa(nb_max_derniers_fichiers_ouverts));
+  xmlNewChild ( node,NULL,"Compression_fichier",
+		itoa(compression_fichier));
+  xmlNewChild ( node,NULL,"Compression_backup",
+		itoa(compression_backup));
+  node_1 = xmlNewChild ( node,NULL,"Liste_noms_derniers_fichiers_ouverts",NULL);
+  for (i=0;i<nb_derniers_fichiers_ouverts;i++) {
+    // ajout des noeuds de la forme fichier1,fichier2,fichier3...
+    //sprintf(buff,"fichier%i",i);
+    node_2 = xmlNewChild ( node_1,NULL,"fichier",tab_noms_derniers_fichiers_ouverts[i]);
+    xmlSetProp ( node_2,"No",
+		 itoa (i));
+  }
+
+  /* sauvegarde de l'onglet échéances */
+  node = xmlNewChild ( doc->children,NULL,"Echeances",NULL );
+  xmlNewChild ( node,NULL,"Delai_rappel_echeances",
+		itoa(decalage_echeance));
+
+  /* sauvegarde de l'onglet affichage */
+  node = xmlNewChild ( doc->children,NULL,"Affichage",NULL );
+  xmlNewChild ( node,NULL,"Affichage_formulaire",
+		itoa(etat.formulaire_toujours_affiche));
+  xmlNewChild ( node,NULL,"Affichage_formulaire_echeancier",
+		itoa(etat.formulaire_echeancier_toujours_affiche));
+  xmlNewChild ( node,NULL,"Affichage_tous_types",
+		itoa(etat.affiche_tous_les_types));
+  xmlNewChild ( node,NULL,"Affiche_no_operation",
+		itoa(etat.affiche_no_operation));
+  xmlNewChild ( node,NULL,"Affiche_date_bancaire",
+		itoa(etat.affiche_date_bancaire));
+  xmlNewChild ( node,NULL,"Tri_par_date",
+		itoa(etat.classement_par_date));
+  xmlNewChild ( node,NULL,"Affiche_boutons_valider_annuler",
+		itoa(etat.affiche_boutons_valider_annuler));
+  xmlNewChild ( node,NULL,"Largeur_auto_colonnes",
+		itoa(etat.largeur_auto_colonnes));
+  xmlNewChild ( node,NULL,"Caracteristiques_par_compte",
+		itoa(etat.retient_affichage_par_compte));
+  for ( i=0 ; i<7 ; i++ ) {
+    node_2 = xmlNewChild ( node,NULL,"taille_largeur_colonne",
+			   itoa(taille_largeur_colonnes[i]));
+    xmlSetProp ( node_2, "No", itoa (i));
+  }
+  xmlNewChild ( node,NULL,"Affichage_nb_ecritures",
+		itoa(etat.affichage_exercice_automatique));
+  xmlNewChild ( node,NULL,"Affichage_exercice_automatique",
+		itoa(etat.affichage_exercice_automatique));
+
+  /*   sauvegarde de l'onglet d'exercice */
+  node = xmlNewChild ( doc->children,NULL,"Exercice",NULL );
+
+  /* sauvegarde des messages */
+  node = xmlNewChild ( doc->children,NULL,"Messages",NULL );
+  xmlNewChild ( node,NULL,"display_message_lock_active",
+		itoa(etat.display_message_lock_active));
+  xmlNewChild ( node,NULL,"display_message_file_readable",
+		itoa(etat.display_message_file_readable));
+  xmlNewChild ( node,NULL,"display_message_minimum_alert",
+		itoa(etat.display_message_minimum_alert));
+
+  /* Enregistre dans le ~/.grisbirc */
+  resultat = xmlSaveFormatFile ( g_strconcat ( getenv ("HOME"),"/.grisbirc",
+					       NULL), doc, 1 );
+
+  /* on libère la memoire */
+  xmlFreeDoc ( doc );
+  if ( resultat == -1 ) 
+    {
+      dialogue_error ( g_strdup_printf ( _("Error saving file '%s': %s"), 
+					 nom_fichier_comptes, 
+					 latin2utf8(strerror(errno)) ));
+    }
+}
+/* ***************************************************************************************************** */
+
 
 
 /* ***************************************************************************************************** */
 /* Fonction sauve_configuration */
 /* Appelée à chaque changement de configuration */
 /* ***************************************************************************************************** */
-
 void sauve_configuration (void)
 {
+
+	sauve_configurationXML();
+	return;
   GSList *pointeur_fichier_a_verifier;
   gint i;
   gchar **tab_pointeurs;
@@ -267,7 +677,7 @@ void sauve_configuration (void)
 
   pointeur_fichier_a_verifier = fichier_a_verifier;
   i = 0;
-  
+
   while ( pointeur_fichier_a_verifier )
     {
       tab_pointeurs[i] = pointeur_fichier_a_verifier -> data;
