@@ -2544,6 +2544,19 @@ void popup_transaction_context_menu ( gboolean full )
 
   menu = gtk_menu_new ();
 
+  /* Edit transaction */
+  menu_item = gtk_image_menu_item_new_with_label ( _("Edit transaction") );
+  gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
+				  gtk_image_new_from_stock ( GTK_STOCK_PROPERTIES,
+							     GTK_ICON_SIZE_MENU ));
+  g_signal_connect ( G_OBJECT(menu_item), "activate", edition_operation, NULL );
+  if ( !full )
+    gtk_widget_set_sensitive ( menu_item, FALSE );
+  gtk_menu_append ( menu, menu_item );
+
+  /* Separator */
+  gtk_menu_append ( menu, gtk_separator_menu_item_new() );
+
   /* New transaction */
   menu_item = gtk_image_menu_item_new_with_label ( _("New transaction") );
   gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
@@ -2572,16 +2585,7 @@ void popup_transaction_context_menu ( gboolean full )
     gtk_widget_set_sensitive ( menu_item, FALSE );
   gtk_menu_append ( menu, menu_item );
 
-  /* Edit transaction */
-  menu_item = gtk_image_menu_item_new_with_label ( _("Edit transaction") );
-  gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
-				  gtk_image_new_from_stock ( GTK_STOCK_PROPERTIES,
-							     GTK_ICON_SIZE_MENU ));
-  g_signal_connect ( G_OBJECT(menu_item), "activate", edition_operation, NULL );
-  if ( !full )
-    gtk_widget_set_sensitive ( menu_item, FALSE );
-  gtk_menu_append ( menu, menu_item );
-
+  /* Separator */
   gtk_menu_append ( menu, gtk_separator_menu_item_new() );
 
   /* Convert to scheduled transaction */
