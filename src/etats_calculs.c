@@ -228,7 +228,9 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 		      if ( operation -> contenu_type 
 			   &&
-			   atoi ( operation -> contenu_type ) > dernier_chq )
+			   atoi ( operation -> contenu_type ) > dernier_chq
+			   &&
+			   operation -> type_ope )
 			{
 			  struct struct_type_ope *type_ope;
 

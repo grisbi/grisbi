@@ -11,6 +11,6 @@ Installation de Grisbi :
 
  et voila, il suffit ensuite de taper grisbi ou d'aller dans le menu Gnome, Applications
   
-Le programme se place automatiquement dans le répertoire /usr/bin.
+Le programme se place automatiquement dans le répertoire %%PREFIX%%/bin.
 Vous pouvez démarrer l'applet (Gnome seulement) soit à partir de la configuration de grisbi, 
 soit dans le tableau de bord -> ajouter l'applet -> utilitaires -> grisbi-applet.

@@ -480,6 +480,8 @@ gboolean enregistrement_fichier ( gint origine )
 
       fenetre_nom = gnome_file_entry_new ( "nom_fichier",
 					   "nom_fichier" );
+      gnome_file_entry_set_modal ( GNOME_FILE_ENTRY ( fenetre_nom ),
+				   TRUE );
       gnome_file_entry_set_default_path ( GNOME_FILE_ENTRY ( fenetre_nom ),
 					  dernier_chemin_de_travail );
       gtk_widget_set_usize ( gnome_file_entry_gnome_entry ( GNOME_FILE_ENTRY ( fenetre_nom )),

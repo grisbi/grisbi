@@ -468,8 +468,8 @@ GtkWidget *creation_formulaire ( void )
   widget_formulaire_operations[13] = gtk_option_menu_new ();
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
 			 widget_formulaire_operations[13],
-			 _("Type d'opération associé"),
-			 _("Type d'opération associé") );
+			 _("Mode de règlement de la contre-opération"),
+			 _("Mode de règlement de la contre-opération") );
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_operations[13] ),
 		       "key_press_event",
 		       GTK_SIGNAL_FUNC ( touches_champ_formulaire ),

@@ -1700,7 +1700,8 @@ GtkWidget *onglet_etat_dates ( void )
   gtk_widget_show ( hbox_onglet );
 
 
-  /*   on met en forme la partie de gauche : utilisation des exercices */
+
+  /* mise en place de la plage de dates */
 
   vbox = gtk_vbox_new ( FALSE,
 			5 );
@@ -1711,7 +1712,103 @@ GtkWidget *onglet_etat_dates ( void )
 		       0 );
   gtk_widget_show ( vbox );
 
-  radio_button_utilise_exo = gtk_radio_button_new_with_label ( NULL,
+  radio_button_utilise_dates = gtk_radio_button_new_with_label ( NULL,
+								 _("Utiliser des plages de dates") );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       radio_button_utilise_dates,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( radio_button_utilise_dates );
+
+  /* on met en dessous une liste avec les plages de date proposées */
+
+  frame = gtk_frame_new (NULL);
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       frame,
+		       TRUE,
+		       TRUE,
+		       0 );
+  gtk_widget_show ( frame );
+
+  vbox_utilisation_date = gtk_vbox_new ( FALSE,
+					 5 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( vbox_utilisation_date ),
+				   10 );
+  gtk_container_add ( GTK_CONTAINER ( frame ),
+		      vbox_utilisation_date );
+  gtk_widget_show ( vbox_utilisation_date );
+
+  /* on met la connection pour rendre sensitif cette frame */
+
+  gtk_signal_connect ( GTK_OBJECT ( radio_button_utilise_dates ),
+		       "toggled",
+		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+		       vbox_utilisation_date );
+
+  scrolled_window = gtk_scrolled_window_new ( FALSE,
+					      FALSE );
+  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_AUTOMATIC );
+  gtk_box_pack_start ( GTK_BOX ( vbox_utilisation_date ),
+		       scrolled_window,
+		       TRUE,
+		       TRUE,
+		       0 );
+  gtk_widget_show ( scrolled_window );
+
+
+  liste_plages_dates_etat = gtk_clist_new ( 1 );
+  gtk_clist_set_column_auto_resize ( GTK_CLIST ( liste_plages_dates_etat ),
+				     0,
+				     TRUE );
+  gtk_signal_connect ( GTK_OBJECT ( liste_plages_dates_etat ),
+		       "button_press_event",
+		       GTK_SIGNAL_FUNC ( click_liste_etat ),
+		       NULL );
+  gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
+		      liste_plages_dates_etat );
+  gtk_widget_show ( liste_plages_dates_etat );
+
+  /* on remplit la liste des dates */
+
+  plages_dates = liste_plages_dates;
+
+  i = 0;
+
+  while ( plages_dates[i] )
+    {
+      gint ligne;
+
+      ligne = gtk_clist_append ( GTK_CLIST ( liste_plages_dates_etat ),
+				 &plages_dates[i] );
+      i++;
+    }
+
+  /* séparation gauche-droite */
+
+  separateur = gtk_vseparator_new ();
+  gtk_box_pack_start ( GTK_BOX ( hbox_onglet ),
+		       separateur,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( separateur );
+
+
+  /*   on met en forme la partie de droite : utilisation des exercices */
+
+  vbox = gtk_vbox_new ( FALSE,
+			5 );
+  gtk_box_pack_start ( GTK_BOX ( hbox_onglet ),
+		       vbox,
+		       TRUE,
+		       TRUE,
+		       0 );
+  gtk_widget_show ( vbox );
+
+  radio_button_utilise_exo = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( radio_button_utilise_dates )),
 							       _("Utiliser les exercices") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       radio_button_utilise_exo,
@@ -1828,99 +1925,7 @@ GtkWidget *onglet_etat_dates ( void )
   remplissage_liste_exo_etats ();
 
 
-  separateur = gtk_vseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( hbox_onglet ),
-		       separateur,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( separateur );
 
-
-  /* mise en place de la plage de dates */
-
-  vbox = gtk_vbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( hbox_onglet ),
-		       vbox,
-		       TRUE,
-		       TRUE,
-		       0 );
-  gtk_widget_show ( vbox );
-
-  radio_button_utilise_dates = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( radio_button_utilise_exo )),
-								 _("Utiliser des plages de dates") );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       radio_button_utilise_dates,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( radio_button_utilise_dates );
-
-  /* on met en dessous une liste avec les plages de date proposées */
-
-  frame = gtk_frame_new (NULL);
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       frame,
-		       TRUE,
-		       TRUE,
-		       0 );
-  gtk_widget_show ( frame );
-
-  vbox_utilisation_date = gtk_vbox_new ( FALSE,
-					 5 );
-  gtk_container_set_border_width ( GTK_CONTAINER ( vbox_utilisation_date ),
-				   10 );
-  gtk_container_add ( GTK_CONTAINER ( frame ),
-		      vbox_utilisation_date );
-  gtk_widget_show ( vbox_utilisation_date );
-
-  /* on met la connection pour rendre sensitif cette frame */
-
-  gtk_signal_connect ( GTK_OBJECT ( radio_button_utilise_dates ),
-		       "toggled",
-		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
-		       vbox_utilisation_date );
-
-  scrolled_window = gtk_scrolled_window_new ( FALSE,
-					      FALSE );
-  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				   GTK_POLICY_AUTOMATIC,
-				   GTK_POLICY_AUTOMATIC );
-  gtk_box_pack_start ( GTK_BOX ( vbox_utilisation_date ),
-		       scrolled_window,
-		       TRUE,
-		       TRUE,
-		       0 );
-  gtk_widget_show ( scrolled_window );
-
-
-  liste_plages_dates_etat = gtk_clist_new ( 1 );
-  gtk_clist_set_column_auto_resize ( GTK_CLIST ( liste_plages_dates_etat ),
-				     0,
-				     TRUE );
-  gtk_signal_connect ( GTK_OBJECT ( liste_plages_dates_etat ),
-		       "button_press_event",
-		       GTK_SIGNAL_FUNC ( click_liste_etat ),
-		       NULL );
-  gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
-		      liste_plages_dates_etat );
-  gtk_widget_show ( liste_plages_dates_etat );
-
-  /* on remplit la liste des dates */
-
-  plages_dates = liste_plages_dates;
-
-  i = 0;
-
-  while ( plages_dates[i] )
-    {
-      gint ligne;
-
-      ligne = gtk_clist_append ( GTK_CLIST ( liste_plages_dates_etat ),
-				 &plages_dates[i] );
-      i++;
-    }
 
   /* on met ensuite la date perso de début */
 
@@ -5564,6 +5569,8 @@ GtkWidget *cree_bouton_lien ( GtkWidget *hbox )
 			     menu );
   gtk_widget_show ( menu );
 
+  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton ),
+				3 );
   return ( bouton );
 }
 /*****************************************************************************************************/
@@ -5789,90 +5796,6 @@ GtkWidget *page_organisation_donnees ( void )
 		       10 );
   gtk_widget_show ( hbox_haut );
 
-  /* choix du type de classement */
-
-  frame = gtk_frame_new ( _("Organisation des niveaux de regroupement :") );
-  gtk_box_pack_start ( GTK_BOX ( hbox_haut ),
-		       frame,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( frame );
-
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_container_set_border_width ( GTK_CONTAINER ( hbox ),
-				   5 );
-  gtk_container_add ( GTK_CONTAINER ( frame ),
-		      hbox );
-  gtk_widget_show ( hbox );
-
-  scrolled_window = gtk_scrolled_window_new ( FALSE,
-					      FALSE );
-  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				   GTK_POLICY_AUTOMATIC,
-				   GTK_POLICY_AUTOMATIC );
-  gtk_widget_set_usize ( scrolled_window,
-			 200,
-			 100 );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       scrolled_window,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( scrolled_window );
-
-
-  liste_type_classement_etat = gtk_ctree_new ( 1,
-					       0 );
-  gtk_clist_set_column_auto_resize ( GTK_CLIST ( liste_type_classement_etat ),
-				     0,
-				     TRUE );
-  gtk_ctree_set_line_style ( GTK_CTREE ( liste_type_classement_etat ),
-			     GTK_CTREE_LINES_NONE );
-  gtk_ctree_set_expander_style ( GTK_CTREE ( liste_type_classement_etat ),
-				 GTK_CTREE_EXPANDER_NONE );
-
-  gtk_signal_connect ( GTK_OBJECT ( liste_type_classement_etat ),
-		       "button_press_event",
-		       GTK_SIGNAL_FUNC ( click_liste_etat ),
-		       GINT_TO_POINTER (1) );
-  gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
-		      liste_type_classement_etat );
-  gtk_widget_show ( liste_type_classement_etat );
-
-  /* on place ici les flèches sur le côté de la liste */
-
-  vbox = gtk_vbutton_box_new ();
-
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       vbox,
-		       FALSE,
-		       FALSE,
-		       0);
-
-  fleche = gnome_stock_button ( GNOME_STOCK_BUTTON_UP );
-  gtk_button_set_relief ( GTK_BUTTON ( fleche ),
-			  GTK_RELIEF_NONE );
-  gtk_signal_connect ( GTK_OBJECT ( fleche ),
-		       "clicked",
-		       GTK_SIGNAL_FUNC ( click_haut_classement_etat ),
-		       NULL );
-  gtk_container_add ( GTK_CONTAINER ( vbox ),
-		      fleche  );
-
-  fleche = gnome_stock_button ( GNOME_STOCK_BUTTON_DOWN );
-  gtk_button_set_relief ( GTK_BUTTON ( fleche ),
-			  GTK_RELIEF_NONE );
-  gtk_signal_connect ( GTK_OBJECT ( fleche ),
-		       "clicked",
-		       GTK_SIGNAL_FUNC ( click_bas_classement_etat ),
-		       NULL);
-  gtk_container_add ( GTK_CONTAINER ( vbox ),
-		      fleche  );
-  gtk_widget_show_all ( vbox );
-
-  
   /* choix de ce qu'on utilise dans le classement */
 
   frame = gtk_frame_new ( _("Informations utilisées pour le regroupement :") );
@@ -5972,6 +5895,92 @@ GtkWidget *page_organisation_donnees ( void )
 		       FALSE,
 		       0 );
   gtk_widget_show ( bouton_utilise_ib_etat );
+
+
+  /* choix du type de classement */
+
+  frame = gtk_frame_new ( _("Organisation des niveaux de regroupement :") );
+  gtk_box_pack_start ( GTK_BOX ( hbox_haut ),
+		       frame,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( frame );
+
+  hbox = gtk_hbox_new ( FALSE,
+			5 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( hbox ),
+				   5 );
+  gtk_container_add ( GTK_CONTAINER ( frame ),
+		      hbox );
+  gtk_widget_show ( hbox );
+
+  scrolled_window = gtk_scrolled_window_new ( FALSE,
+					      FALSE );
+  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_AUTOMATIC );
+  gtk_widget_set_usize ( scrolled_window,
+			 200,
+			 100 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       scrolled_window,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( scrolled_window );
+
+
+  liste_type_classement_etat = gtk_ctree_new ( 1,
+					       0 );
+  gtk_clist_set_column_auto_resize ( GTK_CLIST ( liste_type_classement_etat ),
+				     0,
+				     TRUE );
+  gtk_ctree_set_line_style ( GTK_CTREE ( liste_type_classement_etat ),
+			     GTK_CTREE_LINES_NONE );
+  gtk_ctree_set_expander_style ( GTK_CTREE ( liste_type_classement_etat ),
+				 GTK_CTREE_EXPANDER_NONE );
+
+  gtk_signal_connect ( GTK_OBJECT ( liste_type_classement_etat ),
+		       "button_press_event",
+		       GTK_SIGNAL_FUNC ( click_liste_etat ),
+		       GINT_TO_POINTER (1) );
+  gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
+		      liste_type_classement_etat );
+  gtk_widget_show ( liste_type_classement_etat );
+
+  /* on place ici les flèches sur le côté de la liste */
+
+  vbox = gtk_vbutton_box_new ();
+
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       vbox,
+		       FALSE,
+		       FALSE,
+		       0);
+
+  fleche = gnome_stock_button ( GNOME_STOCK_BUTTON_UP );
+  gtk_button_set_relief ( GTK_BUTTON ( fleche ),
+			  GTK_RELIEF_NONE );
+  gtk_signal_connect ( GTK_OBJECT ( fleche ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( click_haut_classement_etat ),
+		       NULL );
+  gtk_container_add ( GTK_CONTAINER ( vbox ),
+		      fleche  );
+
+  fleche = gnome_stock_button ( GNOME_STOCK_BUTTON_DOWN );
+  gtk_button_set_relief ( GTK_BUTTON ( fleche ),
+			  GTK_RELIEF_NONE );
+  gtk_signal_connect ( GTK_OBJECT ( fleche ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( click_bas_classement_etat ),
+		       NULL);
+  gtk_container_add ( GTK_CONTAINER ( vbox ),
+		      fleche  );
+  gtk_widget_show_all ( vbox );
+
+  
 
 
 
@@ -6950,7 +6959,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			      11, 12 );
   gtk_widget_show ( hbox );
 
-  bouton_rendre_ope_clickables = gtk_check_button_new_with_label ( _("Rendre les opérations clickables"));
+  bouton_rendre_ope_clickables = gtk_check_button_new_with_label ( _("Rendre les opérations intéractives"));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_rendre_ope_clickables,
 		       FALSE,
@@ -7431,6 +7440,21 @@ GtkWidget *onglet_affichage_etat_divers ( void )
   gtk_widget_show ( vbox );
 
 
+  /* affichage possible du nom de la categ */
+
+  bouton_afficher_noms_categ = gtk_check_button_new_with_label ( _("Afficher le nom de la (sous-)catégorie") );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       bouton_afficher_noms_categ,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_afficher_noms_categ );
+
+  gtk_signal_connect ( GTK_OBJECT ( bouton_utilise_categ_etat ),
+		       "toggled",
+		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+		       bouton_afficher_noms_categ );
+
   /* permet d'afficher un sous total lors de chgt de categ */
   /* activé uniquement si on utilise les categ */
 
@@ -7491,21 +7515,6 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 		       bouton_afficher_pas_de_sous_categ );
 
 
-  /* affichage possible du nom de la categ */
-
-  bouton_afficher_noms_categ = gtk_check_button_new_with_label ( _("Afficher le nom de la (sous-)catégorie") );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       bouton_afficher_noms_categ,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_afficher_noms_categ );
-
-  gtk_signal_connect ( GTK_OBJECT ( bouton_utilise_categ_etat ),
-		       "toggled",
-		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
-		       bouton_afficher_noms_categ );
-
 
   /* mise en place de la frame des ib */
 
@@ -7525,6 +7534,19 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 		      vbox );
   gtk_widget_show ( vbox );
 
+
+  bouton_afficher_noms_ib = gtk_check_button_new_with_label ( _("Afficher le nom de la (sous-)imputation") );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       bouton_afficher_noms_ib,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_afficher_noms_ib );
+
+  gtk_signal_connect ( GTK_OBJECT ( bouton_utilise_ib_etat ),
+		       "toggled",
+		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+		       bouton_afficher_noms_ib );
 
   /* permet d'afficher un sous total lors de chgt d'ib */
   /* activé uniquement si on utilise les ib */
@@ -7583,19 +7605,6 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
 		       bouton_afficher_pas_de_sous_ib );
-
-  bouton_afficher_noms_ib = gtk_check_button_new_with_label ( _("Afficher le nom de la (sous-)imputation") );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       bouton_afficher_noms_ib,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_afficher_noms_ib );
-
-  gtk_signal_connect ( GTK_OBJECT ( bouton_utilise_ib_etat ),
-		       "toggled",
-		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
-		       bouton_afficher_noms_ib );
 
 
 

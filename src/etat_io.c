@@ -1044,7 +1044,7 @@ gboolean enregistre_etat ( gchar *nom_etat )
   while ( pointeur_list )
     {
       if ( pointeur_char )
-	pointeur_char = g_strdup_printf ( pointeur_char,
+	pointeur_char = g_strconcat ( pointeur_char,
 				      "/",
 				      itoa ( GPOINTER_TO_INT ( pointeur_list -> data )),
 				      NULL );

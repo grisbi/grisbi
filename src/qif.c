@@ -708,7 +708,9 @@ void traitement_donnees_brutes ( void )
 
 /* fait le nécessaire si aucun compte n'est ouvert */
 
-  if ( !nb_comptes )
+  if ( nb_comptes )
+      nouveau_fichier = 0;
+  else
     {
       init_variables ( FALSE );
       init_variables ( TRUE );
@@ -718,9 +720,18 @@ void traitement_donnees_brutes ( void )
       nom_fichier_comptes = NULL;
       nouveau_fichier = 1;
       affiche_titre_fenetre();
+
+      /*   la taille des colonnes est automatique au départ, on y met les rapports de base */
+
+      etat.largeur_auto_colonnes = 1;
+      rapport_largeur_colonnes[0] = 11;
+      rapport_largeur_colonnes[1] = 13;
+      rapport_largeur_colonnes[2] = 30;
+      rapport_largeur_colonnes[3] = 3;
+      rapport_largeur_colonnes[4] = 11;
+      rapport_largeur_colonnes[5] = 11;
+      rapport_largeur_colonnes[6] = 11;
     }
-  else
-      nouveau_fichier = 0;
 
 
   /* on commence par enregistrer les comptes */
@@ -1207,7 +1218,7 @@ void traitement_donnees_brutes ( void )
 	  liste_tmp = liste_tmp -> next;
 	}
 
-
+      compte -> nb_lignes_ope = 3;
       compte -> solde_courant = solde_courant;
       compte -> date_releve = NULL;
       compte -> operation_selectionnee = GINT_TO_POINTER ( -1 );

@@ -851,14 +851,17 @@ void modification_logo_accueil ( void )
     }
   if ( nb_comptes )
     {
+      /* on vire l'ancien logo et la séparation */
+      
+      if (chemin_logo)
+	{
+	  gtk_widget_destroy ( ((GtkBoxChild *)(GTK_BOX ( page_accueil ) -> children -> data )) -> widget );
+	  gtk_widget_destroy ( ((GtkBoxChild *)(GTK_BOX ( page_accueil ) -> children -> data )) -> widget );
+	}
+
       /* on change le logo */
 
       chemin_logo = gnome_pixmap_entry_get_filename ( GNOME_PIXMAP_ENTRY ( choix ));
-
-  /* on vire l'ancien logo et la séparation */
-
-      gtk_widget_destroy ( ((GtkBoxChild *)(GTK_BOX ( page_accueil ) -> children -> data )) -> widget );
-      gtk_widget_destroy ( ((GtkBoxChild *)(GTK_BOX ( page_accueil ) -> children -> data )) -> widget );
 
       if ( !(chemin_logo
 	     &&
@@ -910,6 +913,7 @@ void modification_logo_accueil ( void )
   gnome_config_set_string ( "/Grisbi/Affichage/Chemin_du_logo",
 			    chemin_logo );
   gnome_config_sync();
+  modification_fichier ( TRUE );
 
 }
 /* **************************************************************************************************************************** */

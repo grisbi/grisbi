@@ -199,7 +199,7 @@ GtkWidget *creation_liste_etats ( void )
   scrolled_window = gtk_scrolled_window_new ( NULL,
 					      NULL);
   gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_NEVER,
 				   GTK_POLICY_AUTOMATIC);
   gtk_box_pack_start ( GTK_BOX ( onglet ),
 		       scrolled_window,
@@ -526,6 +526,7 @@ void remplissage_liste_etats ( void )
 void ajout_etat ( void )
 {
   struct struct_etat *etat;
+  struct struct_comparaison_montants_etat *comp_montant;
   GtkWidget *dialog;
   gint resultat;
   GtkWidget *label;
@@ -533,6 +534,8 @@ void ajout_etat ( void )
   GtkWidget *option_menu;
   GtkWidget *menu;
   GtkWidget *menu_item;
+  GtkWidget *label_description;
+  GtkWidget *scrolled_window;
 
 
   dialog = gnome_dialog_new ( _("Création d'un état"),
@@ -560,13 +563,51 @@ void ajout_etat ( void )
 		       0 );
   gtk_widget_show ( label );
 
-  /* on crée la frame avant l'option menu */
-  /* pour pouvoir l'envoyer par les menu_item */
-
-  frame = gtk_frame_new ( _("Description :" ));
-
+  /* on commence par créer l'option menu */
 
   option_menu = gtk_option_menu_new ();
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+		       option_menu,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( option_menu );
+
+  /* on ajoute maintenant la frame */
+
+  frame = gtk_frame_new ( _("Description :" ));
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+		       frame,
+		       TRUE,
+		       TRUE,
+		       0 );
+  gtk_widget_show ( frame );
+
+  /* on met le label dans une scrolled window */
+
+  scrolled_window = gtk_scrolled_window_new ( FALSE,
+					      FALSE );
+  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_AUTOMATIC );
+  gtk_container_add ( GTK_CONTAINER ( frame ),
+		      scrolled_window );
+  gtk_widget_show ( scrolled_window );
+
+
+  /* on ajoute maintenant le label */
+
+  label_description = gtk_label_new ( "" );
+  gtk_label_set_line_wrap ( GTK_LABEL ( label_description ),
+			    TRUE );
+  gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+					  label_description );
+  gtk_widget_show ( label_description );
+
+  gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( label_description -> parent ),
+				 GTK_SHADOW_NONE );
+
+  /* on crée ici le menu qu'on ajoute à l'option menu */
 
   menu = gtk_menu_new ();
 
@@ -579,13 +620,13 @@ void ajout_etat ( void )
   gtk_signal_connect ( GTK_OBJECT ( menu_item ),
 			      "activate",
 			      GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
-			      GTK_OBJECT ( frame ));
+			      GTK_OBJECT ( label_description ));
   gtk_widget_show ( menu_item );
 
   /* on met le texte du 1er choix */
 
   change_choix_nouvel_etat ( menu_item,
-			     frame );
+			     label_description );
 
 
   menu_item = gtk_menu_item_new_with_label ( _("Revenus et dépenses du mois en cours"));
@@ -597,11 +638,11 @@ void ajout_etat ( void )
   gtk_signal_connect ( GTK_OBJECT ( menu_item ),
 		       "activate",
 		       GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
-		       GTK_OBJECT ( frame ));
+		       GTK_OBJECT ( label_description ));
   gtk_widget_show ( menu_item );
 
 
-  menu_item = gtk_menu_item_new_with_label ( _("État vierge"));
+  menu_item = gtk_menu_item_new_with_label ( _("Budget annuel"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -610,28 +651,53 @@ void ajout_etat ( void )
   gtk_signal_connect ( GTK_OBJECT ( menu_item ),
 			      "activate",
 			      GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
-			      GTK_OBJECT ( frame ));
+			      GTK_OBJECT ( label_description ));
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("Remise de chèques"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_etat",
+			GINT_TO_POINTER ( 4 ));
+  gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
+			      GTK_OBJECT ( label_description ));
+  gtk_widget_show ( menu_item );
+
+
+  menu_item = gtk_menu_item_new_with_label ( _("Dépenses mensuelles par tiers"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_etat",
+			GINT_TO_POINTER ( 5 ));
+  gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
+			      GTK_OBJECT ( label_description ));
+  gtk_widget_show ( menu_item );
+
+
+  menu_item = gtk_menu_item_new_with_label ( _("État vierge"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_etat",
+			GINT_TO_POINTER ( 3 ));
+  gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
+			      GTK_OBJECT ( label_description ));
   gtk_widget_show ( menu_item );
 
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( option_menu ),
 			     menu );
   gtk_widget_show ( menu );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       option_menu,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( option_menu );
 
-  /* on ajoute maintenant la frame */
 
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       frame,
-		       TRUE,
-		       TRUE,
-		       0 );
-  gtk_widget_show ( frame );
-
+  /* on attend le choix de l'utilisateur */
 
   resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
 
@@ -700,6 +766,7 @@ void ajout_etat ( void )
       etat -> devise_de_calcul_categ = 1;
       etat -> devise_de_calcul_ib = 1;
       etat -> devise_de_calcul_tiers = 1;
+      etat -> choix_devise_montant = 1;
 
       break;
 
@@ -741,15 +808,60 @@ void ajout_etat ( void )
       etat -> devise_de_calcul_categ = 1;
       etat -> devise_de_calcul_ib = 1;
       etat -> devise_de_calcul_tiers = 1;
+      etat -> choix_devise_montant = 1;
 
       break;
 
 
     case 2:
 
+      /* on ajoute le budget annuel */
+
+      etat -> nom_etat = g_strdup ( _("Budget annuel") );
+
+      /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
+
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 1 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 2 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 3 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 4 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 5 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 6 ));
+
+      /*   les devises sont à 1 (euro) */
+
+      etat -> devise_de_calcul_general = 1;
+      etat -> devise_de_calcul_categ = 1;
+      etat -> devise_de_calcul_ib = 1;
+      etat -> devise_de_calcul_tiers = 1;
+      etat -> choix_devise_montant = 1;
+
+      etat -> separer_revenus_depenses = 1;
+      etat -> no_plage_date = 4;
+      etat -> utilise_categ = 1;
+      etat -> exclure_ope_sans_categ = 1;
+      etat -> affiche_sous_total_categ = 1;
+      etat -> afficher_sous_categ = 1;
+      etat -> afficher_pas_de_sous_categ = 1;
+      etat -> affiche_sous_total_sous_categ = 1;
+      etat -> afficher_nom_categ = 1;
+      etat -> exclure_montants_nuls = 1;
+
+      /*   tout le reste est à NULL, ce qui est très bien */
+
+      break;
+
+
+
+    case 3:
+
       /* on ajoute un état vierge appelé nouvel état */
-      /*   pour modifier le nom, il faudra aller dans la */
-      /* personnalisation */
 
       etat -> nom_etat = g_strdup ( _("Nouvel état") );
 
@@ -774,10 +886,127 @@ void ajout_etat ( void )
       etat -> devise_de_calcul_categ = 1;
       etat -> devise_de_calcul_ib = 1;
       etat -> devise_de_calcul_tiers = 1;
+      etat -> choix_devise_montant = 1;
+
+
+      etat -> afficher_opes = 1;
+      etat -> afficher_date_ope = 1;
+      etat -> afficher_tiers_ope = 1;
+      etat -> afficher_categ_ope = 1;
+      etat -> separer_revenus_depenses = 1;
+      etat -> type_virement = 2;
+      etat -> utilise_categ = 1;
+      etat -> exclure_ope_sans_categ = 1;
+      etat -> affiche_sous_total_categ = 1;
+      etat -> afficher_sous_categ = 1;
+      etat -> affiche_sous_total_sous_categ = 1;
+      etat -> afficher_nom_categ = 1;
+      etat -> exclure_ope_sans_ib = 1;
+      etat -> exclure_montants_nuls = 1;
+
 
       /*   tout le reste est à NULL, ce qui est très bien */
 
-  break;
+      break;
+
+    case 4:
+
+      /* remise de chèques */
+
+      etat -> nom_etat = g_strdup ( _("Remise de chèques") );
+
+      /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
+
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 1 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 2 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 3 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 4 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 5 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 6 ));
+
+      /*   les devises sont à 1 (euro) */
+
+      etat -> devise_de_calcul_general = 1;
+      etat -> devise_de_calcul_categ = 1;
+      etat -> devise_de_calcul_ib = 1;
+      etat -> devise_de_calcul_tiers = 1;
+      etat -> choix_devise_montant = 1;
+
+
+      etat -> afficher_opes = 1;
+      etat -> afficher_nb_opes = 1;
+      etat -> afficher_tiers_ope = 1;
+      etat -> afficher_infobd_ope = 1;
+      etat -> type_virement = 2;
+      etat -> exclure_montants_nuls = 1;
+      etat -> utilise_montant = 1;
+
+      /* on doit créer une structure de montant qui dit que ça va être positif */
+
+      comp_montant = calloc ( 1,
+			      sizeof ( struct struct_comparaison_montants_etat ));
+      comp_montant -> lien_struct_precedente = -1;
+      comp_montant -> comparateur_1 = 8;
+      comp_montant -> lien_1_2 = 3;
+
+      etat -> liste_struct_comparaison_montants = g_slist_append ( etat -> liste_struct_comparaison_montants,
+								   comp_montant );
+
+
+      /*   tout le reste est à NULL, ce qui est très bien */
+
+      break;
+
+    case 5:
+
+      /* dépenses mensuelles par tiers */
+
+      etat -> nom_etat = g_strdup ( _("Dépenses mensuelles par tiers") );
+
+      /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
+
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 1 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 2 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 3 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 4 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 5 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 6 ));
+
+      /*   les devises sont à 1 (euro) */
+
+      etat -> devise_de_calcul_general = 1;
+      etat -> devise_de_calcul_categ = 1;
+      etat -> devise_de_calcul_ib = 1;
+      etat -> devise_de_calcul_tiers = 1;
+      etat -> choix_devise_montant = 1;
+
+
+      etat -> afficher_opes = 1;
+      etat -> afficher_nb_opes = 1;
+      etat -> afficher_tiers_ope = 1;
+      etat -> type_classement_ope = 2;
+      etat -> afficher_titre_colonnes = 1;
+      etat -> no_plage_date = 7;
+      etat -> utilise_categ = 1;
+      etat -> affiche_sous_total_categ = 1;
+      etat -> afficher_sous_categ = 1;
+      etat -> afficher_nom_categ = 1;
+
+      /*   tout le reste est à NULL, ce qui est très bien */
+
+      break;
 
     default :
       dialogue ( _( "Type d'état inconnu, création abandonnée" ));
@@ -820,10 +1049,9 @@ void ajout_etat ( void )
 
 /*****************************************************************************************************/
 void change_choix_nouvel_etat ( GtkWidget *menu_item,
-				GtkWidget *frame )
+				GtkWidget *label_description )
 {
   gchar *description;
-  GtkWidget *label;
 
   switch ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( menu_item ),
 						   "no_etat" )))
@@ -841,9 +1069,27 @@ void change_choix_nouvel_etat ( GtkWidget *menu_item,
       break;
  
     case 2:
+      /* budget annuel  */
+
+      description = _("Cet état affiche le budget annuel. Il suffira de choisir le ou les comptes et de valider (par-défaut, tous les comptes sont utilisés).");
+      break;
+ 
+    case 3:
       /* etat vierge  */
 
       description = _("Cette option crée un état vierge dans lequel vous devez tous configurer.");
+      break;
+ 
+    case 4:
+      /* remise de chèques  */
+
+      description = _("Cet état affiche les chèques encaissés. Il suffira de choisir le ou les comptes et de valider (par-défaut, tous les comptes sont utilisés).");
+      break;
+ 
+    case 5:
+      /* dépenses mensuelles par tiers  */
+
+      description = _("Cet état affiche les dépenses du mois classées par tiers. Il suffira de choisir le ou les comptes et de valider (par-défaut, tous les comptes sont utilisés).");
       break;
  
     default:
@@ -851,17 +1097,8 @@ void change_choix_nouvel_etat ( GtkWidget *menu_item,
      description = _("????  ne devrait pas être affiché ...");
      }
 
-
-  if ( GTK_IS_WIDGET ( GTK_BIN ( frame ) -> child ))
-    gtk_container_remove ( GTK_CONTAINER ( frame ),
-			   GTK_BIN ( frame ) -> child );
-
-  label = gtk_label_new ( description );
-  gtk_label_set_line_wrap ( GTK_LABEL ( label ),
-			    TRUE );
-  gtk_container_add ( GTK_CONTAINER ( frame ),
-		      label );
-  gtk_widget_show ( label );
+  gtk_label_set_text ( GTK_LABEL ( label_description ),
+		       description );
 
 }
 /*****************************************************************************************************/

@@ -982,8 +982,8 @@ GtkWidget *creation_barre_outils_categ ( void )
 			GINT_TO_POINTER ( 1 ));
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton,
-			 _("Afficher les sous-catégories"),
-			 _("Afficher les sous-catégories") );
+			 _("Afficher les sous-divisions"),
+			 _("Afficher les sous-divisions") );
   icone = gnome_pixmap_new_from_xpm_d ( liste_1_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton ),
 		      icone );
@@ -1145,8 +1145,8 @@ GtkWidget *creation_barre_outils_imputation ( void )
 			GINT_TO_POINTER ( 1 ));
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton,
-			 _("Afficher les sous-catégories"),
-			 _("Afficher les sous-catégories") );
+			 _("Afficher les sous-divisions"),
+			 _("Afficher les sous-divisions") );
   icone = gnome_pixmap_new_from_xpm_d ( liste_1_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton ),
 		      icone );

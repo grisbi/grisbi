@@ -252,6 +252,12 @@ gint classement_sliste_par_date ( struct structure_operation *operation_1,
 	    retour = g_date_compare ( operation_1 -> date,
 				      operation_2 -> date );
 	}
+
+      /*       on a classé par date de valeur, si c'est la même date, on classe par date */
+
+      if ( !retour )
+	retour = g_date_compare ( operation_1 -> date,
+				  operation_2 -> date );
     }
 
 
