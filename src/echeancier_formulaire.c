@@ -2589,13 +2589,14 @@ void incrementation_echeance ( struct operation_echeance *echeance )
 
     /* si l'échéance est finie, on la vire, sinon on met à jour les var jour, mois et année */
 
-    if ( !echeance -> periodicite 
-	 ||
-	 (
-	  echeance -> date_limite
-	  &&
-	  g_date_compare ( echeance -> date,
-			   echeance -> date_limite ) > 0  ))
+    if ( frame_etat_echeances_finies && 
+	 ( !echeance -> periodicite 
+	   ||
+	   (
+	       echeance -> date_limite
+	       &&
+	       g_date_compare ( echeance -> date,
+				echeance -> date_limite ) > 0  )) )
     {
 	GtkWidget *label;
 
