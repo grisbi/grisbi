@@ -219,7 +219,7 @@ void export_accounts_to_csv (GSList* export_entries_list )
       sMessage = g_strdup_printf ( _("Error for the file \"%s\" :\n%s"),
 				   csv_filename, strerror ( errno ) );
       dialogue ( sMessage );
-      free ( sMessage );
+      g_free ( sMessage );
       sMessage = NULL;
     }
     else
@@ -623,7 +623,7 @@ void export_accounts_to_csv (GSList* export_entries_list )
       fclose ( csv_file );
     }
     pAccountList = pAccountList -> next;
-    free ( csv_filename );
+    g_free ( csv_filename );
     csv_filename = NULL;
   }
 }
