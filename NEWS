@@ -8,6 +8,7 @@ New in version CVS HEAD :
  - End of the obligation to use Euro
  - Gnucash files import
  - Use of + and - in amount entry
+ - Tip of the day support
 
 New in version 0.5.0 :
  - GTK2 & libxml2 support
