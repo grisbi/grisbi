@@ -88,6 +88,7 @@ gfloat red=0, green=0, blue=0;
 gint gnomeprint_initialise ()
 {
   GnomePrintDialog *gpd;
+  GnomePaper * paper;
   static int copies=1, collate;
 
   gpd = GNOME_PRINT_DIALOG (gnome_print_dialog_new(_("Impression de Grisbi"), 
@@ -110,6 +111,9 @@ gint gnomeprint_initialise ()
   gnome_print_dialog_get_copies(gpd, &copies, &collate);
   gnome_print_master_set_copies(gpm, copies, collate);
   gnome_print_master_set_printer(gpm, gnome_print_dialog_get_printer(gpd));
+/*   paper = gnome_paper_with_size (841.88976, 595.27559); */
+/*   gnome_print_master_set_paper ( gpm, paper ); */
+       
 
   gnome_dialog_close (GNOME_DIALOG(gpd));
   pc = gnome_print_master_get_context(gpm);
@@ -220,16 +224,6 @@ gint gnomeprint_affiche_titre ( gint ligne )
   gnomeprint_commit_point ();
 
   gnomeprint_set_color ( 0, 0, 0 );
-/*   gnomeprint_move_point ( 0, -10 ); */
-
-  /* FIXME: crado */
-/*   p_tab_nom_de_compte_variable = p_tab_nom_de_compte; */
-/*   for ( i=0 ; i < nb_comptes ; i++ ) */
-/*     { */
-/*       gnomeprint_affiche_texte(NOM_DU_COMPTE, subtitle_font); */
-/*       gnomeprint_commit_point(); */
-/*       p_tab_nom_de_compte_variable++; */
-/*     } */
 
   return 1;
 }
@@ -340,6 +334,75 @@ gint gnomeprint_affiche_total_sous_categ ( gint ligne )
 /*****************************************************************************************************/
 gint gnomeprint_affiche_total_ib ( gint ligne )
 {
+  if ( etat_courant -> utilise_ib
+       &&
+       etat_courant -> affiche_sous_total_ib )
+    {
+      /* si rien n'est affiché en dessous de la ib, on */
+      /* met le résultat sur la ligne de l'ib */
+      /* sinon on fait une barre et on met le résultat */
+
+      if ( etat_courant -> afficher_sous_ib
+	   ||
+	   etat_courant -> regroupe_ope_par_compte
+	   ||
+	   etat_courant -> utilise_tiers
+	   ||
+	   etat_courant -> afficher_opes )
+	{
+	  /* 	  si on affiche les opés, on met les traits entre eux */
+
+	  if ( etat_courant -> afficher_opes
+	       &&
+	       ligne_debut_partie != -1 )
+	    {
+	      gint i;
+	      gint colonne;
+	      gnomeprint_affiche_separateur ( ligne );
+	    }
+	      
+	  gnomeprint_move_point ( 0, -5 );
+	  
+	  ligne++;
+	  
+	  gnomeprint_move_point ( 10, 0 );
+
+	  ligne++;
+
+	  if ( nom_ib_en_cours )
+	    gnomeprint_affiche_texte ( g_strconcat ( _("Total "),
+						  nom_ib_en_cours,
+						  NULL ),
+				       text_font );
+	  else
+	    gnomeprint_affiche_texte ( _("Total Imputations budgétaires : "),
+					text_font);
+
+	  gnomeprint_update_point ( );
+	  gnomeprint_move_point ( 100, 0 );
+
+	  gnomeprint_affiche_texte ( g_strdup_printf ( "%4.2f %s",
+						       montant_ib_etat,
+						       devise_ib_etat -> code_devise ),
+				     text_font);
+	  gnomeprint_commit_y ( );
+
+	  ligne++;
+	}
+      else
+	{
+	  ligne--;
+
+	  gnomeprint_affiche_texte ( g_strdup_printf ( "%4.2f %s",
+							montant_ib_etat,
+							devise_ib_etat -> code_devise ),
+				      text_font);
+	  ligne++;
+	}
+    }
+
+  tmp_x = 10;
+  gnomeprint_commit_point ( );
 
   montant_ib_etat = 0;
   nom_ib_en_cours = NULL;
@@ -411,6 +474,8 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 			   gint ligne )
 {
   int colonne;
+  int size;
+
   if ( etat_courant -> afficher_opes )
     {
       /* on affiche ce qui est demandé pour les opés */
@@ -429,7 +494,6 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 
       if ( etat_courant -> afficher_no_ope )
 	{
-	  int size;
 	  gnomeprint_affiche_texte (itoa ( operation -> no_operation ), text_font);
 	  size = tmp_y - point_y;
 	  gnomeprint_update_point ();
@@ -443,44 +507,43 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 
       if ( etat_courant -> afficher_date_ope )
 	{
-	  int size;
-	   gnomeprint_affiche_texte ( g_strdup_printf  ( "%.2d/%.2d/%d",
-							 operation -> jour,
-							 operation -> mois,
-							 operation -> annee ),
-				      text_font);
-	   size = tmp_y - point_y;
-	   gnomeprint_update_point ();
-	   gnomeprint_move_point ( 20, 0 );
-	   gnomeprint_update_point ( );
-	   gnomeprint_barre_verticale ( size );
-	   gnomeprint_move_point ( 2, 0 );
-	   gnomeprint_update_point ();
-	   colonne = colonne + 2;
+	  gnomeprint_affiche_texte ( g_strdup_printf  ( "%.2d/%.2d/%d",
+							operation -> jour,
+							operation -> mois,
+							operation -> annee ),
+				     text_font);
+	  size = tmp_y - point_y;
+	  gnomeprint_update_point ();
+	  gnomeprint_move_point ( 20, 0 );
+	  gnomeprint_update_point ( );
+	  gnomeprint_barre_verticale ( size );
+	  gnomeprint_move_point ( 2, 0 );
+	  gnomeprint_update_point ();
+	  colonne = colonne + 2;
 	}
 
       if ( etat_courant -> afficher_exo_ope )
 	{
 	  if ( operation -> no_exercice )
 	    {
-	      int size;
 	      gnomeprint_affiche_texte( ((struct struct_exercice *)(g_slist_find_custom ( liste_struct_exercices,
 											  GINT_TO_POINTER ( operation -> no_exercice ),
 											  (GCompareFunc) recherche_exercice_par_no )->data)) -> nom_exercice, text_font );
 	      size = tmp_y - point_y;
-	      gnomeprint_update_point ();
-	      gnomeprint_move_point ( 70, 0 );
-	      gnomeprint_update_point ( );
-	      gnomeprint_barre_verticale ( size );
-	      gnomeprint_move_point ( 2, 0 );
-	      gnomeprint_update_point ();
 	    }
+
+	  gnomeprint_update_point ();
+	  gnomeprint_move_point ( 30, 0 );
+	  gnomeprint_update_point ( );
+	  gnomeprint_barre_verticale ( size );
+	  gnomeprint_move_point ( 2, 0 );
+	  gnomeprint_update_point ();
+
 	  colonne = colonne + 2;
 	}
 
       if ( etat_courant -> afficher_tiers_ope )
 	{
-	  int size;
 	  if ( operation -> tiers )
 	    {
 	      gnomeprint_affiche_texte( ((struct struct_tiers *)
@@ -488,8 +551,8 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 								GINT_TO_POINTER ( operation -> tiers ),
 								(GCompareFunc) recherche_tiers_par_no )->data)) -> nom_tiers , 
 					text_font);
+	      size = tmp_y - point_y;
 	    }
-	  size = tmp_y - point_y;
 	  gnomeprint_update_point();
 	  gnomeprint_move_point ( 80, 0);
 	  gnomeprint_update_point ( );
@@ -549,16 +612,15 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 
 	  if ( pointeur )
 	    {
-	      int size;
 	      gnomeprint_affiche_texte ( pointeur, text_font );
 	      size = tmp_y - point_y;
-	      gnomeprint_update_point();
-	      gnomeprint_move_point ( 70, 0);
-	      gnomeprint_update_point ( );
-	      gnomeprint_barre_verticale ( size );
-	      gnomeprint_move_point ( 2, 0 );
-	      gnomeprint_update_point ();
 	    }
+	  gnomeprint_update_point();
+	  gnomeprint_move_point ( 70, 0);
+	  gnomeprint_update_point ( );
+	  gnomeprint_barre_verticale ( size );
+	  gnomeprint_move_point ( 2, 0 );
+	  gnomeprint_update_point ();
 	  colonne = colonne + 2;
 	}
 
@@ -569,7 +631,6 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 	  if ( operation -> imputation )
 	    {
 	      struct struct_imputation *ib;
-	      int size;
 	      gchar *pointeur;
 
 	      ib = g_slist_find_custom ( liste_struct_imputation,
@@ -589,13 +650,13 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 
 	      gnomeprint_affiche_texte ( pointeur, text_font );
 	      size = tmp_y - point_y;
-	      gnomeprint_update_point();
-	      gnomeprint_move_point ( 70, 0);
-	      gnomeprint_update_point ( );
-	      gnomeprint_barre_verticale ( size );
-	      gnomeprint_move_point ( 2, 0 );
-	      gnomeprint_update_point ();
 	    }
+	  gnomeprint_update_point();
+	  gnomeprint_move_point ( 70, 0);
+	  gnomeprint_update_point ( );
+	  gnomeprint_barre_verticale ( size );
+	  gnomeprint_move_point ( 2, 0 );
+	  gnomeprint_update_point ();
 	  colonne = colonne + 2;
 	}
 
@@ -604,16 +665,16 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 	{
 	  if ( operation -> notes )
 	    {
-	      int size;
 	      gnomeprint_affiche_texte ( operation -> notes, text_font );
 	      size = tmp_y - point_y;
-	      gnomeprint_update_point();
-	      gnomeprint_move_point ( 70, 0);
-	      gnomeprint_update_point ( );
-	      gnomeprint_barre_verticale ( size );
-	      gnomeprint_move_point ( 2, 0 );
-	      gnomeprint_update_point ();
 	    }
+	  gnomeprint_update_point();
+	  gnomeprint_move_point ( 70, 0);
+	  gnomeprint_update_point ( );
+	  gnomeprint_barre_verticale ( size );
+	  gnomeprint_move_point ( 2, 0 );
+	  gnomeprint_update_point ();
+
 	  colonne = colonne + 2;
 	}
 
@@ -630,19 +691,19 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 	  if ( pointeur )
 	    {
 	      struct struct_type_ope *type;
-	      int size;
-
 	      type = pointeur -> data;
 
 	      gnomeprint_affiche_texte ( type -> nom_type, text_font );
-	      size = tmp_y - point_y;
-	      gnomeprint_update_point();
-	      gnomeprint_move_point ( 70, 0);
-	      gnomeprint_update_point ( );
-	      gnomeprint_barre_verticale ( size );
-	      gnomeprint_move_point ( 2, 0 );
-	      gnomeprint_update_point ();
 	    }
+
+	  size = tmp_y - point_y;
+	  gnomeprint_update_point();
+	  gnomeprint_move_point ( 30, 0);
+	  gnomeprint_update_point ( );
+	  gnomeprint_barre_verticale ( size );
+	  gnomeprint_move_point ( 2, 0 );
+	  gnomeprint_update_point ();
+
 	  colonne = colonne + 2;
 	}
 
@@ -651,16 +712,17 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 	{
 	  if ( operation -> contenu_type )
 	    {
-	      int size;
 	      gnomeprint_affiche_texte ( operation -> contenu_type, text_font );
 	      size = tmp_y - point_y;
-	      gnomeprint_update_point();
-	      gnomeprint_move_point ( 70, 0);
-	      gnomeprint_update_point ( );
-	      gnomeprint_barre_verticale ( size );
-	      gnomeprint_move_point ( 2, 0 );
-	      gnomeprint_update_point ();
 	    }
+
+	  gnomeprint_update_point();
+	  gnomeprint_move_point ( 20, 0);
+	  gnomeprint_update_point ( );
+	  gnomeprint_barre_verticale ( size );
+	  gnomeprint_move_point ( 2, 0 );
+	  gnomeprint_update_point ();
+
 	  colonne = colonne + 2;
 	}
 
@@ -669,16 +731,16 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 	{
 	  if ( operation -> no_piece_comptable )
 	    {
-	      int size;
 	      gnomeprint_affiche_texte ( operation -> no_piece_comptable, text_font );
 	      size = tmp_y - point_y;
-	      gnomeprint_update_point();
-	      gnomeprint_move_point ( 70, 0);
-	      gnomeprint_update_point ( );
-	      gnomeprint_barre_verticale ( size );
-	      gnomeprint_move_point ( 2, 0 );
-	      gnomeprint_update_point ();
 	    }
+
+	  gnomeprint_update_point();
+	  gnomeprint_move_point ( 30, 0);
+	  gnomeprint_update_point ( );
+	  gnomeprint_barre_verticale ( size );
+	  gnomeprint_move_point ( 2, 0 );
+	  gnomeprint_update_point ();
 	  colonne = colonne + 2;
 	}
 
@@ -686,16 +748,17 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 	{
 	  if ( operation -> info_banque_guichet )
 	    {
-	      int size;
 	      gnomeprint_affiche_texte ( operation -> info_banque_guichet, text_font );
 	      size = tmp_y - point_y;
-	      gnomeprint_update_point();
-	      gnomeprint_move_point ( 70, 0);
-	      gnomeprint_update_point ( );
-	      gnomeprint_barre_verticale ( size );
-	      gnomeprint_move_point ( 2, 0 );
-	      gnomeprint_update_point ();
 	    }
+
+	  gnomeprint_update_point();
+	  gnomeprint_move_point ( 30, 0);
+	  gnomeprint_update_point ( );
+	  gnomeprint_barre_verticale ( size );
+	  gnomeprint_move_point ( 2, 0 );
+	  gnomeprint_update_point ();
+
 	  colonne = colonne + 2;
 	}
 
@@ -710,18 +773,18 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 	  if ( pointeur )
 	    {
 	      struct struct_no_rapprochement *rapprochement;
-	      int size;
-
 	      rapprochement = pointeur -> data;
 	      gnomeprint_affiche_texte ( rapprochement -> nom_rapprochement, text_font );
 	      size = tmp_y - point_y;
-	      gnomeprint_update_point();
-	      gnomeprint_move_point ( 70, 0);
-	      gnomeprint_update_point ( );
-	      gnomeprint_barre_verticale ( size );
-	      gnomeprint_move_point ( 2, 0 );
-	      gnomeprint_update_point ();
 	    }
+
+	  gnomeprint_update_point();
+	  gnomeprint_move_point ( 30, 0);
+	  gnomeprint_update_point ( );
+	  gnomeprint_barre_verticale ( size );
+	  gnomeprint_move_point ( 2, 0 );
+	  gnomeprint_update_point ();
+
 	  colonne = colonne + 2;
 	}
 
@@ -742,8 +805,8 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 						   GINT_TO_POINTER ( operation -> devise ),
 						   ( GCompareFunc ) recherche_devise_par_no ) -> data;
 	  gnomeprint_affiche_texte ( g_strdup_printf  ("%4.2f %s",
-						    operation -> montant,
-						    devise_operation -> code_devise ), text_font);
+						       operation -> montant,
+						       devise_operation -> code_devise ), text_font);
 	}
 
       if ( ligne_debut_partie == -1 )
@@ -766,6 +829,38 @@ gint gnomeprint_affiche_total_partiel ( gdouble total_partie,
 			     gint type )
 {
 
+  if ( etat_courant -> afficher_opes
+       &&
+       ligne_debut_partie != -1 )
+    {
+      gnomeprint_affiche_separateur ( ligne );
+      ligne_debut_partie = -1;
+    }
+  
+  gnomeprint_move_point ( 0, -5 );
+  if ( type )
+    gnomeprint_affiche_texte ( _("Total dépenses : "), header_font );
+  else
+    gnomeprint_affiche_texte ( _("Total revenus : "), header_font );
+
+  gnomeprint_update_point ( );
+  gnomeprint_move_point ( 110, 0 );
+
+  gnomeprint_affiche_texte ( g_strdup_printf ( "%4.2f %s",
+					       total_partie,
+					       devise_generale_etat -> code_devise ),
+			     text_font );
+  tmp_x = 10;
+  gnomeprint_commit_x ( );
+  gnomeprint_affiche_separateur ( ligne );
+
+  nom_categ_en_cours = NULL;
+  nom_ss_categ_en_cours = NULL;
+  nom_ib_en_cours = NULL;
+  nom_ss_ib_en_cours = NULL;
+  nom_compte_en_cours = NULL;
+  nom_tiers_en_cours = NULL;
+  
   return ( ligne );
 }
 /*****************************************************************************************************/
@@ -774,6 +869,26 @@ gint gnomeprint_affiche_total_partiel ( gdouble total_partie,
 gint gnomeprint_affiche_total_general ( gdouble total_general,
 			     gint ligne )
 {
+  if ( etat_courant -> afficher_opes
+       &&
+       ligne_debut_partie != -1 )
+    {
+      gnomeprint_affiche_separateur ( ligne );
+      ligne_debut_partie = -1;
+    }      
+
+  gnomeprint_affiche_texte ( _("Total général : "), header_font );
+  gnomeprint_update_point ( );
+  gnomeprint_move_point ( 110, 0 );
+  
+  gnomeprint_affiche_texte ( g_strdup_printf ( "%4.2f %s",
+					       total_general,
+					       devise_generale_etat -> code_devise ),
+			     header_font );
+
+  tmp_x = 10;
+  gnomeprint_commit_x ( );
+  gnomeprint_affiche_separateur ( ligne );
 
   return ( ligne );
 }
@@ -784,8 +899,97 @@ gint gnomeprint_affiche_total_general ( gdouble total_general,
 /*****************************************************************************************************/
 gint gnomeprint_affiche_categ_etat ( struct structure_operation *operation,
 			  			  gchar *decalage_categ,
-			  gint ligne )
+				     gint ligne )
 {
+  gchar *pointeur_char;
+
+  /* vérifie qu'il y a un changement de catégorie */
+  /* ça peut être aussi chgt pour virement, ventilation ou pas de categ */
+
+  if ( etat_courant -> utilise_categ
+       &&
+       ( operation -> categorie != ancienne_categ_etat
+	 ||
+	 ( ancienne_categ_speciale_etat == 1
+	   &&
+	   !operation -> relation_no_operation )
+	 ||
+	 ( ancienne_categ_speciale_etat == 2
+	   &&
+	   !operation -> operation_ventilee )
+	 ||
+	 ( ancienne_categ_speciale_etat == 3
+	   &&
+	   ( operation -> operation_ventilee
+	     ||
+	     operation -> relation_no_operation ))))
+    {
+
+      /* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
+
+      if ( !debut_affichage_etat
+	   &&
+	   !changement_de_groupe_etat )
+	{
+	  /* on ajoute les totaux de tout ce qu'il y a derrière la catégorie */
+
+	  ligne = gnomeprint_affichage . affiche_totaux_sous_jaccent ( 1,
+								       ligne );
+
+	  /* on ajoute le total de la categ */
+
+	  ligne = gnomeprint_affichage . affiche_total_categories ( ligne );
+	}
+
+      if ( operation -> categorie )
+	{
+	  nom_categ_en_cours = ((struct struct_categ *)(g_slist_find_custom ( liste_struct_categories,
+									      GINT_TO_POINTER ( operation -> categorie ),
+									      (GCompareFunc) recherche_categorie_par_no ) -> data )) -> nom_categ;
+	  pointeur_char = g_strconcat ( decalage_categ,
+					nom_categ_en_cours,
+					NULL );
+	  ancienne_categ_speciale_etat = 0;
+	}
+
+      else
+	{
+	  if ( operation -> relation_no_operation )
+	    {
+	      pointeur_char = g_strconcat ( decalage_categ,
+					    _("Virements"),
+					    NULL );
+	      ancienne_categ_speciale_etat = 1;
+	    }
+	  else
+	    {
+	      if ( operation -> operation_ventilee )
+		{
+		  pointeur_char = g_strconcat ( decalage_categ,
+						_("Opération ventilée"),
+						NULL );
+		  ancienne_categ_speciale_etat = 2;
+		}
+	      else
+		{
+		  pointeur_char = g_strconcat ( decalage_categ,
+						_("Pas de catégorie"),
+						NULL );
+		  ancienne_categ_speciale_etat = 3;
+		}
+	    }
+	}
+
+      gnomeprint_affiche_texte ( pointeur_char, text_font );
+
+      ligne_debut_partie = ligne;
+      denote_struct_sous_jaccentes ( 1 );
+
+      ancienne_categ_etat = operation -> categorie;
+
+      debut_affichage_etat = 0;
+      changement_de_groupe_etat = 1;
+    }
 
   return ( ligne );
 }
@@ -811,6 +1015,56 @@ gint gnomeprint_affiche_ib_etat ( struct structure_operation *operation,
 		       		       gchar *decalage_ib,
 		       gint ligne )
 {
+  gchar *pointeur_char;
+
+  /* mise en place de l'ib */
+
+  if ( etat_courant -> utilise_ib
+       &&
+       operation -> imputation != ancienne_ib_etat )
+    {
+      /* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
+
+      if ( !debut_affichage_etat
+	   &&
+	   !changement_de_groupe_etat )
+	{
+	  /* on ajoute les totaux de tout ce qu'il y a derrière l'ib */
+
+	  ligne = gnomeprint_affichage . affiche_totaux_sous_jaccent ( 3,
+	ligne );
+
+	  /* on ajoute le total de l'ib */
+
+	  ligne = gnomeprint_affichage . affiche_total_ib ( ligne );
+	}
+ 
+      if ( operation -> imputation )
+	{
+	  nom_ib_en_cours = ((struct struct_imputation *)(g_slist_find_custom ( liste_struct_imputation,
+										GINT_TO_POINTER ( operation -> imputation ),
+										(GCompareFunc) recherche_imputation_par_no ) -> data )) -> nom_imputation;
+	  pointeur_char = g_strconcat ( decalage_ib,
+					nom_ib_en_cours,
+					NULL );
+	}
+      else
+	pointeur_char = g_strconcat ( decalage_ib,
+				      _("Pas d'imputation budgétaire"),
+				      NULL );
+
+      gnomeprint_affiche_texte ( pointeur_char, text_font );
+      gnomeprint_commit_point ( );
+      ligne++;
+
+      ligne_debut_partie = ligne;
+      denote_struct_sous_jaccentes ( 3 );
+
+      ancienne_ib_etat = operation -> imputation;
+
+      debut_affichage_etat = 0;
+      changement_de_groupe_etat = 1;
+    }
 
   return ( ligne );
 }
@@ -888,6 +1142,42 @@ gint gnomeprint_affiche_titre_depenses_etat ( gint ligne )
 gint gnomeprint_affiche_totaux_sous_jaccent ( gint origine,
 				   gint ligne )
 {
+  GList *pointeur_glist;
+
+  /* on doit partir du bout de la liste pour revenir vers la structure demandée */
+  pointeur_glist = g_list_last ( etat_courant -> type_classement );
+
+
+  while ( GPOINTER_TO_INT ( pointeur_glist -> data ) != origine )
+    {
+      switch ( GPOINTER_TO_INT ( pointeur_glist -> data ))
+	{
+	case 1:
+	  ligne = gnomeprint_affichage . affiche_total_categories ( ligne );
+	  break;
+
+	case 2:
+	  ligne = gnomeprint_affichage . affiche_total_sous_categ ( ligne );
+	  break;
+
+	case 3:
+	  ligne = gnomeprint_affichage . affiche_total_ib ( ligne );
+	  break;
+
+	case 4:
+	  ligne = gnomeprint_affichage . affiche_total_sous_ib ( ligne );
+	  break;
+
+	case 5:
+	  ligne = gnomeprint_affichage . affiche_total_compte ( ligne );
+	  break;
+
+	case 6:
+	  ligne = gnomeprint_affichage . affiche_total_tiers ( ligne );
+	  break;
+	}
+      pointeur_glist = pointeur_glist -> prev;
+    }
 
   return ( ligne );
 }
@@ -989,7 +1279,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
       gnomeprint_affiche_texte ( _("Notes"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
-      gnomeprint_move_point ( 50, 0);
+      gnomeprint_move_point ( 70, 0);
       gnomeprint_update_point ( );
       gnomeprint_barre_verticale ( size );
       gnomeprint_move_point ( 2, 0 );
