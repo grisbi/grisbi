@@ -189,7 +189,7 @@ void traitement_sigsegv ( gint signal_nb )
 	   pas de nom de fichier, on le crée, sinon on rajoute #
 	   autour */
 
-      home_dir = g_get_home_dir();
+      home_dir = (gchar *) g_get_home_dir();
 
 	if ( nom_fichier_comptes )
 	{
