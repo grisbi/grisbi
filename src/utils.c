@@ -320,7 +320,7 @@ gpointer **verification_p_tab ( gchar *fonction_appelante )
     if ( !fonction_appelante )
 	fonction_appelante = _("I don't know !!!");
 
-    if ( !nb_comptes )
+    if ( !assert_account_loaded() )
     {
 	dialogue_error_hint ( _("There is no account in memory ! But if you see that error, it should...\nPlease send a bug report to the grisbi team, this is a very big bug !\nGrisbi will probably crash after that message..."),
 			      _("No account in memory"));
@@ -364,6 +364,18 @@ gpointer **verification_p_tab ( gchar *fonction_appelante )
 }
 /* ******************************************************************************* */
 
+
+
+/**
+ * Returns TRUE if an account is loaded in memory.  Usefull to be sure
+ * there is data to process.
+ *
+ * \return TRUE if an account is loaded in memory.
+ */
+gboolean assert_account_loaded ()
+{
+  return nb_comptes != 0;
+}
 
 
 
