@@ -343,7 +343,6 @@ void appui_sur_ajout_sous_categorie ( GtkWidget * button, GtkTreeModel * model )
     GtkTreeIter iter, parent_iter;
     GtkTreeView * tree_view;
     GtkTreeSelection * selection;
-    gint div_id;
 
     iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );   
     tree_view = g_object_get_data ( G_OBJECT(model), "tree-view" );
@@ -763,6 +762,7 @@ gboolean categ_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath * d
 	GtkTreeModel * model;
 	GtkTreePath * orig_path;
 	GtkTreeIter iter, iter_parent, orig_iter;
+	gchar * name;
 	gint no_dest_categ, no_dest_sub_categ, no_orig_categ, no_orig_sub_categ, account;
 	gpointer pointer;
 	enum meta_tree_row_type orig_type;
@@ -779,7 +779,13 @@ gboolean categ_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath * d
 	orig_type = metatree_get_row_type ( model, orig_path );
 
 	metatree_get_row_properties ( model, dest_path,
-				      NULL, &no_dest_categ, &no_dest_sub_categ, NULL );
+				      &name, &no_dest_categ, &no_dest_sub_categ, NULL );
+	if ( ! name )
+	{
+	    gtk_tree_path_up ( dest_path );
+	    metatree_get_row_properties ( model, dest_path,
+					  &name, &no_dest_categ, &no_dest_sub_categ, NULL );
+	}
 	
 	switch ( orig_type )
 	{
@@ -878,7 +884,7 @@ void move_transaction_to_sub_category ( struct structure_operation * transaction
     gpointer old_categ, new_categ;
     gpointer old_sous_categ, new_sous_categ;
     MetatreeInterface * iface;
-
+	
     if ( ! model )
 	return;
 
@@ -893,8 +899,17 @@ void move_transaction_to_sub_category ( struct structure_operation * transaction
 
     /* Insert new row */
     gtk_tree_model_get_iter ( model, &dest_iter, dest_path );
-    gtk_tree_store_insert ( GTK_TREE_STORE (model), &child_iter, &dest_iter, -1 );
-    fill_transaction_row ( model, &child_iter, transaction );
+    /* Avoid filling "empty" not yet selected subdivisions */
+    if ( gtk_tree_model_iter_children ( model, &child_iter, &dest_iter ) )
+    {
+	gchar * name;
+	gtk_tree_model_get ( model, &child_iter, META_TREE_TEXT_COLUMN, &name, -1 );
+	if ( name )
+	{
+	    gtk_tree_store_insert ( GTK_TREE_STORE (model), &child_iter, &dest_iter, 0 );
+	    fill_transaction_row ( model, &child_iter, transaction );
+	}
+    }
 
     /* Update new parents */
     iface -> add_transaction_to_sub_div ( transaction, no_categ, no_sub_categ );
@@ -902,26 +917,29 @@ void move_transaction_to_sub_category ( struct structure_operation * transaction
     if ( gtk_tree_model_iter_parent ( model, &parent_iter, &dest_iter ) )
 	fill_categ_row ( model, iface, &parent_iter, new_categ );
 
-    /* Change parameters */
-    iface -> transaction_set_div_id ( transaction, no_categ );
-    iface -> transaction_set_sub_div_id ( transaction, no_sub_categ );
-
     /* Update old parents */
     iface -> remove_transaction_from_sub_div ( transaction, 
 					       iface -> transaction_div_id (transaction),
 					       iface -> transaction_sub_div_id (transaction) );
+
+    /* Change parameters */
+    iface -> transaction_set_div_id ( transaction, no_categ );
+    iface -> transaction_set_sub_div_id ( transaction, no_sub_categ );
+
     if ( orig_path )
     {
-	gtk_tree_model_get_iter ( model, &orig_iter, orig_path );
-	if ( gtk_tree_model_iter_parent ( model, &parent_iter, &orig_iter ) )
+	if ( gtk_tree_model_get_iter ( model, &orig_iter, orig_path ) )
 	{
-	    fill_sub_categ_row ( model, iface, &parent_iter, old_categ, old_sous_categ );
-	    if ( gtk_tree_model_iter_parent ( model, &gd_parent_iter, &parent_iter ) )
-		fill_categ_row ( model, iface, &gd_parent_iter, old_categ );
+	    if ( gtk_tree_model_iter_parent ( model, &parent_iter, &orig_iter ) )
+	    {
+		fill_sub_categ_row ( model, iface, &parent_iter, old_categ, old_sous_categ );
+		if ( gtk_tree_model_iter_parent ( model, &gd_parent_iter, &parent_iter ) )
+		    fill_categ_row ( model, iface, &gd_parent_iter, old_categ );
+	    }
+	    
+	    /* Remove old row */
+	    gtk_tree_store_remove ( GTK_TREE_STORE (model), &orig_iter );
 	}
-
-	/* Remove old row */
-	gtk_tree_store_remove ( GTK_TREE_STORE (model), &orig_iter );
     }
 		    
     /* We did some modifications */
