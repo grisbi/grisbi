@@ -3094,7 +3094,9 @@ void validation_virement_operation ( struct structure_operation *operation,
 	/* soit c'est un virement vers le même compte et dans ce cas on fait rien, la contre opé sera modifiée automatiquement */
 	/* soit ce n'était pas un virement et dans ce cas on considère l'opé comme une nouvelle opé */
 
-	if ( operation -> relation_no_operation )
+	if ( operation -> relation_no_operation
+	     &&
+	     operation -> relation_no_compte != -1 )
 	{
 	    /* c'était déjà un virement, on ne vire la contre opé que si le compte cible a changé */
 
