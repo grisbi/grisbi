@@ -1616,7 +1616,6 @@ void fin_edition_ventilation_echeances ( void )
 		    return;
 		}
 	    }
-	    g_strfreev ( tableau_char );
 	}
     }
 
