@@ -650,6 +650,7 @@ extern gint ligne_debut_partie;
 extern GtkWidget *notebook_etats;
 extern GtkWidget *onglet_affichage_etat;
 extern GtkWidget *onglet_config_etat;
+extern GtkWidget *notebook_selection;
 
 
 /***********************************/ 
@@ -718,6 +719,7 @@ extern GtkWidget *bouton_non_inclusion_virements;
 extern GtkWidget *bouton_inclusion_virements_perso;
 extern GtkWidget *liste_comptes_virements;
 extern GtkWidget *bouton_exclure_non_virements_etat;
+extern GtkWidget *hbox_liste_comptes_virements;
 
 extern GtkWidget *bouton_utilise_categ_etat;
 extern GtkWidget *vbox_generale_categ_etat;

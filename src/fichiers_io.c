@@ -5745,7 +5745,6 @@ gboolean enregistre_fichier ( void )
 				 NULL,
 				 "Comp",
 				 NULL );
-
 	  xmlSetProp ( node_3,
 		       "Lien_struct",
 		       itoa ( textes_comp -> lien_struct_precedente ));

@@ -617,6 +617,7 @@ gint ligne_debut_partie;
 GtkWidget *notebook_etats;
 GtkWidget *onglet_affichage_etat;
 GtkWidget *onglet_config_etat;
+GtkWidget *notebook_selection;
 
 /***********************************/ 
 /* fichier etats_config.c */
@@ -684,6 +685,7 @@ GtkWidget *bouton_non_inclusion_virements;
 GtkWidget *bouton_inclusion_virements_perso;
 GtkWidget *liste_comptes_virements;
 GtkWidget *bouton_exclure_non_virements_etat;
+GtkWidget *hbox_liste_comptes_virements;
 
 GtkWidget *bouton_utilise_categ_etat;
 GtkWidget *vbox_generale_categ_etat;

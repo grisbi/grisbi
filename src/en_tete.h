@@ -912,11 +912,10 @@ void selectionne_devise_ib_etat_courant ( void );
 void selectionne_liste_tiers_etat_courant ( void );
 void selectionne_devise_tiers_etat_courant ( void );
 void recuperation_info_perso_etat ( void );
-GtkWidget *onglet_etat_generalites ( void );
-void click_haut_classement_etat ( void );
-void click_bas_classement_etat ( void );
 void sens_desensitive_pointeur ( GtkWidget *boutton,
 				 GtkWidget *widget );
+void stylise_tab_label_etat ( GtkWidget *bouton,
+			      gint *no_page );
 GtkWidget *onglet_etat_dates ( void );
 void click_liste_etat ( GtkCList *liste,
 			GdkEventButton *evenement,
@@ -930,8 +929,10 @@ void modif_type_separation_dates ( gint *origine );
 void remplissage_liste_exo_etats ( void );
 GtkWidget *onglet_etat_comptes ( void );
 void remplissage_liste_comptes_etats ( void );
+void selectionne_partie_liste_compte_etat ( gint *type_compte );
 GtkWidget *onglet_etat_virements ( void );
 void remplissage_liste_comptes_virements ( void );
+void selectionne_partie_liste_compte_vir_etat ( gint *type_compte );
 GtkWidget *onglet_etat_categories ( void );
 void click_type_categ_etat ( gint type );
 void remplissage_liste_categ_etats ( void );
@@ -958,6 +959,15 @@ GtkWidget *cree_bouton_lien ( GtkWidget *hbox );
 void sensitive_widget ( GtkWidget *widget );
 void desensitive_widget ( GtkWidget *widget );
 void retire_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_montants_etat *ancien_comp_montants );
+GtkWidget *onglet_etat_divers ( void );
+GtkWidget *page_organisation_donnees ( void );
+void click_haut_classement_etat ( void );
+void click_bas_classement_etat ( void );
+GtkWidget *page_affichage_donnees ( void );
+GtkWidget *onglet_affichage_etat_generalites ( void );
+GtkWidget *onglet_affichage_etat_operations ( void );
+GtkWidget *onglet_affichage_etat_devises ( void );
+GtkWidget *onglet_affichage_etat_divers ( void );
 
 /***********************************/ 
 /* fichier etats_calculs.c */
