@@ -104,6 +104,8 @@ extern gint no_derniere_echeance;
 extern gint no_derniere_imputation;
 extern gint no_derniere_operation;
 extern gint no_devise_totaux_tiers;
+extern gint no_devise_totaux_categ;
+extern gint no_devise_totaux_ib;
 extern gchar *nom_fichier_backup;
 extern gchar *nom_fichier_comptes;
 extern GSList *ordre_comptes;
@@ -215,6 +217,8 @@ void init_variables ( void )
     devise_nulle = calloc ( 1,
 			    sizeof ( struct struct_devise ));
     no_devise_totaux_tiers = 1;
+    no_devise_totaux_categ = 1;
+    no_devise_totaux_ib = 1;
     devise_compte = NULL;
     devise_operation = NULL;
 
