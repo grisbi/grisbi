@@ -2,6 +2,7 @@ grisbi (0.4.0-1) unstable; urgency=low
 
   * New upstream version
   * Fix doc-base path (Closes: #169374)
+  * Build without applet support as it is unsatisfiable with Gnome 1
   * Some cleanup to make recent lintians happy
   
  -- Benjamin Drieu <benj@debian.org>  Fri, 21 Feb 2003 14:58:36 +0100
