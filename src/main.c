@@ -3,7 +3,7 @@
 /* Programme de gestion financière personnelle                                   */
 /*           	  license : GPL                                                  */
 /*                                                                               */
-/* 	          Version : 0.4.2                                                */
+/* 	          Version : 0.4.3                                                */
 /*      Auteur : Cédric Auger   ( cedric@grisbi.org )                            */
 /*                                http://www.grisbi.org                          */
 /* *******************************************************************************/
