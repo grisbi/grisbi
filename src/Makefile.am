@@ -74,6 +74,7 @@ sources = 			\
 	utils_echeances.c	\
 	utils_editables.c	\
 	utils_exercices.c	\
+	utils_file_selection.c \
 	utils_files.c		\
 	utils_ib.c		\
 	utils_montants.c	\
@@ -157,6 +158,7 @@ grisbi_INCLUDES =		\
 	utils_echeances.h	\
 	utils_editables.h	\
 	utils_exercices.h	\
+	utils_file_selection.h \
 	utils_files.h		\
 	utils_ib.h		\
 	utils_montants.h	\
