@@ -1208,6 +1208,9 @@ void association_automatique ( void )
       p_tab_nom_de_compte_variable++;
     }
 
+  demande_mise_a_jour_tous_comptes ();
+  verification_mise_a_jour_liste();
+
   modification_fichier ( TRUE );
 }
 /* ************************************************************************************************************** */
