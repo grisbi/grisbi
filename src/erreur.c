@@ -330,14 +330,12 @@ void traitement_sigsegv ( gint signal_nb )
 
       if ( etat.en_train_de_charger )
 	{
-	  errmsg = g_strconcat ( errmsg, _("File is corrupted."), 
-				 NULL );
+	  errmsg = g_strconcat ( errmsg, _("File is corrupted."), NULL );
 	}
 
       if ( etat.en_train_de_sauvegarder )
 	{
-	  errmsg = g_strconcat ( errmsg, _("Error occured saving file."),
-				 NULL );
+	  errmsg = g_strconcat ( errmsg, _("Error occured saving file."), NULL );
 	}
 
       fichier_marque_ouvert ( FALSE );
