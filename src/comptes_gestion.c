@@ -1632,6 +1632,7 @@ void modification_details_compte ( void )
 			      NULL );
       MESSAGE_SOUS_MINI = 0;
  
+      update_liste_comptes_accueil ();
       mise_a_jour_soldes_minimaux();
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
    }
@@ -1647,6 +1648,7 @@ void modification_details_compte ( void )
 			      NULL );
       MESSAGE_SOUS_MINI_VOULU = 0;
  
+      update_liste_comptes_accueil ();
       mise_a_jour_soldes_minimaux();
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
     }
@@ -1753,7 +1755,10 @@ void sort_du_detail_compte ( void )
 	gtk_widget_set_sensitive ( hbox_boutons_modif,
 				   FALSE );
       else
-	modification_details_compte ();
+        {
+	 modification_details_compte ();
+	 update_liste_comptes_accueil ();
+	}
 
       p_tab_nom_de_compte_variable = save;
     }
