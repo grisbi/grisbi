@@ -59,6 +59,7 @@ sources = \
 	main.c			\
 	menu.c			\
 	meta_categories.c	\
+	meta_budgetary.c	\
 	metatree.c		\
 	ofx.c                   \
 	operations_comptes.c	\
