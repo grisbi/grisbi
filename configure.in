@@ -46,6 +46,7 @@ Makefile
 help/Makefile
 help/C/Makefile
 help/fr/Makefile
+help/tips/Makefile
 intl/Makefile
 macros/Makefile
 pixmaps/Makefile
