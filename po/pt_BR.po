@@ -29,6 +29,8 @@
 # translation of pt_BR.po to
 # translation of pt_BR.po to
 # translation of pt_BR.po to
+# translation of pt_BR.po to
+# translation of pt_BR.po to
 # translation of pt_BR.po to Brazilian Portuguese
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
@@ -40,7 +42,7 @@ msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-02-15 10:39+0100\n"
-"PO-Revision-Date: 2005-02-16 13:19-0200\n"
+"PO-Revision-Date: 2005-02-17 08:17-0200\n"
 "Last-Translator: \n"
 "Language-Team:  <pt@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -50,7 +52,7 @@ msgstr ""
 
 #: src/accueil.c:120
 msgid "No user"
-msgstr "Sem Usuario"
+msgstr "Nenhum usuário"
 
 #: src/accueil.c:123
 msgid "User"
@@ -62,15 +64,15 @@ msgstr "Contas de responsabilidade fechadas"
 
 #: src/accueil.c:207
 msgid "Manual scheduled transactions at maturity date"
-msgstr "Transações manuais agendadas até a data atual"
+msgstr "Lançamentos manuais agendados até a data atual"
 
 #: src/accueil.c:218
 msgid "Automatic scheduled transactions entered"
-msgstr "Transações automáticas agendadas encerradas"
+msgstr "Lançamentos automáticos agendados encerrados"
 
 #: src/accueil.c:229
 msgid "Closed scheduled transactions"
-msgstr "Transações agendadas fechadas"
+msgstr "Lançamentos agendados fechados"
 
 #: src/accueil.c:240
 msgid "Accounts under authorized balance"
@@ -83,7 +85,7 @@ msgstr "Contas abaixo do saldo crítico"
 #. crÃ©e la boite de dialogue
 #: src/accueil.c:315
 msgid "Enter a scheduled transaction"
-msgstr "Informe uma transação agendada"
+msgstr "Informe um lançamento agendado"
 
 #: src/accueil.c:364 src/echeancier_onglet.c:168 src/operations_onglet.c:127
 msgid "Form"
@@ -154,11 +156,11 @@ msgstr "Saldo da conta %s está abaixo do mínimo crítico!"
 
 #: src/affichage.c:131 src/parametres.c:236
 msgid "Transaction form"
-msgstr "Formulário de transações"
+msgstr "Formulário de lançamentos"
 
 #: src/affichage.c:136
 msgid "Pressing RETURN in transaction form"
-msgstr "Teclando ENTER no formulário de transações"
+msgstr "Teclando ENTER no formulário de lançamentos"
 
 #: src/affichage.c:137
 msgid "selects next field"
@@ -166,7 +168,7 @@ msgstr "vai para o próximo campo"
 
 #: src/affichage.c:138
 msgid "terminates transaction"
-msgstr "encerra a transação"
+msgstr "encerra a lançamento"
 
 #: src/affichage.c:143
 msgid "Displayed fields"
@@ -175,7 +177,7 @@ msgstr "Campos visíveis"
 #: src/affichage.c:152 src/affichage_liste.c:51 src/affichage_liste.c:912
 #: src/affichage_liste.c:1097
 msgid "Transaction number"
-msgstr "Número da transação"
+msgstr "Número da lançamento"
 
 #: src/affichage.c:161 src/affichage_liste.c:36 src/affichage_liste.c:732
 #: src/affichage_liste.c:1037 src/csv.c:240 src/operations_formulaire.c:983
@@ -214,7 +216,7 @@ msgstr "último ano contábil selecionado"
 
 #: src/affichage.c:218
 msgid "according to transaction date"
-msgstr "de acordo com a data da transação"
+msgstr "de acordo com a data da lançamento"
 
 #: src/affichage.c:248 src/parametres.c:212
 msgid "Fonts & logo"
@@ -242,7 +244,7 @@ msgstr "Fontes"
 
 #: src/affichage.c:394
 msgid "Use a custom font for the transactions"
-msgstr "Usar uma fonte específica para as transações"
+msgstr "Usar uma fonte específica para as lançamentos"
 
 #: src/affichage.c:475
 msgid "Revert to default font"
@@ -281,7 +283,7 @@ msgstr "Sans 10"
 
 #: src/affichage.c:811
 msgid "Transaction list font"
-msgstr "Fonte da lista de transações"
+msgstr "Fonte da lista de lançamentos"
 
 #: src/affichage.c:997
 msgid "Select a new animation"
@@ -439,15 +441,15 @@ msgstr "Col 7"
 #. Ã  la base, on met une vbox
 #: src/affichage_liste.c:75 src/parametres.c:244
 msgid "Transactions list cells"
-msgstr "Campos da lista de transações"
+msgstr "Campos da lista de lançamentos"
 
 #: src/affichage_liste.c:79
 msgid "Transactions list preview"
-msgstr "Prévia da lista de transações"
+msgstr "Prévia da lista de lançamentos"
 
 #: src/affichage_liste.c:100
 msgid "Transactions list contents"
-msgstr "Conteúdo da lista de transações"
+msgstr "Conteúdo da lista de lançamentos"
 
 #. on permet maintenant de choisir soi mÃªme la taille des colonnes
 #: src/affichage_liste.c:126
@@ -464,7 +466,7 @@ msgstr "Voltar para padrões"
 
 #: src/affichage_liste.c:295
 msgid "Transactions list"
-msgstr "Lista de transações"
+msgstr "Lista de lançamentos"
 
 #: src/affichage_liste.c:302
 msgid "Display modes"
@@ -477,7 +479,7 @@ msgstr "Modo uma linha"
 #. pour 2 lignes
 #: src/affichage_liste.c:322
 msgid "Two lines mode"
-msgstr "modo duas linhas"
+msgstr "Modo duas linhas"
 
 #. pour 3 lignes
 #: src/affichage_liste.c:342
@@ -486,7 +488,7 @@ msgstr "Modo três linhas"
 
 #: src/affichage_liste.c:420
 msgid "Sort transaction list"
-msgstr "Organizar lista de transações"
+msgstr "Organizar lista de lançamentos"
 
 #: src/affichage_liste.c:421
 msgid "by value date"
@@ -499,7 +501,7 @@ msgstr "por data"
 #. on permet de regrouper les opÃ©rations pointÃ©es
 #: src/affichage_liste.c:427
 msgid "Bring together marked transactions"
-msgstr "Selecionar as transações marcadas"
+msgstr "Selecionar as lançamentos marcados"
 
 #: src/affichage_liste.c:459
 msgid "first line"
@@ -655,31 +657,31 @@ msgstr "Exibir/Ocultar formulário"
 
 #: src/barre_outils.c:146 src/barre_outils.c:147
 msgid "Four lines per transaction"
-msgstr "Quatro linhas por transação"
+msgstr "Quatro linhas por lançamento"
 
 #: src/barre_outils.c:175 src/barre_outils.c:176
 msgid "Three lines per transaction"
-msgstr "Três linhas por transação"
+msgstr "Três linhas por lançamento"
 
 #: src/barre_outils.c:203 src/barre_outils.c:204
 msgid "Two lines per transaction"
-msgstr "Duas linhas por transação"
+msgstr "Duas linhas por lançamento"
 
 #: src/barre_outils.c:232 src/barre_outils.c:233
 msgid "One line per transaction"
-msgstr "Uma linha por transação"
+msgstr "Uma linha por lançamento"
 
 #: src/barre_outils.c:268 src/barre_outils.c:269
 msgid "Display reconciled transactions"
-msgstr "Exibir transações reconciliadas"
+msgstr "Exibir lançamentos reconciliados"
 
 #: src/barre_outils.c:295 src/barre_outils.c:296
 msgid "Mask reconciled transactions"
-msgstr "Marcar transações reconciliadas"
+msgstr "Marcar lançamentos reconciliados"
 
 #: src/barre_outils.c:325
 msgid "Account transactions"
-msgstr "Transações da conta"
+msgstr "Lançamentos da conta"
 
 #: src/barre_outils.c:749 src/barre_outils.c:750
 msgid "Display/hide form"
@@ -704,7 +706,7 @@ msgstr "Exibir contas"
 #: src/barre_outils.c:1078 src/barre_outils.c:1232 src/barre_outils.c:1233
 #: src/etats_config.c:6359
 msgid "Display transactions"
-msgstr "Exibir transações"
+msgstr "Exibir lançamentos"
 
 #: src/barre_outils.c:1019 src/barre_outils.c:1020 src/barre_outils.c:1174
 #: src/barre_outils.c:1175
@@ -1275,13 +1277,13 @@ msgid ""
 "\n"
 "You may"
 msgstr ""
-"A categoria selecionada ainda contém transações.\n"
+"A categoria selecionada ainda contém lançamentos.\n"
 "\n"
 "Você pode"
 
 #: src/categories_onglet.c:1742 src/categories_onglet.c:2107
 msgid "Transfer transactions to category"
-msgstr "Transferir transações entre categorias"
+msgstr "Transferir lançamentos entre categorias"
 
 #: src/categories_onglet.c:1830
 msgid "Just remove this category."
@@ -1301,7 +1303,7 @@ msgid ""
 "\n"
 "You may"
 msgstr ""
-"A sub-categoria selecionada ainda contém transações.\n"
+"A sub-categoria selecionada ainda contém lançamentos.\n"
 "\n"
 "Você pode"
 
@@ -1318,7 +1320,7 @@ msgstr "Apagar somente esta sub-categoria."
 #: src/operations_liste.c:1085 src/operations_liste.c:1703
 #: src/ventilation.c:207
 msgid "Breakdown of transaction"
-msgstr "Divisão da transação"
+msgstr "Divisão do lançamento"
 
 #. Si c'est un virement, on fait les vÃ©rifications
 #: src/categories_onglet.c:2568 src/comptes_traitements.c:556
@@ -1412,7 +1414,7 @@ msgstr "Importar uma lista de categorias"
 #. il y a dÃ©jÃ  des opÃ©rations dans le fichier, on ne peut que fusionner
 #: src/categories_onglet.c:3139
 msgid "File already contains transactions, the two categories lists will be merged."
-msgstr "Arquivo contém transações, as duas categorias exibidas serão mescladas."
+msgstr "Arquivo já contém lançamentos, as duas categorias exibidas serão mescladas."
 
 #: src/categories_onglet.c:3149 src/imputation_budgetaire.c:2887
 msgid "Do you want"
@@ -1462,7 +1464,7 @@ msgid ""
 "\n"
 msgstr ""
 "Grisbi encontrou contas onde o total da reconciliação está inconsistente com "
-"a soma das transações reconciliadas.  Geralmente, a causa disso são muitas "
+"a soma das lançamentos reconciliados.  Geralmente, a causa disso são muitas "
 "transferências para outras contas reconciliadas.  Você tem que "
 "desreconciliar manualmente algumas transferências das contas "
 "inconsistentes.\n"
@@ -1495,12 +1497,12 @@ msgid ""
 msgstr ""
 "Devido a um erro em versões anteriores do Grisbi, sub-categorias pode "
 "compartilhar da mesma identificação numérica em alguns casos, tendo por "
-"resultado transações com dois sub-categorias. Se você escolher continuar, "
+"resultado lançamentos com dois sub-categorias. Se você escolher continuar, "
 "Grisbi removerá uma de cada duplicata das sub-categorias e recriá-lo-á com "
 "uma nova identificação.\n"
 "\n"
-"Nenhuma transação será perdida, mas em alguns casos, você terá que mover as "
-"transações manualmente para estas novas subcategorias."
+"Nenhum lançamento será perdida, mas em alguns casos, você terá que mover as "
+"lançamentos manualmente para estas novas subcategorias."
 
 #: src/check.c:258
 msgid "Fix inconsistencies in sub-categories?"
@@ -1509,14 +1511,14 @@ msgstr "Fixar inconsistência nas sub-categorias?"
 #: src/check.c:363
 #, c-format
 msgid "Transaction #%d should have a contra #%d, but this one doesn't exist.\n"
-msgstr "Transação #%d deveria ter uma contra-transação #%d, mas esta não existe.\n"
+msgstr "Lançamento #%d deveria ter uma contra-lançamento #%d, mas esta não existe.\n"
 
 #: src/check.c:388
 #, c-format
 msgid ""
 "Transaction #%d have a contra #%d, but transaction #%d have a contra #%d "
 "instead of #%d.\n"
-msgstr "Transação #%d tem uma contra-transação #%d, mas a transação #%d tem uma contra-transação #%d em vez disso #%d.\n"
+msgstr "Lançamento #%d tem um contra-lançamento #%d, mas o lançamento #%d tem um contra-lançamento #%d em vez disso #%d.\n"
 
 #: src/check.c:414
 msgid ""
@@ -1525,20 +1527,20 @@ msgid ""
 "happened.\n"
 "The following accounts are inconsistent:\n"
 msgstr ""
-"Grisbi encontrou transações de transferência com ligações inconsistentes entre si. Infelizmente nós não sabemos como isto aconteceu./n "
+"Grisbi encontrou lançamentos de transferência com ligações inconsistentes entre si. Infelizmente nós não sabemos como isto aconteceu./n "
 "As seguintes contas estão inconsistentes:\n"
 
 #: src/check.c:508
 #, c-format
 msgid "Breakdown line #%d is orpheanous.\n"
-msgstr "Divisão do lançamento #%d está sozinha.\n"
+msgstr "Divisão do lançamento #%d está órfão.\n"
 
 #: src/check.c:526
 #, c-format
 msgid ""
 "Transaction #%d has a financial year named %s and breakdown line #%d of this "
 "transaction has a financial year named %s\n"
-msgstr "Transação #%d está num ano contábil nomeado %s e a divisão da transação #%d para esta transação está num ano contábil nomeado %s\n"
+msgstr "Lançamento #%d está num ano contábil nomeado %s e a divisão do lançamento #%d para este lançamento está num ano contábil nomeado %s\n"
 
 #: src/check.c:551
 msgid ""
@@ -1547,7 +1549,7 @@ msgid ""
 "perhaps it is.\n"
 "The following accounts seems inconsistent:\n"
 msgstr ""
-"Grisbi encontrou divisão de lançamentosque tem anos contábeis diferentes a partir do ano contábil da transação relacionada. Talvez isto não seja um problema, mas talvez seja.\n"
+"Grisbi encontrou divisão de lançamentosque tem anos contábeis diferentes a partir do ano contábil do lançamento relacionado. Talvez isto não seja um problema, mas talvez seja.\n"
 "As seguintes contas apresentam inconsistências:\n"
 
 #: src/comptes_gestion.c:88
@@ -1676,7 +1678,7 @@ msgid ""
 "Do you confirm this change?"
 msgstr ""
 "Você está mudando de uma moeda que está na zona do euro (%s) para uma que "
-"não está (%s). Transações em euro serão perdidas. Não há como recuperar "
+"não está (%s). Lançamentos em euro serão perdidos. Não há como recuperar "
 "isto.\n"
 "Você confirma esta mudança ?"
 
@@ -1799,7 +1801,7 @@ msgstr ""
 
 #: src/csv.c:237 src/etats_config.c:6216 src/fenetre_principale.c:75
 msgid "Transactions"
-msgstr "Transações"
+msgstr "Lançamentos"
 
 #. bouton ventilation, pour accÃ©der Ã  la fenetre de ventil de l'Ã©chÃ©ance
 #. mise en forme du bouton ventilation
@@ -3252,7 +3254,7 @@ msgstr "Alterar o ano contábil"
 
 #: src/echeancier_formulaire.c:529 src/echeancier_formulaire.c:530
 msgid "Automatic/manual scheduled transaction"
-msgstr "Agenda de transações automática/manual"
+msgstr "Agenda de lançamentos automática/manual"
 
 #: src/echeancier_formulaire.c:538 src/echeancier_liste.c:809
 #: src/operations_liste.c:1816
@@ -3339,7 +3341,7 @@ msgstr "Não é possível fazer uma transferência para a própria conta."
 
 #: src/echeancier_formulaire.c:1557
 msgid "A breakdown of transaction is a transfer to this account.\n"
-msgstr "A divisão da transação é uma transferência para esta conta.\n"
+msgstr "A divisão do lançamento é uma transferência para esta conta.\n"
 
 #: src/echeancier_formulaire.c:1580 src/operations_formulaire.c:2388
 msgid "There is no associated account for this transfer."
@@ -3354,7 +3356,7 @@ msgid ""
 "Impossible to create or entry an automatic scheduled transaction\n"
 " with a cheque or a method of payment with an automatic incremental number."
 msgstr ""
-"Impossível criar ou entrar com uma transação agendada automática com um "
+"Impossível criar ou entrar com um lançamento agendado automático com um "
 "cheque ou um método do pagamento com um número incremental automático."
 
 #: src/echeancier_formulaire.c:1634 src/echeancier_liste.c:664
@@ -3369,7 +3371,7 @@ msgstr "Modificações"
 
 #: src/echeancier_liste.c:166
 msgid "Display scheduled transactions"
-msgstr "Exibir transações agendadas"
+msgstr "Exibir lançamentos agendados"
 
 #: src/echeancier_liste.c:187
 msgid "Of month"
@@ -3388,15 +3390,15 @@ msgid ""
 "Fall due selected\n"
 "scheduled transaction"
 msgstr ""
-"Apagar transação\n"
-"selecionada da agenda"
+"Apagar lançamento\n"
+"selecionado da agenda"
 
 #: src/echeancier_liste.c:372
 msgid ""
 "Remove selected\n"
 "scheduled transaction"
 msgstr ""
-"Apagar transação\n"
+"Apagar lançamento\n"
 "selecionada da agenda"
 
 #: src/echeancier_liste.c:401 src/etats_config.c:266 src/import.c:394
@@ -3411,14 +3413,14 @@ msgstr "Modo"
 #. del
 #: src/echeancier_liste.c:609
 msgid "Confirmation of scheduled transaction removal"
-msgstr "Confirmação da remoção da transação agendada"
+msgstr "Confirmação da remoção da lançamento agendado"
 
 #: src/echeancier_liste.c:610
 msgid ""
 "You are currently trying to remove a scheduled transaction.  There is no "
 "undo for this.  Do you confirm the removal?"
 msgstr ""
-"Você está tentando apagar uma transação agendada. Não há como recuperar "
+"Você está tentando apagar um lançamento agendado. Não há como recuperar "
 "isto. Você confirma esta remoção ?"
 
 #: src/echeancier_liste.c:778
@@ -3442,15 +3444,15 @@ msgstr "Sem terceiros"
 
 #: src/echeancier_liste.c:1385
 msgid "Delete a scheduled transaction"
-msgstr "Apaga uma transação agendada"
+msgstr "Apaga um lançamento agendado"
 
 #: src/echeancier_liste.c:1386
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
 "transaction?"
 msgstr ""
-"Você quer apagar somente esta ocorrência ou todo o agendamento desta "
-"transação ?"
+"Você quer apagar somente esta ocorrência ou todo o agendamento deste"
+"lançamento ?"
 
 #: src/echeancier_liste.c:1390
 msgid "All the occurences"
@@ -3466,16 +3468,16 @@ msgid ""
 "the sub transaction to transfer on another account or change account of the "
 "transaction itself."
 msgstr ""
-"A divisão da transação contém uma transferência nela. Mude a sub-transação "
-"para transferir para outra conta ou mude a conta d transação nela."
+"A divisão do lançamento contém uma transferência nela. Mude o sub-lançamento "
+"para transferir para outra conta ou mude a conta do lançamento nela."
 
 #: src/echeancier_liste.c:1900
 msgid "Can't issue scheduled operation"
-msgstr "Não posso editar uma transação agendada"
+msgstr "Não posso editar um lançamento agendado"
 
 #: src/echeancier_onglet.c:90
 msgid "Calendar"
-msgstr "Calendario"
+msgstr "Calendário"
 
 #: src/echeancier_onglet.c:130
 msgid "Scheduler list"
@@ -3483,7 +3485,7 @@ msgstr "Agenda"
 
 #: src/echeancier_onglet.c:135
 msgid "Scheduler broken down transactions"
-msgstr "Agenda de transações divididas"
+msgstr "Agenda de lançamentos divididos"
 
 #: src/echeancier_ventilation.c:227 src/ventilation.c:230
 msgid "Break down amount"
@@ -3519,12 +3521,12 @@ msgid ""
 "Transaction amount isn't fully broken down.\n"
 "Proceed anyway?"
 msgstr ""
-"Valor da transação não é o mesmo das divisões.\n"
-"Proceder assim mesmo ?"
+"Valor do lançamento não é o mesmo das divisões.\n"
+"Continuar assim mesmo ?"
 
 #: src/echeancier_ventilation.c:2672 src/ventilation.c:2806
 msgid "A breakdown line is to be deleted though it is not yet registered."
-msgstr "Uma divisão da transação para ser apagada deve estar gravada antes."
+msgstr "Uma divisão do lançamento para ser apagada deve estar gravada antes."
 
 #: src/equilibrage.c:122 src/equilibrage.c:136
 msgid "Reconciliation reference"
@@ -3582,7 +3584,7 @@ msgid ""
 "Proceed anyway?"
 msgstr ""
 "A referência para reconciliação escolhida já existe. Talvez isto não seja um problema, mas talvez seja. Esteja certo do que você vai fazer.\n"
-"Deseja continuar ?"
+"Continuar assim mesmo?"
 
 #: src/equilibrage.c:1028
 msgid "No reconciliation reference"
@@ -3595,7 +3597,7 @@ msgid ""
 "reconciliation reference.\n"
 "Proceed anyway?"
 msgstr ""
-"Você está reconciliando uma conta sem uma referência a esta reconciliação. Ao fazer isto, você estará impossibilitado de procura transações de acordo com a referência da transação.\n"
+"Você está reconciliando uma conta sem uma referência a esta reconciliação. Ao fazer isto, você estará impossibilitado de procurar lançamentos de acordo com a referência do lançamento.\n"
 "Continuar assim mesmo?"
 
 #: src/equilibrage.c:1039
@@ -3618,7 +3620,7 @@ msgstr "Reconciliação"
 
 #: src/equilibrage.c:1648
 msgid "Reconciliation: sort transactions"
-msgstr "Reconciliação: organizando transações"
+msgstr "Reconciliação: organizando lançamentos"
 
 #: src/equilibrage.c:1696
 msgid "Sort by date"
@@ -3763,13 +3765,13 @@ msgstr ""
 #: src/etats_affiche.c:604
 #, c-format
 msgid "Total %s (%d transaction)"
-msgstr "Saldo %s (%d transação)"
+msgstr "Saldo %s (%d lançamento)"
 
 #: src/etats_affiche.c:108 src/etats_affiche.c:315 src/etats_affiche.c:514
 #: src/etats_affiche.c:606
 #, c-format
 msgid "Total %s (%d transactions)"
-msgstr "Total %s (%d transações)"
+msgstr "Total %s (%d lançamentos)"
 
 #: src/etats_affiche.c:111 src/etats_affiche.c:318 src/etats_affiche.c:517
 msgid "Total"
@@ -3778,12 +3780,12 @@ msgstr "Total"
 #: src/etats_affiche.c:118
 #, c-format
 msgid "Category total (%d transaction)"
-msgstr "Total da Categoria (%d transações)"
+msgstr "Total da Categoria (%d lançamentos)"
 
 #: src/etats_affiche.c:120
 #, c-format
 msgid "Category total (%d transactions)"
-msgstr "Total da Categoria (%d transações)"
+msgstr "Total da Categoria (%d lançamentos)"
 
 #: src/etats_affiche.c:123
 msgid "Category total"
@@ -3793,23 +3795,23 @@ msgstr "Total da Categoria"
 #: src/etats_affiche.c:455 src/etats_affiche.c:548 src/etats_affiche.c:640
 #, c-format
 msgid "%4.2f %s (%d transaction)"
-msgstr "%4.2f %s (%d transação)"
+msgstr "%4.2f %s (%d lançamento)"
 
 #: src/etats_affiche.c:148 src/etats_affiche.c:255 src/etats_affiche.c:354
 #: src/etats_affiche.c:458 src/etats_affiche.c:551 src/etats_affiche.c:643
 #, c-format
 msgid "%4.2f %s (%d transactions)"
-msgstr "%4.2f %s (%d transações)"
+msgstr "%4.2f %s (%d lançamentos)"
 
 #: src/etats_affiche.c:213 src/etats_affiche.c:415
 #, c-format
 msgid "Total %s: %s (%d transaction)"
-msgstr "Total %s: %s (%d transação)"
+msgstr "Total %s: %s (%d lançamento)"
 
 #: src/etats_affiche.c:216 src/etats_affiche.c:418
 #, c-format
 msgid "Total %s: %s (%d transactions)"
-msgstr "Total %s: %s (%d transações)"
+msgstr "Total %s: %s (%d lançamentos)"
 
 #: src/etats_affiche.c:220 src/etats_affiche.c:422
 #, c-format
@@ -3819,12 +3821,12 @@ msgstr "Total %s: %s"
 #: src/etats_affiche.c:227
 #, c-format
 msgid "Sub-categories total (%d transaction)"
-msgstr "Total sub-categorias (%d transação)"
+msgstr "Total sub-categorias (%d lançamento)"
 
 #: src/etats_affiche.c:230
 #, c-format
 msgid "Sub-categories total (%d transactions)"
-msgstr "Total sub-categorias (%d transações)"
+msgstr "Total sub-categorias (%d lançamentos)"
 
 #: src/etats_affiche.c:234
 msgid "Sub-categories total"
@@ -3833,12 +3835,12 @@ msgstr "Total sub-categorias"
 #: src/etats_affiche.c:325
 #, c-format
 msgid "Budgetary lines total: (%d transaction)"
-msgstr "Total do orçamento: (%d transação)"
+msgstr "Total do orçamento: (%d lançamento)"
 
 #: src/etats_affiche.c:328
 #, c-format
 msgid "Budgetary lines total: (%d transactions)"
-msgstr "Total do orçamento: (%d transações)"
+msgstr "Total do orçamento: (%d lançamentos)"
 
 #: src/etats_affiche.c:332
 msgid "Budgetary lines total"
@@ -3847,12 +3849,12 @@ msgstr "Total do orçamento"
 #: src/etats_affiche.c:429
 #, c-format
 msgid "Sub-budgetary lines total: (%d transaction)"
-msgstr "Total do sub-orçamento: (%d transação)"
+msgstr "Total do sub-orçamento: (%d lançamento)"
 
 #: src/etats_affiche.c:432
 #, c-format
 msgid "Sub-budgetary lines total: (%d transactions)"
-msgstr "Total do sub-orçamento: (%d transações)"
+msgstr "Total do sub-orçamento: (%d lançamentos)"
 
 #: src/etats_affiche.c:436
 msgid "Sub-budgetary lines total"
@@ -3861,12 +3863,12 @@ msgstr "Total do sub-orçamento"
 #: src/etats_affiche.c:524
 #, c-format
 msgid "Account total: (%d transaction)"
-msgstr "Total da conta: (%d transação)"
+msgstr "Total da conta: (%d lançamento)"
 
 #: src/etats_affiche.c:526
 #, c-format
 msgid "Account total: (%d transactions)"
-msgstr "Total da conta: (%d transações)"
+msgstr "Total da conta: (%d lançamentos)"
 
 #: src/etats_affiche.c:529
 msgid "Account total"
@@ -3880,12 +3882,12 @@ msgstr "Total %s"
 #: src/etats_affiche.c:616
 #, c-format
 msgid "Third party total: (%d transaction)"
-msgstr "Total de terceiros: (%d transação)"
+msgstr "Total de terceiros: (%d lançamento)"
 
 #: src/etats_affiche.c:618
 #, c-format
 msgid "Third party total: (%d transactions)"
-msgstr "Total de terceiros: (%d transações)"
+msgstr "Total de terceiros: (%d lançamentos)"
 
 #: src/etats_affiche.c:621
 msgid "Third party total"
@@ -3894,12 +3896,12 @@ msgstr "Total de terceiros"
 #: src/etats_affiche.c:790
 #, c-format
 msgid "Result from %d/%d/%d to %d/%d/%d (%d transaction):"
-msgstr "Resultado a partir de %d/%d/%d para %d/%d/%d (%d transação):"
+msgstr "Resultado a partir de %d/%d/%d para %d/%d/%d (%d lançamento):"
 
 #: src/etats_affiche.c:799
 #, c-format
 msgid "Result from %d/%d/%d to %d/%d/%d (%d transactions):"
-msgstr "Resultado a partir de %d/%d/%d para %d/%d/%d (%d transações):"
+msgstr "Resultado a partir de %d/%d/%d para %d/%d/%d (%d lançamentos):"
 
 #: src/etats_affiche.c:809
 #, c-format
@@ -3909,12 +3911,12 @@ msgstr "Resultado a partir de %d/%d/%d para %d/%d/%d:"
 #: src/etats_affiche.c:835 src/etats_affiche.c:987
 #, c-format
 msgid "Result of %s (%d transaction)"
-msgstr "Resultado de %s (%d transação)"
+msgstr "Resultado de %s (%d lançamento)"
 
 #: src/etats_affiche.c:838 src/etats_affiche.c:991
 #, c-format
 msgid "Result of %s (%d transactions)"
-msgstr "Resultado de %s (%d transações)"
+msgstr "Resultado de %s (%d lançamentos)"
 
 #: src/etats_affiche.c:842 src/etats_affiche.c:996
 #, c-format
@@ -3924,12 +3926,12 @@ msgstr "Resultado de %s"
 #: src/etats_affiche.c:863
 #, c-format
 msgid "Result for %s (%d transaction)"
-msgstr "Resultado para %s (%d transação)"
+msgstr "Resultado para %s (%d lançamento)"
 
 #: src/etats_affiche.c:866
 #, c-format
 msgid "Result for %s (%d transactions)"
-msgstr "Resultado para %s (%d transações)"
+msgstr "Resultado para %s (%d lançamentos)"
 
 #: src/etats_affiche.c:870
 #, c-format
@@ -3939,12 +3941,12 @@ msgstr "Resultado para %s"
 #: src/etats_affiche.c:1005
 #, c-format
 msgid "Result without financial year (%d transaction)"
-msgstr "Resultado sem ano contábil (%d transação)"
+msgstr "Resultado sem ano contábil (%d lançamento)"
 
 #: src/etats_affiche.c:1008
 #, c-format
 msgid "Result without financial year (%d transactions)"
-msgstr "Resultado sem ano contábil (%d transações)"
+msgstr "Resultado sem ano contábil (%d lançamentos)"
 
 #: src/etats_affiche.c:1012
 msgid "Result without financial year"
@@ -3963,12 +3965,12 @@ msgstr "Transferir para %s"
 #: src/etats_affiche.c:1525
 #, c-format
 msgid "Total expenses (%d transaction)"
-msgstr "Total das despesas (%d transação)"
+msgstr "Total das despesas (%d lançamento)"
 
 #: src/etats_affiche.c:1527
 #, c-format
 msgid "Total expenses (%d transactions)"
-msgstr "Total das despesas (%d transações)"
+msgstr "Total das despesas (%d lançamentos)"
 
 #: src/etats_affiche.c:1530
 msgid "Total expenses"
@@ -3977,12 +3979,12 @@ msgstr "Total das despesas"
 #: src/etats_affiche.c:1537
 #, c-format
 msgid "Total income (%d transaction)"
-msgstr "Total da receitas (%d transação)"
+msgstr "Total da receitas (%d lançamento)"
 
 #: src/etats_affiche.c:1539
 #, c-format
 msgid "Total income (%d transactions)"
-msgstr "Total da receitas (%d transações)"
+msgstr "Total da receitas (%d lançamentos)"
 
 #: src/etats_affiche.c:1542
 msgid "Total income"
@@ -3991,12 +3993,12 @@ msgstr "Total da receita"
 #: src/etats_affiche.c:1584
 #, c-format
 msgid "General total (%d transaction)"
-msgstr "Total geral (%d transação)"
+msgstr "Total geral (%d lançamento)"
 
 #: src/etats_affiche.c:1586
 #, c-format
 msgid "General total (%d transactions)"
-msgstr "Total geral (%d transações)"
+msgstr "Total geral (%d lançamentos)"
 
 #: src/etats_affiche.c:1589
 msgid "General total"
@@ -4221,9 +4223,9 @@ msgid ""
 "All methods of payment have been selected. Grisbi will run faster without "
 "the \"Select the transactions based on payment method\" option"
 msgstr ""
-"Todas os métodos de pagamento foram selecionados. Grisbi irá executar mais "
+"Todas as formas de pagamento foram selecionados. Grisbi irá executar mais "
 "rapidamente\n"
-"sem a opção \"Detalhes das transações baseadas na forma de pagamento\""
+"sem a opção \"Detalhes dos lançamentos baseadas na forma de pagamento\""
 
 #: src/etats_config.c:1689
 msgid "Use dates ranges"
@@ -4261,7 +4263,7 @@ msgstr "Data final"
 #. sÃ©lectionner
 #: src/etats_config.c:2310
 msgid "Select transactions only for given accounts"
-msgstr "Selecionar as transações somente para as contas escolhidas"
+msgstr "Selecionar os lançamentos somente para as contas escolhidas"
 
 #: src/etats_config.c:2337
 msgid "Select the accounts included in the report"
@@ -4314,7 +4316,7 @@ msgstr "Incluir transferências a partir ou para estas contas"
 #. on rajoute le bouton exclure les opÃ© non virement
 #: src/etats_config.c:2761
 msgid "Exclude the transactions which are not transfers"
-msgstr "Excluir as transações que não são de transferência"
+msgstr "Excluir os lançamentos que não são de transferência"
 
 #: src/etats_config.c:2881
 msgid "Detail categories"
@@ -4334,7 +4336,7 @@ msgstr "Categorias de Despesas"
 
 #: src/etats_config.c:3034
 msgid "Exclude transactions with no category"
-msgstr "Excluir transações sem categoria"
+msgstr "Excluir lançamentos sem categoria"
 
 #: src/etats_config.c:3154
 msgid "Detail budgetary lines"
@@ -4354,7 +4356,7 @@ msgstr "Orçamento de despesas"
 
 #: src/etats_config.c:3305
 msgid "Exclude transactions without budgetary line"
-msgstr "Excluir transações sem orçamentos"
+msgstr "Excluir lançamentos sem orçamentos"
 
 #: src/etats_config.c:3424
 msgid "Detail third parties"
@@ -4366,11 +4368,11 @@ msgstr "Selecione um terceiro para incluir no relatório"
 
 #: src/etats_config.c:3616
 msgid "Select transactions according to the text"
-msgstr "Selecione transações de acordo com texto"
+msgstr "Selecione os lançamentos de acordo com texto"
 
 #: src/etats_config.c:3911
 msgid "Transactions whose"
-msgstr "Transações cujo"
+msgstr "Lançamentos cujo"
 
 #: src/etats_config.c:4052
 msgid "is"
@@ -4460,16 +4462,16 @@ msgstr "não está vazio"
 
 #: src/etats_config.c:4666
 msgid "Select the transactions by amount"
-msgstr "Selecionar as transações por valor"
+msgstr "Selecionar os lançamentos por valor"
 
 #. on rajoute le bouton exclure les opÃ© dont le montant est nul
 #: src/etats_config.c:4718
 msgid "Exclude the transactions with a null amount"
-msgstr "Excluir as transações com valor nulo"
+msgstr "Excluir os lançamentos com valor nulo"
 
 #: src/etats_config.c:4920
 msgid "Transactions with an amount of"
-msgstr "Transações com um valor de"
+msgstr "Lançamentos com um valor de"
 
 #: src/etats_config.c:5055 src/etats_config.c:5410
 msgid "and"
@@ -4533,7 +4535,7 @@ msgstr "parar"
 
 #: src/etats_config.c:5539
 msgid "Reconciled transactions"
-msgstr "Transações reconciliadas"
+msgstr "Lançamentos reconciliados"
 
 #: src/etats_config.c:5555
 msgid "Select"
@@ -4541,27 +4543,27 @@ msgstr "Selecionar"
 
 #: src/etats_config.c:5564
 msgid "All transactions"
-msgstr "Todas as transações"
+msgstr "Todas os lançamentos"
 
 #: src/etats_config.c:5573
 msgid "Non reconciled transactions"
-msgstr "Transações não reconciliadas"
+msgstr "Lançamentos não reconciliadas"
 
 #: src/etats_config.c:5586
 msgid "The reconciled transactions"
-msgstr "As transações reconciliadas"
+msgstr "Os lançamentos reconciliados"
 
 #: src/etats_config.c:5599
 msgid "The checked transactions"
-msgstr "As transações marcadas"
+msgstr "Os lançamentos marcados"
 
 #: src/etats_config.c:5612
 msgid "The neither reconciled neither checked transactions"
-msgstr "Nenhuma transação reconciliadas, nenhuma transação marcada"
+msgstr "Nenhum lançamento reconciliado, nenhum lançamento marcado"
 
 #: src/etats_config.c:5633
 msgid "Do not detail reconciled transactions"
-msgstr "Não detalhar transações reconciliadas"
+msgstr "Não detalhar lançamentos reconciliados"
 
 #. choix de ce qu'on utilise dans le classement
 #: src/etats_config.c:5696
@@ -4570,19 +4572,19 @@ msgstr "Informações usadas para o grupo"
 
 #: src/etats_config.c:5724
 msgid "Group transactions by account"
-msgstr "Agrupar transações por conta"
+msgstr "Agrupar lançamentos por conta"
 
 #: src/etats_config.c:5744
 msgid "Group transactions by third party"
-msgstr "Agrupar transações por terceiros"
+msgstr "Agrupar lançamentos por terceiros"
 
 #: src/etats_config.c:5766
 msgid "Group transactions by category"
-msgstr "Agrupar transações por categoria"
+msgstr "Agrupar lançamentos por categoria"
 
 #: src/etats_config.c:5786
 msgid "Group transactions by budgetary line"
-msgstr "Agrupar transações por orçamento"
+msgstr "Agrupar lançamentos por orçamento"
 
 #. choix du type de classement
 #: src/etats_config.c:5797
@@ -4627,7 +4629,7 @@ msgstr "Nome do relatório"
 
 #: src/etats_config.c:6289
 msgid "Diplay the number of transactions with the totals"
-msgstr "Mostrar o número de transações com o total"
+msgstr "Mostrar o número de lançamentos com o total"
 
 #: src/etats_config.c:6308
 msgid "Consider the third parties of this report as a multiple third party."
@@ -4639,7 +4641,7 @@ msgstr "Mostrar informações sobre"
 
 #: src/etats_config.c:6412
 msgid "the transaction number"
-msgstr "a transação número"
+msgstr "o lançamento número"
 
 #: src/etats_config.c:6428
 msgid "the date"
@@ -4679,7 +4681,7 @@ msgstr " no topo do relatório"
 
 #: src/etats_config.c:6722
 msgid "Sort the transactions by"
-msgstr "Organizar as transações por"
+msgstr "Organizar os lançamentos por"
 
 #: src/etats_config.c:6748
 msgid "date"
@@ -4687,7 +4689,7 @@ msgstr "data"
 
 #: src/etats_config.c:6756
 msgid "transaction number"
-msgstr "numero da transação"
+msgstr "numero do lançamento"
 
 #: src/etats_config.c:6764
 msgid "third party"
@@ -4727,7 +4729,7 @@ msgstr "reconciliação referente"
 
 #: src/etats_config.c:6851
 msgid "Make transactions clickable"
-msgstr "Fazer transação clicáveis"
+msgstr "Fazer lançamento clicáveis"
 
 #: src/etats_config.c:6919
 msgid "General totals currency"
@@ -4822,7 +4824,7 @@ msgstr "Exibir \"Nenhum sub-orçamento\" se não existir"
 #. sÃ©lectionner
 #: src/etats_config.c:7517
 msgid "Select the transactions by method of payment"
-msgstr "Selecionar as transações por forma de pagamento"
+msgstr "Selecionar os lançamentos por forma de pagamento"
 
 #: src/etats_config.c:7544
 msgid "Select methods of payment to include"
@@ -5015,8 +5017,8 @@ msgid ""
 "categories and sub-categories. You just need to select the account(s). By "
 "default, all accounts are selected."
 msgstr ""
-"Este relatório indica totais para as transações dos últimos meses "
-"classificadas por categorias e por sub-categorias. Você necessita  "
+"Este relatório indica totais para os lançamentos dos últimos meses "
+"classificados por categorias e por sub-categorias. Você necessita  "
 "selecionar uma conta. Pelo padrão, todos as contas estão selecionados."
 
 #. revenus et dÃ©penses du mois en cours
@@ -5026,7 +5028,7 @@ msgid ""
 "categories and sub-categories. You just need to select the account(s). By "
 "default, all accounts are selected."
 msgstr ""
-"Este relatório mostra o total das transações do mês corrente classificadas "
+"Este relatório mostra o total dos lançamentos do mês corrente classificados "
 "por categorias e sub-categorias. Você precisa selecionar a(s) conta(s).Por "
 "padrão todas as contas estão selecionadas."
 
@@ -5071,9 +5073,9 @@ msgid ""
 "parties etc. criteria thant you want. By default the transactions are "
 "clickables."
 msgstr ""
-"Este relatório mostra todas as informações de todas as transações de todas "
+"Este relatório mostra todas as informações de todas os lançamentos de todas "
 "as contas no ano atual. Você tem que adicionar um critério tipo valor, data "
-"terceiro, etc. Por padrão as transações estão clicáveis. "
+"terceiro, etc. Por padrão os lançamentos estão clicáveis. "
 
 #: src/etats_onglet.c:1034
 msgid "???? should not be displayed..."
@@ -5200,7 +5202,7 @@ msgstr "Fim"
 #. Activate in transaction form?
 #: src/exercice.c:280
 msgid "Activate in transaction form"
-msgstr "Ativar formulário de transações"
+msgstr "Ativar formulário de lançamentos"
 
 #: src/exercice.c:317
 msgid "New financial year"
@@ -5226,9 +5228,9 @@ msgid ""
 "one related to its transaction date.  If no financial year matches,\n"
 "the transaction will not be changed."
 msgstr ""
-"Esta função atribui cada transação sem um ano financeiro ao\n"
-" ano  relacionado a sesta data da transação. Se nenhum ano contábil\n"
-" combinar,a transação não será mudada."
+"Esta função atribui cada lançamento sem um ano financeiro ao\n"
+" ano  relacionado a sesta data do lançamento. Se nenhum ano contábil\n"
+" combinar,o lançamento não será mudada."
 
 #: src/export.c:160
 msgid "Export files"
@@ -5259,7 +5261,7 @@ msgstr "Formato de exportação não definiu a moeda."
 
 #: src/export.c:382 src/qif.c:915
 msgid "All transactions will be converted into currency of their account."
-msgstr "Todas as transações serão convertidas para a moeda desta conta."
+msgstr "Todas os lançamentos serão convertidas para a moeda desta conta."
 
 #: src/export.c:443 src/menu.c:105 src/operations_comptes.c:380
 #: src/operations_comptes.c:385 src/operations_comptes.c:446
@@ -5303,15 +5305,15 @@ msgstr "Agenda"
 
 #: src/fenetre_principale.c:131
 msgid "Third parties list (transactions)"
-msgstr "Lista de terceiros (transações)"
+msgstr "Lista de terceiros (lançamentos)"
 
 #: src/fenetre_principale.c:134
 msgid "Categories list (transactions)"
-msgstr "Lista de categorias (transações)"
+msgstr "Lista de categorias (lançamentos)"
 
 #: src/fenetre_principale.c:137
 msgid "Budgetary lines list (transactions)"
-msgstr "Lista de orçamentos (transações)"
+msgstr "Lista de orçamentos (lançamentos)"
 
 #: src/fichier_configuration.c:439
 msgid "File : "
@@ -5364,7 +5366,7 @@ msgstr ""
 
 #: src/fichiers_gestion.c:343
 msgid "Formatting transactions"
-msgstr "Formatando transações"
+msgstr "Formatando lançamentos"
 
 #: src/fichiers_gestion.c:432
 #, c-format
@@ -5472,19 +5474,19 @@ msgid ""
 "\n"
 msgstr ""
 "Havia um erro nas versões antes de 0.4.0, que poderia conduzir para "
-"transações órfãs (transferências sem contra-transação, ou detalhes da "
-"divisão das transações sem transação associada).\n"
+"lançamentos órfãs (transferências sem contra-lançamento, ou detalhes da "
+"divisão dos lançamentos sem lançamento associado).\n"
 "\n"
-"Grisbi procurou por estas transações e encontrou:\n"
+"Grisbi procurou por estes lançamentos e encontrou:\n"
 "\n"
 
 #: src/fichiers_io.c:1827
 msgid "breakdown transactions, all of them were deleted.\n"
-msgstr "Transações divididas, todas ela serão apagadas.\n"
+msgstr "Lançamentos divididos, todos eles serão apagadas.\n"
 
 #: src/fichiers_io.c:1834
 msgid "transfers without contra-transaction, which categories were deleted.\n"
-msgstr "transferência sem uma contra-transação, cujas categorias foram apagadas.\n"
+msgstr "transferência sem um contra-lançamento, cujas categorias foram apagadas.\n"
 
 #: src/fichiers_io.c:1839
 msgid ""
@@ -5602,7 +5604,7 @@ msgid ""
 "features will come."
 msgstr ""
 "Grisbi é um aplicativo financeiro pessoal para Linux\n"
-" Este programa permite que você classifique suas transações financeiras, o "
+" Este programa permite que você classifique seus lançamentos financeiros, o "
 "que quer que sejam em uma maneira conveniente e intuitiva. Assim, você "
 "poderá controlá-los  da maneira que você precisa e que você quiser.\n"
 "Grisbi é simples e eficiente para uso básico, e poderoso para usuários "
@@ -5817,11 +5819,11 @@ msgstr "Criar uma nova conta"
 
 #: src/import.c:664
 msgid "Add the transactions"
-msgstr "Adicionar transações"
+msgstr "Adicionar lançamentos"
 
 #: src/import.c:680
 msgid "Mark transactions"
-msgstr "Marcar transações"
+msgstr "Marcar lançamentos"
 
 #: src/import.c:812
 msgid "QIF file"
@@ -5864,20 +5866,20 @@ msgstr ""
 
 #: src/import.c:1796
 msgid "Confirmation of importation of transactions"
-msgstr "Confirmação da importação das transações"
+msgstr "Confirmação da importação dos lançamentos"
 
 #: src/import.c:1806
 msgid ""
 "Some imported transactions seem to be already saved. Please select the "
 "transactions to import."
 msgstr ""
-"Algumas transações importadas parecem já ter sido salvas. Por favor, "
-"selecione as transações para importar."
+"Alguns lançamentos importados parecem já ter sido salvos. Por favor, "
+"selecione os lançamentos para importar."
 
 #: src/import.c:1874
 #, c-format
 msgid "Transactions to import : %02d/%02d/%04d ; %s ; %4.2f"
-msgstr "Transações a importar : %02d/%02d/%04d ; %s ; %4.2f"
+msgstr "Lançamentos a importar : %02d/%02d/%04d ; %s ; %4.2f"
 
 #: src/import.c:1911
 msgid "no third party"
@@ -5886,21 +5888,21 @@ msgstr "Sem terceiros"
 #: src/import.c:1914
 #, c-format
 msgid "Transaction found : %02d/%02d/%04d ; %s ; %4.2f ; %s"
-msgstr "Transação não encontrada : %02d/%02d/%04d ; %s ; %4.2f ; %s"
+msgstr "Lançamento não encontrado : %02d/%02d/%04d ; %s ; %4.2f ; %s"
 
 #: src/import.c:1922
 #, c-format
 msgid "Transaction found : %02d/%02d/%04d ; %s ; %4.2f"
-msgstr "Transação encontrada : %02d/%02d/%04d ; %s ; %4.2f"
+msgstr "Lançamento encontrado : %02d/%02d/%04d ; %s ; %4.2f"
 
 #: src/import.c:2572
 msgid "Orphaned transactions"
-msgstr "Transações órfãs"
+msgstr "Lançamentos órfãs"
 
 #: src/import.c:2580
 msgid "Mark transactions you want to add to the list and click the add button"
 msgstr ""
-"Selecione as transações que você quer adicionar a lista e clique no botão "
+"Selecione os lançamentos que você quer adicionar a lista e clique no botão "
 "[Adicionar] "
 
 #: src/import.c:2650
@@ -5909,11 +5911,11 @@ msgstr "Marcar"
 
 #: src/import.c:2860
 msgid "Search the transaction"
-msgstr "Procurar uma transação"
+msgstr "Procurar um lançamento"
 
 #: src/import.c:2887
 msgid "days around the date in the imported transaction."
-msgstr "dias em torno da data na transação importada"
+msgstr "dias em torno da data no lançamento importada"
 
 #: src/imputation_budgetaire.c:67
 msgid "Budgetary lines list"
@@ -5974,13 +5976,13 @@ msgid ""
 "\n"
 "You can"
 msgstr ""
-"Algumas transações são atribuidas a este orçamento.\n"
+"Alguns lançamentos são atribuidas a este orçamento.\n"
 "\n"
 "Você pode "
 
 #: src/imputation_budgetaire.c:1623 src/imputation_budgetaire.c:1954
 msgid "Move the transactions to"
-msgstr "Mover as transações para"
+msgstr "Mover os lançamentos para"
 
 #: src/imputation_budgetaire.c:1708
 msgid "Just delete the budgetary line."
@@ -6000,7 +6002,7 @@ msgid ""
 "\n"
 "You can"
 msgstr ""
-"Algumas transações são atribuidas a este sub-orçamento.\n"
+"Alguns lançamentos são atribuidas a este sub-orçamento.\n"
 "\n"
 "Você pode"
 
@@ -6078,7 +6080,7 @@ msgstr "Importar orçamento"
 msgid ""
 "File already contains transactions, the two budgetary lines lists will be "
 "merged."
-msgstr "Arquivo já contem transações, os dois orçamentos serão mesclados."
+msgstr "Arquivo já contem lançamentos, os dois orçamentos serão mesclados."
 
 #: src/imputation_budgetaire.c:2905
 msgid "Merge the two lists of budgetary lines"
@@ -6151,35 +6153,35 @@ msgstr "Editar"
 #: src/menu.c:88 src/operations_liste.c:2686 src/traitement_variables.c:102
 #: src/traitement_variables.c:228
 msgid "New transaction"
-msgstr "Nova transação"
+msgstr "Novo lançamento"
 
 #. New transaction from
 #: src/menu.c:89 src/operations_liste.c:2694 src/traitement_variables.c:105
 #: src/traitement_variables.c:231
 msgid "Use selected transaction as a template"
-msgstr "Use as transações como modelo"
+msgstr "Use os lançamentos como modelo"
 
 #: src/menu.c:90 src/traitement_variables.c:108 src/traitement_variables.c:234
 msgid "Remove transaction"
-msgstr "Apagar transação"
+msgstr "Apagar lançamento"
 
 #. Clone transaction
 #: src/menu.c:91 src/operations_liste.c:2714 src/traitement_variables.c:111
 #: src/traitement_variables.c:237
 msgid "Clone transaction"
-msgstr "Clonar transação"
+msgstr "Clonar lançamento"
 
 #. Edit transaction
 #: src/menu.c:92 src/operations_liste.c:2673 src/traitement_variables.c:114
 #: src/traitement_variables.c:240
 msgid "Edit transaction"
-msgstr "Editar transação"
+msgstr "Editar lançamento"
 
 #. Convert to scheduled transaction
 #: src/menu.c:94 src/operations_liste.c:2727 src/traitement_variables.c:117
 #: src/traitement_variables.c:243
 msgid "Convert transaction to scheduled transaction"
-msgstr "Converter transação para transações agendadas"
+msgstr "Converter lançamento para lançamentos agendadas"
 
 #. Move to another account
 #: src/menu.c:95 src/operations_comptes.c:403 src/operations_comptes.c:408
@@ -6187,7 +6189,7 @@ msgstr "Converter transação para transações agendadas"
 #: src/operations_comptes.c:510 src/operations_liste.c:2737
 #: src/traitement_variables.c:120 src/traitement_variables.c:246
 msgid "Move transaction to another account"
-msgstr "Mover transação para outra conta"
+msgstr "Mover lançamento para outra conta"
 
 #: src/menu.c:97
 msgid "Preferences"
@@ -6302,7 +6304,7 @@ msgstr ""
 
 #: src/ofx.c:346
 msgid "A transaction try to be saved but no account was created...\n"
-msgstr "Uma transação tentou ser salva mas a conta não foi criada...\n"
+msgstr "Um lançamento tentou ser salvo mas a conta não foi criada...\n"
 
 #: src/ofx.c:414
 msgid "Interest"
@@ -6373,7 +6375,7 @@ msgstr "Mudar"
 
 #: src/operations_formulaire.c:488 src/operations_formulaire.c:489
 msgid "Contra-transaction method of payment"
-msgstr "Forma de pagamento da contra-transação"
+msgstr "Forma de pagamento do contra-lançamento"
 
 #. affiche la question de rÃ©cupÃ©ration
 #: src/operations_formulaire.c:1830
@@ -6425,7 +6427,7 @@ msgstr ""
 
 #: src/operations_formulaire.c:2544
 msgid "A transaction with a multiple third party must be a new one."
-msgstr "Cada transação com vários terceiros deverá ser única."
+msgstr "Cada lançamento com vários terceiros deverá ser única."
 
 #: src/operations_formulaire.c:2578
 msgid "Invalid multiple third party."
@@ -6449,14 +6451,14 @@ msgstr "Transferir a partir de uma conta deletada"
 
 #: src/operations_liste.c:1305
 msgid "Confirmation of transaction removal"
-msgstr "Confirmação da remoção da transação"
+msgstr "Confirmação da remoção do lançamento"
 
 #: src/operations_liste.c:1306
 msgid ""
 "You are currently trying to remove a transaction.  There is no undo for "
 "this.  Do you confirm the removal?"
 msgstr ""
-"Você está tentando remover uma transação. Não há como recuperar isto. Você "
+"Você está tentando remover um lançamento. Não há como recuperar isto. Você "
 "confirma a remoção ?"
 
 #: src/operations_liste.c:1325
@@ -6471,7 +6473,7 @@ msgid ""
 "Are you really sure to know what you do?"
 msgstr ""
 "Você está tentando reconciliar ou cancelar a reconciliação manualmente de "
-"uma transação de uma maneira não correta. Você realmente tem certeza que "
+"um lançamento de uma maneira não correta. Você realmente tem certeza que "
 "quer fazer isto ?"
 
 #: src/operations_liste.c:1633
@@ -6488,26 +6490,26 @@ msgstr "Reconciliação sem número"
 
 #: src/operations_liste.c:2106
 msgid "Impossible to delete a reconciled transaction."
-msgstr "Impossível apagar uma transação reconciliada"
+msgstr "Impossível apagar um lançamento reconciliado"
 
 #: src/operations_liste.c:2131
 msgid "The contra-transaction of this transfer is reconciled, deletion impossible."
 msgstr ""
-"A contra transação para esta transferência está reconciliada, Não é possível "
-"apagá-la."
+"O contra-lançamento para esta transferência está reconciliado, Não é possível "
+"apagá-lo."
 
 #: src/operations_liste.c:2179
 msgid ""
 "One of the breakdown lines is a transfer whose contra-transaction is "
 "reconciled.  Deletion canceled."
 msgstr ""
-"Uma divisão é uma transferência cuja contra-transação está reconciliada. A "
-"transação não pode ser apagada."
+"Uma divisão é uma transferência cujo contra-lançamento está reconciliado. O "
+"lançamento não pode ser apagado."
 
 #. Delete transaction
 #: src/operations_liste.c:2702
 msgid "Delete transaction"
-msgstr "Apagar transação"
+msgstr "Apagar lançamento"
 
 #: src/operations_liste.c:3133
 msgid "Cannot move a transfer on his contra-account"
@@ -6536,7 +6538,7 @@ msgstr "Mensagens & Avisos"
 
 #: src/parametres.c:252
 msgid "Transactions list lines"
-msgstr "Conteúdo da lista de transações"
+msgstr "Conteúdo da lista de lançamentos"
 
 #: src/parametres.c:279
 msgid "Resources"
@@ -6577,17 +6579,17 @@ msgstr ""
 #. Display a warning message when trying to remove a transaction
 #: src/parametres.c:418
 msgid "Do not warn about removal transaction"
-msgstr "Não avisar ao remover transações"
+msgstr "Não avisar ao remover lançamentos"
 
 #. Display a warning message when trying to remove a scheduled transaction
 #: src/parametres.c:423
 msgid "Do not warn about removal scheduled transaction"
-msgstr "Não avisar ao remover transações agendadas"
+msgstr "Não avisar ao remover lançamentos agendadas"
 
 #. Display a warning message when a breakdown is incomplete
 #: src/parametres.c:428
 msgid "Do not warn about incomplete breakdown"
-msgstr "Não avisar sobre transações divididas e incompletas"
+msgstr "Não avisar sobre lançamentos divididos e incompletos"
 
 #. Display a warning message when no reconciliation reference given
 #: src/parametres.c:433
@@ -6610,7 +6612,7 @@ msgstr "Mensagens da agenda"
 
 #: src/parametres.c:455
 msgid "Number of days before a warning message advertising a scheduled transaction"
-msgstr "Número de dias antes de exibir mensagens de transações agendadas"
+msgstr "Número de dias antes de exibir mensagens de lançamentos agendados"
 
 #: src/parametres.c:519
 msgid "Account files handling"
@@ -6774,7 +6776,7 @@ msgstr "Conta importada sem nenhum nome"
 
 #: src/qif.c:578 src/qif.c:581
 msgid " [Transaction imported without date]"
-msgstr " [Transação importada sem nenhuma data]"
+msgstr " [Lançamento importado sem nenhuma data]"
 
 #: src/qif.c:731
 msgid "Dates can't be parsed in QIF file."
@@ -6830,13 +6832,13 @@ msgid ""
 "\n"
 "You can"
 msgstr ""
-"Algumas transações estão atribuidas para este terceiro.\n"
+"Alguns lançamentos estão atribuidos para este terceiro.\n"
 "\n"
 "Você pode"
 
 #: src/tiers_onglet.c:1215
 msgid "Transfer the transactions to"
-msgstr "Transferir as transações para"
+msgstr "Transferir os lançamentos para"
 
 #: src/tiers_onglet.c:1258
 msgid "Just delete this third party."
@@ -6935,13 +6937,13 @@ msgid ""
 "is irreversible, these transactions are to be associated with another "
 "payment method."
 msgstr ""
-"Algumas transações ainda usam esta forma de pagamento. Ao apagar esta forma "
-"de pagamento, estas transações não terão nenhuma forma de pagamento "
+"Alguns lançamentos ainda usam esta forma de pagamento. Ao apagar esta forma "
+"de pagamento, estes lançamentos não terão nenhuma forma de pagamento "
 "associada."
 
 #: src/type_operations.c:1039
 msgid "Associate transactions with"
-msgstr "Associar transações com"
+msgstr "Associar lançamentos com"
 
 #: src/utils.c:710
 #, c-format
@@ -6980,11 +6982,11 @@ msgstr "Navegador"
 
 #: src/ventilation.c:2201
 msgid "This transaction has a reconciled breakdown line, deletion canceled."
-msgstr "Esta transação tem uma divisão reconciliada, não é possível apagá-la."
+msgstr "Este lançamento tem uma divisão reconciliada, não é possível apagá-lo."
 
 #: src/ventilation.c:2228
 msgid "This transfer has a reconciled contra-transaction, deletion canceled."
 msgstr ""
-"Esta transferência tem uma contra-transação reconciliada, Não é possível "
-"apagá-la."
+"Esta transferência tem um contra-lançamento reconciliado, Não é possível "
+"apagá-lo."
 
