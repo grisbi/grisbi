@@ -200,10 +200,10 @@ int ofx_proc_status_cb(struct OfxStatusData data)
 
 /* *******************************************************************************/
 #ifdef OFX_0_7
-void ofx_proc_security_cb ( LibofxContextPtr ctx, LibofxProcSecurityCallback cb, 
+int ofx_proc_security_cb ( LibofxContextPtr ctx, LibofxProcSecurityCallback cb, 
 			    void * user_data )
 #else /* OFX_0_7 */
-void ofx_proc_security_cb ( struct OfxSecurityData data )
+int ofx_proc_security_cb ( struct OfxSecurityData data )
 #endif /* OFX_0_7 */
 {
 /*     printf ( "ofx_proc_security_cb :\n" ); */
