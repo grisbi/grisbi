@@ -306,9 +306,7 @@ GtkWidget *onglet_types_operations ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  /* FIXME */
   bouton_ajouter_type = gtk_button_new_from_stock (GTK_STOCK_ADD);
-/*   bouton_ajouter_type = gnome_stock_button ( GNOME_STOCK_PIXMAP_ADD ); */
   gtk_button_set_relief ( GTK_BUTTON ( bouton_ajouter_type ),
 			  GTK_RELIEF_NONE );
   gtk_widget_set_sensitive ( bouton_ajouter_type,
@@ -317,10 +315,6 @@ GtkWidget *onglet_types_operations ( void )
 		       "clicked",
 		       (GtkSignalFunc ) ajouter_type_operation,
 		       NULL );
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton_ajouter_type ),
-			      "clicked",
-			      gnome_property_box_changed,
-			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       bouton_ajouter_type,
 		       TRUE,
@@ -328,9 +322,7 @@ GtkWidget *onglet_types_operations ( void )
 		       5 );
   gtk_widget_show ( bouton_ajouter_type );
 
-  /* FIXME */
   bouton_retirer_type = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
-/*   bouton_retirer_type = gnome_stock_button ( GNOME_STOCK_PIXMAP_REMOVE ); */
   gtk_button_set_relief ( GTK_BUTTON ( bouton_retirer_type ),
 			  GTK_RELIEF_NONE );
   gtk_widget_set_sensitive ( bouton_retirer_type,
@@ -341,7 +333,7 @@ GtkWidget *onglet_types_operations ( void )
 		       NULL );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_retirer_type ),
 			      "clicked",
-			      gnome_property_box_changed,
+			      GTK_SIGNAL_FUNC(gnome_property_box_changed),
 			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       bouton_retirer_type,
@@ -404,10 +396,6 @@ GtkWidget *onglet_types_operations ( void )
 		       "changed",
 		       GTK_SIGNAL_FUNC ( modification_entree_nom_type ),
 		       NULL );
-  gtk_signal_connect_object ( GTK_OBJECT ( entree_type_nom ),
-			      "changed",
-			      gnome_property_box_changed,
-			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       entree_type_nom,
 		       FALSE,
@@ -423,10 +411,6 @@ GtkWidget *onglet_types_operations ( void )
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( modification_type_affichage_entree ),
 		       NULL );
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton_type_apparaitre_entree ),
-			      "toggled",
-			      gnome_property_box_changed,
-			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_type_apparaitre_entree,
 		       FALSE,
@@ -451,10 +435,6 @@ GtkWidget *onglet_types_operations ( void )
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( modification_type_numerotation_auto ),
 		       NULL );
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton_type_numerotation_automatique ),
-			      "toggled",
-			      gnome_property_box_changed,
-			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       bouton_type_numerotation_automatique,
 		       FALSE,
@@ -470,10 +450,6 @@ GtkWidget *onglet_types_operations ( void )
 		       "changed",
 		       GTK_SIGNAL_FUNC ( modification_entree_type_dernier_no ),
 		       NULL );
-  gtk_signal_connect_object ( GTK_OBJECT ( entree_type_dernier_no ),
-			      "changed",
-			      gnome_property_box_changed,
-			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       entree_type_dernier_no,
 		       FALSE,
@@ -501,10 +477,6 @@ GtkWidget *onglet_types_operations ( void )
 			      "activate",
 			      GTK_SIGNAL_FUNC ( modification_type_signe ),
 			      NULL );
-  gtk_signal_connect_object ( GTK_OBJECT ( item ),
-			      "activate",
-			      gnome_property_box_changed,
-			      GTK_OBJECT (fenetre_preferences));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    item );
   gtk_widget_show ( item );
@@ -514,10 +486,6 @@ GtkWidget *onglet_types_operations ( void )
 			      "activate",
 			      GTK_SIGNAL_FUNC ( modification_type_signe ),
 			      GINT_TO_POINTER (1) );
-  gtk_signal_connect_object ( GTK_OBJECT ( item ),
-			      "activate",
-			      gnome_property_box_changed,
-			      GTK_OBJECT (fenetre_preferences));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    item );
   gtk_widget_show ( item );
@@ -527,10 +495,6 @@ GtkWidget *onglet_types_operations ( void )
 			      "activate",
 			      GTK_SIGNAL_FUNC ( modification_type_signe ),
 			      GINT_TO_POINTER (2) );
-  gtk_signal_connect_object ( GTK_OBJECT ( item ),
-			      "activate",
-			      gnome_property_box_changed,
-			      GTK_OBJECT (fenetre_preferences));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    item );
   gtk_widget_show ( item );
@@ -552,10 +516,6 @@ GtkWidget *onglet_types_operations ( void )
 			      "toggled",
 			      GTK_SIGNAL_FUNC ( modification_type_par_defaut ),
 			      NULL );
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton_type_choix_defaut ),
-			      "toggled",
-			      gnome_property_box_changed,
-			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       bouton_type_choix_defaut,
 		       FALSE,
@@ -589,10 +549,6 @@ GtkWidget *onglet_types_operations ( void )
   bouton_type_choix_affichage_formulaire = gtk_check_button_new_with_label ( _("Display all the methods of payment\nin the form") );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON( bouton_type_choix_affichage_formulaire ),
 				 etat.affiche_tous_les_types );
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton_type_choix_affichage_formulaire ),
-			      "toggled",
-			      gnome_property_box_changed,
-			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_start ( GTK_BOX ( vbox2 ),
 		       bouton_type_choix_affichage_formulaire,
 		       FALSE,
@@ -637,10 +593,6 @@ GtkWidget *onglet_types_operations ( void )
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( modif_tri_date_ou_type ),
 		       NULL );
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton_type_tri_date ),
-			      "toggled",
-			      gnome_property_box_changed,
-			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_start ( GTK_BOX ( vbox2 ),
 		       bouton_type_tri_date,
 		       FALSE,
@@ -706,10 +658,6 @@ GtkWidget *onglet_types_operations ( void )
 		       "unselect_row",
 		       (GtkSignalFunc ) deselection_type_liste_tri,
 		       NULL );
-  gtk_signal_connect_object ( GTK_OBJECT ( type_liste_tri ),
-			      "row_move",
-			      gnome_property_box_changed,
-			      GTK_OBJECT (fenetre_preferences));
   gtk_signal_connect_after ( GTK_OBJECT ( type_liste_tri ),
 			     "row_move",
 			     GTK_SIGNAL_FUNC ( save_ordre_liste_type_tri ),
@@ -729,9 +677,7 @@ GtkWidget *onglet_types_operations ( void )
 		       0);
   gtk_widget_show ( vbox_fleches_tri );
 
-  /* FIXME */
   bouton = gtk_button_new_from_stock (GTK_STOCK_GO_UP);
-/*   bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_UP ); */
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
@@ -742,9 +688,7 @@ GtkWidget *onglet_types_operations ( void )
 		      bouton );
   gtk_widget_show ( bouton );
 
-  /* FIXME */
   bouton = gtk_button_new_from_stock (GTK_STOCK_GO_DOWN);
-/*   bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_DOWN ); */
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
@@ -764,10 +708,6 @@ GtkWidget *onglet_types_operations ( void )
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( inclut_exclut_les_neutres ),
 		       NULL );
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton_type_neutre_inclut ),
-			      "toggled",
-			      gnome_property_box_changed,
-			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_start ( GTK_BOX ( vbox2 ),
 		       bouton_type_neutre_inclut,
 		       FALSE,
@@ -826,12 +766,6 @@ void selection_ligne_arbre_types ( GtkWidget *arbre,
 
   remplit_liste_tri_par_type(no_compte);
 
-  gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_type_tri_date ),
-				     gnome_property_box_changed,
-				     fenetre_preferences );
-  gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_type_neutre_inclut ),
-				     gnome_property_box_changed,
-				     fenetre_preferences );
   gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_type_neutre_inclut ),
 				     inclut_exclut_les_neutres,
 				     NULL );
@@ -839,12 +773,6 @@ void selection_ligne_arbre_types ( GtkWidget *arbre,
 				 tri_tmp[no_compte] );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_type_neutre_inclut ),
 				 neutres_inclus_tmp[no_compte] );
-  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_type_tri_date ),
-				       gnome_property_box_changed,
-				       fenetre_preferences );
-  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_type_neutre_inclut ),
-				       gnome_property_box_changed,
-				       fenetre_preferences );
   gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_type_neutre_inclut ),
 				       inclut_exclut_les_neutres,
 				       NULL );
@@ -1022,9 +950,6 @@ void deselection_ligne_arbre_types ( GtkWidget *arbre,
   /* on se remet sur classement par date pour désensitiver la liste */
 
   gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_type_tri_date ),
-				     gnome_property_box_changed,
-				     fenetre_preferences );
-  gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_type_tri_date ),
 				     modif_tri_date_ou_type,
 				     NULL );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_type_tri_date ),
@@ -1032,9 +957,6 @@ void deselection_ligne_arbre_types ( GtkWidget *arbre,
   gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_type_tri_date ),
 				       modif_tri_date_ou_type,
 				       NULL );
-  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_type_tri_date ),
-				       gnome_property_box_changed,
-				       fenetre_preferences );
 
   /* on desensitive les boutons du tri */
 

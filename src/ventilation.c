@@ -714,14 +714,14 @@ void entree_ventilation_perd_focus ( GtkWidget *entree,
     {
       /* on sort des catégories */
     case 0:
-      if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
+      if ( strlen ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	{
 	  /* si c'est un virement, on met le menu des types de l'autre compte */
 	  /* si ce menu n'est pas déjà affiché */
 
 	  gchar **tableau_char;
 
-	  tableau_char = g_strsplit ( gtk_entry_get_text ( GTK_ENTRY ( entree )),
+	  tableau_char = g_strsplit ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree )),
 				      ":",
 				      2 );
 
@@ -826,7 +826,7 @@ void entree_ventilation_perd_focus ( GtkWidget *entree,
       /* sort des notes */
 
     case 1:
-      if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
+      if ( !strlen ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	texte = _("Notes");
       break;
 
@@ -835,7 +835,7 @@ void entree_ventilation_perd_focus ( GtkWidget *entree,
 
     case 2:
 
-      if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree ))))
+      if ( strlen ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree ))))
 	   &&
 	   gtk_widget_get_style ( widget_formulaire_ventilation[2] ) == style_entree_formulaire[0] )
 	{
@@ -882,7 +882,7 @@ void entree_ventilation_perd_focus ( GtkWidget *entree,
       /* sort du crédit */
 
     case 3:
-      if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree ))))
+      if ( strlen ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree ))))
 	   &&
 	   gtk_widget_get_style ( widget_formulaire_ventilation[3] ) == style_entree_formulaire[0])
 	{
@@ -929,19 +929,17 @@ void entree_ventilation_perd_focus ( GtkWidget *entree,
       /* sort de l'ib */
 
     case 4:
-      if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
+      if ( !strlen ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	texte = _("Budgetary line");
       break;
 
       /* sort de la pièce comptable */
 
     case 7:
-      if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
+      if ( !strlen ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	texte = _("Voucher");
       break;
 
-
-    default :
     }
 
 
@@ -1031,10 +1029,10 @@ void ventiler_operation ( gdouble montant )
   /* qui modifient la position dans la liste des opés */
 
   gtk_signal_handler_block_by_func ( GTK_OBJECT ( frame_droite_bas ),
-				     allocation_taille_formulaire,
+				     GTK_SIGNAL_FUNC(allocation_taille_formulaire),
 				     NULL );
   gtk_signal_handler_block_by_func ( GTK_OBJECT ( frame_droite_bas ),
-				     efface_formulaire,
+				     GTK_SIGNAL_FUNC(efface_formulaire),
 				     NULL );
 
 
@@ -1393,7 +1391,7 @@ void appui_touche_ventilation ( GtkWidget *entree,
 
       if ( origine == 3
 	   &&
-	   strlen ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[2] ))))
+	   strlen ( (char *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[2] ))))
 	origine = (origine + 1 ) % 8;
 
       /* on sélectionne le contenu de la nouvelle entrée */
@@ -1759,7 +1757,7 @@ void fin_edition_ventilation ( void )
   /* récupération des notes */
 
   if ( gtk_widget_get_style ( widget_formulaire_ventilation[1] ) == style_entree_formulaire[0] )
-    operation -> notes = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[1] ))));
+    operation -> notes = g_strdup ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[1] ))));
   else
     operation -> notes = NULL;
 
@@ -1768,10 +1766,10 @@ void fin_edition_ventilation ( void )
 
   if ( gtk_widget_get_style ( widget_formulaire_ventilation[2] ) == style_entree_formulaire[0] )
     /* c'est un débit */
-    operation -> montant = -g_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[2] ))),
+    operation -> montant = -g_strtod ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[2] ))),
 				       NULL );
   else
-    operation -> montant = g_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[3] ))),
+    operation -> montant = g_strtod ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[3] ))),
 				      NULL );
 
 
@@ -1852,7 +1850,7 @@ void fin_edition_ventilation ( void )
 /* récupération du no de pièce comptable */
 
   if ( gtk_widget_get_style ( widget_formulaire_ventilation[7] ) == style_entree_formulaire[0] )
-    operation -> no_piece_comptable = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[7] ))));
+    operation -> no_piece_comptable = g_strdup ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[7] ))));
   else
     operation -> no_piece_comptable = NULL;
 
@@ -2532,12 +2530,11 @@ void valider_ventilation ( void )
   /* qui modifient la position dans la liste des opés */
 
   gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( frame_droite_bas ),
-			       allocation_taille_formulaire,
-			       NULL );
+				       GTK_SIGNAL_FUNC(allocation_taille_formulaire),
+				       NULL );
   gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( frame_droite_bas ),
-			       efface_formulaire,
-			       NULL );
-
+				       GTK_SIGNAL_FUNC(efface_formulaire),
+				       NULL );
 
 
   gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_formulaire ),
