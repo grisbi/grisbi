@@ -1344,6 +1344,27 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	{
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					 "key-press-event");
+
+	  /* si c'est la date d'opération et que le champ est vide, alors on
+	     récupère la date du jour comme date d'opération */
+	  if ( origine == TRANSACTION_FORM_DATE &&
+	       strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[origine] ) ) ) ) == 0 )
+	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ), gsb_today() );
+
+	  /* si c'est la date de valeur et que le champ est vide, alors on
+	     récupère la date d'opération comme date de valeur */
+	  if ( origine == TRANSACTION_FORM_VALUE_DATE &&
+	       strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[origine] ) ) ) ) == 0 )
+	    {
+	     /* si la date d'opération est vide elle aussi, alors on récupère
+		la date du jour comme date de valeur */
+	     if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) ) ) ) == 0 ||
+	          g_strcasecmp ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) ) ),  _("Date") ) == 0 )
+	       gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ), gsb_today() );
+	     else
+	       gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ), g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) ) ) );
+	    }
+
 	  if ( ( ev -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
 	    inc_dec_date ( widget_formulaire_operations[origine], ONE_DAY );
 	  else
@@ -1370,6 +1391,27 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	{
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					 "key-press-event");
+
+	  /* si c'est la date d'opération et que le champ est vide, alors on
+	     récupère la date du jour comme date d'opération */
+	  if ( origine == TRANSACTION_FORM_DATE &&
+	       strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[origine] ) ) ) ) == 0 )
+	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ), gsb_today() );
+
+	  /* si c'est la date de valeur et que le champ est vide, alors on
+	     récupère la date d'opération comme date de valeur */
+	  if ( origine == TRANSACTION_FORM_VALUE_DATE &&
+	       strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[origine] ) ) ) ) == 0 )
+	    {
+	     /* si la date d'opération est vide elle aussi, alors on récupère
+		la date du jour comme date de valeur */
+	     if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) ) ) ) == 0 ||
+	          g_strcasecmp ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) ) ),  _("Date") ) == 0 )
+	       gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ), gsb_today() );
+	     else
+	       gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ), g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) ) ) );
+	    }
+
 	  if ( ( ev -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
 	    inc_dec_date ( widget_formulaire_operations[origine], - ONE_DAY );
 	  else
@@ -1395,6 +1437,27 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	{
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					 "key-press-event");
+
+	  /* si c'est la date d'opération et que le champ est vide, alors on
+	     récupère la date du jour comme date d'opération */
+	  if ( origine == TRANSACTION_FORM_DATE &&
+	       strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[origine] ) ) ) ) == 0 )
+	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ), gsb_today() );
+
+	  /* si c'est la date de valeur et que le champ est vide, alors on
+	     récupère la date d'opération comme date de valeur */
+	  if ( origine == TRANSACTION_FORM_VALUE_DATE &&
+	       strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[origine] ) ) ) ) == 0 )
+	    {
+	     /* si la date d'opération est vide elle aussi, alors on récupère
+		la date du jour comme date de valeur */
+	     if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) ) ) ) == 0 ||
+	          g_strcasecmp ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) ) ),  _("Date") ) == 0 )
+	       gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ), gsb_today() );
+	     else
+	       gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ), g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) ) ) );
+	    }
+
 	  if ( ( ev -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
 	    inc_dec_date ( widget_formulaire_operations[origine], ONE_MONTH );
 	  else
@@ -1413,6 +1476,27 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	{
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					 "key-press-event");
+
+	  /* si c'est la date d'opération et que le champ est vide, alors on
+	     récupère la date du jour comme date d'opération */
+	  if ( origine == TRANSACTION_FORM_DATE &&
+	       strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[origine] ) ) ) ) == 0 )
+	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ), gsb_today() );
+
+	  /* si c'est la date de valeur et que le champ est vide, alors on
+	     récupère la date d'opération comme date de valeur */
+	  if ( origine == TRANSACTION_FORM_VALUE_DATE &&
+	       strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[origine] ) ) ) ) == 0 )
+	    {
+	     /* si la date d'opération est vide elle aussi, alors on récupère
+		la date du jour comme date de valeur */
+	     if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) ) ) ) == 0 ||
+	          g_strcasecmp ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) ) ),  _("Date") ) == 0 )
+	       gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ), gsb_today() );
+	     else
+	       gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ), g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) ) ) );
+	    }
+
 	  if ( ( ev -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
 	    inc_dec_date ( widget_formulaire_operations[origine], - ONE_MONTH );
 	  else
