@@ -497,7 +497,7 @@ gdouble gnucash_value ( gchar * value )
   number = my_atoi ( tab_value[0] );
   mantisse = my_atoi ( tab_value[1] );
   
-  free ( tab_value );
+  g_strfreev ( tab_value );    
 
   return number / mantisse;
 }
