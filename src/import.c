@@ -178,6 +178,11 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 		recuperation_donnees_qif ( fichier );
 	    else
 	    {
+/* 		pour l'instant html non implémenté */
+
+		    dialogue ( g_strdup_printf ( _("The file \"%s\" cannot be recognized for the importation.\nIf it is a QIF or OFX file,\nplease contact the grisbi team to resolve the problem."),
+						 liste_selection[i] ));
+			
 		if ( pointeur_char[0] == '<' )
 		    recuperation_donnees_html ( fichier );
 		else

@@ -51,7 +51,7 @@ GtkWidget *preview;
  * \param data A pointer to some random data passed to this hook.  Not
  * used there.
  */
-gboolean
+    gboolean
 update_transaction_form ( GtkWidget * checkbox, gpointer data )
 {
     gboolean selected = gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) == style_entree_formulaire[0];
@@ -234,6 +234,7 @@ GtkWidget * onglet_display_fonts ( void )
     GtkWidget *table, *font_button;
     GtkWidget *hbox_font, *init_button;
     GdkPixbuf * pixbuf = NULL;
+    GtkWidget *check_button;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Fonts & logo"),
 					       "fonts.png" );
@@ -246,6 +247,29 @@ GtkWidget * onglet_display_fonts ( void )
     hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 			 FALSE, FALSE, 0 );
+
+    check_button = gtk_check_button_new_with_label ( _("Use the logo"));
+    gtk_box_pack_start ( GTK_BOX ( hbox ),
+			 check_button,
+			 FALSE,
+			 FALSE,
+			 0 );
+
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( check_button ),
+				   etat.utilise_logo );
+
+    hbox = gtk_hbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
+			 FALSE, FALSE, 0 );
+
+    /*     le logo est grisé ou non suivant qu'on l'utilise ou pas */
+
+    gtk_widget_set_sensitive ( hbox,
+			       etat.utilise_logo );
+    g_signal_connect ( G_OBJECT ( check_button ),
+		       "toggled",
+		       G_CALLBACK ( change_choix_utilise_logo ),
+		       hbox );
 
     logo_button = gtk_button_new ();
     gtk_button_set_relief ( GTK_BUTTON ( logo_button ),
@@ -396,6 +420,44 @@ GtkWidget * onglet_display_fonts ( void )
 
     return vbox_pref;
 }
+
+/* ********************************************************************** */
+gboolean change_choix_utilise_logo ( GtkWidget *check_button,
+				     GtkWidget *hbox )
+{
+
+    etat.utilise_logo = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( check_button ));
+    gtk_widget_set_sensitive ( hbox,
+			       etat.utilise_logo );
+
+    if ( etat.utilise_logo )
+    {
+	/* 	on recharge l'ancien logo */
+
+	if ( !chemin_logo ||
+	     !strlen ( g_strstrip ( chemin_logo )) )
+	{
+	    chemin_logo = NULL;
+	    if ( logo_accueil && GTK_IS_WIDGET ( logo_accueil ))
+		gtk_widget_hide ( logo_accueil );
+	}
+	else
+	{
+	    /* Update homepage logo */
+
+	    logo_accueil =  gnome_pixmap_new_from_file ( chemin_logo );
+	    gtk_box_pack_start ( GTK_BOX ( page_accueil ), logo_accueil,
+				 FALSE, FALSE, 0 );
+	    gtk_widget_show ( logo_accueil );
+	}
+    }
+    else
+	gtk_widget_destroy ( logo_accueil ); 
+
+
+    return ( FALSE );
+}
+/* ********************************************************************** */
 
 
 /**
@@ -747,6 +809,7 @@ void change_logo_accueil ( GtkWidget *widget, gpointer user_data )
 	{
 	    /* Update homepage logo */
 	    gtk_widget_destroy ( logo_accueil ); 
+
 	    logo_accueil =  gnome_pixmap_new_from_file ( chemin_logo );
 	    gtk_box_pack_start ( GTK_BOX ( page_accueil ), logo_accueil,
 				 FALSE, FALSE, 0 );
@@ -781,8 +844,6 @@ void change_logo_accueil ( GtkWidget *widget, gpointer user_data )
 	gtk_widget_show ( preview );
 	gtk_container_add ( GTK_CONTAINER(logo_button), preview );
     }
-
-    /* on sauvegarde le chemin */
 }
 
 

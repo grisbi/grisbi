@@ -73,6 +73,7 @@ struct {
     guint retient_affichage_par_compte;   /* à 1 si les caractéristiques de l'affichage (R, non R ...) diffèrent par compte */
     guint en_train_de_sauvegarder;
     guint en_train_de_charger;
+    guint utilise_logo;
 
     /* Various display message stuff  */
     guint display_message_lock_active;

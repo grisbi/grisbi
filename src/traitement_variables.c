@@ -88,6 +88,7 @@ void init_variables ( gboolean ouverture )
     else
     {
 	etat.modification_fichier = 0;
+	etat.utilise_logo = 1;
 
 	nom_fichier_comptes = NULL;
 

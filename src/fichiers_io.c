@@ -4318,6 +4318,10 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		    valeur_echelle_recherche_date_import = atoi ( xmlNodeGetContent ( node_generalites ));
 
 		if ( !strcmp ( node_generalites -> name,
+			       "Utilise_logo" ))
+		    etat.utilise_logo = atoi ( xmlNodeGetContent ( node_generalites ));
+
+		if ( !strcmp ( node_generalites -> name,
 			       "Chemin_logo" ))
 		    chemin_logo = xmlNodeGetContent ( node_generalites );
 
@@ -6578,6 +6582,11 @@ gboolean enregistre_fichier ( gboolean force )
 		      NULL,
 		      "Echelle_date_import",
 		      itoa (valeur_echelle_recherche_date_import ));
+
+    xmlNewTextChild ( node,
+		      NULL,
+		      "Utilise_logo",
+		      etat.utilise_logo );
 
     xmlNewTextChild ( node,
 		      NULL,

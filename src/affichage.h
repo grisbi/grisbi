@@ -1,5 +1,7 @@
 GtkWidget * onglet_display_transaction_list ( void );
 GtkWidget * onglet_display_fonts ( void );
+gboolean change_choix_utilise_logo ( GtkWidget *check_button,
+				     GtkWidget *hbox );
 GtkWidget *onglet_display_addresses ( void );
 GtkWidget * onglet_display_transaction_form ( void );
 GtkWidget *onglet_affichage ( void );
