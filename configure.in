@@ -31,12 +31,12 @@ AC_SUBST(prefix)
 AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)
 
-PKG_CHECK_MODULES(GNOMELIBS, [ gnome gtk glib xml gdk_pixbuf ])
+GNOME_CHECK_MODULES(GNOMELIBS, [ gnome gtk glib xml gdk_pixbuf ])
 CFLAGS="$GNOMELIBS_CFLAGS"
 LDFLAGS="$GNOMELIBS_LDFLAGS"
 
 APPLET="false"
-PKG_CHECK_MODULES(GA, [ applets ],
+GNOME_CHECK_MODULES(GA, [ applets ],
 		      [ APPLET=true; CFLAGS="$CFLAGS $GA_CFLAGS; LDFLAGS="$LDFLAGS $GA_LDFLAGS"],
 		      [ AC_MSG_WARN("Gnome library Applets is not installed, I won't compile Grisbi applet") ])
 AM_CONDITIONAL(APPLET, test $APPLET = xtrue)
