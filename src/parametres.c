@@ -279,7 +279,7 @@ void preferences ( GtkWidget *widget,
 /*   gtk_widget_show_all ( fenetre_preferences ); */
 
   gtk_widget_show_all ( hpaned );
-  gtk_container_set_border_width ( hpaned, 10 );
+  gtk_container_set_border_width ( hpaned, 6 );
   gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(fenetre_preferences) -> vbox ), hpaned,
 		       TRUE, TRUE, 0);
 
