@@ -38,8 +38,6 @@ enum payment_methods_columns {
   NUM_PAYMENT_METHODS_COLUMNS,
 };
 
-GtkWidget *entree_automatic_numbering; /* FIXME: Move it */
-
 
 GtkWidget *treeview;
 GtkTreeStore *model;
@@ -128,7 +126,7 @@ void fill_tree ()
       gtk_tree_store_set (model, &account_iter,
 			  PAYMENT_METHODS_NAME_COLUMN, NOM_DU_COMPTE,
 			  PAYMENT_METHODS_NUMBERING_COLUMN, "",
-			  PAYMENT_METHODS_TYPE_COLUMN, FALSE,
+			  PAYMENT_METHODS_TYPE_COLUMN, i,
 			  PAYMENT_METHODS_DEFAULT_COLUMN, FALSE,
 			  PAYMENT_METHODS_ACTIVABLE_COLUMN, FALSE, 
 			  PAYMENT_METHODS_VISIBLE_COLUMN, FALSE, 
@@ -323,7 +321,6 @@ GtkWidget *onglet_types_operations ( void )
   bouton_ajouter_type = gtk_button_new_from_stock (GTK_STOCK_ADD);
   gtk_button_set_relief ( GTK_BUTTON ( bouton_ajouter_type ),
 			  GTK_RELIEF_NONE );
-  gtk_widget_set_sensitive ( bouton_ajouter_type, FALSE );
   gtk_signal_connect ( GTK_OBJECT ( bouton_ajouter_type ),
 		       "clicked",
 		       (GtkSignalFunc ) ajouter_type_operation,
@@ -445,7 +442,6 @@ select_payment_method ( GtkTreeSelection *selection,
 			GtkTreeModel *model )
 {
   GtkTreeIter iter;
-  GValue value_name = {0, };
   GValue value_visible = {0, };
   GValue value_numbering = {0, };
   GValue value_type = {0, };
@@ -527,17 +523,17 @@ void modification_entree_nom_type ( void )
   GtkWidget * menu;
   GtkTreeSelection *selection;
   GtkTreeIter iter;
-  GValue value_name = {0, };
   GValue value_visible = {0, };
   gboolean good, visible;
 
   selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
   good = gtk_tree_selection_get_selected (selection, NULL, &iter);
-
-  gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter, 
-		       PAYMENT_METHODS_VISIBLE_COLUMN, &visible,
-		       PAYMENT_METHODS_POINTER_COLUMN, &type_ope,
-		       -1 );
+  
+  if (good)
+    gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter, 
+			 PAYMENT_METHODS_VISIBLE_COLUMN, &visible,
+			 PAYMENT_METHODS_POINTER_COLUMN, &type_ope,
+			 -1 );
 
   if (good && visible)
     {
@@ -699,13 +695,13 @@ void modification_type_signe ( gint *no_menu )
 					model );
       gtk_tree_store_clear ( GTK_TREE_STORE (model) );
       fill_tree ();
-      gtk_tree_view_expand_all ( treeview );
+      gtk_tree_view_expand_all ( GTK_TREE_VIEW(treeview) );
       
       g_signal_handlers_unblock_by_func ( selection,
 					  G_CALLBACK (select_payment_method),
 					  model );
       /* Call this callback so that we "unselect" things */
-      select_payment_method (selection, model);
+      select_payment_method ( selection, GTK_TREE_MODEL(model) );
     }
 }
 
@@ -834,78 +830,147 @@ gint recherche_type_ope_par_no ( struct struct_type_ope *type_ope,
 void ajouter_type_operation ( void )
 {
   struct struct_type_ope *type_ope;
-  GtkCTreeNode *node_banque;
-  GtkCTreeNode *nouveau_node;
-  gint no_compte;
+  GtkTreeSelection * selection;
+  GtkTreeIter iter, parent, root, child, *final;
+  gint no_compte, type_final;
+  gboolean good, visible;
   gchar *ligne[2];
+  gchar name[128];
+  GValue value_name = {0, };
 
+  selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
+  good = gtk_tree_selection_get_selected (selection, NULL, &iter);
 
-  node_banque = GTK_CLIST ( arbre_types_operations ) -> selection -> data;
+  if ( good )
+    {
+      gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter, 
+			   PAYMENT_METHODS_VISIBLE_COLUMN, &visible,
+			   PAYMENT_METHODS_POINTER_COLUMN, &type_ope,
+			   -1 );
 
-  /* on remonte jusqu'au node de la banque */
+      if ( visible ) /** This is a payment method */
+	{
+	  /** Select parent */
+	  gtk_tree_model_iter_parent ( GTK_TREE_MODEL(model),
+				       &parent, &iter );
+	  final = &parent;
+	  type_final = type_ope -> signe_type;
+	  gtk_tree_model_iter_parent (GTK_TREE_MODEL(model), &root, &parent);
+	  gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter, 
+			       PAYMENT_METHODS_TYPE_COLUMN, &no_compte,
+			       -1 );
+	}
+      else
+	{
+	  gtk_tree_model_get_value ( GTK_TREE_MODEL(model), &iter, 
+				     PAYMENT_METHODS_NAME_COLUMN, &value_name);
 
-  while ( GTK_CTREE_ROW ( node_banque ) -> level != 1 )
-    node_banque = GTK_CTREE_ROW ( node_banque ) -> parent;
+	  if (gtk_tree_model_iter_parent (GTK_TREE_MODEL(model), &root, &iter))
+	    {
+	      gchar * a_name = (gchar*) g_value_get_string(&value_name);
+	      /* We are on "Credit" or "Debit" or "Neutral" */
+	      final = &iter;
+	      if ( !strcmp(a_name, _("Credit")) )
+		{
+		  type_final = 2;
+		}
+	      else if ( !strcmp(a_name, _("Debit")) )
+		{
+		  type_final = 1;
+		}
+	      else 		/* Neutral */
+		{
+		  type_final = 0;
+		}	      
+	      gtk_tree_model_get ( GTK_TREE_MODEL(model), &root, 
+				   PAYMENT_METHODS_TYPE_COLUMN, &no_compte,
+				   -1);
+	    }
+	  else
+	    {
+	      /* We are on an account, type will be the same as the
+		 first node  */
+	      if (! gtk_tree_model_iter_children( GTK_TREE_MODEL(model),
+						  &child, &iter ))
+		/* Should not happen! */
+		dialogue (_("Serious brain damage expected."));
+	      
+	      final = &child;
+	      type_final = 1;	/* Debit */
+	      
+	      gtk_tree_model_get ( GTK_TREE_MODEL(model), &child, 
+				   PAYMENT_METHODS_TYPE_COLUMN, &no_compte,
+				   -1);
+	    }
+	}
 
-  no_compte = GPOINTER_TO_INT (gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_types_operations ),
-							     node_banque ));
+    }
+  else
+    {
+      /* No selection, we use first account, first method*/
+      gtk_tree_model_get_iter_first (GTK_TREE_MODEL(model), &iter);
+      gtk_tree_model_iter_children( GTK_TREE_MODEL(model),
+				    &child, &iter );
+      final = &child;
+      type_final = 1;		/* Debit */
 
+      gtk_tree_model_get ( GTK_TREE_MODEL(model), &child, 
+			   PAYMENT_METHODS_TYPE_COLUMN, &no_compte,
+			   -1);
+    }
+
+  printf (">> %d, %d\n", type_final, no_compte);
+      
   type_ope = malloc ( sizeof ( struct struct_type_ope ));
 
-  if ( liste_tmp_types[no_compte] ) /* FIXME */
-    type_ope -> no_type = ((struct struct_type_ope *)(g_slist_last ( liste_tmp_types[no_compte] )->data))->no_type + 1;
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
+  if ( TYPES_OPES )
+    type_ope -> no_type = ((struct struct_type_ope *)
+			   (g_slist_last ( TYPES_OPES )->data))->no_type + 1;
   else
     type_ope -> no_type = 1;
 
-  type_ope -> nom_type = g_strdup ( _("New") );
-  type_ope -> signe_type = 0;
+  type_ope -> nom_type = g_strdup ( _("New payment method") );
+  type_ope -> signe_type = type_final;
   type_ope -> affiche_entree = 0;
   type_ope -> numerotation_auto = 0;
   type_ope -> no_en_cours = 0;
   type_ope -> no_compte = no_compte;
 
-  liste_tmp_types[no_compte] = g_slist_append ( liste_tmp_types[no_compte], /* FIXME */
-						type_ope );
+  gtk_tree_store_append (model, &iter, final);
+  gtk_tree_store_set (model, &iter,
+		      PAYMENT_METHODS_NAME_COLUMN, type_ope -> nom_type,
+		      PAYMENT_METHODS_NUMBERING_COLUMN, "",
+		      PAYMENT_METHODS_TYPE_COLUMN, type_final,
+		      PAYMENT_METHODS_DEFAULT_COLUMN, FALSE,
+		      PAYMENT_METHODS_ACTIVABLE_COLUMN, type_final != 0, 
+		      PAYMENT_METHODS_VISIBLE_COLUMN, TRUE, 
+		      PAYMENT_METHODS_POINTER_COLUMN, type_ope, 
+		      -1 );
+  
+  gtk_tree_selection_select_iter ( selection, &iter );
+  
+  TYPES_OPES = g_slist_append ( TYPES_OPES, type_ope );
 
-  ligne[0] = type_ope -> nom_type;
-  ligne[1] = NULL;
+  /* FIXME: implement that */
+/*       /\* on ajoute ce type à la liste des tris *\/ */
 
-  nouveau_node = gtk_ctree_insert_node ( GTK_CTREE ( arbre_types_operations ),
-					 node_banque,
-					 NULL,
-					 ligne,
-					 0,
-					 NULL, NULL,
-					 NULL, NULL,
-					 FALSE, FALSE );
+/*       liste_tri_tmp[no_compte] = g_slist_append ( liste_tri_tmp[no_compte],	/\* FIXME *\/ */
+/* 						  GINT_TO_POINTER ( type_ope -> no_type )); */
 
-  gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_types_operations ),
-				nouveau_node,
-				type_ope );
+/*       /\*   si les neutres doivent être intégrés dans les débits crédits, on ajoute son opposé *\/ */
+
+/*       if ( neutres_inclus_tmp[no_compte] ) */
+/* 	liste_tri_tmp[no_compte] = g_slist_append ( liste_tri_tmp[no_compte], */
+/* 						    GINT_TO_POINTER ( -type_ope -> no_type )); */
+
+/*       remplit_liste_tri_par_type ( no_compte ); */
 
 
-  /* on ajoute ce type à la liste des tris */
-
-  liste_tri_tmp[no_compte] = g_slist_append ( liste_tri_tmp[no_compte],	/* FIXME */
-					      GINT_TO_POINTER ( type_ope -> no_type ));
-
-  /*   si les neutres doivent être intégrés dans les débits crédits, on ajoute son opposé */
-
-  if ( neutres_inclus_tmp[no_compte] )
-    liste_tri_tmp[no_compte] = g_slist_append ( liste_tri_tmp[no_compte],
-						GINT_TO_POINTER ( -type_ope -> no_type ));
-
-  remplit_liste_tri_par_type ( no_compte );
-
-  /* on ouvre le node de la banque au cas où celui ci ne le serait pas */
-
-  gtk_ctree_expand ( GTK_CTREE ( arbre_types_operations ),
-		     node_banque );
 }
-/* ************************************************************************************************************** */
 
 
-/* ************************************************************************************************************** */
+
 void supprimer_type_operation ( void )
 {
   struct struct_type_ope *type_ope;
