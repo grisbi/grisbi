@@ -37,6 +37,7 @@
 #include "fichiers_io.h"
 #include "patienter.h"
 #include "utils.h"
+#include "utils_files.h"
 
 extern gint patience_en_cours;
 
