@@ -712,7 +712,7 @@ void remplissage_liste_operations ( gint compte )
 			/* si le solde courant est < 0, on recherche la position de l'affichage */
 			/* du solde et on le met en rouge si on le trouve */
 
-			if ( (int) solde_courant_affichage_liste < 0 )
+			if ( solde_courant_affichage_liste < 0.01 )
 			    for ( j = 0 ; j < TRANSACTION_LIST_COL_NB ; j++ )
 				if ( tab_affichage_ope[ligne_affichee][j] == 7 )
 				    gtk_clist_set_cell_style ( GTK_CLIST ( CLIST_OPERATIONS ),
