@@ -16,6 +16,7 @@ enum menu_fichier_widget {
 };
 extern GnomeUIInfo * menu_fichier;
 extern GnomeUIInfo * menu_comptes; 
+extern GnomeUIInfo * menu_reports; 
 extern GnomeUIInfo * help_menu;
 extern GnomeUIInfo * menu_principal; 
 extern GnomeUIInfo * menu_parametres;

@@ -8,6 +8,7 @@
 
 const GnomeUIInfo * menu_fichier;
 const GnomeUIInfo * menu_comptes; 
+const GnomeUIInfo * menu_reports; 
 const GnomeUIInfo * help_menu;
 const GnomeUIInfo * menu_principal; 
 const GnomeUIInfo * menu_parametres;
