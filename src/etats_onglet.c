@@ -33,6 +33,29 @@
 void impression_etat ( struct struct_etat *etat );
 
 
+void magic_hpaned_resize (GObject *object, GParamSpec *pspec, gpointer data)
+{
+  gint position;
+
+  g_object_get(object, pspec->name, &position, NULL);
+
+  if ( position < GTK_PANED(object) -> last_allocation )
+    {
+      printf("position change report: object=%p, position value=%d, parameter=%p -> %d\n", object, position, data,
+	     GTK_PANED(object) -> last_allocation );
+      gtk_widget_set_size_request ( GTK_PANED(object) -> child1, position, -1 );
+      gtk_widget_set_size_request ( GTK_PANED(object) -> child2, GTK_PANED(object) -> max_position - position , -1 );
+    }
+}
+
+
+void magic_button_resize (GObject *object, GParamSpec *pspec, gpointer data)
+{
+  printf (">>> PLOP\n");
+  gtk_widget_set_size_request ( vbox_liste_etats, GTK_WIDGET(object)->requisition.width, -1 );
+}
+
+
 
 /*****************************************************************************************************/
 GtkWidget *creation_onglet_etats ( void )
@@ -52,7 +75,7 @@ GtkWidget *creation_onglet_etats ( void )
   gtk_paned_set_position ( GTK_PANED(onglet), 200 );
   gtk_container_set_border_width ( GTK_CONTAINER ( onglet ), 10 );
   gtk_widget_show ( onglet );
-
+  g_signal_connect(G_OBJECT(onglet), "notify::position", G_CALLBACK(magic_hpaned_resize), NULL);
 
   /*   création de la fenetre des noms des états */
   /* on reprend le principe des comptes dans la fenetre des opés */
@@ -66,6 +89,7 @@ GtkWidget *creation_onglet_etats ( void )
   /* on y met les rapports et les boutons */
   gtk_container_add ( GTK_CONTAINER ( frame_liste_etats ),
 		      creation_liste_etats ());
+  g_signal_connect(G_OBJECT(frame_liste_etats), "size_request", G_CALLBACK(magic_button_resize), NULL);
 
   /* Frame de droite */
   frame = gtk_frame_new ( NULL );
@@ -119,7 +143,7 @@ GtkWidget *creation_onglet_etats ( void )
 		      creation_barre_boutons_etats ());
 
 
-  g_signal_connect ( GTK_PANED(onglet), "move-handle", gtk_container_resize_children, NULL);
+/*   g_signal_connect ( GTK_PANED(onglet), "move-handle", gtk_container_resize_children, NULL); */
 
   /* l'onglet de config sera créé que si nécessaire */
 
@@ -168,6 +192,7 @@ GtkWidget *creation_liste_etats ( void )
   /*   on ne met rien dans le label, il sera rempli ensuite */
 
   label_etat_courant = gtk_label_new ( "" );
+  gtk_label_set_line_wrap ( label_etat_courant, TRUE );
   gtk_misc_set_alignment ( GTK_MISC (label_etat_courant  ),
 			   0.5,
 			   0.5);
@@ -228,6 +253,7 @@ GtkWidget *creation_liste_etats ( void )
   /* mise en place du bouton ajouter */
 
   bouton = gtk_button_new_with_label ( _("Add a report") );
+  gtk_label_set_line_wrap ( GTK_BIN(bouton)->child, TRUE );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE);
   gtk_box_pack_start ( GTK_BOX ( vbox ),
@@ -414,13 +440,14 @@ void remplissage_liste_etats ( void )
 
       hbox = gtk_hbox_new ( FALSE, 10);
       gtk_widget_show ( hbox );
-
+  
       /* on crée le bouton contenant le livre fermé et ouvert, seul le
 	 fermé est affiché pour l'instant */
       bouton = gtk_button_new ();
       gtk_button_set_relief ( GTK_BUTTON (bouton), GTK_RELIEF_NONE);
       gtk_signal_connect ( GTK_OBJECT (bouton), "clicked",
 			   GTK_SIGNAL_FUNC ( changement_etat ), etat );
+      g_signal_connect(G_OBJECT(vbox_liste_etats), "size_request", G_CALLBACK(magic_button_resize), NULL);
 
       /* création de l'icone fermée */
 
