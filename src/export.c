@@ -38,6 +38,8 @@
 
 #include <gtk/gtk.h>
 
+#define MAX_ACCOUNTS_IN_DIALOG 15
+
 typedef void (EXPORT_CALLBACK)(GSList* list_file_toexport_to);
 
 typedef struct 
@@ -148,6 +150,7 @@ static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint
     GtkWidget *dialog, *table, *account_entry, *check_button, *paddingbox;
     gchar *sFilename = NULL;
     GtkWidget *pScroll, *pVBox;
+    GtkAdjustment *pScrollHorizontalSize;
 
     export_format* format = g_slist_nth_data(format_list,selected_format);
     int i = 0;
@@ -235,6 +238,15 @@ static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint
     }
 
     g_selected_entries = NULL;
+    gtk_widget_show_all ( dialog );
+    pScrollHorizontalSize = gtk_scrolled_window_get_hadjustment(GTK_SCROLLED_WINDOW ( pScroll ));
+
+    if ( nb_comptes > MAX_ACCOUNTS_IN_DIALOG )
+	pScroll -> allocation.height = ( MAX_ACCOUNTS_IN_DIALOG + 1 ) * check_button -> allocation.height;
+    else
+	pScroll -> allocation.height = ( nb_comptes + 1 ) * check_button -> allocation.height;
+    
+    gtk_widget_set_size_request( pScroll, pScrollHorizontalSize -> page_size, pScroll -> allocation.height);
     gtk_widget_show_all ( dialog );
     return (dialog);
 
