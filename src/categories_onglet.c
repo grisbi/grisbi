@@ -85,6 +85,10 @@ void move_transaction_to_sub_category ( struct structure_operation * transaction
 					GtkTreeModel * model,
 					GtkTreePath * orig_path, GtkTreePath * dest_path,
 					gint no_categ, gint no_sub_categ );
+gboolean find_destination_blob ( struct struct_categ * categ, 
+				 struct struct_sous_categ * sous_categ, 
+				 gint * no_div, gint * no_sub_div );
+gboolean find_associated_transactions ( gint no_categ, gint no_sous_categ );
 /*END_STATIC*/
 
 
@@ -491,7 +495,7 @@ GtkWidget *onglet_categories ( void )
 					   1, GDK_ACTION_MOVE );
     gtk_tree_view_set_reorderable (GTK_TREE_VIEW(arbre_categ), TRUE);
     gtk_tree_selection_set_mode ( gtk_tree_view_get_selection ( GTK_TREE_VIEW(arbre_categ)),
-				  GTK_SELECTION_MULTIPLE );
+				  GTK_SELECTION_SINGLE );
     gtk_tree_view_set_model (GTK_TREE_VIEW (arbre_categ), 
 			     GTK_TREE_MODEL (categ_tree_model));
 
@@ -552,9 +556,10 @@ GtkWidget *onglet_categories ( void )
 	src_iface -> drag_data_get = &categ_drag_data_get;
     }
 
+    /* TODO: FIXME  */
     /* on met la fontion de tri alphabétique en prenant en compte les accents */
-    gtk_clist_set_compare_func ( GTK_CLIST ( arbre_categ ),
-				 (GtkCListCompareFunc) classement_alphabetique_tree );
+/*     gtk_clist_set_compare_func ( GTK_CLIST ( arbre_categ ), */
+/* 				 (GtkCListCompareFunc) classement_alphabetique_tree ); */
 
     /* la 1ère fois qu'on affichera les catég, il faudra remplir la liste */
     modif_categ = 1;
@@ -1106,7 +1111,7 @@ void supprimer_categ ( void )
 	return;
     }
 
-    if ( ! pointer )
+    if ( pointer == NULL )
     {
 	dialogue_warning ( "Tamere" );
 	return;
@@ -1422,244 +1427,22 @@ void supprimer_categ ( void )
 /* **************************************************************************************************** */
 void supprimer_sous_categ ( struct struct_sous_categ *sous_categ, gint no_categ )
 {
-    gint i, ope_trouvee, echeance_trouvee;
-    GSList * liste_tmp2;
     struct struct_categ *categ;
     GtkTreeSelection * selection;
     GtkTreeModel * model;
     GtkTreeIter iter;
+    gint i;
 
     categ = categ_par_no ( no_categ );
 
-    /* fait le tour des opés pour en trouver une qui a cette sous-catégorie */
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-    ope_trouvee = 0;
-
-    for ( i=0 ; i<nb_comptes ; i++ )
+    if ( find_associated_transactions ( no_categ, sous_categ -> no_sous_categ ) )
     {
+	gint nouveau_no_categ, nouveau_no_sous_categ;
 	GSList *liste_tmp;
 
-	liste_tmp = LISTE_OPERATIONS;
-
-	while ( liste_tmp )
-	{
-	    struct structure_operation *operation;
-
-	    operation = liste_tmp -> data;
-
-	    if ( operation -> categorie == categ -> no_categ
-		 &&
-		 operation -> sous_categorie == sous_categ -> no_sous_categ )
-	    {
-		ope_trouvee = 1;  modification_fichier(TRUE);
-
-		liste_tmp = NULL;
-		i = nb_comptes;
-	    }
-	    else
-		liste_tmp = liste_tmp -> next;
-	}
-	p_tab_nom_de_compte_variable++;
-    }
-
-
-    /* fait le tour des échéances pour en trouver une qui a cette catégorie  */
-
-    liste_tmp2 = liste_struct_echeances;
-    echeance_trouvee = 0;
-
-    while ( liste_tmp2 )
-    {
-	struct operation_echeance *echeance;
-
-	echeance = liste_tmp2 -> data;
-
-	if ( echeance -> categorie == categ -> no_categ && echeance -> sous_categorie == sous_categ -> no_sous_categ )
-	{
-	    echeance_trouvee = 1;
-	    liste_tmp2 = NULL;
-	}
-	else
-	    liste_tmp2 = liste_tmp2 -> next;
-    }
-
-    if ( ope_trouvee || echeance_trouvee )
-    {
-	GtkWidget *dialog, *hbox, *bouton_categ_generique, *combofix, *bouton_transfert;
-	GSList *liste_combofix, *pointeur, *liste_tmp, *liste_categ_credit, *liste_categ_debit;
-	gint i, resultat, nouveau_no_categ, nouveau_no_sous_categ;
-	struct struct_categ *nouvelle_categ;
-	struct struct_sous_categ *nouvelle_sous_categ;
-	gchar **split_categ;
-
-	dialog = dialogue_special_no_run ( GTK_MESSAGE_WARNING, GTK_BUTTONS_OK_CANCEL,
-					   make_hint ( _("Selected sub-category still contains transactions."),
-						       _("If you want to remove this sub-category but want to keep transactions, you can transfer them to another (sub-)category.  Otherwise, transactions can be simply deleted along with their category.") ));
-
-	/*       mise en place du choix tranfert vers un autre categ */
-
-	hbox = gtk_hbox_new ( FALSE,
-			      5 );
-	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			     hbox,
-			     FALSE,
-			     FALSE,
-			     0 );
-
-	bouton_transfert = gtk_radio_button_new_with_label ( NULL,
-							     COLON(_("Transfer transactions to category"))  );
-	gtk_box_pack_start ( GTK_BOX ( hbox ),
-			     bouton_transfert,
-			     FALSE,
-			     FALSE,
-			     0 );
-
-	pointeur = liste_struct_categories;
-	liste_combofix = NULL;
-	liste_categ_credit = NULL;
-	liste_categ_debit = NULL;
-
-	while ( pointeur )
-	{
-	    struct struct_categ *categorie;
-	    GSList *sous_pointeur;
-
-
-
-	    categorie = pointeur -> data;
-
-	    if ( categorie -> type_categ )
-		liste_categ_debit = g_slist_append ( liste_categ_debit,
-						     g_strdup ( categorie -> nom_categ ) );
-	    else
-		liste_categ_credit = g_slist_append ( liste_categ_credit,
-						      g_strdup ( categorie -> nom_categ ) );
-
-
-	    sous_pointeur = categorie -> liste_sous_categ;
-
-	    while ( sous_pointeur )
-	    {
-		struct struct_sous_categ *sous_categorie;
-
-		sous_categorie = sous_pointeur -> data;
-
-
-
-		if ( sous_categorie -> no_sous_categ !=  sous_categ -> no_sous_categ )
-		{
-		    if ( categorie -> type_categ )
-			liste_categ_debit = g_slist_append ( liste_categ_debit,
-							     g_strconcat ( "\t",
-									   sous_categorie -> nom_sous_categ,
-									   NULL ) );
-		    else
-			liste_categ_credit = g_slist_append ( liste_categ_credit,
-							      g_strconcat ( "\t",
-									    sous_categorie -> nom_sous_categ,
-									    NULL ) );
-		}
-		sous_pointeur = sous_pointeur -> next;
-	    }
-	    pointeur = pointeur -> next;
-	}
-
-	/*   on ajoute les listes des crÃ©dits / débits à la liste du combofix du formulaire */
-
-	liste_combofix = g_slist_append ( liste_combofix,
-					  liste_categ_debit );
-	liste_combofix = g_slist_append ( liste_combofix,
-					  liste_categ_credit );
-
-
-	combofix = gtk_combofix_new_complex ( liste_combofix,
-					      TRUE,
-					      TRUE,
-					      TRUE,
-					      0 );
-
-	gtk_box_pack_start ( GTK_BOX ( hbox ),
-			     combofix,
-			     TRUE,
-			     TRUE,
-			     0 );
-
-	/*       mise en place du choix supprimer le categ */
-
-	hbox = gtk_hbox_new ( FALSE,
-			      5 );
-	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			     hbox,
-			     FALSE,
-			     FALSE,
-			     0 );
-
-	bouton_categ_generique = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_transfert )),
-								   PRESPACIFY(_("Just remove this sub-category.")) );
-	gtk_box_pack_start ( GTK_BOX ( hbox ),
-			     bouton_categ_generique,
-			     FALSE,
-			     FALSE,
-			     0 );
-
-	gtk_widget_show_all ( dialog );
-
-
-      retour_dialogue:
-	resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
-
-	if ( resultat != GTK_RESPONSE_OK )
-	{
-	    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
+	if ( ! find_destination_blob ( categ, sous_categ, 
+				       &nouveau_no_categ, &nouveau_no_sous_categ ) )
 	    return;
-	}
-
-	nouveau_no_categ = 0;
-	nouveau_no_sous_categ = 0;
-
-	if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_transfert )) )
-	{
-
-	    if ( !strlen (gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ))))
-	    {
-		dialogue_warning_hint ( _("It is compulsory to specify a destination category to move transactions but no category was entered."),
-					_("Please enter a category!"));
-
-		goto retour_dialogue;
-	    }
-
-	    /* récupère les no de categ et sous categ */
-
-	    split_categ = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( combofix )),
-				       " : ",
-				       2 );
-
-	    nouvelle_categ = categ_par_nom ( split_categ[0],
-					     0,
-					     0,
-					     0 );
-
-	    if ( nouvelle_categ )
-	    {
-		nouveau_no_categ = nouvelle_categ -> no_categ;
-
-		nouvelle_sous_categ =  sous_categ_par_nom ( nouvelle_categ,
-							    split_categ[1],
-							    0 );
-
-		if ( nouvelle_sous_categ )
-		    nouveau_no_sous_categ = nouvelle_sous_categ -> no_sous_categ;
-	    }
-
-	    g_strfreev ( split_categ );
-	}
-	else
-	{
-	    nouveau_no_categ = 0;
-	    nouveau_no_sous_categ = 0;
-	}
-
 
 	/* on fait le tour des opés pour mettre le nouveau numéro de categ et sous_categ */
 
@@ -1667,6 +1450,7 @@ void supprimer_sous_categ ( struct struct_sous_categ *sous_categ, gint no_categ 
 
 	for ( i = 0 ; i < nb_comptes ; i++ )
 	{
+
 	    liste_tmp = LISTE_OPERATIONS;
 
 	    while ( liste_tmp )
@@ -1717,21 +1501,14 @@ void supprimer_sous_categ ( struct struct_sous_categ *sous_categ, gint no_categ 
 
 	demande_mise_a_jour_tous_comptes ();
 
-	gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
-
     }
 
-
     /* supprime dans la liste des categ  */
-
     categ -> liste_sous_categ = g_slist_remove ( categ -> liste_sous_categ,
 						 sous_categ );
-
-
     enleve_selection_ligne_categ();
 
-    if ( mise_a_jour_combofix_categ_necessaire )
-	mise_a_jour_combofix_categ  ();
+    mise_a_jour_combofix_categ ();
 
     selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(arbre_categ));
     if ( selection && gtk_tree_selection_get_selected(selection, &model, &iter))
@@ -2154,7 +1931,6 @@ void appui_sur_ajout_sous_categorie ( void )
     modif_categ = 0;
     modification_fichier(TRUE);
 }
-/* **************************************************************************************************** */
 
 
 
@@ -2265,9 +2041,10 @@ void importer_categ ( void )
 }
 
 
-/* ******************************************************* */
 
-
+/** 
+ * TODO: document this
+ */
 GtkWidget *creation_barre_outils_categ ( void )
 {
     GtkWidget *hbox, *separateur, *handlebox, *hbox2;
@@ -2283,22 +2060,33 @@ GtkWidget *creation_barre_outils_categ ( void )
 
     /* Add various icons */
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
-			 new_stock_button_with_label ( GTK_STOCK_NEW, G_CALLBACK(appui_sur_ajout_categorie) ), 
+			 new_stock_button_with_label ( GTK_STOCK_NEW, 
+						       _("New category"),
+						       G_CALLBACK(appui_sur_ajout_categorie) ), 
 			 FALSE, TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
-			 new_stock_button_with_label ( GTK_STOCK_OPEN, G_CALLBACK(importer_categ) ), 
+			 new_stock_button_with_label ( GTK_STOCK_OPEN, 
+						       _("Import"),
+						       G_CALLBACK(importer_categ) ), 
 			 FALSE, TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
-			 new_stock_button_with_label ( GTK_STOCK_SAVE, G_CALLBACK(exporter_categ) ), 
+			 new_stock_button_with_label ( GTK_STOCK_SAVE, 
+						       _("Export"),
+						       G_CALLBACK(exporter_categ) ), 
 			 FALSE, TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
-			 new_stock_button_with_label ( GTK_STOCK_DELETE, G_CALLBACK(supprimer_categ) ), 
+			 new_stock_button_with_label ( GTK_STOCK_DELETE, 
+						       _("Delete"),
+						       G_CALLBACK(supprimer_categ) ), 
 			 FALSE, TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), /* FIXME: write the property dialog */
-			 new_stock_button_with_label (GTK_STOCK_PROPERTIES, NULL), 
+			 new_stock_button_with_label (GTK_STOCK_PROPERTIES, 
+						      _("Properties"),
+						      NULL), 
 			 FALSE, TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
 			 new_stock_button_with_label_menu ( GTK_STOCK_SELECT_COLOR, 
+							    _("View"),
 							    G_CALLBACK(popup_category_view_mode_menu) ),
 			 FALSE, TRUE, 0 );
 
@@ -2310,7 +2098,6 @@ GtkWidget *creation_barre_outils_categ ( void )
 
     return ( hbox );
 }
-/*******************************************************************************************/
 
 
 
@@ -2342,7 +2129,6 @@ gboolean popup_category_view_mode_menu ( GtkWidget * button )
     return FALSE;
 }
 
-/* ******************************************************* */
 
 
 /**
@@ -2478,21 +2264,22 @@ gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * pa
 gboolean categ_row_drop_possible ( GtkTreeDragDest * drag_dest, GtkTreePath * dest_path,
 				   GtkSelectionData * selection_data )
 {
-    if ( dest_path )
+    if ( dest_path && selection_data )
     {
 	GtkTreePath * orig_path;
 	GtkTreeModel * model;
 	enum meta_tree_row_type orig_type, dest_type;
 
 	gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
-	orig_type = metatree_get_row_type ( GTK_TREE_MODEL(categ_tree_model), orig_path );
+	orig_type = metatree_get_row_type ( model, orig_path );
 
-	dest_type = metatree_get_row_type ( GTK_TREE_MODEL(categ_tree_model), dest_path );
+	dest_type = metatree_get_row_type ( model, dest_path );
 
 	switch ( orig_type )
 	{
 	    case META_TREE_SUB_DIV:
-		if ( dest_type == META_TREE_DIV )
+		if ( dest_type == META_TREE_DIV && 
+		    ! gtk_tree_path_is_ancestor ( dest_path, orig_path ) )
 		    return TRUE;
 		break;
 
@@ -2531,16 +2318,17 @@ void create_new_sub_div ( GtkTreeModel * model, GtkTreePath * parent,
 gboolean categ_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath * dest_path,
 				    GtkSelectionData * selection_data )
 {
+    printf (">>> categ_drag_data_received %p, %p, %p\n", drag_dest, dest_path, selection_data);
     if ( dest_path && selection_data )
     {
 	GtkTreeModel * model;
 	GtkTreePath * orig_path;
-	GtkTreeIter iter, iter_parent;
+	GtkTreeIter iter, iter_parent, orig_iter;
 	gint no_dest_categ, no_dest_sub_categ, no_orig_categ, no_orig_sub_categ, account;
 	gpointer pointer;
 	enum meta_tree_row_type orig_type;
 	struct structure_operation * transaction = NULL;
-	struct struct_sous_categ * sub_categ;
+	struct struct_sous_categ * sub_categ, * dest_sub_categ;
 	struct struct_categ * orig_categ, * dest_categ;
 
 	gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
@@ -2566,18 +2354,17 @@ gboolean categ_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath * d
 	    case META_TREE_SUB_DIV:
 		sub_categ = sous_categ_par_no ( no_orig_categ, no_orig_sub_categ );
 		dest_categ = categ_par_no ( no_dest_categ );
-		dest_categ -> liste_sous_categ = g_slist_append ( dest_categ -> liste_sous_categ,
-								  sub_categ );
 		orig_categ = categ_par_no ( no_orig_categ );
-		orig_categ -> liste_sous_categ = g_slist_remove ( orig_categ -> liste_sous_categ,
-								  sub_categ );
-		no_dest_sub_categ = no_orig_sub_categ;
+
+		dest_sub_categ = sous_categ_par_nom ( dest_categ,
+						      sub_categ -> nom_sous_categ, 1 );
+		no_dest_sub_categ = dest_sub_categ -> no_sous_categ;
 
 		/* Populate tree */
 		gtk_tree_model_get_iter ( model, &iter_parent, dest_path );
 		gtk_tree_store_append ( GTK_TREE_STORE(model), &iter, &iter_parent);
 		fill_sub_categ_row ( &iter, categ_par_no(no_dest_categ), 
-				     sous_categ_par_no(no_dest_categ, no_orig_sub_categ) );
+				     sous_categ_par_no(no_dest_categ, no_dest_sub_categ) );
 
 		for ( account = 0; account < nb_comptes; account ++ )
 		{
@@ -2601,7 +2388,7 @@ gboolean categ_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath * d
 			    GtkTreePath * path;
 			    path = gtk_tree_model_get_path ( model, &iter );
 			    move_transaction_to_sub_category ( transaction, model, 
-							       orig_path, path,
+							       NULL, path,
 							       no_dest_categ, 
 							       no_dest_sub_categ );
 			}
@@ -2609,6 +2396,17 @@ gboolean categ_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath * d
 			pointeur_ope = pointeur_ope -> next;
 		    }
 		}
+
+		gtk_tree_model_get_iter ( model, &orig_iter, orig_path );
+		gtk_tree_store_remove ( GTK_TREE_STORE(categ_tree_model), &orig_iter );
+
+		dest_categ -> liste_sous_categ = g_slist_append ( dest_categ -> liste_sous_categ,
+								  sub_categ );
+		orig_categ -> liste_sous_categ = g_slist_remove ( orig_categ -> liste_sous_categ,
+								  sub_categ );
+		mise_a_jour_combofix_categ();
+		modification_fichier(TRUE);
+
 		break;
 
 	    default:
@@ -2647,8 +2445,8 @@ void move_transaction_to_sub_category ( struct structure_operation * transaction
     /* Update new parents */
     add_transaction_to_category ( transaction, new_categ, new_sous_categ );
     fill_sub_categ_row ( &dest_iter, new_categ, new_sous_categ );
-    gtk_tree_model_iter_parent ( model, &parent_iter, &dest_iter );
-    fill_categ_row ( &parent_iter, new_categ );
+    if ( gtk_tree_model_iter_parent ( model, &parent_iter, &dest_iter ) )
+	fill_categ_row ( &parent_iter, new_categ );
 
     /* Change parameters */
     transaction -> categorie = no_categ;
@@ -2656,14 +2454,19 @@ void move_transaction_to_sub_category ( struct structure_operation * transaction
 
     /* Update old parents */
     remove_transaction_from_category ( transaction, old_categ, old_sous_categ );
-    gtk_tree_model_get_iter ( model, &orig_iter, orig_path );
-    gtk_tree_model_iter_parent ( model, &parent_iter, &orig_iter );
-    fill_sub_categ_row ( &parent_iter, old_categ, old_sous_categ );
-    gtk_tree_model_iter_parent ( model, &gd_parent_iter, &parent_iter );
-    fill_categ_row ( &gd_parent_iter, old_categ );
+    if ( orig_path )
+    {
+	gtk_tree_model_get_iter ( model, &orig_iter, orig_path );
+	if ( gtk_tree_model_iter_parent ( model, &parent_iter, &orig_iter ) )
+	{
+	    fill_sub_categ_row ( &parent_iter, old_categ, old_sous_categ );
+	    if ( gtk_tree_model_iter_parent ( model, &gd_parent_iter, &parent_iter ) )
+		fill_categ_row ( &gd_parent_iter, old_categ );
+	}
 
-    /* Remove old row */
-    gtk_tree_store_remove ( GTK_TREE_STORE(categ_tree_model), &orig_iter );
+	/* Remove old row */
+	gtk_tree_store_remove ( GTK_TREE_STORE(categ_tree_model), &orig_iter );
+    }
 		    
     /* We did some modifications */
     modification_fichier ( TRUE );
@@ -2696,7 +2499,215 @@ gboolean categ_node_maybe_expand ( GtkTreeModel *model, GtkTreePath *path,
 void expand_arbre_categ ( GtkWidget *bouton, gint depth )
 {
     gtk_tree_view_collapse_all ( GTK_TREE_VIEW(arbre_categ) );
-    gtk_tree_model_foreach ( GTK_TREE_MODEL(categ_tree_model), categ_node_maybe_expand, (gpointer) depth );
+    gtk_tree_model_foreach ( GTK_TREE_MODEL(categ_tree_model), 
+			     categ_node_maybe_expand, (gpointer) depth );
+}
+
+
+
+
+gboolean find_destination_blob ( struct struct_categ * categ, 
+				 struct struct_sous_categ * sous_categ, 
+				 gint * no_div, gint * no_sub_div )
+{
+    GtkWidget *dialog, *hbox, *bouton_categ_generique, *combofix, *bouton_transfert;
+    GSList *liste_combofix, *pointeur, *liste_categ_credit, *liste_categ_debit;
+    gint resultat, nouveau_no_categ, nouveau_no_sous_categ;
+    struct struct_categ *nouvelle_categ;
+    struct struct_sous_categ *nouvelle_sous_categ;
+    gchar **split_categ;
+
+    dialog = dialogue_special_no_run ( GTK_MESSAGE_WARNING, GTK_BUTTONS_OK_CANCEL,
+				       make_hint ( _("Selected sub-category still contains transactions."),
+						   _("If you want to remove this sub-category but want to keep transactions, you can transfer them to another (sub-)category.  Otherwise, transactions can be simply deleted along with their category.") ));
+
+    /*       mise en place du choix tranfert vers un autre categ */
+
+    hbox = gtk_hbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox,
+			 FALSE, FALSE, 0 );
+
+    bouton_transfert = gtk_radio_button_new_with_label ( NULL,
+							 COLON(_("Transfer transactions to category"))  );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_transfert,
+			 FALSE, FALSE, 0 );
+
+    pointeur = liste_struct_categories;
+    liste_combofix = NULL;
+    liste_categ_credit = NULL;
+    liste_categ_debit = NULL;
+
+    while ( pointeur )
+    {
+	struct struct_categ *categorie;
+	GSList *sous_pointeur;
+
+	categorie = pointeur -> data;
+
+	if ( categorie -> type_categ )
+	    liste_categ_debit = g_slist_append ( liste_categ_debit,
+						 g_strdup ( categorie -> nom_categ ) );
+	else
+	    liste_categ_credit = g_slist_append ( liste_categ_credit,
+						  g_strdup ( categorie -> nom_categ ) );
+
+	sous_pointeur = categorie -> liste_sous_categ;
+
+	while ( sous_pointeur )
+	{
+	    struct struct_sous_categ *sous_categorie;
+
+	    sous_categorie = sous_pointeur -> data;
+
+	    if ( sous_categorie -> no_sous_categ !=  sous_categ -> no_sous_categ )
+	    {
+		if ( categorie -> type_categ )
+		    liste_categ_debit = g_slist_append ( liste_categ_debit,
+							 g_strconcat ( "\t",
+								       sous_categorie -> nom_sous_categ,
+								       NULL ) );
+		else
+		    liste_categ_credit = g_slist_append ( liste_categ_credit,
+							  g_strconcat ( "\t",
+									sous_categorie -> nom_sous_categ,
+									NULL ) );
+	    }
+	    sous_pointeur = sous_pointeur -> next;
+	}
+	pointeur = pointeur -> next;
+    }
+
+    /*   on ajoute les listes des crÃ©dits / débits à la liste
+     *   du combofix du formulaire */
+    liste_combofix = g_slist_append ( liste_combofix, liste_categ_debit );
+    liste_combofix = g_slist_append ( liste_combofix, liste_categ_credit );
+
+    combofix = gtk_combofix_new_complex ( liste_combofix, TRUE,
+					  TRUE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), combofix,
+			 TRUE, TRUE, 0 );
+
+    /*       mise en place du choix supprimer le categ */
+    hbox = gtk_hbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox,
+			 FALSE, FALSE, 0 );
+
+    bouton_categ_generique = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_transfert )),
+							       PRESPACIFY(_("Just remove this sub-category.")) );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_categ_generique,
+			 FALSE, FALSE, 0 );
+
+    gtk_widget_show_all ( dialog );
+
+
+  retour_dialogue:
+    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
+
+    if ( resultat != GTK_RESPONSE_OK )
+    {
+	gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
+	return FALSE;
+    }
+
+    nouveau_no_categ = 0;
+    nouveau_no_sous_categ = 0;
+
+    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_transfert )) )
+    {
+
+	if ( !strlen (gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ))))
+	{
+	    dialogue_warning_hint ( _("It is compulsory to specify a destination category to move transactions but no category was entered."),
+				    _("Please enter a category!"));
+
+	    goto retour_dialogue;
+	}
+
+	/* récupère les no de categ et sous categ */
+	split_categ = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( combofix )),
+				   " : ", 2 );
+
+	nouvelle_categ = categ_par_nom ( split_categ[0], 0, 0, 0 );
+
+	if ( nouvelle_categ )
+	{
+	    nouveau_no_categ = nouvelle_categ -> no_categ;
+	    nouvelle_sous_categ =  sous_categ_par_nom ( nouvelle_categ, split_categ[1], 0 );
+
+	    if ( nouvelle_sous_categ )
+		nouveau_no_sous_categ = nouvelle_sous_categ -> no_sous_categ;
+	}
+
+	g_strfreev ( split_categ );
+    }
+    else
+    {
+	nouveau_no_categ = 0;
+	nouveau_no_sous_categ = 0;
+    }
+
+    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
+
+    if ( no_div)
+	*no_div = nouveau_no_categ;
+    if ( no_sub_div )
+	*no_sub_div = nouveau_no_sous_categ;
+
+    return TRUE;
+}
+
+
+
+/** 
+ * TODO: document this
+ */
+gboolean find_associated_transactions ( gint no_categ, gint no_sous_categ )
+{
+    GSList *liste_tmp;
+    gint i;
+
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+
+    /* fait le tour des opés pour en trouver une qui a cette sous-catégorie */
+    for ( i=0 ; i<nb_comptes ; i++ )
+    {
+	liste_tmp = LISTE_OPERATIONS;
+
+	while ( liste_tmp )
+	{
+	    struct structure_operation *operation;
+
+	    operation = liste_tmp -> data;
+
+	    if ( operation -> categorie == no_categ
+		 &&
+		 operation -> sous_categorie == no_sous_categ )
+	    {
+		return TRUE;
+	    }
+	    else
+		liste_tmp = liste_tmp -> next;
+	}
+	p_tab_nom_de_compte_variable++;
+    }
+
+    liste_tmp = liste_struct_echeances;
+
+    /* fait le tour des échéances pour en trouver une qui a cette catégorie  */
+    while ( liste_tmp )
+    {
+	struct operation_echeance *echeance = liste_tmp -> data;
+
+	if ( echeance -> categorie == no_categ && 
+	     echeance -> sous_categorie == no_sous_categ )
+	{
+	    return TRUE;
+	}
+	else
+	    liste_tmp = liste_tmp -> next;
+    }
+
+    return FALSE;
 }
 
 
