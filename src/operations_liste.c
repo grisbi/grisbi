@@ -2895,8 +2895,7 @@ schedule_transaction ( struct structure_operation * transaction )
   echeance -> categorie = transaction -> categorie;
   echeance -> sous_categorie = transaction -> sous_categorie;
 
-  /* Trouver le compte vers lequel on vire */
-/*   echeance -> compte_virement = transaction -> compte_virement; */
+  echeance -> compte_virement = transaction -> relation_no_compte;
 
   echeance -> notes = transaction -> notes;
   echeance -> type_ope = transaction -> type_ope;
