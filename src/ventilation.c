@@ -1326,13 +1326,8 @@ gboolean appui_touche_ventilation ( GtkWidget *entree, GdkEventKey *evenement,
     /*   si etat.entree = 1, la touche entrée finit l'opération (
 	 fonction par défaut ) sinon elle fait comme tab */
 
-    if ( !etat.entree
-	 &&
-	 ( evenement->keyval == 65293
-	   ||
-	   evenement->keyval == 65421 ))
-	evenement -> keyval = 65289;
-
+    if ( !etat.entree && ( evenement -> keyval == GDK_Return || evenement -> keyval == GDK_KP_Enter ))
+	ev->keyval = GDK_Tab ;
 
     switch (evenement->keyval)
     {
