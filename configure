@@ -4270,7 +4270,7 @@ echo "configure:4245: checking GA_CFLAGS" >&5
 
 
 
-if test $APPLET = xtrue; then
+if test $APPLET = true; then
   APPLET_TRUE=
   APPLET_FALSE='#'
 else

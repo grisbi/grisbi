@@ -37,9 +37,9 @@ LDFLAGS="$GNOMELIBS_LDFLAGS"
 
 APPLET="false"
 GNOME_CHECK_MODULES(GA, [ applets ],
-		      [ APPLET=true; CFLAGS="$CFLAGS $GA_CFLAGS; LDFLAGS="$LDFLAGS $GA_LDFLAGS"],
-		      [ AC_MSG_WARN("Gnome library Applets is not installed, I won't compile Grisbi applet") ])
-AM_CONDITIONAL(APPLET, test $APPLET = xtrue)
+		      [ APPLET=true; CFLAGS="$CFLAGS $GA_CFLAGS"; LDFLAGS="$LDFLAGS $GA_LDFLAGS"; ],
+		      [ AC_MSG_WARN(Gnome library Applets is not installed, I won't compile Grisbi applet) ] )
+AM_CONDITIONAL(APPLET, test $APPLET = true)
 
 
 AC_SUBST(CFLAGS)
