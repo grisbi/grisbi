@@ -12,6 +12,9 @@
 # translation of pl.po to
 # translation of pl.po to
 # translation of pl.po to
+# translation of pl.po to
+# translation of pl.po to
+# translation of pl.po to
 # translation of pl.po to Polish
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
@@ -23,7 +26,7 @@ msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To:\n"
 "POT-Creation-Date: 2005-01-31 10:04+0100\n"
-"PO-Revision-Date: 2005-02-24 08:16+0100\n"
+"PO-Revision-Date: 2005-02-27 14:30+0100\n"
 "Last-Translator: Ryszard Jeziorski <rysik@dart.kielce.pl>\n"
 "Language-Team:  <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -45,11 +48,11 @@ msgstr "Zamknięte konta pasywów"
 
 #: src/accueil.c:207
 msgid "Manual scheduled transactions at maturity date"
-msgstr ""
+msgstr "Najbliższe ręczne zaplanowane transakcje "
 
 #: src/accueil.c:218
 msgid "Automatic scheduled transactions entered"
-msgstr "Wprowadzone automatyczne zaplanowane transakcję"
+msgstr "Wykonane automatyczne zaplanowane transakcje"
 
 #: src/accueil.c:229
 msgid "Closed scheduled transactions"
@@ -77,7 +80,7 @@ msgstr "Formularz"
 #: src/accueil.c:518
 #, c-format
 msgid "Account balances in %s"
-msgstr "Stan kont w %s"
+msgstr "Stan kont : %s"
 
 #. CrÃ©ation et remplissage de la premiÃ¨re ligne du tableau
 #: src/accueil.c:524
@@ -110,7 +113,7 @@ msgstr "Stan kont pasywów w %s"
 #: src/accueil.c:1161
 #, c-format
 msgid "Assets accounts balances in %s"
-msgstr "Stan kont kont inwestycyjnych w %s "
+msgstr "Stan kont kont aktywów w %s "
 
 #: src/accueil.c:1581
 #: src/accueil.c:1693
@@ -219,7 +222,7 @@ msgstr "Jako domyślnego użyj roku finansowego "
 
 #: src/affichage.c:217
 msgid "last selected financial year"
-msgstr "ostatnio wybranego roku finansowy"
+msgstr "ostatnio wybranego roku finansowego"
 
 #: src/affichage.c:218
 msgid "according to transaction date"
@@ -340,7 +343,7 @@ msgstr "Data"
 #: src/operations_formulaire.c:789
 #: src/operations_formulaire.c:3319
 msgid "Third party"
-msgstr "Beneficjenci"
+msgstr "Beneficjent"
 
 #: src/affichage_liste.c:38
 #: src/echeancier_formulaire.c:1067
@@ -632,7 +635,7 @@ msgstr "Kategorie"
 #: src/operations_formulaire.c:1110
 #: src/operations_formulaire.c:3330
 msgid "Cheque/Transfer number"
-msgstr "Numer czeku/przelewu"
+msgstr "Numer"
 
 #. mise en place de la frame des ib
 #: src/affichage_liste.c:1045
@@ -1943,7 +1946,7 @@ msgid ""
 "If you choose to continue, an account will be created with default payment methods chosen according to your choice.\n"
 "You will be able to change account type later."
 msgstr ""
-"Jeżeli wybierzesz kontynuację to zostanie utworzone konto z domyślną metodą płatności zgodnie z twoim wyborem.\n"
+"Jeżeli wciśniesz przycisk OK to zostanie utworzone konto wybranego typu z domyślną metodą płatności.\n"
 "Po utworzeniu możliwa będzie zmiana typu konta."
 
 #: src/csv.c:219
@@ -2066,7 +2069,7 @@ msgstr "Afryka"
 
 #: src/devises.c:51
 msgid "Algerian Dinar"
-msgstr "Algierski dinar"
+msgstr "dinar algierski"
 
 #: src/devises.c:51
 msgid "Algeria"
@@ -2074,15 +2077,15 @@ msgstr "Algieria"
 
 #: src/devises.c:52
 msgid "Botswana Pula"
-msgstr ""
+msgstr "pula botswańska"
 
 #: src/devises.c:52
 msgid "Botswana"
-msgstr "Bostwana"
+msgstr "Botswana"
 
 #: src/devises.c:53
 msgid "Burundi Franc"
-msgstr ""
+msgstr "frank burundyjski"
 
 #: src/devises.c:53
 msgid "Burundi"
@@ -2091,7 +2094,7 @@ msgstr "Burundi"
 #: src/devises.c:54
 #: src/devises.c:55
 msgid "CFA Franc BCEAO"
-msgstr ""
+msgstr "frank CFA"
 
 #: src/devises.c:54
 msgid "Niger"
@@ -2105,7 +2108,7 @@ msgstr "Senegal"
 #: src/devises.c:57
 #: src/devises.c:58
 msgid "CFA Franc BEAC"
-msgstr ""
+msgstr "frank CFA"
 
 #: src/devises.c:56
 msgid "Cameroon"
@@ -2121,15 +2124,15 @@ msgstr "Kongo"
 
 #: src/devises.c:59
 msgid "Comoro Franc"
-msgstr ""
+msgstr "frank komorski"
 
 #: src/devises.c:59
 msgid "Comoros"
-msgstr ""
+msgstr "Komory"
 
 #: src/devises.c:60
 msgid "Egyptian Pound"
-msgstr "Egipski funt"
+msgstr "funt egipski"
 
 #: src/devises.c:60
 msgid "Egypt"
@@ -2137,7 +2140,7 @@ msgstr "Egipt"
 
 #: src/devises.c:61
 msgid "Ethiopian Birr"
-msgstr ""
+msgstr "birr etiopski"
 
 #: src/devises.c:61
 msgid "Ethiopia"
@@ -2145,31 +2148,31 @@ msgstr "Etiopia"
 
 #: src/devises.c:62
 msgid "Gambian Dalasi"
-msgstr ""
+msgstr "dalasi gambijska"
 
 #: src/devises.c:62
 msgid "Gambia"
-msgstr "Gamibia"
+msgstr "Gambia"
 
 #: src/devises.c:63
 msgid "Ghana Cedi"
-msgstr ""
+msgstr "cedi ghańskie"
 
 #: src/devises.c:63
 msgid "Ghana"
-msgstr ""
+msgstr "Ghana"
 
 #: src/devises.c:64
 msgid "Guinea-Bissau Peso"
-msgstr ""
+msgstr "frank CFA"
 
 #: src/devises.c:64
 msgid "Guinea-Bissau"
-msgstr ""
+msgstr "Gwinea-Bissau"
 
 #: src/devises.c:65
 msgid "Kenyan Shilling"
-msgstr ""
+msgstr "szyling kenijski"
 
 #: src/devises.c:65
 msgid "Kenya"
@@ -2177,7 +2180,7 @@ msgstr "Kenja"
 
 #: src/devises.c:66
 msgid "Liberian Dollar"
-msgstr ""
+msgstr "dolar liberyjski"
 
 #: src/devises.c:66
 msgid "Liberia"
@@ -2185,15 +2188,15 @@ msgstr "Liberia"
 
 #: src/devises.c:67
 msgid "Libyan Dinar"
-msgstr "Libijski dinar"
+msgstr "dinar libijski"
 
 #: src/devises.c:67
 msgid "Libyan Arab Jamahiriya"
-msgstr ""
+msgstr "Libia"
 
 #: src/devises.c:68
 msgid "Malagasy Franc"
-msgstr ""
+msgstr "frank malgaski"
 
 #: src/devises.c:68
 msgid "Madagascar"
@@ -2201,23 +2204,23 @@ msgstr "Madagaskar"
 
 #: src/devises.c:69
 msgid "Malawi Kwacha"
-msgstr ""
+msgstr "kwacha malawijska"
 
 #: src/devises.c:69
 msgid "Malawi"
-msgstr ""
+msgstr "Malawi"
 
 #: src/devises.c:70
 msgid "Mauritania Ouguiya"
-msgstr ""
+msgstr "ouguiya mauretańska"
 
 #: src/devises.c:70
 msgid "Mauritania"
-msgstr ""
+msgstr "Mauretania"
 
 #: src/devises.c:71
 msgid "Moazambique Metical"
-msgstr ""
+msgstr "metical mozambijski"
 
 #: src/devises.c:71
 msgid "Mozambique"
@@ -2225,7 +2228,7 @@ msgstr "Mozambik"
 
 #: src/devises.c:72
 msgid "Moroccan Dirham"
-msgstr ""
+msgstr "dirham marokański"
 
 #: src/devises.c:72
 msgid "Morocco"
@@ -2233,7 +2236,7 @@ msgstr "Maroko"
 
 #: src/devises.c:73
 msgid "Nigerian Naira"
-msgstr ""
+msgstr "naira nigeryjska"
 
 #: src/devises.c:73
 msgid "Nigeria"
@@ -2241,23 +2244,23 @@ msgstr "Nigeria"
 
 #: src/devises.c:74
 msgid "Rwanda Franc"
-msgstr ""
+msgstr "frank ruandyjski"
 
 #: src/devises.c:74
 msgid "Rwanda"
-msgstr ""
+msgstr "Ruanda"
 
 #: src/devises.c:75
 msgid "Sao Tome and Principe Dobra"
-msgstr ""
+msgstr "dobra Wysp Świętego Tomasza i Książęcej"
 
 #: src/devises.c:75
 msgid "Sao Tome and Principe"
-msgstr ""
+msgstr "Wyspy Świętego Tomasza i Książęca"
 
 #: src/devises.c:76
 msgid "Seychelles Rupee"
-msgstr ""
+msgstr "rupia Seszeli"
 
 #: src/devises.c:76
 msgid "Seychelles"
@@ -2265,15 +2268,15 @@ msgstr "Seszele"
 
 #: src/devises.c:77
 msgid "Sierra Leonean Leone"
-msgstr ""
+msgstr "leone"
 
 #: src/devises.c:77
 msgid "Sierra Leone"
-msgstr ""
+msgstr "Sierra Leone"
 
 #: src/devises.c:78
 msgid "Somali Shilling"
-msgstr ""
+msgstr "szyling somalijski"
 
 #: src/devises.c:78
 msgid "Somalia"
@@ -2283,11 +2286,11 @@ msgstr "Somaila"
 #: src/devises.c:80
 #: src/devises.c:81
 msgid "South African Rand"
-msgstr ""
+msgstr "rand RPA"
 
 #: src/devises.c:79
 msgid "Lesotho"
-msgstr ""
+msgstr "Lesoto"
 
 #: src/devises.c:80
 msgid "Namibia"
@@ -2295,19 +2298,19 @@ msgstr "Namibia"
 
 #: src/devises.c:81
 msgid "South Africa"
-msgstr ""
+msgstr "Republika Południowej Afryki"
 
 #: src/devises.c:82
 msgid "Swaziland Lilangeni"
-msgstr ""
+msgstr "lilangeni Suazi"
 
 #: src/devises.c:82
 msgid "Swaziland"
-msgstr ""
+msgstr "Suazi"
 
 #: src/devises.c:83
 msgid "Tanzanian Shilling"
-msgstr ""
+msgstr "szyling tanzański"
 
 #: src/devises.c:83
 msgid "United Republic of Tanzania"
@@ -2315,15 +2318,15 @@ msgstr "Tanzania"
 
 #: src/devises.c:84
 msgid "Tunisian Dinar"
-msgstr ""
+msgstr "dinar tunezyjski"
 
 #: src/devises.c:84
 msgid "Tunisia"
-msgstr ""
+msgstr "Tunezja"
 
 #: src/devises.c:85
 msgid "Zambian Kwacha"
-msgstr ""
+msgstr "kwacha zambijska"
 
 #: src/devises.c:85
 msgid "Zambia"
@@ -2331,7 +2334,7 @@ msgstr "Zambia"
 
 #: src/devises.c:86
 msgid "Zimbabwe Dollar"
-msgstr "Zimbabwe dolar"
+msgstr "dolar Zimbabwe"
 
 #: src/devises.c:86
 msgid "Zimbabwe"
@@ -2383,7 +2386,7 @@ msgstr "Azja"
 
 #: src/devises.c:87
 msgid "Afghani"
-msgstr ""
+msgstr "afgani"
 
 #: src/devises.c:87
 msgid "Afghanistan"
@@ -2391,15 +2394,15 @@ msgstr "Afganistan"
 
 #: src/devises.c:88
 msgid "Bahraini Dinar"
-msgstr ""
+msgstr "dinar bahrajski"
 
 #: src/devises.c:88
 msgid "Bahrain"
-msgstr ""
+msgstr "Bahrain"
 
 #: src/devises.c:89
 msgid "Bangladesh Taka"
-msgstr ""
+msgstr "taka"
 
 #: src/devises.c:89
 msgid "Bangladesh"
@@ -2407,15 +2410,15 @@ msgstr "Bangladesz"
 
 #: src/devises.c:90
 msgid "Brunei Dollar"
-msgstr ""
+msgstr "dolar Brunei"
 
 #: src/devises.c:90
 msgid "Brunei Darussalam"
-msgstr ""
+msgstr "Brunei"
 
 #: src/devises.c:91
 msgid "Cambodian Riel"
-msgstr ""
+msgstr "riel kambodżański"
 
 #: src/devises.c:91
 msgid "Cambodia"
@@ -2423,7 +2426,7 @@ msgstr "Kambodża"
 
 #: src/devises.c:92
 msgid "Cyprus Pound"
-msgstr "Cypryjski funt"
+msgstr "funt cypryjski"
 
 #: src/devises.c:92
 msgid "Cyprus"
@@ -2431,7 +2434,7 @@ msgstr "Cypr"
 
 #: src/devises.c:93
 msgid "Hong Kong Dollar"
-msgstr "Hong Kong dolar"
+msgstr "dolar Hong Kongu"
 
 #: src/devises.c:93
 msgid "Hong Kong"
@@ -2440,11 +2443,11 @@ msgstr "Honk Kong"
 #: src/devises.c:94
 #: src/devises.c:95
 msgid "Indian Rupee"
-msgstr ""
+msgstr "rupia indyjska"
 
 #: src/devises.c:94
 msgid "Bhutan"
-msgstr ""
+msgstr "Bhutan"
 
 #: src/devises.c:95
 msgid "India"
@@ -2452,7 +2455,7 @@ msgstr "Indie"
 
 #: src/devises.c:96
 msgid "Indonesian Rupiah"
-msgstr ""
+msgstr "rupia indonezyjska"
 
 #: src/devises.c:96
 msgid "Indonesia"
@@ -2460,7 +2463,7 @@ msgstr "Indonezja"
 
 #: src/devises.c:97
 msgid "Iranian Rial"
-msgstr ""
+msgstr "rial irański"
 
 #: src/devises.c:97
 msgid "Iran"
@@ -2468,7 +2471,7 @@ msgstr "Iran"
 
 #: src/devises.c:98
 msgid "Iraqi Dinar"
-msgstr "Iracki dinar"
+msgstr "dinar iracki"
 
 #: src/devises.c:98
 msgid "Iraq"
@@ -2476,7 +2479,7 @@ msgstr "Irak"
 
 #: src/devises.c:99
 msgid "Japanese Yen"
-msgstr "Japoński jen"
+msgstr "jen japoński"
 
 #: src/devises.c:99
 msgid "Japan"
@@ -2484,7 +2487,7 @@ msgstr "Japonia"
 
 #: src/devises.c:100
 msgid "Jordanian Dinar"
-msgstr "Jordański dinar"
+msgstr "dinar jordański"
 
 #: src/devises.c:100
 msgid "Jordan"
@@ -2492,7 +2495,7 @@ msgstr "Jordania"
 
 #: src/devises.c:101
 msgid "Kuwaiti Dinar"
-msgstr "Kuwejcki dinar"
+msgstr "dinar kuwejcki"
 
 #: src/devises.c:101
 msgid "Kuwait"
@@ -2500,23 +2503,23 @@ msgstr "Kuwejt"
 
 #: src/devises.c:102
 msgid "Lao Kip"
-msgstr ""
+msgstr "kip laotański"
 
 #: src/devises.c:102
 msgid "Lao People's Democratic Republic"
-msgstr ""
+msgstr "Laos"
 
 #: src/devises.c:103
 msgid "Lebanese Pound"
-msgstr ""
+msgstr "funt libański"
 
 #: src/devises.c:103
 msgid "Lebanon"
-msgstr ""
+msgstr "Liban"
 
 #: src/devises.c:104
 msgid "Macau Pataca"
-msgstr ""
+msgstr "pataca Makao"
 
 #: src/devises.c:104
 msgid "Macao"
@@ -2524,7 +2527,7 @@ msgstr "Makao"
 
 #: src/devises.c:105
 msgid "Malaysian Ringgit"
-msgstr ""
+msgstr "ringgit malezyjski"
 
 #: src/devises.c:105
 msgid "Malaysia"
@@ -2532,7 +2535,7 @@ msgstr "Malezja"
 
 #: src/devises.c:106
 msgid "Mongolian Tugrik"
-msgstr ""
+msgstr "tugrik mongolski"
 
 #: src/devises.c:106
 msgid "Mongolia"
@@ -2540,7 +2543,7 @@ msgstr "Mongolia"
 
 #: src/devises.c:107
 msgid "Nepalese Rupee"
-msgstr ""
+msgstr "rupia nepalska"
 
 #: src/devises.c:107
 msgid "Nepal"
@@ -2548,7 +2551,7 @@ msgstr "Nepal"
 
 #: src/devises.c:108
 msgid "New Israeli Shekel"
-msgstr ""
+msgstr "szekel izraelski"
 
 #: src/devises.c:108
 msgid "Israel"
@@ -2556,7 +2559,7 @@ msgstr "Izrael"
 
 #: src/devises.c:109
 msgid "New Taiwan Dollar"
-msgstr "Tajwański dolar"
+msgstr "dolar tajwański"
 
 #: src/devises.c:109
 msgid "Taiwan, Province of China"
@@ -2564,15 +2567,15 @@ msgstr "Tajwan"
 
 #: src/devises.c:110
 msgid "North Korean Won"
-msgstr ""
+msgstr "won koreański"
 
 #: src/devises.c:110
 msgid "Democratic People's Republic of Korea"
-msgstr "Korea południowa"
+msgstr "Koreańska Republika Ludowo-Demokratyczna"
 
 #: src/devises.c:111
 msgid "Pakistan Rupee"
-msgstr ""
+msgstr "rupia pakistańska"
 
 #: src/devises.c:111
 msgid "Pakistan"
@@ -2580,7 +2583,7 @@ msgstr "Pakistan"
 
 #: src/devises.c:112
 msgid "Philippine peso"
-msgstr "Filipińskie peso"
+msgstr "peso filipińskie"
 
 #: src/devises.c:112
 msgid "Philippines"
@@ -2588,15 +2591,15 @@ msgstr "Filipiny"
 
 #: src/devises.c:113
 msgid "Qatari Rial"
-msgstr ""
+msgstr "rial Kataru"
 
 #: src/devises.c:113
 msgid "Qatar"
-msgstr ""
+msgstr "Katar"
 
 #: src/devises.c:114
 msgid "Rial Omani"
-msgstr ""
+msgstr "rial Omanu"
 
 #: src/devises.c:114
 msgid "Oman"
@@ -2604,7 +2607,7 @@ msgstr "Oman"
 
 #: src/devises.c:115
 msgid "Russian Ruble"
-msgstr "Rosyjskie ruble"
+msgstr "rubel rosyjski"
 
 #: src/devises.c:115
 msgid "Russia"
@@ -2612,7 +2615,7 @@ msgstr "Rosja"
 
 #: src/devises.c:116
 msgid "Saudi Riyal"
-msgstr ""
+msgstr "rial saudyjski"
 
 #: src/devises.c:116
 msgid "Saudi Arabia"
@@ -2620,7 +2623,7 @@ msgstr "Arabia Saudyjska"
 
 #: src/devises.c:117
 msgid "Singapore Dollar"
-msgstr "Singapurski dolar"
+msgstr "dolar singapurski"
 
 #: src/devises.c:117
 msgid "Singapore"
@@ -2628,15 +2631,15 @@ msgstr "Singapur"
 
 #: src/devises.c:118
 msgid "South Korean Won"
-msgstr ""
+msgstr "won koreański"
 
 #: src/devises.c:118
 msgid "Republic of Korea"
-msgstr ""
+msgstr "Korea Południowa"
 
 #: src/devises.c:119
 msgid "Sri Lanka Rupee"
-msgstr ""
+msgstr "rupia lankijska"
 
 #: src/devises.c:119
 msgid "Sri Lanka"
@@ -2644,7 +2647,7 @@ msgstr "Sri Lanka"
 
 #: src/devises.c:120
 msgid "Syrian Pound"
-msgstr "Syryjski funt"
+msgstr "funt syryjski"
 
 #: src/devises.c:120
 msgid "Syrian Arab Republic"
@@ -2652,7 +2655,7 @@ msgstr "Syria"
 
 #: src/devises.c:121
 msgid "Thai Baht"
-msgstr ""
+msgstr "baht tajlandzki"
 
 #: src/devises.c:121
 msgid "Thailand"
@@ -2660,7 +2663,7 @@ msgstr "Tajlandia"
 
 #: src/devises.c:122
 msgid "Turkish Lira"
-msgstr ""
+msgstr "lira turecka"
 
 #: src/devises.c:122
 msgid "Turkey"
@@ -2668,7 +2671,7 @@ msgstr "Turcja"
 
 #: src/devises.c:123
 msgid "United Arab Emirates Dirham"
-msgstr ""
+msgstr "dirham"
 
 #: src/devises.c:123
 msgid "United Arab Emirates"
@@ -2676,7 +2679,7 @@ msgstr "Zjednoczone Emiraty Arabskie"
 
 #: src/devises.c:124
 msgid "Viet Nam Dong"
-msgstr ""
+msgstr "dong wietnamski"
 
 #: src/devises.c:124
 msgid "Viet Nam"
@@ -2684,7 +2687,7 @@ msgstr "Wietnam"
 
 #: src/devises.c:125
 msgid "Yemeni Rial"
-msgstr ""
+msgstr "rial jemeński"
 
 #: src/devises.c:125
 msgid "Yemen"
@@ -2692,7 +2695,7 @@ msgstr "Jemen"
 
 #: src/devises.c:126
 msgid "Yuan Renminbi"
-msgstr ""
+msgstr "yuan chiński"
 
 #: src/devises.c:126
 msgid "China"
@@ -2710,15 +2713,15 @@ msgstr "Ameryka Środkowa"
 
 #: src/devises.c:127
 msgid "Belize Dollar"
-msgstr ""
+msgstr "dolar Belize"
 
 #: src/devises.c:127
 msgid "Belize"
-msgstr ""
+msgstr "Belize"
 
 #: src/devises.c:128
 msgid "Costa Rican Colon"
-msgstr ""
+msgstr "colon kostarykański"
 
 #: src/devises.c:128
 msgid "Costa Rica"
@@ -2726,7 +2729,7 @@ msgstr "Kostaryka"
 
 #: src/devises.c:129
 msgid "Guatemalan Quetzal"
-msgstr ""
+msgstr "quetzal gwatemalski"
 
 #: src/devises.c:129
 msgid "Guatemala"
@@ -2734,7 +2737,7 @@ msgstr "Gwatemala"
 
 #: src/devises.c:130
 msgid "Honduran Lempira"
-msgstr ""
+msgstr "lempira"
 
 #: src/devises.c:130
 msgid "Honduras"
@@ -2742,7 +2745,7 @@ msgstr "Honduras"
 
 #: src/devises.c:131
 msgid "Mexican Peso"
-msgstr "Meksykańskie peso"
+msgstr "peso meksykańskie"
 
 #: src/devises.c:131
 msgid "Mexico"
@@ -2750,12 +2753,12 @@ msgstr "Meksyk"
 
 #: src/devises.c:132
 msgid "Panama Balboa"
-msgstr ""
+msgstr "balboa panamska"
 
 #: src/devises.c:132
 #: src/devises.c:196
 msgid "Panama"
-msgstr ""
+msgstr "Panama"
 
 #: src/devises.c:133
 #: src/devises.c:134
@@ -2797,7 +2800,7 @@ msgstr "Europa"
 
 #: src/devises.c:133
 msgid "Albanian Lek"
-msgstr ""
+msgstr "lek albański"
 
 #: src/devises.c:133
 msgid "Albania"
@@ -2805,7 +2808,7 @@ msgstr "Albania"
 
 #: src/devises.c:134
 msgid "Austrian Schilling"
-msgstr ""
+msgstr "szyling austryjacki"
 
 #: src/devises.c:134
 msgid "Austria"
@@ -2813,7 +2816,7 @@ msgstr "Austria"
 
 #: src/devises.c:135
 msgid "Belgian Franc"
-msgstr ""
+msgstr "frank belgijski"
 
 #: src/devises.c:135
 msgid "Belgium"
@@ -2821,7 +2824,7 @@ msgstr "Belgia"
 
 #: src/devises.c:136
 msgid "Bulgarian Lev"
-msgstr ""
+msgstr "lew bułgarski"
 
 #: src/devises.c:136
 msgid "Bulgaria"
@@ -2829,7 +2832,7 @@ msgstr "Bułgaria"
 
 #: src/devises.c:137
 msgid "Czech Koruna"
-msgstr "Czeska korona"
+msgstr "korona czeska"
 
 #: src/devises.c:137
 msgid "Czech Republic"
@@ -2837,7 +2840,7 @@ msgstr "Republika Czeska"
 
 #: src/devises.c:138
 msgid "Danish Krone"
-msgstr "Korona Duńska"
+msgstr "korona duńska"
 
 #: src/devises.c:138
 msgid "Denmark"
@@ -2845,7 +2848,7 @@ msgstr "Dania"
 
 #: src/devises.c:139
 msgid "Deutsche Mark"
-msgstr "Niemiecka marka"
+msgstr "marka niemiecka"
 
 #: src/devises.c:139
 msgid "Germany"
@@ -2853,7 +2856,7 @@ msgstr "Niemcy"
 
 #: src/devises.c:140
 msgid "Estonian Kroon"
-msgstr ""
+msgstr "korona estońska"
 
 #: src/devises.c:140
 msgid "Estonia"
@@ -2861,7 +2864,7 @@ msgstr "Estonia"
 
 #: src/devises.c:141
 msgid "Finnish Markka"
-msgstr ""
+msgstr "marka fińska"
 
 #: src/devises.c:141
 msgid "Finland"
@@ -2869,7 +2872,7 @@ msgstr "Finlandia"
 
 #: src/devises.c:142
 msgid "French Franc"
-msgstr "Euro"
+msgstr "frank francuski"
 
 #: src/devises.c:142
 msgid "France"
@@ -2877,7 +2880,7 @@ msgstr "Francja"
 
 #: src/devises.c:143
 msgid "Gibraltar Pound"
-msgstr "Giblartarski funt"
+msgstr "funt gibraltarski"
 
 #: src/devises.c:143
 msgid "Gibraltar"
@@ -2885,7 +2888,7 @@ msgstr "Gibraltar"
 
 #: src/devises.c:144
 msgid "Greek Drachma"
-msgstr ""
+msgstr "drachma grecka"
 
 #: src/devises.c:144
 msgid "Greece"
@@ -2893,7 +2896,7 @@ msgstr "Grecja"
 
 #: src/devises.c:145
 msgid "Hungarian Forint"
-msgstr "Węgierski Forint"
+msgstr "forint węgierski"
 
 #: src/devises.c:145
 msgid "Hungary"
@@ -2901,7 +2904,7 @@ msgstr "Węgry"
 
 #: src/devises.c:146
 msgid "Iceland Krona"
-msgstr ""
+msgstr "korona islandzka"
 
 #: src/devises.c:146
 msgid "Iceland"
@@ -2909,7 +2912,7 @@ msgstr "Islandia"
 
 #: src/devises.c:147
 msgid "Irish Pound"
-msgstr "Irlandzki funt"
+msgstr "funt irlandzki"
 
 #: src/devises.c:147
 msgid "Ireland"
@@ -2919,7 +2922,7 @@ msgstr "Irlandia"
 #: src/devises.c:149
 #: src/devises.c:150
 msgid "Italian Lira"
-msgstr "Włoskie Liry"
+msgstr "lir włoski"
 
 #: src/devises.c:148
 msgid "Holy See"
@@ -2935,23 +2938,23 @@ msgstr "San Marino"
 
 #: src/devises.c:151
 msgid "Latvian Lat"
-msgstr ""
+msgstr "łat łotewski"
 
 #: src/devises.c:151
 msgid "Latvia"
-msgstr "Litwa"
+msgstr "Łotwa"
 
 #: src/devises.c:152
 msgid "Lithuanian Litas"
-msgstr ""
+msgstr "lit litewski"
 
 #: src/devises.c:152
 msgid "Lietuva"
-msgstr ""
+msgstr "Litwa"
 
 #: src/devises.c:153
 msgid "Luxembourg Franc"
-msgstr ""
+msgstr "frank luksemburski"
 
 #: src/devises.c:153
 msgid "Luxembourg"
@@ -2959,7 +2962,7 @@ msgstr "Luksemburg"
 
 #: src/devises.c:154
 msgid "Netherlands Guilder"
-msgstr ""
+msgstr "gulden holenderski"
 
 #: src/devises.c:154
 msgid "Netherlands"
@@ -2967,15 +2970,15 @@ msgstr "Holandia"
 
 #: src/devises.c:155
 msgid "New Yugoslavian Dinar"
-msgstr ""
+msgstr "nowy dinar jugosłowiański"
 
 #: src/devises.c:155
 msgid "Serbia and Montenegro"
-msgstr ""
+msgstr "Serbia i Czarnogóra"
 
 #: src/devises.c:156
 msgid "Norwegian Krone"
-msgstr ""
+msgstr "korona norweska"
 
 #: src/devises.c:156
 msgid "Norway"
@@ -2983,7 +2986,7 @@ msgstr "Norwegia"
 
 #: src/devises.c:157
 msgid "Polish Zloty"
-msgstr "Polski złoty"
+msgstr "złoty polski"
 
 #: src/devises.c:157
 msgid "Poland"
@@ -2991,7 +2994,7 @@ msgstr "Polska"
 
 #: src/devises.c:158
 msgid "Portuguese Escudo"
-msgstr ""
+msgstr "escudo portugalskie"
 
 #: src/devises.c:158
 msgid "Portugal"
@@ -2999,7 +3002,7 @@ msgstr "Portugalia"
 
 #: src/devises.c:159
 msgid "Pound Sterling"
-msgstr ""
+msgstr "funt szterling"
 
 #: src/devises.c:159
 msgid "United Kingdom"
@@ -3007,7 +3010,7 @@ msgstr "Wielka Brytania"
 
 #: src/devises.c:160
 msgid "Romanian Leu"
-msgstr ""
+msgstr "leje rumuńskie"
 
 #: src/devises.c:160
 msgid "Romania"
@@ -3015,7 +3018,7 @@ msgstr "Rumunia"
 
 #: src/devises.c:161
 msgid "Slovak Koruna"
-msgstr ""
+msgstr "korona słowacka"
 
 #: src/devises.c:161
 msgid "Slovakia"
@@ -3023,7 +3026,7 @@ msgstr "Słowacja"
 
 #: src/devises.c:162
 msgid "Slovene Tolar"
-msgstr ""
+msgstr "tolar słoweński"
 
 #: src/devises.c:162
 msgid "Slovenia"
@@ -3031,7 +3034,7 @@ msgstr "Słowenia"
 
 #: src/devises.c:163
 msgid "Spanish Peseta"
-msgstr ""
+msgstr "peseta hiszpańska"
 
 #: src/devises.c:163
 msgid "Spain"
@@ -3039,7 +3042,7 @@ msgstr "Hiszpania"
 
 #: src/devises.c:164
 msgid "Swedish Krona"
-msgstr ""
+msgstr "korona szwedzka"
 
 #: src/devises.c:164
 msgid "Sweden"
@@ -3048,7 +3051,7 @@ msgstr "Szwecja"
 #: src/devises.c:165
 #: src/devises.c:166
 msgid "Swiss Franc"
-msgstr ""
+msgstr "frank szwajcarski"
 
 #: src/devises.c:165
 msgid "Liechtenstein"
@@ -3078,7 +3081,7 @@ msgstr "Ameryka Północna"
 
 #: src/devises.c:167
 msgid "Bahamian Dollar"
-msgstr ""
+msgstr "dolar Wysp Bahama"
 
 #: src/devises.c:167
 msgid "Bahamas"
@@ -3086,7 +3089,7 @@ msgstr "Wyspy Bahama"
 
 #: src/devises.c:168
 msgid "Barbados Dollar"
-msgstr "Barbados dolar"
+msgstr "dolar Barbados"
 
 #: src/devises.c:168
 msgid "Barbados"
@@ -3094,7 +3097,7 @@ msgstr "Barbados"
 
 #: src/devises.c:169
 msgid "Bermuda Dollar"
-msgstr "Bermudzki dolar"
+msgstr "dolar bermudzki"
 
 #: src/devises.c:169
 msgid "Bermuda"
@@ -3102,7 +3105,7 @@ msgstr "Bermudy"
 
 #: src/devises.c:170
 msgid "Canadian Dollar"
-msgstr "Kanadyjski dolar"
+msgstr "dolar kanaryjski"
 
 #: src/devises.c:170
 msgid "Canada"
@@ -3110,7 +3113,7 @@ msgstr "Kanada"
 
 #: src/devises.c:171
 msgid "Cayman Islands Dollar"
-msgstr "Kajmanski dolar"
+msgstr "dolar kajmański"
 
 #: src/devises.c:171
 msgid "Cayman Islands"
@@ -3118,7 +3121,7 @@ msgstr "Kajmany"
 
 #: src/devises.c:172
 msgid "Cuban Peso"
-msgstr "Kubańskie peso"
+msgstr "peso kubańskie"
 
 #: src/devises.c:172
 msgid "Cuba"
@@ -3126,7 +3129,7 @@ msgstr "Kuba"
 
 #: src/devises.c:173
 msgid "Dominican Peso"
-msgstr "Republiki Dominikany peso"
+msgstr "peso Republiki Dominikany"
 
 #: src/devises.c:173
 msgid "Dominican Republic"
@@ -3135,7 +3138,7 @@ msgstr "Republika Dominikany"
 #: src/devises.c:174
 #: src/devises.c:175
 msgid "East Caribbean Dollar"
-msgstr ""
+msgstr "dolar wschodniokaraibski"
 
 #: src/devises.c:174
 msgid "Grenada"
@@ -3143,11 +3146,11 @@ msgstr "Grenada"
 
 #: src/devises.c:175
 msgid "Saint Lucia"
-msgstr ""
+msgstr "Saint Lucia"
 
 #: src/devises.c:176
 msgid "Haitian Gourde"
-msgstr ""
+msgstr "gourde"
 
 #: src/devises.c:176
 msgid "Haiti"
@@ -3155,7 +3158,7 @@ msgstr "Haiti"
 
 #: src/devises.c:177
 msgid "Jamaican Dollar"
-msgstr "Jamajski dolar"
+msgstr "dolar jamajski"
 
 #: src/devises.c:177
 msgid "Jamaica"
@@ -3163,7 +3166,7 @@ msgstr "Jamajka"
 
 #: src/devises.c:178
 msgid "Netherlands Antillian Guilder"
-msgstr ""
+msgstr "floren Antyli Holenderskich"
 
 #: src/devises.c:178
 msgid "Netherlands Antilles"
@@ -3171,16 +3174,16 @@ msgstr "Antyle Holenderskie"
 
 #: src/devises.c:179
 msgid "Trinidad and Tobago Dollar"
-msgstr ""
+msgstr "dolar Trynidadu i Tobago"
 
 #: src/devises.c:179
 msgid "Trinidad and Tobago"
-msgstr ""
+msgstr "Trynidad i Tobago"
 
 #: src/devises.c:180
 #: src/devises.c:196
 msgid "United States Dollar"
-msgstr "Amerykański dolar"
+msgstr "dolar amerykański"
 
 #: src/devises.c:180
 msgid "United States"
@@ -3205,14 +3208,14 @@ msgstr "Stany Zjednoczone Ameryki"
 #: src/devises.c:197
 #: src/devises.c:495
 msgid "Pacific Ocean"
-msgstr ""
+msgstr "Pacyfik"
 
 #: src/devises.c:181
 #: src/devises.c:182
 #: src/devises.c:183
 #: src/devises.c:184
 msgid "Australian Dollar"
-msgstr "Australijski dolar"
+msgstr "dolar australijski"
 
 #: src/devises.c:181
 msgid "Australia"
@@ -3220,25 +3223,25 @@ msgstr "Australia"
 
 #: src/devises.c:182
 msgid "Kiribati"
-msgstr ""
+msgstr "Kiribati"
 
 #: src/devises.c:183
 msgid "Nauru"
-msgstr ""
+msgstr "Nauru"
 
 #: src/devises.c:184
 msgid "Tuvalu"
-msgstr ""
+msgstr "Tuvalu"
 
 #: src/devises.c:185
 #: src/devises.c:186
 #: src/devises.c:187
 msgid "CFP Franc"
-msgstr ""
+msgstr "frank CFP"
 
 #: src/devises.c:185
 msgid "French Polynesia"
-msgstr ""
+msgstr "Polinezja francuska"
 
 #: src/devises.c:186
 msgid "New Caledonia"
@@ -3246,11 +3249,11 @@ msgstr "Nowa Kaledonia"
 
 #: src/devises.c:187
 msgid "Wallis and Futuna"
-msgstr ""
+msgstr "Wallis i Futuna"
 
 #: src/devises.c:188
 msgid "Fiji Dollar"
-msgstr ""
+msgstr "dolar Fidżi"
 
 #: src/devises.c:188
 msgid "Fiji"
@@ -3259,11 +3262,11 @@ msgstr "Fidżi"
 #: src/devises.c:189
 #: src/devises.c:190
 msgid "New Zealand Dollar"
-msgstr "Nowo Zelandzki dolat"
+msgstr "dolar nowozelandzki"
 
 #: src/devises.c:189
 msgid "Cook Islands"
-msgstr ""
+msgstr "Wyspy Cooka"
 
 #: src/devises.c:190
 msgid "New Zealand"
@@ -3271,7 +3274,7 @@ msgstr "Nowa Zelandia"
 
 #: src/devises.c:191
 msgid "Papua New Guinea Kina"
-msgstr ""
+msgstr "kina"
 
 #: src/devises.c:191
 msgid "Papua New Guinea"
@@ -3279,15 +3282,15 @@ msgstr "Papua Nowa Gwinea"
 
 #: src/devises.c:192
 msgid "Samoa Tala"
-msgstr ""
+msgstr "tala"
 
 #: src/devises.c:192
 msgid "Samoa"
-msgstr ""
+msgstr "Samoa"
 
 #: src/devises.c:193
 msgid "Solomon Islands Dollar"
-msgstr "Wysp Salomon dolar"
+msgstr "dolar wysp salomona"
 
 #: src/devises.c:193
 msgid "Solomon Islands"
@@ -3295,7 +3298,7 @@ msgstr "Wyspy Salomona"
 
 #: src/devises.c:194
 msgid "Timor Escudo"
-msgstr ""
+msgstr "escudo"
 
 #: src/devises.c:194
 msgid "Timor"
@@ -3303,19 +3306,19 @@ msgstr "Timor"
 
 #: src/devises.c:195
 msgid "Tongan Pa'anga"
-msgstr ""
+msgstr "paanga"
 
 #: src/devises.c:195
 msgid "Tonga"
-msgstr ""
+msgstr "Tonga"
 
 #: src/devises.c:197
 msgid "Vanuatu Vatu"
-msgstr ""
+msgstr "vatu"
 
 #: src/devises.c:197
 msgid "Vanuatu"
-msgstr ""
+msgstr "Vanuatu"
 
 #: src/devises.c:198
 #: src/devises.c:199
@@ -3330,7 +3333,7 @@ msgstr "Ameryka Południowa"
 
 #: src/devises.c:198
 msgid "Chilean Peso"
-msgstr "Czilijskie peso"
+msgstr "peso czilijskie"
 
 #: src/devises.c:198
 msgid "Chile"
@@ -3338,7 +3341,7 @@ msgstr "Czile"
 
 #: src/devises.c:199
 msgid "Colombian Peso"
-msgstr "Kolumbijskie peso"
+msgstr "peso kolumbijskie"
 
 #: src/devises.c:199
 msgid "Colombia"
@@ -3346,7 +3349,7 @@ msgstr "Kolumbia"
 
 #: src/devises.c:200
 msgid "Ecuador Sucre"
-msgstr ""
+msgstr "sucre"
 
 #: src/devises.c:200
 msgid "Ecuador"
@@ -3354,7 +3357,7 @@ msgstr "Ekwador"
 
 #: src/devises.c:201
 msgid "Guyana Dollar"
-msgstr "Gujańki dolar"
+msgstr "dolar gujański"
 
 #: src/devises.c:201
 msgid "Guyana"
@@ -3362,7 +3365,7 @@ msgstr "Gujana"
 
 #: src/devises.c:202
 msgid "Paraguay Guarani"
-msgstr ""
+msgstr "guarani"
 
 #: src/devises.c:202
 msgid "Paraguay"
@@ -3370,7 +3373,7 @@ msgstr "Paragwaj"
 
 #: src/devises.c:203
 msgid "Suriname Guilder"
-msgstr ""
+msgstr "gulden surinamski"
 
 #: src/devises.c:203
 msgid "Suriname"
@@ -3378,7 +3381,7 @@ msgstr "Surinam"
 
 #: src/devises.c:204
 msgid "Venezuelan Bolivar"
-msgstr ""
+msgstr "bolivar"
 
 #: src/devises.c:204
 msgid "Venezuela"
@@ -3474,7 +3477,7 @@ msgstr "równe"
 
 #: src/devises.c:1115
 msgid "Exchange fees"
-msgstr ""
+msgstr "Kursy wymiany"
 
 #: src/devises.c:1376
 #: src/import.c:372
@@ -3666,7 +3669,7 @@ msgstr "Kategorie : Podkategorie"
 #: src/echeancier_formulaire.c:1062
 #: src/echeancier_formulaire.c:2540
 msgid "Transfer reference"
-msgstr ""
+msgstr "Numer przelewu"
 
 #: src/echeancier_formulaire.c:1090
 #: src/echeancier_formulaire.c:2548
@@ -3882,7 +3885,7 @@ msgstr ""
 #: src/equilibrage.c:122
 #: src/equilibrage.c:136
 msgid "Reconciliation reference"
-msgstr ""
+msgstr "Numer potwierdzenia"
 
 #: src/equilibrage.c:135
 msgid "If reconciliation reference ends in a digit, it is automatically incremented at each reconciliation."
@@ -4337,7 +4340,7 @@ msgstr "Razem"
 
 #: src/etats_affiche.c:1638
 msgid "Transfert"
-msgstr ""
+msgstr "Przelew"
 
 #: src/etats_affiche.c:1741
 msgid "No subcategory"
@@ -4465,7 +4468,7 @@ msgstr "Daty"
 
 #: src/etats_config.c:131
 msgid "Transfers"
-msgstr "Transfery"
+msgstr "Przelewy"
 
 #. mise en place de la frame des comptes
 #. Accounts menu
@@ -5073,7 +5076,7 @@ msgstr ""
 
 #: src/etats_config.c:6857
 msgid "General totals currency"
-msgstr ""
+msgstr "Waluta podsumowania"
 
 #: src/etats_config.c:6906
 msgid "Third parties currency"
