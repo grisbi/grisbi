@@ -349,7 +349,7 @@ void traitement_sigsegv ( gint signal_nb )
   GtkWidget *dialog;
   gchar *home_dir, *errmsg;
 
-  errmsg = _("Grisbi terminated due to a segmentation fault.  Please report it to http://www.grisbi.org/bugtracking/\n\n");
+  errmsg = _("Grisbi terminated due to a segmentation fault.  Please report it to http://www.grisbi.org/bugtracking/");
 
   /*   il y a 3 possibilités : */
   /*     soit on était en train de charger un fichier, c'est que celui-ci est corrompu */
@@ -363,12 +363,12 @@ void traitement_sigsegv ( gint signal_nb )
 
       if ( etat.en_train_de_charger )
 	{
-	  errmsg = g_strconcat ( errmsg, _("File is corrupted."), NULL );
+	  errmsg = g_strconcat ( errmsg, "\n\n", _("File is corrupted."), NULL );
 	}
 
       if ( etat.en_train_de_sauvegarder )
 	{
-	  errmsg = g_strconcat ( errmsg, _("Error occured saving file."), NULL );
+	  errmsg = g_strconcat ( errmsg, "\n\n", _("Error occured saving file."), NULL );
 	}
 
       fichier_marque_ouvert ( FALSE );
