@@ -6418,7 +6418,7 @@ GtkWidget *onglet_affichage_etat_generalites ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  bouton_inclure_dans_tiers = gtk_check_button_new_with_label ( _("Inclure cet état dans la liste des tiers du formulaire.") );
+  bouton_inclure_dans_tiers = gtk_check_button_new_with_label ( _("Inclure cet état dans la liste des tiers du formulaire de saisie d'opération.") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_inclure_dans_tiers,
 		       FALSE,
