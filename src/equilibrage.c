@@ -890,6 +890,10 @@ void pointe_equilibrage ( int p_ligne )
 					   devise_name_by_no ( DEVISE )));
 
     modification_fichier( TRUE );
+    /* ALAIN-FIXME : solution batarde me semble-t'il pour actualiser le solde pointé
+       sur la fenêtre d'accueil après que l'on ait pointé l'opération */
+
+    update_liste_comptes_accueil ();
 }
 /******************************************************************************/
 
