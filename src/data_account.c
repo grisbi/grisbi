@@ -1664,3 +1664,200 @@ gboolean gsb_account_set_default_credit ( gint no_account,
 }
 
 
+/** get the account_button of the account
+ * \param no_account no of the account
+ * \return tree or NULL if the account doesn't exist
+ * */
+gpointer gsb_account_get_account_button ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return NULL;
+
+    return account -> account_button;
+}
+
+
+/** set the account_button of the account
+ * \param no_account no of the account
+ * \param account_button account_button to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_account_button ( gint no_account,
+					  gpointer account_button )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> account_button = account_button;
+
+    return TRUE;
+}
+
+
+/** get the current_sort of the account
+ * \param no_account no of the account
+ * \return current_sort or NULL if the account doesn't exist
+ * */
+gint *gsb_account_get_current_sort ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return NULL;
+
+    return account -> current_sort;
+}
+
+
+/** set the current_sort of the account
+ * \param no_account no of the account
+ * \param current_sort current_sort to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_current_sort ( gint no_account,
+					gint *current_sort  )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> current_sort = current_sort;
+
+    return TRUE;
+}
+
+
+/** get ascending_sort on the account given
+ * \param no_account no of the account
+ * \return ascending_sort or 0 if the account doesn't exist
+ * */
+gint gsb_account_get_ascending_sort ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return 0;
+
+    return account -> ascending_sort;
+}
+
+
+/** set ascending_sort in the account given
+ * \param no_account no of the account
+ * \param ascending_sort ascending_sort to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_ascending_sort ( gint no_account,
+					  gint ascending_sort )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> ascending_sort = ascending_sort;
+
+    return TRUE;
+}
+
+
+
+/** getsort_number  on the account given
+ * \param no_account no of the account
+ * \return sort_number or 0 if the account doesn't exist
+ * */
+gint gsb_account_get_sort_number ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return 0;
+
+    return account -> sort_number;
+}
+
+
+/** set sort_number in the account given
+ * \param no_account no of the account
+ * \param sort_number sort_number to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_sort_number ( gint no_account,
+				       gint sort_number )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> sort_number = sort_number;
+
+    return TRUE;
+}
+
+
+
+/** get sort_column on the account given
+ * \param no_account no of the account
+ * \return sort_column or 0 if the account doesn't exist
+ * */
+gint gsb_account_get_sort_column ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return 0;
+
+    return account -> sort_column;
+}
+
+
+/** set sort_column in the account given
+ * \param no_account no of the account
+ * \param sort_column sort_column to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_sort_column ( gint no_account,
+				       gint sort_column )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> sort_column = sort_column;
+
+    return TRUE;
+}
+
+
+
+
+
+
+

@@ -274,9 +274,12 @@ gint initialisation_nouveau_compte ( kind_account type_de_compte )
 
     /*     on met en place le classement de la liste */
 
-    NO_CLASSEMENT = TRANSACTION_LIST_DATE;
-    CLASSEMENT_COURANT = recupere_classement_par_no (NO_CLASSEMENT);
-    CLASSEMENT_CROISSANT = GTK_SORT_DESCENDING;
+    gsb_account_set_sort_number ( no_compte,
+				  TRANSACTION_LIST_DATE );
+    gsb_account_set_current_sort ( no_compte,
+				   recupere_classement_par_no (gsb_account_get_sort_number (no_compte)));
+    gsb_account_set_ascending_sort ( no_compte,
+				     GTK_SORT_DESCENDING );
 
 /*     return (NO_COMPTE); */
     return 0;

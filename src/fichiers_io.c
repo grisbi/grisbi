@@ -433,9 +433,12 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 	    for ( i=0 ; i<nb_comptes ; i++ )
 	    {
 		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
-		NO_CLASSEMENT = TRANSACTION_LIST_DATE;
-		CLASSEMENT_CROISSANT = GTK_SORT_DESCENDING;
-		CLASSEMENT_COURANT = recupere_classement_par_no ( NO_CLASSEMENT );
+		gsb_account_set_sort_number ( i,
+					      TRANSACTION_LIST_DATE );
+		gsb_account_set_ascending_sort ( i,
+						 GTK_SORT_DESCENDING );
+		gsb_account_set_current_sort ( i,
+					       recupere_classement_par_no ( gsb_account_get_sort_number (i) ));
 	    }
 
 
@@ -1101,11 +1104,13 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Classement_croissant" ))
-				CLASSEMENT_CROISSANT = my_atoi ( xmlNodeGetContent ( node_detail ));
+				gsb_account_set_ascending_sort ( no_compte,
+								 my_atoi ( xmlNodeGetContent ( node_detail )));
 
 			    if ( !strcmp ( node_detail -> name,
 					   "No_classement" ))
-				NO_CLASSEMENT = my_atoi ( xmlNodeGetContent ( node_detail ));
+				gsb_account_set_sort_number ( no_compte,
+							      my_atoi ( xmlNodeGetContent ( node_detail )) );
 
 			    /* récupération de l'agencement du formulaire */
 
@@ -3423,12 +3428,12 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Classement_croissant",
-			  itoa ( CLASSEMENT_CROISSANT ));
+			  itoa ( gsb_account_get_ascending_sort (i) ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "No_classement",
-			  itoa ( NO_CLASSEMENT ));
+			  itoa ( gsb_account_get_sort_number (i) ));
 
 	/* 	on sauvegarde l'agencement du formulaire */
 

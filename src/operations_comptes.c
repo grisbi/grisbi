@@ -249,7 +249,8 @@ GtkWidget *comptes_appel ( gint no_de_compte )
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_de_compte;
 
     bouton = gtk_list_button_new ( gsb_account_get_name (no_de_compte), 2, TRUE, GINT_TO_POINTER (no_de_compte));
-    BOUTON_COMPTE = bouton;
+    gsb_account_set_account_button( no_de_compte,
+				    bouton );
     gtk_signal_connect_object ( GTK_OBJECT (bouton),
 				"clicked",
 				GTK_SIGNAL_FUNC ( changement_compte ),
@@ -421,7 +422,7 @@ void verifie_compte_clos ( gint no_nouveau_compte )
     {
 	p_tab_nom_de_compte_variable = save_ptab;
 
-	gtk_list_button_close ( GTK_BUTTON ( BOUTON_COMPTE ));
+	gtk_list_button_close ( GTK_BUTTON ( gsb_account_get_account_button (no_nouveau_compte) ));
     }
     else
 	p_tab_nom_de_compte_variable = save_ptab;

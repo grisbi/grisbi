@@ -3608,7 +3608,7 @@ void insere_operation_dans_liste ( struct structure_operation *operation )
 	gsb_account_set_transactions_list ( operation -> no_compte,
 					    g_slist_insert_sorted ( gsb_account_get_transactions_list (operation -> no_compte),
 								    operation,
-								    (GCompareFunc) CLASSEMENT_COURANT ));
+								    (GCompareFunc) gsb_account_get_current_sort (operation -> no_compte) ));
 	
 	selectionne_ligne ( operation );
     }

@@ -754,20 +754,21 @@ void update_fleches_classement_tree_view ( gint no_compte )
 	    for ( i=0 ; i<4 ; i++ )
 		for ( j=0 ; j<7 ; j++ )
 		{
-		    if (  tab_affichage_ope[i][j] == NO_CLASSEMENT )
+		    if (  tab_affichage_ope[i][j] == gsb_account_get_sort_number (compte) )
 			colonne_classement = j;
 		}
 
 	    /*     on met la flèche sur le classement courant */
 
-	    gtk_tree_view_column_set_sort_indicator ( gsb_account_get_column ( compte, COLONNE_CLASSEMENT),
+	    gtk_tree_view_column_set_sort_indicator ( gsb_account_get_column ( compte, gsb_account_get_sort_column (compte)),
 						      FALSE );
 	    gtk_tree_view_column_set_sort_indicator ( gsb_account_get_column ( compte, colonne_classement),
 						      TRUE );
-	    COLONNE_CLASSEMENT = colonne_classement;
+	    gsb_account_set_sort_column ( compte,
+					  colonne_classement );
 
 	    gtk_tree_view_column_set_sort_order ( gsb_account_get_column ( compte, colonne_classement),
-						  !CLASSEMENT_CROISSANT );
+						  !gsb_account_get_ascending_sort (compte) );
 	}
     }
 }
@@ -3505,7 +3506,7 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
     gsb_account_set_transactions_list ( account,
 					g_slist_insert_sorted ( gsb_account_get_transactions_list (account),
 								transaction,
-								(GCompareFunc) CLASSEMENT_COURANT ));
+								(GCompareFunc) gsb_account_get_current_sort (account) ));
     ajout_operation ( transaction );
     p_tab_nom_de_compte_variable = tmp;
     return TRUE;
@@ -3932,15 +3933,19 @@ gboolean changement_choix_classement_liste_operations ( gchar *nom_classement )
 
     /*     si on utilisait déjà ce classement, on inverse le sens du tri */
 
-    if ( NO_CLASSEMENT == no_classement)
+    if ( gsb_account_get_sort_number (compte_courant) == no_classement)
     {
-	CLASSEMENT_CROISSANT = !CLASSEMENT_CROISSANT;
+	gsb_account_set_ascending_sort ( compte_courant,
+					 !gsb_account_get_ascending_sort (compte_courant) );
     }
     else
     {
-	NO_CLASSEMENT = no_classement;
-	CLASSEMENT_COURANT = recupere_classement_par_no ( NO_CLASSEMENT );
-	CLASSEMENT_CROISSANT = GTK_SORT_DESCENDING;
+	gsb_account_set_sort_number ( compte_courant,
+				      no_classement );
+	gsb_account_set_current_sort ( compte_courant,
+				       recupere_classement_par_no ( gsb_account_get_sort_number (compte_courant) ) );
+	gsb_account_set_ascending_sort ( compte_courant,
+					 GTK_SORT_DESCENDING );
     }
 
     update_fleches_classement_tree_view (compte_courant);
@@ -4788,7 +4793,7 @@ void classe_liste_operations ( gint no_compte )
 
     gsb_account_set_transactions_list ( no_compte,
 					g_slist_sort ( gsb_account_get_transactions_list (no_compte),
-						       (GCompareFunc) CLASSEMENT_COURANT ));
+						       (GCompareFunc) gsb_account_get_current_sort (no_compte) ));
 }
 /******************************************************************************/
 

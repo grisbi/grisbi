@@ -324,12 +324,12 @@ struct donnees_compte
 /* #define TYPE_DEFAUT_CREDIT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> type_defaut_credit */
 /* #define AFFICHAGE_R ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> affichage_r */
 /* #define NB_LIGNES_OPE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> nb_lignes_ope */
-#define BOUTON_COMPTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> bouton_compte 
+/* #define BOUTON_COMPTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> bouton_compte  */
 
-#define CLASSEMENT_COURANT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> classement_courant
-#define CLASSEMENT_CROISSANT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> classement_croissant
-#define NO_CLASSEMENT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> no_classement
-#define COLONNE_CLASSEMENT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> colonne_classement
+/* #define CLASSEMENT_COURANT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> classement_courant */
+/* #define CLASSEMENT_CROISSANT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> classement_croissant */
+/* #define NO_CLASSEMENT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> no_classement */
+/* #define COLONNE_CLASSEMENT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> colonne_classement */
 
 /* #define TREE_VIEW_LISTE_OPERATIONS ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> tree_view_liste_operations */
 /* #define SCROLLED_WINDOW_LISTE_OPERATIONS ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> scrolled_window_liste_operations */

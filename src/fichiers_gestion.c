@@ -456,7 +456,8 @@ void ouverture_confirmee ( void )
 
 	/*     on initialise la fonction de classement  */
 
-	CLASSEMENT_COURANT = recupere_classement_par_no (NO_CLASSEMENT);
+	gsb_account_set_current_sort ( i,
+				       recupere_classement_par_no (gsb_account_get_sort_number (i)));
     }
 
     /*     on va afficher la page d'accueil */

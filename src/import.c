@@ -2212,7 +2212,7 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
     gsb_account_set_transactions_list ( no_compte,
 					g_slist_insert_sorted ( gsb_account_get_transactions_list (no_compte),
 								operation,
-								(GCompareFunc) CLASSEMENT_COURANT ));
+								(GCompareFunc) gsb_account_get_current_sort (no_compte) ));
 
     gsb_account_set_update_list ( no_compte,
 				  1 );
