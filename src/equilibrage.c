@@ -1180,7 +1180,7 @@ void fill_reconciliation_tree ()
 			    RECONCILIATION_TYPE_COLUMN, -1,
 			    -1 );
 
-	liste_tmp = LISTE_TRI;
+	liste_tmp = gsb_account_get_sort_list (GPOINTER_TO_INT ( pUserAccountsList -> data ));
 
 	while ( liste_tmp )
 	{
@@ -1293,12 +1293,13 @@ void deplacement_type_tri_haut ( GtkWidget * button, gpointer data )
     GtkTreeIter iter, other;
     GSList * elt;
     gint no_type;
+    gpointer adr_compte;
 
     good = gtk_tree_selection_get_selected (reconcile_selection, NULL, &iter);
     if (good)
 	gtk_tree_model_get ( GTK_TREE_MODEL(reconcile_model), &iter, 
 			     RECONCILIATION_VISIBLE_COLUMN, &visible,
-			     RECONCILIATION_ACCOUNT_COLUMN, &p_tab_nom_de_compte_variable,
+			     RECONCILIATION_ACCOUNT_COLUMN, &adr_compte,
 			     RECONCILIATION_TYPE_COLUMN, &no_type,
 			     -1 );
 
@@ -1319,13 +1320,17 @@ void deplacement_type_tri_haut ( GtkWidget * button, gpointer data )
     select_reconciliation_entry ( reconcile_selection, 
 				  GTK_TREE_MODEL(reconcile_model) );
 
-    for ( elt = LISTE_TRI ; elt -> next ; elt = elt -> next )
+    /* FIXME : remplacer adr_compte par le no de compte */
+
+    for ( elt = gsb_account_get_sort_list (adr_compte) ; elt -> next ; elt = elt -> next )
     {
 	if ( elt -> next &&
 	     GPOINTER_TO_INT(elt -> next -> data) == no_type )
 	{
-	    LISTE_TRI = g_slist_remove ( LISTE_TRI, (gpointer) no_type );
-	    LISTE_TRI = g_slist_insert_before ( LISTE_TRI, elt, (gpointer) no_type );
+	    gsb_account_set_sort_list ( adr_compte,
+					g_slist_remove ( gsb_account_get_sort_list (adr_compte), (gpointer) no_type ) );
+	    gsb_account_set_sort_list ( adr_compte,
+					g_slist_insert_before ( gsb_account_get_sort_list (adr_compte), elt, (gpointer) no_type ) );
 	    break;
 	}
     }  
@@ -1343,12 +1348,13 @@ void deplacement_type_tri_bas ( void )
     GtkTreeIter iter, other;
     GSList * elt;
     gint no_type;
+    gpointer adr_compte;
 
     good = gtk_tree_selection_get_selected (reconcile_selection, NULL, &iter);
     if (good)
 	gtk_tree_model_get ( GTK_TREE_MODEL(reconcile_model), &iter, 
 			     RECONCILIATION_VISIBLE_COLUMN, &visible,
-			     RECONCILIATION_ACCOUNT_COLUMN, &p_tab_nom_de_compte_variable,
+			     RECONCILIATION_ACCOUNT_COLUMN, &adr_compte,
 			     RECONCILIATION_TYPE_COLUMN, &no_type,
 			     -1 );
 
@@ -1369,13 +1375,17 @@ void deplacement_type_tri_bas ( void )
     select_reconciliation_entry ( reconcile_selection, 
 				  GTK_TREE_MODEL(reconcile_model) );
 
-    for ( elt = LISTE_TRI ; elt -> next ; elt = elt -> next )
+    /* FIXME : remplacer adr_compte par le no de compte */
+
+    for ( elt = gsb_account_get_sort_list (adr_compte) ; elt -> next ; elt = elt -> next )
     {
 	if ( elt -> next && ((gint) elt -> data) == no_type )
 	{
 	    gint ref = ((gint) elt -> next -> data);
-	    LISTE_TRI = g_slist_remove ( LISTE_TRI, (gpointer) ref );
-	    LISTE_TRI = g_slist_insert_before ( LISTE_TRI, elt, (gpointer) ref );
+	    gsb_account_set_sort_list ( adr_compte,
+					g_slist_remove ( gsb_account_get_sort_list (adr_compte), (gpointer) ref ) );
+	    gsb_account_set_sort_list ( adr_compte,
+					g_slist_insert_before ( gsb_account_get_sort_list (adr_compte), elt, (gpointer) ref ) );
 	    break;
 	}
     }  
@@ -1444,6 +1454,7 @@ void reconcile_include_neutral_toggled ( GtkCellRendererToggle *cell,
     GtkTreePath * treepath;
     GtkTreeIter iter;
     gboolean toggle, clear_tree = 0;
+    gpointer adr_compte;
 
     treepath = gtk_tree_path_new_from_string ( path_str );
     gtk_tree_model_get_iter ( GTK_TREE_MODEL (reconcile_model),
@@ -1451,7 +1462,7 @@ void reconcile_include_neutral_toggled ( GtkCellRendererToggle *cell,
 
     gtk_tree_model_get (GTK_TREE_MODEL(reconcile_model), &iter, 
 			RECONCILIATION_SPLIT_NEUTRAL_COLUMN, &toggle, 
-			RECONCILIATION_ACCOUNT_COLUMN, &p_tab_nom_de_compte_variable,
+			RECONCILIATION_ACCOUNT_COLUMN, &adr_compte,
 			-1);
 
     toggle ^= 1;
@@ -1461,10 +1472,11 @@ void reconcile_include_neutral_toggled ( GtkCellRendererToggle *cell,
     gtk_tree_store_set (GTK_TREE_STORE (reconcile_model), &iter, 
 			RECONCILIATION_SPLIT_NEUTRAL_COLUMN, toggle, 
 			-1);
+    /* FIXME : remplacer adr_compte par le no de compte */
 
     if ( toggle )
     {
-	liste_tmp = LISTE_TRI;
+	liste_tmp = gsb_account_get_sort_list (adr_compte);
 
 	while ( liste_tmp )
 	{
@@ -1477,8 +1489,9 @@ void reconcile_include_neutral_toggled ( GtkCellRendererToggle *cell,
 
 		if ( type_ope && !type_ope->signe_type )
 		{
-		    LISTE_TRI = g_slist_append ( LISTE_TRI,
-						 GINT_TO_POINTER ( - GPOINTER_TO_INT ( liste_tmp->data )));
+		    gsb_account_set_sort_list ( adr_compte,
+						g_slist_append ( gsb_account_get_sort_list (adr_compte),
+								 GINT_TO_POINTER ( - GPOINTER_TO_INT ( liste_tmp->data ))));
 
 		    clear_tree = 1;
 		}
@@ -1490,14 +1503,15 @@ void reconcile_include_neutral_toggled ( GtkCellRendererToggle *cell,
     {
 	/* on efface tous les nombres négatifs de la liste */
 
-	liste_tmp = LISTE_TRI;
+	liste_tmp = gsb_account_get_sort_list (adr_compte);
 
 	while ( liste_tmp )
 	{
 	    if ( GPOINTER_TO_INT ( liste_tmp->data ) < 0 )
 	    {
-		LISTE_TRI = g_slist_remove ( LISTE_TRI, liste_tmp -> data );
-		liste_tmp = LISTE_TRI;
+		gsb_account_set_sort_list ( adr_compte,
+					    g_slist_remove ( gsb_account_get_sort_list (adr_compte), liste_tmp -> data ) );
+		liste_tmp = gsb_account_get_sort_list (adr_compte);
 		clear_tree = 1;
 	    }
 	    else

@@ -684,16 +684,21 @@ void creation_types_par_defaut ( gint no_compte,
 
 	/* on crï¿œ le tri pour compte bancaire qui sera 1 2 3 4 5 */
 
-	LISTE_TRI = g_slist_append ( LISTE_TRI,
-				     GINT_TO_POINTER ( 1 ));
-	LISTE_TRI = g_slist_append ( LISTE_TRI,
-				     GINT_TO_POINTER ( 2 ));
-	LISTE_TRI = g_slist_append ( LISTE_TRI,
-				     GINT_TO_POINTER ( 3 ));
-	LISTE_TRI = g_slist_append ( LISTE_TRI,
-				     GINT_TO_POINTER ( 4 ));
-	LISTE_TRI = g_slist_append ( LISTE_TRI,
-				     GINT_TO_POINTER ( 5 ));
+	gsb_account_set_sort_list ( no_compte,
+				    g_slist_append ( gsb_account_get_sort_list (no_compte),
+				     GINT_TO_POINTER ( 1 )) );
+	gsb_account_set_sort_list ( no_compte,
+				    g_slist_append ( gsb_account_get_sort_list (no_compte),
+				     GINT_TO_POINTER ( 2 )) );
+	gsb_account_set_sort_list ( no_compte,
+				    g_slist_append ( gsb_account_get_sort_list (no_compte),
+				     GINT_TO_POINTER ( 3 )) );
+	gsb_account_set_sort_list ( no_compte,
+				    g_slist_append ( gsb_account_get_sort_list (no_compte),
+				     GINT_TO_POINTER ( 4 )) );
+	gsb_account_set_sort_list ( no_compte,
+				    g_slist_append ( gsb_account_get_sort_list (no_compte),
+				     GINT_TO_POINTER ( 5 )) );
     }
     else
     {
@@ -720,8 +725,9 @@ void creation_types_par_defaut ( gint no_compte,
 
 	    /* on crï¿œ le tri pour compte passif qui sera 1 */
 
-	    LISTE_TRI = g_slist_append ( LISTE_TRI,
-					 GINT_TO_POINTER ( 1 ));
+	    gsb_account_set_sort_list ( no_compte,
+					g_slist_append ( gsb_account_get_sort_list (no_compte),
+							 GINT_TO_POINTER ( 1 )) );
 	}
     }
 

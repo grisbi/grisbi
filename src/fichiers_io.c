@@ -1068,7 +1068,8 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 			    if ( !strcmp ( node_detail -> name,
 					   "Ordre_du_tri" ))
 			    {
-				LISTE_TRI = NULL;
+				gsb_account_set_sort_list ( no_compte,
+							    NULL );
 
 				if ( xmlNodeGetContent ( node_detail ))
 				{
@@ -1083,8 +1084,9 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 				    while ( pointeur_char[i] )
 				    {
-					LISTE_TRI = g_slist_append ( LISTE_TRI,
-								     GINT_TO_POINTER ( my_atoi ( pointeur_char[i] )));
+					gsb_account_set_sort_list ( no_compte,
+								    g_slist_append ( gsb_account_get_sort_list (no_compte),
+										     GINT_TO_POINTER ( my_atoi ( pointeur_char[i] ))) );
 					i++;
 				    }
 				    g_strfreev ( pointeur_char );
@@ -3389,7 +3391,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 	/* mise en place de l'ordre du tri */
 
 
-	pointeur_liste = LISTE_TRI;
+	pointeur_liste = gsb_account_get_sort_list (i);
 	pointeur_char = NULL;
 
 	while ( pointeur_liste )
