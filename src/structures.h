@@ -110,6 +110,14 @@ struct {
 
     /* Print stuff */
     struct print_config print_config;
+    
+    /*     largeur des panned */
+
+    gint largeur_colonne_comptes_operation;
+    gint largeur_colonne_echeancier;
+    gint largeur_colonne_comptes_comptes;
+    gint largeur_colonne_etat;
+
 } etat;
 
 

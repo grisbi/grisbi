@@ -52,6 +52,12 @@
 #endif
 
 extern gint decalage_echeance;  
+extern GtkWidget *paned_onglet_operations;
+extern GtkWidget *paned_onglet_echeancier;
+extern GtkWidget *paned_onglet_comptes;
+extern GtkWidget *paned_onglet_etats;
+
+
 
 /* ***************************************************************************************************** */
 void charge_configuration ( void )
@@ -152,6 +158,18 @@ void charge_configuration ( void )
 
 		if ( !strcmp ( node_general -> name, "Animation_attente" ) ) {
 		    etat.fichier_animation_attente = xmlNodeGetContent ( node_general);
+		}
+		if ( !strcmp ( node_general -> name, "Largeur_colonne_comptes_operation" ) ) {
+		    etat.largeur_colonne_comptes_operation = my_atoi(xmlNodeGetContent ( node_general));
+		}
+		if ( !strcmp ( node_general -> name, "Largeur_colonne_echeancier" ) ) {
+		    etat.largeur_colonne_echeancier = my_atoi(xmlNodeGetContent ( node_general));
+		}
+		if ( !strcmp ( node_general -> name, "Largeur_colonne_comptes_comptes" ) ) {
+		    etat.largeur_colonne_comptes_comptes = my_atoi(xmlNodeGetContent ( node_general));
+		}
+		if ( !strcmp ( node_general -> name, "Largeur_colonne_etats" ) ) {
+		    etat.largeur_colonne_etat = my_atoi(xmlNodeGetContent ( node_general));
 		}
 
 
@@ -651,6 +669,14 @@ void sauve_configuration(void)
     xmlNewChild ( node,NULL, "Fonte_des_listes",fonte_liste);
     xmlNewChild ( node,NULL, "Animation_attente",etat.fichier_animation_attente);
     xmlNewChild ( node,NULL, "Navigateur_web",etat.browser_command);
+    xmlNewChild ( node,NULL, "Largeur_colonne_comptes_operation",
+		  itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_operations))));
+    xmlNewChild ( node,NULL, "Largeur_colonne_echeancier",
+		  itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_echeancier))));
+    xmlNewChild ( node,NULL, "Largeur_colonne_comptes_comptes",
+		  itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_comptes))));
+    xmlNewChild ( node,NULL, "Largeur_colonne_etats",
+		  itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_etats))));
 
     /* sauvegarde de l'onglet I/O */
     node = xmlNewChild ( doc->children,NULL, "IO",NULL );
