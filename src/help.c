@@ -34,9 +34,11 @@ void a_propos ( GtkWidget *bouton,
   GtkWidget *url;
   GtkWidget *label;
 
-  const gchar *auteur[] = { _("Programmation : Cédric Auger  ( cedric@grisbi.org ) "),
-			    _("Manuel : Daniel Cartron ( doc@grisbi.org )"),
-			    _("Logo : André Pascual ( andre@linuxgraphic.org )"),
+  const gchar *auteur[] = { "Auger Cédric ( cedric@grisbi.org ) : Programmation",
+			    "Cartron Daniel ( doc@grisbi.org ) : Manuel, Site internet",
+			    "Drieu Benjamin ( bdrieu@april.org ) : Programmation, packages deb",
+			    "Niel Gérald ( gerald.niel@gegeweb.net ) : Packages RPM, Site internet",
+			    "Pascual André ( andre@linuxgraphic.org ) : Logo",
 			    NULL };
 
   boite = gnome_about_new ( _("Grisbi "),

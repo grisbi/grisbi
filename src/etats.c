@@ -914,7 +914,21 @@ void personnalisation_etat (void)
   /* récupération des dates */
 
   etat_courant -> exo_date = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( radio_button_utilise_exo ));
-  etat_courant -> utilise_detail_exo = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_exo_etat ));
+
+  if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exo_tous )) )
+    etat_courant -> utilise_detail_exo = 0;
+  else
+    {
+      if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exo_courant )) )
+	etat_courant -> utilise_detail_exo = 1;
+      else
+	{
+	  if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exo_precedent )) )
+	    etat_courant -> utilise_detail_exo = 2;
+	  else
+	    etat_courant -> utilise_detail_exo = 3;
+	}
+    }
 
   if ( etat_courant -> no_exercices )
     {
@@ -2028,7 +2042,40 @@ GtkWidget *onglet_etat_dates ( struct struct_etat *etat )
 		      vbox_utilisation_exo );
   gtk_widget_show ( vbox_utilisation_exo );
 
-  bouton_detaille_exo_etat = gtk_check_button_new_with_label ( _("Détailler les exercices utilisés") );
+
+  /*   on met le détail, exo courant ou précédent */
+
+  bouton_exo_tous = gtk_radio_button_new_with_label ( NULL,
+						      _( "Tous les exercices" ));
+  gtk_box_pack_start ( GTK_BOX ( vbox_utilisation_exo ),
+		       bouton_exo_tous,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_exo_tous );
+
+  bouton_exo_courant = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_exo_tous )),
+							 _( "Exercice courant" ));
+  gtk_box_pack_start ( GTK_BOX ( vbox_utilisation_exo ),
+		       bouton_exo_courant,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_exo_courant );
+
+  bouton_exo_precedent = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_exo_tous )),
+							   _( "Exercice précédent" ));
+  gtk_box_pack_start ( GTK_BOX ( vbox_utilisation_exo ),
+		       bouton_exo_precedent,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_exo_precedent );
+
+
+
+  bouton_detaille_exo_etat = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_exo_tous )),
+							       _("Détailler les exercices utilisés") );
   gtk_box_pack_start ( GTK_BOX ( vbox_utilisation_exo ),
 		       bouton_detaille_exo_etat,
 		       FALSE,
@@ -2487,12 +2534,28 @@ GtkWidget *onglet_etat_dates ( struct struct_etat *etat )
 				   TRUE );
 
 
-  if ( etat -> utilise_detail_exo )
+  if ( etat -> utilise_detail_exo == 3 )
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_exo_etat ),
 				   TRUE );
   else
-    gtk_widget_set_sensitive ( vbox_generale_exo_etat,
-			       FALSE );
+    {
+      gtk_widget_set_sensitive ( vbox_generale_exo_etat,
+				 FALSE );
+
+      if ( etat -> utilise_detail_exo )
+	{
+	  if ( etat -> utilise_detail_exo == 1 )
+	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exo_courant ),
+					   TRUE );
+	  else
+	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exo_precedent ),
+					   TRUE );
+	}
+      else
+	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exo_tous ),
+				       TRUE );
+    }
+
 
   /* on sélectionne les exercices */
 
@@ -4368,6 +4431,7 @@ void affichage_etat ( struct struct_etat *etat,
 {
   GSList *liste_opes_selectionnees;
   gint i;
+  gint no_exercice_recherche;
 
   if ( !etat )
     {
@@ -4380,6 +4444,100 @@ void affichage_etat ( struct struct_etat *etat,
   if ( !affichage )
     {
       affichage = &gtktable_affichage;
+    }
+
+  /* si on utilise l'exercice courant ou précédent, on cherche ici */
+  /* le numéro de l'exercice correspondant */
+
+  no_exercice_recherche = 0;
+
+  if ( etat -> exo_date )
+    {
+      GSList *liste_tmp;
+      GDate *date_jour;
+      struct struct_exercice *exo;
+      struct struct_exercice *exo_courant;
+      struct struct_exercice *exo_precedent;
+
+      liste_tmp = liste_struct_exercices;
+      date_jour = g_date_new ();
+      g_date_set_time ( date_jour,
+			time ( NULL ));
+
+
+      exo_courant = NULL;
+      exo_precedent = NULL;
+
+      switch ( etat -> utilise_detail_exo )
+	{
+	case 1:
+	  /* on recherche l'exo courant */
+
+	  while ( liste_tmp )
+	    {
+	      exo = liste_tmp -> data;
+
+	      if ( g_date_compare ( date_jour,
+				    exo -> date_debut ) >= 0
+		   &&
+		   g_date_compare ( date_jour,
+				    exo -> date_fin ) <= 0 )
+		{
+		  no_exercice_recherche = exo -> no_exercice;
+		  liste_tmp = NULL;
+		}
+	      else
+		liste_tmp = liste_tmp -> next;
+	    }
+	  break;
+
+	case 2:
+	  /* on recherche l'exo précédent */
+
+	  while ( liste_tmp )
+	    {
+	      struct struct_exercice *exo;
+
+	      exo = liste_tmp -> data;
+
+	      if ( exo_courant )
+		{
+		  /* exo_courant est forcemment après exo_precedent */
+		  /* si l'exo en court est après exo_courant, on met exo_courant */
+		  /* dans exo_precedent, et l'exo en court dans exo_courant */
+		  /*   sinon, on compare avec exo_precedent */
+
+		  if ( g_date_compare ( exo -> date_debut,
+					exo_courant -> date_fin ) >= 0 )
+		    {
+		      exo_precedent = exo_courant;
+		      exo_courant = exo;
+		    }
+		  else
+		    {
+		      /* l'exo en cours est avant exo_courant, on le compare à exo_precedent */
+
+		      if ( !exo_precedent
+			   ||
+			   g_date_compare ( exo -> date_debut,
+					    exo_precedent -> date_fin ) >= 0 )
+			exo_precedent = exo;
+		    }
+		}
+	      else
+		exo_courant = exo;
+
+
+	      liste_tmp = liste_tmp -> next;
+	    }
+
+	  if ( exo_precedent )
+	    no_exercice_recherche = exo_precedent -> no_exercice;
+
+	  break;
+
+	default:
+	}
     }
 
   /*   selection des opérations */
@@ -4526,12 +4684,20 @@ void affichage_etat ( struct struct_etat *etat,
 		{
 		  /* on utilise l'exercice */
 
-		  if ( etat -> utilise_detail_exo
-		       &&
-		       ( g_slist_index ( etat -> no_exercices,
-					 GINT_TO_POINTER ( operation -> no_exercice )) == -1
-			 ||
-			 !operation -> no_exercice ))
+		  if ( (( etat -> utilise_detail_exo == 1
+			  ||
+			  etat -> utilise_detail_exo == 2 )
+			&&
+			( operation -> no_exercice != no_exercice_recherche
+			  ||
+			  !operation -> no_exercice ))
+		       ||
+		       ( etat -> utilise_detail_exo == 3
+			 &&
+			 ( g_slist_index ( etat -> no_exercices,
+					   GINT_TO_POINTER ( operation -> no_exercice )) == -1
+			   ||
+			   !operation -> no_exercice )))
 		    goto operation_refusee;
 		}
 	      else
@@ -4789,6 +4955,7 @@ void affichage_etat ( struct struct_etat *etat,
   /* on classe la liste et l'affiche en fonction du choix du type de classement */
 
   etape_finale_affichage_etat ( liste_opes_selectionnees, affichage );
+
 
 }
 /*****************************************************************************************************/

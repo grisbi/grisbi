@@ -414,7 +414,7 @@ struct struct_etat
   gint type_affichage_titres;        /* 0 = en haut, 1 = à chaque changement de section */
 
   gint exo_date;         /* 1-> utilise l'exo / 0 -> utilise une plage de date */
-  gint utilise_detail_exo;
+  gint utilise_detail_exo;   /* 0=tous, 1=exercice courant, 2=exercice précédent, 3=perso */
   GSList *no_exercices;            /* liste des no d'exos utilisés dans l'état */
   gint separation_par_exo;       /* 1=oui, 0=non */
   gint no_plage_date;       /* 0=perso, 1=toutes ... */

@@ -2583,7 +2583,7 @@ void formulaire_echeancier_a_zero ( void )
 
   gtk_widget_hide ( label_saisie_modif );
   gtk_label_set_text ( GTK_LABEL ( label_saisie_modif ),
-		       _("Modification") );
+		       _("Modif") );
 
   /* réaffiche les boutons effacés pour une saisie */
 

@@ -569,7 +569,7 @@ gboolean traitement_clavier_liste_echeances ( GtkCList *liste_echeances,
       degrise_formulaire_echeancier();
 
       gtk_label_set_text ( GTK_LABEL ( label_saisie_modif ),
-			   _("Modification") );
+			   _("Modif") );
       edition_echeance ();
       break;
 
@@ -960,7 +960,7 @@ void click_ligne_echeance ( GtkCList *liste,
       degrise_formulaire_echeancier();
 
       gtk_label_set_text ( GTK_LABEL ( label_saisie_modif ),
-			   _("Modification") );
+			   _("Modif") );
       edition_echeance ();
     }
   else
