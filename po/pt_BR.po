@@ -23,6 +23,7 @@
 # translation of pt_BR.po to
 # translation of pt_BR.po to
 # translation of pt_BR.po to
+# translation of pt_BR.po to
 # translation of pt_BR.po to Brazilian Portuguese
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
@@ -34,7 +35,7 @@ msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-05 13:31+0100\n"
-"PO-Revision-Date: 2005-01-05 10:35-0200\n"
+"PO-Revision-Date: 2005-01-05 10:51-0200\n"
 "Last-Translator: \n"
 "Language-Team:  <pt@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3218,7 +3219,7 @@ msgid ""
 "Impossible to create or entry an automatic scheduled transaction\n"
 " with a cheque or a method of payment with an automatic incremental number."
 msgstr ""
-"Impossível criar ou entrada uma transação agendada automática com um cheque "
+"Impossível criar ou entrar com uma transação agendada automática com um cheque "
 "ou um método do pagamento com um número incremental automático."
 
 #: src/echeancier_formulaire.c:1634 src/echeancier_liste.c:688
