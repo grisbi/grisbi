@@ -1877,6 +1877,14 @@ void p_press (void)
 					   SOLDE_POINTE,
 					   devise_name ( devise_compte )) );
 
+/*     si on a choisi de classer la liste avec les rp, on met à jour ici */
+
+    if ( etat.classement_rp )
+    {
+	demande_mise_a_jour_tous_comptes ();
+	verification_mise_a_jour_liste ();
+    }
+
     /* ALAIN-FIXME : solution batarde me semble-t'il pour actualiser le solde pointé
        sur la fenêtre d'accueil après que l'on ait pointé l'opération */
 

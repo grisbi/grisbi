@@ -268,6 +268,9 @@ void charge_configuration ( void )
 		if ( !strcmp ( node_affichage -> name, "Tri_par_date" ) ) {
 		    etat.classement_par_date = my_atoi(xmlNodeGetContent ( node_affichage));
 		}
+		if ( !strcmp ( node_affichage -> name, "Regrouper_rp" ) ) {
+		    etat.classement_rp = my_atoi(xmlNodeGetContent ( node_affichage));
+		}
 		if ( !strcmp ( node_affichage -> name, "Affiche_boutons_valider_annuler" ) ) {
 		    etat.affiche_boutons_valider_annuler = my_atoi(xmlNodeGetContent ( node_affichage));
 		}
@@ -691,6 +694,8 @@ void sauve_configuration(void)
 		  itoa(etat.affiche_date_bancaire));
     xmlNewChild ( node,NULL, "Tri_par_date",
 		  itoa(etat.classement_par_date));
+    xmlNewChild ( node,NULL, "Regrouper_rp",
+		  itoa(etat.classement_rp));
     xmlNewChild ( node,NULL, "Affiche_boutons_valider_annuler",
 		  itoa(etat.affiche_boutons_valider_annuler));
     xmlNewChild ( node,NULL, "Largeur_auto_colonnes",

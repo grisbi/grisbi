@@ -91,6 +91,7 @@ struct {
     guint en_train_de_charger;
     guint utilise_logo;
     guint utilise_fonte_listes;
+    guint classement_rp;   /*à 1 si on veut un classement r/p avant les dates FIXME : à virer sur l'instable*/
 
     /* Various display message stuff  */
     guint display_message_lock_active;
