@@ -1,55 +1,43 @@
-			Grisbi 
-  
-Auteur : 	Cédric Auger	( cedric@grisbi.org ) 
-Documentation :	Daniel Cartron	( doc@grisbi.org )
-Logo :		André Pascual	( andre@linuxgraphic.org )
-Traduction :
+				Grisbi
 
-Site internet : http://www.grisbi.org
-Rapport de bug: http://www.grisbi.org/bugtracking
-                mailto:bugs-report@grisbi.org
+Grisbi is a personnal accounting application for Linux, written with
+Gnome and Gtk, and is released under the GPL licence.
+
+Our aim is to provide you with the most simple and intuitive software
+for basic use, although it can be very powerful if you spend a little
+time on the setup.
+
+Grisbi is an application written by French developpers, so it
+perfectly respects French accounting rules. Grisbi can manage multiple
+accounts, currencies and users. It manages third party, expenditure
+and receipt categories, and also budgetary lines, financial years, and
+other informations that make Grisbi adapted for associations (except
+those that require double entry accounting). 
+
+The complete manuel is avaliable on line. The version that comes with
+the software is not illustrated, but you can replace it by the
+illustrated version at any time, which is availiable for download on
+this site.  The manuel will be soon completed with a Guide concerning
+accounting for associations.
+
+If you want to keep updated with Grisbi releases, you may subscribe to
+the mailing list infos@grisbi.org (see Contacts) and if you like to
+live dangerously you even can download the unstables sources from CVS
+and compile them.
+
+Grisbi is free software, any contribution is welcome.
+
+
+Website :     http://www.grisbi.org
+Bug reports : http://www.grisbi.org/bugtracking
+              mailto:bugs-report@grisbi.org
+
+Release history :
 		
-Version 0.4.0 : 15/02/2003
-Version 0.3.3 : 15/11/2002
-Version 0.3.1 : 21/12/2001
-Version 0.3.0 : 10/12/2001
-Version 0.2.0 : 19/06/2000
-Version 0.1.0 : 10/04/2000
-
-C'est un programme de gestion de comptes écrit pour Gtk / Gnome. 
-Mon but est de réaliser à terme un programme complet et simple d'utilisation.
-Ce programme est sous licence GPL ( General Public License ). 
-
-Voici les différentes étapes de développement prévues : 
-
-Version 0.1 : 
-
-- Gestion de plusieurs comptes 
-- Création, modification et suppression de comptes et d'opérations ( enfin le minimum pour fonctionner ... ) 
-- Possibilité de pointer les opérations 
-- et la sauvegarde, sans laquelle tout cela n'aurait pas beaucoup d'intérêt ! 
-
-Version 0.2 : 
-
-- Importation automatique des fichiers de comptes de versions précédentes
-- Utilisation de listes pour les tiers, catégories ... ( plus pratique que de tout taper ) 
-- Saisie automatique lors de la frappe et remplissage de la fin de l'opération comme la précédente semblable 
-- Gestion des virements entre comptes 
-- Affichage des opération simplifié ou complet 
-- Équilibrage de comptes 
-
-Version 0.3 : 
-
-- Gestion des opérations prévues ou cycliques ( échéancier )
-- L'euro et les devises
-- Import / export de qif
-- La ventilation
-
-(...) 
-
-J'ai encore pas mal d'idées pour la suite, mais on verra d'ici là ... 
-De votre côté, n'hésitez pas à m'envoyer vos remarques, vos idées ou des bugs que je n'aurais pas trouvé. 
-
-E-Mail : cedric@grisbi.org
-  
-  
+  Version 0.4.1 : 26/06/2003
+  Version 0.4.0 : 15/02/2003
+  Version 0.3.3 : 15/11/2002
+  Version 0.3.1 : 21/12/2001
+  Version 0.3.0 : 10/12/2001
+  Version 0.2.0 : 19/06/2000
+  Version 0.1.0 : 10/04/2000

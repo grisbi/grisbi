@@ -1,0 +1,54 @@
+Version 0.4.0 :
+
+- Ajout des rapports financiers
+- Possibilité d'associer automatiquement les opérations sans exercice à leur
+	exercice correspondant
+- Import/export des états créés
+- Import/export de listes de catégories
+- Import/export de listes d'IB
+- Agencement personnel des lignes d'opérations
+
+Version 0.3.2 :
+
+- Amélioration de l'import de qifs
+- Mise en place d'Automake/Autoconf
+- Support multi-utilisateur
+- Coordonnées d'un correspondant pour chaque banques
+- Numéro complet du compte, guichet, code banque
+- Personnalisation du logo de l'accueil
+- Titulaire différent pour chaque compte avec adresse personnelle
+- Titre de fichier et adresse commune
+- Possibilité de changer le nom et le code des devises
+- Ajouts dans le formulaire ( IB, exercie, pièce comptable ... )
+- Personnalisation des types d'opérations et des tris
+- Possibilité de choisir la fonte par défaut ( pour réduire la taille
+	de la fenêtre )
+- Un numéro unique par opération quel que soit le compte
+- Le classement alphabétique prend (enfin) en compte les accents
+- Garde en mémoire le dernier répertoire de travail
+- Mémorise les derniers fichiers ouverts
+- Totaux des opérations dans les onglets Tiers, Catégories et IB
+- Quelques raccourcis dans les menus
+- Possibilité d'associer un rapprochement à un numéro de relevé
+- Affichage possible des nouveaux champs des opérations dans la liste
+- Affichage des échéances pour un laps de temps défini ou personnel
+- Adaptation de la taille de l'applet au tableau de bord
+- Les touches + ou - dans un champs de date incrémentent ou décrémentent
+	la date.
+- Affichage possible du nombre d'écritures dans les listes de tiers,
+	catégories et I.B.
+- Affichage du solde courant pointé
+- Possibilité d'entrer la date sous la forme jjmm, jjmmaa ou jjmmaaaa
+
+Version 0.3.1 :
+
+- Correction des bugs
+
+Version 0.3.0 :
+
+-ajout de l'import /export de fichier qif
+-prise en charge des devises, de l'euro et du passage à l'euro
+-ajout de l'onglet catégories
+-ajout du détail des comptes et banques associées
+-ajout de la ventilation
+-réécriture d'une bonne partie du code

@@ -1,5 +1,20 @@
-Primary Grisbi Authors
+Main Grisbi authors:
+====================
 
-	Cédric Auger ( cedric@grisbi.org )
-	Daniel Cartron ( doc@grisbi.org )
-	André Pascual ( andre@linuxgraphic.org )
+Programming:
+  Cédric Auger (cedric@grisbi.org)
+  Benjamin Drieu (bdrieu@april.org)
+
+Graphics:
+  André Pascual (andre@linuxgraphic.org)
+
+Documentation:
+  Daniel Cartron (doc@grisbi.org)
+
+Translation:
+  Daniel Cartron (doc@grisbi.org)
+  Alain Portal (aportal@univ-montp2.fr)
+
+Packaging:
+  Gérald Niel (gerald.niel@grisbi.org)
+  Benjamin Drieu (benj@debian.org)

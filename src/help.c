@@ -40,15 +40,15 @@ void a_propos ( GtkWidget *bouton,
 
   const gchar *generalites = _("Grisbi est un logiciel vous permettant de gérer votre comptabilité personnelle sous Linux.\nLe principe de base d'un tel logiciel est de vous permettre de classer vos opérations financières, quelles qu'elles soient, de façon simple et intuitive, afin de pouvoir les exploiter au mieux en fonction de vos besoins.\nGrisbi a pris le parti de la simplicité et de l'efficacité pour un usage de base, sans toutefois exclure la sophistication nécessaire à un usage avancé. Les fonctionnalités futures tenteront toujours de respecter ces critères.");
 
-  const gchar *auteurs[] = { _("Auger Cédric ( cedric@grisbi.org ) : Programmation"),
-			    _("Cartron Daniel ( doc@grisbi.org ) : Manuel, Site internet, conseils en comptabilité"),
-			    _("Drieu Benjamin ( bdrieu@april.org ) : Programmation, packages deb"),
-			    _("Niel Gérald ( gerald.niel@grisbi.org ) : Packages RPM, Site internet"),
-			    _("Pascual André ( andre@linuxgraphic.org ) : Logo"),
+  const gchar *auteurs[] = { _("Cédric Auger (cedric@grisbi.org) : Programming"),
+			    _("Daniel Cartron (doc@grisbi.org) : Manual, website, csultancy"),
+			    _("Benjamin Drieu (bdrieu@april.org) : Programming, Debian packaging"),
+			    _("Gérald Niel (gerald.niel@grisbi.org) : RPM packaging, website"),
+			    _("André Pascual (andre@linuxgraphic.org) : Logo"),
 			    NULL };
-  const gchar *traducteurs[] = { "prénom nom (nom@prénom.org) : Anglais",
+  const gchar *traducteurs[] = { "Alain Portal (aportal@univ-montp2.fr) : English",
 				 NULL };
-  const gchar *liens[] = { COLON(_("Web site")),
+  const gchar *liens[] = { COLON(_("Website")),
 			   "http://www.grisbi.org/",
 			   _("http://www.grisbi.org/"),
 			   _("Development list (discuss, participate, criticize, ...) : "),
