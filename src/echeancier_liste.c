@@ -1607,7 +1607,8 @@ void verification_echeances_a_terme ( void )
 
     while ( pointeur_liste )
     {
-	if ( ECHEANCE_COURANTE -> auto_man )
+	if ( ECHEANCE_COURANTE -> auto_man &&
+	     ! ECHEANCE_COURANTE -> no_operation_ventilee_associee )
 	{
 	    /* tant que cette échéance auto n'est pas arrivée à aujourd'hui, on recommence */
 
@@ -1831,7 +1832,7 @@ void verification_echeances_a_terme ( void )
 		}
 	    }
 	}
-	else
+	else if ( ! ECHEANCE_COURANTE -> no_operation_ventilee_associee )
 	    /* ce n'est pas une échéance automatique, on la répertorie dans la liste des échéances à saisir */
 
 	    if ( g_date_compare ( ECHEANCE_COURANTE -> date,
