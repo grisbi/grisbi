@@ -700,6 +700,8 @@ select_type_ope (GtkTreeModel *model, GtkTreePath *path,
     {
       selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
       gtk_tree_selection_select_iter (selection, iter);
+      gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW(treeview), path, NULL, 
+				     TRUE, 0.5, 0);
       return TRUE;
     }
   
@@ -854,6 +856,7 @@ void ajouter_type_operation ( void )
   struct struct_type_ope *type_ope;
   GtkTreeSelection * selection;
   GtkTreeIter iter, parent, root, child, *final;
+  GtkTreePath * treepath;
   gint no_compte, type_final;
   gboolean good, visible;
   gchar *ligne[2];
@@ -964,9 +967,18 @@ void ajouter_type_operation ( void )
 		      PAYMENT_METHODS_POINTER_COLUMN, type_ope, 
 		      -1 );
   
+  /* Select and view new position */
   gtk_tree_selection_select_iter ( selection, &iter );
-  
+  treepath = gtk_tree_model_get_path( GTK_TREE_MODEL(model), &iter );
+  gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW(treeview), treepath, NULL, 
+				 TRUE, 0.5, 0);
+  gtk_tree_path_free ( treepath );
+
+  /* Add to payment methods */
   TYPES_OPES = g_slist_append ( TYPES_OPES, type_ope );
+
+  /* Mark file as modified */
+  modification_fichier ( TRUE );
 
   /* FIXME: implement that */
 /*       /\* on ajoute ce type à la liste des tris *\/ */
@@ -993,228 +1005,184 @@ void ajouter_type_operation ( void )
 void supprimer_type_operation ( void )
 {
   struct struct_type_ope *type_ope;
-  GtkCTreeNode *node;
+  GtkTreeSelection * selection;
   GSList *pointeur_tmp;
   GSList *ope_a_changer;
-  gint save_pref;
+  GtkTreeIter iter;
+  gboolean good, visible;
 
+  /** First, we find related GtkTreeIter and stsruct_type_ope pointer. */
+  selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
+  good = gtk_tree_selection_get_selected (selection, NULL, &iter);
 
-  /* sera mis à 1 s'il faut sauver les préférences des types */
-
-  save_pref = 0;
-
-  /* récupère le type concerné */
-
-  node = gtk_object_get_data ( GTK_OBJECT ( entree_type_nom ),
-			       "adr_node" );
-  type_ope = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_types_operations ),
-					   node );
-
-
-  /*   on fait le tour du compte concerné pour voir si des opés avaient ce type, */
-  /*     si oui, on les met dans une liste */
-
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + type_ope -> no_compte;
-  pointeur_tmp = LISTE_OPERATIONS; /* FIXME!!! */
-  ope_a_changer = NULL;
-
-  while ( pointeur_tmp )
+  if ( good )
     {
-      struct structure_operation *operation;
+      gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter, 
+			   PAYMENT_METHODS_VISIBLE_COLUMN, &visible,
+			   PAYMENT_METHODS_POINTER_COLUMN, &type_ope,
+			   -1 );
 
-      operation = pointeur_tmp -> data;
-
-      if ( operation -> type_ope == type_ope -> no_type )
-	ope_a_changer = g_slist_append ( ope_a_changer,
-					 operation );
-      pointeur_tmp = pointeur_tmp -> next;
-    }
-
-  /*   à ce niveau, soit ope_a_changer est null, et on supprime le type dans la liste_tmp */
-  /* donc possibiliter d'annuler */
-  /* soit c'est pas nul, et on présente un dialogue qui permet de rappatrier les opés */
-  /*     sur cet autre type ; par contre là on ne peut annuler la suppression */
-
-  if ( ope_a_changer )
-    {
-      /* des opés sont à changer */
-
-      GtkWidget *dialog;
-      GtkWidget *label;
-      gint resultat;
-      GtkWidget * option_menu;
-      GtkWidget *separateur;
-      GtkWidget *hbox;
-      GtkWidget *menu;
-      gint nouveau_type;
-
-      dialog = gnome_dialog_new ( _("Delete a method of payment"),
-				  GNOME_STOCK_BUTTON_OK,
-				  GNOME_STOCK_BUTTON_CANCEL,
-				  NULL );
-
-      label = gtk_label_new ( _("Some transactions are still registered with this method of payment, though this deletion is irreversible. The changes about the method of payment will be registered."));
-      gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-			   label,
-			   FALSE,
-			   FALSE,
-			   0 );
-      gtk_widget_show ( label );
-
-      separateur = gtk_hseparator_new ();
-      gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-			   separateur,
-			   FALSE,
-			   FALSE,
-			   0 );
-      gtk_widget_show ( separateur );
-
-      hbox = gtk_hbox_new ( FALSE,
-			    5 );
-      gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-			   hbox,
-			   FALSE,
-			   FALSE,
-			   0 );
-      gtk_widget_show ( hbox );
-
-
-
-      label = gtk_label_new ( POSTSPACIFY(_("Move the transactions to")));
-      gtk_box_pack_start ( GTK_BOX ( hbox ),
-			   label,
-			   FALSE,
-			   FALSE,
-			   0 );
-      gtk_widget_show ( label );
-
-      /* on va mettre ici le bouton des type de la liste tmp car on peut déjà avoir */
-      /* ajouté ou retiré des types */
-
-      option_menu = gtk_option_menu_new ();
-      menu = gtk_menu_new ();
-
-
-      pointeur_tmp = liste_tmp_types[type_ope->no_compte];
-
-      while ( pointeur_tmp )
-	{
-	  struct struct_type_ope *type;
-	  GtkWidget *menu_item;
-
-	  type = pointeur_tmp -> data;
-
-	  if ( type -> no_type != type_ope -> no_type
-	       &&
-	       ( type -> signe_type == type_ope -> signe_type
-		 ||
-		 !type -> signe_type ))
-	    {
-	      menu_item = gtk_menu_item_new_with_label ( type -> nom_type );
-	      gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-				    "no_type",
-				    GINT_TO_POINTER ( type -> no_type ));
-	      gtk_menu_append ( GTK_MENU ( menu ),
-				menu_item );
-	      gtk_widget_show ( menu_item );
-	    }
-	  pointeur_tmp = pointeur_tmp -> next;
-	}
-
-      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( option_menu ),
-				 menu );
-      gtk_widget_show ( menu );
-
-      gtk_box_pack_start ( GTK_BOX ( hbox ),
-			   option_menu,
-			   FALSE,
-			   FALSE,
-			   0 );
-      gtk_widget_show ( option_menu );
-
-      /*       s'il n'y a aucun autre types, on grise le choix de transfert */
-
-      if ( !GTK_MENU_SHELL ( menu ) -> children )
-	gtk_widget_set_sensitive ( hbox,
-				   FALSE );
-
-      resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
-
-      if ( resultat )
-	{
-	  if ( GNOME_IS_DIALOG ( dialog ))
-	    gnome_dialog_close ( GNOME_DIALOG ( dialog ));
-	  return;
-	}
-
-      /* récupération du nouveau type d'opé */
-
-      if ( GTK_MENU_SHELL ( menu ) -> children )
-	nouveau_type = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( option_menu ) -> menu_item ),
-							       "no_type" ));
-      else
-	nouveau_type = 0;
-
-      /* on change le type des opés concernées */
-
-      pointeur_tmp = ope_a_changer;
+      /** We then put related operations in a temporary list */
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + type_ope -> no_compte;
+      pointeur_tmp = LISTE_OPERATIONS;
+      ope_a_changer = NULL;
 
       while ( pointeur_tmp )
 	{
 	  struct structure_operation *operation;
-
 	  operation = pointeur_tmp -> data;
-
-	  operation -> type_ope = nouveau_type;
+	  if ( operation -> type_ope == type_ope -> no_type )
+	    ope_a_changer = g_slist_append ( ope_a_changer,
+					     operation );
 	  pointeur_tmp = pointeur_tmp -> next;
 	}
 
-      /* on sauvegarde les préf des types */
+      /** If operations are related to this method, we have to ask for
+	  confirmation for this removal, as we need to change type of
+	  related operations.  This is of course not reversible.  */
+      if ( ope_a_changer )
+	{
+	  GtkWidget *dialog, *label, * option_menu, *separateur, *hbox, *menu;
+	  gint resultat, nouveau_type;
 
-      save_pref = 1;
+	  dialog = gnome_dialog_new ( _("Delete a method of payment"),
+				      GNOME_STOCK_BUTTON_OK,
+				      GNOME_STOCK_BUTTON_CANCEL,
+				      NULL );
 
-      gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+	  label = gtk_label_new ( _("Some transactions are still registered with this method of payment, though this deletion is irreversible. The changes about the method of payment will be registered."));
+	  gtk_label_set_selectable ( GTK_LABEL (label), TRUE );
+	  gtk_label_set_line_wrap ( GTK_LABEL (label), TRUE );
+	  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ), label,
+			       FALSE, FALSE, 0 );
+
+	  separateur = gtk_hseparator_new ();
+	  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+			       separateur,
+			       FALSE, FALSE, 0 );
+	  gtk_widget_show ( separateur );
+
+	  hbox = gtk_hbox_new ( FALSE, 6 );
+	  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ), hbox,
+			       FALSE, FALSE, 0 );
+
+
+	  label = gtk_label_new ( POSTSPACIFY(_("Move the transactions to")));
+	  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
+			       FALSE, FALSE, 0 );
+
+	  option_menu = gtk_option_menu_new ();
+	  menu = gtk_menu_new ();
+	  pointeur_tmp = TYPES_OPES;
+
+	  /** Then, we find neutral types of types the same sign and build a
+	     menu to choose among them */
+	  while ( pointeur_tmp )
+	    {
+	      struct struct_type_ope *type;
+	      GtkWidget *menu_item;
+	      type = pointeur_tmp -> data;
+	      if ( type -> no_type != type_ope -> no_type
+		   && ( type -> signe_type == type_ope -> signe_type
+			|| !type -> signe_type ))
+		{
+		  menu_item = gtk_menu_item_new_with_label ( type -> nom_type );
+		  gtk_object_set_data ( GTK_OBJECT ( menu_item ), "no_type",
+					GINT_TO_POINTER ( type -> no_type ));
+		  gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+		}
+	      pointeur_tmp = pointeur_tmp -> next;
+	    }
+	  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( option_menu ), menu );
+	  gtk_box_pack_start ( GTK_BOX ( hbox ), option_menu,
+			       FALSE, FALSE, 0 );
+
+	  /** If no operations is available, do not give choice to
+	      user. */
+	  if ( !GTK_MENU_SHELL ( menu ) -> children )
+	    gtk_widget_set_sensitive ( hbox, FALSE );
+
+	  gtk_widget_show_all ( GTK_WIDGET(dialog) );
+
+	  resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
+
+	  if ( resultat )
+	    {
+	      if ( GNOME_IS_DIALOG ( dialog ))
+		gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+	      return;
+	    }
+
+	  /* Find new type */
+	  if ( GTK_MENU_SHELL ( menu ) -> children )
+	    nouveau_type = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( option_menu ) -> menu_item ),
+								   "no_type" ));
+	  else
+	    nouveau_type = 0;
+
+	  /* Then, we change type for related operations. */
+	  pointeur_tmp = ope_a_changer;
+
+	  while ( pointeur_tmp )
+	    {
+	      struct structure_operation *operation;
+
+	      operation = pointeur_tmp -> data;
+
+	      operation -> type_ope = nouveau_type;
+	      pointeur_tmp = pointeur_tmp -> next;
+	    }
+
+	  gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+	}
+
+      /* Remove type from tree & memory */
+      gtk_tree_store_remove ( GTK_TREE_STORE(model), &iter );
+      TYPES_OPES = g_slist_remove ( TYPES_OPES, type_ope );
+
+      /* If it was a default, change default */
+      switch (type_ope -> signe_type)
+	{
+	case 1:			/* Debit */
+	  if ( TYPE_DEFAUT_DEBIT == type_ope -> no_type)
+	    {
+	      TYPE_DEFAUT_DEBIT = find_operation_type_by_type (type_ope->no_compte,
+							       type_ope->signe_type,
+							       type_ope->no_type);
+	    }
+	  break;
+
+	case 2:			/* Credit */
+	  if ( TYPE_DEFAUT_CREDIT == type_ope -> no_type)
+	    {
+	      TYPE_DEFAUT_DEBIT = find_operation_type_by_type (type_ope->no_compte,
+							       type_ope->signe_type,
+							       type_ope->no_type);
+	    }
+	  break;
+
+	default:
+	  break;		/* Other */
+	}
+
+      free ( type_ope );
+
+      modification_fichier ( TRUE );
+
+      /* on retire le no de type dans la liste de tri et on réaffiche la liste */
+/*       liste_tri_tmp[type_ope->no_compte] = g_slist_remove ( liste_tri_tmp[type_ope->no_compte], */
+/* 							    GINT_TO_POINTER ( type_ope -> no_type )); */
+
+/*       if ( !type_ope -> signe_type && neutres_inclus_tmp[type_ope->no_compte] ) */
+/* 	liste_tri_tmp[type_ope->no_compte] = g_slist_remove ( liste_tri_tmp[type_ope->no_compte], */
+/* 							      GINT_TO_POINTER ( -type_ope -> no_type )); */
+
+/*       remplit_liste_tri_par_type ( type_ope->no_compte ); */
+
+      /*   si le type était par défaut, on met le défaut à 0 */
     }
-
-
-  /* on vire le type de l'arbre */
-
-  gtk_ctree_remove_node ( GTK_CTREE ( arbre_types_operations ),
-			  node );
-
-  /* on retire le no de type dans la liste de tri et on réaffiche la liste */
-
-  liste_tri_tmp[type_ope->no_compte] = g_slist_remove ( liste_tri_tmp[type_ope->no_compte],
-							GINT_TO_POINTER ( type_ope -> no_type ));
-
-  if ( !type_ope -> signe_type && neutres_inclus_tmp[type_ope->no_compte] )
-    liste_tri_tmp[type_ope->no_compte] = g_slist_remove ( liste_tri_tmp[type_ope->no_compte],
-							  GINT_TO_POINTER ( -type_ope -> no_type ));
-
-  remplit_liste_tri_par_type ( type_ope->no_compte );
-
-  /*   si le type était par défaut, on met le défaut à 0 */
-
-  if ( type_ope -> signe_type == 1
-       &&
-       type_defaut_debit[type_ope->no_compte] == type_ope -> no_type )
-    type_defaut_debit[type_ope->no_compte] = 0;
-
-  if ( type_ope -> signe_type == 2
-       &&
-       type_defaut_credit[type_ope->no_compte] == type_ope -> no_type )
-    type_defaut_credit[type_ope->no_compte] = 0;
-
-  liste_tmp_types[type_ope->no_compte] = g_slist_remove ( liste_tmp_types[type_ope->no_compte],
-							  type_ope );
-    
-
-  if ( save_pref )
-    changement_preferences ( fenetre_preferences,
-			     8,
-			     NULL );
 }
-/* ************************************************************************************************************** */
+
 
 
 /* ************************************************************************************************************** */
