@@ -389,13 +389,13 @@ void latex_safe ( gchar * text )
 	switch ( * text )
 	{
 	    /* FIXME: this is very iso8859-1 centric */
-	    case 'Ã‚':
-		if ( *(text+1) == 'Â«' )
+	    case 'Ã':
+		if ( *(text+1) == '«' )
 		{
 		    fprintf ( latex_out, "<<" );
 		    text++;
 		}
-		else if ( *(text+1) == 'Â»' )
+		else if ( *(text+1) == '»' )
 		{
 		    fprintf ( latex_out, ">>" );
 		    text++;
