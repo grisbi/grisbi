@@ -103,6 +103,7 @@ struct {
     guint display_message_remove_transaction;
     guint display_message_remove_scheduled_transaction;
     guint display_message_incomplete_breakdown;
+    guint display_message_no_reconciliation_ref;
 
     /* Various commands */
     gchar * browser_command;

@@ -362,6 +362,9 @@ void charge_configuration ( void )
 		if ( !strcmp ( node_messages -> name, "display_message_incomplete_breakdown" ) ) {
 		    etat.display_message_incomplete_breakdown = my_atoi(xmlNodeGetContent ( node_messages));
 		}
+		if ( !strcmp ( node_messages -> name, "display_message_no_reconciliation_ref" ) ) {
+		    etat.display_message_no_reconciliation_ref = my_atoi(xmlNodeGetContent ( node_messages));
+		}
 		node_messages = node_messages->next;
 	    }
 	}
@@ -566,6 +569,9 @@ void charge_configuration_ancien ( void )
 	sscanf ( temp,
 		 "display_message_incomplete_breakdown=%d",
 		 &etat.display_message_incomplete_breakdown );
+	sscanf ( temp,
+		 "display_message_no_reconciliation_ref=%d",
+		 &etat.display_message_no_reconciliation_ref );
     }
 
     if ( !dernier_chemin_de_travail )
@@ -644,6 +650,7 @@ void raz_configuration ( void )
     etat.display_message_remove_transaction = 0;
     etat.display_message_remove_scheduled_transaction = 0;
     etat.display_message_incomplete_breakdown = 0;
+    etat.display_message_no_reconciliation_ref = 0;
 
     /* Commands */
     etat.latex_command = "latex";
@@ -828,6 +835,8 @@ void sauve_configuration(void)
 		  itoa(etat.display_message_remove_scheduled_transaction));
     xmlNewChild ( node,NULL, "display_message_incomplete_breakdown",
 		  itoa(etat.display_message_incomplete_breakdown));
+    xmlNewChild ( node,NULL, "display_message_no_reconciliation_ref",
+		  itoa(etat.display_message_no_reconciliation_ref));
 
     /* sauvegarde des messages */
     node = xmlNewChild ( doc->children, NULL, "Print_config", NULL );

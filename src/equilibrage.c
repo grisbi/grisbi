@@ -1017,7 +1017,17 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
 	}
     }
     else
+    {
+	if ( !question_conditional_yes_no_hint ( _("No reconciliation reference"),
+						 _("You are reconciling the account without giving a "
+						   "reconciliation reference.  By doing this, you will "
+						   "unable to find these transactions according a "
+						   "reconciliation reference.\nProceed anyway?"),
+						 &etat.display_message_no_reconciliation_ref)) {
+	    return FALSE;
+	}
 	DERNIER_NO_RAPPROCHEMENT = 0;
+    }
 
 
 
