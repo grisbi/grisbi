@@ -31,56 +31,6 @@ GtkWidget * list_font_name_label, * list_font_size_label;
 GtkWidget * general_font_name_label, * general_font_size_label;
 
 
-/**
- * Set a boolean integer to the value of a checkbox.  Normally called
- * via a GTK "toggled" signal handler.
- * 
- * \param checkbox a pointer to a checkbox widget.
- * \param data a pointer to an integer that is to be modified.
- */
-gboolean
-set_boolean ( GtkWidget * checkbox,
-	      guint * data)
-{
-  *data = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(checkbox));
-}
-
-
-/**
- * Create a GtkCheckButton with a callback associated.  Initial value
- * of this checkbox is set to the value of *data.  This checkbox calls
- * set_boolean upon toggle, which in turn modifies *data.
- *
- * \param label The label for this checkbutton
- * \param data A pointer to a boolean integer
- */
-GtkWidget *
-new_checkbox_with_title ( gchar * label,
-			  guint * data )
-{
-  GtkWidget * checkbox;
-
-  checkbox = gtk_check_button_new_with_label ( label );
-  if (data && *data)
-    {
-      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( checkbox ),
-				     TRUE );      
-    }
-
-  gtk_signal_connect ( GTK_OBJECT ( checkbox ), "toggled",
-		       GTK_SIGNAL_FUNC ( set_boolean ), data );
-
-  /* FIXME: deactivate when we will be full "implicit apply" */
-  gtk_signal_connect_object ( GTK_OBJECT ( checkbox ),
-			      "toggled",
-			      activer_bouton_appliquer,
-			      GTK_OBJECT (fenetre_preferences));
-  gtk_widget_show ( checkbox );
-  
-  return checkbox;
-}
-
-
 GtkWidget *
 onglet_display_transaction_form ( void )
 {
@@ -92,7 +42,7 @@ onglet_display_transaction_form ( void )
 					     "form.png" );
 
   /* What to do if RETURN is pressed into transaction form */
-  paddingbox = paddingbox_new_with_title (vbox_pref, FALSE,
+  paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
 					  _("Pressing RETURN in transaction form"));
   bouton_entree_enregistre = 
     gtk_radio_button_new_with_label ( NULL,
@@ -128,7 +78,7 @@ onglet_display_transaction_form ( void )
 
 
   /* Displayed fields */
-  paddingbox = paddingbox_new_with_title (vbox_pref, FALSE, 
+  paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
 					  COLON(_("Displayed fields")));
   
   table = gtk_table_new ( 0, 2, TRUE );
@@ -194,7 +144,7 @@ onglet_display_transaction_form ( void )
 		     0, 0 );
 
   /* How to display financial year */
-  paddingbox = paddingbox_new_with_title (vbox_pref, FALSE,
+  paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
 					  COLON(_("By default, use financial year:")));
   
   bouton_affichage_auto_exercice = gtk_radio_button_new_with_label ( NULL,
@@ -245,7 +195,7 @@ GtkWidget * onglet_display_fonts ( void )
 
 
   /* Change Grisbi Logo */
-  paddingbox = paddingbox_new_with_title ( vbox_pref, FALSE,
+  paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
 					   _("Grisbi logo") );
 
   hbox = gtk_hbox_new ( FALSE, 5 );
@@ -280,7 +230,7 @@ GtkWidget * onglet_display_fonts ( void )
 
 
   /* Change fonts */
-  paddingbox = paddingbox_new_with_title ( vbox_pref, FALSE,
+  paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
 					   _("Fonts") );
 
   /* Create table */
@@ -383,37 +333,23 @@ GtkWidget * onglet_display_fonts ( void )
 
 GtkWidget *onglet_display_addresses ( void )
 {
-  GtkWidget *hbox, *vbox_pref;
-  GtkWidget *separateur, *scrolled_window;
-  GtkWidget *label;
-  GtkWidget *frame;
+  GtkWidget *hbox, *vbox_pref, *separateur, *scrolled_window, *label, *frame;
+  GtkWidget *vbox2, *fleche, *hbox2, *bouton, *onglet, *paddingbox;
   GSList *liste_tmp;
-  GtkWidget *vbox2;
-  GtkWidget *fleche;
-  GtkWidget *hbox2;
-  GtkWidget *bouton;
-  GtkWidget *onglet;
 
   vbox_pref = new_vbox_with_title_and_icon ( _("Addresses & titles"),
 					     "addresses.png" );
 
-  /* mise en place du titre du fichier */
+  /* Account file title */
+  paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
+					   _("Titles") );
+  hbox = gtk_hbox_new ( FALSE, 6 );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
+		       FALSE, FALSE, 0);
 
-  hbox = gtk_hbox_new ( FALSE, 5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( hbox );
-
-  label = gtk_label_new ( COLON(_("Account title")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( label );
+  label = gtk_label_new ( COLON(_("Accounts file title")) );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
+		       FALSE, FALSE, 0);
 
   entree_titre_fichier = gtk_entry_new ();
   if ( titre_fichier )
@@ -423,102 +359,58 @@ GtkWidget *onglet_display_addresses ( void )
 			      "changed",
 			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       entree_titre_fichier,
-		       TRUE,
-		       TRUE,
-		       0);
-  gtk_widget_show ( entree_titre_fichier );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), entree_titre_fichier,
+		       TRUE, TRUE, 0);
 
-  if ( !nb_comptes )
-    gtk_widget_set_sensitive ( entree_titre_fichier,
-			       FALSE );
+  /* Addresses */
+  paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
+					   _("Addresses") );
 
-  /* mise en place de l'adresse commune */
-
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( hbox );
-
+  /* Common address */
   label = gtk_label_new ( COLON(_("Common address")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( label );
-
-  scrolled_window = gtk_scrolled_window_new ( NULL,
-					      NULL );
+  gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+  gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), label,
+		       TRUE, TRUE, 0);
+  scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
   gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				   GTK_POLICY_AUTOMATIC,
 				   GTK_POLICY_AUTOMATIC );
-  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-		       scrolled_window,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( scrolled_window );
-
-  entree_adresse_commune = gtk_text_new ( FALSE,
-					  FALSE );
-  gtk_text_set_editable ( GTK_TEXT ( entree_adresse_commune ),
-			  TRUE );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window,
+		       FALSE, FALSE, 0);
+  entree_adresse_commune = gtk_text_new ( FALSE, FALSE );
+  gtk_text_set_editable ( GTK_TEXT ( entree_adresse_commune ), TRUE );
   if ( adresse_commune )
-    gtk_text_insert ( GTK_TEXT (entree_adresse_commune  ),
-		      NULL,
-		      NULL,
-		      NULL,
-		      adresse_commune,
-		      -1 );
+    {
+      gtk_text_insert ( GTK_TEXT (entree_adresse_commune  ),
+			NULL,
+			NULL,
+			NULL,
+			adresse_commune,
+			-1 );
+    }
   gtk_signal_connect_object ( GTK_OBJECT ( entree_adresse_commune ),
 			      "changed",
 			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
   gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
 		      entree_adresse_commune );
-  gtk_widget_show ( entree_adresse_commune );
 
-  /* mise en place de la seconde adresse */
-
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( hbox );
-
+  /* Secondary address */
+  /** \note This is not implemented yet */
   label = gtk_label_new ( COLON(_("Secondary address")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( label );
-
-  scrolled_window = gtk_scrolled_window_new ( NULL,
-					      NULL );
+  gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+  gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), label,
+		       TRUE, TRUE, 0);
+  scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
   gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				   GTK_POLICY_AUTOMATIC,
 				   GTK_POLICY_AUTOMATIC );
-  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-		       scrolled_window,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( scrolled_window );
-
-  entree_adresse_secondaire = gtk_text_new ( FALSE,
-					     FALSE );
-  gtk_text_set_editable ( GTK_TEXT ( entree_adresse_secondaire ),
-			  TRUE );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window,
+		       FALSE, FALSE, 0);
+  entree_adresse_secondaire = gtk_text_new ( FALSE, FALSE );
+  gtk_text_set_editable ( GTK_TEXT ( entree_adresse_secondaire ), TRUE );
   if ( adresse_secondaire )
     gtk_text_insert ( GTK_TEXT ( entree_adresse_secondaire ),
 		      NULL,
@@ -532,14 +424,10 @@ GtkWidget *onglet_display_addresses ( void )
 			      GTK_OBJECT (fenetre_preferences));
   gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
 		      entree_adresse_secondaire );
-  gtk_widget_show ( entree_adresse_secondaire );
 
   if ( !nb_comptes )
     {
-      gtk_widget_set_sensitive ( entree_adresse_commune,
-				 FALSE );
-      gtk_widget_set_sensitive ( entree_adresse_secondaire,
-				 FALSE );
+      gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }
 
   return ( vbox_pref );
