@@ -247,7 +247,7 @@ void export_accounts_to_csv (GSList* export_entries_list )
 	csv_field_imput      = g_strdup(_("Budgetary lines"));
 	csv_field_sous_imput = g_strdup(_("Sub-budgetary lines"));
 	csv_field_piece      = g_strdup(_("Voucher"));
-	csv_field_rappro     = g_strdup(_("Reconcialiation number"));
+	csv_field_rappro     = g_strdup(_("Reconciliation number"));
       }
 
       csv_add_record(fichier_csv,TRUE);
@@ -410,6 +410,7 @@ void export_accounts_to_csv (GSList* export_entries_list )
 	      GSList *liste_ventil;
 	      gint categ_ope_mise;
 
+	      csv_field_categ = g_strdup(_("Breakdown of transaction"));
 	      csv_add_record(fichier_csv,FALSE);
 
 	      categ_ope_mise = 0;
