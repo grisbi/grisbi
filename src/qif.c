@@ -846,14 +846,14 @@ void traitement_donnees_brutes ( void )
 
 	  if ( operation_qif -> date )
 	    {
-	      operation = calloc ( 1,
-				   sizeof ( struct structure_operation ));
+	      operation = calloc ( 1, sizeof ( struct structure_operation ));
 
 
 	      /* récupération du no de l'opé */
 
 	      operation -> no_operation = ++no_derniere_operation;
-	      
+	      operation -> type_ope = 0;
+
 	      /* récupération de la date qui est du format jj/mm/aaaa ou jj/mm/aa ou jj/mm'aa à partir de 2000 */
 	      /* 	      si format_date = 0, c'est sous la forme jjmm sinon mmjj */
 
@@ -1046,6 +1046,7 @@ void traitement_donnees_brutes ( void )
 				  /* on a trouvé le compte, met la relation de l'opé à -1 pour dire qu'il faut la chercher */
 				  operation -> relation_no_compte = i;
 				  operation -> relation_no_operation = -1;
+				  operation -> type_ope = 1;
 				}
 			      p_tab_nom_de_compte_variable++;
 			    }
@@ -1193,14 +1194,14 @@ void traitement_donnees_brutes ( void )
 	      else
 		{
 		  /* comme ce n'est pas un chèque, on met sur le type par défaut */
-
-		  if ( operation -> montant < 0 )
-		    operation -> type_ope = TYPE_DEFAUT_DEBIT;
-		  else
-		    operation -> type_ope = TYPE_DEFAUT_CREDIT;
-
+		  if ( operation -> type_ope != 1 )
+		    {
+		      if ( operation -> montant < 0 )
+			operation -> type_ope = TYPE_DEFAUT_DEBIT;
+		      else
+			operation -> type_ope = TYPE_DEFAUT_CREDIT;
+		    }
 		}
-
 
 	      /* récupération du pointé */
 
