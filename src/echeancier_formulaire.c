@@ -1415,8 +1415,10 @@ void fin_edition_echeance ( void )
 
       if ( !echeance )
 	echeance = calloc ( 1, sizeof ( struct operation_echeance ));
+/*
       if ( echeance == NULL )
 	dialogue("Problème d'allocation mémoire");
+*/
       /* récupère la date */
 
 
