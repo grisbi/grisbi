@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.4.0\n"
-"POT-Creation-Date: 2003-04-11 14:59+0200\n"
-"PO-Revision-Date: 2003-04-11 15:03+0200\n"
+"POT-Creation-Date: 2003-04-11 15:51+0200\n"
+"PO-Revision-Date: 2003-04-11 16:31+0200\n"
 "Last-Translator: Daniel Cartron <daniel@cartron.org>\n"
 "Language-Team: Français <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -83,13 +83,11 @@ msgid "Les comptes suivants sont sous le seuil minimal autorisé"
 msgstr "The balance of the following accounts are under the authorized minimum"
 
 #: src/accueil.c:1162 src/accueil.c:1240
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Attention, le compte %s est passé sous les seuils minimaux autorisés et "
 "voulus !"
-msgstr ""
-"Warning, the balance of the account %s  is under the wanted and "
-"authorisedminima !"
+msgstr "Warning, balance of account %s is under wanted and authorised minima !"
 
 #: src/accueil.c:1168
 #, c-format
@@ -265,17 +263,14 @@ msgid "Solde"
 msgstr "Balance"
 
 #: src/affichage_liste.c:34
-#, fuzzy
 msgid "Montant (devise compte)"
-msgstr "Amount per account"
+msgstr "Amount (account currency)"
 
 #: src/affichage_liste.c:35
-#, fuzzy
 msgid "Moyen de paiement"
 msgstr "Method of payment"
 
 #: src/affichage_liste.c:36
-#, fuzzy
 msgid "N° rapprochement"
 msgstr "Reconciliation reference"
 
@@ -310,14 +305,12 @@ msgid "Notes"
 msgstr "Notes"
 
 #: src/affichage_liste.c:42
-#, fuzzy
 msgid "Infos banque/guichet"
 msgstr "Bank references"
 
 #: src/affichage_liste.c:43
-#, fuzzy
 msgid "N° opération"
-msgstr "transaction number"
+msgstr "Transaction number"
 
 #: src/affichage_liste.c:51
 msgid "Col1"
@@ -348,7 +341,6 @@ msgid "Col7"
 msgstr "Col7"
 
 #: src/affichage_liste.c:117
-#, fuzzy
 msgid "Informations affichées dans la liste :"
 msgstr "Information displayed in list:"
 
@@ -554,9 +546,8 @@ msgid "Alimentation : Boulangerie"
 msgstr ""
 
 #: src/categories_onglet.c:32
-#, fuzzy
 msgid "Alimentation : Cantine"
-msgstr "On line User's guide"
+msgstr ""
 
 #: src/categories_onglet.c:33
 msgid "Alimentation : Confiserie"
@@ -1288,7 +1279,7 @@ msgid "Confirmation de changement de devise"
 msgstr "Confirm currency change"
 
 #: src/comptes_gestion.c:1518
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Attention, vous passez d'une devise qui passera à l'euro (%s)\n"
 "à une qui n'y passera pas (%s). Les paiements en euro du compte seront "
@@ -1296,10 +1287,10 @@ msgid ""
 "\n"
 "Confirmez vous le changement ?"
 msgstr ""
-"Be carefull, you are changing from a currency that is inthe euro zone (%s)\n"
-" to one that isn't (%s). The transactions in euros will belost!\n"
+"Be carefull, you are changing from a currency that is in the euro zone\n"
+"(%s) to one that isn't (%s).  Transactions in euros will be lost!\n"
 "\n"
-"Do you confirm the change?"
+"Do you confirm this change?"
 
 #: src/comptes_gestion.c:1731
 msgid "Appliquer les modifications au compte ?"
@@ -1323,15 +1314,15 @@ msgid "Confirmation de passage à l'euro"
 msgstr "Confirm euro conversion"
 
 #: src/comptes_gestion.c:1784
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Attention, le passage à l'euro est une opération irréversible !\n"
 "\n"
 "Êtes-vous sûr de vouloir passer le compte \"%s\" à l'euro ?"
 msgstr ""
-"Warning, the euro conversion is irreversible!\n"
+"Warning, euro conversion is irreversible!\n"
 "\n"
-"Are you sure you want to convert the account  \"%s\" in euros?"
+"Are you sure you want to convert account \"%s\" to euros?"
 
 #: src/comptes_gestion.c:1814
 msgid "Erreur : le taux de change entre les 2 monnaies est de 0."
@@ -1650,7 +1641,6 @@ msgid "Modif"
 msgstr "Modification"
 
 #: src/echeancier_liste.c:182
-#, fuzzy
 msgid "Affichage des échéances"
 msgstr "Display scheduled transactions"
 
@@ -1752,13 +1742,12 @@ msgid "N° de rapprochement"
 msgstr "Reconciliation reference"
 
 #: src/equilibrage.c:103
-#, fuzzy
 msgid ""
 "Si le n° de rapprochement est terminé par un chiffre, celui-ci est "
 "automatiquement incrémenté à chaque nouveau rapprochement."
 msgstr ""
-"If the reconciliation reference ends in a digit, this is "
-"automaticallyincremented at each reconciliation."
+"If reconciliation reference ends in a digit, it is automatically incremented "
+"at each reconciliation."
 
 #: src/equilibrage.c:104
 msgid "Numéro de rapprochement"
@@ -1795,7 +1784,6 @@ msgid "Solde pointé : %4.2f %s"
 msgstr "Checked balance: %4.2f %s"
 
 #: src/equilibrage.c:954
-#, fuzzy
 msgid "L'écart n'est pas de zéro"
 msgstr "There is a variance"
 
@@ -1813,7 +1801,6 @@ msgid "Cette opération a retourné un message"
 msgstr "This operation returned a message"
 
 #: src/erreur.c:326
-#, fuzzy
 msgid ""
 "Oups, Grisbi a planté pendant le chargement du fichier (erreur de "
 "segmentation).\n"
@@ -1825,13 +1812,12 @@ msgid ""
 msgstr ""
 "Ooops, Grisbi crashed while loading the file (segfault).\n"
 "Either the file is corrupted, or it is a major bug.\n"
-"Try to load the file again. If you can repeat this crash, could you "
-"reportiton the Grisbi's bugtracker (http://www.grisbi.org/bugtracking/)?\n"
+"Try to load the file again. If you can repeat this crash, could you report "
+"it on Grisbi's bugtracker (http://www.grisbi.org/bugtracking/)?\n"
 "It would really help us to fix it.\n"
 "Thanks a lot!"
 
 #: src/erreur.c:336
-#, fuzzy
 msgid ""
 "Oups, Grisbi a planté pendant la sauvegarde du fichier (erreur de "
 "segmentation).\n"
@@ -1843,13 +1829,12 @@ msgid ""
 msgstr ""
 "Ooops, Grisbi crashed while trying to save the file (segfault).\n"
 "So it's impossible to save your file.\n"
-"If you can repeat this crash, could you report iton the Grisbi's bugtracker"
+"If you can repeat this crash, could you report it on Grisbi's bugtracker "
 "(http://www.grisbi.org/bugtracking/)?\n"
 "It would really help us to fix it.\n"
 "Thanks a lot!"
 
 #: src/erreur.c:345
-#, fuzzy
 msgid ""
 "Oups, Grisbi a planté (erreur de segmentation).\n"
 "C'est pas bien grave, vous n'aviez pas fait de modifications,\n"
@@ -1860,7 +1845,7 @@ msgid ""
 msgstr ""
 "Ooops, Grisbi crashed (segfault).\n"
 "No matter, you didn't modify anything.\n"
-"If you can repeat this crash, could you report iton the Grisbi's bugtracker"
+"If you can repeat this crash, could you report it on Grisbi's bugtracker "
 "(http://www.grisbi.org/bugtracking/)?\n"
 "It would really help us to fix it.\n"
 "Thanks a lot!"
@@ -1872,7 +1857,7 @@ msgid "Enregistrement du fichier"
 msgstr "Save file"
 
 #: src/erreur.c:392
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Oups, Grisbi a planté (erreur de segmentation).\n"
 "Il a essayé de sauvegarder le fichier juste avant, sous le nom %s.\n"
@@ -1884,15 +1869,11 @@ msgid ""
 msgstr ""
 "Ooops, Grisbi crashed (segfault).\n"
 "Grisbi tried to save your file before, with the name %s.\n"
-"Try to load it , with a bit of luck you won't have lost anything.\n"
-"If you can repeat this crash, could you report iton the Grisbi's bugtracker"
+"Try to load it, with a bit of luck you won't loose anything.\n"
+"If you can repeat this crash, could you report it on Grisbi's bugtracker "
 "(http://www.grisbi.org/bugtracking/)?\n"
 "It would really help us to fix it.\n"
 "Thanks a lot!"
-
-#: src/etat_io.c:46
-msgid "Grisbi_etat"
-msgstr ""
 
 #: src/etat_io.c:48
 msgid "Ce fichier n'est pas un état Grisbi"
@@ -2142,14 +2123,13 @@ msgstr ""
 "without  the \"Detail categories used \" option"
 
 #: src/etats_config.c:1307
-#, fuzzy
 msgid ""
 "Toutes les imputations budgétaires ont été sélectionnées ; Grisbi sera plus "
 "rapide\n"
 "en retirant l'option \"Détailler les imputations budgétaires utilisées\""
 msgstr ""
-"All the budgetary lines have been selected. Grisbi will run faster\n"
-"without the \"Detail the budgetary lines used\" option"
+"All budgetary lines have been selected.  Grisbi will run faster\n"
+"without \"Detail the budgetary lines used\" option"
 
 #: src/etats_config.c:1352
 msgid ""
@@ -2673,9 +2653,8 @@ msgid "n° de rapprochement"
 msgstr "reconciliation reference"
 
 #: src/etats_config.c:6956
-#, fuzzy
 msgid "Rendre les opérations interactives"
-msgstr "Make the transactions clickable"
+msgstr "Make transactions clickable"
 
 #: src/etats_config.c:7032
 msgid "Devise utilisée pour les totaux généraux"
@@ -2710,7 +2689,6 @@ msgstr "Display a sub-total for each account"
 
 #. permet d'afficher le nom du tiers, activé uniquement si on utilise les tiers
 #: src/etats_config.c:7376
-#, fuzzy
 msgid "Afficher le nom du tiers"
 msgstr "Display third party's name"
 
@@ -2801,24 +2779,20 @@ msgid "Total %s ( %d opérations )"
 msgstr "Total %s ( %d transactions )"
 
 #: src/etats_gnomeprint.c:923 src/etats_gnomeprint.c:1163
-#, fuzzy
 msgid "Total "
-msgstr "Total"
+msgstr "Total "
 
 #: src/etats_gnomeprint.c:930
-#, fuzzy
 msgid "Total Catégorie "
 msgstr "Category total"
 
 #: src/etats_gnomeprint.c:933 src/etats_gnomeprint.c:1173
-#, fuzzy
 msgid " opérations ) : "
-msgstr "transaction number"
+msgstr "operations ) : "
 
 #: src/etats_gnomeprint.c:936
-#, fuzzy
 msgid "Total Catégorie : "
-msgstr "Category total"
+msgstr "Category total : "
 
 #: src/etats_gnomeprint.c:1045 src/etats_gtktable.c:1119
 #, c-format
@@ -2830,39 +2804,35 @@ msgid "Total Imputations budgétaires"
 msgstr "Budgetary lines total"
 
 #: src/etats_gnomeprint.c:1170 src/etats_gnomeprint.c:1176
-#, fuzzy
 msgid "Total Tiers : "
-msgstr "Third party total"
+msgstr "Third party total : "
 
 #: src/etats_gnomeprint.c:1536
-#, fuzzy, c-format
+#, c-format
 msgid "Total dépenses (%d opérations) : "
-msgstr "Total of the outgoings (%d transactions)"
+msgstr "Outgoings total (%d transactions) : "
 
 #: src/etats_gnomeprint.c:1539
-#, fuzzy
 msgid "Total dépenses : "
-msgstr "Outgoing total"
+msgstr "Outgoings total : "
 
 #: src/etats_gnomeprint.c:1545
-#, fuzzy, c-format
+#, c-format
 msgid "Total revenus (%d opérations) : "
-msgstr "Total of the incomes (%d transactions)"
+msgstr "Incomes total (%d transactions) :"
 
 #: src/etats_gnomeprint.c:1549
-#, fuzzy
 msgid "Total revenus : "
-msgstr "Income total"
+msgstr "Incomes total : "
 
 #: src/etats_gnomeprint.c:1600
-#, fuzzy, c-format
+#, c-format
 msgid "Total général (%d opérations) : "
-msgstr "General total (%d transactions)"
+msgstr "General total (%d transactions) : "
 
 #: src/etats_gnomeprint.c:1603
-#, fuzzy
 msgid "Total général : "
-msgstr "General total"
+msgstr "General total : "
 
 #: src/etats_gnomeprint.c:1699 src/etats_gtktable.c:2779
 msgid "Pas de catégorie"
@@ -2951,7 +2921,7 @@ msgid "Total Sous-imputations budgétaires"
 msgstr "Sub-budgetary lines total"
 
 #: src/etats_gtktable.c:950
-#, fuzzy, c-format
+#, c-format
 msgid "Total Compte : ( %d opérations )"
 msgstr "Account total : ( %d transactions )"
 
@@ -2970,17 +2940,17 @@ msgstr "Third party total"
 
 # TODO: Use localized dates here instead : american dates are not make of %d/%d/%d.
 #: src/etats_gtktable.c:1339
-#, fuzzy, c-format
+#, c-format
 msgid "Résultat du %d/%d/%d au %d/%d/%d (%d opérations) :"
 msgstr "Result from %d/%d/%d to %d/%d/%d (%d transactions):"
 
 #: src/etats_gtktable.c:1348
-#, fuzzy, c-format
+#, c-format
 msgid "Résultat du %d/%d/%d au %d/%d/%d :"
 msgstr "Result from %d/%d/%d to %d/%d/%d:"
 
 #: src/etats_gtktable.c:1372
-#, fuzzy, c-format
+#, c-format
 msgid "Résultat de %s (%d opérations )"
 msgstr "Result of %s (%d transactions )"
 
@@ -2990,7 +2960,7 @@ msgid "Résultat de %s"
 msgstr "Result of %s"
 
 #: src/etats_gtktable.c:1394
-#, fuzzy, c-format
+#, c-format
 msgid "Résultat de l'année%s ( %d opérations )"
 msgstr "Result of the year%s ( %d transactions )"
 
@@ -3000,25 +2970,25 @@ msgid "Résultat de l'année%s"
 msgstr "Result of the year%s"
 
 #: src/etats_gtktable.c:2482
-#, fuzzy, c-format
+#, c-format
 msgid "Total dépenses (%d opérations)"
-msgstr "Total of the outgoings (%d transactions)"
+msgstr "Outgoings total (%d transactions)"
 
 #: src/etats_gtktable.c:2485
 msgid "Total dépenses"
 msgstr "Outgoing total"
 
 #: src/etats_gtktable.c:2490
-#, fuzzy, c-format
+#, c-format
 msgid "Total revenus (%d opérations)"
-msgstr "Total of the incomes (%d transactions)"
+msgstr "Incomes total (%d transactions)"
 
 #: src/etats_gtktable.c:2493
 msgid "Total revenus"
 msgstr "Income total"
 
 #: src/etats_gtktable.c:2626
-#, fuzzy, c-format
+#, c-format
 msgid "Total général (%d opérations)"
 msgstr "General total (%d transactions)"
 
@@ -3035,7 +3005,6 @@ msgid "Pas de sous-imputation"
 msgstr "No sub-budgetary line"
 
 #: src/etats_onglet.c:90
-#, fuzzy
 msgid "Affichage états"
 msgstr "Reports display"
 
@@ -3061,7 +3030,6 @@ msgstr "Delete the report"
 
 #. on met le bouton rafraichir
 #: src/etats_onglet.c:343
-#, fuzzy
 msgid "Rafraichir"
 msgstr "Refresh"
 
@@ -3080,7 +3048,6 @@ msgstr "Select report type:"
 
 #. on ajoute maintenant la frame
 #: src/etats_onglet.c:578
-#, fuzzy
 msgid "Description :"
 msgstr "Description:"
 
@@ -3111,7 +3078,7 @@ msgstr "Monthly outgoings by third party"
 #. dépenses mensuelles par tiers
 #: src/etats_onglet.c:683 src/etats_onglet.c:1039
 msgid "Recherche"
-msgstr ""
+msgstr "Search"
 
 #: src/etats_onglet.c:696
 msgid "État vierge"
@@ -3137,58 +3104,55 @@ msgid ""
 "Cet état affiche les totaux classés par catégorie et sous-catégorie des "
 "opérations du mois dernier. Il suffira de choisir le ou les comptes et de "
 "valider (par-défaut, tous les comptes sont utilisés)."
-msgstr "This report displays totals for last month's transactions sorted by categories and subcategories. You just need to select the account(s). By default, all accounts are selected."
+msgstr ""
+"This report displays totals for last month's transactions sorted by "
+"categories and subcategories. You just need to select the account(s). By "
+"default, all accounts are selected."
 
 #. revenus et dépenses du mois en cours
 #: src/etats_onglet.c:1148
-#, fuzzy
 msgid ""
 "Cet état affiche les totaux classés par catégorie et sous-catégorie des "
 "opérations du mois en cours. Il suffira de choisir le ou les comptes et de "
 "valider (par-défaut, tous les comptes sont utilisés)."
 msgstr ""
-"This report displays the totals of the current month's transactions sortedby "
-"categories and subcategories. You just need to select the account(s). "
-"Bydefault all the accounts are selected."
+"This report displays totals of current month's transactions sorted by "
+"categories and subcategories. You just need to select the account(s). By "
+"default, all accounts are selected."
 
 #. budget annuel
 #: src/etats_onglet.c:1154
-#, fuzzy
 msgid ""
 "Cet état affiche le budget annuel. Il suffira de choisir le ou les comptes "
 "et de valider (par-défaut, tous les comptes sont utilisés)."
 msgstr ""
-"This report displays the annual budget. You just need to select the account"
-"(s). By default all the accounts are selected."
+"This report displays annual budget. You just need to select the account(s). "
+"By default all accounts are selected."
 
 #. etat vierge
 #: src/etats_onglet.c:1160
-#, fuzzy
 msgid ""
 "Cette option crée un état vierge dans lequel vous devez tous configurer."
 msgstr "This report is an empty one. You need to customise it entirely."
 
 #. remise de chèques
 #: src/etats_onglet.c:1166
-#, fuzzy
 msgid ""
 "Cet état affiche les chèques encaissés. Il suffira de choisir le ou les "
 "comptes et de valider (par-défaut, tous les comptes sont utilisés)."
 msgstr ""
 "This report displays the cheques deposit. You just need to select the account"
-"(s). By default all the accounts are selected."
+"(s). By default all accounts are selected."
 
 #. dépenses mensuelles par tiers
 #: src/etats_onglet.c:1172
-#, fuzzy
 msgid ""
 "Cet état affiche les dépenses du mois classées par tiers. Il suffira de "
 "choisir le ou les comptes et de valider (par-défaut, tous les comptes sont "
 "utilisés)."
 msgstr ""
-"This report displays the current month's outgoings sorted by third parties. "
-"You just need to select the account(s). By default all the accounts "
-"areselected."
+"This report displays current month's outgoings sorted by third parties. You "
+"just need to select the account(s). By default all accounts areselected."
 
 #. recherche
 #: src/etats_onglet.c:1178
@@ -3204,14 +3168,13 @@ msgid "????  ne devrait pas être affiché ..."
 msgstr "???? should not be displayed..."
 
 #: src/etats_onglet.c:1207
-#, fuzzy
 msgid "Confirmation de la suppression d'un état"
 msgstr "Confirm the deletion of a report"
 
 #: src/etats_onglet.c:1214
-#, fuzzy, c-format
+#, c-format
 msgid "Êtes-vous sûr de vouloir supprimer l'état %s ?"
-msgstr "Do you really want to delete the %s report?"
+msgstr "Do you really want to delete report %s?"
 
 #: src/etats_onglet.c:1347
 msgid "Exporter un état"
@@ -3222,49 +3185,33 @@ msgid "Importer un état"
 msgstr "Import a report"
 
 #: src/etats_support.c:59
-#, fuzzy
 msgid "tous les exercices"
-msgstr "All financial years"
+msgstr "all financial years"
 
-#: src/etats_support.c:86
-#, fuzzy
-msgid "exercice courant ("
-msgstr "Current financial year"
-
-#: src/etats_support.c:92
-#, fuzzy
+#: src/etats_support.c:86 src/etats_support.c:92
 msgid "exercice courant"
-msgstr "Current financial year"
+msgstr "current financial year"
 
-#: src/etats_support.c:141
-#, fuzzy
-msgid "exercice précédent ("
-msgstr "Former financial year"
-
-#: src/etats_support.c:147
-#, fuzzy
+#: src/etats_support.c:141 src/etats_support.c:147
 msgid "exercice précédent"
-msgstr "Former financial year"
+msgstr "former financial year"
 
 #: src/etats_support.c:159
-#, fuzzy
-msgid "exercices "
-msgstr "Financial years"
+msgid "exercices"
+msgstr "financial years"
 
 #: src/etats_support.c:163
-#, fuzzy
-msgid "exercice "
-msgstr "the financial year"
+msgid "exercice"
+msgstr "financial year"
 
 #: src/etats_support.c:204
-#, fuzzy
 msgid "toutes les dates"
-msgstr "All transactions"
+msgstr "all dates"
 
 #: src/etats_support.c:216 src/etats_support.c:324
-#, fuzzy, c-format
+#, c-format
 msgid "du %d/%d/%d au %d/%d/%d"
-msgstr "Result from %d/%d/%d to %d/%d/%d:"
+msgstr "Result from %d/%d/%d to %d/%d/%d"
 
 #: src/etats_support.c:226
 msgid "plages perso non remplies"
@@ -3281,28 +3228,28 @@ msgid "%s %d"
 msgstr ""
 
 #: src/etats_support.c:260 src/etats_support.c:308
-#, fuzzy, c-format
+#, c-format
 msgid "année %d"
-msgstr "Year"
+msgstr "year %d"
 
 #: src/etats_support.c:269
-#, fuzzy, c-format
+#, c-format
 msgid "cumul mensuel au %d/%d/%d"
-msgstr "Month to date"
+msgstr ""
 
 #: src/etats_support.c:280
-#, fuzzy, c-format
+#, c-format
 msgid "cumul annuel au %d/%d/%d"
-msgstr "Year to date"
+msgstr ""
 
 #: src/etats_support.c:356 src/etats_support.c:405 src/etats_support.c:454
 #, c-format
-msgid "du mois d'%s %d "
+msgid "du mois d'%s %d"
 msgstr ""
 
 #: src/etats_support.c:362 src/etats_support.c:411 src/etats_support.c:460
 #, c-format
-msgid "du mois de %s %d "
+msgid "du mois de %s %d"
 msgstr ""
 
 #: src/etats_support.c:371 src/etats_support.c:420 src/etats_support.c:469
@@ -3342,21 +3289,18 @@ msgid "Affichage automatique selon la date"
 msgstr "Automatic display according to the date"
 
 #: src/exercice.c:505
-#, fuzzy
 msgid "Affichage du dernier exercice choisi"
-msgstr "Automatic display of the last one selected"
+msgstr "Automatic display of last selected financial year"
 
 #: src/exercice.c:555
 msgid "Nouvel exercice"
 msgstr "New financial year"
 
 #: src/exercice.c:607
-#, fuzzy
 msgid "Confirmation de suppression de l'exercice"
-msgstr "Confirm the deletion of the financial year"
+msgstr "Confirm the deletion of this financial year"
 
 #: src/exercice.c:614
-#, fuzzy
 msgid "Etes-vous sûr de vouloir supprimer l'exercice :\n"
 msgstr "Do you really want to delete the financial year :\n"
 
@@ -3372,14 +3316,12 @@ msgstr ""
 "Do you want to save the changes?"
 
 #: src/exercice.c:807
-#, fuzzy
 msgid "Vous devez donner un nom à l'exercice."
-msgstr "The financial year has no name."
+msgstr "The financial year must have a name."
 
 #. le second est non affiché
 #. on lui associe -1
 #: src/exercice.c:1022
-#, fuzzy
 msgid "Non affiché"
 msgstr "Not displayed"
 
@@ -3388,15 +3330,14 @@ msgid "Association automatique d'exercice"
 msgstr "Automatic association for the financial year"
 
 #: src/exercice.c:1205
-#, fuzzy
 msgid ""
 "Cette fonction associe chaque opération sans exercice avec l'exercice lui "
 "correspondant.\n"
 "Si aucun exercice ne correspond, l'opération sera inchangée."
 msgstr ""
-"This function assigns each transaction without a financial year the "
-"onerelated to the transaction date.\n"
-"If no financial year matches, the transaction will not be changed."
+"This function assigns each transaction without a financial year to the\n"
+"one related to its transaction date.  If no financial year matches,\n"
+"the transaction will not be changed."
 
 #: src/fenetre_principale.c:54
 msgid "Accueil"
@@ -3445,27 +3386,23 @@ msgstr ""
 "You will loose all you made since this backup."
 
 #: src/fichiers_gestion.c:237
-#, fuzzy
 msgid "Chargement de la sauvegarde"
-msgstr "Load the backup"
+msgstr "Loading backup"
 
 #: src/fichiers_gestion.c:248
-#, fuzzy
 msgid ""
 "Le chargement de la sauvegarde a échoué. Veuillez contacter les "
 "développeurs\n"
 "pour essayer de restaurer vos données."
 msgstr ""
-"Loading the backup failed. Please contact the developpement\n"
+"Failed to load backup. Please contact the developpement\n"
 " team. They will try to recover your data."
 
 #: src/fichiers_gestion.c:254
-#, fuzzy
 msgid "Problème lors du chargement du fichier !"
-msgstr "Problem while loading file!"
+msgstr "Problem loading file!"
 
 #: src/fichiers_gestion.c:305
-#, fuzzy
 msgid "Mise en forme des opérations"
 msgstr "Formatting transactions"
 
@@ -3492,21 +3429,19 @@ msgid "Grisbi - Sans nom"
 msgstr "Grisbi - No name"
 
 #: src/fichiers_gestion.c:795
-#, fuzzy
 msgid "Enregistrement de la sauvegarde"
-msgstr "Save the backup"
+msgstr "Saving backup"
 
 #: src/fichiers_io.c:65 src/fichiers_io.c:101
 msgid "Fichier de compte invalide."
 msgstr "Invalid accounts file"
 
 #: src/fichiers_io.c:105
-#, fuzzy
 msgid "Fichier de compte invalide ou inférieur à la version 0.3.1."
-msgstr "Accounts file invalid or file version prior to 0.3.1."
+msgstr "Invalid accounts file or file version prior to 0.3.1."
 
 #: src/fichiers_io.c:137
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Attention, le format de données a changé ; Grisbi a fait une sauvegarde de "
 "votre ancien fichier\n"
@@ -3514,12 +3449,11 @@ msgid ""
 "Gardez-la un certain temps pour pouvoir éventuellement y revenir en cas de "
 "gros bug découvert."
 msgstr ""
-"Warning: the data format changed. Grisbi made a backup of your file\n"
+"Warning: Grisbi data format has changed. Grisbi made a backup of your file\n"
 "named %s. \n"
 "Keep it for a while just in case."
 
 #: src/fichiers_io.c:173
-#, fuzzy
 msgid ""
 "Attention, le fichier semble déjà ouvert par un autre utilisateur ou n'a pas "
 "été fermé correctement (plantage ?).\n"
@@ -3528,29 +3462,27 @@ msgid ""
 "moment.\n"
 "La désactivation de cette option s'effectue dans le menu de configuration"
 msgstr ""
-"Warning: either this file is already open by another user or it hasn'tbeen \n"
+"Warning: either this file is already opened by another user or it wasn't\n"
 "closed correctly (maybe Grisbi crashed?).\n"
 "Grisbi will however overwrite the file.\n"
-"We advise you not to use this option except if you know excactly what youdo\n"
-"(i.e. nobody else uses the file for the moment).\n"
+"We advise you not to use this option except if you know excactly what\n"
+"you are doing (i.e. nobody else uses this file for the moment).\n"
 "\n"
 "You can deactivate this option in the setup."
 
 #: src/fichiers_io.c:179
-#, fuzzy
 msgid ""
 "Attention, le fichier semble déjà ouvert pas un autre utilisateur ou n'a pas "
 "été fermé correctement (plantage ?).\n"
 "Vous ne pourrez enregistrer vos modification qu'en activant l'option "
 "\"Forcer l'enregistrement\" des paramètres."
 msgstr ""
-"Warning: either this file is already open by another user or it hasn'tbeen \n"
+"Warning: either this file is already opened by another user or it wasn't closed\n"
 "closed correctly (maybe Grisbi crashed?).\n"
-"Grisbi can't save the file unless you activate the \"Force save\" \n"
+"Grisbi can't save the file unless you activate the \"Force saving\" \n"
 "option in the setup."
 
 #: src/fichiers_io.c:1856
-#, fuzzy
 msgid ""
 "Attention, le fichier semble dejà ouvert pas un autre utilisateur.\n"
 "Cependant Grisbi va forcer l'enregistrement ; cette option est déconseillée\n"
@@ -3558,24 +3490,23 @@ msgid ""
 "moment.\n"
 "La désactivation de cette option s'effectue dans le menu de configuration"
 msgstr ""
-"Warning: either this file is already open by another user or it hasn'tbeen \n"
+"Warning: either this file is already opened by another user or it hasn'tbeen \n"
 "closed correctly (maybe Grisbi crashed?).\n"
 "Grisbi will however overwrite the file.\n"
-"We advise you not to use this option except if you know excactly what youdo\n"
-"(i.e. nobody else uses the file for the moment).\n"
+"We advise you not to use this option except if you know excactly what\n"
+"you are doing (i.e. nobody else uses the file for the moment).\n"
 "\n"
 "You can deactivate this option in the setup."
 
 #: src/fichiers_io.c:1862
-#, fuzzy
 msgid ""
 "Attention, le fichier semble dejà ouvert pas un autre utilisateur.\n"
 "Vous ne pourrez enregistrer vos modification qu'en activant l'option "
 "\"Forcer l'enregistrement\" des paramètres."
 msgstr ""
-"Warning: either this file is already open by another user or it hasn'tbeen \n"
+"Warning: either this file is already opened by another user or it wasn't\n"
 "closed correctly (maybe Grisbi crashed?).\n"
-"Grisbi can't save the file unless you activate the \"Force save\" \n"
+"Grisbi can't save the file unless you activate the \"Force saving\" \n"
 "option in the setup."
 
 #: src/fichiers_io.c:3996
@@ -3611,9 +3542,8 @@ msgid ""
 msgstr "Error opening and locking file.\n"
 
 #: src/fichiers_io.c:6296
-#, fuzzy
 msgid "Ce fichier n'est pas une liste de catégories Grisbi"
-msgstr "This file is not a Grisbi categories file"
+msgstr "This file is not a Grisbi category list file"
 
 #: src/fichiers_io.c:6319
 msgid "Fichier de catégories invalide."
@@ -3639,9 +3569,8 @@ msgid "Fichier d'imputations budgétaires invalide."
 msgstr "Invalid budgetary lines file"
 
 #: src/fichiers_io.c:6847
-#, fuzzy
 msgid "Modification de permission"
-msgstr "Confirmation of changes"
+msgstr "Permission fix"
 
 #: src/fichiers_io.c:6855
 msgid ""
@@ -3798,7 +3727,6 @@ msgid "Supprimer simplement cette sous-imputation."
 msgstr "Just delete the sub-budgetary line."
 
 #: src/imputation_budgetaire.c:2355
-#, fuzzy
 msgid ""
 "Attention, cette opération va ajouter aux Imputations Budgétaires les "
 "catégories\n"
@@ -3806,7 +3734,7 @@ msgid ""
 "De plus, cette opération est irréversible (pas d'annulation)\n"
 "Êtes-vous sûr de continuer ?"
 msgstr ""
-"Warning: this will add all the categories to the budgetary lines!\n"
+"Warning: this will add all the categories and subcategories to the budgetary lines!\n"
 "Besides you can't cancel this afterwards. \n"
 "We advise you not to use this unless you know exactly what you are doing. \n"
 "Do you want to continue anyway?"
@@ -4005,14 +3933,13 @@ msgid "Erreur : La date de valeur est invalide"
 msgstr "Error: invalid date."
 
 #: src/operations_formulaire.c:2802
-#, fuzzy
 msgid ""
 "Le mode de règlement choisi est à numérotation automatique mais ne contient "
 "aucun numéro.\n"
 "Souhaitez-vous continuer ?"
 msgstr ""
-"The selected method of payment has an automatic incremental number "
-"butdoesn't contain any number.\n"
+"Selected method of payment has an automatic incremental number but\n"
+"doesn't contain any number.\n"
 "Continue anyway?"
 
 #: src/operations_formulaire.c:2835
@@ -4024,7 +3951,6 @@ msgstr ""
 "Continue anyway?"
 
 #: src/operations_formulaire.c:2884
-#, fuzzy
 msgid ""
 "Erreur : Une opération dont le tiers est un état doit forcemment être une "
 "nouvelle opération."
@@ -4043,7 +3969,6 @@ msgid "Solde courant"
 msgstr "Curent balance"
 
 #: src/operations_liste.c:218
-#, fuzzy
 msgid "Ventilation du compte"
 msgstr "Account breakdown"
 
@@ -4076,14 +4001,12 @@ msgstr ""
 "deletion impossible..."
 
 #: src/operations_liste.c:2221
-#, fuzzy
 msgid ""
 "Une des opération de la ventilation est un virement dont la contre-opération "
 "est relevée.\n"
 "La suppression est annulée ..."
 msgstr ""
-"One of the breakdown lines is a transfer whose contra-transaction "
-"isreconciled.\n"
+"One of the breakdown lines is a transfer whose contra-transaction is reconciled.\n"
 "Deletion canceled..."
 
 #: src/operations_onglet.c:85
@@ -4139,7 +4062,6 @@ msgid "Chargement automatique du dernier fichier consulté"
 msgstr "Automatic loading of the last file used"
 
 #: src/parametres.c:552
-#, fuzzy
 msgid "Démarrage sans chargement automatique"
 msgstr "Start without automatic loading"
 
@@ -4188,9 +4110,8 @@ msgstr "Backup compression level"
 
 #. configuration du nb de jours avant la prise d'une échéance
 #: src/parametres.c:944
-#, fuzzy
 msgid "Nombre de jours précédant le rappel d'une échéance"
-msgstr "Number of days before a warning message for a scheduled transaction"
+msgstr "Number of days before a warning message advertising a scheduled transaction"
 
 #. affichage ou non de l'applet
 #: src/parametres.c:1038
@@ -4294,20 +4215,18 @@ msgid "Le traitement des informations peut prendre un certain temps ..."
 msgstr "Processing the information can be long..."
 
 #: src/qif.c:1379
-#, fuzzy
 msgid ""
 "Vous devez nommer ( enregistrer ) votre fichier pour pouvoir l'exporter."
-msgstr "You must save you file before export."
+msgstr "You must name (save) your file to be able to export it."
 
 #: src/qif.c:1384
-#, fuzzy
 msgid ""
 "Attention, le format QIF ne gérant pas les devises,\n"
 "toutes les opérations seront converties dans la devise de leur compte "
 "respectif."
 msgstr ""
-"Warning: the QIF files don't save currencies information.\n"
-"All the transactions will be converted to the appropriate account's currency."
+"Warning: QIF files don't use currencies.\n"
+"All transactions will be converted to appropriate account's currency."
 
 #: src/qif.c:1386
 msgid "Exporter des fichiers QIF"
@@ -4491,15 +4410,3 @@ msgid ""
 msgstr ""
 "Strange... a breakdown line is to be deleted though it is not "
 "yetregistered..."
-
-#~ msgid ""
-#~ "Attention, les permissions du fichier ne sont pas à 600\n"
-#~ "(Ce message peut être désactivé dans les paramètres)"
-#~ msgstr ""
-#~ "Your account file should not be readable by anybody else, but it is.\n"
-#~ " You should change its permissions.\n"
-#~ "\n"
-#~ "You can deactivate this message in the setup."
-
-#~ msgid "Fichier_ouvert"
-#~ msgstr ":"

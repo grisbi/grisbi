@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-04-11 14:59+0200\n"
+"POT-Creation-Date: 2003-04-11 15:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1799,10 +1799,6 @@ msgid ""
 "Merci !"
 msgstr ""
 
-#: src/etat_io.c:46
-msgid "Grisbi_etat"
-msgstr ""
-
 #: src/etat_io.c:48
 msgid "Ce fichier n'est pas un état Grisbi"
 msgstr ""
@@ -3066,28 +3062,20 @@ msgstr ""
 msgid "tous les exercices"
 msgstr ""
 
-#: src/etats_support.c:86
-msgid "exercice courant ("
-msgstr ""
-
-#: src/etats_support.c:92
+#: src/etats_support.c:86 src/etats_support.c:92
 msgid "exercice courant"
 msgstr ""
 
-#: src/etats_support.c:141
-msgid "exercice précédent ("
-msgstr ""
-
-#: src/etats_support.c:147
+#: src/etats_support.c:141 src/etats_support.c:147
 msgid "exercice précédent"
 msgstr ""
 
 #: src/etats_support.c:159
-msgid "exercices "
+msgid "exercices"
 msgstr ""
 
 #: src/etats_support.c:163
-msgid "exercice "
+msgid "exercice"
 msgstr ""
 
 #: src/etats_support.c:204
@@ -3130,12 +3118,12 @@ msgstr ""
 
 #: src/etats_support.c:356 src/etats_support.c:405 src/etats_support.c:454
 #, c-format
-msgid "du mois d'%s %d "
+msgid "du mois d'%s %d"
 msgstr ""
 
 #: src/etats_support.c:362 src/etats_support.c:411 src/etats_support.c:460
 #, c-format
-msgid "du mois de %s %d "
+msgid "du mois de %s %d"
 msgstr ""
 
 #: src/etats_support.c:371 src/etats_support.c:420 src/etats_support.c:469
