@@ -8609,7 +8609,7 @@ void fichier_marque_ouvert ( gint ouvert )
 
     if ( compression_fichier )
 	return;
-
+ 
     /* ouverture du fichier */
 
     if (!(pointeur_fichier_comptes = fopen ( nom_fichier_comptes, "r+")) )

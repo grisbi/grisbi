@@ -45,78 +45,78 @@
 /* ************************************************************************************************************ */
 void nouveau_fichier ( void )
 {
-  gint type_de_compte;
-  gint no_compte;
+    gint type_de_compte;
+    gint no_compte;
 
-/*   si la fermeture du fichier en cours se passe mal, on se barre */
+    /*   si la fermeture du fichier en cours se passe mal, on se barre */
 
-  if ( !fermer_fichier () )
-    return;
-
-
-  init_variables ( FALSE );
-
-  type_de_compte = demande_type_nouveau_compte ();
-  if ( type_de_compte == -1 )
-    return;
-
-  no_compte = initialisation_nouveau_compte ( type_de_compte );
-
-  /* si la création s'est mal passée, on se barre */
-
-  if ( no_compte == -1 )
-    return;
-
-  p_tab_nom_de_compte_courant = p_tab_nom_de_compte;
-
-  /* dégrise les menus nécessaire */
-
-  init_variables ( TRUE );
-
-  /*   la taille des colonnes est automatique au départ, on y met les rapports de base */
-
-  etat.largeur_auto_colonnes = 1;
-  rapport_largeur_colonnes[0] = 11;
-  rapport_largeur_colonnes[1] = 13;
-  rapport_largeur_colonnes[2] = 30;
-  rapport_largeur_colonnes[3] = 3;
-  rapport_largeur_colonnes[4] = 11;
-  rapport_largeur_colonnes[5] = 11;
-  rapport_largeur_colonnes[6] = 11;
+    if ( !fermer_fichier () )
+	return;
 
 
-  /* création des listes d'origine */
+    init_variables ( FALSE );
 
-  creation_devises_de_base();
-  creation_liste_categories ();
-  creation_liste_categ_combofix ();
+    type_de_compte = demande_type_nouveau_compte ();
+    if ( type_de_compte == -1 )
+	return;
 
-  /* on crée le notebook principal */
+    no_compte = initialisation_nouveau_compte ( type_de_compte );
 
-  gnome_app_set_contents ( GNOME_APP ( window ),
-			   creation_fenetre_principale() );
+    /* si la création s'est mal passée, on se barre */
 
-  /* remplit les listes des opés */
+    if ( no_compte == -1 )
+	return;
 
-  creation_listes_operations ();
+    p_tab_nom_de_compte_courant = p_tab_nom_de_compte;
 
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+    /* dégrise les menus nécessaire */
 
-  changement_compte ( GINT_TO_POINTER ( compte_courant ) );
+    init_variables ( TRUE );
+
+    /*   la taille des colonnes est automatique au départ, on y met les rapports de base */
+
+    etat.largeur_auto_colonnes = 1;
+    rapport_largeur_colonnes[0] = 11;
+    rapport_largeur_colonnes[1] = 13;
+    rapport_largeur_colonnes[2] = 30;
+    rapport_largeur_colonnes[3] = 3;
+    rapport_largeur_colonnes[4] = 11;
+    rapport_largeur_colonnes[5] = 11;
+    rapport_largeur_colonnes[6] = 11;
 
 
-  /* affiche le nom du fichier de comptes dans le titre de la fenetre */
+    /* création des listes d'origine */
 
-  affiche_titre_fenetre();
+    creation_devises_de_base();
+    creation_liste_categories ();
+    creation_liste_categ_combofix ();
 
-  gtk_widget_show ( notebook_general );
+    /* on crée le notebook principal */
 
-  /* on se met sur l'onglet de propriétés du compte */
+    gnome_app_set_contents ( GNOME_APP ( window ),
+			     creation_fenetre_principale() );
 
-  gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
-			  3 );
+    /* remplit les listes des opés */
 
-  modification_fichier ( TRUE );
+    creation_listes_operations ();
+
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+    changement_compte ( GINT_TO_POINTER ( compte_courant ) );
+
+
+    /* affiche le nom du fichier de comptes dans le titre de la fenetre */
+
+    affiche_titre_fenetre();
+
+    gtk_widget_show ( notebook_general );
+
+    /* on se met sur l'onglet de propriétés du compte */
+
+    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
+			    3 );
+
+    modification_fichier ( TRUE );
 }
 /* ************************************************************************************************************ */
 
@@ -124,26 +124,26 @@ void nouveau_fichier ( void )
 /* ************************************************************************************************************ */
 void ouvrir_fichier ( void )
 {
-  GtkWidget *selection_fichier;
+    GtkWidget *selection_fichier;
 
-  selection_fichier = gtk_file_selection_new ( _("Open an accounts file"));
-  gtk_window_set_position ( GTK_WINDOW ( selection_fichier ),
-			    GTK_WIN_POS_MOUSE);
+    selection_fichier = gtk_file_selection_new ( _("Open an accounts file"));
+    gtk_window_set_position ( GTK_WINDOW ( selection_fichier ),
+			      GTK_WIN_POS_MOUSE);
 
-  gtk_file_selection_set_filename ( GTK_FILE_SELECTION ( selection_fichier ),
-				    dernier_chemin_de_travail );
+    gtk_file_selection_set_filename ( GTK_FILE_SELECTION ( selection_fichier ),
+				      dernier_chemin_de_travail );
 
-  gtk_signal_connect_object ( GTK_OBJECT ( GTK_FILE_SELECTION ( selection_fichier ) -> cancel_button ),
-			      "clicked",
-			      GTK_SIGNAL_FUNC ( gtk_widget_destroy ),
-			      GTK_OBJECT ( selection_fichier ));
-  gtk_signal_connect_object ( GTK_OBJECT ( GTK_FILE_SELECTION ( selection_fichier ) -> ok_button ),
-			      "clicked",
-			      GTK_SIGNAL_FUNC ( fichier_selectionne ),
-			      GTK_OBJECT (selection_fichier) );
+    gtk_signal_connect_object ( GTK_OBJECT ( GTK_FILE_SELECTION ( selection_fichier ) -> cancel_button ),
+				"clicked",
+				GTK_SIGNAL_FUNC ( gtk_widget_destroy ),
+				GTK_OBJECT ( selection_fichier ));
+    gtk_signal_connect_object ( GTK_OBJECT ( GTK_FILE_SELECTION ( selection_fichier ) -> ok_button ),
+				"clicked",
+				GTK_SIGNAL_FUNC ( fichier_selectionne ),
+				GTK_OBJECT (selection_fichier) );
 
-  gtk_widget_show ( selection_fichier );
-  
+    gtk_widget_show ( selection_fichier );
+
 
 }
 /* ************************************************************************************************************ */
@@ -153,14 +153,14 @@ void ouverture_fichier_par_menu ( GtkWidget *menu,
 				  gchar *nom )
 {
 
-  /*   si la fermeture du fichier courant se passe mal, on se barre */
+    /*   si la fermeture du fichier courant se passe mal, on se barre */
 
-  if ( !fermer_fichier() )
-    return;
+    if ( !fermer_fichier() )
+	return;
 
-  nom_fichier_comptes = nom;
+    nom_fichier_comptes = nom;
 
-  ouverture_confirmee ();
+    ouverture_confirmee ();
 }
 /* ************************************************************************************************************ */
 
@@ -170,35 +170,35 @@ void ouverture_fichier_par_menu ( GtkWidget *menu,
 void fichier_selectionne ( GtkWidget *selection_fichier)
 {
 
-  /*   on cache la fenetre de sélection et ferme le fichier en cours */
-  /*     si lors de la fermeture, on a voulu enregistrer mais ça n'a pas marché => return */
+    /*   on cache la fenetre de sélection et ferme le fichier en cours */
+    /*     si lors de la fermeture, on a voulu enregistrer mais ça n'a pas marché => return */
 
-  gtk_widget_hide ( selection_fichier );
+    gtk_widget_hide ( selection_fichier );
 
-  /*   si la fermeture du fichier se passe mal, on se barre */
+    /*   si la fermeture du fichier se passe mal, on se barre */
 
-  ancien_nom_fichier_comptes = nom_fichier_comptes;
+    ancien_nom_fichier_comptes = nom_fichier_comptes;
 
-  if ( !fermer_fichier() )
+    if ( !fermer_fichier() )
     {
-      gtk_widget_hide ( selection_fichier );
-      return;
+	gtk_widget_hide ( selection_fichier );
+	return;
     }
 
 
-  /* on prend le nouveau nom du fichier */
+    /* on prend le nouveau nom du fichier */
 
-  nom_fichier_comptes = g_strdup ( gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( selection_fichier)) );
+    nom_fichier_comptes = g_strdup ( gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( selection_fichier)) );
 
-  gtk_widget_hide ( selection_fichier );
+    gtk_widget_hide ( selection_fichier );
 
-  /* on met le répertoire courant dans la variable correspondante */
+    /* on met le répertoire courant dans la variable correspondante */
 
-  dernier_chemin_de_travail = g_strconcat ( GTK_LABEL ( GTK_BIN ( GTK_OPTION_MENU ( GTK_FILE_SELECTION ( selection_fichier ) -> history_pulldown )) -> child ) -> label,
-					    "/",
-					    NULL );
+    dernier_chemin_de_travail = g_strconcat ( GTK_LABEL ( GTK_BIN ( GTK_OPTION_MENU ( GTK_FILE_SELECTION ( selection_fichier ) -> history_pulldown )) -> child ) -> label,
+					      "/",
+					      NULL );
 
-  ouverture_confirmee ();
+    ouverture_confirmee ();
 }
 /* ************************************************************************************************************ */
 
@@ -212,176 +212,176 @@ void fichier_selectionne ( GtkWidget *selection_fichier)
 
 void ouverture_confirmee ( void )
 {
-  mise_en_route_attente ( _("Load an accounts file") );
+    mise_en_route_attente ( _("Load an accounts file") );
 
-  /*   si nb_comptes est différent de 0, c'est que l'on veut tout redessiner car on a changé la fonte */
-  /*  si charge opérations renvoie FALSE, c'est qu'il y a eu un pb et un message est déjà affiché */
+    /*   si nb_comptes est différent de 0, c'est que l'on veut tout redessiner car on a changé la fonte */
+    /*  si charge opérations renvoie FALSE, c'est qu'il y a eu un pb et un message est déjà affiché */
 
-  if ( !nb_comptes )
+    if ( !nb_comptes )
     {
-      if ( !charge_operations () )
+	if ( !charge_operations () )
 	{
-	  /* 	  le chargement du fichier a planté, si l'option sauvegarde à l'ouverture est activée, on */
-	  /* propose de charger l'ancien fichier */
- 
-	  annulation_attente ();
+	    /* 	  le chargement du fichier a planté, si l'option sauvegarde à l'ouverture est activée, on */
+	    /* propose de charger l'ancien fichier */
 
-	  if ( etat.sauvegarde_demarrage )
+	    annulation_attente ();
+
+	    if ( etat.sauvegarde_demarrage )
 	    {
-	      gchar *nom;
-	      gint i, result;
-	      gchar **parametres;
+		gchar *nom;
+		gint i, result;
+		gchar **parametres;
 
-	      /* on crée le nom de la sauvegarde */
+		/* on crée le nom de la sauvegarde */
 
-	      nom = nom_fichier_comptes;
-	      i=0;
+		nom = nom_fichier_comptes;
+		i=0;
 
-	      parametres = g_strsplit ( nom_fichier_comptes, "/", 0);
-	      while ( parametres[i] )
-		i++;
+		parametres = g_strsplit ( nom_fichier_comptes, "/", 0);
+		while ( parametres[i] )
+		    i++;
 
-	      nom_fichier_comptes = g_strconcat ( getenv ("HOME"),
-						  "/.",
-						  parametres [i-1],
-						  ".bak",
-						  NULL );
-	      g_strfreev ( parametres );
+		nom_fichier_comptes = g_strconcat ( getenv ("HOME"),
+						    "/.",
+						    parametres [i-1],
+						    ".bak",
+						    NULL );
+		g_strfreev ( parametres );
 
-	      result = open ( nom_fichier_comptes, O_RDONLY);
-	      if (result == -1)
-		return;
-	      else
-		close (result);
+		result = open ( nom_fichier_comptes, O_RDONLY);
+		if (result == -1)
+		    return;
+		else
+		    close (result);
 
-	      mise_en_route_attente ( _("Loading backup") );
+		mise_en_route_attente ( _("Loading backup") );
 
-	      if ( charge_operations () )
+		if ( charge_operations () )
 		{
-		  /* on a réussi a charger la sauvegarde */
-		  dialogue ( _("Grisbi was unable to load file.  However, Grisbi loaded a backup file instead.\nHowever, all changes made since this backup were possibly lost."));
-		  nom_fichier_comptes = nom;
+		    /* on a réussi a charger la sauvegarde */
+		    dialogue ( _("Grisbi was unable to load file.  However, Grisbi loaded a backup file instead.\nHowever, all changes made since this backup were possibly lost."));
+		    nom_fichier_comptes = nom;
 		}
-	      else
+		else
 		{
-		  /* le chargement de la sauvegarde a échoué */
+		    /* le chargement de la sauvegarde a échoué */
 
-		  nom_fichier_comptes = nom;
-		  annulation_attente ();
-		  dialogue ( _("Grisbi was unable to load file.  Additionnaly, Grisbi was unable to load a backup file instead."));
-		  return;
+		    nom_fichier_comptes = nom;
+		    annulation_attente ();
+		    dialogue ( _("Grisbi was unable to load file.  Additionnaly, Grisbi was unable to load a backup file instead."));
+		    return;
 		}
 	    }
-	  else
+	    else
 	    {
-	      init_variables ( FALSE );
-	      return;
+		init_variables ( FALSE );
+		return;
 	    }
 	}
-      else
+	else
 	{
-	  /* 	si on veut faire une sauvegarde auto à chaque ouverture, c'est ici */
+	    /* 	si on veut faire une sauvegarde auto à chaque ouverture, c'est ici */
 
-	  if ( etat.sauvegarde_demarrage )
+	    if ( etat.sauvegarde_demarrage )
 	    {
-	      gchar *nom;
-	      gint i;
-	      gchar **parametres;
-	      gint save_force_enregistrement;
+		gchar *nom;
+		gint i;
+		gchar **parametres;
+		gint save_force_enregistrement;
 
-	      nom = nom_fichier_comptes;
+		nom = nom_fichier_comptes;
 
-	      i=0;
+		i=0;
 
-	      /* 	      on récupère uniquement le nom du fichier, pas le chemin */
+		/* 	      on récupère uniquement le nom du fichier, pas le chemin */
 
-	      parametres = g_strsplit ( nom_fichier_comptes,
-					"/",
-					0);
+		parametres = g_strsplit ( nom_fichier_comptes,
+					  "/",
+					  0);
 
-	      while ( parametres[i] )
-		i++;
+		while ( parametres[i] )
+		    i++;
 
-	      nom_fichier_comptes = g_strconcat ( getenv ("HOME"),
-						  "/.",
-						  parametres [i-1],
-						  ".bak",
-						  NULL );
+		nom_fichier_comptes = g_strconcat ( getenv ("HOME"),
+						    "/.",
+						    parametres [i-1],
+						    ".bak",
+						    NULL );
 
-	      g_strfreev ( parametres );
+		g_strfreev ( parametres );
 
-	      /* on force l'enregistrement */
+		/* on force l'enregistrement */
 
-	      save_force_enregistrement = etat.force_enregistrement;
-	      etat.force_enregistrement = 1;
+		save_force_enregistrement = etat.force_enregistrement;
+		etat.force_enregistrement = 1;
 
-	      enregistre_fichier ( TRUE );
+		enregistre_fichier ( TRUE );
 
-	      etat.force_enregistrement = save_force_enregistrement;
+		etat.force_enregistrement = save_force_enregistrement;
 
-	      nom_fichier_comptes = nom;
+		nom_fichier_comptes = nom;
 	    }
 	}
     }
 
-  update_attente ( _("Formatting transactions") );
+    update_attente ( _("Formatting transactions") );
 
-  /* on save le nom du fichier dans les derniers ouverts */
+    /* on save le nom du fichier dans les derniers ouverts */
 
-  if (nom_fichier_comptes)
-    ajoute_nouveau_fichier_liste_ouverture ( nom_fichier_comptes );
+    if (nom_fichier_comptes)
+	ajoute_nouveau_fichier_liste_ouverture ( nom_fichier_comptes );
 
-  /* affiche le nom du fichier de comptes dans le titre de la fenetre */
+    /* affiche le nom du fichier de comptes dans le titre de la fenetre */
 
-  affiche_titre_fenetre();
+    affiche_titre_fenetre();
 
-  /* dégrise les menus nécessaire */
+    /* dégrise les menus nécessaire */
 
-  init_variables ( TRUE );
+    init_variables ( TRUE );
 
-  /* on crée le notebook principal */
+    /* on crée le notebook principal */
 
-  creation_fenetre_principale();
+    creation_fenetre_principale();
 
-  /* remplit les listes des opés */
+    /* remplit les listes des opés */
 
-  creation_listes_operations ();
+    creation_listes_operations ();
 
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-  changement_compte ( GINT_TO_POINTER ( compte_courant ) );
+    changement_compte ( GINT_TO_POINTER ( compte_courant ) );
 
-  gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
-			  0 );
+    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
+			    0 );
 
-  /* remplit les échéances à l'accueil */
+    /* remplit les échéances à l'accueil */
 
-  /* on initialise les variables echeances_a_saisir et echeances_saisies utilisées dans l'accueil */
+    /* on initialise les variables echeances_a_saisir et echeances_saisies utilisées dans l'accueil */
 
-  echeances_saisies = NULL;
+    echeances_saisies = NULL;
 
-  update_liste_echeances_manuelles_accueil ();
-  update_liste_echeances_auto_accueil ();
+    update_liste_echeances_manuelles_accueil ();
+    update_liste_echeances_auto_accueil ();
 
-  gnome_app_set_contents ( GNOME_APP ( window ),
-			   notebook_general );
+    gnome_app_set_contents ( GNOME_APP ( window ),
+			     notebook_general );
 
-  /* on met la fonte sur les différents widgets pour que kde la prenne en compte */
+    /* on met la fonte sur les différents widgets pour que kde la prenne en compte */
 
-  /* FIXME FNONTS */
-/*   if ( fonte_general ) */
-/*     { */
-/*** BENJ FIXME
+    /* FIXME FNONTS */
+    /*   if ( fonte_general ) */
+    /*     { */
+    /*** BENJ FIXME
       gtk_widget_get_style (label_temps) -> font = gdk_font_load ( fonte_general );
       gtk_widget_get_style (frame_etat_comptes_accueil) -> font = gdk_font_load ( fonte_general );
       gtk_widget_get_style (bouton_ok_equilibrage) -> font = gdk_font_load ( fonte_general );
       gtk_widget_get_style (widget_formulaire_operations[TRANSACTION_FORM_DATE]) -> font = gdk_font_load ( fonte_general );
       gtk_widget_get_style ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] )->menu_item ) -> font = gdk_font_load ( fonte_general );
-***/
-/*     } */
+     ***/
+    /*     } */
 
 
-  annulation_attente ();
+    annulation_attente ();
 }
 /* ************************************************************************************************************ */
 
@@ -400,187 +400,212 @@ void ouverture_confirmee ( void )
 
 gboolean enregistrement_fichier ( gint origine )
 {
-  GtkWidget * dialog;
-  gint etat_force, result;
+    GtkWidget * dialog;
+    gint etat_force, result;
 
 
-  if ( !etat.modification_fichier && origine != -2 )
-    return ( TRUE );
+    if ( !etat.modification_fichier && origine != -2 )
+	return ( TRUE );
 
-  if ( origine == -1 )
+    if ( origine == -1 )
     {
-      gchar * hint;
+	gchar * hint;
 
-      hint = g_strdup_printf (_("Save changes to document '%s' before closing?"),
-			      (nom_fichier_comptes ? g_path_get_basename(nom_fichier_comptes) : _("unnamed")));
+	hint = g_strdup_printf (_("Save changes to document '%s' before closing?"),
+				(nom_fichier_comptes ? g_path_get_basename(nom_fichier_comptes) : _("unnamed")));
 
-      dialog = gtk_message_dialog_new ( GTK_WINDOW (window), 
-					GTK_DIALOG_DESTROY_WITH_PARENT,
-					GTK_MESSAGE_WARNING, 
-					GTK_BUTTONS_NONE,
-					"" );
-      gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
-			       _("Close without saving"), GTK_RESPONSE_NO,
-			       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-			       GTK_STOCK_SAVE, GTK_RESPONSE_OK,
-			       NULL );
-      gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), 
-			     make_hint ( hint, _("If you close without saving, all of your changes will be discarded.")) );
+	dialog = gtk_message_dialog_new ( GTK_WINDOW (window), 
+					  GTK_DIALOG_DESTROY_WITH_PARENT,
+					  GTK_MESSAGE_WARNING, 
+					  GTK_BUTTONS_NONE,
+					  "" );
+	gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
+				 _("Close without saving"), GTK_RESPONSE_NO,
+				 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				 GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+				 NULL );
+	gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), 
+			       make_hint ( hint, _("If you close without saving, all of your changes will be discarded.")) );
 
-      gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
+	gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
 
-      switch ( gtk_dialog_run (GTK_DIALOG (dialog)) )
+	switch ( gtk_dialog_run (GTK_DIALOG (dialog)) )
 	{
-	case GTK_RESPONSE_OK :
-	  gtk_widget_destroy ( dialog );
-	  break;
+	    case GTK_RESPONSE_OK :
+		gtk_widget_destroy ( dialog );
+		break;
 
-	case GTK_RESPONSE_NO :
-	  gtk_widget_destroy ( dialog );
-	  return ( TRUE );
-	      
-	default :
-	  gtk_widget_destroy ( dialog );
-	  return ( FALSE );
+	    case GTK_RESPONSE_NO :
+		gtk_widget_destroy ( dialog );
+		return ( TRUE );
+
+	    default :
+		gtk_widget_destroy ( dialog );
+		return ( FALSE );
 	}
     }
 
-  /* si le fichier de comptes n'a pas de nom, on le demande ici */
+    /* si le fichier de comptes n'a pas de nom, on le demande ici */
 
-  if ( !nom_fichier_comptes || origine == -2 )
+    if ( !nom_fichier_comptes || origine == -2 )
     {
-      GtkWidget *dialog;
-      GtkWidget *label;
-      GtkWidget *fenetre_nom;
-      gint resultat;
-      struct stat test_fichier;
+	GtkWidget *dialog;
+	GtkWidget *label;
+	GtkWidget *fenetre_nom;
+	gint resultat;
+	struct stat test_fichier;
 
-      dialog = gnome_dialog_new ( _("Name the accounts file"),
-				  GNOME_STOCK_BUTTON_OK,
-				  GNOME_STOCK_BUTTON_CANCEL,
-				  NULL );
-      gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
-				     GTK_WINDOW ( window ));
-      gnome_dialog_set_default ( GNOME_DIALOG ( dialog ),
-				 0 );
-      gtk_signal_connect ( GTK_OBJECT ( dialog ),
-			   "destroy",
-			   GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
-			   "destroy" );
+	dialog = gnome_dialog_new ( _("Name the accounts file"),
+				    GNOME_STOCK_BUTTON_OK,
+				    GNOME_STOCK_BUTTON_CANCEL,
+				    NULL );
+	gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
+				       GTK_WINDOW ( window ));
+	gnome_dialog_set_default ( GNOME_DIALOG ( dialog ),
+				   0 );
+	gtk_signal_connect ( GTK_OBJECT ( dialog ),
+			     "destroy",
+			     GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
+			     "destroy" );
 
-      label = gtk_label_new ( COLON(_("Enter a name for the account file")) );
-      gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-			   label,
-			   FALSE,
-			   FALSE,
-			   0 );
-      gtk_widget_show ( label );
+	label = gtk_label_new ( COLON(_("Enter a name for the account file")) );
+	gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+			     label,
+			     FALSE,
+			     FALSE,
+			     0 );
+	gtk_widget_show ( label );
 
-      fenetre_nom = gnome_file_entry_new ( "nom_fichier",
-					   "nom_fichier" );
-      gnome_file_entry_set_modal ( GNOME_FILE_ENTRY ( fenetre_nom ),
-				   TRUE );
-      gnome_file_entry_set_default_path ( GNOME_FILE_ENTRY ( fenetre_nom ),
-					  dernier_chemin_de_travail );
-      gtk_widget_set_usize ( gnome_file_entry_gnome_entry ( GNOME_FILE_ENTRY ( fenetre_nom )),
-			     300,
-			     FALSE );
-      gtk_entry_set_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
-			   g_strconcat ( dernier_chemin_de_travail,
-					 ".gsb",
-					 NULL ));
-      gtk_entry_set_position ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
-			       strlen (dernier_chemin_de_travail ));
-      gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-			   fenetre_nom,
-			   FALSE,
-			   FALSE,
-			   0 );
-      gtk_widget_show ( fenetre_nom );
+	fenetre_nom = gnome_file_entry_new ( "nom_fichier",
+					     "nom_fichier" );
+	gnome_file_entry_set_modal ( GNOME_FILE_ENTRY ( fenetre_nom ),
+				     TRUE );
+	gnome_file_entry_set_default_path ( GNOME_FILE_ENTRY ( fenetre_nom ),
+					    dernier_chemin_de_travail );
+	gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
+				       GTK_EDITABLE ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))));
+	gtk_widget_set_usize ( gnome_file_entry_gnome_entry ( GNOME_FILE_ENTRY ( fenetre_nom )),
+			       300,
+			       FALSE );
+	gtk_entry_set_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
+			     g_strconcat ( dernier_chemin_de_travail,
+					   ".gsb",
+					   NULL ));
+	gtk_entry_set_position ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
+				 strlen (dernier_chemin_de_travail ));
+	gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+			     fenetre_nom,
+			     FALSE,
+			     FALSE,
+			     0 );
+	gtk_widget_show ( fenetre_nom );
 
-      resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
+	resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
 
-      switch ( resultat )
+	switch ( resultat )
 	{
-	case 0 :
-	  ancien_nom_fichier_comptes = nom_fichier_comptes;
-	  nom_fichier_comptes = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
+	    case 0 :
+		ancien_nom_fichier_comptes = nom_fichier_comptes;
+		nom_fichier_comptes = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
 
-	  gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+		gnome_dialog_close ( GNOME_DIALOG ( dialog ));
 
-	  /* vérification que c'est possible */
+		/* vérification que c'est possible */
 
-	  if ( !strlen ( nom_fichier_comptes ))
-	    {
-	      nom_fichier_comptes = ancien_nom_fichier_comptes;
-	      return(FALSE);
-	    }
-
-
-	  if ( stat ( nom_fichier_comptes,
-		      &test_fichier ) != -1 )
-	    {
-	      if ( S_ISREG ( test_fichier.st_mode ) )
+		if ( !strlen ( nom_fichier_comptes ))
 		{
-		  GtkWidget *etes_vous_sur;
-		  GtkWidget *label;
+		    nom_fichier_comptes = ancien_nom_fichier_comptes;
+		    return(FALSE);
+		}
 
-		  if ( ! question_yes_no_hint (_("File already exists"),
-					       g_strdup_printf (_("Do you want to overwrite file \"%s\"?"), nom_fichier_comptes) ) )
+
+		if ( stat ( nom_fichier_comptes,
+			    &test_fichier ) != -1 )
+		{
+		    if ( S_ISREG ( test_fichier.st_mode ) )
 		    {
-		      nom_fichier_comptes = ancien_nom_fichier_comptes;
-		      return(FALSE);
+			GtkWidget *etes_vous_sur;
+			GtkWidget *label;
+
+			if ( ! question_yes_no_hint (_("File already exists"),
+						     g_strdup_printf (_("Do you want to overwrite file \"%s\"?"), nom_fichier_comptes) ) )
+			{
+			    nom_fichier_comptes = ancien_nom_fichier_comptes;
+			    return(FALSE);
+			}
+		    }
+		    else
+		    {
+			dialogue_error ( g_strdup_printf ( _("Invalid filename: \"%s\"!"),
+							   nom_fichier_comptes ));
+			nom_fichier_comptes = ancien_nom_fichier_comptes;
+			return(FALSE);
 		    }
 		}
-	      else
-		{
-		  dialogue_error ( g_strdup_printf ( _("Invalid filename: \"%s\"!"),
-						     nom_fichier_comptes ));
-		  nom_fichier_comptes = ancien_nom_fichier_comptes;
-		  return(FALSE);
-		}
-	    }
-	  break;
+		break;
 
-	default :
-	  gnome_dialog_close ( GNOME_DIALOG ( dialog ));
-	  return ( FALSE );
+	    default :
+		gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+		return ( FALSE );
 	}
     }
 
-  /*   on a maintenant un nom de fichier, on peut sauvegarder */
-  if ( etat.sauvegarde_auto || origine != -1 )
+    /*   on a maintenant un nom de fichier, on peut sauvegarder */
+    if ( etat.sauvegarde_auto || origine != -1 )
     {
-      /*       si on fait un enregistrer sous, on peut forcer l'enregistrement */
-      etat_force = etat.force_enregistrement;
+	/*       si on fait un enregistrer sous, on peut forcer l'enregistrement */
+	etat_force = etat.force_enregistrement;
 
-      if ( origine == -2 && !etat.force_enregistrement )
-	etat.force_enregistrement = 1;
+	if ( origine == -2 && !etat.force_enregistrement )
+	    etat.force_enregistrement = 1;
     }
 
-  if ( nom_fichier_backup && strlen(nom_fichier_backup) )
-    if ( !enregistrement_backup() )
-      return ( FALSE );
 
-  if ( patience_en_cours )
-    update_attente ( _("Save file") );
-  else
-    mise_en_route_attente ( _("Save file") );
+    if ( nom_fichier_backup && strlen(nom_fichier_backup) )
+	if ( !enregistrement_backup() )
+	    return ( FALSE );
 
-  result = enregistre_fichier ( 0 );
-  annulation_attente();
+    if ( patience_en_cours )
+	update_attente ( _("Save file") );
+    else
+	mise_en_route_attente ( _("Save file") );
 
-  if ( etat.sauvegarde_auto || origine != -1 )
+    result = enregistre_fichier ( 0 );
+    annulation_attente();
+
+    if ( etat.sauvegarde_auto || origine != -1 )
     {
-      etat.force_enregistrement = etat_force;
+	etat.force_enregistrement = etat_force;
     }
 
-  modification_fichier ( FALSE );
-  affiche_titre_fenetre ();
-  fichier_marque_ouvert ( TRUE );
-  ajoute_nouveau_fichier_liste_ouverture ( nom_fichier_comptes );
+    /*   on marque l'ancien fichier comme fermé s'il était fermé à l'ouverture */
 
-  return ( result );
+    if ( result
+	 &&
+	 ancien_nom_fichier_comptes
+	 &&
+	 !etat.fichier_deja_ouvert )
+
+    {
+	gchar *nom_tmp;
+
+	nom_tmp = nom_fichier_comptes;
+	nom_fichier_comptes = ancien_nom_fichier_comptes;
+	fichier_marque_ouvert ( FALSE );
+	nom_fichier_comptes = nom_tmp;
+    }
+
+    /*     si on a enregistré le fichier le fichier courant, celui ci peut être considéré comme fermé à l'ouverture maintenant */
+
+    if ( result )
+	etat.fichier_deja_ouvert = 0;
+
+    modification_fichier ( FALSE );
+    affiche_titre_fenetre ();
+    fichier_marque_ouvert ( TRUE );
+    ajoute_nouveau_fichier_liste_ouverture ( nom_fichier_comptes );
+
+    return ( result );
 }
 /* ************************************************************************************************************ */
 
@@ -588,7 +613,7 @@ gboolean enregistrement_fichier ( gint origine )
 /* ************************************************************************************************************ */
 gboolean enregistrer_fichier_sous ( void )
 {
-  return (  enregistrement_fichier ( -2 ) );
+    return (  enregistrement_fichier ( -2 ) );
 }
 /* ************************************************************************************************************ */
 
@@ -597,74 +622,74 @@ gboolean enregistrer_fichier_sous ( void )
 /* ************************************************************************************************************ */
 gboolean fermer_fichier ( void )
 {
-  int i;
+    int i;
 
-  if ( !nb_comptes )
-    return ( TRUE );
-
-
-  /* si l'enregistrement s'est mal passé, on se barre */
-
-  if ( !enregistrement_fichier (-1) )
-    return ( FALSE );
+    if ( !nb_comptes )
+	return ( TRUE );
 
 
-  /* si le fichier n'était pas déjà ouvert, met à 0 l'ouverture */
+    /* si l'enregistrement s'est mal passé, on se barre */
 
-  if ( !etat.fichier_deja_ouvert
-       &&
-       nb_comptes
-       &&
-       nom_fichier_comptes )
-    fichier_marque_ouvert ( FALSE );
+    if ( !enregistrement_fichier (-1) )
+	return ( FALSE );
 
-/*       stoppe le timer */
 
-  if ( id_temps )
+    /* si le fichier n'était pas déjà ouvert, met à 0 l'ouverture */
+
+    if ( !etat.fichier_deja_ouvert
+	 &&
+	 nb_comptes
+	 &&
+	 nom_fichier_comptes )
+	fichier_marque_ouvert ( FALSE );
+
+    /*       stoppe le timer */
+
+    if ( id_temps )
     {
-      gtk_timeout_remove ( id_temps );
-      id_temps = 0;
+	gtk_timeout_remove ( id_temps );
+	id_temps = 0;
     }
 
 
 
-  /* libère les opérations de tous les comptes */
+    /* libère les opérations de tous les comptes */
 
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
-  for ( i=0 ; i< nb_comptes ; i++ )
+    for ( i=0 ; i< nb_comptes ; i++ )
     {
-      if ( LISTE_OPERATIONS )
-	g_slist_free ( LISTE_OPERATIONS );
+	if ( LISTE_OPERATIONS )
+	    g_slist_free ( LISTE_OPERATIONS );
 
-      free ( *p_tab_nom_de_compte_variable );
-      p_tab_nom_de_compte_variable++;
+	free ( *p_tab_nom_de_compte_variable );
+	p_tab_nom_de_compte_variable++;
     };
 
 
-  free ( p_tab_nom_de_compte );
+    free ( p_tab_nom_de_compte );
 
-  /* libère les échéances */
+    /* libère les échéances */
 
-  g_slist_free ( gsliste_echeances );
-  g_slist_free ( echeances_a_saisir );
-  g_slist_free ( echeances_saisies );
-  g_slist_free ( ordre_comptes );
-  g_slist_free ( liste_struct_etats );
+    g_slist_free ( gsliste_echeances );
+    g_slist_free ( echeances_a_saisir );
+    g_slist_free ( echeances_saisies );
+    g_slist_free ( ordre_comptes );
+    g_slist_free ( liste_struct_etats );
 
-  gtk_signal_disconnect_by_func ( GTK_OBJECT ( notebook_general ),
-				  GTK_SIGNAL_FUNC ( change_page_notebook),
-				  NULL );
+    gtk_signal_disconnect_by_func ( GTK_OBJECT ( notebook_general ),
+				    GTK_SIGNAL_FUNC ( change_page_notebook),
+				    NULL );
 
-  gtk_widget_destroy ( notebook_general );
+    gtk_widget_destroy ( notebook_general );
 
-  nom_fichier_comptes = NULL;
-  affiche_titre_fenetre();
+    nom_fichier_comptes = NULL;
+    affiche_titre_fenetre();
 
 
-  init_variables ( FALSE );
+    init_variables ( FALSE );
 
-  return ( TRUE );
+    return ( TRUE );
 
 }
 /* ************************************************************************************************************ */
@@ -678,35 +703,35 @@ gboolean fermer_fichier ( void )
 /* ************************************************************************************************************ */
 void affiche_titre_fenetre ( void )
 {
-  gchar **parametres;
-  gchar *titre;
-  gint i=0;
+    gchar **parametres;
+    gchar *titre;
+    gint i=0;
 
-  if ( nom_fichier_comptes )
+    if ( nom_fichier_comptes )
     {
-      parametres = g_strsplit ( nom_fichier_comptes,
-				"/",
-				0);
+	parametres = g_strsplit ( nom_fichier_comptes,
+				  "/",
+				  0);
 
-      while ( parametres[i] )
-	i++;
+	while ( parametres[i] )
+	    i++;
 
-      titre = g_strconcat ( SPACIFY(COLON(_("Grisbi"))),
-			    parametres [i-1],
-			    NULL );
+	titre = g_strconcat ( SPACIFY(COLON(_("Grisbi"))),
+			      parametres [i-1],
+			      NULL );
 
-      g_strfreev ( parametres );
+	g_strfreev ( parametres );
     }
-  else
+    else
     {
-      if ( nb_comptes )
-	titre = _("Grisbi - No name");
-      else
-	titre = _("Grisbi");
+	if ( nb_comptes )
+	    titre = _("Grisbi - No name");
+	else
+	    titre = _("Grisbi");
     }
 
-  gtk_window_set_title ( GTK_WINDOW ( window ),
-			 titre );
+    gtk_window_set_title ( GTK_WINDOW ( window ),
+			   titre );
 
 }
 /* ************************************************************************************************************ */
@@ -720,27 +745,27 @@ void affiche_titre_fenetre ( void )
 
 gboolean enregistrement_backup ( void )
 {
-  gchar *buffer;
-  gboolean retour;
+    gchar *buffer;
+    gboolean retour;
 
-  if ( !nom_fichier_backup || !strlen(nom_fichier_backup) )
-    return FALSE;
+    if ( !nom_fichier_backup || !strlen(nom_fichier_backup) )
+	return FALSE;
 
-  buffer = nom_fichier_comptes;
-  nom_fichier_comptes = nom_fichier_backup;
+    buffer = nom_fichier_comptes;
+    nom_fichier_comptes = nom_fichier_backup;
 
-  xmlSetCompressMode ( compression_backup );
+    xmlSetCompressMode ( compression_backup );
 
-  mise_en_route_attente ( _("Saving backup") );
-  retour = enregistre_fichier( 1 );
+    mise_en_route_attente ( _("Saving backup") );
+    retour = enregistre_fichier( 1 );
 
-  if ( !retour )
-    annulation_attente();
+    if ( !retour )
+	annulation_attente();
 
-  xmlSetCompressMode ( compression_fichier );
-  nom_fichier_comptes = buffer;
+    xmlSetCompressMode ( compression_fichier );
+    nom_fichier_comptes = buffer;
 
-  return ( retour );
+    return ( retour );
 }
 /* ************************************************************************************************************ */
 
@@ -748,89 +773,89 @@ gboolean enregistrement_backup ( void )
 /* ************************************************************************************************************ */
 void ajoute_nouveau_fichier_liste_ouverture ( gchar *path_fichier )
 {
-  gint i;
-  gint position;
-  gchar *dernier;
+    gint i;
+    gint position;
+    gchar *dernier;
 
-  if ( !nb_max_derniers_fichiers_ouverts ||
-       ! path_fichier)
-    return;
+    if ( !nb_max_derniers_fichiers_ouverts ||
+	 ! path_fichier)
+	return;
 
-  /* ALAIN-FIXME */
-  /* si on n'a pas un chemin absolu, on n'enregistre pas ce fichier
-     dans la liste. Du moins jusqu'à ce que quelqu'un trouve un moyen
-     pour récupérer le chemein absolu */
+    /* ALAIN-FIXME */
+    /* si on n'a pas un chemin absolu, on n'enregistre pas ce fichier
+       dans la liste. Du moins jusqu'à ce que quelqu'un trouve un moyen
+       pour récupérer le chemein absolu */
 
-  if ( !g_path_is_absolute ( nom_fichier_comptes ) )
+    if ( !g_path_is_absolute ( nom_fichier_comptes ) )
     {
-/*     gchar *tmp_name, *tmp_name2;
-     tmp_name = realpath(nom_fichier_comptes, tmp_name2);
-     
-     dialogue(tmp_name);
-     free(tmp_name);
-     dialogue(tmp_name2);
-     free(tmp_name2);*/
+	/*     gchar *tmp_name, *tmp_name2;
+	       tmp_name = realpath(nom_fichier_comptes, tmp_name2);
 
-     return;
+	       dialogue(tmp_name);
+	       free(tmp_name);
+	       dialogue(tmp_name2);
+	       free(tmp_name2);*/
+
+	return;
     }
 
-  /* on commence par vérifier si ce fichier n'est pas dans les nb_derniers_fichiers_ouverts noms */
+    /* on commence par vérifier si ce fichier n'est pas dans les nb_derniers_fichiers_ouverts noms */
 
-  position = 0;
+    position = 0;
 
-  for ( i=0 ; i<nb_derniers_fichiers_ouverts ; i++ )
-    if ( !strcmp ( path_fichier,
-		   tab_noms_derniers_fichiers_ouverts[i] ))
-      {
-	/* 	si ce fichier est déjà le dernier ouvert, on laisse tomber */
+    for ( i=0 ; i<nb_derniers_fichiers_ouverts ; i++ )
+	if ( !strcmp ( path_fichier,
+		       tab_noms_derniers_fichiers_ouverts[i] ))
+	{
+	    /* 	si ce fichier est déjà le dernier ouvert, on laisse tomber */
 
-	if ( !i )
-	  return;
+	    if ( !i )
+		return;
 
-	position = i;
-      }
+	    position = i;
+	}
 
-  efface_derniers_fichiers_ouverts();
+    efface_derniers_fichiers_ouverts();
 
-  if ( position )
+    if ( position )
     {
-      /*       le fichier a été trouvé, on fait juste une rotation */
+	/*       le fichier a été trouvé, on fait juste une rotation */
 
-      for ( i=position ; i>0 ; i-- )
+	for ( i=position ; i>0 ; i-- )
+	    tab_noms_derniers_fichiers_ouverts[i] = tab_noms_derniers_fichiers_ouverts[i-1];
+	if ( path_fichier )
+	    tab_noms_derniers_fichiers_ouverts[0] = g_strdup ( path_fichier );
+	else
+	    tab_noms_derniers_fichiers_ouverts[0] = g_strdup ( "<no file>" );
+
+	affiche_derniers_fichiers_ouverts();
+
+	return;
+    }
+
+    /*   le fichier est nouveau, on décale tout d'un cran et on met le nouveau à 0 */
+
+    /*   si on est déjà au max, c'est juste un décalage avec perte du dernier */
+    /* on garde le ptit dernier dans le cas contraire */
+
+    if ( nb_derniers_fichiers_ouverts )
+	dernier = tab_noms_derniers_fichiers_ouverts[nb_derniers_fichiers_ouverts-1];
+    else
+	dernier = NULL;
+
+    for ( i= nb_derniers_fichiers_ouverts - 1 ; i>0 ; i-- )
 	tab_noms_derniers_fichiers_ouverts[i] = tab_noms_derniers_fichiers_ouverts[i-1];
-      if ( path_fichier )
-	tab_noms_derniers_fichiers_ouverts[0] = g_strdup ( path_fichier );
-      else
-	tab_noms_derniers_fichiers_ouverts[0] = g_strdup ( "<no file>" );
 
-      affiche_derniers_fichiers_ouverts();
-
-      return;
-    }
-
-  /*   le fichier est nouveau, on décale tout d'un cran et on met le nouveau à 0 */
-
-  /*   si on est déjà au max, c'est juste un décalage avec perte du dernier */
-  /* on garde le ptit dernier dans le cas contraire */
-
-  if ( nb_derniers_fichiers_ouverts )
-    dernier = tab_noms_derniers_fichiers_ouverts[nb_derniers_fichiers_ouverts-1];
-  else
-    dernier = NULL;
-
-  for ( i= nb_derniers_fichiers_ouverts - 1 ; i>0 ; i-- )
-    tab_noms_derniers_fichiers_ouverts[i] = tab_noms_derniers_fichiers_ouverts[i-1];
-
-  if ( nb_derniers_fichiers_ouverts < nb_max_derniers_fichiers_ouverts )
+    if ( nb_derniers_fichiers_ouverts < nb_max_derniers_fichiers_ouverts )
     {
-      tab_noms_derniers_fichiers_ouverts = realloc ( tab_noms_derniers_fichiers_ouverts,
-						     ( ++nb_derniers_fichiers_ouverts ) * sizeof ( gpointer ));
-      tab_noms_derniers_fichiers_ouverts[nb_derniers_fichiers_ouverts-1] = dernier;
+	tab_noms_derniers_fichiers_ouverts = realloc ( tab_noms_derniers_fichiers_ouverts,
+						       ( ++nb_derniers_fichiers_ouverts ) * sizeof ( gpointer ));
+	tab_noms_derniers_fichiers_ouverts[nb_derniers_fichiers_ouverts-1] = dernier;
     }
 
-  tab_noms_derniers_fichiers_ouverts[0] = g_strdup ( path_fichier );
+    tab_noms_derniers_fichiers_ouverts[0] = g_strdup ( path_fichier );
 
-  
-  affiche_derniers_fichiers_ouverts();
+
+    affiche_derniers_fichiers_ouverts();
 }
 /* ************************************************************************************************************ */
