@@ -1112,6 +1112,9 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
 /*   on redonne le focus à la liste */
 
   gtk_widget_grab_focus ( GTK_WIDGET ( CLIST_OPERATIONS ) );
+
+  /* Update account list */
+  update_liste_comptes_accueil ();
 }
 /* ********************************************************************************************************** */
 
