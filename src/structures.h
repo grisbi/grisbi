@@ -708,6 +708,12 @@ struct iso_4217_currency
 #define STANDARD_DIALOG_WIDTH 12
 
 
+enum origine_importation {
+  QIF_IMPORT,
+  OFX_IMPORT,
+  HTML_IMPORT,
+  GNUCASH_IMPORT,
+};
 
 /* struture d'une importation : compte contient la liste des opés importées */
 
@@ -715,7 +721,7 @@ struct struct_compte_importation
 {
     gchar *id_compte;
 
-    gint origine;    /* 0=qif, 1=ofx, 2=html */
+    enum origine_importation origine;    /* 0=qif, 1=ofx, 2=html, 3=gnucash */
 
     gchar *nom_de_compte;
     gint type_de_compte;  /* 0=OFX_CHECKING,1=OFX_SAVINGS,2=OFX_MONEYMRKT,3=OFX_CREDITLINE,4=OFX_CMA,5=OFX_CREDITCARD,6=OFX_INVESTMENT, 7=cash */
@@ -733,6 +739,9 @@ struct struct_compte_importation
     GtkWidget *bouton_action;             /* adr du bouton de l'action dans le récapitulatif */
     GtkWidget *bouton_type_compte;             /* adr du bouton du type de compte dans le récapitulatif */
     GtkWidget *bouton_compte;             /* adr du bouton du compte dans le récapitulatif */
+
+  /* Used by gnucash import */
+  gchar * guid;
 };
 
 
@@ -765,6 +774,9 @@ struct struct_ope_importation
 
     gint operation_ventilee;  /* à 1 si c'est une ventil, dans ce cas les opés de ventil suivent et ont ope_de_ventilation à 1 */
     gint ope_de_ventilation;
+
+    /* Used by gnucash import */
+    gchar * guid;
 };
 
 /* organisation du formulaire */
