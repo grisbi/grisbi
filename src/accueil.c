@@ -297,87 +297,50 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 				   GdkEventButton *event,
 				   struct operation_echeance *echeance )
 {
-    GtkWidget *ancien_parent;
+    GtkWidget *ancien_parent, *dialog;
     struct operation_echeance *ancienne_selection_echeance;
-    GtkWidget *dialog;
-    gint resultat;
+    gint resultat, width, height;
 
     /* on sélectionne l'échéance demandée */
-
     ancienne_selection_echeance = echeance_selectionnnee;
     echeance_selectionnnee = echeance;
 
     ancien_parent = formulaire_echeancier -> parent;
 
     /* crée la boite de dialogue */
-
-    dialog = gnome_dialog_new ( _("Enter a scheduled transaction"),
-				GNOME_STOCK_BUTTON_OK,
-				GNOME_STOCK_BUTTON_CANCEL,
-				NULL );
-    gtk_widget_set_usize ( GTK_WIDGET ( dialog ), 750, FALSE );
-    gtk_signal_connect ( GTK_OBJECT ( dialog ),
-			 "destroy",
-			 GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
-			 "destroy" );
+    dialog = gtk_dialog_new_with_buttons ( _("Enter a scheduled transaction"),
+					   GTK_WINDOW ( window ),
+					   GTK_DIALOG_MODAL,
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					   GTK_STOCK_OK, GTK_RESPONSE_OK,
+					   NULL );
     gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), GTK_WINDOW ( window ));
-    gnome_dialog_set_default ( GNOME_DIALOG ( dialog ), 0 );
-
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER );
 
     /* met le formulaire dans la boite de dialogue */
-
+    width = frame_formulaire_echeancier -> allocation . width;
     gtk_widget_unrealize ( frame_formulaire_echeancier );
-    gtk_widget_reparent ( formulaire_echeancier, GNOME_DIALOG ( dialog ) -> vbox );
-
-
-    /* applique aux entry l'entrée à ok */
-
-    gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ), GTK_EDITABLE ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] ));
-    gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ), GTK_EDITABLE ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ));
-    gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ), GTK_EDITABLE ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ));
-    gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ), GTK_EDITABLE ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] ));
-    gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ), GTK_EDITABLE ( widget_formulaire_echeancier[SCHEDULER_FORM_BANK] ));
-    gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ), GTK_EDITABLE ( widget_formulaire_echeancier[SCHEDULER_FORM_VOUCHER] ));
-    gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ), GTK_EDITABLE ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES] ));
-    gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ), GTK_EDITABLE ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ) -> entry ));
-    gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ), GTK_EDITABLE ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ) -> entry ));
-    gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ), GTK_EDITABLE ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ) -> entry ));
-
-
-    /* enlève les boutons valider/annuler si necessaire */
-
-    if ( etat.affiche_boutons_valider_annuler )
-    {
-	gtk_widget_hide (hbox_valider_annuler_echeance);
-    }
+    gtk_widget_reparent ( formulaire_echeancier, GTK_DIALOG ( dialog ) -> vbox );
+    gtk_widget_set_usize ( GTK_WIDGET ( dialog ), width, FALSE );
 
     /* remplit le formulaire */
-
     click_sur_saisir_echeance();
 
     etat.formulaire_echeance_dans_fenetre = 1;
-    dialogue_echeance = dialog;
+    gtk_widget_show ( formulaire_echeancier );
+    if ( etat.affiche_boutons_valider_annuler )
+      {
+	gtk_widget_hide ( separateur_formulaire_echeancier );
+	gtk_widget_hide ( hbox_valider_annuler_echeance );
+      }
 
-    resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
-
-    if ( resultat == 0 )
-    {
-	fin_edition_echeance ();
-    }
-
-    if ( resultat == -1 )
-    {
-	creation_formulaire_echeancier(); 
-	gtk_container_add ( GTK_CONTAINER ( frame_formulaire_echeancier ), creation_formulaire_echeancier () );
-	return;
-    }
-
-    etat.formulaire_echeance_dans_fenetre = 0;
+    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+    if ( resultat == GTK_RESPONSE_OK )
+      fin_edition_echeance ();
 
     gtk_widget_reparent ( formulaire_echeancier, ancien_parent );
-
-    gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+    etat.formulaire_echeance_dans_fenetre = 0;
+    gtk_widget_destroy ( dialog );
 
     /* remet les boutons valider/annuler si necessaire */
 
@@ -392,7 +355,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
     echeance_selectionnnee = ancienne_selection_echeance;
 
     if ( !etat.formulaire_echeancier_toujours_affiche )
-	gtk_widget_hide ( frame_formulaire_echeancier );
+      gtk_widget_hide ( frame_formulaire_echeancier );
 
     return FALSE;
 }
