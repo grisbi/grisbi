@@ -442,13 +442,14 @@ void ouverture_confirmee ( void )
     {
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
-	SOLDE_COURANT = calcule_solde_compte ( i );
+	gsb_account_set_current_balance ( i, 
+					  calcule_solde_compte ( i ));
 	SOLDE_POINTE = calcule_solde_pointe_compte ( i );
 
 	/* 	on met à jour les affichage solde mini et autres */
 
-	MESSAGE_SOUS_MINI = SOLDE_COURANT < SOLDE_MINI;
-	MESSAGE_SOUS_MINI_VOULU = SOLDE_COURANT < gsb_account_get_mini_balance_wanted (i);
+	MESSAGE_SOUS_MINI = gsb_account_get_current_balance (i) < gsb_account_get_mini_balance_authorized (i);
+	MESSAGE_SOUS_MINI_VOULU = gsb_account_get_current_balance (i) < gsb_account_get_mini_balance_wanted (i);
 
 	/*     on initialise la fonction de classement  */
 

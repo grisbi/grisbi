@@ -1318,7 +1318,8 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 
     gsb_account_set_init_balance ( no_compte,
 				   compte_import -> solde);
-    SOLDE_COURANT = gsb_account_get_init_balance (no_compte);
+    gsb_account_set_current_balance ( no_compte, 
+				      gsb_account_get_init_balance (no_compte));
     SOLDE_POINTE = gsb_account_get_init_balance (no_compte);
 
 
@@ -1554,7 +1555,8 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 
 	if ( !operation -> operation_ventilee )
 	{
-	    SOLDE_COURANT = SOLDE_COURANT + operation -> montant;
+	    gsb_account_set_current_balance ( no_compte,
+					      gsb_account_get_current_balance (no_compte) + operation -> montant );
 
 	    if ( operation -> pointe )
 		SOLDE_POINTE = SOLDE_POINTE + operation -> montant;

@@ -3565,12 +3565,15 @@ void ajout_operation ( struct structure_operation *operation )
 
     /*     calcul du solde courant */
 
-    SOLDE_COURANT = SOLDE_COURANT + calcule_montant_devise_renvoi ( operation -> montant,
-								    DEVISE,
-								    operation -> devise,
-								    operation -> une_devise_compte_egale_x_devise_ope,
-								    operation -> taux_change,
-								    operation -> frais_change );
+    gsb_account_set_current_balance ( operation -> no_compte,
+				      gsb_account_get_current_balance ( operation -> no_compte)
+				      +
+				      calcule_montant_devise_renvoi ( operation -> montant,
+								      DEVISE,
+								      operation -> devise,
+								      operation -> une_devise_compte_egale_x_devise_ope,
+								      operation -> taux_change,
+								      operation -> frais_change ));
 
     /* on met à jour les labels des soldes */
 
@@ -3647,7 +3650,8 @@ void modifie_operation ( struct structure_operation *operation )
     /* 	ya plus rapide mais j'ai la flemme */
     /* 	voir si ralentit vraiment... */
 
-    SOLDE_COURANT = calcule_solde_compte ( operation -> no_compte );
+    gsb_account_set_current_balance ( operation -> no_compte, 
+				      calcule_solde_compte ( operation -> no_compte ));
     SOLDE_POINTE = calcule_solde_pointe_compte ( operation -> no_compte );
 
     /* on met à jour les labels des soldes */
