@@ -50,9 +50,9 @@ AM_CONDITIONAL(APPLET, test $APPLET = true)
 AC_SUBST(CFLAGS)
 AC_SUBST(LDFLAGS)
 
-AC_DEFINE_UNQUOTED(APPLET_BIN_DIR, "$acl_final_exec_prefix/bin/grisbi_applet")
-AC_DEFINE_UNQUOTED(GRISBI_BIN_DIR, "$acl_final_exec_prefix/bin/grisbi")
-AC_DEFINE_UNQUOTED(CHEMIN_LOGO, "$acl_final_prefix/share/pixmaps/logo_grisbi.xpm")
+AC_DEFINE_UNQUOTED(APPLET_BIN_DIR, "$acl_final_exec_prefix/bin/grisbi_applet", APPLET_BIN_DIR)
+AC_DEFINE_UNQUOTED(GRISBI_BIN_DIR, "$acl_final_exec_prefix/bin/grisbi", GRISBI_BIN_DIR)
+AC_DEFINE_UNQUOTED(CHEMIN_LOGO, "$acl_final_prefix/share/pixmaps/logo_grisbi.xpm", CHEMIN_LOGO)
 
 dnl ******************************
 dnl Makefiles
@@ -64,7 +64,5 @@ po/Makefile.in
 intl/Makefile
 src/Makefile
 applet/Makefile
-dnl help/Makefile
-dnl help/C/Makefile
 macros/Makefile
 ])
