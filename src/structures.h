@@ -120,6 +120,13 @@ struct {
 
 } etat;
 
+/** Etat de rapprochement d'une opération */
+enum operation_etat_rapprochement {
+  OPERATION_NORMALE = 0,
+  OPERATION_POINTEE,
+  OPERATION_RAPPROCHEE,
+  OPERATION_TELERAPPROCHEE,
+};
 
 
 struct structure_operation
