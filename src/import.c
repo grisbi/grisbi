@@ -62,7 +62,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean affichage_recapitulatif_importation ( void );
+//static gboolean affichage_recapitulatif_importation ( void );
 static void ajout_devise_dans_liste_import ( void );
 static void ajout_opes_importees ( struct struct_compte_importation *compte_import );
 static gboolean changement_valeur_echelle_recherche_date_import ( GtkWidget *spin_button );
@@ -266,7 +266,6 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 	  }
 
         /* clean up */
-	fclose ( fichier );
         if (pointeur_char) free ( pointeur_char );
         pointeur_char = NULL;
         
@@ -276,6 +275,8 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 	  break;
 	
         i++;
+
+	fclose ( fichier );
     }
 
     affichage_recapitulatif_importation();
@@ -1126,8 +1127,7 @@ void cree_liens_virements_ope_import ( void )
 	    {
 		/* recherche du compte associé */
 
-		gint j;
-		gint compte_trouve;
+		gint j, compte_trouve;
 
 		compte_trouve = -1;
 
