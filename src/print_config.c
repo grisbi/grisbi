@@ -25,6 +25,7 @@
 #include "print_config.h"
 
 #include "utils.h"
+#include "utils_files.h"
 
 
 /* Prototypes */
@@ -197,8 +198,8 @@ GtkWidget * print_config_general ( GtkWidget * dialog )
     g_object_set_data ( G_OBJECT(radio1), "peer2", omenu );
     g_object_set_data ( G_OBJECT(radio2), "peer1", input1 );
     g_object_set_data ( G_OBJECT(radio2), "peer2", NULL );
-    print_config_radio_toggled ( radio1, NULL );
-    print_config_radio_toggled ( radio2, NULL );
+    print_config_radio_toggled ( GTK_TOGGLE_BUTTON(radio1), NULL );
+    print_config_radio_toggled ( GTK_TOGGLE_BUTTON(radio2), NULL );
 
     return vbox;
 }
