@@ -682,14 +682,48 @@ GtkWidget *cree_bouton_url ( const gchar *adr,
 /* **************************************************************************************************************************** */
 gboolean lance_navigateur_web ( const gchar *url )
 {
-  if ( !strlen ( etat.browser_command )
-       ||
-       system ( g_strconcat ( etat.browser_command, " ", url, "&", NULL ) ) != 0 )
+/*     si la commande du navigateur contient %s, on le remplace par url, */
+/*     sinon on ajoute l'url à la fin et & */
+
+    gchar **split;
+    gchar *chaine;
+
+    if ( !(etat.browser_command
+	   &&
+	   strlen ( etat.browser_command )))
     {
-      dialogue_error_hint ( g_strdup_printf ( _("Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.  Please adjust your settings to a valid executable."), url ),
-			    _("Cannot execute web browser") );
+	dialogue_error_hint ( g_strdup_printf ( _("Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.  Please adjust your settings to a valid executable."), url ),
+			      _("Cannot execute web browser") );
     }
-  return FALSE;
+
+
+    split = g_strsplit ( etat.browser_command,
+			 "%s",
+			 0 );
+
+    if ( split[1] )
+    {
+	/* 	il y a bien un %s dans la commande de lancement */
+
+	chaine = g_strjoinv ( g_strconcat ( " ",
+					    url,
+					    " ",
+					    NULL ),
+			      split );
+	chaine = g_strconcat ( chaine,
+			       "&",
+			       NULL );
+    }
+    else
+	chaine = g_strconcat ( etat.browser_command, " ", url, "&", NULL ); 
+
+
+    if ( system ( chaine ) == -1 )
+    {
+	dialogue_error_hint ( g_strdup_printf ( _("Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.\nThe command was : %s\nPlease adjust your settings to a valid executable."), url, chaine ),
+			      _("Cannot execute web browser") );
+    }
+    return FALSE;
 }
 /* **************************************************************************************************************************** */
 
