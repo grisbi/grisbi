@@ -65,25 +65,58 @@ gboolean fermeture_grisbi ( void )
 
   return (TRUE );
 }
-/*****************************************************************************************************************/
 
 
-/*************************************************************************************************************/
-/* Fonction dialogue : */
-/* affiche le texte donné en argument et attend l'appui sur OK */
-/*************************************************************************************************************/
-
+/**
+ * Display an info dialog window
+ *
+ * \param text Text to display in window
+ */
 void dialogue ( gchar *texte_dialogue )
 {
-
-  win_erreur = gnome_warning_dialog_parented ( texte_dialogue ,
-					       GTK_WINDOW ( window) );	     
-  gtk_window_set_modal ( GTK_WINDOW ( win_erreur ),
-			 TRUE );
-  gnome_dialog_run_and_close ( GNOME_DIALOG ( win_erreur ));
-
+  dialogue_special ( GTK_MESSAGE_INFO, texte_dialogue );
 }
-/*************************************************************************************************************/
+
+
+/**
+ * Display an error dialog window
+ *
+ * \param text Text to display in window
+ */
+void dialogue_error ( gchar *text )
+{
+  dialogue_special ( GTK_MESSAGE_ERROR, text );
+}
+
+
+/**
+ * Display a warning dialog window
+ *
+ * \param text Text to display in window
+ */
+void dialogue_warning ( gchar *text )
+{
+  dialogue_special ( GTK_MESSAGE_WARNING, text );
+}
+
+
+/**
+ * Display a dialog window with arbitrary icon.
+ *
+ * \param param Type of Window to display
+ * \param text Text to display in window
+ */
+void dialogue_special ( GtkMessageType param, gchar * text )
+{
+  GtkWidget *dialog;
+
+  dialog = gtk_message_dialog_new ( GTK_WINDOW (window), GTK_DIALOG_DESTROY_WITH_PARENT,
+				    param, GTK_BUTTONS_CLOSE, text );
+  
+  gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
+  gtk_dialog_run (GTK_DIALOG (dialog));
+  gtk_widget_destroy ( dialog );
+}
 
 
 /**
@@ -109,8 +142,7 @@ void dialogue_conditional ( gchar *text, int * var )
 					GTK_BUTTONS_CLOSE,
 					text );
   vbox = GTK_DIALOG(win_erreur) -> vbox;
-  checkbox = new_checkbox_with_title ( _("Do not show this message again"),
-				       var, NULL );
+  checkbox = new_checkbox_with_title ( _("Do not show this message again"), var, NULL );
   gtk_box_pack_start ( GTK_BOX ( vbox ), checkbox, TRUE, TRUE, 6 );
   gtk_widget_show_all ( checkbox );
 
@@ -118,8 +150,6 @@ void dialogue_conditional ( gchar *text, int * var )
   gtk_dialog_run (GTK_DIALOG (win_erreur));
   gtk_widget_destroy ( win_erreur );
 }
-
-
 
 
 /*************************************************************************************************************/

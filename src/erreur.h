@@ -1,5 +1,8 @@
 gboolean fermeture_grisbi ( void );
 void dialogue ( gchar * texte_dialogue );
+void dialogue_error ( gchar *text );
+void dialogue_warning ( gchar *text );
+void dialogue_special ( GtkMessageType param, gchar * text );
 gboolean blocage_boites_dialogues ( GtkWidget *dialog,
 				    gpointer null );
 gboolean question ( gchar *texte );
