@@ -343,24 +343,6 @@ void supprime_exercice ( GtkWidget *bouton, GtkWidget *liste )
     exercice = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
 					ligne_selection_exercice );
 
-    /*   dialogue = gtk_dialog_new_with_buttons ( _("Confirm the deletion of this financial year"), */
-    /* 				GTK_STOCK_YES, */
-    /* 				GTK_STOCK_NO, */
-    /* 				NULL ); */
-    /*   gtk_window_set_transient_for ( GTK_WINDOW ( dialogue ), */
-    /* 				 GTK_WINDOW ( fenetre_preferences )); */
-
-    /*   label = gtk_label_new ( g_strconcat ( _("Do you really want to delete financial year"), */
-    /* 					"\"", exercice -> nom_exercice, "\" ?", */
-    /* 					NULL ) ); */
-    /*   gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialogue ) -> vbox ), label, */
-    /* 		       FALSE, FALSE, 0 ); */
-    /*   gtk_widget_show ( label ); */
-
-    /*   resultat = gtk_dialog_run_and_close ( GTK_DIALOG ( dialogue )); */
-
-    /*   if ( !resultat ) */
-    /*     { */
     gtk_clist_remove ( GTK_CLIST(liste), ligne_selection_exercice );
     liste_struct_exercices = g_slist_remove ( liste_struct_exercices,
 					      exercice );
@@ -370,7 +352,6 @@ void supprime_exercice ( GtkWidget *bouton, GtkWidget *liste )
 	gtk_clist_select_row ( GTK_CLIST(liste), ligne_selection_exercice-1, 0 );
     else
 	gtk_clist_select_row ( GTK_CLIST(liste), 0, 0 );
-    /*     } */
 
     /* Update various menus */
     update_financial_year_menus ();
@@ -742,28 +723,10 @@ void affiche_exercice_par_date ( GtkWidget *entree_date,
 
 void association_automatique ( void )
 {
-    GtkWidget *dialog;
-    GtkWidget *label;
-    gint resultat;
-    gint i;
+    gint resultat, i;
 
-    dialog = gtk_dialog_new_with_buttons ( _("Automatic association for the financial year"),
-					   GTK_WINDOW (window),
-					   GTK_DIALOG_MODAL,
-					   GTK_STOCK_APPLY,0,
-					   GTK_STOCK_CANCEL,1,
-					   NULL );
-
-    label = gtk_label_new ( _("This function assigns each transaction without a financial year to the\none related to its transaction date.  If no financial year matches,\nthe transaction will not be changed.") );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			 label,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( label );
-
-    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
-    gtk_widget_destroy ( dialog );
+    resultat = question_yes_no_hint ( _("Automatic association of financial years?"),
+				      _("This function assigns each transaction without a financial year to the one related to its transaction date.  If no financial year matches, the transaction will not be changed.") );
 
     if ( resultat )
 	return;
