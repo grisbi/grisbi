@@ -1126,7 +1126,7 @@ void mise_a_jour_soldes_minimaux ( void )
 	    }
 	    label = gtk_label_new ( NOM_DU_COMPTE );
 	    gtk_box_pack_start ( GTK_BOX ( vbox_1 ), label, FALSE, FALSE, 0 );
-	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_TOP );
+	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
 	    gtk_widget_show ( label );
 
 	    if ( !MESSAGE_SOUS_MINI && !patience_en_cours )
@@ -1160,6 +1160,7 @@ void mise_a_jour_soldes_minimaux ( void )
 	    }
 
 	    label = gtk_label_new ( NOM_DU_COMPTE );
+	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
 	    gtk_box_pack_start ( GTK_BOX ( vbox_2 ), label, FALSE, FALSE, 0 );
 	    gtk_widget_show ( label );
 
