@@ -31,16 +31,12 @@ gint preference_selected = -1;
 GtkTreeSelection * selection;
 GtkWidget * button_close, * button_help;
 
-/* FIXME: remove this */
-gboolean popup_calendar ( GtkWidget * button, gpointer data );
-void close_calendar_popup ( GtkWidget *popup );
 
 /**
  * Creates a simple TreeView and a TreeModel to handle preference
  * tabs.  Sets preference_tree_model to the newly created TreeModel.
  *
  * \returns a GtkScrolledWindow
- *
  */
 GtkWidget * create_preferences_tree ( )
 {
@@ -367,12 +363,11 @@ GtkWidget *onglet_messages_and_warnings ( void )
   if ( etat.alerte_permission )
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_permission ),
 				   TRUE );
-  /* FIXME: vérif la sauvegarde */
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_affiche_permission ),
 			      "toggled",
 			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
-     
+   
 
 
 
@@ -2116,10 +2111,13 @@ gint verifie_affichage_applet ( void )
 
 
 /**
- * FIXME
+ * Create a box with a nice bold title and content slightly indented.
+ * All content is packed vertically in a GtkVBox.  The paddingbox is
+ * also packed in its parent.
  *
- *
- *
+ * \param parent Parent widget to pack paddingbox in
+ * \param fill Give all available space to padding box or not
+ * \param title Title to display on top of the paddingbox
  */
 GtkWidget *
 new_paddingbox_with_title (GtkWidget * parent, gboolean fill, gchar * title)
@@ -2133,9 +2131,11 @@ new_paddingbox_with_title (GtkWidget * parent, gboolean fill, gchar * title)
 				      title,
 				      "</span>",
 				      NULL ) );
-  gtk_box_pack_start ( GTK_BOX ( parent ), label,
-		       FALSE, FALSE, 0);
-  gtk_widget_show ( label );
+  if ( parent )
+    {
+      gtk_box_pack_start ( GTK_BOX ( parent ), label,
+			   FALSE, FALSE, 0);
+    }
 
   hbox = gtk_hbox_new ( FALSE, 0 );
   gtk_box_pack_start ( GTK_BOX ( parent ), hbox,
@@ -2237,6 +2237,7 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
  * \param label The label for this checkbutton
  * \param data A pointer to a boolean integer
  * \param hook A GCallBack to execute if not null
+ * \return A newly allocated GtkVBox
  */
 GtkWidget *
 new_checkbox_with_title ( gchar * label,
@@ -2264,9 +2265,14 @@ new_checkbox_with_title ( gchar * label,
 
 
 /**
- * FIXME: document!
- *
- *
+ * Update the widget's property accordingly.  If update is set, update
+ * widget as well.
+ * 
+ * \param checkbox The checkbox to update
+ * \param data A pointer to a boolean which contains the new value to
+ * fill in checkbox's properties.  This boolean will be modified by
+ * checkbox's handlers as well.
+ * \param uptdate Whether to update checkbox's appearance as well.
  */
 void
 checkbox_set_value ( GtkWidget * checkbox, guint * data, gboolean update )
@@ -2316,7 +2322,14 @@ set_boolean ( GtkWidget * checkbox, guint * dummy)
 }
 
 
-/* FIXME: move it ! */
+/**
+ * Set a string to the value of an GtkEntry.
+ *
+ * \param entry The reference GtkEntry
+ * \param value Handler parameter.  Not used.
+ * \param length Handler parameter.  Not used.
+ * \param position Handler parameter.  Not used.
+ */
 gboolean
 set_text (GtkEntry *entry, gchar *value, 
 	  gint length, gint * position)
@@ -2331,7 +2344,15 @@ set_text (GtkEntry *entry, gchar *value,
 }
 
 
-/* FIXME: move it ! */
+
+/**
+ * Creates a new GtkEntry with a pointer to a string that will be
+ * modified according to the entry's value.
+ *
+ * \param value A pointer to a string
+ * \param hook An optional function to execute as a handler if the
+ * entry's contents are modified.
+ */
 GtkWidget * new_text_entry ( gchar ** value, GCallback * hook )
 {
   GtkWidget * entry;
@@ -2360,7 +2381,20 @@ GtkWidget * new_text_entry ( gchar ** value, GCallback * hook )
 }
 
 
-/* FIXME: move it ! */
+/**
+ * Creates a new radio buttons group with two choices.  Toggling will
+ * change the content of an integer passed as an argument.
+ *
+ * \param parent A widget to pack all created radio buttons in
+ * \param title The title for this group
+ * \param choice1 First choice label
+ * \param choice2 Second choice label
+ * \param data A pointer to an integer that will be set to 0 or 1
+ *        according to buttons toggles.
+ * \param hook An optional hook to run at each toggle
+ *
+ * \return A newly created paddingbox
+ */
 GtkWidget *
 new_radiogroup_with_title (GtkWidget * parent,
 			   gchar * title, gchar * choice1, gchar * choice2,
@@ -2371,11 +2405,10 @@ new_radiogroup_with_title (GtkWidget * parent,
   paddingbox = new_paddingbox_with_title (parent, FALSE, COLON(title));
   
   button1 = gtk_radio_button_new_with_label ( NULL, choice1 );
-  gtk_box_pack_start (GTK_BOX(paddingbox), button1,
-		      FALSE, FALSE, 0 );
-  button2 = gtk_radio_button_new_with_label ( gtk_radio_button_group (button1), choice2 );
-  gtk_box_pack_start (GTK_BOX(paddingbox), button2,
-		      FALSE, FALSE, 0 );
+  gtk_box_pack_start (GTK_BOX(paddingbox), button1, FALSE, FALSE, 0 );
+  button2 = gtk_radio_button_new_with_label ( gtk_radio_button_group (button1), 
+					      choice2 );
+  gtk_box_pack_start (GTK_BOX(paddingbox), button2, FALSE, FALSE, 0 );
 
   if (data)
     {
@@ -2399,9 +2432,17 @@ new_radiogroup_with_title (GtkWidget * parent,
 }
 
 
+
+/**
+ * Sets a GDate according to a date widget
+ *
+ * \param entry A GtkEntry that triggered this handler
+ * \param value Handler parameter.  Not used.
+ * \param length Handler parameter.  Not used.
+ * \param position Handler parameter.  Not used.
+ */
 gboolean
-set_date (GtkEntry *entry, gchar *value, 
-	  gint length, gint * position)
+set_date (GtkEntry *entry, gchar *value, gint length, gint * position)
 {
   GDate ** data, temp_date;
 
@@ -2419,6 +2460,13 @@ set_date (GtkEntry *entry, gchar *value,
 }
 
 
+/**
+ * Creates a new GtkHBox with an entry to type in a date.
+ *
+ * \param value A pointer to a GDate that will be modified at every
+ * change.
+ * \param An optional hook to run.
+ */
 GtkWidget * new_date_entry ( gchar ** value, GCallback * hook )
 {
   GtkWidget *hbox, *entry, *date_entry;
@@ -2429,9 +2477,6 @@ GtkWidget * new_date_entry ( gchar ** value, GCallback * hook )
   gtk_box_pack_start ( GTK_BOX(hbox), entry,
 		       TRUE, TRUE, 0 );
   
-  if (value && *value)
-    gtk_entry_set_text ( GTK_ENTRY(entry), *value );
-
   gtk_object_set_data ( GTK_OBJECT ( entry ), "pointer", value);
 
   gtk_object_set_data ( GTK_OBJECT ( entry ), "insert-hook", 
@@ -2460,6 +2505,14 @@ GtkWidget * new_date_entry ( gchar ** value, GCallback * hook )
 }
 
 
+
+/**
+ * Change the date that is handler by a date entry.
+ *
+ * \param hbox The date entry widget.
+ * \param value The new date to modify.
+ * \param Update GtkEntry value as well.
+ */
 void date_set_value ( GtkWidget * hbox, GDate ** value, gboolean update )
 {
   gtk_object_set_data ( GTK_OBJECT ( get_entry_from_date_entry(hbox) ),
@@ -2496,9 +2549,16 @@ void date_set_value ( GtkWidget * hbox, GDate ** value, gboolean update )
 
 
 /**
- * FIXME: document it
+ * Pop up a window with a calendar that allows a date selection.  This
+ * calendar runs "date_selectionnee" as a callback if a date is
+ * selected.
  *
- *
+ * \param button Normally a GtkButton that triggered the handler.
+ * This parameter will be used as a base to set popup's position.
+ * This widget must also have a parameter (data) of name "entry"
+ * which contains a pointer to a GtkEntry used to set initial value of
+ * calendar.
+ * \param data Handler parameter.  Not used.
  */
 gboolean popup_calendar ( GtkWidget * button, gpointer data )
 {
@@ -2509,40 +2569,40 @@ gboolean popup_calendar ( GtkWidget * button, gpointer data )
   /* Find associated gtkentry */
   entree = gtk_object_get_data ( GTK_OBJECT(button), "entry" );
 
-  /* cherche la position où l'on va mettre la popup */
+  /* Find popup position */
   gdk_window_get_origin ( GTK_BUTTON (button) -> event_window, &x, &y );
   gtk_widget_size_request ( GTK_WIDGET (button), &taille_entree );
   y = y + taille_entree.height;
 
-  /* création de la popup */
+  /* Create popup */
   popup = gtk_window_new ( GTK_WINDOW_POPUP );
   gtk_window_set_modal ( GTK_WINDOW (popup), TRUE);
   gtk_widget_set_uposition ( GTK_WIDGET ( popup ), x, y );
 
-  /* création de l'intérieur de la popup */
+  /* Create popup widgets */
   frame = gtk_frame_new ( NULL );
   gtk_container_add ( GTK_CONTAINER (popup), frame);
-
   popup_boxv = gtk_vbox_new ( FALSE, 5 );
   gtk_container_set_border_width ( GTK_CONTAINER ( popup_boxv ), 5 );
-
   gtk_container_add ( GTK_CONTAINER ( frame ), popup_boxv);
 
+  /* Set initial date according to entry */
   if ( !( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree ))))
 	  &&
 	  sscanf ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )),
 		   "%d/%d/%d", &cal_jour, &cal_mois, &cal_annee)))
     sscanf ( date_jour(), "%d/%d/%d", &cal_jour, &cal_mois, &cal_annee);
       
+  /* Creates calendar */
   calendrier = gtk_calendar_new();
   gtk_calendar_select_month ( GTK_CALENDAR ( calendrier ), cal_mois-1, cal_annee);
   gtk_calendar_select_day  ( GTK_CALENDAR ( calendrier ), cal_jour);
-
   gtk_calendar_display_options ( GTK_CALENDAR ( calendrier ),
 				 GTK_CALENDAR_SHOW_HEADING |
 				 GTK_CALENDAR_SHOW_DAY_NAMES |
 				 GTK_CALENDAR_WEEK_START_MONDAY );
 
+  /* Create handlers */
   gtk_signal_connect ( GTK_OBJECT ( calendrier), "day-selected-double-click",
 		       GTK_SIGNAL_FUNC ( date_selectionnee ), entree );
   gtk_signal_connect_object ( GTK_OBJECT ( calendrier), "day-selected-double-click",
@@ -2552,17 +2612,18 @@ gboolean popup_calendar ( GtkWidget * button, gpointer data )
   gtk_box_pack_start ( GTK_BOX ( popup_boxv ), calendrier,
 		       TRUE, TRUE, 0 );
 
-  /* ajoute le bouton annuler */
+  /* Add the "cancel" button */
   bouton = gtk_button_new_with_label ( _("Cancel") );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton ), "clicked",
 			      GTK_SIGNAL_FUNC ( close_calendar_popup ),
 			      GTK_WIDGET ( popup ) );
-
   gtk_box_pack_start ( GTK_BOX ( popup_boxv ), bouton,
 		       TRUE, TRUE, 0 );
-      
+
+  /* Show everything */
   gtk_widget_show_all ( popup );
 
+  /* Grab pointer */
   gdk_pointer_grab ( popup -> window, TRUE,
 		     GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK |
 		     GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK |
@@ -2573,6 +2634,13 @@ gboolean popup_calendar ( GtkWidget * button, gpointer data )
 }
 
 
+/**
+ * Closes the popup specified as an argument.  As a quick but
+ * disgusting hack, we also grab focus on "fenetre_preferences", the
+ * dialog that contains all tabs, in order to preserve it.
+ *
+ * \param popup The popup to close.
+ */
 void close_calendar_popup ( GtkWidget *popup )
 {
   gtk_widget_destroy ( popup );
@@ -2581,7 +2649,13 @@ void close_calendar_popup ( GtkWidget *popup )
 }
 
 
-
+/**
+ * Convenience function that returns the first widget child of a
+ * GtkBox.  This is specially usefull for date "widgets" that contains
+ * one GtkEntry and one GtkButton, both packed in a single GtkHBox.
+ *
+ * \param hbox A GtkBox that contains at least one child.
+ */
 GtkWidget * get_entry_from_date_entry (GtkWidget * hbox)
 {
   return ((GtkBoxChild *) GTK_BOX(hbox)->children->data)->widget;
