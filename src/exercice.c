@@ -1,9 +1,9 @@
 /* Ce fichier s'occupe de la gestion des exercices */
 /* exercice.c */
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
-/* 			http:// www.grisbi.org */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
+/*			2003 Benjamin Drieu (bdrieu@april.org) */
+/* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
 /*     it under the terms of the GNU General Public License as published by */
@@ -26,75 +26,42 @@
 #include "en_tete.h"
 
 
-
-
-/* ************************************************************************************************************** */
+/**
+ * Creates the "Financial years" tab.  It creates a financial years
+ * list and then a form that allows to edit selected financial year.
+ *
+ * \returns A newly allocated vbox
+ */
 GtkWidget *onglet_exercices ( void )
 {
-  GtkWidget *hbox_pref, *vbox_pref;
-  GtkWidget *separateur;
-  GtkWidget *label;
-  GtkWidget *frame;
+  GtkWidget *hbox_pref, *vbox_pref, *label, *frame;
+  GtkWidget *scrolled_window, *vbox, *vbox2, *bouton, *hbox;
+  GtkWidget *paddingbox;
+  GtkSizeGroup * size_group;
   GSList *liste_tmp;
-  GtkWidget *scrolled_window;
-  GtkWidget *vbox;
-  GtkWidget *vbox2;
-  GtkWidget *bouton;
-  GtkWidget *hbox;
   gchar *titres[]={_("Name")};
 
 
   vbox_pref = new_vbox_with_title_and_icon ( _("Financial years"),
 					     "financial-years.png" );
 
-  hbox_pref = gtk_hbox_new ( FALSE,
-			     5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-		       hbox_pref,
-		       TRUE,
-		       TRUE,
-		       0);
-  gtk_widget_show ( hbox_pref );
+  paddingbox = paddingbox_new_with_title ( vbox_pref, FALSE,
+					   _("Known financial years") );
+  hbox = gtk_hbox_new ( FALSE, 5 );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
+		       FALSE, FALSE, 0);
 
-
-
-/* création de la 1ère colonne */
-
-  vbox = gtk_vbox_new ( FALSE,
-			    5 );
-  gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
-				   10 );
-  gtk_box_pack_start ( GTK_BOX ( hbox_pref ),
-		       vbox,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( vbox );
-
-
-/* création de la clist des exercies */
-
-
+  /* Create financial years list */
   scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       scrolled_window,
-		       FALSE,
-		       FALSE,
-		       0);
+  gtk_box_pack_start ( GTK_BOX ( hbox ), scrolled_window,
+		       TRUE, TRUE, 0);
   gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				   GTK_POLICY_NEVER,
 				   GTK_POLICY_AUTOMATIC);
-  gtk_widget_set_usize ( GTK_WIDGET ( scrolled_window ),
-			 FALSE,
-			 120 );
-  gtk_widget_show ( scrolled_window );
-
-
-  clist_exercices_parametres = gtk_clist_new_with_titles ( 1,
-							 titres );
-  gtk_clist_set_column_auto_resize ( GTK_CLIST ( clist_exercices_parametres ) ,
-				      0,
-				      TRUE );
+  gtk_widget_set_usize ( GTK_WIDGET ( scrolled_window ), FALSE, 120 );
+  clist_exercices_parametres = gtk_clist_new_with_titles ( 1, titres );
+  gtk_clist_set_column_auto_resize ( GTK_CLIST ( clist_exercices_parametres ),
+				      0, TRUE );
   gtk_clist_column_titles_passive ( GTK_CLIST ( clist_exercices_parametres ));
   gtk_signal_connect_object  ( GTK_OBJECT ( fenetre_preferences ),
 			       "apply",
@@ -102,20 +69,16 @@ GtkWidget *onglet_exercices ( void )
 			       GTK_OBJECT ( clist_exercices_parametres ));
   gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
 		      clist_exercices_parametres );
-  gtk_widget_show ( clist_exercices_parametres );
 
 
-
-  /*   si pas de fichier ouvert, on grise */
-
+  /* Do not activate unless an account is opened */
   if ( !nb_comptes )
-    gtk_widget_set_sensitive ( vbox,
-			       FALSE );
+    {
+      gtk_widget_set_sensitive ( vbox_pref, FALSE );
+    }
   else
     {
-
-      /* on crée la liste_struct_exercices_tmp qui est un copie de liste_struct_exercices originale */
-      /* avec laquelle on travaillera dans les parametres */
+      /* Work on a temporary list based on liste_struct_exercices */
 
       liste_struct_exercices_tmp = NULL;
       liste_tmp = liste_struct_exercices;
@@ -180,323 +143,93 @@ GtkWidget *onglet_exercices ( void )
 	}
     }
 
-/* création de la hbox des boutons en dessous */
+  /* Order buttons in a vbox */
+  vbox = gtk_vbox_new ( FALSE, 5 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), vbox,
+		       FALSE, FALSE, 0 );
 
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( hbox );
-
-
-/* ajout du bouton ajouter */
-
-  /* FIXME */
+  /* Add button */
   bouton = gtk_button_new_from_stock (GTK_STOCK_ADD);
-/*   bouton = gnome_stock_button ( GNOME_STOCK_PIXMAP_ADD ); */
-  gtk_signal_connect ( GTK_OBJECT ( bouton ),
-		       "clicked",
+  gtk_signal_connect ( GTK_OBJECT ( bouton ), "clicked",
 		       GTK_SIGNAL_FUNC  ( ajout_exercice ),
 		       clist_exercices_parametres );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       bouton,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( bouton );
-
-/* ajout du bouton annuler */
-
-  /* FIXME */
+  gtk_box_pack_start ( GTK_BOX ( vbox ), bouton,
+		       FALSE, FALSE, 5 );
+  /* Remove button */
   bouton_supprimer_exercice = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
-/*   bouton_supprimer_exercice = gnome_stock_button ( GNOME_STOCK_PIXMAP_REMOVE ); */
-  gtk_widget_set_sensitive ( bouton_supprimer_exercice,
-			     FALSE );
-  gtk_signal_connect ( GTK_OBJECT ( bouton_supprimer_exercice ),
-		       "clicked",
+  gtk_widget_set_sensitive ( bouton_supprimer_exercice, FALSE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton_supprimer_exercice ), "clicked",
 		       GTK_SIGNAL_FUNC  ( supprime_exercice ),
 		       clist_exercices_parametres );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       bouton_supprimer_exercice,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( bouton_supprimer_exercice );
+  gtk_box_pack_start ( GTK_BOX ( vbox ), bouton_supprimer_exercice,
+		       FALSE, FALSE, 5 );
 
-
-
-
-
-/* séparation */
-
-  separateur = gtk_hseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       separateur,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( separateur );
-
-  /* création du bouton association automatique */
-
-  bouton = gtk_button_new_with_label ( _("Automatic association") );
-  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			  GTK_RELIEF_NONE );
+  bouton = gtk_button_new_with_label ( _("Associate operations without financial years") );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
 		       "clicked",
 		       GTK_SIGNAL_FUNC ( association_automatique ),
 		       NULL );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       bouton,
-		       FALSE,
-		       FALSE,
-		       5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox ), bouton,
+		       FALSE, FALSE, 5 );
   gtk_widget_show ( bouton );
 
 
-
-  /* création de la 2ème colonne */
-
-  vbox = gtk_vbox_new ( FALSE,
-			    5 );
-  gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
-				   10 );
-  gtk_box_pack_start ( GTK_BOX ( hbox_pref ),
-		       vbox,
-		       TRUE,
-		       TRUE,
-		       0);
-  gtk_widget_show ( vbox );
-
-
-/* frame de droite-haut qui contient les caractéristiques de la exercice */
-
-  frame = gtk_frame_new ( NULL );
-  gtk_container_set_border_width ( GTK_CONTAINER ( frame ),
-				   10 );
-  gtk_widget_set_sensitive ( frame,
-			     FALSE );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       frame,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( frame );
-
-  /* la sélection d'une exercice dégrise la frame */
-
-  gtk_signal_connect ( GTK_OBJECT ( clist_exercices_parametres ),
-		       "select-row",
+  /* Handle clist selections */
+  gtk_signal_connect ( GTK_OBJECT ( clist_exercices_parametres ), "select-row",
 		       GTK_SIGNAL_FUNC ( selection_ligne_exercice ),
 		       frame );
-  gtk_signal_connect ( GTK_OBJECT ( clist_exercices_parametres ),
-		       "unselect-row",
+  gtk_signal_connect ( GTK_OBJECT ( clist_exercices_parametres ), "unselect-row",
 		       GTK_SIGNAL_FUNC ( deselection_ligne_exercice ),
 		       frame );
 
-  vbox2 = gtk_vbox_new ( FALSE,
-			 0 );
-  gtk_container_set_border_width ( GTK_CONTAINER ( vbox2 ),
-				   5 );
-  gtk_container_add ( GTK_CONTAINER ( frame ),
-		      vbox2 );
-  gtk_widget_show ( vbox2 );
+  /* Financial year details */
+  paddingbox = paddingbox_new_with_title ( vbox_pref, FALSE,
+					   _("Financial year details") );
+  size_group = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
 
-
-  /* mise en forme du nom de l'exercice */
-
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( hbox );
-
+  /* Financial year name */
+  hbox = gtk_hbox_new ( FALSE, 6 );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
+		       FALSE, FALSE, 0 );
   label = gtk_label_new ( COLON(_("Name")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( label );
-
+  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
+		       FALSE, FALSE, 0 );
   nom_exercice = gtk_entry_new ();
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       nom_exercice,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( nom_exercice );
+  gtk_size_group_add_widget ( size_group, nom_exercice );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), nom_exercice,
+		       TRUE, TRUE, 0 );
 
-
-/* mise en forme des dates de début et fin de l'exercice */
-
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( hbox );
-
+  /* Start */
+  hbox = gtk_hbox_new ( FALSE, 6 );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
+		       FALSE, FALSE, 0 );
   label = gtk_label_new ( COLON(_("Start")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( label );
-
+  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
+		       FALSE, FALSE, 0 );
   debut_exercice = gtk_entry_new ();
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       debut_exercice,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( debut_exercice );
+  gtk_size_group_add_widget ( size_group, debut_exercice );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), debut_exercice,
+		       TRUE, TRUE, 0 );
 
-  separateur = gtk_vseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       separateur,
-		       TRUE,
-		       TRUE,
-		       0 );
-  gtk_widget_show ( separateur );
-
+  /* End */
+  hbox = gtk_hbox_new ( FALSE, 6 );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
+		       FALSE, FALSE, 0 );
   label = gtk_label_new ( COLON(_("End")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( label );
-
+  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
+		       FALSE, FALSE, 0 );
   fin_exercice = gtk_entry_new ();
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       fin_exercice,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( fin_exercice );
+  gtk_size_group_add_widget ( size_group, fin_exercice );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), fin_exercice,
+		       TRUE, TRUE, 0 );
 
-  /* mise en place de l'affichage dans le formulaire */
-
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( hbox );
-
-  affichage_exercice = gtk_check_button_new_with_label ( _("Displayed in the form") );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       affichage_exercice,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( affichage_exercice );
-
-
-
-/* séparation */
-
-  separateur = gtk_hseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
-		       separateur,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( separateur );
-
-/* ajout des bouton appliquer et annuler */
-
-  hbox_boutons_modif_exercice = gtk_hbox_new ( FALSE,
-			0 );
-  gtk_widget_set_sensitive ( hbox_boutons_modif_exercice,
-			     FALSE );
-  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
-		       hbox_boutons_modif_exercice,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( hbox_boutons_modif_exercice );
-
-
-/*   on met ici toutes les connections qui, pour chaque changement, rendent sensitif les boutons */
-
-  gtk_signal_connect ( GTK_OBJECT ( nom_exercice ),
-		       "changed",
-		       GTK_SIGNAL_FUNC ( modif_detail_exercice ),
-		       NULL);
-  gtk_signal_connect ( GTK_OBJECT ( debut_exercice ),
-		       "changed",
-		       GTK_SIGNAL_FUNC ( modif_detail_exercice ),
-		       NULL);
-  gtk_signal_connect ( GTK_OBJECT ( fin_exercice ),
-		       "changed",
-		       GTK_SIGNAL_FUNC ( modif_detail_exercice ),
-		       NULL);
-  gtk_signal_connect ( GTK_OBJECT ( affichage_exercice ),
-		       "toggled",
-		       GTK_SIGNAL_FUNC ( modif_detail_exercice ),
-		       NULL);
-
-  /* FIXME */
-  bouton = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
-/*   bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL ); */
-  gtk_signal_connect ( GTK_OBJECT ( bouton ),
-		       "clicked",
-		       GTK_SIGNAL_FUNC ( annuler_modif_exercice ),
-		       clist_exercices_parametres );
-  gtk_box_pack_end ( GTK_BOX ( hbox_boutons_modif_exercice ),
-		       bouton,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( bouton );
-
-  /* FIXME */
-  bouton = gtk_button_new_from_stock (GTK_STOCK_APPLY);
-/*   bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_APPLY ); */
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
-			      "clicked",
-			      GTK_SIGNAL_FUNC ( applique_modif_exercice  ),
-			      GTK_OBJECT ( clist_exercices_parametres ) );
-  gtk_box_pack_end ( GTK_BOX ( hbox_boutons_modif_exercice ),
-		       bouton,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( bouton );
-
-
-/* frame de droite-bas qui contient le choix de l'affichage des exercices */
-
-  frame = gtk_frame_new ( _("Display of the financial year") );
-  gtk_container_set_border_width ( GTK_CONTAINER ( frame ),
-				   10 );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       frame,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( frame );
-
-  vbox2 = gtk_vbox_new ( FALSE,
-			 0 );
-  gtk_container_set_border_width ( GTK_CONTAINER ( vbox2 ),
-				   5 );
-  gtk_container_add ( GTK_CONTAINER ( frame ),
-		      vbox2 );
-  gtk_widget_show ( vbox2 );
+  /* Activate in transaction form? */
+  /* FIXME: make a new checkbox paradigm to allow refining (put data
+     in widget?) */
+  affichage_exercice = new_checkbox_with_title (_("Activate in transaction form"),
+						NULL);
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), affichage_exercice,
+		       FALSE, FALSE, 0 );
 
   return ( vbox_pref );
 }
@@ -749,19 +482,6 @@ void deselection_ligne_exercice ( GtkWidget *liste,
 			     FALSE );
 }
 /* **************************************************************************************************************************** */
-
-
-
-/* **************************************************************************************************************************** */
-void modif_detail_exercice ( void )
-{
-
-  gtk_widget_set_sensitive ( hbox_boutons_modif_exercice,
-			     TRUE );
-
-}
-/* **************************************************************************************************************************** */
-
 
 
 
