@@ -3569,7 +3569,6 @@ void ajout_operation ( struct structure_operation *operation )
     mise_a_jour_soldes_minimaux = 1;
     mise_a_jour_fin_comptes_passifs = 1;
 
-
     p_tab_nom_de_compte_variable = save_ptab;
 }
 /******************************************************************************/
@@ -3592,6 +3591,8 @@ void insere_operation_dans_liste ( struct structure_operation *operation )
 	LISTE_OPERATIONS = g_slist_insert_sorted ( LISTE_OPERATIONS,
 						   operation,
 						   (GCompareFunc) CLASSEMENT_COURANT );
+	
+	selectionne_ligne ( operation );
     }
 }
 /******************************************************************************/
