@@ -3135,17 +3135,17 @@ void validation_virement_operation ( struct structure_operation *operation,
     contre_operation -> jour = operation -> jour;
     contre_operation -> mois = operation -> mois;
     contre_operation -> annee = operation -> annee;
-    contre_operation -> date = g_date_new_dmy ( contre_operation->jour,
-						contre_operation->mois,
-						contre_operation->annee);
+    contre_operation -> date = g_date_new_dmy ( operation -> jour,
+						operation -> mois,
+						operation -> annee);
     if ( !modification )
 {
     contre_operation -> jour_bancaire = operation -> jour_bancaire;
     contre_operation -> mois_bancaire = operation -> mois_bancaire;
     contre_operation -> annee_bancaire = operation -> annee_bancaire;
-    contre_operation -> date_bancaire = g_date_new_dmy ( contre_operation->jour_bancaire,
-							 contre_operation->mois_bancaire,
-							 contre_operation->annee_bancaire);
+    contre_operation -> date_bancaire = g_date_new_dmy ( operation -> jour_bancaire,
+							 operation -> mois_bancaire,
+							 operation -> annee_bancaire);
 }
 
     contre_operation -> montant = -operation -> montant;
