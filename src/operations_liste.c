@@ -4,7 +4,7 @@
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
 /*			2004      Benjamin Drieu (bdrieu@april.org) 	      */
-/*			2003-2004 Alain Portal (dionysos@grisbi.org) 	      */
+/*			2003-2005 Alain Portal (dionysos@grisbi.org) 	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -2942,6 +2942,7 @@ struct structure_operation *  new_transaction_from ( struct structure_operation 
   if ( pTemplateTransaction -> no_exercice )
   {
     GSList *pFinancialYearList;
+    gboolean found = FALSE;
 
     pFinancialYearList = liste_struct_exercices;
 
@@ -2955,10 +2956,16 @@ struct structure_operation *  new_transaction_from ( struct structure_operation 
 	   g_date_compare ( pFinancialYear -> date_fin, pNewTransaction -> date ) >= 0 )
       {
 	pNewTransaction -> no_exercice = pFinancialYear -> no_exercice;
+	found = TRUE;
       }
 
       pFinancialYearList = pFinancialYearList -> next;
     }
+    
+    /* Si on n'a pas trouvé d'exercice,
+       on met le numéro à 0, c-à-d aucun */
+    if (!found)
+      pNewTransaction -> no_exercice = 0;
   }
 
   ajout_operation ( pNewTransaction );
@@ -2979,13 +2986,13 @@ struct structure_operation *  new_transaction_from ( struct structure_operation 
 
     while ( pTransactionList )
     {
-      struct structure_operation *operation_2;
+      struct structure_operation *pTransactionTmp;
 
-      operation_2 = pTransactionList -> data;
+      pTransactionTmp = pTransactionList -> data;
 
-      if ( operation_2 -> no_operation_ventilee_associee == pTemplateTransaction -> no_operation )
+      if ( pTransactionTmp -> no_operation_ventilee_associee == pTemplateTransaction -> no_operation )
       {
-	pScheduledTransaction = new_transaction_from ( operation_2 );
+	pScheduledTransaction = new_transaction_from ( pTransactionTmp );
 	pScheduledTransaction -> no_operation_ventilee_associee = pNewTransaction -> no_operation;
       }
 
