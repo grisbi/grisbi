@@ -41,9 +41,7 @@ void charge_configuration ( void )
   /*   on vérifie que le fichier de conf existe bien ; dans le cas contraire, on charge */
   /* la conf par défaut */
 
-  if ( stat ( g_strconcat ( getenv ("HOME"),
-			    "/.gnome2/Grisbi",
-			    NULL ),
+  if ( stat ( g_strconcat ( getenv ("HOME"), "/.gnome2/", FICHIER_CONF, NULL ),
 	      &buffer_stat ) == -1 )
     {
       raz_configuration ();
@@ -202,19 +200,14 @@ void sauve_configuration (void)
 
   /*   sauvegarde de la géométrie */
 
-  /* BENJ FIXME 
-  if ( GTK_WIDGET ( window) -> window )
-    gnome_parse_geometry ( gnome_geometry_string ( GTK_WIDGET ( window) -> window ),
-			   &x,
-			   &y,
-			   &largeur_window,
-			   &hauteur_window );
-  else
-    {
-      largeur_window = 0;
-      hauteur_window = 0;
-    }
-    */
+/*   if ( GTK_WIDGET ( window) -> window ) */
+/*     gnome_parse_geometry ( gnome_geometry_string ( GTK_WIDGET(window) -> window ), */
+/* 			   &x, &y, &largeur_window, &hauteur_window ); */
+/*   else */
+/*     { */
+/*       largeur_window = 0; */
+/*       hauteur_window = 0; */
+/*     } */
 
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Geometry/Width", NULL ),
 			 largeur_window );
@@ -222,7 +215,6 @@ void sauve_configuration (void)
 			 hauteur_window );
 
   /* sauvegarde de l'onglet général */
-
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Modification_operations_rapprochees", NULL ),
 			 etat.r_modifiable );
   gnome_config_set_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Dernier_chemin_de_travail", NULL ),
