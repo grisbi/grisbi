@@ -1244,7 +1244,9 @@ void traitement_donnees_brutes ( void )
 
   update_liste_comptes_accueil ();
   mise_a_jour_soldes_minimaux ();
-
+  /* actualise la liste des comptes dans l'onglet accueil
+     ferme le bogue #185 */
+  reaffiche_liste_comptes_onglet();
   affiche_titre_fenetre ();
 
   annulation_attente();
