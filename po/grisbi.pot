@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-05 22:04+0200\n"
+"POT-Creation-Date: 2003-09-07 15:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -198,7 +198,7 @@ msgstr ""
 msgid "Grisbi logo"
 msgstr ""
 
-#: src/affichage.c:274 src/affichage.c:726
+#: src/affichage.c:274 src/affichage.c:731
 msgid "Change homepage logo"
 msgstr ""
 
@@ -207,116 +207,120 @@ msgid "Fonts"
 msgstr ""
 
 #. Change general font
-#: src/affichage.c:294 src/affichage.c:1344
+#: src/affichage.c:294 src/affichage.c:1371
 msgid "General font"
 msgstr ""
 
 #. Change list font
-#: src/affichage.c:333 src/affichage.c:1279
+#: src/affichage.c:333 src/affichage.c:1306
 msgid "Transaction list font"
 msgstr ""
 
-#: src/affichage.c:392 src/parametres.c:187
+#: src/affichage.c:374
+msgid "Restore defaults fonts"
+msgstr ""
+
+#: src/affichage.c:397 src/parametres.c:187
 msgid "Addresses & titles"
 msgstr ""
 
-#: src/affichage.c:405
+#: src/affichage.c:410
 msgid "Account title"
 msgstr ""
 
-#: src/affichage.c:443
+#: src/affichage.c:448
 msgid "Common address"
 msgstr ""
 
-#: src/affichage.c:493
+#: src/affichage.c:498
 msgid "Secondary address"
 msgstr ""
 
-#: src/affichage.c:604
+#: src/affichage.c:609
 msgid ": Change lists font /"
 msgstr ""
 
-#: src/affichage.c:629 src/affichage.c:690
+#: src/affichage.c:634 src/affichage.c:695
 msgid "Init"
 msgstr ""
 
-#: src/affichage.c:664
+#: src/affichage.c:669
 msgid ": Change general font /"
 msgstr ""
 
-#: src/affichage.c:757
+#: src/affichage.c:762
 msgid "Accounts display order"
 msgstr ""
 
-#: src/affichage.c:771
+#: src/affichage.c:776
 msgid "No account defined"
 msgstr ""
 
-#: src/affichage.c:910
+#: src/affichage.c:915
 msgid "Transactions list and form"
 msgstr ""
 
-#: src/affichage.c:924
+#: src/affichage.c:929
 msgid "Display the number of the edited transaction."
 msgstr ""
 
 #. GDC : bouton pour choisir d'afficher ou non la date réelle (colonne et champ)
-#: src/affichage.c:940
+#: src/affichage.c:945
 msgid "Display the value date of the transactions."
 msgstr ""
 
 #. FinGDC
-#: src/affichage.c:956
+#: src/affichage.c:961
 msgid "Use financial years."
 msgstr ""
 
-#: src/affichage.c:970
+#: src/affichage.c:975
 msgid "Use budgetary informations."
 msgstr ""
 
-#: src/affichage.c:984
+#: src/affichage.c:989
 msgid "Use the voucher number field."
 msgstr ""
 
-#: src/affichage.c:998
+#: src/affichage.c:1003
 msgid "Use the bank references field."
 msgstr ""
 
-#: src/affichage.c:1012
+#: src/affichage.c:1017
 msgid "Display 'Accept' and 'Cancel' transaction buttons."
 msgstr ""
 
 #. mise en place de la frame sur l'affichage des listes
-#: src/affichage.c:1030
+#: src/affichage.c:1035
 msgid "Third parties, categories and budgetary info lists."
 msgstr ""
 
-#: src/affichage.c:1055 src/devises.c:1424
+#: src/affichage.c:1060 src/devises.c:1424
 msgid "Currency"
 msgstr ""
 
 #. affichage du nb d'écritures
-#: src/affichage.c:1089
+#: src/affichage.c:1094
 msgid "Display the number of transactions."
 msgstr ""
 
-#: src/affichage.c:1124
+#: src/affichage.c:1129
 msgid "Sort the transaction list"
 msgstr ""
 
-#: src/affichage.c:1139 src/affichage_liste.c:402
+#: src/affichage.c:1144 src/affichage_liste.c:402
 msgid "by date"
 msgstr ""
 
-#: src/affichage.c:1148 src/affichage_liste.c:411
+#: src/affichage.c:1153 src/affichage_liste.c:411
 msgid "by value date"
 msgstr ""
 
-#: src/affichage.c:1401 src/affichage.c:1409
+#: src/affichage.c:1428 src/affichage.c:1436
 msgid "Select a new logo"
 msgstr ""
 
-#: src/affichage.c:1427
+#: src/affichage.c:1454
 msgid "Reset to default logo"
 msgstr ""
 

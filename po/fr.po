@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-05 22:04+0200\n"
-"PO-Revision-Date: 2003-09-05 22:04+0200\n"
+"POT-Creation-Date: 2003-09-07 15:09+0200\n"
+"PO-Revision-Date: 2003-09-07 15:09+0200\n"
 "Last-Translator: Benjamin Drieu <bdrieu@april.org>\n"
 "Language-Team: Francais <traduction@grisbi.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -200,7 +200,7 @@ msgstr "Polices et logo"
 msgid "Grisbi logo"
 msgstr "Logo de Grisbi"
 
-#: src/affichage.c:274 src/affichage.c:726
+#: src/affichage.c:274 src/affichage.c:731
 msgid "Change homepage logo"
 msgstr "Modifier le logo de l'accueil"
 
@@ -209,116 +209,120 @@ msgid "Fonts"
 msgstr "Polices"
 
 #. Change general font
-#: src/affichage.c:294 src/affichage.c:1344
+#: src/affichage.c:294 src/affichage.c:1371
 msgid "General font"
 msgstr "Police générale"
 
 #. Change list font
-#: src/affichage.c:333 src/affichage.c:1279
+#: src/affichage.c:333 src/affichage.c:1306
 msgid "Transaction list font"
 msgstr "Police de la liste des opérations"
 
-#: src/affichage.c:392 src/parametres.c:187
+#: src/affichage.c:374
+msgid "Restore defaults fonts"
+msgstr "Rétablir les polices par défaut"
+
+#: src/affichage.c:397 src/parametres.c:187
 msgid "Addresses & titles"
 msgstr "Adresses et titres"
 
-#: src/affichage.c:405
+#: src/affichage.c:410
 msgid "Account title"
 msgstr "Titre du compte"
 
-#: src/affichage.c:443
+#: src/affichage.c:448
 msgid "Common address"
 msgstr "Adresse commune"
 
-#: src/affichage.c:493
+#: src/affichage.c:498
 msgid "Secondary address"
 msgstr "Adresse secondaire"
 
-#: src/affichage.c:604
+#: src/affichage.c:609
 msgid ": Change lists font /"
 msgstr ": Modifier la fonte des listes /"
 
-#: src/affichage.c:629 src/affichage.c:690
+#: src/affichage.c:634 src/affichage.c:695
 msgid "Init"
 msgstr "RAZ"
 
-#: src/affichage.c:664
+#: src/affichage.c:669
 msgid ": Change general font /"
 msgstr ": Modifier la fonte générale /"
 
-#: src/affichage.c:757
+#: src/affichage.c:762
 msgid "Accounts display order"
 msgstr "Ordre d'affichage des comptes"
 
-#: src/affichage.c:771
+#: src/affichage.c:776
 msgid "No account defined"
 msgstr "Aucun compte défini"
 
-#: src/affichage.c:910
+#: src/affichage.c:915
 msgid "Transactions list and form"
 msgstr "Comptabilité et formulaire"
 
-#: src/affichage.c:924
+#: src/affichage.c:929
 msgid "Display the number of the edited transaction."
 msgstr "Afficher le numéro de l'opération éditée."
 
 #. GDC : bouton pour choisir d'afficher ou non la date réelle (colonne et champ)
-#: src/affichage.c:940
+#: src/affichage.c:945
 msgid "Display the value date of the transactions."
 msgstr "Afficher la date de valeur des opérations."
 
 #. FinGDC
-#: src/affichage.c:956
+#: src/affichage.c:961
 msgid "Use financial years."
 msgstr "Utiliser les Exercices."
 
-#: src/affichage.c:970
+#: src/affichage.c:975
 msgid "Use budgetary informations."
 msgstr "Utiliser les Imputations Budgétaires."
 
-#: src/affichage.c:984
+#: src/affichage.c:989
 msgid "Use the voucher number field."
 msgstr "Utiliser l'entrée des Pièces Comptables."
 
-#: src/affichage.c:998
+#: src/affichage.c:1003
 msgid "Use the bank references field."
 msgstr "Utiliser l'entrée des informations Banque / Guichet."
 
-#: src/affichage.c:1012
+#: src/affichage.c:1017
 msgid "Display 'Accept' and 'Cancel' transaction buttons."
 msgstr "Afficher les boutons Valider et Annuler l'opération."
 
 #. mise en place de la frame sur l'affichage des listes
-#: src/affichage.c:1030
+#: src/affichage.c:1035
 msgid "Third parties, categories and budgetary info lists."
 msgstr "Listes des Tiers, Catégories et I.B."
 
-#: src/affichage.c:1055 src/devises.c:1424
+#: src/affichage.c:1060 src/devises.c:1424
 msgid "Currency"
 msgstr "Devise"
 
 #. affichage du nb d'écritures
-#: src/affichage.c:1089
+#: src/affichage.c:1094
 msgid "Display the number of transactions."
 msgstr "Afficher le nombre d'écritures."
 
-#: src/affichage.c:1124
+#: src/affichage.c:1129
 msgid "Sort the transaction list"
 msgstr "Tri de la liste d'opérations"
 
-#: src/affichage.c:1139 src/affichage_liste.c:402
+#: src/affichage.c:1144 src/affichage_liste.c:402
 msgid "by date"
 msgstr "Classer par date"
 
-#: src/affichage.c:1148 src/affichage_liste.c:411
+#: src/affichage.c:1153 src/affichage_liste.c:411
 msgid "by value date"
 msgstr "Classer par date de valeur"
 
-#: src/affichage.c:1401 src/affichage.c:1409
+#: src/affichage.c:1428 src/affichage.c:1436
 msgid "Select a new logo"
 msgstr "Sélection d'un nouveau logo"
 
-#: src/affichage.c:1427
+#: src/affichage.c:1454
 msgid "Reset to default logo"
 msgstr "Rétablir le logo de Grisbi"
 
@@ -5584,9 +5588,3 @@ msgid ""
 msgstr ""
 "Bizarre ... une opé de ventilation a été marquée pour la suppression alors\n"
 "qu'elle n'était pas encore enregistrée..."
-
-#~ msgid "Financial expenses : Refundable"
-#~ msgstr "Frais professionnels : Remboursés"
-
-#~ msgid "N°"
-#~ msgstr "N°"
