@@ -1265,6 +1265,9 @@ void fill_reconciliation_tree ()
     GtkTreeIter account_iter, payment_method_iter;
     GSList *pUserAccountsList = NULL;
 
+    if ( nb_comptes == 0 )
+	return;
+
     pUserAccountsList = g_slist_copy ( ordre_comptes );
 
     do

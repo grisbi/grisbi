@@ -128,6 +128,9 @@ void fill_payment_method_tree ()
     GtkTreeIter account_iter, debit_iter, credit_iter;
     GSList *pUserAccountsList = NULL;
 
+    if ( nb_comptes == 0 )
+	return;
+
     pUserAccountsList = g_slist_copy ( ordre_comptes );
 
     /* Fill tree, iter over with accounts */
