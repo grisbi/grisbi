@@ -3138,7 +3138,16 @@ void validation_virement_operation ( struct structure_operation *operation,
     contre_operation -> date = g_date_new_dmy ( contre_operation->jour,
 						contre_operation->mois,
 						contre_operation->annee);
-    
+    if ( !modification )
+{
+    contre_operation -> jour_bancaire = operation -> jour_bancaire;
+    contre_operation -> mois_bancaire = operation -> mois_bancaire;
+    contre_operation -> annee_bancaire = operation -> annee_bancaire;
+    contre_operation -> date_bancaire = g_date_new_dmy ( contre_operation->jour_bancaire,
+							 contre_operation->mois_bancaire,
+							 contre_operation->annee_bancaire);
+}
+
     contre_operation -> montant = -operation -> montant;
 
     /* si c'est la devise du compte ou si c'est un compte qui doit passer à l'euro ( la transfo se fait au niveau */
