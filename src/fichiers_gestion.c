@@ -251,7 +251,7 @@ void ouverture_confirmee ( void )
 		while ( parametres[i] )
 		    i++;
 
-		nom_fichier_comptes = g_strconcat ( getenv ("HOME"),
+		nom_fichier_comptes = g_strconcat ( g_get_home_dir(),
 						    "/.",
 						    parametres [i-1],
 						    ".bak",
@@ -312,7 +312,7 @@ void ouverture_confirmee ( void )
 		while ( parametres[i] )
 		    i++;
 
-		nom_fichier_comptes = g_strconcat ( getenv ("HOME"),
+		nom_fichier_comptes = g_strconcat ( g_get_home_dir(),
 						    "/.",
 						    parametres [i-1],
 						    ".bak",
