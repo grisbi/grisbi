@@ -380,12 +380,6 @@ void creation_listes_operations ( void )
       remplissage_liste_operations ( i );
     }
 
-  /* met la fonte appropriée */
-
-  if ( fonte_liste )
-    choix_fonte ( NULL,
-		  fonte_liste,
-		  NULL );
 }
 /******************************************************************************/
 
