@@ -43,7 +43,6 @@
 /*START_EXTERN*/
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-extern struct struct_devise *devise_compte;
 extern gint nb_comptes;
 extern GSList *liste_struct_echeances;
 extern gint compte_courant;
@@ -167,7 +166,7 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 
     if ( division && iface -> div_balance ( division ) )
 	balance = g_strdup_printf ( _("%4.2f %s"), iface -> div_balance ( division ),
-				    devise_code ( devise_compte ) );
+				    devise_code ( iface -> tree_currency () ) );
     
     if ( iface -> depth == 1 && 
 	 ! gtk_tree_model_iter_has_child ( model, iter ) && 
@@ -227,7 +226,7 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 
 	balance = g_strdup_printf ( _("%4.2f %s"),
 				    iface -> sub_div_balance ( division, sub_division ),
-				    devise_code ( devise_compte ) );
+				    devise_code ( iface -> tree_currency () ) );
     }
     
     gtk_tree_store_set ( GTK_TREE_STORE (model), iter,
@@ -1081,7 +1080,7 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
 
     /*       mise en place du choix tranfert vers un autre division */
 
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox,
 			 FALSE, FALSE, 0 );
 
@@ -1161,20 +1160,17 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
     liste_combofix = g_slist_append ( liste_combofix, liste_division_debit );
     liste_combofix = g_slist_append ( liste_combofix, liste_division_credit );
 
-    combofix = gtk_combofix_new_complex ( liste_combofix, TRUE,
-					  TRUE, TRUE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), combofix,
-			 TRUE, TRUE, 0 );
+    combofix = gtk_combofix_new_complex ( liste_combofix, TRUE, TRUE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), combofix, TRUE, TRUE, 0 );
 
     /*       mise en place du choix supprimer le division */
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox,
 			 FALSE, FALSE, 0 );
     
     bouton_division_generique = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_transfert )),
 								  PRESPACIFY(_("Just remove this sub-division.")) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_division_generique,
-			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_division_generique, FALSE, FALSE, 0 );
 
     gtk_widget_show_all ( dialog );
 
