@@ -107,8 +107,8 @@ GtkWidget *creation_formulaire_echeancier ( void )
 			 FALSE );
   gtk_box_pack_start ( GTK_BOX ( formulaire_echeancier ),
 		       table,
-		       FALSE,
-		       FALSE,
+		       TRUE,
+		       TRUE,
 		       0 );
   gtk_widget_show ( table );
 
@@ -121,7 +121,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		     label_saisie_modif,
 		     0, 1,
 		     0, 1,
-		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL | GTK_EXPAND,
 		     GTK_SHRINK | GTK_FILL,
 		     0,0);
 
@@ -133,7 +133,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		     widget_formulaire_echeancier[SCHEDULER_FORM_DATE],
 		     1, 2,
 		     0, 1,
-		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL | GTK_EXPAND,
 		     GTK_SHRINK | GTK_FILL,
 		     0, 0);
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] ),
@@ -185,7 +185,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		     widget_formulaire_echeancier[SCHEDULER_FORM_PARTY],
 		     2, 3,
 		     0, 1,
-		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL | GTK_EXPAND,
 		     GTK_SHRINK | GTK_FILL,
 		     0, 0);
   gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] );
@@ -213,7 +213,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		     widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT],
 		     3, 4,
 		     0, 1,
-		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL | GTK_EXPAND,
 		     GTK_SHRINK | GTK_FILL,
 		     0, 0);
   gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] );
@@ -242,7 +242,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		     widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT],
 		     4, 5,
 		     0, 1,
-		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL | GTK_EXPAND,
 		     GTK_SHRINK | GTK_FILL,
 		     0, 0);
   gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] );
@@ -267,7 +267,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		     widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE],
 		     5, 7,
 		     0, 1,
-		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL | GTK_EXPAND,
 		     GTK_SHRINK | GTK_FILL,
 		     0, 0);
   gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE] );
@@ -294,7 +294,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		     widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT],
 		     0, 2,
 		     1, 2,
-		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL | GTK_EXPAND,
 		     GTK_SHRINK | GTK_FILL,
 		     0, 0);
   gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] );
@@ -330,7 +330,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		     widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY],
 		     2, 3,
 		     1, 2,
-		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL | GTK_EXPAND,
 		     GTK_SHRINK | GTK_FILL,
 		     0, 0);
   gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] );
@@ -359,7 +359,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		     widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE],
 		     5, 7,
 		     1, 2,
-		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL | GTK_EXPAND,
 		     GTK_SHRINK | GTK_FILL,
 		     0, 0);
   gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] );
@@ -379,7 +379,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		     widget_formulaire_echeancier[SCHEDULER_FORM_TYPE],
 		     3, 5,
 		     1, 2,
-		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL | GTK_EXPAND,
 		     GTK_SHRINK | GTK_FILL,
 		     0, 0);
 
@@ -418,7 +418,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		     widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE],
 		     0, 2,
 		     2, 3,
-		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL | GTK_EXPAND,
 		     GTK_SHRINK | GTK_FILL,
 		     0, 0);
   gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] );
@@ -437,7 +437,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		     widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY],
 		     2, 3,
 		     2, 3,
-		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL | GTK_EXPAND,
 		     GTK_SHRINK | GTK_FILL,
 		     0, 0);
   gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ) -> entry),
@@ -475,7 +475,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
   gtk_table_attach ( GTK_TABLE ( table ),
 		     widget_formulaire_echeancier[SCHEDULER_FORM_BANK],
 	     3, 5, 2, 3,
-	     GTK_SHRINK | GTK_FILL,
+	     GTK_SHRINK | GTK_FILL | GTK_EXPAND,
 	     GTK_SHRINK | GTK_FILL,
 	     0, 0);
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[SCHEDULER_FORM_BANK] ),
@@ -508,7 +508,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
  gtk_table_attach ( GTK_TABLE ( table ),
 		     widget_formulaire_echeancier[SCHEDULER_FORM_VOUCHER],
 		     5, 7, 2, 3,
-		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL | GTK_EXPAND,
 		     GTK_SHRINK | GTK_FILL,
 		     0, 0);
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[SCHEDULER_FORM_VOUCHER] ),
@@ -571,7 +571,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		     widget_formulaire_echeancier[SCHEDULER_FORM_MODE],
 		     0, 2,
 		     3, 4,
-		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL | GTK_EXPAND,
 		     GTK_SHRINK | GTK_FILL,
 		     0, 0);
   gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_MODE] );
@@ -599,7 +599,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		     widget_formulaire_echeancier[SCHEDULER_FORM_NOTES],
 		     2, 3,
 		     3, 4,
-		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL | GTK_EXPAND,
 		     GTK_SHRINK | GTK_FILL,
 		     0, 0);
   gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES] );
@@ -708,7 +708,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		     widget_formulaire_echeancier[SCHEDULER_FORM_FREQUENCY],
 		     3, 4,
 		     3, 4,
-		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL | GTK_EXPAND,
 		     GTK_SHRINK | GTK_FILL,
 		     0, 0);
   gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQUENCY] );
@@ -736,7 +736,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		     widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE],
 		     4, 5,
 		     3, 4,
-		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL | GTK_EXPAND,
 		     GTK_SHRINK | GTK_FILL,
 		     0, 0);
   gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] );
@@ -756,7 +756,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		     widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_NB],
 		     5, 6,
 		     3, 4,
-		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL | GTK_EXPAND,
 		     GTK_SHRINK | GTK_FILL,
 		     0, 0);
   gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_NB] );
@@ -805,7 +805,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		     widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_MENU],
 		     6, 7,
 		     3, 4,
-		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL | GTK_EXPAND,
 		     GTK_SHRINK | GTK_FILL,
 		     0, 0);
   gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_MENU] );
