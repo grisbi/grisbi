@@ -1,11 +1,8 @@
 /*  Fichier qui s'occupe de l'onglet états */
 /*      etats.c */
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
-/* 			http://www.grisbi.org */
-/*     Copyright (C) 2002-2003  Benjamin Drieu */
-/* 			bdrieu@april.org */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
+/*			2002-2004 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -45,7 +42,9 @@ GtkWidget *creation_onglet_etats ( void )
   etat_courant = NULL;
 
 
-  onglet = gtk_hbox_new ( FALSE, 10 );
+/*   onglet = gtk_hbox_new ( FALSE, 10 ); */
+  onglet = gtk_hpaned_new ();
+  gtk_paned_set_position ( GTK_PANED(onglet), 200 );
   gtk_container_set_border_width ( GTK_CONTAINER ( onglet ), 10 );
   gtk_widget_show ( onglet );
 
@@ -55,18 +54,19 @@ GtkWidget *creation_onglet_etats ( void )
   frame_liste_etats = gtk_frame_new ( NULL );
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame_liste_etats ),
 			      GTK_SHADOW_IN );
-  gtk_box_pack_start ( GTK_BOX ( onglet ), frame_liste_etats,
-		       FALSE, FALSE, 0 );
+/*   gtk_box_pack_start ( GTK_BOX ( onglet ), frame_liste_etats, */
+/* 		       FALSE, FALSE, 0 ); */
+  gtk_paned_add1 ( GTK_PANED(onglet), frame_liste_etats );
   gtk_widget_show (frame_liste_etats);
   /* on y met les rapports et les boutons */
   gtk_container_add ( GTK_CONTAINER ( frame_liste_etats ),
 		      creation_liste_etats ());
 
-
   /* Frame de droite */
   frame = gtk_frame_new ( NULL );
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), GTK_SHADOW_IN );
-  gtk_box_pack_start ( GTK_BOX ( onglet ), frame, TRUE, TRUE, 0 );
+/*   gtk_box_pack_start ( GTK_BOX ( onglet ), frame, TRUE, TRUE, 0 ); */
+  gtk_paned_add2 ( GTK_PANED(onglet), frame );
   gtk_widget_show (frame);
 
   /* création du notebook contenant l'état et la config */
@@ -164,8 +164,8 @@ GtkWidget *creation_liste_etats ( void )
   gtk_misc_set_alignment ( GTK_MISC (label_etat_courant  ),
 			   0.5,
 			   0.5);
-  gtk_container_add ( GTK_CONTAINER ( frame ),
-		      label_etat_courant );
+  gtk_container_add ( GTK_CONTAINER ( frame ), label_etat_courant );
+
   gtk_widget_show (label_etat_courant);
   gtk_label_set_line_wrap ( GTK_LABEL ( label_etat_courant ), TRUE );
 
@@ -475,7 +475,7 @@ void remplissage_liste_etats ( void )
 /* de la personne */
 /*****************************************************************************************************/
 
-void ajout_etat ( void )
+gboolean ajout_etat ( void )
 {
   struct struct_etat *etat;
   struct struct_comparaison_montants_etat *comp_montant;
@@ -1074,6 +1074,8 @@ void ajout_etat ( void )
 
   personnalisation_etat ();
   modification_fichier ( TRUE );
+
+  return FALSE;
 }
 /*****************************************************************************************************/
 
