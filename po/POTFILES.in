@@ -37,6 +37,7 @@ src/operations_liste.c
 src/operations_onglet.c
 src/parametres.c
 src/patienter.c
+src/print_config.c
 src/qif.c
 src/tiers_onglet.c
 src/traitement_variables.c
