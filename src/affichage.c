@@ -319,7 +319,7 @@ GtkWidget *onglet_affichage ( void )
 
       gtk_signal_connect_object ( GTK_OBJECT ( liste_choix_ordre_comptes ),
 				  "row_move",
-				  gnome_property_box_changed,
+				  activer_bouton_appliquer,
 				  GTK_OBJECT (fenetre_preferences));
  
       /* on place ici les flèches sur le côté de la liste */
@@ -417,7 +417,7 @@ GtkWidget *onglet_affichage ( void )
 				 etat.affiche_no_operation );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_afficher_no_operation ),
 			      "toggled",
-			      gnome_property_box_changed,
+			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_start ( GTK_BOX ( vbox2 ),
 		       bouton_afficher_no_operation,
@@ -433,7 +433,7 @@ GtkWidget *onglet_affichage ( void )
 				 etat.affiche_date_bancaire );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_afficher_date_bancaire ),
 			      "toggled",
-			      gnome_property_box_changed,
+			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_start ( GTK_BOX ( vbox2 ),
 		       bouton_afficher_date_bancaire,
@@ -449,7 +449,7 @@ GtkWidget *onglet_affichage ( void )
 				 etat.utilise_exercice );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_utiliser_exercices ),
 			      "toggled",
-			      gnome_property_box_changed,
+			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_start ( GTK_BOX ( vbox2 ),
 		       bouton_utiliser_exercices,
@@ -463,7 +463,7 @@ GtkWidget *onglet_affichage ( void )
 				 etat.utilise_imputation_budgetaire );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_utiliser_imputation_budgetaire ),
 			      "toggled",
-			      gnome_property_box_changed,
+			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_start ( GTK_BOX ( vbox2 ),
 		       bouton_utiliser_imputation_budgetaire,
@@ -477,7 +477,7 @@ GtkWidget *onglet_affichage ( void )
 				 etat.utilise_piece_comptable );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_utiliser_piece_comptable ),
 			      "toggled",
-			      gnome_property_box_changed,
+			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_start ( GTK_BOX ( vbox2 ),
 		       bouton_utiliser_piece_comptable,
@@ -491,7 +491,7 @@ GtkWidget *onglet_affichage ( void )
 				 etat.utilise_info_banque_guichet );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_utiliser_info_banque_guichet ),
 			      "toggled",
-			      gnome_property_box_changed,
+			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_start ( GTK_BOX ( vbox2 ),
 		       bouton_utiliser_info_banque_guichet,
@@ -505,7 +505,7 @@ GtkWidget *onglet_affichage ( void )
 				 etat.affiche_boutons_valider_annuler );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_afficher_boutons_valider_annuler ),
 			      "toggled",
-			      gnome_property_box_changed,
+			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_start ( GTK_BOX ( vbox2 ),
 		       bouton_afficher_boutons_valider_annuler,
@@ -568,7 +568,7 @@ GtkWidget *onglet_affichage ( void )
 									 ( GCompareFunc ) recherche_devise_par_no )));
   gtk_signal_connect_object ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_choix_devise_totaux_tiers ) -> menu ),
 			      "selection-done",
-			      gnome_property_box_changed,
+			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
   if ( !nb_comptes )
     gtk_widget_set_sensitive ( hbox,
@@ -582,7 +582,7 @@ GtkWidget *onglet_affichage ( void )
 				 etat.affiche_nb_ecritures_listes );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_afficher_nb_ecritures ),
 			      "toggled",
-			      gnome_property_box_changed,
+			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_start ( GTK_BOX ( vbox2 ),
 		       bouton_afficher_nb_ecritures,
@@ -653,11 +653,11 @@ GtkWidget *onglet_affichage ( void )
 
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_classer_liste_par_date ),
 			      "toggled",
-			      gnome_property_box_changed,
+			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_classer_liste_par_date_bancaire ),
 			      "toggled",
-			      gnome_property_box_changed,
+			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
 
   return ( onglet );

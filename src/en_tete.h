@@ -375,7 +375,9 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 			      gpointer data );
 gint verifie_affichage_applet ( void );
 void fermeture_preferences ( GtkWidget *, gint, gpointer);
-
+void activer_bouton_appliquer ( void );
+gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
+					GtkTreeModel *model );
 
 /***********************************/ 
 /* fichier echeancier_liste.c */

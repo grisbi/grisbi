@@ -28,38 +28,14 @@ GtkTreeStore *preference_tree_model;
 GtkWidget * hpaned;
 GtkWidget * preference_frame;
 GtkWidget * preference_selected = NULL;
-GtkTreeSelection *selection;
-   
+GtkTreeSelection * selection;
+GtkWidget * button_apply;
 
-selection_cb(GtkTreeSelection *selection,
-	     GtkTreeModel     *model)
-{
-  GtkTreeIter iter;
-  GValue value = {0, };
-  GtkWidget widget;
-
-  if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
-    return;
-
-  gtk_tree_model_get_value (model, &iter, 1, &value);
-
-  if (preference_selected)
-    {
-      gtk_widget_hide_all(preference_selected);
-      g_object_ref(preference_selected); /* GRUIK */
-      gtk_container_remove (GTK_CONTAINER (preference_frame), preference_selected);
-    }
-
-  preference_selected = g_value_get_pointer(&value);  
-  gtk_container_add (GTK_CONTAINER (preference_frame), preference_selected);
-  gtk_widget_show_all(preference_selected);
-
-  g_value_unset (&value);
-}
+GtkWidget * paddingbox_new_with_title (GtkWidget * parent, gchar * title);
 
 
 /* ************************************************************************************************************** */
-GtkWidget * create_preferences_tree()
+GtkWidget * create_preferences_tree ( )
 {
   GtkWidget *tree, *item;
   GList *items = NULL;
@@ -75,19 +51,6 @@ GtkWidget * create_preferences_tree()
 
   selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree));
 
-/*   gtk_tree_store_append (GTK_TREE_STORE (model), &iter, NULL); */
-/*   gtk_tree_store_set (GTK_TREE_STORE (model), */
-/* 		      &iter, */
-/* 		      0, "Un", */
-/* 		      1, "plip", */
-/* 		      -1); */
-/*   gtk_tree_store_append (GTK_TREE_STORE (model), &iter, NULL); */
-/*   gtk_tree_store_set (GTK_TREE_STORE (model), */
-/* 		      &iter, */
-/* 		      0, "Deux", */
-/* 		      1, "plop", */
-/* 		      -1); */
-
   cell = gtk_cell_renderer_text_new ();
   column = 
     gtk_tree_view_column_new_with_attributes ("Categories",
@@ -97,7 +60,7 @@ GtkWidget * create_preferences_tree()
   gtk_tree_view_append_column (GTK_TREE_VIEW (tree),
 			       GTK_TREE_VIEW_COLUMN (column));
   
-  g_signal_connect (selection, "changed", G_CALLBACK (selection_cb), preference_tree_model);
+  g_signal_connect (selection, "changed", G_CALLBACK (selectionne_liste_preference), preference_tree_model);
 
   return tree;
 }
@@ -108,8 +71,9 @@ void preferences ( GtkWidget *widget,
 		   gint page_demandee )
 {
   GtkWidget *tree, *right, *w, *vbox, *hbox, *hbox2, *separator,
-    *button_ok, *button_cancel, *button_apply;
-  GtkTreeIter iter;
+    *button_ok, *button_cancel;
+  GtkTreeIter iter, iter2;
+  GtkTreePath * path;
 
   /* création de la fenêtre */
 
@@ -132,8 +96,8 @@ void preferences ( GtkWidget *widget,
   vbox = gtk_vbox_new ( FALSE, 10 );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       hpaned,
-		       FALSE,
-		       FALSE,
+		       TRUE,
+		       TRUE,
 		       0);
 
   /* Avec un sépareteur entre le haut et les boutons */
@@ -176,7 +140,6 @@ void preferences ( GtkWidget *widget,
   /* on crée le premier onglet : Général */
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
   w = onglet_general();
-  printf ("Main: %p\n", w);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter,
 		      0, _("Main"),
@@ -186,7 +149,6 @@ void preferences ( GtkWidget *widget,
   /* création du 2ème onglet */
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
   w = onglet_fichier();
-  printf ("Files: %p\n", w);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter,
 		      0, _("Files"),
@@ -206,6 +168,19 @@ void preferences ( GtkWidget *widget,
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter,
 		      0, _("Display"),
+		      1, onglet_affichage(),
+		      -1);
+
+  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+  gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+		      &iter2,
+		      0, _("Transaction form"),
+		      1, onglet_affichage(),
+		      -1);
+  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+  gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+		      &iter2,
+		      0, _("Fonts"),
 		      1, onglet_affichage(),
 		      -1);
 
@@ -258,9 +233,7 @@ void preferences ( GtkWidget *widget,
 		      1, onglet_affichage_liste(),
 		      -1);
 
-  /* connection du bouton appliquer */
-
-
+  /* Connection des boutons en bas */
   gtk_signal_connect ( GTK_OBJECT ( button_apply ),
 		       "clicked",
 		       (GtkSignalFunc) changement_preferences,
@@ -278,13 +251,15 @@ void preferences ( GtkWidget *widget,
 		       (GtkSignalFunc) fermeture_preferences,
 		       NULL );
 
+  /* Le bouton appliquer est inactif */
+  gtk_widget_set_sensitive ( button_apply, FALSE );
 
-/* on se met sur la page demandée */
-  gtk_tree_model_iter_nth_child (preference_tree_model,
-				 &iter,
-				 NULL,
-				 page_demandee);
-  gtk_tree_selection_select_iter (selection, &iter);
+  /* On se met sur la page demandée */
+  path = gtk_tree_path_new ();
+  gtk_tree_path_append_index (path, 3);
+  gtk_tree_selection_select_path (selection, 
+				  path);
+  gtk_tree_path_free (path);
 
   gtk_widget_show_all ( fenetre_preferences );
 
@@ -292,8 +267,45 @@ void preferences ( GtkWidget *widget,
 /* ************************************************************************************************************** */
 
 
+/* ************************************************************************************************************** */
+/* callback appelé quand on sélectionne un membre de la liste */
+/* ************************************************************************************************************** */
+gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
+					GtkTreeModel *model )
+{
+  GtkTreeIter iter;
+  GValue value = {0, };
+  GtkWidget widget;
+
+  if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
+    return;
+
+  gtk_tree_model_get_value (model, &iter, 1, &value);
+
+  if (preference_selected)
+    {
+      gtk_widget_hide_all(preference_selected);
+      g_object_ref(preference_selected); /* GRUIK */
+      gtk_container_remove (GTK_CONTAINER (preference_frame), preference_selected);
+    }
+
+  preference_selected = g_value_get_pointer(&value);  
+  gtk_container_add (GTK_CONTAINER (preference_frame), preference_selected);
+  gtk_widget_show_all(preference_selected);
+
+  g_value_unset (&value);
+
+  return FALSE;
+}
 
 
+/* ************************************************************************************************************** */
+/* activer le bouton appliquer */
+/* ************************************************************************************************************** */
+void activer_bouton_appliquer ( )
+{
+  gtk_widget_set_sensitive ( button_apply, TRUE );
+}
 
 
 /* ************************************************************************************************************** */
@@ -309,11 +321,33 @@ GtkWidget *onglet_general ( void )
   GtkWidget *hbox;
   GtkWidget *label;
   GtkWidget *scrolled_window;
-
+  GtkWidget *paddingbox;
 
   vbox_pref = gtk_vbox_new ( FALSE,               /* fenetre de base verticale */
 			     5 );
   gtk_widget_show ( vbox_pref );
+
+  label = gtk_label_new ( "" );
+  gtk_misc_set_alignment ( label, 0, 1 );
+  gtk_label_set_markup ( label, 
+			 g_strconcat ("<span size=\"x-large\" weight=\"bold\">",
+				      _("General"),
+				      "</span>",
+				      NULL ) );
+  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0);
+  gtk_widget_show ( label );
+
+  separateur = gtk_hseparator_new ();
+  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
+		       separateur,
+		       FALSE,
+		       FALSE,
+		       0);
+  gtk_widget_show ( label );
 
   hbox_pref = gtk_hbox_new ( FALSE,
 			     5 );
@@ -328,8 +362,7 @@ GtkWidget *onglet_general ( void )
 
 /* création de la 1ère colonne */
 
-  vbox = gtk_vbox_new ( FALSE,
-			    5 );
+  vbox = gtk_vbox_new ( FALSE, 6 );
   gtk_box_pack_start ( GTK_BOX ( hbox_pref ),
 		       vbox,
 		       FALSE,
@@ -338,11 +371,12 @@ GtkWidget *onglet_general ( void )
   gtk_widget_show ( vbox );
 
 
-/* action de la touche entree */
+  /* action de la touche entree */
+  paddingbox = paddingbox_new_with_title (vbox, _("In transaction form"));
 
   bouton_entree_enregistre = gtk_radio_button_new_with_label ( NULL,
-						       SPACIFY(_("ENTER means save the transaction")) );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
+						       SPACIFY(_("RETURN saves transaction")) );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 		       bouton_entree_enregistre,
 		       FALSE,
 		       FALSE,
@@ -350,8 +384,8 @@ GtkWidget *onglet_general ( void )
   gtk_widget_show ( bouton_entree_enregistre );
 
   bouton_entree_enregistre_pas = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_entree_enregistre )),
-								   SPACIFY(_("ENTER means switch beetween the form fields")) );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
+								   SPACIFY(_("RETURN selects next field")) );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 		       bouton_entree_enregistre_pas,
 		       FALSE,
 		       FALSE,
@@ -366,108 +400,55 @@ GtkWidget *onglet_general ( void )
 				   TRUE );
    gtk_signal_connect_object ( GTK_OBJECT ( bouton_entree_enregistre ),
 			      "toggled",
-			      gnome_property_box_changed,
+			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
 
-/* séparation */
 
-  separateur = gtk_hseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       separateur,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( separateur );
+   /* Warnings */
+   paddingbox = paddingbox_new_with_title (vbox, 
+					   _("Display warnings messages if"));
 
-
-/* affichage ou non d'un message d'alerte quand passage sous les soldes minis */
-
-  bouton_solde_mini = gtk_radio_button_new_with_label ( NULL,
-							SPACIFY(_("Warning message if the minimum balances are over minimum level defined")) );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
+   /* Affichage ou non d'un message d'alerte quand passage sous les
+      soldes minis */
+  bouton_solde_mini = gtk_check_button_new_with_label ( SPACIFY(_("minimum balances are under minimum level")) );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 		       bouton_solde_mini,
 		       FALSE,
 		       FALSE,
 		       0 );
   gtk_widget_show ( bouton_solde_mini );
 
-   bouton_pas_solde_mini= gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_solde_mini )),
-						     SPACIFY(_("No warnings")) );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       bouton_pas_solde_mini,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_pas_solde_mini );
-
   if ( etat.alerte_mini == 1 )
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (bouton_solde_mini  ),
-				   TRUE );
-  else
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_pas_solde_mini ),
 				   TRUE );
 
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_solde_mini ),
 			      "toggled",
-			      gnome_property_box_changed,
+			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
      
 
-/* séparation */
-
-  separateur = gtk_hseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       separateur,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( separateur );
-
-
-/* affichage ou non d'un message d'alerte sur la permission du fichier de compte */
-
-  bouton_affiche_permission = gtk_radio_button_new_with_label ( NULL,
-							SPACIFY(_("Warning message if the file is readable by someone else")) );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
+  /* Affichage ou non d'un message d'alerte sur la permission du
+     fichier de compte */
+  bouton_affiche_permission = gtk_check_button_new_with_label ( SPACIFY(_("account file is readable by someone else")) );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 		       bouton_affiche_permission,
 		       FALSE,
 		       FALSE,
 		       0 );
   gtk_widget_show ( bouton_affiche_permission );
 
-  bouton_affiche_pas_permission = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_affiche_permission )),
-							   SPACIFY(_("No warnings")) );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       bouton_affiche_pas_permission,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_affiche_pas_permission );
-
   if ( etat.alerte_permission )
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_permission ),
 				   TRUE );
-  else
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_pas_permission ),
-				   TRUE );
-
+  /* FIXME: vérif la sauvegarde */
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_affiche_permission ),
 			      "toggled",
-			      gnome_property_box_changed,
+			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
      
 
-  separateur = gtk_hseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       separateur,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( separateur );
-
-
-/* séparateur vertical entre les deux parties */
-
+  /* Séparateur vertical entre les deux parties */
   separateur = gtk_vseparator_new ();
   gtk_box_pack_start ( GTK_BOX ( hbox_pref ),
 		       separateur,
@@ -502,7 +483,7 @@ GtkWidget *onglet_general ( void )
 		       0);
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( COLON(_("File name")) );
+  label = gtk_label_new ( COLON(_("Main title")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -516,7 +497,7 @@ GtkWidget *onglet_general ( void )
 			 titre_fichier );
   gtk_signal_connect_object ( GTK_OBJECT ( entree_titre_fichier ),
 			      "changed",
-			      gnome_property_box_changed,
+			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       entree_titre_fichier,
@@ -573,7 +554,7 @@ GtkWidget *onglet_general ( void )
 		      -1 );
   gtk_signal_connect_object ( GTK_OBJECT ( entree_adresse_commune ),
 			      "changed",
-			      gnome_property_box_changed,
+			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
   gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
 		      entree_adresse_commune );
@@ -623,21 +604,13 @@ GtkWidget *onglet_general ( void )
 		      -1 );
   gtk_signal_connect_object ( GTK_OBJECT ( entree_adresse_secondaire ),
 			      "changed",
-			      gnome_property_box_changed,
+			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
   gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
 		      entree_adresse_secondaire );
   gtk_widget_show ( entree_adresse_secondaire );
 
 
-
-  separateur = gtk_hseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       separateur,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( separateur );
 
   if ( !nb_comptes )
     {
@@ -646,8 +619,6 @@ GtkWidget *onglet_general ( void )
       gtk_widget_set_sensitive ( entree_adresse_secondaire,
 				 FALSE );
     }
-
-
 
   return ( vbox_pref );
 
@@ -725,7 +696,7 @@ GtkWidget *onglet_fichier ( void )
 
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_avec_demarrage ),
 			      "toggled",
-			      gnome_property_box_changed,
+			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
      
 
@@ -766,7 +737,7 @@ GtkWidget *onglet_fichier ( void )
     
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_save_auto ),
 			      "toggled",
-			      gnome_property_box_changed,
+			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
 
   separateur = gtk_hseparator_new ();
@@ -807,7 +778,7 @@ GtkWidget *onglet_fichier ( void )
     
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_force_enregistrement ),
 			      "toggled",
-			      gnome_property_box_changed,
+			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
 
   separateur = gtk_hseparator_new ();
@@ -864,7 +835,7 @@ GtkWidget *onglet_fichier ( void )
 
       gtk_signal_connect_object ( GTK_OBJECT ( bouton_demande_backup ),
 				  "toggled",
-				  GTK_SIGNAL_FUNC ( gnome_property_box_changed),
+				  GTK_SIGNAL_FUNC ( activer_bouton_appliquer),
 				  GTK_OBJECT (fenetre_preferences));
       gtk_signal_connect ( GTK_OBJECT ( bouton_demande_backup ),
 			   "toggled",
@@ -894,7 +865,7 @@ GtkWidget *onglet_fichier ( void )
       
       gtk_signal_connect_object ( GTK_OBJECT ( GTK_COMBO ( gnome_file_entry_gtk_entry ( entree_chemin_backup) ) -> entry ),
 				  "changed",
-				  gnome_property_box_changed,
+				  activer_bouton_appliquer,
 				  GTK_OBJECT (fenetre_preferences));
       gtk_box_pack_start ( GTK_BOX ( vbox ),
 			   entree_chemin_backup,
@@ -915,7 +886,7 @@ GtkWidget *onglet_fichier ( void )
   bouton_save_demarrage = gtk_check_button_new_with_label ( _("Backup at each opening (~/.filename.bak)") );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_save_demarrage ),
 			      "toggled",
-			      GTK_SIGNAL_FUNC ( gnome_property_box_changed),
+			      GTK_SIGNAL_FUNC ( activer_bouton_appliquer),
 			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_save_demarrage,
@@ -968,7 +939,7 @@ GtkWidget *onglet_fichier ( void )
 				TRUE );
   gtk_signal_connect_object ( GTK_OBJECT ( spin_button_derniers_fichiers_ouverts ),
 			      "changed",
-			      gnome_property_box_changed,
+			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_end ( GTK_BOX ( hbox ),
 		       spin_button_derniers_fichiers_ouverts,
@@ -1008,7 +979,7 @@ GtkWidget *onglet_fichier ( void )
 				TRUE );
   gtk_signal_connect_object ( GTK_OBJECT ( spin_button_compression_fichier ),
 			      "changed",
-			      gnome_property_box_changed,
+			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_end ( GTK_BOX ( hbox ),
 		       spin_button_compression_fichier,
@@ -1048,7 +1019,7 @@ GtkWidget *onglet_fichier ( void )
 				TRUE );
   gtk_signal_connect_object ( GTK_OBJECT ( spin_button_compression_backup ),
 			      "changed",
-			      gnome_property_box_changed,
+			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_end ( GTK_BOX ( hbox ),
 		       spin_button_compression_backup,
@@ -1126,7 +1097,7 @@ GtkWidget *onglet_echeances ( void )
 					 decalage_echeance ));
   gtk_signal_connect_object ( GTK_OBJECT ( entree_jours ),
 			      "changed",
-			      gnome_property_box_changed,
+			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
 
   gtk_box_pack_end ( GTK_BOX ( hvbox ),
@@ -1199,7 +1170,7 @@ GtkWidget *onglet_applet ( void )
 				  verifie_affichage_applet () );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_affichage_applet ),
 			      "toggled",
-			      GTK_SIGNAL_FUNC ( gnome_property_box_changed),
+			      GTK_SIGNAL_FUNC ( activer_bouton_appliquer),
 			      GTK_OBJECT (fenetre_preferences));
   gtk_signal_connect ( GTK_OBJECT ( bouton_affichage_applet ),
 		       "toggled",
@@ -1447,7 +1418,7 @@ void ajouter_verification ( GtkWidget *bouton_add,
     case 0 :
       /* vérification que le fichier n'est pas déjà dans la liste */
 
-      nom_fichier = g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY (fenetre_choix_fichier )))));
+      nom_fichier = g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY (fenetre_choix_fichier )))));
       
       if ( !strlen ( nom_fichier ))
 	{
@@ -1515,7 +1486,7 @@ void ajouter_verification ( GtkWidget *bouton_add,
 			       gtk_clist_append ( GTK_CLIST ( liste_comptes_verifies ),&nom_fichier ),
 			       nom_fichier );
 
-      gnome_property_box_changed ( GNOME_PROPERTY_BOX (fenetre_preferences ) );
+      activer_bouton_appliquer ( );
 
     default:
       gnome_dialog_close  ( GNOME_DIALOG ( dialogue_box ) );
@@ -1551,7 +1522,7 @@ void supprimer_verification ( GtkWidget *bouton_supp,
     gtk_widget_set_sensitive ( GTK_WIDGET ( bouton_enlever ),
 			       FALSE );
     
-  gnome_property_box_changed ( GNOME_PROPERTY_BOX ( fenetre_preferences ) );
+  activer_bouton_appliquer (  );
 
 }
 /* **************************************************************************************************************************** */
@@ -1611,10 +1582,10 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
       if ( titre_fichier )
 	{
 	  if ( strcmp ( titre_fichier,
-			g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_titre_fichier )))))
+			g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_titre_fichier )))))
 	    {
 	      modification_fichier ( TRUE );
-	      titre_fichier = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_titre_fichier ))));
+	      titre_fichier = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_titre_fichier ))));
 
 	      if ( strlen ( titre_fichier ))
 		gtk_label_set_text ( GTK_LABEL ( label_titre_fichier ),
@@ -1628,9 +1599,9 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 	}
       else
 	{
-	  if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_titre_fichier )))))
+	  if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_titre_fichier )))))
 	    {
-	      titre_fichier = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_titre_fichier ))));
+	      titre_fichier = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_titre_fichier ))));
 	      label_titre_fichier = gtk_label_new ( titre_fichier );
 	      gtk_box_pack_start ( GTK_BOX ( ((GtkBoxChild *)(GTK_BOX ( page_accueil )->children->data))->widget ),
 				   label_titre_fichier,
@@ -1763,14 +1734,14 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 	       ( nom_fichier_backup && !gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_demande_backup ) ))
 	       ||
 	       ( nom_fichier_backup && strcmp ( nom_fichier_backup,
-						g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( GTK_COMBO ( gnome_file_entry_gtk_entry (entree_chemin_backup) ) -> entry  ) )))))
+						g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( GTK_COMBO ( gnome_file_entry_gtk_entry (entree_chemin_backup) ) -> entry  ) )))))
 	    modification_fichier ( TRUE );
 
 	  if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_demande_backup ) )
 	       &&
-	       strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( GTK_COMBO ( gnome_file_entry_gtk_entry (entree_chemin_backup)) -> entry  ) ) )))
+	       strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( GTK_COMBO ( gnome_file_entry_gtk_entry (entree_chemin_backup)) -> entry  ) ) )))
 	    /*** BENJ FIXME : heu .... c'est vraiment ça ? ***/
-	    nom_fichier_backup = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( GTK_COMBO (  gnome_file_entry_gtk_entry(entree_chemin_backup) ) -> entry  ) ) ));
+	    nom_fichier_backup = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( GTK_COMBO (  gnome_file_entry_gtk_entry(entree_chemin_backup) ) -> entry  ) ) ));
 	  else
 	    nom_fichier_backup = NULL;
 	}
@@ -1806,7 +1777,7 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 
     case 2 :
 
-      if ( ( buffer = g_strtod ( gtk_entry_get_text ( GTK_ENTRY ( entree_jours ) ), FALSE ) ) != decalage_echeance )
+      if ( ( buffer = g_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_jours ) ), FALSE ) ) != decalage_echeance )
 	{
 	  decalage_echeance = buffer;
 	  update_liste_echeances_manuelles_accueil();
@@ -2145,7 +2116,7 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 								liste_struct_devises ) );
       gtk_signal_connect_object ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_choix_devise_totaux_tiers ) -> menu ),
 				  "selection-done",
-				  gnome_property_box_changed,
+				  activer_bouton_appliquer,
 				  GTK_OBJECT (fenetre_preferences));
       gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_choix_devise_totaux_tiers ),
 				    g_slist_position ( liste_struct_devises,
@@ -2642,6 +2613,7 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 
   sauve_configuration ();
 
+  gtk_widget_set_sensitive ( button_apply, FALSE );
 }
 /* **************************************************************************************************************************** */
 
@@ -2681,3 +2653,55 @@ gint verifie_affichage_applet ( void )
   return ( ( pid_applet = gnome_config_get_int ( "/Grisbi_applet/PID/PID" )) != 0 );
 }
 /* **************************************************************************************************************************** */
+
+GtkWidget *
+paddingbox_new_with_title (GtkWidget * parent, gchar * title)
+{
+  GtkWidget * hbox, *paddingbox, *label;
+
+  label = gtk_label_new ( "" );
+  gtk_misc_set_alignment ( label, 0, 1 );
+  gtk_label_set_markup ( label, 
+			 g_strconcat ("<span weight=\"bold\">",
+				      _(title),
+				      "</span>",
+				      NULL ) );
+  gtk_box_pack_start ( GTK_BOX ( parent ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0);
+  gtk_widget_show ( label );
+
+  hbox = gtk_hbox_new ( FALSE, 6 );
+  gtk_box_pack_start ( GTK_BOX ( parent ),
+		       hbox,
+		       FALSE,
+		       FALSE,
+		       0);
+
+  label = gtk_label_new ( "    " );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+
+  paddingbox = gtk_vbox_new ( FALSE, 6 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       paddingbox,
+		       FALSE,
+		       FALSE,
+		       0);
+
+  label = gtk_label_new ( "    " );
+  gtk_box_pack_end ( GTK_BOX ( paddingbox ),
+		     label,
+		     FALSE,
+		     FALSE,
+		     0 );
+
+  gtk_widget_show_all ( hbox );
+
+  return paddingbox;
+}

@@ -52,60 +52,60 @@ void init_menus ( GtkWidget * win )
       GNOMEUIINFO_END
     };
 
-  static GnomeUIInfo tmp_menu_parametres [] = 
-    {
-      GNOMEUIINFO_ITEM_DATA  ( N_("Main"),
-			       N_("Main"),
-			       preferences,
-			       NULL,
-			       NULL ),
-      GNOMEUIINFO_ITEM_DATA  ( N_("Files"),
-			       N_("Files"),
-			       preferences,
-			       GINT_TO_POINTER ( 1 ),
-			       NULL ),
-      GNOMEUIINFO_ITEM_DATA  ( N_("Scheduler"),
-			       N_("Scheduler"),
-			       preferences,
-			       GINT_TO_POINTER ( 2 ),
-			       NULL ),
-      GNOMEUIINFO_ITEM_DATA  ( N_("Display"),
-			       N_("Display"),
-			       preferences,
-			       GINT_TO_POINTER ( 3 ),
-			       NULL ),
-      GNOMEUIINFO_ITEM_DATA  ( N_("Applet"),
-			       N_("Applet"),
-			       preferences,
-			       GINT_TO_POINTER ( 4 ),
-			       NULL ),
-      GNOMEUIINFO_ITEM_DATA  ( N_("Currencies"),
-			       N_("Currencies"),
-			       preferences,
-			       GINT_TO_POINTER ( 5 ),
-			       NULL ),
-      GNOMEUIINFO_ITEM_DATA  ( N_("Banks"),
-			       N_("Banks"),
-			       preferences,
-			       GINT_TO_POINTER ( 6 ),
-			       NULL ),
-      GNOMEUIINFO_ITEM_DATA  ( N_("Financial years"),
-			       N_("Financial years"),
-			       preferences,
-			       GINT_TO_POINTER ( 7 ),
-			       NULL ),
-      GNOMEUIINFO_ITEM_DATA  ( N_("Methods of payment"),
-			       N_("Methods of payment"),
-			       preferences,
-			       GINT_TO_POINTER ( 8 ),
-			       NULL ),
-      GNOMEUIINFO_ITEM_DATA  ( N_("Informations"),
-			       N_("Informations"),
-			       preferences,
-			       GINT_TO_POINTER ( 9 ),
-			       NULL ),
-      GNOMEUIINFO_END
-    };
+/*   static GnomeUIInfo tmp_menu_parametres [] =  */
+/*     { */
+/*       GNOMEUIINFO_ITEM_DATA  ( N_("Main"), */
+/* 			       N_("Main"), */
+/* 			       preferences, */
+/* 			       NULL, */
+/* 			       NULL ), */
+/*       GNOMEUIINFO_ITEM_DATA  ( N_("Files"), */
+/* 			       N_("Files"), */
+/* 			       preferences, */
+/* 			       GINT_TO_POINTER ( 1 ), */
+/* 			       NULL ), */
+/*       GNOMEUIINFO_ITEM_DATA  ( N_("Scheduler"), */
+/* 			       N_("Scheduler"), */
+/* 			       preferences, */
+/* 			       GINT_TO_POINTER ( 2 ), */
+/* 			       NULL ), */
+/*       GNOMEUIINFO_ITEM_DATA  ( N_("Display"), */
+/* 			       N_("Display"), */
+/* 			       preferences, */
+/* 			       GINT_TO_POINTER ( 3 ), */
+/* 			       NULL ), */
+/*       GNOMEUIINFO_ITEM_DATA  ( N_("Applet"), */
+/* 			       N_("Applet"), */
+/* 			       preferences, */
+/* 			       GINT_TO_POINTER ( 4 ), */
+/* 			       NULL ), */
+/*       GNOMEUIINFO_ITEM_DATA  ( N_("Currencies"), */
+/* 			       N_("Currencies"), */
+/* 			       preferences, */
+/* 			       GINT_TO_POINTER ( 5 ), */
+/* 			       NULL ), */
+/*       GNOMEUIINFO_ITEM_DATA  ( N_("Banks"), */
+/* 			       N_("Banks"), */
+/* 			       preferences, */
+/* 			       GINT_TO_POINTER ( 6 ), */
+/* 			       NULL ), */
+/*       GNOMEUIINFO_ITEM_DATA  ( N_("Financial years"), */
+/* 			       N_("Financial years"), */
+/* 			       preferences, */
+/* 			       GINT_TO_POINTER ( 7 ), */
+/* 			       NULL ), */
+/*       GNOMEUIINFO_ITEM_DATA  ( N_("Methods of payment"), */
+/* 			       N_("Methods of payment"), */
+/* 			       preferences, */
+/* 			       GINT_TO_POINTER ( 8 ), */
+/* 			       NULL ), */
+/*       GNOMEUIINFO_ITEM_DATA  ( N_("Informations"), */
+/* 			       N_("Informations"), */
+/* 			       preferences, */
+/* 			       GINT_TO_POINTER ( 9 ), */
+/* 			       NULL ), */
+/*       GNOMEUIINFO_END */
+/*     }; */
 
   static GnomeUIInfo tmp_menu_importer [] = 
     {
@@ -182,14 +182,25 @@ void init_menus ( GtkWidget * win )
       GNOMEUIINFO_END
     };
 
+  static GnomeUIInfo tmp_menu_editer [2] = 
+    {
+      GNOMEUIINFO_MENU_PREFERENCES_ITEM (preferences, NULL),
+/*       GNOMEUIINFO_ITEM_DATA  ( N_("Preferences"), */
+/* 			       N_("Preferences"), */
+/* 			       preferences, */
+/* 			       NULL, */
+/* 			       NULL ), */
+      GNOMEUIINFO_END
+    };
+
   static GnomeUIInfo tmp_menu_principal [15] = 
     {
       GNOMEUIINFO_SUBTREE (N_("File"),
 			   &tmp_menu_fichier),
+      GNOMEUIINFO_SUBTREE (N_("Edit"),
+			   &tmp_menu_editer),
       GNOMEUIINFO_SUBTREE (N_("Accounts"),
 			   &tmp_menu_comptes),
-      GNOMEUIINFO_SUBTREE (N_("Setup"),
-			   &tmp_menu_parametres),
       GNOMEUIINFO_SUBTREE (N_("Help"),
 			   &tmp_help_menu),
       GNOMEUIINFO_END
@@ -201,7 +212,7 @@ void init_menus ( GtkWidget * win )
   menu_derniers_fichiers = tmp_menu_derniers_fichiers;
   menu_exporter = tmp_menu_exporter;
   menu_importer = tmp_menu_importer;
-  menu_parametres = tmp_menu_parametres;
+/*   menu_parametres = tmp_menu_parametres; */
   menu_comptes = tmp_menu_comptes;
   menu_cloture = tmp_menu_cloture;
 
