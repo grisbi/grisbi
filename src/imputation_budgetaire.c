@@ -48,8 +48,10 @@
 #include "search_glist.h"
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
+#include "utils.h"
 #include "utils_buttons.h"
 #include "utils_devises.h"
+#include "utils_editables.h"
 #include "utils_file_selection.h"
 #include "utils_files.h"
 #include "utils_ib.h"
@@ -60,12 +62,9 @@
 /*START_STATIC*/
 static void appui_sur_ajout_imputation ( void );
 static void appui_sur_ajout_sous_imputation ( void );
-static gchar *calcule_total_montant_imputation_par_compte ( gint imputation, gint sous_imputation, 
-						     gint no_compte );
 static void clique_sur_annuler_imputation ( void );
 static void clique_sur_modifier_imputation ( void );
 static void enleve_selection_ligne_imputation ( void );
-static gboolean expand_selected_ib (  );
 static void exporter_ib ( void );
 static void fusion_categories_imputation ( void );
 static void importer_ib ( void );
@@ -77,6 +76,7 @@ static gboolean budgetary_line_drag_data_get ( GtkTreeDragSource * drag_source,
 					       GtkSelectionData * selection_data );
 GtkWidget *creation_barre_outils_ib ( void );
 gboolean popup_budgetary_line_view_mode_menu ( GtkWidget * button );
+gboolean edit_budgetary_line ( GtkWidget * button, GtkTreeView * view );
 /*END_STATIC*/
 
 
@@ -1957,7 +1957,8 @@ GtkWidget *creation_barre_outils_ib ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), /* FIXME: write the property dialog */
 			 new_stock_button_with_label (GTK_STOCK_PROPERTIES, 
 						      _("Properties"),
-						      NULL, NULL ), 
+						      G_CALLBACK(edit_budgetary_line), 
+						      budgetary_line_tree ), 
 			 FALSE, TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
 			 new_stock_button_with_label_menu ( GTK_STOCK_SELECT_COLOR, 
@@ -2011,6 +2012,110 @@ gboolean popup_budgetary_line_view_mode_menu ( GtkWidget * button )
 		     gtk_get_current_event_time());
 
     return FALSE;
+}
+
+
+
+/**
+ *
+ *
+ */
+gboolean edit_budgetary_line ( GtkWidget * button, GtkTreeView * view )
+{
+    GtkWidget * dialog, *paddingbox, *table, *label, *entry, *hbox, *radiogroup;
+    GtkTreeSelection * selection;
+    GtkTreeModel * model;
+    GtkTreeIter iter;
+    gint no_division = -1, no_sub_division = -1;
+    struct struct_imputation * budgetary_line = NULL;
+    struct struct_sous_imputation * sub_budgetary_line = NULL;
+    gchar * title;
+
+    selection = gtk_tree_view_get_selection ( view );
+    if ( selection && gtk_tree_selection_get_selected(selection, &model, &iter))
+    {
+	gtk_tree_model_get ( model, &iter, 
+			     META_TREE_POINTER_COLUMN, &budgetary_line,
+			     META_TREE_NO_DIV_COLUMN, &no_division,
+			     META_TREE_NO_SUB_DIV_COLUMN, &no_sub_division,
+			     -1 );
+    }
+
+    if ( !selection || no_division <= 0 || ! budgetary_line)
+	return FALSE;
+
+    if ( no_sub_division > 0 )
+    {
+	sub_budgetary_line = (struct struct_sous_imputation *) budgetary_line;
+	title = g_strdup_printf ( _("Properties for %s"), sub_budgetary_line -> nom_sous_imputation );
+    }
+    else
+    {
+	title = g_strdup_printf ( _("Properties for %s"), budgetary_line -> nom_imputation );
+    }
+
+    dialog = gtk_dialog_new_with_buttons ( title, GTK_WINDOW (window), GTK_DIALOG_MODAL,
+					   GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
+
+    /* Ugly dance to avoid side effects on dialog's vbox. */
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX(GTK_DIALOG(dialog)->vbox), hbox, FALSE, FALSE, 0 );
+    paddingbox = new_paddingbox_with_title ( hbox, TRUE, title );
+    gtk_container_set_border_width ( GTK_CONTAINER(hbox), 6 );
+    gtk_container_set_border_width ( GTK_CONTAINER(paddingbox), 6 );
+
+    table = gtk_table_new ( 0, 2, FALSE );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 6 );
+    gtk_table_set_col_spacings ( GTK_TABLE(table), 6 );
+    gtk_table_set_row_spacings ( GTK_TABLE(table), 6 );
+
+    /* Name entry */
+    label = gtk_label_new ( _("Name"));
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+    gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
+		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
+
+    if ( sub_budgetary_line )
+	entry = new_text_entry ( &(sub_budgetary_line -> nom_sous_imputation), NULL );
+    else
+	entry = new_text_entry ( &(budgetary_line -> nom_imputation), NULL );
+    gtk_widget_set_usize ( entry, 400, 0 );
+    gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+
+    if ( ! sub_budgetary_line )
+    {
+	/* Description entry */
+	label = gtk_label_new ( _("Type"));
+	gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+	gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
+			   GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
+	radiogroup = new_radiogroup ( _("Credit"), _("Debit"), 
+				      &(budgetary_line -> type_imputation), NULL );
+	gtk_table_attach ( GTK_TABLE(table), radiogroup, 
+			   1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+    }
+
+    gtk_widget_show_all ( dialog );
+    free ( title );
+
+    gtk_dialog_run ( GTK_DIALOG(dialog) );
+    gtk_widget_destroy ( dialog );
+
+    mise_a_jour_combofix_imputation ();
+
+    if ( sub_budgetary_line )
+    {
+	fill_sub_division_row ( model, budgetary_interface,
+				get_iter_from_div ( model, no_division, no_sub_division ), 
+				imputation_par_no ( no_division ), sub_budgetary_line );
+    }
+    else
+    {
+	fill_division_row ( model, budgetary_interface,
+			    get_iter_from_div ( model, no_division, -1 ), budgetary_line );
+    }
+
+    return TRUE;
 }
 
 
