@@ -1,23 +1,27 @@
-/* fichier qui s'occupe de l'onglet de gestion des impputations */
-/*           imputation_budgetaire.c */
-
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
-/* 			http://www.grisbi.org */
-
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/* ************************************************************************** */
+/* fichier qui s'occupe de l'onglet de gestion des imputations                */
+/* 			imputation_budgetaire.c                               */
+/*                                                                            */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004 Benjamin Drieu (bdrieu@april.org)		      */
+/*			2004 Alain Portal (dionysos@grisbi.org) 	      */
+/*			http://www.grisbi.org   			      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
 
 
@@ -866,8 +870,9 @@ void ouverture_node_imputation ( GtkWidget *arbre,
       gint no_sous_imputation;
       gint i;
 
-      if (( imputation = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
-						       GTK_CTREE_ROW ( node ) -> parent )))
+      if ( ( imputation = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
+						        GTK_CTREE_ROW ( node ) -> parent )) &&
+	     imputation != GINT_TO_POINTER(-1) )
 	{
 	  no_imputation = imputation -> no_imputation;
 	  if (( sous_imputation = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
@@ -985,12 +990,14 @@ void ouverture_node_imputation ( GtkWidget *arbre,
       gint no_sous_imputation;
 
       if (( imputation = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
-						       GTK_CTREE_ROW ( GTK_CTREE_ROW ( node ) -> parent ) -> parent )))
+						       GTK_CTREE_ROW ( GTK_CTREE_ROW ( node ) -> parent ) -> parent )) &&
+	  imputation != GINT_TO_POINTER(-1) )
 	{
 	  no_imputation = imputation -> no_imputation;
 
 	  if (( sous_imputation = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
-								GTK_CTREE_ROW ( node ) -> parent )))
+								GTK_CTREE_ROW ( node ) -> parent ))
+	       && sous_imputation != GINT_TO_POINTER(-1) )
 	    no_sous_imputation = sous_imputation -> no_sous_imputation;
 	  else
 	    no_sous_imputation = 0;
