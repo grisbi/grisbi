@@ -409,7 +409,7 @@ void remplit_arbre_tiers ( void )
 
       tiers = liste_tiers_tmp -> data;
 
-      if ( fabs ( tab_montant[place_tiers]) >= 0.01)
+      if ( fabs ( tab_montant[place_tiers]) >= 0.01
 	   || nb_ecritures_par_tiers[place_tiers] )
 	text[1] = g_strdup_printf ( "%4.2f %s",
 				    tab_montant[place_tiers],
