@@ -8,25 +8,25 @@ Standards-Version: 3.5.2
 Package: grisbi
 Architecture: any
 Depends: ${shlibs:Depends}
-Description: Personal finance tracking program based on GTK
- Grisbi is a very functional personal finance tracking program with a
- lot of features:
+Description: Gnome-based personal financial management program
+ Grisbi is a very functional personal financial management program with
+ a lot of features:
  .
-  - bank, cash and passive accounts
-  - several accounts at the same time
-  - several currencies, including euro
-  - arbitrary currency for every operation
-  - money interchange fees
-  - switch to euro account per account
-  - describe operations with relatives, categories, sub-categories, notes
-  - transfers between accounts, even for accounts of different currencies
-  - reconciled balances
-  - automatic and manual expiries
-  - expiries monitoring with a Gnome applet
-  - automatic recall of last operation for every relatives
-  - nice and easy user interface
-  - online user manual
-  - QIF import/export
+  - checking, cash and liabilities accounts;
+  - several accounts with automatic contra entries;
+  - several currencies, including euro;
+  - arbitrary currency for every operation;
+  - money interchange fees;
+  - switch to euro account per account;
+  - description of the transactions with third parties, categories, sub-categories, financial year, notes, breakdown;
+  - transfers between accounts, even for accounts of different currencies;
+  - bank reconciliation;
+  - scheduled transactions;
+  - expiries monitoring with a Gnome applet;
+  - automatic recall of last transaction for every third party;
+  - nice and easy user interface;
+  - user manual;
+  - QIF import/export.
  .
- Grisbi is currently only available in French but next release (0.3.3)
+ Grisbi is currently only available in French but next release (0.4)
  will be internationalized with gettext.
