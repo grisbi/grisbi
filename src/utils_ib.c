@@ -34,7 +34,6 @@
 /*START_STATIC*/
 struct struct_sous_imputation *sous_imputation_par_no ( gint no_imputation,
 							gint no_sous_imputation );
-void reset_budgetary_line_counters ();
 /*END_STATIC*/
 
 
@@ -43,15 +42,14 @@ extern GSList *liste_struct_imputation;
 extern gint mise_a_jour_combofix_imputation_necessaire;
 extern gint nb_enregistrements_imputations;
 extern gint no_derniere_imputation;
-extern gint no_devise_totaux_tiers;
 extern gint nb_comptes;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-extern gint no_devise_totaux_tiers;
+extern struct struct_imputation * without_budgetary_line;
+extern gint no_devise_totaux_ib;
 /*END_EXTERN*/
 
 
-struct struct_imputation * without_budgetary_line;
 
 
 /* **************************************************************************************************** */
@@ -349,7 +347,7 @@ void remove_transaction_from_budgetary_line ( struct structure_operation * trans
 					      struct struct_sous_imputation * sub_budgetary_line )
 {
     gdouble amount = 
-	calcule_montant_devise_renvoi ( transaction -> montant, no_devise_totaux_tiers,
+	calcule_montant_devise_renvoi ( transaction -> montant, no_devise_totaux_ib,
 					transaction -> devise,
 					transaction -> une_devise_compte_egale_x_devise_ope,
 					transaction -> taux_change,
@@ -403,7 +401,7 @@ void add_transaction_to_budgetary_line ( struct structure_operation * transactio
 					 struct struct_sous_imputation * sub_budgetary_line )
 {
     gdouble amount = 
-	calcule_montant_devise_renvoi ( transaction -> montant, no_devise_totaux_tiers,
+	calcule_montant_devise_renvoi ( transaction -> montant, no_devise_totaux_ib,
 					transaction -> devise,
 					transaction -> une_devise_compte_egale_x_devise_ope,
 					transaction -> taux_change,
@@ -447,7 +445,7 @@ void reset_budgetary_line_counters ()
 {
     GSList * tmp;
 
-    without_budgetary_line = NULL;
+    free ( without_budgetary_line );
 
     tmp = liste_struct_imputation;
     while ( tmp )
@@ -457,6 +455,8 @@ void reset_budgetary_line_counters ()
 
 	budgetary_line -> balance = 0.0;
 	budgetary_line -> nb_transactions = 0;
+	budgetary_line -> direct_balance = 0;
+	budgetary_line -> nb_direct_transactions = 0;
 
 	sub_budgetary_line_list = budgetary_line -> liste_sous_imputation;
 	while ( sub_budgetary_line_list )

@@ -32,7 +32,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void reset_category_counters ();
 /*END_STATIC*/
 
 
@@ -44,7 +43,7 @@ extern gint no_derniere_categorie;
 extern gint nb_comptes;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-extern gint no_devise_totaux_tiers;
+extern gint no_devise_totaux_categ;
 /*END_EXTERN*/
 
 struct struct_categ * without_category;
@@ -338,7 +337,7 @@ void remove_transaction_from_category ( struct structure_operation * transaction
 					struct struct_sous_categ * sub_category )
 {
     gdouble amount = 
-	calcule_montant_devise_renvoi ( transaction -> montant, no_devise_totaux_tiers,
+	calcule_montant_devise_renvoi ( transaction -> montant, no_devise_totaux_categ,
 					transaction -> devise,
 					transaction -> une_devise_compte_egale_x_devise_ope,
 					transaction -> taux_change,
@@ -364,7 +363,6 @@ void remove_transaction_from_category ( struct structure_operation * transaction
 	category -> nb_direct_transactions --;
 	category -> direct_balance -= amount;
     }
-
 }
 
 
@@ -378,7 +376,7 @@ void add_transaction_to_category ( struct structure_operation * transaction,
 				   struct struct_sous_categ * sub_category )
 {
     gdouble amount = 
-	calcule_montant_devise_renvoi ( transaction -> montant, no_devise_totaux_tiers,
+	calcule_montant_devise_renvoi ( transaction -> montant, no_devise_totaux_categ,
 					transaction -> devise,
 					transaction -> une_devise_compte_egale_x_devise_ope,
 					transaction -> taux_change,
@@ -412,7 +410,7 @@ void reset_category_counters ()
 {
     GSList * tmp;
 
-    without_category = NULL;
+    free ( without_category );
 
     tmp = liste_struct_categories;
     while ( tmp )
@@ -422,6 +420,8 @@ void reset_category_counters ()
 
 	categ -> balance = 0.0;
 	categ -> nb_transactions = 0;
+	categ -> direct_balance = 0;
+	categ -> nb_direct_transactions = 0;
 
 	sous_categ_list = categ -> liste_sous_categ;
 	while ( sous_categ_list )
