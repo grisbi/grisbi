@@ -1305,8 +1305,7 @@ gboolean traitement_clavier_liste ( GtkCList *liste,
 	    {
 		if ( question_conditional_yes_no_hint ( _("Confirmation of transaction removal"),
 							_("You are currently trying to remove a transaction.  There "
-							  "is no undo for this.\n"
-							  "Do you confirm the removal?"),
+							  "is no undo for this.  Do you confirm the removal?"),
 							&etat.display_message_remove_transaction))
 		    supprime_operation ( OPERATION_SELECTIONNEE );
 	    }
