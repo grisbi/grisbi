@@ -54,6 +54,11 @@
 #include "etats_onglet.h"
 #include "tip.h"
 #include "parse_cmdline.h"
+#ifdef _WIN32
+// Special include for Windows only
+#include "win32utils.h"
+#include "win32gtkutils.h"
+#endif
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -149,6 +154,8 @@ int main (int argc, char *argv[])
 #ifdef _WIN32
     /* we store the path of the running file to use it for pixmaps, help and locales .... */
     win32_set_app_path(argv[0]);
+    /* needed to be able to use the "common" installation of GTK libraries */
+    win32_make_sure_the_gtk2_dlls_path_is_in_PATH(); 
 #endif
 
 	bindtextdomain ("grisbi-tips", LOCALEDIR);
