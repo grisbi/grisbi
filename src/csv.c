@@ -305,8 +305,8 @@ void export_accounts_to_csv (GSList* export_entries_list )
 				    {
 					/* c'est un virement */
 
-                                        csv_field_categ      = g_strdup(_("Transfer"));
 					gpointer **save_ptab;
+                                        csv_field_categ      = g_strdup(_("Transfer"));
 
 					save_ptab = p_tab_nom_de_compte_variable;
 
@@ -379,8 +379,8 @@ void export_accounts_to_csv (GSList* export_entries_list )
 			    {
 				/* c'est un virement */
 
-                                csv_field_categ      = g_strdup(_("Transfer"));
 				gpointer **save_ptab;
+                                csv_field_categ      = g_strdup(_("Transfer"));
 
 				save_ptab = p_tab_nom_de_compte_variable;
 
