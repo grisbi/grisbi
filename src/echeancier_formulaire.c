@@ -1483,8 +1483,7 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 	{
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					 "key-press-event");
-	  incremente_decremente_date ( widget_formulaire_echeancier[no_widget],
-				       1 );
+	  increment_decrement_date ( widget_formulaire_echeancier[no_widget], 1 );
 	  return TRUE;
 	}
       return FALSE;
@@ -1499,8 +1498,7 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 	{
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					 "key-press-event");
-	  incremente_decremente_date ( widget_formulaire_echeancier[no_widget],
-				       -1 );
+	  increment_decrement_date ( widget_formulaire_echeancier[no_widget], -1 );
 	  return TRUE;
 	}
       return FALSE;

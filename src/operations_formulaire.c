@@ -342,7 +342,7 @@ GtkWidget *creation_formulaire ( void )
   /* à créer avant l'option menu du type d'opé */
 
   widget_formulaire_operations[10] = gtk_entry_new();
-  gtk_signal_connect_after ( GTK_OBJECT (widget_formulaire_operations[10]),
+  gtk_signal_connect ( GTK_OBJECT (widget_formulaire_operations[10]),
  		       "key-press-event",
 		       GTK_SIGNAL_FUNC (touches_champ_formulaire),
 		       GINT_TO_POINTER(10) );
@@ -1648,11 +1648,15 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	{
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					 "key-press-event");
-	  incremente_decremente_date ( widget_formulaire_operations[origine],
-				       1 );
+	  increment_decrement_date ( widget_formulaire_operations[origine], 1 );
+	  return TRUE;
+	}
+      else if ( origine == 10 )	/* Voucher number */
+	{
+	  increment_decrement_champ ( widget_formulaire_operations[origine], 1 );
+	  return TRUE;
 	}
       break;
-
 
     case GDK_KP_Subtract:
     case GDK_minus:
@@ -1664,8 +1668,14 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	{
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					 "key-press-event");
-	  incremente_decremente_date ( widget_formulaire_operations[origine],
+	  increment_decrement_date ( widget_formulaire_operations[origine],
 				       -1 );
+	  return TRUE;
+	}
+      else if ( origine == 10 )	/* Voucher number */
+	{
+	  increment_decrement_champ ( widget_formulaire_operations[origine], -1 );
+	  return TRUE;
 	}
       break;
 
@@ -2768,7 +2778,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 
 		  if ( compte_virement == compte_courant )
 		    {
-		      dialogue ( PRESPACIFY(_("Error: impossible to transfer an account   \n    on itself")));
+		      dialogue ( PRESPACIFY(_("Error: impossible to transfer an account on itself")));
 		      return (FALSE);
 		    }
 		}
@@ -4058,8 +4068,7 @@ void degrise_formulaire_operations ( void )
 /* augmente ou diminue la date entrée de 1 */
 /***********************************************************************************************************/
 
-void incremente_decremente_date ( GtkWidget *entree,
-				  gint demande )
+void increment_decrement_date ( GtkWidget *entree, gint demande )
 {
   gchar **tableau_char;
   GDate *date;
@@ -4095,9 +4104,24 @@ void incremente_decremente_date ( GtkWidget *entree,
 					 g_date_year ( date )));
 
 }
-/***********************************************************************************************************/
 
 
+
+/**
+ *  Increment or decrement the value of a GtkEntry.
+ *
+ * \param entry Entry to change the value of.
+ * \param increment Value to add or substract from the numerical value of entry.
+ */
+void increment_decrement_champ ( GtkWidget *entry, gint increment )
+{
+  double number;
+
+  number = my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text (GTK_ENTRY(entry))), NULL );
+  number += increment;
+
+  gtk_entry_set_text ( GTK_ENTRY (entry), itoa ( number ) );
+}
 
 
 

@@ -255,8 +255,8 @@ void basculer_vers_ventilation ( GtkWidget *bouton,
 				 gpointer null );
 void click_sur_bouton_voir_change ( void );
 void degrise_formulaire_operations ( void );
-void incremente_decremente_date ( GtkWidget *entree,
-				  gint demande );
+void increment_decrement_date ( GtkWidget *entree, gint demande );
+void increment_decrement_champ ( GtkWidget *entry, gint increment );
 gint place_type_choix_type ( GtkWidget *option_menu,
 			     gint type );
 
