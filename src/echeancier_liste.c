@@ -585,8 +585,8 @@ gboolean traitement_clavier_liste_echeances ( GtkCList *liste_echeances,
 
   switch ( evenement->keyval )
     {
-    case 65293 :
-    case 65421 :
+    case GDK_Return :
+    case GDK_KP_Enter :
                          /* entrée */
 
       formulaire_echeancier_a_zero();
@@ -597,7 +597,7 @@ gboolean traitement_clavier_liste_echeances ( GtkCList *liste_echeances,
       edition_echeance ();
       return TRUE;
 
-    case 65362 :                       /* flèche haut  */
+    case GDK_Up :                       /* flèche haut  */
 
       ligne = gtk_clist_find_row_from_data ( GTK_CLIST ( liste_echeances ),
 					     echeance_selectionnnee );
@@ -616,7 +616,7 @@ gboolean traitement_clavier_liste_echeances ( GtkCList *liste_echeances,
 	}
       return TRUE;
 
-    case 65364 :                /* flèche bas */
+    case GDK_Down :                /* flèche bas */
       if ( echeance_selectionnnee != GINT_TO_POINTER ( -1 ) )
 	{
 	  ligne = gtk_clist_find_row_from_data ( GTK_CLIST ( liste_echeances ),
@@ -635,7 +635,7 @@ gboolean traitement_clavier_liste_echeances ( GtkCList *liste_echeances,
       return TRUE;
 
 
-    case 65535 :               /*  del  */
+    case GDK_Delete :               /*  del  */
       supprime_echeance ();
       break;
     }

@@ -1506,16 +1506,16 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 
   if ( !etat.entree
        &&
-       ( ev->keyval == 65293
+       ( ev->keyval == GDK_Return
 	 ||
-	 ev->keyval == 65421 ))
-    ev->keyval = 65289;
+	 ev->keyval == GDK_KP_Enter ))
+    ev->keyval = GDK_Tab ;
 
-  switch (ev->keyval)
+  switch ( ev->keyval )
     {
       /* échap */
 
-    case 65307:
+    case GDK_Escape :
 
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
       gtk_widget_grab_focus ( CLIST_OPERATIONS );
@@ -1525,7 +1525,7 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 
       /*       tabulation */
 
-    case 65289:
+    case GDK_Tab :
 
       /* une tabulation passe au widget affiché suivant */
       /* et retourne à la date ou enregistre l'opé s'il est à la fin */
@@ -1620,8 +1620,8 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 
 
       /* entree */
-    case 65293 :
-    case 65421 :
+    case GDK_Return :
+    case GDK_KP_Enter :
       gtk_signal_emit_stop_by_name ( GTK_OBJECT (widget),
 				     "key_press_event");
 
@@ -1655,7 +1655,7 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
       /* touches - */
 
     case GDK_minus:
-    case GDK_KP_Delete:
+    case GDK_KP_Subtract:
       /*       si on est dans une entree de date, on diminue d'un jour la date */
 
       /* GDC : prise en compte de la date réelle (18) FinGDC */
@@ -1704,7 +1704,7 @@ void touche_calendrier ( GtkWidget *popup,
 			 GdkEventKey *ev,
 			 gpointer null )
 {
-  if ( ev->keyval == 65307 )
+  if ( ev->keyval == GDK_Escape )
     ferme_calendrier ( popup );
 
 }

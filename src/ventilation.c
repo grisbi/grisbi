@@ -1160,15 +1160,15 @@ gboolean traitement_clavier_liste_ventilation ( GtkCList *liste,
     {
      /* entrée */
 
-    case 65293 :
-    case 65421 :
+    case GDK_Return :
+    case GDK_KP_Enter :
 
       edition_operation_ventilation ();
       break;
 
 
      /* flèche haut  */
-    case 65362 :
+    case GDK_Up :
 
       ligne = gtk_clist_find_row_from_data ( GTK_CLIST ( liste ),
 					     ligne_selectionnee_ventilation );
@@ -1195,7 +1195,7 @@ gboolean traitement_clavier_liste_ventilation ( GtkCList *liste,
 
 
       /* flèche bas */
-    case 65364 :
+    case GDK_Down :
 
       if ( ligne_selectionnee_ventilation != GINT_TO_POINTER ( -1 ) )
 	{
@@ -1225,7 +1225,7 @@ gboolean traitement_clavier_liste_ventilation ( GtkCList *liste,
 
 
     /*  del  */
-    case 65535 :
+    case GDK_Delete :
 
       supprime_operation_ventilation ();
       break;
@@ -1318,18 +1318,16 @@ void appui_touche_ventilation ( GtkWidget *entree,
 
   if ( !etat.entree
        &&
-       ( evenement->keyval == 65293
+       ( evenement->keyval == GDK_Return
 	 ||
-	 evenement->keyval == 65421 ))
-    evenement -> keyval = 65289;
+	 evenement->keyval == GDK_KP_Enter ))
+    evenement -> keyval = GDK_Tab ;
 
 
   switch (evenement->keyval)
     {
-      /* flèche bas */
-    case 65364 :
-      /*   flèche haut */
-    case 65362 :
+    case GDK_Down :                /* flèche bas */
+    case GDK_Up :                       /* flèche haut  */
 
       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( entree ),
 				     "key_press_event");
@@ -1338,7 +1336,7 @@ void appui_touche_ventilation ( GtkWidget *entree,
 
 
       /* tab */
-    case 65289 :
+    case GDK_Tab :
       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( entree ),
 				     "key_press_event");
 
@@ -1406,8 +1404,8 @@ void appui_touche_ventilation ( GtkWidget *entree,
       break;
 
       /* entree */
-    case 65293 :
-    case 65421 :
+    case GDK_Return :
+    case GDK_KP_Enter :
 
       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( entree ),
 				     "key_press_event");
@@ -1415,7 +1413,7 @@ void appui_touche_ventilation ( GtkWidget *entree,
       break;
 
 
-    case 65307 :
+    case GDK_Escape :
               /* echap */
       echap_formulaire_ventilation ();
       break;
