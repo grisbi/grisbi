@@ -38,6 +38,7 @@
 #include "operations_liste.h"
 #include "dialog.h"
 #include "metatree.h"
+#include "meta_categories.h"
 #include "gtk_combofix.h"
 #include "utils_str.h"
 #include "traitement_variables.h"
@@ -58,20 +59,20 @@ static void appui_sur_ajout_sous_categorie ( void );
 static void clique_sur_annuler_categ ( void );
 static void clique_sur_modifier_categ ( void );
 static gboolean enleve_selection_ligne_categ ( void );
-static void expand_selected_category ();
 static gboolean exporter_categ ( GtkButton * widget, gpointer data );
 static void importer_categ ( void );
 static gboolean keypress_category ( GtkWidget *widget, GdkEventKey *ev, gint *no_origine );
 static void merge_liste_categories ( void );
 static void modification_du_texte_categ ( void );
 static void supprimer_categ ( void );
-static void supprimer_sous_categ ( struct struct_sous_categ *sous_categ, gint no_categ );
+static void supprimer_sous_categ ( MetatreeInterface * iface, struct struct_sous_categ *sous_categ, 
+				   gint no_categ );
 static gboolean categ_column_expanded  (GtkTreeView * treeview, GtkTreeIter * iter, 
 					GtkTreePath * tree_path, gpointer user_data );
 static gboolean categ_activated ( GtkTreeView * treeview, GtkTreePath * path,
 				  GtkTreeViewColumn * col, gpointer userdata );
-static void fill_categ_row ( GtkTreeIter * iter, struct struct_categ * categ );
-static void fill_sub_categ_row ( GtkTreeIter * iter, struct struct_categ * categ,
+static void fill_categ_row ( MetatreeInterface * iface, GtkTreeIter * iter, struct struct_categ * categ );
+static void fill_sub_categ_row ( MetatreeInterface * iface, GtkTreeIter * iter, struct struct_categ * categ,
 				 struct struct_sous_categ * sous_categ );
 static gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
 				      GtkSelectionData * selection_data );
@@ -85,10 +86,11 @@ void move_transaction_to_sub_category ( struct structure_operation * transaction
 					GtkTreeModel * model,
 					GtkTreePath * orig_path, GtkTreePath * dest_path,
 					gint no_categ, gint no_sub_categ );
-gboolean find_destination_blob ( struct struct_categ * categ, 
+gboolean find_destination_blob ( MetatreeInterface * iface, struct struct_categ * categ, 
 				 struct struct_sous_categ * sous_categ, 
 				 gint * no_div, gint * no_sub_div );
 gboolean find_associated_transactions ( gint no_categ, gint no_sous_categ );
+void expand_arbre_categ ( GtkWidget *bouton, gint depth );
 /*END_STATIC*/
 
 
@@ -484,6 +486,7 @@ GtkWidget *onglet_categories ( void )
 					    G_TYPE_INT, G_TYPE_FLOAT );
     gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE(categ_tree_model), 
 					   META_TREE_TEXT_COLUMN, GTK_SORT_ASCENDING );
+    g_object_set_data ( G_OBJECT (categ_tree_model), "metatree-interface", category_interface );
 
     /* Create container + TreeView */
     arbre_categ = gtk_tree_view_new();
@@ -612,7 +615,7 @@ void remplit_arbre_categ ( void )
 
 	/* Populate tree */
 	gtk_tree_store_append (GTK_TREE_STORE (categ_tree_model), &iter_categ, NULL);
-	fill_categ_row ( &iter_categ, categ );
+	fill_categ_row ( category_interface, &iter_categ, categ );
 
 	/*       pour chaque categ, on met ses sous-categ */
 	liste_sous_categ_tmp = categ -> liste_sous_categ;
@@ -626,7 +629,7 @@ void remplit_arbre_categ ( void )
 	    /* Populate tree */
 	    gtk_tree_store_append (GTK_TREE_STORE (categ_tree_model), 
 				   &iter_sous_categ, &iter_categ);
-	    fill_sub_categ_row ( &iter_sous_categ, categ, sous_categ );
+	    fill_sub_categ_row ( category_interface, &iter_sous_categ, categ, sous_categ );
 
 	    liste_sous_categ_tmp = liste_sous_categ_tmp -> next;
 	}
@@ -634,7 +637,7 @@ void remplit_arbre_categ ( void )
 	/* Treat the no sub-category sub division. */
 	gtk_tree_store_append (GTK_TREE_STORE (categ_tree_model), 
 			       &iter_sous_categ, &iter_categ);
-	fill_sub_categ_row ( &iter_sous_categ, categ, NULL );
+	fill_sub_categ_row ( category_interface, &iter_sous_categ, categ, NULL );
 	
 	liste_categ_tmp = liste_categ_tmp -> next;
     }
@@ -649,27 +652,28 @@ void remplit_arbre_categ ( void )
  * Fill a division row with textual representation of a division
  * structure, in the form: "Name (num transactions) Balance".
  *
+ * \param iface		A pointer to the metatree interface to use
  * \param iter		Iter to fill with division data.
  * \param categ		Division structure.
  */
-void fill_categ_row ( GtkTreeIter * iter, struct struct_categ * categ )
+void fill_categ_row ( MetatreeInterface * iface, GtkTreeIter * iter, struct struct_categ * categ )
 {
     gchar * label = NULL, * balance = NULL;
 
-    label = ( categ ? categ -> nom_categ : _("No category") );
+    label = ( categ ? categ -> nom_categ : _(iface->no_div_label) );
 
     if ( ! categ )
 	categ = without_category;
 
     if ( etat.affiche_nb_ecritures_listes && 
 	 categ &&
-	 categ -> nb_transactions )
+	  iface -> div_nb_transactions ( categ ) )
 	label = g_strconcat ( label, " (",
-			      itoa ( categ -> nb_transactions ), ")",
+			      itoa ( iface -> div_nb_transactions (categ) ), ")",
 			      NULL );
 
     if ( categ && categ -> nb_transactions )
-	balance = g_strdup_printf ( _("%4.2f %s"), categ -> balance,
+	balance = g_strdup_printf ( _("%4.2f %s"), iface -> div_balance ( categ ),
 				    devise_code ( devise_compte ) );
     
     gtk_tree_store_set (GTK_TREE_STORE (categ_tree_model), iter,
@@ -690,27 +694,22 @@ void fill_categ_row ( GtkTreeIter * iter, struct struct_categ * categ )
  * sub-division structure, in the form: "Name (num transactions)
  * Balance".
  *
+ * \param iface		A pointer to the metatree interface to use
  * \param iter		Iter to fill with sub-division data.
  * \param categ		Division structure (parent).
  * \param sous_categ	Sub-division structure.
  */
-void fill_sub_categ_row ( GtkTreeIter * iter, struct struct_categ * categ,
+void fill_sub_categ_row ( MetatreeInterface * iface, GtkTreeIter * iter, 
+			  struct struct_categ * categ,
 			  struct struct_sous_categ * sous_categ )
 {
     gchar * balance = NULL, *label;
     GtkTreeIter dumb_iter;
     gint nb_ecritures = 0;
 
-    label = ( sous_categ ? sous_categ -> nom_sous_categ : _("No sub-category") );
+    label = ( sous_categ ? iface -> sub_div_name (sous_categ) : _(iface -> no_sub_div_label) );
 
-    if ( sous_categ && sous_categ -> nb_transactions )
-    {
-	nb_ecritures = sous_categ -> nb_transactions;
-    }
-    else if ( categ && !sous_categ )
-    {
-	nb_ecritures = categ -> nb_direct_transactions;
-    }
+    nb_ecritures = iface -> sub_div_nb_transactions ( categ, sous_categ );
     
     if ( nb_ecritures )
     {
@@ -721,26 +720,19 @@ void fill_sub_categ_row ( GtkTreeIter * iter, struct struct_categ * categ,
 	{
 	    gtk_tree_store_append (GTK_TREE_STORE (categ_tree_model), &dumb_iter, iter );
 	}
+
+	balance = g_strdup_printf ( _("%4.2f %s"),
+				    iface -> sub_div_balance ( categ, sous_categ ),
+				    devise_code ( devise_compte ) );
     }
-
-    if ( sous_categ && sous_categ -> balance )
-	balance = g_strdup_printf ( _("%4.2f %s"),
-				    sous_categ -> balance,
-				    devise_code ( devise_compte ) );
-    else if ( categ && categ -> balance )
-	balance = g_strdup_printf ( _("%4.2f %s"),
-				    categ -> direct_balance,
-				    devise_code ( devise_compte ) );
-
+    
     gtk_tree_store_set ( GTK_TREE_STORE (categ_tree_model), iter,
 			 META_TREE_TEXT_COLUMN, label,
 			 META_TREE_POINTER_COLUMN, sous_categ,
 			 META_TREE_BALANCE_COLUMN, balance,
 			 META_TREE_XALIGN_COLUMN, 1.0,
-			 META_TREE_NO_DIV_COLUMN, ( categ ? categ -> no_categ : 0 ),
-			 META_TREE_NO_SUB_DIV_COLUMN, ( sous_categ ? 
-							sous_categ -> no_sous_categ :
-							0 ),
+			 META_TREE_NO_DIV_COLUMN, iface -> div_id ( categ ),
+			 META_TREE_NO_SUB_DIV_COLUMN, iface -> sub_div_id ( sous_categ ),
 			 META_TREE_FONT_COLUMN, 400,
 			 -1 );
 }
@@ -837,85 +829,29 @@ gboolean keypress_category ( GtkWidget *widget, GdkEventKey *ev, gint *no_origin
 	gtk_ctree_select ( GTK_CTREE(arbre_categ), node );
 	gtk_ctree_expand ( GTK_CTREE(arbre_categ), node );
 
-	expand_selected_category ();
+/* 	expand_selected_category (); */
     }
 
     return FALSE;
 }
 
 
-void expand_selected_category ()
-{
-    struct structure_operation *operation;
 
-    if ( GTK_CLIST ( arbre_categ ) -> selection
-	 &&
-	 ( GTK_CTREE_ROW ( ( GTK_CLIST ( arbre_categ ) -> selection ) -> data ) -> level == 4
-	   ||
-	   ( GTK_CTREE_ROW ( ( GTK_CLIST ( arbre_categ ) -> selection ) -> data ) -> level == 3
-	     &&
-	     gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-					   GTK_CTREE_ROW ( GTK_CTREE_ROW (( GTK_CLIST ( arbre_categ ) -> selection ) -> data ) -> parent ) -> parent ) > 0)))
-    {
-	/* passage sur le compte concerné */
-
-	operation = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-						  GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_categ ) -> selection ) -> data ) );
-
-	if (!operation || operation == GINT_TO_POINTER(-1))
-	    return;
-
-	/* si c'est une opé de ventilation, on se place sur l'opé
-	   ventilée correspondante */ 
-
-	operation = operation_par_no ( operation -> no_operation_ventilee_associee,
-				       operation -> no_compte );
-
-	if ( operation )
-	{
-	    changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
-
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-
-	    if ( operation -> pointe == 3 && !AFFICHAGE_R )
-	    {
-		AFFICHAGE_R = 1;
-		remplissage_liste_operations ( compte_courant );
-	    }
-
-	    selectionne_ligne ( operation );
-	}
-    }
-
-}
-
-
-/* **************************************************************************************************** */
 gboolean enleve_selection_ligne_categ ( void )
 {
-    gtk_widget_set_sensitive ( bouton_supprimer_categ,
-			       FALSE );
-    gtk_widget_set_sensitive ( bouton_modif_categ_modifier,
-			       FALSE );
-    gtk_widget_set_sensitive ( bouton_modif_categ_annuler,
-			       FALSE );
-    gtk_widget_set_sensitive ( entree_nom_categ,
-			       FALSE );
-    gtk_widget_set_sensitive ( bouton_categ_debit,
-			       FALSE );
-    gtk_widget_set_sensitive ( bouton_categ_credit,
-			       FALSE );
-    gtk_widget_set_sensitive ( bouton_ajouter_sous_categorie,
-			       FALSE );
-
+    gtk_widget_set_sensitive ( bouton_supprimer_categ, FALSE );
+    gtk_widget_set_sensitive ( bouton_modif_categ_modifier, FALSE );
+    gtk_widget_set_sensitive ( bouton_modif_categ_annuler, FALSE );
+    gtk_widget_set_sensitive ( entree_nom_categ, FALSE );
+    gtk_widget_set_sensitive ( bouton_categ_debit, FALSE );
+    gtk_widget_set_sensitive ( bouton_categ_credit, FALSE );
+    gtk_widget_set_sensitive ( bouton_ajouter_sous_categorie, FALSE );
 
     gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_nom_categ ),
 				       GTK_SIGNAL_FUNC ( modification_du_texte_categ),
 				       NULL );
 
-    gtk_editable_delete_text ( GTK_EDITABLE ( entree_nom_categ ),
-			       0,
-			       -1 );
+    gtk_editable_delete_text ( GTK_EDITABLE ( entree_nom_categ ), 0, -1 );
 
     gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_nom_categ ),
 					 GTK_SIGNAL_FUNC ( modification_du_texte_categ),
@@ -923,181 +859,55 @@ gboolean enleve_selection_ligne_categ ( void )
 
     return FALSE;
 }
-/* **************************************************************************************************** */
 
 
 
-
-
-
-/* **************************************************************************************************** */
+/**
+ *
+ *
+ */
 void modification_du_texte_categ ( void )
 {
-    gtk_widget_set_sensitive ( bouton_modif_categ_modifier,
-			       TRUE );
-    gtk_widget_set_sensitive ( bouton_modif_categ_annuler,
-			       TRUE );
+    gtk_widget_set_sensitive ( bouton_modif_categ_modifier, TRUE );
+    gtk_widget_set_sensitive ( bouton_modif_categ_annuler, TRUE );
 }
-/* **************************************************************************************************** */
 
 
 
-
-
-/* **************************************************************************************************** */
+/**
+ *
+ *
+ */
 void clique_sur_modifier_categ ( void )
 {
-    GtkCTreeNode *node;
-
-
-    /* si c'est une categ et si c'est une modif du nom, on doit réafficher la liste des categ et les listes des opés, sinon, on change juste la categ et */
-    /* met à jour les listes de categories */
-    /* si c'est une sous categ, c'est obligmy_atoirement un changement de nom */
-
-    if ( gtk_object_get_data ( GTK_OBJECT (  entree_nom_categ ),
-			       "adr_struct_categ" ) )
-    {
-	/* c'est une categorie */
-
-	struct struct_categ *categ;
-
-
-	categ =  gtk_object_get_data ( GTK_OBJECT (  entree_nom_categ ),
-				       "adr_struct_categ" );
-
-
-	if ( strcmp ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_categ ))),
-		      categ -> nom_categ ))
-	{
-	    free ( categ -> nom_categ );
-
-	    categ -> nom_categ = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_categ ))) );
-
-
-	    node = GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_categ ) -> selection ) -> data );
-
-	    if ( GTK_CTREE_ROW ( node ) -> expanded )
-		gtk_ctree_node_set_pixtext ( GTK_CTREE ( arbre_categ ),
-					     node,
-					     0,
-					     categ -> nom_categ,
-					     10,
-					     pixmap_ouvre,
-					     masque_ouvre );
-	    else
-		gtk_ctree_node_set_pixtext ( GTK_CTREE ( arbre_categ ),
-					     node,
-					     0,
-					     categ -> nom_categ,
-					     10,
-					     pixmap_ferme,
-					     masque_ferme );
-
-	    demande_mise_a_jour_tous_comptes ();
-	}
-	else
-	    categ -> type_categ = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_categ_debit ));
-    }
-    else
-    {
-	/* c'est une sous categorie */
-
-	struct struct_sous_categ *sous_categ;
-
-	sous_categ =  gtk_object_get_data ( GTK_OBJECT (  entree_nom_categ ),
-					    "adr_struct_sous_categ" );
-
-	free ( sous_categ -> nom_sous_categ );
-
-	sous_categ -> nom_sous_categ = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_categ ))) );
-
-
-	node = GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_categ ) -> selection ) -> data );
-
-	gtk_ctree_node_set_text ( GTK_CTREE ( arbre_categ ),
-				  node,
-				  0,
-				  sous_categ -> nom_sous_categ );
-
-	demande_mise_a_jour_tous_comptes ();
-    }
-
-    gtk_clist_unselect_all ( GTK_CLIST ( arbre_categ ));
-
-    if ( mise_a_jour_combofix_categ_necessaire )
-	mise_a_jour_combofix_categ ();
-
-    gtk_widget_set_sensitive ( bouton_modif_categ_modifier,
-			       FALSE );
-    gtk_widget_set_sensitive ( bouton_modif_categ_annuler,
-			       FALSE );
-
-    modification_fichier(TRUE);
 }
-/* **************************************************************************************************** */
 
 
-/* **************************************************************************************************** */
+
+/**
+ *
+ *
+ */
 void clique_sur_annuler_categ ( void )
 {
-    if ( gtk_object_get_data ( GTK_OBJECT (  entree_nom_categ ),
-			       "adr_struct_categ" ))
-    {
-	/* c'est une categorie */
-
-	struct struct_categ *categ;
-
-	categ =  gtk_object_get_data ( GTK_OBJECT (  entree_nom_categ ),
-				       "adr_struct_categ" );
-
-	gtk_entry_set_text ( GTK_ENTRY ( entree_nom_categ ),
-			     categ -> nom_categ );
-
-	if ( categ -> type_categ )
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_categ_debit ),
-					   TRUE );
-	else
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_categ_credit ),
-					   TRUE );
-    }
-    else
-    {
-	/* c'est une sous categorie */
-
-	struct struct_sous_categ *sous_categ;
-
-	sous_categ =  gtk_object_get_data ( GTK_OBJECT (  entree_nom_categ ),
-					    "adr_struct_sous_categ" );
-
-	gtk_entry_set_text ( GTK_ENTRY ( entree_nom_categ ),
-			     sous_categ -> nom_sous_categ );
-
-    }
-
-    gtk_widget_set_sensitive ( bouton_modif_categ_modifier,
-			       FALSE );
-    gtk_widget_set_sensitive ( bouton_modif_categ_annuler,
-			       FALSE );
-
 }
-/* **************************************************************************************************** */
 
 
 
-
-
-/* **************************************************************************************************** */
+/**
+ *
+ *
+ */
 void supprimer_categ ( void )
 {
     struct struct_categ * categ = NULL;
     GtkTreeSelection * selection;
     GtkTreeModel * model;
     GtkTreeIter iter;
+    GSList * liste_tmp;
     gint i, ope_trouvee, echeance_trouvee, no_categ = 0, no_sub_categ = 0;
-    /* ALAIN-FIXME il y a des GSList *liste_tmp un peu partout dans cette fonction,
-       il faudrait voir si on ne peut pas se contenter d'une seule */
-    GSList *liste_tmp2;
     gpointer pointer;
+    MetatreeInterface * iface;
 
     selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(arbre_categ));
     if ( selection && gtk_tree_selection_get_selected(selection, &model, &iter))
@@ -1120,9 +930,11 @@ void supprimer_categ ( void )
 	return;
     }
 
+    iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );   
+
     if ( no_sub_categ != 0 )
     {
-	supprimer_sous_categ ( (struct struct_sous_categ *) pointer, no_categ );
+	supprimer_sous_categ ( iface, (struct struct_sous_categ *) pointer, no_categ );
 	return;
     }
 
@@ -1145,7 +957,7 @@ void supprimer_categ ( void )
 
 	    operation = liste_tmp -> data;
 
-	    if ( operation -> categorie == categ -> no_categ )
+	    if ( iface -> transaction_div_id ( operation ) == iface -> div_id (categ) )
 	    {
 		ope_trouvee = 1;
 		liste_tmp = NULL;
@@ -1159,22 +971,22 @@ void supprimer_categ ( void )
 
     /* fait le tour des échéances pour en trouver une qui a cette catégorie  */
 
-    liste_tmp2 = liste_struct_echeances;
+    liste_tmp = liste_struct_echeances;
     echeance_trouvee = 0;
 
-    while ( liste_tmp2 )
+    while ( liste_tmp )
     {
 	struct operation_echeance *echeance;
 
-	echeance = liste_tmp2 -> data;
+	echeance = liste_tmp -> data;
 
-	if ( echeance -> categorie == categ -> no_categ )
+	if ( iface -> transaction_div_id ( echeance) == iface -> div_id (categ) )
 	{
 	    echeance_trouvee = 1;
-	    liste_tmp2 = NULL;
+	    liste_tmp = NULL;
 	}
 	else
-	    liste_tmp2 = liste_tmp2 -> next;
+	    liste_tmp = liste_tmp -> next;
     }
 
 
@@ -1222,16 +1034,18 @@ void supprimer_categ ( void )
 
 	    categorie = pointeur -> data;
 
-	    if ( categorie-> no_categ != categ -> no_categ )
+	    if ( iface -> div_id (categorie) != iface -> div_id (categ) )
 	    {
+		/* FIXME : implement type */
 		if ( categorie -> type_categ )
 		    liste_categ_debit = g_slist_append ( liste_categ_debit,
-							 g_strdup ( categorie -> nom_categ ) );
+							 g_strdup ( iface -> div_name (categorie) ) );
 		else
 		    liste_categ_credit = g_slist_append ( liste_categ_credit,
-							  g_strdup ( categorie -> nom_categ ) );
+							  g_strdup ( iface -> div_name (categorie) ) );
 
 
+		/* FIXME: implement this */
 		sous_pointeur = categorie -> liste_sous_categ;
 
 		while ( sous_pointeur )
@@ -1240,15 +1054,16 @@ void supprimer_categ ( void )
 
 		    sous_categ = sous_pointeur -> data;
 
+		    /* FIXME : implement type */
 		    if ( categorie -> type_categ )
 			liste_categ_debit = g_slist_append ( liste_categ_debit,
 							     g_strconcat ( "\t",
-									   sous_categ -> nom_sous_categ,
+									   iface -> sub_div_name (sous_categ),
 									   NULL ) );
 		    else
 			liste_categ_credit = g_slist_append ( liste_categ_credit,
 							      g_strconcat ( "\t",
-									    sous_categ -> nom_sous_categ,
+									    iface -> sub_div_name (sous_categ),
 									    NULL ) );
 
 		    sous_pointeur = sous_pointeur -> next;
@@ -1325,6 +1140,7 @@ void supprimer_categ ( void )
 				       " : ",
 				       2 );
 
+	    /* FIXME */
 	    nouvelle_categ = categ_par_nom ( split_categ[0],
 					     0,
 					     0,
@@ -1332,14 +1148,15 @@ void supprimer_categ ( void )
 
 	    if ( nouvelle_categ )
 	    {
-		nouveau_no_categ = nouvelle_categ -> no_categ;
+		nouveau_no_categ = iface -> div_id ( nouvelle_categ );
 
+		/* FIXME */
 		nouvelle_sous_categ = sous_categ_par_nom ( nouvelle_categ,
 							   split_categ[1],
 							   0 );
 
 		if ( nouvelle_sous_categ )
-		    nouveau_no_sous_categ = nouvelle_sous_categ -> no_sous_categ;
+		    nouveau_no_sous_categ = iface -> sub_div_id ( nouvelle_sous_categ );
 	    }
 
 	    g_strfreev ( split_categ );
@@ -1359,10 +1176,10 @@ void supprimer_categ ( void )
 
 		operation = liste_tmp -> data;
 
-		if ( operation -> categorie == categ -> no_categ )
+		if ( iface -> transaction_div_id ( operation ) == iface -> div_id (categ) )
 		{
-		    operation -> categorie = nouveau_no_categ;
-		    operation -> sous_categorie = nouveau_no_sous_categ;
+		    iface -> transaction_set_div_id ( operation, nouveau_no_categ );
+		    iface -> transaction_set_sub_div_id ( operation, nouveau_no_sous_categ );
 		}
 
 		liste_tmp = liste_tmp -> next;
@@ -1381,24 +1198,24 @@ void supprimer_categ ( void )
 
 	    echeance = liste_tmp -> data;
 
-	    if ( echeance -> categorie == categ -> no_categ )
+	    if ( iface -> transaction_div_id ( echeance ) == iface -> div_id (categ) )
 	    {
-		echeance -> categorie = nouveau_no_categ;
-		echeance -> sous_categorie = nouveau_no_sous_categ;
-
-		if ( !echeance -> categorie )
-		    echeance -> compte_virement = 0;
+		iface -> transaction_set_div_id ( echeance, nouveau_no_categ );
+		iface -> transaction_set_sub_div_id ( echeance, nouveau_no_sous_categ );
+		/* FIXME: implement that */
+/* 		if ( !echeance -> categorie ) */
+/* 		    echeance -> compte_virement = 0; */
 	    }
 
 	    liste_tmp = liste_tmp -> next;
 	}
-
 
 	demande_mise_a_jour_tous_comptes ();
 
 	gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
     }
 
+    /* Implement this */
 
     /* supprime dans la liste des categ  */
     liste_struct_categories = g_slist_remove ( liste_struct_categories,
@@ -1428,7 +1245,7 @@ void supprimer_categ ( void )
 
 
 /* **************************************************************************************************** */
-void supprimer_sous_categ ( struct struct_sous_categ *sous_categ, gint no_categ )
+void supprimer_sous_categ ( MetatreeInterface * iface, struct struct_sous_categ *sous_categ, gint no_categ )
 {
     struct struct_categ *categ;
     GtkTreeSelection * selection;
@@ -1436,14 +1253,14 @@ void supprimer_sous_categ ( struct struct_sous_categ *sous_categ, gint no_categ 
     GtkTreeIter iter;
     gint i;
 
-    categ = categ_par_no ( no_categ );
+    categ = iface -> get_div_pointer ( no_categ );
 
     if ( find_associated_transactions ( no_categ, sous_categ -> no_sous_categ ) )
     {
 	gint nouveau_no_categ, nouveau_no_sous_categ;
 	GSList *liste_tmp;
 
-	if ( ! find_destination_blob ( categ, sous_categ, 
+	if ( ! find_destination_blob ( iface, categ, sous_categ, 
 				       &nouveau_no_categ, &nouveau_no_sous_categ ) )
 	    return;
 
@@ -2330,8 +2147,11 @@ gboolean categ_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath * d
 	struct structure_operation * transaction = NULL;
 	struct struct_sous_categ * sub_categ, * dest_sub_categ;
 	struct struct_categ * orig_categ, * dest_categ;
+	MetatreeInterface * iface;
 
 	gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
+	iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );
+
 	metatree_get_row_properties ( model, orig_path,
 				      NULL, &no_orig_categ, &no_orig_sub_categ, &pointer );
 	orig_type = metatree_get_row_type ( model, orig_path );
@@ -2352,14 +2172,14 @@ gboolean categ_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath * d
 		break;
 
 	    case META_TREE_SUB_DIV:
-		sub_categ = sous_categ_par_no ( no_orig_categ, no_orig_sub_categ );
-		dest_categ = categ_par_no ( no_dest_categ );
-		orig_categ = categ_par_no ( no_orig_categ );
+		dest_categ = iface -> get_div_pointer ( no_dest_categ );
+		orig_categ = iface -> get_div_pointer ( no_orig_categ );
+		sub_categ = iface -> get_sub_div_pointer ( no_orig_categ, no_orig_sub_categ );
 
-		dest_sub_categ = sous_categ_par_nom ( dest_categ,
-						      ( sub_categ ?
-							sub_categ -> nom_sous_categ : NULL ), 
-						      1 );
+		dest_sub_categ = iface -> get_sub_div_pointer_from_name ( no_dest_categ,
+									  ( sub_categ ?
+									    sub_categ -> nom_sous_categ : NULL ), 
+									  1 );
 		if ( dest_sub_categ )
 		    no_dest_sub_categ = dest_sub_categ -> no_sous_categ;
 		else
@@ -2368,7 +2188,7 @@ gboolean categ_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath * d
 		/* Populate tree */
 		gtk_tree_model_get_iter ( model, &iter_parent, dest_path );
 		gtk_tree_store_append ( GTK_TREE_STORE(model), &iter, &iter_parent);
-		fill_sub_categ_row ( &iter, categ_par_no(no_dest_categ), 
+		fill_sub_categ_row ( iface, &iter, categ_par_no(no_dest_categ), 
 				     sous_categ_par_no(no_dest_categ, no_dest_sub_categ) );
 
 		for ( account = 0; account < nb_comptes; account ++ )
@@ -2439,7 +2259,13 @@ void move_transaction_to_sub_category ( struct structure_operation * transaction
     struct struct_sous_categ * old_sous_categ = 
 	sous_categ_par_no ( transaction -> categorie, transaction -> sous_categorie);
     struct struct_sous_categ * new_sous_categ = sous_categ_par_no (no_categ, no_sub_categ);
-		    
+    MetatreeInterface * iface;
+
+    if ( ! model )
+	return;
+
+    iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );
+
     /* Insert new row */
     gtk_tree_model_get_iter ( model, &dest_iter, dest_path );
     gtk_tree_store_insert ( GTK_TREE_STORE(categ_tree_model),
@@ -2448,9 +2274,9 @@ void move_transaction_to_sub_category ( struct structure_operation * transaction
 
     /* Update new parents */
     add_transaction_to_category ( transaction, new_categ, new_sous_categ );
-    fill_sub_categ_row ( &dest_iter, new_categ, new_sous_categ );
+    fill_sub_categ_row ( iface, &dest_iter, new_categ, new_sous_categ );
     if ( gtk_tree_model_iter_parent ( model, &parent_iter, &dest_iter ) )
-	fill_categ_row ( &parent_iter, new_categ );
+	fill_categ_row ( iface, &parent_iter, new_categ );
 
     /* Change parameters */
     transaction -> categorie = no_categ;
@@ -2463,9 +2289,9 @@ void move_transaction_to_sub_category ( struct structure_operation * transaction
 	gtk_tree_model_get_iter ( model, &orig_iter, orig_path );
 	if ( gtk_tree_model_iter_parent ( model, &parent_iter, &orig_iter ) )
 	{
-	    fill_sub_categ_row ( &parent_iter, old_categ, old_sous_categ );
+	    fill_sub_categ_row ( iface, &parent_iter, old_categ, old_sous_categ );
 	    if ( gtk_tree_model_iter_parent ( model, &gd_parent_iter, &parent_iter ) )
-		fill_categ_row ( &gd_parent_iter, old_categ );
+		fill_categ_row ( iface, &gd_parent_iter, old_categ );
 	}
 
 	/* Remove old row */
@@ -2509,8 +2335,11 @@ void expand_arbre_categ ( GtkWidget *bouton, gint depth )
 
 
 
-
-gboolean find_destination_blob ( struct struct_categ * categ, 
+/**
+ *
+ *
+ */
+gboolean find_destination_blob ( MetatreeInterface * iface, struct struct_categ * categ, 
 				 struct struct_sous_categ * sous_categ, 
 				 gint * no_div, gint * no_sub_div )
 {
@@ -2563,17 +2392,17 @@ gboolean find_destination_blob ( struct struct_categ * categ,
 
 	    sous_categorie = sous_pointeur -> data;
 
-	    if ( sous_categorie -> no_sous_categ !=  sous_categ -> no_sous_categ )
+	    if ( iface -> sub_div_id (sous_categorie) !=  iface -> sub_div_id (sous_categ) )
 	    {
 		if ( categorie -> type_categ )
 		    liste_categ_debit = g_slist_append ( liste_categ_debit,
 							 g_strconcat ( "\t",
-								       sous_categorie -> nom_sous_categ,
+								       iface -> div_name ( sous_categorie ),
 								       NULL ) );
 		else
 		    liste_categ_credit = g_slist_append ( liste_categ_credit,
 							  g_strconcat ( "\t",
-									sous_categorie -> nom_sous_categ,
+									iface -> div_name ( sous_categorie ),
 									NULL ) );
 	    }
 	    sous_pointeur = sous_pointeur -> next;
@@ -2635,11 +2464,13 @@ gboolean find_destination_blob ( struct struct_categ * categ,
 
 	if ( nouvelle_categ )
 	{
-	    nouveau_no_categ = nouvelle_categ -> no_categ;
-	    nouvelle_sous_categ =  sous_categ_par_nom ( nouvelle_categ, split_categ[1], 0 );
+	    nouveau_no_categ = iface -> div_id ( nouvelle_categ );
+	    nouvelle_sous_categ =  iface -> get_sub_div_pointer_from_name ( nouveau_no_categ, split_categ[1], 0 );
 
 	    if ( nouvelle_sous_categ )
-		nouveau_no_sous_categ = nouvelle_sous_categ -> no_sous_categ;
+		nouveau_no_sous_categ = iface -> sub_div_id ( nouvelle_sous_categ );
+
+	    /* FIXME: fill_sub_categ_row */
 	}
 
 	g_strfreev ( split_categ );
