@@ -75,8 +75,6 @@ void init_variables ( gboolean ouverture )
 				 TRUE );
       gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[DERNIERS_FICHIERS].widget ),
 				 TRUE );
-      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[IMPRIMER].widget ),
-				 TRUE );
       gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[EXPORTER].widget ),
 				 TRUE );
       gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[FERMER].widget ),
@@ -137,8 +135,6 @@ void init_variables ( gboolean ouverture )
       gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[SAUVER_SOUS].widget ),
 				 FALSE );
       gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[DERNIERS_FICHIERS].widget ),
-				 FALSE );
-      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[IMPRIMER].widget ),
 				 FALSE );
       gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[EXPORTER].widget ),
 				 FALSE );

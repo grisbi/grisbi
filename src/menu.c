@@ -148,7 +148,6 @@ void init_menus ( GtkWidget * win )
       GNOMEUIINFO_SEPARATOR,
       GNOMEUIINFO_MENU_SAVE_ITEM ( enregistrement_fichier, NULL),
       GNOMEUIINFO_MENU_SAVE_AS_ITEM ( enregistrer_fichier_sous, NULL),
-      GNOMEUIINFO_MENU_PRINT_ITEM ( impression_fichier, NULL),
       GNOMEUIINFO_SEPARATOR,
       GNOMEUIINFO_SUBTREE ( N_("Derniers fichiers"),
 			    &tmp_menu_derniers_fichiers),

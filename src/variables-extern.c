@@ -9,7 +9,7 @@ extern gchar *categories_de_base [];
 
 enum menu_fichier_widget {
   NOUVEAU, OUVRIR, SEP1, 
-  SAUVER, SAUVER_SOUS, IMPRIMER, SEP2,
+  SAUVER, SAUVER_SOUS, SEP2,
   DERNIERS_FICHIERS, SEP3,
   IMPORTER, EXPORTER, SEP4,
   FERMER, QUITTER, MAX_MENU_FICHIER
