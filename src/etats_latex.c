@@ -290,17 +290,17 @@ gint latex_finish ()
 
     if ( etat.print_config.printer || etat.print_config.filetype == POSTSCRIPT_FILE )
     {
-	command = g_strdup_printf ( "latex -interaction=nonstopmode %s.tex", tempname );
+	command = g_strdup_printf ( "%s -interaction=nonstopmode %s.tex", etat.latex_command, tempname );
 	if ( system ( command ) > 0 )
-	    dialogue ( _("LaTeX run was unable to complete, see console output for details.") );
+	    dialogue_error ( _("LaTeX run was unable to complete, see console output for details.") );
 	else 
 	{
-	    command = g_strdup_printf ( "dvips %s %s.dvi -o %s", 
-					( etat.print_config.orientation == LANDSCAPE ? "-t landscape" : ""),
-					tempname,
-					(etat.print_config.printer ? 
-					 (g_strconcat ( tempname, ".ps", NULL )) : 
-					 etat.print_config.printer_filename) );
+	  command = g_strdup_printf ( "%s %s %s.dvi -o %s",  etat.dvips_command,
+				      ( etat.print_config.orientation == LANDSCAPE ? "-t landscape" : ""),
+				      tempname,
+				      (etat.print_config.printer ? 
+				       (g_strconcat ( tempname, ".ps", NULL )) : 
+				       etat.print_config.printer_filename) );
 	    unlink ( g_strdup_printf ("%s.tex", tempname) );
 	    unlink ( g_strdup_printf ("%s.aux", tempname) );
 	    unlink ( g_strdup_printf ("%s.log", tempname) );
