@@ -1462,6 +1462,10 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 		increment_decrement_champ ( widget_formulaire_operations[origine], -1 );
 		return TRUE;
 	    }
+	    else 
+	      {
+		return FALSE;
+	      }
 	    break;
 
 	case GDK_Page_Up :		/* touche PgUp */
@@ -1548,7 +1552,7 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	    break;
     }
 
-    return FALSE;
+    return TRUE;
 }
 /******************************************************************************/
 
