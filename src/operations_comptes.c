@@ -398,6 +398,10 @@ gboolean changement_compte ( gint *compte)
     /*     on affiche le tree_view */
 
     gtk_widget_show ( SCROLLED_WINDOW_LISTE_OPERATIONS );
+    
+    /* FIXME : trouver une meilleure solution pour actualiser la liste des
+       comptes. Voir bogue #293 */
+    reaffiche_liste_comptes ();
 
     return FALSE;
 }
