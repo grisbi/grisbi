@@ -484,12 +484,18 @@ struct struct_imputation
     gint type_imputation;                   /* 0=crédit ; 1 = débit */
     gint no_derniere_sous_imputation;
     GSList *liste_sous_imputation;
+    gint nb_transactions;
+    gint nb_direct_transactions;
+    gdouble balance;
+    gdouble direct_balance;
 };
 
 struct struct_sous_imputation
 {
     gint no_sous_imputation;
     gchar *nom_sous_imputation;
+    gint nb_transactions;
+    gdouble balance;
 };
 
 
