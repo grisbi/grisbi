@@ -97,8 +97,6 @@ fix_encoding ( xmlNodePtr droot )
   xmlNodePtr node;
   gsize bytes_written, bytes_read;
 
-  printf(">> in fix_encoding\n");
-
   if (!droot)
     return;
 
@@ -108,7 +106,6 @@ fix_encoding ( xmlNodePtr droot )
 /*       xmlSetProp (droot,  */
 /* 		  property->name, */
       property->node->content = latin2utf8(string);
-      printf (">> %s: %s (%s|%s)\n", property->name, string, xmlGetProp (droot, property->name), latin2utf8(string));
     }
 
   for (node = droot->childs; node; node = node->next)
@@ -143,15 +140,12 @@ gboolean charge_operations ( void )
   /*   si marche pas, essaye d'ouvrir la version 0.3.1 */
 
   doc = xmlParseFile ( nom_fichier_comptes );
-  printf (">>> %p %s\n", doc, nom_fichier_comptes);
 
   if ( doc )
     {
       /* vérifications d'usage */
       xmlNodePtr root = xmlDocGetRootElement(doc);
 
-      printf (">>> %p\n", root);
-      printf (">>> %s\n", root->name);
       if ( !root
 	   ||
 	   !root->name

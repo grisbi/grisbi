@@ -32,23 +32,39 @@ GtkTreeSelection * selection;
 GtkWidget * button_apply;
 
 
-/* ************************************************************************************************************** */
+/**
+ * Creates a simple TreeView and a TreeModel to handle preference
+ * tabs.  Sets preference_tree_model to the newly created TreeModel.
+ *
+ * \returns a GtkScrolledWindow
+ *
+ */
+
 GtkWidget * create_preferences_tree ( )
 {
-  GtkWidget *tree, *item;
+  GtkWidget *tree, *item, *sw;
   GList *items = NULL;
   GtkTreeIter iter;
   GtkTreeViewColumn *column;
   GtkCellRenderer *cell;
 
+  /* Create model */
   preference_tree_model = gtk_tree_store_new (2, 
 					      G_TYPE_STRING, 
 					      G_TYPE_POINTER);
+
+  /* Create container + TreeView */
+  sw = gtk_scrolled_window_new (NULL, NULL);
+  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
+				       GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+				  GTK_POLICY_NEVER,
+				  GTK_POLICY_AUTOMATIC);
   tree = gtk_tree_view_new();
-  gtk_tree_view_set_model (GTK_TREE_VIEW (tree), GTK_TREE_MODEL (preference_tree_model));
+  gtk_tree_view_set_model (GTK_TREE_VIEW (tree), 
+			   GTK_TREE_MODEL (preference_tree_model));
 
-  selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree));
-
+  /* Make column */
   cell = gtk_cell_renderer_text_new ();
   column = 
     gtk_tree_view_column_new_with_attributes ("Categories",
@@ -58,9 +74,20 @@ GtkWidget * create_preferences_tree ( )
   gtk_tree_view_append_column (GTK_TREE_VIEW (tree),
 			       GTK_TREE_VIEW_COLUMN (column));
 
-  g_signal_connect (selection, "changed", G_CALLBACK (selectionne_liste_preference), preference_tree_model);
+  /* Handle select */
+  selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree));
+  g_signal_connect (selection, "changed", 
+		    G_CALLBACK (selectionne_liste_preference), 
+		    preference_tree_model);
 
-  return tree;
+  /* Put the tree in the scroll */
+  gtk_container_add (GTK_CONTAINER (sw), tree);
+
+  /* expand all rows after the treeview widget has been realized */
+  g_signal_connect (tree, "realize",
+		    G_CALLBACK (gtk_tree_view_expand_all), NULL);
+
+  return sw;
 }
 
 
@@ -97,34 +124,22 @@ void preferences ( GtkWidget *widget,
 		       FALSE,
 		       FALSE,
 		       0 );
-  preference_frame = gtk_hpaned_new ();	/* FIXME: Gruik! */
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       preference_frame,
-		       TRUE,
-		       TRUE,
-		       0 );
+  preference_frame = gtk_hpaned_new ();	/* GRUIK! */
+  gtk_box_pack_start ( GTK_BOX ( hbox ), preference_frame,
+		       TRUE, TRUE, 0 );
 
-  /* On arange le tout dans une vbox */
+  /* On range le tout dans une vbox */
   vbox = gtk_vbox_new ( FALSE, 10 );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       hpaned,
-		       TRUE,
-		       TRUE,
-		       0);
+  gtk_box_pack_start ( GTK_BOX ( vbox ), hpaned,
+		       TRUE, TRUE, 0);
 
   /* Avec un sépareteur entre le haut et les boutons */
   separator = gtk_hseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       separator,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX ( vbox ), separator,
+		       FALSE, FALSE, 0 );
   
   /* Création des boutons en bas */
   hbox = gtk_hbox_new ( FALSE, 6 );
-/*   button_ok = gtk_button_new_with_label (_("OK")); */
-/*   button_cancel = gtk_button_new_from_stock (GTK_STOCK_CANCEL); */
-/*   button_apply = gtk_button_new_with_label (_("Apply")); */
   button_ok = gtk_button_new_from_stock (GTK_STOCK_OK);
   button_cancel = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
   button_apply = gtk_button_new_from_stock (GTK_STOCK_APPLY);
@@ -140,24 +155,12 @@ void preferences ( GtkWidget *widget,
   gtk_box_pack_end ( GTK_BOX ( hbox ), hbox2,
 		       FALSE, FALSE, 0 );
 
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0 );
-
+  gtk_box_pack_start ( GTK_BOX ( vbox ), hbox,
+		       FALSE, FALSE, 0 );
   gtk_container_add (GTK_CONTAINER (fenetre_preferences), vbox);
 
 
-  /* on crée le premier onglet : Général */
-  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
-  gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-		      &iter,
-		      0, _("Messages & warnings"),
-		      1, onglet_messages_and_warnings(),
-		      -1);
-
-  /* création du 2ème onglet */
+  /* File tab */
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter,
@@ -165,14 +168,19 @@ void preferences ( GtkWidget *widget,
 		      1, onglet_fichier(),
 		      -1);
 
-  /* création du 4ème onglet */
+  /* Display subtree */
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter,
 		      0, _("Display"),
 		      1, NULL,
 		      -1);
-
+  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+  gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+		      &iter2,
+		      0, _("Messages & warnings"),
+		      1, onglet_messages_and_warnings(),
+		      -1);
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
@@ -198,35 +206,34 @@ void preferences ( GtkWidget *widget,
 		      1, onglet_display_fonts(),
 		      -1);
 
-
-  /* création du 6ème onglet */
+  /* Resources subtree */
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter,
+		      0, _("Resources"),
+		      1, NULL,
+		      -1);
+  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+  gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+		      &iter2,
 		      0, _("Currencies"),
 		      1, onglet_devises(),
 		      -1);
-
-  /* création du 7ème onglet */
-  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
+  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-		      &iter,
+		      &iter2,
 		      0, _("Banks"),
 		      1, onglet_banques(),
 		      -1);
-
-  /* création du 9ème onglet */
-  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
+  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-		      &iter,
+		      &iter2,
 		      0, _("Financial years"),
 		      1, onglet_exercices(),
 		      -1);
-
-  /* création du 10ème onglet */
-  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
+  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-		      &iter,
+		      &iter2,
 		      0, _("Methods of payment"),
 		      1, onglet_types_operations(),
 		      -1);
@@ -253,14 +260,12 @@ void preferences ( GtkWidget *widget,
   gtk_widget_set_sensitive ( button_apply, FALSE );
 
   /* On se met sur la page demandée */
-  path = gtk_tree_path_new ();
-  gtk_tree_path_append_index (path, 3);
-  gtk_tree_selection_select_path (selection, 
-				  path);
-  gtk_tree_path_free (path);
+/*   path = gtk_tree_path_new (); */
+/*   gtk_tree_path_append_index (path, 3); */
+/*   gtk_tree_selection_select_path (selection,  */
+/* 				  path); */
+/*   gtk_tree_path_free (path); */
 
-  gtk_tree_view_expand_all ( GTK_TREE_VIEW (tree) );
-  
   gtk_widget_show_all ( fenetre_preferences );
 
 }
