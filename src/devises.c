@@ -187,7 +187,7 @@ void ajout_devise ( GtkWidget *bouton,
   gnome_dialog_set_default ( GNOME_DIALOG ( dialog ),
 			    0 );
 
-  label = gtk_label_new ( _("Nouvelle devise :") );
+  label = gtk_label_new ( COLON(_("Nouvelle devise")) );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
 		       FALSE,
@@ -205,7 +205,7 @@ void ajout_devise ( GtkWidget *bouton,
   gtk_widget_show ( hbox );
 
 
-  label = gtk_label_new ( _("Nom de la devise :") );
+  label = gtk_label_new ( COLON(_("Nom de la devise")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -234,7 +234,7 @@ void ajout_devise ( GtkWidget *bouton,
   gtk_widget_show ( hbox );
 
 
-  label = gtk_label_new ( _("Code de la devise :") );
+  label = gtk_label_new ( COLON(_("Code de la devise")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -743,7 +743,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 
 
 
-  label = gtk_label_new ( _("Veuillez entrer le taux de change :") );
+  label = gtk_label_new ( COLON(_("Veuillez entrer le taux de change")) );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
 		       FALSE,

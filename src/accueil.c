@@ -324,7 +324,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
 /* partie des fin d'échéances */
 
-  frame_etat_echeances_finies = gtk_frame_new ( SPACIFY(_("Echéances terminées :")) );
+  frame_etat_echeances_finies = gtk_frame_new ( SPACIFY(COLON(_("Echéances terminées"))) );
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame_etat_echeances_finies ),
 			      GTK_SHADOW_ETCHED_OUT );
   gtk_box_pack_start ( GTK_BOX ( base_box_scroll ),
@@ -1137,7 +1137,7 @@ void mise_a_jour_soldes_minimaux ( void )
 				   0 );
 	      gtk_widget_show ( hbox );
 
-	      label = gtk_label_new ( _("Les comptes suivants sont sous le seuil minimal autorisé :") );
+	      label = gtk_label_new ( COLON(_("Les comptes suivants sont sous le seuil minimal autorisé")) );
 	      gtk_box_pack_start ( GTK_BOX ( hbox ),
 				   label,
 				   FALSE,
@@ -1215,7 +1215,7 @@ void mise_a_jour_soldes_minimaux ( void )
 				   0 );
 	      gtk_widget_show ( hbox );
 
-	      label = gtk_label_new ( _("Les comptes suivants sont sous le seuil minimal voulu :") );
+	      label = gtk_label_new ( COLON(_("Les comptes suivants sont sous le seuil minimal voulu")) );
 	      gtk_box_pack_start ( GTK_BOX ( hbox ),
 				   label,
 				   FALSE,
@@ -1340,9 +1340,9 @@ void mise_a_jour_fin_comptes_passifs ( void )
       gtk_widget_show ( label );
 
       if ( g_slist_length ( liste_tmp ) > 1 )
-	label = gtk_label_new (_("Les comptes de passif suivants sont soldés :"));
+	label = gtk_label_new (COLON(_("Les comptes de passif suivants sont soldés")));
       else
-	label = gtk_label_new (_("Le compte de passif suivant est soldé :"));
+	label = gtk_label_new (COLON(_("Le compte de passif suivant est soldé")));
       gtk_misc_set_alignment ( GTK_MISC ( label ),
 			       0,
 			       0.5 );

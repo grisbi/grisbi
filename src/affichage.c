@@ -538,7 +538,7 @@ GtkWidget *onglet_affichage ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Devise :") );
+  label = gtk_label_new ( COLON(_("Devise")) );
   gtk_box_pack_start ( GTK_BOX (hbox  ),
 		       label,
 		       FALSE,

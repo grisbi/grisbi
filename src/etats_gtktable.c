@@ -861,7 +861,7 @@ gint gtktable_affiche_total_sous_categ ( gint ligne )
 	       nom_ss_categ_en_cours )
 	    {
 	      if ( etat_courant -> afficher_nb_opes )
-		label = gtk_label_new (  g_strdup_printf ( _("Total %s : %s ( %d opérations ) :"),
+		label = gtk_label_new (  g_strdup_printf ( COLON(_("Total %s : %s ( %d opérations )")),
 							   nom_categ_en_cours,
 							   nom_ss_categ_en_cours,
 							   nb_ope_sous_categ_etat ));
@@ -1224,7 +1224,7 @@ gint gtktable_affiche_total_sous_ib ( gint ligne )
 	       nom_ss_ib_en_cours )
 	    {
 	      if ( etat_courant -> afficher_nb_opes )
-		label = gtk_label_new ( g_strdup_printf ( _("Total %s : %s ( %d opérations ) :"),
+		label = gtk_label_new ( g_strdup_printf ( COLON(_("Total %s : %s ( %d opérations )")),
 						      nom_ib_en_cours,
 						      nom_ss_ib_en_cours,
 						      nb_ope_sous_ib_etat ));

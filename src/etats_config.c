@@ -2394,7 +2394,7 @@ GtkWidget *onglet_etat_comptes ( void )
 		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
 		       vbox_generale_comptes_etat );
 
-  label = gtk_label_new ( _("Sélectionner les comptes à inclure dans l'état :") );
+  label = gtk_label_new ( COLON(_("Sélectionner les comptes à inclure dans l'état")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0.1,
 			   0.5 );
@@ -2988,7 +2988,7 @@ GtkWidget *onglet_etat_categories ( void )
 		       0 );
   gtk_widget_show ( vbox );
 
-  label = gtk_label_new ( _("Sélectionner les catégories à inclure dans l'état :") );
+  label = gtk_label_new ( COLON(_("Sélectionner les catégories à inclure dans l'état")) );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       label,
 		       FALSE,
@@ -3268,7 +3268,7 @@ GtkWidget *onglet_etat_ib ( void )
 		       0 );
   gtk_widget_show ( vbox );
 
-  label = gtk_label_new ( _("Sélectionner les imputations budgétaires à inclure dans l'état :") );
+  label = gtk_label_new ( COLON(_("Sélectionner les imputations budgétaires à inclure dans l'état")) );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       label,
 		       FALSE,
@@ -3543,7 +3543,7 @@ GtkWidget *onglet_etat_tiers ( void )
 		       0 );
   gtk_widget_show ( vbox );
 
-  label = gtk_label_new ( _("Sélectionner les tiers à inclure dans l'état :") );
+  label = gtk_label_new ( COLON(_("Sélectionner les tiers à inclure dans l'état")) );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       label,
 		       FALSE,
@@ -5798,7 +5798,7 @@ GtkWidget *page_organisation_donnees ( void )
 
   /* choix de ce qu'on utilise dans le classement */
 
-  frame = gtk_frame_new ( _("Informations utilisées pour le regroupement :") );
+  frame = gtk_frame_new ( COLON(_("Informations utilisées pour le regroupement")) );
   gtk_box_pack_start ( GTK_BOX ( hbox_haut ),
 		       frame,
 		       FALSE,
@@ -5899,7 +5899,7 @@ GtkWidget *page_organisation_donnees ( void )
 
   /* choix du type de classement */
 
-  frame = gtk_frame_new ( _("Organisation des niveaux de regroupement :") );
+  frame = gtk_frame_new ( COLON(_("Organisation des niveaux de regroupement")) );
   gtk_box_pack_start ( GTK_BOX ( hbox_haut ),
 		       frame,
 		       FALSE,
@@ -7035,7 +7035,7 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Devise utilisée pour les totaux généraux :") );
+  label = gtk_label_new ( COLON(_("Devise utilisée pour les totaux généraux")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			    0,
 			    0.5 );
@@ -7084,7 +7084,7 @@ GtkWidget *onglet_affichage_etat_devises ( void )
   gtk_widget_show ( hbox );
 
 
-  label = gtk_label_new ( _("Devise utilisée pour les tiers :") );
+  label = gtk_label_new ( COLON(_("Devise utilisée pour les tiers")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			    0,
 			    0.5 );
@@ -7132,7 +7132,7 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Devise utilisée pour les catégories :") );
+  label = gtk_label_new ( COLON(_("Devise utilisée pour les catégories")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			    0,
 			    0.5 );
@@ -7181,7 +7181,7 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Devise utilisée pour les imputations budgétaires :") );
+  label = gtk_label_new ( COLON(_("Devise utilisée pour les imputations budgétaires")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			    0,
 			    0.5 );
@@ -7315,7 +7315,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 
   /* mise en place de la frame des comptes */
 
-  frame = gtk_frame_new ( _("Comptes :"));
+  frame = gtk_frame_new ( COLON(_("Comptes")));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       frame,
 		       FALSE,
@@ -7361,7 +7361,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 
   /* mise en place de la frame des tiers */
 
-  frame = gtk_frame_new ( _("Tiers :"));
+  frame = gtk_frame_new ( COLON(_("Tiers")));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       frame,
 		       FALSE,
@@ -7423,7 +7423,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 
   /* mise en place de la frame des catégories */
 
-  frame = gtk_frame_new ( _("Catégories :"));
+  frame = gtk_frame_new ( COLON(_("Catégories")));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       frame,
 		       FALSE,
@@ -7518,7 +7518,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 
   /* mise en place de la frame des ib */
 
-  frame = gtk_frame_new ( _("Imputations budgétaires :"));
+  frame = gtk_frame_new ( COLON(_("Imputations budgétaires")));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       frame,
 		       FALSE,
@@ -7675,7 +7675,7 @@ GtkWidget *onglet_etat_mode_paiement ( void )
 		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
 		       vbox_mode_paiement_etat );
 
-  label = gtk_label_new ( _("Sélectionner les modes de règlement à inclure dans l'état :") );
+  label = gtk_label_new ( COLON(_("Sélectionner les modes de règlement à inclure dans l'état")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0.1,
 			   0.5 );

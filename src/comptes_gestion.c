@@ -393,7 +393,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( _("Adresse :") );
+  label = gtk_label_new ( COLON(_("Adresse")) );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,

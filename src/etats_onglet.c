@@ -1283,7 +1283,7 @@ void exporter_etat ( void )
 		       GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
 		       "destroy" );
 
-  label = gtk_label_new ( _("Entrer un nom pour l'export :") );
+  label = gtk_label_new ( COLON(_("Entrer un nom pour l'export")) );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
 		       FALSE,
@@ -1405,7 +1405,7 @@ void importer_etat ( void )
 		       GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
 		       "destroy" );
 
-  label = gtk_label_new ( _("Entrer le nom du fichier :") );
+  label = gtk_label_new ( COLON(_("Entrer le nom du fichier")) );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
 		       FALSE,

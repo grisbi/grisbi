@@ -211,7 +211,7 @@ GtkWidget *onglet_categories ( void )
 
 
 
-  frame = gtk_frame_new ( SPACIFY(_("Informations :")) );
+  frame = gtk_frame_new ( SPACIFY(COLON(_("Informations"))) );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       frame,
 		       FALSE,
@@ -253,7 +253,7 @@ GtkWidget *onglet_categories ( void )
   gtk_widget_show ( separateur );
 
 
-  label = gtk_label_new ( _("Classement :") );
+  label = gtk_label_new ( COLON(_("Classement")) );
   gtk_box_pack_start ( GTK_BOX ( vbox_frame ),
 		       label,
 		       FALSE,
@@ -2818,7 +2818,7 @@ void appui_sur_ajout_categorie ( void )
   GtkCTreeNode *ligne;
 
   if ( !( nom_categorie = demande_texte ( _("Nouvelle catégorie"),
-					   _("Entrer le nom de la nouvelle catégorie :") )))
+					   COLON(_("Entrer le nom de la nouvelle catégorie")) )))
     return;
 
   /* on l'ajoute à la liste des opés */
@@ -2873,7 +2873,7 @@ void appui_sur_ajout_sous_categorie ( void )
   GtkCTreeNode *node_parent;
 
   if ( !( nom_sous_categorie = demande_texte ( _("Nouvelle sous-catégorie"),
-					       _("Entrer le nom de la nouvelle sous-catégorie :") )))
+					       COLON(_("Entrer le nom de la nouvelle sous-catégorie")) )))
     return;
 
   /* récupère le node parent */
@@ -2954,7 +2954,7 @@ void exporter_categ ( void )
 		       GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
 		       "destroy" );
 
-  label = gtk_label_new ( _("Entrer un nom pour l'export :") );
+  label = gtk_label_new ( COLON(_("Entrer un nom pour l'export")) );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
 		       FALSE,
@@ -3081,7 +3081,7 @@ void importer_categ ( void )
 		       GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
 		       "destroy" );
 
-  label = gtk_label_new ( _("Entrer le nom du fichier :") );
+  label = gtk_label_new ( COLON(_("Entrer le nom du fichier")) );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
 		       FALSE,

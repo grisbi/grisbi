@@ -95,7 +95,7 @@ GtkWidget *creation_fenetre_operations ( void )
   gtk_widget_show ( frame );
 
 
-  solde_label_pointe = gtk_label_new ( SPACIFY(_("Solde pointé :")) );
+  solde_label_pointe = gtk_label_new ( SPACIFY(COLON(_("Solde pointé"))) );
   gtk_label_set_justify ( GTK_LABEL ( solde_label_pointe ),
 			  GTK_JUSTIFY_LEFT);
   gtk_container_add ( GTK_CONTAINER ( frame ),
@@ -118,7 +118,7 @@ GtkWidget *creation_fenetre_operations ( void )
   gtk_widget_show ( frame );
 
 
-  solde_label = gtk_label_new ( SPACIFY(_("Solde courant :")) );
+  solde_label = gtk_label_new ( SPACIFY(COLON(_("Solde courant"))) );
   gtk_label_set_justify ( GTK_LABEL ( solde_label ),
 			  GTK_JUSTIFY_RIGHT);
   gtk_container_add ( GTK_CONTAINER ( frame ),

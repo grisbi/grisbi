@@ -1006,7 +1006,7 @@ GtkWidget *onglet_banques ( void )
 		       5 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Banque :") );
+  label = gtk_label_new ( COLON(_("Banque")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -1218,7 +1218,7 @@ GtkWidget *onglet_banques ( void )
 		       5 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Correspondant :") );
+  label = gtk_label_new ( COLON(_("Correspondant")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,

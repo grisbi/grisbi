@@ -179,7 +179,7 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Affichage des échéances :") );
+  label = gtk_label_new ( COLON(_("Affichage des échéances")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,

@@ -86,7 +86,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 		       10);
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("N° de rapprochement :") );
+  label = gtk_label_new ( COLON(_("N° de rapprochement")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,

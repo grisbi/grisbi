@@ -261,7 +261,7 @@ void affiche_log_message ( void )
   gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
 				 GTK_WINDOW ( window ) );
 
-  label = gtk_label_new ( _("Cette opération a retourné un message :"));
+  label = gtk_label_new ( COLON(_("Cette opération a retourné un message")));
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
 		       FALSE,

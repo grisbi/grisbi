@@ -1394,7 +1394,7 @@ void exporter_fichier_qif ( void )
 		       GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
 		        "destroy" );
 
-  label = gtk_label_new ( _("Sélectionner les comptes à exporter :") );
+  label = gtk_label_new ( COLON(_("Sélectionner les comptes à exporter")) );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
 		       FALSE,

@@ -433,7 +433,7 @@ gboolean enregistrement_fichier ( gint origine )
 			   GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
 			   "destroy" );
 
-      label = gtk_label_new ( _("Entrer un nom pour le fichier de comptes :") );
+      label = gtk_label_new ( COLON(_("Entrer un nom pour le fichier de comptes")) );
       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 			   label,
 			   FALSE,
@@ -753,7 +753,7 @@ void affiche_titre_fenetre ( void )
       while ( parametres[i] )
 	i++;
 
-      titre = g_strconcat ( SPACIFY(_("Grisbi :")),
+      titre = g_strconcat ( SPACIFY(COLON(_("Grisbi"))),
 			    parametres [i-1],
 			    NULL );
 

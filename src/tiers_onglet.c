@@ -97,7 +97,7 @@ GtkWidget *onglet_tiers ( void )
 
 
 
-  frame = gtk_frame_new ( SPACIFY(_("Informations :")) );
+  frame = gtk_frame_new ( SPACIFY(COLON(_("Informations"))) );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       frame,
 		       FALSE,
@@ -1636,7 +1636,7 @@ void appui_sur_ajout_tiers ( void )
   GtkCTreeNode *ligne;
 
   if ( !( nom_tiers = demande_texte ( _("Nouveau tiers"),
-				      _("Entrer le nom du nouveau tiers :") )))
+				      COLON(_("Entrer le nom du nouveau tiers")) )))
     return;
 
   /* on l'ajoute à la liste des opés */

@@ -941,7 +941,7 @@ GtkWidget *onglet_echeances ( void )
 
 /*   configuration du nb de jours avant la prise d'une échéance  */
 
-  label = gtk_label_new ( SPACIFY(_("Nombre de jours précédant le rappel d'une échéance :")) );
+  label = gtk_label_new ( SPACIFY(COLON(_("Nombre de jours précédant le rappel d'une échéance"))) );
   gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
 		       label,
 		       FALSE,

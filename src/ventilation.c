@@ -182,7 +182,7 @@ GtkWidget *creation_verification_ventilation ( void )
   gtk_widget_show ( tableau );
 
 
-  label = gtk_label_new ( _("Somme ventilée :") );
+  label = gtk_label_new ( COLON(_("Somme ventilée")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
 			   0.5 );
@@ -209,7 +209,7 @@ GtkWidget *creation_verification_ventilation ( void )
   gtk_widget_show ( label_somme_ventilee );
 
 
-  label = gtk_label_new ( _("Non affecté :") );
+  label = gtk_label_new ( COLON(_("Non affecté")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
 			   0.5 );
@@ -248,7 +248,7 @@ GtkWidget *creation_verification_ventilation ( void )
 
 
 
-  label = gtk_label_new ( _("Montant :") );
+  label = gtk_label_new ( COLON(_("Montant")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
 			   0.5 );
