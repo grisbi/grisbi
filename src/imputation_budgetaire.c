@@ -60,7 +60,7 @@ static gboolean budgetary_line_drag_data_get ( GtkTreeDragSource * drag_source, 
 static void clique_sur_annuler_imputation ( void );
 static void clique_sur_modifier_imputation ( void );
 static GtkWidget *creation_barre_outils_ib ( void );
-static gboolean edit_budgetary_line ( GtkWidget * button, GtkTreeView * view );
+static gboolean edit_budgetary_line ( GtkTreeView * view );
 static void enleve_selection_ligne_imputation ( void );
 static void exporter_ib ( void );
 static void fusion_categories_imputation ( void );
@@ -2009,7 +2009,7 @@ gboolean popup_budgetary_line_view_mode_menu ( GtkWidget * button )
  *
  *
  */
-gboolean edit_budgetary_line ( GtkWidget * button, GtkTreeView * view )
+gboolean edit_budgetary_line ( GtkTreeView * view )
 {
     GtkWidget * dialog, *paddingbox, *table, *label, *entry, *hbox, *radiogroup;
     GtkTreeSelection * selection;

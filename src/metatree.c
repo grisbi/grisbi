@@ -351,7 +351,7 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
  * FIXME: shouldn't this be partly done via metatree?  (at least the
  * tree stuff).
  */
-void appui_sur_ajout_division ( GtkWidget * button, GtkTreeModel * model )
+void appui_sur_ajout_division ( GtkTreeModel * model )
 {
     MetatreeInterface * iface;
     GtkTreeIter iter, sub_iter;
@@ -379,7 +379,7 @@ void appui_sur_ajout_division ( GtkWidget * button, GtkTreeModel * model )
  *
  *
  */
-void appui_sur_ajout_sub_division ( GtkWidget * button, GtkTreeModel * model )
+void appui_sur_ajout_sub_division ( GtkTreeModel * model )
 {
     MetatreeInterface * iface;
     GtkTreeIter iter, parent_iter;
@@ -423,7 +423,7 @@ void appui_sur_ajout_sub_division ( GtkWidget * button, GtkTreeModel * model )
  * 
  *
  */
-gboolean supprimer_division ( GtkWidget * button, GtkTreeView * tree_view )
+gboolean supprimer_division ( GtkTreeView * tree_view )
 {
     GtkTreeSelection * selection;
     GtkTreeModel * model;

@@ -69,8 +69,8 @@ enum meta_tree_row_type {
 
 
 /*START_DECLARATION*/
-void appui_sur_ajout_division ( GtkWidget * button, GtkTreeModel * model );
-void appui_sur_ajout_sub_division ( GtkWidget * button, GtkTreeModel * model );
+void appui_sur_ajout_division ( GtkTreeModel * model );
+void appui_sur_ajout_sub_division ( GtkTreeModel * model );
 gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 			      GtkTreeViewColumn * col, gpointer userdata );
 gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter, 
@@ -87,7 +87,7 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 			     gpointer sub_division );
 GtkTreeIter * get_iter_from_div ( GtkTreeModel * model, int div, int sub_div );
 GtkTreeIter * get_iter_from_pointer ( GtkTreeModel * model, gpointer pointer );
-gboolean supprimer_division ( GtkWidget * button, GtkTreeView * tree_view );
+gboolean supprimer_division ( GtkTreeView * tree_view );
 void update_transaction_in_tree ( MetatreeInterface * iface, GtkTreeModel * model, 
 				  struct structure_operation * transaction );
 /*END_DECLARATION*/

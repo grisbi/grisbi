@@ -533,7 +533,8 @@ GtkWidget * new_button_with_label_and_image ( gchar * name, gchar * filename,
 
     if ( callback )
     {
-	g_signal_connect ( G_OBJECT(button), "clicked", G_CALLBACK(callback), data );
+	g_signal_connect_swapped ( G_OBJECT(button), "clicked", 
+				   G_CALLBACK(callback), data );
     }
     return button;
 }
@@ -565,7 +566,8 @@ GtkWidget * new_stock_button_with_label_menu ( gchar * stock_id, gchar * name,
 
     if ( callback )
     {
-	g_signal_connect ( G_OBJECT(button), "clicked", G_CALLBACK(callback), data );
+	g_signal_connect_swapped ( G_OBJECT(button), "clicked", 
+				   G_CALLBACK(callback), data );
     }
 
     return button;
