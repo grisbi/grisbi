@@ -1485,6 +1485,12 @@ void impression_etat ( struct struct_etat *etat )
 }
 
 
+void impression_etat_courant ( )
+{
+  impression_etat ( NULL );
+}
+
+
 /*****************************************************************************************************/
 /* Fonction de classement de la liste */
 /* en fonction du choix du type de classement */
