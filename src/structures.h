@@ -103,6 +103,7 @@ struct {
     guint display_message_minimum_alert;
     guint display_message_no_budgetary_line;
     guint display_message_qif_export_currency;
+    guint display_message_ofx_security;
 
     /* Various commands */
     gchar * browser_command;
