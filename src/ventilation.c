@@ -299,8 +299,6 @@ GtkWidget *creation_verification_ventilation ( void )
   gtk_widget_show ( hbox );
 
 
-  /* FIXME */
-/*   bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_OK ); */
   bouton = gtk_button_new_from_stock (GTK_STOCK_OK);
 
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
@@ -316,8 +314,6 @@ GtkWidget *creation_verification_ventilation ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-  /* FIXME */
-/*   bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL ); */
   bouton = gtk_button_new_from_stock    (GTK_STOCK_CANCEL);
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
@@ -642,8 +638,6 @@ GtkWidget *creation_formulaire_ventilation ( void )
   if ( etat.affiche_boutons_valider_annuler )
     gtk_widget_show ( hbox_valider_annuler_ventil );
 
-  /* FIXME */
-/*   bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL ); */
   bouton = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
@@ -658,8 +652,6 @@ GtkWidget *creation_formulaire_ventilation ( void )
 		     0 );
   gtk_widget_show ( bouton );
 
-  /* FIXME */
-/*   bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_OK ); */
   bouton = gtk_button_new_from_stock (GTK_STOCK_OK);
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
@@ -2493,6 +2485,7 @@ void selectionne_ligne_ventilation ( void )
 }
 /***********************************************************************************************************/
 
+
 /* ************************************************************************** */
 /* Fonction valider_ventilation                                               */
 /* appelée par appui du bouton valider                                        */
@@ -2526,27 +2519,9 @@ void valider_ventilation ( void )
 	  GtkWidget *label;
 	  gint resultat;
 
-	  dialog = gnome_dialog_new ( _("Breakdown incomplete"),
-					GNOME_STOCK_BUTTON_YES,
-					GNOME_STOCK_BUTTON_NO,
-					NULL );
-
-	  label = gtk_label_new ( _("The transaction amount isn't fully broken down.\n\nProcess anyway?"));
-	  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-			       label,
-			       FALSE,
-			       FALSE,
-			       0 );
-	  gtk_widget_show ( label );
-	  gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER );
-
-	  resultat = gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
-
-	  /* si on n'appuye pas sur YES, alors on abandonne */
-	  if ( resultat != 0 )
-	    {
-	     return;
-	    }
+	  if ( ! question_yes_no_hint ( _("Incomplete breakdown"),
+					_("The transaction amount isn't fully broken down.\nProceed anyway?") ))
+	    return;
 	}
 
   quitter_ventilation ();
@@ -2555,6 +2530,7 @@ void valider_ventilation ( void )
     fin_edition();
 }
 /* ************************************************************************** */
+
 
 /* ************************************************************************** */
 /* Fonction annuler_ventilation                                               */
@@ -2594,11 +2570,11 @@ void quitter_ventilation ( void )
      qui modifient la position dans la liste des opérations */
 
   gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( frame_droite_bas ),
-			       allocation_taille_formulaire,
-			       NULL );
+				       GTK_SIGNAL_FUNCTION(allocation_taille_formulaire),
+				       NULL );
   gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( frame_droite_bas ),
-			       efface_formulaire,
-			       NULL );
+				       GTK_SIGNAL_FUNCTION(efface_formulaire),
+				       NULL );
 
   gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_formulaire ), 0 );
 
