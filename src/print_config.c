@@ -32,6 +32,8 @@
 static GtkWidget * print_config_appearance ( GtkWidget * dialog );
 static GtkWidget * print_config_general ( GtkWidget * dialog );
 static GtkWidget * print_config_paper ( GtkWidget * dialog );
+static gboolean print_config_radio_toggled ( GtkToggleButton * togglebutton,
+					     gpointer user_data );
 /*END_STATIC*/
 
 
@@ -135,6 +137,8 @@ gboolean change_print_to_file ( GtkButton *button, gpointer data )
     return FALSE;
 }
 
+
+
 /**
  * Create a GtkVbox with stuff needed for general configuration of
  * print.
@@ -143,7 +147,8 @@ gboolean change_print_to_file ( GtkButton *button, gpointer data )
  */
 GtkWidget * print_config_general ( GtkWidget * dialog )
 {
-    GtkWidget *vbox, *paddingbox, *table, *radio, *input, *omenu, *menu, *item;
+    GtkWidget *vbox, *paddingbox, *table, *radio1, *radio2;
+    GtkWidget *input1, *input2, *omenu, *menu, *item;
 
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
@@ -158,27 +163,33 @@ GtkWidget * print_config_general ( GtkWidget * dialog )
     gtk_table_set_col_spacings ( GTK_TABLE(table), 12 );
 
     /* Print to printer */
-    radio = gtk_radio_button_new_with_label ( NULL, _("Printer") );
-    gtk_table_attach ( GTK_TABLE(table), radio, 0, 1, 0, 1,
-		       GTK_SHRINK, GTK_SHRINK, 0, 0 );
-    g_object_set_data ( G_OBJECT(dialog), "printer", radio );
+    radio1 = gtk_radio_button_new_with_label ( NULL, _("Printer") );
+    gtk_table_attach ( GTK_TABLE(table), radio1, 0, 1, 0, 1,
+		       GTK_SHRINK, GTK_SHRINK, 
+		       0, 0 );
+    g_object_set_data ( G_OBJECT(dialog), "printer", radio1 );
+    g_signal_connect ( G_OBJECT(radio1), "toggled", 
+		       (GCallback) print_config_radio_toggled, NULL );
 
-    input = gtk_entry_new ( );
-    gtk_table_attach_defaults ( GTK_TABLE(table), input, 1, 2, 0, 1 );
-    g_object_set_data ( G_OBJECT(dialog), "printer_name", input );
-    gtk_entry_set_text ( GTK_ENTRY(input), etat.print_config.printer_name );
+    input1 = gtk_entry_new ( );
+    gtk_table_attach_defaults ( GTK_TABLE(table), input1, 1, 2, 0, 1 );
+    g_object_set_data ( G_OBJECT(dialog), "printer_name", input1 );
+    gtk_entry_set_text ( GTK_ENTRY(input1), etat.print_config.printer_name );
 
     /* Print to file */
-    radio = gtk_radio_button_new_with_label ( gtk_radio_button_group (GTK_RADIO_BUTTON(radio)), _("File") );
-    gtk_table_attach ( GTK_TABLE(table), radio, 0, 1, 1, 2,
-		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON(radio), !etat.print_config.printer );
+    radio2 = gtk_radio_button_new_with_label ( gtk_radio_button_group (GTK_RADIO_BUTTON(radio1)), _("File") );
+    gtk_table_attach ( GTK_TABLE(table), radio2, 0, 1, 1, 2,
+		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 
+		       0, 0 );
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON(radio2), !etat.print_config.printer );
+    g_signal_connect ( G_OBJECT(radio2), "toggled", 
+		       (GCallback) print_config_radio_toggled, NULL );
 
-    input = my_file_chooser ();
-    gtk_table_attach_defaults ( GTK_TABLE(table), input, 1, 2, 1, 2 );
+    input2 = my_file_chooser ();
+    gtk_table_attach_defaults ( GTK_TABLE(table), input2, 1, 2, 1, 2 );
     g_object_set_data ( G_OBJECT(dialog), "printer_filename", 
-			g_object_get_data (G_OBJECT(input), "entry") );
-    gtk_entry_set_text ( GTK_ENTRY(g_object_get_data (G_OBJECT(input), "entry")),
+			g_object_get_data (G_OBJECT(input2), "entry") );
+    gtk_entry_set_text ( GTK_ENTRY(g_object_get_data (G_OBJECT(input2), "entry")),
 			 etat.print_config.printer_filename );
 
     /* Output file format */
@@ -192,8 +203,15 @@ GtkWidget * print_config_general ( GtkWidget * dialog )
     item = gtk_menu_item_new_with_label ( _("LaTeX file") );
     gtk_menu_append ( GTK_MENU ( menu ), item );
     gtk_option_menu_set_history ( GTK_OPTION_MENU(omenu), etat.print_config.filetype );
-
     gtk_table_attach_defaults ( GTK_TABLE(table), omenu, 1, 2, 2, 3 );
+
+    /* Set pointers to widget that need to be (in)sensitived */
+    g_object_set_data ( G_OBJECT(radio1), "peer1", input2 );
+    g_object_set_data ( G_OBJECT(radio1), "peer2", omenu );
+    g_object_set_data ( G_OBJECT(radio2), "peer1", input1 );
+    g_object_set_data ( G_OBJECT(radio2), "peer2", NULL );
+    print_config_radio_toggled ( GTK_TOGGLE_BUTTON(radio1), NULL );
+    print_config_radio_toggled ( GTK_TOGGLE_BUTTON(radio2), NULL );
 
     return vbox;
 }
@@ -201,8 +219,7 @@ GtkWidget * print_config_general ( GtkWidget * dialog )
 
 
 /**
- * Create a GtkVbox with stuff needed for paper config
- * print.
+ * Create a GtkVbox with stuff needed for paper config print.
  *
  * \return a pointer to a newly created GtkVbox
  */
@@ -227,7 +244,7 @@ GtkWidget * print_config_paper ( GtkWidget * dialog )
 
     for ( i = 0; paper_sizes[i].name; i++ )
     {
-	item = gtk_menu_item_new_with_label (g_strdup_printf ("%s (%2.1fcm Ã %2.1fcm)",
+	item = gtk_menu_item_new_with_label (g_strdup_printf ("%s (%2.1fcm × %2.1fcm)",
 							      _(paper_sizes[i].name),
 							      paper_sizes[i].width/10,
 							      paper_sizes[i].height/10));
@@ -277,4 +294,35 @@ GtkWidget * print_config_appearance ( GtkWidget * dialog )
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Misc") );
 
     return vbox;
+}
+
+
+
+/**
+ * Set associated widgets to a togglebutton (in)sensitive regarding to
+ * its state.  Associated widgets are pointers referenced with the
+ * "peer1" and "peer2" properties of togglebutton.
+ *
+ * \param togglebutton  Toggle button to look associated widgets from.
+ * \param user_data	Not used.
+ *
+ * \return FALSE to allow other handlers to be executed
+ */
+gboolean print_config_radio_toggled ( GtkToggleButton * togglebutton, gpointer user_data ) 
+{
+  GtkWidget *peer1, *peer2;
+
+  peer1 = g_object_get_data ( G_OBJECT(togglebutton), "peer1" );
+  peer2 = g_object_get_data ( G_OBJECT(togglebutton), "peer2" );
+
+  if ( peer1 && GTK_IS_WIDGET(peer1) )
+    {
+      gtk_widget_set_sensitive ( peer1, !gtk_toggle_button_get_active(togglebutton) );
+    }
+  if ( peer2 && GTK_IS_WIDGET(peer2) )
+    {
+      gtk_widget_set_sensitive ( peer2, !gtk_toggle_button_get_active(togglebutton) );
+    }
+
+  return FALSE;
 }
