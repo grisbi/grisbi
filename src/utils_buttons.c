@@ -34,7 +34,7 @@
 /*START_STATIC*/
 static gboolean set_boolean ( GtkWidget * checkbox, guint * dummy);
 static gboolean set_double ( GtkWidget * spin, gdouble * dummy);
-static GtkWidget * new_stock_image_label ( gchar * stock_id );
+static GtkWidget * new_stock_image_label ( gchar * stock_id, gchar * name );
 /*END_STATIC*/
 
 
@@ -336,11 +336,12 @@ GtkWidget *cree_bouton_url ( const gchar *adr,
  * TODO : document
  *
  */
-GtkWidget * new_stock_button_with_label ( gchar * stock_id, GCallback callback )
+GtkWidget * new_stock_button_with_label ( gchar * stock_id, gchar * name, 
+					  GCallback callback )
 {
     GtkWidget * button, *vbox;
 
-    vbox = new_stock_image_label ( stock_id );
+    vbox = new_stock_image_label ( stock_id, name );
 
     button = gtk_button_new ();
     gtk_button_set_relief ( GTK_BUTTON(button), GTK_RELIEF_NONE );
@@ -357,11 +358,12 @@ GtkWidget * new_stock_button_with_label ( gchar * stock_id, GCallback callback )
 
 
 
-GtkWidget * new_stock_button_with_label_menu ( gchar * stock_id, GCallback callback )
+GtkWidget * new_stock_button_with_label_menu ( gchar * stock_id, gchar * name, 
+					       GCallback callback )
 {
     GtkWidget * button, * vbox, * hbox, * arrow;
 
-    vbox = new_stock_image_label ( stock_id );
+    vbox = new_stock_image_label ( stock_id, name );
 
     hbox = gtk_hbox_new ( FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX(hbox), vbox, FALSE, FALSE, 0 );
@@ -384,16 +386,13 @@ GtkWidget * new_stock_button_with_label_menu ( gchar * stock_id, GCallback callb
 }
 
 
-GtkWidget * new_stock_image_label ( gchar * stock_id )
+GtkWidget * new_stock_image_label ( gchar * stock_id, gchar * name )
 {
     GtkWidget * vbox, * label, * image;
-    GtkStockItem item;
-
-    gtk_stock_lookup ( stock_id, &item );
 
     /* Define label */
-    label = gtk_label_new ( "" );
-    gtk_label_set_text_with_mnemonic ( GTK_LABEL(label), item.label );
+    label = gtk_label_new ( name );
+    gtk_label_set_text_with_mnemonic ( GTK_LABEL(label), name );
 
     /* define image */
     image = gtk_image_new_from_stock ( stock_id, GTK_ICON_SIZE_LARGE_TOOLBAR );
