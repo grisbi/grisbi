@@ -29,6 +29,7 @@ src/fenetre_principale.c
 src/fichier_configuration.c
 src/fichiers_gestion.c
 src/fichiers_io.c
+src/gnucash.c
 src/gtk_combofix.c
 src/gtk_list_button.c
 src/help.c
@@ -52,6 +53,9 @@ src/tiers_onglet.c
 src/traitement_variables.c
 src/type_operations.c
 src/utils.c
+src/utils_file_selection.c
+src/utils_files.c
+src/utils_xml.c
 src/variables.c
 src/variables-extern.c
 src/ventilation.c
