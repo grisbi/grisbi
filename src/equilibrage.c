@@ -1343,7 +1343,6 @@ void deplacement_type_tri_haut ( GtkWidget * button, gpointer data )
       if ( elt -> next &&
 	   elt -> next -> data == no_type )
 	{
-	  printf ("swapping %d and %d\n", elt->data, no_type);
 	  LISTE_TRI = g_slist_remove ( LISTE_TRI, no_type );
 	  LISTE_TRI = g_slist_insert_before ( LISTE_TRI, elt, no_type );
 	  break;
@@ -1390,10 +1389,9 @@ void deplacement_type_tri_bas ( void )
 
   for ( elt = LISTE_TRI ; elt -> next ; elt = elt -> next )
     {
-      if ( elt -> next &&  elt -> data == no_type )
+      if ( elt -> next && elt -> data == no_type )
 	{
-	  gint ref = elt->next->data;
-	  printf ("swapping %d and %d\n", no_type, ref);
+	  gint ref = elt -> next -> data;
 	  LISTE_TRI = g_slist_remove ( LISTE_TRI, ref );
 	  LISTE_TRI = g_slist_insert_before ( LISTE_TRI, elt, ref );
 	  break;
@@ -1403,24 +1401,63 @@ void deplacement_type_tri_bas ( void )
 
 
 
-/* ************************************************************************************************************** */
-/* cette fonction est appelée chaque fois qu'on modifie l'ordre de la liste des tris */
-/* et elle save cet ordre dans la liste temporaire */
-/* ************************************************************************************************************** */
+/** TODO: remove this  */
 void save_ordre_liste_type_tri ( void )
 {
-  gint no_compte;
-  gint i;
+}
 
-  no_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( bouton_type_tri_date ),
-						      "no_compte" ));
-  g_slist_free ( liste_tri_tmp[no_compte] );
-  liste_tri_tmp[no_compte] = NULL;
 
-  for ( i=0 ; i < GTK_CLIST ( type_liste_tri ) -> rows ; i++ )
-    liste_tri_tmp[no_compte] = g_slist_append ( liste_tri_tmp[no_compte],
-						gtk_clist_get_row_data ( GTK_CLIST ( type_liste_tri ),
-									 i ));
+
+/**
+ * TODO: document this
+ *
+ */
+void reconcile_by_date_toggled ( GtkCellRendererToggle *cell, 
+				 gchar *path_str, gpointer data )
+{
+  GtkTreePath * treepath;
+  GtkTreeIter iter;
+  gboolean toggle, good;
+
+  treepath = gtk_tree_path_new_from_string ( path_str );
+  gtk_tree_model_get_iter ( GTK_TREE_MODEL (reconcile_model),
+			    &iter, treepath );
+
+  gtk_tree_model_get (GTK_TREE_MODEL(reconcile_model), &iter, 
+		      RECONCILIATION_SORT_COLUMN, &toggle, 
+		      RECONCILIATION_ACCOUNT_COLUMN, p_tab_nom_de_compte_variable,
+		      -1);
+
+  toggle ^= 1;
+
+  /* set new value */
+  gtk_tree_store_set (GTK_TREE_STORE (reconcile_model), &iter, 
+		      RECONCILIATION_SORT_COLUMN, toggle, 
+		      -1);
+  TRI = ! toggle;  /* Set to 1 (sort by types) if toggle is not selected */
+
+  if (toggle)
+    {
+      gtk_tree_view_collapse_row ( GTK_TREE_VIEW(reconcile_treeview), treepath );
+    }
+  else
+    {
+      gtk_tree_view_expand_row ( GTK_TREE_VIEW(reconcile_treeview), treepath, FALSE );
+    }
+
+  gtk_tree_path_free ( treepath );
+}
+
+
+
+/**
+ * TODO: document this
+ *
+ */
+void reconcile_include_neutral_toggled ( GtkCellRendererToggle *cell, 
+					 gchar *path_str, gpointer data )
+{
+  
 }
 
 
@@ -1482,10 +1519,11 @@ GtkWidget * tab_display_reconciliation ( void )
 				       NULL);
   gtk_tree_view_append_column ( GTK_TREE_VIEW(reconcile_treeview), column);
 
-  /* Defaults */
+  /* Sort by date */
   cell = gtk_cell_renderer_toggle_new ();
-/*   g_signal_connect (cell, "toggled", G_CALLBACK (item_toggled), model); */
   gtk_cell_renderer_toggle_set_radio ( GTK_CELL_RENDERER_TOGGLE(cell), FALSE );
+  g_signal_connect (cell, "toggled", 
+		    G_CALLBACK (reconcile_by_date_toggled), reconcile_model);
   g_object_set (cell, "xalign", 0.5, NULL);
   column = gtk_tree_view_column_new ( );
   gtk_tree_view_column_set_alignment ( column, 0.5 );
@@ -1500,8 +1538,9 @@ GtkWidget * tab_display_reconciliation ( void )
 
   /* Split neutral payment methods */
   cell = gtk_cell_renderer_toggle_new ();
-/*   g_signal_connect (cell, "toggled", G_CALLBACK (item_toggled), model); */
   gtk_cell_renderer_toggle_set_radio ( GTK_CELL_RENDERER_TOGGLE(cell), FALSE );
+  g_signal_connect (cell, "toggled", 
+		    G_CALLBACK (reconcile_include_neutral_toggled), reconcile_model);
   g_object_set (cell, "xalign", 0.5, NULL);
   column = gtk_tree_view_column_new ( );
   gtk_tree_view_column_set_alignment ( column, 0.5 );
