@@ -91,6 +91,11 @@ void win32_free(void* ptr) /* {{{ */
 // -------------------------------------------------------------------------
 // Windows(c) Special Paths ...                                  {{{1 PART_2
 // --------------------------------------------------------------------------
+static gchar my_documents_path [MAX_PATH+1];
+static gchar windows_path      [MAX_PATH+1]; 
+static gchar grisbirc_path     [MAX_PATH+1];
+static gchar grisbi_exe_path   [MAX_PATH+1];
+
 /** 
  * Retrieve the absolute path of a CSIDL directory named
  *
@@ -112,12 +117,6 @@ HRESULT win32_get_folder_path(gchar* folder_path,const int csidl)        /* {{{ 
     }
     return hr;
 } /* }}}  */
-
-static gchar my_documents_path [MAX_PATH+1];
-static gchar windows_path      [MAX_PATH+1]; 
-static gchar grisbirc_path     [MAX_PATH+1];
-static gchar grisbi_exe_path   [MAX_PATH+1];
-
 
 /**
  * Retrive the "My Documents" absloute directory path
@@ -169,15 +168,14 @@ gchar* win32_get_grisbirc_folder_path()  /* {{{ */
     win_version current_version = win32_get_windows_version();    
     if ((current_version == WIN95)||(current_version == WINNT4))
     {
-        g_strlcat(grisbirc_path,win32_get_windows_folder_path(),MAX_PATH+1);
-        g_strlcat (grisbirc_path,"\\",MAX_PATH+1);
+        g_strlcpy(grisbirc_path,win32_get_windows_folder_path(),MAX_PATH+1);
     } 
     else
     {
         SetLastError(win32_get_folder_path(grisbirc_path,CSIDL_APPDATA|CSIDL_FLAG_CREATE));
         g_strlcat(grisbirc_path,"\\Grisbi\\",MAX_PATH+1);
+        CreateDirectory(grisbirc_path,NULL);
     }
-    CreateDirectory(grisbirc_path,NULL);
     return grisbirc_path;
 } /* }}} */
 
@@ -187,7 +185,8 @@ gchar* win32_get_grisbirc_folder_path()  /* {{{ */
  */
 void  win32_set_app_path(gchar* app_dir)
 {
-    g_strlcat(grisbi_exe_path,app_dir,MAX_PATH);
+    
+    g_strlcpy(grisbi_exe_path,app_dir,MAX_PATH);
 }
  
 /**
@@ -201,8 +200,6 @@ gchar* win32_app_subdir_folder_path(gchar * app_subdir)
 }
 // }}}1
 // -------------------------------------------------------------------------
-
-// -------------------------------------------------------------------------
 // Windows(c) Version ID and Technology                          PART_3 {{{1
 //      Version ID is 95/98/NT/2K/...
 //      Technology is 3.1/9x/NT/...
@@ -211,7 +208,7 @@ gchar* win32_app_subdir_folder_path(gchar * app_subdir)
  * Return the current Windows(c) Version ID 
  *
  * \return The Windows(c) Version ID in win_version
- *********************************************************************** }}} */
+ */
 win_version    win32_get_windows_version(void)                        /* {{{ */
 {
     win_version current_version = WIN_UNKNOWN;
@@ -266,7 +263,7 @@ win_version    win32_get_windows_version(void)                        /* {{{ */
  * \param version version to determine the technology
  * \return The Windows(c) Technology in win_technology
  */
-win_technology win32_get_windows_technology(win_version version)
+win_technology win32_get_windows_technology(win_version version) /* {{{ */
 {
     if ((version & WIN_UNSUPPORTED ) == WIN_UNSUPPORTED)
     {
@@ -285,7 +282,7 @@ win_technology win32_get_windows_technology(win_version version)
         return WIN_UNSUPPORTED;
     }
 } /* }}} win32_get_windows_technology */
-
+/* }}} */
 // -------------------------------------------------------------------------
 // End of WinUtils
 // -------------------------------------------------------------------------
