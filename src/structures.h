@@ -420,6 +420,7 @@ struct struct_etat
   gint afficher_titre_colonnes;
   gint type_affichage_titres;        /* 0 = en haut, 1 = à chaque changement de section */
   gint inclure_dans_tiers;        /* à 1 si on veut que cet état apparaisse dans la liste des tiers du formulaire */
+  gint ope_clickables;           /* à 1 si les opés peuvent être clickables */
 
   gint exo_date;         /* 1-> utilise l'exo / 0 -> utilise une plage de date */
   gint utilise_detail_exo;   /* 0=tous, 1=exercice courant, 2=exercice précédent, 3=perso */

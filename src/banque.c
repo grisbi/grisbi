@@ -321,6 +321,12 @@ void supprime_banque ( GtkWidget *bouton,
 
   if ( !resultat )
     {
+      /* on désensitive la hbox_boutons_modif_banque au cas où on était en train de modifier */
+      /* la banque */
+
+      gtk_widget_set_sensitive ( hbox_boutons_modif_banque,
+				 FALSE );
+
       gtk_clist_remove ( GTK_CLIST ( liste ),
 			 ligne_selection_banque );
       liste_struct_banques_tmp = g_slist_remove ( liste_struct_banques_tmp,
@@ -1521,10 +1527,10 @@ void selection_ligne_banque ( GtkWidget *liste,
 /* **************************************************************************************************************************** */
 
 void deselection_ligne_banque ( GtkWidget *liste,
-			      gint ligne,
-			      gint colonne,
-			      GdkEventButton *ev,
-			      GtkWidget *frame )
+				gint ligne,
+				gint colonne,
+				GdkEventButton *ev,
+				GtkWidget *frame )
 {
   struct struct_banque *banque;
 
@@ -1608,8 +1614,6 @@ void deselection_ligne_banque ( GtkWidget *liste,
 			     FALSE );
   gtk_widget_set_sensitive ( bouton_supprimer_banque,
 			     FALSE );
-
-
 
 
 }

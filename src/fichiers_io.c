@@ -3396,6 +3396,10 @@ des paramètres.") );
 			    etat -> inclure_dans_tiers = atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 			  if ( !strcmp ( node_detail_etat -> name,
+					 "Ope_click" ))
+			    etat -> ope_clickables = atoi ( xmlNodeGetContent ( node_detail_etat ));
+
+			  if ( !strcmp ( node_detail_etat -> name,
 					 "Exo_date" ))
 			    etat -> exo_date = atoi ( xmlNodeGetContent ( node_detail_etat ));
 
@@ -5385,6 +5389,11 @@ gboolean enregistre_fichier ( void )
 		    NULL,
 		   "Incl_tiers",
 		   itoa ( etat -> inclure_dans_tiers ));
+
+      xmlNewTextChild ( node_etat,
+		    NULL,
+		   "Ope_click",
+		   itoa ( etat -> ope_clickables ));
 
 
       xmlNewTextChild ( node_etat,

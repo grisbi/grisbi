@@ -246,6 +246,10 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 		etat -> inclure_dans_tiers = atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 	      if ( !strcmp ( node_detail_etat -> name,
+			     "Ope_click" ))
+		etat -> ope_clickables = atoi ( xmlNodeGetContent ( node_detail_etat ));
+
+	      if ( !strcmp ( node_detail_etat -> name,
 			     "Exo_date" ))
 		etat -> exo_date = atoi ( xmlNodeGetContent ( node_detail_etat ));
 
@@ -1179,8 +1183,13 @@ gboolean enregistre_etat ( gchar *nom_etat )
 
   xmlNewTextChild ( node,
 		    NULL,
-	       "Incl_tiers",
-	       itoa ( etat_courant -> inclure_dans_tiers ));
+		    "Incl_tiers",
+		    itoa ( etat_courant -> inclure_dans_tiers ));
+
+  xmlNewTextChild ( node,
+		    NULL,
+		    "Ope_click",
+		    itoa ( etat_courant -> ope_clickables ));
 
 
   xmlNewTextChild ( node,

@@ -652,6 +652,7 @@ GtkWidget *bouton_afficher_titres_colonnes;
 GtkWidget *bouton_titre_changement;
 GtkWidget *bouton_titre_en_haut;
 GtkWidget *bouton_choix_classement_ope_etat;
+GtkWidget *bouton_rendre_ope_clickables;
 GtkWidget *frame_onglet_generalites;
 
 GtkWidget *radio_button_utilise_exo;
@@ -688,7 +689,6 @@ GtkWidget *bouton_exclure_non_virements_etat;
 GtkWidget *hbox_liste_comptes_virements;
 
 GtkWidget *bouton_utilise_categ_etat;
-GtkWidget *vbox_generale_categ_etat;
 GtkWidget *bouton_detaille_categ_etat;
 GtkWidget *hbox_detaille_categ_etat;
 GtkWidget *bouton_afficher_sous_categ;
@@ -701,7 +701,6 @@ GtkWidget *bouton_afficher_pas_de_sous_categ;
 GtkWidget *bouton_afficher_noms_categ;
 
 GtkWidget *bouton_utilise_ib_etat;
-GtkWidget *vbox_generale_ib_etat;
 GtkWidget *bouton_detaille_ib_etat;
 GtkWidget *hbox_detaille_ib_etat;
 GtkWidget *liste_ib_etat;
@@ -714,7 +713,6 @@ GtkWidget *bouton_afficher_pas_de_sous_ib;
 GtkWidget *bouton_afficher_noms_ib;
 
 GtkWidget *bouton_utilise_tiers_etat;
-GtkWidget *vbox_generale_tiers_etat;
 GtkWidget *bouton_detaille_tiers_etat;
 GtkWidget *hbox_detaille_tiers_etat;
 GtkWidget *liste_tiers_etat;

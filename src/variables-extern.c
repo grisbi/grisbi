@@ -686,6 +686,7 @@ extern GtkWidget *bouton_afficher_titres_colonnes;
 extern GtkWidget *bouton_titre_changement;
 extern GtkWidget *bouton_titre_en_haut;
 extern GtkWidget *bouton_choix_classement_ope_etat;
+extern GtkWidget *bouton_rendre_ope_clickables;
 extern GtkWidget *frame_onglet_generalites;
 
 extern GtkWidget *radio_button_utilise_exo;
@@ -722,7 +723,6 @@ extern GtkWidget *bouton_exclure_non_virements_etat;
 extern GtkWidget *hbox_liste_comptes_virements;
 
 extern GtkWidget *bouton_utilise_categ_etat;
-extern GtkWidget *vbox_generale_categ_etat;
 extern GtkWidget *bouton_detaille_categ_etat;
 extern GtkWidget *hbox_detaille_categ_etat;
 extern GtkWidget *bouton_afficher_sous_categ;
@@ -735,7 +735,6 @@ extern GtkWidget *bouton_afficher_pas_de_sous_categ;
 extern GtkWidget *bouton_afficher_noms_categ;
 
 extern GtkWidget *bouton_utilise_ib_etat;
-extern GtkWidget *vbox_generale_ib_etat;
 extern GtkWidget *bouton_detaille_ib_etat;
 extern GtkWidget *hbox_detaille_ib_etat;
 extern GtkWidget *liste_ib_etat;
@@ -748,7 +747,6 @@ extern GtkWidget *bouton_afficher_pas_de_sous_ib;
 extern GtkWidget *bouton_afficher_noms_ib;
 
 extern GtkWidget *bouton_utilise_tiers_etat;
-extern GtkWidget *vbox_generale_tiers_etat;
 extern GtkWidget *bouton_detaille_tiers_etat;
 extern GtkWidget *hbox_detaille_tiers_etat;
 extern GtkWidget *liste_tiers_etat;

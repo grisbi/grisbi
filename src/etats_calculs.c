@@ -478,31 +478,27 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		}
 
 
-	      if ( etat -> utilise_categ )
-		{
-		  /* on va maintenant vérifier que les catég sont bonnes */
-		  /* si on exclut les opés sans categ, on vérifie que c'est pas un virement ni une ventilation */
+	      /* on va maintenant vérifier que les catég sont bonnes */
+	      /* si on exclut les opés sans categ, on vérifie que c'est pas un virement ni une ventilation */
 
-		  if ((( etat -> utilise_detail_categ
-			 &&
-			 g_slist_index ( etat -> no_categ,
-					 GINT_TO_POINTER ( operation -> categorie )) == -1 )
-		       ||
-		       ( etat -> exclure_ope_sans_categ
-			 &&
-			 !operation -> categorie ))
-		      &&
-		      !operation -> operation_ventilee
-		      &&
-		      !operation -> relation_no_operation )
-		    goto operation_refusee;
-		}
+	      if ((( etat -> utilise_detail_categ
+		     &&
+		     g_slist_index ( etat -> no_categ,
+				     GINT_TO_POINTER ( operation -> categorie )) == -1 )
+		   ||
+		   ( etat -> exclure_ope_sans_categ
+		     &&
+		     !operation -> categorie ))
+		  &&
+		  !operation -> operation_ventilee
+		  &&
+		  !operation -> relation_no_operation )
+		goto operation_refusee;
+
 
 	      /* vérification de l'imputation budgétaire */
 
-	      if (( etat -> utilise_ib
-		    &&
-		    etat -> utilise_detail_ib
+	      if (( etat -> utilise_detail_ib
 		    &&
 		    g_slist_index ( etat -> no_ib,
 				    GINT_TO_POINTER ( operation -> imputation )) == -1 )
@@ -514,9 +510,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 	      /* vérification du tiers */
 
-	      if ( etat -> utilise_tiers
-		   &&
-		   etat -> utilise_detail_tiers
+	      if ( etat -> utilise_detail_tiers
 		   &&
 		   g_slist_index ( etat -> no_tiers,
 				   GINT_TO_POINTER ( operation -> tiers )) == -1 )
@@ -583,7 +577,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		      /* cumul à ce jour */
 
 		      if ( g_date_compare ( date_jour,
-					    operation -> date ) > 0 )
+					    operation -> date ) < 0 )
 			goto operation_refusee;
 		      break;
 

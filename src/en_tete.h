@@ -914,8 +914,7 @@ void selectionne_devise_tiers_etat_courant ( void );
 void recuperation_info_perso_etat ( void );
 void sens_desensitive_pointeur ( GtkWidget *boutton,
 				 GtkWidget *widget );
-void stylise_tab_label_etat ( GtkWidget *bouton,
-			      gint *no_page );
+void stylise_tab_label_etat ( gint *no_page );
 GtkWidget *onglet_etat_dates ( void );
 void click_liste_etat ( GtkCList *liste,
 			GdkEventButton *evenement,
