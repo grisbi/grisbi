@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2004-04-05 09:07+0200\n"
+"POT-Creation-Date: 2004-04-07 09:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1916,8 +1916,8 @@ msgid ""
 "%s"
 msgstr ""
 
-#: src/etats_config.c:37 src/etats_config.c:41
-msgid "Year to date"
+#: src/etats_config.c:37
+msgid "Total to date"
 msgstr ""
 
 #: src/etats_config.c:38
@@ -1930,6 +1930,10 @@ msgstr ""
 
 #: src/etats_config.c:40
 msgid "Month to date"
+msgstr ""
+
+#: src/etats_config.c:41
+msgid "Year to date"
 msgstr ""
 
 #: src/etats_config.c:42
