@@ -742,7 +742,7 @@ void ajout_devise ( GtkWidget *bouton,
 					devise );
 	      gtk_clist_select_row ( GTK_CLIST ( widget ),
 				     ligne_liste, 0 );
-	      gtk_clist_sort ( GTK_CLIST ( widget ) ); 
+/* 	      gtk_clist_sort ( GTK_CLIST ( widget ) );  */
 	    }
 	  else
 	    {
@@ -1147,11 +1147,10 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
   gtk_menu_append ( GTK_MENU ( menu ), item );
 
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( option_menu_devise_1 ), menu );
-  gtk_signal_connect ( GTK_OBJECT ( GTK_OPTION_MENU ( option_menu_devise_1 )-> menu ),
-		       "selection_done",
-		       GTK_SIGNAL_FUNC ( devise_selectionnee ),
-		       NULL );
-
+  g_signal_connect ( G_OBJECT ( option_menu_devise_1 ),
+		     "changed",
+		     GTK_SIGNAL_FUNC ( devise_selectionnee ),
+		     NULL );
 
   /* création du menu de la 2ème devise ( le menu comporte la devise
      courante et celle associée ) */
@@ -1166,11 +1165,10 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
   gtk_menu_append ( GTK_MENU ( menu ), item );
 
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( option_menu_devise_2 ), menu );
-  gtk_signal_connect ( GTK_OBJECT ( GTK_OPTION_MENU ( option_menu_devise_2 ) -> menu ),
-		       "selection_done",
-		       GTK_SIGNAL_FUNC ( devise_selectionnee ),
-		       GINT_TO_POINTER ( 1 ));
-
+  g_signal_connect ( G_OBJECT ( option_menu_devise_2 ),
+		     "changed",
+		     GTK_SIGNAL_FUNC ( devise_selectionnee ),
+		     GINT_TO_POINTER ( 1 ));
  
   /* création de la ligne des frais de change */
   hbox = gtk_hbox_new ( FALSE, 5 );
@@ -1601,9 +1599,9 @@ gboolean selection_ligne_devise ( GtkWidget *liste,
 
 
   /* met le nom et le code de la devise */
-  entry_set_value(entree_nom_devise_parametres, devise -> nom_devise);
-  entry_set_value(entree_code_devise_parametres, devise -> code_devise);
-  entry_set_value(entree_iso_code_devise_parametres, devise -> code_iso4217_devise);
+  entry_set_value(entree_nom_devise_parametres, &(devise->nom_devise));
+  entry_set_value(entree_code_devise_parametres, &(devise->code_devise));
+  entry_set_value(entree_iso_code_devise_parametres, &(devise->code_iso4217_devise));
 
   /* crée le menu des devises en enlevant la devise courante */
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( option_menu_devises ),
@@ -1659,33 +1657,9 @@ gboolean deselection_ligne_devise ( GtkWidget *liste,
 
   /* retire le nom et le code de la devise */
   
-  gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_nom_devise_parametres ),
-				     GTK_SIGNAL_FUNC ( changement_nom_entree_devise ),
-				     NULL );
-  gtk_entry_set_text ( GTK_ENTRY ( entree_nom_devise_parametres ),
-		       "" );
-  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_nom_devise_parametres ),
-				       GTK_SIGNAL_FUNC ( changement_nom_entree_devise ),
-				       NULL );
-
-  gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_code_devise_parametres ),
-				     GTK_SIGNAL_FUNC ( changement_code_entree_devise ),
-				     NULL );
-  gtk_entry_set_text ( GTK_ENTRY ( entree_code_devise_parametres ),
-		       "" );
-  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_code_devise_parametres ),
-				       GTK_SIGNAL_FUNC ( changement_code_entree_devise ),
-				       NULL );
-
-  gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_iso_code_devise_parametres ),
-				     GTK_SIGNAL_FUNC ( changement_iso_code_entree_devise ),
-				     NULL );
-  gtk_entry_set_text ( GTK_ENTRY ( entree_iso_code_devise_parametres ),
-		       "" );
-  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_iso_code_devise_parametres ),
-				       GTK_SIGNAL_FUNC ( changement_iso_code_entree_devise ),
-				       NULL );
-
+  entry_set_value(entree_nom_devise_parametres, NULL);
+  entry_set_value(entree_code_devise_parametres, NULL);
+  entry_set_value(entree_iso_code_devise_parametres, NULL);
 
   if ( ( devise -> passage_euro = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( check_button_euro ) )) )
     {
@@ -2017,7 +1991,7 @@ gboolean changement_code_entree_devise ( void )
 
   gtk_clist_set_text ( GTK_CLIST ( clist_devises_parametres ),
 		       ligne_selection_devise,
-		       1,
+		       2,
 		       devise -> code_devise );
   return FALSE;
 }
@@ -2035,7 +2009,7 @@ gboolean changement_iso_code_entree_devise ( void )
 
   gtk_clist_set_text ( GTK_CLIST ( clist_devises_parametres ),
 		       ligne_selection_devise,
-		       2,
+		       1,
 		       devise -> code_iso4217_devise );
   return FALSE;
 }
