@@ -1,14 +1,11 @@
-/* ce fichier contient les définitions de tous les menus et barres d'outils */
-
 /* ************************************************************************** */
-/* Fichier qui s'occupe de la page d'accueil ( de démarrage lors de           */
-/* l'ouverture d'un fichier de comptes                                        */
+/* Ce fichier contient les définitions de tous les menus et barres d'outils   */
 /*                                                                            */
-/*                                  accueil.c                                 */
+/*                                  menu.c                                    */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
 /*			     2004 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -109,7 +106,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	{menu_name(_("Edit"), _("Edit transaction"), NULL),   NULL, G_CALLBACK ( edition_operation), 0, "<StockItem>", GTK_STOCK_PROPERTIES },
 	{menu_name(_("Edit"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
 	{menu_name(_("Edit"), _("Convert transaction to scheduled transaction"), NULL),   NULL, NULL, 0, "<StockItem>", GTK_STOCK_CONVERT },
-	{menu_name(_("Edit"), _("Move transaction to another account"), NULL),   NULL, NULL, 0, "<StockItem>", GTK_STOCK_GO_FORWARD },
+	{menu_name(_("Edit"), _("Move transaction to another account"), NULL),   NULL, NULL, 0, "<Branch>", NULL },
 	{menu_name(_("Edit"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
 	{menu_name(_("Edit"), _("Preferences"), NULL),   NULL, G_CALLBACK (preferences ), 1, "<StockItem>", GTK_STOCK_PREFERENCES },
 

@@ -30,6 +30,7 @@ void update_soldes_list_store ( gint compte,
 void new_transaction ( );
 void remove_transaction ( );
 void clone_selected_transaction ( );
+void move_selected_operation_to_account_nb ( gint *account );
 gpointer recupere_classement_par_no ( gint no_classement );
 void supprime_operation ( struct structure_operation *operation );
 void remplit_ligne_operation ( struct structure_operation *operation,

@@ -3353,6 +3353,47 @@ void move_selected_operation_to_account ( GtkMenuItem * menu_item )
 
 
 /**
+ * Move selected transaction to another account.  Normally called as a
+ * handler.
+ *
+ * \param menu_item The GtkMenuItem that triggered this handler.
+ */
+void move_selected_operation_to_account_nb ( gint *account )
+{
+    gint target_account, source_account;
+    gpointer ** tmp = p_tab_nom_de_compte_variable;
+
+    if (! assert_selected_transaction()) return;
+
+    source_account = NO_COMPTE;
+    target_account = GPOINTER_TO_INT ( account );  
+
+    if ( move_operation_to_account ( OPERATION_SELECTIONNEE, target_account ))
+    {
+	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
+
+	if ( mise_a_jour_combofix_tiers_necessaire )
+	    mise_a_jour_combofix_tiers ();
+	if ( mise_a_jour_combofix_categ_necessaire )
+	    mise_a_jour_combofix_categ ();
+	if ( mise_a_jour_combofix_imputation_necessaire )
+	    mise_a_jour_combofix_imputation ();
+
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + source_account;
+
+	SOLDE_COURANT = calcule_solde_compte ( source_account );
+	SOLDE_POINTE = calcule_solde_pointe_compte ( source_account );
+
+	mise_a_jour_labels_soldes ();
+
+	p_tab_nom_de_compte_variable = tmp;
+	modification_fichier ( TRUE );
+    }
+}
+
+
+
+/**
  * Move transaction to another account
  *
  * \param transaction Transaction to move to other account

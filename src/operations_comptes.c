@@ -375,6 +375,11 @@ gboolean changement_compte ( gint *compte)
     /*     on affiche le tree_view */
 
     gtk_widget_show ( SCROLLED_WINDOW_LISTE_OPERATIONS );
+
+    /* ALAIN-FIXME : nécessaire pour actualiser le compte « grisé »
+       (donc compte_courant) dans le liste des comptes pour le menu :
+       Édition : Déplacer l'opération vers un autre compte */
+    reaffiche_liste_comptes ();
     
     /*     on réinitialise la dernière date entrée */
 
@@ -453,6 +458,28 @@ void reaffiche_liste_comptes ( void )
 							   menu_name(_("Accounts"), _("Closed accounts"), NULL)),
 			       FALSE );
 
+    /* on efface dans le menu Édition la liste des comptes vers lesquels on peut
+       déplacer les opérations */
+
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+
+    for ( i=0 ; i<nb_comptes ; i++ )
+    {
+	gchar *tmp;
+
+	tmp = my_strdelimit ( NOM_DU_COMPTE,
+			      "/",
+			      "\\/" );
+
+	gtk_item_factory_delete_item ( item_factory_menu_general,
+				       menu_name(_("Edit"), _("Move transaction to another account"), tmp ));
+	p_tab_nom_de_compte_variable++;
+    }
+
+    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							   menu_name(_("Edit"), _("Move transaction to another account"), NULL)),
+			       FALSE );
+
 
     /*  Création d'une icone et du nom par compte, et placement dans la liste selon l'ordre désiré  */
 
@@ -508,6 +535,52 @@ void reaffiche_liste_comptes ( void )
     }
     while ( (  ordre_comptes_variable = ordre_comptes_variable->next ) );
 
+
+    /* Création dans le menu Édition de la liste des comptes vers lesquels on
+       peut déplacer les opérations */
+
+    ordre_comptes_variable = ordre_comptes;
+    do
+    {
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable->data );
+
+	if ( ! COMPTE_CLOTURE )
+	{
+	    GtkItemFactoryEntry *item_factory_entry;
+	    gchar *tmp;
+
+
+	    item_factory_entry = calloc ( 1, sizeof ( GtkItemFactoryEntry ));
+
+	    tmp = my_strdelimit ( NOM_DU_COMPTE, "/", "\\/" );
+	    tmp = my_strdelimit ( tmp, "_", "__" );
+
+	    item_factory_entry -> path = menu_name(_("Edit"), _("Move transaction to another account"), tmp ); 
+
+	    item_factory_entry -> callback = G_CALLBACK ( move_selected_operation_to_account_nb );
+
+	    /* 	    on rajoute 1 car sinon pour le compte 0 ça passerait pas... */
+
+	    item_factory_entry -> callback_action = GPOINTER_TO_INT ( ordre_comptes_variable->data ) + 1;
+
+	    gtk_item_factory_create_item ( item_factory_menu_general,
+					   item_factory_entry,
+					   ordre_comptes_variable -> data,
+					   1 );
+
+	    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+								   menu_name(_("Edit"), _("Move transaction to another account"), NULL)),
+				       TRUE );
+
+	    /* si c'est le compte courant, on grise l'entrée menu */
+
+	    if ( p_tab_nom_de_compte_variable == p_tab_nom_de_compte + compte_courant )
+	    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+								   menu_name(_("Edit"), _("Move transaction to another account"), tmp)),
+				       FALSE );
+	}
+    }
+    while ( (  ordre_comptes_variable = ordre_comptes_variable->next ) );
 }
 /* *********************************************************************************************************** */
 
