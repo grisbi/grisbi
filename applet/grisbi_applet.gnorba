@@ -1,0 +1,5 @@
+[grisbi_applet]
+type=exe
+repo_id=IDL:GNOME/APPLET:1.0
+description=Applet Grisbi
+location_info=grisbi_applet

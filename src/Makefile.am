@@ -1,0 +1,58 @@
+# Process this file with automake to produce Makefile.in
+
+INCLUDES = -I$(top_srcdir) -I$(includedir) $(GNOME_INCLUDEDIR) $(EXTRA_GNOME_CFLAGS)
+
+
+bin_PROGRAMS = grisbi
+
+grisbi_SOURCES = 		\
+	accueil.c		\
+	fenetre_principale.c	\
+	operations_liste.c	\
+	banque.c		\
+	fichier_configuration.c	\
+	operations_onglet.c	\
+	barre_outils.c		\
+	fichiers_gestion.c	\
+	parametres.c		\
+	categories_onglet.c	\
+	fichiers_io.c		\
+	patienter.c		\
+	comptes_gestion.c	\
+	gtk_combofix.c		\
+	qif.c			\
+	comptes_traitements.c	\
+	help.c			\
+	tiers_onglet.c		\
+	devises.c		\
+	main.c			\
+	traitement_variables.c	\
+	echeancier_formulaire.c	\
+	menu.c			\
+	echeancier_liste.c	\
+	operations_classement.c	\
+	equilibrage.c		\
+	operations_comptes.c	\
+	ventilation.c		\
+	erreur.c		\
+	operations_formulaire.c \
+	type_operations.c	\
+	exercice.c		\
+	imputation_budgetaire.c	\
+	affichage.c
+
+
+
+grisbi_LDADD =	$(GNOME_LIBDIR)	$(GNOMEUI_LIBS) $(EXTRA_GNOME_LIBS)
+
+
+EXTRA_DIST = grisbi.desktop grisbi.png logo_grisbi.xpm grisbi.keys grisbi.mime
+
+Applicationsdir = $(datadir)/gnome/apps/Applications
+Applications_DATA = grisbi.desktop
+
+appicondir = $(datadir)/pixmaps
+appicon_DATA = grisbi.png logo_grisbi.xpm
+
+mimedir = $(datadir)/mime-info
+mime_DATA = grisbi.keys grisbi.mime

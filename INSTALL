@@ -1,0 +1,16 @@
+Installation de Grisbi :
+
+-les librairies de développement de gnome, libc-applet et libxml doivent être installées
+-décompresser le fichier : tar -xzf grisbi-X.X.X.tar.gz
+-cd grisbi-X.X.X
+
+-./configure
+-make
+-se loguer en root : su
+-make install
+
+ et voila, il suffit ensuite de taper grisbi ou d'aller dans le menu Gnome, Applications
+  
+Le programme se place automatiquement dans le répertoire /usr/bin.
+Vous pouvez démarrer l'applet (Gnome seulement) soit à partir de la configuration de grisbi, 
+soit dans le tableau de bord -> ajouter l'applet -> utilitaires -> grisbi-applet.

@@ -1,0 +1,3 @@
+application/x-grisbi:
+	open=grisbi %f
+	view=grisbi %f

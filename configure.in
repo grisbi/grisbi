@@ -1,0 +1,69 @@
+AC_INIT(src/main.c)
+
+AM_INIT_AUTOMAKE(clovis, 1.0 )
+AM_CONFIG_HEADER(config.h)
+
+AM_ACLOCAL_INCLUDE(macros)
+
+AC_ISC_POSIX
+AC_PROG_CC
+AC_STDC_HEADERS
+
+GNOME_INIT
+
+GNOME_COMPILE_WARNINGS
+GNOME_X_CHECKS
+GNOME_XML_CHECK
+
+
+
+dnl ******************************
+dnl GnomePrint checking
+dnl ******************************
+dnl AC_MSG_CHECKING(for GnomePrint libraries >= 0.28)
+dnl if gnome-config --libs print > /dev/null 2>&1; then 
+dnl     vers=`gnome-config --modversion print | sed -e "s/gnome-print-//" | \
+dnl         awk 'BEGIN { FS = "."; } { print $1 * 1000 + $2;}'`
+dnl     if test "$vers" -ge 28; then
+dnl         AC_MSG_RESULT(found)
+dnl     else
+dnl         AC_MSG_ERROR(You need at least GNOME print 0.28 for this version of Clovis )
+dnl     fi
+dnl else
+dnl     AC_MSG_ERROR(Did not find GnomePrint installed)
+dnl fi       
+
+dnl Have to add some language support soon.
+dnl ALL_LINGUAS=""
+dnl AM_GNU_GETTEXT
+
+dnl Subst prefix
+prefix=`gnome-config gnomeui --prefix 2>/dev/null`
+AC_SUBST(prefix)
+
+EXTRA_GNOME_LIBS=``
+EXTRA_GNOME_CFLAGS=``
+
+AC_SUBST(EXTRA_GNOME_LIBS)
+AC_SUBST(EXTRA_GNOME_CFLAGS)
+
+CFLAGS="$CFLAGS `$GNOME_CONFIG --cflags gnome gtk glib applets xml`"
+LDFLAGS="$LDFLAGS `$GNOME_CONFIG --libs gnome gtk glib applets xml`"
+
+AC_SUBST(CFLAGS)
+AC_SUBST(CPPFLAGS)
+AC_SUBST(LDFLAGS)
+
+
+dnl ******************************
+dnl Makefiles
+dnl ******************************
+
+AC_OUTPUT([
+Makefile
+src/Makefile
+applet/Makefile
+help/Makefile
+help/C/Makefile
+macros/Makefile
+])
