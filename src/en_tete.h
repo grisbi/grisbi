@@ -894,7 +894,7 @@ gint recherche_etat_par_no ( struct struct_etat *etat,
 			     gint *no_etat );
 void exporter_etat ( void );
 void importer_etat ( void );
-void duppliquer_etat ( void );
+void dupliquer_etat ( void );
 
 /***********************************/ 
 /* fichier etats_config.c */
@@ -941,13 +941,19 @@ void remplissage_liste_ib_etats ( void );
 GtkWidget *onglet_etat_tiers ( void );
 void remplissage_liste_tiers_etats ( void );
 GtkWidget *onglet_etat_texte ( void );
+void remplit_liste_comparaisons_textes_etat ( void );
+void ajoute_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_textes_etat *ancien_comp_textes );
+GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat *comp_textes );
+void retire_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_textes_etat *ancien_comp_textes );
+GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_textes );
+GtkWidget *cree_bouton_operateur_txt ( struct struct_comparaison_textes_etat *comp_textes );
 GtkWidget *onglet_etat_montant ( void );
 void remplit_liste_comparaisons_montants_etat ( void );
 void ajoute_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_montants_etat *ancien_comp_montants );
 GtkWidget *cree_ligne_comparaison_montant ( struct struct_comparaison_montants_etat *comp_montants );
 GtkWidget *cree_bouton_lien_lignes_comparaison ( void );
 GtkWidget *cree_bouton_comparateur ( void );
-GtkWidget *cree_bouton_lien_montant ( struct struct_comparaison_montants_etat *comp_montants );
+GtkWidget *cree_bouton_lien ( GtkWidget *hbox );
 void sensitive_widget ( GtkWidget *widget );
 void desensitive_widget ( GtkWidget *widget );
 void retire_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_montants_etat *ancien_comp_montants );
@@ -959,6 +965,15 @@ void retire_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_m
 void affichage_etat ( struct struct_etat *etat, 
 		      struct struct_etat_affichage *affichage );
 GSList *recupere_opes_etat ( struct struct_etat *etat );
+gchar *recupere_texte_test_etat ( struct structure_operation *operation,
+				  gint champ );
+gint verifie_texte_test_etat ( struct struct_comparaison_textes_etat *comp_textes,
+			       gchar *texte_ope );
+gint verifie_chq_test_etat ( struct struct_comparaison_textes_etat *comp_textes,
+			     gchar *no_chq );
+gint compare_cheques_etat ( gint chq_ope,
+			   gint chq_test,
+			   gint comparateur );
 gint compare_montants_etat ( gdouble montant_ope,
 			     gdouble montant_test,
 			     gint comparateur );

@@ -643,7 +643,7 @@ extern GtkWidget *bouton_personnaliser_etat;
 extern GtkWidget *bouton_imprimer_etat;
 extern GtkWidget *bouton_exporter_etat;
 extern GtkWidget *bouton_importer_etat;
-extern GtkWidget *bouton_duppliquer_etat;
+extern GtkWidget *bouton_dupliquer_etat;
 extern GtkWidget *scrolled_window_etat;          /* contient l'état en cours */
 extern gint nb_colonnes;
 extern gint ligne_debut_partie;
@@ -753,12 +753,13 @@ extern GtkWidget *bouton_affiche_sous_total_tiers;
 extern GtkWidget *bouton_devise_tiers_etat;
 extern GtkWidget *bouton_afficher_noms_tiers;
 
-extern GtkWidget *entree_texte_etat;
+extern GtkWidget *bouton_utilise_texte;
+extern GtkWidget *vbox_generale_textes_etat;
+extern GtkWidget *liste_textes_etat;
 
 extern GtkWidget *bouton_utilise_montant;
 extern GtkWidget *vbox_generale_montants_etat;
 extern GtkWidget *liste_montants_etat;
-extern GtkWidget *bouton_choix_montant_nul;
 extern GtkWidget *bouton_devise_montant_etat;
 
 extern gint ancienne_ib_etat;

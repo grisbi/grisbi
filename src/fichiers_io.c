@@ -3524,16 +3524,54 @@ des paramètres.") );
 
 			  if ( !strcmp ( node_detail_etat -> name,
 					 "Texte" ))
-			       etat -> texte = xmlNodeGetContent ( node_detail_etat );
+			    etat -> utilise_texte = atoi ( xmlNodeGetContent ( node_detail_etat ));
 
+			  if ( !strcmp ( node_detail_etat -> name,
+					 "Texte_comp" ))
+			    {
+			      xmlNodePtr node_comp_textes;
+
+			      node_comp_textes = node_detail_etat -> childs;
+
+			      /*  on fait le tour des comparaisons */
+
+			      while ( node_comp_textes )
+				{
+				  struct struct_comparaison_textes_etat *comp_textes;
+
+				  comp_textes = calloc ( 1,
+							   sizeof ( struct struct_comparaison_textes_etat ));
+
+				  comp_textes -> lien_struct_precedente = atoi ( xmlGetProp ( node_comp_textes,
+											      "Lien_struct" ));
+				  comp_textes -> champ = atoi ( xmlGetProp ( node_comp_textes,
+									     "Champ" ));
+				  comp_textes -> operateur = atoi ( xmlGetProp ( node_comp_textes,
+										 "Op" ));
+				  comp_textes -> texte = xmlGetProp ( node_comp_textes,
+								      "Txt" );
+				  comp_textes -> comparateur_1 = atoi ( xmlGetProp ( node_comp_textes,
+										       "Comp_1" ));
+				  comp_textes -> lien_1_2 = atoi ( xmlGetProp ( node_comp_textes,
+										  "Lien_1_2" ));
+				  comp_textes -> comparateur_2 = atoi ( xmlGetProp ( node_comp_textes,
+										       "Comp_2" ));
+				  comp_textes -> montant_1 = atoi ( xmlGetProp ( node_comp_textes,
+										 "Mont_1" ));
+				  comp_textes -> montant_2 = atoi ( xmlGetProp ( node_comp_textes,
+										 "Mont_2" ));
+
+				  /* on a fini de remplir le détail de la comparaison, on l'ajoute à la liste */
+
+				  etat -> liste_struct_comparaison_textes = g_slist_append ( etat -> liste_struct_comparaison_textes,
+											     comp_textes );
+				  node_comp_textes = node_comp_textes -> next;
+				}
+			    }
 
 			  if ( !strcmp ( node_detail_etat -> name,
 					 "Montant" ))
 			    etat -> utilise_montant = atoi ( xmlNodeGetContent ( node_detail_etat ));
-
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Montant_nul" ))
-			    etat -> choix_montant_nul = atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 			  if ( !strcmp ( node_detail_etat -> name,
 					 "Montant_devise" ))
@@ -5466,10 +5504,60 @@ gboolean enregistre_fichier ( void )
 		   "Aff_nom_tiers",
 		   itoa ( etat -> afficher_nom_tiers ));
 
+
       xmlNewTextChild ( node_etat,
 		    NULL,
 		   "Texte",
-		   etat -> texte );
+		   itoa ( etat -> utilise_texte ));
+
+      node_2 = xmlNewChild ( node_etat,
+			     NULL,
+			     "Texte_comp",
+			     NULL );
+
+      pointeur_liste = etat -> liste_struct_comparaison_textes;
+
+      while ( pointeur_liste )
+	{
+	  struct struct_comparaison_textes_etat *textes_comp;
+	  xmlNodePtr node_3;
+
+	  textes_comp = pointeur_liste -> data;
+
+	  node_3 = xmlNewChild ( node_2,
+				 NULL,
+				 "Comp",
+				 NULL );
+
+	  xmlSetProp ( node_3,
+		       "Lien_struct",
+		       itoa ( textes_comp -> lien_struct_precedente ));
+	  xmlSetProp ( node_3,
+		       "Champ",
+		       itoa ( textes_comp -> champ ));
+	  xmlSetProp ( node_3,
+		       "Op",
+		       itoa ( textes_comp -> operateur ));
+	  xmlSetProp ( node_3,
+		       "Txt",
+		       textes_comp -> texte );
+	  xmlSetProp ( node_3,
+		       "Comp_1",
+		       itoa ( textes_comp -> comparateur_1 ));
+	  xmlSetProp ( node_3,
+		       "Lien_1_2",
+		       itoa ( textes_comp -> lien_1_2 ));
+	  xmlSetProp ( node_3,
+		       "Comp_2",
+		       itoa ( textes_comp -> comparateur_2 ));
+	  xmlSetProp ( node_3,
+		       "Mont_1",
+		       itoa ( textes_comp -> montant_1 ));
+	  xmlSetProp ( node_3,
+		       "Mont_2",
+		       itoa ( textes_comp -> montant_2 ));
+	  pointeur_liste = pointeur_liste -> next;
+	}
 
 
 
@@ -5477,10 +5565,6 @@ gboolean enregistre_fichier ( void )
 		    NULL,
 		   "Montant",
 		   itoa ( etat -> utilise_montant ));
-      xmlNewTextChild ( node_etat,
-		    NULL,
-		   "Montant_nul",
-		   itoa ( etat -> choix_montant_nul ));
       xmlNewTextChild ( node_etat,
 		    NULL,
 		   "Montant_devise",
@@ -6210,23 +6294,68 @@ gboolean enregistre_etat ( gchar *nom_etat )
 
   xmlNewTextChild ( node,
 		    NULL,
-	       "Aff_nom_tiers",
-	       itoa ( etat_courant -> afficher_nom_tiers ));
+		    "Aff_nom_tiers",
+		    itoa ( etat_courant -> afficher_nom_tiers ));
 
   xmlNewTextChild ( node,
 		    NULL,
-	       "Texte",
-	       etat_courant -> texte );
+		    "Texte",
+		    itoa ( etat_courant -> utilise_texte ));
+
+  node_2 = xmlNewChild ( node,
+			 NULL,
+			 "Texte_comp",
+			 NULL );
+
+  pointeur_liste = etat_courant -> liste_struct_comparaison_textes;
+
+  while ( pointeur_liste )
+    {
+      struct struct_comparaison_textes_etat *textes_comp;
+      xmlNodePtr node_3;
+
+      textes_comp = pointeur_liste -> data;
+
+      node_3 = xmlNewChild ( node_2,
+			     NULL,
+			     "Comp",
+			     NULL );
+
+      xmlSetProp ( node_3,
+		   "Lien_struct",
+		   itoa ( textes_comp -> lien_struct_precedente ));
+      xmlSetProp ( node_3,
+		   "Champ",
+		   itoa ( textes_comp -> champ ));
+      xmlSetProp ( node_3,
+		   "Op",
+		   itoa ( textes_comp -> operateur ));
+      xmlSetProp ( node_3,
+		   "Txt",
+		   textes_comp -> texte );
+      xmlSetProp ( node_3,
+		   "Comp_1",
+		   itoa ( textes_comp -> comparateur_1 ));
+      xmlSetProp ( node_3,
+		   "Lien_1_2",
+		   itoa ( textes_comp -> lien_1_2 ));
+      xmlSetProp ( node_3,
+		   "Comp_2",
+		   itoa ( textes_comp -> comparateur_2 ));
+      xmlSetProp ( node_3,
+		   "Mont_1",
+		   itoa ( textes_comp -> montant_1 ));
+      xmlSetProp ( node_3,
+		   "Mont_2",
+		   itoa ( textes_comp -> montant_2 ));
+      pointeur_liste = pointeur_liste -> next;
+    }
 
 
   xmlNewTextChild ( node,
 		    NULL,
 	       "Montant",
 	       itoa ( etat_courant -> utilise_montant ));
-  xmlNewTextChild ( node,
-		    NULL,
-	       "Montant_nul",
-	       itoa ( etat_courant -> choix_montant_nul ));
   xmlNewTextChild ( node,
 		    NULL,
 	       "Montant_devise",
@@ -6819,18 +6948,57 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 			     "Aff_nom_tiers" ))
 		etat -> afficher_nom_tiers = atoi ( xmlNodeGetContent ( node_detail_etat ));
 
+
 	      if ( !strcmp ( node_detail_etat -> name,
 			     "Texte" ))
-		etat -> texte = xmlNodeGetContent ( node_detail_etat );
+		etat -> utilise_texte = atoi ( xmlNodeGetContent ( node_detail_etat ));
 
+	      if ( !strcmp ( node_detail_etat -> name,
+			     "Texte_comp" ))
+		{
+		  xmlNodePtr node_comp_textes;
+
+		  node_comp_textes = node_detail_etat -> childs;
+
+		  /*  on fait le tour des comparaisons */
+
+		  while ( node_comp_textes )
+		    {
+		      struct struct_comparaison_textes_etat *comp_textes;
+
+		      comp_textes = calloc ( 1,
+					     sizeof ( struct struct_comparaison_textes_etat ));
+
+		      comp_textes -> lien_struct_precedente = atoi ( xmlGetProp ( node_comp_textes,
+										  "Lien_struct" ));
+		      comp_textes -> champ = atoi ( xmlGetProp ( node_comp_textes,
+								 "Champ" ));
+		      comp_textes -> operateur = atoi ( xmlGetProp ( node_comp_textes,
+								     "Op" ));
+		      comp_textes -> texte = xmlGetProp ( node_comp_textes,
+							  "Txt" );
+		      comp_textes -> comparateur_1 = atoi ( xmlGetProp ( node_comp_textes,
+									 "Comp_1" ));
+		      comp_textes -> lien_1_2 = atoi ( xmlGetProp ( node_comp_textes,
+								    "Lien_1_2" ));
+		      comp_textes -> comparateur_2 = atoi ( xmlGetProp ( node_comp_textes,
+									 "Comp_2" ));
+		      comp_textes -> montant_1 = atoi ( xmlGetProp ( node_comp_textes,
+								     "Mont_1" ));
+		      comp_textes -> montant_2 = atoi ( xmlGetProp ( node_comp_textes,
+								     "Mont_2" ));
+
+		      /* on a fini de remplir le détail de la comparaison, on l'ajoute à la liste */
+
+		      etat -> liste_struct_comparaison_textes = g_slist_append ( etat -> liste_struct_comparaison_textes,
+										 comp_textes );
+		      node_comp_textes = node_comp_textes -> next;
+		    }
+		}
 
 	      if ( !strcmp ( node_detail_etat -> name,
 			     "Montant" ))
 		etat -> utilise_montant = atoi ( xmlNodeGetContent ( node_detail_etat ));
-
-	      if ( !strcmp ( node_detail_etat -> name,
-			     "Montant_nul" ))
-		etat -> choix_montant_nul = atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 	      if ( !strcmp ( node_detail_etat -> name,
 			     "Montant_devise" ))

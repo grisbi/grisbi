@@ -259,21 +259,21 @@ GtkWidget *creation_liste_etats ( void )
 
   /* on met le bouton dupliquer */
 
-  bouton_duppliquer_etat = gtk_button_new_with_label ( _("Dupliquer un état ...") );
-  gtk_button_set_relief ( GTK_BUTTON ( bouton_duppliquer_etat ),
+  bouton_dupliquer_etat = gtk_button_new_with_label ( _("Dupliquer un état ...") );
+  gtk_button_set_relief ( GTK_BUTTON ( bouton_dupliquer_etat ),
 			  GTK_RELIEF_NONE );
-  gtk_signal_connect ( GTK_OBJECT ( bouton_duppliquer_etat ),
+  gtk_signal_connect ( GTK_OBJECT ( bouton_dupliquer_etat ),
 		       "clicked",
-		       GTK_SIGNAL_FUNC ( duppliquer_etat ),
+		       GTK_SIGNAL_FUNC ( dupliquer_etat ),
 		       NULL );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       bouton_duppliquer_etat,
+		       bouton_dupliquer_etat,
 		       FALSE,
 		       FALSE,
 		       0 );
-  gtk_widget_show ( bouton_duppliquer_etat );
+  gtk_widget_show ( bouton_dupliquer_etat );
 
-  /* mise en place du bouton équilibrage */
+  /* mise en place du bouton effacer état */
 
   bouton_effacer_etat = gtk_button_new_with_label ( _("Effacer un état ...") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_effacer_etat ),
@@ -293,7 +293,7 @@ GtkWidget *creation_liste_etats ( void )
     {
       gtk_widget_set_sensitive ( bouton_effacer_etat,
 				 FALSE );
-      gtk_widget_set_sensitive ( bouton_duppliquer_etat,
+      gtk_widget_set_sensitive ( bouton_dupliquer_etat,
 				 FALSE );
     }
 
@@ -571,7 +571,7 @@ void ajout_etat ( void )
 			     TRUE );
   gtk_widget_set_sensitive ( bouton_exporter_etat,
 			     TRUE );
-  gtk_widget_set_sensitive ( bouton_duppliquer_etat,
+  gtk_widget_set_sensitive ( bouton_dupliquer_etat,
 			     TRUE );
   gtk_widget_set_sensitive ( bouton_effacer_etat,
 			     TRUE );
@@ -637,7 +637,7 @@ void efface_etat ( void )
 				 FALSE );
       gtk_widget_set_sensitive ( bouton_exporter_etat,
 				 FALSE );
-      gtk_widget_set_sensitive ( bouton_duppliquer_etat,
+      gtk_widget_set_sensitive ( bouton_dupliquer_etat,
 				 FALSE );
       gtk_widget_set_sensitive ( bouton_effacer_etat,
 				 FALSE );
@@ -691,7 +691,7 @@ void changement_etat ( GtkWidget *bouton,
 			     TRUE );
   gtk_widget_set_sensitive ( bouton_exporter_etat,
 			     TRUE );
-  gtk_widget_set_sensitive ( bouton_duppliquer_etat,
+  gtk_widget_set_sensitive ( bouton_dupliquer_etat,
 			     TRUE );
   gtk_widget_set_sensitive ( bouton_effacer_etat,
 			     TRUE );
@@ -942,7 +942,7 @@ void importer_etat ( void )
 /* cette fonction crée une copie de l'état courant */
 /*****************************************************************************************************/
 
-void duppliquer_etat ( void )
+void dupliquer_etat ( void )
 {
   struct struct_etat *etat;
 
@@ -980,9 +980,6 @@ void duppliquer_etat ( void )
   etat -> no_ib = g_slist_copy ( etat_courant -> no_ib );
   etat -> no_tiers = g_slist_copy ( etat_courant -> no_tiers );
 
-  if ( etat_courant -> texte )
-    etat -> texte = g_strdup ( etat_courant -> texte );
-
 
 
   /* on l'ajoute à la liste */
@@ -1002,7 +999,7 @@ void duppliquer_etat ( void )
 			     TRUE );
   gtk_widget_set_sensitive ( bouton_exporter_etat,
 			     TRUE );
-  gtk_widget_set_sensitive ( bouton_duppliquer_etat,
+  gtk_widget_set_sensitive ( bouton_dupliquer_etat,
 			     TRUE );
   gtk_widget_set_sensitive ( bouton_effacer_etat,
 			     TRUE );

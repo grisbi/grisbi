@@ -216,14 +216,79 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 	      /* on vérifie ensuite si un texte est recherché */
 
-	      if ( etat -> texte
-		   &&
-		   (
-		    !operation -> notes
-		    ||
-		    !g_strcasecmp ( operation -> notes,
-				    etat -> texte )))
-		goto operation_refusee;
+	      if ( etat -> utilise_texte )
+		{
+		  gint garde_ope;
+		  
+		  liste_tmp = etat -> liste_struct_comparaison_textes;
+		  garde_ope = 0;
+
+		  while ( liste_tmp )
+		    {
+		      gchar *texte;
+		      struct struct_comparaison_textes_etat *comp_textes;
+		      gint ope_dans_test;
+
+		      comp_textes = liste_tmp -> data;
+
+
+		      /* on commence par récupérer le texte du champs recherché */
+
+		      texte = recupere_texte_test_etat ( operation,
+							 comp_textes -> champ );
+
+		      /* à ce niveau, texte est soit null, soit contient le texte dans lequel on effectue la recherche */
+		      /* on vérifie maintenant en fontion de l'opérateur */
+
+		      if ( comp_textes -> champ == 4 )
+			{
+			  if ( texte )
+			    ope_dans_test = verifie_chq_test_etat ( comp_textes,
+								    texte );
+			  else
+			    ope_dans_test = 0;
+			}
+		      else
+			ope_dans_test = verifie_texte_test_etat ( comp_textes,
+								  texte );
+
+		      /* à ce niveau, ope_dans_test=1 si l'opé a passé ce test */
+		      /* il faut qu'on fasse le lien avec la ligne précédente */
+			   
+		      switch ( comp_textes -> lien_struct_precedente )
+			{
+			case -1:
+			  /* 1ère ligne  */
+
+			  garde_ope = ope_dans_test;
+			  break;
+
+			case 0:
+			  /* et  */
+
+			  garde_ope = garde_ope && ope_dans_test;
+			  break;
+
+			case 1:
+			  /* ou  */
+
+			  garde_ope = garde_ope || ope_dans_test;
+			  break;
+
+			case 2:
+			  /* sauf  */
+
+			  garde_ope = garde_ope && (!ope_dans_test);
+			  break;
+			}
+		      liste_tmp = liste_tmp -> next;
+		    }
+
+		  /* on ne garde l'opération que si garde_ope = 1 */
+
+		  if ( !garde_ope )
+		    goto operation_refusee;
+		}
 
 
 	      /* on vérifie les R */
@@ -663,6 +728,283 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 /*****************************************************************************************************/
 
 
+/*****************************************************************************************************/
+/* récupère le texte pour faire le test sur les textes */
+/*****************************************************************************************************/
+
+gchar *recupere_texte_test_etat ( struct structure_operation *operation,
+				  gint champ )
+{
+  gchar *texte;
+
+  switch ( champ )
+    {
+    case 0:
+      /* tiers  */
+
+      if ( operation -> tiers )
+	{
+	  struct struct_tiers *tiers;
+
+	  tiers = g_slist_find_custom ( liste_struct_tiers,
+					GINT_TO_POINTER ( operation -> tiers ),
+					(GCompareFunc) recherche_tiers_par_no ) -> data;
+
+	  texte = tiers -> nom_tiers;
+	}
+      else
+	texte = NULL;
+      break;
+
+    case 1:
+      /* pc */
+
+      texte = operation -> no_piece_comptable;
+      break;
+
+    case 2:
+      /* notes  */
+
+      texte = operation -> notes;
+      break;
+
+    case 3:
+      /* ref bancaires  */
+
+      texte = operation -> info_banque_guichet;
+      break;
+
+    case 4:
+      /* chq  */
+
+      texte = operation -> contenu_type;
+      break;
+
+    default:
+      texte = NULL;
+    }
+
+  return ( texte );
+}
+/*****************************************************************************************************/
+
+
+/*****************************************************************************************************/
+/* vérifie si l'opé passe le test du texte */
+/* pour tous les champs sauf chq */
+/*****************************************************************************************************/
+
+gint verifie_texte_test_etat ( struct struct_comparaison_textes_etat *comp_textes,
+			       gchar *texte_ope )
+{
+  gint ope_dans_test;
+  gchar *position;
+
+  if ( !comp_textes -> texte )
+    return (0);
+
+  ope_dans_test = 0;
+
+  switch ( comp_textes -> operateur )
+    {
+    case 0:
+      /* contient  */
+
+      if ( texte_ope )
+	{
+	  position = strstr ( texte_ope,
+			      comp_textes -> texte );
+
+	  if ( position )
+	    ope_dans_test = 1;
+	}
+      break;
+
+    case 1:
+      /* ne contient pas  */
+
+      if ( texte_ope )
+	{
+	  position = strstr ( texte_ope,
+			      comp_textes -> texte );
+
+	  if ( !position )
+	    ope_dans_test = 1;
+	}
+      else
+	ope_dans_test = 1;
+      break;
+
+    case 2:
+      /* commence par  */
+
+      if ( texte_ope )
+	{
+	  position = strstr ( texte_ope,
+			      comp_textes -> texte );
+
+	  if ( position == texte_ope )
+	    ope_dans_test = 1;
+	}
+      break;
+
+    case 3:
+      /* se termine par  */
+
+      if ( texte_ope )
+	{
+	  position = strstr ( texte_ope,
+			      comp_textes -> texte );
+	  if ( position == ( texte_ope + strlen ( texte_ope ) - strlen ( comp_textes -> texte)))
+	    ope_dans_test = 1;
+	}
+      break;
+
+    case 4:
+      /* vide  */
+
+      if ( !texte_ope )
+	ope_dans_test = 1;
+      break;
+
+    case 5:
+      /* non vide  */
+
+      if ( texte_ope )
+	ope_dans_test = 1;
+      break;
+    }
+
+  return ( ope_dans_test );
+}
+/*****************************************************************************************************/
+
+
+
+/*****************************************************************************************************/
+/* vérifie si l'opé passe le test du chq */
+/*****************************************************************************************************/
+
+gint verifie_chq_test_etat ( struct struct_comparaison_textes_etat *comp_textes,
+			     gchar *no_chq )
+{
+  gint ope_dans_test;
+  gint ope_dans_premier_test;
+  gint ope_dans_second_test;
+
+  ope_dans_premier_test = compare_cheques_etat ( atoi ( no_chq ),
+						comp_textes -> montant_1,
+						comp_textes -> comparateur_1 );
+
+  if ( comp_textes -> lien_1_2 != 3 )
+    ope_dans_second_test = compare_cheques_etat ( atoi ( no_chq ),
+						 comp_textes -> montant_2,
+						 comp_textes -> comparateur_2 );
+  else
+    /* pour éviter les warning lors de la compil */
+    ope_dans_second_test = 0;
+			
+  switch ( comp_textes -> lien_1_2 )
+    {
+    case 0:
+      /* et  */
+
+      ope_dans_test = ope_dans_premier_test && ope_dans_second_test;
+      break;
+
+    case 1:
+      /*  ou */
+
+      ope_dans_test = ope_dans_premier_test || ope_dans_second_test;
+      break;
+
+    case 2:
+      /* sauf  */
+
+      ope_dans_test = ope_dans_premier_test && (!ope_dans_second_test);
+      break;
+
+    case 3:
+      /* aucun  */
+      ope_dans_test = ope_dans_premier_test;
+      break;
+
+    default:
+      ope_dans_test = 0;
+    }
+
+
+  return ( ope_dans_test );
+}
+/*****************************************************************************************************/
+
+
+
+/*****************************************************************************************************/
+/* compare les 2 no de chq en fonction du comparateur donné en argument */
+/* renvoie 1 si l'opé passe le test, 0 sinon */
+/*****************************************************************************************************/
+
+gint compare_cheques_etat ( gint chq_ope,
+			   gint chq_test,
+			   gint comparateur )
+{
+  gint retour;
+
+
+  retour = 0;
+
+  switch ( comparateur )
+    {
+    case 0:
+      /* =  */
+
+      if ( chq_ope == chq_test )
+	retour = 1;
+      break;
+
+    case 1:
+      /* <  */
+
+      if ( chq_ope < chq_test )
+	retour = 1;
+      break;
+
+    case 2:
+      /* <=  */
+
+      if ( chq_ope <= chq_test )
+	retour = 1;
+      break;
+
+    case 3:
+      /* >  */
+
+      if ( chq_ope > chq_test )
+	retour = 1;
+      break;
+
+    case 4:
+      /* >=  */
+
+      if ( chq_ope >= chq_test )
+	retour = 1;
+      break;
+
+    case 5:
+      /* !=  */
+
+      if ( chq_ope != chq_test )
+	retour = 1;
+      break;
+    }
+
+  return ( retour );
+}
+/*****************************************************************************************************/
+
+
+
 
 /*****************************************************************************************************/
 /* compare les 2 montants en fonction du comparateur donné en argument */
@@ -989,11 +1331,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 		}
 	      else
 		{
-		  if ( operation -> montant < 0
-		       ||
-		       ( fabs ( operation -> montant ) < 0.01
-			 &&
-			 etat_courant -> choix_montant_nul == 2 ))
+		  if ( operation -> montant < 0 )
 		    liste_ope_depenses = g_slist_append ( liste_ope_depenses,
 							  operation );
 		  else
@@ -1005,11 +1343,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 	    {
 	      /* le classement racine n'est pas la catég, on sépare en fonction du montant */
 
-	      if ( operation -> montant < 0
-		   ||
-		   ( fabs ( operation -> montant ) < 0.01
-		     &&
-		     etat_courant -> choix_montant_nul == 2 ))
+	      if ( operation -> montant < 0 )
 		liste_ope_depenses = g_slist_append ( liste_ope_depenses,
 						      operation );
 	      else

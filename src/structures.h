@@ -472,10 +472,10 @@ struct struct_etat
   gint devise_de_calcul_tiers;
   gint afficher_nom_tiers;
 
-  gchar *texte;
+  gint utilise_texte;
+  GSList *liste_struct_comparaison_textes;
 
   gint utilise_montant;
-  gint choix_montant_nul;     /* 1=exclu, 0=pos et neg, 2=neg, 3=pos */
   gint choix_devise_montant;
   GSList *liste_struct_comparaison_montants;
 };
@@ -492,6 +492,45 @@ struct struct_comparaison_montants_etat
 
   GtkWidget *hbox_ligne;
   GtkWidget *bouton_lien;
+  GtkWidget *bouton_comparateur_1;
+  GtkWidget *entree_montant_1;
+  GtkWidget *bouton_lien_1_2;
+  GtkWidget *hbox_partie_2;
+  GtkWidget *bouton_comparateur_2;
+  GtkWidget *entree_montant_2;
+};
+
+struct struct_comparaison_textes_etat
+{
+  gint lien_struct_precedente;    /* -1=1ère comparaison, 0=et, 1=ou, 2=sauf */
+  gint champ;                      /* 0=tiers, 1=pc, 2=notes, 3=ref banc, 4=chq */
+
+  /* pour les comparaisons de txt */
+
+  gint operateur;                   /* 0=contient, 1=ne contient pas, 2=commence par, 3=se termine par, 4=vide, 5=non vide */
+  gchar *texte;
+
+  /* pour les comparaisons de chq */
+
+  gint comparateur_1;            /* 0= =, 1= <, 2= <=, 3= >, 4= >=, 5= != */
+  gint montant_1;
+  gint lien_1_2;                   /* 0=et, 1=ou, 2=sauf, 3=aucun */
+  gint comparateur_2;            /* 0= =, 1= <, 2= <=, 3= >, 4= >=, 5= != */
+  gint montant_2;
+
+  GtkWidget *vbox_ligne;
+  GtkWidget *bouton_lien;
+  GtkWidget *bouton_champ;
+
+  /* pourles comparaisons de txt */
+
+  GtkWidget *hbox_txt;
+  GtkWidget *bouton_operateur;
+  GtkWidget *entree_txt;
+
+  /* pour les comparaisons de chq */
+
+  GtkWidget *hbox_chq;
   GtkWidget *bouton_comparateur_1;
   GtkWidget *entree_montant_1;
   GtkWidget *bouton_lien_1_2;
