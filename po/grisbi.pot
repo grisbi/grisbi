@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-11-04 15:34+0100\n"
+"POT-Creation-Date: 2003-11-05 09:34+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3283,6 +3283,30 @@ msgid ""
 "closed correctly (maybe Grisbi crashed?).\n"
 "Grisbi can't save the file unless you activate the \"Force saving\" \n"
 "option in the setup."
+msgstr ""
+
+#: src/fichiers_io.c:1734
+msgid ""
+"There was a bug in versions before 0.4.0, which could lead to orphan "
+"transactions (either transfers without countra-transaction, or breakdown "
+"transactions details without associated breakdown transaction.\n"
+"\n"
+"Grisbi searched for such transaction and found:\n"
+"\n"
+msgstr ""
+
+#: src/fichiers_io.c:1739
+msgid "breakdown transactions, all of them were deleted.\n"
+msgstr ""
+
+#: src/fichiers_io.c:1745
+msgid "transfers without contra-transaction, which categories were deleted.\n"
+msgstr ""
+
+#: src/fichiers_io.c:1749
+msgid ""
+"These modifications should not impact on neither Grisbi's behavior nor your "
+"accounts balances."
 msgstr ""
 
 #: src/fichiers_io.c:3994
