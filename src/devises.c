@@ -517,7 +517,7 @@ void ajout_devise ( GtkWidget *bouton,
 				GNOME_STOCK_BUTTON_OK,
 				GNOME_STOCK_BUTTON_CANCEL,
 				NULL );
-  gtk_container_set_border_width ( GTK_WIDGET ( dialog ), 10 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( dialog ), 10 );
   gtk_signal_connect ( GTK_OBJECT ( dialog ),
 		       "destroy",
 		       GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
@@ -532,14 +532,14 @@ void ajout_devise ( GtkWidget *bouton,
 			    0 );
 
   paddingbox = 
-    paddingbox_new_with_title (GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+    paddingbox_new_with_title (GTK_WIDGET ( GNOME_DIALOG ( dialog ) -> vbox ),
 			       _("ISO 4217 currencies"));
   list = new_currency_list ();
-  gtk_box_pack_start ( paddingbox , list,
+  gtk_box_pack_start ( GTK_BOX(paddingbox) , list,
 		       FALSE, FALSE, 5 );
 
   paddingbox = 
-    paddingbox_new_with_title (GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+    paddingbox_new_with_title (GTK_WIDGET ( GNOME_DIALOG ( dialog ) -> vbox ),
 			       _("Currency details"));
   
   /* Create table */
@@ -553,7 +553,7 @@ void ajout_devise ( GtkWidget *bouton,
   /* Currency name */
   label = gtk_label_new (COLON(_("Currency name")));
   gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
-  gtk_label_set_justify ( label, GTK_JUSTIFY_RIGHT );
+  gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
   gtk_table_attach ( GTK_TABLE ( table ),
 		     label, 
 		     0, 1, 0, 1,
@@ -1598,7 +1598,7 @@ GtkWidget *onglet_devises ( void )
   /* Create currency name entry */
   label = gtk_label_new (COLON(_("Name")));
   gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
-  gtk_label_set_justify ( label, GTK_JUSTIFY_RIGHT );
+  gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
   gtk_table_attach ( GTK_TABLE ( table ),
 		     label, 0, 1, 0, 1,
 		     GTK_SHRINK | GTK_FILL, 0,
@@ -1621,7 +1621,7 @@ GtkWidget *onglet_devises ( void )
   /* Create code entry */
   label = gtk_label_new (COLON(_("Sign")));
   gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
-  gtk_label_set_justify ( label, GTK_JUSTIFY_RIGHT );
+  gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
   gtk_table_attach ( GTK_TABLE ( table ),
 		     label, 
 		     0, 1, 1, 2,
@@ -1645,7 +1645,7 @@ GtkWidget *onglet_devises ( void )
   /* Create code entry */
   label = gtk_label_new ( COLON(_("ISO code")) );
   gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
-  gtk_label_set_justify ( label, GTK_JUSTIFY_RIGHT );
+  gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
   gtk_table_attach ( GTK_TABLE ( table ),
 		     label,
 		     0, 1, 2, 3,
