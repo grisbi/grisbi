@@ -27,8 +27,8 @@
 #include "en_tete.h"
 
 gchar *liste_plages_dates[] = {
-  "Personnalisé",
   "Toutes",
+  "Personnalisé",
   "Cumul à ce jour",
   "Mois en cours",
   "Année en cours",
@@ -2467,7 +2467,7 @@ GtkWidget *onglet_etat_dates ( struct struct_etat *etat )
 			 etat -> no_plage_date,
 			 0 );
 
-  if ( etat -> no_plage_date )
+  if ( etat -> no_plage_date != 1 )
     {
       gtk_widget_set_sensitive ( entree_date_init_etat,
 				 FALSE );
@@ -4471,7 +4471,8 @@ void affichage_etat ( struct struct_etat *etat )
 		  if ( etat -> utilise_detail_exo
 		       &&
 		       g_slist_index ( etat -> no_exercices,
-				       GINT_TO_POINTER ( operation -> no_exercice )) == -1 )
+				       GINT_TO_POINTER ( operation -> no_exercice )) == -1 ||
+		       operation -> no_exercice == 0)
 		    goto operation_refusee;
 		}
 	      else
@@ -4489,6 +4490,11 @@ void affichage_etat ( struct struct_etat *etat )
 		  switch ( etat -> no_plage_date )
 		    {
 		    case 0:
+		      /* toutes */
+
+		      break;
+
+		    case 1:
 		      /* plage perso */
 
 		      if ( !etat -> date_perso_debut
@@ -4501,11 +4507,6 @@ void affichage_etat ( struct struct_etat *etat )
 			   g_date_compare ( etat -> date_perso_fin,
 					    operation -> date ) < 0 )
 			goto operation_refusee;
-		      break;
-
-		    case 1:
-		      /* toutes */
-
 		      break;
 
 		    case 2:
