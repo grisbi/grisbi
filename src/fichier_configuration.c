@@ -1,24 +1,28 @@
-/* ce fichier se charge de toutes les opérations relatives à la
-   configuration sauvegardée */
-
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
-/*			2004 Axel Rousseau (axel584@axel584.org) */
-/*			2004 Benjamin Drieu (bdrieu@april.org) */
-/* 			http://www.grisbi.org */
-
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/* ************************************************************************** */
+/* Ce fichier se charge de toutes les opérations relatives à la               */
+/* configuration sauvegardée                                                  */
+/*                                                                            */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004      Axel Rousseau (axel584@axel584.org)	      */
+/*			2004      Benjamin Drieu (bdrieu@april.org) 	      */
+/*			2005      Alain Portal (dionysos@grisbi.org) 	      */
+/*			http://www.grisbi.org   			      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
 
 #include "include.h"
@@ -349,6 +353,9 @@ void charge_configuration ( void )
 		if ( !strcmp ( node_messages -> name, "display_message_reconcile_transaction" ) ) {
 		    etat.display_message_reconcile_transaction = my_atoi(xmlNodeGetContent ( node_messages));
 		}
+		if ( !strcmp ( node_messages -> name, "display_message_remove_transaction" ) ) {
+		    etat.display_message_remove_transaction = my_atoi(xmlNodeGetContent ( node_messages));
+		}
 		node_messages = node_messages->next;
 	    }
 	}
@@ -544,6 +551,9 @@ void charge_configuration_ancien ( void )
 	sscanf ( temp,
 		 "display_message_reconcile_transaction=%d",
 		 &etat.display_message_reconcile_transaction );
+	sscanf ( temp,
+		 "display_message_remove_transaction=%d",
+		 &etat.display_message_remove_transaction );
     }
 
     if ( !dernier_chemin_de_travail )
@@ -619,6 +629,7 @@ void raz_configuration ( void )
     etat.display_message_minimum_alert = 0;
     etat.display_message_qif_export_currency = 0;
     etat.display_message_reconcile_transaction = 0;
+    etat.display_message_remove_transaction = 0;
 
     /* Commands */
     etat.latex_command = "latex";
@@ -797,6 +808,8 @@ void sauve_configuration(void)
 		  itoa(etat.display_message_qif_export_currency));
     xmlNewChild ( node,NULL, "display_message_reconcile_transaction",
 		  itoa(etat.display_message_reconcile_transaction));
+    xmlNewChild ( node,NULL, "display_message_remove_transaction",
+		  itoa(etat.display_message_remove_transaction));
 
     /* sauvegarde des messages */
     node = xmlNewChild ( doc->children, NULL, "Print_config", NULL );

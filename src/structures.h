@@ -100,6 +100,7 @@ struct {
     guint display_message_minimum_alert;
     guint display_message_qif_export_currency;
     guint display_message_reconcile_transaction;
+    guint display_message_remove_transaction;
 
     /* Various commands */
     gchar * browser_command;
