@@ -13,5 +13,7 @@ GtkWidget * new_spin_button ( gint * value,
 			      gdouble climb_rate, guint digits,
 			      GCallback hook );
 void spin_button_set_value ( GtkWidget * spin, gdouble * value );
+GtkWidget * new_stock_button_with_label ( gchar * stock_id, GCallback callback );
+GtkWidget * new_stock_button_with_label_menu ( gchar * stock_id, GCallback callback );
 /*END_DECLARATION*/
 
