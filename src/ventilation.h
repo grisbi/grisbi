@@ -29,5 +29,6 @@ void calcule_montant_ventilation ( void );
 void mise_a_jour_labels_ventilation ( void );
 void valider_ventilation ( void );
 void annuler_ventilation ( void );
+void quitter_ventilation ( void );
 GSList *creation_liste_ope_de_ventil ( struct structure_operation *operation );
 void validation_ope_de_ventilation ( struct structure_operation *operation );
