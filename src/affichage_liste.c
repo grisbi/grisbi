@@ -1142,7 +1142,9 @@ void raz_affichage_ope ( void )
     gint tab[4][7] = { { 18, 1, 3, 13, 5, 6, 7 },
 	{0, 0, 12, 0, 9, 8, 0 },
 	{0, 11, 15, 0, 0, 0, 0 },
-	{0, 0, 0, 0, 0, 0, 0 }};
+	{0, 0, 0, 0, 0, 0, 0 }
+    };
+    gint largeur[7] = { 12, 12, 30, 5, 12, 12, 12 };
 
 
 	/* on remet tous les boutons à inactif */
@@ -1154,6 +1156,18 @@ void raz_affichage_ope ( void )
 	for ( i = 0 ; i<4 ; i++ )
 	    for ( j = 0 ; j<7 ; j++ )
 		tab_affichage_ope[i][j] = tab[i][j];
+
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+
+	for ( i=0 ; i<7 ; i++ )
+	{
+	    rapport_largeur_colonnes[i] = largeur[i];
+	    taille_largeur_colonnes[i] = CLIST_OPERATIONS -> allocation.width * largeur[i] / 100;
+	    if ( i<7 )
+		gtk_clist_set_column_width ( GTK_CLIST ( clist_affichage_liste ),
+					     i,
+					     clist_affichage_liste -> allocation.width * largeur[i] / 100 );
+	}
 
 	/* on met à jour la liste et les boutons */
 
