@@ -41,6 +41,7 @@
 #include "dialog.h"
 #include "operations_formulaire.h"
 #include "utils_dates.h"
+#include "data_account.h"
 #include "gtk_combofix.h"
 #include "utils_str.h"
 #include "echeancier_infos.h"
@@ -1145,7 +1146,7 @@ void edition_echeance ( void )
 		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + echeance_selectionnnee -> compte_virement;
 
 		texte = g_strconcat ( COLON(_("Transfer")),
-				      NOM_DU_COMPTE,
+				      gsb_account_get_name (echeance_selectionnnee -> compte_virement),
 				      NULL );
 	    }
 	    else

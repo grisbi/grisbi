@@ -1354,10 +1354,10 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 
 			if ( operation -> montant < 0 )
 			    temp = g_strdup_printf ( _("Transfer to %s"),
-						     NOM_DU_COMPTE );
+						     gsb_account_get_name (operation -> relation_no_compte) );
 			else
 			    temp = g_strdup_printf ( _("Transfer from %s"),
-						     NOM_DU_COMPTE );
+						     gsb_account_get_name (operation -> relation_no_compte) );
 
 			p_tab_nom_de_compte_variable = save_ptab;
 		    }
@@ -2398,7 +2398,7 @@ void edition_operation ( void )
 
 				gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
 							g_strconcat ( COLON(_("Transfer")),
-								      NOM_DU_COMPTE,
+								      gsb_account_get_name (operation -> relation_no_compte),
 								      NULL ));
 
 				/* récupération de la contre opération */
@@ -3256,7 +3256,7 @@ struct structure_operation *  clone_transaction ( struct structure_operation * o
     if ( new_transaction -> relation_no_operation )
     {
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + new_transaction -> relation_no_compte;
-	validation_virement_operation ( new_transaction, 0, NOM_DU_COMPTE );
+	validation_virement_operation ( new_transaction, 0, gsb_account_get_name (new_transaction -> relation_no_compte) );
     }
 
     if ( operation -> operation_ventilee )

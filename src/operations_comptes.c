@@ -28,6 +28,7 @@
 #include "operations_comptes.h"
 #include "ventilation.h"
 #include "equilibrage.h"
+#include "data_account.h"
 #include "gtk_list_button.h"
 #include "menu.h"
 #include "barre_outils.h"
@@ -247,7 +248,7 @@ GtkWidget *comptes_appel ( gint no_de_compte )
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_de_compte;
 
-    bouton = gtk_list_button_new ( NOM_DU_COMPTE, 2, TRUE, GINT_TO_POINTER (no_de_compte));
+    bouton = gtk_list_button_new ( gsb_account_get_name (no_de_compte), 2, TRUE, GINT_TO_POINTER (no_de_compte));
     BOUTON_COMPTE = bouton;
     gtk_signal_connect_object ( GTK_OBJECT (bouton),
 				"clicked",
@@ -325,7 +326,7 @@ gboolean changement_compte ( gint *compte)
 
     /* change le nom du compte courant */
 
-    gtk_label_set_text ( GTK_LABEL ( label_compte_courant), NOM_DU_COMPTE);
+    gtk_label_set_text ( GTK_LABEL ( label_compte_courant), gsb_account_get_name (compte_courant));
 
 
     /*     affiche le nouveau formulaire  */
@@ -454,7 +455,7 @@ void reaffiche_liste_comptes ( void )
     {
 	gchar *tmp;
 
-	tmp = my_strdelimit ( NOM_DU_COMPTE,
+	tmp = my_strdelimit ( gsb_account_get_name (i),
 			      "/",
 			      "\\/" );
 
@@ -476,7 +477,7 @@ void reaffiche_liste_comptes ( void )
     {
 	gchar *tmp;
 
-	tmp = my_strdelimit ( NOM_DU_COMPTE,
+	tmp = my_strdelimit ( gsb_account_get_name (i),
 			      "/",
 			      "\\/" );
 
@@ -517,7 +518,7 @@ void reaffiche_liste_comptes ( void )
 	    item_factory_entry = calloc ( 1,
 					  sizeof ( GtkItemFactoryEntry ));
 
-	    tmp = my_strdelimit ( NOM_DU_COMPTE,
+	    tmp = my_strdelimit ( gsb_account_get_name (GPOINTER_TO_INT ( ordre_comptes_variable->data )),
 				  "/",
 				  "\\/" );
 	    tmp = my_strdelimit ( tmp,
@@ -561,7 +562,7 @@ void reaffiche_liste_comptes ( void )
 
 	    item_factory_entry = calloc ( 1, sizeof ( GtkItemFactoryEntry ));
 
-	    tmp = my_strdelimit ( NOM_DU_COMPTE, "/", "\\/" );
+	    tmp = my_strdelimit ( gsb_account_get_name (GPOINTER_TO_INT ( ordre_comptes_variable->data )), "/", "\\/" );
 	    ;
 
 	    item_factory_entry -> path = menu_name(_("Edit"), 

@@ -29,6 +29,7 @@
 /*START_INCLUDE*/
 #include "utils_comptes.h"
 #include "comptes_traitements.h"
+#include "data_account.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -129,7 +130,7 @@ gchar *compte_name_by_no ( gint no_compte )
 	 no_compte <= nb_comptes )
     {
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-	return ( g_strdup ( NOM_DU_COMPTE ));
+	return ( g_strdup ( gsb_account_get_name (no_compte) ));
     }
     else
 	return NULL;
@@ -152,7 +153,7 @@ gint no_compte_by_name ( gchar *name )
     {
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
-	if ( !g_strcasecmp ( NOM_DU_COMPTE,
+	if ( !g_strcasecmp ( gsb_account_get_name (i),
 			     name ))
 	{
 	    no_compte = i;

@@ -197,7 +197,7 @@ gint initialisation_nouveau_compte ( kind_account type_de_compte )
 
     /* insï¿œe ses paramï¿œres ( comme c'est un appel ï¿œcalloc, tout ce qui est ï¿œ0 est dï¿œï¿œinitialisï¿œ)*/
 
-    NOM_DU_COMPTE = g_strdup_printf ( _("No name %d"), noname_account_number );
+/*     NOM_DU_COMPTE = g_strdup_printf ( _("No name %d"), noname_account_number ); */
     DEVISE = 1;
     MISE_A_JOUR = 1;
 /*     NO_COMPTE = no_compte; */
@@ -303,7 +303,7 @@ void supprimer_compte ( void )
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_modifie;
 
     if ( !question_yes_no_hint ( g_strdup_printf (_("Delete account \"%s\"?"),
-						  NOM_DU_COMPTE),
+						  gsb_account_get_name (compte_modifie)),
 				 _("This will irreversibly remove this account and all operations that were previously contained.  There is no undo for this.") ))
 	return;
 
@@ -367,7 +367,7 @@ void supprimer_compte ( void )
     //  nb_comptes--;
 
     g_slist_free ( LISTE_OPERATIONS );
-    nom_compte_supprime = g_strdup ( NOM_DU_COMPTE );
+    nom_compte_supprime = g_strdup ( gsb_account_get_name (compte_modifie) );
 
     /* on dï¿œale en mï¿œoire les comptes situï¿œ aprï¿œ */
     for ( i = compte_modifie ; i < nb_comptes ; i++ )
@@ -518,10 +518,10 @@ GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func,
 	     ||
 	     include_closed )
 	{
-	    item = gtk_menu_item_new_with_label ( NOM_DU_COMPTE );
+	    item = gtk_menu_item_new_with_label ( gsb_account_get_name (GPOINTER_TO_INT ( ordre_comptes_variable -> data )) );
 	    gtk_object_set_data ( GTK_OBJECT ( item ),
 				  "no_compte",
-				  GINT_TO_POINTER ( p_tab_nom_de_compte_variable - p_tab_nom_de_compte ));
+				  ordre_comptes_variable -> data);
 	    if ( func )
 		gtk_signal_connect ( GTK_OBJECT ( item ), "activate", GTK_SIGNAL_FUNC(func), NULL );
 	    gtk_menu_append ( GTK_MENU ( menu ), item );

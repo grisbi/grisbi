@@ -27,6 +27,7 @@
 #include "comptes_onglet.h"
 #include "operations_comptes.h"
 #include "comptes_gestion.h"
+#include "data_account.h"
 #include "gtk_list_button.h"
 #include "comptes_traitements.h"
 /*END_INCLUDE*/
@@ -215,7 +216,7 @@ GtkWidget *comptes_appel_onglet ( gint no_de_compte )
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_de_compte;
 
-    bouton = gtk_list_button_new ( NOM_DU_COMPTE, 1, TRUE, GINT_TO_POINTER (no_de_compte));
+    bouton = gtk_list_button_new ( gsb_account_get_name (no_de_compte), 1, TRUE, GINT_TO_POINTER (no_de_compte));
     gtk_signal_connect ( GTK_OBJECT (bouton),
 			 "clicked",
 			 GTK_SIGNAL_FUNC ( changement_compte_onglet ),
@@ -242,7 +243,7 @@ void changement_compte_onglet ( GtkWidget *bouton,
 
     /* change le nom du compte courant */
     gtk_label_set_text ( GTK_LABEL ( label_compte_courant_onglet),
-			 NOM_DU_COMPTE);
+			 gsb_account_get_name (compte));
 
     compte_courant_onglet = compte;
 
@@ -289,7 +290,7 @@ void reaffiche_liste_comptes_onglet ( void )
 		gtk_list_button_clicked ( GTK_BUTTON ( bouton ));
 
 		/* change le nom du compte courant */
-		gtk_label_set_text ( GTK_LABEL ( label_compte_courant_onglet ), NOM_DU_COMPTE);
+		gtk_label_set_text ( GTK_LABEL ( label_compte_courant_onglet ), gsb_account_get_name (compte_courant_onglet));
 	    }
 	}
 	while ( (  ordre_comptes_variable = ordre_comptes_variable->next ) );

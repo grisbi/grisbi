@@ -34,6 +34,7 @@
 #include "fichiers_io.h"
 #include "dialog.h"
 #include "utils_file_selection.h"
+#include "data_account.h"
 #include "gtk_combofix.h"
 #include "utils_buttons.h"
 #include "utils.h"
@@ -664,7 +665,7 @@ void creation_liste_categ_combofix ( void )
 	if ( ! COMPTE_CLOTURE )
 	    liste_categ_special = g_slist_append ( liste_categ_special,
 						   g_strconcat ( "\t",
-								 NOM_DU_COMPTE,
+								 gsb_account_get_name (i),
 								 NULL ));
 	p_tab_nom_de_compte_variable++;
     }

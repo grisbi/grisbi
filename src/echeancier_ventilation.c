@@ -41,6 +41,7 @@
 #include "dialog.h"
 #include "utils_echeances.h"
 #include "operations_formulaire.h"
+#include "data_account.h"
 #include "gtk_combofix.h"
 #include "utils_ib.h"
 #include "categories_onglet.h"
@@ -838,7 +839,7 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 
 			    for ( i = 0 ; i < nb_comptes ; i++ )
 			    {
-				if ( !g_strcasecmp ( NOM_DU_COMPTE,
+				if ( !g_strcasecmp ( gsb_account_get_name (i),
 						     tableau_char[1] ) )
 				    compte_virement = i;
 				p_tab_nom_de_compte_variable++;
@@ -1631,9 +1632,7 @@ void fin_edition_ventilation_echeances ( void )
 
 		    for ( i = 0 ; i < nb_comptes ; i++ )
 		    {
-			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
-
-			if ( !strcmp ( NOM_DU_COMPTE,
+			if ( !strcmp ( gsb_account_get_name (i),
 				       tableau_char[1] ) )
 			    compte_vire = i;
 		    }
@@ -2020,7 +2019,7 @@ void edition_operation_ventilation_echeances ( void )
 
 	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ),
 				g_strconcat ( COLON(_("Transfer")),
-					      NOM_DU_COMPTE,
+					      gsb_account_get_name (operation -> relation_no_compte),
 					      NULL ));
 
 	/* on met le type de l'opé associée */
@@ -2257,12 +2256,9 @@ void ajoute_ope_sur_liste_ventilation_echeances ( struct struct_ope_ventil *oper
     {
 	/* c'est un virement */
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
-
 	ligne [0] = g_strconcat ( COLON(_("Transfer")),
-				  NOM_DU_COMPTE,
+				  gsb_account_get_name (operation -> relation_no_compte),
 				  NULL );
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
     }
     else
     {

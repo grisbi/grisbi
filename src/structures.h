@@ -293,7 +293,7 @@ struct donnees_compte
 #define NO_COMPTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> no_compte
 /* #define ID_COMPTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> id_compte */
 /* #define TYPE_DE_COMPTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> type_de_compte */
-#define NOM_DU_COMPTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> nom_de_compte
+/* #define NOM_DU_COMPTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> nom_de_compte */
 #define SOLDE_INIT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> solde_initial
 #define SOLDE_MINI_VOULU ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> solde_mini_voulu 
 #define SOLDE_MINI ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> solde_mini_autorise

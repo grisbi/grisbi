@@ -414,3 +414,42 @@ gboolean gsb_account_set_kind ( gint no_account,
 
 
 
+/** get the name of the account
+ * \param no_account no of the account
+ * \return name or NULL if the account doesn't exist
+ * */
+gchar *gsb_account_get_name ( gint no_account )
+{
+    struct struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return NULL;
+
+    return account -> account_name;
+}
+
+
+/** set the name of the account
+ * \param no_account no of the account
+ * \param name ,aùe to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_name ( gint no_account,
+				gchar *name )
+{
+    struct struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> account_name = name;
+
+    return TRUE;
+}
+
+
+

@@ -29,6 +29,7 @@
 #include "utils_devises.h"
 #include "dialog.h"
 #include "utils_exercices.h"
+#include "data_account.h"
 #include "utils_ib.h"
 #include "utils_str.h"
 #include "traitement_variables.h"
@@ -1293,7 +1294,7 @@ gboolean enregistre_etat ( gchar *nom_etat )
 
 	xmlSetProp ( node_3,
 		     "Nom",
-		     NOM_DU_COMPTE );
+		     gsb_account_get_name (GPOINTER_TO_INT ( pointeur_liste -> data )) );
 
 
 	pointeur_liste = pointeur_liste -> next;
@@ -1340,7 +1341,7 @@ gboolean enregistre_etat ( gchar *nom_etat )
 
 	xmlSetProp ( node_3,
 		     "Nom",
-		     NOM_DU_COMPTE );
+		     gsb_account_get_name (GPOINTER_TO_INT ( pointeur_liste -> data )) );
 
 
 	pointeur_liste = pointeur_liste -> next;

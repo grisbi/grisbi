@@ -812,7 +812,7 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 	
 	    if ( !COMPTE_CLOTURE )
 	    {
-		menu_item = gtk_menu_item_new_with_label ( NOM_DU_COMPTE );
+		menu_item = gtk_menu_item_new_with_label ( gsb_account_get_name (GPOINTER_TO_INT ( ordre_comptes_variable -> data )) );
 		gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 				      "no_compte",
 				      GINT_TO_POINTER ( p_tab_nom_de_compte_variable - p_tab_nom_de_compte ));
@@ -835,7 +835,7 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 		     compte -> nom_de_compte
 		     &&
 		     !g_strcasecmp ( compte -> nom_de_compte,
-				     NOM_DU_COMPTE ))
+				     gsb_account_get_name (GPOINTER_TO_INT ( ordre_comptes_variable -> data )) ))
 		    no_compte_trouve = p_tab_nom_de_compte_variable - p_tab_nom_de_compte;
 
 
@@ -1118,7 +1118,7 @@ void cree_liens_virements_ope_import ( void )
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
-	nom_compte_courant = NOM_DU_COMPTE;
+	nom_compte_courant = gsb_account_get_name (i);
 	liste_tmp = LISTE_OPERATIONS;
 	currency = DEVISE;
 
@@ -1143,7 +1143,7 @@ void cree_liens_virements_ope_import ( void )
 		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + j;
 
 		    if ( !g_strcasecmp ( g_strconcat ( "[",
-						       NOM_DU_COMPTE,
+						       gsb_account_get_name (j),
 						       "]",
 						       NULL ),
 					 g_strstrip ( operation -> info_banque_guichet )))
@@ -1288,9 +1288,11 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
     /* met le nom du compte */
 
     if ( compte_import -> nom_de_compte )
-	NOM_DU_COMPTE = g_strstrip ( compte_import -> nom_de_compte );
+	gsb_account_set_name ( no_compte,
+			       g_strstrip ( compte_import -> nom_de_compte ) );
     else
-	NOM_DU_COMPTE = g_strdup ( _("Imported account"));
+	gsb_account_set_name ( no_compte,
+			       g_strdup ( _("Imported account")) );
 
     /* choix de la devise du compte */
 

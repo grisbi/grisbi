@@ -779,7 +779,7 @@ void remplissage_details_compte ( void )
 
 
     gtk_entry_set_text ( GTK_ENTRY ( detail_nom_compte ),
-			 NOM_DU_COMPTE );
+			 gsb_account_get_name (compte_courant_onglet) );
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( detail_type_compte ),
 				  gsb_account_get_kind (compte_courant_onglet) );
@@ -924,7 +924,7 @@ void modification_details_compte ( void )
 	if ( i == compte_courant_onglet )
 	    continue;
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
-	if ( !strcmp ( g_strstrip ( (gchar*) gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))), NOM_DU_COMPTE ))
+	if ( !strcmp ( g_strstrip ( (gchar*) gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))), gsb_account_get_name (i) ))
 	{
 	    dialogue_error_hint( _("Accounts names are used to distinguish accounts.  It is mandatory that names are both unique and not empty."),
 				 g_strdup_printf ( _("Account \"%s\" already exists!"), gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))));
@@ -1169,12 +1169,13 @@ void modification_details_compte ( void )
     /* la liste des comptes, et les infos non encore récupérées vont être */
     /* perdues */
 
-    if ( !NOM_DU_COMPTE
+    if ( !gsb_account_get_name (compte_courant_onglet)
 	 ||
 	 strcmp ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))),
-		  NOM_DU_COMPTE ) )
+		  gsb_account_get_name (compte_courant_onglet) ) )
     {
-	NOM_DU_COMPTE = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))));
+	gsb_account_set_name ( compte_courant_onglet,
+			       g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte )))) );
 
 	reaffiche_liste_comptes ();
 	reaffiche_liste_comptes_onglet ();
@@ -1228,7 +1229,7 @@ void sort_du_detail_compte ( void )
 
 	resultat = question_yes_no_hint ( _("Apply changes to account?"),
 					  g_strdup_printf ( _("Account \"%s\" has been modified.\nDo you want to save changes?"),
-							    NOM_DU_COMPTE ) );
+							    gsb_account_get_name (compte_courant_onglet) ) );
 	
 	if ( !resultat )
 	    gtk_widget_set_sensitive ( hbox_boutons_modif, FALSE );

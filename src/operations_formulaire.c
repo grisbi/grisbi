@@ -980,7 +980,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 
 				for ( i = 0 ; i < nb_comptes ; i++ )
 				{
-				    if ( !g_strcasecmp ( NOM_DU_COMPTE,
+				    if ( !g_strcasecmp ( gsb_account_get_name (i),
 							 tableau_char[1] ) )
 					compte_virement = i;
 				    p_tab_nom_de_compte_variable++;
@@ -1856,7 +1856,7 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 				p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 				gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
 							g_strconcat ( COLON(_("Transfer")),
-								      NOM_DU_COMPTE,
+								      gsb_account_get_name (operation -> relation_no_compte),
 								      NULL ));
 			    }
 			    else
@@ -2641,7 +2641,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 
 		for ( i = 0 ; i < nb_comptes ; i++ )
 		{
-		    if ( !g_strcasecmp ( NOM_DU_COMPTE,
+		    if ( !g_strcasecmp ( gsb_account_get_name (i),
 					 tableau_char[1] ) )
 			compte_virement = i;
 		    p_tab_nom_de_compte_variable++;
@@ -3296,7 +3296,7 @@ void validation_virement_operation ( struct structure_operation *operation,
     {
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
-	if ( !g_strcasecmp ( NOM_DU_COMPTE,
+	if ( !g_strcasecmp ( gsb_account_get_name (i),
 			     nom_compte_vire ))
 	{
 	    compte_virement = i;

@@ -640,7 +640,7 @@ void update_liste_comptes_accueil ( void )
 		 && gsb_account_get_kind (GPOINTER_TO_INT ( ordre_comptes_variable->data )) != GSB_TYPE_ASSET )
 	    {
 		/* Première colonne : vide */
-		pLabel = gtk_label_new ( g_strconcat ( (gchar *) NOM_DU_COMPTE, " : ", NULL ));
+		pLabel = gtk_label_new ( g_strconcat ( gsb_account_get_name (GPOINTER_TO_INT ( ordre_comptes_variable->data )), " : ", NULL ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_widget_set_style ( pLabel, pStyleLabelNomCompte );
 
@@ -651,7 +651,7 @@ void update_liste_comptes_accueil ( void )
 		gtk_widget_show ( pLabel );
 
 		/* Deuxième colonne : elle contient le nom du compte */
-		pLabel = gtk_label_new ( g_strconcat ( (gchar *) NOM_DU_COMPTE, " : ", NULL ));
+		pLabel = gtk_label_new ( g_strconcat ( gsb_account_get_name (GPOINTER_TO_INT ( ordre_comptes_variable->data )), " : ", NULL ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_widget_set_style ( pLabel, pStyleLabelNomCompte );
 
@@ -924,7 +924,7 @@ void update_liste_comptes_accueil ( void )
 		 gsb_account_get_kind (GPOINTER_TO_INT ( ordre_comptes_variable->data )) == GSB_TYPE_LIABILITIES )
 	    {
 		/* Première colonne : vide */
-		pLabel = gtk_label_new ( g_strconcat ( (gchar *) NOM_DU_COMPTE, " : ", NULL ));
+		pLabel = gtk_label_new ( g_strconcat ( gsb_account_get_name (GPOINTER_TO_INT ( ordre_comptes_variable->data )), " : ", NULL ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_widget_set_style ( pLabel, pStyleLabelNomCompte );
 
@@ -935,7 +935,7 @@ void update_liste_comptes_accueil ( void )
 		gtk_widget_show ( pLabel );
 
 		/* Deuxième colonne : elle contient le nom du compte */
-		pLabel = gtk_label_new ( g_strconcat ( (gchar *) NOM_DU_COMPTE, " : ", NULL ));
+		pLabel = gtk_label_new ( g_strconcat ( gsb_account_get_name (GPOINTER_TO_INT ( ordre_comptes_variable->data )), " : ", NULL ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_widget_set_style ( pLabel, pStyleLabelNomCompte );
 
@@ -1245,7 +1245,7 @@ void update_liste_comptes_accueil ( void )
 		 gsb_account_get_kind (GPOINTER_TO_INT ( ordre_comptes_variable->data )) == GSB_TYPE_ASSET )
 	    {
 		/* Première colonne : vide */
-		pLabel = gtk_label_new ( g_strconcat ( (gchar *) NOM_DU_COMPTE, " : ", NULL ));
+		pLabel = gtk_label_new ( g_strconcat ( gsb_account_get_name (GPOINTER_TO_INT ( ordre_comptes_variable->data )), " : ", NULL ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_widget_set_style ( pLabel, pStyleLabelNomCompte );
 
@@ -1256,7 +1256,7 @@ void update_liste_comptes_accueil ( void )
 		gtk_widget_show ( pLabel );
 
 		/* Deuxième colonne : elle contient le nom du compte */
-		pLabel = gtk_label_new ( g_strconcat ( (gchar *) NOM_DU_COMPTE, " : ", NULL ));
+		pLabel = gtk_label_new ( g_strconcat ( gsb_account_get_name (GPOINTER_TO_INT ( ordre_comptes_variable->data )), " : ", NULL ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_widget_set_style ( pLabel, pStyleLabelNomCompte );
 
@@ -1651,12 +1651,12 @@ void update_liste_echeances_manuelles_accueil ( void )
 		label = gtk_label_new ( g_strdup_printf (_("%4.2f %s credit on %s"),
 							 ECHEANCE_COURANTE->montant,
 							 devise_code_by_no(ECHEANCE_COURANTE -> devise ),
-							 NOM_DU_COMPTE ));
+							 gsb_account_get_name (ECHEANCE_COURANTE->compte) ));
 	    else
 		label = gtk_label_new ( g_strdup_printf (_("%4.2f %s debit on %s"),
 							 -ECHEANCE_COURANTE->montant,
 							 devise_code_by_no( ECHEANCE_COURANTE -> devise ),
-							 NOM_DU_COMPTE ));
+							 gsb_account_get_name (ECHEANCE_COURANTE->compte) ));
 
 
 	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
@@ -1763,12 +1763,12 @@ void update_liste_echeances_auto_accueil ( void )
 		label = gtk_label_new ( g_strdup_printf (_("%4.2f %s credit on %s"),
 							 operation->montant,
 							 devise_code_by_no( operation -> devise ),
-							 NOM_DU_COMPTE ));
+							 gsb_account_get_name (operation->no_compte) ));
 	    else
 		label = gtk_label_new ( g_strdup_printf (_("%4.2f %s debit on %s"),
 							 -operation->montant,
 							 devise_code_by_no( operation -> devise ),
-							 NOM_DU_COMPTE ));
+							 gsb_account_get_name (operation->no_compte) ));
 
 	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
 	    gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 5 );
@@ -1850,7 +1850,7 @@ void update_soldes_minimaux ( void )
 		gtk_widget_show ( vbox_1 );
 		show_paddingbox ( frame_etat_soldes_minimaux_autorises );
 	    }
-	    label = gtk_label_new ( NOM_DU_COMPTE );
+	    label = gtk_label_new ( gsb_account_get_name (i) );
 	    gtk_box_pack_start ( GTK_BOX ( vbox_1 ), label, FALSE, FALSE, 0 );
 	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_TOP );
 	    gtk_widget_show ( label );
@@ -1870,7 +1870,7 @@ void update_soldes_minimaux ( void )
 		show_paddingbox ( frame_etat_soldes_minimaux_voulus );
 	    }
 
-	    label = gtk_label_new ( NOM_DU_COMPTE );
+	    label = gtk_label_new ( gsb_account_get_name (i) );
 	    gtk_box_pack_start ( GTK_BOX ( vbox_2 ), label, FALSE, FALSE, 0 );
 	    gtk_widget_show ( label );
 
@@ -1939,13 +1939,13 @@ void affiche_dialogue_soldes_minimaux ( void )
 	    if ( solde_courant  < solde_mini_voulu )
 	    {
 		liste_autorise_et_voulu = g_slist_append ( liste_autorise_et_voulu,
-							   NOM_DU_COMPTE );
+							   gsb_account_get_name (i) );
 		MESSAGE_SOUS_MINI_VOULU = 1;
 	    }
 	    else
 	    {
 		liste_autorise = g_slist_append ( liste_autorise,
-						  NOM_DU_COMPTE );
+						  gsb_account_get_name (i) );
 	    }
 	    MESSAGE_SOUS_MINI = 1;
 	}
@@ -1961,7 +1961,7 @@ void affiche_dialogue_soldes_minimaux ( void )
 	     !patience_en_cours )
 	    {
 		liste_voulu = g_slist_append ( liste_voulu,
-					       NOM_DU_COMPTE );
+					       gsb_account_get_name (i) );
 		MESSAGE_SOUS_MINI_VOULU = 1;
 	    }
 
@@ -2093,7 +2093,7 @@ void update_fin_comptes_passifs ( void )
 	if ( gsb_account_get_kind (i) == GSB_TYPE_LIABILITIES
 	     &&
 	     SOLDE_COURANT >= 0 )
-	    liste_tmp = g_slist_append ( liste_tmp, NOM_DU_COMPTE );
+	    liste_tmp = g_slist_append ( liste_tmp, gsb_account_get_name (i) );
 
 	p_tab_nom_de_compte_variable++;
     }

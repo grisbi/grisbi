@@ -646,7 +646,7 @@ void equilibrage ( void )
 			 "" );
 
     gtk_label_set_text ( GTK_LABEL ( label_equilibrage_compte ),
-			 NOM_DU_COMPTE );
+			 gsb_account_get_name (compte_courant) );
 
 
     etat.equilibrage = 1;
@@ -1169,7 +1169,7 @@ void fill_reconciliation_tree ()
 
 	gtk_tree_store_append (reconcile_model, &account_iter, NULL);
 	gtk_tree_store_set (reconcile_model, &account_iter,
-			    RECONCILIATION_NAME_COLUMN, NOM_DU_COMPTE,
+			    RECONCILIATION_NAME_COLUMN, gsb_account_get_name (GPOINTER_TO_INT ( pUserAccountsList -> data )),
 			    RECONCILIATION_VISIBLE_COLUMN, TRUE,
 			    RECONCILIATION_SORT_COLUMN, ! TRI,
 			    RECONCILIATION_SPLIT_NEUTRAL_COLUMN, NEUTRES_INCLUS,

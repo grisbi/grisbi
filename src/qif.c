@@ -955,7 +955,7 @@ void exporter_fichier_qif ( void )
     for ( i = 0 ; i < nb_comptes ; i++ )
     {
 
-	check_button = gtk_check_button_new_with_label ( NOM_DU_COMPTE );
+	check_button = gtk_check_button_new_with_label ( gsb_account_get_name (i) );
 	gtk_table_attach ( GTK_TABLE ( table ),
 			   check_button,
 			   0, 1,
@@ -969,7 +969,7 @@ void exporter_fichier_qif ( void )
 	gtk_entry_set_text ( GTK_ENTRY ( entree ),
 			     g_strconcat ( nom_fichier_comptes,
 					   "_",
-					   g_strdelimit ( g_strdup ( NOM_DU_COMPTE) , " ", '_' ),
+					   g_strdelimit ( g_strdup ( gsb_account_get_name (i)) , " ", '_' ),
 					   ".qif",
 					   NULL ));
 	gtk_widget_set_sensitive ( entree,
@@ -1130,7 +1130,7 @@ choix_liste_fichier:
 		fprintf ( fichier_qif,
 			  "L%s\n^\n",
 			  g_strconcat ( "[",
-					NOM_DU_COMPTE,
+					gsb_account_get_name (no_compte),
 					"]",
 					NULL ) );
 
@@ -1274,7 +1274,7 @@ choix_liste_fichier:
 					    fprintf ( fichier_qif,
 						      "L%s\n",
 						      g_strconcat ( "[",
-								    NOM_DU_COMPTE,
+								    gsb_account_get_name (ope_test -> relation_no_compte),
 								    "]",
 								    NULL ));
 					    categ_ope_mise = 1;
@@ -1283,7 +1283,7 @@ choix_liste_fichier:
 					fprintf ( fichier_qif,
 						  "S%s\n",
 						  g_strconcat ( "[",
-								NOM_DU_COMPTE,
+								gsb_account_get_name (ope_test -> relation_no_compte),
 								"]",
 								NULL ));
 
@@ -1395,7 +1395,7 @@ choix_liste_fichier:
 				fprintf ( fichier_qif,
 					  "L%s\n",
 					  g_strconcat ( "[",
-							NOM_DU_COMPTE,
+							gsb_account_get_name (operation -> relation_no_compte),
 							"]",
 							NULL ));
 
@@ -1466,7 +1466,7 @@ choix_liste_fichier:
 		fprintf ( fichier_qif,
 			  "L%s\n^\n",
 			  g_strconcat ( "[",
-					NOM_DU_COMPTE,
+					gsb_account_get_name (no_compte),
 					"]",
 					NULL ) );
 	    }

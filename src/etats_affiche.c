@@ -33,6 +33,7 @@
 #include "utils_devises.h"
 #include "etats_support.h"
 #include "utils_exercices.h"
+#include "data_account.h"
 #include "utils_str.h"
 #include "utils_categories.h"
 #include "utils_ib.h"
@@ -1234,9 +1235,9 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
 		    if ( operation -> montant < 0 )
-			pointeur = g_strdup_printf ( _("Transfer to %s"), NOM_DU_COMPTE );
+			pointeur = g_strdup_printf ( _("Transfer to %s"), gsb_account_get_name (operation -> relation_no_compte) );
 		    else
-			pointeur = g_strdup_printf ( _("Transfer from %s"), NOM_DU_COMPTE );
+			pointeur = g_strdup_printf ( _("Transfer from %s"), gsb_account_get_name (operation -> relation_no_compte) );
 		}
 	    }
 
@@ -1958,9 +1959,9 @@ gint etat_affiche_affiche_compte_etat ( struct structure_operation *operation,
 	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
 	    pointeur_char = g_strconcat ( decalage_compte,
-					  NOM_DU_COMPTE,
+					  gsb_account_get_name (operation -> no_compte),
 					  NULL );
-	    nom_compte_en_cours = NOM_DU_COMPTE;
+	    nom_compte_en_cours = gsb_account_get_name (operation -> no_compte);
 
 	    etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
 					ligne, ligne + 1, LEFT, NULL );

@@ -39,6 +39,7 @@
 #include "devises.h"
 #include "utils_devises.h"
 #include "dialog.h"
+#include "data_account.h"
 #include "calendar.h"
 #include "utils_dates.h"
 #include "gtk_combofix.h"
@@ -1575,7 +1576,7 @@ void fin_edition_echeance ( void )
 
 	    for ( i = 0 ; i < nb_comptes ; i++ )
 	    {
-		if ( !g_strcasecmp ( NOM_DU_COMPTE,
+		if ( !g_strcasecmp ( gsb_account_get_name (i),
 				     tableau_char[1] ) )
 		    compte_virement = i;
 		p_tab_nom_de_compte_variable++;
@@ -1716,7 +1717,7 @@ void fin_edition_echeance ( void )
 
 		    for ( i = 0 ; i < nb_comptes ; i++ )
 		    {
-			if ( !g_strcasecmp ( NOM_DU_COMPTE,
+			if ( !g_strcasecmp ( gsb_account_get_name (i),
 					     tableau_char[1] ) )
 			    echeance -> compte_virement = i;
 
@@ -2612,12 +2613,12 @@ void incrementation_echeance ( struct operation_echeance *echeance )
 		label = gtk_label_new ( g_strdup_printf (PRESPACIFY(_("%4.2f %s credit on %s")),
 							 echeance ->montant,
 							 devise_code_by_no ( echeance -> devise ),
-							 NOM_DU_COMPTE ));
+							 gsb_account_get_name (echeance ->compte) ));
 	    else
 		label = gtk_label_new ( g_strdup_printf (PRESPACIFY(_("%4.2f %s debit on %s")),
 							 -echeance ->montant,
 							 devise_code_by_no ( echeance -> devise ),
-							 NOM_DU_COMPTE ));
+							 gsb_account_get_name (echeance ->compte) ));
 
 
 	    gtk_misc_set_alignment ( GTK_MISC ( label ),
@@ -2656,12 +2657,12 @@ void incrementation_echeance ( struct operation_echeance *echeance )
 		label = gtk_label_new ( g_strdup_printf (PRESPACIFY(_("%4.2f %s credit on %s")),
 							 echeance ->montant,
 							 devise_code_by_no ( echeance -> devise ),
-							 NOM_DU_COMPTE ));
+							 gsb_account_get_name (echeance ->compte) ));
 	    else
 		label = gtk_label_new ( g_strdup_printf (PRESPACIFY(_("%4.2f %s debit on %s")),
 							 -echeance ->montant,
 							 devise_code_by_no ( echeance -> devise ),
-							 NOM_DU_COMPTE ));
+							 gsb_account_get_name (echeance ->compte) ));
 
 
 	    gtk_misc_set_alignment ( GTK_MISC ( label ),
@@ -2873,7 +2874,7 @@ void completion_operation_par_tiers_echeancier ( void )
 
 	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ),
 				g_strconcat ( COLON(_("Transfer")),
-					      NOM_DU_COMPTE,
+					      gsb_account_get_name (operation -> relation_no_compte),
 					      NULL ));
     }
     else

@@ -41,6 +41,7 @@
 #include "utils_devises.h"
 #include "dialog.h"
 #include "equilibrage.h"
+#include "data_account.h"
 #include "gtk_combofix.h"
 #include "utils_ib.h"
 #include "utils_str.h"
@@ -759,7 +760,7 @@ gboolean entree_ventilation_perd_focus ( GtkWidget *entree, GdkEventFocus *ev,
 
 			    for ( i = 0 ; i < nb_comptes ; i++ )
 			    {
-				if ( !g_strcasecmp ( NOM_DU_COMPTE,
+				if ( !g_strcasecmp ( gsb_account_get_name (i),
 						     tableau_char[1] ) )
 				    compte_virement = i;
 				p_tab_nom_de_compte_variable++;
@@ -1407,7 +1408,7 @@ void fin_edition_ventilation ( void )
 		    {
 			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
-			if ( !strcmp ( NOM_DU_COMPTE,
+			if ( !strcmp ( gsb_account_get_name (i),
 				       tableau_char[1] ) )
 			{
 			    if ( COMPTE_CLOTURE )
@@ -1882,7 +1883,7 @@ void edition_operation_ventilation ( void )
 
 	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CATEGORY] ),
 				g_strconcat ( COLON(_("Transfer")),
-					      NOM_DU_COMPTE,
+					      gsb_account_get_name (operation -> relation_no_compte),
 					      NULL ));
 
 	/*       si la contre opération est relevée, on désensitive les montants et les categ */
@@ -2214,7 +2215,7 @@ void ajoute_ope_sur_liste_ventilation ( struct struct_ope_ventil *operation )
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
 	ligne [0] = g_strconcat ( COLON(_("Transfer")),
-				  NOM_DU_COMPTE,
+				  gsb_account_get_name (operation -> relation_no_compte),
 				  NULL );
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
     }

@@ -2710,7 +2710,7 @@ void remplissage_liste_comptes_etats ( void )
 	gint ligne;
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( pUserAccountsList -> data );
-	nom[0] = NOM_DU_COMPTE;
+	nom[0] = gsb_account_get_name (GPOINTER_TO_INT ( pUserAccountsList -> data ));
 
 	ligne = gtk_clist_append ( GTK_CLIST ( liste_comptes_etat ),
 				   nom );
@@ -3010,7 +3010,7 @@ void remplissage_liste_comptes_virements ( void )
 	gint ligne;
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( pUserAccountsList -> data );
-	nom[0] = NOM_DU_COMPTE;
+	nom[0] = gsb_account_get_name (GPOINTER_TO_INT ( pUserAccountsList -> data ));
 
 	ligne = gtk_clist_append ( GTK_CLIST ( liste_comptes_virements ),
 				   nom );

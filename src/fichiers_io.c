@@ -929,7 +929,8 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Nom" ))
-				NOM_DU_COMPTE = xmlNodeGetContent ( node_detail );
+				gsb_account_set_name ( no_compte,
+						       xmlNodeGetContent ( node_detail ) );
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Id_compte" ))
@@ -1156,8 +1157,9 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 		/* dans certains cas d'import qif, le nom du compte peut être nul */
 		/* dans ce cas le met à "" */
 
-		if ( !NOM_DU_COMPTE )
-		    NOM_DU_COMPTE = g_strdup ( "" );
+		if ( !gsb_account_get_name (no_compte) )
+		    gsb_account_set_name ( no_compte,
+					    g_strdup ( "" ));
 
 		/* on recupère ici le detail des types */
 
@@ -3232,7 +3234,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Nom",
-			  NOM_DU_COMPTE );
+			  gsb_account_get_name (i) );
 
 	xmlNewTextChild ( node_compte,
 			  NULL,

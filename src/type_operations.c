@@ -35,6 +35,7 @@
 #include "dialog.h"
 #include "operations_formulaire.h"
 #include "utils_editables.h"
+#include "data_account.h"
 #include "utils_str.h"
 #include "traitement_variables.h"
 #include "utils.h"
@@ -175,7 +176,7 @@ void fill_payment_method_tree ()
 
 	gtk_tree_store_append (model, &account_iter, NULL);
 	gtk_tree_store_set (model, &account_iter,
-			    PAYMENT_METHODS_NAME_COLUMN, NOM_DU_COMPTE,
+			    PAYMENT_METHODS_NAME_COLUMN, gsb_account_get_name (GPOINTER_TO_INT ( pUserAccountsList -> data )),
 			    PAYMENT_METHODS_NUMBERING_COLUMN, "",
 			    /* This is a hack: account number is put in 
 			       Debit/Credit nodes */
