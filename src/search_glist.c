@@ -36,8 +36,8 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gint recherche_devise_par_code ( struct struct_devise *devise,
-				gchar *code );
+/* static gint recherche_devise_par_code ( struct struct_devise *devise, */
+/* 				gchar *code ); */
 /*END_STATIC*/
 
 
@@ -395,3 +395,7 @@ gint cherche_string_equivalente_dans_slist ( gchar *string_list,
 }
 /* ************************************************************************************************************** */
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
