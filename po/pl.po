@@ -1,0 +1,7317 @@
+# translation of pl.po to 
+# translation of pl.po to
+# translation of pl.po to
+# translation of pl.po to
+# translation of pl.po to
+# translation of pl.po to
+# translation of pl.po to
+# translation of pl.po to
+# translation of pl.po to
+# translation of pl.po to
+# translation of pl.po to
+# translation of pl.po to
+# translation of pl.po to
+# translation of pl.po to
+# translation of pl.po to Polish
+# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
+# Ryszard Jeziorski <rysik@dart.kielce.pl>, 2005.
+# Ryszard Jeziorski <rysik@dart.kielce.pl>, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pl\n"
+"Report-Msgid-Bugs-To:\n"
+"POT-Creation-Date: 2005-01-31 10:04+0100\n"
+"PO-Revision-Date: 2005-02-24 08:16+0100\n"
+"Last-Translator: Ryszard Jeziorski <rysik@dart.kielce.pl>\n"
+"Language-Team:  <pl@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.9.1\n"
+
+#: src/accueil.c:120
+msgid "No user"
+msgstr "Brak użytkownika"
+
+#: src/accueil.c:123
+msgid "User"
+msgstr "Użytkownik"
+
+#: src/accueil.c:197
+msgid "Closed liabilities accounts"
+msgstr "Zamknięte konta pasywów"
+
+#: src/accueil.c:207
+msgid "Manual scheduled transactions at maturity date"
+msgstr ""
+
+#: src/accueil.c:218
+msgid "Automatic scheduled transactions entered"
+msgstr "Wprowadzone automatyczne zaplanowane transakcję"
+
+#: src/accueil.c:229
+msgid "Closed scheduled transactions"
+msgstr "Zamknięte zaplanowane transakcje"
+
+#: src/accueil.c:240
+msgid "Accounts under authorized balance"
+msgstr "Konta poniżej stanu nominalnego"
+
+#: src/accueil.c:251
+msgid "Accounts under wanted balance"
+msgstr "Konta poniżej stanu wymaganego"
+
+#. crÃ©e la boite de dialogue
+#: src/accueil.c:315
+msgid "Enter a scheduled transaction"
+msgstr "Podaj zaplanowaną transakcję"
+
+#: src/accueil.c:364
+#: src/echeancier_onglet.c:168
+#: src/operations_onglet.c:127
+msgid "Form"
+msgstr "Formularz"
+
+#: src/accueil.c:518
+#, c-format
+msgid "Account balances in %s"
+msgstr "Stan kont w %s"
+
+#. CrÃ©ation et remplissage de la premiÃ¨re ligne du tableau
+#: src/accueil.c:524
+#: src/accueil.c:846
+#: src/accueil.c:1167
+#: src/operations_liste.c:150
+msgid "Reconciled balance"
+msgstr "Salda potwierdzone"
+
+#: src/accueil.c:528
+#: src/accueil.c:850
+#: src/accueil.c:1171
+msgid "Current balance"
+msgstr "Dostępne środki"
+
+#. CrÃ©ation et remplissage de la (nb_comptes + 3)iÃ¨me ligne du tableau :
+#. elle contient la somme des soldes de chaque compte
+#. DeuxiÃ¨me colonne
+#: src/accueil.c:766
+#: src/accueil.c:1087
+#: src/accueil.c:1408
+msgid "Global balances"
+msgstr "Razem"
+
+#: src/accueil.c:840
+#, c-format
+msgid "Liabilities accounts balances in %s"
+msgstr "Stan kont pasywów w %s"
+
+#: src/accueil.c:1161
+#, c-format
+msgid "Assets accounts balances in %s"
+msgstr "Stan kont kont inwestycyjnych w %s "
+
+#: src/accueil.c:1581
+#: src/accueil.c:1693
+msgid "No third party defined"
+msgstr "Brak zdefiniowanych beneficjentów"
+
+#: src/accueil.c:1593
+#: src/accueil.c:1707
+#: src/echeancier_formulaire.c:2713
+#: src/echeancier_formulaire.c:2757
+#, c-format
+msgid "%4.2f %s credit on %s"
+msgstr "%4.2f %s kredyt na %s"
+
+#: src/accueil.c:1598
+#: src/accueil.c:1712
+#: src/echeancier_formulaire.c:2718
+#: src/echeancier_formulaire.c:2762
+#, c-format
+msgid "%4.2f %s debit on %s"
+msgstr "%4.2f %s debet na %s"
+
+#: src/accueil.c:1794
+#: src/accueil.c:1829
+#, c-format
+msgid "Balance of account %s is under wanted and authorised minima!"
+msgstr "Stan konta %s jest poniżej stanu wymaganego i nominalnego!"
+
+#: src/accueil.c:1800
+#, c-format
+msgid "Balance of account %s is under authorised minimum!"
+msgstr "Stan konta %s jest poniżej stanu nominalnego!"
+
+#: src/accueil.c:1835
+#, c-format
+msgid "Balance of account %s is under wanted minimum!"
+msgstr "Stan konta %s jest poniżej stanu wymaganego!"
+
+#: src/affichage.c:131
+#: src/parametres.c:236
+msgid "Transaction form"
+msgstr "Formularz transakcji"
+
+#: src/affichage.c:136
+msgid "Pressing RETURN in transaction form"
+msgstr "Wciśnięcie ENTER w formularzy transakcji powoduje"
+
+#: src/affichage.c:137
+msgid "selects next field"
+msgstr "wybranie następnego pola"
+
+#: src/affichage.c:138
+msgid "terminates transaction"
+msgstr "zakończenie transakcji"
+
+#: src/affichage.c:143
+msgid "Displayed fields"
+msgstr "Wyświetlane pola"
+
+#: src/affichage.c:152
+#: src/affichage_liste.c:51
+#: src/affichage_liste.c:912
+#: src/affichage_liste.c:1097
+msgid "Transaction number"
+msgstr "Numer transakcji"
+
+#: src/affichage.c:161
+#: src/affichage_liste.c:36
+#: src/affichage_liste.c:732
+#: src/affichage_liste.c:1037
+#: src/csv.c:238
+#: src/operations_formulaire.c:972
+#: src/operations_formulaire.c:3326
+msgid "Value date"
+msgstr "Data"
+
+#: src/affichage.c:170
+#: src/affichage_liste.c:45
+#: src/affichage_liste.c:840
+#: src/affichage_liste.c:1073
+#: src/csv.c:242
+#: src/etats_affiche.c:2189
+msgid "Financial year"
+msgstr "Rok finansowy"
+
+#: src/affichage.c:179
+#: src/affichage_liste.c:756
+msgid "Budgetary information"
+msgstr "Informacja budżetowa"
+
+#: src/affichage.c:188
+msgid "Voucher number"
+msgstr "Numer rachunku"
+
+#: src/affichage.c:197
+msgid "Bank reference"
+msgstr "Bank"
+
+#: src/affichage.c:206
+msgid "'Accept' and 'Cancel' buttons"
+msgstr "Przyciski Akceptuj i Anuluj"
+
+#: src/affichage.c:216
+msgid "By default, use financial year"
+msgstr "Jako domyślnego użyj roku finansowego "
+
+#: src/affichage.c:217
+msgid "last selected financial year"
+msgstr "ostatnio wybranego roku finansowy"
+
+#: src/affichage.c:218
+msgid "according to transaction date"
+msgstr "roku zgodnego z datą transakcji"
+
+#: src/affichage.c:248
+#: src/parametres.c:212
+msgid "Fonts & logo"
+msgstr "Czcionki i logo"
+
+#: src/affichage.c:254
+msgid "Grisbi logo"
+msgstr "Logo Grisbi"
+
+#: src/affichage.c:260
+msgid "Use the logo"
+msgstr "Użyj logo"
+
+#: src/affichage.c:321
+msgid "Click on preview to change homepage logo"
+msgstr "Kliknij na podgląd aby zmienić logo strony głównej"
+
+#: src/affichage.c:377
+msgid "Click on preview to change animation"
+msgstr "Kliknij na podgląd aby zmienić animację"
+
+#: src/affichage.c:384
+msgid "Fonts"
+msgstr "Czcionki"
+
+#: src/affichage.c:394
+msgid "Use a custom font for the transactions"
+msgstr "Użyj domyślnej czcionki w transakcjach"
+
+#: src/affichage.c:475
+msgid "Revert to default font"
+msgstr "Przywróć domyślną czcionkę"
+
+#: src/affichage.c:603
+#: src/parametres.c:228
+msgid "Addresses & titles"
+msgstr "Adresy i nazwy"
+
+#: src/affichage.c:608
+#: src/etats_config.c:6166
+msgid "Titles"
+msgstr "Nazwy"
+
+#: src/affichage.c:613
+msgid "Accounts file title"
+msgstr "Nazwa pliku kont"
+
+#: src/affichage.c:624
+msgid "Addresses"
+msgstr "Adresy"
+
+#. Common address
+#: src/affichage.c:627
+msgid "Common address"
+msgstr "Podstawowe adresy"
+
+#. Secondary address
+#. * \note This is not implemented yet
+#: src/affichage.c:646
+msgid "Secondary address"
+msgstr "Dodatkowe adresy"
+
+#: src/affichage.c:760
+msgid "Sans 10"
+msgstr "Sans 10"
+
+#: src/affichage.c:811
+msgid "Transaction list font"
+msgstr "Czcionka listy transakcji"
+
+#: src/affichage.c:997
+msgid "Select a new animation"
+msgstr "Wybierz nową animację"
+
+#: src/affichage.c:1005
+msgid "Select a new logo"
+msgstr "Wybierz nowe logo"
+
+#. on met les titres des colonnes
+#: src/affichage_liste.c:35
+#: src/affichage_liste.c:720
+#: src/affichage_liste.c:1033
+#: src/csv.c:237
+#: src/echeancier_formulaire.c:905
+#: src/echeancier_formulaire.c:2530
+#: src/echeancier_liste.c:398
+#: src/equilibrage.c:194
+#: src/etats_affiche.c:2182
+#: src/import.c:352
+#: src/import.c:2658
+#: src/operations_formulaire.c:779
+#: src/operations_formulaire.c:1400
+#: src/operations_formulaire.c:1450
+#: src/operations_formulaire.c:1499
+#: src/operations_formulaire.c:1538
+#: src/operations_formulaire.c:3316
+msgid "Date"
+msgstr "Data"
+
+#. mise en place de la frame des tiers
+#: src/affichage_liste.c:37
+#: src/affichage_liste.c:1041
+#: src/csv.c:245
+#: src/echeancier_formulaire.c:914
+#: src/echeancier_formulaire.c:2532
+#: src/echeancier_liste.c:400
+#: src/etats_affiche.c:2196
+#: src/etats_config.c:139
+#: src/etats_config.c:270
+#: src/etats_config.c:7179
+#: src/fenetre_principale.c:96
+#: src/import.c:2665
+#: src/operations_formulaire.c:789
+#: src/operations_formulaire.c:3319
+msgid "Third party"
+msgstr "Beneficjenci"
+
+#: src/affichage_liste.c:38
+#: src/echeancier_formulaire.c:1067
+#: src/echeancier_formulaire.c:2542
+#: src/echeancier_ventilation.c:967
+#: src/echeancier_ventilation.c:1495
+#: src/etats_affiche.c:2210
+#: src/etats_config.c:262
+#: src/operations_formulaire.c:1116
+#: src/operations_formulaire.c:3333
+#: src/ventilation.c:968
+#: src/ventilation.c:1493
+msgid "Budgetary line"
+msgstr "Linia budżetowa"
+
+#. Debit type
+#: src/affichage_liste.c:39
+#: src/affichage_liste.c:768
+#: src/affichage_liste.c:1049
+#: src/categories_onglet.c:288
+#: src/csv.c:247
+#: src/echeancier_formulaire.c:975
+#: src/echeancier_formulaire.c:2534
+#: src/echeancier_ventilation.c:913
+#: src/echeancier_ventilation.c:932
+#: src/echeancier_ventilation.c:1491
+#: src/imputation_budgetaire.c:165
+#: src/operations_formulaire.c:880
+#: src/operations_formulaire.c:3321
+#: src/type_operations.c:156
+#: src/type_operations.c:433
+#: src/type_operations.c:859
+#: src/ventilation.c:914
+#: src/ventilation.c:933
+#: src/ventilation.c:1489
+msgid "Debit"
+msgstr "Wydatki"
+
+#. Credit type
+#: src/affichage_liste.c:40
+#: src/affichage_liste.c:780
+#: src/affichage_liste.c:1053
+#: src/categories_onglet.c:304
+#: src/csv.c:246
+#: src/echeancier_formulaire.c:1037
+#: src/echeancier_formulaire.c:1279
+#: src/echeancier_formulaire.c:2536
+#: src/echeancier_ventilation.c:885
+#: src/echeancier_ventilation.c:960
+#: src/echeancier_ventilation.c:1493
+#: src/imputation_budgetaire.c:181
+#: src/operations_formulaire.c:965
+#: src/operations_formulaire.c:1320
+#: src/operations_formulaire.c:3323
+#: src/type_operations.c:170
+#: src/type_operations.c:440
+#: src/type_operations.c:855
+#: src/ventilation.c:886
+#: src/ventilation.c:961
+#: src/ventilation.c:1491
+msgid "Credit"
+msgstr "Wpływy"
+
+#: src/affichage_liste.c:41
+#: src/affichage_liste.c:792
+#: src/affichage_liste.c:1057
+#: src/csv.c:249
+#: src/equilibrage.c:202
+msgid "Balance"
+msgstr "Saldo"
+
+#: src/affichage_liste.c:42
+#: src/affichage_liste.c:804
+#: src/affichage_liste.c:1061
+#: src/csv.c:248
+#: src/echeancier_liste.c:404
+#: src/echeancier_ventilation.c:83
+#: src/echeancier_ventilation.c:293
+#: src/import.c:2673
+#: src/ventilation.c:86
+#: src/ventilation.c:296
+msgid "Amount"
+msgstr "Kwota"
+
+#: src/affichage_liste.c:43
+#: src/affichage_liste.c:1065
+msgid "Method of payment"
+msgstr "Metoda płatności"
+
+#: src/affichage_liste.c:44
+#: src/affichage_liste.c:828
+#: src/affichage_liste.c:1069
+msgid "Reconciliation ref."
+msgstr "Potwierdzenie salda"
+
+#: src/affichage_liste.c:46
+#: src/affichage_liste.c:1077
+#: src/csv.c:250
+#: src/echeancier_ventilation.c:81
+#: src/etats_affiche.c:2203
+#: src/etats_config.c:258
+#: src/ventilation.c:84
+msgid "Category"
+msgstr "Kategoria"
+
+#: src/affichage_liste.c:47
+#: src/affichage_liste.c:864
+#: src/affichage_liste.c:1081
+#: src/csv.c:244
+msgid "C/R"
+msgstr "C/R"
+
+#: src/affichage_liste.c:48
+#: src/affichage_liste.c:876
+#: src/affichage_liste.c:1085
+#: src/csv.c:255
+#: src/echeancier_formulaire.c:1075
+#: src/echeancier_formulaire.c:2544
+#: src/echeancier_ventilation.c:974
+#: src/echeancier_ventilation.c:1497
+#: src/etats_affiche.c:2238
+#: src/operations_formulaire.c:1122
+#: src/operations_formulaire.c:3335
+#: src/ventilation.c:975
+#: src/ventilation.c:1495
+msgid "Voucher"
+msgstr "Rachunek"
+
+#. Notes
+#: src/affichage_liste.c:49
+#: src/affichage_liste.c:888
+#: src/affichage_liste.c:1089
+#: src/banque.c:709
+#: src/csv.c:252
+#: src/echeancier_formulaire.c:1081
+#: src/echeancier_formulaire.c:2546
+#: src/echeancier_liste.c:403
+#: src/echeancier_ventilation.c:82
+#: src/echeancier_ventilation.c:864
+#: src/echeancier_ventilation.c:1489
+#: src/etats_affiche.c:2217
+#: src/operations_formulaire.c:1129
+#: src/operations_formulaire.c:3338
+#: src/ventilation.c:85
+#: src/ventilation.c:865
+#: src/ventilation.c:1487
+msgid "Notes"
+msgstr "Opis"
+
+#: src/affichage_liste.c:50
+#: src/affichage_liste.c:900
+#: src/affichage_liste.c:1093
+#: src/csv.c:257
+#: src/etats_affiche.c:2245
+#: src/operations_formulaire.c:1135
+#: src/operations_formulaire.c:3340
+msgid "Bank references"
+msgstr "Bank"
+
+#: src/affichage_liste.c:66
+msgid "Col1"
+msgstr "Kol1"
+
+#: src/affichage_liste.c:66
+msgid "Col2"
+msgstr "Kol2"
+
+#: src/affichage_liste.c:66
+msgid "Col3"
+msgstr "Kol3"
+
+#: src/affichage_liste.c:66
+msgid "Col4"
+msgstr "Kol4"
+
+#: src/affichage_liste.c:67
+msgid "Col5"
+msgstr "Kol5"
+
+#: src/affichage_liste.c:67
+msgid "Col6"
+msgstr "Kol6"
+
+#: src/affichage_liste.c:67
+msgid "Col7"
+msgstr "Kol7"
+
+#. Ã  la base, on met une vbox
+#: src/affichage_liste.c:75
+#: src/parametres.c:244
+msgid "Transactions list cells"
+msgstr "Lista transakcji"
+
+#: src/affichage_liste.c:79
+msgid "Transactions list preview"
+msgstr "Podgląd listy transakcji"
+
+#: src/affichage_liste.c:100
+msgid "Transactions list contents"
+msgstr "Zawartość listy transakcji"
+
+#. on permet maintenant de choisir soi mÃªme la taille des colonnes
+#: src/affichage_liste.c:126
+msgid "Adjust column size according to this table"
+msgstr "Dopasuj szerokość kolumn do szerokości tabeli"
+
+#: src/affichage_liste.c:139
+msgid "Remember display settings for each account separately"
+msgstr "Pamiętaj ustawienia wyświetlania oddzielnie dla każdego konta"
+
+#: src/affichage_liste.c:145
+msgid "Revert to defaults"
+msgstr "Przywróć ustawienia domyślne"
+
+#: src/affichage_liste.c:295
+msgid "Transactions list"
+msgstr "Lista transakcji"
+
+#: src/affichage_liste.c:302
+msgid "Display modes"
+msgstr "Tryby wyświetlania"
+
+#: src/affichage_liste.c:309
+msgid "One line mode"
+msgstr "Tryb jednowierszowy"
+
+#. pour 2 lignes
+#: src/affichage_liste.c:322
+msgid "Two lines mode"
+msgstr "Tryb dwuwierszowy"
+
+#. pour 3 lignes
+#: src/affichage_liste.c:342
+msgid "Three lines mode"
+msgstr "Tryb trójwierszowy"
+
+#: src/affichage_liste.c:420
+msgid "Sort transaction list"
+msgstr "Sortuj listę transakcji"
+
+#: src/affichage_liste.c:421
+msgid "by value date"
+msgstr ""
+
+#: src/affichage_liste.c:422
+msgid "by date"
+msgstr "według daty"
+
+#. on permet de regrouper les opÃ©rations pointÃ©es
+#: src/affichage_liste.c:427
+msgid "Bring together marked transactions"
+msgstr ""
+
+#: src/affichage_liste.c:459
+msgid "first line"
+msgstr "pierwszy wiersz"
+
+#: src/affichage_liste.c:467
+msgid "second line"
+msgstr "drugi wiersz"
+
+#: src/affichage_liste.c:475
+msgid "third line"
+msgstr "trzeci wiersz"
+
+#: src/affichage_liste.c:483
+msgid "fourth line"
+msgstr "czwarty wiersz"
+
+#: src/affichage_liste.c:744
+msgid "Payer/payee"
+msgstr "Odbiorca/płatność"
+
+#: src/affichage_liste.c:816
+#: src/equilibrage.c:1653
+msgid "Payment method"
+msgstr "Sposób płatności"
+
+#. mise en place de la frame des catÃ©gories
+#: src/affichage_liste.c:852
+#: src/etats_config.c:143
+#: src/etats_config.c:7239
+#: src/fenetre_principale.c:103
+msgid "Categories"
+msgstr "Kategorie"
+
+#: src/affichage_liste.c:924
+#: src/affichage_liste.c:1101
+#: src/operations_formulaire.c:1110
+#: src/operations_formulaire.c:3330
+msgid "Cheque/Transfer number"
+msgstr "Numer czeku/przelewu"
+
+#. mise en place de la frame des ib
+#: src/affichage_liste.c:1045
+#: src/csv.c:253
+#: src/etats_config.c:147
+#: src/etats_config.c:7333
+#: src/fenetre_principale.c:110
+msgid "Budgetary lines"
+msgstr "Linie budżetowe"
+
+#: src/banque.c:122
+#: src/comptes_traitements.c:135
+#: src/comptes_traitements.c:145
+#: src/operations_formulaire.c:2201
+#: src/operations_liste.c:2872
+#: src/operations_liste.c:2939
+#: src/operations_liste.c:3211
+#: src/operations_liste.c:3304
+msgid "Cannot allocate memory, bad things will happen soon"
+msgstr "Nie można przydzielić pamięci, zaraz przydarzy się coś niedobrego"
+
+#: src/banque.c:126
+#: src/comptes_gestion.c:330
+msgid "New bank"
+msgstr "Nowy bank"
+
+#: src/banque.c:199
+#: src/banque.c:203
+msgid "Confirmation of bank removal"
+msgstr "Potwierdzenie usunięcia banku"
+
+#: src/banque.c:200
+#, c-format
+msgid ""
+"Bank \"%s\" is used by one or several accounts.\n"
+"Do you really want to remove it?"
+msgstr ""
+"Bank \"%s\" jest używany przez jedno lub wiele kont.\n"
+"Czy na pewno chcesz go usunąć?"
+
+#: src/banque.c:204
+#, c-format
+msgid "Are you sure you want to remove bank \"%s\"?\n"
+msgstr "Czy jesteś pewien, że chcesz usunąć bank \"%s\"?\n"
+
+#. le premier nom est Aucune
+#. le premier nom est Aucun
+#. on lui associe 0
+#: src/banque.c:278
+#: src/echeancier_formulaire.c:1486
+#: src/equilibrage.c:573
+#: src/exercice.c:562
+msgid "None"
+msgstr "Brak"
+
+#. ligne de l'Ã©tablissement financier
+#: src/banque.c:345
+#: src/comptes_gestion.c:279
+msgid "Bank"
+msgstr "Bank"
+
+#: src/banque.c:346
+msgid "Contact name"
+msgstr "Nazwisko osoby kontaktowej"
+
+#: src/banque.c:348
+#: src/parametres.c:294
+msgid "Banks"
+msgstr "Banki"
+
+#: src/banque.c:352
+msgid "Known banks"
+msgstr "Znane banki"
+
+#: src/banque.c:532
+msgid "Bank details"
+msgstr "Szczegóły banku"
+
+#. Bank name item
+#. Name
+#. Create currency name entry
+#. Financial year name
+#: src/banque.c:543
+#: src/banque.c:649
+#: src/devises.c:1500
+#: src/exercice.c:123
+#: src/exercice.c:234
+#: src/import.c:362
+#: src/type_operations.c:376
+msgid "Name"
+msgstr "Nazwa"
+
+#. Bank Sort code item
+#: src/banque.c:558
+msgid "Sort code"
+msgstr "Kod banku"
+
+#. Bank address
+#: src/banque.c:573
+#: src/comptes_gestion.c:233
+msgid "Address"
+msgstr "Adres"
+
+#. Phone number
+#: src/banque.c:596
+#: src/banque.c:664
+msgid "Phone"
+msgstr "Telefon"
+
+#. E-mail
+#. E-Mail
+#: src/banque.c:611
+#: src/banque.c:694
+msgid "E-Mail"
+msgstr "E-Mail"
+
+#. Website
+#: src/banque.c:626
+#: src/help.c:71
+msgid "Website"
+msgstr "Strona www"
+
+#. Contact
+#: src/banque.c:641
+msgid "Contact"
+msgstr "Kontakt"
+
+#. Fax
+#: src/banque.c:679
+msgid "Fax"
+msgstr "Fax"
+
+#: src/banque.c:769
+msgid "Edit bank"
+msgstr "Edycja banku"
+
+#: src/barre_outils.c:86
+#: src/barre_outils.c:87
+msgid "Display/Hide form"
+msgstr "Pokaż/ukryj formularz"
+
+#: src/barre_outils.c:146
+#: src/barre_outils.c:147
+msgid "Four lines per transaction"
+msgstr "Pokaż transakcje w czterech liniach"
+
+#: src/barre_outils.c:175
+#: src/barre_outils.c:176
+msgid "Three lines per transaction"
+msgstr "Transakcja w trzech wierszach"
+
+#: src/barre_outils.c:203
+#: src/barre_outils.c:204
+msgid "Two lines per transaction"
+msgstr "Transakcja w dwóch wierszach"
+
+#: src/barre_outils.c:232
+#: src/barre_outils.c:233
+msgid "One line per transaction"
+msgstr "Transakcja w jednym wierszu"
+
+#: src/barre_outils.c:268
+#: src/barre_outils.c:269
+msgid "Display reconciled transactions"
+msgstr "Wyświetl potwierdzone transakcje"
+
+#: src/barre_outils.c:295
+#: src/barre_outils.c:296
+msgid "Mask reconciled transactions"
+msgstr "Ukryj potwierdzone transakcje"
+
+#: src/barre_outils.c:325
+msgid "Account transactions"
+msgstr "Transakcje na koncie"
+
+#: src/barre_outils.c:749
+#: src/barre_outils.c:750
+msgid "Display/hide form"
+msgstr "Pokaż/ukryj formularz"
+
+#: src/barre_outils.c:812
+#: src/barre_outils.c:813
+msgid "Display/hide comments"
+msgstr "Pokaż/ukryj komentarze"
+
+#: src/barre_outils.c:865
+#: src/barre_outils.c:866
+#: src/barre_outils.c:990
+#: src/barre_outils.c:991
+#: src/barre_outils.c:1145
+#: src/barre_outils.c:1146
+msgid "Close tree"
+msgstr "Zamknij gałąź"
+
+#: src/barre_outils.c:894
+#: src/barre_outils.c:895
+#: src/barre_outils.c:1048
+#: src/barre_outils.c:1049
+#: src/barre_outils.c:1203
+#: src/barre_outils.c:1204
+msgid "Display accounts"
+msgstr "Pokaż konta"
+
+#. afficher ou non les opÃ©s
+#: src/barre_outils.c:923
+#: src/barre_outils.c:924
+#: src/barre_outils.c:1077
+#: src/barre_outils.c:1078
+#: src/barre_outils.c:1232
+#: src/barre_outils.c:1233
+#: src/etats_config.c:6313
+msgid "Display transactions"
+msgstr "Pokaż transakcje"
+
+#: src/barre_outils.c:1019
+#: src/barre_outils.c:1020
+#: src/barre_outils.c:1174
+#: src/barre_outils.c:1175
+msgid "Display sub-divisions"
+msgstr "Otwórz gałąź"
+
+#. ajoute le bouton annuler
+#. Add the "cancel" button
+#: src/calendar.c:111
+#: src/utils.c:1508
+msgid "Cancel"
+msgstr "Anuluj"
+
+#: src/categories_onglet.c:48
+msgid "Food : Bar"
+msgstr "Żywność : Bar"
+
+#: src/categories_onglet.c:49
+msgid "Food : Baker"
+msgstr "Żywność : Pieczywo"
+
+#: src/categories_onglet.c:50
+msgid "Food : Canteen"
+msgstr "Żywność : Stołówka"
+
+#: src/categories_onglet.c:51
+msgid "Food : Sweets"
+msgstr "Żywność : Słodycze"
+
+#: src/categories_onglet.c:52
+msgid "Food : Misc"
+msgstr "Żywność : Inne"
+
+#: src/categories_onglet.c:53
+msgid "Food : Grocery"
+msgstr "Żywność : Artykuły spożywcze"
+
+#: src/categories_onglet.c:54
+msgid "Food : Restaurant"
+msgstr "Żywność : Restauracja"
+
+#: src/categories_onglet.c:55
+msgid "Food : Self-service"
+msgstr "Żywność : Posiłki domowe"
+
+#: src/categories_onglet.c:56
+msgid "Food : Supermarket"
+msgstr "Żywność : Supermarket"
+
+#: src/categories_onglet.c:57
+msgid "Pets : Food"
+msgstr "Zwierzęta domowe : Żywność"
+
+#: src/categories_onglet.c:58
+msgid "Pets : Various supplies"
+msgstr "Zwierzęta domowe : Inne"
+
+#: src/categories_onglet.c:59
+msgid "Pets : Grooming"
+msgstr "Zwierzęta domowe : Opieka"
+
+#: src/categories_onglet.c:60
+msgid "Pets : Veterinary surgeon"
+msgstr "Zwierzęta domowe : Weterynarz"
+
+#: src/categories_onglet.c:61
+msgid "Insurance : Car"
+msgstr "Ubezpieczenie : Samochód"
+
+#: src/categories_onglet.c:62
+msgid "Insurance : Health"
+msgstr "Ubezpieczenie : Zdrowie"
+
+#: src/categories_onglet.c:63
+msgid "Insurance : House"
+msgstr "Ubezpieczenie : Dom"
+
+#: src/categories_onglet.c:64
+msgid "Insurance : Civil liability"
+msgstr "Ubezpieczenie : Odpowiedzialność cywilna"
+
+#: src/categories_onglet.c:65
+msgid "Insurance : Life"
+msgstr "Ubezpieczenie : Życie"
+
+#: src/categories_onglet.c:66
+msgid "Car : Fuel"
+msgstr "Samochód : Paliwo"
+
+#: src/categories_onglet.c:67
+msgid "Car : Repairs"
+msgstr "Samochód : Naprawy"
+
+#: src/categories_onglet.c:68
+msgid "Car : Maintenance"
+msgstr "Samochód : Utrzymanie"
+
+#: src/categories_onglet.c:69
+msgid "Car : Parking"
+msgstr "Samochód : Parking"
+
+#: src/categories_onglet.c:70
+msgid "Car : Fines"
+msgstr "Samochód : Mandaty"
+
+#: src/categories_onglet.c:71
+#: src/etats_config.c:163
+msgid "Misc."
+msgstr "Różne"
+
+#: src/categories_onglet.c:72
+msgid "Gifts"
+msgstr "Prezenty"
+
+#: src/categories_onglet.c:73
+msgid "Children : Nurse"
+msgstr "Dzieci : Pielegniarka"
+
+#: src/categories_onglet.c:74
+msgid "Children : Misc."
+msgstr "Dzieci : Inne"
+
+#: src/categories_onglet.c:75
+msgid "Children : Studies"
+msgstr "Dzieci : Studia"
+
+#: src/categories_onglet.c:76
+msgid "Studies : Lessons"
+msgstr "Edukacja : Lekcje"
+
+#: src/categories_onglet.c:77
+msgid "Studies : School fees"
+msgstr "edukacja : Opłaty szkolne"
+
+#: src/categories_onglet.c:78
+msgid "Studies : Books"
+msgstr "Edukacja : Książki"
+
+#: src/categories_onglet.c:79
+msgid "Miscellaneous : Gifts"
+msgstr "Różne : Prezenty"
+
+#: src/categories_onglet.c:80
+msgid "Financial expenses : Miscellaneous"
+msgstr "Koszty finansowe : Inne"
+
+#: src/categories_onglet.c:81
+msgid "Financial expenses : Bank charges"
+msgstr "Koszty finansowe : Opłaty bankowe"
+
+#: src/categories_onglet.c:82
+msgid "Financial expenses : Loan/Mortgage"
+msgstr "Koszty finansowe : Pożyczki"
+
+#: src/categories_onglet.c:83
+msgid "Financial expenses : Charges"
+msgstr "Koszty finansowe : Opłaty"
+
+#: src/categories_onglet.c:84
+msgid "Financial expenses : Refunding"
+msgstr "Koszty finansowe : Refundacje"
+
+#: src/categories_onglet.c:85
+msgid "Professional expenses : Non refundable"
+msgstr "Wydatki na cele zawodowe : Nierefundowalne"
+
+#: src/categories_onglet.c:86
+msgid "Professional expenses : Refundable"
+msgstr "Wydatki na cele zawodowe : Refundowalne"
+
+#: src/categories_onglet.c:87
+msgid "Taxes : Miscellaneous"
+msgstr "Podatki : Inne"
+
+#: src/categories_onglet.c:88
+msgid "Taxes : Income"
+msgstr "Podatki : Podatek dochodowy"
+
+#: src/categories_onglet.c:89
+msgid "Taxes : Land"
+msgstr "Podatki : Podatek gruntowy"
+
+#: src/categories_onglet.c:90
+msgid "Housing : Hotel"
+msgstr "Wydatki mieszkaniowe : Hotel"
+
+#: src/categories_onglet.c:91
+msgid "Housing : Rent"
+msgstr "Wydatki mieszkaniowe : Wynajem"
+
+#: src/categories_onglet.c:92
+msgid "Housing : TV"
+msgstr "Wydatki mieszkaniowe : Telewizja"
+
+#: src/categories_onglet.c:93
+msgid "Housing : Furnitures"
+msgstr "Wydatki mieszkaniowe : Meble"
+
+#: src/categories_onglet.c:94
+msgid "Housing : Charges"
+msgstr "Wydatki mieszkaniowe : Opłaty"
+
+#: src/categories_onglet.c:95
+msgid "Housing : Heating"
+msgstr "Wydatki mieszkaniowe : Ogrzewanie"
+
+#: src/categories_onglet.c:96
+msgid "Housing : Decoration"
+msgstr "Wydatki mieszkaniowe : Wnętrza"
+
+#: src/categories_onglet.c:97
+msgid "Housing : Water"
+msgstr "Wydatki mieszkaniowe : Woda"
+
+#: src/categories_onglet.c:98
+msgid "Housing : Electricity"
+msgstr "Wydatki mieszkaniowe : Prąd"
+
+#: src/categories_onglet.c:99
+msgid "Housing : White products"
+msgstr "Wydatki mieszkaniowe : Pieczywo"
+
+#: src/categories_onglet.c:100
+msgid "Housing : Equipment"
+msgstr "Wydatki mieszkaniowe : Wyposażenie"
+
+#: src/categories_onglet.c:101
+msgid "Housing : Gaz"
+msgstr "Wydatki mieszkaniowe : Gaz"
+
+#: src/categories_onglet.c:102
+msgid "Housing : Garden"
+msgstr "Wydatki mieszkaniowe : Ogród"
+
+#: src/categories_onglet.c:103
+msgid "Housing : House keeper"
+msgstr "Wydatki mieszkaniowe : Opiekunka do dzieci"
+
+#: src/categories_onglet.c:104
+msgid "Housing : Phone"
+msgstr "Wydatki mieszkaniowe : Telefon"
+
+#: src/categories_onglet.c:105
+msgid "Housing : Mobile Phone"
+msgstr "Wydatki mieszkaniowe : Telefon komórkowy"
+
+#: src/categories_onglet.c:106
+msgid "Leisures : Snooker"
+msgstr "Czas wolny : Bilard"
+
+#: src/categories_onglet.c:107
+msgid "Leisures : Bowling"
+msgstr "Czas wolny : Kręgle"
+
+#: src/categories_onglet.c:108
+msgid "Leisures : Movies"
+msgstr "Czas wolny : Kino"
+
+#: src/categories_onglet.c:109
+msgid "Leisures : Night club"
+msgstr "Czas wolny : Klub nocny"
+
+#: src/categories_onglet.c:110
+msgid "Leisures : IT"
+msgstr "Czas wolny : IT"
+
+#: src/categories_onglet.c:111
+msgid "Leisures : Games"
+msgstr "Czas wolny : Gry"
+
+#: src/categories_onglet.c:112
+msgid "Leisures : Books"
+msgstr "Czas wolny : Książki"
+
+#: src/categories_onglet.c:113
+msgid "Leisures : Parks"
+msgstr "Czas wolny : Park rozrywki"
+
+#: src/categories_onglet.c:114
+msgid "Leisures : Concerts"
+msgstr "Czas wolny : Koncerty"
+
+#: src/categories_onglet.c:115
+msgid "Leisures : Sports"
+msgstr "Czas wolny : Sport"
+
+#: src/categories_onglet.c:116
+msgid "Leisures : Video"
+msgstr "Czas wolny : Video"
+
+#: src/categories_onglet.c:117
+msgid "Leisures : Travels"
+msgstr "Czas wolny : Podróże"
+
+#: src/categories_onglet.c:118
+msgid "Leisures : Equipment"
+msgstr "Czas wolny : Wyposażenie"
+
+#: src/categories_onglet.c:119
+msgid "Leisures : Museums/Exhibitions"
+msgstr "Czas wolny : Muzea/wystawy"
+
+#: src/categories_onglet.c:120
+msgid "Loan/Mortgage : Capital"
+msgstr "Pożyczki/wierzytelności : Kapitał"
+
+#: src/categories_onglet.c:121
+msgid "Health : Insurance"
+msgstr "Zdrowie : Ubezpieczenie"
+
+#: src/categories_onglet.c:122
+msgid "Health : Dentist"
+msgstr "Zdrowie : Stomatolog"
+
+#: src/categories_onglet.c:123
+msgid "Health : Hospital"
+msgstr "Zdrowie : Szpital"
+
+#: src/categories_onglet.c:124
+msgid "Health : Kinesitherapist"
+msgstr "Zdrowie : Kinesitherapist"
+
+#: src/categories_onglet.c:125
+msgid "Health : Doctor"
+msgstr "Zdrowie : Lekarz"
+
+#: src/categories_onglet.c:126
+msgid "Health : Ophtalmologist"
+msgstr "Zdrowie : Ophtalmologist"
+
+#: src/categories_onglet.c:127
+msgid "Health : Osteopath"
+msgstr "Zdrowie : Osteopath"
+
+#: src/categories_onglet.c:128
+msgid "Health : Chemist"
+msgstr "Zdrowie : Chemist"
+
+#: src/categories_onglet.c:129
+msgid "Health : Social security"
+msgstr "Zdrowie : Ubezpieczenie zdrowotne"
+
+#: src/categories_onglet.c:130
+msgid "Care : Hairdresser"
+msgstr "Wydatki osobiste : Fryzjer"
+
+#: src/categories_onglet.c:131
+msgid "Care : Clothing"
+msgstr "Wydatki osobiste : Ubrania"
+
+#: src/categories_onglet.c:132
+msgid "Transport : Bus"
+msgstr "Transport : Autobus"
+
+#: src/categories_onglet.c:133
+msgid "Transport : Metro"
+msgstr "Transport : Metro"
+
+#: src/categories_onglet.c:134
+msgid "Transport : Toll"
+msgstr "Transport : Opłaty drogowe"
+
+#: src/categories_onglet.c:135
+#: src/categories_onglet.c:138
+msgid "Transport : Train"
+msgstr "Transport : Pociąg"
+
+#: src/categories_onglet.c:136
+msgid "Transport : Tramway"
+msgstr "Transport : Tramwaj"
+
+#: src/categories_onglet.c:137
+msgid "Transport : Travels"
+msgstr "Transport : Wycieczki"
+
+#: src/categories_onglet.c:139
+msgid "Hollydays : Housing"
+msgstr "Wakacje : Zakwaterowanie"
+
+#: src/categories_onglet.c:140
+msgid "Hollydays : Visits"
+msgstr "Wakacje :  Wizyty"
+
+#: src/categories_onglet.c:141
+msgid "Hollydays : Travels"
+msgstr "Wakacje : Podróże"
+
+#: src/categories_onglet.c:145
+msgid "Other incomes : Unemployment benefit"
+msgstr "Inne dochody : Dochody poza pracą"
+
+#: src/categories_onglet.c:146
+msgid "Other incomes : Family allowance"
+msgstr "Inne dochody : Dodatek rodzinny"
+
+#: src/categories_onglet.c:147
+msgid "Other incomes : Tax credit"
+msgstr "Inne dochody : Odroczenie płatności podatków"
+
+#: src/categories_onglet.c:148
+msgid "Other incomes : Gamble"
+msgstr "Inne dochody : Gry hazardowe"
+
+#: src/categories_onglet.c:149
+msgid "Other incomes : Mutual insurance"
+msgstr "Inne dochody : Ubezpieczenia wzajemne"
+
+#: src/categories_onglet.c:150
+msgid "Other incomes : Social security"
+msgstr "Inne dochody : Ubezpieczenie społeczne"
+
+#: src/categories_onglet.c:151
+msgid "Retirement : Retirement Fund"
+msgstr "Emerytura : Fundusz emerytalny"
+
+#: src/categories_onglet.c:152
+msgid "Retirement : Pension"
+msgstr "Emerytura : Pensja"
+
+#: src/categories_onglet.c:153
+msgid "Retirement : Supplementary pension"
+msgstr "Emerytura : Pensja dodatkowa"
+
+#: src/categories_onglet.c:154
+msgid "Investment incomes : Dividends"
+msgstr "Wpływy z inwestycji : Dywidendy"
+
+#: src/categories_onglet.c:155
+msgid "Investment incomes : Interests"
+msgstr "Wpływy z inwestycji : Odsetki"
+
+#: src/categories_onglet.c:156
+msgid "Investment incomes : Capital gain"
+msgstr "Przychody inwestycyjne : Odsetki kapitałowe"
+
+#: src/categories_onglet.c:157
+msgid "Salary : Overtime"
+msgstr "Dochody : Praca po godzinach"
+
+#: src/categories_onglet.c:158
+msgid "Salary : Leave allowance"
+msgstr "Dochody : Odprawy"
+
+#: src/categories_onglet.c:159
+msgid "Salary : Misc. premiums"
+msgstr "Dochody : Premie"
+
+#: src/categories_onglet.c:160
+msgid "Salary : Success fee"
+msgstr "Wynagrodzenie : Umowy o dzieło"
+
+#: src/categories_onglet.c:161
+msgid "Salary : Net salary"
+msgstr "Dochody : Dochody z internetu"
+
+#: src/categories_onglet.c:162
+msgid "Misc. incomes : Gifts"
+msgstr "Inne dochody : Prezenty"
+
+#: src/categories_onglet.c:163
+msgid "Misc. incomes : Refunds"
+msgstr "Inne dochody : Refundacje"
+
+#: src/categories_onglet.c:164
+msgid "Misc. incomes : Second hand sales"
+msgstr "Inne dochody : Sprzedaż z drugiej ręki"
+
+#: src/categories_onglet.c:189
+msgid "Categories list"
+msgstr "Lista kategorii"
+
+#: src/categories_onglet.c:190
+msgid "Amount per category"
+msgstr "Suma dla kategorii"
+
+#: src/categories_onglet.c:191
+msgid "Amount per subcategory"
+msgstr "Suma dla podkategorii"
+
+#: src/categories_onglet.c:192
+#: src/imputation_budgetaire.c:70
+#: src/tiers_onglet.c:67
+msgid "Amount per account"
+msgstr "Suma dla konta"
+
+#: src/categories_onglet.c:237
+#: src/imputation_budgetaire.c:114
+#: src/tiers_onglet.c:118
+msgid "Information"
+msgstr "Informacja"
+
+#: src/categories_onglet.c:279
+#: src/imputation_budgetaire.c:156
+msgid "Sorting"
+msgstr "Sortowanie"
+
+#. mise en place des boutons ajout d'1 categ / sous-categ
+#: src/categories_onglet.c:388
+msgid "Add a category"
+msgstr "Dodaj kategorię"
+
+#: src/categories_onglet.c:402
+msgid "Add a subcategory"
+msgstr "Dodaj podkategorię"
+
+#. on met le bouton exporter
+#. mise en place du bouton exporter
+#: src/categories_onglet.c:428
+#: src/etats_onglet.c:365
+#: src/export.c:455
+#: src/imputation_budgetaire.c:340
+#: src/menu.c:77
+#: src/traitement_variables.c:90
+#: src/traitement_variables.c:213
+msgid "Export"
+msgstr "Eksport"
+
+#. on met le bouton importer
+#. mise en place du bouton importer
+#: src/categories_onglet.c:444
+#: src/etats_onglet.c:376
+#: src/import.c:2848
+#: src/imputation_budgetaire.c:356
+#: src/menu.c:75
+#: src/menu.c:76
+#: src/parametres.c:188
+msgid "Import"
+msgstr "Import"
+
+#: src/categories_onglet.c:650
+#: src/categories_onglet.c:707
+#: src/categories_onglet.c:773
+#: src/categories_onglet.c:833
+#: src/categories_onglet.c:863
+#: src/categories_onglet.c:2867
+#: src/etats_affiche.c:128
+#: src/etats_affiche.c:152
+#: src/etats_affiche.c:238
+#: src/etats_affiche.c:259
+#: src/etats_affiche.c:337
+#: src/etats_affiche.c:358
+#: src/etats_affiche.c:441
+#: src/etats_affiche.c:462
+#: src/etats_affiche.c:534
+#: src/etats_affiche.c:555
+#: src/etats_affiche.c:626
+#: src/etats_affiche.c:647
+#: src/etats_affiche.c:884
+#: src/etats_affiche.c:1027
+#: src/etats_affiche.c:1442
+#: src/etats_affiche.c:1444
+#: src/etats_affiche.c:1506
+#: src/etats_affiche.c:1552
+#: src/imputation_budgetaire.c:564
+#: src/imputation_budgetaire.c:624
+#: src/imputation_budgetaire.c:690
+#: src/imputation_budgetaire.c:749
+#: src/imputation_budgetaire.c:778
+#: src/imputation_budgetaire.c:2625
+#: src/tiers_onglet.c:434
+#: src/tiers_onglet.c:1630
+#, c-format
+msgid "%4.2f %s"
+msgstr "%4.2f %s"
+
+#: src/categories_onglet.c:765
+#: src/categories_onglet.c:857
+#, c-format
+msgid "No sub-category (%d)"
+msgstr "Brak podkategorii (%d)"
+
+#: src/categories_onglet.c:768
+#: src/categories_onglet.c:860
+msgid "No sub-category"
+msgstr "Brak podkategorii"
+
+#: src/categories_onglet.c:828
+#, c-format
+msgid "No category (%d)"
+msgstr "Brak kategorii (%d)"
+
+#: src/categories_onglet.c:831
+#: src/etats_affiche.c:1654
+msgid "No category"
+msgstr "Brak kategorii"
+
+#: src/categories_onglet.c:1144
+#: src/imputation_budgetaire.c:1060
+#, c-format
+msgid "%d/%d/%d : %4.2f %s (breakdown) [ %s ]"
+msgstr ""
+
+#: src/categories_onglet.c:1163
+#: src/imputation_budgetaire.c:1079
+#, c-format
+msgid "%d/%d/%d : %4.2f %s (breakdown)"
+msgstr ""
+
+#: src/categories_onglet.c:1710
+msgid "Remove a category"
+msgstr "Usuń kategorię"
+
+#: src/categories_onglet.c:1717
+msgid ""
+"Selected category still contains transactions.\n"
+"\n"
+"You may"
+msgstr ""
+"Wybrana kategoria zawiera transakcje.\n"
+"\n"
+"Możesz"
+
+#: src/categories_onglet.c:1742
+#: src/categories_onglet.c:2107
+msgid "Transfer transactions to category"
+msgstr "Przenieś transakcję do kategorii"
+
+#: src/categories_onglet.c:1830
+msgid "Just remove this category."
+msgstr "Usuń tą kategorię"
+
+#: src/categories_onglet.c:1856
+#: src/categories_onglet.c:2224
+msgid "Please enter a category!"
+msgstr "Proszę podać kategorię!"
+
+#: src/categories_onglet.c:2075
+msgid "Remove sub-category"
+msgstr "Usuń podkategorię"
+
+#: src/categories_onglet.c:2082
+msgid ""
+"Selected sub-category still contains transactions.\n"
+"\n"
+"You may"
+msgstr ""
+"Wybrana podkategoria zawiera transakcje.\n"
+"\n"
+"Możesz"
+
+#: src/categories_onglet.c:2198
+msgid "Just remove this sub-category."
+msgstr "Usuń tą podkategorię."
+
+#: src/categories_onglet.c:2565
+#: src/csv.c:424
+#: src/echeancier_formulaire.c:1047
+#: src/echeancier_formulaire.c:1502
+#: src/echeancier_formulaire.c:1535
+#: src/echeancier_formulaire.c:1762
+#: src/echeancier_liste.c:1192
+#: src/echeancier_ventilation.c:204
+#: src/etats_affiche.c:1647
+#: src/operations_formulaire.c:983
+#: src/operations_formulaire.c:1814
+#: src/operations_formulaire.c:2504
+#: src/operations_formulaire.c:2848
+#: src/operations_liste.c:1086
+#: src/operations_liste.c:1701
+#: src/ventilation.c:207
+msgid "Breakdown of transaction"
+msgstr ""
+
+#. Si c'est un virement, on fait les vÃ©rifications
+#: src/categories_onglet.c:2568
+#: src/comptes_traitements.c:556
+#: src/comptes_traitements.c:641
+#: src/csv.c:449
+#: src/csv.c:574
+#: src/echeancier_formulaire.c:1523
+#: src/echeancier_formulaire.c:1570
+#: src/echeancier_formulaire.c:1732
+#: src/echeancier_formulaire.c:2090
+#: src/echeancier_formulaire.c:2991
+#: src/echeancier_liste.c:1217
+#: src/echeancier_ventilation.c:771
+#: src/echeancier_ventilation.c:1580
+#: src/echeancier_ventilation.c:1662
+#: src/echeancier_ventilation.c:2021
+#: src/echeancier_ventilation.c:2294
+#: src/ofx.c:442
+#: src/operations_formulaire.c:1008
+#: src/operations_formulaire.c:1918
+#: src/operations_formulaire.c:1923
+#: src/operations_formulaire.c:2371
+#: src/operations_formulaire.c:2928
+#: src/operations_liste.c:1645
+#: src/ventilation.c:772
+#: src/ventilation.c:1578
+#: src/ventilation.c:1659
+#: src/ventilation.c:2028
+#: src/ventilation.c:2366
+msgid "Transfer"
+msgstr "Przelew"
+
+#: src/categories_onglet.c:2884
+msgid "New category"
+msgstr "Nowa kategoria"
+
+#: src/categories_onglet.c:2885
+msgid "Enter name for new category"
+msgstr "Podaj nazeł nowej kategorii"
+
+#: src/categories_onglet.c:2892
+msgid "Category names must be both unique and not empty.  Please use another name for this category."
+msgstr "Nazwa kategorii musi być unikalna i nie pusta. Proszę wpisać inną nazwę dla tej kategorii."
+
+#: src/categories_onglet.c:2893
+#, c-format
+msgid "Category '%s' already exists."
+msgstr "Kategoria '%s' już istnieje."
+
+#: src/categories_onglet.c:2949
+msgid "New sub-category"
+msgstr "Nowa podkategoria"
+
+#: src/categories_onglet.c:2950
+msgid "Enter name for new sub-category"
+msgstr "Podaj nazwę dla nowej podkategorii"
+
+#: src/categories_onglet.c:2971
+msgid "Sub-category names must be both unique and not empty.  Please use another name for this sub-category."
+msgstr "Nazwa podkategorii musi być unikalna i nie pusta. Proszę wpisać inną nazwę dla tej podkategorii."
+
+#: src/categories_onglet.c:2972
+#, c-format
+msgid "Sub-category '%s' already exists."
+msgstr "Podkategoria '%s' już istnieje."
+
+#: src/categories_onglet.c:3028
+msgid "Export categories"
+msgstr "Eksport kategorii"
+
+#: src/categories_onglet.c:3052
+#: src/erreur.c:218
+#: src/erreur.c:220
+#: src/etats_onglet.c:1185
+#: src/fichiers_gestion.c:544
+#: src/fichiers_gestion.c:546
+#: src/imputation_budgetaire.c:2792
+msgid "Save file"
+msgstr "Zapis pliku"
+
+#: src/categories_onglet.c:3053
+#: src/etats_onglet.c:1186
+#: src/imputation_budgetaire.c:2793
+msgid "File exists. Do you want to overwrite it?"
+msgstr "Plik istnieje. Czy chcesz go nadpisać?"
+
+#: src/categories_onglet.c:3058
+#: src/etats_onglet.c:1191
+#: src/imputation_budgetaire.c:2798
+#, c-format
+msgid "Invalid filename \"%s\"!"
+msgstr "Błędna nazwa pliku \"%s\"!"
+
+#: src/categories_onglet.c:3066
+msgid "Error saving file."
+msgstr "Błąd zapisu pliku."
+
+#. on permet de remplacer/fusionner la liste
+#: src/categories_onglet.c:3094
+#: src/categories_onglet.c:3120
+msgid "Import a category list"
+msgstr "Import listy kategorii"
+
+#. il y a dÃ©jÃ  des opÃ©rations dans le fichier, on ne peut que fusionner
+#: src/categories_onglet.c:3139
+msgid "File already contains transactions, the two categories lists will be merged."
+msgstr ""
+
+#: src/categories_onglet.c:3149
+#: src/imputation_budgetaire.c:2887
+msgid "Do you want"
+msgstr "Czy chcesz"
+
+#: src/categories_onglet.c:3167
+msgid "Merge the two categories lists"
+msgstr "Połącz dwie listy kategorii"
+
+#: src/categories_onglet.c:3175
+msgid "Replace the old categories list"
+msgstr "Zastąp starą listę kategorii"
+
+#: src/categories_onglet.c:3209
+#: src/etats_onglet.c:1249
+#: src/imputation_budgetaire.c:2947
+msgid "Cannot import file."
+msgstr "Nie można zaimportować pliku"
+
+#: src/check.c:57
+msgid "Grisbi found no known inconsistency in accounts processed."
+msgstr "Grisbi nie znalazł błędów w pliku kont."
+
+#: src/check.c:58
+msgid "No inconsistency found."
+msgstr "Nie znaleziono błędów"
+
+#: src/check.c:136
+#, c-format
+msgid ""
+"<span weight=\"bold\">%s</span>\n"
+"  Last reconciliation amount : %4.2f%s\n"
+"  Computed reconciliation amount : %4.2f%s\n"
+"\n"
+msgstr ""
+
+#: src/check.c:151
+msgid ""
+"Grisbi found accounts where reconciliation totals are inconsistent with the sum of reconcilied transactions.  Generally, the cause is too many transfers to other accounts are reconciled.  You have to manually unreconcile some transferts in inconsistent accounts.\n"
+"The following accounts are inconsistent:\n"
+"\n"
+msgstr ""
+
+#: src/check.c:160
+#, c-format
+msgid "%d accounts have inconsistencies."
+msgstr "%d konta posiadają niezgodności."
+
+#: src/check.c:165
+msgid "An account has inconsistencies."
+msgstr "Konto posiada niezgodności."
+
+#: src/check.c:221
+#, c-format
+msgid "Sub-category <i>'%s : %s'</i> is a duplicate of <i>'%s : %s'</i>\n"
+msgstr "Podkategoria <i>'%s : %s'</i> jest powtórzona w <i>'%s : %s'</i>\n"
+
+#: src/check.c:238
+msgid ""
+"Due to a bug in previous versions of Grisbi, sub-categories may share the same numeric id in some cases, resulting in transactions having two sub-categories.  If you choose to continue, Grisbi will remove one of each sub-categories duplicate and recreate it with a new id.\n"
+"\n"
+"No transactions will be lost, but in some cases, you will have to manually move transactions to this new sub-category."
+msgstr ""
+
+#: src/check.c:248
+msgid "Fix inconsistencies in sub-categories?"
+msgstr "Poprawić niezgodności w podkategorii?"
+
+#: src/comptes_gestion.c:88
+msgid "Account details"
+msgstr "Opis konta"
+
+#: src/comptes_gestion.c:100
+msgid "Account name"
+msgstr "Nazwa konta"
+
+#: src/comptes_gestion.c:122
+#: src/comptes_traitements.c:690
+msgid "Account type"
+msgstr "Typ konta"
+
+#: src/comptes_gestion.c:147
+msgid "Account currency"
+msgstr "Waluta"
+
+#: src/comptes_gestion.c:168
+msgid "Convert this account to euros"
+msgstr "Przelicz walutę tego konta na euro"
+
+#: src/comptes_gestion.c:182
+msgid "Closed account"
+msgstr "Konto zamknięte"
+
+#. crÃ©ation de la ligne du titulaire du compte
+#: src/comptes_gestion.c:188
+msgid "Account holder"
+msgstr "Właściciel konta"
+
+#: src/comptes_gestion.c:199
+msgid "Holder name"
+msgstr "Nazwa właściciela"
+
+#: src/comptes_gestion.c:223
+msgid "Common address is holder's address"
+msgstr "Adres banku jest adresem właściciela"
+
+#: src/comptes_gestion.c:253
+msgid "Holder has his own address"
+msgstr "Właściciel ma swój własny adres"
+
+#: src/comptes_gestion.c:290
+msgid "Financial institution"
+msgstr "Instytucja finansowa"
+
+#: src/comptes_gestion.c:319
+msgid "Details"
+msgstr "Szczegóły"
+
+#: src/comptes_gestion.c:347
+msgid "Bank sort code"
+msgstr "Kod banku"
+
+#: src/comptes_gestion.c:370
+msgid "Bank branch code"
+msgstr "Kod oddziału banku"
+
+#: src/comptes_gestion.c:394
+msgid "Account number / Key"
+msgstr "Numer rachunku"
+
+#. crÃ©ation de la ligne du solde initial
+#: src/comptes_gestion.c:415
+msgid "Balances"
+msgstr "Salda"
+
+#. tiers
+#: src/comptes_gestion.c:425
+#: src/csv.c:263
+#: src/equilibrage.c:297
+msgid "Initial balance"
+msgstr "Saldo początkowe"
+
+#: src/comptes_gestion.c:448
+msgid "Minimum authorised balance"
+msgstr "Minimalny stan nominalny"
+
+#: src/comptes_gestion.c:471
+msgid "Minimum wanted balance"
+msgstr "Minimalny stan wymagany"
+
+#. crÃ©ation de la ligne du commentaire
+#: src/comptes_gestion.c:486
+msgid "Comments"
+msgstr "Komentarz"
+
+#. crÃ©ation de l'item compte bancaire
+#: src/comptes_gestion.c:658
+msgid "Bank account"
+msgstr "Konto bankowe"
+
+#. crÃ©ation de l'item compte de caisse
+#: src/comptes_gestion.c:669
+msgid "Cash account"
+msgstr "Gotówka"
+
+#. crÃ©ation de l'item compte passif
+#: src/comptes_gestion.c:680
+msgid "Liabilities account"
+msgstr "Konto pasywów"
+
+#. crÃ©ation de l'item compte actif
+#: src/comptes_gestion.c:690
+msgid "Assets account"
+msgstr "Konto aktywów"
+
+#: src/comptes_gestion.c:874
+msgid "Account has no name!"
+msgstr "Konto nie ma nazwy!"
+
+#: src/comptes_gestion.c:889
+#, c-format
+msgid "Account \"%s\" already exists!"
+msgstr "Konto \"%s\" już istnieje!"
+
+#: src/comptes_gestion.c:945
+msgid "Confirm currency change"
+msgstr "Potwierdź zmianę waluty"
+
+#: src/comptes_gestion.c:946
+#, c-format
+msgid ""
+"You are changing from a currency that is in the euro zone (%s) to one that isn't (%s).  Transactions in euros will be lost!  There is no undo for this.\n"
+"Do you confirm this change?"
+msgstr ""
+"Próbujesz dokonać zmiany waluty, która jest w strefie euro (%s) na taką, która nie jest w strefie euro (%s)  Transakcje w euro zostaną utracone!  Tej operacji nie da się wycofać.\n"
+"Potwierdzasz tą zmianę?"
+
+#: src/comptes_gestion.c:1181
+msgid "Apply changes to account?"
+msgstr "Zapamiętać zmiany dla konta?"
+
+#: src/comptes_gestion.c:1182
+#, c-format
+msgid ""
+"Account \"%s\" has been modified.\n"
+"Do you want to save changes?"
+msgstr ""
+"Konto \"%s\" zostało zmodyfikowane.\n"
+"Czy chcesz zapisać zmiany?"
+
+#: src/comptes_gestion.c:1211
+#, c-format
+msgid "Convert account \"%s\" to euro?"
+msgstr "Przelicz walutę konta  \"%s\" na euro?"
+
+#: src/comptes_gestion.c:1213
+msgid "Euro conversion is irreversible, are you sure you want to continue?"
+msgstr "Konwersja waluty na euro jest nieodwracalna. Jezteś pewien, że chcesz kontynuować?"
+
+#: src/comptes_gestion.c:1233
+msgid "Exchange rate between the 2 currencies is 0."
+msgstr "Kurs wymiany pomiędzy wybranymi walutami wynosi 0."
+
+#: src/comptes_gestion.c:1240
+#: src/devises.c:380
+#: src/devises.c:956
+#: src/devises.c:1740
+#: src/devises.c:1822
+#: src/devises.c:2165
+#: src/devises.c:2170
+#: src/devises.c:2295
+#: src/echeancier_formulaire.c:2049
+#: src/echeancier_formulaire.c:2051
+#: src/echeancier_formulaire.c:2425
+#: src/echeancier_formulaire.c:2427
+#: src/echeancier_liste.c:1943
+#: src/echeancier_liste.c:1945
+#: src/etats_calculs.c:2445
+#: src/etats_calculs.c:2450
+#: src/etats_calculs.c:2480
+#: src/etats_calculs.c:2485
+#: src/etats_calculs.c:2515
+#: src/etats_calculs.c:2520
+#: src/etats_calculs.c:2564
+#: src/etats_calculs.c:2569
+#: src/etats_calculs.c:2595
+#: src/etats_calculs.c:2600
+#: src/etats_calculs.c:2628
+#: src/etats_calculs.c:2633
+#: src/etats_calculs.c:2661
+#: src/etats_calculs.c:2666
+#: src/operations_formulaire.c:2678
+#: src/operations_formulaire.c:2679
+#: src/operations_liste.c:1577
+#: src/operations_liste.c:1579
+#: src/ventilation.c:2972
+#: src/ventilation.c:2974
+#: src/ventilation.c:3191
+#: src/ventilation.c:3193
+msgid "Euro"
+msgstr "Euro"
+
+#: src/comptes_gestion.c:1245
+msgid "Impossible to find the Euro currency, it has probably been deleted."
+msgstr "Nie można znaleść waluty Euro. Prawdopodobnie została wcześniej skasowana."
+
+#. mise en place des boutons du bas
+#: src/comptes_onglet.c:159
+#: src/menu.c:102
+msgid "New account"
+msgstr "Nowe konto"
+
+#. mise en place du bouton "supprimer un compte"
+#: src/comptes_onglet.c:169
+#: src/menu.c:103
+#: src/traitement_variables.c:99
+#: src/traitement_variables.c:222
+msgid "Remove an account"
+msgstr "Usuń konto"
+
+#. insÃ¨re ses paramÃ¨tres ( comme c'est un appel Ã  calloc, tout ce qui est Ã  0 est dÃ©jÃ  initialisÃ© )
+#: src/comptes_traitements.c:155
+#, c-format
+msgid "No name %d"
+msgstr "Brak nazwy %d"
+
+#: src/comptes_traitements.c:197
+#, c-format
+msgid "Delete account \"%s\"?"
+msgstr "Usunąć konto \"%s\"?"
+
+#: src/comptes_traitements.c:199
+msgid "This will irreversibly remove this account and all operations that were previously contained.  There is no undo for this."
+msgstr "Ta operacja usunięte zaznaczone konto i wszystkie powiązane z nim operacje. Po wykonaniu jego odzyskanie nie będzie możliwe."
+
+#: src/comptes_traitements.c:568
+#: src/ofx.c:430
+msgid "Deposit"
+msgstr "Wpłata"
+
+#. c'est un compte ccard
+#: src/comptes_traitements.c:580
+#: src/qif.c:284
+msgid "Credit card"
+msgstr "Karta kredytowa"
+
+#: src/comptes_traitements.c:592
+msgid "Direct debit"
+msgstr "Wypłata bezpośrednia"
+
+#: src/comptes_traitements.c:604
+#: src/etats_affiche.c:2231
+msgid "Cheque"
+msgstr "Czek"
+
+#: src/comptes_traitements.c:681
+msgid "Choose account type"
+msgstr "Wybierz typ konta"
+
+#: src/comptes_traitements.c:682
+msgid ""
+"If you choose to continue, an account will be created with default payment methods chosen according to your choice.\n"
+"You will be able to change account type later."
+msgstr ""
+"Jeżeli wybierzesz kontynuację to zostanie utworzone konto z domyślną metodą płatności zgodnie z twoim wyborem.\n"
+"Po utworzeniu możliwa będzie zmiana typu konta."
+
+#: src/csv.c:219
+#: src/qif.c:1049
+#: src/qif.c:1508
+#, c-format
+msgid ""
+"Error for the file \"%s\" :\n"
+"%s"
+msgstr ""
+"Błąd w pliku \"%s\" :\n"
+"%s"
+
+#: src/csv.c:235
+#: src/etats_config.c:6170
+#: src/fenetre_principale.c:75
+msgid "Transactions"
+msgstr "Transakcje"
+
+#. bouton ventilation, pour accÃ©der Ã  la fenetre de ventil de l'Ã©chÃ©ance
+#. mise en forme du bouton ventilation
+#: src/csv.c:236
+#: src/echeancier_formulaire.c:470
+#: src/echeancier_onglet.c:96
+#: src/echeancier_onglet.c:173
+#: src/operations_formulaire.c:533
+#: src/operations_onglet.c:77
+#: src/operations_onglet.c:133
+msgid "Breakdown"
+msgstr ""
+
+#: src/csv.c:239
+msgid "Cheques"
+msgstr "Czeki"
+
+#: src/csv.c:251
+msgid "Sub-categories"
+msgstr "Podkategorie"
+
+#: src/csv.c:254
+msgid "Sub-budgetary lines"
+msgstr "Podgrupa linii budżetowej"
+
+#: src/csv.c:256
+msgid "Reconciliation number"
+msgstr "Numer wyciągu bankowego"
+
+#. met le pointage
+#: src/csv.c:306
+#: src/menu.c:291
+#: src/menu.c:295
+#: src/menu.c:299
+msgid "C"
+msgstr "C"
+
+#: src/csv.c:307
+#: src/operations_liste.c:1101
+#: src/operations_liste.c:2011
+msgid "R"
+msgstr "R"
+
+#: src/csv.c:308
+#: src/operations_liste.c:1105
+msgid "T"
+msgstr "T"
+
+#. on commence par mettre la catÃ©g et sous categ de l'opÃ© et de l'opÃ© de ventilation
+#: src/csv.c:440
+msgid "B"
+msgstr "B"
+
+#: src/csv.c:591
+#: src/echeancier_ventilation.c:780
+#: src/operations_formulaire.c:1017
+#: src/operations_formulaire.c:2384
+#: src/operations_formulaire.c:2940
+#: src/ventilation.c:781
+msgid "Deleted account"
+msgstr "Usunięte konto"
+
+#: src/devises.c:51
+#: src/devises.c:52
+#: src/devises.c:53
+#: src/devises.c:54
+#: src/devises.c:55
+#: src/devises.c:56
+#: src/devises.c:57
+#: src/devises.c:58
+#: src/devises.c:59
+#: src/devises.c:60
+#: src/devises.c:61
+#: src/devises.c:62
+#: src/devises.c:63
+#: src/devises.c:64
+#: src/devises.c:65
+#: src/devises.c:66
+#: src/devises.c:67
+#: src/devises.c:68
+#: src/devises.c:69
+#: src/devises.c:70
+#: src/devises.c:71
+#: src/devises.c:72
+#: src/devises.c:73
+#: src/devises.c:74
+#: src/devises.c:75
+#: src/devises.c:76
+#: src/devises.c:77
+#: src/devises.c:78
+#: src/devises.c:79
+#: src/devises.c:80
+#: src/devises.c:81
+#: src/devises.c:82
+#: src/devises.c:83
+#: src/devises.c:84
+#: src/devises.c:85
+#: src/devises.c:86
+#: src/devises.c:490
+msgid "Africa"
+msgstr "Afryka"
+
+#: src/devises.c:51
+msgid "Algerian Dinar"
+msgstr "Algierski dinar"
+
+#: src/devises.c:51
+msgid "Algeria"
+msgstr "Algieria"
+
+#: src/devises.c:52
+msgid "Botswana Pula"
+msgstr ""
+
+#: src/devises.c:52
+msgid "Botswana"
+msgstr "Bostwana"
+
+#: src/devises.c:53
+msgid "Burundi Franc"
+msgstr ""
+
+#: src/devises.c:53
+msgid "Burundi"
+msgstr "Burundi"
+
+#: src/devises.c:54
+#: src/devises.c:55
+msgid "CFA Franc BCEAO"
+msgstr ""
+
+#: src/devises.c:54
+msgid "Niger"
+msgstr "Nigeria"
+
+#: src/devises.c:55
+msgid "Senegal"
+msgstr "Senegal"
+
+#: src/devises.c:56
+#: src/devises.c:57
+#: src/devises.c:58
+msgid "CFA Franc BEAC"
+msgstr ""
+
+#: src/devises.c:56
+msgid "Cameroon"
+msgstr "Kamerun"
+
+#: src/devises.c:57
+msgid "Chad"
+msgstr "Czad"
+
+#: src/devises.c:58
+msgid "Congo"
+msgstr "Kongo"
+
+#: src/devises.c:59
+msgid "Comoro Franc"
+msgstr ""
+
+#: src/devises.c:59
+msgid "Comoros"
+msgstr ""
+
+#: src/devises.c:60
+msgid "Egyptian Pound"
+msgstr "Egipski funt"
+
+#: src/devises.c:60
+msgid "Egypt"
+msgstr "Egipt"
+
+#: src/devises.c:61
+msgid "Ethiopian Birr"
+msgstr ""
+
+#: src/devises.c:61
+msgid "Ethiopia"
+msgstr "Etiopia"
+
+#: src/devises.c:62
+msgid "Gambian Dalasi"
+msgstr ""
+
+#: src/devises.c:62
+msgid "Gambia"
+msgstr "Gamibia"
+
+#: src/devises.c:63
+msgid "Ghana Cedi"
+msgstr ""
+
+#: src/devises.c:63
+msgid "Ghana"
+msgstr ""
+
+#: src/devises.c:64
+msgid "Guinea-Bissau Peso"
+msgstr ""
+
+#: src/devises.c:64
+msgid "Guinea-Bissau"
+msgstr ""
+
+#: src/devises.c:65
+msgid "Kenyan Shilling"
+msgstr ""
+
+#: src/devises.c:65
+msgid "Kenya"
+msgstr "Kenja"
+
+#: src/devises.c:66
+msgid "Liberian Dollar"
+msgstr ""
+
+#: src/devises.c:66
+msgid "Liberia"
+msgstr "Liberia"
+
+#: src/devises.c:67
+msgid "Libyan Dinar"
+msgstr "Libijski dinar"
+
+#: src/devises.c:67
+msgid "Libyan Arab Jamahiriya"
+msgstr ""
+
+#: src/devises.c:68
+msgid "Malagasy Franc"
+msgstr ""
+
+#: src/devises.c:68
+msgid "Madagascar"
+msgstr "Madagaskar"
+
+#: src/devises.c:69
+msgid "Malawi Kwacha"
+msgstr ""
+
+#: src/devises.c:69
+msgid "Malawi"
+msgstr ""
+
+#: src/devises.c:70
+msgid "Mauritania Ouguiya"
+msgstr ""
+
+#: src/devises.c:70
+msgid "Mauritania"
+msgstr ""
+
+#: src/devises.c:71
+msgid "Moazambique Metical"
+msgstr ""
+
+#: src/devises.c:71
+msgid "Mozambique"
+msgstr "Mozambik"
+
+#: src/devises.c:72
+msgid "Moroccan Dirham"
+msgstr ""
+
+#: src/devises.c:72
+msgid "Morocco"
+msgstr "Maroko"
+
+#: src/devises.c:73
+msgid "Nigerian Naira"
+msgstr ""
+
+#: src/devises.c:73
+msgid "Nigeria"
+msgstr "Nigeria"
+
+#: src/devises.c:74
+msgid "Rwanda Franc"
+msgstr ""
+
+#: src/devises.c:74
+msgid "Rwanda"
+msgstr ""
+
+#: src/devises.c:75
+msgid "Sao Tome and Principe Dobra"
+msgstr ""
+
+#: src/devises.c:75
+msgid "Sao Tome and Principe"
+msgstr ""
+
+#: src/devises.c:76
+msgid "Seychelles Rupee"
+msgstr ""
+
+#: src/devises.c:76
+msgid "Seychelles"
+msgstr "Seszele"
+
+#: src/devises.c:77
+msgid "Sierra Leonean Leone"
+msgstr ""
+
+#: src/devises.c:77
+msgid "Sierra Leone"
+msgstr ""
+
+#: src/devises.c:78
+msgid "Somali Shilling"
+msgstr ""
+
+#: src/devises.c:78
+msgid "Somalia"
+msgstr "Somaila"
+
+#: src/devises.c:79
+#: src/devises.c:80
+#: src/devises.c:81
+msgid "South African Rand"
+msgstr ""
+
+#: src/devises.c:79
+msgid "Lesotho"
+msgstr ""
+
+#: src/devises.c:80
+msgid "Namibia"
+msgstr "Namibia"
+
+#: src/devises.c:81
+msgid "South Africa"
+msgstr ""
+
+#: src/devises.c:82
+msgid "Swaziland Lilangeni"
+msgstr ""
+
+#: src/devises.c:82
+msgid "Swaziland"
+msgstr ""
+
+#: src/devises.c:83
+msgid "Tanzanian Shilling"
+msgstr ""
+
+#: src/devises.c:83
+msgid "United Republic of Tanzania"
+msgstr "Tanzania"
+
+#: src/devises.c:84
+msgid "Tunisian Dinar"
+msgstr ""
+
+#: src/devises.c:84
+msgid "Tunisia"
+msgstr ""
+
+#: src/devises.c:85
+msgid "Zambian Kwacha"
+msgstr ""
+
+#: src/devises.c:85
+msgid "Zambia"
+msgstr "Zambia"
+
+#: src/devises.c:86
+msgid "Zimbabwe Dollar"
+msgstr "Zimbabwe dolar"
+
+#: src/devises.c:86
+msgid "Zimbabwe"
+msgstr "Zimbabwe"
+
+#: src/devises.c:87
+#: src/devises.c:88
+#: src/devises.c:89
+#: src/devises.c:90
+#: src/devises.c:91
+#: src/devises.c:92
+#: src/devises.c:93
+#: src/devises.c:94
+#: src/devises.c:95
+#: src/devises.c:96
+#: src/devises.c:97
+#: src/devises.c:98
+#: src/devises.c:99
+#: src/devises.c:100
+#: src/devises.c:101
+#: src/devises.c:102
+#: src/devises.c:103
+#: src/devises.c:104
+#: src/devises.c:105
+#: src/devises.c:106
+#: src/devises.c:107
+#: src/devises.c:108
+#: src/devises.c:109
+#: src/devises.c:110
+#: src/devises.c:111
+#: src/devises.c:112
+#: src/devises.c:113
+#: src/devises.c:114
+#: src/devises.c:115
+#: src/devises.c:116
+#: src/devises.c:117
+#: src/devises.c:118
+#: src/devises.c:119
+#: src/devises.c:120
+#: src/devises.c:121
+#: src/devises.c:122
+#: src/devises.c:123
+#: src/devises.c:124
+#: src/devises.c:125
+#: src/devises.c:126
+#: src/devises.c:491
+msgid "Asia"
+msgstr "Azja"
+
+#: src/devises.c:87
+msgid "Afghani"
+msgstr ""
+
+#: src/devises.c:87
+msgid "Afghanistan"
+msgstr "Afganistan"
+
+#: src/devises.c:88
+msgid "Bahraini Dinar"
+msgstr ""
+
+#: src/devises.c:88
+msgid "Bahrain"
+msgstr ""
+
+#: src/devises.c:89
+msgid "Bangladesh Taka"
+msgstr ""
+
+#: src/devises.c:89
+msgid "Bangladesh"
+msgstr "Bangladesz"
+
+#: src/devises.c:90
+msgid "Brunei Dollar"
+msgstr ""
+
+#: src/devises.c:90
+msgid "Brunei Darussalam"
+msgstr ""
+
+#: src/devises.c:91
+msgid "Cambodian Riel"
+msgstr ""
+
+#: src/devises.c:91
+msgid "Cambodia"
+msgstr "Kambodża"
+
+#: src/devises.c:92
+msgid "Cyprus Pound"
+msgstr "Cypryjski funt"
+
+#: src/devises.c:92
+msgid "Cyprus"
+msgstr "Cypr"
+
+#: src/devises.c:93
+msgid "Hong Kong Dollar"
+msgstr "Hong Kong dolar"
+
+#: src/devises.c:93
+msgid "Hong Kong"
+msgstr "Honk Kong"
+
+#: src/devises.c:94
+#: src/devises.c:95
+msgid "Indian Rupee"
+msgstr ""
+
+#: src/devises.c:94
+msgid "Bhutan"
+msgstr ""
+
+#: src/devises.c:95
+msgid "India"
+msgstr "Indie"
+
+#: src/devises.c:96
+msgid "Indonesian Rupiah"
+msgstr ""
+
+#: src/devises.c:96
+msgid "Indonesia"
+msgstr "Indonezja"
+
+#: src/devises.c:97
+msgid "Iranian Rial"
+msgstr ""
+
+#: src/devises.c:97
+msgid "Iran"
+msgstr "Iran"
+
+#: src/devises.c:98
+msgid "Iraqi Dinar"
+msgstr "Iracki dinar"
+
+#: src/devises.c:98
+msgid "Iraq"
+msgstr "Irak"
+
+#: src/devises.c:99
+msgid "Japanese Yen"
+msgstr "Japoński jen"
+
+#: src/devises.c:99
+msgid "Japan"
+msgstr "Japonia"
+
+#: src/devises.c:100
+msgid "Jordanian Dinar"
+msgstr "Jordański dinar"
+
+#: src/devises.c:100
+msgid "Jordan"
+msgstr "Jordania"
+
+#: src/devises.c:101
+msgid "Kuwaiti Dinar"
+msgstr "Kuwejcki dinar"
+
+#: src/devises.c:101
+msgid "Kuwait"
+msgstr "Kuwejt"
+
+#: src/devises.c:102
+msgid "Lao Kip"
+msgstr ""
+
+#: src/devises.c:102
+msgid "Lao People's Democratic Republic"
+msgstr ""
+
+#: src/devises.c:103
+msgid "Lebanese Pound"
+msgstr ""
+
+#: src/devises.c:103
+msgid "Lebanon"
+msgstr ""
+
+#: src/devises.c:104
+msgid "Macau Pataca"
+msgstr ""
+
+#: src/devises.c:104
+msgid "Macao"
+msgstr "Makao"
+
+#: src/devises.c:105
+msgid "Malaysian Ringgit"
+msgstr ""
+
+#: src/devises.c:105
+msgid "Malaysia"
+msgstr "Malezja"
+
+#: src/devises.c:106
+msgid "Mongolian Tugrik"
+msgstr ""
+
+#: src/devises.c:106
+msgid "Mongolia"
+msgstr "Mongolia"
+
+#: src/devises.c:107
+msgid "Nepalese Rupee"
+msgstr ""
+
+#: src/devises.c:107
+msgid "Nepal"
+msgstr "Nepal"
+
+#: src/devises.c:108
+msgid "New Israeli Shekel"
+msgstr ""
+
+#: src/devises.c:108
+msgid "Israel"
+msgstr "Izrael"
+
+#: src/devises.c:109
+msgid "New Taiwan Dollar"
+msgstr "Tajwański dolar"
+
+#: src/devises.c:109
+msgid "Taiwan, Province of China"
+msgstr "Tajwan"
+
+#: src/devises.c:110
+msgid "North Korean Won"
+msgstr ""
+
+#: src/devises.c:110
+msgid "Democratic People's Republic of Korea"
+msgstr "Korea południowa"
+
+#: src/devises.c:111
+msgid "Pakistan Rupee"
+msgstr ""
+
+#: src/devises.c:111
+msgid "Pakistan"
+msgstr "Pakistan"
+
+#: src/devises.c:112
+msgid "Philippine peso"
+msgstr "Filipińskie peso"
+
+#: src/devises.c:112
+msgid "Philippines"
+msgstr "Filipiny"
+
+#: src/devises.c:113
+msgid "Qatari Rial"
+msgstr ""
+
+#: src/devises.c:113
+msgid "Qatar"
+msgstr ""
+
+#: src/devises.c:114
+msgid "Rial Omani"
+msgstr ""
+
+#: src/devises.c:114
+msgid "Oman"
+msgstr "Oman"
+
+#: src/devises.c:115
+msgid "Russian Ruble"
+msgstr "Rosyjskie ruble"
+
+#: src/devises.c:115
+msgid "Russia"
+msgstr "Rosja"
+
+#: src/devises.c:116
+msgid "Saudi Riyal"
+msgstr ""
+
+#: src/devises.c:116
+msgid "Saudi Arabia"
+msgstr "Arabia Saudyjska"
+
+#: src/devises.c:117
+msgid "Singapore Dollar"
+msgstr "Singapurski dolar"
+
+#: src/devises.c:117
+msgid "Singapore"
+msgstr "Singapur"
+
+#: src/devises.c:118
+msgid "South Korean Won"
+msgstr ""
+
+#: src/devises.c:118
+msgid "Republic of Korea"
+msgstr ""
+
+#: src/devises.c:119
+msgid "Sri Lanka Rupee"
+msgstr ""
+
+#: src/devises.c:119
+msgid "Sri Lanka"
+msgstr "Sri Lanka"
+
+#: src/devises.c:120
+msgid "Syrian Pound"
+msgstr "Syryjski funt"
+
+#: src/devises.c:120
+msgid "Syrian Arab Republic"
+msgstr "Syria"
+
+#: src/devises.c:121
+msgid "Thai Baht"
+msgstr ""
+
+#: src/devises.c:121
+msgid "Thailand"
+msgstr "Tajlandia"
+
+#: src/devises.c:122
+msgid "Turkish Lira"
+msgstr ""
+
+#: src/devises.c:122
+msgid "Turkey"
+msgstr "Turcja"
+
+#: src/devises.c:123
+msgid "United Arab Emirates Dirham"
+msgstr ""
+
+#: src/devises.c:123
+msgid "United Arab Emirates"
+msgstr "Zjednoczone Emiraty Arabskie"
+
+#: src/devises.c:124
+msgid "Viet Nam Dong"
+msgstr ""
+
+#: src/devises.c:124
+msgid "Viet Nam"
+msgstr "Wietnam"
+
+#: src/devises.c:125
+msgid "Yemeni Rial"
+msgstr ""
+
+#: src/devises.c:125
+msgid "Yemen"
+msgstr "Jemen"
+
+#: src/devises.c:126
+msgid "Yuan Renminbi"
+msgstr ""
+
+#: src/devises.c:126
+msgid "China"
+msgstr "Chiny"
+
+#: src/devises.c:127
+#: src/devises.c:128
+#: src/devises.c:129
+#: src/devises.c:130
+#: src/devises.c:131
+#: src/devises.c:132
+#: src/devises.c:492
+msgid "Central America"
+msgstr "Ameryka Środkowa"
+
+#: src/devises.c:127
+msgid "Belize Dollar"
+msgstr ""
+
+#: src/devises.c:127
+msgid "Belize"
+msgstr ""
+
+#: src/devises.c:128
+msgid "Costa Rican Colon"
+msgstr ""
+
+#: src/devises.c:128
+msgid "Costa Rica"
+msgstr "Kostaryka"
+
+#: src/devises.c:129
+msgid "Guatemalan Quetzal"
+msgstr ""
+
+#: src/devises.c:129
+msgid "Guatemala"
+msgstr "Gwatemala"
+
+#: src/devises.c:130
+msgid "Honduran Lempira"
+msgstr ""
+
+#: src/devises.c:130
+msgid "Honduras"
+msgstr "Honduras"
+
+#: src/devises.c:131
+msgid "Mexican Peso"
+msgstr "Meksykańskie peso"
+
+#: src/devises.c:131
+msgid "Mexico"
+msgstr "Meksyk"
+
+#: src/devises.c:132
+msgid "Panama Balboa"
+msgstr ""
+
+#: src/devises.c:132
+#: src/devises.c:196
+msgid "Panama"
+msgstr ""
+
+#: src/devises.c:133
+#: src/devises.c:134
+#: src/devises.c:135
+#: src/devises.c:136
+#: src/devises.c:137
+#: src/devises.c:138
+#: src/devises.c:139
+#: src/devises.c:140
+#: src/devises.c:141
+#: src/devises.c:142
+#: src/devises.c:143
+#: src/devises.c:144
+#: src/devises.c:145
+#: src/devises.c:146
+#: src/devises.c:147
+#: src/devises.c:148
+#: src/devises.c:149
+#: src/devises.c:150
+#: src/devises.c:151
+#: src/devises.c:152
+#: src/devises.c:153
+#: src/devises.c:154
+#: src/devises.c:155
+#: src/devises.c:156
+#: src/devises.c:157
+#: src/devises.c:158
+#: src/devises.c:159
+#: src/devises.c:160
+#: src/devises.c:161
+#: src/devises.c:162
+#: src/devises.c:163
+#: src/devises.c:164
+#: src/devises.c:165
+#: src/devises.c:166
+#: src/devises.c:493
+msgid "Europe"
+msgstr "Europa"
+
+#: src/devises.c:133
+msgid "Albanian Lek"
+msgstr ""
+
+#: src/devises.c:133
+msgid "Albania"
+msgstr "Albania"
+
+#: src/devises.c:134
+msgid "Austrian Schilling"
+msgstr ""
+
+#: src/devises.c:134
+msgid "Austria"
+msgstr "Austria"
+
+#: src/devises.c:135
+msgid "Belgian Franc"
+msgstr ""
+
+#: src/devises.c:135
+msgid "Belgium"
+msgstr "Belgia"
+
+#: src/devises.c:136
+msgid "Bulgarian Lev"
+msgstr ""
+
+#: src/devises.c:136
+msgid "Bulgaria"
+msgstr "Bułgaria"
+
+#: src/devises.c:137
+msgid "Czech Koruna"
+msgstr "Czeska korona"
+
+#: src/devises.c:137
+msgid "Czech Republic"
+msgstr "Republika Czeska"
+
+#: src/devises.c:138
+msgid "Danish Krone"
+msgstr "Korona Duńska"
+
+#: src/devises.c:138
+msgid "Denmark"
+msgstr "Dania"
+
+#: src/devises.c:139
+msgid "Deutsche Mark"
+msgstr "Niemiecka marka"
+
+#: src/devises.c:139
+msgid "Germany"
+msgstr "Niemcy"
+
+#: src/devises.c:140
+msgid "Estonian Kroon"
+msgstr ""
+
+#: src/devises.c:140
+msgid "Estonia"
+msgstr "Estonia"
+
+#: src/devises.c:141
+msgid "Finnish Markka"
+msgstr ""
+
+#: src/devises.c:141
+msgid "Finland"
+msgstr "Finlandia"
+
+#: src/devises.c:142
+msgid "French Franc"
+msgstr "Euro"
+
+#: src/devises.c:142
+msgid "France"
+msgstr "Francja"
+
+#: src/devises.c:143
+msgid "Gibraltar Pound"
+msgstr "Giblartarski funt"
+
+#: src/devises.c:143
+msgid "Gibraltar"
+msgstr "Gibraltar"
+
+#: src/devises.c:144
+msgid "Greek Drachma"
+msgstr ""
+
+#: src/devises.c:144
+msgid "Greece"
+msgstr "Grecja"
+
+#: src/devises.c:145
+msgid "Hungarian Forint"
+msgstr "Węgierski Forint"
+
+#: src/devises.c:145
+msgid "Hungary"
+msgstr "Węgry"
+
+#: src/devises.c:146
+msgid "Iceland Krona"
+msgstr ""
+
+#: src/devises.c:146
+msgid "Iceland"
+msgstr "Islandia"
+
+#: src/devises.c:147
+msgid "Irish Pound"
+msgstr "Irlandzki funt"
+
+#: src/devises.c:147
+msgid "Ireland"
+msgstr "Irlandia"
+
+#: src/devises.c:148
+#: src/devises.c:149
+#: src/devises.c:150
+msgid "Italian Lira"
+msgstr "Włoskie Liry"
+
+#: src/devises.c:148
+msgid "Holy See"
+msgstr ""
+
+#: src/devises.c:149
+msgid "Italy"
+msgstr "Włochy"
+
+#: src/devises.c:150
+msgid "San Marino"
+msgstr "San Marino"
+
+#: src/devises.c:151
+msgid "Latvian Lat"
+msgstr ""
+
+#: src/devises.c:151
+msgid "Latvia"
+msgstr "Litwa"
+
+#: src/devises.c:152
+msgid "Lithuanian Litas"
+msgstr ""
+
+#: src/devises.c:152
+msgid "Lietuva"
+msgstr ""
+
+#: src/devises.c:153
+msgid "Luxembourg Franc"
+msgstr ""
+
+#: src/devises.c:153
+msgid "Luxembourg"
+msgstr "Luksemburg"
+
+#: src/devises.c:154
+msgid "Netherlands Guilder"
+msgstr ""
+
+#: src/devises.c:154
+msgid "Netherlands"
+msgstr "Holandia"
+
+#: src/devises.c:155
+msgid "New Yugoslavian Dinar"
+msgstr ""
+
+#: src/devises.c:155
+msgid "Serbia and Montenegro"
+msgstr ""
+
+#: src/devises.c:156
+msgid "Norwegian Krone"
+msgstr ""
+
+#: src/devises.c:156
+msgid "Norway"
+msgstr "Norwegia"
+
+#: src/devises.c:157
+msgid "Polish Zloty"
+msgstr "Polski złoty"
+
+#: src/devises.c:157
+msgid "Poland"
+msgstr "Polska"
+
+#: src/devises.c:158
+msgid "Portuguese Escudo"
+msgstr ""
+
+#: src/devises.c:158
+msgid "Portugal"
+msgstr "Portugalia"
+
+#: src/devises.c:159
+msgid "Pound Sterling"
+msgstr ""
+
+#: src/devises.c:159
+msgid "United Kingdom"
+msgstr "Wielka Brytania"
+
+#: src/devises.c:160
+msgid "Romanian Leu"
+msgstr ""
+
+#: src/devises.c:160
+msgid "Romania"
+msgstr "Rumunia"
+
+#: src/devises.c:161
+msgid "Slovak Koruna"
+msgstr ""
+
+#: src/devises.c:161
+msgid "Slovakia"
+msgstr "Słowacja"
+
+#: src/devises.c:162
+msgid "Slovene Tolar"
+msgstr ""
+
+#: src/devises.c:162
+msgid "Slovenia"
+msgstr "Słowenia"
+
+#: src/devises.c:163
+msgid "Spanish Peseta"
+msgstr ""
+
+#: src/devises.c:163
+msgid "Spain"
+msgstr "Hiszpania"
+
+#: src/devises.c:164
+msgid "Swedish Krona"
+msgstr ""
+
+#: src/devises.c:164
+msgid "Sweden"
+msgstr "Szwecja"
+
+#: src/devises.c:165
+#: src/devises.c:166
+msgid "Swiss Franc"
+msgstr ""
+
+#: src/devises.c:165
+msgid "Liechtenstein"
+msgstr "Lichtensztain"
+
+#: src/devises.c:166
+msgid "Switzerland"
+msgstr "Szwajcaria"
+
+#: src/devises.c:167
+#: src/devises.c:168
+#: src/devises.c:169
+#: src/devises.c:170
+#: src/devises.c:171
+#: src/devises.c:172
+#: src/devises.c:173
+#: src/devises.c:174
+#: src/devises.c:175
+#: src/devises.c:176
+#: src/devises.c:177
+#: src/devises.c:178
+#: src/devises.c:179
+#: src/devises.c:180
+#: src/devises.c:494
+msgid "Northern America"
+msgstr "Ameryka Północna"
+
+#: src/devises.c:167
+msgid "Bahamian Dollar"
+msgstr ""
+
+#: src/devises.c:167
+msgid "Bahamas"
+msgstr "Wyspy Bahama"
+
+#: src/devises.c:168
+msgid "Barbados Dollar"
+msgstr "Barbados dolar"
+
+#: src/devises.c:168
+msgid "Barbados"
+msgstr "Barbados"
+
+#: src/devises.c:169
+msgid "Bermuda Dollar"
+msgstr "Bermudzki dolar"
+
+#: src/devises.c:169
+msgid "Bermuda"
+msgstr "Bermudy"
+
+#: src/devises.c:170
+msgid "Canadian Dollar"
+msgstr "Kanadyjski dolar"
+
+#: src/devises.c:170
+msgid "Canada"
+msgstr "Kanada"
+
+#: src/devises.c:171
+msgid "Cayman Islands Dollar"
+msgstr "Kajmanski dolar"
+
+#: src/devises.c:171
+msgid "Cayman Islands"
+msgstr "Kajmany"
+
+#: src/devises.c:172
+msgid "Cuban Peso"
+msgstr "Kubańskie peso"
+
+#: src/devises.c:172
+msgid "Cuba"
+msgstr "Kuba"
+
+#: src/devises.c:173
+msgid "Dominican Peso"
+msgstr "Republiki Dominikany peso"
+
+#: src/devises.c:173
+msgid "Dominican Republic"
+msgstr "Republika Dominikany"
+
+#: src/devises.c:174
+#: src/devises.c:175
+msgid "East Caribbean Dollar"
+msgstr ""
+
+#: src/devises.c:174
+msgid "Grenada"
+msgstr "Grenada"
+
+#: src/devises.c:175
+msgid "Saint Lucia"
+msgstr ""
+
+#: src/devises.c:176
+msgid "Haitian Gourde"
+msgstr ""
+
+#: src/devises.c:176
+msgid "Haiti"
+msgstr "Haiti"
+
+#: src/devises.c:177
+msgid "Jamaican Dollar"
+msgstr "Jamajski dolar"
+
+#: src/devises.c:177
+msgid "Jamaica"
+msgstr "Jamajka"
+
+#: src/devises.c:178
+msgid "Netherlands Antillian Guilder"
+msgstr ""
+
+#: src/devises.c:178
+msgid "Netherlands Antilles"
+msgstr "Antyle Holenderskie"
+
+#: src/devises.c:179
+msgid "Trinidad and Tobago Dollar"
+msgstr ""
+
+#: src/devises.c:179
+msgid "Trinidad and Tobago"
+msgstr ""
+
+#: src/devises.c:180
+#: src/devises.c:196
+msgid "United States Dollar"
+msgstr "Amerykański dolar"
+
+#: src/devises.c:180
+msgid "United States"
+msgstr "Stany Zjednoczone Ameryki"
+
+#: src/devises.c:181
+#: src/devises.c:182
+#: src/devises.c:183
+#: src/devises.c:184
+#: src/devises.c:185
+#: src/devises.c:186
+#: src/devises.c:187
+#: src/devises.c:188
+#: src/devises.c:189
+#: src/devises.c:190
+#: src/devises.c:191
+#: src/devises.c:192
+#: src/devises.c:193
+#: src/devises.c:194
+#: src/devises.c:195
+#: src/devises.c:196
+#: src/devises.c:197
+#: src/devises.c:495
+msgid "Pacific Ocean"
+msgstr ""
+
+#: src/devises.c:181
+#: src/devises.c:182
+#: src/devises.c:183
+#: src/devises.c:184
+msgid "Australian Dollar"
+msgstr "Australijski dolar"
+
+#: src/devises.c:181
+msgid "Australia"
+msgstr "Australia"
+
+#: src/devises.c:182
+msgid "Kiribati"
+msgstr ""
+
+#: src/devises.c:183
+msgid "Nauru"
+msgstr ""
+
+#: src/devises.c:184
+msgid "Tuvalu"
+msgstr ""
+
+#: src/devises.c:185
+#: src/devises.c:186
+#: src/devises.c:187
+msgid "CFP Franc"
+msgstr ""
+
+#: src/devises.c:185
+msgid "French Polynesia"
+msgstr ""
+
+#: src/devises.c:186
+msgid "New Caledonia"
+msgstr "Nowa Kaledonia"
+
+#: src/devises.c:187
+msgid "Wallis and Futuna"
+msgstr ""
+
+#: src/devises.c:188
+msgid "Fiji Dollar"
+msgstr ""
+
+#: src/devises.c:188
+msgid "Fiji"
+msgstr "Fidżi"
+
+#: src/devises.c:189
+#: src/devises.c:190
+msgid "New Zealand Dollar"
+msgstr "Nowo Zelandzki dolat"
+
+#: src/devises.c:189
+msgid "Cook Islands"
+msgstr ""
+
+#: src/devises.c:190
+msgid "New Zealand"
+msgstr "Nowa Zelandia"
+
+#: src/devises.c:191
+msgid "Papua New Guinea Kina"
+msgstr ""
+
+#: src/devises.c:191
+msgid "Papua New Guinea"
+msgstr "Papua Nowa Gwinea"
+
+#: src/devises.c:192
+msgid "Samoa Tala"
+msgstr ""
+
+#: src/devises.c:192
+msgid "Samoa"
+msgstr ""
+
+#: src/devises.c:193
+msgid "Solomon Islands Dollar"
+msgstr "Wysp Salomon dolar"
+
+#: src/devises.c:193
+msgid "Solomon Islands"
+msgstr "Wyspy Salomona"
+
+#: src/devises.c:194
+msgid "Timor Escudo"
+msgstr ""
+
+#: src/devises.c:194
+msgid "Timor"
+msgstr "Timor"
+
+#: src/devises.c:195
+msgid "Tongan Pa'anga"
+msgstr ""
+
+#: src/devises.c:195
+msgid "Tonga"
+msgstr ""
+
+#: src/devises.c:197
+msgid "Vanuatu Vatu"
+msgstr ""
+
+#: src/devises.c:197
+msgid "Vanuatu"
+msgstr ""
+
+#: src/devises.c:198
+#: src/devises.c:199
+#: src/devises.c:200
+#: src/devises.c:201
+#: src/devises.c:202
+#: src/devises.c:203
+#: src/devises.c:204
+#: src/devises.c:496
+msgid "Southern America"
+msgstr "Ameryka Południowa"
+
+#: src/devises.c:198
+msgid "Chilean Peso"
+msgstr "Czilijskie peso"
+
+#: src/devises.c:198
+msgid "Chile"
+msgstr "Czile"
+
+#: src/devises.c:199
+msgid "Colombian Peso"
+msgstr "Kolumbijskie peso"
+
+#: src/devises.c:199
+msgid "Colombia"
+msgstr "Kolumbia"
+
+#: src/devises.c:200
+msgid "Ecuador Sucre"
+msgstr ""
+
+#: src/devises.c:200
+msgid "Ecuador"
+msgstr "Ekwador"
+
+#: src/devises.c:201
+msgid "Guyana Dollar"
+msgstr "Gujańki dolar"
+
+#: src/devises.c:201
+msgid "Guyana"
+msgstr "Gujana"
+
+#: src/devises.c:202
+msgid "Paraguay Guarani"
+msgstr ""
+
+#: src/devises.c:202
+msgid "Paraguay"
+msgstr "Paragwaj"
+
+#: src/devises.c:203
+msgid "Suriname Guilder"
+msgstr ""
+
+#: src/devises.c:203
+msgid "Suriname"
+msgstr "Surinam"
+
+#: src/devises.c:204
+msgid "Venezuelan Bolivar"
+msgstr ""
+
+#: src/devises.c:204
+msgid "Venezuela"
+msgstr "Wenezuela"
+
+#. le 1er item c'est aucune devise
+#: src/devises.c:423
+msgid "No associated currency"
+msgstr "Brak zdefiniowanej waluty"
+
+#: src/devises.c:587
+msgid "Country name"
+msgstr "Nazwa kraju"
+
+#. Currency name
+#: src/devises.c:597
+#: src/devises.c:710
+msgid "Currency name"
+msgstr "Nazwa waluty"
+
+#: src/devises.c:607
+#: src/devises.c:1377
+msgid "ISO Code"
+msgstr "Kod ISO"
+
+#. Create code entry
+#: src/devises.c:618
+#: src/devises.c:1378
+#: src/devises.c:1515
+msgid "Sign"
+msgstr "Oznaczenie"
+
+#: src/devises.c:645
+msgid "Include obsolete currencies"
+msgstr "Pokaż przestarzałe waluty"
+
+#: src/devises.c:674
+#: src/import.c:456
+msgid "Add a currency"
+msgstr "Dodaj walutę"
+
+#: src/devises.c:692
+msgid "ISO 4217 currencies"
+msgstr "Waluty ISO 4217"
+
+#: src/devises.c:699
+msgid "Currency details"
+msgstr "Szczegóły waluty"
+
+#. Currency ISO code
+#: src/devises.c:727
+msgid "Currency ISO 4217 code"
+msgstr "Kod ISO 4217 waluty"
+
+#. Currency usual sign
+#: src/devises.c:742
+msgid "Currency sign"
+msgstr "Oznaczenie waluty"
+
+#: src/devises.c:818
+msgid "All fields are not filled in!"
+msgstr "Nie wszystkie pola zostały wypełnione!"
+
+#: src/devises.c:874
+msgid "..."
+msgstr "..."
+
+#: src/devises.c:963
+#, c-format
+msgid ""
+"The %s currency is used in the current account.\n"
+"You can't delete it."
+msgstr ""
+"Waluta %s jest używana w aktualnym pliku.\n"
+"Nie można jej usunąć."
+
+#: src/devises.c:1023
+msgid "Enter exchange rate"
+msgstr "Podaj kurs wymiany"
+
+#: src/devises.c:1033
+#, c-format
+msgid "Please enter exchange rate for %s"
+msgstr "Proszę wprowadzić kurs wymiany dla %s"
+
+#: src/devises.c:1045
+msgid "A"
+msgstr "A"
+
+#: src/devises.c:1053
+msgid "equals"
+msgstr "równe"
+
+#: src/devises.c:1115
+msgid "Exchange fees"
+msgstr ""
+
+#: src/devises.c:1376
+#: src/import.c:372
+msgid "Currency"
+msgstr "Waluta"
+
+#: src/devises.c:1382
+#: src/etats_config.c:6174
+#: src/parametres.c:286
+msgid "Currencies"
+msgstr "Waluty"
+
+#: src/devises.c:1386
+msgid "Known currencies"
+msgstr "Zdefiniowane waluty"
+
+#: src/devises.c:1479
+msgid "Currency properties"
+msgstr "Szczegóły waluty"
+
+#. Create code entry
+#: src/devises.c:1531
+msgid "ISO code"
+msgstr "Kod ISO"
+
+#. Will switch to Euro?
+#: src/devises.c:1547
+msgid "Will switch to Euro"
+msgstr "Przeliczaj do Euro"
+
+#: src/devises.c:1558
+msgid "Associated currency"
+msgstr "Skojarz walutę z"
+
+#: src/devises.c:1579
+msgid "One"
+msgstr "Jeden"
+
+#: src/devises.c:1587
+msgid "costs"
+msgstr "kosztuje"
+
+#: src/devises.c:1649
+#: src/parametres.c:269
+msgid "Totals currencies"
+msgstr "Waluty"
+
+#: src/devises.c:1656
+msgid "Currency for third parties tree"
+msgstr "Waluta dla beneficjentów"
+
+#: src/devises.c:1666
+msgid "Currency for categories tree"
+msgstr "Waluta dla kategorii"
+
+#: src/devises.c:1676
+msgid "Currency for budgetary lines tree"
+msgstr "Waluta dla linii budżetowych"
+
+#: src/devises.c:1887
+msgid "Last exchange rate"
+msgstr "Ostatni kurs wymiany"
+
+#: src/devises.c:1893
+msgid "No exchange rate defined"
+msgstr "Brak kursu wymiany"
+
+#: src/dialog.c:244
+#: src/dialog.c:364
+#: src/fichiers_io.c:6432
+#: src/fichiers_io.c:9345
+msgid "Do not show this message again"
+msgstr "Nie pokazuj więcej tej wiadomości"
+
+#: src/echeancier_formulaire.c:255
+#: src/echeancier_formulaire.c:256
+#: src/operations_formulaire.c:256
+#: src/operations_formulaire.c:257
+msgid "Choose currency"
+msgstr "Wybierz walutę"
+
+#: src/echeancier_formulaire.c:279
+#: src/echeancier_formulaire.c:280
+msgid "Choose the account"
+msgstr "Wybierz konto"
+
+#: src/echeancier_formulaire.c:371
+#: src/echeancier_formulaire.c:372
+#: src/operations_formulaire.c:392
+#: src/operations_formulaire.c:393
+msgid "Choose the method of payment"
+msgstr "Wybierz metodę płatności"
+
+#: src/echeancier_formulaire.c:407
+#: src/echeancier_formulaire.c:408
+#: src/echeancier_ventilation.c:598
+#: src/echeancier_ventilation.c:599
+#: src/operations_formulaire.c:423
+#: src/operations_formulaire.c:424
+#: src/ventilation.c:601
+#: src/ventilation.c:602
+msgid "Choose the financial year"
+msgstr "Wybierz rok finansowy"
+
+#: src/echeancier_formulaire.c:529
+#: src/echeancier_formulaire.c:530
+msgid "Automatic/manual scheduled transaction"
+msgstr "Automatyczna/ręczna zaplanowana transakcja "
+
+#: src/echeancier_formulaire.c:538
+#: src/echeancier_liste.c:807
+#: src/operations_liste.c:1814
+msgid "Manual"
+msgstr "Ręczny"
+
+#: src/echeancier_formulaire.c:546
+#: src/echeancier_liste.c:805
+#: src/exercice.c:547
+msgid "Automatic"
+msgstr "Automatyczny"
+
+#: src/echeancier_formulaire.c:601
+#: src/echeancier_formulaire.c:602
+#: src/echeancier_liste.c:401
+msgid "Frequency"
+msgstr "Częstotliwość"
+
+#: src/echeancier_formulaire.c:610
+#: src/echeancier_liste.c:214
+#: src/echeancier_liste.c:765
+msgid "Once"
+msgstr "Pojedynczo"
+
+#: src/echeancier_formulaire.c:626
+#: src/echeancier_liste.c:767
+msgid "Weekly"
+msgstr "Co tydzień"
+
+#: src/echeancier_formulaire.c:642
+#: src/echeancier_liste.c:769
+msgid "Monthly"
+msgstr "Miesięcznie"
+
+#: src/echeancier_formulaire.c:658
+#: src/echeancier_liste.c:771
+msgid "Yearly"
+msgstr "Rocznie"
+
+#: src/echeancier_formulaire.c:674
+#: src/echeancier_liste.c:224
+#: src/etats_config.c:44
+msgid "Custom"
+msgstr "Dowolny zakres"
+
+#: src/echeancier_formulaire.c:738
+#: src/echeancier_formulaire.c:739
+#: src/echeancier_formulaire.c:758
+#: src/echeancier_formulaire.c:759
+msgid "Custom frequency"
+msgstr "Inna częstotliwość"
+
+#: src/echeancier_formulaire.c:767
+#: src/echeancier_liste.c:274
+msgid "Days"
+msgstr "Dni"
+
+#: src/echeancier_formulaire.c:775
+#: src/echeancier_liste.c:286
+#: src/etats_config.c:5967
+msgid "Months"
+msgstr "Miesiące"
+
+#: src/echeancier_formulaire.c:783
+#: src/echeancier_liste.c:298
+msgid "Years"
+msgstr "Lata"
+
+#: src/echeancier_formulaire.c:1044
+#: src/echeancier_formulaire.c:2538
+#: src/echeancier_ventilation.c:857
+#: src/echeancier_ventilation.c:1487
+#: src/operations_formulaire.c:1103
+#: src/operations_formulaire.c:3328
+#: src/ventilation.c:858
+#: src/ventilation.c:1485
+msgid "Categories : Sub-categories"
+msgstr "Kategorie : Podkategorie"
+
+#: src/echeancier_formulaire.c:1062
+#: src/echeancier_formulaire.c:2540
+msgid "Transfer reference"
+msgstr ""
+
+#: src/echeancier_formulaire.c:1090
+#: src/echeancier_formulaire.c:2548
+msgid "Limit date"
+msgstr "Data końcowa"
+
+#: src/echeancier_formulaire.c:1475
+#: src/equilibrage.c:948
+#: src/equilibrage.c:968
+#: src/operations_formulaire.c:2327
+msgid "Invalid date"
+msgstr "Błędna data"
+
+#: src/echeancier_formulaire.c:1489
+msgid "Invalid limit date"
+msgstr "Błędna data końcowa"
+
+#: src/echeancier_formulaire.c:1527
+#: src/operations_formulaire.c:2413
+msgid "Can't issue a transfer its own account."
+msgstr "Nie można wykonać transferu do tego samego konta"
+
+#: src/echeancier_formulaire.c:1557
+msgid "A breakdown of transaction is a transfer to this account.\n"
+msgstr ""
+
+#: src/echeancier_formulaire.c:1580
+#: src/operations_formulaire.c:2377
+msgid "There is no associated account for this transfer."
+msgstr "Brak skojarzonych kont dla tego transferu"
+
+#: src/echeancier_formulaire.c:1603
+#: src/operations_formulaire.c:2406
+msgid "Associated account of this transfer is invalid."
+msgstr "Konto skojarzone z tą transakcją jest nieprawidłowe"
+
+#: src/echeancier_formulaire.c:1621
+msgid ""
+"Impossible to create or entry an automatic scheduled transaction\n"
+" with a cheque or a method of payment with an automatic incremental number."
+msgstr ""
+"Niemożliwe jest utworzenie automatycznej zaplanowanej transakcji\n"
+"z płatnością czekiem lub metodą płatności, która zawiera automatyczne numerowanie."
+
+#: src/echeancier_formulaire.c:1634
+#: src/echeancier_liste.c:662
+#: src/type_operations.c:1562
+#: src/type_operations.c:1633
+msgid "Input"
+msgstr "Wprowadź"
+
+#: src/echeancier_formulaire.c:2588
+#: src/echeancier_liste.c:555
+#: src/echeancier_liste.c:986
+msgid "Modification"
+msgstr "Modyfikacja"
+
+#: src/echeancier_liste.c:165
+msgid "Display scheduled transactions"
+msgstr "Wyświetl zaplanowane transakcje"
+
+#: src/echeancier_liste.c:186
+msgid "Of month"
+msgstr "Na miesiąc"
+
+#: src/echeancier_liste.c:195
+msgid "Of next two months"
+msgstr "Na następne dwa miesiące"
+
+#: src/echeancier_liste.c:204
+msgid "Of year"
+msgstr "Na rok"
+
+#. met un bouton valider qui est juste utilisÃ© pour faire sortir le focus de l'entrÃ©e
+#. Pas de handler associÃ© car il suffit juste de faire perdre le focus
+#: src/echeancier_liste.c:259
+msgid "Show"
+msgstr "Pokaż"
+
+#: src/echeancier_liste.c:370
+msgid ""
+"Remove selected\n"
+"scheduled transaction"
+msgstr ""
+"Usuń zaznaczone\n"
+"zaplanowane transakcje"
+
+#: src/echeancier_liste.c:399
+#: src/etats_config.c:266
+#: src/import.c:394
+#: src/type_operations.c:296
+msgid "Account"
+msgstr "Konto"
+
+#: src/echeancier_liste.c:402
+msgid "Mode"
+msgstr "Tryb"
+
+#. del
+#: src/echeancier_liste.c:607
+msgid "Confirmation of scheduled transaction removal"
+msgstr "Potwierdzenie usunięcia zaplanowanej transakcji"
+
+#: src/echeancier_liste.c:608
+msgid "You are currently trying to remove a scheduled transaction.  There is no undo for this.  Do you confirm the removal?"
+msgstr "Właśnie próbujesz usunąć zaplanowaną transakcję. Ta operacja jest nieodwracalna. Potwierdzasz usunięcie?"
+
+#: src/echeancier_liste.c:776
+#, c-format
+msgid "%d months"
+msgstr "%d miesięcy"
+
+#: src/echeancier_liste.c:779
+#, c-format
+msgid "%d years"
+msgstr "%d lat"
+
+#: src/echeancier_liste.c:782
+#, c-format
+msgid "%d days"
+msgstr "%d dni"
+
+#: src/echeancier_liste.c:1371
+#: src/etats_affiche.c:2051
+msgid "No third party"
+msgstr "Brak beneficjenta"
+
+#: src/echeancier_liste.c:1376
+msgid "Delete a scheduled transaction"
+msgstr "Kasowanie zaplanowanej transakcji"
+
+#: src/echeancier_liste.c:1377
+msgid "Do you want to delete just this occurrence or the whole scheduled transaction?"
+msgstr "Chcesz usunąć tylko tą pozycję, czy całą zaplanowaną transakcję?"
+
+#: src/echeancier_liste.c:1381
+msgid "All the occurences"
+msgstr "Wszystkie pozycje"
+
+#: src/echeancier_liste.c:1382
+msgid "Only this one"
+msgstr "Tylko tą pozycję"
+
+#: src/echeancier_liste.c:1890
+msgid "This breakdown of transaction contains a transfer on itself.  Either change the sub transaction to transfer on another account or change account of the transaction itself."
+msgstr ""
+
+#: src/echeancier_liste.c:1891
+msgid "Can't issue scheduled operation"
+msgstr ""
+
+#: src/echeancier_onglet.c:90
+msgid "Calendar"
+msgstr "Kalendarz"
+
+#: src/echeancier_onglet.c:130
+msgid "Scheduler list"
+msgstr "Lista terminarza"
+
+#: src/echeancier_onglet.c:135
+msgid "Scheduler broken down transactions"
+msgstr ""
+
+#: src/echeancier_ventilation.c:227
+#: src/ventilation.c:230
+msgid "Break down amount"
+msgstr ""
+
+#: src/echeancier_ventilation.c:254
+#: src/ventilation.c:257
+msgid "Not assigned"
+msgstr "Nieustalony"
+
+#: src/echeancier_ventilation.c:580
+#: src/echeancier_ventilation.c:581
+#: src/ventilation.c:583
+#: src/ventilation.c:584
+msgid "Associated method of payment"
+msgstr "Powiązane metody płatności"
+
+#: src/echeancier_ventilation.c:1599
+#: src/ventilation.c:1597
+msgid "The associated account for this transfer is invalid"
+msgstr "Konto powiązane z tym transferem jest nieprawidłowe"
+
+#: src/echeancier_ventilation.c:1607
+#: src/ventilation.c:1604
+msgid "It's impossible to transfer an account to itself"
+msgstr "Niemożliwy jest transfer na to samo konto"
+
+#: src/echeancier_ventilation.c:1614
+#: src/ventilation.c:1611
+msgid "No account associated with the transfer"
+msgstr "Brak konta skojarzonego z tym transferem"
+
+#: src/echeancier_ventilation.c:2489
+#: src/ventilation.c:2561
+msgid "Incomplete breakdown"
+msgstr ""
+
+#: src/echeancier_ventilation.c:2490
+#: src/ventilation.c:2562
+msgid ""
+"Transaction amount isn't fully broken down.\n"
+"Proceed anyway?"
+msgstr ""
+
+#: src/echeancier_ventilation.c:2672
+#: src/ventilation.c:2806
+msgid "A breakdown line is to be deleted though it is not yet registered."
+msgstr ""
+
+#: src/equilibrage.c:122
+#: src/equilibrage.c:136
+msgid "Reconciliation reference"
+msgstr ""
+
+#: src/equilibrage.c:135
+msgid "If reconciliation reference ends in a digit, it is automatically incremented at each reconciliation."
+msgstr ""
+
+#: src/equilibrage.c:319
+msgid "Final balance"
+msgstr "Saldo końcowe"
+
+#: src/equilibrage.c:341
+msgid "Checking"
+msgstr "Sprawdzenie"
+
+#: src/equilibrage.c:370
+msgid "Variance"
+msgstr "Rozbieżność"
+
+#: src/equilibrage.c:847
+#: src/operations_liste.c:1097
+#: src/operations_liste.c:1899
+msgid "P"
+msgstr "P"
+
+#: src/equilibrage.c:900
+#: src/operations_comptes.c:312
+#: src/operations_liste.c:765
+#: src/operations_liste.c:1954
+#, c-format
+msgid "Checked balance: %4.2f %s"
+msgstr "Potwierdzone saldo: %4.2f %s"
+
+#: src/equilibrage.c:927
+msgid "There is a variance"
+msgstr "Niezgodność"
+
+#: src/equilibrage.c:977
+#: src/operations_comptes.c:299
+#, c-format
+msgid "Last statement: %02d/%02d/%d"
+msgstr "Ostatnie zmiany: %02d/%02d/%d"
+
+#: src/equilibrage.c:1616
+#: src/operations_onglet.c:83
+#: src/parametres.c:261
+#: src/type_operations.c:252
+msgid "Reconciliation"
+msgstr "Potwierdzenie salda"
+
+#: src/equilibrage.c:1620
+msgid "Reconciliation: sort transactions"
+msgstr "Potwierdzenie sald: sortuj transakcje"
+
+#: src/equilibrage.c:1668
+msgid "Sort by date"
+msgstr "Sortuj po dacie"
+
+#: src/equilibrage.c:1685
+msgid "Split neutral payment methods"
+msgstr "Połącz neutralne metody płatności"
+
+#: src/erreur.c:102
+msgid "Log message"
+msgstr "Logowanie wiadomości"
+
+#: src/erreur.c:108
+msgid "This operation returned a message"
+msgstr "Operacja zwróciła wiadomość"
+
+#: src/erreur.c:163
+msgid ""
+"Grisbi triggered a segmentation fault and cannot continue its execution.\n"
+"\n"
+msgstr ""
+
+#: src/erreur.c:177
+msgid "File is corrupted."
+msgstr "Plik jest uszkodzony."
+
+#: src/erreur.c:183
+msgid "Error occured saving file."
+msgstr "Wystąpił błąd podczas zapisu pliku."
+
+#: src/erreur.c:226
+#, c-format
+msgid "Grisbi made a backup file at '%s'."
+msgstr "Program wykonał kopię bezpieczeństwa w '%s'."
+
+#: src/erreur.c:233
+msgid "Please report this problem to http://www.grisbi.org/bugtracking/"
+msgstr "Proszę zgłosić ten problem do http://www.grisbi.org/bugtracking/"
+
+#: src/erreur.c:237
+msgid "Grisbi terminated due to a segmentation fault."
+msgstr "Program został zakończony z powodu błędu segmentacji."
+
+#: src/etat_io.c:57
+msgid "This file is not a Grisbi report"
+msgstr "Ten plik nie jest plikiem raportu Grisbi"
+
+#: src/etat_io.c:66
+#, c-format
+msgid "This report has been produced with grisbi version %s, Grisbi will nevertheless try to import it."
+msgstr "Ten raport został wykonany w wersji %s programu i nie zostanie zaimporotwany."
+
+#: src/etat_io.c:67
+#: src/fichiers_io.c:8788
+#: src/fichiers_io.c:9141
+msgid "Version mismatch"
+msgstr "Niezgodność wersji"
+
+#: src/etat_io.c:73
+msgid "Invalid report file"
+msgstr "Nieprawidłowy plik raportu"
+
+#: src/etat_io.c:761
+#, c-format
+msgid "%sCurrency %s not found.\n"
+msgstr "%sWaluta %s nie została znaleziona.\n"
+
+#: src/etat_io.c:764
+#, c-format
+msgid "Currency %s not found.\n"
+msgstr "Waluta %s nie została znaleziona.\n"
+
+#: src/etat_io.c:805
+#, c-format
+msgid "%sFinancial year %s not found.\n"
+msgstr "%sRok finansowy %s nie został znaleziony.\n"
+
+#: src/etat_io.c:808
+#, c-format
+msgid "Financial year %s not found.\n"
+msgstr "Rok finansowy %s nie został znaleziony.\n"
+
+#: src/etat_io.c:851
+#, c-format
+msgid "%sAccount %s not found.\n"
+msgstr "%sKonto %s nie zostało znalezione.\n"
+
+#: src/etat_io.c:854
+#, c-format
+msgid "Account %s not found.\n"
+msgstr "Konto %s nie zostało znalezione.\n"
+
+#: src/etat_io.c:894
+#, c-format
+msgid "%sCategory %s not found.\n"
+msgstr "%sKategoria %s nie została znaleziona.\n"
+
+#: src/etat_io.c:897
+#, c-format
+msgid "Category %s not found.\n"
+msgstr "Kategoria %s nie została znaleziona.\n"
+
+#: src/etat_io.c:937
+#, c-format
+msgid "%sBudget line %s not found.\n"
+msgstr "%sLinia budżetowa %s nie została znaleziona.\n"
+
+#: src/etat_io.c:940
+#, c-format
+msgid "Budget line %s not found.\n"
+msgstr "Linia budżetowa %s nie została znaleziona.\n"
+
+#: src/etat_io.c:981
+#, c-format
+msgid "%sThird party %s not found.\n"
+msgstr "%sBeneficjent %s nie został znaleziony.\n"
+
+#: src/etat_io.c:984
+#, c-format
+msgid "Third party %s not found.\n"
+msgstr "Beneficjent %s nie został znaleziony.\n"
+
+#: src/etat_io.c:1729
+#, c-format
+msgid ""
+"Error saving the file %s\n"
+"\n"
+"Error:\n"
+"%s"
+msgstr ""
+"Błąd zapisu pliku %s\n"
+"\n"
+"Błąd:\n"
+"%s"
+
+#: src/etats_affiche.c:106
+#: src/etats_affiche.c:313
+#: src/etats_affiche.c:512
+#: src/etats_affiche.c:604
+#, c-format
+msgid "Total %s (%d transaction)"
+msgstr "Razem %s (%d transakcja)"
+
+#: src/etats_affiche.c:108
+#: src/etats_affiche.c:315
+#: src/etats_affiche.c:514
+#: src/etats_affiche.c:606
+#, c-format
+msgid "Total %s (%d transactions)"
+msgstr "Razem %s (transakcje %d) "
+
+#: src/etats_affiche.c:111
+#: src/etats_affiche.c:318
+#: src/etats_affiche.c:517
+msgid "Total"
+msgstr "Razem"
+
+#: src/etats_affiche.c:118
+#, c-format
+msgid "Category total (%d transaction)"
+msgstr "Razem kategoria (%d transakcja)"
+
+#: src/etats_affiche.c:120
+#, c-format
+msgid "Category total (%d transactions)"
+msgstr "Razem kategoria (%d transakcje)"
+
+#: src/etats_affiche.c:123
+msgid "Category total"
+msgstr "Razem kategoria"
+
+#: src/etats_affiche.c:145
+#: src/etats_affiche.c:252
+#: src/etats_affiche.c:351
+#: src/etats_affiche.c:455
+#: src/etats_affiche.c:548
+#: src/etats_affiche.c:640
+#, c-format
+msgid "%4.2f %s (%d transaction)"
+msgstr "%4.2f %s (%d transakcja)"
+
+#: src/etats_affiche.c:148
+#: src/etats_affiche.c:255
+#: src/etats_affiche.c:354
+#: src/etats_affiche.c:458
+#: src/etats_affiche.c:551
+#: src/etats_affiche.c:643
+#, c-format
+msgid "%4.2f %s (%d transactions)"
+msgstr "%4.2f %s (%d transakcje)"
+
+#: src/etats_affiche.c:213
+#: src/etats_affiche.c:415
+#, c-format
+msgid "Total %s: %s (%d transaction)"
+msgstr "Razem %s: %s (%d transakcja)"
+
+#: src/etats_affiche.c:216
+#: src/etats_affiche.c:418
+#, c-format
+msgid "Total %s: %s (%d transactions)"
+msgstr "Razem %s: %s (%d transakcje)"
+
+#: src/etats_affiche.c:220
+#: src/etats_affiche.c:422
+#, c-format
+msgid "Total %s: %s"
+msgstr "Razem %s: %s"
+
+#: src/etats_affiche.c:227
+#, c-format
+msgid "Sub-categories total (%d transaction)"
+msgstr "Razem podkategorie (%d transakcje)"
+
+#: src/etats_affiche.c:230
+#, c-format
+msgid "Sub-categories total (%d transactions)"
+msgstr "Razem podkategorie (%d transakcje)"
+
+#: src/etats_affiche.c:234
+msgid "Sub-categories total"
+msgstr "Razem podkategorie"
+
+#: src/etats_affiche.c:325
+#, c-format
+msgid "Budgetary lines total: (%d transaction)"
+msgstr "Razem linie budżetowe: (%d transakcja)"
+
+#: src/etats_affiche.c:328
+#, c-format
+msgid "Budgetary lines total: (%d transactions)"
+msgstr "Razem linie budżetowe: (%d transakcje)"
+
+#: src/etats_affiche.c:332
+msgid "Budgetary lines total"
+msgstr "Razem linie budżetowe"
+
+#: src/etats_affiche.c:429
+#, c-format
+msgid "Sub-budgetary lines total: (%d transaction)"
+msgstr "Razem podgrupy linii budżetowych (%d transakcja)"
+
+#: src/etats_affiche.c:432
+#, c-format
+msgid "Sub-budgetary lines total: (%d transactions)"
+msgstr "Razem podgrupy linii budżetowych (%d transakcje)"
+
+#: src/etats_affiche.c:436
+msgid "Sub-budgetary lines total"
+msgstr "Razem podgrupy linii budżetowych"
+
+#: src/etats_affiche.c:524
+#, c-format
+msgid "Account total: (%d transaction)"
+msgstr "Razem konto: (%d transakcja)"
+
+#: src/etats_affiche.c:526
+#, c-format
+msgid "Account total: (%d transactions)"
+msgstr "Razem konto: (%d transakcje)"
+
+#: src/etats_affiche.c:529
+msgid "Account total"
+msgstr "Razem konto"
+
+#: src/etats_affiche.c:609
+#, c-format
+msgid "Total %s"
+msgstr "Razem %s"
+
+#: src/etats_affiche.c:616
+#, c-format
+msgid "Third party total: (%d transaction)"
+msgstr "Razem beneficjenci: (%d transakcja)"
+
+#: src/etats_affiche.c:618
+#, c-format
+msgid "Third party total: (%d transactions)"
+msgstr "Razem beneficjenci: (%d transakcje)"
+
+#: src/etats_affiche.c:621
+msgid "Third party total"
+msgstr "Razem beneficjenci"
+
+#: src/etats_affiche.c:790
+#, c-format
+msgid "Result from %d/%d/%d to %d/%d/%d (%d transaction):"
+msgstr ""
+
+#: src/etats_affiche.c:799
+#, c-format
+msgid "Result from %d/%d/%d to %d/%d/%d (%d transactions):"
+msgstr ""
+
+#: src/etats_affiche.c:809
+#, c-format
+msgid "Result from %d/%d/%d to %d/%d/%d:"
+msgstr ""
+
+#: src/etats_affiche.c:835
+#: src/etats_affiche.c:987
+#, c-format
+msgid "Result of %s (%d transaction)"
+msgstr ""
+
+#: src/etats_affiche.c:838
+#: src/etats_affiche.c:991
+#, c-format
+msgid "Result of %s (%d transactions)"
+msgstr ""
+
+#: src/etats_affiche.c:842
+#: src/etats_affiche.c:996
+#, c-format
+msgid "Result of %s"
+msgstr ""
+
+#: src/etats_affiche.c:863
+#, c-format
+msgid "Result for %s (%d transaction)"
+msgstr ""
+
+#: src/etats_affiche.c:866
+#, c-format
+msgid "Result for %s (%d transactions)"
+msgstr ""
+
+#: src/etats_affiche.c:870
+#, c-format
+msgid "Result for %s"
+msgstr ""
+
+#: src/etats_affiche.c:1005
+#, c-format
+msgid "Result without financial year (%d transaction)"
+msgstr ""
+
+#: src/etats_affiche.c:1008
+#, c-format
+msgid "Result without financial year (%d transactions)"
+msgstr ""
+
+#: src/etats_affiche.c:1012
+msgid "Result without financial year"
+msgstr ""
+
+#: src/etats_affiche.c:1192
+#: src/operations_liste.c:1072
+#, c-format
+msgid "Transfer to %s"
+msgstr "Transfer do %s"
+
+#: src/etats_affiche.c:1194
+#: src/operations_liste.c:1075
+#, c-format
+msgid "Transfer from %s"
+msgstr "Transfer z %s"
+
+#: src/etats_affiche.c:1484
+#, c-format
+msgid "Total expenses (%d transaction)"
+msgstr "Razem wydatki (%d transakcja)"
+
+#: src/etats_affiche.c:1486
+#, c-format
+msgid "Total expenses (%d transactions)"
+msgstr "Razem wydatki (%d transakcje)"
+
+#: src/etats_affiche.c:1489
+msgid "Total expenses"
+msgstr "Razem wydatki"
+
+#: src/etats_affiche.c:1496
+#, c-format
+msgid "Total income (%d transaction)"
+msgstr "razem przechody (%d transakcja)"
+
+#: src/etats_affiche.c:1498
+#, c-format
+msgid "Total income (%d transactions)"
+msgstr "Razem przychody (%d transakcje) "
+
+#: src/etats_affiche.c:1501
+msgid "Total income"
+msgstr "Razem przychody"
+
+#: src/etats_affiche.c:1543
+#, c-format
+msgid "General total (%d transaction)"
+msgstr "Razem (%d transakcja)"
+
+#: src/etats_affiche.c:1545
+#, c-format
+msgid "General total (%d transactions)"
+msgstr "Razem (%d transakcje)"
+
+#: src/etats_affiche.c:1548
+msgid "General total"
+msgstr "Razem"
+
+#: src/etats_affiche.c:1638
+msgid "Transfert"
+msgstr ""
+
+#: src/etats_affiche.c:1741
+msgid "No subcategory"
+msgstr "Brak podkategorii"
+
+#: src/etats_affiche.c:1819
+msgid "No budgetary line"
+msgstr "Pusta linia budżetowa"
+
+#: src/etats_affiche.c:1907
+msgid "No sub-budgetary line"
+msgstr "Pusta podgrupa linii budżetowej"
+
+#: src/etats_affiche.c:2079
+msgid "Incomes"
+msgstr "Przychodzące"
+
+#: src/etats_affiche.c:2099
+msgid "Outgoings"
+msgstr "Wychodzące"
+
+#: src/etats_affiche.c:2175
+msgid "Number"
+msgstr "Liczba"
+
+#. Now we have a model, create view
+#: src/etats_affiche.c:2224
+#: src/etats_config.c:159
+#: src/parametres.c:310
+#: src/type_operations.c:256
+msgid "Payment methods"
+msgstr "Sposób płatności"
+
+#: src/etats_affiche.c:2252
+msgid "Statement"
+msgstr "Bilans"
+
+#: src/etats_config.c:43
+msgid "All"
+msgstr "Wszystko"
+
+#: src/etats_config.c:45
+msgid "Total to now"
+msgstr "Razem do dnia dzisiejszego"
+
+#: src/etats_config.c:46
+msgid "Current month"
+msgstr "Aktualny miesiąc"
+
+#: src/etats_config.c:47
+msgid "Current year"
+msgstr "Aktualny rok"
+
+#: src/etats_config.c:48
+msgid "Current month to now"
+msgstr "Aktualny miesiąc do dzisiaj"
+
+#: src/etats_config.c:49
+msgid "Current year to now"
+msgstr "Aktualny rok do dzisiaj"
+
+#: src/etats_config.c:50
+msgid "Previous month"
+msgstr "Poprzedni miesiąc"
+
+#: src/etats_config.c:51
+msgid "Previous year"
+msgstr "Poprzedni rok"
+
+#: src/etats_config.c:52
+msgid "Last 30 days"
+msgstr "Ostatnie 30 dni"
+
+#: src/etats_config.c:53
+msgid "Last 3 months"
+msgstr "Ostatnie 3 miesiące"
+
+#: src/etats_config.c:54
+msgid "Last 6 months"
+msgstr "Ostanie 6 miesięcy"
+
+#: src/etats_config.c:55
+msgid "Last 12 months"
+msgstr "Ostatnie 12 miesięcy"
+
+#: src/etats_config.c:59
+msgid "Monday"
+msgstr "Poniedziałek"
+
+#: src/etats_config.c:60
+msgid "Tuesday"
+msgstr "Wtorek"
+
+#: src/etats_config.c:61
+msgid "Wednesday"
+msgstr "Środa"
+
+#: src/etats_config.c:62
+msgid "Thursday"
+msgstr "Czwartek"
+
+#: src/etats_config.c:63
+msgid "Friday"
+msgstr "Piątek"
+
+#: src/etats_config.c:64
+msgid "Saturday"
+msgstr "Sobota"
+
+#: src/etats_config.c:65
+msgid "Sunday"
+msgstr "Niedziela"
+
+#: src/etats_config.c:94
+msgid "Reports setup"
+msgstr "Ustawienia raportu"
+
+#: src/etats_config.c:121
+msgid "Data selection"
+msgstr "Wybór danych"
+
+#: src/etats_config.c:127
+msgid "Dates"
+msgstr "Daty"
+
+#: src/etats_config.c:131
+msgid "Transfers"
+msgstr "Transfery"
+
+#. mise en place de la frame des comptes
+#. Accounts menu
+#: src/etats_config.c:135
+#: src/etats_config.c:7133
+#: src/export.c:435
+#: src/fenetre_principale.c:89
+#: src/menu.c:100
+#: src/menu.c:101
+#: src/menu.c:102
+#: src/menu.c:103
+#: src/menu.c:104
+#: src/menu.c:105
+#: src/operations_comptes.c:380
+#: src/operations_comptes.c:385
+#: src/operations_comptes.c:446
+#: src/operations_comptes.c:459
+#: src/operations_onglet.c:71
+#: src/traitement_variables.c:99
+#: src/traitement_variables.c:222
+#: src/traitement_variables.c:225
+msgid "Accounts"
+msgstr "Konta"
+
+#: src/etats_config.c:151
+msgid "Texts"
+msgstr "Opisy"
+
+#: src/etats_config.c:155
+msgid "Amounts"
+msgstr "Kwoty"
+
+#: src/etats_config.c:169
+msgid "Data organisation"
+msgstr "Struktura danych"
+
+#: src/etats_config.c:176
+msgid "Data display"
+msgstr "Wyświetlenie danych"
+
+#: src/etats_config.c:939
+msgid "Invalid custom initial date"
+msgstr "Nieprawidłowa data poczatkowa"
+
+#: src/etats_config.c:946
+msgid "Invalid custom final date"
+msgstr "Nieprawidłowa data końcowa"
+
+#: src/etats_config.c:1087
+msgid ""
+"All the financial years have been selected. Grisbi will run faster\n"
+"without the \"Detail financial years\" option"
+msgstr "Wszystkie lata finansowe zostały zaznaczone. Grisbi będzie pracował szybciej jeżeli odznaczysz opcję \"Pokaż lata finansowe\""
+
+#: src/etats_config.c:1164
+msgid ""
+"All the accounts have been selected. Grisbi will run faster\n"
+"without the \"Detail accounts used\" option"
+msgstr "Wszystkie konta zostały zaznaczone. Grisbi będzie pracował szybciej jeżeli odznaczysz opcję \"Pokaż konta\""
+
+#: src/etats_config.c:1238
+msgid ""
+"All the categories have been selected. Grisbi will run faster\n"
+"without the \"Detail categories used\" option"
+msgstr "Wszystkie kategorie zostały zaznaczone. Grisbi będzie pracował szybciej jeżeli odznaczysz opcję \"Pokaż kategorie\""
+
+#: src/etats_config.c:1285
+msgid ""
+"All budgetary lines have been selected.  Grisbi will run faster\n"
+"without \"Detail the budgetary lines used\" option"
+msgstr "Wszystkie linie budżetowe zostały zaznaczone. Grisbi będzie pracował szybciej jeżeli odznaczysz opcję \"Pokaż linie budżetowe\""
+
+#: src/etats_config.c:1330
+msgid ""
+"All the third parts have been selected. Grisbi will run faster\n"
+"without the \"Detail the third parties\" option"
+msgstr "Wszyscy beneficjenci zostali zaznaczeni. Grisbi będzie pracował szybciej jeżeli odznaczysz opcję \"Pokaż beneficjentów\""
+
+#: src/etats_config.c:1500
+msgid "All methods of payment have been selected. Grisbi will run faster without the \"Select the transactions based on payment method\" option"
+msgstr "Wszystkie metody płatności zostały zaznaczone. Grisbi będzie pracował szybciej jeżeli odznaczysz opcję \"Pokaż metody płatności\""
+
+#: src/etats_config.c:1669
+msgid "Use dates ranges"
+msgstr "Wg przedziału czasowego"
+
+#: src/etats_config.c:1766
+msgid "Use financial years"
+msgstr "Wg lat finansowych"
+
+#: src/etats_config.c:1804
+msgid "All financial years"
+msgstr "Wszystkie lata finansowe"
+
+#: src/etats_config.c:1813
+msgid "Current financial year"
+msgstr "Obecny rok finansowy"
+
+#: src/etats_config.c:1822
+msgid "Former financial year"
+msgstr "Poprzedni rok finansowy"
+
+#: src/etats_config.c:1833
+msgid "Detail financial years"
+msgstr "Pokaż lata finansowe"
+
+#: src/etats_config.c:1893
+msgid "Initial date"
+msgstr "Data początkowa"
+
+#: src/etats_config.c:1935
+msgid "Final date"
+msgstr "Data końcowa"
+
+#. on met dans la partie de gauche une liste contenant les comptes Ã
+#. sÃ©lectionner
+#: src/etats_config.c:2290
+msgid "Select transactions only for given accounts"
+msgstr "Wybierz transakcje tylko dla podanych kont"
+
+#: src/etats_config.c:2317
+msgid "Select the accounts included in the report"
+msgstr "Zaznacz konta do dołączenia do raportu"
+
+#: src/etats_config.c:2378
+#: src/etats_config.c:2649
+#: src/etats_config.c:2947
+#: src/etats_config.c:3220
+#: src/etats_config.c:3490
+#: src/etats_config.c:7544
+msgid "Select all"
+msgstr "Zaznacz wszystkie"
+
+#: src/etats_config.c:2392
+#: src/etats_config.c:2663
+#: src/etats_config.c:2961
+#: src/etats_config.c:3234
+#: src/etats_config.c:3504
+#: src/etats_config.c:7558
+msgid "Unselect all"
+msgstr "Wyczyść wszystkie"
+
+#: src/etats_config.c:2406
+#: src/etats_config.c:2677
+msgid "Select bank accounts"
+msgstr "Zaznacz konta bankowe"
+
+#: src/etats_config.c:2420
+#: src/etats_config.c:2691
+msgid "Select cash accounts"
+msgstr "Zaznacz konta gotówkowe"
+
+#: src/etats_config.c:2434
+#: src/etats_config.c:2705
+msgid "Select liabilities accounts"
+msgstr "Zaznacz konta pasywów"
+
+#: src/etats_config.c:2448
+#: src/etats_config.c:2719
+msgid "Select assets accounts"
+msgstr "Zaznacz konta aktywów"
+
+#: src/etats_config.c:2552
+msgid "Do not include transfers"
+msgstr "Nie dołączaj przelewów"
+
+#: src/etats_config.c:2561
+msgid "Include transfers from or to assets or liabilities accounts"
+msgstr "Dołącz przelewy z lub do kont aktywów i pasywów"
+
+#: src/etats_config.c:2574
+msgid "Include transfers from or to accounts not in this report"
+msgstr "Dołącz przelewy z lub do kont których nie ma w tym raporcie"
+
+#: src/etats_config.c:2587
+msgid "Include transfers from or to these accounts"
+msgstr "Dołącz przelewy z lub do kont zaznaczonych poniżej"
+
+#. on rajoute le bouton exclure les opÃ© non virement
+#: src/etats_config.c:2741
+msgid "Exclude the transactions which are not transfers"
+msgstr "Nie dołączaj transakcji, które nie są przelewami"
+
+#: src/etats_config.c:2861
+msgid "Detail categories"
+msgstr "Pokaż kategorie"
+
+#: src/etats_config.c:2899
+msgid "Select categories to include"
+msgstr "Wybierz kategorie do dołączenia do raportu"
+
+#: src/etats_config.c:2975
+msgid "Income categories"
+msgstr "Kategorie przychodów"
+
+#: src/etats_config.c:2989
+msgid "Outgoing categories"
+msgstr "Kategorie wydatków"
+
+#: src/etats_config.c:3014
+msgid "Exclude transactions with no category"
+msgstr "Nie załączaj transakcji bez kategorii"
+
+#: src/etats_config.c:3134
+msgid "Detail budgetary lines"
+msgstr "Pokaż linie budżetowe"
+
+#: src/etats_config.c:3172
+msgid "Select the budgetary lines to include in the report"
+msgstr "Wybierz linie budżetowe do załączenia do raportu"
+
+#: src/etats_config.c:3248
+msgid "Income budget lines"
+msgstr "Linie budżetowe przychodów"
+
+#: src/etats_config.c:3262
+msgid "Outgoing budget lines"
+msgstr "Linie budżetowe wydatków"
+
+#: src/etats_config.c:3285
+msgid "Exclude transactions without budgetary line"
+msgstr "Nie załączaj tensakcji bez linii budżetowych"
+
+#: src/etats_config.c:3404
+msgid "Detail third parties"
+msgstr "Pokaż beneficjentów"
+
+#: src/etats_config.c:3442
+msgid "Select third parties to include in this report"
+msgstr "Wybierz beneficjentów do załączenia do raportu"
+
+#: src/etats_config.c:3596
+msgid "Select transactions according to the text"
+msgstr "Wybierz transakcje pasujące do formuły"
+
+#: src/etats_config.c:3891
+msgid "Transactions whose"
+msgstr "Transakcje których"
+
+#: src/etats_config.c:4032
+msgid "is"
+msgstr "jest"
+
+#: src/etats_config.c:4047
+#: src/etats_config.c:4100
+#: src/etats_config.c:4915
+#: src/etats_config.c:4968
+msgid "to"
+msgstr "do"
+
+#. on met les bouton ajouter et supprimer
+#: src/etats_config.c:4121
+#: src/etats_config.c:4989
+msgid "Add"
+msgstr "Dodaj"
+
+#: src/etats_config.c:4135
+#: src/etats_config.c:5003
+msgid "Remove"
+msgstr "Usuń"
+
+#: src/etats_config.c:4208
+#: src/etats_config.c:6414
+msgid "the third party"
+msgstr "beneficjent"
+
+#: src/etats_config.c:4236
+msgid "the third party information"
+msgstr "informacja o beneficjencie"
+
+#: src/etats_config.c:4264
+#: src/etats_config.c:6431
+msgid "the category"
+msgstr "kategoria"
+
+#: src/etats_config.c:4292
+#: src/etats_config.c:6447
+msgid "the sub-category"
+msgstr "podkategoria"
+
+#: src/etats_config.c:4320
+#: src/etats_config.c:6463
+msgid "the budgetary line"
+msgstr "linia budżetowa"
+
+#: src/etats_config.c:4348
+#: src/etats_config.c:6479
+msgid "the sub-budgetary line"
+msgstr "podkategoria linii budżetowej"
+
+#: src/etats_config.c:4376
+msgid "the note"
+msgstr "opis"
+
+#: src/etats_config.c:4404
+#: src/etats_config.c:6559
+msgid "the bank reference"
+msgstr "informacja o banku"
+
+#: src/etats_config.c:4432
+#: src/etats_config.c:6543
+msgid "the voucher"
+msgstr "rachunek"
+
+#: src/etats_config.c:4453
+msgid "the cheque number"
+msgstr "numer czeku"
+
+#: src/etats_config.c:4473
+#: src/etats_config.c:6575
+msgid "the reconciliation reference"
+msgstr "wyciąg z banku"
+
+#: src/etats_config.c:4528
+msgid "contains"
+msgstr "zawiera"
+
+#: src/etats_config.c:4540
+msgid "doesn't contain"
+msgstr "nie zawiera"
+
+#: src/etats_config.c:4552
+msgid "begins with"
+msgstr "zaczyna się od"
+
+#: src/etats_config.c:4564
+msgid "ends with"
+msgstr "kończy się na"
+
+#: src/etats_config.c:4576
+msgid "is empty"
+msgstr "jest pusty"
+
+#: src/etats_config.c:4588
+msgid "isn't empty"
+msgstr "nie jest pusty"
+
+#: src/etats_config.c:4646
+msgid "Select the transactions by amount"
+msgstr "Wybierz tansakcję po wartości"
+
+#. on rajoute le bouton exclure les opÃ© dont le montant est nul
+#: src/etats_config.c:4698
+msgid "Exclude the transactions with a null amount"
+msgstr "Nie załączaj transakcji, których wartość jest pusta"
+
+#: src/etats_config.c:4900
+msgid "Transactions with an amount of"
+msgstr "Transakcje na kwotę"
+
+#: src/etats_config.c:5035
+#: src/etats_config.c:5390
+msgid "and"
+msgstr "i"
+
+#: src/etats_config.c:5043
+#: src/etats_config.c:5402
+msgid "or"
+msgstr "lub"
+
+#: src/etats_config.c:5051
+#: src/etats_config.c:5414
+msgid "except"
+msgstr "z wyjątkiem"
+
+#: src/etats_config.c:5081
+#: src/etats_config.c:5257
+msgid "equal"
+msgstr "równe"
+
+#: src/etats_config.c:5093
+#: src/etats_config.c:5269
+msgid "less than"
+msgstr "mniejszy od"
+
+#: src/etats_config.c:5105
+#: src/etats_config.c:5281
+msgid "less than or equal"
+msgstr "mniejszy lub równy"
+
+#: src/etats_config.c:5117
+#: src/etats_config.c:5293
+msgid "greater than"
+msgstr "większy od"
+
+#: src/etats_config.c:5129
+#: src/etats_config.c:5305
+msgid "greater than or equal"
+msgstr "większy lub równy"
+
+#: src/etats_config.c:5141
+#: src/etats_config.c:5317
+msgid "different from"
+msgstr "różny"
+
+#: src/etats_config.c:5153
+msgid "null"
+msgstr "pusty"
+
+#: src/etats_config.c:5165
+msgid "not null"
+msgstr "nie pusty"
+
+#: src/etats_config.c:5177
+msgid "positive"
+msgstr "dodatni"
+
+#: src/etats_config.c:5189
+msgid "negative"
+msgstr "ujemny"
+
+#: src/etats_config.c:5329
+msgid "the biggest"
+msgstr "największy"
+
+#: src/etats_config.c:5426
+msgid "stop"
+msgstr "stop"
+
+#: src/etats_config.c:5519
+msgid "Reconciled transactions"
+msgstr "Potwierdzone transakcje"
+
+#: src/etats_config.c:5535
+msgid "Select"
+msgstr "Wybierz"
+
+#: src/etats_config.c:5544
+msgid "All transactions"
+msgstr "Wszystkie transakcje"
+
+#: src/etats_config.c:5553
+msgid "Non reconciled transactions"
+msgstr "Niepotwierdzone transakcjie"
+
+#: src/etats_config.c:5566
+msgid "The reconciled transactions"
+msgstr "Potwierdzone transakcje"
+
+#: src/etats_config.c:5587
+msgid "Do not detail reconciled transactions"
+msgstr "Nie pokazuj potwierdzonych transakcji"
+
+#. choix de ce qu'on utilise dans le classement
+#: src/etats_config.c:5650
+msgid "Informations used for the group"
+msgstr "Grupowanie transakcji"
+
+#: src/etats_config.c:5678
+msgid "Group transactions by account"
+msgstr "Grupuj transakcje po koncie"
+
+#: src/etats_config.c:5698
+msgid "Group transactions by third party"
+msgstr "Grupuj transakcje wg. beneficjenta"
+
+#: src/etats_config.c:5720
+msgid "Group transactions by category"
+msgstr "Grupuj transakcje wg. kategorii"
+
+#: src/etats_config.c:5740
+msgid "Group transactions by budgetary line"
+msgstr "Grupuj transakcje wg. liniii budżetowych"
+
+#. choix du type de classement
+#: src/etats_config.c:5751
+msgid "Group level organisation"
+msgstr "Poziomy grupowania"
+
+#: src/etats_config.c:5848
+msgid "Split incomes and outgoings"
+msgstr "Rozdziel przychody i wydatki"
+
+#: src/etats_config.c:5868
+msgid "Split by financial year"
+msgstr "Rozdziel po roku finansowym"
+
+#: src/etats_config.c:5894
+msgid "Split by period"
+msgstr "Rozdziel po okresie czasowym"
+
+#: src/etats_config.c:5955
+msgid "Week"
+msgstr "Tydzień"
+
+#: src/etats_config.c:5979
+msgid "Year"
+msgstr "Rok"
+
+#: src/etats_config.c:6013
+msgid "The week begins on"
+msgstr "Pierwszy dzień tygodnia"
+
+#: src/etats_config.c:6032
+msgid "day"
+msgstr "dzień"
+
+#: src/etats_config.c:6162
+msgid "Generalities"
+msgstr "Ogólne"
+
+#: src/etats_config.c:6215
+msgid "Report name"
+msgstr "Nazwa raportu"
+
+#: src/etats_config.c:6243
+msgid "Diplay the number of transactions with the totals"
+msgstr "Pokaż numery transakcji w podsumowaniach"
+
+#: src/etats_config.c:6262
+msgid "Consider the third parties of this report as a multiple third party."
+msgstr ""
+
+#: src/etats_config.c:6333
+msgid "Display the information about"
+msgstr "Wyświetl informacje o"
+
+#: src/etats_config.c:6366
+msgid "the transaction number"
+msgstr "numer transakcji"
+
+#: src/etats_config.c:6382
+msgid "the date"
+msgstr "data"
+
+#: src/etats_config.c:6398
+msgid "the financial year"
+msgstr "rok finansowy"
+
+#: src/etats_config.c:6495
+msgid "the notes"
+msgstr "opis"
+
+#: src/etats_config.c:6511
+msgid "the method of payment"
+msgstr "metoda płatności"
+
+#: src/etats_config.c:6527
+msgid "the cheque/transfer number"
+msgstr "numer czeku/przelewu"
+
+#: src/etats_config.c:6601
+msgid "Display the column titles"
+msgstr "Wyświetl tytuly kolumn"
+
+#: src/etats_config.c:6618
+msgid "every section"
+msgstr ""
+
+#: src/etats_config.c:6635
+msgid "at the top of the report"
+msgstr "u góry raportu"
+
+#: src/etats_config.c:6660
+msgid "Sort the transactions by"
+msgstr "Sortuj transakcje po"
+
+#: src/etats_config.c:6686
+msgid "date"
+msgstr "dacie"
+
+#: src/etats_config.c:6694
+msgid "transaction number"
+msgstr "numerze transakcji"
+
+#: src/etats_config.c:6702
+msgid "third party"
+msgstr "beneficjencie"
+
+#: src/etats_config.c:6710
+msgid "category"
+msgstr "kategorii"
+
+#: src/etats_config.c:6718
+msgid "budgetary line"
+msgstr "liniai budżetowej"
+
+#: src/etats_config.c:6726
+msgid "note"
+msgstr "opisie"
+
+#: src/etats_config.c:6734
+msgid "method of payment"
+msgstr "metodzie płatności"
+
+#: src/etats_config.c:6742
+msgid "cheque/transfer number"
+msgstr "numerze czeku/przelewu"
+
+#: src/etats_config.c:6750
+msgid "voucher"
+msgstr "rachunku"
+
+#: src/etats_config.c:6758
+msgid "bank reference"
+msgstr "nazwie banku"
+
+#: src/etats_config.c:6766
+msgid "reconciliation reference"
+msgstr ""
+
+#: src/etats_config.c:6789
+msgid "Make transactions clickable"
+msgstr ""
+
+#: src/etats_config.c:6857
+msgid "General totals currency"
+msgstr ""
+
+#: src/etats_config.c:6906
+msgid "Third parties currency"
+msgstr "Waluta beneficjenta"
+
+#: src/etats_config.c:6954
+msgid "Categories currency"
+msgstr "Waluta kategorii"
+
+#: src/etats_config.c:7003
+msgid "Budgetary lines currency"
+msgstr "Waluta linii budżetowej"
+
+#: src/etats_config.c:7051
+msgid "Amount comparison currency"
+msgstr ""
+
+#. on permet d'afficher le nom du compte
+#: src/etats_config.c:7152
+msgid "Display account name"
+msgstr "Pokaż nazwę konta"
+
+#. on permet d'afficher un ss total lors de chgt de compte
+#. activÃ© uniquement si on a regroupÃ© les opÃ©s par compte
+#: src/etats_config.c:7164
+msgid "Display a sub-total for each account"
+msgstr "Pokaż sumy cząstkowe dla każdego konta"
+
+#. permet d'afficher le nom du tiers, activÃ© uniquement si on utilise les tiers
+#: src/etats_config.c:7197
+msgid "Display third party's name"
+msgstr "Pokaż nazwę beneficjenta"
+
+#. permet d'afficher un ss total lors de chgt de tiers
+#. activÃ© uniquement si on utilise les tiers
+#: src/etats_config.c:7213
+msgid "Dsplay a sub-total for each third party"
+msgstr "Pokaż sumy cząstkowe dla każdego beneficjenta"
+
+#. affichage possible du nom de la categ
+#: src/etats_config.c:7258
+msgid "Display the (sub)category's name"
+msgstr "Pokaż nazwę (pod)kategorii"
+
+#. permet d'afficher un sous total lors de chgt de categ
+#. activÃ© uniquement si on utilise les categ
+#: src/etats_config.c:7274
+msgid "Display a sub-total for each category"
+msgstr "Pokaż sumy cząstkowe "
+
+#. mise en place du bouton pour afficher les sous categ
+#: src/etats_config.c:7289
+msgid "Display sub-categories"
+msgstr "Pokaż podkategorie"
+
+#: src/etats_config.c:7303
+msgid "Display a sub-total for each sub-category"
+msgstr "Pokaż sumy cząstkowe dla każdej podkategorii"
+
+#: src/etats_config.c:7317
+msgid "Display \" No sub-category\" if none"
+msgstr "Pokaż \"Brak podkategorii\" jeżeli brak podkategorii"
+
+#: src/etats_config.c:7350
+msgid "Display the (sub-)budget line name"
+msgstr ""
+
+#. permet d'afficher un sous total lors de chgt d'ib
+#. activÃ© uniquement si on utilise les ib
+#: src/etats_config.c:7366
+msgid "Display a sub-total for each budgetary line"
+msgstr "Pokaż sumy cząstkowe dla każdej linii budżetowej"
+
+#. mise en place du bouton pour afficher les sous categ
+#: src/etats_config.c:7381
+msgid "Display sub-budget lines"
+msgstr "Pokaż podgrupę linii budżetowych"
+
+#: src/etats_config.c:7394
+msgid "Display a sub-total for each sub-budget line"
+msgstr "Pokaż sumy cząstkowe dla każdej podbrupy linii budżetowcyh"
+
+#: src/etats_config.c:7408
+msgid "Display \"No sub-budgetary line\" if none"
+msgstr "Pokaż \"Brak podgrup linii budżetowych\" jeżeli ich brak"
+
+#. on met dans la partie de gauche une liste contenant les modes de paiement Ã
+#. sÃ©lectionner
+#: src/etats_config.c:7455
+msgid "Select the transactions by method of payment"
+msgstr "Wybierz transakcje poprzez metodę płatności"
+
+#: src/etats_config.c:7482
+msgid "Select methods of payment to include"
+msgstr "Wybierz metody płatności do załaczenia"
+
+#: src/etats_html.c:263
+msgid "Export report to HTML file."
+msgstr "Eksportuj raport do pliku HTML"
+
+#: src/etats_html.c:286
+msgid "Make sure file exists and is writable."
+msgstr "Upewnij się, że plik istnieje i jest zapisywalny."
+
+#: src/etats_html.c:287
+#, c-format
+msgid "Cannot open file '%s' for writing"
+msgstr "Nie można otwrzyć pliku '%s' for writingdo zapisu"
+
+#: src/etats_latex.c:240
+#: src/export.c:281
+#: src/qif.c:1016
+#, c-format
+msgid "File '%s' already exists"
+msgstr "Plik '%s' już istnieje"
+
+#: src/etats_latex.c:328
+msgid "LaTeX run was unable to complete, see console output for details."
+msgstr "LaTeX nie może wykonać pracy. Przejrzyj komunikaty na konsoli."
+
+#: src/etats_latex.c:348
+msgid "Cannot send job to printer"
+msgstr "Nie można przesłać wydruku do drukarki"
+
+#: src/etats_latex.c:354
+msgid "dvips was unable to complete, see console output for details."
+msgstr "dvips nie może wykonać pracy. Przejrzyj komunikaty na konsoli."
+
+#. Reports menu
+#: src/etats_onglet.c:95
+#: src/etats_onglet.c:300
+#: src/etats_onglet.c:303
+#: src/etats_onglet.c:306
+#: src/etats_onglet.c:309
+#: src/etats_onglet.c:312
+#: src/etats_onglet.c:315
+#: src/etats_onglet.c:1073
+#: src/etats_onglet.c:1076
+#: src/etats_onglet.c:1079
+#: src/etats_onglet.c:1082
+#: src/etats_onglet.c:1085
+#: src/etats_onglet.c:1088
+#: src/etats_onglet.c:1118
+#: src/etats_onglet.c:1121
+#: src/etats_onglet.c:1124
+#: src/etats_onglet.c:1127
+#: src/etats_onglet.c:1130
+#: src/etats_onglet.c:1133
+#: src/fenetre_principale.c:120
+#: src/menu.c:108
+#: src/menu.c:109
+#: src/menu.c:110
+#: src/menu.c:111
+#: src/menu.c:112
+#: src/menu.c:113
+#: src/menu.c:114
+#: src/menu.c:115
+#: src/menu.c:116
+#: src/menu.c:117
+#: src/menu.c:118
+#: src/menu.c:119
+#: src/menu.c:120
+#: src/menu.c:121
+#: src/traitement_variables.c:123
+#: src/traitement_variables.c:126
+#: src/traitement_variables.c:129
+#: src/traitement_variables.c:132
+#: src/traitement_variables.c:135
+#: src/traitement_variables.c:138
+#: src/traitement_variables.c:141
+#: src/traitement_variables.c:144
+#: src/traitement_variables.c:249
+#: src/traitement_variables.c:252
+#: src/traitement_variables.c:255
+#: src/traitement_variables.c:258
+#: src/traitement_variables.c:261
+#: src/traitement_variables.c:264
+#: src/traitement_variables.c:267
+#: src/traitement_variables.c:270
+msgid "Reports"
+msgstr "Raporty"
+
+#. mise en place du bouton ajouter
+#. on ajoute un Ã©tat vierge appelÃ© nouvel Ã©tat
+#: src/etats_onglet.c:236
+#: src/etats_onglet.c:736
+#: src/menu.c:110
+#: src/traitement_variables.c:123
+#: src/traitement_variables.c:249
+msgid "New report"
+msgstr "Nowy raport"
+
+#. on met le bouton personnaliser
+#: src/etats_onglet.c:253
+msgid "Customize report"
+msgstr "Dostosuj raport"
+
+#. on met le bouton dupliquer
+#: src/etats_onglet.c:271
+#: src/etats_onglet.c:300
+#: src/etats_onglet.c:1073
+#: src/etats_onglet.c:1118
+#: src/menu.c:112
+#: src/traitement_variables.c:129
+#: src/traitement_variables.c:255
+msgid "Clone report"
+msgstr "Powiel raport"
+
+#. mise en place du bouton effacer Ã©tat
+#: src/etats_onglet.c:286
+msgid "Delete report"
+msgstr "Usuń raport"
+
+#: src/etats_onglet.c:303
+#: src/etats_onglet.c:1076
+#: src/etats_onglet.c:1121
+#: src/menu.c:113
+#: src/traitement_variables.c:132
+#: src/traitement_variables.c:258
+msgid "Print report"
+msgstr "Drukuj raport"
+
+#: src/etats_onglet.c:306
+#: src/etats_onglet.c:1082
+#: src/etats_onglet.c:1127
+#: src/menu.c:117
+#: src/traitement_variables.c:138
+#: src/traitement_variables.c:264
+msgid "Export report file"
+msgstr "Eksportuj raport do pliku"
+
+#: src/etats_onglet.c:309
+#: src/etats_onglet.c:1079
+#: src/etats_onglet.c:1124
+#: src/menu.c:114
+#: src/traitement_variables.c:135
+#: src/traitement_variables.c:261
+msgid "Export report as HTML..."
+msgstr "Eksportuj raport jako html"
+
+#: src/etats_onglet.c:312
+#: src/etats_onglet.c:1085
+#: src/etats_onglet.c:1130
+#: src/menu.c:119
+#: src/traitement_variables.c:141
+#: src/traitement_variables.c:267
+msgid "Remove report"
+msgstr "Usuń raport"
+
+#: src/etats_onglet.c:315
+#: src/etats_onglet.c:1088
+#: src/etats_onglet.c:1133
+#: src/menu.c:121
+#: src/traitement_variables.c:144
+#: src/traitement_variables.c:270
+msgid "Edit report"
+msgstr "Edycja raportu"
+
+#. Print report
+#. Set up dialog
+#: src/etats_onglet.c:337
+#: src/print_config.c:62
+msgid "Print"
+msgstr "Drukuj"
+
+#. on met le bouton rafraichir
+#: src/etats_onglet.c:351
+msgid "Refresh"
+msgstr "Odświerz"
+
+#: src/etats_onglet.c:473
+msgid "Choose template for new report"
+msgstr "Wybierz szablon dla nowego raportu"
+
+#: src/etats_onglet.c:474
+msgid "You are about to create a new report.  For convenience, you can choose between the following templates.  Reports may be customized later."
+msgstr "Wybrałeś tworzenie nowego raportu. Możesz skorzystać z podanych szablonów.  Raporty można dostosować do własnych potrzeb w dowolnym momencie."
+
+#: src/etats_onglet.c:477
+msgid "Report type"
+msgstr "Typ raportu"
+
+#: src/etats_onglet.c:488
+msgid "Description"
+msgstr "Opis"
+
+#: src/etats_onglet.c:509
+msgid "Last month incomes and outgoings"
+msgstr "Wpłaty i wypłaty z ostatniego miesiąca"
+
+#. revenus et dÃ©penses du mois courant
+#: src/etats_onglet.c:520
+#: src/etats_onglet.c:646
+msgid "Current month incomes and outgoings"
+msgstr "Włpłaty i wypłaty z bieżącego miesiąca"
+
+#. on ajoute le budget annuel
+#: src/etats_onglet.c:528
+#: src/etats_onglet.c:690
+msgid "Annual budget"
+msgstr "Budżet roczny"
+
+#. remise de chÃ¨ques
+#: src/etats_onglet.c:536
+#: src/etats_onglet.c:785
+msgid "Cheques deposit"
+msgstr ""
+
+#. dÃ©penses mensuelles par tiers
+#: src/etats_onglet.c:544
+#: src/etats_onglet.c:839
+msgid "Monthly outgoings by third party"
+msgstr "Miesięczne wydatki na beneficjenta"
+
+#. recherche
+#: src/etats_onglet.c:552
+#: src/etats_onglet.c:897
+msgid "Search"
+msgstr "Całościowy"
+
+#: src/etats_onglet.c:560
+msgid "Blank report"
+msgstr "Pusty raport"
+
+#. revenus et dÃ©penses du mois prÃ©cÃ©dent
+#: src/etats_onglet.c:604
+msgid "Previous month incomes and outgoings"
+msgstr "Wpłaty i wypłaty z poprzedniego miesiąca"
+
+#: src/etats_onglet.c:950
+msgid "Unknown report type, creation cancelled"
+msgstr "Nieznany typ raportu, tworzenie raportu zostało anulowane"
+
+#. revenus et dÃ©penses du mois dernier
+#: src/etats_onglet.c:992
+msgid "This report displays totals for last month's transactions sorted by categories and sub-categories. You just need to select the account(s). By default, all accounts are selected."
+msgstr "Ten raport pokazuje podsumowanie za poprzedni miesiąc.  Wystarczy, że wybierzesz odpowiednie konto (konta). Domyślnie wybrane są wszystkie konta."
+
+#. revenus et dÃ©penses du mois en cours
+#: src/etats_onglet.c:998
+msgid "This report displays totals of current month's transactions sorted by categories and sub-categories. You just need to select the account(s). By default, all accounts are selected."
+msgstr "Ten raport pokazuje podsumowanie za obecny miesiąc posortowane po kategoriach i podkategoriach. Wystarczy, że wybierzesz odpowiednie konto (konta). Domyślnie wybrane są wszystkie konta."
+
+#. budget annuel
+#: src/etats_onglet.c:1004
+msgid "This report displays annual budget. You just need to select the account(s). By default all accounts are selected."
+msgstr "Ten raport pokazuje budżet roczny. Wystarczy, że wybierzesz odpowiednie konto (konta). Domyślnie wybrane są wszystkie konta."
+
+#. etat vierge
+#: src/etats_onglet.c:1010
+msgid "This report is an empty one. You need to customise it entirely."
+msgstr "Ten raport jest pusty. Musisz go wypełnić samodzilenie."
+
+#. remise de chÃ¨ques
+#: src/etats_onglet.c:1016
+msgid "This report displays the cheques deposit. You just need to select the account(s). By default all accounts are selected."
+msgstr ""
+
+#. dÃ©penses mensuelles par tiers
+#: src/etats_onglet.c:1022
+msgid "This report displays current month's outgoings sorted by third parties. You just need to select the account(s). By default all accounts areselected."
+msgstr "Ten raport pokazuje wydatki z aktualnego miesiąca posortowane po beneficjencie. Wystarczy, że wybierzesz odpowiednie konto (konta). Domyślnie wybrane są wszystkie konta."
+
+#. recherche
+#: src/etats_onglet.c:1028
+msgid "This report displays all the information for all transactions of all accounts for the current year. You just have to add the amount, date, third parties etc. criteria thant you want. By default the transactions are clickables."
+msgstr "Ten raport pokazuje wszystkie informacje dla wszystkich transakcji dla wszystkich kont w obecnym roku."
+
+#: src/etats_onglet.c:1033
+msgid "???? should not be displayed..."
+msgstr ""
+
+#: src/etats_onglet.c:1054
+#, c-format
+msgid "Delete report \"%s\"?"
+msgstr "Usunąć raport \"%s\"?"
+
+#: src/etats_onglet.c:1056
+msgid "This will irreversibly remove this report.  There is no undo for this."
+msgstr "Ta operacja bezpowrotnie usunie raport. Po wykonaniu nie będze możliwe jego odzyskanie."
+
+#: src/etats_onglet.c:1159
+msgid "Export report"
+msgstr "Eksportuj raport"
+
+#: src/etats_onglet.c:1199
+#: src/imputation_budgetaire.c:2805
+msgid "Cannot save file."
+msgstr "Nie można zapisać pliku."
+
+#: src/etats_onglet.c:1224
+msgid "Import a report"
+msgstr "Importuj raport"
+
+#: src/etats_support.c:64
+msgid "all financial years"
+msgstr "wszystkie lata finansowe"
+
+#: src/etats_support.c:91
+#: src/etats_support.c:97
+msgid "current financial year"
+msgstr "obecny rok finansowy"
+
+#: src/etats_support.c:146
+#: src/etats_support.c:152
+msgid "former financial year"
+msgstr "poprzedni rok finansowy"
+
+#: src/etats_support.c:164
+msgid "financial years"
+msgstr "lata finansowe"
+
+#: src/etats_support.c:168
+msgid "financial year"
+msgstr "rok finansowy"
+
+#: src/etats_support.c:209
+msgid "all dates"
+msgstr "wszystkie dane"
+
+#: src/etats_support.c:221
+#: src/etats_support.c:331
+#, c-format
+msgid "Result from %d/%d/%d to %d/%d/%d"
+msgstr ""
+
+#: src/etats_support.c:231
+msgid "Custom dates ranges not filled"
+msgstr ""
+
+#: src/etats_support.c:239
+#, c-format
+msgid "total at %d/%d/%d"
+msgstr "razem w  %d/%d/%d"
+
+#: src/etats_support.c:256
+#: src/etats_support.c:305
+#, c-format
+msgid "%s %d"
+msgstr "%s %d"
+
+#: src/etats_support.c:266
+#: src/etats_support.c:315
+#, c-format
+msgid "year %d"
+msgstr "rok %d"
+
+#: src/etats_support.c:275
+#, c-format
+msgid "month total at %d/%d/%d"
+msgstr "suma miesięczna w %d/%d/%d"
+
+#: src/etats_support.c:286
+#, c-format
+msgid "year total at %d/%d/%d"
+msgstr "suma roczna w %d/%d/%d"
+
+#: src/etats_support.c:360
+#: src/etats_support.c:390
+#: src/etats_support.c:419
+#, c-format
+msgid "from %s %d"
+msgstr "od %s %d"
+
+#: src/etats_support.c:364
+#: src/etats_support.c:394
+#: src/etats_support.c:423
+#, c-format
+msgid "to %s %d"
+msgstr "do %s %d"
+
+#: src/exercice.c:125
+#: src/parametres.c:302
+msgid "Financial years"
+msgstr "Lata finansowe"
+
+#: src/exercice.c:128
+msgid "Known financial years"
+msgstr "Zdefiniowane lata finansowe"
+
+#. Associate operations
+#: src/exercice.c:204
+msgid "Associate operations without financial years"
+msgstr ""
+
+#: src/exercice.c:224
+msgid "Financial year details"
+msgstr "Opis roku finansowego"
+
+#. Start
+#: src/exercice.c:246
+msgid "Start"
+msgstr "Początek"
+
+#. End
+#: src/exercice.c:260
+msgid "End"
+msgstr "Koniec"
+
+#. Activate in transaction form?
+#: src/exercice.c:274
+msgid "Activate in transaction form"
+msgstr "Pokazuj w formularzu transakcji"
+
+#: src/exercice.c:311
+msgid "New financial year"
+msgstr "Nowy rok finansowy"
+
+#: src/exercice.c:454
+msgid "The financial year must have a name."
+msgstr "Rok finansowy musi posiadać nazwę"
+
+#. le second est non affichÃ©
+#. on lui associe -1
+#: src/exercice.c:577
+msgid "Not displayed"
+msgstr ""
+
+#: src/exercice.c:753
+msgid "Automatic association for the financial year"
+msgstr "Automatyczne powiązanie z rokiem finansowym"
+
+#: src/exercice.c:760
+msgid ""
+"This function assigns each transaction without a financial year to the\n"
+"one related to its transaction date.  If no financial year matches,\n"
+"the transaction will not be changed."
+msgstr ""
+
+#: src/export.c:158
+msgid "Export files"
+msgstr "Eksport plików"
+
+#: src/export.c:180
+#: src/qif.c:929
+msgid "Select accounts to export"
+msgstr "Wybierz konto do eksportu"
+
+#: src/export.c:284
+#: src/qif.c:1018
+msgid "This will irreversibly overwrite previous file.  There is no undo for this."
+msgstr "Ta operacja bezpowrotnie nadpisze poprzedni plik. Po wykonaniu nie będzie możliwe jego odzyskanie. "
+
+#: src/export.c:296
+#, c-format
+msgid "File name '%s' invalid!"
+msgstr "Nazwa pliku '%s' jest nieprawidłowa!"
+
+#: src/export.c:369
+#: src/qif.c:909
+msgid "Your file must have a name (saved) to be exported."
+msgstr "Plik musi mieć nazwę, żeby został wyeksportowany."
+
+#: src/export.c:373
+msgid "Export format does not define currencies."
+msgstr ""
+
+#: src/export.c:374
+#: src/qif.c:915
+msgid "All transactions will be converted into currency of their account."
+msgstr ""
+
+#: src/export.c:435
+#: src/menu.c:105
+#: src/operations_comptes.c:380
+#: src/operations_comptes.c:385
+#: src/operations_comptes.c:446
+#: src/operations_comptes.c:459
+#: src/traitement_variables.c:225
+msgid "Closed accounts"
+msgstr "Zamknięte konta"
+
+#. To add a new supported format, just add a new line here ...
+#: src/export.c:452
+msgid "Accounts to QIF file ..."
+msgstr "Export kont do pliku QIF ..."
+
+#: src/export.c:453
+msgid "Accounts to CSV file ..."
+msgstr "Export kont do pliku CSV ..."
+
+#. File menu
+#. {menu_name(_("File"), _("Export"), _("QIF file ...")),   NULL,G_CALLBACK ( exporter_fichier_qif ), 0, NULL ,NULL  },
+#. Print to file
+#: src/export.c:455
+#: src/menu.c:65
+#: src/menu.c:66
+#: src/menu.c:67
+#: src/menu.c:68
+#: src/menu.c:69
+#: src/menu.c:70
+#: src/menu.c:71
+#: src/menu.c:72
+#: src/menu.c:73
+#: src/menu.c:74
+#: src/menu.c:75
+#: src/menu.c:76
+#: src/menu.c:77
+#: src/menu.c:79
+#: src/menu.c:80
+#: src/menu.c:81
+#: src/menu.c:82
+#: src/menu.c:83
+#: src/menu.c:200
+#: src/menu.c:204
+#: src/menu.c:222
+#: src/menu.c:243
+#: src/menu.c:254
+#: src/print_config.c:168
+#: src/traitement_variables.c:58
+#: src/traitement_variables.c:65
+#: src/traitement_variables.c:87
+#: src/traitement_variables.c:90
+#: src/traitement_variables.c:93
+#: src/traitement_variables.c:96
+#: src/traitement_variables.c:207
+#: src/traitement_variables.c:210
+#: src/traitement_variables.c:213
+#: src/traitement_variables.c:216
+#: src/traitement_variables.c:219
+msgid "File"
+msgstr "Plik"
+
+#: src/fenetre_principale.c:66
+msgid "Main page"
+msgstr "Strona główna"
+
+#: src/fenetre_principale.c:82
+msgid "Scheduler"
+msgstr "Terminarz"
+
+#: src/fenetre_principale.c:131
+msgid "Third parties list (transactions)"
+msgstr "Lista beneficjentów (transakcje)"
+
+#: src/fenetre_principale.c:134
+msgid "Categories list (transactions)"
+msgstr "Lista kategoerii (transakcje)"
+
+#: src/fenetre_principale.c:137
+msgid "Budgetary lines list (transactions)"
+msgstr "Lista linii budżetowych (transakcje)"
+
+#: src/fichier_configuration.c:430
+msgid "File : "
+msgstr "Plik : "
+
+#: src/fichier_configuration.c:433
+msgid "Error opening config"
+msgstr "Błąd otwarcia konfiguracji"
+
+#: src/fichier_configuration.c:662
+#: src/print_config.c:39
+msgid "A4"
+msgstr "A4"
+
+#: src/fichier_configuration.c:853
+#, c-format
+msgid "Error saving file '%s': %s"
+msgstr "Błąd zapisu pliku '%s': %s"
+
+#: src/fichiers_gestion.c:145
+msgid "Open an accounts file"
+msgstr "Otwórz plik kont"
+
+#: src/fichiers_gestion.c:230
+msgid "Load an accounts file"
+msgstr "Wczytaj plik kont"
+
+#: src/fichiers_gestion.c:271
+msgid "Loading backup"
+msgstr "Wczytywanie kopii bezpieczeństwa"
+
+#. on a rÃ©ussi a charger la sauvegarde
+#: src/fichiers_gestion.c:276
+msgid ""
+"Grisbi was unable to load file.  However, Grisbi loaded a backup file instead.\n"
+"However, all changes made since this backup were possibly lost."
+msgstr ""
+"Nie można wczytać pliku. Zamiast tego wczytana zastała kopia bezpieczeństwa.\n"
+"Niestety wszystkie zmiany dokonane po utworzeniu kopii bezpieczeństwa zostały najprawdopodobniej utracone."
+
+#: src/fichiers_gestion.c:285
+msgid "Grisbi was unable to load file.  Additionnaly, Grisbi was unable to load a backup file instead."
+msgstr "Nie można wczytać pliku. Niestety nie można też wczytanć kopii bezpieczeństwa."
+
+#: src/fichiers_gestion.c:343
+msgid "Formatting transactions"
+msgstr ""
+
+#: src/fichiers_gestion.c:432
+#, c-format
+msgid "Save changes to document '%s' before closing?"
+msgstr "Zapisać zmiany do dokumentu '%s' przed zamknięciem?"
+
+#: src/fichiers_gestion.c:433
+msgid "unnamed"
+msgstr "bez nazwy"
+
+#: src/fichiers_gestion.c:441
+msgid "Close without saving"
+msgstr "Zamknij bez zapisu"
+
+#: src/fichiers_gestion.c:447
+msgid "If you close without saving, all of your changes will be discarded."
+msgstr "Jeżeli zamkniesz bez zapisu wszystkie wprowadzone zmiany zostaną utracone."
+
+#: src/fichiers_gestion.c:475
+msgid "Name the accounts file"
+msgstr "Nazwa pliku kont"
+
+#: src/fichiers_gestion.c:506
+msgid "File already exists"
+msgstr "Plik już istnieje"
+
+#: src/fichiers_gestion.c:507
+#, c-format
+msgid "Do you want to overwrite file \"%s\"?"
+msgstr "Czy chcesz nadpisać plik \"%s\"?"
+
+#: src/fichiers_gestion.c:515
+#, c-format
+msgid "Invalid filename: \"%s\"!"
+msgstr "Błędna nazwa pliku: \"%s\"!"
+
+#: src/fichiers_gestion.c:698
+#: src/fichiers_gestion.c:709
+msgid "Grisbi"
+msgstr "Grisbi"
+
+#: src/fichiers_gestion.c:707
+msgid "Grisbi - No name"
+msgstr "Grisbi - Brak nazwy"
+
+#: src/fichiers_gestion.c:738
+msgid "Saving backup"
+msgstr "Zapis kopii bezpieczeństwa"
+
+#: src/fichiers_io.c:114
+msgid "Invalid accounts file"
+msgstr "Błędny plik kont"
+
+#. Ã  ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors
+#. la version nÃ©cessaire pour l'ouvrir
+#: src/fichiers_io.c:143
+#, c-format
+msgid "Grisbi version %s is needed to open this file"
+msgstr "Do otwarcia tego pliku wymagane jest Grisby w wersji %s"
+
+#: src/fichiers_io.c:152
+#: src/fichiers_io.c:163
+#, c-format
+msgid "Cannot open file '%s': %s"
+msgstr "Nie można otworzyć pliku '%s': %s"
+
+#: src/fichiers_io.c:155
+#, c-format
+msgid "Cannot open file '%s' : this is not a grisbi file"
+msgstr "Nie można otworzyć pliku '%s' : to nie jest plik Grisbi"
+
+#: src/fichiers_io.c:197
+#, c-format
+msgid ""
+"Warning: Grisbi data format has changed. Grisbi made a backup under '%s'.\n"
+"Keep it for a while just in case."
+msgstr ""
+"Ostrzeżenie: Format danych uległ zmianie. Grisbi wykonał kopię bezpieczeństwa pod nazwą '%s'.\n"
+"Zachowaj ją na wszelki wypadek."
+
+#: src/fichiers_io.c:232
+#: src/fichiers_io.c:1960
+#: src/fichiers_io.c:4200
+#, c-format
+msgid "File \"%s\" is already opened"
+msgstr "Plik \"%s\" jest już otwarty"
+
+#: src/fichiers_io.c:233
+#: src/fichiers_io.c:1961
+#: src/fichiers_io.c:4201
+msgid ""
+"Either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\n"
+"Grisbi can't save the file unless you activate the \"Force saving locked files\" option in setup."
+msgstr ""
+"Plik jest właśnie otwarty przez innego użytkownika  lub nie został zamkniey prawidłowo (np. Grisbi nie został zamknięty prawidłowo).\n"
+"Grisbi nie zapisze pliku dopóki nie włączysz w ustawieniach opcji \"Wymuszaj zapis zablokowanych plików\"."
+
+#. FIXME
+#: src/fichiers_io.c:1821
+msgid ""
+"There was a bug in versions before 0.4.0, which could lead to orphan transactions (either transfers without countra-transaction, or breakdown transactions details without associated breakdown transaction.\n"
+"\n"
+"Grisbi searched for such transaction and found:\n"
+"\n"
+msgstr ""
+
+#: src/fichiers_io.c:1827
+msgid "breakdown transactions, all of them were deleted.\n"
+msgstr ""
+
+#: src/fichiers_io.c:1834
+msgid "transfers without contra-transaction, which categories were deleted.\n"
+msgstr ""
+
+#: src/fichiers_io.c:1839
+msgid "These modifications should not impact on neither Grisbi's behavior nor your accounts balances."
+msgstr ""
+
+#: src/fichiers_io.c:6428
+#, c-format
+msgid "Can not save file \"%s\""
+msgstr "Nie można zapisać pliku \"%s\""
+
+#: src/fichiers_io.c:6430
+#, c-format
+msgid "Grisbi was unable to save this file because it is locked.  Please save it with another name or activate the \"%s\" option in setup.  Alternatively, choose the \"%s\" option below."
+msgstr "Grisbi nie może zapisać tego pliku ponieważ jest zablokowany. Proszę zapisać go z inną nazwą lub włącz opcję \"%s\" w ustawieniach. Możesz też wybrać \"%s\" opcję poniżej."
+
+#: src/fichiers_io.c:6431
+#: src/parametres.c:520
+msgid "Force saving of locked files"
+msgstr "Wymuszaj zapis zablokowanych plików"
+
+#: src/fichiers_io.c:8530
+#: src/fichiers_io.c:8744
+#: src/fichiers_io.c:9098
+#, c-format
+msgid "Cannot save file '%s': %s"
+msgstr "Nie można zapisać pliku '%s': %s"
+
+#: src/fichiers_io.c:8573
+#, c-format
+msgid "Cannot lock file '%s': %s"
+msgstr "Nie można zaalokować pliku '%s': %s"
+
+#: src/fichiers_io.c:8778
+msgid "This file is not a Grisbi category list file"
+msgstr "Ten plik nie jest plikiem z listą kategorii Grisbi"
+
+#: src/fichiers_io.c:8787
+#, c-format
+msgid "This categories list has been produced with grisbi version %s, Grisbi will nevertheless try to import it."
+msgstr "Te listy kategorii zostały wykonane w wersji %s. Niemniej jednak Grisbi spróbuje je zimportować."
+
+#: src/fichiers_io.c:8795
+msgid "Invalid categories file"
+msgstr "Nieprawidłowy plik kategorii"
+
+#: src/fichiers_io.c:9131
+msgid "This file is not a grisbi budgetary lines file"
+msgstr "Ten plik nie jest plikiem linii budżetowych Grisbi"
+
+#: src/fichiers_io.c:9140
+#, c-format
+msgid "This budgetary lines list has been produced with grisbi version %s, Grisbi will nevertheless try to import it."
+msgstr "Te listy linii budżetowych zostały wykonane w wersji %s. Niemniej jednak Grisbi spróbuje je zimportować."
+
+#: src/fichiers_io.c:9148
+msgid "Invalid budgetary lines file"
+msgstr "Nieprawidłowy plik linii budżetowych"
+
+#: src/fichiers_io.c:9342
+msgid ""
+"Your account file should not be readable by anybody else, but it is. You should change its permissions.\n"
+"Should this be fixed now?"
+msgstr ""
+
+#: src/gnucash.c:517
+#, c-format
+msgid "Either file \"%s\" does not exist or it is not a regular file."
+msgstr "Plik \"%s\" nie istnieje lub nie jest prawidłowym plikiem."
+
+#: src/gnucash.c:519
+#, c-format
+msgid "Error opening file '%s'."
+msgstr "Błąd otwarcia pliku '%s'."
+
+#: src/gnucash.c:527
+msgid "Grisbi needs to open a temporary file in order to import Gnucash data but file can't be created.  Check that you have permission to do that."
+msgstr "Grisbi musi otworzyć plik tymczasowy, który jest niezbędny do wczytania pliku danych z Gnucash. Niestety nie może tego zrobić.  Sprawdź prawa dostępu do tworzenia pliku tymczasowego."
+
+#: src/gnucash.c:528
+#, c-format
+msgid "Error opening temporary file '%s'."
+msgstr "Błąd otwacia pliku tymczasowego '%s'."
+
+#: src/help.c:44
+msgid ""
+"Grisbi is a personnal accounting application for Linux\n"
+"Such a program allows you to sort your financial transactions, whatever they are, in a convenient and intuitive way.  Thus, you will be able to manage them as to fit your needs the more you can.\n"
+"Grisbi aims both at simplicty and efficiency for common use, and at a powerful use for power users.  We will always try to respect this as features will come."
+msgstr ""
+"Grisbi jest programem do zarządzania finansami osobistymi.\n"
+"Program umożliwia gromadzenie i przetwarzanie danych o różnorodnych transakcjach w wygodny i intuicyjny sposób."
+" Będziesz mógł za jego pomocą wygodnie zarządzać swoimi finansami zgodnie z idywidulanymi potrzebami i wymaganiami.\n"
+"Grisbi kładzie nacisk na prostotę i wygodę dla zwykłych użytkowników i jednocześnie na duże możliwości dla wymagających. Będziemy się starali, aby taka funkcjonalność była cechą naszego programu w przyszłych jego wersjach. "
+
+#: src/help.c:47
+msgid "Alain Pichon (alain.pichon[at]grisbi.org): RHEL packaging"
+msgstr "Alain Pichon (alain.pichon[at]grisbi.org): paczki do RHEL"
+
+#: src/help.c:48
+msgid "Alain Portal <dionysos[at]grisbi.org>: Programming, manual, Fedora and RedHat packaging"
+msgstr "Alain Portal <dionysos[at]grisbi.org>: Programowanie, podręcznik, paczki do Fedory i RedHat'a"
+
+#: src/help.c:49
+msgid "Andre Pascual (andre[at]linuxgraphic.org) : Logo"
+msgstr "Andre Pascual (andre[at]linuxgraphic.org) : Logo"
+
+#: src/help.c:50
+msgid "Axel Rousseau (axel584[at]axel584.org): contributor"
+msgstr "Axel Rousseau (axel584[at]axel584.org): współpraca"
+
+#: src/help.c:51
+msgid "Benjamin Drieu (bdrieu[at]april.org) : Programming, Debian packaging"
+msgstr "Benjamin Drieu (bdrieu[at]april.org) : Programowanie, paczki do Debiana"
+
+#: src/help.c:52
+msgid "Cedric Auger (cedric[at]grisbi.org) : Programming"
+msgstr "Cedric Auger (cedric[at]grisbi.org) : Programowanie"
+
+#: src/help.c:53
+msgid "Daniel Cartron (doc[at]grisbi.org) : Manual, website, consultancy"
+msgstr "Daniel Cartron (doc[at]grisbi.org) : Podręcznik, strona WWW, konsultacje"
+
+#: src/help.c:54
+msgid "Dominique Parisot (parisot[at]villey-le-sec.com): contributor"
+msgstr "Dominique Parisot (parisot[at]villey-le-sec.com): współpraca"
+
+#: src/help.c:55
+msgid "Francois Terrot (grisbi[at]terrot.net): Windows packaging and port, programming"
+msgstr "Francois Terrot (grisbi[at]terrot.net): Port do Windowsa, programowanie"
+
+#: src/help.c:56
+msgid "Gerald Niel (gerald.niel[at]grisbi.org): Slackware packaging, website"
+msgstr "Gerald Niel (gerald.niel[at]grisbi.org): Paczki do Slackware, strona WWW"
+
+#: src/help.c:57
+msgid "PMF (ugly.duck[at]gmx.de): Zaurus packaging"
+msgstr "PMF (ugly.duck[at]gmx.de): Paczki do Zaurusa"
+
+#: src/help.c:58
+msgid "Pascal Bleser (guru[at]linuxbe.org): SuSE packaging"
+msgstr "Pascal Bleser (guru[at]linuxbe.org): Paczki do SuSE"
+
+#: src/help.c:59
+msgid "Sylvain Glaize (mokona[at]puupuu.org): Mandrake packaging"
+msgstr "Sylvain Glaize (mokona[at]puupuu.org): Paczki do Mandrake"
+
+#: src/help.c:60
+msgid "Thierry Thomas (thierry[at]pompo.net): FreeBSD packaging"
+msgstr "Thierry Thomas (thierry[at]pompo.net): Paczki do FreeBSD"
+
+#: src/help.c:63
+msgid "Alain Portal (dionysos[at]grisbi.org) : English"
+msgstr "Alain Portal (dionysos[at]grisbi.org) : English"
+
+#: src/help.c:64
+msgid "Benjamin Drieu (bdrieu[at]april.org) : English"
+msgstr "Benjamin Drieu (bdrieu[at]april.org) : English"
+
+#: src/help.c:65
+msgid "Daniel Cartron (cartron[at]grisbi.org) : English"
+msgstr "Daniel Cartron (cartron[at]grisbi.org) : English"
+
+#: src/help.c:66
+msgid "Flavio Henrique Somensi (flavio[at]opens.com.br): Brazilian Portuguese"
+msgstr "Flavio Henrique Somensi (flavio[at]opens.com.br): Brazilian Portuguese"
+
+#: src/help.c:67
+msgid "Giorgio Mandolfo (giorgio[at]pollycoke.org) : Italian"
+msgstr "Giorgio Mandolfo (giorgio[at]pollycoke.org) : Italian"
+
+#: src/help.c:68
+msgid "Martin Stromberger (Fabiolla[at]aon.at): German"
+msgstr "Martin Stromberger (Fabiolla[at]aon.at): German"
+
+#: src/help.c:74
+msgid "Development list (discuss, participate, criticize, ...) : "
+msgstr ""
+
+#: src/help.c:76
+#: src/help.c:82
+msgid "subscribe"
+msgstr "subskrypcja"
+
+#: src/help.c:77
+msgid "Bug report"
+msgstr "Raport błędów"
+
+#: src/help.c:80
+msgid "Information list (new releases announces, ...) : "
+msgstr ""
+
+#: src/help.c:83
+msgid "Grisbi documentation"
+msgstr "Dokumentacja Grisbi"
+
+#: src/help.c:90
+msgid "About..."
+msgstr "O..."
+
+#: src/help.c:134
+msgid "About Grisbi"
+msgstr "O Grisbi"
+
+#: src/help.c:169
+msgid "Authors"
+msgstr "Autorzy"
+
+#: src/help.c:206
+msgid "Translators"
+msgstr "Tłumacze"
+
+#: src/help.c:253
+msgid "Links"
+msgstr "Odnośniki"
+
+#: src/help.c:277
+msgid "License"
+msgstr "Licencja"
+
+#: src/import.c:93
+msgid "Select files to import"
+msgstr "Wybierz plik do importu"
+
+#: src/import.c:218
+#: src/import.c:226
+msgid "Grisbi is unable to determine type of this file.  If it is a QIF, an OFX file or a gnucash file, please contact the grisbi team to resolve this problem."
+msgstr "Grisbi nie może ustalić typu pliku. Jeżeli jest to QIF, OFX lub plik programu Gnucash prosimy o kontakt z Grisbi Team, żeby rozwiązać ten problem."
+
+#: src/import.c:219
+#: src/import.c:227
+#, c-format
+msgid "File \"%s\" cannot be imported."
+msgstr "Plik \"%s\" nie został zaimportowany."
+
+#. la boite n'a pas encore Ã©tÃ© crÃ©e, on le fait
+#: src/import.c:297
+msgid "Actions on imported accounts:"
+msgstr ""
+
+#: src/import.c:300
+msgid "Add more accounts"
+msgstr "Dodaj więcej kont"
+
+#: src/import.c:319
+msgid "List of the selection of accounts :"
+msgstr "Lista wybranych kont:"
+
+#: src/import.c:382
+msgid "Action"
+msgstr "Akcja"
+
+#: src/import.c:405
+msgid "Type of account"
+msgstr "Typ konta"
+
+#: src/import.c:415
+msgid "Origine"
+msgstr "Początek"
+
+#: src/import.c:563
+msgid "none"
+msgstr "nic"
+
+#. la devise avait un nom mais n'a pas Ã©tÃ© retrouvÃ©e (n'existe que pour ofx); 2 possibilitÃ©s :
+#. soit elle n'est pas crÃ©e (l'utilisateur la crÃ©era une fois la fenetre affichÃ©e)
+#. soit elle est crÃ©e mais pas avec le bon code
+#: src/import.c:623
+#, c-format
+msgid ""
+"Currency of imported account '%s' is %s.  Either this currency doesn't exist so you have to create it in dialog window, or this currency already exists but the ISO code is wrong.\n"
+"To avoid this message, please set its ISO code in configuration."
+msgstr ""
+
+#: src/import.c:626
+#, c-format
+msgid "Can't associate ISO 4217 code for currency '%s'."
+msgstr "Nie można dopasować kofu ISO 4217 dla waluty '%s'."
+
+#: src/import.c:645
+msgid "Create a new account"
+msgstr "Twórz nowe konto"
+
+#: src/import.c:664
+msgid "Add the transactions"
+msgstr "Dodaj transakcję"
+
+#: src/import.c:680
+msgid "Mark transactions"
+msgstr "Zanacz transakcję"
+
+#: src/import.c:812
+msgid "QIF file"
+msgstr "Plik QIF"
+
+#: src/import.c:816
+msgid "OFX file"
+msgstr "Plik OFX"
+
+#: src/import.c:820
+msgid "HTML file"
+msgstr "Plik HTML"
+
+#: src/import.c:824
+msgid "Unknown"
+msgstr "Nieznany"
+
+#. crÃ©ation des listes d'opÃ©s
+#: src/import.c:938
+msgid "Please wait"
+msgstr "Proszę czekać"
+
+#: src/import.c:1203
+msgid "Imported account"
+msgstr "Zaimportowane konto"
+
+#. l'id du compte choisi et l'id du compte importÃ© sont diffÃ©rents
+#. on propose encore d'arrÃªter...
+#: src/import.c:1582
+#: src/import.c:2291
+msgid "The id of the imported and chosen accounts are different"
+msgstr "Identyfikatory zaimportowanego i wybranego konta są różne"
+
+#: src/import.c:1583
+#: src/import.c:2292
+msgid "Perhaps you choose a wrong account ?  If you choose to continue, the id of the account will be changed.  Do you want to continue ?"
+msgstr "Prawdopodobnie wybrałeś nieprawidłowe konto? Jeżeli wybierzesz kontynuację identyfikator konta zostanie zmieniony. Czy chcesz kontynuoać?"
+
+#: src/import.c:1796
+msgid "Confirmation of importation of transactions"
+msgstr ""
+
+#: src/import.c:1806
+msgid "Some imported transactions seem to be already saved. Please select the transactions to import."
+msgstr ""
+
+#: src/import.c:1874
+#, c-format
+msgid "Transactions to import : %02d/%02d/%04d ; %s ; %4.2f"
+msgstr "Transakcje do importu : %02d/%02d/%04d ; %s ; %4.2f"
+
+#: src/import.c:1911
+msgid "no third party"
+msgstr "brak beneficjenta"
+
+#: src/import.c:1914
+#, c-format
+msgid "Transaction found : %02d/%02d/%04d ; %s ; %4.2f ; %s"
+msgstr "Znaleziona transakcja : %02d/%02d/%04d ; %s ; %4.2f ; %s"
+
+#: src/import.c:1922
+#, c-format
+msgid "Transaction found : %02d/%02d/%04d ; %s ; %4.2f"
+msgstr "Znaleziona transakcja : %02d/%02d/%04d ; %s ; %4.2f"
+
+#: src/import.c:2572
+msgid "Orphaned transactions"
+msgstr "Osierocona transakcja"
+
+#: src/import.c:2580
+msgid "Mark transactions you want to add to the list and click the add button"
+msgstr "Zaznacz transakcje do dodania do listy i następnie kliknij na przycisk Dodaj"
+
+#: src/import.c:2650
+msgid "Mark"
+msgstr "Zanacz"
+
+#: src/import.c:2859
+msgid "Search the transaction "
+msgstr "Znajdź transakcję"
+
+#: src/import.c:2883
+msgid "days around the date in the imported transaction."
+msgstr ""
+
+#: src/imputation_budgetaire.c:67
+msgid "Budgetary lines list"
+msgstr "Lista linii budżetowch"
+
+#: src/imputation_budgetaire.c:68
+msgid "Amount per budget line"
+msgstr "Suma dla linii budżetowej"
+
+#: src/imputation_budgetaire.c:69
+msgid "Amount per sub-budget line"
+msgstr "Suma dla podgrupy linii budżetowej"
+
+#. mise en place des boutons ajout d'1 imput / sous-imput
+#: src/imputation_budgetaire.c:271
+msgid "Add a budget line"
+msgstr "Dodaj linię budżetową"
+
+#: src/imputation_budgetaire.c:285
+msgid "Add a sub-budget line"
+msgstr "Dodaj poddgrupę linii budżetowej"
+
+#. mise en place du bouton fusionner avec les catÃ©gories
+#: src/imputation_budgetaire.c:313
+msgid "Merge categories"
+msgstr "Dołącz kategorie"
+
+#: src/imputation_budgetaire.c:682
+#: src/imputation_budgetaire.c:772
+#, c-format
+msgid "No sub-budget line (%d)"
+msgstr "Brak podgrupy linii budżetowej (%d)"
+
+#: src/imputation_budgetaire.c:685
+#: src/imputation_budgetaire.c:775
+msgid "No sub-budget line"
+msgstr "Brak podgrupy linii budżetowej"
+
+#: src/imputation_budgetaire.c:744
+#, c-format
+msgid "No budget line (%d)"
+msgstr "Brak linii budżetowej (%d)"
+
+#: src/imputation_budgetaire.c:747
+msgid "No budget line"
+msgstr "Brak linii budżetowej"
+
+#: src/imputation_budgetaire.c:1068
+#, c-format
+msgid "%d/%d/%d : %4.2f %s [ %s ]"
+msgstr "%d/%d/%d : %4.2f %s [ %s ]"
+
+#: src/imputation_budgetaire.c:1591
+msgid "Delete a budgetary line"
+msgstr "Usuń linię budżetową"
+
+#: src/imputation_budgetaire.c:1598
+msgid ""
+"Some transactions are still assigned to this budgetary line.\n"
+"\n"
+"You can"
+msgstr ""
+"Istnieją transakcję, które są skojarzone z tą linią budżtową.  \n"
+"\n"
+"Możesz"
+
+#: src/imputation_budgetaire.c:1623
+#: src/imputation_budgetaire.c:1954
+msgid "Move the transactions to"
+msgstr "Przenieś transakcje do"
+
+#: src/imputation_budgetaire.c:1708
+msgid "Just delete the budgetary line."
+msgstr "Usuń tylko linię budżetową"
+
+#: src/imputation_budgetaire.c:1734
+#: src/imputation_budgetaire.c:2064
+msgid "Please enter a budgetary line!"
+msgstr "Proszę podać nazwę linii budżetowej"
+
+#: src/imputation_budgetaire.c:1922
+msgid "Deleting a budgetaty line"
+msgstr "Usuwam linię budżetową"
+
+#: src/imputation_budgetaire.c:1929
+msgid ""
+"Some transactions are still assigned to this sub-budgetary line.\n"
+"\n"
+"You can"
+msgstr ""
+"Istnieją transakcję, które są skojarzone z tą podgrupą linii budżtowej.  \n"
+"\n"
+"Możesz"
+
+#: src/imputation_budgetaire.c:2038
+msgid "Just delete the sub-budgetary line."
+msgstr "Usuń podgrupę linii budżetowej"
+
+#: src/imputation_budgetaire.c:2319
+msgid "Budgetary lines names must be both unique and not empty.  Please use another name for this budgetary line."
+msgstr "Nazwa linii budżetowej musi być unikalna i nie pusta. Proszę wpisać inną nazwę dla tej linii budżetowej."
+
+#: src/imputation_budgetaire.c:2320
+#, c-format
+msgid "Budgetary line '%s' already exists."
+msgstr "Linia budżetowa '%s' już istnieje."
+
+#: src/imputation_budgetaire.c:2361
+msgid "Sub-budgetary lines names must be both unique and not empty.  Please use another name for this sub-budgetary line."
+msgstr "Nazwy podgrup linii budżetowych muszą być unikalne i niepuste. Proszę wprowadzić nową nazwę dla tej podgrupy linii budżetowych."
+
+#: src/imputation_budgetaire.c:2362
+#, c-format
+msgid "Sub-budgetary line '%s' already exists."
+msgstr "Podgrupa linii budżetowej '%s' już istnieje."
+
+#: src/imputation_budgetaire.c:2384
+msgid ""
+"Warning: this will add all the categories and subcategories to the budgetary lines!\n"
+"Besides you can't cancel this afterwards.\n"
+"We advise you not to use this unless you know exactly what you are doing.\n"
+"Do you want to continue anyway?"
+msgstr ""
+"Ostrzeżenie: ta operacja spowoduje dodanie kategorii i podlategorii do linii budżetowych!\n"
+"Nie da się tego anulować po wykonaniu.\n"
+"Jeżeli masz wątpliwości co dokładnie się się stanie lepiej nie wykonuj tego polecenia.\n"
+"Czy mimo wszystko chcesz kontynuować?"
+
+#: src/imputation_budgetaire.c:2642
+msgid "New budgetary line"
+msgstr "Nowa linia budżetowa"
+
+#: src/imputation_budgetaire.c:2643
+msgid "Enter the name of the new budgetary line"
+msgstr "Podaj nazwę nowej linii budżetowej"
+
+#: src/imputation_budgetaire.c:2699
+msgid "New sub-budgetary line"
+msgstr "Nowa podgrupa linii budżetowej"
+
+#: src/imputation_budgetaire.c:2700
+msgid "Enter the name of the new sub-budgetary line"
+msgstr "nPodaj nazwę nowej podgrupy linii budżetowej"
+
+#: src/imputation_budgetaire.c:2769
+msgid "Export the budgetary lines"
+msgstr "Eksport linii budżetowych"
+
+#. on permet de remplacer/fusionner la liste
+#: src/imputation_budgetaire.c:2833
+#: src/imputation_budgetaire.c:2858
+msgid "Import the budgetary lines"
+msgstr "Import linii budżetowych"
+
+#. il y a dÃ©jÃ  des opÃ©rations dans le fichier, on ne peut que fusionner
+#: src/imputation_budgetaire.c:2877
+msgid "File already contains transactions, the two budgetary lines lists will be merged."
+msgstr ""
+
+#: src/imputation_budgetaire.c:2905
+msgid "Merge the two lists of budgetary lines"
+msgstr ""
+
+#: src/imputation_budgetaire.c:2913
+msgid "Replace the old list of budgetary lines"
+msgstr ""
+
+#: src/main.c:140
+#, c-format
+msgid "Error on sigaction: SIGSEGV won't be trapped\n"
+msgstr ""
+
+#: src/menu.c:67
+msgid "New account file"
+msgstr "Nowy plik kont"
+
+#: src/menu.c:68
+msgid "_Open"
+msgstr "_Otwórz"
+
+#: src/menu.c:70
+#: src/traitement_variables.c:58
+#: src/traitement_variables.c:65
+#: src/traitement_variables.c:207
+msgid "Save"
+msgstr "Zapisz"
+
+#: src/menu.c:71
+#: src/traitement_variables.c:87
+#: src/traitement_variables.c:210
+msgid "Save as"
+msgstr "Zapisz jako"
+
+#: src/menu.c:73
+#: src/menu.c:200
+#: src/menu.c:204
+#: src/menu.c:222
+#: src/menu.c:243
+#: src/menu.c:254
+msgid "Recently opened files"
+msgstr "Ostatnio otwierane pliki"
+
+#: src/menu.c:76
+msgid "QIF\\/OFX\\/Gnucash file ..."
+msgstr "QIF\\/OFX\\/Plik Gnucash ..."
+
+#: src/menu.c:80
+#: src/traitement_variables.c:96
+#: src/traitement_variables.c:219
+msgid "Debug file"
+msgstr "Napraw plik"
+
+#: src/menu.c:82
+#: src/traitement_variables.c:93
+#: src/traitement_variables.c:216
+msgid "Close"
+msgstr "Zamknij"
+
+#: src/menu.c:83
+msgid "Exit"
+msgstr "Zakończ"
+
+#. Edit menu
+#: src/menu.c:86
+#: src/menu.c:87
+#: src/menu.c:88
+#: src/menu.c:89
+#: src/menu.c:90
+#: src/menu.c:91
+#: src/menu.c:92
+#: src/menu.c:93
+#: src/menu.c:94
+#: src/menu.c:95
+#: src/menu.c:96
+#: src/menu.c:97
+#: src/operations_comptes.c:403
+#: src/operations_comptes.c:408
+#: src/operations_comptes.c:487
+#: src/operations_comptes.c:503
+#: src/operations_comptes.c:510
+#: src/traitement_variables.c:102
+#: src/traitement_variables.c:105
+#: src/traitement_variables.c:108
+#: src/traitement_variables.c:111
+#: src/traitement_variables.c:114
+#: src/traitement_variables.c:117
+#: src/traitement_variables.c:120
+#: src/traitement_variables.c:228
+#: src/traitement_variables.c:231
+#: src/traitement_variables.c:234
+#: src/traitement_variables.c:237
+#: src/traitement_variables.c:240
+#: src/traitement_variables.c:243
+#: src/traitement_variables.c:246
+msgid "Edit"
+msgstr "Edycja"
+
+#. New transaction
+#: src/menu.c:88
+#: src/operations_liste.c:2668
+#: src/traitement_variables.c:102
+#: src/traitement_variables.c:228
+msgid "New transaction"
+msgstr "Nowa transakcja"
+
+#. New transaction from
+#: src/menu.c:89
+#: src/operations_liste.c:2676
+#: src/traitement_variables.c:105
+#: src/traitement_variables.c:231
+msgid "Use selected transaction as a template"
+msgstr "Użyj zaznaczonej transakcji jako szablonu"
+
+#: src/menu.c:90
+#: src/traitement_variables.c:108
+#: src/traitement_variables.c:234
+msgid "Remove transaction"
+msgstr "Usuń transakcję"
+
+#. Clone transaction
+#: src/menu.c:91
+#: src/operations_liste.c:2696
+#: src/traitement_variables.c:111
+#: src/traitement_variables.c:237
+msgid "Clone transaction"
+msgstr "Powiel transakcję"
+
+#. Edit transaction
+#: src/menu.c:92
+#: src/operations_liste.c:2655
+#: src/traitement_variables.c:114
+#: src/traitement_variables.c:240
+msgid "Edit transaction"
+msgstr "Edytuj transakcję"
+
+#. Convert to scheduled transaction
+#: src/menu.c:94
+#: src/operations_liste.c:2709
+#: src/traitement_variables.c:117
+#: src/traitement_variables.c:243
+msgid "Convert transaction to scheduled transaction"
+msgstr "Przekształć transakcję w planowaną transakcję"
+
+#. Move to another account
+#: src/menu.c:95
+#: src/operations_comptes.c:403
+#: src/operations_comptes.c:408
+#: src/operations_comptes.c:488
+#: src/operations_comptes.c:503
+#: src/operations_comptes.c:510
+#: src/operations_liste.c:2719
+#: src/traitement_variables.c:120
+#: src/traitement_variables.c:246
+msgid "Move transaction to another account"
+msgstr "Przenieś transakcję do innego konta"
+
+#: src/menu.c:97
+msgid "Preferences"
+msgstr "Ustawienia"
+
+#: src/menu.c:116
+#: src/traitement_variables.c:126
+#: src/traitement_variables.c:252
+msgid "Import report file"
+msgstr "Import pliku z raportem"
+
+#. Help menu
+#: src/menu.c:124
+#: src/menu.c:125
+#: src/menu.c:126
+#: src/menu.c:127
+#: src/menu.c:128
+#: src/menu.c:129
+#: src/menu.c:130
+#: src/menu.c:131
+#: src/menu.c:132
+#: src/menu.c:133
+msgid "Help"
+msgstr "Pomoc"
+
+#: src/menu.c:126
+msgid "Grisbi Manual"
+msgstr "Podręcznik Grisbi"
+
+#: src/menu.c:127
+msgid "Quickstart"
+msgstr "Szybki start"
+
+#: src/menu.c:128
+msgid "Translation"
+msgstr "Tłumaczenie"
+
+#: src/menu.c:129
+msgid "About"
+msgstr "O Grisbi"
+
+#: src/menu.c:131
+msgid "Grisbi website"
+msgstr "Strona domowa Grisbi"
+
+#: src/menu.c:132
+msgid "Report a bug"
+msgstr "Zgłoś błąd w programie"
+
+#: src/menu.c:133
+msgid "On line User's guide"
+msgstr "Internetowy poradnik użytkownika"
+
+#: src/ofx.c:34
+msgid "This build of Grisbi does not support OFX, please recompile Grisbi with OFX support enabled"
+msgstr ""
+
+#: src/ofx.c:35
+#: src/ofx.c:94
+#, c-format
+msgid "Cannot process OFX file '%s'"
+msgstr "Nie można przewożyć pliku OFX '%s'"
+
+#. Case of Windows, libofx.dll is not present or Grisbi failed in dynamically loading ofx_proc_file
+#: src/ofx.c:93
+msgid "The OFX support can not be enabled!"
+msgstr ""
+
+#: src/ofx.c:105
+msgid "The new account has not been created."
+msgstr "Konto nie zostało utworzone."
+
+#: src/ofx.c:110
+msgid "Warning"
+msgstr "Ostrzeżenie"
+
+#: src/ofx.c:111
+msgid "An error or warning has occured. Do you still want to import the file ?"
+msgstr "Wystąpił błąd lub ostrzeżenie. Czy chcesz kontynuować import pliku?"
+
+#: src/ofx.c:167
+#: src/ofx.c:179
+msgid "The file has returned the next message :\n"
+msgstr "Plik zwrócił następny komunikat: \n"
+
+#: src/ofx.c:173
+#: src/ofx.c:185
+msgid "The file has returned a warning message which is no valid."
+msgstr "Plik zwrócił nieprawidłowy komunikat ostrzeżenia."
+
+#. printf ( "ofx_proc_security_cb :\n" );
+#. printf ( "unique_id_valid %d\n", data.unique_id_valid );
+#. printf ( "unique_id %s\n", data.unique_id );
+#. printf ( "unique_id_type_valid %d\n", data.unique_id_type_valid );
+#. printf ( "unique_id_type %s\n", data.unique_id_type );
+#. printf ( "secname_valid %d\n", data.secname_valid );
+#. printf ( "secname %s\n", data.secname );
+#. printf ( "ticker_valid %d\n", data.ticker_valid );
+#. printf ( "ticker %s\n", data.ticker );
+#. printf ( "unitprice_valid %d\n", data.unitprice_valid );
+#. printf ( "unitprice %f\n", data.unitprice );
+#. printf ( "date_unitprice_valid %d\n", data.date_unitprice_valid );
+#. printf ( "date_unitprice %s\n", ctime ( &data.date_unitprice ));
+#. printf ( "currency_valid %d\n", data.currency_valid );
+#. printf ( "currency %s\n", data.currency );
+#. printf ( "memo_valid %d\n", data.memo_valid );
+#. printf ( "memo %s\n", data.memo );
+#: src/ofx.c:227
+msgid ""
+"That file contains something on proc_security_cb.\n"
+"I didn't have any file to test that function.\n"
+"Please contact the grisbi team to implement that function."
+msgstr ""
+
+#: src/ofx.c:346
+msgid "A transaction try to be saved but no account was created...\n"
+msgstr ""
+
+#: src/ofx.c:410
+msgid "Check"
+msgstr "Sprawdź"
+
+#: src/ofx.c:414
+msgid "Interest"
+msgstr "Odsetki"
+
+#: src/ofx.c:418
+msgid "Dividend"
+msgstr "Dywidendy"
+
+#: src/ofx.c:422
+msgid "Service charge"
+msgstr ""
+
+#: src/ofx.c:426
+msgid "Fee"
+msgstr "Opłaty"
+
+#: src/ofx.c:434
+msgid "Cash dispenser"
+msgstr ""
+
+#: src/ofx.c:438
+msgid "Point of sale"
+msgstr "Punkt sprzedaży"
+
+#: src/ofx.c:446
+msgid "Electronic payment"
+msgstr "Płatność elektroniczna"
+
+#: src/ofx.c:450
+msgid "Cash"
+msgstr "Gotówka"
+
+#: src/ofx.c:454
+msgid "Direct deposit"
+msgstr ""
+
+#: src/ofx.c:458
+msgid "Merchant initiated debit"
+msgstr ""
+
+#: src/ofx.c:462
+msgid "Repeating payment/standing order"
+msgstr ""
+
+#: src/operations_comptes.c:164
+#: src/operations_comptes.c:168
+msgid "Last statement"
+msgstr "Ostatnie zmiany"
+
+#. mise en place du bouton Ã©quilibrage
+#: src/operations_comptes.c:180
+msgid "Reconcile"
+msgstr "Potwierdzenie sald"
+
+#: src/operations_comptes.c:306
+msgid "Last statement: none"
+msgstr "Ostatnie zmiany: brak"
+
+#: src/operations_comptes.c:316
+#: src/operations_liste.c:769
+#, c-format
+msgid "Current balance: %4.2f %s"
+msgstr "Dostępne środki: %4.2f %s"
+
+#. mise en forme du bouton change
+#: src/operations_formulaire.c:276
+msgid "Change"
+msgstr "Wymiana"
+
+#: src/operations_formulaire.c:488
+#: src/operations_formulaire.c:489
+msgid "Contra-transaction method of payment"
+msgstr ""
+
+#. affiche la question de rÃ©cupÃ©ration
+#: src/operations_formulaire.c:1819
+msgid "Recover breakdown?"
+msgstr ""
+
+#: src/operations_formulaire.c:1820
+msgid "Do you want to recover all the lines of the last breakdown?"
+msgstr ""
+
+#: src/operations_formulaire.c:2072
+#: src/operations_formulaire.c:2524
+#: src/tiers_onglet.c:1429
+msgid "Report"
+msgstr "Raport"
+
+#: src/operations_formulaire.c:2146
+msgid "No third party selected for this report."
+msgstr "Nie wybrano beneficjenta dla tego raportu"
+
+#: src/operations_formulaire.c:2319
+msgid "You must enter a date."
+msgstr "Musisz podać datę"
+
+#: src/operations_formulaire.c:2347
+msgid "Invalid date."
+msgstr "Nieprawidłowa data"
+
+#: src/operations_formulaire.c:2424
+msgid "Can't issue a transfer on a closed account."
+msgstr "Nie można wykonać transferu do zamkniętego konta "
+
+#: src/operations_formulaire.c:2455
+msgid ""
+"Selected method of payment has an automatic incremental number\n"
+"but doesn't contain any number.\n"
+"Continue anyway?"
+msgstr ""
+
+#: src/operations_formulaire.c:2485
+msgid ""
+"Warning: this cheque number is already used.\n"
+"Continue anyway?"
+msgstr ""
+"Ostrzeżenie: podany numer czeku został już użyty.\n"
+" Kontynuować mimo to?"
+
+#: src/operations_formulaire.c:2533
+msgid "A transaction with a multiple third party must be a new one."
+msgstr ""
+
+#: src/operations_formulaire.c:2567
+msgid "Invalid multiple third party."
+msgstr "Nieprawidłowy wielokrotny benficjent"
+
+#: src/operations_liste.c:173
+msgid "Curent balance"
+msgstr "Stan konta"
+
+#: src/operations_liste.c:203
+msgid "Account breakdown"
+msgstr ""
+
+#: src/operations_liste.c:1060
+msgid "Transfer to a deleted account"
+msgstr "Transfer do usuniętego konta"
+
+#: src/operations_liste.c:1062
+msgid "Transfer from a deleted account"
+msgstr "Transfer z usuniętego konta"
+
+#: src/operations_liste.c:1306
+msgid "Confirmation of transaction removal"
+msgstr "Potwierdzenie usunięcia transakcji"
+
+#: src/operations_liste.c:1307
+msgid "You are currently trying to remove a transaction.  There is no undo for this.  Do you confirm the removal?"
+msgstr "Właśnie próbujesz usunąć transakcję.  Operacja jest nieodwracalna.  Potwierdzasz usunięcie?"
+
+#: src/operations_liste.c:1326
+msgid "Confirmation of manual (un)reconciliation"
+msgstr ""
+
+#: src/operations_liste.c:1327
+msgid ""
+"You are currently trying to reconcile or unreconcile manually a transaction which isn't a regular way to do.\n"
+"\n"
+"Are you really sure to know what you do?"
+msgstr ""
+
+#: src/operations_liste.c:1634
+msgid "Transfer: deleted account"
+msgstr "Transfer: usunięte konto"
+
+#: src/operations_liste.c:1811
+msgid "Auto"
+msgstr "Automatyczny"
+
+#: src/operations_liste.c:2091
+msgid "Imposible to delete a reconciled transaction."
+msgstr "Nie można usunąć potwierdzonej transakcji"
+
+#: src/operations_liste.c:2116
+msgid "The contra-transaction of this transfer is reconciled, deletion impossible."
+msgstr ""
+
+#: src/operations_liste.c:2164
+msgid "One of the breakdown lines is a transfer whose contra-transaction is reconciled.  Deletion canceled."
+msgstr ""
+
+#. Delete transaction
+#: src/operations_liste.c:2684
+msgid "Delete transaction"
+msgstr "Usunięcie transakcji"
+
+#: src/operations_liste.c:3115
+msgid "Cannot move a transfer on his contra-account"
+msgstr ""
+
+#. Create dialog
+#: src/parametres.c:150
+msgid "Grisbi setup"
+msgstr "Ustawienia Grisbi"
+
+#: src/parametres.c:180
+#: src/parametres.c:499
+msgid "Files"
+msgstr "Pliki"
+
+#: src/parametres.c:196
+#: src/parametres.c:700
+msgid "Programs"
+msgstr "Programy"
+
+#: src/parametres.c:205
+msgid "Display"
+msgstr "Wyświetl"
+
+#: src/parametres.c:220
+#: src/parametres.c:380
+msgid "Messages & warnings"
+msgstr "Wiadomości i ostrzeżenia"
+
+#: src/parametres.c:252
+msgid "Transactions list lines"
+msgstr "Wiersze na liście transakcji"
+
+#: src/parametres.c:279
+msgid "Resources"
+msgstr "Zasoby"
+
+#: src/parametres.c:385
+msgid "Warnings messages"
+msgstr "Komunikaty ostrzeżeń"
+
+#. Display a warning message if minimum balances are under minimum level
+#: src/parametres.c:388
+msgid "Do not Warn if balances are under minimum levels"
+msgstr "Nie ostrzegaj jeżeli stan konta osiągnął poziom minimalny"
+
+#: src/parametres.c:397
+msgid "Do not warn if account file is readable by someone else"
+msgstr "Nie ostrzegaj jeżeli konto jest przeglądane przez innego użytkownika"
+
+#. Display a warning message if file is already opened
+#: src/parametres.c:402
+msgid "Do not warn about an already opened file"
+msgstr "Nie ostrzegaj przed ponownym otwarciem pliku"
+
+#. Display a warning message that QIF doesn't contain currencies
+#: src/parametres.c:407
+msgid "Do not warn about QIF not containing currencies"
+msgstr ""
+
+#. Display a warning message that manually reconciliation isn't a good way
+#: src/parametres.c:412
+msgid ""
+"Do not warn about manually reconciliation\n"
+"(with shortcut <Ctrl><R>)"
+msgstr ""
+"Nie ostrzegaj przed ręcznym powiązaniem\n"
+"(poprzez wciśnięcie <Ctrl><R>)"
+
+#. Display a warning message when trying to remove a transaction
+#: src/parametres.c:418
+msgid "Do not warn about removal transaction"
+msgstr "Nie ostrzegaj przed usunięciem transakcji"
+
+#. Display a warning message when trying to remove a scheduled transaction
+#: src/parametres.c:423
+msgid "Do not warn about removal scheduled transaction"
+msgstr "Nie ostrzegaj przed usunięciem zaplanowanej transakcji"
+
+#. Display a warning message when a breakdown is incomplete
+#: src/parametres.c:428
+msgid "Do not warn about incomplete breakdown"
+msgstr ""
+
+#: src/parametres.c:436
+msgid "Scheduler warnings"
+msgstr "Ostrzeżenia terminarza"
+
+#: src/parametres.c:440
+msgid "Number of days before a warning message advertising a scheduled transaction"
+msgstr "Liczba dni przed ostrzeżeniem o zaplanowanej transakcji"
+
+#: src/parametres.c:504
+msgid "Account files handling"
+msgstr "Ustawienia dla plików kont"
+
+#: src/parametres.c:508
+msgid "Automatically load last file on startup"
+msgstr "Automatycznie wczytuj ostatnio otwarty plik"
+
+#: src/parametres.c:513
+msgid "Automatically save on exit"
+msgstr "Automatycznie zapisuj przy wyjściu"
+
+#: src/parametres.c:529
+msgid "File compression level"
+msgstr "Stopień kompresji pliku"
+
+#: src/parametres.c:543
+msgid "Memorise last opened files"
+msgstr "Zapamiętuj ostatnio otwarte pliki"
+
+#: src/parametres.c:554
+msgid "Backups"
+msgstr "Kopie bezpieczeństwa"
+
+#: src/parametres.c:558
+msgid "Make a backup copy after opening files"
+msgstr "Utwórz kopię bezpieczeństwa po otwarciu pliku"
+
+#. Automatic backup ?
+#: src/parametres.c:564
+msgid "Make a backup copy before saving files"
+msgstr "Utwórz kopię bezpieczeństwa zanim zapiszesz plik"
+
+#: src/parametres.c:581
+msgid "Backup file"
+msgstr "Kopia bezpieczeństwa"
+
+#: src/parametres.c:620
+msgid "Backup compression level"
+msgstr "Stopień kompresji kopii bezpieczeństwa"
+
+#: src/parametres.c:652
+msgid "backup.gsb"
+msgstr "backup.gsb"
+
+#: src/parametres.c:702
+msgid "Print support"
+msgstr "Ustawienia wydruku"
+
+#: src/parametres.c:709
+msgid "LaTeX command"
+msgstr "Polecenie LaTeX"
+
+#: src/parametres.c:717
+msgid "dvips command"
+msgstr "Polecenie dvips"
+
+#. Misc
+#: src/parametres.c:726
+#: src/print_config.c:283
+msgid "Misc"
+msgstr "Inne"
+
+#: src/parametres.c:733
+msgid "Web browser"
+msgstr "Przeglądarka www"
+
+#: src/patienter.c:78
+msgid "Wait please..."
+msgstr "Proszę czekać..."
+
+#: src/print_config.c:38
+msgid "A3"
+msgstr "A3"
+
+#: src/print_config.c:40
+msgid "A5"
+msgstr "A5"
+
+#: src/print_config.c:41
+msgid "A6"
+msgstr "A6"
+
+#: src/print_config.c:42
+msgid "Letter"
+msgstr "Letter"
+
+#: src/print_config.c:43
+msgid "Legal"
+msgstr "Legal"
+
+#: src/print_config.c:44
+msgid "Executive"
+msgstr ""
+
+#: src/print_config.c:76
+msgid "General"
+msgstr "Ogólny"
+
+#: src/print_config.c:79
+msgid "Paper"
+msgstr "Papier"
+
+#. Printer paddingbox
+#. Print to printer
+#: src/print_config.c:146
+#: src/print_config.c:154
+msgid "Printer"
+msgstr "Drukarka"
+
+#: src/print_config.c:189
+msgid "Postscript file"
+msgstr "Plik Postscript"
+
+#: src/print_config.c:191
+msgid "LaTeX file"
+msgstr "Plik LaTeX"
+
+#. Paper size
+#: src/print_config.c:224
+msgid "Size"
+msgstr "Rozmiar"
+
+#. Paper orientation
+#: src/print_config.c:248
+msgid "Orientation"
+msgstr "Orientacja"
+
+#: src/print_config.c:250
+msgid "Portrait"
+msgstr "Portret"
+
+#: src/print_config.c:253
+msgid "Landscape"
+msgstr "Pejzaż"
+
+#. Headers
+#: src/print_config.c:277
+msgid "Headers"
+msgstr "Nagłówki"
+
+#. Footers
+#: src/print_config.c:280
+msgid "Footers"
+msgstr "Stopki"
+
+#: src/qif.c:131
+#: src/qif.c:299
+msgid "This file is empty!"
+msgstr "Ten plik jest pusty!"
+
+#: src/qif.c:161
+msgid "Grisbi found an investment account, which is not implemented yet.  Nevertheless, Grisbi will try to import it as a bank account."
+msgstr "Grisbi znalazł konto inwestycyjne, które nie jest jeszcze obsługiwane. Niemniej jednak Grisbi spróbuje zaimportować to konto jako konto bankowe."
+
+#: src/qif.c:292
+msgid "Imported account with no name"
+msgstr "Importowane konto bez nazwy"
+
+#: src/qif.c:578
+#: src/qif.c:581
+msgid " [Transaction imported without date]"
+msgstr " [Transakcja została zaimporotwana bez daty]"
+
+#: src/qif.c:731
+msgid "Dates can't be parsed in QIF file."
+msgstr ""
+
+#: src/qif.c:732
+msgid "Grisbi automatically tries to parse dates from QIF files using heuristics.  Please double check that they are valid and contact grisbi development team for assistance if needed"
+msgstr ""
+
+#: src/qif.c:914
+msgid "QIF format does not define currencies."
+msgstr ""
+
+#: src/qif.c:918
+msgid "Export QIF files"
+msgstr "Exportuj pliki QIF"
+
+#: src/qif.c:1023
+#, c-format
+msgid "File name '%s' invalid !"
+msgstr "Nazwa pliku '%s' jest nieprawidłowa !"
+
+#: src/tiers_onglet.c:65
+msgid "Third parties list"
+msgstr "Lista beneficjentów"
+
+#: src/tiers_onglet.c:66
+msgid "Amount per third party"
+msgstr "Suma dla beneficjenta"
+
+#: src/tiers_onglet.c:68
+msgid "Last date"
+msgstr "Data końcowa"
+
+#. mise en place du bouton ajout d'1 tiers
+#: src/tiers_onglet.c:237
+msgid "Add a third party"
+msgstr "Dodaj beneficjenta"
+
+#: src/tiers_onglet.c:1183
+msgid "Delete a third party"
+msgstr "Usuń beneficjenta"
+
+#: src/tiers_onglet.c:1190
+msgid ""
+"Some transactions are still assigned to this third party.\n"
+"\n"
+"You can"
+msgstr ""
+
+#: src/tiers_onglet.c:1215
+msgid "Transfer the transactions to"
+msgstr "Przenieś transakcje do"
+
+#: src/tiers_onglet.c:1258
+msgid "Just delete this third party."
+msgstr "Usuń tego beneficjenta."
+
+#: src/tiers_onglet.c:1284
+msgid "Please enter a third party."
+msgstr "Proszę podać beneficjenta"
+
+#: src/tiers_onglet.c:1295
+msgid "Grisbi is unable to find this third party.  Be sure entered name is valid and that this third party exists."
+msgstr "Grisbi nie może znaleść tego beneficjenta. Upewanij się, że nazwa została wprowadzona prawidłowo, i że ten beneficjent istnieje."
+
+#: src/tiers_onglet.c:1296
+#, c-format
+msgid "Third party %s not found."
+msgstr "Beneficjet %s nie został znaleziony."
+
+#: src/tiers_onglet.c:1647
+msgid "New third party"
+msgstr "Nowy beneficjent"
+
+#: src/tiers_onglet.c:1648
+msgid "Enter the new third party's name"
+msgstr "Podaj nawę nowego beneficjenta"
+
+#: src/tiers_onglet.c:1657
+msgid "Third party names must be both unique and not empty.  Please use another name for this third party."
+msgstr "Nazwa beneficjenta musi być unikalna i nie pusta. Proszę wpisać inną nazwę dla tego beneficjenta."
+
+#: src/tiers_onglet.c:1658
+#, c-format
+msgid "Third party '%s' already exists."
+msgstr "Beneficjent '%s' już istnieje."
+
+#. Should not happen theorically
+#. Should not happen!
+#: src/type_operations.c:106
+#: src/type_operations.c:875
+msgid "Serious brain damage expected."
+msgstr "Oczekiwane poważne uszkodzenie mózgu."
+
+#: src/type_operations.c:261
+msgid "Known payment methods"
+msgstr "Znane metody płatności"
+
+#: src/type_operations.c:310
+msgid "Default"
+msgstr "Domyślne"
+
+#: src/type_operations.c:322
+msgid "Numbering"
+msgstr "Numerowanie"
+
+#: src/type_operations.c:366
+msgid "Payment method details"
+msgstr "Szczegóły metody płatności"
+
+#. Automatic numbering
+#: src/type_operations.c:390
+msgid "Automatic numbering"
+msgstr "Automatyczna numeracja"
+
+#: src/type_operations.c:406
+msgid "Activate"
+msgstr "Włącz"
+
+#. Payment method type
+#: src/type_operations.c:414
+msgid "Type"
+msgstr "Typ"
+
+#. Neutral type
+#: src/type_operations.c:426
+msgid "Neutral"
+msgstr "Neutralny"
+
+#: src/type_operations.c:912
+msgid "New payment method"
+msgstr "Nowa metoda płatności"
+
+#: src/type_operations.c:1011
+msgid "Delete a payment method"
+msgstr "Kasuj metodę zapłaty"
+
+#: src/type_operations.c:1019
+msgid "Some transactions still use that payment method.  As deletion of this method is irreversible, these transactions are to be associated with another payment method."
+msgstr ""
+
+#: src/type_operations.c:1036
+msgid "Associate transactions with"
+msgstr "Powiąż transakcje z "
+
+#: src/utils.c:710
+#, c-format
+msgid "Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.  Please adjust your settings to a valid executable."
+msgstr "Grisbi nie może uruchomić przeglądarki do otworzenia strony <tt>%s</tt>.  Proszę sprawdzić ustawienia."
+
+#: src/utils.c:711
+#: src/utils.c:745
+msgid "Cannot run web browser"
+msgstr "Nie można uruchomić przeglądarki www"
+
+#: src/utils.c:744
+#, c-format
+msgid ""
+"Grisbi was unable to execute '%s'\n"
+"Please adjust your settings to a valid executable."
+msgstr ""
+"Grisbi nie mógł wykonać '%s'\n"
+"Proszę zmodyfikować ustawienia."
+
+#: src/utils_files.c:61
+msgid "Print to file"
+msgstr "Wydruk do pliku"
+
+#. aie, pb de mÃ©moire, on vire
+#: src/utils_files.c:142
+#: src/utils_files.c:159
+msgid "Memory allocation error"
+msgstr "Błąd alokacji pamięci"
+
+#: src/utils_files.c:200
+msgid "Browse"
+msgstr ""
+
+#: src/ventilation.c:2201
+msgid "This transaction has a reconciled breakdown line, deletion canceled."
+msgstr ""
+
+#: src/ventilation.c:2228
+msgid "This transfer has a reconciled contra-transaction, deletion canceled."
+msgstr ""
+
