@@ -258,17 +258,6 @@ void preferences ( GtkWidget *widget,
 			    onglet_types_operations(),
 			    NULL);
 
-  /* Connection des boutons en bas */
-/*   gtk_signal_connect ( GTK_OBJECT ( button_close ), */
-/* 		       "clicked", */
-/* 		       (GtkSignalFunc) fermeture_preferences, */
-/* 		       NULL ); */
-  /* FIXME */
-/*   gtk_signal_connect_after ( GTK_OBJECT ( button_help ), */
-/* 		       "clicked", */
-/* 		       (GtkSignalFunc) fermeture_preferences, */
-/* 		       NULL ); */
-
   /* On se met sur la page demandée */
 /*   path = gtk_tree_path_new (); */
 /*   gtk_tree_path_append_index (path, 3); */
@@ -323,8 +312,6 @@ gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
   preference_selected = g_value_get_int(&value);
   if (preference_selected != -1)
     {
-/*       gtk_container_add (GTK_CONTAINER (preference_frame), preference_selected); */
-/*       gtk_widget_show_all(preference_selected); */
       gtk_notebook_set_page (preference_frame, preference_selected);
     }
 
