@@ -60,6 +60,9 @@
 #include "utils_types.h"
 #include "utils.h"
 #include "ventilation.h"
+#include "meta_categories.h"
+#include "meta_budgetary.h"
+#include "meta_payee.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -143,6 +146,9 @@ extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
 extern gdouble taux_de_change[2];
 extern GtkTooltips *tooltips_general_grisbi;
+extern GtkTreeModel * categ_tree_model;
+extern GtkTreeModel * payee_tree_model;
+extern GtkTreeModel * budgetary_line_tree_model;
 /*END_EXTERN*/
 
 
@@ -2540,6 +2546,18 @@ gboolean fin_edition ( void )
     /*     on affiche un avertissement si nécessaire */
 
     affiche_dialogue_soldes_minimaux ();
+
+    /* FIXME: Kludgeish, we should maintain a state. */
+    calcule_total_montant_categ();
+    update_transaction_in_tree ( category_interface, categ_tree_model, operation );
+
+    /* FIXME: Kludgeish, we should maintain a state. */
+    calcule_total_montant_budgetary_line();
+    update_transaction_in_tree ( budgetary_interface, budgetary_line_tree_model, operation );
+
+    /* FIXME: Kludgeish, we should maintain a state. */
+    calcule_total_montant_payee();
+    update_transaction_in_tree ( payee_interface, payee_tree_model, operation );
 
     modification_fichier ( TRUE );
     return FALSE;
