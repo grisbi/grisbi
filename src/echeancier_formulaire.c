@@ -1943,7 +1943,6 @@ void fin_edition_echeance ( void )
 	    echeance->date_limite = g_date_new_dmy ( echeance->jour_limite,
 						     echeance->mois_limite,
 						     echeance->annee_limite);
-	    g_strfreev ( tableau_char );
 	}
 
 
@@ -1989,8 +1988,6 @@ void fin_edition_echeance ( void )
 	operation ->date = g_date_new_dmy ( operation ->jour,
 					    operation ->mois,
 					    operation ->annee);
-
-	g_strfreev ( tableau_char );
 
 	/* récupération du no de compte */
 
