@@ -1271,7 +1271,7 @@ void edition_echeance ( void )
 
 	pointeur_tmp_2 = g_slist_find_custom ( (( struct struct_imputation * )( pointeur_tmp -> data )) -> liste_sous_imputation,
 					       GINT_TO_POINTER ( echeance_selectionnnee -> sous_imputation ),
-					       ( GCompareFunc ) recherche_sous_categorie_par_no );
+					       ( GCompareFunc ) recherche_sous_imputation_par_no );
 	if ( pointeur_tmp_2 )
 	    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ),
 				    g_strconcat ( (( struct struct_imputation * )( pointeur_tmp -> data )) -> nom_imputation,
