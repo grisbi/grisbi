@@ -73,7 +73,9 @@ void fichier_marque_ouvert ( gint ouvert );
 gboolean enregistre_etat ( gchar *nom_etat );
 gboolean charge_etat ( gchar *nom_etat );
 gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc );
-
+gboolean enregistre_categ ( gchar *nom_categ );
+gboolean charge_categ ( gchar *nom_categ );
+gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc );
 
 
 
@@ -674,6 +676,8 @@ gchar *calcule_total_montant_categ_par_compte ( gint categ,
 						gint no_compte );
 void appui_sur_ajout_categorie ( void );
 void appui_sur_ajout_sous_categorie ( void );
+void exporter_categ ( void );
+void importer_categ ( void );
 
 
 

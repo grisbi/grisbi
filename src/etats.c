@@ -5801,7 +5801,6 @@ void importer_etat ( void )
   GtkWidget *label;
   GtkWidget *fenetre_nom;
   gint resultat;
-  struct stat test_fichier;
   gchar *nom_etat;
 
   dialog = gnome_dialog_new ( _("Importer un état"),

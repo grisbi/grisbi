@@ -174,7 +174,7 @@ GtkWidget *onglet_categories ( void )
   GtkWidget *hbox;
   GtkWidget *label;
   GtkWidget *separateur;
-
+  GtkWidget *bouton;
 
 
 /* création de la fenêtre qui sera renvoyée */
@@ -391,6 +391,47 @@ GtkWidget *onglet_categories ( void )
 		       FALSE,
 		       0 );
   gtk_widget_show ( bouton_ajouter_sous_categorie );
+
+  separateur = gtk_hseparator_new ();
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       separateur,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( separateur );
+
+  /* on met le bouton exporter */
+
+  bouton = gtk_button_new_with_label ( _("Exporter ...") );
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( exporter_categ ),
+		       NULL );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton );
+
+  /* on met le bouton importer */
+
+  bouton = gtk_button_new_with_label ( _("Importer ...") );
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( importer_categ ),
+		       NULL );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton );
+
 
 
 /*   création de la frame de droite */
@@ -2922,5 +2963,296 @@ void appui_sur_ajout_sous_categorie ( void )
   mise_a_jour_categ();
   modif_categ = 0;
   modification_fichier(TRUE);
+}
+/* **************************************************************************************************** */
+
+
+
+/* **************************************************************************************************** */
+void exporter_categ ( void )
+{
+  GtkWidget *dialog;
+  GtkWidget *label;
+  GtkWidget *fenetre_nom;
+  gint resultat;
+  struct stat test_fichier;
+  gchar *nom_categ;
+
+  dialog = gnome_dialog_new ( _("Exporter les catégories"),
+			      GNOME_STOCK_BUTTON_OK,
+			      GNOME_STOCK_BUTTON_CANCEL,
+			      NULL );
+  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
+				 GTK_WINDOW ( window ));
+  gnome_dialog_set_default ( GNOME_DIALOG ( dialog ),
+			     0 );
+  gtk_signal_connect ( GTK_OBJECT ( dialog ),
+		       "destroy",
+		       GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
+		       "destroy" );
+
+  label = gtk_label_new ( _("Entrer un nom pour l'export :") );
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
+
+  fenetre_nom = gnome_file_entry_new ( "nom_fichier",
+				       "nom_fichier" );
+  gnome_file_entry_set_default_path ( GNOME_FILE_ENTRY ( fenetre_nom ),
+				      dernier_chemin_de_travail );
+  gtk_entry_set_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
+		       g_strconcat ( dernier_chemin_de_travail,
+				     ".cgsb",
+				     NULL ));
+  gtk_entry_set_position ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
+			   strlen (dernier_chemin_de_travail ));
+  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
+				 GTK_EDITABLE ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))));
+  gtk_window_set_focus ( GTK_WINDOW ( dialog ),
+			 gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom )));
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+		       fenetre_nom,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( fenetre_nom );
+
+  resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
+
+  switch ( resultat )
+    {
+    case 0 :
+      nom_categ = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
+
+      gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+
+      /* vérification que c'est possible */
+
+      if ( !strlen ( nom_categ ))
+	return;
+
+      if ( stat ( nom_categ,
+		  &test_fichier ) != -1 )
+	{
+	  if ( S_ISREG ( test_fichier.st_mode ) )
+	    {
+	      GtkWidget *etes_vous_sur;
+	      GtkWidget *label;
+
+	      etes_vous_sur = gnome_dialog_new ( _("Enregistrer le fichier"),
+						 GNOME_STOCK_BUTTON_YES,
+						 GNOME_STOCK_BUTTON_NO,
+						 NULL );
+	      label = gtk_label_new ( _("Le fichier existe. Voulez-vous l'écraser ?") );
+	      gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( etes_vous_sur ) -> vbox ),
+				   label,
+				   TRUE,
+				   TRUE,
+				   5 );
+	      gtk_widget_show ( label );
+
+	      gnome_dialog_set_default ( GNOME_DIALOG ( etes_vous_sur ),
+					 1 );
+	      gnome_dialog_set_parent ( GNOME_DIALOG ( etes_vous_sur ),
+					GTK_WINDOW ( window ) );
+	      gtk_window_set_modal ( GTK_WINDOW ( etes_vous_sur ),
+				     TRUE );
+	      if ( gnome_dialog_run_and_close ( GNOME_DIALOG ( etes_vous_sur ) ) )
+		return;
+	    }
+	  else
+	    {
+	      dialogue ( g_strconcat ( _("Nom de fichier \""),
+				       nom_categ,
+				       _("\" invalide !"),
+				       NULL ));
+	      return;
+	    }
+	}
+
+      if ( !enregistre_categ ( nom_categ ))
+	{
+	  dialogue ( "L'enregistrement a échoué." );
+	  return;
+	}
+
+      break;
+
+    default :
+      gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+      return;
+    }
+}
+/* **************************************************************************************************** */
+
+
+
+/* **************************************************************************************************** */
+void importer_categ ( void )
+{
+  GtkWidget *dialog;
+  GtkWidget *label;
+  GtkWidget *fenetre_nom;
+  gint resultat;
+  gchar *nom_categ;
+  GtkWidget *bouton_merge_remplace;
+  GtkWidget *menu;
+  GtkWidget *menu_item;
+  GtkWidget *separateur;
+
+
+  dialog = gnome_dialog_new ( _("Importer une liste de catégories"),
+			      GNOME_STOCK_BUTTON_OK,
+			      GNOME_STOCK_BUTTON_CANCEL,
+			      NULL );
+  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
+				 GTK_WINDOW ( window ));
+  gnome_dialog_set_default ( GNOME_DIALOG ( dialog ),
+			     0 );
+  gtk_signal_connect ( GTK_OBJECT ( dialog ),
+		       "destroy",
+		       GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
+		       "destroy" );
+
+  label = gtk_label_new ( _("Entrer le nom du fichier :") );
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
+
+  fenetre_nom = gnome_file_entry_new ( "nom_fichier",
+				       "nom_fichier" );
+  gnome_file_entry_set_default_path ( GNOME_FILE_ENTRY ( fenetre_nom ),
+				      dernier_chemin_de_travail );
+  gtk_entry_set_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
+		       g_strconcat ( dernier_chemin_de_travail,
+				     ".cgsb",
+				     NULL ));
+  gtk_entry_set_position ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
+			   strlen (dernier_chemin_de_travail ));
+  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
+				 GTK_EDITABLE ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))));
+  gtk_window_set_focus ( GTK_WINDOW ( dialog ),
+			 gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom )));
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+		       fenetre_nom,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( fenetre_nom );
+
+
+  /* on permet de remplacer/fusionner la liste */
+
+  separateur = gtk_hseparator_new ();
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+		       separateur,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( separateur );
+
+  /* pour éviter un warning lors de la compil */
+
+  bouton_merge_remplace = NULL;
+
+  if ( no_derniere_operation )
+    {
+      /*       il y a déjà des opérations dans le fichier, on ne peut que fusionner */
+
+      label = gtk_label_new ( "Le fichier contient déjà des opérations,\nles deux listes de catégories seront fusionnées." );
+      gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+			   label,
+			   FALSE,
+			   FALSE,
+			   0 );
+      gtk_widget_show ( label );
+    }
+  else
+    {
+      label = gtk_label_new ( "Voulez-vous :" );
+      gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+			   label,
+			   FALSE,
+			   FALSE,
+			   0 );
+      gtk_widget_show ( label );
+
+      bouton_merge_remplace = gtk_option_menu_new ();
+      gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+			   bouton_merge_remplace,
+			   FALSE,
+			   FALSE,
+			   0 );
+      gtk_widget_show ( bouton_merge_remplace );
+
+      menu = gtk_menu_new ();
+
+      menu_item = gtk_menu_item_new_with_label ( "Fusionner les deux listes de catégories" );
+      gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			    "choix",
+			    NULL );
+      gtk_menu_append ( GTK_MENU ( menu ),
+			menu_item );
+      gtk_widget_show ( menu_item );
+
+      menu_item = gtk_menu_item_new_with_label ( "Remplacer l'ancienne liste de catégories" );
+      gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			    "choix",
+			    GINT_TO_POINTER ( 1 ));
+      gtk_menu_append ( GTK_MENU ( menu ),
+			menu_item );
+      gtk_widget_show ( menu_item );
+
+      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_merge_remplace ),
+				 menu );
+      gtk_widget_show ( menu );
+    }
+
+
+  resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
+
+  switch ( resultat )
+    {
+    case 0 :
+      nom_categ = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
+
+      gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+
+      /* vérification que c'est possible */
+
+      if ( !strlen ( nom_categ ))
+	return;
+
+      /* si on a choisi de remplacer l'ancienne liste, on la vire ici */
+
+      if ( !no_derniere_operation
+	   &&
+	   gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_merge_remplace ) -> menu_item ),
+				 "choix" ))
+	{
+	  g_slist_free ( liste_struct_categories );
+	  liste_struct_categories = NULL;
+	  no_derniere_categorie = 0;
+	  nb_enregistrements_categories = 0;
+	}
+
+      if ( !charge_categ ( nom_categ ))
+	{
+	  dialogue ( "L'importation a échoué." );
+	  return;
+	}
+
+      break;
+
+    default :
+      gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+      return;
+    }
 }
 /* **************************************************************************************************** */
