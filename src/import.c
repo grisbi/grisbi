@@ -292,7 +292,7 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 
 	  case TYPE_UNKNOWN:
 	  default:
-	    dialogue_error_hint ( _("Grisbi is unable to determine type of this file.  If it is a QIF, an OFX file or a HTML page from a online bank service, please contact the grisbi team to resolve this problem."),
+	    dialogue_error_hint ( _("Grisbi is unable to determine type of this file.  If it is a QIF file, an OFX file, a Gnucash file or a HTML page from a online bank service, please contact the grisbi team to resolve this problem."),
 				  g_strdup_printf ( _("File \"%s\" cannot be imported."), liste_selection[i]) );
 	    result = FALSE;
 	    break;
@@ -335,6 +335,12 @@ gboolean affichage_recapitulatif_importation ( void )
     if ( !liste_comptes_importes )
 	return (FALSE);
 
+    /* We have to do that as soon as possible since this would reset currencies */
+    if ( !nb_comptes )
+      {
+	init_variables ();
+      }
+
     /* First, iter to see if we need to create currencies */
     liste_tmp = liste_comptes_importes;
     while ( liste_tmp )
@@ -359,8 +365,9 @@ gboolean affichage_recapitulatif_importation ( void )
 	    if ( ! devise )
 	      devise = find_currency_from_iso4217_list ( compte -> devise );
 
-	    liste_tmp = liste_tmp -> next;
 	  }
+
+	liste_tmp = liste_tmp -> next;
       }
 
     if ( dialog_recapitulatif )
@@ -967,7 +974,7 @@ void traitement_operations_importees ( void )
 	nouveau_fichier = 0;
     else
     {
-	init_variables ();
+/* 	init_variables (); */
 	initialisation_variables_nouveau_fichier ();
 	nouveau_fichier = 1;
     }
