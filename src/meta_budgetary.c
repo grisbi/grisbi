@@ -65,18 +65,20 @@ gint budgetary_line_scheduled_div_id (struct operation_echeance *);
 gint budgetary_line_scheduled_sub_div_id (struct operation_echeance *);
 void budgetary_line_scheduled_set_div_id (struct operation_echeance *, int);
 void budgetary_line_scheduled_set_sub_div_id (struct operation_echeance *, int);
+struct struct_devise * budgetary_line_tree_currency ( );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 extern gint mise_a_jour_combofix_imputation_necessaire;
 extern GSList * liste_struct_imputation;
 extern gint nb_enregistrements_imputations;
-extern struct struct_imputation * without_budgetary_line;
+extern gint no_devise_totaux_ib;
 /*START_EXTERN*/
 
 
 static MetatreeInterface _budgetary_interface = {
     2,
+    budgetary_line_tree_currency,
     N_("No budgetary line"),
     N_("No sub-budgetary line"),
     budgetary_line_get_without_div_pointer,
@@ -116,6 +118,17 @@ static MetatreeInterface _budgetary_interface = {
 };
 
 MetatreeInterface * budgetary_interface = &_budgetary_interface;
+struct struct_imputation * without_budgetary_line;
+
+
+/**
+ *
+ *
+ */
+struct struct_devise * budgetary_line_tree_currency ( )
+{
+    return (struct struct_devise *) devise_par_no ( no_devise_totaux_ib );
+}
 
 
 

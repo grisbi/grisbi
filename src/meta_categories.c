@@ -63,10 +63,19 @@ gint category_scheduled_div_id (struct operation_echeance *);
 gint category_scheduled_sub_div_id (struct operation_echeance *);
 void category_scheduled_set_div_id (struct operation_echeance *, int);
 void category_scheduled_set_sub_div_id (struct operation_echeance *, int);
+struct struct_devise * category_tree_currency ( );
 /*END_STATIC*/
+
+/*START_EXTERN*/
+extern GSList *liste_struct_categories;
+extern gint nb_enregistrements_categories;
+extern gint no_devise_totaux_categ;
+/*END_EXTERN*/
+
 
 static MetatreeInterface _category_interface = {
     2,
+    category_tree_currency,
     N_("No category"),
     N_("No sub-category"),
     category_get_without_div_pointer,
@@ -106,11 +115,20 @@ static MetatreeInterface _category_interface = {
 };
 
 MetatreeInterface * category_interface = &_category_interface;
+struct struct_categ * without_category;
 
-/* liste des structures de catég */
-extern GSList *liste_struct_categories;
-extern gint nb_enregistrements_categories;
-extern struct struct_categ * without_category;
+
+
+
+/**
+ *
+ *
+ */
+struct struct_devise * category_tree_currency ( )
+{
+    return (struct struct_devise *) devise_par_no ( no_devise_totaux_categ );
+}
+
 
 
 /**

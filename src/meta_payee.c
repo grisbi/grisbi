@@ -67,18 +67,20 @@ gint payee_scheduled_div_id (struct operation_echeance *);
 gint payee_scheduled_sub_div_id (struct operation_echeance *);
 void payee_scheduled_set_div_id (struct operation_echeance *, int);
 void payee_scheduled_set_sub_div_id (struct operation_echeance *, int);
+struct struct_devise * payee_tree_currency ( );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 extern gint mise_a_jour_combofix_tiers_necessaire;
 extern GSList * liste_struct_tiers;
 extern gint nb_enregistrements_tiers;
-struct struct_tiers * without_payee;
+extern gint no_devise_totaux_tiers;
 /*START_EXTERN*/
 
 
 static MetatreeInterface _payee_interface = {
     1,
+    payee_tree_currency,
     N_("No payee"),
     N_("No sub-payee"),
     payee_get_without_div_pointer,
@@ -118,6 +120,19 @@ static MetatreeInterface _payee_interface = {
 };
 
 MetatreeInterface * payee_interface = &_payee_interface;
+struct struct_tiers * without_payee;
+
+
+
+
+/**
+ *
+ *
+ */
+struct struct_devise * payee_tree_currency ( )
+{
+    return (struct struct_devise *) devise_par_no ( no_devise_totaux_tiers );
+}
 
 
 
