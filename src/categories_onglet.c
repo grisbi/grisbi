@@ -2877,15 +2877,9 @@ void exporter_categ ( void )
 /* **************************************************************************************************** */
 void importer_categ ( void )
 {
-    GtkWidget *dialog;
-    GtkWidget *label;
-    GtkWidget *fenetre_nom;
+    GtkWidget *dialog, *fenetre_nom;
     gint resultat;
     gchar *nom_categ;
-    GtkWidget *bouton_merge_remplace;
-    GtkWidget *menu;
-    GtkWidget *menu_item;
-
 
     fenetre_nom = gtk_file_selection_new ( _("Import a category list"));
     file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
@@ -2910,78 +2904,23 @@ void importer_categ ( void )
     if ( !strlen ( nom_categ ))
 	return;
 
-
-
     /* on permet de remplacer/fusionner la liste */
 
-    dialog = gtk_dialog_new_with_buttons ( _("Import a category list"),
-					   GTK_WINDOW (window),
-					   GTK_DIALOG_MODAL,
-					   GTK_STOCK_OK,0,
-					   GTK_STOCK_CANCEL,1,
-					   NULL );
-    gtk_signal_connect ( GTK_OBJECT ( dialog ),
-			 "destroy",
-			 GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
-			 "destroy" );
+    dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
+				       make_hint ( _("Merge category list with existing?"),
+						   ( no_derniere_operation ?
+						     _("Imported category list will be merged with existing.  There is no undo for this.") :
+						     _("Imported category list can either be merged with existing or replace it.  Once performed, there is no undo for this.") ) ) );
 
-    /* pour éviter un warning lors de la compil */
+    if ( !no_derniere_operation )
+      gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
+			       _("Replace existing"), 0,
+			       NULL );
 
-    bouton_merge_remplace = NULL;
-
-    if ( no_derniere_operation )
-    {
-	/*       il y a déjà des opérations dans le fichier, on ne peut que fusionner */
-
-	label = gtk_label_new ( _("File already contains transactions, the two categories lists will be merged." ));
-	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			     label,
-			     FALSE,
-			     FALSE,
-			     0 );
-	gtk_widget_show ( label );
-    }
-    else
-    {
-	label = gtk_label_new ( COLON(_("Do you want" )));
-	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			     label,
-			     FALSE,
-			     FALSE,
-			     0 );
-	gtk_widget_show ( label );
-
-	bouton_merge_remplace = gtk_option_menu_new ();
-	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			     bouton_merge_remplace,
-			     FALSE,
-			     FALSE,
-			     0 );
-	gtk_widget_show ( bouton_merge_remplace );
-
-	menu = gtk_menu_new ();
-
-	menu_item = gtk_menu_item_new_with_label ( _("Merge the two categories lists" ));
-	gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			      "choix",
-			      NULL );
-	gtk_menu_append ( GTK_MENU ( menu ),
-			  menu_item );
-	gtk_widget_show ( menu_item );
-
-	menu_item = gtk_menu_item_new_with_label ( _("Replace the old categories list" ));
-	gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			      "choix",
-			      GINT_TO_POINTER ( 1 ));
-	gtk_menu_append ( GTK_MENU ( menu ),
-			  menu_item );
-	gtk_widget_show ( menu_item );
-
-	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_merge_remplace ),
-				   menu );
-	gtk_widget_show ( menu );
-    }
-
+    gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
+			     GTK_STOCK_CANCEL, 1,
+			     _("Merge categories"), 2,
+			     NULL );
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
@@ -2990,10 +2929,7 @@ void importer_categ ( void )
 	case 0 :
 	    /* si on a choisi de remplacer l'ancienne liste, on la vire ici */
 
-	    if ( !no_derniere_operation
-		 &&
-		 gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_merge_remplace ) -> menu_item ),
-				       "choix" ))
+	    if ( !no_derniere_operation )
 	    {
 		g_slist_free ( liste_struct_categories );
 		liste_struct_categories = NULL;
@@ -3001,14 +2937,13 @@ void importer_categ ( void )
 		nb_enregistrements_categories = 0;
 	    }
 
+        case 2 :
 	    if ( !charge_categ ( nom_categ ))
 	    {
-		dialogue ( _("Cannot import file.") );
 		gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 		return;
 	    }
 	    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
-
 	    break;
 
 	default :

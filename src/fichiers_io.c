@@ -48,6 +48,7 @@ struct recuperation_version
 #include "operations_liste.h"
 #include <gtk/gtk.h>
 #include "utils_files.h"
+#include "utils_xml.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -5341,6 +5342,7 @@ gboolean charge_categ ( gchar *nom_categ )
 	/* vérifications d'usage */
 
 	xmlNodePtr root = xmlDocGetRootElement(doc);
+	xmlNodePtr node = NULL;
 
 	if ( !doc->children
 	     ||
@@ -5354,38 +5356,32 @@ gboolean charge_categ ( gchar *nom_categ )
 	    return ( FALSE );
 	}
 
-	/* récupère la version de fichier */
-	if (( strcmp (  xmlNodeGetContent ( root->children->next->children->next ), VERSION_FICHIER_CATEG )))
+	while ( root )
 	  {
-	    dialogue_warning_hint ( g_strdup_printf (_("This budgetary lines list has been produced with grisbi version %s, Grisbi will nevertheless try to import it."), xmlNodeGetContent ( root->children->next->children->next )),
-				    _("Version mismatch") );
+	    if ( node_strcmp ( root, "Grisbi_categ" ) )
+	      {
+		node = get_child ( root, "Generalites" );
+	      }
+	    
+	    root = root -> next;
 	  }
 
-	if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
-			 "0.4.0" )))
+	/* récupère la version de fichier */
+	if ( node )
+	  {
+	    if ( strcmp ( child_content ( node, "Version_fichier_categ" ), VERSION_FICHIER_CATEG ))
+	      {
+		if ( ! question_yes_no_hint ( _("Version mismatch") ,
+					      g_strdup_printf (_("This budgetary lines list has been produced with grisbi version '%s' or higher,  Should Grisbi try to import it?"), 
+							       child_content ( node, "Version_fichier_categ" ) )))
+		  return FALSE;
+	      }
+
 	    return ( charge_categ_version_0_4_0 ( doc ));
-	if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
-			 "0.4.1" )))
-	    return ( charge_categ_version_0_4_0 ( doc ));
-	if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
-			 "0.5.0" )))
-	    return ( charge_categ_version_0_4_0 ( doc ));
-
-	/* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
-	/* la version nécessaire pour l'ouvrir */
-
-	dialogue_error ( g_strdup_printf ( _("Grisbi version %s is needed to open this file"),
-					   xmlNodeGetContent ( doc->children->children->children->next )));
-
-	xmlFreeDoc ( doc );
-
-	return ( FALSE );
+	  }
     }
-    else
-    {
-	dialogue_error ( _("Invalid categories file") );
-	return ( FALSE );
-    }
+    
+    return ( FALSE );
 }
 /***********************************************************************************************************/
 
