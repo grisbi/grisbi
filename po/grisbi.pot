@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2004-12-24 01:18+0100\n"
+"POT-Creation-Date: 2004-12-27 20:04+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1278,12 +1278,11 @@ msgstr ""
 #: src/echeancier_liste.c:1243 src/echeancier_ventilation.c:771
 #: src/echeancier_ventilation.c:1580 src/echeancier_ventilation.c:1663
 #: src/echeancier_ventilation.c:2022 src/echeancier_ventilation.c:2295
-#: src/gnucash.c:668 src/gnucash.c:670 src/ofx.c:400
-#: src/operations_formulaire.c:1008 src/operations_formulaire.c:1918
-#: src/operations_formulaire.c:1923 src/operations_formulaire.c:2371
-#: src/operations_formulaire.c:2930 src/operations_liste.c:1632
-#: src/ventilation.c:772 src/ventilation.c:1578 src/ventilation.c:1660
-#: src/ventilation.c:2029 src/ventilation.c:2367
+#: src/ofx.c:442 src/operations_formulaire.c:1008
+#: src/operations_formulaire.c:1918 src/operations_formulaire.c:1923
+#: src/operations_formulaire.c:2371 src/operations_formulaire.c:2930
+#: src/operations_liste.c:1632 src/ventilation.c:772 src/ventilation.c:1578
+#: src/ventilation.c:1660 src/ventilation.c:2029 src/ventilation.c:2367
 msgid "Transfer"
 msgstr ""
 
@@ -1399,18 +1398,17 @@ msgstr ""
 msgid ""
 "Grisbi found accounts where reconciliation totals are inconsistent with the "
 "sum of reconcilied transactions.  Generally, the cause is too many transfers "
-"to other accounts are reconciled.  You have to manually unreconcile some "
-"transferts in inconsistent accounts.\n"
+"to other accounts are reconciled.\n"
 "The following accounts are inconsistent:\n"
 "\n"
 msgstr ""
 
-#: src/check.c:135
+#: src/check.c:134
 #, c-format
 msgid "%d accounts have inconsistencies."
 msgstr ""
 
-#: src/check.c:140
+#: src/check.c:139
 msgid "An account has inconsistencies."
 msgstr ""
 
@@ -1568,12 +1566,12 @@ msgstr ""
 #: src/devises.c:2284 src/echeancier_formulaire.c:2052
 #: src/echeancier_formulaire.c:2054 src/echeancier_formulaire.c:2430
 #: src/echeancier_formulaire.c:2432 src/echeancier_liste.c:1967
-#: src/echeancier_liste.c:1969 src/etats_calculs.c:2443
-#: src/etats_calculs.c:2448 src/etats_calculs.c:2478 src/etats_calculs.c:2483
-#: src/etats_calculs.c:2513 src/etats_calculs.c:2518 src/etats_calculs.c:2562
-#: src/etats_calculs.c:2567 src/etats_calculs.c:2593 src/etats_calculs.c:2598
-#: src/etats_calculs.c:2626 src/etats_calculs.c:2631 src/etats_calculs.c:2659
-#: src/etats_calculs.c:2664 src/operations_formulaire.c:2678
+#: src/echeancier_liste.c:1969 src/etats_calculs.c:2445
+#: src/etats_calculs.c:2450 src/etats_calculs.c:2480 src/etats_calculs.c:2485
+#: src/etats_calculs.c:2515 src/etats_calculs.c:2520 src/etats_calculs.c:2564
+#: src/etats_calculs.c:2569 src/etats_calculs.c:2595 src/etats_calculs.c:2600
+#: src/etats_calculs.c:2628 src/etats_calculs.c:2633 src/etats_calculs.c:2661
+#: src/etats_calculs.c:2666 src/operations_formulaire.c:2678
 #: src/operations_formulaire.c:2679 src/operations_liste.c:1564
 #: src/operations_liste.c:1566 src/ventilation.c:2972 src/ventilation.c:2974
 #: src/ventilation.c:3191 src/ventilation.c:3193
@@ -1612,7 +1610,7 @@ msgid ""
 "previously contained.  There is no undo for this."
 msgstr ""
 
-#: src/comptes_traitements.c:568 src/ofx.c:388
+#: src/comptes_traitements.c:568 src/ofx.c:430
 msgid "Deposit"
 msgstr ""
 
@@ -3149,7 +3147,7 @@ msgid ""
 msgstr ""
 
 #: src/echeancier_formulaire.c:1634 src/echeancier_liste.c:688
-#: src/type_operations.c:1561 src/type_operations.c:1632
+#: src/type_operations.c:1560 src/type_operations.c:1631
 msgid "Input"
 msgstr ""
 
@@ -5180,23 +5178,23 @@ msgid ""
 "Should this be fixed now?"
 msgstr ""
 
-#: src/gnucash.c:516
+#: src/gnucash.c:517
 #, c-format
 msgid "Either file \"%s\" does not exist or it is not a regular file."
 msgstr ""
 
-#: src/gnucash.c:518
+#: src/gnucash.c:519
 #, c-format
 msgid "Error opening file '%s'."
 msgstr ""
 
-#: src/gnucash.c:526
+#: src/gnucash.c:527
 msgid ""
 "Grisbi needs to open a temporary file in order to import Gnucash data but "
 "file can't be created.  Check that you have permission to do that."
 msgstr ""
 
-#: src/gnucash.c:527
+#: src/gnucash.c:528
 #, c-format
 msgid "Error opening temporary file '%s'."
 msgstr ""
@@ -5806,87 +5804,109 @@ msgid ""
 "support enabled"
 msgstr ""
 
-#: src/ofx.c:35
+#: src/ofx.c:35 src/ofx.c:94
 #, c-format
 msgid "Cannot process OFX file '%s'"
 msgstr ""
 
-#: src/ofx.c:77
+#. Case of Windows, libofx.dll is not present or Grisbi failed in dynamically loading ofx_proc_file
+#: src/ofx.c:93
+msgid "The OFX support can not be enabled!"
+msgstr ""
+
+#: src/ofx.c:105
 msgid "The new account has not been created."
 msgstr ""
 
-#: src/ofx.c:82
+#: src/ofx.c:110
 msgid "Warning"
 msgstr ""
 
-#: src/ofx.c:83
+#: src/ofx.c:111
 msgid "An error or warning has occured. Do you still want to import the file ?"
 msgstr ""
 
-#: src/ofx.c:135 src/ofx.c:147
+#: src/ofx.c:167 src/ofx.c:179
 msgid "The file has returned the next message :\n"
 msgstr ""
 
-#: src/ofx.c:141 src/ofx.c:153
+#: src/ofx.c:173 src/ofx.c:185
 msgid "The file has returned a warning message which is no valid."
 msgstr ""
 
-#: src/ofx.c:190
+#. printf ( "ofx_proc_security_cb :\n" );
+#. printf ( "unique_id_valid %d\n", data.unique_id_valid );
+#. printf ( "unique_id %s\n", data.unique_id );
+#. printf ( "unique_id_type_valid %d\n", data.unique_id_type_valid );
+#. printf ( "unique_id_type %s\n", data.unique_id_type );
+#. printf ( "secname_valid %d\n", data.secname_valid );
+#. printf ( "secname %s\n", data.secname );
+#. printf ( "ticker_valid %d\n", data.ticker_valid );
+#. printf ( "ticker %s\n", data.ticker );
+#. printf ( "unitprice_valid %d\n", data.unitprice_valid );
+#. printf ( "unitprice %f\n", data.unitprice );
+#. printf ( "date_unitprice_valid %d\n", data.date_unitprice_valid );
+#. printf ( "date_unitprice %s\n", ctime ( &data.date_unitprice ));
+#. printf ( "currency_valid %d\n", data.currency_valid );
+#. printf ( "currency %s\n", data.currency );
+#. printf ( "memo_valid %d\n", data.memo_valid );
+#. printf ( "memo %s\n", data.memo );
+#: src/ofx.c:227
 msgid ""
 "That file contains something on proc_security_cb.\n"
 "I didn't have any file to test that function.\n"
 "Please contact the grisbi team to implement that function."
 msgstr ""
 
-#: src/ofx.c:304
+#: src/ofx.c:346
 msgid "A transaction try to be saved but no account was created...\n"
 msgstr ""
 
-#: src/ofx.c:368
+#: src/ofx.c:410
 msgid "Check"
 msgstr ""
 
-#: src/ofx.c:372
+#: src/ofx.c:414
 msgid "Interest"
 msgstr ""
 
-#: src/ofx.c:376
+#: src/ofx.c:418
 msgid "Dividend"
 msgstr ""
 
-#: src/ofx.c:380
+#: src/ofx.c:422
 msgid "Service charge"
 msgstr ""
 
-#: src/ofx.c:384
+#: src/ofx.c:426
 msgid "Fee"
 msgstr ""
 
-#: src/ofx.c:392
+#: src/ofx.c:434
 msgid "Cash dispenser"
 msgstr ""
 
-#: src/ofx.c:396
+#: src/ofx.c:438
 msgid "Point of sale"
 msgstr ""
 
-#: src/ofx.c:404
+#: src/ofx.c:446
 msgid "Electronic payment"
 msgstr ""
 
-#: src/ofx.c:408
+#: src/ofx.c:450
 msgid "Cash"
 msgstr ""
 
-#: src/ofx.c:412
+#: src/ofx.c:454
 msgid "Direct deposit"
 msgstr ""
 
-#: src/ofx.c:416
+#: src/ofx.c:458
 msgid "Merchant initiated debit"
 msgstr ""
 
-#: src/ofx.c:420
+#: src/ofx.c:462
 msgid "Repeating payment/standing order"
 msgstr ""
 

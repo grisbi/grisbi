@@ -36,7 +36,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
-"POT-Creation-Date: 2004-12-24 01:18+0100\n"
+"POT-Creation-Date: 2004-12-27 20:04+0100\n"
 "PO-Revision-Date: 2004-12-24 21:00+0100\n"
 "Last-Translator: Martin Stromberger <fabiolla@aon.at>\n"
 "Language-Team: Deutsch <de@li.org>\n"
@@ -138,7 +138,8 @@ msgstr "%4.2f %s Soll in %s"
 #: src/accueil.c:1794 src/accueil.c:1829
 #, c-format
 msgid "Balance of account %s is under wanted and authorised minima!"
-msgstr "Der Saldo des Kontos %s ist unter dem festgelegtem und zulässigen Minimum!"
+msgstr ""
+"Der Saldo des Kontos %s ist unter dem festgelegtem und zulässigen Minimum!"
 
 #: src/accueil.c:1800
 #, c-format
@@ -1317,12 +1318,11 @@ msgstr "Buchung aufsplitten"
 #: src/echeancier_liste.c:1243 src/echeancier_ventilation.c:771
 #: src/echeancier_ventilation.c:1580 src/echeancier_ventilation.c:1663
 #: src/echeancier_ventilation.c:2022 src/echeancier_ventilation.c:2295
-#: src/gnucash.c:668 src/gnucash.c:670 src/ofx.c:400
-#: src/operations_formulaire.c:1008 src/operations_formulaire.c:1918
-#: src/operations_formulaire.c:1923 src/operations_formulaire.c:2371
-#: src/operations_formulaire.c:2930 src/operations_liste.c:1632
-#: src/ventilation.c:772 src/ventilation.c:1578 src/ventilation.c:1660
-#: src/ventilation.c:2029 src/ventilation.c:2367
+#: src/ofx.c:442 src/operations_formulaire.c:1008
+#: src/operations_formulaire.c:1918 src/operations_formulaire.c:1923
+#: src/operations_formulaire.c:2371 src/operations_formulaire.c:2930
+#: src/operations_liste.c:1632 src/ventilation.c:772 src/ventilation.c:1578
+#: src/ventilation.c:1660 src/ventilation.c:2029 src/ventilation.c:2367
 msgid "Transfer"
 msgstr "Umbuchung"
 
@@ -1400,8 +1400,10 @@ msgstr "Kategorien importieren - Grisbi"
 
 #. il y a déjà des opérations dans le fichier, on ne peut que fusionner
 #: src/categories_onglet.c:3139
-msgid "File already contains transactions, the two categories lists will be merged."
-msgstr "Die Datei enhält bereis Buchungen, die Kategorien werden zusammengeführt."
+msgid ""
+"File already contains transactions, the two categories lists will be merged."
+msgstr ""
+"Die Datei enhält bereis Buchungen, die Kategorien werden zusammengeführt."
 
 #: src/categories_onglet.c:3149 src/imputation_budgetaire.c:2887
 msgid "Do you want"
@@ -1435,31 +1437,35 @@ msgstr ""
 
 #: src/check.c:121
 msgid "Grisbi found no known inconsistency in accounts processed."
-msgstr "Grisbi hat keine bekannte Inkonsistenz in den bearbeiteten Konten gefunden."
+msgstr ""
+"Grisbi hat keine bekannte Inkonsistenz in den bearbeiteten Konten gefunden."
 
 #: src/check.c:122
 msgid "No inconsistency found."
 msgstr "Keine Inkonsistenz gefunden."
 
 #: src/check.c:126
+#, fuzzy
 msgid ""
 "Grisbi found accounts where reconciliation totals are inconsistent with the "
 "sum of reconcilied transactions.  Generally, the cause is too many transfers "
-"to other accounts are reconciled.  You have to manually unreconcile some "
-"transferts in inconsistent accounts.\n"
+"to other accounts are reconciled.\n"
 "The following accounts are inconsistent:\n"
 "\n"
 msgstr ""
-"Grisbi hat Konten gefunden, deren Abstimmungsbeträge inkonsistent mit den abgestimmten Buchungen sind. Generell ensteht dieser Fehler, wenn zuviele Buchungen zu anderen Konten abgestimmt sind. Sie müssen diese Inkonsistenz bei den Buchungen manuell beheben.\n"
+"Grisbi hat Konten gefunden, deren Abstimmungsbeträge inkonsistent mit den "
+"abgestimmten Buchungen sind. Generell ensteht dieser Fehler, wenn zuviele "
+"Buchungen zu anderen Konten abgestimmt sind. Sie müssen diese Inkonsistenz "
+"bei den Buchungen manuell beheben.\n"
 "Folgende Konten sind inkonsistent:\n"
 "\n"
 
-#: src/check.c:135
+#: src/check.c:134
 #, c-format
 msgid "%d accounts have inconsistencies."
 msgstr "%d Konten haben Inkonsistenzen."
 
-#: src/check.c:140
+#: src/check.c:139
 msgid "An account has inconsistencies."
 msgstr "Ein Konto hat Inkonsistenzen."
 
@@ -1624,12 +1630,12 @@ msgstr "Der Wechselkurs zwischen den zwei Währungen ist 0."
 #: src/devises.c:2284 src/echeancier_formulaire.c:2052
 #: src/echeancier_formulaire.c:2054 src/echeancier_formulaire.c:2430
 #: src/echeancier_formulaire.c:2432 src/echeancier_liste.c:1967
-#: src/echeancier_liste.c:1969 src/etats_calculs.c:2443
-#: src/etats_calculs.c:2448 src/etats_calculs.c:2478 src/etats_calculs.c:2483
-#: src/etats_calculs.c:2513 src/etats_calculs.c:2518 src/etats_calculs.c:2562
-#: src/etats_calculs.c:2567 src/etats_calculs.c:2593 src/etats_calculs.c:2598
-#: src/etats_calculs.c:2626 src/etats_calculs.c:2631 src/etats_calculs.c:2659
-#: src/etats_calculs.c:2664 src/operations_formulaire.c:2678
+#: src/echeancier_liste.c:1969 src/etats_calculs.c:2445
+#: src/etats_calculs.c:2450 src/etats_calculs.c:2480 src/etats_calculs.c:2485
+#: src/etats_calculs.c:2515 src/etats_calculs.c:2520 src/etats_calculs.c:2564
+#: src/etats_calculs.c:2569 src/etats_calculs.c:2595 src/etats_calculs.c:2600
+#: src/etats_calculs.c:2628 src/etats_calculs.c:2633 src/etats_calculs.c:2661
+#: src/etats_calculs.c:2666 src/operations_formulaire.c:2678
 #: src/operations_formulaire.c:2679 src/operations_liste.c:1564
 #: src/operations_liste.c:1566 src/ventilation.c:2972 src/ventilation.c:2974
 #: src/ventilation.c:3191 src/ventilation.c:3193
@@ -1670,7 +1676,7 @@ msgid ""
 "previously contained.  There is no undo for this."
 msgstr "Das Konto wird gelöscht. Es gibt keine Wiederherstellung."
 
-#: src/comptes_traitements.c:568 src/ofx.c:388
+#: src/comptes_traitements.c:568 src/ofx.c:430
 msgid "Deposit"
 msgstr "Einnahmen"
 
@@ -3214,7 +3220,7 @@ msgstr ""
 "kann keine automatisch geplante Buchung erfasst werden."
 
 #: src/echeancier_formulaire.c:1634 src/echeancier_liste.c:688
-#: src/type_operations.c:1561 src/type_operations.c:1632
+#: src/type_operations.c:1560 src/type_operations.c:1631
 msgid "Input"
 msgstr "Eingabe"
 
@@ -3285,7 +3291,8 @@ msgstr "Eine geplante Buchung löschen"
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
 "transaction?"
-msgstr "Wollen Sie nur dieses Vorkommen, oder die gesamte geplante Buchung löschen?"
+msgstr ""
+"Wollen Sie nur dieses Vorkommen, oder die gesamte geplante Buchung löschen?"
 
 #: src/echeancier_liste.c:1405
 msgid "All the occurences"
@@ -4410,7 +4417,8 @@ msgstr "Name des Berichts"
 
 #: src/etats_config.c:6239
 msgid "Diplay the number of transactions with the totals"
-msgstr "Die Anzahl der Buchungen in einem Verhältnis zu allen Buchungen anzeigen"
+msgstr ""
+"Die Anzahl der Buchungen in einem Verhältnis zu allen Buchungen anzeigen"
 
 #: src/etats_config.c:6258
 msgid "Consider the third parties of this report as a multiple third party."
@@ -5008,7 +5016,8 @@ msgid "Select accounts to export"
 msgstr "Die zu exportierenden Konten auswählen"
 
 #: src/export.c:258 src/qif.c:1018
-msgid "This will irreversibly overwrite previous file.  There is no undo for this."
+msgid ""
+"This will irreversibly overwrite previous file.  There is no undo for this."
 msgstr "Dieser Vorgang wird die bestehende Datei überschreiben."
 
 #: src/export.c:266 src/qif.c:1023
@@ -5194,7 +5203,8 @@ msgstr "Die Datei '%s' kann nicht geöffnet werden: %s"
 #: src/fichiers_io.c:155
 #, c-format
 msgid "Cannot open file '%s' : this is not a grisbi file"
-msgstr "Die Datei %s kann nicht geöffnet werden. Diese Datei ist keine Grisbi Datei"
+msgstr ""
+"Die Datei %s kann nicht geöffnet werden. Diese Datei ist keine Grisbi Datei"
 
 #: src/fichiers_io.c:197
 #, c-format
@@ -5329,19 +5339,19 @@ msgstr ""
 "geändert werden.\n"
 "Soll dies nun durchgeführt werden?"
 
-#: src/gnucash.c:516
+#: src/gnucash.c:517
 #, c-format
 msgid "Either file \"%s\" does not exist or it is not a regular file."
 msgstr ""
 "Entweder ist die Datei \"%s\" nicht vorhanden oder es handelt sich nicht um "
 "eine gültige Datei."
 
-#: src/gnucash.c:518
+#: src/gnucash.c:519
 #, c-format
 msgid "Error opening file '%s'."
 msgstr "Fehler beim Öffnen der Datei '%s'."
 
-#: src/gnucash.c:526
+#: src/gnucash.c:527
 msgid ""
 "Grisbi needs to open a temporary file in order to import Gnucash data but "
 "file can't be created.  Check that you have permission to do that."
@@ -5350,7 +5360,7 @@ msgstr ""
 "Datei kann jedoch nicht erzeugt werden. Bitte überprüfen Sie, ob die "
 "notwendigen Berechtigungen vorhanden sind."
 
-#: src/gnucash.c:527
+#: src/gnucash.c:528
 #, c-format
 msgid "Error opening temporary file '%s'."
 msgstr "Fehler beim Öffnen der Temporärdatei '%s'."
@@ -5374,7 +5384,8 @@ msgid "Alain Pichon (alain.pichon[at]grisbi.org): Fedora and RHEL packaging"
 msgstr "Alain Pichon (alain.pichon[at]grisbi.org): Fedora Paketverwaltung"
 
 #: src/help.c:48
-msgid "Alain Portal <dionysos[at]grisbi.org>: Programming, manual, RedHat packaging"
+msgid ""
+"Alain Portal <dionysos[at]grisbi.org>: Programming, manual, RedHat packaging"
 msgstr ""
 "Alain Portal (dionysos[at]grisbi.org): Programmierung, Handbuch, RedHat "
 "Paketverwaltung"
@@ -5389,7 +5400,8 @@ msgstr "Axel Rousseau (axel584[at]axel584.org): Mitarbeiter"
 
 #: src/help.c:51
 msgid "Benjamin Drieu (bdrieu[at]april.org) : Programming, Debian packaging"
-msgstr "Benjamin Drieu (bdrieu[at]april.org) : Programmierung, Debian Paketverwaltung"
+msgstr ""
+"Benjamin Drieu (bdrieu[at]april.org) : Programmierung, Debian Paketverwaltung"
 
 #: src/help.c:52
 msgid "Cedric Auger (cedric[at]grisbi.org) : Programming"
@@ -5413,7 +5425,8 @@ msgstr ""
 
 #: src/help.c:56
 msgid "Gerald Niel (gerald.niel[at]grisbi.org): Slackware packaging, website"
-msgstr "Gerald Niel (gerald.niel[at]grisbi.org): Slackware Paketverwaltung, Webseite"
+msgstr ""
+"Gerald Niel (gerald.niel[at]grisbi.org): Slackware Paketverwaltung, Webseite"
 
 #: src/help.c:57
 msgid "PMF (ugly.duck[at]gmx.de): Zaurus packaging"
@@ -5999,34 +6012,56 @@ msgstr ""
 "Diese Version von Grisbi unterstützt kein Ofx, bitte rekompilieren Sie "
 "Grisbi mit Ofx Unterstützung"
 
-#: src/ofx.c:35
+#: src/ofx.c:35 src/ofx.c:94
 #, c-format
 msgid "Cannot process OFX file '%s'"
 msgstr "Die Ofx Datei %s kann nicht verarbeitet werden"
 
-#: src/ofx.c:77
+#. Case of Windows, libofx.dll is not present or Grisbi failed in dynamically loading ofx_proc_file
+#: src/ofx.c:93
+msgid "The OFX support can not be enabled!"
+msgstr ""
+
+#: src/ofx.c:105
 msgid "The new account has not been created."
 msgstr "Das neue Konto kann nicht angelegt werden."
 
-#: src/ofx.c:82
+#: src/ofx.c:110
 msgid "Warning"
 msgstr "Warnung"
 
-#: src/ofx.c:83
+#: src/ofx.c:111
 msgid "An error or warning has occured. Do you still want to import the file ?"
 msgstr ""
 "Es ist ein Fehler oder eine Warnung aufgetreten. Soll der Import fortgesetzt "
 "werden ?"
 
-#: src/ofx.c:135 src/ofx.c:147
+#: src/ofx.c:167 src/ofx.c:179
 msgid "The file has returned the next message :\n"
 msgstr "Die Datei hat folgende Meldung zurückgegeben :\n"
 
-#: src/ofx.c:141 src/ofx.c:153
+#: src/ofx.c:173 src/ofx.c:185
 msgid "The file has returned a warning message which is no valid."
 msgstr "Die Datei hat eine Warnung zurückgegeben, welche nicht gültig ist."
 
-#: src/ofx.c:190
+#. printf ( "ofx_proc_security_cb :\n" );
+#. printf ( "unique_id_valid %d\n", data.unique_id_valid );
+#. printf ( "unique_id %s\n", data.unique_id );
+#. printf ( "unique_id_type_valid %d\n", data.unique_id_type_valid );
+#. printf ( "unique_id_type %s\n", data.unique_id_type );
+#. printf ( "secname_valid %d\n", data.secname_valid );
+#. printf ( "secname %s\n", data.secname );
+#. printf ( "ticker_valid %d\n", data.ticker_valid );
+#. printf ( "ticker %s\n", data.ticker );
+#. printf ( "unitprice_valid %d\n", data.unitprice_valid );
+#. printf ( "unitprice %f\n", data.unitprice );
+#. printf ( "date_unitprice_valid %d\n", data.date_unitprice_valid );
+#. printf ( "date_unitprice %s\n", ctime ( &data.date_unitprice ));
+#. printf ( "currency_valid %d\n", data.currency_valid );
+#. printf ( "currency %s\n", data.currency );
+#. printf ( "memo_valid %d\n", data.memo_valid );
+#. printf ( "memo %s\n", data.memo );
+#: src/ofx.c:227
 msgid ""
 "That file contains something on proc_security_cb.\n"
 "I didn't have any file to test that function.\n"
@@ -6037,57 +6072,57 @@ msgstr ""
 "Bitte kontaktieren Sie das Grisbi Team, damit diese Funktionalität in "
 "Zukunft zur Verfügung steht."
 
-#: src/ofx.c:304
+#: src/ofx.c:346
 msgid "A transaction try to be saved but no account was created...\n"
 msgstr ""
 "Es wurde versucht eine Buchung zu speichern, jedoch wurde noch kein Konto "
 "angelegt...\n"
 
-#: src/ofx.c:368
+#: src/ofx.c:410
 msgid "Check"
 msgstr "Scheck"
 
-#: src/ofx.c:372
+#: src/ofx.c:414
 msgid "Interest"
 msgstr "Anteil"
 
-#: src/ofx.c:376
+#: src/ofx.c:418
 msgid "Dividend"
 msgstr "Dividende"
 
-#: src/ofx.c:380
+#: src/ofx.c:422
 msgid "Service charge"
 msgstr "Service Gebühren"
 
-#: src/ofx.c:384
+#: src/ofx.c:426
 msgid "Fee"
 msgstr "Gebühren"
 
-#: src/ofx.c:392
+#: src/ofx.c:434
 msgid "Cash dispenser"
 msgstr "Bankomat"
 
-#: src/ofx.c:396
+#: src/ofx.c:438
 msgid "Point of sale"
 msgstr "Kasse"
 
-#: src/ofx.c:404
+#: src/ofx.c:446
 msgid "Electronic payment"
 msgstr "Elektronische Zahlungsweise"
 
-#: src/ofx.c:408
+#: src/ofx.c:450
 msgid "Cash"
 msgstr "Bargeld"
 
-#: src/ofx.c:412
+#: src/ofx.c:454
 msgid "Direct deposit"
 msgstr "Bareinkommen"
 
-#: src/ofx.c:416
+#: src/ofx.c:458
 msgid "Merchant initiated debit"
 msgstr "Handelsausgabe"
 
-#: src/ofx.c:420
+#: src/ofx.c:462
 msgid "Repeating payment/standing order"
 msgstr "Zahlung/Dauerauftrag wiederholen"
 
@@ -6125,7 +6160,8 @@ msgstr "Splittbuchung wiederherstellen?"
 
 #: src/operations_formulaire.c:1820
 msgid "Do you want to recover all the lines of the last breakdown?"
-msgstr "Sollen alle Buchungszeilen der letzten Aufsplittung wiederhergestellt werden?"
+msgstr ""
+"Sollen alle Buchungszeilen der letzten Aufsplittung wiederhergestellt werden?"
 
 #: src/operations_formulaire.c:2072 src/operations_formulaire.c:2524
 #: src/tiers_onglet.c:1429
@@ -6169,7 +6205,8 @@ msgstr ""
 
 #: src/operations_formulaire.c:2533
 msgid "A transaction with a multiple third party must be a new one."
-msgstr "Es kann nur eine neue Buchung an mehrere Empfänger durchgeführt werden."
+msgstr ""
+"Es kann nur eine neue Buchung an mehrere Empfänger durchgeführt werden."
 
 #: src/operations_formulaire.c:2567
 msgid "Invalid multiple third party."
@@ -6212,8 +6249,10 @@ msgid "Imposible to delete a reconciled transaction."
 msgstr "Eine abgestimmte Buchung kann nicht gelöscht werden."
 
 #: src/operations_liste.c:2103
-msgid "The contra-transaction of this transfer is reconciled, deletion impossible."
-msgstr "Die Gegenbuchung ist bereits abgestimmt, eine Löschung ist nicht möglich."
+msgid ""
+"The contra-transaction of this transfer is reconciled, deletion impossible."
+msgstr ""
+"Die Gegenbuchung ist bereits abgestimmt, eine Löschung ist nicht möglich."
 
 #: src/operations_liste.c:2151
 msgid ""
@@ -6289,7 +6328,8 @@ msgid "Scheduler warnings"
 msgstr "Planer Meldungen"
 
 #: src/parametres.c:415
-msgid "Number of days before a warning message advertising a scheduled transaction"
+msgid ""
+"Number of days before a warning message advertising a scheduled transaction"
 msgstr "Hinweis für eine geplante Buchung (Tage davor) anzeigen"
 
 #: src/parametres.c:479
@@ -6672,4 +6712,3 @@ msgid "This transfer has a reconciled contra-transaction, deletion canceled."
 msgstr ""
 "Diese Buchung hat eine abgestimmte Gegenbuchung, die Löschung wurde "
 "abgebrochen."
-

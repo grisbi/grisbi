@@ -11,6 +11,7 @@
 # translation of fr.po to
 # translation of fr.po to
 # translation of fr.po to
+# translation of fr.po to
 # translation of fr.po to français
 # Grisbi translation into French
 # Copyright (C) 2003	Daniel Cartron <daniel@cartron.org>, 2003.
@@ -23,8 +24,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
-"POT-Creation-Date: 2004-12-24 01:18+0100\n"
-"PO-Revision-Date: 2004-12-24 01:19+0100\n"
+"POT-Creation-Date: 2004-12-27 20:04+0100\n"
+"PO-Revision-Date: 2004-12-27 20:25+0100\n"
 "Last-Translator: Alain PORTAL <alain@localhost.localdomain>\n"
 "Language-Team:  <fr@li.org>\n"
 "MIME-Version: (null)\n"
@@ -215,8 +216,7 @@ msgstr "Utiliser le logo"
 
 #: src/affichage.c:321
 msgid "Click on preview to change homepage logo"
-msgstr ""
-"Cliquer sur la prévisualisation pour modifier le logo de l'onglet « Accueil »"
+msgstr "Cliquer sur la prévisualisation pour modifier le logo de l'onglet « Accueil »"
 
 #: src/affichage.c:377
 msgid "Click on preview to change animation"
@@ -442,8 +442,7 @@ msgstr "Ajuster la taille des colonnes selon le tableau ci-dessus"
 
 #: src/affichage_liste.c:139
 msgid "Remember display settings for each account separately"
-msgstr ""
-"Retenir les caractéristiques de l'affichage séparément pour chaque compte"
+msgstr "Retenir les caractéristiques de l'affichage séparément pour chaque compte"
 
 #: src/affichage_liste.c:145
 msgid "Revert to defaults"
@@ -1306,12 +1305,11 @@ msgstr "Opération ventilée"
 #: src/echeancier_liste.c:1243 src/echeancier_ventilation.c:771
 #: src/echeancier_ventilation.c:1580 src/echeancier_ventilation.c:1663
 #: src/echeancier_ventilation.c:2022 src/echeancier_ventilation.c:2295
-#: src/gnucash.c:668 src/gnucash.c:670 src/ofx.c:400
-#: src/operations_formulaire.c:1008 src/operations_formulaire.c:1918
-#: src/operations_formulaire.c:1923 src/operations_formulaire.c:2371
-#: src/operations_formulaire.c:2930 src/operations_liste.c:1632
-#: src/ventilation.c:772 src/ventilation.c:1578 src/ventilation.c:1660
-#: src/ventilation.c:2029 src/ventilation.c:2367
+#: src/ofx.c:442 src/operations_formulaire.c:1008
+#: src/operations_formulaire.c:1918 src/operations_formulaire.c:1923
+#: src/operations_formulaire.c:2371 src/operations_formulaire.c:2930
+#: src/operations_liste.c:1632 src/ventilation.c:772 src/ventilation.c:1578
+#: src/ventilation.c:1660 src/ventilation.c:2029 src/ventilation.c:2367
 msgid "Transfer"
 msgstr "Virement"
 
@@ -1389,8 +1387,7 @@ msgstr "Importer une liste de catégories"
 
 #. il y a déjà des opérations dans le fichier, on ne peut que fusionner
 #: src/categories_onglet.c:3139
-msgid ""
-"File already contains transactions, the two categories lists will be merged."
+msgid "File already contains transactions, the two categories lists will be merged."
 msgstr ""
 "Le fichier contient déjà des opérations, les deux listes de catégories "
 "seront fusionnées."
@@ -1437,8 +1434,7 @@ msgstr "Pas d'incohérence."
 msgid ""
 "Grisbi found accounts where reconciliation totals are inconsistent with the "
 "sum of reconcilied transactions.  Generally, the cause is too many transfers "
-"to other accounts are reconciled.  You have to manually unreconcile some "
-"transferts in inconsistent accounts.\n"
+"to other accounts are reconciled.\n"
 "The following accounts are inconsistent:\n"
 "\n"
 msgstr ""
@@ -1450,12 +1446,12 @@ msgstr ""
 "Les comptes suivants ne sont pas cohérents :\n"
 "\n"
 
-#: src/check.c:135
+#: src/check.c:134
 #, c-format
 msgid "%d accounts have inconsistencies."
 msgstr "%d comptes comporte des incohérences."
 
-#: src/check.c:140
+#: src/check.c:139
 msgid "An account has inconsistencies."
 msgstr "Un compte comporte des incohérences."
 
@@ -1620,12 +1616,12 @@ msgstr "Le taux de change entre les deux monnaies est nul."
 #: src/devises.c:2284 src/echeancier_formulaire.c:2052
 #: src/echeancier_formulaire.c:2054 src/echeancier_formulaire.c:2430
 #: src/echeancier_formulaire.c:2432 src/echeancier_liste.c:1967
-#: src/echeancier_liste.c:1969 src/etats_calculs.c:2443
-#: src/etats_calculs.c:2448 src/etats_calculs.c:2478 src/etats_calculs.c:2483
-#: src/etats_calculs.c:2513 src/etats_calculs.c:2518 src/etats_calculs.c:2562
-#: src/etats_calculs.c:2567 src/etats_calculs.c:2593 src/etats_calculs.c:2598
-#: src/etats_calculs.c:2626 src/etats_calculs.c:2631 src/etats_calculs.c:2659
-#: src/etats_calculs.c:2664 src/operations_formulaire.c:2678
+#: src/echeancier_liste.c:1969 src/etats_calculs.c:2445
+#: src/etats_calculs.c:2450 src/etats_calculs.c:2480 src/etats_calculs.c:2485
+#: src/etats_calculs.c:2515 src/etats_calculs.c:2520 src/etats_calculs.c:2564
+#: src/etats_calculs.c:2569 src/etats_calculs.c:2595 src/etats_calculs.c:2600
+#: src/etats_calculs.c:2628 src/etats_calculs.c:2633 src/etats_calculs.c:2661
+#: src/etats_calculs.c:2666 src/operations_formulaire.c:2678
 #: src/operations_formulaire.c:2679 src/operations_liste.c:1564
 #: src/operations_liste.c:1566 src/ventilation.c:2972 src/ventilation.c:2974
 #: src/ventilation.c:3191 src/ventilation.c:3193
@@ -1666,7 +1662,7 @@ msgstr ""
 "Cela détruira irrémédiablement votre compte ainsi que toutes les opérations "
 "qui y étaient précédemment.  Il n'y a pas d'annulation possible."
 
-#: src/comptes_traitements.c:568 src/ofx.c:388
+#: src/comptes_traitements.c:568 src/ofx.c:430
 msgid "Deposit"
 msgstr "Dépôt"
 
@@ -3211,7 +3207,7 @@ msgstr ""
 " avec un chèque ou un mode de règlement à incrémentation automatique."
 
 #: src/echeancier_formulaire.c:1634 src/echeancier_liste.c:688
-#: src/type_operations.c:1561 src/type_operations.c:1632
+#: src/type_operations.c:1560 src/type_operations.c:1631
 msgid "Input"
 msgstr "Saisie"
 
@@ -4092,8 +4088,7 @@ msgstr "Inclure les virements de ou vers les comptes d'actif et de passif"
 
 #: src/etats_config.c:2572
 msgid "Include transfers from or to accounts not in this report"
-msgstr ""
-"Inclure les virements de ou vers les comptes ne figurant pas dans l'état"
+msgstr "Inclure les virements de ou vers les comptes ne figurant pas dans l'état"
 
 #: src/etats_config.c:2585
 msgid "Include transfers from or to these accounts"
@@ -4415,8 +4410,7 @@ msgstr "Afficher le nombre d'opérations avec les totaux"
 
 #: src/etats_config.c:6258
 msgid "Consider the third parties of this report as a multiple third party."
-msgstr ""
-"Inclure cet état dans la liste des tiers du formulaire de saisie d'opération."
+msgstr "Inclure cet état dans la liste des tiers du formulaire de saisie d'opération."
 
 #: src/etats_config.c:6329
 msgid "Display the information about"
@@ -4811,8 +4805,7 @@ msgstr ""
 #. etat vierge
 #: src/etats_onglet.c:1010
 msgid "This report is an empty one. You need to customise it entirely."
-msgstr ""
-"Cette option crée un état vierge dans lequel vous devez tout configurer."
+msgstr "Cette option crée un état vierge dans lequel vous devez tout configurer."
 
 #. remise de chèques
 #: src/etats_onglet.c:1016
@@ -4857,8 +4850,7 @@ msgstr "Effacer l'état \"%s\"?"
 
 #: src/etats_onglet.c:1056
 msgid "This will irreversibly remove this report.  There is no undo for this."
-msgstr ""
-"Cela détruira irrémédiablement cet état. Il n'y a pas d'annulation possible."
+msgstr "Cela détruira irrémédiablement cet état. Il n'y a pas d'annulation possible."
 
 #: src/etats_onglet.c:1159
 msgid "Export report"
@@ -5009,8 +5001,7 @@ msgid "Select accounts to export"
 msgstr "Sélectionner les comptes à exporter"
 
 #: src/export.c:258 src/qif.c:1018
-msgid ""
-"This will irreversibly overwrite previous file.  There is no undo for this."
+msgid "This will irreversibly overwrite previous file.  There is no undo for this."
 msgstr ""
 "Cela détruira irrémédiablement le fichier précédent. Il n'y a pas "
 "d'annulation possible."
@@ -5258,8 +5249,7 @@ msgstr "opérations ventilées, toutes ont été effacées.\n"
 
 #: src/fichiers_io.c:1834
 msgid "transfers without contra-transaction, which categories were deleted.\n"
-msgstr ""
-"virements sans contre opération, dont les catégories ont été effacées.\n"
+msgstr "virements sans contre opération, dont les catégories ont été effacées.\n"
 
 #: src/fichiers_io.c:1839
 msgid ""
@@ -5343,18 +5333,17 @@ msgstr ""
 "d'autre que vous ; or, il l'est.\n"
 "Corriger le problème maintenant ?"
 
-#: src/gnucash.c:516
+#: src/gnucash.c:517
 #, c-format
 msgid "Either file \"%s\" does not exist or it is not a regular file."
-msgstr ""
-"Soit le fichier « %s » n'existe pas, soit ce n'est pas un fichier normal."
+msgstr "Soit le fichier « %s » n'existe pas, soit ce n'est pas un fichier normal."
 
-#: src/gnucash.c:518
+#: src/gnucash.c:519
 #, c-format
 msgid "Error opening file '%s'."
 msgstr "Erreur lors de l'ouverture du fichier « %s »."
 
-#: src/gnucash.c:526
+#: src/gnucash.c:527
 msgid ""
 "Grisbi needs to open a temporary file in order to import Gnucash data but "
 "file can't be created.  Check that you have permission to do that."
@@ -5363,7 +5352,7 @@ msgstr ""
 "Gnucash mais ce fichier ne peut pas être créé.  Veuillez vérifier que vous "
 "avez la permission de le faire."
 
-#: src/gnucash.c:527
+#: src/gnucash.c:528
 #, c-format
 msgid "Error opening temporary file '%s'."
 msgstr "Erreur lors de l'ouverture du fichier temporaire « %s »."
@@ -5393,10 +5382,8 @@ msgid "Alain Pichon (alain.pichon[at]grisbi.org): Fedora and RHEL packaging"
 msgstr "Alain Pichon (alain.pichon[at]grisbi.org) : paquets Fedora et RHEL."
 
 #: src/help.c:48
-msgid ""
-"Alain Portal <dionysos[at]grisbi.org>: Programming, manual, RedHat packaging"
-msgstr ""
-"Alain Portal (dionysos[at]grisbi.org) : programmation, manuel, paquets RedHat"
+msgid "Alain Portal <dionysos[at]grisbi.org>: Programming, manual, RedHat packaging"
+msgstr "Alain Portal (dionysos[at]grisbi.org) : programmation, manuel, paquets RedHat"
 
 #: src/help.c:49
 msgid "Andre Pascual (andre[at]linuxgraphic.org) : Logo"
@@ -6017,34 +6004,56 @@ msgstr ""
 "Cette construction de Grisbi ne gère pas le format OFX. Veuillez recompiler "
 "Grisbi en activant la gestion du format OFX."
 
-#: src/ofx.c:35
+#: src/ofx.c:35 src/ofx.c:94
 #, c-format
 msgid "Cannot process OFX file '%s'"
 msgstr "Impossible d'ouvrir le fichier '%s'"
 
-#: src/ofx.c:77
+#. Case of Windows, libofx.dll is not present or Grisbi failed in dynamically loading ofx_proc_file
+#: src/ofx.c:93
+msgid "The OFX support can not be enabled!"
+msgstr "La gestion dee l'OFX ne peut pas être activé !"
+
+#: src/ofx.c:105
 msgid "The new account has not been created."
 msgstr "Le nouveau compte n'a pas été créé."
 
-#: src/ofx.c:82
+#: src/ofx.c:110
 msgid "Warning"
 msgstr "Attention"
 
-#: src/ofx.c:83
+#: src/ofx.c:111
 msgid "An error or warning has occured. Do you still want to import the file ?"
 msgstr ""
 "Il y a eu une erreur ou un avertissement. Voulez-vous toujours importer le "
 "fichier ?"
 
-#: src/ofx.c:135 src/ofx.c:147
+#: src/ofx.c:167 src/ofx.c:179
 msgid "The file has returned the next message :\n"
 msgstr "Le fichier a renvoyé le message suivant :\n"
 
-#: src/ofx.c:141 src/ofx.c:153
+#: src/ofx.c:173 src/ofx.c:185
 msgid "The file has returned a warning message which is no valid."
 msgstr "Le fichier a retourné un message d'avertissement non valide."
 
-#: src/ofx.c:190
+#. printf ( "ofx_proc_security_cb :\n" );
+#. printf ( "unique_id_valid %d\n", data.unique_id_valid );
+#. printf ( "unique_id %s\n", data.unique_id );
+#. printf ( "unique_id_type_valid %d\n", data.unique_id_type_valid );
+#. printf ( "unique_id_type %s\n", data.unique_id_type );
+#. printf ( "secname_valid %d\n", data.secname_valid );
+#. printf ( "secname %s\n", data.secname );
+#. printf ( "ticker_valid %d\n", data.ticker_valid );
+#. printf ( "ticker %s\n", data.ticker );
+#. printf ( "unitprice_valid %d\n", data.unitprice_valid );
+#. printf ( "unitprice %f\n", data.unitprice );
+#. printf ( "date_unitprice_valid %d\n", data.date_unitprice_valid );
+#. printf ( "date_unitprice %s\n", ctime ( &data.date_unitprice ));
+#. printf ( "currency_valid %d\n", data.currency_valid );
+#. printf ( "currency %s\n", data.currency );
+#. printf ( "memo_valid %d\n", data.memo_valid );
+#. printf ( "memo %s\n", data.memo );
+#: src/ofx.c:227
 msgid ""
 "That file contains something on proc_security_cb.\n"
 "I didn't have any file to test that function.\n"
@@ -6055,56 +6064,55 @@ msgstr ""
 "Si vous pouvez contacter l'équipe de grisbi pour les aider à combler cet "
 "lacune !! Merci !"
 
-#: src/ofx.c:304
+#: src/ofx.c:346
 msgid "A transaction try to be saved but no account was created...\n"
-msgstr ""
-"Tentative d'enregistrement d'une opération sans compte créé précédemment...\n"
+msgstr "Tentative d'enregistrement d'une opération sans compte créé précédemment...\n"
 
-#: src/ofx.c:368
+#: src/ofx.c:410
 msgid "Check"
 msgstr "Chèque"
 
-#: src/ofx.c:372
+#: src/ofx.c:414
 msgid "Interest"
 msgstr "Intérêt"
 
-#: src/ofx.c:376
+#: src/ofx.c:418
 msgid "Dividend"
 msgstr "Dividende"
 
-#: src/ofx.c:380
+#: src/ofx.c:422
 msgid "Service charge"
 msgstr "Frais de service"
 
-#: src/ofx.c:384
+#: src/ofx.c:426
 msgid "Fee"
 msgstr "Frais"
 
-#: src/ofx.c:392
+#: src/ofx.c:434
 msgid "Cash dispenser"
 msgstr "Distributeur de billets"
 
-#: src/ofx.c:396
+#: src/ofx.c:438
 msgid "Point of sale"
 msgstr "Point de vente"
 
-#: src/ofx.c:404
+#: src/ofx.c:446
 msgid "Electronic payment"
 msgstr "Paiement électronique"
 
-#: src/ofx.c:408
+#: src/ofx.c:450
 msgid "Cash"
 msgstr "Espèces"
 
-#: src/ofx.c:412
+#: src/ofx.c:454
 msgid "Direct deposit"
 msgstr "Dépôt direct"
 
-#: src/ofx.c:416
+#: src/ofx.c:458
 msgid "Merchant initiated debit"
 msgstr "Prélèvement"
 
-#: src/ofx.c:420
+#: src/ofx.c:462
 msgid "Repeating payment/standing order"
 msgstr "Paiement répété"
 
@@ -6142,8 +6150,7 @@ msgstr "Récupération des ventilations ?"
 
 #: src/operations_formulaire.c:1820
 msgid "Do you want to recover all the lines of the last breakdown?"
-msgstr ""
-"Voulez-vous récupérer aussi les opérations de la dernière ventilation ?"
+msgstr "Voulez-vous récupérer aussi les opérations de la dernière ventilation ?"
 
 #: src/operations_formulaire.c:2072 src/operations_formulaire.c:2524
 #: src/tiers_onglet.c:1429
@@ -6231,8 +6238,7 @@ msgid "Imposible to delete a reconciled transaction."
 msgstr "Impossible de supprimer une opération relevée."
 
 #: src/operations_liste.c:2103
-msgid ""
-"The contra-transaction of this transfer is reconciled, deletion impossible."
+msgid "The contra-transaction of this transfer is reconciled, deletion impossible."
 msgstr ""
 "La contre-opération de ce virement est relevée, la suppression est "
 "impossible."
@@ -6294,8 +6300,7 @@ msgstr "Ne pas avertir lorsque les seuils minimums sont atteints"
 
 #: src/parametres.c:393
 msgid "Do not warn if account file is readable by someone else"
-msgstr ""
-"Ne pas avertir lorsque le fichier de compte est lisible par quelqu'un d'autre"
+msgstr "Ne pas avertir lorsque le fichier de compte est lisible par quelqu'un d'autre"
 
 #. Display a warning message if file is already opened
 #: src/parametres.c:398
@@ -6312,8 +6317,7 @@ msgid "Scheduler warnings"
 msgstr "Alertes de l'échéancier"
 
 #: src/parametres.c:415
-msgid ""
-"Number of days before a warning message advertising a scheduled transaction"
+msgid "Number of days before a warning message advertising a scheduled transaction"
 msgstr "Nombre de jours précédant le rappel d'une échéance"
 
 #: src/parametres.c:479
@@ -6727,3 +6731,4 @@ msgstr ""
 
 #~ msgid "Reconciliations"
 #~ msgstr "Rapprochements"
+
