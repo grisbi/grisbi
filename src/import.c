@@ -209,6 +209,10 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 			    5 )
 		 ||
 		 !strncmp ( pointeur_char,
+			    "!TYPE",
+			    5 )
+		 ||
+		 !strncmp ( pointeur_char,
 			    "!Account",
 			    8 )
 		 ||
