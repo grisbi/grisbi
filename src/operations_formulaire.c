@@ -2805,6 +2805,18 @@ sort_test_cheques :
 		return FALSE;
 	}
     }
+
+    /* Check if there is no budgetary line (see #208) */
+    if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_BUDGET )
+	 &&
+	 gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_BUDGET) ) -> entry ) == style_entree_formulaire[ENGRIS] )
+      {
+	dialogue_conditional_hint ( _("No budgetary line was entered"),
+				    _("This transaction has no budgetary line entered.  You should use them to easily produce budgets and make reports on them."),
+				    &(etat.display_message_no_budgetary_line) );
+	return FALSE;
+     }
+
     return ( TRUE );
 }
 /******************************************************************************/

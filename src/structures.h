@@ -101,6 +101,7 @@ struct {
     guint display_message_lock_active;
     guint display_message_file_readable;
     guint display_message_minimum_alert;
+    guint display_message_no_budgetary_line;
     guint display_message_qif_export_currency;
 
     /* Various commands */

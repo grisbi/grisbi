@@ -461,6 +461,11 @@ GtkWidget *onglet_messages_and_warnings ( void )
 							   &(etat.display_message_qif_export_currency), NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_display_lock_active, FALSE, FALSE, 0 );
 
+    /* Display a warning message if no budgetary line is entered in form */
+    bouton_display_lock_active = new_checkbox_with_title ( _("Do not warn if no budgetary line is entered in transaction"),
+							   &(etat.display_message_no_budgetary_line), NULL );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_display_lock_active, FALSE, FALSE, 0 );
+
 
     /* Number of days before a warning message advertising a scheduled
        transaction */
