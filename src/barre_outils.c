@@ -370,8 +370,8 @@ GtkWidget *creation_barre_outils ( void )
 			    GTK_RELIEF_NONE );
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
 			   bouton_grille,
-			   _("Display the grid"),
-			   _("Display the grid") );
+			   _("Display grid"),
+			   _("Display grid") );
     icone = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) grille_xpm ));
     gtk_container_add ( GTK_CONTAINER ( bouton_grille ),
 			icone );
