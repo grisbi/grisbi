@@ -23,14 +23,15 @@
 #include "include.h"
 
 /*START_INCLUDE*/
-#include "metatree.h"
-#include "utils_tiers.h"
 #include "imputation_budgetaire.h"
 #include "meta_payee.h"
+#include "metatree.h"
 #include "search_glist.h"
 #include "structures.h"
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
+#include "utils_devises.h"
+#include "utils_tiers.h"
 /*END_INCLUDE*/
 
 
