@@ -2491,6 +2491,7 @@ void changement_taille_colonne ( GtkWidget *clist,
 				 gint colonne,
 				 gint largeur )
 {
+  echap_formulaire();
   taille_largeur_colonnes[colonne] = largeur;
 }
 /******************************************************************************/

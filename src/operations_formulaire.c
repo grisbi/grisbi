@@ -3828,3 +3828,24 @@ gint place_type_choix_type ( GtkWidget *option_menu,
   return ( 0 );
 }
 /******************************************************************************/
+
+
+/**
+ *  Empty transaction form and select transactions tab.
+ */
+void new_transaction () 
+{
+  if ( p_tab_nom_de_compte_courant )
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+  else 
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+
+  OPERATION_SELECTIONNEE = GINT_TO_POINTER ( -1 );
+
+  gtk_clist_unselect_all ( GTK_CLIST ( CLIST_OPERATIONS ) );
+  gtk_widget_grab_focus ( CLIST_OPERATIONS );
+  echap_formulaire();
+  edition_operation ();
+  gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
+}
+
