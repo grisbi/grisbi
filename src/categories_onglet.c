@@ -642,7 +642,7 @@ void remplit_arbre_categ ( void )
 	    text[0] = categ -> nom_categ ;
 
 	if ( tab_montant_categ[place_categ+1] )
-	    text[1] = g_strdup_printf ( "%4.2f %s",
+	    text[1] = g_strdup_printf ( _("%4.2f %s"),
 					tab_montant_categ[place_categ+1],
 					devise_name ( devise_compte ) );
 	else
@@ -699,7 +699,7 @@ void remplit_arbre_categ ( void )
 	    if ( tab_montant_sous_categ[place_categ]
 		 &&
 		 tab_montant_sous_categ[place_categ][place_sous_categ+1] )
-		text[2] = g_strdup_printf ( "%4.2f %s",
+		text[2] = g_strdup_printf ( _("%4.2f %s"),
 					    tab_montant_sous_categ[place_categ][place_sous_categ+1],
 					    devise_name ( devise_compte ) );
 	    else
@@ -765,7 +765,7 @@ void remplit_arbre_categ ( void )
 	    text[1] = NULL;
 
 	    if ( tab_montant_sous_categ[place_categ][0] )
-		text[2] = g_strdup_printf ( "%4.2f %s",
+		text[2] = g_strdup_printf ( _("%4.2f %s"),
 					    tab_montant_sous_categ[place_categ][0],
 					    devise_name ( devise_compte ) );
 	    else
@@ -825,7 +825,7 @@ void remplit_arbre_categ ( void )
 	else
 	    text[0] = _("No category");
 
-	text[1] = g_strdup_printf ( "%4.2f %s",
+	text[1] = g_strdup_printf ( _("%4.2f %s"),
 				    tab_montant_categ[0],
 				    devise_name ( devise_compte ) );
 	text[2] = NULL;
@@ -855,7 +855,7 @@ void remplit_arbre_categ ( void )
 	    text[0] = _("No sub-category");
 
 	text[1] = NULL;
-	text[2] = g_strdup_printf ( "%4.2f %s",
+	text[2] = g_strdup_printf ( _("%4.2f %s"),
 				    tab_montant_categ[0],
 				    devise_name ( devise_compte ) );
 	text[3] = NULL;
@@ -2754,7 +2754,7 @@ gchar *calcule_total_montant_categ_par_compte ( gint categ, gint sous_categ, gin
     }
 
     if ( retour_int )
-	return ( g_strdup_printf ( "%4.2f %s",
+	return ( g_strdup_printf ( _("%4.2f %s"),
 				   retour_int,
 				   devise_name_by_no ( no_devise_totaux_tiers ) ));
     else
