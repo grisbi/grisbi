@@ -262,48 +262,48 @@ GtkWidget *creation_fenetre_operations ( void )
 
     /* mise en forme du solde pointé */
 
-    frame = gtk_frame_new ( NULL );
-    gtk_frame_set_shadow_type ( GTK_FRAME ( frame ),
-				GTK_SHADOW_ETCHED_OUT );
-    gtk_table_attach ( GTK_TABLE ( solde_box ),
-		       frame,
-		       0, 1,
-		       0, 1,
-		       GTK_EXPAND | GTK_SHRINK,
-		       FALSE,
-		       0, 0);
-    gtk_widget_show ( frame );
+/*     frame = gtk_frame_new ( NULL ); */
+/*     gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), */
+/* 				GTK_SHADOW_ETCHED_OUT ); */
+/*     gtk_table_attach ( GTK_TABLE ( solde_box ), */
+/* 		       frame, */
+/* 		       0, 1, */
+/* 		       0, 1, */
+/* 		       GTK_EXPAND | GTK_SHRINK, */
+/* 		       FALSE, */
+/* 		       0, 0); */
+/*     gtk_widget_show ( frame ); */
 
 
-    solde_label_pointe = gtk_label_new ( SPACIFY(COLON(_("reconciled balance"))) );
-    gtk_label_set_justify ( GTK_LABEL ( solde_label_pointe ),
-			    GTK_JUSTIFY_LEFT);
-    gtk_container_add ( GTK_CONTAINER ( frame ),
-			solde_label_pointe );
-    gtk_widget_show ( solde_label_pointe );
+/*     solde_label_pointe = gtk_label_new ( SPACIFY(COLON(_("reconciled balance"))) ); */
+/*     gtk_label_set_justify ( GTK_LABEL ( solde_label_pointe ), */
+/* 			    GTK_JUSTIFY_LEFT); */
+/*     gtk_container_add ( GTK_CONTAINER ( frame ), */
+/* 			solde_label_pointe ); */
+/*     gtk_widget_show ( solde_label_pointe ); */
 
 
     /* mise en forme du solde courant */
 
-    frame = gtk_frame_new ( NULL );
-    gtk_frame_set_shadow_type ( GTK_FRAME ( frame ),
-				GTK_SHADOW_ETCHED_OUT );
-    gtk_table_attach ( GTK_TABLE ( solde_box ),
-		       frame,
-		       2, 3,
-		       0, 1,
-		       GTK_EXPAND | GTK_SHRINK,
-		       FALSE,
-		       0, 0);
-    gtk_widget_show ( frame );
+/*     frame = gtk_frame_new ( NULL ); */
+/*     gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), */
+/* 				GTK_SHADOW_ETCHED_OUT ); */
+/*     gtk_table_attach ( GTK_TABLE ( solde_box ), */
+/* 		       frame, */
+/* 		       2, 3, */
+/* 		       0, 1, */
+/* 		       GTK_EXPAND | GTK_SHRINK, */
+/* 		       FALSE, */
+/* 		       0, 0); */
+/*     gtk_widget_show ( frame ); */
 
 
-    solde_label = gtk_label_new ( SPACIFY(COLON(_("curent balance"))) );
-    gtk_label_set_justify ( GTK_LABEL ( solde_label ),
-			    GTK_JUSTIFY_RIGHT);
-    gtk_container_add ( GTK_CONTAINER ( frame ),
-			solde_label );
-    gtk_widget_show ( solde_label );
+/*     solde_label = gtk_label_new ( SPACIFY(COLON(_("curent balance"))) ); */
+/*     gtk_label_set_justify ( GTK_LABEL ( solde_label ), */
+/* 			    GTK_JUSTIFY_RIGHT); */
+/*     gtk_container_add ( GTK_CONTAINER ( frame ), */
+/* 			solde_label ); */
+/*     gtk_widget_show ( solde_label ); */
 
     return ( win_operations );
 }
@@ -694,7 +694,7 @@ void creation_colonnes_tree_view_par_compte ( gint no_account )
 								cell_renderer,
 								"is-expanded", TRANSACTION_COL_NB_IS_EXPANDED,
 								"is-expander", TRANSACTION_COL_NB_IS_EXPANDER,
-								"visible", TRANSACTION_COL_NB_IS_VISIBLE,
+								"visible", TRANSACTION_COL_NB_IS_NOT_BREAKDOWN,
 								"cell-background-gdk", TRANSACTION_COL_NB_BACKGROUND,
 								NULL );
 	}
@@ -1045,24 +1045,18 @@ gboolean gsb_transactions_list_fill_row ( struct structure_operation *transactio
 
 	gtk_list_store_set ( store,
 			     iter,
-			     TRANSACTION_COL_NB_IS_VISIBLE, TRUE,
+			     TRANSACTION_COL_NB_IS_NOT_BREAKDOWN, TRUE,
 			     -1 );
 
-	if ( transaction -> operation_ventilee
-	     &&
-	     !line_in_transaction )
-	    gtk_list_store_set ( store,
-				 iter,
-				 TRANSACTION_COL_NB_IS_EXPANDER, TRUE,
-				 TRANSACTION_COL_NB_IS_EXPANDED, FALSE,
-				 -1 );
+	if ( transaction -> operation_ventilee && !line_in_transaction )
+	{
+		gtk_list_store_set ( store,
+				     iter,
+				     TRANSACTION_COL_NB_IS_EXPANDER, TRUE,
+				     TRANSACTION_COL_NB_IS_EXPANDED, FALSE,
+				     -1 );
+	}
     }
-    else
-	/* set visible the whites line */
-	gtk_list_store_set ( store,
-			     iter,
-			     TRANSACTION_COL_NB_IS_VISIBLE, TRUE,
-			     -1 );
 
     /* if we use a custom font... */
 
@@ -4292,18 +4286,19 @@ void mise_a_jour_labels_soldes ( void )
 {
     /*     met le solde */
 
-    gtk_label_set_text ( GTK_LABEL ( solde_label ),
-			 g_strdup_printf ( PRESPACIFY(_("Current balance: %4.2f %s")),
-					   gsb_account_get_current_balance (gsb_account_get_current_account ()),
-					   devise_code_by_no ( gsb_account_get_currency (gsb_account_get_current_account ()) )));
+    /* TODO: update to new GUI */
+/*     gtk_label_set_text ( GTK_LABEL ( solde_label ), */
+/* 			 g_strdup_printf ( PRESPACIFY(_("Current balance: %4.2f %s")), */
+/* 					   gsb_account_get_current_balance (gsb_account_get_current_account ()), */
+/* 					   devise_code_by_no ( gsb_account_get_currency (gsb_account_get_current_account ()) ))); */
 
 
     /* met le label du solde pointé */
 
-    gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
-			 g_strdup_printf ( _("Checked balance: %4.2f %s"),
-					   gsb_account_get_marked_balance (gsb_account_get_current_account ()),
-					   devise_code_by_no ( gsb_account_get_currency (gsb_account_get_current_account ()) )));
+/*     gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ), */
+/* 			 g_strdup_printf ( _("Checked balance: %4.2f %s"), */
+/* 					   gsb_account_get_marked_balance (gsb_account_get_current_account ()), */
+/* 					   devise_code_by_no ( gsb_account_get_currency (gsb_account_get_current_account ()) ))); */
 }
 /******************************************************************************/
 
@@ -4735,6 +4730,7 @@ gboolean gsb_account_list_set_breakdowns_visible ( gint no_account,
 	    gtk_list_store_set ( GTK_LIST_STORE ( model ),
 				 &iter,
 				 TRANSACTION_COL_NB_VISIBLE, visible,
+				 TRANSACTION_COL_NB_IS_NOT_BREAKDOWN, FALSE,
 				 -1 );
     }
     while ( gtk_tree_model_iter_next ( model,

@@ -47,6 +47,7 @@ GtkWidget *paned_onglet_operations;
 extern GtkWidget *formulaire;
 extern GtkWidget *frame_droite_bas;
 extern GtkWidget *notebook_comptes_equilibrage;
+extern GtkWidget *label_last_statement;
 /*END_EXTERN*/
 
 
@@ -57,10 +58,7 @@ extern GtkWidget *notebook_comptes_equilibrage;
  * */
 GtkWidget *create_transaction_page ( void )
 {
-    GtkWidget *frame_gauche;
-    GtkWidget *vbox;
-    GtkWidget *frame_droite_haut;
-    GtkWidget *fenetre_operations;
+    GtkWidget *frame_gauche, *vbox, *frame_droite_haut, *fenetre_operations, *hbox, *label;
 
     paned_onglet_operations = gtk_hpaned_new ( );
 
@@ -112,15 +110,28 @@ GtkWidget *create_transaction_page ( void )
     gtk_container_add ( GTK_CONTAINER ( frame_droite_haut ), fenetre_operations );
     gtk_widget_show ( fenetre_operations ); 
 
+    /* We create the edit form, inside a gtkexpander  */
+    hbox = gtk_hbox_new ( FALSE, 6 );
+    label = gtk_label_new ( "" );
+    gtk_label_set_markup_with_mnemonic ( GTK_LABEL ( label ), 
+					 g_strconcat ( "<span weight=\"bold\">", 
+						       _("Transaction _form"),
+						       "</span>", NULL ) );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
-    /* création du formulaire */
+    label_last_statement = gtk_label_new ( "samer" );
+    gtk_label_set_justify ( GTK_LABEL(label_last_statement), GTK_JUSTIFY_RIGHT ) ;
+    gtk_misc_set_alignment (GTK_MISC (label_last_statement), 1, 1);
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label_last_statement, TRUE, TRUE, 0 );
+    /* Kludge : otherwise, GtkExpander won't give us as many space
+       as we need. */
+    gtk_widget_set_size_request ( hbox, 2048, -1 );
 
-    frame_droite_bas = gtk_frame_new ( NULL );
-    gtk_frame_set_shadow_type ( GTK_FRAME ( frame_droite_bas ), GTK_SHADOW_IN );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), frame_droite_bas, FALSE, FALSE, 0 );
-
-    if ( etat.formulaire_toujours_affiche )
-	gtk_widget_show (frame_droite_bas);
+    frame_droite_bas = gtk_expander_new ( "" );
+    gtk_expander_set_label_widget ( GTK_EXPANDER(frame_droite_bas), hbox );
+    gtk_box_pack_start ( GTK_BOX ( fenetre_operations ), frame_droite_bas, 
+			 FALSE, FALSE, 0 );
+    gtk_widget_show_all (frame_droite_bas);
 
     /* création du formulaire */
     formulaire = creation_formulaire ();
@@ -131,7 +142,6 @@ GtkWidget *create_transaction_page ( void )
 
     /* for the current account : */
     /* we show the current form */
-
     remplissage_formulaire ( gsb_account_get_current_account ());
 
     /* we fill the marked amount and the total amount */
