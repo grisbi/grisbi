@@ -2,6 +2,7 @@ New in version 0.5.4 :
  - Bug fixes
  - Use selected transaction as template
  - Function to test reconciliation
+ - Grisbi now works with libofx 0.7.0
 
 New in version 0.5.3 :
  - Bug fixes
