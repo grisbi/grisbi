@@ -46,7 +46,7 @@ void a_propos ( GtkWidget *bouton,
 			    _("Gérald Niel (gerald.niel@grisbi.org) : Mdk RPM and Slackware packaging, website"),
 			    _("André Pascual (andre@linuxgraphic.org) : Logo"),
 			    NULL };
-  const gchar *traducteurs[] = { "Alain Portal (aportal@univ-montp2.fr) : English",
+  const gchar *traducteurs[] = { "Daniel Cartron (cartron@grisbi.org) : English",
 				 NULL };
   const gchar *liens[] = { COLON(_("Website")),
 			   "http://www.grisbi.org/",
