@@ -55,7 +55,7 @@ GtkWidget * create_preferences_tree ( )
   /* Create container + TreeView */
   sw = gtk_scrolled_window_new (NULL, NULL);
   gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
-				       GTK_SHADOW_ETCHED_IN);
+				       GTK_SHADOW_IN);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
 				  GTK_POLICY_NEVER,
 				  GTK_POLICY_AUTOMATIC);
@@ -2673,13 +2673,22 @@ GtkWidget * new_spin_button ( gdouble * value,
   gtk_spin_button_set_numeric ( GTK_SPIN_BUTTON (spin), TRUE );
   g_object_set_data ( G_OBJECT (spin), "pointer", value);
 
-  g_object_set_data ( G_OBJECT (spin), "change-value",
-		      g_signal_connect ( GTK_OBJECT (spin), "value_changed", 
-					 (GCallback) set_double, NULL ));
+/*   g_object_set_data ( G_OBJECT (spin), "change-value", */
+/* 		      (gpointer) g_signal_connect ( GTK_OBJECT (spin),  */
+/* 						    "change-value",  */
+/* 						    (GCallback) set_double, NULL)); */
+  g_object_set_data ( G_OBJECT (spin), "value-changed",
+		      (gpointer) g_signal_connect_swapped ( GTK_OBJECT (adjustment),
+							   "value_changed", 
+							   (GCallback) set_double, spin));
   if ( hook )
-    g_object_set_data ( G_OBJECT (spin), "hook",
-			g_signal_connect ( GTK_OBJECT (spin), "value_changed", 
-					   (GCallback) hook, NULL ));
+    {
+      g_object_set_data ( G_OBJECT (spin), "hook",
+			  (gpointer) g_signal_connect_swapped ( GTK_OBJECT (adjustment), 
+							       "value-changed", 
+							       (GCallback) hook, spin ));
+    }
+
   return spin;
 }
 
@@ -2691,25 +2700,37 @@ GtkWidget * new_spin_button ( gdouble * value,
 void spin_button_set_value ( GtkWidget * spin, gdouble * value )
 {
   /* Block everything */
-  if ( g_object_get_data ((GObject*) spin, "change-value") > 0 )
+/*   if ( g_object_get_data ((GObject*) spin, "change-value") > 0 ) */
+/*     g_signal_handler_block ( GTK_OBJECT(spin), */
+/* 			     (gulong) g_object_get_data ((GObject*) spin, "change-value")); */
+  if ( g_object_get_data ((GObject*) spin, "value-changed") > 0 )
     g_signal_handler_block ( GTK_OBJECT(spin),
-			     (gulong) g_object_get_data ((GObject*) spin, "change-value"));
+			     (gulong) g_object_get_data ((GObject*) spin, "value-changed"));
   if ( g_object_get_data ((GObject*) spin, "hook") > 0 )
     g_signal_handler_block ( GTK_OBJECT(spin),
 			     (gulong) g_object_get_data ((GObject*) spin, "hook"));
+/*   if ( g_object_get_data ((GObject*) spin, "hook2") > 0 ) */
+/*     g_signal_handler_block ( GTK_OBJECT(spin), */
+/* 			     (gulong) g_object_get_data ((GObject*) spin, "hook2")); */
 
   if (value)
-    gtk_spin_button_set_value (spin, *value);
+    gtk_spin_button_set_value (GTK_SPIN_BUTTON(spin), *value);
   else
-    gtk_spin_button_set_value (spin, 0);
+    gtk_spin_button_set_value (GTK_SPIN_BUTTON(spin), 0);
 
   g_object_set_data ( G_OBJECT(spin), "pointer", value);
 
   /* Unblock everything */
-  if ( g_object_get_data ((GObject*) spin, "change-value") > 0 )
-    g_signal_handler_unblock ( GTK_OBJECT(spin),
-			       (gulong) g_object_get_data ((GObject*) spin, "change-value"));
+/*   if ( g_object_get_data ((GObject*) spin, "change-value") > 0 ) */
+/*     g_signal_handler_block ( GTK_OBJECT(spin), */
+/* 			     (gulong) g_object_get_data ((GObject*) spin, "change-value")); */
+  if ( g_object_get_data ((GObject*) spin, "value-changed") > 0 )
+    g_signal_handler_block ( GTK_OBJECT(spin),
+			     (gulong) g_object_get_data ((GObject*) spin, "value-changed"));
   if ( g_object_get_data ((GObject*) spin, "hook") > 0 )
-    g_signal_handler_unblock ( GTK_OBJECT(spin),
-			       (gulong) g_object_get_data ((GObject*) spin, "hook"));
+    g_signal_handler_block ( GTK_OBJECT(spin),
+			     (gulong) g_object_get_data ((GObject*) spin, "hook"));
+/*   if ( g_object_get_data ((GObject*) spin, "hook2") > 0 ) */
+/*     g_signal_handler_block ( GTK_OBJECT(spin), */
+/* 			     (gulong) g_object_get_data ((GObject*) spin, "hook2")); */
 }
