@@ -1685,10 +1685,12 @@ des paramètres." );
 		     "Comptes" ))
 	{
 	  xmlNodePtr node_comptes;
+	  gint no_compte_bug;
 
 	  /* node_comptes va faire le tour de l'arborescence des comptes */
 
 	  node_comptes = node_1 -> childs;
+	  no_compte_bug = 0;
 
 	  while ( node_comptes )
 	    {
@@ -1786,9 +1788,19 @@ des paramètres." );
 					 "Nom" ))
 			       NOM_DU_COMPTE = xmlNodeGetContent ( node_detail );
 
+/* 			  if ( !strcmp ( node_detail -> name, */
+/* 					 "No_de_compte" )) */
+/* 			    NO_COMPTE = atoi ( xmlNodeGetContent ( node_detail )); */
+
+
+/* petit bug bien chiant qui fait qu'on ne va pas utiliser ici la sauvegarde du no de compte */
+
 			  if ( !strcmp ( node_detail -> name,
 					 "No_de_compte" ))
-			    NO_COMPTE = atoi ( xmlNodeGetContent ( node_detail ));
+			    {
+			      NO_COMPTE = no_compte_bug;
+			      no_compte_bug++;
+			    }
 
 			  if ( !strcmp ( node_detail -> name,
 					 "Titulaire" ))

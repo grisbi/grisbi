@@ -281,6 +281,7 @@ void supprimer_compte ( void )
 
   for ( i = compte_modifie ; i < nb_comptes ; i++ )
     {
+      NO_COMPTE = NO_COMPTE -1;
       *p_tab_nom_de_compte_variable = *(p_tab_nom_de_compte_variable + 1);
       p_tab_nom_de_compte_variable++;
     }

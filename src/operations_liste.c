@@ -1319,7 +1319,6 @@ gboolean traitement_clavier_liste ( GtkCList *liste,
 {
   gint ligne;
 
-
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
   gtk_signal_emit_stop_by_name ( GTK_OBJECT ( liste ),
@@ -2171,6 +2170,9 @@ void r_press (void)
 
 void supprime_operation ( struct structure_operation *operation )
 {
+  gint no_compte_ope;
+  gint ope_ventil;
+  gint no_ope;
 
   if ( operation == GINT_TO_POINTER ( -1 ) )
     return;
@@ -2225,6 +2227,13 @@ void supprime_operation ( struct structure_operation *operation )
     }
 
 
+  /* il me semble que slist_remove libère aussi la mémoire operation */
+  /* donc sauvegarde du no_compte pour le test suivant */
+
+  no_compte_ope = operation -> no_compte;
+  ope_ventil = operation -> operation_ventilee;
+  no_ope = operation -> no_operation;
+
   /* supprime l'opération dans la liste des opés */
 
   LISTE_OPERATIONS = g_slist_remove ( LISTE_OPERATIONS,
@@ -2236,7 +2245,7 @@ void supprime_operation ( struct structure_operation *operation )
 
   MISE_A_JOUR = 1;
 
-  if ( operation -> no_compte == compte_courant )
+  if ( no_compte_ope == compte_courant )
     verification_mise_a_jour_liste ();
 
 
@@ -2289,11 +2298,11 @@ void supprime_operation ( struct structure_operation *operation )
 
   /* si c'était une opé ventilée on fait le tour de toutes les opérations du compte à la recherche des opés de ventilation */
 
-  if ( operation -> operation_ventilee )
+  if ( ope_ventil )
     {
       GSList *pointeur_tmp;
 
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte_ope;
 
      pointeur_tmp = LISTE_OPERATIONS;
 
@@ -2303,13 +2312,13 @@ void supprime_operation ( struct structure_operation *operation )
 
 	  ope_test = pointeur_tmp -> data;
 
-	  if ( ope_test -> no_operation_ventilee_associee == operation -> no_operation )
+	  if ( ope_test -> no_operation_ventilee_associee == no_ope )
 	    {
 	      ligne_selectionnee_ventilation = ope_test;
 
 	      supprime_operation_ventilation ();
 
-	      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+	      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte_ope;
 
 	      pointeur_tmp = LISTE_OPERATIONS;
 	    }
@@ -2321,7 +2330,7 @@ void supprime_operation ( struct structure_operation *operation )
 
   /* on réaffiche la liste de l'état des comptes de l'accueil */
 
-  mise_a_jour_solde ( operation -> no_compte );
+  mise_a_jour_solde ( no_compte_ope );
   update_liste_comptes_accueil ();
 
   /* on réaffiche la liste des tiers */
