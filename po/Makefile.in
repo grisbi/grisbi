@@ -7,7 +7,7 @@
 # Please note that the actual code is *not* freely available.
 
 PACKAGE = grisbi
-VERSION = 0.4.1
+VERSION = 0.4.2
 
 # These two variables depend on the location of this directory.
 subdir = po
@@ -20,7 +20,7 @@ srcdir = .
 top_srcdir = ..
 
 
-prefix = /tmp/gsbcor
+prefix = /tmp/0.4.1
 exec_prefix = ${prefix}
 datadir = ${prefix}/share
 localedir = $(datadir)/locale
@@ -39,7 +39,7 @@ MSGMERGE = msgmerge
 
 DEFS = -DHAVE_CONFIG_H
 CFLAGS = -g -O2 -Wall -Wunused 
-CPPFLAGS =  -I/usr/include/gtk-1.2 -I/usr/include/glib-1.2 -I/usr/lib/glib/include -I/usr/X11R6/include
+CPPFLAGS =  -I/usr/include/gtk-1.2 -I/usr/include/glib-1.2 -I/usr/lib/glib/include
 
 INCLUDES = -I.. -I$(top_srcdir)/intl
 
@@ -84,7 +84,7 @@ all-no:
 $(srcdir)/$(PACKAGE).pot: $(POTFILES) $(srcdir)/POTFILES.in
 	$(XGETTEXT) --default-domain=$(PACKAGE) --directory=$(top_srcdir) \
 	  --add-comments --keyword=_ --keyword=N_ \
-	  --files-from=$(srcdir)/POTFILES.in \
+	  --files-from=$(srcdir)/POTFILES.in --from-code=iso-8859-1 \
 	&& test ! -f $(PACKAGE).po \
 	   || ( rm -f $(srcdir)/$(PACKAGE).pot \
 		&& mv $(PACKAGE).po $(srcdir)/$(PACKAGE).pot )
