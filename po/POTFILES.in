@@ -42,6 +42,7 @@ src/import.c
 src/imputation_budgetaire.c
 src/main.c
 src/menu.c
+src/meta_budgetary.c
 src/ofx.c
 src/operations_comptes.c
 src/operations_formulaire.c
@@ -56,8 +57,8 @@ src/tiers_onglet.c
 src/tip.c
 src/traitement_variables.c
 src/type_operations.c
-src/utils_buttons.c
 src/utils.c
+src/utils_buttons.c
 src/utils_categories.c
 src/utils_comptes.c
 src/utils_dates.c
