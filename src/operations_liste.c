@@ -2629,8 +2629,6 @@ gboolean assert_selected_transaction ()
  */
 void new_transaction () 
 {
-  if (! assert_selected_transaction()) return;
-
   gtk_clist_unselect_all ( GTK_CLIST ( CLIST_OPERATIONS ) );
   gtk_widget_grab_focus ( CLIST_OPERATIONS );
   echap_formulaire();
