@@ -18,16 +18,13 @@
 /*     along with this program; if not, write to the Free Software */
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
 #include "etats_latex.h"
 
-
 #include "dialog.h"
 #include "etats.h"
-
 
 
 
@@ -48,10 +45,24 @@ struct struct_etat_affichage latex_affichage = {
 };
 
 
-
 /**
- * FIXME: TODO
+ * Backend function that is responsible for printing a label at a
+ * specific place of the report, using text attibutes.
  *
+ * \param text Text to print
+ * \param properties bit field for text properties.  Can be:
+ *        - TEXT_BOLD: text will be printed in bold
+ *        - TEXT_ITALIC: text will be printed in intalic
+ *        - TEXT_HUGE: text will be have a huge face
+ *        - TEXT_LARGE: text will be have a large face
+ *        - TEXT_SMALL: text will be have a small face
+ * \param x left position of the label
+ * \param y top position of the label
+ * \param x2 right position of the label
+ * \param y2 bottom position of the label
+ * \param alignment how the text will be aligned in the cell
+ * \param ope a pointer to a transaction to link to (not used as latex
+ *            backend is not interactive)
  */
 void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
 			  enum alignement align, struct structure_operation * ope )
@@ -133,8 +144,7 @@ void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y
     }
 
     latex_safe(text);
-/* 	FIXME ?? mis commentaire... */
-    fprintf ( out, "\\end{boxedminipage}"/*, safe_text */);
+    fprintf ( out, "\\end{boxedminipage}" );
 
     if ( (x2 - x) > 1 )
 	fprintf ( out, "}\n" );
@@ -148,8 +158,13 @@ void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y
 
 
 /**
- * FIXME: TODO
+ * Backend function that is responsible for printing a vertical
+ * separator (i.e. a vertical line).
  *
+ * \param x left position of the separator
+ * \param y top position of the separator
+ * \param x2 right position of the separator
+ * \param y2 bottom position of the separator
  */
 void latex_attach_vsep ( int x, int x2, int y, int y2)
 {
@@ -174,8 +189,13 @@ void latex_attach_vsep ( int x, int x2, int y, int y2)
 
 
 /**
- * FIXME: TODO
+ * Backend function that is responsible for printing an horizontal
+ * separator (i.e. an horizontal line).
  *
+ * \param x left position of the separator
+ * \param y top position of the separator
+ * \param x2 right position of the separator
+ * \param y2 bottom position of the separator
  */
 void latex_attach_hsep ( int x, int x2, int y, int y2)
 {
@@ -191,6 +211,11 @@ void latex_attach_hsep ( int x, int x2, int y, int y2)
 
 
 
+/**
+ * Initialization function for the latex backend.
+ *
+ * \return TRUE on succes, FALSE otherwise.
+ */
 gint latex_initialise (GSList * opes_selectionnees)
 {
     gfloat colwidth, real_width;
@@ -230,19 +255,24 @@ gint latex_initialise (GSList * opes_selectionnees)
 
     if ( etat.print_config.orientation == LANDSCAPE )
     {
-	fprintf (out,
-		 "\\usepackage{landscape}\n"
-		 "\\def\\printlandscape{\\special{landscape}}\n");
+	fprintf (out, "\\usepackage{portland}\n");
     }
 
     fprintf (out,
 	     "\\setpapersize{%s}\n"
 	     "\\setmarginsrb{1cm}{1cm}{1cm}{1cm}{0cm}{0cm}{0cm}{0cm}\n\n"
-	     "\\begin{document}\n\n"
+	     "\\begin{document}\n\n", etat.print_config.paper_config.name);
+
+    if ( etat.print_config.orientation == LANDSCAPE )
+      {
+	fprintf (out, "\\landscape\n\n");
+      }
+	  
+    fprintf (out,
 	     "\\fboxsep \\parskip\n"
 	     "\\fboxrule 0pt\n"
 	     "\\tabcolsep 0pt\n"
-	     "\\begin{longtable}[l]{", etat.print_config.paper_config.name );
+	     "\\begin{longtable}[l]{" );
 
     if ( etat.print_config.orientation == LANDSCAPE )
     {
@@ -270,8 +300,7 @@ gint latex_initialise (GSList * opes_selectionnees)
 	{
 	    fprintf (out, "p{%fcm}", colwidth);
 	}
-/* 	FIXME ?? mis commentaire... */
-	fprintf (out, "p{1pt}}\n"/*, colwidth*/);
+	fprintf (out, "p{1pt}}\n");
     }
 
     return TRUE;
@@ -279,6 +308,11 @@ gint latex_initialise (GSList * opes_selectionnees)
 
 
 
+/**
+ * Destructor function for the latex backend.
+ *
+ * \return TRUE on success, FALSE otherwise.
+ */
 gint latex_finish ()
 {
     gchar * command;
@@ -336,6 +370,13 @@ gint latex_finish ()
 
 
 
+/** 
+ * Print a latex safe string into the out file descriptor.  All chars
+ * that cannot be printed via latex are converted to their latex
+ * equivalent (i.e. backslashes are escaped).
+ *
+ * \param text Text to print.
+ */
 void latex_safe ( gchar * text ) 
 {
     gboolean start = 1;
