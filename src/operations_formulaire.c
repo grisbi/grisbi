@@ -685,33 +685,27 @@ void echap_formulaire ( void )
 {
     GSList *liste_tmp;
 
-    /* si c'est une nouvelle opé ventilée et qu'on a utilisé la complétion */
-    /* il faut effacer les opés de ventilation automatiquement créées */
-    /* celles ci sont dans la liste dans "liste_adr_ventilation" */
+
+    /*     on libère la mémoire des ventilations */
+    /* 	dans tous les cas, toutes les modifs apportées ne l'étaient que */
+    /* 	dans cette liste */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
     liste_tmp = gtk_object_get_data ( GTK_OBJECT ( formulaire ),
 				      "liste_adr_ventilation" );
 
-    if ( liste_tmp
-	 &&
-	 !gtk_object_get_data ( GTK_OBJECT ( formulaire ),
-				"adr_struct_ope" )
-	 &&
-	 liste_tmp != GINT_TO_POINTER ( -1 ))
+    while ( liste_tmp )
     {
-	while ( liste_tmp )
-	{
-	    ligne_selectionnee_ventilation = liste_tmp -> data;
-	    supprime_operation_ventilation ();
-	    liste_tmp = liste_tmp -> next;
-	}
+	free ( liste_tmp -> data );
+	liste_tmp = liste_tmp -> next;
     }
+
+    g_slist_free ( gtk_object_get_data ( GTK_OBJECT ( formulaire ),
+					 "liste_adr_ventilation" ));
 
     formulaire_a_zero();
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
     gtk_widget_grab_focus ( CLIST_OPERATIONS );
 
     if ( !etat.formulaire_toujours_affiche )
@@ -1862,6 +1856,12 @@ void completion_operation_par_tiers ( void )
 
 		    nouvelle_operation -> imputation = ope_test -> imputation;
 		    nouvelle_operation -> sous_imputation = ope_test -> sous_imputation;
+
+		    /* 		    on met par_completion à 1 pour éviter de les effacer si on va dans l'échéance */
+		    /* 			et qu'on annule */
+
+		    nouvelle_operation -> par_completion = 1;
+
 
 		    if ( ope_test -> no_piece_comptable )
 			nouvelle_operation -> no_piece_comptable = g_strdup ( ope_test -> no_piece_comptable );

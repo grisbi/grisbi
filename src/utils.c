@@ -1543,7 +1543,7 @@ GtkWidget * get_entry_from_date_entry (GtkWidget * hbox)
  * \param hook An optional function to execute as a handler if the
  * textview's contents are modified.
  */
-GtkWidget * new_spin_button ( gdouble * value, 
+GtkWidget * new_spin_button ( gint * value, 
 			      gdouble lower, gdouble upper, 
 			      gdouble step_increment, gdouble page_increment, 
 			      gdouble page_size, 

@@ -2172,6 +2172,7 @@ void supprime_operation ( struct structure_operation *operation )
 
     mise_a_jour_solde ( no_compte );
     update_liste_comptes_accueil ();
+    mise_a_jour_soldes_minimaux ();
 
     /* on réaffiche la liste des tiers */
 
@@ -2745,20 +2746,22 @@ void move_selected_operation_to_account ( GtkMenuItem * menu_item )
     target_account = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT(menu_item), 
 							     "no_compte" ) );  
 
-    move_operation_to_account ( OPERATION_SELECTIONNEE, target_account );
+    if ( move_operation_to_account ( OPERATION_SELECTIONNEE, target_account ))
+    {
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + source_account;
+	MISE_A_JOUR = 1;
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + target_account;
+	MISE_A_JOUR = 1;
+	verification_mise_a_jour_liste ();
 
-    MISE_A_JOUR = 1;
-    verification_mise_a_jour_liste ();
-    remplissage_liste_operations ( target_account );
-    remplissage_liste_operations ( source_account );
+	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 
-    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
+	mise_a_jour_tiers ();
+	mise_a_jour_categ ();
+	mise_a_jour_imputation ();
 
-    mise_a_jour_tiers ();
-    mise_a_jour_categ ();
-    mise_a_jour_imputation ();
-
-    modification_fichier ( TRUE );
+	modification_fichier ( TRUE );
+    }
 }
 
 
@@ -2769,14 +2772,24 @@ void move_selected_operation_to_account ( GtkMenuItem * menu_item )
  * \param transaction Transaction to move to other account
  * \param account Account to move the transaction to
  */
-void move_operation_to_account ( struct structure_operation * transaction,
-				 gint account )
+gboolean move_operation_to_account ( struct structure_operation * transaction,
+				     gint account )
 {
     gpointer ** tmp = p_tab_nom_de_compte_variable;
 
     if ( transaction -> relation_no_compte )
     {
 	struct structure_operation * contra_transaction;
+
+	/* 	l'opération est un virement, si on veut la déplacer vers le compte */
+	/* 	    viré, on refuse */
+
+	if ( transaction -> relation_no_compte == account )
+	{
+	    dialogue ( _("Error : cannot move a transfer on his contra-account"));
+	    return FALSE;
+	}
+
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + transaction -> relation_no_compte;
 	contra_transaction = 
 	    g_slist_find_custom ( LISTE_OPERATIONS,
@@ -2822,6 +2835,7 @@ void move_operation_to_account ( struct structure_operation * transaction,
 
     transaction -> no_compte = account;
     p_tab_nom_de_compte_variable = tmp;
+    return TRUE;
 }
 
 

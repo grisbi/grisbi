@@ -2161,6 +2161,7 @@ void supprime_operation_ventilation ( void )
 	 ! ligne_selectionnee_ventilation )
 	return;
 
+
     /* si l'opération est relevée ou si c'est un virement et que la contre opération est */
     /*   relevée, on ne peut la supprimer */
 
@@ -2546,11 +2547,39 @@ void annuler_ventilation ( void )
     /* Cette fonction remet la liste des structures de ventilation par défaut
        en recherchant les opérations de ventilation dans la liste des opérations
        puis appelle valider ventilation */
+    /*     si des opés de ventils avaient été mises par complétion du tiers, en faisant */
+    /* 	annuler elles vont disparaitre car elles ne sont pas encore enregistrées */
+    /* 	dans ce cas on les ajoutes à la nouvelle liste créé */
+
+    GSList *nouvelle_liste;
+    GSList *ancienne_liste;
+    GSList *liste_tmp;
+
+
+    ancienne_liste = gtk_object_get_data ( GTK_OBJECT ( formulaire ),
+					   "liste_adr_ventilation" );
+    nouvelle_liste = creation_liste_ope_de_ventil ( gtk_object_get_data ( GTK_OBJECT ( formulaire ),
+									       "adr_struct_ope" ));
+
+    liste_tmp = ancienne_liste;
+
+    while ( liste_tmp )
+    {
+	struct struct_ope_ventil *ventil;
+
+	ventil = liste_tmp -> data;
+
+	if ( ventil -> par_completion )
+	    nouvelle_liste = g_slist_append ( nouvelle_liste,
+					      ventil );
+	liste_tmp = liste_tmp -> next;
+    }
+
+    g_slist_free ( ancienne_liste );
 
     gtk_object_set_data ( GTK_OBJECT ( formulaire ),
 			  "liste_adr_ventilation",
-			  creation_liste_ope_de_ventil ( gtk_object_get_data ( GTK_OBJECT ( formulaire ),
-									       "adr_struct_ope" )));
+			  nouvelle_liste );
 
     quitter_ventilation ();
 }

@@ -651,7 +651,7 @@ void equilibrage ( void )
 /******************************************************************************/
 
 /******************************************************************************/
-void sortie_entree_date_equilibrage ( GtkWidget *entree )
+gboolean sortie_entree_date_equilibrage ( GtkWidget *entree )
 {
     /* si l'entrée contenant la date est vide, alors on met la date du jour */
 
@@ -659,11 +659,12 @@ void sortie_entree_date_equilibrage ( GtkWidget *entree )
 	gtk_entry_set_text ( GTK_ENTRY ( entree ), gsb_today() );
 
     format_date ( entree );
+    return FALSE;
 }
 /******************************************************************************/
 
 /******************************************************************************/
-void modif_entree_solde_init_equilibrage ( void )
+gboolean modif_entree_solde_init_equilibrage ( void )
 {
 
     gtk_label_set_text ( GTK_LABEL ( label_equilibrage_initial ),
@@ -690,11 +691,12 @@ void modif_entree_solde_init_equilibrage ( void )
 				   FALSE );
     }
 
+    return FALSE;
 }
 /******************************************************************************/
 
 /******************************************************************************/
-void modif_entree_solde_final_equilibrage ( void )
+gboolean modif_entree_solde_final_equilibrage ( void )
 {
     gtk_label_set_text ( GTK_LABEL ( label_equilibrage_final ),
 			 (char *) gtk_entry_get_text ( GTK_ENTRY ( entree_nouveau_montant_equilibrage )) );
@@ -726,14 +728,15 @@ void modif_entree_solde_final_equilibrage ( void )
 				   FALSE );
     }
 
+    return FALSE;
 }
 /******************************************************************************/
 
 /******************************************************************************/
 /* on annule l'équilibrage */
 /******************************************************************************/
-void annuler_equilibrage ( GtkWidget *bouton_ann,
-			   gpointer data)
+gboolean annuler_equilibrage ( GtkWidget *bouton_ann,
+			       gpointer data)
 {
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
 			    0 );
@@ -772,6 +775,7 @@ void annuler_equilibrage ( GtkWidget *bouton_ann,
     gtk_widget_show ( label_proprietes_operations_compte );
 
     focus_a_la_liste ();
+    return FALSE;
 }
 /******************************************************************************/
 
@@ -890,8 +894,8 @@ void pointe_equilibrage ( int p_ligne )
 /******************************************************************************/
 
 /******************************************************************************/
-void fin_equilibrage ( GtkWidget *bouton_ok,
-		       gpointer data )
+gboolean fin_equilibrage ( GtkWidget *bouton_ok,
+			   gpointer data )
 {
     GSList *pointeur_liste_ope;
     gchar *text;
@@ -905,7 +909,7 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
     if ( fabs ( solde_final - solde_initial - operations_pointees ) >= 0.01 )
     {
 	dialogue ( _("There is a variance"));
-	return;
+	return FALSE;
     }
 
 
@@ -926,7 +930,7 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
 	if ( !nb_parametres || nb_parametres == -1 )
 	{
 	    dialogue_error ( _("Invalid date") );
-	    return;
+	    return FALSE;
 	}
 
 
@@ -946,7 +950,7 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
 			     date_releve_annee))
     {
 	dialogue_error ( _("Invalid date") );
-	return;
+	return FALSE;
     }
 
     DATE_DERNIER_RELEVE = g_date_new_dmy ( date_releve_jour,
@@ -1070,6 +1074,7 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
 
     /* Update account list */
     update_liste_comptes_accueil ();
+    return  FALSE;
 }
 /******************************************************************************/
 
@@ -1119,13 +1124,14 @@ void calcule_total_pointe_compte ( gint no_compte )
 /******************************************************************************/
 
 /******************************************************************************/
-void souris_equilibrage ( GtkWidget *entree,
-			  GdkEventButton *event )
+gboolean souris_equilibrage ( GtkWidget *entree,
+			      GdkEventButton *event )
 {
     GtkWidget *popup_cal;
 
     if ( event -> type == GDK_2BUTTON_PRESS )
 	popup_cal = gsb_calendar_new ( entree );
+    return FALSE;
 }
 /******************************************************************************/
 

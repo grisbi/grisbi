@@ -91,9 +91,7 @@ void  nouveau_compte ( void )
 
     /* on met à jour l'option menu des formulaires des échéances et des opés */
 
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
-			       creation_option_menu_comptes (GTK_SIGNAL_FUNC(changement_choix_compte_echeancier), TRUE) );
-
+    update_options_menus_comptes ();
 
     /* mise à jour de l'accueil */
 
@@ -353,8 +351,7 @@ void supprimer_compte ( void )
 
     /* on met à jour l'option menu du formulaire des échéances */
 
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
-			       creation_option_menu_comptes (GTK_SIGNAL_FUNC(changement_choix_compte_echeancier), TRUE) );
+    update_options_menus_comptes ();
 
     /* réaffiche la liste si necessaire */
 
@@ -713,3 +710,51 @@ gint demande_type_nouveau_compte ( void )
     return ( type_compte );
 }
 /* ************************************************************************** */
+
+
+
+/* ************************************************************************** */
+/* cette fonction est appelée pour mettre un option menu de compte sur le */
+/* compte donné en argument */
+/* elle renvoie le no à mettre dans history */
+/* ************************************************************************** */
+gint recherche_compte_dans_option_menu ( GtkWidget *option_menu,
+					 gint no_compte )
+{
+    GList *liste_menu;
+    GList *liste_tmp;
+
+    liste_menu = GTK_MENU_SHELL ( gtk_option_menu_get_menu ( GTK_OPTION_MENU ( option_menu ))) -> children;
+    liste_tmp = liste_menu;
+
+    while ( liste_tmp )
+    {
+	gint *no;
+
+	no = gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
+				   "no_compte" );
+	if ( GPOINTER_TO_INT (no) == no_compte )
+	    return g_list_position ( liste_menu,
+				     liste_tmp );
+	liste_tmp = liste_tmp -> next;
+    }
+    return 0;
+}
+/* ************************************************************************** */
+
+
+/* ************************************************************************** */
+/* il y a eu un chgt dans les comptes, cette fonction modifie les */
+/* options menus qui contiennent les noms de compte */
+/* ************************************************************************** */
+
+void update_options_menus_comptes ( void )
+{
+    /*     on met à jour l'option menu de l'échéancier */
+
+    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
+			       creation_option_menu_comptes(GTK_SIGNAL_FUNC(changement_choix_compte_echeancier),
+							    TRUE) );
+}
+/* ************************************************************************** */
+

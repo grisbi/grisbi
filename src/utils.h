@@ -47,7 +47,7 @@ void date_set_value ( GtkWidget * hbox, GDate ** value, gboolean update );
 gboolean popup_calendar ( GtkWidget * button, gpointer data );
 void close_calendar_popup ( GtkWidget *popup );
 GtkWidget * get_entry_from_date_entry (GtkWidget *);
-GtkWidget * new_spin_button ( gdouble * value, 
+GtkWidget * new_spin_button ( gint * value, 
 			      gdouble lower, gdouble upper, 
 			      gdouble step_increment, gdouble page_increment, 
 			      gdouble page_size, 

@@ -41,6 +41,8 @@
 #include "gtk_list_button.h"
 #include "comptes_onglet.h"
 #include "traitement_variables.h"
+#include "accueil.h"
+#include "comptes_traitements.h"
 
 
 
@@ -483,11 +485,16 @@ gboolean changement_ordre_liste_comptes ( GtkWidget *bouton )
     g_slist_free ( ordre_comptes );
     ordre_comptes = nouvelle_liste_comptes;
 
+    /*     on réaffiche la liste des comptes de l'autre fenetre */
+
     if ( bouton -> parent == vbox_liste_comptes )
 	/* 	on est sur la liste des comptes de l'onglet opérations, donc on réaffiche l'onglet comptes */
 	reaffiche_liste_comptes_onglet ();
     else
 	reaffiche_liste_comptes ();
+
+    update_options_menus_comptes ();
+    update_liste_comptes_accueil ();
 
     modification_fichier ( TRUE );
     return ( FALSE );

@@ -39,8 +39,8 @@ void remove_transaction ( );
 void clone_selected_transaction ( );
 struct structure_operation * clone_transaction ( struct structure_operation * operation );
 void move_selected_operation_to_account ( GtkMenuItem * menu_item );
-void move_operation_to_account ( struct structure_operation * transaction, 
-				 gint account );
+gboolean move_operation_to_account ( struct structure_operation * transaction, 
+				     gint account );
 void schedule_selected_transaction ( );
 struct operation_echeance * schedule_transaction ( struct structure_operation * transaction );
 void popup_transaction_context_menu ( gboolean full );

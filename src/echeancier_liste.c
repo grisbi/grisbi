@@ -43,6 +43,7 @@
 #include "type_operations.h"
 #include "utils.h"
 #include "constants.h"
+#include "comptes_traitements.h"
 
 
 
@@ -1097,7 +1098,8 @@ void edition_echeance ( void )
     /* mise en place du compte */
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
-				  echeance_selectionnnee -> compte );
+				  recherche_compte_dans_option_menu (  widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT],
+								       echeance_selectionnnee -> compte ));
 
     /* mise en place des montants et des types associés */
 
