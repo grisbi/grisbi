@@ -3,7 +3,7 @@
 /* 			echeances_liste.c                                     */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004 Alain Portal (dionysos@grisbi.org) 	      */
+/*			2004 Alain Portal (aportal@univ-monpt2.fr) 	      */
 /*			2004 Benjamin Drieu (bdrieu@april.org)  	      */
 /* 			http://www.grisbi.org   			      */
 /*                                                                            */

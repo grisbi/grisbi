@@ -6,7 +6,7 @@
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
-/*			2003-2004 Alain Portal (dionysos@grisbi.org)	      */
+/*			2003-2004 Alain Portal (aportal@univ-monpt2.fr)	      */
 /*			2003-2004 Francois Terrot (francois.terrot@grisbi.org)*/
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
