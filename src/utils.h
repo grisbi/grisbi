@@ -64,4 +64,7 @@ gint my_strncasecmp ( gchar *chaine_1,
 		     gint longueur );
 gchar* my_get_grisbirc_dir(void);
 gchar* my_get_gsb_file_default_dir(void);
+gint get_line_from_file ( FILE *fichier,
+			  gchar **string );
+gchar *get_line_from_string ( gchar *string );
 

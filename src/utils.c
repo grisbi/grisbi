@@ -1845,3 +1845,90 @@ gint my_strncasecmp ( gchar *chaine_1,
 }
 /* ******************************************************************************* */
 
+
+
+/* ******************************************************************************* */
+/* fonction qui récupère une ligne de charactère dans le pointeur de fichier donné en argument */
+/* elle alloue la mémoire nécessaire et place le pointeur en argument sur la mémoire allouée */
+/* renvoie 0 en cas de pb, eof en cas de fin de fichier, 1 sinon */
+/* ******************************************************************************* */
+gint get_line_from_file ( FILE *fichier,
+			  gchar **string )
+{
+    gchar c = 0;
+    gint i = 0;
+    gint j = 0;
+    gchar *pointeur_char = NULL;
+
+    if ( !fichier )
+	return 0;
+	    
+    printf ("debut\n" );
+
+    /*     on commence par allouer une taille de 30 caractères, qu'on augment ensuite de 30 par 30 */
+
+    pointeur_char = (gchar*)realloc(pointeur_char,30*sizeof(gchar));
+
+    if ( !pointeur_char )
+    {
+	/* 	aie, pb de mémoire, on vire */
+	dialogue_error ( _("Memory allocation error" ));
+	return 0;
+    }
+
+    while ( ( c != '\n' ) && (c != '\r'))
+    {
+	c =(gchar)fgetc(fichier);
+	if (feof(fichier)) break;
+	pointeur_char[j++] = c;
+
+	if ( ++i == 29 )
+	{
+	    pointeur_char = (gchar*)realloc(pointeur_char, j + 1 + 30*sizeof(gchar));
+
+	    if ( !pointeur_char )
+	    {
+		/* 	aie, pb de mémoire, on vire */
+		dialogue_error ( _("Memory allocation error" ));
+		return 0;
+	    }
+	    i = 0;
+	}
+    }
+    pointeur_char[j] = 0;
+
+    *string = pointeur_char;
+
+    printf ( "fin\n" );
+    if ( feof(fichier))
+	return EOF;
+    else
+	return 1;
+}
+/* ******************************************************************************* */
+
+
+
+
+/* ******************************************************************************* */
+/* fonction qui récupère une ligne de charactère dans une chaine */
+/* elle alloue la mémoire nécessaire et n'incorpore pas le \n final */
+/* renvoie NULL en cas de pb */
+/* ******************************************************************************* */
+gchar *get_line_from_string ( gchar *string )
+{
+    gchar *pointeur_char;
+
+    if ( !string )
+	return NULL;
+	    
+    pointeur_char = g_strdup ( string );
+
+    pointeur_char = g_strdelimit ( pointeur_char,
+				   "\n\r",
+				   0 );
+    return pointeur_char;
+}
+/* ******************************************************************************* */
+
+

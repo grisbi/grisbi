@@ -63,9 +63,8 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 
 	    if ( pas_le_premier_compte != 1 )
 	    {
-		retour = fscanf ( fichier,
-				  "%a[^\n]\n",
-				  &pointeur_char );
+		retour = get_line_from_file ( fichier,
+					      &pointeur_char );
 	    }
 	    else
 		pas_le_premier_compte = 2;
@@ -196,9 +195,8 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 	    {
 		free ( pointeur_char );
 
-		retour = fscanf ( fichier,
-				  "%a[^\n]\n",
-				  &pointeur_char );
+		retour = get_line_from_file ( fichier,
+					      &pointeur_char );
 
 
 		/* récupération du solde initial ( on doit virer la , que money met pour séparer les milliers ) */
@@ -236,9 +234,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 
 		if ( pointeur_char[0] == 'L' )
 		{
-		    sscanf ( pointeur_char,
-			     "L%a[^\n]",
-			     &compte -> nom_de_compte );
+		    compte -> nom_de_compte = get_line_from_string ( pointeur_char ) + 1;
 
 		    /* on vire les crochets s'ils y sont */
 
@@ -269,9 +265,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 		/*  on ne la traite pas maintenant mais quand on traitera toutes les dates */
 
 		if ( pointeur_char[0] == 'D' )
-		    sscanf ( pointeur_char,
-			     "D%a[^\n]",
-			     &compte -> date_solde_qif );
+		    compte -> date_solde_qif = get_line_from_string ( pointeur_char ) + 1;
 
 	    }
 	    while ( pointeur_char[0] != '^'
@@ -319,9 +313,8 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 
 	    do
 	    {
-		retour = fscanf ( fichier,
-				  "%a[^\n]\n",
-				  &pointeur_char );
+		retour = get_line_from_file ( fichier,
+					      &pointeur_char );
 
 		if ( retour != EOF
 		     &&

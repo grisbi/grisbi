@@ -164,24 +164,29 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 	/* on fait comme si c'était du html */
 	/*       chacune des fonctions récupèrent les infos du compte et les opés, et ajoutent la struct_compte_importation */
 	/* 	à liste_comptes_importes */
-#ifdef _WIN32
-        { /* fscanf %a format has a very strange behaviour under WIN32 ...so we simulate it ... */
-            gchar c = 0;
-            gint j  = 0;
-            pointeur_char = (gchar*)realloc(pointeur_char,256*sizeof(gchar));
-            while ( (j<254) && ( c != '\n' ) && (c != '\r'))
-            {
-                c =(gchar)fgetc(fichier);
-                if (feof(fichier)) break;
-                pointeur_char[j++] = c;
-            }
-            pointeur_char[j] = 0;
-        }
-#else
-	fscanf ( fichier,
-		 "%a[^\n]\n",
-		 &pointeur_char );
-#endif
+
+	get_line_from_file ( fichier,
+			     &pointeur_char );
+
+/* #ifdef _WIN32 */
+/*         { */
+	    /* fscanf %a format has a very strange behaviour under WIN32 ...so we simulate it ... */
+/*             gchar c = 0; */
+/*             gint j  = 0; */
+/*             pointeur_char = (gchar*)realloc(pointeur_char,256*sizeof(gchar)); */
+/*             while ( (j<254) && ( c != '\n' ) && (c != '\r')) */
+/*             { */
+/*                 c =(gchar)fgetc(fichier); */
+/*                 if (feof(fichier)) break; */
+/*                 pointeur_char[j++] = c; */
+/*             } */
+/*             pointeur_char[j] = 0; */
+/*         } */
+/* #else */
+/* 	fscanf ( fichier, */
+/* 		 "%a[^\n]\n", */
+/* 		 &pointeur_char ); */
+/* #endif */
 	if ( g_strrstr ( pointeur_char,
 			 "ofx" )
 	     ||
