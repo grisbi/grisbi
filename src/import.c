@@ -582,7 +582,7 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
     if ( compte -> devise )
     {
 	liste_tmp = g_slist_find_custom ( liste_struct_devises,
-					  compte -> devise,
+					  compte->devise,
 					  (GCompareFunc) recherche_devise_par_code_iso );
 
 	if ( liste_tmp )
@@ -1812,7 +1812,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 	/* on n'affiche pas si c'est des opés de ventil, si la mère est cochée, les filles seront alors cochées */
 	/* on ne teste pas ici car ça a été testé avant */
 
-	if ( ope_import -> action 
+	if ( ope_import -> action == 1 
 	     &&
 	     !ope_import -> ope_de_ventilation )
 	{

@@ -1,16 +1,28 @@
 #!/bin/sh
 #
-# autogen.sh glue for CMU Cyrus IMAP
-# $Id: autogen.sh,v 1.2 2004/04/11 16:26:31 benj2 Exp $
-#
-# Requires: automake, autoconf, dpkg-dev
+# Requires: automake, autoconf
 set -e
+
+PATH_AUTOMAKE=/usr/share/automake
+
+# test for slackware
+if test -x /usr/share/automake-1.7
+then
+	PATH_AUTOMAKE=/usr/share/automake-1.7
+fi
+
+# test for Red-Hat
+if test -x /usr/share/automake-1.6
+then
+	PATH_AUTOMAKE=/usr/share/automake-1.6
+fi
+
 
 # Refresh GNU autotools toolchain.
 for i in config.guess config.sub missing install-sh mkinstalldirs ; do
-	test -r /usr/share/automake/${i} && {
+	test -r $PATH_AUTOMAKE/${i} && {
 		rm -f ${i}
-		cp /usr/share/automake/${i} .
+		cp $PATH_AUTOMAKE/${i} .
 	}
 	chmod 755 ${i}
 done

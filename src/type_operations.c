@@ -1367,22 +1367,21 @@ GtkWidget *creation_menu_types ( gint demande,
 
 	    item = gtk_menu_item_new_with_label ( type -> nom_type );
 
-	    if ( !origine )
-		switch ( origine )
-		{
-		    case 0:
-			gtk_signal_connect_object ( GTK_OBJECT ( item ),
-						    "activate",
-						    GTK_SIGNAL_FUNC ( changement_choix_type_formulaire ),
-						    (GtkObject *) type );
-			break;
-		    case 1:
-			gtk_signal_connect_object ( GTK_OBJECT ( item ),
-						    "activate",
-						    GTK_SIGNAL_FUNC ( changement_choix_type_echeancier ),
-						    (GtkObject *) type );
-			break;
-		}
+	    switch ( origine )
+	      {
+	      case 0:
+		gtk_signal_connect_object ( GTK_OBJECT ( item ),
+					    "activate",
+					    GTK_SIGNAL_FUNC ( changement_choix_type_formulaire ),
+					    (GtkObject *) type );
+		break;
+	      case 1:
+		gtk_signal_connect_object ( GTK_OBJECT ( item ),
+					    "activate",
+					    GTK_SIGNAL_FUNC ( changement_choix_type_echeancier ),
+					    (GtkObject *) type );
+		break;
+	      }
 
 	    gtk_object_set_data ( GTK_OBJECT ( item ),
 				  "adr_type",

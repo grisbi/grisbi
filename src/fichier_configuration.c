@@ -65,7 +65,8 @@ void charge_configuration ( void )
     if ( stat ( g_strconcat ( g_get_home_dir(), C_GRISBIRC, NULL ),&buffer_stat ) == -1 )
     {
 #ifndef _WIN32 /* No old configuration under Windows */
-	charge_configuration_ancien();
+	if (  stat ( g_strconcat ( g_get_home_dir(), "/.gnome/Grisbi", NULL ),&buffer_stat ) != -1 )
+	    charge_configuration_ancien();
 #endif
 	return;
     }
@@ -366,7 +367,7 @@ void charge_configuration_ancien ( void )
     gchar *fichier_conf;
     gchar temp[100];
 
-    etat.fichier_animation_attente = g_strdup ( GIF_DEFAUT );
+    etat.fichier_animation_attente = g_strdup ( ANIM_PATH );
 
     /* modif -> vire gnome, donc fait tout à la main */
 
@@ -562,15 +563,17 @@ void raz_configuration ( void )
     compression_backup = 0;
     etat.largeur_auto_colonnes = 1;
     etat.retient_affichage_par_compte = 0;
+    etat.fichier_animation_attente = g_strdup ( ANIM_PATH );
 
-    /* Messages */
-    etat.display_message_lock_active = 0;
+	/* Messages */
+	etat.display_message_lock_active = 0;
     etat.display_message_file_readable = 0;
     etat.display_message_minimum_alert = 0;
 
     /* Commands */
     etat.latex_command = "latex";
     etat.dvips_command = "dvips";
+    etat.browser_command = "www-browser";
 
     /* Print */
     etat.print_config.printer = 0;

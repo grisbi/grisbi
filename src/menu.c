@@ -282,19 +282,19 @@ void affiche_aide_locale ( gpointer null,
     switch ( origine )
     {
 	case 1:
-	    lance_navigateur_web ( g_strconcat ( HELP,
+	    lance_navigateur_web ( g_strconcat ( HELP_PATH,
 						 "grisbi-manuel.html",
 						 NULL ));
 	    break;	
 
 	case 2:
-	    lance_navigateur_web ( g_strconcat ( HELP,
+	    lance_navigateur_web ( g_strconcat ( HELP_PATH,
 						 "quickstart.html",
 						 NULL ));
 	    break;
 
 	case 3:
-	    lance_navigateur_web ( g_strconcat ( HELP,
+	    lance_navigateur_web ( g_strconcat ( HELP_PATH,
 						 "translation.html",
 						 NULL ));
 	    break;

@@ -666,7 +666,7 @@ void remplissage_liste_operations ( gint compte )
 			/* si le solde courant est < 0, on recherche la position de l'affichage */
 			/* du solde et on le met en rouge si on le trouve */
 
-			if ( solde_courant_affichage_liste < 0 )
+			if ( (int) solde_courant_affichage_liste < 0 )
 			    for ( j = 0 ; j < TRANSACTION_LIST_COL_NB ; j++ )
 				if ( tab_affichage_ope[ligne_affichee][j] == 7 )
 				    gtk_clist_set_cell_style ( GTK_CLIST ( CLIST_OPERATIONS ),
@@ -2688,7 +2688,7 @@ struct structure_operation *  clone_transaction ( struct structure_operation * o
     new_transaction -> no_operation = 0;
     ajout_operation ( new_transaction );
 
-    if ( operation -> relation_no_compte != -1 )
+    if ( operation -> relation_no_operation != 0 || operation -> relation_no_compte != 0 )
     {
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 	validation_virement_operation ( operation, 0, NOM_DU_COMPTE );

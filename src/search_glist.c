@@ -143,6 +143,7 @@ gint recherche_devise_par_nom ( struct struct_devise *devise,
 gint recherche_devise_par_code_iso ( struct struct_devise *devise,
 				     gchar *nom )
 {
+
     if ( devise -> code_iso4217_devise )
 	return ( g_strcasecmp ( g_strstrip ( devise -> code_iso4217_devise ),
 				nom ) );

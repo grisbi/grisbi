@@ -11,14 +11,6 @@
 #define VERSION_FICHIER_CATEG "0.5.0"
 #define VERSION_FICHIER_IB "0.5.0"
 
-/* Chemin des fichiers */
-
-#define FICHIER_CONF "Grisbi-dev"       /* à mettre à Grisbi-dev pdt le dvt et Grisbi à la sortie d'une version */
-
-/* FIXME chemin de l'aide et du gif par défaut*/
-#define HELP "/usr/share/gnome/help/grisbi/fr/"
-#define GIF_DEFAUT "/usr/share/pixmap/euro.gif"
-
 /* initialisation des couleurs */
 
 #define COULEUR1_RED  55000

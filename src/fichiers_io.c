@@ -93,7 +93,6 @@ gboolean charge_operations ( void )
 
 
     /* on commence par ouvrir le fichier en xml */
-    /*   si marche pas, essaye d'ouvrir la version 0.3.1 */
 
     if ( result != -1 )
     {
@@ -1286,10 +1285,10 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 			    if ( !strlen ( devise -> code_devise ))
 				devise -> code_devise = NULL;
 			    /* Handle Euro nicely */
-			    if (! strcmp (devise -> code_devise, "E"))
+			    if (! strcmp (devise -> nom_devise, "Euro"))
 			    {
 				devise -> code_devise = "â‚¬";
-				devise -> code_iso4217_devise = "EUR";
+				devise -> code_iso4217_devise = g_strdup ("EUR");
 			    }
 
 			    devise -> passage_euro = my_atoi ( latin2utf8(xmlGetProp ( node_detail,
@@ -1915,6 +1914,8 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 {
     xmlNodePtr node_1;
     xmlNodePtr root = xmlDocGetRootElement(doc);
+    struct stat buffer_stat;
+
 
     etat.en_train_de_charger = 1;
 
@@ -2094,10 +2095,19 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 	    }
 	}
 
+/* 	s'il y avait un ancien logo mais qu'il n'existe plus, on met le logo par défaut */
+
 	if ( !chemin_logo
 	     ||
-	     !strlen ( chemin_logo ))
-	    chemin_logo = CHEMIN_LOGO;
+	     !strlen ( chemin_logo )
+	     ||
+	     ( chemin_logo
+	       &&
+	       strlen ( chemin_logo )
+	       &&
+	       stat ( chemin_logo, &buffer_stat) == -1 ))
+	    chemin_logo = LOGO_PATH;
+
 
 	/* on recupère ici les comptes et operations */
 
@@ -3141,9 +3151,10 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 				!strlen ( devise -> code_iso4217_devise ))
 				devise -> code_iso4217_devise = NULL;
 			    /* Handle Euro nicely */
-			    if (! strcmp (devise -> code_devise, "E"))
+			    if (! strcmp (devise -> nom_devise, "Euro"))
 			    {
 				devise -> code_devise = "â‚¬";
+				devise -> code_iso4217_devise = g_strdup ("EUR");
 			    }
 
 			    devise -> passage_euro = my_atoi ( xmlGetProp ( node_detail,
@@ -4148,6 +4159,8 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 {
     xmlNodePtr node_1;
     xmlNodePtr root = xmlDocGetRootElement(doc);
+    struct stat buffer_stat;
+
 
     etat.en_train_de_charger = 1;
 
@@ -4326,10 +4339,19 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 	    }
 	}
 
+/* 	s'il y avait un ancien logo mais qu'il n'existe plus, on met le logo par défaut */
+
 	if ( !chemin_logo
 	     ||
-	     !strlen ( chemin_logo ))
-	    chemin_logo = CHEMIN_LOGO;
+	     !strlen ( chemin_logo )
+	     ||
+	     ( chemin_logo
+	       &&
+	       strlen ( chemin_logo )
+	       &&
+	       stat ( chemin_logo, &buffer_stat) == -1 ))
+	    chemin_logo = LOGO_PATH;
+
 
 	/* on recupère ici les comptes et operations */
 
@@ -5374,12 +5396,6 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 			    if (! devise -> code_iso4217_devise ||
 				!strlen ( devise -> code_iso4217_devise ))
 				devise -> code_iso4217_devise = NULL;
-			    /* Handle Euro nicely */
-			    if (devise -> code_devise && 
-				! strcmp (devise -> code_devise, "E"))
-			    {
-				devise -> code_devise = "â‚¬";
-			    }
 
 			    devise -> passage_euro = my_atoi ( xmlGetProp ( node_detail,
 									 "Passage_euro" ));

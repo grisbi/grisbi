@@ -79,7 +79,7 @@ GtkWidget *creation_onglet_accueil ( void )
     /* création du logo */
 
     if ( !chemin_logo || !strlen ( chemin_logo ))
-	chemin_logo = CHEMIN_LOGO;
+	chemin_logo = LOGO_PATH;
 
     if ( etat.utilise_logo )
     {
@@ -126,7 +126,7 @@ GtkWidget *creation_onglet_accueil ( void )
 	nom_utilisateur = _("No user");
     }
 
-    label = gtk_label_new ( g_strconcat ( COLON(_("User")), nom_utilisateur, NULL) );
+    label = gtk_label_new ( g_strconcat ( COLON(_("User")), latin2utf8 (nom_utilisateur), NULL) );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, FALSE, 5 );
     gtk_widget_show ( label );
 
@@ -1127,7 +1127,7 @@ void mise_a_jour_soldes_minimaux ( void )
 
 	    if ( !MESSAGE_SOUS_MINI && !patience_en_cours )
 	    {
-		if ( solde_courant < solde_mini_voulu )
+		if ( (int) solde_courant < (int) solde_mini_voulu )
 		{
 		    dialogue_conditional ( g_strdup_printf (_("Balance of account %s is under wanted and authorised minima!"), 
 							    NOM_DU_COMPTE ), &(etat.display_message_minimum_alert));
@@ -1144,8 +1144,8 @@ void mise_a_jour_soldes_minimaux ( void )
 	    show_paddingbox ( frame_etat_soldes_minimaux_autorises );
 	}
 
-	if ( solde_courant < solde_mini_voulu && TYPE_DE_COMPTE != 2 &&
-	     solde_courant > solde_mini && TYPE_DE_COMPTE != 2)
+	if ( (int) solde_courant < (int) solde_mini_voulu && TYPE_DE_COMPTE != 2 &&
+	     (int) solde_courant > (int) solde_mini && TYPE_DE_COMPTE != 2)
 	{
 	    if ( !vbox_2 )
 	    {
@@ -1161,7 +1161,7 @@ void mise_a_jour_soldes_minimaux ( void )
 
 	    if ( !MESSAGE_SOUS_MINI_VOULU && !patience_en_cours )
 	    {
-		if ( solde_courant < solde_mini )
+		if ( (int) solde_courant < (int) solde_mini )
 		{
 		    dialogue_conditional ( g_strdup_printf ( _("Balance of account %s is under wanted and authorised minima!"),
 							     NOM_DU_COMPTE), &(etat.display_message_minimum_alert) );
@@ -1178,9 +1178,9 @@ void mise_a_jour_soldes_minimaux ( void )
 	    show_paddingbox ( frame_etat_soldes_minimaux_voulus );
 	}
 
-	if ( solde_courant > solde_mini )
+	if ( (int) solde_courant > (int) solde_mini )
 	    MESSAGE_SOUS_MINI = 0;
-	if ( solde_courant > solde_mini_voulu )
+	if ( (int) solde_courant > (int) solde_mini_voulu )
 	    MESSAGE_SOUS_MINI_VOULU = 0;
 
 	p_tab_nom_de_compte_variable++;
@@ -1243,8 +1243,9 @@ void mise_a_jour_fin_comptes_passifs ( void )
 gboolean select_expired_scheduled_transaction ( GtkWidget * event_box, GdkEventButton *event,
 						struct structure_operation * operation )
 {
-  changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
-  OPERATION_SELECTIONNEE = operation;
-  selectionne_ligne ( compte_courant );
-  edition_operation ();
+    changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
+    OPERATION_SELECTIONNEE = operation;
+    selectionne_ligne ( compte_courant );
+    edition_operation ();
+    return ( FALSE);
 }

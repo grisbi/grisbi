@@ -33,6 +33,7 @@
 
 #include "calendar.h"
 #include "constants.h"
+#include "dialog.h"
 #include "traitement_variables.h"
 
 
@@ -154,6 +155,7 @@ gboolean modifie_date ( GtkWidget *entree )
 		jour = my_strtod ( tab_date[0], NULL );
 		mois = my_strtod ( tab_date[1], NULL );
 		annee = g_date_year ( date );
+		if ( g_date_month ( date ) == 1 && mois >= 10 ) annee--;
 	    }
 	    else
 	    {
@@ -182,6 +184,7 @@ gboolean modifie_date ( GtkWidget *entree )
 			jour = my_strtod ( buffer, NULL );
 			mois = my_strtod ( tab_date[0] + 2, NULL );
 			annee = g_date_year ( date );
+			if ( g_date_month ( date ) == 1 && mois >= 10 ) annee--;
 			break;
 
 			/* forme jjmmaa */
@@ -197,6 +200,7 @@ gboolean modifie_date ( GtkWidget *entree )
 
 			mois = my_strtod ( buffer, NULL );
 			annee = my_strtod ( tab_date[0] + 4, NULL ) + 2000;
+
 			break;
 
 			/* forme jjmmaaaa */
@@ -678,9 +682,12 @@ GtkWidget *cree_bouton_url ( const gchar *adr,
 gboolean lance_navigateur_web ( const gchar *url )
 {
 
-    system ( g_strconcat ( etat.browser_command, " ", url, NULL ) );
-    return FALSE;
-
+  if ( system ( g_strconcat ( etat.browser_command, " ", url, "&", NULL ) ) != 0 )
+    {
+      dialogue_error_hint ( g_strdup_printf ( _("Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.  Please adjust your settings to a valid executable."), url ),
+			    _("Cannot execute web browser") );
+    }
+  return FALSE;
 }
 /* **************************************************************************************************************************** */
 
