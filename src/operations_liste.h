@@ -3,17 +3,14 @@ GtkWidget *initialisation_notebook_operations ( void );
 void creation_listes_operations ( void );
 gint empeche_pression_titre_colonne ( GtkWidget *bouton );
 void ajoute_nouvelle_liste_operation ( gint no_compte );
-void onglet_compte_realize ( GtkWidget *onglet,
-			     GtkWidget *liste );
+void onglet_compte_realize ( GtkWidget *onglet, GtkWidget *liste );
 void remplissage_liste_operations ( gint compte );
 gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 				   gint no_affichage );
 void selectionne_ligne_souris ( GtkCList *liste_operations,
-				GdkEventButton *evenement,
-				gpointer data);
-gboolean traitement_clavier_liste ( GtkCList *liste_operations,
-				     GdkEventKey *evenement,
-				     gpointer data);
+				GdkEventButton *evenement, gpointer data);
+gboolean traitement_clavier_liste ( GtkCList *liste_operations, 
+				    GdkEventKey *evenement, gpointer data);
 void ctrl_press ( void );
 void fin_ctrl ( GtkCList *liste_operations,
 		    GdkEventKey *evenement,
@@ -40,5 +37,7 @@ void new_transaction ( );
 void remove_transaction ( );
 void clone_selected_transaction ( );
 struct structure_operation * clone_transaction ( struct structure_operation * operation );
-void move_operation_to_account ( );
+void move_selected_operation_to_account ( GtkMenuItem * menu_item );
+void move_operation_to_account ( struct structure_operation * transaction, 
+				 gint account );
 void popup_menu ( gboolean full );

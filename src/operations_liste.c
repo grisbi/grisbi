@@ -2002,7 +2002,7 @@ void supprime_operation ( struct structure_operation *operation )
 
   if ( operation -> pointe == 2 )
     {
-      dialogue ( SPACIFY(_("Imposible to delete a reconciled transaction...")));
+      dialogue_error ( _("Imposible to delete a reconciled transaction.") );
       return;
     }
 
@@ -2027,7 +2027,7 @@ void supprime_operation ( struct structure_operation *operation )
 
 	  if ( ope_liee -> pointe == 2 )
 	    {
-	      dialogue ( SPACIFY(_("The contra-transaction of this transfer is reconciled, deletion impossible...")));
+	      dialogue_error ( _("The contra-transaction of this transfer is reconciled, deletion impossible.") );
 	      return;
 	    }
 
@@ -2601,7 +2601,7 @@ void popup_menu ( gboolean full )
 
   /* Add accounts submenu */
   gtk_menu_item_set_submenu ( GTK_MENU_ITEM(menu_item), 
-			      GTK_WIDGET(creation_option_menu_comptes(GTK_SIGNAL_FUNC(move_operation_to_account))) );
+			      GTK_WIDGET(creation_option_menu_comptes(GTK_SIGNAL_FUNC(move_selected_operation_to_account))) );
 
   gtk_widget_show_all (menu);
   gtk_menu_popup ( GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time());
@@ -2684,8 +2684,6 @@ struct structure_operation *  clone_transaction ( struct structure_operation * o
 {
   struct structure_operation * new_transaction, * ope_ventilee;
 
-  printf (">>> cloning %d\n", operation -> no_operation );
-
   new_transaction = (struct structure_operation *) malloc ( sizeof(struct structure_operation) );
   if ( !new_transaction )
     {
@@ -2702,6 +2700,7 @@ struct structure_operation *  clone_transaction ( struct structure_operation * o
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
       validation_virement_operation ( operation, 0, NOM_DU_COMPTE );
     }
+
   if ( operation -> operation_ventilee )
     {
       GSList *liste_tmp;
@@ -2729,9 +2728,69 @@ struct structure_operation *  clone_transaction ( struct structure_operation * o
 }
 
 
+
 /**
  * Move selected transaction to another account
  */
-void move_operation_to_account ()
+void move_selected_operation_to_account ( GtkMenuItem * menu_item )
 {
+  gint account;
+
+  if ( p_tab_nom_de_compte_courant )
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+  else 
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+
+  account = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT(menu_item), 
+						    "no_compte" ) );
+  
+  if ( OPERATION_SELECTIONNEE == GINT_TO_POINTER(-1) )
+    return;
+
+  move_operation_to_account ( OPERATION_SELECTIONNEE, account );
+
+  MISE_A_JOUR = 1;
+  verification_mise_a_jour_liste ();
+
+  mise_a_jour_tiers ();
+  mise_a_jour_categ ();
+  mise_a_jour_imputation ();
+
+  modification_fichier ( TRUE );
+}
+
+
+
+/**
+ * Move transaction to another account
+ *
+ * \param transaction Transaction to move to other account
+ * \param account Account to move the transaction to
+ */
+void move_operation_to_account ( struct structure_operation * transaction,
+				 gint account )
+{
+  gpointer ** tmp = p_tab_nom_de_compte_variable;
+
+  LISTE_OPERATIONS = g_slist_remove ( LISTE_OPERATIONS, transaction );
+  NB_OPE_COMPTE--;
+
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + account;
+  transaction -> no_compte = account;
+  LISTE_OPERATIONS = g_slist_sort ( g_slist_append ( LISTE_OPERATIONS, transaction ),
+				    (GCompareFunc) classement_sliste );
+  NB_OPE_COMPTE++;
+
+  if ( transaction -> relation_no_compte )
+    {
+      struct structure_operation * contra_transaction;
+      p_tab_nom_de_compte = p_tab_nom_de_compte_variable + transaction -> relation_no_compte;
+      contra_transaction = g_slist_find_custom ( LISTE_OPERATIONS,
+						 GINT_TO_POINTER ( transaction -> relation_no_operation ),
+						 ( GCompareFunc ) recherche_operation_par_no ) -> data;
+      contra_transaction -> relation_no_compte = account;
+
+    }
+
+  p_tab_nom_de_compte_variable = tmp;
 }
