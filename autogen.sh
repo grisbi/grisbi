@@ -1,10 +1,9 @@
 #!/bin/sh
 #
 # autogen.sh glue for CMU Cyrus IMAP
-# $Id: autogen.sh,v 1.1.2.4 2004/04/13 20:33:16 gegeweb Exp $
+# $Id: autogen.sh,v 1.1.2.5 2004/04/15 17:42:08 benj2 Exp $
 #
 # Requires: automake, autoconf, dpkg-dev
-set -e
 
 PATH_AUTOMAKE=/usr/share/automake
 
@@ -27,7 +26,9 @@ for i in config.guess config.sub missing install-sh mkinstalldirs ; do
 		rm -f ${i}
 		cp $PATH_AUTOMAKE/${i} .
 	}
-	chmod 755 ${i}
+	if test -r ${i} ; then
+	    chmod 755 ${i}
+	fi
 done
 
 aclocal -I macros
