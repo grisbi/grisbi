@@ -394,19 +394,33 @@ struct struct_etat
   gint no_etat;
   gchar *nom_etat;
 
-  gint exo_date;         /* 0-> utilise l'exo / 1 -> utilise une plage de date */
+  gint exo_date;         /* 1-> utilise l'exo / 0 -> utilise une plage de date */
+  gint utilise_detail_exo;
   GSList *no_exercices;            /* liste des no dexos utilisés dans l'état */
   gint no_plage_date;       /* 0=perso, 1=toutes ... */
   GDate *date_perso_debut;
   GDate *date_perso_fin;
 
+  gint type_classement;
+
+  gint utilise_detail_comptes;
   GSList *no_comptes;
-  GSList *no_categ;
+
+  gint utilise_categ;
+  gint utilise_detail_categ;
+  GSList *no_categ;  /* à -1 pour ttes les categ */
   gint inclusion_virements_passif;    /* vers comptes passifs/actifs */
   gint inclusion_virements_hors_etat;
+  gint pas_inclusion_virements;
+
+  gint utilise_ib;
+  gint utilise_detail_ib;
   GSList *no_ib;
+
+  gint utilise_tiers;
+  gint utilise_detail_tiers;
   GSList *no_tiers;
 
-  gchar texte;
+  gchar *texte;
   gdouble montant;
 };

@@ -155,7 +155,7 @@ void init_variables ( gboolean ouverture )
 
       liste_struct_etats = NULL;
       no_dernier_etat = 0;
-
+      no_etat_courant = 0;
     }
 }
 /*****************************************************************************************************/

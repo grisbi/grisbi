@@ -1023,22 +1023,23 @@ void clique_champ_formulaire ( GtkWidget *entree,
 	  gtk_widget_grab_focus ( GTK_WIDGET ( entree ));
 	}
     }
-else if (gtk_widget_get_style ( widget_formulaire_operations[1] ) == style_entree_formulaire[1])
-{
-       entree_prend_focus ( widget_formulaire_operations[7] );
-       /* si le click est sur l'entrée de la date, on la sélectionne et elle prend le focus */
+   else
+     if (gtk_widget_get_style ( widget_formulaire_operations[1] ) == style_entree_formulaire[1])
+       {
+	 entree_prend_focus ( widget_formulaire_operations[7] );
+	 /* si le click est sur l'entrée de la date, on la sélectionne et elle prend le focus */
 
-       if ( GPOINTER_TO_INT ( no_origine ) == 1 )
- 	{
- 	  if ( ev )
- 	    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( entree ),
- 					   "button_press_event");
- 	  gtk_entry_select_region ( GTK_ENTRY ( entree ),
- 				    0,
- 				    -1);
- 	  gtk_widget_grab_focus ( GTK_WIDGET ( entree ));
- 	}
-}
+	 if ( GPOINTER_TO_INT ( no_origine ) == 1 )
+	   {
+	     if ( ev )
+	       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( entree ),
+					      "button_press_event");
+	     gtk_entry_select_region ( GTK_ENTRY ( entree ),
+				       0,
+				       -1);
+	     gtk_widget_grab_focus ( GTK_WIDGET ( entree ));
+	   }
+       }
 
   /*   si ev est null ( cad que ça ne vient pas d'un click mais appelé par ex à la fin */
   /* de fin_edition ), on se barre */
@@ -1579,65 +1580,24 @@ void date_bancaire_selectionnee ( GtkCalendar *calendrier, GtkWidget *popup )
  /* met la date du jour si l'entrée est vide */
  /* renvoie TRUE si la date est correcte */
  /*********************************************************************************************/
- /* GDC : modif pour ne forcer une date vide à la date du jour que si la date réelle est vide */
- /* aussi. Pour le moment, j'accède directement au widget de la date réelle. Il faudra        */
- /* généraliser en ajoutant un paramètre à la fonction, la "date-condition"                   */
+
 gboolean modifie_date ( GtkWidget *entree )
 {
   gchar *pointeur_entry;
-	/* GDC */
-	gchar *pointeur_entry_date;
-	gchar *pointeur_entry_date_bancaire;
-	/* FinGDC */
   int jour, mois, annee;
   GDate *date;
   gchar **tab_date;
+
   /* si l'entrée est grise, on se barre */
-	/* GDC : et si l'entrée de la date réelle est elle  aussi grisée  si on l'utilise */
-	if (( gtk_widget_get_style ( entree ) == style_entree_formulaire[1] )  &&
-		(( gtk_widget_get_style ( widget_formulaire_operations[7] ) == style_entree_formulaire[1] )
-		|| (!etat.affiche_date_bancaire))
-)
+
+  if (( gtk_widget_get_style ( entree ) == style_entree_formulaire[1] ))
     return ( FALSE );
 
   pointeur_entry = g_strstrip ( gtk_entry_get_text ( GTK_ENTRY (entree)) );
 
-
-	/* GDC : si pas d'affichage de la date réelle, même comportement */
-  if ( (entree == widget_formulaire_operations[1]) &&(!etat.affiche_date_bancaire ) && (!strlen ( pointeur_entry )) )
+  if ( !strlen ( pointeur_entry ))
     gtk_entry_set_text ( GTK_ENTRY ( entree ),
 			 date_jour() );
-	/* GDC : on ne force une date réelle vide (ou égale à la valeur par défaut */
-	/* "Date réelle") à la date du jour que si la date est vide aussi ou */
-	/* égale à sa valeur par défaut */
-else if ((entree == widget_formulaire_operations[7])
-		&& ((!strlen ( pointeur_entry )) || (!strcmp (pointeur_entry, "Date de valeur"))))
-{
-		pointeur_entry_date = g_strstrip ( gtk_entry_get_text ( GTK_ENTRY (widget_formulaire_operations[1])) );
-		if ((!strlen ( pointeur_entry_date )) ||
-				(!strcmp (gtk_entry_get_text ( GTK_ENTRY (widget_formulaire_operations[1])), "Date")) )
-{
-printf ("Blop\n");
-fflush(0);
-			gtk_entry_set_text ( GTK_ENTRY ( entree ), date_jour() );
-}
-/* Eviter les boucles infinies par appels croisés */
-		/* GDC : si la date n'est pas vide, on retourne son statut à elle.
-		else return ( modifie_date ( widget_formulaire_operations[7] ) ); */
-}
-	/* GDC : on ne force une date vide (ou égale à la valeur par défaut */
-	/* "Date") à la date du jour que si la date réelle est vide aussi ou */
-	/* égale à sa valeur par défaut */
-	else if ( (entree == widget_formulaire_operations[1])
-			&& ((!strlen ( pointeur_entry )) || (!strcmp (pointeur_entry, "Date"))))
-	{
-		pointeur_entry_date_bancaire = g_strstrip ( gtk_entry_get_text ( GTK_ENTRY (widget_formulaire_operations[7])) );
-		if ((!strlen ( pointeur_entry_date_bancaire )) ||
-				(!strcmp (gtk_entry_get_text ( GTK_ENTRY (widget_formulaire_operations[7])), "Date de valeur")) )
-			gtk_entry_set_text ( GTK_ENTRY ( entree ), date_jour() );
-		/* GDC : si la date réelle n'est pas vide, on retourne son statut à elle. */
-		else return ( modifie_date ( widget_formulaire_operations[7] ) );
-	}
   else
     {
       date = g_date_new ();

@@ -62,14 +62,8 @@ void init_variables ( gboolean ouverture );
 
 
 gboolean charge_operations ( void );
-gboolean charge_operations_version_0_3_0 ( void );
-gboolean recherche_ope_liee_par_no_et_par_compte ( struct struct_ope_liee *struct_ope_liee,
-						   struct structure_operation *operation );
-gboolean recherche_ope_ventilee_liee_par_no_et_par_compte ( struct struct_ope_liee *struct_ope_liee,
-							    struct structure_operation *operation );
-gboolean recherche_ope_de_ventil_liee_par_no_et_par_compte ( struct struct_ope_liee *struct_ope_liee,
-							     struct structure_operation *operation );
 gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc );
+gboolean charge_operations_version_0_3_3 ( xmlDocPtr doc );
 gboolean enregistre_fichier ( void );
 gchar *itoa ( gint integer );
 gchar *vire_les_points_virgules ( gchar *origine );
@@ -841,6 +835,35 @@ void ajout_etat ( void );
 void efface_etat ( void );
 void changement_etat ( GtkWidget *bouton,
 		       struct struct_etat *etat );
+gint recherche_etat_par_no ( struct struct_etat *etat,
+			     gint *no_etat );
+void personnalisation_etat (void);
+GtkWidget *onglet_etat_generalites ( struct struct_etat *etat );
+GtkWidget *onglet_etat_dates ( struct struct_etat *etat );
+void changement_choix_date_etat ( void );
+void click_liste_etat ( GtkCList *liste,
+			GdkEventButton *evenement,
+			gint origine );
+void clique_sur_entree_date_etat ( GtkWidget *entree,
+				   GdkEventButton *ev );
+void date_selectionnee_etat ( GtkCalendar *calendrier,
+			      GtkWidget *popup );
+void click_detaille_exo_etat ( void );
+GtkWidget *onglet_etat_comptes ( struct struct_etat *etat );
+void click_detaille_comptes_etat ( void );
+GtkWidget *onglet_etat_categories ( struct struct_etat *etat );
+void click_utilise_categ_etat ( void );
+void click_detaille_categ_etat ( void );
+void click_type_categ_etat ( gint type );
+GtkWidget *onglet_etat_ib ( struct struct_etat *etat );
+void click_utilise_ib_etat ( void );
+void click_detaille_ib_etat ( void );
+void click_type_ib_etat ( gint type );
+GtkWidget *onglet_etat_tiers ( struct struct_etat *etat );
+void click_utilise_tiers_etat ( void );
+void click_detaille_tiers_etat ( void );
+GtkWidget *onglet_etat_texte ( struct struct_etat *etat );
+GtkWidget *onglet_etat_montant ( struct struct_etat *etat );
 
 
 

@@ -375,7 +375,7 @@ GtkWidget *onglet_affichage ( void )
   gtk_widget_show ( bouton_afficher_no_operation );
 
 	/* GDC : bouton pour choisir d'afficher ou non la date réelle (colonne et champ) */
-  bouton_afficher_date_bancaire = gtk_check_button_new_with_label ( "Afficher la date bancaire des opérations." );
+  bouton_afficher_date_bancaire = gtk_check_button_new_with_label ( "Afficher la date de valeur des opérations." );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_date_bancaire ),
 				 etat.affiche_date_bancaire );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_afficher_date_bancaire ),

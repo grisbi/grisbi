@@ -70,11 +70,13 @@ gboolean charge_operations ( void )
       /* récupère la version */
 
         if (( !strcmp (  xmlNodeGetContent ( doc->root->childs->childs ),
-			 "0.3.2" ))
-	    ||
-	    ( !strcmp (  xmlNodeGetContent ( doc->root->childs->childs ),
+			 "0.3.2" )))
+	  return ( charge_operations_version_0_3_2 ( doc ));
+
+        if (( !strcmp (  xmlNodeGetContent ( doc->root->childs->childs ),
 			 "0.3.3" )))
-	return ( charge_operations_version_0_3_2 ( doc ));
+	  return ( charge_operations_version_0_3_3 ( doc ));
+
 
       dialogue ( " Version inconnue ");
       xmlFreeDoc ( doc );
@@ -1500,6 +1502,1665 @@ des paramètres." );
 
 
 
+/*****************************************************************************/
+/* version 0.3.3 */
+/*****************************************************************************/
+
+gboolean charge_operations_version_0_3_3 ( xmlDocPtr doc )
+{
+  xmlNodePtr node_1;
+
+  /* on place node_1 sur les généralités */
+
+  node_1 = doc -> root -> childs;
+
+  /*   on met en place la boucle de node_1, qui va successivement passer */
+  /*     par les généralités, les comptes, les échéances ... */
+
+  while ( node_1 )
+    {
+
+      /* on récupère ici les généralités */
+
+      if ( !strcmp ( node_1 -> name,
+		     "Généralités" ) )
+	{
+	  xmlNodePtr node_generalites;
+
+	  /* node_generalites va faire le tour des généralités */
+
+	  node_generalites = node_1 -> childs;
+
+	  while ( node_generalites )
+	    {
+	      if ( !strcmp ( node_generalites -> name,
+			     "Fichier_ouvert" ))
+		if ( (etat.fichier_deja_ouvert  = atoi ( xmlNodeGetContent ( node_generalites ))))
+		  {
+		    if ( etat.force_enregistrement )
+		      dialogue ( "Attention, le fichier semble déjà ouvert pas un autre \
+utilisateur ou n'a pas été fermé correctement (plantage ?).\nCependant Grisbi va \
+forcer l'enregistrement ; cette option est déconseillée\n sauf si vous êtes sûr \
+que personne d'autre n'utilise le fichier pour le moment.\nLa désactivation de \
+cette option s'effectue dans le menu de configuration" );
+		    else
+		      dialogue ( "Attention, le fichier semble déjà ouvert pas un autre \
+utilisateur ou n'a pas été fermé correctement (plantage ?).\nVous ne pourrez \
+enregistrer vos modification qu'en activant l'option \"Forcer l'enregistrement\" \
+des paramètres." );
+		  }
+	    
+
+	      if ( !strcmp ( node_generalites -> name,
+			     "Backup" ))
+		nom_fichier_backup = xmlNodeGetContent ( node_generalites );
+
+	      if ( !strcmp ( node_generalites -> name,
+			     "Titre" ))
+		titre_fichier = xmlNodeGetContent ( node_generalites );
+
+	      if ( !strcmp ( node_generalites -> name,
+			     "Adresse_commune" ))
+		adresse_commune	= xmlNodeGetContent ( node_generalites );
+
+	      if ( !strcmp ( node_generalites -> name,
+			     "Utilise_exercices" ))
+		etat.utilise_exercice = atoi ( xmlNodeGetContent ( node_generalites ));
+
+	      if ( !strcmp ( node_generalites -> name,
+			     "Utilise_IB" ))
+		etat.utilise_imputation_budgetaire = atoi ( xmlNodeGetContent ( node_generalites ));
+
+	      if ( !strcmp ( node_generalites -> name,
+			     "Utilise_PC" ))
+		etat.utilise_piece_comptable = atoi ( xmlNodeGetContent ( node_generalites ));
+
+	      if ( !strcmp ( node_generalites -> name,
+			     "Utilise_info_BG" ))
+		etat.utilise_info_banque_guichet = atoi ( xmlNodeGetContent ( node_generalites ));
+
+	      if ( !strcmp ( node_generalites -> name,
+			     "Numéro_devise_totaux_tiers" ))
+		no_devise_totaux_tiers = atoi ( xmlNodeGetContent ( node_generalites ));
+
+	      if ( !strcmp ( node_generalites -> name,
+			     "Type_affichage_des_échéances" ))
+		affichage_echeances = atoi ( xmlNodeGetContent ( node_generalites ));
+
+	      if ( !strcmp ( node_generalites -> name,
+			     "Affichage_echeances_perso_nb_libre" ))
+		affichage_echeances_perso_nb_libre = atoi ( xmlNodeGetContent ( node_generalites ));
+
+	      if ( !strcmp ( node_generalites -> name,
+			     "Type_affichage_perso_echeances" ))
+		affichage_echeances_perso_j_m_a = atoi ( xmlNodeGetContent ( node_generalites ));
+
+	      if ( !strcmp ( node_generalites -> name,
+			     "Numéro_derniere_operation" ))
+		no_derniere_operation= atoi ( xmlNodeGetContent ( node_generalites ));
+
+	      node_generalites = node_generalites -> next;
+	    }
+	}
+
+      /* on récupère ici les comptes et opérations */
+
+      if ( !strcmp ( node_1 -> name,
+		     "Comptes" ))
+	{
+	  xmlNodePtr node_comptes;
+
+	  /* node_comptes va faire le tour de l'arborescence des comptes */
+
+	  node_comptes = node_1 -> childs;
+
+	  while ( node_comptes )
+	    {
+
+	      /* on va récupérer ici les généralités des comptes */
+	      
+	      if ( !strcmp ( node_comptes -> name,
+			     "Généralités" ))
+		{
+		xmlNodePtr node_generalites;
+
+		node_generalites = node_comptes -> childs;
+
+		while ( node_generalites )
+		  {
+		    /* récupère l'ordre des comptes */
+
+		    if ( !strcmp ( node_generalites -> name,
+				   "Ordre_des_comptes" ))
+		      {
+			gchar **pointeur_char;
+			gint i;
+
+			pointeur_char = g_strsplit ( xmlNodeGetContent ( node_generalites ),
+						     "-",
+						     0 );
+
+			i = 0;
+			ordre_comptes = NULL;
+
+			while ( pointeur_char[i] )
+			  {
+			    ordre_comptes = g_slist_append ( ordre_comptes,
+							     GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
+			    i++;
+			  }
+			g_strfreev ( pointeur_char );
+
+			/* calcule le nb de comptes */
+
+			nb_comptes = g_slist_length ( ordre_comptes );
+
+			/* Création du tableau de pointeur vers les structures de comptes */
+
+			p_tab_nom_de_compte = malloc ( nb_comptes * sizeof ( gpointer ));
+			p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+		      }
+
+		    /* récupère le compte courant */
+
+		    if ( !strcmp ( node_generalites -> name,
+				   "Compte_courant" ))
+		      {
+			compte_courant = atoi ( xmlNodeGetContent ( node_generalites ));
+			p_tab_nom_de_compte_courant = p_tab_nom_de_compte + compte_courant;
+		      }
+
+		    node_generalites = node_generalites -> next;
+		  }
+	      }
+	    
+		/* on récupère les détails de chaque compte */
+
+	      if ( !strcmp ( node_comptes -> name,
+			     "Compte" ))
+	      {
+		xmlNodePtr node_nom_comptes;
+
+		/* normalement p_tab_nom_de_compte_variable est déjà placé */
+
+		/* on crée la structure du compte */
+
+		*p_tab_nom_de_compte_variable = calloc ( 1,
+							 sizeof (struct donnees_compte));
+
+		/* on fait le tour dans l'arbre nom, cad : les détails, détails de type et détails des opérations */
+
+		node_nom_comptes = node_comptes -> childs;
+
+		while ( node_nom_comptes )
+		  {
+		    /* on récupère les détails du compte */
+
+		    if ( !strcmp ( node_nom_comptes -> name,
+				   "Détails" ))
+		    {
+		      xmlNodePtr node_detail;
+
+		      node_detail = node_nom_comptes -> childs;
+
+		      while ( node_detail )
+			{
+
+			  if ( !strcmp ( node_detail -> name,
+					 "Nom" ))
+			       NOM_DU_COMPTE = xmlNodeGetContent ( node_detail );
+
+			  if ( !strcmp ( node_detail -> name,
+					 "No_de_compte" ))
+			    NO_COMPTE = atoi ( xmlNodeGetContent ( node_detail ));
+
+			  if ( !strcmp ( node_detail -> name,
+					 "Titulaire" ))
+			   TITULAIRE = xmlNodeGetContent ( node_detail );
+
+			  if ( !strcmp ( node_detail -> name,
+					 "Type_de_compte" ))
+			   TYPE_DE_COMPTE = atoi ( xmlNodeGetContent ( node_detail ));
+
+			  if ( !strcmp ( node_detail -> name,
+					 "Nb_opérations" ))
+			   NB_OPE_COMPTE = atoi ( xmlNodeGetContent ( node_detail ));
+
+			  if ( !strcmp ( node_detail -> name,
+					 "Devise" ))
+			   DEVISE = atoi ( xmlNodeGetContent ( node_detail ));
+
+			  if ( !strcmp ( node_detail -> name,
+					 "Banque" ))
+			   BANQUE = atoi ( xmlNodeGetContent ( node_detail ));
+
+			  if ( !strcmp ( node_detail -> name,
+					 "Guichet" ))
+			   NO_GUICHET = xmlNodeGetContent ( node_detail );
+
+			  if ( !strcmp ( node_detail -> name,
+					 "No_compte_banque" ))
+			   NO_COMPTE_BANQUE = xmlNodeGetContent ( node_detail );
+
+			  if ( !strcmp ( node_detail -> name,
+					 "Clé_du_compte" ))
+			   CLE_COMPTE = xmlNodeGetContent ( node_detail );
+
+			  if ( !strcmp ( node_detail -> name,
+					 "Solde_initial" ))
+			   SOLDE_INIT = g_strtod ( xmlNodeGetContent ( node_detail ),
+						   NULL );
+
+			  if ( !strcmp ( node_detail -> name,
+					 "Solde_mini_voulu" ))
+			   SOLDE_MINI_VOULU = g_strtod ( xmlNodeGetContent ( node_detail ),
+							 NULL );
+
+			  if ( !strcmp ( node_detail -> name,
+					 "Solde_mini_autorisé" ))
+			   SOLDE_MINI = g_strtod ( xmlNodeGetContent ( node_detail ),
+						   NULL );
+
+			  if ( !strcmp ( node_detail -> name,
+					 "Solde_courant" ))
+			   SOLDE_COURANT = g_strtod ( xmlNodeGetContent ( node_detail ),
+						      NULL );
+
+			  if ( !strcmp ( node_detail -> name,
+					 "Date_dernier_relevé" ))
+			    {
+			      gchar **pointeur_char;
+
+			      if ( xmlNodeGetContent ( node_detail ))
+				{
+				  pointeur_char = g_strsplit ( xmlNodeGetContent ( node_detail ),
+							       "/",
+							       3 );
+				  DATE_DERNIER_RELEVE = g_date_new_dmy ( atoi ( pointeur_char [0] ),
+									 atoi ( pointeur_char [1] ),
+									 atoi ( pointeur_char [2] ));
+				  g_strfreev ( pointeur_char );
+				}
+			    }
+
+			  if ( !strcmp ( node_detail -> name,
+					 "Solde_dernier_relevé" ))
+			   SOLDE_DERNIER_RELEVE = g_strtod ( xmlNodeGetContent ( node_detail ),
+							     NULL );
+
+			  if ( !strcmp ( node_detail -> name,
+					 "Dernier_no_de_rapprochement" ))
+			   DERNIER_NO_RAPPROCHEMENT = atoi ( xmlNodeGetContent ( node_detail ));
+
+			  if ( !strcmp ( node_detail -> name,
+					 "Compte_cloturé" ))
+			   COMPTE_CLOTURE = atoi ( xmlNodeGetContent ( node_detail ));
+
+			  if ( !strcmp ( node_detail -> name,
+					 "Commentaires" ))
+			   COMMENTAIRE = xmlNodeGetContent ( node_detail );
+
+			  if ( !strcmp ( node_detail -> name,
+					 "Adresse_du_titulaire" ))
+			   ADRESSE_TITULAIRE = xmlNodeGetContent ( node_detail );
+
+			  if ( !strcmp ( node_detail -> name,
+					 "Type_défaut_débit" ))
+			   TYPE_DEFAUT_DEBIT = atoi ( xmlNodeGetContent ( node_detail ));
+
+			  if ( !strcmp ( node_detail -> name,
+					 "Type_défaut_crédit" ))
+			   TYPE_DEFAUT_CREDIT = atoi ( xmlNodeGetContent ( node_detail ));
+
+			  if ( !strcmp ( node_detail -> name,
+					 "Tri_par_type" ))
+			   TRI = atoi ( xmlNodeGetContent ( node_detail ));
+
+			  if ( !strcmp ( node_detail -> name,
+					 "Neutres_inclus" ))
+			   NEUTRES_INCLUS = atoi ( xmlNodeGetContent ( node_detail ));
+
+			  if ( !strcmp ( node_detail -> name,
+					 "Ordre_du_tri" ))
+			    {
+			      LISTE_TRI = NULL;
+
+			      if ( xmlNodeGetContent ( node_detail ))
+				{
+				  gchar **pointeur_char;
+				  gint i;
+
+				  pointeur_char = g_strsplit ( xmlNodeGetContent ( node_detail ),
+							       "/",
+							       0 );
+
+				  i = 0;
+
+				  while ( pointeur_char[i] )
+				    {
+				      LISTE_TRI = g_slist_append ( LISTE_TRI,
+								   GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
+				      i++;
+				    }
+				  g_strfreev ( pointeur_char );
+				}
+			    }
+			  node_detail = node_detail -> next;
+			}
+		    }
+		  
+		    /* on récupère ici le détail des types */
+
+		    if ( !strcmp ( node_nom_comptes -> name,
+				   "Détail_de_Types" ))
+		    {
+		      xmlNodePtr node_type;
+
+		      node_type = node_nom_comptes -> childs;
+		      TYPES_OPES = NULL;
+
+		      while ( node_type )
+			{
+			  struct struct_type_ope *type;
+
+			  type = malloc ( sizeof ( struct struct_type_ope ));
+
+			  type -> no_type = atoi ( xmlGetProp ( node_type,
+								"No" ));
+			  type -> nom_type = xmlGetProp ( node_type,
+							  "Nom" );
+			  type -> signe_type = atoi ( xmlGetProp ( node_type,
+								   "Signe" ));
+			  type -> affiche_entree = atoi ( xmlGetProp ( node_type,
+								       "Affiche_entree" ));
+			  type -> numerotation_auto = atoi ( xmlGetProp ( node_type,
+									  "Numérotation_auto" ));
+			  type -> no_en_cours = atoi ( xmlGetProp ( node_type,
+								    "No_en_cours" ));
+
+			  type -> no_compte = NO_COMPTE;
+
+			  TYPES_OPES = g_slist_append ( TYPES_OPES,
+							type );
+
+			  node_type = node_type -> next;
+			}
+		    }
+
+
+		    /* on récupère ici le détail des opés */
+
+		    if ( !strcmp ( node_nom_comptes -> name,
+				   "Détail_des_opérations" ))
+		      {
+		      xmlNodePtr node_ope;
+
+		      node_ope = node_nom_comptes -> childs;
+		      LISTE_OPERATIONS = NULL;
+
+		      while ( node_ope )
+			{
+			  struct structure_operation *operation;
+			  gchar **pointeur_char;
+			  gchar *pointeur;
+
+			  operation = malloc ( sizeof (struct structure_operation ));
+
+			  operation -> no_operation = atoi ( xmlGetProp ( node_ope,
+							      "No" ));
+
+			  pointeur_char = g_strsplit ( xmlGetProp ( node_ope ,
+								    "D" ),
+						       "/",
+						       3 );
+			  operation -> jour = atoi ( pointeur_char[0] );
+			  operation -> mois = atoi ( pointeur_char[1] );
+			  operation -> annee = atoi ( pointeur_char[2] );
+			  operation -> date = g_date_new_dmy ( operation -> jour,
+							       operation -> mois,
+							       operation -> annee );
+			  g_strfreev ( pointeur_char );
+
+			  /* GDC prise en compte de la lecture de la date bancaire */
+
+			  pointeur = xmlGetProp ( node_ope,
+						  "Db" );
+
+			  if ( pointeur )
+			    {
+			      pointeur_char = g_strsplit ( pointeur,
+							   "/",
+							   3 );
+			      operation -> jour_bancaire = atoi ( pointeur_char[0] );
+			      operation -> mois_bancaire = atoi ( pointeur_char[1] );
+			      operation -> annee_bancaire = atoi ( pointeur_char[2] );
+
+			      if ( operation -> jour_bancaire )
+				operation -> date_bancaire = g_date_new_dmy ( operation -> jour_bancaire,
+									      operation -> mois_bancaire,
+									      operation -> annee_bancaire );
+			      else
+				operation -> date_bancaire = NULL;
+
+			      g_strfreev ( pointeur_char );
+			    }
+			  else
+			    {
+			      operation -> jour_bancaire = 0;
+			      operation -> mois_bancaire = 0;
+			      operation -> annee_bancaire = 0;
+			      operation -> date_bancaire = NULL;
+			    }
+			  
+			  /* GDCFin */
+
+			  operation -> montant = g_strtod ( xmlGetProp ( node_ope,
+									 "M" ),
+							    NULL );
+
+			  operation -> devise = atoi ( xmlGetProp ( node_ope,
+								    "De" ));
+
+			  operation -> une_devise_compte_egale_x_devise_ope = atoi ( xmlGetProp ( node_ope,
+												  "Rdc" ));
+
+			  operation -> taux_change = g_strtod ( xmlGetProp ( node_ope,
+									     "Tc" ),
+								NULL );
+
+			  operation -> frais_change = g_strtod ( xmlGetProp ( node_ope,
+									      "Fc" ),
+								 NULL );
+
+			  operation -> tiers = atoi ( xmlGetProp ( node_ope,
+								   "T" ));
+
+			  operation -> categorie = atoi ( xmlGetProp ( node_ope,
+								       "C" ));
+
+			  operation -> sous_categorie = atoi ( xmlGetProp ( node_ope,
+									    "Sc" ));
+
+			  operation -> operation_ventilee = atoi ( xmlGetProp ( node_ope,
+										"Ov" ));
+
+			  operation -> notes = xmlGetProp ( node_ope,
+							    "N" );
+			  if ( !strlen ( operation -> notes ))
+			    operation -> notes = NULL;
+
+			  operation -> type_ope = atoi ( xmlGetProp ( node_ope,
+								      "Ty" ));
+
+			  operation -> contenu_type = xmlGetProp ( node_ope,
+								   "Ct" );
+			  if ( !strlen ( operation -> contenu_type ))
+			    operation -> contenu_type = NULL;
+
+			  operation -> pointe = atoi ( xmlGetProp ( node_ope,
+								    "P" ));
+
+			  operation -> auto_man = atoi ( xmlGetProp ( node_ope,
+								      "A" ));
+
+			  operation -> no_rapprochement = atoi ( xmlGetProp ( node_ope,
+									      "R" ));
+
+			  operation -> no_exercice = atoi ( xmlGetProp ( node_ope,
+									 "E" ));
+
+			  operation -> imputation = atoi ( xmlGetProp ( node_ope,
+									"I" ));
+
+			  operation -> sous_imputation = atoi ( xmlGetProp ( node_ope,
+									     "Si" ));
+
+			  operation -> no_piece_comptable = xmlGetProp ( node_ope,
+									 "Pc" );
+			  if ( !strlen ( operation -> no_piece_comptable ))
+			    operation -> no_piece_comptable = NULL;
+
+			  operation -> info_banque_guichet = xmlGetProp ( node_ope,
+									  "Ibg" );
+			  if ( !strlen ( operation -> info_banque_guichet ))
+			    operation -> info_banque_guichet = NULL;
+
+			  operation -> relation_no_operation = atoi ( xmlGetProp ( node_ope,
+										   "Ro" ));
+
+			  operation -> relation_no_compte = atoi ( xmlGetProp ( node_ope,
+										"Rc" ));
+
+			  operation -> no_operation_ventilee_associee = atoi ( xmlGetProp ( node_ope,
+											    "Va" ));
+
+
+			  /* on met le compte associé */
+			  
+			  operation -> no_compte = NO_COMPTE;
+
+			  LISTE_OPERATIONS = g_slist_append ( LISTE_OPERATIONS,
+							      operation);
+
+			  node_ope = node_ope -> next;
+			}
+		    }
+		    node_nom_comptes = node_nom_comptes -> next;
+		  }
+
+		/* 		    le compte est fini, on peut mettre à jour qques variables */
+
+
+		if ( SOLDE_COURANT < SOLDE_MINI_VOULU )
+		  MESSAGE_SOUS_MINI_VOULU = 1;
+		else
+		  MESSAGE_SOUS_MINI_VOULU = 0;
+
+		if ( SOLDE_COURANT < SOLDE_MINI )
+		  MESSAGE_SOUS_MINI = 1;
+		else
+		  MESSAGE_SOUS_MINI = 0;
+
+		/*       la sélection au départ est en bas de la liste */
+
+		OPERATION_SELECTIONNEE = GINT_TO_POINTER ( -1 );
+
+
+		/* on incrémente p_tab_nom_de_compte_variable pour le compte suivant */
+
+		p_tab_nom_de_compte_variable++;
+	      }
+	      
+	      node_comptes = node_comptes -> next;
+	    }
+	}
+	
+      /* on récupère ici les échéances */
+
+      if ( !strcmp ( node_1 -> name,
+		     "Échéances" ))
+	{
+	  xmlNodePtr node_echeances;
+
+	  /* node_echeances va faire le tour de l'arborescence des échéances */
+
+	  node_echeances = node_1 -> childs;
+
+	  while ( node_echeances )
+	    {
+	      /* on va récupérer ici les généralités des échéances */
+
+	      if ( !strcmp ( node_echeances -> name,
+			     "Généralités" ))
+		{
+		  xmlNodePtr node_generalites;
+
+		  node_generalites = node_echeances -> childs;
+
+		  while ( node_generalites )
+		    {
+		      if ( !strcmp ( node_generalites -> name,
+				     "Nb_échéances" ))
+			nb_echeances = atoi ( xmlNodeGetContent ( node_generalites ));
+
+		      if ( !strcmp ( node_generalites -> name,
+				     "No_dernière_échéance" ))
+			no_derniere_echeance = atoi ( xmlNodeGetContent ( node_generalites ));
+
+			node_generalites = node_generalites -> next;
+		    }
+		}
+
+
+	      /* on va récupérer ici les échéances */
+	      
+	      if ( !strcmp ( node_echeances -> name,
+			     "Détail_des_échéances" ))
+		{
+		  xmlNodePtr node_detail;
+
+		  gsliste_echeances = NULL;
+
+		  node_detail = node_echeances -> childs;
+
+		  while ( node_detail )
+		    {
+		      struct operation_echeance *operation_echeance;
+		      gchar **pointeur_char;
+
+		      operation_echeance = malloc ( sizeof (struct operation_echeance ));
+
+		      operation_echeance -> no_operation = atoi ( xmlGetProp ( node_detail,
+								      "No" ));
+
+		      pointeur_char = g_strsplit ( xmlGetProp ( node_detail ,
+								"Date" ),
+						   "/",
+						   3 );
+		      operation_echeance -> jour = atoi ( pointeur_char[0] );
+		      operation_echeance -> mois = atoi ( pointeur_char[1] );
+		      operation_echeance -> annee = atoi ( pointeur_char[2] );
+		      operation_echeance -> date = g_date_new_dmy ( operation_echeance -> jour,
+								    operation_echeance -> mois,
+								    operation_echeance -> annee );
+		      g_strfreev ( pointeur_char );
+
+		      operation_echeance -> compte = atoi ( xmlGetProp ( node_detail,
+								      "Compte" ));
+
+		      operation_echeance -> montant = g_strtod ( xmlGetProp ( node_detail,
+									      "Montant" ),
+								 NULL );
+
+		      operation_echeance -> devise = atoi ( xmlGetProp ( node_detail,
+									 "Devise" ));
+
+		      operation_echeance -> tiers = atoi ( xmlGetProp ( node_detail,
+									"Tiers" ));
+
+		      operation_echeance -> categorie = atoi ( xmlGetProp ( node_detail,
+								      "Catégorie" ));
+
+		      operation_echeance -> sous_categorie = atoi ( xmlGetProp ( node_detail,
+								      "Sous-catégorie" ));
+
+		      operation_echeance -> compte_virement = atoi ( xmlGetProp ( node_detail,
+								      "Virement_compte" ));
+
+		      operation_echeance -> type_ope = atoi ( xmlGetProp ( node_detail,
+								      "Type" ));
+
+		      operation_echeance -> contenu_type = xmlGetProp ( node_detail,
+							    "Contenu_du_type" );
+		      if ( !strlen ( operation_echeance -> contenu_type ))
+			operation_echeance -> contenu_type = NULL;
+
+		      operation_echeance -> no_exercice = atoi ( xmlGetProp ( node_detail,
+								      "Exercice" ));
+
+		      operation_echeance -> imputation = atoi ( xmlGetProp ( node_detail,
+								      "Imputation" ));
+
+		      operation_echeance -> sous_imputation = atoi ( xmlGetProp ( node_detail,
+								      "Sous-imputation" ));
+
+		      operation_echeance -> no_piece_comptable = xmlGetProp ( node_detail,
+								      "Pièce_comptable" );
+		      if ( !strlen ( operation_echeance -> no_piece_comptable ))
+			operation_echeance -> no_piece_comptable = NULL;
+
+		      operation_echeance -> info_banque_guichet = xmlGetProp ( node_detail,
+								      "Info_baque_guichet" );
+		      if ( !strlen ( operation_echeance -> info_banque_guichet ))
+			operation_echeance -> info_banque_guichet = NULL;
+
+		      operation_echeance -> notes = xmlGetProp ( node_detail,
+								      "Notes" );
+		      if ( !strlen ( operation_echeance -> notes ))
+			operation_echeance -> notes = NULL;
+
+		      operation_echeance -> auto_man = atoi ( xmlGetProp ( node_detail,
+								      "Automatique" ));
+
+		      operation_echeance -> periodicite = atoi ( xmlGetProp ( node_detail,
+								      "Périodicité" ));
+
+		      operation_echeance -> intervalle_periodicite_personnalisee = atoi ( xmlGetProp ( node_detail,
+								      "Intervalle_périodicité" ));
+
+		      operation_echeance -> periodicite_personnalisee = atoi ( xmlGetProp ( node_detail,
+								      "Périodicité_personnalisée" ));
+
+		      if ( strlen ( xmlGetProp ( node_detail ,
+						 "Date_limite" )))
+			{
+			  pointeur_char = g_strsplit ( xmlGetProp ( node_detail ,
+								    "Date_limite" ),
+						       "/",
+						       3 );
+
+			  operation_echeance -> jour_limite = atoi ( pointeur_char[0] );
+			  operation_echeance -> mois_limite = atoi ( pointeur_char[1] );
+			  operation_echeance -> annee_limite = atoi ( pointeur_char[2] );
+			  operation_echeance -> date_limite = g_date_new_dmy ( operation_echeance -> jour_limite,
+									       operation_echeance -> mois_limite,
+									       operation_echeance -> annee_limite );
+			  g_strfreev ( pointeur_char );
+			}
+		      else
+			{
+			  operation_echeance -> jour_limite = 0;
+			  operation_echeance -> mois_limite = 0;
+			  operation_echeance -> annee_limite = 0;
+			  operation_echeance -> date_limite = NULL;
+			}
+
+
+		      gsliste_echeances = g_slist_append ( gsliste_echeances,
+							   operation_echeance);
+
+		      node_detail = node_detail -> next;
+		    }
+		}
+	      node_echeances = node_echeances -> next;
+	    }
+	}
+	
+      /* on récupère ici les tiers */
+
+      if ( !strcmp ( node_1 -> name,
+		     "Tiers" ))
+	{
+	  xmlNodePtr node_tiers;
+
+	  /* node_tiers va faire le tour de l'arborescence des tiers */
+
+	  node_tiers = node_1 -> childs;
+
+	  while ( node_tiers )
+	    {
+	      /* on va récupérer ici les généralités des tiers */
+	      
+	      if ( !strcmp ( node_tiers -> name,
+			     "Généralités" ))
+		{
+		  xmlNodePtr node_generalites;
+
+		  node_generalites = node_tiers -> childs;
+
+		  while ( node_generalites )
+		    {
+		      if ( !strcmp ( node_generalites -> name,
+				     "Nb_tiers" ))
+			nb_enregistrements_tiers = atoi ( xmlNodeGetContent ( node_generalites ));
+
+		      if ( !strcmp ( node_generalites -> name,
+				     "No_dernier_tiers" ))
+			no_dernier_tiers = atoi ( xmlNodeGetContent ( node_generalites ));
+
+
+			node_generalites = node_generalites -> next;
+		    }
+		}
+
+
+	      /* on va récupérer ici les tiers */
+	      
+	      if ( !strcmp ( node_tiers -> name,
+			     "Détail_des_tiers" ))
+		{
+		  xmlNodePtr node_detail;
+
+		  liste_struct_tiers = NULL;
+		  node_detail = node_tiers -> childs;
+
+		  while ( node_detail )
+		    {
+		      struct struct_tiers *tiers;
+
+		      tiers = malloc ( sizeof ( struct struct_tiers ) );
+
+		      tiers -> no_tiers = atoi ( xmlGetProp ( node_detail,
+							      "No" ));
+		      tiers -> nom_tiers = xmlGetProp ( node_detail,
+							"Nom" );
+		      tiers -> texte = xmlGetProp ( node_detail,
+						    "Informations" );
+		      if ( !strlen ( tiers -> texte ))
+			tiers -> texte = NULL;
+
+		      tiers -> liaison = atoi ( xmlGetProp ( node_detail,
+							     "Liaison" ));
+		      
+		      liste_struct_tiers = g_slist_append ( liste_struct_tiers,
+							    tiers );
+
+
+		      node_detail = node_detail -> next;
+		    }
+		}
+	      node_tiers = node_tiers -> next;
+	    }
+	}
+	
+      /* on récupère ici les catégories */
+
+      if ( !strcmp ( node_1 -> name,
+		     "Catégories" ))
+	{
+	  xmlNodePtr node_categories;
+
+	  /* node_categories va faire le tour de l'arborescence des catégories */
+
+	  node_categories = node_1 -> childs;
+
+	  while ( node_categories )
+	    {
+	      /* on va récupérer ici les généralités des catégories */
+	      
+	      if ( !strcmp ( node_categories -> name,
+			     "Généralités" ))
+		{
+		  xmlNodePtr node_generalites;
+
+		  node_generalites = node_categories -> childs;
+
+		  while ( node_generalites )
+		    {
+		      if ( !strcmp ( node_generalites -> name,
+				     "Nb_catégories" ))
+			nb_enregistrements_categories = atoi ( xmlNodeGetContent ( node_generalites ));
+
+		      if ( !strcmp ( node_generalites -> name,
+				     "No_dernière_catégorie" ))
+			no_derniere_categorie = atoi ( xmlNodeGetContent ( node_generalites ));
+
+			node_generalites = node_generalites -> next;
+		    }
+		}
+
+
+	      /* on va récupérer ici les catégories */
+	      
+	      if ( !strcmp ( node_categories -> name,
+			     "Détail_des_catégories" ))
+		{
+		  xmlNodePtr node_detail;
+
+		  liste_struct_categories = NULL;
+		  node_detail = node_categories -> childs;
+
+		  while ( node_detail )
+		    {
+		      struct struct_categ *categorie;
+		      xmlNodePtr node_sous_categ;
+		      
+		      categorie = malloc ( sizeof ( struct struct_categ ) );
+
+		      categorie -> no_categ = atoi ( xmlGetProp ( node_detail,
+								  "No" ));
+		      categorie -> nom_categ = xmlGetProp ( node_detail,
+							    "Nom" );
+		      categorie -> type_categ = atoi ( xmlGetProp ( node_detail,
+								    "Type" ));
+		      categorie -> no_derniere_sous_categ = atoi ( xmlGetProp ( node_detail,
+										"No_dernière_sous_cagégorie" ));
+
+		      /*  pour chaque catégorie, on récupère les sous-catégories */
+
+		      categorie -> liste_sous_categ = NULL;
+		      node_sous_categ = node_detail -> childs;
+
+		      while ( node_sous_categ )
+			{
+			  struct struct_sous_categ *sous_categ;
+
+			  sous_categ = malloc ( sizeof ( struct struct_sous_categ ) );
+
+			  sous_categ -> no_sous_categ = atoi ( xmlGetProp ( node_sous_categ,
+									    "No" ));
+			  sous_categ -> nom_sous_categ = xmlGetProp ( node_sous_categ,
+									     "Nom" );
+
+			  categorie -> liste_sous_categ = g_slist_append ( categorie -> liste_sous_categ,
+									   sous_categ );
+			  node_sous_categ = node_sous_categ -> next;
+			}
+
+		      liste_struct_categories = g_slist_append ( liste_struct_categories,
+								 categorie );
+
+		      node_detail = node_detail -> next;
+		    }
+		}
+	      node_categories = node_categories -> next;
+	    }
+	  /* création de la liste des catég pour le combofix */
+
+	  creation_liste_categ_combofix ();
+	}
+	
+      /* on récupère ici les imputations */
+
+      if ( !strcmp ( node_1 -> name,
+		     "Imputations" ))
+	{
+	  xmlNodePtr node_imputations;
+
+	  /* node_imputations va faire le tour de l'arborescence des imputations */
+
+	  node_imputations = node_1 -> childs;
+
+	  while ( node_imputations )
+	    {
+	      /* on va récupérer ici les généralités des imputations */
+	      
+	      if ( !strcmp ( node_imputations -> name,
+			     "Généralités" ))
+		{
+		  xmlNodePtr node_generalites;
+
+		  node_generalites = node_imputations -> childs;
+
+		  while ( node_generalites )
+		    {
+		      if ( !strcmp ( node_generalites -> name,
+				     "Nb_imputations" ))
+			nb_enregistrements_imputations = atoi ( xmlNodeGetContent ( node_generalites ));
+
+		      if ( !strcmp ( node_generalites -> name,
+				     "No_dernière_imputation" ))
+			no_derniere_imputation = atoi ( xmlNodeGetContent ( node_generalites ));
+
+			node_generalites = node_generalites -> next;
+		    }
+		}
+
+
+	      /* on va récupérer ici les imputations */
+	      
+	      if ( !strcmp ( node_imputations -> name,
+			     "Détail_des_imputations" ))
+		{
+		  xmlNodePtr node_detail;
+
+		  liste_struct_imputation = NULL;
+		  node_detail = node_imputations -> childs;
+
+		  while ( node_detail )
+		    {
+		      struct struct_imputation *imputation;
+		      xmlNodePtr node_sous_imputation;
+		      
+		      imputation = malloc ( sizeof ( struct struct_imputation ) );
+
+		      imputation -> no_imputation = atoi ( xmlGetProp ( node_detail,
+								  "No" ));
+		      imputation -> nom_imputation = xmlGetProp ( node_detail,
+							    "Nom" );
+		      imputation -> type_imputation = atoi ( xmlGetProp ( node_detail,
+								    "Type" ));
+		      imputation -> no_derniere_sous_imputation = atoi ( xmlGetProp ( node_detail,
+										"No_dernière_sous_imputation" ));
+
+		      /*  pour chaque catégorie, on récupère les sous-catégories */
+
+		      imputation -> liste_sous_imputation = NULL;
+		      node_sous_imputation = node_detail -> childs;
+
+		      while ( node_sous_imputation )
+			{
+			  struct struct_sous_imputation *sous_imputation;
+
+			  sous_imputation = malloc ( sizeof ( struct struct_sous_imputation ) );
+
+			  sous_imputation -> no_sous_imputation = atoi ( xmlGetProp ( node_sous_imputation,
+									    "No" ));
+			  sous_imputation -> nom_sous_imputation = xmlGetProp ( node_sous_imputation,
+									     "Nom" );
+
+			  imputation -> liste_sous_imputation = g_slist_append ( imputation -> liste_sous_imputation,
+									   sous_imputation );
+			  node_sous_imputation = node_sous_imputation -> next;
+			}
+
+		      liste_struct_imputation = g_slist_append ( liste_struct_imputation,
+								 imputation );
+
+		      node_detail = node_detail -> next;
+		    }
+		}
+	      node_imputations = node_imputations -> next;
+	    }
+	  /* création de la liste des imputations pour le combofix */
+
+	  creation_liste_imputation_combofix ();
+	}
+
+	
+      /* on récupère ici les devises */
+
+      if ( !strcmp ( node_1 -> name,
+		     "Devises" ))
+	{
+	  xmlNodePtr node_devises;
+
+	  /* node_devises va faire le tour de l'arborescence des devises */
+
+	  node_devises = node_1 -> childs;
+
+	  while ( node_devises )
+	    {
+	      /* on va récupérer ici les généralités des devises */
+	      
+	      if ( !strcmp ( node_devises -> name,
+			     "Généralités" ))
+		{
+		  xmlNodePtr node_generalites;
+
+		  node_generalites = node_devises -> childs;
+
+		  while ( node_generalites )
+		    {
+		      if ( !strcmp ( node_generalites -> name,
+				     "Nb_devises" ))
+			nb_devises = atoi ( xmlNodeGetContent ( node_generalites ));
+
+		      if ( !strcmp ( node_generalites -> name,
+				     "No_dernière_devise" ))
+			no_derniere_devise = atoi ( xmlNodeGetContent ( node_generalites ));
+
+			node_generalites = node_generalites -> next;
+		    }
+		}
+
+
+	      /* on va récupérer ici les devises */
+
+	      if ( !strcmp ( node_devises -> name,
+			     "Détail_des_devises" ))
+		{
+		  xmlNodePtr node_detail;
+
+		  liste_struct_devises = NULL;
+		  node_detail = node_devises -> childs;
+
+		  while ( node_detail )
+		    {
+		      struct struct_devise *devise;
+		      
+		      devise = malloc ( sizeof ( struct struct_devise ));
+
+
+		      devise -> no_devise = atoi ( xmlGetProp ( node_detail,
+						 "No" ));
+		      devise -> nom_devise = xmlGetProp ( node_detail,
+						 "Nom" );
+		      devise -> code_devise = xmlGetProp ( node_detail,
+						 "Code" );
+		      if ( !strlen ( devise -> code_devise ))
+			devise -> code_devise = NULL;
+
+		      devise -> passage_euro = atoi ( xmlGetProp ( node_detail,
+						 "Passage_euro" ));
+
+		      if ( strlen ( xmlGetProp ( node_detail,
+						 "Date_dernier_change" )))
+			{
+			  gchar **pointeur_char;
+
+			  pointeur_char = g_strsplit ( xmlGetProp ( node_detail,
+								    "Date_dernier_change" ),
+						       "/",
+						       3 );
+
+			  devise -> date_dernier_change = g_date_new_dmy ( atoi ( pointeur_char[0] ),
+									   atoi ( pointeur_char[1] ),
+									   atoi ( pointeur_char[2] ));
+			  g_strfreev ( pointeur_char );
+			}
+		      else
+			devise -> date_dernier_change = NULL;
+
+		      devise -> une_devise_1_egale_x_devise_2 = atoi ( xmlGetProp ( node_detail,
+						 "Rapport_entre_devises" ));
+		      devise -> no_devise_en_rapport = atoi ( xmlGetProp ( node_detail,
+						 "Devise_en_rapport" ));
+		      devise -> change = g_strtod ( xmlGetProp ( node_detail,
+								 "Change" ),
+						    NULL );
+
+		      liste_struct_devises = g_slist_append ( liste_struct_devises,
+							      devise );
+
+		      node_detail = node_detail -> next;
+		    }
+		}
+	      node_devises = node_devises -> next;
+	    }
+	}
+	
+      /* on récupère ici les banques */
+
+      if ( !strcmp ( node_1 -> name,
+		     "Banques" ))
+	{
+	  xmlNodePtr node_banques;
+
+	  /* node_banques va faire le tour de l'arborescence des banques */
+
+	  node_banques = node_1 -> childs;
+
+	  while ( node_banques )
+	    {
+	      /* on va récupérer ici les généralités des banques */
+	      
+	      if ( !strcmp ( node_banques -> name,
+			     "Généralités" ))
+		{
+		  xmlNodePtr node_generalites;
+
+		  node_generalites = node_banques -> childs;
+
+		  while ( node_generalites )
+		    {
+		      if ( !strcmp ( node_generalites -> name,
+				     "Nb_banques" ))
+			nb_banques = atoi ( xmlNodeGetContent ( node_generalites ));
+
+		      if ( !strcmp ( node_generalites -> name,
+				     "No_dernière_banque" ))
+			no_derniere_banque = atoi ( xmlNodeGetContent ( node_generalites ));
+
+
+			node_generalites = node_generalites -> next;
+		    }
+		}
+
+
+	      /* on va récupérer ici les banques */
+	      
+	      if ( !strcmp ( node_banques -> name,
+			     "Détail_des_banques" ))
+		{
+		  xmlNodePtr node_detail;
+
+		  liste_struct_banques = NULL;
+		  node_detail = node_banques -> childs;
+
+		  while ( node_detail )
+		    {
+		      struct struct_banque *banque;
+		      
+		      banque = malloc ( sizeof ( struct struct_banque ));
+
+		      banque -> no_banque = atoi ( xmlGetProp ( node_detail,
+						 "No" ));
+		      banque -> nom_banque = xmlGetProp ( node_detail,
+						 "Nom" );
+		      banque -> code_banque = xmlGetProp ( node_detail,
+						 "Code" );
+		      if ( !strlen ( banque -> code_banque ))
+			banque -> code_banque = NULL;
+		      banque -> adr_banque = xmlGetProp ( node_detail,
+						 "Adresse" );
+		      if ( !strlen ( banque -> adr_banque ))
+			banque -> adr_banque = NULL;
+		      banque -> tel_banque = xmlGetProp ( node_detail,
+						 "Tél" );
+		      if ( !strlen ( banque -> tel_banque ))
+			banque -> tel_banque = NULL;
+		      banque -> email_banque = xmlGetProp ( node_detail,
+						 "Mail" );
+		      if ( !strlen ( banque -> email_banque ))
+			banque -> email_banque = NULL;
+		      banque -> web_banque = xmlGetProp ( node_detail,
+						 "Web" );
+		      if ( !strlen ( banque -> web_banque ))
+			banque -> web_banque = NULL;
+		      banque -> nom_correspondant = xmlGetProp ( node_detail,
+						 "Nom_correspondant" );
+		      if ( !strlen ( banque -> nom_correspondant ))
+			banque -> nom_correspondant = NULL;
+		      banque -> fax_correspondant = xmlGetProp ( node_detail,
+						 "Fax_correspondant" );
+		      if ( !strlen ( banque -> fax_correspondant ))
+			banque -> fax_correspondant = NULL;
+		      banque -> tel_correspondant = xmlGetProp ( node_detail,
+						 "Tél_correspondant" );
+		      if ( !strlen ( banque -> tel_correspondant ))
+			banque -> tel_correspondant = NULL;
+		      banque -> email_correspondant = xmlGetProp ( node_detail,
+						 "Mail_correspondant" );
+		      if ( !strlen ( banque -> email_correspondant ))
+			banque -> email_correspondant = NULL;
+		      banque -> remarque_banque = xmlGetProp ( node_detail,
+						 "Remarques" );
+		      if ( !strlen ( banque -> remarque_banque ))
+			banque -> remarque_banque = NULL;
+
+		      liste_struct_banques = g_slist_append ( liste_struct_banques,
+							      banque );
+
+		      node_detail = node_detail -> next;
+		    }
+		}
+	      node_banques = node_banques -> next;
+	    }
+	}
+	
+      /* on récupère ici les exercices */
+
+      if ( !strcmp ( node_1 -> name,
+		     "Exercices" ))
+	{
+	  xmlNodePtr node_exercices;
+
+	  /* node_exercices va faire le tour de l'arborescence des exercices */
+
+	  node_exercices = node_1 -> childs;
+
+	  while ( node_exercices )
+	    {
+	      /* on va récupérer ici les généralités des exercices */
+	      
+	      if ( !strcmp ( node_exercices -> name,
+			     "Généralités" ))
+		{
+		  xmlNodePtr node_generalites;
+
+		  node_generalites = node_exercices -> childs;
+
+		  while ( node_generalites )
+		    {
+		      if ( !strcmp ( node_generalites -> name,
+				     "Nb_exercices" ))
+			nb_exercices = atoi ( xmlNodeGetContent ( node_generalites ));
+
+		      if ( !strcmp ( node_generalites -> name,
+				     "No_dernier_exercice" ))
+			no_derniere_exercice = atoi ( xmlNodeGetContent ( node_generalites ));
+
+			node_generalites = node_generalites -> next;
+		    }
+		}
+
+	 
+	      /* on va récupérer ici les exercices */
+	      
+	      if ( !strcmp ( node_exercices -> name,
+			     "Détail_des_exercices" ))
+		{
+		  xmlNodePtr node_detail;
+
+		  liste_struct_exercices = NULL;
+		  node_detail = node_exercices -> childs;
+
+		  while ( node_detail )
+		    {
+		      struct struct_exercice *exercice;
+		      
+		      exercice = malloc ( sizeof ( struct struct_exercice ));
+
+		      exercice -> no_exercice = atoi ( xmlGetProp ( node_detail,
+						 "No" ));
+		      exercice -> nom_exercice = xmlGetProp ( node_detail,
+						 "Nom" );
+
+		      if ( strlen ( xmlGetProp ( node_detail,
+						 "Date_début" )))
+			{
+			  gchar **pointeur_char;
+
+			  pointeur_char = g_strsplit ( xmlGetProp ( node_detail,
+								    "Date_début" ),
+						       "/",
+						       3 );
+
+			  exercice -> date_debut = g_date_new_dmy ( atoi ( pointeur_char[0] ),
+								    atoi ( pointeur_char[1] ),
+								    atoi ( pointeur_char[2] ));
+			  g_strfreev ( pointeur_char );
+			}
+		      else
+			exercice -> date_debut = NULL;
+
+		      if ( strlen ( xmlGetProp ( node_detail,
+						 "Date_fin" )))
+			{
+			  gchar **pointeur_char;
+
+			  pointeur_char = g_strsplit ( xmlGetProp ( node_detail,
+								    "Date_fin" ),
+						       "/",
+						       3 );
+
+			  exercice -> date_fin = g_date_new_dmy ( atoi ( pointeur_char[0] ),
+								  atoi ( pointeur_char[1] ),
+								  atoi ( pointeur_char[2] ));
+			  g_strfreev ( pointeur_char );
+			}
+		      else
+			exercice -> date_fin = NULL;
+
+		      exercice -> affiche_dans_formulaire = atoi ( xmlGetProp ( node_detail,
+										"Affiché" ));
+
+		      liste_struct_exercices = g_slist_append ( liste_struct_exercices,
+								exercice );
+
+		      node_detail = node_detail -> next;
+		    }
+		}
+	      node_exercices = node_exercices -> next;
+	    }
+	}
+	
+      /* on récupère ici les rapprochements */
+
+      if ( !strcmp ( node_1 -> name,
+		     "Rapprochements" ))
+	{
+	  xmlNodePtr node_rapprochements;
+
+	  /* node_rapprochements va faire le tour de l'arborescence des rapprochements */
+
+	  node_rapprochements = node_1 -> childs;
+
+	  while ( node_rapprochements )
+	    {
+	      /* il n'y a pas de généralités ... */
+
+	      /* on va récupérer ici les rapprochements */
+	      
+	      if ( !strcmp ( node_rapprochements -> name,
+			     "Détail_des_rapprochements" ))
+		{
+		  xmlNodePtr node_detail;
+
+		  liste_no_rapprochements = NULL;
+		  node_detail = node_rapprochements -> childs;
+
+		  while ( node_detail )
+		    {
+		      struct struct_no_rapprochement *rapprochement;
+
+		      rapprochement = malloc ( sizeof ( struct struct_no_rapprochement ));
+
+		      rapprochement -> no_rapprochement = atoi ( xmlGetProp ( node_detail,
+						 "No" ));
+		      rapprochement -> nom_rapprochement = xmlGetProp ( node_detail,
+									"Nom" );
+		      
+		      rapprochement -> nom_rapprochement = g_strstrip ( rapprochement -> nom_rapprochement);
+
+		      liste_no_rapprochements = g_slist_append ( liste_no_rapprochements,
+								 rapprochement );
+
+		      node_detail = node_detail -> next;
+		    }
+		}
+	      node_rapprochements = node_rapprochements -> next;
+	    }
+	}
+
+      /* on récupère ici les états */
+
+      if ( !strcmp ( node_1 -> name,
+		     "Etats" ))
+	{
+	  xmlNodePtr node_etats;
+
+	  /* node_etats va faire le tour de l'arborescence des etats */
+
+	  node_etats = node_1 -> childs;
+
+	  while ( node_etats )
+	    {
+	      /* on va récupérer ici les généralités des etats */
+	      
+	      if ( !strcmp ( node_etats -> name,
+			     "Généralités" ))
+		{
+		  xmlNodePtr node_generalites;
+
+		  node_generalites = node_etats -> childs;
+
+		  while ( node_generalites )
+		    {
+		      if ( !strcmp ( node_generalites -> name,
+				     "No_dernier_etat" ))
+			no_dernier_etat = atoi ( xmlNodeGetContent ( node_generalites ));
+
+			node_generalites = node_generalites -> next;
+		    }
+		}
+
+	 
+	      /* on va récupérer ici les etats */
+	    
+	      if ( !strcmp ( node_etats -> name,
+			     "Détail_des_etats" ))
+		{
+		  xmlNodePtr node_detail;
+
+		  liste_struct_etats = NULL;
+		  node_detail = node_etats -> childs;
+		
+		  while ( node_detail )
+		    {
+		      struct struct_etat *etat;
+		      
+		      etat = malloc ( sizeof ( struct struct_etat ));
+
+		      etat -> no_etat = atoi ( xmlGetProp ( node_detail,
+						 "No" ));
+		      etat -> nom_etat = xmlGetProp ( node_detail,
+						 "Nom" );
+
+		      etat -> exo_date = atoi ( xmlGetProp ( node_detail,
+							     "Exo_date" ));
+							  			  
+		      etat -> utilise_detail_exo = atoi ( xmlGetProp ( node_detail,
+								       "Detail_exo" ));
+							  			  
+		      if ( strlen ( xmlGetProp ( node_detail,
+						 "No_exo" )))
+			{
+			  gchar **pointeur_char;
+			  gint i;
+
+			  pointeur_char = g_strsplit ( xmlGetProp ( node_detail,
+								    "No_exo" ),
+						       "/",
+						       0 );
+			  i=0;
+			  etat -> no_exercices = NULL;
+
+			  while ( pointeur_char[i] )
+			    {
+			      etat -> no_exercices = g_slist_append ( etat -> no_exercices,
+								      GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
+			      i++;
+			    }
+			  g_strfreev ( pointeur_char );
+			}
+
+							 
+		      etat -> no_plage_date = atoi ( xmlGetProp ( node_detail,
+								  "Plage_date" ));
+
+		      if ( strlen ( xmlGetProp ( node_detail,
+						 "Date_debut" )))
+			{
+			  gchar **pointeur_char;
+
+			  pointeur_char = g_strsplit ( xmlGetProp ( node_detail,
+								    "Date_debut" ),
+						       "/",
+						       3 );
+
+			  etat -> date_perso_debut = g_date_new_dmy ( atoi ( pointeur_char[0] ),
+								atoi ( pointeur_char[1] ),
+								atoi ( pointeur_char[2] ));
+			  g_strfreev ( pointeur_char );
+			}
+		      else
+			etat -> date_perso_debut = NULL;
+
+		      if ( strlen ( xmlGetProp ( node_detail,
+						 "Date_fin" )))
+			{
+			  gchar **pointeur_char;
+
+			  pointeur_char = g_strsplit ( xmlGetProp ( node_detail,
+								    "Date_fin" ),
+						       "/",
+						       3 );
+
+			  etat -> date_perso_fin = g_date_new_dmy ( atoi ( pointeur_char[0] ),
+							      atoi ( pointeur_char[1] ),
+							      atoi ( pointeur_char[2] ));
+			  g_strfreev ( pointeur_char );
+			}
+		      else
+			etat -> date_perso_fin = NULL;
+
+		      etat -> type_classement = atoi ( xmlGetProp ( node_detail,
+								  "Type_classement" ));
+
+		      etat -> utilise_detail_comptes = atoi ( xmlGetProp ( node_detail,
+								  "Detail_comptes" ));
+
+		      if ( strlen ( xmlGetProp ( node_detail,
+						 "No_comptes" )))
+			{
+			  gchar **pointeur_char;
+			  gint i;
+
+			  pointeur_char = g_strsplit ( xmlGetProp ( node_detail,
+								    "No_comptes" ),
+						       "/",
+						       0 );
+			  i=0;
+			  etat -> no_comptes = NULL;
+
+			  while ( pointeur_char[i] )
+			    {
+			      etat ->no_comptes  = g_slist_append ( etat -> no_comptes,
+								    GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
+			      i++;
+			    }
+			  g_strfreev ( pointeur_char );
+			}
+
+
+		      etat -> utilise_categ = atoi ( xmlGetProp ( node_detail,
+								  "Categ" ));
+		      etat -> utilise_detail_categ = atoi ( xmlGetProp ( node_detail,
+								  "Detail_categ" ));
+		      if ( strlen ( xmlGetProp ( node_detail,
+						 "No_categ" )))
+			{
+			  gchar **pointeur_char;
+			  gint i;
+
+			  pointeur_char = g_strsplit ( xmlGetProp ( node_detail,
+								    "No_categ" ),
+						       "/",
+						       0 );
+			  i=0;
+			  etat -> no_categ = NULL;
+
+			  while ( pointeur_char[i] )
+			    {
+			      etat -> no_categ = g_slist_append ( etat -> no_categ,
+								  GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
+			      i++;
+			    }
+			  g_strfreev ( pointeur_char );
+			}
+
+		      etat -> inclusion_virements_passif = atoi ( xmlGetProp ( node_detail,
+								  "Vir_passif" ));
+		      etat -> inclusion_virements_hors_etat = atoi ( xmlGetProp ( node_detail,
+								  "Vir_hors" ));
+		      etat -> pas_inclusion_virements = atoi ( xmlGetProp ( node_detail,
+								  "Pas_vir" ));
+		      etat -> utilise_ib = atoi ( xmlGetProp ( node_detail,
+								  "IB" ));
+		      etat -> utilise_detail_ib = atoi ( xmlGetProp ( node_detail,
+								  "Detail_ib" ));
+		      if ( strlen ( xmlGetProp ( node_detail,
+						 "No_ib" )))
+			{
+			  gchar **pointeur_char;
+			  gint i;
+
+			  pointeur_char = g_strsplit ( xmlGetProp ( node_detail,
+								    "No_ib" ),
+						       "/",
+						       0 );
+			  i=0;
+			  etat -> no_ib = NULL;
+
+			  while ( pointeur_char[i] )
+			    {
+			      etat -> no_ib = g_slist_append ( etat -> no_ib,
+								      GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
+			      i++;
+			    }
+			  g_strfreev ( pointeur_char );
+			}
+
+		      etat -> utilise_tiers = atoi ( xmlGetProp ( node_detail,
+								  "Tiers" ));
+		      etat -> utilise_detail_tiers = atoi ( xmlGetProp ( node_detail,
+								  "Detail_tiers" ));
+
+		      if ( strlen ( xmlGetProp ( node_detail,
+						 "No_tiers" )))
+			{
+			  gchar **pointeur_char;
+			  gint i;
+
+			  pointeur_char = g_strsplit ( xmlGetProp ( node_detail,
+								    "No_tiers" ),
+						       "/",
+						       0 );
+			  i=0;
+			  etat -> no_tiers = NULL;
+
+			  while ( pointeur_char[i] )
+			    {
+			      etat -> no_tiers = g_slist_append ( etat -> no_tiers,
+								      GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
+			      i++;
+			    }
+			  g_strfreev ( pointeur_char );
+			}
+
+		      if ( strlen ( xmlGetProp ( node_detail,
+						 "Texte" )))
+			etat -> texte = xmlGetProp ( node_detail,
+						     "Texte" );
+		      else
+			etat -> texte = NULL;
+
+		      etat -> montant = g_strtod ( xmlGetProp ( node_detail,
+								"Montant" ),
+						   NULL );
+
+		      liste_struct_etats = g_slist_append ( liste_struct_etats,
+							    etat );
+
+		      node_detail = node_detail -> next;
+		    }
+		}
+	      node_etats = node_etats -> next;
+	    }
+	}
+      node_1 = node_1 -> next;
+    }
+
+
+  /* on libère la mémoire */
+
+  xmlFreeDoc ( doc );
+
+  /* on marque le fichier comme ouvert */
+
+  fichier_marque_ouvert ( TRUE );
+
+  modification_fichier ( FALSE );
+
+  return ( TRUE );
+}
+/***********************************************************************************************************/
+
+
+
+
 /***********************************************************************************************************/
 /* Procédure qui sauvegarde le fichier */
 /* retourne TRUE : no problem */
@@ -1515,6 +3176,7 @@ gboolean enregistre_fichier ( void )
   gchar *pointeur_char;
   GSList *pointeur_liste;
   gint i;
+  GSList *pointeur_liste_2;
 
   /*   si le fichier est déjà ouvert par un autre, ne peut enregistrer */
 
@@ -2774,6 +4436,251 @@ gboolean enregistre_fichier ( void )
 
       pointeur_liste = pointeur_liste -> next;
     }
+
+
+  /* sauvegarde des états */
+
+  node = xmlNewChild ( doc->root,
+		       NULL,
+		       "Etats",
+		       NULL );
+
+  /* c'est node_1 qui va contenir les généralités */
+
+  node_1 = xmlNewChild ( node,
+			 NULL,
+			 "Généralités",
+			 NULL );
+
+  xmlNewTextChild ( node_1,
+		    NULL,
+		    "No_dernier_etat",
+		    itoa ( no_dernier_etat ));
+
+  /* on met les états */
+
+  node_1 = xmlNewChild ( node,
+			 NULL,
+			 "Détail_des_etats",
+			 NULL );
+
+  pointeur_liste_2 = liste_struct_etats;
+
+  while ( pointeur_liste_2 )
+    {
+      struct struct_etat *etat;
+      xmlNodePtr node_etat;
+
+      etat = pointeur_liste_2 -> data;
+
+
+      node_etat = xmlNewChild ( node_1,
+				NULL,
+				"Etat",
+				NULL );
+
+      xmlSetProp ( node_etat,
+		   "No",
+		   itoa ( etat -> no_etat ));
+
+      xmlSetProp ( node_etat,
+		   "Nom",
+		   etat -> nom_etat );
+
+      xmlSetProp ( node_etat,
+		   "Exo_date",
+		   itoa ( etat -> exo_date ));
+
+      xmlSetProp ( node_etat,
+		   "Detail_exo",
+		   itoa ( etat -> utilise_detail_exo ));
+
+      pointeur_liste = etat -> no_exercices;
+      pointeur_char = NULL;
+
+      while ( pointeur_liste )
+	{
+	  if ( pointeur_char )
+	    pointeur_char = g_strconcat ( pointeur_char,
+					  "/",
+					  itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
+					  NULL );
+	  else
+	    pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
+
+	  pointeur_liste = pointeur_liste -> next;
+	}
+
+      xmlSetProp ( node_etat,
+		   "No_exo",
+		   pointeur_char );
+
+      xmlSetProp ( node_etat,
+		   "Plage_date",
+		   itoa ( etat -> no_plage_date ));
+
+
+      if ( etat->date_perso_debut )
+	xmlSetProp ( node_etat,
+		     "Date_debut",
+		     g_strdup_printf ( "%d/%d/%d",
+				       g_date_day ( etat->date_perso_debut ),
+				       g_date_month ( etat->date_perso_debut ),
+				       g_date_year ( etat->date_perso_debut )));
+      else
+	xmlSetProp ( node_etat,
+		     "Date_debut",
+		     NULL );
+
+      if ( etat->date_perso_fin )
+	xmlSetProp ( node_etat,
+		     "Date_fin",
+		     g_strdup_printf ( "%d/%d/%d",
+				       g_date_day ( etat->date_perso_fin ),
+				       g_date_month ( etat->date_perso_fin ),
+				       g_date_year ( etat->date_perso_fin )));
+      else
+	xmlSetProp ( node_etat,
+		     "Date_fin",
+		     NULL );
+
+      xmlSetProp ( node_etat,
+		   "Type_classement",
+		   itoa ( etat -> type_classement ));
+
+      xmlSetProp ( node_etat,
+		   "Detail_comptes",
+		   itoa ( etat -> utilise_detail_comptes ));
+
+      pointeur_liste = etat -> no_comptes;
+      pointeur_char = NULL;
+
+      while ( pointeur_liste )
+	{
+	  if ( pointeur_char )
+	    pointeur_char = g_strconcat ( pointeur_char,
+					  "/",
+					  itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
+					  NULL );
+	  else
+	    pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
+
+	  pointeur_liste = pointeur_liste -> next;
+	}
+
+      xmlSetProp ( node_etat,
+			"No_comptes",
+			pointeur_char );
+
+      xmlSetProp ( node_etat,
+		   "Categ",
+		   itoa ( etat -> utilise_categ ));
+
+      xmlSetProp ( node_etat,
+		   "Detail_categ",
+		   itoa ( etat -> utilise_detail_categ ));
+
+      pointeur_liste = etat -> no_categ;
+      pointeur_char = NULL;
+
+      while ( pointeur_liste )
+	{
+	  if ( pointeur_char )
+	    pointeur_char = g_strconcat ( pointeur_char,
+					  "/",
+					  itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
+					  NULL );
+	  else
+	    pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
+
+	  pointeur_liste = pointeur_liste -> next;
+	}
+
+      xmlSetProp ( node_etat,
+			"No_categ",
+			pointeur_char );
+
+      xmlSetProp ( node_etat,
+		   "Vir_passif",
+		   itoa ( etat -> inclusion_virements_passif ));
+
+      xmlSetProp ( node_etat,
+		   "Vir_hors",
+		   itoa ( etat -> inclusion_virements_hors_etat ));
+
+      xmlSetProp ( node_etat,
+		   "Pas_vir",
+		   itoa ( etat -> pas_inclusion_virements ));
+
+      xmlSetProp ( node_etat,
+		   "IB",
+		   itoa ( etat -> utilise_ib ));
+
+      xmlSetProp ( node_etat,
+		   "Detail_ib",
+		   itoa ( etat -> utilise_detail_ib ));
+
+      pointeur_liste = etat -> no_ib;
+      pointeur_char = NULL;
+
+      while ( pointeur_liste )
+	{
+	  if ( pointeur_char )
+	    pointeur_char = g_strconcat ( pointeur_char,
+					  "/",
+					  itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
+					  NULL );
+	  else
+	    pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
+
+	  pointeur_liste = pointeur_liste -> next;
+	}
+
+      xmlSetProp ( node_etat,
+			"No_ib",
+			pointeur_char );
+
+      xmlSetProp ( node_etat,
+		   "Tiers",
+		   itoa ( etat -> utilise_tiers ));
+
+      xmlSetProp ( node_etat,
+		   "Detail_tiers",
+		   itoa ( etat -> utilise_detail_tiers ));
+
+      pointeur_liste = etat -> no_tiers;
+      pointeur_char = NULL;
+
+      while ( pointeur_liste )
+	{
+	  if ( pointeur_char )
+	    pointeur_char = g_strconcat ( pointeur_char,
+					  "/",
+					  itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
+					  NULL );
+	  else
+	    pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
+
+	  pointeur_liste = pointeur_liste -> next;
+	}
+
+      xmlSetProp ( node_etat,
+			"No_tiers",
+			pointeur_char );
+
+      xmlSetProp ( node_etat,
+			"Texte",
+			etat -> texte );
+
+      xmlSetProp ( node_etat,
+		   "Montant",
+		   g_strdup_printf ( "%4.2f",
+				     etat -> montant ));
+
+      pointeur_liste_2 = pointeur_liste_2 -> next;
+    }
+
+
 
 
   /* l'arbre est fait, on sauvegarde */

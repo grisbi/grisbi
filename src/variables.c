@@ -590,3 +590,48 @@ gint no_dernier_etat;
 GtkWidget *label_etat_courant;        /* label en haut de la liste des états */
 GtkWidget *vbox_liste_etats;          /* vbox contenant la liste des états */
 GtkWidget *bouton_etat_courant;          /* adr du bouton de l'état en cours, pour le refermer qd change */
+gint no_etat_courant;
+GtkWidget *bouton_effacer_etat;
+GtkWidget *bouton_personnaliser_etat;
+
+GtkWidget *entree_nom_etat;
+GtkWidget *liste_type_classement_etat;
+
+GtkWidget *radio_button_utilise_exo;
+GtkWidget *radio_button_utilise_dates;
+GtkWidget *liste_exo_etat;
+GtkWidget *vbox_generale_exo_etat;
+GtkWidget *bouton_detaille_exo_etat;
+GtkWidget *liste_plages_dates_etat;
+GtkWidget *entree_date_init_etat;
+GtkWidget *entree_date_finale_etat;
+GtkWidget *vbox_utilisation_exo;
+GtkWidget *vbox_utilisation_date;
+
+GtkWidget *liste_comptes_etat;
+GtkWidget *bouton_detaille_comptes_etat;
+GtkWidget *vbox_generale_comptes_etat;
+
+GtkWidget *bouton_utilise_categ_etat;
+GtkWidget *vbox_generale_categ_etat;
+GtkWidget *bouton_detaille_categ_etat;
+GtkWidget *hbox_detaille_categ_etat;
+GtkWidget *bouton_inclusion_virements_actifs_etat;
+GtkWidget *bouton_inclusion_virements_hors_etat;
+GtkWidget *bouton_non_inclusion_virements;
+GtkWidget *liste_categ_etat;
+
+GtkWidget *bouton_utilise_ib_etat;
+GtkWidget *vbox_generale_ib_etat;
+GtkWidget *bouton_detaille_ib_etat;
+GtkWidget *hbox_detaille_ib_etat;
+GtkWidget *liste_ib_etat;
+
+GtkWidget *bouton_utilise_tiers_etat;
+GtkWidget *vbox_generale_tiers_etat;
+GtkWidget *bouton_detaille_tiers_etat;
+GtkWidget *hbox_detaille_tiers_etat;
+GtkWidget *liste_tiers_etat;
+
+GtkWidget *entree_texte_etat;
+GtkWidget *entree_montant_etat;
