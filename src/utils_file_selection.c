@@ -111,7 +111,7 @@ gchar** file_selection_get_selections(GtkFileSelection* filesel)
     // alloc new selection table
     if (num_selections > 0)
     {
-        utf8selections = (gchar**)g_malloc(num_selections*sizeof(gchar*));
+        utf8selections = (gchar**)g_malloc((num_selections+1)*sizeof(gchar*));
     }
 
     // fill the new selection table with the uft8 converted selected strings
@@ -122,6 +122,7 @@ gchar** file_selection_get_selections(GtkFileSelection* filesel)
         {
             utf8selections[idx_selection] = g_filename_to_utf8(gtk_selections[idx_selection],-1,NULL,NULL,NULL);
         }
+        utf8selections[idx_selection] = NULL;
     }
     if (gtk_selections)
     {
@@ -167,3 +168,7 @@ gchar* file_selection_get_last_directory(GtkFileSelection* filesel,gboolean ende
     return g_filename_to_utf8(dirstr,-1,NULL,NULL,NULL);
 
 } /* }}} file_selection_get_last_directory */
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
