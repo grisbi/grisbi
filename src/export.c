@@ -35,42 +35,39 @@
 #include "utils_files.h"
 
 #include <gtk/gtk.h>
-typedef enum 
-{
-    TYPE_QIF,
-    TYPE_CSV
-} export_type;
 
 typedef void (EXPORT_CALLBACK)(GSList* list_file_to_export_to);
 
 typedef struct 
 {
-    export_type type;
+    gint        type;
     gchar*      label;
     gchar*      extension;
     EXPORT_CALLBACK* callback;
 } export_format;
 
-static export_type g_selected_format = TYPE_QIF; /**< selected export format choosed in the account selection dialog*/
+static gint        g_selected_format = 0;        /**< selected export format choosed in the account selection dialog*/
 static GSList*     g_selected_entries= NULL;     /**< list of checked accounts in the account selected dialog */
 
 /**
  * Add a new supported format
  *
+ * The type index of the fromat set set automatically. It s should be the position of the item in the list.
+ *
  * \param export_format_list    supported format list to update
- * \param type                  format type
  * \param label                 format label to displayed in the format menu
  * \param extension             default file extension to apply
  * \param callback              the callback which do the job
  *
  * \return export_format_list list updated
  */
-static GSList* _export_append_format(GSList* export_format_list,export_type type, gchar* label,gchar* extension, EXPORT_CALLBACK callback)
+static GSList* _export_append_format(GSList* export_format_list,gchar* label,gchar* extension, EXPORT_CALLBACK callback)
 {/* {{{ */ 
     export_format* new_format = (export_format*)g_malloc(sizeof(export_format));
+    
     if (new_format)
     {
-        new_format->type     = type;
+        new_format->type     = g_slist_position(export_format_list,g_slist_last(export_format_list))+1;
         new_format->label    = g_strdup(label);
         new_format->extension= g_strdup(extension);
         new_format->callback = callback;
@@ -178,7 +175,7 @@ static GtkWidget * _export_file_format_dialog_new (GSList* format_list)
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, TRUE, TRUE, 0 );
 
 
-    g_selected_format = TYPE_QIF;
+    g_selected_format = 0;
     gtk_widget_show_all ( dialog );
     return dialog;
 } /* }}} _export_file_format_menu_new */
@@ -326,28 +323,22 @@ static gboolean _export_all_selected_entries_are_valid(GSList* selected_entries_
 /**
  * Run the export callback form the given type
  *
+ * The export callback is run only if the type is a valid one and then if the callback
+ * is a valid pointer.
+ *
  * \param   type    format type to run the export callback
  * \param   list    argument to pass to the callback
  */
-static void _run_export_callback(GSList* export_format_list,export_type type,GSList* list)
+static void _run_export_callback(GSList* export_format_list,gint type,GSList* list)
 {/* {{{ */
-    GSList* list_tmp = export_format_list;
-    export_format* format    = NULL;
-    EXPORT_CALLBACK* callback = NULL;
-    while (list_tmp)
+
+    export_format*   format   = g_slist_nth_data(export_format_list,type);
+    
+    if ((format)&&(format->callback))
     {
-        format = list_tmp->data;
-        if (format->type == type)
-        {
-            callback = format->callback;
-            break;
-        }
-        list_tmp = g_slist_next(list_tmp);
+         (*(format->callback))(list);
     }
-    if (callback)
-    {
-        (*callback)(list);
-    }
+
 } /* }}} _run_export_callback */
 /**
  * This function display the format to export to selection dialog
@@ -426,11 +417,11 @@ void export_accounts_to_file()
 {
     static GSList* export_format_list = NULL;
 
-    g_selected_format = TYPE_QIF;
+    g_selected_format = 0;
     g_selected_entries= NULL;
     
     /* To add a new supported format, just add a new line here ... */
-    export_format_list = _export_append_format(export_format_list,TYPE_QIF,"QIF",".qif",&export_qif);
+    export_format_list = _export_append_format(export_format_list,_("QIF file"),".qif",&export_qif);
     
     // If the user selects a valid format
     if(_export_select_format_to_export_to(export_format_list))
