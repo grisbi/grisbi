@@ -263,8 +263,6 @@ gboolean changement_compte ( gint *compte)
 
     echap_formulaire ();
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-
     compte_courant = GPOINTER_TO_INT ( compte );
     p_tab_nom_de_compte_courant = p_tab_nom_de_compte + compte_courant;
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
