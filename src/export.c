@@ -146,6 +146,7 @@ void signal_toggle_account_entry(GtkWidget* check_button,GtkWidget* account_entr
 static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint selected_format)
 {/* {{{ */
     GtkWidget *dialog, *table, *account_entry, *check_button, *paddingbox;
+    GSList *ordre_comptes_variable;
 
     export_format* format = g_slist_nth_data(format_list,selected_format);
     int i = 0;
@@ -171,10 +172,11 @@ static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint
     gtk_widget_show ( table );
 
     /* on met chaque compte dans la table */
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+    ordre_comptes_variable = ordre_comptes;
 
     for ( i = 0 ; i < nb_comptes ; i++ )
     {
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable -> data );
 
 	check_button = gtk_check_button_new_with_label ( NOM_DU_COMPTE );
 	gtk_table_attach ( GTK_TABLE ( table ),
@@ -216,7 +218,7 @@ static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint
 			     GTK_SIGNAL_FUNC ( signal_toggle_account_entry ),
 			     account_entry );
 
-	p_tab_nom_de_compte_variable++;
+	ordre_comptes_variable = ordre_comptes_variable -> next;
     }
 
     g_selected_entries = NULL;
