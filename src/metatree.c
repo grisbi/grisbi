@@ -151,6 +151,7 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 			 GtkTreeIter * iter, gpointer division )
 {
     gchar * label = NULL, * balance = NULL;
+    GtkTreeIter dumb_iter;
 
     label = ( division ? iface -> div_name (division) : _(iface->no_div_label) );
     
@@ -168,6 +169,13 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 	balance = g_strdup_printf ( _("%4.2f %s"), iface -> div_balance ( division ),
 				    devise_code ( devise_compte ) );
     
+    if ( iface -> depth == 1 && 
+	 ! gtk_tree_model_iter_has_child ( model, iter ) && 
+	iface -> div_nb_transactions ( division ) )
+    {
+	gtk_tree_store_append (GTK_TREE_STORE (model), &dumb_iter, iter );
+    }
+
     gtk_tree_store_set (GTK_TREE_STORE(model), iter,
 			META_TREE_TEXT_COLUMN, label,
 			META_TREE_POINTER_COLUMN, division,
@@ -637,6 +645,7 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
     GtkTreeIter child_iter;
     gchar *name;
     gint no_division, no_sub_division;
+    MetatreeInterface * iface;
 
     /* Get model and metatree interface */
     model = gtk_tree_view_get_model(treeview);
@@ -644,13 +653,13 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
     gtk_tree_model_iter_children( model, &child_iter, iter );
     gtk_tree_model_get ( model, &child_iter, META_TREE_TEXT_COLUMN, &name, -1 );
 
-    if (!name)
+    iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );   
+
+    /* If there is already an entry there, don't populate it. */
+    if ( !name )
     {
-	MetatreeInterface * iface;
 	gboolean first = TRUE;
 	gint account;
-
-	iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );   
 
 	gtk_tree_model_get ( model, iter,
 			     META_TREE_NO_DIV_COLUMN, &no_division,
@@ -673,9 +682,9 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
 		
 		if ( operation &&
 		     iface -> transaction_div_id ( operation) == no_division &&
-		     iface -> transaction_sub_div_id ( operation ) == no_sub_division &&
-		     !operation -> relation_no_operation &&
-		     !operation -> operation_ventilee )
+		     iface -> transaction_sub_div_id ( operation ) == no_sub_division/*  && */
+/* 		     !operation -> relation_no_operation && */
+/* 		     !operation -> operation_ventilee */ )
 		{
 		    if ( !first )
 		    {
@@ -879,9 +888,9 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 		
 			if ( transaction &&
 			     iface -> transaction_div_id (transaction) == no_orig_division &&
-			     iface -> transaction_sub_div_id (transaction) == no_orig_sub_division &&
-			     !transaction -> relation_no_operation &&
-			     !transaction -> operation_ventilee )
+			     iface -> transaction_sub_div_id (transaction) == no_orig_sub_division /* && */
+/* 			     !transaction -> relation_no_operation && */
+/* 			     !transaction -> operation_ventilee  */)
 			{
 			    GtkTreePath * path;
 			    path = gtk_tree_model_get_path ( model, &iter );
@@ -956,10 +965,18 @@ void move_transaction_to_sub_division ( struct structure_operation * transaction
     }
 
     /* Update new parents */
-    iface -> add_transaction_to_sub_div ( transaction, no_division, no_sub_division );
-    fill_sub_division_row ( model, iface, &dest_iter, new_division, new_sub_division );
-    if ( gtk_tree_model_iter_parent ( model, &parent_iter, &dest_iter ) )
-	fill_division_row ( model, iface, &parent_iter, new_division );
+    if ( iface -> depth > 1 )
+    {
+	iface -> add_transaction_to_sub_div ( transaction, no_division, no_sub_division );
+	fill_sub_division_row ( model, iface, &dest_iter, new_division, new_sub_division );
+	if ( gtk_tree_model_iter_parent ( model, &parent_iter, &dest_iter ) )
+	    fill_division_row ( model, iface, &parent_iter, new_division );
+    }
+    else
+    {
+	iface -> add_transaction_to_div ( transaction, no_division );
+	fill_division_row ( model, iface, &dest_iter, new_division );
+    }
 
     /* Update old parents */
     iface -> remove_transaction_from_sub_div ( transaction, 
@@ -976,9 +993,18 @@ void move_transaction_to_sub_division ( struct structure_operation * transaction
 	{
 	    if ( gtk_tree_model_iter_parent ( model, &parent_iter, &orig_iter ) )
 	    {
-		fill_sub_division_row ( model, iface, &parent_iter, old_division, old_sub_division );
-		if ( gtk_tree_model_iter_parent ( model, &gd_parent_iter, &parent_iter ) )
-		    fill_division_row ( model, iface, &gd_parent_iter, old_division );
+		if ( iface -> depth > 1 )
+		{
+		    fill_sub_division_row ( model, iface, &parent_iter, 
+					    old_division, old_sub_division );
+		    if ( gtk_tree_model_iter_parent ( model, &gd_parent_iter, 
+						      &parent_iter ) )
+			fill_division_row ( model, iface, &gd_parent_iter, old_division );
+		}
+		else
+		{
+		    fill_division_row ( model, iface, &parent_iter, old_division );
+		}
 	    }
 	    
 	    /* Remove old row */
@@ -1050,7 +1076,7 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
     gchar **split_division;
 
     dialog = dialogue_special_no_run ( GTK_MESSAGE_WARNING, GTK_BUTTONS_OK_CANCEL,
-				       make_hint ( _("Selected sub-division still contains transactions."),
+				       make_hint ( g_strdup_printf ( _("'%s' still contains transactions."), iface -> div_name ( division )),
 						   _("If you want to remove this sub-division but want to keep transactions, you can transfer them to another (sub-)division.  Otherwise, transactions can be simply deleted along with their division.") ));
 
     /*       mise en place du choix tranfert vers un autre division */
@@ -1088,11 +1114,9 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
 		liste_division_debit = g_slist_append ( liste_division_debit,
 							g_strdup ( iface -> div_name ( p_division ) ) );
 		break;
-	    case 0:
+	    default:
 		liste_division_credit = g_slist_append ( liste_division_credit,
 							 g_strdup ( iface -> div_name ( p_division ) ) );
-		break;
-	    default:
 		break;
 	}
 
