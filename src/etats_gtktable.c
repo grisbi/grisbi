@@ -1372,8 +1372,8 @@ gint gtktable_affiche_total_periode ( struct structure_operation *operation,
 	    message = g_strdup_printf ( COLON(_("Result of %s (%d transactions)")),
 					buffer, nb_ope_periode_etat );
 	  else
-	    message = g_strconcat ( COLON(_("Result of %s")),
-				    buffer );
+	    message = g_strdup_printf ( COLON(_("Result of %s")),
+					buffer );
 				      
 	  break;
 
