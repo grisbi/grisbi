@@ -5145,7 +5145,7 @@ msgstr "Gérald Niel (gerald.niel@grisbi.org) : paquets Slackware, site web"
 
 #: src/help.c:51
 msgid "Matthieu Puppat (tieum.tieum@free.fr): Mandrake packaging"
-msgstr "Matthieu Pupat (thieum.tieum@free.fr) : paquets Mandrake"
+msgstr "Matthieu Pupat (tieum.tieum@free.fr) : paquets Mandrake"
 
 #: src/help.c:52
 msgid "Francois Terrot (grisbi@terrot.net): Windows packaging, cygwin port"
