@@ -371,16 +371,11 @@ GtkWidget * onglet_display_fonts ( void )
 		     list_font_size_label,
 		     fonte_liste);
 
-  hbox = gtk_hbox_new ( FALSE, 5 );
-  gtk_box_pack_end ( GTK_BOX ( vbox_pref ), hbox,
-		     FALSE, FALSE, 0 );
-  init_button = gtk_button_new_with_label ( SPACIFY(_("Restore defaults fonts")) );
-  gtk_box_pack_end ( GTK_BOX ( hbox ), init_button,
-		     FALSE, FALSE, 0 );
+  init_button = gtk_button_new_with_label ( SPACIFY(_("Revert to defaults fonts")) );
+  gtk_box_pack_end ( GTK_BOX ( vbox_pref ), init_button,
+		     TRUE, FALSE, 0 );
   g_signal_connect (init_button, "clicked", 
 		    G_CALLBACK (init_fonts), NULL);
-
-  gtk_widget_show_all ( vbox_pref );
 
   return vbox_pref;
 }
@@ -735,7 +730,7 @@ void modification_logo_accueil ( void )
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ), choix,
 		       TRUE, TRUE, 0 );
 
-  bouton = gtk_button_new_with_label ( _("Reset to default logo") );
+  bouton = gtk_button_new_with_label ( _("Revert to default logo") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ), GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ), "clicked",
 		       GTK_SIGNAL_FUNC ( remise_a_zero_logo ), choix );
