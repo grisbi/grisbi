@@ -74,6 +74,7 @@ GtkWidget *entree_personnalisation_affichage_echeances;
 GtkWidget *bouton_personnalisation_affichage_echeances;
 GtkWidget *bouton_valider_echeance_perso;
 GtkWidget *bouton_saisir_echeancier;
+GtkWidget *bouton_supprimer_echeancier;
 GtkWidget *calendrier_echeances;
 
 struct operation_echeance *echeance_selectionnnee;
@@ -99,6 +100,7 @@ extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 GtkWidget *creation_partie_gauche_echeancier ( void )
 {
     GtkWidget *vbox;
+    GtkWidget *vbox2;
     GtkWidget *separation;
     GtkWidget *hbox;
     GtkWidget *label;
@@ -350,14 +352,14 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
 
     /* place en dessous les boutons Saisir */
 
-    hbox = gtk_hbox_new ( TRUE,
+    vbox2 = gtk_vbox_new ( TRUE,
 			  10 );
     gtk_box_pack_end ( GTK_BOX ( vbox ),
-		       hbox,
+		       vbox2,
 		       FALSE,
 		       FALSE,
 		       5 );
-    gtk_widget_show ( hbox );
+    gtk_widget_show ( vbox2 );
 
     separation = gtk_hseparator_new ();
     gtk_box_pack_end ( GTK_BOX ( vbox ),
@@ -367,12 +369,12 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
 		       5 );
     gtk_widget_show ( separation );
 
-    bouton_saisir_echeancier = gtk_button_new_with_label ( _("Remove selected\nscheduled transaction") );
+    bouton_saisir_echeancier = gtk_button_new_with_label ( _("Fall due selected\nscheduled transaction") );
     gtk_button_set_relief ( GTK_BUTTON ( bouton_saisir_echeancier ), GTK_RELIEF_NONE );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_saisir_echeancier ), "clicked",
-				GTK_SIGNAL_FUNC ( supprime_echeance), NULL );
+				GTK_SIGNAL_FUNC ( click_sur_saisir_echeance ), NULL );
 
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
+    gtk_box_pack_start ( GTK_BOX ( vbox2 ),
 			 bouton_saisir_echeancier,
 			 TRUE,
 			 FALSE,
@@ -380,6 +382,20 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
     gtk_widget_set_sensitive ( GTK_WIDGET ( bouton_saisir_echeancier ),
 			       FALSE );
     gtk_widget_show ( bouton_saisir_echeancier );
+
+    bouton_supprimer_echeancier = gtk_button_new_with_label ( _("Remove selected\nscheduled transaction") );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton_supprimer_echeancier ), GTK_RELIEF_NONE );
+    gtk_signal_connect_object ( GTK_OBJECT ( bouton_supprimer_echeancier ), "clicked",
+				GTK_SIGNAL_FUNC ( supprime_echeance), NULL );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox2 ),
+			 bouton_supprimer_echeancier,
+			 TRUE,
+			 FALSE,
+			 0 );
+    gtk_widget_set_sensitive ( GTK_WIDGET ( bouton_supprimer_echeancier ),
+			       FALSE );
+    gtk_widget_show ( bouton_supprimer_echeancier );
 
     return ( vbox );
 }
@@ -1025,12 +1041,19 @@ void selectionne_echeance ( void )
     }
 
     if ( echeance_selectionnnee != GINT_TO_POINTER ( -1 ) )
+    {
 	gtk_widget_set_sensitive ( GTK_WIDGET ( bouton_saisir_echeancier ),
 				   TRUE );
+	gtk_widget_set_sensitive ( GTK_WIDGET ( bouton_supprimer_echeancier ),
+				   TRUE );
+    }
     else
+    {
 	gtk_widget_set_sensitive ( GTK_WIDGET ( bouton_saisir_echeancier ),
 				   FALSE );
-
+	gtk_widget_set_sensitive ( GTK_WIDGET ( bouton_supprimer_echeancier ),
+				   FALSE );
+    }
 }
 /*****************************************************************************/
 
