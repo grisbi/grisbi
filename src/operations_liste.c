@@ -378,6 +378,7 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( onglet ),
 				     GTK_POLICY_AUTOMATIC,
 				     GTK_POLICY_AUTOMATIC);
+    gtk_widget_show ( onglet );
 
     /* création de l'onglet */
 
@@ -400,6 +401,7 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 			       liste );
     gtk_container_add ( GTK_CONTAINER ( onglet ),
 			liste );
+    gtk_widget_show ( liste );
 
     /* le fait de mettre des tips sur les titres rend les boutons sensitifs ; */
     /* on va détourner le click pour ne pas faire enfoncer le bouton */
@@ -455,13 +457,7 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 
     /* sauvegarde les redimensionnement des colonnes */
 
-    gtk_signal_connect ( GTK_OBJECT ( liste ),
-			 "resize_column",
-			 GTK_SIGNAL_FUNC ( changement_taille_colonne ),
-			 NULL );
-
     /* on ajoute l'onglet au notebook des comptes */
-
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
 			       onglet,
 			       gtk_label_new ( NOM_DU_COMPTE ) );
@@ -470,14 +466,15 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 
     /* par défaut, le classement de la liste s'effectue par date */
 
-    if ( LISTE_OPERATIONS )
-      LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
-					(GCompareFunc) classement_sliste );
+    LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
+				      (GCompareFunc) classement_sliste );
+
+    gtk_signal_connect ( GTK_OBJECT ( liste ),
+			 "resize_column",
+			 GTK_SIGNAL_FUNC ( changement_taille_colonne ),
+			 NULL );
 
     remplissage_liste_operations ( no_compte );
-
-    gtk_widget_show ( onglet );
-    gtk_widget_show ( liste );
 }
 /******************************************************************************/
 
@@ -542,11 +539,11 @@ void remplissage_liste_operations ( gint compte )
     gdouble montant;
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
-
-    /* freeze la clist */
-
+    
     if ( ! GTK_IS_CLIST (CLIST_OPERATIONS) )
       return;
+
+    /* freeze la clist */
 
     gtk_clist_freeze ( GTK_CLIST ( CLIST_OPERATIONS ));
 
@@ -875,7 +872,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 
 	    /* mise en forme du débit */
 	case 5:
-	    if ( operation -> montant < -0.001 ) 
+	    if ( operation -> montant < -0.001 )
 	      /* -0.001 is to handle float approximations */
 	    {
 		temp = g_strdup_printf ( "%4.2f", -operation -> montant );
@@ -2249,9 +2246,9 @@ void supprime_operation ( struct structure_operation *operation )
 /* appelée dès que la taille de la clist a changé			      */
 /* pour mettre la taille des différentes colonnes			      */
 /******************************************************************************/
-void changement_taille_liste_ope ( GtkWidget *clist,
-				   GtkAllocation *allocation,
-				   gint *compte )
+gboolean changement_taille_liste_ope ( GtkWidget *clist,
+				       GtkAllocation *allocation,
+				       gint *compte )
 {
     gint i, j;
     gint largeur;
@@ -2260,24 +2257,24 @@ void changement_taille_liste_ope ( GtkWidget *clist,
     /* si la largeur de grisbi est < 700, on fait rien */
 
     if ( window -> allocation.width < 700 )
-	return;
+	return FALSE;
 
     /*     pour éviter que le système ne s'emballe... */
     /*     encore plus grosse magouille avec allocation_encore_avant pour éviter */
     /* 	un joli effet glissant pendant l'affichage d'un bouton du formulaire */
     /* 	c'est résolu dans l'instable de manière plus jolie !! */
 
-    if ( allocation_compte_precedent == compte &&
+    if ( allocation_compte_precedent == (gint) compte &&
 	 allocation -> width == allocation_precedente )
-	return;
+	return FALSE;
 
-    if ( allocation_compte_precedent == compte &&
+    if ( allocation_compte_precedent == (gint) compte &&
 	 allocation -> width == allocation_encore_avant )
-	return;
+	return FALSE;
 
      allocation_precedente = allocation_encore_avant;
      allocation_encore_avant = allocation -> width;
-     allocation_compte_precedent = compte;
+     allocation_compte_precedent = (gint) compte;
 
     if ( allocation )
 	largeur = allocation -> width;
@@ -2378,6 +2375,8 @@ void changement_taille_liste_ope ( GtkWidget *clist,
     gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_MODE] ),
 			   col6,
 			   FALSE  );
+
+    return FALSE;
 }
 /******************************************************************************/
 
@@ -2564,17 +2563,18 @@ void verifie_ligne_selectionnee_visible ( void )
 /******************************************************************************/
 
 /******************************************************************************/
-void changement_taille_colonne ( GtkWidget *clist,
-				 gint colonne,
-				 gint largeur )
+gboolean changement_taille_colonne ( GtkWidget *clist, gint colonne, gint largeur )
 {
     if ( !GTK_WIDGET_REALIZED(clist) )
     {
       return FALSE;
     }
 
-    echap_formulaire();
+    /* Why would we need to reset the form here? */
+/*     echap_formulaire(); */
     taille_largeur_colonnes[colonne] = largeur;
+
+    return FALSE;
 }
 /******************************************************************************/
 
