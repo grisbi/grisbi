@@ -569,10 +569,6 @@ gboolean lache_bouton_classement_liste ( GtkWidget *clist,
     tab_affichage_ope[ligne_depart_drag][col_depart_drag] = tab_affichage_ope[ligne_arrivee_drag][col_arrivee_drag];
     tab_affichage_ope[ligne_arrivee_drag][col_arrivee_drag] = buffer_int;
 
-    /* on dégrise le appliquer de la fenetre de préférences */
-
-    gnome_property_box_changed ( GNOME_PROPERTY_BOX ( fenetre_preferences ));
-
     return ( TRUE );
 }
 /* ************************************************************************************************************** */

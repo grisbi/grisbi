@@ -115,8 +115,10 @@ int main (int argc, char *argv[])
 	bind_textdomain_codeset (PACKAGE, "UTF-8");
 	textdomain (PACKAGE);
 
-	gnome_init_with_popt_table ("Grisbi", VERSION, argc, argv, options, 0, &ctx);
+	/* FIXME : tous les arguments du gnome_init... */
+	/* 	gnome_init_with_popt_table ("Grisbi", VERSION, argc, argv, options, 0, &ctx); */
 
+	gtk_init ( &argc, &argv );
 
 	/* on commence par détourner le signal SIGSEGV */
 	memset ( &sig_sev, 0, sizeof ( struct sigaction ));

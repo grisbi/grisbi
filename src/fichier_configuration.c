@@ -30,6 +30,7 @@
 #include <libxml/tree.h>
 
 
+/* ***************************************************************************************************** */
 void charge_configuration ( void )
 {
     gint nb_fichiers_a_verifier;
@@ -44,12 +45,10 @@ void charge_configuration ( void )
 
     raz_configuration ();
 
-    if ( stat ( g_strconcat ( getenv ("HOME"), "/.grisbirc", NULL ),&buffer_stat ) == -1 ) {
-	if ( gnome_config_get_int( g_strconcat ( "/", FICHIER_CONF, "/Geometry/Width", NULL) ) )
-	{
-	    charge_configuration_ancien();
-	    return;
-	}
+    if ( stat ( g_strconcat ( getenv ("HOME"), "/.grisbirc", NULL ),&buffer_stat ) == -1 )
+    {
+	charge_configuration_ancien();
+	return;
     }
 
     doc = xmlParseFile ( g_strconcat ( getenv ("HOME"), "/.grisbirc", NULL ) );
@@ -333,98 +332,164 @@ void charge_configuration_ancien ( void )
     gint i;
     gint flag;
     struct stat buffer_stat;
+    FILE *fichier;
+    gchar *fichier_conf;
+    gchar temp[100];
 
-    if ( ! gnome_config_get_int( g_strconcat ( "/", FICHIER_CONF, "/Geometry/Width", NULL) )  )
+    /* modif -> vire gnome, donc fait tout à la main */
+
+    fichier_conf = g_strconcat ( getenv ( "HOME" ),
+				 "/.gnome/Grisbi",
+				 NULL );
+
+    fichier = fopen ( fichier_conf,
+		      "ro" );
+    if ( !fichier )
     {
+	dialogue_error_hint ( g_strconcat ( latin2utf8 ( strerror ( errno )),
+					    "\n",
+					    _("File : "),
+					    fichier_conf,
+					    NULL ),
+			      _("Error opening config"));
 	raz_configuration ();
 	return;
     }
 
-    /*on récupère la taille de la fenêtre à l'arrêt précédent */
 
-    largeur_window = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Geometry/Width", NULL ));
-    hauteur_window = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Geometry/Height", NULL ));
+    /*     on lit ligne par ligne... */
 
-    etat.r_modifiable = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Modification_operations_rapprochees", NULL ));
-    dernier_chemin_de_travail = gnome_config_get_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Dernier_chemin_de_travail", NULL ));
+    while ( fgets ( temp,
+		    100,
+		    fichier ))
+    {
+	sscanf ( temp,
+		 "Width=%d",
+		 &largeur_window );
+	sscanf ( temp,
+		 "Height=%d",
+		 &hauteur_window );
+	sscanf ( temp,
+		 "Modification_operations_rapprochees=%d",
+		 &etat.r_modifiable );
+	sscanf ( temp,
+		 "Dernier_chemin_de_travail=%as",
+		 &dernier_chemin_de_travail );
+	sscanf ( temp,
+		 "Fonction_touche_entree=%d",
+		 &etat.entree );
+	sscanf ( temp,
+		 "Fonte_des_listes=%as",
+		 &fonte_liste );
+	sscanf ( temp,
+		 "Force_enregistrement=%d",
+		 &etat.force_enregistrement );
+	sscanf ( temp,
+		 "Chargement_auto_dernier_fichier=%d",
+		 &etat.dernier_fichier_auto);
+	sscanf ( temp,
+		 "Nom_dernier_fichier=%as",
+		 &nom_fichier_comptes );
+	sscanf ( temp,
+		 "Enregistrement_automatique=%d",
+		 &etat.sauvegarde_auto );
+	sscanf ( temp,
+		 "Enregistrement_au_demarrage=%d",
+		 &etat.sauvegarde_demarrage );
+	sscanf ( temp,
+		 "Nb_max_derniers_fichiers_ouverts=%d",
+		 &nb_max_derniers_fichiers_ouverts );
+	sscanf ( temp,
+		 "Compression_fichier=%d",
+		 &compression_fichier );
+	sscanf ( temp,
+		 "Compression_backup=%d",
+		 &compression_backup  );
+	sscanf ( temp,
+		 "Delai_rappel_echeances=%d",
+		 &decalage_echeance );
+	sscanf ( temp,
+		 "Affichage_formulaire=%d",
+		 &etat.formulaire_toujours_affiche );
+	sscanf ( temp,
+		 "Affichage_formulaire_echeancier=%d",
+		 &etat.formulaire_echeancier_toujours_affiche  );
+	sscanf ( temp,
+		 "Affichage_tous_types=%d",
+		 &etat.affiche_tous_les_types );
+	sscanf ( temp,
+		 "Affiche_no_operation=%d",
+		 &etat.affiche_no_operation );
+	sscanf ( temp,
+		 "Affiche_date_bancaire=%d",
+		 &etat.affiche_date_bancaire );
+	sscanf ( temp,
+		 "Tri_par_date=%d",
+		 &etat.classement_par_date );
+	sscanf ( temp,
+		 "Affiche_boutons_valider_annuler=%d",
+		 & etat.affiche_boutons_valider_annuler);
+	sscanf ( temp,
+		 "Largeur_auto_colonnes=%d",
+		 &etat.largeur_auto_colonnes );
+	sscanf ( temp,
+		 "Caracteristiques_par_compte=%d",
+		 &etat.retient_affichage_par_compte );
+	sscanf ( temp,
+		 "Affichage_exercice_automatique=%d",
+		 &etat.affichage_exercice_automatique );
+	sscanf ( temp,
+		 "Affichage_nb_ecritures=%d",
+		 &etat.affiche_nb_ecritures_listes );
+	sscanf ( temp,
+		 "taille_largeur_colonne0=%d",
+		 &taille_largeur_colonnes[0] );
+	sscanf ( temp,
+		 "taille_largeur_colonne1=%d",
+		 &taille_largeur_colonnes[1] );
+	sscanf ( temp,
+		 "taille_largeur_colonne2=%d",
+		 &taille_largeur_colonnes[2] );
+	sscanf ( temp,
+		 "taille_largeur_colonne3=%d",
+		 &taille_largeur_colonnes[3] );
+	sscanf ( temp,
+		 "taille_largeur_colonne4=%d",
+		 &taille_largeur_colonnes[4] );
+	sscanf ( temp,
+		 "taille_largeur_colonne5=%d",
+		 &taille_largeur_colonnes[5] );
+	sscanf ( temp,
+		 "taille_largeur_colonne6=%d",
+		 &taille_largeur_colonnes[6] );
+	sscanf ( temp,
+		 "display_message_lock_active=%d",
+		 &etat.display_message_lock_active );
+	sscanf ( temp,
+		 "display_message_file_readable=%d",
+		 &etat.display_message_file_readable );
+	sscanf ( temp,
+		 "display_message_minimum_alert=%d",
+		 &etat.display_message_minimum_alert );
+    }
 
     if ( !dernier_chemin_de_travail )
 	dernier_chemin_de_travail = g_strconcat ( getenv ("HOME"),
 						  "/",
 						  NULL );
-
-    etat.entree = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonction_touche_entree", NULL ));
-
-    /*FIXME : do that with list_font_name & list_font_size */
-    fonte_liste = gnome_config_get_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonte_des_listes", NULL ));
-    etat.force_enregistrement = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Force_enregistrement", NULL ));
-
     if ( fonte_liste && !strlen( fonte_liste ) )
 	fonte_liste = NULL;
 
-    etat.dernier_fichier_auto = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/IO/Chargement_auto_dernier_fichier", NULL ));
-    nom_fichier_comptes = gnome_config_get_string ( g_strconcat ( "/", FICHIER_CONF, "/IO/Nom_dernier_fichier", NULL ));
-    etat.sauvegarde_auto = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/IO/Enregistrement_automatique", NULL ));
-    etat.sauvegarde_demarrage = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/IO/Enregistrement_au_demarrage", NULL ));
-
-    nb_max_derniers_fichiers_ouverts = gnome_config_get_int_with_default ( g_strconcat ( "/", FICHIER_CONF, "/IO/Nb_max_derniers_fichiers_ouverts", NULL ),
-									   &flag );
-    if ( flag )
-	nb_max_derniers_fichiers_ouverts = 3;
-
-    compression_fichier = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/IO/Compression_fichier", NULL ));
-    compression_backup = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/IO/Compression_backup", NULL ));
     xmlSetCompressMode ( compression_fichier );
 
-    gnome_config_get_vector ( g_strconcat ( "/", FICHIER_CONF, "/IO/Liste_noms_derniers_fichiers_ouverts", NULL ),
-			      &nb_derniers_fichiers_ouverts,
-			      &tab_noms_derniers_fichiers_ouverts );
+    tab_noms_derniers_fichiers_ouverts = NULL;
+    nb_derniers_fichiers_ouverts = 0;
 
+    /* on transforme les chaines en utf8 */
 
-    if ( nb_derniers_fichiers_ouverts == 1
-	 &&
-	 !strlen ( tab_noms_derniers_fichiers_ouverts[0]))
-    {
-	tab_noms_derniers_fichiers_ouverts[0] = NULL;
-	nb_derniers_fichiers_ouverts = 0;
-    }
-
-    decalage_echeance = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Echeances/Delai_rappel_echeances", NULL ));
-
-    gnome_config_get_vector ( g_strconcat ( "/", FICHIER_CONF, "/Applet/Fichiers_a_verifier", NULL ),
-			      &nb_fichiers_a_verifier,
-			      &tab_noms_fichiers );
-
-    etat.formulaire_toujours_affiche = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affichage_formulaire", NULL ));
-    etat.formulaire_echeancier_toujours_affiche  = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affichage_formulaire_echeancier", NULL ));
-
-    etat.affiche_tous_les_types = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affichage_tous_types", NULL ));
-    etat.affiche_no_operation = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affiche_no_operation", NULL ));
-    etat.affiche_date_bancaire = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affiche_date_bancaire", NULL ));
-    etat.classement_par_date = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Tri_par_date", NULL ));
-    etat.affiche_boutons_valider_annuler = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affiche_boutons_valider_annuler", NULL ));
-    etat.largeur_auto_colonnes  = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Largeur_auto_colonnes", NULL ));
-    etat.retient_affichage_par_compte  = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Caracteristiques_par_compte", NULL ));
-
-
-    etat.affichage_exercice_automatique  = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Exercice/Affichage_exercice_automatique", NULL ));
-    etat.affiche_nb_ecritures_listes  = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Exercice/Affichage_nb_ecritures", NULL ));
-
-    for ( i=0 ; i<7 ; i++ )
-	taille_largeur_colonnes[i] = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Exercice/taille_largeur_colonne", itoa(i), NULL ));
-
-    fichier_a_verifier = NULL;
-
-    for ( i = 0 ; i < nb_fichiers_a_verifier ; i++ )
-	fichier_a_verifier = g_slist_append ( fichier_a_verifier,
-					      tab_noms_fichiers[i] );
-
-
-    etat.display_message_lock_active  = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Messages/display_message_lock_active", NULL ));
-    etat.display_message_file_readable  = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Messages/display_message_file_readable", NULL ));
-    etat.display_message_minimum_alert = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Messages/display_message_minimum_alert", NULL ));
-
-
+    dernier_chemin_de_travail = latin2utf8 ( dernier_chemin_de_travail );
+    fonte_liste= latin2utf8 ( fonte_liste );
+    nom_fichier_comptes = latin2utf8 ( nom_fichier_comptes );
 }
 /*************************************************************************************************** */
 
@@ -488,7 +553,7 @@ void raz_configuration ( void )
 /* Appelée à chaque changement de configuration */
 /* ***************************************************************************************************** */
 
-void sauve_configurationXML(void)
+void sauve_configuration(void)
 {
     GSList *pointeur_fichier_a_verifier;
     gint i, x, y;
@@ -646,138 +711,3 @@ void sauve_configurationXML(void)
 
 
 
-/* ***************************************************************************************************** */
-/* Fonction sauve_configuration */
-/* Appelée à chaque changement de configuration */
-/* ***************************************************************************************************** */
-void sauve_configuration (void)
-{
-
-    sauve_configurationXML();
-    return;
-    GSList *pointeur_fichier_a_verifier;
-    gint i;
-    gchar **tab_pointeurs;
-
-    /*   sauvegarde de la géométrie */
-
-    if ( GTK_WIDGET ( window) -> window )
-    {
-	gtk_window_get_size ( GTK_WINDOW(window), &largeur_window, &hauteur_window);
-    }
-    else
-    {
-	largeur_window = 0;
-	hauteur_window = 0;
-    }
-
-    gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Geometry/Width", NULL ),
-			   largeur_window );
-    gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Geometry/Height", NULL ),
-			   hauteur_window );
-
-    /* sauvegarde de l'onglet général */
-    gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Modification_operations_rapprochees", NULL ),
-			   etat.r_modifiable );
-    gnome_config_set_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Dernier_chemin_de_travail", NULL ),
-			      dernier_chemin_de_travail );
-    gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Force_enregistrement", NULL ),
-			   etat.force_enregistrement );
-    gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonction_touche_entree", NULL ),
-			   etat.entree );
-    gnome_config_set_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonte_des_listes", NULL ),
-			      fonte_liste );
-
-
-    /* sauvegarde de l'onglet I/O */
-
-    gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/IO/Chargement_auto_dernier_fichier", NULL ),
-			   etat.dernier_fichier_auto );
-    gnome_config_set_string ( g_strconcat ( "/", FICHIER_CONF, "/IO/Nom_dernier_fichier", NULL ),
-			      nom_fichier_comptes );
-    gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/IO/Enregistrement_automatique", NULL ),
-			   etat.sauvegarde_auto );
-    gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/IO/Enregistrement_au_demarrage", NULL ),
-			   etat.sauvegarde_demarrage );
-    gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/IO/Nb_max_derniers_fichiers_ouverts", NULL ),
-			   nb_max_derniers_fichiers_ouverts );
-    gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/IO/Compression_fichier", NULL ),
-			   compression_fichier );
-    gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/IO/Compression_backup", NULL ),
-			   compression_backup );
-    gnome_config_set_vector ( g_strconcat ( "/", FICHIER_CONF, "/IO/Liste_noms_derniers_fichiers_ouverts", NULL ),
-			      nb_derniers_fichiers_ouverts,
-			      (const char **) tab_noms_derniers_fichiers_ouverts );
-
-    /* sauvegarde de l'onglet échéances */
-
-    gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Echeances/Delai_rappel_echeances", NULL ),
-			   decalage_echeance );
-
-
-    /* sauvegarde des fichiers à vérifier par l'applet */
-
-    tab_pointeurs = malloc ( g_slist_length ( fichier_a_verifier ) * sizeof ( gchar * ) );
-
-    pointeur_fichier_a_verifier = fichier_a_verifier;
-    i = 0;
-
-    while ( pointeur_fichier_a_verifier )
-    {
-	tab_pointeurs[i] = pointeur_fichier_a_verifier -> data;
-	i++;
-	pointeur_fichier_a_verifier = pointeur_fichier_a_verifier -> next;
-    }
-
-
-    gnome_config_set_vector ( g_strconcat ( "/", FICHIER_CONF, "/Applet/Fichiers_a_verifier", NULL ),
-			      g_slist_length ( fichier_a_verifier ),
-			      (const char **) tab_pointeurs );
-
-
-    /*   sauvegarde de l'onglet affichage */
-
-    gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affichage_formulaire", NULL ),
-			   etat.formulaire_toujours_affiche );
-    gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affichage_formulaire_echeancier", NULL ),
-			   etat.formulaire_echeancier_toujours_affiche );
-    gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affichage_tous_types", NULL ),
-			   etat.affiche_tous_les_types );
-    gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affiche_no_operation", NULL ),
-			   etat.affiche_no_operation );
-    gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affiche_date_bancaire", NULL ),
-			   etat.affiche_date_bancaire );
-    gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Tri_par_date", NULL ),
-			   etat.classement_par_date );
-    gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affiche_boutons_valider_annuler", NULL ),
-			   etat.affiche_boutons_valider_annuler );
-    gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Largeur_auto_colonnes", NULL ),
-			   etat.largeur_auto_colonnes );
-    gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Caracteristiques_par_compte", NULL ),
-			   etat.retient_affichage_par_compte );
-
-    for ( i=0 ; i<7 ; i++ )
-	gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Exercice/taille_largeur_colonne", itoa(i), NULL ),
-			       taille_largeur_colonnes[i] );
-
-
-    gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Exercice/Affichage_nb_ecritures", NULL ),
-			   etat.affiche_nb_ecritures_listes );
-
-    /* sauvegarde de l'onglet exercice */
-
-    gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Exercice/Affichage_exercice_automatique", NULL ),
-			   etat.affichage_exercice_automatique );
-
-    /* Save messages settings */
-    gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Messages/display_message_lock_active", NULL ),
-			   etat.display_message_lock_active );
-    gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Messages/display_message_file_readable", NULL ),
-			   etat.display_message_file_readable );
-    gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Messages/display_message_minimum_alert", NULL ),
-			   etat.display_message_minimum_alert );
-
-
-    gnome_config_sync();
-}
-/* ***************************************************************************************************** */

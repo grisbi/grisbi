@@ -233,15 +233,6 @@ GtkWidget *bouton_save_demarrage;
 GtkWidget *entree_jours;
 GtkWidget *bouton_2click_saisie, *bouton_2click_pas_saisie;
 
-GSList *fichier_a_verifier;
-GtkWidget *bouton_affichage_applet;
-GtkWidget *frame_demarrage;
-GtkWidget *liste_comptes_verifies;
-gint fichier_verifier_selectionne, nb_fichier_verifier;
-GtkWidget *bouton_enlever;
-GSList *liste_suppression_fichier_a_verifier, *fichier_a_verifier_tmp;
-gint pid_applet;
-
 
 GSList *liste_struct_exercices_tmp;                 /*  utilisée à la place de la liste des exercices pour les paramètres */
 gint no_derniere_exercice_tmp;                            /*  utilisé à la place de no_derniere_exercice pour les paramètres */

@@ -513,7 +513,6 @@ void applique_modif_exercice ( GtkWidget *liste )
 			 0,
 			 exercice -> nom_exercice );
 
-    gnome_property_box_changed ( GNOME_PROPERTY_BOX ( fenetre_preferences));
 }
 /* ***************************************************************************************************** */
 

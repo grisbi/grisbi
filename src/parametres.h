@@ -1,24 +1,12 @@
 void preferences ( gint page );
 GtkWidget *onglet_messages_and_warnings ( void );
 GtkWidget *onglet_fichier ( void );
-GtkWidget *onglet_echeances ( void );
 GtkWidget *onglet_applet ( void );
-void change_selection_verif ( GtkWidget *liste_comptes,
-			       gint ligne,
-			       gint colonne,
-			       GdkEventButton *event,
-			      gint * data );
-void changement_utilisation_applet ( void );
-void ajouter_verification ( GtkWidget *bouton_add,
-			    GtkWidget *fenetre_preferences );
-void supprimer_verification ( GtkWidget *bouton_supp,
-			      GtkWidget *fenetre_preferences );
 void changement_choix_backup ( GtkWidget *bouton,
 			       gpointer pointeur );
 void changement_preferences ( GtkWidget *fenetre_preferences,
 			      gint page,
 			      gpointer data );
-gint verifie_affichage_applet ( void );
 void fermeture_preferences ( GtkWidget *, gint, gpointer);
 void activer_bouton_appliquer ( void );
 gboolean selectionne_liste_preference ( GtkTreeSelection *selection,

@@ -203,7 +203,6 @@ void supprime_banque ( GtkWidget *bouton,
 						banque );
 	free ( banque );
 	nb_banques--;
-	gnome_property_box_changed ( GNOME_PROPERTY_BOX ( fenetre_preferences));
     }
 
     update_bank_menu ();
