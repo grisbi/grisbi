@@ -46,7 +46,10 @@ gboolean metatree_get_row_properties ( GtkTreeModel * tree_model, GtkTreePath * 
     gchar * tmp_text;
 
     if ( !gtk_tree_model_get_iter ( GTK_TREE_MODEL(tree_model), &iter, path ) )
+    {
+	/* This can be because drag is not possible, so no croak */
 	return FALSE;
+    }
 
     gtk_tree_model_get ( GTK_TREE_MODEL(tree_model), &iter,
 			 META_TREE_TEXT_COLUMN, &tmp_text,
