@@ -2844,6 +2844,7 @@ GtkWidget *onglet_importation (void)
     GtkWidget *hbox;
     GtkWidget *label;
     GtkWidget *bouton;
+    gchar *sTmp;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Import"),
 					       "files.png" ); 
@@ -2856,13 +2857,16 @@ GtkWidget *onglet_importation (void)
 			 0 );
     gtk_widget_show ( hbox );
 
-    label = gtk_label_new ( _("Search the transaction "));
+    sTmp = POSTSPACIFY(_("Search the transaction"));
+    label = gtk_label_new ( sTmp );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 label,
 			 FALSE,
 			 FALSE,
 			 0 );
     gtk_widget_show ( label );
+    g_free(sTmp);
+    sTmp = NULL;
 
     bouton = gtk_spin_button_new_with_range ( 0.0,
 					      100.0,
@@ -2880,13 +2884,16 @@ GtkWidget *onglet_importation (void)
 			 0 );
     gtk_widget_show ( bouton );
 
-    label = gtk_label_new ( _("days around the date in the imported transaction."));
+    sTmp = PRESPACIFY(_("days around the date in the imported transaction."));
+    label = gtk_label_new ( sTmp );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 label,
 			 FALSE,
 			 FALSE,
 			 0 );
     gtk_widget_show ( label );
+    g_free(sTmp);
+    sTmp = NULL;
 
     if ( !nb_comptes )
     {
