@@ -44,7 +44,8 @@
 void reconciliation_check ( void )
 {
   gint affected_account = 0;
-  GSList *ordre_comptes_variable;
+  gint tested_account = 0;
+  GSList *pUserAccountsList;
 
   /* s'il n'y a pas de compte, on quitte */
   if ( !nb_comptes )
@@ -54,14 +55,16 @@ void reconciliation_check ( void )
   if ( question_yes_no ( g_strdup_printf ( _("This will check that the last reconciliation amounts matches with "
 					     "total amounts of reconcilied transactions (and initial balance).") )))
   {
-    /* On fera la vérification des comptes
-       dans l'ordre préféré de l'utilisateur */
-    ordre_comptes_variable = ordre_comptes;
+    /* On fera la vérification des comptes dans l'ordre préféré
+       de l'utilisateur. On fait une copie de la liste car
+       on va y écrire dedans. */
+
+    pUserAccountsList = g_slist_copy ( ordre_comptes );
 
     /* Pour chacun des comptes, faire */
     do
     {
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable -> data );
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( pUserAccountsList -> data );
     
       /* Si le compte a été rapproché au moins une fois */
       if ( DERNIER_NO_RAPPROCHEMENT )
@@ -110,17 +113,21 @@ void reconciliation_check ( void )
 	{
 	  affected_account++;
 
-	  dialogue_warning_hint ( g_strdup_printf ( _("Last reconciliation amount : %f\n"
-						    "Computed reconciliation amount : %f"),
-						    SOLDE_DERNIER_RELEVE,
-						    reconcilied_amount ),
-				  g_strdup_printf ( _("Account name : %s\n"),
-						    NOM_DU_COMPTE ));
-
+	  if ( !question_yes_no_hint ( g_strdup_printf ( _("Account name : %s\n"),
+							 NOM_DU_COMPTE),
+				       g_strdup_printf ( _("Last reconciliation amount : %f\n"
+							   "Computed reconciliation amount : %f\n\n"
+							   "Do you to continue test?"),
+							   reconcilied_amount,
+							   SOLDE_DERNIER_RELEVE ) ) )
+	  {
+	    pUserAccountsList -> next = NULL;
+	  }
 	}
+	tested_account++;
       }
     }
-    while ( (  ordre_comptes_variable = ordre_comptes_variable -> next ) );
+    while ( (  pUserAccountsList = pUserAccountsList -> next ) );
 
     if ( !affected_account )
     {
@@ -128,10 +135,14 @@ void reconciliation_check ( void )
     }
     else
     {
-      dialogue ( g_strdup_printf ( _("In %d account(s) on %d, stored and computed reconciliation "
-				     "don't match.  You should correct this quickly."),
-				   affected_account,
-				   nb_comptes ));
+      dialogue ( g_strdup_printf ( _("There are %d accounts in your file.  %d were tested.\n"
+				     "In %d account(s), stored and computed reconciliation "
+				     "don't match.  You should correct this quickly.\n"
+				     "Generally, in affected accounts, there are too many reconciled transactions."),
+				   nb_comptes,
+				   tested_account,
+				   affected_account ));
     }
   }
+  g_slist_free ( pUserAccountsList );
 }
