@@ -1633,8 +1633,8 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 
       /* touches + */
 
-    case 65451:
-    case 61:
+    case GDK_plus:
+    case GDK_KP_Add:
       /*       si on est dans une entree de date, on augmente d'un jour la date */
 
       /* GDC : prise en compte de la date réelle (18) FinGDC */
@@ -1643,21 +1643,19 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					 "key_press_event");
 	  incremente_decremente_date ( widget_formulaire_operations[origine], 1 );
-	  return TRUE;
 	}
       else if ( origine == 10 )	/* Voucher number */
 	{
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					 "key_press_event");
 	  increment_decrement_champ ( widget_formulaire_operations[origine], 1 );
-	  return TRUE;
 	}
-      break;
+      return TRUE;
 
       /* touches - */
 
-    case 65453:
-    case 45:
+    case GDK_minus:
+    case GDK_KP_Delete:
       /*       si on est dans une entree de date, on diminue d'un jour la date */
 
       /* GDC : prise en compte de la date réelle (18) FinGDC */
@@ -1672,13 +1670,12 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					 "key_press_event");
 	  increment_decrement_champ ( widget_formulaire_operations[origine], -1 );
-	  return TRUE;
 	}
-      break;
+      return TRUE;
 
     }
 
-  return FALSE;
+  return TRUE;
 }
 /***********************************************************************************************************/
 
