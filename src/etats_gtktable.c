@@ -3528,7 +3528,7 @@ gint gtktable_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_type_ope )
     {
-      label = gtk_label_new ( _("Methods of payment") );
+      label = gtk_label_new ( _("Payment methods") );
       gtk_table_attach ( GTK_TABLE ( table_etat ),
 			 label,
 			 colonne, colonne + 1,

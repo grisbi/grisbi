@@ -141,7 +141,7 @@ void personnalisation_etat (void)
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
 				 onglet_etat_mode_paiement (),
-				 gtk_label_new (SPACIFY(_("Methods of payment"))) );
+				 gtk_label_new (SPACIFY(_("Payment methods"))) );
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
 				 onglet_etat_divers (),

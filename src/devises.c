@@ -438,7 +438,7 @@ new_currency_list ()
 	}
     }
 
-  /* create tree view */
+  /* Create tree view */
   treeview = gtk_tree_view_new_with_model (model);
   gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
   g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview)), 
@@ -540,14 +540,14 @@ void ajout_devise ( GtkWidget *bouton,
 			    0 );
 
   paddingbox = 
-    paddingbox_new_with_title (GTK_WIDGET ( GNOME_DIALOG ( dialog ) -> vbox ),
+    new_paddingbox_with_title (GTK_WIDGET ( GNOME_DIALOG ( dialog ) -> vbox ),
 			       FALSE, _("ISO 4217 currencies"));
   list = new_currency_list ();
   gtk_box_pack_start ( GTK_BOX(paddingbox) , list,
 		       FALSE, FALSE, 5 );
 
   paddingbox = 
-    paddingbox_new_with_title (GTK_WIDGET ( GNOME_DIALOG ( dialog ) -> vbox ),
+    new_paddingbox_with_title (GTK_WIDGET ( GNOME_DIALOG ( dialog ) -> vbox ),
 			       FALSE, _("Currency details"));
   
   /* Create table */
@@ -607,7 +607,7 @@ void ajout_devise ( GtkWidget *bouton,
 
   /* Swith to Euro */
   paddingbox = 
-    paddingbox_new_with_title (GTK_WIDGET ( GNOME_DIALOG ( dialog ) -> vbox ),
+    new_paddingbox_with_title (GTK_WIDGET ( GNOME_DIALOG ( dialog ) -> vbox ),
 			       FALSE, _("Euro zone currency"));
 
   check_bouton = gtk_check_button_new_with_label ( _("Will switch to Euro") );
@@ -1438,7 +1438,7 @@ GtkWidget *onglet_devises ( void )
   vbox_pref = new_vbox_with_title_and_icon ( _("Currencies"),
 					     "currencies.png" );
 
-  paddingbox = paddingbox_new_with_title (vbox_pref, FALSE,
+  paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
 					  _("Known currencies"));
   
   hbox = gtk_hbox_new ( FALSE, 5 );
@@ -1577,7 +1577,7 @@ GtkWidget *onglet_devises ( void )
 
 
   /* Input form for currencies */
-  paddingbox = paddingbox_new_with_title (vbox_pref, FALSE,
+  paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
 					  _("Currency properties"));
 
   /* Selecting a currency activates this form */

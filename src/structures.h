@@ -652,7 +652,7 @@ struct iso_4217_currency
 
 
 /* Preference pages */
-enum  {
+enum preference_page  {
   NOT_A_PAGE = -1,
   FILES_PAGE,
   MESSAGES_AND_WARNINGS_PAGE,
@@ -667,3 +667,7 @@ enum  {
   METHODS_OF_PAYMENT_PAGE,
   NUM_PREFERENCES_PAGES
 };
+
+
+#define STANDARD_WIDTH 6
+#define STANDARD_DIALOG_WIDTH 12

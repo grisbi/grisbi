@@ -331,6 +331,12 @@ GtkWidget * onglet_display_fonts ( void )
 }
 
 
+/**
+ * Creates the "Titles & Addresses" tab.  This tab is mainly composed
+ * of text entries and editables.
+ *
+ * \returns A newly allocated vbox
+ */
 GtkWidget *onglet_display_addresses ( void )
 {
   GtkWidget *hbox, *vbox_pref, *separateur, *scrolled_window, *label, *frame;
