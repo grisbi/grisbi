@@ -1614,7 +1614,6 @@ void fin_edition_ventilation ( void )
 		}
 	    }
 	}
-	g_strfreev ( tableau_char );
     }
 
 
