@@ -266,7 +266,12 @@ void reaffiche_liste_comptes_onglet ( void )
 	    /* 	    si c'est le compte courant, on ouvre le livre */
 
 	    if (  p_tab_nom_de_compte_variable == p_tab_nom_de_compte + compte_courant_onglet )
+	    {
 		gtk_list_button_clicked ( GTK_BUTTON ( bouton ));
+
+		/* change le nom de l'emprunt courant */
+		gtk_label_set_text ( GTK_LABEL ( label_compte_courant_onglet ), NOM_DU_COMPTE);
+	    }
 	}
 	while ( (  ordre_comptes_variable = ordre_comptes_variable->next ) );
     }
