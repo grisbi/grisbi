@@ -276,9 +276,7 @@ void change_temps ( GtkWidget *label_temps )
 	       (const struct tm *) localtime ( &date ) );
 
     /* Convert to UTF-8 */
-    tampon = g_convert (tampon_date, strlen(tampon_date), 
-			"UTF-8", "ISO-8859-1", 
-			NULL, NULL, &error);
+    tampon = g_locale_to_utf8 ( tampon_date, -1, NULL, NULL, NULL);
 
     gtk_label_set_text ( GTK_LABEL ( label_temps ), tampon );
 
@@ -286,10 +284,10 @@ void change_temps ( GtkWidget *label_temps )
 	       (size_t) 50,
 	       "%A %d %B %Y",
 	       (const struct tm *) localtime ( &date ) );
+
     /* Convert to UTF-8 */
-    tampon = g_convert ( tampon_date, strlen(tampon_date), 
-			 "UTF-8", "ISO-8859-1", 
-			 NULL, NULL, &error);
+    tampon = g_locale_to_utf8 ( tampon_date, -1, NULL, NULL, NULL);
+
     /* Capitalize */
     tampon[0] = toupper ( tampon[0] );
 
