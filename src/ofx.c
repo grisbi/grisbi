@@ -25,6 +25,17 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "ofx.h"
+
+#ifdef NOOFX
+/* dummy recuperation_donnees_ofx function implementation for system with no LIBOFX */
+gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
+{
+  dialogue_error_hint(_("This build of Grisbi does not support OFX, please recompile Grisbi with OFX support enabled"), 
+                      g_strdup_printf (_("Cannot process OFX file '%s'"), nom_fichier));
+  return FALSE;
+}
+#else
+
 #include <libofx/libofx.h>
 
 #include "dialog.h"
@@ -473,6 +484,7 @@ int ofx_proc_statement_cb(struct OfxStatementData data)
 
     return 0;
 }
+#endif
 /* *******************************************************************************/
 
 
