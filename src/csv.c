@@ -200,7 +200,8 @@ static void csv_add_record(FILE* file,gboolean clear_all)
  */
 void export_accounts_to_csv (GSList* export_entries_list )
 {
-  gchar *csv_filename;
+  gchar *csv_filename = NULL;
+  gchar *sMessage = NULL;
   GSList *pAccountList;
   FILE *csv_file;
   gdouble balance = 0;
@@ -209,14 +210,17 @@ void export_accounts_to_csv (GSList* export_entries_list )
 
   while ( pAccountList )
   {
-    /*       ouverture du fichier, si pb, on marque l'erreur et passe au fichier suivant */
+    /* Ouverture du fichier, si pb, on marque l'erreur et passe au fichier suivant */
     balance = 0.0;
     csv_filename = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( pAccountList -> data )));
 
     if ( !( csv_file = utf8_fopen ( csv_filename, "w" ) ))
     {
-      dialogue ( g_strdup_printf ( _("Error for the file \"%s\" :\n%s"),
-				   csv_filename, strerror ( errno ) ));
+      sMessage = g_strdup_printf ( _("Error for the file \"%s\" :\n%s"),
+				   csv_filename, strerror ( errno ) );
+      dialogue ( sMessage );
+      free ( sMessage );
+      sMessage = NULL;
     }
     else
     {
@@ -619,5 +623,7 @@ void export_accounts_to_csv (GSList* export_entries_list )
       fclose ( csv_file );
     }
     pAccountList = pAccountList -> next;
+    free ( csv_filename );
+    csv_filename = NULL;
   }
 }
