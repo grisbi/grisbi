@@ -256,8 +256,9 @@ static gboolean export_all_selected_entries_are_valid(GSList* selected_entries_l
     gboolean result  = TRUE;
 
     struct stat file_stat;
-    gchar*      file_name;
-    
+    gchar* file_name = NULL;
+    gchar *sTmp = NULL;
+
     while( list_tmp)
     {
         entry_tmp = ((GtkWidget*)(list_tmp->data));
@@ -266,8 +267,9 @@ static gboolean export_all_selected_entries_are_valid(GSList* selected_entries_l
 	{
 	    if ( S_ISREG ( file_stat.st_mode ) )
 	    {
-		if ( ! question_yes_no_hint ( g_strdup_printf (_("File '%s' already exists"),
-							       file_name),	     
+		sTmp = g_strdup_printf ( _("File '%s' already exists"),
+					 file_name);
+		if ( ! question_yes_no_hint ( sTmp,
 					      _("This will irreversibly overwrite previous file.  There is no undo for this.")) )
                 {
                     result = FALSE;
@@ -276,14 +278,17 @@ static gboolean export_all_selected_entries_are_valid(GSList* selected_entries_l
 	    }
 	    else
 	    {
-		dialogue ( g_strdup_printf ( _("File name '%s' invalid!"),
-					     file_name ));
+		sTmp = g_strdup_printf ( _("File name '%s' invalid!"),
+					 file_name);
+		dialogue ( sTmp );
                 result = FALSE;
                 break;
 	    }
 	}
         list_tmp = g_slist_next(list_tmp);
     }
+    free(sTmp);
+    free(file_name);
     return result;
 } /* }}} export_all_selected_entries_are_valid */
 
@@ -368,6 +373,7 @@ static void export_update_format_menu(GtkItemFactory* menu_bar,gchar* level1, gc
     GtkItemFactoryEntry *item_factory_entry;
 
     GSList * list_tmp = format_list;
+    gchar *sTmp = NULL;
 
     while (list_tmp)
     {
@@ -375,7 +381,8 @@ static void export_update_format_menu(GtkItemFactory* menu_bar,gchar* level1, gc
         
         item_factory_entry = (GtkItemFactoryEntry*)calloc (1, sizeof( GtkItemFactoryEntry ));
 
-        item_factory_entry -> path            = menu_name( level1, level2, g_strdup(format->label));
+        sTmp = g_strdup(format->label);
+        item_factory_entry -> path            = menu_name( level1, level2, sTmp);
         item_factory_entry -> callback        = G_CALLBACK ( export_accounts_to_file_from_menu );
         item_factory_entry -> callback_action = format->type;
         item_factory_entry -> item_type       = NULL;
@@ -412,6 +419,7 @@ static void export_update_format_menu(GtkItemFactory* menu_bar,gchar* level1, gc
 				       TRUE );
 
 #endif
+    free(sTmp);
 }/* }}} */
 
 /**
