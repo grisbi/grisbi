@@ -19,6 +19,7 @@
 # translation of pt_BR.po to
 # translation of pt_BR.po to
 # translation of pt_BR.po to
+# translation of pt_BR.po to
 # translation of pt_BR.po to Brazilian Portuguese
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
@@ -30,7 +31,7 @@ msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-04 14:32+0100\n"
-"PO-Revision-Date: 2005-01-04 12:33-0200\n"
+"PO-Revision-Date: 2005-01-04 12:59-0200\n"
 "Last-Translator: \n"
 "Language-Team:  <pt@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -48,7 +49,7 @@ msgstr "Usuário"
 
 #: src/accueil.c:197
 msgid "Closed liabilities accounts"
-msgstr "Contas abertas fechadas"
+msgstr "Contas de responsabilidade fechadas"
 
 #: src/accueil.c:207
 msgid "Manual scheduled transactions at maturity date"
@@ -104,12 +105,12 @@ msgstr "Saldo Geral"
 #: src/accueil.c:840
 #, c-format
 msgid "Liabilities accounts balances in %s"
-msgstr "Saldo das contas abertas em %s"
+msgstr "Saldo das contas de responsabilidade em %s"
 
 #: src/accueil.c:1161
 #, c-format
 msgid "Assets accounts balances in %s"
-msgstr "Saldo do bens da conta %s"
+msgstr "Saldo das contas de bens em %s"
 
 #: src/accueil.c:1581 src/accueil.c:1693
 msgid "No third party defined"
@@ -152,7 +153,7 @@ msgstr "Teclando ENTER no formulário de transações"
 
 #: src/affichage.c:137
 msgid "selects next field"
-msgstr "Vai para o próximo campo"
+msgstr "vai para o próximo campo"
 
 #: src/affichage.c:138
 msgid "terminates transaction"
@@ -240,7 +241,7 @@ msgstr "Voltar para a fonte padrão"
 
 #: src/affichage.c:603 src/parametres.c:225
 msgid "Addresses & titles"
-msgstr "Destinatários e títulos"
+msgstr "Endereços & Títulos"
 
 #: src/affichage.c:608 src/etats_config.c:6166
 msgid "Titles"
@@ -252,7 +253,7 @@ msgstr "Título para contas"
 
 #: src/affichage.c:624
 msgid "Addresses"
-msgstr "Destinatário"
+msgstr "Endereços"
 
 #. Common address
 #: src/affichage.c:627
@@ -400,40 +401,40 @@ msgstr "Referências bancárias"
 
 #: src/affichage_liste.c:66
 msgid "Col1"
-msgstr "Coluna 1"
+msgstr "Col 1"
 
 #: src/affichage_liste.c:66
 msgid "Col2"
-msgstr "Coluna 2"
+msgstr "Col 2"
 
 #: src/affichage_liste.c:66
 msgid "Col3"
-msgstr "Coluna 3"
+msgstr "Col 3"
 
 #: src/affichage_liste.c:66
 msgid "Col4"
-msgstr "Coluna 4"
+msgstr "Col 4"
 
 #: src/affichage_liste.c:67
 msgid "Col5"
-msgstr "Coluna 5"
+msgstr "Col 5"
 
 #: src/affichage_liste.c:67
 msgid "Col6"
-msgstr "Coluna 6"
+msgstr "Col 6"
 
 #: src/affichage_liste.c:67
 msgid "Col7"
-msgstr "Coluna 7"
+msgstr "Col 7"
 
 #. Ã  la base, on met une vbox
 #: src/affichage_liste.c:75 src/parametres.c:241
 msgid "Transactions list cells"
-msgstr "Lista de transações"
+msgstr "Campos da lista de transações"
 
 #: src/affichage_liste.c:79
 msgid "Transactions list preview"
-msgstr "Lista prévia das transações"
+msgstr "Prévia da lista de transações"
 
 #: src/affichage_liste.c:100
 msgid "Transactions list contents"
@@ -4097,7 +4098,7 @@ msgstr "Não incluir transferências"
 
 #: src/etats_config.c:2561
 msgid "Include transfers from or to assets or liabilities accounts"
-msgstr "Não incluir transferências"
+msgstr "Incluir transferências a partir ou para contas de responsabilidade ou contas de bens"
 
 #: src/etats_config.c:2574
 msgid "Include transfers from or to accounts not in this report"
