@@ -11,7 +11,7 @@ VERSION = @VERSION@
 
 # These two variables depend on the location of this directory.
 subdir = po
-top_builddir = ../
+top_builddir = ..
 
 SHELL = /bin/sh
 @SET_MAKE@
@@ -29,7 +29,7 @@ gettextsrcdir = $(datadir)/gettext/po
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 MKINSTALLDIRS = @MKINSTALLDIRS@
-mkinstalldirs = $(MKINSTALLDIRS)
+mkinstalldirs = ../$(MKINSTALLDIRS)
 
 CC = @CC@
 GMSGFMT = @GMSGFMT@
