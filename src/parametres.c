@@ -149,12 +149,14 @@ void preferences ( gint page )
 		      1, NOT_A_PAGE,
 		      -1);
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
 		      0, _("Messages & warnings"),
 		      1, MESSAGES_AND_WARNINGS_PAGE,
 		      -1);
   gtk_notebook_append_page (preference_frame, onglet_messages_and_warnings(), NULL);
+
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
@@ -162,6 +164,7 @@ void preferences ( gint page )
 		      1, ADDRESSES_AND_TITLES_PAGE,
 		      -1);
   gtk_notebook_append_page (preference_frame, onglet_display_addresses(), NULL);
+
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
@@ -169,13 +172,23 @@ void preferences ( gint page )
 		      1, TRANSACTION_FORM_PAGE,
 		      -1);
   gtk_notebook_append_page (preference_frame, onglet_display_transaction_form(), NULL);
+
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
-		      0, _("Transaction list"),
-		      1, TRANSACTION_LIST_PAGE,
+		      0, _("Transactions list cells"),
+		      1, TRANSACTIONS_LIST_PAGE,
 		      -1);
   gtk_notebook_append_page (preference_frame, onglet_affichage_liste(), NULL);
+
+  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+  gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+		      &iter2,
+		      0, _("Transactions list"),
+		      1, TRANSACTIONS_PAGE,
+		      -1);
+  gtk_notebook_append_page (preference_frame, onglet_affichage_operations(), NULL);
+
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
@@ -183,6 +196,7 @@ void preferences ( gint page )
 		      1, RECONCILIATION_PAGE,
 		      -1);
   gtk_notebook_append_page (preference_frame, tab_display_reconciliation(), NULL);
+
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
@@ -198,6 +212,7 @@ void preferences ( gint page )
 		      0, _("Resources"),
 		      1, NOT_A_PAGE,
 		      -1);
+
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
@@ -205,6 +220,7 @@ void preferences ( gint page )
 		      1, CURRENCIES_PAGE,
 		      -1);
   gtk_notebook_append_page (preference_frame, onglet_devises(), NULL);
+
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
@@ -212,6 +228,7 @@ void preferences ( gint page )
 		      1, BANKS_PAGE,
 		      -1);
   gtk_notebook_append_page (preference_frame, onglet_banques(), NULL);
+
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
@@ -219,15 +236,14 @@ void preferences ( gint page )
 		      1, FINANCIAL_YEARS_PAGE,
 		      -1);
   gtk_notebook_append_page (preference_frame, onglet_exercices(), NULL);
+
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
 		      0, _("Payment methods"),
 		      1, METHODS_OF_PAYMENT_PAGE,
 		      -1);
-  gtk_notebook_append_page (preference_frame, 
-			    onglet_types_operations(),
-			    NULL);
+  gtk_notebook_append_page (preference_frame, onglet_types_operations(), NULL);
 
   if ( page )
     {

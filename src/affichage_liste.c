@@ -1,8 +1,7 @@
 /* ce fichier contient les paramètres de l'affichage de la liste d'opé */
 
-
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
+/*			2003 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -31,9 +30,9 @@ gchar *labels_boutons [] = { N_("Date"),
 			     N_("Debit"),
 			     N_("Credit"),
 			     N_("Balance"),
-			     N_("Amount (account currency)"),
+			     N_("Amount"),
 			     N_("Method of payment"),
-			     N_("Reconciliation reference"),
+			     N_("Reconciliation ref."),
 			     N_("Financial year"),
 			     N_("Category"),
 			     N_("C/R"),
@@ -44,25 +43,21 @@ gchar *labels_boutons [] = { N_("Date"),
 			     NULL };
 
 
-/* ************************************************************************************************************** */
+
+/** FIXME: document this */
 GtkWidget *onglet_affichage_liste ( void )
 {
-  gchar *titres [] = { _("Col1"),
-		       _("Col2"),
-		       _("Col3"),
-		       _("Col4"),
-		       _("Col5"),
-		       _("Col6"),
-		       _("Col7") };
-  gint i, j;
   GtkWidget *onglet, *table, *label, *hbox, *bouton, *paddingbox;
+  gchar *titres [] = { _("Col1"), _("Col2"), _("Col3"), _("Col4"), 
+		       _("Col5"), _("Col6"), _("Col7") };
+  gint i, j;
 
   ligne_depart_drag = 0;
   col_depart_drag = 0;
 
   /*   à la base, on met une vbox */
 
-  onglet = new_vbox_with_title_and_icon ( _("Transaction list"),
+  onglet = new_vbox_with_title_and_icon ( _("Transactions list cells"),
 					  "transaction-list.png" );
 
   /* mise en place de la clist_affichage_liste */
@@ -86,58 +81,35 @@ GtkWidget *onglet_affichage_liste ( void )
 		       "size-allocate",
 		       GTK_SIGNAL_FUNC ( changement_taille_liste_affichage ),
 		       NULL );
-  gtk_box_pack_start ( GTK_BOX ( onglet ),
-		       clist_affichage_liste,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX ( onglet ), clist_affichage_liste,
+		       FALSE, FALSE, 0 );
   gtk_widget_show ( clist_affichage_liste );
 
 
-
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( onglet ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       5 );
+  hbox = gtk_hbox_new ( FALSE, 5 );
+  gtk_box_pack_start ( GTK_BOX ( onglet ), hbox,
+		       FALSE, FALSE, 5 );
   gtk_widget_show ( hbox );
 
   label = gtk_label_new ( _("Information displayed in list:"));
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
+		       FALSE, FALSE, 0 );
   gtk_widget_show ( label );
-
 
   bouton = gtk_button_new_with_label ( _("Revert to defaults"));
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
-  gtk_signal_connect ( GTK_OBJECT ( bouton ),
-		       "clicked",
-		       GTK_SIGNAL_FUNC ( raz_affichage_ope ),
-		       NULL );
-  gtk_box_pack_end ( GTK_BOX ( hbox ),
-		       bouton,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ), "clicked",
+		       GTK_SIGNAL_FUNC ( raz_affichage_ope ), NULL );
+  gtk_box_pack_end ( GTK_BOX ( hbox ), bouton,
+		       FALSE, FALSE, 0 );
   gtk_widget_show ( bouton );
 
 
   /* on crée maintenant une table de 3x6 boutons */
-
-  table = gtk_table_new ( 3,
-			  6,
-			  FALSE );
-  gtk_box_pack_start ( GTK_BOX ( onglet ),
-		       table,
-		       FALSE,
-		       FALSE,
-		       0 );
+  table = gtk_table_new ( 3, 6, FALSE );
+  gtk_box_pack_start ( GTK_BOX ( onglet ), table,
+		       FALSE, FALSE, 0 );
   gtk_widget_show ( table );
 
   for ( i=0 ; i<3 ; i++ )
@@ -163,62 +135,54 @@ GtkWidget *onglet_affichage_liste ( void )
   bouton_choix_perso_colonnes = gtk_check_button_new_with_label ( _("Adjust column size according to this table"));
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_choix_perso_colonnes ),
 				 etat.largeur_auto_colonnes );
-  gtk_box_pack_start ( GTK_BOX ( onglet ),
-		       bouton_choix_perso_colonnes,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX ( onglet ), bouton_choix_perso_colonnes,
+		       FALSE, FALSE, 0 );
   gtk_widget_show ( bouton_choix_perso_colonnes );
 
 
   /* on permet maintenant de choisir soi même la taille des colonnes */
+  bouton_caracteristiques_lignes_par_compte = new_checkbox_with_title ( _("Remember display settings for each account separately"),
+									&(etat.retient_affichage_par_compte),
+									NULL ) ;
+  gtk_box_pack_start ( GTK_BOX(onglet), bouton_caracteristiques_lignes_par_compte,
+		       FALSE, FALSE, 0 );
 
-  bouton_caracteristiques_lignes_par_compte = gtk_check_button_new_with_label ( _("Remember display settings for each account separately"));
-  
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_caracteristiques_lignes_par_compte ),
-				 etat.retient_affichage_par_compte );
-  gtk_box_pack_start ( GTK_BOX ( onglet ),
-		       bouton_caracteristiques_lignes_par_compte,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_caracteristiques_lignes_par_compte );
+  return ( onglet );
+}
+
+
+/** FIXME: document this */
+GtkWidget *onglet_affichage_operations ( void )
+{
+  GtkWidget * vbox_pref, *onglet, *table, *label, *hbox, *bouton, *paddingbox;
+
+  vbox_pref = new_vbox_with_title_and_icon ( _("Transactions list"),
+					     "transaction.png" );
 
   /* on permet de choisir quelle ligne seront affichées en fonction des caractéristiques de l'affichage */
   /* pour opé simplifiée */
 
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( onglet ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0 );
+  hbox = gtk_hbox_new ( FALSE, 5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox,
+		       FALSE, FALSE, 0 );
   gtk_widget_show ( hbox );
 
   label = gtk_label_new ( POSTSPACIFY(_("Display for a line the")));
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
+		       FALSE, FALSE, 0 );
   gtk_widget_show ( label );
 
   bouton_affichage_lignes_une_ligne = gtk_option_menu_new ();
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_affichage_lignes_une_ligne ),
 			     cree_menu_quatres_lignes ());
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       bouton_affichage_lignes_une_ligne,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_affichage_lignes_une_ligne,
+		       FALSE, FALSE, 0 );
   gtk_widget_show ( bouton_affichage_lignes_une_ligne );
 
   /* pour 2 lignes */
-
   hbox = gtk_hbox_new ( FALSE,
 			5 );
-  gtk_box_pack_start ( GTK_BOX ( onglet ),
+  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
 		       hbox,
 		       FALSE,
 		       FALSE,
@@ -257,7 +221,7 @@ GtkWidget *onglet_affichage_liste ( void )
 
   hbox = gtk_hbox_new ( FALSE,
 			5 );
-  gtk_box_pack_start ( GTK_BOX ( onglet ),
+  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
 		       hbox,
 		       FALSE,
 		       FALSE,
@@ -303,16 +267,14 @@ GtkWidget *onglet_affichage_liste ( void )
   gtk_widget_show ( bouton_affichage_lignes_trois_lignes_3 );
 
 
-
-
-
   if ( nb_comptes )
     {
       /* on recopie le tab_affichage_ope */
 
-      for ( i = 0 ; i<4 ; i++ )
-	for ( j = 0 ; j<7 ; j++ )
-	  tab_affichage_ope_tmp[i][j] = tab_affichage_ope[i][j];
+      /* FIXME: remove tab_affichage_ope_tmp from variables.c */
+/*       for ( i = 0 ; i<4 ; i++ ) */
+/* 	for ( j = 0 ; j<7 ; j++ ) */
+/* 	  tab_affichage_ope_tmp[i][j] = tab_affichage_ope[i][j]; */
 
       /* on remplit le tableau */
 
@@ -342,38 +304,27 @@ GtkWidget *onglet_affichage_liste ( void )
     }
   else
     {
-      gtk_widget_set_sensitive ( table,
-				 FALSE );
-      gtk_widget_set_sensitive ( clist_affichage_liste,
-				 FALSE );
-
-      gtk_widget_set_sensitive ( bouton_affichage_lignes_une_ligne,
-				 FALSE );
-      gtk_widget_set_sensitive ( bouton_affichage_lignes_deux_lignes_1,
-				 FALSE );
-      gtk_widget_set_sensitive ( bouton_affichage_lignes_deux_lignes_2,
-				 FALSE );
-      gtk_widget_set_sensitive ( bouton_affichage_lignes_trois_lignes_1,
-				 FALSE );
-      gtk_widget_set_sensitive ( bouton_affichage_lignes_trois_lignes_2,
-				 FALSE );
-      gtk_widget_set_sensitive ( bouton_affichage_lignes_trois_lignes_3,
-				 FALSE );
-      gtk_widget_set_sensitive ( bouton,
-				 FALSE );
+      gtk_widget_set_sensitive ( table, FALSE );
+      gtk_widget_set_sensitive ( clist_affichage_liste, FALSE ); 
+      gtk_widget_set_sensitive ( bouton_affichage_lignes_une_ligne, FALSE );
+      gtk_widget_set_sensitive ( bouton_affichage_lignes_deux_lignes_1, FALSE );
+      gtk_widget_set_sensitive ( bouton_affichage_lignes_deux_lignes_2, FALSE );
+      gtk_widget_set_sensitive ( bouton_affichage_lignes_trois_lignes_1, FALSE );
+      gtk_widget_set_sensitive ( bouton_affichage_lignes_trois_lignes_2, FALSE );
+      gtk_widget_set_sensitive ( bouton_affichage_lignes_trois_lignes_3, FALSE );
+      gtk_widget_set_sensitive ( bouton, FALSE );
     }
 
   /* Then add the "sort by" buttons */
-  /* FIXME: THERE IS NOTHING THAT THIS OPTION CAN CHANGE ! */
-/*   paddingbox = new_radiogroup_with_title (onglet, */
-/* 					  _("Sort transaction list"), */
-/* 					  _("by value date"), */
-/* 					  _("by date"), */
-/* 					  &etat.classement_par_date, NULL); */
+  paddingbox = new_radiogroup_with_title (vbox_pref,
+					  _("Sort transaction list"),
+					  _("by value date"),
+					  _("by date"),
+					  &etat.classement_par_date, NULL);
 
-  return ( onglet );
+  return ( vbox_pref );
 }
-/* ************************************************************************************************************** */
+
 
 
 /* ************************************************************************************************************** */
@@ -607,9 +558,9 @@ gboolean lache_bouton_classement_liste ( GtkWidget *clist,
 
   /* on échange les 2 nombres */
 
-  buffer_int = tab_affichage_ope_tmp[ligne_depart_drag][col_depart_drag];
-  tab_affichage_ope_tmp[ligne_depart_drag][col_depart_drag] = tab_affichage_ope_tmp[ligne_arrivee_drag][col_arrivee_drag];
-  tab_affichage_ope_tmp[ligne_arrivee_drag][col_arrivee_drag] = buffer_int;
+  buffer_int = tab_affichage_ope[ligne_depart_drag][col_depart_drag];
+  tab_affichage_ope[ligne_depart_drag][col_depart_drag] = tab_affichage_ope[ligne_arrivee_drag][col_arrivee_drag];
+  tab_affichage_ope[ligne_arrivee_drag][col_arrivee_drag] = buffer_int;
 
   /* on dégrise le appliquer de la fenetre de préférences */
 
@@ -636,14 +587,14 @@ void remplissage_tab_affichage_ope ( GtkWidget *clist )
 
       for ( j=0 ; j<7 ; j++ )
 	{
-	  switch ( tab_affichage_ope_tmp[i][j] )
+	  switch ( tab_affichage_ope[i][j] )
 	    {
 	      case 0:
 		ligne[j] = "";
 		break;
 
 	      case 1:
-		ligne[j] = "Date";
+		ligne[j] = _("Date");
 		gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[0] ),
 						   GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
 						   GINT_TO_POINTER (0) );
@@ -655,7 +606,7 @@ void remplissage_tab_affichage_ope ( GtkWidget *clist )
 		break;
 
 	      case 2:
-		ligne[j] = "Date de valeur";
+		ligne[j] = _("Value date");
 		gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[1] ),
 						   GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
 						   GINT_TO_POINTER (1) );
@@ -667,7 +618,7 @@ void remplissage_tab_affichage_ope ( GtkWidget *clist )
 		break;
 
 	      case 3:
-		ligne[j] = "Tiers";
+		ligne[j] = _("Payer/payee");
 		gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[2] ),
 						   GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
 						   GINT_TO_POINTER (2) );
@@ -679,7 +630,7 @@ void remplissage_tab_affichage_ope ( GtkWidget *clist )
 		break;
 
 	      case 4:
-		ligne[j] = "Imputations budgétaires";
+		ligne[j] = _("Budgetary information");
 		gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[3] ),
 						   GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
 						   GINT_TO_POINTER (3) );
@@ -691,7 +642,7 @@ void remplissage_tab_affichage_ope ( GtkWidget *clist )
 		break;
 
 	      case 5:
-		ligne[j] = "Débit";
+		ligne[j] = _("Debit");
 		gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[4] ),
 						   GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
 						   GINT_TO_POINTER (4) );
@@ -703,7 +654,7 @@ void remplissage_tab_affichage_ope ( GtkWidget *clist )
 		break;
 
 	      case 6:
-		ligne[j] = "Crédit";
+		ligne[j] = _("Credit");
 		gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[5] ),
 						   GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
 						   GINT_TO_POINTER (5) );
@@ -715,7 +666,7 @@ void remplissage_tab_affichage_ope ( GtkWidget *clist )
 		break;
 
 	      case 7:
-		ligne[j] = "Solde";
+		ligne[j] = _("Balance");
 		gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[6] ),
 						   GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
 						   GINT_TO_POINTER (6) );
@@ -727,7 +678,7 @@ void remplissage_tab_affichage_ope ( GtkWidget *clist )
 		break;
 
 	      case 8:
-		ligne[j] = "Montant(devise compte)";
+		ligne[j] = _("Amount");
 		gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[7] ),
 						   GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
 						   GINT_TO_POINTER (7) );
@@ -739,7 +690,7 @@ void remplissage_tab_affichage_ope ( GtkWidget *clist )
 		break;
 
 	      case 9:
-		ligne[j] = "Moyen de paiement";
+		ligne[j] = _("Payment method");
 		gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[8] ),
 						   GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
 						   GINT_TO_POINTER (8) );
@@ -751,7 +702,7 @@ void remplissage_tab_affichage_ope ( GtkWidget *clist )
 		break;
 
 	      case 10:
-		ligne[j] = "N° de rapprochement";
+		ligne[j] = _("Reconciliation ref.");
 		gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[9] ),
 						   GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
 						   GINT_TO_POINTER (9) );
@@ -763,7 +714,7 @@ void remplissage_tab_affichage_ope ( GtkWidget *clist )
 		break;
 
 	      case 11:
-		ligne[j] = "Exercice";
+		ligne[j] = _("Financial year");
 		gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[10] ),
 						   GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
 						   GINT_TO_POINTER (10) );
@@ -775,7 +726,7 @@ void remplissage_tab_affichage_ope ( GtkWidget *clist )
 		break;
 
 	      case 12:
-		ligne[j] = "Catégories";
+		ligne[j] = _("Categories");
 		gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[11] ),
 						   GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
 						   GINT_TO_POINTER (11) );
@@ -787,7 +738,7 @@ void remplissage_tab_affichage_ope ( GtkWidget *clist )
 		break;
 
 	      case 13:
-		ligne[j] = "P/R";
+		ligne[j] = _("C/R");
 		gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[12] ),
 						   GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
 						   GINT_TO_POINTER (12) );
@@ -799,7 +750,7 @@ void remplissage_tab_affichage_ope ( GtkWidget *clist )
 		break;
 
 	      case 14:
-		ligne[j] = "Pièce comptable";
+		ligne[j] = _("Voucher");
 		gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[13] ),
 						   GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
 						   GINT_TO_POINTER (13) );
@@ -811,7 +762,7 @@ void remplissage_tab_affichage_ope ( GtkWidget *clist )
 		break;
 
 	      case 15:
-		ligne[j] = "Notes";
+		ligne[j] = _("Notes");
 		gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[14] ),
 						   GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
 						   GINT_TO_POINTER (14) );
@@ -823,7 +774,7 @@ void remplissage_tab_affichage_ope ( GtkWidget *clist )
 		break;
 
 	      case 16:
-		ligne[j] = "Info banque/guichet";
+		ligne[j] = _("Bank references");
 		gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[15] ),
 						   GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
 						   GINT_TO_POINTER (15) );
@@ -835,7 +786,7 @@ void remplissage_tab_affichage_ope ( GtkWidget *clist )
 		break;
 
 	      case 17:
-		ligne[j] = "N° d'opération";
+		ligne[j] = _("Transaction number");
 		gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[16] ),
 						   GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
 						   GINT_TO_POINTER (16) );
@@ -847,7 +798,7 @@ void remplissage_tab_affichage_ope ( GtkWidget *clist )
 		break;
 
 	      case 18:
-		ligne[j] = "N° chèque/virement";
+		ligne[j] = _("Cheque/Transfer number");
 		break;
 	    }
 	}
@@ -887,9 +838,9 @@ void toggled_bouton_affichage_liste ( GtkWidget *bouton,
 
       for ( i = 0 ; i<4 ; i++ )
 	for ( j = 0 ; j<7 ; j++ )
-	  if ( !tab_affichage_ope_tmp[i][j] )
+	  if ( !tab_affichage_ope[i][j] )
 	    {
-	      tab_affichage_ope_tmp[i][j] = GPOINTER_TO_INT ( no_bouton ) + 1;
+	      tab_affichage_ope[i][j] = GPOINTER_TO_INT ( no_bouton ) + 1;
 
 	      if ( GPOINTER_TO_INT ( no_bouton ) == 8 )
 		no_bouton = GINT_TO_POINTER ( 17 );
@@ -909,12 +860,12 @@ void toggled_bouton_affichage_liste ( GtkWidget *bouton,
 
       for ( i = 0 ; i<4 ; i++ )
 	for ( j = 0 ; j<7 ; j++ )
-	  if ( tab_affichage_ope_tmp[i][j] == ( GPOINTER_TO_INT ( no_bouton ) + 1 )
+	  if ( tab_affichage_ope[i][j] == ( GPOINTER_TO_INT ( no_bouton ) + 1 )
 	       ||
 	       ( GPOINTER_TO_INT ( no_bouton ) == 8
 		 &&
-		 tab_affichage_ope_tmp[i][j] == 18 ))
-	    tab_affichage_ope_tmp[i][j] = 0;
+		 tab_affichage_ope[i][j] == 18 ))
+	    tab_affichage_ope[i][j] = 0;
     }
 
   remplissage_tab_affichage_ope ( clist_affichage_liste );
@@ -1001,7 +952,7 @@ void recuperation_noms_colonnes_et_tips ( void )
 		break;
 
 	      case 8:
-		ligne[j] = _("Amount (account currency)");
+		ligne[j] = _("Amount");
 		break;
 
 	      case 9:
@@ -1009,7 +960,7 @@ void recuperation_noms_colonnes_et_tips ( void )
 		break;
 
 	      case 10:
-		ligne[j] = _("Reconciliation reference");
+		ligne[j] = _("Reconciliation ref.");
 		break;
 
 	      case 11:
@@ -1096,7 +1047,7 @@ void raz_affichage_ope ( void )
 
   for ( i = 0 ; i<4 ; i++ )
     for ( j = 0 ; j<7 ; j++ )
-      tab_affichage_ope_tmp[i][j] = tab[i][j];
+      tab_affichage_ope[i][j] = tab[i][j];
 
   /* on met à jour la liste et les boutons */
 
