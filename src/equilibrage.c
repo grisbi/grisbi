@@ -641,7 +641,7 @@ void sortie_entree_date_equilibrage ( void )
   gint date_releve_annee;
 
 
-  text = gtk_entry_get_text ( GTK_ENTRY ( entree_nouvelle_date_equilibrage ) );
+  text = (char *) gtk_entry_get_text ( GTK_ENTRY ( entree_nouvelle_date_equilibrage ) );
 
   if ( ( nb_parametres = sscanf ( text,
 				  "%d/%d/%d",
@@ -694,9 +694,9 @@ void modif_entree_solde_init_equilibrage ( void )
 {
 
   gtk_label_set_text ( GTK_LABEL ( label_equilibrage_initial ),
-		       gtk_entry_get_text ( GTK_ENTRY ( entree_ancien_solde_equilibrage )) );
+		       (char *) gtk_entry_get_text ( GTK_ENTRY ( entree_ancien_solde_equilibrage )) );
 
-  solde_initial = g_strtod ( gtk_entry_get_text ( GTK_ENTRY ( entree_ancien_solde_equilibrage )),
+  solde_initial = g_strtod ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree_ancien_solde_equilibrage )),
 			     NULL );
 
 
@@ -731,9 +731,9 @@ void modif_entree_solde_final_equilibrage ( void )
 
 
   gtk_label_set_text ( GTK_LABEL ( label_equilibrage_final ),
-		       gtk_entry_get_text ( GTK_ENTRY ( entree_nouveau_montant_equilibrage )) );
+		       (char *) gtk_entry_get_text ( GTK_ENTRY ( entree_nouveau_montant_equilibrage )) );
 
-  solde_final = g_strtod ( gtk_entry_get_text ( GTK_ENTRY ( entree_nouveau_montant_equilibrage )),
+  solde_final = g_strtod ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree_nouveau_montant_equilibrage )),
 			   NULL );
 
   if ( fabs ( solde_final - solde_initial - operations_pointees ) < 0.01 )
@@ -959,7 +959,7 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
 
   /* récupération de la date */
 
-  text = gtk_entry_get_text ( GTK_ENTRY ( entree_nouvelle_date_equilibrage ) );
+  text = (char *) gtk_entry_get_text ( GTK_ENTRY ( entree_nouvelle_date_equilibrage ) );
 
   if ( ( nb_parametres = sscanf ( text,
 				  "%d/%d/%d",
@@ -1008,13 +1008,13 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
   /*   récupération du no de rapprochement, */
   /*     s'il n'existe pas,on le crée */
 
-  if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_no_rapprochement )))))
+  if ( strlen ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree_no_rapprochement )))))
     {
       struct struct_no_rapprochement *rapprochement;
       GSList *liste_tmp;
       gchar *rap_txt;
 
-      rap_txt = g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_no_rapprochement )));
+      rap_txt = g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree_no_rapprochement )));
 
       liste_tmp = g_slist_find_custom ( liste_no_rapprochements,
 					rap_txt,
