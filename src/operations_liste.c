@@ -2600,7 +2600,7 @@ void popup_transaction_context_menu ( gboolean full )
 
     /* Add accounts submenu */
     gtk_menu_item_set_submenu ( GTK_MENU_ITEM(menu_item), 
-				GTK_WIDGET(creation_option_menu_comptes(GTK_SIGNAL_FUNC(move_selected_operation_to_account), FALSE)) );
+				GTK_WIDGET(creation_option_menu_comptes_nonclos(GTK_SIGNAL_FUNC(move_selected_operation_to_account), FALSE)) );
 
     gtk_widget_show_all (menu);
     gtk_menu_popup ( GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time());
