@@ -881,7 +881,7 @@ void fermeture_preferences ( GtkWidget *button,
 
 gint verifie_affichage_applet ( void )
 {
-  return ( ( pid_applet = gnome_config_get_int ( "/Grisbi_applet/PID/PID" )) != 0 );
+/*   return ( ( pid_applet = gnome_config_get_int ( "/Grisbi_applet/PID/PID" )) != 0 ); */
 }
 /* **************************************************************************************************************************** */
 
