@@ -8472,8 +8472,9 @@ gboolean enregistre_fichier ( gboolean force )
 
 
     /* l'arbre est fait, on sauvegarde */
-
+#ifndef _WIN32
     xmlIndentTreeOutput = 1;
+#endif
     resultat = xmlSaveFormatFile ( nom_fichier_comptes, doc, 1 );
 
     /* on libère la memoire */
