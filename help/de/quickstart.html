@@ -1,139 +1,199 @@
-<HTML>
-<HEAD><TITLE>Grisbi - Getting started</TITLE>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>Grisbi - Getting started</title>
+  
 
-<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
-<meta name="generator" content="Bluefish 0.9">
-</HEAD>
-<BODY BGCOLOR="#ffff99">
 
-<H1 ALIGN=center>Grisbi - Getting started</H1>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
 
-<H3 ALIGN=center>Copyright © 2001-2003 Daniel <FONT COLOR=navy>Cartron</FONT></H3>
-<H3 ALIGN=center>Copyright © 2004 Alain <FONT COLOR=navy>Portal</FONT></H3>
+  <meta name="generator" content="Bluefish 0.9"></head>
+<body style="background-color: rgb(255, 255, 153);">
 
-<H3 ALIGN=center>Last update: April, 11st 2004</H3>
-First of all, have you subscribed to Grisbi's 
-<A HREF="https://lists.sourceforge.net/mailman/listinfo/grisbi-info">infos mailing list</A>?<BR>
-<BR>
-You will receive only a few messages a year, about 
-the new versions and the bugs fixes.<BR>
-<BR>
-So don't wait, do it just now!<BR>
-<BR>
+<h1 align="center">Grisbi - Erste Schritte<br>
+</h1>
 
-<H1>Chapter&nbsp;1&nbsp;&nbsp;Create an Account File</H1>
 
-<H2>1.1&nbsp;&nbsp;Import QIF files</H2>
+<h3 align="center">Copyright © 2001-2003 Daniel <font color="navy">Cartron</font></h3>
 
-We'll suppose you have exported your accounts as QIF files 
-with your former accounting program (you need a QIF file for
- each account). Now you can import them in Grisbi:
-<UL><LI>click on the menu <I><FONT COLOR=maroon>File/Import/QIF file</FONT></I>;<BR>
-<BR>
-<LI>select the directory containing the QIF files;<BR>
-<BR>
-<LI>select them all by clicking on their name. Grisbi must
- import them at once in order to reconstitute the links beetween 
-the accounts (notably transfers). Then valid.
-As Grisbi asks you to confirm, you still can add an account if you forgot one;<BR>
-<BR>
-<LI>choose the currency of each account. The default choice is 
-Euro but you can create a new currency by clicking the 
-<I><FONT COLOR=maroon>New currency</FONT></I> button.</UL>
-Grisbi will process your files for a few seconds, and that will be it.<BR>
-<BR>
+<h3 align="center">Copyright © 2004 Alain <font color="navy">Portal</font></h3>
 
-<H2>1.2&nbsp;&nbsp;New Account File</H2>
+<h3 align="center">Copyright © 2004 Martin <font color="navy">Stromberger</font></h3>
 
-You don't have any file to import. Click on the menu <I><FONT COLOR=maroon>File/New</FONT></I> 
-to create a new accounts file, then on
-<I><FONT COLOR=maroon>Account/New</FONT></I> to create the accounts you need.<BR>
-<BR>
-Now click on the tab <I><FONT COLOR=maroon>Transactions</FONT></I>, then on the left icon 
- <I><FONT COLOR=maroon>Show/mask the form</FONT></I>.<BR>
-<BR>
-You are ready to enter your transactions.<BR>
-<BR>
 
-<H1>Chapter&nbsp;2&nbsp;&nbsp;Grisbi's Tabs</H1>
+<h3 align="center">Letzte Aktualisierung: 24. Oktober 2004<br>
+</h3>
 
-<H2>2.1&nbsp;&nbsp;Home</H2>
+Haben Sie sich schon in die Grisibi <a href="mailto:grisbi-infos@lists.sourceforge.net">Infos Mailingliste</a> eingetragen?<br>
+<br>
 
-Displays your accounts list, their balance, and the warnings.<BR>
-<BR>
 
-<H2>2.2&nbsp;&nbsp;Transactions</H2>
+Sie erhalten nur einige Nachrichten pro Jahr, speziell über neue Versionen und Fehlerbehebungen.<br>
 
-Displays in the right part the transactions of the account you selected in the left part.
-Allows you to enter transactions. For this you must first click on the left icon
-of the tool bar, or double-click in the first empty line of the transactions list.<BR>
-<BR>
-The transactions can be displayed with more or less information. Use the icons
-with white and blue lines to change the number of information lines displayed.
-You can also choose to display or not the reconciliated transactions by clicking on the
-R or crossed R icons.<BR>
-<BR>
-For creating a third part that doesn't exist in your file, just enter
-its name in the combo box, and it will be added.<BR>
-<BR>
-For creating a new category or budgetary-line, do the same but be careful with the syntax: you
-must separate the name of the category and the one of the sub-category with:
-<UL><LI>a space;<BR>
-<BR>
-<LI>a colon (:);<BR>
-<BR>
-<LI>another space,</UL>
-or else Grisbi will not understand.<BR>
-<BR>
-For creating a new financial year click on the menu
-<I><FONT COLOR=maroon>Edit/Preferences/Resources/Financial years</FONT></I>.<BR>
-<BR>
+<br>
 
-<H2>2.3&nbsp;&nbsp;Scheduler</H2>
 
-Allows you to schedule repetitive transactions.<BR>
-<BR>
+<h1>Kapitel 1&nbsp; Eine Kontendatei anlegen<br>
+</h1>
 
-<H2>2.4&nbsp;&nbsp;Accounts</H2>
 
-Displays the list of all your accounts and their properties, and
-allows you to edit them.<BR>
-<BR>
+<h2>1.1&nbsp; Qif Dateien importieren<br>
+</h2>
 
-<H2>2.5&nbsp;&nbsp;Third parts</H2>
 
-Displays the list of all the third-parts, the complementary information
-about them, and allow you to edit them.
-Also displays the transactions sorted by account (you can use the icons for
-quickly opening or closing the tree).
-Allows you to access a given transaction immediately by double-clicking
-on it.<BR>
-<BR>
+Wenn Sie schon vorher mit einem Finanzprogramm gearbeitet haben, können
+Sie Daten von diesem Programm im .qif Format importieren. Für jedes zu
+importierende Konto muss eine .qif Datei vorhanden sein.<br>
 
-<H2>2.6&nbsp;&nbsp;Categories</H2>
+<ul>
+<li>Den Menüpunkt <i><font color="maroon">Datei/Import/Qif</font></i> aufrufen;<br>
+<br>
+</li><li>das Verezeichnis auswählen;<br>
+<br>
+</li><li>die Datei(en) auswählen. Wenn Sie mehrere Dateien importieren
+wollen, sollten Sie alle Dateien im Importverzeichnis auswählen, damit
+der Importprozess Umbuchungen und Querverbindungen berücksichtigen kann.<br>
+<br>
+</li><li>wählen Sie die Währung für jedes Konto aus, die Standardwährung ist Euro.<br>
+</li>
+</ul>
 
-The same as the <I><FONT COLOR=maroon>Third parts</FONT></I> tab, it allows you to classify
-your incomes and outgoings.
-You can add or edit a category or sub-category, and display the transactions
-of one or all categories.<BR>
-<BR>
 
-<H2>2.7&nbsp;&nbsp;Budgetary lines</H2>
 
-The same as the former ones, it allows you to manage your budgetary lines.<BR>
-<BR>
+<br>
 
-<H2>2.8&nbsp;&nbsp;Reports</H2>
 
-Allows you to create and display all the reports you need.
-Some are already built-in, and you can customize them with a very powerful tool.<BR>
-<BR>
-<BR>
+<h2>1.2&nbsp; Eine neuen Kontendatei anlegen<br>
+</h2>
 
-<H1>Chapter&nbsp;3&nbsp;&nbsp;Grisbi's menus</H1>
 
-The <I><FONT COLOR=maroon>File</FONT></I> and <I><FONT COLOR=maroon>Accounts</FONT></I> menus are
-quite intuitive. The <I><FONT COLOR=maroon>Edit/Preferences</FONT></I> menu allows you to setup Grisbi's 
-general behaviour, and is explicit.<BR>
-</BODY>
-</HTML>
+Wenn Sie keine Dateien importieren, oder das erstemal ein Finanzprogramm verwenden, können Sie unter <i><font color="maroon">Datei/Neu Datei<br>
+</font></i>eine Kontendatei anlegen. Unter <i><font color="maroon">Konten/Neues Konto</font></i> können Sie die notwendigen Konten anlegen.<br>
+In der Übersicht Buchungen können Sie dann Ihre Buchungen erfassen.<br>
+
+<br>
+
+
+<h1>Kapitel 2&nbsp; Übersichten<br>
+</h1>
+
+
+<h2>2.1&nbsp; Startseite<br>
+</h2>
+
+
+Die Startseite zeigt alle Konten und Salden an. Wenn der Saldo eines Kontos unter dem festgelegten Wert ist, <br>
+wird diese Information ebenfalls auf der Startseite angezeigt.<br>
+
+<br>
+
+
+<h2>2.2&nbsp; Buchungen<br>
+</h2>
+
+
+In dieser Übersicht werden in der rechten Seite die Buchungen des
+Kontos, welches in der linken Seite ausgewählt wurde angezeigt.<br>
+Hier können Buchungen erfasst/bearbeitet/gelöscht werden. Wenn Sie eine
+neue Buchung erfassen wollen, wählen Sie das Icon ganz links in der
+Button Bar aus (Hooverhelp Formular angzeigen/verbergen).<br>
+Buchungen
+können auch mittels Doppelklick in der ersten leeren Buchungszeile
+erfasst werden.<br>
+
+<br>
+Die Buchungen können ein bis vierzeilig dargestellt werden, desweiteren
+kann festgelegt werden ob abgestimmte Buchungen angzeigt werden sollen.
+Alle Paramter können in der Buttonbar oberhalb der Buchungsliste
+festgelegt werden.<br>
+
+<br>
+Wenn Sie bei einer Buchung einen neuen Empfänger eingeben, wird dieser automatisch zur Empfängerliste hinzugefügt.<br>
+Sie müssen diesen Empfänger nicht vorher in der Übersicht 'Empfänger' erfassen.<br>
+
+<br>
+Kategorien werden ebenfalls automatisch zur Kategorienliste hinzugefügt. Haupt und Unterkategorien werden folgend getrennt:<br>
+
+<ul>
+<li>ein Leerzeichen<br>
+<br>
+</li><li>ein Doppelpunkt<br>
+<br>
+</li><li>ein Leerzeichen<br>
+  </li>
+</ul>
+
+Beispiel:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Hauptkategorie : Unterkategorie<br>
+
+<br>
+Ein neues Geschäftsjahr kann unter <i><font color="maroon">Bearbeiten/Einstellungen/Finanzdaten/Geschäftsjahre </font></i>angelegt werden.<br>
+
+<br>
+
+
+<h2>2.3&nbsp; Planer<br>
+</h2>
+
+
+In der Übersicht Planer können wiederkehrende oder zeitlich geplante Buchungen erfasst werden.<br>
+
+<br>
+
+
+<h2>2.4&nbsp; Konten<br>
+</h2>
+
+
+Die Kontoübersicht listet alle Konten auf. Hier können Konten angelegt/bearbeitet/gelöscht werden.<br>
+
+<br>
+
+
+<h2>2.5&nbsp; Empfänger<br>
+</h2>
+
+
+
+Hier werden alle Empfänger im Detail aufgelistet. Es können Empfänger
+angelegt/bearbeitet/gelöscht werden.<br>
+Es ist aus dieser Übersicht auch möglich eine Buchung im Detail anzusehen,<br>
+mittels Doppelklick auf eine Buchung erfolgt die Anzeige der Buchung in der Buchungsübersicht.<br>
+
+<br>
+
+
+<h2>2.6&nbsp; Kategorien<br>
+</h2>
+
+
+In der Übersicht Kategorien können so wie in der Übersicht Empfänger
+die Kategorien gewartet werden.<br>
+Es ist auch in dieser Übersicht
+möglich, Buchungen im Detail anzusehen.<br>
+
+<br>
+
+
+<h2>2.7&nbsp;&nbsp;Buchungszeilen<br>
+</h2>
+
+
+Unter Buchungszeilen können Sie so wie in der Buchungsübersicht Buchungen bearbeiten.<br>
+
+<br>
+
+
+<h2>2.8&nbsp; Berichte<br>
+</h2>
+Hier können verschiedene Berichte erstellt werden. Es gibt einige
+vorgefertigte Berichte,<br>
+welche jederzeit nach den eigenen Bedürfnissen
+angepasst werden können.<br>
+
+<br>
+
+
+<h1>Kapitel 3&nbsp; Menü<br>
+</h1>
+Die Menüpunkte <i><font color="maroon">Datei </font></i>und <i><font color="maroon">Konten</font></i> sind sehr intuitiv aufgebaut. Unter <i><font color="maroon">Bearbeiten/Einstellungen</font></i> können Sie das Programm nach Ihren&nbsp; Vorstellungen/Bedürfnissen konfigurieren.<br>
+
+<br>
+</body></html>
