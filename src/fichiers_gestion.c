@@ -225,8 +225,9 @@ void fichier_selectionne ( GtkWidget *selection_fichier)
 
 void ouverture_confirmee ( void )
 {
-    mise_en_route_attente ( _("Load an accounts file") );
+    gint i;
 
+    mise_en_route_attente ( _("Load an accounts file") );
     /*   si nb_comptes est différent de 0, c'est que l'on veut tout redessiner car on a changé la fonte */
     /*  si charge opérations renvoie FALSE, c'est qu'il y a eu un pb et un message est déjà affiché */
 
@@ -242,7 +243,7 @@ void ouverture_confirmee ( void )
 	    if ( etat.sauvegarde_demarrage )
 	    {
 		gchar *nom;
-		gint i, result;
+		gint result;
 		gchar **parametres;
 
 		/* on crée le nom de la sauvegarde */
@@ -298,7 +299,6 @@ void ouverture_confirmee ( void )
 	    if ( etat.sauvegarde_demarrage )
 	    {
 		gchar *nom;
-		gint i;
 		gchar **parametres;
 		gint save_force_enregistrement;
 
@@ -351,6 +351,18 @@ void ouverture_confirmee ( void )
     /* dégrise les menus nécessaire */
 
     init_variables ( TRUE );
+
+    /*     on met à jour les valeurs affichage_mini */
+    /* 	si à ce niveau les soldes sont déjà < au mini, c'est que le dialogue a déjà */
+    /* 	été affiché */
+
+    for ( i=0 ; i<nb_comptes ; i++ )
+    {
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+
+	MESSAGE_SOUS_MINI = SOLDE_COURANT < SOLDE_MINI;
+	MESSAGE_SOUS_MINI_VOULU = SOLDE_COURANT < SOLDE_MINI_VOULU;
+    }
 
     /* on crée le notebook principal */
 
@@ -743,6 +755,9 @@ void ajoute_nouveau_fichier_liste_ouverture ( gchar *path_fichier )
     if ( !nb_max_derniers_fichiers_ouverts ||
 	 ! path_fichier)
 	return;
+
+    if ( nb_derniers_fichiers_ouverts < 0 )
+	nb_derniers_fichiers_ouverts = 0;
 
     /* ALAIN-FIXME */
     /* si on n'a pas un chemin absolu, on n'enregistre pas ce fichier

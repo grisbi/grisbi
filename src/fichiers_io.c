@@ -147,7 +147,8 @@ gboolean charge_operations ( void )
 	    return ( FALSE );
 	}
 
-	dialogue_error ( _("Invalid accounts file") );
+	dialogue_error (g_strdup_printf (_("Cannot open file '%s': %s"), nom_fichier_comptes,
+					 latin2utf8 (strerror(errno))));
 	remove_file_from_last_opened_files_list ( nom_fichier_comptes );
 	return ( FALSE );
     }

@@ -611,6 +611,11 @@ gchar * latin2utf8 (char * inchar)
     if (!inchar)
 	return NULL;
 
+    if ( g_utf8_validate ( inchar,
+			   -1,
+			   NULL ))
+	return inchar;
+			 
     inlen = strlen(inchar);
     outlen = 1024;
 
