@@ -2726,7 +2726,7 @@ GSList *creation_liste_ope_de_ventil ( struct structure_operation *operation )
 
 	    ope_ventil -> no_exercice = operation_2 -> no_exercice;
 
-	    if ( ope_ventil -> no_piece_comptable )
+	    if ( operation_2 -> no_piece_comptable )
 		ope_ventil -> no_piece_comptable = g_strdup ( operation_2 -> no_piece_comptable );
 
 	    ope_ventil -> relation_no_operation = operation_2 -> relation_no_operation;
