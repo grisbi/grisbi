@@ -1638,41 +1638,22 @@ void sort_du_detail_compte ( void )
 /* appelée pour passer un compte à l'euro */
 /* ************************************************************************************************************ */
 
-void passage_a_l_euro ( GtkWidget *bouton,
-			gpointer null )
+void passage_a_l_euro ( GtkWidget *bouton, gpointer null )
 {
-  GtkWidget *dialog;
-  GtkWidget *label;
   gint resultat;
-  gfloat value;
 
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
 
-  dialog = gnome_dialog_new ( _("Confirm euro conversion"),
-				GNOME_STOCK_BUTTON_YES,
-				GNOME_STOCK_BUTTON_NO,
-				NULL );
-  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
-				 GTK_WINDOW ( window ));
-
-  label = gtk_label_new ( g_strdup_printf ( _("Warning, euro conversion is irreversible!\n\nAre you sure you want to convert account \"%s\" to euros?"), 
-					    NOM_DU_COMPTE ) ) ;
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( label );
-
-  resultat = gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
-
-  if ( resultat )
+  resultat = question_yes_no_hint ( g_strdup_printf ( _("Convert account \"%s\" to euro?"), 
+						      NOM_DU_COMPTE ),
+				    _("Euro conversion is irreversible, are you sure you want to continue?") ); 
+  if ( !resultat )
     return;
   else
     {
       GSList *pointeur;
       gdouble change;
-
+      gfloat value;
 
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
@@ -1685,7 +1666,7 @@ void passage_a_l_euro ( GtkWidget *bouton,
 
       if ( !change )
 	{
-	  dialogue_error ( _("exchange rate between the 2 currencies is 0.") );
+	  dialogue_error ( _("Exchange rate between the 2 currencies is 0.") );
 	  return;
 	}
 
@@ -1697,11 +1678,9 @@ void passage_a_l_euro ( GtkWidget *bouton,
 
       if ( !pointeur )
 	{
-	  dialogue ( _("Impossible to find the Euro currency, it has probably been deleted.") );
+	  dialogue_error ( _("Impossible to find the Euro currency, it has probably been deleted.") );
 	  return;
 	}
-
-
 
       SOLDE_INIT = SOLDE_INIT / change;
       SOLDE_MINI_VOULU = SOLDE_MINI_VOULU / change;
