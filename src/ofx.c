@@ -64,8 +64,13 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
     /* 	la lib ofx ne tient pas compte du 1er argument */
     argv[1] = nom_fichier;
 
-    ofx_proc_file ( 2,
-		    argv );
+    if ( ofx_proc_file ( 2, argv ) < 0 )
+    { 
+        // Case of Windows, libofx.dll is not present or Grisbi failed in dynamically loading ofx_proc_file
+        dialogue_error_hint(_("The OFX support can not be enabled!"), 
+                      g_strdup_printf (_("Cannot process OFX file '%s'"), nom_fichier));
+        return (FALSE);
+    }
 
     /*     le dernier compte n'a pas été ajouté à la liste */
 
@@ -126,11 +131,11 @@ int ofx_proc_status_cb(struct OfxStatusData data)
     {
 	switch ( data.severity )
 	{
-	    case INFO :
+	    case OFX_INFO :
 		/* 		pas de pb, on fait rien */
 		break;
 
-	    case WARN :
+	    case OFX_WARN :
 		if ( data.code_valid )
 		    dialogue_warning ( g_strconcat ( _("The file has returned the next message :\n"),
 						     data.name,
@@ -142,7 +147,7 @@ int ofx_proc_status_cb(struct OfxStatusData data)
 		erreur_import_ofx = 1;
 		break;
 
-	    case ERROR:
+	    case OFX_ERROR:
 		if ( data.code_valid )
 		    dialogue_error ( g_strconcat ( _("The file has returned the next message :\n"),
 						   data.name,
