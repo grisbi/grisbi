@@ -114,14 +114,14 @@ void preferences ( GtkWidget *widget,
 		       (GtkSignalFunc) changement_preferences,
 		       NULL );
 
-  gnome_property_box_set_state ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
-				 FALSE );
-
 /* on se met sur la page demandée */
 
   gtk_notebook_set_page ( GTK_NOTEBOOK ( GNOME_PROPERTY_BOX ( fenetre_preferences ) -> notebook ),
 			  page_demandee );
   gtk_widget_show ( fenetre_preferences );
+
+  gnome_property_box_set_state ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
+				 FALSE );
 
 
 }
@@ -1504,8 +1504,11 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
       if ( ( buffer = g_strtod ( gtk_entry_get_text ( GTK_ENTRY ( entree_jours ) ), FALSE ) ) != decalage_echeance )
 	{
 	  decalage_echeance = buffer;
-	  update_liste_echeances_manuelles_accueil();
-	  update_liste_echeances_auto_accueil();
+	  if ( nb_comptes )
+	    {
+	      update_liste_echeances_manuelles_accueil();
+	      update_liste_echeances_auto_accueil();
+	    }
 	}
 
     case 3 :
@@ -1523,98 +1526,109 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 
       /* on affiche ou efface les widget du formulaire */
 
-      if ( ( etat.affiche_no_operation = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_operation ))))
-	gtk_widget_show ( widget_formulaire_operations[0] );
-      else
-	gtk_widget_hide ( widget_formulaire_operations[0] );
-
-      if ( ( etat.affiche_date_bancaire = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_date_bancaire ))))
-	gtk_widget_show ( widget_formulaire_operations[7] );
-      else
-	gtk_widget_hide ( widget_formulaire_operations[7] );
-
-      if ( ( etat.utilise_exercice = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utiliser_exercices ))))
-	{
-	  gtk_widget_show ( widget_formulaire_operations[11] );
-	  gtk_widget_show ( widget_formulaire_ventilation[4] );
-	  gtk_widget_show ( widget_formulaire_echeancier[9] );
-	}
-      else
-	{
-	  gtk_widget_hide ( widget_formulaire_operations[11] );
-	  gtk_widget_hide ( widget_formulaire_ventilation[4] );
-	  gtk_widget_hide ( widget_formulaire_echeancier[9] );
-	}
-
-      if ( ( etat.utilise_imputation_budgetaire = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utiliser_imputation_budgetaire ))))
-	{
-	  gtk_widget_show ( widget_formulaire_operations[12] );
-	  gtk_widget_show ( page_imputations );
-	  gtk_widget_show ( widget_formulaire_ventilation[3] );
-	  gtk_widget_show ( widget_formulaire_echeancier[10] );
-	}
-      else
-	{
-	  gtk_widget_hide ( widget_formulaire_operations[12] );
-	  gtk_widget_hide ( page_imputations );
-	  gtk_widget_hide ( widget_formulaire_ventilation[3] );
-	  gtk_widget_hide ( widget_formulaire_echeancier[10] );
-	}
-
-      if ( ( etat.utilise_piece_comptable = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utiliser_piece_comptable ))))
-	{
-	  gtk_widget_show ( widget_formulaire_operations[13] );
-	  gtk_widget_show ( widget_formulaire_ventilation[5] );
-	  gtk_widget_show ( widget_formulaire_echeancier[12] );
-	}
-      else
-	{
-	  gtk_widget_hide ( widget_formulaire_operations[13] );
-	  gtk_widget_hide ( widget_formulaire_ventilation[5] );
-	  gtk_widget_hide ( widget_formulaire_echeancier[12] );
-	}
-
-      if ( ( etat.utilise_info_banque_guichet = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utiliser_info_banque_guichet ))))
-	{
-	  gtk_widget_show ( widget_formulaire_operations[16] );
-	  gtk_widget_show ( widget_formulaire_echeancier[11] );
-	}
-      else
-	{
-	  gtk_widget_hide ( widget_formulaire_operations[16] );
-	  gtk_widget_hide ( widget_formulaire_echeancier[11] );
-	}
-
-      if ( ( etat.affiche_boutons_valider_annuler = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_boutons_valider_annuler ))))
-	{
-	  gtk_widget_show ( separateur_formulaire_operations );
-	  gtk_widget_show ( hbox_valider_annuler_ope );
-	  gtk_widget_show ( separateur_formulaire_echeancier );
-	  gtk_widget_show ( hbox_valider_annuler_echeance );
-	}
-      else
-	{
-	  gtk_widget_hide ( separateur_formulaire_operations );
-	  gtk_widget_hide ( hbox_valider_annuler_ope );
-	  gtk_widget_hide ( separateur_formulaire_echeancier );
-	  gtk_widget_hide ( hbox_valider_annuler_echeance );
-
-	  affiche_cache_le_formulaire ();
-	  affiche_cache_le_formulaire ();
-	}
+      etat.affiche_no_operation = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_operation ));
+      etat.affiche_date_bancaire = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_date_bancaire ));
+      etat.utilise_exercice = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utiliser_exercices ));
+      etat.utilise_imputation_budgetaire = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utiliser_imputation_budgetaire ));
+      etat.utilise_piece_comptable = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utiliser_piece_comptable ));
+      etat.utilise_info_banque_guichet = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utiliser_info_banque_guichet ));
+      etat.affiche_boutons_valider_annuler = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_boutons_valider_annuler ));
 
 
-      /* on récupère le no de la devise des totaux des tiers */
-
-      if ( no_devise_totaux_tiers != GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_choix_devise_totaux_tiers ) -> menu_item ),
-									     "no_devise" )))
+      if ( nb_comptes )
 	{
-	  no_devise_totaux_tiers = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_choix_devise_totaux_tiers ) -> menu_item ),
-									   "no_devise" ));
+	  if ( etat.affiche_no_operation )
+	    gtk_widget_show ( widget_formulaire_operations[0] );
+	  else
+	    gtk_widget_hide ( widget_formulaire_operations[0] );
+
+	  if ( etat.affiche_date_bancaire )
+	    gtk_widget_show ( widget_formulaire_operations[7] );
+	  else
+	    gtk_widget_hide ( widget_formulaire_operations[7] );
+
+	  if ( etat.utilise_exercice )
+	    {
+	      gtk_widget_show ( widget_formulaire_operations[11] );
+	      gtk_widget_show ( widget_formulaire_ventilation[4] );
+	      gtk_widget_show ( widget_formulaire_echeancier[9] );
+	    }
+	  else
+	    {
+	      gtk_widget_hide ( widget_formulaire_operations[11] );
+	      gtk_widget_hide ( widget_formulaire_ventilation[4] );
+	      gtk_widget_hide ( widget_formulaire_echeancier[9] );
+	    }
+
+	  if ( etat.utilise_imputation_budgetaire )
+	    {
+	      gtk_widget_show ( widget_formulaire_operations[12] );
+	      gtk_widget_show ( page_imputations );
+	      gtk_widget_show ( widget_formulaire_ventilation[3] );
+	      gtk_widget_show ( widget_formulaire_echeancier[10] );
+	    }
+	  else
+	    {
+	      gtk_widget_hide ( widget_formulaire_operations[12] );
+	      gtk_widget_hide ( page_imputations );
+	      gtk_widget_hide ( widget_formulaire_ventilation[3] );
+	      gtk_widget_hide ( widget_formulaire_echeancier[10] );
+	    }
+
+	  if ( etat.utilise_piece_comptable )
+	    {
+	      gtk_widget_show ( widget_formulaire_operations[13] );
+	      gtk_widget_show ( widget_formulaire_ventilation[5] );
+	      gtk_widget_show ( widget_formulaire_echeancier[12] );
+	    }
+	  else
+	    {
+	      gtk_widget_hide ( widget_formulaire_operations[13] );
+	      gtk_widget_hide ( widget_formulaire_ventilation[5] );
+	      gtk_widget_hide ( widget_formulaire_echeancier[12] );
+	    }
+
+	  if ( etat.utilise_info_banque_guichet )
+	    {
+	      gtk_widget_show ( widget_formulaire_operations[16] );
+	      gtk_widget_show ( widget_formulaire_echeancier[11] );
+	    }
+	  else
+	    {
+	      gtk_widget_hide ( widget_formulaire_operations[16] );
+	      gtk_widget_hide ( widget_formulaire_echeancier[11] );
+	    }
+
+	  if ( etat.affiche_boutons_valider_annuler )
+	    {
+	      gtk_widget_show ( separateur_formulaire_operations );
+	      gtk_widget_show ( hbox_valider_annuler_ope );
+	      gtk_widget_show ( separateur_formulaire_echeancier );
+	      gtk_widget_show ( hbox_valider_annuler_echeance );
+	    }
+	  else
+	    {
+	      gtk_widget_hide ( separateur_formulaire_operations );
+	      gtk_widget_hide ( hbox_valider_annuler_ope );
+	      gtk_widget_hide ( separateur_formulaire_echeancier );
+	      gtk_widget_hide ( hbox_valider_annuler_echeance );
+
+	      affiche_cache_le_formulaire ();
+	      affiche_cache_le_formulaire ();
+	    }
+
+	  /* on récupère le no de la devise des totaux des tiers (seulement si un fichier est ouvert )*/
+
+	  if ( no_devise_totaux_tiers != GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_choix_devise_totaux_tiers ) -> menu_item ),
+										 "no_devise" )))
+	    {
+	      no_devise_totaux_tiers = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_choix_devise_totaux_tiers ) -> menu_item ),
+									       "no_devise" ));
 	  
-	    mise_a_jour_tiers ();
-	    mise_a_jour_categ ();
-	    mise_a_jour_imputation ();
+	      mise_a_jour_tiers ();
+	      mise_a_jour_categ ();
+	      mise_a_jour_imputation ();
+	    }
 	}
 
       /* récupération de l'affichage du nombre d'écritures */
@@ -1624,47 +1638,53 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 	{
 	  etat.affiche_nb_ecritures_listes = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_nb_ecritures ));
 
-	  /* change les titres des listes */
-
-	  if ( etat.affiche_nb_ecritures_listes )
+	  if ( nb_comptes )
 	    {
-	      gtk_clist_set_column_title ( GTK_CLIST ( arbre_tiers ),
-					   0,
-					   "Liste des tiers (écritures)" );
-	      gtk_clist_set_column_title ( GTK_CLIST ( arbre_categ ),
-					   0,
-					   "Liste des catégories (écritures)" );
-	      gtk_clist_set_column_title ( GTK_CLIST ( arbre_imputation ),
-					   0,
-					   "Liste des imputations budgétaires (écritures)" );
-	    }
-	  else
-	    {
-	      gtk_clist_set_column_title ( GTK_CLIST ( arbre_tiers ),
-					   0,
-					   "Liste des tiers" );
-	      gtk_clist_set_column_title ( GTK_CLIST ( arbre_categ ),
-					   0,
-					   "Liste des catégories" );
-	      gtk_clist_set_column_title ( GTK_CLIST ( arbre_imputation ),
-					   0,
-					   "Liste des imputations budgétaires" );
-	    }
+	      /* change les titres des listes */
 
-	    mise_a_jour_tiers ();
-	    mise_a_jour_categ ();
-	    mise_a_jour_imputation ();
+	      if ( etat.affiche_nb_ecritures_listes )
+		{
+		  gtk_clist_set_column_title ( GTK_CLIST ( arbre_tiers ),
+					       0,
+					       "Liste des tiers (écritures)" );
+		  gtk_clist_set_column_title ( GTK_CLIST ( arbre_categ ),
+					       0,
+					       "Liste des catégories (écritures)" );
+		  gtk_clist_set_column_title ( GTK_CLIST ( arbre_imputation ),
+					       0,
+					       "Liste des imputations budgétaires (écritures)" );
+		}
+	      else
+		{
+		  gtk_clist_set_column_title ( GTK_CLIST ( arbre_tiers ),
+					       0,
+					       "Liste des tiers" );
+		  gtk_clist_set_column_title ( GTK_CLIST ( arbre_categ ),
+					       0,
+					       "Liste des catégories" );
+		  gtk_clist_set_column_title ( GTK_CLIST ( arbre_imputation ),
+					       0,
+					       "Liste des imputations budgétaires" );
+		}
+
+	      mise_a_jour_tiers ();
+	      mise_a_jour_categ ();
+	      mise_a_jour_imputation ();
+	    }
 	}
 
       /* récupération du tri par date ou date bancaire */
 
       etat.classement_par_date = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_classer_liste_par_date ));
 
-      reaffiche_liste_comptes ();
-      update_liste_comptes_accueil();
-      modification_fichier ( TRUE );
-      demande_mise_a_jour_tous_comptes();
-      verification_mise_a_jour_liste();
+      if ( nb_comptes )
+	{
+	  reaffiche_liste_comptes ();
+	  update_liste_comptes_accueil();
+	  modification_fichier ( TRUE );
+	  demande_mise_a_jour_tous_comptes();
+	  verification_mise_a_jour_liste();
+	}
       break;
 
     case 4 :
@@ -1932,17 +1952,20 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 
       /* on remplace l'option menu des exercices des formulaire */
 
-      gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_operations[11] ) -> menu );
-      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[11] ),
-				 creation_menu_exercices () );
-
-      gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_ventilation[4] ) -> menu );
-      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation[4] ),
-				 creation_menu_exercices () );
-
-      gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_echeancier[9] ) -> menu );
-      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[9] ),
-				 creation_menu_exercices () );
+      if ( nb_comptes )
+	{
+	  gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_operations[11] ) -> menu );
+	  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[11] ),
+				     creation_menu_exercices () );
+	  
+	  gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_ventilation[4] ) -> menu );
+	  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation[4] ),
+				     creation_menu_exercices () );
+	  
+	  gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_echeancier[9] ) -> menu );
+	  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[9] ),
+				     creation_menu_exercices () );
+	}
 
       /* on recrée la liste tmp des exercices */
 
@@ -1987,24 +2010,26 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 
       /* remplissage de la liste avec les exercices temporaires */
 
-      liste_tmp = liste_struct_exercices_tmp;
-
-      while ( liste_tmp )
+      if ( nb_comptes )
 	{
-	  /* on associe à la ligne la struct de la exercice */
+	  liste_tmp = liste_struct_exercices_tmp;
 
-	  gtk_clist_set_row_data ( GTK_CLIST ( clist_exercices_parametres ),
-				   g_slist_position ( liste_struct_exercices_tmp,
-						      liste_tmp ),
-				   liste_tmp -> data );
+	  while ( liste_tmp )
+	    {
+	      /* on associe à la ligne la struct de la exercice */
 
-	  liste_tmp = liste_tmp -> next;
+	      gtk_clist_set_row_data ( GTK_CLIST ( clist_exercices_parametres ),
+				       g_slist_position ( liste_struct_exercices_tmp,
+							  liste_tmp ),
+				       liste_tmp -> data );
+
+	      liste_tmp = liste_tmp -> next;
+	    }
+	  modification_fichier ( TRUE );
 	}
-
 
       etat.affichage_exercice_automatique = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affichage_auto_exercice ));
 
-      modification_fichier ( TRUE );
       break;
 
       /* onglet types */

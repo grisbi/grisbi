@@ -516,6 +516,11 @@ GtkWidget *onglet_affichage ( void )
 						   g_slist_find_custom ( liste_struct_devises,
 									 GINT_TO_POINTER ( no_devise_totaux_tiers ),
 									 ( GCompareFunc ) recherche_devise_par_no )));
+
+  if ( !nb_comptes )
+    gtk_widget_set_sensitive ( hbox,
+			       FALSE );
+
   /* affichage du nb d'écritures */
 
   bouton_afficher_nb_ecritures = gtk_check_button_new_with_label ( "Afficher le nombre d'écritures." );

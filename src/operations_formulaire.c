@@ -1895,6 +1895,68 @@ gboolean modifie_date ( GtkWidget *entree )
 	}
     }
 
+  /* met le type correspondant à l'opé */
+
+  if ( GTK_WIDGET_VISIBLE ( widget_formulaire_operations[9] ))
+    {
+      gint place_type;
+      struct struct_type_ope *type;
+
+      /* recherche le type de l'opé */
+
+      place_type = cherche_no_menu_type ( operation -> type_ope );
+
+      /* si aucun type n'a été trouvé, on cherche le défaut */
+
+      if ( place_type == -1 )
+	{
+	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+	  if ( operation -> montant < 0 )
+	    place_type = cherche_no_menu_type ( TYPE_DEFAUT_DEBIT );
+	  else
+	    place_type = cherche_no_menu_type ( TYPE_DEFAUT_CREDIT );
+
+	  /* si le type par défaut n'est pas trouvé, on met 0 */
+
+	  if ( place_type == -1 )
+	    place_type = 0;
+	}
+
+      /*       à ce niveau, place type est mis */
+
+      gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
+				    place_type );
+
+      /* récupère l'adr du type pour mettre un n° auto si nécessaire */
+
+      type = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu_item ),
+				   "adr_type" );
+      
+      if ( type -> affiche_entree )
+	{
+	  /* on réaffiche l'entrée car si le menu avait été mis sur le 0, c'était pas affiché */
+	  
+	  gtk_widget_show ( widget_formulaire_operations[10] );
+
+	  if ( type -> numerotation_auto )
+	    {
+	      entree_prend_focus ( widget_formulaire_operations[10] );
+	      gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[10] ),
+				   itoa ( type -> no_en_cours + 1 ));
+	    }
+	  else
+	    if ( operation -> contenu_type )
+	      {
+		entree_prend_focus ( widget_formulaire_operations[10] );
+		gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[10] ),
+				     operation -> contenu_type );
+	      }
+	}
+    }
+
+
+
   /* met la devise */
 
   gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[5] ),
@@ -2086,12 +2148,18 @@ gboolean modifie_date ( GtkWidget *entree )
 
 	entree_prend_focus ( widget_formulaire_operations[8] );
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
+	if ( operation -> relation_no_compte != -1 )
+	  {
+	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
-	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ),
-				g_strconcat ( "Virement : ",
-					      NOM_DU_COMPTE,
-					      NULL ));
+	    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ),
+				    g_strconcat ( "Virement : ",
+						  NOM_DU_COMPTE,
+						  NULL ));
+	  }
+	else
+	    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ),
+				    "Virement" );
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
       }
@@ -2123,73 +2191,6 @@ gboolean modifie_date ( GtkWidget *entree )
 				      (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ );
 	  }
       }
-
-
-
-  /* met l'option menu du type d'opé */
-
-  if ( GTK_WIDGET_VISIBLE ( widget_formulaire_operations[9] ))
-    {
-      gint place_type;
-      struct struct_type_ope *type;
-
-      place_type = cherche_no_menu_type ( operation -> type_ope );
-
-      if ( place_type == -1 )
-	{
-	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-
-	  if ( operation -> montant < 0 )
-	    place_type = cherche_no_menu_type ( TYPE_DEFAUT_DEBIT );
-	  else
-	    place_type = cherche_no_menu_type ( TYPE_DEFAUT_CREDIT );
-
-	  if ( place_type != -1 )
-	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
-					  place_type );
-	  else
-	    {
-	      gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
-					    0 );
-
-	      /*  on met ce type par défaut, vu que celui par défaut marche plus ... */
-	      
-	      if ( operation -> montant < 0 )
-		TYPE_DEFAUT_DEBIT = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu_item ),
-						      "no_type" ));
-	      else
-		TYPE_DEFAUT_CREDIT = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu_item ),
-						      "no_type" ));
-	    }
-
-	  /* réupère l'adr du type pour mettre un n° auto si nécessaire */
-
-	  type = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu_item ),
-				       "adr_type" );
-
-
-	  if ( type -> affiche_entree )
-	    {
-	      /* on réaffiche l'entrée car si le menu avait été mis sur le 0, c'était pas affiché */
-
-	      gtk_widget_show ( widget_formulaire_operations[10] );
-
-	      if ( type -> numerotation_auto )
-		{
-		  entree_prend_focus ( widget_formulaire_operations[10] );
-		  gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[10] ),
-				       itoa ( type -> no_en_cours + 1 ));
-		}
-	      else
-		if ( operation -> contenu_type )
-		  {
-		    entree_prend_focus ( widget_formulaire_operations[10] );
-		    gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[10] ),
-					 operation -> contenu_type );
-		  }
-	    }
-	}
-    }
 
 
   /* met en place l'imputation budgétaire */

@@ -1,11 +1,15 @@
 			Grisbi 
   
-Auteur : 	Cédric Auger	( cedric@grisbi.org ) 
-Documentation :	Daniel Cartron	( doc@grisbi.org )
-Logo :		André Pascual	( andre@linuxgraphic.org )
+Auteur : 		Auger Cédric	( cedric@grisbi.org ) 
+Documentation / site :	Cartron Daniel	( doc@grisbi.org )
+Programmation / .deb :	Drieu Benjamin	( bdrieu@april.org )
+Site / .rpm :		Niel Gérald	( gerald.niel@gegeweb.net )
+Logo :			André Pascual	( andre@linuxgraphic.org )
 
 Site internet : http://www.grisbi.org
 
+Version 0.3.3 : 03/10/2002
+Version 0.3.2 : jamais sortie officiellement
 Version 0.3.1 : 21/12/2001
 Version 0.3.0 : 10/12/2001
 Version 0.2.0 : 19/06/2000

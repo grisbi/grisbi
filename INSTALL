@@ -5,12 +5,17 @@ Installation de Grisbi :
 -cd grisbi-X.X.X
 
 -./configure
+
+avec la mandrake 9, l'applet ne peut plus fonctionner, il faut taper :
+-./configure --without-applet
+
+
 -make
 -se loguer en root : su
 -make install
 
  et voila, il suffit ensuite de taper grisbi ou d'aller dans le menu Gnome, Applications
   
-Le programme se place automatiquement dans le répertoire /usr/bin.
+Le programme se place automatiquement dans le répertoire /usr/local/bin.
 Vous pouvez démarrer l'applet (Gnome seulement) soit à partir de la configuration de grisbi, 
 soit dans le tableau de bord -> ajouter l'applet -> utilitaires -> grisbi-applet.
