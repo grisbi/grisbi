@@ -132,7 +132,7 @@ void init_menus ( GtkWidget * win )
       GNOMEUIINFO_END
     };
 
-  static GnomeUIInfo tmp_menu_editer [5] = 
+  static GnomeUIInfo tmp_menu_editer [10] = 
     {
       GNOMEUIINFO_ITEM_STOCK (N_("New transaction"), 
 			      N_("Create a new transaction"),
@@ -142,6 +142,27 @@ void init_menus ( GtkWidget * win )
 			      N_("Remove selected transaction"),
 			      remove_transaction,
 			      GNOME_STOCK_MENU_TRASH),
+      GNOMEUIINFO_ITEM_STOCK (N_("Clone transaction"), 
+			      N_("Clone selected transaction"),
+			      clone_selected_transaction,
+			      GNOME_STOCK_MENU_COPY),
+      GNOMEUIINFO_ITEM_STOCK (N_("Edit transaction"), 
+			      N_("Edit selected transaction"),
+			      edition_operation,
+			      GNOME_STOCK_MENU_PROP),
+      GNOMEUIINFO_SEPARATOR,
+      GNOMEUIINFO_ITEM_STOCK (N_("Convert transaction to scheduled transaction"), 
+			      N_("Convert selected transaction to scheduled transaction"),
+			      edition_operation,
+			      GNOME_STOCK_MENU_CONVERT),
+      GNOMEUIINFO_ITEM_STOCK (N_("Move transaction to another account"), 
+			      N_("Move selected transaction to another account"),
+			      edition_operation,
+			      GNOME_STOCK_MENU_TRASH),
+/*       gtk_menu_item_set_submenu ( GTK_MENU_ITEM(menu_item),  */
+/* 				  GTK_WIDGET(creation_option_menu_comptes(GTK_SIGNAL_FUNC(move_selected_operation_to_account), FALSE)) ); */
+      
+
       GNOMEUIINFO_SEPARATOR,
       GNOMEUIINFO_MENU_PREFERENCES_ITEM (preferences, NULL),
       GNOMEUIINFO_END
