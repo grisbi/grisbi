@@ -62,6 +62,7 @@ GtkJustification col_justs[] = { GTK_JUSTIFY_CENTER,
     GTK_JUSTIFY_RIGHT };
 
 gint allocation_precedente;
+gint allocation_encore_avant;
 
 extern struct operation_echeance *echeance_selectionnnee;
 extern gint no_derniere_echeance;
@@ -2203,13 +2204,25 @@ void changement_taille_liste_ope ( GtkWidget *clist,
 	return;
 
     /*     pour éviter que le système ne s'emballe... */
+    /*     encore plus grosse magouille avec allocation_encore_avant pour éviter */
+    /* 	un joli effet glissant pendant l'affichage d'un bouton du formulaire */
+    /* 	c'est résolu dans l'instable de manière plus jolie !! */
 
     if ( allocation -> width
 	 ==
 	 allocation_precedente )
 	return;
 
-    allocation_precedente = allocation -> width;
+    if ( allocation -> width
+	 ==
+	 allocation_encore_avant )
+	return;
+
+     printf ( "%d %d\n", allocation -> width, allocation_precedente );
+
+
+     allocation_precedente = allocation_encore_avant;
+     allocation_encore_avant = allocation -> width;
 
     if ( allocation )
 	largeur = allocation -> width;
