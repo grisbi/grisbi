@@ -99,7 +99,7 @@ void a_propos ( GtkWidget *bouton,
 		       0 );
   gtk_widget_show ( url );
 
-  label = gtk_label_new ( "(Documentations illustrée sur le site de Grisbi)" );
+  label = gtk_label_new ( "(Documentation illustrée sur le site de Grisbi)" );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( boite ) -> vbox ),
 		       label,
 		       FALSE,

@@ -2493,7 +2493,8 @@ fflush(0);
     operation -> montant = g_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[4] ))),
 				      NULL );
 
-
+  if ( !fabs ( operation -> montant ))
+    operation -> montant = 0;
 
   /* récupération de la devise */
  
