@@ -1165,9 +1165,9 @@ void changement_taille_liste_ventilation_echeances  ( GtkWidget *clist,
     gint largeur;
     gint col0, col1, col2;
 
-    /*   si la largeur de grisbi est < 700, on fait rien */
+    /*   si la largeur de grisbi est < 639, on fait rien */
 
-    if ( window -> allocation.width < 700 )
+    if ( window -> allocation.width < 639 )
 	return;
 
     largeur = allocation->width;

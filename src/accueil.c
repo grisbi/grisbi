@@ -401,7 +401,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
     /* met le formulaire dans la boite de dialogue */
     width = frame_formulaire_echeancier -> allocation . width;
     if ( width <= 1 )
-        width = 700 ;
+        width = 639 ;
     gtk_widget_unrealize ( formulaire_echeancier );
     gtk_widget_reparent ( formulaire_echeancier, GTK_DIALOG ( dialog ) -> vbox );
     gtk_widget_set_usize ( GTK_WIDGET ( dialog ), width, FALSE );
