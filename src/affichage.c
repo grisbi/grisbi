@@ -863,7 +863,7 @@ void change_logo_accueil ( GtkWidget *widget, gpointer user_data )
     GdkPixbuf * pixbuf;
     const gchar *selected_filename;
 
-    selected_filename = gtk_file_selection_get_filename (GTK_FILE_SELECTION (file_selector));
+    selected_filename = file_selection_get_filename (GTK_FILE_SELECTION (file_selector));
 
     if ( nb_comptes )
     {
@@ -927,7 +927,7 @@ void change_animation ( GtkWidget *widget,
     GtkWidget *file_selector = (GtkWidget *)user_data;
     GdkPixbufAnimation *pixbuf=NULL;
 
-    etat.fichier_animation_attente = g_strdup (gtk_file_selection_get_filename (GTK_FILE_SELECTION (file_selector)));
+    etat.fichier_animation_attente = file_selection_get_filename (GTK_FILE_SELECTION (file_selector));
 
 
     if ( !etat.fichier_animation_attente
