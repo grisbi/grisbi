@@ -3,7 +3,7 @@
 /*                                                                            */
 /*                                banque.c                                    */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 Cï¿½ric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2004 Alain Portal (dionysos@grisbi.org)		      */
 /*			http://www.grisbi.org				      */
@@ -99,7 +99,7 @@ gboolean update_bank_menu ()
 
 /* ***************************************************************************************************** */
 /* Fonction ajout_banque */
-/* appelée par le bouton ajouter de l'onglet banques des paramètres */
+/* appelï¿½ par le bouton ajouter de l'onglet banques des paramï¿½res */
 /* ***************************************************************************************************** */
 
 struct struct_banque * ajout_banque ( GtkWidget *bouton, GtkWidget *clist )
@@ -110,12 +110,12 @@ struct struct_banque * ajout_banque ( GtkWidget *bouton, GtkWidget *clist )
 
     if ( clist && GTK_IS_CLIST(clist) )
     {
-	/* enlève la sélection de la liste ( ce qui nettoie les entrées ) */
+	/* enlï¿½e la sï¿½ection de la liste ( ce qui nettoie les entrï¿½s ) */
 	gtk_clist_unselect_all ( GTK_CLIST ( clist ));
     }
 
-    /* crée une nouvelle banque au nom de "nouvelle banque" en mettant
-       tous les paramètres à 0 et le no à -1 */
+    /* crï¿½ une nouvelle banque au nom de "nouvelle banque" en mettant
+       tous les paramï¿½res ï¿½0 et le no ï¿½-1 */
     banque = calloc ( 1, sizeof ( struct struct_banque ));
     if (!banque)
     {
@@ -132,13 +132,13 @@ struct struct_banque * ajout_banque ( GtkWidget *bouton, GtkWidget *clist )
     {
 	ligne_insert = gtk_clist_append ( GTK_CLIST ( clist ), ligne );
 
-	/* on associe à la ligne la struct de la banque */
+	/* on associe ï¿½la ligne la struct de la banque */
 	gtk_clist_set_row_data ( GTK_CLIST ( clist ), ligne_insert, banque );
 
-	/* on sélectionne le nouveau venu */
+	/* on sï¿½ectionne le nouveau venu */
 	gtk_clist_select_row ( GTK_CLIST ( clist ), ligne_insert, 0 );
 
-	/* on sélectionne le "nouvelle banque" et lui donne le focus */
+	/* on sï¿½ectionne le "nouvelle banque" et lui donne le focus */
 	gtk_entry_select_region ( GTK_ENTRY ( nom_banque ), 0, -1 );
 	gtk_widget_grab_focus ( nom_banque );
     }
@@ -168,7 +168,7 @@ void annuler_modif_banque ( GtkWidget *bouton,
 
 /* **************************************************************************************************************************** */
 /* Fonction supprime_banque */
-/* appelée lorsqu'on clicke sur le bouton enlever */
+/* appelï¿½ lorsqu'on clicke sur le bouton enlever */
 /* **************************************************************************************************************************** */
 void supprime_banque ( GtkWidget *bouton,
 		       GtkWidget *liste )
@@ -206,8 +206,8 @@ void supprime_banque ( GtkWidget *bouton,
 
     if ( resultat )
     {
-	/* La suppression de la banque est confirmée, On fait le tour des
-	   comptes pour en modifier le numéro de banque associée */
+	/* La suppression de la banque est confirmï¿½, On fait le tour des
+	   comptes pour en modifier le numï¿½o de banque associï¿½ */
 	
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
@@ -220,12 +220,6 @@ void supprime_banque ( GtkWidget *bouton,
 	    p_tab_nom_de_compte_variable++;
 	}
 
-	/* On désensitive la hbox_boutons_modif_banque au cas où on
-	   était en train de modifier la banque */
-
-	gtk_widget_set_sensitive ( hbox_boutons_modif_banque,
-				   FALSE );
-
 	/* On retire la banque de la liste */
 
 	gtk_clist_remove ( GTK_CLIST ( liste ),
@@ -234,8 +228,8 @@ void supprime_banque ( GtkWidget *bouton,
 						banque );
 	free ( banque );
 
-	/* Puis on fait le tour des banques pour recaler leurs numéros
-	   et ne pas créer de trous dans la suite des numéros */
+	/* Puis on fait le tour des banques pour recaler leurs numï¿½os
+	   et ne pas crï¿½r de trous dans la suite des numï¿½os */
 
 	for ( i = bank_nb_to_remove+1 ; i <= nb_banques ; i++ )
 	{
@@ -265,7 +259,7 @@ void supprime_banque ( GtkWidget *bouton,
 
 /* ************************************************************************************************************ */
 /* Fonction creation_menu_banques */
-/* crée un menu qui contient les noms des banques associés à leur no et adr */
+/* crï¿½ un menu qui contient les noms des banques associï¿½ ï¿½leur no et adr */
 /* et le renvoie */
 /* ************************************************************************************************************ */
 
@@ -402,7 +396,7 @@ GtkWidget *onglet_banques ( void )
 		ligne_insert = gtk_clist_append ( GTK_CLIST ( clist_banques_parametres ),
 						  ligne );
 
-		/* on associe à la ligne la struct de la banque */
+		/* on associe ï¿½la ligne la struct de la banque */
 
 		gtk_clist_set_row_data ( GTK_CLIST ( clist_banques_parametres ),
 					 ligne_insert,
@@ -524,18 +518,6 @@ void deselection_ligne_banque ( GtkWidget *liste,
 
     gtk_widget_set_sensitive ( frame, FALSE );
     gtk_widget_set_sensitive ( bouton_supprimer_banque, FALSE );
-}
-
-
-
-/* **************************************************************************************************************************** */
-void modif_detail_banque ( GtkWidget *entree,
-			   gpointer null )
-{
-
-    gtk_widget_set_sensitive ( hbox_boutons_modif_banque,
-			       TRUE );
-
 }
 /* **************************************************************************************************************************** */
 
