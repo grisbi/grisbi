@@ -343,6 +343,9 @@ void charge_configuration ( void )
 		if ( !strcmp ( node_messages -> name, "display_message_minimum_alert" ) ) {
 		    etat.display_message_minimum_alert = my_atoi(xmlNodeGetContent ( node_messages));
 		}
+		if ( !strcmp ( node_messages -> name, "display_message_qif_export_currency" ) ) {
+		    etat.display_message_qif_export_currency = my_atoi(xmlNodeGetContent ( node_messages));
+		}
 		node_messages = node_messages->next;
 	    }
 	}
@@ -532,6 +535,9 @@ void charge_configuration_ancien ( void )
 	sscanf ( temp,
 		 "display_message_minimum_alert=%d",
 		 &etat.display_message_minimum_alert );
+	sscanf ( temp,
+		 "display_message_qif_export_currency=%d",
+		 &etat.display_message_qif_export_currency );
     }
 
     if ( !dernier_chemin_de_travail )
@@ -605,6 +611,7 @@ void raz_configuration ( void )
     etat.display_message_file_readable = 1;
 #endif
     etat.display_message_minimum_alert = 0;
+    etat.display_message_qif_export_currency = 0;
 
     /* Commands */
     etat.latex_command = "latex";
@@ -779,6 +786,8 @@ void sauve_configuration(void)
 		  itoa(etat.display_message_file_readable));
     xmlNewChild ( node,NULL, "display_message_minimum_alert",
 		  itoa(etat.display_message_minimum_alert));
+    xmlNewChild ( node,NULL, "display_message_qif_export_currency",
+		  itoa(etat.display_message_qif_export_currency));
 
     /* sauvegarde des messages */
     node = xmlNewChild ( doc->children, NULL, "Print_config", NULL );
