@@ -415,11 +415,6 @@ void changement_compte ( gint *compte)
 											 (GCompareFunc) recherche_devise_par_no )-> data )) -> code_devise) );
 
 
-  /* change le défaut de l'option menu des comptes du formulaire */
-
-/*   gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[7] ), */
-/* 				compte_courant ); */
-
   /* change le défaut de l'option menu des devises du formulaire */
 
   gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[5] ),
@@ -428,6 +423,9 @@ void changement_compte ( gint *compte)
 									 GINT_TO_POINTER ( DEVISE ),
 									 ( GCompareFunc ) recherche_devise_par_no )));
 
+  /* met les boutons R et nb lignes par opé comme il faut */
+
+  mise_a_jour_boutons_caract_liste ( compte_courant );
 
   focus_a_la_liste ();
   etat.ancienne_date = 0;

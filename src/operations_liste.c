@@ -233,14 +233,12 @@ GtkWidget *initialisation_notebook_operations ( void )
 void creation_listes_operations ( void )
 {
   gint i;
+  GtkTooltips *tooltip;
 
   for ( i = 0 ; i < nb_comptes ; i++ )
     {
       GtkWidget *onglet;
       GtkWidget *liste;
-      gchar *titres_liste [] = { _("Chèque"), _("Date "),
-				 _("Tiers,Catégories, I.B., Notes "),
-				 _("R "), _("Débit"), _("Crédit "), _("Solde ") };
       gint j;
 
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
@@ -259,7 +257,7 @@ void creation_listes_operations ( void )
       /* création de l'onglet */
 
       liste = gtk_clist_new_with_titles ( 7,
-					   titres_liste );
+					  titres_colonnes_liste_operations );
       gtk_widget_set_usize ( GTK_WIDGET ( liste ),
 			     1,
 			     FALSE );
@@ -278,6 +276,25 @@ void creation_listes_operations ( void )
       gtk_container_add ( GTK_CONTAINER ( onglet ),
 			  liste );
       gtk_widget_show ( liste );
+
+
+      /* on met les tooltips aux boutons de la clist */
+      /*       le fait de mettre des tips sur les titres rend les boutons sensitifs ; */
+      /* on va détourner le click pour ne pas faire enfoncer le bouton */
+
+      tooltip = gtk_tooltips_new ();
+
+      for ( j=0 ; j<7 ; j++ )
+	{
+	  gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltip ),
+				 GTK_CLIST (liste)->column[j].button,
+				 tips_col_liste_operations[j],
+				 tips_col_liste_operations[j] );
+	  gtk_signal_connect ( GTK_OBJECT ( GTK_CLIST (liste)->column[j].button ),
+			       "button-press-event",
+			       GTK_SIGNAL_FUNC ( empeche_pression_titre_colonne ),
+			       NULL );
+	}
 
       /* on permet la sélection de plusieurs lignes */
 
@@ -353,12 +370,6 @@ void creation_listes_operations ( void )
 
       CLIST_OPERATIONS = liste;
 
-
-      /*   par défaut, le classement de la liste s'effectue par date */
-
-/*       gtk_clist_set_compare_func ( GTK_CLIST ( liste ), */
-/* 				   (GtkCListCompareFunc) classement_liste_par_date ); */
-
       remplissage_liste_operations ( i );
     }
 
@@ -373,7 +384,18 @@ void creation_listes_operations ( void )
 
 
 
+/***************************************************************************************************/
+/* Fonction empeche_pression_titre_colonne */
+/* permet d'éviter que le bouton s'enfonce si on clicke dessus */
+/***************************************************************************************************/
 
+gint empeche_pression_titre_colonne ( GtkWidget *bouton )
+{
+  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( bouton ),
+				 "button_press_event");
+  return ( TRUE );
+}
+/***************************************************************************************************/
 
 
 /*******************************************************************************************/
@@ -384,10 +406,9 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 {
   GtkWidget *onglet;
   GtkWidget *liste;
-  gchar *titres_liste [] = { _("Chèque"), _("Date "),
-			     _("Tiers, Catégories, I.B., Notes "),
-			     _("R "), _("Débit"), _("Crédit "), _("Solde ") };
-      
+  GtkTooltips *tooltip;
+  gint i;
+
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
 
@@ -404,7 +425,7 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
   /* création de l'onglet */
 
   liste = gtk_clist_new_with_titles ( 7,
-				      titres_liste );
+				      titres_colonnes_liste_operations );
   gtk_widget_set_usize ( GTK_WIDGET ( liste ),
 			 1,
 			 FALSE );
@@ -423,6 +444,26 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
   gtk_container_add ( GTK_CONTAINER ( onglet ),
 		      liste );
   gtk_widget_show ( liste );
+
+
+
+  /*       le fait de mettre des tips sur les titres rend les boutons sensitifs ; */
+  /* on va détourner le click pour ne pas faire enfoncer le bouton */
+
+  tooltip = gtk_tooltips_new ();
+
+  for ( i=0 ; i<6 ; i++ )
+    {
+      gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltip ),
+			     GTK_CLIST (liste)->column[i].button,
+			     tips_col_liste_operations[i],
+			     tips_col_liste_operations[i] );
+      gtk_signal_connect ( GTK_OBJECT ( GTK_CLIST (liste)->column[i].button ),
+			   "button-press-event",
+			   GTK_SIGNAL_FUNC ( empeche_pression_titre_colonne ),
+			   NULL );
+    }
+
 
   /* on permet la sélection de plusieurs lignes */
 
@@ -643,7 +684,7 @@ void remplissage_liste_operations ( gint compte )
 
 	  /* si l'opération est relevée et qu'on ne désire pas les afficher, on passe la suite  */
 
-	  if ( etat.r_affiches || operation -> pointe != 2 )
+	  if ( AFFICHAGE_R || operation -> pointe != 2 )
 	    {
 	      /* on fait le tour de tab_affichage_ope pour remplir les lignes du tableau */
 
@@ -653,13 +694,17 @@ void remplissage_liste_operations ( gint compte )
 
 		  if ( !i
 		       ||
-		       nb_lignes_ope == 4
+		       NB_LIGNES_OPE == 4
 		       ||
-		       ( ( i == 1
+		       (( i == 1
 			   ||
-			   i == 3 )
+			   i == 2 )
 			 &&
-			 nb_lignes_ope == 3 ))
+			 NB_LIGNES_OPE == 3 )
+		       ||
+		       ( i == 1
+			 &&
+			 NB_LIGNES_OPE == 2 ))
 		    {
 		      for ( j=0 ; j<7 ; j++ )
 			ligne_clist[i][j] = recherche_contenu_cellule ( operation,
@@ -703,7 +748,7 @@ void remplissage_liste_operations ( gint compte )
 
   /* affiche la ligne blanche du bas */
 
-  for ( j=0 ; j<nb_lignes_ope ; j++ )
+  for ( j=0 ; j<NB_LIGNES_OPE ; j++ )
     {
       /* on met à NULL tout les pointeurs */
 
@@ -1191,13 +1236,13 @@ void selectionne_ligne_souris ( GtkCList *liste,
        &&
        colonne == 3
        &&
-       !(ligne % nb_lignes_ope) )
+       !(ligne % NB_LIGNES_OPE) )
     pointe_equilibrage ( ligne );
 
 
   /* Récupération de la 1ère ligne de l'opération cliquée */
 
-  ligne = ligne / nb_lignes_ope * nb_lignes_ope;
+  ligne = ligne / NB_LIGNES_OPE * NB_LIGNES_OPE;
 
 
   /*   vire l'ancienne sélection */
@@ -1256,7 +1301,7 @@ gboolean traitement_clavier_liste ( GtkCList *liste,
 					     OPERATION_SELECTIONNEE );
       if ( ligne )
 	{
-	  ligne= ligne - nb_lignes_ope;
+	  ligne= ligne - NB_LIGNES_OPE;
 
 	  OPERATION_SELECTIONNEE = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
 							    ligne );
@@ -1274,7 +1319,7 @@ gboolean traitement_clavier_liste ( GtkCList *liste,
 	  ligne = gtk_clist_find_row_from_data ( GTK_CLIST ( liste ),
 						 OPERATION_SELECTIONNEE );
 
-	  ligne= ligne + nb_lignes_ope;
+	  ligne= ligne + NB_LIGNES_OPE;
 
 	  OPERATION_SELECTIONNEE = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
 							    ligne );
@@ -1363,27 +1408,29 @@ void selectionne_ligne ( gint compte )
 					     OPERATION_SELECTIONNEE );
     }
 
-  gtk_clist_select_row ( GTK_CLIST ( CLIST_OPERATIONS ),
-			 ligne,
-			 0);
 
-  if ( nb_lignes_ope != 1 )
+  switch ( NB_LIGNES_OPE )
     {
+    case 4:
       gtk_clist_select_row ( GTK_CLIST ( CLIST_OPERATIONS ),
-			     ligne+1,
+			     ligne+3,
 			     0);
+    case 3:
       gtk_clist_select_row ( GTK_CLIST ( CLIST_OPERATIONS ),
 			     ligne+2,
 			     0);
-      if ( nb_lignes_ope == 4 )
-	gtk_clist_select_row ( GTK_CLIST ( CLIST_OPERATIONS ),
-			       ligne+3,
-			       0);
-
+    case 2:
+      gtk_clist_select_row ( GTK_CLIST ( CLIST_OPERATIONS ),
+			     ligne+1,
+			     0);
+    case 1:
+      gtk_clist_select_row ( GTK_CLIST ( CLIST_OPERATIONS ),
+			     ligne,
+			     0);
     }
 
   if ( gtk_clist_row_is_visible ( GTK_CLIST ( CLIST_OPERATIONS ),
-				  ligne + nb_lignes_ope - 1)
+				  ligne + NB_LIGNES_OPE - 1)
        != GTK_VISIBILITY_FULL
        ||
        gtk_clist_row_is_visible ( GTK_CLIST ( CLIST_OPERATIONS ),
@@ -1392,7 +1439,7 @@ void selectionne_ligne ( gint compte )
     {
       if ( ligne > gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value  / GTK_CLIST ( CLIST_OPERATIONS ) -> row_height  )
 	gtk_clist_moveto ( GTK_CLIST ( CLIST_OPERATIONS ),
-			   ligne + nb_lignes_ope - 1,
+			   ligne + NB_LIGNES_OPE - 1,
 			   0,
 			   1,
 			   0 );
@@ -1661,7 +1708,7 @@ void edition_operation ( void )
       entree_prend_focus ( widget_formulaire_operations[8] );
       gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ),
 			      _("Opération ventilée") );
-      gtk_widget_show ( widget_formulaire_operations[14] );
+      gtk_widget_show ( widget_formulaire_operations[15] );
       gtk_widget_set_sensitive ( widget_formulaire_operations[12],
 				 FALSE );
 
@@ -1752,8 +1799,8 @@ void edition_operation ( void )
 
   if ( operation -> no_piece_comptable )
     {
-      entree_prend_focus ( widget_formulaire_operations[13] );
-      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[13] ),
+      entree_prend_focus ( widget_formulaire_operations[14] );
+      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[14] ),
 			   operation -> no_piece_comptable );
     }
 
@@ -1763,8 +1810,8 @@ void edition_operation ( void )
 
   if ( operation -> notes )
     {
-      entree_prend_focus ( widget_formulaire_operations[15] );
-      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[15] ),
+      entree_prend_focus ( widget_formulaire_operations[16] );
+      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[16] ),
 			   operation -> notes );
     }
 
@@ -1772,8 +1819,8 @@ void edition_operation ( void )
 
   if ( operation -> info_banque_guichet )
     {
-      entree_prend_focus ( widget_formulaire_operations[16] );
-      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[16] ),
+      entree_prend_focus ( widget_formulaire_operations[17] );
+      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[17] ),
 			   operation -> info_banque_guichet );
     }
 
@@ -1782,10 +1829,10 @@ void edition_operation ( void )
 /* mise en forme de auto / man */
 
   if ( operation -> auto_man )
-    gtk_label_set_text ( GTK_LABEL ( widget_formulaire_operations[17]),
+    gtk_label_set_text ( GTK_LABEL ( widget_formulaire_operations[18]),
 			 _("Auto"));
   else
-    gtk_label_set_text ( GTK_LABEL ( widget_formulaire_operations[17]),
+    gtk_label_set_text ( GTK_LABEL ( widget_formulaire_operations[18]),
 			 _("Manuel"));
 
 
@@ -2003,7 +2050,7 @@ void r_press (void)
 
       OPERATION_SELECTIONNEE -> pointe = 2;
 
-      if ( etat.r_affiches )
+      if ( AFFICHAGE_R )
 	gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
 			     gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
 							    OPERATION_SELECTIONNEE ),
@@ -2147,7 +2194,7 @@ void supprime_operation ( struct structure_operation *operation )
       ligne = gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
 					     operation );
       OPERATION_SELECTIONNEE = gtk_clist_get_row_data ( GTK_CLIST ( CLIST_OPERATIONS ),
-							ligne + nb_lignes_ope );
+							ligne + NB_LIGNES_OPE );
       gtk_clist_unselect_all ( GTK_CLIST ( CLIST_OPERATIONS ) );
       selectionne_ligne ( operation -> no_compte );
     }
@@ -2386,22 +2433,22 @@ void changement_taille_liste_ope ( GtkWidget *clist,
   gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[12] ),
 			 col2,
 			 FALSE );
-  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[13] ),
+  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[14] ),
 			 col5,
 			 FALSE  );
 
   /* 4ème ligne */
 
-  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[14] ),
+  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[15] ),
 			 col0+col1,
 			 FALSE );
-  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[15] ),
+  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[16] ),
 			 col2,
 			 FALSE );
-  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[16] ),
+  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[17] ),
 			 col3+col4+col5,
 			 FALSE  );
-  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[17] ),
+  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[18] ),
 			 col6,
 			 FALSE  );
 }

@@ -299,6 +299,11 @@ des paramètres.") );
 		*p_tab_nom_de_compte_variable = calloc ( 1,
 							 sizeof (struct donnees_compte));
 
+		/* les valeurs AFFICHAGE_R et NB_LIGNES_OPE par défaut */
+
+		AFFICHAGE_R = 0;
+		NB_LIGNES_OPE = 3;
+
 		/* on fait le tour dans l'arbre nom, cad : les détails, détails de type et détails des opérations */
 
 		node_nom_comptes = node_comptes -> childs;
@@ -1935,6 +1940,14 @@ des paramètres.") );
 			  if ( !strcmp ( node_detail -> name,
 					 "Compte_cloture" ))
 			   COMPTE_CLOTURE = atoi ( xmlNodeGetContent ( node_detail ));
+
+			  if ( !strcmp ( node_detail -> name,
+					 "Affichage_r" ))
+			    AFFICHAGE_R  = atoi ( xmlNodeGetContent ( node_detail ));
+
+			  if ( !strcmp ( node_detail -> name,
+					 "Nb_lignes_ope" ))
+			    NB_LIGNES_OPE = atoi ( xmlNodeGetContent ( node_detail ));
 
 			  if ( !strcmp ( node_detail -> name,
 					 "Commentaires" ))
@@ -4009,6 +4022,16 @@ gboolean enregistre_fichier ( void )
 			NULL,
 			"Compte_cloture",
 			itoa ( COMPTE_CLOTURE ));
+
+      xmlNewTextChild ( node_compte,
+			NULL,
+			"Affichage_r",
+			itoa ( AFFICHAGE_R ));
+
+      xmlNewTextChild ( node_compte,
+			NULL,
+			"Nb_lignes_ope",
+			itoa ( NB_LIGNES_OPE ));
 
       xmlNewTextChild ( node_compte,
 			NULL,

@@ -48,15 +48,8 @@ void charge_configuration ( void )
   largeur_window = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Geometry/Width", NULL ));
   hauteur_window = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Geometry/Height", NULL ));
 
-
-  etat.r_affiches = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Affichage_operations_rapprochees", NULL ));
-
   etat.r_modifiable = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Modification_operations_rapprochees", NULL ));
   dernier_chemin_de_travail = gnome_config_get_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Dernier_chemin_de_travail", NULL ));
-  nb_lignes_ope = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Affichage_simplifie_operations", NULL ));
-
-  if ( !nb_lignes_ope )
-    nb_lignes_ope = 3;
 
   if ( !dernier_chemin_de_travail )
     dernier_chemin_de_travail = g_strconcat ( getenv ("HOME"),
@@ -118,6 +111,7 @@ void charge_configuration ( void )
   etat.classement_par_date = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Tri_par_date", NULL ));
   etat.affiche_boutons_valider_annuler = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affiche_boutons_valider_annuler", NULL ));
   etat.largeur_auto_colonnes  = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Largeur_auto_colonnes", NULL ));
+  etat.retient_affichage_par_compte  = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Caracteristiques_par_compte", NULL ));
 
 
 
@@ -149,9 +143,7 @@ void raz_configuration ( void )
 
   largeur_window = 0;
   hauteur_window = 0;
-  nb_lignes_ope = 3;           /* 3 lignes par opé ( structure détaillée ) */
   etat.r_modifiable = 0;       /* on ne peux modifier les opé relevées */
-  etat.r_affiches = 0;         /* on n'affiche pas les opé relevées */
   etat.dernier_fichier_auto = 0;   /*  on n'ouvre pas directement le dernier fichier */
   buffer_dernier_fichier = g_strdup ( "" );
   etat.sauvegarde_auto = 0;    /* on ne sauvegarde pas automatiquement */
@@ -181,7 +173,7 @@ void raz_configuration ( void )
   compression_fichier = 0;     /* pas de compression par défaut */
   compression_backup = 0;
   etat.largeur_auto_colonnes = 1;
-
+  etat.retient_affichage_par_compte = 0;
 }
 /* ***************************************************************************************************** */
 
@@ -219,8 +211,6 @@ void sauve_configuration (void)
 
   /* sauvegarde de l'onglet général */
 
-  gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Affichage_operations_rapprochees", NULL ),
-			 etat.r_affiches );
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Modification_operations_rapprochees", NULL ),
 			 etat.r_modifiable );
   gnome_config_set_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Dernier_chemin_de_travail", NULL ),
@@ -229,8 +219,6 @@ void sauve_configuration (void)
 			 etat.alerte_permission );
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Force_enregistrement", NULL ),
 			 etat.force_enregistrement );
-  gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Affichage_simplifie_operations", NULL ),
-			 nb_lignes_ope );
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonction_touche_entree", NULL ),
 			 etat.entree );
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Affichage_messages_alertes", NULL ),
@@ -303,6 +291,8 @@ void sauve_configuration (void)
 			 etat.affiche_boutons_valider_annuler );
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Largeur_auto_colonnes", NULL ),
 			 etat.largeur_auto_colonnes );
+  gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Caracteristiques_par_compte", NULL ),
+			 etat.retient_affichage_par_compte );
 
   for ( i=0 ; i<7 ; i++ )
     gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Exercice/taille_largeur_colonne", itoa(i), NULL ),

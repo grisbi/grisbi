@@ -662,6 +662,9 @@ GtkWidget *onglet_fichier ( void )
 
       entree_chemin_backup = gnome_file_entry_new ( "backup_grisbi",
 						    _("Backup Grisbi") );
+      gtk_widget_set_usize ( gnome_file_entry_gnome_entry ( GNOME_FILE_ENTRY ( entree_chemin_backup )),
+			     300,
+			     FALSE );
 
       if ( nom_fichier_backup )
 	{
@@ -1186,6 +1189,9 @@ void ajouter_verification ( GtkWidget *bouton_add,
 						 _("Fichier Grisbi") );
   gnome_file_entry_set_default_path ( GNOME_FILE_ENTRY ( fenetre_choix_fichier ),
 				      dernier_chemin_de_travail );
+  gtk_widget_set_usize ( gnome_file_entry_gnome_entry ( GNOME_FILE_ENTRY ( fenetre_choix_fichier )),
+			 300,
+			 FALSE );
   
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue_box ) -> vbox ),
 		       fenetre_choix_fichier,
@@ -1340,6 +1346,7 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
   gint i, j;
   GSList *liste_tmp;
   GtkWidget *menu;
+  GtkTooltips *tooltip;
 
   home_dir = getenv ("HOME");
 
@@ -1574,25 +1581,25 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 
       if ( ( etat.utilise_piece_comptable = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utiliser_piece_comptable ))))
 	{
-	  gtk_widget_show ( widget_formulaire_operations[13] );
+	  gtk_widget_show ( widget_formulaire_operations[14] );
 	  gtk_widget_show ( widget_formulaire_ventilation[5] );
 	  gtk_widget_show ( widget_formulaire_echeancier[12] );
 	}
       else
 	{
-	  gtk_widget_hide ( widget_formulaire_operations[13] );
+	  gtk_widget_hide ( widget_formulaire_operations[14] );
 	  gtk_widget_hide ( widget_formulaire_ventilation[5] );
 	  gtk_widget_hide ( widget_formulaire_echeancier[12] );
 	}
 
       if ( ( etat.utilise_info_banque_guichet = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utiliser_info_banque_guichet ))))
 	{
-	  gtk_widget_show ( widget_formulaire_operations[16] );
+	  gtk_widget_show ( widget_formulaire_operations[17] );
 	  gtk_widget_show ( widget_formulaire_echeancier[11] );
 	}
       else
 	{
-	  gtk_widget_hide ( widget_formulaire_operations[16] );
+	  gtk_widget_hide ( widget_formulaire_operations[17] );
 	  gtk_widget_hide ( widget_formulaire_echeancier[11] );
 	}
 
@@ -2205,6 +2212,28 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
       /* récupère l'automatisme de la taille des colonnes */
 
       etat.largeur_auto_colonnes = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_choix_perso_colonnes ));
+      etat.retient_affichage_par_compte = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_caracteristiques_lignes_par_compte ));
+
+      /* si on decide d'avoir le même affichage pour tous les comptes, on harmonise ici avec le compte courant */
+
+      if ( !etat.retient_affichage_par_compte )
+	{
+	  gint affichage_r_courant;
+	  gint nb_lignes_ope_courant;
+
+	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+	  affichage_r_courant = AFFICHAGE_R;
+	  nb_lignes_ope_courant = NB_LIGNES_OPE;
+
+	  for ( i=0 ; i<nb_comptes ; i++ )
+	    {
+	      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+
+	      AFFICHAGE_R = affichage_r_courant;
+	      NB_LIGNES_OPE = nb_lignes_ope_courant;
+	    }
+	}
 
       /* on change le resizable des colonnes */
 
@@ -2216,10 +2245,10 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 	    gtk_clist_set_column_resizeable ( GTK_CLIST ( CLIST_OPERATIONS ),
 					      j,
 					      !etat.largeur_auto_colonnes );
-  gtk_signal_connect ( GTK_OBJECT (CLIST_OPERATIONS),
-		       "resize_column",
-		       GTK_SIGNAL_FUNC (changement_taille_colonne),
-		       NULL );
+	  gtk_signal_connect ( GTK_OBJECT (CLIST_OPERATIONS),
+			       "resize_column",
+			       GTK_SIGNAL_FUNC (changement_taille_colonne),
+			       NULL );
 	}
 
       /* récupère les rapports de colonnes entre eux */
@@ -2239,6 +2268,34 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
       changement_taille_liste_ope ( CLIST_OPERATIONS,
 				    NULL,
 				    GINT_TO_POINTER (compte_courant) );
+      
+      /* récupère les nouveaux titres de colonne et tips */
+      
+      recuperation_noms_colonnes_et_tips();
+
+      /* on met les nouveaux noms de colonnes et tips aux listes des opérations */
+
+      tooltip = gtk_tooltips_new ();
+
+      for ( i=0 ; i<nb_comptes ; i++ )
+	{
+	  gint j;
+
+	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+
+	  for ( j=0 ; j<7 ; j++ )
+	    {
+	      gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
+					   j,
+					   titres_colonnes_liste_operations[j] );
+	      
+	      gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltip ),
+				     GTK_CLIST (CLIST_OPERATIONS)->column[j].button,
+				     tips_col_liste_operations[j],
+				     tips_col_liste_operations[j] );
+	    }
+	}
+
       demande_mise_a_jour_tous_comptes ();
       verification_mise_a_jour_liste ();
       modification_fichier ( TRUE );

@@ -41,7 +41,6 @@ struct {
   guint ancienne_date : 1;
   guint ctrl : 1;
   guint equilibrage : 1;
-  guint r_affiches : 1;
   guint valeur_r_avant_rapprochement : 1;
   guint r_modifiable : 1;
   guint dernier_fichier_auto : 1;
@@ -66,6 +65,7 @@ struct {
   guint affiche_nb_ecritures_listes :1;
   guint classement_par_date :1;   /* à 1 si le classement de la liste d'opé se fait par date */
   guint largeur_auto_colonnes :1;
+  guint retient_affichage_par_compte :1;   /* à 1 si les caractéristiques de l'affichage (R, non R ...) diffèrent par compte */
 } etat;
 
 
@@ -161,6 +161,8 @@ struct donnees_compte
   GSList *liste_types_ope;         /* liste qui contient les struct de types d'opé du compte */
   gint type_defaut_debit;            /* no du type par défaut */
   gint type_defaut_credit;            /* no du type par défaut */
+  gint affichage_r;            /* à 1 si les R sont affichés pour ce compte */
+  gint nb_lignes_ope;           /* contient le nb de lignes pour une opé (1, 2, 3, 4 ) */
 };
 
 
@@ -202,6 +204,8 @@ struct donnees_compte
 #define TYPES_OPES ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> liste_types_ope
 #define TYPE_DEFAUT_DEBIT ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> type_defaut_debit
 #define TYPE_DEFAUT_CREDIT ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> type_defaut_credit
+#define AFFICHAGE_R ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> affichage_r
+#define NB_LIGNES_OPE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> nb_lignes_ope
 
 
 struct operation_echeance

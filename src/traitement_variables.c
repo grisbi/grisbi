@@ -80,6 +80,10 @@ void init_variables ( gboolean ouverture )
 
       gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[1].widget ),
 				 TRUE );
+
+      /* remplit les tabeaux tips_col_liste_operations et titres_colonnes_liste_operations */
+
+      recuperation_noms_colonnes_et_tips();
     }
   else
     {

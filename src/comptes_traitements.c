@@ -51,7 +51,6 @@ void  nouveau_compte ( void )
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + nb_comptes;
 
-
   if  (!(*p_tab_nom_de_compte_variable = calloc ( 1,
 						  sizeof (struct donnees_compte) )) )
     {
@@ -59,7 +58,7 @@ void  nouveau_compte ( void )
       return;
     };
 
-
+  p_tab_nom_de_compte_courant = p_tab_nom_de_compte + compte_courant;
 
   /* insère ses paramètres ( comme c'est un appel à calloc, tout ce qui est à 0 est déjà initialisé )*/
 
@@ -68,23 +67,26 @@ void  nouveau_compte ( void )
   DEVISE = 1;
   MISE_A_JOUR = 1;
   NO_COMPTE = nb_comptes;
+  AFFICHAGE_R = 0;
+  NB_LIGNES_OPE = 3;
 
   nb_comptes++;
 
+
   /* on crée les types par défaut */
 
-  creation_types_par_defaut ( nb_comptes - 1,
+  creation_types_par_defaut ( NO_COMPTE,
 			      0);
 
   /* on met le compte à la fin dans le classement des comptes */
 
   ordre_comptes = g_slist_append ( ordre_comptes,
-				   GINT_TO_POINTER ( nb_comptes - 1 ) );
+				   GINT_TO_POINTER ( NO_COMPTE ) );
 
 
   /* crée le nouveau bouton du compte et l'ajoute à la liste des comptes */
 
-  bouton = comptes_appel( nb_comptes - 1 );
+  bouton = comptes_appel( NO_COMPTE );
   gtk_box_pack_start (GTK_BOX (vbox_liste_comptes),
 		      bouton,
 		      FALSE,
@@ -95,7 +97,7 @@ void  nouveau_compte ( void )
 
   /* on crée la liste des opés */
 
-  ajoute_nouvelle_liste_operation( nb_comptes - 1 );
+  ajoute_nouvelle_liste_operation( NO_COMPTE );
 
   /* on recrée les combofix des catégories */
 

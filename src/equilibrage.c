@@ -628,14 +628,14 @@ void equilibrage ( void )
 
   /* affiche la liste en opé simplifiées */
 
-  ancien_nb_lignes_ope = nb_lignes_ope;
+  ancien_nb_lignes_ope = NB_LIGNES_OPE;
 
-  if ( nb_lignes_ope != 1 )
-    gtk_button_clicked ( GTK_BUTTON ( bouton_ope_simples ));
+  if ( NB_LIGNES_OPE != 1 )
+    gtk_button_clicked ( GTK_BUTTON ( bouton_ope_1_lignes ));
 
   /* on vire les opérations rapprochées */
 
-  etat.valeur_r_avant_rapprochement = etat.r_affiches;
+  etat.valeur_r_avant_rapprochement = AFFICHAGE_R;
 
   change_aspect_liste ( NULL,
 			3 );
@@ -810,22 +810,27 @@ void annuler_equilibrage ( GtkWidget *bouton_ann,
   gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
 			  0 );
 
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
   etat.equilibrage = 0;
 
-  if ( ancien_nb_lignes_ope != nb_lignes_ope )
+  if ( ancien_nb_lignes_ope != NB_LIGNES_OPE )
     {
       if ( ancien_nb_lignes_ope == 4 )
-	gtk_button_clicked ( GTK_BUTTON ( bouton_ope_completes ));
+	gtk_button_clicked ( GTK_BUTTON ( bouton_ope_4_lignes ));
       else
-	gtk_button_clicked ( GTK_BUTTON ( bouton_ope_semi_completes ));
+	{
+	  if ( ancien_nb_lignes_ope == 3 )
+	    gtk_button_clicked ( GTK_BUTTON ( bouton_ope_3_lignes ));
+	  else
+	    gtk_button_clicked ( GTK_BUTTON ( bouton_ope_2_lignes ));
+	}
     }
 	
 
   if ( etat.valeur_r_avant_rapprochement )
     change_aspect_liste ( NULL,
 			  2 );
-
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
   LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
 				    (GCompareFunc) classement_sliste_par_date );
@@ -1149,12 +1154,17 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
 
   etat.equilibrage = 0;
 
-  if ( ancien_nb_lignes_ope != nb_lignes_ope )
+  if ( ancien_nb_lignes_ope != NB_LIGNES_OPE )
     {
       if ( ancien_nb_lignes_ope == 4 )
-	gtk_button_clicked ( GTK_BUTTON ( bouton_ope_completes ));
+	gtk_button_clicked ( GTK_BUTTON ( bouton_ope_4_lignes ));
       else
-	gtk_button_clicked ( GTK_BUTTON ( bouton_ope_semi_completes ));
+	{
+	  if ( ancien_nb_lignes_ope == 3 )
+	    gtk_button_clicked ( GTK_BUTTON ( bouton_ope_3_lignes ));
+	  else
+	    gtk_button_clicked ( GTK_BUTTON ( bouton_ope_2_lignes ));
+	}
     }
 	
   if ( etat.valeur_r_avant_rapprochement )

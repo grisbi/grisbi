@@ -58,7 +58,8 @@ struct struct_devise *devise_compte_affichage_liste;  /* devise du compte en cou
 struct struct_devise *devise_operation_affichage_liste;  /* devise de l'opé en cours pendant l'affichage de la liste */
 gdouble solde_courant_affichage_liste;   /* valable uniquement pendant l'affichage de la liste */
 gdouble solde_pointe_affichage_liste;   /* valable uniquement pendant l'affichage de la liste */
-
+gchar *tips_col_liste_operations[7];
+gchar *titres_colonnes_liste_operations[7];
 
 
 /***********************************/ 
@@ -105,7 +106,6 @@ gpointer ** p_tab_nom_de_compte_courant;  /* pointe sur le tableau de pointeurs 
 GtkWidget * solde_label;   /*  pointeur vers le label qui contient le solde sous la liste des opé */
 GtkWidget * solde_label_pointe;   /*  pointeur vers le label qui contient le solde pointe sous la liste des opé */
 gchar version[10];
-int nb_lignes_ope;        /* nbre de lignes par opération ( contient 3 ou 1 ) */
 GSList *ordre_comptes;
 gchar *titre_fichier;
 gchar *adresse_commune;
@@ -163,7 +163,7 @@ gint operations_affichees;       /* nb d'opé affichées ( variable en fonction qu
 /* fichier operations_formulaire.c */
 /************************/ 
 
-GtkWidget *widget_formulaire_operations[18];
+GtkWidget *widget_formulaire_operations[19];
 GtkWidget *separateur_formulaire_operations;
 GtkWidget *hbox_valider_annuler_ope;
 gchar date_courante[11];             /* contient soit la date du jour, soit la derniere date entree */
@@ -472,9 +472,10 @@ GtkTooltips *tooltips;
 GtkWidget *bouton_affiche_cache_formulaire_echeancier;
 GtkWidget *fleche_bas_echeancier;
 GtkWidget *fleche_haut_echeancier;
-GtkWidget *bouton_ope_completes;
-GtkWidget *bouton_ope_semi_completes;
-GtkWidget *bouton_ope_simples;
+GtkWidget *bouton_ope_4_lignes;
+GtkWidget *bouton_ope_3_lignes;
+GtkWidget *bouton_ope_2_lignes;
+GtkWidget *bouton_ope_1_lignes;
 GtkWidget *bouton_affiche_r;
 GtkWidget *bouton_enleve_r;
 GtkWidget *label_proprietes_operations_compte;
@@ -771,5 +772,6 @@ gint tab_affichage_ope_tmp[4][7];
 GtkWidget *boutons_affichage_liste[17];
 GtkWidget *clist_affichage_liste;
 GtkWidget *bouton_choix_perso_colonnes;
+GtkWidget *bouton_caracteristiques_lignes_par_compte;
 gint rapport_largeur_colonnes[7];    /* contient le % de chaque colonne */
 gint taille_largeur_colonnes[7];   /* contient la taille de chaque colonne */

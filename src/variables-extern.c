@@ -71,7 +71,8 @@ extern struct struct_devise *devise_compte_affichage_liste;  /* devise du compte
 extern struct struct_devise *devise_operation_affichage_liste;  /* devise de l'opé en cours pendant l'affichage de la liste */
 extern gdouble solde_courant_affichage_liste;   /* valable uniquement pendant l'affichage de la liste */
 extern gdouble solde_pointe_affichage_liste;   /* valable uniquement pendant l'affichage de la liste */
-
+extern gchar *tips_col_liste_operations[7];
+extern gchar *titres_colonnes_liste_operations[7];
 
 
 /***********************************/ 
@@ -121,7 +122,6 @@ extern gpointer ** p_tab_nom_de_compte_courant;  /* pointe sur le tableau de poi
 extern GtkWidget * solde_label;   /*  pointeur vers le label qui contient le solde sous la liste des opé */
 extern GtkWidget * solde_label_pointe;   /*  pointeur vers le label qui contient le solde pointe sous la liste des opé */
 extern gchar version[10];
-extern int nb_lignes_ope;        /* nbre de lignes par opération ( contient 4, 3 ou 1 ) */
 extern GSList *ordre_comptes;
 extern gchar *titre_fichier;
 extern gchar *adresse_commune;
@@ -183,7 +183,7 @@ extern gint operations_affichees;       /* nb d'opé affichées ( variable en fonc
 /* fichier operations_formulaire.c */
 /************************/ 
 
-extern GtkWidget *widget_formulaire_operations[18];
+extern GtkWidget *widget_formulaire_operations[19];
 extern GtkWidget *separateur_formulaire_operations;
 extern GtkWidget *hbox_valider_annuler_ope;
 extern gchar date_courante[11];             /* contient soit la date du jour, soit la derniere date entree */
@@ -505,9 +505,10 @@ extern GtkTooltips *tooltips;
 extern GtkWidget *bouton_affiche_cache_formulaire_echeancier;
 extern GtkWidget *fleche_bas_echeancier;
 extern GtkWidget *fleche_haut_echeancier;
-extern GtkWidget *bouton_ope_completes;
-extern GtkWidget *bouton_ope_semi_completes;
-extern GtkWidget *bouton_ope_simples;
+extern GtkWidget *bouton_ope_4_lignes;
+extern GtkWidget *bouton_ope_3_lignes;
+extern GtkWidget *bouton_ope_2_lignes;
+extern GtkWidget *bouton_ope_1_lignes;
 extern GtkWidget *bouton_affiche_r;
 extern GtkWidget *bouton_enleve_r;
 extern GtkWidget *label_proprietes_operations_compte;
@@ -804,5 +805,6 @@ extern gint tab_affichage_ope_tmp[4][7];
 extern GtkWidget *boutons_affichage_liste[17];
 extern GtkWidget *clist_affichage_liste;
 extern GtkWidget *bouton_choix_perso_colonnes;
+extern GtkWidget *bouton_caracteristiques_lignes_par_compte;
 extern gint rapport_largeur_colonnes[7];    /* contient le % de chaque colonne */
 extern gint taille_largeur_colonnes[7];   /* contient la taille de chaque colonne */

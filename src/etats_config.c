@@ -105,7 +105,7 @@ void personnalisation_etat (void)
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
 				 onglet_etat_ib (),
-				 gtk_label_new (_(" Imputation budgétaire ")) );
+				 gtk_label_new (_(" Imputations budgétaires ")) );
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
 				 onglet_etat_tiers (),
@@ -113,11 +113,11 @@ void personnalisation_etat (void)
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
 				 onglet_etat_texte (),
-				 gtk_label_new (_(" Texte ")) );
+				 gtk_label_new (_(" Textes ")) );
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
 				 onglet_etat_montant (),
-				 gtk_label_new (_(" Montant ")) );
+				 gtk_label_new (_(" Montants ")) );
 
       gtk_notebook_set_scrollable ( GTK_NOTEBOOK ( notebook ), TRUE );
 
@@ -1031,7 +1031,7 @@ void recuperation_info_perso_etat ( void )
 	 ==
 	 GTK_CLIST ( liste_exo_etat ) -> rows )
        &&
-       etat_courant -> utilise_detail_exo )
+       etat_courant -> utilise_detail_exo == 3 )
     {
       dialogue ( _("Tous les exercices ont été sélectionnés ; Grisbi sera plus rapide\nen retirant l'option \"Détailler les exercices utilisés\"") );
       etat_courant -> utilise_detail_exo = FALSE;

@@ -172,6 +172,7 @@ void reaffiche_liste_comptes ( void );
 GtkWidget *creation_fenetre_operations ( void );
 GtkWidget *initialisation_notebook_operations ( void );
 void creation_listes_operations ( void );
+gint empeche_pression_titre_colonne ( GtkWidget *bouton );
 void ajoute_nouvelle_liste_operation ( gint no_compte );
 void onglet_compte_realize ( GtkWidget *onglet,
 			     GtkWidget *liste );
@@ -555,6 +556,7 @@ GtkWidget *creation_barre_outils_categ ( void );
 GtkWidget *creation_barre_outils_imputation ( void );
 void demande_expand_arbre ( GtkWidget *bouton,
 			    gint *liste );
+void mise_a_jour_boutons_caract_liste ( gint no_compte );
 
 
 
@@ -1070,3 +1072,4 @@ void toggled_bouton_affichage_liste ( GtkWidget *bouton,
 				      gint *no_bouton );
 void changement_taille_liste_affichage ( GtkWidget *clist,
 					 GtkAllocation *allocation );
+void recuperation_noms_colonnes_et_tips ( void );

@@ -276,31 +276,7 @@
   gtk_widget_show ( widget_formulaire_operations[6] );
 
 
-  /* met l'option menu des comptes */
-
-/*   widget_formulaire_operations[7] = gtk_option_menu_new (); */
-/*   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ), */
-/* 			 widget_formulaire_operations[7], */
-/* 			 "Choix du compte", */
-/* 			 "Choix du compte" ); */
-
-/*   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[7] ), */
-/* 			     creation_option_menu_comptes () ); */
-/*   gtk_signal_connect ( GTK_OBJECT (widget_formulaire_operations[7]), */
-/*  		       "key_press_event", */
-/* 		       GTK_SIGNAL_FUNC (touches_champ_formulaire), */
-/* 		       GINT_TO_POINTER(7) ); */
-/*   gtk_table_attach ( GTK_TABLE ( table ), */
-/* 		     widget_formulaire_operations[7], */
-/* 		     0, 2, 1, 2, */
-/* 		     GTK_SHRINK | GTK_FILL, */
-/* 		     GTK_SHRINK | GTK_FILL, */
-/* 		     0,0); */
-/*   gtk_widget_show ( widget_formulaire_operations[7] ); */
-
-
-   /* GDC : entrée de la date reelle */
-  /*   mise à la place du choix du compte, verra plus tard où le mettre */
+  /* mise en place de la date de valeur */
 
    widget_formulaire_operations[7] = gtk_entry_new();
    gtk_table_attach ( GTK_TABLE (table),
@@ -328,7 +304,6 @@
 	/* L'utilisation (l'affichage) de la date réelle est désactivable */
    if ( etat.affiche_date_bancaire )
      gtk_widget_show ( widget_formulaire_operations[7] );
-	/* FinGDC */
 
 
   /*  Affiche les catégories / sous-catégories */
@@ -488,94 +463,85 @@
 
   if ( etat.utilise_imputation_budgetaire )
     gtk_widget_show (widget_formulaire_operations[12]);
+  
+  
+  /* mise en place du type associé lors d'un virement */
+  /* non affiché au départ et pas de menu au départ */
+
+  widget_formulaire_operations[13] = gtk_option_menu_new ();
+  gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
+			 widget_formulaire_operations[13],
+			 _("Type d'opération associé"),
+			 _("Type d'opération associé") );
+  gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_operations[13] ),
+		       "key_press_event",
+		       GTK_SIGNAL_FUNC ( touches_champ_formulaire ),
+		       GINT_TO_POINTER(13) );
+  gtk_table_attach ( GTK_TABLE (table),
+		     widget_formulaire_operations[13],
+		     3, 5, 2, 3,
+		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL,
+		     0,0);
 
 
   /*   création de l'entrée du no de pièce comptable */
 
-  widget_formulaire_operations[13] = gtk_entry_new();
+  widget_formulaire_operations[14] = gtk_entry_new();
   gtk_table_attach ( GTK_TABLE (table),
-		     widget_formulaire_operations[13],
+		     widget_formulaire_operations[14],
 		     5, 7, 2, 3,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
 		     0,0);
-  gtk_signal_connect ( GTK_OBJECT (widget_formulaire_operations[13]),
+  gtk_signal_connect ( GTK_OBJECT (widget_formulaire_operations[14]),
  		       "button_press_event",
 		       GTK_SIGNAL_FUNC (clique_champ_formulaire),
-		       GINT_TO_POINTER(13) );
-  gtk_signal_connect ( GTK_OBJECT (widget_formulaire_operations[13]),
- 		       "key_press_event",
-		       GTK_SIGNAL_FUNC (touches_champ_formulaire),
-		       GINT_TO_POINTER(13) );
-  gtk_signal_connect_after ( GTK_OBJECT (widget_formulaire_operations[13]),
-			     "focus_in_event",
-			     GTK_SIGNAL_FUNC (entree_prend_focus),
-			     NULL );
-  gtk_signal_connect_after ( GTK_OBJECT (widget_formulaire_operations[13]),
-			     "focus_out_event",
-			     GTK_SIGNAL_FUNC (entree_perd_focus),
-			     GINT_TO_POINTER (13) );
-  if ( etat.utilise_piece_comptable )
-    gtk_widget_show ( widget_formulaire_operations[13] );
-
-
-  /* mise en forme du bouton ventilation */
-
-  widget_formulaire_operations[14] = gtk_button_new_with_label ( _("Ventilation ...") );
-  gtk_button_set_relief ( GTK_BUTTON ( widget_formulaire_operations[14] ),
-			  GTK_RELIEF_NONE );
-  gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_operations[14] ),
-   		       "clicked",
-   		       GTK_SIGNAL_FUNC ( basculer_vers_ventilation ),
-   		       NULL );
+		       GINT_TO_POINTER(14) );
   gtk_signal_connect ( GTK_OBJECT (widget_formulaire_operations[14]),
  		       "key_press_event",
 		       GTK_SIGNAL_FUNC (touches_champ_formulaire),
 		       GINT_TO_POINTER(14) );
-  gtk_table_attach ( GTK_TABLE (table),
-		     widget_formulaire_operations[14],
-		     0, 2, 3, 4,
-		     GTK_SHRINK | GTK_FILL,
-		     GTK_SHRINK | GTK_FILL,
-		     0,0);
-  gtk_widget_show ( widget_formulaire_operations[14] );
+  gtk_signal_connect_after ( GTK_OBJECT (widget_formulaire_operations[14]),
+			     "focus_in_event",
+			     GTK_SIGNAL_FUNC (entree_prend_focus),
+			     NULL );
+  gtk_signal_connect_after ( GTK_OBJECT (widget_formulaire_operations[14]),
+			     "focus_out_event",
+			     GTK_SIGNAL_FUNC (entree_perd_focus),
+			     GINT_TO_POINTER (14) );
+  if ( etat.utilise_piece_comptable )
+    gtk_widget_show ( widget_formulaire_operations[14] );
 
 
-  /*  Affiche les notes */
+  /* mise en forme du bouton ventilation */
 
-  widget_formulaire_operations[15] = gtk_entry_new ();
-  gtk_table_attach ( GTK_TABLE (table),
-		     widget_formulaire_operations[15],
-		     2, 3, 3, 4,
-		     GTK_SHRINK | GTK_FILL,
-		     GTK_SHRINK | GTK_FILL,
-		     0,0);
-  gtk_signal_connect ( GTK_OBJECT (widget_formulaire_operations[15]),
- 		       "button_press_event",
-		       GTK_SIGNAL_FUNC (clique_champ_formulaire),
-		       GINT_TO_POINTER(15) );
+  widget_formulaire_operations[15] = gtk_button_new_with_label ( _("Ventilation ...") );
+  gtk_button_set_relief ( GTK_BUTTON ( widget_formulaire_operations[15] ),
+			  GTK_RELIEF_NONE );
+  gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_operations[15] ),
+   		       "clicked",
+   		       GTK_SIGNAL_FUNC ( basculer_vers_ventilation ),
+   		       NULL );
   gtk_signal_connect ( GTK_OBJECT (widget_formulaire_operations[15]),
  		       "key_press_event",
 		       GTK_SIGNAL_FUNC (touches_champ_formulaire),
 		       GINT_TO_POINTER(15) );
-  gtk_signal_connect_after ( GTK_OBJECT (widget_formulaire_operations[15]),
-			     "focus_in_event",
-			     GTK_SIGNAL_FUNC (entree_prend_focus),
-			     NULL );
-  gtk_signal_connect_after ( GTK_OBJECT (widget_formulaire_operations[15]),
-			     "focus_out_event",
-			     GTK_SIGNAL_FUNC (entree_perd_focus),
-			     GINT_TO_POINTER (15) );
-  gtk_widget_show (widget_formulaire_operations[15]);
+  gtk_table_attach ( GTK_TABLE (table),
+		     widget_formulaire_operations[15],
+		     0, 2, 3, 4,
+		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL,
+		     0,0);
+  gtk_widget_show ( widget_formulaire_operations[15] );
 
 
-
-  /*  Affiche les infos banque/guichet */
+  /*  Affiche les notes */
 
   widget_formulaire_operations[16] = gtk_entry_new ();
   gtk_table_attach ( GTK_TABLE (table),
 		     widget_formulaire_operations[16],
-		     3, 6, 3, 4,
+		     2, 3, 3, 4,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
 		     0,0);
@@ -595,20 +561,49 @@
 			     "focus_out_event",
 			     GTK_SIGNAL_FUNC (entree_perd_focus),
 			     GINT_TO_POINTER (16) );
+  gtk_widget_show (widget_formulaire_operations[16]);
+
+
+
+  /*  Affiche les infos banque/guichet */
+
+  widget_formulaire_operations[17] = gtk_entry_new ();
+  gtk_table_attach ( GTK_TABLE (table),
+		     widget_formulaire_operations[17],
+		     3, 6, 3, 4,
+		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL,
+		     0,0);
+  gtk_signal_connect ( GTK_OBJECT (widget_formulaire_operations[17]),
+ 		       "button_press_event",
+		       GTK_SIGNAL_FUNC (clique_champ_formulaire),
+		       GINT_TO_POINTER(17) );
+  gtk_signal_connect ( GTK_OBJECT (widget_formulaire_operations[17]),
+ 		       "key_press_event",
+		       GTK_SIGNAL_FUNC (touches_champ_formulaire),
+		       GINT_TO_POINTER(17) );
+  gtk_signal_connect_after ( GTK_OBJECT (widget_formulaire_operations[17]),
+			     "focus_in_event",
+			     GTK_SIGNAL_FUNC (entree_prend_focus),
+			     NULL );
+  gtk_signal_connect_after ( GTK_OBJECT (widget_formulaire_operations[17]),
+			     "focus_out_event",
+			     GTK_SIGNAL_FUNC (entree_perd_focus),
+			     GINT_TO_POINTER (17) );
   if ( etat.utilise_info_banque_guichet )
-    gtk_widget_show (widget_formulaire_operations[16]);
+    gtk_widget_show (widget_formulaire_operations[17]);
 
 
   /*  Affiche le mode automatique / manuel  */
 
-  widget_formulaire_operations[17] = gtk_label_new (_("auto"));
+  widget_formulaire_operations[18] = gtk_label_new ( "" );
   gtk_table_attach ( GTK_TABLE (table),
-		     widget_formulaire_operations[17],
+		     widget_formulaire_operations[18],
 		     6, 7, 3, 4,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
 		     0,0);
-  gtk_widget_show (widget_formulaire_operations[17]);
+  gtk_widget_show (widget_formulaire_operations[18]);
 
 
   /* séparation d'avec les boutons */
@@ -853,6 +848,25 @@
 		  gtk_widget_hide ( widget_formulaire_operations[9] );
 		  gtk_widget_hide ( widget_formulaire_operations[10] );
 		}
+
+	      /* on modifie aussi le menu des types du compte associé pour virement si affiché */
+
+	      if ( GTK_WIDGET_VISIBLE ( widget_formulaire_operations[13] ))
+		{
+		  GtkWidget *menu;
+
+		  menu = creation_menu_types ( 2,
+					       GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( widget_formulaire_operations[13] ),
+										       "compte_virement" )),
+					       2  );
+
+		  if ( menu )
+		    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[13] ),
+					       menu );
+		  else
+		    gtk_option_menu_remove_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[13] ));
+
+		}
 	    }
 	}
       else
@@ -911,6 +925,24 @@
 		  gtk_widget_hide ( widget_formulaire_operations[9] );
 		  gtk_widget_hide ( widget_formulaire_operations[10] );
 		}
+
+	      /* on modifie aussi le menu des types du compte associé pour virement si affiché */
+
+	      if ( GTK_WIDGET_VISIBLE ( widget_formulaire_operations[13] ))
+		{
+		  GtkWidget *menu;
+
+		  menu = creation_menu_types ( 1,
+					       GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( widget_formulaire_operations[13] ),
+										       "compte_virement" )),
+					       2  );
+
+		  if ( menu )
+		    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[13] ),
+					       menu );
+		  else
+		    gtk_option_menu_remove_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[13] ));
+		}
 	    }
 	}
       else
@@ -925,21 +957,124 @@
       break;
 
 
-      /*       sort des catégories : si c'est une opé ventilée, affiche le bouton */
+      /*       sort des catégories : si c'est une opé ventilée, affiche le bouton de ventilation */
+      /* si c'est un virement affiche le bouton des types de l'autre compte */
 
     case 8:
+
+      /* dans tous les cas on efface la liste des types d'un compte associé */
+      /* sera réaffiché si nécessaire */
+
+      gtk_widget_hide ( widget_formulaire_operations[13] );
+
       if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	{
 	  if ( strcmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_operations[8]))),
 			_("Opération ventilée") ))
 	    {
-	      gtk_widget_hide ( widget_formulaire_operations[14] );
+	      gchar **tableau_char;
+
+	      gtk_widget_hide ( widget_formulaire_operations[15] );
 	      gtk_widget_set_sensitive ( widget_formulaire_operations[12],
 					 TRUE );
+
+	      /* vérification que ce n'est pas un virement */
+
+	      tableau_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_operations[8])),
+								  ":",
+								  2 );
+
+	      if ( !strncmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_operations[8]))),
+			      _("Virement :" ),
+			      10 ))
+		{
+		  tableau_char[0] = g_strstrip ( tableau_char[0] );
+
+		  if ( tableau_char[1] )
+		    tableau_char[1] = g_strstrip ( tableau_char[1] );
+
+
+		  if ( strlen ( tableau_char[0] ) )
+		    {
+		      if ( !strcmp ( tableau_char[0],
+				     _("Virement") )
+			   && tableau_char[1]
+			   && strlen ( tableau_char[1]) )
+			{
+			  /* c'est un virement : on recherche le compte associé et on affiche les types de paiement */
+
+			  gint i;
+
+			  if ( strcmp ( tableau_char[1],
+					_("Compte supprimé") ) )
+			    {
+			      /* recherche le no de compte du virement */
+
+			      gint compte_virement;
+
+			      p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+
+			      compte_virement = -1;
+
+			      for ( i = 0 ; i < nb_comptes ; i++ )
+				{
+				  if ( !g_strcasecmp ( NOM_DU_COMPTE,
+						       tableau_char[1] ) )
+				    compte_virement = i;
+				  p_tab_nom_de_compte_variable++;
+				}
+
+			      if ( compte_virement != -1
+				   &&
+				   compte_virement != compte_courant )
+				{
+				  /* vérifie quel est le montant entré, affiche les types opposés de l'autre compte */
+
+				  GtkWidget *menu;
+
+				  if ( gtk_widget_get_style ( widget_formulaire_operations[4] ) == style_entree_formulaire[0] )
+				    {
+				      /* il y a un montant dans le crédit */
+
+				      menu = creation_menu_types ( 1, compte_virement, 2  );
+
+				      if ( menu )
+					{
+					  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[13] ),
+								     menu );
+					  gtk_widget_show ( widget_formulaire_operations[13] );
+					}
+				    }
+				  else
+				    {
+				      /* il y a un montant dans le débit ou défaut */
+
+				      menu = creation_menu_types ( 2, compte_virement, 2  );
+
+				      if ( menu )
+					{
+					  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[13] ),
+								     menu );
+					  gtk_widget_show ( widget_formulaire_operations[13] );
+					}
+				    }
+
+				  /* on associe le no de compte de virement au formulaire pour le retrouver */
+				  /* rapidement s'il y a un chgt débit/crédit */
+
+				  gtk_object_set_data ( GTK_OBJECT ( widget_formulaire_operations[13] ),
+							"compte_virement",
+							GINT_TO_POINTER ( compte_virement ));
+				}
+			    }
+			}
+		    }
+		}
+	      g_strfreev ( tableau_char );
 	    }
 	  else
 	    {
-	      gtk_widget_show ( widget_formulaire_operations[14] );
+	      gtk_widget_show ( widget_formulaire_operations[15] );
 	      gtk_widget_set_sensitive ( widget_formulaire_operations[12],
 					 FALSE );
 	    }
@@ -959,7 +1094,7 @@
 	texte = _("Imputation budgétaire");
       break;
 
-    case 13:
+    case 14:
       if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	texte = _("Pièce comptable");
 
@@ -970,20 +1105,10 @@
 	texte = _("Notes");
       break;
 
-    case 16:
+    case 17:
       if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	texte = _("Informations banque/guichet");
       break;
-
-       /* on sort de la date réelle , soit c'est vide, soit on la vérifie et la complète si nécessaire  */
-	case 18:
-		if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-		  {
-		    modifie_date ( entree );
-		  }
-		else
-		  texte = _("Date de valeur");
-	break;
 
     default :
     }
@@ -1208,8 +1333,9 @@ void clique_champ_formulaire ( GtkWidget *entree,
 	  gtk_widget_grab_focus ( GTK_WIDGET ( popup ));
 	}
       break;
-    /* GDC : Gestion de la date réelle */
-     case 18:
+
+
+     case 7:
        /* click sur l'entrée de la date réelle*/
 
        /* si double click, on popup le calendrier */
@@ -1337,7 +1463,7 @@ void clique_champ_formulaire ( GtkWidget *entree,
  	  gtk_widget_grab_focus ( GTK_WIDGET ( popup ));
  	}
        break;
-/* GDCFin */
+
 
     default:
     }
@@ -1405,13 +1531,9 @@ void clique_champ_formulaire ( GtkWidget *entree,
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
       gtk_widget_grab_focus ( CLIST_OPERATIONS );
 
-		/* GDC : si l'origine est la date réelle, on fait comme si c'était la date */
-		if (origine == 18) origine = 1;
-		/* FinGDC */
-
       /* on donne le focus au widget suivant */
 
-      origine = (origine + 1 ) % 17;
+      origine = (origine + 1 ) % 18;
 
       while ( !(GTK_WIDGET_VISIBLE ( widget_formulaire_operations[origine] )
 		&&
@@ -1422,7 +1544,7 @@ void clique_champ_formulaire ( GtkWidget *entree,
 		  GTK_IS_ENTRY ( widget_formulaire_operations[origine] )
 		  ||
 		  GTK_IS_BUTTON ( widget_formulaire_operations[origine] ) )))
-	origine = (origine + 1 ) % 17;
+	origine = (origine + 1 ) % 18;
 
 
       /*       si on se retrouve sur la date et que etat.entree = 0, on enregistre l'opérations */
@@ -1498,7 +1620,7 @@ void clique_champ_formulaire ( GtkWidget *entree,
       /*       si on est dans une entree de date, on augmente d'un jour la date */
 
 		/* GDC : prise en compte de la date réelle (18) FinGDC */
-       if ( origine == 1 || origine == 18)
+       if ( origine == 1 || origine == 7)
 	{
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					 "key_press_event");
@@ -1514,7 +1636,7 @@ void clique_champ_formulaire ( GtkWidget *entree,
       /*       si on est dans une entree de date, on diminue d'un jour la date */
 
 		/* GDC : prise en compte de la date réelle (18) FinGDC */
-       if ( origine == 1 || origine == 18)
+       if ( origine == 1 || origine == 7)
 	{
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					 "key_press_event");
@@ -1935,7 +2057,7 @@ gboolean modifie_date ( GtkWidget *entree )
 
       gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ),
 			      _("Opération ventilée") );
-      gtk_widget_show ( widget_formulaire_operations[14] );
+      gtk_widget_show ( widget_formulaire_operations[15] );
 
       /* affiche la question de récupération */
 
@@ -2242,8 +2364,8 @@ gboolean modifie_date ( GtkWidget *entree )
 
   if ( operation -> no_piece_comptable )
     {
-      entree_prend_focus ( widget_formulaire_operations[13] );
-      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[13] ),
+      entree_prend_focus ( widget_formulaire_operations[14] );
+      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[14] ),
 			   operation -> no_piece_comptable );
     }
 
@@ -2252,8 +2374,8 @@ gboolean modifie_date ( GtkWidget *entree )
 
   if ( operation -> notes )
     {
-      entree_prend_focus ( widget_formulaire_operations[15] );
-      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[15] ),
+      entree_prend_focus ( widget_formulaire_operations[16] );
+      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[16] ),
 			   operation -> notes );
     }
 
@@ -2261,8 +2383,8 @@ gboolean modifie_date ( GtkWidget *entree )
 
   if ( operation -> info_banque_guichet )
     {
-      entree_prend_focus ( widget_formulaire_operations[16] );
-      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[16] ),
+      entree_prend_focus ( widget_formulaire_operations[17] );
+      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[17] ),
 			   operation -> info_banque_guichet );
     }
  }
@@ -2615,7 +2737,7 @@ gboolean modifie_date ( GtkWidget *entree )
 
   if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_operations[12] ) -> entry ) == style_entree_formulaire[0]
        &&
-       !GTK_WIDGET_VISIBLE ( widget_formulaire_operations[14] ))
+       !GTK_WIDGET_VISIBLE ( widget_formulaire_operations[15] ))
     {
       struct struct_imputation *imputation;
       
@@ -2677,23 +2799,23 @@ gboolean modifie_date ( GtkWidget *entree )
 
  /* récupération du no de pièce comptable */
 
-  if ( gtk_widget_get_style ( widget_formulaire_operations[13] ) == style_entree_formulaire[0] )
-    operation -> no_piece_comptable = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[13] ))));
+  if ( gtk_widget_get_style ( widget_formulaire_operations[14] ) == style_entree_formulaire[0] )
+    operation -> no_piece_comptable = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[14] ))));
   else
     operation -> no_piece_comptable = NULL;
 
 
   /* récupération des notes */
 
-  if ( gtk_widget_get_style ( widget_formulaire_operations[15] ) == style_entree_formulaire[0] )
-    operation -> notes = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[15] ))));
+  if ( gtk_widget_get_style ( widget_formulaire_operations[16] ) == style_entree_formulaire[0] )
+    operation -> notes = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[16] ))));
   else
     operation -> notes = NULL;
 
   /* récupération de l'info banque/guichet */
 
-  if ( gtk_widget_get_style ( widget_formulaire_operations[16] ) == style_entree_formulaire[0] )
-    operation -> info_banque_guichet = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[16] ))));
+  if ( gtk_widget_get_style ( widget_formulaire_operations[17] ) == style_entree_formulaire[0] )
+    operation -> info_banque_guichet = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[17] ))));
   else
     operation -> info_banque_guichet = NULL;
 
@@ -3158,10 +3280,16 @@ gboolean modifie_date ( GtkWidget *entree )
 	operation_2 -> notes = g_strdup ( operation -> notes);
       operation_2 -> auto_man = operation -> auto_man;
 
-      /*       pour le type, on affiche une fenetre avec un choix des types de l'autre compte */
+      /* récupération du type de l'autre opé */
 
-      operation_2 -> type_ope = demande_correspondance_type ( operation,
-							      operation_2 );
+      if ( GTK_WIDGET_VISIBLE ( widget_formulaire_operations[13] ))
+	operation_2 -> type_ope = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu_item ),
+									  "no_type" ));
+      else
+	{
+	  operation_2 -> type_ope = 0;
+	  operation -> contenu_type = NULL;
+	}
 
 
       if ( operation -> contenu_type )
@@ -3367,11 +3495,11 @@ gboolean modifie_date ( GtkWidget *entree )
 			style_entree_formulaire[1] );
   gtk_widget_set_style (GTK_COMBOFIX ( widget_formulaire_operations[12])->entry,
 			style_entree_formulaire[1] );
-  gtk_widget_set_style (widget_formulaire_operations[13],
-			style_entree_formulaire[1] );
-  gtk_widget_set_style (widget_formulaire_operations[15],
+  gtk_widget_set_style (widget_formulaire_operations[14],
 			style_entree_formulaire[1] );
   gtk_widget_set_style (widget_formulaire_operations[16],
+			style_entree_formulaire[1] );
+  gtk_widget_set_style (widget_formulaire_operations[17],
 			style_entree_formulaire[1] );
 
   gtk_label_set_text ( GTK_LABEL ( widget_formulaire_operations[0]),
@@ -3396,17 +3524,20 @@ gboolean modifie_date ( GtkWidget *entree )
 
   gtk_combofix_set_text ( GTK_COMBOFIX (widget_formulaire_operations[12]),
 			  _("Imputation budgétaire") );
-  gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[13]),
+  gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[14]),
 		       _("Pièce comptable") );
 
-  gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[15]),
-		       _("Notes") );
   gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[16]),
+		       _("Notes") );
+  gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[17]),
 		       _("Informations banque/guichet") );
 
   gtk_widget_hide ( widget_formulaire_operations[6] );
-  gtk_widget_hide ( widget_formulaire_operations[14] );
-  gtk_widget_hide ( widget_formulaire_operations[17] );
+  gtk_widget_hide ( widget_formulaire_operations[13] );
+  gtk_widget_hide ( widget_formulaire_operations[15] );
+
+  gtk_label_set_text ( GTK_LABEL ( widget_formulaire_operations[18]),
+		       "" );
 
   gtk_widget_set_sensitive ( widget_formulaire_operations[4],
 			     TRUE );

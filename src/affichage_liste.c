@@ -72,76 +72,6 @@ GtkWidget *onglet_affichage_liste ( void )
   gtk_widget_show ( onglet );
 
 
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( onglet ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( hbox );
-
-  label = gtk_label_new ( _("Affichage des données de l'opération dans la liste :" ));
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( label );
-
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( onglet ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( hbox );
-
-  label = gtk_label_new ( _("     Opérations simplifiées : affiche la 1ère ligne." ));
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( label );
-
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( onglet ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( hbox );
-
-  label = gtk_label_new ( _("     Opérations semi-complètes : affiche les 1ère, 2ème et 4ème lignes." ));
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( label );
-
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( onglet ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( hbox );
-
-  label = gtk_label_new ( _("     Opérations complètes : affiche toutes les lignes." ));
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( label );
-
-
-
   /* mise en place de la clist_affichage_liste */
   /*   on lui met des titres redimensionnables */
   /*   elle fait 7 colonnes et 4 lignes */
@@ -227,6 +157,8 @@ GtkWidget *onglet_affichage_liste ( void )
   /* on permet maintenant de choisir soi même la taille des colonnes */
 
   bouton_choix_perso_colonnes = gtk_check_button_new_with_label ( _("Grisbi ajuste la taille des colonnes selon le tableau ci-dessus" ));
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_choix_perso_colonnes ),
+				 etat.largeur_auto_colonnes );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_choix_perso_colonnes ),
 			      "toggled",
 			      gnome_property_box_changed,
@@ -239,6 +171,23 @@ GtkWidget *onglet_affichage_liste ( void )
   gtk_widget_show ( bouton_choix_perso_colonnes );
 
 
+  /* on permet maintenant de choisir soi même la taille des colonnes */
+
+  bouton_caracteristiques_lignes_par_compte = gtk_check_button_new_with_label ( _("Retenir les caractéristiques de l'affichage (R, non R ...) séparément pour chaque compte" ));
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_caracteristiques_lignes_par_compte ),
+				 etat.retient_affichage_par_compte );
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton_caracteristiques_lignes_par_compte ),
+			      "toggled",
+			      gnome_property_box_changed,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_box_pack_start ( GTK_BOX ( onglet ),
+		       bouton_caracteristiques_lignes_par_compte,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_caracteristiques_lignes_par_compte );
+
+
 
   /* on recopie le tab_affichage_ope */
 
@@ -249,11 +198,6 @@ GtkWidget *onglet_affichage_liste ( void )
   /* on remplit le tableau */
 
   remplissage_tab_affichage_ope ( clist_affichage_liste );
-
-  /* on met le bouton des tailles de colonne */
-
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_choix_perso_colonnes ),
-				 etat.largeur_auto_colonnes );
 
   /* à remplacer par un affichage dynamique */
 
@@ -279,6 +223,10 @@ GtkWidget *onglet_affichage_liste ( void )
 				     6,
 				     gtk_clist_optimal_column_width ( GTK_CLIST ( clist_affichage_liste ), 6 ));
 
+  /*   on a dégrisé le appliquer, donc on le regrise */
+
+  gnome_property_box_set_state ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
+				 FALSE );
 
   return ( onglet );
 }
@@ -758,5 +706,139 @@ void changement_taille_liste_affichage ( GtkWidget *clist,
     gtk_clist_set_column_width ( GTK_CLIST ( clist ),
 				 i,
 				 rapport_largeur_colonnes[i] * largeur / 100 );
+}
+/* ************************************************************************************************************** */
+
+
+
+/* ************************************************************************************************************** */
+/* récupère les noms de colonnes ( en fait les objets de la 1ère ligne ), */
+/* et ce qu'on met dans les tips des titres de colonnes */
+/* donc, remplit les variables tips_col_liste_operations et titres_colonnes_liste_operations */
+/* ************************************************************************************************************** */
+void recuperation_noms_colonnes_et_tips ( void )
+{
+  gint i, j;
+  gchar *ligne[7];
+
+  /* on met les titres et tips à NULL */
+
+  for ( j=0 ; j<7 ; j++ )
+    {
+      titres_colonnes_liste_operations[j] = NULL;
+      tips_col_liste_operations[j] = NULL;
+    }
+
+
+  for ( i=0 ; i<4 ; i++ )
+      for ( j=0 ; j<7 ; j++ )
+	{
+	  switch ( tab_affichage_ope[i][j] )
+	    {
+	      case 0:
+		ligne[j] = NULL;
+		break;
+
+	      case 1:
+		ligne[j] = "Date";
+		break;
+
+	      case 2:
+		ligne[j] = "Date de valeur";
+		break;
+
+	      case 3:
+		ligne[j] = "Tiers";
+		break;
+
+	      case 4:
+		ligne[j] = "P/R";
+		break;
+
+	      case 5:
+		ligne[j] = "Débit";
+		break;
+
+	      case 6:
+		ligne[j] = "Crédit";
+		break;
+
+	      case 7:
+		ligne[j] = "Solde";
+		break;
+
+	      case 8:
+		ligne[j] = "Montant(devise compte)";
+		break;
+
+	      case 9:
+		ligne[j] = "Moyen de paiement";
+		break;
+
+	      case 10:
+		ligne[j] = "N° de rapprochement";
+		break;
+
+	      case 11:
+		ligne[j] = "Exercice";
+		break;
+
+	      case 12:
+		ligne[j] = "Catégories";
+		break;
+
+	      case 13:
+		ligne[j] = "Imputations budgétaires";
+		break;
+
+	      case 14:
+		ligne[j] = "Pièce comptable";
+		break;
+
+	      case 15:
+		ligne[j] = "Notes";
+		break;
+
+	      case 16:
+		ligne[j] = "Info banque/guichet";
+		break;
+
+	      case 17:
+		ligne[j] = "N° d'opération";
+		break;
+
+	      case 18:
+		ligne[j] = "N° chèque/virement";
+		break;
+	    }
+
+	  /* 	  si on est sur la 1ère ligne, on met les titres ainsi que la 1ere ligne des tips */
+	  /* 	    sinon, on rajoute aux tips existant */
+
+	  if ( i )
+	    {
+	      if ( ligne[j] )
+		{
+		  if ( !titres_colonnes_liste_operations[j] )
+		    titres_colonnes_liste_operations[j] = ligne[j];
+
+		  if ( tips_col_liste_operations[j] )
+		    tips_col_liste_operations[j] = g_strconcat ( tips_col_liste_operations[j],
+								 ", ",
+								 ligne[j],
+								 NULL );
+		  else
+		    tips_col_liste_operations[j] = ligne[j];
+		}
+	    }
+	  else
+	    {
+	      if ( ligne[j] )
+		{
+		  titres_colonnes_liste_operations[j] = ligne[j];
+		  tips_col_liste_operations[j] = ligne[j];
+		}
+	    }
+	}
 }
 /* ************************************************************************************************************** */

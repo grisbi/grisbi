@@ -2005,8 +2005,8 @@ void save_ordre_liste_type_tri ( void )
 /* Fonction creation_menu_types */
 /* argument : 1 : renvoie un menu de débits */
 /* 2 : renvoie un menu de crédits */
-/* l'origine est 0 si vient des opérations et 1 si vient des échéances */
 /* ou renvoie le tout si c'est désiré dans les paramètres */
+/* l'origine est 0 si vient des opérations, 1 si vient des échéances, 2 pour ne pas mettre de signal quand il y a un chgt */
 /* ************************************************************************************************************** */
 
 GtkWidget *creation_menu_types ( gint demande,
@@ -2065,16 +2065,23 @@ GtkWidget *creation_menu_types ( gint demande,
 
 	  item = gtk_menu_item_new_with_label ( type -> nom_type );
 
-	  if ( origine )
-	    gtk_signal_connect_object ( GTK_OBJECT ( item ),
-					"activate",
-					GTK_SIGNAL_FUNC ( changement_choix_type_echeancier ),
-					(GtkObject *) type );
-	  else
-	    gtk_signal_connect_object ( GTK_OBJECT ( item ),
-					"activate",
-					GTK_SIGNAL_FUNC ( changement_choix_type_formulaire ),
-					(GtkObject *) type );
+	  if ( !origine )
+	    switch ( origine )
+	      {
+	      case 0:
+		gtk_signal_connect_object ( GTK_OBJECT ( item ),
+					    "activate",
+					    GTK_SIGNAL_FUNC ( changement_choix_type_formulaire ),
+					    (GtkObject *) type );
+		break;
+	      case 1:
+		gtk_signal_connect_object ( GTK_OBJECT ( item ),
+					    "activate",
+					    GTK_SIGNAL_FUNC ( changement_choix_type_echeancier ),
+					    (GtkObject *) type );
+		break;
+	      default:
+	      }
 
 	  gtk_object_set_data ( GTK_OBJECT ( item ),
 				"adr_type",

@@ -373,6 +373,9 @@ gboolean enregistrement_fichier ( gint origine )
 					   "nom_fichier" );
       gnome_file_entry_set_default_path ( GNOME_FILE_ENTRY ( fenetre_nom ),
 					  dernier_chemin_de_travail );
+      gtk_widget_set_usize ( gnome_file_entry_gnome_entry ( GNOME_FILE_ENTRY ( fenetre_nom )),
+			     300,
+			     FALSE );
       gtk_entry_set_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
 			   g_strconcat ( dernier_chemin_de_travail,
 					 ".gsb",

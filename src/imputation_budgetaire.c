@@ -1244,10 +1244,11 @@ void verifie_double_click_imputation ( GtkWidget *liste,
 
 	  changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
 
+	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-	  if ( operation -> pointe == 2 && !etat.r_affiches )
+	  if ( operation -> pointe == 2 && !AFFICHAGE_R )
 	    {
-	      etat.r_affiches = 1;
+	      AFFICHAGE_R = 1;
 	      remplissage_liste_operations ( compte_courant );
 	    }
 
@@ -2820,6 +2821,9 @@ void exporter_ib ( void )
 				       "nom_fichier" );
   gnome_file_entry_set_default_path ( GNOME_FILE_ENTRY ( fenetre_nom ),
 				      dernier_chemin_de_travail );
+  gtk_widget_set_usize ( gnome_file_entry_gnome_entry ( GNOME_FILE_ENTRY ( fenetre_nom )),
+			 300,
+			 FALSE );
   gtk_entry_set_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
 		       g_strconcat ( dernier_chemin_de_travail,
 				     ".igsb",
@@ -2946,6 +2950,9 @@ void importer_ib ( void )
 				       "nom_fichier" );
   gnome_file_entry_set_default_path ( GNOME_FILE_ENTRY ( fenetre_nom ),
 				      dernier_chemin_de_travail );
+  gtk_widget_set_usize ( gnome_file_entry_gnome_entry ( GNOME_FILE_ENTRY ( fenetre_nom )),
+			 300,
+			 FALSE );
   gtk_entry_set_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
 		       g_strconcat ( dernier_chemin_de_travail,
 				     ".igsb",

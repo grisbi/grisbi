@@ -864,9 +864,9 @@ void verifie_double_click ( GtkWidget *liste,
 
       /* récupération de la ligne de l'opé dans la liste ; affichage de toutes les opé si nécessaire */
 
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-      if ( operation -> pointe == 2 && !etat.r_affiches )
+      if ( operation -> pointe == 2 && !AFFICHAGE_R )
 	change_aspect_liste ( NULL,
 			      2 );
 
