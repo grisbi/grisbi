@@ -1519,11 +1519,8 @@ classement_suivant:
 
     if ( !pointeur )
     {
-	if ( etat_courant -> afficher_opes )
-	    return ( classement_ope_perso_etat ( operation_1,
-						 operation_2 ));
-	else
-	    return (-1);
+	return ( classement_ope_perso_etat ( operation_1, operation_2 ));
+
     }
 
     switch ( GPOINTER_TO_INT ( pointeur -> data ))
