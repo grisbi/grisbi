@@ -125,7 +125,6 @@ gchar *categories_de_base_debit [] = {
 gchar *categories_de_base_credit [] = {
   N_("Autres revenus : Allocation chômage"),
   N_("Autres revenus : Allocation familiales"),
-  N_("Autres revenus : Capital de prêt reçu"),
   N_("Autres revenus : Crédit d'impôt"),
   N_("Autres revenus : Jeu"),
   N_("Autres revenus : Mutuelle santé"),
