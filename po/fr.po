@@ -6,6 +6,7 @@
 # translation of fr.po to
 # translation of fr.po to
 # translation of fr.po to
+# translation of fr.po to
 # translation of fr.po to français
 # Grisbi translation into French
 # Copyright (C) 2003	Daniel Cartron <daniel@cartron.org>, 2003.
@@ -19,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "POT-Creation-Date: 2004-12-23 15:18+0100\n"
-"PO-Revision-Date: 2004-12-23 15:20+0100\n"
+"PO-Revision-Date: 2004-12-23 15:35+0100\n"
 "Last-Translator: Alain PORTAL <alain@localhost.localdomain>\n"
 "Language-Team:  <fr@li.org>\n"
 "MIME-Version: (null)\n"
@@ -5294,7 +5295,7 @@ msgid ""
 "This categories list has been produced with grisbi version %s, Grisbi will "
 "nevertheless try to import it."
 msgstr ""
-"Ce fichier de catégories à été créé avec la version %s de Grisbi. Grisbi va "
+"Ce fichier de catégories a été créé avec la version %s de Grisbi. Grisbi va "
 "néanmoins essayer de l'importer."
 
 #: src/fichiers_io.c:8795
