@@ -146,7 +146,8 @@ void signal_toggle_account_entry(GtkWidget* check_button,GtkWidget* account_entr
 static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint selected_format)
 {/* {{{ */
     GtkWidget *dialog, *table, *account_entry, *check_button, *paddingbox;
-    gchar *filename;
+    gchar *sFilename;
+    GtkWidget *pScroll, *pVBox;
 
     export_format* format = g_slist_nth_data(format_list,selected_format);
     int i = 0;
@@ -161,8 +162,20 @@ static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint
     gtk_signal_connect ( GTK_OBJECT ( dialog ), "destroy",
 			 GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ), "destroy" );
 
+    pScroll = gtk_scrolled_window_new ( NULL, NULL); 
+    gtk_container_add ( GTK_CONTAINER ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox) ),
+			pScroll );
+    gtk_widget_show ( pScroll );
 
-    paddingbox = new_paddingbox_with_title ( GTK_DIALOG(dialog)->vbox, FALSE,
+    pVBox = gtk_vbox_new ( FALSE, 5);
+    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( pScroll ),
+					    pVBox);
+    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( pScroll ),
+				     GTK_POLICY_NEVER,
+				     GTK_POLICY_AUTOMATIC);
+    gtk_widget_show ( pVBox );
+
+    paddingbox = new_paddingbox_with_title ( pVBox, FALSE,
 					     _("Select accounts to export") );
     gtk_box_set_spacing ( GTK_BOX(GTK_DIALOG(dialog)->vbox), 6 );
 
@@ -187,14 +200,14 @@ static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint
 	gtk_widget_show ( check_button );
 
 	account_entry = gtk_entry_new ();
-	filename = g_strconcat ( nom_fichier_comptes,
-				 "_",
-				 g_strdelimit ( safe_file_name(NOM_DU_COMPTE),
-						" ", '_' ),
-				 g_strdup(format->extension),
-				 NULL );
-	gtk_entry_set_text ( GTK_ENTRY ( account_entry ), filename );
-	gtk_entry_set_width_chars ( GTK_ENTRY ( account_entry ), g_utf8_strlen( filename, -1));
+	sFilename = g_strconcat ( nom_fichier_comptes,
+				  "_",
+				  g_strdelimit ( safe_file_name(NOM_DU_COMPTE),
+						 " ", '_' ),
+				  g_strdup(format->extension),
+				  NULL );
+	gtk_entry_set_text ( GTK_ENTRY ( account_entry ), sFilename );
+	gtk_entry_set_width_chars ( GTK_ENTRY ( account_entry ), g_utf8_strlen( sFilename, -1));
 	gtk_widget_set_sensitive ( account_entry,
 				   FALSE );
 	gtk_object_set_data ( GTK_OBJECT ( account_entry ),
@@ -222,7 +235,7 @@ static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint
 
     g_selected_entries = NULL;
     gtk_widget_show_all ( dialog );
-    free ( filename );
+    free ( sFilename );
     return (dialog);
 
 } /* }}} export_accounts_selection_dialog_new */
