@@ -2,13 +2,13 @@
 /* contient toutes les structures du prog */
 
 
-#define VERSION "0.3.2"
+#define VERSION "0.3.3"
 
 /* Chemin des fichiers */
 
 #define APPLET_BIN_DIR "/usr/bin/grisbi_applet"
 #define CHEMIN_LOGO "/usr/share/pixmaps/logo_grisbi.xpm"
-#define FICHIER_CONF "Grisbi"       /* à mettre à Grisbi-dev pdt le dvt et Grisbi à la sortie d'une version */
+#define FICHIER_CONF "Grisbi-dev"       /* à mettre à Grisbi-dev pdt le dvt et Grisbi à la sortie d'une version */
 
 /* initialisation des couleurs */
 
@@ -386,4 +386,27 @@ struct struct_no_rapprochement
 {
   gint no_rapprochement;
   gchar *nom_rapprochement;
+};
+
+
+struct struct_etat
+{
+  gint no_etat;
+  gchar *nom_etat;
+
+  gint exo_date;         /* 0-> utilise l'exo / 1 -> utilise une plage de date */
+  GSList *no_exercices;            /* liste des no dexos utilisés dans l'état */
+  gint no_plage_date;       /* 0=perso, 1=toutes ... */
+  GDate *date_perso_debut;
+  GDate *date_perso_fin;
+
+  GSList *no_comptes;
+  GSList *no_categ;
+  gint inclusion_virements_passif;    /* vers comptes passifs/actifs */
+  gint inclusion_virements_hors_etat;
+  GSList *no_ib;
+  GSList *no_tiers;
+
+  gchar texte;
+  gdouble montant;
 };

@@ -90,6 +90,7 @@ void ouverture_fichier_par_menu ( GtkWidget *menu,
 				  gchar *nom );
 void fichier_selectionne ( GtkWidget *selection_fichier);
 void ouverture_confirmee ( void );
+gboolean impression_fichier ( gint origine );
 gboolean enregistrement_fichier ( gint origine );
 gboolean enregistrer_fichier_sous ( void );
 gboolean fermer_fichier ( void );
@@ -826,3 +827,25 @@ void choix_fonte_general ( GtkWidget *bouton,
 void modification_logo_accueil ( void );
 void remise_a_zero_logo ( GtkWidget *bouton,
 			  GtkWidget *pixmap_entry );
+
+
+/***********************************/ 
+/* fichier etats.c */
+/***********************************/ 
+
+GtkWidget *creation_onglet_etats ( void );
+GtkWidget *creation_liste_etats ( void );
+GtkWidget *creation_barre_boutons_etats ( void );
+void remplissage_liste_etats ( void );
+void ajout_etat ( void );
+void efface_etat ( void );
+void changement_etat ( GtkWidget *bouton,
+		       struct struct_etat *etat );
+
+
+
+/***********************************/ 
+/* fichier impression.c */
+/***********************************/ 
+
+gboolean imprime_fichier ( void );

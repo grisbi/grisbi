@@ -39,11 +39,13 @@ grisbi_SOURCES = 		\
 	type_operations.c	\
 	exercice.c		\
 	imputation_budgetaire.c	\
-	affichage.c
+	affichage.c		\
+	etats.c			\
+	impression.c
 
 
 
-grisbi_LDADD =	$(GNOME_LIBDIR)	$(GNOMEUI_LIBS) $(EXTRA_GNOME_LIBS)
+grisbi_LDADD =	$(GNOME_LIBDIR)	$(GNOMEUI_LIBS) $(EXTRA_GNOME_LIBS) -lgnomeprint
 
 
 EXTRA_DIST = grisbi.desktop grisbi.png logo_grisbi.xpm grisbi.keys grisbi.mime

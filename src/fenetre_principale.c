@@ -93,6 +93,16 @@ GtkWidget *creation_fenetre_principale (void )
   if ( !etat.utilise_imputation_budgetaire )
     gtk_widget_hide ( page_imputations );
 
+  /* création de la fenetre des états */
+
+  page_etats = creation_onglet_etats ();
+  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
+			     page_etats,
+			     gtk_label_new (" Rapports financiers ") );
+
+
+
+
   /* change les titres des colonnes si nécessaire */
 
   if ( etat.affiche_nb_ecritures_listes )

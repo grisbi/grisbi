@@ -128,11 +128,6 @@ void init_variables ( gboolean ouverture )
       nb_banques = 0;
       no_derniere_banque = 0;
 
-/*       etat.formulaire_toujours_affiche = 0; */
-/*       etat.formulaire_echeancier_toujours_affiche = 0; */
-
-/*       creation_devises_de_base (); */
-
       gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[3].widget ),
 				 FALSE );
       gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[4].widget ),
@@ -147,11 +142,6 @@ void init_variables ( gboolean ouverture )
       gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[5].widget ),
 				 FALSE );
 
-/*       etat.utilise_exercice = 1; */
-/*       etat.utilise_imputation_budgetaire = 1; */
-/*       etat.utilise_piece_comptable = 1; */
-/*       etat.utilise_info_banque_guichet = 1; */
-
       liste_no_rapprochements = NULL;
 
       titre_fichier = NULL;
@@ -162,6 +152,10 @@ void init_variables ( gboolean ouverture )
 	  g_slist_free ( liste_struct_exercices );
 	  liste_struct_exercices = NULL;
 	}
+
+      liste_struct_etats = NULL;
+      no_dernier_etat = 0;
+
     }
 }
 /*****************************************************************************************************/

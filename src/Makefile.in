@@ -100,10 +100,10 @@ INCLUDES = -I$(top_srcdir) -I$(includedir) $(GNOME_INCLUDEDIR) $(EXTRA_GNOME_CFL
 
 bin_PROGRAMS = grisbi
 
-grisbi_SOURCES =  	accueil.c			fenetre_principale.c		operations_liste.c		banque.c			fichier_configuration.c		operations_onglet.c		barre_outils.c			fichiers_gestion.c		parametres.c			categories_onglet.c		fichiers_io.c			patienter.c			comptes_gestion.c		gtk_combofix.c			qif.c				comptes_traitements.c		help.c				tiers_onglet.c			devises.c			main.c				traitement_variables.c		echeancier_formulaire.c		menu.c				echeancier_liste.c		operations_classement.c		equilibrage.c			operations_comptes.c		ventilation.c			erreur.c			operations_formulaire.c 	type_operations.c		exercice.c			imputation_budgetaire.c		affichage.c
+grisbi_SOURCES =  	accueil.c			fenetre_principale.c		operations_liste.c		banque.c			fichier_configuration.c		operations_onglet.c		barre_outils.c			fichiers_gestion.c		parametres.c			categories_onglet.c		fichiers_io.c			patienter.c			comptes_gestion.c		gtk_combofix.c			qif.c				comptes_traitements.c		help.c				tiers_onglet.c			devises.c			main.c				traitement_variables.c		echeancier_formulaire.c		menu.c				echeancier_liste.c		operations_classement.c		equilibrage.c			operations_comptes.c		ventilation.c			erreur.c			operations_formulaire.c 	type_operations.c		exercice.c			imputation_budgetaire.c		affichage.c			etats.c				impression.c
 
 
-grisbi_LDADD = $(GNOME_LIBDIR)	$(GNOMEUI_LIBS) $(EXTRA_GNOME_LIBS)
+grisbi_LDADD = $(GNOME_LIBDIR)	$(GNOMEUI_LIBS) $(EXTRA_GNOME_LIBS) -lgnomeprint
 
 EXTRA_DIST = grisbi.desktop grisbi.png logo_grisbi.xpm grisbi.keys grisbi.mime
 
@@ -131,7 +131,8 @@ comptes_traitements.o help.o tiers_onglet.o devises.o main.o \
 traitement_variables.o echeancier_formulaire.o menu.o \
 echeancier_liste.o operations_classement.o equilibrage.o \
 operations_comptes.o ventilation.o erreur.o operations_formulaire.o \
-type_operations.o exercice.o imputation_budgetaire.o affichage.o
+type_operations.o exercice.o imputation_budgetaire.o affichage.o \
+etats.o impression.o
 grisbi_DEPENDENCIES = 
 grisbi_LDFLAGS = 
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -150,15 +151,16 @@ DEP_FILES =  .deps/accueil.P .deps/affichage.P .deps/banque.P \
 .deps/barre_outils.P .deps/categories_onglet.P .deps/comptes_gestion.P \
 .deps/comptes_traitements.P .deps/devises.P \
 .deps/echeancier_formulaire.P .deps/echeancier_liste.P \
-.deps/equilibrage.P .deps/erreur.P .deps/exercice.P \
+.deps/equilibrage.P .deps/erreur.P .deps/etats.P .deps/exercice.P \
 .deps/fenetre_principale.P .deps/fichier_configuration.P \
 .deps/fichiers_gestion.P .deps/fichiers_io.P .deps/gtk_combofix.P \
-.deps/help.P .deps/imputation_budgetaire.P .deps/main.P .deps/menu.P \
-.deps/operations_classement.P .deps/operations_comptes.P \
-.deps/operations_formulaire.P .deps/operations_liste.P \
-.deps/operations_onglet.P .deps/parametres.P .deps/patienter.P \
-.deps/qif.P .deps/tiers_onglet.P .deps/traitement_variables.P \
-.deps/type_operations.P .deps/ventilation.P
+.deps/help.P .deps/impression.P .deps/imputation_budgetaire.P \
+.deps/main.P .deps/menu.P .deps/operations_classement.P \
+.deps/operations_comptes.P .deps/operations_formulaire.P \
+.deps/operations_liste.P .deps/operations_onglet.P .deps/parametres.P \
+.deps/patienter.P .deps/qif.P .deps/tiers_onglet.P \
+.deps/traitement_variables.P .deps/type_operations.P \
+.deps/ventilation.P
 SOURCES = $(grisbi_SOURCES)
 OBJECTS = $(grisbi_OBJECTS)
 

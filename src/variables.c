@@ -3,7 +3,7 @@
 
 
 
-GnomeUIInfo menu_fichier [14];
+GnomeUIInfo menu_fichier [15];
 GnomeUIInfo menu_comptes [7]; 
 GnomeUIInfo help_menu [3];
 GnomeUIInfo menu_principal [5]; 
@@ -116,6 +116,7 @@ GtkWidget *page_echeancier;        /* adr de l'onglet échéances */
 GtkWidget *page_tiers;             /* adr de l'onglet tiers */
 GtkWidget *page_categories;             /* adr de l'onglet categories */
 GtkWidget *page_imputations;             /* adr de l'onglet ib */
+GtkWidget *page_etats;             /* adr de l'onglet etats */
 GtkWidget *notebook_comptes_equilibrage;
 GtkWidget *notebook_formulaire;
 gint modif_tiers;
@@ -578,3 +579,14 @@ GtkWidget *bouton_choix_devise_totaux_tiers;
 GtkWidget *bouton_afficher_nb_ecritures;
 GtkWidget *bouton_classer_liste_par_date;
 GtkWidget *bouton_classer_liste_par_date_bancaire;
+
+
+/***********************************/ 
+/* fichier etats.c */
+/***********************************/ 
+
+GSList *liste_struct_etats;
+gint no_dernier_etat;
+GtkWidget *label_etat_courant;        /* label en haut de la liste des états */
+GtkWidget *vbox_liste_etats;          /* vbox contenant la liste des états */
+GtkWidget *bouton_etat_courant;          /* adr du bouton de l'état en cours, pour le refermer qd change */

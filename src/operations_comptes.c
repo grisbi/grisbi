@@ -94,8 +94,7 @@ GtkWidget *creation_onglet_comptes (void)
   gtk_widget_show ( scrolled_window );
   
 
-  /*  Maintenant, création d'une vbox placée dans gest_comptes_fils */
-  /*  dans laquelle on mettra les boutons */
+  /*  création d'une vbox contenant la liste des comptes */
 
   vbox_liste_comptes = gtk_vbox_new ( FALSE,
 				      10);

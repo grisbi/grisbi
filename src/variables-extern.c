@@ -7,7 +7,7 @@
 extern gchar *categories_de_base [];
 
 
-extern GnomeUIInfo menu_fichier [14];
+extern GnomeUIInfo menu_fichier [15];
 extern GnomeUIInfo menu_comptes [7]; 
 extern GnomeUIInfo help_menu [3];
 extern GnomeUIInfo menu_principal [5]; 
@@ -124,6 +124,7 @@ extern GtkWidget *page_echeancier;        /* adr de l'onglet échéances */
 extern GtkWidget *page_tiers;             /* adr de l'onglet tiers */
 extern GtkWidget *page_categories;             /* adr de l'onglet categories */
 extern GtkWidget *page_imputations;             /* adr de l'onglet ib */
+extern GtkWidget *page_etats;             /* adr de l'onglet etats */
 extern GtkWidget *notebook_comptes_equilibrage;
 extern GtkWidget *notebook_formulaire;
 extern gint modif_tiers;
@@ -602,3 +603,14 @@ extern GtkWidget *bouton_choix_devise_totaux_tiers;
 extern GtkWidget *bouton_afficher_nb_ecritures;
 extern GtkWidget *bouton_classer_liste_par_date;
 extern GtkWidget *bouton_classer_liste_par_date_bancaire;
+
+
+/***********************************/ 
+/* fichier etats.c */
+/***********************************/ 
+
+extern GSList *liste_struct_etats;
+extern gint no_dernier_etat;
+extern GtkWidget *label_etat_courant;        /* label en haut de la liste des états */
+extern GtkWidget *vbox_liste_etats;          /* vbox contenant la liste des états */
+extern GtkWidget *bouton_etat_courant;          /* adr du bouton de l'état en cours, pour le refermer qd change */
