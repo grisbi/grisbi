@@ -209,24 +209,72 @@ GtkWidget * my_file_chooser ()
     return hbox;
 }
 
+/**
+ * \brief utf8 version of fopen (see fopen for more detail about mode)
+ * 
+ * convert utf8 file path into the locale OS charset before calling fopen
+ *
+ * \param utf8filename file to open path coded using utf8 charset
+ * \param mode fopen mode argument
+ *
+ * \return file descriptor returned by fopen
+ */
 FILE* utf8_fopen(gchar* utf8filename,gchar* mode)
 {
     return fopen(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL),mode);
 }
 
+/**
+ * \brief utf8 version of open (see open for more detail about mode)
+ * 
+ * convert utf8 file path into the locale OS charset before calling open
+ *
+ * \param utf8filename file to open path coded using utf8 charset
+ * \param mode open mode argument
+ *
+ * \return file descriptor returned by open
+ */
 gint utf8_open(gchar* utf8filename,gint mode)
 {
     return open(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL),mode);
 }
 
+/**
+ * \brief utf8 version of stat (see stat for more detail about mode)
+ * 
+ * convert utf8 file path into the locale OS charset before calling stat
+ *
+ * \param utf8filename file to get information path coded using utf8 charset
+ * \param stat pointer to a stat struct
+ *
+ * \return stat returned value
+ */
 gint utf8_stat(gchar* utf8filename,struct stat* filestat)
 {
     return stat(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL),filestat);
 }
+/**
+ * \brief utf8 version of xmlParseFile 
+ * 
+ * convert utf8 file path into the locale OS charset before calling xmlParseFile
+ *
+ * \param utf8filename file to  path coded using utf8 charset
+ *
+ * \return xmlParseFile returned value
+ */
 xmlDocPtr utf8_xmlParseFile(const gchar *utf8filename)
 { 
     return xmlParseFile(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL));
 }
+/**
+ * \brief utf8 version of stat (see stat for more detail about mode)
+ * 
+ * convert utf8 file path into the locale OS charset before calling remove
+ *
+ * \param utf8filename file to remove path coded using utf8 charset
+ *
+ * \return remove returned value
+ */
 gint utf8_remove(const gchar* utf8filename)
 {
     return remove(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL));
