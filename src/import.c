@@ -55,7 +55,7 @@
 #include "html.h"
 #include "ofx.h"
 #include "qif.h"
-#include "csv.h"
+#include "import_csv.h"
 #include "utils_comptes.h"
 #include "utils_tiers.h"
 #include "utils_file_selection.h"

@@ -24,7 +24,7 @@
 #include "include.h"
 #include "structures.h"
 #include "erreur.h"
-#include "csv.h"
+#include "import_csv.h"
 #include "dialog.h"
 #include "devises.h"
 #include "search_glist.h"
@@ -63,6 +63,15 @@ gboolean recuperation_donnees_csv ( FILE *fichier )
 	gint nb_lignes_entete = 0; 
 	gint nb_lignes_lues = 0;
 	gint nb_operations_trouvees = 0;
+
+		/* TODO : choix du typ de fichier csv */
+	
+	/*gint type_fichier_csv = 0; */ /* type de fichier csv choisi */
+
+	/* popup pour connaitre le type de fichier csv suivant une banque ou une autre */
+	/* debug_message(WHERE_AM_I,_("Popup Start"),DEBUG_LEVEL_DEBUG,FALSE); */
+	/* type_fichier_csv = choix_type_fichier_csv(); */
+	/* debug_message(WHERE_AM_I,_("Popup Stop"),DEBUG_LEVEL_DEBUG,FALSE); */
 
 	/* fichier pointe sur le fichier qui a été reconnu comme csv */
 	rewind ( fichier );
