@@ -147,7 +147,7 @@ void signal_toggle_account_entry(GtkWidget* check_button,GtkWidget* account_entr
  */
 static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint selected_format)
 {/* {{{ */
-    GtkWidget *dialog, *table, *account_entry, *check_button, *paddingbox;
+    GtkWidget *dialog, *table, *account_entry, *paddingbox, *check_button = NULL;
     gchar *sFilename = NULL;
     GtkWidget *pScroll, *pVBox;
     GtkAdjustment *pScrollHorizontalSize;
