@@ -109,6 +109,10 @@ int main (int argc, char *argv[])
     /* grisbi --onglet=7,2,2,2 mes_comptes */
     /* affiche l'onglet opération de l'onglet Affichage des données du 3ème état */
 
+#ifdef _WIN32
+    /* we store the path of the running file to use it for pixmaps, help and locales .... */
+    win32_set_app_path(argv[0]);
+#endif
 
 	/*   setlocale (LC_ALL, ""); */
 	bindtextdomain (PACKAGE, LOCALEDIR);
@@ -153,9 +157,10 @@ int main (int argc, char *argv[])
 
 	/* 	création de la pixmap du logiciel */
 
-	if ( stat ( g_strconcat ( PIXMAPS_DIR, "/euro.gif", NULL ),&buffer_stat ) != -1 )
+	if ( stat ( g_strconcat ( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR, "euro.gif", NULL ),&buffer_stat ) != -1 )
 	    gtk_window_set_default_icon_from_file ( g_strconcat(PIXMAPS_DIR,
-								"/euro.gif",
+								C_DIRECTORY_SEPARATOR,
+                                                                "euro.gif",
 								NULL),
 						    NULL );
 
