@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: en\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-18 12:19+0100\n"
-"PO-Revision-Date: 2003-12-18 12:35+0100\n"
+"POT-Creation-Date: 2003-12-18 12:41+0100\n"
+"PO-Revision-Date: 2003-12-18 12:41+0100\n"
 "Last-Translator: Alain PORTAL <aportal@univ-montp2.fr>\n"
 "Language-Team:  <traduction@grisbi.org>\n"
 "MIME-Version: 1.0\n"
@@ -465,7 +465,7 @@ msgstr "Téléphone"
 msgid "E-Mail"
 msgstr "Mail"
 
-#: src/banque.c:569 src/banque.c:1183 src/help.c:55
+#: src/banque.c:569 src/banque.c:1183 src/help.c:56
 msgid "Website"
 msgstr "Web"
 
@@ -2500,7 +2500,7 @@ msgstr "La semaine commence le"
 msgid "day"
 msgstr "jour"
 
-#: src/etats_config.c:6318 src/help.c:121
+#: src/etats_config.c:6318 src/help.c:122
 msgid "Generalities"
 msgstr "Généralités"
 
@@ -3511,57 +3511,61 @@ msgstr "Gérald Niel (gerald.niel@grisbi.org) : Paquets Slackware, site web"
 
 #: src/help.c:48
 msgid "Matthieu Puppat <tieum.tieum@free.fr>: Mandrake packaging"
-msgstr "Matthieu Puppat <tieum.tieum@free.fr>: paquets Mandrake"
+msgstr "Matthieu Puppat <tieum.tieum@free.fr>: Paquets Mandrake"
 
 #: src/help.c:49
 msgid "Francois Terrot <francois@terrot.net>: Windows packaging, cygwin port"
-msgstr "Francois Terrot <francois@terrot.net>: paquets Windows, port cygwin"
+msgstr "Francois Terrot <francois@terrot.net>: Paquets Windows, port cygwin"
 
 #: src/help.c:50
-msgid "Dominique Parisot <parisot@villey-le-sec.com>: contributor"
-msgstr "Dominique Parisot <parisot@villey-le-sec.com>: contributeur"
+msgid "Thierry Thomas <thierry@pompo.net>: FreeBSD packaging"
+msgstr "Thierry Thomas <thierry@pompo.net>: Paquets FreeBSD"
 
 #: src/help.c:51
+msgid "Dominique Parisot <parisot@villey-le-sec.com>: contributor"
+msgstr "Dominique Parisot <parisot@villey-le-sec.com>: Contributeur"
+
+#: src/help.c:52
 msgid "Andre Pascual (andre@linuxgraphic.org) : Logo"
 msgstr "André Pascual (andre@linuxgraphic.org) : Logo"
 
-#: src/help.c:58
+#: src/help.c:59
 msgid "Development list (discuss, participate, criticize, ...) : "
 msgstr "Liste de développement (discussion, participation, critiques, ...) : "
 
-#: src/help.c:60 src/help.c:66
+#: src/help.c:61 src/help.c:67
 msgid "subscribe"
 msgstr "s'inscrire"
 
-#: src/help.c:61
+#: src/help.c:62
 msgid "Bug report"
 msgstr "Rapport de bogue"
 
-#: src/help.c:64
+#: src/help.c:65
 msgid "Information list (new releases announces, ...) : "
 msgstr "Liste d'informations (annonce de nouvelles versions, ...) : "
 
-#: src/help.c:67
+#: src/help.c:68
 msgid "Grisbi documentation"
 msgstr "Documentation de Grisbi"
 
-#: src/help.c:74
+#: src/help.c:75
 msgid "About..."
 msgstr "À propos..."
 
-#: src/help.c:157
+#: src/help.c:158
 msgid "Authors and contributors"
 msgstr "Auteurs et contributeurs"
 
-#: src/help.c:194
+#: src/help.c:195
 msgid "Translators"
 msgstr "Traducteurs"
 
-#: src/help.c:241
+#: src/help.c:242
 msgid "Links"
 msgstr "Liens"
 
-#: src/help.c:264
+#: src/help.c:265
 msgid "License"
 msgstr "Licence"
 

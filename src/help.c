@@ -47,6 +47,7 @@ void a_propos ( GtkWidget *bouton,
 			     _("Gerald Niel <gerald.niel@grisbi.org>: Slackware packaging, website"),
 			     _("Matthieu Puppat <tieum.tieum@free.fr>: Mandrake packaging"),
 			     _("Francois Terrot <francois@terrot.net>: Windows packaging, cygwin port"),
+			     _("Thierry Thomas <thierry@pompo.net>: FreeBSD packaging"),
 			     _("Dominique Parisot <parisot@villey-le-sec.com>: contributor"),
 			     _("Andre Pascual (andre@linuxgraphic.org) : Logo"),
 			    NULL };
