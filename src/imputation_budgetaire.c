@@ -717,7 +717,7 @@ void remplit_arbre_imputation ( void )
       if ( etat.affiche_nb_ecritures_listes
 	   &&
 	   nb_ecritures_par_imputation[0] )
-	text[0] = g_strdup_printf ( _("No budget line (%d]"),
+	text[0] = g_strdup_printf ( _("No budget line (%d)"),
 				    nb_ecritures_par_imputation[0] );
       else
 	text[0] = _("No budget line");
