@@ -26,7 +26,7 @@ AC_SUBST(EXTRA_GNOME_CFLAGS)
 CFLAGS="$CFLAGS `$GNOME_CONFIG --cflags gnome gtk glib applets xml`"
 LDFLAGS="$LDFLAGS `$GNOME_CONFIG --libs gnome gtk glib applets xml`"
 
-AC_ARG_WITH(applet, [  --with-applet           Support for grisbi applet])
+AC_ARG_WITH(applet, [  --without-applet        No support for grisbi applet])
 
 APPLET="false"
 if test "$with_applet" != 'no' ; then
