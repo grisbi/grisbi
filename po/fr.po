@@ -2731,7 +2731,7 @@ msgid "Virement de %s"
 msgstr ""
 
 #: src/etats_gnomeprint.c:921 src/etats_gnomeprint.c:1161
-#, fuzzy, c-format
+#, c-format
 msgid "Total %s ( %d oprations )"
 msgstr "Total %s ( %d opérations )"
 
@@ -4090,9 +4090,8 @@ msgid "Display a warning message if account file is readable by someone else"
 msgstr "Message d'alerte lorsque la permission du fichier n'est pas de 600"
 
 #: src/parametres.c:498
-#, fuzzy
 msgid "Main title"
-msgstr "Accueil"
+msgstr "Titre du compte"
 
 #: src/parametres.c:536
 msgid "Common address"
