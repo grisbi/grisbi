@@ -2088,7 +2088,7 @@ void supprime_operation ( struct structure_operation *operation )
 
     if ( operation -> pointe == 2 )
     {
-	dialogue_error ( _("Imposible to delete a reconciled transaction.") );
+	dialogue_error ( _("Impossible to delete a reconciled transaction.") );
 	return;
     }
 
