@@ -3330,6 +3330,9 @@ void validation_virement_operation ( struct structure_operation *operation,
 
   /* on met maintenant les relations entre les différentes opé */
 
+  contre_operation -> pointe = operation -> pointe;
+  contre_operation -> no_rapprochement = operation -> no_rapprochement;
+
   operation -> relation_no_operation = contre_operation -> no_operation;
   operation -> relation_no_compte = contre_operation -> no_compte;
   contre_operation -> relation_no_operation = operation -> no_operation;
