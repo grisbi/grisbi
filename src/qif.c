@@ -848,7 +848,7 @@ void exporter_fichier_qif ( void )
 
   dialogue ( _("Carreful, the QIF format cannot use currencies,\nall the transactions will be convert in the currencie of their account.")); 
 
-  dialog = gnome_dialog_new ( _("Exporter des fichiers QIF"),
+  dialog = gnome_dialog_new ( _("Export QIF files"),
 			      GNOME_STOCK_BUTTON_OK,
 			      GNOME_STOCK_BUTTON_CANCEL,
 			      NULL );

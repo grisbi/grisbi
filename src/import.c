@@ -868,7 +868,7 @@ void traitement_operations_importees ( void )
 
     }
 
-    /* annulation_attente(); */
+    annulation_attente();
 
     modification_fichier ( TRUE );
 }
