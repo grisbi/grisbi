@@ -42,10 +42,6 @@
 #include "imputation_budgetaire.h"
 
 
-
-gboolean pression_touche_date_etat ( GtkWidget *widget,
-				     GdkEventKey *ev );
-
 gchar *liste_plages_dates[] = {
     N_("All"),
     N_("Custom"),
@@ -1911,10 +1907,10 @@ GtkWidget *onglet_etat_dates ( void )
 			 "key_press_event",
 			 GTK_SIGNAL_FUNC ( pression_touche_date_etat ),
 			 NULL );
-    gtk_signal_connect_object ( GTK_OBJECT ( entree_date_init_etat ),
-				"focus_out_event",
-				GTK_SIGNAL_FUNC ( format_date ),
-				GTK_OBJECT ( entree_date_init_etat ));
+    gtk_signal_connect ( GTK_OBJECT ( entree_date_init_etat ),
+			 "focus_out_event",
+			 GTK_SIGNAL_FUNC ( sortie_entree_date_etat ),
+			 NULL );
     gtk_box_pack_end ( GTK_BOX ( hbox ),
 		       entree_date_init_etat,
 		       FALSE,
@@ -1953,10 +1949,10 @@ GtkWidget *onglet_etat_dates ( void )
 			 "key_press_event",
 			 GTK_SIGNAL_FUNC ( pression_touche_date_etat ),
 			 NULL );
-    gtk_signal_connect_object ( GTK_OBJECT ( entree_date_finale_etat ),
-				"focus_out_event",
-				GTK_SIGNAL_FUNC ( format_date ),
-				GTK_OBJECT ( entree_date_finale_etat ));
+    gtk_signal_connect ( GTK_OBJECT ( entree_date_finale_etat ),
+			 "focus_out_event",
+			 GTK_SIGNAL_FUNC ( sortie_entree_date_etat ),
+			 NULL );
     gtk_box_pack_end ( GTK_BOX ( hbox ),
 		       entree_date_finale_etat,
 		       FALSE,
@@ -2147,6 +2143,19 @@ gboolean pression_touche_date_etat ( GtkWidget *widget,
     }
 
     //  return TRUE; c'est le cas des opérations
+    return FALSE;
+}
+/******************************************************************************/
+
+/******************************************************************************/
+gboolean sortie_entree_date_etat ( GtkWidget *entree )
+{
+    /* si l'entrée contenant la date est vide, alors on met la date du jour */
+
+    if ( strlen ( g_strstrip ( (gchar*) gtk_entry_get_text ( GTK_ENTRY ( entree )))) == 0  )
+	gtk_entry_set_text ( GTK_ENTRY ( entree ), gsb_today() );
+
+    format_date ( entree );
     return FALSE;
 }
 /******************************************************************************/
