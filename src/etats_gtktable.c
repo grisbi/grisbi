@@ -72,10 +72,12 @@ void gtktable_attach_label ( gchar * text, int x, int x2, int y, int y2,
   GtkWidget * label;
 
   if (!text)
-    text = "...";
+    {
+      text = "";
+    }
 
   label = gtk_label_new ( text );
-  gtk_label_set_markup ( GTK_LABEL(label), g_strconcat ( "<span foreground=\"darkgray\">", text, "</span>", NULL ));
+/*   gtk_label_set_markup ( GTK_LABEL(label), g_strconcat ( "<span foreground=\"darkgray\">", text, "</span>", NULL )); */
   switch (align) 
     {
     case LEFT:
@@ -89,14 +91,61 @@ void gtktable_attach_label ( gchar * text, int x, int x2, int y, int y2,
       break;
     }
 
-  gtk_table_attach ( GTK_TABLE ( table_etat ), label,
-		     x, x2,
-		     y, y2,
+  if ( ope )
+    {
+      GtkWidget *event_box;
+
+      event_box = gtk_event_box_new ();
+      gtk_signal_connect ( GTK_OBJECT ( event_box ),
+			   "enter_notify_event",
+			   GTK_SIGNAL_FUNC ( met_en_prelight ),
+			   NULL );
+      gtk_signal_connect ( GTK_OBJECT ( event_box ),
+			   "leave_notify_event",
+			   GTK_SIGNAL_FUNC ( met_en_normal ),
+			   NULL );
+      gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
+				  "button_press_event",
+				  GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
+				  (GtkObject *) ope );
+      gtk_table_attach ( GTK_TABLE ( table_etat ), event_box,
+			 x, x2, y, y2,
+			 GTK_SHRINK | GTK_FILL,
+			 GTK_SHRINK | GTK_FILL,
+			 0, 0 );
+      gtk_widget_show ( event_box );
+      gtk_widget_set_style ( label, style_label_nom_compte );
+      gtk_container_add ( GTK_CONTAINER ( event_box ), label );
+    }
+  else
+    {
+      gtk_table_attach ( GTK_TABLE ( table_etat ), label,
+			 x, x2, y, y2,
+			 GTK_SHRINK | GTK_FILL,
+			 GTK_SHRINK | GTK_FILL,
+			 0, 0 );
+    }
+  gtk_widget_show ( label );
+}
+
+
+
+/**
+ *
+ *
+ */
+void gtktable_attach_vsep ( int x, int x2, int y, int y2)
+{
+  separateur = gtk_vseparator_new ();
+  gtk_table_attach ( GTK_TABLE ( table_etat ),
+		     separateur,
+		     x, x2, y, y2,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
 		     0, 0 );
-  gtk_widget_show ( label );
+  gtk_widget_show ( separateur );
 }
+
 
 
 /*****************************************************************************************************/
@@ -113,7 +162,7 @@ gint gtktable_initialise (GSList * opes_selectionnees)
 
   table_etat = gtk_table_new ( 0, nb_colonnes, FALSE );
   gtk_table_set_col_spacings ( GTK_TABLE ( table_etat ), 5 );
- 
+
   return 1;
 }
 /*****************************************************************************************************/
@@ -127,7 +176,7 @@ gint gtktable_affiche_titre ( gint ligne )
 
   titre = etats_titre () ;
 
-  gtktable_attach_label ( titre, 0, GTK_TABLE ( table_etat ) -> ncols,
+  gtktable_attach_label ( titre, 0, nb_colonnes,
 			  ligne, ligne + 1, LEFT, NULL );
 
   return 1;
@@ -142,7 +191,7 @@ gint gtktable_affiche_separateur ( gint ligne )
   separateur = gtk_hseparator_new ();
   gtk_table_attach ( GTK_TABLE ( table_etat ),
 		     separateur,
-		     0, GTK_TABLE ( table_etat ) -> ncols,
+		     0, nb_colonnes,
 		     ligne, ligne + 1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -196,29 +245,20 @@ gint gtktable_affiche_total_categories ( gint ligne )
 
 	      for ( i=0 ; i<((nb_colonnes-2)/2) ; i++ )
 		{
-		  separateur = gtk_vseparator_new ();
-		  gtk_table_attach ( GTK_TABLE ( table_etat ),
-				     separateur,
-				     colonne, colonne + 1,
-				     ligne_debut_partie, ligne,
-				     GTK_SHRINK | GTK_FILL,
-				     GTK_SHRINK | GTK_FILL,
-				     0, 0 );
-		  gtk_widget_show ( separateur );
-
+		  gtktable_attach_vsep ( colonne, colonne + 1, ligne_debut_partie, ligne );
 		  colonne = colonne + 2;
 		}
 	      ligne_debut_partie = -1;
 	    }
 
-	  gtktable_attach_label ( NULL, 1, GTK_TABLE ( table_etat ) -> ncols -1,
+	  gtktable_attach_label ( NULL, 1, nb_colonnes -1,
 				  ligne, ligne + 1, LEFT, NULL );
 	  ligne++;
 
 	  separateur = gtk_hseparator_new ();
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     separateur,
-			     1, GTK_TABLE ( table_etat ) -> ncols,
+			     1, nb_colonnes,
 			     ligne, ligne + 1,
 			     GTK_SHRINK | GTK_FILL,
 			     GTK_SHRINK | GTK_FILL,
@@ -241,16 +281,16 @@ gint gtktable_affiche_total_categories ( gint ligne )
 	      else
 		text = COLON(_("Category total"));
 	    }
-	  gtktable_attach_label ( text, 1, GTK_TABLE ( table_etat ) -> ncols - 1,
+	  gtktable_attach_label ( text, 1, nb_colonnes - 1,
 				  ligne, ligne + 1, LEFT, NULL );
 
 	  text = g_strdup_printf ( "%4.2f %s", montant_categ_etat, devise_name ( devise_categ_etat ) );
-	  gtktable_attach_label ( text, GTK_TABLE ( table_etat ) -> ncols -1, GTK_TABLE ( table_etat ) -> ncols,
+	  gtktable_attach_label ( text, nb_colonnes -1, nb_colonnes,
 				  ligne, ligne + 1, RIGHT, NULL );
 
 	  ligne++;
 
-	  gtktable_attach_label ( NULL, 1, GTK_TABLE ( table_etat ) -> ncols -1, ligne, ligne + 1, LEFT, NULL );
+	  gtktable_attach_label ( NULL, 1, nb_colonnes -1, ligne, ligne + 1, LEFT, NULL );
 
 	  ligne++;
 	}
@@ -264,7 +304,7 @@ gint gtktable_affiche_total_categories ( gint ligne )
 	  else
 	    text =g_strdup_printf ( "%4.2f %s", montant_categ_etat, devise_name ( devise_categ_etat ) );
 
-	  gtktable_attach_label ( text, GTK_TABLE ( table_etat ) -> ncols -1, GTK_TABLE ( table_etat ) -> ncols,
+	  gtktable_attach_label ( text, nb_colonnes -1, nb_colonnes,
 				  ligne, ligne + 1, RIGHT, NULL );
 
 	  ligne++;
@@ -341,14 +381,14 @@ gint gtktable_affiche_total_sous_categ ( gint ligne )
 	    }
 
 
-	  gtktable_attach_label ( NULL, 1, GTK_TABLE ( table_etat ) -> ncols - 1,
+	  gtktable_attach_label ( NULL, 1, nb_colonnes - 1,
 				  ligne, ligne + 1, LEFT, NULL );
 	  ligne++;
 
 	  separateur = gtk_hseparator_new ();
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     separateur,
-			     1, GTK_TABLE ( table_etat ) -> ncols,
+			     1, nb_colonnes,
 			     ligne, ligne + 1,
 			     GTK_SHRINK | GTK_FILL,
 			     GTK_SHRINK | GTK_FILL,
@@ -375,15 +415,15 @@ gint gtktable_affiche_total_sous_categ ( gint ligne )
 	      else
 		text = COLON(_("Sub-categories total"));
 	    }
-	  gtktable_attach_label ( text, 1, GTK_TABLE ( table_etat ) -> ncols - 1,
+	  gtktable_attach_label ( text, 1, nb_colonnes - 1,
 				  ligne, ligne + 1, LEFT, NULL );
 
 	  text = g_strdup_printf ( "%4.2f %s", montant_sous_categ_etat, devise_name ( devise_categ_etat ) );
-	  gtktable_attach_label ( text, GTK_TABLE ( table_etat ) -> ncols -1, GTK_TABLE ( table_etat ) -> ncols,
+	  gtktable_attach_label ( text, nb_colonnes -1, nb_colonnes,
 				  ligne, ligne + 1, RIGHT, NULL );
 	  ligne++;
 
-	  gtktable_attach_label ( NULL, 1, GTK_TABLE ( table_etat ) -> ncols - 1,
+	  gtktable_attach_label ( NULL, 1, nb_colonnes - 1,
 				  ligne, ligne + 1, LEFT, NULL );
 	  ligne++;
 	}
@@ -397,7 +437,7 @@ gint gtktable_affiche_total_sous_categ ( gint ligne )
 	  else
 	    text = g_strdup_printf ( "%4.2f %s", montant_sous_categ_etat, devise_name ( devise_categ_etat ) );
 
-	    gtktable_attach_label ( text, GTK_TABLE ( table_etat ) -> ncols -1, GTK_TABLE ( table_etat ) -> ncols,
+	    gtktable_attach_label ( text, nb_colonnes -1, nb_colonnes,
 				    ligne, ligne + 1, RIGHT, NULL );
 	    ligne++;
 	}
@@ -469,14 +509,14 @@ gint gtktable_affiche_total_ib ( gint ligne )
 	      ligne_debut_partie = -1;
 	    }
 
-	  gtktable_attach_label ( NULL, 1, GTK_TABLE ( table_etat ) -> ncols - 1,
+	  gtktable_attach_label ( NULL, 1, nb_colonnes - 1,
 				  ligne, ligne + 1, LEFT, NULL );
 	  ligne++;
 
 	  separateur = gtk_hseparator_new ();
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     separateur,
-			     1, GTK_TABLE ( table_etat ) -> ncols,
+			     1, nb_colonnes,
 			     ligne, ligne + 1,
 			     GTK_SHRINK | GTK_FILL,
 			     GTK_SHRINK | GTK_FILL,
@@ -501,16 +541,16 @@ gint gtktable_affiche_total_ib ( gint ligne )
 		text = COLON(_("Budgetary lines total"));
 	    }
 
-	  gtktable_attach_label ( text, 1, GTK_TABLE ( table_etat ) -> ncols - 1,
+	  gtktable_attach_label ( text, 1, nb_colonnes - 1,
 				  ligne, ligne + 1, LEFT, NULL );
 
 	  text = g_strdup_printf ( "%4.2f %s", montant_ib_etat, devise_name ( devise_ib_etat ) );
 	  gtktable_attach_label ( text, 
-				  GTK_TABLE ( table_etat ) -> ncols -1, GTK_TABLE ( table_etat ) -> ncols,
+				  nb_colonnes -1, nb_colonnes,
 				  ligne, ligne + 1, RIGHT, NULL );
 	  ligne++;
 
-	  gtktable_attach_label ( NULL, 1, GTK_TABLE ( table_etat ) -> ncols - 1,
+	  gtktable_attach_label ( NULL, 1, nb_colonnes - 1,
 				  ligne, ligne + 1, CENTER, NULL );
 	  ligne++;
 	}
@@ -525,7 +565,7 @@ gint gtktable_affiche_total_ib ( gint ligne )
 	    text = g_strdup_printf ( "%4.2f %s", montant_ib_etat, devise_name ( devise_ib_etat ) );
 
 
-	  gtktable_attach_label ( text, GTK_TABLE ( table_etat ) -> ncols -1, GTK_TABLE ( table_etat ) -> ncols,
+	  gtktable_attach_label ( text, nb_colonnes -1, nb_colonnes,
 				  ligne, ligne + 1, RIGHT, NULL );
 	  ligne++;
 	}
@@ -597,14 +637,14 @@ gint gtktable_affiche_total_sous_ib ( gint ligne )
 	      ligne_debut_partie = -1;
 	    }
 
-	  gtktable_attach_label ( NULL, 1, GTK_TABLE ( table_etat ) -> ncols - 1,
+	  gtktable_attach_label ( NULL, 1, nb_colonnes - 1,
 				  ligne, ligne + 1, LEFT, NULL );
 	  ligne++;
 
 	  separateur = gtk_hseparator_new ();
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     separateur,
-			     1, GTK_TABLE ( table_etat ) -> ncols,
+			     1, nb_colonnes,
 			     ligne, ligne + 1,
 			     GTK_SHRINK | GTK_FILL,
 			     GTK_SHRINK | GTK_FILL,
@@ -632,15 +672,15 @@ gint gtktable_affiche_total_sous_ib ( gint ligne )
 		text = COLON(_("Sub-budgetary lines total"));
 	    }
 	  
-	  gtktable_attach_label ( text, 1, GTK_TABLE ( table_etat ) -> ncols - 1,
+	  gtktable_attach_label ( text, 1, nb_colonnes - 1,
 				  ligne, ligne + 1, LEFT, NULL );
 
 	  text = g_strdup_printf ( "%4.2f %s", montant_sous_ib_etat, devise_name ( devise_ib_etat ) );
-	  gtktable_attach_label ( text, GTK_TABLE ( table_etat ) -> ncols -1, GTK_TABLE ( table_etat ) -> ncols,
+	  gtktable_attach_label ( text, nb_colonnes -1, nb_colonnes,
 				  ligne, ligne + 1, RIGHT, NULL );
 	  ligne++;
 
-	  gtktable_attach_label ( NULL, 1, GTK_TABLE ( table_etat ) -> ncols - 1,
+	  gtktable_attach_label ( NULL, 1, nb_colonnes - 1,
 				  ligne, ligne + 1, CENTER, NULL );
 	  ligne++;
 	}
@@ -654,7 +694,7 @@ gint gtktable_affiche_total_sous_ib ( gint ligne )
 	  else
 	    text = g_strdup_printf ( "%4.2f %s", montant_sous_ib_etat, devise_name ( devise_ib_etat )) ;
 				     
-	  gtktable_attach_label ( text, GTK_TABLE ( table_etat ) -> ncols -1, GTK_TABLE ( table_etat ) -> ncols,
+	  gtktable_attach_label ( text, nb_colonnes -1, nb_colonnes,
 				  ligne, ligne + 1, RIGHT, NULL );
 	  ligne++;
 	}
@@ -723,14 +763,14 @@ gint gtktable_affiche_total_compte ( gint ligne )
 	    }
 
 
-	  gtktable_attach_label ( NULL, 1, GTK_TABLE ( table_etat ) -> ncols - 1,
+	  gtktable_attach_label ( NULL, 1, nb_colonnes - 1,
 				  ligne, ligne + 1, CENTER, NULL );
 	  ligne++;
 
 	  separateur = gtk_hseparator_new ();
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     separateur,
-			     1, GTK_TABLE ( table_etat ) -> ncols,
+			     1, nb_colonnes,
 			     ligne, ligne + 1,
 			     GTK_SHRINK | GTK_FILL,
 			     GTK_SHRINK | GTK_FILL,
@@ -754,15 +794,15 @@ gint gtktable_affiche_total_compte ( gint ligne )
 		text = COLON(_("Account total"));
 	    }
 	  
-	  gtktable_attach_label ( text, 1, GTK_TABLE ( table_etat ) -> ncols - 1,
+	  gtktable_attach_label ( text, 1, nb_colonnes - 1,
 				  ligne, ligne + 1, LEFT, NULL );
 
 	  text = g_strdup_printf ( "%4.2f %s", montant_compte_etat, devise_name ( devise_compte_en_cours_etat ) );
-	  gtktable_attach_label ( text, GTK_TABLE ( table_etat ) -> ncols -1, GTK_TABLE ( table_etat ) -> ncols,
+	  gtktable_attach_label ( text, nb_colonnes -1, nb_colonnes,
 				  ligne, ligne + 1, RIGHT, NULL );
 	  ligne++;
 
-	  gtktable_attach_label ( NULL, 1, GTK_TABLE ( table_etat ) -> ncols - 1,
+	  gtktable_attach_label ( NULL, 1, nb_colonnes - 1,
 				  ligne, ligne + 1, CENTER, NULL );
 	  ligne++;
 	}
@@ -775,7 +815,7 @@ gint gtktable_affiche_total_compte ( gint ligne )
 				     devise_name ( devise_compte_en_cours_etat ), nb_ope_compte_etat );
 	  else
 	    text = g_strdup_printf ( "%4.2f %s", montant_compte_etat, devise_name (devise_compte_en_cours_etat) );
-	  gtktable_attach_label ( text, GTK_TABLE ( table_etat ) -> ncols -1, GTK_TABLE ( table_etat ) -> ncols,
+	  gtktable_attach_label ( text, nb_colonnes -1, nb_colonnes,
 				  ligne, ligne + 1, RIGHT, NULL );  
 	  ligne++;
 	}
@@ -841,14 +881,14 @@ gint gtktable_affiche_total_tiers ( gint ligne )
 	      ligne_debut_partie = -1;
 	    }
 
-	  gtktable_attach_label ( NULL, 1, GTK_TABLE ( table_etat ) -> ncols - 1,
+	  gtktable_attach_label ( NULL, 1, nb_colonnes - 1,
 				  ligne, ligne + 1, CENTER, NULL );
 	  ligne++;
 
 	  separateur = gtk_hseparator_new ();
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     separateur,
-			     1, GTK_TABLE ( table_etat ) -> ncols,
+			     1, nb_colonnes,
 			     ligne, ligne + 1,
 			     GTK_SHRINK | GTK_FILL,
 			     GTK_SHRINK | GTK_FILL,
@@ -872,15 +912,15 @@ gint gtktable_affiche_total_tiers ( gint ligne )
 		text = COLON(_("Third party total"));
 	    }
 	  
-	  gtktable_attach_label ( text, 1, GTK_TABLE ( table_etat ) -> ncols - 1,
+	  gtktable_attach_label ( text, 1, nb_colonnes - 1,
 				  ligne, ligne + 1, LEFT, NULL );
 	  
 	  text = g_strdup_printf ( "%4.2f %s", montant_tiers_etat, devise_name ( devise_tiers_etat ) );
-	  gtktable_attach_label ( text, GTK_TABLE ( table_etat ) -> ncols -1, GTK_TABLE ( table_etat ) -> ncols,
+	  gtktable_attach_label ( text, nb_colonnes -1, nb_colonnes,
 				  ligne, ligne + 1, RIGHT, NULL );
 	  ligne++;
 
-	  gtktable_attach_label ( NULL, 1, GTK_TABLE ( table_etat ) -> ncols - 1,
+	  gtktable_attach_label ( NULL, 1, nb_colonnes - 1,
 				  ligne, ligne + 1, CENTER, NULL );
 	  ligne++;
 	}
@@ -894,7 +934,7 @@ gint gtktable_affiche_total_tiers ( gint ligne )
 	  else
 	    text = g_strdup_printf ( "%4.2f %s", montant_tiers_etat, devise_name ( devise_tiers_etat ) );
 
-	  gtktable_attach_label ( text, GTK_TABLE ( table_etat ) -> ncols -1, GTK_TABLE ( table_etat ) -> ncols,
+	  gtktable_attach_label ( text, nb_colonnes -1, nb_colonnes,
 				  ligne, ligne + 1, RIGHT, NULL );
 	  ligne++;
 	}
@@ -1131,7 +1171,7 @@ gint gtktable_affiche_total_periode ( struct structure_operation *operation,
 	  ligne_debut_partie = -1;
 	}
 
-      gtktable_attach_label ( NULL, 1, GTK_TABLE ( table_etat ) -> ncols - 1,
+      gtktable_attach_label ( NULL, 1, nb_colonnes - 1,
 			      ligne, ligne + 1, CENTER, NULL );
 
       ligne++;
@@ -1139,7 +1179,7 @@ gint gtktable_affiche_total_periode ( struct structure_operation *operation,
       separateur = gtk_hseparator_new ();
       gtk_table_attach ( GTK_TABLE ( table_etat ),
 			 separateur,
-			 1, GTK_TABLE ( table_etat ) -> ncols,
+			 1, nb_colonnes,
 			 ligne, ligne + 1,
 			 GTK_SHRINK | GTK_FILL,
 			 GTK_SHRINK | GTK_FILL,
@@ -1147,16 +1187,16 @@ gint gtktable_affiche_total_periode ( struct structure_operation *operation,
       gtk_widget_show ( separateur );
       ligne++;
 
-      gtktable_attach_label ( text, 1, GTK_TABLE ( table_etat ) -> ncols - 1,
+      gtktable_attach_label ( text, 1, nb_colonnes - 1,
 			      ligne, ligne + 1, LEFT, NULL );
 
       text = g_strdup_printf ( "%4.2f %s", montant_periode_etat, devise_name ( devise_generale_etat ) );
       gtktable_attach_label ( text, 
-			      GTK_TABLE ( table_etat ) -> ncols - 1, GTK_TABLE ( table_etat ) -> ncols,
+			      nb_colonnes - 1, nb_colonnes,
 			      ligne, ligne + 1, RIGHT, NULL );
       ligne++;
 
-      gtktable_attach_label ( NULL, 1, GTK_TABLE ( table_etat ) -> ncols - 1,
+      gtktable_attach_label ( NULL, 1, nb_colonnes - 1,
 			      ligne, ligne + 1, CENTER, NULL );
       ligne++;
 
@@ -1225,6 +1265,7 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 {
   gint colonne;
   GtkWidget *label;
+  gchar * text;
 
   /* on met tous les labels dans un event_box pour aller directement sur l'opé si elle est clickée */
 
@@ -1250,108 +1291,31 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 
       if ( etat_courant -> afficher_no_ope )
 	{
-	  label = gtk_label_new ( itoa ( operation -> no_operation ));
-	  gtk_misc_set_alignment ( GTK_MISC ( label ),
-				   0,
-				   0.5 );
+	  text = itoa ( operation -> no_operation );
 
 	  if ( etat_courant -> ope_clickables )
 	    {
-	      GtkWidget *event_box;
-
-	      event_box = gtk_event_box_new ();
-	      gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				   "enter_notify_event",
-				   GTK_SIGNAL_FUNC ( met_en_prelight ),
-				   NULL );
-	      gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				   "leave_notify_event",
-				   GTK_SIGNAL_FUNC ( met_en_normal ),
-				   NULL );
-	      gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
-					  "button_press_event",
-					  GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
-					  (GtkObject *) operation );
-	      gtk_table_attach ( GTK_TABLE ( table_etat ),
-				 event_box,
-				 colonne, colonne + 1,
-				 ligne, ligne + 1,
-				 GTK_SHRINK | GTK_FILL,
-				 GTK_SHRINK | GTK_FILL,
-				 0, 0 );
-	      gtk_widget_show ( event_box );
-
-	      gtk_widget_set_style ( label,
-				     style_label_nom_compte );
-	      gtk_container_add ( GTK_CONTAINER ( event_box ),
-				  label );
+	      gtktable_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 	    }
 	  else
-	    gtk_table_attach ( GTK_TABLE ( table_etat ),
-			       label,
-			       colonne, colonne + 1,
-			       ligne, ligne + 1,
-			       GTK_SHRINK | GTK_FILL,
-			       GTK_SHRINK | GTK_FILL,
-			       0, 0 );
-
-	  gtk_widget_show ( label );
+	    {
+	      gtktable_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+	    }
 
 	  colonne = colonne + 2;
 	}
 
       if ( etat_courant -> afficher_date_ope )
 	{
-	  label = gtk_label_new ( g_strdup_printf  ( "%.2d/%.2d/%d",
-						     operation -> jour,
-						     operation -> mois,
-						     operation -> annee ));
-	  gtk_misc_set_alignment ( GTK_MISC ( label ),
-				   0,
-				   0.5 );
-
+	  text = g_strdup_printf  ( "%.2d/%.2d/%d", operation -> jour, operation -> mois, operation -> annee );
 	  if ( etat_courant -> ope_clickables )
 	    {
-	      GtkWidget *event_box;
-
-	      event_box = gtk_event_box_new ();
-	      gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				   "enter_notify_event",
-				   GTK_SIGNAL_FUNC ( met_en_prelight ),
-				   NULL );
-	      gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				   "leave_notify_event",
-				   GTK_SIGNAL_FUNC ( met_en_normal ),
-				   NULL );
-	      gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
-					  "button_press_event",
-					  GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
-					  (GtkObject *) operation );
-	      gtk_table_attach ( GTK_TABLE ( table_etat ),
-				 event_box,
-				 colonne, colonne + 1,
-				 ligne, ligne + 1,
-				 GTK_SHRINK | GTK_FILL,
-				 GTK_SHRINK | GTK_FILL,
-				 0, 0 );
-	      gtk_widget_show ( event_box );
-
-	      gtk_widget_set_style ( label,
-				     style_label_nom_compte );
-	      gtk_container_add ( GTK_CONTAINER ( event_box ),
-				  label );
+	      gtktable_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 	    }
 	  else
-	    gtk_table_attach ( GTK_TABLE ( table_etat ),
-			       label,
-			       colonne, colonne + 1,
-			       ligne, ligne + 1,
-			       GTK_SHRINK | GTK_FILL,
-			       GTK_SHRINK | GTK_FILL,
-			       0, 0 );
-
-
-	  gtk_widget_show ( label );
+	    {
+	      gtktable_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+	    }
 
 	  colonne = colonne + 2;
 	}
@@ -1360,54 +1324,18 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 	{
 	  if ( operation -> no_exercice )
 	    {
-	      label = gtk_label_new ( ((struct struct_exercice *)(g_slist_find_custom ( liste_struct_exercices,
+	      text = ((struct struct_exercice *)(g_slist_find_custom ( liste_struct_exercices,
 											GINT_TO_POINTER ( operation -> no_exercice ),
-											(GCompareFunc) recherche_exercice_par_no )->data)) -> nom_exercice );
-	      gtk_misc_set_alignment ( GTK_MISC ( label ),
-				       0,
-				       0.5 );
-
+											(GCompareFunc) recherche_exercice_par_no )->data)) -> nom_exercice;
+	      
 	      if ( etat_courant -> ope_clickables )
 		{
-		  GtkWidget *event_box;
-
-		  event_box = gtk_event_box_new ();
-		  gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				       "enter_notify_event",
-				       GTK_SIGNAL_FUNC ( met_en_prelight ),
-				       NULL );
-		  gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				       "leave_notify_event",
-				       GTK_SIGNAL_FUNC ( met_en_normal ),
-				       NULL );
-		  gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
-					      "button_press_event",
-					      GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
-					      (GtkObject *) operation );
-		  gtk_table_attach ( GTK_TABLE ( table_etat ),
-				     event_box,
-				     colonne, colonne + 1,
-				     ligne, ligne + 1,
-				     GTK_SHRINK | GTK_FILL,
-				     GTK_SHRINK | GTK_FILL,
-				     0, 0 );
-		  gtk_widget_show ( event_box );
-
-		  gtk_widget_set_style ( label,
-					 style_label_nom_compte );
-		  gtk_container_add ( GTK_CONTAINER ( event_box ),
-				      label );
+		  gtktable_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
 	      else
-		gtk_table_attach ( GTK_TABLE ( table_etat ),
-				   label,
-				   colonne, colonne + 1,
-				   ligne, ligne + 1,
-				   GTK_SHRINK | GTK_FILL,
-				   GTK_SHRINK | GTK_FILL,
-				   0, 0 );
-
-	      gtk_widget_show ( label );
+		{
+		  gtktable_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		}
 	    }
 	  colonne = colonne + 2;
 	}
@@ -1417,55 +1345,17 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 	{
 	  if ( operation -> tiers )
 	    {
-	      label = gtk_label_new ( ((struct struct_tiers *)(g_slist_find_custom ( liste_struct_tiers,
-										     GINT_TO_POINTER ( operation -> tiers ),
-										     (GCompareFunc) recherche_tiers_par_no )->data)) -> nom_tiers );
-		      
-	      gtk_misc_set_alignment ( GTK_MISC ( label ),
-				       0,
-				       0.5 );
-
+	      text = ((struct struct_tiers *)(g_slist_find_custom ( liste_struct_tiers,
+								    GINT_TO_POINTER ( operation -> tiers ),
+								    (GCompareFunc) recherche_tiers_par_no )->data)) -> nom_tiers;
 	      if ( etat_courant -> ope_clickables )
 		{
-		  GtkWidget *event_box;
-
-		  event_box = gtk_event_box_new ();
-		  gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				       "enter_notify_event",
-				       GTK_SIGNAL_FUNC ( met_en_prelight ),
-				       NULL );
-		  gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				       "leave_notify_event",
-				       GTK_SIGNAL_FUNC ( met_en_normal ),
-				       NULL );
-		  gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
-					      "button_press_event",
-					      GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
-					      (GtkObject *) operation );
-		  gtk_table_attach ( GTK_TABLE ( table_etat ),
-				     event_box,
-				     colonne, colonne + 1,
-				     ligne, ligne + 1,
-				     GTK_SHRINK | GTK_FILL,
-				     GTK_SHRINK | GTK_FILL,
-				     0, 0 );
-		  gtk_widget_show ( event_box );
-
-		  gtk_widget_set_style ( label,
-					 style_label_nom_compte );
-		  gtk_container_add ( GTK_CONTAINER ( event_box ),
-				      label );
+		  gtktable_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
 	      else
-		gtk_table_attach ( GTK_TABLE ( table_etat ),
-				   label,
-				   colonne, colonne + 1,
-				   ligne, ligne + 1,
-				   GTK_SHRINK | GTK_FILL,
-				   GTK_SHRINK | GTK_FILL,
-				   0, 0 );
-
-	      gtk_widget_show ( label );
+		{
+		  gtktable_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		}
 	    }
 
 	  colonne = colonne + 2;
@@ -1508,67 +1398,26 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 		  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
 		  if ( operation -> montant < 0 )
-		    pointeur = g_strdup_printf ( _("Transfer to %s"),
-						 NOM_DU_COMPTE );
+		    pointeur = g_strdup_printf ( _("Transfer to %s"), NOM_DU_COMPTE );
 		  else
-		    pointeur = g_strdup_printf ( _("Transfer from %s"),
-						 NOM_DU_COMPTE );
+		    pointeur = g_strdup_printf ( _("Transfer from %s"), NOM_DU_COMPTE );
 		}
 	    }
 
 	  if ( pointeur )
 	    {
-	      label = gtk_label_new ( pointeur );
-	      gtk_misc_set_alignment ( GTK_MISC ( label ),
-				       0,
-				       0.5 );
-
 	      if ( etat_courant -> ope_clickables )
 		{
-		  GtkWidget *event_box;
-
-		  event_box = gtk_event_box_new ();
-		  gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				       "enter_notify_event",
-				       GTK_SIGNAL_FUNC ( met_en_prelight ),
-				       NULL );
-		  gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				       "leave_notify_event",
-				       GTK_SIGNAL_FUNC ( met_en_normal ),
-				       NULL );
-		  gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
-					      "button_press_event",
-					      GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
-					      (GtkObject *) operation );
-		  gtk_table_attach ( GTK_TABLE ( table_etat ),
-				     event_box,
-				     colonne, colonne + 1,
-				     ligne, ligne + 1,
-				     GTK_SHRINK | GTK_FILL,
-				     GTK_SHRINK | GTK_FILL,
-				     0, 0 );
-		  gtk_widget_show ( event_box );
-
-		  gtk_widget_set_style ( label,
-					 style_label_nom_compte );
-		  gtk_container_add ( GTK_CONTAINER ( event_box ),
-				      label );
+		  gtktable_attach_label ( pointeur, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
 	      else
-		gtk_table_attach ( GTK_TABLE ( table_etat ),
-				   label,
-				   colonne, colonne + 1,
-				   ligne, ligne + 1,
-				   GTK_SHRINK | GTK_FILL,
-				   GTK_SHRINK | GTK_FILL,
-				   0, 0 );
-
-	      gtk_widget_show ( label );
+		{
+		  gtktable_attach_label ( pointeur, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		}
 	    }
 	  colonne = colonne + 2;
 	}
 		
-
 
       if ( etat_courant -> afficher_ib_ope )
 	{
@@ -1592,54 +1441,17 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 												  (GCompareFunc) recherche_sous_imputation_par_no ) -> data )) -> nom_sous_imputation,
 					 NULL );
 
-	      label = gtk_label_new ( pointeur );
-	      gtk_misc_set_alignment ( GTK_MISC ( label ),
-				       0,
-				       0.5 );
-
 	      if ( etat_courant -> ope_clickables )
 		{
-		  GtkWidget *event_box;
-
-		  event_box = gtk_event_box_new ();
-		  gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				       "enter_notify_event",
-				       GTK_SIGNAL_FUNC ( met_en_prelight ),
-				       NULL );
-		  gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				       "leave_notify_event",
-				       GTK_SIGNAL_FUNC ( met_en_normal ),
-				       NULL );
-		  gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
-					      "button_press_event",
-					      GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
-					      (GtkObject *) operation );
-		  gtk_table_attach ( GTK_TABLE ( table_etat ),
-				     event_box,
-				     colonne, colonne + 1,
-				     ligne, ligne + 1,
-				     GTK_SHRINK | GTK_FILL,
-				     GTK_SHRINK | GTK_FILL,
-				     0, 0 );
-		  gtk_widget_show ( event_box );
-
-		  gtk_widget_set_style ( label,
-					 style_label_nom_compte );
-		  gtk_container_add ( GTK_CONTAINER ( event_box ),
-				      label );
+		  gtktable_attach_label ( pointeur, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
 	      else
-		gtk_table_attach ( GTK_TABLE ( table_etat ),
-				   label,
-				   colonne, colonne + 1,
-				   ligne, ligne + 1,
-				   GTK_SHRINK | GTK_FILL,
-				   GTK_SHRINK | GTK_FILL,
-				   0, 0 );
-
-	      gtk_widget_show ( label );
+		{
+		  gtktable_attach_label ( pointeur, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		}
+	      
+	      colonne = colonne + 2;
 	    }
-	  colonne = colonne + 2;
 	}
 
 
@@ -1647,53 +1459,18 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 	{
 	  if ( operation -> notes )
 	    {
-	      label = gtk_label_new ( operation -> notes );
-	      gtk_misc_set_alignment ( GTK_MISC ( label ),
-				       0,
-				       0.5 );
+	      text =  operation -> notes;
 
 	      if ( etat_courant -> ope_clickables )
 		{
-		  GtkWidget *event_box;
-
-		  event_box = gtk_event_box_new ();
-		  gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				       "enter_notify_event",
-				       GTK_SIGNAL_FUNC ( met_en_prelight ),
-				       NULL );
-		  gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				       "leave_notify_event",
-				       GTK_SIGNAL_FUNC ( met_en_normal ),
-				       NULL );
-		  gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
-					      "button_press_event",
-					      GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
-					      (GtkObject *) operation );
-		  gtk_table_attach ( GTK_TABLE ( table_etat ),
-				     event_box,
-				     colonne, colonne + 1,
-				     ligne, ligne + 1,
-				     GTK_SHRINK | GTK_FILL,
-				     GTK_SHRINK | GTK_FILL,
-				     0, 0 );
-		  gtk_widget_show ( event_box );
-
-		  gtk_widget_set_style ( label,
-					 style_label_nom_compte );
-		  gtk_container_add ( GTK_CONTAINER ( event_box ),
-				      label );
+		  gtktable_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
 	      else
-		gtk_table_attach ( GTK_TABLE ( table_etat ),
-				   label,
-				   colonne, colonne + 1,
-				   ligne, ligne + 1,
-				   GTK_SHRINK | GTK_FILL,
-				   GTK_SHRINK | GTK_FILL,
-				   0, 0 );
-
-	      gtk_widget_show ( label );
+		{
+		  gtktable_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		}
 	    }
+	 
 	  colonne = colonne + 2;
 	}
 
@@ -1713,53 +1490,18 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 
 	      type = pointeur -> data;
 
-	      label = gtk_label_new ( type -> nom_type );
-	      gtk_misc_set_alignment ( GTK_MISC ( label ),
-				       0,
-				       0.5 );
+	      text = type -> nom_type;
 
 	      if ( etat_courant -> ope_clickables )
 		{
-		  GtkWidget *event_box;
-
-		  event_box = gtk_event_box_new ();
-		  gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				       "enter_notify_event",
-				       GTK_SIGNAL_FUNC ( met_en_prelight ),
-				       NULL );
-		  gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				       "leave_notify_event",
-				       GTK_SIGNAL_FUNC ( met_en_normal ),
-				       NULL );
-		  gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
-					      "button_press_event",
-					      GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
-					      (GtkObject *) operation );
-		  gtk_table_attach ( GTK_TABLE ( table_etat ),
-				     event_box,
-				     colonne, colonne + 1,
-				     ligne, ligne + 1,
-				     GTK_SHRINK | GTK_FILL,
-				     GTK_SHRINK | GTK_FILL,
-				     0, 0 );
-		  gtk_widget_show ( event_box );
-
-		  gtk_widget_set_style ( label,
-					 style_label_nom_compte );
-		  gtk_container_add ( GTK_CONTAINER ( event_box ),
-				      label );
+		  gtktable_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
 	      else
-		gtk_table_attach ( GTK_TABLE ( table_etat ),
-				   label,
-				   colonne, colonne + 1,
-				   ligne, ligne + 1,
-				   GTK_SHRINK | GTK_FILL,
-				   GTK_SHRINK | GTK_FILL,
-				   0, 0 );
-
-	      gtk_widget_show ( label );
+		{
+		  gtktable_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		}
 	    }
+
 	  colonne = colonne + 2;
 	}
 
@@ -1768,52 +1510,17 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 	{
 	  if ( operation -> contenu_type )
 	    {
-	      label = gtk_label_new ( operation -> contenu_type );
-	      gtk_misc_set_alignment ( GTK_MISC ( label ),
-				       0,
-				       0.5 );
+	      text = operation -> contenu_type;
 
 	      if ( etat_courant -> ope_clickables )
 		{
-		  GtkWidget *event_box;
-
-		  event_box = gtk_event_box_new ();
-		  gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				       "enter_notify_event",
-				       GTK_SIGNAL_FUNC ( met_en_prelight ),
-				       NULL );
-		  gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				       "leave_notify_event",
-				       GTK_SIGNAL_FUNC ( met_en_normal ),
-				       NULL );
-		  gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
-					      "button_press_event",
-					      GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
-					      (GtkObject *) operation );
-		  gtk_table_attach ( GTK_TABLE ( table_etat ),
-				     event_box,
-				     colonne, colonne + 1,
-				     ligne, ligne + 1,
-				     GTK_SHRINK | GTK_FILL,
-				     GTK_SHRINK | GTK_FILL,
-				     0, 0 );
-		  gtk_widget_show ( event_box );
-
-		  gtk_widget_set_style ( label,
-					 style_label_nom_compte );
-		  gtk_container_add ( GTK_CONTAINER ( event_box ),
-				      label );
+		  gtktable_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
 	      else
-		gtk_table_attach ( GTK_TABLE ( table_etat ),
-				   label,
-				   colonne, colonne + 1,
-				   ligne, ligne + 1,
-				   GTK_SHRINK | GTK_FILL,
-				   GTK_SHRINK | GTK_FILL,
-				   0, 0 );
+		{
+		  gtktable_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		}
 
-	      gtk_widget_show ( label );
 	    }
 	  colonne = colonne + 2;
 	}
@@ -1823,52 +1530,16 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 	{
 	  if ( operation -> no_piece_comptable )
 	    {
-	      label = gtk_label_new ( operation -> no_piece_comptable );
-	      gtk_misc_set_alignment ( GTK_MISC ( label ),
-				       0,
-				       0.5 );
+	      text = operation -> no_piece_comptable;
 
 	      if ( etat_courant -> ope_clickables )
 		{
-		  GtkWidget *event_box;
-
-		  event_box = gtk_event_box_new ();
-		  gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				       "enter_notify_event",
-				       GTK_SIGNAL_FUNC ( met_en_prelight ),
-				       NULL );
-		  gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				       "leave_notify_event",
-				       GTK_SIGNAL_FUNC ( met_en_normal ),
-				       NULL );
-		  gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
-					      "button_press_event",
-					      GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
-					      (GtkObject *) operation );
-		  gtk_table_attach ( GTK_TABLE ( table_etat ),
-				     event_box,
-				     colonne, colonne + 1,
-				     ligne, ligne + 1,
-				     GTK_SHRINK | GTK_FILL,
-				     GTK_SHRINK | GTK_FILL,
-				     0, 0 );
-		  gtk_widget_show ( event_box );
-
-		  gtk_widget_set_style ( label,
-					 style_label_nom_compte );
-		  gtk_container_add ( GTK_CONTAINER ( event_box ),
-				      label );
+		  gtktable_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
 	      else
-		gtk_table_attach ( GTK_TABLE ( table_etat ),
-				   label,
-				   colonne, colonne + 1,
-				   ligne, ligne + 1,
-				   GTK_SHRINK | GTK_FILL,
-				   GTK_SHRINK | GTK_FILL,
-				   0, 0 );
-
-	      gtk_widget_show ( label );
+		{
+		  gtktable_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		}
 	    }
 	  colonne = colonne + 2;
 	}
@@ -1879,53 +1550,18 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 	{
 	  if ( operation -> info_banque_guichet )
 	    {
-	      label = gtk_label_new ( operation -> info_banque_guichet );
-	      gtk_misc_set_alignment ( GTK_MISC ( label ),
-				       0,
-				       0.5 );
+	      text = operation -> info_banque_guichet;
 
 	      if ( etat_courant -> ope_clickables )
 		{
-		  GtkWidget *event_box;
-
-		  event_box = gtk_event_box_new ();
-		  gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				       "enter_notify_event",
-				       GTK_SIGNAL_FUNC ( met_en_prelight ),
-				       NULL );
-		  gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				       "leave_notify_event",
-				       GTK_SIGNAL_FUNC ( met_en_normal ),
-				       NULL );
-		  gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
-					      "button_press_event",
-					      GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
-					      (GtkObject *) operation );
-		  gtk_table_attach ( GTK_TABLE ( table_etat ),
-				     event_box,
-				     colonne, colonne + 1,
-				     ligne, ligne + 1,
-				     GTK_SHRINK | GTK_FILL,
-				     GTK_SHRINK | GTK_FILL,
-				     0, 0 );
-		  gtk_widget_show ( event_box );
-
-		  gtk_widget_set_style ( label,
-					 style_label_nom_compte );
-		  gtk_container_add ( GTK_CONTAINER ( event_box ),
-				      label );
+		  gtktable_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
 	      else
-		gtk_table_attach ( GTK_TABLE ( table_etat ),
-				   label,
-				   colonne, colonne + 1,
-				   ligne, ligne + 1,
-				   GTK_SHRINK | GTK_FILL,
-				   GTK_SHRINK | GTK_FILL,
-				   0, 0 );
-
-	      gtk_widget_show ( label );
+		{
+		  gtktable_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		}
 	    }
+
 	  colonne = colonne + 2;
 	}
 
@@ -1943,56 +1579,22 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 
 	      rapprochement = pointeur -> data;
 
-	      label = gtk_label_new ( rapprochement -> nom_rapprochement );
-	      gtk_misc_set_alignment ( GTK_MISC ( label ),
-				       0,
-				       0.5 );
-
-	      if ( etat_courant -> ope_clickables )
+	      if (rapprochement)
 		{
-		  GtkWidget *event_box;
+		  text = rapprochement -> nom_rapprochement;
 
-		  event_box = gtk_event_box_new ();
-		  gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				       "enter_notify_event",
-				       GTK_SIGNAL_FUNC ( met_en_prelight ),
-				       NULL );
-		  gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				       "leave_notify_event",
-				       GTK_SIGNAL_FUNC ( met_en_normal ),
-				       NULL );
-		  gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
-					      "button_press_event",
-					      GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
-					      (GtkObject *) operation );
-		  gtk_table_attach ( GTK_TABLE ( table_etat ),
-				     event_box,
-				     colonne, colonne + 1,
-				     ligne, ligne + 1,
-				     GTK_SHRINK | GTK_FILL,
-				     GTK_SHRINK | GTK_FILL,
-				     0, 0 );
-		  gtk_widget_show ( event_box );
-
-		  gtk_widget_set_style ( label,
-					 style_label_nom_compte );
-		  gtk_container_add ( GTK_CONTAINER ( event_box ),
-				      label );
+		  if ( etat_courant -> ope_clickables )
+		    {
+		      gtktable_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
+		    }
+		  else
+		    {
+		      gtktable_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		    }
 		}
-	      else
-		gtk_table_attach ( GTK_TABLE ( table_etat ),
-				   label,
-				   colonne, colonne + 1,
-				   ligne, ligne + 1,
-				   GTK_SHRINK | GTK_FILL,
-				   GTK_SHRINK | GTK_FILL,
-				   0, 0 );
-
-	      gtk_widget_show ( label );
 	    }
 	  colonne = colonne + 2;
 	}
-
 
 
       /* on affiche le montant au bout de la ligne */
@@ -2000,9 +1602,7 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
       if ( devise_compte_en_cours_etat
 	   &&
 	   operation -> devise == devise_compte_en_cours_etat -> no_devise )
-	label = gtk_label_new ( g_strdup_printf  ("%4.2f %s",
-						  operation -> montant,
-						  devise_name ( devise_compte_en_cours_etat ) ));
+	text = g_strdup_printf  ( "%4.2f %s", operation -> montant, devise_name ( devise_compte_en_cours_etat ) );
       else
 	{
 	  struct struct_devise *devise_operation;
@@ -2010,56 +1610,18 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 	  devise_operation = g_slist_find_custom ( liste_struct_devises,
 						   GINT_TO_POINTER ( operation -> devise ),
 						   ( GCompareFunc ) recherche_devise_par_no ) -> data;
-	  label = gtk_label_new ( g_strdup_printf  ("%4.2f %s",
-						    operation -> montant,
-						    devise_name ( devise_operation ) ));
+	  text = g_strdup_printf  ( "%4.2f %s", operation -> montant, devise_name ( devise_operation ) );
 	}
-
-      gtk_misc_set_alignment ( GTK_MISC ( label ),
-			       1,
-			       0.5 );
 
       if ( etat_courant -> ope_clickables )
 	{
-	  GtkWidget *event_box;
-
-	  event_box = gtk_event_box_new ();
-	  gtk_signal_connect ( GTK_OBJECT ( event_box ),
-			       "enter_notify_event",
-			       GTK_SIGNAL_FUNC ( met_en_prelight ),
-			       NULL );
-	  gtk_signal_connect ( GTK_OBJECT ( event_box ),
-			       "leave_notify_event",
-			       GTK_SIGNAL_FUNC ( met_en_normal ),
-			       NULL );
-	  gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
-				      "button_press_event",
-				      GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
-				      (GtkObject *) operation );
-	  gtk_table_attach ( GTK_TABLE ( table_etat ),
-			     event_box,
-			     GTK_TABLE ( table_etat ) -> ncols - 1, GTK_TABLE ( table_etat ) -> ncols,
-			     ligne, ligne + 1,
-			     GTK_SHRINK | GTK_FILL,
-			     GTK_SHRINK | GTK_FILL,
-			     0, 0 );
-	  gtk_widget_show ( event_box );
-
-	  gtk_widget_set_style ( label,
-				 style_label_nom_compte );
-	  gtk_container_add ( GTK_CONTAINER ( event_box ),
-			      label );
+	  gtktable_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, RIGHT, operation );
 	}
       else
-	gtk_table_attach ( GTK_TABLE ( table_etat ),
-			   label,
-			   GTK_TABLE ( table_etat ) -> ncols - 1, GTK_TABLE ( table_etat ) -> ncols,
-			   ligne, ligne + 1,
-			   GTK_SHRINK | GTK_FILL,
-			   GTK_SHRINK | GTK_FILL,
-			   0, 0 );
+	{
+	  gtktable_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, RIGHT, NULL );
+	}
 
-      gtk_widget_show ( label );
 
       if ( ligne_debut_partie == -1 )
 	ligne_debut_partie = ligne;
@@ -2109,14 +1671,14 @@ gint gtktable_affiche_total_partiel ( gdouble total_partie,
     }
 
 
-  gtktable_attach_label ( NULL, 1, GTK_TABLE ( table_etat ) -> ncols - 1,
+  gtktable_attach_label ( NULL, 1, nb_colonnes - 1,
 			  ligne, ligne + 1, CENTER, NULL );
   ligne++;
 
   separateur = gtk_hseparator_new ();
   gtk_table_attach ( GTK_TABLE ( table_etat ),
 		     separateur,
-		     0, GTK_TABLE ( table_etat ) -> ncols,
+		     0, nb_colonnes,
 		     ligne, ligne + 1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -2140,18 +1702,18 @@ gint gtktable_affiche_total_partiel ( gdouble total_partie,
 	text = COLON(_("Income total"));
     }
   
-  gtktable_attach_label ( text, 1, GTK_TABLE ( table_etat ) -> ncols,
+  gtktable_attach_label ( text, 1, nb_colonnes,
 			  ligne, ligne + 1, LEFT, NULL );
 
   text = g_strdup_printf ( "%4.2f %s", total_partie, devise_name ( devise_generale_etat ) );
-  gtktable_attach_label ( text, GTK_TABLE ( table_etat ) -> ncols - 1, GTK_TABLE ( table_etat ) -> ncols,
+  gtktable_attach_label ( text, nb_colonnes - 1, nb_colonnes,
 			  ligne, ligne + 1, RIGHT, NULL );
   ligne++;
 
   separateur = gtk_hseparator_new ();
   gtk_table_attach ( GTK_TABLE ( table_etat ),
 		     separateur,
-		     0, GTK_TABLE ( table_etat ) -> ncols,
+		     0, nb_colonnes,
 		     ligne, ligne + 1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -2159,7 +1721,7 @@ gint gtktable_affiche_total_partiel ( gdouble total_partie,
   gtk_widget_show ( separateur );
   ligne++;
   
-  gtktable_attach_label ( NULL, 1, GTK_TABLE ( table_etat ) -> ncols,
+  gtktable_attach_label ( NULL, 1, nb_colonnes,
 			  ligne, ligne + 1, CENTER, NULL );
   ligne++;
 
@@ -2211,14 +1773,14 @@ gint gtktable_affiche_total_general ( gdouble total_general,
       ligne_debut_partie = -1;
     }
 
-  gtktable_attach_label ( NULL, 1, GTK_TABLE ( table_etat ) -> ncols,
+  gtktable_attach_label ( NULL, 1, nb_colonnes,
 			  ligne, ligne + 1, CENTER, NULL );
   ligne++;
 
   separateur = gtk_hseparator_new ();
   gtk_table_attach ( GTK_TABLE ( table_etat ),
 		     separateur,
-		     0, GTK_TABLE ( table_etat ) -> ncols,
+		     0, nb_colonnes,
 		     ligne, ligne + 1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -2232,18 +1794,18 @@ gint gtktable_affiche_total_general ( gdouble total_general,
   else
     text = COLON(_("General total"));
   
-  gtktable_attach_label ( text, 1, GTK_TABLE ( table_etat ) -> ncols -1,
+  gtktable_attach_label ( text, 1, nb_colonnes -1,
 			  ligne, ligne + 1, LEFT, NULL );
 
   text = g_strdup_printf ( "%4.2f %s", total_general, devise_name ( devise_generale_etat ) );
-  gtktable_attach_label ( text, GTK_TABLE ( table_etat ) -> ncols -1, GTK_TABLE ( table_etat ) -> ncols,
+  gtktable_attach_label ( text, nb_colonnes -1, nb_colonnes,
 			  ligne, ligne + 1, RIGHT, NULL );
   ligne++;
 
   separateur = gtk_hseparator_new ();
   gtk_table_attach ( GTK_TABLE ( table_etat ),
 		     separateur,
-		     0, GTK_TABLE ( table_etat ) -> ncols,
+		     0, nb_colonnes,
 		     ligne, ligne + 1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -2252,7 +1814,7 @@ gint gtktable_affiche_total_general ( gdouble total_general,
 
   ligne++;
 
-  gtktable_attach_label ( NULL, 1, GTK_TABLE ( table_etat ) -> ncols,
+  gtktable_attach_label ( NULL, 1, nb_colonnes,
 			  ligne, ligne + 1, CENTER, NULL );
   ligne++;
 
@@ -2883,61 +2445,61 @@ gint gtktable_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_exo_ope )
     {
-      gtktable_attach_label ( _("Financial year"), 0, 1, ligne, ligne + 1, CENTER, NULL );
+      gtktable_attach_label ( _("Financial year"), colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
       colonne = colonne + 2;
     }
 
   if ( etat_courant -> afficher_tiers_ope )
     {
-      gtktable_attach_label ( _("Third party"), 0, 1, ligne, ligne + 1, CENTER, NULL );
+      gtktable_attach_label ( _("Third party"), colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
       colonne = colonne + 2;
     }
 
   if ( etat_courant -> afficher_categ_ope )
     {
-      gtktable_attach_label ( _("Category"), 0, 1, ligne, ligne + 1, CENTER, NULL );
+      gtktable_attach_label ( _("Category"), colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
       colonne = colonne + 2;
     }
 
   if ( etat_courant -> afficher_ib_ope )
     {
-      gtktable_attach_label ( _("Budgetary line"), 0, 1, ligne, ligne + 1, CENTER, NULL );
+      gtktable_attach_label ( _("Budgetary line"), colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
       colonne = colonne + 2;
     }
 
   if ( etat_courant -> afficher_notes_ope )
     {
-      gtktable_attach_label ( _("Notes"), 0, 1, ligne, ligne + 1, CENTER, NULL );
+      gtktable_attach_label ( _("Notes"), colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
       colonne = colonne + 2;
     }
 
   if ( etat_courant -> afficher_type_ope )
     {
-      gtktable_attach_label ( _("Payment methods"), 0, 1, ligne, ligne + 1, CENTER, NULL );
+      gtktable_attach_label ( _("Payment methods"), colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
       colonne = colonne + 2;
     }
 
   if ( etat_courant -> afficher_cheque_ope )
     {
-      gtktable_attach_label ( _("Cheque"), 0, 1, ligne, ligne + 1, CENTER, NULL );
+      gtktable_attach_label ( _("Cheque"), colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
       colonne = colonne + 2;
     }
 
   if ( etat_courant -> afficher_pc_ope )
     {
-      gtktable_attach_label ( _("Voucher"), 0, 1, ligne, ligne + 1, CENTER, NULL );
+      gtktable_attach_label ( _("Voucher"), colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
       colonne = colonne + 2;
     }
 
   if ( etat_courant -> afficher_infobd_ope )
     {
-      gtktable_attach_label ( _("Bank references"), 0, 1, ligne, ligne + 1, CENTER, NULL );
+      gtktable_attach_label ( _("Bank references"), colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
       colonne = colonne + 2;
     }
 
   if ( etat_courant -> afficher_rappr_ope )
     {
-      gtktable_attach_label ( _("Statement"), 0, 1, ligne, ligne + 1, CENTER, NULL );
+      gtktable_attach_label ( _("Statement"), colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
       colonne = colonne + 2;
     }
 
@@ -2947,7 +2509,7 @@ gint gtktable_affiche_titres_colonnes ( gint ligne )
   separateur = gtk_hseparator_new ();
   gtk_table_attach ( GTK_TABLE ( table_etat ),
 		     separateur,
-		     1, GTK_TABLE ( table_etat ) -> ncols - 1,
+		     1, nb_colonnes - 1,
 		     ligne, ligne + 1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
