@@ -65,10 +65,16 @@ GtkWidget *creation_onglet_echeancier ( void )
     frame_gauche = gtk_frame_new ( NULL );
     gtk_frame_set_shadow_type ( GTK_FRAME ( frame_gauche ),
 				GTK_SHADOW_IN );
-    gtk_paned_pack1 ( GTK_PANED(paned_onglet_echeancier), 
-		      frame_gauche,
-		      TRUE,
-		      TRUE );
+    
+    /* Ne pas permettre un redimensionnement de la partie gauche inférieur
+       à la taille nécessaire à l'affichage du calendrier */
+
+    gtk_paned_pack1 ( GTK_PANED(paned_onglet_echeancier),	//a paned widget 
+		      frame_gauche,	//the child to add 
+		      FALSE,		// should this child expand when the paned widget is resized.
+		      FALSE );		//can this child be made smaller than its requsition
+//		      TRUE,
+//		      TRUE );
     gtk_widget_show (frame_gauche);
 
     notebook_calendrier_ventilations = gtk_notebook_new ();
