@@ -170,15 +170,6 @@ GtkWidget *onglet_affichage_liste ( void )
 	  }
       }
 
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( onglet ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( hbox );
-
   /* on permet maintenant de choisir soi même la taille des colonnes */
 
   bouton_choix_perso_colonnes = gtk_check_button_new_with_label ( _("Adjust column size according to this table"));
@@ -188,7 +179,7 @@ GtkWidget *onglet_affichage_liste ( void )
 			      "toggled",
 			      gnome_property_box_changed,
 			      GTK_OBJECT (fenetre_preferences));
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
+  gtk_box_pack_start ( GTK_BOX ( onglet ),
 		       bouton_choix_perso_colonnes,
 		       FALSE,
 		       FALSE,
@@ -199,13 +190,14 @@ GtkWidget *onglet_affichage_liste ( void )
   /* on permet maintenant de choisir soi même la taille des colonnes */
 
   bouton_caracteristiques_lignes_par_compte = gtk_check_button_new_with_label ( _("Remember display settings for each account separately"));
+  
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_caracteristiques_lignes_par_compte ),
 				 etat.retient_affichage_par_compte );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_caracteristiques_lignes_par_compte ),
 			      "toggled",
 			      gnome_property_box_changed,
 			      GTK_OBJECT (fenetre_preferences));
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
+  gtk_box_pack_start ( GTK_BOX ( onglet ),
 		       bouton_caracteristiques_lignes_par_compte,
 		       FALSE,
 		       FALSE,
