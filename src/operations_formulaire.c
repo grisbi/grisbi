@@ -3423,10 +3423,11 @@ void validation_virement_operation ( struct structure_operation *operation,
     else
     {
 	contre_operation -> type_ope = 0;
-	operation -> contenu_type = NULL;
     }
 
-    if ( operation -> contenu_type )
+    if ( contre_operation -> type_ope
+	 &&
+	 operation -> contenu_type )
 	contre_operation -> contenu_type = g_strdup ( operation -> contenu_type );
 
     contre_operation -> no_exercice = operation -> no_exercice;
