@@ -26,6 +26,7 @@
 #include "print_config.h"
 #include "utils_files.h"
 #include "utils.h"
+#include "utils_file_selection.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -132,7 +133,7 @@ gboolean change_print_to_file ( GtkButton *button, gpointer data )
 
     file_selector = g_object_get_data ( G_OBJECT(button), "entry" );
     gtk_entry_set_text ( GTK_ENTRY(data),
-			 gtk_file_selection_get_filename (file_selector) );
+			 file_selection_get_filename (file_selector) );
 
     return FALSE;
 }

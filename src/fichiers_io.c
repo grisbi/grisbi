@@ -46,6 +46,8 @@ struct recuperation_version
 #include "fichiers_gestion.h"
 #include "search_glist.h"
 #include "operations_liste.h"
+#include <gtk/gtk.h>
+#include "utils_files.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -173,7 +175,7 @@ gboolean charge_operations ( gchar *nom_fichier )
 
     /* vérification de la permission du fichier */
 
-    result = stat ( nom_fichier, &buffer_stat);
+    result = utf8_stat ( nom_fichier, &buffer_stat);
 
     if ( result != -1 && 
 	 buffer_stat.st_mode != 33152 && !etat.display_message_file_readable )
@@ -184,7 +186,7 @@ gboolean charge_operations ( gchar *nom_fichier )
 
     if ( result != -1 )
     {
-	doc = xmlParseFile ( nom_fichier );
+	doc = utf8_xmlParseFile ( nom_fichier );
 
 	if ( doc )
 	{
@@ -485,7 +487,7 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 	   &&
 	   strlen ( chemin_logo )
 	   &&
-	   stat ( chemin_logo, &buffer_stat) == -1 ))
+	   utf8_stat ( chemin_logo, &buffer_stat) == -1 ))
 	chemin_logo = g_strdup ( LOGO_PATH );
 
     /* on marque le fichier comme ouvert */
@@ -2908,7 +2910,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
     /* on regarde ici si le fichier existe */
     /*   s'il n'existe pas on mettre ses permissions à 600, sinon on les laisse comme ça */
 
-    if ( stat ( nouveau_fichier,
+    if ( utf8_stat ( nouveau_fichier,
 		&buffer_stat ) == -1 )
 	mettre_permission = 1;
     else
@@ -5086,7 +5088,7 @@ gboolean modification_etat_ouverture_fichier ( gboolean fichier_ouvert )
 
     /*     on commence par vérifier que le fichier de nom_fichier_comptes existe bien */
 
-    result = stat ( nom_fichier_comptes, &buffer_stat);
+    result = utf8_stat ( nom_fichier_comptes, &buffer_stat);
 
     if ( result == -1 )
     {
@@ -5100,7 +5102,7 @@ gboolean modification_etat_ouverture_fichier ( gboolean fichier_ouvert )
     /*     création du nom du fichier swp */
 
     tab_str = g_strsplit ( nom_fichier_comptes,
-			   "/",
+			   G_DIR_SEPARATOR_S,
 			   0 );
 
     i=0;
@@ -5108,11 +5110,14 @@ gboolean modification_etat_ouverture_fichier ( gboolean fichier_ouvert )
     while ( tab_str[i+1] )
 	i++;
 
-    tab_str[i] = g_strconcat ( ".",
+    tab_str[i] = g_strconcat ( 
+#ifndef _WIN32
+                              ".",
+#endif
 			       tab_str[i],
 			       ".swp",
 			       NULL );
-    nom_fichier_lock = g_strjoinv ( "/",
+    nom_fichier_lock = g_strjoinv ( G_DIR_SEPARATOR_S,
 				   tab_str );
     g_strfreev ( tab_str );
 
@@ -5127,7 +5132,7 @@ gboolean modification_etat_ouverture_fichier ( gboolean fichier_ouvert )
 	/* 	commence par tester si ce fichier existe, si c'est le cas on prévient l'utilisateur */
 	/* 	    avec possibilité d'annuler l'action ou d'effacer le fichier de lock */
 
-	result = stat ( nom_fichier_lock, &buffer_stat);
+	result = utf8_stat ( nom_fichier_lock, &buffer_stat);
 
 	if ( result != -1 )
 	{
@@ -5146,7 +5151,7 @@ gboolean modification_etat_ouverture_fichier ( gboolean fichier_ouvert )
 
 	etat.fichier_deja_ouvert = 0;
 
-	fichier = fopen ( nom_fichier_lock,
+	fichier = utf8_fopen ( nom_fichier_lock,
 			  "w" );
 
 	if ( !fichier )
@@ -5168,7 +5173,7 @@ gboolean modification_etat_ouverture_fichier ( gboolean fichier_ouvert )
 
 	/* 	on vérifie d'abord que ce fichier existe */
 
-	result = stat ( nom_fichier_lock, &buffer_stat);
+	result = utf8_stat ( nom_fichier_lock, &buffer_stat);
 
 	if ( result == -1 )
 	{
@@ -5178,7 +5183,7 @@ gboolean modification_etat_ouverture_fichier ( gboolean fichier_ouvert )
 	    return TRUE;
 	}
 
-	result = remove ( nom_fichier_lock );
+	result = utf8_remove ( nom_fichier_lock );
 
 	if ( result == -1 )
 	{
@@ -5330,7 +5335,7 @@ gboolean charge_categ ( gchar *nom_categ )
 {
     xmlDocPtr doc;
 
-    doc = xmlParseFile ( nom_categ );
+    doc = utf8_xmlParseFile( nom_categ );
 
     if ( doc )
     {
@@ -5699,7 +5704,7 @@ gboolean charge_ib ( gchar *nom_ib )
 {
     xmlDocPtr doc;
 
-    doc = xmlParseFile ( nom_ib );
+    doc = utf8_xmlParseFile( nom_ib );
 
     if ( doc )
     {

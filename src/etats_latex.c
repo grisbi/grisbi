@@ -27,6 +27,7 @@
 #include "etats_latex.h"
 #include "dialog.h"
 #include "print_config.h"
+#include "utils_files.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -253,7 +254,7 @@ gint latex_initialise (GSList * opes_selectionnees)
 	filename = etat.print_config.printer_filename;
     }
 
-    out = fopen ( filename, "w+x" );
+    out = utf8_fopen ( filename, "w+x" );
     if ( ! out )
     {
 	dialogue_error ( g_strdup_printf ("File '%s' already exists", filename ));;

@@ -33,4 +33,5 @@
 
 #include "gtk_combofix.h"
 #include "structures.h"
+#include "utils_file_selection.h"
 

@@ -202,7 +202,7 @@ int main (int argc, char *argv[])
 
 	/* 	création de la pixmap du logiciel */
 
-	if ( stat ( g_strconcat ( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR, "euro.gif", NULL ),&buffer_stat ) != -1 )
+	if ( utf8_stat ( g_strconcat ( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR, "euro.gif", NULL ),&buffer_stat ) != -1 )
 	    gtk_window_set_default_icon_from_file ( g_strconcat(PIXMAPS_DIR,
 								C_DIRECTORY_SEPARATOR,
                                                                 "euro.gif",

@@ -89,16 +89,16 @@ void charge_configuration ( void )
 
     raz_configuration ();
 
-    if ( stat ( g_strconcat ( my_get_grisbirc_dir(), C_GRISBIRC, NULL ),&buffer_stat ) == -1 )
+    if ( utf8_stat ( g_strconcat ( my_get_grisbirc_dir(), C_GRISBIRC, NULL ),&buffer_stat ) == -1 )
     {
 #ifndef _WIN32 /* No old configuration under Windows */
-	if (  stat ( g_strconcat ( my_get_grisbirc_dir(), "/.gnome/Grisbi", NULL ),&buffer_stat ) != -1 )
+	if (  utf8_stat ( g_strconcat ( my_get_grisbirc_dir(), "/.gnome/Grisbi", NULL ),&buffer_stat ) != -1 )
 	    charge_configuration_ancien();
 #endif
 	return;
     }
 
-    doc = xmlParseFile ( g_strconcat ( my_get_grisbirc_dir(), C_GRISBIRC, NULL ) );
+    doc = utf8_xmlParseFile ( g_strconcat ( my_get_grisbirc_dir(), C_GRISBIRC, NULL ) );
 
     /* vérifications d'usage */
     root = xmlDocGetRootElement(doc);
@@ -422,7 +422,7 @@ void charge_configuration_ancien ( void )
 				 "/.gnome/Grisbi",
 				 NULL );
 
-    fichier = fopen ( fichier_conf,
+    fichier = utf8_fopen ( fichier_conf,
 		      "ro" );
     if ( !fichier )
     {
@@ -712,9 +712,18 @@ void sauve_configuration(void)
 		  itoa(etat.entree));
     xmlNewChild ( node,NULL, "Affichage_messages_alertes",
 		  itoa(etat.alerte_mini));
-    xmlNewChild ( node,NULL, "Utilise_fonte_des_listes",itoa (etat.utilise_fonte_listes));
 
-    xmlNewChild ( node,NULL, "Fonte_des_listes",pango_font_description_to_string (pango_desc_fonte_liste));
+    // In some cases pango_desc_fonte_liste is NULL, so this avoid Grisbi to crash
+    if (pango_desc_fonte_liste)
+    {
+        xmlNewChild ( node,NULL, "Utilise_fonte_des_listes",itoa (etat.utilise_fonte_listes));
+        xmlNewChild ( node,NULL, "Fonte_des_listes",pango_font_description_to_string (pango_desc_fonte_liste));
+    }
+    else
+    {
+        xmlNewChild ( node,NULL, "Utilise_fonte_des_listes",itoa (0));
+        xmlNewChild ( node,NULL, "Fonte_des_listes","");
+    }
     xmlNewChild ( node,NULL, "Animation_attente",etat.fichier_animation_attente);
 
 /*     on modifie la chaine si Ã§a contient &, il semblerait que la libxml n'apprécie pas... */

@@ -209,4 +209,26 @@ GtkWidget * my_file_chooser ()
     return hbox;
 }
 
+FILE* utf8_fopen(gchar* utf8filename,gchar* mode)
+{
+    return fopen(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL),mode);
+}
+
+gint utf8_open(gchar* utf8filename,gint mode)
+{
+    return open(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL),mode);
+}
+
+gint utf8_stat(gchar* utf8filename,struct stat* filestat)
+{
+    return stat(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL),filestat);
+}
+xmlDocPtr utf8_xmlParseFile(const gchar *utf8filename)
+{ 
+    return xmlParseFile(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL));
+}
+gint utf8_remove(const gchar* utf8filename)
+{
+    return remove(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL));
+}
 

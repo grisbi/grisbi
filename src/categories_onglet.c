@@ -45,6 +45,7 @@
 #include "etats_config.h"
 #include "affichage_formulaire.h"
 #include "operations_formulaire.h"
+#include "utils_file_selection.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -2886,9 +2887,9 @@ void exporter_categ ( void )
     gchar *nom_categ;
 
     fenetre_nom = gtk_file_selection_new ( _("Export categories"));
-    gtk_file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
+    file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
 				      dernier_chemin_de_travail );
-    gtk_entry_set_text ( GTK_ENTRY ( GTK_FILE_SELECTION ( fenetre_nom )->selection_entry),
+    file_selection_set_entry ( GTK_FILE_SELECTION ( fenetre_nom ),
 			 ".cgsb" );
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
@@ -2896,7 +2897,7 @@ void exporter_categ ( void )
     switch ( resultat )
     {
 	case GTK_RESPONSE_OK :
-	    nom_categ =g_strdup (gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom )));
+	    nom_categ =file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom ));
 
 	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
@@ -2905,7 +2906,7 @@ void exporter_categ ( void )
 	    if ( !strlen ( nom_categ ))
 		return;
 
-	    if ( stat ( nom_categ,
+	    if ( utf8_stat ( nom_categ,
 			&test_fichier ) != -1 )
 	    {
 		if ( S_ISREG ( test_fichier.st_mode ) )
@@ -2953,9 +2954,9 @@ void importer_categ ( void )
 
 
     fenetre_nom = gtk_file_selection_new ( _("Import a category list"));
-    gtk_file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
+    file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
 				      dernier_chemin_de_travail );
-    gtk_entry_set_text ( GTK_ENTRY ( GTK_FILE_SELECTION ( fenetre_nom )->selection_entry),
+    file_selection_set_entry ( GTK_FILE_SELECTION ( fenetre_nom ),
 			 ".cgsb" );
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
@@ -2966,7 +2967,7 @@ void importer_categ ( void )
 	return;
     }
 
-    nom_categ =g_strdup (gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom )));
+    nom_categ = file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom ));
 
     gtk_widget_destroy ( GTK_WIDGET (fenetre_nom  ));
 

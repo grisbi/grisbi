@@ -27,6 +27,7 @@
 /*START_INCLUDE*/
 #include "gnucash.h"
 #include "utils_str.h"
+#include "utils_files.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -500,7 +501,7 @@ xmlDocPtr parse_gnucash_file ( gchar * filename )
   FILE * filein, * tempfile;
   xmlDocPtr doc;
 
-  filein = fopen ( filename, "r" );
+  filein = utf8_fopen ( filename, "r" );
   if ( ! filein )
     {
       fprintf (stderr, "ERROR");
@@ -508,7 +509,7 @@ xmlDocPtr parse_gnucash_file ( gchar * filename )
     }
 
   tempname = g_strdup_printf ( "gsbgnc%05d", g_random_int_range (0,99999) );
-  tempfile = fopen ( tempname, "w+x" );
+  tempfile = utf8_fopen ( tempname, "w+x" );
   if ( ! tempfile )
     {
       fprintf (stderr, "ERROR");
@@ -547,7 +548,7 @@ xmlDocPtr parse_gnucash_file ( gchar * filename )
   fclose ( filein );
   fclose ( tempfile );
 
-  doc = xmlParseFile ( tempname );
+  doc = utf8_xmlParseFile ( tempname );
 
   unlink ( tempname );
   
