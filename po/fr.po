@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: en\n"
 "POT-Creation-Date: 2003-11-28 15:36+0100\n"
-"PO-Revision-Date: 2003-11-28 15:38GMT\n"
+"PO-Revision-Date: 2003-12-05 13:14+0100\n"
 "Last-Translator: Alain PORTAL <aportal@univ-montp2.fr>\n"
 "Language-Team:  <traduction@grisbi.org>\n"
 "MIME-Version: 1.0\n"
@@ -113,7 +113,8 @@ msgstr ""
 
 #: src/accueil.c:1465
 #, c-format
-msgid "Warning, the balance of the account %s  is under the authorised minimum!"
+msgid ""
+"Warning, the balance of the account %s  is under the authorised minimum!"
 msgstr "Attention, le compte %s est passé sous le seuil minimal autorisé !"
 
 #: src/accueil.c:1515
@@ -381,7 +382,8 @@ msgstr "Ajuster la taille des colonnes selon le tableau ci-dessus"
 #. on permet maintenant de choisir soi même la taille des colonnes
 #: src/affichage_liste.c:207
 msgid "Remember display settings for each account separately"
-msgstr "Retenir les caractéristiques de l'affichage séparément pour chaque compte"
+msgstr ""
+"Retenir les caractéristiques de l'affichage séparément pour chaque compte"
 
 #: src/affichage_liste.c:233
 msgid "Display for a line the"
@@ -2198,7 +2200,8 @@ msgstr "Inclure les virements de ou vers les comptes d'actif et de passif"
 
 #: src/etats_config.c:2651
 msgid "Include transfers from or to accounts not in this report"
-msgstr "Inclure les virements de ou vers les comptes ne figurant pas dans l'état"
+msgstr ""
+"Inclure les virements de ou vers les comptes ne figurant pas dans l'état"
 
 #: src/etats_config.c:2664
 msgid "Include transfers from or to these accounts"
@@ -2524,7 +2527,8 @@ msgstr "Afficher le nombre d'opérations avec les totaux"
 
 #: src/etats_config.c:6421
 msgid "Consider the third parties of this report as a multiple third party."
-msgstr "Inclure cet état dans la liste des tiers du formulaire de saisie d'opération."
+msgstr ""
+"Inclure cet état dans la liste des tiers du formulaire de saisie d'opération."
 
 #: src/etats_config.c:6497
 msgid "Display the information about"
@@ -3077,7 +3081,8 @@ msgstr ""
 #. etat vierge
 #: src/etats_onglet.c:1163
 msgid "This report is an empty one. You need to customise it entirely."
-msgstr "Cette option crée un état vierge dans lequel vous devez tout configurer."
+msgstr ""
+"Cette option crée un état vierge dans lequel vous devez tout configurer."
 
 #. remise de chèques
 #: src/etats_onglet.c:1169
@@ -3437,11 +3442,13 @@ msgstr ""
 
 #: src/fichiers_io.c:1739
 msgid "breakdown transactions, all of them were deleted.\n"
-msgstr " opérations de ventilations orphelines qui ont été simplement supprimées.\n"
+msgstr ""
+" opérations de ventilations orphelines qui ont été simplement supprimées.\n"
 
 #: src/fichiers_io.c:1745
 msgid "transfers without contra-transaction, which categories were deleted.\n"
-msgstr " virements sans contre-opération, dont les catégories ont été annulées.\n"
+msgstr ""
+" virements sans contre-opération, dont les catégories ont été annulées.\n"
 
 #: src/fichiers_io.c:1749
 msgid ""
@@ -3884,7 +3891,8 @@ msgstr "Récupération des ventilations ?"
 
 #: src/operations_formulaire.c:2165
 msgid "Do you want to recover all the lines of the last breakdown?"
-msgstr "Voulez-vous récupérer aussi les opérations de la dernière ventilation ?"
+msgstr ""
+"Voulez-vous récupérer aussi les opérations de la dernière ventilation ?"
 
 #: src/operations_formulaire.c:2426 src/operations_formulaire.c:2870
 #: src/tiers_onglet.c:1414
@@ -4043,7 +4051,8 @@ msgstr "Forcer l'enregistrement"
 
 #: src/parametres.c:634
 msgid "Save only if the file isn't open by another user"
-msgstr "N'enregistrer que si le fichier n'est pas utilisé par un autre utilisateur"
+msgstr ""
+"N'enregistrer que si le fichier n'est pas utilisé par un autre utilisateur"
 
 #. mise en forme de la demande de backup
 #: src/parametres.c:689
@@ -4073,7 +4082,8 @@ msgstr "Niveau de compression de la sauvegarde"
 
 #. configuration du nb de jours avant la prise d'une échéance
 #: src/parametres.c:944
-msgid "Number of days before a warning message advertising a scheduled transaction"
+msgid ""
+"Number of days before a warning message advertising a scheduled transaction"
 msgstr "Nombre de jours précédant le rappel d'une échéance"
 
 #. affichage ou non de l'applet
@@ -4164,7 +4174,8 @@ msgstr ""
 
 #: src/qif.c:977
 msgid "Problem recovering the dates in the QIF file. Import canceled."
-msgstr "Problème dans la récupération des dates du fichier QIF. Opération annulée."
+msgstr ""
+"Problème dans la récupération des dates du fichier QIF. Opération annulée."
 
 #. création des listes d'opé
 #: src/qif.c:1307
@@ -4350,10 +4361,6 @@ msgstr ""
 "Bizarre... Une opé de ventilation a été marquée pour la suppression alors\n"
 "qu'elle n'était pas encore enregistrée..."
 
-#, fuzzy
-#~ msgid "Permet de choisir la page de dmarrage du logiciel"
-#~ msgstr "Choose initial tab"
-
 #~ msgid ""
 #~ "Warning: either this file is already opened by another user or it "
 #~ "hasn'tbeen \n"
@@ -4411,4 +4418,3 @@ msgstr ""
 
 #~ msgid "(On line illustrated User's guide)"
 #~ msgstr "(Documentation illustrée sur le site de Grisbi)"
-
