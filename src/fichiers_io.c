@@ -2133,6 +2133,8 @@ des paramètres.") );
 			  if ( !strcmp ( node_detail -> name,
 					 "Nb_lignes_ope" ))
 			    NB_LIGNES_OPE = atoi ( xmlNodeGetContent ( node_detail ));
+			  else
+			    NB_LIGNES_OPE = 3;
 
 			  if ( !strcmp ( node_detail -> name,
 					 "Commentaires" ))
