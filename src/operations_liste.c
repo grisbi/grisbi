@@ -3030,8 +3030,8 @@ void popup_transaction_context_menu ( gboolean full )
 {
     GtkWidget *menu, *menu_item;
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+	
     if ( OPERATION_SELECTIONNEE == GINT_TO_POINTER(-1) )
 	full = FALSE;
 
