@@ -41,31 +41,32 @@ gboolean charge_etat ( gchar *nom_etat )
 {
     xmlDocPtr doc;
 
-    doc = xmlParseFile ( nom_etat );
+    doc = utf8_xmlParseFile ( nom_etat );
 
     if ( doc )
     {
 	/* vérifications d'usage */
+	xmlNodePtr root = xmlDocGetRootElement(doc);
 
-	if ( !doc->children
+	if ( !root
 	     ||
-	     !doc->children->name
+	     !root->name
 	     ||
-	     g_strcasecmp ( doc->children->name,
+	     g_strcasecmp ( root->name,
 			    "Grisbi_etat" ))
 	{
-	    dialogue ( _("This file is not a Grisbi report") );
+	    dialogue_error ( _("This file is not a Grisbi report") );
 	    xmlFreeDoc ( doc );
 	    return ( FALSE );
 	}
 
 	/* récupère la version de fichier */
 
-	if (( strcmp (  xmlNodeGetContent ( doc->children->children->children ), VERSION )))
-	  {
-	    dialogue_warning_hint ( g_strdup_printf (_("This report has been produced with grisbi version %s, Grisbi will nevertheless try to import it."), xmlNodeGetContent ( doc->children->children->children )),
+	if (( strcmp (  xmlNodeGetContent ( root->children->next->children->next ), VERSION )))
+	{
+	    dialogue_warning_hint ( g_strdup_printf (_("This report has been produced with grisbi version %s, Grisbi will nevertheless try to import it."), xmlNodeGetContent ( root->children->next->children->next )),
 				    _("Version mismatch") );
-	  }
+	}
 	return ( charge_etat_version_0_4_0 ( doc ));
     }
     else

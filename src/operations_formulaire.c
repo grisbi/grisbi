@@ -1270,9 +1270,6 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	    /* une tabulation passe au widget affiché suivant */
 	    /* et retourne à la date ou enregistre l'opé s'il est à la fin */
 
-	    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
-					   "key-press-event");
-
 	    /* on efface la sélection en cours si c'est une entrée ou un combofix */
 
 	    if ( GTK_IS_ENTRY ( widget ))
@@ -1345,6 +1342,7 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 
 		gtk_widget_grab_focus ( widget_formulaire_operations[origine]  );
 	    }
+	    return TRUE;
 	    break;
 
 	case GDK_KP_Enter :		/* touches entrée */
