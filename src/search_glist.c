@@ -114,7 +114,7 @@ gint recherche_banque_par_no ( struct struct_banque *banque,
 gint recherche_devise_par_nom ( struct struct_devise *devise,
 				gchar *nom )
 {
-    return ( g_strcasecmp ( g_strstrip ( devise_name(devise) ), nom ) );
+    return ( devise && g_strcasecmp ( g_strstrip ( devise_name(devise) ), nom ) );
 }
 /* ************************************************************************************************************ */
 
@@ -123,7 +123,7 @@ gint recherche_devise_par_nom ( struct struct_devise *devise,
 gint recherche_devise_par_code ( struct struct_devise *devise,
 				gchar *code )
 {
-    return ( g_strcasecmp ( g_strstrip ( devise_code(devise) ), code ) );
+    return ( devise && g_strcasecmp ( g_strstrip ( devise_code(devise) ), code ) );
 }
 /* ************************************************************************************************************ */
 
@@ -133,11 +133,12 @@ gint recherche_devise_par_code ( struct struct_devise *devise,
 gint recherche_devise_par_code_iso ( struct struct_devise *devise,
 				     gchar *nom )
 {
+    if ( ! devise ) return -1;
+
     if ( devise -> code_iso4217_devise )
-	return ( g_strcasecmp ( g_strstrip ( devise -> code_iso4217_devise ),
-				nom ) );
+	return ( g_strcasecmp ( devise -> code_iso4217_devise, nom ) );
     else
-	return (-1);
+	return -1;
 }
 /* ************************************************************************************************************ */
 
@@ -151,7 +152,7 @@ gint recherche_devise_par_code_iso ( struct struct_devise *devise,
 gint recherche_devise_par_no ( struct struct_devise *devise,
 			       gint *no_devise )
 {
-    return ( devise -> no_devise != GPOINTER_TO_INT ( no_devise ));
+    return ( devise && devise -> no_devise != GPOINTER_TO_INT ( no_devise ));
 }
 /***********************************************************************************************************/
 
