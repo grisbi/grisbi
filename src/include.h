@@ -21,6 +21,3 @@
 #include <gnome-xml/parser.h>
 
 #include <libxml/encoding.h>
-
-#define GTK_ENABLE_BROKEN 1
-#include <gtk/gtktext.h>
