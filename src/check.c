@@ -144,10 +144,12 @@ void reconciliation_check ( void )
       pText = g_strdup_printf ( _("There are %d accounts in your file.  %d were tested.\n"
 				  "In %d account(s), stored and computed reconciliation "
 				  "don't match.  You should correct this quickly.\n"
-				  "Generally, in affected accounts, there are too many reconciled transactions."),
-				 nb_comptes,
-				 tested_account,
-				 affected_account );
+				  "Generally, in affected accounts, there are too many reconciled "
+				  "transactions. And these transactions are transfert between "
+				  "your Grisbi accounts."),
+				nb_comptes,
+				tested_account,
+				affected_account );
       dialogue ( pText );
     }
   }
