@@ -1,7 +1,7 @@
 /* fichier qui s'occupe de la gestion des comptes */
 /*           gestion_comptes.c */
 
-/*     Copyright (C) 2000-2002  Cédric Auger */
+/*     Copyright (C) 2000-2003  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -1442,7 +1442,9 @@ void modification_details_compte ( void )
 
   /* vérification du nom du compte */
 
-  if ( strcmp ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))),
+  if ( !NOM_DU_COMPTE
+       ||
+       strcmp ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))),
 		NOM_DU_COMPTE ) )
     {
       NOM_DU_COMPTE = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))));

@@ -1,7 +1,7 @@
 /* Fichier traitement_variables.c */
 /* Contient toutes les procédures relatives au traitement des variables */
 
-/*     Copyright (C) 2000-2002  Cédric Auger */
+/*     Copyright (C) 2000-2003  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -98,6 +98,7 @@ void init_variables ( gboolean ouverture )
       compte_courant = 0;
       solde_label = NULL;
       etat.ancienne_date = 0;
+      p_tab_nom_de_compte = NULL;
 
       nom_fichier_backup = NULL;
       chemin_logo = NULL;

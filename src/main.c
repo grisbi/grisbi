@@ -3,13 +3,13 @@
 /* Programme de gestion financière personnelle                                   */
 /*           	  license : GPL                                                  */
 /*                                                                               */
-/* 	          Version : 0.4.0                                                */
+/* 	          Version : 0.4.1                                                */
 /*      Auteur : Cédric Auger   ( cedric@grisbi.org )                            */
 /*                                http://www.grisbi.org                          */
 /* *******************************************************************************/
 
 /* *******************************************************************************/
-/*     Copyright (C) 2000-2002  Cédric Auger                                     */
+/*     Copyright (C) 2000-2003  Cédric Auger                                     */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
 /*     it under the terms of the GNU General Public License as published by      */
@@ -136,6 +136,8 @@ int main (int argc, char *argv[])
      }
     else
       if ( etat.dernier_fichier_auto
+	   &&
+	   nom_fichier_comptes
 	   &&
 	   strlen ( nom_fichier_comptes ) )
 	ouverture_confirmee();

@@ -1,7 +1,7 @@
 /*  Fichier qui s'occupe d'afficher les états via une gtktable */
 /*      etats_gtktable.c */
 
-/*     Copyright (C) 2000-2002  Cédric Auger */
+/*     Copyright (C) 2000-2003  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 

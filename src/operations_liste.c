@@ -1,7 +1,7 @@
 /*  Fichier qui gère la liste des opérations */
 /*      liste_operations.c */
 
-/*     Copyright (C) 2000-2002  Cédric Auger */
+/*     Copyright (C) 2000-2003  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -1761,6 +1761,8 @@ void edition_operation ( void )
       gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ),
 			      _("Opération ventilée") );
       gtk_widget_show ( widget_formulaire_operations[15] );
+      gtk_widget_set_sensitive ( widget_formulaire_operations[11],
+				 FALSE );
       gtk_widget_set_sensitive ( widget_formulaire_operations[12],
 				 FALSE );
 
@@ -2402,7 +2404,6 @@ void changement_taille_liste_ope ( GtkWidget *clist,
       gtk_clist_set_column_width ( GTK_CLIST ( clist ),
 				   i,
 				   taille_largeur_colonnes[i] );
-
 
 
 /* met les entrées du formulaire selon une taille proportionnelle */

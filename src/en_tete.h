@@ -301,6 +301,7 @@ void changement_de_banque ( void );
 /************************/ 
 
 void nouveau_compte (void);
+gint initialisation_nouveau_compte ( gint type_de_compte );
 void supprimer_compte ( void );
 void compte_choisi_destruction ( GtkWidget *item_list,
 				   GdkEvent *evenement,

@@ -1,7 +1,7 @@
 /*  Fichier qui s'occupe de l'onglet états */
 /*      etats.c */
 
-/*     Copyright (C) 2000-2002  Cédric Auger */
+/*     Copyright (C) 2000-2003  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 /*     Copyright (C) 2002  Benjamin Drieu */
@@ -886,6 +886,7 @@ void ajout_etat ( void )
       etat -> devise_de_calcul_categ = 1;
       etat -> devise_de_calcul_ib = 1;
       etat -> devise_de_calcul_tiers = 1;
+
       etat -> choix_devise_montant = 1;
 
 
@@ -1004,9 +1005,20 @@ void ajout_etat ( void )
       etat -> afficher_sous_categ = 1;
       etat -> afficher_nom_categ = 1;
 
+      etat -> afficher_date_ope = 1;
+      etat -> afficher_categ_ope = 1;
+      etat -> separer_revenus_depenses = 1;
+      etat -> type_virement = 2;
+      etat -> exclure_ope_sans_categ = 1;
+      etat -> affiche_sous_total_sous_categ = 1;
+      etat -> exclure_ope_sans_ib = 1;
+      etat -> exclure_montants_nuls = 1;
+
+
       /*   tout le reste est à NULL, ce qui est très bien */
 
       break;
+
 
     default :
       dialogue ( _( "Type d'état inconnu, création abandonnée" ));

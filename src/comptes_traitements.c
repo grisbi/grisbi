@@ -1,7 +1,7 @@
 /* Ce fichier s'occupe des manipulations de comptes */
 /* comptes_traitements.c */
 
-/*     Copyright (C) 2000-2002  Cédric Auger */
+/*     Copyright (C) 2000-2003  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -35,6 +35,8 @@
 void  nouveau_compte ( void )
 {
   GtkWidget *bouton;
+  gint type_de_compte;
+  gint no_compte;
 
   if ( !nb_comptes )
     {
@@ -42,49 +44,14 @@ void  nouveau_compte ( void )
       return;
     }
 
-  if  (!(p_tab_nom_de_compte = realloc ( p_tab_nom_de_compte, ( nb_comptes + 1 )* sizeof ( gpointer ) )))
-    {
-      dialogue ( _("Erreur dans l'allocation de mémoire pour créer un nouveau compte !") );
-      return;
-    };
+  type_de_compte = demande_type_nouveau_compte ();
 
+  no_compte = initialisation_nouveau_compte ( type_de_compte );
 
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + nb_comptes;
+  /* si la création s'est mal placée, on se barre */
 
-  if  (!(*p_tab_nom_de_compte_variable = calloc ( 1,
-						  sizeof (struct donnees_compte) )) )
-    {
-      dialogue ( _("Erreur dans l'allocation de mémoire pour créer un nouveau compte !") );
-      return;
-    };
-
-  p_tab_nom_de_compte_courant = p_tab_nom_de_compte + compte_courant;
-
-  /* insère ses paramètres ( comme c'est un appel à calloc, tout ce qui est à 0 est déjà initialisé )*/
-
-  NOM_DU_COMPTE = g_strdup ( _("Sans nom") );
-  OPERATION_SELECTIONNEE = GINT_TO_POINTER ( -1 );
-  DEVISE = 1;
-  MISE_A_JOUR = 1;
-  NO_COMPTE = nb_comptes;
-  AFFICHAGE_R = 0;
-  NB_LIGNES_OPE = 3;
-
-  TYPE_DE_COMPTE = demande_type_nouveau_compte ();
-
-  nb_comptes++;
-
-
-  /* on crée les types par défaut */
-
-  creation_types_par_defaut ( NO_COMPTE,
-			      0);
-
-  /* on met le compte à la fin dans le classement des comptes */
-
-  ordre_comptes = g_slist_append ( ordre_comptes,
-				   GINT_TO_POINTER ( NO_COMPTE ) );
-
+  if ( no_compte == -1 )
+    return;
 
   /* crée le nouveau bouton du compte et l'ajoute à la liste des comptes */
 
@@ -143,6 +110,62 @@ void  nouveau_compte ( void )
 			  3 );
 
   modification_fichier ( TRUE );
+}
+/* *********************************************************************************************************** */
+
+
+/* *********************************************************************************************************** */
+/* cette fonction crée un nouveau compte, l'initialise, l'ajoute aux comptes */
+/* et renvoie le no du compte créé */
+/* renvoie -1 s'il y a un pb */
+/* *********************************************************************************************************** */
+gint initialisation_nouveau_compte ( gint type_de_compte )
+{
+
+  if  (!(p_tab_nom_de_compte = realloc ( p_tab_nom_de_compte, ( nb_comptes + 1 )* sizeof ( gpointer ) )))
+    {
+      dialogue ( _("Erreur dans l'allocation de mémoire pour créer un nouveau compte !") );
+      return (-1);
+    };
+
+
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + nb_comptes;
+
+  if  (!(*p_tab_nom_de_compte_variable = calloc ( 1,
+						  sizeof (struct donnees_compte) )) )
+    {
+      dialogue ( _("Erreur dans l'allocation de mémoire pour créer un nouveau compte !") );
+      return (-1);
+    };
+
+  p_tab_nom_de_compte_courant = p_tab_nom_de_compte + compte_courant;
+
+  /* insère ses paramètres ( comme c'est un appel à calloc, tout ce qui est à 0 est déjà initialisé )*/
+
+  NOM_DU_COMPTE = g_strdup ( _("Sans nom") );
+  OPERATION_SELECTIONNEE = GINT_TO_POINTER ( -1 );
+  DEVISE = 1;
+  MISE_A_JOUR = 1;
+  NO_COMPTE = nb_comptes;
+  AFFICHAGE_R = 0;
+  NB_LIGNES_OPE = 3;
+
+  TYPE_DE_COMPTE = type_de_compte;
+
+  nb_comptes++;
+
+
+  /* on crée les types par défaut */
+
+  creation_types_par_defaut ( NO_COMPTE,
+			      0);
+
+  /* on met le compte à la fin dans le classement des comptes */
+
+  ordre_comptes = g_slist_append ( ordre_comptes,
+				   GINT_TO_POINTER ( NO_COMPTE ) );
+
+  return (NO_COMPTE);
 }
 /* *********************************************************************************************************** */
 

@@ -1,6 +1,6 @@
 /* permet la configuration du logiciel */
 
-/*     Copyright (C) 2000-2002  Cédric Auger */
+/*     Copyright (C) 2000-2003  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -1686,7 +1686,7 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 
 	  gtk_widget_set_sensitive ( widget_formulaire_operations[11],
 				     etat.utilise_exercice );
-	  gtk_widget_set_sensitive ( widget_formulaire_ventilation[5],
+	  gtk_widget_set_sensitive ( widget_formulaire_ventilation[6],
 				     etat.utilise_exercice );
 	  gtk_widget_set_sensitive ( widget_formulaire_echeancier[9],
 				     etat.utilise_exercice );
@@ -1702,7 +1702,7 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 
 	  gtk_widget_set_sensitive ( widget_formulaire_operations[14],
 				     etat.utilise_piece_comptable );
-	  gtk_widget_set_sensitive ( widget_formulaire_ventilation[6],
+	  gtk_widget_set_sensitive ( widget_formulaire_ventilation[7],
 				     etat.utilise_piece_comptable );
 	  gtk_widget_set_sensitive ( widget_formulaire_echeancier[12],
 				     etat.utilise_piece_comptable );
@@ -2036,7 +2036,7 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 				  GTK_SIGNAL_FUNC ( modif_detail_compte ),
 				  GTK_OBJECT ( hbox_boutons_modif ) );
 
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
       gtk_option_menu_set_history ( GTK_OPTION_MENU ( detail_option_menu_banque ),
 				    g_slist_position ( liste_struct_banques,
 						       g_slist_find_custom ( liste_struct_banques,

@@ -628,6 +628,8 @@ struct struct_ope_ventil
 
   gint pointe;
 
+  gint no_exercice;
+
   gint supprime;   /* à 1 quand cette opé doit être supprimée */
 };
 

@@ -1,7 +1,7 @@
 /* ce fichier contient les paramètres de l'affichage de la liste d'opé */
 
 
-/*     Copyright (C) 2000-2002  Cédric Auger */
+/*     Copyright (C) 2000-2003  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -484,7 +484,7 @@ void allocation_clist_affichage_liste ( GtkWidget *clist,
   gint largeur;
 
   /* on stoppe l'appel à cette fonction */
- 
+
   gtk_signal_handler_block_by_func ( GTK_OBJECT ( clist ),
 				     GTK_SIGNAL_FUNC ( allocation_clist_affichage_liste ),
 				     NULL );

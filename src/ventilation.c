@@ -2,7 +2,7 @@
 /* s'occupe de tout ce qui concerne les banques */
 
 
-/*     Copyright (C) 2000-2002  Cédric Auger */
+/*     Copyright (C) 2000-2003  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -341,6 +341,7 @@ GtkWidget *creation_formulaire_ventilation ( void )
   GtkTooltips *tips;
   GtkWidget *table;
   GtkWidget *bouton;
+  GtkWidget *menu;
 
   /* on crée le tooltips */
 
@@ -357,7 +358,7 @@ GtkWidget *creation_formulaire_ventilation ( void )
   /* mise en place de la table */
 
   table = gtk_table_new ( 2,
-			  4,
+			  5,
 			  FALSE);
   gtk_table_set_col_spacings ( GTK_TABLE ( table ),
 			       10 );
@@ -424,7 +425,7 @@ GtkWidget *creation_formulaire_ventilation ( void )
 		       GINT_TO_POINTER (1) );
   gtk_table_attach ( GTK_TABLE (table),
 		     widget_formulaire_ventilation[1],
-		     1, 2, 0,1,
+		     1, 3, 0,1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
 		     0,0);
@@ -453,7 +454,7 @@ GtkWidget *creation_formulaire_ventilation ( void )
 		       GINT_TO_POINTER (2) );
   gtk_table_attach ( GTK_TABLE (table),
 		     widget_formulaire_ventilation[2],
-		     2, 3, 0,1,
+		     3, 4, 0,1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
 		     0,0);
@@ -481,7 +482,7 @@ GtkWidget *creation_formulaire_ventilation ( void )
 		       GINT_TO_POINTER (3) );
   gtk_table_attach ( GTK_TABLE (table),
 		     widget_formulaire_ventilation[3],
-		     3, 4, 0,1,
+		     4, 5, 0,1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
 		     0,0);
@@ -547,35 +548,59 @@ GtkWidget *creation_formulaire_ventilation ( void )
 		     GTK_SHRINK | GTK_FILL,
 		     0,0);
 
+  /* création du bouton de l'exo */
 
-  /*   création de l'entrée du no de pièce comptable */
-
-  widget_formulaire_ventilation[6] = gtk_entry_new();
-  gtk_table_attach ( GTK_TABLE (table),
-		     widget_formulaire_ventilation[6],
-		     2, 4, 1, 2,
-		     GTK_SHRINK | GTK_FILL,
-		     GTK_SHRINK | GTK_FILL,
-		     0,0);
-  gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation[6]),
- 		       "button_press_event",
-		       GTK_SIGNAL_FUNC (clique_champ_formulaire_ventilation ),
-		       NULL );
+  widget_formulaire_ventilation[6] = gtk_option_menu_new ();
+  gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
+			 widget_formulaire_ventilation[6],
+			 _("Choix de l'exercice"),
+			 _("Choix de l'exercice") );
+  menu = gtk_menu_new ();
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation[6] ),
+			     creation_menu_exercices (0) );
   gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation[6]),
  		       "key_press_event",
 		       GTK_SIGNAL_FUNC (appui_touche_ventilation),
 		       GINT_TO_POINTER(6) );
-  gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation[6]),
-		       "focus_in_event",
-		       GTK_SIGNAL_FUNC (entree_prend_focus),
-		       NULL );
-  gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation[6]),
-		       "focus_out_event",
-		       GTK_SIGNAL_FUNC (entree_ventilation_perd_focus),
-		       GINT_TO_POINTER (6) );
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     widget_formulaire_ventilation[6],
+		     2, 3, 1, 2,
+		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL,
+		     0,0);
   gtk_widget_show ( widget_formulaire_ventilation[6] );
 
   gtk_widget_set_sensitive ( widget_formulaire_ventilation[6],
+			     etat.utilise_exercice );
+
+  /*   création de l'entrée du no de pièce comptable */
+
+  widget_formulaire_ventilation[7] = gtk_entry_new();
+  gtk_table_attach ( GTK_TABLE (table),
+		     widget_formulaire_ventilation[7],
+		     3, 5, 1, 2,
+		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL,
+		     0,0);
+  gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation[7]),
+ 		       "button_press_event",
+		       GTK_SIGNAL_FUNC (clique_champ_formulaire_ventilation ),
+		       NULL );
+  gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation[7]),
+ 		       "key_press_event",
+		       GTK_SIGNAL_FUNC (appui_touche_ventilation),
+		       GINT_TO_POINTER(7) );
+  gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation[7]),
+		       "focus_in_event",
+		       GTK_SIGNAL_FUNC (entree_prend_focus),
+		       NULL );
+  gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation[7]),
+		       "focus_out_event",
+		       GTK_SIGNAL_FUNC (entree_ventilation_perd_focus),
+		       GINT_TO_POINTER (7) );
+  gtk_widget_show ( widget_formulaire_ventilation[7] );
+
+  gtk_widget_set_sensitive ( widget_formulaire_ventilation[7],
 			     etat.utilise_piece_comptable );
 
   /* séparation d'avec les boutons */
@@ -651,6 +676,8 @@ void clique_champ_formulaire_ventilation ( void )
   /* on rend sensitif tout ce qui ne l'était pas sur le formulaire */
 
   gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_ventilation[5] ),
+			     TRUE );
+  gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_ventilation[6] ),
 			     TRUE );
   gtk_widget_set_sensitive ( GTK_WIDGET ( hbox_valider_annuler_ventil ),
 			     TRUE );
@@ -899,7 +926,7 @@ void entree_ventilation_perd_focus ( GtkWidget *entree,
 
       /* sort de la pièce comptable */
 
-    case 6:
+    case 7:
       if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	texte = _("Pièce comptable");
       break;
@@ -1019,6 +1046,12 @@ void ventiler_operation ( gdouble montant )
 
   echap_formulaire_ventilation ();
 
+  /* on donne le focus directement aux categ */
+
+  clique_champ_formulaire_ventilation ();
+  gtk_window_set_focus ( GTK_WINDOW ( window ),
+			 GTK_COMBOFIX ( widget_formulaire_ventilation[0] ) -> entry );
+
 }
 /*******************************************************************************************/
 
@@ -1068,8 +1101,8 @@ void changement_taille_liste_ventilation ( GtkWidget *clist,
 
 /* met les entrées du formulaire à la même taille */
 
-  col0 = largeur * 40  / 100;
-  col1 = largeur * 40  / 100;
+  col0 = largeur * 32  / 100;
+  col1 = largeur * 32  / 100;
   col2 = largeur * 15  / 100;
 
   /* 1ère ligne */
@@ -1096,6 +1129,9 @@ void changement_taille_liste_ventilation ( GtkWidget *clist,
 			 col1 / 2,
 			 FALSE );
   gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation[6] ),
+			 col1/2,
+			 FALSE );
+  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation[7] ),
 			 col2,
 			 FALSE );
 
@@ -1322,7 +1358,7 @@ void appui_touche_ventilation ( GtkWidget *entree,
 
       /* on donne le focus au widget suivant */
 
-      origine = (origine + 1 ) % 7;
+      origine = (origine + 1 ) % 8;
 
       while ( !(GTK_WIDGET_VISIBLE ( widget_formulaire_ventilation[origine] )
 		&&
@@ -1333,7 +1369,7 @@ void appui_touche_ventilation ( GtkWidget *entree,
 		  GTK_IS_ENTRY ( widget_formulaire_ventilation[origine] )
 		  ||
 		  GTK_IS_BUTTON ( widget_formulaire_ventilation[origine] ) )))
-	origine = (origine + 1 ) % 7;
+	origine = (origine + 1 ) % 8;
 
      /*       si on se retrouve sur les catég et que etat.entree = 0, on enregistre l'opérations */
 
@@ -1349,7 +1385,7 @@ void appui_touche_ventilation ( GtkWidget *entree,
       if ( origine == 3
 	   &&
 	   strlen ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[2] ))))
-	origine = (origine + 1 ) % 7;
+	origine = (origine + 1 ) % 8;
 
       /* on sélectionne le contenu de la nouvelle entrée */
 
@@ -1413,7 +1449,7 @@ void echap_formulaire_ventilation ( void )
 			 style_entree_formulaire[1] );
   gtk_widget_set_style ( GTK_COMBOFIX ( widget_formulaire_ventilation[4] )->entry,
 			 style_entree_formulaire[1] );
-  gtk_widget_set_style ( widget_formulaire_ventilation[6],
+  gtk_widget_set_style ( widget_formulaire_ventilation[7],
 			 style_entree_formulaire[1] );
 
 
@@ -1427,13 +1463,15 @@ void echap_formulaire_ventilation ( void )
 		       _("Crédit") );
   gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation[4] ),
 			  _("Imputation budgétaire") );
-  gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[6]),
+  gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[7]),
 		       _("Pièce comptable") );
 
   gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_ventilation[5] ),
 				0 );
 
   gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_ventilation[5] ),
+			     FALSE );
+  gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_ventilation[6] ),
 			     FALSE );
   gtk_widget_set_sensitive ( GTK_WIDGET ( hbox_valider_annuler_ventil ),
 			     FALSE );
@@ -1789,11 +1827,26 @@ void fin_edition_ventilation ( void )
       g_strfreev ( tableau_char );
     }
 
+  /* récupération de l'exercice */
+  /* si l'exo est à -1, c'est que c'est sur non affiché */
+  /* soit c'est une modif d'opé et on touche pas à l'exo */
+  /* soit c'est une nouvelle opé et on met l'exo à 0 */
+
+  if ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_ventilation[6] ) -> menu_item ),
+					       "no_exercice" )) == -1 )
+    {
+      if ( !operation -> no_operation )
+	operation -> no_exercice = 0;
+    }
+  else
+    operation -> no_exercice = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_ventilation[6] ) -> menu_item ),
+								       "no_exercice" ));
+
 
 /* récupération du no de pièce comptable */
 
-  if ( gtk_widget_get_style ( widget_formulaire_ventilation[6] ) == style_entree_formulaire[0] )
-    operation -> no_piece_comptable = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[6] ))));
+  if ( gtk_widget_get_style ( widget_formulaire_ventilation[7] ) == style_entree_formulaire[0] )
+    operation -> no_piece_comptable = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[7] ))));
   else
     operation -> no_piece_comptable = NULL;
 
@@ -1835,6 +1888,9 @@ void fin_edition_ventilation ( void )
   if ( perte_ligne_selectionnee == 1 )
     ligne_selectionnee_ventilation = operation;
 
+
+  mise_a_jour_categ ();
+  mise_a_jour_imputation ();
 
   /* on met à jour la liste des ventilations */
 
@@ -2051,12 +2107,18 @@ void edition_operation_ventilation ( void )
     }
 
 
+  /* met en place l'exercice */
+
+  gtk_option_menu_set_history (  GTK_OPTION_MENU ( widget_formulaire_ventilation[6] ),
+				 cherche_no_menu_exercice ( operation -> no_exercice,
+							    widget_formulaire_ventilation[6] ));
+
   /* mise en place de la pièce comptable */
 
   if ( operation -> no_piece_comptable )
     {
-      entree_prend_focus ( widget_formulaire_ventilation[6] );
-      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[6] ),
+      entree_prend_focus ( widget_formulaire_ventilation[7] );
+      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[7] ),
 			   operation -> no_piece_comptable );
     }
 
@@ -2539,6 +2601,11 @@ GSList *creation_liste_ope_de_ventil ( struct structure_operation *operation )
   liste_ventil = NULL;
   liste_operations = NULL;
 
+  /* si c'est une nouvelle opé, il n'y a aucun opé de ventil associée */
+
+  if ( !operation )
+    return ( NULL );
+
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
   liste_tmp = LISTE_OPERATIONS;
@@ -2568,6 +2635,8 @@ GSList *creation_liste_ope_de_ventil ( struct structure_operation *operation )
 
 	  ope_ventil -> imputation = operation_2 -> imputation;
 	  ope_ventil -> sous_imputation = operation_2 -> sous_imputation;
+
+	  ope_ventil -> no_exercice = operation_2 -> no_exercice;
 
 	  if ( ope_ventil -> no_piece_comptable )
 	    ope_ventil -> no_piece_comptable = g_strdup ( operation_2 -> no_piece_comptable );
@@ -2690,6 +2759,8 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 		  if ( ope_ventil -> notes )
 		    ope_modifiee -> notes = g_strdup ( ope_ventil -> notes );
 
+		  ope_modifiee -> no_exercice = ope_ventil -> no_exercice;
+
 		  ope_modifiee -> imputation = ope_ventil -> imputation;
 		  ope_modifiee -> sous_imputation = ope_ventil -> sous_imputation;
 
@@ -2725,7 +2796,6 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 		  ope_modifiee -> pointe = operation -> pointe;
 		  ope_modifiee -> auto_man = operation -> auto_man;
 		  ope_modifiee -> no_rapprochement = operation -> no_rapprochement;
-		  ope_modifiee -> no_exercice = operation -> no_exercice;
 
 		  /* théoriquement, cette ligne n'est pas nécessaire vu que c'est une modif d'opé de ventil */
 
@@ -2888,6 +2958,8 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 	      if ( ope_ventil -> no_piece_comptable )
 		nouvelle_ope -> no_piece_comptable = g_strdup ( ope_ventil -> no_piece_comptable );
 
+	      nouvelle_ope -> no_exercice = ope_ventil -> no_exercice;
+
 	      /* on récupère ensuite les modifs de la ventilation */
 
 	      nouvelle_ope -> jour = operation -> jour;
@@ -2917,7 +2989,6 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 	      nouvelle_ope -> pointe = operation -> pointe;
 	      nouvelle_ope -> auto_man = operation -> auto_man;
 	      nouvelle_ope -> no_rapprochement = operation -> no_rapprochement;
-	      nouvelle_ope -> no_exercice = operation -> no_exercice;
 
 	      nouvelle_ope -> no_operation_ventilee_associee = operation -> no_operation;
 

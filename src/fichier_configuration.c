@@ -1,6 +1,6 @@
 /* ce fichier se charge de toutes les opérations relative à la configuration sauvegardée */
 
-/*     Copyright (C) 2000-2002  Cédric Auger */
+/*     Copyright (C) 2000-2003  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -36,12 +36,19 @@ void charge_configuration ( void )
   gchar **tab_noms_fichiers;
   gint i;
   gint flag;
+  struct stat buffer_stat;
 
-  /*   charge la configuration par défaut, les données seront ensuite modifiée par le chargement du fichier de config */
-  /* permet de mettre des valeurs par défaut quand la config n'existe pas */
+  /*   on vérifie que le fichier de conf existe bien ; dans le cas contraire, on charge */
+  /* la conf par défaut */
 
-  raz_configuration ();
-
+  if ( stat ( g_strconcat ( getenv ("HOME"),
+			    "/.gnome/Grisbi",
+			    NULL ),
+	      &buffer_stat ) == -1 )
+    {
+      raz_configuration ();
+      return;
+    }
 
   /* on récupère la taille de la fenêtre à l'arrêt précédent */
 
@@ -144,8 +151,11 @@ void raz_configuration ( void )
 
   largeur_window = 0;
   hauteur_window = 0;
+
+  etat.alerte_permission = 1;
+  etat.alerte_mini = 1;
   etat.r_modifiable = 0;       /* on ne peux modifier les opé relevées */
-  etat.dernier_fichier_auto = 0;   /*  on n'ouvre pas directement le dernier fichier */
+  etat.dernier_fichier_auto = 1;   /*  on n'ouvre pas directement le dernier fichier */
   buffer_dernier_fichier = g_strdup ( "" );
   etat.sauvegarde_auto = 0;    /* on ne sauvegarde pas automatiquement */
   etat.entree = 1;    /* la touche entree provoque l'enregistrement de l'opération */
@@ -159,18 +169,16 @@ void raz_configuration ( void )
   etat.alerte_permission = 1;       /* par défaut, on prévient quand le fichier n'est pas à 600 */
   etat.force_enregistrement = 0;     /* par défaut, on ne force pas l'enregistrement */
   etat.affiche_tous_les_types = 0;   /* par défaut, on n'affiche ds le formulaire que les types du débit ou crédit */
-  etat.affiche_no_operation = 1;
-  etat.affiche_date_bancaire = 1; /* GDC : par défaut, on affiche la date bancaire (colonne et champ) */
   etat.classement_par_date = 1;  /* par défaut, on tri la liste des opés par les dates */
-
+  etat.utilise_exercice = 1;
   etat.affiche_boutons_valider_annuler = 1;
+  etat.classement_par_date = 1;
   dernier_chemin_de_travail = g_strconcat ( getenv ("HOME"),
 					    "/",
 					    NULL );
   nb_derniers_fichiers_ouverts = 0;
   nb_max_derniers_fichiers_ouverts = 3;
   tab_noms_derniers_fichiers_ouverts = NULL;
-  etat.affiche_nb_ecritures_listes = 1;   /* par défaut, on affiche les nb d'écritures dans les listes tiers/catég */
   compression_fichier = 0;     /* pas de compression par défaut */
   compression_backup = 0;
   etat.largeur_auto_colonnes = 1;

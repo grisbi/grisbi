@@ -1,7 +1,7 @@
 /* Ce fichier comprend toutes les opérations concernant le traitement */
 /* des fichiers */
 
-/*     Copyright (C) 2000-2002  Cédric Auger */
+/*     Copyright (C) 2000-2003  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -29,6 +29,8 @@
 /* ************************************************************************************************************ */
 void nouveau_fichier ( void )
 {
+  gint type_de_compte;
+  gint no_compte;
 
 /*   si la fermeture du fichier en cours se passe mal, on se barre */
 
@@ -38,55 +40,16 @@ void nouveau_fichier ( void )
 
   init_variables ( FALSE );
 
+  type_de_compte = demande_type_nouveau_compte ();
 
+  no_compte = initialisation_nouveau_compte ( type_de_compte );
 
-  /* création du premier compte */
+  /* si la création s'est mal placée, on se barre */
 
-  if  (!(p_tab_nom_de_compte = calloc ( 1,
-					sizeof ( gpointer ) )))
-    {
-      dialogue ( _("Erreur dans l'allocation de mémoire pour créer un nouveau compte !") );
-      return;
-    };
+  if ( no_compte == -1 )
+    return;
 
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
   p_tab_nom_de_compte_courant = p_tab_nom_de_compte;
-
-
-  if  (!(*p_tab_nom_de_compte_variable = calloc ( 1,
-						  sizeof (struct donnees_compte) )) )
-    {
-      dialogue ( _("Erreur dans l'allocation de mémoire pour créer un nouveau compte !") );
-      return;
-    };
-
-
-  /* insère ses paramètres ( comme c'est un appel à calloc, tout ce qui est à 0 est déjà initialisé )*/
-
-  NOM_DU_COMPTE = g_strdup ( _("Sans nom") );
-  OPERATION_SELECTIONNEE = GINT_TO_POINTER ( -1 );
-  DEVISE = 1;
-  MISE_A_JOUR = 1;
-  NO_COMPTE = nb_comptes;
-  AFFICHAGE_R = 0;
-  NB_LIGNES_OPE = 3;
-
-  TYPE_DE_COMPTE = demande_type_nouveau_compte ();
-
-  nb_comptes++;
-
-
-  /* on crée les types par défaut */
-
-  creation_types_par_defaut ( nb_comptes - 1,
-			      0);
-
-
-  /* on met le compte à la fin dans le classement des comptes */
-
-  ordre_comptes = g_slist_append ( ordre_comptes,
-				   GINT_TO_POINTER ( nb_comptes - 1 ) );
-
 
   /* dégrise les menus nécessaire */
 

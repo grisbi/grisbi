@@ -486,7 +486,7 @@ extern gint no_derniere_banque;
 
 extern GtkWidget *liste_operations_ventilees;
 extern gint ancienne_largeur_ventilation;       /* magouille utilisée pour bloquer un signal size-allocate qui s'emballe */
-extern GtkWidget *widget_formulaire_ventilation[7];
+extern GtkWidget *widget_formulaire_ventilation[8];
 extern GtkWidget *separateur_formulaire_ventilations;
 extern GtkWidget *hbox_valider_annuler_ventil;
 extern GtkWidget *label_somme_ventilee;                       /*  label correspondant */

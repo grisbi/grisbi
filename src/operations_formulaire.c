@@ -1,7 +1,7 @@
 /* Ce fichier s'occupe de la gestion du formulaire de saisie des opérations */
 /* formulaire.c */
 
-/*     Copyright (C) 2000-2002  Cédric Auger */
+/*     Copyright (C) 2000-2003  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -997,6 +997,8 @@ void entree_perd_focus ( GtkWidget *entree,
 	      gchar **tableau_char;
 
 	      gtk_widget_hide ( widget_formulaire_operations[15] );
+	      gtk_widget_set_sensitive ( widget_formulaire_operations[11],
+					 TRUE );
 	      gtk_widget_set_sensitive ( widget_formulaire_operations[12],
 					 TRUE );
 
@@ -1103,6 +1105,8 @@ void entree_perd_focus ( GtkWidget *entree,
 	  else
 	    {
 	      gtk_widget_show ( widget_formulaire_operations[15] );
+	      gtk_widget_set_sensitive ( widget_formulaire_operations[11],
+					 FALSE );
 	      gtk_widget_set_sensitive ( widget_formulaire_operations[12],
 					 FALSE );
 	    }
@@ -1182,6 +1186,7 @@ void clique_champ_formulaire ( GtkWidget *entree,
 
   /* si l'entrée de la date est grise, on met la date courante */
   /* seulement si la date réelle est grise aussi. Dans le cas contraire, c'est elle qui prend le focus */
+
   if ( (gtk_widget_get_style ( widget_formulaire_operations[1] ) == style_entree_formulaire[1])
        && (gtk_widget_get_style ( widget_formulaire_operations[7] ) == style_entree_formulaire[1]) )
     {
@@ -2689,6 +2694,12 @@ gint verification_validation_operation ( struct structure_operation *operation )
       return (FALSE);
     }
 
+  /*   la date est correcte, il faut l'enregistrer dans date_courante */
+
+  strncpy ( date_courante,
+	    gtk_entry_get_text ( GTK_ENTRY (  widget_formulaire_operations[1])),
+	    10 );
+
   /* vérifie que la date de valeur est correcte */
 
   if ( gtk_widget_get_style ( widget_formulaire_operations[7] ) == style_entree_formulaire[0]
@@ -3255,6 +3266,8 @@ void recuperation_categorie_formulaire ( struct structure_operation *operation,
 
 	  validation_ope_de_ventilation ( operation );
 	  operation -> operation_ventilee = 1;
+	  operation -> categorie = 0;
+	  operation -> sous_categorie = 0;
 	}
       else
 	{
@@ -3448,23 +3461,38 @@ void validation_virement_operation ( struct structure_operation *operation,
   /*     dans le 2nd cas, si on a modifié le compte de la contre opération */
   /*     on supprime l'ancienne contre opération et c'est un nouveau virement */
 
-  if ( modification
-       &&
-       operation -> relation_no_operation
-       &&
-       operation -> relation_no_compte != compte_virement )
+  if ( modification )
     {
-      /* il faut retirer l'ancienne contre opération */
+      /*       c'est une modif d'opé */
+      /* 	soit c'était un virement vers un autre compte et dans ce cas on vire la contre-opération pour la recréer plus tard */
+      /* soit c'est un virement vers le même compte et dans ce cas on fait rien, la contre opé sera modifiée automatiquement */
+      /* soit ce n'était pas un virement et dans ce cas on considère l'opé comme une nouvelle opé */
 
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
+      if ( operation -> relation_no_operation )
+	{
+	  /* c'était déjà un virement, on ne vire la contre opé que si le compte cible a changé */
 
-      contre_operation = g_slist_find_custom ( LISTE_OPERATIONS,
-					  GINT_TO_POINTER ( operation -> relation_no_operation ),
-					  ( GCompareFunc ) recherche_operation_par_no ) -> data;
-      contre_operation -> relation_no_operation = 0;
+	  if ( operation -> relation_no_compte != compte_virement )
+	    {
+	      /* il faut retirer l'ancienne contre opération */
 
-      supprime_operation ( contre_operation );
-      modification = 0;
+	      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
+
+	      contre_operation = g_slist_find_custom ( LISTE_OPERATIONS,
+						       GINT_TO_POINTER ( operation -> relation_no_operation ),
+						       ( GCompareFunc ) recherche_operation_par_no ) -> data;
+	      contre_operation -> relation_no_operation = 0;
+
+	      supprime_operation ( contre_operation );
+	      modification = 0;
+	    }
+	}
+      else
+	{
+	  /* ce n'était pas un virement, on considère que c'est une nouvelle opé pour créer la contre opération */
+
+	  modification = 0;
+	}
     }
 
   /*   on en est maintenant à soit nouveau virement, soit modif de virement sans chgt de compte */
@@ -3473,8 +3501,8 @@ void validation_virement_operation ( struct structure_operation *operation,
 
   if ( modification && operation -> relation_no_operation )
     contre_operation = g_slist_find_custom ( LISTE_OPERATIONS,
-					GINT_TO_POINTER ( operation -> relation_no_operation ),
-					( GCompareFunc ) recherche_operation_par_no ) -> data;
+					     GINT_TO_POINTER ( operation -> relation_no_operation ),
+					     ( GCompareFunc ) recherche_operation_par_no ) -> data;
   else
     {
       contre_operation = calloc ( 1,
@@ -3988,12 +4016,16 @@ void degrise_formulaire_operations ( void )
 
   gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_operations[9] ),
 			     TRUE );
-  gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_operations[11] ),
-			     etat.utilise_exercice );
   gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_operations[5] ),
 			     TRUE );
   gtk_widget_set_sensitive ( GTK_WIDGET ( hbox_valider_annuler_ope ),
 			     TRUE );
+
+  /* on ne dégrise l'exo que si le bouton ventiler n'est pas visible */
+
+  if ( !GTK_WIDGET_VISIBLE ( widget_formulaire_operations[15] ))
+    gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_operations[11] ),
+			       etat.utilise_exercice );
 
   /*   si le type par défaut est un chèque, on met le nouveau numéro */
 

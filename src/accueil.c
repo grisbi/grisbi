@@ -1,7 +1,7 @@
 /* fichier qui s'occupe de la page d'accueil ( de démarrage lors de l'ouverture d'un fichier */
 /*           accueil.c */
 
-/*     Copyright (C) 2000-2002  Cédric Auger */
+/*     Copyright (C) 2000-2003  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 

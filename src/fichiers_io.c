@@ -1,7 +1,7 @@
 /* Fichier fichiers_io.c */
 /* Contient toutes les procédures relatives à l'accès au disque */
 
-/*     Copyright (C) 2000-2002  Cédric Auger */
+/*     Copyright (C) 2000-2003  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -475,6 +475,12 @@ des paramètres.") );
 			}
 		    }
 		  
+		    /* dans certains cas d'import qif, le nom du compte peut être nul */
+		    /* dans ce cas le met à "" */
+
+		    if ( !NOM_DU_COMPTE )
+		      NOM_DU_COMPTE = g_strdup ( "" );
+
 		    /* on récupère ici le détail des types */
 
 		    if ( !strcmp ( node_nom_comptes -> name,
@@ -2189,6 +2195,13 @@ des paramètres.") );
 			}
 		    }
 		  
+		    /* dans certains cas d'import qif, le nom du compte peut être nul */
+		    /* dans ce cas le met à "" */
+
+		    if ( !NOM_DU_COMPTE )
+		      NOM_DU_COMPTE = g_strdup ( "" );
+
+
 		    /* on recupère ici le detail des types */
 
 		    if ( !strcmp ( node_nom_comptes -> name,

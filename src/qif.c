@@ -1,7 +1,7 @@
 /* ce fichier de la gestion du format qif */
 
 
-/*     Copyright (C) 2000-2002  Cédric Auger */
+/*     Copyright (C) 2000-2003  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -317,7 +317,10 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 	  retour = 0;
 	}
 
+      /* si le compte n'a pas de nom, on en met un ici */
 
+      if ( !compte -> nom_de_compte )
+	compte -> nom_de_compte = g_strdup ( _("Compte importé sans nom" ));
 
       if ( retour == EOF )
 	{
