@@ -703,6 +703,7 @@ gint demande_type_nouveau_compte ( void )
 			      NULL );
 
   label = gtk_label_new ( _("Please coose account type\nThis will create default payment methods.\nYou will eventually be able to change account type." ) );
+  gtk_label_set_line_wrap ( GTK_LABEL ( label ), TRUE );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
 		       FALSE,
