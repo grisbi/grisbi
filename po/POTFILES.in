@@ -5,6 +5,7 @@ src/banque.c
 src/barre_outils.c
 src/calendar.c
 src/categories_onglet.c
+src/check.c
 src/comptes_gestion.c
 src/comptes_onglet.c
 src/comptes_traitements.c

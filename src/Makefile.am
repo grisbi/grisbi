@@ -12,6 +12,7 @@ sources = 			\
 	barre_outils.c		\
 	calendar.c		\
 	categories_onglet.c	\
+	check.c			\
 	comptes_gestion.c	\
 	comptes_onglet.c	\
 	comptes_traitements.c	\
@@ -78,6 +79,7 @@ grisbi_INCLUDES =		\
 	barre_outils.h		\
 	calendar.h		\
 	categories_onglet.h	\
+	check.h			\
 	comptes_gestion.h	\
 	comptes_onglet.h	\
 	comptes_traitements.h	\
