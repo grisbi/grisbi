@@ -29,7 +29,7 @@
 #include "variables-extern.c"
 #include "en_tete.h"
 #include "calendar.h"
-#include "constant.h"
+#include "constants.h"
 
 
 /******************************************************************************/
@@ -1149,7 +1149,7 @@ void entree_perd_focus ( GtkWidget *entree,
 	}
       gtk_widget_set_style ( entree, style_entree_formulaire[1] );
     }
-  return FALSE;
+//  return FALSE;
 }
 /******************************************************************************/
 
