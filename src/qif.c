@@ -22,6 +22,7 @@
 
 
 #include "include.h"
+#include "account_constants.h"
 
 
 /*START_INCLUDE*/
@@ -31,6 +32,7 @@
 #include "utils_dates.h"
 #include "utils_files.h"
 #include "utils_str.h"
+#include "data_account.h"
 #include "utils.h"
 #include "search_glist.h"
 /*END_INCLUDE*/
@@ -1068,22 +1070,24 @@ choix_liste_fichier:
 	{
 	    GSList *pointeur_tmp;
 	    struct structure_operation *operation;
+	    gint no_compte;
 
+	    no_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
+								"no_compte" ));
 	    p_tab_nom_de_compte_variable = 
 		p_tab_nom_de_compte
 		+
-		GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
-							"no_compte" ));
+		no_compte;
 
 	    /* met le type de compte */
 
-	    if ( TYPE_DE_COMPTE == GSB_TYPE_ESPECE )
+	    if ( gsb_account_get_kind (no_compte) == GSB_TYPE_CASH )
 		fprintf ( fichier_qif,
 			  "!Type:Cash\n" );
 	    else
-		if ( TYPE_DE_COMPTE == GSB_TYPE_PASSIF
+		if ( gsb_account_get_kind (no_compte) == GSB_TYPE_LIABILITIES
 		     ||
-		     TYPE_DE_COMPTE == GSB_TYPE_ACTIF )
+		     gsb_account_get_kind (no_compte) == GSB_TYPE_ASSET )
 		    fprintf ( fichier_qif,
 			      "!Type:Oth L\n" );
 		else

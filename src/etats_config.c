@@ -38,6 +38,7 @@
 #include "dialog.h"
 #include "utils_exercices.h"
 #include "utils_dates.h"
+#include "data_account.h"
 #include "calendar.h"
 #include "utils_ib.h"
 #include "utils_str.h"
@@ -2739,7 +2740,7 @@ void selectionne_partie_liste_compte_etat ( gint *type_compte )
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
-	if ( TYPE_DE_COMPTE == GPOINTER_TO_INT ( type_compte ))
+	if ( gsb_account_get_kind (no_compte) == GPOINTER_TO_INT ( type_compte ))
 	    gtk_clist_select_row ( GTK_CLIST ( liste_comptes_etat ),
 				   i,
 				   0 );
@@ -3039,7 +3040,7 @@ void selectionne_partie_liste_compte_vir_etat ( gint *type_compte )
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
-	if ( TYPE_DE_COMPTE == GPOINTER_TO_INT ( type_compte ))
+	if ( gsb_account_get_kind (no_compte) == GPOINTER_TO_INT ( type_compte ))
 	    gtk_clist_select_row ( GTK_CLIST ( liste_comptes_virements ),
 				   i,
 				   0 );

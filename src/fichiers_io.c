@@ -950,7 +950,8 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Type_de_compte" ))
-				TYPE_DE_COMPTE = my_atoi ( xmlNodeGetContent ( node_detail ));
+				gsb_account_set_kind (no_compte,
+						      my_atoi ( xmlNodeGetContent ( node_detail )));
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Devise" ))
@@ -3251,7 +3252,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Type_de_compte",
-			  itoa ( TYPE_DE_COMPTE ));
+			  itoa ( gsb_account_get_kind (i)));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,

@@ -20,6 +20,7 @@
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 #include "include.h"
+#include "account_constants.h"
 
 
 /*START_INCLUDE*/
@@ -28,6 +29,7 @@
 #include "utils_categories.h"
 #include "search_glist.h"
 #include "etats_affiche.h"
+#include "data_account.h"
 #include "utils_str.h"
 #include "utils_ib.h"
 #include "utils_rapprochements.h"
@@ -654,9 +656,9 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
-			if ( TYPE_DE_COMPTE != GSB_TYPE_PASSIF
+			if ( gsb_account_get_kind (operation -> relation_no_compte) != GSB_TYPE_LIABILITIES
 			     &&
-			     TYPE_DE_COMPTE != GSB_TYPE_ACTIF )
+			     gsb_account_get_kind (operation -> relation_no_compte) != GSB_TYPE_ASSET )
 			    goto operation_refusee;
 
 			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i; 

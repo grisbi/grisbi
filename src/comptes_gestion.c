@@ -35,6 +35,7 @@
 #include "utils_devises.h"
 #include "dialog.h"
 #include "operations_formulaire.h"
+#include "data_account.h"
 #include "categories_onglet.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
@@ -781,7 +782,7 @@ void remplissage_details_compte ( void )
 			 NOM_DU_COMPTE );
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( detail_type_compte ),
-				  TYPE_DE_COMPTE );
+				  gsb_account_get_kind (compte_courant_onglet) );
 
     devise = devise_par_no ( DEVISE );
 
@@ -947,10 +948,11 @@ void modification_details_compte ( void )
     if ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_type_compte ) -> menu_item ),
 						 "no_type_compte" ))
 	 !=
-	 TYPE_DE_COMPTE )
+	 gsb_account_get_kind (compte_courant_onglet) )
     {
-	TYPE_DE_COMPTE = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_type_compte ) -> menu_item ),
-								 "no_type_compte" ));
+	gsb_account_set_kind (compte_courant_onglet,
+			      GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_type_compte ) -> menu_item ),
+								      "no_type_compte" )));
 	mise_a_jour_fin_comptes_passifs = 1;
 	mise_a_jour_soldes_minimaux = 1;
 	formulaire_a_zero();

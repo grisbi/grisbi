@@ -26,6 +26,7 @@
 
 #include "include.h"
 #include "fichier_configuration_constants.h"
+#include "account_constants.h"
 
 
 
@@ -1240,7 +1241,7 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
     /*     on crée et initialise le nouveau compte  */
     /*     le type par défaut est 0 (compte bancaire) */
 
-    no_compte = initialisation_nouveau_compte ( GSB_TYPE_BANCAIRE );
+    no_compte = initialisation_nouveau_compte ( GSB_TYPE_BANK );
 
     /*     si ça c'est mal passé, on se barre */
 
@@ -1301,11 +1302,13 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
     switch ( compte_import -> type_de_compte )
     {
 	case 3:
-	    TYPE_DE_COMPTE = GSB_TYPE_PASSIF;
+	    gsb_account_set_kind (no_compte,
+				  GSB_TYPE_LIABILITIES);
 	    break;
 
 	case 7:
-	    TYPE_DE_COMPTE = GSB_TYPE_ESPECE;
+	    gsb_account_set_kind (no_compte,
+				  GSB_TYPE_CASH);
 	    break;
     }
 

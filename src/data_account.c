@@ -46,7 +46,7 @@
 static gpointer gsb_account_find_sort_by_no ( gint sort_number );
 static struct struct_account *gsb_account_get_structure ( gint no );
 static gint gsb_account_last_number ( void );
-static gint gsb_account_new ( kind_account account_type );
+static gint gsb_account_new ( kind_account account_kind );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -63,7 +63,7 @@ struct struct_account
     /** @name general stuff */
     gint account_number;
     gchar *account_id;                       /**< for ofx import, invisible for the user */
-    type_compte_t   account_type;
+    kind_account account_kind;
     gchar *account_name;
     gint currency;
     gint closed_account;                     /**< if 1 => closed */
@@ -144,7 +144,7 @@ GSList *list_struct_accounts;
  * \param account_type the type of the account
  * \return no of account
  * */
-gint gsb_account_new ( kind_account account_type )
+gint gsb_account_new ( kind_account account_kind )
 {
     struct struct_account *account;
 
@@ -163,7 +163,7 @@ gint gsb_account_new ( kind_account account_type )
     account -> currency = gsb_currency_default_currency ();
     account -> update_list = 1;
     account -> current_transaction = GINT_TO_POINTER (-1);
-    account -> account_type = account_type;
+    account -> account_kind = account_kind;
     account -> method_payment_list = gsb_payment_default_payment_list ();
     account -> sort_number = TRANSACTION_LIST_DATE;
     account -> current_sort = gsb_account_find_sort_by_no ( account -> sort_number );
@@ -372,5 +372,45 @@ gboolean gsb_account_set_id ( gint no_account,
 
     return TRUE;
 }
+
+
+
+/** get the account kind of the account
+ * \param no_account no of the account
+ * \return account type or 0 if the account doesn't exist
+ * */
+kind_account gsb_account_get_kind ( gint no_account )
+{
+    struct struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return 0;
+
+    return account -> account_kind;
+}
+
+
+/** set the kind of the account
+ * \param no_account no of the account
+ * \param account_kind type to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_kind ( gint no_account,
+				kind_account account_kind )
+{
+    struct struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> account_kind = account_kind;
+
+    return TRUE;
+}
+
 
 

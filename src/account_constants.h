@@ -1,3 +1,5 @@
+#ifndef ACCOUNT_CONSTANTS 
+#define ACCOUNT_CONSTANTS
 
 /** \struct
  * kind of the account
@@ -13,4 +15,4 @@ enum _kind_account
 typedef enum _kind_account	kind_account;
 
 
-
+#endif

@@ -27,6 +27,7 @@
 #include "include.h"
 #include "echeancier_formulaire_constants.h"
 #include "operations_formulaire_constants.h"
+#include "account_constants.h"
 
 /*START_INCLUDE*/
 #include "comptes_traitements.h"
@@ -38,6 +39,7 @@
 #include "dialog.h"
 #include "utils_echeances.h"
 #include "fichiers_gestion.h"
+#include "data_account.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
@@ -91,7 +93,7 @@ gint noname_account_number = 0;
 /* ************************************************************************** */
 void  nouveau_compte ( void )
 {
-    type_compte_t type_de_compte;
+    kind_account type_de_compte;
     gint no_compte;
 
     if ( !nb_comptes )
@@ -167,7 +169,7 @@ void  nouveau_compte ( void )
 /* et renvoie le no du compte crï¿œ                                            */
 /* renvoie -1 s'il y a un pb                                                  */
 /* ************************************************************************** */
-gint initialisation_nouveau_compte ( type_compte_t type_de_compte )
+gint initialisation_nouveau_compte ( kind_account type_de_compte )
 {
     gint no_compte;
 
@@ -224,7 +226,7 @@ gint initialisation_nouveau_compte ( type_compte_t type_de_compte )
 /* 	NB_LIGNES_OPE = 3; */
     }
 
-    TYPE_DE_COMPTE = type_de_compte;
+/*     TYPE_DE_COMPTE = type_de_compte; */
 
 
     /* on crï¿œ les types par dï¿œaut */
@@ -607,7 +609,7 @@ void creation_types_par_defaut ( gint no_compte,
     TYPE_DEFAUT_DEBIT = 0;
     TYPE_DEFAUT_CREDIT = 0;
 
-    if ( TYPE_DE_COMPTE == GSB_TYPE_BANCAIRE )
+    if ( gsb_account_get_kind (no_compte) == GSB_TYPE_BANK )
     {
 	/* c'est un compte bancaire, on ajoute virement, prï¿œï¿œement, chï¿œue et cb */
 	/* 	  modification par rapport ï¿œavant, les nouveaux n: */
@@ -694,7 +696,7 @@ void creation_types_par_defaut ( gint no_compte,
     }
     else
     {
-	if ( TYPE_DE_COMPTE == GSB_TYPE_PASSIF )
+	if ( gsb_account_get_kind (no_compte) == GSB_TYPE_LIABILITIES )
 	{
 	    /* c'est un compte de passif, on ne met que le virement */
 
@@ -731,14 +733,14 @@ void creation_types_par_defaut ( gint no_compte,
 /* elle renvoie le type demandï¿œpour pouvoir mettre ensuite les types par     */
 /* dï¿œaut.                                                                    */
 /* ************************************************************************** */
-type_compte_t demande_type_nouveau_compte ( void )
+kind_account demande_type_nouveau_compte ( void )
 {
     GtkWidget *dialog;
     gint resultat;
     GtkWidget *label;
     GtkWidget *hbox;
     GtkWidget *bouton;
-    type_compte_t type_compte;
+    kind_account type_compte;
 
     dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION,
 				       GTK_BUTTONS_OK_CANCEL,
