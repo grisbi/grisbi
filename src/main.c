@@ -85,7 +85,7 @@ int main (int argc, char *argv[])
       {NULL, '\0', 0, NULL, 0}};
 
 
-  setlocale (LC_ALL, "");
+/*   setlocale (LC_ALL, ""); */
   bindtextdomain ("grisbi", LOCALEDIR);
   textdomain ("grisbi");
 
