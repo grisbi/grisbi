@@ -1,3 +1,9 @@
+grisbi (0.4.3-3) unstable; urgency=low
+
+  * Removed includes of obsolete gnomeprint (closes: #226494)
+
+ -- Benjamin Drieu <benj@debian.org>  Wed,  7 Jan 2004 09:00:41 +0100
+
 grisbi (0.4.3-2) unstable; urgency=low
 
   * Fix missing changelog.Debian.gz
