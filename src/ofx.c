@@ -55,7 +55,6 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 {
     gchar *argv[2];
 
-
     liste_comptes_importes_ofx = NULL;
     compte_ofx_importation_en_cours = NULL;
     erreur_import_ofx = 0;
@@ -97,6 +96,7 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 	    liste_tmp = liste_tmp -> next;
 	}
     }
+
 
     return ( TRUE );
 }

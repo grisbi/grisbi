@@ -1863,8 +1863,6 @@ gint get_line_from_file ( FILE *fichier,
     if ( !fichier )
 	return 0;
 	    
-    printf ("debut\n" );
-
     /*     on commence par allouer une taille de 30 caractères, qu'on augment ensuite de 30 par 30 */
 
     pointeur_char = (gchar*)realloc(pointeur_char,30*sizeof(gchar));
@@ -1899,7 +1897,6 @@ gint get_line_from_file ( FILE *fichier,
 
     *string = pointeur_char;
 
-    printf ( "fin\n" );
     if ( feof(fichier))
 	return EOF;
     else
