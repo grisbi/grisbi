@@ -301,7 +301,7 @@
    /* GDC : entrée de la date reelle */
   /*   mise à la place du choix du compte, verra plus tard où le mettre */
 
-   widget_formulaire_operations[7] = gtk_entry_new_with_max_length();
+   widget_formulaire_operations[7] = gtk_entry_new();
    gtk_table_attach ( GTK_TABLE (table),
  		     widget_formulaire_operations[7],
  		     1, 2, 1, 2,

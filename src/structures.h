@@ -2,11 +2,11 @@
 /* contient toutes les structures du prog */
 
 
-//#define VERSION "0.4.0"
+/* #define VERSION "0.4.0" */
 
 /* Chemin des fichiers */
 
-#define APPLET_BIN_DIR "/usr/bin/grisbi_applet"
+#define APPLET_BIN_DIR "/usr/local/bin/grisbi_applet"
 #define CHEMIN_LOGO "/usr/share/pixmaps/logo_grisbi.xpm"
 #define FICHIER_CONF "Grisbi-dev"       /* à mettre à Grisbi-dev pdt le dvt et Grisbi à la sortie d'une version */
 

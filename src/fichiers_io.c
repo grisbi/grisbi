@@ -74,7 +74,7 @@ gboolean charge_operations ( void )
 	  return ( charge_operations_version_0_3_2 ( doc ));
 
         if (( !strcmp (  xmlNodeGetContent ( doc->root->childs->childs ),
-			 "0.4.0" )))
+			 "0.4" )))
 	  return ( charge_operations_version_0_4_0 ( doc ));
 
 
