@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2004-03-08 09:10+0100\n"
+"POT-Creation-Date: 2004-03-08 10:28+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1288,11 +1288,16 @@ msgstr ""
 msgid "Account has no name!"
 msgstr ""
 
-#: src/comptes_gestion.c:1485
+#: src/comptes_gestion.c:1443
+#, c-format
+msgid "Account \"%s\" already exists!"
+msgstr ""
+
+#: src/comptes_gestion.c:1499
 msgid "Confirm currency change"
 msgstr ""
 
-#: src/comptes_gestion.c:1490
+#: src/comptes_gestion.c:1504
 #, c-format
 msgid ""
 "Be carefull, you are changing from a currency that is in the euro zone\n"
@@ -1301,11 +1306,11 @@ msgid ""
 "Do you confirm this change?"
 msgstr ""
 
-#: src/comptes_gestion.c:1736
+#: src/comptes_gestion.c:1750
 msgid "Apply changes to account?"
 msgstr ""
 
-#: src/comptes_gestion.c:1743
+#: src/comptes_gestion.c:1757
 #, c-format
 msgid ""
 "Account \"%s\" has been modified.\n"
@@ -1314,11 +1319,11 @@ msgid ""
 "Do you want to save changes?"
 msgstr ""
 
-#: src/comptes_gestion.c:1785
+#: src/comptes_gestion.c:1799
 msgid "Confirm euro conversion"
 msgstr ""
 
-#: src/comptes_gestion.c:1792
+#: src/comptes_gestion.c:1806
 #, c-format
 msgid ""
 "Warning, euro conversion is irreversible!\n"
@@ -1326,11 +1331,11 @@ msgid ""
 "Are you sure you want to convert account \"%s\" to euros?"
 msgstr ""
 
-#: src/comptes_gestion.c:1822
+#: src/comptes_gestion.c:1836
 msgid "Error: exchange rate between the 2 currencies is 0."
 msgstr ""
 
-#: src/comptes_gestion.c:1829 src/devises.c:50 src/devises.c:541
+#: src/comptes_gestion.c:1843 src/devises.c:50 src/devises.c:541
 #: src/devises.c:1606 src/devises.c:1758 src/devises.c:2091 src/devises.c:2096
 #: src/echeancier_formulaire.c:1763 src/echeancier_formulaire.c:1764
 #: src/echeancier_formulaire.c:1988 src/echeancier_formulaire.c:1989
@@ -1347,7 +1352,7 @@ msgstr ""
 msgid "Euro"
 msgstr ""
 
-#: src/comptes_gestion.c:1834
+#: src/comptes_gestion.c:1848
 msgid "Impossible to find the Euro currency, it has probably been deleted."
 msgstr ""
 

@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
-"POT-Creation-Date: 2004-03-08 09:10+0100\n"
-"PO-Revision-Date: 2004-03-08 09:11GMT\n"
+"POT-Creation-Date: 2004-03-08 10:28+0100\n"
+"PO-Revision-Date: 2004-03-08 10:29GMT\n"
 "Last-Translator: Alain PORTAL <aportal@univ-montp2.fr>\n"
 "Language-Team:  <traduction@grisbi.org>\n"
 "MIME-Version: 1.0\n"
@@ -1302,11 +1302,16 @@ msgstr "Compte d'actif"
 msgid "Account has no name!"
 msgstr "Le compte n'a pas de nom !"
 
-#: src/comptes_gestion.c:1485
+#: src/comptes_gestion.c:1443
+#, c-format
+msgid "Account \"%s\" already exists!"
+msgstr "Le compte « %s » existe déjà !"
+
+#: src/comptes_gestion.c:1499
 msgid "Confirm currency change"
 msgstr "Confirmation de changement de devise"
 
-#: src/comptes_gestion.c:1490
+#: src/comptes_gestion.c:1504
 #, c-format
 msgid ""
 "Be carefull, you are changing from a currency that is in the euro zone\n"
@@ -1320,11 +1325,11 @@ msgstr ""
 "\n"
 "Confirmez vous le changement ?"
 
-#: src/comptes_gestion.c:1736
+#: src/comptes_gestion.c:1750
 msgid "Apply changes to account?"
 msgstr "Appliquer les modifications au compte ?"
 
-#: src/comptes_gestion.c:1743
+#: src/comptes_gestion.c:1757
 #, c-format
 msgid ""
 "Account \"%s\" has been modified.\n"
@@ -1337,11 +1342,11 @@ msgstr ""
 "\n"
 "Voulez-vous les enregistrer ?"
 
-#: src/comptes_gestion.c:1785
+#: src/comptes_gestion.c:1799
 msgid "Confirm euro conversion"
 msgstr "Confirmation de passage à l'euro"
 
-#: src/comptes_gestion.c:1792
+#: src/comptes_gestion.c:1806
 #, c-format
 msgid ""
 "Warning, euro conversion is irreversible!\n"
@@ -1352,11 +1357,11 @@ msgstr ""
 "\n"
 "Êtes-vous sûr de vouloir passer le compte « %s » à l'euro ?"
 
-#: src/comptes_gestion.c:1822
+#: src/comptes_gestion.c:1836
 msgid "Error: exchange rate between the 2 currencies is 0."
 msgstr "Erreur : le taux de change entre les deux monnaies est nul."
 
-#: src/comptes_gestion.c:1829 src/devises.c:50 src/devises.c:541
+#: src/comptes_gestion.c:1843 src/devises.c:50 src/devises.c:541
 #: src/devises.c:1606 src/devises.c:1758 src/devises.c:2091 src/devises.c:2096
 #: src/echeancier_formulaire.c:1763 src/echeancier_formulaire.c:1764
 #: src/echeancier_formulaire.c:1988 src/echeancier_formulaire.c:1989
@@ -1373,7 +1378,7 @@ msgstr "Erreur : le taux de change entre les deux monnaies est nul."
 msgid "Euro"
 msgstr "Euro"
 
-#: src/comptes_gestion.c:1834
+#: src/comptes_gestion.c:1848
 msgid "Impossible to find the Euro currency, it has probably been deleted."
 msgstr "La monnaie Euro est introuvable, elle a dû être effacée des devises."
 
