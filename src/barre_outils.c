@@ -472,7 +472,7 @@ gboolean change_aspect_liste ( gint demande )
 		for ( i=0 ; i<nb_comptes ; i++ )
 		{
 		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
-		    g_signal_connect_after ( G_OBJECT ( TREE_VIEW_LISTE_OPERATIONS ),
+		    g_signal_connect_after ( G_OBJECT ( gsb_account_get_tree_view (i) ),
 					     "expose-event",
 					     G_CALLBACK ( affichage_traits_liste_operation ),
 					     NULL );
@@ -489,13 +489,13 @@ gboolean change_aspect_liste ( gint demande )
 	for ( i=0 ; i<nb_comptes ; i++ )
 		{
 		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
-		    g_signal_handlers_disconnect_by_func ( G_OBJECT ( TREE_VIEW_LISTE_OPERATIONS ),
+		    g_signal_handlers_disconnect_by_func ( G_OBJECT ( gsb_account_get_tree_view (i) ),
 							   G_CALLBACK ( affichage_traits_liste_operation ),
 							   NULL );
 		}
 	    }
 	    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + compte_courant;
-	    gtk_widget_queue_draw ( TREE_VIEW_LISTE_OPERATIONS );
+	    gtk_widget_queue_draw ( gsb_account_get_tree_view (compte_courant) );
 	    gtk_widget_queue_draw ( tree_view_liste_echeances );
 
 	    block_menu_cb = TRUE;

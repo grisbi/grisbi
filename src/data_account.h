@@ -93,6 +93,7 @@ gdouble gsb_account_get_mini_balance_wanted ( gint no_account );
 gchar *gsb_account_get_name ( gint no_account );
 gint gsb_account_get_nb_rows ( gint no_account );
 gboolean gsb_account_get_r ( gint no_account );
+gpointer gsb_account_get_tree_view ( gint no_account );
 gboolean gsb_account_set_current_balance ( gint no_account,
 					   gdouble balance );
 gboolean gsb_account_set_id ( gint no_account,
@@ -113,4 +114,6 @@ gboolean gsb_account_set_nb_rows ( gint no_account,
 				   gint nb_rows );
 gboolean gsb_account_set_r ( gint no_account,
 			     gboolean show_r );
+gboolean gsb_account_set_tree_view ( gint no_account,
+				     gpointer tree_view );
 /* END_DECLARATION */

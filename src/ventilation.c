@@ -977,7 +977,7 @@ void ventiler_operation ( gdouble montant )
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
-    gtk_widget_hide ( SCROLLED_WINDOW_LISTE_OPERATIONS );
+    gtk_widget_hide ( gsb_account_get_scrolled_window (compte_courant) );
 
     gtk_widget_show ( scrolled_window_liste_ventilations );
 
@@ -2554,7 +2554,7 @@ void quitter_ventilation ( void )
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     gtk_widget_hide ( scrolled_window_liste_ventilations );
-    gtk_widget_show ( SCROLLED_WINDOW_LISTE_OPERATIONS );
+    gtk_widget_show ( gsb_account_get_scrolled_window (compte_courant) );
 
     gtk_widget_show ( barre_outils );
     if ( etat.equilibrage )

@@ -444,51 +444,53 @@ GtkWidget *creation_tree_view_operations ( void )
 GtkWidget *creation_tree_view_operations_par_compte ( gint no_compte )
 {
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-
-    SCROLLED_WINDOW_LISTE_OPERATIONS = gtk_scrolled_window_new ( NULL,
-								 NULL );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( SCROLLED_WINDOW_LISTE_OPERATIONS ),
+    
+    gsb_account_set_scrolled_window ( no_compte,
+				      gtk_scrolled_window_new ( NULL,
+								NULL ));
+    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( gsb_account_get_scrolled_window (no_compte) ),
 				     GTK_POLICY_AUTOMATIC,
 				     GTK_POLICY_AUTOMATIC );
     
 
     /*     création proprement dite du treeview */
 
-    TREE_VIEW_LISTE_OPERATIONS = gtk_tree_view_new ();
-    gtk_container_add ( GTK_CONTAINER ( SCROLLED_WINDOW_LISTE_OPERATIONS ),
-			TREE_VIEW_LISTE_OPERATIONS );
-    gtk_widget_show ( TREE_VIEW_LISTE_OPERATIONS );
+    gsb_account_set_tree_view ( no_compte,  
+				gtk_tree_view_new ());
+    gtk_container_add ( GTK_CONTAINER ( gsb_account_get_scrolled_window (no_compte) ),
+			gsb_account_get_tree_view (no_compte) );
+    gtk_widget_show ( gsb_account_get_tree_view (no_compte) );
 
     /*     on peut sélectionner plusieurs lignes */
 
-    gtk_tree_selection_set_mode ( GTK_TREE_SELECTION ( gtk_tree_view_get_selection ( GTK_TREE_VIEW( TREE_VIEW_LISTE_OPERATIONS ))),
+    gtk_tree_selection_set_mode ( GTK_TREE_SELECTION ( gtk_tree_view_get_selection ( GTK_TREE_VIEW( gsb_account_get_tree_view (no_compte) ))),
 				  GTK_SELECTION_MULTIPLE );
 
     /* 	met en place la grille */
 
     if ( etat.affichage_grille )
-	g_signal_connect_after ( G_OBJECT ( TREE_VIEW_LISTE_OPERATIONS ),
+	g_signal_connect_after ( G_OBJECT ( gsb_account_get_tree_view (no_compte) ),
 				 "expose-event",
 				 G_CALLBACK ( affichage_traits_liste_operation ),
 				 NULL );
 
     /* vérifie le simple ou double click */
 
-    g_signal_connect ( G_OBJECT ( TREE_VIEW_LISTE_OPERATIONS ),
+    g_signal_connect ( G_OBJECT ( gsb_account_get_tree_view (no_compte) ),
 		       "button_press_event",
 		       G_CALLBACK ( selectionne_ligne_souris ),
 		       NULL );
 
     /* vérifie la touche entrée, haut et bas */
 
-    g_signal_connect ( G_OBJECT ( TREE_VIEW_LISTE_OPERATIONS ),
+    g_signal_connect ( G_OBJECT ( gsb_account_get_tree_view (no_compte) ),
 		       "key_press_event",
 		       G_CALLBACK ( traitement_clavier_liste ),
 		       NULL );
 
     /*     ajuste les colonnes si modification de la taille */
 
-    g_signal_connect ( G_OBJECT ( TREE_VIEW_LISTE_OPERATIONS ),
+    g_signal_connect ( G_OBJECT ( gsb_account_get_tree_view (no_compte) ),
 		       "size-allocate",
 		       G_CALLBACK ( changement_taille_liste_ope ),
 		       NULL );
@@ -502,7 +504,7 @@ GtkWidget *creation_tree_view_operations_par_compte ( gint no_compte )
 
 	for ( j = 0 ; j < TRANSACTION_LIST_COL_NB ; j++ )
 	{
-	    gtk_tree_view_append_column ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ),
+	    gtk_tree_view_append_column ( GTK_TREE_VIEW ( gsb_account_get_tree_view (no_compte) ),
 					  GTK_TREE_VIEW_COLUMN ( COLONNE_LISTE_OPERATIONS(j) ));
 	    gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( COLONNE_LISTE_OPERATIONS(j) ),
 						 TRUE );
@@ -541,13 +543,13 @@ GtkWidget *creation_tree_view_operations_par_compte ( gint no_compte )
 						  GDK_TYPE_COLOR,
 						  PANGO_TYPE_FONT_DESCRIPTION,
 						  G_TYPE_INT );
-    gtk_tree_view_set_model ( GTK_TREE_VIEW (TREE_VIEW_LISTE_OPERATIONS),
+    gtk_tree_view_set_model ( GTK_TREE_VIEW (gsb_account_get_tree_view (no_compte)),
 			      GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ));
     SLIST_DERNIERE_OPE_AJOUTEE = NULL;
 
     update_fleches_classement_tree_view ( no_compte );
 
-    return SCROLLED_WINDOW_LISTE_OPERATIONS;
+    return gsb_account_get_scrolled_window (no_compte);
 }
 /******************************************************************************/
 
@@ -1884,7 +1886,7 @@ gboolean traitement_clavier_liste ( GtkWidget *widget_variable,
 
 	    if ( ligne_selectionnee
 		 !=
-		 (GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS )))->length - gsb_account_get_nb_rows ( compte_courant )))
+		 (GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte_courant) )))->length - gsb_account_get_nb_rows ( compte_courant )))
 		selectionne_ligne ( cherche_operation_from_ligne ( ligne_selectionnee + gsb_account_get_nb_rows ( compte_courant ),
 								   compte_courant ));
 	    break;
@@ -1921,7 +1923,7 @@ void selectionne_ligne ( struct structure_operation *nouvelle_operation_selectio
     gint i;
     GdkColor *couleur;
 
-    if ( ! TREE_VIEW_LISTE_OPERATIONS )
+    if ( ! gsb_account_get_tree_view (compte_courant) )
       return;
 
     if ( DEBUG )
@@ -1962,20 +1964,20 @@ void selectionne_ligne ( struct structure_operation *nouvelle_operation_selectio
 
 	for ( i=0 ; i<gsb_account_get_nb_rows ( nouvelle_operation_selectionnee -> no_compte ) ; i++ )
 	{
-	    gtk_tree_model_get ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
+	    gtk_tree_model_get ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (nouvelle_operation_selectionnee -> no_compte) ))),
 				 iter,
 				 10, &couleur,
 				 -1 );
-	    gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
+	    gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (nouvelle_operation_selectionnee -> no_compte) ))),
 				 iter,
 				 7,couleur,
 				 -1 );
-	    gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
+	    gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (nouvelle_operation_selectionnee -> no_compte) ))),
 				 iter,
 				 10, NULL,
 				 -1 );
 
-	    gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
+	    gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (nouvelle_operation_selectionnee -> no_compte) ))),
 				       iter );
 	}
     }
@@ -1988,20 +1990,20 @@ void selectionne_ligne ( struct structure_operation *nouvelle_operation_selectio
 
     for ( i=0 ; i<gsb_account_get_nb_rows ( nouvelle_operation_selectionnee -> no_compte ) ; i++ )
     {
-	gtk_tree_model_get ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
+	gtk_tree_model_get ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (nouvelle_operation_selectionnee -> no_compte) ))),
 			     iter,
 			     7, &couleur,
 			     -1 );
-	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
+	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (nouvelle_operation_selectionnee -> no_compte) ))),
 			     iter,
 			     7, &couleur_selection,
 			     -1 );
-	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
+	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (nouvelle_operation_selectionnee -> no_compte) ))),
 			     iter,
 			     10, couleur,
 			     -1 );
 
-	gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
+	gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (nouvelle_operation_selectionnee -> no_compte) ))),
 				   iter );
     }
 
@@ -2030,9 +2032,9 @@ void ajuste_scrolling_liste_operations_a_selection ( gint compte )
     /*     si on n'a pas encore récupéré la hauteur des lignes, on va le faire ici */
 
     if ( !hauteur_ligne_liste_opes )
-	hauteur_ligne_liste_opes = recupere_hauteur_ligne_tree_view ( TREE_VIEW_LISTE_OPERATIONS );
+	hauteur_ligne_liste_opes = recupere_hauteur_ligne_tree_view ( gsb_account_get_tree_view (compte) );
 
-    v_adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ));
+    v_adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte) ));
 
     y_ligne = cherche_ligne_operation ( OPERATION_SELECTIONNEE ) * hauteur_ligne_liste_opes;
 
@@ -2079,12 +2081,12 @@ struct structure_operation *cherche_operation_from_ligne ( gint ligne,
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
-    if ( !gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
+    if ( !gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (no_compte) ))),
 					       &iter,
 					       itoa (ligne)))
 	return NULL;
 
-    gtk_tree_model_get ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
+    gtk_tree_model_get ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (no_compte) ))),
 			 &iter,
 			 9, &operation,
 			 -1 );
@@ -2127,7 +2129,7 @@ GtkTreeIter *cherche_iter_operation ( struct structure_operation *operation )
     struct structure_operation *operation_tmp;
     GtkTreeIter iter;
 
-    if ( !operation || ! TREE_VIEW_LISTE_OPERATIONS)
+    if ( !operation || ! gsb_account_get_tree_view (operation -> no_compte))
 	return NULL;
 
     /*     si l'est la ligne blanche qui est demandée (ope=-1), p_tab doit être fixé avant... */
@@ -2141,20 +2143,20 @@ GtkTreeIter *cherche_iter_operation ( struct structure_operation *operation )
     /*     on va faire le tour de la liste, et dès qu'une opé = operation */
     /* 	on retourne son iter */
 
-    gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
+    gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (operation -> no_compte) ))),
 				    &iter );
     operation_tmp = NULL;
 
     do
     {
-	gtk_tree_model_get ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
+	gtk_tree_model_get ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (operation -> no_compte) ))),
 			     &iter,
 			     9, &operation_tmp,
 			     -1 );
     }
     while ( operation_tmp != operation
 	    &&
-	    gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
+	    gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (operation -> no_compte) ))),
 				       &iter ));
 
     if ( operation_tmp == operation )
@@ -2184,7 +2186,7 @@ gint cherche_ligne_operation ( struct structure_operation *operation )
 
     iter = cherche_iter_operation ( operation );
 
-    return ( my_atoi ( gtk_tree_model_get_string_from_iter (  GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
+    return ( my_atoi ( gtk_tree_model_get_string_from_iter (  GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (operation -> no_compte) ))),
 							      iter )));
 }
 /******************************************************************************/
@@ -2627,7 +2629,7 @@ void p_press (void)
 					 gsb_account_get_marked_balance (compte_courant) - montant );
 	operation -> pointe = 0;
 
-	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
+	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte_courant) ))),
 			     iter,
 			     col, NULL,
 			     -1 );
@@ -2648,7 +2650,7 @@ void p_press (void)
 					 gsb_account_get_marked_balance (compte_courant) + montant );
 	operation -> pointe = 1;
 
-	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
+	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte_courant) ))),
 			     iter,
 			     col, _("P"),
 			     -1 );
@@ -2750,7 +2752,7 @@ void r_press (void)
 	/* on met soit le R, soit on change la sélection vers l'opé suivante */
 
 	if ( gsb_account_get_r (compte_courant) )
-	    gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
+	    gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte_courant) ))),
 				 iter,
 				 col, _("R"),
 				 -1 );
@@ -2770,7 +2772,7 @@ void r_press (void)
 	{
 	    /* dé-relève l'opération */
 
-	    gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
+	    gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte_courant) ))),
 				 iter,
 				 col, NULL,
 				 -1 );
@@ -3728,7 +3730,7 @@ gboolean affichage_traits_liste_operation ( void )
     /*  FIXME   sachant qu'on appelle ça à chaque expose-event, cad très souvent ( dès que la souris passe dessus ), */
     /*     ça peut ralentir bcp... à vérifier  */
 
-    fenetre = gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ));
+    fenetre = gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte_courant) ));
 
     gdk_drawable_get_size ( GDK_DRAWABLE ( fenetre ),
 			    &largeur,
@@ -3739,12 +3741,12 @@ gboolean affichage_traits_liste_operation ( void )
 
     /*     si la hauteur des lignes n'est pas encore calculée, on le fait ici */
 
-    hauteur_ligne_liste_opes = recupere_hauteur_ligne_tree_view ( TREE_VIEW_LISTE_OPERATIONS );
+    hauteur_ligne_liste_opes = recupere_hauteur_ligne_tree_view ( gsb_account_get_tree_view (compte_courant) );
 
     /*     on commence par calculer la dernière ligne en pixel correspondant à la dernière opé de la liste */
     /* 	pour éviter de dessiner les traits en dessous */
 
-    derniere_ligne = hauteur_ligne_liste_opes * GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))) -> length;
+    derniere_ligne = hauteur_ligne_liste_opes * GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte_courant) ))) -> length;
     hauteur = MIN ( derniere_ligne,
 		    hauteur );
 
@@ -3768,7 +3770,7 @@ gboolean affichage_traits_liste_operation ( void )
 
     if ( hauteur_ligne_liste_opes )
     {
-	adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ));
+	adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte_courant) ));
 
 	y = ( hauteur_ligne_liste_opes * gsb_account_get_nb_rows ( compte_courant ) ) * ( ceil ( adjustment->value / (hauteur_ligne_liste_opes* gsb_account_get_nb_rows ( compte_courant )) )) - adjustment -> value;
 

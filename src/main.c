@@ -53,6 +53,7 @@
 #include "utils.h"
 #include "tip.h"
 #include "erreur.h"
+#include "data_account.h"
 #include "traitement_variables.h"
 #include "fichiers_gestion.h"
 #include "parse_cmdline.h"
@@ -439,12 +440,12 @@ gboolean utilisation_temps_idle ( gpointer null )
     {
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
-	if ( !GTK_WIDGET_REALIZED ( TREE_VIEW_LISTE_OPERATIONS ))
+	if ( !GTK_WIDGET_REALIZED ( gsb_account_get_tree_view (i) ))
 	{
 	    if( DEBUG )
 		printf ( "realize tree_view compte %d\n", i );
 
-	    gtk_widget_realize ( TREE_VIEW_LISTE_OPERATIONS );
+	    gtk_widget_realize ( gsb_account_get_tree_view (i) );
 	    p_tab_nom_de_compte_variable =save_ptab;
 	    return TRUE;
 	}

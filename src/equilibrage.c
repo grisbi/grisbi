@@ -830,7 +830,7 @@ void pointe_equilibrage ( int p_ligne )
 					      operation -> taux_change,
 					      operation -> frais_change );
 
-    gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
+    gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte_courant) ))),
 					  &iter,
 					  itoa ( p_ligne ));
 
@@ -842,7 +842,7 @@ void pointe_equilibrage ( int p_ligne )
 
 	operation -> pointe = 0;
 
-	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
+	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte_courant) ))),
 			     &iter,
 			     col, NULL,
 			     -1 );
@@ -855,7 +855,7 @@ void pointe_equilibrage ( int p_ligne )
 
 	operation -> pointe = 1;
 	
-	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
+	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte_courant) ))),
 			     &iter,
 			     col, _("P"),
 			     -1 );

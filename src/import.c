@@ -1035,7 +1035,7 @@ void traitement_operations_importees ( void )
 	{
 	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
-	    if ( !TREE_VIEW_LISTE_OPERATIONS )
+	    if ( !gsb_account_get_tree_view (i) )
 	    {
 		/*     on crée le tree_view du compte */
 

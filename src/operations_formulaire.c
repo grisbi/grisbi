@@ -622,7 +622,7 @@ void echap_formulaire ( void )
     if ( !etat.formulaire_toujours_affiche )
 	gtk_widget_hide ( frame_droite_bas );
 
-    gtk_widget_grab_focus ( TREE_VIEW_LISTE_OPERATIONS );
+    gtk_widget_grab_focus ( gsb_account_get_tree_view (compte_courant) );
 
 }
 /******************************************************************************/
@@ -2308,7 +2308,7 @@ gboolean fin_edition ( void )
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
-    gtk_widget_grab_focus ( TREE_VIEW_LISTE_OPERATIONS );
+    gtk_widget_grab_focus ( gsb_account_get_tree_view (compte_courant) );
     
    /* on commence par vérifier que les données entrées sont correctes */
     /* si la fonction renvoie false, c'est qu'on doit arrêter là */
@@ -3894,7 +3894,7 @@ void affiche_cache_le_formulaire ( void )
 	/* 	on la remonte pour la mettre juste au dessus du formulaire */
 
 	update_ecran ();
-	ajustement = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ));
+	ajustement = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte_courant) ));
 	
 	position_ligne_selectionnee = ( cherche_ligne_operation ( OPERATION_SELECTIONNEE )
 					+ gsb_account_get_nb_rows ( compte_courant ) ) * hauteur_ligne_liste_opes;

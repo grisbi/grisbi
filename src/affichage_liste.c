@@ -313,8 +313,8 @@ gboolean change_choix_ajustement_auto_colonnes ( GtkWidget *bouton )
 	    gtk_tree_view_column_set_resizable ( COLONNE_LISTE_OPERATIONS(i),
 						 FALSE );
 
-	changement_taille_liste_ope ( TREE_VIEW_LISTE_OPERATIONS,
-				      &( TREE_VIEW_LISTE_OPERATIONS-> allocation ));
+	changement_taille_liste_ope ( gsb_account_get_tree_view (compte_courant),
+				      &( GTK_WIDGET (gsb_account_get_tree_view (compte_courant))-> allocation ));
     }
     else
     {
@@ -341,9 +341,9 @@ gboolean change_largeur_colonne ( GtkWidget *clist,
     {
 	p_tab_nom_de_compte_variable=p_tab_nom_de_compte + compte_courant;
 
-	if ( rapport_largeur_colonnes[colonne] * TREE_VIEW_LISTE_OPERATIONS -> allocation.width / 100 )
+	if ( rapport_largeur_colonnes[colonne] * GTK_WIDGET (gsb_account_get_tree_view (compte_courant)) -> allocation.width / 100 )
 	    gtk_tree_view_column_set_fixed_width ( COLONNE_LISTE_OPERATIONS(colonne),
-						   rapport_largeur_colonnes[colonne] * TREE_VIEW_LISTE_OPERATIONS -> allocation.width / 100 );
+						   rapport_largeur_colonnes[colonne] * GTK_WIDGET (gsb_account_get_tree_view (compte_courant)) -> allocation.width / 100 );
     }
 
     return FALSE;

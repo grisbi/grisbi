@@ -50,6 +50,7 @@ static gint gsb_account_new ( kind_account account_kind );
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern GtkWidget *tree_view;
 /*END_EXTERN*/
 
 
@@ -562,6 +563,85 @@ gboolean gsb_account_set_marked_balance ( gint no_account,
 
     return TRUE;
 }
+
+
+/** get the tree_view of the account
+ * \param no_account no of the account
+ * \return tree_view or NULL if the account doesn't exist
+ * */
+gpointer gsb_account_get_tree_view ( gint no_account )
+{
+    struct struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return NULL;
+
+    return account -> transactions_tree_view;
+}
+
+
+/** set the tree_view of the account
+ * \param no_account no of the account
+ * \param name name to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_tree_view ( gint no_account,
+				     gpointer tree_view )
+{
+    struct struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> transactions_tree_view = tree_view;
+
+    return TRUE;
+}
+
+
+/** get the scrolled_window of the account
+ * \param no_account no of the account
+ * \return tree_view or NULL if the account doesn't exist
+ * */
+gpointer gsb_account_get_scrolled_window ( gint no_account )
+{
+    struct struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return NULL;
+
+    return account -> transactions_scrolled_window;
+}
+
+
+/** set the scrolled_window of the account
+ * \param no_account no of the account
+ * \param name name to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_scrolled_window ( gint no_account,
+					   gpointer scrolled_window )
+{
+    struct struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> transactions_scrolled_window = tree_view;
+
+    return TRUE;
+}
+
+
+
 
 
 

@@ -308,11 +308,11 @@ gboolean changement_compte ( gint *compte)
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
-	VALUE_AJUSTEMENT_LISTE_OPERATIONS = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS )) -> value;
+	VALUE_AJUSTEMENT_LISTE_OPERATIONS = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte_courant) )) -> value;
 
 	/*     on cache le tree_view */
 
-	gtk_widget_hide ( SCROLLED_WINDOW_LISTE_OPERATIONS );
+	gtk_widget_hide ( gsb_account_get_scrolled_window (compte_courant) );
 
     /*     on se place sur les données du nouveau compte */
 
@@ -373,18 +373,18 @@ gboolean changement_compte ( gint *compte)
 
 	update_ecran ();
 
-	ajustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ));
+	ajustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte_courant) ));
 	gtk_adjustment_set_value ( GTK_ADJUSTMENT ( ajustment ),
 				   ajustment -> upper - ajustment -> page_size );
 
     }
     else
-	gtk_adjustment_set_value ( GTK_ADJUSTMENT ( gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
+	gtk_adjustment_set_value ( GTK_ADJUSTMENT ( gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte_courant) ))),
 				   VALUE_AJUSTEMENT_LISTE_OPERATIONS );
 
     /*     on affiche le tree_view */
 
-    gtk_widget_show ( SCROLLED_WINDOW_LISTE_OPERATIONS );
+    gtk_widget_show ( gsb_account_get_scrolled_window (compte_courant) );
 
     /* ALAIN-FIXME : nécessaire pour actualiser le compte « grisé »
        (donc compte_courant) dans le liste des comptes pour le menu :
