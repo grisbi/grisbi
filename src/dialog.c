@@ -38,14 +38,11 @@
  *
  * \param text Text to display in window
  * \param hint Hint to display
- */
-void dialogue_hint ( gchar *text, gchar *hint )
+ */void dialogue_hint ( gchar *text, gchar *hint )
 {
-  dialogue_special ( GTK_MESSAGE_INFO,
-		     g_strconcat ("<span size=\"larger\" weight=\"bold\">",
-				  hint, "</span>\n\n",
-				  text, NULL) );
+  dialogue_special ( GTK_MESSAGE_INFO, make_hint(hint, text) );
 }
+
 
 
 /**
@@ -59,6 +56,7 @@ void dialogue ( gchar *texte_dialogue )
 }
 
 
+
 /**
  * Display an error dialog window
  *
@@ -70,6 +68,7 @@ void dialogue_error ( gchar *text )
 }
 
 
+
 /**
  * Display an error dialog window with an optional hint.
  *
@@ -78,11 +77,11 @@ void dialogue_error ( gchar *text )
  */
 void dialogue_error_hint ( gchar *text, gchar * hint )
 {
-  dialogue_special ( GTK_MESSAGE_ERROR,
-		     g_strconcat ("<span size=\"larger\" weight=\"bold\">",
-				  hint, "</span>\n\n",
-				  text, NULL) );
+  dialogue_special ( GTK_MESSAGE_ERROR, make_hint(hint, text) );
 }
+
+
+
 /**
  * Display a warning dialog window
  *
@@ -102,10 +101,7 @@ void dialogue_warning ( gchar *text )
  */
 void dialogue_warning_hint ( gchar *text, gchar * hint )
 {
-  dialogue_special ( GTK_MESSAGE_WARNING,
-		     g_strconcat ("<span size=\"larger\" weight=\"bold\">",
-				  hint, "</span>\n\n",
-				  text, NULL) );
+  dialogue_special ( GTK_MESSAGE_WARNING, make_hint(hint, text) );
 }
 
 
@@ -144,9 +140,7 @@ void dialogue_special ( GtkMessageType param, gchar * text )
  */
 void dialogue_conditional_hint ( gchar *hint, gchar * text, int * var )
 {
-  dialogue_conditional ( g_strconcat ("<span size=\"larger\" weight=\"bold\">",
-				      hint, "</span>\n\n",
-				      text, NULL), var );
+  dialogue_conditional ( make_hint(hint, text), var );
 }
 
 
@@ -210,9 +204,7 @@ gboolean question ( gchar *texte )
  */
 gboolean question_yes_no_hint ( gchar * hint, gchar *texte )
 {
-  return question_yes_no ( g_strconcat ("<span size=\"larger\" weight=\"bold\">",
-					hint, "</span>\n\n",
-					texte, NULL ) );
+  return question_yes_no ( make_hint ( hint, texte ) );
 }
 
 
@@ -317,6 +309,21 @@ gboolean blocage_boites_dialogues ( GtkWidget *dialog,
 
   return ( TRUE );
 }
-/*************************************************************************************************************/
 
 
+
+/**
+ * Concatenate two strings and use pango layout to produce a string
+ * that will contain an hint and a text.
+ *
+ * \param hint Text to use as hint
+ * \param text Text to use as secondary text
+ *
+ * \return a pango formated string with the two arguments concatenated
+ */
+gchar * make_hint ( gchar * hint, gchar * text )
+{
+  return g_strconcat ("<span size=\"larger\" weight=\"bold\">",
+		      hint, "</span>\n\n",
+		      text, NULL );
+}

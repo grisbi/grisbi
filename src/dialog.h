@@ -12,3 +12,4 @@ gboolean question ( gchar *texte );
 gboolean question_yes_no ( gchar *texte );
 gboolean question_yes_no_hint ( gchar *hint, gchar *text );
 gchar *demande_texte ( gchar *titre_fenetre, gchar *question );
+gchar * make_hint ( gchar * hint, gchar * text );
