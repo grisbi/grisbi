@@ -1,11 +1,11 @@
 AC_INIT(src/main.c)
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(grisbi,0.4.1)
+AM_INIT_AUTOMAKE(grisbi,0.5.0)
 AM_ACLOCAL_INCLUDE(macros)
 AM_MAINTAINER_MODE
 
 PACKAGE=grisbi
-VERSION=0.4.1
+VERSION=0.5.0
 dnl MKINSTALLDIRS
 dnl AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE")
 dnl AC_DEFINE_UNQUOTED(VERSION, "$VERSION")
@@ -31,10 +31,6 @@ LDFLAGS="$LDFLAGS $GNOMELIBS_LIBS"
 
 AC_SUBST(CFLAGS)
 AC_SUBST(LDFLAGS)
-
-AC_DEFINE_UNQUOTED(APPLET_BIN_DIR, "$acl_final_exec_prefix/bin/grisbi_applet", APPLET_BIN_DIR)
-AC_DEFINE_UNQUOTED(GRISBI_BIN_DIR, "$acl_final_exec_prefix/bin/grisbi", GRISBI_BIN_DIR)
-AC_DEFINE_UNQUOTED(CHEMIN_LOGO, "$acl_final_prefix/share/pixmaps/logo_grisbi.xpm", CHEMIN_LOGO)
 
 dnl ******************************
 dnl Makefiles

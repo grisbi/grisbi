@@ -15,7 +15,6 @@ src/erreur.c
 src/etat_io.c
 src/etats_calculs.c
 src/etats_config.c
-src/etats_gnomeprint.c
 src/etats_gtktable.c
 src/etats_onglet.c
 src/etats_support.c
@@ -26,7 +25,6 @@ src/fichiers_gestion.c
 src/fichiers_io.c
 src/gtk_combofix.c
 src/help.c
-src/impression.c
 src/imputation_budgetaire.c
 src/main.c
 src/menu.c

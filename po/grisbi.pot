@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2003-08-27 15:41+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2003-08-27 19:05+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1402,10 +1402,6 @@ msgid ""
 "Please coose account type\n"
 "This will create default payment methods.\n"
 "You will eventually be able to change account type."
-msgstr ""
-
-#: src/devises.c:51
-msgid ""
 msgstr ""
 
 #: src/devises.c:173 src/devises.c:661
