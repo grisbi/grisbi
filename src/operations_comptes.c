@@ -345,6 +345,11 @@ gboolean changement_compte ( gint *compte)
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
 			    1 );
 
+  /* si on était dans une ventilation d'opération, alors on annule la ventilation */
+
+  if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ) ) == 1 )
+    annuler_ventilation();
+
   /* ferme le formulaire */
 
   echap_formulaire ();
