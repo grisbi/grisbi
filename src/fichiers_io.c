@@ -5070,7 +5070,6 @@ gboolean modification_etat_ouverture_fichier ( gboolean fichier_ouvert )
     gchar **tab_str;
     gint i;
 
-
     /*     on efface et on recommence... bon, changement de technique : lors de l'ouverture */
     /* 	d'un fichier, on crée un fichier .nom.swp qu'on efface à sa fermeture */
 
@@ -5080,7 +5079,9 @@ gboolean modification_etat_ouverture_fichier ( gboolean fichier_ouvert )
 	  &&
 	  !etat.force_enregistrement)
 	 ||
-	 !nom_fichier_comptes )
+	 !nom_fichier_comptes ||
+	 !nom_fichier_comptes ||
+	 !strlen(nom_fichier_comptes) )
 	return TRUE;
 
     /*     on commence par vérifier que le fichier de nom_fichier_comptes existe bien */
