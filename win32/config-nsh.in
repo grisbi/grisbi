@@ -1,7 +1,7 @@
 ; --------------------------------------------------------------------------
 ;                            GRISBI for CYGWIN
 ; --------------------------------------------------------------------------
-; $Id: config-nsh.in,v 1.1.2.1 2004/08/15 14:24:54 teilginn Exp $
+; $Id: config-nsh.in,v 1.1.2.2 2004/10/13 19:46:44 teilginn Exp $
 ; --------------------------------------------------------------------------
 ; Authors    : Francois Terrot (grisbi@terrot.net)
 ;
@@ -34,11 +34,13 @@
 ; Installer mode defines which feature is included in the build package
 ; *Unique*Required*
 ; --------------------------------------------------------------------------
-!define INSTALL_FULL_MODE
+;!define INSTALL_FULL_MODE
 ;!define INSTALL_BIN_MODE
 ;!define INSTALL_LIB_MODE
 ;!define INSTALL_APP_MODE
 ;!define INSTALL_POST_INST_MODE 
+;!define GRISBIDIR "..\..\grisbi-0.5.0"
+;!define IS_TEST_VERSION
 
 ; --------------------------------------------------------------------------
 ; Package version Information : give the "official" grisbi version number
@@ -53,7 +55,6 @@
 ; PACKAGE_DOC_VERSION : the 3 digit of the version of the documentation
 ;   example : "0.4.0"
 ; --------------------------------------------------------------------------
-#!define GRISBIDIR "..\..\grisbi-0.5.0"
 
 !define BUILDDIR "${GRISBIDIR}\build"
 !define WIN32DIR "${GRISBIDIR}\win32"
@@ -61,10 +62,9 @@
 !define VERSIONID "@CORE@"
 !define BUILDID  "@BUILD@"
 !define PATCHID  "@PATCH@"
-!define GTKVERS  "@GTKVER"
-!define REQUIRED_PATH "@BUILD@"
+!define GTKVERS  "@GTKVER@"
+!define REQUIRED_PATCH "@BUILD@"
 
-;!define IS_TEST_VERSION
 
 !ifndef LONG_VERSION ; ex 0.4.2-pre4
     !define VERSIONSTR "${VERSIONID}"

@@ -15,7 +15,7 @@ goto endofperl
 #  -------------------------------------------------------------------------
 #                               GRISBI for Windows
 #  -------------------------------------------------------------------------
-# $Id: autogen.bat,v 1.1.2.3 2004/09/02 19:46:39 teilginn Exp $
+# $Id: autogen.bat,v 1.1.2.4 2004/10/13 19:46:44 teilginn Exp $
 #  -------------------------------------------------------------------------
 # 
 #  Copyleft 2004 (c) François Terrot
@@ -38,6 +38,9 @@ goto endofperl
 #  History:
 #
 #  $Log: autogen.bat,v $
+#  Revision 1.1.2.4  2004/10/13 19:46:44  teilginn
+#  update to also manage installer
+#
 #  Revision 1.1.2.3  2004/09/02 19:46:39  teilginn
 #  get version number from configure.in if not in the directory name
 #
@@ -450,6 +453,7 @@ sub _cb_config_ini #{{{
         last READ_INI if ($l =~ s/BUILD/$config{'grisbi'}{'build'}/);
         last READ_INI if ($l =~ s/PATCH/$config{'grisbi'}{'patch'}/);
         last READ_INI if ($l =~ s/GTKVERS/$config{'grisbi'}{'gtk'}/);
+        last READ_INI if ($l =~ s/REQUIRE/$config{'grisbi'}{'build'}/);
     }
     
     $l =~ s/\s+$//;
@@ -462,7 +466,16 @@ sub _cb_config_h # {{{
 } # }}}
 sub _cb_config_nsh #{{{
 {
-    return shift;
+    my $l = shift;
+    READ_NSH: {
+        last READ_NSH if ($l =~ s/\@CORE\@/$config{'grisbi'}{'core'}/);
+        last READ_NSH if ($l =~ s/\@BUILD\@/$config{'grisbi'}{'build'}/);
+        last READ_NSH if ($l =~ s/\@PATCH\@/$config{'grisbi'}{'patch'}/);
+        last READ_NSH if ($l =~ s/\@GTKVERS\@/$config{'grisbi'}{'gtk'}/);
+        last READ_NSH if ($l =~ s/\@REQUIRE\@/$config{'grisbi'}{'require'}/);
+    }
+    $l =~ s/\s+$//;
+    return $l;
 } #}}}
 sub _cb_grisbi_private_h # {{{
 {
@@ -489,6 +502,8 @@ sub _cb_makefile # {{{
         last READ_MAKE if ($l =~ s/\@GTKDEVDIR\@/$config{'directories'}{'gtkdev'}/);
         last READ_MAKE if ($l =~ s/\@PERLBASEDIR\@/$config{'directories'}{'perl'}/);
         last READ_MAKE if ($l =~ s/\@BUILDDIR\@/$config{'directories'}{'prefix'}/);
+        last READ_MAKE if ($l =~ s/\@NSISBINDIR\@/$config{'directories'}{'nsis'}/);
+        last READ_MAKE if ($l =~ s/\@INSTSRCDIR\@/$config{'directories'}{'installer'}/);
         ( $l =~ /\@SRCS\@/ ) && do {
             my $srcs = _get_c_file_list("../src");
             $l =~ s/\@SRCS\@/$srcs/;
@@ -499,6 +514,17 @@ sub _cb_makefile # {{{
             $l =~ s/\@WIN32\@/$srcs/;
             last READ_MAKE;
         };
+        ($l =~ /\@WINGRISBIDIR\@/ ) && do {
+            $l =~ s/\@WINGRISBIDIR\@/$config{'directories'}{'grisbi'}/;
+            $l =~ s:/:\\\\:g;
+        };
+        ($l =~ /\@NSISBINDIR\@/ ) && do {
+            $l =~ s/\@NSISBINDIR\@/$config{'directories'}{'nsis'}/ if (defined($config{'directories'}{'nsis'})) ;
+        };
+        ($l =~ /\@INSTSRCDIR\@/ ) && do {
+            $l =~ s/\@INSTSRCDIR\@/$config{'directories'}{'installer'}/ if (defined($config{'directories'}{'installer'})) ;
+        };
+
     }
     
     $l =~ s/\s+$//;
@@ -631,7 +657,7 @@ sub _runtime_get_targets_list() # {{{
 sub _runtime_configure # {{{
 {
     my ($targets) = @_;
-    $targets = join ':', qw/build obj etc lib dlls pixmaps help it fr/ unless $targets;
+    $targets = join ':', qw/build obj etc lib dlls pixmaps help it fr de/ unless $targets;
     
 my $gtkcompliant   = 0;
 my $runtime_prefix = 0;
@@ -813,6 +839,7 @@ core      = CORE
 build     = BUILD
 patch     = PATCH
 gtk       = GTKVERS
+require   = BUILD
 [environment]
 compiler  = gcc ; only gcc is supported yet
 [directories]
@@ -871,6 +898,8 @@ __END__
     <target name=help  dest=help>
         <copy from=${grisbidir}/help ignore=['CVS','Makefile','topic']>C</copy>
         <copy from=${grisbidir}/help ignore=['CVS','Makefile','topic']>fr</copy>
+        <copy from=${grisbidir}/help ignore=['CVS','Makefile','topic']>de</copy>
+        <copy from=${grisbidir}/help ignore=['CVS','Makefile','topic']>it</copy>
     </target>
     <target name=pixmaps  dest=pixmaps>
         <copy from=${grisbidir}/pixmaps ignore=['CVS','Makefile','topic']>.</copy>
@@ -895,6 +924,10 @@ __END__
     <target name=it dest= >
         <copy dest=lib   from=${gtkbindir}/lib >locale/it</copy>
         <copy dest=share from=${gtkbindir}/share >locale/it</copy>
+    </target>
+    <target name=de dest= >
+        <copy dest=lib   from=${gtkbindir}/lib >locale/de</copy>
+        <copy dest=share from=${gtkbindir}/share >locale/de</copy>
     </target>
     <target name=fr dest= >
         <copy dest=lib   from=${gtkbindir}/lib >locale/fr</copy>
@@ -922,6 +955,10 @@ __END__
     <target name=it dest= >
         <copy dest=lib   from=${gtkbindir}/lib >locale/it</copy>
         <copy dest=share from=${gtkbindir}/share >locale/it</copy>
+    </target>
+    <target name=de dest= >
+        <copy dest=lib   from=${gtkbindir}/lib >locale/de</copy>
+        <copy dest=share from=${gtkbindir}/share >locale/de</copy>
     </target>
     <target name=fr dest= >
         <copy dest=lib   from=${gtkbindir}/lib >locale/fr</copy>
