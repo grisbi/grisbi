@@ -1,7 +1,7 @@
 /* ************************************************************************** */
-/*                                  utils_files.c                    */
+/*                                  utils_files.c			      */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (dionysos@grisbi.org)	      */
 /*			2004-     Francois Terrot (francois.terrot@grisbi.org)*/
@@ -292,3 +292,15 @@ gint utf8_remove(const gchar* utf8filename)
     return remove(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL));
 }
 
+
+
+/** 
+ * Sanitize a safe filename.  All chars that are not normally allowed
+ * are replaced by underscores.
+ *
+ * \param filename Filename to sanitize.
+ */
+gchar * safe_file_name ( gchar* filename )
+{
+    return g_strdelimit ( g_strdup(filename), "/\\", '_' );
+}

@@ -190,7 +190,8 @@ static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint
 	gtk_entry_set_text ( GTK_ENTRY ( account_entry ),
 			     g_strconcat ( nom_fichier_comptes,
 					   "_",
-					   g_strdelimit ( g_strdup ( NOM_DU_COMPTE) , " ", '_' ),
+					   g_strdelimit ( safe_file_name(NOM_DU_COMPTE),
+							  " ", '_' ),
 					   g_strdup(format->extension),
 					   NULL ));
 	gtk_widget_set_sensitive ( account_entry,

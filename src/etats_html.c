@@ -262,9 +262,10 @@ gint html_initialise (GSList * opes_selectionnees)
 
     file_selector = gtk_file_selection_new ( _("Export report to HTML file."));
     file_selection_set_filename ( GTK_FILE_SELECTION ( file_selector ),
-				      dernier_chemin_de_travail );
+				  dernier_chemin_de_travail );
 
-    file_selection_set_entry ( GTK_FILE_SELECTION ( file_selector ), g_strconcat ( etats_titre(), ".html", NULL ));
+    file_selection_set_entry ( GTK_FILE_SELECTION ( file_selector ), 
+			       safe_file_name ( g_strconcat (etats_titre(), ".html", NULL)));
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( file_selector ));
     switch ( resultat )
@@ -293,13 +294,14 @@ gint html_initialise (GSList * opes_selectionnees)
 	     "  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n\n"
 	     "<html>\n"
 	     "  <head>\n"
-	     "    <title>%s</title>\n"
+	     "    <title>");
+    /* FIXME: be sure this works if displayed report is not the current one. */
+    html_safe (etats_titre());
+    fprintf (html_out, 
+	     "</title>\n"
 	     "  </head>\n\n"
 	     "  <body>\n"
-	     "    <table cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n\n",
-	     /* FIXME: be sure this works if displayed report is not
-		the current one. */
-	     etats_titre() );
+	     "    <table cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n\n");
 
     return TRUE;
 }
