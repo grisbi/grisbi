@@ -618,8 +618,11 @@ void equilibrage ( void )
 
     etat.valeur_r_avant_rapprochement = AFFICHAGE_R;
 
-    change_aspect_liste ( NULL,
-			  3 );
+    AFFICHAGE_R = 0;
+    MISE_A_JOUR = 1;
+    focus_a_la_liste ();
+/*     change_aspect_liste ( NULL, */
+/* 			  3 ); */
 
 
     /* classe la liste des opés en fonction des types ou non */
@@ -751,8 +754,13 @@ gboolean annuler_equilibrage ( GtkWidget *bouton_ann,
 
 
     if ( etat.valeur_r_avant_rapprochement )
-	change_aspect_liste ( NULL,
-			      2 );
+    {
+	AFFICHAGE_R = 1;
+	MISE_A_JOUR = 1;
+	focus_a_la_liste ();
+/* 	change_aspect_liste ( NULL, */
+/* 			      2 ); */
+    }
 
     LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
 				      (GCompareFunc) classement_sliste );
@@ -1062,8 +1070,13 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
     }
 
     if ( etat.valeur_r_avant_rapprochement )
-	change_aspect_liste ( NULL,
-			      2 );
+    {
+	AFFICHAGE_R = 1;
+	MISE_A_JOUR = 1;
+	focus_a_la_liste ();
+/* 	change_aspect_liste ( NULL, */
+/* 			      2 ); */
+    }
 
     LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
 				      (GCompareFunc) classement_sliste );
