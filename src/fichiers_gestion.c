@@ -420,7 +420,8 @@ gboolean enregistrement_fichier ( gint origine )
 
     etat_force = 0;
 
-    if ( !etat.modification_fichier && origine != -2 )
+    if ( ( ! etat.modification_fichier && origine != -2 ) ||
+	 ! nb_comptes )
 	return ( TRUE );
 
     if ( origine == -1 &&
