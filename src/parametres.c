@@ -2105,16 +2105,43 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 
       if ( (menu = creation_menu_types ( 1, compte_courant , 0 )))
 	{
+	  gint pos_type;
+
 	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
 	  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
 				     menu );
-	  gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
-					cherche_no_menu_type ( TYPE_DEFAUT_DEBIT ) );
+
+	  pos_type = cherche_no_menu_type ( TYPE_DEFAUT_DEBIT );
+
+	  if ( pos_type != -1 )
+	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
+					  pos_type );
+	  else
+	    {
+	      struct struct_type_ope *type;
+
+	      gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
+					    0 );
+	      TYPE_DEFAUT_DEBIT = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu_item ),
+									  "no_type" ));
+
+	      /* on affiche l'entrée des chèques si nécessaire */
+
+	      type = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu_item ),
+					   "adr_type" );
+
+	      if ( type -> affiche_entree )
+		gtk_widget_show ( widget_formulaire_operations[10] );
+	    }
+
 	  gtk_widget_show ( widget_formulaire_operations[9] );
 	}
       else
-	gtk_widget_hide ( widget_formulaire_operations[9] );
+	{
+	  gtk_widget_hide ( widget_formulaire_operations[9] );
+	  gtk_widget_hide ( widget_formulaire_operations[10] );
+	}
 
       demande_mise_a_jour_tous_comptes ();
       verification_mise_a_jour_liste ();

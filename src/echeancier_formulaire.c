@@ -3102,8 +3102,54 @@ void completion_operation_par_tiers_echeancier ( void )
   /* met l'option menu du type d'opé */
 
   if ( GTK_WIDGET_VISIBLE ( widget_formulaire_echeancier[7] ))
-    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ),
-				  cherche_no_menu_type_echeancier ( operation -> type_ope ));
+    {
+      gint place_type;
+
+      place_type = cherche_no_menu_type_echeancier ( operation -> type_ope );
+
+      /*       si la place est trouvée, on la met, sinon on met à la place par défaut */
+
+      if ( place_type != -1 )
+	gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ),
+				      place_type );
+      else
+	{
+	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+
+	  if ( operation -> montant < 0 )
+	    place_type = cherche_no_menu_type_echeancier ( TYPE_DEFAUT_DEBIT );
+	  else
+	      place_type = cherche_no_menu_type_echeancier ( TYPE_DEFAUT_CREDIT );
+
+	  if ( place_type != -1 )
+	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ),
+					  place_type );
+	  else
+	    {
+	      struct struct_type_ope *type;
+
+	      gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ),
+					    0 );
+
+	      /*  on met ce type par défaut, vu que celui par défaut marche plus ... */
+
+	      if ( operation -> montant < 0 )
+		TYPE_DEFAUT_DEBIT = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ) -> menu_item ),
+						      "no_type" ));
+	      else
+		TYPE_DEFAUT_CREDIT = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ) -> menu_item ),
+						      "no_type" ));
+
+	      /* récupère l'adr du type pour afficher l'entrée si nécessaire */
+
+	      type = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ) -> menu_item ),
+					   "adr_type" );
+
+	      if ( type -> affiche_entree )
+		gtk_widget_show ( widget_formulaire_echeancier[8] );
+	    }
+	}
+    }
 
   /* met en place l'exercice */
 

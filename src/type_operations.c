@@ -1907,6 +1907,7 @@ GtkWidget *creation_menu_types ( gint demande,
 /*   argument : le numéro du type demandé */
 /* renvoie la place demandée dans l'option menu du formulaire */
 /* pour mettre l'history et affiche l'entrée du chq si nécessaire */
+/* retourne -1 si pas trouvé */
 /* ************************************************************************************************************** */
 
 gint cherche_no_menu_type ( gint demande )
@@ -1918,7 +1919,7 @@ gint cherche_no_menu_type ( gint demande )
     return ( FALSE );
 
   liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu ) -> children;
-  retour = 0;
+  retour = -1;
 
   while ( liste_tmp && !retour )
     {
@@ -1956,6 +1957,7 @@ gint cherche_no_menu_type ( gint demande )
 /*   argument : le numéro du type demandé */
 /* renvoie la place demandée dans l'option menu du formulaire */
 /* pour mettre l'history et affiche l'entrée du chq si nécessaire */
+/* retourne -1 si pas trouvé */
 /* ************************************************************************************************************** */
 
 gint cherche_no_menu_type_echeancier ( gint demande )
@@ -1968,7 +1970,7 @@ gint cherche_no_menu_type_echeancier ( gint demande )
     return ( FALSE );
 
   liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ) -> menu ) -> children;
-  retour = 0;
+  retour = -1;
 
   while ( liste_tmp && !retour )
     {

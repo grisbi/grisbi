@@ -2157,18 +2157,50 @@ fflush(0);
 
   if ( GTK_WIDGET_VISIBLE ( widget_formulaire_operations[9] ))
     {
-      gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
-				    cherche_no_menu_type ( operation -> type_ope ));
-      if ( operation -> type_ope )
-	{
-	  struct struct_type_ope *type;
+      gint place_type;
+      struct struct_type_ope *type;
 
-	  type = g_slist_find_custom ( TYPES_OPES,
-				       GINT_TO_POINTER ( operation -> type_ope ),
-				       (GCompareFunc) recherche_type_ope_par_no ) -> data;
+      place_type = cherche_no_menu_type ( operation -> type_ope );
+
+      if ( place_type == -1 )
+	{
+	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+	  if ( operation -> montant < 0 )
+	    place_type = cherche_no_menu_type ( TYPE_DEFAUT_DEBIT );
+	  else
+	    place_type = cherche_no_menu_type ( TYPE_DEFAUT_CREDIT );
+
+	  if ( place_type != -1 )
+	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
+					  place_type );
+	  else
+	    {
+	      gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
+					    0 );
+
+	      /*  on met ce type par défaut, vu que celui par défaut marche plus ... */
+	      
+	      if ( operation -> montant < 0 )
+		TYPE_DEFAUT_DEBIT = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu_item ),
+						      "no_type" ));
+	      else
+		TYPE_DEFAUT_CREDIT = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu_item ),
+						      "no_type" ));
+	    }
+
+	  /* réupère l'adr du type pour mettre un n° auto si nécessaire */
+
+	  type = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu_item ),
+				       "adr_type" );
+
 
 	  if ( type -> affiche_entree )
 	    {
+	      /* on réaffiche l'entrée car si le menu avait été mis sur le 0, c'était pas affiché */
+
+	      gtk_widget_show ( widget_formulaire_operations[10] );
+
 	      if ( type -> numerotation_auto )
 		{
 		  entree_prend_focus ( widget_formulaire_operations[10] );
