@@ -83,7 +83,7 @@ gboolean recuperation_donnees_gnucash ( gchar * filename )
 	    {
 	      gchar * type = child_content(root_node, "type");
 	      if ( strcmp(type, "INCOME") && strcmp(type, "EXPENSES") &&
-		   strcmp(type, "EQUITY"),  )
+		   strcmp(type, "EQUITY") )
 		{
 		  /* Ce n'est pas un compte de catégories */
 		  recuperation_donnees_gnucash_compte ( root_node );
@@ -266,7 +266,7 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 		  contra_account = split_account;
 		  contra_transaction = calloc ( 1, sizeof ( struct struct_ope_importation ));
 		  contra_transaction -> montant = gnucash_value ( child_content(split_node, "value") );
-		  printf (">>> amount : %f\n", contra_transaction -> montant);
+		  contra_transaction -> tiers = child_content ( transaction_node, "description" );
 		  contra_transaction -> notes = child_content(split_node, "memo");
 		  if ( !strcmp(child_content(split_node, "reconciled-state"), "y") )
 		    contra_transaction -> p_r = OPERATION_RAPPROCHEE;
