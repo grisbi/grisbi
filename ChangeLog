@@ -1,3 +1,50 @@
+2004-03-25  Alain Portal <dionysos@grisbi.org>
+
+	* ChangeLog: Update
+
+2004-03-25  Alain Portal <dionysos@grisbi.org>
+
+	* debian/grisbi.1: Grisbi man page is for all distrib now.
+
+2004-03-25  Benjamin Drieu <bdrieu@april.org>
+
+	* debian/changelog, debian/copyright, debian/rules: Update to 0.4.4
+
+2004-03-25  Benjamin Drieu <bdrieu@april.org>
+
+	* grisbi.1: Be meticulous ;-) + explicitely set version
+
+2004-03-25  Benjamin Drieu <bdrieu@april.org>
+
+	* grisbi.1: Advertise --tab and remove debian notes as this is
+	upstream now
+
+2004-03-25  Benjamin Drieu <bdrieu@april.org>
+
+	* README: Update manual description + update release date
+
+2004-03-24  Alain Portal <dionysos@grisbi.org>
+
+	* src/etats_config.c: Remove a forgotten debug dialog box.  Dirty
+	fix crash: force field date to never be empty.
+
+2004-03-23  Alain Portal <dionysos@grisbi.org>
+
+	* src/Makefile.am, src/Makefile.in: Update logo and icon to euro
+
+2004-03-23  Alain Portal <dionysos@grisbi.org>
+
+	* src/logo_grisbi.xpm: Update logo to euro.
+
+2004-03-23  Alain Portal <dionysos@grisbi.org>
+
+	* src/grisbi-logo.png, src/grisbi.png: Update logo and icon to
+	euro.
+
+2004-03-23  Alain Portal <dionysos@grisbi.org>
+
+	* ChangeLog: Update
+
 2004-03-23  Alain Portal <dionysos@grisbi.org>
 
 	* po/grisbi.pot, po/fr.po: Update
