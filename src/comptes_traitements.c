@@ -758,6 +758,7 @@ void update_options_menus_comptes ( void )
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
 			       creation_option_menu_comptes_nonclos (GTK_SIGNAL_FUNC(changement_choix_compte_echeancier),
 								     TRUE) );
+
 }
 /* ************************************************************************** */
 

@@ -1477,17 +1477,17 @@ gint cherche_no_menu_type_associe ( gint demande,
 	return ( FALSE );
 
     if ( origine )
-      {
+    {
 	GtkWidget * menu = GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_BREAKDOWN_FORM_CONTRA] ) -> menu;
 	if ( menu )
-	  liste_tmp = GTK_MENU_SHELL ( menu ) -> children;
-      }
+	    liste_tmp = GTK_MENU_SHELL ( menu ) -> children;
+    }
     else
-      {
+    {
 	GtkWidget * menu = GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_CONTRA] ) -> menu;
 	if ( menu )
-	  liste_tmp = GTK_MENU_SHELL ( menu ) -> children;
-      }
+	    liste_tmp = GTK_MENU_SHELL ( menu ) -> children;
+    }
 
     retour = -1;
     i=0;

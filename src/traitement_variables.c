@@ -39,7 +39,7 @@ extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre; 
 extern gint affichage_echeances_perso_j_m_a; 
 extern GSList *echeances_saisies;
-
+extern gint noname_account_number;
 
 /*****************************************************************************************************/
 /* fonction appelée lors de modification ou non de fichier */
@@ -275,6 +275,7 @@ void init_variables ( gboolean ouverture )
 	/* 	    variable / FIXME: initialiser toutes les variables globales ? */
 
 	bouton_supprimer_banque = NULL;
+	noname_account_number = 0;
     }
 }
 /*****************************************************************************************************/
