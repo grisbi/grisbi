@@ -58,7 +58,7 @@ extern GtkWidget *paned_onglet_etats;
 void charge_configuration ( void )
 {
     xmlDocPtr doc;
-    xmlNodePtr node;
+    xmlNodePtr node, root;
     struct stat buffer_stat;
 
     raz_configuration ();
@@ -75,7 +75,7 @@ void charge_configuration ( void )
     doc = xmlParseFile ( g_strconcat ( my_get_grisbirc_dir(), C_GRISBIRC, NULL ) );
 
     /* vérifications d'usage */
-    xmlNodePtr root = xmlDocGetRootElement(doc);
+    root = xmlDocGetRootElement(doc);
 
     if ( !root
 	 ||
@@ -204,8 +204,8 @@ void charge_configuration ( void )
 		    compression_backup = my_atoi(xmlNodeGetContent ( node_io));
 		}
 		if ( !strcmp ( node_io->name, "Liste_noms_derniers_fichiers_ouverts" ) ) {
-		    nb_derniers_fichiers_ouverts = 0;
 		    xmlNodePtr node_filename = node_io -> children;
+		    nb_derniers_fichiers_ouverts = 0;
 		    tab_noms_derniers_fichiers_ouverts = malloc ( nb_max_derniers_fichiers_ouverts * sizeof(gchar *) );
 		    while ( node_filename ) {
 			if ( !strcmp ( node_filename -> name, "fichier" ) ) {
