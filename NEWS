@@ -1,12 +1,12 @@
-New in version 0.5.x :
- - GTK2 lists
- - grid on the lists
- - works when idle
- - sort by click on columns
- - form structure defines by user
- - end of the obligatory to use Euro
-
- 
+New in version CVS HEAD :
+ - Totally redesigned transaction list with native GTK2 widgets
+ - Optional grid in transaction list
+ - New "view" menu
+ - Extensive use of idle to speed up process
+ - Custom sort for transaction list columns
+ - Form structure defined by user
+ - End of the obligation to use Euro
+ - Gnucash files import
 
 New in version 0.5.0 :
  - GTK2 & libxml2 support
