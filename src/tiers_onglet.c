@@ -115,7 +115,6 @@ GtkTreeStore *payee_tree_model;
 
 /*START_EXTERN*/
 extern gint compte_courant;
-extern struct struct_devise *devise_compte;
 extern struct struct_devise *devise_operation;
 extern struct struct_etat *etat_courant;
 extern GtkWidget *formulaire;
@@ -552,12 +551,6 @@ void remplit_arbre_tiers ( void )
     gtk_tree_store_clear ( GTK_TREE_STORE (payee_tree_model) );
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
-    /** Currency used for totals is then chosen from preferences.  */
-    if ( !devise_compte
-	 ||
-	 devise_compte -> no_devise != no_devise_totaux_tiers )
-	devise_compte = devise_par_no ( no_devise_totaux_tiers );
 
     /* Compute payee balances. */
     calcule_total_montant_payee ();
