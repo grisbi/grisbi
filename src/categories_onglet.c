@@ -1111,7 +1111,7 @@ void ouverture_node_categ ( GtkWidget *arbre,
 		      if ( operation -> notes )
 			{
 			  if ( operation -> no_operation_ventilee_associee )
-			    text[0] = g_strdup_printf ( _("%d/%d/%d : %4.2f %s (breakdown) [ %s ]"),
+			    text[0] = g_strdup_printf ( _("%02d/%02d/%04d : %4.2f %s (breakdown) [ %s ]"),
 							operation -> jour,
 							operation -> mois,
 							operation -> annee,
@@ -1119,7 +1119,7 @@ void ouverture_node_categ ( GtkWidget *arbre,
 							devise_operation -> code_devise,
 							operation -> notes );
 			  else
-			    text[0] = g_strdup_printf ( "%d/%d/%d : %4.2f %s [ %s ]",
+			    text[0] = g_strdup_printf ( "%02d/%02d/%04d : %4.2f %s [ %s ]",
 							operation -> jour,
 							operation -> mois,
 							operation -> annee,
@@ -1130,14 +1130,14 @@ void ouverture_node_categ ( GtkWidget *arbre,
 		      else
 			{
 			  if ( operation -> no_operation_ventilee_associee )
-			    text[0] = g_strdup_printf ( _("%d/%d/%d : %4.2f %s (breakdown)"),
+			    text[0] = g_strdup_printf ( _("%02d/%02d/%04d : %4.2f %s (breakdown)"),
 							operation -> jour,
 							operation -> mois,
 							operation -> annee,
 							operation -> montant,
 							devise_operation -> code_devise );
 			  else
-			    text[0] = g_strdup_printf ( "%d/%d/%d : %4.2f %s",
+			    text[0] = g_strdup_printf ( "%02d/%02d/%04d : %4.2f %s",
 							operation -> jour,
 							operation -> mois,
 							operation -> annee,

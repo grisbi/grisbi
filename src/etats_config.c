@@ -441,14 +441,14 @@ void personnalisation_etat (void)
 
   if ( etat_courant -> date_perso_debut )
     gtk_entry_set_text ( GTK_ENTRY ( entree_date_init_etat ),
-			 g_strdup_printf ( "%d/%d/%d",
+			 g_strdup_printf ( "%02d/%02d/%04d",
 					   g_date_day ( etat_courant -> date_perso_debut ),
 					   g_date_month ( etat_courant -> date_perso_debut ),
 					   g_date_year ( etat_courant -> date_perso_debut )));
 
   if ( etat_courant -> date_perso_fin )
     gtk_entry_set_text ( GTK_ENTRY ( entree_date_finale_etat ),
-			 g_strdup_printf ( "%d/%d/%d",
+			 g_strdup_printf ( "%02d/%02d/%04d",
 					   g_date_day ( etat_courant -> date_perso_fin ),
 					   g_date_month ( etat_courant -> date_perso_fin ),
 					   g_date_year ( etat_courant -> date_perso_fin )));

@@ -1518,7 +1518,7 @@ void exporter_fichier_qif ( void )
       struct stat test_fichier;
 
 
-      nom_fichier_qif = (gchar *) gtk_entry_get_text ( GTK_ENTRY ( liste_tmp -> data ));
+      nom_fichier_qif = gtk_entry_get_text ( GTK_ENTRY ( liste_tmp -> data ));
 
 
       if ( stat ( nom_fichier_qif,
@@ -1572,7 +1572,7 @@ void exporter_fichier_qif ( void )
 
       /*       ouverture du fichier, si pb, on marque l'erreur et passe au fichier suivant */
 
-      nom_fichier_qif = (gchar *) gtk_entry_get_text ( GTK_ENTRY ( liste_tmp -> data ));
+      nom_fichier_qif = gtk_entry_get_text ( GTK_ENTRY ( liste_tmp -> data ));
 
       if ( !( fichier_qif = fopen ( nom_fichier_qif,
 				    "w" ) ))
@@ -1612,7 +1612,7 @@ void exporter_fichier_qif ( void )
 	      operation = LISTE_OPERATIONS -> data;
 
 	      fprintf ( fichier_qif,
-			"D%d/%d/%d\n",
+			"D%02d/%02d/%04d\n",
 			operation -> jour,
 			operation -> mois,
 			operation -> annee );
@@ -1665,7 +1665,7 @@ void exporter_fichier_qif ( void )
 		      /* met la date */
 
 		      fprintf ( fichier_qif,
-				"D%d/%d/%d\n",
+				"D%02d/%02d/%04d\n",
 				operation -> jour,
 				operation -> mois,
 				operation -> annee );

@@ -51,9 +51,7 @@ GtkWidget *onglet_tiers ( void )
 
 /* création des pixmaps pour la liste */
 
-  /* FIXME */
-  /* BIG FIXME !!! */
-  /*gnome_stock_pixmap_gdk ( GNOME_STOCK_PIXMAP_BOOK_RED,
+  gnome_stock_pixmap_gdk ( GNOME_STOCK_PIXMAP_BOOK_RED,
 			   "",
 			   &pixmap_ouvre,
 			   &masque_ouvre );
@@ -62,7 +60,6 @@ GtkWidget *onglet_tiers ( void )
 			   "",
 			   &pixmap_ferme,
 			   &masque_ferme );
-			   */
 
 
 
@@ -157,9 +154,7 @@ GtkWidget *onglet_tiers ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  /* FIXME */
-  bouton_modif_tiers_modifier = gtk_button_new_from_stock (GTK_STOCK_APPLY);
-/*   bouton_modif_tiers_modifier = gnome_stock_button ( GNOME_STOCK_BUTTON_APPLY ); */
+  bouton_modif_tiers_modifier = gnome_stock_button ( GNOME_STOCK_BUTTON_APPLY );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_modif_tiers_modifier ),
 			  GTK_RELIEF_NONE );
   gtk_widget_set_sensitive ( bouton_modif_tiers_modifier,
@@ -175,9 +170,7 @@ GtkWidget *onglet_tiers ( void )
 		       0 );
   gtk_widget_show ( bouton_modif_tiers_modifier );
 
-  /* FIXME */
-  bouton_modif_tiers_annuler = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
-/*   bouton_modif_tiers_annuler = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL ); */
+  bouton_modif_tiers_annuler = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_modif_tiers_annuler ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton_modif_tiers_annuler ),
@@ -193,9 +186,7 @@ GtkWidget *onglet_tiers ( void )
 		       0 );
   gtk_widget_show ( bouton_modif_tiers_annuler);
 
-  /* FIXME */
-  bouton_supprimer_tiers = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
-/*   bouton_supprimer_tiers = gnome_stock_button ( GNOME_STOCK_PIXMAP_REMOVE ); */
+  bouton_supprimer_tiers = gnome_stock_button ( GNOME_STOCK_PIXMAP_REMOVE );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_supprimer_tiers ),
 			  GTK_RELIEF_NONE );
   gtk_widget_set_sensitive ( bouton_supprimer_tiers,
@@ -407,7 +398,7 @@ void remplit_arbre_tiers ( void )
       if ( fabs ( tab_montant[place_tiers]) >= 0.01)
 	text[1] = g_strdup_printf ( "%4.2f %s",
 				    tab_montant[place_tiers],
-				    devise_name ( devise_compte ) );
+				    devise_compte -> code_devise );
       else
 	text[1] = NULL;
 
@@ -442,13 +433,10 @@ void remplit_arbre_tiers ( void )
 				      NULL,
 				      text,
 				      10,
-				      NULL,NULL,NULL,NULL,
-				      /* FIXME
 				      pixmap_ouvre,
 				      masque_ouvre,
 				      pixmap_ferme,
 				      masque_ferme,
-				      */
 				      FALSE,
 				      FALSE );
 
@@ -727,20 +715,20 @@ void ouverture_node_tiers ( GtkWidget *arbre,
 	       !operation -> no_operation_ventilee_associee )
 	    {
 	      if ( operation -> notes )
-		text[0] = g_strdup_printf ( "%d/%d/%d : %4.2f %s [ %s ]",
+		text[0] = g_strdup_printf ( "%02d/%02d/%04d : %4.2f %s [ %s ]",
 					    operation -> jour,
 					    operation -> mois,
 					    operation -> annee,
 					    operation -> montant,
-					    devise_name ( devise_operation ),
+					    devise_operation -> code_devise,
 					    operation -> notes );
 	      else
-		text[0] = g_strdup_printf ( "%d/%d/%d : %4.2f %s",
+		text[0] = g_strdup_printf ( "%02d/%02d/%04d : %4.2f %s",
 					    operation -> jour,
 					    operation -> mois,
 					    operation -> annee,
 					    operation -> montant,
-					    devise_name ( devise_operation ) );
+					    devise_operation -> code_devise );
 
 	      text[1] = NULL;
 	      text[2] = NULL;
@@ -963,12 +951,12 @@ void clique_sur_modifier_tiers ( GtkWidget *bouton_modifier,
 
 /* si c'est une modif du nom, on doit réafficher la liste des tiers et les listes des opés, sinon, on change juste le texte */
 
-  if ( strcmp ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_tiers ))),
+  if ( strcmp ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_nom_tiers ))),
 		tiers -> nom_tiers ))
     {
       free ( tiers -> nom_tiers );
 
-      tiers -> nom_tiers = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_tiers ))) );
+      tiers -> nom_tiers = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_nom_tiers ))) );
 
 
       node = GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_tiers ) -> selection ) -> data );
@@ -988,22 +976,16 @@ void clique_sur_modifier_tiers ( GtkWidget *bouton_modifier,
 					 0,
 					 tiers -> nom_tiers,
 					 10,
-					 NULL, NULL );
-	  /* BENJ FIXME
 					 pixmap_ferme,
 					 masque_ferme );
-					 */
 	  else
 	    gtk_ctree_node_set_pixtext ( GTK_CTREE ( arbre_tiers ),
 					 node,
 					 0,
 					 tiers -> nom_tiers,
 					 10,
-					 NULL, NULL );
-	  /* BENJ FIXME
 					 pixmap_ouvre,
 					 masque_ouvre );
-					 */
 
       demande_mise_a_jour_tous_comptes ();
       remplissage_liste_echeance();
@@ -1661,7 +1643,7 @@ gchar *calcule_total_montant_tiers_par_compte ( gint no_tiers,
   if ( retour_int )
     return ( g_strdup_printf ( "%4.2f %s",
 			       retour_int,
-			       devise_name ( devise_compte ) ));
+			       devise_compte -> code_devise ));
   else
     return ( NULL );
 }
@@ -1697,13 +1679,10 @@ void appui_sur_ajout_tiers ( void )
 				  NULL,
 				  text,
 				  10,
-				  NULL,NULL,NULL,NULL,
-				  /*
 				  pixmap_ouvre,
 				  masque_ouvre,
 				  pixmap_ferme,
 				  masque_ferme,
-				  */
 				  FALSE,
 				  FALSE );
 

@@ -4496,7 +4496,7 @@ gboolean enregistre_fichier ( gboolean force )
 
 	  xmlSetProp ( node_ope,
 		       "D",
-		       g_strdup_printf ( "%d/%d/%d",
+		       g_strdup_printf ( "%02d/%02d/%04d",
 					 operation -> jour,
 					 operation -> mois,
 					 operation -> annee ));
@@ -4504,7 +4504,7 @@ gboolean enregistre_fichier ( gboolean force )
     /* GDC : Ecriture de la date bancaire */
 	  xmlSetProp ( node_ope,
 		       "Db",
-		       g_strdup_printf ( "%d/%d/%d",
+		       g_strdup_printf ( "%02d/%02d/%04d",
 					 operation -> jour_bancaire,
 					 operation -> mois_bancaire,
 					 operation -> annee_bancaire ));
@@ -4663,7 +4663,7 @@ gboolean enregistre_fichier ( gboolean force )
 
       xmlSetProp ( node_echeance,
 		   "Date",
-		   g_strdup_printf ( "%d/%d/%d",
+		   g_strdup_printf ( "%02d/%02d/%04d",
 				     echeance -> jour,
 				     echeance -> mois,
 				     echeance -> annee ));
@@ -4740,7 +4740,7 @@ gboolean enregistre_fichier ( gboolean force )
       if ( echeance -> jour_limite )
 	xmlSetProp ( node_echeance,
 		     "Date_limite",
-		     g_strdup_printf ( "%d/%d/%d",
+		     g_strdup_printf ( "%02d/%02d/%04d",
 				       echeance -> jour_limite,
 				       echeance -> mois_limite,
 				       echeance -> annee_limite ));
@@ -5075,7 +5075,7 @@ gboolean enregistre_fichier ( gboolean force )
       if ( devise -> date_dernier_change )
 	xmlSetProp ( node_devise,
 		     "Date_dernier_change",
-		     g_strdup_printf (  "%d/%d/%d",
+		     g_strdup_printf (  "%02d/%02d/%04d",
 					g_date_day ( devise -> date_dernier_change ),
 					g_date_month ( devise -> date_dernier_change ),
 					g_date_year ( devise -> date_dernier_change )));
@@ -5257,7 +5257,7 @@ gboolean enregistre_fichier ( gboolean force )
       if ( exercice->date_debut )
 	xmlSetProp ( node_exercice,
 		     "Date_debut",
-		     g_strdup_printf ( "%d/%d/%d",
+		     g_strdup_printf ( "%02d/%02d/%04d",
 				       g_date_day ( exercice->date_debut ),
 				       g_date_month ( exercice->date_debut ),
 				       g_date_year ( exercice->date_debut )));
@@ -5269,7 +5269,7 @@ gboolean enregistre_fichier ( gboolean force )
       if ( exercice->date_fin )
 	xmlSetProp ( node_exercice,
 		     "Date_fin",
-		     g_strdup_printf ( "%d/%d/%d",
+		     g_strdup_printf ( "%02d/%02d/%04d",
 				       g_date_day ( exercice->date_fin ),
 				       g_date_month ( exercice->date_fin ),
 				       g_date_year ( exercice->date_fin )));
@@ -5583,7 +5583,7 @@ gboolean enregistre_fichier ( gboolean force )
 	xmlNewTextChild ( node_etat,
 		    NULL,
 		     "Date_debut",
-		     g_strdup_printf ( "%d/%d/%d",
+		     g_strdup_printf ( "%02d/%02d/%04d",
 				       g_date_day ( etat->date_perso_debut ),
 				       g_date_month ( etat->date_perso_debut ),
 				       g_date_year ( etat->date_perso_debut )));
@@ -5597,7 +5597,7 @@ gboolean enregistre_fichier ( gboolean force )
 	xmlNewTextChild ( node_etat,
 		    NULL,
 		     "Date_fin",
-		     g_strdup_printf ( "%d/%d/%d",
+		     g_strdup_printf ( "%02d/%02d/%04d",
 				       g_date_day ( etat->date_perso_fin ),
 				       g_date_month ( etat->date_perso_fin ),
 				       g_date_year ( etat->date_perso_fin )));

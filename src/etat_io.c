@@ -1238,7 +1238,7 @@ gboolean enregistre_etat ( gchar *nom_etat )
     xmlNewTextChild ( node,
 		    NULL,
 		 "Date_debut",
-		 g_strdup_printf ( "%d/%d/%d",
+		 g_strdup_printf ( "%02d/%02d/%04d",
 				   g_date_day ( etat_courant->date_perso_debut ),
 				   g_date_month ( etat_courant->date_perso_debut ),
 				   g_date_year ( etat_courant->date_perso_debut )));
@@ -1252,7 +1252,7 @@ gboolean enregistre_etat ( gchar *nom_etat )
     xmlNewTextChild ( node,
 		    NULL,
 		 "Date_fin",
-		 g_strdup_printf ( "%d/%d/%d",
+		 g_strdup_printf ( "%02d/%02d/%04d",
 				   g_date_day ( etat_courant->date_perso_fin ),
 				   g_date_month ( etat_courant->date_perso_fin ),
 				   g_date_year ( etat_courant->date_perso_fin )));

@@ -213,7 +213,7 @@ gchar * etats_titre ()
 	       etat_courant -> date_perso_fin )
 	    titre = g_strconcat ( titre,
 				  ", ",
-				  g_strdup_printf ( _("Result from %d/%d/%d to %d/%d/%d"),
+				  g_strdup_printf ( _("Result from %02d/%02d/%04d to %02d/%02d/%04d"),
 						    g_date_day ( etat_courant -> date_perso_debut ),
 						    g_date_month ( etat_courant -> date_perso_debut ),
 						    g_date_year ( etat_courant -> date_perso_debut ),
@@ -231,7 +231,7 @@ gchar * etats_titre ()
 	  /* cumul à ce jour */
 
 	  titre = g_strconcat ( titre,
-				", ", g_strdup_printf ( _("total at %d/%d/%d"),
+				", ", g_strdup_printf ( _("total at %02d/%02d/%04d"),
 						  g_date_day ( date_jour ),
 						  g_date_month ( date_jour ),
 						  g_date_year ( date_jour )),
@@ -267,7 +267,7 @@ gchar * etats_titre ()
 	  /* cumul mensuel */
 
 	  titre = g_strconcat ( titre,
-				", ", g_strdup_printf ( _("month total at %d/%d/%d"),
+				", ", g_strdup_printf ( _("month total at %02d/%02d/%04d"),
 						  g_date_day ( date_jour ),
 						  g_date_month ( date_jour ),
 						  g_date_year ( date_jour )),
@@ -278,7 +278,7 @@ gchar * etats_titre ()
 	  /* cumul annuel */
 
 	  titre = g_strconcat ( titre,
-				", ", g_strdup_printf ( _("year total at %d/%d/%d"),
+				", ", g_strdup_printf ( _("year total at %02d/%02d/%04d"),
 						  g_date_day ( date_jour ),
 						  g_date_month ( date_jour ),
 						  g_date_year ( date_jour )),
@@ -323,7 +323,7 @@ gchar * etats_titre ()
 				 30 );
 
 	  titre = g_strconcat ( titre,
-				", ", g_strdup_printf ( _("Result from %d/%d/%d to %d/%d/%d"),
+				", ", g_strdup_printf ( _("Result from %02d/%02d/%04d to %02d/%02d/%04d"),
 						  g_date_day ( date_tmp ),
 						  g_date_month ( date_tmp ),
 						  g_date_year (date_tmp  ),

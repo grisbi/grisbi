@@ -187,9 +187,7 @@ GtkWidget *onglet_imputations ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  /* FIXME */
-  bouton_modif_imputation_modifier = gtk_button_new_from_stock (GTK_STOCK_APPLY);
-/*   bouton_modif_imputation_modifier = gnome_stock_button ( GNOME_STOCK_BUTTON_APPLY ); */
+  bouton_modif_imputation_modifier = gnome_stock_button ( GNOME_STOCK_BUTTON_APPLY );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_modif_imputation_modifier ),
 			  GTK_RELIEF_NONE );
   gtk_widget_set_sensitive ( bouton_modif_imputation_modifier,
@@ -205,9 +203,7 @@ GtkWidget *onglet_imputations ( void )
 		       0 );
   gtk_widget_show ( bouton_modif_imputation_modifier );
 
-  /* FIXME */
-  bouton_modif_imputation_annuler = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
-/*   bouton_modif_imputation_annuler = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL ); */
+  bouton_modif_imputation_annuler = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_modif_imputation_annuler ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton_modif_imputation_annuler ),
@@ -223,9 +219,7 @@ GtkWidget *onglet_imputations ( void )
 		       0 );
   gtk_widget_show ( bouton_modif_imputation_annuler);
 
-  /* FIXME */
-  bouton_supprimer_imputation = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
-/*   bouton_supprimer_imputation = gnome_stock_button ( GNOME_STOCK_PIXMAP_REMOVE ); */
+  bouton_supprimer_imputation = gnome_stock_button ( GNOME_STOCK_PIXMAP_REMOVE );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_supprimer_imputation ),
 			  GTK_RELIEF_NONE );
   gtk_widget_set_sensitive ( bouton_supprimer_imputation,
@@ -535,7 +529,7 @@ void remplit_arbre_imputation ( void )
       if ( tab_montant_imputation[place_imputation+1] )
 	text[1] = g_strdup_printf ( "%4.2f %s",
 				    tab_montant_imputation[place_imputation+1],
-				    devise_name ( devise_compte ) );
+				    devise_compte -> code_devise );
       else
 	text[1] = NULL;
 
@@ -595,7 +589,7 @@ void remplit_arbre_imputation ( void )
 	       tab_montant_sous_imputation[place_imputation][place_sous_imputation+1] )
 	    text[2] = g_strdup_printf ( "%4.2f %s",
 					tab_montant_sous_imputation[place_imputation][place_sous_imputation+1],
-					devise_name ( devise_compte ) );
+					devise_compte -> code_devise );
 	  else
 	    text[2] = NULL;
 
@@ -661,7 +655,7 @@ void remplit_arbre_imputation ( void )
 	  if ( tab_montant_sous_imputation[place_imputation][0] )
 	    text[2] = g_strdup_printf ( "%4.2f %s",
 					tab_montant_sous_imputation[place_imputation][0],
-					devise_name ( devise_compte ) );
+					devise_compte -> code_devise );
 	  else
 	    text[2] = NULL;
 
@@ -720,7 +714,7 @@ void remplit_arbre_imputation ( void )
 
       text[1] = g_strdup_printf ( "%4.2f %s",
 				  tab_montant_imputation[0],
-				  devise_name ( devise_compte ) );
+				  devise_compte -> code_devise );
       text[2] = NULL;
       text[3] = NULL;
 
@@ -749,7 +743,7 @@ void remplit_arbre_imputation ( void )
       text[1] = NULL;
       text[2] = g_strdup_printf ( "%4.2f %s",
 				  tab_montant_imputation[0],
-				  devise_name ( devise_compte ) );
+				  devise_compte -> code_devise );
       text[3] = NULL;
 
       ligne = gtk_ctree_insert_node ( GTK_CTREE ( arbre_imputation ),
@@ -1026,38 +1020,38 @@ void ouverture_node_imputation ( GtkWidget *arbre,
 		      if ( operation -> notes )
 			{
 			  if ( operation -> no_operation_ventilee_associee )
-			    text[0] = g_strdup_printf ( _("%d/%d/%d : %4.2f %s (breakdown) [ %s ]"),
+			    text[0] = g_strdup_printf ( _("%02d/%02d/%04d : %4.2f %s (breakdown) [ %s ]"),
 							operation -> jour,
 							operation -> mois,
 							operation -> annee,
 							operation -> montant,
-							devise_name ( devise_operation ),
+							devise_operation -> code_devise,
 							operation -> notes );
 			  else
-			    text[0] = g_strdup_printf ( _("%d/%d/%d : %4.2f %s [ %s ]"),
+			    text[0] = g_strdup_printf ( _("%02d/%02d/%04d : %4.2f %s [ %s ]"),
 							operation -> jour,
 							operation -> mois,
 							operation -> annee,
 							operation -> montant,
-							devise_name ( devise_operation ),
+							devise_operation -> code_devise,
 							operation -> notes );
 			}
 		      else
 			{
 			  if ( operation -> no_operation_ventilee_associee )
-			    text[0] = g_strdup_printf ( _("%d/%d/%d : %4.2f %s (breakdown)"),
+			    text[0] = g_strdup_printf ( _("%02d/%02d/%04d : %4.2f %s (breakdown)"),
 							operation -> jour,
 							operation -> mois,
 							operation -> annee,
 							operation -> montant,
-							devise_name ( devise_operation ) );
+							devise_operation -> code_devise );
 			  else
-			    text[0] = g_strdup_printf ( "%d/%d/%d : %4.2f %s",
+			    text[0] = g_strdup_printf ( "%02d/%02d/%04d : %4.2f %s",
 							operation -> jour,
 							operation -> mois,
 							operation -> annee,
 							operation -> montant,
-							devise_name ( devise_operation ) );
+							devise_operation -> code_devise );
 			}
 
 	      text[1] = NULL;
@@ -1336,12 +1330,12 @@ void clique_sur_modifier_imputation ( void )
 				     "adr_struct_imputation" );
 
 
-      if ( strcmp ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_imputation ))),
+      if ( strcmp ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_nom_imputation ))),
 		    imputation -> nom_imputation ))
 	{
 	  free ( imputation -> nom_imputation );
 
-	  imputation -> nom_imputation = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_imputation ))) );
+	  imputation -> nom_imputation = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_nom_imputation ))) );
 
 
 	  node = GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_imputation ) -> selection ) -> data );
@@ -1379,7 +1373,7 @@ void clique_sur_modifier_imputation ( void )
 
       free ( sous_imputation -> nom_sous_imputation );
 
-      sous_imputation -> nom_sous_imputation = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_imputation ))) );
+      sous_imputation -> nom_sous_imputation = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_nom_imputation ))) );
 
 
       node = GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_imputation ) -> selection ) -> data );
@@ -2596,7 +2590,7 @@ gchar *calcule_total_montant_imputation_par_compte ( gint imputation,
   if ( retour_int )
     return ( g_strdup_printf ( "%4.2f %s",
 			       retour_int,
-			       devise_name ( devise_compte ) ));
+			       devise_compte -> code_devise ));
   else
     return ( NULL );
 }
@@ -2785,7 +2779,7 @@ void exporter_ib ( void )
   switch ( resultat )
     {
     case 0 :
-      nom_ib = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
+      nom_ib = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
 
       gnome_dialog_close ( GNOME_DIALOG ( dialog ));
 
@@ -2981,7 +2975,7 @@ void importer_ib ( void )
   switch ( resultat )
     {
     case 0 :
-      nom_ib = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
+      nom_ib = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
 
       gnome_dialog_close ( GNOME_DIALOG ( dialog ));
 

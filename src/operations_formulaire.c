@@ -4089,7 +4089,7 @@ void incremente_decremente_date ( GtkWidget *entree,
 		    demande );
 
   gtk_entry_set_text ( GTK_ENTRY (entree),
-		       g_strdup_printf ( "%d/%d/%d",
+		       g_strdup_printf ( "%02d/%02d/%04d",
 					 g_date_day ( date ),
 					 g_date_month ( date ),
 					 g_date_year ( date )));
