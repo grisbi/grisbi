@@ -402,6 +402,7 @@ gint nb_devises_tmp;                             /*  utilisé à la place de nb_de
 GtkWidget *clist_devises_parametres;
 GtkWidget *bouton_supprimer_devise;
 GtkWidget *entree_nom_devise_parametres;
+GtkWidget *entree_iso_code_devise_parametres;
 GtkWidget *entree_code_devise_parametres;
 GtkWidget *check_button_euro;                    /*bouton passera à l'euro */
 GtkWidget *hbox_devise_associee;                  /* ligne contenant l'option menu de la devise associée */

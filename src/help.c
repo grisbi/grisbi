@@ -94,7 +94,7 @@ void a_propos ( GtkWidget *bouton,
 					VERSION,
 					"\n\n",
 					NULL ));
-  gtk_label_set_markup ( label, 
+  gtk_label_set_markup ( GTK_LABEL (label), 
 			 g_strconcat ( "<span size=\"large\" weight=\"bold\">",
 				       
 				       "Grisbi ",

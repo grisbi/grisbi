@@ -407,7 +407,7 @@ void remplit_arbre_tiers ( void )
       if ( fabs ( tab_montant[place_tiers]) >= 0.01)
 	text[1] = g_strdup_printf ( "%4.2f %s",
 				    tab_montant[place_tiers],
-				    devise_compte -> code_devise );
+				    devise_name ( devise_compte ) );
       else
 	text[1] = NULL;
 
@@ -732,7 +732,7 @@ void ouverture_node_tiers ( GtkWidget *arbre,
 					    operation -> mois,
 					    operation -> annee,
 					    operation -> montant,
-					    devise_operation -> code_devise,
+					    devise_name ( devise_operation ),
 					    operation -> notes );
 	      else
 		text[0] = g_strdup_printf ( "%d/%d/%d : %4.2f %s",
@@ -740,7 +740,7 @@ void ouverture_node_tiers ( GtkWidget *arbre,
 					    operation -> mois,
 					    operation -> annee,
 					    operation -> montant,
-					    devise_operation -> code_devise );
+					    devise_name ( devise_operation ) );
 
 	      text[1] = NULL;
 	      text[2] = NULL;
@@ -963,12 +963,12 @@ void clique_sur_modifier_tiers ( GtkWidget *bouton_modifier,
 
 /* si c'est une modif du nom, on doit réafficher la liste des tiers et les listes des opés, sinon, on change juste le texte */
 
-  if ( strcmp ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_nom_tiers ))),
+  if ( strcmp ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_tiers ))),
 		tiers -> nom_tiers ))
     {
       free ( tiers -> nom_tiers );
 
-      tiers -> nom_tiers = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_nom_tiers ))) );
+      tiers -> nom_tiers = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_tiers ))) );
 
 
       node = GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_tiers ) -> selection ) -> data );
@@ -1661,7 +1661,7 @@ gchar *calcule_total_montant_tiers_par_compte ( gint no_tiers,
   if ( retour_int )
     return ( g_strdup_printf ( "%4.2f %s",
 			       retour_int,
-			       devise_compte -> code_devise ));
+			       devise_name ( devise_compte ) ));
   else
     return ( NULL );
 }

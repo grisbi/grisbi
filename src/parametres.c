@@ -31,8 +31,6 @@ GtkWidget * preference_selected = NULL;
 GtkTreeSelection * selection;
 GtkWidget * button_apply;
 
-GtkWidget * paddingbox_new_with_title (GtkWidget * parent, gchar * title);
-
 
 /* ************************************************************************************************************** */
 GtkWidget * create_preferences_tree ( )
@@ -59,7 +57,7 @@ GtkWidget * create_preferences_tree ( )
 					      NULL);
   gtk_tree_view_append_column (GTK_TREE_VIEW (tree),
 			       GTK_TREE_VIEW_COLUMN (column));
-  
+
   g_signal_connect (selection, "changed", G_CALLBACK (selectionne_liste_preference), preference_tree_model);
 
   return tree;
@@ -78,13 +76,15 @@ void preferences ( GtkWidget *widget,
   /* création de la fenêtre */
 
   fenetre_preferences = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+
+  gtk_container_set_border_width ( GTK_WIDGET ( fenetre_preferences ),
+				   10 );
   gtk_window_set_title ( GTK_WINDOW ( fenetre_preferences ),
 			 _("Grisbi setup") );
   gtk_window_set_transient_for ( GTK_WINDOW (fenetre_preferences),
 				 GTK_WINDOW (window));
   gtk_window_set_modal ( GTK_WINDOW (fenetre_preferences),
 			 TRUE);
-  gtk_container_set_border_width (fenetre_preferences, 10);
 
   tree = create_preferences_tree();  
   hpaned = gtk_hpaned_new();
@@ -97,7 +97,7 @@ void preferences ( GtkWidget *widget,
 		       FALSE,
 		       FALSE,
 		       0 );
-  preference_frame = gtk_hpaned_new ();	/* Gruik! */
+  preference_frame = gtk_hpaned_new ();	/* FIXME: Gruik! */
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       preference_frame,
 		       TRUE,
@@ -165,20 +165,12 @@ void preferences ( GtkWidget *widget,
 		      1, onglet_fichier(),
 		      -1);
 
-  /* création du 3ème onglet */
-/*   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL); */
-/*   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model), */
-/* 		      &iter, */
-/* 		      0, _("Scheduler"), */
-/* 		      1, onglet_echeances(), */
-/* 		      -1); */
-
   /* création du 4ème onglet */
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter,
 		      0, _("Display"),
-		      1, onglet_affichage(),
+		      1, NULL,
 		      -1);
 
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
@@ -197,23 +189,15 @@ void preferences ( GtkWidget *widget,
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
 		      0, _("Transaction list"),
-		      1, onglet_affichage(),
+		      1, onglet_affichage_liste(),
 		      -1);
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
 		      0, _("Fonts"),
-		      1, onglet_affichage(),
+		      1, onglet_display_fonts(),
 		      -1);
 
-
-  /* création du 5ème onglet */
-  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
-  gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-		      &iter,
-		      0, _("Applet"),
-		      1, onglet_applet(),
-		      -1);
 
   /* création du 6ème onglet */
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
@@ -247,14 +231,6 @@ void preferences ( GtkWidget *widget,
 		      1, onglet_types_operations(),
 		      -1);
 
-  /* création du 10ème onglet */
-  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
-  gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-		      &iter,
-		      0, _("Informations"),
-		      1, onglet_affichage_liste(),
-		      -1);
-
   /* Connection des boutons en bas */
   gtk_signal_connect ( GTK_OBJECT ( button_apply ),
 		       "clicked",
@@ -283,6 +259,8 @@ void preferences ( GtkWidget *widget,
 				  path);
   gtk_tree_path_free (path);
 
+  gtk_tree_view_expand_all ( GTK_TREE_VIEW (tree) );
+  
   gtk_widget_show_all ( fenetre_preferences );
 
 }
@@ -311,9 +289,12 @@ gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
       gtk_container_remove (GTK_CONTAINER (preference_frame), preference_selected);
     }
 
-  preference_selected = g_value_get_pointer(&value);  
-  gtk_container_add (GTK_CONTAINER (preference_frame), preference_selected);
-  gtk_widget_show_all(preference_selected);
+  preference_selected = g_value_get_pointer(&value);
+  if (preference_selected)
+    {
+      gtk_container_add (GTK_CONTAINER (preference_frame), preference_selected);
+      gtk_widget_show_all(preference_selected);
+    }
 
   g_value_unset (&value);
 
@@ -373,7 +354,6 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
 
   /* Nice huge title */
   label = gtk_label_new ( title );
-  gtk_misc_set_alignment ( GTK_LABEL(label), 0, 1 );
   gtk_label_set_markup ( GTK_LABEL(label), 
 			 g_strconcat ("<span size=\"x-large\" weight=\"bold\">",
 				      title,	/* FIXME: escape any "&" */
@@ -605,7 +585,7 @@ GtkWidget *onglet_fichier ( void )
 			      "changed",
 			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
-  gtk_box_pack_end ( GTK_BOX ( hbox ),
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       spin_button_compression_fichier,
 		       FALSE,
 		       FALSE,
@@ -727,7 +707,7 @@ GtkWidget *onglet_fichier ( void )
 			      "changed",
 			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
-  gtk_box_pack_end ( GTK_BOX ( hbox ), spin_button_compression_backup,
+  gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button_compression_backup,
 		     FALSE, FALSE, 0 );
   gtk_widget_show ( spin_button_compression_backup );
 
@@ -761,7 +741,7 @@ GtkWidget *onglet_fichier ( void )
 			      "changed",
 			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
-  gtk_box_pack_end ( GTK_BOX ( hbox ),
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       spin_button_derniers_fichiers_ouverts,
 		       FALSE,
 		       FALSE,
@@ -862,201 +842,6 @@ GtkWidget *onglet_echeances ( void )
 
 }
 /* ************************************************************************************************************** */
-
-
-
-/* ************************************************************************************************************** */
-/* page applet */
-/* ************************************************************************************************************** */
-
-GtkWidget *onglet_applet ( void )
-{
-  GtkWidget *box_pref1, *hbox_pref, *vbox_pref;
-  GtkWidget *separateur;
-  GSList *liste_tmp;
-  GtkWidget *scrolled_window;
-  GtkWidget *vbox_fleches, *fleche;
-
-
-  vbox_pref = gtk_vbox_new ( FALSE,
-			     5 );
-  gtk_widget_show ( vbox_pref );
-
-  hbox_pref = gtk_hbox_new ( FALSE,
-			     5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-		       hbox_pref,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( hbox_pref );
-
-
-
-  box_pref1 = gtk_vbox_new ( FALSE,
-			    5 );
-  gtk_box_pack_start ( GTK_BOX ( hbox_pref ),
-		       box_pref1,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( box_pref1 );
-
-
-/* affichage ou non de l'applet */
-
-  bouton_affichage_applet = gtk_check_button_new_with_label ( _("Use the applet for checking scheduled transactions") );
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affichage_applet ),
-				  verifie_affichage_applet () );
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton_affichage_applet ),
-			      "toggled",
-			      GTK_SIGNAL_FUNC ( activer_bouton_appliquer),
-			      GTK_OBJECT (fenetre_preferences));
-  gtk_signal_connect ( GTK_OBJECT ( bouton_affichage_applet ),
-		       "toggled",
-		       GTK_SIGNAL_FUNC ( changement_utilisation_applet ),
-		       NULL );
-  gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
-		       bouton_affichage_applet,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_affichage_applet );
-
-  separateur = gtk_hseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
-		       separateur,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( separateur );
-
-/* affiche la liste des comptes à vérifier */
-
-  frame_demarrage = gtk_frame_new ( SPACIFY(_("List of the account files that will be checked")) );
-  gtk_frame_set_shadow_type ( GTK_FRAME ( frame_demarrage ),
-			      GTK_SHADOW_ETCHED_OUT );
-  gtk_widget_set_sensitive ( GTK_WIDGET ( frame_demarrage ),
-			     verifie_affichage_applet () );
-  gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
-		       frame_demarrage,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( frame_demarrage );
-  
-/* création de la vbox ds la frame */
-
-  hbox_pref = gtk_vbox_new ( FALSE,
-			     5 );
-  gtk_container_set_border_width ( GTK_CONTAINER ( hbox_pref ),
-				   10 );
-  gtk_container_add ( GTK_CONTAINER ( frame_demarrage ),
-		      hbox_pref );
-  gtk_widget_show ( hbox_pref );
-
-/* création de la liste des comptes vérifiés */
-
-  scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
-  gtk_box_pack_start ( GTK_BOX ( hbox_pref ),
-		       scrolled_window,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				   GTK_POLICY_AUTOMATIC,
-				   GTK_POLICY_AUTOMATIC);
-  gtk_widget_set_usize ( GTK_WIDGET ( scrolled_window ),
-			 200,
-			 120 );
-  gtk_widget_show ( scrolled_window );
-
-  liste_comptes_verifies = gtk_clist_new ( 1 );
-  gtk_clist_set_column_auto_resize ( GTK_CLIST ( liste_comptes_verifies ) ,
-				      0,
-				      TRUE );
-  gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-					  liste_comptes_verifies );
-  fichier_verifier_selectionne = -1;
-  gtk_signal_connect ( GTK_OBJECT ( liste_comptes_verifies ),
-		       "select_row",
-		       (GtkSignalFunc ) change_selection_verif,
-		        &fichier_verifier_selectionne);
-  gtk_widget_show ( liste_comptes_verifies );
-
-  nb_fichier_verifier = 0;
-  fichier_a_verifier_tmp = NULL;
-
-  if ( ( liste_tmp = fichier_a_verifier ))
-    do
-      {
-	if ( strlen ( liste_tmp->data ))
-	  {
-	    gtk_clist_set_row_data ( GTK_CLIST ( liste_comptes_verifies ),
-				     gtk_clist_append ( GTK_CLIST ( liste_comptes_verifies ), (gchar **) &liste_tmp->data ),
-				     liste_tmp->data );
-	    nb_fichier_verifier++;
-	  }
-      }
-    while ( ( liste_tmp = liste_tmp -> next ));
-
-
-/*   pour l'instant, aucune suppression de ces fichiers */
-
-  liste_suppression_fichier_a_verifier = NULL;
-
-  /* création des boutons ajouter et enlever sur le dessous de la liste */
-
-  vbox_fleches = gtk_hbox_new ( FALSE,
-				5 );
-
-  gtk_box_pack_start ( GTK_BOX ( hbox_pref ),
-		       vbox_fleches,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( vbox_fleches );
-
-  /* FIXME */
-  fleche = gtk_button_new_from_stock (GTK_STOCK_ADD);
-/*   fleche = gnome_stock_button ( GNOME_STOCK_PIXMAP_ADD ); */
-  gtk_button_set_relief ( GTK_BUTTON ( fleche ),
-			 GTK_RELIEF_NONE );
-  gtk_signal_connect ( GTK_OBJECT ( fleche ),
-		       "clicked",
-		       (GtkSignalFunc ) ajouter_verification,
-		       fenetre_preferences);
-  gtk_box_pack_start ( GTK_BOX ( vbox_fleches ),
-		       fleche,
-		       TRUE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( fleche );
-
-  /* FIXME */
-  bouton_enlever = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
-/*   bouton_enlever = gnome_stock_button ( GNOME_STOCK_PIXMAP_REMOVE ); */
-  gtk_button_set_relief ( GTK_BUTTON ( bouton_enlever ),
-			 GTK_RELIEF_NONE );
-  gtk_widget_set_sensitive ( GTK_WIDGET ( bouton_enlever ),
-			     FALSE );
-  gtk_signal_connect ( GTK_OBJECT ( bouton_enlever ),
-		       "clicked",
-		       (GtkSignalFunc ) supprimer_verification,
-		       fenetre_preferences );
-  gtk_box_pack_start ( GTK_BOX ( vbox_fleches ),
-		       bouton_enlever,
-		       TRUE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( bouton_enlever );
-
-
-  return ( vbox_pref );
-}
-/* ************************************************************************************************************** */
-
-
 
 
 /* ************************************************************************************************************ */
@@ -1814,6 +1599,7 @@ void real_changement_preferences ( GtkWidget *fenetre_preferences,
 	  copie_devise -> no_devise = devise -> no_devise;
 	  copie_devise -> nom_devise = g_strdup ( devise -> nom_devise );
 	  copie_devise -> code_devise = g_strdup ( devise -> code_devise );
+	  copie_devise -> code_iso4217_devise = g_strdup ( devise -> code_iso4217_devise );
 	  copie_devise -> passage_euro = devise -> passage_euro;
 	  copie_devise -> une_devise_1_egale_x_devise_2 = devise -> une_devise_1_egale_x_devise_2;
 	  copie_devise -> no_devise_en_rapport = devise -> no_devise_en_rapport;
@@ -2435,7 +2221,7 @@ paddingbox_new_with_title (GtkWidget * parent, gchar * title)
   /* Then make the vbox itself */
   paddingbox = gtk_vbox_new ( FALSE, 6 );
   gtk_box_pack_start ( GTK_BOX ( hbox ), paddingbox,
-		       TRUE, TRUE, 0);
+		       FALSE, FALSE, 0);
 
   /* Put a label at the end to feed a new line */
   label = gtk_label_new ( "    " );

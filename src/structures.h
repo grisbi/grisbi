@@ -288,6 +288,7 @@ struct struct_devise
 {
   gint no_devise;
   gchar *nom_devise;
+  gchar *code_iso4217_devise;
   gchar *code_devise;
   gint passage_euro;                                  /* à 1 si cette devise doit passer à l'euro */
 

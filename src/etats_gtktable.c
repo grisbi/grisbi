@@ -238,7 +238,7 @@ gint gtktable_affiche_total_categories ( gint ligne )
 
 	  label = gtk_label_new ( g_strdup_printf ( "%4.2f %s",
 						    montant_categ_etat,
-						    devise_categ_etat -> code_devise ));
+						    devise_name ( devise_categ_etat ) ));
 	  gtk_misc_set_alignment ( GTK_MISC ( label ),
 				   1,
 				   0.5 );
@@ -275,12 +275,12 @@ gint gtktable_affiche_total_categories ( gint ligne )
 	  if ( etat_courant -> afficher_nb_opes )
 	    label = gtk_label_new ( g_strdup_printf ( "%4.2f %s ( %d opérations )",
 						      montant_categ_etat,
-						      devise_categ_etat -> code_devise,
+						      devise_name ( devise_categ_etat ),
 						      nb_ope_categ_etat ));
 	  else
 	    label = gtk_label_new ( g_strdup_printf ( "%4.2f %s",
 						      montant_categ_etat,
-						      devise_categ_etat -> code_devise ));
+						      devise_name ( devise_categ_etat ) ));
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
 			     GTK_TABLE ( table_etat ) -> ncols -1, GTK_TABLE ( table_etat ) -> ncols,
@@ -426,7 +426,7 @@ gint gtktable_affiche_total_sous_categ ( gint ligne )
 
 	  label = gtk_label_new ( g_strdup_printf ( "%4.2f %s",
 						    montant_sous_categ_etat,
-						    devise_categ_etat -> code_devise ));
+						    devise_name ( devise_categ_etat ) ));
 	  gtk_misc_set_alignment ( GTK_MISC ( label ),
 				   1,
 				   0.5 );
@@ -461,12 +461,12 @@ gint gtktable_affiche_total_sous_categ ( gint ligne )
 	  if ( etat_courant -> afficher_nb_opes )
 	    label = gtk_label_new ( g_strdup_printf ( "%4.2f %s ( %d opérations )",
 						      montant_sous_categ_etat,
-						      devise_categ_etat -> code_devise,
+						      devise_name ( devise_categ_etat ),
 						      nb_ope_sous_categ_etat ));
 	  else
 	    label = gtk_label_new ( g_strdup_printf ( "%4.2f %s",
 						      montant_sous_categ_etat,
-						      devise_categ_etat -> code_devise ));
+						      devise_name ( devise_categ_etat ) ));
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
 			     GTK_TABLE ( table_etat ) -> ncols -1, GTK_TABLE ( table_etat ) -> ncols,
@@ -606,7 +606,7 @@ gint gtktable_affiche_total_ib ( gint ligne )
 
 	  label = gtk_label_new ( g_strdup_printf ( "%4.2f %s",
 						    montant_ib_etat,
-						    devise_ib_etat -> code_devise ));
+						    devise_name ( devise_ib_etat ) ));
 	  gtk_misc_set_alignment ( GTK_MISC ( label ),
 				   1,
 				   0.5 );
@@ -641,12 +641,12 @@ gint gtktable_affiche_total_ib ( gint ligne )
 	  if ( etat_courant -> afficher_nb_opes )
 	    label = gtk_label_new ( g_strdup_printf ( "%4.2f %s ( %d opérations )",
 						      montant_ib_etat,
-						      devise_ib_etat -> code_devise,
+						      devise_name ( devise_ib_etat ),
 						      nb_ope_ib_etat ));
 	  else
 	    label = gtk_label_new ( g_strdup_printf ( "%4.2f %s",
 						      montant_ib_etat,
-						      devise_ib_etat -> code_devise ));
+						      devise_name ( devise_ib_etat ) ));
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
 			     GTK_TABLE ( table_etat ) -> ncols -1, GTK_TABLE ( table_etat ) -> ncols,
@@ -788,7 +788,7 @@ gint gtktable_affiche_total_sous_ib ( gint ligne )
 
 	  label = gtk_label_new ( g_strdup_printf ( "%4.2f %s",
 						    montant_sous_ib_etat,
-						    devise_ib_etat -> code_devise ));
+						    devise_name ( devise_ib_etat ) ));
 	  gtk_misc_set_alignment ( GTK_MISC ( label ),
 				   1,
 				   0.5 );
@@ -825,12 +825,12 @@ gint gtktable_affiche_total_sous_ib ( gint ligne )
 	  if ( etat_courant -> afficher_nb_opes )
 	    label = gtk_label_new ( g_strdup_printf ( "%4.2f %s ( %d opérations )",
 						      montant_sous_ib_etat,
-						      devise_ib_etat -> code_devise,
+						      devise_name ( devise_ib_etat ),
 						      nb_ope_sous_ib_etat ));
 	  else
 	    label = gtk_label_new ( g_strdup_printf ( "%4.2f %s",
 						      montant_sous_ib_etat,
-						      devise_ib_etat -> code_devise ));
+						      devise_name ( devise_ib_etat ) ));
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
 			     GTK_TABLE ( table_etat ) -> ncols -1, GTK_TABLE ( table_etat ) -> ncols,
@@ -966,7 +966,7 @@ gint gtktable_affiche_total_compte ( gint ligne )
 
 	  label = gtk_label_new ( g_strdup_printf ( "%4.2f %s",
 						    montant_compte_etat,
-						    devise_compte_en_cours_etat -> code_devise ));
+						    devise_name ( devise_compte_en_cours_etat ) ));
 	  gtk_misc_set_alignment ( GTK_MISC ( label ),
 				   1,
 				   0.5 );
@@ -1003,12 +1003,12 @@ gint gtktable_affiche_total_compte ( gint ligne )
 	  if ( etat_courant -> afficher_nb_opes )
 	    label = gtk_label_new ( g_strdup_printf ( "%4.2f %s ( %d opérations )",
 						      montant_compte_etat,
-						      devise_compte_en_cours_etat -> code_devise,
+						      devise_name ( devise_compte_en_cours_etat ),
 						      nb_ope_compte_etat ));
 	  else
 	    label = gtk_label_new ( g_strdup_printf ( "%4.2f %s",
 						      montant_compte_etat,
-						      devise_compte_en_cours_etat -> code_devise ));
+						      devise_name ( devise_compte_en_cours_etat ) ));
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
 			     GTK_TABLE ( table_etat ) -> ncols -1, GTK_TABLE ( table_etat ) -> ncols,
@@ -1141,7 +1141,7 @@ gint gtktable_affiche_total_tiers ( gint ligne )
 
 	  label = gtk_label_new ( g_strdup_printf ( "%4.2f %s",
 						    montant_tiers_etat,
-						    devise_tiers_etat -> code_devise ));
+						    devise_name ( devise_tiers_etat ) ));
 	  gtk_misc_set_alignment ( GTK_MISC ( label ),
 				   1,
 				   0.5 );
@@ -1178,12 +1178,12 @@ gint gtktable_affiche_total_tiers ( gint ligne )
 	  if ( etat_courant -> afficher_nb_opes )
 	    label = gtk_label_new ( g_strdup_printf ( "%4.2f %s ( %d opérations )",
 						      montant_tiers_etat,
-						      devise_tiers_etat -> code_devise,
+						      devise_name ( devise_tiers_etat ),
 						      nb_ope_tiers_etat ));
 	  else
 	    label = gtk_label_new ( g_strdup_printf ( "%4.2f %s",
 						      montant_tiers_etat,
-						      devise_tiers_etat -> code_devise ));
+						      devise_name ( devise_tiers_etat ) ));
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
 			     GTK_TABLE ( table_etat ) -> ncols -1, GTK_TABLE ( table_etat ) -> ncols,
@@ -1471,7 +1471,7 @@ gint gtktable_affiche_total_periode ( struct structure_operation *operation,
 
       label = gtk_label_new ( g_strdup_printf ( "%4.2f %s",
 						montant_periode_etat,
-						devise_generale_etat -> code_devise ));
+						devise_name ( devise_generale_etat ) ));
       gtk_misc_set_alignment ( GTK_MISC ( label ),
 			       1,
 			       0.5 );
@@ -2343,7 +2343,7 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 	   operation -> devise == devise_compte_en_cours_etat -> no_devise )
 	label = gtk_label_new ( g_strdup_printf  ("%4.2f %s",
 						  operation -> montant,
-						  devise_compte_en_cours_etat -> code_devise ));
+						  devise_name ( devise_compte_en_cours_etat ) ));
       else
 	{
 	  struct struct_devise *devise_operation;
@@ -2353,7 +2353,7 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 						   ( GCompareFunc ) recherche_devise_par_no ) -> data;
 	  label = gtk_label_new ( g_strdup_printf  ("%4.2f %s",
 						    operation -> montant,
-						    devise_operation -> code_devise ));
+						    devise_name ( devise_operation ) ));
 	}
 
       gtk_misc_set_alignment ( GTK_MISC ( label ),
@@ -2506,7 +2506,7 @@ gint gtktable_affiche_total_partiel ( gdouble total_partie,
 
   label = gtk_label_new ( g_strdup_printf ( "%4.2f %s",
 					    total_partie,
-					    devise_generale_etat -> code_devise ));
+					    devise_name ( devise_generale_etat ) ));
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   1,
 			   0.5 );
@@ -2641,7 +2641,7 @@ gint gtktable_affiche_total_general ( gdouble total_general,
 
   label = gtk_label_new ( g_strdup_printf ( "%4.2f %s",
 					    total_general,
-					    devise_generale_etat -> code_devise ));
+					    devise_name ( devise_generale_etat ) ));
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   1,
 			   0.5 );

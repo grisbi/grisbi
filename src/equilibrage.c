@@ -922,9 +922,9 @@ void pointe_equilibrage ( int p_ligne )
   gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
 		       g_strdup_printf ( _("Checked balance: %4.2f %s"),
 					 SOLDE_POINTE,
-					 ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
+					 devise_name ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 											 GINT_TO_POINTER ( DEVISE ),
-											 (GCompareFunc) recherche_devise_par_no )-> data )) -> code_devise) );
+											 (GCompareFunc) recherche_devise_par_no )-> data ))) );
 
   modification_fichier( TRUE );
 

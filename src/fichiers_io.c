@@ -5243,10 +5243,15 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 						 "No" )));
 		      devise -> nom_devise = latin2utf8(xmlGetProp ( node_detail,
 						 "Nom" ));
+		      devise -> code_iso4217_devise = latin2utf8(xmlGetProp ( node_detail,
+									      "IsoCode" ));
 		      devise -> code_devise = latin2utf8(xmlGetProp ( node_detail,
 						 "Code" ));
 		      if ( !strlen ( devise -> code_devise ))
 			devise -> code_devise = NULL;
+		      if (! devise -> code_iso4217_devise ||
+			  !strlen ( devise -> code_iso4217_devise ))
+			devise -> code_iso4217_devise = NULL;
 		      /* Handle Euro nicely */
 		      if (! strcmp (devise -> code_devise, "E"))
 			{
@@ -7320,6 +7325,10 @@ gboolean enregistre_fichier ( gboolean force )
       xmlSetProp ( node_devise,
 		   "Code",
 		   devise -> code_devise );
+
+      xmlSetProp ( node_devise,
+		   "IsoCode",
+		   devise -> code_iso4217_devise );
 
       xmlSetProp ( node_devise,
 		   "Passage_euro",

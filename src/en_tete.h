@@ -353,6 +353,7 @@ void calcule_total_pointe_compte ( gint no_compte );
 
 void preferences ( GtkWidget *widget,
 		   gint page_demandee );
+GtkWidget * paddingbox_new_with_title (GtkWidget * parent, gchar * title);
 GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
 					  gchar * image_filename);
 GtkWidget *onglet_messages_and_warnings ( void );
@@ -546,13 +547,14 @@ gboolean changement_devise_associee ( GtkWidget *menu_devises,
 				      GtkWidget *liste );
 gboolean changement_nom_entree_devise ( void );
 gboolean changement_code_entree_devise ( void );
+gboolean changement_iso_code_entree_devise ( void );
 gdouble calcule_montant_devise_renvoi ( gdouble montant_init,
 					gint no_devise_renvoi,
 					gint no_devise_montant,
 					gint une_devise_compte_egale_x_devise_ope,
 					gdouble taux_change,
 					gdouble frais_change );
-
+gchar * devise_name (struct struct_devise * devise );
 
 
 /***********************************/ 
@@ -872,6 +874,8 @@ void importer_ib ( void );
 /* fichier affichage.c */
 /***********************************/ 
 
+GtkWidget * onglet_display_transaction_list ( void );
+GtkWidget * onglet_display_fonts ( void );
 GtkWidget *onglet_display_addresses ( void );
 GtkWidget * onglet_display_transaction_form ( void );
 GtkWidget *onglet_affichage ( void );

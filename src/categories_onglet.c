@@ -625,7 +625,7 @@ void remplit_arbre_categ ( void )
       if ( tab_montant_categ[place_categ+1] )
 	text[1] = g_strdup_printf ( "%4.2f %s",
 				    tab_montant_categ[place_categ+1],
-				    devise_compte -> code_devise );
+				    devise_name ( devise_compte ) );
       else
 	text[1] = NULL;
       text[2] = NULL;
@@ -682,7 +682,7 @@ void remplit_arbre_categ ( void )
 	       tab_montant_sous_categ[place_categ][place_sous_categ+1] )
 	    text[2] = g_strdup_printf ( "%4.2f %s",
 					tab_montant_sous_categ[place_categ][place_sous_categ+1],
-					devise_compte -> code_devise );
+					devise_name ( devise_compte ) );
 	  else
 	    text[2] = NULL;
 
@@ -748,7 +748,7 @@ void remplit_arbre_categ ( void )
 	  if ( tab_montant_sous_categ[place_categ][0] )
 	    text[2] = g_strdup_printf ( "%4.2f %s",
 					tab_montant_sous_categ[place_categ][0],
-					devise_compte -> code_devise );
+					devise_name ( devise_compte ) );
 	  else
 	    text[2] = NULL;
 
@@ -808,7 +808,7 @@ void remplit_arbre_categ ( void )
 
       text[1] = g_strdup_printf ( "%4.2f %s",
 				  tab_montant_categ[0],
-				  devise_compte -> code_devise );
+				  devise_name ( devise_compte ) );
       text[2] = NULL;
       text[3] = NULL;
 
@@ -838,7 +838,7 @@ void remplit_arbre_categ ( void )
       text[1] = NULL;
       text[2] = g_strdup_printf ( "%4.2f %s",
 				  tab_montant_categ[0],
-				  devise_compte -> code_devise );
+				  devise_name ( devise_compte ) );
       text[3] = NULL;
 
       ligne_sous_categ = gtk_ctree_insert_node ( GTK_CTREE ( arbre_categ ),
@@ -2805,7 +2805,7 @@ gchar *calcule_total_montant_categ_par_compte ( gint categ,
   if ( retour_int )
     return ( g_strdup_printf ( "%4.2f %s",
 			       retour_int,
-			       devise_compte -> code_devise ));
+			       devise_name ( devise_compte ) ));
   else
     return ( NULL );
 }

@@ -1117,11 +1117,11 @@ void modification_entree_nom_type ( void )
   gtk_ctree_node_set_text ( GTK_CTREE ( arbre_types_operations ),
 			    node,
 			    0,
-			    g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_type_nom ))));
+			    g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_type_nom ))));
 
   /* et on le sauve dans les types tmp */
 
-  type_ope -> nom_type = g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( entree_type_nom ))));
+  type_ope -> nom_type = g_strstrip ( g_strdup ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_type_nom ))));
 
   /* on réaffiche la liste du tri pour appliquer le changement */
 
@@ -1212,7 +1212,7 @@ void modification_entree_type_dernier_no ( void )
   type_ope = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_types_operations ),
 					   node );
 
-  type_ope -> no_en_cours = atoi ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_type_dernier_no ))));
+  type_ope -> no_en_cours = atoi ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_type_dernier_no ))));
 
 }
 /* ************************************************************************************************************** */
@@ -2091,7 +2091,6 @@ GtkWidget *creation_menu_types ( gint demande,
 					    GTK_SIGNAL_FUNC ( changement_choix_type_echeancier ),
 					    (GtkObject *) type );
 		break;
-	      default:
 	      }
 
 	  gtk_object_set_data ( GTK_OBJECT ( item ),

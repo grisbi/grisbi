@@ -435,6 +435,7 @@ extern GtkWidget *clist_devises_parametres;
 extern GtkWidget *bouton_supprimer_devise;
 extern GtkWidget *entree_nom_devise_parametres;
 extern GtkWidget *entree_code_devise_parametres;
+extern GtkWidget *entree_iso_code_devise_parametres;
 extern GtkWidget *check_button_euro;                    /*bouton passera à l'euro */
 extern GtkWidget *hbox_devise_associee;                  /* ligne contenant l'option menu de la devise associée */
 extern GtkWidget *label_date_dernier_change;       /* affiche soit aucun change entré, soit la date du dernier change */

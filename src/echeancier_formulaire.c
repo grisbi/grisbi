@@ -2708,16 +2708,16 @@ void incrementation_echeance ( struct operation_echeance *echeance )
 	  if ( echeance -> montant >= 0 )
 	    label = gtk_label_new ( g_strdup_printf (PRESPACIFY(_("%4.2f %s credit on %s")),
 						     echeance ->montant,
-						     ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
+						     devise_name ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 												     GINT_TO_POINTER ( echeance -> devise ),
-												     (GCompareFunc) recherche_devise_par_no )->data))-> code_devise,
+												     (GCompareFunc) recherche_devise_par_no )->data)),
 						     NOM_DU_COMPTE ));
 	  else
 	    label = gtk_label_new ( g_strdup_printf (PRESPACIFY(_("%4.2f %s debit on %s")),
 						     -echeance ->montant,
-						     ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
+						     devise_name ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 												     GINT_TO_POINTER ( echeance -> devise ),
-												     (GCompareFunc) recherche_devise_par_no )->data))-> code_devise,
+												     (GCompareFunc) recherche_devise_par_no )->data)),
 						     NOM_DU_COMPTE ));
 
 
@@ -2756,16 +2756,16 @@ void incrementation_echeance ( struct operation_echeance *echeance )
 	  if ( echeance -> montant >= 0 )
 	    label = gtk_label_new ( g_strdup_printf (PRESPACIFY(_("%4.2f %s credit on %s")),
 						     echeance ->montant,
-						     ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
+						     devise_name ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 												     GINT_TO_POINTER ( echeance -> devise ),
-												     (GCompareFunc) recherche_devise_par_no )->data))-> code_devise,
+												     (GCompareFunc) recherche_devise_par_no )->data)),
 						     NOM_DU_COMPTE ));
 	  else
 	    label = gtk_label_new ( g_strdup_printf (PRESPACIFY(_("%4.2f %s debit on %s")),
 						     -echeance ->montant,
-						     ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
+						     devise_name ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 												     GINT_TO_POINTER ( echeance -> devise ),
-												     (GCompareFunc) recherche_devise_par_no )->data))-> code_devise,
+												     (GCompareFunc) recherche_devise_par_no )->data)),
 						     NOM_DU_COMPTE ));
 
 

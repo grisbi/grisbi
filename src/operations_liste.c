@@ -799,15 +799,15 @@ void remplissage_liste_operations ( gint compte )
   gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
 		       g_strdup_printf ( PRESPACIFY(_("Checked balance: %4.2f %s")),
 					 SOLDE_POINTE,
-					 ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
+					 devise_name ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 											 GINT_TO_POINTER ( DEVISE ),
-											 (GCompareFunc) recherche_devise_par_no )-> data )) -> code_devise) );
+											 (GCompareFunc) recherche_devise_par_no )-> data ))) );
   gtk_label_set_text ( GTK_LABEL ( solde_label ),
 		       g_strdup_printf ( PRESPACIFY(_("Current balance: %4.2f %s")),
 					 SOLDE_COURANT,
-					 ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
+					 devise_name ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 											 GINT_TO_POINTER ( DEVISE ),
-											 (GCompareFunc) recherche_devise_par_no )-> data )) -> code_devise) );
+											 (GCompareFunc) recherche_devise_par_no )-> data ))) );
 
 
 
@@ -932,7 +932,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 	  if ( devise_operation -> no_devise != DEVISE )
 	    temp = g_strconcat ( temp,
 				 "(",
-				 devise_operation -> code_devise,
+				 devise_name ( devise_operation ),
 				 ")",
 				 NULL );
 
@@ -961,7 +961,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 	  if ( devise_operation -> no_devise != DEVISE )
 	    temp = g_strconcat ( temp,
 				 "(",
-				 devise_operation -> code_devise,
+				 devise_name ( devise_operation ),
 				 ")",
 				 NULL );
 
@@ -996,7 +996,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 
 	  return ( g_strdup_printf ( "(%4.2f %s)",
 				     montant,
-				     devise_compte -> code_devise ));
+				     devise_name ( devise_compte ) ));
 	}
       else
 	return (NULL);
@@ -2030,7 +2030,7 @@ void p_press (void)
   gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
 		       g_strdup_printf ( PRESPACIFY(_("Checked balance: %4.2f %s")),
 					 SOLDE_POINTE,
-					 devise_compte -> code_devise) );
+					 devise_name ( devise_compte )) );
 }
 /***************************************************************************************************/
 

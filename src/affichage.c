@@ -1,9 +1,10 @@
-/* Ce fichier s'occupe des différents paramètres d'affichage réglés dans les paramètres */
+/* Ce fichier s'occupe des différents paramètres d'affichage réglés
+   dans les paramètres */
 /* affichage.c */
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
-/* 			http:// www.grisbi.org */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
+/*			2003 Benjamin Drieu (bdrieu@april.org) */
+/* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
 /*     it under the terms of the GNU General Public License as published by */
@@ -36,7 +37,7 @@ gboolean
 set_boolean ( GtkWidget * checkbox,
 	      guint * data)
 {
-  *data = gtk_toggle_button_get_active (checkbox);
+  *data = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(checkbox));
 }
 
 
@@ -62,7 +63,7 @@ new_checkbox_with_title ( gchar * label,
     }
 
   gtk_signal_connect ( GTK_OBJECT ( checkbox ), "toggled",
-		       set_boolean, data );
+		       GTK_SIGNAL_FUNC ( set_boolean ), data );
 
   /* FIXME: deactivate when we will be full "implicit apply" */
   gtk_signal_connect_object ( GTK_OBJECT ( checkbox ),
@@ -87,7 +88,8 @@ onglet_display_transaction_form ( void )
 
   /* What to do if RETURN is pressed into transaction form */
   paddingbox = paddingbox_new_with_title (vbox_pref, 
-					  _("Pressing RETURN in transaction form"));  bouton_entree_enregistre = 
+					  _("Pressing RETURN in transaction form"));
+  bouton_entree_enregistre = 
     gtk_radio_button_new_with_label ( NULL,
 				      SPACIFY(_("saves transaction")) );
   gtk_box_pack_start ( GTK_BOX ( paddingbox ),
@@ -220,6 +222,194 @@ onglet_display_transaction_form ( void )
 			      gnome_property_box_changed,
 			      GTK_OBJECT (fenetre_preferences));
 
+  return vbox_pref;
+}
+
+
+/* GtkWidget * onglet_display_transaction_list ( void ) */
+/* { */
+/*   GtkWidget *hbox, *vbox_pref; */
+/*   GtkWidget *label, *paddingbox; */
+/*   GtkWidget *table, *bouton; */
+
+/*   vbox_pref = new_vbox_with_title_and_icon ( _("Transaction list"), */
+/* 					     "pixmaps/transaction-list.png" ); */
+
+  
+
+/*   return vbox_pref; */
+/* } */
+
+
+GtkWidget * onglet_display_fonts ( void )
+{
+  GtkWidget *hbox, *vbox_pref;
+  GtkWidget *label, *paddingbox;
+  GtkWidget *table, *bouton;
+
+  vbox_pref = new_vbox_with_title_and_icon ( _("Fonts &amp; logo"),
+					     "pixmaps/fonts.png" );
+
+
+  /*   ajout du choix de la fonte pour les listes */
+
+  hbox = gtk_hbox_new ( FALSE,
+			     5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
+		       hbox,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( hbox );
+
+  bouton = gnome_font_picker_new ();
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  if ( fonte_liste )
+    gnome_font_picker_set_font_name ( GNOME_FONT_PICKER ( bouton ),
+				      fonte_liste );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "font-set",
+		       GTK_SIGNAL_FUNC ( choix_fonte ),
+		       NULL );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton );
+
+  label = gtk_label_new ( SPACIFY(_(": Change lists font /")) );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
+
+  /* on remet un font_picker sans nom de fonte pour le raz */
+
+  bouton = gnome_font_picker_new ();
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "font-set",
+		       GTK_SIGNAL_FUNC ( choix_fonte ),
+		       NULL );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+
+  gtk_container_remove ( GTK_CONTAINER ( bouton ),
+			 GTK_BIN ( bouton ) -> child );
+  label = gtk_label_new ( _("Init") );
+  gtk_container_add ( GTK_CONTAINER ( bouton ),
+		      label );
+  gtk_widget_show ( label );
+  gtk_widget_show ( bouton );
+
+
+  /*   ajout du choix de la fonte générale */
+
+  hbox = gtk_hbox_new ( FALSE,
+			     5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
+		       hbox,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( hbox );
+
+  bouton = gnome_font_picker_new ();
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  if ( fonte_general )
+    gnome_font_picker_set_font_name ( GNOME_FONT_PICKER ( bouton ),
+				      fonte_general );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "font-set",
+		       GTK_SIGNAL_FUNC ( choix_fonte_general ),
+		       NULL );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton );
+
+  label = gtk_label_new ( SPACIFY(_(": Change general font /")) );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
+
+
+  /* on remet un font_picker sans nom de fonte pour le raz */
+
+  bouton = gnome_font_picker_new ();
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "font-set",
+		       GTK_SIGNAL_FUNC ( choix_fonte_general ),
+		       NULL );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+
+  gtk_container_remove ( GTK_CONTAINER ( bouton ),
+			 GTK_BIN ( bouton ) -> child );
+  label = gtk_label_new ( _("Init") );
+  gtk_container_add ( GTK_CONTAINER ( bouton ),
+		      label );
+  gtk_widget_show ( label );
+  gtk_widget_show ( bouton );
+
+  /* ajout de la modification du logo de l'accueil  */
+
+  hbox = gtk_hbox_new ( FALSE,
+			     5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
+		       hbox,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( hbox );
+
+  bouton = gtk_button_new ();
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_container_add ( GTK_CONTAINER ( bouton ),
+		  bouton = gtk_button_new_from_stock (GTK_STOCK_OK));
+		      //gnome_stock_pixmap_widget ( bouton,
+						  //GNOME_STOCK_PIXMAP_FORWARD ));
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( modification_logo_accueil ),
+		       NULL );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show_all ( bouton );
+
+  label = gtk_label_new ( g_strconcat (" : ", 
+				       _("Change homepage logo"), 
+				       NULL ));
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
+  
   return vbox_pref;
 }
 

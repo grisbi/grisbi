@@ -1430,9 +1430,6 @@ void appui_touche_ventilation ( GtkWidget *entree,
               /* echap */
       echap_formulaire_ventilation ();
       break;
-
-
-    default : 
     }
 
 }

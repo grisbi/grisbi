@@ -778,7 +778,7 @@ void applique_modif_exercice ( GtkWidget *liste )
   exercice = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
 				    ligne_selection_exercice );
 
-  if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( nom_exercice )))))
+  if ( !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( nom_exercice )))))
     {
       dialogue ( _("The financial year must have a name.") );
       return;
@@ -790,9 +790,9 @@ void applique_modif_exercice ( GtkWidget *liste )
       nb_exercices_tmp++;
     }
 
-  exercice -> nom_exercice = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( nom_exercice ))));
+  exercice -> nom_exercice = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( nom_exercice ))));
 
-  if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( debut_exercice )))))
+  if ( !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( debut_exercice )))))
     exercice -> date_debut = NULL;
   else
     {
@@ -800,7 +800,7 @@ void applique_modif_exercice ( GtkWidget *liste )
 	{
 	  gint jour, mois, an;
 
-	  sscanf ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( debut_exercice ))),
+	  sscanf ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( debut_exercice ))),
 		   "%d/%d/%d",
 		   &jour,
 		   &mois,
@@ -814,7 +814,7 @@ void applique_modif_exercice ( GtkWidget *liste )
 	return;
     }
 
-  if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( fin_exercice )))))
+  if ( !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( fin_exercice )))))
     exercice -> date_fin = NULL;
   else
     {
@@ -822,7 +822,7 @@ void applique_modif_exercice ( GtkWidget *liste )
 	{
 	  gint jour, mois, an;
 
-	  sscanf ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( fin_exercice ))),
+	  sscanf ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( fin_exercice ))),
 		   "%d/%d/%d",
 		   &jour,
 		   &mois,
@@ -1102,7 +1102,7 @@ void affiche_exercice_par_date ( GtkWidget *entree_date,
     return;
 
 
-  sscanf ( gtk_entry_get_text ( GTK_ENTRY ( entree_date )),
+  sscanf ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date )),
 	   "%d/%d/%d",
 	   &jour,
 	   &mois,

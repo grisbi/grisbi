@@ -47,7 +47,6 @@ gchar *labels_boutons [] = { N_("Date"),
 /* ************************************************************************************************************** */
 GtkWidget *onglet_affichage_liste ( void )
 {
-  GtkWidget *onglet;
   gchar *titres [] = { _("Col1"),
 		       _("Col2"),
 		       _("Col3"),
@@ -56,20 +55,15 @@ GtkWidget *onglet_affichage_liste ( void )
 		       _("Col6"),
 		       _("Col7") };
   gint i, j;
-  GtkWidget *table;
-  GtkWidget *label;
-  GtkWidget *hbox;
-  GtkWidget *bouton;
+  GtkWidget *onglet, *table, *label, *hbox, *bouton, *paddingbox;
 
   ligne_depart_drag = 0;
   col_depart_drag = 0;
 
   /*   à la base, on met une vbox */
 
-  onglet = gtk_vbox_new ( FALSE,
-			  5 );
-  gtk_widget_show ( onglet );
-
+  onglet = new_vbox_with_title_and_icon ( _("Transaction list"),
+					  "pixmaps/transaction-list.png" );
 
   /* mise en place de la clist_affichage_liste */
   /*   on lui met des titres redimensionnables */
@@ -397,10 +391,42 @@ GtkWidget *onglet_affichage_liste ( void )
 				 FALSE );
     }
 
-  /*   on a dégrisé le appliquer, donc on le regrise */
+  /* Then add the "sort by" buttons */
+  paddingbox = paddingbox_new_with_title (onglet, _("Sort transaction list"));
+  gtk_box_pack_start ( GTK_BOX ( onglet ),
+		       paddingbox,
+		       FALSE,
+		       FALSE,
+		       0 );
+  bouton_classer_liste_par_date = gtk_radio_button_new_with_label ( NULL,
+								    _("by date") );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
+		       bouton_classer_liste_par_date,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_classer_liste_par_date );
 
-  gnome_property_box_set_state ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
-				 FALSE );
+  bouton_classer_liste_par_date_bancaire = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_classer_liste_par_date)),
+									     _("by value date") );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
+		       bouton_classer_liste_par_date_bancaire,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_classer_liste_par_date_bancaire );
+
+  if ( etat.classement_par_date )
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_classer_liste_par_date ),
+				   TRUE );
+  else
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_classer_liste_par_date_bancaire ),
+				   TRUE );
+
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton_classer_liste_par_date ),
+			      "toggled",
+			      activer_bouton_appliquer,
+			      GTK_OBJECT (fenetre_preferences));
 
   return ( onglet );
 }
