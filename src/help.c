@@ -116,8 +116,7 @@ void a_propos ( GtkWidget *bouton,
   /* mise en forme de l'onglet auteurs */
 
 
-  vbox = gtk_vbox_new ( FALSE,
-			5 );
+  vbox = gtk_vbox_new ( FALSE, 6 );
   gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
 				   10 );
   gtk_widget_show ( vbox );
