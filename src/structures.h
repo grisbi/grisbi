@@ -400,6 +400,8 @@ struct struct_tiers
     gchar *nom_tiers;
     gchar *texte;                  /* contient le texte associé au tiers */
     gint liaison;                    /* à 1 si ce tiers est lié à un autre logiciel */
+    gint nb_transactions;
+    gint balance;
 };
 
 
