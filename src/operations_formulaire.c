@@ -301,7 +301,7 @@
    /* GDC : entrée de la date reelle */
   /*   mise à la place du choix du compte, verra plus tard où le mettre */
 
-   widget_formulaire_operations[7] = gtk_entry_new_with_max_length (13);
+   widget_formulaire_operations[7] = gtk_entry_new_with_max_length (14);
    gtk_table_attach ( GTK_TABLE (table),
  		     widget_formulaire_operations[7],
  		     1, 2, 1, 2,
@@ -914,7 +914,7 @@
       if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	modifie_date ( entree );
       else
-	texte = "Date bancaire";
+	texte = "Date de valeur";
       break;
 
 
@@ -967,7 +967,7 @@
 			modifie_date ( entree );
 		}
 		else
-		 	texte = "Date bancaire";
+		 	texte = "Date de valeur";
 	break;
 
     default :
@@ -990,7 +990,7 @@
 
 
  /***********************************************************************************************************/
- void clique_champ_formulaire ( GtkWidget *entree,
+void clique_champ_formulaire ( GtkWidget *entree,
 			       GdkEventButton *ev,
 			       gint *no_origine )
  {
@@ -1572,7 +1572,7 @@ void date_bancaire_selectionnee ( GtkCalendar *calendrier, GtkWidget *popup )
 
 
 
- /*********************************************************************************************/
+/*********************************************************************************************/
  /* Fonction modifie_date */
  /* prend en argument une entrée contenant une date */
  /*  vérifie la validité et la modifie si seulement une partie est donnée */
@@ -1611,7 +1611,7 @@ gboolean modifie_date ( GtkWidget *entree )
 	/* "Date réelle") à la date du jour que si la date est vide aussi ou */
 	/* égale à sa valeur par défaut */
 else if ((entree == widget_formulaire_operations[7])
-		&& ((!strlen ( pointeur_entry )) || (!strcmp (pointeur_entry, "Date bancaire"))))
+		&& ((!strlen ( pointeur_entry )) || (!strcmp (pointeur_entry, "Date de valeur"))))
 {
 		pointeur_entry_date = g_strstrip ( gtk_entry_get_text ( GTK_ENTRY (widget_formulaire_operations[1])) );
 		if ((!strlen ( pointeur_entry_date )) ||
@@ -1633,7 +1633,7 @@ fflush(0);
 	{
 		pointeur_entry_date_bancaire = g_strstrip ( gtk_entry_get_text ( GTK_ENTRY (widget_formulaire_operations[7])) );
 		if ((!strlen ( pointeur_entry_date_bancaire )) ||
-				(!strcmp (gtk_entry_get_text ( GTK_ENTRY (widget_formulaire_operations[7])), "Date bancaire")) )
+				(!strcmp (gtk_entry_get_text ( GTK_ENTRY (widget_formulaire_operations[7])), "Date de valeur")) )
 			gtk_entry_set_text ( GTK_ENTRY ( entree ), date_jour() );
 		/* GDC : si la date réelle n'est pas vide, on retourne son statut à elle. */
 		else return ( modifie_date ( widget_formulaire_operations[7] ) );
@@ -2283,7 +2283,7 @@ fflush(0);
 	&&
 	!modifie_date ( widget_formulaire_operations[7] ))
      {
-       dialogue ( " Erreur : La date bancaire est invalide" );
+       dialogue ( " Erreur : La date de valeur est invalide" );
        gtk_widget_grab_focus ( widget_formulaire_operations[7] );
        gtk_entry_select_region ( GTK_ENTRY (  widget_formulaire_operations[7]),
  				0,
@@ -3320,7 +3320,7 @@ fflush(0);
 		       "Crédit" );
 
   gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[7]),
-		       "Date bancaire" );
+		       "Date de valeur" );
   gtk_combofix_set_text ( GTK_COMBOFIX (widget_formulaire_operations[8]),
 			  "Catégories : Sous-catégories" );
   gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[10]),
