@@ -137,7 +137,7 @@ onglet_display_transaction_form ( void )
   gtk_table_attach ( GTK_TABLE ( table ),
 		     new_checkbox_with_title (_("Transaction number"),
 					      &etat.affiche_no_operation,
-					      G_CALLBACK(update_transaction_form)),
+					      ((GCallback*)update_transaction_form)),
 		     0, 1, 0, 1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -146,7 +146,7 @@ onglet_display_transaction_form ( void )
   gtk_table_attach ( GTK_TABLE ( table ),
 		     new_checkbox_with_title (_("Value date"),
 					      &etat.affiche_date_bancaire,
-					      G_CALLBACK(update_transaction_form)),
+					      ((GCallback*)update_transaction_form)),
 		     0, 1, 1, 2,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -155,7 +155,7 @@ onglet_display_transaction_form ( void )
   gtk_table_attach ( GTK_TABLE ( table ),
 		     new_checkbox_with_title (_("Financial year"),
 					      &etat.utilise_exercice,
-					      G_CALLBACK(update_transaction_form)),
+					      ((GCallback*)update_transaction_form)),
 		     0, 1, 2, 3,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -164,7 +164,7 @@ onglet_display_transaction_form ( void )
   gtk_table_attach ( GTK_TABLE ( table ),
 		     new_checkbox_with_title (_("Budgetary information"),
 					      &etat.utilise_imputation_budgetaire,
-					      G_CALLBACK(update_transaction_form)),
+					      ((GCallback*)update_transaction_form)),
 		     0, 1, 3, 4,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -173,7 +173,7 @@ onglet_display_transaction_form ( void )
   gtk_table_attach ( GTK_TABLE ( table ),
 		     new_checkbox_with_title (_("Voucher number"),
 					      &etat.utilise_piece_comptable,
-					      G_CALLBACK(update_transaction_form)),
+					      ((GCallback*)update_transaction_form)),
 		     1, 2, 0, 1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -182,7 +182,7 @@ onglet_display_transaction_form ( void )
   gtk_table_attach ( GTK_TABLE ( table ),
 		     new_checkbox_with_title (_("Bank reference"),
 					      &etat.utilise_info_banque_guichet,
-					      G_CALLBACK(update_transaction_form)),
+					      ((GCallback*)update_transaction_form)),
 		     1, 2, 1, 2,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -191,7 +191,7 @@ onglet_display_transaction_form ( void )
   gtk_table_attach ( GTK_TABLE ( table ),
 		     new_checkbox_with_title (_("'Accept' and 'Cancel' buttons"),
 					      &etat.affiche_boutons_valider_annuler,
-					      G_CALLBACK(update_transaction_form)),
+					      ((GCallback*)update_transaction_form)),
 		     1, 2, 2, 3,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -270,7 +270,7 @@ GtkWidget * onglet_display_fonts ( void )
   gtk_box_pack_start ( GTK_BOX ( hbox ), logo_button,
 		       FALSE, FALSE, 0 );
 
-  label = gtk_label_new ( _("Click on button to change homepage logo") );
+  label = gtk_label_new ( _("Click on preview to change homepage logo") );
   gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 		       FALSE, FALSE, 0 );
 
@@ -403,7 +403,7 @@ GtkWidget *onglet_display_addresses ( void )
 		       FALSE, FALSE, 0);
 
   entree_titre_fichier = new_text_entry (&titre_fichier,
-					 G_CALLBACK(update_homepage_title));
+					 ((GCallback*)update_homepage_title));
   gtk_box_pack_start ( GTK_BOX ( hbox ), entree_titre_fichier,
 		       TRUE, TRUE, 0);
 
@@ -743,56 +743,29 @@ void modification_logo_accueil ( void )
     {
       /* on vire l'ancien logo et la séparation */
       
-      if (chemin_logo)
-	{
-	  gtk_widget_destroy ( ((GtkBoxChild *)(GTK_BOX ( page_accueil ) -> children -> data )) -> widget );
-	}  
+/*       if (chemin_logo) */
+/* 	{ */
+/* 	  gtk_widget_destroy ( ((GtkBoxChild *)(GTK_BOX ( page_accueil ) -> children -> data )) -> widget ); */
+/* 	}   */
 
       /* on change le logo */
+      chemin_logo = gnome_pixmap_entry_get_filename ( GNOME_PIXMAP_ENTRY(choix) );
 
-      chemin_logo = gnome_pixmap_entry_get_filename ( GNOME_PIXMAP_ENTRY ( choix ));
-
-      if ( !(chemin_logo
-	     &&
-	     strlen ( g_strstrip ( chemin_logo ))) )
+      if ( !chemin_logo ||
+	   !strlen ( g_strstrip ( chemin_logo )) )
 	{
 	  chemin_logo = NULL;
-	  if ( logo_accueil
-	       &&
-	       GTK_IS_WIDGET ( logo_accueil ))
+	  if ( logo_accueil && GTK_IS_WIDGET ( logo_accueil ))
 	    gtk_widget_hide ( logo_accueil );
 	}
       else
 	{
-	  GtkWidget *separateur;
-
+	  gtk_widget_destroy ( logo_accueil ); 
 	  logo_accueil =  gnome_pixmap_new_from_file ( chemin_logo );
-
-	  gtk_box_pack_start ( GTK_BOX ( page_accueil ),
-			       logo_accueil,
-			       FALSE,
-			       FALSE,
-			       0 );
+	  gtk_box_pack_start ( GTK_BOX ( page_accueil ), logo_accueil,
+			       FALSE, FALSE, 0 );
 	  gtk_widget_show ( logo_accueil );
-
-	  /* séparation gauche-droite */
-
-	  separateur = gtk_vseparator_new ();
-	  gtk_box_pack_start ( GTK_BOX ( page_accueil ),
-			       separateur,
-			       FALSE,
-			       FALSE,
-			       0 );
-	  gtk_widget_show ( separateur );
-
-	  gtk_box_reorder_child ( GTK_BOX ( page_accueil ),
-				  logo_accueil,
-				  0 );
-	  gtk_box_reorder_child ( GTK_BOX ( page_accueil ),
-				  separateur,
-				  1 );
-  
-	}
+  	}
     }
 
   gnome_dialog_close ( GNOME_DIALOG ( dialog ));
