@@ -120,272 +120,143 @@ GtkWidget *creation_details_compte ( void )
 
 
   label = gtk_label_new ( COLON(_("Account name")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox2 ), label, FALSE, FALSE, 0 );
   gtk_widget_show ( label );
 
-
-  hbox2 = gtk_hbox_new ( FALSE,
-			 0 );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       hbox2,
-		       FALSE,
-		       TRUE,
-		       0 );
+  hbox2 = gtk_hbox_new ( FALSE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), hbox2, FALSE, TRUE, 0 );
   gtk_widget_show ( hbox2 );
 
   detail_nom_compte = gtk_entry_new ();
-  gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-		       detail_nom_compte,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox2 ), detail_nom_compte, TRUE, TRUE, 0 );
   gtk_widget_show ( detail_nom_compte );
 
-
-/* création de la ligne du type de compte */
-
-  hbox = gtk_hbox_new ( TRUE,
-			0 );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0 );
+  
+  /* création de la ligne du type de compte */
+  hbox = gtk_hbox_new ( TRUE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
   gtk_widget_show ( hbox );
 
-  hbox2 = gtk_hbox_new ( FALSE,
-			 0 );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       hbox2,
-		       FALSE,
-		       TRUE,
-		       0 );
+  hbox2 = gtk_hbox_new ( FALSE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), hbox2, FALSE, TRUE, 0 );
   gtk_widget_show ( hbox2 );
 
   label = gtk_label_new ( COLON(_("Account type")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox2 ), label, FALSE, FALSE, 0 );
   gtk_widget_show ( label );
 
 
-  hbox2 = gtk_hbox_new ( FALSE,
-			 0 );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       hbox2,
-		       FALSE,
-		       TRUE,
-		       0 );
+  hbox2 = gtk_hbox_new ( FALSE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), hbox2, FALSE, TRUE, 0 );
   gtk_widget_show ( hbox2 );
 
   detail_type_compte = gtk_option_menu_new ();
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( detail_type_compte ),
 			     creation_menu_type_compte() );
-  gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-		       detail_type_compte,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox2 ), detail_type_compte, TRUE, TRUE, 0 );
   gtk_widget_show ( detail_type_compte );
 
 
-/* création de la ligne de la devise */
-
-  hbox = gtk_hbox_new ( TRUE,
-			0 );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0 );
+  /* création de la ligne de la devise */
+  hbox = gtk_hbox_new ( TRUE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
   gtk_widget_show ( hbox );
 
-  hbox2 = gtk_hbox_new ( FALSE,
-			 0 );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       hbox2,
-		       FALSE,
-		       TRUE,
-		       0 );
+  hbox2 = gtk_hbox_new ( FALSE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), hbox2, FALSE, TRUE, 0 );
   gtk_widget_show ( hbox2 );
 
   label = gtk_label_new ( COLON(_("Account currency")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox2 ), label, FALSE, FALSE, 0 );
   gtk_widget_show ( label );
 
 
-  hbox2 = gtk_hbox_new ( FALSE,
-			 0 );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       hbox2,
-		       FALSE,
-		       TRUE,
-		       0 );
+  hbox2 = gtk_hbox_new ( FALSE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), hbox2, FALSE, TRUE, 0 );
   gtk_widget_show ( hbox2 );
 
   detail_devise_compte = gtk_option_menu_new ();
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( detail_devise_compte ),
-			     creation_option_menu_devises ( 0,
-							    liste_struct_devises ));
-  gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-		       detail_devise_compte,
-		       FALSE,
-		       FALSE,
-		       0 );
+			     creation_option_menu_devises ( 0, liste_struct_devises ));
+  gtk_box_pack_start ( GTK_BOX ( hbox2 ), detail_devise_compte, TRUE, TRUE, 0 );
   gtk_widget_show ( detail_devise_compte );
 
-
-/* création de la ligne de passage à l'euro */
-
-  hbox_bouton_passage_euro = gtk_hbox_new ( TRUE,
-			0 );
+  /* création de la ligne de passage à l'euro */
+  hbox_bouton_passage_euro = gtk_hbox_new ( TRUE, 0 );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       hbox_bouton_passage_euro,
-		       FALSE,
-		       FALSE,
-		       0 );
+		       hbox_bouton_passage_euro, FALSE, FALSE, 0 );
   gtk_widget_show ( hbox_bouton_passage_euro );
 
   bouton_passage_euro = gtk_button_new_with_label ( _("Convert this account to euros") );
-  gtk_signal_connect ( GTK_OBJECT ( bouton_passage_euro ),
-		       "clicked",
-		       GTK_SIGNAL_FUNC ( passage_a_l_euro ),
-		       NULL );
-  gtk_button_set_relief ( GTK_BUTTON ( bouton_passage_euro ),
-			  GTK_RELIEF_HALF );
+  gtk_signal_connect ( GTK_OBJECT ( bouton_passage_euro ), "clicked",
+		       GTK_SIGNAL_FUNC ( passage_a_l_euro ), NULL );
+  gtk_button_set_relief ( GTK_BUTTON ( bouton_passage_euro ), GTK_RELIEF_HALF );
   gtk_box_pack_start ( GTK_BOX ( hbox_bouton_passage_euro ),
-		       bouton_passage_euro,
-		       FALSE,
-		       FALSE,
-		       0 );
+		       bouton_passage_euro, FALSE, FALSE, 0 );
   gtk_widget_show ( bouton_passage_euro );
 
 
 /* création de la ligne compte cloturé */
 
-  hbox = gtk_hbox_new ( TRUE,
-			0 );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0 );
+  hbox = gtk_hbox_new ( TRUE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
   gtk_widget_show ( hbox );
 
   detail_compte_cloture = gtk_check_button_new_with_label ( _("Closed account") );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       detail_compte_cloture,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), detail_compte_cloture, FALSE, FALSE, 0 );
   gtk_widget_show ( detail_compte_cloture );
-
 
 
   /* séparation */
 
   label = gtk_label_new ("");
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       label,
-		       FALSE,
-		       TRUE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, TRUE, 0 );
   gtk_widget_show ( label );
 
   separateur = gtk_hseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       separateur,
-		       FALSE,
-		       TRUE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX ( vbox ), separateur, FALSE, TRUE, 0 );
   gtk_widget_show ( separateur );
 
   label = gtk_label_new ("");
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       label,
-		       FALSE,
-		       TRUE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, TRUE, 0 );
   gtk_widget_show ( label );
 
 
 /* création de la ligne du titulaire du compte */
 
-  hbox = gtk_hbox_new ( TRUE,
-			0 );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0 );
+  hbox = gtk_hbox_new ( TRUE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
   gtk_widget_show ( hbox );
 
-  hbox2 = gtk_hbox_new ( FALSE,
-			 0 );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       hbox2,
-		       FALSE,
-		       TRUE,
-		       0 );
+  hbox2 = gtk_hbox_new ( FALSE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), hbox2, FALSE, TRUE, 0 );
   gtk_widget_show ( hbox2 );
 
 
   label = gtk_label_new ( COLON(_("Account holder")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox2 ), label, FALSE, FALSE, 0 );
   gtk_widget_show ( label );
 
 
-  hbox2 = gtk_hbox_new ( FALSE,
-			 0 );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       hbox2,
-		       FALSE,
-		       TRUE,
-		       0 );
+  hbox2 = gtk_hbox_new ( FALSE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), hbox2, FALSE, TRUE, 0 );
   gtk_widget_show ( hbox2 );
 
   detail_titulaire_compte = gtk_entry_new ();
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-		       detail_titulaire_compte,
-		       FALSE,
-		       FALSE,
-		       0 );
+		       detail_titulaire_compte, TRUE, TRUE, 0 );
   gtk_widget_show ( detail_titulaire_compte );
 
 
 
 /* création de la ligne titulaire a l'adr commune */
 
-  hbox = gtk_hbox_new ( TRUE,
-			0 );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0 );
+  hbox = gtk_hbox_new ( TRUE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
   gtk_widget_show ( hbox );
 
-  hbox2 = gtk_hbox_new ( FALSE,
-			 0 );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       hbox2,
-		       FALSE,
-		       TRUE,
-		       0 );
+  hbox2 = gtk_hbox_new ( FALSE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), hbox2, FALSE, TRUE, 0 );
   gtk_widget_show ( hbox2 );
 
 
@@ -395,69 +266,36 @@ GtkWidget *creation_details_compte ( void )
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( changement_bouton_adresse_commune_perso ),
 		       NULL );
-  gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-		       detail_bouton_adresse_commune,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox2 ), detail_bouton_adresse_commune, 
+		       FALSE, FALSE, 0 );
   gtk_widget_show ( detail_bouton_adresse_commune );
 
-  hbox2 = gtk_hbox_new ( FALSE,
-			 0 );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       hbox2,
-		       FALSE,
-		       TRUE,
-		       0 );
+  hbox2 = gtk_hbox_new ( FALSE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), hbox2, FALSE, TRUE, 0 );
   gtk_widget_show ( hbox2 );
 
   label = gtk_label_new ( COLON(_("Address")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox2 ), label, FALSE, FALSE, 0 );
   gtk_widget_show ( label );
 
 
 
-
-/* création de la ligne titulaire a sa propre adresse */
-
-  hbox = gtk_hbox_new ( TRUE,
-			0 );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0 );
+  /* création de la ligne titulaire a sa propre adresse */
+  hbox = gtk_hbox_new ( TRUE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
   gtk_widget_show ( hbox );
 
-  vbox2 = gtk_vbox_new ( FALSE,
-			 0 );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       vbox2,
-		       FALSE,
-		       TRUE,
-		       0 );
+  vbox2 = gtk_vbox_new ( FALSE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), vbox2, FALSE, TRUE, 0 );
   gtk_widget_show ( vbox2 );
 
-  hbox2 = gtk_hbox_new ( FALSE,
-			 0 );
-  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
-		       hbox2,
-		       FALSE,
-		       TRUE,
-		       0 );
+  hbox2 = gtk_hbox_new ( FALSE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( vbox2 ), hbox2, FALSE, TRUE, 0 );
   gtk_widget_show ( hbox2 );
 
   bouton = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( detail_bouton_adresse_commune)),
 					     _("Holder has his own address") );
-  gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-		       bouton,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton, FALSE, FALSE, 0 );
   gtk_widget_show ( bouton );
 
   hbox2 = gtk_hbox_new ( FALSE,
@@ -548,8 +386,8 @@ GtkWidget *creation_details_compte ( void )
 			     creation_menu_banques () );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       detail_option_menu_banque,
-		       FALSE,
-		       FALSE,
+		       TRUE,
+		       TRUE,
 		       0 );
   gtk_widget_show ( detail_option_menu_banque );
 
@@ -704,8 +542,8 @@ GtkWidget *creation_details_compte ( void )
 			 FALSE );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       detail_guichet,
-		       FALSE,
-		       FALSE,
+		       TRUE,
+		       TRUE,
 		       0 );
   gtk_widget_show ( detail_guichet );
 
@@ -741,7 +579,7 @@ GtkWidget *creation_details_compte ( void )
 
 
   hbox2 = gtk_hbox_new ( FALSE,
-			 0 );
+			 6 );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       hbox2,
 		       FALSE,
@@ -755,8 +593,8 @@ GtkWidget *creation_details_compte ( void )
 			 FALSE );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       detail_no_compte,
-		       FALSE,
-		       FALSE,
+		       TRUE,
+		       TRUE,
 		       0 );
   gtk_widget_show ( detail_no_compte );
 
@@ -844,8 +682,8 @@ GtkWidget *creation_details_compte ( void )
   detail_solde_init = gtk_entry_new ();
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       detail_solde_init,
-		       FALSE,
-		       FALSE,
+		       TRUE,
+		       TRUE,
 		       0 );
   gtk_widget_show ( detail_solde_init );
 
@@ -893,8 +731,8 @@ GtkWidget *creation_details_compte ( void )
   detail_solde_mini_autorise = gtk_entry_new ();
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       detail_solde_mini_autorise,
-		       FALSE,
-		       FALSE,
+		       TRUE,
+		       TRUE,
 		       0 );
   gtk_widget_show ( detail_solde_mini_autorise );
 
@@ -940,8 +778,8 @@ GtkWidget *creation_details_compte ( void )
   detail_solde_mini_voulu = gtk_entry_new ();
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       detail_solde_mini_voulu,
-		       FALSE,
-		       FALSE,
+		       TRUE,
+		       TRUE,
 		       0 );
   gtk_widget_show ( detail_solde_mini_voulu );
 
@@ -1074,6 +912,18 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox_boutons_modif );
 
+  bouton = gtk_button_new_from_stock (GTK_STOCK_APPLY);
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( modification_details_compte ),
+		       NULL );
+  gtk_box_pack_end ( GTK_BOX ( hbox_boutons_modif ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton );
+
   bouton = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
 		       "clicked",
@@ -1086,17 +936,6 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-  bouton = gtk_button_new_from_stock (GTK_STOCK_APPLY);
-  gtk_signal_connect ( GTK_OBJECT ( bouton ),
-		       "clicked",
-		       GTK_SIGNAL_FUNC ( modification_details_compte ),
-		       NULL );
-  gtk_box_pack_end ( GTK_BOX ( hbox_boutons_modif ),
-		       bouton,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton );
 
 
 
@@ -1450,7 +1289,7 @@ void modification_details_compte ( void )
      if ( i == compte_courant_onglet )
        continue;
      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
-     if ( !strcmp ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))), NOM_DU_COMPTE ))
+     if ( !strcmp ( g_strstrip ( (gchar*) gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))), NOM_DU_COMPTE ))
        {
 	dialogue( g_strdup_printf ( _("Account \"%s\" already exists!"), gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))));
 	return;
