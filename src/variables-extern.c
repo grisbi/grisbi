@@ -618,6 +618,8 @@ extern struct struct_etat *etat_courant;
 extern GtkWidget *bouton_effacer_etat;
 extern GtkWidget *bouton_personnaliser_etat;
 extern GtkWidget *scrolled_window_etat;          /* contient l'état en cours */
+extern gint nb_colonnes;
+extern gint ligne_debut_partie;
 
 extern GtkWidget *entree_nom_etat;
 extern GtkWidget *liste_type_classement_etat;
@@ -635,8 +637,12 @@ extern GtkWidget *bouton_afficher_no_ope;
 extern GtkWidget *bouton_afficher_type_ope;
 extern GtkWidget *bouton_afficher_no_rappr;
 extern GtkWidget *bouton_afficher_no_cheque;
+extern GtkWidget *bouton_afficher_exo_opes;
 extern GtkWidget *bouton_pas_detailler_ventilation;
 extern GtkWidget *bouton_devise_general_etat;
+extern GtkWidget *bouton_afficher_titres_colonnes;
+extern GtkWidget *bouton_titre_changement;
+extern GtkWidget *bouton_titre_en_haut;
 
 extern GtkWidget *radio_button_utilise_exo;
 extern GtkWidget *radio_button_utilise_dates;
@@ -674,6 +680,7 @@ extern GtkWidget *bouton_affiche_sous_total_categ;
 extern GtkWidget *bouton_affiche_sous_total_sous_categ;
 extern GtkWidget *bouton_exclure_ope_sans_categ;
 extern GtkWidget *bouton_devise_categ_etat;
+extern GtkWidget *bouton_afficher_pas_de_sous_categ;
 
 extern GtkWidget *bouton_utilise_ib_etat;
 extern GtkWidget *vbox_generale_ib_etat;
@@ -685,6 +692,7 @@ extern GtkWidget *bouton_affiche_sous_total_ib;
 extern GtkWidget *bouton_affiche_sous_total_sous_ib;
 extern GtkWidget *bouton_exclure_ope_sans_ib;
 extern GtkWidget *bouton_devise_ib_etat;
+extern GtkWidget *bouton_afficher_pas_de_sous_ib;
 
 extern GtkWidget *bouton_utilise_tiers_etat;
 extern GtkWidget *vbox_generale_tiers_etat;
@@ -717,3 +725,11 @@ extern struct struct_devise *devise_categ_etat;
 extern struct struct_devise *devise_ib_etat;
 extern struct struct_devise *devise_tiers_etat;
 extern struct struct_devise *devise_generale_etat;
+
+extern gchar *nom_categ_en_cours;
+extern gchar *nom_ss_categ_en_cours;
+extern gchar *nom_ib_en_cours;
+extern gchar *nom_ss_ib_en_cours;
+extern gchar *nom_compte_en_cours;
+extern gchar *nom_tiers_en_cours;
+extern gint titres_affiches;

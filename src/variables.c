@@ -594,6 +594,8 @@ struct struct_etat *etat_courant;
 GtkWidget *bouton_effacer_etat;
 GtkWidget *bouton_personnaliser_etat;
 GtkWidget *scrolled_window_etat;          /* contient l'état en cours */
+gint nb_colonnes;
+gint ligne_debut_partie;
 
 GtkWidget *entree_nom_etat;
 GtkWidget *liste_type_classement_etat;
@@ -611,8 +613,12 @@ GtkWidget *bouton_afficher_no_ope;
 GtkWidget *bouton_afficher_type_ope;
 GtkWidget *bouton_afficher_no_rappr;
 GtkWidget *bouton_afficher_no_cheque;
+GtkWidget *bouton_afficher_exo_opes;
 GtkWidget *bouton_pas_detailler_ventilation;
 GtkWidget *bouton_devise_general_etat;
+GtkWidget *bouton_afficher_titres_colonnes;
+GtkWidget *bouton_titre_changement;
+GtkWidget *bouton_titre_en_haut;
 
 GtkWidget *radio_button_utilise_exo;
 GtkWidget *radio_button_utilise_dates;
@@ -650,6 +656,7 @@ GtkWidget *bouton_affiche_sous_total_categ;
 GtkWidget *bouton_affiche_sous_total_sous_categ;
 GtkWidget *bouton_exclure_ope_sans_categ;
 GtkWidget *bouton_devise_categ_etat;
+GtkWidget *bouton_afficher_pas_de_sous_categ;
 
 GtkWidget *bouton_utilise_ib_etat;
 GtkWidget *vbox_generale_ib_etat;
@@ -661,6 +668,7 @@ GtkWidget *bouton_affiche_sous_total_ib;
 GtkWidget *bouton_affiche_sous_total_sous_ib;
 GtkWidget *bouton_exclure_ope_sans_ib;
 GtkWidget *bouton_devise_ib_etat;
+GtkWidget *bouton_afficher_pas_de_sous_ib;
 
 GtkWidget *bouton_utilise_tiers_etat;
 GtkWidget *vbox_generale_tiers_etat;
@@ -693,3 +701,11 @@ struct struct_devise *devise_categ_etat;
 struct struct_devise *devise_ib_etat;
 struct struct_devise *devise_tiers_etat;
 struct struct_devise *devise_generale_etat;
+
+gchar *nom_categ_en_cours;
+gchar *nom_ss_categ_en_cours;
+gchar *nom_ib_en_cours;
+gchar *nom_ss_ib_en_cours;
+gchar *nom_compte_en_cours;
+gchar *nom_tiers_en_cours;
+gint titres_affiches;

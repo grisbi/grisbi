@@ -406,8 +406,11 @@ struct struct_etat
   gint afficher_type_ope;
   gint afficher_cheque_ope;
   gint afficher_rappr_ope;
+  gint afficher_exo_ope;
   gint pas_detailler_ventilation;
   gint devise_de_calcul_general;
+  gint afficher_titre_colonnes;
+  gint type_affichage_titres;        /* 0 = en haut, 1 = à chaque changement de section */
 
   gint exo_date;         /* 1-> utilise l'exo / 0 -> utilise une plage de date */
   gint utilise_detail_exo;
@@ -438,6 +441,7 @@ struct struct_etat
   gint affiche_sous_total_sous_categ;
   gint exclure_ope_sans_categ;
   gint devise_de_calcul_categ;
+  gint afficher_pas_de_sous_categ;
 
   gint utilise_ib;
   gint utilise_detail_ib;
@@ -447,6 +451,7 @@ struct struct_etat
   gint affiche_sous_total_sous_ib;
   gint exclure_ope_sans_ib;
   gint devise_de_calcul_ib;
+  gint afficher_pas_de_sous_ib;
 
   gint utilise_tiers;
   gint utilise_detail_tiers;

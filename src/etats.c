@@ -852,6 +852,9 @@ void personnalisation_etat (void)
   etat_courant -> afficher_rappr_ope = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_rappr ));
   etat_courant -> afficher_infobd_ope = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_infobd_opes ));
   etat_courant -> pas_detailler_ventilation = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_pas_detailler_ventilation ));
+  etat_courant -> afficher_exo_ope = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_exo_opes ));
+  etat_courant -> afficher_titre_colonnes = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_titres_colonnes ));
+  etat_courant -> type_affichage_titres = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_titre_changement ));
 
   etat_courant -> devise_de_calcul_general = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_devise_general_etat ) -> menu_item ),
 										   "no_devise" ));
@@ -1009,6 +1012,7 @@ void personnalisation_etat (void)
   etat_courant -> affiche_sous_total_categ = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_categ ));
   etat_courant -> afficher_sous_categ = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_categ ));
   etat_courant -> affiche_sous_total_sous_categ = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_sous_categ ));
+  etat_courant -> afficher_pas_de_sous_categ = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pas_de_sous_categ ));
 
   if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_actifs_etat )))
     etat_courant -> type_virement = 1;
@@ -1060,6 +1064,7 @@ void personnalisation_etat (void)
   etat_courant -> exclure_ope_sans_ib = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_sans_ib ));
   etat_courant -> affiche_sous_total_ib = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_ib ));
   etat_courant -> affiche_sous_total_sous_ib = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_sous_ib ));
+  etat_courant -> afficher_pas_de_sous_ib = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pas_de_sous_ib ));
 
   etat_courant -> devise_de_calcul_ib = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_devise_ib_etat ) -> menu_item ),
 										   "no_devise" ));
@@ -1146,6 +1151,7 @@ GtkWidget *onglet_etat_generalites ( struct struct_etat *etat )
   GtkCTreeNode *parent;
   GtkWidget *vbox;
   GtkWidget *fleche;
+  GtkWidget *separateur;
 
   widget_retour = gtk_vbox_new ( FALSE,
 				 5 );
@@ -1309,7 +1315,7 @@ GtkWidget *onglet_etat_generalites ( struct struct_etat *etat )
 		       frame );
 
 
-  table = gtk_table_new ( 5,
+  table = gtk_table_new ( 9,
 			  3,
 			  FALSE );
   gtk_container_add ( GTK_CONTAINER ( frame ),
@@ -1526,6 +1532,83 @@ GtkWidget *onglet_etat_generalites ( struct struct_etat *etat )
 		       0 );
   gtk_widget_show ( bouton_afficher_infobd_opes );
 
+  hbox = gtk_hbox_new ( FALSE,
+			0 );
+  gtk_table_attach_defaults ( GTK_TABLE ( table ),
+			      hbox,
+			      1, 2,
+			      4, 5 );
+  gtk_widget_show ( hbox );
+
+  bouton_afficher_exo_opes = gtk_check_button_new_with_label ( "l'exercice" );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton_afficher_exo_opes,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_afficher_exo_opes );
+
+
+  /* on propose d'afficher le titre des colonnes */
+
+  separateur = gtk_hseparator_new ();
+  gtk_table_attach_defaults ( GTK_TABLE ( table ),
+			     separateur,
+			      0, 3,
+			      5, 6 );
+  gtk_widget_show ( separateur );
+
+  hbox = gtk_hbox_new ( FALSE,
+			0 );
+  gtk_table_attach_defaults ( GTK_TABLE ( table ),
+			      hbox,
+			      0, 3,
+			      6, 7 );
+  gtk_widget_show ( hbox );
+
+  bouton_afficher_titres_colonnes = gtk_check_button_new_with_label ( "Afficher les titres des colonnes" );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton_afficher_titres_colonnes,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_afficher_titres_colonnes );
+
+  hbox = gtk_hbox_new ( FALSE,
+			0 );
+  gtk_table_attach_defaults ( GTK_TABLE ( table ),
+			      hbox,
+			      0, 3,
+			      7, 8 );
+  gtk_widget_show ( hbox );
+
+  bouton_titre_changement = gtk_radio_button_new_with_label ( NULL,
+							      "à chaque changement de section" );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton_titre_changement,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_titre_changement );
+
+  hbox = gtk_hbox_new ( FALSE,
+			0 );
+  gtk_table_attach_defaults ( GTK_TABLE ( table ),
+			      hbox,
+			      0, 3,
+			      8, 9 );
+  gtk_widget_show ( hbox );
+
+  bouton_titre_en_haut = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_titre_changement )),
+							   "en haut de l'état" );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton_titre_en_haut,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_titre_en_haut );
+
+
   /* on met les connections */
 
   gtk_signal_connect ( GTK_OBJECT ( bouton_afficher_categ_opes ),
@@ -1536,6 +1619,14 @@ GtkWidget *onglet_etat_generalites ( struct struct_etat *etat )
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
 		       bouton_afficher_sous_ib_opes );
+  gtk_signal_connect ( GTK_OBJECT ( bouton_afficher_titres_colonnes ),
+		       "toggled",
+		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+		       bouton_titre_changement );
+  gtk_signal_connect ( GTK_OBJECT ( bouton_afficher_titres_colonnes ),
+		       "toggled",
+		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+		       bouton_titre_en_haut );
 
 
   bouton_pas_detailler_ventilation = gtk_check_button_new_with_label ( "Ne pas détailler les opérations ventilées" );
@@ -1670,6 +1761,13 @@ GtkWidget *onglet_etat_generalites ( struct struct_etat *etat )
 				 etat -> afficher_infobd_ope );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_pas_detailler_ventilation ),
 				 etat -> pas_detailler_ventilation );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_exo_opes ),
+				 etat -> afficher_exo_ope );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_titres_colonnes ),
+				 etat -> afficher_titre_colonnes );
+  if ( !etat_courant -> type_affichage_titres )
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_titre_en_haut ),
+				   TRUE );
 
   /* on rend insensitif les sous qque choses si nécessaire */
 
@@ -1679,6 +1777,10 @@ GtkWidget *onglet_etat_generalites ( struct struct_etat *etat )
 			      bouton_afficher_sous_categ_opes );
   sens_desensitive_pointeur ( bouton_afficher_ib_opes,
 			      bouton_afficher_sous_ib_opes );
+  sens_desensitive_pointeur ( bouton_afficher_titres_colonnes,
+			      bouton_titre_changement );
+  sens_desensitive_pointeur ( bouton_afficher_titres_colonnes,
+			      bouton_titre_en_haut );
 
   /* mise en forme de la devise */
 
@@ -3200,10 +3302,22 @@ GtkWidget *onglet_etat_categories ( struct struct_etat *etat )
 		       0 );
   gtk_widget_show ( bouton_affiche_sous_total_sous_categ );
 
+  bouton_afficher_pas_de_sous_categ = gtk_check_button_new_with_label ( "Afficher \"Pas de sous-catégorie\" si absente" );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       bouton_afficher_pas_de_sous_categ,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_afficher_pas_de_sous_categ );
+
   gtk_signal_connect ( GTK_OBJECT ( bouton_afficher_sous_categ ),
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
 		       bouton_affiche_sous_total_sous_categ );
+  gtk_signal_connect ( GTK_OBJECT ( bouton_afficher_sous_categ ),
+		       "toggled",
+		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+		       bouton_afficher_pas_de_sous_categ );
 
 
   separateur = gtk_vseparator_new ();
@@ -3246,7 +3360,7 @@ GtkWidget *onglet_etat_categories ( struct struct_etat *etat )
 
 
   separateur = gtk_hseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( vbox_generale_categ_etat ),
+  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
 		       separateur,
 		       FALSE,
 		       FALSE,
@@ -3257,7 +3371,7 @@ GtkWidget *onglet_etat_categories ( struct struct_etat *etat )
 
   bouton_inclusion_virements_actifs_etat = gtk_radio_button_new_with_label ( NULL,
 									     "Inclure les virements de ou vers les comptes d'actif et de passif" );
-  gtk_box_pack_start ( GTK_BOX ( vbox_generale_categ_etat ),
+  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
 		       bouton_inclusion_virements_actifs_etat,
 		       TRUE,
 		       FALSE,
@@ -3266,7 +3380,7 @@ GtkWidget *onglet_etat_categories ( struct struct_etat *etat )
 
   bouton_inclusion_virements_hors_etat = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_inclusion_virements_actifs_etat )),
 									   "Inclure les virements de ou vers les comptes ne figurant pas dans l'état" );
-  gtk_box_pack_start ( GTK_BOX ( vbox_generale_categ_etat ),
+  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
 		       bouton_inclusion_virements_hors_etat,
 		       TRUE,
 		       FALSE,
@@ -3275,7 +3389,7 @@ GtkWidget *onglet_etat_categories ( struct struct_etat *etat )
 
   bouton_non_inclusion_virements = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_inclusion_virements_actifs_etat )),
 								     "Ne pas inclure les virements" );
-  gtk_box_pack_start ( GTK_BOX ( vbox_generale_categ_etat ),
+  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
 		       bouton_non_inclusion_virements,
 		       TRUE,
 		       FALSE,
@@ -3320,8 +3434,12 @@ GtkWidget *onglet_etat_categories ( struct struct_etat *etat )
 				 etat -> afficher_sous_categ );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_sous_categ ),
 				 etat -> affiche_sous_total_sous_categ );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pas_de_sous_categ ),
+				 etat -> afficher_pas_de_sous_categ );
   sens_desensitive_pointeur ( bouton_afficher_sous_categ,
 			      bouton_affiche_sous_total_sous_categ );
+  sens_desensitive_pointeur ( bouton_afficher_sous_categ,
+			      bouton_afficher_pas_de_sous_categ );
 
   if ( etat -> type_virement )
     {
@@ -3653,10 +3771,22 @@ GtkWidget *onglet_etat_ib ( struct struct_etat *etat )
 		       0 );
   gtk_widget_show ( bouton_affiche_sous_total_sous_ib );
 
+  bouton_afficher_pas_de_sous_ib = gtk_check_button_new_with_label ( "Afficher \"Pas de sous-imputation\" si absente" );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       bouton_afficher_pas_de_sous_ib,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_afficher_pas_de_sous_ib );
+
   gtk_signal_connect ( GTK_OBJECT ( bouton_afficher_sous_ib ),
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
 		       bouton_affiche_sous_total_sous_ib );
+  gtk_signal_connect ( GTK_OBJECT ( bouton_afficher_sous_ib ),
+		       "toggled",
+		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+		       bouton_afficher_pas_de_sous_ib );
 
   separateur = gtk_vseparator_new ();
   gtk_box_pack_start ( GTK_BOX ( hbox ),
@@ -3732,8 +3862,12 @@ GtkWidget *onglet_etat_ib ( struct struct_etat *etat )
 				 etat -> afficher_sous_ib );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_sous_ib ),
 				 etat -> affiche_sous_total_sous_ib );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pas_de_sous_ib ),
+				 etat -> afficher_pas_de_sous_ib );
   sens_desensitive_pointeur ( bouton_afficher_sous_ib,
 			      bouton_affiche_sous_total_sous_ib );
+  sens_desensitive_pointeur ( bouton_afficher_sous_ib,
+			      bouton_afficher_pas_de_sous_ib );
 
   /* mise en forme de la devise */
 
@@ -4254,55 +4388,53 @@ void affichage_etat ( struct struct_etat *etat )
 		goto operation_refusee;
 
 
-	      if ( etat -> utilise_categ )
-		{
-		  /* 	      on vérifie les virements et les catég */
+	      /* 	      on vérifie les virements */
 
-		  if ( operation -> relation_no_operation )
+	      if ( operation -> relation_no_operation )
+		{
+		  if ( !etat -> type_virement )
+		    goto operation_refusee;
+
+		  if ( etat -> type_virement == 1 )
 		    {
-		      if ( !etat -> type_virement )
+		      /* on inclue l'opé que si le compte de virement */
+		      /* est un compte de passif ou d'actif */
+
+		      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
+
+		      /* pour l'instant on n'a que le compte passif */
+
+		      if ( TYPE_DE_COMPTE != 2 )
 			goto operation_refusee;
 
-		      if ( etat -> type_virement == 1 )
-			{
-			  /* on inclue l'opé que si le compte de virement */
-			  /* est un compte de passif ou d'actif */
-
-			  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
-
-			  /* pour l'instant on n'a que le compte passif */
-
-			  if ( TYPE_DE_COMPTE != 2 )
-			    goto operation_refusee;
-
-			  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i; 
-			}
-		      else
-			{
-			  /* on inclut l'opé que si le compte de virement n'est */
-			  /* pas présent dans l'état */
-
-			  if ( g_slist_index ( etat -> no_comptes,
-					       GINT_TO_POINTER ( operation -> relation_no_compte )) != -1 )
-			    goto operation_refusee;
-			}
+		      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i; 
 		    }
 		  else
 		    {
-		      /* on va maintenant vérifier que les catég sont bonnes */
- 
-		      if ((( etat -> utilise_detail_categ
-			     &&
-			     g_slist_index ( etat -> no_categ,
-					     GINT_TO_POINTER ( operation -> categorie )) == -1 )
-			   ||
-			   ( etat -> exclure_ope_sans_categ
-			     &&
-			     !operation -> categorie ))
-			  &&
-			  !operation -> operation_ventilee )
+		      /* on inclut l'opé que si le compte de virement n'est */
+		      /* pas présent dans l'état */
+
+		      if ( g_slist_index ( etat -> no_comptes,
+					   GINT_TO_POINTER ( operation -> relation_no_compte )) != -1 )
 			goto operation_refusee;
 		    }
+		}
+
+	      if ( etat -> utilise_categ )
+		{
+		  /* on va maintenant vérifier que les catég sont bonnes */
+ 
+		  if ((( etat -> utilise_detail_categ
+			 &&
+			 g_slist_index ( etat -> no_categ,
+					 GINT_TO_POINTER ( operation -> categorie )) == -1 )
+		       ||
+		       ( etat -> exclure_ope_sans_categ
+			 &&
+			 !operation -> categorie ))
+		      &&
+		      !operation -> operation_ventilee )
+		    goto operation_refusee;
 		}
 
 	      /* vérification de l'imputation budgétaire */
@@ -4756,8 +4888,6 @@ gint classement_liste_opes_etat ( struct structure_operation *operation_1,
 /*****************************************************************************************************/
 void etape_finale_affichage_etat ( GSList *ope_selectionnees )
 {
-  /* on fait un affichage catég -> ib -> compte */
-
   GSList *liste_ope_revenus;
   GSList *liste_ope_depenses;
   GSList *pointeur_tmp;
@@ -4775,7 +4905,6 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees )
   gchar *decalage_sous_ib;
   gchar *decalage_compte;
   gchar *decalage_tiers;
-  gint nb_colonnes;
   GList *pointeur_glist;
 
 
@@ -4976,16 +5105,16 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees )
   /* la dernière pour les montants */
   /* et entre les 2 pour l'affichage des opés -> variable */
 
-  nb_colonnes = 2;
+  nb_colonnes = 0;
 
   if ( etat_courant -> afficher_opes )
     {
       nb_colonnes = nb_colonnes + etat_courant -> afficher_date_ope;
       nb_colonnes = nb_colonnes + etat_courant -> afficher_tiers_ope;
       nb_colonnes = nb_colonnes + etat_courant -> afficher_categ_ope;
-      nb_colonnes = nb_colonnes + etat_courant -> afficher_sous_categ_ope;
+/*       nb_colonnes = nb_colonnes + etat_courant -> afficher_sous_categ_ope; */
       nb_colonnes = nb_colonnes + etat_courant -> afficher_ib_ope;
-      nb_colonnes = nb_colonnes + etat_courant -> afficher_sous_ib_ope;
+/*       nb_colonnes = nb_colonnes + etat_courant -> afficher_sous_ib_ope; */
       nb_colonnes = nb_colonnes + etat_courant -> afficher_notes_ope;
       nb_colonnes = nb_colonnes + etat_courant -> afficher_pc_ope;
       nb_colonnes = nb_colonnes + etat_courant -> afficher_infobd_ope;
@@ -4993,8 +5122,22 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees )
       nb_colonnes = nb_colonnes + etat_courant -> afficher_type_ope;
       nb_colonnes = nb_colonnes + etat_courant -> afficher_cheque_ope;
       nb_colonnes = nb_colonnes + etat_courant -> afficher_rappr_ope;
+      nb_colonnes = nb_colonnes + etat_courant -> afficher_exo_ope;
+
+      /* on ajoute les séparations */
+
+      nb_colonnes = 2 * nb_colonnes;
     }
 
+  nb_colonnes = nb_colonnes + 2;
+  ligne_debut_partie = -1;
+
+  nom_categ_en_cours = NULL;
+  nom_ss_categ_en_cours = NULL;
+  nom_ib_en_cours = NULL;
+  nom_ss_ib_en_cours = NULL;
+  nom_compte_en_cours = NULL;
+  nom_tiers_en_cours = NULL;
 
   /* on peut maintenant créer la table */
   /* pas besoin d'indiquer la hauteur, elle grandit automatiquement */
@@ -5024,7 +5167,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees )
   label = gtk_label_new ( etat_courant -> nom_etat );
   gtk_table_attach ( GTK_TABLE ( table_etat ),
 		     label,
-		     0, 3,
+		     0, GTK_TABLE ( table_etat ) -> ncols,
 		     ligne, ligne + 1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -5038,7 +5181,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees )
   separateur = gtk_hseparator_new ();
   gtk_table_attach ( GTK_TABLE ( table_etat ),
 		     separateur,
-		     0, 3,
+		     0, GTK_TABLE ( table_etat ) -> ncols,
 		     ligne, ligne + 1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -5046,6 +5189,16 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees )
   gtk_widget_show ( separateur );
 
   ligne++;
+
+  /*   si nécessaire, on met les titres des colonnes */
+
+  if ( etat_courant -> afficher_opes
+       &&
+       etat_courant -> afficher_titre_colonnes
+       &&
+       !etat_courant -> type_affichage_titres )
+    ligne = affiche_titres_colonnes ( table_etat,
+				      ligne );
 
   for ( i=0 ; i<2 ; i++ )
     {
@@ -5490,13 +5643,42 @@ gint affiche_total_categories ( GtkWidget *table_etat,
 	   ||
 	   etat_courant -> afficher_opes )
 	{
+	  /* 	  si on affiche les opés, on met les traits entre eux */
+
+	  if ( etat_courant -> afficher_opes
+	       &&
+	       ligne_debut_partie != -1 )
+	    {
+	      gint i;
+	      gint colonne;
+
+	      colonne = 2;
+
+	      for ( i=0 ; i<((nb_colonnes-2)/2) ; i++ )
+		{
+		  separateur = gtk_vseparator_new ();
+		  gtk_table_attach ( GTK_TABLE ( table_etat ),
+				     separateur,
+				     colonne, colonne + 1,
+				     ligne_debut_partie, ligne,
+				     GTK_SHRINK | GTK_FILL,
+				     GTK_SHRINK | GTK_FILL,
+				     0, 0 );
+		  gtk_widget_show ( separateur );
+
+		  colonne = colonne + 2;
+		}
+	      ligne_debut_partie = -1;
+	    }
+
+
 	  label = gtk_label_new ( "" );
 	  gtk_misc_set_alignment ( GTK_MISC ( label ),
 				   0,
 				   0.5 );
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
-			     1, 2,
+			     1, GTK_TABLE ( table_etat ) -> ncols -1,
 			     ligne, ligne + 1,
 			     GTK_SHRINK | GTK_FILL,
 			     GTK_SHRINK | GTK_FILL,
@@ -5517,13 +5699,18 @@ gint affiche_total_categories ( GtkWidget *table_etat,
 
 	  ligne++;
 
-	  label = gtk_label_new ( "Total Catégorie : " );
+	  if ( nom_categ_en_cours )
+	    label = gtk_label_new ( g_strconcat ( "Total ",
+						  nom_categ_en_cours,
+						  NULL ));
+	  else
+	    label = gtk_label_new ( "Total Catégorie : " );
 	  gtk_misc_set_alignment ( GTK_MISC ( label ),
 				   0,
 				   0.5 );
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
-			     1, 2,
+			     1, GTK_TABLE ( table_etat ) -> ncols - 1,
 			     ligne, ligne + 1,
 			     GTK_SHRINK | GTK_FILL,
 			     GTK_SHRINK | GTK_FILL,
@@ -5550,7 +5737,7 @@ gint affiche_total_categories ( GtkWidget *table_etat,
 				   0.5 );
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
-			     1, 2,
+			     1, GTK_TABLE ( table_etat ) -> ncols -1,
 			     ligne, ligne + 1,
 			     GTK_SHRINK | GTK_FILL,
 			     GTK_SHRINK | GTK_FILL,
@@ -5581,6 +5768,8 @@ gint affiche_total_categories ( GtkWidget *table_etat,
     }
 
   montant_categ_etat = 0;
+  nom_categ_en_cours = NULL;
+  titres_affiches = 0;
 
   return (ligne );
 }
@@ -5617,13 +5806,42 @@ gint affiche_total_sous_categ ( GtkWidget *table_etat,
 	   ||
 	   etat_courant -> afficher_opes )
 	{
+	  /* 	  si on affiche les opés, on met les traits entre eux */
+
+	  if ( etat_courant -> afficher_opes
+	       &&
+	       ligne_debut_partie != -1 )
+	    {
+	      gint i;
+	      gint colonne;
+
+	      colonne = 2;
+
+	      for ( i=0 ; i<((nb_colonnes-2)/2) ; i++ )
+		{
+		  separateur = gtk_vseparator_new ();
+		  gtk_table_attach ( GTK_TABLE ( table_etat ),
+				     separateur,
+				     colonne, colonne + 1,
+				     ligne_debut_partie, ligne,
+				     GTK_SHRINK | GTK_FILL,
+				     GTK_SHRINK | GTK_FILL,
+				     0, 0 );
+		  gtk_widget_show ( separateur );
+
+		  colonne = colonne + 2;
+		}
+	      ligne_debut_partie = -1;
+	    }
+
+
 	  label = gtk_label_new ( "" );
 	  gtk_misc_set_alignment ( GTK_MISC ( label ),
 				   0,
 				   0.5 );
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
-			     1, 2,
+			     1, GTK_TABLE ( table_etat ) -> ncols - 1,
 			     ligne, ligne + 1,
 			     GTK_SHRINK | GTK_FILL,
 			     GTK_SHRINK | GTK_FILL,
@@ -5644,13 +5862,22 @@ gint affiche_total_sous_categ ( GtkWidget *table_etat,
 
 	  ligne++;
 
-	  label = gtk_label_new ( "Total Sous-catégories : " );
+	  if ( nom_categ_en_cours
+	       &&
+	       nom_ss_categ_en_cours )
+	    label = gtk_label_new ( g_strconcat ( "Total ",
+						  nom_categ_en_cours,
+						  " : ",
+						  nom_ss_categ_en_cours,
+						  NULL ));
+	  else
+	    label = gtk_label_new ( "Total Sous-catégories : " );
 	  gtk_misc_set_alignment ( GTK_MISC ( label ),
 				   0,
 				   0.5 );
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
-			     1, 2,
+			     1, GTK_TABLE ( table_etat ) -> ncols - 1,
 			     ligne, ligne + 1,
 			     GTK_SHRINK | GTK_FILL,
 			     GTK_SHRINK | GTK_FILL,
@@ -5675,7 +5902,7 @@ gint affiche_total_sous_categ ( GtkWidget *table_etat,
 				   0.5 );
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
-			     1, 2,
+			     1, GTK_TABLE ( table_etat ) -> ncols - 1,
 			     ligne, ligne + 1,
 			     GTK_SHRINK | GTK_FILL,
 			     GTK_SHRINK | GTK_FILL,
@@ -5705,6 +5932,8 @@ gint affiche_total_sous_categ ( GtkWidget *table_etat,
     }
 
   montant_sous_categ_etat = 0;
+  nom_ss_categ_en_cours = NULL;
+  titres_affiches = 0;
 
   return (ligne );
 }
@@ -5739,13 +5968,42 @@ gint affiche_total_ib ( GtkWidget *table_etat,
 	   ||
 	   etat_courant -> afficher_opes )
 	{
+	  /* 	  si on affiche les opés, on met les traits entre eux */
+
+	  if ( etat_courant -> afficher_opes
+	       &&
+	       ligne_debut_partie != -1 )
+	    {
+	      gint i;
+	      gint colonne;
+
+	      colonne = 2;
+
+	      for ( i=0 ; i<((nb_colonnes-2)/2) ; i++ )
+		{
+		  separateur = gtk_vseparator_new ();
+		  gtk_table_attach ( GTK_TABLE ( table_etat ),
+				     separateur,
+				     colonne, colonne + 1,
+				     ligne_debut_partie, ligne,
+				     GTK_SHRINK | GTK_FILL,
+				     GTK_SHRINK | GTK_FILL,
+				     0, 0 );
+		  gtk_widget_show ( separateur );
+
+		  colonne = colonne + 2;
+		}
+	      ligne_debut_partie = -1;
+	    }
+
+
 	  label = gtk_label_new ( "" );
 	  gtk_misc_set_alignment ( GTK_MISC ( label ),
 				   0,
 				   0.5 );
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
-			     1, 2,
+			     1, GTK_TABLE ( table_etat ) -> ncols - 1,
 			     ligne, ligne + 1,
 			     GTK_SHRINK | GTK_FILL,
 			     GTK_SHRINK | GTK_FILL,
@@ -5766,13 +6024,18 @@ gint affiche_total_ib ( GtkWidget *table_etat,
 
 	  ligne++;
 
-	  label = gtk_label_new ( "Total Imputations budgétaires : " );
+	  if ( nom_ib_en_cours )
+	    label = gtk_label_new ( g_strconcat ( "Total ",
+						  nom_ib_en_cours,
+						  NULL ));
+	  else
+	    label = gtk_label_new ( "Total Imputations budgétaires : " );
 	  gtk_misc_set_alignment ( GTK_MISC ( label ),
 				   0,
 				   0.5 );
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
-			     1, 2,
+			     1, GTK_TABLE ( table_etat ) -> ncols - 1,
 			     ligne, ligne + 1,
 			     GTK_SHRINK | GTK_FILL,
 			     GTK_SHRINK | GTK_FILL,
@@ -5797,7 +6060,7 @@ gint affiche_total_ib ( GtkWidget *table_etat,
 				   0.5 );
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
-			     1, 2,
+			     1, GTK_TABLE ( table_etat ) -> ncols - 1,
 			     ligne, ligne + 1,
 			     GTK_SHRINK | GTK_FILL,
 			     GTK_SHRINK | GTK_FILL,
@@ -5827,6 +6090,8 @@ gint affiche_total_ib ( GtkWidget *table_etat,
     }
 
   montant_ib_etat = 0;
+  nom_ib_en_cours = NULL;
+  titres_affiches = 0;
 
   return (ligne );
 }
@@ -5861,13 +6126,42 @@ gint affiche_total_sous_ib ( GtkWidget *table_etat,
 	   ||
 	   etat_courant -> afficher_opes )
 	{
+	  /* 	  si on affiche les opés, on met les traits entre eux */
+
+	  if ( etat_courant -> afficher_opes
+	       &&
+	       ligne_debut_partie != -1 )
+	    {
+	      gint i;
+	      gint colonne;
+
+	      colonne = 2;
+
+	      for ( i=0 ; i<((nb_colonnes-2)/2) ; i++ )
+		{
+		  separateur = gtk_vseparator_new ();
+		  gtk_table_attach ( GTK_TABLE ( table_etat ),
+				     separateur,
+				     colonne, colonne + 1,
+				     ligne_debut_partie, ligne,
+				     GTK_SHRINK | GTK_FILL,
+				     GTK_SHRINK | GTK_FILL,
+				     0, 0 );
+		  gtk_widget_show ( separateur );
+
+		  colonne = colonne + 2;
+		}
+	      ligne_debut_partie = -1;
+	    }
+
+
 	  label = gtk_label_new ( "" );
 	  gtk_misc_set_alignment ( GTK_MISC ( label ),
 				   0,
 				   0.5 );
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
-			     1, 2,
+			     1, GTK_TABLE ( table_etat ) -> ncols - 1,
 			     ligne, ligne + 1,
 			     GTK_SHRINK | GTK_FILL,
 			     GTK_SHRINK | GTK_FILL,
@@ -5888,13 +6182,22 @@ gint affiche_total_sous_ib ( GtkWidget *table_etat,
 
 	  ligne++;
 
-	  label = gtk_label_new ( "Total Sous-imputations budgétaires : " );
+	  if ( nom_ib_en_cours
+	       &&
+	       nom_ss_ib_en_cours )
+	    label = gtk_label_new ( g_strconcat ( "Total ",
+						  nom_ib_en_cours,
+						  " : ",
+						  nom_ss_ib_en_cours,
+						  NULL ));
+	  else
+	    label = gtk_label_new ( "Total Sous-imputations budgétaires : " );
 	  gtk_misc_set_alignment ( GTK_MISC ( label ),
 				   0,
 				   0.5 );
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
-			     1, 2,
+			     1, GTK_TABLE ( table_etat ) -> ncols - 1,
 			     ligne, ligne + 1,
 			     GTK_SHRINK | GTK_FILL,
 			     GTK_SHRINK | GTK_FILL,
@@ -5921,7 +6224,7 @@ gint affiche_total_sous_ib ( GtkWidget *table_etat,
 				   0.5 );
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
-			     1, 2,
+			     1, GTK_TABLE ( table_etat ) -> ncols - 1,
 			     ligne, ligne + 1,
 			     GTK_SHRINK | GTK_FILL,
 			     GTK_SHRINK | GTK_FILL,
@@ -5951,6 +6254,8 @@ gint affiche_total_sous_ib ( GtkWidget *table_etat,
     }
 
   montant_sous_ib_etat = 0;
+  nom_ss_ib_en_cours = NULL;
+  titres_affiches = 0;
 
   return (ligne );
 }
@@ -5981,13 +6286,42 @@ gint affiche_total_compte ( GtkWidget *table_etat,
 	   ||
 	   etat_courant -> afficher_opes )
 	{
+	  /* 	  si on affiche les opés, on met les traits entre eux */
+
+	  if ( etat_courant -> afficher_opes
+	       &&
+	       ligne_debut_partie != -1 )
+	    {
+	      gint i;
+	      gint colonne;
+
+	      colonne = 2;
+
+	      for ( i=0 ; i<((nb_colonnes-2)/2) ; i++ )
+		{
+		  separateur = gtk_vseparator_new ();
+		  gtk_table_attach ( GTK_TABLE ( table_etat ),
+				     separateur,
+				     colonne, colonne + 1,
+				     ligne_debut_partie, ligne,
+				     GTK_SHRINK | GTK_FILL,
+				     GTK_SHRINK | GTK_FILL,
+				     0, 0 );
+		  gtk_widget_show ( separateur );
+
+		  colonne = colonne + 2;
+		}
+	      ligne_debut_partie = -1;
+	    }
+
+
 	  label = gtk_label_new ( "" );
 	  gtk_misc_set_alignment ( GTK_MISC ( label ),
 				   0,
 				   0.5 );
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
-			     1, 2,
+			     1, GTK_TABLE ( table_etat ) -> ncols - 1,
 			     ligne, ligne + 1,
 			     GTK_SHRINK | GTK_FILL,
 			     GTK_SHRINK | GTK_FILL,
@@ -6008,13 +6342,18 @@ gint affiche_total_compte ( GtkWidget *table_etat,
 
 	  ligne++;
 
-	  label = gtk_label_new ( "Total Compte : " );
+	  if ( nom_compte_en_cours )
+	    label = gtk_label_new ( g_strconcat ( "Total ",
+						  nom_compte_en_cours,
+						  NULL ));
+	  else
+	    label = gtk_label_new ( "Total Compte : " );
 	  gtk_misc_set_alignment ( GTK_MISC ( label ),
 				   0,
 				   0.5 );
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
-			     1, 2,
+			     1, GTK_TABLE ( table_etat ) -> ncols - 1,
 			     ligne, ligne + 1,
 			     GTK_SHRINK | GTK_FILL,
 			     GTK_SHRINK | GTK_FILL,
@@ -6041,7 +6380,7 @@ gint affiche_total_compte ( GtkWidget *table_etat,
 				   0.5 );
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
-			     1, 2,
+			     1, GTK_TABLE ( table_etat ) -> ncols - 1,
 			     ligne, ligne + 1,
 			     GTK_SHRINK | GTK_FILL,
 			     GTK_SHRINK | GTK_FILL,
@@ -6071,6 +6410,8 @@ gint affiche_total_compte ( GtkWidget *table_etat,
     }
 
   montant_compte_etat = 0;
+  nom_compte_en_cours = NULL;
+  titres_affiches = 0;
 
   return (ligne );
 }
@@ -6099,6 +6440,34 @@ gint affiche_total_tiers ( GtkWidget *table_etat,
 
       if ( etat_courant -> afficher_opes )
 	{
+	  /* 	  si on affiche les opés, on met les traits entre eux */
+
+	  if ( etat_courant -> afficher_opes
+	       &&
+	       ligne_debut_partie != -1 )
+	    {
+	      gint i;
+	      gint colonne;
+
+	      colonne = 2;
+
+	      for ( i=0 ; i<((nb_colonnes-2)/2) ; i++ )
+		{
+		  separateur = gtk_vseparator_new ();
+		  gtk_table_attach ( GTK_TABLE ( table_etat ),
+				     separateur,
+				     colonne, colonne + 1,
+				     ligne_debut_partie, ligne,
+				     GTK_SHRINK | GTK_FILL,
+				     GTK_SHRINK | GTK_FILL,
+				     0, 0 );
+		  gtk_widget_show ( separateur );
+
+		  colonne = colonne + 2;
+		}
+	      ligne_debut_partie = -1;
+	    }
+
 
 	  label = gtk_label_new ( "" );
 	  gtk_misc_set_alignment ( GTK_MISC ( label ),
@@ -6106,7 +6475,7 @@ gint affiche_total_tiers ( GtkWidget *table_etat,
 				   0.5 );
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
-			     1, 2,
+			     1, GTK_TABLE ( table_etat ) -> ncols - 1,
 			     ligne, ligne + 1,
 			     GTK_SHRINK | GTK_FILL,
 			     GTK_SHRINK | GTK_FILL,
@@ -6127,13 +6496,18 @@ gint affiche_total_tiers ( GtkWidget *table_etat,
 
 	  ligne++;
 
-	  label = gtk_label_new ( "Total Tiers : " );
+	  if ( nom_tiers_en_cours )
+	    label = gtk_label_new ( g_strconcat ( "Total ",
+						  nom_tiers_en_cours,
+						  NULL ));
+	  else
+	    label = gtk_label_new ( "Total Tiers : " );
 	  gtk_misc_set_alignment ( GTK_MISC ( label ),
 				   0,
 				   0.5 );
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
-			     1, 2,
+			     1, GTK_TABLE ( table_etat ) -> ncols - 1,
 			     ligne, ligne + 1,
 			     GTK_SHRINK | GTK_FILL,
 			     GTK_SHRINK | GTK_FILL,
@@ -6160,7 +6534,7 @@ gint affiche_total_tiers ( GtkWidget *table_etat,
 				   0.5 );
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
 			     label,
-			     1, 2,
+			     1, GTK_TABLE ( table_etat ) -> ncols - 1,
 			     ligne, ligne + 1,
 			     GTK_SHRINK | GTK_FILL,
 			     GTK_SHRINK | GTK_FILL,
@@ -6190,6 +6564,8 @@ gint affiche_total_tiers ( GtkWidget *table_etat,
     }
 
   montant_tiers_etat = 0;
+  nom_tiers_en_cours = NULL;
+  titres_affiches = 0;
 
   return (ligne );
 }
@@ -6211,6 +6587,17 @@ gint affichage_ligne_ope ( GtkWidget *table_etat,
     {
       /* on affiche ce qui est demandé pour les opés */
 
+
+      /* si les titres ne sont pas affichés et qu'il faut le faire, c'est ici */
+
+      if ( !titres_affiches
+	   &&
+	   etat_courant -> afficher_titre_colonnes
+	   &&
+	   etat_courant -> type_affichage_titres )
+	ligne = affiche_titres_colonnes ( table_etat,
+					  ligne );
+
       colonne = 1;
 
       if ( etat_courant -> afficher_no_ope )
@@ -6228,12 +6615,12 @@ gint affichage_ligne_ope ( GtkWidget *table_etat,
 			     0, 0 );
 	  gtk_widget_show ( label );
 
-	  colonne++;
+	  colonne = colonne + 2;
 	}
 
       if ( etat_courant -> afficher_date_ope )
 	{
-	  label = gtk_label_new ( g_strdup_printf  ( "%d/%d/%d",
+	  label = gtk_label_new ( g_strdup_printf  ( "%.2d/%.2d/%d",
 						     operation -> jour,
 						     operation -> mois,
 						     operation -> annee ));
@@ -6249,8 +6636,31 @@ gint affichage_ligne_ope ( GtkWidget *table_etat,
 			     0, 0 );
 	  gtk_widget_show ( label );
 
-	  colonne++;
+	  colonne = colonne + 2;
 	}
+
+      if ( etat_courant -> afficher_exo_ope )
+	{
+	  if ( operation -> no_exercice )
+	    {
+	      label = gtk_label_new ( ((struct struct_exercice *)(g_slist_find_custom ( liste_struct_exercices,
+											GINT_TO_POINTER ( operation -> no_exercice ),
+											(GCompareFunc) recherche_exercice_par_no )->data)) -> nom_exercice );
+	      gtk_misc_set_alignment ( GTK_MISC ( label ),
+				       0,
+				       0.5 );
+	      gtk_table_attach ( GTK_TABLE ( table_etat ),
+				 label,
+				 colonne, colonne + 1,
+				 ligne, ligne + 1,
+				 GTK_SHRINK | GTK_FILL,
+				 GTK_SHRINK | GTK_FILL,
+				 0, 0 );
+	      gtk_widget_show ( label );
+	    }
+	  colonne = colonne + 2;
+	}
+
 
       if ( etat_courant -> afficher_tiers_ope )
 	{
@@ -6273,7 +6683,7 @@ gint affichage_ligne_ope ( GtkWidget *table_etat,
 	      gtk_widget_show ( label );
 	    }
 
-	  colonne++;
+	  colonne = colonne + 2;
 	}
 
       if ( etat_courant -> afficher_categ_ope )
@@ -6338,7 +6748,7 @@ gint affichage_ligne_ope ( GtkWidget *table_etat,
 				 0, 0 );
 	      gtk_widget_show ( label );
 	    }
-	  colonne++;
+	  colonne = colonne + 2;
 	}
 		
 
@@ -6378,7 +6788,7 @@ gint affichage_ligne_ope ( GtkWidget *table_etat,
 				 0, 0 );
 	      gtk_widget_show ( label );
 	    }
-	  colonne++;
+	  colonne = colonne + 2;
 	}
 
 
@@ -6399,7 +6809,7 @@ gint affichage_ligne_ope ( GtkWidget *table_etat,
 				 0, 0 );
 	      gtk_widget_show ( label );
 	    }
-	  colonne++;
+	  colonne = colonne + 2;
 	}
 
       if ( etat_courant -> afficher_type_ope )
@@ -6431,7 +6841,7 @@ gint affichage_ligne_ope ( GtkWidget *table_etat,
 				 0, 0 );
 	      gtk_widget_show ( label );
 	    }
-	  colonne++;
+	  colonne = colonne + 2;
 	}
 
 
@@ -6452,7 +6862,7 @@ gint affichage_ligne_ope ( GtkWidget *table_etat,
 				 0, 0 );
 	      gtk_widget_show ( label );
 	    }
-	  colonne++;
+	  colonne = colonne + 2;
 	}
 
 
@@ -6473,7 +6883,7 @@ gint affichage_ligne_ope ( GtkWidget *table_etat,
 				 0, 0 );
 	      gtk_widget_show ( label );
 	    }
-	  colonne++;
+	  colonne = colonne + 2;
 	}
 
       if ( etat_courant -> afficher_infobd_ope )
@@ -6493,7 +6903,7 @@ gint affichage_ligne_ope ( GtkWidget *table_etat,
 				 0, 0 );
 	      gtk_widget_show ( label );
 	    }
-	  colonne++;
+	  colonne = colonne + 2;
 	}
 
       if ( etat_courant -> afficher_rappr_ope )
@@ -6522,7 +6932,7 @@ gint affichage_ligne_ope ( GtkWidget *table_etat,
 				 0, 0 );
 	      gtk_widget_show ( label );
 	    }
-	  colonne++;
+	  colonne = colonne + 2;
 	}
 
 
@@ -6559,6 +6969,9 @@ gint affichage_ligne_ope ( GtkWidget *table_etat,
 			 0, 0 );
       gtk_widget_show ( label );
 
+      if ( ligne_debut_partie == -1 )
+	ligne_debut_partie = ligne;
+
       ligne++;
     }
   return ( ligne );
@@ -6575,13 +6988,42 @@ gint affiche_total_partiel ( GtkWidget *table_etat,
   GtkWidget *label;
   GtkWidget *separateur;
 
+  /* 	  si on affiche les opés, on met les traits entre eux */
+
+  if ( etat_courant -> afficher_opes
+       &&
+       ligne_debut_partie != -1 )
+    {
+      gint i;
+      gint colonne;
+
+      colonne = 2;
+
+      for ( i=0 ; i<((nb_colonnes-2)/2) ; i++ )
+	{
+	  separateur = gtk_vseparator_new ();
+	  gtk_table_attach ( GTK_TABLE ( table_etat ),
+			     separateur,
+			     colonne, colonne + 1,
+			     ligne_debut_partie, ligne,
+			     GTK_SHRINK | GTK_FILL,
+			     GTK_SHRINK | GTK_FILL,
+			     0, 0 );
+	  gtk_widget_show ( separateur );
+
+	  colonne = colonne + 2;
+	}
+      ligne_debut_partie = -1;
+    }
+
+
   label = gtk_label_new ( "" );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
 			   0.5 );
   gtk_table_attach ( GTK_TABLE ( table_etat ),
 		     label,
-		     1, 2,
+		     1, GTK_TABLE ( table_etat ) -> ncols - 1,
 		     ligne, ligne + 1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -6593,7 +7035,7 @@ gint affiche_total_partiel ( GtkWidget *table_etat,
   separateur = gtk_hseparator_new ();
   gtk_table_attach ( GTK_TABLE ( table_etat ),
 		     separateur,
-		     0, 3,
+		     0, GTK_TABLE ( table_etat ) -> ncols,
 		     ligne, ligne + 1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -6611,7 +7053,7 @@ gint affiche_total_partiel ( GtkWidget *table_etat,
 			   0.5 );
   gtk_table_attach ( GTK_TABLE ( table_etat ),
 		     label,
-		     1, 2,
+		     1, GTK_TABLE ( table_etat ) -> ncols,
 		     ligne, ligne + 1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -6623,7 +7065,7 @@ gint affiche_total_partiel ( GtkWidget *table_etat,
 					    devise_generale_etat -> code_devise ));
   gtk_table_attach ( GTK_TABLE ( table_etat ),
 		     label,
-		     2, 3,
+		     GTK_TABLE ( table_etat ) -> ncols - 1, GTK_TABLE ( table_etat ) -> ncols,
 		     ligne, ligne + 1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -6635,7 +7077,7 @@ gint affiche_total_partiel ( GtkWidget *table_etat,
   separateur = gtk_hseparator_new ();
   gtk_table_attach ( GTK_TABLE ( table_etat ),
 		     separateur,
-		     0, 3,
+		     0, GTK_TABLE ( table_etat ) -> ncols,
 		     ligne, ligne + 1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -6650,7 +7092,7 @@ gint affiche_total_partiel ( GtkWidget *table_etat,
 			   0.5 );
   gtk_table_attach ( GTK_TABLE ( table_etat ),
 		     label,
-		     1, 2,
+		     1, GTK_TABLE ( table_etat ) -> ncols,
 		     ligne, ligne + 1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -6658,6 +7100,14 @@ gint affiche_total_partiel ( GtkWidget *table_etat,
   gtk_widget_show ( label );
 
   ligne++;
+
+  nom_categ_en_cours = NULL;
+  nom_ss_categ_en_cours = NULL;
+  nom_ib_en_cours = NULL;
+  nom_ss_ib_en_cours = NULL;
+  nom_compte_en_cours = NULL;
+  nom_tiers_en_cours = NULL;
+
 
   return ( ligne );
 }
@@ -6671,13 +7121,41 @@ gint affiche_total_general ( GtkWidget *table_etat,
   GtkWidget *label;
   GtkWidget *separateur;
 
+  /* 	  si on affiche les opés, on met les traits entre eux */
+
+  if ( etat_courant -> afficher_opes
+       &&
+       ligne_debut_partie != -1 )
+    {
+      gint i;
+      gint colonne;
+
+      colonne = 2;
+
+      for ( i=0 ; i<((nb_colonnes-2)/2) ; i++ )
+	{
+	  separateur = gtk_vseparator_new ();
+	  gtk_table_attach ( GTK_TABLE ( table_etat ),
+			     separateur,
+			     colonne, colonne + 1,
+			     ligne_debut_partie, ligne,
+			     GTK_SHRINK | GTK_FILL,
+			     GTK_SHRINK | GTK_FILL,
+			     0, 0 );
+	  gtk_widget_show ( separateur );
+
+	  colonne = colonne + 2;
+	}
+      ligne_debut_partie = -1;
+    }
+
   label = gtk_label_new ( "" );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
 			   0.5 );
   gtk_table_attach ( GTK_TABLE ( table_etat ),
 		     label,
-		     1, 2,
+		     1, GTK_TABLE ( table_etat ) -> ncols,
 		     ligne, ligne + 1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -6689,7 +7167,7 @@ gint affiche_total_general ( GtkWidget *table_etat,
   separateur = gtk_hseparator_new ();
   gtk_table_attach ( GTK_TABLE ( table_etat ),
 		     separateur,
-		     0, 3,
+		     0, GTK_TABLE ( table_etat ) -> ncols,
 		     ligne, ligne + 1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -6704,7 +7182,7 @@ gint affiche_total_general ( GtkWidget *table_etat,
 			   0.5 );
   gtk_table_attach ( GTK_TABLE ( table_etat ),
 		     label,
-		     1, 2,
+		     1, GTK_TABLE ( table_etat ) -> ncols -1,
 		     ligne, ligne + 1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -6716,7 +7194,7 @@ gint affiche_total_general ( GtkWidget *table_etat,
 					    devise_generale_etat -> code_devise ));
   gtk_table_attach ( GTK_TABLE ( table_etat ),
 		     label,
-		     2, 3,
+		     GTK_TABLE ( table_etat ) -> ncols -1, GTK_TABLE ( table_etat ) -> ncols,
 		     ligne, ligne + 1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -6728,7 +7206,7 @@ gint affiche_total_general ( GtkWidget *table_etat,
   separateur = gtk_hseparator_new ();
   gtk_table_attach ( GTK_TABLE ( table_etat ),
 		     separateur,
-		     0, 3,
+		     0, GTK_TABLE ( table_etat ) -> ncols,
 		     ligne, ligne + 1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -6743,7 +7221,7 @@ gint affiche_total_general ( GtkWidget *table_etat,
 			   0.5 );
   gtk_table_attach ( GTK_TABLE ( table_etat ),
 		     label,
-		     1, 2,
+		     1, GTK_TABLE ( table_etat ) -> ncols,
 		     ligne, ligne + 1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -6809,10 +7287,11 @@ gint affiche_categ_etat ( struct structure_operation *operation,
 
       if ( operation -> categorie )
 	{
+	  nom_categ_en_cours = ((struct struct_categ *)(g_slist_find_custom ( liste_struct_categories,
+									      GINT_TO_POINTER ( operation -> categorie ),
+									      (GCompareFunc) recherche_categorie_par_no ) -> data )) -> nom_categ;
 	  pointeur_char = g_strconcat ( decalage_categ,
-					((struct struct_categ *)(g_slist_find_custom ( liste_struct_categories,
-										       GINT_TO_POINTER ( operation -> categorie ),
-										       (GCompareFunc) recherche_categorie_par_no ) -> data )) -> nom_categ,
+					nom_categ_en_cours,
 					NULL );
 	  ancienne_categ_speciale_etat = 0;
 	}
@@ -6860,7 +7339,7 @@ gint affiche_categ_etat ( struct structure_operation *operation,
 
       ligne++;
 
-
+      ligne_debut_partie = ligne;
       denote_struct_sous_jaccentes ( 1 );
 
       ancienne_categ_etat = operation -> categorie;
@@ -6918,15 +7397,23 @@ gint affiche_sous_categ_etat ( struct structure_operation *operation,
 				    (GCompareFunc) recherche_categorie_par_no ) -> data;
 
       if ( operation -> sous_categorie )
-	pointeur_char = g_strconcat ( decalage_sous_categ,
-				      ((struct struct_sous_categ *)(g_slist_find_custom ( categ->liste_sous_categ,
-											  GINT_TO_POINTER ( operation -> sous_categorie ),
-											  (GCompareFunc) recherche_sous_categorie_par_no ) -> data )) -> nom_sous_categ,
-				      NULL );
+	{
+	  nom_ss_categ_en_cours = ((struct struct_sous_categ *)(g_slist_find_custom ( categ->liste_sous_categ,
+										      GINT_TO_POINTER ( operation -> sous_categorie ),
+										      (GCompareFunc) recherche_sous_categorie_par_no ) -> data )) -> nom_sous_categ;
+	  pointeur_char = g_strconcat ( decalage_sous_categ,
+					nom_ss_categ_en_cours,
+					NULL );
+	}
       else
-	pointeur_char = g_strconcat ( decalage_sous_categ,
-				      "Pas de sous-catégorie",
-				      NULL );
+	{
+	  if ( etat_courant -> afficher_pas_de_sous_categ )
+	    pointeur_char = g_strconcat ( decalage_sous_categ,
+					  "Pas de sous-catégorie",
+					  NULL );
+	  else
+	    pointeur_char = "";
+	}
 
       label = gtk_label_new ( pointeur_char );
       gtk_misc_set_alignment ( GTK_MISC ( label ),
@@ -6943,7 +7430,8 @@ gint affiche_sous_categ_etat ( struct structure_operation *operation,
 
       ligne++;
 
-     denote_struct_sous_jaccentes ( 2 );
+      ligne_debut_partie = ligne;
+      denote_struct_sous_jaccentes ( 2 );
 
      ancienne_sous_categ_etat = operation -> sous_categorie;
 
@@ -6993,11 +7481,14 @@ gint affiche_ib_etat ( struct structure_operation *operation,
 	}
  
       if ( operation -> imputation )
-	pointeur_char = g_strconcat ( decalage_ib,
-				      ((struct struct_imputation *)(g_slist_find_custom ( liste_struct_imputation,
-											  GINT_TO_POINTER ( operation -> imputation ),
-											  (GCompareFunc) recherche_imputation_par_no ) -> data )) -> nom_imputation,
-				      NULL );
+	{
+	  nom_ib_en_cours = ((struct struct_imputation *)(g_slist_find_custom ( liste_struct_imputation,
+										GINT_TO_POINTER ( operation -> imputation ),
+										(GCompareFunc) recherche_imputation_par_no ) -> data )) -> nom_imputation;
+	  pointeur_char = g_strconcat ( decalage_ib,
+					nom_ib_en_cours,
+					NULL );
+	}
       else
 	pointeur_char = g_strconcat ( decalage_ib,
 				      "Pas d'imputation budgétaire",
@@ -7018,6 +7509,7 @@ gint affiche_ib_etat ( struct structure_operation *operation,
 
       ligne++;
 
+      ligne_debut_partie = ligne;
       denote_struct_sous_jaccentes ( 3 );
 
       ancienne_ib_etat = operation -> imputation;
@@ -7079,15 +7571,23 @@ gint affiche_sous_ib_etat ( struct structure_operation *operation,
 					 (GCompareFunc) recherche_imputation_par_no ) -> data;
 
       if ( operation -> sous_imputation )
-	pointeur_char = g_strconcat ( decalage_sous_ib,
-				      ((struct struct_sous_imputation *)(g_slist_find_custom ( imputation->liste_sous_imputation,
-											       GINT_TO_POINTER ( operation -> sous_imputation ),
-											       (GCompareFunc) recherche_sous_imputation_par_no ) -> data )) -> nom_sous_imputation,
-				      NULL );
+	{
+	  nom_ss_ib_en_cours = ((struct struct_sous_imputation *)(g_slist_find_custom ( imputation->liste_sous_imputation,
+											GINT_TO_POINTER ( operation -> sous_imputation ),
+											(GCompareFunc) recherche_sous_imputation_par_no ) -> data )) -> nom_sous_imputation;
+	  pointeur_char = g_strconcat ( decalage_sous_ib,
+					nom_ss_ib_en_cours,
+					NULL );
+	}
       else
-	pointeur_char = g_strconcat ( decalage_sous_ib,
-				      "Pas de sous-imputation",
-				      NULL );
+	{
+	  if ( etat_courant -> afficher_pas_de_sous_ib )
+	    pointeur_char = g_strconcat ( decalage_sous_ib,
+					  "Pas de sous-imputation",
+					  NULL );
+	  else
+	    pointeur_char = "";
+	}
 
       label = gtk_label_new ( pointeur_char );
       gtk_misc_set_alignment ( GTK_MISC ( label ),
@@ -7104,6 +7604,7 @@ gint affiche_sous_ib_etat ( struct structure_operation *operation,
 
       ligne++;
 
+      ligne_debut_partie = ligne;
       denote_struct_sous_jaccentes ( 4 );
 
       ancienne_sous_ib_etat = operation -> sous_imputation;
@@ -7157,6 +7658,7 @@ gint affiche_compte_etat ( struct structure_operation *operation,
       pointeur_char = g_strconcat ( decalage_compte,
 				    NOM_DU_COMPTE,
 				    NULL );
+      nom_compte_en_cours = NOM_DU_COMPTE;
 
       label = gtk_label_new ( pointeur_char );
       gtk_misc_set_alignment ( GTK_MISC ( label ),
@@ -7173,6 +7675,7 @@ gint affiche_compte_etat ( struct structure_operation *operation,
 
       ligne++;
 
+      ligne_debut_partie = ligne;
       denote_struct_sous_jaccentes ( 5 );
 
       ancien_compte_etat = operation -> no_compte;
@@ -7222,11 +7725,14 @@ gint affiche_tiers_etat ( struct structure_operation *operation,
 	}
 
       if ( operation -> tiers )
-	pointeur_char = g_strconcat ( decalage_tiers,
-				      ((struct struct_tiers *)(g_slist_find_custom ( liste_struct_tiers,
-										     GINT_TO_POINTER ( operation -> tiers ),
-										     (GCompareFunc) recherche_tiers_par_no ) -> data )) -> nom_tiers,
-				      NULL );
+	{
+	  nom_tiers_en_cours = ((struct struct_tiers *)(g_slist_find_custom ( liste_struct_tiers,
+									      GINT_TO_POINTER ( operation -> tiers ),
+									      (GCompareFunc) recherche_tiers_par_no ) -> data )) -> nom_tiers;
+	  pointeur_char = g_strconcat ( decalage_tiers,
+					nom_tiers_en_cours,
+					NULL );
+	}
       else
 	pointeur_char = g_strconcat ( decalage_tiers,
 				      "Pas de tiers",
@@ -7248,6 +7754,7 @@ gint affiche_tiers_etat ( struct structure_operation *operation,
 
       ligne++;
 
+      ligne_debut_partie = ligne;
       denote_struct_sous_jaccentes ( 6 );
 
       ancien_tiers_etat = operation -> tiers;
@@ -7459,5 +7966,218 @@ void denote_struct_sous_jaccentes ( gint origine )
 	}
       pointeur_glist = pointeur_glist -> prev;
     }
+}
+/*****************************************************************************************************/
+
+
+
+/*****************************************************************************************************/
+gint affiche_titres_colonnes ( GtkWidget *table_etat,
+			       gint ligne )
+{
+  gint colonne;
+  GtkWidget *label;
+  GtkWidget *separateur;
+
+  colonne = 1;
+
+  if ( etat_courant -> afficher_no_ope )
+    {
+      label = gtk_label_new ( "N°" );
+      gtk_table_attach ( GTK_TABLE ( table_etat ),
+			 label,
+			 colonne, colonne + 1,
+			 ligne, ligne + 1,
+			 GTK_SHRINK | GTK_FILL,
+			 GTK_SHRINK | GTK_FILL,
+			 0, 0 );
+      gtk_widget_show ( label );
+
+      colonne = colonne + 2;
+    }
+
+  if ( etat_courant -> afficher_date_ope )
+    {
+      label = gtk_label_new ( "Date" );
+      gtk_table_attach ( GTK_TABLE ( table_etat ),
+			 label,
+			 colonne, colonne + 1,
+			 ligne, ligne + 1,
+			 GTK_SHRINK | GTK_FILL,
+			 GTK_SHRINK | GTK_FILL,
+			 0, 0 );
+      gtk_widget_show ( label );
+
+      colonne = colonne + 2;
+    }
+
+  if ( etat_courant -> afficher_exo_ope )
+    {
+      label = gtk_label_new ( "Exercice" );
+      gtk_table_attach ( GTK_TABLE ( table_etat ),
+			 label,
+			 colonne, colonne + 1,
+			 ligne, ligne + 1,
+			 GTK_SHRINK | GTK_FILL,
+			 GTK_SHRINK | GTK_FILL,
+			 0, 0 );
+      gtk_widget_show ( label );
+
+      colonne = colonne + 2;
+    }
+
+  if ( etat_courant -> afficher_tiers_ope )
+    {
+      label = gtk_label_new ( "Tiers" );
+      gtk_table_attach ( GTK_TABLE ( table_etat ),
+			 label,
+			 colonne, colonne + 1,
+			 ligne, ligne + 1,
+			 GTK_SHRINK | GTK_FILL,
+			 GTK_SHRINK | GTK_FILL,
+			 0, 0 );
+      gtk_widget_show ( label );
+
+      colonne = colonne + 2;
+    }
+
+  if ( etat_courant -> afficher_categ_ope )
+    {
+      label = gtk_label_new ( "Catégorie" );
+      gtk_table_attach ( GTK_TABLE ( table_etat ),
+			 label,
+			 colonne, colonne + 1,
+			 ligne, ligne + 1,
+			 GTK_SHRINK | GTK_FILL,
+			 GTK_SHRINK | GTK_FILL,
+			 0, 0 );
+      gtk_widget_show ( label );
+
+      colonne = colonne + 2;
+    }
+
+  if ( etat_courant -> afficher_ib_ope )
+    {
+      label = gtk_label_new ( "Imputation budgétaire" );
+      gtk_table_attach ( GTK_TABLE ( table_etat ),
+			 label,
+			 colonne, colonne + 1,
+			 ligne, ligne + 1,
+			 GTK_SHRINK | GTK_FILL,
+			 GTK_SHRINK | GTK_FILL,
+			 0, 0 );
+      gtk_widget_show ( label );
+
+      colonne = colonne + 2;
+    }
+
+  if ( etat_courant -> afficher_notes_ope )
+    {
+      label = gtk_label_new ( "Notes" );
+      gtk_table_attach ( GTK_TABLE ( table_etat ),
+			 label,
+			 colonne, colonne + 1,
+			 ligne, ligne + 1,
+			 GTK_SHRINK | GTK_FILL,
+			 GTK_SHRINK | GTK_FILL,
+			 0, 0 );
+      gtk_widget_show ( label );
+
+      colonne = colonne + 2;
+    }
+
+  if ( etat_courant -> afficher_type_ope )
+    {
+      label = gtk_label_new ( "Type" );
+      gtk_table_attach ( GTK_TABLE ( table_etat ),
+			 label,
+			 colonne, colonne + 1,
+			 ligne, ligne + 1,
+			 GTK_SHRINK | GTK_FILL,
+			 GTK_SHRINK | GTK_FILL,
+			 0, 0 );
+      gtk_widget_show ( label );
+
+      colonne = colonne + 2;
+    }
+
+  if ( etat_courant -> afficher_cheque_ope )
+    {
+      label = gtk_label_new ( "Chèque" );
+      gtk_table_attach ( GTK_TABLE ( table_etat ),
+			 label,
+			 colonne, colonne + 1,
+			 ligne, ligne + 1,
+			 GTK_SHRINK | GTK_FILL,
+			 GTK_SHRINK | GTK_FILL,
+			 0, 0 );
+      gtk_widget_show ( label );
+
+      colonne = colonne + 2;
+    }
+
+  if ( etat_courant -> afficher_pc_ope )
+    {
+      label = gtk_label_new ( "Pièce comptable" );
+      gtk_table_attach ( GTK_TABLE ( table_etat ),
+			 label,
+			 colonne, colonne + 1,
+			 ligne, ligne + 1,
+			 GTK_SHRINK | GTK_FILL,
+			 GTK_SHRINK | GTK_FILL,
+			 0, 0 );
+      gtk_widget_show ( label );
+
+      colonne = colonne + 2;
+    }
+
+  if ( etat_courant -> afficher_infobd_ope )
+    {
+      label = gtk_label_new ( "Info banque/guichet" );
+      gtk_table_attach ( GTK_TABLE ( table_etat ),
+			 label,
+			 colonne, colonne + 1,
+			 ligne, ligne + 1,
+			 GTK_SHRINK | GTK_FILL,
+			 GTK_SHRINK | GTK_FILL,
+			 0, 0 );
+      gtk_widget_show ( label );
+
+      colonne = colonne + 2;
+    }
+
+  if ( etat_courant -> afficher_rappr_ope )
+    {
+      label = gtk_label_new ( "Relevé" );
+      gtk_table_attach ( GTK_TABLE ( table_etat ),
+			 label,
+			 colonne, colonne + 1,
+			 ligne, ligne + 1,
+			 GTK_SHRINK | GTK_FILL,
+			 GTK_SHRINK | GTK_FILL,
+			 0, 0 );
+      gtk_widget_show ( label );
+
+      colonne = colonne + 2;
+    }
+
+
+  ligne++;
+
+  separateur = gtk_hseparator_new ();
+  gtk_table_attach ( GTK_TABLE ( table_etat ),
+		     separateur,
+		     1, GTK_TABLE ( table_etat ) -> ncols - 1,
+		     ligne, ligne + 1,
+		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL,
+		     0, 0 );
+  gtk_widget_show ( separateur );
+
+  ligne++;
+
+  titres_affiches = 1;
+
+  return ( ligne );
 }
 /*****************************************************************************************************/

@@ -920,7 +920,8 @@ gint affiche_totaux_sous_jaccent ( GtkWidget *table_etat,
 				   gint origine,
 				   gint ligne );
 void denote_struct_sous_jaccentes ( gint origine );
-
+gint affiche_titres_colonnes ( GtkWidget *table_etat,
+			       gint ligne );
 
 /***********************************/ 
 /* fichier impression.c */

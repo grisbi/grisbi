@@ -108,6 +108,10 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 {
   xmlNodePtr node_1;
 
+  /* message d'avertissement */
+
+  dialogue ( "Attention, le format de données a changé ; si vous voulez conserver l'ancien format\nfaire une copie du fichier AVANT de refermer Grisbi ou de sauvegarder le fichier" );
+
   /* on place node_1 sur les généralités */
 
   node_1 = doc -> root -> childs;
@@ -1503,7 +1507,7 @@ des paramètres." );
 
 
 /*****************************************************************************/
-/* version 0.3.3 */
+/* version 0.4.0 */
 /*****************************************************************************/
 
 gboolean charge_operations_version_0_4_0 ( xmlDocPtr doc )
@@ -2980,6 +2984,15 @@ des paramètres." );
 		      etat -> afficher_infobd_ope = atoi ( xmlGetProp ( node_detail,
 									"Aff_infobd_ope" ));
 
+		      etat -> afficher_exo_ope = atoi ( xmlGetProp ( node_detail,
+									"Aff_exo_ope" ));
+
+		      etat -> afficher_titre_colonnes = atoi ( xmlGetProp ( node_detail,
+									"Aff_titres_col" ));
+
+		      etat -> type_affichage_titres = atoi ( xmlGetProp ( node_detail,
+									"Aff_titres_chgt" ));
+
 		      etat -> pas_detailler_ventilation = atoi ( xmlGetProp ( node_detail,
 									"Pas_detail_ventil" ));
 
@@ -3149,6 +3162,9 @@ des paramètres." );
 		      etat -> afficher_sous_categ = atoi ( xmlGetProp ( node_detail,
 									"Aff_ss_categ" ));
 
+		      etat -> afficher_pas_de_sous_categ = atoi ( xmlGetProp ( node_detail,
+									"Aff_pas_ss_categ" ));
+
 		      etat -> affiche_sous_total_sous_categ = atoi ( xmlGetProp ( node_detail,
 									"Total_ss_categ" ));
 
@@ -3194,6 +3210,9 @@ des paramètres." );
 
 		      etat -> afficher_sous_ib = atoi ( xmlGetProp ( node_detail,
 									"Aff_ss_ib" ));
+
+		      etat -> afficher_pas_de_sous_ib = atoi ( xmlGetProp ( node_detail,
+									"Aff_pas_ss_ib" ));
 
 		      etat -> affiche_sous_total_sous_ib = atoi ( xmlGetProp ( node_detail,
 									"Total_ss_ib" ));
@@ -4660,6 +4679,18 @@ gboolean enregistre_fichier ( void )
 		   itoa ( etat -> afficher_infobd_ope ));
 
       xmlSetProp ( node_etat,
+		   "Aff_exo_ope",
+		   itoa ( etat -> afficher_exo_ope ));
+
+      xmlSetProp ( node_etat,
+		   "Aff_titres_col",
+		   itoa ( etat -> afficher_titre_colonnes ));
+
+      xmlSetProp ( node_etat,
+		   "Aff_titres_chgt",
+		   itoa ( etat -> type_affichage_titres ));
+
+      xmlSetProp ( node_etat,
 		   "Pas_detail_ventil",
 		   itoa ( etat -> pas_detailler_ventilation ));
 
@@ -4819,6 +4850,10 @@ gboolean enregistre_fichier ( void )
 		   itoa ( etat -> afficher_sous_categ ));
 
       xmlSetProp ( node_etat,
+		   "Aff_pas_ss_categ",
+		   itoa ( etat -> afficher_pas_de_sous_categ ));
+
+      xmlSetProp ( node_etat,
 		   "Total_ss_categ",
 		   itoa ( etat -> affiche_sous_total_sous_categ ));
 
@@ -4869,6 +4904,10 @@ gboolean enregistre_fichier ( void )
       xmlSetProp ( node_etat,
 		   "Aff_ss_ib",
 		   itoa ( etat -> afficher_sous_ib ));
+
+      xmlSetProp ( node_etat,
+		   "Aff_pas_ss_ib",
+		   itoa ( etat -> afficher_pas_de_sous_ib ));
 
       xmlSetProp ( node_etat,
 		   "Total_ss_ib",
