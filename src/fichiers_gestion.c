@@ -177,7 +177,7 @@ void ouverture_fichier_par_menu ( gpointer null,
     if ( !fermer_fichier() )
 	return;
 
-    nom_fichier_comptes = tab_noms_derniers_fichiers_ouverts[no_fichier-1];
+    nom_fichier_comptes = tab_noms_derniers_fichiers_ouverts[no_fichier];
 
     ouverture_confirmee ();
 }
