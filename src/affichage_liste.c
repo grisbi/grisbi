@@ -364,7 +364,7 @@ GtkWidget *onglet_affichage_liste ( void )
     }
 
   /* Then add the "sort by" buttons */
-  paddingbox = paddingbox_new_with_title (onglet, FALSE,
+  paddingbox = new_paddingbox_with_title (onglet, FALSE,
 					  _("Sort transaction list"));
   gtk_box_pack_start ( GTK_BOX ( onglet ),
 		       paddingbox,
