@@ -1563,7 +1563,7 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
       /* on fait perdre le focus au widget courant pour faire les changements automatiques si nécessaire */
 
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-      gtk_widget_grab_focus ( CLIST_OPERATIONS );
+/*       gtk_widget_grab_focus ( CLIST_OPERATIONS ); */
 
       /* on donne le focus au widget suivant */
 
@@ -1617,7 +1617,7 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 
       if ( GTK_IS_COMBOFIX ( widget_formulaire_operations[origine] ) )
 	{
-	  gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_operations[origine] ) -> entry );  
+	  gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_operations[origine] ) -> entry );
 	  gtk_entry_select_region ( GTK_ENTRY ( GTK_COMBOFIX ( widget_formulaire_operations[origine] ) -> entry ),
 				    0,
 				    -1 );
@@ -1680,9 +1680,7 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 
 
     default:
-      printf("Should not happen (%d) !\n", origine);
-/*       gtk_signal_handler_block_by_func(widget,touches_champ_formulaire,no_origine); */
-/*       gtk_signal_emit(widget,""); */
+      /* Reverting to default handler */
       return FALSE;
     }
 
@@ -1740,7 +1738,7 @@ void date_selectionnee ( GtkCalendar *calendrier,
 			  &jour);
 
   gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[1] ),
-		       g_strdup_printf ( "%02d/%02d/%d",
+		       g_strdup_printf ( "%02d/%02d/%04d",
 					 jour,
 					 mois + 1,
 					 annee));
@@ -1765,7 +1763,7 @@ void date_bancaire_selectionnee ( GtkCalendar *calendrier, GtkWidget *popup )
   gtk_calendar_get_date ( calendrier, &annee, &mois, &jour);
 
   gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[7] ),
-		       g_strdup_printf ( "%02d/%02d/%d", jour, mois + 1, annee));
+		       g_strdup_printf ( "%02d/%02d/%04d", jour, mois + 1, annee));
   gtk_widget_destroy ( popup );
 
   gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_operations[2] ) -> entry );
@@ -1909,7 +1907,7 @@ gboolean modifie_date ( GtkWidget *entree )
 
       if ( g_date_valid_dmy ( jour, mois, annee) )
 	gtk_entry_set_text ( GTK_ENTRY ( entree ),
-			     g_strdup_printf ( "%02d/%02d/%d", jour, mois, annee ));
+			     g_strdup_printf ( "%02d/%02d/%04d", jour, mois, annee ));
       else
 	return ( FALSE );
     }
@@ -4111,7 +4109,7 @@ void incremente_decremente_date ( GtkWidget *entree,
 		    demande );
 
   gtk_entry_set_text ( GTK_ENTRY (entree),
-		       g_strdup_printf ( "%d/%d/%d",
+		       g_strdup_printf ( "%02d/%02d/%04d",
 					 g_date_day ( date ),
 					 g_date_month ( date ),
 					 g_date_year ( date )));

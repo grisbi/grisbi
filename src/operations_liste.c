@@ -1526,7 +1526,7 @@ void edition_operation ( void )
 
   g_date_strftime (  date,
 		     11,
-		     "%d/%m/%Y",
+		     "%02d/%02m/%04Y",
 		     operation -> date);
 
   entree_prend_focus ( widget_formulaire_operations[1] );
@@ -1670,7 +1670,7 @@ void edition_operation ( void )
     {
       g_date_strftime (  date_bancaire,
 			 11,
-			 "%d/%m/%Y",
+			 "%02d/%02m/%04Y",
 			 operation -> date_bancaire );
       entree_prend_focus ( widget_formulaire_operations[7] );
 
