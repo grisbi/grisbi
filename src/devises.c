@@ -1249,7 +1249,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
  */
 gboolean devise_selectionnee ( GtkWidget *menu_shell, gint origine )
 {
-    GtkWidget * associate, *entry;
+    GtkWidget * associate;
     gint position;
     struct struct_devise *devise;
 
