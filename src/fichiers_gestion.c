@@ -829,6 +829,24 @@ void ajoute_nouveau_fichier_liste_ouverture ( gchar *path_fichier )
        ! path_fichier)
     return;
 
+  /* ALAIN-FIXME */
+  /* si on n'a pas un chemin absolu, on n'enregistre pas ce fichier
+     dans la liste. Du moins jusqu'à ce que quelqu'un trouve un moyen
+     pour récupérer le chemein absolu */
+
+  if ( !g_path_is_absolute ( nom_fichier_comptes ) )
+    {
+/*     gchar *tmp_name, *tmp_name2;
+     tmp_name = realpath(nom_fichier_comptes, tmp_name2);
+     
+     dialogue(tmp_name);
+     free(tmp_name);
+     dialogue(tmp_name2);
+     free(tmp_name2);*/
+
+     return;
+    }
+
   /* on commence par vérifier si ce fichier n'est pas dans les nb_derniers_fichiers_ouverts noms */
 
   position = 0;
