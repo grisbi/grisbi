@@ -320,13 +320,13 @@ void export_accounts_to_csv (GSList* export_entries_list )
                         /* met le rapprochement */
 	 		if ( operation -> no_rapprochement )
 			{
-                        pointeur = g_slist_find_custom ( liste_no_rapprochements,
-                                                         GINT_TO_POINTER ( operation -> no_rapprochement ),
-                                                         (GCompareFunc) recherche_no_rapprochement_par_no );
+			    pointeur = g_slist_find_custom ( liste_no_rapprochements,
+							     GINT_TO_POINTER ( operation -> no_rapprochement ),
+							     (GCompareFunc) recherche_no_rapprochement_par_no );
 
-                        CSV_CLEAR_FIELD(csv_field_rappro);
-                        if ( pointeur )
-                            csv_field_rappro = g_strdup ( ((struct struct_no_rapprochement *)(pointeur->data)) -> nom_rapprochement );
+			    CSV_CLEAR_FIELD(csv_field_rappro);
+			    if ( pointeur )
+				csv_field_rappro = g_strdup ( ((struct struct_no_rapprochement *)(pointeur->data)) -> nom_rapprochement );
 			}
 
                         /* met le montant, transforme la devise si necessaire */
@@ -494,6 +494,66 @@ void export_accounts_to_csv (GSList* export_entries_list )
                                     montant_tmp = g_strdup_printf ( "%4.2f", montant );
                                     montant_tmp = g_strdelimit ( montant_tmp, ",", '.' );
                                     csv_field_montant = g_strdup ( montant_tmp );
+
+				    /* met le rapprochement */
+				    if ( ope_test -> no_rapprochement )
+				    {
+					pointeur = g_slist_find_custom ( liste_no_rapprochements,
+									 GINT_TO_POINTER ( ope_test -> no_rapprochement ),
+									 (GCompareFunc) recherche_no_rapprochement_par_no );
+
+					CSV_CLEAR_FIELD(csv_field_rappro);
+					if ( pointeur )
+					    csv_field_rappro = g_strdup ( ((struct struct_no_rapprochement *)(pointeur->data)) -> nom_rapprochement );
+				    }
+
+				    /* met le chèque si c'est un type à numérotation automatique */
+				    pointeur = g_slist_find_custom ( TYPES_OPES,
+                                                         GINT_TO_POINTER ( ope_test -> type_ope ),
+                                                         (GCompareFunc) recherche_type_ope_par_no );
+
+				    if ( pointeur )
+				    {
+					struct struct_type_ope * type = pointeur -> data;
+					if ( type -> numerotation_auto )
+					    csv_field_cheque = operation -> contenu_type ;
+				    }
+
+
+				    /* Budgetary lines */
+				    pointer = g_slist_find_custom ( liste_struct_imputation,
+								    GINT_TO_POINTER ( ope_test -> imputation ),
+								    ( GCompareFunc ) recherche_imputation_par_no );
+
+				    if ( pointer )
+				    {
+					GSList *liste_tmp_2;
+
+					if ((( struct struct_imputation * )( pointer -> data )) -> nom_imputation)
+					{
+					    csv_field_imput = g_strdup((( struct struct_imputation * )( pointer -> data )) -> nom_imputation);
+
+					    liste_tmp_2 = g_slist_find_custom ( (( struct struct_imputation * )( pointer -> data )) -> liste_sous_imputation,
+										GINT_TO_POINTER ( ope_test -> sous_imputation ),
+										( GCompareFunc ) recherche_sous_imputation_par_no );
+					    if ( liste_tmp_2 )
+					    {
+						if ((( struct struct_sous_imputation * )( liste_tmp_2 -> data )) -> nom_sous_imputation)
+						{
+						    csv_field_sous_imput = g_strdup((( struct struct_sous_imputation * )( liste_tmp_2 -> data )) -> nom_sous_imputation);
+						}
+					    }
+					}
+				    }
+
+				    /* Piece comptable */
+				    csv_field_piece = g_strdup(ope_test -> no_piece_comptable );
+
+				    /* Financial Year */
+				    if (etat.utilise_exercice)
+				    {
+					csv_field_exercice  = g_strdup(exercice_name_by_no(ope_test -> no_exercice));
+				    }
 
                                     csv_add_record(fichier_csv,FALSE);
                                 }
