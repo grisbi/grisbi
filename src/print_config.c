@@ -57,11 +57,10 @@ gboolean print_config ( )
   /* Set up dialog */
   dialog = gtk_dialog_new_with_buttons ( _("Print"),
 					 GTK_WINDOW(window),
-					 GTK_DIALOG_DESTROY_WITH_PARENT,
+					 GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_NO_SEPARATOR,
 					 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					 GTK_STOCK_PRINT, GTK_RESPONSE_OK,
 					 NULL );
-  gtk_dialog_set_has_separator ( GTK_DIALOG(dialog), FALSE );
 
   /* Insert notebook */
   notebook = gtk_notebook_new ();
