@@ -982,8 +982,9 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Solde_mini_voulu" ))
-				SOLDE_MINI_VOULU = my_strtod ( xmlNodeGetContent ( node_detail ),
-							       NULL );
+				gsb_account_set_mini_balance_wanted ( no_compte, 
+								      my_strtod ( xmlNodeGetContent ( node_detail ),
+										  NULL ));
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Solde_mini_autorise" ))
@@ -1373,7 +1374,7 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 	    /* 		    le compte est fini, on peut mettre à jour qques variables */
 
 
-	    if ( SOLDE_COURANT < SOLDE_MINI_VOULU )
+	    if ( SOLDE_COURANT < gsb_account_get_mini_balance_wanted (no_compte) )
 		MESSAGE_SOUS_MINI_VOULU = 0;
 	    else
 		MESSAGE_SOUS_MINI_VOULU = 1;
@@ -3292,7 +3293,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 			  NULL,
 			  "Solde_mini_voulu",
 			  g_strdup_printf ( "%4.7f",
-					    SOLDE_MINI_VOULU ));
+					    gsb_account_get_mini_balance_wanted (i) ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,

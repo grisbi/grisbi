@@ -870,7 +870,7 @@ void remplissage_details_compte ( void )
 
     gtk_entry_set_text ( GTK_ENTRY ( detail_solde_mini_voulu ),
 			 g_strdup_printf ( "%4.2f",
-					   SOLDE_MINI_VOULU ));
+					   gsb_account_get_mini_balance_wanted (compte_courant_onglet) ));
 
 /*     gtk_editable_delete_text ( GTK_EDITABLE ( detail_commentaire ), */
 /* 			       0, */
@@ -1134,11 +1134,12 @@ void modification_details_compte ( void )
 
     /* vérification du solde mini voulu */
 
-    if ( SOLDE_MINI_VOULU != my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_voulu ))),
-					 NULL ) )
+    if ( gsb_account_get_mini_balance_wanted (compte_courant_onglet) != my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_voulu ))),
+										    NULL ) )
     {
-	SOLDE_MINI_VOULU = my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_voulu ))),
-				       NULL );
+	gsb_account_set_mini_balance_wanted ( compte_courant_onglet, 
+					      my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_voulu ))),
+							  NULL ));
 	MESSAGE_SOUS_MINI_VOULU = 0;
 
 	mise_a_jour_soldes_minimaux = 1;

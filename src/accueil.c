@@ -683,7 +683,7 @@ void update_liste_comptes_accueil ( void )
 
 		/* Mise en place du style du label en fonction du solde pointé */
 		pStyleLabelSoldePointe = gtk_style_copy ( gtk_widget_get_style ( pLabel ));
-		if ( SOLDE_POINTE >= SOLDE_MINI_VOULU )
+		if ( SOLDE_POINTE >= gsb_account_get_mini_balance_wanted (GPOINTER_TO_INT ( ordre_comptes_variable->data )) )
 		{
 		    pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeVerteNormal;
 		    pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeVertePrelight;
@@ -745,7 +745,7 @@ void update_liste_comptes_accueil ( void )
 
 		/* Mise en place du style du label en fonction du solde courant */
 		pStyleLabelSoldeCourant = gtk_style_copy ( gtk_widget_get_style ( pLabel ));
-		if ( SOLDE_COURANT >= SOLDE_MINI_VOULU )
+		if ( SOLDE_COURANT >= gsb_account_get_mini_balance_wanted (GPOINTER_TO_INT ( ordre_comptes_variable->data )) )
 		{
 		    pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeVerteNormal;
 		    pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeVertePrelight;
@@ -1004,7 +1004,7 @@ void update_liste_comptes_accueil ( void )
 
 		/* Mise en place du style du label en fonction du solde pointé */
 		pStyleLabelSoldePointe = gtk_style_copy ( gtk_widget_get_style ( pLabel ));
-		if ( SOLDE_POINTE >= SOLDE_MINI_VOULU )
+		if ( SOLDE_POINTE >= gsb_account_get_mini_balance_wanted (GPOINTER_TO_INT ( ordre_comptes_variable->data )) )
 		{
 		    pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeVerteNormal;
 		    pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeVertePrelight;
@@ -1066,7 +1066,7 @@ void update_liste_comptes_accueil ( void )
 
 		/* Mise en place du style du label en fonction du solde courant */
 		pStyleLabelSoldeCourant = gtk_style_copy ( gtk_widget_get_style ( pLabel ));
-		if ( SOLDE_COURANT >= SOLDE_MINI_VOULU )
+		if ( SOLDE_COURANT >= gsb_account_get_mini_balance_wanted (GPOINTER_TO_INT ( ordre_comptes_variable->data )) )
 		{
 		    pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeVerteNormal;
 		    pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeVertePrelight;
@@ -1325,7 +1325,7 @@ void update_liste_comptes_accueil ( void )
 
 		/* Mise en place du style du label en fonction du solde pointé */
 		pStyleLabelSoldePointe = gtk_style_copy ( gtk_widget_get_style ( pLabel ));
-		if ( SOLDE_POINTE >= SOLDE_MINI_VOULU )
+		if ( SOLDE_POINTE >= gsb_account_get_mini_balance_wanted (GPOINTER_TO_INT ( ordre_comptes_variable->data )) )
 		{
 		    pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeVerteNormal;
 		    pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeVertePrelight;
@@ -1387,7 +1387,7 @@ void update_liste_comptes_accueil ( void )
 
 		/* Mise en place du style du label en fonction du solde courant */
 		pStyleLabelSoldeCourant = gtk_style_copy ( gtk_widget_get_style ( pLabel ));
-		if ( SOLDE_COURANT >= SOLDE_MINI_VOULU )
+		if ( SOLDE_COURANT >= gsb_account_get_mini_balance_wanted (GPOINTER_TO_INT ( ordre_comptes_variable->data )) )
 		{
 		    pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeVerteNormal;
 		    pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeVertePrelight;
@@ -1838,7 +1838,7 @@ void update_soldes_minimaux ( void )
 
 	solde_courant = rint ( SOLDE_COURANT * 100 );
 	solde_mini = rint ( SOLDE_MINI * 100 );
-	solde_mini_voulu = rint ( SOLDE_MINI_VOULU * 100 );
+	solde_mini_voulu = rint ( gsb_account_get_mini_balance_wanted (i) * 100 );
 
 
 	if ( solde_courant < solde_mini && gsb_account_get_kind (i) != GSB_TYPE_LIABILITIES )
@@ -1925,7 +1925,7 @@ void affiche_dialogue_soldes_minimaux ( void )
 
 	solde_courant = rint ( SOLDE_COURANT * 100 );
 	solde_mini = rint ( SOLDE_MINI * 100 );
-	solde_mini_voulu = rint ( SOLDE_MINI_VOULU * 100 );
+	solde_mini_voulu = rint ( gsb_account_get_mini_balance_wanted (i) * 100 );
 
 
 	if ( solde_courant < solde_mini
