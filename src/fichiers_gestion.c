@@ -42,6 +42,7 @@
 #include "operations_liste.h"
 #include "patienter.h"
 #include "traitement_variables.h"
+#include "fichier_configuration.h"
 
 
 
