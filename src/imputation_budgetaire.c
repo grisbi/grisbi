@@ -102,7 +102,7 @@ gfloat **tab_montant_sous_imputation;            /* buffer */
 gint *nb_ecritures_par_imputation;           /* buffer */
 gint **nb_ecritures_par_sous_imputation;           /* buffer */
 gint mise_a_jour_combofix_imputation_necessaire;
-
+gint no_devise_totaux_ib;
 
 
 /*START_EXTERN*/
