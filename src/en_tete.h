@@ -186,10 +186,6 @@ void selectionne_ligne_souris ( GtkCList *liste_operations,
 gboolean traitement_clavier_liste ( GtkCList *liste_operations,
 				     GdkEventKey *evenement,
 				     gpointer data);
-void ctrl_press ( void );
-void fin_ctrl ( GtkCList *liste_operations,
-		    GdkEventKey *evenement,
-		    gpointer origine);
 void selectionne_ligne ( gint compte );
 void edition_operation ( void );
 void p_press (void);

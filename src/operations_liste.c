@@ -36,6 +36,7 @@
   #define TRANSACTION_COL_NB_BALANCE 6
 */
   #define NB_COLS_TRANSACTION 7
+  #define NB_ROWS_TRANSACTION 4
 /*
   gint transaction_col_width[NB_COLS_TRANSACTION] = { 10,
 						      26,
@@ -56,20 +57,17 @@
 /******************************************************************************/
 /*  Routine qui crée la fenêtre de la liste des opé  */
 /******************************************************************************/
-
 GtkWidget *creation_fenetre_operations ( void )
 {
   GtkWidget *win_operations;
   GtkWidget *solde_box;
   GtkWidget *frame;
 
-
   /*   la fenetre des opé est une vbox : la liste en haut, le solde et  */
   /*     des boutons de conf au milieu, le formulaire en bas */
 
   win_operations = gtk_vbox_new ( FALSE,
 				  5 );
-
 
 /* création de la barre d'outils */
 
@@ -353,12 +351,12 @@ void creation_listes_operations ( void )
 			   NULL );
 
       /* attente du relachement de ctrl+p */
-
+/*
       gtk_signal_connect ( GTK_OBJECT (liste),
 			   "key_release_event",
 			   GTK_SIGNAL_FUNC ( fin_ctrl ),
 			   NULL );
-
+*/
       /* on ajoute l'onglet au notebook des comptes */
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
@@ -390,7 +388,6 @@ void creation_listes_operations ( void )
 /* Fonction empeche_pression_titre_colonne */
 /* permet d'éviter que le bouton s'enfonce si on clicke dessus */
 /******************************************************************************/
-
 gint empeche_pression_titre_colonne ( GtkWidget *bouton )
 {
   gtk_signal_emit_stop_by_name ( GTK_OBJECT ( bouton ),
@@ -495,12 +492,12 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 		       NULL );
 
   /* attente du relachement de ctrl+p */
-
+/*
   gtk_signal_connect ( GTK_OBJECT ( liste ),
 		       "key_release_event",
 		       GTK_SIGNAL_FUNC ( fin_ctrl ),
 		       NULL );
-
+*/
   /* sauvegarde les redimensionnement des colonnes */
 
   gtk_signal_connect ( GTK_OBJECT ( liste ),
@@ -530,16 +527,15 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 /* appelée lorsque la liste est affichée la 1ère fois */
 /* permet de se placer en bas de toutes les opés au départ */
 /******************************************************************************/
-
 void onglet_compte_realize ( GtkWidget *onglet,
 			     GtkWidget *liste )
 {
   GtkAdjustment *adr_ajustement;
 
-  adr_ajustement = gtk_clist_get_vadjustment ( GTK_CLIST ( liste ));
+  adr_ajustement = gtk_clist_get_vadjustment ( GTK_CLIST ( liste ) );
 
   gtk_adjustment_set_value ( adr_ajustement,
-			     adr_ajustement -> upper -  adr_ajustement -> page_size );
+			     adr_ajustement -> upper - adr_ajustement -> page_size );
 }
 /******************************************************************************/
 
@@ -547,12 +543,11 @@ void onglet_compte_realize ( GtkWidget *onglet,
 /* remplissage de la liste des opérations du compte donné en argument */
 /* par les opérations du compte courant */
 /******************************************************************************/
-
 void remplissage_liste_operations ( gint compte )
 {
   GSList *liste_operations_tmp;
   gint couleur_en_cours;
-  gchar *ligne_clist[4][7];
+  gchar *ligne_clist[NB_ROWS_TRANSACTION][NB_COLS_TRANSACTION];
   gint i, j;
   gint ligne;
   gdouble montant;
@@ -591,7 +586,7 @@ void remplissage_liste_operations ( gint compte )
       if ( !operation -> no_operation_ventilee_associee )
 	{
 	  /* quelle que soit l'opération (relevée ou non), on calcule les soldes courant */
- 
+
 	  montant = calcule_montant_devise_renvoi ( operation -> montant,
 						    DEVISE,
 						    operation -> devise,
@@ -616,23 +611,14 @@ void remplissage_liste_operations ( gint compte )
 	    {
 	      /* on fait le tour de tab_affichage_ope pour remplir les lignes du tableau */
 
-	      for ( i=0 ; i<4 ; i++ )
+	      for ( i = 0 ; i < NB_ROWS_TRANSACTION ; i++ )
 		{
 		  /* on ne passe que si la ligne doit être affichée */
 
-		  if ( !i
-		       ||
-		       NB_LIGNES_OPE == 4
-		       ||
-		       (( i == 1
-			   ||
-			   i == 2 )
-			 &&
-			 NB_LIGNES_OPE == 3 )
-		       ||
-		       ( i == 1
-			 &&
-			 NB_LIGNES_OPE == 2 ))
+		  if ( !i ||
+		       NB_LIGNES_OPE == 4 ||
+		       (( i == 1 || i == 2 ) && NB_LIGNES_OPE == 3 ) ||
+		       ( i == 1 && NB_LIGNES_OPE == 2 ))
 		    {
 		      gint ligne_affichee;
 
@@ -681,7 +667,7 @@ void remplissage_liste_operations ( gint compte )
 			}
 
 
-		      for ( j=0 ; j<7 ; j++ )
+		      for ( j = 0 ; j < NB_COLS_TRANSACTION ; j++ )
 			ligne_clist[i][j] = recherche_contenu_cellule ( operation,
 									tab_affichage_ope[ligne_affichee][j]  );
 
@@ -706,7 +692,7 @@ void remplissage_liste_operations ( gint compte )
 		      /* du solde et on le met en rouge si on le trouve */
 
 		      if ( solde_courant_affichage_liste < 0 )
-			for ( j=0 ; j<7 ; j++ )
+			for ( j = 0 ; j < NB_COLS_TRANSACTION ; j++ )
 			  if ( tab_affichage_ope[ligne_affichee][j] == 7 )
 			    gtk_clist_set_cell_style ( GTK_CLIST ( CLIST_OPERATIONS ),
 						       ligne,
@@ -727,7 +713,7 @@ void remplissage_liste_operations ( gint compte )
     {
       /* on met à NULL tout les pointeurs */
 
-      for ( i = 0 ; i < 7 ; i++ )
+      for ( i = 0 ; i < NB_COLS_TRANSACTION ; i++ )
 	ligne_clist[0][i] = NULL;
 
       ligne = gtk_clist_append ( GTK_CLIST ( CLIST_OPERATIONS ),
@@ -735,7 +721,7 @@ void remplissage_liste_operations ( gint compte )
 
       /* on associe à cette ligne à -1 */
 
-      gtk_clist_set_row_data ( GTK_CLIST (CLIST_OPERATIONS),
+      gtk_clist_set_row_data ( GTK_CLIST ( CLIST_OPERATIONS ),
 			       ligne,
 			       GINT_TO_POINTER ( -1 ));
 
@@ -781,7 +767,6 @@ void remplissage_liste_operations ( gint compte )
 /* et le numéro de l'argument qu'on veut afficher (tab_affichage_ope) */
 /* renvoie la chaine à afficher ou NULL */
 /******************************************************************************/
-
 gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 				   gint no_affichage )
 {
@@ -798,12 +783,6 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
       /* mise en forme de la date */
 
     case 1:
-/*      return ( g_strconcat ( itoa ( operation -> jour ),
-			     "/",
-			     itoa ( operation -> mois ),
-			     "/",
-			     itoa ( operation -> annee ),
-			     NULL ));*/
       temp = g_strdup_printf ( "%02d/%02d/%04d",
 			       g_date_day ( operation -> date ),
 			       g_date_month ( operation -> date ),
@@ -822,12 +801,6 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 				  g_date_year ( operation -> date_bancaire ) );
 	 return ( temp );
 	}
-/*	return ( g_strconcat ( itoa ( operation -> jour_bancaire ),
-			       "/",
-			       itoa ( operation -> mois_bancaire ),
-			       "/",
-			       itoa ( operation -> annee_bancaire ),
-			       NULL ));*/
       else
 	return ( NULL );
       break;
@@ -1105,11 +1078,11 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 
     case 13:
       if ( operation -> pointe == 1 )
-	return ( "P" );
+	return ( _("P") );
       else
 	{
 	  if ( operation -> pointe == 2 )
-	    return ( "R" );
+	    return ( _("R") );
 	  else
 	    return ( NULL );
 	}
@@ -1245,33 +1218,32 @@ gboolean traitement_clavier_liste ( GtkCList *liste,
   gtk_signal_emit_stop_by_name ( GTK_OBJECT ( liste ),
 				 "key_press_event");
 
-  switch ( evenement->keyval )
+  switch ( evenement -> keyval )
     {
-    case GDK_Return :
+    case GDK_Return :		/* entrée */
     case GDK_KP_Enter :
-      /* entrée */
+
       edition_operation ();
       break;
 
 
-    case GDK_Up :  
-      /* flèche haut  */
+    case GDK_Up :		/* flèche haut  */
+
       ligne = gtk_clist_find_row_from_data ( GTK_CLIST ( liste ),
 					     OPERATION_SELECTIONNEE );
       if ( ligne )
 	{
 	  ligne= ligne - NB_LIGNES_OPE;
-
 	  OPERATION_SELECTIONNEE = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
 							    ligne );
 	  gtk_clist_unselect_all ( GTK_CLIST ( liste ) );
 	  selectionne_ligne ( compte_courant );
-
 	}
       return TRUE;
 
 
-    case GDK_Down:                /* flèche bas */
+    case GDK_Down:		/* flèche bas */
+
       if ( OPERATION_SELECTIONNEE != GINT_TO_POINTER ( -1 ) )
 	{
 	  ligne = gtk_clist_find_row_from_data ( GTK_CLIST ( liste ),
@@ -1283,56 +1255,34 @@ gboolean traitement_clavier_liste ( GtkCList *liste,
 							    ligne );
 	  gtk_clist_unselect_all ( GTK_CLIST ( liste ) );
 	  selectionne_ligne ( compte_courant );
-
 	}
       return TRUE;
 
-
-    case GDK_Delete:               /*  del  */
+    case GDK_Delete:		/*  del  */
+      
       supprime_operation ( OPERATION_SELECTIONNEE );
       return TRUE;
 
+    case GDK_P:			/* touche P */
+    case GDK_p:			/* touche p */
 
-    case GDK_Control_L:
-      /* touche ctrl gauche */
-    case GDK_Control_R:
-      /* touche ctrl droite */
-      ctrl_press ();
+      if ( ( evenement -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK )
+	p_press ();
       break;
 
+    case GDK_r:			/* touche r */
+    case GDK_R:			/* touche R */
 
-    case GDK_P:                /* touche P */
-    case GDK_p:                /* touche p */
-      p_press ();
-      break;
-
-    case GDK_r:                /* touche r */
-    case GDK_R:                /* touche R */
-      r_press ();
+      if ( ( evenement -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK )
+	r_press ();
       break;
 
     default: 
+      
       return FALSE;
     }
 
   return FALSE;
-}
-/******************************************************************************/
-
-/******************************************************************************/
-void ctrl_press ( void )
-{
-  etat.ctrl = 1;
-}
-/******************************************************************************/
-
-/******************************************************************************/
-void fin_ctrl ( GtkCList *liste_operations,
-		    GdkEventKey *evenement,
-		    gpointer origine)
-{
-  if ( evenement->keyval == 65507 )
-    etat.ctrl = 0;
 }
 /******************************************************************************/
 
@@ -1470,12 +1420,6 @@ void edition_operation ( void )
 		       itoa ( operation -> no_operation ));
 
   /* mise en forme de la date */
-/*
-  g_date_strftime ( date,
-		    11,
-		    "%d/%m/%Y",
-		    operation -> date);
-*/
 
   date = g_strdup_printf ( "%02d/%02d/%04d",
 			   g_date_day ( operation -> date ),
@@ -1619,14 +1563,8 @@ void edition_operation ( void )
 
   /* mise en forme de la date réelle */
 
-  if ( operation->date_bancaire )
+  if ( operation -> date_bancaire )
     {
-/*      
-      g_date_strftime (  date_bancaire,
-			 11,
-			 "%d/%m/%Y",
-			 operation -> date_bancaire );
-*/
       date_bancaire = g_strdup_printf ( "%02d/%02d/%04d",
 					g_date_day ( operation -> date_bancaire ),
 					g_date_month ( operation -> date_bancaire ),
@@ -1862,12 +1800,6 @@ void p_press (void)
 {
   gdouble montant;
 
-/*   si ctrl n'est pas enfoncé, on se barre */
-
-  if ( etat.ctrl != 1 )
-    return;
-
-
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
 
@@ -2006,13 +1938,6 @@ void p_press (void)
 
 void r_press (void)
 {
-
-/*   si ctrl n'est pas enfoncé, on se barre */
-
-  if ( etat.ctrl != 1 )
-    return;
-
-
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
   /* si on est sur l'opération vide -> on se barre */
@@ -2026,7 +1951,7 @@ void r_press (void)
 
       OPERATION_SELECTIONNEE -> pointe = 2;
 
-      /*       on met soit le R, soit on change la sélection vers l'opé suivante */
+      /* on met soit le R, soit on change la sélection vers l'opé suivante */
 
       if ( AFFICHAGE_R )
 	gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
@@ -2052,7 +1977,7 @@ void r_press (void)
   else
     if ( OPERATION_SELECTIONNEE -> pointe == 2 )
       {
-	/* 	  dé-relève l'opération */
+	/* dé-relève l'opération */
 	OPERATION_SELECTIONNEE -> pointe = 0;
 	gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
 			     gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
