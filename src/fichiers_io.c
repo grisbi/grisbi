@@ -2,7 +2,7 @@
 /* Contient toutes les procédures relatives à l'accès au disque */
 
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
-/*			2003 Benjamin Drieu (bdrieu@april.org) */
+/*			2003-2004 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -158,7 +158,7 @@ gboolean charge_operations ( void )
   result = stat ( nom_fichier_comptes, &buffer_stat);
   
   if ( result != -1 && 
-       buffer_stat.st_mode != 33152 && etat.alerte_permission )
+       buffer_stat.st_mode != 33152 && !etat.display_message_file_readable )
     propose_changement_permissions();
 
  
@@ -294,7 +294,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 			     "Fichier_ouvert" ))
 		if ( (etat.fichier_deja_ouvert  = atoi ( xmlNodeGetContent ( node_generalites ))))
 		  {
-		    dialogue_conditional ( _("Warning: either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving\" option in setup."), &(etat.display_message_lock_active) );
+		    dialogue_conditional ( _("Either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving locked files\" option in setup."), &(etat.display_message_lock_active) );
 		  }	    
 
 	      if ( !strcmp ( node_generalites -> name,
@@ -815,14 +815,14 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 
 
 		  if ( SOLDE_COURANT < SOLDE_MINI_VOULU )
-		    MESSAGE_SOUS_MINI_VOULU = 1;
-		  else
 		    MESSAGE_SOUS_MINI_VOULU = 0;
+		  else
+		    MESSAGE_SOUS_MINI_VOULU = 1;
 
 		  if ( SOLDE_COURANT < SOLDE_MINI )
-		    MESSAGE_SOUS_MINI = 1;
-		  else
 		    MESSAGE_SOUS_MINI = 0;
+		  else
+		    MESSAGE_SOUS_MINI = 1;
 
 		  /*       la sélection au départ est en bas de la liste */
 
@@ -2021,7 +2021,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 			     "Fichier_ouvert" ))
 		if ( (etat.fichier_deja_ouvert  = atoi ( xmlNodeGetContent ( node_generalites ))))
 		  {
-		    dialogue_conditional ( _("Warning: either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving\" option in setup."), &(etat.display_message_lock_active) );
+		    dialogue_conditional ( _("Either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving locked files\" option in setup."), &(etat.display_message_lock_active) );
 		  }
 	    
 
@@ -2632,14 +2632,14 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 
 		if ( SOLDE_COURANT < SOLDE_MINI_VOULU )
-		  MESSAGE_SOUS_MINI_VOULU = 1;
-		else
 		  MESSAGE_SOUS_MINI_VOULU = 0;
+		else
+		  MESSAGE_SOUS_MINI_VOULU = 1;
 
 		if ( SOLDE_COURANT < SOLDE_MINI )
-		  MESSAGE_SOUS_MINI = 1;
-		else
 		  MESSAGE_SOUS_MINI = 0;
+		else
+		  MESSAGE_SOUS_MINI = 1;
 
 		/*       la selection au depart est en bas de la liste */
 
@@ -4244,7 +4244,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 			     "Fichier_ouvert" ))
 		if ( (etat.fichier_deja_ouvert  = atoi ( xmlNodeGetContent ( node_generalites ))))
 		  {
-		    dialogue_conditional ( _("Warning: either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving\" option in setup."), &(etat.display_message_lock_active) );
+		    dialogue_conditional ( _("Either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving locked files\" option in setup."), &(etat.display_message_lock_active) );
 		  }
 	    
 
@@ -4862,14 +4862,14 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 
 
 		if ( SOLDE_COURANT < SOLDE_MINI_VOULU )
-		  MESSAGE_SOUS_MINI_VOULU = 1;
-		else
 		  MESSAGE_SOUS_MINI_VOULU = 0;
+		else
+		  MESSAGE_SOUS_MINI_VOULU = 1;
 
 		if ( SOLDE_COURANT < SOLDE_MINI )
-		  MESSAGE_SOUS_MINI = 1;
-		else
 		  MESSAGE_SOUS_MINI = 0;
+		else
+		  MESSAGE_SOUS_MINI = 1;
 
 		/*       la selection au depart est en bas de la liste */
 
@@ -6432,7 +6432,7 @@ gboolean enregistre_fichier ( gboolean force )
 
   if ( etat.fichier_deja_ouvert && !etat.force_enregistrement && !force )
     {
-      dialogue ( PRESPACIFY(_("Warning: either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving\" \noption in the setup.")));
+      dialogue_conditional ( _("Either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving locked files\" option in setup."), &(etat.display_message_lock_active ) );
       return ( FALSE );
     }
 
@@ -9325,33 +9325,29 @@ gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc )
 /***********************************************************************************************************/
 void propose_changement_permissions ( void )
 {
-  GtkWidget *dialog;
-  GtkWidget *label;
+  GtkWidget *dialog, *label, *vbox, *checkbox;
   gint resultat;
 
-  dialog = gnome_dialog_new ( _("Permission fix"),
-			      GNOME_STOCK_BUTTON_OK,
-			      GNOME_STOCK_BUTTON_NO,
-			      NULL );
-  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
-				GTK_WINDOW ( window ));
+  dialog = gtk_message_dialog_new ( GTK_WINDOW ( window ),
+				    GTK_DIALOG_DESTROY_WITH_PARENT,
+				    GTK_MESSAGE_QUESTION,
+				    GTK_BUTTONS_YES_NO,
+				    _("Your account file should not be readable by anybody else, but it is. You should change its permissions.\nShould this be fixed now?") );
 
+  vbox = GTK_DIALOG(dialog) -> vbox;
+  checkbox = new_checkbox_with_title ( _("Do not show this message again"),
+				       &(etat.display_message_file_readable), NULL);
+  gtk_box_pack_start ( GTK_BOX ( vbox ), checkbox, FALSE, FALSE, 6 );
+  gtk_widget_show_all ( dialog );
 
-  label = gtk_label_new ( _("Your account file should not be readable by anybody else,\nbut it is. You should change its permissions.\nShould I fix this now?\n"));
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( label );
+  resultat = gtk_dialog_run ( GTK_DIALOG(dialog) );
 
-  resultat = gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
+  if ( resultat == GTK_RESPONSE_YES )
+    {
+      chmod ( nom_fichier_comptes, S_IRUSR | S_IWUSR );
+    }
 
-  if ( !resultat )
-    chmod ( nom_fichier_comptes,
-	    S_IRUSR | S_IWUSR );
-
-
+  gtk_widget_destroy ( dialog );
 }
 /***********************************************************************************************************/
 
