@@ -202,7 +202,7 @@ void preferences ( GtkWidget *widget,
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
-		      0, _("Fonts"),
+		      0, _("Fonts & logo"),
 		      1, onglet_display_fonts(),
 		      -1);
 
@@ -353,6 +353,9 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
 			   0);
       gtk_widget_show ( image );
     }
+
+  /* Fix the &amp; problem */
+  /* FIXME !!! */
 
   /* Nice huge title */
   label = gtk_label_new ( title );
