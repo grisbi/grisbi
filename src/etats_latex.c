@@ -226,7 +226,7 @@ gint latex_initialise (GSList * opes_selectionnees)
 
     if ( etat.print_config.printer || etat.print_config.filetype == POSTSCRIPT_FILE )
     {
-	latex_tempname = g_strdup_printf ( "gsbpt%5d", g_random_int_range (0,99999) );
+	latex_tempname = g_strdup_printf ( "gsbpt%d", g_random_int_range (0,99999) );
 	filename =  g_strdup_printf ( "%s.tex", latex_tempname );
     }
     else
