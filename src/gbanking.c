@@ -1,8 +1,7 @@
-/* ce fichier de la gestion du format ofx */
+/* ce fichier de la gestion du format gbanking */
 
-
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
+/*     Copyright (C) 2000-2003  xxx */
+/* 			xxx@grisbi.org */
 /* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
