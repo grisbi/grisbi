@@ -1,22 +1,24 @@
+# translation of fr.po to 
 # translation of fr.po to
 # translation of fr.po to Francais
 # Grisbi translation into French
 # Copyright (C) 2003	Daniel Cartron <daniel@cartron.org>, 2003.
 # 			Benjamin Drieu <bdrieu@april.org>, 2003,2004.
 # 			Alain Portal <aportal@univ-montp2.fr>, 2003.
+# Alain PORTAL <alain.portal@free.fr>, 2004
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-04-25 15:02+0200\n"
-"PO-Revision-Date: 2004-04-25 15:03+0200\n"
-"Last-Translator: Benjamin Drieu <bdrieu@april.org>\n"
-"Language-Team: Francais <traduction@grisbi.org>\n"
+"PO-Revision-Date: 2004-04-26 23:57GMT\n"
+"Last-Translator: Alain PORTAL <alain.portal@free.fr>\n"
+"Language-Team:  <fr@li.org>\n"
 "MIME-Version: (null)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0.2\n"
+"X-Generator: KBabel 1.0\n"
 
 #: src/accueil.c:126
 msgid "No user"
@@ -32,15 +34,15 @@ msgstr "Comptes passifs terminés"
 
 #: src/accueil.c:213
 msgid "Manual scheduled transactions at maturity date"
-msgstr "Echéances manuelles arrivées à terme"
+msgstr "Échéances manuelles arrivées à terme"
 
 #: src/accueil.c:224
 msgid "Automatic scheduled transactions entered"
-msgstr "Echéances automatiques saisies"
+msgstr "Échéances automatiques saisies"
 
 #: src/accueil.c:235
 msgid "Closed scheduled transactions"
-msgstr "Echéances terminées"
+msgstr "Échéances terminées"
 
 #: src/accueil.c:246
 msgid "Accounts under authorized balance"
@@ -99,17 +101,17 @@ msgstr "Débit de %4.2f %s sur %s"
 #: src/accueil.c:1136 src/accueil.c:1171
 #, c-format
 msgid "Balance of account %s is under wanted and authorised minima!"
-msgstr "Le compte %s est passé sous les seuils minimaux autorisés et voulus !"
+msgstr "Le compte %s est passé sous les seuils minimums autorisés et voulus !"
 
 #: src/accueil.c:1142
 #, c-format
 msgid "Balance of account %s is under authorised minimum!"
-msgstr "Le compte %s est passé sous le seuil minimal autorisé !"
+msgstr "Le compte %s est passé sous le seuil minimum autorisé !"
 
 #: src/accueil.c:1177
 #, c-format
 msgid "Balance of account %s is under wanted minimum!"
-msgstr "Le compte %s est passé sous le seuil minimal voulu !"
+msgstr "Le compte %s est passé sous le seuil minimum voulu !"
 
 #: src/affichage.c:128 src/parametres.c:232
 msgid "Transaction form"
@@ -117,7 +119,7 @@ msgstr "Formulaire de saisie d'opérations"
 
 #: src/affichage.c:133
 msgid "Pressing RETURN in transaction form"
-msgstr "Presser ENTREE dans le formulaire de transaction"
+msgstr "Presser ENTRÉE dans le formulaire de saisie d'opérations"
 
 #: src/affichage.c:134
 msgid "selects next field"
@@ -129,7 +131,7 @@ msgstr "termine l'enregistrement de l'opération"
 
 #: src/affichage.c:140
 msgid "Displayed fields"
-msgstr "Champs affiché"
+msgstr "Champs affichés"
 
 #: src/affichage.c:149 src/affichage_liste.c:51 src/affichage_liste.c:908
 #: src/affichage_liste.c:1093
@@ -189,7 +191,7 @@ msgstr "Utiliser le logo"
 
 #: src/affichage.c:318
 msgid "Click on preview to change homepage logo"
-msgstr "Cliquer sur la prévisualisation pour modifier le logo de l'accueil"
+msgstr "Cliquer sur la prévisualisation pour modifier le logo de l'onglet « Accueil »"
 
 #: src/affichage.c:374
 msgid "Click on preview to change animation"
@@ -201,7 +203,7 @@ msgstr "Polices"
 
 #: src/affichage.c:391
 msgid "Use a custom font for the transactions"
-msgstr "Choisir une fonte pour les opérations"
+msgstr "Choisir une police pour les opérations"
 
 #: src/affichage.c:472
 msgid "Revert to default font"
@@ -217,7 +219,7 @@ msgstr "Titres"
 
 #: src/affichage.c:608
 msgid "Accounts file title"
-msgstr "Titre du fichier de compte"
+msgstr "Titre du fichier de comptes"
 
 #: src/affichage.c:619
 msgid "Addresses"
@@ -411,8 +413,7 @@ msgstr "Ajuster la taille des colonnes selon le tableau ci-dessus"
 
 #: src/affichage_liste.c:139
 msgid "Remember display settings for each account separately"
-msgstr ""
-"Retenir les caractéristiques de l'affichage séparément pour chaque compte"
+msgstr "Retenir les caractéristiques de l'affichage séparément pour chaque compte"
 
 #: src/affichage_liste.c:145
 msgid "Revert to defaults"
@@ -509,7 +510,7 @@ msgstr "Confirmation de suppression de banque"
 #: src/banque.c:183
 #, c-format
 msgid "Are you sure you want to remove bank '%s'?\n"
-msgstr "Etes-vous sûr de vouloir supprimer la banque %s ?\n"
+msgstr "Êtes-vous sûr de vouloir supprimer la banque %s ?\n"
 
 #. le premier nom est Aucune
 #. le premier nom est Aucun
@@ -1306,8 +1307,7 @@ msgstr "Importer une liste de catégories"
 
 #. il y a déjà des opérations dans le fichier, on ne peut que fusionner
 #: src/categories_onglet.c:3116
-msgid ""
-"File already contains transactions, the two categories lists will be merged."
+msgid "File already contains transactions, the two categories lists will be merged."
 msgstr ""
 "Le fichier contient déjà des opérations, les deux listes de catégories "
 "seront fusionnées."
@@ -3849,8 +3849,7 @@ msgstr "Inclure les virements de ou vers les comptes d'actif et de passif"
 
 #: src/etats_config.c:2564
 msgid "Include transfers from or to accounts not in this report"
-msgstr ""
-"Inclure les virements de ou vers les comptes ne figurant pas dans l'état"
+msgstr "Inclure les virements de ou vers les comptes ne figurant pas dans l'état"
 
 #: src/etats_config.c:2577
 msgid "Include transfers from or to these accounts"
@@ -4172,8 +4171,7 @@ msgstr "Afficher le nombre d'opérations avec les totaux"
 
 #: src/etats_config.c:6216
 msgid "Consider the third parties of this report as a multiple third party."
-msgstr ""
-"Inclure cet état dans la liste des tiers du formulaire de saisie d'opération."
+msgstr "Inclure cet état dans la liste des tiers du formulaire de saisie d'opération."
 
 #: src/etats_config.c:6287
 msgid "Display the information about"
@@ -4544,8 +4542,7 @@ msgstr ""
 #. etat vierge
 #: src/etats_onglet.c:1000
 msgid "This report is an empty one. You need to customise it entirely."
-msgstr ""
-"Cette option crée un état vierge dans lequel vous devez tous configurer."
+msgstr "Cette option crée un état vierge dans lequel vous devez tous configurer."
 
 #. remise de chèques
 #: src/etats_onglet.c:1006
@@ -4590,8 +4587,7 @@ msgstr "Effacer l'état \"%s\"?"
 
 #: src/etats_onglet.c:1046
 msgid "This will irreversibly remove this report.  There is no undo for this."
-msgstr ""
-"Cela détruira irrémédiablement cet état. Il n'y a pas d'annulation possible."
+msgstr "Cela détruira irrémédiablement cet état. Il n'y a pas d'annulation possible."
 
 #: src/etats_onglet.c:1183 src/imputation_budgetaire.c:2771
 msgid "Cannot save file."
@@ -4911,8 +4907,7 @@ msgstr "opérations ventilées, toutes ont été effacées.\n"
 
 #: src/fichiers_io.c:1827
 msgid "transfers without contra-transaction, which categories were deleted.\n"
-msgstr ""
-"virements sans contre opération, dont les catégories ont été effacées.\n"
+msgstr "virements sans contre opération, dont les catégories ont été effacées.\n"
 
 #: src/fichiers_io.c:1832
 msgid ""
@@ -5015,8 +5010,7 @@ msgid "Alain Portal (dionysos@grisbi.org): Programming, RedHat packaging"
 msgstr "Alain Portal (dionysos@grisbi.org) : programmation, paquets RedHat"
 
 #: src/help.c:50
-msgid ""
-"Gerald Niel (gegeweb@users.sourceforge.net): Slackware packaging, website"
+msgid "Gerald Niel (gegeweb@users.sourceforge.net): Slackware packaging, website"
 msgstr "Gérald Niel (gerald.niel@grisbi.org) : paquets Slackware, site web"
 
 #: src/help.c:51
@@ -5596,8 +5590,7 @@ msgstr ""
 
 #: src/ofx.c:292
 msgid "A transaction try to be saved but no account was created...\n"
-msgstr ""
-"Tentative d'enregistrement d'un opération sans compte créé précedemment...\n"
+msgstr "Tentative d'enregistrement d'un opération sans compte créé précedemment...\n"
 
 #: src/ofx.c:356
 msgid "Check"
@@ -5681,8 +5674,7 @@ msgstr "Récupération des ventilations ?"
 
 #: src/operations_formulaire.c:1823
 msgid "Do you want to recover all the lines of the last breakdown?"
-msgstr ""
-"Voulez-vous récupérer aussi les opérations de la dernière ventilation ?"
+msgstr "Voulez-vous récupérer aussi les opérations de la dernière ventilation ?"
 
 #: src/operations_formulaire.c:2075 src/operations_formulaire.c:2519
 #: src/tiers_onglet.c:1423
@@ -5699,11 +5691,11 @@ msgstr "Une date est obligatoire."
 
 #: src/operations_formulaire.c:2346
 msgid "Invalid date."
-msgstr "La date est invalide"
+msgstr "La date est invalide."
 
 #: src/operations_formulaire.c:2420
 msgid "Can't issue a transfer on a closed account."
-msgstr "Impossible d'effectuer un transfert sur un compte fermé"
+msgstr "Impossible d'effectuer un virement sur un compte clos"
 
 #: src/operations_formulaire.c:2450
 msgid ""
@@ -5726,7 +5718,7 @@ msgstr ""
 #: src/operations_formulaire.c:2528
 msgid "A transaction with a multiple third party must be a new one."
 msgstr ""
-"Une opération dont le tiers est un état doit forcemment être une nouvelle "
+"Une opération dont le tiers est un état doit forcément être une nouvelle "
 "opération."
 
 #: src/operations_formulaire.c:2562
@@ -5770,8 +5762,7 @@ msgid "Imposible to delete a reconciled transaction."
 msgstr "Impossible de supprimer une opération relevée."
 
 #: src/operations_liste.c:2022
-msgid ""
-"The contra-transaction of this transfer is reconciled, deletion impossible."
+msgid "The contra-transaction of this transfer is reconciled, deletion impossible."
 msgstr ""
 "La contre-opération de ce virement est relevée, la suppression est "
 "impossible."
@@ -5830,8 +5821,7 @@ msgstr "Ne pas avertir lorsque les seuils minimums sont atteints"
 #. Display a warning message if account file is readable by someone else
 #: src/parametres.c:380
 msgid "Do not warn if account file is readable by someone else"
-msgstr ""
-"Ne pas avertir lorsque le fichier de compte est lisible par quelqu'un d'autre"
+msgstr "Ne pas avertir lorsque le fichier de compte est lisible par quelqu'un d'autre"
 
 #. Display a warning message if file is already opened
 #: src/parametres.c:385
@@ -5848,13 +5838,12 @@ msgid "Scheduler warnings"
 msgstr "Alertes de l'échéancier"
 
 #: src/parametres.c:402
-msgid ""
-"Number of days before a warning message advertising a scheduled transaction"
+msgid "Number of days before a warning message advertising a scheduled transaction"
 msgstr "Nombre de jours précédant le rappel d'une échéance"
 
 #: src/parametres.c:458
 msgid "Account files handling"
-msgstr "Gestion des fichiers de compte"
+msgstr "Gestion des fichiers de comptes"
 
 #: src/parametres.c:462
 msgid "Automatically load last file on startup"
@@ -5920,7 +5909,7 @@ msgstr "Navigateur web"
 
 #: src/patienter.c:78
 msgid "Wait please..."
-msgstr "Veuillez patienter ..."
+msgstr "Veuillez patienter..."
 
 #: src/print_config.c:35
 msgid "A3"
@@ -6025,17 +6014,16 @@ msgid ""
 "for assistance if needed"
 msgstr ""
 "Grisbi analyse automatiquement les dates des fichiers QIF en utilisant des "
-"heuristiques.  Soyez sûrs que ce sont des fichiers valides et contactez "
+"heuristiques. Soyez sûrs que ce sont des fichiers valides et contactez "
 "l'équipe de développement de Grisbi pour assistance le cas échéant."
 
 #: src/qif.c:910
 msgid "Your file must have a name (saved) to be exported."
-msgstr ""
-"Vous devez nommer ( enregistrer ) votre fichier pour pouvoir l'exporter."
+msgstr "Vous devez nommer (enregistrer) votre fichier pour pouvoir l'exporter."
 
 #: src/qif.c:915
 msgid "QIF format does not define currencies."
-msgstr "Le format QIF ne défini pas de devise."
+msgstr "Le format QIF ne définit pas de devise."
 
 #: src/qif.c:916
 msgid "All transactions will be converted into currency of their account."
@@ -6053,12 +6041,12 @@ msgstr "Sélectionner les comptes à exporter"
 
 #: src/qif.c:1017
 #, c-format
+#, fuzzy
 msgid "File '%s' already exists"
 msgstr "Le fichier '%s' existe déjà"
 
 #: src/qif.c:1019
-msgid ""
-"This will irreversibly overwrite previous file.  There is no undo for this."
+msgid "This will irreversibly overwrite previous file.  There is no undo for this."
 msgstr ""
 "Cela détruira irrémédiablement le fichier précédent. Il n'y a pas "
 "d'annulation possible."
@@ -6066,7 +6054,7 @@ msgstr ""
 #: src/qif.c:1024
 #, c-format
 msgid "File name '%s' invalid !"
-msgstr "Nom de fichier invalide: \"%s\""
+msgstr "Nom de fichier invalide : \"%s\""
 
 #: src/qif.c:1050
 #, c-format
@@ -6132,7 +6120,7 @@ msgstr "Entrer le nom du nouveau tiers"
 #. Should not happen!
 #: src/type_operations.c:104 src/type_operations.c:871
 msgid "Serious brain damage expected."
-msgstr "Des gros problèmes en perspective."
+msgstr "De gros problèmes en perspective."
 
 #: src/type_operations.c:257
 msgid "Known payment methods"
@@ -6171,7 +6159,7 @@ msgstr "Neutre"
 
 #: src/type_operations.c:908
 msgid "New payment method"
-msgstr "Nouveau mode de réglement "
+msgstr "Nouveau mode de réglement"
 
 #: src/type_operations.c:1004
 msgid "Delete a payment method"
@@ -6183,8 +6171,8 @@ msgid ""
 "is irreversible, these transactions are to be associated with another "
 "payment method."
 msgstr ""
-"Des opérations sont encore affectées à ce mode de règlement.  Cette "
-"suppression  étantirréversible, ces opértations seront associées à un autre "
+"Des opérations sont encore affectées à ce mode de règlement. Cette "
+"suppression étant irréversible, ces opérations seront associées à un autre "
 "mode de règlement."
 
 #: src/type_operations.c:1029
@@ -6197,12 +6185,12 @@ msgid ""
 "Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.  "
 "Please adjust your settings to a valid executable."
 msgstr ""
-"Grisbi n'a pas pu exécuter le navigateur web pour parcourir la page <tt>%s</"
+"Grisbi n'a pas pu lancer le navigateur web pour parcourir la page <tt>%s</"
 "tt>. Veuillez modifier votre configuration vers un exécutable valide."
 
 #: src/utils.c:696 src/utils.c:724
 msgid "Cannot run web browser"
-msgstr "Impossible d'exécuter le navigateur web"
+msgstr "Impossible de lancer le navigateur web"
 
 #: src/utils.c:723
 #, c-format
@@ -6210,7 +6198,7 @@ msgid ""
 "Grisbi was unable to execute '%s'\n"
 "Please adjust your settings to a valid executable."
 msgstr ""
-"Grisbi n'a pas pu exécuter « %s » Veuillez modifier votre configuration vers "
+"Grisbi n'a pas pu lancer « %s ». Veuillez modifier votre configuration vers "
 "un exécutable valide."
 
 #: src/utils.c:1662
@@ -6229,8 +6217,7 @@ msgstr ""
 
 #: src/ventilation.c:2200
 msgid "This transfer has a reconciled contra-transaction, deletion canceled."
-msgstr ""
-"La contre-opération de ce virement est relevée on ne peut donc les supprimer."
+msgstr "La contre-opération de ce virement est relevée, on ne peut donc les supprimer."
 
 #~ msgid "Result of the year %s (%d transactions)"
 #~ msgstr "Résultat de l'année %s ( %d opérations )"
@@ -6501,3 +6488,4 @@ msgstr ""
 #~ "The file '%s' exists.\n"
 #~ " Do you want to continue ?"
 #~ msgstr "Le fichier '%s' existe. Voulez-vous continuer ?"
+
