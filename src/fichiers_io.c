@@ -3223,7 +3223,7 @@ des paramètres.") );
 			    etat -> utilise_detail_exo = atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 			  if ( !strcmp ( node_detail_etat -> name,
-					 "Detail_exo" )
+					 "No_exo" )
 			       &&
 			       xmlNodeGetContent ( node_detail_etat ))
 			    {

@@ -81,7 +81,11 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 {
   xmlNodePtr node;
   struct struct_etat *etat;
-		      
+		    
+  /*   on met à null le log_message, il sera affiché à la fin en cas de pb */
+
+  log_message = NULL;
+
   etat = calloc ( 1,
 		  sizeof ( struct struct_etat ));
 
@@ -231,7 +235,7 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
 	      if ( !strcmp ( node_detail_etat -> name,
 			     "Devise_gen" ))
-		etat -> devise_de_calcul_general = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		etat -> devise_de_calcul_general = recupere_devise_par_nom_etat ( xmlNodeGetContent ( node_detail_etat ));
 
 	      if ( !strcmp ( node_detail_etat -> name,
 			     "Incl_tiers" ))
@@ -244,29 +248,31 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 	      if ( !strcmp ( node_detail_etat -> name,
 			     "Detail_exo" ))
 		etat -> utilise_detail_exo = atoi ( xmlNodeGetContent ( node_detail_etat ));
-
-	      if ( !strcmp ( node_detail_etat -> name,
-			     "Detail_exo" )
-		   &&
-		   xmlNodeGetContent ( node_detail_etat ))
-		{
-		  gchar **pointeur_char;
-		  gint i;
-
-		  pointeur_char = g_strsplit ( xmlNodeGetContent ( node_detail_etat ),
-					       "/",
-					       0 );
-		  i=0;
-
-		  while ( pointeur_char[i] )
-		    {
-		      etat -> no_exercices = g_slist_append ( etat -> no_exercices,
-							      GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
-		      i++;
-		    }
-		  g_strfreev ( pointeur_char );
-		}
 							 
+	      if ( !strcmp ( node_detail_etat -> name,
+			     "Liste_exo" ))
+		{
+		  xmlNodePtr node_exo;
+
+		  node_exo = node_detail_etat -> childs;
+
+		  /*  on fait le tour des exos */
+
+		  while ( node_exo )
+		    {
+		      gint no_exo;
+
+		      no_exo = recupere_exo_par_nom_etat ( xmlGetProp ( node_exo,
+									"Nom" ));
+
+		      if ( no_exo )
+			etat -> no_exercices = g_slist_append ( etat -> no_exercices,
+								GINT_TO_POINTER ( no_exo ));
+
+		      node_exo = node_exo -> next;
+		    }
+		}
+
 	      if ( !strcmp ( node_detail_etat -> name,
 			     "Plage_date" ))
 		etat -> no_plage_date = atoi ( xmlNodeGetContent ( node_detail_etat ));
@@ -322,25 +328,27 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 		etat -> utilise_detail_comptes = atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 	      if ( !strcmp ( node_detail_etat -> name,
-			     "No_comptes" )
-		   &&
-		   xmlNodeGetContent ( node_detail_etat ))
+			     "Liste_comptes" ))
 		{
-		  gchar **pointeur_char;
-		  gint i;
+		  xmlNodePtr node_compte;
 
-		  pointeur_char = g_strsplit ( xmlNodeGetContent ( node_detail_etat ),
-					       "/",
-					       0 );
-		  i=0;
+		  node_compte = node_detail_etat -> childs;
 
-		  while ( pointeur_char[i] )
+		  /*  on fait le tour des comptes */
+
+		  while ( node_compte )
 		    {
-		      etat ->no_comptes  = g_slist_append ( etat -> no_comptes,
-							    GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
-		      i++;
+		      gint no_compte;
+
+		      no_compte = recupere_compte_par_nom_etat ( xmlGetProp ( node_compte,
+									      "Nom" ));
+
+		      if ( no_compte != -1 )
+			etat -> no_comptes = g_slist_append ( etat -> no_comptes,
+							      GINT_TO_POINTER ( no_compte ));
+
+		      node_compte = node_compte -> next;
 		    }
-		  g_strfreev ( pointeur_char );
 		}
 
 
@@ -361,26 +369,29 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 		etat -> type_virement = atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 	      if ( !strcmp ( node_detail_etat -> name,
-			     "No_comptes_virements" )
-		   &&
-		   xmlNodeGetContent ( node_detail_etat ))
+			     "Liste_comptes_vir" ))
 		{
-		  gchar **pointeur_char;
-		  gint i;
+		  xmlNodePtr node_compte;
 
-		  pointeur_char = g_strsplit ( xmlNodeGetContent ( node_detail_etat ),
-					       "/",
-					       0 );
-		  i=0;
+		  node_compte = node_detail_etat -> childs;
 
-		  while ( pointeur_char[i] )
+		  /*  on fait le tour des comptes */
+
+		  while ( node_compte )
 		    {
-		      etat ->no_comptes_virements  = g_slist_append ( etat -> no_comptes_virements,
-								      GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
-		      i++;
+		      gint no_compte;
+
+		      no_compte = recupere_compte_par_nom_etat ( xmlGetProp ( node_compte,
+									      "Nom" ));
+
+		      if ( no_compte != -1 )
+			etat -> no_comptes_virements = g_slist_append ( etat -> no_comptes_virements,
+									GINT_TO_POINTER ( no_compte ));
+
+		      node_compte = node_compte -> next;
 		    }
-		  g_strfreev ( pointeur_char );
 		}
+
 
 	      if ( !strcmp ( node_detail_etat -> name,
 			     "Exclure_non_vir" ))
@@ -395,26 +406,29 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 		etat -> utilise_detail_categ = atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 	      if ( !strcmp ( node_detail_etat -> name,
-			     "No_categ" )
-		   &&
-		   xmlNodeGetContent ( node_detail_etat ))
+			     "Liste_categ" ))
 		{
-		  gchar **pointeur_char;
-		  gint i;
+		  xmlNodePtr node_categ;
 
-		  pointeur_char = g_strsplit ( xmlNodeGetContent ( node_detail_etat ),
-					       "/",
-					       0 );
-		  i=0;
+		  node_categ = node_detail_etat -> childs;
 
-		  while ( pointeur_char[i] )
+		  /*  on fait le tour des categ */
+
+		  while ( node_categ )
 		    {
-		      etat -> no_categ = g_slist_append ( etat -> no_categ,
-							  GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
-		      i++;
+		      gint no_categ;
+
+		      no_categ = recupere_categ_par_nom_etat ( xmlGetProp ( node_categ,
+									    "Nom" ));
+
+		      if ( no_categ )
+			etat -> no_categ = g_slist_append ( etat -> no_categ,
+							    GINT_TO_POINTER ( no_categ ));
+
+		      node_categ = node_categ -> next;
 		    }
-		  g_strfreev ( pointeur_char );
 		}
+
 
 	      if ( !strcmp ( node_detail_etat -> name,
 			     "Exclut_categ" ))
@@ -438,7 +452,7 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
 	      if ( !strcmp ( node_detail_etat -> name,
 			     "Devise_categ" ))
-		etat -> devise_de_calcul_categ = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		etat -> devise_de_calcul_categ = recupere_devise_par_nom_etat ( xmlNodeGetContent ( node_detail_etat ));
 
 	      if ( !strcmp ( node_detail_etat -> name,
 			     "Aff_nom_categ" ))
@@ -453,27 +467,28 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 		etat -> utilise_detail_ib = atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 	      if ( !strcmp ( node_detail_etat -> name,
-			     "No_ib" )
-		   &&
-		   xmlNodeGetContent ( node_detail_etat ))
+			     "Liste_ib" ))
 		{
-		  gchar **pointeur_char;
-		  gint i;
+		  xmlNodePtr node_ib;
 
-		  pointeur_char = g_strsplit ( xmlNodeGetContent ( node_detail_etat ),
-					       "/",
-					       0 );
-		  i=0;
+		  node_ib = node_detail_etat -> childs;
 
-		  while ( pointeur_char[i] )
+		  /*  on fait le tour des ib */
+
+		  while ( node_ib )
 		    {
-		      etat -> no_ib = g_slist_append ( etat -> no_ib,
-						       GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
-		      i++;
-		    }
-		  g_strfreev ( pointeur_char );
-		}
+		      gint no_ib;
 
+		      no_ib = recupere_ib_par_nom_etat ( xmlGetProp ( node_ib,
+									    "Nom" ));
+
+		      if ( no_ib )
+			etat -> no_ib = g_slist_append ( etat -> no_ib,
+							    GINT_TO_POINTER ( no_ib ));
+
+		      node_ib = node_ib -> next;
+		    }
+		}
 
 	      if ( !strcmp ( node_detail_etat -> name,
 			     "Exclut_ib" ))
@@ -497,7 +512,7 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
 	      if ( !strcmp ( node_detail_etat -> name,
 			     "Devise_ib" ))
-		etat -> devise_de_calcul_ib = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		etat -> devise_de_calcul_ib = recupere_devise_par_nom_etat ( xmlNodeGetContent ( node_detail_etat ));
 
 	      if ( !strcmp ( node_detail_etat -> name,
 			     "Aff_nom_ib" ))
@@ -512,26 +527,29 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 		etat -> utilise_detail_tiers = atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 	      if ( !strcmp ( node_detail_etat -> name,
-			     "No_tiers" )
-		   &&
-		   xmlNodeGetContent ( node_detail_etat ))
+			     "Liste_tiers" ))
 		{
-		  gchar **pointeur_char;
-		  gint i;
+		  xmlNodePtr node_tiers;
 
-		  pointeur_char = g_strsplit ( xmlNodeGetContent ( node_detail_etat ),
-					       "/",
-					       0 );
-		  i=0;
+		  node_tiers = node_detail_etat -> childs;
 
-		  while ( pointeur_char[i] )
+		  /*  on fait le tour des tiers */
+
+		  while ( node_tiers )
 		    {
-		      etat -> no_tiers = g_slist_append ( etat -> no_tiers,
-							  GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
-		      i++;
+		      gint no_tiers;
+
+		      no_tiers = recupere_tiers_par_nom_etat ( xmlGetProp ( node_tiers,
+									    "Nom" ));
+
+		      if ( no_tiers )
+			etat -> no_tiers = g_slist_append ( etat -> no_tiers,
+							    GINT_TO_POINTER ( no_tiers ));
+
+		      node_tiers = node_tiers -> next;
 		    }
-		  g_strfreev ( pointeur_char );
 		}
+
 
 	      if ( !strcmp ( node_detail_etat -> name,
 			     "Total_tiers" ))
@@ -539,7 +557,7 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
 	      if ( !strcmp ( node_detail_etat -> name,
 			     "Devise_tiers" ))
-		etat -> devise_de_calcul_tiers = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		etat -> devise_de_calcul_tiers = recupere_devise_par_nom_etat ( xmlNodeGetContent ( node_detail_etat ));
 
 	      if ( !strcmp ( node_detail_etat -> name,
 			     "Aff_nom_tiers" ))
@@ -601,7 +619,7 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
 	      if ( !strcmp ( node_detail_etat -> name,
 			     "Montant_devise" ))
-		etat -> choix_devise_montant = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		etat -> choix_devise_montant = recupere_devise_par_nom_etat ( xmlNodeGetContent ( node_detail_etat ));
 
 
 	      if ( !strcmp ( node_detail_etat -> name,
@@ -668,9 +686,302 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
   modification_fichier ( TRUE );
 
+  /* on affiche le log si nécessaire */
+
+  affiche_log_message ();
+
   return ( TRUE );
 }
 /***********************************************************************************************************/
+
+
+
+/***********************************************************************************************************/
+/* fonction recupere_devise_par_nom_etat */
+/* prend le nom d'une devise en argument et essaie */
+/* de retrouver son numéro */
+/* si rien n'est trouvé, renvoie le no de la 1ère devise et ajoute un message */
+/* dans le log */
+/***********************************************************************************************************/
+
+gint recupere_devise_par_nom_etat ( gchar *nom )
+{
+  GSList *liste_tmp;
+  struct struct_devise *devise;
+
+  liste_tmp = g_slist_find_custom ( liste_struct_devises,
+				    g_strstrip ( nom ),
+				    (GCompareFunc) recherche_devise_par_nom  );
+
+  if ( liste_tmp )
+    devise = liste_tmp -> data;
+  else
+    {
+      devise = liste_struct_devises -> data;
+
+      if ( log_message )
+	log_message = g_strconcat ( log_message,
+				    _("Devise "),
+				    nom,
+				    _(" non trouvée.\n"),
+				    NULL );
+      else
+	log_message = g_strconcat ( _("Devise "),
+				    nom,
+				    _(" non trouvée.\n"),
+				    NULL );
+    }
+
+  return ( devise -> no_devise );
+}
+/***********************************************************************************************************/
+
+
+
+
+
+/***********************************************************************************************************/
+/* fonction recupere_exo_par_nom_etat */
+/* prend le nom de l'exo en argument et essaie */
+/* de retrouver son numéro */
+/* si rien n'est trouvé, renvoie 0 et ajoute un message */
+/* dans le log */
+/***********************************************************************************************************/
+
+gint recupere_exo_par_nom_etat ( gchar *nom )
+{
+  gint no_exo;
+  GSList *liste_tmp;
+  struct struct_exercice *exo;
+
+
+  liste_tmp = g_slist_find_custom ( liste_struct_exercices,
+				    g_strstrip ( nom ),
+				    (GCompareFunc) recherche_exercice_par_nom  );
+
+  if ( liste_tmp )
+    {
+      exo = liste_tmp -> data;
+      no_exo = exo -> no_exercice;
+    }
+  else
+    {
+      no_exo = 0;
+
+      if ( log_message )
+	log_message = g_strconcat ( log_message,
+				    _("Exercice "),
+				    nom,
+				    _(" non trouvé.\n"),
+				    NULL );
+      else
+	log_message = g_strconcat ( _("Exercice "),
+				    nom,
+				    _(" non trouvé.\n"),
+				    NULL );
+    }
+
+  return ( no_exo );
+}
+/***********************************************************************************************************/
+
+
+
+
+
+
+/***********************************************************************************************************/
+/* fonction recupere_compte_par_nom_etat */
+/* prend le nom du compte en argument et essaie */
+/* de retrouver son numéro */
+/* si rien n'est trouvé, renvoie -1 et ajoute un message */
+/* dans le log */
+/***********************************************************************************************************/
+
+gint recupere_compte_par_nom_etat ( gchar *nom )
+{
+  gint no_compte;
+  gint i;
+
+  no_compte = -1;
+
+  for ( i=0 ; i<nb_comptes ; i++ )
+    {
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+
+      if ( !g_strcasecmp ( NOM_DU_COMPTE,
+			   nom ))
+	{
+	  no_compte = i;
+	  i=nb_comptes;
+	}
+    }
+
+  if ( no_compte == -1 )
+    {
+      if ( log_message )
+	log_message = g_strconcat ( log_message,
+				    _("Compte "),
+				    nom,
+				    _(" non trouvé.\n"),
+				    NULL );
+      else
+	log_message = g_strconcat ( _("Compte "),
+				    nom,
+				    _(" non trouvé.\n"),
+				    NULL );
+    }
+
+  return ( no_compte );
+}
+/***********************************************************************************************************/
+
+
+
+
+/***********************************************************************************************************/
+/* fonction recupere_categ_par_nom_etat */
+/* prend le nom de la categ en argument et essaie */
+/* de retrouver son numéro */
+/* si rien n'est trouvé, renvoie 0 et ajoute un message */
+/* dans le log */
+/***********************************************************************************************************/
+
+gint recupere_categ_par_nom_etat ( gchar *nom )
+{
+  gint no_categ;
+  GSList *liste_tmp;
+  struct struct_categ *categ;
+
+
+  liste_tmp = g_slist_find_custom ( liste_struct_categories,
+				    g_strstrip ( nom ),
+				    (GCompareFunc) recherche_categorie_par_nom  );
+
+  if ( liste_tmp )
+    {
+      categ = liste_tmp -> data;
+      no_categ = categ -> no_categ;
+    }
+  else
+    {
+      no_categ = 0;
+
+      if ( log_message )
+	log_message = g_strconcat ( log_message,
+				    _("Catégorie "),
+				    nom,
+				    _(" non trouvée.\n"),
+				    NULL );
+      else
+	log_message = g_strconcat ( _("Catégorie "),
+				    nom,
+				    _(" non trouvée.\n"),
+				    NULL );
+    }
+
+  return ( no_categ );
+}
+/***********************************************************************************************************/
+
+
+
+
+/***********************************************************************************************************/
+/* fonction recupere_ib_par_nom_etat */
+/* prend le nom de l'ib en argument et essaie */
+/* de retrouver son numéro */
+/* si rien n'est trouvé, renvoie 0 et ajoute un message */
+/* dans le log */
+/***********************************************************************************************************/
+
+gint recupere_ib_par_nom_etat ( gchar *nom )
+{
+  gint no_ib;
+  GSList *liste_tmp;
+  struct struct_imputation *imputation;
+
+
+  liste_tmp = g_slist_find_custom ( liste_struct_imputation,
+				    g_strstrip ( nom ),
+				    (GCompareFunc) recherche_imputation_par_nom  );
+
+  if ( liste_tmp )
+    {
+      imputation = liste_tmp -> data;
+      no_ib = imputation -> no_imputation;
+    }
+  else
+    {
+      no_ib = 0;
+
+      if ( log_message )
+	log_message = g_strconcat ( log_message,
+				    _("Imputation "),
+				    nom,
+				    _(" non trouvée.\n"),
+				    NULL );
+      else
+	log_message = g_strconcat ( _("Imputation "),
+				    nom,
+				    _(" non trouvée.\n"),
+				    NULL );
+    }
+
+  return ( no_ib );
+}
+/***********************************************************************************************************/
+
+
+
+
+
+/***********************************************************************************************************/
+/* fonction recupere_tiers_par_nom_etat */
+/* prend le nom du tiers en argument et essaie */
+/* de retrouver son numéro */
+/* si rien n'est trouvé, renvoie 0 et ajoute un message */
+/* dans le log */
+/***********************************************************************************************************/
+
+gint recupere_tiers_par_nom_etat ( gchar *nom )
+{
+  gint no_tiers;
+  GSList *liste_tmp;
+  struct struct_tiers *tiers;
+
+
+  liste_tmp = g_slist_find_custom ( liste_struct_tiers,
+				    g_strstrip ( nom ),
+				    (GCompareFunc) recherche_tiers_par_nom  );
+
+  if ( liste_tmp )
+    {
+      tiers = liste_tmp -> data;
+      no_tiers = tiers -> no_tiers;
+    }
+  else
+    {
+      no_tiers = 0;
+
+      if ( log_message )
+	log_message = g_strconcat ( log_message,
+				    _("Tiers "),
+				    nom,
+				    _(" non trouvé.\n"),
+				    NULL );
+      else
+	log_message = g_strconcat ( _("Tiers "),
+				    nom,
+				    _(" non trouvé.\n"),
+				    NULL );
+    }
+
+  return ( no_tiers );
+}
+/***********************************************************************************************************/
+
+
 
 
 
@@ -852,8 +1163,10 @@ gboolean enregistre_etat ( gchar *nom_etat )
 
   xmlNewTextChild ( node,
 		    NULL,
-	       "Devise_gen",
-	       itoa ( etat_courant -> devise_de_calcul_general ));
+		    "Devise_gen",
+		    ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
+								       GINT_TO_POINTER ( etat_courant -> devise_de_calcul_general ),
+								       (GCompareFunc) recherche_devise_par_no ) -> data ))->nom_devise);
 
   xmlNewTextChild ( node,
 		    NULL,
@@ -863,34 +1176,43 @@ gboolean enregistre_etat ( gchar *nom_etat )
 
   xmlNewTextChild ( node,
 		    NULL,
-	       "Exo_date",
-	       itoa ( etat_courant -> exo_date ));
+		    "Exo_date",
+		    itoa ( etat_courant -> exo_date ));
 
   xmlNewTextChild ( node,
 		    NULL,
-	       "Detail_exo",
-	       itoa ( etat_courant -> utilise_detail_exo ));
+		    "Detail_exo",
+		    itoa ( etat_courant -> utilise_detail_exo ));
+
+  node_2 = xmlNewChild ( node,
+			 NULL,
+			 "Liste_exo",
+			 NULL );
 
   pointeur_liste = etat_courant -> no_exercices;
   pointeur_char = NULL;
 
   while ( pointeur_liste )
     {
-      if ( pointeur_char )
-	pointeur_char = g_strconcat ( pointeur_char,
-				      "/",
-				      itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
-				      NULL );
-      else
-	pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
+      xmlNodePtr node_3;
+      struct struct_exercice *exo;
+
+      node_3 = xmlNewChild ( node_2,
+			     NULL,
+			     "Exo",
+			     NULL );
+
+      exo = g_slist_find_custom ( liste_struct_exercices,
+				  pointeur_liste -> data,
+				  (GCompareFunc) recherche_exercice_par_no ) -> data;
+
+      xmlSetProp ( node_3,
+		   "Nom",
+		   exo -> nom_exercice );
+
 
       pointeur_liste = pointeur_liste -> next;
     }
-
-  xmlNewTextChild ( node,
-		    NULL,
-	       "No_exo",
-	       pointeur_char );
 
   xmlNewTextChild ( node,
 		    NULL,
@@ -946,26 +1268,32 @@ gboolean enregistre_etat ( gchar *nom_etat )
 	       "Detail_comptes",
 	       itoa ( etat_courant -> utilise_detail_comptes ));
 
+  node_2 = xmlNewChild ( node,
+			 NULL,
+			 "Liste_comptes",
+			 NULL );
+
   pointeur_liste = etat_courant -> no_comptes;
   pointeur_char = NULL;
 
   while ( pointeur_liste )
     {
-      if ( pointeur_char )
-	pointeur_char = g_strconcat ( pointeur_char,
-				      "/",
-				      itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
-				      NULL );
-      else
-	pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
+      xmlNodePtr node_3;
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( pointeur_liste -> data );
+
+      node_3 = xmlNewChild ( node_2,
+			     NULL,
+			     "Compte",
+			     NULL );
+
+      xmlSetProp ( node_3,
+		   "Nom",
+		   NOM_DU_COMPTE );
+
 
       pointeur_liste = pointeur_liste -> next;
     }
 
-  xmlNewTextChild ( node,
-		    NULL,
-	       "No_comptes",
-	       pointeur_char );
 
   xmlNewTextChild ( node,
 		    NULL,
@@ -987,26 +1315,33 @@ gboolean enregistre_etat ( gchar *nom_etat )
 	       "Type_vir",
 	       itoa ( etat_courant -> type_virement ));
 
+  node_2 = xmlNewChild ( node,
+			 NULL,
+			 "Liste_comptes_vir",
+			 NULL );
+
   pointeur_liste = etat_courant -> no_comptes_virements;
   pointeur_char = NULL;
 
   while ( pointeur_liste )
     {
-      if ( pointeur_char )
-	pointeur_char = g_strconcat ( pointeur_char,
-				      "/",
-				      itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
-				      NULL );
-      else
-	pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
+      xmlNodePtr node_3;
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( pointeur_liste -> data );
+
+      node_3 = xmlNewChild ( node_2,
+			     NULL,
+			     "Compte",
+			     NULL );
+
+      xmlSetProp ( node_3,
+		   "Nom",
+		   NOM_DU_COMPTE );
+
 
       pointeur_liste = pointeur_liste -> next;
     }
 
-  xmlNewTextChild ( node,
-		    NULL,
-	       "No_comptes_virements",
-	       pointeur_char );
+
 
   xmlNewTextChild ( node,
 		    NULL,
@@ -1023,26 +1358,34 @@ gboolean enregistre_etat ( gchar *nom_etat )
 	       "Detail_categ",
 	       itoa ( etat_courant -> utilise_detail_categ ));
 
+  node_2 = xmlNewChild ( node,
+			 NULL,
+			 "Liste_categ",
+			 NULL );
+
   pointeur_liste = etat_courant -> no_categ;
   pointeur_char = NULL;
 
   while ( pointeur_liste )
     {
-      if ( pointeur_char )
-	pointeur_char = g_strconcat ( pointeur_char,
-				      "/",
-				      itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
-				      NULL );
-      else
-	pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
+      xmlNodePtr node_3;
+      struct struct_categ *categ;
+
+      node_3 = xmlNewChild ( node_2,
+			     NULL,
+			     "Categ",
+			     NULL );
+
+      categ = g_slist_find_custom ( liste_struct_categories,
+				    pointeur_liste -> data,
+				    (GCompareFunc) recherche_categorie_par_no ) -> data;
+
+      xmlSetProp ( node_3,
+		   "Nom",
+		   categ -> nom_categ );
 
       pointeur_liste = pointeur_liste -> next;
     }
-
-  xmlNewTextChild ( node,
-		    NULL,
-	       "No_categ",
-	       pointeur_char );
 
   xmlNewTextChild ( node,
 		    NULL,
@@ -1071,8 +1414,10 @@ gboolean enregistre_etat ( gchar *nom_etat )
 
   xmlNewTextChild ( node,
 		    NULL,
-	       "Devise_categ",
-	       itoa ( etat_courant -> devise_de_calcul_categ ));
+		    "Devise_categ",
+		    ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
+								       GINT_TO_POINTER ( etat_courant -> devise_de_calcul_categ ),
+								       (GCompareFunc) recherche_devise_par_no ) -> data ))->nom_devise);
 
   xmlNewTextChild ( node,
 		    NULL,
@@ -1091,26 +1436,35 @@ gboolean enregistre_etat ( gchar *nom_etat )
 	       "Detail_ib",
 	       itoa ( etat_courant -> utilise_detail_ib ));
 
+  node_2 = xmlNewChild ( node,
+			 NULL,
+			 "Liste_ib",
+			 NULL );
+
   pointeur_liste = etat_courant -> no_ib;
   pointeur_char = NULL;
 
   while ( pointeur_liste )
     {
-      if ( pointeur_char )
-	pointeur_char = g_strconcat ( pointeur_char,
-				      "/",
-				      itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
-				      NULL );
-      else
-	pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
+      xmlNodePtr node_3;
+      struct struct_imputation *ib;
+
+      node_3 = xmlNewChild ( node_2,
+			     NULL,
+			     "Ib",
+			     NULL );
+
+      ib = g_slist_find_custom ( liste_struct_imputation,
+				    pointeur_liste -> data,
+				    (GCompareFunc) recherche_imputation_par_no ) -> data;
+
+      xmlSetProp ( node_3,
+		   "Nom",
+		   ib -> nom_imputation );
 
       pointeur_liste = pointeur_liste -> next;
     }
 
-  xmlNewTextChild ( node,
-		    NULL,
-	       "No_ib",
-	       pointeur_char );
 
   xmlNewTextChild ( node,
 		    NULL,
@@ -1139,8 +1493,10 @@ gboolean enregistre_etat ( gchar *nom_etat )
 
   xmlNewTextChild ( node,
 		    NULL,
-	       "Devise_ib",
-	       itoa ( etat_courant -> devise_de_calcul_ib ));
+		    "Devise_ib",
+		    ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
+								       GINT_TO_POINTER ( etat_courant -> devise_de_calcul_ib ),
+								       (GCompareFunc) recherche_devise_par_no ) -> data ))->nom_devise);
 
   xmlNewTextChild ( node,
 		    NULL,
@@ -1157,26 +1513,35 @@ gboolean enregistre_etat ( gchar *nom_etat )
 	       "Detail_tiers",
 	       itoa ( etat_courant -> utilise_detail_tiers ));
 
+  node_2 = xmlNewChild ( node,
+			 NULL,
+			 "Liste_tiers",
+			 NULL );
+
   pointeur_liste = etat_courant -> no_tiers;
   pointeur_char = NULL;
 
   while ( pointeur_liste )
     {
-      if ( pointeur_char )
-	pointeur_char = g_strconcat ( pointeur_char,
-				      "/",
-				      itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
-				      NULL );
-      else
-	pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
+      xmlNodePtr node_3;
+      struct struct_tiers *tiers;
+
+      node_3 = xmlNewChild ( node_2,
+			     NULL,
+			     "Tiers",
+			     NULL );
+
+      tiers = g_slist_find_custom ( liste_struct_tiers,
+				    pointeur_liste -> data,
+				    (GCompareFunc) recherche_tiers_par_no ) -> data;
+
+      xmlSetProp ( node_3,
+		   "Nom",
+		   tiers -> nom_tiers );
 
       pointeur_liste = pointeur_liste -> next;
     }
 
-  xmlNewTextChild ( node,
-		    NULL,
-	       "No_tiers",
-	       pointeur_char );
 
   xmlNewTextChild ( node,
 		    NULL,
@@ -1185,9 +1550,10 @@ gboolean enregistre_etat ( gchar *nom_etat )
 
   xmlNewTextChild ( node,
 		    NULL,
-	       "Devise_tiers",
-	       itoa ( etat_courant -> devise_de_calcul_tiers ));
-
+		    "Devise_tiers",
+		    ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
+								  GINT_TO_POINTER ( etat_courant -> devise_de_calcul_tiers ),
+								  (GCompareFunc) recherche_devise_par_no ) -> data ))->nom_devise);
   xmlNewTextChild ( node,
 		    NULL,
 		    "Aff_nom_tiers",
@@ -1257,8 +1623,10 @@ gboolean enregistre_etat ( gchar *nom_etat )
 	       itoa ( etat_courant -> utilise_montant ));
   xmlNewTextChild ( node,
 		    NULL,
-	       "Montant_devise",
-	       itoa ( etat_courant -> choix_devise_montant ));
+		    "Montant_devise",
+		    ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
+								       GINT_TO_POINTER ( etat_courant -> choix_devise_montant ),
+								       (GCompareFunc) recherche_devise_par_no ) -> data ))->nom_devise);
 
   node_2 = xmlNewChild ( node,
 			 NULL,

@@ -938,6 +938,20 @@ void annuler_modif_exercice ( GtkWidget *bouton,
 
 
 
+
+/* ************************************************************************************************************ */
+gint recherche_exercice_par_nom ( struct struct_exercice *exercice,
+				gchar *nom )
+{
+
+  return ( g_strcasecmp ( g_strstrip ( exercice -> nom_exercice ),
+			  nom ) );
+
+}
+/* ************************************************************************************************************ */
+
+
+
 /***********************************************************************************************************/
 /* Fonction recherche_exercice_par_no */
 /* appelée par un g_slist_find_custom */

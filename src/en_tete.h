@@ -37,6 +37,7 @@ gboolean question ( gchar *texte );
 gboolean question_yes_no ( gchar *texte );
 gchar *demande_texte ( gchar *titre_fenetre,
 		       gchar *question );
+void affiche_log_message ( void );
 
 
 
@@ -289,8 +290,6 @@ void modification_details_compte ( void );
 void sort_du_detail_compte ( void );
 void passage_a_l_euro ( GtkWidget *bouton,
 			gpointer null );
-gint recherche_devise_par_nom ( struct struct_devise *devise,
-				gchar *nom );
 void changement_de_banque ( void );
 
 
@@ -508,6 +507,8 @@ void nom_nouvelle_devise_defini ( GtkWidget *entree,
 				  GtkWidget *label );
 void retrait_devise ( GtkWidget *bouton,
 		      GtkWidget *liste );
+gint recherche_devise_par_nom ( struct struct_devise *devise,
+				gchar *nom );
 gint recherche_devise_par_no ( struct struct_devise *devise,
 			       gint *no_devise );
 gint selection_devise ( gchar *nom_du_compte );
@@ -794,6 +795,8 @@ void modif_detail_exercice ( void );
 void applique_modif_exercice ( GtkWidget *liste );
 void annuler_modif_exercice ( GtkWidget *bouton,
 			      GtkWidget *liste );
+gint recherche_exercice_par_nom ( struct struct_exercice *exercice,
+				  gchar *nom );
 gint recherche_exercice_par_no ( struct struct_exercice *exercice,
 				 gint *no_exercice );
 GtkWidget *creation_menu_exercices ( gint origine );
@@ -1126,3 +1129,9 @@ void recuperation_noms_colonnes_et_tips ( void );
 gboolean charge_etat ( gchar *nom_etat );
 gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc );
 gboolean enregistre_etat ( gchar *nom_etat );
+gint recupere_devise_par_nom_etat ( gchar *nom_devise );
+gint recupere_exo_par_nom_etat ( gchar *nom_exo );
+gint recupere_compte_par_nom_etat ( gchar *nom_compte );
+gint recupere_categ_par_nom_etat ( gchar *nom_categ );
+gint recupere_ib_par_nom_etat ( gchar *nom );
+gint recupere_tiers_par_nom_etat ( gchar *nom );

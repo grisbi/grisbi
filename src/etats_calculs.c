@@ -243,7 +243,9 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 		      if ( ( comp_textes -> champ == 6
 			     ||
-			     comp_textes -> champ == 7 )
+			     comp_textes -> champ == 7
+			     ||
+			     comp_textes -> champ == 8 )
 			   &&
 			   !comp_textes -> utilise_txt )
 			{

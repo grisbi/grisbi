@@ -984,7 +984,7 @@ void recuperation_info_perso_etat ( void )
   etat_courant -> devise_de_calcul_general = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_devise_general_etat ) -> menu_item ),
 										   "no_devise" ));
   etat_courant -> inclure_dans_tiers = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclure_dans_tiers ));
-  mise_a_jour_tiers ();
+
 
   /* récupération des dates */
 
@@ -1407,6 +1407,10 @@ void recuperation_info_perso_etat ( void )
 
 
   modification_fichier ( TRUE );
+
+  /* on fait une mise à jour des tiers pour afficher l'état dans la liste des tiers si nécessaire */
+
+  mise_a_jour_tiers ();
 
   /* on réaffiche l'état */
 
@@ -4698,7 +4702,9 @@ void remplit_liste_comparaisons_textes_etat ( void )
 
       if ( comp_textes -> champ == 6
 	   ||
-	   comp_textes -> champ == 7 )
+	   comp_textes -> champ == 7
+	   ||
+	   comp_textes -> champ == 8 )
 	{
 	  /* 	  on est sur un chq ou une pc */
 	  /* on rend sensitif les check button et la hbox correspondante */
@@ -5353,19 +5359,15 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
   gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 			      "activate",
 			      GTK_SIGNAL_FUNC ( sensitive_widget ),
-			      GTK_OBJECT ( comp_textes -> hbox_txt ));
-  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-			      "activate",
-			      GTK_SIGNAL_FUNC ( desensitive_widget ),
-			      GTK_OBJECT ( comp_textes -> hbox_chq ));
-  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-			      "activate",
-			      GTK_SIGNAL_FUNC ( desensitive_widget ),
 			      GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
   gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 			      "activate",
-			      GTK_SIGNAL_FUNC ( desensitive_widget ),
+			      GTK_SIGNAL_FUNC ( sensitive_widget ),
 			      GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( sensitive_hbox_fonction_bouton_txt ),
+			      (GtkObject *) comp_textes );
   gtk_widget_show ( menu_item );
 
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton ),

@@ -569,6 +569,19 @@ void retrait_devise ( GtkWidget *bouton,
 
 
 
+
+/* ************************************************************************************************************ */
+gint recherche_devise_par_nom ( struct struct_devise *devise,
+				gchar *nom )
+{
+
+  return ( g_strcasecmp ( g_strstrip ( devise -> nom_devise ),
+			  nom ) );
+
+}
+/* ************************************************************************************************************ */
+
+
 /***********************************************************************************************************/
 /* Fonction recherche_devise_par_no */
 /* appelée par un g_slist_find_custom */

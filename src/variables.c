@@ -769,6 +769,13 @@ gchar *nom_tiers_en_cours;
 gint titres_affiches;
 
 
+/***********************************/ 
+/* fichier etats_io.c */
+/***********************************/ 
+
+gchar *log_message;        /* utilisé comme log lors de l'import d'un état */
+
+
 /************************/ 
 /* fichier affichage_liste.c */
 /************************/ 

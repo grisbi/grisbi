@@ -238,3 +238,72 @@ gchar *demande_texte ( gchar *titre_fenetre,
   return ( retour );
 }
 /*************************************************************************************************************/
+
+
+
+/*************************************************************************************************************/
+/* affiche le contenu de la variable log_message si elle n'est pas null */
+/*************************************************************************************************************/
+
+void affiche_log_message ( void )
+{
+  GtkWidget *dialog;
+  GtkWidget *label;
+  GtkWidget *scrolled_window;
+  GtkWidget *vbox;
+
+  if ( !log_message )
+    return;
+
+  dialog = gnome_dialog_new ( _("Message de log"),
+			      GNOME_STOCK_BUTTON_OK,
+			      NULL );
+  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
+				 GTK_WINDOW ( window ) );
+
+  label = gtk_label_new ( _("Cette opération a retourné un message :"));
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+		       label,
+		       FALSE,
+		       FALSE, 
+		       0 );
+  gtk_widget_show ( label );
+
+  scrolled_window = gtk_scrolled_window_new ( NULL,
+					      NULL );
+  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_AUTOMATIC );
+  gtk_widget_set_usize ( scrolled_window,
+			 400,
+			 200 );
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+		       scrolled_window,
+		       FALSE,
+		       FALSE, 
+		       0 );
+  gtk_widget_show ( scrolled_window );
+
+  vbox = gtk_vbox_new ( FALSE,
+			5 );
+  gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+					  vbox );
+  gtk_widget_show ( vbox );
+
+  label = gtk_label_new ( log_message );
+  gtk_label_set_justify ( GTK_LABEL ( label ),
+			  GTK_JUSTIFY_LEFT );
+  gtk_misc_set_alignment ( GTK_MISC ( label ),
+			   0,
+			   0.5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       label,
+		       FALSE,
+		       FALSE, 
+		       0 );
+  gtk_widget_show ( label );
+
+  gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
+
+}
+/*************************************************************************************************************/
