@@ -6,7 +6,9 @@ gboolean metatree_get_row_properties ( GtkTreeModel * tree_model, GtkTreePath * 
 				       gchar ** text, gint * lvl1, gint * lvl2, 
 				       gpointer * data );
 enum meta_tree_row_type metatree_get_row_type ( GtkTreeModel * tree_model, 
-					       GtkTreePath * path );
+						GtkTreePath * path );
+gboolean metatree_get ( GtkTreeModel * model, GtkTreePath * path,
+			gint column, gpointer * data );
 /*END_DECLARATION*/
 
 

@@ -99,6 +99,25 @@ enum meta_tree_row_type metatree_get_row_type ( GtkTreeModel * tree_model,
 }
 
 
+
+/**
+ * TODO: document this
+ *
+ */
+gboolean metatree_get ( GtkTreeModel * model, GtkTreePath * path,
+			gint column, gpointer * data )
+{
+    GtkTreeIter iter;
+
+    if ( gtk_tree_model_get_iter ( model, &iter, path ) && data )
+    {
+	gtk_tree_model_get ( model, &iter, column, data, -1 );
+	return TRUE;
+    }
+    return FALSE;
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
