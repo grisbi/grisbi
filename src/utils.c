@@ -419,7 +419,8 @@ faire : */
 	    char *m;
 	    /* aller à la fin de la chaine */
 	    for ( m = p+1; m <= nptr+strlen(nptr) &&
-		  (isdigit(*m) || isspace(*m)); m++)
+		    (isdigit(*m) || isspace(*m)); m++)
+	      ;
 		/* de la fin de la chaine au dernier caractère avant le point
 		   ou la virgule, faire : */
 		for ( --m; m > p; m-- )
