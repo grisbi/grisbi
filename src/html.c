@@ -23,7 +23,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "html.h"
 #include "dialog.h"
 

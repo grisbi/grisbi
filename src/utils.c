@@ -28,7 +28,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "utils.h"
 
 
@@ -41,7 +40,14 @@
 
 extern GtkStyle *style_entree_formulaire[2];
 extern gint id_fonction_idle;
-
+extern GtkWidget *window;
+extern gint compte_courant;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern GtkWidget *fenetre_preferences;
+extern GtkWidget *entree_date_init_etat;
+extern GtkWidget *entree_date_finale_etat;
 
 
 

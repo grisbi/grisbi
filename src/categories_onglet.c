@@ -21,7 +21,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "categories_onglet.h"
 
 
@@ -167,13 +166,70 @@ gchar *categories_de_base_credit [] = {
 
 gint mise_a_jour_combofix_categ_necessaire;
 
+GtkWidget *arbre_categ;
+GtkWidget *entree_nom_categ;
+GtkWidget *bouton_categ_debit;
+GtkWidget *bouton_categ_credit;
+GtkWidget *bouton_modif_categ_modifier;
+GtkWidget *bouton_modif_categ_annuler;
+GtkWidget *bouton_supprimer_categ;
+GtkWidget *bouton_ajouter_categorie;
+GtkWidget *bouton_ajouter_sous_categorie;
+
+/* liste des structures de catég */
+
+GSList *liste_struct_categories;
+
+/*  liste des noms des categ et sous categ pour le combofix */
+
+GSList *liste_categories_combofix;
+
+/* nombre de catégories */
+
+gint nb_enregistrements_categories;
+gint no_derniere_categorie;
+
+/* buffer */
+
+gfloat *tab_montant_categ;
+
+/* buffer */
+
+gfloat **tab_montant_sous_categ;
+
+/* buffer */
+
+gint *nb_ecritures_par_categ;
+
+/* buffer */
+
+gint **nb_ecritures_par_sous_categ;
+
+
+
+
 extern GSList *liste_struct_echeances;  
 extern GSList *liste_categories_ventilation_combofix; 
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GSList *liste_categories_ventilation_combofix;
 extern GtkWidget *widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_TOTAL_WIDGET];
 extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
-
+extern struct struct_devise *devise_compte;
+extern GtkWidget *window;
+extern gint compte_courant;
+extern gchar *dernier_chemin_de_travail;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern gint no_derniere_operation;
+extern gint modif_categ;
+extern GdkPixmap *pixmap_ouvre;
+extern GdkBitmap *masque_ouvre;
+extern GdkPixmap *pixmap_ferme;
+extern GdkBitmap *masque_ferme;
+extern gint no_devise_totaux_tiers;
+extern gint nb_ecritures_par_comptes;
+extern struct struct_etat *etat_courant;
 
 
 

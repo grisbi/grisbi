@@ -25,7 +25,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "echeancier_formulaire.h"
 
 
@@ -76,7 +75,15 @@ extern gint mise_a_jour_soldes_minimaux;
 extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern GtkStyle *style_entree_formulaire[2];
-
+extern GSList *liste_struct_devises;
+extern gdouble taux_de_change[2];
+extern struct struct_devise *devise_compte;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern GtkWidget *frame_etat_echeances_finies;
+extern GSList *liste_tiers_combofix_echeancier;
+extern GSList *liste_categories_combofix;
 
 
 /******************************************************************************/
@@ -1996,7 +2003,7 @@ void fin_edition_echeance ( void )
 	}
 
 
-	/* récupération du no d'exercice */
+	/* récupÃ©ration du no d'exercice */
 
 	if ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ) -> menu_item ),
 						     "no_exercice" )) == -2 )

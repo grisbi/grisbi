@@ -22,7 +22,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "banque.h"
 
 
@@ -49,6 +48,20 @@ GtkWidget *fax_correspondant;
 GtkWidget *remarque_banque;
 GtkWidget *hbox_boutons_modif_banque;
 gint ligne_selection_banque;
+
+
+
+
+extern GtkWidget *detail_option_menu_banque;
+extern GtkWidget *hbox_boutons_modif;
+extern GtkWidget *window;
+extern gint compte_courant_onglet;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern GtkWidget *fenetre_preferences;
+
+
 
 
 /** 

@@ -27,7 +27,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "constants.h"
 
 #include "accueil.h"
@@ -61,6 +60,26 @@ static gboolean select_expired_scheduled_transaction ( GtkWidget * event_box, Gd
 #define show_paddingbox(child) gtk_widget_show_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
 #define hide_paddingbox(child) gtk_widget_hide_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
 
+
+
+/***********************************/ 
+/* fichier accueil.c */
+/***********************************/ 
+
+gint id_temps;
+gchar *chemin_logo;
+GtkWidget *logo_accueil;
+GtkWidget *label_temps;
+GtkWidget *label_titre_fichier;
+GtkWidget *frame_etat_comptes_accueil;
+GtkWidget *frame_etat_fin_compte_passif;
+GtkWidget *frame_etat_echeances_manuelles_accueil;
+GtkWidget *frame_etat_echeances_auto_accueil;
+GtkWidget *frame_etat_echeances_finies;
+GtkWidget *frame_etat_soldes_minimaux_autorises;
+GtkWidget *frame_etat_soldes_minimaux_voulus;
+GtkStyle *style_label_nom_compte;
+GtkStyle *style_label;
 GtkWidget * label_jour;
 
 /* ces 5 variables sont mises à 1 lorsqu'il est nécessaire de rafraichir cette */
@@ -81,6 +100,14 @@ extern GtkWidget *hbox_valider_annuler_echeance;
 extern GSList *echeances_a_saisir;
 extern GSList *echeances_saisies;
 extern GtkWidget *notebook_formulaire_echeances;
+extern GSList *liste_struct_devises;
+extern GtkWidget *window;
+extern GtkWidget *vbox_liste_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern gint nb_comptes;
+extern GSList *ordre_comptes;
+extern gchar *titre_fichier;
 
 /* ************************************************************************* */
 GtkWidget *creation_onglet_accueil ( void )
@@ -460,6 +487,7 @@ void update_liste_comptes_accueil ( void )
     GList *children;
     gint i;
     gint nb_comptes_bancaires=0, nb_comptes_passif=0, nb_comptes_actif=0;
+    gdouble solde_pointe_affichage_liste;
 
 
     if ( !mise_a_jour_liste_comptes_accueil

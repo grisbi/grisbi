@@ -23,7 +23,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "affichage.h"
 #include "constants.h"
 
@@ -73,7 +72,6 @@ GtkWidget *anim_button;
 GtkWidget *anim_preview;
 
 
-
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *separateur_formulaire_echeancier;
 extern GtkWidget *hbox_valider_annuler_echeance;
@@ -82,6 +80,21 @@ extern PangoFontDescription *pango_desc_fonte_liste;
 extern gint hauteur_ligne_liste_opes;
 extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
 extern GtkWidget *vbox_boutons_formulaire;
+extern gint compte_courant;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern gchar *titre_fichier;
+extern gchar *adresse_commune;
+extern gchar *adresse_secondaire;
+extern GtkWidget *page_accueil;
+extern GtkWidget *fenetre_preferences;
+extern GtkWidget *entree_titre_fichier;
+extern GtkWidget *entree_adresse_commune;
+extern GtkWidget *entree_adresse_secondaire;
+extern GtkWidget *logo_accueil;
+extern GtkWidget *label_titre_fichier;
+extern gchar *chemin_logo;
 
 
 /**

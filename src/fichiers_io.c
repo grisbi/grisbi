@@ -22,7 +22,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "fichiers_io.h"
 
 
@@ -74,6 +73,27 @@ static gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc );
 
 
 
+gchar *nom_fichier_comptes;
+
+/* pointe vers un tableau de pointeurs vers les comptes en mémoire*/
+
+gpointer **p_tab_nom_de_compte;
+
+/* idem, mais utilisé pour se déplacer */
+
+gpointer **p_tab_nom_de_compte_variable;
+
+
+gchar *titre_fichier;
+gchar *adresse_commune;
+gchar *adresse_secondaire;
+
+/* contient le dernier numéro d'opération de tous les comptes réunis */
+
+gint no_derniere_operation;
+gint nb_comptes;
+
+
 
 extern gint valeur_echelle_recherche_date_import;
 extern gint affichage_echeances; 
@@ -91,8 +111,31 @@ extern gint no_derniere_imputation;
 extern GSList *liste_struct_imputation;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
-
-
+extern GSList *liste_struct_devises;
+extern gint nb_devises;
+extern gint no_derniere_devise;
+extern GtkWidget *window;
+extern gint compte_courant;
+extern gchar *nom_fichier_backup;
+extern GSList *liste_struct_exercices;
+extern gint no_derniere_exercice;
+extern gint nb_exercices;
+extern GSList *ordre_comptes;
+extern gchar *chemin_logo;
+extern gint no_devise_totaux_tiers;
+extern gint nb_enregistrements_tiers;
+extern gint no_dernier_tiers;
+extern GSList *liste_struct_tiers;
+extern GSList *liste_struct_categories;
+extern gint nb_enregistrements_categories;
+extern gint no_derniere_categorie;
+extern GSList *liste_struct_etats;
+extern gint no_dernier_etat;
+extern gint tab_affichage_ope[4][7];
+extern gint ligne_affichage_une_ligne;
+extern GSList *lignes_affichage_deux_lignes;
+extern GSList *lignes_affichage_trois_lignes;
+extern gint rapport_largeur_colonnes[7];
 
 
 
@@ -1818,6 +1861,9 @@ gboolean recuperation_devises_xml ( xmlNodePtr node_devises )
 		    if (! devise -> code_iso4217_devise ||
 			!strlen ( devise -> code_iso4217_devise ))
 			devise -> code_iso4217_devise = NULL;
+
+		    /* 	   la suite n'est utile que pour les anciennes devises qui sont passées à l'euro */
+		    /* 	non utilisées pour les autres */
 
 		    devise -> passage_euro = my_atoi ( xmlGetProp ( node_detail,
 								    "Passage_euro" ));
@@ -4968,9 +5014,11 @@ gboolean modification_etat_ouverture_fichier ( gboolean fichier_ouvert )
 
     /*     si on ne force pas l'enregistrement et si le fichier était déjà ouvert, on ne fait rien */
 
-    if ( etat.fichier_deja_ouvert
-	 &&
-	 !etat.force_enregistrement )
+    if ( (etat.fichier_deja_ouvert
+	  &&
+	  !etat.force_enregistrement)
+	 ||
+	 !nom_fichier_comptes )
 	return TRUE;
 
     /*     on commence par vérifier que le fichier de nom_fichier_comptes existe bien */

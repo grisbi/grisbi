@@ -21,12 +21,17 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "etats_support.h"
 
 
 #include "search_glist.h"
 #include "exercice.h"
+
+
+
+extern GSList *liste_struct_exercices;
+extern struct struct_etat *etat_courant;
+
 
 
 gchar * etats_titre ()

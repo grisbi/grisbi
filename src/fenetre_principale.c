@@ -21,7 +21,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "fenetre_principale.h"
 
 
@@ -38,8 +37,36 @@
 #include "operations_liste.h"
 #include "utils.h"
 
+
+
+/* adr du notebook de base */
+
+GtkWidget *notebook_general;
+
+/* adr de l'onglet accueil */
+
+GtkWidget *page_accueil;
+
+
+GtkWidget *notebook_comptes_equilibrage;
+GtkWidget *notebook_formulaire;
+
+gint modif_tiers;
+gint modif_categ;
+gint modif_imputation;
+
+
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *arbre_imputation;
+extern gint compte_courant;
+extern gchar *tips_col_liste_operations[7];
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern gint id_temps;
+extern GtkWidget *label_temps;
+extern GtkWidget *arbre_tiers;
+extern GtkWidget *arbre_categ;
 
 
 
@@ -51,6 +78,13 @@ extern GtkWidget *arbre_imputation;
 
 GtkWidget *creation_fenetre_principale (void )
 {
+    GtkWidget *page_operations;
+    GtkWidget *page_echeancier;
+    GtkWidget *page_comptes;
+    GtkWidget *page_tiers;
+    GtkWidget *page_categories;
+    GtkWidget *page_imputations;
+    GtkWidget *page_etats;
 
     if ( DEBUG )
 	printf ( "creation_fenetre_principale\n" );

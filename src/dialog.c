@@ -25,7 +25,6 @@
 /* ************************************************************************** */
 
 #include "include.h"
-#include "variables-extern.c"
 #include "structures.h"
 #include "dialog.h"
 
@@ -39,6 +38,7 @@
 #include "utils.h"
 
 
+extern GtkWidget *window;
 
 /**
  * Display an info dialog window with a hint displayed larger and in

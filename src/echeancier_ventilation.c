@@ -24,7 +24,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "echeancier_ventilation.h"
 #include "echeancier_liste.h"
 #include "operations_classement.h"
@@ -73,6 +72,13 @@ extern GSList *liste_imputations_combofix;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
 extern GtkStyle *style_entree_formulaire[2];
+extern GtkWidget *window;
+extern gint compte_courant;
+extern GtkWidget *barre_outils;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern GtkStyle *style_couleur [2];
 
 
 

@@ -23,7 +23,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "ofx.h"
 
 #ifdef NOOFX
@@ -49,6 +48,13 @@ GSList *liste_comptes_importes_ofx;
 struct struct_compte_importation *compte_ofx_importation_en_cours;
 gint erreur_import_ofx;
 gint  message_erreur_operation;
+
+
+
+extern GSList *liste_comptes_importes;
+
+
+
 
 /* *******************************************************************************/
 gboolean recuperation_donnees_ofx ( gchar *nom_fichier )

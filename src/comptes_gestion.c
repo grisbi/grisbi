@@ -26,7 +26,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "comptes_gestion.h"
 #include "constants.h"
 
@@ -49,6 +48,26 @@
 #include "utils.h"
 
 
+GtkWidget *bouton_detail;
+GtkWidget *detail_nom_compte;
+GtkWidget *detail_type_compte;
+GtkWidget *detail_titulaire_compte;
+GtkWidget *detail_bouton_adresse_commune;
+GtkWidget *detail_adresse_titulaire;
+GtkWidget *detail_option_menu_banque;
+GtkWidget *detail_no_compte;
+GtkWidget *label_code_banque;
+GtkWidget *detail_guichet;
+GtkWidget *detail_cle_compte;
+GtkWidget *detail_devise_compte;
+GtkWidget *detail_compte_cloture;
+GtkWidget *detail_solde_init;
+GtkWidget *detail_solde_mini_autorise;
+GtkWidget *detail_solde_mini_voulu;
+GtkWidget *detail_commentaire;
+GtkWidget *hbox_boutons_modif;
+
+
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GSList *liste_struct_banques;
 extern gint mise_a_jour_liste_comptes_accueil;
@@ -57,6 +76,13 @@ extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_combofix_categ_necessaire;
+extern GSList *liste_struct_devises;
+extern struct struct_devise *devise_compte;
+extern GtkWidget *window;
+extern gint compte_courant_onglet;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
 
 
 
@@ -169,18 +195,18 @@ GtkWidget *creation_details_compte ( void )
     gtk_widget_show ( detail_devise_compte );
 
     /* création de la ligne de passage à l'euro */
-    hbox_bouton_passage_euro = gtk_hbox_new ( TRUE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-			 hbox_bouton_passage_euro, FALSE, FALSE, 0 );
-    gtk_widget_show ( hbox_bouton_passage_euro );
+/*     hbox_bouton_passage_euro = gtk_hbox_new ( TRUE, 0 ); */
+/*     gtk_box_pack_start ( GTK_BOX ( paddingbox ), */
+/* 			 hbox_bouton_passage_euro, FALSE, FALSE, 0 ); */
+/*     gtk_widget_show ( hbox_bouton_passage_euro ); */
 
-    bouton_passage_euro = gtk_button_new_with_label ( _("Convert this account to euros") );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_passage_euro ), "clicked",
-			 GTK_SIGNAL_FUNC ( passage_a_l_euro ), NULL );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_passage_euro ), GTK_RELIEF_HALF );
-    gtk_box_pack_start ( GTK_BOX ( hbox_bouton_passage_euro ),
-			 bouton_passage_euro, FALSE, FALSE, 0 );
-    gtk_widget_show ( bouton_passage_euro );
+/*     bouton_passage_euro = gtk_button_new_with_label ( _("Convert this account to euros") ); */
+/*     gtk_signal_connect ( GTK_OBJECT ( bouton_passage_euro ), "clicked", */
+/* 			 GTK_SIGNAL_FUNC ( passage_a_l_euro ), NULL ); */
+/*     gtk_button_set_relief ( GTK_BUTTON ( bouton_passage_euro ), GTK_RELIEF_HALF ); */
+/*     gtk_box_pack_start ( GTK_BOX ( hbox_bouton_passage_euro ), */
+/* 			 bouton_passage_euro, FALSE, FALSE, 0 ); */
+/*     gtk_widget_show ( bouton_passage_euro ); */
 
 
     /* création de la ligne compte cloturé */
@@ -743,11 +769,6 @@ void remplissage_details_compte ( void )
 				  g_slist_index ( liste_struct_devises,
 						  devise ));
 
-    if ( devise -> passage_euro )
-	gtk_widget_show ( hbox_bouton_passage_euro );
-    else
-	gtk_widget_hide ( hbox_bouton_passage_euro );
-
 
     if ( TITULAIRE )
 	gtk_entry_set_text ( GTK_ENTRY ( detail_titulaire_compte ),
@@ -959,12 +980,7 @@ void modification_details_compte ( void )
 
 	    if ( resultat )
 		return;
-	    else 
-		gtk_widget_hide ( bouton_passage_euro );
 	}
-
-	if ( nouvelle_devise -> passage_euro )
-	    gtk_widget_show ( bouton_passage_euro );
 
 	pointeur_liste = LISTE_OPERATIONS;
 
@@ -1226,75 +1242,6 @@ void sort_du_detail_compte ( void )
 }
 /* ************************************************************************************************************ */
 
-
-
-/* ************************************************************************************************************ */
-/* Fonction passage_a_l_euro */
-/* appelée pour passer un compte à l'euro */
-/* ************************************************************************************************************ */
-
-void passage_a_l_euro ( GtkWidget *bouton, gpointer null )
-{
-    gint resultat;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
-/* FIXME : passage à l'euro encore nécessaire ? */
-
-
-    resultat = question_yes_no_hint ( g_strdup_printf ( _("Convert account \"%s\" to euro?"), 
-							NOM_DU_COMPTE ),
-				      _("Euro conversion is irreversible, are you sure you want to continue?") ); 
-    if ( !resultat )
-	return;
-    else
-    {
-	gdouble change = 0.0;
-	struct struct_devise *devise;
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-
-	/* recherche de la devise du compte pour le change */
-
-	devise = devise_par_no ( DEVISE );
-
-	if ( devise )
-	    change = devise -> change;
-
-	if ( !change )
-	{
-	    dialogue_error ( _("Exchange rate between the 2 currencies is 0.") );
-	    return;
-	}
-
-	/* retrouve le no de l'euro */
-
-	devise = devise_par_nom ( _("Euro"));
-
-	if ( !devise )
-	{
-	    dialogue_error ( _("Impossible to find the Euro currency, it has probably been deleted.") );
-	    return;
-	}
-
-	SOLDE_INIT = SOLDE_INIT / change;
-	SOLDE_MINI_VOULU = SOLDE_MINI_VOULU / change;
-	SOLDE_MINI = SOLDE_MINI / change;
-	SOLDE_DERNIER_RELEVE = SOLDE_DERNIER_RELEVE / change;
-	DEVISE = devise -> no_devise;
-/* FIXME : voir pourquoi remplissage opé et remettre l'ajustement */
-
-/* 	value = gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value; */
-	remplissage_liste_operations ( compte_courant );
-/* 	gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value = value; */
-
-	mise_a_jour_liste_comptes_accueil = 1;
-	remplissage_details_compte ();
-
-	modification_fichier ( TRUE );
-
-    }
-}
-/* ************************************************************************************************************ */
 
 
 

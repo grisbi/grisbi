@@ -20,7 +20,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "etats_latex.h"
 
 #include "dialog.h"
@@ -44,6 +43,8 @@ struct struct_etat_affichage latex_affichage = {
     latex_attach_label,
 };
 
+extern struct struct_etat *etat_courant;
+extern gint nb_colonnes;
 
 /**
  * Backend function that is responsible for printing a label at a

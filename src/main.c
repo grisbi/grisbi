@@ -35,7 +35,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables.c"
 #include "main.h"
 
 
@@ -54,13 +53,37 @@
 
 
 
-
 /* vbox ajoutée dans la fenetre de base, contient le menu et la fenetre d'utilisation */
 
+GtkWidget *window;
 GtkWidget *window_vbox_principale;
 GtkWidget *menu_general;
 GtkItemFactory *item_factory_menu_general;
 gint id_fonction_idle;
+
+
+
+extern gint compte_courant;
+extern gint largeur_window;
+extern gint hauteur_window;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern gchar *nom_fichier_comptes;
+extern GtkWidget *notebook_general;
+extern GtkStyle *style_label_nom_compte;
+extern GSList *liste_struct_etats;
+extern struct struct_etat *etat_courant;
+extern GtkWidget *bouton_personnaliser_etat;
+extern GtkWidget *bouton_effacer_etat;
+extern GtkWidget *bouton_exporter_etat;
+extern GtkWidget *bouton_dupliquer_etat;
+extern GtkWidget *label_etat_courant;
+extern GtkWidget *notebook_selection;
+extern GtkWidget *notebook_aff_donnees;
+extern GtkWidget *notebook_config_etat;
+
+
 
 
 /***********************************************************************************************

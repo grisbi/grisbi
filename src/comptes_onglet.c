@@ -22,7 +22,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "comptes_onglet.h"
 
 #include "comptes_gestion.h"
@@ -33,8 +32,17 @@
 
 
 GtkWidget *paned_onglet_comptes;
+GtkWidget *bouton_supprimer_compte;
+GtkWidget *bouton_ouvert;
+GtkWidget *label_compte_courant_onglet;
+gint compte_courant_onglet;
+GtkWidget *vbox_liste_comptes_onglet;
 
 
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern GSList *ordre_comptes;
 
 
 /*****************************************************************************************************/
@@ -271,8 +279,5 @@ void reaffiche_liste_comptes_onglet ( void )
 	}
 	while ( (  ordre_comptes_variable = ordre_comptes_variable->next ) );
     }
-
-    remplissage_details_compte ();
-
 }
 /* *********************************************************************************************************** */

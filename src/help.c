@@ -21,11 +21,11 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "help.h"
 
 #include "utils.h"
 
+extern GtkWidget *window;
 
 
 

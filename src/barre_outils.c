@@ -23,7 +23,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "barre_outils.h"
 #include "menu.h"
 #include "operations_liste.h"
@@ -49,6 +48,7 @@
 #include "./xpm/comments.xpm"
 #include "./xpm/grille.xpm"
 
+
 /** Used to display/hide comments in scheduler list */
 GtkWidget *scheduler_display_hide_comments;
 
@@ -63,6 +63,12 @@ GtkWidget *bouton_grille;
 GtkWidget *label_proprietes_operations_compte;
 gulong handler_signal_grille;
 
+/* widgets du bouton pour afficher/cacher le formulaire */
+
+GtkWidget *bouton_affiche_cache_formulaire;
+GtkWidget *fleche_haut;
+GtkWidget *fleche_bas;
+
 
 
 
@@ -71,6 +77,12 @@ extern GtkWidget *arbre_imputation;
 extern GtkWidget *tree_view_liste_ventilations;
 extern gboolean block_menu_cb;
 extern GtkItemFactory *item_factory_menu_general;
+extern gint compte_courant;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern GtkWidget *arbre_tiers;
+extern GtkWidget *arbre_categ;
 
 
 /*******************************************************************************************/

@@ -23,7 +23,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "operations_comptes.h"
 
 
@@ -47,12 +46,33 @@
 
 GtkWidget *comptes_appel ( gint no_de_compte );
 static void verifie_compte_clos ( gint no_nouveau_compte );
+GtkWidget *label_compte_courant;
+
+/*  n° de compte en cours de visualisation */
+
+gint compte_courant;
+
+/* adresse de la vbox contenant les icones de comptes */
+
+GtkWidget *vbox_liste_comptes;
+
+/* adr du label du dernier relevé */
+
+GtkWidget *label_releve;
+
+GSList *ordre_comptes;
 
 
 extern GtkItemFactory *item_factory_menu_general;
 extern gint id_fonction_idle;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gchar *derniere_date;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern GtkWidget *notebook_general;
+extern GtkWidget *notebook_comptes_equilibrage;
+
 
 
 /* ********************************************************************************************************** */

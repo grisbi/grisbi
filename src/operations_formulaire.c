@@ -25,7 +25,6 @@
 
 
 #include "include.h"
-#include "variables-extern.c"
 #include "structures.h"
 #include "operations_formulaire.h"
 
@@ -120,6 +119,23 @@ extern gchar *derniere_date;
 extern GtkTooltips *tooltips_general_grisbi;
 extern gboolean block_menu_cb;
 extern GtkItemFactory *item_factory_menu_general;
+extern GSList *liste_struct_devises;
+extern gdouble taux_de_change[2];
+extern struct struct_devise *devise_compte;
+extern gint compte_courant;
+extern GtkWidget *frame_droite_bas;
+extern GtkWidget *bouton_affiche_cache_formulaire;
+extern GtkWidget *fleche_haut;
+extern GtkWidget *fleche_bas;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern gint no_derniere_operation;
+extern GtkWidget *formulaire;
+extern GSList *liste_tiers_combofix;
+extern GSList *liste_categories_combofix;
+extern GSList *liste_struct_etats;
+
 
 
 
@@ -3412,7 +3428,7 @@ void validation_virement_operation ( struct structure_operation *operation,
     else
 	ajout_operation ( contre_operation );
 
-    /* on met maintenant les relations entre les différentes opé */
+    /* on met maintenant les relations entre les diffÃ©rentes opé */
 
     operation -> relation_no_operation = contre_operation -> no_operation;
     operation -> relation_no_compte = contre_operation -> no_compte;

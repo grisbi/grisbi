@@ -26,7 +26,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "equilibrage.h"
 
 
@@ -93,6 +92,12 @@ extern GtkWidget *bouton_affiche_r;
 extern GtkWidget *bouton_enleve_r;
 extern GtkWidget *vbox_fleches_tri;
 extern gint mise_a_jour_liste_comptes_accueil;
+extern gint compte_courant;
+extern GtkWidget *label_releve;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern GtkWidget *notebook_comptes_equilibrage;
 
 
 /******************************************************************************/

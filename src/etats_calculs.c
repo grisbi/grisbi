@@ -21,7 +21,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "etats_calculs.h"
 
 #include "devises.h"
@@ -37,6 +36,63 @@
 #include "equilibrage.h"
 
 
+gint dernier_chq;     /* quand on a choisi le plus grand, contient le dernier no de chq dans les comptes choisis */
+gint dernier_pc;     /* quand on a choisi le plus grand, contient le dernier no de pc dans les comptes choisis */
+gint dernier_no_rappr;     /* quand on a choisi le plus grand, contient le dernier no de rappr dans les comptes choisis */
+struct struct_etat_affichage * etat_affichage_output;
+
+
+
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern GSList *liste_struct_exercices;
+extern GtkWidget *notebook_general;
+extern gint nb_colonnes;
+extern gint ligne_debut_partie;
+extern struct struct_etat *etat_courant;
+extern gint ancienne_ib_etat;
+extern gint ancienne_sous_ib_etat;
+extern gint ancienne_categ_etat;
+extern gint ancienne_categ_speciale_etat;
+extern gint ancienne_sous_categ_etat;
+extern gint ancien_compte_etat;
+gint ancien_tiers_etat;
+extern gdouble montant_categ_etat;
+extern gdouble montant_sous_categ_etat;
+extern gdouble montant_ib_etat;
+extern gdouble montant_sous_ib_etat;
+extern gdouble montant_compte_etat;
+extern gdouble montant_tiers_etat;
+extern gdouble montant_periode_etat;
+extern gdouble montant_exo_etat;
+extern gint nb_ope_categ_etat;
+extern gint nb_ope_sous_categ_etat;
+extern gint nb_ope_ib_etat;
+extern gint nb_ope_sous_ib_etat;
+extern gint nb_ope_compte_etat;
+extern gint nb_ope_tiers_etat;
+extern gint nb_ope_periode_etat;
+extern gint nb_ope_exo_etat;
+extern gint nb_ope_general_etat;
+extern gint nb_ope_partie_etat;
+extern GDate *date_debut_periode;
+extern gint exo_en_cours_etat;
+extern gint changement_de_groupe_etat;
+extern gint debut_affichage_etat;
+extern struct struct_devise *devise_compte_en_cours_etat;
+extern struct struct_devise *devise_categ_etat;
+extern struct struct_devise *devise_ib_etat;
+extern struct struct_devise *devise_tiers_etat;
+extern struct struct_devise *devise_generale_etat;
+
+extern gchar *nom_categ_en_cours;
+extern gchar *nom_ss_categ_en_cours;
+extern gchar *nom_ib_en_cours;
+extern gchar *nom_ss_ib_en_cours;
+extern gchar *nom_compte_en_cours;
+extern gchar *nom_tiers_en_cours;
+extern gint titres_affiches;
 
 /*****************************************************************************************************/
 void affichage_etat ( struct struct_etat *etat, 
@@ -2526,7 +2582,7 @@ pas_decalage:
 	}
 
 	/* on affiche le total de la partie en cours */
-	/* si les revenus et dépenses ne sont pas mélangés */
+	/* si les revenus et dépenses ne sont pas mÃ©langés */
 
 	if ( etat_courant -> separer_revenus_depenses )
 	    ligne = etat_affiche_affiche_total_partiel ( total_partie,

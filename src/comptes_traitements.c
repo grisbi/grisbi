@@ -26,7 +26,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "comptes_traitements.h"
 #include "constants.h"
 
@@ -71,6 +70,15 @@ extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
 extern GtkStyle *style_entree_formulaire[2];
 extern gint id_fonction_idle;
+extern gint compte_courant_onglet;
+extern GtkWidget *bouton_supprimer_compte;
+extern gint compte_courant;
+extern GtkWidget *notebook_listes_operations;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern GSList *ordre_comptes;
+extern GtkWidget *notebook_general;
 
 
 /* ************************************************************************** */

@@ -23,7 +23,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "ventilation.h"
 #include "constants.h"
 
@@ -90,6 +89,16 @@ extern GdkGC *gc_separateur_operation;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
 extern GtkStyle *style_entree_formulaire[2];
+extern gdouble taux_de_change[2];
+extern gint compte_courant;
+extern GtkWidget *frame_droite_bas;
+extern GtkWidget *barre_outils;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern GtkWidget *notebook_comptes_equilibrage;
+extern GtkWidget *notebook_formulaire;
+extern GtkWidget *formulaire;
 
 
 /*******************************************************************************************/

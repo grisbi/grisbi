@@ -20,7 +20,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "affichage_liste.h"
 
 #include "operations_liste.h"
@@ -58,9 +57,45 @@ gchar *labels_boutons [] = { N_("Date"),
 gint ancienne_allocation_liste;
 gint affichage_realise;
 
+/************************/ 
+/* fichier affichage_liste.c */
+/************************/ 
+
+gint col_depart_drag;
+gint ligne_depart_drag;
+gint tab_affichage_ope[4][7];
+/* gint tab_affichage_ope_tmp[4][7]; */
+GtkWidget *boutons_affichage_liste[17];
+GtkWidget *clist_affichage_liste;
+GtkWidget *bouton_choix_perso_colonnes;
+GtkWidget *bouton_caracteristiques_lignes_par_compte;
+GtkWidget *bouton_affichage_lignes_une_ligne;
+GtkWidget *bouton_affichage_lignes_deux_lignes_1;
+GtkWidget *bouton_affichage_lignes_deux_lignes_2;
+GtkWidget *bouton_affichage_lignes_trois_lignes_1;
+GtkWidget *bouton_affichage_lignes_trois_lignes_2;
+GtkWidget *bouton_affichage_lignes_trois_lignes_3;
+/* contient le % de chaque colonne */
+gint rapport_largeur_colonnes[7];
+/* contient la taille de chaque colonne */
+gint taille_largeur_colonnes[7];
+/* contient le no de ligne à afficher lorsqu'on n'affiche qu'une ligne */
+gint ligne_affichage_une_ligne;
+/* contient les no de lignes à afficher lorsqu'on affiche deux lignes */
+GSList *lignes_affichage_deux_lignes;
+/* contient les no de lignes à afficher lorsqu'on affiche trois lignes */
+GSList *lignes_affichage_trois_lignes;
+
+
 extern gint allocation_precedente;
 extern GSList *liste_labels_titres_colonnes_liste_ope;
 extern gint id_fonction_idle;
+extern gint compte_courant;
+extern gchar *tips_col_liste_operations[7];
+extern gchar *titres_colonnes_liste_operations[7];
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
 
 
 

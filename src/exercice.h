@@ -12,7 +12,6 @@ void deselection_ligne_exercice ( GtkWidget *liste,
 				  gint ligne,
 				  gint colonne,
 				  GdkEventButton *ev);
-void applique_modif_exercice ( GtkWidget *liste );
 GtkWidget *creation_menu_exercices ( gint origine );
 gint cherche_no_menu_exercice ( gint no_demande,
 				GtkWidget *option_menu );

@@ -24,7 +24,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "etats_config.h"
 
 #include "calendar.h"
@@ -69,8 +68,186 @@ gchar *jours_semaine[] = {
     NULL };
 
 
+/***********************************/ 
+/* fichier etats_config.c */
+/***********************************/ 
+
+GtkWidget *entree_nom_etat;
+GtkWidget *liste_type_classement_etat;
+GtkWidget *bouton_opes_r_et_non_r_etat;
+GtkWidget *bouton_opes_non_r_etat;
+GtkWidget *bouton_opes_r_etat;
+GtkWidget *bouton_afficher_opes;
+GtkWidget *bouton_afficher_nb_opes;
+GtkWidget *bouton_afficher_date_opes;
+GtkWidget *bouton_afficher_tiers_opes;
+GtkWidget *bouton_afficher_categ_opes;
+GtkWidget *bouton_afficher_sous_categ_opes;
+GtkWidget *bouton_afficher_ib_opes;
+GtkWidget *bouton_afficher_sous_ib_opes;
+GtkWidget *bouton_afficher_notes_opes;
+GtkWidget *bouton_afficher_pc_opes;
+GtkWidget *bouton_afficher_infobd_opes;
+GtkWidget *bouton_afficher_no_ope;
+GtkWidget *bouton_afficher_type_ope;
+GtkWidget *bouton_afficher_no_rappr;
+GtkWidget *bouton_afficher_no_cheque;
+GtkWidget *bouton_afficher_exo_opes;
+GtkWidget *bouton_pas_detailler_ventilation;
+GtkWidget *bouton_separer_revenus_depenses;
+GtkWidget *bouton_devise_general_etat;
+GtkWidget *bouton_inclure_dans_tiers;
+GtkWidget *bouton_afficher_titres_colonnes;
+GtkWidget *bouton_titre_changement;
+GtkWidget *bouton_titre_en_haut;
+GtkWidget *bouton_choix_classement_ope_etat;
+GtkWidget *bouton_rendre_ope_clickables;
+GtkWidget *frame_onglet_generalites;
+
+GtkWidget *radio_button_utilise_exo;
+GtkWidget *radio_button_utilise_dates;
+GtkWidget *liste_exo_etat;
+GtkWidget *vbox_generale_exo_etat;
+GtkWidget *bouton_exo_tous;
+GtkWidget *bouton_exo_courant;
+GtkWidget *bouton_exo_precedent;
+GtkWidget *bouton_detaille_exo_etat;
+GtkWidget *bouton_separe_exo_etat;
+GtkWidget *liste_plages_dates_etat;
+GtkWidget *entree_date_init_etat;
+GtkWidget *entree_date_finale_etat;
+GtkWidget *vbox_utilisation_exo;
+GtkWidget *vbox_utilisation_date;
+GtkWidget *bouton_separe_plages_etat;
+GtkWidget *bouton_type_separe_plages_etat;
+GtkWidget *bouton_debut_semaine;
+
+GtkWidget *liste_comptes_etat;
+GtkWidget *bouton_detaille_comptes_etat;
+GtkWidget *vbox_generale_comptes_etat;
+GtkWidget *bouton_regroupe_ope_compte_etat;
+GtkWidget *bouton_affiche_sous_total_compte;
+GtkWidget *bouton_afficher_noms_comptes;
+
+GtkWidget *bouton_inclusion_virements_actifs_etat;
+GtkWidget *bouton_inclusion_virements_hors_etat;
+GtkWidget *bouton_non_inclusion_virements;
+GtkWidget *bouton_inclusion_virements_perso;
+GtkWidget *liste_comptes_virements;
+GtkWidget *bouton_exclure_non_virements_etat;
+GtkWidget *hbox_liste_comptes_virements;
+
+GtkWidget *bouton_utilise_categ_etat;
+GtkWidget *bouton_detaille_categ_etat;
+GtkWidget *hbox_detaille_categ_etat;
+GtkWidget *bouton_afficher_sous_categ;
+GtkWidget *liste_categ_etat;
+GtkWidget *bouton_affiche_sous_total_categ;
+GtkWidget *bouton_affiche_sous_total_sous_categ;
+GtkWidget *bouton_exclure_ope_sans_categ;
+GtkWidget *bouton_devise_categ_etat;
+GtkWidget *bouton_afficher_pas_de_sous_categ;
+GtkWidget *bouton_afficher_noms_categ;
+
+GtkWidget *bouton_utilise_ib_etat;
+GtkWidget *bouton_detaille_ib_etat;
+GtkWidget *hbox_detaille_ib_etat;
+GtkWidget *liste_ib_etat;
+GtkWidget *bouton_afficher_sous_ib;
+GtkWidget *bouton_affiche_sous_total_ib;
+GtkWidget *bouton_affiche_sous_total_sous_ib;
+GtkWidget *bouton_exclure_ope_sans_ib;
+GtkWidget *bouton_devise_ib_etat;
+GtkWidget *bouton_afficher_pas_de_sous_ib;
+GtkWidget *bouton_afficher_noms_ib;
+
+GtkWidget *bouton_utilise_tiers_etat;
+GtkWidget *bouton_detaille_tiers_etat;
+GtkWidget *hbox_detaille_tiers_etat;
+GtkWidget *liste_tiers_etat;
+GtkWidget *bouton_affiche_sous_total_tiers;
+GtkWidget *bouton_devise_tiers_etat;
+GtkWidget *bouton_afficher_noms_tiers;
+
+GtkWidget *bouton_utilise_texte;
+GtkWidget *vbox_generale_textes_etat;
+GtkWidget *liste_textes_etat;
+
+GtkWidget *bouton_utilise_montant;
+GtkWidget *vbox_generale_montants_etat;
+GtkWidget *liste_montants_etat;
+GtkWidget *bouton_devise_montant_etat;
+GtkWidget *bouton_exclure_ope_nulles_etat;
+
+gint ancienne_ib_etat;
+gint ancienne_sous_ib_etat;
+gint ancienne_categ_etat;
+gint ancienne_categ_speciale_etat;
+gint ancienne_sous_categ_etat;
+gint ancien_compte_etat;
+gint ancien_tiers_etat;
+gdouble montant_categ_etat;
+gdouble montant_sous_categ_etat;
+gdouble montant_ib_etat;
+gdouble montant_sous_ib_etat;
+gdouble montant_compte_etat;
+gdouble montant_tiers_etat;
+gdouble montant_periode_etat;
+gdouble montant_exo_etat;
+gint nb_ope_categ_etat;
+gint nb_ope_sous_categ_etat;
+gint nb_ope_ib_etat;
+gint nb_ope_sous_ib_etat;
+gint nb_ope_compte_etat;
+gint nb_ope_tiers_etat;
+gint nb_ope_periode_etat;
+gint nb_ope_exo_etat;
+gint nb_ope_general_etat;
+gint nb_ope_partie_etat;
+GDate *date_debut_periode;
+gint exo_en_cours_etat;
+gint changement_de_groupe_etat;
+gint debut_affichage_etat;
+struct struct_devise *devise_compte_en_cours_etat;
+struct struct_devise *devise_categ_etat;
+struct struct_devise *devise_ib_etat;
+struct struct_devise *devise_tiers_etat;
+struct struct_devise *devise_generale_etat;
+
+gchar *nom_categ_en_cours;
+gchar *nom_ss_categ_en_cours;
+gchar *nom_ib_en_cours;
+gchar *nom_ss_ib_en_cours;
+gchar *nom_compte_en_cours;
+gchar *nom_tiers_en_cours;
+gint titres_affiches;
+
+GtkWidget *bouton_detaille_mode_paiement_etat;
+GtkWidget *vbox_mode_paiement_etat;
+GtkWidget *liste_mode_paiement_etat;
+
+
+
 extern GSList *liste_struct_imputation;
 extern gint mise_a_jour_combofix_tiers_necessaire;
+extern GSList *liste_struct_devises;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern GSList *liste_struct_exercices;
+extern GtkWidget *notebook_general;
+extern GtkStyle *style_label_nom_compte;
+extern GtkStyle *style_label;
+extern GSList *liste_struct_tiers;
+extern GSList *liste_struct_categories;
+extern struct struct_etat *etat_courant;
+extern GtkWidget *notebook_etats;
+extern GtkWidget *notebook_config_etat;
+extern GtkWidget *notebook_selection;
+extern GtkWidget *frame_liste_etats;
+extern GtkWidget *label_etat_courant;
+extern GtkWidget *onglet_config_etat;
+extern GtkWidget *notebook_aff_donnees;
 
 
 /******************************************************************************/

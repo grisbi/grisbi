@@ -22,7 +22,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "exercice.h"
 #include "constants.h"
 
@@ -35,13 +34,31 @@
 #include "utils.h"
 #include "search_glist.h"
 #include "operations_formulaire.h"
-
+/*  */
 
 
 GtkWidget *paddingbox_details;	/** Widget handling financial year details */
+GSList *liste_struct_exercices;
+gint no_derniere_exercice;
+gint nb_exercices;
+GtkWidget *clist_exercices_parametres;
+GtkWidget *bouton_supprimer_exercice;
+GtkWidget *nom_exercice;
+GtkWidget *debut_exercice;
+GtkWidget *fin_exercice;
+GtkWidget *affichage_exercice;
+gint ligne_selection_exercice;
+
+
+
 
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern GtkWidget *fenetre_preferences;
+
 
 
 /** 
@@ -414,90 +431,6 @@ void deselection_ligne_exercice ( GtkWidget *liste,
     gtk_widget_set_sensitive ( bouton_supprimer_exercice, FALSE );
 }
 
-
-
-/* ***************************************************************************************************** */
-/* Fonction applique_modif_exercice */
-/* appelée par le bouton appliquer qui devient sensitif lorsqu'on modifie la exercice des paramètres */
-/* ***************************************************************************************************** */
-
-void applique_modif_exercice ( GtkWidget *liste )
-{
-    struct struct_exercice *exercice;
-
-    exercice = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
-					ligne_selection_exercice );
-
-    if ( !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( nom_exercice )))))
-    {
-	dialogue ( _("The financial year must have a name.") );
-	return;
-    }
-
-    if ( exercice -> no_exercice == -1 )
-    {
-	exercice -> no_exercice = ++no_derniere_exercice_tmp;
-	nb_exercices_tmp++;
-    }
-
-    exercice -> nom_exercice = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( nom_exercice ))));
-
-    if ( !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( debut_exercice )))))
-	exercice -> date_debut = NULL;
-    else
-    {
-	if ( modifie_date ( debut_exercice ))
-	{
-	    gint jour, mois, an;
-
-	    sscanf ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( debut_exercice ))),
-		     "%02d/%02d/%04d",
-		     &jour,
-		     &mois,
-		     &an );
-
-	    exercice->date_debut = g_date_new_dmy ( jour,
-						    mois,
-						    an );
-	}
-	else
-	    return;
-    }
-
-    if ( !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( fin_exercice )))))
-	exercice -> date_fin = NULL;
-    else
-    {
-	if ( modifie_date ( fin_exercice ))
-	{
-	    gint jour, mois, an;
-
-	    sscanf ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( fin_exercice ))),
-		     "%02d/%02d/%04d",
-		     &jour,
-		     &mois,
-		     &an );
-
-	    exercice->date_fin = g_date_new_dmy ( jour,
-						  mois,
-						  an );
-	}
-	else
-	    return;
-    }
-
-    exercice->affiche_dans_formulaire = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( affichage_exercice ));
-
-
-    /* met le nom dans la liste */
-
-    gtk_clist_set_text ( GTK_CLIST ( liste ),
-			 ligne_selection_exercice,
-			 0,
-			 exercice -> nom_exercice );
-
-}
-/* ***************************************************************************************************** */
 
 
 //* ************************************************************************************************************ */

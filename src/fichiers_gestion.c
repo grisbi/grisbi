@@ -25,7 +25,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "fichiers_gestion.h"
 
 
@@ -55,6 +54,12 @@ static gboolean enregistrement_backup ( void );
 static void ajoute_nouveau_fichier_liste_ouverture ( gchar *path_fichier );
 
 
+
+
+gchar *nom_fichier_backup;
+
+
+
 extern GtkWidget *window_vbox_principale;
 extern gint patience_en_cours;
 extern GSList *echeances_saisies;
@@ -66,7 +71,24 @@ extern gint mise_a_jour_fin_comptes_passifs;
 extern gint id_fonction_idle;
 extern gboolean block_menu_cb;
 extern GtkItemFactory *item_factory_menu_general;
-
+extern GtkWidget *window;
+extern gint compte_courant;
+extern gchar *dernier_chemin_de_travail;
+extern gchar **tab_noms_derniers_fichiers_ouverts;
+extern gint compression_fichier;
+extern gint compression_backup;
+extern gint nb_max_derniers_fichiers_ouverts;
+extern gint nb_derniers_fichiers_ouverts;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern gchar *nom_fichier_comptes;
+extern GSList *ordre_comptes;
+extern gchar *titre_fichier;
+extern GtkWidget *notebook_general;
+extern gint id_temps;
+extern GSList *liste_struct_etats;
+extern gint rapport_largeur_colonnes[7];
 
 
 /* ************************************************************************************************************ */
@@ -89,6 +111,10 @@ void nouveau_fichier ( void )
     type_de_compte = demande_type_nouveau_compte ();
     if ( type_de_compte == -1 )
 	return;
+
+    /*     création de la 1ère devise */
+
+    ajout_devise ( NULL );
 
     no_compte = initialisation_nouveau_compte ( type_de_compte );
 
@@ -128,7 +154,6 @@ void initialisation_variables_nouveau_fichier ( void )
 
     /* création des listes d'origine */
 
-    creation_devises_de_base();
     creation_liste_categories ();
 }
 /* ************************************************************************************************************ */
@@ -231,8 +256,6 @@ void fichier_selectionne ( GtkWidget *selection_fichier)
     gtk_widget_hide ( selection_fichier );
 
     /*   si la fermeture du fichier se passe mal, on se barre */
-
-    ancien_nom_fichier_comptes = nom_fichier_comptes;
 
     if ( !fermer_fichier() )
     {

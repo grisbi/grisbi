@@ -23,7 +23,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 
 #include "equilibrage.h"
 #include "operations_comptes.h"
@@ -37,6 +36,17 @@
 
 
 GtkWidget *paned_onglet_operations;
+
+
+
+extern GtkWidget *frame_droite_bas;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern GtkWidget *notebook_comptes_equilibrage;
+extern GtkWidget *notebook_formulaire;
+extern GtkWidget *formulaire;
+
 
 /*****************************************************************************************************/
 GtkWidget *creation_onglet_operations ( void )

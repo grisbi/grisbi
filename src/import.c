@@ -23,7 +23,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "import.h"
 #include "constants.h"
 
@@ -79,16 +78,29 @@ static gboolean changement_valeur_echelle_recherche_date_import ( GtkWidget *spi
 
 gint derniere_operation_enregistrement_ope_import;
 gint valeur_echelle_recherche_date_import;
+GSList *liste_comptes_importes;
+GtkWidget *dialog_recapitulatif;
+GtkWidget *table_recapitulatif;
+gint virements_a_chercher;
+
+
 
 
 extern GtkWidget *window_vbox_principale;
-
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint id_fonction_idle;
+extern GSList *liste_struct_devises;
+extern GtkWidget *window;
+extern GtkWidget *notebook_listes_operations;
+extern gchar *dernier_chemin_de_travail;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern gint no_derniere_operation;
 
 
 /* *******************************************************************************/
@@ -441,7 +453,7 @@ gboolean affichage_recapitulatif_importation ( void )
 	if ( !nb_comptes )
 	{
 	    menus_sensitifs ( FALSE );
-	    creation_devises_de_base ();
+	    ajout_devise (NULL);
 	}
 
 	liste_tmp = liste_comptes_importes;
@@ -1438,7 +1450,7 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 
 	operation -> pointe = operation_import -> p_r;
 
-	/* si c'est une ope de ventilation, lui ajoute le no de l'opération précédente */
+	/* si c'est une ope de ventilation, lui ajoute le no de l'opération précÃ©dente */
 
 	if ( operation_import -> ope_de_ventilation )
 	    operation -> no_operation_ventilee_associee = derniere_operation;

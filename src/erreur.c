@@ -26,7 +26,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "erreur.h"
 
 
@@ -39,8 +38,12 @@
 #include "utils.h"
 #include "ventilation.h"
 
-extern gint patience_en_cours;
 
+extern gint patience_en_cours;
+extern GtkWidget *window;
+extern gchar *nom_fichier_comptes;
+extern gint id_temps;
+extern gchar *log_message;
 
 
 

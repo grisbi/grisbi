@@ -28,7 +28,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "menu.h"
 
 #include "barre_outils.h"
@@ -61,6 +60,10 @@ extern GtkWidget *bouton_ope_lignes[4];
 extern GtkWidget *bouton_affiche_r;
 extern GtkWidget *bouton_enleve_r;
 extern GtkWidget *bouton_grille;
+extern GtkWidget *window;
+extern gint compte_courant;
+extern gint nb_derniers_fichiers_ouverts;
+extern gchar **tab_noms_derniers_fichiers_ouverts;
 
 gboolean block_menu_cb = FALSE;
 

@@ -22,7 +22,6 @@
 
 
 #include "include.h"
-#include "variables-extern.c"
 #include "structures.h"
 #include "tiers_onglet.h"
 #include "constants.h"
@@ -53,12 +52,61 @@
 
 gint mise_a_jour_combofix_tiers_necessaire;
 
+GtkWidget *arbre_tiers;
+GtkWidget *entree_nom_tiers;
+GtkWidget *text_box;
+GtkWidget *bouton_modif_tiers_modifier;
+GtkWidget *bouton_modif_tiers_annuler;
+GtkWidget *bouton_supprimer_tiers;
+GdkPixmap *pixmap_ouvre;
+GdkBitmap *masque_ouvre;
+GdkPixmap *pixmap_ferme;
+GdkBitmap *masque_ferme;
+GtkWidget *bouton_ajouter_tiers;
+
+gint nb_enregistrements_tiers;
+gint no_dernier_tiers;
+
+/* contient la liste des struct liste_tiers de tous les tiers */
+
+GSList *liste_struct_tiers;
+
+/* liste des tiers pour le combofix */
+
+GSList *liste_tiers_combofix;
+
+/* liste des tiers pour le combofix de l'échéancier */
+
+GSList *liste_tiers_combofix_echeancier;
+
+/* contient la date du dernier tiers lors de l'affichage de chaque tiers */
+
+GDate **date_dernier_tiers;
+
+gint no_devise_totaux_tiers;
+
+/* variable tampon */
+
+gint *nb_ecritures_par_tiers;
+
+gint nb_ecritures_par_comptes;
+
+
 
 
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GSList *liste_struct_echeances;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
+extern struct struct_devise *devise_compte;
+extern GtkWidget *window;
+extern gint compte_courant;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern gint modif_tiers;
+extern GSList *liste_struct_etats;
+extern struct struct_etat *etat_courant;
 
 
 

@@ -23,7 +23,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "qif.h"
 
 
@@ -32,8 +31,18 @@
 #include "search_glist.h"
 #include "utils.h"
 
+GSList *liste_comptes_qif;
+GSList *liste_entrees_exportation;
 
 
+extern GSList *liste_comptes_importes;
+extern GtkWidget *window;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern gchar *nom_fichier_comptes;
+extern GSList *liste_struct_tiers;
+extern GSList *liste_struct_categories;
 
 /* *******************************************************************************/
 gboolean recuperation_donnees_qif ( FILE *fichier )

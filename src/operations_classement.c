@@ -24,7 +24,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "gtkcombofix.h"
 #include "operations_classement.h"
 #include "devises.h"
@@ -38,6 +37,10 @@
 #include "utils.h"
 
 
+extern gint compte_courant;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
 
 
 /* ************************************************************************** */

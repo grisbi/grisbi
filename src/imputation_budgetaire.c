@@ -27,7 +27,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "imputation_budgetaire.h"
 #include "constants.h"
 
@@ -74,6 +73,23 @@ gint mise_a_jour_combofix_imputation_necessaire;
 extern GSList *liste_struct_echeances; 
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
+extern struct struct_devise *devise_compte;
+extern GtkWidget *window;
+extern gint compte_courant;
+extern gchar *dernier_chemin_de_travail;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern gint no_derniere_operation;
+extern gint modif_imputation;
+extern gint no_devise_totaux_tiers;
+extern GdkPixmap *pixmap_ouvre;
+extern GdkBitmap *masque_ouvre;
+extern GdkPixmap *pixmap_ferme;
+extern GdkBitmap *masque_ferme;
+extern gint nb_ecritures_par_comptes;
+extern GSList *liste_struct_categories;
+extern struct struct_etat *etat_courant;
 
 
 

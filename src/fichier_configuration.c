@@ -23,7 +23,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "fichier_configuration.h"
 
 
@@ -45,6 +44,24 @@
 
 
 
+gint largeur_window;
+gint hauteur_window;
+gchar *buffer_dernier_fichier;
+gchar *dernier_chemin_de_travail;
+
+/* contient le nb de derniers fichiers ouverts */
+
+gint nb_derniers_fichiers_ouverts;
+
+/* contient le nb max que peut contenir nb_derniers_fichiers_ouverts ( réglé dans les paramètres ) */
+
+gint nb_max_derniers_fichiers_ouverts;
+gchar **tab_noms_derniers_fichiers_ouverts;
+gint compression_fichier;
+gint compression_backup;
+
+
+
 PangoFontDescription *pango_desc_fonte_liste;
 
 extern gint decalage_echeance;  
@@ -52,6 +69,13 @@ extern GtkWidget *paned_onglet_operations;
 extern GtkWidget *paned_onglet_echeancier;
 extern GtkWidget *paned_onglet_comptes;
 extern GtkWidget *paned_onglet_etats;
+extern GtkWidget *window;
+extern gint compte_courant;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern gchar *nom_fichier_comptes;
+extern gint taille_largeur_colonnes[7];
 
 /* ***************************************************************************************************** */
 void charge_configuration ( void )

@@ -25,7 +25,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "constants.h"
 #include "mouse.h"
 
@@ -100,6 +99,24 @@ static GSList *cree_slist_affichee ( gint no_compte );
 
 
 
+/*  adr du notebook qui contient les opés de chaque compte */
+
+GtkWidget *notebook_listes_operations;
+
+/* adr de la frame contenant le formulaire */
+
+GtkWidget *frame_droite_bas;
+
+/* adr de la barre d'outils */
+
+GtkWidget *barre_outils;
+
+/* contient les tips et titres des colonnes des listes d'opé */
+
+gchar *tips_col_liste_operations[7];
+gchar *titres_colonnes_liste_operations[7];
+
+
 
 GtkJustification col_justs[] = {
     GTK_JUSTIFY_CENTER,
@@ -147,6 +164,14 @@ gchar *derniere_date;
 
 gint colonne_classement_tmp;
 
+/*  pointeur vers le label qui contient le solde sous la liste des opé */
+
+GtkWidget *solde_label;
+
+/*  pointeur vers le label qui contient le solde pointe sous la liste des opé */
+
+GtkWidget *solde_label_pointe;
+
 
 extern struct operation_echeance *echeance_selectionnnee;
 extern gint no_derniere_echeance;
@@ -176,6 +201,25 @@ extern gint id_fonction_idle;
 extern GtkWidget *bouton_ope_lignes[4];
 extern GtkWidget *bouton_grille;
 extern GtkStyle *style_entree_formulaire[2];
+extern struct struct_devise *devise_compte;
+extern struct struct_devise *devise_operation;
+extern GSList *liste_struct_devises;
+extern gint compte_courant;
+extern GtkWidget *bouton_affiche_cache_formulaire;
+extern GtkWidget *fleche_haut;
+extern GtkWidget *fleche_bas;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern GtkWidget *notebook_general;
+extern GtkWidget *formulaire;
+extern gint tab_affichage_ope[4][7];
+extern gint ligne_affichage_une_ligne;
+extern GSList *lignes_affichage_deux_lignes;
+extern GSList *lignes_affichage_trois_lignes;
+extern gint rapport_largeur_colonnes[7];
+extern gint taille_largeur_colonnes[7];
+
 
 
 
@@ -2706,7 +2750,7 @@ void p_press (void)
 
 /******************************************************************************/
 /* Fonction r_press */
-/* appelée lorsque la touche r est pressée sur la liste */
+/* appelÃ©e lorsque la touche r est pressée sur la liste */
 /* relève ou dérelève l'opération courante */
 /******************************************************************************/
 void r_press (void)

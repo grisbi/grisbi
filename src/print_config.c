@@ -21,7 +21,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "print_config.h"
 
 #include "utils.h"
@@ -42,6 +41,7 @@ struct paper_config paper_sizes[8] = {
     {NULL, 0, 0},
 };
 
+extern GtkWidget *window;
 
 /** 
  * Open a dialog window which asks for information about paper,

@@ -23,7 +23,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "gtkcombofix.h"
 #include "patienter.h"
 #include "main.h"
@@ -36,6 +35,7 @@ gint patience_en_cours;
 gint idle_stoppe;
 
 extern gint id_fonction_idle;
+extern GtkWidget *window;
 
 
 /* ******************************************************************************************** */
@@ -171,7 +171,10 @@ void annulation_attente ()
     patience_en_cours = 0;
 
     if ( GTK_IS_WIDGET ( fenetre_patience ))
+    {
 	gtk_widget_destroy ( fenetre_patience );
+	fenetre_patience = NULL;
+    }
 
     if ( idle_stoppe )
 	demarrage_idle ();

@@ -20,7 +20,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "echeancier_onglet.h"
 
 #include "echeancier_formulaire.h"
@@ -170,7 +169,6 @@ GtkWidget *creation_onglet_echeancier ( void )
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_formulaire_echeances ),
 			       creation_formulaire_ventilation_echeances  (),
 			       gtk_label_new ( _("Breakdown") ) );
-
 
     return ( paned_onglet_echeancier );
 }

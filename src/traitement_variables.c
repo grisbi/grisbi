@@ -22,7 +22,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 
 #include "affichage_liste.h"
 #include "gtkcombofix.h"
@@ -34,7 +33,11 @@
 
 static void initialise_tab_affichage_ope ( void );
 
+/* les styles de couleur */
 
+GtkStyle *style_couleur [2];
+GtkStyle *style_rouge_couleur [2];
+GtkStyle *style_gris;
 
 GdkColor couleur_fond[2];
 GdkColor couleur_selection;
@@ -90,8 +93,43 @@ extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
 extern struct organisation_formulaire *organisation_generale_formulaire;
-
-
+extern struct struct_devise *devise_compte;
+extern struct struct_devise *devise_operation;
+extern GSList *liste_struct_devises;
+extern gint nb_devises;
+extern gint no_derniere_devise;
+extern struct struct_devise *devise_nulle;
+extern GtkWidget *window;
+extern gint compte_courant;
+extern gchar *nom_fichier_backup;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern gint no_derniere_operation;
+extern GSList *ordre_comptes;
+extern gchar *titre_fichier;
+extern gchar *adresse_commune;
+extern gchar *adresse_secondaire;
+extern GSList *liste_struct_exercices;
+extern GtkWidget *solde_label;
+extern GtkWidget *solde_label_pointe;
+extern gchar *nom_fichier_comptes;
+extern gchar *chemin_logo;
+extern gint nb_enregistrements_tiers;
+extern gint no_dernier_tiers;
+extern gint no_devise_totaux_tiers;
+extern GSList *liste_struct_tiers;
+extern GSList *liste_struct_categories;
+extern gint nb_enregistrements_categories;
+extern gint no_derniere_categorie;
+extern GSList *liste_struct_etats;
+extern struct struct_etat *etat_courant;
+extern gint no_dernier_etat;
+extern GtkWidget *liste_categ_etat;
+extern gint tab_affichage_ope[4][7];
+extern gint ligne_affichage_une_ligne;
+extern GSList *lignes_affichage_deux_lignes;
+extern GSList *lignes_affichage_trois_lignes;
 
 
 /*****************************************************************************************************/
@@ -156,6 +194,7 @@ void init_variables ( void )
     ordre_comptes = NULL;
     compte_courant = 0;
     solde_label = NULL;
+    solde_label_pointe = NULL;
     p_tab_nom_de_compte = NULL;
 
     nom_fichier_backup = NULL;
@@ -199,6 +238,7 @@ void init_variables ( void )
 
     titre_fichier = NULL;
     adresse_commune = NULL;
+    adresse_secondaire = NULL;
 
     if ( liste_struct_exercices )
     {

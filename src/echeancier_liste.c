@@ -25,7 +25,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "echeancier_liste.h"
 #include "constants.h"
 
@@ -103,6 +102,17 @@ extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern gint mise_a_jour_fin_comptes_passifs;
+extern struct struct_devise *devise_compte;
+extern gdouble taux_de_change[2];
+extern GtkWidget *window;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern GtkStyle *style_couleur [2];
+extern GtkStyle *style_rouge_couleur [2];
+extern GtkStyle *style_gris;
+
+
 
 /*****************************************************************************/
 GtkWidget *creation_partie_gauche_echeancier ( void )

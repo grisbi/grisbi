@@ -22,7 +22,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "affichage_formulaire.h"
 
 #include "traitement_variables.h"
@@ -93,10 +92,15 @@ GtkWidget *option_menu_comptes_choix_formulaire;
 GtkWidget *tree_view_organisation_formulaire;
 GtkTreeViewColumn *tree_view_column_organisation_formulaire[6];
 
+GtkWidget *formulaire;
+
 
 
 extern GtkTooltips *tooltips_general_grisbi;
-
+extern gint compte_courant;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
 
 
 /* *************************************************************************** */

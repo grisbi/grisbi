@@ -20,7 +20,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "parametres.h"
 
 
@@ -59,7 +58,35 @@ GtkWidget * button_close, * button_help;
 GtkWidget *tree_view;
 GtkWidget * bouton_display_lock_active;
 
+GtkWidget *fenetre_preferences;
+GtkWidget *bouton_solde_mini;
+GtkWidget *bouton_affiche_permission;
+
+GtkWidget *entree_titre_fichier;
+GtkWidget *entree_adresse_commune;
+GtkWidget *entree_adresse_secondaire;
+
+GtkWidget *bouton_avec_demarrage;
+GtkWidget *bouton_save_auto;
+GtkWidget *bouton_force_enregistrement;
+GtkWidget *bouton_demande_backup;
+GtkWidget *entree_chemin_backup;
+GtkWidget *spin_button_derniers_fichiers_ouverts;
+GtkWidget *spin_button_compression_fichier;
+GtkWidget *spin_button_compression_backup;
+GtkWidget *bouton_save_demarrage;
+GtkWidget *entree_jours;
+
+
+
 extern gint decalage_echeance; 
+extern GtkWidget *window;
+extern gint compression_fichier;
+extern gint compression_backup;
+extern gint nb_max_derniers_fichiers_ouverts;
+extern gchar *nom_fichier_backup;
+extern gint nb_comptes;
+
 
 /**
  * Creates a simple TreeView and a TreeModel to handle preference

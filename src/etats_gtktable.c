@@ -23,7 +23,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "etats_gtktable.h"
 
 #include "barre_outils.h"
@@ -50,6 +49,16 @@ struct struct_etat_affichage gtktable_affichage = {
     gtktable_attach_vsep,
     gtktable_attach_label,
 };
+
+
+
+
+extern gint compte_courant;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern GtkWidget *scrolled_window_etat;
+extern gint nb_colonnes;
 
 
 /**

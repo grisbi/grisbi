@@ -21,7 +21,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "etats_onglet.h"
 
 #include "dialog.h"
@@ -34,11 +33,41 @@
 #include "traitement_variables.h"
 #include "utils.h"
 
-GtkWidget *paned_onglet_etats;
-
 void impression_etat ( struct struct_etat *etat );
 
+
+
+GtkWidget *paned_onglet_etats;
+
+GSList *liste_struct_etats;
+gint no_dernier_etat;
+GtkWidget *frame_liste_etats;
+GtkWidget *label_etat_courant;        /* label en haut de la liste des états */
+GtkWidget *vbox_liste_etats;          /* vbox contenant la liste des états */
+GtkWidget *bouton_etat_courant;          /* adr du bouton de l'état en cours, pour le refermer qd change */
+struct struct_etat *etat_courant;
+GtkWidget *bouton_effacer_etat;
+GtkWidget *bouton_personnaliser_etat;
+GtkWidget *bouton_raffraichir_etat;
+GtkWidget *bouton_imprimer_etat;
+GtkWidget *bouton_exporter_etat;
+GtkWidget *bouton_importer_etat;
+GtkWidget *bouton_dupliquer_etat;
+GtkWidget *scrolled_window_etat;          /* contient l'état en cours */
+gint nb_colonnes;
+gint ligne_debut_partie;
+GtkWidget *notebook_etats;
+GtkWidget *onglet_affichage_etat;
+GtkWidget *notebook_config_etat;
+GtkWidget *notebook_selection;
+GtkWidget *notebook_aff_donnees;
+GtkWidget *onglet_config_etat;
+
+
+
 extern GtkItemFactory *item_factory_menu_general;
+extern gchar *dernier_chemin_de_travail;
+extern GtkWidget *notebook_general;
 
 
 /*****************************************************************************************************/

@@ -21,7 +21,6 @@
 
 #include "include.h"
 #include "structures.h"
-#include "variables-extern.c"
 #include "etat_io.h"
 
 #include "dialog.h"
@@ -36,7 +35,16 @@
 #include "devises.h"
 #include "exercice.h"
 
+gchar *log_message;        /* utilisé comme log lors de l'import d'un état */
 
+
+extern GSList *liste_struct_devises;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern struct struct_etat *etat_courant;
+extern GtkWidget *bouton_effacer_etat;
+extern GSList *liste_struct_etats;
 
 /***********************************************************************************************************/
 gboolean charge_etat ( gchar *nom_etat )
