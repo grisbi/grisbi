@@ -1196,8 +1196,9 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 		     "changed",
 		     GTK_SIGNAL_FUNC ( devise_selectionnee ),
 		     NULL );
-  g_object_set_data ( G_OBJECT (option_menu_devise_2), "associate",
-		      option_menu_devise_1 );
+  g_object_set_data ( G_OBJECT (option_menu_devise_1), "associate",
+		      option_menu_devise_2 );
+  g_object_set_data ( G_OBJECT (option_menu_devise_1), "currency", devise );
 
   /* création du menu de la 2ème devise ( le menu comporte la devise
      courante et celle associée ) */
@@ -1218,6 +1219,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 		     GINT_TO_POINTER ( 1 ));
   g_object_set_data ( G_OBJECT (option_menu_devise_2), "associate",
 		      option_menu_devise_1 );
+  g_object_set_data ( G_OBJECT (option_menu_devise_2), "currency", devise );
  
   /* création de la ligne des frais de change */
   hbox = gtk_hbox_new ( FALSE, 5 );
@@ -1237,6 +1239,8 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
   label = gtk_label_new ( devise_compte -> nom_devise );
   gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 		       FALSE, FALSE, 5 );
+
+  gtk_widget_show_all ( dialog );
 
   /* choix des 1ère et 2ème devise */
   if ( taux_change || frais_change )
@@ -1307,7 +1311,6 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
     }
 
   /* on lance la fenetre */
-  gtk_widget_show_all ( dialog );
   resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
 
   if ( !resultat )
@@ -1341,20 +1344,20 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 
 
 
-/***********************************************************************************************************/
-/* Fonction devise_selectionnee */
-/* appelée lorsqu'on selectionne une des 2 devises de la fenetre de demande du taux de change */
-/* change automatiquement le 2ème option_menu */
-/***********************************************************************************************************/
-
+/* 
+ * Handler that change the second option menu of a window that ask for
+ * change.
+ *
+ * \param menu_shell The menu that triggered this handler.
+ * \param origine Position of selected item in menu
+ */
 gboolean devise_selectionnee ( GtkWidget *menu_shell, gint origine )
 {
   GtkWidget * associate;
   gint position;
   struct struct_devise *devise;
 
-  devise = gtk_clist_get_row_data ( GTK_CLIST ( clist_devises_parametres ),
-				    ligne_selection_devise );
+  devise = g_object_get_data(menu_shell, "currency");
 
   if ( devise )
     {
@@ -1373,7 +1376,6 @@ gboolean devise_selectionnee ( GtkWidget *menu_shell, gint origine )
 
   return FALSE;
 }
-/***********************************************************************************************************/
 
 
 
@@ -1983,8 +1985,8 @@ create_change_menus (struct struct_devise *devise)
       gtk_widget_show ( item );
 
       gtk_option_menu_set_menu ( GTK_OPTION_MENU ( devise_1 ), menu );
-      g_object_set_data ( G_OBJECT (devise_1), "associate",
-			  devise_2 );
+      g_object_set_data ( G_OBJECT (devise_1), "currency", devise );
+      g_object_set_data ( G_OBJECT (devise_1), "associate", devise_2 );
       g_signal_connect ( G_OBJECT ( devise_1 ), "changed",
 			 GTK_SIGNAL_FUNC ( devise_selectionnee ),
 			 GINT_TO_POINTER ( 1 ));
@@ -2011,8 +2013,8 @@ create_change_menus (struct struct_devise *devise)
 
       gtk_option_menu_set_menu ( GTK_OPTION_MENU ( devise_2 ), menu );
 
-      g_object_set_data ( G_OBJECT (devise_2), "associate",
-			  devise_1 );
+      g_object_set_data ( G_OBJECT (devise_2), "currency", devise );
+      g_object_set_data ( G_OBJECT (devise_2), "associate", devise_1 );
       g_signal_connect ( G_OBJECT ( devise_2 ),
 			 "changed",
 			 GTK_SIGNAL_FUNC ( devise_selectionnee ),
