@@ -1172,7 +1172,7 @@ gboolean clique_champ_formulaire ( GtkWidget *entree,
 
 	    if ( !strlen ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) ))))
 		gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) ),
-				     itoa ( type -> no_en_cours  + 1));
+				     automatic_numbering_get_new_number ( type ) );
 	}
     }
 
@@ -2268,7 +2268,7 @@ void place_type_formulaire ( gint no_type,
 	    {
 		entree_prend_focus ( entree_cheque );
 		gtk_entry_set_text ( GTK_ENTRY ( entree_cheque ),
-				     itoa ( type -> no_en_cours + 1 ));
+				     automatic_numbering_get_new_number ( type ) );
 	    }
 
 	gtk_widget_show ( entree_cheque );
@@ -2441,7 +2441,7 @@ gboolean fin_edition ( void )
 			 &&
 			 verifie_element_formulaire_existe ( TRANSACTION_FORM_CHEQUE ))
 			gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) ),
-					     itoa ( type -> no_en_cours + 1 ));
+					     automatic_numbering_get_new_number ( type ));
 		}
 		liste_tmp = liste_tmp -> next;
 	    }
