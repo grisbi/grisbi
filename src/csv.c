@@ -45,6 +45,7 @@ gchar*  csv_field_ventil     = NULL;
 gchar*  csv_field_date       = NULL;
 gchar*  csv_field_pointage   = NULL;
 gchar*  csv_field_tiers      = NULL;
+gchar*  csv_field_montant    = NULL;
 gchar*  csv_field_credit     = NULL;
 gchar*  csv_field_debit      = NULL;
 gchar*  csv_field_categ      = NULL;
@@ -64,6 +65,7 @@ static void _csv_clear_fields(gboolean clear_all)
     CSV_CLEAR_FIELD(csv_field_notes);
     CSV_CLEAR_FIELD(csv_field_debit);
     CSV_CLEAR_FIELD(csv_field_credit);
+    CSV_CLEAR_FIELD(csv_field_montant);
     CSV_CLEAR_FIELD(csv_field_ventil);
     CSV_CLEAR_FIELD(csv_field_categ);
     CSV_CLEAR_FIELD(csv_field_sous_categ);
@@ -80,6 +82,7 @@ static void _csv_add_record(FILE* file,gboolean clear_all)
     CSV_STR_FIELD(file,csv_field_tiers);
     CSV_NUM_FIELD(file,csv_field_credit);
     CSV_NUM_FIELD(file,csv_field_debit);
+    CSV_NUM_FIELD(file,csv_field_montant);
     CSV_STR_FIELD(file,csv_field_categ);
     CSV_STR_FIELD(file,csv_field_sous_categ);
     CSV_STR_FIELD(file,csv_field_notes);
@@ -132,6 +135,7 @@ void export_accounts_to_csv (GSList* export_entries_list )
                 csv_field_tiers      = g_strdup(_("Third party"));
                 csv_field_credit     = g_strdup(_("Credit"));
                 csv_field_debit      = g_strdup(_("Debit"));
+                csv_field_debit      = g_strdup(_("Amount"));
                 csv_field_categ      = g_strdup(_("Category"));
                 csv_field_sous_categ = g_strdup(_("Sub-categories"));
                 csv_field_notes      = g_strdup(_("Notes"));
@@ -334,14 +338,7 @@ void export_accounts_to_csv (GSList* export_entries_list )
 
 				    montant_tmp = g_strdup_printf ( "%4.2f", montant );
 				    montant_tmp = g_strdelimit ( montant_tmp, ",", '.' );
-                                    if (montant >= 0)
-                                    {
-                                        csv_field_credit = g_strdup ( montant_tmp );
-                                    }
-                                    else
-                                    {
-                                        csv_field_debit = g_strdup ( montant_tmp );
-                                    }
+                                    csv_field_montant = g_strdup ( montant_tmp );
 
                                     _csv_add_record(fichier_csv,FALSE);
 				}
