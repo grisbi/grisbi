@@ -1131,7 +1131,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 			      gdouble frais_change,
 			      gboolean force )
 {
-    GtkWidget *dialog, *label, *entree, *menu, *item, *hbox, *entree_frais;
+    GtkWidget *dialog, *label, *entree, *menu, *item, *hbox, *entree_frais, *paddingbox;
     struct cached_exchange_rate * cache;
     gint resultat;
 
@@ -1143,7 +1143,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 	return;
     }
 
-    dialog = gtk_dialog_new_with_buttons ( _("Entry of the exchange rate"),
+    dialog = gtk_dialog_new_with_buttons ( _("Enter exchange rate"),
 					   GTK_WINDOW (window),
 					   GTK_DIALOG_MODAL,
 					   GTK_STOCK_OK, 0,
@@ -1152,14 +1152,17 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 			 GTK_SIGNAL_FUNC ( blocage_boites_dialogues ),
 			 NULL );
 
-    label = gtk_label_new ( COLON(_("Please enter the exchange rate")) );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), label,
-			 FALSE, FALSE, 20 );
+    paddingbox = new_paddingbox_with_title ( GTK_WIDGET ( GTK_DIALOG ( dialog ) -> vbox ), FALSE, 
+					     g_strdup_printf( _("Please enter exchange rate for %s"), 
+							      devise->nom_devise) );
+    gtk_container_set_border_width ( GTK_CONTAINER ( paddingbox ), 6 );
+    gtk_box_set_spacing ( GTK_BOX ( GTK_DIALOG (dialog)->vbox ), 12 );
+    
 
     /* création de la ligne du change */
 
     hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox,
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 			 FALSE, FALSE, 0);
 
     label = gtk_label_new ( POSTSPACIFY(_("A")) );
@@ -1168,7 +1171,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 
     option_menu_devise_1= gtk_option_menu_new ();
     gtk_box_pack_start ( GTK_BOX ( hbox ), option_menu_devise_1,
-			 FALSE, FALSE, 0);
+			 TRUE, TRUE, 0);
 
     label = gtk_label_new ( SPACIFY(_("equals")) );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label,
@@ -1179,11 +1182,11 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
     gtk_entry_set_activates_default ( GTK_ENTRY ( entree ),
 				      TRUE );
     gtk_box_pack_start ( GTK_BOX ( hbox ), entree,
-			 FALSE, FALSE, 0);
+			 TRUE, TRUE, 0);
 
     option_menu_devise_2 = gtk_option_menu_new ();
     gtk_box_pack_start ( GTK_BOX ( hbox ), option_menu_devise_2,
-			 FALSE, FALSE, 0);
+			 TRUE, TRUE, 0);
 
     /* création du menu de la 1ère devise ( le menu comporte la devise
        courante et celle associée ) */
@@ -1229,7 +1232,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 
     /* création de la ligne des frais de change */
     hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox,
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 			 FALSE, FALSE, 5 );
 
     label = gtk_label_new ( COLON(_("Exchange fees")) );
@@ -1240,7 +1243,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
     gtk_entry_set_activates_default ( GTK_ENTRY ( entree_frais ),
 				      TRUE );
     gtk_box_pack_start ( GTK_BOX ( hbox ), entree_frais,
-			 FALSE, FALSE, 5 );
+			 TRUE, TRUE, 5 );
 
     label = gtk_label_new ( devise_compte -> nom_devise );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label,
