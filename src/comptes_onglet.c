@@ -74,7 +74,6 @@ GtkWidget *creation_onglet_comptes ( void )
 
     compte_courant_onglet = 0;
     reaffiche_liste_comptes_onglet ();
-    remplissage_details_compte ();
 
     return ( paned_onglet_comptes );
 }
