@@ -18,5 +18,7 @@ void dialogue_warning_hint ( gchar *text, gchar * hint );
 gchar * make_hint ( gchar * hint, gchar * text );
 gboolean question ( gchar *texte );
 gboolean question_yes_no_hint ( gchar * hint, gchar *texte );
+void dialogue_error_memory ();
+void dialogue_error_brain_damage ();
 /*END_DECLARATION*/
 

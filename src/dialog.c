@@ -405,3 +405,34 @@ gchar * make_hint ( gchar * hint, gchar * text )
 			hint, "</span>\n\n",
 			text, NULL );
 }
+
+
+
+/**
+ * Displays a dialog message stating that bad things will happen
+ * soon.  This dialog should not appear theorically, but it is here
+ * just in case to spot bugs.
+ */
+void dialogue_error_brain_damage ()
+{
+    dialogue_error_hint ( _("Hi, you are in the middle of nowhere, between two lines of code.  Grisbi is expected to crash very soon.  Have a nice day."), 
+			  _("Serious brain damage expected.") );
+}
+
+
+/**
+ * Displays a dialog message stating that bad things will happen
+ * soon.  This dialog should not appear theorically, but it is here
+ * just in case to spot bugs.
+ */
+void dialogue_error_memory ()
+{
+    dialogue_error_hint ( _("Bad things will happen soon.  Be sure that if to save any modification in a separate file in case they would corrupt files."),
+			  _("Cannot allocate memory") );
+
+}
+
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
