@@ -33,8 +33,6 @@
 #include "devises.h"
 #include "dialog.h"
 
-
-
 /******************************************************************************/
 /* reconciliation_check.                                                      */
 /* Cette fonction est appelée après la création de toutes les listes.         */
@@ -48,100 +46,103 @@ void reconciliation_check ( void )
   GSList *pUserAccountsList = NULL;
   gchar *pHint = NULL, *pText = "";
 
-  /* s'il n'y a pas de compte, on quitte */
+  /* S'il n'y a pas de compte, on quitte */
   if ( !nb_comptes )
-      return;
+    return;
     
+  /* On fera la vérification des comptes dans l'ordre préféré
+     de l'utilisateur. On fait une copie de la liste. */
   pUserAccountsList = g_slist_copy ( ordre_comptes );
   
   /* Pour chacun des comptes, faire */
   do
   {
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( pUserAccountsList -> data );
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( pUserAccountsList -> data );
       
-      /* Si le compte a été rapproché au moins une fois.
-         Seule la date permet de l'affirmer. */
-      if ( DATE_DERNIER_RELEVE )
-      {
-	  GSList *pTransactionList;
-	  gdouble reconcilied_amount = 0;
-
-	  /* On va recalculer le montant rapproché du compte (c-à-d le solde initial
-	     plus le montant des opérations rapprochées) et le comparer à la valeur
-	     stockée dans le fichier. Si les valeurs diffèrent, on affiche une boite
-	     d'avertissement */
-      
-	  reconcilied_amount = SOLDE_INIT;
-
-	  /* On récupère la liste des opérations */
-	  pTransactionList = LISTE_OPERATIONS;
-
-	  while ( pTransactionList )
-	  {
-	      struct structure_operation *pTransaction;
-
-	      pTransaction = pTransactionList -> data;
-
-	      /* On ne prend en compte que les opérations rapprochées.
-		 On ne prend pas en compte les opérations de ventilation. */
-	      if ( pTransaction -> pointe == OPERATION_RAPPROCHEE
-		   &&
-		   !pTransaction -> no_operation_ventilee_associee )
-	      {
-		  reconcilied_amount += calcule_montant_devise_renvoi ( pTransaction -> montant,
-									DEVISE,
-									pTransaction -> devise,
-									pTransaction -> une_devise_compte_egale_x_devise_ope,
-									pTransaction -> taux_change,
-									pTransaction -> frais_change );
-	      }
-	      pTransactionList = pTransactionList -> next;
-	  }
-
-	  if ( fabs ( reconcilied_amount - SOLDE_DERNIER_RELEVE ) >= 0.01 )
-	  {
-	      affected_accounts ++;
-
-	      pText = g_strconcat ( pText,
-				    g_strdup_printf ( _("<span weight=\"bold\">%s</span>\n"
-							"  Last reconciliation amount : %4.2f%s\n"
-							"  Computed reconciliation amount : %4.2f%s\n\n"),
-						      NOM_DU_COMPTE, 
-						      reconcilied_amount, devise_name_by_no ( DEVISE ),
-						      SOLDE_DERNIER_RELEVE, devise_name_by_no ( DEVISE ) ),
-				    NULL );
-	  }
-	  tested_account++;
-      }
-    }
-    while ( (  pUserAccountsList = pUserAccountsList -> next ) );
-
-    if ( !affected_accounts )
+    /* Si le compte a été rapproché au moins une fois.
+       Seule la date permet de l'affirmer. */
+    if ( DATE_DERNIER_RELEVE )
     {
-	dialogue_hint ( _("Grisbi found no known inconsistency in accounts processed."),
-			_("No inconsistency found.") );
+      GSList *pTransactionList;
+      gdouble reconcilied_amount = 0;
+
+      /* On va recalculer le montant rapproché du compte (c-à-d le solde initial
+         plus le montant des opérations rapprochées) et le comparer à la valeur
+         stockée dans le fichier. Si les valeurs diffèrent, on affiche une boite
+         d'avertissement */
+      
+      reconcilied_amount = SOLDE_INIT;
+
+      /* On récupère la liste des opérations */
+      pTransactionList = LISTE_OPERATIONS;
+
+      while ( pTransactionList )
+      {
+	struct structure_operation *pTransaction;
+
+	pTransaction = pTransactionList -> data;
+
+	/* On ne prend en compte que les opérations rapprochées.
+	   On ne prend pas en compte les opérations de ventilation. */
+	if ( pTransaction -> pointe == OPERATION_RAPPROCHEE
+	     &&
+	     !pTransaction -> no_operation_ventilee_associee )
+	{
+	  reconcilied_amount += calcule_montant_devise_renvoi ( pTransaction -> montant,
+								DEVISE,
+								pTransaction -> devise,
+								pTransaction -> une_devise_compte_egale_x_devise_ope,
+								pTransaction -> taux_change,
+								pTransaction -> frais_change );
+	}
+	pTransactionList = pTransactionList -> next;
+      }
+
+      if ( fabs ( reconcilied_amount - SOLDE_DERNIER_RELEVE ) >= 0.01 )
+      {
+	affected_accounts ++;
+
+	pText = g_strconcat ( pText,
+			      g_strdup_printf ( _("<span weight=\"bold\">%s</span>\n"
+						  "  Last reconciliation amount : %4.2f%s\n"
+						  "  Computed reconciliation amount : %4.2f%s\n\n"),
+						NOM_DU_COMPTE, 
+						reconcilied_amount, devise_name_by_no ( DEVISE ),
+						SOLDE_DERNIER_RELEVE, devise_name_by_no ( DEVISE ) ),
+				    NULL );
+      }
+      tested_account++;
+    }
+  }
+  while ( (  pUserAccountsList = pUserAccountsList -> next ) );
+
+  if ( !affected_accounts )
+  {
+    dialogue_hint ( _("Grisbi found no known inconsistency in accounts processed."),
+		    _("No inconsistency found.") );
+  }
+  else
+  {
+    pText = g_strconcat ( _("Grisbi found accounts where reconciliation totals are inconsistent "
+			    "with the sum of reconcilied transactions.  Generally, the cause is "
+			    "too many transfers to other accounts are reconciled.\n"
+			    "The following accounts are inconsistent:\n\n"), 
+			  pText, NULL );
+
+    if ( affected_accounts > 1 )
+    {
+      pHint = g_strdup_printf ( _("%d accounts have inconsistencies."), 
+				affected_accounts );
     }
     else
     {
-
-	pText = g_strconcat ( 
-	    _("Grisbi found accounts where reconciliation totals are inconsistent "
-	      "with the sum of reconcilied transactions.  Generally, the cause is "
-	      "too many transfers to other accounts are reconciled.\n"
-	      "The following accounts are inconsistent:\n\n"), 
-	    pText, NULL );
-
-      if ( affected_accounts > 1 )
-	  pHint = g_strdup_printf ( _("%d accounts have inconsistencies."), 
-				    affected_accounts );
-      else
-	  pHint = _("An account has inconsistencies.");
-
-      dialogue_warning_hint ( pText, pHint );
-
-      free ( pText );
-      free ( pHint );
+      pHint = _("An account has inconsistencies.");
     }
-    
-    g_slist_free ( pUserAccountsList );
+
+    dialogue_warning_hint ( pText, pHint );
+
+    free ( pText );
+    free ( pHint );
+  }
+  g_slist_free ( pUserAccountsList );
 }
