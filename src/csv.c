@@ -93,7 +93,7 @@ gchar*  csv_field_tiers      = NULL; /*!< Third party (string) */
 gchar*  csv_field_credit     = NULL; /*!< credit (numerical) */
 gchar*  csv_field_debit      = NULL; /*!< debit (numerical) */
 gchar*  csv_field_montant    = NULL; /*!< amount (numerical) only used for breakdown */
-gchar*  csv_field_solde      = NULL; /*!< solde (numerical) */
+gchar*  csv_field_solde      = NULL; /*!< balance (numerical) */
 gchar*  csv_field_categ      = NULL; /*!< category (string) */
 gchar*  csv_field_sous_categ = NULL; /*!< sub category (string) */
 gchar*  csv_field_imput      = NULL; /*!< budgetary line (string) */
@@ -189,8 +189,8 @@ static void csv_add_record(FILE* file,gboolean clear_all)
   csv_clear_fields(clear_all);
 } /* }}} csv_add_record */
 
-#define EMPTY_STR_FIELD fprintf(fichier_csv,"\"\""); /*!< empty string field value */
-#define EMPTY_NUM_FIELD fprintf(fichier_csv,"0");    /*!< empty numerical field value */
+#define EMPTY_STR_FIELD fprintf(csv_file,"\"\""); /*!< empty string field value */
+#define EMPTY_NUM_FIELD fprintf(csv_file,"0");    /*!< empty numerical field value */
 
 /**
  * \brief export all account from the provided list in a csv file per account.
@@ -200,31 +200,30 @@ static void csv_add_record(FILE* file,gboolean clear_all)
  */
 void export_accounts_to_csv (GSList* export_entries_list )
 {
-  gchar *nom_fichier_csv;
-  GSList *liste_tmp;
-  FILE *fichier_csv;
-  gdouble solde = 0;
+  gchar *csv_filename;
+  GSList *pAccountList;
+  FILE *csv_file;
+  gdouble balance = 0;
 
-  liste_tmp = export_entries_list;
+  pAccountList = export_entries_list;
 
-  while ( liste_tmp )
+  while ( pAccountList )
   {
     /*       ouverture du fichier, si pb, on marque l'erreur et passe au fichier suivant */
-    solde = 0.0;
-    nom_fichier_csv = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( liste_tmp -> data )));
+    balance = 0.0;
+    csv_filename = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( pAccountList -> data )));
 
-    if ( !( fichier_csv = utf8_fopen ( nom_fichier_csv,
-                                       "w" ) ))
+    if ( !( csv_file = utf8_fopen ( csv_filename, "w" ) ))
     {
       dialogue ( g_strdup_printf ( _("Error for the file \"%s\" :\n%s"),
-                                   nom_fichier_csv, strerror ( errno ) ));
+				   csv_filename, strerror ( errno ) ));
     }
     else
     {
-      GSList *pointeur_tmp;
-      struct structure_operation *operation;
+      GSList *pTransactionList;
+      struct structure_operation *pTransaction;
 
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( pAccountList -> data ),
 												   "no_compte" ));
 
       if (g_csv_with_title_line)
@@ -254,14 +253,14 @@ void export_accounts_to_csv (GSList* export_entries_list )
 	csv_field_info_bank  = g_strdup(_("Bank references"));
       }
 
-      csv_add_record(fichier_csv,TRUE);
+      csv_add_record(csv_file,TRUE);
 
       /* tiers */
       csv_field_tiers = g_strdup_printf ( g_strconcat (_("Initial balance") , " [", NOM_DU_COMPTE, "]", NULL ) );
 
       /* met le solde initial */
-      solde = SOLDE_INIT;
-      csv_field_solde = g_strdup_printf ( "%4.2f", solde );
+      balance = SOLDE_INIT;
+      csv_field_solde = g_strdup_printf ( "%4.2f", balance );
       if (SOLDE_INIT >= 0)
       {
 	csv_field_credit = g_strdup_printf ( "%4.2f", SOLDE_INIT );
@@ -271,142 +270,142 @@ void export_accounts_to_csv (GSList* export_entries_list )
 	csv_field_debit = g_strdup_printf ( "%4.2f", -SOLDE_INIT );
       }
 
-      csv_add_record(fichier_csv,TRUE);
+      csv_add_record(csv_file,TRUE);
 
       /* on met toutes les opérations */
       if ( LISTE_OPERATIONS )
       {
-	pointeur_tmp = LISTE_OPERATIONS;
+	pTransactionList = LISTE_OPERATIONS;
 
-	while ( pointeur_tmp )
+	while ( pTransactionList )
 	{
-	  GSList *pointeur;
-	  gdouble montant;
+	  GSList *pMiscList;
+	  gdouble amount;
 
-	  operation = pointeur_tmp -> data;
+	  pTransaction = pTransactionList -> data;
 
 	  /* Si c'est une ventilation d'opération (càd une opération fille),
 	     elle n'est pas traitée à la base du "if" mais plus loin, quand
 	     son opé ventilée sera exportée */
 
-	  if ( !operation -> no_operation_ventilee_associee )
+	  if ( !pTransaction -> no_operation_ventilee_associee )
 	  {
-	    GSList* pointer = NULL;
+	    GSList* pMiscList = NULL; /* Miscellaneous list */
 	    /* met la date */
-	    csv_field_date = g_strdup_printf ("%d/%d/%d", operation -> jour, operation -> mois, operation -> annee );
+	    csv_field_date = g_strdup_printf ("%d/%d/%d", pTransaction -> jour, pTransaction -> mois, pTransaction -> annee );
                         
-	    if (operation->date_bancaire)
-	      csv_field_date_val = g_strdup_printf ("%d/%d/%d", operation -> jour_bancaire, operation -> mois_bancaire, operation -> annee_bancaire );
+	    if (pTransaction->date_bancaire)
+	      csv_field_date_val = g_strdup_printf ("%d/%d/%d", pTransaction -> jour_bancaire, pTransaction -> mois_bancaire, pTransaction -> annee_bancaire );
 	    else
 	      csv_field_date_val = "";
 
 	    /* met le pointage */
-	    if      ( operation -> pointe == 1 ) csv_field_pointage = g_strdup(_("C"));
-	    else if ( operation -> pointe == 2 ) csv_field_pointage = g_strdup(_("R"));
-	    else if ( operation -> pointe == 3 ) csv_field_pointage = g_strdup(_("T"));
+	    if      ( pTransaction -> pointe == 1 ) csv_field_pointage = g_strdup(_("C"));
+	    else if ( pTransaction -> pointe == 2 ) csv_field_pointage = g_strdup(_("R"));
+	    else if ( pTransaction -> pointe == 3 ) csv_field_pointage = g_strdup(_("T"));
 
 	    /* met les notes */
 	    CSV_CLEAR_FIELD(csv_field_notes);
-	    if ( operation -> notes )
-	      csv_field_notes = g_strdup(operation -> notes );
+	    if ( pTransaction -> notes )
+	      csv_field_notes = g_strdup(pTransaction -> notes );
 
 	    /* met le tiers */
-	    pointeur = g_slist_find_custom ( liste_struct_tiers,
-					     GINT_TO_POINTER ( operation -> tiers ),
-					     (GCompareFunc) recherche_tiers_par_no );
+	    pMiscList = g_slist_find_custom ( liste_struct_tiers,
+					       GINT_TO_POINTER ( pTransaction -> tiers ),
+					       (GCompareFunc) recherche_tiers_par_no );
 
 	    CSV_CLEAR_FIELD(csv_field_tiers);
-	    if ( pointeur )
-	      csv_field_tiers = g_strdup ( ((struct struct_tiers *)(pointeur -> data )) -> nom_tiers );
+	    if ( pMiscList )
+	      csv_field_tiers = g_strdup ( ((struct struct_tiers *)(pMiscList -> data )) -> nom_tiers );
 
 	    /* met le numéro du rapprochement */
-	    if ( operation -> no_rapprochement )
+	    if ( pTransaction -> no_rapprochement )
 	    {
-	      pointeur = g_slist_find_custom ( liste_no_rapprochements,
-					       GINT_TO_POINTER ( operation -> no_rapprochement ),
-					       (GCompareFunc) recherche_no_rapprochement_par_no );
+	      pMiscList = g_slist_find_custom ( liste_no_rapprochements,
+						GINT_TO_POINTER ( pTransaction -> no_rapprochement ),
+						(GCompareFunc) recherche_no_rapprochement_par_no );
 
 	      CSV_CLEAR_FIELD(csv_field_rappro);
-	      if ( pointeur )
-		csv_field_rappro = g_strdup ( ((struct struct_no_rapprochement *)(pointeur->data)) -> nom_rapprochement );
+	      if ( pMiscList )
+		csv_field_rappro = g_strdup ( ((struct struct_no_rapprochement *)(pMiscList->data)) -> nom_rapprochement );
 	    }
  
 	    /* Met les informations bancaires de l'opération. Elles n'existent
 	       qu'au niveau de l'opération mère */
 	    CSV_CLEAR_FIELD(csv_field_info_bank);
-	    if ( operation -> info_banque_guichet )
-	      csv_field_info_bank = g_strdup(operation -> info_banque_guichet );
+	    if ( pTransaction -> info_banque_guichet )
+	      csv_field_info_bank = g_strdup(pTransaction -> info_banque_guichet );
 
 	    /* met le montant, transforme la devise si necessaire */
 
-	    montant = calcule_montant_devise_renvoi ( operation -> montant,
-						      DEVISE,
-						      operation -> devise,
-						      operation -> une_devise_compte_egale_x_devise_ope,
-						      operation -> taux_change,
-						      operation -> frais_change );
+	    amount = calcule_montant_devise_renvoi ( pTransaction -> montant,
+						     DEVISE,
+						     pTransaction -> devise,
+						     pTransaction -> une_devise_compte_egale_x_devise_ope,
+						     pTransaction -> taux_change,
+						     pTransaction -> frais_change );
 
-	    if (montant > -0.0 )
+	    if (amount > -0.0 )
 	    {
-	      csv_field_credit = g_strdup_printf ( "%4.2f", montant );
+	      csv_field_credit = g_strdup_printf ( "%4.2f", amount );
 	    }
 	    else
 	    {
-	      csv_field_debit  = g_strdup_printf ( "%4.2f", -montant );
+	      csv_field_debit  = g_strdup_printf ( "%4.2f", -amount );
 	    }
 
 	    /* met le chèque si c'est un type à numérotation automatique */
-	    pointeur = g_slist_find_custom ( TYPES_OPES,
-					     GINT_TO_POINTER ( operation -> type_ope ),
-					     (GCompareFunc) recherche_type_ope_par_no );
+	    pMiscList = g_slist_find_custom ( TYPES_OPES,
+					      GINT_TO_POINTER ( pTransaction -> type_ope ),
+					      (GCompareFunc) recherche_type_ope_par_no );
 
-	    if ( pointeur )
+	    if ( pMiscList )
 	    {
-	      struct struct_type_ope * type = pointeur -> data;
+	      struct struct_type_ope * type = pMiscList -> data;
 
 	      if ( type -> numerotation_auto )
-		csv_field_cheque = operation -> contenu_type ;
+		csv_field_cheque = pTransaction -> contenu_type ;
 	    }
 
 	    /* Budgetary lines */
-	    pointer = g_slist_find_custom ( liste_struct_imputation,
-					    GINT_TO_POINTER ( operation -> imputation ),
-					    ( GCompareFunc ) recherche_imputation_par_no );
+	    pMiscList = g_slist_find_custom ( liste_struct_imputation,
+					      GINT_TO_POINTER ( pTransaction -> imputation ),
+					      ( GCompareFunc ) recherche_imputation_par_no );
 
-	    if ( pointer )
+	    if ( pMiscList )
 	    {
-	      GSList *liste_tmp_2;
+	      GSList *pSubBudgetaryLineList;
 
-	      if ((( struct struct_imputation * )( pointer -> data )) -> nom_imputation)
+	      if ((( struct struct_imputation * )( pMiscList -> data )) -> nom_imputation)
 	      {
-		csv_field_imput = g_strdup((( struct struct_imputation * )( pointer -> data )) -> nom_imputation);
+		csv_field_imput = g_strdup((( struct struct_imputation * )( pMiscList -> data )) -> nom_imputation);
 
-		liste_tmp_2 = g_slist_find_custom ( (( struct struct_imputation * )( pointer -> data )) -> liste_sous_imputation,
-						    GINT_TO_POINTER ( operation -> sous_imputation ),
-						    ( GCompareFunc ) recherche_sous_imputation_par_no );
-		if ( liste_tmp_2 )
+		pSubBudgetaryLineList = g_slist_find_custom ( (( struct struct_imputation * )( pMiscList -> data )) -> liste_sous_imputation,
+							      GINT_TO_POINTER ( pTransaction -> sous_imputation ),
+							      ( GCompareFunc ) recherche_sous_imputation_par_no );
+		if ( pSubBudgetaryLineList )
 		{
-		  if ((( struct struct_sous_imputation * )( liste_tmp_2 -> data )) -> nom_sous_imputation)
+		  if ((( struct struct_sous_imputation * )( pSubBudgetaryLineList -> data )) -> nom_sous_imputation)
 		  {
-		    csv_field_sous_imput = g_strdup((( struct struct_sous_imputation * )( liste_tmp_2 -> data )) -> nom_sous_imputation);
+		    csv_field_sous_imput = g_strdup((( struct struct_sous_imputation * )( pSubBudgetaryLineList -> data )) -> nom_sous_imputation);
 		  }
 		}
 	      }
 	    }
 
 	    /* Piece comptable */
-	    csv_field_piece = g_strdup(operation -> no_piece_comptable );
+	    csv_field_piece = g_strdup(pTransaction -> no_piece_comptable );
 
 	    /* Balance */
-	    solde += montant;
-	    csv_field_solde = g_strdup_printf ( "%4.2f", solde );
+	    balance += amount;
+	    csv_field_solde = g_strdup_printf ( "%4.2f", balance );
 
-	    csv_field_operation = g_strdup_printf("%d",operation -> no_operation);
+	    csv_field_operation = g_strdup_printf("%d",pTransaction -> no_operation);
 
 	    /* Financial Year */
 	    if (etat.utilise_exercice)
 	    {
-	      csv_field_exercice  = g_strdup(exercice_name_by_no(operation -> no_exercice));
+	      csv_field_exercice  = g_strdup(exercice_name_by_no(pTransaction -> no_exercice));
 	    }
 
 	    /*  on met soit un virement, soit une ventilation, soit les catégories */
@@ -415,33 +414,33 @@ void export_accounts_to_csv (GSList* export_entries_list )
 	       de cette opération et on les traite immédiatement. */
 	    /* et les met à la suite */
 	    /* la catégorie de l'opé sera celle de la première opé de ventilation */
-	    if ( operation -> operation_ventilee )
+	    if ( pTransaction -> operation_ventilee )
 	    {
-	      GSList *liste_ventil;
+	      GSList *pBreakdownTransactionList;
 	      gint categ_ope_mise;
 
 	      csv_field_categ = g_strdup(_("Breakdown of transaction"));
-	      csv_add_record(fichier_csv,FALSE);
+	      csv_add_record(csv_file,FALSE);
 
 	      categ_ope_mise = 0;
-	      liste_ventil = LISTE_OPERATIONS;
+	      pBreakdownTransactionList = LISTE_OPERATIONS;
 
-	      while ( liste_ventil )
+	      while ( pBreakdownTransactionList )
 	      {
-		struct structure_operation *ope_test;
+		struct structure_operation *pBreakdownTransaction;
 
-		ope_test = liste_ventil -> data;
+		pBreakdownTransaction = pBreakdownTransactionList -> data;
 
-		if ( ope_test -> no_operation_ventilee_associee == operation -> no_operation &&
-		     ( ope_test -> categorie ||
-		       ope_test -> relation_no_operation ))
+		if ( pBreakdownTransaction -> no_operation_ventilee_associee == pTransaction -> no_operation &&
+		     ( pBreakdownTransaction -> categorie ||
+		       pBreakdownTransaction -> relation_no_operation ))
 		{
 		  /* on commence par mettre la catég et sous categ de l'opé et de l'opé de ventilation */
 		  csv_field_ventil = g_strdup(_("B")); // -> mark 
 
-		  csv_field_operation = g_strdup_printf("%d",ope_test -> no_operation);
+		  csv_field_operation = g_strdup_printf("%d",pBreakdownTransaction -> no_operation);
 
-		  if ( ope_test -> relation_no_operation )
+		  if ( pBreakdownTransaction -> relation_no_operation )
 		  {
 		    /* c'est un virement */
 
@@ -450,7 +449,7 @@ void export_accounts_to_csv (GSList* export_entries_list )
 
 		    save_ptab = p_tab_nom_de_compte_variable;
 
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + ope_test -> relation_no_compte;
+		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + pBreakdownTransaction -> relation_no_compte;
 
 		    csv_field_sous_categ = g_strdup(g_strconcat ( "[", NOM_DU_COMPTE, "]", NULL ));
 
@@ -460,126 +459,126 @@ void export_accounts_to_csv (GSList* export_entries_list )
 		  {
 		    /* c'est du type categ : sous categ */
 
-		    pointeur = g_slist_find_custom ( liste_struct_categories,
-						     GINT_TO_POINTER ( ope_test -> categorie ),
-						     (GCompareFunc) recherche_categorie_par_no );
+		    pMiscList = g_slist_find_custom ( liste_struct_categories,
+						      GINT_TO_POINTER ( pBreakdownTransaction -> categorie ),
+						      (GCompareFunc) recherche_categorie_par_no );
 
-		    if ( pointeur )
+		    if ( pMiscList )
 		    {
-		      GSList *pointeur_2;
-		      struct struct_categ *categorie;
+		      GSList *pCategoryList;
+		      struct struct_categ *pCategory;
 
-		      categorie = pointeur -> data;
+		      pCategory = pMiscList -> data;
 
-		      pointeur_2 = g_slist_find_custom ( categorie -> liste_sous_categ,
-							 GINT_TO_POINTER ( ope_test -> sous_categorie ),
-							 (GCompareFunc) recherche_sous_categorie_par_no );
-		      csv_field_categ = g_strdup(categorie -> nom_categ);
-		      if ( pointeur_2 )
+		      pCategoryList = g_slist_find_custom ( pCategory -> liste_sous_categ,
+							    GINT_TO_POINTER ( pBreakdownTransaction -> sous_categorie ),
+							    (GCompareFunc) recherche_sous_categorie_par_no );
+		      csv_field_categ = g_strdup(pCategory -> nom_categ);
+		      if ( pCategoryList )
 		      {
-			csv_field_sous_categ = g_strdup(((struct struct_sous_categ *)(pointeur_2->data)) -> nom_sous_categ);
+			csv_field_sous_categ = g_strdup(((struct struct_sous_categ *)(pCategoryList->data)) -> nom_sous_categ);
 		      }
 		    }
 		  }
 
 		  /* met les notes de la ventilation */
 
-		  if ( ope_test -> notes )
-		    csv_field_notes = g_strdup(ope_test -> notes);
+		  if ( pBreakdownTransaction -> notes )
+		    csv_field_notes = g_strdup(pBreakdownTransaction -> notes);
 
 		  /* met le montant de la ventilation */
 
-		  montant = calcule_montant_devise_renvoi ( ope_test -> montant,
-							    DEVISE,
-							    operation -> devise,
-							    operation -> une_devise_compte_egale_x_devise_ope,
-							    operation -> taux_change,
-							    operation -> frais_change );
+		  amount = calcule_montant_devise_renvoi ( pBreakdownTransaction -> montant,
+							   DEVISE,
+							   pTransaction -> devise,
+							   pTransaction -> une_devise_compte_egale_x_devise_ope,
+							   pTransaction -> taux_change,
+							   pTransaction -> frais_change );
 
-		  csv_field_montant = g_strdup_printf ( "%4.2f", montant );
+		  csv_field_montant = g_strdup_printf ( "%4.2f", amount );
 
 		  /* met le rapprochement */
-		  if ( ope_test -> no_rapprochement )
+		  if ( pBreakdownTransaction -> no_rapprochement )
 		  {
-		    pointeur = g_slist_find_custom ( liste_no_rapprochements,
-						     GINT_TO_POINTER ( ope_test -> no_rapprochement ),
-						     (GCompareFunc) recherche_no_rapprochement_par_no );
+		    pMiscList = g_slist_find_custom ( liste_no_rapprochements,
+						      GINT_TO_POINTER ( pBreakdownTransaction -> no_rapprochement ),
+						      (GCompareFunc) recherche_no_rapprochement_par_no );
 
 		    CSV_CLEAR_FIELD(csv_field_rappro);
-		    if ( pointeur )
-		      csv_field_rappro = g_strdup ( ((struct struct_no_rapprochement *)(pointeur->data)) -> nom_rapprochement );
+		    if ( pMiscList )
+		      csv_field_rappro = g_strdup ( ((struct struct_no_rapprochement *)(pMiscList->data)) -> nom_rapprochement );
 		  }
 
 		  /* met le chèque si c'est un type à numérotation automatique */
-		  pointeur = g_slist_find_custom ( TYPES_OPES,
-						   GINT_TO_POINTER ( ope_test -> type_ope ),
-						   (GCompareFunc) recherche_type_ope_par_no );
+		  pMiscList = g_slist_find_custom ( TYPES_OPES,
+						    GINT_TO_POINTER ( pBreakdownTransaction -> type_ope ),
+						    (GCompareFunc) recherche_type_ope_par_no );
 
-		  if ( pointeur )
+		  if ( pMiscList )
 		  {
-		    struct struct_type_ope * type = pointeur -> data;
+		    struct struct_type_ope * type = pMiscList -> data;
 
 		    if ( type -> numerotation_auto )
-		      csv_field_cheque = ope_test -> contenu_type ;
+		      csv_field_cheque = pBreakdownTransaction -> contenu_type ;
 		  }
 
 
 		  /* Budgetary lines */
-		  pointer = g_slist_find_custom ( liste_struct_imputation,
-						  GINT_TO_POINTER ( ope_test -> imputation ),
-						  ( GCompareFunc ) recherche_imputation_par_no );
+		  pMiscList = g_slist_find_custom ( liste_struct_imputation,
+						    GINT_TO_POINTER ( pBreakdownTransaction -> imputation ),
+						    ( GCompareFunc ) recherche_imputation_par_no );
 
-		  if ( pointer )
+		  if ( pMiscList )
 		  {
-		    GSList *liste_tmp_2;
+		    GSList *pSubBudgetaryLineList;
 
-		    if ((( struct struct_imputation * )( pointer -> data )) -> nom_imputation)
+		    if ((( struct struct_imputation * )( pMiscList -> data )) -> nom_imputation)
 		    {
-		      csv_field_imput = g_strdup((( struct struct_imputation * )( pointer -> data )) -> nom_imputation);
+		      csv_field_imput = g_strdup((( struct struct_imputation * )( pMiscList -> data )) -> nom_imputation);
 
-		      liste_tmp_2 = g_slist_find_custom ( (( struct struct_imputation * )( pointer -> data )) -> liste_sous_imputation,
-							  GINT_TO_POINTER ( ope_test -> sous_imputation ),
-							  ( GCompareFunc ) recherche_sous_imputation_par_no );
-		      if ( liste_tmp_2 )
+		      pSubBudgetaryLineList = g_slist_find_custom ( (( struct struct_imputation * )( pMiscList -> data )) -> liste_sous_imputation,
+								    GINT_TO_POINTER ( pBreakdownTransaction -> sous_imputation ),
+								    ( GCompareFunc ) recherche_sous_imputation_par_no );
+		      if ( pSubBudgetaryLineList )
 		      {
-			if ((( struct struct_sous_imputation * )( liste_tmp_2 -> data )) -> nom_sous_imputation)
+			if ((( struct struct_sous_imputation * )( pSubBudgetaryLineList -> data )) -> nom_sous_imputation)
 			{
-			  csv_field_sous_imput = g_strdup((( struct struct_sous_imputation * )( liste_tmp_2 -> data )) -> nom_sous_imputation);
+			  csv_field_sous_imput = g_strdup((( struct struct_sous_imputation * )( pSubBudgetaryLineList -> data )) -> nom_sous_imputation);
 			}
 		      }
 		    }
 		  }
 
 		  /* Piece comptable */
-		  csv_field_piece = g_strdup(ope_test -> no_piece_comptable );
+		  csv_field_piece = g_strdup(pBreakdownTransaction -> no_piece_comptable );
 
 		  /* Financial Year */
 		  if (etat.utilise_exercice)
 		  {
-		    csv_field_exercice  = g_strdup(exercice_name_by_no(ope_test -> no_exercice));
+		    csv_field_exercice  = g_strdup(exercice_name_by_no(pBreakdownTransaction -> no_exercice));
 		  }
 
-		  csv_add_record(fichier_csv,FALSE);
+		  csv_add_record(csv_file,FALSE);
 		}
 
-		liste_ventil = liste_ventil -> next;
+		pBreakdownTransactionList = pBreakdownTransactionList -> next;
 	      }
 	      csv_clear_fields(TRUE);
 	    }
 	    else
 	    {
 	      /* Si c'est un virement ... */
-	      if ( operation -> relation_no_operation )
+	      if ( pTransaction -> relation_no_operation )
 	      {
 		csv_field_categ = g_strdup(_("Transfer"));
 
 		/* ... vers un compte existant */
-		if ( operation -> relation_no_compte >= 0 )
+		if ( pTransaction -> relation_no_compte >= 0 )
 		{
 		  gpointer **save_ptab;
 
 		  save_ptab = p_tab_nom_de_compte_variable;
-		  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
+		  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + pTransaction -> relation_no_compte;
 
 		  csv_field_sous_categ = g_strdup(g_strconcat ( "[", NOM_DU_COMPTE, "]", NULL ));
 
@@ -595,33 +594,33 @@ void export_accounts_to_csv (GSList* export_entries_list )
 	      {
 		/* c'est du type categ : sous-categ */
 
-		pointeur = g_slist_find_custom ( liste_struct_categories,
-						 GINT_TO_POINTER ( operation -> categorie ),
-						 (GCompareFunc) recherche_categorie_par_no );
+		pMiscList = g_slist_find_custom ( liste_struct_categories,
+						  GINT_TO_POINTER ( pTransaction -> categorie ),
+						  (GCompareFunc) recherche_categorie_par_no );
 
-		if ( pointeur )
+		if ( pMiscList )
 		{
-		  GSList *pointeur_2;
-		  struct struct_categ *categorie;
+		  GSList *pCategoryList;
+		  struct struct_categ *pCategory;
 
-		  categorie = pointeur -> data;
-		  csv_field_categ = g_strdup(categorie -> nom_categ);
+		  pCategory = pMiscList -> data;
+		  csv_field_categ = g_strdup(pCategory -> nom_categ);
 
-		  pointeur_2 = g_slist_find_custom ( categorie -> liste_sous_categ,
-						     GINT_TO_POINTER ( operation -> sous_categorie ),
-						     (GCompareFunc) recherche_sous_categorie_par_no );
-		  if ( pointeur_2 )
-		    csv_field_sous_categ = g_strdup(((struct struct_sous_categ *)(pointeur_2->data)) -> nom_sous_categ);
+		  pCategoryList = g_slist_find_custom ( pCategory -> liste_sous_categ,
+							GINT_TO_POINTER ( pTransaction -> sous_categorie ),
+							(GCompareFunc) recherche_sous_categorie_par_no );
+		  if ( pCategoryList )
+		    csv_field_sous_categ = g_strdup(((struct struct_sous_categ *)(pCategoryList->data)) -> nom_sous_categ);
 		  }
 		}
-		csv_add_record(fichier_csv,TRUE);
+		csv_add_record(csv_file,TRUE);
 	      }
 	    }
-	    pointeur_tmp = pointeur_tmp -> next;
+	    pTransactionList = pTransactionList -> next;
 	  }
 	}
-      fclose ( fichier_csv );
+      fclose ( csv_file );
     }
-    liste_tmp = liste_tmp -> next;
+    pAccountList = pAccountList -> next;
   }
 }
