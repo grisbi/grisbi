@@ -20,7 +20,7 @@ srcdir = .
 top_srcdir = ..
 
 
-prefix = /home/grisbi/unstable
+prefix = /hebus2/grisbi
 exec_prefix = ${prefix}
 datadir = ${prefix}/share
 localedir = $(datadir)/locale
@@ -28,7 +28,7 @@ gettextsrcdir = $(datadir)/gettext/po
 
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
-MKINSTALLDIRS = $(top_builddir)/./mkinstalldirs
+MKINSTALLDIRS = ./mkinstalldirs
 mkinstalldirs = $(SHELL) `case "$(MKINSTALLDIRS)" in /*) echo "$(MKINSTALLDIRS)" ;; *) echo "$(top_builddir)/$(MKINSTALLDIRS)" ;; esac`
 
 CC = gcc
