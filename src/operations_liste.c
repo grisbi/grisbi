@@ -91,12 +91,11 @@ static struct operation_echeance * schedule_transaction ( struct structure_opera
 static void popup_transaction_context_menu ( gboolean full );
 static gboolean click_sur_titre_colonne_operations ( GtkTreeViewColumn *colonne,
 						     gint *no_colonne );
-static gboolean changement_choix_tri_liste_operations ( gchar *nom_tri );
+static gboolean changement_choix_classement_liste_operations ( gchar *nom_classement );
 static void my_list_store_sort ( gint no_compte,
-				 GSList *liste_avant_tri,
-				 GSList *liste_apres_tri );
+				 GSList *liste_avant_classement,
+				 GSList *liste_apres_classement );
 static GSList *cree_slist_affichee ( gint no_compte );
-static void classe_liste_operations ( gint no_compte );
 
 
 
@@ -488,6 +487,8 @@ GtkWidget *creation_tree_view_operations_par_compte ( gint no_compte )
 			      GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ));
     SLIST_DERNIERE_OPE_AJOUTEE = NULL;
 
+    update_fleches_classement_tree_view ( no_compte );
+
     return SCROLLED_WINDOW_LISTE_OPERATIONS;
 }
 /******************************************************************************/
@@ -659,6 +660,52 @@ void update_titres_tree_view ( void )
 				       tips_col_liste_operations[i],
 				       tips_col_liste_operations[i] ); 
 	    }
+	}
+    }
+}
+/******************************************************************************/
+
+
+
+/******************************************************************************/
+/* cette fonction est appelée pour mettre la flèche du classement sur la bonne */
+/* colonne et dans le bon sens */
+/* \param no_compte le compte qu'on désire mettre à jour ou -1 pour tous les comptes */
+/******************************************************************************/
+void update_fleches_classement_tree_view ( gint no_compte )
+{
+    gint compte;
+
+    for ( compte = 0 ; compte < nb_comptes ; compte++ )
+    {
+	gint i, j;
+	gint colonne_classement;
+
+	if ( no_compte == -1
+	     ||
+	     compte == no_compte )
+	{
+	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
+
+	    colonne_classement = 0;
+
+	    for ( i=0 ; i<4 ; i++ )
+		for ( j=0 ; j<7 ; j++ )
+		{
+		    if (  tab_affichage_ope[i][j] == NO_CLASSEMENT )
+			colonne_classement = j;
+		}
+
+	    /*     on met la flèche sur le classement courant */
+
+	    gtk_tree_view_column_set_sort_indicator ( COLONNE_LISTE_OPERATIONS (COLONNE_CLASSEMENT),
+						      FALSE );
+	    gtk_tree_view_column_set_sort_indicator ( COLONNE_LISTE_OPERATIONS (colonne_classement),
+						      TRUE );
+	    COLONNE_CLASSEMENT = colonne_classement;
+
+	    gtk_tree_view_column_set_sort_order ( COLONNE_LISTE_OPERATIONS (colonne_classement),
+						  !CLASSEMENT_CROISSANT );
 	}
     }
 }
@@ -849,6 +896,9 @@ void ajoute_operations_compte_dans_list_store ( gint compte,
     /*     on est allé jusqu'au bout du compte */
 
     SLIST_DERNIERE_OPE_AJOUTEE = GINT_TO_POINTER ( -1 );
+    COULEUR_BACKGROUND_FINI = 0;
+    AFFICHAGE_SOLDE_FINI = 0;
+    SELECTION_OPERATION_FINI = 0;
 }
 /******************************************************************************/
 
@@ -2404,7 +2454,7 @@ void edition_operation ( void )
 						char_tmp );
 		    }
 
-		    /* 		    si l'opé est ventilée, on désensitive l'ib */
+		    /* 		    si l'opé est ventilée, on dÃƒ©sensitive l'ib */
 
 		    if ( operation -> operation_ventilee )
 			gtk_widget_set_sensitive ( widget,
@@ -2984,18 +3034,17 @@ void demande_mise_a_jour_tous_comptes ( void )
     gint i;
     gpointer **save_p_tab;
 
-/* FIXME : vérifier les appels à cette fonction et la faire passer en idle */
-
-
     save_p_tab = p_tab_nom_de_compte_variable;
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
     for ( i = 0 ; i < nb_comptes ; i++ )
     {
-	MISE_A_JOUR = 1;
-	p_tab_nom_de_compte_variable++;
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+	
+	gtk_list_store_clear ( GTK_LIST_STORE ( STORE_LISTE_OPERATIONS ));
+	SLIST_DERNIERE_OPE_AJOUTEE = NULL;
     }
 
+    demarrage_idle ();
 
     p_tab_nom_de_compte_variable = save_p_tab;
 }
@@ -3703,7 +3752,7 @@ gboolean click_sur_titre_colonne_operations ( GtkTreeViewColumn *colonne,
 	if ( strcmp ( tab_char[0],
 		      N_("Balance")))
 	{
-	    changement_choix_tri_liste_operations ( tab_char[0] );
+	    changement_choix_classement_liste_operations ( tab_char[0] );
 	    g_strfreev ( tab_char );
 	    return FALSE;
 	}
@@ -3749,7 +3798,7 @@ gboolean click_sur_titre_colonne_operations ( GtkTreeViewColumn *colonne,
 	    menu_item = gtk_menu_item_new_with_label ( tab_char[i] );
 	    g_signal_connect_swapped ( G_OBJECT(menu_item),
 				       "activate",
-				       G_CALLBACK ( changement_choix_tri_liste_operations ),
+				       G_CALLBACK ( changement_choix_classement_liste_operations ),
 				       tab_char[i] );
 /* 	    g_signal_connect_data ( G_OBJECT(menu_item), */
 /* 				    "activate", */
@@ -3780,61 +3829,53 @@ gboolean click_sur_titre_colonne_operations ( GtkTreeViewColumn *colonne,
 
 
 /*****************************************************************************/
-gboolean changement_choix_tri_liste_operations ( gchar *nom_tri )
+gboolean changement_choix_classement_liste_operations ( gchar *nom_classement )
 {
 /*  cette fonction est appelée quand on a cliqué sur un titre de colonne pour changer */
-/*      le tri de la liste d'opÃ© */
+    /*      le tri de la liste d'opé */
 
-    gint no_tri;
-    GSList *liste_tmp_avant_tri;
-    GSList *liste_tmp_apres_tri;
+    gint no_classement;
+    GSList *liste_tmp_avant_classement;
+    GSList *liste_tmp_apres_classement;
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
-    no_tri = g_slist_position ( liste_labels_titres_colonnes_liste_ope,
-				g_slist_find_custom ( liste_labels_titres_colonnes_liste_ope,
-						      nom_tri,
-						      (GCompareFunc) cherche_string_equivalente_dans_slist ));
+    no_classement = g_slist_position ( liste_labels_titres_colonnes_liste_ope,
+				       g_slist_find_custom ( liste_labels_titres_colonnes_liste_ope,
+							     nom_classement,
+							     (GCompareFunc) cherche_string_equivalente_dans_slist ));
 
-    CLASSEMENT_COURANT = recupere_classement_par_no ( no_tri );
-    
-    gtk_tree_view_column_set_sort_indicator ( COLONNE_LISTE_OPERATIONS (COLONNE_CLASSEMENT),
-					      FALSE );
+    /*     les constantes de classement commencent à 1 */
 
-    if ( COLONNE_CLASSEMENT == colonne_classement_tmp )
+    no_classement++;
+
+    /*     si on utilisait déjà ce classement, on inverse le sens du tri */
+
+    if ( NO_CLASSEMENT == no_classement)
     {
-	/* la liste était déjà trié par cette colonne, on change le sens de tri */
-
 	CLASSEMENT_CROISSANT = !CLASSEMENT_CROISSANT;
     }
     else
     {
-	COLONNE_CLASSEMENT = colonne_classement_tmp;
-	CLASSEMENT_CROISSANT = 1;
+	NO_CLASSEMENT = no_classement;
+	CLASSEMENT_COURANT = recupere_classement_par_no ( NO_CLASSEMENT );
+	CLASSEMENT_CROISSANT = GTK_SORT_DESCENDING;
     }
 
-    gtk_tree_view_column_set_sort_indicator ( COLONNE_LISTE_OPERATIONS (COLONNE_CLASSEMENT),
-					      TRUE );
-
-    if ( CLASSEMENT_CROISSANT )
-	gtk_tree_view_column_set_sort_order ( COLONNE_LISTE_OPERATIONS (COLONNE_CLASSEMENT),
-					      GTK_SORT_ASCENDING );
-    else
-	gtk_tree_view_column_set_sort_order ( COLONNE_LISTE_OPERATIONS (COLONNE_CLASSEMENT),
-					      GTK_SORT_DESCENDING );
+    update_fleches_classement_tree_view (compte_courant);
 
     /*     on va créer des slists des opés affichées avant et après le tri pour pouvoir */
     /* 	mettre à jour la list_store des opés */
 
-    liste_tmp_avant_tri = cree_slist_affichee ( compte_courant );
+    liste_tmp_avant_classement = cree_slist_affichee ( compte_courant );
 
     classe_liste_operations ( compte_courant );
 
-    liste_tmp_apres_tri = cree_slist_affichee ( compte_courant );
+    liste_tmp_apres_classement = cree_slist_affichee ( compte_courant );
 
     my_list_store_sort ( compte_courant,
-			 liste_tmp_avant_tri,
-			 liste_tmp_apres_tri );
+			 liste_tmp_avant_classement,
+			 liste_tmp_apres_classement );
 
     modification_fichier ( TRUE );
     return FALSE;
@@ -3842,69 +3883,68 @@ gboolean changement_choix_tri_liste_operations ( gchar *nom_tri )
 /******************************************************************************/
 
 /******************************************************************************/
-gpointer recupere_classement_par_no ( gint no_tri )
+gpointer recupere_classement_par_no ( gint no_classement )
 {
 
-    switch ( no_tri )
+    switch ( no_classement )
     {
-	case 0:
+	case TRANSACTION_LIST_DATE:
 	    etat.classement_par_date = 1;
 	    return ( classement_sliste_par_date);
 	    break;
-	case 1:
+	case TRANSACTION_LIST_VALUE_DATE:
 	    etat.classement_par_date = 0;
 	    return ( classement_sliste_par_date);
 	    break;
-	case 2:
+	case TRANSACTION_LIST_PARTY:
 	    return ( classement_sliste_par_tiers);
 	    break;
-	case 3:
+	case TRANSACTION_LIST_BUDGET:
 	    return ( classement_sliste_par_imputation);
 	    break;
-	case 4:
+	case TRANSACTION_LIST_CREDIT:
 	    return ( classement_sliste_par_credit);
 	    break;
-	case 5:
+	case TRANSACTION_LIST_DEBIT:
 	    return ( classement_sliste_par_debit);
 	    break;
-	case 6:
+	case TRANSACTION_LIST_BALANCE:
 	    /* 	    balance, normalement ne devrait pas venir ici, dans le doute renvoie par date */
 	    return ( classement_sliste_par_date );
 	    break;
-	case 7:
+	case TRANSACTION_LIST_AMOUNT:
 	    return ( classement_sliste_par_montant);
 	    break;
-	case 8:
+	case TRANSACTION_LIST_TYPE:
 	    return ( classement_sliste_par_type_ope);
 	    break;
-	case 9:
+	case TRANSACTION_LIST_RECONCILE_NB:
 	    return ( classement_sliste_par_no_rapprochement);
 	    break;
-	case 10:
+	case TRANSACTION_LIST_EXERCICE:
 	    return ( classement_sliste_par_exercice);
 	    break;
-	case 11:
+	case TRANSACTION_LIST_CATEGORY:
 	    return ( classement_sliste_par_categories);
 	    break;
-	case 12:
+	case TRANSACTION_LIST_MARK:
 	    return ( classement_sliste_par_pointage);
 	    break;
-	case 13:
+	case TRANSACTION_LIST_VOUCHER:
 	    return ( classement_sliste_par_pc);
 	    break;
-	case 14:
+	case TRANSACTION_LIST_NOTES:
 	    return ( classement_sliste_par_notes);
 	    break;
-	case 15:
+	case TRANSACTION_LIST_BANK:
 	    return ( classement_sliste_par_ibg);
 	    break;
-	case 16:
+	case TRANSACTION_LIST_NO:
 	    return ( classement_sliste_par_no);
 	    break;
-	case 17:
-	    return ( classement_sliste_par_no_rapprochement);
-	    break;
 	default :
+	    printf ( "Bug : demande le no de classement %d qui n'existe pas, renvoie par date\n",
+		     no_classement );
 	    return ( classement_sliste_par_date);
     }
 }
@@ -4040,8 +4080,8 @@ my_list_store_reorder (GtkListStore *store,
 /* par le classement courant de ce compte */
 /******************************************************************************/
 void my_list_store_sort ( gint no_compte,
-			  GSList *liste_avant_tri,
-			  GSList *liste_apres_tri )
+			  GSList *liste_avant_classement,
+			  GSList *liste_apres_classement )
 {
     gint longueur;
     gint *pos;
@@ -4056,8 +4096,8 @@ void my_list_store_sort ( gint no_compte,
     /*     on réalise le lien pos[nouvelle_ligne] = ancienne_ligne */
 
     for ( i=0 ; i<(longueur-NB_LIGNES_OPE) ; i++ )
-	pos[i]= g_slist_index ( liste_avant_tri,
-				g_slist_nth_data ( liste_apres_tri,
+	pos[i]= g_slist_index ( liste_avant_classement,
+				g_slist_nth_data ( liste_apres_classement,
 						   i/NB_LIGNES_OPE ))
 	    * NB_LIGNES_OPE + (i%NB_LIGNES_OPE);
     
@@ -4074,8 +4114,8 @@ void my_list_store_sort ( gint no_compte,
     my_list_store_reorder ( STORE_LISTE_OPERATIONS,
 			    pos );
 
-    g_slist_free ( liste_avant_tri );
-    g_slist_free ( liste_apres_tri );
+    g_slist_free ( liste_avant_classement );
+    g_slist_free ( liste_apres_classement );
     free ( pos );
 
     /*     on remet les soldes et la couleur du fond */
@@ -4743,7 +4783,7 @@ void mise_a_jour_affichage_lignes ( gint nb_lignes )
 void classe_liste_operations ( gint no_compte )
 {
     if ( DEBUG )
-	printf ( "classe_liste_operations compte n°%d\n", no_compte );
+	printf ( "classe_liste_operations compte n %d\n", no_compte );
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 

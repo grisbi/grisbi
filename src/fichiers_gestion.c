@@ -411,6 +411,10 @@ void ouverture_confirmee ( void )
 
 	MESSAGE_SOUS_MINI = SOLDE_COURANT < SOLDE_MINI;
 	MESSAGE_SOUS_MINI_VOULU = SOLDE_COURANT < SOLDE_MINI_VOULU;
+
+	/*     on initialise la fonction de classement  */
+
+	CLASSEMENT_COURANT = recupere_classement_par_no (NO_CLASSEMENT);
     }
 
     /*     on va afficher la page d'accueil */

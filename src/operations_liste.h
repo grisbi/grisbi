@@ -8,6 +8,7 @@ gboolean changement_taille_liste_ope ( GtkWidget *tree_view,
 				       GtkAllocation *allocation );
 void demande_mise_a_jour_tous_comptes ( void );
 void update_titres_tree_view ( void );
+void update_fleches_classement_tree_view ( gint no_compte );
 gboolean affichage_traits_liste_operation ( void );
 void mise_a_jour_affichage_r ( gint affichage_r );
 void mise_a_jour_affichage_lignes ( gint nb_lignes );
@@ -29,11 +30,12 @@ void update_soldes_list_store ( gint compte,
 void new_transaction ( );
 void remove_transaction ( );
 void clone_selected_transaction ( );
-gpointer recupere_classement_par_no ( gint no_tri );
+gpointer recupere_classement_par_no ( gint no_classement );
 void supprime_operation ( struct structure_operation *operation );
 void remplit_ligne_operation ( struct structure_operation *operation,
 			       GtkTreeIter *iter );
 GtkTreeIter *cherche_iter_operation ( struct structure_operation *operation );
 gint cherche_ligne_operation ( struct structure_operation *operation );
 gint recupere_hauteur_ligne_tree_view ( GtkWidget *tree_view );
+void classe_liste_operations ( gint no_compte );
 

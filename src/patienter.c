@@ -33,6 +33,7 @@
 GtkWidget *label_patience;
 GtkWidget *fenetre_patience;
 gint patience_en_cours;
+gint idle_stoppe;
 
 extern gint id_fonction_idle;
 
@@ -53,6 +54,10 @@ void mise_en_route_attente ( gchar *message )
 
     if ( DEBUG )
 	printf ( "mise_en_route_attente %s\n", message );
+
+    /*     on stoppe l'idle */
+
+    idle_stoppe = termine_idle ();
 
     /*     s'il y a déjà une attente en cours, on l'update */
 
@@ -167,6 +172,9 @@ void annulation_attente ()
 
     if ( GTK_IS_WIDGET ( fenetre_patience ))
 	gtk_widget_destroy ( fenetre_patience );
+
+    if ( idle_stoppe )
+	demarrage_idle ();
 }
 /* ******************************************************************************************** */
 

@@ -38,6 +38,29 @@
 # define TRANSACTION_FORM_MODE 19
 # define TRANSACTION_FORM_WIDGET_NB 19
 
+/* constantes qui définissent le no associé au paramètre
+ * dans la liste d'opé */
+# define TRANSACTION_LIST_DATE 1
+# define TRANSACTION_LIST_VALUE_DATE 2
+# define TRANSACTION_LIST_PARTY 3
+# define TRANSACTION_LIST_BUDGET 4
+# define TRANSACTION_LIST_CREDIT 5
+# define TRANSACTION_LIST_DEBIT 6
+# define TRANSACTION_LIST_BALANCE 7
+# define TRANSACTION_LIST_AMOUNT 8
+# define TRANSACTION_LIST_TYPE 9
+# define TRANSACTION_LIST_RECONCILE_NB 10
+# define TRANSACTION_LIST_EXERCICE 11
+# define TRANSACTION_LIST_CATEGORY 12
+# define TRANSACTION_LIST_MARK 13
+# define TRANSACTION_LIST_VOUCHER 14 
+# define TRANSACTION_LIST_NOTES 15
+# define TRANSACTION_LIST_BANK 16
+# define TRANSACTION_LIST_NO 17
+# define TRANSACTION_LIST_CHQ 18
+
+
+
 /* Constantes qui définisent le numéro de widget dans le formulaire
    de ventilation des opérations */
 # define TRANSACTION_BREAKDOWN_FORM_CATEGORY 0

@@ -158,7 +158,6 @@ void  nouveau_compte ( void )
 /* ************************************************************************** */
 gint initialisation_nouveau_compte ( gint type_de_compte )
 {
-    gint i, j;
     gint no_compte;
 
     if  (!(p_tab_nom_de_compte = realloc ( p_tab_nom_de_compte, ( nb_comptes + 1 )* sizeof ( gpointer ) )))
@@ -263,17 +262,9 @@ gint initialisation_nouveau_compte ( gint type_de_compte )
 
     /*     on met en place le classement de la liste */
 
-    CLASSEMENT_COURANT = classement_sliste_par_date;
-    CLASSEMENT_CROISSANT = 1;
-
-    /*     on recherche la colonne de date pour le classement */
-
-    for ( i=0 ; i<4 ; i++ )
-	for ( j=0 ; j<7 ; j++ )
-	{
-	    if ( tab_affichage_ope[i][j] == 1 )
-		COLONNE_CLASSEMENT = j;
-	}
+    NO_CLASSEMENT = TRANSACTION_LIST_DATE;
+    CLASSEMENT_COURANT = recupere_classement_par_no (NO_CLASSEMENT);
+    CLASSEMENT_CROISSANT = GTK_SORT_DESCENDING;
 
     return (NO_COMPTE);
 }

@@ -259,7 +259,7 @@ gboolean changement_compte ( gint *compte)
 				1 );
 
     /* si on était dans une ventilation d'opération, alors on annule la ventilation */
-    /*     utile si on cherche Ã  accéder à un compte clos par ex */
+    /*     utile si on cherche Ãƒƒƒ  accéder à un compte clos par ex */
 
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ) ) == 1 )
 	annuler_ventilation();
@@ -279,11 +279,6 @@ gboolean changement_compte ( gint *compte)
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
 	VALUE_AJUSTEMENT_LISTE_OPERATIONS = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS )) -> value;
-
-	/*     on retire la fleche du classement courant */
-
-	gtk_tree_view_column_set_sort_indicator ( COLONNE_LISTE_OPERATIONS(COLONNE_CLASSEMENT),
-						  FALSE );
 
 	/*     on cache le tree_view */
 
@@ -331,19 +326,6 @@ gboolean changement_compte ( gint *compte)
     /* met les boutons R et nb lignes par opé comme il faut */
 
     mise_a_jour_boutons_caract_liste ( compte_courant );
-
-    /*     on met la flèche sur le classement courant */
-
-    gtk_tree_view_column_set_sort_indicator ( COLONNE_LISTE_OPERATIONS (COLONNE_CLASSEMENT),
-					      TRUE );
-     if ( CLASSEMENT_CROISSANT )
-	 gtk_tree_view_column_set_sort_order ( COLONNE_LISTE_OPERATIONS (COLONNE_CLASSEMENT),
-					       GTK_SORT_ASCENDING );
-     else
-	 gtk_tree_view_column_set_sort_order ( COLONNE_LISTE_OPERATIONS (COLONNE_CLASSEMENT),
-					       GTK_SORT_DESCENDING );
-     CLASSEMENT_COURANT = recupere_classement_par_no ( NO_CLASSEMENT );
-
 
      /*      on termine la liste d'opés si nécessaire */
 

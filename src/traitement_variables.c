@@ -241,43 +241,7 @@ void init_variables ( void )
 /*****************************************************************************************************/
 
 
-/*****************************************************************************************************/
-void initialise_tab_affichage_ope ( void )
-{
-    gint tab[4][7] = { { 18, 1, 3, 13, 5, 6, 7 },
-	{0, 0, 12, 0, 9, 8, 0 },
-	{0, 11, 15, 0, 0, 0, 0 },
-	{0, 0, 0, 0, 0, 0, 0 }};
-	gint i, j;
 
-	for ( i = 0 ; i<4 ; i++ )
-	    for ( j = 0 ; j<7 ; j++ )
-		tab_affichage_ope[i][j] = tab[i][j];
-
-
-	ligne_affichage_une_ligne = 0;
-
-	if ( lignes_affichage_deux_lignes )
-	    g_slist_free ( lignes_affichage_deux_lignes );
-	if ( lignes_affichage_trois_lignes )
-	    g_slist_free ( lignes_affichage_trois_lignes );
-
-	lignes_affichage_deux_lignes = NULL;
-	lignes_affichage_deux_lignes = g_slist_append ( lignes_affichage_deux_lignes,
-							NULL );
-	lignes_affichage_deux_lignes = g_slist_append ( lignes_affichage_deux_lignes,
-							GINT_TO_POINTER (1));
-
-	lignes_affichage_trois_lignes = NULL;
-	lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
-							 NULL );
-	lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
-							 GINT_TO_POINTER (1));
-	lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
-							 GINT_TO_POINTER (2));
-
-}
-/*****************************************************************************************************/
 
 
 /*****************************************************************************************************/
@@ -383,6 +347,48 @@ void menus_sensitifs ( gboolean sensitif )
 
 
 
+
+/*****************************************************************************************************/
+void initialise_tab_affichage_ope ( void )
+{
+    gint tab[4][7] = {
+	{ TRANSACTION_LIST_CHQ, TRANSACTION_LIST_DATE, TRANSACTION_LIST_PARTY, TRANSACTION_LIST_MARK, TRANSACTION_LIST_CREDIT, TRANSACTION_LIST_DEBIT, TRANSACTION_LIST_BALANCE },
+	{0, 0, TRANSACTION_LIST_CATEGORY, 0, TRANSACTION_LIST_TYPE, TRANSACTION_LIST_AMOUNT, 0 },
+	{0, 0, TRANSACTION_LIST_NOTES, 0, 0, 0, 0 },
+	{0, 0, 0, 0, 0, 0, 0 }
+    };
+    gint i, j;
+
+    for ( i = 0 ; i<4 ; i++ )
+	for ( j = 0 ; j<7 ; j++ )
+	    tab_affichage_ope[i][j] = tab[i][j];
+
+
+    ligne_affichage_une_ligne = 0;
+
+    if ( lignes_affichage_deux_lignes )
+	g_slist_free ( lignes_affichage_deux_lignes );
+    if ( lignes_affichage_trois_lignes )
+	g_slist_free ( lignes_affichage_trois_lignes );
+
+    lignes_affichage_deux_lignes = NULL;
+    lignes_affichage_deux_lignes = g_slist_append ( lignes_affichage_deux_lignes,
+						    NULL );
+    lignes_affichage_deux_lignes = g_slist_append ( lignes_affichage_deux_lignes,
+						    GINT_TO_POINTER (1));
+
+    lignes_affichage_trois_lignes = NULL;
+    lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
+						     NULL );
+    lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
+						     GINT_TO_POINTER (1));
+    lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
+						     GINT_TO_POINTER (2));
+
+}
+/*****************************************************************************************************/
+
+
 /*****************************************************************************************************/
 /* cette fonction, appelée par l'initialisation des variables globales remet l'organisation de */
 /* formulaire à zéro : */
@@ -394,9 +400,9 @@ struct organisation_formulaire *mise_a_zero_organisation_formulaire ( void )
 {
     struct organisation_formulaire *struct_formulaire;
     gint tab[4][6] = { 
-	{ 1, 6, 2, 3, 0, 0 },
-	{ 0, 7, 11, 12, 0, 0 },
-	{ 8, 10, 17, 0, 0, 0 },
+	{ TRANSACTION_FORM_DATE, TRANSACTION_FORM_PARTY, TRANSACTION_FORM_DEBIT, TRANSACTION_FORM_CREDIT, 0, 0 },
+	{ 0, TRANSACTION_FORM_CATEGORY, TRANSACTION_FORM_TYPE, TRANSACTION_FORM_CHEQUE, 0, 0 },
+	{ TRANSACTION_FORM_BREAKDOWN, TRANSACTION_FORM_NOTES, TRANSACTION_FORM_CONTRA, 0, 0, 0 },
 	{ 0, 0, 0, 0, 0, 0 }
     };
     gint i, j;

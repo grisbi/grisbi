@@ -210,12 +210,16 @@ struct donnees_compte
     gint type_defaut_credit;            /* no du type par défaut */
     gint affichage_r;            /* à 1 si les R sont affichés pour ce compte */
     gint nb_lignes_ope;           /* contient le nb de lignes pour une opé (1, 2, 3, 4 ) */
+
+    GtkWidget *bouton_compte;      /* adr du bouton du compte dans la liste d'opérations */
+
+    /*     donées utilisées pour le classement du tree_view */
+
     gint (*classement_courant) ( struct structure_operation *operation_1,
 				 struct structure_operation *operation_2 );      /* pointe sur la fonction de classement en cours */
-    gint colonne_classement;         /* contient le no de colonne qui a été clické pour le classement */
     gint classement_croissant;          /*à 1 si on utilise le classement croissant, du haut de la liste vers le bas*/
-    gint no_classement;                    /*contient le no du classement*/
-    GtkWidget *bouton_compte;      /* adr du bouton du compte dans la liste d'opérations */
+    gint no_classement;                    /*contient le no du paramètre de la liste qui correspond au classement (TRANSACTION_LIST_...)*/
+    gint colonne_classement;        /* utilisée pour virer l'indicateur quand changement de col */
 
 /*     données de la tree_view */
 
@@ -277,11 +281,12 @@ struct donnees_compte
 #define TYPE_DEFAUT_CREDIT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> type_defaut_credit
 #define AFFICHAGE_R ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> affichage_r
 #define NB_LIGNES_OPE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> nb_lignes_ope
+#define BOUTON_COMPTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> bouton_compte 
+
 #define CLASSEMENT_COURANT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> classement_courant
-#define COLONNE_CLASSEMENT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> colonne_classement
 #define CLASSEMENT_CROISSANT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> classement_croissant
 #define NO_CLASSEMENT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> no_classement
-#define BOUTON_COMPTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> bouton_compte 
+#define COLONNE_CLASSEMENT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> colonne_classement
 
 #define TREE_VIEW_LISTE_OPERATIONS ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> tree_view_liste_operations
 #define SCROLLED_WINDOW_LISTE_OPERATIONS ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> scrolled_window_liste_operations

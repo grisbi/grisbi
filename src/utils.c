@@ -2045,6 +2045,9 @@ void increment_decrement_champ ( GtkWidget *entry, gint increment )
 /******************************************************************************/
 void demarrage_idle ( void )
 {
+    if ( DEBUG )
+	printf ( "demarrage_idle\n" );
+
     if ( !id_fonction_idle )
 	id_fonction_idle = g_idle_add ( (GSourceFunc) utilisation_temps_idle,
 					NULL );
@@ -2060,6 +2063,9 @@ void demarrage_idle ( void )
 /******************************************************************************/
 gboolean termine_idle ( void )
 {
+    if ( DEBUG )
+	printf ( "termine_idle\n" );
+
     if ( id_fonction_idle )
     {
 	g_source_remove ( id_fonction_idle );
@@ -2078,6 +2084,9 @@ gboolean termine_idle ( void )
 void update_ecran ( void )
 {
     gint idle_en_cours;
+
+    if ( DEBUG )
+	printf ( "update_ecran\n" );
 
     idle_en_cours = termine_idle ();
 

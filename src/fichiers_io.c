@@ -362,11 +362,24 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 		}
 	    } 
 
+	    /* 	    on met le classement courant par date et ordre croissant */
+
+	    for ( i=0 ; i<nb_comptes ; i++ )
+	    {
+		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+		NO_CLASSEMENT = TRANSACTION_LIST_DATE;
+		CLASSEMENT_CROISSANT = GTK_SORT_DESCENDING;
+		CLASSEMENT_COURANT = recupere_classement_par_no ( NO_CLASSEMENT );
+	    }
+
+
+
+	    /* ********************************************************* */
 	    /* 	    à mettre à chaque fois juste avant la version stable */
+	    /* ********************************************************* */
 
 	    modification_fichier ( TRUE );
 	    
-
 
 	    /* ************************************* */
 	    /* 	    ouverture d'un fichier 0.5.1     */
@@ -797,13 +810,6 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 	    *p_tab_nom_de_compte_variable = calloc ( 1,
 						     sizeof (struct donnees_compte));
 
-	    /* 		    on met colonne_classement à -1, après chargement, soit elle contient le no de la */
-	    /* 			colonne pour classer, soit elle est restée à -1 si on vient d'une version antérieure */
-	    /* 			à la 0.5.1 */
-
-	    COLONNE_CLASSEMENT = -1;
-	    CLASSEMENT_CROISSANT = -1;
-
 	    /* on fait le tour dans l'arbre nom, cad : les details, details de type et details des operations */
 
 	    node_nom_comptes = node_comptes -> children;
@@ -970,10 +976,6 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 			    }
 
 			    if ( !strcmp ( node_detail -> name,
-					   "Colonne_classement" ))
-				COLONNE_CLASSEMENT = my_atoi ( xmlNodeGetContent ( node_detail ));
-
-			    if ( !strcmp ( node_detail -> name,
 					   "Classement_croissant" ))
 				CLASSEMENT_CROISSANT = my_atoi ( xmlNodeGetContent ( node_detail ));
 
@@ -1054,15 +1056,6 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 		if ( !NOM_DU_COMPTE )
 		    NOM_DU_COMPTE = g_strdup ( "" );
-
-		/* 	si on ouvrait un fichier qui n'avait pas de classement, le sens */
-		/*     est croissant */
-
-		if ( CLASSEMENT_CROISSANT == -1 )
-		    CLASSEMENT_CROISSANT = 1;
-
-		if ( !CLASSEMENT_COURANT )
-		    CLASSEMENT_COURANT = classement_sliste_par_date; 
 
 		/* on recupère ici le detail des types */
 
@@ -3230,15 +3223,6 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 			  NULL,
 			  "Ordre_du_tri",
 			  pointeur_char );
-
-	/* 	si on effectue la copie de sauvegarde lors de l'ouverture, tree_view_listes_operations */
-	/* 	    n'est pas encore défini... */
-	    
-	if ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))
-	    xmlNewTextChild ( node_compte,
-			      NULL,
-			      "Colonne_classement",
-			      itoa ( COLONNE_CLASSEMENT ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
@@ -5637,7 +5621,7 @@ gboolean charge_ib ( gchar *nom_ib )
 	    return ( charge_ib_version_0_4_0 ( doc ));
 
 	/* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
-	/* la version nécessaire pour l'ouvrir */
+	/* la version nÃ©cessaire pour l'ouvrir */
 
 	if (( strcmp (  xmlNodeGetContent ( root->children->next->children->next ), VERSION_FICHIER_IB )))
 	  {

@@ -1468,8 +1468,7 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 
     /* on classe la liste */
 
-    LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
-				      (GCompareFunc) CLASSEMENT_COURANT );
+    classe_liste_operations ( no_compte );
 
 }
 /* *******************************************************************************/

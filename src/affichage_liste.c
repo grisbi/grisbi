@@ -650,9 +650,6 @@ gboolean lache_bouton_classement_liste ( GtkWidget *clist,
     if ( ev -> window != GTK_CLIST ( clist ) -> clist_window )
 	return ( FALSE );
 
-    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( clist ),
-				   "button_release_event");
-
     /* récupère et sauve les coordonnées de la liste au départ */
 
     gtk_clist_get_selection_info ( GTK_CLIST ( clist ),
@@ -703,9 +700,16 @@ gboolean lache_bouton_classement_liste ( GtkWidget *clist,
     tab_affichage_ope[ligne_depart_drag][col_depart_drag] = tab_affichage_ope[ligne_arrivee_drag][col_arrivee_drag];
     tab_affichage_ope[ligne_arrivee_drag][col_arrivee_drag] = buffer_int;
 
-/*     on réaffiche les listes d'opé */
+    /*     on met à jour les colonnes */
+
+    recuperation_noms_colonnes_et_tips ();
+    update_titres_tree_view ();
+    update_fleches_classement_tree_view (-1);
+
+    /*     on réaffiche les listes d'opé */
 
     demande_mise_a_jour_tous_comptes ();
+
 
     return ( TRUE );
 }
@@ -736,220 +740,95 @@ void remplissage_tab_affichage_ope ( GtkWidget *clist )
 
 		case 1:
 		    ligne[j] = _("Date");
-		    gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[0] ),
-						       GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-						       GINT_TO_POINTER (0) );
-		    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( boutons_affichage_liste[0] ),
-						   TRUE );
-		    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( boutons_affichage_liste[0] ),
-							 GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-							 GINT_TO_POINTER (0) );
 		    break;
 
 		case 2:
 		    ligne[j] = _("Value date");
-		    gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[1] ),
-						       GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-						       GINT_TO_POINTER (1) );
-		    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( boutons_affichage_liste[1] ),
-						   TRUE );
-		    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( boutons_affichage_liste[1] ),
-							 GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-							 GINT_TO_POINTER (1) );
 		    break;
 
 		case 3:
 		    ligne[j] = _("Payer/payee");
-		    gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[2] ),
-						       GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-						       GINT_TO_POINTER (2) );
-		    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( boutons_affichage_liste[2] ),
-						   TRUE );
-		    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( boutons_affichage_liste[2] ),
-							 GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-							 GINT_TO_POINTER (2) );
 		    break;
 
 		case 4:
 		    ligne[j] = _("Budgetary information");
-		    gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[3] ),
-						       GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-						       GINT_TO_POINTER (3) );
-		    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( boutons_affichage_liste[3] ),
-						   TRUE );
-		    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( boutons_affichage_liste[3] ),
-							 GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-							 GINT_TO_POINTER (3) );
 		    break;
 
 		case 5:
 		    ligne[j] = _("Debit");
-		    gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[4] ),
-						       GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-						       GINT_TO_POINTER (4) );
-		    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( boutons_affichage_liste[4] ),
-						   TRUE );
-		    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( boutons_affichage_liste[4] ),
-							 GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-							 GINT_TO_POINTER (4) );
 		    break;
 
 		case 6:
 		    ligne[j] = _("Credit");
-		    gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[5] ),
-						       GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-						       GINT_TO_POINTER (5) );
-		    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( boutons_affichage_liste[5] ),
-						   TRUE );
-		    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( boutons_affichage_liste[5] ),
-							 GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-							 GINT_TO_POINTER (5) );
 		    break;
 
 		case 7:
 		    ligne[j] = _("Balance");
-		    gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[6] ),
-						       GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-						       GINT_TO_POINTER (6) );
-		    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( boutons_affichage_liste[6] ),
-						   TRUE );
-		    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( boutons_affichage_liste[6] ),
-							 GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-							 GINT_TO_POINTER (6) );
 		    break;
 
 		case 8:
 		    ligne[j] = _("Amount");
-		    gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[7] ),
-						       GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-						       GINT_TO_POINTER (7) );
-		    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( boutons_affichage_liste[7] ),
-						   TRUE );
-		    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( boutons_affichage_liste[7] ),
-							 GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-							 GINT_TO_POINTER (7) );
 		    break;
 
 		case 9:
 		    ligne[j] = _("Payment method");
-		    gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[8] ),
-						       GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-						       GINT_TO_POINTER (8) );
-		    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( boutons_affichage_liste[8] ),
-						   TRUE );
-		    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( boutons_affichage_liste[8] ),
-							 GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-							 GINT_TO_POINTER (8) );
 		    break;
 
 		case 10:
 		    ligne[j] = _("Reconciliation ref.");
-		    gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[9] ),
-						       GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-						       GINT_TO_POINTER (9) );
-		    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( boutons_affichage_liste[9] ),
-						   TRUE );
-		    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( boutons_affichage_liste[9] ),
-							 GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-							 GINT_TO_POINTER (9) );
 		    break;
 
 		case 11:
 		    ligne[j] = _("Financial year");
-		    gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[10] ),
-						       GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-						       GINT_TO_POINTER (10) );
-		    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( boutons_affichage_liste[10] ),
-						   TRUE );
-		    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( boutons_affichage_liste[10] ),
-							 GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-							 GINT_TO_POINTER (10) );
 		    break;
 
 		case 12:
 		    ligne[j] = _("Categories");
-		    gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[11] ),
-						       GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-						       GINT_TO_POINTER (11) );
-		    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( boutons_affichage_liste[11] ),
-						   TRUE );
-		    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( boutons_affichage_liste[11] ),
-							 GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-							 GINT_TO_POINTER (11) );
 		    break;
 
 		case 13:
 		    ligne[j] = _("C/R");
-		    gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[12] ),
-						       GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-						       GINT_TO_POINTER (12) );
-		    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( boutons_affichage_liste[12] ),
-						   TRUE );
-		    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( boutons_affichage_liste[12] ),
-							 GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-							 GINT_TO_POINTER (12) );
 		    break;
 
 		case 14:
 		    ligne[j] = _("Voucher");
-		    gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[13] ),
-						       GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-						       GINT_TO_POINTER (13) );
-		    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( boutons_affichage_liste[13] ),
-						   TRUE );
-		    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( boutons_affichage_liste[13] ),
-							 GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-							 GINT_TO_POINTER (13) );
 		    break;
 
 		case 15:
 		    ligne[j] = _("Notes");
-		    gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[14] ),
-						       GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-						       GINT_TO_POINTER (14) );
-		    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( boutons_affichage_liste[14] ),
-						   TRUE );
-		    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( boutons_affichage_liste[14] ),
-							 GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-							 GINT_TO_POINTER (14) );
 		    break;
 
 		case 16:
 		    ligne[j] = _("Bank references");
-		    gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[15] ),
-						       GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-						       GINT_TO_POINTER (15) );
-		    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( boutons_affichage_liste[15] ),
-						   TRUE );
-		    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( boutons_affichage_liste[15] ),
-							 GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-							 GINT_TO_POINTER (15) );
 		    break;
 
 		case 17:
 		    ligne[j] = _("Transaction number");
-		    gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[16] ),
-						       GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-						       GINT_TO_POINTER (16) );
-		    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( boutons_affichage_liste[16] ),
-						   TRUE );
-		    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( boutons_affichage_liste[16] ),
-							 GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
-							 GINT_TO_POINTER (16) );
 		    break;
 
 		case 18:
 		    ligne[j] = _("Cheque/Transfer number");
 		    break;
 	    }
-	}
 
+	    if ( tab_affichage_ope[i][j]
+		 &&
+		 tab_affichage_ope[i][j] != 18 )
+	    {
+		gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[tab_affichage_ope[i][j]-1] ),
+						   GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
+						   GINT_TO_POINTER (tab_affichage_ope[i][j]-1) );
+		gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( boutons_affichage_liste[tab_affichage_ope[i][j]-1] ),
+					       TRUE );
+		gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( boutons_affichage_liste[tab_affichage_ope[i][j]-1] ),
+						     GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
+						     GINT_TO_POINTER (tab_affichage_ope[i][j]-1) );
+	    }
+	}
 	gtk_clist_append ( GTK_CLIST ( clist ),
 			   ligne );
     }
-
     gtk_clist_thaw ( GTK_CLIST ( clist ));
-
 }
 /* ************************************************************************************************************** */
 
@@ -1050,24 +929,6 @@ void recuperation_noms_colonnes_et_tips ( void )
 		default:
 		    ligne[j] = g_slist_nth_data ( liste_labels_titres_colonnes_liste_ope,
 						  tab_affichage_ope[i][j] - 1 );
-		    /* 		    si on est sur date, on fait le tour des comptes pour vérifier s'il n'y */
-		    /* 			en a pas 1 avec COLONNE_CLASSEMENT=-1 ; dans ce cas, c'est la première */
-		    /* 			fois qu'on fait un classement, et ce classement est par date. on y met */
-		    /* 			donc le no de cette colonne */
-
-		    if ( !strcmp ( ligne[j],
-				   N_("Date")))
-		    {
-			gint k;
-
-			for ( k=0 ; k<nb_comptes ; k++ )
-			{
-			    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + k;
-
-			    if ( COLONNE_CLASSEMENT == -1)
-				COLONNE_CLASSEMENT = j;
-			}
-		    }
 	    }
 
 	    /* 	  si on est sur la 1ère ligne, on met les titres ainsi que la 1ere ligne des tips */

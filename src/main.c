@@ -421,9 +421,12 @@ int main (int argc, char *argv[])
 gboolean utilisation_temps_idle ( gpointer null )
 {
     gint i;
+    gpointer **save_ptab;
 
     if ( !nb_comptes )
-	return TRUE;
+	return FALSE;
+
+    save_ptab = p_tab_nom_de_compte_variable;
 
 /*     dans l'ordre, on va créer et remplir la liste d'opé du compte courant, */
 /*     le 1er à être ouvert, puis les autres comptes */
@@ -442,6 +445,7 @@ gboolean utilisation_temps_idle ( gpointer null )
 		printf ( "realize tree_view compte %d\n", i );
 
 	    gtk_widget_realize ( TREE_VIEW_LISTE_OPERATIONS );
+	    p_tab_nom_de_compte_variable =save_ptab;
 	    return TRUE;
 	}
     }
@@ -463,6 +467,7 @@ gboolean utilisation_temps_idle ( gpointer null )
 
 	ajoute_operations_compte_dans_list_store ( compte_courant,
 						   1 );
+	p_tab_nom_de_compte_variable =save_ptab;
 	return TRUE;
     }
 
@@ -476,6 +481,7 @@ gboolean utilisation_temps_idle ( gpointer null )
 	update_couleurs_background ( compte_courant,
 				     NULL );
 
+	p_tab_nom_de_compte_variable =save_ptab;
 	return TRUE;
     }
 
@@ -489,6 +495,7 @@ gboolean utilisation_temps_idle ( gpointer null )
 	update_soldes_list_store ( compte_courant,
 				   NULL );
 
+	p_tab_nom_de_compte_variable =save_ptab;
 	return TRUE;
     }
  
@@ -502,6 +509,7 @@ gboolean utilisation_temps_idle ( gpointer null )
 
 	selectionne_ligne ( GINT_TO_POINTER(-1) );
 
+	p_tab_nom_de_compte_variable =save_ptab;
 	return TRUE;
     }
  
@@ -521,6 +529,7 @@ gboolean utilisation_temps_idle ( gpointer null )
 
 	    ajoute_operations_compte_dans_list_store ( i,
 						       1 );
+	    p_tab_nom_de_compte_variable =save_ptab;
 	    return TRUE;
 	}
     }
@@ -539,6 +548,7 @@ gboolean utilisation_temps_idle ( gpointer null )
 	    update_couleurs_background ( i,
 					 NULL  );
 
+	    p_tab_nom_de_compte_variable =save_ptab;
 	    return TRUE;
 	}
     }
@@ -557,6 +567,7 @@ gboolean utilisation_temps_idle ( gpointer null )
 	    update_soldes_list_store ( i,
 				       NULL );
 
+	    p_tab_nom_de_compte_variable =save_ptab;
 	    return TRUE;
 	}
     }
@@ -574,6 +585,7 @@ gboolean utilisation_temps_idle ( gpointer null )
 		printf ( "mise en place de la selection du compte courant no %d par idle\n", i );
 
 	    selectionne_ligne ( GINT_TO_POINTER(-1) );
+	    p_tab_nom_de_compte_variable =save_ptab;
 	    return TRUE;
 	}
     }
@@ -584,6 +596,7 @@ gboolean utilisation_temps_idle ( gpointer null )
 	
 
     id_fonction_idle = 0; 
+    p_tab_nom_de_compte_variable =save_ptab;
     return FALSE;
 }
 /************************************************************************************************/
