@@ -50,7 +50,7 @@
 #define C_GRISBIRC  "/grisbi.rc"
 #endif
 
-extern gchar *nom_navigateur_web;
+
 
 /* ***************************************************************************************************** */
 void charge_configuration ( void )
@@ -138,7 +138,14 @@ void charge_configuration ( void )
 		}
 
 		if ( !strcmp ( node_general -> name, "Navigateur_web" ) ) {
-		    nom_navigateur_web = xmlNodeGetContent ( node_general);
+		    etat.browser_command = xmlNodeGetContent ( node_general);
+		}
+
+		if ( !strcmp ( node_general -> name, "Latex_command" ) ) {
+		    etat.latex_command = xmlNodeGetContent ( node_general);
+		}
+		if ( !strcmp ( node_general -> name, "Dvips_command" ) ) {
+		    etat.dvips_command = xmlNodeGetContent ( node_general);
 		}
 
 		node_general = node_general->next;
@@ -353,7 +360,7 @@ void charge_configuration_ancien ( void )
     gchar *fichier_conf;
     gchar temp[100];
 
-    nom_navigateur_web = NULL;
+    etat.browser_command = "";
 
     /* modif -> vire gnome, donc fait tout à la main */
 
@@ -555,6 +562,10 @@ void raz_configuration ( void )
     etat.display_message_file_readable = 0;
     etat.display_message_minimum_alert = 0;
 
+    /* Commands */
+    etat.latex_command = "latex";
+    etat.dvips_command = "dvips";
+
     /* Print */
     etat.print_config.printer = 0;
     etat.print_config.printer_name = "lpr";
@@ -626,7 +637,7 @@ void sauve_configuration(void)
     xmlNewChild ( node,NULL, "Utilise_fonte_des_listes",itoa (etat.utilise_fonte_listes));
 
     xmlNewChild ( node,NULL, "Fonte_des_listes",fonte_liste);
-    xmlNewChild ( node,NULL, "Navigateur_web",nom_navigateur_web);
+    xmlNewChild ( node,NULL, "Navigateur_web",etat.browser_command);
 
     /* sauvegarde de l'onglet I/O */
     node = xmlNewChild ( doc->children,NULL, "IO",NULL );
