@@ -24,10 +24,10 @@ AC_DEFUN(GNOME_CHECK_MODULES, [
 	do
 	if $GNOME_CONFIG --cflags "$i" ; then
 	    $1_TMPCFLAGS=`$GNOME_CONFIG --cflags "$i"`
-	    $1_CFLAGS="$1_CFLAGS $1_TMPCFLAGS"
+	    $1_CFLAGS="$$1_CFLAGS $$1_TMPCFLAGS"
 	    
 	    $1_TMPLIBS=`$GNOME_CONFIG --libs "$i"`
-	    $1_LIBS="$1_LIBS $1_TMPLIBS"
+	    $1_LIBS="$$1_LIBS $$1_TMPLIBS"
 	else
 	    $1_CFLAGS=""
 	    $1_LIBS=""
