@@ -59,7 +59,6 @@ static void clique_sur_modifier_categ ( void );
 static gboolean enleve_selection_ligne_categ ( void );
 static gboolean exporter_categ ( GtkButton * widget, gpointer data );
 static void importer_categ ( void );
-static gboolean keypress_category ( GtkWidget *widget, GdkEventKey *ev, gint *no_origine );
 static void merge_liste_categories ( void );
 static void modification_du_texte_categ ( void );
 static gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
@@ -443,29 +442,6 @@ void remplit_arbre_categ ( void )
 
     enleve_selection_ligne_categ ();
     modif_categ = 0;
-}
-
-
-
-/**
- * Unused at the moment.
- *
- */
-gboolean keypress_category ( GtkWidget *widget, GdkEventKey *ev, gint *no_origine )
-{
-
-/*     if ( ev->keyval == GDK_Return ||  */
-/* 	 ev->keyval == GDK_KP_Enter ) */
-/*     {  */
-/* 	node = gtk_ctree_node_nth ( GTK_CTREE(arbre_categ),  */
-/* 				    GTK_CLIST(arbre_categ) -> focus_row ); */
-/* 	gtk_ctree_select ( GTK_CTREE(arbre_categ), node ); */
-/* 	gtk_ctree_expand ( GTK_CTREE(arbre_categ), node ); */
-
-/* 	expand_selected_category (); */
-/*     } */
-
-    return FALSE;
 }
 
 
@@ -897,16 +873,14 @@ GtkWidget *creation_barre_outils_categ ( void )
 
     /* Add various icons */
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
-			 new_stock_button_with_label ( GTK_STOCK_NEW, 
-						       _("Category"),
-						       G_CALLBACK(appui_sur_ajout_division),
-						       categ_tree_model ), 
+			 new_button_with_label_and_image ( _("Category"), "new-categ.png", 
+							   G_CALLBACK(appui_sur_ajout_division),
+							   categ_tree_model ), 
 			 FALSE, TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
-			 new_stock_button_with_label ( GTK_STOCK_NEW, 
-						       _("Sub-category"),
-						       G_CALLBACK(appui_sur_ajout_sub_division),
-						       categ_tree_model ), 
+			 new_button_with_label_and_image ( _("Sub-category"), "new-sub-categ.png",
+							   G_CALLBACK(appui_sur_ajout_sub_division),
+							   categ_tree_model ), 
 			 FALSE, TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
 			 new_stock_button_with_label ( GTK_STOCK_OPEN, 
