@@ -25,6 +25,8 @@
 #include "variables-extern.c"
 #include "en_tete.h"
 
+/** FIXME: MOVE ! */
+void entry_set_value ( GtkWidget * entry, gchar ** value );
 
 GtkWidget *paddingbox_details;	/** Widget handling financial year details */
 
@@ -45,7 +47,7 @@ gboolean update_financial_year_list ( GtkEntry *entry, gchar *value,
 
   exercice = gtk_clist_get_row_data ( GTK_CLIST ( clist_exercices_parametres ),
 				      ligne_selection_exercice );
-  exercice -> nom_exercice = gtk_entry_get_text ( GTK_ENTRY (nom_exercice) );
+/*   exercice -> nom_exercice = gtk_entry_get_text ( GTK_ENTRY (nom_exercice) ); */
   gtk_clist_set_text ( clist_exercices_parametres, ligne_selection_exercice,
 		       0, gtk_entry_get_text ( GTK_ENTRY(nom_exercice)) );
 
@@ -413,38 +415,10 @@ void selection_ligne_exercice ( GtkWidget *liste,
 
   exercice = gtk_clist_get_row_data ( GTK_CLIST ( liste ), ligne );
 
-  /* Block all hooks */
-  g_signal_handler_block ( GTK_OBJECT(nom_exercice),
-			   gtk_object_get_data ( nom_exercice, "insert-hook" ));
-  g_signal_handler_block ( GTK_OBJECT(nom_exercice),
-			   gtk_object_get_data ( nom_exercice, "insert-text" ));
-  g_signal_handler_block ( GTK_OBJECT(nom_exercice),
-			   gtk_object_get_data ( nom_exercice, "delete-hook" ));
-  g_signal_handler_block ( GTK_OBJECT(nom_exercice),
-			   gtk_object_get_data ( nom_exercice, "delete-text" ));
-  
-  /* Fill in all fields */
-  gtk_entry_set_text ( GTK_ENTRY ( nom_exercice ),
-		       exercice -> nom_exercice );
-
-  /* Unblock all hooks */
-  g_signal_handler_unblock ( nom_exercice,
-			     gtk_object_get_data ( nom_exercice, "insert-hook" ));
-  g_signal_handler_unblock ( nom_exercice,
-			     gtk_object_get_data ( nom_exercice, "insert-text" ));
-  g_signal_handler_unblock ( nom_exercice,
-			     gtk_object_get_data ( nom_exercice, "delete-hook" ));
-  g_signal_handler_unblock ( nom_exercice,
-			     gtk_object_get_data ( nom_exercice, "delete-text" ));
-  
-  /* FIXME: make a convenience function */
-  gtk_object_set_data ( nom_exercice, "pointer",
-			&(exercice -> nom_exercice) );
+  entry_set_value ( nom_exercice, &(exercice -> nom_exercice) );
   date_set_value ( debut_exercice, &(exercice -> date_debut), TRUE );
   date_set_value ( fin_exercice, &(exercice -> date_fin), TRUE );
-
-  checkbox_set_value ( affichage_exercice,
-		       &(exercice->affiche_dans_formulaire), 
+  checkbox_set_value ( affichage_exercice, &(exercice->affiche_dans_formulaire), 
 		       TRUE );
 
   gtk_widget_set_sensitive ( paddingbox_details, TRUE );
