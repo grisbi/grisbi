@@ -308,9 +308,7 @@ GtkWidget *onglet_categories ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  /* FIXME */
   bouton_modif_categ_modifier = gtk_button_new_from_stock (GTK_STOCK_APPLY);
-/*   bouton_modif_categ_modifier = gnome_stock_button ( GNOME_STOCK_BUTTON_APPLY ); */
   gtk_button_set_relief ( GTK_BUTTON ( bouton_modif_categ_modifier ),
 			  GTK_RELIEF_NONE );
   gtk_widget_set_sensitive ( bouton_modif_categ_modifier,
@@ -326,9 +324,7 @@ GtkWidget *onglet_categories ( void )
 		       0 );
   gtk_widget_show ( bouton_modif_categ_modifier );
 
-  /* FIXME */
   bouton_modif_categ_annuler = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
-/*   bouton_modif_categ_annuler = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL ); */
   gtk_button_set_relief ( GTK_BUTTON ( bouton_modif_categ_annuler ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton_modif_categ_annuler ),
@@ -344,9 +340,7 @@ GtkWidget *onglet_categories ( void )
 		       0 );
   gtk_widget_show ( bouton_modif_categ_annuler);
 
-  /* FIXME */
   bouton_supprimer_categ = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
-/*   bouton_supprimer_categ = gnome_stock_button ( GNOME_STOCK_PIXMAP_REMOVE ); */
   gtk_button_set_relief ( GTK_BUTTON ( bouton_supprimer_categ ),
 			  GTK_RELIEF_NONE );
   gtk_widget_set_sensitive ( bouton_supprimer_categ,
@@ -954,11 +948,13 @@ gboolean ouverture_node_categ ( GtkWidget *arbre, GtkCTreeNode *node,
       /*       soit il y a une categ et une sous categ, soit c'est aucune categ (donc categ = 0) */
 
       if ( ( categ = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-						   row -> parent )))
+						   row -> parent )) &&
+	     categ != GINT_TO_POINTER(-1) )
 	{
 	  no_categ = categ -> no_categ;
 	  if ( ( sous_categ = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-							    node)))
+							    node)) &&
+	       sous_categ != GINT_TO_POINTER(-1) )
 	    no_sous_categ = sous_categ -> no_sous_categ;
 	  else
 	    no_sous_categ = 0;
@@ -1071,12 +1067,14 @@ gboolean ouverture_node_categ ( GtkWidget *arbre, GtkCTreeNode *node,
       gint no_sous_categ;
 
       if (( categ = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-						  GTK_CTREE_ROW ( row -> parent ) -> parent )))
+						  GTK_CTREE_ROW ( row -> parent ) -> parent )) && 
+	  categ != GINT_TO_POINTER(-1) )
 	{
 	  no_categ = categ -> no_categ;
 
 	  if ( (sous_categ = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-							   row -> parent )))
+							   row -> parent ))
+	       && sous_categ != GINT_TO_POINTER(-1) )
 	    no_sous_categ = sous_categ -> no_sous_categ;
 	  else
 	    no_sous_categ = 0;
@@ -1204,16 +1202,17 @@ gboolean selection_ligne_categ ( GtkCTree *arbre_categ, GtkCTreeNode *noeud,
 
 
 
-  if ( GTK_CTREE_ROW ( noeud ) -> level  == 1
-       &&
+  if ( GTK_CTREE_ROW ( noeud ) -> level  == 1 &&
        gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-				     noeud ))
+				     noeud ) &&
+       gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
+				     noeud ) != GINT_TO_POINTER(-1) )
     {
       struct struct_categ *categ;
   
       categ = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
 					    noeud );
-
+      
       gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_nom_categ ),
 					 GTK_SIGNAL_FUNC ( modification_du_texte_categ),
 					 NULL );
@@ -1259,15 +1258,18 @@ gboolean selection_ligne_categ ( GtkCTree *arbre_categ, GtkCTreeNode *noeud,
     if ( GTK_CTREE_ROW ( noeud ) -> level  == 2
 	 &&
 	 gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-				       noeud )
+				       noeud ) > 0
 	 &&
 	 gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-				       GTK_CTREE_ROW ( noeud ) -> parent ))
+				       GTK_CTREE_ROW ( noeud ) -> parent ) > 0 )
     {
       struct struct_sous_categ *sous_categ;
 
       sous_categ = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
 						 noeud );
+      if ( sous_categ == GINT_TO_POINTER(-1) )
+	return;
+
       gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_nom_categ ),
 					 GTK_SIGNAL_FUNC ( modification_du_texte_categ),
 					 NULL );
@@ -1311,19 +1313,15 @@ gboolean verifie_double_click_categ ( GtkWidget *liste, GdkEventButton *ev,
 	     ||
 	     ( GTK_CTREE_ROW ( ( GTK_CLIST ( arbre_categ ) -> selection ) -> data ) -> level == 3
 	       &&
-	       !gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-					      GTK_CTREE_ROW ( GTK_CTREE_ROW (( GTK_CLIST ( arbre_categ ) -> selection ) -> data ) -> parent ) -> parent ))))
+	       gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
+					      GTK_CTREE_ROW ( GTK_CTREE_ROW (( GTK_CLIST ( arbre_categ ) -> selection ) -> data ) -> parent ) -> parent ) > 0)))
 	{
 	  /* passage sur le compte concerné */
 
 	  operation = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
 						    GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_categ ) -> selection ) -> data ) );
 
-	  /* This is a kludge but I do not want to spend too much time
-	     on this nasty bug.  OK, we loose a very small feature,
-	     but we have far too much open bugs to fix such an
-	     unimportant bug. */
-	  if (!operation)
+	  if (!operation || operation == GINT_TO_POINTER(-1))
 	    return;
 
 	  /* si c'est une opé de ventilation, on se place sur l'opé
@@ -1576,6 +1574,8 @@ void supprimer_categ ( void )
 
   categ = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
 					node );
+  if ( categ <= 0 )
+    return;
 
   /* fait le tour des opés pour en trouver une qui a cette catégorie */
 
@@ -1927,11 +1927,16 @@ void supprimer_sous_categ ( void )
 
   sous_categ = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
 					     node );
+  if ( sous_categ <= 0 )
+    return;
 
   node = GTK_CTREE_ROW ( ( GTK_CLIST ( arbre_categ ) -> selection ) -> data ) -> parent;
 
   categ = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
 					node );
+  if ( categ <= 0 )
+    return;
+
 
   /* fait le tour des opés pour en trouver une qui a cette sous-catégorie */
 
@@ -2943,6 +2948,8 @@ void appui_sur_ajout_sous_categorie ( void )
 
   categorie = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
 					     node_parent );
+  if ( categorie <= 0 )
+    return;
 
   /* on l'ajoute à la liste des opés */
   
