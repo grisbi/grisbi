@@ -146,6 +146,7 @@ void init_variables ( gboolean ouverture )
     {
 	etat.modification_fichier = 0;
 	etat.utilise_logo = 1;
+	etat.utilise_imputation_budgetaire = TRUE;
 
 	nom_fichier_comptes = NULL;
 
