@@ -1400,13 +1400,14 @@ void deplacement_type_tri_bas ( void )
 	}
     }
 
-  select_reconciliation_entry ( reconcile_selection, reconcile_model );
+  select_reconciliation_entry ( reconcile_selection, 
+				GTK_TREE_MODEL(reconcile_model) );
 
   for ( elt = LISTE_TRI ; elt -> next ; elt = elt -> next )
     {
-      if ( elt -> next && elt -> data == no_type )
+      if ( elt -> next && ((gint) elt -> data) == no_type )
 	{
-	  gint ref = elt -> next -> data;
+	  gint ref = ((gint) elt -> next -> data);
 	  LISTE_TRI = g_slist_remove ( LISTE_TRI, (gpointer) ref );
 	  LISTE_TRI = g_slist_insert_before ( LISTE_TRI, elt, (gpointer) ref );
 	  break;
