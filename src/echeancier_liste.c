@@ -3,7 +3,7 @@
 /* 			echeances_liste.c                                     */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004 Alain Portal (dionysos@grisbi.org) 	      */
+/*			2004-2005 Alain Portal (dionysos@grisbi.org) 	      */
 /*			2004 Benjamin Drieu (bdrieu@april.org)  	      */
 /* 			http://www.grisbi.org   			      */
 /*                                                                            */
@@ -604,7 +604,11 @@ gboolean traitement_clavier_liste_echeances ( GtkCList *liste_echeances,
 
 	case GDK_Delete :               /*  del  */
 
-	    supprime_echeance ( echeance_selectionnnee );
+	    if ( question_conditional_yes_no_hint ( _("Confirmation of scheduled transaction removal"),
+						    _("You are currently trying to remove a scheduled transaction.  There "
+						      "is no undo for this.  Do you confirm the removal?"),
+						    &etat.display_message_remove_scheduled_transaction))
+		supprime_echeance ( echeance_selectionnnee );
 	    //      return TRUE; c'est le cas de la 0.4.4, et pas de break
 	    break;
 

@@ -356,6 +356,9 @@ void charge_configuration ( void )
 		if ( !strcmp ( node_messages -> name, "display_message_remove_transaction" ) ) {
 		    etat.display_message_remove_transaction = my_atoi(xmlNodeGetContent ( node_messages));
 		}
+		if ( !strcmp ( node_messages -> name, "display_message_remove_scheduled_transaction" ) ) {
+		    etat.display_message_remove_scheduled_transaction = my_atoi(xmlNodeGetContent ( node_messages));
+		}
 		if ( !strcmp ( node_messages -> name, "display_message_incomplete_breakdown" ) ) {
 		    etat.display_message_incomplete_breakdown = my_atoi(xmlNodeGetContent ( node_messages));
 		}
@@ -558,6 +561,9 @@ void charge_configuration_ancien ( void )
 		 "display_message_remove_transaction=%d",
 		 &etat.display_message_remove_transaction );
 	sscanf ( temp,
+		 "display_message_remove_scheduled_transaction=%d",
+		 &etat.display_message_remove_scheduled_transaction );
+	sscanf ( temp,
 		 "display_message_incomplete_breakdown=%d",
 		 &etat.display_message_incomplete_breakdown );
     }
@@ -636,6 +642,7 @@ void raz_configuration ( void )
     etat.display_message_qif_export_currency = 0;
     etat.display_message_reconcile_transaction = 0;
     etat.display_message_remove_transaction = 0;
+    etat.display_message_remove_scheduled_transaction = 0;
     etat.display_message_incomplete_breakdown = 0;
 
     /* Commands */
@@ -817,6 +824,8 @@ void sauve_configuration(void)
 		  itoa(etat.display_message_reconcile_transaction));
     xmlNewChild ( node,NULL, "display_message_remove_transaction",
 		  itoa(etat.display_message_remove_transaction));
+    xmlNewChild ( node,NULL, "display_message_remove_scheduled_transaction",
+		  itoa(etat.display_message_remove_scheduled_transaction));
     xmlNewChild ( node,NULL, "display_message_incomplete_breakdown",
 		  itoa(etat.display_message_incomplete_breakdown));
 

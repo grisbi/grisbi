@@ -101,6 +101,7 @@ struct {
     guint display_message_qif_export_currency;
     guint display_message_reconcile_transaction;
     guint display_message_remove_transaction;
+    guint display_message_remove_scheduled_transaction;
     guint display_message_incomplete_breakdown;
 
     /* Various commands */
