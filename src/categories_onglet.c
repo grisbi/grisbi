@@ -2510,10 +2510,11 @@ void creation_liste_categ_combofix ( void )
 
   for ( i = 0 ; i < nb_comptes ; i++ )
     {
-      liste_categ_special = g_slist_append ( liste_categ_special,
-					     g_strconcat ( "\t",
-							   NOM_DU_COMPTE ,
-							   NULL ));
+      if ( ! COMPTE_CLOTURE )
+	liste_categ_special = g_slist_append ( liste_categ_special,
+					       g_strconcat ( "\t",
+							     NOM_DU_COMPTE ,
+							     NULL ));
       p_tab_nom_de_compte_variable++;
     }
 
