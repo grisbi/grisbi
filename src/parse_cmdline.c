@@ -23,7 +23,7 @@
 #include   "parse_cmdline.h"
 /*END_INCLUDE*/
 
-/* Definitions des options                                                   */
+/* Definitions des options (à ne pas traduire)                               */
 
 #define  LONG_OPT_ONGLET     "--onglet="
 #define  LONG_OPT_HELP       "--help"
@@ -89,14 +89,14 @@ gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt)
 			{
 				if (!parse_onglet(argv, argc, &i, pOpt))
 				{
-					printf(_("Bad '--onglet' options"));
+					printf(N_("Bad '--onglet' options"));
 					return show_usage();
 				}
 			}
 			else
 			{
 				/* option non reconnue */
-				printf(_("Unrecognized option: %s\n"), argv[i]);
+				printf(N_("Unrecognized option: %s\n"), argv[i]);
 				return show_usage();
 			}
 		} 
@@ -120,16 +120,16 @@ gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt)
 /*****************************************************************************/
 gboolean   show_version()
 {
-	printf(_("grisbi version %s\n"), VERSION);	
-	printf(_("Personal finance tracking program based on GTK.\n\n"));
+	printf(N_("grisbi version %s\n"), VERSION);	
+	printf(N_("Personal finance tracking program based on GTK.\n\n"));
 	return TRUE;
 }
 
 
 /*****************************************************************************/
 #define   HELP_STRING  				                                           \
-    "\ngribi [options] [file]\n"                                               \
-    "Personal finance tracking program based on GTK.\n\n"                      \
+ N_("gribi [options] [file]\n"                                                 \
+    "Personal finance tracking program based on GTK.\n"                        \
     "  -?, --help                    Show this help message and exit\n"        \
     "  -v, --version                 Show version number and exit\n"           \
     "  -o, --onglet=w[,x[,y[,z]]]    Open file and show specified tab\n"       \
@@ -140,24 +140,26 @@ gboolean   show_version()
     "                                    y: show main customization tab\n"     \
     "                                       number <y> of report\n"            \
     "                                    z: show custmization tab number <z>\n"\
-    "                                       of report\n"                       \
+    "                                       of report\n\n"                     \
+ )
 
 gboolean   show_help()
 {
-	printf("%s\n\n", _(HELP_STRING));
+	printf(HELP_STRING);
 	return TRUE;
 }
 
 
 /*****************************************************************************/
 #define   USAGE_STRING  		        						\
-	"Usage: gribi [--version | -v] [--help | -?] " 				\
-	"[--onglet=w[,x[,y[,z]]] | -o w[,x[,y[,z]]]] [file]"        \
-	"with w=-1,0-7\n"                                           \
+ N_("Usage: gribi [--version | -v] [--help | -?] " 				\
+	"[--onglet=w[,x[,y[,z]]] | -o w[,x[,y[,z]]]] [file]\n"      \
+	"Type grisbi --help for details\n\n"                        \
+ )
 
 gboolean   show_usage()
 {
-	printf("%s\n", _(USAGE_STRING));
+	printf(USAGE_STRING);
 	return TRUE;
 }
 
