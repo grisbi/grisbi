@@ -1558,9 +1558,9 @@ void changement_choix_backup ( GtkWidget *bouton,
 
 
 /* **************************************************************************************************************************** */
-void changement_preferences ( GtkWidget *fenetre_preferences,
-			      gint page,
-			      gpointer data )
+void real_changement_preferences ( GtkWidget *fenetre_preferences,
+				   gint page,
+				   gpointer data )
 {
   gint buffer;
   gchar *home_dir;
@@ -2628,6 +2628,19 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
   gtk_widget_set_sensitive ( button_apply, FALSE );
 }
 /* **************************************************************************************************************************** */
+
+
+void changement_preferences ( GtkWidget *fenetre_preferences,
+			      gint page,
+			      gpointer data )
+{
+  int i;
+
+  for (i=0; i <= 9; i++)
+    {
+      real_changement_preferences ( fenetre_preferences, i, data );
+    }
+}
 
 /* **************************************************************************************************************************** */
 /* fonction qui ferme la fenêtre préférences */

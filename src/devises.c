@@ -372,7 +372,7 @@ void ajout_devise ( GtkWidget *bouton,
 
 	      /* dégrise appliquer dans paramètres */
 
-	      gnome_property_box_changed (GNOME_PROPERTY_BOX ( fenetre_preferences ));
+	      activer_bouton_appliquer ( );
 
 	    }
 	  else
@@ -557,7 +557,7 @@ void retrait_devise ( GtkWidget *bouton,
 					      devise );
   nb_devises_tmp--;
 
-  gnome_property_box_changed (GNOME_PROPERTY_BOX ( fenetre_preferences ));
+  activer_bouton_appliquer ( );
 
 }
 /***********************************************************************************************************/
@@ -1145,10 +1145,11 @@ GtkWidget *onglet_devises ( void )
   gtk_clist_set_column_justification ( GTK_CLIST ( clist_devises_parametres ),
 				       1,
 				       GTK_JUSTIFY_RIGHT);
-  gtk_signal_connect_object  ( GTK_OBJECT ( fenetre_preferences ),
-			       "apply",
-			       GTK_SIGNAL_FUNC ( gtk_clist_unselect_all ),
-			       GTK_OBJECT ( clist_devises_parametres ));
+  /* FIXME ? */
+/*   gtk_signal_connect_object  ( GTK_OBJECT ( fenetre_preferences ), */
+/* 			       "apply", */
+/* 			       GTK_SIGNAL_FUNC ( gtk_clist_unselect_all ), */
+/* 			       GTK_OBJECT ( clist_devises_parametres )); */
   gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
 		      clist_devises_parametres );
   gtk_widget_show ( clist_devises_parametres );
@@ -1353,10 +1354,10 @@ GtkWidget *onglet_devises ( void )
 		       "changed",
 		       GTK_SIGNAL_FUNC ( changement_nom_entree_devise ),
 		       NULL );
-  gtk_signal_connect_object  ( GTK_OBJECT ( entree_nom_devise_parametres ),
-			       "changed",
-			       GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
-			       GTK_OBJECT (fenetre_preferences) );
+  gtk_signal_connect ( GTK_OBJECT ( entree_nom_devise_parametres ),
+		       "changed",
+		       activer_bouton_appliquer,
+		       NULL );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       entree_nom_devise_parametres,
 		       FALSE,
@@ -1385,10 +1386,10 @@ GtkWidget *onglet_devises ( void )
 		       "changed",
 		       GTK_SIGNAL_FUNC ( changement_code_entree_devise ),
 		       NULL );
-  gtk_signal_connect_object  ( GTK_OBJECT ( entree_code_devise_parametres ),
-			       "changed",
-			       GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
-			       GTK_OBJECT (fenetre_preferences) );
+  gtk_signal_connect  ( GTK_OBJECT ( entree_code_devise_parametres ),
+			"changed",
+			activer_bouton_appliquer,
+			NULL );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       entree_code_devise_parametres,
 		       FALSE,
@@ -1404,10 +1405,10 @@ GtkWidget *onglet_devises ( void )
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( change_passera_euro ),
 		       clist_devises_parametres );
-  gtk_signal_connect_object ( GTK_OBJECT ( check_button_euro ),
-			      "toggled",
-			      gnome_property_box_changed,
-			      GTK_OBJECT (fenetre_preferences));
+  gtk_signal_connect ( GTK_OBJECT ( check_button_euro ),
+		       "toggled",
+		       activer_bouton_appliquer,
+		       NULL );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       check_button_euro,
 		       FALSE,
@@ -1491,10 +1492,10 @@ GtkWidget *onglet_devises ( void )
   gtk_widget_show ( label );
 
   entree_conversion = gtk_entry_new ();
-  gtk_signal_connect_object ( GTK_OBJECT ( entree_conversion ),
-			      "changed",
-			      gnome_property_box_changed,
-			      GTK_OBJECT (fenetre_preferences));
+  gtk_signal_connect ( GTK_OBJECT ( entree_conversion ),
+		       "changed",
+		       activer_bouton_appliquer,
+		       NULL );
   gtk_widget_set_usize ( entree_conversion,
 			 100,
 			 FALSE );
@@ -1542,6 +1543,7 @@ gboolean selection_ligne_devise ( GtkWidget *liste,
 
   /* met le nom et le code de la devise */
 
+  /* FIXME ? */
   gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_nom_devise_parametres ),
 				     gnome_property_box_changed,
 				     fenetre_preferences );
@@ -1582,11 +1584,11 @@ gboolean selection_ligne_devise ( GtkWidget *liste,
 		       "selection-done",
 		       GTK_SIGNAL_FUNC ( changement_devise_associee ),
 		       liste );
-  gtk_signal_connect_object ( GTK_OBJECT ( GTK_OPTION_MENU ( option_menu_devises) -> menu ),
-			      "selection-done",
-			      gnome_property_box_changed,
-			      GTK_OBJECT (fenetre_preferences));
-
+  gtk_signal_connect ( GTK_OBJECT ( GTK_OPTION_MENU ( option_menu_devises) -> menu ),
+		       "selection-done",
+		       activer_bouton_appliquer,
+		       NULL );
+  /* FIXME ? */
   gtk_signal_handler_block_by_func ( GTK_OBJECT ( check_button_euro ),
 				     GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
 				     fenetre_preferences );
@@ -1643,7 +1645,8 @@ gboolean deselection_ligne_devise ( GtkWidget *liste,
 				    ligne );
 
   /* retire le nom et le code de la devise */
-
+  
+  /* FIXME ? */
   gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_nom_devise_parametres ),
 				     gnome_property_box_changed,
 				     fenetre_preferences );
@@ -1937,10 +1940,11 @@ gboolean changement_devise_associee ( GtkWidget *menu_devises,
 
       gtk_option_menu_set_menu ( GTK_OPTION_MENU ( devise_1 ),
 				 menu );
-      gtk_signal_connect_object ( GTK_OBJECT ( menu ),
-				  "selection-done",
-				  gnome_property_box_changed,
-				  GTK_OBJECT (fenetre_preferences));
+      gtk_signal_connect ( GTK_OBJECT ( menu ),
+			   "selection-done",
+			   activer_bouton_appliquer,
+			   NULL );
+
       gtk_widget_show ( menu );
 	  
 
@@ -1969,10 +1973,11 @@ gboolean changement_devise_associee ( GtkWidget *menu_devises,
 
       gtk_option_menu_set_menu ( GTK_OPTION_MENU ( devise_2 ),
 				 menu );
-      gtk_signal_connect_object ( GTK_OBJECT ( menu ),
-				  "selection-done",
-				  gnome_property_box_changed,
-				  GTK_OBJECT (fenetre_preferences));
+      gtk_signal_connect ( GTK_OBJECT ( menu ),
+			   "selection-done",
+			   activer_bouton_appliquer,
+			   NULL );
+
       gtk_widget_show ( menu );
  
 
@@ -1993,6 +1998,7 @@ gboolean changement_devise_associee ( GtkWidget *menu_devises,
      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( devise_2 ),
 				menu );
 
+     /* FIXME ? */
      gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_conversion ),
 					GTK_SIGNAL_FUNC ( gnome_property_box_changed ),
 					fenetre_preferences );
