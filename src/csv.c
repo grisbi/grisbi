@@ -23,6 +23,7 @@
 /*START_INCLUDE*/
 #include "include.h"
 #include "structures.h"
+#include "erreur.h"
 #include "csv.h"
 #include "dialog.h"
 #include "devises.h"
@@ -41,31 +42,42 @@ extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
 /*END_EXTERN*/
 
+/* definition temporaire pour indiquer ou l'on est dans grisbi */
+#define WHERE_AM_I "Import CSV"
+
 /* *******************************************************************************/
 gboolean recuperation_donnees_csv ( FILE *fichier )
 {
-    gchar *pointeur_char;
-	struct struct_compte_importation *compte;
-	gint retour = 0;
-	gchar **tab_lignecourante;
-	gint nb_ligne_entete = 0;
-	gint nb_ligne_lues = 0;
+	/* on va récupérer ici chaque ligne d'un fichier csv et le handler import va gérer
+	l'importation dans un compte existant ou nouveau */
+
+	/* message debug qui indique le debut */
+	debug_message(WHERE_AM_I,_("Start Import"),DEBUG_LEVEL_NOTICE,FALSE); 
+	
+	/* initialisation de variables */
+	gchar *pointeur_char; /* ligne de fichier */
+	struct struct_compte_importation *compte; /* un compte */
+	gint retour = 0; 
+	gchar **tab_lignecourante; /* pointeur sur une ligne du fichier */
+	gint nb_lignes_fichier = 0; 
+	gint nb_lignes_entete = 0; 
+	gint nb_lignes_lues = 0;
+	gint nb_operations_trouvees = 0;
 
 	/* fichier pointe sur le fichier qui a été reconnu comme csv */
 	rewind ( fichier );
-
-	printf(_("DEBUG kik0r : Start CSV IMPORT\n")); // DEBUG
 
 	do
 	{
 		/* si on est déjà à la fin du fichier, on quitte */
 		if ( retour == EOF )
 		{
+			debug_message(WHERE_AM_I,_("CSV File is empty!"),DEBUG_LEVEL_IMPORTANT,FALSE); 
 			dialogue ( _("This file is empty!") );
 			return FALSE;
 		}
 
-		printf(_("DEBUG kik0r : File parsing start\n")); // DEBUG
+		debug_message(WHERE_AM_I,_("File parsing start"),DEBUG_LEVEL_INFO,FALSE); 
 		
 		/* on crée un nouveau compte */
 		compte = calloc ( 1, sizeof ( struct struct_compte_importation ));
@@ -89,7 +101,7 @@ gboolean recuperation_donnees_csv ( FILE *fichier )
 		/* plus tard si il s'agit d'un import initial ou non, de plus le csv ne donne */
 		/* aucune infos sur le compte */
 		
-		printf(_("DEBUG kik0r : Begin operation import\n")); // DEBUG
+		debug_message(WHERE_AM_I,_("Begin operation import"),DEBUG_LEVEL_DEBUG,FALSE); 
 		
 		/* récupération des opérations en brut, on les traitera ensuite */
 		do
@@ -102,22 +114,22 @@ gboolean recuperation_donnees_csv ( FILE *fichier )
 			
 			retour = get_line_from_file ( fichier,&pointeur_char );
 
-			printf(_("\n\n------------------------\nDEBUG kik0r : Find a new line\n")); // DEBUG			
-			printf(_("DEBUG kik0r : Line is %s\n"),pointeur_char); // DEBUG
+			debug_message(WHERE_AM_I,_("Find a new line"),DEBUG_LEVEL_INFO,FALSE);
+			debug_message(WHERE_AM_I,g_strdup_printf(_("Line is %s"),pointeur_char),DEBUG_LEVEL_INFO,FALSE);
 			
 			if ( retour != EOF && pointeur_char && g_strrstr ( pointeur_char, "Date;Type;" ) && count_char_from_string(";",pointeur_char)==8 )
 			{
 				/* c'est une ligne d'en tete alors on passe */
-				nb_ligne_entete++;
+				nb_lignes_entete++; nb_lignes_fichier++;
 				
-				printf(_("DEBUG kik0r : Skip this line (header)\n")); // DEBUG
+				debug_message(WHERE_AM_I,_("Skip this line (header)"),DEBUG_LEVEL_INFO,FALSE); 
 			}
 			else if ( retour != EOF && !g_strrstr ( pointeur_char, "Date;Type;" ) && count_char_from_string(";",pointeur_char)==8 )
 			{
 				/* c'est une ligne qui semble ok */
-				nb_ligne_lues++;
+				nb_lignes_lues++; nb_lignes_fichier++;
 
-				printf(_("DEBUG kik0r : Find a new operation\n")); // DEBUG
+				debug_message(WHERE_AM_I,_("Find a new operation"),DEBUG_LEVEL_INFO,FALSE); 
 				
 				/* on explose la ligne courante */
 				tab_lignecourante=g_strsplit( pointeur_char, ";",0);
@@ -142,7 +154,7 @@ gboolean recuperation_donnees_csv ( FILE *fichier )
 				/* pour le moment je controle que la date 12/27/2004 est valide auquel cas on est en locale us */
 				/* sinon en locale fr. voir fonction gdate g_date_set_parse() */
 				
-				printf(_("DEBUG kik0r : Date is %s\n"),tab_lignecourante[0]); // DEBUG
+				debug_message(WHERE_AM_I,g_strdup_printf(_("Date is %s"),tab_lignecourante[0]),DEBUG_LEVEL_INFO,FALSE);
 				
 				/* le champs date contient t'il le bon nb de caracteres ? */
 				if (strlen(tab_lignecourante[0]) == 10 || strlen(tab_lignecourante[0]) == 8)
@@ -180,7 +192,7 @@ gboolean recuperation_donnees_csv ( FILE *fichier )
 						}
 					}
 			
-					printf(_("DEBUG kik0r : Date parsed is jour=%d mois=%d annee=%d\n"),jour,mois,annee); // DEBUG
+					debug_message(WHERE_AM_I,g_strdup_printf(_("Date parsed is jour=%d mois=%d annee=%d"),jour,mois,annee),DEBUG_LEVEL_INFO,FALSE);
 					
 					g_strfreev ( tab_date );
 					
@@ -202,6 +214,7 @@ gboolean recuperation_donnees_csv ( FILE *fichier )
 				else
 				{
 					/* une erreur sur la date, j'affiche le dialog d'erreur et on va mettre la date a une valeur bidon */
+					debug_message(WHERE_AM_I,_("Can't parse date in CSV file!"),DEBUG_LEVEL_IMPORTANT,FALSE); 
 					dialogue_error_hint ( _("Dates can't be parsed in CSV file."),_("Grisbi automatically tries to parse dates from CSV files using heuristics.  Please double check that they are valid and contact grisbi development team for assistance if needed. Operation will be imported with date set on 01/01/1970") );
 					
 					/* l'opération n'a pas de date, c'est pas normal. pour éviter de la perdre, on va lui */
@@ -209,7 +222,7 @@ gboolean recuperation_donnees_csv ( FILE *fichier )
 					operation -> date = g_date_new_dmy 	(01,01,1970);
 				}
 			
-				printf(_("DEBUG kik0r : Trying tiers %s\n"),tab_lignecourante[2]); // DEBUG
+				debug_message(WHERE_AM_I,g_strdup_printf(_("Trying tiers %s"),tab_lignecourante[2]),DEBUG_LEVEL_INFO,FALSE);
 				
 				/* récupération du tiers */
 				operation -> tiers = g_strstrip ( tab_lignecourante[2] );
@@ -222,8 +235,8 @@ gboolean recuperation_donnees_csv ( FILE *fichier )
 					operation -> tiers = NULL;
 				}
 				
-				printf(_("DEBUG kik0r : Tiers found %s\n"),operation -> tiers); // DEBUG
-				printf(_("DEBUG kik0r : Trying amount debit %s credit %s\n"),tab_lignecourante[6],tab_lignecourante[7]); // DEBUG
+				debug_message(WHERE_AM_I,g_strdup_printf(_("Tiers found %s"),operation -> tiers),DEBUG_LEVEL_INFO,FALSE);
+				debug_message(WHERE_AM_I,g_strdup_printf(_("Trying amount debit %s credit %s"),tab_lignecourante[6],tab_lignecourante[7]),DEBUG_LEVEL_INFO,FALSE);
 				
 				/* récupération du montant */
 				if ( strlen ( tab_lignecourante[6] )>=4) /* c'est un débit */
@@ -240,6 +253,7 @@ gboolean recuperation_donnees_csv ( FILE *fichier )
 				if (!operation -> montant)
 				{
 					/* une erreur sur la date, j'affiche le dialog d'erreur et on va mettre la date a une valeur bidon */
+					debug_message(WHERE_AM_I,_("Can't parse amount in CSV file!"),DEBUG_LEVEL_IMPORTANT,FALSE); 
 					dialogue_error_hint ( _("Amount can't be parsed in CSV file."),_("Grisbi automatically tries to parse amount from CSV files using heuristics.  Please double check that they are valid and contact grisbi development team for assistance if needed. Operation will be imported with amount set to 0") );
 					
 					/* l'opération n'a pas de date, c'est pas normal. pour éviter de la perdre, on va lui */
@@ -247,8 +261,8 @@ gboolean recuperation_donnees_csv ( FILE *fichier )
 					operation -> montant = 0;
 				}
 				
-				printf(_("DEBUG kik0r : Amount found %5.2f\n"),operation -> montant ); // DEBUG
-				printf(_("DEBUG kik0r : Trying note %s\n"),tab_lignecourante[5]); // DEBUG
+				debug_message(WHERE_AM_I,g_strdup_printf(_("Amount found %5.2f"),operation -> montant),DEBUG_LEVEL_INFO,FALSE);
+				debug_message(WHERE_AM_I,g_strdup_printf(_("Trying note %s"),tab_lignecourante[5]),DEBUG_LEVEL_INFO,FALSE);
 				
 				/* récupération de la note */
 				operation -> notes = g_strstrip ( tab_lignecourante[5] );
@@ -271,8 +285,8 @@ gboolean recuperation_donnees_csv ( FILE *fichier )
 					operation -> notes = g_strconcat ( operation -> notes,_(" [Transaction imported with 0 amount]"),NULL );
 				}
 				
-				printf(_("DEBUG kik0r : Note found %s\n"),operation -> notes); // DEBUG
-				printf(_("DEBUG kik0r : Trying pointage %s\n"),tab_lignecourante[8]); // DEBUG
+				debug_message(WHERE_AM_I,g_strdup_printf(_("Note found %s"),operation -> notes),DEBUG_LEVEL_INFO,FALSE);
+				debug_message(WHERE_AM_I,g_strdup_printf(_("Trying pointage %s"),tab_lignecourante[8]),DEBUG_LEVEL_INFO,FALSE);
 				
 				/* récupération du pointage */
 				if ( strcmp(g_strstrip ( tab_lignecourante[8] ),"P") )
@@ -288,8 +302,8 @@ gboolean recuperation_donnees_csv ( FILE *fichier )
 					operation -> p_r = OPERATION_NORMALE;
 				}
 	
-				printf(_("DEBUG kik0r : Pointage found %d\n"),operation -> p_r); // DEBUG
-				printf(_("DEBUG kik0r : Trying categ %s : %s\n"),tab_lignecourante[3],tab_lignecourante[4]); // DEBUG
+				debug_message(WHERE_AM_I,g_strdup_printf(_("Pointage found %d"),operation -> p_r),DEBUG_LEVEL_INFO,FALSE);
+				debug_message(WHERE_AM_I,g_strdup_printf(_("Trying categ %s : %s"),tab_lignecourante[3],tab_lignecourante[4]),DEBUG_LEVEL_INFO,FALSE);
 				
 				/* récupération des catég (concatenation categ:souscateg */
 				/* il faudrait peut etre changer ce separateur car cela interdit les ":" dans les noms de categ */
@@ -303,12 +317,13 @@ gboolean recuperation_donnees_csv ( FILE *fichier )
 					operation -> categ = NULL;
 				}				
 				
-				printf(_("DEBUG kik0r : Categ found %s\n"),operation -> categ); // DEBUG
+				debug_message(WHERE_AM_I,g_strdup_printf(_("Categ found %s"),operation -> categ),DEBUG_LEVEL_INFO,FALSE);
 				
 				/* on enregistre l'opé */
 
 				if ( retour != EOF && operation && operation -> date )
 				{
+					nb_operations_trouvees++;
 					compte -> operations_importees = g_slist_append ( compte -> operations_importees,operation );
 				}
 				else
@@ -343,6 +358,12 @@ gboolean recuperation_donnees_csv ( FILE *fichier )
 	}
 	while ( retour != EOF );
 
+	/* message debug qui indique la fin */
+	debug_message(WHERE_AM_I,
+								g_strdup_printf(_("Import Done : %d operations founds (%d total lines, %d header lines, %d read lines)"),
+											nb_operations_trouvees,nb_lignes_fichier,nb_lignes_entete,nb_lignes_lues),
+								DEBUG_LEVEL_NOTICE,FALSE); 
+	
 	return ( TRUE );
 }
 /* *******************************************************************************/
