@@ -278,12 +278,11 @@ void export_accounts_to_csv (GSList* export_entries_list )
 			/* la catégorie de l'opé sera celle de la première opé de ventilation */
 			if ( operation -> operation_ventilee )
 			{
-
-                            _csv_add_record(fichier_csv,FALSE);
-                            
 			    GSList *liste_ventil;
 			    gint categ_ope_mise;
 
+                            _csv_add_record(fichier_csv,FALSE);
+                            
 			    categ_ope_mise = 0;
 			    liste_ventil = LISTE_OPERATIONS;
 
