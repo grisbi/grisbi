@@ -146,12 +146,17 @@ void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y
  */
 void latex_attach_vsep ( int x, int x2, int y, int y2)
 {
+  int pad;
+
   if ( y >= lastline )
     {
       if ( ! last_is_hsep )
 	fprintf ( out, "\\\\\n" );
       lastline = y2;
     }
+
+  for ( pad = lastcol ; pad < x ; pad ++ )
+    fprintf ( out, "&" );
 
   fprintf ( out, "{\\vrule}&" );
 
