@@ -3042,7 +3042,7 @@ void exporter_categ ( void )
 
       if ( !enregistre_categ ( nom_categ ))
 	{
-	  dialogue ( "L'enregistrement a échoué." );
+	  dialogue ( _("Error saving file.") );
 	  return;
 	}
 
@@ -3214,7 +3214,7 @@ void importer_categ ( void )
 
       if ( !charge_categ ( nom_categ ))
 	{
-	  dialogue ( "L'importation a échoué." );
+	  dialogue ( _("Cannot import file.") );
 	  return;
 	}
 

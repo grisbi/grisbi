@@ -2833,7 +2833,7 @@ void exporter_ib ( void )
 
       if ( !enregistre_ib ( nom_ib ))
 	{
-	  dialogue ( "L'enregistrement a échoué." );
+	  dialogue ( _("Cannot save file.") );
 	  return;
 	}
 
@@ -3005,7 +3005,7 @@ void importer_ib ( void )
 
       if ( !charge_ib ( nom_ib ))
 	{
-	  dialogue ( "L'importation a échoué." );
+	  dialogue ( _("Cannot import file.") );
 	  return;
 	}
 
