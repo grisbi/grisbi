@@ -396,10 +396,50 @@ void ouverture_confirmee ( void )
 
 gboolean enregistrement_fichier ( gint origine )
 {
-  gint demande_nom;
+  GtkWidget * dialog;
+  gint etat_force, result;
+
 
   if ( !etat.modification_fichier && origine != -2 )
     return ( TRUE );
+
+  if ( origine == -1 )
+    {
+      gchar * hint;
+
+      hint = g_strdup_printf (_("Save changes to document '%s' before saving?"),
+			      (nom_fichier_comptes ? nom_fichier_comptes : _("unnamed")));
+
+      dialog = gtk_message_dialog_new ( GTK_WINDOW (window), 
+					GTK_DIALOG_DESTROY_WITH_PARENT,
+					GTK_MESSAGE_WARNING, 
+					GTK_BUTTONS_NONE,
+					"" );
+      gtk_dialog_add_buttons ( dialog,
+			       _("Close without saving"), GTK_RESPONSE_NO,
+			       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+			       GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+			       NULL );
+      gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), 
+			     make_hint ( hint, _("If you close without saving, all of your changes will be discarded.")) );
+
+      gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
+
+      switch ( gtk_dialog_run (GTK_DIALOG (dialog)) )
+	{
+	case GTK_RESPONSE_OK :
+	  gtk_widget_destroy ( dialog );
+	  break;
+
+	case GTK_RESPONSE_NO :
+	  gtk_widget_destroy ( dialog );
+	  return ( TRUE );
+	      
+	default :
+	  gtk_widget_destroy ( dialog );
+	  return ( FALSE );
+	}
+    }
 
   /* si le fichier de comptes n'a pas de nom, on le demande ici */
 
@@ -410,37 +450,6 @@ gboolean enregistrement_fichier ( gint origine )
       GtkWidget *fenetre_nom;
       gint resultat;
       struct stat test_fichier;
-
-      demande_nom = 1;
-
-      if ( origine == -1 )
-	{
-	  dialog = gnome_message_box_new ( _("Save file?"),
-					     GNOME_MESSAGE_BOX_QUESTION,
-					     GNOME_STOCK_BUTTON_YES,
-					     GNOME_STOCK_BUTTON_NO,
-					     GNOME_STOCK_BUTTON_CANCEL,
-					     NULL);
-	  gnome_dialog_set_default ( GNOME_DIALOG ( dialog ),
-				     1 );
-	  gnome_dialog_set_parent ( GNOME_DIALOG ( dialog ),
-				    GTK_WINDOW ( window ));
-	  
-	  resultat = gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ) );
-
-	  switch ( resultat )
-	    {
-	    case 0 :
-	      break;
-
-	    case 1 :
-	      return ( TRUE );
-	      break;
-	      
-	    default :
-	      return ( FALSE );
-	    }
-	}
 
       dialog = gnome_dialog_new ( _("Name the accounts file"),
 				  GNOME_STOCK_BUTTON_OK,
@@ -534,105 +543,40 @@ gboolean enregistrement_fichier ( gint origine )
 	  return ( FALSE );
 	}
     }
-  else
-    demande_nom = 0;
 
-
-  /*   on a maintenant un nom de fichier, on peux sauvegarder */
-
-
+  /*   on a maintenant un nom de fichier, on peut sauvegarder */
   if ( etat.sauvegarde_auto || origine != -1 )
     {
-      gint etat_force;
-      gint result;
-
       /*       si on fait un enregistrer sous, on peut forcer l'enregistrement */
-
       etat_force = etat.force_enregistrement;
 
       if ( origine == -2 && !etat.force_enregistrement )
 	etat.force_enregistrement = 1;
-      
-      enregistrement_backup();
-
-      if ( patience_en_cours )
-	update_attente ( _("Save file") );
-      else
-	mise_en_route_attente ( _("Save file") );
-
-      result = enregistre_fichier ( 0 );
-      annulation_attente();
-
-      if ( result )
-	{
-	  modification_fichier ( FALSE );
-	  affiche_titre_fenetre ();
-	  fichier_marque_ouvert ( TRUE );
-	  ajoute_nouveau_fichier_liste_ouverture ( nom_fichier_comptes );
-
-	  etat.force_enregistrement = etat_force;
-	}
-
-      return ( result );
     }
+
+  if ( nom_fichier_backup && strlen(nom_fichier_backup) )
+    if ( !enregistrement_backup() )
+      return ( FALSE );
+
+  if ( patience_en_cours )
+    update_attente ( _("Save file") );
   else
+    mise_en_route_attente ( _("Save file") );
+
+  result = enregistre_fichier ( 0 );
+  annulation_attente();
+
+  if ( etat.sauvegarde_auto || origine != -1 )
     {
-      GtkWidget *dialogue;
-      gint reponse;
-      gint result;
-
-      if ( demande_nom )
-	reponse = 0;
-      else
-	{
-	  dialogue = gnome_message_box_new ( _("Save file?"),
-					     GNOME_MESSAGE_BOX_QUESTION,
-					     GNOME_STOCK_BUTTON_YES,
-					     GNOME_STOCK_BUTTON_NO,
-					     GNOME_STOCK_BUTTON_CANCEL,
-					     NULL);
-	  gnome_dialog_set_default ( GNOME_DIALOG ( dialogue ),
-				     1 );
-	  gnome_dialog_set_parent ( GNOME_DIALOG ( dialogue ),
-				    GTK_WINDOW ( window ));
-	  
-	  reponse = gnome_dialog_run_and_close ( GNOME_DIALOG ( dialogue ) );
-	}
-
-      switch ( reponse )
-	{
-	case 0 :
-
-	  enregistrement_backup();
-
-	  if ( patience_en_cours )
-	    update_attente ( _("Save file") );
-	  else
-	    mise_en_route_attente ( _("Save file") );
-
-	  result = enregistre_fichier ( 0 );
-	  annulation_attente();
-
-	  if ( result )
-	    {
-	      modification_fichier ( FALSE );
-	      affiche_titre_fenetre ();
-	      fichier_marque_ouvert ( TRUE );
-	      ajoute_nouveau_fichier_liste_ouverture ( nom_fichier_comptes );
-	    }
-
-	  return ( result );
-
-	case 1 :
-	  return ( TRUE );
-	  break;
-	      
-	default :
-	  return ( FALSE );
-	}
+      etat.force_enregistrement = etat_force;
     }
 
-  return ( TRUE );
+  modification_fichier ( FALSE );
+  affiche_titre_fenetre ();
+  fichier_marque_ouvert ( TRUE );
+  ajoute_nouveau_fichier_liste_ouverture ( nom_fichier_comptes );
+
+  return ( result );
 }
 /* ************************************************************************************************************ */
 
