@@ -28,6 +28,7 @@
 #include "constants.h"
 
 #include "banque.h"
+#include "fichiers_gestion.h"
 #include "operations_formulaire.h"
 #include "operations_liste.h"
 #include "search_glist.h"
@@ -1010,6 +1011,9 @@ gboolean update_homepage_title (GtkEntry *entry, gchar *value,
 			   g_strconcat ("<span size=\"x-large\">",
 					(gchar *) gtk_entry_get_text (GTK_ENTRY (entry)),
 					"</span>", NULL ) );
+
+    /* Update window title */
+    affiche_titre_fenetre();
 
     return FALSE;
 }
