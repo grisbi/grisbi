@@ -103,7 +103,7 @@ typedef enum
 extern win_version    win32_get_windows_version(void);
 extern win_technology win32_get_windows_technology(win_version);
 
-BOOL win32_shell_execute_open(gchar* file);
+BOOL win32_shell_execute_open(const gchar* file);
 
 #endif//!WINUTILS_H_C61461B7_ACF2_4011_888A_030AD5F25F8F
 

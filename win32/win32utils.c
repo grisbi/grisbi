@@ -342,7 +342,7 @@ win_technology win32_get_windows_technology(win_version version) /* {{{ */
 } /* }}} win32_get_windows_technology */
 /* }}} */
 
-BOOL win32_shell_execute_open(gchar* file)
+BOOL win32_shell_execute_open(const gchar* file)
 {
    return ((int)ShellExecute(NULL, "open", file, NULL, NULL, SW_SHOWNORMAL)>32);
 }
