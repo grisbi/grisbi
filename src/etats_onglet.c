@@ -202,7 +202,7 @@ GtkWidget *creation_liste_etats ( void )
 
     /*  création de la vbox qui contient la liste des états */
 
-    vbox_liste_etats = gtk_vbox_new ( FALSE, 10);
+    vbox_liste_etats = gtk_vbox_new ( FALSE, 0);
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW (scrolled_window ),
 					    vbox_liste_etats);
     gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( GTK_BIN ( scrolled_window )  -> child ),

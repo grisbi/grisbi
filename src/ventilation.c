@@ -40,6 +40,35 @@
 #include "type_operations.h"
 #include "utils.h"
 
+static gboolean clique_champ_formulaire_ventilation ( void );
+static gboolean entree_ventilation_perd_focus ( GtkWidget *entree, GdkEventFocus *ev,
+					 gint *no_origine );
+static gboolean traitement_clavier_liste_ventilation ( GtkCList *liste,
+						GdkEventKey *evenement,
+						gpointer null );
+static void changement_taille_liste_ventilation ( GtkWidget *clist,
+					   GtkAllocation *allocation,
+					   gpointer null );
+static void selectionne_ligne_souris_ventilation ( GtkCList *liste,
+					    GdkEventButton *evenement,
+					    gpointer null );
+static gboolean appui_touche_ventilation ( GtkWidget *entree,
+				    GdkEventKey *evenement,
+				    gint *no_origine );
+static void echap_formulaire_ventilation ( void );
+static void fin_edition_ventilation ( void );
+static void edition_operation_ventilation ( void );
+static void supprime_operation_ventilation ( void );
+static void affiche_liste_ventilation ( void );
+static void ajoute_ope_sur_liste_ventilation ( struct struct_ope_ventil *operation );
+static void mise_a_jour_couleurs_liste_ventilation ( void );
+static void selectionne_ligne_ventilation ( void );
+static void calcule_montant_ventilation ( void );
+static void mise_a_jour_labels_ventilation ( void );
+static void valider_ventilation ( void );
+static void quitter_ventilation ( void );
+
+
 
 
 extern GSList *liste_categories_ventilation_combofix;  

@@ -694,15 +694,18 @@ void echap_formulaire ( void )
 
     liste_tmp = gtk_object_get_data ( GTK_OBJECT ( formulaire ),
 				      "liste_adr_ventilation" );
-
-    while ( liste_tmp )
+    
+    if ( liste_tmp != GINT_TO_POINTER(-1))
     {
-	free ( liste_tmp -> data );
-	liste_tmp = liste_tmp -> next;
-    }
+	while ( liste_tmp )
+	{
+	    free ( liste_tmp -> data );
+	    liste_tmp = liste_tmp -> next;
+	}
 
-    g_slist_free ( gtk_object_get_data ( GTK_OBJECT ( formulaire ),
-					 "liste_adr_ventilation" ));
+	g_slist_free ( gtk_object_get_data ( GTK_OBJECT ( formulaire ),
+					     "liste_adr_ventilation" ));
+    }
 
     formulaire_a_zero();
 
@@ -1749,6 +1752,8 @@ void completion_operation_par_tiers ( void )
 		place_type = 0;
 	}
 
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte_ope_trouvee;
+
 	/*       à ce niveau, place type est mis */
 
 	gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ),
@@ -1832,6 +1837,7 @@ void completion_operation_par_tiers ( void )
 	    GSList *liste_des_opes_de_ventilation;
 
 	    liste_des_opes_de_ventilation = NULL;
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte_ope_trouvee;
 	    pointeur_ope = LISTE_OPERATIONS;
 
 	    while ( pointeur_ope )
@@ -1885,7 +1891,6 @@ void completion_operation_par_tiers ( void )
 
 			nouvelle_operation -> no_type_associe = contre_operation -> type_ope;
 
-			//		      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 			p_tab_nom_de_compte_variable = p_tab_nom_de_compte_ope_trouvee;
 		    }
 

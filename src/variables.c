@@ -383,8 +383,10 @@ gint nb_banques;
 gint no_derniere_banque;
 
 
+
+
 /***********************************/ 
-/* fichier ventilation.c */
+/* fichier ventilations.c */
 /***********************************/ 
 
 
