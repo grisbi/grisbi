@@ -173,7 +173,7 @@ GtkWidget *onglet_exercices ( void )
 /*       /\* remplissage de la liste avec les exercices temporaires *\/ */
 
       liste_tmp = liste_struct_exercices;
-      nb_exercices++;
+/*       nb_exercices++; */
 
       while ( liste_tmp )
 	{
@@ -326,8 +326,11 @@ void ajout_exercice ( GtkWidget *bouton,
   exercice = calloc ( 1, sizeof ( struct struct_exercice ));
   exercice -> no_exercice = -1;
   exercice -> nom_exercice = g_strdup ( _("New financial year") );
-  liste_struct_exercices = g_slist_append ( liste_struct_exercices,
-					    exercice );
+  liste_struct_exercices = g_slist_append ( liste_struct_exercices, exercice );
+
+  exercice -> no_exercice = ++no_derniere_exercice;
+  nb_exercices++;
+
   ligne[0] = exercice -> nom_exercice;
 
   ligne_insert = gtk_clist_append ( GTK_CLIST ( clist ), ligne );
@@ -371,28 +374,22 @@ void supprime_exercice ( GtkWidget *bouton,
   gtk_window_set_transient_for ( GTK_WINDOW ( dialogue ),
 				 GTK_WINDOW ( fenetre_preferences ));
 
-  label = gtk_label_new ( g_strconcat ( _("Do you really want to delete the financial year:\n"),
-					exercice -> nom_exercice,
-					" ?",
+  label = gtk_label_new ( g_strconcat ( _("Do you really want to delete financial year"),
+					"\"", exercice -> nom_exercice, "\" ?",
 					NULL ) );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue ) -> vbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue ) -> vbox ), label,
+		       FALSE, FALSE, 0 );
   gtk_widget_show ( label );
 
   resultat = gnome_dialog_run_and_close ( GNOME_DIALOG ( dialogue ));
 
   if ( !resultat )
     {
-      gtk_clist_remove ( GTK_CLIST ( liste ),
-			 ligne_selection_exercice );
+      gtk_clist_remove ( GTK_CLIST ( liste ), ligne_selection_exercice );
       liste_struct_exercices = g_slist_remove ( liste_struct_exercices,
 						exercice );
+      nb_exercices++;
       free ( exercice );
-
-      gnome_property_box_changed ( GNOME_PROPERTY_BOX ( fenetre_preferences));
     }
 
   /* Update various menus */
@@ -988,12 +985,25 @@ void association_automatique ( void )
 
 		  exo = pointeur_exo -> data;
 
+		  printf (">>> Verifying %02d/%02d/%04d for %s ... ",
+			  g_date_day ( operation -> date ),
+			  g_date_month ( operation -> date ),
+			  g_date_year ( operation -> date ),
+			  exo -> nom_exercice );
+
 		  if ( g_date_compare ( exo -> date_debut,
 					operation -> date ) <= 0
 		       &&
 		       g_date_compare ( exo -> date_fin,
 					operation -> date ) >= 0 )
-		    operation -> no_exercice = exo -> no_exercice;
+		    {
+		      printf ("matched\n");
+		      operation -> no_exercice = exo -> no_exercice;
+		    }
+		  else
+		    {
+		      printf ("not matched\n");
+		    }
 
 		  pointeur_exo = pointeur_exo -> next;
 		}
