@@ -1876,7 +1876,11 @@ void exporter_fichier_qif ( void )
 			}
 		      else
 			{
-			  if ( operation -> relation_no_operation )
+			  /* si c'est un virement vers un compte supprimé, ça sera pris comme categ normale vide */
+
+			  if ( operation -> relation_no_operation
+			       &&
+			       operation -> relation_no_compte >= 0 )
 			    {
 			      /* c'est un virement */
 

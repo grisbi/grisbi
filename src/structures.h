@@ -119,7 +119,7 @@ struct structure_operation
   gchar *info_banque_guichet;
 
   guint relation_no_operation;
-  guint relation_no_compte;
+  gint relation_no_compte;             /* attention, doit être à gint et pas guint car à -1 si compte supprimé */
 
   guint no_operation_ventilee_associee;      /* si c'est une opé d'une ventilation, contient le no de l'opé ventilée */
 };

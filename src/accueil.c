@@ -555,7 +555,7 @@ void met_en_normal ( GtkWidget *event_box,
 
 void update_liste_comptes_accueil ( void )
 {
-  GdkColor couleur_bleue, couleur_jaune;
+  GdkColor couleur_bleue, couleur_jaune, couleur_vert, couleur_orange, couleur_rouge;
   GtkWidget *event_box;
   GtkWidget *label;
   GSList *ordre_comptes_variable;
@@ -567,25 +567,36 @@ void update_liste_comptes_accueil ( void )
 
   label = gtk_label_new ("");
 
-  if ( !style_label_nom_compte )
-    {
       /* création du style normal -> bleu */
       /* pointeur dessus -> jaune-rouge */
 
-      style_label = gtk_style_copy ( gtk_widget_get_style (label));
-      style_label_nom_compte = gtk_style_copy ( gtk_widget_get_style (label));
-      couleur_bleue.red = 500;
-      couleur_bleue.green = 500;
-      couleur_bleue.blue = 65535;
-      couleur_jaune.red =40000;
-      couleur_jaune.green =40000;
-      couleur_jaune.blue = 0;
+/*       style_label = gtk_style_copy ( gtk_widget_get_style (label)); */
+  style_label_nom_compte = gtk_style_copy ( gtk_widget_get_style (label));
 
-      style_label->fg[GTK_STATE_PRELIGHT] = couleur_jaune;
-      style_label->fg[GTK_STATE_NORMAL] = couleur_bleue;
+  couleur_bleue.red = 500;
+  couleur_bleue.green = 500;
+  couleur_bleue.blue = 65535;
 
-      style_label_nom_compte ->fg[GTK_STATE_PRELIGHT] = couleur_jaune;
-    }
+  couleur_jaune.red =40000;
+  couleur_jaune.green =40000;
+  couleur_jaune.blue = 40000;
+
+  couleur_vert.red =0;
+  couleur_vert.green =65535;
+  couleur_vert.blue = 0;
+
+  couleur_orange.red =40000;
+  couleur_orange.green =20000;
+  couleur_orange.blue = 0;
+
+  couleur_rouge.red =65535;
+  couleur_rouge.green =0;
+  couleur_rouge.blue = 0;
+
+/*       style_label->fg[GTK_STATE_PRELIGHT] = couleur_jaune; */
+/*       style_label->fg[GTK_STATE_NORMAL] = couleur_bleue; */
+
+  style_label_nom_compte ->fg[GTK_STATE_PRELIGHT] = couleur_jaune;
 
 
   if ( GTK_BIN ( frame_etat_comptes_accueil ) -> child )
@@ -689,6 +700,21 @@ void update_liste_comptes_accueil ( void )
 	  gtk_widget_show ( event_box );
 
 
+	  /* mise en place du style du label en fonction du solde courant */
+
+	  style_label = gtk_style_copy ( gtk_widget_get_style (label));
+	  style_label->fg[GTK_STATE_PRELIGHT] = couleur_jaune;
+
+	  if ( SOLDE_COURANT > SOLDE_MINI_VOULU )
+	    style_label->fg[GTK_STATE_NORMAL] = couleur_bleue;
+	  else
+	    {
+	      if ( SOLDE_COURANT > SOLDE_MINI )
+		style_label->fg[GTK_STATE_NORMAL] = couleur_orange;
+	      else
+		style_label->fg[GTK_STATE_NORMAL] = couleur_rouge;
+	    }
+
 	  label = gtk_label_new ( g_strdup_printf ( "%4.2f",
 						    SOLDE_COURANT ));
 	  gtk_misc_set_alignment ( GTK_MISC ( label ),
@@ -751,6 +777,7 @@ void update_liste_comptes_accueil ( void )
 /* ************************************************************************************************************ */
 void update_liste_echeances_manuelles_accueil ( void )
 {
+
   verification_echeances_a_terme ();
 
   if ( echeances_a_saisir )
@@ -760,6 +787,7 @@ void update_liste_echeances_manuelles_accueil ( void )
       GSList *pointeur_liste;
       GtkWidget *event_box;
       GtkWidget *hbox;
+      GdkColor couleur_bleue, couleur_jaune;
 
       /* s'il y avait déjà un fils dans la frame, le détruit */
       
@@ -788,6 +816,23 @@ void update_liste_echeances_manuelles_accueil ( void )
 			   FALSE,
 			   0 );
       gtk_widget_show ( label );
+
+
+      /* création du style normal -> bleu */
+      /* pointeur dessus -> jaune-rouge */
+
+      style_label = gtk_style_copy ( gtk_widget_get_style (label));
+
+      couleur_bleue.red = 500;
+      couleur_bleue.green = 500;
+      couleur_bleue.blue = 65535;
+
+      couleur_jaune.red =40000;
+      couleur_jaune.green =40000;
+      couleur_jaune.blue = 0;
+
+      style_label->fg[GTK_STATE_PRELIGHT] = couleur_jaune;
+      style_label->fg[GTK_STATE_NORMAL] = couleur_bleue;
 
 
       pointeur_liste = echeances_a_saisir;

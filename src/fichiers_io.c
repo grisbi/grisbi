@@ -1653,24 +1653,37 @@ void supprime_operations_orphelines ( void )
 
 	  /* si c'est un virement, recherche la contre opération */
 
+	  /* 	  on vérifie que relation_no_compte > 0 (des fois négatif, bug qui vient de je sais pas où) */
+
 	  if ( operation -> relation_no_operation )
 	    {
-	      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
+	      /* 	      si relation_no_compte = -1, c'est un virement vers compte suprimé, donc on s'en fout */
+	      /* 		si relation_no_compte < -1, c'est un bug corrigé, on met à -1 */
 
-	      result = g_slist_find_custom ( LISTE_OPERATIONS,
-					     GINT_TO_POINTER ( operation -> relation_no_operation ),
-					     (GCompareFunc) recherche_operation_par_no );
-
-	      /* si la contre opération n'est pas trouvée, on met les relations de cette opé à 0 */
-
-	      if ( !result )
+	      if ( operation -> relation_no_compte >= 0 )
 		{
-		  nb_vir++;
-		  operation -> relation_no_operation = 0;
-		  operation -> relation_no_compte = 0;
-		}
+		  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
-	      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+		  result = g_slist_find_custom ( LISTE_OPERATIONS,
+						 GINT_TO_POINTER ( operation -> relation_no_operation ),
+						 (GCompareFunc) recherche_operation_par_no );
+
+		  /* si la contre opération n'est pas trouvée, on met les relations de cette opé à 0 */
+
+		  if ( !result )
+		    {
+		      nb_vir++;
+		      operation -> relation_no_operation = 0;
+		      operation -> relation_no_compte = 0;
+		    }
+
+		  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+		}
+	      else
+		{
+		  if ( operation -> relation_no_compte < -1 )
+		    operation -> relation_no_compte = -1;
+		}
 	    }
 
 	  /* si c'est une opé de ventil, recherche la ventil associée */
