@@ -325,7 +325,7 @@ void update_currency_widgets()
 				"changed",
 				GTK_SIGNAL_FUNC ( modif_detail_compte ),
 				GTK_OBJECT ( hbox_boutons_modif ) );
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
     gtk_option_menu_set_history ( GTK_OPTION_MENU (  detail_devise_compte),
 				  g_slist_index ( liste_struct_devises,
 						  devise_par_no ( DEVISE ))); 
@@ -449,11 +449,11 @@ GtkWidget *creation_option_menu_devises ( gint devise_cachee, GSList *liste_tmp 
 	if ( devise_cachee != devise -> no_devise )
 	{
 	    if ( devise_cachee == -1 )
-		menu_item = gtk_menu_item_new_with_label ( devise_name ( devise ) );
+		menu_item = gtk_menu_item_new_with_label ( devise_code ( devise ) );
 	    else
 		menu_item = gtk_menu_item_new_with_label ( g_strconcat ( devise -> nom_devise,
 									 " ( ",
-									 devise_name ( devise ),
+									 devise_code ( devise ),
 									 " )",
 									 NULL ));
 
@@ -2232,7 +2232,7 @@ struct struct_devise *devise_par_code_iso ( gchar *code_iso )
 
 
 /**
- * Return either currency's name or currency's ISO4217 nickname if no
+ * Return either currency's code or currency's ISO4217 nickname if no
  * name is found.
  *
  * \param devise A pointer to a struct_devise holding currency
@@ -2241,7 +2241,7 @@ struct struct_devise *devise_par_code_iso ( gchar *code_iso )
  * \return name or ISO4217 name of currency.
  * or NULL if devise is NULL
  */
-gchar * devise_name ( struct struct_devise * devise )
+gchar * devise_code ( struct struct_devise * devise )
 {
     if ( devise )
     {
@@ -2257,13 +2257,30 @@ gchar * devise_name ( struct struct_devise * devise )
 
 
 /* ***************************************************************************************** */
-/* renvoie le nom de la devise correspondante au no */
+/* renvoie le code de la devise correspondante au no */
 /* ou null si pas trouvée */
 /* ***************************************************************************************** */
 
-gchar * devise_name_by_no ( gint no_devise )
+gchar * devise_code_by_no ( gint no_devise )
 {
-    return ( devise_name ( devise_par_no ( no_devise )));
+    return ( devise_code ( devise_par_no ( no_devise )));
+}
+/* ***************************************************************************************** */
+
+
+/* ***************************************************************************************** */
+/* renvoie le nom de la devise donné en argument */
+/* ***************************************************************************************** */
+gchar * devise_name ( struct struct_devise * devise )
+{
+    if ( devise )
+    {
+	if ( devise -> nom_devise && (strlen(devise -> nom_devise) > 0))
+	    return devise -> nom_devise;
+
+	return devise -> code_iso4217_devise;
+    }
+    return NULL;
 }
 /* ***************************************************************************************** */
 

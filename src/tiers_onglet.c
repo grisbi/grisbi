@@ -430,7 +430,7 @@ void remplit_arbre_tiers ( void )
 	     || nb_ecritures_par_tiers[place_tiers] )
 	    text[1] = g_strdup_printf ( _("%4.2f %s"),
 					tab_montant[place_tiers],
-					devise_name ( devise_compte ) );
+					devise_code ( devise_compte ) );
 	else
 	    text[1] = NULL;
 
@@ -706,7 +706,7 @@ void ouverture_node_tiers ( GtkWidget *arbre,
 						operation -> mois,
 						operation -> annee,
 						operation -> montant,
-						devise_name ( devise_operation ),
+						devise_code ( devise_operation ),
 						operation -> notes );
 		else
 		    text[0] = g_strdup_printf ( "%d/%d/%d : %4.2f %s",
@@ -714,7 +714,7 @@ void ouverture_node_tiers ( GtkWidget *arbre,
 						operation -> mois,
 						operation -> annee,
 						operation -> montant,
-						devise_name ( devise_operation ) );
+						devise_code ( devise_operation ) );
 
 		text[1] = NULL;
 		text[2] = NULL;
@@ -873,7 +873,7 @@ gboolean expand_selected_tiers ( GtkWidget *liste, GdkEventButton *ev, gpointer 
 
     /* récupération de la ligne de l'opé dans la liste ; affichage de toutes les opé si nécessaire */
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     if ( operation -> pointe == 3 && !AFFICHAGE_R )
 	change_aspect_liste ( GINT_TO_POINTER (5));
@@ -1628,7 +1628,7 @@ gchar *calcule_total_montant_tiers_par_compte ( gint no_tiers, gint no_compte )
     if ( nb_ecritures_par_comptes )
 	return ( g_strdup_printf ( _("%4.2f %s"),
 				   retour_int,
-				   devise_name_by_no ( no_devise_totaux_tiers ) ));
+				   devise_code_by_no ( no_devise_totaux_tiers ) ));
     else
 	return ( NULL );
 }

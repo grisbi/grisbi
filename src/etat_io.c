@@ -1154,7 +1154,7 @@ gboolean enregistre_etat ( gchar *nom_etat )
     xmlNewTextChild ( node,
 		      NULL,
 		      "Devise_gen",
-		      devise_name_by_no ( etat_courant -> devise_de_calcul_general ));
+		      devise_code_by_no ( etat_courant -> devise_de_calcul_general ));
 
     xmlNewTextChild ( node,
 		      NULL,
@@ -1402,7 +1402,7 @@ gboolean enregistre_etat ( gchar *nom_etat )
     xmlNewTextChild ( node,
 		      NULL,
 		      "Devise_categ",
-		      devise_name_by_no ( etat_courant -> devise_de_calcul_categ ));
+		      devise_code_by_no ( etat_courant -> devise_de_calcul_categ ));
 
     xmlNewTextChild ( node,
 		      NULL,
@@ -1475,7 +1475,7 @@ gboolean enregistre_etat ( gchar *nom_etat )
     xmlNewTextChild ( node,
 		      NULL,
 		      "Devise_ib",
-		      devise_name_by_no ( etat_courant -> devise_de_calcul_ib ));
+		      devise_code_by_no ( etat_courant -> devise_de_calcul_ib ));
 
     xmlNewTextChild ( node,
 		      NULL,
@@ -1525,7 +1525,7 @@ gboolean enregistre_etat ( gchar *nom_etat )
     xmlNewTextChild ( node,
 		      NULL,
 		      "Devise_tiers",
-		      devise_name_by_no ( etat_courant -> devise_de_calcul_tiers ));
+		      devise_code_by_no ( etat_courant -> devise_de_calcul_tiers ));
 
     xmlNewTextChild ( node,
 		      NULL,
@@ -1598,7 +1598,7 @@ gboolean enregistre_etat ( gchar *nom_etat )
     xmlNewTextChild ( node,
 		      NULL,
 		      "Montant_devise",
-		      devise_name_by_no ( etat_courant -> choix_devise_montant ));
+		      devise_code_by_no ( etat_courant -> choix_devise_montant ));
 
     node_2 = xmlNewChild ( node,
 			   NULL,

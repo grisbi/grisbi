@@ -1201,7 +1201,7 @@ gboolean traitement_clavier_liste_ventilation_echeances ( GtkCList *liste,
     gint ligne;
 
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     gtk_signal_emit_stop_by_name ( GTK_OBJECT ( liste ),
 				   "key_press_event");
@@ -2221,7 +2221,7 @@ void ajoute_ope_sur_liste_ventilation_echeances ( struct struct_ope_ventil *oper
 	ligne [0] = g_strconcat ( COLON(_("Transfer")),
 				  NOM_DU_COMPTE,
 				  NULL );
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
     }
     else
     {

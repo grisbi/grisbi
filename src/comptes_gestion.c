@@ -1251,7 +1251,7 @@ void passage_a_l_euro ( GtkWidget *bouton, gpointer null )
 	gdouble change = 0.0;
 	struct struct_devise *devise;
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
 	/* recherche de la devise du compte pour le change */
 

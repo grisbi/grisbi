@@ -91,7 +91,7 @@ gint classement_liste_equilibrage ( GtkWidget *liste,
     if ( operation_2 == GINT_TO_POINTER ( -1 ) )
 	return ( -1 );
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     /* si l'opération est négative et que le type est neutre et que les types
        neutres sont séparés, on lui met la position du type négatif */
@@ -422,8 +422,8 @@ gint classement_sliste_par_devise ( struct structure_operation *operation_1,
     gint retour;
     gchar *devise_1, *devise_2;
 
-    devise_1 = devise_name_by_no ( operation_1 -> devise );
-    devise_2 = devise_name_by_no ( operation_2 -> devise );
+    devise_1 = devise_code_by_no ( operation_1 -> devise );
+    devise_2 = devise_code_by_no ( operation_2 -> devise );
 
     if ( devise_1 )
     {

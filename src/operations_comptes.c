@@ -162,7 +162,7 @@ GtkWidget *creation_liste_comptes (void)
 
     /* mise en place du label */
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     if ( nb_comptes )
 	label_releve = gtk_label_new ( g_strconcat ( COLON(_("Last statement")),
@@ -272,7 +272,7 @@ gboolean changement_compte ( gint *compte)
 
     if ( GPOINTER_TO_INT ( compte ) != -1 )
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
 	VALUE_AJUSTEMENT_LISTE_OPERATIONS = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS )) -> value;
 
@@ -293,8 +293,7 @@ gboolean changement_compte ( gint *compte)
     /*     si compte=-1, compte_courant était déjà réglé */
     /* 	sinon on vient juste de le régler */
 
-    p_tab_nom_de_compte_courant = p_tab_nom_de_compte + compte_courant;
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     /* change le nom du compte courant */
     gtk_label_set_text ( GTK_LABEL ( label_compte_courant), NOM_DU_COMPTE);

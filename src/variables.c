@@ -94,7 +94,6 @@ FILE *pointeur_fichier_comptes_tmp;
 int nb_comptes;
 gpointer ** p_tab_nom_de_compte = NULL;  /* pointe vers un tableau de pointeurs vers les comptes en mémoire*/
 gpointer ** p_tab_nom_de_compte_variable;  /* idem, mais utilisé pour se déplacer */
-gpointer ** p_tab_nom_de_compte_courant;  /* pointe sur le tableau de pointeurs sur le compte courant*/
 GtkWidget * solde_label;   /*  pointeur vers le label qui contient le solde sous la liste des opé */
 GtkWidget * solde_label_pointe;   /*  pointeur vers le label qui contient le solde pointe sous la liste des opé */
 gchar version[10];

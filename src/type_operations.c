@@ -568,7 +568,7 @@ void modification_entree_nom_type ( void )
 	{
 	    gint pos_type;
 
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
 	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ),
 				       menu );

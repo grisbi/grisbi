@@ -424,7 +424,7 @@ GtkWidget *creation_formulaire ( void )
 
     if ( ( menu = creation_menu_types ( 1, compte_courant, 0 ) ) )
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
 	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ),
 				   menu );
@@ -708,7 +708,7 @@ void echap_formulaire ( void )
     /* 	dans tous les cas, toutes les modifs apportées ne l'étaient que */
     /* 	dans cette liste */
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     liste_tmp = gtk_object_get_data ( GTK_OBJECT ( formulaire ),
 				      "liste_adr_ventilation" );
@@ -771,7 +771,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
     gchar *texte;
 
     texte = NULL;
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     switch ( GPOINTER_TO_INT ( no_origine ) )
     {
@@ -823,7 +823,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 
 		/* si c'est un menu de crédit, on y met le menu de débit, sauf si tous les types sont affichés */
 
-		p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
 		if ( ( !etat.affiche_tous_les_types
 		       &&
@@ -916,7 +916,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 		/* si c'est un menu de crédit, on y met le menu de débit,
 		   sauf si tous les types sont affichés */
 
-		p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
 		if ( ( !etat.affiche_tous_les_types &&
 		       GTK_WIDGET_VISIBLE ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ) &&
@@ -1261,7 +1261,7 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
     {
 	case GDK_Escape :		/* échap */
 
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 	    echap_formulaire();
 	    break;
 
@@ -1283,7 +1283,7 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 
 	    /* on fait perdre le focus au widget courant pour faire les changements automatiques si nécessaire */
 
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
 	    /* on donne le focus au widget suivant */
 
@@ -1374,7 +1374,7 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	       la saisie de l'opération */
 	    else
 	    {
-		p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 		fin_edition();
 	    }
 	    break;
@@ -1604,8 +1604,8 @@ void completion_operation_par_tiers ( void )
     /* on fait d'abord le tour du compte courant pour recherche une opé avec ce tiers */
     /* s'il n'y a aucune opé correspondante, on fait le tour de tous les comptes */
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-    p_tab_nom_de_compte_ope_trouvee = p_tab_nom_de_compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    p_tab_nom_de_compte_ope_trouvee = p_tab_nom_de_compte + compte_courant;
 
     operation = NULL;
     pointeur_ope = LISTE_OPERATIONS;
@@ -1676,7 +1676,6 @@ void completion_operation_par_tiers ( void )
 
     /* remplit les différentes entrées du formulaire */
 
-    //  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_ope_trouvee;
 
     /* remplit les montant et place le menu correspondant dans l'option menu des types */
@@ -1749,7 +1748,7 @@ void completion_operation_par_tiers ( void )
 
 	if ( place_type == -1 )
 	{
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
 	    if ( operation -> montant < 0 )
 		place_type = cherche_no_menu_type ( TYPE_DEFAUT_DEBIT );
@@ -1959,7 +1958,7 @@ void completion_operation_par_tiers ( void )
 						  cherche_no_menu_type_associe ( operation_2 -> type_ope,
 										 0 ));
 	    }
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 	}
 	else
 	{
@@ -2177,7 +2176,7 @@ gboolean fin_edition ( void )
 
 	recuperation_donnees_generales_formulaire ( operation );
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
 	/* il faut ajouter l'opération à la liste à ce niveau pour lui attribuer un numéro */
 
@@ -2279,7 +2278,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
     gchar **tableau_char;
     GSList *liste_tmp;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     /* on vérifie qu'il y a bien une date */
 
@@ -2391,7 +2390,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 			return ( FALSE );
 		    }
 
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
 		}
 	}
@@ -2547,7 +2546,7 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
     gchar **tableau_char;
     struct struct_devise *devise;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     /* traitement de la date */
 
@@ -2629,7 +2628,7 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
     /* si c'est un compte qui doit passer à l'euro ( la transfo se fait au niveau de l'affichage de la liste ) */
     /* ou si c'est un compte en euro et l'opé est dans une devise qui doit passer à l'euro -> pas de change à demander */
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     if ( !devise_compte ||
 	 devise_compte -> no_devise != DEVISE )
@@ -2815,7 +2814,7 @@ void recuperation_categorie_formulaire ( struct structure_operation *operation,
 		    supprime_operation ( operation_2 );
 		}
 
-		p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
 		operation -> relation_no_operation = 0;
 		operation -> relation_no_compte = 0;
@@ -2918,7 +2917,7 @@ void recuperation_categorie_formulaire ( struct structure_operation *operation,
 			    supprime_operation ( operation_2 );
 			}
 
-			p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
 			operation -> relation_no_operation = 0;
 			operation -> relation_no_compte = 0;
@@ -3383,7 +3382,7 @@ void modifie_operation ( struct structure_operation *operation )
 /******************************************************************************/
 void formulaire_a_zero (void)
 {
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     /* on met les styles des entrées au gris */
 
@@ -3566,7 +3565,7 @@ void click_sur_bouton_voir_change ( void )
     operation = gtk_object_get_data ( GTK_OBJECT ( formulaire ),
 				      "adr_struct_ope" );
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     if ( !devise_compte ||
 	 devise_compte -> no_devise != DEVISE )

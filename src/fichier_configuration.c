@@ -306,6 +306,9 @@ void charge_configuration ( void )
 		if ( !strcmp ( node_affichage -> name, "Affichage_nb_ecritures" ) ) {
 		    etat.affiche_nb_ecritures_listes = my_atoi(xmlNodeGetContent ( node_affichage));
 		}
+		if ( !strcmp ( node_affichage -> name, "Affichage_grille" ) ) {
+		    etat.affichage_grille = my_atoi(xmlNodeGetContent ( node_affichage));
+		}
 		node_affichage = node_affichage->next;
 	    }
 	}
@@ -780,7 +783,9 @@ void sauve_configuration(void)
     }
     xmlNewChild ( node,NULL, "Affichage_nb_ecritures",
 		  itoa(etat.affichage_exercice_automatique));
-    xmlNewChild ( node,NULL, "Affichage_exercice_automatique",
+     xmlNewChild ( node,NULL, "Affichage_grille",
+		  itoa(etat.affichage_grille));
+   xmlNewChild ( node,NULL, "Affichage_exercice_automatique",
 		  itoa(etat.affichage_exercice_automatique));
 
     /*   sauvegarde de l'onglet d'exercice */

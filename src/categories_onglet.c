@@ -644,7 +644,7 @@ void remplit_arbre_categ ( void )
 	if ( tab_montant_categ[place_categ+1] )
 	    text[1] = g_strdup_printf ( _("%4.2f %s"),
 					tab_montant_categ[place_categ+1],
-					devise_name ( devise_compte ) );
+					devise_code ( devise_compte ) );
 	else
 	    text[1] = NULL;
 	text[2] = NULL;
@@ -701,7 +701,7 @@ void remplit_arbre_categ ( void )
 		 tab_montant_sous_categ[place_categ][place_sous_categ+1] )
 		text[2] = g_strdup_printf ( _("%4.2f %s"),
 					    tab_montant_sous_categ[place_categ][place_sous_categ+1],
-					    devise_name ( devise_compte ) );
+					    devise_code ( devise_compte ) );
 	    else
 		text[2] = NULL;
 
@@ -767,7 +767,7 @@ void remplit_arbre_categ ( void )
 	    if ( tab_montant_sous_categ[place_categ][0] )
 		text[2] = g_strdup_printf ( _("%4.2f %s"),
 					    tab_montant_sous_categ[place_categ][0],
-					    devise_name ( devise_compte ) );
+					    devise_code ( devise_compte ) );
 	    else
 		text[2] = NULL;
 
@@ -827,7 +827,7 @@ void remplit_arbre_categ ( void )
 
 	text[1] = g_strdup_printf ( _("%4.2f %s"),
 				    tab_montant_categ[0],
-				    devise_name ( devise_compte ) );
+				    devise_code ( devise_compte ) );
 	text[2] = NULL;
 	text[3] = NULL;
 
@@ -857,7 +857,7 @@ void remplit_arbre_categ ( void )
 	text[1] = NULL;
 	text[2] = g_strdup_printf ( _("%4.2f %s"),
 				    tab_montant_categ[0],
-				    devise_name ( devise_compte ) );
+				    devise_code ( devise_compte ) );
 	text[3] = NULL;
 
 	ligne_sous_categ = gtk_ctree_insert_node ( GTK_CTREE ( arbre_categ ),
@@ -1385,7 +1385,7 @@ void expand_selected_category ()
 	{
 	    changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
 
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
 	    if ( operation -> pointe == 3 && !AFFICHAGE_R )
 	    {
@@ -2756,7 +2756,7 @@ gchar *calcule_total_montant_categ_par_compte ( gint categ, gint sous_categ, gin
     if ( retour_int )
 	return ( g_strdup_printf ( _("%4.2f %s"),
 				   retour_int,
-				   devise_name_by_no ( no_devise_totaux_tiers ) ));
+				   devise_code_by_no ( no_devise_totaux_tiers ) ));
     else
 	return ( NULL );
 }

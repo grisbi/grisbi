@@ -10,6 +10,8 @@ gint recherche_banque_par_no ( struct struct_banque *banque,
 			       gint *no_banque );
 gint recherche_devise_par_nom ( struct struct_devise *devise,
 				gchar *nom );
+gint recherche_devise_par_code ( struct struct_devise *devise,
+				gchar *code );
 gint recherche_devise_par_code_iso ( struct struct_devise *devise,
 				     gchar *nom );
 gint recherche_devise_par_no ( struct struct_devise *devise,

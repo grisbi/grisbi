@@ -86,8 +86,6 @@ void nouveau_fichier ( void )
     if ( no_compte == -1 )
 	return;
 
-    p_tab_nom_de_compte_courant = p_tab_nom_de_compte;
-
     /* dégrise les menus nécessaire */
 
     menus_sensitifs ( TRUE );
@@ -118,7 +116,7 @@ void nouveau_fichier ( void )
 			 TRUE,
 			 0 );
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     changement_compte ( GINT_TO_POINTER ( compte_courant ) );
 

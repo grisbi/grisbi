@@ -17,6 +17,7 @@ void update_couleurs_background ( gint compte,
 				  GtkTreeIter *iter_debut );
 void update_soldes_list_store ( gint compte,
 				GtkTreeIter *iter_debut );
+struct structure_position_solde *recherche_position_solde ( void );
 gdouble solde_debut_affichage ( gint no_compte );
 gdouble calcule_solde_compte ( gint no_compte );
 gdouble calcule_solde_pointe_compte ( gint no_compte );
@@ -64,4 +65,5 @@ void my_list_store_sort ( gint no_compte,
 GSList *cree_slist_affichee ( gint no_compte );
 void mise_a_jour_affichage_r ( gint affichage_r );
 void mise_a_jour_affichage_lignes ( gint nb_lignes );
+void classe_liste_operations ( gint no_compte );
 

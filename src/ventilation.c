@@ -2162,7 +2162,7 @@ void ajoute_ope_sur_liste_ventilation ( struct struct_ope_ventil *operation )
 	ligne [0] = g_strconcat ( COLON(_("Transfer")),
 				  NOM_DU_COMPTE,
 				  NULL );
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
     }
     else
 	/* c'est des categ : sous categ */
@@ -2453,21 +2453,27 @@ void annuler_ventilation ( void )
     nouvelle_liste = creation_liste_ope_de_ventil ( gtk_object_get_data ( GTK_OBJECT ( formulaire ),
 									       "adr_struct_ope" ));
 
-    liste_tmp = ancienne_liste;
-
-    while ( liste_tmp )
+    if ( ancienne_liste != GINT_TO_POINTER (-1))
     {
-	struct struct_ope_ventil *ventil;
+	liste_tmp = ancienne_liste;
 
-	ventil = liste_tmp -> data;
+	while ( liste_tmp )
+	{
+	    struct struct_ope_ventil *ventil;
 
-	if ( ventil -> par_completion )
-	    nouvelle_liste = g_slist_append ( nouvelle_liste,
-					      ventil );
-	liste_tmp = liste_tmp -> next;
+	    ventil = liste_tmp -> data;
+
+	    if ( ventil -> par_completion )
+		nouvelle_liste = g_slist_append ( nouvelle_liste,
+						  ventil );
+	    liste_tmp = liste_tmp -> next;
+	}
+
+	g_slist_free ( ancienne_liste );
     }
+    else
+	nouvelle_liste = GINT_TO_POINTER (-1);
 
-    g_slist_free ( ancienne_liste );
 
     gtk_object_set_data ( GTK_OBJECT ( formulaire ),
 			  "liste_adr_ventilation",

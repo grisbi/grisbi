@@ -96,6 +96,7 @@ struct {
     guint en_train_de_charger;
     guint utilise_logo;
     guint utilise_fonte_listes;
+    guint affichage_grille;         /* à 1 si la grille est affichée */
 
     /* Various display message stuff  */
     guint display_message_lock_active;

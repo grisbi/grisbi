@@ -483,7 +483,7 @@ void equilibrage ( void )
 {
     GDate *date;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     /* efface le label propriétés du compte */
 
@@ -758,7 +758,7 @@ gboolean annuler_equilibrage ( void )
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
 			    0 );
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     etat.equilibrage = 0;
 
@@ -799,7 +799,7 @@ void pointe_equilibrage ( int p_ligne )
 	 operation -> pointe == 3 )
 	return;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     montant = calcule_montant_devise_renvoi ( operation -> montant,
 					      DEVISE,
@@ -909,7 +909,7 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
     }
 
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
 
     /* récupération de la date */
@@ -999,7 +999,7 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
 
     /* met tous les P à R */
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     pointeur_liste_ope = LISTE_OPERATIONS;
 

@@ -121,6 +121,16 @@ gint recherche_devise_par_nom ( struct struct_devise *devise,
 
 
 /* ************************************************************************************************************ */
+gint recherche_devise_par_code ( struct struct_devise *devise,
+				gchar *code )
+{
+    return ( g_strcasecmp ( g_strstrip ( devise_code(devise) ), code ) );
+}
+/* ************************************************************************************************************ */
+
+
+
+/* ************************************************************************************************************ */
 gint recherche_devise_par_code_iso ( struct struct_devise *devise,
 				     gchar *nom )
 {

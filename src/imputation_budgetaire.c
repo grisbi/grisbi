@@ -584,7 +584,7 @@ void remplit_arbre_imputation ( void )
 	if ( tab_montant_imputation[place_imputation+1] )
 	    text[1] = g_strdup_printf ( _("%4.2f %s"),
 					tab_montant_imputation[place_imputation+1],
-					devise_name ( devise_compte ) );
+					devise_code ( devise_compte ) );
 	else
 	    text[1] = NULL;
 
@@ -644,7 +644,7 @@ void remplit_arbre_imputation ( void )
 		 tab_montant_sous_imputation[place_imputation][place_sous_imputation+1] )
 		text[2] = g_strdup_printf ( _("%4.2f %s"),
 					    tab_montant_sous_imputation[place_imputation][place_sous_imputation+1],
-					    devise_name ( devise_compte ) );
+					    devise_code ( devise_compte ) );
 	    else
 		text[2] = NULL;
 
@@ -710,7 +710,7 @@ void remplit_arbre_imputation ( void )
 	    if ( tab_montant_sous_imputation[place_imputation][0] )
 		text[2] = g_strdup_printf ( _("%4.2f %s"),
 					    tab_montant_sous_imputation[place_imputation][0],
-					    devise_name ( devise_compte ) );
+					    devise_code ( devise_compte ) );
 	    else
 		text[2] = NULL;
 
@@ -769,7 +769,7 @@ void remplit_arbre_imputation ( void )
 
 	text[1] = g_strdup_printf ( _("%4.2f %s"),
 				    tab_montant_imputation[0],
-				    devise_name ( devise_compte ) );
+				    devise_code ( devise_compte ) );
 	text[2] = NULL;
 	text[3] = NULL;
 
@@ -798,7 +798,7 @@ void remplit_arbre_imputation ( void )
 	text[1] = NULL;
 	text[2] = g_strdup_printf ( _("%4.2f %s"),
 				    tab_montant_imputation[0],
-				    devise_name ( devise_compte ) );
+				    devise_code ( devise_compte ) );
 	text[3] = NULL;
 
 	ligne = gtk_ctree_insert_node ( GTK_CTREE ( arbre_imputation ),
@@ -1081,7 +1081,7 @@ void ouverture_node_imputation ( GtkWidget *arbre,
 						    operation -> mois,
 						    operation -> annee,
 						    operation -> montant,
-						    devise_name ( devise_operation ),
+						    devise_code ( devise_operation ),
 						    operation -> notes );
 		    else
 			text[0] = g_strdup_printf ( _("%d/%d/%d : %4.2f %s [ %s ]"),
@@ -1089,7 +1089,7 @@ void ouverture_node_imputation ( GtkWidget *arbre,
 						    operation -> mois,
 						    operation -> annee,
 						    operation -> montant,
-						    devise_name ( devise_operation ),
+						    devise_code ( devise_operation ),
 						    operation -> notes );
 		}
 		else
@@ -1100,14 +1100,14 @@ void ouverture_node_imputation ( GtkWidget *arbre,
 						    operation -> mois,
 						    operation -> annee,
 						    operation -> montant,
-						    devise_name ( devise_operation ) );
+						    devise_code ( devise_operation ) );
 		    else
 			text[0] = g_strdup_printf ( "%d/%d/%d : %4.2f %s",
 						    operation -> jour,
 						    operation -> mois,
 						    operation -> annee,
 						    operation -> montant,
-						    devise_name ( devise_operation ) );
+						    devise_code ( devise_operation ) );
 		}
 
 		text[1] = NULL;
@@ -1320,7 +1320,7 @@ gboolean expand_selected_ib (  )
 	{
 	    changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
 
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
 	    if ( operation -> pointe == 3 && !AFFICHAGE_R )
 	    {
@@ -2566,7 +2566,7 @@ gchar *calcule_total_montant_imputation_par_compte ( gint imputation, gint sous_
     if ( retour_int )
 	return ( g_strdup_printf ( _("%4.2f %s"),
 				   retour_int,
-				   devise_name_by_no ( no_devise_totaux_tiers ) ));
+				   devise_code_by_no ( no_devise_totaux_tiers ) ));
     else
 	return ( NULL );
 }

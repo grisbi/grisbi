@@ -2596,12 +2596,12 @@ void incrementation_echeance ( struct operation_echeance *echeance )
 	    if ( echeance -> montant >= 0 )
 		label = gtk_label_new ( g_strdup_printf (PRESPACIFY(_("%4.2f %s credit on %s")),
 							 echeance ->montant,
-							 devise_name_by_no ( echeance -> devise ),
+							 devise_code_by_no ( echeance -> devise ),
 							 NOM_DU_COMPTE ));
 	    else
 		label = gtk_label_new ( g_strdup_printf (PRESPACIFY(_("%4.2f %s debit on %s")),
 							 -echeance ->montant,
-							 devise_name_by_no ( echeance -> devise ),
+							 devise_code_by_no ( echeance -> devise ),
 							 NOM_DU_COMPTE ));
 
 
@@ -2640,12 +2640,12 @@ void incrementation_echeance ( struct operation_echeance *echeance )
 	    if ( echeance -> montant >= 0 )
 		label = gtk_label_new ( g_strdup_printf (PRESPACIFY(_("%4.2f %s credit on %s")),
 							 echeance ->montant,
-							 devise_name_by_no ( echeance -> devise ),
+							 devise_code_by_no ( echeance -> devise ),
 							 NOM_DU_COMPTE ));
 	    else
 		label = gtk_label_new ( g_strdup_printf (PRESPACIFY(_("%4.2f %s debit on %s")),
 							 -echeance ->montant,
-							 devise_name_by_no ( echeance -> devise ),
+							 devise_code_by_no ( echeance -> devise ),
 							 NOM_DU_COMPTE ));
 
 

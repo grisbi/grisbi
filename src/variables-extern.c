@@ -100,7 +100,6 @@ extern FILE *pointeur_fichier_comptes_tmp;
 extern int nb_comptes;
 extern gpointer ** p_tab_nom_de_compte;  /* pointe vers un tableau de pointeurs vers les comptes en mémoire*/
 extern gpointer ** p_tab_nom_de_compte_variable;  /* idem, mais utilisé pour se déplacer */
-extern gpointer ** p_tab_nom_de_compte_courant;  /* pointe sur le tableau de pointeurs sur le compte courant*/
 extern GtkWidget * solde_label;   /*  pointeur vers le label qui contient le solde sous la liste des opé */
 extern GtkWidget * solde_label_pointe;   /*  pointeur vers le label qui contient le solde pointe sous la liste des opé */
 extern gchar version[10];

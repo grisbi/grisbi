@@ -30,6 +30,7 @@
 #include "echeancier_formulaire.h"
 #include "traitement_variables.h"
 #include "utils.h"
+#include "ventilation.h"
 
 
 #include "./xpm/ope_1.xpm"
@@ -45,6 +46,7 @@
 #include "./xpm/liste_2.xpm"
 #include "./xpm/liste_3.xpm"
 #include "./xpm/comments.xpm"
+#include "./xpm/grille.xpm"
 
 /** Used to display/hide comments in scheduler list */
 GtkWidget *scheduler_display_hide_comments;
@@ -56,13 +58,18 @@ GtkWidget *fleche_haut_echeancier;
 GtkWidget *bouton_ope_lignes[4];
 GtkWidget *bouton_affiche_r;
 GtkWidget *bouton_enleve_r;
+GtkWidget *bouton_grille;
 GtkWidget *label_proprietes_operations_compte;
+gulong handler_signal_grille;
 
 
 
 
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *arbre_imputation;
+extern GtkWidget *tree_view_liste_ventilations;
+
+
 
 /*******************************************************************************************/
 GtkWidget *creation_barre_outils ( void )
@@ -350,6 +357,38 @@ GtkWidget *creation_barre_outils ( void )
 			 0 );
     gtk_widget_show_all ( separateur );
 
+    /*     bouton affiche/masque la grille des opérations */
+
+    bouton_grille = gtk_check_button_new ();
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (bouton_grille ),
+				   etat.affichage_grille );
+    gtk_toggle_button_set_mode ( GTK_TOGGLE_BUTTON (bouton_grille ),
+				 FALSE  );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton_grille ),
+			    GTK_RELIEF_NONE );
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
+			   bouton_grille,
+			   _("Display the grid"),
+			   _("Display the grid") );
+    icone = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) grille_xpm ));
+    gtk_container_add ( GTK_CONTAINER ( bouton_grille ),
+			icone );
+    gtk_widget_set_usize ( bouton_grille,
+			   15,
+			   15 );
+    g_signal_connect_swapped ( GTK_OBJECT ( bouton_grille ),
+			       "toggled",
+			       GTK_SIGNAL_FUNC ( change_aspect_liste ),
+			       NULL );
+    gtk_box_pack_start ( GTK_BOX ( hbox ),
+			 bouton_grille,
+			 FALSE,
+			 FALSE,
+			 0 );
+    gtk_widget_show_all ( bouton_grille );
+
+
+
 
 
     label_proprietes_operations_compte = gtk_label_new (_("Account transactions"));
@@ -369,13 +408,56 @@ GtkWidget *creation_barre_outils ( void )
 /****************************************************************************************************/
 gboolean change_aspect_liste ( gint *demande )
 {
-    p_tab_nom_de_compte_variable=p_tab_nom_de_compte_courant;
+    gint i;
+
+    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + compte_courant;
 
 /* FIXME : dès que gtk 2.4 à la maison, utiliser le gtk_tree_model_filter */
 
 
     switch ( GPOINTER_TO_INT (demande))
     {
+	case 0:
+	    /* 	    changement de l'affichage de la grille */
+
+	    etat.affichage_grille = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_grille ));
+
+	    if ( etat.affichage_grille )
+	    {
+		/* 		on affiche les grilles */
+
+		g_signal_connect_after ( G_OBJECT ( tree_view_liste_ventilations ),
+					 "expose-event",
+					 G_CALLBACK ( affichage_traits_liste_ventilation ),
+					 NULL );
+
+		for ( i=0 ; i<nb_comptes ; i++ )
+		{
+		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+		    g_signal_connect_after ( G_OBJECT ( TREE_VIEW_LISTE_OPERATIONS ),
+					     "expose-event",
+					     G_CALLBACK ( affichage_traits_liste_operation ),
+					     NULL );
+		}
+	    }
+	    else
+	    {
+		g_signal_handlers_disconnect_by_func ( G_OBJECT ( tree_view_liste_ventilations ),
+						       G_CALLBACK ( affichage_traits_liste_ventilation ),
+						       NULL );
+		for ( i=0 ; i<nb_comptes ; i++ )
+		{
+		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+		    g_signal_handlers_disconnect_by_func ( G_OBJECT ( TREE_VIEW_LISTE_OPERATIONS ),
+							   G_CALLBACK ( affichage_traits_liste_operation ),
+							   NULL );
+		}
+	    }
+	    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + compte_courant;
+	    gtk_widget_queue_draw ( TREE_VIEW_LISTE_OPERATIONS );
+
+	    break;
+
 	/* 	1, 2, 3 et 4 sont les nb de lignes qu'on demande à afficher */
 
 	case 1 :

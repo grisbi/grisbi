@@ -245,7 +245,7 @@ void gtktable_click_sur_ope_etat ( struct structure_operation *operation )
 
 	/* récupération de la ligne de l'opé dans la liste ; affichage de toutes les opé si nécessaire */
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
 	if ( operation -> pointe == 3 && !AFFICHAGE_R )
 	    change_aspect_liste ( GINT_TO_POINTER (5));

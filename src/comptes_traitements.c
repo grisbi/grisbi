@@ -152,8 +152,6 @@ gint initialisation_nouveau_compte ( gint type_de_compte )
 	return (-1);
     };
 
-    p_tab_nom_de_compte_courant = p_tab_nom_de_compte + compte_courant;
-
     /* insère ses paramètres ( comme c'est un appel à calloc, tout ce qui est à 0 est déjà initialisé )*/
 
     NOM_DU_COMPTE = g_strdup ( _("No name") );
@@ -260,7 +258,6 @@ void supprimer_compte ( void )
 
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_modifie;
-    p_tab_nom_de_compte_courant = p_tab_nom_de_compte + compte_courant;
     //  nb_comptes--;
 
     g_slist_free ( LISTE_OPERATIONS );
@@ -416,7 +413,7 @@ GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func,
 	    gtk_menu_append ( GTK_MENU ( menu ), item );
 
 	    if ( !activate_currrent && 
-		 p_tab_nom_de_compte_courant == p_tab_nom_de_compte_variable )
+		 compte_courant == GPOINTER_TO_INT ( ordre_comptes_variable -> data ))
 	    {
 		gtk_widget_set_sensitive ( item, FALSE );
 	    }      

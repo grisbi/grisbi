@@ -1129,8 +1129,6 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import,
     nb_comptes++;
     *p_tab_nom_de_compte_variable = (gpointer) compte;
 
-    p_tab_nom_de_compte_courant = p_tab_nom_de_compte + compte_courant; 
-
 
     /*     met l'id du compte s'il existe (import ofx) */
 
@@ -1353,7 +1351,7 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import,
 	operation -> notes = g_strdup ( operation_import -> notes );
 
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
 	/* récupération du chèque et mise en forme du type d'opération */
 
@@ -1677,10 +1675,6 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
     calcule_solde_compte ( NO_COMPTE );
     calcule_solde_pointe_compte ( NO_COMPTE );
 
-    /* on classe la liste */
-
-    LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
-				      (GCompareFunc) CLASSEMENT_COURANT );
 }
 /* *******************************************************************************/
 
@@ -2101,8 +2095,9 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 
     /* ajoute l'opération dans la liste des opés du compte */
 
-    LISTE_OPERATIONS = g_slist_append ( LISTE_OPERATIONS,
-					operation );
+	LISTE_OPERATIONS = g_slist_insert_sorted ( LISTE_OPERATIONS,
+						   operation,
+						   (GCompareFunc) CLASSEMENT_COURANT );
     return ( operation );
 }
 /* *******************************************************************************/
