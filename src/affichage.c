@@ -3,7 +3,7 @@
 /* affichage.c */
 
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
-/*			2003 Benjamin Drieu (bdrieu@april.org) */
+/*			2003-2004 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -704,52 +704,20 @@ void choix_fonte_general ( GtkWidget *bouton,
 
 
 
-/* **************************************************************************************************************************** */
-void modification_logo_accueil ( void )
+void change_logo_accueil ( GtkWidget *widget, gpointer user_data )
 {
   GtkWidget *dialog, *choix, *bouton;
+  GtkWidget *file_selector = (GtkWidget *)user_data;
   GdkPixbuf * pixbuf;
   gint resultat;
+  const gchar *selected_filename;
 
-  dialog = gnome_dialog_new ( _("Select a new logo"),
-			      GNOME_STOCK_BUTTON_OK,
-			      GNOME_STOCK_BUTTON_CANCEL,
-			      NULL );
-  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
-				 GTK_WINDOW ( fenetre_preferences ));
-  gtk_window_set_modal ( GTK_WINDOW ( dialog ), FALSE );
+   selected_filename = gtk_file_selection_get_filename (GTK_FILE_SELECTION (file_selector));
 
-  choix = gnome_pixmap_entry_new ( "path_logo_grisbi",
-				   _("Select a new logo"),
-				   TRUE );
-  gtk_widget_set_usize ( choix, 300, 300 );
-
-  if ( chemin_logo )
-    gtk_entry_set_text ( GTK_ENTRY ( gnome_pixmap_entry_gtk_entry ( GNOME_PIXMAP_ENTRY ( choix ))),
-			 chemin_logo );
-  gnome_pixmap_entry_set_preview ( GNOME_PIXMAP_ENTRY ( choix ), TRUE );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ), choix,
-		       TRUE, TRUE, 0 );
-
-  bouton = gtk_button_new_with_label ( _("Revert to default logo") );
-  gtk_button_set_relief ( GTK_BUTTON ( bouton ), GTK_RELIEF_NONE );
-  gtk_signal_connect ( GTK_OBJECT ( bouton ), "clicked",
-		       GTK_SIGNAL_FUNC ( remise_a_zero_logo ), choix );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ), bouton,
-		       TRUE, TRUE, 0 );
-  gtk_widget_show_all ( dialog );
-
-  resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
-
-  if ( resultat )
-    {
-      gnome_dialog_close ( GNOME_DIALOG ( dialog ));
-      return;
-    }
   if ( nb_comptes )
     {
       /* on change le logo */
-      chemin_logo = gnome_pixmap_entry_get_filename ( GNOME_PIXMAP_ENTRY(choix) );
+      chemin_logo = (gchar *) selected_filename;
 
       if ( !chemin_logo ||
 	   !strlen ( g_strstrip ( chemin_logo )) )
@@ -797,14 +765,49 @@ void modification_logo_accueil ( void )
       gtk_container_add ( GTK_CONTAINER(logo_button), preview );
     }
 
-  gnome_dialog_close ( GNOME_DIALOG ( dialog ));
-
   /* on sauvegarde le chemin */
 
   gnome_config_set_string ( "/Grisbi/Affichage/Chemin_du_logo",
 			    chemin_logo );
   gnome_config_sync();
   modification_fichier ( TRUE );
+
+}
+
+
+/* **************************************************************************************************************************** */
+void modification_logo_accueil ( void )
+{
+  GtkWidget *dialog, *choix, *bouton, *file_selector;
+  GdkPixbuf * pixbuf;
+  gint resultat;
+
+  file_selector = gtk_file_selection_new (_("Select a new logo"));
+   
+  g_signal_connect (GTK_OBJECT (GTK_FILE_SELECTION (file_selector)->ok_button),
+		    "clicked",
+		    G_CALLBACK (change_logo_accueil),
+		    (gpointer) file_selector);
+
+  gtk_window_set_transient_for ( GTK_WINDOW ( file_selector ),
+				 GTK_WINDOW ( fenetre_preferences ));
+  gtk_window_set_modal ( GTK_WINDOW ( file_selector ), TRUE );
+
+   /* Ensure that the dialog box is destroyed when the user clicks a button. */
+   
+   g_signal_connect_swapped (GTK_OBJECT (GTK_FILE_SELECTION (file_selector)->ok_button),
+                             "clicked",
+                             G_CALLBACK (gtk_widget_destroy), 
+                             (gpointer) file_selector); 
+
+   g_signal_connect_swapped (GTK_OBJECT (GTK_FILE_SELECTION (file_selector)->cancel_button),
+                             "clicked",
+                             G_CALLBACK (gtk_widget_destroy),
+                             (gpointer) file_selector); 
+   
+   /* Display that dialog */
+   
+   gtk_widget_show (file_selector);
 
 }
 /* **************************************************************************************************************************** */
