@@ -428,8 +428,7 @@ gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
  */
 GtkWidget *onglet_messages_and_warnings ( void )
 {
-    GtkWidget *hbox, *vbox_pref;
-    GtkWidget *paddingbox, *label;
+    GtkWidget *hbox, *vbox_pref, *paddingbox, *label, *tip_checkbox;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Messages & warnings"),
 					       "warnings.png" );
@@ -465,26 +464,31 @@ GtkWidget *onglet_messages_and_warnings ( void )
 
     /* Number of days before a warning message advertising a scheduled
        transaction */
-    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
-					    _("Scheduler warnings"));
+    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Scheduler warnings"));
     hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-			 FALSE, FALSE, 0);
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
     label = gtk_label_new ( SPACIFY(COLON(_("Number of days before a warning message advertising a scheduled transaction"))) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
     entree_jours = new_spin_button ( &(decalage_echeance),
 				     /* Limit to one year */
 				     0, 365, 1, 5, 1, 1, 0, NULL ); 
-    gtk_box_pack_start ( GTK_BOX ( hbox ), entree_jours,
-			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), entree_jours, FALSE, FALSE, 0 );
 
+    /* Tip of the day */
+    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Tip of the day"));
+
+    /* Display or not tips */
+    tip_checkbox = new_checkbox_with_title ( _("Display tip of the day"),
+					     &(etat.show_tip), NULL );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), tip_checkbox, FALSE, FALSE, 0 );
+
+    /* Show everything */
     gtk_widget_show_all ( vbox_pref );
 
     if ( !nb_comptes )
     {
-	gtk_widget_set_sensitive ( vbox_pref, FALSE );
+      gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }
 
     return ( vbox_pref );
