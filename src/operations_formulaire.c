@@ -1641,7 +1641,10 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	{
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					 "key-press-event");
-	  incremente_decremente_date ( widget_formulaire_operations[origine], 1 );
+	  if ( ( ev -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
+	    incremente_decremente_date ( widget_formulaire_operations[origine], ONE_DAY );
+	  else
+	    incremente_decremente_date ( widget_formulaire_operations[origine], ONE_WEEK );
 	}
       else if ( origine == TRANSACTION_FORM_CHEQUE )	/* Voucher number */
 	{
@@ -1661,7 +1664,10 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	{
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					 "key-press-event");
-	  incremente_decremente_date ( widget_formulaire_operations[origine], -1 );
+	  if ( ( ev -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
+	    incremente_decremente_date ( widget_formulaire_operations[origine], - ONE_DAY );
+	  else
+	    incremente_decremente_date ( widget_formulaire_operations[origine], - ONE_WEEK );
 	}
       else if ( origine == TRANSACTION_FORM_CHEQUE )	/* Voucher number */
 	{
@@ -1671,8 +1677,38 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	}
       return TRUE;
 
-    }
+    case GDK_Page_Up :		/* touche PgUp */
+    case GDK_KP_Page_Up :
 
+      /* si on est dans une entree de date, on augmente d'un mois (d'un an) la date */
+      /* GDC : prise en compte de la date réelle (18) FinGDC */
+      if ( origine == TRANSACTION_FORM_DATE || origine == TRANSACTION_FORM_VALUE_DATE )
+	{
+	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
+					 "key-press-event");
+	  if ( ( ev -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
+	    incremente_decremente_date ( widget_formulaire_operations[origine], ONE_MONTH );
+	  else
+	    incremente_decremente_date ( widget_formulaire_operations[origine], ONE_YEAR );
+	}
+      return TRUE;
+
+    case GDK_Page_Down :		/* touche PgDown */
+    case GDK_KP_Page_Down :
+
+      /* si on est dans une entree de date, on augmente d'un mois (d'un an) la date */
+      /* GDC : prise en compte de la date réelle (18) FinGDC */
+      if ( origine == TRANSACTION_FORM_DATE || origine == TRANSACTION_FORM_VALUE_DATE )
+	{
+	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
+					 "key-press-event");
+	  if ( ( ev -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
+	    incremente_decremente_date ( widget_formulaire_operations[origine], - ONE_MONTH );
+	  else
+	    incremente_decremente_date ( widget_formulaire_operations[origine], - ONE_YEAR );
+	}
+      return TRUE;
+    }
   return TRUE;
 }
 /******************************************************************************/
@@ -3977,8 +4013,46 @@ void incremente_decremente_date ( GtkWidget *entree,
 
   date = g_date_new_dmy ( jour, mois, annee);
 
-  g_date_add_days ( date,
-		    demande );
+  switch ( demande )
+    {
+     case ONE_DAY :
+     case ONE_WEEK :
+
+       g_date_add_days ( date, demande ) ;
+       break ;
+
+     case -ONE_DAY :
+     case -ONE_WEEK :
+
+       g_date_subtract_days ( date, -demande ) ;
+       break ;
+
+     case ONE_MONTH :
+
+       g_date_add_months ( date, 1 ) ;
+       break ;
+
+     case -ONE_MONTH :
+
+       g_date_subtract_months ( date, 1 ) ;
+       break ;
+
+     case ONE_YEAR :
+
+       g_date_add_years ( date, 1 ) ;
+       break ;
+
+     case -ONE_YEAR :
+
+       g_date_subtract_years ( date, 1 ) ;
+       break ;
+
+     default :
+       break ;
+    }
+
+/*  g_date_add_days ( date,
+		    demande );*/
 
   gtk_entry_set_text ( GTK_ENTRY ( entree ),
 		       g_strdup_printf ( "%02d/%02d/%04d",
