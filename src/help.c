@@ -25,6 +25,8 @@
 #include "gtkcombofix.h"
 #include "help.h"
 
+extern gchar *nom_navigateur_web;
+
 
 /* **************************************************************************************************************************** */
 void a_propos ( GtkWidget *bouton,
@@ -224,8 +226,8 @@ void a_propos ( GtkWidget *bouton,
 					 0 );
 		    gtk_widget_show ( label );
 
-		    url = gnome_href_new ( liens[i+1],
-					   liens[i+2] );
+		    url = cree_bouton_url ( liens[i+1],
+					    liens[i+2] );
 		    gtk_box_pack_start ( GTK_BOX ( hbox ),
 					 url,
 					 FALSE,
@@ -269,6 +271,40 @@ void a_propos ( GtkWidget *bouton,
 
 		gtk_dialog_run ( GTK_DIALOG ( dialogue ));
 		gtk_widget_destroy ( dialogue );
+
+}
+/* **************************************************************************************************************************** */
+
+
+/* **************************************************************************************************************************** */
+GtkWidget *cree_bouton_url ( const gchar *adr,
+			     const gchar *inscription )
+{
+    GtkWidget *bouton;
+
+    bouton = gtk_button_new_with_label ( inscription );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			    GTK_RELIEF_NONE );
+    g_signal_connect_data ( G_OBJECT ( bouton ),
+			    "clicked",
+			    G_CALLBACK ( lance_navigateur_web ),
+			    g_strdup ( adr),
+			    NULL,
+			    G_CONNECT_SWAPPED );
+    return ( bouton );
+
+}
+/* **************************************************************************************************************************** */
+
+
+/* **************************************************************************************************************************** */
+gboolean lance_navigateur_web ( const gchar *url )
+{
+
+    system ( g_strconcat ( nom_navigateur_web,
+			   " ",
+			   url,
+			   NULL ));
 
 }
 /* **************************************************************************************************************************** */

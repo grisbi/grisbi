@@ -25,7 +25,7 @@
 
 #include "gtk_list_button.h"
 
-#include <gnome.h>
+/* #include <gnome.h> */
 #define CHILD_SPACING     1
 
 

@@ -41,7 +41,7 @@
 #include "./xpm/import.xpm"
 
 extern GtkItemFactory *item_factory_menu_general;
-
+extern gchar *nom_navigateur_web;
 
 /***********************************************/
 /* définition de la barre des menus, version gtk */
@@ -284,18 +284,17 @@ void lien_web ( GtkWidget *widget,
 {
     switch ( origine )
     {
-	GError *error;
-	case 1 :
-	gnome_url_show ( "http://www.grisbi.org", &error );
-	break;
+	case 1:
+	    lance_navigateur_web ( "http://www.grisbi.org");
+	    break;	
 
 	case 2:
-	gnome_url_show ( "http://www.grisbi.org/bugtracking", &error );
-	break;
+	    lance_navigateur_web ( "http://www.grisbi.org/bugtracking");
+	    break;
 
 	case 3:
-	gnome_url_show ( "http://www.grisbi.org/modules.php?name=Documentation", &error);
-	break;
+	    lance_navigateur_web ( "http://www.grisbi.org/modules.php?name=Documentation");
+	    break;
     }
 }
 /* **************************************************************************************************** */
@@ -307,30 +306,23 @@ void affiche_aide_locale ( gpointer null,
 {
     switch ( origine )
     {
-	GError *error;
 	case 1:
-	gnome_url_show ( g_strconcat ( "file://",
-				       HELP,
-				       "grisbi-manuel.html",
-				       NULL ),
-			 &error );
-	break;	
+	    lance_navigateur_web ( g_strconcat ( HELP,
+						 "grisbi-manuel.html",
+						 NULL ));
+	    break;	
 
 	case 2:
-	gnome_url_show ( g_strconcat ( "file://",
-				       HELP,
-				       "quickstart.html",
-				       NULL ),
-			 &error );
-	break;
+	    lance_navigateur_web ( g_strconcat ( HELP,
+						 "quickstart.html",
+						 NULL ));
+	    break;
 
 	case 3:
-	gnome_url_show ( g_strconcat ( "file://",
-				       HELP,
-				       "translation.html",
-				       NULL ),
-			 &error );
-	break;
+	    lance_navigateur_web ( g_strconcat ( HELP,
+						 "translation.html",
+						 NULL ));
+	    break;
     }
 }
 /* **************************************************************************************************** */

@@ -29,6 +29,7 @@
 #include "fichiers_io.h"
 #include <libxml/tree.h>
 
+extern gchar *nom_navigateur_web;
 
 /* ***************************************************************************************************** */
 void charge_configuration ( void )
@@ -117,6 +118,10 @@ void charge_configuration ( void )
 
 		if ( !strcmp ( node_general -> name, "Fonte_des_listes" ) ) {
 		    fonte_liste = xmlNodeGetContent ( node_general);
+		}
+
+		if ( !strcmp ( node_general -> name, "Navigateur_web" ) ) {
+		    nom_navigateur_web = xmlNodeGetContent ( node_general);
 		}
 
 		node_general = node_general->next;
@@ -335,6 +340,8 @@ void charge_configuration_ancien ( void )
     FILE *fichier;
     gchar *fichier_conf;
     gchar temp[100];
+
+    nom_navigateur_web = NULL;
 
     /* modif -> vire gnome, donc fait tout à la main */
 
@@ -610,6 +617,7 @@ void sauve_configuration(void)
     xmlNewChild ( node,NULL, "Utilise_fonte_des_listes",itoa (etat.utilise_fonte_listes));
 
     xmlNewChild ( node,NULL, "Fonte_des_listes",fonte_liste);
+    xmlNewChild ( node,NULL, "Navigateur_web",nom_navigateur_web);
 
     /* sauvegarde de l'onglet I/O */
     node = xmlNewChild ( doc->children,NULL, "IO",NULL );

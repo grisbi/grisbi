@@ -44,6 +44,7 @@ GtkTreeSelection * selection;
 GtkWidget * button_close, * button_help;
 GtkWidget *tree_view;
 GtkWidget * bouton_display_lock_active;
+gchar *nom_navigateur_web;
 
 
 /**
@@ -187,6 +188,14 @@ void preferences ( gint page )
 			1, IMPORT_PAGE,
 			-1);
     gtk_notebook_append_page (preference_frame, onglet_importation(), NULL);
+
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
+    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+			&iter,
+			0, _("Softwares"),
+			1, SOFTWARE_PAGE,
+			-1);
+    gtk_notebook_append_page (preference_frame, onglet_programmes(), NULL);
 
     /* Display subtree */
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
@@ -1543,3 +1552,66 @@ void spin_button_set_value ( GtkWidget * spin, gdouble * value )
 	g_signal_handler_unblock ( GTK_OBJECT(adjustment),
 				   (gulong) g_object_get_data ((GObject*) spin, "hook"));
 }
+
+
+
+
+
+/* *******************************************************************************/
+/* page de configuration des logiciels externes */
+/* *******************************************************************************/
+GtkWidget *onglet_programmes (void)
+{
+    GtkWidget *vbox_pref;
+    GtkWidget *hbox;
+    GtkWidget *label;
+    GtkWidget *entree;
+
+    vbox_pref = new_vbox_with_title_and_icon ( _("Softwares"),
+					       "files.png" ); 
+    hbox = gtk_hbox_new ( FALSE,
+			  0 );
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
+			 hbox,
+			 FALSE,
+			 FALSE,
+			 0 );
+    gtk_widget_show ( hbox );
+
+    label = gtk_label_new ( _("Web browser : "));
+    gtk_box_pack_start ( GTK_BOX ( hbox ),
+			 label,
+			 FALSE,
+			 FALSE,
+			 0 );
+    gtk_widget_show ( label );
+
+    entree = gtk_entry_new ();
+    if ( nom_navigateur_web )
+	gtk_entry_set_text ( GTK_ENTRY ( entree ),
+			     nom_navigateur_web );
+    g_signal_connect ( G_OBJECT ( entree ),
+		       "focus-out-event",
+		       G_CALLBACK ( changement_nom_navigateur_web ),
+		       NULL );
+    gtk_box_pack_start ( GTK_BOX ( hbox ),
+			 entree,
+			 FALSE,
+			 FALSE,
+			 0 );
+    gtk_widget_show ( entree );
+
+
+    return ( vbox_pref );
+}
+/* *******************************************************************************/
+
+/* *******************************************************************************/
+gboolean changement_nom_navigateur_web ( GtkWidget *entree )
+{
+    nom_navigateur_web = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( entree )));
+
+    return ( FALSE );
+}
+/* *******************************************************************************/
+
