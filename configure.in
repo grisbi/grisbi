@@ -18,7 +18,7 @@ AC_STDC_HEADERS
 AC_PROG_RANLIB
 
 dnl Check for NLS support.                                                      
-ALL_LINGUAS="fr it de "
+ALL_LINGUAS="fr de"
 AM_GNU_GETTEXT
 AC_CHECK_LIB(intl,main)
 
@@ -37,6 +37,7 @@ then
     else
         noofx=true
         AC_MSG_RESULT([Libofx header missing. Check your libofx installation])
+	CFLAGS="${CFLAGS} -DNOOFX"
     fi
 else
     noofx=true
