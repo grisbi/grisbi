@@ -221,7 +221,8 @@ GtkWidget * onglet_display_fonts ( void )
   GtkWidget *hbox, *vbox_pref;
   GtkWidget *label, *paddingbox;
   GtkWidget *table, *font_button, *logo_button;
-  GtkWidget *hbox_font, *init_button;
+  GtkWidget *hbox_font, *init_button, *preview;
+  GdkPixbuf * pixbuf;
 
   vbox_pref = new_vbox_with_title_and_icon ( _("Fonts & logo"),
 					     "fonts.png" );
@@ -238,29 +239,40 @@ GtkWidget * onglet_display_fonts ( void )
   logo_button = gtk_button_new ();
   gtk_button_set_relief ( GTK_BUTTON ( logo_button ),
 			  GTK_RELIEF_NONE );
-  gtk_container_add ( GTK_CONTAINER ( logo_button ),
-		  logo_button = gtk_button_new_from_stock (GTK_STOCK_OK));
-		      //gnome_stock_pixmap_widget ( logo_button,
-						  //GNOME_STOCK_PIXMAP_FORWARD ));
-  gtk_signal_connect ( GTK_OBJECT ( logo_button ),
-		       "clicked",
-		       GTK_SIGNAL_FUNC ( modification_logo_accueil ),
-		       NULL );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       logo_button,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show_all ( logo_button );
 
-  label = gtk_label_new ( g_strconcat (" : ", 
-				       _("Change homepage logo"), 
-				       NULL ));
+  pixbuf = gdk_pixbuf_new_from_file (chemin_logo, NULL);
+  if (!pixbuf)
+    {
+      preview = gtk_image_new_from_stock (GTK_STOCK_MISSING_IMAGE, 32);
+    }
+  else
+    {
+      if ( gdk_pixbuf_get_width(pixbuf) > 64 ||
+	   gdk_pixbuf_get_height(pixbuf) > 64)
+	{
+	  GdkPixbuf * tmp;
+	  tmp = gdk_pixbuf_new ( GDK_COLORSPACE_RGB, TRUE, 8, 
+				 gdk_pixbuf_get_width(pixbuf)/2, 
+				 gdk_pixbuf_get_height(pixbuf)/2 );
+	  gdk_pixbuf_scale ( pixbuf, tmp, 0, 0, 
+			     gdk_pixbuf_get_width(pixbuf)/2, 
+			     gdk_pixbuf_get_height(pixbuf)/2,
+			     0, 0, 0.5, 0.5, GDK_INTERP_HYPER );
+	  pixbuf = tmp;
+	}
+      preview = gtk_image_new_from_pixbuf (pixbuf);
+    }
+
+  logo_button = gtk_button_new ();
+  gtk_container_add (GTK_CONTAINER(logo_button), preview);
+  gtk_signal_connect ( GTK_OBJECT ( logo_button ), "clicked",
+		       GTK_SIGNAL_FUNC ( modification_logo_accueil ), NULL );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), logo_button,
+		       FALSE, FALSE, 0 );
+
+  label = gtk_label_new ( _("Click on button to change homepage logo") );
   gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 		       FALSE, FALSE, 0 );
-  gtk_widget_show ( label );
-
-
 
   /* Change fonts */
   paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
@@ -298,7 +310,6 @@ GtkWidget * onglet_display_fonts ( void )
   gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
 		       general_font_size_label,
 		       FALSE, FALSE, 5 );
-  gtk_widget_show_all ( hbox_font );
   gtk_container_add (GTK_CONTAINER ( font_button ), hbox_font);
   gtk_signal_connect ( GTK_OBJECT ( font_button ),
 		       "clicked",
@@ -337,7 +348,6 @@ GtkWidget * onglet_display_fonts ( void )
   gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
 		       list_font_size_label,
 		       FALSE, FALSE, 5 );
-  gtk_widget_show_all ( hbox_font );
   gtk_container_add (GTK_CONTAINER(font_button), hbox_font);
   gtk_signal_connect ( GTK_OBJECT ( font_button ),
 		       "clicked",
@@ -359,6 +369,8 @@ GtkWidget * onglet_display_fonts ( void )
 		     FALSE, FALSE, 0 );
   g_signal_connect (init_button, "clicked", 
 		    G_CALLBACK (init_fonts), NULL);
+
+  gtk_widget_show_all ( vbox_pref );
 
   return vbox_pref;
 }
@@ -697,43 +709,28 @@ void modification_logo_accueil ( void )
 			      GNOME_STOCK_BUTTON_OK,
 			      GNOME_STOCK_BUTTON_CANCEL,
 			      NULL );
-  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
-				 GTK_WINDOW ( fenetre_preferences ));
+/*   gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), */
+/* 				 GTK_WINDOW ( fenetre_preferences )); */
 
   choix = gnome_pixmap_entry_new ( "path_logo_grisbi",
 				   _("Select a new logo"),
 				   TRUE );
-  gtk_widget_set_usize ( choix,
-			 300,
-			 300 );
+  gtk_widget_set_usize ( choix, 300, 300 );
 
   if ( chemin_logo )
     gtk_entry_set_text ( GTK_ENTRY ( gnome_pixmap_entry_gtk_entry ( GNOME_PIXMAP_ENTRY ( choix ))),
 			 chemin_logo );
-  gnome_pixmap_entry_set_preview ( GNOME_PIXMAP_ENTRY ( choix ),
-				   TRUE );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       choix,
-		       TRUE,
-		       TRUE,
-		       0 );
-  gtk_widget_show ( choix );
+  gnome_pixmap_entry_set_preview ( GNOME_PIXMAP_ENTRY ( choix ), TRUE );
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ), choix,
+		       TRUE, TRUE, 0 );
 
   bouton = gtk_button_new_with_label ( _("Reset to default logo") );
-  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			  GTK_RELIEF_NONE );
-  gtk_signal_connect ( GTK_OBJECT ( bouton ),
-		       "clicked",
-		       GTK_SIGNAL_FUNC ( remise_a_zero_logo ),
-		       choix );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       bouton,
-		       TRUE,
-		       TRUE,
-		       0 );
-  gtk_widget_show ( bouton );
-
-
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ), GTK_RELIEF_NONE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ), "clicked",
+		       GTK_SIGNAL_FUNC ( remise_a_zero_logo ), choix );
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ), bouton,
+		       TRUE, TRUE, 0 );
+  gtk_widget_show_all ( dialog );
 
   resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
 
@@ -839,8 +836,8 @@ gboolean
 update_homepage_title (GtkEntry *entry, gchar *value, 
 		       gint length, gint * position)
 {
-  gtk_label_set_text ( label_titre_fichier, 
-		       gtk_entry_get_text (GTK_ENTRY (entry)) );
+  gtk_label_set_text ( GTK_LABEL(label_titre_fichier), 
+		       (gchar *) gtk_entry_get_text (GTK_ENTRY (entry)) );
 
   return FALSE;
 }
