@@ -61,18 +61,12 @@ gboolean charge_etat ( gchar *nom_etat )
 	/* récupère la version de fichier */
 
 	if (( !strcmp (  xmlNodeGetContent ( doc->children->children->children ),
-			 "0.4.0" )))
-	    return ( charge_etat_version_0_4_0 ( doc ));
-
-	/* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
-	/* la version nécessaire pour l'ouvrir */
-
-	dialogue ( g_strdup_printf ( _("Grisbi version %s is needed to open this file"),
-				     xmlNodeGetContent ( doc->children->children->children->next )));
-
-	xmlFreeDoc ( doc );
-
-	return ( FALSE );
+			 VERSION )))
+	  {
+	    dialogue_warning_hint ( g_strdup_printf (_("This report has been produced with grisbi version %s, Grisbi will nevertheless try to import it."), xmlNodeGetContent ( doc->children->children->children )),
+				    _("Version mismatch") );
+	  }
+	return ( charge_etat_version_0_4_0 ( doc ));
     }
     else
     {
