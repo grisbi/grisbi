@@ -19,7 +19,7 @@
 /*     along with this program; if not, write to the Free Software */
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: etats_gnomeprint.c,v 1.17.4.1 2003/01/03 17:22:20 benj Exp $ */
+/* $Id: etats_gnomeprint.c,v 1.17.4.2 2003/01/06 17:22:24 benj Exp $ */
 
 #include "include.h"
 #include "structures.h"
@@ -896,10 +896,10 @@ gint gnomeprint_affiche_total_categories ( gint ligne )
 	{
 	  /* 	  si on affiche les opés, on met les traits entre eux */
 
-/* 	  if ( etat_courant -> afficher_opes */
-/* 	       && */
-/* 	       ligne_debut_partie != -1 ) */
-/* 	    { */
+	  if ( etat_courant -> afficher_opes
+	       &&
+	       ligne_debut_partie != -1 )
+	    {
 /* 	      gint i; */
 /* 	      gint colonne; */
 
@@ -907,11 +907,11 @@ gint gnomeprint_affiche_total_categories ( gint ligne )
 
 /* 	      for ( i=0 ; i<((nb_colonnes-2)/2) ; i++ ) */
 /* 		{ */
-/* 		  gnomeprint_affiche_separateur ( ligne ); */
+		  gnomeprint_affiche_separateur ( ligne );
 /* 		  colonne = colonne + 2; */
 /* 		} */
-/* 	      ligne_debut_partie = -1; */
-/* 	    } */
+	      ligne_debut_partie = -1;
+	    }
 
 	  /* Ligne suivante ? */
 	  ligne++;
@@ -1031,12 +1031,12 @@ gint gnomeprint_affiche_total_ib ( gint ligne )
 	{
 	  /* 	  si on affiche les opés, on met les traits entre eux */
 
-/* 	  if ( etat_courant -> afficher_opes */
-/* 	       && */
-/* 	       ligne_debut_partie != -1 ) */
-/* 	    { */
-/* 	      gnomeprint_affiche_separateur ( ligne ); */
-/* 	    } */
+	  if ( etat_courant -> afficher_opes
+	       &&
+	       ligne_debut_partie != -1 )
+	    {
+	      gnomeprint_affiche_separateur ( ligne );
+	    }
 	      
 	  ligne++;
 	  
@@ -1148,9 +1148,14 @@ gint gnomeprint_affiche_total_tiers ( gint ligne )
       if ( etat_courant -> afficher_opes )
 	{
 	  /* 	  si on affiche les opés, on met les traits entre eux */
-
-
-	  ligne++;
+	  if ( etat_courant -> afficher_opes
+	       &&
+	       ligne_debut_partie != -1 )
+	    {
+	      gnomeprint_affiche_separateur ( ligne );
+	      gnomeprint_update_pointer_y ( );
+	      ligne++;
+	    }
 
 	  if ( nom_tiers_en_cours )
 	    {
@@ -1185,6 +1190,7 @@ gint gnomeprint_affiche_total_tiers ( gint ligne )
 				 PAPER_WIDTH - point.x );
 	  ligne++;
 	  gnomeprint_update_pointer_y ( );
+	  point.y -= 10;
 	  point.x = HMARGIN;
 	}
       else
@@ -1662,51 +1668,56 @@ gint gnomeprint_affiche_categ_etat ( struct structure_operation *operation,
 	  ligne = gnomeprint_affichage . affiche_total_categories ( ligne );
 	}
 
-      if ( operation -> categorie )
+      if ( etat_courant -> afficher_nom_categ )
 	{
-	  nom_categ_en_cours = ((struct struct_categ *)(g_slist_find_custom ( liste_struct_categories,
-									      GINT_TO_POINTER ( operation -> categorie ),
-									      (GCompareFunc) recherche_categorie_par_no ) -> data )) -> nom_categ;
-	  pointeur_char = g_strconcat ( decalage_categ,
-					nom_categ_en_cours,
-					NULL );
-	  ancienne_categ_speciale_etat = 0;
-	}
-
-      else
-	{
-	  if ( operation -> relation_no_operation )
+	  if ( operation -> categorie )
 	    {
+	      nom_categ_en_cours = ((struct struct_categ *)(g_slist_find_custom ( liste_struct_categories,
+										  GINT_TO_POINTER ( operation -> categorie ),
+										  (GCompareFunc) recherche_categorie_par_no ) -> data )) -> nom_categ;
 	      pointeur_char = g_strconcat ( decalage_categ,
-					    _("Virements"),
+					    nom_categ_en_cours,
 					    NULL );
-	      ancienne_categ_speciale_etat = 1;
+	      ancienne_categ_speciale_etat = 0;
 	    }
+
 	  else
 	    {
-	      if ( operation -> operation_ventilee )
+	      if ( operation -> relation_no_operation )
 		{
 		  pointeur_char = g_strconcat ( decalage_categ,
-						_("Opération ventilée"),
+						_("Virements"),
 						NULL );
-		  ancienne_categ_speciale_etat = 2;
+		  ancienne_categ_speciale_etat = 1;
 		}
 	      else
 		{
-		  pointeur_char = g_strconcat ( decalage_categ,
-						_("Pas de catégorie"),
-						NULL );
-		  ancienne_categ_speciale_etat = 3;
+		  if ( operation -> operation_ventilee )
+		    {
+		      pointeur_char = g_strconcat ( decalage_categ,
+						    _("Opération ventilée"),
+						    NULL );
+		      ancienne_categ_speciale_etat = 2;
+		    }
+		  else
+		    {
+		      pointeur_char = g_strconcat ( decalage_categ,
+						    _("Pas de catégorie"),
+						    NULL );
+		      ancienne_categ_speciale_etat = 3;
+		    }
 		}
 	    }
-	}
 
-      gnomeprint_move_point ( 0, -2 );
-      gnomeprint_show_text ( pc, header_font, pointeur_char, 400 );
+	  gnomeprint_move_point ( 0, -2 );
+	  gnomeprint_show_text ( pc, header_font, pointeur_char, 400 );
 
 /* FIXME: be sure this is the right thing(tm) */
-/*       gnomeprint_update_pointer_y ( ); */
+	  if (etat_courant -> afficher_opes)
+	    gnomeprint_update_pointer_y ( );
 /*       gnomeprint_move_point ( 0, -2 ); */
+
+	}
 
       ligne_debut_partie = ligne;
       denote_struct_sous_jaccentes ( 1 );
@@ -1878,7 +1889,8 @@ gint gnomeprint_affiche_tiers_etat ( struct structure_operation *operation,
 					  _("Pas de tiers"),
 					  NULL );
 
-	  gnomeprint_show_text ( pc, header_font, pointeur_char, 400);
+	  gnomeprint_show_text ( pc, total_font, pointeur_char, 400);
+	  gnomeprint_update_pointer_y ( );
 
 	  ligne++;
 	}
