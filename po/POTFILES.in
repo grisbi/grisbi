@@ -45,4 +45,7 @@ src/type_operations.c
 src/variables-extern.c
 src/variables.c
 src/ventilation.c
+src/import.c
+src/ofx.c
+src/html.c
 

@@ -65,8 +65,16 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
        ||
        !strncmp ( pointeur_char,
 		  "!Type:Cat",
-		  9 ))
-    {
+		  9 )
+       ||
+       !strncmp ( pointeur_char,
+		  "!Type Cat",
+		  9 )
+      ||
+       !strncmp ( pointeur_char,
+		  "!Type:Class",
+		  11 ))
+       {
       do
 	{
 	  fscanf ( fichier,
@@ -95,35 +103,44 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
   /* on n'a pas autant de types que dans le format ofx, mais on peut déjà */
   /* en classer une partie */
 
-  tab_char = g_strsplit ( pointeur_char,
-			  ":",
-			  2 );
+     if ( strchr(pointeur_char, ':') )
+	tab_char = g_strsplit ( pointeur_char, ":", 2 );
+      else if ( strchr(pointeur_char, ' ') )
+	tab_char = g_strsplit ( pointeur_char, " ", 2 );
+      else 
+	tab_char = NULL;
+ 
 
-  if ( !strcmp ( g_strstrip (tab_char[1]),
-		 "Cash" ))
-    compte -> type_de_compte = 7;
-  else
-    {
-      if ( !strcmp ( g_strstrip (tab_char[1]),
-		     "Bank" ))
-	compte -> type_de_compte = 0;
-      else
-	{
+      if ( tab_char )
+      {
 	  if ( !strcmp ( g_strstrip (tab_char[1]),
-			 "Oth A" ))
-	    compte -> type_de_compte = 2;
-	  else
+			 "Cash" ))
+	    compte -> type_de_compte = 7;
+	  else	
 	    {
 	      if ( !strcmp ( g_strstrip (tab_char[1]),
-			     "Oth L" ))
-		compte -> type_de_compte = 3;
+			     "Bank" ))
+		compte -> type_de_compte = 0;
 	      else
-		/* CCard */
-		compte -> type_de_compte = 5;
+		{
+		  if ( !strcmp ( g_strstrip (tab_char[1]),
+				 "Oth A" ))
+		    compte -> type_de_compte = 2;
+		  else
+		    {
+		      if ( !strcmp ( g_strstrip (tab_char[1]),
+				     "Oth L" ))
+			compte -> type_de_compte = 3;
+		      else
+			/* CCard */
+			compte -> type_de_compte = 5;
+		    }
+		}
 	    }
-	}
-    }
-
+      }
+      else
+	       /* bizarre, il n'y a pas eu de reconnaissance du type... on va le mettre à bank à tout hasard */
+	      compte -> type_de_compte = 0; 
 
 
   /* récupère les autres données du compte */
@@ -170,7 +187,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 		  g_strfreev ( tab_char );
 		}
 	      else
-		compte -> solde = g_strtod ( pointeur_char + 1,
+		compte -> solde = my_strtod ( pointeur_char + 1,
 					     NULL );
 	      
 	      g_strfreev ( tab );
@@ -545,25 +562,25 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 
 	      if ( format_date )
 		{
-		  mois = g_strtod ( tab_str[0],
+		  mois = my_strtod ( tab_str[0],
 				    NULL );
-		  jour = g_strtod ( tab_str[1],
+		  jour = my_strtod ( tab_str[1],
 				    NULL );
 		}
 	      else
 		{
-		  jour = g_strtod ( tab_str[0],
+		  jour = my_strtod ( tab_str[0],
 				    NULL );
-		  mois = g_strtod ( tab_str[1],
+		  mois = my_strtod ( tab_str[1],
 				    NULL );
 		}
 
 	      if ( strlen ( tab_str[2] ) == 4 )
-		annee = g_strtod ( tab_str[2],
+		annee = my_strtod ( tab_str[2],
 				   NULL );
 	      else
 		{
-		  annee = g_strtod ( tab_str[2],
+		  annee = my_strtod ( tab_str[2],
 				     NULL );
 		  if ( annee < 80 )
 		    annee = annee + 2000;
@@ -585,26 +602,26 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 
 		  if ( format_date )
 		    {
-		      mois = g_strtod ( tab_str[0],
+		      mois = my_strtod ( tab_str[0],
 					NULL );
-		      jour = g_strtod ( tab_str2[0],
+		      jour = my_strtod ( tab_str2[0],
 					NULL );
 		    }
 		  else
 		    {
-		      jour = g_strtod ( tab_str[0],
+		      jour = my_strtod ( tab_str[0],
 					NULL );
-		      mois = g_strtod ( tab_str2[0],
+		      mois = my_strtod ( tab_str2[0],
 					NULL );
 		    }
 
 		  /* si on avait 'xx, en fait ça peut être 'xx ou 'xxxx ... */
 
 		  if ( strlen ( tab_str2[1] ) == 2 )
-		    annee = g_strtod ( tab_str2[1],
+		    annee = my_strtod ( tab_str2[1],
 				       NULL ) + 2000;
 		  else
-		    annee = g_strtod ( tab_str2[1],
+		    annee = my_strtod ( tab_str2[1],
 				       NULL );
 		  g_strfreev ( tab_str2 );
 
@@ -617,16 +634,16 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 					 "-",
 					 3 );
 
-		  mois = g_strtod ( tab_str[1],
+		  mois = my_strtod ( tab_str[1],
 				    NULL );
-		  jour = g_strtod ( tab_str[2],
+		  jour = my_strtod ( tab_str[2],
 				    NULL );
 		  if ( strlen ( tab_str[0] ) == 4 )
-		    annee = g_strtod ( tab_str[0],
+		    annee = my_strtod ( tab_str[0],
 				       NULL );
 		  else
 		    {
-		      annee = g_strtod ( tab_str[0],
+		      annee = my_strtod ( tab_str[0],
 					 NULL );
 		      if ( annee < 80 )
 			annee = annee + 2000;
@@ -686,25 +703,25 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 
 	  if ( format_date )
 	    {
-	      mois = g_strtod ( tab_str[0],
+	      mois = my_strtod ( tab_str[0],
 				NULL );
-	      jour = g_strtod ( tab_str[1],
+	      jour = my_strtod ( tab_str[1],
 				NULL );
 	    }
 	  else
 	    {
-	      jour = g_strtod ( tab_str[0],
+	      jour = my_strtod ( tab_str[0],
 				NULL );
-	      mois = g_strtod ( tab_str[1],
+	      mois = my_strtod ( tab_str[1],
 				NULL );
 	    }
 
 	  if ( strlen ( tab_str[2] ) == 4 )
-	    annee = g_strtod ( tab_str[2],
+	    annee = my_strtod ( tab_str[2],
 			       NULL );
 	  else
 	    {
-	      annee = g_strtod ( tab_str[2],
+	      annee = my_strtod ( tab_str[2],
 				 NULL );
 	      if ( annee < 80 )
 		annee = annee + 2000;
@@ -726,26 +743,26 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 
 	      if ( format_date )
 		{
-		  mois = g_strtod ( tab_str[0],
+		  mois = my_strtod ( tab_str[0],
 				    NULL );
-		  jour = g_strtod ( tab_str2[0],
+		  jour = my_strtod ( tab_str2[0],
 				    NULL );
 		}
 	      else
 		{
-		  jour = g_strtod ( tab_str[0],
+		  jour = my_strtod ( tab_str[0],
 				    NULL );
-		  mois = g_strtod ( tab_str2[0],
+		  mois = my_strtod ( tab_str2[0],
 				    NULL );
 		}
 
 	      /* si on avait 'xx, en fait ça peut être 'xx ou 'xxxx ... */
 
 	      if ( strlen ( tab_str2[1] ) == 2 )
-		annee = g_strtod ( tab_str2[1],
+		annee = my_strtod ( tab_str2[1],
 				   NULL ) + 2000;
 	      else
-		annee = g_strtod ( tab_str2[1],
+		annee = my_strtod ( tab_str2[1],
 				   NULL );
 	      g_strfreev ( tab_str2 );
 
@@ -758,16 +775,16 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 				     "-",
 				     3 );
 
-	      mois = g_strtod ( tab_str[1],
+	      mois = my_strtod ( tab_str[1],
 				NULL );
-	      jour = g_strtod ( tab_str[2],
+	      jour = my_strtod ( tab_str[2],
 				NULL );
 	      if ( strlen ( tab_str[0] ) == 4 )
-		annee = g_strtod ( tab_str[0],
+		annee = my_strtod ( tab_str[0],
 				   NULL );
 	      else
 		{
-		  annee = g_strtod ( tab_str[0],
+		  annee = my_strtod ( tab_str[0],
 				     NULL );
 		  if ( annee < 80 )
 		    annee = annee + 2000;
@@ -1309,9 +1326,15 @@ void exporter_fichier_qif ( void )
 
 				/* met le montant de la ventilation */
 
-
+				  montant = calcule_montant_devise_renvoi ( ope_test -> montant,
+									    DEVISE,
+									    operation -> devise,
+									    operation -> une_devise_compte_egale_x_devise_ope,
+									    operation -> taux_change,
+									    operation -> frais_change );
+ 
 				  montant_tmp = g_strdup_printf ( "%4.2f",
-								  ope_test -> montant );
+								  montant );
 				  montant_tmp = g_strdelimit ( montant_tmp,
 							       ",",
 							       '.' );

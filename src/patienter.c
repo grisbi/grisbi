@@ -74,7 +74,10 @@ void mise_en_route_attente ( gchar *message )
       gtk_widget_set_usize ( fenetre_patience,
 			     200,
 			     FALSE );
-
+	g_signal_connect ( G_OBJECT ( fenetre_patience ),
+			"delete-event",
+			G_CALLBACK ( gtk_true ),
+			NULL );
 
       frame = gtk_frame_new ( NULL );
       gtk_container_add ( GTK_CONTAINER ( fenetre_patience ),
@@ -220,11 +223,11 @@ void annulation_attente ()
 /* *********************************************************************************************************** */
 gint animation_patienter ()
 {
-  gtk_widget_hide (  image[image_patience_en_cours] );
-  image_patience_en_cours = (image_patience_en_cours + 1)%15;
-  gtk_widget_show ( image[image_patience_en_cours] );
+	  gtk_widget_hide (  image[image_patience_en_cours] );
+	  image_patience_en_cours = (image_patience_en_cours + 1)%15;
+	  gtk_widget_show ( image[image_patience_en_cours] );
 
-  while ( g_main_iteration ( FALSE ) );
+	  while ( g_main_iteration ( FALSE ) );
 
   return TRUE;
 }
