@@ -924,6 +924,9 @@ gboolean allocation_liste_organisation_formulaire ( GtkWidget *tree_view,
 {
     gint i;
 
+    if ( ! assert_account_loaded() )
+      return FALSE;
+
     if ( allocation_precedente_organisation_formulaire == allocation -> width )
 	return FALSE;
 
