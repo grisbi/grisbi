@@ -297,73 +297,6 @@ void activer_bouton_appliquer ( )
 }
 
 
-/**
- * Function that makes a nice title with an optional icon.  It is
- * mainly used to automate preference tabs with titles.
- * 
- * \param title Title that will be displayed in window
- * \param filename (relative or absolute) to an image in a file format
- * recognized by gtk_image_new_from_file().  Use NULL if you don't
- * want an image to be displayed
- * 
- * \returns A pointer to a vbox widget that will contain all created
- * widgets and user defined widgets
- */
-GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
-					  gchar * image_filename)
-{
-  GtkWidget *vbox_pref, *separator, *hbox, *label, *image;
-
-  vbox_pref = gtk_vbox_new ( FALSE, 5 );
-  gtk_widget_show ( vbox_pref );
-
-  /* Title hbox */
-  hbox = gtk_hbox_new ( FALSE, 5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox,
-		       FALSE, FALSE, 0);
-  gtk_widget_show ( hbox );
-
-  /* Icon */
-  if ( image_filename )
-    {
-      image = gtk_image_new_from_file (g_strconcat(PIXMAPS_DIR,
-						   "/",
-						   image_filename,
-						   NULL));
-      gtk_box_pack_start ( GTK_BOX ( hbox ), image,
-			   FALSE, FALSE, 0);
-      gtk_widget_show ( image );
-    }
-
-  /* Nice huge title */
-  label = gtk_label_new ( title );
-  gtk_label_set_markup ( GTK_LABEL(label), 
-			 g_strconcat ("<span size=\"x-large\" weight=\"bold\">",
-				      g_markup_escape_text (title,
-							    strlen(title)),
-				      "</span>",
-				      NULL ) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( label );
-
-  /* Separator */
-  separator = gtk_hseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-		       separator,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( separator );
-
-  return vbox_pref;
-}
-
-
-
 GtkWidget *onglet_messages_and_warnings ( void )
 {
   GtkWidget *vbox, *hbox, *hbox_pref, *vbox_pref;
@@ -395,7 +328,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
 
 
    /* Warnings */
-  paddingbox = paddingbox_new_with_title (vbox, FALSE,
+  paddingbox = new_paddingbox_with_title (vbox, FALSE,
 					  _("Warnings messages"));
 
    /* Affichage ou non d'un message d'alerte quand passage sous les
@@ -499,7 +432,7 @@ GtkWidget *onglet_fichier ( void )
 					     "files.png" );
 
   /* Account file handling */
-  paddingbox = paddingbox_new_with_title (vbox_pref, FALSE,
+  paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
 					  _("Account files handling"));
 
   /* Automatically load last file on startup? */
@@ -577,7 +510,7 @@ GtkWidget *onglet_fichier ( void )
   gtk_widget_show ( spin_button_compression_fichier );
 
   /* Backups */
-  paddingbox = paddingbox_new_with_title (vbox_pref, FALSE,
+  paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
 					  _("Backups"));
 
   /* Automatic backup ? */
@@ -2177,8 +2110,16 @@ gint verifie_affichage_applet ( void )
 }
 /* **************************************************************************************************************************** */
 
+
+
+/**
+ * FIXME
+ *
+ *
+ *
+ */
 GtkWidget *
-paddingbox_new_with_title (GtkWidget * parent, gboolean fill, gchar * title)
+new_paddingbox_with_title (GtkWidget * parent, gboolean fill, gchar * title)
 {
   GtkWidget * hbox, *paddingbox, *label;
 
@@ -2215,4 +2156,120 @@ paddingbox_new_with_title (GtkWidget * parent, gboolean fill, gchar * title)
   gtk_widget_show_all ( hbox );
 
   return paddingbox;
+}
+
+
+/**
+ * Function that makes a nice title with an optional icon.  It is
+ * mainly used to automate preference tabs with titles.
+ * 
+ * \param title Title that will be displayed in window
+ * \param filename (relative or absolute) to an image in a file format
+ * recognized by gtk_image_new_from_file().  Use NULL if you don't
+ * want an image to be displayed
+ * 
+ * \returns A pointer to a vbox widget that will contain all created
+ * widgets and user defined widgets
+ */
+GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
+					  gchar * image_filename)
+{
+  GtkWidget *vbox_pref, *separator, *hbox, *label, *image;
+
+  vbox_pref = gtk_vbox_new ( FALSE, 5 );
+  gtk_widget_show ( vbox_pref );
+
+  /* Title hbox */
+  hbox = gtk_hbox_new ( FALSE, 5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox,
+		       FALSE, FALSE, 0);
+  gtk_widget_show ( hbox );
+
+  /* Icon */
+  if ( image_filename )
+    {
+      image = gtk_image_new_from_file (g_strconcat(PIXMAPS_DIR,
+						   "/",
+						   image_filename,
+						   NULL));
+      gtk_box_pack_start ( GTK_BOX ( hbox ), image,
+			   FALSE, FALSE, 0);
+      gtk_widget_show ( image );
+    }
+
+  /* Nice huge title */
+  label = gtk_label_new ( title );
+  gtk_label_set_markup ( GTK_LABEL(label), 
+			 g_strconcat ("<span size=\"x-large\" weight=\"bold\">",
+				      g_markup_escape_text (title,
+							    strlen(title)),
+				      "</span>",
+				      NULL ) );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0);
+  gtk_widget_show ( label );
+
+  /* Separator */
+  separator = gtk_hseparator_new ();
+  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
+		       separator,
+		       FALSE,
+		       FALSE,
+		       0);
+  gtk_widget_show ( separator );
+
+  return vbox_pref;
+}
+
+
+/**
+ * Create a GtkCheckButton with a callback associated.  Initial value
+ * of this checkbox is set to the value of *data.  This checkbox calls
+ * set_boolean upon toggle, which in turn modifies *data.
+ *
+ * \param label The label for this checkbutton
+ * \param data A pointer to a boolean integer
+ */
+GtkWidget *
+new_checkbox_with_title ( gchar * label,
+			  guint * data )
+{
+  GtkWidget * checkbox;
+
+  checkbox = gtk_check_button_new_with_label ( label );
+  if (data && *data)
+    {
+      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( checkbox ),
+				     TRUE );      
+    }
+
+  gtk_signal_connect ( GTK_OBJECT ( checkbox ), "toggled",
+		       GTK_SIGNAL_FUNC ( set_boolean ), data );
+
+  /* FIXME: deactivate when we will be full "implicit apply" */
+  gtk_signal_connect_object ( GTK_OBJECT ( checkbox ),
+			      "toggled",
+			      activer_bouton_appliquer,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_widget_show ( checkbox );
+  
+  return checkbox;
+}
+
+
+/**
+ * Set a boolean integer to the value of a checkbox.  Normally called
+ * via a GTK "toggled" signal handler.
+ * 
+ * \param checkbox a pointer to a checkbox widget.
+ * \param data a pointer to an integer that is to be modified.
+ */
+gboolean
+set_boolean ( GtkWidget * checkbox,
+	      guint * data)
+{
+  *data = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(checkbox));
 }

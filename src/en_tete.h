@@ -352,9 +352,6 @@ GtkWidget * tab_display_reconciliation ( void );
 /************************/ 
 
 void preferences ( gint page );
-GtkWidget * paddingbox_new_with_title (GtkWidget * parent, gboolean fill, gchar * title);
-GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
-					  gchar * image_filename);
 GtkWidget *onglet_messages_and_warnings ( void );
 GtkWidget *onglet_fichier ( void );
 GtkWidget *onglet_echeances ( void );
@@ -379,6 +376,15 @@ void fermeture_preferences ( GtkWidget *, gint, gpointer);
 void activer_bouton_appliquer ( void );
 gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
 					GtkTreeModel *model );
+/* Some utility functions */
+GtkWidget * new_paddingbox_with_title ( GtkWidget * parent, 
+					gboolean fill, 
+					gchar * title );
+GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
+					  gchar * image_filename);
+GtkWidget * new_checkbox_with_title ( gchar * label, guint * data );
+gboolean set_boolean ( GtkWidget * checkbox, guint * data);
+
 
 /***********************************/ 
 /* fichier echeancier_liste.c */
