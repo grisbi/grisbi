@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # autogen.sh glue for Grisbi
-# $Id: autogen.sh,v 1.1.2.7 2004/05/22 14:24:19 benj2 Exp $
+# $Id: autogen.sh,v 1.1.2.8 2004/09/30 13:32:12 benj2 Exp $
 #
 # Requires: automake, autoconf, dpkg-dev
 
@@ -40,5 +40,8 @@ aclocal -I macros
 autoheader
 automake --verbose --foreign --add-missing
 autoconf
+
+rm -rf autom4te.cache
+chmod +x debian/rules
 
 exit 0
