@@ -27,6 +27,9 @@ New in version 0.5.0 :
  - improve bank details and new bank dialogs
  - keyboard navigation in third party, categories and budgetary lines trees
  - automatic expired scheduled transactions are now clickable
+ - breakdown of transactions can be scheduled
+ - transactions can be converted to scheduled transactions
+ - transactions can be moved to another account
 
 New in version 0.4.5 :
  - Bug fixes
