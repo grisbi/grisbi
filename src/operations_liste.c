@@ -2737,18 +2737,20 @@ struct structure_operation *  clone_transaction ( struct structure_operation * o
  */
 void move_selected_operation_to_account ( GtkMenuItem * menu_item )
 {
-    gint account;
+    gint target_account, source_account;
 
     if (! assert_selected_transaction()) return;
 
-    account = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT(menu_item), 
-						      "no_compte" ) );  
+    source_account = NO_COMPTE;
+    target_account = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT(menu_item), 
+							     "no_compte" ) );  
 
-    move_operation_to_account ( OPERATION_SELECTIONNEE, account );
+    move_operation_to_account ( OPERATION_SELECTIONNEE, target_account );
 
     MISE_A_JOUR = 1;
     verification_mise_a_jour_liste ();
-    remplissage_liste_operations ( account );
+    remplissage_liste_operations ( target_account );
+    remplissage_liste_operations ( source_account );
 
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 
