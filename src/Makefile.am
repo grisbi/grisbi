@@ -83,6 +83,7 @@ sources = 			\
 	utils_str.c		\
 	utils_tiers.c		\
 	utils_types.c		\
+	utils_xml.c		\
 	search_glist.c
 
 grisbi_SOURCES = $(sources)
@@ -167,6 +168,7 @@ grisbi_INCLUDES =		\
 	utils_str.h		\
 	utils_tiers.h		\
 	utils_types.h		\
+	utils_xml.h		\
 	search_glist.h
 
 

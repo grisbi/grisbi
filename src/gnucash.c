@@ -31,13 +31,10 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gchar * child_content ( xmlNodePtr node, gchar * child_name );
 static struct struct_compte_importation * find_imported_account_by_uid ( gchar * guid );
 static struct gnucash_category * find_imported_categ_by_uid ( gchar * guid );
-static xmlNodePtr get_child ( xmlNodePtr node, gchar * child_name );
 static gchar * get_currency ( xmlNodePtr currency_node );
 static gdouble gnucash_value ( gchar * value );
-static gboolean node_strcmp ( xmlNodePtr node, gchar * name );
 static xmlDocPtr parse_gnucash_file ( gchar * filename );
 static void recuperation_donnees_gnucash_book ( xmlNodePtr book_node );
 static void recuperation_donnees_gnucash_categorie ( xmlNodePtr categ_node );
@@ -359,48 +356,6 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 gchar * get_currency ( xmlNodePtr currency_node )
 {
   return child_content ( currency_node, "id" );
-}
-
-
-
-gboolean node_strcmp ( xmlNodePtr node, gchar * name )
-{
-  return node -> name && !strcmp ( node -> name, name );
-}
-
-
-
-xmlNodePtr get_child ( xmlNodePtr node, gchar * child_name )
-{
-  xmlNodePtr iter_node = node -> children;
-
-  if (!node) return NULL;
-
-  while ( iter_node )
-    {
-      if ( node_strcmp(iter_node, child_name) )
-	return iter_node;
-
-      iter_node = iter_node -> next;
-    }
-
-  return NULL;
-}
-
-
-
-gchar * child_content ( xmlNodePtr node, gchar * child_name )
-{
-  xmlNodePtr child_node;
-
-  if (!node) return NULL;
-
-  child_node = get_child ( node, child_name );
-
-  if ( child_node )
-    return xmlNodeGetContent ( child_node );
-  
-  return NULL;
 }
 
 
