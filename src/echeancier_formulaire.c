@@ -2316,6 +2316,7 @@ void fin_edition_echeance ( void )
 	    operation_fille -> pointe = operation -> pointe;
 	    operation_fille -> auto_man = operation -> auto_man;
 	    operation_fille -> no_operation_ventilee_associee = operation -> no_operation;
+	    operation_fille -> operation_ventilee = 0;
 
 
 	    /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
@@ -2324,7 +2325,7 @@ void fin_edition_echeance ( void )
 
 	    /* 	    on vérifie maintenant si c'est un virement */
 
-	    if ( ope_ventil -> relation_no_operation != -1 )
+	    if ( ope_ventil -> relation_no_operation )
 	    {
 		/* cette opé de ventil est un virement */
 
