@@ -1807,11 +1807,18 @@ void exporter_fichier_qif ( void )
 					      "E%s\n",
 					      ope_test -> notes );
 
-				/* met le montant de la ventilation */
+				/* met le montant de la ventilation
+				  transforme la devise si necessaire */
 
+				  montant = calcule_montant_devise_renvoi ( ope_test -> montant,
+									    DEVISE,
+									    operation -> devise,
+									    operation -> une_devise_compte_egale_x_devise_ope,
+									    operation -> taux_change,
+									    operation -> frais_change );
 
 				  montant_tmp = g_strdup_printf ( "%4.2f",
-								  ope_test -> montant );
+								  montant );
 				  montant_tmp = g_strdelimit ( montant_tmp,
 							       ",",
 							       '.' );
