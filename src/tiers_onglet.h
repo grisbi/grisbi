@@ -33,3 +33,4 @@ gfloat *calcule_total_montant_tiers ( void );
 gchar *calcule_total_montant_tiers_par_compte ( gint no_tiers,
 					       gint no_compte );
 void appui_sur_ajout_tiers ( void );
+gboolean keypress_tiers ( GtkWidget *widget, GdkEventKey *ev, gint *no_origine );

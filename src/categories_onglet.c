@@ -1313,7 +1313,7 @@ gboolean selection_ligne_categ ( GtkCTree *arbre_categ, GtkCTreeNode *noeud,
 /* **************************************************************************************************** */
 
 
-/* **************************************************************************************************** */
+
 gboolean verifie_double_click_categ ( GtkWidget *liste, GdkEventButton *ev,
 				      gpointer null )
 {
@@ -1324,14 +1324,19 @@ gboolean verifie_double_click_categ ( GtkWidget *liste, GdkEventButton *ev,
 
   return FALSE;
 }
-/* **************************************************************************************************** */
 
 
 gboolean keypress_category ( GtkWidget *widget, GdkEventKey *ev, gint *no_origine )
 {
+  GtkCTreeNode *node;
+
   if ( ev->keyval == GDK_Return || 
        ev->keyval == GDK_KP_Enter )
     { 
+      node = gtk_ctree_node_nth ( arbre_categ, GTK_CLIST(arbre_categ) -> focus_row );
+      gtk_ctree_select ( arbre_categ, node );
+      gtk_ctree_expand ( arbre_categ, node );
+ 
       expand_selected_category ();
     }
 

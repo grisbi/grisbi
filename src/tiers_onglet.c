@@ -334,6 +334,10 @@ GtkWidget *onglet_tiers ( void )
 		       GTK_SIGNAL_FUNC ( verifie_double_click ),
 		       NULL );
   gtk_signal_connect ( GTK_OBJECT ( arbre_tiers ),
+		       "key-press-event",
+		       GTK_SIGNAL_FUNC ( keypress_tiers ),
+		       NULL );
+  gtk_signal_connect ( GTK_OBJECT ( arbre_tiers ),
 		       "size-allocate",
 		       GTK_SIGNAL_FUNC ( changement_taille_liste_tiers ),
 		       NULL );
@@ -851,40 +855,65 @@ gboolean selection_ligne_tiers ( GtkCTree *arbre_tiers, GtkCTreeNode *noeud,
 /* **************************************************************************************************** */
 
 
-/* **************************************************************************************************** */
+
 gboolean verifie_double_click ( GtkWidget *liste, GdkEventButton *ev, gpointer null )
 {
-
   if ( ev -> type == GDK_2BUTTON_PRESS )
     {
-      struct structure_operation *operation;
-
-
-      if ( !GTK_CLIST ( arbre_tiers ) -> selection
-	   ||
-	   GTK_CTREE_ROW ( ( GTK_CLIST ( arbre_tiers ) -> selection ) -> data ) -> level != 3 )
-	return FALSE;
-
-      /* passage sur le compte concerné */
-
-      operation = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_tiers ),
-						GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_tiers ) -> selection ) -> data ) );
-
-      changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
-
-
-      /* récupération de la ligne de l'opé dans la liste ; affichage de toutes les opé si nécessaire */
-
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-
-      if ( operation -> pointe == 2 && !AFFICHAGE_R )
-	change_aspect_liste ( NULL,
-			      2 );
-
-      OPERATION_SELECTIONNEE = operation;
-
-      selectionne_ligne ( compte_courant );
+      expand_selected_category();
     }
+
+  return FALSE;
+}
+
+
+gboolean keypress_tiers ( GtkWidget *widget, GdkEventKey *ev, gint *no_origine )
+{
+  GtkCTreeNode *node;
+
+  if ( ev->keyval == GDK_Return || 
+       ev->keyval == GDK_KP_Enter )
+    { 
+      node = gtk_ctree_node_nth ( arbre_tiers, GTK_CLIST(arbre_tiers) -> focus_row );
+      gtk_ctree_select ( arbre_tiers, node );
+      gtk_ctree_expand ( arbre_tiers, node );
+ 
+      expand_selected_tiers ();
+    }
+
+  return FALSE;
+}
+
+
+
+gboolean expand_selected_tiers ( GtkWidget *liste, GdkEventButton *ev, gpointer null )
+{
+  struct structure_operation *operation;
+
+  if ( !GTK_CLIST ( arbre_tiers ) -> selection
+       ||
+       GTK_CTREE_ROW ( ( GTK_CLIST ( arbre_tiers ) -> selection ) -> data ) -> level != 3 )
+    return FALSE;
+
+  /* passage sur le compte concerné */
+
+  operation = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_tiers ),
+					    GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_tiers ) -> selection ) -> data ) );
+
+  changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
+
+
+  /* récupération de la ligne de l'opé dans la liste ; affichage de toutes les opé si nécessaire */
+
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+  if ( operation -> pointe == 2 && !AFFICHAGE_R )
+    change_aspect_liste ( NULL,
+			  2 );
+
+  OPERATION_SELECTIONNEE = operation;
+
+  selectionne_ligne ( compte_courant );
 
   return FALSE;
 }
