@@ -2299,6 +2299,8 @@ cached_exchange_rate ( struct struct_devise * currency1,
       tmp = liste_tmp -> data;
       if ( currency1 == tmp -> currency1 && currency2 == tmp -> currency2 )
 	return tmp;
+
+      liste_tmp = liste_tmp -> next;
     }
 
   return NULL;
