@@ -46,6 +46,7 @@
 #include "erreur.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
+#include "utils_files.h"
 #include "fichiers_gestion.h"
 #include "etats_config.h"
 #include "parametres.h"
