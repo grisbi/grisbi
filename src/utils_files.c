@@ -4,6 +4,7 @@
 /*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (dionysos@grisbi.org)	      */
+/*			2004-     Francois Terrot (francois.terrot@grisbi.org)*/
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -261,6 +262,21 @@ gint utf8_stat(gchar* utf8filename,struct stat* filestat)
 xmlDocPtr utf8_xmlParseFile(const gchar *utf8filename)
 { 
     return xmlParseFile(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL));
+}
+/**
+ * \brief utf8 version of xmlSaveFormatFile 
+ * 
+ * convert utf8 file path into the locale OS charset before calling xmlSaveFormatFile
+ *
+ * \param utf8filename file to  path coded using utf8 charset
+ * \param cur                   xmlDocPtr structure to save
+ * \param format                file format to use
+ *
+ * \return xmlSaveFormatFile returned value
+ */
+gint        utf8_xmlSaveFormatFile(const gchar *utf8filename, xmlDocPtr cur, gint format)
+{ 
+    return xmlSaveFormatFile(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL),cur,format);
 }
 /**
  * \brief utf8 version of stat (see stat for more detail about mode)

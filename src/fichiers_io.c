@@ -8505,7 +8505,7 @@ gboolean enregistre_fichier ( gboolean force )
 #ifndef _WIN32
     xmlIndentTreeOutput = 1;
 #endif
-    resultat = xmlSaveFormatFile ( nom_fichier_comptes, doc, 1 );
+    resultat = utf8_xmlSaveFormatFile ( nom_fichier_comptes, doc, 1 );
 
     /* on libère la memoire */
 
@@ -8720,7 +8720,7 @@ gboolean enregistre_categ ( gchar *nom_categ )
 
     /* l'arbre est fait, on sauvegarde */
 
-    resultat = xmlSaveFormatFile ( nom_categ,
+    resultat = utf8_xmlSaveFormatFile ( nom_categ,
 				   doc,
 				   1 );
 
@@ -9074,7 +9074,7 @@ gboolean enregistre_ib ( gchar *nom_ib )
 
     /* l'arbre est fait, on sauvegarde */
 
-    resultat = xmlSaveFormatFile ( nom_ib,
+    resultat = utf8_xmlSaveFormatFile ( nom_ib,
 				   doc,
 				   1 );
 
