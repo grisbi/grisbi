@@ -323,7 +323,6 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		   etat -> pas_detailler_ventilation )
 		goto operation_refusee;
 
-
 	      /* on vérifie ensuite si un texte est recherché */
 
 	      if ( etat -> utilise_texte )
@@ -616,15 +615,15 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 	      /* vérification de l'imputation budgétaire */
 
-	      if (( etat -> utilise_detail_ib
-		    &&
-		    g_slist_index ( etat -> no_ib,
-				    GINT_TO_POINTER ( operation -> imputation )) == -1 )
-		  ||
-		  ( etat -> exclure_ope_sans_ib
-		    &&
-		    !operation -> imputation ))
+	      if ( etat -> exclure_ope_sans_ib && !operation -> imputation )
 		goto operation_refusee;
+
+	      if ((etat -> utilise_detail_ib &&
+		   g_slist_index(etat-> no_ib,
+				 GINT_TO_POINTER(operation->imputation)) == -1) &&
+		  operation -> imputation)
+		goto operation_refusee;
+
 
 	      /* vérification du tiers */
 
