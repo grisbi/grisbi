@@ -313,10 +313,54 @@ gint latex_initialise (GSList * opes_selectionnees)
  */
 gint latex_finish ()
 {
+    gchar * command;
+
     fprintf (latex_out, "\n"
 	     "\\end{longtable}\n"
 	     "\\end{document}\n");
     fclose (latex_out);
+
+    if ( etat.print_config.printer || etat.print_config.filetype == POSTSCRIPT_FILE )
+      {
+	command = g_strdup_printf ( "%s -interaction=nonstopmode %s.tex", etat.latex_command, latex_tempname );
+	if ( system ( command ) > 0 )
+	  dialogue_error ( _("LaTeX run was unable to complete, see console output for details.") );
+	else 
+	  {
+	    command = g_strdup_printf ( "%s %s %s.dvi -o %s",  etat.dvips_command,
+					( etat.print_config.orientation == LANDSCAPE ? "-t landscape" : ""),
+					latex_tempname,
+					(etat.print_config.printer ? 
+					 (g_strconcat ( latex_tempname, ".ps", NULL )) : 
+					 etat.print_config.printer_filename) );
+	    unlink ( g_strdup_printf ("%s.tex", latex_tempname) );
+	    unlink ( g_strdup_printf ("%s.aux", latex_tempname) );
+	    unlink ( g_strdup_printf ("%s.log", latex_tempname) );
+	    if ( !system ( command ) )
+	      {
+		if ( etat.print_config.printer )
+		  {
+		    command = g_strdup_printf ( "%s %s.ps", etat.print_config.printer_name, 
+						latex_tempname );
+		    if ( system ( command ) )
+		      {
+			dialogue_error ( _("Cannot send job to printer") );
+		      }
+		  }
+	      }
+	    else
+	      {
+		dialogue_error ( _("dvips was unable to complete, see console output for details.") );
+	      }
+	    unlink ( g_strdup_printf ("%s.dvi", latex_tempname) );
+	  }
+	
+	if ( etat.print_config.printer )
+	  {
+	    unlink ( g_strdup_printf ("%s.ps", latex_tempname) );
+	  }
+	
+      }  
 
     g_free ( latex_tempname );
 
@@ -379,5 +423,8 @@ void latex_safe ( gchar * text )
 		break;
 	}
     }
-
 }
+
+/* Local variables: */
+/* c-basic-offset: 4 */
+/* End: */
