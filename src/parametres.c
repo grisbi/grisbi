@@ -143,7 +143,7 @@ void preferences ( gint page )
     GtkTreeIter iter, iter2;
 
     /* Create dialog */
-    fenetre_preferences = gtk_dialog_new_with_buttons (_("Grisbi setup"), 
+    fenetre_preferences = gtk_dialog_new_with_buttons (_("Grisbi preferences"), 
 						       GTK_WINDOW ( window ),
 						       GTK_DIALOG_MODAL,
 						       /* FIXME: untill we implement the help system, this is useless */

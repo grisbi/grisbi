@@ -351,9 +351,9 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 	    /* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
 	    /* la version nécessaire pour l'ouvrir */
 
-	    dialogue_error ( g_strdup_printf ( _("Grisbi version %s is needed to open this file\nThe version of the file is %s"),
-					       version -> version_grisbi,
-					       version -> version_fichier ));
+	    dialogue_error ( g_strdup_printf ( _("Grisbi version %s is needed to open this file.\nYou are using version %s."),
+					       version -> version_fichier,
+					       version -> version_grisbi ));
 
 	    return ( FALSE );
     }
@@ -391,12 +391,6 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 /*****************************************************************************/
 gboolean charge_fichier_xml_grisbi ( xmlDocPtr doc )
 {
-    /* FIXME: One day, put a non-word there.  Rationale:
-       i10nizing this would break things and using French or
-       even English is not an option for foreigners.  Btw,
-       we should not rely on a French oritented file
-       format.  [benj] */
-
     xmlNodePtr node_1;
     xmlNodePtr root = xmlDocGetRootElement(doc);
 
