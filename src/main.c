@@ -141,11 +141,6 @@ int main (int argc, char *argv[])
 			     GTK_SIGNAL_FUNC ( fermeture_grisbi ),
 			     NULL );
 
-	gtk_signal_connect (GTK_OBJECT (window),
-			    "destroy",
-			    GTK_SIGNAL_FUNC ( fermeture_grisbi ),
-			    NULL );
-
 	gtk_signal_connect ( GTK_OBJECT ( window ),
 			     "size-allocate",
 			     GTK_SIGNAL_FUNC ( tente_modif_taille ),
