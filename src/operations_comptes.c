@@ -459,8 +459,6 @@ void reaffiche_liste_comptes ( void )
   /* ouvre le livre */
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-  gtk_widget_hide ( ICONE_FERMEE );
-  gtk_widget_show ( ICONE_OUVERTE );
 
 
 }
