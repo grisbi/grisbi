@@ -4288,6 +4288,10 @@ cat >> confdefs.h <<EOF
 EOF
 
 cat >> confdefs.h <<EOF
+#define GRISBI_BIN_DIR "$acl_final_exec_prefix/bin/grisbi"
+EOF
+
+cat >> confdefs.h <<EOF
 #define CHEMIN_LOGO "$acl_final_prefix/share/pixmaps/logo_grisbi.xpm"
 EOF
 
