@@ -1067,7 +1067,7 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
     GtkWidget *radiogroup;
 
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Form and lists : diverse"),
+    vbox_pref = new_vbox_with_title_and_icon ( _("Form behavior"),
 					       "form.png" );
 
     /* What to do if RETURN is pressed into transaction form */
