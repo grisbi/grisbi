@@ -33,6 +33,9 @@
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
+#ifdef HAVE_G2BANKING
+# include <g2banking/jobview.h>
+#endif
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -67,6 +70,9 @@ extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
 extern gchar *tips_col_liste_operations[7];
 extern GtkTooltips *tooltips_general_grisbi;
+#ifdef HAVE_G2BANKING
+extern AB_BANKING *gbanking;
+#endif
 /*END_EXTERN*/
 
 
@@ -87,6 +93,9 @@ GtkWidget *creation_fenetre_principale (void )
     GtkWidget *page_categories;
     GtkWidget *page_imputations;
     GtkWidget *page_etats;
+#ifdef HAVE_G2BANKING
+    GtkWidget *page_queue;
+#endif
 
     if ( DEBUG )
 	printf ( "creation_fenetre_principale\n" );
@@ -160,7 +169,14 @@ GtkWidget *creation_fenetre_principale (void )
 			       page_etats,
 			       gtk_label_new (SPACIFY(_("Reports"))) );
 
-
+#ifdef HAVE_G2BANKING
+    page_queue = GBanking_JobView_new(gbanking, 0);
+    fprintf(stderr, "Ping1...\n");
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
+                              page_queue,
+                              gtk_label_new (SPACIFY(_("Outbox"))) );
+    fprintf(stderr, "Ping2...\n");
+#endif
 
 
     /* change les titres des colonnes si nécessaire */

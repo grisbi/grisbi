@@ -37,6 +37,9 @@
 #include "traitement_variables.h"
 #include "utils_files.h"
 #include "fichier_configuration.h"
+#ifdef HAVE_G2BANKING
+# include <g2banking/gbanking.h>
+#endif
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -52,6 +55,9 @@ extern GtkWidget *window;
 /*END_EXTERN*/
 
 
+#ifdef HAVE_G2BANKING
+extern AB_BANKING *gbanking;
+#endif
 
 
 
@@ -106,6 +112,20 @@ gboolean fermeture_grisbi ( void )
 	gtk_timeout_remove ( id_temps );
 	id_temps = 0;
     }
+
+#ifdef HAVE_G2BANKING
+    if (gbanking) {
+      int rv;
+
+      rv=AB_Banking_Init(gbanking);
+      if (rv) {
+        printf (_("Could not initialize AqBanking, "
+                  "online banking is not available (%d)\n"), rv);
+        AB_Banking_free(gbanking);
+        gbanking=0;
+      }
+    }
+#endif
 
     gtk_main_quit();
     return TRUE;

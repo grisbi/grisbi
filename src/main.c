@@ -29,6 +29,14 @@
 /* *******************************************************************************/
 
 
+#ifdef HAVE_CONFIG_H
+# include <config.h>
+#endif
+
+#ifdef HAVE_G2BANKING
+#include "gbanking.h"
+#endif
+
 
 /* Fichier de base contenant la procédure main */
 
@@ -75,6 +83,9 @@ GtkWidget *menu_general;
 GtkItemFactory *item_factory_menu_general;
 gint id_fonction_idle;
 
+#ifdef HAVE_G2BANKING
+AB_BANKING *gbanking=0;
+#endif
 
 
 /*START_EXTERN*/
@@ -127,6 +138,10 @@ int main (int argc, char *argv[])
     struct stat buffer_stat;
     cmdline_options  opt;
 
+#ifdef HAVE_G2BANKING
+    int rv;
+#endif
+
     /* on ajoute la possibilité de mettre l'option --onglet dans la ligne de commande */
     /* Permet d'ouvrir le fichier demandé sur l'onglet désiré  */
     /* w=-1 : fenêtre de configuration */
@@ -170,7 +185,7 @@ int main (int argc, char *argv[])
 	/* FIXME : tous les arguments du gnome_init... */
 	/* 	gnome_init_with_popt_table ("Grisbi", VERSION, argc, argv, options, 0, &ctx); */
 
-	gtk_init ( &argc, &argv );
+	gtk_init(&argc, &argv);
 
 	/* on commence par détourner le signal SIGSEGV */
 #ifndef _WIN32
@@ -191,6 +206,18 @@ int main (int argc, char *argv[])
 		exit(0);
 	}
 	
+#ifdef HAVE_G2BANKING
+        gbanking=GBanking_new("grisbi", 0);
+        GBanking_SetImportContextFn(gbanking, GrisbiBanking_ImportContext);
+        rv=AB_Banking_Init(gbanking);
+        if (rv) {
+          printf (_("Could not initialize AqBanking, "
+                    "online banking will not be available\n"));
+          AB_Banking_free(gbanking);
+          gbanking=0;
+        }
+#endif
+
 	/*  Création de la fenêtre principale */
 
 	window = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
