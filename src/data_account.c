@@ -1014,3 +1014,42 @@ gboolean gsb_account_set_reconcile_balance ( gint no_account,
 
 
 
+/** get the reconcile_last_number on the account given
+ * \param no_account no of the account
+ * \return last number of reconcile or 0 if the account doesn't exist
+ * */
+gint gsb_account_get_reconcile_last_number ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return 0;
+
+    return account -> reconcile_last_number;
+}
+
+
+/** set the reconcile_last_number in the account given
+ * \param no_account no of the account
+ * \param number last number of reconcile
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_reconcile_last_number ( gint no_account,
+						 gint number )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> reconcile_last_number = number;
+
+    return TRUE;
+}
+
+
+

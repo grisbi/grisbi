@@ -1017,7 +1017,8 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Dernier_no_de_rapprochement" ))
-				DERNIER_NO_RAPPROCHEMENT = my_atoi ( xmlNodeGetContent ( node_detail ));
+				gsb_account_set_reconcile_last_number ( no_compte,
+									my_atoi ( xmlNodeGetContent ( node_detail ) );
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Compte_cloture" ))
@@ -3326,7 +3327,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Dernier_no_de_rapprochement",
-			  itoa ( DERNIER_NO_RAPPROCHEMENT ));
+			  itoa ( gsb_account_get_reconcile_last_number (i) ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,

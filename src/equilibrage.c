@@ -521,11 +521,11 @@ void equilibrage ( void )
     /* récupère l'ancien no de rapprochement et essaie d'incrémenter la partie
        numérique. Si ne réussit pas, remet juste le nom de l'ancien */
 
-    if ( DERNIER_NO_RAPPROCHEMENT )
+    if ( gsb_account_get_reconcile_last_number (compte_courant) )
     {
 	gchar *new_rap;
 
-	new_rap = rapprochement_name_by_no ( DERNIER_NO_RAPPROCHEMENT );
+	new_rap = rapprochement_name_by_no ( gsb_account_get_reconcile_last_number (compte_courant) );
 
 	if ( new_rap )
 	{
@@ -615,7 +615,7 @@ void equilibrage ( void )
 	    date = gdate_today();
 
 	gtk_entry_set_text ( GTK_ENTRY ( entree_ancien_solde_equilibrage ),
-			     g_strdup_printf ("%4.2f", SOLDE_DERNIER_RELEVE ));
+			     g_strdup_printf ("%4.2f", gsb_account_get_reconcile_balance (compte_courant )));
 	gtk_widget_set_sensitive ( GTK_WIDGET ( entree_ancien_solde_equilibrage ),
 				   FALSE );
     }
@@ -1003,7 +1003,8 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
 	{
 	    /* le rapprochement existe déjà */
 
-	    DERNIER_NO_RAPPROCHEMENT = rapprochement -> no_rapprochement;
+	    gsb_account_set_reconcile_last_number ( compte_courant,
+						    rapprochement -> no_rapprochement);
 	}
 	else
 	{
@@ -1016,13 +1017,13 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
 	    liste_struct_rapprochements = g_slist_append ( liste_struct_rapprochements,
 							   rapprochement );
 
-	    DERNIER_NO_RAPPROCHEMENT = rapprochement -> no_rapprochement;
+	    gsb_account_set_reconcile_last_number ( compte_courant,
+						    rapprochement -> no_rapprochement);
 	}
     }
     else
-	DERNIER_NO_RAPPROCHEMENT = 0;
-
-
+	gsb_account_set_reconcile_last_number ( compte_courant,
+						0 );
 
     /* met tous les P à R */
 
@@ -1040,7 +1041,7 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
 	     operation -> pointe == OPERATION_TELERAPPROCHEE )
 	{
 	    operation -> pointe = OPERATION_RAPPROCHEE;
-	    operation -> no_rapprochement = DERNIER_NO_RAPPROCHEMENT;
+	    operation -> no_rapprochement = gsb_account_get_reconcile_last_number (compte_courant);
 	}
 
 	pointeur_liste_ope = pointeur_liste_ope -> next;
@@ -1051,8 +1052,8 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
     /* on réaffiche la liste */
 
     modification_fichier( TRUE );
-
-    SOLDE_DERNIER_RELEVE = solde_final;
+    gsb_account_set_reconcile_balance ( compte_courant,
+					solde_final );
 
     /*     on remet tout normal pour les opérations */
 

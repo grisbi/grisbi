@@ -108,6 +108,7 @@ gchar *gsb_account_get_name ( gint no_account );
 gint gsb_account_get_nb_rows ( gint no_account );
 gboolean gsb_account_get_r ( gint no_account );
 gdouble gsb_account_get_reconcile_balance ( gint no_account );
+gint gsb_account_get_reconcile_last_number ( gint no_account );
 gpointer gsb_account_get_scrolled_window ( gint no_account );
 gpointer gsb_account_get_store ( gint no_account );
 GSList *gsb_account_get_transactions_list ( gint no_account );
@@ -147,6 +148,8 @@ gboolean gsb_account_set_r ( gint no_account,
 			     gboolean show_r );
 gboolean gsb_account_set_reconcile_balance ( gint no_account,
 					     gdouble balance );
+gboolean gsb_account_set_reconcile_last_number ( gint no_account,
+						 gint number );
 gboolean gsb_account_set_scrolled_window ( gint no_account,
 					   gpointer scrolled_window );
 gboolean gsb_account_set_store ( gint no_account,

@@ -305,8 +305,8 @@ struct donnees_compte
 /* #define MESSAGE_SOUS_MINI_VOULU ((struct donnees_compte *) (*verification_p_tab("define_compte"))) ->  message_sous_mini_voulu */
 /* #define DATE_DERNIER_RELEVE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) ->  date_releve */
 /* #define SOLDE_DERNIER_RELEVE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) ->  solde_releve */
-#define DERNIER_NO_RAPPROCHEMENT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> dernier_no_rapprochement
-#define MISE_A_JOUR ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> mise_a_jour
+/* #define DERNIER_NO_RAPPROCHEMENT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> dernier_no_rapprochement */
+/* #define MISE_A_JOUR ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> mise_a_jour */
 #define DEVISE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> devise
 #define BANQUE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> banque
 #define NO_GUICHET ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> no_guichet
