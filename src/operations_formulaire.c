@@ -51,7 +51,6 @@ GtkWidget *creation_formulaire ( void )
   couleur_grise.green = COULEUR_GRISE_GREEN;
   couleur_grise.blue = COULEUR_GRISE_BLUE;
 
-
   /* on crée le tooltips */
 
   tips = gtk_tooltips_new ();
@@ -65,9 +64,12 @@ GtkWidget *creation_formulaire ( void )
   style_entree_formulaire [0] = gtk_style_copy ( gtk_widget_get_style (GTK_WIDGET (formulaire)) );
   style_entree_formulaire [0]->fg[GTK_STATE_NORMAL] = couleur_normale;
 
-  style_entree_formulaire [1] = gtk_style_copy ( gtk_widget_get_style (GTK_WIDGET (formulaire)) );
+  style_entree_formulaire [1] = gtk_style_copy ( style_entree_formulaire [0] );
   style_entree_formulaire [1]->fg[GTK_STATE_NORMAL] = couleur_grise;
+  style_entree_formulaire [1]->text[GTK_STATE_NORMAL] = couleur_grise;
 
+  g_object_ref (style_entree_formulaire [0]);
+  g_object_ref (style_entree_formulaire [1]);
 
   /* le formulaire est une table de 7 colonnes  sur 4 */
 
@@ -629,8 +631,6 @@ GtkWidget *creation_formulaire ( void )
   if ( etat.affiche_boutons_valider_annuler )
     gtk_widget_show ( hbox_valider_annuler_ope );
 
-  /* FIXME */
-/*   bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL ); */
   bouton = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
@@ -645,8 +645,6 @@ GtkWidget *creation_formulaire ( void )
 		     0 );
   gtk_widget_show ( bouton );
 
-  /* FIXME */
-/*   bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_OK ); */
   bouton = gtk_button_new_from_stock (GTK_STOCK_OK);
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
@@ -1189,8 +1187,6 @@ gboolean clique_champ_formulaire ( GtkWidget *entree,
 			       gint *no_origine )
 {
   /* on rend sensitif tout ce qui ne l'était pas sur le formulaire */
-
-  printf (">>> clique_champ_formulaire %d\n", no_origine);
 
   degrise_formulaire_operations ();
 
