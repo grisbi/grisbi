@@ -30,11 +30,13 @@
 
 
 /* Function protypes */
-static void gtk_list_button_class_init ( GtkListButtonClass *klass );
-static void gtk_list_button_init ( GtkListButton *list_button );
-static void gtk_list_button_size_request (GtkWidget *widget, GtkRequisition *requisition);
-static void gtk_list_button_size_allocate (GtkWidget *widget, GtkAllocation *allocation);
-gboolean gtk_list_button_clicked ();
+static void gtk_list_button_class_init ( GtkListButtonClass * );
+static void gtk_list_button_init ( GtkListButton * );
+static void gtk_list_button_size_request (GtkWidget *, GtkRequisition *);
+static void gtk_list_button_size_allocate (GtkWidget *, GtkAllocation *);
+gboolean gtk_list_button_clicked ( GtkButton * );
+gboolean gtk_list_button_destroy ( GtkListButton * );
+
 
 /* Globals */
 static GtkButtonClass *parent_class = NULL;
@@ -110,6 +112,8 @@ static void gtk_list_button_init ( GtkListButton *list_button )
 
   g_signal_connect ( GTK_BUTTON(list_button), "clicked", 
 		     G_CALLBACK ( gtk_list_button_clicked ), NULL );
+  g_signal_connect ( GTK_WIDGET(list_button), "destroy", 
+		     G_CALLBACK ( gtk_list_button_destroy ), NULL );
 
   gtk_widget_show ( list_button -> hbox );
   gtk_widget_show ( list_button -> box );
@@ -229,4 +233,13 @@ gboolean gtk_list_button_clicked ( GtkButton *button )
   groups [ GTK_LIST_BUTTON(button) -> group ] = listbutton;
 
   return FALSE;
+}
+
+
+gboolean gtk_list_button_destroy ( GtkListButton * listbutton )
+{
+  if ( listbutton == groups [ listbutton -> group ] )
+    {
+      groups [ listbutton -> group ] = NULL;
+    }  
 }
