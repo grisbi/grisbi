@@ -787,6 +787,19 @@ void pointe_equilibrage ( int p_ligne )
 {
     struct structure_operation *operation;
     gdouble montant;
+    gint i, j, col = -1;
+
+    for ( i=0 ; i<4 ; i++ )
+    {
+      for ( j=0 ; j<7 ; j++ )
+      {
+	if ( tab_affichage_ope[i][j] == 13 )
+	  col = j;
+      }
+    }
+
+    if ( col == -1 )
+      return;
 
     operation = gtk_clist_get_row_data ( GTK_CLIST ( CLIST_OPERATIONS ),
 					 p_ligne );
@@ -819,7 +832,7 @@ void pointe_equilibrage ( int p_ligne )
 
 	gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
 			     p_ligne,
-			     3,
+			     col,
 			     " ");
     }
     else
@@ -831,7 +844,7 @@ void pointe_equilibrage ( int p_ligne )
 
 	gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
 			     p_ligne,
-			     3,
+			     col,
 			     _("P"));
     }
 

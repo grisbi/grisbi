@@ -1160,6 +1160,19 @@ gboolean selectionne_ligne_souris ( GtkCList *liste,
 				gpointer data)
 {
     gint ligne, colonne, x, y;
+    gint i, j, col = -1;
+
+    for ( i=0 ; i<4 ; i++ )
+    {
+      for ( j=0 ; j<7 ; j++ )
+      {
+	if ( tab_affichage_ope[i][j] == 13 )
+	  col = j;
+      }
+    }
+
+    if ( col == -1 )
+      return FALSE;
 
     /* si le click se situe dans les menus, c'est qu'on redimensionne, on fait rien */
 
@@ -1192,7 +1205,7 @@ gboolean selectionne_ligne_souris ( GtkCList *liste,
     }
 
     if ( etat.equilibrage &&
-	 colonne == TRANSACTION_COL_NB_PR &&
+	 colonne == col &&
 	 !(ligne % NB_LIGNES_OPE) )
     {
 	pointe_equilibrage ( ligne );
@@ -1218,7 +1231,7 @@ gboolean selectionne_ligne_souris ( GtkCList *liste,
        est enfoncée, alors on (dépointe l'opération */
 
     if ( ( ( evenement -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK ) &&
-	 colonne == TRANSACTION_COL_NB_PR )
+	 colonne == col )
 	p_press ();
 
     if ( evenement -> type == GDK_2BUTTON_PRESS )
@@ -1807,6 +1820,19 @@ void edition_operation ( void )
 void p_press (void)
 {
     gdouble montant;
+    gint i, j, col = -1;
+
+    for ( i=0 ; i<4 ; i++ )
+    {
+      for ( j=0 ; j<7 ; j++ )
+      {
+	if ( tab_affichage_ope[i][j] == 13 )
+	  col = j;
+      }
+    }
+
+    if ( col == -1 )
+      return;
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
@@ -1836,7 +1862,7 @@ void p_press (void)
 	gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
 			     gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
 							    OPERATION_SELECTIONNEE ),
-			     3,
+			     col,
 			     NULL );
 
 	modification_fichier( TRUE );
@@ -1859,7 +1885,7 @@ void p_press (void)
 	gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
 			     gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
 							    OPERATION_SELECTIONNEE ),
-			     3,
+			     col,
 			     _("P"));
 	modification_fichier( TRUE );
     }
@@ -1938,6 +1964,20 @@ void p_press (void)
 /******************************************************************************/
 void r_press (void)
 {
+    gint i, j, col = -1;
+
+    for ( i=0 ; i<4 ; i++ )
+    {
+      for ( j=0 ; j<7 ; j++ )
+      {
+	if ( tab_affichage_ope[i][j] == 13 )
+	  col = j;
+      }
+    }
+
+    if ( col == -1 )
+      return;
+
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
     /* si on est sur l'opération vide -> on se barre */
@@ -1957,7 +1997,7 @@ void r_press (void)
 	    gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
 				 gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
 								OPERATION_SELECTIONNEE ),
-				 TRANSACTION_COL_NB_PR,
+				 col,
 				 _("R"));
 	else
 	{
@@ -1982,7 +2022,7 @@ void r_press (void)
 	    gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
 				 gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
 								OPERATION_SELECTIONNEE ),
-				 TRANSACTION_COL_NB_PR,
+				 col,
 				 NULL );
 
 	    modification_fichier( TRUE );
