@@ -25,6 +25,8 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
+#include "constants.h"
+#include "calendar.h"		/* pour accéder à la fonction gsb_today() */
 
 #include "accueil.h"
 #include "affichage.h"
@@ -45,9 +47,16 @@
 #include "type_operations.h"
 #include "ventilation.h"
 
+#define TRANSACTION_COL_NB_CHECK 0
+#define TRANSACTION_COL_NB_DATE 1
+#define TRANSACTION_COL_NB_PARTY 2
+#define TRANSACTION_COL_NB_PR 3
+#define TRANSACTION_COL_NB_DEBIT 4
+#define TRANSACTION_COL_NB_CREDIT 5
+#define TRANSACTION_COL_NB_BALANCE 6
 
-#define NB_COLS_TRANSACTION 7
-#define NB_ROWS_TRANSACTION 4
+#define TRANSACTION_LIST_COL_NB 7
+#define TRANSACTION_LIST_ROWS_NB 4
 
 GtkJustification col_justs[] = { GTK_JUSTIFY_CENTER,
 				 GTK_JUSTIFY_CENTER,
@@ -278,7 +287,7 @@ void creation_listes_operations ( void )
 
       /* création de l'onglet */
 
-      liste = gtk_clist_new_with_titles ( NB_COLS_TRANSACTION,
+      liste = gtk_clist_new_with_titles ( TRANSACTION_LIST_COL_NB,
 					  titres_colonnes_liste_operations );
       gtk_widget_set_usize ( GTK_WIDGET ( liste ),
 			     1,
@@ -306,7 +315,7 @@ void creation_listes_operations ( void )
 
       tooltip = gtk_tooltips_new ();
 
-      for ( j = 0 ; j < NB_COLS_TRANSACTION ; j++ )
+      for ( j = 0 ; j < TRANSACTION_LIST_COL_NB ; j++ )
 	{
 	  gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltip ),
 				 GTK_CLIST ( liste ) -> column[j].button,
@@ -330,7 +339,7 @@ void creation_listes_operations ( void )
       /* justification du contenu des cellules */
       /* colonnes redimensionnables ou non */
 
-      for ( j = 0 ; j < NB_COLS_TRANSACTION ; j++ )
+      for ( j = 0 ; j < TRANSACTION_LIST_COL_NB ; j++ )
 	{
 	 gtk_clist_set_column_justification ( GTK_CLIST ( liste ),
 					      j,
@@ -414,7 +423,7 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 
   /* création de l'onglet */
 
-  liste = gtk_clist_new_with_titles ( NB_COLS_TRANSACTION,
+  liste = gtk_clist_new_with_titles ( TRANSACTION_LIST_COL_NB,
 				      titres_colonnes_liste_operations );
   gtk_widget_set_usize ( GTK_WIDGET ( liste ),
 			 1,
@@ -440,7 +449,7 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 
   tooltip = gtk_tooltips_new ();
 
-  for ( i = 0 ; i < NB_COLS_TRANSACTION ; i++ )
+  for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
     {
       gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltip ),
 			     GTK_CLIST ( liste ) -> column[i].button,
@@ -463,7 +472,7 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 
   /* justification du contenu des cellules */
 
-  for ( i = 0 ; i < NB_COLS_TRANSACTION ; i++ )
+  for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
     {
      gtk_clist_set_column_justification ( GTK_CLIST ( liste ),
 					  i,
@@ -533,7 +542,7 @@ void remplissage_liste_operations ( gint compte )
 {
   GSList *liste_operations_tmp;
   gint couleur_en_cours;
-  gchar *ligne_clist[NB_ROWS_TRANSACTION][NB_COLS_TRANSACTION];
+  gchar *ligne_clist[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
   gint i, j;
   gint ligne;
   gdouble montant;
@@ -595,7 +604,7 @@ void remplissage_liste_operations ( gint compte )
 	    {
 	      /* on fait le tour de tab_affichage_ope pour remplir les lignes du tableau */
 
-	      for ( i = 0 ; i < NB_ROWS_TRANSACTION ; i++ )
+	      for ( i = 0 ; i < TRANSACTION_LIST_ROWS_NB ; i++ )
 		{
 		  /* on ne passe que si la ligne doit être affichée */
 
@@ -651,7 +660,7 @@ void remplissage_liste_operations ( gint compte )
 			}
 
 
-		      for ( j = 0 ; j < NB_COLS_TRANSACTION ; j++ )
+		      for ( j = 0 ; j < TRANSACTION_LIST_COL_NB ; j++ )
 			ligne_clist[i][j] = recherche_contenu_cellule ( operation,
 									tab_affichage_ope[ligne_affichee][j]  );
 
@@ -676,7 +685,7 @@ void remplissage_liste_operations ( gint compte )
 		      /* du solde et on le met en rouge si on le trouve */
 
 		      if ( solde_courant_affichage_liste < 0 )
-			for ( j = 0 ; j < NB_COLS_TRANSACTION ; j++ )
+			for ( j = 0 ; j < TRANSACTION_LIST_COL_NB ; j++ )
 			  if ( tab_affichage_ope[ligne_affichee][j] == 7 )
 			    gtk_clist_set_cell_style ( GTK_CLIST ( CLIST_OPERATIONS ),
 						       ligne,
@@ -697,7 +706,7 @@ void remplissage_liste_operations ( gint compte )
     {
       /* on met à NULL tout les pointeurs */
 
-      for ( i = 0 ; i < NB_COLS_TRANSACTION ; i++ )
+      for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
 	ligne_clist[0][i] = NULL;
 
       ligne = gtk_clist_append ( GTK_CLIST ( CLIST_OPERATIONS ),
@@ -1149,10 +1158,8 @@ void selectionne_ligne_souris ( GtkCList *liste,
 				 ligne ) )
     return;
 
-  if ( etat.equilibrage
-       &&
-       colonne == 3
-       &&
+  if ( etat.equilibrage &&
+       colonne == TRANSACTION_COL_NB_PR &&
        !(ligne % NB_LIGNES_OPE) )
     pointe_equilibrage ( ligne );
 
@@ -1170,6 +1177,13 @@ void selectionne_ligne_souris ( GtkCList *liste,
 						    ligne );
 
   selectionne_ligne( compte_courant );
+
+  /* si on a cliqué sur la colonne P/R alors que la touche CTRL
+     est enfoncée, alors on (dé)pointe l'opération */
+
+  if ( ( ( evenement -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK ) &&
+       colonne == TRANSACTION_COL_NB_PR )
+     p_press ();
 
   if ( evenement -> type == GDK_2BUTTON_PRESS )
     edition_operation ();
@@ -1305,13 +1319,8 @@ void selectionne_ligne ( gint compte )
 			     0);
     }
 
-  if ( gtk_clist_row_is_visible ( GTK_CLIST ( CLIST_OPERATIONS ),
-				  ligne + NB_LIGNES_OPE - 1)
-       != GTK_VISIBILITY_FULL
-       ||
-       gtk_clist_row_is_visible ( GTK_CLIST ( CLIST_OPERATIONS ),
-				  ligne )
-       != GTK_VISIBILITY_FULL )
+  if ( gtk_clist_row_is_visible ( GTK_CLIST ( CLIST_OPERATIONS ), ligne + NB_LIGNES_OPE - 1) != GTK_VISIBILITY_FULL ||
+       gtk_clist_row_is_visible ( GTK_CLIST ( CLIST_OPERATIONS ), ligne ) != GTK_VISIBILITY_FULL )
     {
       if ( ligne > gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value  / GTK_CLIST ( CLIST_OPERATIONS ) -> row_height  )
 	gtk_clist_moveto ( GTK_CLIST ( CLIST_OPERATIONS ),
@@ -1347,8 +1356,8 @@ void edition_operation ( void )
   operation = OPERATION_SELECTIONNEE;
   formulaire_a_zero ();
 
-/* on affiche le formulaire sans modifier l'état */
-/* => si il n'est pas affiché normalement, il sera efface lors du prochain formulaire_a_zero */
+  /* on affiche le formulaire sans modifier l'état => si il n'est pas affiché normalement,
+     il sera efface lors du prochain formulaire_a_zero */
 
   if ( !etat.formulaire_toujours_affiche )
     {
@@ -1359,26 +1368,31 @@ void edition_operation ( void )
 			   NULL );
     }
 
-  gtk_widget_set_sensitive ( bouton_affiche_cache_formulaire,
-			     FALSE );
+  gtk_widget_set_sensitive ( bouton_affiche_cache_formulaire, FALSE );
+
+  degrise_formulaire_operations ();
 
 /* si l'opé est -1, c'est que c'est une nouvelle opé */
 
   if ( operation == GINT_TO_POINTER ( -1 ) )
     {
-      clique_champ_formulaire ( widget_formulaire_operations[TRANSACTION_FORM_DATE],
-				NULL,
-				GINT_TO_POINTER ( 1 ));
-      gtk_entry_select_region ( GTK_ENTRY (  widget_formulaire_operations[TRANSACTION_FORM_DATE]),
-				0,
-				-1);
-      gtk_widget_grab_focus ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ));
-      return;
+     if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) == style_entree_formulaire[1] )
+       {
+	entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_DATE] );
+
+	if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ) == style_entree_formulaire[1] )
+	  {
+	   gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ),
+				gsb_today() );
+	  }
+       }
+     gtk_entry_select_region ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ), 0, -1);
+     gtk_widget_grab_focus ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) );
+     return;
     }
 
 /*   l'opé n'est pas -1, c'est une modif, on remplit les champs */
 
-  degrise_formulaire_operations ();
 
   gtk_object_set_data ( GTK_OBJECT ( formulaire ),
 			"adr_struct_ope",
@@ -1903,7 +1917,7 @@ void r_press (void)
 	gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
 			     gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
 							    OPERATION_SELECTIONNEE ),
-			     3,
+			     TRANSACTION_COL_NB_PR,
 			     "R");
       else
 	{
@@ -1928,7 +1942,7 @@ void r_press (void)
 	gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
 			     gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
 							    OPERATION_SELECTIONNEE ),
-			     3,
+			     TRANSACTION_COL_NB_PR,
 			     NULL );
 
 	modification_fichier( TRUE );
@@ -2227,12 +2241,12 @@ void changement_taille_liste_ope ( GtkWidget *clist,
   /* sinon, on y met les valeurs fixes */
 
   if ( etat.largeur_auto_colonnes )
-    for ( i = 0 ; i < NB_COLS_TRANSACTION ; i++ )
+    for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
       gtk_clist_set_column_width ( GTK_CLIST ( clist ),
 				   i,
 				   rapport_largeur_colonnes[i] * largeur / 100 );
   else
-    for ( i = 0 ; i < NB_COLS_TRANSACTION ; i++ )
+    for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
       gtk_clist_set_column_width ( GTK_CLIST ( clist ),
 				   i,
 				   taille_largeur_colonnes[i] );
