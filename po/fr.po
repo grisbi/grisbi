@@ -1,3 +1,4 @@
+# translation of fr.po to 
 # translation of fr.po to Francais
 # Grisbi translation into French
 # Copyright (C) 2003	Daniel Cartron <daniel@cartron.org>, 2003.
@@ -9,13 +10,13 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-03-29 13:44+0200\n"
-"PO-Revision-Date: 2004-03-07 17:33+0100\n"
-"Last-Translator: Benjamin Drieu <bdrieu@april.org>\n"
-"Language-Team: Francais <traduction@grisbi.org>\n"
+"PO-Revision-Date: 2004-03-29 14:56+0200\n"
+"Last-Translator: \n"
+"Language-Team:  <fr@li.org>\n"
 "MIME-Version: (null)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0.2\n"
+"X-Generator: KBabel 1.3.1\n"
 
 #: src/accueil.c:110
 msgid "No user"
@@ -393,8 +394,7 @@ msgstr "Ajuster la taille des colonnes selon le tableau ci-dessus"
 
 #: src/affichage_liste.c:127
 msgid "Remember display settings for each account separately"
-msgstr ""
-"Retenir les caractéristiques de l'affichage séparément pour chaque compte"
+msgstr "Retenir les caractéristiques de l'affichage séparément pour chaque compte"
 
 #: src/affichage_liste.c:133
 msgid "Revert to defaults"
@@ -3539,8 +3539,7 @@ msgstr "Inclure les virements de ou vers les comptes d'actif et de passif"
 
 #: src/etats_config.c:2574
 msgid "Include transfers from or to accounts not in this report"
-msgstr ""
-"Inclure les virements de ou vers les comptes ne figurant pas dans l'état"
+msgstr "Inclure les virements de ou vers les comptes ne figurant pas dans l'état"
 
 #: src/etats_config.c:2587
 msgid "Include transfers from or to these accounts"
@@ -3862,8 +3861,7 @@ msgstr "Afficher le nombre d'opérations avec les totaux"
 
 #: src/etats_config.c:6240
 msgid "Consider the third parties of this report as a multiple third party."
-msgstr ""
-"Inclure cet état dans la liste des tiers du formulaire de saisie d'opération."
+msgstr "Inclure cet état dans la liste des tiers du formulaire de saisie d'opération."
 
 #: src/etats_config.c:6311
 msgid "Display the information about"
@@ -4242,7 +4240,7 @@ msgstr ""
 
 #: src/etats_latex.c:310
 msgid "Cannot send job to printer"
-msgstr ""
+msgstr "Impossible d'envoyer le document à l'imprimante"
 
 #: src/etats_latex.c:317
 msgid "dvips was unable to complete, see console output for details."
@@ -4288,13 +4286,13 @@ msgstr "Rafraichir"
 
 #: src/etats_onglet.c:456
 msgid "Choose template for new report"
-msgstr ""
+msgstr "Choisissez le modèle pour le nouvel état"
 
 #: src/etats_onglet.c:457
 msgid ""
 "You are about to create a new report.  For convenience, you can choose "
 "between the following templates.  Reports may be customized later."
-msgstr ""
+msgstr "Vous êtes sur le point de créer un nouvel état. Vous pouvez choisir parmis les modèles suivants.  Les états peuvent être paramétrés plus tard."
 
 #: src/etats_onglet.c:460
 msgid "Report type"
@@ -4380,8 +4378,7 @@ msgstr ""
 #. etat vierge
 #: src/etats_onglet.c:994
 msgid "This report is an empty one. You need to customise it entirely."
-msgstr ""
-"Cette option crée un état vierge dans lequel vous devez tous configurer."
+msgstr "Cette option crée un état vierge dans lequel vous devez tous configurer."
 
 #. remise de chèques
 #: src/etats_onglet.c:1000
@@ -4426,8 +4423,7 @@ msgstr "Effacer l'état \"%s\"?"
 
 #: src/etats_onglet.c:1038
 msgid "This will irreversibly remove this report.  There is no undo for this."
-msgstr ""
-"Cela détruira irrémédiablement cet état. Il n'y a pas d'annulation possible."
+msgstr "Cela détruira irrémédiablement cet état. Il n'y a pas d'annulation possible."
 
 #: src/etats_onglet.c:1123
 msgid "Export a report"
@@ -4748,8 +4744,7 @@ msgstr "opérations ventilées, toutes ont été effacées.\n"
 
 #: src/fichiers_io.c:1905
 msgid "transfers without contra-transaction, which categories were deleted.\n"
-msgstr ""
-"virements sans contre opération, dont les catégories ont été effacées.\n"
+msgstr "virements sans contre opération, dont les catégories ont été effacées.\n"
 
 #: src/fichiers_io.c:1910
 msgid ""
@@ -4861,8 +4856,7 @@ msgstr "Matthieu Pupat (thieum.tieum@free.fr) : paquets Mandrake"
 
 #: src/help.c:49
 msgid "Francois Terrot (francois@terrot.net): Windows packaging, cygwin port"
-msgstr ""
-"Francois Terrot (francois@terrot.net) : paquets Windows, portage cygwin"
+msgstr "Francois Terrot (francois@terrot.net) : paquets Windows, portage cygwin"
 
 #: src/help.c:50
 msgid "Thierry Thomas (thierry@pompo.net): FreeBSD packaging"
@@ -4874,7 +4868,7 @@ msgstr "Dominique Parisot (parisot@villey-le-sec.com) : contributeur"
 
 #: src/help.c:52
 msgid "Axel Rousseau (axel584@axel584.org): contributor"
-msgstr ""
+msgstr "Axel Rousseau (axel584@axel584.org): contributeur"
 
 #: src/help.c:53
 msgid "Andre Pascual (andre@linuxgraphic.org) : Logo"
@@ -5287,8 +5281,7 @@ msgstr "Récupération des ventilations ?"
 
 #: src/operations_formulaire.c:1864
 msgid "Do you want to recover all the lines of the last breakdown?"
-msgstr ""
-"Voulez-vous récupérer aussi les opérations de la dernière ventilation ?"
+msgstr "Voulez-vous récupérer aussi les opérations de la dernière ventilation ?"
 
 #: src/operations_formulaire.c:2115 src/operations_formulaire.c:2552
 #: src/tiers_onglet.c:1458
@@ -5372,8 +5365,7 @@ msgid "Imposible to delete a reconciled transaction."
 msgstr "Impossible de supprimer une opération relevée."
 
 #: src/operations_liste.c:2033
-msgid ""
-"The contra-transaction of this transfer is reconciled, deletion impossible."
+msgid "The contra-transaction of this transfer is reconciled, deletion impossible."
 msgstr ""
 "La contre-opération de ce virement est relevée, la suppression est "
 "impossible."
@@ -5431,8 +5423,7 @@ msgstr "Ne pas avertir lorsque les seuils minimums sont atteints"
 #. Display a warning message if account file is readable by someone else
 #: src/parametres.c:376
 msgid "Do not warn if account file is readable by someone else"
-msgstr ""
-"Ne pas avertir lorsque le fichier de compte est lisible par quelqu'un d'autre"
+msgstr "Ne pas avertir lorsque le fichier de compte est lisible par quelqu'un d'autre"
 
 #. Display a warning message if file is already opened
 #: src/parametres.c:382
@@ -5444,8 +5435,7 @@ msgid "Scheduler warnings"
 msgstr "Alertes de l'échéancier"
 
 #: src/parametres.c:395
-msgid ""
-"Number of days before a warning message advertising a scheduled transaction"
+msgid "Number of days before a warning message advertising a scheduled transaction"
 msgstr "Nombre de jours précédant le rappel d'une échéance"
 
 #: src/parametres.c:452
@@ -5626,8 +5616,7 @@ msgstr ""
 
 #: src/qif.c:844
 msgid "Your file must have a name (saved) to be exported."
-msgstr ""
-"Vous devez nommer ( enregistrer ) votre fichier pour pouvoir l'exporter."
+msgstr "Vous devez nommer ( enregistrer ) votre fichier pour pouvoir l'exporter."
 
 #: src/qif.c:849
 msgid ""
@@ -5664,7 +5653,7 @@ msgstr "Le fichier '%s' existe. Voulez-vous continuer ?"
 #: src/qif.c:1015
 #, c-format
 msgid "File name \"%s\" invalid !"
-msgstr ""
+msgstr "Nom de fichier invalide: \"%s\""
 
 #: src/qif.c:1041
 #, c-format
@@ -5817,8 +5806,7 @@ msgstr ""
 
 #: src/ventilation.c:2196
 msgid "This transfer has a reconciled contra-transaction, deletion canceled."
-msgstr ""
-"La contre-opération de ce virement est relevée on ne peut donc les supprimer."
+msgstr "La contre-opération de ce virement est relevée on ne peut donc les supprimer."
 
 #: src/ventilation.c:2531
 msgid "Incomplete breakdown"
@@ -5943,8 +5931,7 @@ msgid "Orphelines transactions"
 msgstr "Opérations orphelines"
 
 #: src/import.c:2267
-msgid ""
-"Mark the transactions you want to add to the list and click the add button"
+msgid "Mark the transactions you want to add to the list and click the add button"
 msgstr ""
 "Marquer les opérations que vous voulez ajouter à la liste en cliquer sur le "
 "bouton ajouter"
@@ -5953,457 +5940,3 @@ msgstr ""
 msgid "Mark"
 msgstr "Marqué"
 
-#~ msgid "Export QIF files"
-#~ msgstr "Exporter des fichiers QIF"
-
-#~ msgid "Confirm euro conversion"
-#~ msgstr "Confirmation de passage à l'euro"
-
-#~ msgid "Cannot open file '%s': %s\n"
-#~ msgstr "Impossible d'ouvrir le fichier '%s': %s\n"
-
-#~ msgid "Select report type"
-#~ msgstr "Sélectionner le type d'état"
-
-#~ msgid "Appearance"
-#~ msgstr "Apparence"
-
-#~ msgid "Information about the bank"
-#~ msgstr "Détail d'une banque"
-
-#~ msgid "New financial institution"
-#~ msgstr "Nouvel établissement"
-
-#~ msgid ""
-#~ "Error: impossible to transfer an account   \n"
-#~ "    on itself"
-#~ msgstr ""
-#~ "Erreur : impossibilité de virer un compte   \n"
-#~ "    sur lui-même"
-
-#~ msgid "Confirm the deletion of a report"
-#~ msgstr "Confirmation de la suppression d'un état"
-
-#~ msgid "Do you really want to delete report %s?"
-#~ msgstr "Êtes-vous sûr de vouloir supprimer l'état %s ?"
-
-#~ msgid "An account can't be transfered on itself"
-#~ msgstr "Un compte ne peut pas être transféré sur lui même"
-
-#~ msgid "Select a QIF file"
-#~ msgstr "Sélection d'un fichier QIF"
-
-#~ msgid "The file \"%s\" is not a QIF file"
-#~ msgstr "Le fichier \"%s\" n'est pas un fichier QIF"
-
-#~ msgid "Account to import:\n"
-#~ msgstr "Compte à importer :\n"
-
-#~ msgid "Accounts to import:\n"
-#~ msgstr "Comptes à importer :\n"
-
-#~ msgid "Problem recovering the dates in the QIF file. Import canceled."
-#~ msgstr ""
-#~ "Problème dans la récupération des dates du fichier QIF. Opération annulée"
-
-#~ msgid "Processing the information can be long..."
-#~ msgstr "Le traitement des informations peut prendre un certain temps ..."
-
-#~ msgid ""
-#~ "The following error occured for the file \"%s\":\n"
-#~ "%s"
-#~ msgstr ""
-#~ "L'erreur suivante s'est produite pour le fichier \"%s\" :\n"
-#~ "%s"
-
-#~ msgid "Save file?"
-#~ msgstr "Voulez-vous enregistrer le fichier ?"
-
-#~ msgid "Pages"
-#~ msgstr "Pages"
-
-#~ msgid "All pages"
-#~ msgstr "Toutes les pages"
-
-#~ msgid "Select an account"
-#~ msgstr "Sélection d'un compte"
-
-#~ msgid ""
-#~ "Select the account to delete:\n"
-#~ "\n"
-#~ "\n"
-#~ "(Be careful, the account will be permanently deleted!\n"
-#~ "If you just want to close the account, you must\n"
-#~ "go to the account properties.)"
-#~ msgstr ""
-#~ "Choisir le compte à supprimer :\n"
-#~ "\n"
-#~ "\n"
-#~ "( Attention, il s'agit d'un suppression définitive !\n"
-#~ " Pour clôturer un compte, il faut\n"
-#~ "aller dans le détail du compte concerné. )"
-
-#~ msgid "Cannot open file %s: %s"
-#~ msgstr "Impossible d'ouvrir le fichier '%s': %s"
-
-#~ msgid "Error opening and locking file.\n"
-#~ msgstr ""
-#~ "Erreur dans la tentative d'ouvrir le fichier\n"
-#~ "pour le déclarer comme utilisé\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "Error saving the file: %s\n"
-#~ "\n"
-#~ "Error:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Erreur dans l'enregistrement du fichier : %s\n"
-#~ "\n"
-#~ "\n"
-#~ "\n"
-#~ "Erreur :\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Error saving the file: %s\n"
-#~ "\n"
-#~ "Error:\n"
-#~ msgstr ""
-#~ "Erreur dans l'enregistrement du fichier %s\n"
-#~ "\n"
-#~ "Erreur :\n"
-
-#~ msgid "Error: impossible to transfer an account on itself"
-#~ msgstr "Erreur : impossibilité de virer un compte sur lui-même"
-
-#~ msgid "Warning: the compression disables the multi-users checking."
-#~ msgstr ""
-#~ "Attention, la compression du fichier empêche la vérification multi-"
-#~ "utilisateurs."
-
-#~ msgid "Revert to default logo"
-#~ msgstr "Rétablir le logo par défaut"
-
-#~ msgid "Warn if file is used by someone else"
-#~ msgstr "Avertir si le fichier est utilisé par quelqu'un d'autre"
-
-#~ msgid ""
-#~ "Ooops, Grisbi crashed while loading the file (segfault).\n"
-#~ "Either the file is corrupted, or it is a major bug.\n"
-#~ "Try to load the file again. If you can repeat this crash, could you "
-#~ "report it on Grisbi's bugtracker (http://www.grisbi.org/bugtracking/)?\n"
-#~ "It would really help us to fix it.\n"
-#~ "Thanks a lot!"
-#~ msgstr ""
-#~ "Oups, Grisbi a planté pendant le chargement du fichier (erreur de "
-#~ "segmentation).\n"
-#~ "Soit celui-ci est corrompu, soit il s'agit d'un bug grave.\n"
-#~ "Réessayez de le charger.  Si vous arrivez à recréer ce bug, pouvez-vous "
-#~ "nous le décrire sur le site de grisbi (http://www.grisbi.org/"
-#~ "bugtracking/) ?\n"
-#~ "Ceci nous aiderait beaucoup pour le corriger.\n"
-#~ "Merci !"
-
-#~ msgid ""
-#~ "Ooops, Grisbi crashed while trying to save the file (segfault).\n"
-#~ "So it's impossible to save your file.\n"
-#~ "If you can repeat this crash, could you report it on Grisbi's bugtracker "
-#~ "(http://www.grisbi.org/bugtracking/)?\n"
-#~ "It would really help us to fix it.\n"
-#~ "Thanks a lot!"
-#~ msgstr ""
-#~ "Oups, Grisbi a planté pendant la sauvegarde du fichier (erreur de "
-#~ "segmentation).\n"
-#~ "Celle-ci est donc impossible.  Si vous arrivez à recréer ce bug, pouvez-"
-#~ "vous nous le décrire sur le site de grisbi (http://www.grisbi.org/"
-#~ "bugtracking/) ?\n"
-#~ "Ceci nous aiderait beaucoup pour le corriger.\n"
-#~ "Merci !"
-
-#~ msgid ""
-#~ "Ooops, Grisbi crashed (segfault).\n"
-#~ "No matter, you didn't modify anything.\n"
-#~ "If you can repeat this crash, could you report it on Grisbi's bugtracker "
-#~ "(http://www.grisbi.org/bugtracking/)?\n"
-#~ "It would really help us to fix it.\n"
-#~ "Thanks a lot!"
-#~ msgstr ""
-#~ "Oups, Grisbi a planté (erreur de segmentation).\n"
-#~ "C'est pas bien grave, vous n'aviez pas fait de modifications,\n"
-#~ "cependant si vous arrivez à recréer le bug, pouvez-vous nous le décrire "
-#~ "sur le site de grisbi (http://www.grisbi.org/bugtracking/) ?\n"
-#~ "Ceci nous aiderait beaucoup pour le corriger.\n"
-#~ "Merci !"
-
-#~ msgid ""
-#~ "Ooops, Grisbi crashed (segfault).\n"
-#~ "Grisbi tried to save your file before, with the name %s.\n"
-#~ "Try to load it, with a bit of luck you won't loose anything.\n"
-#~ "If you can repeat this crash, could you report it on Grisbi's bugtracker "
-#~ "(http://www.grisbi.org/bugtracking/)?\n"
-#~ "It would really help us to fix it.\n"
-#~ "Thanks a lot!"
-#~ msgstr ""
-#~ "Oups, Grisbi a planté (erreur de segmentation).\n"
-#~ "Il a essayé de sauvegarder le fichier juste avant, sous le nom %s.\n"
-#~ "Essayez de l'ouvrir, avec un peu de chances vous n'aurez rien perdu.\n"
-#~ "De plus, si vous arrivez à recréer le bug, pouvez-vous nous le décrire "
-#~ "sur le site de grisbi (http://www.grisbi.org/bugtracking/) ?\n"
-#~ "Ceci nous aiderait beaucoup pour le corriger.\n"
-#~ "Merci !"
-
-#~ msgid ""
-#~ "Warning: either this file is already opened by another user or it wasn't "
-#~ "closed correctly (maybe Grisbi crashed?).\n"
-#~ "\n"
-#~ "Grisbi will however overwrite the file.  We advise you not to use this "
-#~ "option except if you know exactly what you are doing (i.e. nobody else "
-#~ "uses this file for the moment).\n"
-#~ "\n"
-#~ "You can deactivate this option in the setup."
-#~ msgstr ""
-#~ "Attention, le fichier semble déjà ouvert par un autre utilisateur ou n'a "
-#~ "pas été fermé correctement (plantage ?). Cependant Grisbi va forcer "
-#~ "l'enregistrement ; cette option est déconseillée, sauf si vous êtes sûr "
-#~ "que personne n'utilise le fichier pour le moment.La désactivation de "
-#~ "cette option s'effectue dans la fenêtre de configuration. "
-
-#~ msgid "Outgoings total (%d transactions)"
-#~ msgstr "Total dépenses (%d opérations)"
-
-#~ msgid "Outgoing total"
-#~ msgstr "Total dépenses"
-
-#~ msgid "Incomes total (%d transactions)"
-#~ msgstr "Total revenus (%d opérations)"
-
-#~ msgid "Income total"
-#~ msgstr "Total revenus"
-
-#~ msgid ""
-#~ "Loading of the file failed. Grisbi will now try to load\n"
-#~ "the last automatic backup.\n"
-#~ "You will loose all you made since this backup."
-#~ msgstr ""
-#~ "Le chargement du fichier a échoué. Grisbi va maintenant essayer de "
-#~ "charger\n"
-#~ "la sauvegarde automatique réalisée lors de la dernière ouverture.\n"
-#~ "(vous perdrez donc tous ce que vous avez fait lors de l'ouverture "
-#~ "précédente)"
-
-#~ msgid ""
-#~ "Failed to load backup. Please contact the developpement\n"
-#~ " team. They will try to recover your data."
-#~ msgstr ""
-#~ "Le chargement de la sauvegarde a échoué. Veuillez contacter les "
-#~ "développeurs\n"
-#~ "pour essayer de restaurer vos données."
-
-#~ msgid "Problem loading file!"
-#~ msgstr "Problème lors du chargement du fichier !"
-
-#~ msgid "Jakub 'jimmac' Steiner <jimmac@ximian.com>: Icons"
-#~ msgstr "Jakub 'jimmac' Steiner <jimmac@ximian.com>: Icônes"
-
-#~ msgid "Tigert <tigert@gimp.org>: Icons"
-#~ msgstr "Tigert <tigert@gimp.org>: Icônes"
-
-#~ msgid "Enter"
-#~ msgstr "Saisir"
-
-#~ msgid "Minimum authorised balances"
-#~ msgstr "Soldes minimaux autorisés"
-
-#~ msgid "Minimum wanted balances"
-#~ msgstr "Soldes minimaux voulus"
-
-#~ msgid ""
-#~ "The balances of the following accounts are under the authorized minimum"
-#~ msgstr "Les comptes suivants sont sous le seuil minimal autorisé"
-
-#~ msgid "The balances of the following accounts are under the wanted minimum"
-#~ msgstr "Les comptes suivants sont sous le seuil minimal voulu"
-
-#~ msgid "Restore defaults fonts"
-#~ msgstr "Rétablir les polices par défaut"
-
-#~ msgid "Amount (account currency)"
-#~ msgstr "Montant (devise compte)"
-
-#~ msgid "Information displayed in list:"
-#~ msgstr "Informations affichées dans la liste :"
-
-#~ msgid "Display for a line the"
-#~ msgstr "Afficher pour une ligne la"
-
-#~ msgid "Display for two lines the"
-#~ msgstr "Afficher pour deux lignes les"
-
-#~ msgid "Display for three lines the"
-#~ msgstr "Afficher pour trois lignes les"
-
-#~ msgid "Sort by method of payment"
-#~ msgstr "Tri par mode de règlement"
-
-#~ msgid "Include the mixed methods of payment in the incomes/outgoings"
-#~ msgstr "Inclure les modes de règlement mixtes dans les Crédits / Débits"
-
-#~ msgid "Reports display"
-#~ msgstr "Affichage états"
-
-#~ msgid "Duplicate the report"
-#~ msgstr "Dupliquer l'état"
-
-#~ msgid "Confirm the deletion of this financial year"
-#~ msgstr "Confirmation de suppression de l'exercice"
-
-#~ msgid "Do you really want to delete financial year"
-#~ msgstr "Êtes-vous sûr de vouloir supprimer l'exercice"
-
-#~ msgid "Invalid accounts file or file version prior to 0.3.1."
-#~ msgstr "Fichier de compte invalide ou inférieur à la version 0.3.1."
-
-#~ msgid ""
-#~ "\n"
-#~ "Any other account to import?"
-#~ msgstr ""
-#~ "\n"
-#~ "Y a t'il d'autres compte à importer ?"
-
-#~ msgid "New"
-#~ msgstr "Nouveau"
-
-#~ msgid "Delete a method of payment"
-#~ msgstr "Suppression d'un mode de règlement"
-
-#~ msgid ": Change lists font /"
-#~ msgstr ": Modifier la fonte des listes /"
-
-#~ msgid "Init"
-#~ msgstr "RAZ"
-
-#~ msgid ": Change general font /"
-#~ msgstr ": Modifier la fonte générale /"
-
-#~ msgid "Accounts display order"
-#~ msgstr "Ordre d'affichage des comptes"
-
-#~ msgid "No account defined"
-#~ msgstr "Aucun compte défini"
-
-#~ msgid "Transactions list and form"
-#~ msgstr "Comptabilité et formulaire"
-
-#~ msgid "Display the number of the edited transaction."
-#~ msgstr "Afficher le numéro de l'opération éditée."
-
-#~ msgid "Display the value date of the transactions."
-#~ msgstr "Afficher la date de valeur des opérations."
-
-#~ msgid "Use financial years."
-#~ msgstr "Utiliser les Exercices."
-
-#~ msgid "Use budgetary informations."
-#~ msgstr "Utiliser les Imputations Budgétaires."
-
-#~ msgid "Use the voucher number field."
-#~ msgstr "Utiliser l'entrée des Pièces Comptables."
-
-#~ msgid "Use the bank references field."
-#~ msgstr "Utiliser l'entrée des informations Banque / Guichet."
-
-#~ msgid "Display 'Accept' and 'Cancel' transaction buttons."
-#~ msgstr "Afficher les boutons Valider et Annuler l'opération."
-
-#~ msgid "Third parties, categories and budgetary info lists."
-#~ msgstr "Listes des Tiers, Catégories et I.B."
-
-#~ msgid "Display the number of transactions."
-#~ msgstr "Afficher le nombre d'écritures."
-
-#~ msgid "You must name this bank."
-#~ msgstr "Vous devez donner un nom à la banque."
-
-#~ msgid "Phone number"
-#~ msgstr "Téléphone"
-
-#~ msgid "Confirmation of changes"
-#~ msgstr "Confirmation de modification"
-
-#~ msgid "The bank has changed"
-#~ msgstr "Des modifications ont été apportées à la banque"
-
-#~ msgid ""
-#~ "\n"
-#~ "\n"
-#~ "Do you want to save your changes?"
-#~ msgstr ""
-#~ "\n"
-#~ "\n"
-#~ "Voulez-vous les enregistrer ?"
-
-#~ msgid "Euro zone currency"
-#~ msgstr "Devise de la zone Euro"
-
-#~ msgid "One Euro equals"
-#~ msgstr "Un Euro vaut"
-
-#~ msgid "Methods of payment"
-#~ msgstr "Modes de règlement"
-
-#~ msgid "Automatic association"
-#~ msgstr "Association automatique"
-
-#~ msgid "Displayed in the form"
-#~ msgstr "Affiché dans le formulaire"
-
-#~ msgid "Display of the financial year"
-#~ msgstr "Affichage de l'exercice"
-
-#~ msgid ""
-#~ "The financial year %s had been modified.\n"
-#~ "\n"
-#~ "Do you want to save the changes?"
-#~ msgstr ""
-#~ "Des modifications ont été apportées à l'exercice : %s\n"
-#~ "\n"
-#~ "Voulez-vous les enregistrer ?"
-
-#~ msgid ""
-#~ "Warning: either this file is already opened by another user or it wasn't "
-#~ "closed\n"
-#~ "closed correctly (maybe Grisbi crashed?).\n"
-#~ "Grisbi can't save the file unless you activate the \"Force saving\" \n"
-#~ "option in the setup."
-#~ msgstr ""
-#~ "Attention, le fichier semble déjà ouvert pas un autre utilisateur ou n'a "
-#~ "pas été fermé correctement (plantage ?).\n"
-#~ "Vous ne pourrez enregistrer vos modification qu'en activant l'option "
-#~ "\"Forcer l'enregistrement\" des paramètres."
-
-#~ msgid ""
-#~ "Warning: either this file is already open by another user or it "
-#~ "hasn'tbeen \n"
-#~ "closed correctly (maybe Grisbi crashed?).\n"
-#~ "Grisbi can't save the file unless you activate the \"Force save\" \n"
-#~ "option in the setup."
-#~ msgstr ""
-#~ "Fichier ouvert par un autre utilisateur, enregistrement impossible\n"
-#~ "Vous pouvez forcer l'enregistrement à partir des paramètres."
-
-#~ msgid "Automatic backup"
-#~ msgstr "Faire une sauvegarde automatique (backup)"
-
-#~ msgid "Backup at each opening (~/.filename.bak)"
-#~ msgstr "Faire une sauvegarde à chaque ouverture (~/.nom_du_fichier.bak)"
-
-#~ msgid "Include additionnal data"
-#~ msgstr "Peut entrer des données supplémentaires"
-
-#~ msgid ""
-#~ "Display all the methods of payment\n"
-#~ "in the form"
-#~ msgstr ""
-#~ "Afficher tous les modes de règlement\n"
-#~ "dans le formulaire"
