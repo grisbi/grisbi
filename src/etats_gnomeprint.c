@@ -58,9 +58,24 @@ struct struct_etat_affichage gnomeprint_affichage = {
 GnomePrintContext *pc = NULL;
 GnomePrintMaster *gpm = NULL;
 int do_preview=0;
-GnomeFont *title_font, *subtitle_font, *text_font;
+GnomeFont *title_font, *subtitle_font, *header_font, *text_font;
 float point_x, point_y, tmp_x, tmp_y;
 gfloat red=0, green=0, blue=0;
+
+
+
+my_gnome_print_dialog_new (const char *title, int flags)
+{
+	GtkWidget *w;
+
+	w = GTK_WIDGET ( gtk_type_new (gnome_print_dialog_get_type ()));
+	if (GNOME_PRINT_DIALOG (w)->printer == NULL)
+		return NULL;
+	gnome_dialog_constructv(GNOME_DIALOG(w), title, print_buttons());
+	init_body(GNOME_PRINT_DIALOG(w), flags);
+	return w;
+}
+
 
 
 /*****************************************************************************************************/
@@ -74,7 +89,7 @@ gint gnomeprint_initialise ()
 {
   GnomePrintDialog *gpd;
   static int copies=1, collate;
-  
+
   gpd = GNOME_PRINT_DIALOG (gnome_print_dialog_new("Impression de Grisbi", 
 						   GNOME_PRINT_DIALOG_COPIES));
   gnome_print_dialog_set_copies(gpd, copies, collate);
@@ -99,8 +114,9 @@ gint gnomeprint_initialise ()
   gnome_dialog_close (GNOME_DIALOG(gpd));
   pc = gnome_print_master_get_context(gpm);
 
-  title_font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, 0, 36);
+  title_font = gnome_font_new_closest ("Utopia", GNOME_FONT_BOLD, 0, 36);
   subtitle_font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, 0, 20);
+  header_font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, 0, 12);
   text_font = gnome_font_new_closest ("Times", GNOME_FONT_BOOK, 0, 12);
 
   tmp_x = point_x = 10;
@@ -156,7 +172,25 @@ void gnomeprint_update_point ( )
 
 
 /*****************************************************************************************************/
-/* Met à jour la composante X du point de référence */
+/* Met à jour la coordonnée x du point temporaire à partir du point de référence */
+/*****************************************************************************************************/
+void gnomeprint_update_x ( )
+{
+  tmp_x = point_x;
+}
+
+
+/*****************************************************************************************************/
+/* Met à jour la coordonnée y du point temporaire à partir du point de référence */
+/*****************************************************************************************************/
+void gnomeprint_update_y ( )
+{
+  tmp_y = point_y;
+}
+
+
+/*****************************************************************************************************/
+/* Met à jour la composante Y du point de référence */
 /*****************************************************************************************************/
 void gnomeprint_commit_x ( )
 {
@@ -226,7 +260,22 @@ void gnomeprint_affiche_texte ( char * texte, GnomeFont * font)
 
 
 /*****************************************************************************************************/
-/* Affiche un séparateur vertical */
+/* Affiche un */
+/*****************************************************************************************************/
+void gnomeprint_barre_verticale ( gint taille )
+{
+  gnome_print_gsave (pc);
+  gnome_print_setlinewidth (pc, 1);
+  gnome_print_moveto (pc, point_x, point_y);
+  gnome_print_lineto (pc, 
+		      point_x, point_y + taille);
+  gnome_print_stroke (pc);
+  gnome_print_grestore (pc);
+}
+
+
+/*****************************************************************************************************/
+/* Affiche un séparateur horizontal */
 /*****************************************************************************************************/
 gint gnomeprint_affiche_separateur ( gint ligne )
 {
@@ -255,6 +304,10 @@ gint gnomeprint_affiche_separateur ( gint ligne )
 gint gnomeprint_affiche_total_categories ( gint ligne )
 {
 
+  montant_categ_etat = 0;
+  nom_categ_en_cours = NULL;
+  titres_affiches = 0;
+  
   return (ligne );
 }
 /*****************************************************************************************************/
@@ -268,6 +321,11 @@ gint gnomeprint_affiche_total_categories ( gint ligne )
 /*****************************************************************************************************/
 gint gnomeprint_affiche_total_sous_categ ( gint ligne )
 {
+
+
+  montant_sous_categ_etat = 0;
+  nom_ss_categ_en_cours = NULL;
+  titres_affiches = 0;
 
   return (ligne );
 }
@@ -283,6 +341,10 @@ gint gnomeprint_affiche_total_sous_categ ( gint ligne )
 gint gnomeprint_affiche_total_ib ( gint ligne )
 {
 
+  montant_ib_etat = 0;
+  nom_ib_en_cours = NULL;
+  titres_affiches = 0;
+
   return (ligne );
 }
 /*****************************************************************************************************/
@@ -296,6 +358,10 @@ gint gnomeprint_affiche_total_ib ( gint ligne )
 /*****************************************************************************************************/
 gint gnomeprint_affiche_total_sous_ib ( gint ligne )
 {
+
+  montant_sous_ib_etat = 0;
+  nom_ss_ib_en_cours = NULL;
+  titres_affiches = 0;
 
   return (ligne );
 }
@@ -311,6 +377,10 @@ gint gnomeprint_affiche_total_sous_ib ( gint ligne )
 gint gnomeprint_affiche_total_compte ( gint ligne )
 {
 
+  montant_compte_etat = 0;
+  nom_compte_en_cours = NULL;
+  titres_affiches = 0;
+
   return (ligne );
 }
 /*****************************************************************************************************/
@@ -324,6 +394,10 @@ gint gnomeprint_affiche_total_compte ( gint ligne )
 /*****************************************************************************************************/
 gint gnomeprint_affiche_total_tiers ( gint ligne )
 {
+
+  montant_tiers_etat = 0;
+  nom_tiers_en_cours = NULL;
+  titres_affiches = 0;
 
   return (ligne );
 }
@@ -355,24 +429,299 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 
       if ( etat_courant -> afficher_no_ope )
 	{
+	  int size;
 	  gnomeprint_affiche_texte (itoa ( operation -> no_operation ), text_font);
-	  gnomeprint_update_point();
-	  gnomeprint_move_point (20, 0);
+	  size = tmp_y - point_y;
+	  gnomeprint_update_point ();
+	  gnomeprint_move_point ( 8, 0 );
+	  gnomeprint_update_point ( );
+	  gnomeprint_barre_verticale ( size );
+	  gnomeprint_move_point ( 2, 0 );
+	  gnomeprint_update_point ();
+	  colonne = colonne + 2;
+	}
+
+      if ( etat_courant -> afficher_date_ope )
+	{
+	  int size;
+	   gnomeprint_affiche_texte ( g_strdup_printf  ( "%.2d/%.2d/%d",
+							 operation -> jour,
+							 operation -> mois,
+							 operation -> annee ),
+				      text_font);
+	   size = tmp_y - point_y;
+	   gnomeprint_update_point ();
+	   gnomeprint_move_point ( 20, 0 );
+	   gnomeprint_update_point ( );
+	   gnomeprint_barre_verticale ( size );
+	   gnomeprint_move_point ( 2, 0 );
+	   gnomeprint_update_point ();
+	   colonne = colonne + 2;
+	}
+
+      if ( etat_courant -> afficher_exo_ope )
+	{
+	  if ( operation -> no_exercice )
+	    {
+	      int size;
+	      gnomeprint_affiche_texte( ((struct struct_exercice *)(g_slist_find_custom ( liste_struct_exercices,
+											  GINT_TO_POINTER ( operation -> no_exercice ),
+											  (GCompareFunc) recherche_exercice_par_no )->data)) -> nom_exercice, text_font );
+	      size = tmp_y - point_y;
+	      gnomeprint_update_point ();
+	      gnomeprint_move_point ( 70, 0 );
+	      gnomeprint_update_point ( );
+	      gnomeprint_barre_verticale ( size );
+	      gnomeprint_move_point ( 2, 0 );
+	      gnomeprint_update_point ();
+	    }
 	  colonne = colonne + 2;
 	}
 
       if ( etat_courant -> afficher_tiers_ope )
 	{
+	  int size;
 	  if ( operation -> tiers )
 	    {
 	      gnomeprint_affiche_texte( ((struct struct_tiers *)
 					 (g_slist_find_custom ( liste_struct_tiers,
 								GINT_TO_POINTER ( operation -> tiers ),
-								(GCompareFunc) recherche_tiers_par_no )->data)) -> nom_tiers , text_font);
+								(GCompareFunc) recherche_tiers_par_no )->data)) -> nom_tiers , 
+					text_font);
+	    }
+	  size = tmp_y - point_y;
+	  gnomeprint_update_point();
+	  gnomeprint_move_point ( 80, 0);
+	  gnomeprint_update_point ( );
+	  gnomeprint_barre_verticale ( size );
+	  gnomeprint_move_point ( 2, 0 );
+	  gnomeprint_update_point ();
+	  colonne = colonne + 2;
+	}
+
+
+      if ( etat_courant -> afficher_categ_ope )
+	{
+	  gchar *pointeur;
+
+	  pointeur = NULL;
+
+	  if ( operation -> categorie )
+	    {
+	      struct struct_categ *categ;
+
+	      categ = g_slist_find_custom ( liste_struct_categories,
+					    GINT_TO_POINTER ( operation -> categorie ),
+					    (GCompareFunc) recherche_categorie_par_no ) -> data;
+	      pointeur = categ -> nom_categ;
+
+	      if ( operation -> sous_categorie
+		   &&
+		   etat_courant -> afficher_sous_categ_ope )
+		pointeur = g_strconcat ( pointeur,
+					 " : ",
+					 ((struct struct_sous_categ *)(g_slist_find_custom ( categ -> liste_sous_categ,
+											     GINT_TO_POINTER ( operation -> sous_categorie ),
+											     (GCompareFunc) recherche_sous_categorie_par_no ) -> data )) -> nom_sous_categ,
+					 NULL );
+	    }
+	  else
+	    {
+	      /* si c'est un virement, on le marque, sinon c'est qu'il n'y a pas de categ */
+	      /* ou que c'est une opé ventilée, et on marque rien */
+
+	      if ( operation -> relation_no_operation )
+		{
+		  /* c'est un virement */
+
+		  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
+
+		  if ( operation -> montant < 0 )
+		    pointeur = g_strconcat ( "Virement vers ",
+					     NOM_DU_COMPTE,
+					     NULL );
+		  else
+		    pointeur = g_strconcat ( "Virement de ",
+					     NOM_DU_COMPTE,
+					     NULL );
+		}
 	    }
 
-	  gnomeprint_update_point();
-	  gnomeprint_move_point ( 40, 0);
+	  if ( pointeur )
+	    {
+	      int size;
+	      gnomeprint_affiche_texte ( pointeur, text_font );
+	      size = tmp_y - point_y;
+	      gnomeprint_update_point();
+	      gnomeprint_move_point ( 70, 0);
+	      gnomeprint_update_point ( );
+	      gnomeprint_barre_verticale ( size );
+	      gnomeprint_move_point ( 2, 0 );
+	      gnomeprint_update_point ();
+	    }
+	  colonne = colonne + 2;
+	}
+
+
+
+      if ( etat_courant -> afficher_ib_ope )
+	{
+	  if ( operation -> imputation )
+	    {
+	      struct struct_imputation *ib;
+	      int size;
+	      gchar *pointeur;
+
+	      ib = g_slist_find_custom ( liste_struct_imputation,
+					 GINT_TO_POINTER ( operation -> imputation ),
+					 (GCompareFunc) recherche_imputation_par_no ) -> data;
+	      pointeur = ib -> nom_imputation;
+
+	      if ( operation -> sous_imputation
+		   &&
+		   etat_courant -> afficher_sous_ib_ope )
+		pointeur = g_strconcat ( pointeur,
+					 " : ",
+					 ((struct struct_sous_imputation *)(g_slist_find_custom ( ib -> liste_sous_imputation,
+												  GINT_TO_POINTER ( operation -> sous_imputation ),
+												  (GCompareFunc) recherche_sous_imputation_par_no ) -> data )) -> nom_sous_imputation,
+					 NULL );
+
+	      gnomeprint_affiche_texte ( pointeur, text_font );
+	      size = tmp_y - point_y;
+	      gnomeprint_update_point();
+	      gnomeprint_move_point ( 70, 0);
+	      gnomeprint_update_point ( );
+	      gnomeprint_barre_verticale ( size );
+	      gnomeprint_move_point ( 2, 0 );
+	      gnomeprint_update_point ();
+	    }
+	  colonne = colonne + 2;
+	}
+
+
+      if ( etat_courant -> afficher_notes_ope )
+	{
+	  if ( operation -> notes )
+	    {
+	      int size;
+	      gnomeprint_affiche_texte ( operation -> notes, text_font );
+	      size = tmp_y - point_y;
+	      gnomeprint_update_point();
+	      gnomeprint_move_point ( 70, 0);
+	      gnomeprint_update_point ( );
+	      gnomeprint_barre_verticale ( size );
+	      gnomeprint_move_point ( 2, 0 );
+	      gnomeprint_update_point ();
+	    }
+	  colonne = colonne + 2;
+	}
+
+      if ( etat_courant -> afficher_type_ope )
+	{
+	  GSList *pointeur;
+
+	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+
+	  pointeur = g_slist_find_custom ( TYPES_OPES,
+					   GINT_TO_POINTER ( operation -> type_ope ),
+					   (GCompareFunc) recherche_type_ope_par_no );
+
+	  if ( pointeur )
+	    {
+	      struct struct_type_ope *type;
+	      int size;
+
+	      type = pointeur -> data;
+
+	      gnomeprint_affiche_texte ( type -> nom_type, text_font );
+	      size = tmp_y - point_y;
+	      gnomeprint_update_point();
+	      gnomeprint_move_point ( 70, 0);
+	      gnomeprint_update_point ( );
+	      gnomeprint_barre_verticale ( size );
+	      gnomeprint_move_point ( 2, 0 );
+	      gnomeprint_update_point ();
+	    }
+	  colonne = colonne + 2;
+	}
+
+
+      if ( etat_courant -> afficher_cheque_ope )
+	{
+	  if ( operation -> contenu_type )
+	    {
+	      int size;
+	      gnomeprint_affiche_texte ( operation -> contenu_type, text_font );
+	      size = tmp_y - point_y;
+	      gnomeprint_update_point();
+	      gnomeprint_move_point ( 70, 0);
+	      gnomeprint_update_point ( );
+	      gnomeprint_barre_verticale ( size );
+	      gnomeprint_move_point ( 2, 0 );
+	      gnomeprint_update_point ();
+	    }
+	  colonne = colonne + 2;
+	}
+
+
+      if ( etat_courant -> afficher_pc_ope )
+	{
+	  if ( operation -> no_piece_comptable )
+	    {
+	      int size;
+	      gnomeprint_affiche_texte ( operation -> no_piece_comptable, text_font );
+	      size = tmp_y - point_y;
+	      gnomeprint_update_point();
+	      gnomeprint_move_point ( 70, 0);
+	      gnomeprint_update_point ( );
+	      gnomeprint_barre_verticale ( size );
+	      gnomeprint_move_point ( 2, 0 );
+	      gnomeprint_update_point ();
+	    }
+	  colonne = colonne + 2;
+	}
+
+      if ( etat_courant -> afficher_infobd_ope )
+	{
+	  if ( operation -> info_banque_guichet )
+	    {
+	      int size;
+	      gnomeprint_affiche_texte ( operation -> info_banque_guichet, text_font );
+	      size = tmp_y - point_y;
+	      gnomeprint_update_point();
+	      gnomeprint_move_point ( 70, 0);
+	      gnomeprint_update_point ( );
+	      gnomeprint_barre_verticale ( size );
+	      gnomeprint_move_point ( 2, 0 );
+	      gnomeprint_update_point ();
+	    }
+	  colonne = colonne + 2;
+	}
+
+      if ( etat_courant -> afficher_rappr_ope )
+	{
+	  GSList *pointeur;
+
+	  pointeur = g_slist_find_custom ( liste_no_rapprochements,
+					   GINT_TO_POINTER ( operation -> no_rapprochement ),
+					   (GCompareFunc) recherche_no_rapprochement_par_no );
+
+	  if ( pointeur )
+	    {
+	      struct struct_no_rapprochement *rapprochement;
+	      int size;
+
+	      rapprochement = pointeur -> data;
+	      gnomeprint_affiche_texte ( rapprochement -> nom_rapprochement, text_font );
+	      size = tmp_y - point_y;
+	      gnomeprint_update_point();
+	      gnomeprint_move_point ( 70, 0);
+	      gnomeprint_update_point ( );
+	      gnomeprint_barre_verticale ( size );
+	      gnomeprint_move_point ( 2, 0 );
+	      gnomeprint_update_point ();
+	    }
 	  colonne = colonne + 2;
 	}
 
@@ -404,7 +753,7 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
     }
 
   tmp_x = 10;
-  gnomeprint_commit_point();
+  gnomeprint_commit_point ();
 
   return ( ligne );
 }
@@ -510,6 +859,9 @@ gint gnomeprint_affiche_tiers_etat ( struct structure_operation *operation,
 /*****************************************************************************************************/
 gint gnomeprint_affiche_titre_revenus_etat ( gint ligne )
 {
+  gnomeprint_affiche_texte ( "Revenus", subtitle_font );
+  gnomeprint_commit_y ( );
+  gnomeprint_move_point ( 0, -5 );
 
   return ( ligne );
 }
@@ -519,6 +871,9 @@ gint gnomeprint_affiche_titre_revenus_etat ( gint ligne )
 /*****************************************************************************************************/
 gint gnomeprint_affiche_titre_depenses_etat ( gint ligne )
 {
+  gnomeprint_affiche_texte ( "Dépenses", subtitle_font );
+  gnomeprint_commit_y ( );
+  gnomeprint_move_point ( 0, -5 );
 
   return ( ligne );
 }
@@ -543,6 +898,198 @@ gint gnomeprint_affiche_totaux_sous_jaccent ( gint origine,
 /*****************************************************************************************************/
 gint gnomeprint_affiche_titres_colonnes ( gint ligne )
 {
+  gint colonne = 1, size = 0;
+
+  if ( etat_courant -> afficher_no_ope )
+    {
+      gnomeprint_affiche_texte ( "N°", header_font );
+      size = tmp_y - point_y;
+      gnomeprint_update_point();
+      gnomeprint_move_point ( 8, 0);
+      gnomeprint_update_point ( );
+      gnomeprint_barre_verticale ( size );
+      gnomeprint_move_point ( 2, 0 );
+      gnomeprint_update_point ();
+
+      colonne = colonne + 2;
+    }
+
+  if ( etat_courant -> afficher_date_ope )
+    {
+      gnomeprint_affiche_texte ( "Date", header_font );
+      size = tmp_y - point_y;
+      gnomeprint_update_point();
+      gnomeprint_move_point ( 20, 0);
+      gnomeprint_update_point ( );
+      gnomeprint_barre_verticale ( size );
+      gnomeprint_move_point ( 2, 0 );
+      gnomeprint_update_point ();
+
+      colonne = colonne + 2;
+    }
+
+  if ( etat_courant -> afficher_exo_ope )
+    {
+      gnomeprint_affiche_texte ( "Exercice", header_font );
+      size = tmp_y - point_y;
+      gnomeprint_update_point();
+      gnomeprint_move_point ( 30, 0);
+      gnomeprint_update_point ( );
+      gnomeprint_barre_verticale ( size );
+      gnomeprint_move_point ( 2, 0 );
+      gnomeprint_update_point ();
+
+      colonne = colonne + 2;
+    }
+
+  if ( etat_courant -> afficher_tiers_ope )
+    {
+      gnomeprint_affiche_texte ( "Tiers", header_font );
+      size = tmp_y - point_y;
+      gnomeprint_update_point();
+      gnomeprint_move_point ( 80, 0);
+      gnomeprint_update_point ( );
+      gnomeprint_barre_verticale ( size );
+      gnomeprint_move_point ( 2, 0 );
+      gnomeprint_update_point ();
+
+      colonne = colonne + 2;
+    }
+
+  if ( etat_courant -> afficher_categ_ope )
+    {
+      gnomeprint_affiche_texte ( "Catégorie", header_font );
+      size = tmp_y - point_y;
+      gnomeprint_update_point();
+      gnomeprint_move_point ( 70, 0);
+      gnomeprint_update_point ( );
+      gnomeprint_barre_verticale ( size );
+      gnomeprint_move_point ( 2, 0 );
+      gnomeprint_update_point ();
+
+      colonne = colonne + 2;
+    }
+
+  if ( etat_courant -> afficher_ib_ope )
+    {
+      gnomeprint_affiche_texte ( "Imputation budgétaire", header_font );
+      size = tmp_y - point_y;
+      gnomeprint_update_point();
+      gnomeprint_move_point ( 50, 0);
+      gnomeprint_update_point ( );
+      gnomeprint_barre_verticale ( size );
+      gnomeprint_move_point ( 2, 0 );
+      gnomeprint_update_point ();
+
+      colonne = colonne + 2;
+    }
+
+  if ( etat_courant -> afficher_notes_ope )
+    {
+      gnomeprint_affiche_texte ( "Notes", header_font );
+      size = tmp_y - point_y;
+      gnomeprint_update_point();
+      gnomeprint_move_point ( 50, 0);
+      gnomeprint_update_point ( );
+      gnomeprint_barre_verticale ( size );
+      gnomeprint_move_point ( 2, 0 );
+      gnomeprint_update_point ();
+
+      colonne = colonne + 2;
+    }
+
+  if ( etat_courant -> afficher_type_ope )
+    {
+      gnomeprint_affiche_texte ( "Type", header_font );
+      size = tmp_y - point_y;
+      gnomeprint_update_point();
+      gnomeprint_move_point ( 30, 0);
+      gnomeprint_update_point ( );
+      gnomeprint_barre_verticale ( size );
+      gnomeprint_move_point ( 2, 0 );
+      gnomeprint_update_point ();
+
+      colonne = colonne + 2;
+    }
+
+  if ( etat_courant -> afficher_cheque_ope )
+    {
+      gnomeprint_affiche_texte ( "Chèque", header_font );
+      size = tmp_y - point_y;
+      gnomeprint_update_point();
+      gnomeprint_move_point ( 20, 0);
+      gnomeprint_update_point ( );
+      gnomeprint_barre_verticale ( size );
+      gnomeprint_move_point ( 2, 0 );
+      gnomeprint_update_point ();
+
+      colonne = colonne + 2;
+    }
+
+  if ( etat_courant -> afficher_pc_ope )
+    {
+      gnomeprint_affiche_texte ( "Pièce comptable", header_font );
+      size = tmp_y - point_y;
+      gnomeprint_update_point();
+      gnomeprint_move_point ( 30, 0);
+      gnomeprint_update_point ( );
+      gnomeprint_barre_verticale ( size );
+      gnomeprint_move_point ( 2, 0 );
+      gnomeprint_update_point ();
+
+      colonne = colonne + 2;
+    }
+
+  if ( etat_courant -> afficher_infobd_ope )
+    {
+      gnomeprint_affiche_texte ( "Info banque/guichet", header_font );
+      size = tmp_y - point_y;
+      gnomeprint_update_point();
+      gnomeprint_move_point ( 30, 0);
+      gnomeprint_update_point ( );
+      gnomeprint_barre_verticale ( size );
+      gnomeprint_move_point ( 2, 0 );
+      gnomeprint_update_point ();
+
+      colonne = colonne + 2;
+    }
+
+  if ( etat_courant -> afficher_rappr_ope )
+    {
+      gnomeprint_affiche_texte ( "Relevé", header_font );
+      size = tmp_y - point_y;
+      gnomeprint_update_point();
+      gnomeprint_move_point ( 30, 0);
+      gnomeprint_update_point ( );
+      gnomeprint_barre_verticale ( size );
+      gnomeprint_move_point ( 2, 0 );
+      gnomeprint_update_point ();
+
+      colonne = colonne + 2;
+    }
+
+  gnomeprint_affiche_texte ( "Montant", header_font);
+  gnomeprint_update_point ( );
+
+  ligne++;
+
+  tmp_x = 10;
+  tmp_y += size;
+  gnomeprint_commit_point ( );
+
+  ligne++;
+
+/*   gnome_print_gsave (pc); */
+/*   gnome_print_setlinewidth (pc, 1); */
+/*   gnome_print_moveto (pc, point_x, point_y); */
+/*   gnome_print_lineto (pc,  */
+/* 		      gnome_paper_pswidth(gnome_print_master_get_paper(gpm))-10,  */
+/* 		      point_y);  */
+/*   gnome_print_stroke (pc); */
+/*   gnome_print_grestore (pc); */
+/*   gnomeprint_move_point ( 0, -1 ); */
+
+  titres_affiches = 1;
 
   return ( ligne );
 }
