@@ -104,6 +104,7 @@ GtkWidget *tab_widget_formulaire[4][6];
 extern gboolean block_menu_cb ;
 extern GtkWidget *bouton_affiche_cache_formulaire;
 extern gint compte_courant;
+extern GdkColor couleur_grise;
 extern gchar *derniere_date;
 extern struct struct_devise *devise_compte;
 extern gint enregistre_ope_au_retour;

@@ -20,12 +20,12 @@
 
 #include "include.h"
 
-
 #define START_INCLUDE
 #include "echeancier_onglet.h"
 #include "echeancier_ventilation.h"
 #include "echeancier_formulaire.h"
 #include "echeancier_liste.h"
+#include "echeancier_infos.h"
 #include "search_glist.h"
 #define END_INCLUDE
 
@@ -36,26 +36,26 @@
 
 GtkWidget *notebook_calendrier_ventilations;
 GtkWidget *formulaire_echeancier;
+GtkWidget *fenetre_ventilations;
 GtkWidget *notebook_formulaire_echeances;
 GtkWidget *notebook_liste_ventil_echeances;
 GtkWidget *paned_onglet_echeancier;
 
-
 #define START_EXTERN
 extern GtkWidget *formulaire;
 extern GtkWidget *frame_formulaire_echeancier;
+extern GtkWidget * hpaned;
 extern GSList *liste_struct_echeances;
 #define END_EXTERN
-
-
-
 
 /*****************************************************************************************************/
 GtkWidget *creation_onglet_echeancier ( void )
 {
-    GtkWidget *frame_gauche;
+    GtkWidget *frame;
     GtkWidget *vbox;
-    GtkWidget *frame_droite_haut;
+
+    /*     l'onglet échéancire est un hpaned, bloqué vers la gauche */
+    /* 	mais agrandissables vers la droite */
 
     paned_onglet_echeancier = gtk_hpaned_new ( );
 
@@ -68,26 +68,25 @@ GtkWidget *creation_onglet_echeancier ( void )
 				     10 );
     gtk_widget_show ( paned_onglet_echeancier );
 
+
     /*   création de la fenetre des calendrier / ventilation à gauche */
 
-    frame_gauche = gtk_frame_new ( NULL );
-    gtk_frame_set_shadow_type ( GTK_FRAME ( frame_gauche ),
+    frame = gtk_frame_new ( NULL );
+    gtk_frame_set_shadow_type ( GTK_FRAME ( frame ),
 				GTK_SHADOW_IN );
     /* Ne pas permettre un redimensionnement de la partie gauche inférieur
        à la taille nécessaire à l'affichage du calendrier */
 
-    gtk_paned_pack1 ( GTK_PANED(paned_onglet_echeancier),	//a paned widget 
-		      frame_gauche,	//the child to add 
-		      FALSE,		// should this child expand when the paned widget is resized.
-		      FALSE );		//can this child be made smaller than its requsition
-//		      TRUE,
-//		      TRUE );
-    gtk_widget_show (frame_gauche);
+    gtk_paned_pack1 ( GTK_PANED(paned_onglet_echeancier),
+		      frame,
+		      FALSE,
+		      FALSE );
+    gtk_widget_show (frame);
 
     notebook_calendrier_ventilations = gtk_notebook_new ();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK( notebook_calendrier_ventilations ),
 				 FALSE );
-    gtk_container_add ( GTK_CONTAINER ( frame_gauche ),
+    gtk_container_add ( GTK_CONTAINER ( frame ),
 			notebook_calendrier_ventilations );
     gtk_widget_show ( notebook_calendrier_ventilations );
 
@@ -104,7 +103,8 @@ GtkWidget *creation_onglet_echeancier ( void )
 
 
 
-    /* création de la partie droite */
+    /* création de la partie droite : les listes échéances/ventil en haut, formulaires en bas */
+
     vbox = gtk_vbox_new ( FALSE,
 			  10 );
     gtk_paned_pack2 ( GTK_PANED(paned_onglet_echeancier),
@@ -114,20 +114,21 @@ GtkWidget *creation_onglet_echeancier ( void )
     gtk_widget_show ( vbox );
 
     /*  Création de la liste des opérations */
-    frame_droite_haut = gtk_frame_new ( NULL );
+
+    frame = gtk_frame_new ( NULL );
     gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 frame_droite_haut, 
+			 frame, 
 			 TRUE,
 			 TRUE,
 			 0 );
-    gtk_frame_set_shadow_type ( GTK_FRAME ( frame_droite_haut ),
+    gtk_frame_set_shadow_type ( GTK_FRAME ( frame ),
 				GTK_SHADOW_IN );
-    gtk_widget_show (frame_droite_haut);
+    gtk_widget_show (frame);
 
     notebook_liste_ventil_echeances = gtk_notebook_new ();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK( notebook_liste_ventil_echeances ),
 				 FALSE );
-    gtk_container_add ( GTK_CONTAINER ( frame_droite_haut ),
+    gtk_container_add ( GTK_CONTAINER ( frame ),
 			notebook_liste_ventil_echeances );
     gtk_widget_show ( notebook_liste_ventil_echeances );
 
@@ -142,10 +143,7 @@ GtkWidget *creation_onglet_echeancier ( void )
 			       gtk_label_new ( _("Scheduler broken down transactions") ) );
 
 
-
-
-
-    /* création du formulaire */
+    /* création des formulaires */
 
     frame_formulaire_echeancier = gtk_frame_new ( NULL );
     gtk_frame_set_shadow_type ( GTK_FRAME ( frame_formulaire_echeancier ),
@@ -156,9 +154,9 @@ GtkWidget *creation_onglet_echeancier ( void )
 			 FALSE,
 			 0 );
 
-
     /* création du notebook du formulaire ( contient le formulaire et le
        formulaire simplifié pour la ventilation ) */
+
     notebook_formulaire_echeances = gtk_notebook_new ();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK( notebook_formulaire_echeances ),
 				 FALSE );

@@ -25,33 +25,6 @@
 /* ************************************************************************** */
 
 #include "include.h"
-#include "comptes_traitements.h"
-
-
-
-#include "accueil.h"
-#include "categories_onglet.h"
-#include "comptes_gestion.h"
-#include "comptes_onglet.h"
-#include "dialog.h"
-#include "echeancier_liste.h"
-#include "etats_config.h"
-#include "fichiers_gestion.h"
-#include "imputation_budgetaire.h"
-#include "operations_comptes.h"
-#include "operations_liste.h"
-#include "search_glist.h"
-#include "tiers_onglet.h"
-#include "traitement_variables.h"
-#include "type_operations.h"
-#include "echeancier_onglet.h"
-#include "utils.h"
-#include "main.h"
-#include "operations_classement.h"
-
-
-
-
 
 #define START_INCLUDE
 #include "comptes_traitements.h"
@@ -63,7 +36,6 @@
 #include "dialog.h"
 #include "echeancier_onglet.h"
 #include "fichiers_gestion.h"
-#include "main.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
@@ -865,6 +837,26 @@ void update_options_menus_comptes ( void )
 			       creation_option_menu_comptes(GTK_SIGNAL_FUNC(changement_choix_compte_echeancier),
 							    TRUE,
 							    FALSE ));
+}
+/* ************************************************************************** */
+
+
+/* ************************************************************************** */
+/* renvoie le nom du compte donné en argument ou NULL */
+/* ************************************************************************** */
+gchar *compte_name_by_no ( gint no_compte )
+{
+
+    if ( no_compte >= 0
+	 &&
+	 no_compte <= nb_comptes )
+    {
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
+	return ( g_strdup ( NOM_DU_COMPTE ));
+    }
+    else
+	return NULL;
+
 }
 /* ************************************************************************** */
 

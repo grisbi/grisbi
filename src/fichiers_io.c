@@ -142,6 +142,7 @@ extern gchar *nom_fichier_backup;
 extern GSList *ordre_comptes;
 extern gint rapport_largeur_colonnes[7];
 extern GtkWidget *remarque_banque;
+extern gint scheduler_col_width[NB_COLS_SCHEDULER] ;
 extern GtkTreeSelection * selection;
 extern gint tab_affichage_ope[4][7];
 extern GtkWidget *tel_banque;
@@ -779,6 +780,22 @@ gboolean recuperation_generalites_xml ( xmlNodePtr node_generalites )
 	if ( !strcmp ( node_generalites -> name,
 		       "Formulaire_distinct_par_compte" ))
 	    etat.formulaire_distinct_par_compte = my_atoi( xmlNodeGetContent (node_generalites ));
+
+	if ( !strcmp ( node_generalites -> name,
+		       "Rapport_largeur_col_echeancier" ))
+	{
+	    gchar **pointeur_char;
+	    gint i;
+
+	    pointeur_char = g_strsplit ( xmlNodeGetContent ( node_generalites ),
+					 "-",
+					 NB_COLS_SCHEDULER );
+
+	    for ( i=0 ; i<NB_COLS_SCHEDULER ; i++ )
+		scheduler_col_width[i] = my_atoi ( pointeur_char[i]);
+
+	    g_strfreev ( pointeur_char );
+	}
 
 	node_generalites = node_generalites -> next;
     }
@@ -3047,6 +3064,24 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 		  "Formulaire_distinct_par_compte",
 		  itoa(etat.formulaire_distinct_par_compte));
 
+    /* creation des rapport largeurs colonnes de l'échéancier */
+
+    pointeur_char = NULL;
+
+    for ( i=0 ; i<NB_COLS_SCHEDULER ; i++ )
+	if ( pointeur_char )
+	    pointeur_char = g_strconcat ( pointeur_char,
+					  "-",
+					  itoa ( scheduler_col_width[i] ),
+					  NULL );
+	else
+	    pointeur_char = itoa ( scheduler_col_width[i] );
+
+
+    xmlNewTextChild ( node,
+		      NULL,
+		      "Rapport_largeur_col_echeancier",
+		      pointeur_char );
 
     /*   on commence la sauvegarde des comptes : 2 parties, les generalites */
     /* puis les comptes 1 par 1 */

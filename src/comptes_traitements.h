@@ -1,5 +1,6 @@
 #define START_DECLARATION
 void changement_choix_compte_echeancier ( void );
+gchar *compte_name_by_no ( gint no_compte );
 GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func, 
 					   gboolean activate_currrent,
 					   gboolean include_closed );

@@ -74,8 +74,6 @@ struct {
     guint entree;   			 /* si etat.entree = 1, la touche entrée finit l'opération */ 
     guint alerte_mini;
     guint formulaire_toujours_affiche;
-    guint formulaire_echeancier_toujours_affiche;
-    guint formulaire_echeance_dans_fenetre;        /* à 1 lorsque le formulaire de l'échéancier est dans une fenetre à part */
     guint alerte_permission;   /* à un si le message d'alerte s'affiche */
     guint fichier_deja_ouvert;   /* à un si lors de l'ouverture, le fichier semblait déjà ouvert */
     guint force_enregistrement;    /* à un si on force l'enregistrement */
@@ -118,14 +116,21 @@ struct {
     gint largeur_colonne_comptes_comptes;
     gint largeur_colonne_etat;
 
+    /* variables sur l'échéancier */
+
+    guint formulaire_echeancier_toujours_affiche;
+    guint formulaire_echeance_dans_fenetre;        /* à 1 lorsque le formulaire de l'échéancier est dans une fenetre à part */
+    guint affichage_commentaire_echeancier;     /* à 1 si le commentaire est affiché */
+
+
 } etat;
 
 /** Etat de rapprochement d'une opération */
 enum operation_etat_rapprochement {
   OPERATION_NORMALE = 0,
   OPERATION_POINTEE,
-  OPERATION_RAPPROCHEE,
   OPERATION_TELERAPPROCHEE,
+  OPERATION_RAPPROCHEE,
 };
 
 

@@ -25,7 +25,6 @@
 
 #include "include.h"
 
-
 #define START_INCLUDE
 #include "echeancier_formulaire.h"
 #include "exercice.h"
@@ -70,13 +69,12 @@ static gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 
 
 
-
-
 GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 GtkWidget *label_saisie_modif;
 GSList *liste_categories_ventilation_combofix;        /*  liste des noms des categ et sous categ pour le combofix */
 GtkWidget *separateur_formulaire_echeancier;
 GtkWidget *hbox_valider_annuler_echeance;
+
 
 #define START_EXTERN
 extern struct struct_devise *devise_compte;
@@ -90,7 +88,6 @@ extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *frame_etat_echeances_finies;
 extern GtkWidget *frame_formulaire_echeancier;
 extern GSList *liste_categories_combofix;
-extern GtkWidget *liste_echeances;
 extern GSList *liste_imputations_combofix;
 extern GSList *liste_struct_devises;
 extern GSList *liste_struct_echeances;
@@ -106,8 +103,8 @@ extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkStyle *style_entree_formulaire[2];
 extern gdouble taux_de_change[2];
+extern GtkWidget *tree_view_liste_echeances;
 #define END_EXTERN
-
 
 
 /******************************************************************************/
@@ -897,7 +894,7 @@ void echap_formulaire_echeancier ( void )
 {
     formulaire_echeancier_a_zero();
 
-    gtk_widget_grab_focus ( liste_echeances );
+    gtk_widget_grab_focus ( tree_view_liste_echeances );
 
     if ( !etat.formulaire_echeancier_toujours_affiche )
 	gtk_widget_hide ( frame_formulaire_echeancier );
@@ -1133,7 +1130,7 @@ void affiche_cache_le_formulaire_echeancier ( void )
 	etat.formulaire_echeancier_toujours_affiche = 1;
     }
 
-    gtk_widget_grab_focus ( liste_echeances );
+    gtk_widget_grab_focus ( tree_view_liste_echeances );
 }
 /******************************************************************************/
 
@@ -1220,7 +1217,7 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 
 	    /* on fait perdre le focus au widget courant pour faire
 	       les changements automatiques si nécessaire */
-	    gtk_widget_grab_focus ( liste_echeances );
+	    gtk_widget_grab_focus ( tree_view_liste_echeances );
 
 	    /* on donne le focus au widget suivant */
 	    no_widget = ( no_widget + 1 ) % SCHEDULER_FORM_TOTAL_WIDGET;
@@ -1314,7 +1311,7 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 		    /* on fait perdre le focus au widget courant pour faire
 		       les changements automatiques si nécessaire */
 
-		    gtk_widget_grab_focus ( liste_echeances );
+		    gtk_widget_grab_focus ( tree_view_liste_echeances );
 		    fin_edition_echeance ();
 		}
 	    }
@@ -2206,7 +2203,7 @@ void fin_edition_echeance ( void )
     mise_a_jour_liste_echeances_manuelles_accueil = 1;
     mise_a_jour_liste_echeances_auto_accueil = 1;
     remplissage_liste_echeance ();
-    gtk_widget_grab_focus ( liste_echeances );
+    gtk_widget_grab_focus ( tree_view_liste_echeances );
 
     modification_fichier ( TRUE );
 }
@@ -2248,7 +2245,7 @@ struct structure_operation *ajoute_contre_operation_echeance_dans_liste ( struct
 									  gint compte_virement,
 									  gint contre_type_ope )
 {
-    /*   si c'était un virement, on crée une copie de l'opé, on l'ajout à la liste puis on remplit les relations */
+    /*   si c'Ã©tait un virement, on crée une copie de l'opé, on l'ajout à la liste puis on remplit les relations */
 
     struct structure_operation *contre_operation;
     struct struct_devise *contre_devise;
@@ -2645,8 +2642,8 @@ void incrementation_echeance ( struct operation_echeance *echeance )
 	nb_echeances--;
 
 	if ( ( echeance_selectionnnee = echeance ))
-	    echeance_selectionnnee = gtk_clist_get_row_data ( GTK_CLIST ( liste_echeances ),
-							      gtk_clist_find_row_from_data ( GTK_CLIST ( liste_echeances ),
+	    echeance_selectionnnee = gtk_clist_get_row_data ( GTK_CLIST ( tree_view_liste_echeances ),
+							      gtk_clist_find_row_from_data ( GTK_CLIST ( tree_view_liste_echeances ),
 											     echeance ) + 1);
 
     }

@@ -41,6 +41,7 @@ GtkStyle *style_rouge_couleur [2];
 GtkStyle *style_gris;
 
 GdkColor couleur_fond[2];
+GdkColor couleur_grise;
 GdkColor couleur_selection;
 GSList *liste_labels_titres_colonnes_liste_ope = NULL;
 
@@ -125,6 +126,7 @@ extern gchar *nom_fichier_backup;
 extern gchar *nom_fichier_comptes;
 extern GSList *ordre_comptes;
 extern gpointer **p_tab_nom_de_compte;
+extern gint scheduler_col_width[NB_COLS_SCHEDULER] ;
 extern GtkWidget *solde_label;
 extern GtkWidget *solde_label_pointe;
 extern gint tab_affichage_ope[4][7];
@@ -177,6 +179,7 @@ void modification_fichier ( gboolean modif )
 void init_variables ( void )
 {
     gint i;
+    gint scheduler_col_width_init[NB_COLS_SCHEDULER] = { 10, 26, 20, 14, 14, 28, 8};
 
     if ( DEBUG )
 	printf ( "init_variables\n" );
@@ -281,6 +284,11 @@ void init_variables ( void )
     mise_a_jour_combofix_categ_necessaire = 0;
     mise_a_jour_combofix_imputation_necessaire = 0;
 
+    /*     on met à jour les valeurs par défaut des largeurs de colonnes de la liste d'échéances */
+
+    for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
+	scheduler_col_width[i] = scheduler_col_width_init[i];
+
 }
 /*****************************************************************************************************/
 
@@ -292,7 +300,6 @@ void init_variables ( void )
 void initialisation_couleurs_listes ( void )
 {
     GdkColor couleur_rouge;
-    GdkColor couleur_grise;
 
     /* Initialisation des couleurs de la clist */
 
@@ -307,6 +314,8 @@ void initialisation_couleurs_listes ( void )
     couleur_rouge.red = COULEUR_ROUGE_RED;
     couleur_rouge.green = COULEUR_ROUGE_GREEN;
     couleur_rouge.blue = COULEUR_ROUGE_BLUE;
+
+    /*     couleur grise de l'échéancier */
 
     couleur_grise.red = COULEUR_GRISE_RED;
     couleur_grise.green = COULEUR_GRISE_GREEN;

@@ -238,7 +238,7 @@ int main (int argc, char *argv[])
 
 	gtk_widget_show ( window );
 
-	/*   on applique la fonte aux listes si nécessaire */
+	/*   initialisation des couleurs  */
 
 	initialisation_couleurs_listes ();
 

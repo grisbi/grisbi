@@ -25,6 +25,7 @@
 #include "include.h"
 
 
+
 #define START_INCLUDE
 #include "echeancier_ventilation.h"
 #include "categories_onglet.h"
@@ -75,9 +76,6 @@ static void valider_ventilation_echeances ( void );
 
 
 
-
-
-
 GtkWidget *liste_echeances_ventilees;
 
 gint ancienne_largeur_ventilation_echeances;          /* magouille utilisée pour bloquer un signal size-allocate qui s'emballe */
@@ -91,6 +89,8 @@ struct struct_ope_ventil *ligne_selectionnee_ventilation_echeances;             
 gdouble montant_operation_ventilee_echeances;
 gdouble somme_ventilee_echeances;
 gint enregistre_ope_au_retour_echeances;            /* à 1 si au click du bouton valider on enregistre l'opé */
+
+
 
 #define START_EXTERN
 extern GtkWidget *barre_outils;
@@ -119,7 +119,6 @@ extern GtkStyle *style_entree_formulaire[2];
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *window;
 #define END_EXTERN
-
 
 
 

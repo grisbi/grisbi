@@ -850,7 +850,7 @@ void ajoute_operations_compte_dans_list_store ( gint compte,
     GSList *liste_operations_tmp;
     gint nb_max_ope_a_ajouter;
     gint nb_ope_ajoutees;
-    gint i, j;
+    gint j;
 
     /*     on décide pour l'instant arbitrairement du nb d'opé à ajouter si on */
     /* 	le fait par partie ; peut être dans les préférences un jour */
@@ -926,12 +926,6 @@ void ajoute_operations_compte_dans_list_store ( gint compte,
 
 	gtk_list_store_append ( STORE_LISTE_OPERATIONS,
 				&iter_liste_operations );
-
-	for ( i=0 ; i<TRANSACTION_LIST_COL_NB ; i++ )
-	    gtk_list_store_set ( STORE_LISTE_OPERATIONS,
-				 &iter_liste_operations,
-				 i, NULL,
-				 -1 );
 
 	/* on met le no d'opération de cette ligne à -1 */
 
@@ -1947,7 +1941,7 @@ gboolean traitement_clavier_liste ( GtkWidget *widget_variable,
 	    if ( ligne_selectionnee )
 		selectionne_ligne ( cherche_operation_from_ligne ( ligne_selectionnee - NB_LIGNES_OPE,
 								   compte_courant ));
-	    return TRUE;
+	    break;
 
 	case GDK_Down :		/* touches flèche bas */
 	case GDK_KP_Down :
@@ -1959,11 +1953,11 @@ gboolean traitement_clavier_liste ( GtkWidget *widget_variable,
 		 (GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS )))->length - NB_LIGNES_OPE))
 		selectionne_ligne ( cherche_operation_from_ligne ( ligne_selectionnee + NB_LIGNES_OPE,
 								   compte_courant ));
-	    return TRUE;
+	    break;
 
 	case GDK_Delete:		/*  del  */
 	    supprime_operation ( OPERATION_SELECTIONNEE );
-	    return TRUE;
+	    break;
 
 	case GDK_P:			/* touche P */
 	case GDK_p:			/* touche p */
@@ -1978,9 +1972,6 @@ gboolean traitement_clavier_liste ( GtkWidget *widget_variable,
 	    if ( ( evenement -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK )
 		r_press ();
 	    break;
-
-	default: 
-	    return TRUE;
     }
 
     return TRUE;
@@ -3542,7 +3533,7 @@ void schedule_selected_transaction ()
     echeance_selectionnnee = echeance;
     formulaire_echeancier_a_zero();
     degrise_formulaire_echeancier();
-    selectionne_echeance ();
+    selectionne_echeance (echeance_selectionnnee);
     edition_echeance ();
 
     gtk_notebook_set_current_page ( GTK_NOTEBOOK(notebook_general), 2 );

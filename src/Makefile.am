@@ -21,6 +21,7 @@ sources = 			\
 	echeancier_onglet.c	\
 	echeancier_formulaire.c	\
 	echeancier_liste.c	\
+	echeancier_infos.c	\
 	echeancier_ventilation.c\
 	equilibrage.c		\
 	erreur.c		\
@@ -83,6 +84,7 @@ grisbi_INCLUDES =		\
 	echeancier_onglet.h	\
 	echeancier_formulaire.h	\
 	echeancier_liste.h	\
+	echeancier_infos.h	\
 	echeancier_ventilation.h\
 	equilibrage.h		\
 	erreur.h		\

@@ -41,9 +41,9 @@
 
 #define START_INCLUDE
 #include "barre_outils.h"
+#include "echeancier_liste.h"
 #include "operations_liste.h"
 #include "ventilation.h"
-#include "echeancier_liste.h"
 #include "operations_formulaire.h"
 #include "echeancier_formulaire.h"
 #include "menu.h"
@@ -52,6 +52,7 @@
 #define START_STATIC
 static void demande_expand_arbre ( GtkWidget *bouton,
 			    gint *liste );
+static void mise_a_jour_boutons_grille ( void );
 #define END_STATIC
 
 
@@ -66,6 +67,7 @@ GtkWidget *bouton_ope_lignes[4];
 GtkWidget *bouton_affiche_r;
 GtkWidget *bouton_enleve_r;
 GtkWidget *bouton_grille;
+GtkWidget *bouton_grille_echeancier;
 GtkWidget *label_proprietes_operations_compte;
 
 /* widgets du bouton pour afficher/cacher le formulaire */
@@ -91,6 +93,7 @@ extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkTreeSelection * selection;
 extern GtkTooltips *tooltips_general_grisbi;
+extern GtkWidget *tree_view_liste_echeances;
 extern GtkWidget *tree_view_liste_ventilations;
 #define END_EXTERN
 
@@ -447,7 +450,6 @@ gboolean change_aspect_liste ( gint demande )
 	case 0:
 	    /* 	    changement de l'affichage de la grille */
 
-/* 	    etat.affichage_grille = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_grille )); */
 	  etat.affichage_grille = ! etat.affichage_grille;
 
 	    if ( etat.affichage_grille )
@@ -457,6 +459,10 @@ gboolean change_aspect_liste ( gint demande )
 		g_signal_connect_after ( G_OBJECT ( tree_view_liste_ventilations ),
 					 "expose-event",
 					 G_CALLBACK ( affichage_traits_liste_ventilation ),
+					 NULL );
+		g_signal_connect_after ( G_OBJECT ( tree_view_liste_echeances ),
+					 "expose-event",
+					 G_CALLBACK ( affichage_traits_liste_echeances ),
 					 NULL );
 
 		for ( i=0 ; i<nb_comptes ; i++ )
@@ -473,7 +479,10 @@ gboolean change_aspect_liste ( gint demande )
 		g_signal_handlers_disconnect_by_func ( G_OBJECT ( tree_view_liste_ventilations ),
 						       G_CALLBACK ( affichage_traits_liste_ventilation ),
 						       NULL );
-		for ( i=0 ; i<nb_comptes ; i++ )
+		g_signal_handlers_disconnect_by_func ( G_OBJECT ( tree_view_liste_echeances ),
+						       G_CALLBACK ( affichage_traits_liste_echeances ),
+						       NULL );
+	for ( i=0 ; i<nb_comptes ; i++ )
 		{
 		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 		    g_signal_handlers_disconnect_by_func ( G_OBJECT ( TREE_VIEW_LISTE_OPERATIONS ),
@@ -483,6 +492,7 @@ gboolean change_aspect_liste ( gint demande )
 	    }
 	    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + compte_courant;
 	    gtk_widget_queue_draw ( TREE_VIEW_LISTE_OPERATIONS );
+	    gtk_widget_queue_draw ( tree_view_liste_echeances );
 
 	    block_menu_cb = TRUE;
 	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
@@ -491,6 +501,7 @@ gboolean change_aspect_liste ( gint demande )
 					    etat.affichage_grille );
 	    block_menu_cb = FALSE;
 
+	    mise_a_jour_boutons_grille ();
 	    break;
 
 	/* 	1, 2, 3 et 4 sont les nb de lignes qu'on demande à afficher */
@@ -564,6 +575,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     GtkWidget *hbox;
     GtkWidget *separateur;
     GtkWidget *hbox2;
+    GtkWidget *icone;
 
 
     hbox = gtk_hbox_new ( FALSE,
@@ -664,6 +676,39 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 			 FALSE,
 			 0 );
     gtk_widget_show ( bouton_affiche_commentaire_echeancier );
+
+
+    /*     bouton affiche/masque la grille des opérations */
+
+    bouton_grille_echeancier = gtk_check_button_new ();
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (bouton_grille_echeancier ),
+				   etat.affichage_grille );
+    gtk_toggle_button_set_mode ( GTK_TOGGLE_BUTTON (bouton_grille_echeancier ),
+				 FALSE  );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton_grille_echeancier ),
+			    GTK_RELIEF_NONE );
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
+			   bouton_grille_echeancier,
+			   _("Display grid"),
+			   _("Display grid") );
+    icone = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) grille_xpm ));
+    gtk_container_add ( GTK_CONTAINER ( bouton_grille_echeancier ),
+			icone );
+    gtk_widget_set_usize ( bouton_grille_echeancier,
+			   15,
+			   15 );
+    g_signal_connect_swapped ( GTK_OBJECT ( bouton_grille_echeancier ),
+			       "toggled",
+			       GTK_SIGNAL_FUNC ( change_aspect_liste ),
+			       NULL );
+    gtk_box_pack_start ( GTK_BOX ( hbox ),
+			 bouton_grille_echeancier,
+			 FALSE,
+			 FALSE,
+			 0 );
+    gtk_widget_show_all ( bouton_grille_echeancier );
+
+
 
     return ( hbox );
 }
@@ -1228,6 +1273,18 @@ void mise_a_jour_boutons_caract_liste ( gint no_compte )
 					G_CALLBACK ( change_aspect_liste ),
 					GINT_TO_POINTER (6));
 
+    mise_a_jour_boutons_grille ();
+}
+/*******************************************************************************************/
+
+
+/*******************************************************************************************/
+/* cette fonction met les boutons d'affichage de la grille en fonction de la conf */
+/* mais sans appeler de connection */
+/*******************************************************************************************/
+
+void mise_a_jour_boutons_grille ( void )
+{
     /* On met maintenant le bouton grille ou pas */
     g_signal_handlers_block_by_func ( G_OBJECT ( bouton_grille ),
 				      G_CALLBACK ( change_aspect_liste ),
@@ -1237,6 +1294,16 @@ void mise_a_jour_boutons_caract_liste ( gint no_compte )
     g_signal_handlers_unblock_by_func ( G_OBJECT ( bouton_grille ),
 					G_CALLBACK ( change_aspect_liste ),
 					GINT_TO_POINTER (0));
-
+    
+    /* On met maintenant le bouton grille de l'échéancier ou pas */
+    g_signal_handlers_block_by_func ( G_OBJECT ( bouton_grille_echeancier ),
+				      G_CALLBACK ( change_aspect_liste ),
+				      GINT_TO_POINTER (0));
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_grille_echeancier ), 
+				   etat.affichage_grille );
+    g_signal_handlers_unblock_by_func ( G_OBJECT ( bouton_grille_echeancier ),
+					G_CALLBACK ( change_aspect_liste ),
+					GINT_TO_POINTER (0));
 }
 /*******************************************************************************************/
+
