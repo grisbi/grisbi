@@ -1533,9 +1533,9 @@ void changement_taille_liste_echeances ( GtkWidget *clist,
     gint i;
     gint col1, col2, col3, col4, col5, col6, col7;
 
-    /*   si la largeur de grisbi est < 700, on fait rien */
+    /*   si la largeur de grisbi est < LOWEST_RESOLUTION, on fait rien */
 
-    if ( window -> allocation.width < 700 )
+    if ( window -> allocation.width < LOWEST_RESOLUTION )
 	return;
 
     /* si ancienne_largeur est nul, c'est que la vue sur la liste n'a pas encore

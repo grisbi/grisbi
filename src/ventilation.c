@@ -1117,9 +1117,9 @@ void changement_taille_liste_ventilation ( GtkWidget *clist,
     gint largeur;
     gint col0, col1, col2;
 
-    /*   si la largeur de grisbi est < 700, on fait rien */
+    /*   si la largeur de grisbi est < LOWEST_RESOLUTION, on fait rien */
 
-    if ( window -> allocation.width < 700 )
+    if ( window -> allocation.width < LOWEST_RESOLUTION )
 	return;
 
     largeur = allocation->width;

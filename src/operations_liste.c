@@ -2308,9 +2308,9 @@ gboolean changement_taille_liste_ope ( GtkWidget *clist,
     if ( (gint) compte != compte_courant_onglet )
 	return TRUE;
 
-    /* si la largeur de grisbi est < 700, on fait rien */
+    /* si la largeur de grisbi est < LOWEST_RESOLUTION, on fait rien */
 
-    if ( window -> allocation.width < 700 )
+    if ( window -> allocation.width < LOWEST_RESOLUTION )
 	return TRUE;
 
     /*     pour éviter que le système ne s'emballe... */

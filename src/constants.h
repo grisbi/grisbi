@@ -114,4 +114,7 @@
 /* quelques chaines de configuration*/
 #define ETAT_WWW_BROWSER "mozilla"
 
+/* To be portable on little screen like Zaurus */
+#define LOWEST_RESOLUTION 639
+
 #endif // !_CONSTANTS_H
