@@ -1100,7 +1100,7 @@ void ouverture_node_categ ( GtkWidget *arbre,
 
       while ( pointeur_ope )
 	{
-	  struct struct_devise *devise_operation;
+	  struct struct_devise *devise_operation = NULL;
 	  struct structure_operation *operation;
 
 	  operation = pointeur_ope -> data;
@@ -1114,7 +1114,8 @@ void ouverture_node_categ ( GtkWidget *arbre,
 	       operation -> categorie == no_categ &&
 	       operation -> sous_categorie == no_sous_categ &&
 	       !operation -> relation_no_operation &&
-	       !operation -> operation_ventilee )
+	       !operation -> operation_ventilee &&
+	       devise_operation )
 	    {
 		      if ( operation -> notes )
 			{
