@@ -2110,7 +2110,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 	       strlen ( chemin_logo )
 	       &&
 	       stat ( chemin_logo, &buffer_stat) == -1 ))
-	    chemin_logo = LOGO_PATH;
+	    chemin_logo = g_strdup ( LOGO_PATH );
 
 
 	/* on recupère ici les comptes et operations */

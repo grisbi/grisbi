@@ -868,7 +868,7 @@ void change_logo_accueil ( GtkWidget *widget, gpointer user_data )
     if ( nb_comptes )
     {
 	/* on change le logo */
-	chemin_logo = (gchar *) selected_filename;
+        chemin_logo = g_strdup ( (gchar *) selected_filename );
 
 	if ( !chemin_logo ||
 	     !strlen ( g_strstrip ( chemin_logo )) )
