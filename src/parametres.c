@@ -558,7 +558,7 @@ GtkWidget *onglet_fichier ( void )
 				 (GCallback) change_backup_path,
 				 NULL);
 	gtk_box_pack_start ( GTK_BOX ( hbox ), entree_chemin_backup,
-			     FALSE, FALSE, 0 );
+			     TRUE, TRUE, 0 );
     }
     else
     {
