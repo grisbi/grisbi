@@ -31,6 +31,7 @@
 #include "search_glist.h"
 #include "utils.h"
 #include "utils_files.h"
+#include "exercice.h"
 
 #define CSV_CLEAR_FIELD(a)  if (a) { g_free(a);  a = NULL; }
 #define CSV_STR_FIELD(f,a)  if (a) { fprintf(f,"\"%s\"%c",g_locale_from_utf8(a,-1,NULL,NULL,NULL),g_csv_field_separator); } else { fprintf(f,"\"\"%c",g_csv_field_separator); }
@@ -45,12 +46,14 @@ gchar*  csv_field_ventil     = NULL;
 gchar*  csv_field_date       = NULL;
 gchar*  csv_field_pointage   = NULL;
 gchar*  csv_field_tiers      = NULL;
-gchar*  csv_field_montant    = NULL;
 gchar*  csv_field_credit     = NULL;
 gchar*  csv_field_debit      = NULL;
+gchar*  csv_field_montant    = NULL;
+gchar*  csv_field_solde      = NULL;
 gchar*  csv_field_categ      = NULL;
 gchar*  csv_field_sous_categ = NULL;
 gchar*  csv_field_notes      = NULL;
+gchar*  csv_field_exercice   = NULL;
 
 static void _csv_clear_fields(gboolean clear_all)
 {
@@ -60,6 +63,7 @@ static void _csv_clear_fields(gboolean clear_all)
         CSV_CLEAR_FIELD(csv_field_pointage);
         CSV_CLEAR_FIELD(csv_field_operation);
         CSV_CLEAR_FIELD(csv_field_tiers);
+        CSV_CLEAR_FIELD(csv_field_solde);
     }
 
     CSV_CLEAR_FIELD(csv_field_notes);
@@ -69,6 +73,7 @@ static void _csv_clear_fields(gboolean clear_all)
     CSV_CLEAR_FIELD(csv_field_ventil);
     CSV_CLEAR_FIELD(csv_field_categ);
     CSV_CLEAR_FIELD(csv_field_sous_categ);
+    CSV_CLEAR_FIELD(csv_field_exercice);
 }
 /**
  * Append the current csv record value in the given file and clean all fields
@@ -78,11 +83,16 @@ static void _csv_add_record(FILE* file,gboolean clear_all)
     CSV_NUM_FIELD(file,csv_field_operation);
     CSV_STR_FIELD(file,csv_field_ventil);
     CSV_STR_FIELD(file,csv_field_date);
+    if (etat.utilise_exercice)
+    {
+        CSV_STR_FIELD(file,csv_field_exercice);
+    }
     CSV_STR_FIELD(file,csv_field_pointage);
     CSV_STR_FIELD(file,csv_field_tiers);
     CSV_NUM_FIELD(file,csv_field_credit);
     CSV_NUM_FIELD(file,csv_field_debit);
     CSV_NUM_FIELD(file,csv_field_montant);
+    CSV_NUM_FIELD(file,csv_field_solde);
     CSV_STR_FIELD(file,csv_field_categ);
     CSV_STR_FIELD(file,csv_field_sous_categ);
     CSV_STR_FIELD(file,csv_field_notes);
@@ -100,7 +110,7 @@ void export_accounts_to_csv (GSList* export_entries_list )
     gchar *nom_fichier_csv, *montant_tmp;
     GSList *liste_tmp;
     FILE *fichier_csv;
-    gint i, resultat;
+    gdouble solde = 0;
 
     liste_tmp = export_entries_list;
 
@@ -108,7 +118,7 @@ void export_accounts_to_csv (GSList* export_entries_list )
     {
 
 	/*       ouverture du fichier, si pb, on marque l'erreur et passe au fichier suivant */
-
+        solde = 0.0;
 	nom_fichier_csv = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( liste_tmp -> data )));
 
 	if ( !( fichier_csv = utf8_fopen ( nom_fichier_csv,
@@ -131,11 +141,16 @@ void export_accounts_to_csv (GSList* export_entries_list )
                 csv_field_operation  = g_strdup(_("Transactions"));
                 csv_field_ventil     = g_strdup(_("Breakdown"));
                 csv_field_date       = g_strdup(_("Date"));
+                if (etat.utilise_exercice)
+                {
+                    csv_field_exercice   = g_strdup(_("Financial year"));
+                }
                 csv_field_pointage   = g_strdup(_("C/R"));
                 csv_field_tiers      = g_strdup(_("Third party"));
                 csv_field_credit     = g_strdup(_("Credit"));
                 csv_field_debit      = g_strdup(_("Debit"));
-                csv_field_debit      = g_strdup(_("Amount"));
+                csv_field_montant    = g_strdup(_("Amount"));
+                csv_field_solde      = g_strdup(_("Balance"));
                 csv_field_categ      = g_strdup(_("Category"));
                 csv_field_sous_categ = g_strdup(_("Sub-categories"));
                 csv_field_notes      = g_strdup(_("Notes"));
@@ -151,6 +166,8 @@ void export_accounts_to_csv (GSList* export_entries_list )
             montant_tmp = g_strdup_printf ( "%4.2f", SOLDE_INIT );
             montant_tmp = g_strdelimit ( montant_tmp, ",", '.' );
 
+            solde           = SOLDE_INIT;
+            csv_field_solde = g_strdup_printf ( "%4.2f", solde );
             if (SOLDE_INIT >= 0)
             {
                 csv_field_credit = g_strdup ( montant_tmp );
@@ -172,7 +189,6 @@ void export_accounts_to_csv (GSList* export_entries_list )
 		{
 		    GSList *pointeur;
 		    gdouble montant;
-		    struct struct_type_ope *type;
 
 		    operation = pointeur_tmp -> data;
 
@@ -217,7 +233,7 @@ void export_accounts_to_csv (GSList* export_entries_list )
 			montant_tmp = g_strdup_printf ( "%4.2f", montant );
 			montant_tmp = g_strdelimit ( montant_tmp, ",", '.' );
 
-                        if (montant >= 0)
+                        if (montant > -0.0 )
                         {
                             csv_field_credit = g_strdup(montant_tmp );
                         }
@@ -225,7 +241,6 @@ void export_accounts_to_csv (GSList* export_entries_list )
                         {
                             csv_field_debit  = g_strdup( montant_tmp );
                         }
-
 
 			/* met le chèque si c'est un type à numérotation automatique */
                         /*
@@ -245,10 +260,17 @@ void export_accounts_to_csv (GSList* export_entries_list )
 			}
 
                         */
+                        solde += montant;
+                        csv_field_solde = g_strdup_printf ( "%4.2f", solde );
 
 
                         csv_field_operation = g_strdup_printf("%d",operation -> no_operation);
                         
+                        /* Financial Year */
+                        if (etat.utilise_exercice)
+                        {
+                            csv_field_exercice  = g_strdup(exercice_name_by_no(operation -> no_exercice));
+                        }
 			/*  on met soit un virement, soit une ventilation, soit les catégories */
 
 			/* si c'est une ventilation, on recherche toutes les opés de cette ventilation */
@@ -349,6 +371,7 @@ void export_accounts_to_csv (GSList* export_entries_list )
 			}
 			else
 			{
+
 			    /* si c'est un virement vers un compte supprimé, ça sera pris comme categ normale vide */
 
 			    if ( operation -> relation_no_operation
