@@ -1307,7 +1307,7 @@ msgstr "La devise « %s » existe déjà."
 msgid ""
 "Currency name and either currency ISO4217 code or currency nickname should "
 "be set."
-msgstr ""
+msgstr "Le nom de la devise et soit le code ISO4217, soit le surnom de la devise devraient être renseignés."
 
 #: src/devises.c:722
 msgid "All fields are not filled in"
@@ -1806,7 +1806,7 @@ msgid ""
 "Grisbi triggered a segmentation fault and cannot continue its execution.\n"
 "\n"
 msgstr ""
-"Grisbi a déclenché une erreur de segmentation (segmentation fault) et ne "
+"Grisbi a déclenché une erreur de segmentation (<i>segmentation fault</i>) et ne "
 "peut pas continuer son exécution.\n"
 "\n"
 
