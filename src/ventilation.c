@@ -2558,8 +2558,9 @@ void valider_ventilation ( void )
        */
     if ( fabs ( montant_operation_ventilee - somme_ventilee ) >= 0.000001 )
     {
-	if ( ! question_yes_no_hint ( _("Incomplete breakdown"),
-				      _("Transaction amount isn't fully broken down.\nProceed anyway?") ))
+	if ( ! question_conditional_yes_no_hint ( _("Incomplete breakdown"),
+						  _("Transaction amount isn't fully broken down.\nProceed anyway?"),
+						  &etat.display_message_incomplete_breakdown ))
 	    return;
     }
 

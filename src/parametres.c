@@ -419,6 +419,11 @@ GtkWidget *onglet_messages_and_warnings ( void )
 					  &(etat.display_message_remove_transaction), NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), pCheckBox, FALSE, FALSE, 0 );
 
+    /* Display a warning message when a breakdown is incomplete */
+    pCheckBox = new_checkbox_with_title ( _("Do not warn about incomplete breakdown"),
+					  &(etat.display_message_incomplete_breakdown), NULL );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), pCheckBox, FALSE, FALSE, 0 );
+
 
     /* Number of days before a warning message advertising a scheduled
        transaction */

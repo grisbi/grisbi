@@ -356,6 +356,9 @@ void charge_configuration ( void )
 		if ( !strcmp ( node_messages -> name, "display_message_remove_transaction" ) ) {
 		    etat.display_message_remove_transaction = my_atoi(xmlNodeGetContent ( node_messages));
 		}
+		if ( !strcmp ( node_messages -> name, "display_message_incomplete_breakdown" ) ) {
+		    etat.display_message_incomplete_breakdown = my_atoi(xmlNodeGetContent ( node_messages));
+		}
 		node_messages = node_messages->next;
 	    }
 	}
@@ -554,6 +557,9 @@ void charge_configuration_ancien ( void )
 	sscanf ( temp,
 		 "display_message_remove_transaction=%d",
 		 &etat.display_message_remove_transaction );
+	sscanf ( temp,
+		 "display_message_incomplete_breakdown=%d",
+		 &etat.display_message_incomplete_breakdown );
     }
 
     if ( !dernier_chemin_de_travail )
@@ -630,6 +636,7 @@ void raz_configuration ( void )
     etat.display_message_qif_export_currency = 0;
     etat.display_message_reconcile_transaction = 0;
     etat.display_message_remove_transaction = 0;
+    etat.display_message_incomplete_breakdown = 0;
 
     /* Commands */
     etat.latex_command = "latex";
@@ -810,6 +817,8 @@ void sauve_configuration(void)
 		  itoa(etat.display_message_reconcile_transaction));
     xmlNewChild ( node,NULL, "display_message_remove_transaction",
 		  itoa(etat.display_message_remove_transaction));
+    xmlNewChild ( node,NULL, "display_message_incomplete_breakdown",
+		  itoa(etat.display_message_incomplete_breakdown));
 
     /* sauvegarde des messages */
     node = xmlNewChild ( doc->children, NULL, "Print_config", NULL );
