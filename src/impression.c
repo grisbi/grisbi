@@ -44,8 +44,8 @@ gboolean imprimer_pc ( GnomePrintContext *pc, struct struct_etat *etat );
 void ecrire_texte ( GnomePrintContext * pc, char * texte );
 
 /* Globales ... à refaire je pense */
-GnomeFont *title_font, *text_font;
-int point_x=10, point_y=600;
+/* GnomeFont *title_font, *text_font; */
+/* int point_x=10, point_y=600; */
 
 
 int
@@ -102,58 +102,58 @@ char * latin2utf8 (char * inchar)
 
 gboolean imprimer_pc ( GnomePrintContext * pc, struct struct_etat *etat )
 {
-  int i;
+/*   int i; */
 
-  gnome_print_beginpage (pc, "Impression grisbi");
+/*   gnome_print_beginpage (pc, "Impression grisbi"); */
 
-  title_font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, 1, 36);
-  text_font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, 1, 14);
+/*   title_font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, 1, 36); */
+/*   text_font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, 1, 14); */
 
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+/*   p_tab_nom_de_compte_variable = p_tab_nom_de_compte; */
 
-  for ( i=0 ; i<nb_comptes ; i++ )
-    {
-      /* on commence par vérifier que le compte fait partie de l'état */
+/*   for ( i=0 ; i<nb_comptes ; i++ ) */
+/*     { */
+/*       /\* on commence par vérifier que le compte fait partie de l'état *\/ */
 
-      if ( !etat -> utilise_detail_comptes
-	   ||
-	   g_slist_index ( etat -> no_comptes,
-			   GINT_TO_POINTER ( i )) != -1 )
-	{
-	  /* 	  le compte est bon, passe à la suite de la sélection */
+/*       if ( !etat -> utilise_detail_comptes */
+/* 	   || */
+/* 	   g_slist_index ( etat -> no_comptes, */
+/* 			   GINT_TO_POINTER ( i )) != -1 ) */
+/* 	{ */
+/* 	  /\* 	  le compte est bon, passe à la suite de la sélection *\/ */
 
-	  /* on va faire le tour de toutes les opés du compte */
+/* 	  /\* on va faire le tour de toutes les opés du compte *\/ */
 
-	  GSList *pointeur_tmp;
+/* 	  GSList *pointeur_tmp; */
 
-	  pointeur_tmp = LISTE_OPERATIONS;
+/* 	  pointeur_tmp = LISTE_OPERATIONS; */
 
-	  printf ("On imprime %s\n", NOM_DU_COMPTE);
-	  ecrire_texte(pc, NOM_DU_COMPTE);
-	}
-      p_tab_nom_de_compte_variable++;
-    }
+/* 	  printf ("On imprime %s\n", NOM_DU_COMPTE); */
+/* 	  ecrire_texte(pc, NOM_DU_COMPTE); */
+/* 	} */
+/*       p_tab_nom_de_compte_variable++; */
+/*     } */
 
-  gnome_print_showpage (pc);
+/*   gnome_print_showpage (pc); */
 
-  /*   gtk_object_unref (GTK_OBJECT (title_font)); */
-  /*   gtk_object_unref (GTK_OBJECT (text_font)); */
-  /*   gnome_print_context_close (pc); */
+/*   /\*   gtk_object_unref (GTK_OBJECT (title_font)); *\/ */
+/*   /\*   gtk_object_unref (GTK_OBJECT (text_font)); *\/ */
+/*   /\*   gnome_print_context_close (pc); *\/ */
 
-  return 1;
+/*   return 1; */
 }
 
 
 void ecrire_texte(GnomePrintContext * pc, char * texte)
 {
-  gnome_print_gsave (pc);
-  gnome_print_setfont (pc, title_font);
-  gnome_print_setrgbcolor (pc, 1, 0, 0);
-  gnome_print_moveto (pc, point_x, point_y);
-  gnome_print_show (pc, latin2utf8(NOM_DU_COMPTE));
-  gnome_print_grestore (pc);
-  point_x+=0;
-  point_y+=30;
+/*   gnome_print_gsave (pc); */
+/*   gnome_print_setfont (pc, title_font); */
+/*   gnome_print_setrgbcolor (pc, 1, 0, 0); */
+/*   gnome_print_moveto (pc, point_x, point_y); */
+/*   gnome_print_show (pc, latin2utf8(NOM_DU_COMPTE)); */
+/*   gnome_print_grestore (pc); */
+/*   point_x+=0; */
+/*   point_y+=30; */
 }
 
 /*
@@ -161,7 +161,7 @@ gboolean impression_etat ( struct struct_etat *etat )
 {
   GnomePrintContext *pc = NULL;
   GnomePrintMaster *gpm = NULL;
-
+  
   GnomePrintDialog *gpd;
   static int copies=1, collate;
   int do_preview=0;
