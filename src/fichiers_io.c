@@ -1310,6 +1310,11 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 						 "Code" );
 		      if ( !strlen ( devise -> code_devise ))
 			devise -> code_devise = NULL;
+		      /* Handle Euro nicely */
+		      if (! strcmp (devise -> code_devise, "E"))
+			{
+			  devise -> code_devise = "€";
+			}
 
 		      devise -> passage_euro = atoi ( xmlGetProp ( node_detail,
 						 "Passage_euro" ));
@@ -5242,6 +5247,11 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 						 "Code" ));
 		      if ( !strlen ( devise -> code_devise ))
 			devise -> code_devise = NULL;
+		      /* Handle Euro nicely */
+		      if (! strcmp (devise -> code_devise, "E"))
+			{
+			  devise -> code_devise = "€";
+			}
 
 		      devise -> passage_euro = atoi ( latin2utf8(xmlGetProp ( node_detail,
 						 "Passage_euro" )));
