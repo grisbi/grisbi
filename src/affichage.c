@@ -27,9 +27,6 @@
 #include "en_tete.h"
 
 
-/** FIXME move it */
-GtkWidget * new_text_area ( gchar ** value, GCallback * hook );
-
 
 GtkWidget * list_font_name_label, * list_font_size_label;
 GtkWidget * general_font_name_label, * general_font_size_label;

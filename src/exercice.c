@@ -25,11 +25,8 @@
 #include "variables-extern.c"
 #include "en_tete.h"
 
-/** FIXME: MOVE ! */
-void entry_set_value ( GtkWidget * entry, gchar ** value );
 
 GtkWidget *paddingbox_details;	/** Widget handling financial year details */
-
 
 
 /** 

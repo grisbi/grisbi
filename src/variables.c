@@ -78,10 +78,10 @@ gchar *buffer_dernier_fichier;
 gchar *nom_fichier_backup;
 gchar *dernier_chemin_de_travail;
 gint nb_derniers_fichiers_ouverts;          /* contient le nb de derniers fichiers ouverts */
-gint nb_max_derniers_fichiers_ouverts;        /* contient le nb max que peut contenir nb_derniers_fichiers_ouverts ( réglé dans les paramètres ) */
+gdouble nb_max_derniers_fichiers_ouverts;        /* contient le nb max que peut contenir nb_derniers_fichiers_ouverts ( réglé dans les paramètres ) */
 gchar **tab_noms_derniers_fichiers_ouverts;
-gint compression_fichier;
-gint compression_backup;
+gdouble compression_fichier;
+gdouble compression_backup;
 
 /********************/ 
 /* fichier disque.c */
@@ -287,7 +287,7 @@ GSList *gsliste_echeances;                 /* contient la liste des struct échéa
 gint nb_echeances;
 gint no_derniere_echeance;
 
-gint decalage_echeance;      /* nb de jours avant l'échéance pour prévenir */
+gdouble decalage_echeance;      /* nb de jours avant l'échéance pour prévenir */
 
 gint ancienne_largeur_echeances;
 

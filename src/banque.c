@@ -26,10 +26,6 @@
 #include "en_tete.h"
 
 
-/** FIXME move it */
-GtkWidget * new_text_area ( gchar ** value, GCallback * hook );
-
-
 /** 
  * Update bank name in list.  Normally called as a signal handler.
  *

@@ -641,7 +641,6 @@ struct struct_ope_ventil
 /* Handle an ISO 4217 currency.  Not specific to Grisbi. */
 struct iso_4217_currency 
 {
-  gchar * country_code;
   gchar * continent;
   gchar * currency_name;
   gchar * country_name;
