@@ -46,13 +46,11 @@ grisbi_SOURCES = 		\
 	etats_calculs.c		\
 	etats_support.c		\
 	etats_gtktable.c	\
-	etats_gnomeprint.c	\
-	impression.c		\
 	affichage_liste.c
 
 
 
-#grisbi_LDADD =	$(GNOME_LIBDIR)	$(GNOMEUI_LIBS) -lgnomeprint
+#grisbi_LDADD =	$(GNOME_LIBDIR)	$(GNOMEUI_LIBS)
 
 
 EXTRA_DIST = grisbi.desktop grisbi.png logo_grisbi.xpm grisbi.keys grisbi.mime

@@ -95,7 +95,6 @@ void ouverture_fichier_par_menu ( GtkWidget *menu,
 				  gchar *nom );
 void fichier_selectionne ( GtkWidget *selection_fichier);
 void ouverture_confirmee ( void );
-gboolean impression_fichier ( gint origine );
 gboolean enregistrement_fichier ( gint origine );
 gboolean enregistrer_fichier_sous ( void );
 gboolean fermer_fichier ( void );
@@ -1008,7 +1007,6 @@ gint compare_cheques_etat ( gint chq_ope,
 gint compare_montants_etat ( gdouble montant_ope,
 			     gdouble montant_test,
 			     gint comparateur );
-void impression_etat ( struct struct_etat *etat );
 void rafraichissement_etat ( struct struct_etat *etat );
 gint classement_liste_opes_etat ( struct structure_operation *operation_1,
 				  struct structure_operation *operation_2 );
@@ -1024,13 +1022,6 @@ void denote_struct_sous_jaccentes ( gint origine );
 /***********************************/ 
 
 gchar * etats_titre ();
-
-
-/***********************************/ 
-/* fichier impression.c */
-/***********************************/ 
-
-char * latin2utf8 (char * inchar);
 
 
 /***********************************/ 
@@ -1081,70 +1072,6 @@ gint gtktable_affiche_totaux_sous_jaccent ( gint origine,
 gint gtktable_affiche_titres_colonnes ( gint ligne );
 gint gtktable_finish ( );
 void gtktable_click_sur_ope_etat ( struct structure_operation *operation );
-
-
-/***********************************/ 
-/* fichier etats_gnomeprint.c */
-/***********************************/ 
-
-gint gnomeprint_initialise ( );
-gint gnomeprint_affiche_titre ( gint ligne );
-gint gnomeprint_affiche_separateur ( gint ligne );
-gint gnomeprint_affiche_total_categories ( gint ligne );
-gint gnomeprint_affiche_total_sous_categ ( gint ligne );
-gint gnomeprint_affiche_total_ib ( gint ligne );
-gint gnomeprint_affiche_total_sous_ib ( gint ligne );
-gint gnomeprint_affiche_total_compte ( gint ligne );
-gint gnomeprint_affiche_total_tiers ( gint ligne );
-gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
-				      gint ligne );
-gint gnomeprint_affiche_total_partiel ( gdouble total_partie,
-					gint ligne,
-					gint type );
-gint gnomeprint_affiche_total_periode ( struct structure_operation *operation,
-					gint ligne,
-					gint force );
-gint gnomeprint_affiche_total_general ( gdouble total_general,
-					gint ligne );
-gint gnomeprint_affiche_categ_etat ( struct structure_operation *operation,
-				     gchar *decalage_categ,
-				     gint ligne );
-gint gnomeprint_affiche_sous_categ_etat ( struct structure_operation *operation,
-					  gchar *decalage_sous_categ,
-					  gint ligne );
-gint gnomeprint_affiche_ib_etat ( struct structure_operation *operation,
-				  gchar *decalage_ib,
-				  gint ligne );
-gint gnomeprint_affiche_sous_ib_etat ( struct structure_operation *operation,
-				       gchar *decalage_sous_ib,
-				       gint ligne );
-gint gnomeprint_affiche_compte_etat ( struct structure_operation *operation,
-				      gchar *decalage_compte,
-				      gint ligne );
-gint gnomeprint_affiche_tiers_etat ( struct structure_operation *operation,
-				     gchar *decalage_tiers,
-				     gint ligne );
-gint gnomeprint_affiche_titre_revenus_etat ( gint ligne );
-gint gnomeprint_affiche_titre_depenses_etat ( gint ligne );
-gint gnomeprint_affiche_totaux_sous_jaccent ( gint origine,
-					      gint ligne );
-gint gnomeprint_affiche_titres_colonnes ( gint ligne );
-gint gnomeprint_finish ( );
-
-void gnomeprint_affiche_texte ( char * texte, GnomeFont * font );
-void gnomeprint_set_color ( gint tred, gint tgreen, gint tblue );
-void gnomeprint_commit_point ( );
-void gnomeprint_commit_x ( );
-void gnomeprint_commit_y ( );
-void gnomeprint_move_point ( gfloat x, gfloat y ); 
-void gnomeprint_update_point ( );
-void gnomeprint_rectangle ( gfloat x1, gfloat y1, gfloat x2, gfloat y2 );
-void gnomeprint_balancer_colonnes (GnomePrintContext *pc, GnomeFont *font, 
-				   GSList * list);
-void gnomeprint_show_words(GnomePrintContext *pc, GnomeFont *font, GSList *words,
-			   gdouble mwidth);
-void show_words(GnomePrintContext *pc, GnomeFont *font, GSList *words, 
-		gdouble x, gdouble y, gdouble mwidth);
 
 
 /************************/ 

@@ -45,6 +45,14 @@
 ** Début de la procédure principale **
 ***********************************************************************************************/
 
+/**                                                                              
+ * Main function
+ *
+ * @param argc number of arguments
+ * @param argv arguments
+ *
+ * @return Nothing
+ */
 int main (int argc, char *argv[])
 {
   struct sigaction sig_sev;
@@ -317,11 +325,6 @@ int main (int argc, char *argv[])
 
 		  gtk_widget_set_sensitive ( bouton_personnaliser_etat,
 					     TRUE );
-		  /* FIXME: réactiver àca le jour ou on sort l'impression
-		     mais de toutes faàons, àca sera mergé 
-		     gtk_widget_set_sensitive ( bouton_imprimer_etat,
-		     TRUE );
-		  */
 		  gtk_widget_set_sensitive ( bouton_exporter_etat,
 					     TRUE );
 		  gtk_widget_set_sensitive ( bouton_dupliquer_etat,

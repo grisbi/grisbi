@@ -340,37 +340,21 @@ GtkWidget *creation_barre_boutons_etats ( void )
 
   /* on met le bouton rafraichir */
 
-  bouton = gtk_button_new_with_label ( _("Refresh") );
-  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+  bouton_raffraichir_etat = gtk_button_new_with_label ( _("Refresh") );
+  gtk_button_set_relief ( GTK_BUTTON ( bouton_raffraichir_etat ),
 			  GTK_RELIEF_NONE );
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton_raffraichir_etat ),
 			      "clicked",
 			      GTK_SIGNAL_FUNC ( rafraichissement_etat ),
 			      NULL );
   gtk_box_pack_start ( GTK_BOX ( widget_retour ),
-		       bouton,
+		       bouton_raffraichir_etat,
 		       FALSE,
 		       FALSE,
 		       0 );
-  gtk_widget_show ( bouton );
-
-  /* on met le bouton imprimer */
-
-  bouton_imprimer_etat = gtk_button_new_with_label ( _("Print") );
-  gtk_button_set_relief ( GTK_BUTTON ( bouton_imprimer_etat ),
-			  GTK_RELIEF_NONE );
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton_imprimer_etat ),
-			      "clicked",
-			      GTK_SIGNAL_FUNC ( impression_etat ),
-			      NULL );
-  gtk_widget_set_sensitive ( bouton_imprimer_etat,
+  gtk_widget_set_sensitive ( bouton_raffraichir_etat,
 			     FALSE );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
-		       bouton_imprimer_etat,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_imprimer_etat );
+  gtk_widget_show ( bouton_raffraichir_etat );
 
   /* on met le bouton exporter */
 
@@ -1104,11 +1088,8 @@ void ajout_etat ( void )
 
   gtk_widget_set_sensitive ( bouton_personnaliser_etat,
 			     TRUE );
-  /* FIXME: réactiver àca le jour ou on sort l'impression
-	mais de toutes faàons, àca sera mergé 
-  gtk_widget_set_sensitive ( bouton_imprimer_etat,
+  gtk_widget_set_sensitive ( bouton_raffraichir_etat,
 			     TRUE );
-  */
   gtk_widget_set_sensitive ( bouton_exporter_etat,
 			     TRUE );
   gtk_widget_set_sensitive ( bouton_dupliquer_etat,
@@ -1235,7 +1216,7 @@ void efface_etat ( void )
 			   "" );
       gtk_widget_set_sensitive ( bouton_personnaliser_etat,
 				 FALSE );
-      gtk_widget_set_sensitive ( bouton_imprimer_etat,
+      gtk_widget_set_sensitive ( bouton_raffraichir_etat,
 				 FALSE );
       gtk_widget_set_sensitive ( bouton_exporter_etat,
 				 FALSE );
@@ -1288,11 +1269,8 @@ void changement_etat ( GtkWidget *bouton,
   etat_courant = etat;
   gtk_widget_set_sensitive ( bouton_personnaliser_etat,
 			     TRUE );
-/* FIXME: réactiver àca le jour ou on sort l'impression
-	mais de toutes faàons, àca sera mergé 
-  gtk_widget_set_sensitive ( bouton_imprimer_etat,
+  gtk_widget_set_sensitive ( bouton_raffraichir_etat,
 			     TRUE );
-*/
   gtk_widget_set_sensitive ( bouton_exporter_etat,
 			     TRUE );
   gtk_widget_set_sensitive ( bouton_dupliquer_etat,
@@ -1656,11 +1634,8 @@ void dupliquer_etat ( void )
 
   gtk_widget_set_sensitive ( bouton_personnaliser_etat,
 			     TRUE );
-/* FIXME: réactiver àca le jour ou on sort l'impression
-	mais de toutes faàons, àca sera mergé 
-  gtk_widget_set_sensitive ( bouton_imprimer_etat,
+  gtk_widget_set_sensitive ( bouton_raffraichir_etat,
 			     TRUE );
-*/
   gtk_widget_set_sensitive ( bouton_exporter_etat,
 			     TRUE );
   gtk_widget_set_sensitive ( bouton_dupliquer_etat,

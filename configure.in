@@ -24,7 +24,7 @@ AC_CHECK_LIB(intl,main)
 
 AC_SUBST(prefix)
 
-PKG_CHECK_MODULES(GNOMELIBS, [ libgnome-2.0 libgnomeui-2.0 gtk+-2.0 glib-2.0 gdk-pixbuf-2.0 libxml libgnomeprint-2.2 ])
+PKG_CHECK_MODULES(GNOMELIBS, [ libgnome-2.0 libgnomeui-2.0 gtk+-2.0 glib-2.0 gdk-pixbuf-2.0 libxml ])
 CFLAGS="$CFLAGS $GNOMELIBS_CFLAGS"
 LDFLAGS="$LDFLAGS $GNOMELIBS_LIBS"
 

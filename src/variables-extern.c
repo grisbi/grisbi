@@ -647,7 +647,7 @@ extern GtkWidget *bouton_etat_courant;          /* adr du bouton de l'état en co
 extern struct struct_etat *etat_courant;
 extern GtkWidget *bouton_effacer_etat;
 extern GtkWidget *bouton_personnaliser_etat;
-extern GtkWidget *bouton_imprimer_etat;
+extern GtkWidget *bouton_raffraichir_etat;
 extern GtkWidget *bouton_exporter_etat;
 extern GtkWidget *bouton_importer_etat;
 extern GtkWidget *bouton_dupliquer_etat;
