@@ -746,14 +746,14 @@ void update_fleches_classement_tree_view ( gint no_compte )
 
 	    /*     on met la flèche sur le classement courant */
 
-	    gtk_tree_view_column_set_sort_indicator ( COLONNE_LISTE_OPERATIONS (COLONNE_CLASSEMENT),
-						      FALSE );
-	    gtk_tree_view_column_set_sort_indicator ( COLONNE_LISTE_OPERATIONS (colonne_classement),
-						      TRUE );
-	    COLONNE_CLASSEMENT = colonne_classement;
+/* 	    gtk_tree_view_column_set_sort_indicator ( COLONNE_LISTE_OPERATIONS (COLONNE_CLASSEMENT), */
+/* 						      FALSE ); */
+/* 	    gtk_tree_view_column_set_sort_indicator ( COLONNE_LISTE_OPERATIONS (colonne_classement), */
+/* 						      TRUE ); */
+/* 	    COLONNE_CLASSEMENT = colonne_classement; */
 
-	    gtk_tree_view_column_set_sort_order ( COLONNE_LISTE_OPERATIONS (colonne_classement),
-						  !CLASSEMENT_CROISSANT );
+/* 	    gtk_tree_view_column_set_sort_order ( COLONNE_LISTE_OPERATIONS (colonne_classement), */
+/* 						  !CLASSEMENT_CROISSANT ); */
 	}
     }
 }
@@ -4689,7 +4689,8 @@ void mise_a_jour_affichage_lignes ( gint nb_lignes )
 	    while ( iter_valide )
 	    {
 		struct structure_operation *operation;
-
+		if (DEBUG)
+		  printf (">>> iter_valid\n");
 		operation = operation_from_iter ( iter,
 						  i );
 
@@ -4867,6 +4868,7 @@ void mise_a_jour_affichage_lignes ( gint nb_lignes )
     demarrage_idle ();
 
     modification_fichier ( TRUE );
+    printf (">>> PLOP\n");
 }
 /******************************************************************************/
 

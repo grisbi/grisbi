@@ -81,8 +81,11 @@ gboolean recuperation_donnees_gnucash ( gchar * filename )
 	    }
 	  else if ( node_strcmp(root_node, "account") )
 	    {
-	      if ( !strcmp(child_content(root_node, "type"), "BANK") )
+	      gchar * type = child_content(root_node, "type");
+	      if ( strcmp(type, "INCOME") && strcmp(type, "EXPENSES") &&
+		   strcmp(type, "EQUITY"),  )
 		{
+		  /* Ce n'est pas un compte de catégories */
 		  recuperation_donnees_gnucash_compte ( root_node );
 		}
 	      else
@@ -138,18 +141,31 @@ void recuperation_donnees_gnucash_book ( xmlNodePtr book_node )
 void recuperation_donnees_gnucash_compte ( xmlNodePtr compte_node )
 {
   struct struct_compte_importation *compte;
+  gchar * type = child_content ( compte_node, "type" );
+
 
   compte = calloc ( 1, sizeof ( struct struct_compte_importation ));
 
   /* Gnucash import */
   compte -> origine = GNUCASH_IMPORT;
 
-  printf (">>> new account: %s, devise %s\n", 
-	  child_content ( compte_node, "name" ),
-	  get_currency ( get_child(compte_node, "commodity") ) );
+  if ( !strcmp(type, "BANK") || !strcmp(type, "CREDIT") ) 
+    {
+      compte -> type_de_compte = 0; /* Bank */
+    }
+  else if ( !strcmp(type, "CASH") || !strcmp(type, "CURRENCY") ) 
+    {
+      compte -> type_de_compte = 1; /* Currency */
+    }
+  else if ( !strcmp(type, "ASSET") || !strcmp(type, "STOCK") || !strcmp(type, "MUTUAL") ) 
+    {
+      compte -> type_de_compte = 0; /* Asset */
+    }
+  else if ( !strcmp(type, "LIABILITY") ) 
+    {
+      compte -> type_de_compte = 0; /* Liability */
+    }
 
-  /** FIXME: be sure there are no other sorts + write enum */
-  compte -> type_de_compte = 0;
   compte -> nom_de_compte = child_content ( compte_node, "name" );
   compte -> solde = 0;
   compte -> devise = get_currency ( get_child(compte_node, "commodity") );
@@ -199,8 +215,6 @@ void recuperation_donnees_gnucash_categorie ( xmlNodePtr categ_node )
       categ -> type = GNUCASH_CATEGORY_EXPENSE;
     }
 
-  printf (">>> new categ: %s\n", categ -> name );
-
   gnucash_categories = g_slist_append ( gnucash_categories, categ );
 }
 
@@ -209,7 +223,7 @@ void recuperation_donnees_gnucash_categorie ( xmlNodePtr categ_node )
 void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 {
   struct struct_ope_importation * transaction;
-  struct struct_compte_importation * account;
+  struct struct_compte_importation * account = NULL;
   struct gnucash_category * categ;
   gchar * date, *space;
   xmlNodePtr splits, split_node, date_node;
@@ -218,7 +232,6 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
   transaction = calloc ( 1, sizeof ( struct struct_ope_importation ));
   transaction -> id_operation = child_content ( transaction_node, "id" );
   transaction -> tiers = child_content ( transaction_node, "description" );
-  
 
   /* Transaction date */
   date_node = get_child ( transaction_node, "date-posted" );
@@ -234,25 +247,62 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
   /* Transaction ammount, category, account, etc.. */
   splits = get_child ( transaction_node, "splits" );
   split_node = splits -> children;
+
   while ( split_node )
     {
-      if ( node_strcmp ( split_node, "split") )
+      struct struct_compte_importation * split_account = NULL; 
+      if ( node_strcmp ( split_node, "split" ) )
 	{
-	  account = find_imported_account_by_uid ( child_content(split_node, "account") );
-	  if ( account )
-	    {
-	      account -> operations_importees = 
-		g_slist_append ( account -> operations_importees, transaction );
-	      transaction -> montant = gnucash_value ( child_content(split_node, "value") );
-	      transaction -> notes = child_content(split_node, "memo");
-	      if ( !strcmp(child_content(split_node, "reconciled-state"), "y") )
-		transaction -> p_r = OPERATION_RAPPROCHEE;
+	  split_account = find_imported_account_by_uid (child_content(split_node, "account"));
+	  if ( split_account )
+	    {			
+	      /* This split is about a real account. */
+	      if ( account )
+		{
+		  /* First split was about a real account, this is then a transfer. */
+		  struct struct_compte_importation * contra_account;
+		  struct struct_ope_importation * contra_transaction;
+
+		  contra_account = split_account;
+		  contra_transaction = calloc ( 1, sizeof ( struct struct_ope_importation ));
+		  contra_transaction -> montant = gnucash_value ( child_content(split_node, "value") );
+		  printf (">>> amount : %f\n", contra_transaction -> montant);
+		  contra_transaction -> notes = child_content(split_node, "memo");
+		  if ( !strcmp(child_content(split_node, "reconciled-state"), "y") )
+		    contra_transaction -> p_r = OPERATION_RAPPROCHEE;
+
+		  transaction -> categ = g_strconcat ( _("Transfer"), " : ", 
+						       contra_account -> nom_de_compte, NULL);
+		  contra_transaction -> categ = g_strconcat ( _("Transfer"), " : ", 
+							      account -> nom_de_compte, NULL);
+		  contra_transaction -> date = transaction -> date;
+
+		  contra_account -> operations_importees = g_slist_append ( contra_account -> operations_importees, contra_transaction );
+		}
+	      else 
+		{
+		  /* This is the first split */
+		  account = split_account;
+		  account -> operations_importees = g_slist_append ( account -> operations_importees, transaction );
+		  transaction -> montant = gnucash_value ( child_content(split_node, "value") );
+		  transaction -> notes = child_content(split_node, "memo");
+		  if ( !strcmp(child_content(split_node, "reconciled-state"), "y") )
+		    transaction -> p_r = OPERATION_RAPPROCHEE;
+		}
 	    }
-	  else 
+	  else
 	    {
-	      /* This is a category, then */
+	      /* This is a category split */
 	      categ = find_imported_categ_by_uid ( child_content(split_node, "account") );
-	      transaction -> categ = categ -> name;
+	      if ( categ )
+		{
+		  /* This is a normal transaction with a category */
+		  transaction -> categ = categ -> name;
+		}
+	      else
+		{
+		  /* Something is wrong. */
+		}
 	    }
 	}
 
@@ -264,7 +314,6 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 
 gchar * get_currency ( xmlNodePtr currency_node )
 {
-  /** FIXME: detail how it works */
   return child_content ( currency_node, "id" );
 }
 
