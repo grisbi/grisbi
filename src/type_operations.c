@@ -1469,7 +1469,7 @@ gint cherche_no_menu_type ( gint demande )
 gint cherche_no_menu_type_associe ( gint demande,
 				    gint origine )
 {
-    GList *liste_tmp;
+    GList *liste_tmp = NULL;
     gint retour;
     gint i;
 
@@ -1477,9 +1477,17 @@ gint cherche_no_menu_type_associe ( gint demande,
 	return ( FALSE );
 
     if ( origine )
-	liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CONTRA] ) -> menu ) -> children;
+      {
+	GtkWidget * menu = GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_BREAKDOWN_FORM_CONTRA] ) -> menu;
+	if ( menu )
+	  liste_tmp = GTK_MENU_SHELL ( menu ) -> children;
+      }
     else
-	liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_CONTRA] ) -> menu ) -> children;
+      {
+	GtkWidget * menu = GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_CONTRA] ) -> menu;
+	if ( menu )
+	  liste_tmp = GTK_MENU_SHELL ( menu ) -> children;
+      }
 
     retour = -1;
     i=0;
