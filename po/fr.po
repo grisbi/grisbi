@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: en\n"
 "POT-Creation-Date: 2003-11-18 17:59+0100\n"
-"PO-Revision-Date: 2003-11-18 18:02GMT\n"
+"PO-Revision-Date: 2003-11-19 12:08GMT\n"
 "Last-Translator: Alain PORTAL <aportal@univ-montp2.fr>\n"
 "Language-Team:  <traduction@grisbi.org>\n"
 "MIME-Version: 1.0\n"
@@ -108,8 +108,7 @@ msgstr ""
 
 #: src/accueil.c:1442
 #, c-format
-msgid ""
-"Warning, the balance of the account %s  is under the authorised minimum!"
+msgid "Warning, the balance of the account %s  is under the authorised minimum!"
 msgstr "Attention, le compte %s est passé sous le seuil minimal autorisé !"
 
 #: src/accueil.c:1492
@@ -377,8 +376,7 @@ msgstr "Ajuster la taille des colonnes selon le tableau ci-dessus"
 #. on permet maintenant de choisir soi même la taille des colonnes
 #: src/affichage_liste.c:207
 msgid "Remember display settings for each account separately"
-msgstr ""
-"Retenir les caractéristiques de l'affichage séparément pour chaque compte"
+msgstr "Retenir les caractéristiques de l'affichage séparément pour chaque compte"
 
 #: src/affichage_liste.c:233
 msgid "Display for a line the"
@@ -1221,7 +1219,7 @@ msgstr "Passer ce compte à l'euro"
 
 #: src/comptes_gestion.c:267
 msgid "Closed account"
-msgstr "Compte clôturé"
+msgstr "Compte clos"
 
 #: src/comptes_gestion.c:325
 msgid "Account holder"
@@ -1404,7 +1402,7 @@ msgstr ""
 "\n"
 "\n"
 "(Attention, il s'agit d'une suppression définitive !\n"
-" Pour clôturer un compte, il faut\n"
+" Pour clore un compte, il faut\n"
 "aller dans le détail du compte concerné.)"
 
 #: src/comptes_traitements.c:584
@@ -2195,8 +2193,7 @@ msgstr "Inclure les virements de ou vers les comptes d'actif et de passif"
 
 #: src/etats_config.c:2651
 msgid "Include transfers from or to accounts not in this report"
-msgstr ""
-"Inclure les virements de ou vers les comptes ne figurant pas dans l'état"
+msgstr "Inclure les virements de ou vers les comptes ne figurant pas dans l'état"
 
 #: src/etats_config.c:2664
 msgid "Include transfers from or to these accounts"
@@ -2522,8 +2519,7 @@ msgstr "Afficher le nombre d'opérations avec les totaux"
 
 #: src/etats_config.c:6421
 msgid "Consider the third parties of this report as a multiple third party."
-msgstr ""
-"Inclure cet état dans la liste des tiers du formulaire de saisie d'opération."
+msgstr "Inclure cet état dans la liste des tiers du formulaire de saisie d'opération."
 
 #: src/etats_config.c:6497
 msgid "Display the information about"
@@ -3076,8 +3072,7 @@ msgstr ""
 #. etat vierge
 #: src/etats_onglet.c:1160
 msgid "This report is an empty one. You need to customise it entirely."
-msgstr ""
-"Cette option crée un état vierge dans lequel vous devez tout configurer."
+msgstr "Cette option crée un état vierge dans lequel vous devez tout configurer."
 
 #. remise de chèques
 #: src/etats_onglet.c:1166
@@ -3437,13 +3432,11 @@ msgstr ""
 
 #: src/fichiers_io.c:1739
 msgid "breakdown transactions, all of them were deleted.\n"
-msgstr ""
-" opérations de ventilations orphelines qui ont été simplement supprimées.\n"
+msgstr " opérations de ventilations orphelines qui ont été simplement supprimées.\n"
 
 #: src/fichiers_io.c:1745
 msgid "transfers without contra-transaction, which categories were deleted.\n"
-msgstr ""
-" virements sans contre-opération, dont les catégories ont été annulées.\n"
+msgstr " virements sans contre-opération, dont les catégories ont été annulées.\n"
 
 #: src/fichiers_io.c:1749
 msgid ""
@@ -3754,7 +3747,7 @@ msgstr "Créer un nouveau compte"
 
 #: src/menu.c:50
 msgid "Closed accounts"
-msgstr "Comptes cloturés"
+msgstr "Comptes clos"
 
 #: src/menu.c:57 src/menu.c:58 src/parametres.c:53
 msgid "Main"
@@ -3839,7 +3832,7 @@ msgstr "Fichier/Derniers fichiers/"
 #: src/operations_comptes.c:147 src/operations_comptes.c:464
 #: src/operations_comptes.c:509
 msgid "Accounts/Closed accounts/"
-msgstr "Comptes/Comptes cloturés/"
+msgstr "Comptes/Comptes clos/"
 
 #: src/operations_comptes.c:188 src/operations_comptes.c:192
 msgid "Last statement"
@@ -3886,8 +3879,7 @@ msgstr "Récupération des ventilations ?"
 
 #: src/operations_formulaire.c:2165
 msgid "Do you want to recover all the lines of the last breakdown?"
-msgstr ""
-"Voulez-vous récupérer aussi les opérations de la dernière ventilation ?"
+msgstr "Voulez-vous récupérer aussi les opérations de la dernière ventilation ?"
 
 #: src/operations_formulaire.c:2426 src/operations_formulaire.c:2870
 #: src/tiers_onglet.c:1414
@@ -4042,8 +4034,7 @@ msgstr "Forcer l'enregistrement"
 
 #: src/parametres.c:634
 msgid "Save only if the file isn't open by another user"
-msgstr ""
-"N'enregistrer que si le fichier n'est pas utilisé par un autre utilisateur"
+msgstr "N'enregistrer que si le fichier n'est pas utilisé par un autre utilisateur"
 
 #. mise en forme de la demande de backup
 #: src/parametres.c:689
@@ -4073,8 +4064,7 @@ msgstr "Niveau de compression de la sauvegarde"
 
 #. configuration du nb de jours avant la prise d'une échéance
 #: src/parametres.c:944
-msgid ""
-"Number of days before a warning message advertising a scheduled transaction"
+msgid "Number of days before a warning message advertising a scheduled transaction"
 msgstr "Nombre de jours précédant le rappel d'une échéance"
 
 #. affichage ou non de l'applet
@@ -4165,8 +4155,7 @@ msgstr ""
 
 #: src/qif.c:975
 msgid "Problem recovering the dates in the QIF file. Import canceled."
-msgstr ""
-"Problème dans la récupération des dates du fichier QIF. Opération annulée."
+msgstr "Problème dans la récupération des dates du fichier QIF. Opération annulée."
 
 #. création des listes d'opé
 #: src/qif.c:1304
@@ -4413,3 +4402,4 @@ msgstr ""
 
 #~ msgid "(On line illustrated User's guide)"
 #~ msgstr "(Documentation illustrée sur le site de Grisbi)"
+
