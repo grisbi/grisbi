@@ -1060,9 +1060,9 @@ void cree_liens_virements_ope_import ( void )
 		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + j;
 
 		    if ( ( !g_strcasecmp ( g_strconcat ( "[", NOM_DU_COMPTE, "]", NULL ),
-					   g_strstrip ( operation -> info_banque_guichet ))) ||
+					   g_strstrip ( g_strdup ( operation -> info_banque_guichet )))) ||
 			 ( !g_strcasecmp ( g_strconcat ( NOM_DU_COMPTE ),
-					   g_strstrip ( operation -> info_banque_guichet ))) )
+					   g_strstrip ( g_strdup ( operation -> info_banque_guichet )))))
 			 
 			compte_trouve = j;
 		}
@@ -1100,9 +1100,9 @@ void cree_liens_virements_ope_import ( void )
 			     operation_2 -> info_banque_guichet
 			     &&
 			     (!g_strcasecmp ( g_strconcat ("[", nom_compte_courant, "]", NULL),
-					      g_strstrip ( operation_2 -> info_banque_guichet )) ||
+					      g_strstrip ( g_strdup ( operation_2 -> info_banque_guichet ))) ||
 			      !g_strcasecmp ( nom_compte_courant,
-					      g_strstrip ( operation_2 -> info_banque_guichet )))
+					      g_strstrip ( g_strdup ( operation_2 -> info_banque_guichet ))))
 			     &&
 			     ( !same_currency || fabs ( operation -> montant ) == fabs ( operation_2 -> montant ))
 			     &&
