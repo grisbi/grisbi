@@ -656,9 +656,9 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
-			if ( TYPE_DE_COMPTE != 2
+			if ( TYPE_DE_COMPTE != GSB_TYPE_PASSIF
 			     &&
-			     TYPE_DE_COMPTE != 3 )
+			     TYPE_DE_COMPTE != GSB_TYPE_ACTIF )
 			    goto operation_refusee;
 
 			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i; 

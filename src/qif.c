@@ -1074,13 +1074,13 @@ choix_liste_fichier:
 
 	    /* met le type de compte */
 
-	    if ( TYPE_DE_COMPTE == 1 )
+	    if ( TYPE_DE_COMPTE == GSB_TYPE_ESPECE )
 		fprintf ( fichier_qif,
 			  "!Type:Cash\n" );
 	    else
-		if ( TYPE_DE_COMPTE == 2
+		if ( TYPE_DE_COMPTE == GSB_TYPE_PASSIF
 		     ||
-		     TYPE_DE_COMPTE == 3 )
+		     TYPE_DE_COMPTE == GSB_TYPE_ACTIF )
 		    fprintf ( fichier_qif,
 			      "!Type:Oth L\n" );
 		else

@@ -193,12 +193,20 @@ struct structure_operation
 };
 
 
+/* Definitions des types et structures relatifs à donnees_comptes */
+enum _type_compte_t {
+	GSB_TYPE_BANCAIRE  = 0,
+	GSB_TYPE_ESPECE    = 1,
+	GSB_TYPE_PASSIF    = 2,
+	GSB_TYPE_ACTIF     = 3
+};
+typedef enum _type_compte_t   type_compte_t;
 
 struct donnees_compte
 {
     gint no_compte;
     gchar *id_compte;            /*cet id est rempli lors d'un import ofx, il est invisible à l'utilisateur*/
-    gint type_de_compte;          /* 0 = bancaire, 1 = espèce, 2 = passif, 3= actif */
+    type_compte_t   type_de_compte;          /* 0 = bancaire, 1 = espèce, 2 = passif, 3= actif */
     gchar *nom_de_compte;
     gdouble solde_initial;
     gdouble solde_mini_voulu;

@@ -565,13 +565,13 @@ void update_liste_comptes_accueil ( void )
     {
 	if ( !COMPTE_CLOTURE )
 	{
-	    if ( TYPE_DE_COMPTE == 3 )
+	    if ( TYPE_DE_COMPTE == GSB_TYPE_ACTIF )
 	    {
 		nb_comptes_actif++;
 	    }
 	    else
 	    {
-		if ( TYPE_DE_COMPTE == 2 )
+		if ( TYPE_DE_COMPTE == GSB_TYPE_PASSIF )
 		{
 		    nb_comptes_passif++;
 		}
@@ -596,8 +596,8 @@ void update_liste_comptes_accueil ( void )
 	{
 	    if ( DEVISE == ((struct struct_devise *) devise -> data) -> no_devise
 		 && ! COMPTE_CLOTURE
-		 && ( TYPE_DE_COMPTE == 0
-		      || TYPE_DE_COMPTE == 1 ))
+		 && ( TYPE_DE_COMPTE == GSB_TYPE_BANCAIRE
+		      || TYPE_DE_COMPTE == GSB_TYPE_ESPECE ))
 		devise_is_used = 1;
 	    p_tab_nom_de_compte_variable++;	  
 	}
@@ -638,8 +638,8 @@ void update_liste_comptes_accueil ( void )
 
 	    if ( !COMPTE_CLOTURE &&
 		 DEVISE == ((struct struct_devise *) devise -> data) -> no_devise
-		 && TYPE_DE_COMPTE != 2
-		 && TYPE_DE_COMPTE != 3 )
+		 && TYPE_DE_COMPTE != GSB_TYPE_PASSIF
+		 && TYPE_DE_COMPTE != GSB_TYPE_ACTIF )
 	    {
 		/* Première colonne : vide */
 		pLabel = gtk_label_new ( g_strconcat ( (gchar *) NOM_DU_COMPTE, " : ", NULL ));
@@ -882,7 +882,7 @@ void update_liste_comptes_accueil ( void )
 	{
 	    if ( DEVISE == ((struct struct_devise *) devise -> data) -> no_devise
 		 && ! COMPTE_CLOTURE
-		 && TYPE_DE_COMPTE == 2 )
+		 && TYPE_DE_COMPTE == GSB_TYPE_PASSIF )
 		devise_is_used = 1;
 	    p_tab_nom_de_compte_variable++;	  
 	}
@@ -923,7 +923,7 @@ void update_liste_comptes_accueil ( void )
 
 	    if ( !COMPTE_CLOTURE &&
 		 DEVISE == ((struct struct_devise *) devise -> data) -> no_devise &&
-		 TYPE_DE_COMPTE == 2 )
+		 TYPE_DE_COMPTE == GSB_TYPE_PASSIF )
 	    {
 		/* Première colonne : vide */
 		pLabel = gtk_label_new ( g_strconcat ( (gchar *) NOM_DU_COMPTE, " : ", NULL ));
@@ -1203,7 +1203,7 @@ void update_liste_comptes_accueil ( void )
 	{
 	    if ( DEVISE == ((struct struct_devise *) devise -> data) -> no_devise &&
 		 !COMPTE_CLOTURE &&
-		 TYPE_DE_COMPTE == 3 )
+		 TYPE_DE_COMPTE == GSB_TYPE_ACTIF )
 		devise_is_used = 1;
 	    p_tab_nom_de_compte_variable++;	  
 	}
@@ -1244,7 +1244,7 @@ void update_liste_comptes_accueil ( void )
 
 	    if ( !COMPTE_CLOTURE &&
 		 DEVISE == ((struct struct_devise *) devise -> data) -> no_devise &&
-		 TYPE_DE_COMPTE == 3 )
+		 TYPE_DE_COMPTE == GSB_TYPE_ACTIF )
 	    {
 		/* Première colonne : vide */
 		pLabel = gtk_label_new ( g_strconcat ( (gchar *) NOM_DU_COMPTE, " : ", NULL ));
@@ -1841,7 +1841,7 @@ void update_soldes_minimaux ( void )
 	solde_mini_voulu = rint ( SOLDE_MINI_VOULU * 100 );
 
 
-	if ( solde_courant < solde_mini && TYPE_DE_COMPTE != 2 )
+	if ( solde_courant < solde_mini && TYPE_DE_COMPTE != GSB_TYPE_PASSIF )
 	{
 	    if ( !vbox_1 )
 	    {
@@ -1858,8 +1858,8 @@ void update_soldes_minimaux ( void )
 	    show_paddingbox ( frame_etat_soldes_minimaux_autorises );
 	}
 
-	if ( solde_courant < solde_mini_voulu && TYPE_DE_COMPTE != 2 &&
-	     solde_courant > solde_mini && TYPE_DE_COMPTE != 2)
+	if ( solde_courant < solde_mini_voulu && TYPE_DE_COMPTE != GSB_TYPE_PASSIF &&
+	     solde_courant > solde_mini && TYPE_DE_COMPTE != GSB_TYPE_PASSIF)
 	{
 	    if ( !vbox_2 )
 	    {
@@ -1929,7 +1929,7 @@ void affiche_dialogue_soldes_minimaux ( void )
 
 	if ( solde_courant < solde_mini
 	     &&
-	     TYPE_DE_COMPTE != 2
+	     TYPE_DE_COMPTE != GSB_TYPE_PASSIF
 	     &&
 	     !MESSAGE_SOUS_MINI
 	     &&
@@ -1953,7 +1953,7 @@ void affiche_dialogue_soldes_minimaux ( void )
 	     &&
 	     solde_courant > solde_mini
 	     &&
-	     TYPE_DE_COMPTE != 2
+	     TYPE_DE_COMPTE != GSB_TYPE_PASSIF
 	     &&
 	     !MESSAGE_SOUS_MINI_VOULU
 	     &&
@@ -2089,7 +2089,7 @@ void update_fin_comptes_passifs ( void )
 
     for ( i = 0 ; i < nb_comptes ; i++ )
     {
-	if ( TYPE_DE_COMPTE == 2 &&
+	if ( TYPE_DE_COMPTE == GSB_TYPE_PASSIF &&
 	     SOLDE_COURANT >= 0 )
 	    liste_tmp = g_slist_append ( liste_tmp, NOM_DU_COMPTE );
 

@@ -105,7 +105,7 @@ extern GtkWidget *window_vbox_principale;
 /* ************************************************************************************************************ */
 void nouveau_fichier ( void )
 {
-    gint type_de_compte;
+    type_compte_t type_de_compte;
     gint no_compte;
 
     /*   si la fermeture du fichier en cours se passe mal, on se barre */
