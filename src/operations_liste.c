@@ -2218,9 +2218,6 @@ void changement_taille_liste_ope ( GtkWidget *clist,
 	 allocation_encore_avant )
 	return;
 
-     printf ( "%d %d\n", allocation -> width, allocation_precedente );
-
-
      allocation_precedente = allocation_encore_avant;
      allocation_encore_avant = allocation -> width;
 
