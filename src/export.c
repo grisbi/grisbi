@@ -146,6 +146,7 @@ void signal_toggle_account_entry(GtkWidget* check_button,GtkWidget* account_entr
 static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint selected_format)
 {/* {{{ */
     GtkWidget *dialog, *table, *account_entry, *check_button, *paddingbox;
+    gchar *filename;
 
     export_format* format = g_slist_nth_data(format_list,selected_format);
     int i = 0;
@@ -186,13 +187,14 @@ static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint
 	gtk_widget_show ( check_button );
 
 	account_entry = gtk_entry_new ();
-	gtk_entry_set_text ( GTK_ENTRY ( account_entry ),
-			     g_strconcat ( nom_fichier_comptes,
-					   "_",
-					   g_strdelimit ( safe_file_name(NOM_DU_COMPTE),
-							  " ", '_' ),
-					   g_strdup(format->extension),
-					   NULL ));
+	filename = g_strconcat ( nom_fichier_comptes,
+				 "_",
+				 g_strdelimit ( safe_file_name(NOM_DU_COMPTE),
+						" ", '_' ),
+				 g_strdup(format->extension),
+				 NULL );
+	gtk_entry_set_text ( GTK_ENTRY ( account_entry ), filename );
+	gtk_entry_set_width_chars ( GTK_ENTRY ( account_entry ), g_utf8_strlen( filename, -1));
 	gtk_widget_set_sensitive ( account_entry,
 				   FALSE );
 	gtk_object_set_data ( GTK_OBJECT ( account_entry ),
@@ -220,6 +222,7 @@ static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint
 
     g_selected_entries = NULL;
     gtk_widget_show_all ( dialog );
+    free ( filename );
     return (dialog);
 
 } /* }}} export_accounts_selection_dialog_new */
