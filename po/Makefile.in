@@ -20,7 +20,7 @@ srcdir = .
 top_srcdir = ..
 
 
-prefix = /tmp
+prefix = /usr/local
 exec_prefix = ${prefix}
 datadir = ${prefix}/share
 localedir = $(datadir)/locale
@@ -34,7 +34,7 @@ mkinstalldirs = $(SHELL) `case "$(MKINSTALLDIRS)" in /*) echo "$(MKINSTALLDIRS)"
 CC = gcc
 GMSGFMT = /usr/bin/msgfmt
 MSGFMT = /usr/bin/msgfmt
-XGETTEXT = :
+XGETTEXT = /usr/bin/xgettext
 MSGMERGE = msgmerge
 
 DEFS = -DHAVE_CONFIG_H
@@ -45,14 +45,14 @@ INCLUDES = -I.. -I$(top_srcdir)/intl
 
 COMPILE = $(CC) -c $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS) $(XCFLAGS)
 
-POFILES = @POFILES@
-GMOFILES = @GMOFILES@
+POFILES =  en.po
+GMOFILES =  en.gmo
 DISTFILES = ChangeLog Makefile.in.in POTFILES.in $(PACKAGE).pot \
 $(POFILES) $(GMOFILES)
 
 POTFILES = \
 
-CATALOGS = @CATALOGS@
+CATALOGS =  en.gmo
 
 .SUFFIXES:
 .SUFFIXES: .c .o .po .pox .gmo .mo

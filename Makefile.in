@@ -60,6 +60,7 @@ POST_UNINSTALL = :
 host_alias = @host_alias@
 host_triplet = @host@
 BUILD_INCLUDED_LIBINTL = @BUILD_INCLUDED_LIBINTL@
+CATALOGS = @CATALOGS@
 CATOBJEXT = @CATOBJEXT@
 CC = @CC@
 CFLAGS = @CFLAGS@
@@ -68,6 +69,7 @@ EXTRA_GNOME_CFLAGS = @EXTRA_GNOME_CFLAGS@
 EXTRA_GNOME_LIBS = @EXTRA_GNOME_LIBS@
 GENCAT = @GENCAT@
 GLIBC21 = @GLIBC21@
+GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
 GNOMEGNORBA_LIBS = @GNOMEGNORBA_LIBS@
 GNOMEUI_LIBS = @GNOMEUI_LIBS@
@@ -86,26 +88,23 @@ GTKXMHTML_LIBS = @GTKXMHTML_LIBS@
 GTK_CFLAGS = @GTK_CFLAGS@
 GTK_CONFIG = @GTK_CONFIG@
 GTK_LIBS = @GTK_LIBS@
-HAVE_LIB = @HAVE_LIB@
 INSTOBJEXT = @INSTOBJEXT@
 INTLBISON = @INTLBISON@
 INTLLIBS = @INTLLIBS@
 INTLOBJS = @INTLOBJS@
 INTL_LIBTOOL_SUFFIX_PREFIX = @INTL_LIBTOOL_SUFFIX_PREFIX@
 LDFLAGS = @LDFLAGS@
-LIB = @LIB@
 LIBICONV = @LIBICONV@
-LIBINTL = @LIBINTL@
-LTLIB = @LTLIB@
-LTLIBICONV = @LTLIBICONV@
-LTLIBINTL = @LTLIBINTL@
+MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
 MKINSTALLDIRS = @MKINSTALLDIRS@
+MSGFMT = @MSGFMT@
 ORBIT_CFLAGS = @ORBIT_CFLAGS@
 ORBIT_CONFIG = @ORBIT_CONFIG@
 ORBIT_IDL = @ORBIT_IDL@
 ORBIT_LIBS = @ORBIT_LIBS@
 PACKAGE = @PACKAGE@
+POFILES = @POFILES@
 POSUB = @POSUB@
 PTHREAD_LIB = @PTHREAD_LIB@
 RANLIB = @RANLIB@
@@ -139,19 +138,19 @@ TAR = tar
 GZIP_ENV = --best
 all: all-redirect
 .SUFFIXES:
-$(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
 	cd $(top_builddir) \
 	  && CONFIG_FILES=$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
-$(ACLOCAL_M4):  configure.in 
+$(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ configure.in 
 	cd $(srcdir) && $(ACLOCAL)
 
 config.status: $(srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	$(SHELL) ./config.status --recheck
-$(srcdir)/configure: $(srcdir)/configure.in $(ACLOCAL_M4) $(CONFIGURE_DEPENDENCIES)
+$(srcdir)/configure: @MAINTAINER_MODE_TRUE@$(srcdir)/configure.in $(ACLOCAL_M4) $(CONFIGURE_DEPENDENCIES)
 	cd $(srcdir) && $(AUTOCONF)
 
 config.h: stamp-h
@@ -164,7 +163,7 @@ stamp-h: $(srcdir)/config.h.in $(top_builddir)/config.status
 	  && CONFIG_FILES= CONFIG_HEADERS=config.h \
 	     $(SHELL) ./config.status
 	@echo timestamp > stamp-h 2> /dev/null
-$(srcdir)/config.h.in: $(srcdir)/stamp-h.in
+$(srcdir)/config.h.in: @MAINTAINER_MODE_TRUE@$(srcdir)/stamp-h.in
 	@if test ! -f $@; then \
 		rm -f $(srcdir)/stamp-h.in; \
 		$(MAKE) $(srcdir)/stamp-h.in; \

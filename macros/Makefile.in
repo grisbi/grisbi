@@ -60,6 +60,7 @@ POST_UNINSTALL = :
 host_alias = @host_alias@
 host_triplet = @host@
 BUILD_INCLUDED_LIBINTL = @BUILD_INCLUDED_LIBINTL@
+CATALOGS = @CATALOGS@
 CATOBJEXT = @CATOBJEXT@
 CC = @CC@
 CFLAGS = @CFLAGS@
@@ -68,6 +69,7 @@ EXTRA_GNOME_CFLAGS = @EXTRA_GNOME_CFLAGS@
 EXTRA_GNOME_LIBS = @EXTRA_GNOME_LIBS@
 GENCAT = @GENCAT@
 GLIBC21 = @GLIBC21@
+GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
 GNOMEGNORBA_LIBS = @GNOMEGNORBA_LIBS@
 GNOMEUI_LIBS = @GNOMEUI_LIBS@
@@ -86,26 +88,23 @@ GTKXMHTML_LIBS = @GTKXMHTML_LIBS@
 GTK_CFLAGS = @GTK_CFLAGS@
 GTK_CONFIG = @GTK_CONFIG@
 GTK_LIBS = @GTK_LIBS@
-HAVE_LIB = @HAVE_LIB@
 INSTOBJEXT = @INSTOBJEXT@
 INTLBISON = @INTLBISON@
 INTLLIBS = @INTLLIBS@
 INTLOBJS = @INTLOBJS@
 INTL_LIBTOOL_SUFFIX_PREFIX = @INTL_LIBTOOL_SUFFIX_PREFIX@
 LDFLAGS = @LDFLAGS@
-LIB = @LIB@
 LIBICONV = @LIBICONV@
-LIBINTL = @LIBINTL@
-LTLIB = @LTLIB@
-LTLIBICONV = @LTLIBICONV@
-LTLIBINTL = @LTLIBINTL@
+MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
 MKINSTALLDIRS = @MKINSTALLDIRS@
+MSGFMT = @MSGFMT@
 ORBIT_CFLAGS = @ORBIT_CFLAGS@
 ORBIT_CONFIG = @ORBIT_CONFIG@
 ORBIT_IDL = @ORBIT_IDL@
 ORBIT_LIBS = @ORBIT_LIBS@
 PACKAGE = @PACKAGE@
+POFILES = @POFILES@
 POSUB = @POSUB@
 PTHREAD_LIB = @PTHREAD_LIB@
 RANLIB = @RANLIB@
@@ -141,7 +140,7 @@ TAR = tar
 GZIP_ENV = --best
 all: all-redirect
 .SUFFIXES:
-$(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu macros/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
@@ -254,8 +253,8 @@ installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 
-macros.dep: Makefile.am
-	@echo '$$(top_srcdir)/aclocal.m4: $(MACROS:%=macros/%)' > $@
+@MAINT@macros.dep: Makefile.am
+@MAINT@	@echo '$$(top_srcdir)/aclocal.m4: $(MACROS:%=macros/%)' > $@
 
 @INSIDE_GNOME_COMMON_TRUE@gnome-macros.dep: Makefile.am
 @INSIDE_GNOME_COMMON_TRUE@	@echo '$$(top_srcdir)/aclocal.m4: $(MACROS:%=$(gnome_aclocaldir)/%)' > $@
