@@ -25,6 +25,8 @@
 #include "variables-extern.c"
 #include "en_tete.h"
 
+gint classement_sliste_par_date_rp ( struct structure_operation *pTransaction1,
+				     struct structure_operation *pTransaction2 );
 
 /* ********************************************************************************************************** */
 /* Fonction par défaut : par ordre de date */
@@ -240,8 +242,8 @@ gint classement_sliste ( struct structure_operation *operation_1,
     result = classement_sliste_par_tri_courant ( operation_1,
 						 operation_2 );
   else
-    result = classement_sliste_par_date ( operation_1,
-					  operation_2 );
+    result = classement_sliste_par_date_rp ( operation_1,
+					     operation_2 );
 
   p_tab_nom_de_compte_variable = save_ptab;
 
@@ -301,99 +303,101 @@ gint classement_sliste_par_date ( struct structure_operation *operation_1,
 }
 /* ********************************************************************************************************** */
 
+/* ************************************************************************** */
+/* Fonction par défaut : par ordre de date en tenant compte de l'état         */
+/* (pointé, rapproché) des opérations. Les opérations rapprochées seront      */
+/* toujours classées en premier, suivies par les opérations pointées, puis    */
+/* par les opérations qui ne sont ni l'une, ni l'autre.                       */
+/* ************************************************************************** */
+gint classement_sliste_par_date_rp ( struct structure_operation *pTransaction1,
+				     struct structure_operation *pTransaction2 )
+{
+  gint sort_result;
 
+  /* si l'opération 1 est rapprochée alors que l'opération 2 ne l'est pas,
+     ou si l'opération 1 est pointée et l'opération 2 n'est ni pointée, ni
+     rapprochée, alors on dit que l'opération 1 est antérieure */
+  if ( ( pTransaction1 -> pointe == 2 && pTransaction2 -> pointe != 2 )
+       || ( pTransaction1 -> pointe == 1 && pTransaction2 -> pointe == 0 ))
+    {
+     sort_result = -1;
+    }
+  else
+    {
+     /* même raisonnement que ci-dessus, sauf que l'on interverti opération 1
+	et opération 2 */
+     if ( ( pTransaction2 -> pointe == 2 && pTransaction1 -> pointe != 2 )
+	|| ( pTransaction2 -> pointe == 1 && pTransaction1 -> pointe == 0 ))
+       {
+	sort_result = 1;
+       }
+     else
+       {
+	/* les deux opérations sont toutes les deux dans le même état
+	   (rapprochées, pointées ou ni l'un ni l'autre),
+	   alors on les classe par date */
+	sort_result = classement_sliste_par_date( pTransaction1, pTransaction2);
+       }
+    }
+  return( sort_result );
+}
+/* ************************************************************************** */
 
 /* ********************************************************************************************************** */
 /* identique à classement_liste_par_tri_courant sauf que classe */
 /* une slist */
 /* ********************************************************************************************************** */
-
 gint classement_sliste_par_tri_courant ( struct structure_operation *operation_1,
 					 struct structure_operation *operation_2 )
 {
   gint pos_type_ope_1;
   gint pos_type_ope_2;
   gint buffer;
+  gint sort_result;
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-  /*   on classe soit par le tri désiré, soit par date, et dans ce cas on renvoie au tri normal */
+  /* On classe soit par le tri désiré, soit par date,
+     et dans ce cas on renvoie au tri normal */
 
-  if ( !TRI
-       ||
-       !LISTE_TRI )
-    return ( classement_sliste_par_date ( operation_1,
-					  operation_2 ));
-
-  /* si l'opé est négative et que le type est neutre et que les types neutres sont séparés, on lui */
-  /* met la position du type négatif */
-
-  if ( operation_1 -> montant < 0
-       &&
-       ( buffer = g_slist_index ( LISTE_TRI,
-				  GINT_TO_POINTER ( -operation_1 -> type_ope ))) != -1 )
-    pos_type_ope_1 = buffer;
+  if ( !TRI || !LISTE_TRI )
+    sort_result = classement_sliste_par_date_rp ( operation_1, operation_2 );
   else
-    pos_type_ope_1 = g_slist_index ( LISTE_TRI,
-				     GINT_TO_POINTER ( operation_1 -> type_ope ));
-
-  if ( operation_2 -> montant < 0
-       &&
-       ( buffer = g_slist_index ( LISTE_TRI,
-				  GINT_TO_POINTER ( -operation_2 -> type_ope ))) != -1 )
-    pos_type_ope_2 = buffer;
-  else
-    pos_type_ope_2 = g_slist_index ( LISTE_TRI,
-				     GINT_TO_POINTER ( operation_2 -> type_ope ));
-
-
-
-  /*   s'ils ont le même type, on classe par date */
-
-  if ( pos_type_ope_1 == pos_type_ope_2 )
     {
-      gint retour;
+     /* si l'opération est négative et que le type est neutre et que les types
+        neutres sont séparés, on lui met la position du type négatif */
 
-      if ( etat.classement_par_date )
-	/* on classe par dates normales */
-	retour = g_date_compare ( operation_1 -> date,
-				  operation_2 -> date );
-      else
-	{
-	  /*       on classe par date bancaire, si elle existe */
+     if ( operation_1 -> montant < 0
+	  && ( buffer = g_slist_index ( LISTE_TRI,
+					GINT_TO_POINTER ( -operation_1 -> type_ope ))) != -1 )
+       pos_type_ope_1 = buffer;
+     else
+       pos_type_ope_1 = g_slist_index ( LISTE_TRI,
+					GINT_TO_POINTER ( operation_1 -> type_ope ));
 
-	  if ( operation_1 -> date_bancaire )
-	    {
-	      if ( operation_2 -> date_bancaire )
-		retour = g_date_compare ( operation_1 -> date_bancaire,
-					  operation_2 -> date_bancaire );
-	      else
-		retour = g_date_compare ( operation_1 -> date_bancaire,
-					  operation_2 -> date );
-	    }
-	  else
-	    {
-	      if ( operation_2 -> date_bancaire )
-		retour = g_date_compare ( operation_1 -> date,
-					  operation_2 -> date_bancaire );
-	      else
-		retour = g_date_compare ( operation_1 -> date,
-					  operation_2 -> date );
-	    }
-	}
+     if ( operation_2 -> montant < 0
+	  && ( buffer = g_slist_index ( LISTE_TRI,
+					GINT_TO_POINTER ( -operation_2 -> type_ope ))) != -1 )
+       pos_type_ope_2 = buffer;
+     else
+       pos_type_ope_2 = g_slist_index ( LISTE_TRI,
+					GINT_TO_POINTER ( operation_2 -> type_ope ));
 
-      if ( retour )
-	return ( retour );
-      else
-	return ( operation_1 -> no_operation - operation_2 -> no_operation );
+     /* s'elles ont le même type, on les classe par date */
+
+     if ( pos_type_ope_1 == pos_type_ope_2 )
+       {
+	sort_result = classement_sliste_par_date_rp ( operation_1, operation_2 );
+       }
+     else
+       {
+	if ( pos_type_ope_1 < pos_type_ope_2 )
+	  sort_result = -1;
+	else
+	  sort_result = 1;
+       }
     }
-
-
-  if ( pos_type_ope_1 < pos_type_ope_2 )
-    return ( -1 );
-  else
-    return ( 1 );
-
+  return( sort_result );
 }
 /* ********************************************************************************************************** */
 
