@@ -1332,7 +1332,7 @@ void exporter_fichier_qif ( void )
     }
 
 
-  dialogue ( _("Warning: QIF files don't use currencies.\nAll transactions will be converted to appropriate account's currency.") );
+  dialogue_warning ( _("QIF files don't use currencies.\nAll transactions will be converted to appropriate account's currency.") );
 
   dialog = gnome_dialog_new ( _("Export QIF files"),
 			      GNOME_STOCK_BUTTON_OK,
