@@ -74,7 +74,9 @@ GtkItemFactory *item_factory_menu_general;
  */
 int main (int argc, char *argv[])
 {
+#ifndef _WIN32
     struct sigaction sig_sev;
+#endif
     gint demande_page;
 
     /* on ajoute la possibilité de mettre l'option --onglet dans la ligne de commande */
@@ -115,6 +117,8 @@ int main (int argc, char *argv[])
 	gtk_init ( &argc, &argv );
 
 	/* on commence par détourner le signal SIGSEGV */
+#ifndef _WIN32
+        /* sauf sous Windows */
 	memset ( &sig_sev, 0, sizeof ( struct sigaction ));
 	sig_sev.sa_handler = traitement_sigsegv;
 	sig_sev.sa_flags = 0;
@@ -122,7 +126,7 @@ int main (int argc, char *argv[])
 
 	if ( sigaction ( SIGSEGV, &sig_sev, NULL ))
 	    printf (_("Error on sigaction: SIGSEGV won't be trapped\n"));
-
+#endif
 
 	/*  Création de la fenêtre principale */
 
