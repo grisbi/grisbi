@@ -1,4 +1,1053 @@
-2004-05-22 15:48  cedric_grisbi
+2004-11-19  Benjamin Drieu <bdrieu@april.org>
+
+	* AUTHORS: Update AUTHORS
+
+2004-11-18  Benjamin Drieu <bdrieu@april.org>
+
+	* src/echeancier_liste.c: Don't create transactions for scheduled
+	breakdowns (closes: #471)
+
+2004-11-18  Benjamin Drieu <bdrieu@april.org>
+
+	* po/de.po: Update fuzzy
+
+2004-11-18  Benjamin Drieu <bdrieu@april.org>
+
+	* src/menu.c: Disambiguate manuals
+
+2004-11-17  Francois Terrot <francois@terrot.net>
+
+	* src/csv.c: comment the file and add some new field in the export
+	(financial year, budgetary line, ...)
+
+2004-11-17  Francois Terrot <francois@terrot.net>
+
+	* src/qif.c: fix bug #485 : do no more consider "yyyy\n" as "yy"
+	when computing years
+
+2004-11-16  Francois Terrot <francois@terrot.net>
+
+	* src/import.c: fix #482 : replace bad call of g_strconcat by
+	nothing - string duplication is not need to compare it.
+
+2004-11-15  Benjamin Drieu <bdrieu@april.org>
+
+	* src/import.c: Hopefully fix a segfault on windows systems
+
+2004-11-15  Benjamin Drieu <bdrieu@april.org>
+
+	* src/gnucash.c: Reorganize gnucash.c functions
+
+2004-11-11  Benjamin Drieu <bdrieu@april.org>
+
+	* src/gnucash.c: Import breakdown of transactions correctly from
+	Gnucash.
+
+2004-11-04  Benjamin Drieu <bdrieu@april.org>
+
+	* src/equilibrage.c: Use better buttons
+
+2004-11-04  Benjamin Drieu <bdrieu@april.org>
+
+	* src/ventilation.c: Rollback to correct notebook frame after a
+	breakdown (closes: #463)
+
+2004-11-01  Benjamin Drieu <bdrieu@april.org>
+
+	* src/echeancier_formulaire.c: Avoid creating bad breakdown lines
+	(closes: #471)
+
+2004-11-01  Benjamin Drieu <bdrieu@april.org>
+
+	* src/echeancier_ventilation.c: Swap "Ok & Cancel" buttons, display
+	an amount in "Non affected" amount in any case (closes: #357)
+
+2004-11-01  Benjamin Drieu <bdrieu@april.org>
+
+	* src/etats_calculs.c: Sort transactions even if no transaction is
+	shown to produce sorted totals
+
+2004-11-01  Benjamin Drieu <bdrieu@april.org>
+
+	* src/type_operations.c: Rollback to a safer handling of automatic
+	numbering
+
+2004-11-01  Benjamin Drieu <bdrieu@april.org>
+
+	* src/affichage.c, src/main.c: Use list font for grayed scheduled
+	entries as well
+
+2004-11-01  Benjamin Drieu <bdrieu@april.org>
+
+	* src/constants.h: Use a more logical browser
+
+2004-10-30  Benjamin Drieu <bdrieu@april.org>
+
+	* configure.in: Don't fail but only croak on missing ofx
+
+2004-10-30  Benjamin Drieu <bdrieu@april.org>
+
+	* src/imputation_budgetaire.c: Fix crash if budgetary lines are
+	missing but referenced by transactions (closes: #454)
+
+2004-10-30  Benjamin Drieu <bdrieu@april.org>
+
+	* src/echeancier_formulaire.c: Fix runtime warning
+
+2004-10-30  Benjamin Drieu <bdrieu@april.org>
+
+	* src/csv.c: Fix compile time error on old gcc
+
+2004-10-30  Benjamin Drieu <bdrieu@april.org>
+
+	* win32/pwd.c: Overwrite pw_name instead of appending (closes:
+	#462)
+
+2004-10-27  Benjamin Drieu <bdrieu@april.org>
+
+	* configure.in: Add missing makefile
+
+2004-10-26  Benjamin Drieu <bdrieu@april.org>
+
+	* src/etats_calculs.c: Fix date miscalculation (closes: #468)
+
+2004-10-26  Benjamin Drieu <bdrieu@april.org>
+
+	* src/operations_liste.c: Fix a nasty bug when no P/R is used in
+	transaction list
+
+2004-10-26  Benjamin Drieu <bdrieu@april.org>
+
+	* src/operations_liste.c: Fix compile time warnings
+
+2004-10-26  Benjamin Drieu <bdrieu@april.org>
+
+	* src/operations_liste.c: Yet another kludge to avoid breakage due
+	to #392 fix (closes: #470)
+
+2004-10-26  Martin Stromberger <fabiolla@aon.at>
+
+	* help/de/Makefile.am, help/de/contents_motif.gif,
+	help/de/grisbi-manuel.html, help/de/next_motif.gif,
+	help/de/previous_motif.gif, help/de/quickstart.html,
+	help/de/topic.dat, help/de/translation.html: Helpfiles for german
+	language
+
+2004-10-26  Martin Stromberger <fabiolla@aon.at>
+
+	* help/de/Makefile.am, help/de/contents_motif.gif,
+	help/de/grisbi-manuel.html, help/de/next_motif.gif,
+	help/de/previous_motif.gif, help/de/quickstart.html,
+	help/de/topic.dat, help/de/translation.html: [no log message]
+
+2004-10-26  Martin Stromberger <fabiolla@aon.at>
+
+	* help/de/contents_motif.gif, help/de/next_motif.gif,
+	help/de/previous_motif.gif: [no log message]
+
+2004-10-26  Martin Stromberger <fabiolla@aon.at>
+
+	* help/de/grisbi-manuel.html, help/de/quickstart.html,
+	help/de/translation.html: final
+
+2004-10-24  Martin Stromberger <fabiolla@aon.at>
+
+	* help/Makefile.am: added de
+
+2004-10-24  Martin Stromberger <fabiolla@aon.at>
+
+	* help/de/Makefile.am, help/de/contents_motif.gif,
+	help/de/grisbi-manuel.html, help/de/next_motif.gif,
+	help/de/previous_motif.gif, help/de/quickstart.html,
+	help/de/topic.dat, help/de/translation.html: 'Row' translation, not
+	ready jet.
+
+2004-10-24  Martin Stromberger <fabiolla@aon.at>
+
+	* po/de.po: addet export.c entries update strings
+
+2004-10-24  Martin Stromberger <fabiolla@aon.at>
+
+	* po/POTFILES.in: After asking Benjamin added export.c to
+	POTFILES.in
+
+2004-10-15  Benjamin Drieu <bdrieu@april.org>
+
+	* src/csv.c: Fix a compile time error on old compilers
+
+2004-10-14  Benjamin Drieu <bdrieu@april.org>
+
+	* configure.in: Optionnal OFX support removal
+
+2004-10-14  Benjamin Drieu <bdrieu@april.org>
+
+	* po/de.po: Fix wrong newlines
+
+2004-10-14  Benjamin Drieu <bdrieu@april.org>
+
+	* README: Update version
+
+2004-10-14  Benjamin Drieu <bdrieu@april.org>
+
+	* AUTHORS: Update artists
+
+2004-10-14  Benjamin Drieu <bdrieu@april.org>
+
+	* po/de.po: Update missing string (thanks to epaul & scriptfanix)
+
+2004-10-14  Benjamin Drieu <bdrieu@april.org>
+
+	* po/fr.po: Update strings
+
+2004-10-14  Benjamin Drieu <bdrieu@april.org>
+
+	* po/de.po: Update fuzzy strings
+
+2004-10-14  Benjamin Drieu <bdrieu@april.org>
+
+	* src/import.c, src/parametres.c: Avoid unnecessary modifications
+	if no file is opened
+
+2004-10-14  Benjamin Drieu <bdrieu@april.org>
+
+	* src/fichiers_gestion.c: Avoid saving file if no file is opened
+
+2004-10-14  Benjamin Drieu <bdrieu@april.org>
+
+	* src/menu.c: Use a different shortcut for cloning (closes: #352)
+
+2004-10-14  Benjamin Drieu <bdrieu@april.org>
+
+	* src/etats_html.c, src/etats_onglet.c, src/export.c,
+	src/utils_files.c, src/utils_files.h: Sanitize auto generated file
+	names (closes: #461)
+
+2004-10-14  Benjamin Drieu <bdrieu@april.org>
+
+	* src/qif.c: Remove compile time warning
+
+2004-10-14  Benjamin Drieu <bdrieu@april.org>
+
+	* src/operations_comptes.c: Don't expand backslashes in menu names
+	except for insertion (closes: #460)
+
+2004-10-14  Benjamin Drieu <bdrieu@april.org>
+
+	* src/etats_config.c: Make sensitiveness more accurate upon field
+	change
+
+2004-10-14  Benjamin Drieu <bdrieu@april.org>
+
+	* src/operations_formulaire.c: Unfuck third party listing (closes:
+	#410)
+
+2004-10-13  Francois Terrot <francois@terrot.net>
+
+	* win32/Makefile-win32.am, win32/autogen.bat, win32/config-nsh.in:
+	update to also manage installer
+
+2004-10-11  Francois Terrot <francois@terrot.net>
+
+	* src/csv.c: Fixing column naming error Add Balance and Financial
+	year (only if used) columns.
+
+2004-10-11  Benjamin Drieu <bdrieu@april.org>
+
+	* po/es.po: Import initial
+
+2004-10-07  Martin Stromberger <fabiolla@aon.at>
+
+	* po/de.po: update strings in help.c
+
+2004-10-07  Benjamin Drieu <bdrieu@april.org>
+
+	* po/fr.po: Update strings
+
+2004-10-07  Benjamin Drieu <bdrieu@april.org>
+
+	* po/de.po: Update strings
+
+2004-10-07  Benjamin Drieu <bdrieu@april.org>
+
+	* src/echeancier_formulaire.c, src/operations_formulaire.c,
+	src/ventilation.c: Fix numerous crashes if transfers reference a
+	deleted account (closes: #435)
+
+2004-10-07  Benjamin Drieu <bdrieu@april.org>
+
+	* src/fichiers_gestion.c: Use a safer default for the save dialog
+	(closes: #459)
+
+2004-10-07  Benjamin Drieu <bdrieu@april.org>
+
+	* src/operations_formulaire.c, src/type_operations.c,
+	src/type_operations.h: Use a compromise between using type ->
+	no_en_cours and the maximum number (closes: #456).
+
+2004-10-06  Alain Portal <dionysos@grisbi.org>
+
+	* src/import.c: + Don't show closed accounts in the import list.  +
+	Use user prefered order to list accounts.
+
+2004-10-04  Francois Terrot <francois@terrot.net>
+
+	* src/operations_liste.c: Only negative balance should be displayed
+	in red.
+
+2004-10-01  Martin Stromberger <fabiolla@aon.at>
+
+	* po/de.po: update
+
+2004-10-01  Benjamin Drieu <bdrieu@april.org>
+
+	* src/tiers_onglet.c: Fix a crash is third party entered is not
+	found + fix gtk_combofix brain-deadness in "enforcement" mode
+
+2004-10-01  Benjamin Drieu <bdrieu@april.org>
+
+	* src/Makefile.am: Add missing files
+
+2004-09-30  Benjamin Drieu <bdrieu@april.org>
+
+	* autogen.sh: remove autom4te files and chmod debian/rules
+
+2004-09-30  Benjamin Drieu <bdrieu@april.org>
+
+	* debian/control: Update build dependencies + add suggestions
+
+2004-09-30  Benjamin Drieu <bdrieu@april.org>
+
+	* NEWS, README: Update to 0.5.2pre1
+
+2004-09-30  Benjamin Drieu <bdrieu@april.org>
+
+	* src/operations_liste.c: Use red color even when balance is just
+	under 0 (closes: #450)
+
+2004-09-30  Benjamin Drieu <bdrieu@april.org>
+
+	* src/echeancier_liste.c, src/echeancier_liste.h: Make custom
+	monthly and yearly periods work (closes: #448)
+
+2004-09-30  Benjamin Drieu <bdrieu@april.org>
+
+	* src/type_operations.c: Fix a crash (closes: #447)
+
+2004-09-27  Francois Terrot <francois@terrot.net>
+
+	* src/csv.c: Breakdown amount is now listed in it own column
+	(different from the debit/credit ones)
+
+2004-09-25  Francois Terrot <francois@terrot.net>
+
+	* src/export.c, src/export.h, src/menu.c: Change Export Format
+	selection mode : now format selection is directly done through the
+	export menu
+
+2004-09-25  Francois Terrot <francois@terrot.net>
+
+	* src/csv.c, src/csv.h: Add capability to export account to CSV
+	file
+
+2004-09-25  Francois Terrot <francois@terrot.net>
+
+	* src/export.c: Fix a strnage side effect with breakdown display
+
+2004-09-25  Francois Terrot <francois@terrot.net>
+
+	* src/export.c: New export account API : reorganized dialogs
+	display fix format menu entry list duplication and crash issue.
+
+2004-09-25  Francois Terrot <francois@terrot.net>
+
+	* src/export.c: New export account API : set the format type index
+	fully dynamic.
+
+2004-09-25  Francois Terrot <francois@terrot.net>
+
+	* src/export.c, src/export.h, src/menu.c, src/qif.c, src/qif.h: New
+	export account API : provide a easy way to add in a "pluggins" like
+	account exportation format.
+
+2004-09-22  Benjamin Drieu <bdrieu@april.org>
+
+	* src/import.c, src/gnucash.c: Fix various reconcile import bugs
+
+2004-09-22  Benjamin Drieu <bdrieu@april.org>
+
+	* src/help.c: Fix compile time error
+
+2004-09-20  Benjamin Drieu <bdrieu@april.org>
+
+	* README, configure.in: Update version
+
+2004-09-20  Benjamin Drieu <bdrieu@april.org>
+
+	* NEWS: Update features
+
+2004-09-20  Benjamin Drieu <bdrieu@april.org>
+
+	* src/help.c, AUTHORS: Update authors
+
+2004-09-20  Benjamin Drieu <bdrieu@april.org>
+
+	* po/POTFILES.in, po/de.po, po/fr.po, po/grisbi.pot, po/it.po:
+	Update strings
+
+2004-09-20  Benjamin Drieu <bdrieu@april.org>
+
+	* src/gnucash.c, src/gnucash.h, src/utils_xml.c, src/utils_xml.h:
+	Add gnucash import
+
+2004-09-20  Benjamin Drieu <bdrieu@april.org>
+
+	* src/Makefile.am, src/affichage.c, src/import.c, src/menu.c,
+	src/structures.h: Add gnucash import
+
+2004-09-17  Benjamin Drieu <bdrieu@april.org>
+
+	* src/erreur.c, src/main.c: Handle close events nicely (closes:
+	#429)
+
+2004-09-17  Benjamin Drieu <bdrieu@april.org>
+
+	* contrib/obfuscate.pl: Hide multiline texts + add some more fields
+	(Closes: #431)
+
+2004-09-17  Benjamin Drieu <bdrieu@april.org>
+
+	* src/categories_onglet.c, src/tiers_onglet.c: Category and payees
+	should be unique
+
+2004-09-17  Benjamin Drieu <bdrieu@april.org>
+
+	* src/operations_liste.c, src/equilibrage.c: Dont use fixed column
+	for P/R (closes: #432)
+
+2004-09-12  Francois Terrot <francois@terrot.net>
+
+	* src/utils_file_selection.c: #286 : fix missing end of
+	last_directory_used .
+
+2004-09-10  Benjamin Drieu <bdrieu@april.org>
+
+	* src/imputation_budgetaire.c: Budgetary lines are now unique
+	(closes: #413)
+
+2004-09-10  Benjamin Drieu <bdrieu@april.org>
+
+	* src/echeancier_liste.c: Fix compile time warning and possible bug
+
+2004-09-09  Francois Terrot <francois@terrot.net>
+
+	* src/fichier_configuration.c, src/fichiers_io.c,
+	src/utils_files.c, src/utils_files.h: fix uft8 characters in path
+	issue on Windows for saving files
+
+2004-09-09  Francois Terrot <francois@terrot.net>
+
+	* src/affichage.c: fix uft8 characters in path	issue on Windows
+	for logo selection
+
+2004-09-09  Francois Terrot <francois@terrot.net>
+
+	* src/utils_file_selection.c: Fix a missing NULL terminator for
+	multiple selection (found in HEAD)
+
+2004-09-08  Benjamin Drieu <bdrieu@april.org>
+
+	* src/utils.c: Fix an infinite loop on some input (closes: #416)
+
+2004-09-08  Benjamin Drieu <bdrieu@april.org>
+
+	* src/equilibrage.c: Unfuck the plus shortcut (Closes: #412)
+
+2004-09-08  Benjamin Drieu <bdrieu@april.org>
+
+	* src/fichier_configuration.c: Compress files for newest grisbi
+	configuration (Closes: #425)
+
+2004-09-08  Benjamin Drieu <bdrieu@april.org>
+
+	* src/imputation_budgetaire.c: Allow sub budgetary lines to be
+	moved to other sub budgetary lines (Closes: #411) + correctly sort
+	budgetary lines
+
+2004-09-05  Francois Terrot <francois@terrot.net>
+
+	* src/utils_file_selection.c: fix infinite loop when importing
+	files (bug #427)
+
+2004-09-02  Francois Terrot <francois@terrot.net>
+
+	* win32/autogen.bat: get version number from configure.in if not in
+	the directory name
+
+2004-08-29  Francois Terrot <francois@terrot.net>
+
+	* win32/config-win32.in: fix missing declaration warning for open,
+	close, stat , chmod and unlink functions
+
+2004-08-29  Francois Terrot <francois@terrot.net>
+
+	* win32/Makefile-win32.am: force warnings "all"
+
+2004-08-29  Francois Terrot <francois@terrot.net>
+
+	* src/utils_file_selection.c: fix
+	../src/utils_file_selection.c:151: warning: implicit declaration of
+	function `strlen' ../src/utils_file_selection.c:154: warning:
+	implicit declaration of function `strncmp'
+
+2004-08-29  Francois Terrot <francois@terrot.net>
+
+	* src/print_config.c: fix : ../src/print_config.c: In function
+	`print_config_general': ../src/print_config.c:175: warning:
+	implicit declaration of function `my_file_chooser'
+	../src/print_config.c:175: warning: assignment makes pointer from
+	integer without a cast ../src/print_config.c:200: warning: passing
+	arg 1 of `print_config_radio_toggled' from incompatible pointer
+	type ../src/print_config.c:201: warning: passing arg 1 of
+	`print_config_radio_toggled' from incompatible pointer type
+
+2004-08-29  Francois Terrot <francois@terrot.net>
+
+	* src/ofx.c: fix : warning: implicit declaration of function
+	`dialogue_error_hint'
+
+2004-08-29  Francois Terrot <francois@terrot.net>
+
+	* src/etat_io.c: fix : warning: implicit declaration of function
+	`xmlParseFile' fix : warning: assignment makes pointer from integer
+	without a cast
+
+2004-08-29  Francois Terrot <francois@terrot.net>
+
+	* src/etats_onglet.c: fix warning: implicit declaration of function
+	`utf8_stat'
+
+2004-08-29  Francois Terrot <francois@terrot.net>
+
+	* src/erreur.c: fix  warning: implicit declaration of function
+	`my_get_gsb_file_default_dir'
+
+2004-08-29  Francois Terrot <francois@terrot.net>
+
+	* src/categories_onglet.c: fix uft8 characters in path	issue on
+	Windows
+
+2004-08-29  Francois Terrot <francois@terrot.net>
+
+	* src/tiers_onglet.c: makedepend.EXE: warning:
+	../src/tiers_onglet.c includes ../src/devises.h more than once!
+
+2004-08-29  Francois Terrot <francois@terrot.net>
+
+	* src/echeancier_formulaire.c: fix : makedepend.EXE: warning:
+	../src/echeancier_formulaire.c includes ../src/constants.h more
+	than once!
+
+2004-08-27  Francois Terrot <francois@terrot.net>
+
+	* src/Makefile.am: add new utils_files and utils_file_selection
+	files
+
+2004-08-27  Francois Terrot <francois@terrot.net>
+
+	* win32/win32utils.c, win32/win32utils.h: remove warning message
+
+2004-08-27  Francois Terrot <francois@terrot.net>
+
+	* src/categories_onglet.c, src/etats_html.c, src/etats_latex.c,
+	src/etats_onglet.c, src/fichier_configuration.c,
+	src/fichiers_gestion.c, src/fichiers_io.c, src/import.c,
+	src/imputation_budgetaire.c, src/qif.c, src/utils.c, src/utils.h,
+	src/utils_file_selection.c, src/utils_file_selection.h,
+	src/utils_files.c, src/utils_files.h: fix uft8 characters in path
+	issue on Windows
+
+2004-08-26  Francois Terrot <francois@terrot.net>
+
+	* win32/autogen.bat: add support for current gtk-2.2.4-3
+
+2004-08-23  Martin Stromberger <fabiolla@aon.at>
+
+	* po/de.po: update
+
+2004-08-22  Francois Terrot <francois@terrot.net>
+
+	* src/fichiers_gestion.c: backup file name and path for Windows
+
+2004-08-21  Francois Terrot <francois@terrot.net>
+
+	* src/fichiers_gestion.c: backup file name and path for Windows
+
+2004-08-15  Benjamin Drieu <bdrieu@april.org>
+
+	* src/operations_liste.h: Fix prototypes
+
+2004-08-15  Benjamin Drieu <bdrieu@april.org>
+
+	* src/operations_liste.c: Fix a side effect (possible buffer
+	overrun somewhere?)
+
+2004-08-15  Francois Terrot <francois@terrot.net>
+
+	* win32/.cvsignore: ignore files generated by autogen
+
+2004-08-15  Francois Terrot <francois@terrot.net>
+
+	* win32/Makefile-win32.am, win32/autogen.bat, win32/config-nsh.in,
+	win32/config-win32.in, win32/lib/TieIniFile.pm, win32/lib/Utils.pm:
+	autogen script and templates for Windows
+
+2004-08-15  Benjamin Drieu <bdrieu@april.org>
+
+	* src/operations_liste.c: Fix various bugs related to transaction
+	list + form.
+
+2004-08-15  Benjamin Drieu <bdrieu@april.org>
+
+	* src/operations_formulaire.c: Remove compile time warning
+
+2004-08-15  Benjamin Drieu <bdrieu@april.org>
+
+	* src/echeancier_liste.c: Remove a useless debug line
+
+2004-08-15  Benjamin Drieu <bdrieu@april.org>
+
+	* src/etats_latex.c: Unfuck print support (closes: #405)
+
+2004-08-14  Francois Terrot <francois@terrot.net>
+
+	* win32/win32utils.c, win32/win32utils.h: remove unexisting and
+	unsed CSIDL enum value
+
+2004-08-14  Benjamin Drieu <bdrieu@april.org>
+
+	* src/echeancier_liste.c, src/echeancier_liste.h: Fix the column
+	resizing problem (closes: #395)
+
+2004-08-14  Benjamin Drieu <bdrieu@april.org>
+
+	* src/tiers_onglet.c: Add a scrolled window for third party textbox
+
+2004-08-14  Benjamin Drieu <bdrieu@april.org>
+
+	* src/comptes_gestion.c, src/tiers_onglet.c: Use GTK2 native
+	interface (closes: #393)
+
+2004-08-12  Benjamin Drieu <bdrieu@april.org>
+
+	* src/print_config.c: Improve print destination choice (closes:
+	#310)
+
+2004-08-11  Benjamin Drieu <bdrieu@april.org>
+
+	* configure.in, AUTHORS, po/de.po: Add German translation
+
+2004-08-11  Benjamin Drieu <bdrieu@april.org>
+
+	* src/operations_formulaire.c: Fix the shift bug on plus keys that
+	caused a week to be added instead of a day (closes: #399)
+
+2004-08-11  Benjamin Drieu <bdrieu@april.org>
+
+	* src/gtk_list_button.c, src/operations_liste.c: Fix various
+	crashes + bad column width computation upon account creation
+	(closes: #392)
+
+2004-08-11  Benjamin Drieu <bdrieu@april.org>
+
+	* src/operations_liste.c: Kludge float approximations (Closes:
+	#371).
+
+2004-08-11  Benjamin Drieu <bdrieu@april.org>
+
+	* src/menu.c: Fix shortcut conflict (Closes: #388)
+
+2004-08-05  Benjamin Drieu <bdrieu@april.org>
+
+	* src/etats_latex.c: Protect '%'.  Closes: #390
+
+2004-07-29  Benjamin Drieu <bdrieu@april.org>
+
+	* src/fichier_configuration.c: Use a better default for windows
+
+2004-07-29  Benjamin Drieu <bdrieu@april.org>
+
+	* po/fr.po: Update strings
+
+2004-07-29  Benjamin Drieu <bdrieu@april.org>
+
+	* configure.in: Update to 0.5.1
+
+2004-07-29  Benjamin Drieu <bdrieu@april.org>
+
+	* src/operations_liste.c: Fix a bad bad, naughty zoot^Wbug that
+	caused strange GTK fatal errors
+
+2004-07-29  Benjamin Drieu <bdrieu@april.org>
+
+	* src/menu.c: Use a STOCK compatible with GTK 2.2
+
+2004-07-29  Benjamin Drieu <bdrieu@april.org>
+
+	* src/etats_html.c: Extension is .html
+
+2004-07-29  Benjamin Drieu <bdrieu@april.org>
+
+	* configure.in, debian/changelog: Upgrade to 0.5.1
+
+2004-07-29  Benjamin Drieu <bdrieu@april.org>
+
+	* NEWS, AUTHORS, INSTALL, README: Update to 0.5.1
+
+2004-07-29  Benjamin Drieu <bdrieu@april.org>
+
+	* src/etats_calculs.h: Add prototypes
+
+2004-07-29  Benjamin Drieu <bdrieu@april.org>
+
+	* src/etats_onglet.c, src/menu.c, src/traitement_variables.c: Add
+	HTML entry points + make report export/import clearer
+
+2004-07-29  Benjamin Drieu <bdrieu@april.org>
+
+	* src/etats_calculs.c: Add HTML backend
+
+2004-07-29  Benjamin Drieu <bdrieu@april.org>
+
+	* src/etats_latex.c: Tidy variables names
+
+2004-07-29  Benjamin Drieu <bdrieu@april.org>
+
+	* src/Makefile.am: Add etats_html
+
+2004-07-29  Benjamin Drieu <bdrieu@april.org>
+
+	* src/etats_html.c, src/etats_html.h: Initial import
+
+2004-07-29  Benjamin Drieu <bdrieu@april.org>
+
+	* src/fichiers_gestion.c: Fix behaviour if file has no name upon
+	exit
+
+2004-07-29  Benjamin Drieu <bdrieu@april.org>
+
+	* src/erreur.c: Clean up erreur handler
+
+2004-07-29  Benjamin Drieu <bdrieu@april.org>
+
+	* configure.in: Upgrade to pre2
+
+2004-07-26  Benjamin Drieu <bdrieu@april.org>
+
+	* src/operations_formulaire.c: Fix breakdown of transaction
+	financial year copy
+
+2004-07-25  Benjamin Drieu <bdrieu@april.org>
+
+	* AUTHORS, NEWS, README: Update to 0.5.1pre1
+
+2004-07-25  Benjamin Drieu <bdrieu@april.org>
+
+	* po/fr.po: Ypdate strings
+
+2004-07-25  Benjamin Drieu <bdrieu@april.org>
+
+	* configure.in: Version 0.5.1pre1
+
+2004-07-25  Benjamin Drieu <bdrieu@april.org>
+
+	* src/affichage.c, src/include.h, src/utils.c: Fix portability
+	issues
+
+2004-07-25  Benjamin Drieu <bdrieu@april.org>
+
+	* src/import.c: Fix QIF transfers breakage (Closes: #354)
+
+2004-07-25  Benjamin Drieu <bdrieu@april.org>
+
+	* src/echeancier_liste.c: Improve dialogs
+
+2004-07-25  Benjamin Drieu <bdrieu@april.org>
+
+	* src/ventilation.c: Fix buttons order
+
+2004-07-18  Cedric Auger <cedric@grisbi.org>
+
+	* src/echeancier_formulaire.c: fix 361 : pb virement ventil
+
+2004-07-12  Cedric Auger <cedric@grisbi.org>
+
+	* src/operations_formulaire.c: fix bug modif virement compte
+	supprime (rapport volodia)
+
+2004-07-11  Cedric Auger <cedric@grisbi.org>
+
+	* src/operations_liste.c: fix 338 : largeur de colonnes non sauvees
+
+2004-07-11  Cedric Auger <cedric@grisbi.org>
+
+	* src/accueil.c, src/devises.c: fix 334 : garde pas valeur change
+
+2004-07-11  Cedric Auger <cedric@grisbi.org>
+
+	* src/accueil.c, src/comptes_gestion.c, src/fenetre_principale.c,
+	src/fichiers_gestion.c: correction bug affichage etat quand nouveau
+	fichier
+
+2004-07-11  Cedric Auger <cedric@grisbi.org>
+
+	* src/comptes_traitements.c, src/traitement_variables.c,
+	src/type_operations.c: remise a 0 de noname_account_number quand
+	fermeture fichier
+
+2004-07-06  Alain Portal <dionysos@grisbi.org>
+
+	* src/echeancier_formulaire.c: Typo.
+
+2004-07-06  Alain Portal <dionysos@grisbi.org>
+
+	* src/echeancier_ventilation.c: Fix #358.
+
+2004-07-04  Benjamin Drieu <bdrieu@april.org>
+
+	* src/exercice.c: Fix a run time GTK warning (Closes: #356)
+
+2004-07-04  Benjamin Drieu <bdrieu@april.org>
+
+	* src/utils.c: Fix pb with DOS files
+
+2004-07-04  Benjamin Drieu <bdrieu@april.org>
+
+	* src/type_operations.c: Kludge a segfault (Closes: #331)
+
+2004-07-03  Francois Terrot <francois@terrot.net>
+
+	* win32/win32utils.h: Fix LOGO_PATH definition (remove ';' )  issue
+	raised by last accueil.c commit
+
+2004-07-03  Benjamin Drieu <bdrieu@april.org>
+
+	* src/accueil.c, src/affichage.c, src/fichiers_io.c: Fix crash
+
+2004-06-29  Alain Portal <dionysos@grisbi.org>
+
+	* src/operations_liste.c: Fix #344.
+
+2004-06-28  Alain Portal <dionysos@grisbi.org>
+
+	* po/fr.po: Fix a string.
+
+2004-06-28  Alain Portal <dionysos@grisbi.org>
+
+	* src/banque.c: One confirmation removal is enough.
+
+2004-06-28  Alain Portal <dionysos@grisbi.org>
+
+	* src/echeancier_formulaire.c: Fix #343: don't shown breakdown
+	button if scheduler form isn't in scheduler tab.
+
+2004-06-27  Alain Portal <dionysos@grisbi.org>
+
+	* po/grisbi.pot, po/fr.po: Update.
+
+2004-06-27  Alain Portal <dionysos@grisbi.org>
+
+	* src/banque.c: Fix #349.  Ask for a second confirmation if the
+	bank is used.  Use question_yes_no_hint.
+
+2004-06-27  Cedric Auger <cedric@grisbi.org>
+
+	* src/comptes_traitements.c, src/comptes_traitements.h,
+	src/echeancier_formulaire.c, src/echeancier_liste.c: fix 330 : pb
+	de virement echeancier
+
+2004-06-27  Cedric Auger <cedric@grisbi.org>
+
+	* src/qif.c: fix 329 : import qif
+
+2004-06-27  Cedric Auger <cedric@grisbi.org>
+
+	* src/fichiers_io.c: fix 328 : message peu explicite
+
+2004-06-27  Cedric Auger <cedric@grisbi.org>
+
+	* src/operations_liste.c: fix 318 : ordre des opes de ventil de
+	l'echeancier
+
+2004-06-15  Alain Portal <dionysos@grisbi.org>
+
+	* src/operations_liste.c: Convert file to utf8.
+
+2004-06-15  Alain Portal <dionysos@grisbi.org>
+
+	* src/operations_liste.c: Fix #341.
+
+2004-06-13  Alain Portal <dionysos@grisbi.org>
+
+	* src/comptes_traitements.c: Number the noname accounts.
+
+2004-06-13  Alain Portal <dionysos@grisbi.org>
+
+	* src/comptes_onglet.c: Fix comment.
+
+2004-06-13  Alain Portal <dionysos@grisbi.org>
+
+	* src/comptes_onglet.c: Fix #339.
+
+2004-06-11  Benjamin Drieu <bdrieu@april.org>
+
+	* src/fichier_configuration.c: Fix gcc-2.95 breakage
+
+2004-06-11  Cedric Auger <cedric@grisbi.org>
+
+	* src/affichage_liste.c, src/import.c: fix 326 : ligne blanche en
+	dÃ©but de fichiers qif
+
+2004-06-04  Benjamin Drieu <bdrieu@april.org>
+
+	* src/utils.c: Be really case insensitive (closes: #329)
+
+2004-06-04  Alain Portal <dionysos@grisbi.org>
+
+	* src/comptes_gestion.c: Fix #333.
+
+2004-06-03  Benjamin Drieu <bdrieu@april.org>
+
+	* configure.in, INSTALL: declare dependency on gtk 2.2
+
+2004-06-03  Benjamin Drieu <bdrieu@april.org>
+
+	* src/structures.h: New enum
+
+2004-06-03  Benjamin Drieu <bdrieu@april.org>
+
+	* src/operations_liste.c: Reconciled transactions can be cloned but
+	into a non reconciled transaction
+
+2004-06-03  Benjamin Drieu <bdrieu@april.org>
+
+	* src/operations_liste.c: Dont clone or touch in any manner a
+	reconciled transaction (closes: #327)
+
+2004-06-03  Benjamin Drieu <bdrieu@april.org>
+
+	* src/comptes_gestion.c: Use question_yes_no_hint constructs
+
+2004-05-31  Alain Portal <dionysos@grisbi.org>
+
+	* src/operations_liste.c: Fix #324.
+
+2004-05-31  Alain Portal <dionysos@grisbi.org>
+
+	* src/menu.c, src/operations_comptes.c, src/operations_liste.c,
+	src/operations_liste.h: Fix #322.
+
+2004-05-30  Alain Portal <dionysos@grisbi.org>
+
+	* src/menu.c: Fix URL.
+
+2004-05-29  Alain Portal <dionysos@grisbi.org>
+
+	* src/include.h: Remove unneeded dependency.
+
+2004-05-29  Alain Portal <dionysos@grisbi.org>
+
+	* help/C/translation.html, help/fr/translation.html: Fix email.
+
+2004-05-28  Cedric Auger <cedric@grisbi.org>
+
+	* src/fichiers_gestion.c: fix question enregistrer ? bien que
+	enregistrement auto soit mis
+
+2004-05-25  Cedric Auger <cedric@grisbi.org>
+
+	* src/affichage_liste.c, src/operations_liste.c,
+	src/operations_liste.h: fix pas de changement des noms de colonnes
+	lors de la modif de la conf de la liste d'opes
+
+2004-05-24  Cedric Auger <cedric@grisbi.org>
+
+	* src/import.c: fix bug import qif : si des tiers n'ont pas de
+	taille
+
+2004-05-23  Cedric Auger <cedric@grisbi.org>
+
+	* po/fr.po: fix email tieum
+
+2004-05-23  Alain Portal <dionysos@grisbi.org>
+
+	* help/C/quickstart.html, help/fr/quickstart.html: Update info list
+	URL.  Update GUI reference.
+
+2004-05-23  Benjamin Drieu <bdrieu@april.org>
+
+	* help/C/grisbi-manuel.html, help/C/quickstart.html,
+	help/C/translation.html: Update various stuff
+
+2004-05-23  Benjamin Drieu <bdrieu@april.org>
+
+	* help/fr/translation.html: Update emails
+
+2004-05-23  Benjamin Drieu <bdrieu@april.org>
+
+	* help/fr/quickstart.html: Update date + copyright
+
+2004-05-23  Benjamin Drieu <bdrieu@april.org>
+
+	* help/fr/grisbi-manuel.html: Update copyright, date and paths
+
+2004-05-23  Benjamin Drieu <bdrieu@april.org>
+
+	* src/parametres.c: Fix a compile time warning
+
+2004-05-23  Benjamin Drieu <bdrieu@april.org>
+
+	* src/Makefile.am, help/C/Makefile.am, help/fr/Makefile.am: Doc is
+	in /usr/share/doc
+
+2004-05-23  Benjamin Drieu <bdrieu@april.org>
+
+	* debian/changelog: Update changelog
+
+2004-05-23  Benjamin Drieu <bdrieu@april.org>
+
+	* debian/control: Remove gnome occurences
+
+2004-05-23  Benjamin Drieu <bdrieu@april.org>
+
+	* po/fr.po, po/it.po: Update strings
+
+2004-05-23  Benjamin Drieu <bdrieu@april.org>
+
+	* ChangeLog: Initial import
+
+2004-05-22  Benjamin Drieu <bdrieu@april.org>
+
+	* configure.in: This is version 0.5.0
+
+2004-05-22  Benjamin Drieu <bdrieu@april.org>
+
+	* autogen.sh: This is for grisbi ;-)
+
+2004-05-22  Benjamin Drieu <bdrieu@april.org>
+
+	* AUTHORS: Sort authors alphabetically Add François as a developer
+	Add Giorgio as a translator Add a note about people we forget
+
+2004-05-22  Benjamin Drieu <bdrieu@april.org>
+
+	* README: Update README
+
+2004-05-22  Benjamin Drieu <bdrieu@april.org>
+
+	* src/Makefile.am, help/C/Makefile.am, help/fr/Makefile.am: Help
+	files are now in /usr/share/grisbi/help
+
+2004-05-22 15:48  Cedric Auger <cedric@grisbi.org>
 
 	* src/devises.c: fix 317 : warning devises
 
