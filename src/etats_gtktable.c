@@ -76,7 +76,8 @@ void gtktable_attach_label ( gchar * text, int x, int x2, int y, int y2,
     }
 
   label = gtk_label_new ( text );
-/*   gtk_label_set_markup ( GTK_LABEL(label), g_strconcat ( "<span foreground=\"darkgray\">", text, "</span>", NULL )); */
+  gtk_widget_show ( label );
+
   switch (align) 
     {
     case LEFT:
@@ -98,7 +99,7 @@ void gtktable_attach_label ( gchar * text, int x, int x2, int y, int y2,
 
       /* Put prelight */
       style = gtk_style_copy ( gtk_widget_get_style (label));
-      color.red =   0.61 * 65535 ;
+      color.red =   1.00 * 65535 ;
       color.green = 0.00 * 65535 ;
       color.blue =  0.00 * 65535 ;
       style->fg[GTK_STATE_PRELIGHT] = color;
@@ -123,7 +124,6 @@ void gtktable_attach_label ( gchar * text, int x, int x2, int y, int y2,
 			 GTK_SHRINK | GTK_FILL,
 			 0, 0 );
       gtk_widget_show ( event_box );
-      gtk_widget_set_style ( label, style_label_nom_compte );
       gtk_container_add ( GTK_CONTAINER ( event_box ), label );
     }
   else
@@ -134,7 +134,6 @@ void gtktable_attach_label ( gchar * text, int x, int x2, int y, int y2,
 			 GTK_SHRINK | GTK_FILL,
 			 0, 0 );
     }
-  gtk_widget_show ( label );
 }
 
 
