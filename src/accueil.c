@@ -67,18 +67,7 @@ GtkWidget *creation_onglet_accueil ( void )
 			   FALSE,
 			   20 );
       gtk_widget_show ( logo_accueil );
-
-      /* séparation gauche-droite */
-/*
-      separateur = gtk_vseparator_new ();
-      gtk_box_pack_start ( GTK_BOX ( fenetre_accueil ),
-			   separateur,
-			   FALSE,
-			   FALSE,
-			   0 );
-      gtk_widget_show ( separateur );
-*/
-    }
+     }
   else
     logo_accueil = NULL;
 
@@ -183,16 +172,6 @@ GtkWidget *creation_onglet_accueil ( void )
 		       0 );
   gtk_widget_show ( label_titre_fichier );
 
-  /* séparation haut-bas */
-/*
-  separateur = gtk_hseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( base ),
-		       separateur,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( separateur );
-*/
 
   /* on crée à ce niveau base_scroll qui est aussi une vbox mais qui peut scroller verticalement */
 
@@ -883,14 +862,14 @@ void update_liste_comptes_accueil ( void )
 				      7, 8,
 				      i, i+1 );
 	  gtk_widget_show ( pLabel );
+
+	  /* ATTENTION : les sommes effectuées ici présupposent que */
+	  /* TOUS les comptes sont dans la MÊME DEVISE !!!!!        */
+	  solde_global_courant += SOLDE_COURANT ;
+	  solde_global_pointe += SOLDE_POINTE ;
 	}
 
       i++;
-      
-      /* ATTENTION : les sommes effectuées ici présupposent que */
-      /* TOUS les comptes sont dans la MÊME DEVISE !!!!!        */
-      solde_global_courant += SOLDE_COURANT ;
-      solde_global_pointe += SOLDE_POINTE ;
     }
   while ( ( ordre_comptes_variable = ordre_comptes_variable->next ) );
 
