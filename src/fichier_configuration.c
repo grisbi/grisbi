@@ -611,7 +611,11 @@ void raz_configuration ( void )
 
     /* Print */
     etat.print_config.printer = 0;
+#ifndef _WIN32
     etat.print_config.printer_name = "lpr";
+#else
+    etat.print_config.printer_name = "gsprint";
+#endif
     etat.print_config.printer_filename = "";
     etat.print_config.filetype = POSTSCRIPT_FILE;
     etat.print_config.paper_config.name = _("A4");
