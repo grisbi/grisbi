@@ -395,7 +395,8 @@ void remplit_arbre_tiers ( void )
 
       tiers = liste_tiers_tmp -> data;
 
-      if ( fabs ( tab_montant[place_tiers]) >= 0.01)
+      if ( fabs ( tab_montant[place_tiers]) >= 0.01
+	   || nb_ecritures_par_tiers[place_tiers] )
 	text[1] = g_strdup_printf ( "%4.2f %s",
 				    tab_montant[place_tiers],
 				    devise_compte -> code_devise );
@@ -1642,7 +1643,7 @@ gchar *calcule_total_montant_tiers_par_compte ( gint no_tiers,
       liste_tmp = liste_tmp -> next;
     }
 
-  if ( retour_int )
+  if ( nb_ecritures_par_comptes )
     return ( g_strdup_printf ( "%4.2f %s",
 			       retour_int,
 			       devise_compte -> code_devise ));
