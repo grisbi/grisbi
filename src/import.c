@@ -37,6 +37,7 @@
 #include "dialog.h"
 #include "fenetre_principale.h"
 #include "fichiers_gestion.h"
+#include "gnucash.h"
 #include "html.h"
 #include "ofx.h"
 #include "operations_classement.h"
@@ -167,6 +168,13 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
     gchar **liste_selection;
     gint i;	
     gboolean result = TRUE;
+    enum import_type {
+      TYPE_UNKNOWN,
+      TYPE_QIF,
+      TYPE_OFX,
+      TYPE_GNUCASH,
+      TYPE_HTML,
+    } type;
 
     /* on sauve le répertoire courant  */
 
@@ -217,7 +225,7 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 	     g_strrstr ( pointeur_char,
 			 "OFX" ))
         {
-	    result = recuperation_donnees_ofx ( liste_selection[i]);
+	  type = TYPE_OFX;
         }
 	else if ( !strncmp ( pointeur_char,
 			    "!Type",
@@ -235,22 +243,61 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 			    "!Option",
 			    7 ))
         {
-		result = recuperation_donnees_qif ( fichier );
+	  type = TYPE_QIF;
         }
 	else
 	{
-		/* 		pour l'instant html non implémenté */
-		if ( pointeur_char[0] == '<' )
-                {
-		    result = recuperation_donnees_html ( fichier );
-                }
-		else
+	  if ( !strncmp ( pointeur_char, "<?xml", 5 ))
+	    {
+	      get_line_from_file ( fichier, &pointeur_char );
+	      if ( !strncmp ( pointeur_char, "<gnc-v2", 7 ))
 		{
-		    dialogue_error_hint ( _("Grisbi is unable to determine type of this file.  If it is a QIF, an OFX file or a HTML page from a online bank service, please contact the grisbi team to resolve this problem."),
-					  g_strdup_printf ( _("File \"%s\" cannot be imported."), liste_selection[i]) );
-		    result = FALSE;
+		  type = TYPE_GNUCASH;
 		}
+	      else
+		{
+		  type = TYPE_UNKNOWN;
+		}
+	    }
+	  else {
+	    if ( pointeur_char[0] == '<' )
+	      {
+		type = TYPE_HTML;
+	      }
+	    else
+	      {
+		type = TYPE_UNKNOWN;
+	      }
+	  }
 	}
+
+	switch ( type )
+	  {
+	  case TYPE_OFX:
+	    result = recuperation_donnees_ofx ( liste_selection[i]);
+	    break;
+
+	  case TYPE_QIF:
+	    result = recuperation_donnees_qif ( fichier );
+	    break;
+
+	  case TYPE_HTML:
+	    /* Pour l'instant html non implémenté */
+	    result = recuperation_donnees_html ( fichier );
+	    break;
+
+	  case TYPE_GNUCASH:
+	    result = recuperation_donnees_gnucash ( liste_selection[i] );
+	    break;
+
+	  case TYPE_UNKNOWN:
+	  default:
+	    dialogue_error_hint ( _("Grisbi is unable to determine type of this file.  If it is a QIF, an OFX file or a HTML page from a online bank service, please contact the grisbi team to resolve this problem."),
+				  g_strdup_printf ( _("File \"%s\" cannot be imported."), liste_selection[i]) );
+	    result = FALSE;
+	    break;
+	  }
+
         /* clean up */
 	fclose ( fichier );
         if (pointeur_char) free ( pointeur_char );
@@ -288,9 +335,36 @@ gboolean affichage_recapitulatif_importation ( void )
     if ( !liste_comptes_importes )
 	return (FALSE);
 
+    /* First, iter to see if we need to create currencies */
+    liste_tmp = liste_comptes_importes;
+    while ( liste_tmp )
+      {
+	struct struct_compte_importation * compte;
+	compte = liste_tmp -> data;
+
+	if ( compte -> devise )
+	  {
+	    struct struct_devise *devise;
+		    
+	    /* First, we search currency from ISO4217 code for
+	       existing currencies */
+	    devise = devise_par_code_iso ( compte -> devise );
+
+	    /* Then, by nickname for existing currencies */
+	    if ( ! devise )
+	      devise = devise_par_nom ( compte -> devise );
+
+	    /* Last ressort, we browse ISO4217 currency list and create
+	       currency if found */
+	    if ( ! devise )
+	      devise = find_currency_from_iso4217_list ( compte -> devise );
+
+	    liste_tmp = liste_tmp -> next;
+	  }
+      }
 
     if ( dialog_recapitulatif )
-    {
+      {
 	/*  la boite a déjà été créé, on ajoute les nouveaux comptes à la suite */
 
 	/* on vérifie déjà s'il y a plus d'éléments dans la liste que de lignes sur le tableau */
@@ -303,14 +377,14 @@ gboolean affichage_recapitulatif_importation ( void )
 				      GTK_TABLE ( table_recapitulatif ) -> nrows - 1 );
 
 	    while ( liste_tmp )
-	    {
+	      {
 		cree_ligne_recapitulatif ( liste_tmp -> data,
 					   g_slist_position ( liste_comptes_importes,
 							      liste_tmp ) + 1);
-		liste_tmp = liste_tmp -> next;
-	    }
+		    liste_tmp = liste_tmp -> next;
+	      }
 	}
-
+	
 	gtk_widget_show ( dialog_recapitulatif );
 
     }
@@ -630,7 +704,11 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
     {
 	struct struct_devise *devise;
 
+	/* First, we search currency from ISO4217 code for existing currencies */
 	devise = devise_par_code_iso ( compte -> devise );
+	/* Then, by nickname for existing currencies */
+	if ( ! devise )
+	  devise = devise_par_nom ( compte -> devise );
 
 	if ( devise )
 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( compte -> bouton_devise ),
@@ -638,11 +716,11 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 							  devise ));
 	else
 	{
-	    /* 	    la devise avait un nom mais n'a pas été retrouvée (n'existe que pour ofx); 2 possibilités : */
-	    /* 		soit elle n'est pas crÃƒ©é (l'utilisateur la créera une fois la fenetre affichée) */
-	    /* 		soit elle est créé mais pas avec le bon code */
-
-	    dialogue_warning_hint ( g_strdup_printf ( _( "Currency of imported account '%s' is %s.  Either this currency doesn't exist so you have to create it in dialog window, or this currency already exists but the ISO code is wrong.\nTo avoid this message, please set its ISO code in configuration."),
+	    /* 	    la devise avait un nom mais n'a pas été retrouvée; 2 possibilités : */
+	    /* 		- soit elle n'est pas crÃƒ©é (l'utilisateur
+			  la créera une fois la fenetre affichée) */ 
+	    /* 		- soit elle est créé mais pas avec le bon code */
+	    dialogue_warning_hint ( g_strdup_printf ( _( "Currency of imported account '%s' is %s.  Either this currency doesn't exist so you have to create it in next window, or this currency already exists but the ISO code is wrong.\nTo avoid this message, please set its ISO code in configuration."),
 						      compte -> nom_de_compte,
 						      compte -> devise ),
 				    g_strdup_printf ( _("Can't associate ISO 4217 code for currency '%s'."),  compte -> devise ));
@@ -825,16 +903,20 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 
     switch ( compte -> origine )
     {
-	case 0 :
+	case QIF_IMPORT :
 	    label = gtk_label_new ( _( "QIF file"));
 	    break;
 
-	case 1:
+	case OFX_IMPORT:
 	    label = gtk_label_new ( _( "OFX file"));
 	    break;
 
-	case 2:
+	case HTML_IMPORT:
 	    label = gtk_label_new ( _( "HTML file"));
+	    break;
+
+	case GNUCASH_IMPORT:
+	    label = gtk_label_new ( _( "Gnucash file"));
 	    break;
 
 	default: 
