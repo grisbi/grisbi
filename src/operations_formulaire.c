@@ -1191,8 +1191,8 @@ else if (gtk_widget_get_style ( widget_formulaire_operations[1] ) == style_entre
 	  gtk_widget_grab_focus ( GTK_WIDGET ( popup ));
 	}
       break;
-    /* GDC : Gestion de la date réelle */
-     case 18:
+
+     case 7:
        /* click sur l'entrée de la date réelle*/
 
        /* si double click, on popup le calendrier */
@@ -1295,7 +1295,7 @@ else if (gtk_widget_get_style ( widget_formulaire_operations[1] ) == style_entre
  	  /* ajoute le bouton annuler */
 
  	  bouton = gtk_button_new_with_label ( "Annuler" );
- 	  gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
+	  gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
  				      "clicked",
  				      GTK_SIGNAL_FUNC ( gtk_widget_destroy ),
  				      GTK_OBJECT ( popup ));
@@ -1320,13 +1320,12 @@ else if (gtk_widget_get_style ( widget_formulaire_operations[1] ) == style_entre
  	  gtk_widget_grab_focus ( GTK_WIDGET ( popup ));
  	}
        break;
-/* GDCFin */
+
 
     default:
     }
  }
- /***********************************************************************************************************/
-
+/***********************************************************************************************************/
 
 
  /***********************************************************************************************************/
@@ -3632,8 +3631,10 @@ fflush(0);
   if ( type -> numerotation_auto )
     {
       entree_prend_focus ( widget_formulaire_operations[10] );
-      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[10] ),
-			   itoa ( type -> no_en_cours  + 1));
+
+      if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[10] ))))
+	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[10] ),
+			     itoa ( type -> no_en_cours  + 1));
     }
     
  }

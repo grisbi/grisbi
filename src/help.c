@@ -92,7 +92,7 @@ void a_propos ( GtkWidget *bouton,
 		       0 );
   gtk_widget_show ( label );
 
-  url = gnome_href_new ( "http://www.grisbi.org/telechargement/doc/illustre/grisbi.html",
+  url = gnome_href_new ( "http://www.grisbi.org/modules.php?name=Documentation",
 			 "Documentation en ligne" );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( boite ) -> vbox ),
 		       url,
