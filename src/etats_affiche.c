@@ -738,11 +738,10 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 			      date_debut_periode );
 
 	    if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( COLON(_("Result of the year %s (%d transactions)")),
+		text = g_strdup_printf ( COLON(_("Result for %s (%d transactions)")),
 					 buffer, nb_ope_periode_etat );
 	    else
-		text = g_strdup_printf ( COLON(_("Result of the year %s")),
-					 buffer );
+		text = g_strdup_printf ( COLON(_("Result for %s")), buffer );
 	    break;
 	}
 

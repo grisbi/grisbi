@@ -2393,7 +2393,7 @@ void valider_ventilation_echeances ( void )
     if ( fabs ( montant_operation_ventilee_echeances - somme_ventilee_echeances ) >= 0.000001 )
     {
 	if ( ! question_yes_no_hint ( _("Incomplete breakdown"),
-				      _("transaction amount isn't fully broken down.\nProceed anyway?") ))
+				      _("Transaction amount isn't fully broken down.\nProceed anyway?") ))
 	    return;
     }
 
