@@ -314,10 +314,14 @@ gboolean question_yes_no ( gchar *texte )
 
 
 /**
- * Pop up a warning dialog window with a question and wait for user to
- * press 'OK' or 'Cancel'.
+ * Pop up a warning dialog window with a question and an informal text
+ * and a checkbox that allow this message not to be displayed again
+ * thanks to preferences and wait for user to press 'OK' or 'Cancel'.
  *
  * \param texte  Text to be displayed
+ * \param var variable that both controls whether the dialog will
+ * appear or not and that indicates which variable could be modified
+ * so that this message won't appear again.
  *
  * \return TRUE if user pressed 'OK'.  FALSE otherwise.
  */
