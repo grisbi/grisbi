@@ -4,6 +4,7 @@ grisbi_pixmaps_DATA = \
 	addresses.png \
 	banks.png \
 	currencies.png \
+	exec.png \
 	files.png \
 	financial-years.png \
 	fonts.png \
