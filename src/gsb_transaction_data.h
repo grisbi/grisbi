@@ -58,6 +58,7 @@ typedef struct
 
 
 /* START_DECLARATION */
+gint gsb_transaction_data_get_last_number (void);
 gboolean gsb_transaction_data_init_variables ( void );
 /* END_DECLARATION */
 

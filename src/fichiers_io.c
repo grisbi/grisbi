@@ -83,11 +83,6 @@ gchar *titre_fichier;
 gchar *adresse_commune;
 gchar *adresse_secondaire;
 
-/* contient le dernier numéro d'opération de tous les comptes réunis */
-
-gint no_derniere_operation;
-
-
 
 /*START_EXTERN*/
 extern GtkWidget *adr_banque;
@@ -723,10 +718,6 @@ gboolean recuperation_generalites_xml ( xmlNodePtr node_generalites )
 	if ( !strcmp ( node_generalites -> name,
 		       "Type_affichage_perso_echeances" ))
 	    affichage_echeances_perso_j_m_a = my_atoi ( xmlNodeGetContent ( node_generalites ));
-
-	if ( !strcmp ( node_generalites -> name,
-		       "Numero_derniere_operation" ))
-	    no_derniere_operation= my_atoi ( xmlNodeGetContent ( node_generalites ));
 
 	if ( !strcmp ( node_generalites -> name,
 		       "Echelle_date_import" ))
@@ -3119,11 +3110,6 @@ gboolean enregistre_fichier ( gchar *new_file )
 		      NULL,
 		      "Type_affichage_perso_echeances",
 		      itoa (affichage_echeances_perso_j_m_a));
-    xmlNewTextChild ( node,
-		      NULL,
-		      "Numero_derniere_operation",
-		      itoa ( no_derniere_operation));
-
     xmlNewTextChild ( node,
 		      NULL,
 		      "Echelle_date_import",

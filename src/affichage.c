@@ -25,7 +25,6 @@
 
 /*START_INCLUDE*/
 #include "affichage.h"
-#include "operations_formulaire.h"
 #include "fichiers_gestion.h"
 #include "affichage_formulaire.h"
 #include "utils_file_selection.h"

@@ -44,11 +44,11 @@
 #include "barre_outils.h"
 #include "echeancier_liste.h"
 #include "operations_liste.h"
-#include "operations_formulaire.h"
 #include "echeancier_formulaire.h"
 #include "gsb_account.h"
 #include "menu.h"
 #include "traitement_variables.h"
+#include "utils_buttons.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -92,7 +92,7 @@ extern GtkWidget *tree_view_liste_echeances;
 /*******************************************************************************************/
 GtkWidget *creation_barre_outils ( void )
 {
-    GtkWidget *hbox, *separateur, *handlebox, *hbox2, *icone, *omenu, *menu, *menu_item;
+    GtkWidget *hbox, *handlebox, *hbox2, *omenu, *menu, *menu_item;
 
     hbox = gtk_hbox_new ( FALSE, 5 );
 
@@ -140,7 +140,7 @@ GtkWidget *creation_barre_outils ( void )
     bouton_affiche_r = new_button_with_label_and_image ( _("Display reconciled transactions"),
 							 "r.png",
 							 G_CALLBACK ( change_aspect_liste ),
-							 5 ), 
+							 GINT_TO_POINTER (5)), 
     gtk_box_pack_end ( GTK_BOX ( hbox2 ), bouton_affiche_r, FALSE, FALSE, 0 );
 
     bouton_grille = new_button_with_label_and_image ( _("Display grid"),
@@ -155,22 +155,22 @@ GtkWidget *creation_barre_outils ( void )
     menu_item = gtk_menu_item_new_with_label ( _("Simple view") );
     gtk_menu_append ( GTK_MENU ( menu ), menu_item );
     g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
-			       G_CALLBACK (change_aspect_liste), 1 );
+			       G_CALLBACK (change_aspect_liste), GINT_TO_POINTER (1) );
 
     menu_item = gtk_menu_item_new_with_label ( _("Two lines view") );
     gtk_menu_append ( GTK_MENU ( menu ), menu_item );
     g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
-			       G_CALLBACK (change_aspect_liste), 2 );
+			       G_CALLBACK (change_aspect_liste), GINT_TO_POINTER (2) );
 
     menu_item = gtk_menu_item_new_with_label ( _("Three lines view") );
     gtk_menu_append ( GTK_MENU ( menu ), menu_item );
     g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
-			       G_CALLBACK (change_aspect_liste), 3 );
+			       G_CALLBACK (change_aspect_liste), GINT_TO_POINTER (3) );
 
     menu_item = gtk_menu_item_new_with_label ( _("Complete view") );
     gtk_menu_append ( GTK_MENU ( menu ), menu_item );
     g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
-			       G_CALLBACK (change_aspect_liste), 4 );
+			       G_CALLBACK (change_aspect_liste), GINT_TO_POINTER (4) );
 
     omenu = gtk_option_menu_new ();
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( omenu ), menu );

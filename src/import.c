@@ -46,6 +46,7 @@
 #include "gsb_account.h"
 #include "operations_comptes.h"
 #include "comptes_onglet.h"
+#include "gsb_transaction_data.h"
 #include "fichiers_gestion.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
@@ -118,7 +119,6 @@ extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern GtkTreeStore *model;
-extern gint no_derniere_operation;
 extern GtkWidget *notebook_listes_operations;
 extern GtkTreeSelection * selection;
 extern GtkWidget *tree_view;
@@ -1368,7 +1368,7 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 
 	/* récupération du no de l'opé */
 
-	operation -> no_operation = ++no_derniere_operation;
+	operation -> no_operation = gsb_transaction_data_get_last_number () + 1;
 
 	/* 	récupéération de l'id si elle existe */
 
@@ -2015,7 +2015,7 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 
     /* récupération du no de l'opé */
 
-    operation -> no_operation = ++no_derniere_operation;
+    operation -> no_operation = gsb_transaction_data_get_last_number () + 1;
 
     /* récupération de l'id de l'opé s'il existe */
 

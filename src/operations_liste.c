@@ -163,7 +163,6 @@ GtkWidget *solde_label_pointe;
 
 
 /*START_EXTERN*/
-extern GtkWidget *bouton_affiche_cache_formulaire;
 extern GtkWidget *bouton_ok_equilibrage;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;

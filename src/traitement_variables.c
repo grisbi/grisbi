@@ -99,7 +99,6 @@ extern gint nb_enregistrements_categories, no_derniere_categorie;
 extern gint no_derniere_devise;
 extern gint no_derniere_echeance;
 extern gint no_derniere_imputation;
-extern gint no_derniere_operation;
 extern int no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
@@ -177,7 +176,6 @@ void init_variables ( void )
 
     nom_fichier_comptes = NULL;
 
-    no_derniere_operation = 0;
     solde_label = NULL;
     solde_label_pointe = NULL;
 

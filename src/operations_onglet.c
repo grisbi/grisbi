@@ -46,8 +46,8 @@ GtkWidget *paned_onglet_operations;
 /*START_EXTERN*/
 extern GtkWidget *formulaire;
 extern GtkWidget *frame_droite_bas;
-extern GtkWidget *notebook_comptes_equilibrage;
 extern GtkWidget *label_last_statement;
+extern GtkWidget *notebook_comptes_equilibrage;
 /*END_EXTERN*/
 
 

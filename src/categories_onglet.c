@@ -34,6 +34,7 @@
 #include "dialog.h"
 #include "utils_file_selection.h"
 #include "gsb_account.h"
+#include "gsb_transaction_data.h"
 #include "gtk_combofix.h"
 #include "utils_buttons.h"
 #include "utils.h"
@@ -92,7 +93,6 @@ extern GtkWidget *formulaire;
 extern GSList *liste_categories_ventilation_combofix;
 extern GtkTreeStore *model;
 extern gint modif_categ;
-extern gint no_derniere_operation;
 extern GtkTreeSelection * selection;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_TOTAL_WIDGET];
@@ -761,6 +761,7 @@ void importer_categ ( void )
     GtkWidget *dialog, *fenetre_nom;
     gint resultat;
     gchar *nom_categ;
+    gint last_transaction_number;
 
     fenetre_nom = file_selection_new ( _("Import categories"),
 				       FILE_SELECTION_IS_OPEN_DIALOG | FILE_SELECTION_MUST_EXIST);
@@ -778,18 +779,20 @@ void importer_categ ( void )
     nom_categ = file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom ));
     gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
+    last_transaction_number = gsb_transaction_data_get_last_number();
+
     /* on permet de remplacer/fusionner la liste */
 
     dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
 				       make_hint ( _("Merge imported categories with existing?"),
-						   ( no_derniere_operation ?
+						   ( last_transaction_number ?
 						     _("File already contains transactions.  If you decide to continue, existing categories will be merged with imported ones.") :
 						     _("File does not contain transactions.  "
 						       "If you decide to continue, existing categories will be merged with imported ones.  "
 						       "Once performed, there is no undo for this.\n"
 						       "You may also decide to replace existing categories with imported ones." ) ) ) );
 
-    if ( !no_derniere_operation )
+    if ( !last_transaction_number)
 	gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
 				 _("Replace existing"), 2,
 				 NULL );
@@ -807,7 +810,7 @@ void importer_categ ( void )
 	case 2 :
 	    /* si on a choisi de remplacer l'ancienne liste, on la vire ici */
 
-	    if ( !no_derniere_operation )
+	    if ( !last_transaction_number )
 	    {
 		g_slist_free ( liste_struct_categories );
 		liste_struct_categories = NULL;

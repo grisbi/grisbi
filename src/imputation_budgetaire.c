@@ -41,6 +41,7 @@
 #include "utils_devises.h"
 #include "utils_file_selection.h"
 #include "gsb_account.h"
+#include "gsb_transaction_data.h"
 #include "gtk_combofix.h"
 #include "traitement_variables.h"
 #include "utils_buttons.h"
@@ -105,7 +106,6 @@ extern GdkBitmap *masque_ferme;
 extern GdkBitmap *masque_ouvre;
 extern GtkTreeStore *model;
 extern gint modif_imputation;
-extern gint no_derniere_operation;
 extern gint no_devise_totaux_tiers;
 extern GdkPixmap *pixmap_ferme;
 extern GdkPixmap *pixmap_ouvre;
@@ -1826,6 +1826,7 @@ void importer_ib ( void )
     GtkWidget *dialog, *fenetre_nom;
     gint resultat;
     gchar *nom_ib;
+    gint last_transaction_number;
 
     fenetre_nom = file_selection_new (_("Import budgetary lines" ),
 				      FILE_SELECTION_MUST_EXIST);
@@ -1844,7 +1845,9 @@ void importer_ib ( void )
     nom_ib = file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom ));
     gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
-    if ( no_derniere_operation )
+    last_transaction_number = gsb_transaction_data_get_last_number ();
+
+    if ( last_transaction_number )
     {
 	/*       il y a déjà des opérations dans le fichier, on ne peut que fusionner */
 
@@ -1875,7 +1878,7 @@ void importer_ib ( void )
     {
 	case 2 :
 	    /* si on a choisi de remplacer l'ancienne liste, on la vire ici */
-	    if ( !no_derniere_operation )
+	    if ( !last_transaction_number )
 	    {
 		g_slist_free ( liste_struct_imputation );
 		liste_struct_imputation = NULL;

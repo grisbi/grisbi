@@ -44,6 +44,7 @@
 #include "gsb_account.h"
 #include "calendar.h"
 #include "utils_dates.h"
+#include "gsb_transaction_data.h"
 #include "gtk_combofix.h"
 #include "utils_ib.h"
 #include "menu.h"
@@ -115,11 +116,8 @@ GtkWidget *tab_widget_formulaire[4][6];
 
 /*START_EXTERN*/
 extern gboolean block_menu_cb ;
-extern GtkWidget *bouton_affiche_cache_formulaire;
 extern GdkColor couleur_grise;
 extern struct struct_devise *devise_compte;
-extern GtkWidget *fleche_bas;
-extern GtkWidget *fleche_haut;
 extern GtkWidget *formulaire;
 extern GtkWidget *frame_droite_bas;
 extern gint hauteur_ligne_liste_opes;
@@ -137,7 +135,6 @@ extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern gint nb_colonnes;
-extern gint no_derniere_operation;
 extern FILE * out;
 extern gdouble taux_de_change[2];
 extern GtkTooltips *tooltips_general_grisbi;
@@ -3422,7 +3419,7 @@ gboolean gsb_transactions_append_transaction ( struct structure_operation *trans
 {
     if ( !transaction -> no_operation )
     {
-	transaction -> no_operation = ++no_derniere_operation;
+	transaction -> no_operation = gsb_transaction_data_get_last_number () + 1;
 
 	gsb_account_set_transactions_list ( transaction -> no_compte,
 					    g_slist_append ( gsb_account_get_transactions_list (transaction -> no_compte),
@@ -3700,9 +3697,6 @@ void affiche_cache_le_formulaire ( void )
     }
     else
     {
-	GtkAdjustment *ajustement;
-	gint position_ligne_selectionnee;
-
 	etat.formulaire_toujours_affiche = 1;
 
 	update_ecran ();

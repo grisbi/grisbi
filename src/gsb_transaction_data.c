@@ -35,6 +35,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_transaction_data.h"
+#include "gsb_account.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -75,27 +76,29 @@ gint gsb_transaction_data_get_last_number (void)
     gint last_number = 0;
     GSList *accounts_list;
 
-/*     accounts_list = gsb_account_get_accounts_list (); */
+    accounts_list = gsb_account_get_list_accounts ();
 
     while ( accounts_list )
     {
 	gint i;
 	GSList *transactions_list;
 
-/* 	i = gsb_account_get_no_account ( accounts_list -> data ); */
-/* 	transaction_list = gsb_account_get_transactions_list (i); */
+	i = gsb_account_get_no_account ( accounts_list -> data );
+	transactions_list = gsb_account_get_transactions_list (i);
 
 	while ( transactions_list )
 	{
-/* xxx */
+	    struct_transaction *transaction;
+
+	    transaction = transactions_list -> data;
+	    if ( transaction -> transaction_number > last_number )
+		last_number = transaction -> transaction_number;
+
+	    transactions_list = transactions_list -> next;
 	}
 	accounts_list = accounts_list -> next;
     }
 
-
-
-
-
-
+    return last_number;
 }
 

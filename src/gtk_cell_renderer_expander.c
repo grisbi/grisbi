@@ -40,7 +40,7 @@ static  gint gtk_cell_renderer_expander_activate (GtkCellRenderer      *cell,
 				   GdkRectangle         *background_area,
 				   GdkRectangle         *cell_area,
 				   GtkCellRendererState  flags);
-static  void gtk_cell_renderer_expander_class_init (GtkCellRendererExpanderClass *class);;
+static  void gtk_cell_renderer_expander_class_init (GtkCellRendererExpanderClass *class);
 static gboolean gtk_cell_renderer_expander_get_active (GtkCellRendererExpander *expander);
 static  void gtk_cell_renderer_expander_get_property (GObject     *object,
 				       guint        param_id,
