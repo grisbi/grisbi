@@ -139,9 +139,8 @@ gboolean charge_operations ( void )
 	    /* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
 	    /* la version nécessaire pour l'ouvrir */
 
-
 	    dialogue_error ( g_strdup_printf ( _("Grisbi version %s is needed to open this file"),
-					       xmlNodeGetContent ( root->children->children->next )));
+					       xmlNodeGetContent ( root->children->next -> children->next ->next ->next  )));
 
 	    xmlFreeDoc ( doc );
 
