@@ -205,10 +205,12 @@ gint latex_initialise (GSList * opes_selectionnees)
 
   fprintf (out, 
 	   "\\documentclass{article}\n\n"
+	   "\\usepackage{landscape}\n"
+	   "\\def\\printlandscape{\\special{landscape}}\n"
+	   "\\special{! TeXDict begin /landplus90{true}store end }\n"
 	   "\\usepackage{a4}\n"
 	   "\\usepackage[utf8]{inputenc}\n"
 	   "\\usepackage{eurosym}\n"
-	   "\\usepackage{portland}\n"
 	   "\\usepackage{boxedminipage}\n"
 	   "\\usepackage{longtable}\n"
 	   "\\usepackage{vmargin}\n"
@@ -216,7 +218,6 @@ gint latex_initialise (GSList * opes_selectionnees)
 	   "\\setpapersize{A4}\n"
 	   "\\setmarginsrb{1cm}{1cm}{1cm}{1cm}{0cm}{0cm}{0cm}{0cm}\n\n"
 	   "\\begin{document}\n\n"
-	   "\\landscape\n"
 	   "\\tabcolsep 0pt\n"
 	   "\\begin{longtable}[l]{");
 
