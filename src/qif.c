@@ -1491,8 +1491,6 @@ void export_qif (GSList* export_entries_list )
     gchar *nom_fichier_qif, *montant_tmp;
     GSList *liste_tmp;
     FILE *fichier_qif;
-    gint i, resultat;
-
 
     liste_tmp = export_entries_list;
 
