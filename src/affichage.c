@@ -290,14 +290,6 @@ GtkWidget * onglet_display_fonts ( void )
   gtk_box_pack_start ( GTK_BOX ( paddingbox ), table,
 		       TRUE, TRUE, 0 );
 
-  if (!general_font_size)
-    {
-      general_font_name = "Sans";
-      general_font_size = "12";
-      list_font_name = "Sans";
-      list_font_size = "12";
-    }
-
   /* Change general font */
   label = gtk_label_new (COLON(_("General font")));
   gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
@@ -312,11 +304,7 @@ GtkWidget * onglet_display_fonts ( void )
   hbox_font = gtk_hbox_new ( FALSE, 0 );
   general_font_name_label = gtk_label_new (general_font_name);
   gtk_widget_modify_font (general_font_name_label,
-			  pango_font_description_from_string
-			  (g_strconcat(general_font_name,
-				       ", ",
-				       general_font_size,
-				       NULL)));
+			  pango_font_description_from_string (fonte_general));
   gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
 		       general_font_name_label,
 		       TRUE, TRUE, 5 );
@@ -337,6 +325,9 @@ GtkWidget * onglet_display_fonts ( void )
 		     font_button, 1, 2, 0, 1,
 		     GTK_EXPAND | GTK_FILL, 0,
 		     0, 0 );
+  update_font_button(general_font_name_label,
+		     general_font_size_label,
+		     fonte_general);
 
   /* Change list font */
   label = gtk_label_new (COLON(_("Transaction list font")));
@@ -352,18 +343,14 @@ GtkWidget * onglet_display_fonts ( void )
   hbox_font = gtk_hbox_new ( FALSE, 0 );
   list_font_name_label = gtk_label_new (list_font_name);
   gtk_widget_modify_font (list_font_name_label,
-			  pango_font_description_from_string
-			  (g_strconcat(list_font_name,
-				       ", ",
-				       list_font_size,
-				       NULL)));
+			  pango_font_description_from_string (fonte_liste));
   gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
 		       list_font_name_label,
 		       TRUE, TRUE, 5 );
   gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
 		       gtk_vseparator_new (),
 		       FALSE, FALSE, 0 );
-  list_font_size_label = gtk_label_new (list_font_size);
+  list_font_size_label = gtk_label_new ("");
   gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
 		       list_font_size_label,
 		       FALSE, FALSE, 5 );
@@ -377,6 +364,9 @@ GtkWidget * onglet_display_fonts ( void )
 		     font_button, 1, 2, 1, 2,
 		     GTK_EXPAND | GTK_FILL, 0,
 		     0, 0 );
+  update_font_button(list_font_name_label,
+		     list_font_size_label,
+		     fonte_liste);
 
   gtk_box_pack_start ( GTK_BOX ( paddingbox ), table,
 		       TRUE, TRUE, 0 );
@@ -597,10 +587,9 @@ GtkWidget *onglet_affichage ( void )
   bouton = gnome_font_picker_new ();
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
-  /* FIXME FONTS */
-/*   if ( fonte_liste ) */
-/*     gnome_font_picker_set_font_name ( GNOME_FONT_PICKER ( bouton ), */
-/* 				      fonte_liste ); */
+  if ( fonte_liste )
+    gnome_font_picker_set_font_name ( GNOME_FONT_PICKER ( bouton ),
+				      fonte_liste );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
 		       "font-set",
 		       GTK_SIGNAL_FUNC ( choix_fonte ),
@@ -658,10 +647,9 @@ GtkWidget *onglet_affichage ( void )
   bouton = gnome_font_picker_new ();
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
-  /* FIXME FONTS */
-/*   if ( fonte_general ) */
-/*     gnome_font_picker_set_font_name ( GNOME_FONT_PICKER ( bouton ), */
-/* 				      fonte_general ); */
+  if ( fonte_general )
+    gnome_font_picker_set_font_name ( GNOME_FONT_PICKER ( bouton ),
+				      fonte_general );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
 		       "font-set",
 		       GTK_SIGNAL_FUNC ( choix_fonte_general ),
@@ -1236,6 +1224,47 @@ void deplacement_bas ( void )
 
 
 
+/**
+ * Update two labels according to font name, which is parsed to
+ * separate both name and size
+ *
+ * \param name_label a widget which is to receive the name part of the
+ * font name
+ * \param size_label a widget which is to receive the size part of the
+ * font name
+ * \param fontname a font name in the form "name, size" or "name,
+ * attr, size"
+ */
+void update_font_button(GtkWidget * name_label,
+			GtkWidget * size_label,
+			gchar * fontname)
+{
+  gchar * font_name, *font_size, *tmp;
+
+   if (!fontname)
+    fontname = "Sans 10";
+
+  gtk_widget_modify_font (name_label,
+			  pango_font_description_from_string(fontname));
+
+  font_name = g_strdup ( fontname );
+  tmp = font_name + strlen(font_name) - 1;
+  while (isdigit(*tmp) ||
+	 (*tmp) == '.')
+    tmp --;
+  font_size = tmp+1;
+	
+  while (*tmp == ' ' ||
+	 *tmp == ',')
+    {
+      *tmp=0;
+      tmp--;
+    }
+
+  gtk_label_set_text (GTK_LABEL(name_label), font_name);
+  gtk_label_set_text (GTK_LABEL(size_label), font_size);
+}
+
 
 /* **************************************************************************************************************************** */
 void choix_fonte ( GtkWidget *bouton,
@@ -1245,9 +1274,12 @@ void choix_fonte ( GtkWidget *bouton,
   GdkFont *font;
   gchar * fontname;
   GtkWidget * dialog;
-  gint i;
+  gint i, size;
 
   dialog = gtk_font_selection_dialog_new (COLON(_("Transaction list font")));
+  if (fonte_liste)
+    gtk_font_selection_dialog_set_font_name (GTK_FONT_SELECTION_DIALOG(dialog), 
+					     fonte_liste);
   gtk_window_set_modal ( GTK_WINDOW ( dialog ), 
 			 TRUE );
 
@@ -1255,35 +1287,16 @@ void choix_fonte ( GtkWidget *bouton,
     {
       case GTK_RESPONSE_OK:
 	fontname = gtk_font_selection_dialog_get_font_name (GTK_FONT_SELECTION_DIALOG(dialog));
-	gtk_widget_modify_font (list_font_name_label,
-				pango_font_description_from_string(fontname));
-
-	list_font_name = fontname;
-	fonte = g_strdup ( fontname );
-	fontname = fontname + strlen(fontname) - 1;
-	while (isdigit(*fontname) ||
-	       (*fontname) == '.')
-	  fontname --;
-	list_font_size = fontname+1;
-	
-	while (*fontname == ' ' ||
-	       *fontname == ',')
-	  {
-	    *fontname=0;
-	    fontname--;
-	  }
-
-	gtk_label_set_text (GTK_LABEL(list_font_name_label),
-			    list_font_name);
-	gtk_label_set_text (GTK_LABEL(list_font_size_label),
-			    list_font_size);	
-
-	gtk_widget_destroy (dialog);
+	gtk_widget_destroy (dialog);  
+	update_font_button (list_font_name_label, list_font_size_label, 
+			    fontname);
 	break;
       default:
 	gtk_widget_destroy (dialog);
 	return;
     }
+
+  fonte_liste = fontname;
   
   if ( nb_comptes )
     {
@@ -1298,17 +1311,14 @@ void choix_fonte ( GtkWidget *bouton,
 
       /* Find font size */
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
       for ( i = 0 ; i < nb_comptes ; i++ )
 	{
-
+	  gint size = pango_font_description_get_size
+	    (pango_font_description_from_string(fontname));
 	  gtk_clist_set_row_height ( GTK_CLIST ( CLIST_OPERATIONS ),
-				     g_strtod ( list_font_size,
-						NULL ) + 2 );
+				     (size/PANGO_SCALE) + 2 );
 	  gtk_clist_set_row_height ( GTK_CLIST ( liste_echeances ),
-				     g_strtod ( list_font_size,
-						NULL ) + 2 );
-
+				     (size/PANGO_SCALE) + 2 );
 	  p_tab_nom_de_compte_variable++;
 	}
 
@@ -1332,6 +1342,9 @@ void choix_fonte_general ( GtkWidget *bouton,
   gint i;
 
   dialog = gtk_font_selection_dialog_new (COLON(_("General font")));
+  if (fonte_general)
+    gtk_font_selection_dialog_set_font_name (GTK_FONT_SELECTION_DIALOG(dialog), 
+					     fonte_general);
   gtk_window_set_modal ( GTK_WINDOW ( dialog ), 
 			 TRUE );
 
@@ -1339,28 +1352,9 @@ void choix_fonte_general ( GtkWidget *bouton,
     {
     case GTK_RESPONSE_OK:
       fontname = gtk_font_selection_dialog_get_font_name (GTK_FONT_SELECTION_DIALOG(dialog));
-      gtk_widget_modify_font (general_font_name_label,
-			      pango_font_description_from_string(fontname));
-
-      general_font_name = fontname;
-      fonte = g_strdup ( fontname );
-      fontname = fontname + strlen(fontname) - 1;
-      while (isdigit(*fontname) ||
-	     (*fontname) == '.')
-	fontname --;
-      general_font_size = fontname+1;
-	
-      while (*fontname == ' ' ||
-	     *fontname == ',')
-	{
-	  *fontname=0;
-	  fontname--;
-	}
-
-      gtk_label_set_text (GTK_LABEL(general_font_name_label),
-			  general_font_name);
-      gtk_label_set_text (GTK_LABEL(general_font_size_label),
-			  general_font_size);	
+      gtk_widget_destroy (dialog);  
+      update_font_button (general_font_name_label, general_font_size_label, 
+			  fontname);
 
       gtk_widget_destroy (dialog);
       break;
@@ -1368,6 +1362,8 @@ void choix_fonte_general ( GtkWidget *bouton,
       gtk_widget_destroy (dialog);
       return;
     }
+
+  fonte_general = fontname;
 
   style_general = gtk_widget_get_style ( window );
   gtk_style_set_font (style_general, gdk_font_load ( fonte ));

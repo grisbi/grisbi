@@ -147,10 +147,12 @@ gint ancienne_ligne_selection;
 GtkStyle *style_couleur [2];
 GtkStyle *style_rouge_couleur [2];
 GtkStyle *style_gris;                     /* utilisé pour le grisé des échéances */
-gchar * list_font_name;
-gchar * list_font_size;
-gchar * general_font_name;
-gchar * general_font_size;
+gchar * fonte_liste;
+gchar * fonte_general;
+gchar * list_font_name; /* FIXME FONTS: remove */
+gchar * list_font_size; /* FIXME FONTS: remove */
+gchar * general_font_name; /* FIXME FONTS: remove */
+gchar * general_font_size; /* FIXME FONTS: remove */
 GtkWidget *hbox_comptes_equilibrage;
 GtkWidget *formulaire;
 GtkWidget *pointeur_fenetre_nouveau_compte;
