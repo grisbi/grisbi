@@ -195,19 +195,21 @@ void raz_configuration ( void )
 void sauve_configuration (void)
 {
   GSList *pointeur_fichier_a_verifier;
-  gint i, x, y;
+  gint i;
   gchar **tab_pointeurs;
 
   /*   sauvegarde de la géométrie */
 
-/*   if ( GTK_WIDGET ( window) -> window ) */
-/*     gnome_parse_geometry ( gnome_geometry_string ( GTK_WIDGET(window) -> window ), */
-/* 			   &x, &y, &largeur_window, &hauteur_window ); */
-/*   else */
-/*     { */
-/*       largeur_window = 0; */
-/*       hauteur_window = 0; */
-/*     } */
+  if ( GTK_WIDGET ( window) -> window )
+    {
+      gtk_window_get_size ( GTK_WIDGET(window), 
+			    &largeur_window, &hauteur_window);
+    }
+  else
+    {
+      largeur_window = 0;
+      hauteur_window = 0;
+    }
 
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Geometry/Width", NULL ),
 			 largeur_window );
