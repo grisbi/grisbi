@@ -429,3 +429,24 @@ gchar *get_line_from_string ( gchar *string )
 /* ******************************************************************************* */
 
 
+
+
+/* ******************************************************************************* */
+/* fonction qui compte le nombre de caracteres dans une chaine                     */
+/* ******************************************************************************* */
+gint count_char_from_string ( gchar *search_char, gchar *string )
+{
+		gint compteur = 0;
+		gint i = 0;
+		gchar* finchaine = "\0";
+	
+    if ( !string || !search_char || strlen(search_char)!=1) return 0;
+
+    while (string[i]!=finchaine[0])
+		{
+			if (string[i]==search_char[0]) compteur++;
+			i++;
+		}		
+    return compteur;
+}
+/* ******************************************************************************* */
