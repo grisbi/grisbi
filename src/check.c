@@ -33,11 +33,13 @@
 #include "categories_onglet.h"
 #include "devises.h"
 #include "dialog.h"
+#include "search_glist.h"
 
 
 /*START_STATIC*/
 gboolean reconciliation_check ( void );
 gboolean duplicate_div_check ( void );
+gboolean contra_transaction_check ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -52,7 +54,7 @@ gboolean duplicate_div_check ( void );
  */
 gboolean debug_check ( void )
 {
-    if ( !reconciliation_check() && !duplicate_div_check () )
+    if ( !reconciliation_check() && !duplicate_div_check () && !contra_transaction_check() )
     {
 	dialogue_hint ( _("Grisbi found no known inconsistency in accounts processed."),
 			_("No inconsistency found.") );
@@ -114,8 +116,7 @@ gboolean reconciliation_check ( void )
 
 	/* On ne prend en compte que les opérations rapprochées.
 	   On ne prend pas en compte les opérations de ventilation. */
-	if ( pTransaction -> pointe == RECONCILED_TRANSACTION
-	     &&
+	if ( pTransaction -> pointe == RECONCILED_TRANSACTION &&
 	     !pTransaction -> no_operation_ventilee_associee )
 	{
 	  reconcilied_amount += calcule_montant_devise_renvoi ( pTransaction -> montant,
@@ -139,7 +140,7 @@ gboolean reconciliation_check ( void )
 						NOM_DU_COMPTE, 
 						SOLDE_DERNIER_RELEVE, devise_name_by_no ( DEVISE ),
 						reconcilied_amount, devise_name_by_no ( DEVISE ) ),
-				    NULL );
+			      NULL );
       }
       tested_account++;
     }
@@ -277,5 +278,152 @@ gboolean duplicate_div_check ()
     }
 
     return num_duplicate;
+}
+
+
+/******************************************************************************/
+/* contra_transaction_check.                                                  */
+/* Cette fonction est appelée après la création de toutes les listes.         */
+/* Elle permet de vérifier la cohérence des virements entre comptes           */
+/* suite à la découverte du bogue #542                                        */
+/******************************************************************************/
+gboolean contra_transaction_check ( void )
+{
+  gint affected_accounts = 0;
+  gboolean corrupted_file = FALSE;
+  GSList *pUserAccountsList = NULL;
+  gchar *pHint = NULL, *pText = "";
+
+  /* S'il n'y a pas de compte, on quitte */
+  if ( !nb_comptes )
+    return FALSE;
+    
+  /* On fera la vérification des comptes dans l'ordre préféré
+     de l'utilisateur. On fait une copie de la liste. */
+  pUserAccountsList = g_slist_copy ( ordre_comptes );
+  
+  /* Pour chacun des comptes, faire */
+  do
+  {
+    gboolean corrupted_account = FALSE;
+    GSList *pTransactionList;
+    gchar *account_name = NULL;
+
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( pUserAccountsList -> data );
+      
+    /* On affiche le nom du compte testé. Si le compte n'est pas affecté,
+       on libèrera la mémoire */
+    account_name = g_strdup_printf ("%s", NOM_DU_COMPTE);
+    
+    /* On récupère la liste des opérations */
+    pTransactionList = LISTE_OPERATIONS;
+
+    while ( pTransactionList )
+    {
+      struct structure_operation *pTransaction;
+
+      pTransaction = pTransactionList -> data;
+
+      /* Si l'opération est un virement vers un compte non supprimé */
+      if ( pTransaction -> relation_no_operation != 0 &&
+	   pTransaction -> relation_no_compte != -1 )
+      {
+	GSList *pList;
+	gpointer **save_ptab;
+
+	save_ptab = p_tab_nom_de_compte_variable;
+
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + pTransaction -> relation_no_compte;
+
+	pList = g_slist_find_custom ( LISTE_OPERATIONS,
+				      GINT_TO_POINTER ( pTransaction -> relation_no_operation ),
+				      (GCompareFunc) recherche_operation_par_no ) ;
+	
+	if ( !pList )
+	{
+	  /* S'il n'y avait pas eu encore d'erreur dans ce compte,
+	     on affiche son nom */
+	  if ( !corrupted_account ) {
+	    pText = g_strconcat ( pText,
+				  g_strdup_printf ( "\n<span weight=\"bold\">%s</span>\n",
+						    account_name), 
+				  NULL );
+	  }
+	  pText = g_strconcat ( pText,
+				g_strdup_printf ( _("Transaction #%d should have a contra #%d, "
+						    "but this one doesn't exist.\n"),
+						    pTransaction -> no_operation,
+						    pTransaction -> relation_no_operation),
+				NULL );
+	  corrupted_account = TRUE;
+	}
+	else
+	{
+	  struct structure_operation *pContraTransaction;
+	  
+	  pContraTransaction = pList -> data;
+	
+	  if ( pTransaction -> relation_no_operation != pContraTransaction -> no_operation ||
+	       pContraTransaction -> relation_no_operation != pTransaction -> no_operation )
+	  {
+	    /* S'il n'y avait pas eu encore d'erreur dans ce compte,
+	       on affiche son nom */
+	    if ( !corrupted_account ) {
+	      pText = g_strconcat ( pText,
+				    g_strdup_printf ( "\n<span weight=\"bold\">%s</span>\n",
+						      account_name), 
+				    NULL );
+	    }
+	    pText = g_strconcat ( pText,
+				  g_strdup_printf ( _("Transaction #%d have a contra #%d, "
+						      "but transaction #%d have a contra #%d "
+						      "instead of #%d.\n"),
+						    pTransaction -> no_operation,
+						    pTransaction -> relation_no_operation,
+						    pContraTransaction -> no_operation,
+						    pContraTransaction -> relation_no_operation,
+						    pTransaction -> no_operation),
+				  NULL );
+	    corrupted_account = TRUE;
+	  }
+	}
+	p_tab_nom_de_compte_variable = save_ptab;
+      }
+      pTransactionList = pTransactionList -> next;
+    }
+    if ( corrupted_account ) {
+      corrupted_file = TRUE;
+      affected_accounts++;
+    }
+    g_free ( account_name );
+  }
+  while ( ( pUserAccountsList = pUserAccountsList -> next ) );
+
+  if ( affected_accounts )
+  {
+    pText = g_strconcat ( _("Grisbi found transfer transactions where links are inconsistent "
+			    "among themselves.  Unfortunately, we don't know at the moment "
+			    "how it has happened.\n"
+			    "The following accounts are inconsistent:\n"), 
+			  pText, NULL );
+
+    if ( affected_accounts > 1 )
+    {
+      pHint = g_strdup_printf ( _("%d accounts have inconsistencies."), 
+				affected_accounts );
+    }
+    else
+    {
+      pHint = _("An account has inconsistencies.");
+    }
+
+    dialogue_warning_hint ( pText, pHint );
+
+    free ( pText );
+    free ( pHint );
+  }
+  g_slist_free ( pUserAccountsList );
+
+  return corrupted_file;
 }
 
