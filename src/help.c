@@ -55,7 +55,7 @@ void a_propos ( GtkWidget *bouton,
 		       0 );
   gtk_widget_show ( url );
 
-  url = gnome_href_new ( _("mailto:infos-subscribe@grisbi.org"),
+  url = gnome_href_new ( _("mailto:devel-subscribe@grisbi.org"),
 			 _("Inscription à la liste de développement") );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( boite ) -> vbox ),
 		       url,
@@ -64,7 +64,7 @@ void a_propos ( GtkWidget *bouton,
 		       0 );
   gtk_widget_show ( url );
 
-  url = gnome_href_new ( _("mailto:devel-subscribe@grisbi.org"),
+  url = gnome_href_new ( _("mailto:infos-subscribe@grisbi.org"),
 			 _("Inscription à la liste d'information") );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( boite ) -> vbox ),
 		       url,

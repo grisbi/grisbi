@@ -884,7 +884,9 @@ void remplissage_liste_operations ( gint compte )
 
 		  /* mise en forme de la date de valeur */
 
-		  if ( operation -> date_bancaire )
+		  if ( operation -> date_bancaire
+		       &&
+		       etat.affiche_date_bancaire )
 		    {
 		      g_date_strftime (  date_bancaire,
 					 11,
@@ -2386,7 +2388,7 @@ void changement_taille_liste_ope ( GtkWidget *clist,
 
 
 
-  chiffres = ( 12 * largeur) / 100;
+  chiffres = ( 11 * largeur) / 100;
   p = ( 3 * largeur) / 100;
   date = ( 13 * largeur) / 100;
 

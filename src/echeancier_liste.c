@@ -832,8 +832,8 @@ void remplissage_liste_echeance ( void )
 
 	      /* c'est maintenant qu'on voit si on sort ou pas ... */
 
-	      date_suivante_echeance ( ECHEANCE_COURANTE,
-				       date_courante );
+	      date_courante = date_suivante_echeance ( ECHEANCE_COURANTE,
+						       date_courante );
 
 	      if ( date_courante
 		   &&
@@ -2032,13 +2032,14 @@ void modification_affichage_echeances ( gint *origine )
 /* renvoie null si la date limite est dépassée ou si c'est une fois */
 /* ***************************************************************************************************** */
 
-void date_suivante_echeance ( struct operation_echeance *echeance,
-			      GDate *date_courante )
+GDate *date_suivante_echeance ( struct operation_echeance *echeance,
+				GDate *date_courante )
 {
   if ( !echeance -> periodicite )
     {
       date_courante = NULL;
-      return;
+
+      return ( date_courante );
     }
 
   /* périodicité hebdomadaire */
@@ -2084,6 +2085,8 @@ void date_suivante_echeance ( struct operation_echeance *echeance,
        g_date_compare ( date_courante,
 			echeance -> date_limite ) > 0 )
     date_courante = NULL;
+
+  return ( date_courante );
 }
 /* ***************************************************************************************************** */
 

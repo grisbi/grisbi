@@ -2010,7 +2010,10 @@ gint cherche_no_menu_type_echeancier ( gint demande )
       liste_tmp = liste_tmp -> next;
     }
 
-  return ( retour );
+  if ( retour == -1 )
+    return ( FALSE );
+  else
+    return ( retour );
 }
 /* ************************************************************************************************************** */
 

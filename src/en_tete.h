@@ -345,7 +345,7 @@ gint recherche_echeance_par_no ( struct operation_echeance *echeance,
 				 gint no_echeance );
 void verifie_ligne_selectionnee_echeance_visible ( void );
 void modification_affichage_echeances ( gint *origine );
-void date_suivante_echeance ( struct operation_echeance *echeance,
+GDate *date_suivante_echeance ( struct operation_echeance *echeance,
 			      GDate *date_courante );
 gint classement_liste_echeances ( GtkWidget *liste,
 				  GtkCListRow *ligne_1,

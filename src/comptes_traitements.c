@@ -438,6 +438,9 @@ void changement_choix_compte_echeancier ( void )
 {
   GtkWidget *menu;
 
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] )->menu_item),
+											       "no_compte" ));
+
   if ( gtk_widget_get_style ( widget_formulaire_echeancier[3] ) == style_entree_formulaire[0] )
     {
       /*       il y a qque chose dans le crédit, on met le menu des types crédit */

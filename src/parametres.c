@@ -1531,6 +1531,11 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 	gtk_widget_hide ( widget_formulaire_operations[0] );
 
 
+      if ( ( etat.affiche_date_bancaire = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_date_bancaire ))))
+	gtk_widget_show ( widget_formulaire_operations[7] );
+      else
+	gtk_widget_hide ( widget_formulaire_operations[7] );
+
       if ( ( etat.utilise_exercice = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utiliser_exercices ))))
 	{
 	  gtk_widget_show ( widget_formulaire_operations[11] );

@@ -8,7 +8,7 @@
 # Please note that the actual code is *not* freely available.
 
 PACKAGE = grisbi
-VERSION = 0.4
+VERSION = 0.4.0
 
 # These two variables depend on the location of this directory.
 subdir = po
@@ -20,7 +20,7 @@ SHELL = /bin/sh
 srcdir = .
 top_srcdir = ..
 
-prefix = /tmp/plop
+prefix = /usr/local
 exec_prefix = ${prefix}
 datadir = ${prefix}/share
 localedir = $(datadir)/locale
@@ -38,7 +38,7 @@ XGETTEXT = /usr/bin/xgettext
 MSGMERGE = msgmerge
 
 DEFS = -DHAVE_CONFIG_H
-CFLAGS = -DNEED_GNOMESUPPORT_H     -I/usr/include/glib-1.2 -I/usr/lib/glib/include -I/usr/include/gnome-1.0 -I/usr/lib/gnome-libs/include -I/usr/include/gtk-1.2 -I/usr/X11R6/include -I/usr/include/gnome-xml -I/usr/include/gdk-pixbuf-1.0  
+CFLAGS =  -I/usr/include/gnome-1.0 -DNEED_GNOMESUPPORT_H -I/usr/lib/gnome-libs/include -I/usr/include/gtk-1.2 -I/usr/include/glib-1.2 -I/usr/lib/glib/include -I/usr/X11R6/include -I/usr/include/gtk-1.2 -I/usr/include/glib-1.2 -I/usr/lib/glib/include -I/usr/X11R6/include -I/usr/include/glib-1.2 -I/usr/lib/glib/include -I/usr/include/gnome-xml -I/usr/include/gdk-pixbuf-1.0 -I/usr/include/gtk-1.2 -I/usr/include/glib-1.2 -I/usr/lib/glib/include -I/usr/X11R6/include  -I/usr/include/gnome-1.0 -DNEED_GNOMESUPPORT_H -I/usr/lib/gnome-libs/include -I/usr/include/glib-1.2 -I/usr/lib/glib/include -I/usr/include/orbit-1.0 -I/usr/include/gtk-1.2 -I/usr/X11R6/include -I/usr/include/libcapplet-1.4
 CPPFLAGS =  -I/usr/include/gtk-1.2 -I/usr/include/glib-1.2 -I/usr/lib/glib/include -I/usr/X11R6/include
 
 INCLUDES = -I.. -I$(top_srcdir)/intl

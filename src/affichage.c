@@ -581,7 +581,7 @@ GtkWidget *onglet_affichage ( void )
   gtk_widget_show ( bouton_classer_liste_par_date );
 
   bouton_classer_liste_par_date_bancaire = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_classer_liste_par_date)),
-									     _("Classer par date bancaire") );
+									     _("Classer par date de valeur") );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_classer_liste_par_date_bancaire ),
 			      "toggled",
 			      gnome_property_box_changed,

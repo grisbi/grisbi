@@ -110,7 +110,7 @@
 
   /* entrée de la date */
 
-  widget_formulaire_operations[1] = gtk_entry_new_with_max_length (10);
+  widget_formulaire_operations[1] = gtk_entry_new();
   gtk_table_attach ( GTK_TABLE (table),
 		     widget_formulaire_operations[1],
 		     1, 2, 0,1,
@@ -301,7 +301,7 @@
    /* GDC : entrée de la date reelle */
   /*   mise à la place du choix du compte, verra plus tard où le mettre */
 
-   widget_formulaire_operations[7] = gtk_entry_new_with_max_length (14);
+   widget_formulaire_operations[7] = gtk_entry_new_with_max_length();
    gtk_table_attach ( GTK_TABLE (table),
  		     widget_formulaire_operations[7],
  		     1, 2, 1, 2,
