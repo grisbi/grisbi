@@ -679,7 +679,7 @@ GtkWidget *creation_formulaire_ventilation ( void )
 
 
 /***********************************************************************************************************/
-void clique_champ_formulaire_ventilation ( void )
+gboolean clique_champ_formulaire_ventilation ( void )
 {
 
   /* on rend sensitif tout ce qui ne l'était pas sur le formulaire */
@@ -691,6 +691,7 @@ void clique_champ_formulaire_ventilation ( void )
   gtk_widget_set_sensitive ( GTK_WIDGET ( hbox_valider_annuler_ventil ),
 			     TRUE );
 
+  return FALSE;
 }
 /***********************************************************************************************************/
 
@@ -702,9 +703,8 @@ void clique_champ_formulaire_ventilation ( void )
 /* si elle ne contient rien, on remet la fonction en gris */
 /***********************************************************************************************************/
 
-void entree_ventilation_perd_focus ( GtkWidget *entree,
-				     GdkEventFocus *ev,
-				     gint *no_origine )
+gboolean entree_ventilation_perd_focus ( GtkWidget *entree, GdkEventFocus *ev,
+					 gint *no_origine )
 {
   gchar *texte;
 
@@ -952,6 +952,8 @@ void entree_ventilation_perd_focus ( GtkWidget *entree,
       gtk_entry_set_text ( GTK_ENTRY ( entree ),
 			   texte );
     }
+
+  return FALSE;
 }
 /*******************************************************************************************/
 
@@ -1168,17 +1170,13 @@ gboolean traitement_clavier_liste_ventilation ( GtkCList *liste,
   switch ( evenement->keyval )
     {
      /* entrée */
-
-    case 65293 :
-    case 65421 :
-
+    case GDK_KP_Enter:
+    case GDK_Return:
       edition_operation_ventilation ();
       break;
 
-
      /* flèche haut  */
-    case 65362 :
-
+    case GDK_Up:
       ligne = gtk_clist_find_row_from_data ( GTK_CLIST ( liste ),
 					     ligne_selectionnee_ventilation );
       if ( ligne )
@@ -1188,24 +1186,18 @@ gboolean traitement_clavier_liste_ventilation ( GtkCList *liste,
 	  ligne_selectionnee_ventilation = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
 								    ligne );
 	  gtk_clist_unselect_all ( GTK_CLIST ( liste ) );
-	  gtk_clist_select_row ( GTK_CLIST ( liste ),
-				 ligne,
-				 0 );
+	  gtk_clist_select_row ( GTK_CLIST ( liste ), ligne, 0 );
 
 	  if ( gtk_clist_row_is_visible ( GTK_CLIST ( liste ),
 					  ligne) != GTK_VISIBILITY_FULL )
 	    gtk_clist_moveto ( GTK_CLIST ( liste ),
-			       ligne,
-			       0,
-			       0,
-			       0 );
+			       ligne, 0, 0, 0 );
 	}
       break;
 
 
       /* flèche bas */
-    case 65364 :
-
+    case GDK_Down:
       if ( ligne_selectionnee_ventilation != GINT_TO_POINTER ( -1 ) )
 	{
 	  ligne = gtk_clist_find_row_from_data ( GTK_CLIST ( liste ),
@@ -1234,17 +1226,16 @@ gboolean traitement_clavier_liste_ventilation ( GtkCList *liste,
 
 
     /*  del  */
-    case 65535 :
-
+    case GDK_Delete:
       supprime_operation_ventilation ();
       break;
 
 
-    default : return (TRUE);
+    default : 
+      return TRUE;
     }
 
-
-  return (TRUE);
+  return FALSE;
 }
 /***************************************************************************************************/
 
@@ -1313,17 +1304,15 @@ void selectionne_ligne_souris_ventilation ( GtkCList *liste,
 /* Fonction appui_touche_ventilation  */
 /* gére l'action du clavier sur les entrées du formulaire de ventilation */
 /***********************************************************************************************************/
-
-void appui_touche_ventilation ( GtkWidget *entree,
-				GdkEventKey *evenement,
-				gint *no_origine )
+gboolean appui_touche_ventilation ( GtkWidget *entree, GdkEventKey *evenement,
+				    gint *no_origine )
 {
   gint origine;
 
   origine = GPOINTER_TO_INT ( no_origine );
 
-  /*   si etat.entree = 1, la touche entrée finit l'opération ( fonction par défaut ) */
-  /* sinon elle fait comme tab */
+  /*   si etat.entree = 1, la touche entrée finit l'opération (
+       fonction par défaut ) sinon elle fait comme tab */
 
   if ( !etat.entree
        &&
@@ -1335,33 +1324,27 @@ void appui_touche_ventilation ( GtkWidget *entree,
 
   switch (evenement->keyval)
     {
-      /* flèche bas */
-    case 65364 :
-      /*   flèche haut */
-    case 65362 :
 
+    case GDK_Up:
+    case GDK_Down:
       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( entree ),
 				     "key_press_event");
       gtk_widget_grab_focus ( entree );
       break;
 
 
-      /* tab */
-    case 65289 :
+    case GDK_Tab:
       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( entree ),
 				     "key_press_event");
 
       /* on efface la sélection en cours si c'est une entrée ou un combofix */
 
       if ( GTK_IS_ENTRY ( entree ))
-	gtk_entry_select_region ( GTK_ENTRY ( entree ),
-				  0,
-				  0);
+	gtk_entry_select_region ( GTK_ENTRY ( entree ), 0, 0);
       else
 	if ( GTK_IS_COMBOFIX ( entree ))
-	  gtk_entry_select_region ( GTK_ENTRY ( GTK_COMBOFIX ( entree ) -> entry ),
-				    0,
-				    0);
+	  gtk_entry_select_region ( GTK_ENTRY(GTK_COMBOFIX(entree) -> entry),
+				    0, 0);
 
       /* on donne le focus au widget suivant */
 
@@ -1414,22 +1397,24 @@ void appui_touche_ventilation ( GtkWidget *entree,
 	}
       break;
 
-      /* entree */
-    case 65293 :
-    case 65421 :
 
+    case GDK_KP_Enter:
+    case GDK_Return:
       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( entree ),
 				     "key_press_event");
       fin_edition_ventilation ();
       break;
 
 
-    case 65307 :
-              /* echap */
+    case GDK_Escape :
       echap_formulaire_ventilation ();
       break;
+
+    default:
+      return FALSE;
     }
 
+  return TRUE;
 }
 /***********************************************************************************************************/
 
@@ -2159,7 +2144,8 @@ void supprime_operation_ventilation ( void )
 
   operation = ligne_selectionnee_ventilation;
 
-  if ( operation == GINT_TO_POINTER ( -1 ) )
+  if ( operation == GINT_TO_POINTER ( -1 ) ||
+       ! ligne_selectionnee_ventilation )
     return;
 
   /* si l'opération est relevée ou si c'est un virement et que la contre opération est */

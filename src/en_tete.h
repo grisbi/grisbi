@@ -643,23 +643,22 @@ void modif_detail_banque ( GtkWidget *entree,
 GtkWidget *creation_fenetre_ventilation ( void );
 GtkWidget *creation_verification_ventilation ( void );
 GtkWidget *creation_formulaire_ventilation ( void );
-void clique_champ_formulaire_ventilation ( void );
-void entree_ventilation_perd_focus ( GtkWidget *entree,
-				     GdkEventFocus *ev,
-				     gint *no_origine );
+gboolean clique_champ_formulaire_ventilation ( void );
+gboolean entree_ventilation_perd_focus ( GtkWidget *entree, GdkEventFocus *ev,
+					 gint *no_origine );
+gboolean traitement_clavier_liste_ventilation ( GtkCList *liste,
+						GdkEventKey *evenement,
+						gpointer null );
 void ventiler_operation ( gdouble montant );
 void changement_taille_liste_ventilation ( GtkWidget *clist,
 					   GtkAllocation *allocation,
 					   gpointer null );
-gboolean traitement_clavier_liste_ventilation ( GtkCList *liste,
-						GdkEventKey *evenement,
-						gpointer null );
 void selectionne_ligne_souris_ventilation ( GtkCList *liste,
 					    GdkEventButton *evenement,
 					    gpointer null );
-void appui_touche_ventilation ( GtkWidget *entree,
-				GdkEventKey *evenement,
-				gint *no_origine );
+gboolean appui_touche_ventilation ( GtkWidget *entree,
+				    GdkEventKey *evenement,
+				    gint *no_origine );
 void echap_formulaire_ventilation ( void );
 void fin_edition_ventilation ( void );
 void edition_operation_ventilation ( void );
