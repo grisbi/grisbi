@@ -65,7 +65,7 @@ gchar *categories_de_base_debit [] = {
   N_("Financial expenses : Charges"),
   N_("Financial expenses : Refunding"),
   N_("Professionnal expenses : Non refundable"),
-  N_("Financial expenses : Refundable"),
+  N_("Professionnal expenses : Refundable"),
   N_("Taxes : Miscelanious"),
   N_("Taxes : Income"),
   N_("Taxes : Land"),

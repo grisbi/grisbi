@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-04 23:37+0200\n"
-"PO-Revision-Date: 2003-09-04 23:37+0200\n"
+"POT-Creation-Date: 2003-09-05 22:04+0200\n"
+"PO-Revision-Date: 2003-09-05 22:04+0200\n"
 "Last-Translator: Benjamin Drieu <bdrieu@april.org>\n"
 "Language-Team: Francais <traduction@grisbi.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -200,7 +200,7 @@ msgstr "Polices et logo"
 msgid "Grisbi logo"
 msgstr "Logo de Grisbi"
 
-#: src/affichage.c:274 src/affichage.c:738
+#: src/affichage.c:274 src/affichage.c:726
 msgid "Change homepage logo"
 msgstr "Modifier le logo de l'accueil"
 
@@ -209,116 +209,116 @@ msgid "Fonts"
 msgstr "Polices"
 
 #. Change general font
-#: src/affichage.c:302 src/affichage.c:1334
+#: src/affichage.c:294 src/affichage.c:1344
 msgid "General font"
 msgstr "Police générale"
 
 #. Change list font
-#: src/affichage.c:342 src/affichage.c:1250
+#: src/affichage.c:333 src/affichage.c:1279
 msgid "Transaction list font"
 msgstr "Police de la liste des opérations"
 
-#: src/affichage.c:402 src/parametres.c:187
+#: src/affichage.c:392 src/parametres.c:187
 msgid "Addresses & titles"
 msgstr "Adresses et titres"
 
-#: src/affichage.c:415
+#: src/affichage.c:405
 msgid "Account title"
 msgstr "Titre du compte"
 
-#: src/affichage.c:453
+#: src/affichage.c:443
 msgid "Common address"
 msgstr "Adresse commune"
 
-#: src/affichage.c:503
+#: src/affichage.c:493
 msgid "Secondary address"
 msgstr "Adresse secondaire"
 
-#: src/affichage.c:615
+#: src/affichage.c:604
 msgid ": Change lists font /"
 msgstr ": Modifier la fonte des listes /"
 
-#: src/affichage.c:640 src/affichage.c:702
+#: src/affichage.c:629 src/affichage.c:690
 msgid "Init"
 msgstr "RAZ"
 
-#: src/affichage.c:676
+#: src/affichage.c:664
 msgid ": Change general font /"
 msgstr ": Modifier la fonte générale /"
 
-#: src/affichage.c:769
+#: src/affichage.c:757
 msgid "Accounts display order"
 msgstr "Ordre d'affichage des comptes"
 
-#: src/affichage.c:783
+#: src/affichage.c:771
 msgid "No account defined"
 msgstr "Aucun compte défini"
 
-#: src/affichage.c:922
+#: src/affichage.c:910
 msgid "Transactions list and form"
 msgstr "Comptabilité et formulaire"
 
-#: src/affichage.c:936
+#: src/affichage.c:924
 msgid "Display the number of the edited transaction."
 msgstr "Afficher le numéro de l'opération éditée."
 
 #. GDC : bouton pour choisir d'afficher ou non la date réelle (colonne et champ)
-#: src/affichage.c:952
+#: src/affichage.c:940
 msgid "Display the value date of the transactions."
 msgstr "Afficher la date de valeur des opérations."
 
 #. FinGDC
-#: src/affichage.c:968
+#: src/affichage.c:956
 msgid "Use financial years."
 msgstr "Utiliser les Exercices."
 
-#: src/affichage.c:982
+#: src/affichage.c:970
 msgid "Use budgetary informations."
 msgstr "Utiliser les Imputations Budgétaires."
 
-#: src/affichage.c:996
+#: src/affichage.c:984
 msgid "Use the voucher number field."
 msgstr "Utiliser l'entrée des Pièces Comptables."
 
-#: src/affichage.c:1010
+#: src/affichage.c:998
 msgid "Use the bank references field."
 msgstr "Utiliser l'entrée des informations Banque / Guichet."
 
-#: src/affichage.c:1024
+#: src/affichage.c:1012
 msgid "Display 'Accept' and 'Cancel' transaction buttons."
 msgstr "Afficher les boutons Valider et Annuler l'opération."
 
 #. mise en place de la frame sur l'affichage des listes
-#: src/affichage.c:1042
+#: src/affichage.c:1030
 msgid "Third parties, categories and budgetary info lists."
 msgstr "Listes des Tiers, Catégories et I.B."
 
-#: src/affichage.c:1067 src/devises.c:1424
+#: src/affichage.c:1055 src/devises.c:1424
 msgid "Currency"
 msgstr "Devise"
 
 #. affichage du nb d'écritures
-#: src/affichage.c:1101
+#: src/affichage.c:1089
 msgid "Display the number of transactions."
 msgstr "Afficher le nombre d'écritures."
 
-#: src/affichage.c:1136
+#: src/affichage.c:1124
 msgid "Sort the transaction list"
 msgstr "Tri de la liste d'opérations"
 
-#: src/affichage.c:1151 src/affichage_liste.c:402
+#: src/affichage.c:1139 src/affichage_liste.c:402
 msgid "by date"
 msgstr "Classer par date"
 
-#: src/affichage.c:1160 src/affichage_liste.c:411
+#: src/affichage.c:1148 src/affichage_liste.c:411
 msgid "by value date"
 msgstr "Classer par date de valeur"
 
-#: src/affichage.c:1405 src/affichage.c:1413
+#: src/affichage.c:1401 src/affichage.c:1409
 msgid "Select a new logo"
 msgstr "Sélection d'un nouveau logo"
 
-#: src/affichage.c:1431
+#: src/affichage.c:1427
 msgid "Reset to default logo"
 msgstr "Rétablir le logo de Grisbi"
 
@@ -811,8 +811,8 @@ msgid "Professionnal expenses : Non refundable"
 msgstr "Frais professionnels : Non remboursés"
 
 #: src/categories_onglet.c:68
-msgid "Financial expenses : Refundable"
-msgstr "Frais professionnels : Remboursés"
+msgid "Professionnal expenses : Refundable"
+msgstr "Frais professionnels : Non remboursés"
 
 #: src/categories_onglet.c:69
 msgid "Taxes : Miscelanious"
@@ -1228,7 +1228,7 @@ msgstr "Supprimer simplement cette sous-catégorie."
 #: src/categories_onglet.c:2451 src/etats_gtktable.c:2772
 #: src/operations_formulaire.c:1000 src/operations_formulaire.c:2169
 #: src/operations_formulaire.c:2866 src/operations_formulaire.c:3247
-#: src/operations_liste.c:1130 src/operations_liste.c:1763
+#: src/operations_liste.c:1129 src/operations_liste.c:1762
 #: src/ventilation.c:162
 msgid "Breakdown of transaction"
 msgstr "Opération ventilée"
@@ -1239,7 +1239,7 @@ msgstr "Opération ventilée"
 #: src/echeancier_formulaire.c:2165 src/echeancier_formulaire.c:3066
 #: src/echeancier_liste.c:1186 src/operations_formulaire.c:1025
 #: src/operations_formulaire.c:2278 src/operations_formulaire.c:2747
-#: src/operations_formulaire.c:3330 src/operations_liste.c:1704
+#: src/operations_formulaire.c:3330 src/operations_liste.c:1703
 #: src/ventilation.c:737 src/ventilation.c:1554 src/ventilation.c:1632
 #: src/ventilation.c:2000 src/ventilation.c:2332
 msgid "Transfer"
@@ -1455,7 +1455,7 @@ msgstr "Erreur : le taux de change entre les 2 monnaies est de 0."
 #: src/etats_calculs.c:2548 src/etats_calculs.c:2576 src/etats_calculs.c:2581
 #: src/operations_formulaire.c:3062 src/operations_formulaire.c:3064
 #: src/operations_formulaire.c:3556 src/operations_formulaire.c:3558
-#: src/operations_liste.c:1633 src/operations_liste.c:1635
+#: src/operations_liste.c:1632 src/operations_liste.c:1634
 msgid "Euro"
 msgstr "Euro"
 
@@ -2891,7 +2891,7 @@ msgid "Automatic/manual scheduled transaction"
 msgstr "Échéance automatique / manuelle"
 
 #: src/echeancier_formulaire.c:523 src/echeancier_liste.c:802
-#: src/operations_liste.c:1882
+#: src/operations_liste.c:1881
 msgid "Manual"
 msgstr "Manuel"
 
@@ -3114,7 +3114,7 @@ msgid "This account does not contain any transaction"
 msgstr "Il n'y a aucune opérations dans ce compte"
 
 #: src/equilibrage.c:923 src/operations_comptes.c:408
-#: src/operations_liste.c:801 src/operations_liste.c:2032
+#: src/operations_liste.c:800 src/operations_liste.c:2031
 #, c-format
 msgid "Checked balance: %4.2f %s"
 msgstr "Solde pointé : %4.2f %s"
@@ -4171,12 +4171,12 @@ msgstr "Résultat de l'année%s ( %d opérations )"
 msgid "Result of the year%s"
 msgstr "Résultat de l'année%s"
 
-#: src/etats_gtktable.c:1852 src/operations_liste.c:1116
+#: src/etats_gtktable.c:1852 src/operations_liste.c:1115
 #, c-format
 msgid "Transfer to %s"
 msgstr "Virement vers %s"
 
-#: src/etats_gtktable.c:1855 src/operations_liste.c:1119
+#: src/etats_gtktable.c:1855 src/operations_liste.c:1118
 #, c-format
 msgid "Transfer from %s"
 msgstr "Virement de %s"
@@ -5083,7 +5083,7 @@ msgstr "Rapprocher"
 msgid "Last statement: none"
 msgstr "Dernier relevé : Aucun"
 
-#: src/operations_comptes.c:414 src/operations_liste.c:807
+#: src/operations_comptes.c:414 src/operations_liste.c:806
 #, c-format
 msgid "Current balance: %4.2f %s"
 msgstr "Solde courant : %4.2f %s"
@@ -5171,27 +5171,27 @@ msgstr "Solde courant"
 msgid "Account breakdown"
 msgstr "Ventilation du compte"
 
-#: src/operations_liste.c:1104
+#: src/operations_liste.c:1103
 msgid "Transfer to a deleted account"
 msgstr "Virement vers un compte supprimé"
 
-#: src/operations_liste.c:1106
+#: src/operations_liste.c:1105
 msgid "Transfer from a deleted account"
 msgstr "Virement d'un compte supprimé"
 
-#: src/operations_liste.c:1693
+#: src/operations_liste.c:1692
 msgid "Transfer: deleted account"
 msgstr "Virement : Compte supprimé"
 
-#: src/operations_liste.c:1879
+#: src/operations_liste.c:1878
 msgid "Auto"
 msgstr "Auto"
 
-#: src/operations_liste.c:2169
+#: src/operations_liste.c:2168
 msgid "Imposible to delete a reconciled transaction..."
 msgstr "Impossible de supprimer une opération relevée ..."
 
-#: src/operations_liste.c:2193
+#: src/operations_liste.c:2192
 msgid ""
 "The contra-transaction of this transfer is reconciled,\n"
 "deletion impossible..."
@@ -5199,7 +5199,7 @@ msgstr ""
 "La contre-opération de ce virement est relevée,\n"
 "la suppression est impossible ..."
 
-#: src/operations_liste.c:2239
+#: src/operations_liste.c:2238
 msgid ""
 "One of the breakdown lines is a transfer whose contra-transaction is "
 "reconciled.\n"
@@ -5584,6 +5584,9 @@ msgid ""
 msgstr ""
 "Bizarre ... une opé de ventilation a été marquée pour la suppression alors\n"
 "qu'elle n'était pas encore enregistrée..."
+
+#~ msgid "Financial expenses : Refundable"
+#~ msgstr "Frais professionnels : Remboursés"
 
 #~ msgid "N°"
 #~ msgstr "N°"
