@@ -1,11 +1,11 @@
 /* ************************************************************************** */
-/* Fichier qui s'occupe de la page d'accueil ( de démarrage lors de           */
-/* l'ouverture d'un fichier de comptes                                        */
+/* Différentes boites de dialogue pour informer et interroger l'utilisateur   */
 /*                                                                            */
-/*                                  accueil.c                                 */
+/*                                  dialog.c                                  */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2005 Alain Portal (dionysos@grisbi.org) 	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -302,6 +302,49 @@ gboolean question_yes_no ( gchar *texte )
 				      GTK_BUTTONS_OK_CANCEL,
 				      texte );
     gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), texte );
+
+    response = gtk_dialog_run (GTK_DIALOG (dialog));
+    gtk_widget_destroy ( dialog );
+
+    if ( response == GTK_RESPONSE_OK )
+	return TRUE;
+    else
+	return FALSE;
+}
+
+
+/**
+ * Pop up a warning dialog window with a question and wait for user to
+ * press 'OK' or 'Cancel'.
+ *
+ * \param texte  Text to be displayed
+ *
+ * \return TRUE if user pressed 'OK'.  FALSE otherwise.
+ */
+gboolean question_conditional_yes_no ( gchar *texte, int * var )
+{
+    GtkWidget * vbox, * checkbox, *dialog;
+    gint response;
+
+    if ( !var || *var)
+	return TRUE;
+
+    dialog = gtk_message_dialog_new ( GTK_WINDOW ( window ),
+				      GTK_DIALOG_DESTROY_WITH_PARENT,
+				      GTK_MESSAGE_WARNING,
+				      GTK_BUTTONS_OK_CANCEL,
+				      texte );
+    gtk_dialog_set_default_response ( GTK_DIALOG ( dialog ),
+				      GTK_RESPONSE_CANCEL );
+    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG ( dialog ) -> label ), texte );
+
+    vbox = GTK_DIALOG ( dialog ) -> vbox;
+    checkbox = new_checkbox_with_title ( _("Do not show this message again"), var, 
+					 NULL );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), checkbox, TRUE, TRUE, 6 );
+    gtk_widget_show_all ( checkbox );
+
+    gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
 
     response = gtk_dialog_run (GTK_DIALOG (dialog));
     gtk_widget_destroy ( dialog );
