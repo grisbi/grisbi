@@ -65,7 +65,8 @@ gboolean fermeture_grisbi ( void )
 
     /*     si le fichier n'est pas enregistré, on le propose */
 
-    if ( etat.modification_fichier )
+    if ( etat.modification_fichier &&
+	 assert_account_loaded ())
     {
 	gint retour;
 
