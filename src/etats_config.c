@@ -88,6 +88,10 @@ void personnalisation_etat (void)
 				 gtk_label_new (_(" Généralités ")) );
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+				 onglet_etat_virements (),
+				 gtk_label_new (_(" Virements ")) );
+
+      gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
 				 onglet_etat_dates (),
 				 gtk_label_new (_(" Dates ")) );
 
@@ -96,8 +100,8 @@ void personnalisation_etat (void)
 				 gtk_label_new (_(" Comptes ")) );
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-				 onglet_etat_virements (),
-				 gtk_label_new (_(" Virements ")) );
+				 onglet_etat_tiers (),
+				 gtk_label_new (_(" Tiers ")) );
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
 				 onglet_etat_categories (),
@@ -106,10 +110,6 @@ void personnalisation_etat (void)
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
 				 onglet_etat_ib (),
 				 gtk_label_new (_(" Imputations budgétaires ")) );
-
-      gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-				 onglet_etat_tiers (),
-				 gtk_label_new (_(" Tiers ")) );
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
 				 onglet_etat_texte (),
@@ -1503,7 +1503,7 @@ GtkWidget *onglet_etat_generalites ( void )
 		       hbox_haut,
 		       FALSE,
 		       FALSE,
-		       0 );
+		       10 );
   gtk_widget_show ( hbox_haut );
 
   /* choix du type de classement */
@@ -1517,7 +1517,7 @@ GtkWidget *onglet_etat_generalites ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  frame = gtk_frame_new ( _("Choix du type de classement :") );
+  frame = gtk_frame_new ( _("Organisation des niveaux de regroupement :") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       frame,
 		       FALSE,
@@ -1653,6 +1653,26 @@ GtkWidget *onglet_etat_generalites ( void )
   gtk_widget_show ( bouton_opes_r_etat );
 
 
+  /* on sépare avec la suite */
+
+  separateur = gtk_hseparator_new ();
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
+		       separateur,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( separateur );
+
+  label = gtk_label_new ( _("Affichage des informations :" ));
+  gtk_misc_set_alignment ( GTK_MISC ( label ),
+			   0,
+			   0.5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
 
 
   hbox = gtk_hbox_new ( FALSE,
@@ -1674,15 +1694,6 @@ GtkWidget *onglet_etat_generalites ( void )
 		       0 );
   gtk_widget_show ( bouton_afficher_opes );
 
-  /* afficher ou non le nb d'opés avec les totaux */
-
-  bouton_afficher_nb_opes = gtk_check_button_new_with_label ( _("Afficher le nombre d'opérations avec les totaux") );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       bouton_afficher_nb_opes,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_afficher_nb_opes );
 
   /* demande les détails affichés dans les opérations */
 
@@ -2161,6 +2172,16 @@ GtkWidget *onglet_etat_generalites ( void )
 		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
 		       bouton_titre_en_haut );
 
+  /* on sépare avec la suite */
+
+  separateur = gtk_hseparator_new ();
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
+		       separateur,
+		       FALSE,
+		       FALSE,
+		       10 );
+  gtk_widget_show ( separateur );
+
 
   hbox = gtk_hbox_new ( FALSE,
 			5 );
@@ -2217,6 +2238,24 @@ GtkWidget *onglet_etat_generalites ( void )
 		       0 );
   gtk_widget_show ( bouton_devise_general_etat );
 
+  /* afficher ou non le nb d'opés avec les totaux */
+
+  hbox = gtk_hbox_new ( FALSE,
+			5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
+		       hbox,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( hbox );
+
+  bouton_afficher_nb_opes = gtk_check_button_new_with_label ( _("Afficher le nombre d'opérations avec les totaux") );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton_afficher_nb_opes,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_afficher_nb_opes );
 
   /* mise en place du bouton pour faire apparaitre l'état dans la liste des tiers */
 

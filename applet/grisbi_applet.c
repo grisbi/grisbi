@@ -521,8 +521,6 @@ gint verifie_echeances ( void )
 gint echeances_a_saisir_applet ( gchar *verif_eche )
 {
   int jour, mois, annee;
-  struct timeb date;
-  struct tm *date_jour;
   GDate *date_courante;
   xmlDocPtr doc;
   xmlNodePtr node_1;
@@ -532,12 +530,11 @@ gint echeances_a_saisir_applet ( gchar *verif_eche )
 
 /* récupération de la date du jour */
 
-  ftime ( &date );
-  date_jour = localtime ( &date.time );
+  date_courante = g_date_new ();
 
-  date_courante = g_date_new_dmy ( date_jour->tm_mday,
-				   date_jour->tm_mon + 1,
-				   date_jour->tm_year + 1900 );
+  g_date_set_time ( date_courante,
+		    time (NULL));
+
   g_date_add_days ( date_courante,
 		    decalage_echeance );
 

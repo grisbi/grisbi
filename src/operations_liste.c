@@ -370,6 +370,11 @@ void creation_listes_operations ( void )
 
       CLIST_OPERATIONS = liste;
 
+      /* on classe la liste en fonction de la date */
+
+      LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
+					(GCompareFunc) classement_sliste_par_date );
+
       remplissage_liste_operations ( i );
     }
 

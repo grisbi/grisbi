@@ -3617,6 +3617,12 @@ void ajout_operation ( struct structure_operation *operation )
 
   MISE_A_JOUR = 1;
 
+
+  /* on classe la liste */
+
+  LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
+				    (GCompareFunc) classement_sliste_par_date );
+
   if ( operation -> no_compte == compte_courant )
     verification_mise_a_jour_liste ();
 

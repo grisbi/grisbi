@@ -1125,6 +1125,7 @@ void toggled_bouton_affichage_liste ( GtkWidget *bouton,
 void changement_taille_liste_affichage ( GtkWidget *clist,
 					 GtkAllocation *allocation );
 void recuperation_noms_colonnes_et_tips ( void );
+void raz_affichage_ope ( void );
 
 
 /************************/ 

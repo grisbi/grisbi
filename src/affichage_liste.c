@@ -61,7 +61,7 @@ GtkWidget *onglet_affichage_liste ( void )
   GtkWidget *table;
   GtkWidget *label;
   GtkWidget *hbox;
-
+  GtkWidget *bouton;
 
   ligne_depart_drag = 0;
   col_depart_drag = 0;
@@ -123,6 +123,26 @@ GtkWidget *onglet_affichage_liste ( void )
 		       FALSE,
 		       0 );
   gtk_widget_show ( label );
+
+
+  bouton = gtk_button_new_with_label ( _("Rétablir les réglages par défaut" ));
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( raz_affichage_ope ),
+		       NULL );
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
+			      "clicked",
+			      gnome_property_box_changed,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_box_pack_end ( GTK_BOX ( hbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton );
+
 
   /* on crée maintenant une table de 3x6 boutons */
 
@@ -374,6 +394,8 @@ GtkWidget *onglet_affichage_liste ( void )
       gtk_widget_set_sensitive ( bouton_affichage_lignes_trois_lignes_2,
 				 FALSE );
       gtk_widget_set_sensitive ( bouton_affichage_lignes_trois_lignes_3,
+				 FALSE );
+      gtk_widget_set_sensitive ( bouton,
 				 FALSE );
     }
 
@@ -1100,5 +1122,34 @@ void recuperation_noms_colonnes_et_tips ( void )
 		}
 	    }
 	}
+}
+/* ************************************************************************************************************** */
+
+
+
+/* ************************************************************************************************************** */
+void raz_affichage_ope ( void )
+{
+  gint i, j;
+  gint tab[4][7] = { { 18, 1, 3, 13, 5, 6, 7 },
+		   {0, 0, 12, 0, 9, 8, 0 },
+		   {0, 11, 15, 0, 0, 0, 0 },
+		   {0, 0, 0, 0, 0, 0, 0 }};
+
+
+  /* on remet tous les boutons à inactif */
+
+  for ( i = 0 ; i < 17 ; i++ )
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( boutons_affichage_liste[i] ),
+				   FALSE );
+
+  for ( i = 0 ; i<4 ; i++ )
+    for ( j = 0 ; j<7 ; j++ )
+      tab_affichage_ope_tmp[i][j] = tab[i][j];
+
+  /* on met à jour la liste et les boutons */
+
+  remplissage_tab_affichage_ope ( clist_affichage_liste );
+
 }
 /* ************************************************************************************************************** */
