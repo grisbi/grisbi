@@ -4068,7 +4068,7 @@ msgstr "ENTREE provoque l'enregistrement de l'opération"
 
 #: src/parametres.c:399
 msgid "RETURN selects next field"
-msgstr ""
+msgstr "ENTREE sélectionne le champ suivant"
 
 #: src/parametres.c:421
 #, fuzzy
