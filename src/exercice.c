@@ -328,38 +328,41 @@ void ajout_exercice ( GtkWidget *bouton,
 void supprime_exercice ( GtkWidget *bouton, GtkWidget *liste )
 {
   struct struct_exercice *exercice;
-  GtkWidget *dialogue;
+/*   GtkWidget *dialogue; */
   GtkWidget *label;
   gint resultat;
 
   exercice = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
 				    ligne_selection_exercice );
 
-  dialogue = gnome_dialog_new ( _("Confirm the deletion of this financial year"),
-				GNOME_STOCK_BUTTON_YES,
-				GNOME_STOCK_BUTTON_NO,
-				NULL );
-  gtk_window_set_transient_for ( GTK_WINDOW ( dialogue ),
-				 GTK_WINDOW ( fenetre_preferences ));
+/*   dialogue = gnome_dialog_new ( _("Confirm the deletion of this financial year"), */
+/* 				GNOME_STOCK_BUTTON_YES, */
+/* 				GNOME_STOCK_BUTTON_NO, */
+/* 				NULL ); */
+/*   gtk_window_set_transient_for ( GTK_WINDOW ( dialogue ), */
+/* 				 GTK_WINDOW ( fenetre_preferences )); */
 
-  label = gtk_label_new ( g_strconcat ( _("Do you really want to delete financial year"),
-					"\"", exercice -> nom_exercice, "\" ?",
-					NULL ) );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue ) -> vbox ), label,
-		       FALSE, FALSE, 0 );
-  gtk_widget_show ( label );
+/*   label = gtk_label_new ( g_strconcat ( _("Do you really want to delete financial year"), */
+/* 					"\"", exercice -> nom_exercice, "\" ?", */
+/* 					NULL ) ); */
+/*   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue ) -> vbox ), label, */
+/* 		       FALSE, FALSE, 0 ); */
+/*   gtk_widget_show ( label ); */
 
-  resultat = gnome_dialog_run_and_close ( GNOME_DIALOG ( dialogue ));
+/*   resultat = gnome_dialog_run_and_close ( GNOME_DIALOG ( dialogue )); */
 
-  if ( !resultat )
-    {
+/*   if ( !resultat ) */
+/*     { */
       gtk_clist_remove ( GTK_CLIST(liste), ligne_selection_exercice );
       liste_struct_exercices = g_slist_remove ( liste_struct_exercices,
 						exercice );
       nb_exercices--;
       free ( exercice );
-      gtk_clist_select_row ( GTK_CLIST(liste), ligne_selection_exercice-1, 0 );
-    }
+      if ( ligne_selection_exercice > 0 )
+	gtk_clist_select_row ( GTK_CLIST(liste), ligne_selection_exercice-1, 0 );
+      else
+	gtk_clist_select_row ( GTK_CLIST(liste), 0, 0 );
+/*     } */
 
   /* Update various menus */
   update_financial_year_menus ();
