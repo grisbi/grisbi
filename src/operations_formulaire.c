@@ -58,18 +58,16 @@ GtkWidget *creation_formulaire ( void )
   /*   le formulaire est une vbox avec en haut un tableau de 6 colonnes, et */
   /* en bas si demandé les boutons valider et annuler */
 
-  formulaire = gtk_vbox_new ( FALSE,
-			      5 );
+  formulaire = gtk_vbox_new ( FALSE, 5 );
 
-  style_entree_formulaire [0] = gtk_style_copy ( gtk_widget_get_style (GTK_WIDGET (formulaire)) );
-  style_entree_formulaire [0]->fg[GTK_STATE_NORMAL] = couleur_normale;
+  style_entree_formulaire[0] = gtk_style_new();
+  style_entree_formulaire[0]->text[GTK_STATE_NORMAL] = couleur_normale;
 
-  style_entree_formulaire [1] = gtk_style_copy ( style_entree_formulaire [0] );
-  style_entree_formulaire [1]->fg[GTK_STATE_NORMAL] = couleur_grise;
-  style_entree_formulaire [1]->text[GTK_STATE_NORMAL] = couleur_grise;
+  style_entree_formulaire[1] = gtk_style_new();
+  style_entree_formulaire[1]->text[GTK_STATE_NORMAL] = couleur_grise;
 
-  g_object_ref (style_entree_formulaire [0]);
-  g_object_ref (style_entree_formulaire [1]);
+  g_object_ref (style_entree_formulaire[0]);
+  g_object_ref (style_entree_formulaire[1]);
 
   /* le formulaire est une table de 7 colonnes  sur 4 */
 
@@ -1172,8 +1170,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 	  gtk_entry_set_text ( GTK_ENTRY ( entree ),
 			       texte );
 	}
-      gtk_widget_set_style ( entree,
-			     style_entree_formulaire[1] );
+      gtk_widget_set_style ( entree, style_entree_formulaire[1] );
     }
   return FALSE;
 }
