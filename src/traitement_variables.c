@@ -93,6 +93,9 @@ void init_variables ( gboolean ouverture )
 							       menu_name(_("File"), _("Close"), NULL)),
 				   TRUE );
 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("File"), _("Debug file"), NULL)),
+				   TRUE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							       menu_name(_("Accounts"), _("Remove an account"), NULL)),
 				   TRUE );
 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
@@ -211,6 +214,9 @@ void init_variables ( gboolean ouverture )
 				   FALSE );
 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							       menu_name(_("File"), _("Close"), NULL)),
+				   FALSE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("File"), _("Debug file"), NULL)),
 				   FALSE );
 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							       menu_name(_("Accounts"), _("Remove an account"), NULL)),
