@@ -45,22 +45,29 @@ struct paper_config paper_sizes[8] = {
 /** 
  * Open a dialog window which asks for information about paper,
  * margins, etc..
+ *
+ * \return TRUE if print has been setup correctly, FALSE otherwise
+ *         (most likely user canceled print).
  */
 gboolean print_config ( )
 {
   GtkWidget * dialog, *notebook;
   gint response;
 
+  /* Set up dialog */
   dialog = gtk_dialog_new_with_buttons ( _("Print"),
 					 GTK_WINDOW(window),
 					 GTK_DIALOG_DESTROY_WITH_PARENT,
 					 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					 GTK_STOCK_PRINT, GTK_RESPONSE_OK,
 					 NULL );
+  gtk_dialog_set_has_separator ( GTK_DIALOG(dialog), FALSE );
 
+  /* Insert notebook */
   notebook = gtk_notebook_new ();
   gtk_box_pack_start ( GTK_BOX(GTK_DIALOG(dialog)->vbox), notebook, TRUE, TRUE, 6 );
 
+  /* Add tabs */
   gtk_notebook_append_page ( GTK_NOTEBOOK(notebook), print_config_general(), 
 			     gtk_label_new (_("General")) );
 
@@ -80,6 +87,15 @@ gboolean print_config ( )
 
 
 
+/**
+ * Handler triggered when user validates a file selector window.
+ *
+ * \param button Widget that triggered this event. 
+ * \param data Pointer to a GtkEntry to fill with the result of the
+ *             file selector window
+ *
+ * \return FALSE to allow other handlers to be processed
+ */
 gboolean change_print_to_file ( GtkButton *button, gpointer data )
 {
   GtkFileSelection * file_selector;
@@ -93,6 +109,14 @@ gboolean change_print_to_file ( GtkButton *button, gpointer data )
 
 
 
+/**
+ * Handler triggered by clicking on the button of a "print to file"
+ * combo.  Pop ups a file selector.
+ *
+ * \param button GtkButton widget that triggered this handler.
+ * \param data A pointer to a GtkEntry that will be filled with the
+ *             result of the file selector.
+ */
 void browse_file ( GtkButton *button, gpointer data )
 {
   GtkWidget * file_selector;
@@ -122,6 +146,12 @@ void browse_file ( GtkButton *button, gpointer data )
 
 
 
+/**
+ * Make a GtkEntry that will contain a file name, a GtkButton that
+ * will pop up a file selector, pack them in a GtkHbox and return it.
+ *
+ * \return A newly created GtkHbox.
+ */
 GtkWidget * my_file_chooser ()
 {
   GtkWidget * hbox, *entry, *button;
@@ -143,14 +173,14 @@ GtkWidget * my_file_chooser ()
 
 
 /**
- *  Create a GtkVbox with stuff needed for general configuration of
- *  print.
+ * Create a GtkVbox with stuff needed for general configuration of
+ * print.
  *
- *  \return a pointer to a newly created GtkVbox
+ * \return a pointer to a newly created GtkVbox
  */
 GtkWidget * print_config_general ()
 {
-  GtkWidget *vbox, *paddingbox, *table, *radio, *input;
+  GtkWidget *vbox, *paddingbox, *table, *radio, *input, *omenu, *menu, *item;
 
   vbox = gtk_vbox_new ( FALSE, 6 );
   gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
@@ -159,8 +189,10 @@ GtkWidget * print_config_general ()
   /* Printer paddingbox */
   paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Printer") );
 
-  table = gtk_table_new ( 2, 2, FALSE );
+  table = gtk_table_new ( 2, 3, FALSE );
   gtk_box_pack_start ( GTK_BOX(paddingbox), table, FALSE, FALSE, 0 );
+  gtk_table_set_row_spacings ( table, 6 );
+  gtk_table_set_col_spacings ( table, 12 );
 
   /* Print to printer */
   radio = gtk_radio_button_new_with_label ( NULL, _("Printer") );
@@ -177,16 +209,29 @@ GtkWidget * print_config_general ()
   input = my_file_chooser ();
   gtk_table_attach_defaults ( GTK_TABLE(table), input, 1, 2, 1, 2 );
 
+  /* Output file format */
+  omenu = gtk_option_menu_new();
+  menu = gtk_menu_new();
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU(omenu), menu );
+
+  item = gtk_menu_item_new_with_label ( _("Postscript file") );
+  gtk_menu_append ( GTK_MENU ( menu ), item );
+  item = gtk_menu_item_new_with_label ( _("LaTeX file") );
+  gtk_menu_append ( GTK_MENU ( menu ), item );
+      
+  gtk_option_menu_set_history ( GTK_OPTION_MENU(omenu), 0 );
+  gtk_table_attach_defaults ( GTK_TABLE(table), omenu, 1, 2, 2, 3 );
+
   return vbox;
 }
 
 
 
 /**
- *  Create a GtkVbox with stuff needed for paper config
- *  print.
+ * Create a GtkVbox with stuff needed for paper config
+ * print.
  *
- *  \return a pointer to a newly created GtkVbox
+ * \return a pointer to a newly created GtkVbox
  */
 GtkWidget * print_config_paper ()
 {
@@ -231,9 +276,9 @@ GtkWidget * print_config_paper ()
 
 
 /**
- *  Create a GtkVbox with stuff needed for appearance.
+ * Create a GtkVbox with stuff needed for appearance.
  *
- *  \return a pointer to a newly created GtkVbox
+ * \return a pointer to a newly created GtkVbox
  */
 GtkWidget * print_config_appearance ()
 {
