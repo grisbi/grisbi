@@ -10,14 +10,7 @@ gboolean clique_champ_formulaire ( GtkWidget *entree,
 gboolean touches_champ_formulaire ( GtkWidget *widget,
 				GdkEventKey *ev,
 				gint *no_origine );
-void ferme_calendrier ( GtkWidget *popup );
-void  touche_calendrier ( GtkWidget *popup,
-			  GdkEventKey *ev,
-			  gpointer null );
-gboolean date_selectionnee ( GtkCalendar *calendrier, GtkWidget *entry );
 gboolean modifie_date ( GtkWidget *entree );
-void date_bancaire_selectionnee ( GtkCalendar *calendrier,
-			 GtkWidget *popup );
 void  completion_operation_par_tiers ( void );
 void fin_edition ( void );
 void ajout_operation ( struct structure_operation *operation );
@@ -31,7 +24,6 @@ void recuperation_categorie_formulaire ( struct structure_operation *operation,
 gint comparaison_date_list_ope ( struct structure_operation *ope_1,
 				 struct structure_operation *ope_2);
 void formulaire_a_zero (void);
-gchar *date_jour ( void );
 void affiche_cache_le_formulaire ( void );
 void affiche_cache_commentaire_echeancier( void );
 void allocation_taille_formulaire ( GtkWidget *widget,
@@ -42,8 +34,6 @@ void basculer_vers_ventilation ( GtkWidget *bouton,
 				 gpointer null );
 void click_sur_bouton_voir_change ( void );
 void degrise_formulaire_operations ( void );
-void increment_decrement_date ( GtkWidget *entree, gint demande );
 void increment_decrement_champ ( GtkWidget *entry, gint increment );
 gint place_type_choix_type ( GtkWidget *option_menu,
 			     gint type );
-

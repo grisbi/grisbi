@@ -46,11 +46,7 @@
 #include "etats_calculs.h"
 #include "calendar.h"
 #include "operations_classement.h"
-
-# define ONE_DAY 1
-# define ONE_WEEK 7
-# define ONE_MONTH 30
-# define ONE_YEAR 365
+#include "constants.h"
 
 
 /******************************************************************************/
@@ -66,8 +62,8 @@ GtkWidget *creation_formulaire ( void )
   GtkTooltips *tips;
 
   /* On crée tout de suite les styles qui seront appliqués aux entrées du formulaire : */
-  /*     style_entree[0] sera la couleur noire, normale */
-  /*     Style_entree[1] sera une couleur atténuée quand le formulaire est vide */
+  /*     style_entree_formulaire[ENCLAIR] sera la couleur noire, normale */
+  /*     style_entree_formulaire[ENGRIS] sera une couleur atténuée quand le formulaire est vide */
 
   couleur_normale.red = COULEUR_NOIRE_RED;
   couleur_normale.green = COULEUR_NOIRE_GREEN;
@@ -86,14 +82,14 @@ GtkWidget *creation_formulaire ( void )
 
   formulaire = gtk_vbox_new ( FALSE, 5 );
 
-  style_entree_formulaire[0] = gtk_style_new();
-  style_entree_formulaire[0] -> text[GTK_STATE_NORMAL] = couleur_normale;
+  style_entree_formulaire[ENCLAIR] = gtk_style_new();
+  style_entree_formulaire[ENCLAIR] -> text[GTK_STATE_NORMAL] = couleur_normale;
 
-  style_entree_formulaire[1] = gtk_style_new();
-  style_entree_formulaire[1] -> text[GTK_STATE_NORMAL] = couleur_grise;
+  style_entree_formulaire[ENGRIS] = gtk_style_new();
+  style_entree_formulaire[ENGRIS] -> text[GTK_STATE_NORMAL] = couleur_grise;
 
-  g_object_ref ( style_entree_formulaire[0] );
-  g_object_ref ( style_entree_formulaire[1] );
+  g_object_ref ( style_entree_formulaire[ENCLAIR] );
+  g_object_ref ( style_entree_formulaire[ENGRIS] );
 
   /* le formulaire est une table de 4 lignes et 7 colonnes */
 
@@ -354,7 +350,7 @@ GtkWidget *creation_formulaire ( void )
 		       GINT_TO_POINTER ( TRANSACTION_FORM_CATEGORY ) );
   gtk_widget_show ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] );
 
-  /*   création de l'entrée du chèque, non affichée pour le moment */
+  /* création de l'entrée du chèque, non affichée pour le moment */
   /* à créer avant l'option menu du type d'opé */
 
   widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] = gtk_entry_new();
@@ -381,7 +377,7 @@ GtkWidget *creation_formulaire ( void )
 		     GTK_SHRINK | GTK_FILL,
 		     0, 0);
 
-  /*  Affiche l'option menu des types */
+  /* Affiche l'option menu des types */
 
   widget_formulaire_operations[TRANSACTION_FORM_TYPE] = gtk_option_menu_new ();
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
@@ -437,7 +433,7 @@ GtkWidget *creation_formulaire ( void )
   gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_EXERCICE],
 			     etat.utilise_exercice );
 
-  /*  Affiche l'imputation budgétaire */
+  /* Affiche l'imputation budgétaire */
 
   widget_formulaire_operations[TRANSACTION_FORM_BUDGET] = gtk_combofix_new_complex ( liste_imputations_combofix,
 										     FALSE,
@@ -485,9 +481,9 @@ GtkWidget *creation_formulaire ( void )
 			 _("Contra-transaction method of payment"),
 			 _("Contra-transaction method of payment") );
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_operations[TRANSACTION_FORM_CONTRA] ),
-			     "key-press-event",
-			     GTK_SIGNAL_FUNC ( touches_champ_formulaire ),
-			     GINT_TO_POINTER ( TRANSACTION_FORM_CONTRA ) );
+		       "key-press-event",
+		       GTK_SIGNAL_FUNC ( touches_champ_formulaire ),
+		       GINT_TO_POINTER ( TRANSACTION_FORM_CONTRA ) );
   gtk_table_attach ( GTK_TABLE ( table ),
 		     widget_formulaire_operations[TRANSACTION_FORM_CONTRA],
 		     3, 5, 2, 3,
@@ -509,9 +505,9 @@ GtkWidget *creation_formulaire ( void )
 		       GTK_SIGNAL_FUNC ( clique_champ_formulaire ),
 		       GINT_TO_POINTER ( TRANSACTION_FORM_VOUCHER ) );
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_operations[TRANSACTION_FORM_VOUCHER] ),
-			     "key-press-event",
-			     GTK_SIGNAL_FUNC ( touches_champ_formulaire ),
-			     GINT_TO_POINTER ( TRANSACTION_FORM_VOUCHER ) );
+		       "key-press-event",
+		       GTK_SIGNAL_FUNC ( touches_champ_formulaire ),
+		       GINT_TO_POINTER ( TRANSACTION_FORM_VOUCHER ) );
   gtk_signal_connect_after ( GTK_OBJECT ( widget_formulaire_operations[TRANSACTION_FORM_VOUCHER] ),
 			     "focus-in-event",
 			     GTK_SIGNAL_FUNC ( entree_prend_focus ),
@@ -546,7 +542,7 @@ GtkWidget *creation_formulaire ( void )
 		     0, 0);
   gtk_widget_show ( widget_formulaire_operations[TRANSACTION_FORM_BREAKDOWN] );
 
-  /*  Affiche les notes */
+  /* Affiche les notes */
 
   widget_formulaire_operations[TRANSACTION_FORM_NOTES] = gtk_entry_new ();
   gtk_table_attach ( GTK_TABLE ( table ),
@@ -573,7 +569,7 @@ GtkWidget *creation_formulaire ( void )
 			     GINT_TO_POINTER ( TRANSACTION_FORM_NOTES ) );
   gtk_widget_show ( widget_formulaire_operations[TRANSACTION_FORM_NOTES] );
 
-  /*  Affiche les infos banque/guichet */
+  /* Affiche les infos banque/guichet */
 
   widget_formulaire_operations[TRANSACTION_FORM_BANK] = gtk_entry_new ();
   gtk_table_attach ( GTK_TABLE ( table ),
@@ -727,22 +723,18 @@ gboolean entree_prend_focus ( GtkWidget *entree )
 
   if ( GTK_IS_COMBOFIX ( entree ) )
     {
-      if ( gtk_widget_get_style ( GTK_COMBOFIX ( entree ) -> entry ) == style_entree_formulaire[1] )
+      if ( gtk_widget_get_style ( GTK_COMBOFIX ( entree ) -> entry ) == style_entree_formulaire[ENGRIS] )
 	{
-	  gtk_combofix_set_text ( GTK_COMBOFIX ( entree ),
-				  "" );
-	  gtk_widget_set_style ( GTK_COMBOFIX ( entree ) -> entry,
-				 style_entree_formulaire[0] );
+	  gtk_combofix_set_text ( GTK_COMBOFIX ( entree ), "" );
+	  gtk_widget_set_style ( GTK_COMBOFIX ( entree ) -> entry, style_entree_formulaire[ENCLAIR] );
 	}
     }
   else
     {
-      if ( gtk_widget_get_style ( entree ) == style_entree_formulaire[1] )
+      if ( gtk_widget_get_style ( entree ) == style_entree_formulaire[ENGRIS] )
 	{
-	  gtk_entry_set_text ( GTK_ENTRY ( entree ),
-			       "" );
-	  gtk_widget_set_style ( entree,
-				 style_entree_formulaire[0] );
+	  gtk_entry_set_text ( GTK_ENTRY ( entree ), "" );
+	  gtk_widget_set_style ( entree, style_entree_formulaire[ENCLAIR] );
 	}
     }
   return FALSE;
@@ -764,7 +756,8 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 
   switch ( GPOINTER_TO_INT ( no_origine ) )
    {
-    /* on sort de la date, soit c'est vide, soit on la vérifie, la complète si nécessaire et met à jour l'exercice */
+    /* on sort de la date, soit c'est vide, soit on la vérifie,
+       la complète si nécessaire et met à jour l'exercice */
     case TRANSACTION_FORM_DATE :
 
       if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
@@ -800,7 +793,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 	{
 	  /* on commence par virer ce qu'il y avait dans les crédits */
 
-	  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT] ) == style_entree_formulaire[0] )
+	  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT] ) == style_entree_formulaire[ENCLAIR] )
 	    {
 	      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT] ),
 				   "" );
@@ -873,9 +866,8 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 	      /* on met donc le défaut, sauf si il y a qque chose dans les categ ou que le widget n'est pas visible */
 
 
-	      if ( GTK_WIDGET_VISIBLE ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] )
-		   &&
-		   gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ) == style_entree_formulaire[1] )
+	      if ( GTK_WIDGET_VISIBLE ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ) &&
+		   gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ) == style_entree_formulaire[ENGRIS] )
 		gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ),
 					      cherche_no_menu_type ( TYPE_DEFAUT_DEBIT ) );
 	    }
@@ -884,15 +876,16 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 	texte = _("Debit");
       break;
 
-      /*       on sort du crédit : soit vide, soit change le menu des types s'il n'y a aucun tiers ( <=> nouveau tiers ) */
+    /* on sort du crédit : soit vide, soit change le menu des types
+       s'il n'y a aucun tiers ( <=> nouveau tiers ) */
 
     case TRANSACTION_FORM_CREDIT :
 
       if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	{
-	  /* on  commence par virer ce qu'il y avait dans les débits */
+	  /* on commence par virer ce qu'il y avait dans les débits */
 
-	  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] ) == style_entree_formulaire[0] )
+	  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
 	    {
 	      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] ),
 				   "" );
@@ -901,19 +894,15 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 				  GINT_TO_POINTER ( TRANSACTION_FORM_DEBIT ));
 	    }
 
-	  /* si c'est un menu de crédit, on y met le menu de débit, sauf si tous les types sont affichés */
+	  /* si c'est un menu de crédit, on y met le menu de débit,
+	     sauf si tous les types sont affichés */
 
 	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-	  if ( ( !etat.affiche_tous_les_types
-		 &&
-		 GTK_WIDGET_VISIBLE ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] )
-		 &&
+	  if ( ( !etat.affiche_tous_les_types &&
+		 GTK_WIDGET_VISIBLE ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ) &&
 		 GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ) -> menu ),
-							 "signe_menu" ))
-		 ==
-		 1 )
-	       ||
+							 "signe_menu" )) == 1 ) ||
 	       !GTK_WIDGET_VISIBLE ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ))
 	    {
 	      /* on crée le nouveau menu et on met le défaut */
@@ -937,12 +926,9 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 	      /* comme il y a eu un changement de signe, on change aussi le type de l'opé associée */
 	      /* s'il est affiché */
 
-	      if ( GTK_WIDGET_VISIBLE ( widget_formulaire_operations[TRANSACTION_FORM_CONTRA] )
-		   &&
+	      if ( GTK_WIDGET_VISIBLE ( widget_formulaire_operations[TRANSACTION_FORM_CONTRA] ) &&
 		   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_CONTRA] ) -> menu ),
-							 "signe_menu" ))
-		   ==
-		   2 )
+							 "signe_menu" )) == 2 )
 		{
 		  GtkWidget *menu;
 
@@ -965,9 +951,8 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 	      /* on met donc le défaut, sauf si il y a qque chose dans les categ ou que le widget n'est pas visible */
 
 
-	      if ( GTK_WIDGET_VISIBLE ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] )
-		   &&
-		   gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ) == style_entree_formulaire[1] )
+	      if ( GTK_WIDGET_VISIBLE ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ) &&
+		   gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ) == style_entree_formulaire[ENGRIS] )
 		gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ),
 					      cherche_no_menu_type ( TYPE_DEFAUT_CREDIT ) );
 	    }
@@ -1063,7 +1048,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 
 				  GtkWidget *menu;
 
-				  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT] ) == style_entree_formulaire[0] )
+				  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT] ) == style_entree_formulaire[ENCLAIR] )
 				    /* il y a un montant dans le crédit */
 				    menu = creation_menu_types ( 1, compte_virement, 2  );
 				  else
@@ -1170,7 +1155,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 	  gtk_entry_set_text ( GTK_ENTRY ( entree ), texte );
 	  break;
 	}
-      gtk_widget_set_style ( entree, style_entree_formulaire[1] );
+      gtk_widget_set_style ( entree, style_entree_formulaire[ENGRIS] );
     }
   return FALSE;
 }
@@ -1187,47 +1172,20 @@ gboolean clique_champ_formulaire ( GtkWidget *entree,
 
   degrise_formulaire_operations ();
 
-  /* si l'entrée de la date est grise, on met la date courante */
-  /* seulement si la date réelle est grise aussi. Dans le cas contraire, c'est elle qui prend le focus */
+  /* si l'entrée de la date est grise, on met la date courante seulement
+     si la date réelle est grise aussi. Dans le cas contraire,
+     c'est elle qui prend le focus */
 
-  if ( ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) == style_entree_formulaire[1] ) &&
-       ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ) == style_entree_formulaire[1] ) )
+  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) == style_entree_formulaire[ENGRIS] )
     {
-      entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_DATE] );
-
-      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ),
-			   date_jour() );
-
-      /* si le click est sur l'entrée de la date, on la sélectionne et elle prend le focus */
-
-      if ( GPOINTER_TO_INT ( no_origine ) == TRANSACTION_FORM_DATE )
-	{
-	  if ( ev )
-	    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( entree ),
-					   "button-press-event");
-	  gtk_entry_select_region ( GTK_ENTRY ( entree ),
-				    0,
-				    -1);
-	  gtk_widget_grab_focus ( GTK_WIDGET ( entree ) );
-	}
+     if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ) == style_entree_formulaire[ENGRIS] )
+       {
+	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ),
+			     gsb_today() );
+	gtk_widget_set_style ( widget_formulaire_operations[TRANSACTION_FORM_DATE],
+			       style_entree_formulaire[ENCLAIR] );
+       }
     }
-  else
-    if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) == style_entree_formulaire[1] )
-      {
-	entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] );
-	/* si le click est sur l'entrée de la date, on la sélectionne et elle prend le focus */
-
-	if ( GPOINTER_TO_INT ( no_origine ) == TRANSACTION_FORM_DATE )
-	  {
-	    if ( ev )
-	      gtk_signal_emit_stop_by_name ( GTK_OBJECT ( entree ),
-					     "button-press-event");
-	    gtk_entry_select_region ( GTK_ENTRY ( entree ),
-				      0,
-				      -1);
-	    gtk_widget_grab_focus ( GTK_WIDGET ( entree ) );
-	  }
-      }
 
   /* si ev est null ( cad que ça ne vient pas d'un click mais appelé par ex
      à la fin de fin_edition ), on se barre */
@@ -1245,15 +1203,14 @@ gboolean clique_champ_formulaire ( GtkWidget *entree,
       /* si double click, on popup le calendrier */
       if ( ev -> type == GDK_2BUTTON_PRESS )
 	{
+	 gtk_signal_emit_stop_by_name ( GTK_OBJECT ( entree ),
+					"button-press-event" );
 	 popup_cal = gsb_calendar_new ( entree );
-/*	 gtk_signal_connect_object ( GTK_OBJECT ( popup_cal ),
-				     "destroy",
-				     GTK_SIGNAL_FUNC ( calendar_destroyed ),
-				     GTK_OBJECT ( entree ) );*/
 	 gtk_signal_connect_object ( GTK_OBJECT ( popup_cal ),
 				     "destroy",
-				     GTK_SIGNAL_FUNC ( gdk_pointer_ungrab ),
-				     GDK_CURRENT_TIME );
+				     GTK_SIGNAL_FUNC ( ferme_calendrier ),
+				     GTK_OBJECT ( entree ) );
+	 gtk_widget_grab_focus ( GTK_WIDGET ( popup_cal ) );
 	}
       break;
 
@@ -1296,35 +1253,31 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
       /* et retourne à la date ou enregistre l'opé s'il est à la fin */
 
       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
- 				     "key-press-event");
+				     "key-press-event");
 
       /* on efface la sélection en cours si c'est une entrée ou un combofix */
 
       if ( GTK_IS_ENTRY ( widget ))
-	gtk_entry_select_region ( GTK_ENTRY ( widget ),
-				  0,
-				  0);
+	gtk_entry_select_region ( GTK_ENTRY ( widget ), 0, 0);
       else
 	if ( GTK_IS_COMBOFIX ( widget ))
-	  gtk_entry_select_region ( GTK_ENTRY ( GTK_COMBOFIX ( widget ) -> entry ),
-				    0,
-				    0);
+	  gtk_entry_select_region ( GTK_ENTRY ( GTK_COMBOFIX ( widget ) -> entry ), 0, 0);
 
       /* on fait perdre le focus au widget courant pour faire les changements automatiques si nécessaire */
 
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-/*       gtk_widget_grab_focus ( CLIST_OPERATIONS ); */
+      gtk_widget_grab_focus ( CLIST_OPERATIONS );
 
       /* on donne le focus au widget suivant */
 
-      origine = ( origine + 1 ) % 18;
+      origine = ( origine + 1 ) % ( TRANSACTION_FORM_WIDGET_NB -1 );
 
       while ( !( GTK_WIDGET_VISIBLE ( widget_formulaire_operations[origine] ) &&
 		 GTK_WIDGET_SENSITIVE ( widget_formulaire_operations[origine] ) &&
 		 ( GTK_IS_COMBOFIX ( widget_formulaire_operations[origine] ) ||
 		   GTK_IS_ENTRY ( widget_formulaire_operations[origine] ) ||
 		   GTK_IS_BUTTON ( widget_formulaire_operations[origine] ) )))
-	origine = ( origine + 1 ) % 18;
+	origine = ( origine + 1 ) % ( TRANSACTION_FORM_WIDGET_NB -1 );
 
       /* si on se retrouve sur la date et que etat.entree = 0, on enregistre l'opération */
 
@@ -1341,9 +1294,8 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	{
 	  /* si le débit est gris et le crédit est noir, on met sur le crédit */
 
-	  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] ) == style_entree_formulaire[1]
-	       &&
-	       gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT] ) == style_entree_formulaire[0] )
+	  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] ) == style_entree_formulaire[ENGRIS] &&
+	       gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT] ) == style_entree_formulaire[ENCLAIR] )
 	    origine = TRANSACTION_FORM_CREDIT;
 	}
 
@@ -1351,12 +1303,12 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
          on se met sur la devise et on efface le crédit */
 
       if ( origine == TRANSACTION_FORM_CREDIT )
-	if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] ) == style_entree_formulaire[0] &&
+	if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] &&
 	     strlen(gtk_entry_get_text(GTK_ENTRY( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] ))))
 	  {
 	    origine = TRANSACTION_FORM_DEVISE;
 	    gtk_widget_set_style ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT],
-				  style_entree_formulaire[1] );
+				  style_entree_formulaire[ENGRIS] );
 	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT] ),
 				 _("Credit") );
 	  }
@@ -1366,16 +1318,12 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
       if ( GTK_IS_COMBOFIX ( widget_formulaire_operations[origine] ) )
 	{
 	  gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_operations[origine] ) -> entry );
-	  gtk_entry_select_region ( GTK_ENTRY ( GTK_COMBOFIX ( widget_formulaire_operations[origine] ) -> entry ),
-				    0,
-				    -1 );
+	  gtk_entry_select_region ( GTK_ENTRY ( GTK_COMBOFIX ( widget_formulaire_operations[origine] ) -> entry ), 0, -1 );
 	}
       else
 	{
 	  if ( GTK_IS_ENTRY ( widget_formulaire_operations[origine] ) )
-	    gtk_entry_select_region ( GTK_ENTRY ( widget_formulaire_operations[origine] ),
-				      0,
-				      -1 );
+	    gtk_entry_select_region ( GTK_ENTRY ( widget_formulaire_operations[origine] ), 0, -1 );
 
 	  gtk_widget_grab_focus ( widget_formulaire_operations[origine]  );
 	}
@@ -1387,8 +1335,9 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 /*       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 				     "key-press-event");*/
 
-      /* si la touche CTRL est elle aussi active, alors on valide simplement
-         la saisie de l'opération */
+      /* si la touche CTRL est elle aussi active, alors c'est que l'on est
+         probablement sur un champ de date et que l'on souhaite ouvrir
+	 un calendrier */
       if ( ( ev -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK )
 	{
 	 switch ( origine )
@@ -1404,9 +1353,8 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	      break ;
 	   }
 	}
-      /* si la touche CTRL n'est pas active, alors c'est que l'on est
-         probablement sur un champ de date et que l'on souhaite ouvrir
-	 un calendrier */
+      /* si la touche CTRL n'est pas active, alors on valide simplement
+         la saisie de l'opération */
       else
         {
 	 p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
@@ -1418,17 +1366,19 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
     case GDK_KP_Add:		/* touches + */
     case GDK_plus:
 
-      /* si on est dans une entree de date, on augmente d'un jour (d'une semaine) la date */
+      /* si on est dans une entree de date, on augmente d'un jour
+         (d'une semaine) la date */
 
       /* GDC : prise en compte de la date réelle (18) FinGDC */
-      if ( origine == TRANSACTION_FORM_DATE || origine == TRANSACTION_FORM_VALUE_DATE )
+      if ( origine == TRANSACTION_FORM_DATE ||
+           origine == TRANSACTION_FORM_VALUE_DATE )
 	{
 /*	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					 "key-press-event");*/
 	  if ( ( ev -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
-	    increment_decrement_date ( widget_formulaire_operations[origine], ONE_DAY );
+	    inc_dec_date ( widget_formulaire_operations[origine], ONE_DAY );
 	  else
-	    increment_decrement_date ( widget_formulaire_operations[origine], ONE_WEEK );
+	    inc_dec_date ( widget_formulaire_operations[origine], ONE_WEEK );
 	  return TRUE;
 	}
       else if ( origine == TRANSACTION_FORM_CHEQUE )	/* Voucher number */
@@ -1438,20 +1388,21 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	}
       break;
 
-    case GDK_KP_Subtract:
+    case GDK_KP_Subtract:		/* touches - */
     case GDK_minus:
 
       /* si on est dans une entree de date, on diminue d'un jour (d'une semaine) la date */
 
       /* GDC : prise en compte de la date réelle (18) FinGDC */
-      if ( origine == TRANSACTION_FORM_DATE || origine == TRANSACTION_FORM_VALUE_DATE )
+      if ( origine == TRANSACTION_FORM_DATE ||
+           origine == TRANSACTION_FORM_VALUE_DATE )
 	{
 /*	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					 "key-press-event");*/
 	  if ( ( ev -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
-	    increment_decrement_date ( widget_formulaire_operations[origine], - ONE_DAY );
+	    inc_dec_date ( widget_formulaire_operations[origine], - ONE_DAY );
 	  else
-	    increment_decrement_date ( widget_formulaire_operations[origine], - ONE_WEEK );
+	    inc_dec_date ( widget_formulaire_operations[origine], - ONE_WEEK );
 	  return TRUE;
 	}
       else if ( origine == TRANSACTION_FORM_CHEQUE )	/* Voucher number */
@@ -1466,14 +1417,15 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 
       /* si on est dans une entree de date, on augmente d'un mois (d'un an) la date */
       /* GDC : prise en compte de la date réelle (18) FinGDC */
-      if ( origine == TRANSACTION_FORM_DATE || origine == TRANSACTION_FORM_VALUE_DATE )
+      if ( origine == TRANSACTION_FORM_DATE ||
+           origine == TRANSACTION_FORM_VALUE_DATE )
 	{
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					 "key-press-event");
 	  if ( ( ev -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
-	    increment_decrement_date ( widget_formulaire_operations[origine], ONE_MONTH );
+	    inc_dec_date ( widget_formulaire_operations[origine], ONE_MONTH );
 	  else
-	    increment_decrement_date ( widget_formulaire_operations[origine], ONE_YEAR );
+	    inc_dec_date ( widget_formulaire_operations[origine], ONE_YEAR );
 	  return TRUE;
 	}
       break;
@@ -1483,14 +1435,15 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 
       /* si on est dans une entree de date, on augmente d'un mois (d'un an) la date */
       /* GDC : prise en compte de la date réelle (18) FinGDC */
-      if ( origine == TRANSACTION_FORM_DATE || origine == TRANSACTION_FORM_VALUE_DATE )
+      if ( origine == TRANSACTION_FORM_DATE ||
+           origine == TRANSACTION_FORM_VALUE_DATE )
 	{
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					 "key-press-event");
 	  if ( ( ev -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
-	    increment_decrement_date ( widget_formulaire_operations[origine], - ONE_MONTH );
+	    inc_dec_date ( widget_formulaire_operations[origine], - ONE_MONTH );
 	  else
-	    increment_decrement_date ( widget_formulaire_operations[origine], - ONE_YEAR );
+	    inc_dec_date ( widget_formulaire_operations[origine], - ONE_YEAR );
 	  return TRUE;
 	}
       break;
@@ -1501,70 +1454,6 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
       break;
     }
   return TRUE;
-}
-/******************************************************************************/
-
-/******************************************************************************/
-void ferme_calendrier ( GtkWidget *popup )
-{
-  gtk_widget_destroy ( popup );
-
-  /* magouille pour récupérer le focus, sinon le focus reste sur l'entrée */
-  /* de la date tant qu'on n'a pas clické dessus */
-
-  gtk_grab_remove ( window );
-  gtk_grab_add ( window );
-}
-/******************************************************************************/
-
-/******************************************************************************/
-/* Fonction touche_calendrier */
-/* supprime le calendrier si on appuie sur échap */
-/******************************************************************************/
-void touche_calendrier ( GtkWidget *popup,
-			 GdkEventKey *ev,
-			 gpointer null )
-{
-  if ( ev->keyval == GDK_Escape )
-    close_calendar_popup ( popup );
-}
-/******************************************************************************/
-
-/******************************************************************************/
-/* Fonction date_selectionnee */
-/* appelée lorsqu'on a clické 2 fois sur une date du calendrier */
-/******************************************************************************/
-gboolean date_selectionnee ( GtkCalendar *calendrier,
-			     GtkWidget * entry )
-{
-  guint annee, mois, jour;
-
-  gtk_calendar_get_date ( calendrier, &annee, &mois, &jour);
-
-  gtk_entry_set_text ( GTK_ENTRY ( entry ),
-		       g_strdup_printf ( "%02d/%02d/%04d", jour, mois + 1, annee));
-
-/*   gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_PARTY] ) -> entry ); */
-
-  return FALSE;
-}
-/******************************************************************************/
-
-/******************************************************************************/
-/* Fonction date_bancaire_selectionnee */
-/* appelée lorsqu'on a clické 2 fois sur une date du calendrier pour la date reelle */
-/******************************************************************************/
-void date_bancaire_selectionnee ( GtkCalendar *calendrier, GtkWidget *popup )
-{
-  guint annee, mois, jour;
-
-  gtk_calendar_get_date ( calendrier, &annee, &mois, &jour);
-
-  gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ),
-		       g_strdup_printf ( "%02d/%02d/%04d", jour, mois + 1, annee));
-  gtk_widget_destroy ( popup );
-
-  gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_PARTY] ) -> entry );
 }
 /******************************************************************************/
 
@@ -1584,21 +1473,20 @@ gboolean modifie_date ( GtkWidget *entree )
 
   /* si l'entrée est grise, on se barre */
 
-  if (( gtk_widget_get_style ( entree ) == style_entree_formulaire[1] ))
+  if (( gtk_widget_get_style ( entree ) == style_entree_formulaire[ENGRIS] ))
     return ( FALSE );
 
   pointeur_entry = g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )) );
 
   if ( !strlen ( pointeur_entry ))
     {
-      /*       si on est dans la conf des états, on ne met pas la date du jour, on */
+      /* si on est dans la conf des états, on ne met pas la date du jour, on */
       /* laisse vide */
 
-      if ( entree != entree_date_init_etat
-	   &&
+      if ( entree != entree_date_init_etat &&
 	   entree != entree_date_finale_etat )
 	gtk_entry_set_text ( GTK_ENTRY ( entree ),
-			     date_jour() );
+			     gsb_today() );
     }
   else
     {
@@ -1722,11 +1610,11 @@ void completion_operation_par_tiers ( void )
 
   /* s'il y a quelque chose dans les entrées débit/crédit ou catégories, on se barre */
 
-  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] ) == style_entree_formulaire[0]
+  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR]
        ||
-       gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT] ) == style_entree_formulaire[0]
+       gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT] ) == style_entree_formulaire[ENCLAIR]
        ||
-       gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] )->entry ) == style_entree_formulaire[0] )
+       gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] )->entry ) == style_entree_formulaire[ENCLAIR] )
     return;
 
   /* recherche le tiers demandé */
@@ -2206,11 +2094,10 @@ void fin_edition ( void )
   if ( !verification_validation_operation ( operation ))
     return;
 
-  /* si le tiers est un état, on va faire autant d'opérations qu'il y a de tiers dans */
-  /* l'état concerné */
-  /* on va créer une liste avec les nos de tiers ( ou -1  */
-  /* le tiers n'est pas un état), puis on fera une boucle sur cette liste pour ajouter autant d'opérations */
-  /* que de tiers */
+  /* si le tiers est un état, on va faire autant d'opérations qu'il y a de tiers
+     dans l'état concerné. On va créer une liste avec les nos de tiers
+     ( ou -1, le tiers n'est pas un état), puis on fera une boucle sur cette liste
+     pour ajouter autant d'opérations que de tiers */
 
   liste_no_tiers = NULL;
 
@@ -2393,8 +2280,9 @@ void fin_edition ( void )
 	}
     }
 
-  /* si c'était une nouvelle opération, on efface le formulaire, on remet la date pour la suivante, */
-  /* si c'était une modification, on redonne le focus à la liste */
+  /* si c'était une nouvelle opération, on efface le formulaire,
+     on remet la date pour la suivante,
+     si c'était une modification, on redonne le focus à la liste */
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
@@ -2415,7 +2303,7 @@ void fin_edition ( void )
       clique_champ_formulaire ( widget_formulaire_operations[TRANSACTION_FORM_DATE],
 				NULL,
 				GINT_TO_POINTER ( TRANSACTION_FORM_DATE ) );
-      gtk_entry_select_region ( GTK_ENTRY (  widget_formulaire_operations[TRANSACTION_FORM_DATE] ),
+      gtk_entry_select_region ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ),
 				0,
 				-1);
       gtk_widget_grab_focus ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) );
@@ -2427,7 +2315,7 @@ void fin_edition ( void )
   MISE_A_JOUR = 1;
   verification_mise_a_jour_liste ();
 
-  /*   met à jour les listes ( nouvelle opération associée au tiers et à la catégorie ) */
+  /* met à jour les listes ( nouvelle opération associée au tiers et à la catégorie ) */
 
   mise_a_jour_tiers ();
   mise_a_jour_categ ();
@@ -2450,7 +2338,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 
   /* on vérifie qu'il y a bien une date */
 
-  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) != style_entree_formulaire[0] )
+  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) != style_entree_formulaire[ENCLAIR] )
     {
       dialogue ( PRESPACIFY(_("Error: you must enter a date.")));
       return (FALSE);
@@ -2476,7 +2364,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 
   /* vérifie que la date de valeur est correcte */
 
-  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ) == style_entree_formulaire[0]
+  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ) == style_entree_formulaire[ENCLAIR]
        &&
        !modifie_date ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ) )
     {
@@ -2491,7 +2379,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
   /* vérification que ce n'est pas un virement sur lui-même */
   /* et que le compte de virement existe */
 
-  if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ) -> entry ) == style_entree_formulaire[0] )
+  if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
     {
       tableau_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] )),
 				  ":",
@@ -2569,7 +2457,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 
 	  /* vérifie s'il y a quelque chose */
 
-	  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] ) == style_entree_formulaire[1] )
+	  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] ) == style_entree_formulaire[ENGRIS] )
 	    {
 	      if ( question ( _("Selected method of payment has an automatic incremental number\nbut doesn't contain any number.\nContinue anyway?") ) )
 		goto sort_test_cheques;
@@ -2579,7 +2467,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 
 	  /* vérifie si le no de chèque n'est pas déjà utilisé */
 
-	  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] ) == style_entree_formulaire[0] )
+	  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] ) == style_entree_formulaire[ENCLAIR] )
 	    {
 	      liste_tmp = LISTE_OPERATIONS;
 	      no_cheque = g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] )));
@@ -2627,7 +2515,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
       {
 	enregistre_ope_au_retour = 1;
 
-	if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] ) == style_entree_formulaire[0] )
+	if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
 	  ventiler_operation ( -my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] ))),
 					   NULL ));
 	else
@@ -2723,7 +2611,7 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
   /* traitement de la date de valeur */
 
   if ( etat.affiche_date_bancaire &&
-       gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ) == style_entree_formulaire[0] )
+       gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ) == style_entree_formulaire[ENCLAIR] )
     {
       pointeur_char = g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] )));
 
@@ -2750,7 +2638,7 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
 
   /* récupération du tiers, s'il n'existe pas, on le crée */
 
-  if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_PARTY] ) -> entry ) == style_entree_formulaire[0] )
+  if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_PARTY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
     {
       pointeur_char = g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_PARTY] )));
 
@@ -2766,7 +2654,7 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
 
   /* récupération du montant */
 
-  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] ) == style_entree_formulaire[0] )
+  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
     operation -> montant = -my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] ))),
 				       NULL );
   else
@@ -2826,7 +2714,7 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
 								      "no_type" ));
       if ( GTK_WIDGET_VISIBLE ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] )
 	   &&
-	   gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] ) == style_entree_formulaire[0] )
+	   gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] ) == style_entree_formulaire[ENCLAIR] )
 	{
 	  struct struct_type_ope *type;
 
@@ -2865,7 +2753,7 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
   /* récupération de l'imputation budgétaire */
   /* si c'est une opé ventilée, on ne récupère pas l'ib */
 
-  if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET] ) -> entry ) == style_entree_formulaire[0]
+  if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET] ) -> entry ) == style_entree_formulaire[ENCLAIR]
        &&
        !GTK_WIDGET_VISIBLE ( widget_formulaire_operations[TRANSACTION_FORM_BREAKDOWN] ))
     {
@@ -2929,21 +2817,21 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
 
   /* récupération du no de pièce comptable */
 
-  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_VOUCHER] ) == style_entree_formulaire[0] )
+  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_VOUCHER] ) == style_entree_formulaire[ENCLAIR] )
     operation -> no_piece_comptable = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_VOUCHER] ))));
   else
     operation -> no_piece_comptable = NULL;
 
   /* récupération des notes */
 
-  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_NOTES] ) == style_entree_formulaire[0] )
+  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_NOTES] ) == style_entree_formulaire[ENCLAIR] )
     operation -> notes = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_NOTES] ))));
   else
     operation -> notes = NULL;
 
   /* récupération de l'info banque/guichet */
 
-  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_BANK] ) == style_entree_formulaire[0] )
+  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_BANK] ) == style_entree_formulaire[ENCLAIR] )
     operation -> info_banque_guichet = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_BANK] ))));
   else
     operation -> info_banque_guichet = NULL;
@@ -2962,7 +2850,7 @@ void recuperation_categorie_formulaire ( struct structure_operation *operation,
   gchar **tableau_char;
   struct structure_operation *operation_2;
 
-  if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ) -> entry ) == style_entree_formulaire[0] )
+  if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
     {
       struct struct_categ *categ;
 
@@ -3420,27 +3308,27 @@ void formulaire_a_zero (void)
   /* on met les styles des entrées au gris */
 
   gtk_widget_set_style ( widget_formulaire_operations[TRANSACTION_FORM_DATE],
-			style_entree_formulaire[1] );
+			style_entree_formulaire[ENGRIS] );
   gtk_widget_set_style ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_PARTY] ) -> entry,
-			style_entree_formulaire[1] );
+			style_entree_formulaire[ENGRIS] );
   gtk_widget_set_style ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT],
-			style_entree_formulaire[1] );
+			style_entree_formulaire[ENGRIS] );
   gtk_widget_set_style ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT],
-			style_entree_formulaire[1] );
+			style_entree_formulaire[ENGRIS] );
   gtk_widget_set_style ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE],
-			style_entree_formulaire[1] );
+			style_entree_formulaire[ENGRIS] );
   gtk_widget_set_style ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ) -> entry,
-			style_entree_formulaire[1] );
+			style_entree_formulaire[ENGRIS] );
   gtk_widget_set_style ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE],
-			style_entree_formulaire[1] );
+			style_entree_formulaire[ENGRIS] );
   gtk_widget_set_style ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET] ) -> entry,
-			style_entree_formulaire[1] );
+			style_entree_formulaire[ENGRIS] );
   gtk_widget_set_style ( widget_formulaire_operations[TRANSACTION_FORM_VOUCHER],
-			style_entree_formulaire[1] );
+			style_entree_formulaire[ENGRIS] );
   gtk_widget_set_style ( widget_formulaire_operations[TRANSACTION_FORM_NOTES],
-			style_entree_formulaire[1] );
+			style_entree_formulaire[ENGRIS] );
   gtk_widget_set_style ( widget_formulaire_operations[TRANSACTION_FORM_BANK],
-			style_entree_formulaire[1] );
+			style_entree_formulaire[ENGRIS] );
 
   gtk_label_set_text ( GTK_LABEL ( widget_formulaire_operations[TRANSACTION_FORM_OP_NB] ),
 		       "" );
@@ -3514,28 +3402,6 @@ void formulaire_a_zero (void)
 
   gtk_widget_set_sensitive ( bouton_affiche_cache_formulaire,
 			     TRUE );
-}
-/******************************************************************************/
-
-/******************************************************************************/
-/* procédure qui renvoie soit la dâte du jour,                                */
-/* soit l'ancienne date tapée sous forme de string                            */
-/******************************************************************************/
-gchar *date_jour ( void )
-{
-  time_t temps;
-
-  if ( !etat.ancienne_date )
-    {
-      time ( &temps );
-
-      strftime ( date_courante,
-		 11,
-		 "%d/%m/%Y",
-		 localtime ( &temps ) );
-      etat.ancienne_date = 1;
-    }
-  return ( g_strdup ( date_courante ) );
 }
 /******************************************************************************/
 
@@ -3635,7 +3501,7 @@ void basculer_vers_ventilation ( GtkWidget *bouton,
 {
   enregistre_ope_au_retour = 0;
 
-  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] ) == style_entree_formulaire[0] )
+  if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
     ventiler_operation ( -my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] ))),
 				     NULL ));
   else
@@ -3727,80 +3593,6 @@ void degrise_formulaire_operations ( void )
 }
 /******************************************************************************/
 
-/******************************************************************************/
-/* appelée lors de l'appui des touche + ou - sur les formulaires              */
-/* augmente ou diminue la date entrée de 1 jour, 1 semaine, 1 mois, 1 an,     */
-/* suivant la valeur du paramètre « demande »                                 */
-/******************************************************************************/
-void increment_decrement_date ( GtkWidget *entree, gint demande )
-{
-  gchar **tableau_char;
-  GDate *date;
-  gint jour, mois, annee;
-
-  /* on commence par vérifier que la date est valide */
-
-  if ( !modifie_date ( entree ))
-    return;
-
-  tableau_char = g_strsplit ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY (entree))),
-			      "/",
-			      3 );
-
-  jour = my_strtod ( tableau_char[0], NULL );
-  mois = my_strtod ( tableau_char[1], NULL );
-  annee = my_strtod ( tableau_char[2], NULL );
-
-  date = g_date_new_dmy ( jour, mois, annee);
-
-  switch ( demande )
-    {
-     case ONE_DAY :
-     case ONE_WEEK :
-
-       g_date_add_days ( date, demande ) ;
-       break ;
-
-     case -ONE_DAY :
-     case -ONE_WEEK :
-
-       g_date_subtract_days ( date, -demande ) ;
-       break ;
-
-     case ONE_MONTH :
-
-       g_date_add_months ( date, 1 ) ;
-       break ;
-
-     case -ONE_MONTH :
-
-       g_date_subtract_months ( date, 1 ) ;
-       break ;
-
-     case ONE_YEAR :
-
-       g_date_add_years ( date, 1 ) ;
-       break ;
-
-     case -ONE_YEAR :
-
-       g_date_subtract_years ( date, 1 ) ;
-       break ;
-
-     default :
-       break ;
-    }
-
-/*  g_date_add_days ( date,
-		    demande );*/
-
-  gtk_entry_set_text ( GTK_ENTRY ( entree ),
-		       g_strdup_printf ( "%02d/%02d/%04d",
-					 g_date_day ( date ),
-					 g_date_month ( date ),
-					 g_date_year ( date )));
-
-}
 /******************************************************************************/
 /**
  *  Increment or decrement the value of a GtkEntry.

@@ -33,6 +33,7 @@
 #include "exercice.h"
 #include "type_operations.h"
 #include "operations_formulaire.h"
+#include "calendar.h"
 
 GtkTreeStore *preference_tree_model;
 GtkWidget * hpaned;
@@ -1388,7 +1389,7 @@ gboolean popup_calendar ( GtkWidget * button, gpointer data )
 	  &&
 	  sscanf ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )),
 		   "%02d/%02d/%04d", &cal_jour, &cal_mois, &cal_annee)))
-    sscanf ( date_jour(), "%02d/%02d/%04d", &cal_jour, &cal_mois, &cal_annee);
+    sscanf ( gsb_today(), "%02d/%02d/%04d", &cal_jour, &cal_mois, &cal_annee);
       
   /* Creates calendar */
   calendrier = gtk_calendar_new();
@@ -1401,11 +1402,11 @@ gboolean popup_calendar ( GtkWidget * button, gpointer data )
 
   /* Create handlers */
   gtk_signal_connect ( GTK_OBJECT ( calendrier), "day-selected-double-click",
-		       ((GCallback)  date_selectionnee ), entree );
+		       ((GCallback)  date_selection ), entree );
   gtk_signal_connect_object ( GTK_OBJECT ( calendrier), "day-selected-double-click",
 			      ((GCallback)  close_calendar_popup ), popup );
   gtk_signal_connect ( GTK_OBJECT ( popup ), "key-press-event",
-		       ((GCallback)  touche_calendrier ), NULL );
+		       ((GCallback)  clavier_calendrier ), NULL );
   gtk_box_pack_start ( GTK_BOX ( popup_boxv ), calendrier,
 		       TRUE, TRUE, 0 );
 
