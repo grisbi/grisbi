@@ -134,7 +134,7 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 	{
 	    /* on n'a pas réussi à ouvrir le fichier, on affiche l'erreur et on retourne sur la sélection des fichiers */
 
-	    dialogue ( strerror ( errno ) );
+	    dialogue ( latin2utf8 ( strerror ( errno ) ) );
 	    return;
 	}
 
@@ -182,8 +182,8 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 		    recuperation_donnees_html ( fichier );
 		else
 		{
-		    dialogue ( g_strdup_printf ( _("The file \"%s\" cannot be recognized for the importation.\nIf it is a QIF, OFX file or a HTML page of bank,\nplease contact the grisbi team to resolve the problem."),
-						 liste_selection[i] ));
+		  dialogue_error_hint ( _("Grisbi is unable to determine type of this file.  If it is a QIF, an OFX file or a HTML page from a online bank service, please contact the grisbi team to resolve this problem."),
+					 g_strdup_printf ( _("File \"%s\" cannot be imported."), liste_selection[i]) );
 		    free ( pointeur_char );
 		    return;
 		}
