@@ -605,55 +605,55 @@ void ajout_devise ( GtkWidget *bouton,
 		     GTK_EXPAND|GTK_FILL, 0,
 		     0, 0 );
 
-  /* Swith to Euro */
-  paddingbox = 
-    new_paddingbox_with_title (GTK_WIDGET ( GNOME_DIALOG ( dialog ) -> vbox ),
-			       FALSE, _("Euro zone currency"));
+/*   /\* Swith to Euro *\/ */
+/*   paddingbox =  */
+/*     new_paddingbox_with_title (GTK_WIDGET ( GNOME_DIALOG ( dialog ) -> vbox ), */
+/* 			       FALSE, _("Euro zone currency")); */
 
-  check_bouton = gtk_check_button_new_with_label ( _("Will switch to Euro") );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ), check_bouton,
-		       TRUE, TRUE, 0 );
+/*   check_bouton = gtk_check_button_new_with_label ( _("Will switch to Euro") ); */
+/*   gtk_box_pack_start ( GTK_BOX ( paddingbox ), check_bouton, */
+/* 		       TRUE, TRUE, 0 ); */
 
-  hbox = gtk_hbox_new ( FALSE, 5 );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-		       TRUE, TRUE, 0 );
-  label = gtk_label_new ( POSTSPACIFY(_("One Euro equals")) );
-  gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
-  gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-		       TRUE, TRUE, 0 );
-  entree_conversion_euro = gtk_entry_new ();
-  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
-				 GTK_EDITABLE ( entree_conversion_euro ));
-  gtk_box_pack_start ( GTK_BOX ( hbox ), entree_conversion_euro,
-		       TRUE, TRUE, 0 );
+/*   hbox = gtk_hbox_new ( FALSE, 5 ); */
+/*   gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, */
+/* 		       TRUE, TRUE, 0 ); */
+/*   label = gtk_label_new ( POSTSPACIFY(_("One Euro equals")) ); */
+/*   gtk_misc_set_alignment (GTK_MISC (label), 0, 1); */
+/*   gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT ); */
+/*   gtk_box_pack_start ( GTK_BOX ( hbox ), label, */
+/* 		       TRUE, TRUE, 0 ); */
+/*   entree_conversion_euro = gtk_entry_new (); */
+/*   gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ), */
+/* 				 GTK_EDITABLE ( entree_conversion_euro )); */
+/*   gtk_box_pack_start ( GTK_BOX ( hbox ), entree_conversion_euro, */
+/* 		       TRUE, TRUE, 0 ); */
 
-  /* Do not activate the "Switch to euro" stuff */
-  gtk_widget_set_sensitive (entree_conversion_euro, FALSE );
-  gtk_widget_set_sensitive (label, FALSE );
-  gtk_signal_connect ( GTK_OBJECT ( check_bouton ),
-		       "toggled",
-		       GTK_SIGNAL_FUNC ( passe_a_l_euro ),
-		       entree_conversion_euro);
-  gtk_signal_connect ( GTK_OBJECT ( check_bouton ),
-		       "toggled",
-		       GTK_SIGNAL_FUNC ( passe_a_l_euro ),
-		       label);
+/*   /\* Do not activate the "Switch to euro" stuff *\/ */
+/*   gtk_widget_set_sensitive (entree_conversion_euro, FALSE ); */
+/*   gtk_widget_set_sensitive (label, FALSE ); */
+/*   gtk_signal_connect ( GTK_OBJECT ( check_bouton ), */
+/* 		       "toggled", */
+/* 		       GTK_SIGNAL_FUNC ( passe_a_l_euro ), */
+/* 		       entree_conversion_euro); */
+/*   gtk_signal_connect ( GTK_OBJECT ( check_bouton ), */
+/* 		       "toggled", */
+/* 		       GTK_SIGNAL_FUNC ( passe_a_l_euro ), */
+/* 		       label); */
 
-  /* Currency name.  This label will be labeled after the entree_nom
-     widget. */
-  label_nom_devise = gtk_label_new ( _("...") );
-  gtk_box_pack_start ( GTK_BOX ( hbox ), label_nom_devise,
-		       FALSE, FALSE, 5 );
+/*   /\* Currency name.  This label will be labeled after the entree_nom */
+/*      widget. *\/ */
+/*   label_nom_devise = gtk_label_new ( _("...") ); */
+/*   gtk_box_pack_start ( GTK_BOX ( hbox ), label_nom_devise, */
+/* 		       FALSE, FALSE, 5 ); */
 
-  gtk_signal_connect ( GTK_OBJECT ( entree_nom ),
-		       "changed",
-		       GTK_SIGNAL_FUNC ( nom_nouvelle_devise_defini ),
-		       label_nom_devise );
+/*   gtk_signal_connect ( GTK_OBJECT ( entree_nom ), */
+/* 		       "changed", */
+/* 		       GTK_SIGNAL_FUNC ( nom_nouvelle_devise_defini ), */
+/* 		       label_nom_devise ); */
 
-  gtk_widget_grab_focus ( entree_nom );
-  gtk_editable_set_position ( GTK_EDITABLE ( entree_nom ),
-			   0 );
+/*   gtk_widget_grab_focus ( entree_nom ); */
+/*   gtk_editable_set_position ( GTK_EDITABLE ( entree_nom ), */
+/* 			   0 ); */
  reprise_dialog:
   gtk_widget_show_all ( GTK_WIDGET ( dialog ) );
   resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
