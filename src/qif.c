@@ -46,6 +46,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
     GSList *liste_tmp;
     gchar **tab;
     gint pas_le_premier_compte = 0;
+    gchar *type;
 
     /* fichier pointe sur le fichier qui a été reconnu comme qif */
 
@@ -69,6 +70,8 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 	    else
 		pas_le_premier_compte = 2;
 
+	    type = NULL;
+
 	    if ( retour
 		 &&
 		 retour != EOF
@@ -82,30 +85,36 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 		/* 	    à ce niveau on est sur un !type ou !Type, on vérifie maintenant qu'on supporte */
 		/* 		bien ce type ; si c'est le cas, on met retour à -1 */
 
-		if ( !my_strncasecmp ( pointeur_char+6,
-				       "bank",
-				       4 )
+		tab = g_strsplit ( pointeur_char,
+				   ":",
+				   2 );
+
+		if ( tab[1] )
+		    tab[1] = g_strstrip ( tab[1] );
+
+		if ( !my_strcasecmp ( tab[1],
+				      "bank" )
 		     ||
-		     !my_strncasecmp ( pointeur_char+6,
-				       "cash",
-				       4 )
+		     !my_strcasecmp ( tab[1],
+				      "cash" )
 		     ||
-		     !my_strncasecmp ( pointeur_char+6,
-				       "ccard",
-				       5 )
+		     !my_strcasecmp ( tab[1],
+				      "ccard" )
 		     ||
-		     !my_strncasecmp ( pointeur_char+6,
-				       "invst",
-				       5 )
+		     !my_strcasecmp ( tab[1],
+				      "invst" )
 		     ||
-		     !my_strncasecmp ( pointeur_char+6,
-				       "oth a",
-				       5 )
+		     !my_strcasecmp ( tab[1],
+				      "oth a" )
 		     ||
-		     !my_strncasecmp ( pointeur_char+6,
-				       "oth l",
-				       5 ))
-					   retour = -2;
+		     !my_strcasecmp ( tab[1],
+				      "oth l" ))
+		{
+		    retour = -2;
+		    type = g_strdup ( tab[1] );
+		}
+
+		g_strfreev ( tab );
 	    }
 	}
 	while ( retour != EOF
@@ -126,6 +135,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 	}
 
 	/*     on est sur le début d'opérations d'un compte, on crée un nouveau compte */
+	/* 	si on est ici, la variable type contient le type de compte */
 
 	compte = calloc ( 1,
 			  sizeof ( struct struct_compte_importation ));
@@ -136,15 +146,13 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 
 	/* récupération du type de compte */
 
-	if ( !my_strncasecmp ( pointeur_char+6,
-			       "bank",
-			       4 ))
+	if ( !my_strcasecmp ( type,
+			      "bank" ))
 	    compte -> type_de_compte = 0;
 	else
 	{
-	    if ( !my_strncasecmp ( pointeur_char+6,
-				   "invst",
-				   5 ))
+	    if ( !my_strcasecmp ( type,
+				  "invst" ))
 	    {
 /* 		on considère le compte d'investissement comme un compte bancaire mais met un */
 /* 		    warning car pas implémenté ; aucune idée si ça passe ou pas... */
@@ -153,21 +161,18 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 	    }
 	    else
 	    {
-		if ( !my_strncasecmp ( pointeur_char+6,
-				       "cash",
-				       4 ))
+		if ( !my_strcasecmp ( type,
+				      "cash" ))
 		    compte -> type_de_compte = 7;
 		else
 		{
-		    if ( !my_strncasecmp ( pointeur_char+6,
-					   "oth a",
-					   5 ))
+		    if ( !my_strcasecmp ( type,
+					  "oth a" ))
 			compte -> type_de_compte = 2;
 		    else
 		    {
-			if ( !my_strncasecmp ( pointeur_char+6,
-					       "oth l",
-					       5 ))
+			if ( !my_strcasecmp ( type,
+					      "oth l" ))
 			    compte -> type_de_compte = 3;
 			else
 			    /* CCard */
@@ -176,7 +181,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 		}
 	    }
 	}
-    
+
 
 
 	/* récupère les autres données du compte */
@@ -185,9 +190,8 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 	/* 	caractéristiques de départ du compte, on crée donc un compte du nom */
 	/* "carte de crédit" avec un solde init de 0 */
 
-	if ( my_strncasecmp ( pointeur_char+6,
-			      "ccard",
-			      5 ))
+	if ( my_strcasecmp ( type,
+			      "ccard" ))
 	{
 	    /* ce n'est pas une ccard, on récupère les infos */
 
