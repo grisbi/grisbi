@@ -443,6 +443,9 @@ gboolean change_backup_path ( GtkEntry *entry, gchar *value, gint length, gint *
 	nom_fichier_backup = NULL;
     }
 
+    /* Mark file as modified */
+    modification_fichier ( TRUE );
+
     return ( FALSE );
 }
 
