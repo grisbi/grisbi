@@ -63,8 +63,6 @@ static void importer_categ ( void );
 static gboolean keypress_category ( GtkWidget *widget, GdkEventKey *ev, gint *no_origine );
 static void merge_liste_categories ( void );
 static void modification_du_texte_categ ( void );
-static gboolean ouverture_node_categ ( GtkWidget *arbre, GtkCTreeNode *node, 
-				gpointer null );
 static gboolean selection_ligne_categ ( GtkCTree *arbre_categ, GtkCTreeNode *noeud,
 				 gint colonne, gpointer null );
 static void supprimer_categ ( void );
@@ -73,6 +71,8 @@ static gboolean verifie_double_click_categ ( GtkWidget *liste, GdkEventButton *e
 				      gpointer null );
 static gboolean categ_column_expanded  (GtkTreeView * treeview, GtkTreeIter * iter, 
 					GtkTreePath * tree_path, gpointer user_data );
+static gboolean categ_activated ( GtkTreeView * treeview, GtkTreePath * path,
+				  GtkTreeViewColumn * col, gpointer userdata );
 /*END_STATIC*/
 
 
@@ -477,6 +477,8 @@ GtkWidget *onglet_categories ( void )
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scroll_window ),
 				     GTK_POLICY_AUTOMATIC,
 				     GTK_POLICY_AUTOMATIC );
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scroll_window), 
+					  GTK_SHADOW_IN );
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 scroll_window,
 			 TRUE,
@@ -530,7 +532,11 @@ GtkWidget *onglet_categories ( void )
     gtk_container_add ( GTK_CONTAINER ( scroll_window ), arbre_categ );
     gtk_widget_show ( arbre_categ );
 
-    g_signal_connect ( G_OBJECT(arbre_categ), "row-expanded", G_CALLBACK(categ_column_expanded), NULL );
+    /* Connect to signals */
+    g_signal_connect ( G_OBJECT(arbre_categ), "row-expanded", 
+		       G_CALLBACK(categ_column_expanded), NULL );
+    g_signal_connect( G_OBJECT(arbre_categ), "row-activated",
+		      G_CALLBACK(categ_activated), NULL);
 
 
     /* on met la fontion de tri alphabétique en prenant en compte les accents */
@@ -622,7 +628,7 @@ void remplit_arbre_categ ( void )
 			    CATEGORY_TREE_TEXT_COLUMN, text[0],
 			    CATEGORY_TREE_BALANCE_COLUMN, text[1],
 			    CATEGORY_TREE_XALIGN_COLUMN, 1.0,
-			    CATEGORY_TREE_POINTER_COLUMN, categ,
+			    CATEGORY_TREE_POINTER_COLUMN, NULL,
 			    CATEGORY_TREE_NO_CATEG_COLUMN, categ -> no_categ,
 			    CATEGORY_TREE_NO_SUB_CATEG_COLUMN, -1,
 			    CATEGORY_TREE_FONT_COLUMN, 800,
@@ -677,7 +683,7 @@ void remplit_arbre_categ ( void )
 				CATEGORY_TREE_TEXT_COLUMN, text[0],
 				CATEGORY_TREE_BALANCE_COLUMN, text[2],
 				CATEGORY_TREE_XALIGN_COLUMN, 1.0,
-				CATEGORY_TREE_POINTER_COLUMN, sous_categ,
+				CATEGORY_TREE_POINTER_COLUMN, NULL,
 				CATEGORY_TREE_NO_CATEG_COLUMN, categ -> no_categ,
 				CATEGORY_TREE_NO_SUB_CATEG_COLUMN, sous_categ -> no_sous_categ,
 				CATEGORY_TREE_FONT_COLUMN, 400,
@@ -809,291 +815,6 @@ void remplit_arbre_categ ( void )
     modif_categ = 0;
 }
 /* **************************************************************************************************** */
-
-
-
-/* **************************************************************************************************** */
-/* Fonction ouverture_node_categ */
-/* appeléé lorsqu'on ouvre une categ, sous categ ou le compte d'une categ */
-/* remplit ce qui doit être affiché */
-/* **************************************************************************************************** */
-
-gboolean ouverture_node_categ ( GtkWidget *arbre, GtkCTreeNode *node, 
-				gpointer null )
-{			    
-    GtkCTreeRow *row;
-    gchar *text[4];
-    GtkCTreeNode *node_insertion;
-
-    row = GTK_CTREE_ROW ( node );
-
-    /*   si on ouvre une categ, on fait rien */
-
-    if ( !row || row->level == 1 )
-	return(FALSE);
-
-    /*   si le fiston = -1, c'est qu'il n'a pas encore été créé */
-    /* dans le cas contraire, on vire */
-
-    if ( GPOINTER_TO_INT ( gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-							 row -> children )) != -1 )
-	return(FALSE);
-
-    /* freeze le ctree */
-
-    gtk_clist_freeze ( GTK_CLIST ( arbre_categ ));
-
-
-    /* on commence par virer la ligne bidon qui était attachée à ce noeud */
-
-    gtk_ctree_remove_node ( GTK_CTREE ( arbre_categ ),
-			    row -> children );
-
-    /* séparation entre ouverture de sous-categ ( 2 ) et ouverture de compte ( 3 ) */
-
-    if ( row -> level == 2 )
-    {
-	/* c'est une ouverture de sous categ, on récupère sa structure  */
-
-	struct struct_categ *categ;
-	struct struct_sous_categ *sous_categ;
-	gint no_categ;
-	gint no_sous_categ;
-	gint i;
-
-	/*       soit il y a une categ et une sous categ, soit c'est aucune categ (donc categ = 0) */
-
-	if ( ( categ = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-						     row -> parent )) &&
-	     categ != GINT_TO_POINTER(-1) && categ != NULL )
-	{
-	    no_categ = categ -> no_categ;
-	    if ( ( sous_categ = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-							      node)) &&
-		 sous_categ != GINT_TO_POINTER(-1) && sous_categ != NULL )
-		no_sous_categ = sous_categ -> no_sous_categ;
-	    else
-		no_sous_categ = 0;
-	}
-	else
-	{
-	    no_categ = 0;
-	    no_sous_categ = 0;
-	}
-
-	/* on va scanner tous les comptes, dès qu'un tiers correspondant au tiers sélectionné est trouvé */
-	/* on affiche le nom du compte */
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
-	for ( i = 0 ; i < nb_comptes ; i++ )
-	{
-	    GSList *pointeur_ope;
-
-	    pointeur_ope = LISTE_OPERATIONS;
-
-	    while ( pointeur_ope )
-	    {
-		struct structure_operation *operation;
-
-		operation = pointeur_ope -> data;
-
-		if ( operation &&
-		     operation -> categorie == no_categ &&
-		     operation -> sous_categorie == no_sous_categ &&
-		     !operation -> relation_no_operation &&
-		     !operation -> operation_ventilee )
-		{
-		    /* affiche le compte courant */
-
-		    text[3] = calcule_total_montant_categ_par_compte ( operation -> categorie,
-								       operation -> sous_categorie,
-								       operation -> no_compte );
-
-		    if ( etat.affiche_nb_ecritures_listes
-			 &&
-			 nb_ecritures_par_comptes )
-			text[0] = g_strconcat ( NOM_DU_COMPTE,
-						" (",
-						itoa ( nb_ecritures_par_comptes ),
-						")",
-						NULL );
-		    else
-			text[0] = NOM_DU_COMPTE;
-
-		    text[1] = NULL;
-		    text[2] = NULL;
-
-		    node_insertion = gtk_ctree_insert_node ( GTK_CTREE ( arbre_categ ),
-							     node,
-							     NULL,
-							     text,
-							     5,
-							     NULL,
-							     NULL,
-							     NULL,
-							     NULL,
-							     FALSE,
-							     FALSE );
-
-		    /* associe le no de compte à la ligne du compte */
-
-		    gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_categ ),
-						  node_insertion,
-						  GINT_TO_POINTER ( i ));
-
-		    /* on met une ligne bidon pour pouvoir l'ouvrir */
-
-		    node_insertion = gtk_ctree_insert_node ( GTK_CTREE ( arbre_categ ),
-							     node_insertion,
-							     NULL,
-							     text,
-							     5,
-							     NULL,
-							     NULL,
-							     NULL,
-							     NULL,
-							     FALSE,
-							     FALSE );
-
-		    /* on associe le fils bidon à -1 */
-
-		    gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_categ ),
-						  node_insertion,
-						  GINT_TO_POINTER (-1));
-
-		    pointeur_ope = NULL;
-		}
-		else
-		    pointeur_ope = pointeur_ope -> next;
-	    }
-
-	    p_tab_nom_de_compte_variable++;
-	}
-    }
-    else
-    {
-	/* c'est une ouverture d'un compte */
-	/*       cette fois, on fait le tour de toutes les opés du compte pour afficher celles qui correspondent à la categ */
-
-	struct struct_categ *categ;
-	struct struct_sous_categ *sous_categ;
-	GSList *pointeur_ope;
-	gint no_categ;
-	gint no_sous_categ;
-
-	if (( categ = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-						    GTK_CTREE_ROW ( row -> parent ) -> parent )) && 
-	    categ != GINT_TO_POINTER(-1) && categ != NULL )
-	{
-	    no_categ = categ -> no_categ;
-
-	    if ( (sous_categ = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-							     row -> parent ))
-		 && sous_categ != GINT_TO_POINTER(-1) && sous_categ != NULL )
-		no_sous_categ = sous_categ -> no_sous_categ;
-	    else
-		no_sous_categ = 0;
-	}
-	else
-	{
-	    no_categ = 0;
-	    no_sous_categ = 0;
-	}
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-													     node ));
-
-	pointeur_ope = LISTE_OPERATIONS;
-
-	while ( pointeur_ope )
-	{
-	    struct struct_devise *devise_operation;
-	    struct structure_operation *operation;
-
-	    operation = pointeur_ope -> data;
-
-	    if ( operation )
-		devise_operation = devise_par_no ( operation -> devise );
-
-	    if ( operation &&
-		 operation -> categorie == no_categ &&
-		 operation -> sous_categorie == no_sous_categ &&
-		 !operation -> relation_no_operation &&
-		 !operation -> operation_ventilee )
-	    {
-		if ( operation -> notes )
-		{
-		    if ( operation -> no_operation_ventilee_associee )
-			text[0] = g_strdup_printf ( _("%d/%d/%d : %4.2f %s (breakdown) [ %s ]"),
-						    operation -> jour,
-						    operation -> mois,
-						    operation -> annee,
-						    operation -> montant,
-						    devise_operation -> code_devise,
-						    operation -> notes );
-		    else
-			text[0] = g_strdup_printf ( "%d/%d/%d : %4.2f %s [ %s ]",
-						    operation -> jour,
-						    operation -> mois,
-						    operation -> annee,
-						    operation -> montant,
-						    devise_operation -> code_devise,
-						    operation -> notes );
-		}
-		else
-		{
-		    if ( operation -> no_operation_ventilee_associee )
-			text[0] = g_strdup_printf ( _("%d/%d/%d : %4.2f %s (breakdown)"),
-						    operation -> jour,
-						    operation -> mois,
-						    operation -> annee,
-						    operation -> montant,
-						    devise_operation -> code_devise );
-		    else
-			text[0] = g_strdup_printf ( "%d/%d/%d : %4.2f %s",
-						    operation -> jour,
-						    operation -> mois,
-						    operation -> annee,
-						    operation -> montant,
-						    devise_operation -> code_devise );
-		}
-
-		text[1] = NULL;
-		text[2] = NULL;
-		text[3] = NULL;
-
-		node_insertion = gtk_ctree_insert_node ( GTK_CTREE ( arbre_categ ),
-							 node,
-							 NULL,
-							 text,
-							 5,
-							 NULL,
-							 NULL,
-							 NULL,
-							 NULL,
-							 FALSE,
-							 FALSE );
-
-		/* on associe à cette opé l'adr de sa struct */
-
-		gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_categ ),
-					      node_insertion,
-					      operation );
-	    }
-	    pointeur_ope = pointeur_ope -> next;
-	}
-    }
-
-    /* defreeze le ctree */
-
-    gtk_clist_thaw ( GTK_CLIST ( arbre_categ ));
-
-    return FALSE;
-}
-/* **************************************************************************************************** */
-
-
 
 
 /* **************************************************************************************************** */
@@ -2938,7 +2659,7 @@ gboolean categ_column_expanded  (GtkTreeView * treeview, GtkTreeIter * iter, Gtk
 		     !operation -> relation_no_operation &&
 		     !operation -> operation_ventilee )
 		{
-		    gchar * label, * notes = NULL; /* free */
+		    gchar *montant, * label, * notes = NULL; /* free */
 
 		    if ( operation -> notes )
 		    {
@@ -2983,27 +2704,28 @@ gboolean categ_column_expanded  (GtkTreeView * treeview, GtkTreeIter * iter, Gtk
 			label = g_strconcat ( label, " (", _("breakdown"), ")", NULL );
 		    }
 
+		    montant = g_strdup_printf ( "%4.2f %s", operation -> montant,
+						devise_code ( devise_par_no ( operation -> devise ) ) );
 		    if ( first )
 		    {
 			gtk_tree_store_set (GTK_TREE_STORE(categ_tree_model), &child_iter, 
+					    CATEGORY_TREE_POINTER_COLUMN, operation,
 					    CATEGORY_TREE_TEXT_COLUMN, label,
 					    CATEGORY_TREE_ACCOUNT_COLUMN, NOM_DU_COMPTE,
-					    CATEGORY_TREE_BALANCE_COLUMN, g_strdup_printf ( "%4.2f %s", 
-											    operation -> montant,
-											    devise_code ( devise_par_no ( operation -> devise ) ) ),
+					    CATEGORY_TREE_BALANCE_COLUMN, montant,
 					    CATEGORY_TREE_XALIGN_COLUMN, 1.0,
 					    -1);
 			first = FALSE;
 		    }
 		    else
 		    {
-			gtk_tree_store_append(GTK_TREE_STORE(categ_tree_model), &child_iter, iter);
+			gtk_tree_store_append(GTK_TREE_STORE(categ_tree_model), 
+					      &child_iter, iter);
 			gtk_tree_store_set (GTK_TREE_STORE(categ_tree_model), &child_iter, 
 					    CATEGORY_TREE_TEXT_COLUMN, label,
+					    CATEGORY_TREE_POINTER_COLUMN, operation,
 					    CATEGORY_TREE_ACCOUNT_COLUMN, NOM_DU_COMPTE,
-					    CATEGORY_TREE_BALANCE_COLUMN, g_strdup_printf ( "%4.2f %s", 
-											    operation -> montant,
-											    devise_code ( devise_par_no ( operation -> devise ) ) ),
+					    CATEGORY_TREE_BALANCE_COLUMN, montant,
 					    CATEGORY_TREE_XALIGN_COLUMN, 1.0,
 					    -1 );
 		    }
@@ -3011,6 +2733,41 @@ gboolean categ_column_expanded  (GtkTreeView * treeview, GtkTreeIter * iter, Gtk
 		
 		pointeur_ope = pointeur_ope -> next;
 	    }
+	}
+    }
+
+    return FALSE;
+}
+
+
+
+/**
+ * 
+ *
+ */
+gboolean categ_activated ( GtkTreeView * treeview, GtkTreePath * path,
+			   GtkTreeViewColumn * col, gpointer userdata )
+{
+    struct structure_operation * operation;
+    GtkTreeIter iter;
+    GtkTreeModel *model;
+
+    model = gtk_tree_view_get_model(treeview);
+
+
+    if ( gtk_tree_model_get_iter ( model, &iter, path ) )
+    {
+	gtk_tree_model_get( model, &iter, 
+			    CATEGORY_TREE_POINTER_COLUMN, &operation, 
+			    -1);
+	if ( operation )
+	{
+
+	    changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
+	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+	    if ( operation -> pointe == 3 && !AFFICHAGE_R )
+		change_aspect_liste ( 5 );
+	    selectionne_ligne ( operation );
 	}
     }
 
