@@ -1797,7 +1797,7 @@ void passage_a_l_euro ( GtkWidget *bouton,
   gint resultat;
   gfloat value;
 
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
 
   dialog = gnome_dialog_new ( _("Confirm euro conversion"),
 				GNOME_STOCK_BUTTON_YES,
