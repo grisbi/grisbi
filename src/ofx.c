@@ -27,10 +27,12 @@
 #include "ofx.h"
 #include <libofx/libofx.h>
 #include "dialog.h"
-#
-/* on doit mettre le compte en cours d'importation en global pour que la libofx puisse le traiter */
 
-struct struct_compte_importation *compte_ofx_en_importation;
+/* on doit mettre le compte en cours d'importation en global pour que la libofx puisse le traiter */
+/* de plus un fichier ofx peut intégrer plusieurs comptes, donc on crée une liste... */
+
+GSList *liste_comptes_importes_ofx;
+struct struct_compte_importation *compte_ofx_importation_en_cours;
 gint erreur_import_ofx;
 gint  message_erreur_operation;
 
@@ -39,7 +41,9 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 {
     gchar *argv[2];
 
-    compte_ofx_en_importation = NULL;
+
+    liste_comptes_importes_ofx = NULL;
+    compte_ofx_importation_en_cours = NULL;
     erreur_import_ofx = 0;
     message_erreur_operation = 0;
 
@@ -49,7 +53,12 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
     ofx_proc_file ( 2,
 		    argv );
 
-    if ( !compte_ofx_en_importation )
+    /*     le dernier compte n'a pas été ajouté à la liste */
+
+    liste_comptes_importes_ofx = g_slist_append ( liste_comptes_importes_ofx,
+						  compte_ofx_importation_en_cours	);
+
+    if ( !compte_ofx_importation_en_cours )
     {
 	dialogue_error ( _("The new account has not been created."));
 	return ( FALSE );
@@ -61,10 +70,18 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 
     if ( !erreur_import_ofx )
     {
-	/* ajoute ce compte aux autres comptes importés */
+	GSList *liste_tmp;
 
-	liste_comptes_importes = g_slist_append ( liste_comptes_importes,
-						  compte_ofx_en_importation );
+	liste_tmp = liste_comptes_importes_ofx;
+
+	/* ajoute le ou les compte aux autres comptes importés */
+
+	while ( liste_tmp )
+	{
+	    liste_comptes_importes = g_slist_append ( liste_comptes_importes,
+						      liste_tmp -> data );
+	    liste_tmp = liste_tmp -> next;
+	}
     }
 
     return ( TRUE );
@@ -178,22 +195,29 @@ int ofx_proc_account_cb(struct OfxAccountData data)
     /*     printf ( "currency_valid %d\n", data.currency_valid ); */
     /*     printf ( "currency %s\n", data. currency); */
 
-    compte_ofx_en_importation = calloc ( 1,
-					 sizeof ( struct struct_compte_importation ));
+    /*     si on revient ici et qu'un compte était en cours, c'est qu'il est fini et qu'on passe au compte */
+    /* 	suivant... */
+
+    if ( compte_ofx_importation_en_cours )
+	liste_comptes_importes_ofx = g_slist_append ( liste_comptes_importes_ofx,
+						      compte_ofx_importation_en_cours );
+
+    compte_ofx_importation_en_cours = calloc ( 1,
+					       sizeof ( struct struct_compte_importation ));
 
     if ( data.account_id_valid )
     {
-	compte_ofx_en_importation -> id_compte = g_strdup ( data.account_id );
-	compte_ofx_en_importation -> nom_de_compte = g_strdup ( data.account_name );
+	compte_ofx_importation_en_cours -> id_compte = g_strdup ( data.account_id );
+	compte_ofx_importation_en_cours -> nom_de_compte = g_strdup ( data.account_name );
     }
 
-    compte_ofx_en_importation -> origine = 1;
+    compte_ofx_importation_en_cours -> origine = 1;
 
     if ( data.account_type_valid )
-	compte_ofx_en_importation -> type_de_compte = data.account_type;
+	compte_ofx_importation_en_cours -> type_de_compte = data.account_type;
 
     if ( data.currency_valid )
-	compte_ofx_en_importation -> devise = g_strdup ( data.currency );
+	compte_ofx_importation_en_cours -> devise = g_strdup ( data.currency );
 
 
     return 0;
@@ -258,7 +282,7 @@ int ofx_proc_transaction_cb(struct OfxTransactionData data)
 
     /* si à ce niveau le comtpe n'est pas créé, c'est qu'il y a un pb... */
 
-    if ( !compte_ofx_en_importation )
+    if ( !compte_ofx_importation_en_cours )
     {
 	if ( !message_erreur_operation )
 	{
@@ -315,11 +339,78 @@ int ofx_proc_transaction_cb(struct OfxTransactionData data)
     if ( data.transactiontype_valid )
 	ope_import -> type_de_transaction = data.transactiontype;
 
+    /*     on peut faire ici des ptites modifs en fonction du type de transaction, */
+    /*     mais tout n'est pas utilisé par les banques... */
 
+    if ( data.transactiontype_valid )
+    {
+	switch ( data.transactiontype )
+	{
+	    case OFX_CHECK:
+		/* 		   si c'est un chèque, svt ya pas de tiers, on va mettre chèque...  */
+
+		if ( !ope_import -> tiers )
+		    ope_import -> tiers = g_strdup ( _("Check"));
+		break;
+	    case OFX_INT:
+		if ( !ope_import -> tiers )
+		    ope_import -> tiers = g_strdup ( _("Interest"));
+		break;
+	    case OFX_DIV:
+		if ( !ope_import -> tiers )
+		    ope_import -> tiers = g_strdup ( _("Dividend"));
+		break;
+	    case OFX_SRVCHG:
+		if ( !ope_import -> tiers )
+		    ope_import -> tiers = g_strdup ( _("Service charge"));
+		break;
+	    case OFX_FEE:
+		if ( !ope_import -> tiers )
+		    ope_import -> tiers = g_strdup ( _("Fee"));
+		break;
+	    case OFX_DEP:
+		if ( !ope_import -> tiers )
+		    ope_import -> tiers = g_strdup ( _("Deposit"));
+		break;
+	    case OFX_ATM:
+		if ( !ope_import -> tiers )
+		    ope_import -> tiers = g_strdup ( _("Cash dispenser"));
+		break;
+	    case OFX_POS:
+		if ( !ope_import -> tiers )
+		    ope_import -> tiers = g_strdup ( _("Point of sale"));
+		break;
+	    case OFX_XFER:
+		if ( !ope_import -> tiers )
+		    ope_import -> tiers = g_strdup ( _("Transfer"));
+		break;
+	    case OFX_PAYMENT:
+		if ( !ope_import -> tiers )
+		    ope_import -> tiers = g_strdup ( _("Electronic payment"));
+		break;
+	    case OFX_CASH:
+		if ( !ope_import -> tiers )
+		    ope_import -> tiers = g_strdup ( _("Cash"));
+		break;
+	    case OFX_DIRECTDEP:
+		if ( !ope_import -> tiers )
+		    ope_import -> tiers = g_strdup ( _("Direct deposit"));
+		break;
+	    case OFX_DIRECTDEBIT:
+		if ( !ope_import -> tiers )
+		    ope_import -> tiers = g_strdup ( _("Merchant initiated debit"));
+		break;
+	    case OFX_REPEATPMT:
+		if ( !ope_import -> tiers )
+		    ope_import -> tiers = g_strdup ( _("Repeating payment/standing order"));
+		break;
+
+	}
+    }
     /*     on ajoute l'opé à son compte */
 
-    compte_ofx_en_importation -> operations_importees = g_slist_append ( compte_ofx_en_importation -> operations_importees,
-									 ope_import );
+    compte_ofx_importation_en_cours -> operations_importees = g_slist_append ( compte_ofx_importation_en_cours -> operations_importees,
+									       ope_import );
 
 
     return 0; 
@@ -333,25 +424,25 @@ int ofx_proc_statement_cb(struct OfxStatementData data)
 {
     GDate *date;
 
-/*     printf ( "ofx_proc_statement_cb\n" ); */
-/*     printf ( "currency_valid : %d\n", data.currency_valid ); */
-/*     printf ( "currency : %s\n", data.currency ); */
-/*     printf ( "account_id_valid : %d\n", data.account_id_valid ); */
-/*     printf ( "account_id : %s\n", data.account_id ); */
-/*     printf ( "ledger_balance_valid : %d\n", data.ledger_balance_valid ); */
-/*     printf ( "ledger_balance : %f\n", data.ledger_balance ); */
-/*     printf ( "ledger_balance_date_valid : %d\n", data.ledger_balance_date_valid ); */
-/*     printf ( "ledger_balance_date : %s\n", ctime ( &data.ledger_balance_date)); */
-/*     printf ( "available_balance_valid : %d\n", data.available_balance_valid ); */
-/*     printf ( "available_balance : %f\n", data.available_balance ); */
-/*     printf ( "available_balance_date_valid : %d\n", data.available_balance_date_valid ); */
-/*     printf ( "available_balance_date : %s\n", ctime ( &data.available_balance_date )); */
-/*     printf ( "date_start_valid : %d\n", data.date_start_valid ); */
-/*     printf ( "date_start : %s\n", ctime ( &data.date_start )); */
-/*     printf ( "date_end_valid : %d\n", data.date_end_valid ); */
-/*     printf ( "date_end : %s\n", ctime ( &data.date_end )); */
-/*     printf ( "marketing_info_valid : %d\n", data.marketing_info_valid ); */
-/*     printf ( "marketing_info : %s\n", data.marketing_info ); */
+    /*     printf ( "ofx_proc_statement_cb\n" ); */
+    /*     printf ( "currency_valid : %d\n", data.currency_valid ); */
+    /*     printf ( "currency : %s\n", data.currency ); */
+    /*     printf ( "account_id_valid : %d\n", data.account_id_valid ); */
+    /*     printf ( "account_id : %s\n", data.account_id ); */
+    /*     printf ( "ledger_balance_valid : %d\n", data.ledger_balance_valid ); */
+    /*     printf ( "ledger_balance : %f\n", data.ledger_balance ); */
+    /*     printf ( "ledger_balance_date_valid : %d\n", data.ledger_balance_date_valid ); */
+    /*     printf ( "ledger_balance_date : %s\n", ctime ( &data.ledger_balance_date)); */
+    /*     printf ( "available_balance_valid : %d\n", data.available_balance_valid ); */
+    /*     printf ( "available_balance : %f\n", data.available_balance ); */
+    /*     printf ( "available_balance_date_valid : %d\n", data.available_balance_date_valid ); */
+    /*     printf ( "available_balance_date : %s\n", ctime ( &data.available_balance_date )); */
+    /*     printf ( "date_start_valid : %d\n", data.date_start_valid ); */
+    /*     printf ( "date_start : %s\n", ctime ( &data.date_start )); */
+    /*     printf ( "date_end_valid : %d\n", data.date_end_valid ); */
+    /*     printf ( "date_end : %s\n", ctime ( &data.date_end )); */
+    /*     printf ( "marketing_info_valid : %d\n", data.marketing_info_valid ); */
+    /*     printf ( "marketing_info : %s\n", data.marketing_info ); */
 
     if ( data.date_start_valid )
     {
@@ -360,7 +451,7 @@ int ofx_proc_statement_cb(struct OfxStatementData data)
 	g_date_set_time ( date,
 			  data.date_start );
 	if ( g_date_valid ( date ))
-	    compte_ofx_en_importation -> date_depart = date;
+	    compte_ofx_importation_en_cours -> date_depart = date;
     }
 
     if ( data.date_end_valid )
@@ -370,10 +461,10 @@ int ofx_proc_statement_cb(struct OfxStatementData data)
 	g_date_set_time ( date,
 			  data.date_end );
 	if ( g_date_valid ( date ))
-	    compte_ofx_en_importation -> date_fin = date;
+	    compte_ofx_importation_en_cours -> date_fin = date;
     }
 
-     return 0;
+    return 0;
 }
 /* *******************************************************************************/
 

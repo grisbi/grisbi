@@ -1504,6 +1504,7 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 	    ID_COMPTE = g_strdup ( compte_import -> id_compte );
 
     }
+
     
     /* on fait un premier tour de la liste des opés pour repérer celles qui sont déjà entrées */
     /*   si on n'importe que du ofx, c'est facile, chaque opé est repérée par une id */
@@ -1571,6 +1572,28 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 		}
 
 	    }
+
+/* 	    si l'opé d'import a un no de chq, on le recherche */
+
+	    if ( operation_import -> action != 2
+		 &&
+		 operation_import -> cheque )
+	    {
+		GSList *liste;
+
+		liste = g_slist_find_custom ( LISTE_OPERATIONS,
+					      GINT_TO_POINTER ( operation_import -> cheque ),
+					      (GCompareFunc) recherche_operation_par_cheque );
+
+		if (liste)
+		{
+		    /* 	comme on est sûr que cette opé a déjà été enregistree, on met l'action à 2, cad on demande l'avis de personne pour */
+		    /*  pas l'enregistrer */
+
+		    operation_import -> action = 2;
+		}
+	    }
+	    
 	    /* on fait donc le tour de la liste des opés pour retrouver une opé comparable */
 	    /* si elle n'a pas déjà été retrouvée par id... */
 
@@ -1646,6 +1669,20 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 				      (GCompareFunc) classement_sliste );
 }
 /* *******************************************************************************/
+
+
+/******************************************************************************/
+/* Fonction recherche_operation_par_cheque					      */
+/* appelée par un slist_find_custom					      */
+/* recherche une opé par son numéro de cheque dans la liste des opérations	      */
+/******************************************************************************/
+gint recherche_operation_par_cheque ( struct structure_operation *operation,
+				  gint *no_chq )
+{
+    if ( operation -> contenu_type )
+	  return ( ! ( atoi (operation -> contenu_type) == GPOINTER_TO_INT ( no_chq ) ));
+}
+/******************************************************************************/
 
 
 
