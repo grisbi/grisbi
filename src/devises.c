@@ -1464,7 +1464,7 @@ GtkWidget *onglet_devises ( void )
 		      clist_devises_parametres );
   gtk_widget_show ( clist_devises_parametres );
   gtk_box_pack_start ( GTK_BOX ( hbox ), scrolled_window,
-		       TRUE, FALSE, 0);
+		       TRUE, TRUE, 0);
 
   /*   s'il n'y a pas de fichier ouvert, on grise */
   if ( !nb_comptes )
@@ -1548,8 +1548,6 @@ GtkWidget *onglet_devises ( void )
 
   /* Button "Add" */
   bouton = gtk_button_new_from_stock (GTK_STOCK_ADD);
-  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
 		       "clicked",
 		       GTK_SIGNAL_FUNC  ( ajout_devise ),
@@ -1560,8 +1558,6 @@ GtkWidget *onglet_devises ( void )
 
   /* Button "Remove" */
   bouton_supprimer_devise = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
-  gtk_button_set_relief ( GTK_BUTTON ( bouton_supprimer_devise ),
-			  GTK_RELIEF_NONE );
   gtk_widget_set_sensitive ( bouton_supprimer_devise, FALSE );
   gtk_signal_connect ( GTK_OBJECT ( bouton_supprimer_devise ),
 		       "clicked",
