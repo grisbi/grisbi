@@ -54,27 +54,27 @@ static GSList*     g_selected_entries= NULL;     /**< list of checked accounts i
  *
  * The type index of the fromat set set automatically. It s should be the position of the item in the list.
  *
- * \param export_format_list    supported format list to update
+ * \param format_list    supported format list to update
  * \param label                 format label to displayed in the format menu
  * \param extension             default file extension to apply
  * \param callback              the callback which do the job
  *
- * \return export_format_list list updated
+ * \return format_list list updated
  */
-static GSList* _export_append_format(GSList* export_format_list,gchar* label,gchar* extension, EXPORT_CALLBACK callback)
+static GSList* _export_append_format(GSList* format_list,gchar* label,gchar* extension, EXPORT_CALLBACK callback)
 {/* {{{ */ 
     export_format* new_format = (export_format*)g_malloc(sizeof(export_format));
     
     if (new_format)
     {
-        new_format->type     = g_slist_position(export_format_list,g_slist_last(export_format_list))+1;
+        new_format->type     = g_slist_position(format_list,g_slist_last(format_list))+1;
         new_format->label    = g_strdup(label);
         new_format->extension= g_strdup(extension);
         new_format->callback = callback;
 
-        export_format_list = g_slist_append(export_format_list,new_format);
+        format_list = g_slist_append(format_list,new_format);
     }
-    return export_format_list;
+    return format_list;
 
 }/* }}} append_export_format */
 
@@ -191,14 +191,12 @@ static GtkWidget * _export_file_format_dialog_new (GSList* format_list)
  *
  * \return  newly created dialog widget
  */
-static GtkWidget* _export_accounts_selection_dialog_new(GSList* export_format_list)
+static GtkWidget* _export_accounts_selection_dialog_new(GSList* format_list)
 {/* {{{ */
     GtkWidget *dialog, *table, *account_entry, *check_button, *paddingbox;
-    int i = 0;
 
-    dialogue_conditional_info_hint ( _("Export format does not define currencies."), 
-                                     _("All transactions will be converted into currency of their account."),
-                                     &etat.display_message_qif_export_currency ); 
+    export_format* format = g_slist_nth_data(format_list,g_selected_format);
+    int i = 0;
 
     dialog = gtk_dialog_new_with_buttons ( _("Export files"),
 					   GTK_WINDOW(window),
@@ -241,7 +239,7 @@ static GtkWidget* _export_accounts_selection_dialog_new(GSList* export_format_li
 			     g_strconcat ( nom_fichier_comptes,
 					   "_",
 					   g_strdelimit ( g_strdup ( NOM_DU_COMPTE) , " ", '_' ),
-					   ".qif",
+					   g_strdup(format->extension),
 					   NULL ));
 	gtk_widget_set_sensitive ( account_entry,
 				   FALSE );
@@ -329,10 +327,10 @@ static gboolean _export_all_selected_entries_are_valid(GSList* selected_entries_
  * \param   type    format type to run the export callback
  * \param   list    argument to pass to the callback
  */
-static void _run_export_callback(GSList* export_format_list,gint type,GSList* list)
+static void _run_export_callback(GSList* format_list,gint type,GSList* list)
 {/* {{{ */
 
-    export_format*   format   = g_slist_nth_data(export_format_list,type);
+    export_format*   format   = g_slist_nth_data(format_list,type);
     
     if ((format)&&(format->callback))
     {
@@ -350,10 +348,10 @@ static void _run_export_callback(GSList* export_format_list,gint type,GSList* li
  *      TRUE is the user did a valid selection
  *      FALSE in all other cases
  */
-static gboolean _export_select_format_to_export_to(GSList* export_format_list)
+static gboolean _export_select_format_to_export_to(GSList* format_list)
 {/* {{{ */
     gboolean result = FALSE;
-    GtkWidget* select_format_dialog = _export_file_format_dialog_new(export_format_list);
+    GtkWidget* select_format_dialog = _export_file_format_dialog_new(format_list);
 
     if (GTK_RESPONSE_OK == gtk_dialog_run(GTK_DIALOG(select_format_dialog)))
     {
@@ -368,19 +366,14 @@ static gboolean _export_select_format_to_export_to(GSList* export_format_list)
  * \param list of supported format
  *
  */
-static void _export_select_accounts_to_export(GSList* export_format_list)
+static void _export_select_accounts_to_export(GSList* format_list)
 {/* {{{ */
     gboolean    export_is_possible = FALSE;
     GtkWidget*  account_selection_dialog;
     gint        result;
     
-    if ( !nom_fichier_comptes )
-    {
-	dialogue_error ( _("Your file must have a name (saved) to be exported.") );
-	return;
-    }
     
-    account_selection_dialog =  _export_accounts_selection_dialog_new(export_format_list);
+    account_selection_dialog =  _export_accounts_selection_dialog_new(format_list);
     while (!export_is_possible)
     {
         result = gtk_dialog_run(GTK_DIALOG(account_selection_dialog));
@@ -397,7 +390,7 @@ static void _export_select_accounts_to_export(GSList* export_format_list)
 
     if (export_is_possible)
     {
-        _run_export_callback(export_format_list,g_selected_format,g_selected_entries);
+        _run_export_callback(format_list,g_selected_format,g_selected_entries);
     }
     
     if ( g_selected_entries )
@@ -415,22 +408,34 @@ static void _export_select_accounts_to_export(GSList* export_format_list)
  */
 void export_accounts_to_file()
 {
-    static GSList* export_format_list = NULL;
+    GSList* export_format_list = NULL;
 
     g_selected_format = 0;
     g_selected_entries= NULL;
     
     /* To add a new supported format, just add a new line here ... */
     export_format_list = _export_append_format(export_format_list,_("QIF file"),".qif",&export_qif);
+    //export_format_list = _export_append_format(export_format_list,_("CSV file"),".csv",NULL);
     
+    if ( !nom_fichier_comptes )
+    {
+	dialogue_error ( _("Your file must have a name (saved) to be exported.") );
+	return;
+    }
+
+    dialogue_conditional_info_hint ( _("Export format does not define currencies."), 
+                                     _("All transactions will be converted into currency of their account."),
+                                     &etat.display_message_qif_export_currency ); 
+
     // If the user selects a valid format
     if(_export_select_format_to_export_to(export_format_list))
     {
         _export_select_accounts_to_export(export_format_list);
     }
 
-    if (!export_format_list) { g_slist_free(export_format_list); }
-    if (!g_selected_entries) { g_slist_free(g_selected_entries); }
+    if (export_format_list) { g_slist_free(export_format_list); }
+    if (g_selected_entries) { g_slist_free(g_selected_entries); }
+    g_selected_format = 0;
 }
 
 
