@@ -46,7 +46,7 @@
 
 
 extern GSList *gsliste_echeances; 
-extern GtkWidget *widget_formulaire_echeancier[19];
+extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 
 
 
@@ -2277,12 +2277,12 @@ void mise_a_jour_imputation ( void )
 			    TRUE,
 			    TRUE );
 
-    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_ventilation[4] ),
+    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_BUDGETARY] ),
 			    liste_imputations_combofix,
 			    TRUE,
 			    TRUE );
 
-    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[10] ),
+    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ),
 			    liste_imputations_combofix,
 			    TRUE,
 			    TRUE );
