@@ -49,6 +49,7 @@
 
 
 extern GtkWidget *widget_formulaire_echeancier[19];
+extern GSList *liste_struct_banques;
 
 
 
@@ -716,7 +717,8 @@ void modif_detail_compte ( GtkWidget *hbox )
 
 void remplissage_details_compte ( void )
 {
-    GSList *pointeur_banque;
+    struct struct_banque *banque;
+    struct struct_devise *devise;
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
 
@@ -727,22 +729,16 @@ void remplissage_details_compte ( void )
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( detail_type_compte ),
 				  TYPE_DE_COMPTE );
 
-    gtk_option_menu_set_history ( GTK_OPTION_MENU (  detail_devise_compte),
-				  g_slist_position ( liste_struct_devises,
-						     g_slist_find_custom ( liste_struct_devises,
-									   GINT_TO_POINTER ( DEVISE ),
-									   ( GCompareFunc ) recherche_devise_par_no )));
+    devise = devise_par_no ( DEVISE );
 
-    if ( (( struct struct_devise * )( g_slist_find_custom ( liste_struct_devises,
-							    GINT_TO_POINTER ( DEVISE ),
-							    ( GCompareFunc ) recherche_devise_par_no ) -> data )) -> passage_euro )
+    gtk_option_menu_set_history ( GTK_OPTION_MENU (  detail_devise_compte),
+				  g_slist_index ( liste_struct_devises,
+						  devise ));
+
+    if ( devise -> passage_euro )
 	gtk_widget_show ( hbox_bouton_passage_euro );
     else
 	gtk_widget_hide ( hbox_bouton_passage_euro );
-
-    pointeur_banque = g_slist_find_custom ( liste_struct_banques,
-					    GINT_TO_POINTER ( BANQUE ),
-					    ( GCompareFunc ) recherche_banque_par_no );
 
 
     if ( TITULAIRE )
@@ -767,11 +763,13 @@ void remplissage_details_compte ( void )
     else
 	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( detail_bouton_adresse_commune ),
 				       TRUE );
-    if ( pointeur_banque )
-    {
-	struct struct_banque *banque;
 
-	banque = pointeur_banque -> data;
+/*     remplissage des infos sur la banque */
+
+    banque = banque_par_no ( BANQUE );
+    
+    if ( banque )
+    {
 	gtk_option_menu_set_history ( GTK_OPTION_MENU ( detail_option_menu_banque ),
 				      g_slist_index ( liste_struct_banques,
 						      banque )+ 1 );
@@ -920,9 +918,7 @@ void modification_details_compte ( void )
 	if ( !devise_compte
 	     ||
 	     devise_compte -> no_devise != DEVISE )
-	    devise_compte = g_slist_find_custom ( liste_struct_devises,
-						  GINT_TO_POINTER ( DEVISE ),
-						  ( GCompareFunc ) recherche_devise_par_no ) -> data;
+	    devise_compte = devise_par_no ( DEVISE );
 
 	nouvelle_devise = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_devise_compte ) -> menu_item ),
 						"adr_devise" );
@@ -1245,17 +1241,17 @@ void passage_a_l_euro ( GtkWidget *bouton, gpointer null )
 	return;
     else
     {
-	GSList *pointeur;
-	gdouble change;
+	gdouble change = 0.0;
+	struct struct_devise *devise;
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
 	/* recherche de la devise du compte pour le change */
 
-	change = (( struct struct_devise * )( g_slist_find_custom ( liste_struct_devises,
-								    GINT_TO_POINTER ( DEVISE ),
-								    ( GCompareFunc ) recherche_devise_par_no ) -> data ))
-	    -> change;
+	devise = devise_par_no ( DEVISE );
+
+	if ( devise )
+	    change = devise -> change;
 
 	if ( !change )
 	{
@@ -1265,11 +1261,9 @@ void passage_a_l_euro ( GtkWidget *bouton, gpointer null )
 
 	/* retrouve le no de l'euro */
 
-	pointeur = g_slist_find_custom ( liste_struct_devises,
-					 _("Euro"),
-					 ( GCompareFunc ) recherche_devise_par_nom );
+	devise = devise_par_nom ( _("Euro"));
 
-	if ( !pointeur )
+	if ( !devise )
 	{
 	    dialogue_error ( _("Impossible to find the Euro currency, it has probably been deleted.") );
 	    return;
@@ -1279,7 +1273,7 @@ void passage_a_l_euro ( GtkWidget *bouton, gpointer null )
 	SOLDE_MINI_VOULU = SOLDE_MINI_VOULU / change;
 	SOLDE_MINI = SOLDE_MINI / change;
 	SOLDE_DERNIER_RELEVE = SOLDE_DERNIER_RELEVE / change;
-	DEVISE = (( struct struct_devise * )( pointeur -> data )) -> no_devise;
+	DEVISE = devise -> no_devise;
 /* FIXME : voir pourquoi remplissage opé et remettre l'ajustement */
 
 /* 	value = gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value; */
@@ -1292,7 +1286,6 @@ void passage_a_l_euro ( GtkWidget *bouton, gpointer null )
 	modification_fichier ( TRUE );
 
     }
-
 }
 /* ************************************************************************************************************ */
 

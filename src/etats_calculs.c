@@ -650,7 +650,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 				     GINT_TO_POINTER ( operation -> tiers )) == -1 )
 		    goto operation_refusee;
 
-		/* vérification du type d'opÃƒ© */
+		/* vérification du type d'opÃƒƒƒƒƒƒ© */
 
 		if ( etat -> utilise_mode_paiement &&
 		     operation -> type_ope)
@@ -1134,13 +1134,12 @@ gint verifie_chq_test_etat ( struct struct_comparaison_textes_etat *comp_textes,
 		/* no_chq contient le nom du rapprochement de l'opé, or pour le plus grand, on cherche */
 		/* le no du rapprochement, on le cherche ici */
 
-		rapprochement = g_slist_find_custom ( liste_no_rapprochements,
-						      no_chq,
-						      (GCompareFunc) recherche_no_rapprochement_par_nom ) -> data;
+		rapprochement = rapprochement_par_nom ( no_chq );
 
-		ope_dans_premier_test = compare_cheques_etat ( rapprochement -> no_rapprochement,
-							       dernier_no_rappr,
-							       comp_textes -> comparateur_1 );
+		if ( rapprochement )
+		    ope_dans_premier_test = compare_cheques_etat ( rapprochement -> no_rapprochement,
+								   dernier_no_rappr,
+								   comp_textes -> comparateur_1 );
 		break;
 	}
     }
@@ -2054,21 +2053,11 @@ pas_decalage:
     /*       on met directement les adr des devises de categ, ib et tiers en global pour */
     /* gagner de la vitesse */
 
-    devise_categ_etat = g_slist_find_custom ( liste_struct_devises,
-					      GINT_TO_POINTER ( etat_courant -> devise_de_calcul_categ ),
-					      ( GCompareFunc ) recherche_devise_par_no) -> data;
+    devise_categ_etat = devise_par_no ( etat_courant -> devise_de_calcul_categ );
+    devise_ib_etat = devise_par_no ( etat_courant -> devise_de_calcul_ib );
+    devise_tiers_etat = devise_par_no ( etat_courant -> devise_de_calcul_tiers );
+    devise_generale_etat = devise_par_no ( etat_courant -> devise_de_calcul_general );
 
-    devise_ib_etat = g_slist_find_custom ( liste_struct_devises,
-					   GINT_TO_POINTER ( etat_courant -> devise_de_calcul_ib ),
-					   ( GCompareFunc ) recherche_devise_par_no) -> data;
-
-    devise_tiers_etat = g_slist_find_custom ( liste_struct_devises,
-					      GINT_TO_POINTER ( etat_courant -> devise_de_calcul_tiers ),
-					      ( GCompareFunc ) recherche_devise_par_no) -> data;
-
-    devise_generale_etat = g_slist_find_custom ( liste_struct_devises,
-						 GINT_TO_POINTER ( etat_courant -> devise_de_calcul_general ),
-						 ( GCompareFunc ) recherche_devise_par_no) -> data;
 
     for ( i=0 ; i<2 ; i++ )
     {
@@ -2257,9 +2246,7 @@ pas_decalage:
 		    montant = operation -> montant;
 		else
 		{
-		    devise_operation = g_slist_find_custom ( liste_struct_devises,
-							     GINT_TO_POINTER ( operation -> devise ),
-							     ( GCompareFunc ) recherche_devise_par_no ) -> data;
+		    devise_operation = devise_par_no ( operation -> devise );
 
 		    if ( devise_categ_etat -> passage_euro
 			 &&
@@ -2292,9 +2279,7 @@ pas_decalage:
 		    montant = operation -> montant;
 		else
 		{
-		    devise_operation = g_slist_find_custom ( liste_struct_devises,
-							     GINT_TO_POINTER ( operation -> devise ),
-							     ( GCompareFunc ) recherche_devise_par_no ) -> data;
+		    devise_operation = devise_par_no ( operation -> devise );
 
 		    if ( devise_ib_etat -> passage_euro
 			 &&
@@ -2327,9 +2312,7 @@ pas_decalage:
 		    montant = operation -> montant;
 		else
 		{
-		    devise_operation = g_slist_find_custom ( liste_struct_devises,
-							     GINT_TO_POINTER ( operation -> devise ),
-							     ( GCompareFunc ) recherche_devise_par_no ) -> data;
+		    devise_operation = devise_par_no ( operation -> devise );
 
 		    if ( devise_tiers_etat -> passage_euro
 			 &&
@@ -2363,9 +2346,7 @@ pas_decalage:
 		if ( !devise_compte_en_cours_etat
 		     ||
 		     DEVISE != devise_compte_en_cours_etat -> no_devise )
-		    devise_compte_en_cours_etat = g_slist_find_custom ( liste_struct_devises,
-									GINT_TO_POINTER ( DEVISE ),
-									( GCompareFunc ) recherche_devise_par_no) -> data;
+		    devise_compte_en_cours_etat = devise_par_no ( DEVISE );
 
 		if ( operation -> devise == DEVISE )
 		    montant = operation -> montant;
@@ -2376,9 +2357,7 @@ pas_decalage:
 		    /* si c'est une devise qui passe à l'euro et que la devise du compte est l'euro, utilise la conversion du compte */
 		    /* sinon utilise la conversion stockée dans l'opé */
 
-		    devise_operation = g_slist_find_custom ( liste_struct_devises,
-							     GINT_TO_POINTER ( operation -> devise ),
-							     ( GCompareFunc ) recherche_devise_par_no ) -> data;
+		    devise_operation = devise_par_no ( operation -> devise );
 
 		    if ( devise_compte_en_cours_etat -> passage_euro
 			 &&
@@ -2407,9 +2386,7 @@ pas_decalage:
 		montant = operation -> montant;
 	    else
 	    {
-		devise_operation = g_slist_find_custom ( liste_struct_devises,
-							 GINT_TO_POINTER ( operation -> devise ),
-							 ( GCompareFunc ) recherche_devise_par_no ) -> data;
+		devise_operation = devise_par_no ( operation -> devise );
 
 		if ( devise_generale_etat -> passage_euro
 		     &&
@@ -2440,9 +2417,7 @@ pas_decalage:
 		    montant = operation -> montant;
 		else
 		{
-		    devise_operation = g_slist_find_custom ( liste_struct_devises,
-							     GINT_TO_POINTER ( operation -> devise ),
-							     ( GCompareFunc ) recherche_devise_par_no ) -> data;
+		    devise_operation = devise_par_no ( operation -> devise );
 
 		    if ( devise_categ_etat -> passage_euro
 			 &&
@@ -2477,9 +2452,7 @@ pas_decalage:
 		    montant = operation -> montant;
 		else
 		{
-		    devise_operation = g_slist_find_custom ( liste_struct_devises,
-							     GINT_TO_POINTER ( operation -> devise ),
-							     ( GCompareFunc ) recherche_devise_par_no ) -> data;
+		    devise_operation = devise_par_no ( operation -> devise );
 
 		    if ( devise_categ_etat -> passage_euro
 			 &&

@@ -8,8 +8,6 @@ gint recherche_sous_categorie_par_no ( struct struct_sous_categ *sous_categorie,
 				       gint *no_sous_categorie );
 gint recherche_banque_par_no ( struct struct_banque *banque,
 			       gint *no_banque );
-gint cherche_compte_dans_echeances ( struct operation_echeance *echeance, 
-				     gint no_compte );
 gint recherche_devise_par_nom ( struct struct_devise *devise,
 				gchar *nom );
 gint recherche_devise_par_code_iso ( struct struct_devise *devise,
@@ -18,10 +16,12 @@ gint recherche_devise_par_no ( struct struct_devise *devise,
 			       gint *no_devise );
 gint recherche_echeance_par_no ( struct operation_echeance *echeance,
 				 gint no_echeance );
-gint recherche_no_rapprochement_par_nom ( struct struct_no_rapprochement *rapprochement,
-					  gchar *no_rap );
-gint recherche_no_rapprochement_par_no ( struct struct_no_rapprochement *rapprochement,
-					 gint *no_rap );
+gint recherche_echeance_par_no_compte ( struct operation_echeance *echeance,
+					gint no_compte );
+gint recherche_rapprochement_par_nom ( struct struct_no_rapprochement *rapprochement,
+				       gchar *no_rap );
+gint recherche_rapprochement_par_no ( struct struct_no_rapprochement *rapprochement,
+				      gint *no_rap );
 gint recherche_nom_dans_liste ( gchar *nom_liste,
 				gchar *nom_test );
 gint recherche_etat_par_no ( struct struct_etat *etat,

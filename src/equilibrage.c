@@ -62,6 +62,25 @@ GtkTreeStore *reconcile_model;
 GtkWidget * button_move_up, * button_move_down;
 GtkTreeSelection * reconcile_selection;
 
+
+GtkWidget *entree_no_rapprochement;
+GtkWidget *label_ancienne_date_equilibrage;
+GtkWidget *entree_ancien_solde_equilibrage;
+GtkWidget *entree_nouvelle_date_equilibrage;
+GtkWidget *entree_nouveau_montant_equilibrage;
+gdouble solde_initial;
+gdouble solde_final;
+gdouble operations_pointees;
+GtkWidget *label_equilibrage_compte;
+GtkWidget *label_equilibrage_initial;
+GtkWidget *label_equilibrage_final;
+GtkWidget *label_equilibrage_pointe;
+GtkWidget *label_equilibrage_ecart;
+GtkWidget *bouton_ok_equilibrage;
+GSList *liste_struct_rapprochements;            /* contient la liste des structures de no_rapprochement */
+gint ancien_nb_lignes_ope;              /* contient l'ancien nb_lignes_ope */
+
+
 extern GtkWidget *tree_view_listes_operations;
 extern GtkWidget *bouton_ope_lignes[4];
 extern GtkWidget *label_proprietes_operations_compte;
@@ -942,20 +961,16 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
     if ( strlen ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree_no_rapprochement )))))
     {
 	struct struct_no_rapprochement *rapprochement;
-	GSList *liste_tmp;
 	gchar *rap_txt;
 
 	rap_txt = g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree_no_rapprochement )));
+	
+	rapprochement = rapprochement_par_nom ( rap_txt );
 
-	liste_tmp = g_slist_find_custom ( liste_no_rapprochements,
-					  rap_txt,
-					  (GCompareFunc) recherche_no_rapprochement_par_nom );
-
-	if ( liste_tmp )
+	if ( rapprochement )
 	{
 	    /* le rapprochement existe déjà */
 
-	    rapprochement = liste_tmp -> data;
 	    DERNIER_NO_RAPPROCHEMENT = rapprochement -> no_rapprochement;
 	}
 	else
@@ -963,11 +978,11 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
 	    /* le rapprochement n'existe pas */
 
 	    rapprochement = malloc ( sizeof ( struct struct_no_rapprochement ));
-	    rapprochement -> no_rapprochement = g_slist_length ( liste_no_rapprochements ) + 1;
+	    rapprochement -> no_rapprochement = g_slist_length ( liste_struct_rapprochements ) + 1;
 	    rapprochement -> nom_rapprochement = g_strdup ( rap_txt );
 
-	    liste_no_rapprochements = g_slist_append ( liste_no_rapprochements,
-						       rapprochement );
+	    liste_struct_rapprochements = g_slist_append ( liste_struct_rapprochements,
+							   rapprochement );
 
 	    DERNIER_NO_RAPPROCHEMENT = rapprochement -> no_rapprochement;
 	}
@@ -1640,31 +1655,66 @@ GtkWidget * tab_display_reconciliation ( void )
     return vbox_pref;
 }
 
+
+
+/* ********************************************************************************************************* */
+/* renvoie l'adr l'adr du rapprochement demandé par son no */
+/* ou NULL si pas trouvé */
+/* ********************************************************************************************************* */
+struct struct_no_rapprochement *rapprochement_par_no ( gint no_rapprochement )
+{
+    GSList *liste_tmp;
+
+    liste_tmp = g_slist_find_custom ( liste_struct_rapprochements,
+				      GINT_TO_POINTER ( no_rapprochement ),
+				      (GCompareFunc) recherche_rapprochement_par_no );
+
+    if ( liste_tmp )
+	return ( liste_tmp -> data );
+
+    return NULL;
+}
+/* ********************************************************************************************************* */
+
+
+
+/* ********************************************************************************************************* */
+/* renvoie l'adr l'adr du rapprochement demandé par son nom */
+/* ou NULL si pas trouvé */
+/* ********************************************************************************************************* */
+struct struct_no_rapprochement *rapprochement_par_nom ( gchar *nom_rapprochement )
+{
+    GSList *liste_tmp;
+
+    liste_tmp = g_slist_find_custom ( liste_struct_rapprochements,
+				      g_strstrip ( nom_rapprochement ),
+				      (GCompareFunc) recherche_rapprochement_par_nom );
+
+    if ( liste_tmp )
+	return ( liste_tmp -> data );
+
+    return NULL;
+}
+/* ********************************************************************************************************* */
+
+
+
 /* ********************************************************************************************************* */
 /* renvoie le nom du rapprochement ou NULL s'il n'existe pas */
 /* ********************************************************************************************************* */
 gchar *rapprochement_name_by_no ( gint no_rapprochement )
 {
-    if ( no_rapprochement )
-    {
-	GSList *liste_tmp;
+    struct struct_no_rapprochement *rapprochement;
 
-	liste_tmp = g_slist_find_custom ( liste_no_rapprochements,
-					  GINT_TO_POINTER ( no_rapprochement ),
-					  (GCompareFunc) recherche_no_rapprochement_par_no );
-	if ( liste_tmp )
-	{
-	    struct struct_no_rapprochement *rappr;
+    rapprochement = rapprochement_par_no ( no_rapprochement );
 
-	    rappr = liste_tmp -> data;
+    if ( rapprochement )
+	return ( g_strdup (rapprochement -> nom_rapprochement ));
 
-	    return ( g_strdup ( rappr -> nom_rapprochement ));
-	}
-	else
-	    return NULL;
-    }
-    else
-	return NULL;
+    return NULL;
 }
 /* ********************************************************************************************************* */
+
+
+
 

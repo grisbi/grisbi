@@ -38,6 +38,7 @@
 #include "imputation_budgetaire.h"
 #include "echeancier_formulaire.h"
 #include "constants.h"
+#include "echeancier_onglet.h"
 
 
 
@@ -59,7 +60,7 @@ gint enregistre_ope_au_retour_echeances;            /* à 1 si au click du bouton
 
 extern GSList *liste_categories_ventilation_combofix; 
 extern GtkWidget *formulaire_echeancier;
-extern GSList *gsliste_echeances; 
+extern GSList *liste_struct_echeances; 
 extern gint nb_echeances;
 extern gint no_derniere_echeance;
 extern GtkWidget *notebook_calendrier_ventilations;
@@ -996,7 +997,7 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 
 /*******************************************************************************************/
 /* Fonction ventiler_operation_echeances */
-/* appelée lorsque la catégorie est Ventilation lors de l'enregistrement d'une opé */
+/* appelée lorsque la catÃƒ©gorie est Ventilation lors de l'enregistrement d'une opé */
 /* ou lors d'une modif d'une opé ventilée */
 /* Arguments : montant de l'opé */
 /*******************************************************************************************/
@@ -2504,7 +2505,7 @@ GSList *creation_liste_ope_de_ventil_echeances ( struct operation_echeance *oper
 	return ( NULL );
 
 
-    liste_tmp = gsliste_echeances;
+    liste_tmp = liste_struct_echeances;
 
     while ( liste_tmp )
     {
@@ -2596,16 +2597,7 @@ void validation_ope_de_ventilation_echeances ( struct operation_echeance *operat
 	    if ( !ope_ventil -> no_operation )
 		dialogue_warning ( _("A breakdown line is to be deleted though it is not yet registered."));
 	    else
-	    {
-		GSList *tmp;
-
-		tmp = g_slist_find_custom ( gsliste_echeances,
-					    GINT_TO_POINTER ( ope_ventil -> no_operation ),
-					    (GCompareFunc) recherche_echeance_par_no );
-
-		if ( tmp )
-		    supprime_echeance  ( tmp -> data );
-	    }
+		supprime_echeance ( echeance_par_no (ope_ventil -> no_operation ));
 	}
 	else
 	{
@@ -2617,18 +2609,12 @@ void validation_ope_de_ventilation_echeances ( struct operation_echeance *operat
 	    {
 		/* c'est une modif d'opération */
 
-		GSList *tmp;
+		struct operation_echeance *ope_modifiee;
 
-		tmp = g_slist_find_custom ( gsliste_echeances,
-					    GINT_TO_POINTER ( ope_ventil -> no_operation ),
-					    (GCompareFunc) recherche_echeance_par_no );
+		ope_modifiee = echeance_par_no ( ope_ventil -> no_operation );
 
-		if ( tmp )
+		if ( ope_modifiee )
 		{
-		    struct operation_echeance *ope_modifiee;
-
-		    ope_modifiee = tmp -> data;
-
 		    /* on récupère d'abord les modifs de l'opé de ventil */
 
 		    ope_modifiee -> montant = ope_ventil -> montant;
@@ -2718,9 +2704,9 @@ void validation_ope_de_ventilation_echeances ( struct operation_echeance *operat
 
 		nouvelle_ope -> no_operation = ++no_derniere_echeance;
 		nb_echeances++;
-		gsliste_echeances = g_slist_insert_sorted ( gsliste_echeances,
-							    nouvelle_ope,
-							    (GCompareFunc) comparaison_date_echeance );
+		liste_struct_echeances = g_slist_insert_sorted ( liste_struct_echeances,
+								 nouvelle_ope,
+								 (GCompareFunc) comparaison_date_echeance );
 	    }
 	}
 	liste_struct_ventilations = liste_struct_ventilations -> next;

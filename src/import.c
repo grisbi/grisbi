@@ -511,7 +511,6 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
     GtkWidget *label;
     GtkWidget *menu;
     GtkWidget *menu_item;
-    GSList *liste_tmp;
     gint no_compte_trouve;
 
 
@@ -580,14 +579,14 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 
     if ( compte -> devise )
     {
-	liste_tmp = g_slist_find_custom ( liste_struct_devises,
-					  compte->devise,
-					  (GCompareFunc) recherche_devise_par_code_iso );
+	struct struct_devise *devise;
 
-	if ( liste_tmp )
+	devise = devise_par_code_iso ( compte -> devise );
+
+	if ( devise )
 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( compte -> bouton_devise ),
-					  g_slist_position ( liste_struct_devises,
-							     liste_tmp ));
+					  g_slist_index ( liste_struct_devises,
+							  devise ));
 	else
 	{
 	    /* 	    la devise avait un nom mais n'a pas été retrouvée (n'existe que pour ofx); 2 possibilités : */

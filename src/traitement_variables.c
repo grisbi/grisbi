@@ -57,7 +57,7 @@ gchar *labels_titres_colonnes_liste_ope[] = {
 
 extern gint valeur_echelle_recherche_date_import;
 extern GtkItemFactory *item_factory_menu_general;
-extern GSList *gsliste_echeances; 
+extern GSList *liste_struct_echeances; 
 extern gint nb_echeances;
 extern gint no_derniere_echeance;
 extern gint affichage_echeances; 
@@ -68,6 +68,10 @@ extern GSList *echeances_saisies;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkTreeViewColumn *colonnes_liste_opes[7];
 extern GtkTreeViewColumn *colonnes_liste_ventils[3];
+extern GSList *liste_struct_banques;
+extern gint nb_banques;
+extern gint no_derniere_banque;
+extern GSList *liste_struct_rapprochements;
 
 
 
@@ -153,7 +157,7 @@ void init_variables ( gboolean ouverture )
 	nom_fichier_backup = NULL;
 	chemin_logo = NULL;
 
-	gsliste_echeances = NULL;
+	liste_struct_echeances = NULL;
 	nb_echeances = 0;
 	no_derniere_echeance = 0;
 	affichage_echeances = 3;
@@ -206,7 +210,7 @@ void init_variables ( gboolean ouverture )
 				   FALSE );
 
 
-	liste_no_rapprochements = NULL;
+	liste_struct_rapprochements = NULL;
 
 	titre_fichier = NULL;
 	adresse_commune = NULL;

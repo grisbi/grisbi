@@ -30,6 +30,7 @@
 #include "echeancier_formulaire.h"
 #include "echeancier_liste.h"
 #include "echeancier_ventilation.h"
+#include "search_glist.h"
 
 
 GtkWidget *notebook_calendrier_ventilations;
@@ -41,6 +42,9 @@ GtkWidget *paned_onglet_echeancier;
 
 
 extern GtkWidget *frame_formulaire_echeancier;
+extern GSList *liste_struct_echeances;
+
+
 
 /*****************************************************************************************************/
 GtkWidget *creation_onglet_echeancier ( void )
@@ -170,3 +174,50 @@ GtkWidget *creation_onglet_echeancier ( void )
     return ( paned_onglet_echeancier );
 }
 /*****************************************************************************************************/
+
+
+
+/*****************************************************************************************************/
+/* renvoie l'adr de l'échéance demandée par son no */
+/* renvoie NULL si pas trouvée */
+/*****************************************************************************************************/
+struct operation_echeance *echeance_par_no ( gint no_echeance )
+{
+   if ( no_echeance )
+    {
+	GSList *liste_tmp;
+
+	liste_tmp = g_slist_find_custom ( liste_struct_echeances,
+					  GINT_TO_POINTER ( no_echeance ),
+					  (GCompareFunc) recherche_echeance_par_no );
+
+	if ( liste_tmp )
+	    return ( liste_tmp -> data );
+    }
+    return NULL;
+}
+/*****************************************************************************************************/
+
+
+
+/*****************************************************************************************************/
+/* renvoie l'adr de l'échéance demandée par son no de banque */
+/* renvoie NULL si pas trouvée */
+/*****************************************************************************************************/
+struct operation_echeance *echeance_par_no_compte ( gint no_compte )
+{
+   if ( no_compte )
+    {
+	GSList *liste_tmp;
+
+	liste_tmp = g_slist_find_custom ( liste_struct_echeances,
+					  GINT_TO_POINTER ( no_compte ),
+					  (GCompareFunc) recherche_echeance_par_no_compte );
+
+	if ( liste_tmp )
+	    return ( liste_tmp -> data );
+    }
+    return NULL;
+}
+/*****************************************************************************************************/
+

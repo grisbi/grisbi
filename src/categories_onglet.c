@@ -166,7 +166,7 @@ gchar *categories_de_base_credit [] = {
 gint rafraichir_categ;
 
 
-extern GSList *gsliste_echeances;  
+extern GSList *liste_struct_echeances;  
 extern GSList *liste_categories_ventilation_combofix; 
 extern GtkWidget *widget_formulaire_echeancier[19];
 extern GSList *liste_categories_ventilation_combofix; 
@@ -610,9 +610,7 @@ void remplit_arbre_categ ( void )
     if ( !devise_compte
 	 ||
 	 devise_compte -> no_devise != no_devise_totaux_tiers )
-	devise_compte = g_slist_find_custom ( liste_struct_devises,
-					      GINT_TO_POINTER ( no_devise_totaux_tiers ),
-					      ( GCompareFunc ) recherche_devise_par_no) -> data;
+	devise_compte = devise_par_no ( no_devise_totaux_tiers );
 
     /* calcule les montants des catég et sous categ */
 
@@ -1126,9 +1124,7 @@ gboolean ouverture_node_categ ( GtkWidget *arbre, GtkCTreeNode *node,
 	    operation = pointeur_ope -> data;
 
 	    if ( operation )
-		devise_operation = g_slist_find_custom ( liste_struct_devises,
-							 GINT_TO_POINTER ( operation -> devise ),
-							 ( GCompareFunc ) recherche_devise_par_no ) -> data;
+		devise_operation = devise_par_no ( operation -> devise );
 
 	    if ( operation &&
 		 operation -> categorie == no_categ &&
@@ -1663,7 +1659,7 @@ void supprimer_categ ( void )
 
     /* fait le tour des échéances pour en trouver une qui a cette catégorie  */
 
-    liste_tmp2 = gsliste_echeances;
+    liste_tmp2 = liste_struct_echeances;
     echeance_trouvee = 0;
 
     while ( liste_tmp2 )
@@ -1911,7 +1907,7 @@ retour_dialogue:
 
 	/* fait le tour des échéances pour mettre le nouveau numéro de categ et sous_categ  */
 
-	liste_tmp = gsliste_echeances;
+	liste_tmp = liste_struct_echeances;
 
 	while ( liste_tmp )
 	{
@@ -2027,7 +2023,7 @@ void supprimer_sous_categ ( void )
 
     /* fait le tour des échéances pour en trouver une qui a cette catégorie  */
 
-    liste_tmp2 = gsliste_echeances;
+    liste_tmp2 = liste_struct_echeances;
     echeance_trouvee = 0;
 
     while ( liste_tmp2 )
@@ -2157,7 +2153,7 @@ void supprimer_sous_categ ( void )
 	    pointeur = pointeur -> next;
 	}
 
-	/*   on ajoute les listes des crédits / débits à la liste du combofix du formulaire */
+	/*   on ajoute les listes des crÃ©dits / débits à la liste du combofix du formulaire */
 
 	liste_combofix = g_slist_append ( liste_combofix,
 					  liste_categ_debit );
@@ -2284,7 +2280,7 @@ retour_dialogue:
 
 	/* fait le tour des échéances pour mettre le nouveau numéro de categ et sous_categ  */
 
-	liste_tmp = gsliste_echeances;
+	liste_tmp = liste_struct_echeances;
 
 	while ( liste_tmp )
 	{

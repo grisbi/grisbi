@@ -49,7 +49,7 @@
 extern GtkWidget *window_vbox_principale;
 extern gint patience_en_cours;
 extern GSList *echeances_saisies;
-extern GSList *gsliste_echeances;  
+extern GSList *liste_struct_echeances;  
 extern GSList *echeances_a_saisir;
 
 
@@ -634,7 +634,7 @@ gboolean fermer_fichier ( void )
 
     /* libère les échéances */
 
-    g_slist_free ( gsliste_echeances );
+    g_slist_free ( liste_struct_echeances );
     g_slist_free ( echeances_a_saisir );
     g_slist_free ( echeances_saisies );
     g_slist_free ( ordre_comptes );

@@ -63,7 +63,7 @@ extern GtkWidget *liste_echeances;
 extern GtkWidget *frame_formulaire_echeancier;
 extern gint no_derniere_echeance;
 extern gint nb_echeances;
-extern GSList *gsliste_echeances; 
+extern GSList *liste_struct_echeances; 
 extern struct operation_echeance *echeance_selectionnnee;
 extern gint enregistre_ope_au_retour_echeances; 
 extern GtkWidget *fleche_bas_echeancier;
@@ -1893,9 +1893,9 @@ void fin_edition_echeance ( void )
 
 	if ( !gtk_object_get_data ( GTK_OBJECT ( formulaire_echeancier ),
 				    "adr_echeance" ) )
-	    gsliste_echeances = g_slist_insert_sorted ( gsliste_echeances,
-							echeance,
-							(GCompareFunc) comparaison_date_echeance );
+	    liste_struct_echeances = g_slist_insert_sorted ( liste_struct_echeances,
+							     echeance,
+							     (GCompareFunc) comparaison_date_echeance );
     }
     else
     {
@@ -1980,9 +1980,7 @@ void fin_edition_echeance ( void )
 	if ( !devise_compte
 	     ||
 	     devise_compte -> no_devise != DEVISE )
-	    devise_compte = g_slist_find_custom ( liste_struct_devises,
-						  GINT_TO_POINTER ( DEVISE ),
-						  ( GCompareFunc ) recherche_devise_par_no ) -> data;
+	    devise_compte = devise_par_no ( DEVISE );
 
 	operation -> devise = devise -> no_devise;
 
@@ -2328,17 +2326,13 @@ void cree_contre_operation_echeance ( struct structure_operation *operation,
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_virement;
 
-    contre_devise = g_slist_find_custom ( liste_struct_devises,
-					  GINT_TO_POINTER ( DEVISE ),
-					  ( GCompareFunc ) recherche_devise_par_no ) -> data;
+    contre_devise = devise_par_no ( DEVISE );
 
     contre_operation -> devise = operation -> devise;
 
     /* récupération de la devise */
 
-    devise = g_slist_find_custom ( liste_struct_devises,
-				   GINT_TO_POINTER ( operation -> devise),
-				   (GCompareFunc) recherche_devise_par_no ) -> data;
+    devise = devise_par_no ( operation -> devise );
 
     if ( !( contre_operation-> no_operation
 	    ||
@@ -2701,8 +2695,8 @@ void incrementation_echeance ( struct operation_echeance *echeance )
 	    /*  gtk_widget_show ( separateur_ech_finies_soldes_mini ); */
 	}
 
-	gsliste_echeances = g_slist_remove ( gsliste_echeances, 
-					     echeance );
+	liste_struct_echeances = g_slist_remove ( liste_struct_echeances, 
+						  echeance );
 	free ( echeance );
 	nb_echeances--;
 
@@ -2891,10 +2885,8 @@ void completion_operation_par_tiers_echeancier ( void )
     /* met la devise */
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE] ),
-				  g_slist_position ( liste_struct_devises,
-						     g_slist_find_custom ( liste_struct_devises,
-									   GINT_TO_POINTER ( operation -> devise ),
-									   ( GCompareFunc ) recherche_devise_par_no )));
+				  g_slist_index ( liste_struct_devises,
+						  devise_par_no ( operation -> devise )));
 
     /* mise en forme des catégories */
 

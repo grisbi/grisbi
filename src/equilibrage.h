@@ -13,5 +13,8 @@ void souris_equilibrage ( GtkWidget *entree,
 			  GdkEventButton *event );
 gboolean clavier_equilibrage ( GtkWidget *widget,
 			       GdkEventKey *event );
-gchar *rapprochement_name_by_no ( gint no_rapprochement );
 
+
+gchar *rapprochement_name_by_no ( gint no_rapprochement );
+struct struct_no_rapprochement *rapprochement_par_no ( gint no_rapprochement );
+struct struct_no_rapprochement *rapprochement_par_nom ( gchar *nom_rapprochement );

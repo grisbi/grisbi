@@ -2827,12 +2827,8 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 
 				    ope_modifiee_2 -> une_devise_compte_egale_x_devise_ope = ope_modifiee -> une_devise_compte_egale_x_devise_ope;
 
-				    devise_compte_1 = g_slist_find_custom ( liste_struct_devises,
-									    GINT_TO_POINTER ( ope_modifiee -> devise ),
-									    ( GCompareFunc ) recherche_devise_par_no ) -> data;
-				    devise_compte_2 = g_slist_find_custom ( liste_struct_devises,
-									    GINT_TO_POINTER ( DEVISE ),
-									    ( GCompareFunc ) recherche_devise_par_no ) -> data;
+				    devise_compte_1 = devise_par_no ( ope_modifiee -> devise );
+				    devise_compte_2 = devise_par_no ( DEVISE );
 
 				    if ( !( ope_modifiee -> devise == DEVISE
 					    ||
@@ -3045,12 +3041,8 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 
 		    nouvelle_ope_2 -> une_devise_compte_egale_x_devise_ope = nouvelle_ope -> une_devise_compte_egale_x_devise_ope;
 
-		    devise_compte_1 = g_slist_find_custom ( liste_struct_devises,
-							    GINT_TO_POINTER ( nouvelle_ope -> devise ),
-							    ( GCompareFunc ) recherche_devise_par_no ) -> data;
-		    devise_compte_2 = g_slist_find_custom ( liste_struct_devises,
-							    GINT_TO_POINTER ( DEVISE ),
-							    ( GCompareFunc ) recherche_devise_par_no ) -> data;
+		    devise_compte_1 = devise_par_no ( nouvelle_ope -> devise );
+		    devise_compte_2 = devise_par_no ( DEVISE );
 
 		    if ( !( nouvelle_ope -> devise == DEVISE
 			    ||

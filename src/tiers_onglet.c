@@ -47,7 +47,7 @@
 #include "xpm/book-open.xpm"
 
 extern GtkWidget *widget_formulaire_echeancier[19];
-extern GSList *gsliste_echeances; 
+extern GSList *liste_struct_echeances; 
 
 
 
@@ -401,9 +401,7 @@ void remplit_arbre_tiers ( void )
     if ( !devise_compte
 	 ||
 	 devise_compte -> no_devise != no_devise_totaux_tiers )
-	devise_compte = g_slist_find_custom ( liste_struct_devises,
-					      GINT_TO_POINTER ( no_devise_totaux_tiers ),
-					      ( GCompareFunc ) recherche_devise_par_no) -> data;
+	devise_compte = devise_par_no ( no_devise_totaux_tiers );
 
     /* récupère les montants des tiers */
 
@@ -690,9 +688,7 @@ void ouverture_node_tiers ( GtkWidget *arbre,
 
 	    operation = pointeur_ope -> data;
 
-	    devise_operation = g_slist_find_custom ( liste_struct_devises,
-						     GINT_TO_POINTER ( operation -> devise ),
-						     ( GCompareFunc ) recherche_devise_par_no ) -> data;
+	    devise_operation = devise_par_no ( operation -> devise );
 
 	    if ( ( operation -> tiers == no_tiers_selectionne )
 		 &&
@@ -1147,7 +1143,7 @@ void supprimer_tiers ( GtkWidget *bouton,
 
     if ( !ope_trouvee )
     {
-	pointeur_ope = gsliste_echeances;
+	pointeur_ope = liste_struct_echeances;
 
 	while ( pointeur_ope )
 	{
@@ -1326,7 +1322,7 @@ retour_dialogue:
 
 	/* fait le tour des échéances pour mettre le nouveau numéro de tiers */
 
-	pointeur_ope = gsliste_echeances;
+	pointeur_ope = liste_struct_echeances;
 
 	while ( pointeur_ope )
 	{

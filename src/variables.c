@@ -158,46 +158,6 @@ GtkStyle *style_entree_formulaire[2];
 
 
 /************************/ 
-/* fichier new_compte.c */
-/************************/ 
-
-
-
-/************************/ 
-/* fichier operations_fichier.c */
-/************************/ 
-
-
-
-/************************/ 
-/* fichier completion.c */
-/************************/ 
-
-
-
-/************************/ 
-/* fichier equilibrage.c */
-/************************/ 
-
-GtkWidget *entree_no_rapprochement;
-GtkWidget *label_ancienne_date_equilibrage;
-GtkWidget *entree_ancien_solde_equilibrage;
-GtkWidget *entree_nouvelle_date_equilibrage;
-GtkWidget *entree_nouveau_montant_equilibrage;
-gdouble solde_initial;
-gdouble solde_final;
-gdouble operations_pointees;
-GtkWidget *label_equilibrage_compte;
-GtkWidget *label_equilibrage_initial;
-GtkWidget *label_equilibrage_final;
-GtkWidget *label_equilibrage_pointe;
-GtkWidget *label_equilibrage_ecart;
-GtkWidget *bouton_ok_equilibrage;  
-GSList *liste_no_rapprochements;            /* contient la liste des structures de no_rapprochement */
-gint ancien_nb_lignes_ope;              /* contient l'ancien nb_lignes_ope */
-
-
-/************************/ 
 /* fichier parametres.c */
 /************************/ 
 
@@ -371,10 +331,6 @@ GtkWidget *detail_solde_mini_voulu;
 GtkWidget *detail_commentaire;
 GtkWidget *hbox_boutons_modif;
 
-GSList *liste_struct_banques;
-gint nb_banques;
-gint no_derniere_banque;
-
 
 
 /***********************************/ 
@@ -423,33 +379,6 @@ GtkWidget *vbox_fleches_tri;
 gint *tri_tmp;
 GSList **liste_tri_tmp;
 gint *neutres_inclus_tmp;
-
-
-
-/***********************************/ 
-/* fichier banque.c */
-/***********************************/ 
-
-
-GSList *liste_struct_banques_tmp;                 /*  utilisée à la place de la liste des banques pour les paramètres */
-gint no_derniere_banque_tmp;                            /*  utilisé à la place de no_derniere_banque pour les paramètres */
-gint nb_banques_tmp;                            /*  utilisé à la place de nb_banques pour les paramètres */
-GtkWidget *clist_banques_parametres;
-GtkWidget *bouton_supprimer_banque;
-GtkWidget *nom_banque;
-GtkWidget *code_banque;
-GtkWidget *tel_banque;
-GtkWidget *adr_banque;
-GtkWidget *email_banque;
-GtkWidget *web_banque;
-GtkWidget *nom_correspondant;
-GtkWidget *tel_correspondant;
-GtkWidget *email_correspondant;
-GtkWidget *fax_correspondant;
-GtkWidget *remarque_banque;
-GtkWidget *hbox_boutons_modif_banque;
-gint ligne_selection_banque;
-
 
 
 

@@ -385,10 +385,8 @@ void personnalisation_etat (void)
     /* mise en forme de la devise */
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_devise_general_etat ),
-				  g_slist_position ( liste_struct_devises,
-						     g_slist_find_custom ( liste_struct_devises,
-									   GINT_TO_POINTER ( etat_courant -> devise_de_calcul_general ),
-									   ( GCompareFunc ) recherche_devise_par_no )));
+				  g_slist_index ( liste_struct_devises,
+						  devise_par_no ( etat_courant -> devise_de_calcul_general )));
 
     /* onglet dates */
 
@@ -693,10 +691,8 @@ void personnalisation_etat (void)
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_montant ),
 				   etat_courant -> utilise_montant );
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_devise_montant_etat ),
-				  g_slist_position ( liste_struct_devises,
-						     g_slist_find_custom ( liste_struct_devises,
-									   GINT_TO_POINTER ( etat_courant -> choix_devise_montant ),
-									   ( GCompareFunc ) recherche_devise_par_no )));
+				  g_slist_index ( liste_struct_devises,
+						  devise_par_no ( etat_courant -> choix_devise_montant )));
     sens_desensitive_pointeur ( bouton_utilise_montant,
 				vbox_generale_montants_etat );
     remplit_liste_comparaisons_montants_etat ();
@@ -842,10 +838,8 @@ void selectionne_devise_categ_etat_courant ( void )
 	return;
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_devise_categ_etat ),
-				  g_slist_position ( liste_struct_devises,
-						     g_slist_find_custom ( liste_struct_devises,
-									   GINT_TO_POINTER ( etat_courant -> devise_de_calcul_categ ),
-									   ( GCompareFunc ) recherche_devise_par_no )));
+				  g_slist_index ( liste_struct_devises,
+						  devise_par_no ( etat_courant -> devise_de_calcul_categ )));
 }
 /******************************************************************************/
 
@@ -879,10 +873,8 @@ void selectionne_devise_ib_etat_courant ( void )
 	return;
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_devise_ib_etat ),
-				  g_slist_position ( liste_struct_devises,
-						     g_slist_find_custom ( liste_struct_devises,
-									   GINT_TO_POINTER ( etat_courant -> devise_de_calcul_ib ),
-									   ( GCompareFunc ) recherche_devise_par_no )));
+				  g_slist_index ( liste_struct_devises,
+						  devise_par_no ( etat_courant -> devise_de_calcul_ib )));
 }
 /******************************************************************************/
 
@@ -919,10 +911,8 @@ void selectionne_devise_tiers_etat_courant ( void )
 	return;
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_devise_tiers_etat ),
-				  g_slist_position ( liste_struct_devises,
-						     g_slist_find_custom ( liste_struct_devises,
-									   GINT_TO_POINTER ( etat_courant -> devise_de_calcul_tiers ),
-									   ( GCompareFunc ) recherche_devise_par_no )));
+				  g_slist_index ( liste_struct_devises,
+						  devise_par_no ( etat_courant -> devise_de_calcul_tiers )));
 }
 /******************************************************************************/
 

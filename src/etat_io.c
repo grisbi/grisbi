@@ -750,16 +750,11 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
 gint recupere_devise_par_nom_etat ( gchar *nom )
 {
-    GSList *liste_tmp;
     struct struct_devise *devise;
 
-    liste_tmp = g_slist_find_custom ( liste_struct_devises,
-				      g_strstrip ( nom ),
-				      (GCompareFunc) recherche_devise_par_nom  );
+    devise = devise_par_nom ( nom );
 
-    if ( liste_tmp )
-	devise = liste_tmp -> data;
-    else
+    if ( !devise )
     {
 	devise = liste_struct_devises -> data;
 

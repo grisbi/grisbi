@@ -43,10 +43,11 @@
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
 #include "type_operations.h"
+#include "echeancier_onglet.h"
 
 
 extern GtkWidget *widget_formulaire_echeancier[19];
-extern GSList *gsliste_echeances;
+extern GSList *liste_struct_echeances;
 extern struct operation_echeance *echeance_selectionnnee;
 extern gint nb_echeances;
 extern GSList *list_store_comptes;
@@ -192,6 +193,7 @@ void supprimer_compte ( void )
     gint compte_modifie;
     gchar *nom_compte_supprime;
     gint page_en_cours;
+    struct operation_echeance *echeance;
 
     compte_modifie = compte_courant_onglet;
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_modifie;
@@ -217,21 +219,13 @@ void supprimer_compte ( void )
 			       compte_modifie + 1 );
 
     /*       suppression des échéances */
-    while ( ( pointeur_liste = 
-	      g_slist_find_custom ( gsliste_echeances,
-				    GINT_TO_POINTER ( compte_modifie ),
-				    (GCompareFunc)cherche_compte_dans_echeances )))
+    while ( (echeance = echeance_par_no_compte ( compte_modifie )))
     {
-	if ( echeance_selectionnnee == ECHEANCE_COURANTE )
-	{
-	    /* 	    met use of cast expressions as lvalues is deprecatedi */
-	    /* 		pour ECHEANCE_COURANTE = GINT_TO_POINTER (-1); */
-	    /* comprends pas, donc fait les trucs differemment... */
+	if ( echeance_selectionnnee == echeance )
+	    echeance_selectionnnee = GINT_TO_POINTER (-1);
 
-	    pointeur_liste -> data = GINT_TO_POINTER (-1);
-	}
-
-	gsliste_echeances = g_slist_remove ( gsliste_echeances, ECHEANCE_COURANTE );
+	liste_struct_echeances = g_slist_remove ( liste_struct_echeances,
+						  echeance );
 	nb_echeances--;
     }
 
@@ -285,7 +279,7 @@ void supprimer_compte ( void )
 
     /* recherche les échéances pour les comptes plaçés après le compe supprimé */
     /* pour leur diminuer leur numéro de compte de 1 */
-    pointeur_liste = gsliste_echeances;
+    pointeur_liste = liste_struct_echeances;
 
     while ( pointeur_liste )
     {

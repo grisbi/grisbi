@@ -166,47 +166,6 @@ extern gchar date_courante[11];             /* contient soit la date du jour, so
 extern GtkStyle *style_entree_formulaire[2];
 
 
-/************************/ 
-/* fichier new_compte.c */
-/************************/ 
-
-
-
-
-/************************/ 
-/* fichier operations_fichier.c */
-/************************/ 
-
-
-
-
-/************************/ 
-/* fichier completion.c */
-/************************/ 
-
-
-
-/************************/ 
-/* fichier equilibrage.c */
-/************************/ 
-
-extern GtkWidget *entree_no_rapprochement;
-extern GtkWidget *label_ancienne_date_equilibrage;
-extern GtkWidget *entree_ancien_solde_equilibrage;
-extern GtkWidget *entree_nouvelle_date_equilibrage;
-extern GtkWidget *entree_nouveau_montant_equilibrage;
-extern gdouble solde_initial;
-extern gdouble solde_final;
-extern gdouble operations_pointees;
-extern GtkWidget *label_equilibrage_compte;
-extern GtkWidget *label_equilibrage_initial;
-extern GtkWidget *label_equilibrage_final;
-extern GtkWidget *label_equilibrage_pointe;
-extern GtkWidget *label_equilibrage_ecart;
-extern GtkWidget *bouton_ok_equilibrage;  
-extern GSList *liste_no_rapprochements;            /* contient la liste des structures de no_rapprochement */
-extern gint ancien_nb_lignes_ope;              /* contient l'ancien nb_lignes_ope */
-
 
 /************************/ 
 /* fichier parametres.c */
@@ -389,11 +348,6 @@ extern GtkWidget *detail_solde_mini_voulu;
 extern GtkWidget *detail_commentaire;
 extern GtkWidget *hbox_boutons_modif;
 
-extern GSList *liste_struct_banques;
-extern gint nb_banques;
-extern gint no_derniere_banque;
-
-
 
 /***********************************/ 
 /* fichier qif.c */
@@ -440,31 +394,6 @@ extern GtkWidget *vbox_fleches_tri;
 extern gint *tri_tmp;
 extern GSList **liste_tri_tmp;
 extern gint *neutres_inclus_tmp;
-
-
-/***********************************/ 
-/* fichier banque.c */
-/***********************************/ 
-
-
-extern GSList *liste_struct_banques_tmp;             /*  utilisée à la place de la liste des banques pour les paramètres */
-extern gint no_derniere_banque_tmp;                     /*  utilisé à la place de no_derniere_banque pour les paramètres */
-extern gint nb_banques_tmp;                            /*  utilisé à la place de nb_banques pour les paramètres */
-extern GtkWidget *clist_banques_parametres;
-extern GtkWidget *bouton_supprimer_banque;
-extern GtkWidget *nom_banque;
-extern GtkWidget *code_banque;
-extern GtkWidget *tel_banque;
-extern GtkWidget *adr_banque;
-extern GtkWidget *email_banque;
-extern GtkWidget *web_banque;
-extern GtkWidget *nom_correspondant;
-extern GtkWidget *tel_correspondant;
-extern GtkWidget *email_correspondant;
-extern GtkWidget *fax_correspondant;
-extern GtkWidget *remarque_banque;
-extern GtkWidget *hbox_boutons_modif_banque;
-extern gint ligne_selection_banque;
 
 
 

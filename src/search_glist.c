@@ -102,27 +102,9 @@ gint recherche_sous_categorie_par_no ( struct struct_sous_categ *sous_categorie,
 gint recherche_banque_par_no ( struct struct_banque *banque,
 			       gint *no_banque )
 {
-
     return ( !( banque -> no_banque == GPOINTER_TO_INT ( no_banque )) );
-
 }
 /* ************************************************************************************************************ */
-
-
-/* *********************************************************************************************************** */
-/* cette fonction est appelée pour chercher dans les échéances si certaines sont  */
-/* associées au compte en train d'être supprimé */
-/* *********************************************************************************************************** */
-
-gint cherche_compte_dans_echeances ( struct operation_echeance *echeance,
-				     gint no_compte )
-{
-
-    return ( echeance -> compte != no_compte );
-
-}
-/* *********************************************************************************************************** */
-
 
 
 
@@ -131,10 +113,8 @@ gint cherche_compte_dans_echeances ( struct operation_echeance *echeance,
 gint recherche_devise_par_nom ( struct struct_devise *devise,
 				gchar *nom )
 {
-
     return ( g_strcasecmp ( g_strstrip ( devise -> nom_devise ),
 			    nom ) );
-
 }
 /* ************************************************************************************************************ */
 
@@ -143,7 +123,6 @@ gint recherche_devise_par_nom ( struct struct_devise *devise,
 gint recherche_devise_par_code_iso ( struct struct_devise *devise,
 				     gchar *nom )
 {
-
     if ( devise -> code_iso4217_devise )
 	return ( g_strcasecmp ( g_strstrip ( devise -> code_iso4217_devise ),
 				nom ) );
@@ -162,9 +141,7 @@ gint recherche_devise_par_code_iso ( struct struct_devise *devise,
 gint recherche_devise_par_no ( struct struct_devise *devise,
 			       gint *no_devise )
 {
-
     return ( devise -> no_devise != GPOINTER_TO_INT ( no_devise ));
-
 }
 /***********************************************************************************************************/
 
@@ -180,9 +157,23 @@ gint recherche_echeance_par_no ( struct operation_echeance *echeance,
 /*****************************************************************************/
 
 
+/* *********************************************************************************************************** */
+/* cette fonction est appelée pour chercher dans les échéances si certaines sont  */
+/* associées au compte en train d'être supprimé */
+/* *********************************************************************************************************** */
+
+gint recherche_echeance_par_no_compte ( struct operation_echeance *echeance,
+					gint no_compte )
+{
+    return ( echeance -> compte != no_compte );
+}
+/* *********************************************************************************************************** */
+
+
+
 /******************************************************************************/
-gint recherche_no_rapprochement_par_nom ( struct struct_no_rapprochement *rapprochement,
-					  gchar *no_rap )
+gint recherche_rapprochement_par_nom ( struct struct_no_rapprochement *rapprochement,
+				       gchar *no_rap )
 {
     return ( strcmp ( rapprochement -> nom_rapprochement,
 		      no_rap ));
@@ -190,12 +181,10 @@ gint recherche_no_rapprochement_par_nom ( struct struct_no_rapprochement *rappro
 /******************************************************************************/
 
 /******************************************************************************/
-gint recherche_no_rapprochement_par_no ( struct struct_no_rapprochement *rapprochement,
-					 gint *no_rap )
+gint recherche_rapprochement_par_no ( struct struct_no_rapprochement *rapprochement,
+				      gint *no_rap )
 {
-
     return ( !(rapprochement -> no_rapprochement == GPOINTER_TO_INT ( no_rap )));
-
 }
 /******************************************************************************/
 
@@ -223,10 +212,8 @@ gint recherche_etat_par_no ( struct struct_etat *etat,
 gint recherche_exercice_par_nom ( struct struct_exercice *exercice,
 				  gchar *nom )
 {
-
     return ( g_strcasecmp ( g_strstrip ( exercice -> nom_exercice ),
 			    nom ) );
-
 }
 /* ************************************************************************************************************ */
 
@@ -240,9 +227,7 @@ gint recherche_exercice_par_nom ( struct struct_exercice *exercice,
 gint recherche_exercice_par_no ( struct struct_exercice *exercice,
 				 gint *no_exercice )
 {
-
     return ( exercice -> no_exercice != GPOINTER_TO_INT ( no_exercice ));
-
 }
 /***********************************************************************************************************/
 

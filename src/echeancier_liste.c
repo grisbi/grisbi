@@ -79,7 +79,7 @@ GtkWidget *calendrier_echeances;
 
 struct operation_echeance *echeance_selectionnnee;
 
-GSList *gsliste_echeances;                 /* contient la liste des struct échéances */
+GSList *liste_struct_echeances;                 /* contient la liste des struct échéances */
 gint nb_echeances;
 gint no_derniere_echeance;
 
@@ -746,11 +746,6 @@ void remplissage_liste_echeance ( void )
 	    }
     }
 
-    /* on classe les échéances par date */
-
-    /*   gsliste_echeances = g_slist_sort ( gsliste_echeances, */
-    /* 				     (GCompareFunc) comparaison_date_echeance);  */
-
     gtk_clist_freeze ( GTK_CLIST ( liste_echeances ) );
 
     /* on efface la liste */
@@ -760,7 +755,7 @@ void remplissage_liste_echeance ( void )
 
     couleur_en_cours = 0;
 
-    pointeur_liste = gsliste_echeances;
+    pointeur_liste = liste_struct_echeances;
 
     while ( pointeur_liste )
     {
@@ -1150,12 +1145,10 @@ void edition_echeance ( void )
 
 
     /* mise en place des devises */
+    /* FIXME : me demande si yaurait pas un g_slist_index à mettre ici... */
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE] ),
-				  ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
-										  GINT_TO_POINTER ( echeance_selectionnnee -> devise ),
-										  (GCompareFunc) recherche_devise_par_no ) -> data )) -> no_devise - 1 );
-
+				  devise_par_no ( echeance_selectionnnee -> devise ) -> no_devise - 1 );
 
     /* si le compte de virement est -1, c'est qu'il n'y a pas de categ, ni de virements, ni de ventil */
 
@@ -1327,7 +1320,9 @@ void supprime_echeance ( struct operation_echeance *echeance )
     gint resultat;
 
 
-    if ( echeance == GINT_TO_POINTER ( -1 ) )
+    if ( !echeance
+	 ||
+	 echeance == GINT_TO_POINTER ( -1 ))
 	return;
 
     /* si la périodicité n'est pas de 1 fois demande juste celle ci ou toutes,
@@ -1390,8 +1385,8 @@ void supprime_echeance ( struct operation_echeance *echeance )
 	    break;
 
 	case 1:
-	    gsliste_echeances = g_slist_remove ( gsliste_echeances, 
-						 echeance );
+	    liste_struct_echeances = g_slist_remove ( liste_struct_echeances, 
+						      echeance );
 	    free ( echeance );
 	    echeance = gtk_clist_get_row_data ( GTK_CLIST ( liste_echeances ),
 						gtk_clist_find_row_from_data ( GTK_CLIST ( liste_echeances ),
@@ -1683,7 +1678,7 @@ void mise_a_jour_calendrier ( void )
     /* on fait le tour de toutes les échéances, les amène au mois du calendrier
        et mise en gras du jour de l'échéance */
 
-    pointeur = gsliste_echeances;
+    pointeur = liste_struct_echeances;
 
     while ( pointeur )
     {
@@ -1814,7 +1809,7 @@ void verification_echeances_a_terme ( void )
     /* on fait le tour des échéances : si elle est auto, elle est enregistrée,
        sinon elle est juste répertoriée */
 
-    pointeur_liste = gsliste_echeances;
+    pointeur_liste = liste_struct_echeances;
     ancien_pointeur = NULL;
 
 
@@ -1862,16 +1857,12 @@ void verification_echeances_a_terme ( void )
 
 		/* récupération des devises de l'opé et du compte */
 
-		devise = g_slist_find_custom ( liste_struct_devises,
-					       GINT_TO_POINTER ( operation -> devise ),
-					       ( GCompareFunc ) recherche_devise_par_no ) -> data;
+		devise = devise_par_no ( operation -> devise );
 
 		if ( !devise_compte
 		     ||
 		     devise_compte -> no_devise != DEVISE )
-		    devise_compte = g_slist_find_custom ( liste_struct_devises,
-							  GINT_TO_POINTER ( DEVISE ),
-							  ( GCompareFunc ) recherche_devise_par_no ) -> data;
+		    devise_compte = devise_par_no ( DEVISE );
 
 		if ( !( operation -> no_operation
 			||
@@ -2036,11 +2027,11 @@ void verification_echeances_a_terme ( void )
 
 		incrementation_echeance ( ECHEANCE_COURANTE );
 
-		if ( !g_slist_find ( gsliste_echeances,
+		if ( !g_slist_find ( liste_struct_echeances,
 				     ECHEANCE_COURANTE ) )
 		{
 		    if ( !ancien_pointeur )
-			ancien_pointeur = gsliste_echeances;
+			ancien_pointeur = liste_struct_echeances;
 		    pointeur_liste = ancien_pointeur;
 		}
 	    }
@@ -2056,7 +2047,7 @@ void verification_echeances_a_terme ( void )
 						      ECHEANCE_COURANTE );
 
 
-	if ( ancien_pointeur == gsliste_echeances && pointeur_liste == ancien_pointeur )
+	if ( ancien_pointeur == liste_struct_echeances && pointeur_liste == ancien_pointeur )
 	    ancien_pointeur = NULL;
 	else
 	{

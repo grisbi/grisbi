@@ -43,8 +43,12 @@ extern gint affichage_echeances_perso_nb_libre;
 extern gint affichage_echeances_perso_j_m_a; 
 extern gint nb_echeances;
 extern gint no_derniere_echeance;
-extern GSList *gsliste_echeances; 
+extern GSList *liste_struct_echeances; 
 extern GtkWidget *tree_view_listes_operations;
+extern gint nb_banques;
+extern gint no_derniere_banque;
+extern GSList *liste_struct_banques;
+extern GSList *liste_struct_rapprochements;
 
 /****************************************************************************/
 void remove_file_from_last_opened_files_list ( gchar * nom_fichier )
@@ -825,7 +829,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		{
 		    xmlNodePtr node_detail;
 
-		    gsliste_echeances = NULL;
+		    liste_struct_echeances = NULL;
 
 		    node_detail = node_echeances -> children;
 
@@ -935,8 +939,8 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 			    }
 
 
-			    gsliste_echeances = g_slist_append ( gsliste_echeances,
-								 operation_echeance);
+			    liste_struct_echeances = g_slist_append ( liste_struct_echeances,
+								      operation_echeance);
 			}
 
 			node_detail = node_detail -> next;
@@ -1589,7 +1593,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		{
 		    xmlNodePtr node_detail;
 
-		    liste_no_rapprochements = NULL;
+		    liste_struct_rapprochements = NULL;
 		    node_detail = node_rapprochements -> children;
 
 		    while ( node_detail )
@@ -1608,8 +1612,8 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 
 			    rapprochement -> nom_rapprochement = g_strstrip ( rapprochement -> nom_rapprochement);
 
-			    liste_no_rapprochements = g_slist_append ( liste_no_rapprochements,
-								       rapprochement );
+			    liste_struct_rapprochements = g_slist_append ( liste_struct_rapprochements,
+									   rapprochement );
 			}
 
 			node_detail = node_detail -> next;
@@ -2664,7 +2668,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		{
 		    xmlNodePtr node_detail;
 
-		    gsliste_echeances = NULL;
+		    liste_struct_echeances = NULL;
 
 		    node_detail = node_echeances -> children;
 		    if ( node_detail )
@@ -2776,8 +2780,8 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 			    }
 
 
-			    gsliste_echeances = g_slist_append ( gsliste_echeances,
-								 operation_echeance);
+			    liste_struct_echeances = g_slist_append ( liste_struct_echeances,
+								      operation_echeance);
 
 			}
 
@@ -3464,7 +3468,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		{
 		    xmlNodePtr node_detail;
 
-		    liste_no_rapprochements = NULL;
+		    liste_struct_rapprochements = NULL;
 		    node_detail = node_rapprochements -> children;
 
 		    while ( node_detail )
@@ -3483,8 +3487,8 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 			    rapprochement -> nom_rapprochement = g_strstrip ( rapprochement -> nom_rapprochement);
 
-			    liste_no_rapprochements = g_slist_append ( liste_no_rapprochements,
-								       rapprochement );
+			    liste_struct_rapprochements = g_slist_append ( liste_struct_rapprochements,
+									   rapprochement );
 			}
 
 			node_detail = node_detail -> next;
@@ -5019,7 +5023,7 @@ gboolean charge_operations_version_0_5_1 ( xmlDocPtr doc )
 		{
 		    xmlNodePtr node_detail;
 
-		    gsliste_echeances = NULL;
+		    liste_struct_echeances = NULL;
 
 		    node_detail = node_echeances -> children;
 
@@ -5139,8 +5143,8 @@ gboolean charge_operations_version_0_5_1 ( xmlDocPtr doc )
 
 
 
-			    gsliste_echeances = g_slist_append ( gsliste_echeances,
-								 operation_echeance);
+			    liste_struct_echeances = g_slist_append ( liste_struct_echeances,
+								      operation_echeance);
 			}
 
 			node_detail = node_detail -> next;
@@ -5799,7 +5803,7 @@ gboolean charge_operations_version_0_5_1 ( xmlDocPtr doc )
 		{
 		    xmlNodePtr node_detail;
 
-		    liste_no_rapprochements = NULL;
+		    liste_struct_rapprochements = NULL;
 		    node_detail = node_rapprochements -> children;
 
 		    while ( node_detail )
@@ -5818,8 +5822,8 @@ gboolean charge_operations_version_0_5_1 ( xmlDocPtr doc )
 
 			    rapprochement -> nom_rapprochement = g_strstrip ( rapprochement -> nom_rapprochement);
 
-			    liste_no_rapprochements = g_slist_append ( liste_no_rapprochements,
-								       rapprochement );
+			    liste_struct_rapprochements = g_slist_append ( liste_struct_rapprochements,
+									   rapprochement );
 			}
 			node_detail = node_detail -> next;
 		    }
@@ -7230,7 +7234,7 @@ gboolean enregistre_fichier ( gboolean force )
 			   "Detail_des_echeances",
 			   NULL );
 
-    pointeur_liste = gsliste_echeances;
+    pointeur_liste = liste_struct_echeances;
 
     while ( pointeur_liste )
     {
@@ -7911,7 +7915,7 @@ gboolean enregistre_fichier ( gboolean force )
     /*   xmlNewTextChild ( node_1, */
     /* 		    NULL, */
     /* 		    "Nb_rapprochements", */
-    /* 		    itoa ( g_slist_length ( liste_no_rapprochements ))); */
+    /* 		    itoa ( g_slist_length ( liste_struct_rapprochements ))); */
 
     /* on met les rapprochements */
 
@@ -7920,7 +7924,7 @@ gboolean enregistre_fichier ( gboolean force )
 			   "Detail_des_rapprochements",
 			   NULL );
 
-    pointeur_liste = liste_no_rapprochements;
+    pointeur_liste = liste_struct_rapprochements;
 
     while ( pointeur_liste )
     {

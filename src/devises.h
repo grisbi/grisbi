@@ -43,8 +43,6 @@ gdouble calcule_montant_devise_renvoi ( gdouble montant_init,
 					gint une_devise_compte_egale_x_devise_ope,
 					gdouble taux_change,
 					gdouble frais_change );
-gchar * devise_name (struct struct_devise * devise );
-gchar * devise_name_by_no ( gint no_devise );
 void create_change_menus (struct struct_devise *devise);
 void update_exchange_rate_cache ( struct struct_devise * currency1, 
 				  struct struct_devise * currency2,
@@ -52,3 +50,10 @@ void update_exchange_rate_cache ( struct struct_devise * currency1,
 struct cached_exchange_rate * cached_exchange_rate ( struct struct_devise * currency1, 
 						     struct struct_devise * currency2 );
 gboolean is_euro ( struct struct_devise * currency );
+
+
+struct struct_devise *devise_par_no ( gint no_devise );
+struct struct_devise *devise_par_nom ( gchar *nom_devise );
+struct struct_devise *devise_par_code_iso ( gchar *code_iso );
+gchar *devise_name (struct struct_devise * devise );
+gchar *devise_name_by_no ( gint no_devise );

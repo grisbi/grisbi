@@ -44,7 +44,7 @@
 #include "utils.h"
 
 
-extern GSList *gsliste_echeances; 
+extern GSList *liste_struct_echeances; 
 extern GtkWidget *widget_formulaire_echeancier[19];
 extern GtkWidget *widget_formulaire_ventilation[8];
 
@@ -524,9 +524,7 @@ void remplit_arbre_imputation ( void )
     if ( !devise_compte
 	 ||
 	 devise_compte -> no_devise != no_devise_totaux_tiers )
-	devise_compte = g_slist_find_custom ( liste_struct_devises,
-					      GINT_TO_POINTER ( no_devise_totaux_tiers ),
-					      ( GCompareFunc ) recherche_devise_par_no) -> data;
+	devise_compte = devise_par_no ( no_devise_totaux_tiers );
 
     /* calcule les montants des imputations et sous imputations */
 
@@ -1042,9 +1040,7 @@ void ouverture_node_imputation ( GtkWidget *arbre,
 
 	    operation = pointeur_ope -> data;
 
-	    devise_operation = g_slist_find_custom ( liste_struct_devises,
-						     GINT_TO_POINTER ( operation -> devise ),
-						     ( GCompareFunc ) recherche_devise_par_no ) -> data;
+	    devise_operation = devise_par_no ( operation -> devise );
 
 	    if ( operation -> imputation == no_imputation
 		 &&
@@ -1793,7 +1789,7 @@ retour_dialogue:
 
 	/* fait le tour des échéances pour mettre le nouveau numéro de imputation et sous_imputation  */
 
-	liste_tmp = gsliste_echeances;
+	liste_tmp = liste_struct_echeances;
 
 	while ( liste_tmp )
 	{
@@ -2124,7 +2120,7 @@ retour_dialogue:
 
 	/* fait le tour des échéances pour mettre le nouveau numéro de imputation et sous_imputation  */
 
-	liste_tmp = gsliste_echeances;
+	liste_tmp = liste_struct_echeances;
 
 	while ( liste_tmp )
 	{

@@ -30,6 +30,26 @@
 #include "search_glist.h"
 #include "utils.h"
 
+GSList *liste_struct_banques;
+gint nb_banques;
+gint no_derniere_banque;
+
+GtkWidget *clist_banques_parametres;
+GtkWidget *bouton_supprimer_banque;
+GtkWidget *nom_banque;
+GtkWidget *code_banque;
+GtkWidget *tel_banque;
+GtkWidget *adr_banque;
+GtkWidget *email_banque;
+GtkWidget *web_banque;
+GtkWidget *nom_correspondant;
+GtkWidget *tel_correspondant;
+GtkWidget *email_correspondant;
+GtkWidget *fax_correspondant;
+GtkWidget *remarque_banque;
+GtkWidget *hbox_boutons_modif_banque;
+gint ligne_selection_banque;
+
 
 /** 
  * Update bank name in list.  Normally called as a signal handler.
@@ -82,10 +102,8 @@ gboolean update_bank_menu ()
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( detail_option_menu_banque ),
-				  g_slist_position ( liste_struct_banques,
-						     g_slist_find_custom ( liste_struct_banques,
-									   GINT_TO_POINTER ( BANQUE ),
-									   ( GCompareFunc ) recherche_banque_par_no )) + 1 );
+				  g_slist_index ( liste_struct_banques,
+						  banque_par_no ( BANQUE )) +1 );
 
     return FALSE;
 }
@@ -766,3 +784,31 @@ void edit_bank ( GtkWidget * button, struct struct_banque * bank )
     gtk_dialog_run (GTK_DIALOG(dialog));
     gtk_widget_destroy ( dialog );
 }
+
+
+
+
+
+
+/* **************************************************************************************************** */
+/* cette fonction renvoie l'adr de la banque demandée en argument */
+/* et NULL si pas trouvée */
+/* **************************************************************************************************** */
+struct struct_banque *banque_par_no ( gint no_banque )
+{
+    if ( no_banque )
+    {
+	GSList *liste_tmp;
+
+	liste_tmp = g_slist_find_custom ( liste_struct_banques,
+					  GINT_TO_POINTER ( no_banque ),
+					  (GCompareFunc) recherche_banque_par_no );
+
+	if ( liste_tmp )
+	    return ( liste_tmp -> data );
+    }
+    return NULL;
+}
+/* **************************************************************************************************** */
+
+

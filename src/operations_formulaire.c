@@ -56,7 +56,11 @@ extern gint hauteur_ligne_liste_opes;
 extern GSList *list_store_comptes;
 extern gint enregistre_ope_au_retour;
 extern gint ligne_selectionnee_ventilation;
-
+extern gdouble solde_initial;
+extern gdouble solde_final;
+extern gdouble operations_pointees;
+extern GtkWidget *label_equilibrage_ecart;
+extern GtkWidget *bouton_ok_equilibrage;
 
 /******************************************************************************/
 /*  Routine qui crée le formulaire et le renvoie                              */
@@ -1793,10 +1797,9 @@ void completion_operation_par_tiers ( void )
     /* met la devise */
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ),
-				  g_slist_position ( liste_struct_devises,
-						     g_slist_find_custom ( liste_struct_devises,
-									   GINT_TO_POINTER ( operation -> devise ),
-									   ( GCompareFunc ) recherche_devise_par_no )));
+				  g_slist_index ( liste_struct_devises,
+						  devise_par_no ( operation -> devise )));
+
     /* mise en forme des catégories */
 
     if ( operation -> operation_ventilee )
@@ -2393,7 +2396,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 	g_strfreev ( tableau_char );
     }
 
-    /* pour les types qui sont à incrémentation automatique ( surtout les chÃ¨ques ) */
+    /* pour les types qui sont à incrÃ©mentation automatique ( surtout les chÃ¨ques ) */
     /* on fait le tour des operations pour voir si le no n'a pas déjà été utilisé */
     /* si operation n'est pas nul, c'est une modif donc on ne fait pas ce test */
 
@@ -2633,9 +2636,7 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
 
     if ( !devise_compte ||
 	 devise_compte -> no_devise != DEVISE )
-	devise_compte = g_slist_find_custom ( liste_struct_devises,
-					      GINT_TO_POINTER ( DEVISE ),
-					      ( GCompareFunc ) recherche_devise_par_no ) -> data;
+	devise_compte = devise_par_no ( DEVISE );
 
     operation -> devise = devise -> no_devise;
 
@@ -2984,7 +2985,6 @@ void validation_virement_operation ( struct structure_operation *operation,
     struct structure_operation *contre_operation;
     gpointer **save_ptab;
     gint compte_virement, i;
-    GSList *tmp;
 
     save_ptab = p_tab_nom_de_compte_variable;
 
@@ -3077,16 +3077,9 @@ void validation_virement_operation ( struct structure_operation *operation,
     /* si c'est la devise du compte ou si c'est un compte qui doit passer à l'euro ( la transfo se fait au niveau */
     /* de l'affichage de la liste ) ou si c'est un compte en euro et l'opé est dans une devise qui doit passer à l'euro -> ok */
 
-    devise_compte_2 = g_slist_find_custom ( liste_struct_devises,
-					    GINT_TO_POINTER ( DEVISE ),
-					    ( GCompareFunc ) recherche_devise_par_no ) -> data;
-    tmp = g_slist_find_custom ( liste_struct_devises,
-				GINT_TO_POINTER ( operation -> devise ),
-				( GCompareFunc ) recherche_devise_par_no);
-    if ( tmp )
-	devise = (struct struct_devise *) tmp -> data;
-    else
-	devise = NULL;
+    devise_compte_2 = devise_par_no ( DEVISE );
+
+    devise = devise_par_no ( operation -> devise );
 
     contre_operation -> devise = operation -> devise;
 
@@ -3293,10 +3286,8 @@ void formulaire_a_zero (void)
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ),
 				  cherche_no_menu_type ( TYPE_DEFAUT_DEBIT ) );
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ),
-				  g_slist_position ( liste_struct_devises,
-						     g_slist_find_custom ( liste_struct_devises,
-									   GINT_TO_POINTER ( DEVISE ),
-									   ( GCompareFunc ) recherche_devise_par_no )));
+				  g_slist_index ( liste_struct_devises,
+						  devise_par_no ( DEVISE )));
 
     gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ),
 			       FALSE );
@@ -3404,12 +3395,9 @@ void click_sur_bouton_voir_change ( void )
 
     if ( !devise_compte ||
 	 devise_compte -> no_devise != DEVISE )
-	devise_compte = g_slist_find_custom ( liste_struct_devises,
-					      GINT_TO_POINTER ( DEVISE ),
-					      ( GCompareFunc ) recherche_devise_par_no ) -> data;
-    devise = g_slist_find_custom ( liste_struct_devises,
-				   GINT_TO_POINTER ( operation -> devise ),
-				   ( GCompareFunc ) recherche_devise_par_no ) -> data;
+	devise_compte = devise_par_no ( DEVISE );
+
+    devise = devise_par_no ( operation -> devise );
 
     demande_taux_de_change ( devise_compte, devise,
 			     operation -> une_devise_compte_egale_x_devise_ope,

@@ -112,7 +112,7 @@ GtkTreeViewColumn *colonne_classement_tmp;
 
 extern struct operation_echeance *echeance_selectionnnee;
 extern gint no_derniere_echeance;
-extern GSList *gsliste_echeances; 
+extern GSList *liste_struct_echeances; 
 extern gint nb_echeances;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_selection;
@@ -120,6 +120,12 @@ extern PangoFontDescription *pango_desc_fonte_liste;
 extern GSList *liste_labels_titres_colonnes_liste_ope;
 extern GtkWidget *widget_formulaire_ventilation[8];
 extern gint ligne_selectionnee_ventilation;
+extern GtkWidget *label_equilibrage_pointe;
+extern GtkWidget *label_equilibrage_ecart;
+extern gdouble operations_pointees;
+extern gdouble solde_initial;
+extern gdouble solde_final;
+extern GtkWidget *bouton_ok_equilibrage;
 
 
 
@@ -895,9 +901,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 		if ( !devise_operation
 		     ||
 		     devise_operation -> no_devise != operation -> devise )
-		    devise_operation = g_slist_find_custom ( liste_struct_devises,
-							     GINT_TO_POINTER ( operation -> devise ),
-							     ( GCompareFunc ) recherche_devise_par_no ) -> data;
+		    devise_operation = devise_par_no ( operation -> devise );
 
 		if ( devise_operation -> no_devise != DEVISE )
 		    temp = g_strconcat ( temp,
@@ -924,9 +928,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 		if ( !devise_operation
 		     ||
 		     devise_operation -> no_devise != operation -> devise )
-		    devise_operation = g_slist_find_custom ( liste_struct_devises,
-							     GINT_TO_POINTER ( operation -> devise ),
-							     ( GCompareFunc ) recherche_devise_par_no ) -> data;
+		    devise_operation = devise_par_no ( operation -> devise );
 
 		if ( devise_operation -> no_devise != DEVISE )
 		    temp = g_strconcat ( temp,
@@ -1662,22 +1664,17 @@ void edition_operation ( void )
     /* mise en forme de la devise */
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ),
-				  g_slist_position ( liste_struct_devises,
-						     g_slist_find_custom ( liste_struct_devises,
-									   GINT_TO_POINTER ( operation -> devise ),
-									   ( GCompareFunc ) recherche_devise_par_no )));
+				  g_slist_index ( liste_struct_devises,
+						  devise_par_no ( operation -> devise )));
 
     /*   si la devise n'est pas celle du compte ni l'euro si le compte va y passer, affiche le bouton change */
 
     if ( !devise_compte
 	 ||
 	 devise_compte -> no_devise != DEVISE )
-	devise_compte = g_slist_find_custom ( liste_struct_devises,
-					      GINT_TO_POINTER ( DEVISE ),
-					      ( GCompareFunc ) recherche_devise_par_no ) -> data;
-    devise = g_slist_find_custom ( liste_struct_devises,
-				   GINT_TO_POINTER ( operation -> devise ),
-				   ( GCompareFunc ) recherche_devise_par_no ) -> data;
+	devise_compte = devise_par_no ( DEVISE );
+
+    devise = devise_par_no ( operation -> devise );
 
     if ( !( devise -> no_devise == DEVISE
 	    ||
@@ -3094,9 +3091,9 @@ schedule_transaction ( struct structure_operation * transaction )
     
     echeance -> no_operation = ++no_derniere_echeance;
     nb_echeances++;
-    gsliste_echeances = g_slist_insert_sorted ( gsliste_echeances,
-						echeance,
-						(GCompareFunc) comparaison_date_echeance );
+    liste_struct_echeances = g_slist_insert_sorted ( liste_struct_echeances,
+						     echeance,
+						     (GCompareFunc) comparaison_date_echeance );
 
 /*     on récupère les opés de ventil si c'était une opé ventilée */
 
@@ -3186,9 +3183,9 @@ schedule_transaction ( struct structure_operation * transaction )
 
 		echeance_de_ventil -> no_operation = ++no_derniere_echeance;
 		nb_echeances++;
-		gsliste_echeances = g_slist_insert_sorted ( gsliste_echeances,
-							    echeance_de_ventil,
-							    (GCompareFunc) comparaison_date_echeance );
+		liste_struct_echeances = g_slist_insert_sorted ( liste_struct_echeances,
+								 echeance_de_ventil,
+								 (GCompareFunc) comparaison_date_echeance );
 	    }
 	    liste_tmp = liste_tmp -> next;
 	}

@@ -229,7 +229,7 @@ struct cached_exchange_rate {
 };
 
 extern GtkWidget *widget_formulaire_echeancier[19];
-extern GSList *gsliste_echeances;
+extern GSList *liste_struct_echeances;
 
 
 gint
@@ -319,10 +319,8 @@ void update_currency_widgets()
 				GTK_OBJECT ( hbox_boutons_modif ) );
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
     gtk_option_menu_set_history ( GTK_OPTION_MENU (  detail_devise_compte),
-				  g_slist_position ( liste_struct_devises,
-						     g_slist_find_custom ( liste_struct_devises,
-									   GINT_TO_POINTER ( DEVISE ),
-									   ( GCompareFunc ) recherche_devise_par_no )));
+				  g_slist_index ( liste_struct_devises,
+						  devise_par_no ( DEVISE ))); 
 
 
     /* on recrée les boutons de devises dans la conf de l'état */
@@ -927,7 +925,7 @@ void retrait_devise ( GtkWidget *bouton,
 
 	    if ( !devise )
 	    {
-		liste_tmp = gsliste_echeances;
+		liste_tmp = liste_struct_echeances;
 
 		while ( liste_tmp )
 		{
@@ -1776,16 +1774,12 @@ gboolean change_passera_euro ( GtkWidget *bouton,
 
 	if ( devise -> no_devise > devise -> no_devise_en_rapport )
 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devises ),
-					  g_slist_position ( liste_struct_devises,
-							     g_slist_find_custom ( liste_struct_devises,
-										   GINT_TO_POINTER ( devise -> no_devise_en_rapport ),
-										   ( GCompareFunc ) recherche_devise_par_no )) + 1);
+					  g_slist_index ( liste_struct_devises,
+							  devise_par_no ( devise -> no_devise_en_rapport )) + 1 );
 	else
 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devises ),
-					  g_slist_position ( liste_struct_devises,
-							     g_slist_find_custom ( liste_struct_devises,
-										   GINT_TO_POINTER ( devise -> no_devise_en_rapport ),
-										   ( GCompareFunc ) recherche_devise_par_no ))  );
+					  g_slist_index ( liste_struct_devises,
+							  devise_par_no ( devise -> no_devise_en_rapport )));
 
 	g_signal_handlers_unblock_by_func ( G_OBJECT(option_menu_devises),
 					    G_CALLBACK (changement_devise_associee), 
@@ -2066,18 +2060,14 @@ gdouble calcule_montant_devise_renvoi ( gdouble montant_init,
     if ( !devise_compte
 	 ||
 	 devise_compte -> no_devise != no_devise_renvoi )
-	devise_compte = g_slist_find_custom ( liste_struct_devises,
-					      GINT_TO_POINTER ( no_devise_renvoi ),
-					      ( GCompareFunc ) recherche_devise_par_no) -> data;
+	devise_compte = devise_par_no ( no_devise_renvoi );
 
     /* rÃ©cupÃ¨re la devise de l'opÃ©ration si nÃ©cessaire */
 
     if ( !devise_operation
 	 ||
 	 devise_operation -> no_devise != no_devise_montant )
-	devise_operation = g_slist_find_custom ( liste_struct_devises,
-						 GINT_TO_POINTER ( no_devise_montant ),
-						 ( GCompareFunc ) recherche_devise_par_no) -> data;
+	devise_operation = devise_par_no ( no_devise_montant );
 
     /* on a maintenant les 2 devises, on peut faire les calculs */
 
@@ -2099,44 +2089,6 @@ gdouble calcule_montant_devise_renvoi ( gdouble montant_init,
     montant = ( rint (montant * 100 )) / 100;
 
     return ( montant);
-}
-
-
-/**
- * Return either currency's name or currency's ISO4217 nickname if no
- * name is found.
- *
- * \param devise A pointer to a struct_devise holding currency
- * informations.
- *
- * \return name or ISO4217 name of currency.
- */
-gchar * devise_name ( struct struct_devise * devise )
-{
-    if (devise -> code_devise && (strlen(devise -> code_devise) > 0))
-	return devise -> code_devise;
-
-    return devise -> code_iso4217_devise;
-}
-
-
-
-
-/* renvoie le nom de la devise correspondante au no */
-/* ou null si pas trouvée */
-
-gchar * devise_name_by_no ( gint no_devise )
-{
-    GSList *liste_tmp;
-
-    liste_tmp = g_slist_find_custom ( liste_struct_devises,
-				      GINT_TO_POINTER ( DEVISE ),
-				      (GCompareFunc) recherche_devise_par_no );
-
-    if ( liste_tmp )
-	return ( devise_name ( liste_tmp -> data ));
-    else
-	return NULL;
 }
 
 
@@ -2202,3 +2154,105 @@ gboolean is_euro ( struct struct_devise * currency )
 {
     return (gboolean) !strcmp ( currency -> nom_devise, _("Euro"));
 }
+
+
+
+/* ***************************************************************************************** */
+/* renvoie la devise correspondant au no */
+/* renvoie NULL si pas trouvée */
+/* ***************************************************************************************** */
+struct struct_devise *devise_par_no ( gint no_devise )
+{
+    GSList *liste_tmp;
+
+    liste_tmp = g_slist_find_custom ( liste_struct_devises,
+				      GINT_TO_POINTER ( no_devise ),
+				      (GCompareFunc) recherche_devise_par_no );
+
+    if ( liste_tmp )
+	return ( liste_tmp -> data );
+ 
+    return NULL;
+}
+/* ***************************************************************************************** */
+
+
+
+/* ***************************************************************************************** */
+/* renvoie la devise correspondant au nom */
+/* renvoie NULL si pas trouvée */
+/* ***************************************************************************************** */
+struct struct_devise *devise_par_nom ( gchar *nom_devise )
+{
+    GSList *liste_tmp;
+
+    liste_tmp = g_slist_find_custom ( liste_struct_devises,
+				      g_strstrip ( nom_devise ),
+				      (GCompareFunc) recherche_devise_par_nom );
+
+    if ( liste_tmp )
+	return ( liste_tmp -> data );
+ 
+    return NULL;
+}
+/* ***************************************************************************************** */
+
+
+
+/* ***************************************************************************************** */
+/* renvoie la devise correspondant au code iso */
+/* renvoie NULL si pas trouvée */
+/* ***************************************************************************************** */
+struct struct_devise *devise_par_code_iso ( gchar *code_iso )
+{
+    GSList *liste_tmp;
+
+    liste_tmp = g_slist_find_custom ( liste_struct_devises,
+				      g_strstrip ( code_iso ),
+				      (GCompareFunc) recherche_devise_par_code_iso );
+
+    if ( liste_tmp )
+	return ( liste_tmp -> data );
+ 
+    return NULL;
+}
+/* ***************************************************************************************** */
+
+
+
+/**
+ * Return either currency's name or currency's ISO4217 nickname if no
+ * name is found.
+ *
+ * \param devise A pointer to a struct_devise holding currency
+ * informations.
+ *
+ * \return name or ISO4217 name of currency.
+ * or NULL if devise is NULL
+ */
+gchar * devise_name ( struct struct_devise * devise )
+{
+    if ( devise )
+    {
+	if ( devise -> code_devise && (strlen(devise -> code_devise) > 0))
+	    return devise -> code_devise;
+
+	return devise -> code_iso4217_devise;
+    }
+    return NULL;
+}
+
+
+
+
+/* ***************************************************************************************** */
+/* renvoie le nom de la devise correspondante au no */
+/* ou null si pas trouvée */
+/* ***************************************************************************************** */
+
+gchar * devise_name_by_no ( gint no_devise )
+{
+    return ( devise_name ( devise_par_no ( no_devise )));
+}
+/* ***************************************************************************************** */
+
