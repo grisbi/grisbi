@@ -189,7 +189,7 @@ gboolean charge_operations ( void )
 	       g_strcasecmp ( root->name,
 			      "Grisbi" ))
 	    {
-	      dialogue ( _("Invalid accounts file") );
+	      dialogue_error ( _("Invalid accounts file") );
 	      xmlFreeDoc ( doc );
 	      return ( FALSE );
 	    }
@@ -219,7 +219,7 @@ gboolean charge_operations ( void )
 	  /* la version nécessaire pour l'ouvrir */
 
 
-	  dialogue ( g_strdup_printf ( _("Grisbi version %s is needed to open this file"),
+	  dialogue_error ( g_strdup_printf ( _("Grisbi version %s is needed to open this file"),
 				       xmlNodeGetContent ( root->children->children->next )));
 
 	  xmlFreeDoc ( doc );
@@ -227,14 +227,14 @@ gboolean charge_operations ( void )
 	  return ( FALSE );
 	}
 
-      dialogue ( _("Invalid accounts file") );
+      dialogue_error ( _("Invalid accounts file") );
       remove_file_from_last_opened_files_list ( nom_fichier_comptes );
       return ( FALSE );
     }
   else
     {
       remove_file_from_last_opened_files_list ( nom_fichier_comptes );
-      dialogue (g_strdup_printf (_("Cannot open file %s: %s"), nom_fichier_comptes,
+      dialogue_error (g_strdup_printf (_("Cannot open file '%s': %s"), nom_fichier_comptes,
 				   latin2utf8 (strerror(errno))));
       return FALSE;
     }
@@ -268,7 +268,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
   system ( g_strdup_printf ( "cp %s %s",
 			     nom_fichier_comptes,
 			     nom_sauvegarde ));
-  dialogue ( g_strdup_printf ( _("Warning: Grisbi data format has changed. Grisbi made a backup of your file\nnamed %s. \nKeep it for a while just in case."),
+  dialogue ( g_strdup_printf ( _("Warning: Grisbi data format has changed. Grisbi made a backup under '%s'.\nKeep it for a while just in case."),
 			       nom_sauvegarde ));
 
   /* on place node_1 sur les généralités */
@@ -8496,7 +8496,7 @@ gboolean enregistre_fichier ( gboolean force )
 
   if ( resultat == -1 )
     {
-      dialogue ( g_strdup_printf ( _("Error saving file '%s': %s"),
+      dialogue_error ( g_strdup_printf ( _("Cannot save file '%s': %s"),
 				   nom_fichier_comptes, latin2utf8(strerror(errno)) ));
       return ( FALSE );
     }
@@ -8573,10 +8573,9 @@ void fichier_marque_ouvert ( gint ouvert )
 
   if (!(pointeur_fichier_comptes = fopen ( nom_fichier_comptes, "r+")) )
     {
-      dialogue ( g_strconcat ( _("Error opening and locking file.\n"),
-			       /* FIXME: oooh, serious braindammage expected there */
-			       latin2utf8 (strerror (errno)), 
-			       NULL ));
+      dialogue_error ( g_strdup_printf ( _("Cannot lock file '%s': %s"),
+			       nom_fichier_comptes,
+			       latin2utf8 (strerror (errno)) ));
       return;
     }
 
@@ -8748,7 +8747,7 @@ gboolean enregistre_categ ( gchar *nom_categ )
 
   if ( resultat == -1 )
     {
-      dialogue ( g_strdup_printf ( _("Error saving the file: %s\n\nError:\n%s"),
+      dialogue_error ( g_strdup_printf ( _("Cannot save file '%s': %s"),
 				   nom_categ,
 				   latin2utf8 (strerror ( errno ) )));
       return ( FALSE );
@@ -8780,7 +8779,7 @@ gboolean charge_categ ( gchar *nom_categ )
 	   g_strcasecmp ( doc->children->name,
 			  "Grisbi_categ" ))
 	{
-	  dialogue ( _("This file is not a Grisbi category list file") );
+	  dialogue_error ( _("This file is not a Grisbi category list file") );
 	  xmlFreeDoc ( doc );
 	  return ( FALSE );
 	}
@@ -8794,7 +8793,7 @@ gboolean charge_categ ( gchar *nom_categ )
       /* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
       /* la version nécessaire pour l'ouvrir */
 
-      dialogue ( g_strdup_printf ( _("Grisbi version %s is needed to open this file"),
+      dialogue_error ( g_strdup_printf ( _("Grisbi version %s is needed to open this file"),
 				   xmlNodeGetContent ( doc->children->children->children->next )));
 
       xmlFreeDoc ( doc );
@@ -8803,7 +8802,7 @@ gboolean charge_categ ( gchar *nom_categ )
     }
   else
     {
-      dialogue ( _("Invalid categories file") );
+      dialogue_error ( _("Invalid categories file") );
       return ( FALSE );
     }
 }
@@ -9100,9 +9099,8 @@ gboolean enregistre_ib ( gchar *nom_ib )
 
   if ( resultat == -1 )
     {
-      dialogue ( g_strconcat ( _("Error saving the file: %s\n\nError:\n"),
-			       nom_ib, latin2utf8 (strerror ( errno )),
-			       NULL ));
+      dialogue_error ( g_strconcat ( _("Cannot save file '%s': %s"),
+			       nom_ib, latin2utf8 (strerror ( errno )) ));
       return ( FALSE );
     }
 
@@ -9132,7 +9130,7 @@ gboolean charge_ib ( gchar *nom_ib )
 	   g_strcasecmp ( doc->children->name,
 			  "Grisbi_ib" ))
 	{
-	  dialogue ( _("This file is not a grisbi budgetary lines file") );
+	  dialogue_error ( _("This file is not a grisbi budgetary lines file") );
 	  xmlFreeDoc ( doc );
 	  return ( FALSE );
 	}
@@ -9146,7 +9144,7 @@ gboolean charge_ib ( gchar *nom_ib )
       /* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
       /* la version nécessaire pour l'ouvrir */
 
-      dialogue ( g_strdup_printf ( _("Grisbi version %s is needed to open this file"),
+      dialogue_error ( g_strdup_printf ( _("Grisbi version %s is needed to open this file"),
 				   xmlNodeGetContent ( doc->children->children->children->next )));
 
       xmlFreeDoc ( doc );
@@ -9155,7 +9153,7 @@ gboolean charge_ib ( gchar *nom_ib )
     }
   else
     {
-      dialogue ( _("Invalid budgetary lines file") );
+      dialogue_error ( _("Invalid budgetary lines file") );
       return ( FALSE );
     }
 }
