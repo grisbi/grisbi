@@ -169,6 +169,7 @@ gchar* win32_get_grisbirc_folder_path()  /* {{{ */
     if ((current_version == WIN95)||(current_version == WINNT4))
     {
         g_strlcpy(grisbirc_path,win32_get_windows_folder_path(),MAX_PATH+1);
+        g_strlcat (grisbirc_path,"\\",MAX_PATH+1);        
     } 
     else
     {
