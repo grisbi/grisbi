@@ -54,7 +54,7 @@ EXE       = $(BUILDDIR)/grisbi.exe
 # Commands parameters
 # --------------------------------------------------------------------------
 INCS      = -I"../win32"  -I"../src"  -I"$(GCCBASEDIR)/include" -I"$(GTKDEVDIR)/include"  -I"$(GTKDEVDIR)/include/atk-1.0"  -I"$(GTKDEVDIR)/lib/glib-2.0/include"  -I"$(GTKDEVDIR)/include/glib-2.0"  -I"$(GTKDEVDIR)/lib/gtk-2.0/include"  -I"$(GTKDEVDIR)/include/gtk-2.0"  -I"$(GTKDEVDIR)/include/libiconv-1.9.1"  -I"$(GTKDEVDIR)/include/pango-1.0"  -I"$(GTKDEVDIR)/include/libxml2-2.4.12" 
-CFLAGS    = $(INCS) -D _WIN32 -D _NO_OLDNAMES -mms-bitfields -g -D _WIN32_IE=0x0400 -D NOOFX 
+CFLAGS    = -Wall $(INCS) -D _WIN32 -D _NO_OLDNAMES -mms-bitfields -g -D _WIN32_IE=0x0400 -D NOOFX 
 
 LIBS      =  $(GTKDEVDIR)/lib/asprintf.lib \
 	     $(GTKDEVDIR)/lib/atk-1.0.lib \
