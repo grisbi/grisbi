@@ -56,11 +56,6 @@ GtkWidget *creation_fenetre_operations ( void )
 		       0);
   gtk_widget_show ( barre_outils );
 
-/* rafraichit la fenetre d'attente */
-
-  if ( patience_en_cours )
-  while ( g_main_iteration ( FALSE ) );
-
   /* création du notebook des opé */
 
   notebook_listes_operations = initialisation_notebook_operations ();
@@ -246,13 +241,10 @@ void creation_listes_operations ( void )
       gchar *titres_liste [] = { _("Chèque"), _("Date "),
 				 _("Tiers,Catégories, I.B., Notes "),
 				 _("R "), _("Débit"), _("Crédit "), _("Solde ") };
+      gint j;
 
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
-      /* rafraichit la fenetre d'attente */
-
-      if ( patience_en_cours )
-	while ( g_main_iteration ( FALSE ) );
 
       /*  Création de la scrolled window qui contient la clist */
       
@@ -286,11 +278,6 @@ void creation_listes_operations ( void )
       gtk_container_add ( GTK_CONTAINER ( onglet ),
 			  liste );
       gtk_widget_show ( liste );
-
-      if ( TYPE_DE_COMPTE == 1 )
-	gtk_clist_set_column_visibility ( GTK_CLIST ( liste ),
-					  0,
-					  FALSE );
 
       /* on permet la sélection de plusieurs lignes */
 
@@ -329,28 +316,10 @@ void creation_listes_operations ( void )
 					   6,
 					   GTK_JUSTIFY_RIGHT);
 
-
-      gtk_clist_set_column_resizeable ( GTK_CLIST ( liste ),
-					0,
-					FALSE );
-      gtk_clist_set_column_resizeable ( GTK_CLIST ( liste ),
-					1,
-					FALSE );
-      gtk_clist_set_column_resizeable ( GTK_CLIST ( liste ),
-					2,
-					FALSE );
-      gtk_clist_set_column_resizeable ( GTK_CLIST ( liste ),
-					3,
-					FALSE );
-      gtk_clist_set_column_resizeable ( GTK_CLIST ( liste ),
-					4,
-					FALSE );
-      gtk_clist_set_column_resizeable ( GTK_CLIST ( liste ),
-					5,
-					FALSE );
-      gtk_clist_set_column_resizeable ( GTK_CLIST ( liste ),
-					6,
-					FALSE );
+      for ( j=0 ; j<7 ; j++ )
+	gtk_clist_set_column_resizeable ( GTK_CLIST ( liste ),
+					  j,
+					  !etat.largeur_auto_colonnes );
 
        /* vérifie le simple ou double click */
 
@@ -387,8 +356,8 @@ void creation_listes_operations ( void )
 
       /*   par défaut, le classement de la liste s'effectue par date */
 
-      gtk_clist_set_compare_func ( GTK_CLIST ( liste ),
-				   (GtkCListCompareFunc) classement_liste_par_date );
+/*       gtk_clist_set_compare_func ( GTK_CLIST ( liste ), */
+/* 				   (GtkCListCompareFunc) classement_liste_par_date ); */
 
       remplissage_liste_operations ( i );
     }
@@ -455,12 +424,6 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 		      liste );
   gtk_widget_show ( liste );
 
-  if ( TYPE_DE_COMPTE == 1 )
-    gtk_clist_set_column_visibility ( GTK_CLIST ( liste ),
-				      0,
-				      FALSE );
-
-
   /* on permet la sélection de plusieurs lignes */
 
   gtk_clist_set_selection_mode ( GTK_CLIST ( liste ),
@@ -522,6 +485,13 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 		       GTK_SIGNAL_FUNC (fin_ctrl),
 		       NULL );
 
+  /* sauvegarde les redimensionnement des colonnes */
+
+  gtk_signal_connect ( GTK_OBJECT (liste),
+		       "resize_column",
+		       GTK_SIGNAL_FUNC (changement_taille_colonne),
+		       NULL );
+
 
   /* on ajoute l'onglet au notebook des comptes */
 
@@ -529,8 +499,8 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 
   /*   par défaut, le classement de la liste s'effectue par date */
 
-  gtk_clist_set_compare_func ( GTK_CLIST ( liste ),
-			       (GtkCListCompareFunc) classement_liste_par_date );
+  LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
+				    (GCompareFunc) classement_sliste_par_date );
 
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
@@ -577,17 +547,11 @@ void onglet_compte_realize ( GtkWidget *onglet,
 void remplissage_liste_operations ( gint compte )
 {
   GSList *liste_operations_tmp;
-  gdouble solde_courant;
-  gdouble solde_pointe;
   gint couleur_en_cours;
-  gchar *ligne1 [7];
-  gchar *ligne2 [7];
-  gchar *ligne3 [7];
-  gchar *ligne4 [7];
-  gint i;
+  gchar *ligne_clist[4][7];
+  gint i, j;
   gint ligne;
-  struct struct_devise *devise_compte;
-  struct struct_devise *devise_operation;
+  gdouble montant;
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
 
@@ -600,118 +564,27 @@ void remplissage_liste_operations ( gint compte )
   gtk_clist_clear ( GTK_CLIST ( CLIST_OPERATIONS ));
 
 
-  /* met les titres des colonnes appropriés aux nb de lignes affichés */
-
-  if ( nb_lignes_ope == 1 )
-    {
-      gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
-				   1,
-				   _("Date") );
-      gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
-				   2,
-				   _("Tiers") );
-      gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
-				   3,
-				   _("R") );
-    }
-  else
-    {
-      if ( nb_lignes_ope == 3 )
-	{
-	  gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
-				       1,
-				       _("Dates") );
-	  gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
-				       2,
-				       _("Tiers, Catégories, Notes") );
-	  gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
-				       4,
-				       _("Débit, Type, N° virement") );
-	}
-      else
-	{
-	  gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
-				       1,
-				       _("Dates / Exercice") );
-	  gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
-				       2,
-				       _("Tiers, Catégories, I.B., Notes") );
-	  gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
-				       4,
-				       _("Débit, Type, N° virement, PC") );
-	}
-    }
-
   /* récupère l'adr de la devise du compte */
 
-  devise_compte = g_slist_find_custom ( liste_struct_devises,
-					GINT_TO_POINTER ( DEVISE ),
-					( GCompareFunc ) recherche_devise_par_no) -> data;
+  devise_compte_affichage_liste = g_slist_find_custom ( liste_struct_devises,
+							GINT_TO_POINTER ( DEVISE ),
+							( GCompareFunc ) recherche_devise_par_no) -> data;
+
+  /*   au départ, la devise_operation est NULL */
+
+  devise_operation_affichage_liste = NULL;
 
 
-  /*   si les opérations R ne sont pas affichées, on fait une première fois le tour des opés */
-  /* en modifiant juste les solde par les opés relevées */
+  /*   au départ, les soldes courant et pointé sont = au solde init */
 
-  solde_courant = SOLDE_INIT;
-
-  if ( !etat.r_affiches )
-    {
-      liste_operations_tmp = LISTE_OPERATIONS;
-
-      while ( liste_operations_tmp )
-	{
-	  struct structure_operation *operation;
-
-	  operation = liste_operations_tmp -> data;
-
-	  /* si c'est une opé de ventilation, on la saute */
-
-	  if ( !operation -> no_operation_ventilee_associee )
-	    {
-	      /* calcul du solde courant */
-
-	      if ( operation -> pointe == 2 )
-		{
-		  gdouble montant;
-
-		  if ( operation -> devise == DEVISE )
-		    montant = operation -> montant;
-		  else
-		    {
-		      /* ce n'est pas la devise du compte, si le compte passe à l'euro et que la devise est l'euro, utilise la conversion du compte, */
-		      /* si c'est une devise qui passe à l'euro et que la devise du compte est l'euro, utilise la conversion du compte */
-		      /* sinon utilise la conversion stockée dans l'opé */
-
-		      devise_operation = g_slist_find_custom ( liste_struct_devises,
-							       GINT_TO_POINTER ( operation -> devise ),
-							       ( GCompareFunc ) recherche_devise_par_no ) -> data;
-
-		      if ( devise_compte -> passage_euro
-			   &&
-			   !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
-			montant = operation -> montant * devise_compte -> change;
-		      else
-			if ( devise_operation -> passage_euro
-			     &&
-			     !strcmp ( devise_compte -> nom_devise, _("Euro") ))
-			  montant = operation -> montant / devise_operation -> change;
-			else
-			  if ( operation -> une_devise_compte_egale_x_devise_ope )
-			    montant = operation -> montant / operation -> taux_change - operation -> frais_change;
-			  else
-			    montant = operation -> montant * operation -> taux_change - operation -> frais_change;
-
-		      montant = ( rint (montant * 100 )) / 100;
-		    }
-		  solde_courant = solde_courant + montant;
-		}
-	    }
-	  liste_operations_tmp = liste_operations_tmp -> next;
-	}
-    }
+  solde_courant_affichage_liste = SOLDE_INIT;
+  solde_pointe_affichage_liste = SOLDE_INIT;
+  couleur_en_cours = 0;
 
 
-  /* on commence la boucle : fait le tour de toutes les opérations et les affiche dans la clist */
+  /* on commence la boucle : fait le tour de toutes les opérations */
+  /* met à jour les solde_courant_affichage_liste et solde_pointe_affichage_liste */
+  /* affiche l'opération à l'écran en fonction de l'affichage de R */
 
   liste_operations_tmp = LISTE_OPERATIONS;
 
@@ -719,405 +592,36 @@ void remplissage_liste_operations ( gint compte )
     {
       struct structure_operation *operation;
 
-      /* rafraichit la fenetre d'attente */
-
-      if ( patience_en_cours )
-	while ( g_main_iteration ( FALSE ) );
-
       operation = liste_operations_tmp -> data;
 
       /* si c'est une opé de ventilation, on la saute */
 
       if ( !operation -> no_operation_ventilee_associee )
 	{
+	  /* quelle que soit l'opération (relevée ou non), on calcule les soldes courant */
  
-	  /* si l'opération est relevée et qu'on ne désire pas les afficher, on passe la suite  */
-
-	  if ( etat.r_affiches || operation -> pointe != 2 )
-	    {
-	      /* on affiche l'opération */
-	      /* création des lignes */
-
-	      gchar date [11];
-	      gchar date_bancaire [11];
-	      GSList *liste_tmp;
-
-
-	      devise_operation = g_slist_find_custom ( liste_struct_devises,
-						       GINT_TO_POINTER ( operation -> devise ),
-						       ( GCompareFunc ) recherche_devise_par_no ) -> data;
-
-
-	      /* on met à NULL tout les pointeurs */
-
-	      for ( i = 0 ; i < 7 ; i++ )
-		{
-		  ligne1 [i] = NULL;
-		  ligne2 [i] = NULL;
-		  ligne3 [i] = NULL;
-		  ligne4 [i] = NULL;
-		}
-
-	      /* mise en forme de la date */
-
-	      g_date_strftime (  date,
-				 11,
-				 "%d/%m/%Y",
-				 operation -> date);
-	      ligne1 [1] = date;
-
-	      /* mise en forme du tiers */
-
-	      if ( operation -> tiers )
-		{
-		  liste_tmp = g_slist_find_custom ( liste_struct_tiers,
-						    GINT_TO_POINTER ( operation -> tiers ),
-						    ( GCompareFunc ) recherche_tiers_par_no );
-
-		  ligne1 [2] = (( struct struct_tiers * )( liste_tmp -> data )) -> nom_tiers;
-		}
-
-	      /* 	  mise en forme de pointé, relevé */
-
-	      if ( operation -> pointe == 1 )
-		ligne1 [3] = "P";
-	      else
-		if ( operation -> pointe == 2 )
-		  ligne1 [3] = "R";
-
-
-	      /* mise en forme du débit / crédit */
-
-	      if ( operation -> montant < 0 )
-		{
-		  ligne1 [4] = g_strdup_printf ( "%4.2f", -operation -> montant );
-		  if ( devise_operation -> no_devise != DEVISE )
-		    ligne1 [4] = g_strconcat ( ligne1 [4],
-					       "(",
-					       devise_operation -> code_devise,
-					       ")",
-					       NULL );
-		}
-	      else
-		{
-		  ligne1 [5] = g_strdup_printf ( "%4.2f", operation -> montant );
-		  if ( devise_operation -> no_devise != DEVISE )
-		    ligne1 [5] = g_strconcat ( ligne1 [5],
-					       "(",
-					       devise_operation -> code_devise,
-					       ")",
-					       NULL );
-		}
-
-
-
-	      /* 	  mise en forme du type */
-
-	      if ( operation -> type_ope && TYPES_OPES )
-		{
-		  liste_tmp = g_slist_find_custom ( TYPES_OPES,
-						    GINT_TO_POINTER ( operation -> type_ope ),
-						    (GCompareFunc) recherche_type_ope_par_no );
-
-		  /* on affiche le type que s'il existe */
-
-		  if ( liste_tmp )
-		    {
-		      struct struct_type_ope *type;
-		  
-		      type = liste_tmp -> data;
-
-
-		      if ( nb_lignes_ope != 1 )
-			ligne2 [4] = type -> nom_type;
-
-		      /* si c'est un chèque, on le met devant à gauche */
-
-		      if ( operation -> contenu_type )
-			{
-			  if ( type -> numerotation_auto )
-			    ligne1[0] = operation -> contenu_type;
-			  else
-			    if ( nb_lignes_ope != 1 )
-			      ligne3[4] = g_strconcat ( "(",
-							operation -> contenu_type,
-							")",
-							NULL );
-			}
-		    }
-		}
-
-
-	      /* 	  à ce niveau, on ne continue que si on veut afficher 3 lignes */
-
-	      if ( nb_lignes_ope != 1 )
-		{
-
-		  /* mise en forme de la date de valeur */
-
-		  if ( operation -> date_bancaire
-		       &&
-		       etat.affiche_date_bancaire )
-		    {
-		      g_date_strftime (  date_bancaire,
-					 11,
-					 "%d/%m/%Y",
-					 operation -> date_bancaire);
-		      ligne2 [1] = date_bancaire;
-		    }
-
-		  /* mise en forme des catégories */
-
-		  liste_tmp = g_slist_find_custom ( liste_struct_categories,
-						    GINT_TO_POINTER ( operation -> categorie ),
-						    ( GCompareFunc ) recherche_categorie_par_no );
-
-		  if ( liste_tmp )
-		    {
-		      GSList *liste_tmp_2;
-
-		      liste_tmp_2 = g_slist_find_custom ( (( struct struct_categ * )( liste_tmp -> data )) -> liste_sous_categ,
-							  GINT_TO_POINTER ( operation -> sous_categorie ),
-							  ( GCompareFunc ) recherche_sous_categorie_par_no );
-		      if ( liste_tmp_2 )
-			ligne2 [2] = g_strconcat ( (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ,
-						   " : ",
-						   (( struct struct_sous_categ * )( liste_tmp_2 -> data )) -> nom_sous_categ,
-						   NULL );
-		      else
-			ligne2 [2] = (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ;
-
-		    }
-
-		  /* si l'opération est liée, marque le virement */
-
-		  if ( operation -> relation_no_operation )
-		    {
-		      gpointer **save_ptab;
-
-		      if ( operation -> relation_no_compte == -1 )
-			{
-			  if ( operation -> montant < 0 )
-			    ligne2 [2] = _("Virement vers un compte supprimé");
-			  else
-			    ligne2 [2] = _("Virement d'un compte supprimé");
-			}
-		      else
-			{
-			  save_ptab = p_tab_nom_de_compte_variable;
-			  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
-
-			  if ( operation -> montant < 0 )
-			    ligne2 [2] = g_strconcat ( _("Virement vers "),
-						       NOM_DU_COMPTE,
-						       NULL );
-			  else
-			    ligne2 [2] = g_strconcat ( _("Virement de "),
-						       NOM_DU_COMPTE,
-						       NULL );
-
-			  p_tab_nom_de_compte_variable = save_ptab;
-			}
-		    }
-
-
-		  /* si l'opération est ventilée */
-
-		  if ( operation -> operation_ventilee )
-		    ligne2 [2] = _("Opération ventilée");
-
-
-		  /*  si on affiche 4 lignes, on met l'exercice, l'ib et la pièce comptable en plus */
-
-		  if ( nb_lignes_ope == 4 )
-		    {
-
-		      /* met l'exercice */
-
-		      if ( operation -> no_exercice )
-			{
-			  struct struct_exercice *exercice;
-
-			  exercice = g_slist_find_custom ( liste_struct_exercices,
-							   GINT_TO_POINTER ( operation -> no_exercice ),
-							   (GCompareFunc) recherche_exercice_par_no ) -> data;
-
-			  ligne3 [1] = exercice -> nom_exercice;
-			}
-
-		      /* met l'imputation */
-
-		      liste_tmp = g_slist_find_custom ( liste_struct_imputation,
-							GINT_TO_POINTER ( operation -> imputation ),
-							( GCompareFunc ) recherche_imputation_par_no );
-
-		      if ( liste_tmp )
-			{
-			  GSList *liste_tmp_2;
-
-			  liste_tmp_2 = g_slist_find_custom ( (( struct struct_categ * )( liste_tmp -> data )) -> liste_sous_categ,
-							      GINT_TO_POINTER ( operation -> sous_imputation ),
-							      ( GCompareFunc ) recherche_sous_imputation_par_no );
-			  if ( liste_tmp_2 )
-			    ligne3 [2] = g_strconcat ( (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ,
-						       " : ",
-						       (( struct struct_sous_categ * )( liste_tmp_2 -> data )) -> nom_sous_categ,
-						       NULL );
-			  else
-			    ligne3 [2] = (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ;
-			}
-
-		      /* met la piece comptable */
-
-		      if ( operation -> no_piece_comptable )
-			ligne4 [4] = operation -> no_piece_comptable;
-
-		      /* met les notes */
-
-		      ligne4 [2] = operation -> notes;
-		    }
-		  else
-		    /* mise en forme des notes */
-	      
-		    ligne3 [2] = operation -> notes;
-		}
-
-
-	      /* 	  on va maintenant afficher la ou les lignes */
-	  
-
-	      ligne = gtk_clist_append ( GTK_CLIST ( CLIST_OPERATIONS ),
-					 ligne1 );
-	      /* on associe à cette ligne l'adr de la struct de l'opé */
-
-	      gtk_clist_set_row_data ( GTK_CLIST (CLIST_OPERATIONS),
-				       ligne,
-				       operation);
-	      if ( nb_lignes_ope != 1 )
-		{
-		  ligne = gtk_clist_append ( GTK_CLIST ( CLIST_OPERATIONS ),
-					     ligne2);
-		  gtk_clist_set_row_data ( GTK_CLIST (CLIST_OPERATIONS),
-					   ligne,
-					   operation);
-
-		  ligne = gtk_clist_append ( GTK_CLIST ( CLIST_OPERATIONS ),
-					     ligne3);
-		  gtk_clist_set_row_data ( GTK_CLIST (CLIST_OPERATIONS),
-					   ligne,
-					   operation);
-
-		  if ( nb_lignes_ope == 4 )
-		    {
-		      ligne = gtk_clist_append ( GTK_CLIST ( CLIST_OPERATIONS ),
-						 ligne4 );
-		      gtk_clist_set_row_data ( GTK_CLIST (CLIST_OPERATIONS),
-					       ligne,
-					       operation);
-		    }
-		}
-
-	    }
-	}
-      liste_operations_tmp = liste_operations_tmp -> next;
-    }
-
-
-  /* affiche la ligne blanche du bas */
-
-  /* on met à NULL tout les pointeurs */
-
-  for ( i = 0 ; i < 7 ; i++ )
-    ligne1 [i] = NULL;
-
-
-  /* 	  on va maintenant afficher la ou les lignes */
-
-  ligne = gtk_clist_append ( GTK_CLIST ( CLIST_OPERATIONS ),
-			     ligne1 );
-
-  /* on associe à cette ligne à -1 */
-
-  gtk_clist_set_row_data ( GTK_CLIST (CLIST_OPERATIONS),
-			   ligne,
-			   GINT_TO_POINTER ( -1 ));
-
-  if ( nb_lignes_ope != 1 )
-    {
-      ligne = gtk_clist_append ( GTK_CLIST ( CLIST_OPERATIONS ),
-				 ligne1);
-      gtk_clist_set_row_data ( GTK_CLIST (CLIST_OPERATIONS),
-			       ligne,
-			       GINT_TO_POINTER ( -1 ));
-      ligne = gtk_clist_append ( GTK_CLIST ( CLIST_OPERATIONS ),
-				 ligne1);
-      gtk_clist_set_row_data ( GTK_CLIST (CLIST_OPERATIONS),
-			       ligne,
-			       GINT_TO_POINTER ( -1 ));
-
-      if ( nb_lignes_ope == 4 )
-	{
-	  ligne = gtk_clist_append ( GTK_CLIST ( CLIST_OPERATIONS ),
-				     ligne1);
-	  gtk_clist_set_row_data ( GTK_CLIST (CLIST_OPERATIONS),
-				   ligne,
-				   GINT_TO_POINTER ( -1 ));
-	}
-    }
-
-
-
-  /* classe la liste selon le classement en cours */
-
-  gtk_clist_sort ( GTK_CLIST ( CLIST_OPERATIONS ));
-
-
-  /* calcul du solde de chaque ligne et on met les couleurs alternées du fond et le solde en rouge si necessaire */
-
-  couleur_en_cours = 0;
-
-  /* il y aura maintenant une différence entre les soldes pointés et courant */
-
-  solde_pointe = solde_courant;
-
-  for ( ligne = 0 ; ligne < GTK_CLIST (CLIST_OPERATIONS) -> rows ; ligne++ )
-    {
-      struct structure_operation *operation;
-
-      /* rafraichit la fenetre d'attente */
-
-      if ( patience_en_cours )
-	while ( g_main_iteration ( FALSE ) );
-
-      operation = gtk_clist_get_row_data ( GTK_CLIST (CLIST_OPERATIONS),
-					   ligne );
-
-      devise_operation = NULL;
-
-      if ( operation != GINT_TO_POINTER ( -1 ) )
-	{
-	  gdouble montant;
-
 	  if ( operation -> devise == DEVISE )
 	    montant = operation -> montant;
 	  else
 	    {
-	      /* ce n'est pas la devise du compte, si le compte passe à l'euro et que la devise est l'euro, utilise la conversion du compte, */
-	      /* sinon utilise la conversion stockée dans l'opé */
+	      /* calcule le montant de l'opération dans la devise du compte */
 
-	      devise_operation = g_slist_find_custom ( liste_struct_devises,
-						       GINT_TO_POINTER ( operation -> devise ),
-						       ( GCompareFunc ) recherche_devise_par_no ) -> data;
+	      if ( !devise_operation_affichage_liste
+		   ||
+		   devise_operation_affichage_liste -> no_devise != operation -> devise )
+		devise_operation_affichage_liste = g_slist_find_custom ( liste_struct_devises,
+									 GINT_TO_POINTER ( operation -> devise ),
+									 ( GCompareFunc ) recherche_devise_par_no ) -> data;
 
-	      if ( devise_compte -> passage_euro
+	      if ( devise_compte_affichage_liste -> passage_euro
 		   &&
-		   !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
-		montant = operation -> montant * devise_compte -> change;
+		   !strcmp ( devise_operation_affichage_liste -> nom_devise, _("Euro") ) )
+		montant = operation -> montant * devise_compte_affichage_liste -> change;
 	      else
-		if ( devise_operation -> passage_euro
+		if ( devise_operation_affichage_liste -> passage_euro
 		     &&
-		     !strcmp ( devise_compte -> nom_devise, _("Euro") ))
-		  montant = operation -> montant / devise_operation -> change;
+		     !strcmp ( devise_compte_affichage_liste -> nom_devise, _("Euro") ))
+		  montant = operation -> montant / devise_operation_affichage_liste -> change;
 		else
 		  if ( operation -> une_devise_compte_egale_x_devise_ope )
 		    montant = operation -> montant / operation -> taux_change - operation -> frais_change;
@@ -1127,59 +631,106 @@ void remplissage_liste_operations ( gint compte )
 	      montant = ( rint (montant * 100 )) / 100;
 	    }
 
-	  solde_courant = solde_courant + montant;
+	  /*   dans tous les cas, on ajoute ce montant au solde courant */
+ 
+	  solde_courant_affichage_liste = solde_courant_affichage_liste + montant;
+
+	  /* si l'opé est pointée ou relevée, on ajoute ce montant au solde pointé */
 
 	  if ( operation -> pointe )
-	    solde_pointe = solde_pointe + montant;
+	    solde_pointe_affichage_liste = solde_pointe_affichage_liste + montant;
 
-	  gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
-			       ligne,
-			       6,
-			       g_strdup_printf ( "%4.2f",
-						 solde_courant ));
-	  if ( nb_lignes_ope != 1 && devise_operation )
-	    gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
-				 ligne + 1,
-				 4,
-				 g_strdup_printf ( "(%4.2f %s)",
-						   montant,
-						   devise_compte -> code_devise ));
+
+	  /* si l'opération est relevée et qu'on ne désire pas les afficher, on passe la suite  */
+
+	  if ( etat.r_affiches || operation -> pointe != 2 )
+	    {
+	      /* on fait le tour de tab_affichage_ope pour remplir les lignes du tableau */
+
+	      for ( i=0 ; i<4 ; i++ )
+		{
+		  /* on ne passe que si la ligne doit être affichée */
+
+		  if ( !i
+		       ||
+		       nb_lignes_ope == 4
+		       ||
+		       ( ( i == 1
+			   ||
+			   i == 3 )
+			 &&
+			 nb_lignes_ope == 3 ))
+		    {
+		      for ( j=0 ; j<7 ; j++ )
+			ligne_clist[i][j] = recherche_contenu_cellule ( operation,
+									tab_affichage_ope[i][j]  );
+
+		      /* on affiche la ligne */
+
+		      ligne = gtk_clist_append ( GTK_CLIST ( CLIST_OPERATIONS ),
+						 ligne_clist[i] );
+
+		      /* on associe à cette ligne l'adr de la struct de l'opé */
+
+		      gtk_clist_set_row_data ( GTK_CLIST (CLIST_OPERATIONS),
+					       ligne,
+					       operation);
+
+		      /* on met la couleur de la ligne */
+
+		      gtk_clist_set_row_style ( GTK_CLIST ( CLIST_OPERATIONS ),
+						ligne,
+						style_couleur [ couleur_en_cours ] );
+
+		      /* si le solde courant est < 0, on recherche la position de l'affichage */
+		      /* du solde et on le met en rouge si on le trouve */
+
+		      if ( solde_courant_affichage_liste < 0 )
+			for ( j=0 ; j<7 ; j++ )
+			  if ( tab_affichage_ope[i][j] == 7 )
+			    gtk_clist_set_cell_style ( GTK_CLIST ( CLIST_OPERATIONS ),
+						       ligne,
+						       j,
+						       style_rouge_couleur [ couleur_en_cours ] );
+		    }
+		}
+	      couleur_en_cours = ( couleur_en_cours + 1 ) % 2;
+	    }
 	}
+      liste_operations_tmp = liste_operations_tmp -> next;
+    }
 
+
+  /* affiche la ligne blanche du bas */
+
+  for ( j=0 ; j<nb_lignes_ope ; j++ )
+    {
+      /* on met à NULL tout les pointeurs */
+
+      for ( i = 0 ; i < 7 ; i++ )
+	ligne_clist[0][i] = NULL;
+
+      ligne = gtk_clist_append ( GTK_CLIST ( CLIST_OPERATIONS ),
+				 ligne_clist[0] );
+
+      /* on associe à cette ligne à -1 */
+
+      gtk_clist_set_row_data ( GTK_CLIST (CLIST_OPERATIONS),
+			       ligne,
+			       GINT_TO_POINTER ( -1 ));
+
+      /* on met la couleur de la ligne */
 
       gtk_clist_set_row_style ( GTK_CLIST ( CLIST_OPERATIONS ),
 				ligne,
 				style_couleur [ couleur_en_cours ] );
-
-      if ( solde_courant < 0 )
-	gtk_clist_set_cell_style ( GTK_CLIST ( CLIST_OPERATIONS ),
-				   ligne,
-				   6,
-				   style_rouge_couleur [ couleur_en_cours ] );
-
-
-      if ( nb_lignes_ope != 1 )
-	{
-	  gtk_clist_set_row_style ( GTK_CLIST ( CLIST_OPERATIONS ),
-				    ++ligne,
-				    style_couleur [ couleur_en_cours ] );
-	  gtk_clist_set_row_style ( GTK_CLIST ( CLIST_OPERATIONS ),
-				    ++ligne,
-				    style_couleur [ couleur_en_cours ] );
-	  if ( nb_lignes_ope == 4 )
-	    gtk_clist_set_row_style ( GTK_CLIST ( CLIST_OPERATIONS ),
-				      ++ligne,
-				      style_couleur [ couleur_en_cours ] );
-
-	}
-
-      couleur_en_cours = ( couleur_en_cours + 1 ) % 2;
     }
+
 
   /* on enregistre le solde final */
 
-  SOLDE_COURANT = solde_courant;
-  SOLDE_POINTE = solde_pointe;
+  SOLDE_COURANT = solde_courant_affichage_liste;
+  SOLDE_POINTE = solde_pointe_affichage_liste;
 
   /* on met les soldes en bas */
 
@@ -1207,6 +758,393 @@ void remplissage_liste_operations ( gint compte )
 
 
 /***************************************************************************************************/
+/* Fonction recherche_contenu_cellule */
+/* prend en argument l'opération concernée */
+/* et le numéro de l'argument qu'on veut afficher (tab_affichage_ope) */
+/* renvoie la chaine à afficher ou NULL */
+/***************************************************************************************************/
+
+gchar *recherche_contenu_cellule ( struct structure_operation *operation,
+				   gint no_affichage )
+{
+  GSList *liste_tmp;
+  gchar *temp;
+  gdouble montant;
+
+  switch ( no_affichage )
+    {
+    case 0:
+      return ( NULL );
+      break;
+
+      /* mise en forme de la date */
+
+    case 1:
+      return ( g_strconcat ( itoa ( operation -> jour ),
+			     "/",
+			     itoa ( operation -> mois ),
+			     "/",
+			     itoa ( operation -> annee ),
+			     NULL ));
+      break;
+
+      /* mise en forme de la date de valeur */
+
+    case 2:
+      if ( operation -> jour_bancaire )
+	return ( g_strconcat ( itoa ( operation -> jour_bancaire ),
+			       "/",
+			       itoa ( operation -> mois_bancaire ),
+			       "/",
+			       itoa ( operation -> annee_bancaire ),
+			       NULL ));
+      else
+	return ( NULL );
+      break;
+
+      /* mise en forme du tiers */
+
+    case 3:
+      if ( operation -> tiers )
+	{
+	  liste_tmp = g_slist_find_custom ( liste_struct_tiers,
+					    GINT_TO_POINTER ( operation -> tiers ),
+					    ( GCompareFunc ) recherche_tiers_par_no );
+	
+	  if ( liste_tmp )
+	    return ( (( struct struct_tiers * )( liste_tmp -> data )) -> nom_tiers );
+	  else
+	    return ( NULL );
+	}
+      else
+	return ( NULL );
+      break;
+
+      /* mise en forme R/P */
+    case 4:
+      if ( operation -> pointe == 1 )
+	return ( "P" );
+      else
+	{
+	  if ( operation -> pointe == 2 )
+	    return ( "R" );
+	  else
+	    return ( NULL );
+	}
+      break;
+
+      /* mise en forme du débit */
+    case 5:
+      if ( operation -> montant < 0 )
+	{
+	  temp = g_strdup_printf ( "%4.2f", -operation -> montant );
+
+	  /* si la devise en cours est différente de celle de l'opé, on la retrouve */
+
+	  if ( !devise_operation_affichage_liste
+	       ||
+	       devise_operation_affichage_liste -> no_devise != operation -> devise )
+	    devise_operation_affichage_liste = g_slist_find_custom ( liste_struct_devises,
+								     GINT_TO_POINTER ( operation -> devise ),
+								     ( GCompareFunc ) recherche_devise_par_no ) -> data;
+
+	  if ( devise_operation_affichage_liste -> no_devise != DEVISE )
+	    temp = g_strconcat ( temp,
+				 "(",
+				 devise_operation_affichage_liste -> code_devise,
+				 ")",
+				 NULL );
+
+	  return ( temp );
+	}
+      else
+	return (NULL);
+
+      break;
+
+      /* mise en forme du crédit */
+    case 6:
+      if ( operation -> montant >= 0 )
+	{
+	  temp = g_strdup_printf ( "%4.2f", operation -> montant );
+
+	  /* si la devise en cours est différente de celle de l'opé, on la retrouve */
+
+	  if ( !devise_operation_affichage_liste
+	       ||
+	       devise_operation_affichage_liste -> no_devise != operation -> devise )
+	    devise_operation_affichage_liste = g_slist_find_custom ( liste_struct_devises,
+								     GINT_TO_POINTER ( operation -> devise ),
+								     ( GCompareFunc ) recherche_devise_par_no ) -> data;
+
+	  if ( devise_operation_affichage_liste -> no_devise != DEVISE )
+	    temp = g_strconcat ( temp,
+				 "(",
+				 devise_operation_affichage_liste -> code_devise,
+				 ")",
+				 NULL );
+
+	  return ( temp );
+	}
+      else
+	return (NULL);
+
+      break;
+
+      /* mise en forme du solde */
+      /* il a déjà été calculé pour l'opération courante, il suffit de le renvoyer */
+
+    case 7:
+      return ( g_strdup_printf ( "%4.2f",
+				 solde_courant_affichage_liste ));
+      break;
+
+      /* mise en forme du montant dans la devise du compte */
+
+    case 8:
+      if ( operation -> devise != DEVISE )
+	{
+	  /* on doit calculer et afficher le montant de l'opé */
+
+	  if ( !devise_operation_affichage_liste
+	       ||
+	       devise_operation_affichage_liste -> no_devise != operation -> devise )
+	    devise_operation_affichage_liste = g_slist_find_custom ( liste_struct_devises,
+								     GINT_TO_POINTER ( operation -> devise ),
+								     ( GCompareFunc ) recherche_devise_par_no ) -> data;
+
+	  if ( devise_compte_affichage_liste -> passage_euro
+	       &&
+	       !strcmp ( devise_operation_affichage_liste -> nom_devise, _("Euro") ) )
+	    montant = operation -> montant * devise_compte_affichage_liste -> change;
+	  else
+	    if ( devise_operation_affichage_liste -> passage_euro
+		 &&
+		 !strcmp ( devise_compte_affichage_liste -> nom_devise, _("Euro") ))
+	      montant = operation -> montant / devise_operation_affichage_liste -> change;
+	    else
+	      if ( operation -> une_devise_compte_egale_x_devise_ope )
+		montant = operation -> montant / operation -> taux_change - operation -> frais_change;
+	      else
+		montant = operation -> montant * operation -> taux_change - operation -> frais_change;
+
+	  montant = ( rint (montant * 100 )) / 100;
+
+	  return ( g_strdup_printf ( "(%4.2f %s)",
+				     montant,
+				     devise_compte_affichage_liste -> code_devise ));
+	}
+      else
+	return (NULL);
+      
+      break;
+
+  /* mise en forme du moyen de paiement */
+
+    case 9:
+      if ( operation -> type_ope
+	   &&
+	   TYPES_OPES )
+	{
+	  liste_tmp = g_slist_find_custom ( TYPES_OPES,
+					    GINT_TO_POINTER ( operation -> type_ope ),
+					    (GCompareFunc) recherche_type_ope_par_no );
+
+	  if ( liste_tmp )
+	    return ( ((struct struct_type_ope *)(liste_tmp -> data)) -> nom_type );
+	  else
+	    return ( NULL );
+	}
+      else
+	return ( NULL );
+
+      break;
+
+      /* mise en forme du no de rapprochement */
+
+    case 10:
+      if ( operation -> no_rapprochement )
+	{
+	  liste_tmp = g_slist_find_custom ( liste_no_rapprochements,
+					    GINT_TO_POINTER ( operation -> no_rapprochement ),
+					    (GCompareFunc) recherche_no_rapprochement_par_no );
+
+	  if ( liste_tmp )
+	    return ( ((struct struct_no_rapprochement *)(liste_tmp->data)) -> nom_rapprochement );
+	  else
+	    return ( NULL );
+	}
+      else
+	return (NULL);
+
+      break;
+
+      /* mise en place de l'exo */
+
+    case 11:
+      if ( operation -> no_exercice )
+	{
+	  liste_tmp = g_slist_find_custom ( liste_struct_exercices,
+					    GINT_TO_POINTER ( operation -> no_exercice ),
+					    (GCompareFunc) recherche_exercice_par_no );
+
+	  if (liste_tmp)
+	    return ( ((struct struct_exercice *)(liste_tmp->data)) -> nom_exercice );
+	  else
+	    return ( NULL );
+	}
+      else
+	return ( NULL );
+      break;
+
+      /* mise en place des catégories */
+
+    case 12:
+      temp = NULL;
+
+      if ( operation -> categorie )
+	{
+	  /* c'est une categ : ss categ */
+
+	  liste_tmp = g_slist_find_custom ( liste_struct_categories,
+					    GINT_TO_POINTER ( operation -> categorie ),
+					    ( GCompareFunc ) recherche_categorie_par_no );
+
+	  if ( liste_tmp )
+	    {
+	      GSList *liste_tmp_2;
+	      
+	      liste_tmp_2 = g_slist_find_custom ( (( struct struct_categ * )( liste_tmp -> data )) -> liste_sous_categ,
+						  GINT_TO_POINTER ( operation -> sous_categorie ),
+						  ( GCompareFunc ) recherche_sous_categorie_par_no );
+	      if ( liste_tmp_2 )
+		temp = g_strconcat ( (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ,
+				     " : ",
+				     (( struct struct_sous_categ * )( liste_tmp_2 -> data )) -> nom_sous_categ,
+				     NULL );
+	      else
+		temp = (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ;
+	      
+	    }
+	}
+      else
+	{
+	  if ( operation -> relation_no_operation )
+	    {
+	      /* c'est un virement */
+
+	      if ( operation -> relation_no_compte == -1 )
+		{
+		  if ( operation -> montant < 0 )
+		    temp = _("Virement vers un compte supprimé");
+		  else
+		    temp = _("Virement d'un compte supprimé");
+		}
+	      else
+		{
+		  gpointer **save_ptab;
+
+		  save_ptab = p_tab_nom_de_compte_variable;
+		  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
+
+		  if ( operation -> montant < 0 )
+		    temp = g_strconcat ( _("Virement vers "),
+					       NOM_DU_COMPTE,
+					       NULL );
+		  else
+		    temp = g_strconcat ( _("Virement de "),
+					       NOM_DU_COMPTE,
+					       NULL );
+
+		  p_tab_nom_de_compte_variable = save_ptab;
+		}
+	    }
+	  else
+	    {
+	      /* vérification si l'opération est ventilée */
+
+	      if ( operation -> operation_ventilee )
+		temp = _("Opération ventilée");
+	    }
+	}
+      return ( temp );
+
+      break;
+
+      /* mise en forme de l'ib */
+
+    case 13:
+      temp = NULL;
+
+      if ( operation -> imputation )
+	{
+	  liste_tmp = g_slist_find_custom ( liste_struct_imputation,
+					    GINT_TO_POINTER ( operation -> imputation ),
+					    ( GCompareFunc ) recherche_imputation_par_no );
+
+	  if ( liste_tmp )
+	    {
+	      GSList *liste_tmp_2;
+	      
+	      liste_tmp_2 = g_slist_find_custom ( (( struct struct_categ * )( liste_tmp -> data )) -> liste_sous_categ,
+						  GINT_TO_POINTER ( operation -> sous_imputation ),
+						  ( GCompareFunc ) recherche_sous_imputation_par_no );
+	      if ( liste_tmp_2 )
+		temp = g_strconcat ( (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ,
+				     " : ",
+				     (( struct struct_sous_categ * )( liste_tmp_2 -> data )) -> nom_sous_categ,
+				     NULL );
+	      else
+		temp = (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ;
+	    }
+	}
+
+      return ( temp );
+      break;
+
+      /* mise en place de la pièce comptable */
+
+    case 14:
+      return ( operation -> no_piece_comptable );
+      break;
+
+      /* mise en forme des notes */
+
+    case 15:
+      return ( operation -> notes );
+      break;
+
+      /* mise en place de l'info banque/guichet */
+
+    case 16:
+      return ( operation -> info_banque_guichet );
+      break;
+
+      /* mise en place du no d'opé */
+
+    case 17:
+      return ( itoa ( operation -> no_operation ));
+      break;
+
+      /* mise en place du no de chèque/virement */
+
+    case 18:
+
+      if ( operation -> contenu_type )
+	return ( g_strconcat ( "(",
+			       operation -> contenu_type,
+			       ")",
+			       NULL ));
+      else
+	return (NULL);
+      break;
+    }
+  return ( NULL );
+}
+/***************************************************************************************************/
+
+
+/***************************************************************************************************/
 /* Fonction selectionne_ligne_souris */
 /* place la sélection sur l'opé clickée */
 /***************************************************************************************************/
@@ -1217,6 +1155,12 @@ void selectionne_ligne_souris ( GtkCList *liste,
 {
   gint colonne, x, y;
   gint ligne;
+
+
+  /*   si le click se situe dans les menus, c'est qu'on redimensionne, on fait rien */
+
+  if ( evenement -> window != liste ->clist_window )
+    return;
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
@@ -1768,7 +1712,8 @@ void edition_operation ( void )
   /* met en place l'exercice */
 
   gtk_option_menu_set_history (  GTK_OPTION_MENU ( widget_formulaire_operations[11] ),
-				 cherche_no_menu_exercice ( operation -> no_exercice ));
+				 cherche_no_menu_exercice ( operation -> no_exercice,
+							    widget_formulaire_operations[11] ));
 
   /* met en place l'imputation budgétaire */
   /* si c'est une opé ventilée, on met rien */
@@ -2340,8 +2285,7 @@ void changement_taille_liste_ope ( GtkWidget *clist,
 				   GtkAllocation *allocation,
 				   gint *compte )
 {
-  gint chiffres, tiers, date, p;
-  gpointer **save_p;
+  gint i;
   gint largeur;
   gint col0, col1, col2, col3, col4, col5, col6;
 
@@ -2351,57 +2295,24 @@ void changement_taille_liste_ope ( GtkWidget *clist,
   if ( window -> allocation.width < 700 )
     return;
 
-  largeur = allocation->width;
-
-  save_p = p_tab_nom_de_compte_variable;
-
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( compte );
-
-
-
-  chiffres = ( 11 * largeur) / 100;
-  p = ( 3 * largeur) / 100;
-  date = ( 13 * largeur) / 100;
-
-  if ( TYPE_DE_COMPTE == 1 )
-    {
-      tiers = ( 40 * largeur) / 100;
-      gtk_clist_set_column_width ( GTK_CLIST ( clist ),
-				   0,
-				   0 );
-    }
+  if ( allocation )
+    largeur = allocation->width;
   else
-    {
-      tiers = ( 30 * largeur) / 100;
+    largeur = clist -> allocation.width;
+
+  /*   si la largeur est automatique, on change la largeur des colonnes */
+  /*     sinon, on y met les valeurs fixes */
+
+  if ( etat.largeur_auto_colonnes )
+    for ( i=0 ; i<7 ; i++ )
       gtk_clist_set_column_width ( GTK_CLIST ( clist ),
-				   0,
-				   chiffres );
-    }
-
-  /*   si la date réelle est affichée, on soustrait son contenu du tiers */
-
-  if ( etat.affiche_date_bancaire)
-    tiers = tiers - date;
-
-  gtk_clist_set_column_width ( GTK_CLIST ( clist ),
-			       1,
-			       date );
-  gtk_clist_set_column_width ( GTK_CLIST ( clist ),
-			       2,
-			       tiers );
-  gtk_clist_set_column_width ( GTK_CLIST ( clist ),
-			       3,
-			       p );
-  gtk_clist_set_column_width ( GTK_CLIST ( clist ),
-			       4,
-			       chiffres );
-  gtk_clist_set_column_width ( GTK_CLIST ( clist ),
-			       5,
-			       chiffres );
-  gtk_clist_set_column_width ( GTK_CLIST ( clist ),
-			       6,
-			       chiffres );
-
+				   i,
+				   rapport_largeur_colonnes[i] * largeur / 100 );
+  else
+    for ( i=0 ; i<7 ; i++ )
+      gtk_clist_set_column_width ( GTK_CLIST ( clist ),
+				   i,
+				   taille_largeur_colonnes[i] );
 
 
 
@@ -2480,12 +2391,6 @@ void changement_taille_liste_ope ( GtkWidget *clist,
   gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[17] ),
 			 col6,
 			 FALSE  );
-
-  p_tab_nom_de_compte_variable = save_p;
-
-
-
-
 }
 /* ***************************************************************************************************** */
 
@@ -2688,3 +2593,12 @@ void verifie_ligne_selectionnee_visible ( void )
 }
 /* ***************************************************************************************************** */
 					  
+
+/* ***************************************************************************************************** */
+void changement_taille_colonne ( GtkWidget *clist,
+				 gint colonne,
+				 gint largeur )
+{
+  taille_largeur_colonnes[colonne] = largeur;
+}
+/* ***************************************************************************************************** */

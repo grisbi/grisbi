@@ -106,6 +106,12 @@ void preferences ( GtkWidget *widget,
 				   onglet_types_operations(),
 				   gtk_label_new ( _("Types d'opérations") ) );
 
+/* création du 10ème onglet */
+
+  gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
+				   onglet_affichage_liste(),
+				   gtk_label_new ( _("Affichage liste") ) );
+
 /* connection du bouton appliquer */
 
 
@@ -1329,7 +1335,7 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 {
   gint buffer;
   gchar *home_dir;
-  int i;
+  gint i, j;
   GSList *liste_tmp;
   GtkWidget *menu;
 
@@ -1960,15 +1966,15 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 
       gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_operations[11] ) -> menu );
       gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[11] ),
-				 creation_menu_exercices () );
+				 creation_menu_exercices (0) );
 
       gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_ventilation[4] ) -> menu );
       gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation[4] ),
-				 creation_menu_exercices () );
+				 creation_menu_exercices (0) );
 
       gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_echeancier[9] ) -> menu );
       gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[9] ),
-				 creation_menu_exercices () );
+				 creation_menu_exercices (1) );
 
       /* on recrée la liste tmp des exercices */
 
@@ -2138,21 +2144,104 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 
       if ( (menu = creation_menu_types ( 1, compte_courant , 0 )))
 	{
+	  gint pos_type;
+
 	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
 	  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
 				     menu );
-	  gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
-					cherche_no_menu_type ( TYPE_DEFAUT_DEBIT ) );
+
+	  pos_type = cherche_no_menu_type ( TYPE_DEFAUT_DEBIT );
+
+	  if ( pos_type != -1 )
+	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
+					  pos_type );
+	  else
+	    {
+	      struct struct_type_ope *type;
+
+	      gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
+					    0 );
+	      TYPE_DEFAUT_DEBIT = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu_item ),
+									  "no_type" ));
+
+	      /* on affiche l'entrée des chèques si nécessaire */
+
+	      type = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu_item ),
+					   "adr_type" );
+
+	      if ( type -> affiche_entree )
+		gtk_widget_show ( widget_formulaire_operations[10] );
+	    }
+
 	  gtk_widget_show ( widget_formulaire_operations[9] );
 	}
       else
-	gtk_widget_hide ( widget_formulaire_operations[9] );
+	{
+	  gtk_widget_hide ( widget_formulaire_operations[9] );
+	  gtk_widget_hide ( widget_formulaire_operations[10] );
+	}
+
 
       demande_mise_a_jour_tous_comptes ();
       verification_mise_a_jour_liste ();
       modification_fichier ( TRUE );
 
+      break;
+
+
+      /* onglet Affichage_liste */
+
+    case 9:
+
+      /* on transfère juste tab_affichage_ope_tmp sur tab_affichage_ope */
+
+      for ( i = 0 ; i<4 ; i++ )
+	for ( j = 0 ; j<7 ; j++ )
+	  tab_affichage_ope[i][j] = tab_affichage_ope_tmp[i][j];
+
+      /* récupère l'automatisme de la taille des colonnes */
+
+      etat.largeur_auto_colonnes = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_choix_perso_colonnes ));
+
+      /* on change le resizable des colonnes */
+
+      for ( i=0 ; i<nb_comptes ; i++ )
+	{
+	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+
+	  for ( j=0 ; j<7 ; j++ )
+	    gtk_clist_set_column_resizeable ( GTK_CLIST ( CLIST_OPERATIONS ),
+					      j,
+					      !etat.largeur_auto_colonnes );
+  gtk_signal_connect ( GTK_OBJECT (CLIST_OPERATIONS),
+		       "resize_column",
+		       GTK_SIGNAL_FUNC (changement_taille_colonne),
+		       NULL );
+	}
+
+      /* récupère les rapports de colonnes entre eux */
+
+      for ( i=0 ; i<7 ; i++ )
+	rapport_largeur_colonnes[i] = GTK_CLIST ( clist_affichage_liste ) -> column[i].width * 100 / clist_affichage_liste -> allocation.width;
+
+
+
+      /* récupère les largeurs de colonnes sur la liste des opés */
+
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+      for ( i=0 ; i<7 ; i++ )
+	taille_largeur_colonnes[i] = GTK_CLIST ( CLIST_OPERATIONS ) -> column[i].width;
+
+      changement_taille_liste_ope ( CLIST_OPERATIONS,
+				    NULL,
+				    GINT_TO_POINTER (compte_courant) );
+      demande_mise_a_jour_tous_comptes ();
+      verification_mise_a_jour_liste ();
+      modification_fichier ( TRUE );
+
+ 
       break;
 
     default :

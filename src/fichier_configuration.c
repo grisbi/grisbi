@@ -117,8 +117,15 @@ void charge_configuration ( void )
   etat.affiche_date_bancaire = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affiche_date_bancaire", NULL ));
   etat.classement_par_date = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Tri_par_date", NULL ));
   etat.affiche_boutons_valider_annuler = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affiche_boutons_valider_annuler", NULL ));
+  etat.largeur_auto_colonnes  = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Largeur_auto_colonnes", NULL ));
+
+
+
   etat.affichage_exercice_automatique  = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Exercice/Affichage_exercice_automatique", NULL ));
   etat.affiche_nb_ecritures_listes  = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Exercice/Affichage_nb_ecritures", NULL ));
+
+  for ( i=0 ; i<7 ; i++ )
+    taille_largeur_colonnes[i] = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Exercice/taille_largeur_colonne", itoa(i), NULL ));
 
   /* remplissage de la liste des fichiers à vérifier */
 
@@ -173,6 +180,8 @@ void raz_configuration ( void )
   etat.affiche_nb_ecritures_listes = 1;   /* par défaut, on affiche les nb d'écritures dans les listes tiers/catég */
   compression_fichier = 0;     /* pas de compression par défaut */
   compression_backup = 0;
+  etat.largeur_auto_colonnes = 1;
+
 }
 /* ***************************************************************************************************** */
 
@@ -292,6 +301,14 @@ void sauve_configuration (void)
 			 etat.classement_par_date );
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affiche_boutons_valider_annuler", NULL ),
 			 etat.affiche_boutons_valider_annuler );
+  gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Largeur_auto_colonnes", NULL ),
+			 etat.largeur_auto_colonnes );
+
+  for ( i=0 ; i<7 ; i++ )
+    gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Exercice/taille_largeur_colonne", itoa(i), NULL ),
+			   taille_largeur_colonnes[i] );
+
+
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Exercice/Affichage_nb_ecritures", NULL ),
 			 etat.affiche_nb_ecritures_listes );
 

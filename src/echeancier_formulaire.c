@@ -118,7 +118,8 @@ GtkWidget *creation_formulaire_echeancier ( void )
   widget_formulaire_echeancier[1] = gtk_combofix_new (  liste_tiers_combofix,
 							FALSE,
 							TRUE,
-							TRUE );
+							TRUE,
+							0 );
   gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_echeancier[1] ) -> entry ),
 		       "key_press_event",
 		       GTK_SIGNAL_FUNC ( pression_touche_formulaire_echeancier ),
@@ -267,7 +268,8 @@ GtkWidget *creation_formulaire_echeancier ( void )
   widget_formulaire_echeancier[6] = gtk_combofix_new_complex ( liste_categories_echeances_combofix,
 							       FALSE,
 							       TRUE,
-							       TRUE );
+							       TRUE,
+							       0 );
   gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_echeancier[6] ) -> entry ),
 		       "key_press_event",
 		       GTK_SIGNAL_FUNC ( pression_touche_formulaire_echeancier ),
@@ -377,7 +379,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 			 _("Choix de l'exercice") );
   menu = gtk_menu_new ();
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[9] ),
-			     creation_menu_exercices () );
+			     creation_menu_exercices (1) );
   gtk_signal_connect ( GTK_OBJECT (widget_formulaire_echeancier[9]),
  		       "key_press_event",
 		       GTK_SIGNAL_FUNC (pression_touche_formulaire_echeancier),
@@ -399,7 +401,8 @@ GtkWidget *creation_formulaire_echeancier ( void )
   widget_formulaire_echeancier[10] = gtk_combofix_new_complex ( liste_imputations_combofix,
 								FALSE,
 								TRUE,
-								TRUE );
+								TRUE ,
+								0);
   gtk_table_attach ( GTK_TABLE ( table ),
 		     widget_formulaire_echeancier[10],
 		     2, 3,
@@ -1809,6 +1812,8 @@ void fin_edition_echeance ( void )
 		  /* c'est un virement, il n'y a donc aucune catégorie */
 
 		  gint i;
+		  echeance -> categorie = 0;
+		  echeance -> sous_categorie = 0;
 
 		  /* recherche le no de compte du virement */
 
@@ -1949,19 +1954,6 @@ void fin_edition_echeance ( void )
 
 	  g_strfreev ( tableau_char );
 	}
-
-
-      /* récupération de l'info banque/guichet */
-
-/*       if ( gtk_widget_get_style ( widget_formulaire_echeancier[11] ) == style_entree_formulaire[0] ) */
-/* 	echeance -> info_banque_guichet = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[11] )))); */
-
-
-      /* récupération du no de pièce comptable */
-
-/*       if ( gtk_widget_get_style ( widget_formulaire_echeancier[12] ) == style_entree_formulaire[0] ) */
-/* 	echeance -> no_piece_comptable = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[12] )))); */
-
 
       /*       récupération de auto_man */
 
@@ -2167,6 +2159,8 @@ void fin_edition_echeance ( void )
 		{
 		  /* c'est un virement, il n'y a donc aucune catétorie */
 
+		  operation -> categorie = 0;
+		  operation -> sous_categorie = 0;
 		  virement = 1;
 		}
 	      else
@@ -2243,8 +2237,12 @@ void fin_edition_echeance ( void )
 
       /* récupération du no d'exercice */
 
-      operation -> no_exercice = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[9] ) -> menu_item ),
-									"no_exercice" ));
+      if ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[9] ) -> menu_item ),
+						   "no_exercice" )) == -2 )
+	operation -> no_exercice = recherche_exo_correspondant ( operation -> date );
+      else
+	operation -> no_exercice = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[9] ) -> menu_item ),
+									   "no_exercice" ));
 
 
       /* récupération de l'imputation budgétaire */
@@ -2304,19 +2302,6 @@ void fin_edition_echeance ( void )
 	  g_strfreev ( tableau_char );
 	}
 
-
-      /* récupération de l'info banque/guichet */
-
-/*       if ( gtk_widget_get_style ( widget_formulaire_echeancier[11] ) == style_entree_formulaire[0] ) */
-/* 	operation -> info_banque_guichet = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[11] )))); */
-
-
-      /* récupération du no de pièce comptable */
-
-/*       if ( gtk_widget_get_style ( widget_formulaire_echeancier[12] ) == style_entree_formulaire[0] ) */
-/* 	operation -> no_piece_comptable = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[12] )))); */
-
-
       /*       récupération de auto_man */
 
       operation -> auto_man = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[13]  ) -> menu_item ),
@@ -2327,6 +2312,10 @@ void fin_edition_echeance ( void )
       if ( gtk_widget_get_style ( widget_formulaire_echeancier[14] ) == style_entree_formulaire[0] )
 	operation -> notes = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[14] ))));
 
+
+      /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
+
+      ajout_operation ( operation );
 
 
 
@@ -2398,8 +2387,8 @@ void fin_edition_echeance ( void )
 
 
 	  operation_2 -> tiers = operation -> tiers;
-	  operation_2 -> categorie = operation -> categorie;
-	  operation_2 -> sous_categorie = operation -> sous_categorie;
+	  operation_2 -> categorie = 0;
+	  operation_2 -> sous_categorie = 0;
 
 	  if ( operation -> notes )
 	    operation_2 -> notes = g_strdup ( operation -> notes);
@@ -2433,11 +2422,13 @@ void fin_edition_echeance ( void )
 	  operation_2 -> relation_no_operation = operation -> no_operation;
 	  operation_2 -> relation_no_compte = operation -> no_compte;
 
+	  /* on met à jour le compte courant pour le virement (il a été mis à jour avec ajout opération, mais sans les liens de virement) */
+
+	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+
+	  MISE_A_JOUR = 1;
+	  verification_mise_a_jour_liste ();
 	}
-
-      /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
-
-      ajout_operation ( operation );
 
 
       /* passe l'échéance à la prochaine date */
@@ -3106,13 +3097,60 @@ void completion_operation_par_tiers_echeancier ( void )
   /* met l'option menu du type d'opé */
 
   if ( GTK_WIDGET_VISIBLE ( widget_formulaire_echeancier[7] ))
-    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ),
-				  cherche_no_menu_type_echeancier ( operation -> type_ope ));
+    {
+      gint place_type;
+
+      place_type = cherche_no_menu_type_echeancier ( operation -> type_ope );
+
+      /*       si la place est trouvée, on la met, sinon on met à la place par défaut */
+
+      if ( place_type != -1 )
+	gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ),
+				      place_type );
+      else
+	{
+	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+
+	  if ( operation -> montant < 0 )
+	    place_type = cherche_no_menu_type_echeancier ( TYPE_DEFAUT_DEBIT );
+	  else
+	      place_type = cherche_no_menu_type_echeancier ( TYPE_DEFAUT_CREDIT );
+
+	  if ( place_type != -1 )
+	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ),
+					  place_type );
+	  else
+	    {
+	      struct struct_type_ope *type;
+
+	      gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ),
+					    0 );
+
+	      /*  on met ce type par défaut, vu que celui par défaut marche plus ... */
+
+	      if ( operation -> montant < 0 )
+		TYPE_DEFAUT_DEBIT = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ) -> menu_item ),
+						      "no_type" ));
+	      else
+		TYPE_DEFAUT_CREDIT = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ) -> menu_item ),
+						      "no_type" ));
+
+	      /* récupère l'adr du type pour afficher l'entrée si nécessaire */
+
+	      type = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ) -> menu_item ),
+					   "adr_type" );
+
+	      if ( type -> affiche_entree )
+		gtk_widget_show ( widget_formulaire_echeancier[8] );
+	    }
+	}
+    }
 
   /* met en place l'exercice */
 
   gtk_option_menu_set_history (  GTK_OPTION_MENU ( widget_formulaire_echeancier[9] ),
-				 cherche_no_menu_exercice ( operation -> no_exercice ));
+				 cherche_no_menu_exercice ( operation -> no_exercice,
+							    widget_formulaire_echeancier[9] ));
 
   /* met en place l'imputation budgétaire */
 
@@ -3140,25 +3178,6 @@ void completion_operation_par_tiers_echeancier ( void )
 	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[10] ),
 				(( struct struct_imputation * )( liste_tmp -> data )) -> nom_imputation );
     }
-
-
-  /*   remplit les infos guichet / banque */
-
-/*   if ( operation -> info_banque_guichet ) */
-/*     { */
-/*       entree_prend_focus ( widget_formulaire_echeancier[11] ); */
-/*       gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[11] ), */
-/* 			   operation -> info_banque_guichet ); */
-/*     } */
-
-  /* mise en place de la pièce comptable */
-
-/*   if ( operation -> no_piece_comptable ) */
-/*     { */
-/*       entree_prend_focus ( widget_formulaire_echeancier[12] ); */
-/*       gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[12] ), */
-/* 			   operation -> no_piece_comptable ); */
-/*     } */
 
 
   /*   remplit les notes */

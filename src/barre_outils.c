@@ -34,6 +34,10 @@
 #include "./xpm/ope_avec_r.xpm"
 #include "./xpm/image_fleche_haut.xpm"
 #include "./xpm/image_fleche_bas.xpm"
+#include "./xpm/liste_0.xpm"
+#include "./xpm/liste_1.xpm"
+#include "./xpm/liste_2.xpm"
+#include "./xpm/liste_3.xpm"
 
 
 
@@ -597,5 +601,492 @@ GtkWidget *creation_barre_outils_echeancier ( void )
   gtk_widget_show ( separateur );
 
   return ( hbox );
+}
+/*******************************************************************************************/
+
+
+
+
+/*******************************************************************************************/
+GtkWidget *creation_barre_outils_tiers ( void )
+{
+  GtkWidget *hbox;
+  GtkWidget *separateur;
+  GtkWidget *icone;
+  GtkWidget *bouton;
+
+  hbox = gtk_hbox_new ( FALSE,
+			5 );
+  gtk_widget_show ( hbox );
+
+  separateur = gtk_vseparator_new ();
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       separateur,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( separateur );
+
+
+  /* bouton fermeture de l'arbre */
+
+  bouton = gtk_button_new ();
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_object_set_data ( GTK_OBJECT ( bouton ),
+			"profondeur",
+			GINT_TO_POINTER ( 0 ));
+  gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
+			 bouton,
+			 _("Fermer l'arbre"),
+			 _("Fermer l'arbre") );
+  icone = gnome_pixmap_new_from_xpm_d ( liste_0_xpm );
+  gtk_container_add ( GTK_CONTAINER ( bouton ),
+		      icone );
+  gtk_widget_set_usize ( bouton,
+			 15,
+			 15 );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( demande_expand_arbre ),
+		       NULL );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show_all ( bouton );
+
+  /* bouton ouverture de l'arbre niveau 1 */
+
+  bouton = gtk_button_new ();
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_object_set_data ( GTK_OBJECT ( bouton ),
+			"profondeur",
+			GINT_TO_POINTER ( 1 ));
+  gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
+			 bouton,
+			 _("Afficher les comptes"),
+			 _("Afficher les comptes") );
+  icone = gnome_pixmap_new_from_xpm_d ( liste_1_xpm );
+  gtk_container_add ( GTK_CONTAINER ( bouton ),
+		      icone );
+  gtk_widget_set_usize ( bouton,
+			 15,
+			 15 );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( demande_expand_arbre ),
+		       NULL );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show_all ( bouton );
+
+  /* bouton ouverture de l'arbre niveau 2 */
+
+  bouton = gtk_button_new ();
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_object_set_data ( GTK_OBJECT ( bouton ),
+			"profondeur",
+			GINT_TO_POINTER ( 2 ));
+  gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
+			 bouton,
+			 _("Afficher les opérations"),
+			 _("Afficher les opérations") );
+  icone = gnome_pixmap_new_from_xpm_d ( liste_2_xpm );
+  gtk_container_add ( GTK_CONTAINER ( bouton ),
+		      icone );
+  gtk_widget_set_usize ( bouton,
+			 15,
+			 15 );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( demande_expand_arbre ),
+		       NULL );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show_all ( bouton );
+
+  separateur = gtk_vseparator_new ();
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       separateur,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( separateur );
+
+
+  return ( hbox );
+}
+/*******************************************************************************************/
+
+
+
+
+
+/*******************************************************************************************/
+GtkWidget *creation_barre_outils_categ ( void )
+{
+  GtkWidget *hbox;
+  GtkWidget *separateur;
+  GtkWidget *icone;
+  GtkWidget *bouton;
+
+  hbox = gtk_hbox_new ( FALSE,
+			5 );
+  gtk_widget_show ( hbox );
+
+  separateur = gtk_vseparator_new ();
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       separateur,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( separateur );
+
+
+  /* bouton fermeture de l'arbre */
+
+  bouton = gtk_button_new ();
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_object_set_data ( GTK_OBJECT ( bouton ),
+			"profondeur",
+			GINT_TO_POINTER ( 0 ));
+  gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
+			 bouton,
+			 _("Fermer l'arbre"),
+			 _("Fermer l'arbre") );
+  icone = gnome_pixmap_new_from_xpm_d ( liste_0_xpm );
+  gtk_container_add ( GTK_CONTAINER ( bouton ),
+		      icone );
+  gtk_widget_set_usize ( bouton,
+			 15,
+			 15 );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( demande_expand_arbre ),
+		       GINT_TO_POINTER (1));
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show_all ( bouton );
+
+  /* bouton ouverture de l'arbre niveau 1 */
+
+  bouton = gtk_button_new ();
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_object_set_data ( GTK_OBJECT ( bouton ),
+			"profondeur",
+			GINT_TO_POINTER ( 1 ));
+  gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
+			 bouton,
+			 _("Afficher les sous-catégories"),
+			 _("Afficher les sous-catégories") );
+  icone = gnome_pixmap_new_from_xpm_d ( liste_1_xpm );
+  gtk_container_add ( GTK_CONTAINER ( bouton ),
+		      icone );
+  gtk_widget_set_usize ( bouton,
+			 15,
+			 15 );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( demande_expand_arbre ),
+		       GINT_TO_POINTER (1));
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show_all ( bouton );
+
+  /* bouton ouverture de l'arbre niveau 2 */
+
+  bouton = gtk_button_new ();
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_object_set_data ( GTK_OBJECT ( bouton ),
+			"profondeur",
+			GINT_TO_POINTER ( 2 ));
+  gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
+			 bouton,
+			 _("Afficher les comptes"),
+			 _("Afficher les comptes") );
+  icone = gnome_pixmap_new_from_xpm_d ( liste_2_xpm );
+  gtk_container_add ( GTK_CONTAINER ( bouton ),
+		      icone );
+  gtk_widget_set_usize ( bouton,
+			 15,
+			 15 );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( demande_expand_arbre ),
+		       GINT_TO_POINTER (1));
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show_all ( bouton );
+
+  separateur = gtk_vseparator_new ();
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       separateur,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( separateur );
+
+  /* bouton ouverture de l'arbre niveau 3 */
+
+  bouton = gtk_button_new ();
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_object_set_data ( GTK_OBJECT ( bouton ),
+			"profondeur",
+			GINT_TO_POINTER ( 3 ));
+  gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
+			 bouton,
+			 _("Afficher les opérations"),
+			 _("Afficher les opérations") );
+  icone = gnome_pixmap_new_from_xpm_d ( liste_3_xpm );
+  gtk_container_add ( GTK_CONTAINER ( bouton ),
+		      icone );
+  gtk_widget_set_usize ( bouton,
+			 15,
+			 15 );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( demande_expand_arbre ),
+		       GINT_TO_POINTER (1));
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show_all ( bouton );
+
+  separateur = gtk_vseparator_new ();
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       separateur,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( separateur );
+
+
+  return ( hbox );
+}
+/*******************************************************************************************/
+
+
+
+
+
+
+/*******************************************************************************************/
+GtkWidget *creation_barre_outils_imputation ( void )
+{
+  GtkWidget *hbox;
+  GtkWidget *separateur;
+  GtkWidget *icone;
+  GtkWidget *bouton;
+
+  hbox = gtk_hbox_new ( FALSE,
+			5 );
+  gtk_widget_show ( hbox );
+
+  separateur = gtk_vseparator_new ();
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       separateur,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( separateur );
+
+
+  /* bouton fermeture de l'arbre */
+
+  bouton = gtk_button_new ();
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_object_set_data ( GTK_OBJECT ( bouton ),
+			"profondeur",
+			GINT_TO_POINTER ( 0 ));
+  gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
+			 bouton,
+			 _("Fermer l'arbre"),
+			 _("Fermer l'arbre") );
+  icone = gnome_pixmap_new_from_xpm_d ( liste_0_xpm );
+  gtk_container_add ( GTK_CONTAINER ( bouton ),
+		      icone );
+  gtk_widget_set_usize ( bouton,
+			 15,
+			 15 );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( demande_expand_arbre ),
+		       GINT_TO_POINTER (2));
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show_all ( bouton );
+
+  /* bouton ouverture de l'arbre niveau 1 */
+
+  bouton = gtk_button_new ();
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_object_set_data ( GTK_OBJECT ( bouton ),
+			"profondeur",
+			GINT_TO_POINTER ( 1 ));
+  gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
+			 bouton,
+			 _("Afficher les sous-catégories"),
+			 _("Afficher les sous-catégories") );
+  icone = gnome_pixmap_new_from_xpm_d ( liste_1_xpm );
+  gtk_container_add ( GTK_CONTAINER ( bouton ),
+		      icone );
+  gtk_widget_set_usize ( bouton,
+			 15,
+			 15 );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( demande_expand_arbre ),
+		       GINT_TO_POINTER (2));
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show_all ( bouton );
+
+  /* bouton ouverture de l'arbre niveau 2 */
+
+  bouton = gtk_button_new ();
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_object_set_data ( GTK_OBJECT ( bouton ),
+			"profondeur",
+			GINT_TO_POINTER ( 2 ));
+  gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
+			 bouton,
+			 _("Afficher les comptes"),
+			 _("Afficher les comptes") );
+  icone = gnome_pixmap_new_from_xpm_d ( liste_2_xpm );
+  gtk_container_add ( GTK_CONTAINER ( bouton ),
+		      icone );
+  gtk_widget_set_usize ( bouton,
+			 15,
+			 15 );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( demande_expand_arbre ),
+		       GINT_TO_POINTER (2));
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show_all ( bouton );
+
+  separateur = gtk_vseparator_new ();
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       separateur,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( separateur );
+
+  /* bouton ouverture de l'arbre niveau 3 */
+
+  bouton = gtk_button_new ();
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_object_set_data ( GTK_OBJECT ( bouton ),
+			"profondeur",
+			GINT_TO_POINTER ( 3 ));
+  gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
+			 bouton,
+			 _("Afficher les opérations"),
+			 _("Afficher les opérations") );
+  icone = gnome_pixmap_new_from_xpm_d ( liste_3_xpm );
+  gtk_container_add ( GTK_CONTAINER ( bouton ),
+		      icone );
+  gtk_widget_set_usize ( bouton,
+			 15,
+			 15 );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( demande_expand_arbre ),
+		       GINT_TO_POINTER (2));
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show_all ( bouton );
+
+  separateur = gtk_vseparator_new ();
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       separateur,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( separateur );
+
+
+  return ( hbox );
+}
+/*******************************************************************************************/
+
+
+/*******************************************************************************************/
+/* étend l'arbre donné en argument en fonction du bouton cliqué (profondeur contenue */
+/* dans le bouton) */
+/*******************************************************************************************/
+
+void demande_expand_arbre ( GtkWidget *bouton,
+			    gint *liste )
+{
+  GtkWidget *ctree;
+  gint i;
+
+  if ( liste )
+    {
+      if ( GPOINTER_TO_INT ( liste ) == 1 )
+	ctree = arbre_categ;
+      else
+	ctree = arbre_imputation;
+    }
+  else
+    ctree = arbre_tiers;
+
+  gtk_clist_freeze ( GTK_CLIST ( ctree ));
+
+  /* on doit faire ça étage par étage cra il y a des ajouts à chaque ouverture de noeud */
+
+  gtk_ctree_collapse_recursive ( GTK_CTREE ( ctree ),
+				 NULL );
+
+  for ( i=0 ; i < GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( bouton ),
+							  "profondeur" )) ; i++ )
+    gtk_ctree_expand_to_depth ( GTK_CTREE ( ctree ),
+				NULL,
+				i + 1);
+  gtk_clist_thaw ( GTK_CLIST ( ctree ));
 }
 /*******************************************************************************************/

@@ -447,17 +447,34 @@ GtkWidget *onglet_categories ( void )
   gtk_widget_show (frame );
 
 
+  vbox = gtk_vbox_new ( FALSE,
+			5 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
+				   10 );
+  gtk_container_add ( GTK_CONTAINER ( frame ),
+		      vbox );
+  gtk_widget_show ( vbox );
+
+  /* on y ajoute la barre d'outils */
+
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       creation_barre_outils_categ(),
+		       FALSE,
+		       FALSE,
+		       0 );
+
 /* création de l'arbre principal */
 
   scroll_window = gtk_scrolled_window_new ( NULL,
 				     NULL );
-  gtk_container_set_border_width ( GTK_CONTAINER ( scroll_window ),
-				   10 );
   gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scroll_window ),
 				   GTK_POLICY_AUTOMATIC,
 				   GTK_POLICY_AUTOMATIC );
-  gtk_container_add ( GTK_CONTAINER ( frame ),
-		      scroll_window );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       scroll_window,
+		       TRUE,
+		       TRUE,
+		       0 );
   gtk_widget_show ( scroll_window );
 
 
@@ -515,10 +532,6 @@ GtkWidget *onglet_categories ( void )
   gtk_signal_connect ( GTK_OBJECT ( arbre_categ ),
 		       "tree-expand",
 		       GTK_SIGNAL_FUNC ( ouverture_node_categ ),
-		       NULL );
-  gtk_signal_connect ( GTK_OBJECT ( arbre_categ ),
-		       "tree-collapse",
-		       GTK_SIGNAL_FUNC ( fermeture_node_categ ),
 		       NULL );
   gtk_container_add ( GTK_CONTAINER (  scroll_window ),
 		      arbre_categ );
@@ -690,17 +703,24 @@ void remplit_arbre_categ ( void )
 
 	  /* pour chacun des sous categ, on met un fils bidon pour pouvoir l'ouvrir */
 
-	  gtk_ctree_insert_node ( GTK_CTREE ( arbre_categ ),
-				  ligne_sous_categ,
-				  NULL,
-				  text,
-				  5,
-				  NULL,
-				  NULL,
-				  NULL,
-				  NULL,
-				  FALSE,
-				  FALSE );
+	  ligne_sous_categ = gtk_ctree_insert_node ( GTK_CTREE ( arbre_categ ),
+						     ligne_sous_categ,
+						     NULL,
+						     text,
+						     5,
+						     NULL,
+						     NULL,
+						     NULL,
+						     NULL,
+						     FALSE,
+						     FALSE );
+
+	  /* on associe le fils bidon à -1 */
+
+	  gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_categ ),
+					ligne_sous_categ,
+					GINT_TO_POINTER (-1));
+
 
 	  place_sous_categ++;
 	  liste_sous_categ_tmp = liste_sous_categ_tmp -> next;
@@ -742,19 +762,26 @@ void remplit_arbre_categ ( void )
 						     NULL,
 						     FALSE,
 						     FALSE );
+
 	  /* pour chacun des sous categ, on met un fils bidon pour pouvoir l'ouvrir */
 
-	  gtk_ctree_insert_node ( GTK_CTREE ( arbre_categ ),
-				  ligne_sous_categ,
-				  NULL,
-				  text,
-				  5,
-				  NULL,
-				  NULL,
-				  NULL,
-				  NULL,
-				  FALSE,
-				  FALSE );
+	  ligne_sous_categ = gtk_ctree_insert_node ( GTK_CTREE ( arbre_categ ),
+						     ligne_sous_categ,
+						     NULL,
+						     text,
+						     5,
+						     NULL,
+						     NULL,
+						     NULL,
+						     NULL,
+						     FALSE,
+						     FALSE );
+
+	  /* on associe le fils bidon à -1 */
+
+	  gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_categ ),
+					ligne_sous_categ,
+					GINT_TO_POINTER (-1));
 
 	}
       place_categ++;
@@ -766,6 +793,7 @@ void remplit_arbre_categ ( void )
   if ( tab_montant_categ[0] )
     {
       GtkCTreeNode *ligne;
+      GtkCTreeNode *ligne_sous_categ;
 
       if ( etat.affiche_nb_ecritures_listes
 	   &&
@@ -795,19 +823,56 @@ void remplit_arbre_categ ( void )
 				      FALSE,
 				      FALSE );
 
-	  /* on met un fils bidon pour pouvoir l'ouvrir */
 
-      gtk_ctree_insert_node ( GTK_CTREE ( arbre_categ ),
-			      ligne,
-			      NULL,
-			      text,
-			      5,
-			      NULL,
-			      NULL,
-			      NULL,
-			      NULL,
-			      FALSE,
-			      FALSE );
+      /* on met aucune sous categ */
+
+      if ( etat.affiche_nb_ecritures_listes
+	   &&
+	   nb_ecritures_par_categ[0] )
+	text[0] = g_strconcat ( _("Aucune sous-catégorie ("),
+				itoa ( nb_ecritures_par_categ[0] ),
+				")",
+				NULL );
+      else
+	text[0] = _("Aucune sous-catégorie");
+
+      text[1] = NULL;
+      text[2] = g_strdup_printf ( "%4.2f %s",
+				  tab_montant_categ[0],
+				  devise_compte -> code_devise );
+      text[3] = NULL;
+
+      ligne_sous_categ = gtk_ctree_insert_node ( GTK_CTREE ( arbre_categ ),
+						 ligne,
+						 NULL,
+						 text,
+						 10,
+						 NULL,
+						 NULL,
+						 NULL,
+						 NULL,
+						 FALSE,
+						 FALSE );
+
+      /* on met un fils bidon pour pouvoir l'ouvrir */
+
+      ligne_sous_categ = gtk_ctree_insert_node ( GTK_CTREE ( arbre_categ ),
+						 ligne_sous_categ,
+						 NULL,
+						 text,
+						 5,
+						 NULL,
+						 NULL,
+						 NULL,
+						 NULL,
+						 FALSE,
+						 FALSE );
+
+      /* on associe le fils bidon à -1 */
+
+      gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_categ ),
+				    ligne_sous_categ,
+				    GINT_TO_POINTER (-1));
     }
 
   /*   on efface les variables */
@@ -856,13 +921,15 @@ void ouverture_node_categ ( GtkWidget *arbre,
 
   /*   si on ouvre une categ, on fait rien */
 
-  if ( row->level == 1
-       &&
-       gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-				     node )
-       )
+  if ( row->level == 1 )
     return;
 
+  /*   si le fiston = -1, c'est qu'il n'a pas encore été créé */
+  /* dans le cas contraire, on vire */
+
+  if ( GPOINTER_TO_INT ( gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
+						       row -> children )) != -1 )
+    return;
 
   /* freeze le ctree */
 
@@ -876,30 +943,25 @@ void ouverture_node_categ ( GtkWidget *arbre,
 
   /* séparation entre ouverture de sous-categ ( 2 ) et ouverture de compte ( 3 ) */
 
-  if ( ( row -> level == 2
-	 &&
-	 gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-				       GTK_CTREE_ROW ( node ) -> parent ))
-       ||
-       ( row ->level == 1
-	 &&
-	 !gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-					node )))
+  if ( row -> level == 2 )
     {
       /* c'est une ouverture de sous categ, on récupère sa structure  */
 
+      struct struct_categ *categ;
+      struct struct_sous_categ *sous_categ;
       gint no_categ;
       gint no_sous_categ;
       gint i;
 
-      if ( row -> level != 1 )
+      /*       soit il y a une categ et une sous categ, soit c'est aucune categ (donc categ = 0) */
+
+      if ( ( categ = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
+						   row -> parent )))
 	{
-	  no_categ = ((struct struct_categ *)(gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-									    GTK_CTREE_ROW ( node ) -> parent ))) -> no_categ;
-	  if ( gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-					     node))
-	    no_sous_categ = ((struct struct_sous_categ *)(gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-											node))) -> no_sous_categ;
+	  no_categ = categ -> no_categ;
+	  if ( ( sous_categ = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
+							    node)))
+	    no_sous_categ = sous_categ -> no_sous_categ;
 	  else
 	    no_sous_categ = 0;
 	}
@@ -974,17 +1036,24 @@ void ouverture_node_categ ( GtkWidget *arbre,
 
 		  /* on met une ligne bidon pour pouvoir l'ouvrir */
 
-		  gtk_ctree_insert_node ( GTK_CTREE ( arbre_categ ),
-					  node_insertion,
-					  NULL,
-					  text,
-					  5,
-					  NULL,
-					  NULL,
-					  NULL,
-					  NULL,
-					  FALSE,
-					  FALSE );
+		  node_insertion = gtk_ctree_insert_node ( GTK_CTREE ( arbre_categ ),
+							   node_insertion,
+							   NULL,
+							   text,
+							   5,
+							   NULL,
+							   NULL,
+							   NULL,
+							   NULL,
+							   FALSE,
+							   FALSE );
+
+		  /* on associe le fils bidon à -1 */
+		  
+		  gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_categ ),
+						node_insertion,
+						GINT_TO_POINTER (-1));
+		  
 		  pointeur_ope = NULL;
 		}
 	      else
@@ -999,19 +1068,20 @@ void ouverture_node_categ ( GtkWidget *arbre,
       /* c'est une ouverture d'un compte */
       /*       cette fois, on fait le tour de toutes les opés du compte pour afficher celles qui correspondent à la categ */
 
+      struct struct_categ *categ;
+      struct struct_sous_categ *sous_categ;
       GSList *pointeur_ope;
       gint no_categ;
       gint no_sous_categ;
 
-      if ( row -> level != 2 )
+      if (( categ = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
+						  GTK_CTREE_ROW ( row -> parent ) -> parent )))
 	{
-	  no_categ = ((struct struct_categ *)(gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-									    GTK_CTREE_ROW ( GTK_CTREE_ROW ( node ) -> parent ) -> parent ))) -> no_categ;
+	  no_categ = categ -> no_categ;
 
-	  if ( gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-					     GTK_CTREE_ROW ( node ) -> parent ))
-	    no_sous_categ = ((struct struct_sous_categ *)(gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-											GTK_CTREE_ROW ( node ) -> parent ))) -> no_sous_categ;
+	  if ( (sous_categ = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
+							   row -> parent )))
+	    no_sous_categ = sous_categ -> no_sous_categ;
 	  else
 	    no_sous_categ = 0;
 	}
@@ -1114,52 +1184,6 @@ void ouverture_node_categ ( GtkWidget *arbre,
 
 }
 /* **************************************************************************************************** */
-
-
-
-
-
-/* **************************************************************************************************** */
-/* Fonction fermeture_node_categ */
-/* appeléé lorsqu'on ferme un tiers ou le compte d'un tiers */
-/* efface tous les fils et en met un bidon */
-/* **************************************************************************************************** */
-
-void fermeture_node_categ ( GtkWidget *arbre,
-			    GtkCTreeNode *node,
-			    gpointer null )
-{			    
-  GtkCTreeNode *child;
-
-  /*   si on ferme une categ, on fait rien */
-
-  if ( GTK_CTREE_ROW ( node )->level == 1
-       &&
-       gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-				     node ))
-    return;
-
-  /* freeze le ctree */
-
-  gtk_clist_freeze ( GTK_CLIST ( arbre_categ ));
-
-  child = GTK_CTREE_ROW ( node ) -> children;
-
-
-  while ( child && GTK_CTREE_ROW ( child ) -> sibling )
-    {
-      gtk_ctree_remove_node ( GTK_CTREE ( arbre_categ ),
-			      child );
-      child = GTK_CTREE_ROW ( node ) -> children;
-    }
-
-  /* defreeze le ctree */
-
-  gtk_clist_thaw ( GTK_CLIST ( arbre_categ ));
-
-}
-/* **************************************************************************************************** */
-
 
 
 
@@ -1694,7 +1718,8 @@ void supprimer_categ ( void )
       combofix = gtk_combofix_new_complex ( liste_combofix,
 					    TRUE,
 					    TRUE,
-					    TRUE );
+					    TRUE,
+					    0 );
 /*       gtk_widget_set_usize ( combofix, */
 /* 			     300, */
 /* 			     FALSE ); */
@@ -2032,7 +2057,8 @@ void supprimer_sous_categ ( void )
       combofix = gtk_combofix_new_complex ( liste_combofix,
 					    TRUE,
 					    TRUE,
-					    TRUE );
+					    TRUE,
+					    0 );
 /*       gtk_widget_set_usize ( combofix, */
 /* 			     300, */
 /* 			     FALSE ); */

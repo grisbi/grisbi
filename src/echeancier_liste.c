@@ -1213,7 +1213,8 @@ void edition_echeance ( void )
   /* met en place l'exercice */
 
   gtk_option_menu_set_history (  GTK_OPTION_MENU ( widget_formulaire_echeancier[9] ),
-				 cherche_no_menu_exercice ( echeance_selectionnnee -> no_exercice ));
+				 cherche_no_menu_exercice ( echeance_selectionnnee -> no_exercice,
+							    widget_formulaire_echeancier[9] ));
 
   /* met en place l'imputation budgétaire */
 
@@ -1241,26 +1242,6 @@ void edition_echeance ( void )
 	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[10] ),
 				(( struct struct_imputation * )( pointeur_tmp -> data )) -> nom_imputation );
     }
-
-
-  /*   remplit les infos guichet / banque */
-
-/*   if ( echeance_selectionnnee -> info_banque_guichet ) */
-/*     { */
-/*       entree_prend_focus ( widget_formulaire_echeancier[11] ); */
-/*       gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[11] ), */
-/* 			   echeance_selectionnnee -> info_banque_guichet ); */
-/*     } */
-
-  /* mise en place de la pièce comptable */
-
-/*   if ( echeance_selectionnnee -> no_piece_comptable ) */
-/*     { */
-/*       entree_prend_focus ( widget_formulaire_echeancier[12] ); */
-/*       gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[12] ), */
-/* 			   echeance_selectionnnee -> no_piece_comptable ); */
-/*     } */
-
 
   /* mise en place de l'automatisme */
 
@@ -1853,7 +1834,13 @@ void verification_echeances_a_terme ( void )
 	      operation -> auto_man = ECHEANCE_COURANTE -> auto_man;
 	      operation -> imputation = ECHEANCE_COURANTE -> imputation;
 	      operation -> sous_imputation = ECHEANCE_COURANTE -> sous_imputation;
-	      operation -> no_exercice = ECHEANCE_COURANTE -> no_exercice;
+
+	      /* si l'exo est automatique (-2), c'est ici qu'on va le chercher */
+
+	      if ( ECHEANCE_COURANTE -> no_exercice == -2 )
+		operation -> no_exercice = recherche_exo_correspondant ( operation -> date );
+	      else
+		operation -> no_exercice = ECHEANCE_COURANTE -> no_exercice;
 
 
 	      /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
@@ -1893,6 +1880,7 @@ void verification_echeances_a_terme ( void )
 		    operation_2 -> contenu_type = operation -> contenu_type;
 
 		  operation_2 -> auto_man = operation -> auto_man;
+		  operation_2 -> no_exercice = operation -> no_exercice;
 
 		  /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
 
@@ -1906,6 +1894,12 @@ void verification_echeances_a_terme ( void )
 		  operation_2 -> relation_no_operation = operation -> no_operation;
 		  operation_2 -> relation_no_compte = operation -> no_compte;
 
+		  /* on met à jour le compte courant pour le virement (il a été mis à jour avec ajout opération, mais sans les liens de virement) */
+
+		  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+
+		  MISE_A_JOUR = 1;
+		  verification_mise_a_jour_liste ();
 		}
 
 
@@ -2006,7 +2000,7 @@ void modification_affichage_echeances ( gint *origine )
     case 6:
 
       affichage_echeances_perso_j_m_a = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_personnalisation_affichage_echeances ) -> menu_item ),
-											    "intervalle_perso" ));
+										"intervalle_perso" ));
       break;
 
       /*       vient du reste, si c'est perso ( 4 ) , on affiche ce qu'il faut */

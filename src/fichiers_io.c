@@ -473,7 +473,8 @@ des paramètres.") );
 			{
 			  struct struct_type_ope *type;
 
-			  type = malloc ( sizeof ( struct struct_type_ope ));
+			  type = calloc ( 1,
+					  sizeof ( struct struct_type_ope ));
 
 			  type -> no_type = atoi ( xmlGetProp ( node_type,
 								"No" ));
@@ -514,7 +515,8 @@ des paramètres.") );
 			  gchar **pointeur_char;
 			  gchar *pointeur;
 
-			  operation = malloc ( sizeof (struct structure_operation ));
+			  operation = calloc ( 1,
+					       sizeof (struct structure_operation ));
 
 			  operation -> no_operation = atoi ( xmlGetProp ( node_ope,
 							      "No" ));
@@ -738,7 +740,8 @@ des paramètres.") );
 		      struct operation_echeance *operation_echeance;
 		      gchar **pointeur_char;
 
-		      operation_echeance = malloc ( sizeof (struct operation_echeance ));
+		      operation_echeance = calloc ( 1,
+						    sizeof (struct operation_echeance ));
 
 		      operation_echeance -> no_operation = atoi ( xmlGetProp ( node_detail,
 								      "No" ));
@@ -908,7 +911,8 @@ des paramètres.") );
 		    {
 		      struct struct_tiers *tiers;
 
-		      tiers = malloc ( sizeof ( struct struct_tiers ) );
+		      tiers = calloc ( 1,
+				       sizeof ( struct struct_tiers ) );
 
 		      tiers -> no_tiers = atoi ( xmlGetProp ( node_detail,
 							      "No" ));
@@ -985,7 +989,8 @@ des paramètres.") );
 		      struct struct_categ *categorie;
 		      xmlNodePtr node_sous_categ;
 		      
-		      categorie = malloc ( sizeof ( struct struct_categ ) );
+		      categorie = calloc ( 1,
+					   sizeof ( struct struct_categ ) );
 
 		      categorie -> no_categ = atoi ( xmlGetProp ( node_detail,
 								  "No" ));
@@ -1005,7 +1010,8 @@ des paramètres.") );
 			{
 			  struct struct_sous_categ *sous_categ;
 
-			  sous_categ = malloc ( sizeof ( struct struct_sous_categ ) );
+			  sous_categ = calloc ( 1,
+						sizeof ( struct struct_sous_categ ) );
 
 			  sous_categ -> no_sous_categ = atoi ( xmlGetProp ( node_sous_categ,
 									    "No" ));
@@ -1082,7 +1088,8 @@ des paramètres.") );
 		      struct struct_imputation *imputation;
 		      xmlNodePtr node_sous_imputation;
 		      
-		      imputation = malloc ( sizeof ( struct struct_imputation ) );
+		      imputation = calloc ( 1,
+					    sizeof ( struct struct_imputation ) );
 
 		      imputation -> no_imputation = atoi ( xmlGetProp ( node_detail,
 								  "No" ));
@@ -1102,7 +1109,8 @@ des paramètres.") );
 			{
 			  struct struct_sous_imputation *sous_imputation;
 
-			  sous_imputation = malloc ( sizeof ( struct struct_sous_imputation ) );
+			  sous_imputation = calloc ( 1,
+						     sizeof ( struct struct_sous_imputation ) );
 
 			  sous_imputation -> no_sous_imputation = atoi ( xmlGetProp ( node_sous_imputation,
 									    "No" ));
@@ -1179,7 +1187,8 @@ des paramètres.") );
 		    {
 		      struct struct_devise *devise;
 		      
-		      devise = malloc ( sizeof ( struct struct_devise ));
+		      devise = calloc ( 1,
+						     sizeof ( struct struct_devise ));
 
 
 		      devise -> no_devise = atoi ( xmlGetProp ( node_detail,
@@ -1282,7 +1291,8 @@ des paramètres.") );
 		    {
 		      struct struct_banque *banque;
 		      
-		      banque = malloc ( sizeof ( struct struct_banque ));
+		      banque = calloc ( 1,
+						     sizeof ( struct struct_banque ));
 
 		      banque -> no_banque = atoi ( xmlGetProp ( node_detail,
 						 "No" ));
@@ -1390,7 +1400,8 @@ des paramètres.") );
 		    {
 		      struct struct_exercice *exercice;
 		      
-		      exercice = malloc ( sizeof ( struct struct_exercice ));
+		      exercice = calloc ( 1,
+						     sizeof ( struct struct_exercice ));
 
 		      exercice -> no_exercice = atoi ( xmlGetProp ( node_detail,
 						 "No" ));
@@ -1475,7 +1486,8 @@ des paramètres.") );
 		    {
 		      struct struct_no_rapprochement *rapprochement;
 
-		      rapprochement = malloc ( sizeof ( struct struct_no_rapprochement ));
+		      rapprochement = calloc ( 1,
+						     sizeof ( struct struct_no_rapprochement ));
 
 		      rapprochement -> no_rapprochement = atoi ( xmlGetProp ( node_detail,
 						 "No" ));
@@ -1529,14 +1541,22 @@ des paramètres.") );
 	      if ( !operation_associee
 		   ||
 		   operation -> no_operation_ventilee_associee != operation_associee -> no_operation )
-		operation_associee = g_slist_find_custom ( LISTE_OPERATIONS,
-							   GINT_TO_POINTER ( operation -> no_operation_ventilee_associee ),
-							   (GCompareFunc) recherche_operation_par_no ) -> data;
+		{
+		  GSList *pointeur_2;
 
-	      if ( operation_associee -> montant < 0 )
+		  pointeur_2 = g_slist_find_custom ( LISTE_OPERATIONS,
+						     GINT_TO_POINTER ( operation -> no_operation_ventilee_associee ),
+						     (GCompareFunc) recherche_operation_par_no );
+
+		  if ( pointeur_2 )
+		    operation_associee = pointeur_2 -> data;
+		}
+
+	      if ( operation_associee
+		   &&
+		   operation_associee -> montant < 0 )
 		operation -> montant = -operation -> montant;
 	    }
-
 	  pointeur_tmp = pointeur_tmp -> next;
 	}
     }
@@ -1550,6 +1570,20 @@ des paramètres.") );
        !strlen ( chemin_logo ))
     chemin_logo = CHEMIN_LOGO;
 
+  /* met l'affichage des opés comme il l'était avant */
+
+  initialise_tab_affichage_ope();
+
+  /*   la taille des colonnes est automatique, on y met les anciens rapports */
+
+  etat.largeur_auto_colonnes = 1;
+  rapport_largeur_colonnes[0] = 11;
+  rapport_largeur_colonnes[1] = 13;
+  rapport_largeur_colonnes[2] = 30;
+  rapport_largeur_colonnes[3] = 3;
+  rapport_largeur_colonnes[4] = 11;
+  rapport_largeur_colonnes[5] = 11;
+  rapport_largeur_colonnes[6] = 11;
 
 
   /* on marque le fichier comme ouvert */
@@ -1665,6 +1699,40 @@ des paramètres.") );
 	      if ( !strcmp ( node_generalites -> name,
 			     "Chemin_logo" ))
 		chemin_logo = xmlNodeGetContent ( node_generalites );
+
+	      if ( !strcmp ( node_generalites -> name,
+			     "Affichage_opes" ))
+		{
+		  gchar **pointeur_char;
+		  gint i, j;
+
+		  pointeur_char = g_strsplit ( xmlNodeGetContent ( node_generalites ),
+					       "-",
+					       28 );
+
+		  for ( i=0 ; i<4 ; i++ )
+		    for ( j=0 ; j< 7 ; j++ )
+		      tab_affichage_ope[i][j] = atoi ( pointeur_char[j + i*7]);
+
+		  g_strfreev ( pointeur_char );
+		}
+
+	      if ( !strcmp ( node_generalites -> name,
+			     "Rapport_largeur_col" ))
+		{
+		  gchar **pointeur_char;
+		  gint i;
+
+		  pointeur_char = g_strsplit ( xmlNodeGetContent ( node_generalites ),
+					       "-",
+					       7 );
+
+		  for ( i=0 ; i<7 ; i++ )
+		    rapport_largeur_colonnes[i] = atoi ( pointeur_char[i]);
+
+		  g_strfreev ( pointeur_char );
+		}
+
 
 	      node_generalites = node_generalites -> next;
 	    }
@@ -1935,7 +2003,8 @@ des paramètres.") );
 			{
 			  struct struct_type_ope *type;
 
-			  type = malloc ( sizeof ( struct struct_type_ope ));
+			  type = calloc ( 1,
+						     sizeof ( struct struct_type_ope ));
 
 			  type -> no_type = atoi ( xmlGetProp ( node_type,
 								"No" ));
@@ -1976,7 +2045,8 @@ des paramètres.") );
 			  gchar **pointeur_char;
 			  gchar *pointeur;
 
-			  operation = malloc ( sizeof (struct structure_operation ));
+			  operation = calloc ( 1,
+						     sizeof (struct structure_operation ));
 
 			  operation -> no_operation = atoi ( xmlGetProp ( node_ope,
 							      "No" ));
@@ -2200,7 +2270,8 @@ des paramètres.") );
 		      struct operation_echeance *operation_echeance;
 		      gchar **pointeur_char;
 
-		      operation_echeance = malloc ( sizeof (struct operation_echeance ));
+		      operation_echeance = calloc ( 1,
+						     sizeof (struct operation_echeance ));
 
 		      operation_echeance -> no_operation = atoi ( xmlGetProp ( node_detail,
 								      "No" ));
@@ -2360,7 +2431,8 @@ des paramètres.") );
 		    {
 		      struct struct_tiers *tiers;
 
-		      tiers = malloc ( sizeof ( struct struct_tiers ) );
+		      tiers = calloc ( 1,
+						     sizeof ( struct struct_tiers ) );
 
 		      tiers -> no_tiers = atoi ( xmlGetProp ( node_detail,
 							      "No" ));
@@ -2437,7 +2509,8 @@ des paramètres.") );
 		      struct struct_categ *categorie;
 		      xmlNodePtr node_sous_categ;
 		      
-		      categorie = malloc ( sizeof ( struct struct_categ ) );
+		      categorie = calloc ( 1,
+						     sizeof ( struct struct_categ ) );
 
 		      categorie -> no_categ = atoi ( xmlGetProp ( node_detail,
 								  "No" ));
@@ -2457,7 +2530,8 @@ des paramètres.") );
 			{
 			  struct struct_sous_categ *sous_categ;
 
-			  sous_categ = malloc ( sizeof ( struct struct_sous_categ ) );
+			  sous_categ = calloc ( 1,
+						     sizeof ( struct struct_sous_categ ) );
 
 			  sous_categ -> no_sous_categ = atoi ( xmlGetProp ( node_sous_categ,
 									    "No" ));
@@ -2534,7 +2608,8 @@ des paramètres.") );
 		      struct struct_imputation *imputation;
 		      xmlNodePtr node_sous_imputation;
 		      
-		      imputation = malloc ( sizeof ( struct struct_imputation ) );
+		      imputation = calloc ( 1,
+						     sizeof ( struct struct_imputation ) );
 
 		      imputation -> no_imputation = atoi ( xmlGetProp ( node_detail,
 								  "No" ));
@@ -2554,7 +2629,8 @@ des paramètres.") );
 			{
 			  struct struct_sous_imputation *sous_imputation;
 
-			  sous_imputation = malloc ( sizeof ( struct struct_sous_imputation ) );
+			  sous_imputation = calloc ( 1,
+						     sizeof ( struct struct_sous_imputation ) );
 
 			  sous_imputation -> no_sous_imputation = atoi ( xmlGetProp ( node_sous_imputation,
 									    "No" ));
@@ -2631,7 +2707,8 @@ des paramètres.") );
 		    {
 		      struct struct_devise *devise;
 		      
-		      devise = malloc ( sizeof ( struct struct_devise ));
+		      devise = calloc ( 1,
+						     sizeof ( struct struct_devise ));
 
 
 		      devise -> no_devise = atoi ( xmlGetProp ( node_detail,
@@ -2734,7 +2811,8 @@ des paramètres.") );
 		    {
 		      struct struct_banque *banque;
 		      
-		      banque = malloc ( sizeof ( struct struct_banque ));
+		      banque = calloc ( 1,
+						     sizeof ( struct struct_banque ));
 
 		      banque -> no_banque = atoi ( xmlGetProp ( node_detail,
 						 "No" ));
@@ -2842,7 +2920,8 @@ des paramètres.") );
 		    {
 		      struct struct_exercice *exercice;
 		      
-		      exercice = malloc ( sizeof ( struct struct_exercice ));
+		      exercice = calloc ( 1,
+						     sizeof ( struct struct_exercice ));
 
 		      exercice -> no_exercice = atoi ( xmlGetProp ( node_detail,
 						 "No" ));
@@ -2927,7 +3006,8 @@ des paramètres.") );
 		    {
 		      struct struct_no_rapprochement *rapprochement;
 
-		      rapprochement = malloc ( sizeof ( struct struct_no_rapprochement ));
+		      rapprochement = calloc ( 1,
+						     sizeof ( struct struct_no_rapprochement ));
 
 		      rapprochement -> no_rapprochement = atoi ( xmlGetProp ( node_detail,
 						 "No" ));
@@ -2993,7 +3073,8 @@ des paramètres.") );
 		    {
 		      struct struct_etat *etat;
 		      
-		      etat = malloc ( sizeof ( struct struct_etat ));
+		      etat = calloc ( 1,
+				      sizeof ( struct struct_etat ));
 
 		      etat -> no_etat = atoi ( xmlGetProp ( node_detail,
 							    "No" ));
@@ -3607,7 +3688,7 @@ gboolean enregistre_fichier ( void )
   gchar *pointeur_char;
   GSList *pointeur_liste;
   GList *pointeur_list;
-  gint i;
+  gint i, j;
   GSList *pointeur_liste_2;
 
   /*   si le fichier est dejà ouvert par un autre, ne peut enregistrer */
@@ -3715,6 +3796,45 @@ gboolean enregistre_fichier ( void )
 		    NULL,
 		    "Chemin_logo",
 		    chemin_logo );
+
+  /* creation de l'ordre de l'affichage des opés */
+
+  pointeur_char = NULL;
+
+  for ( i=0 ; i<4 ; i++ )
+    for ( j=0 ; j< 7 ; j++ )
+       if ( pointeur_char )
+	 pointeur_char = g_strconcat ( pointeur_char,
+				       "-",
+				       itoa ( tab_affichage_ope[i][j] ),
+				       NULL );
+       else
+	 pointeur_char = itoa ( tab_affichage_ope[i][j] );
+   
+
+  xmlNewTextChild ( node,
+		    NULL,
+		    "Affichage_opes",
+		    pointeur_char );
+
+  /* creation des rapport largeurs colonnes */
+
+  pointeur_char = NULL;
+
+  for ( i=0 ; i<7 ; i++ )
+    if ( pointeur_char )
+      pointeur_char = g_strconcat ( pointeur_char,
+				    "-",
+				    itoa ( rapport_largeur_colonnes[i] ),
+				    NULL );
+    else
+      pointeur_char = itoa ( rapport_largeur_colonnes[i] );
+   
+
+  xmlNewTextChild ( node,
+		    NULL,
+		    "Rapport_largeur_col",
+		    pointeur_char );
 
 
   /*   on commence la sauvegarde des comptes : 2 parties, les generalites */
@@ -6090,7 +6210,8 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
   xmlNodePtr node;
   struct struct_etat *etat;
 		      
-  etat = malloc ( sizeof ( struct struct_etat ));
+  etat = calloc ( 1,
+		  sizeof ( struct struct_etat ));
 
   /* on place node sur les generalites */
 
@@ -6738,7 +6859,8 @@ gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc )
   xmlNodePtr node;
   struct struct_categ *categ;
 		      
-  categ = malloc ( sizeof ( struct struct_categ ));
+  categ = calloc ( 1,
+						     sizeof ( struct struct_categ ));
 
   /* on place node sur les generalites */
 
@@ -6813,7 +6935,8 @@ gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc )
 		      if ( !liste_tmp_2 )
 			{
 
-			  sous_categ = malloc ( sizeof ( struct struct_sous_categ ) );
+			  sous_categ = calloc ( 1,
+						     sizeof ( struct struct_sous_categ ) );
 
 			  sous_categ -> no_sous_categ = ++categorie -> no_derniere_sous_categ;
 
@@ -6831,7 +6954,8 @@ gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc )
 		  /* la catégorie n'existe pas, on l'ajoute */
 
 		      
-		  categorie = malloc ( sizeof ( struct struct_categ ) );
+		  categorie = calloc ( 1,
+						     sizeof ( struct struct_categ ) );
 
 		  categorie -> no_categ = ++no_derniere_categorie;
 		  nb_enregistrements_categories++;
@@ -6852,7 +6976,8 @@ gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc )
 		    {
 		      struct struct_sous_categ *sous_categ;
 
-		      sous_categ = malloc ( sizeof ( struct struct_sous_categ ) );
+		      sous_categ = calloc ( 1,
+						     sizeof ( struct struct_sous_categ ) );
 
 		      sous_categ -> no_sous_categ = atoi ( xmlGetProp ( node_sous_categ,
 									"No" ));
@@ -7084,7 +7209,8 @@ gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc )
   xmlNodePtr node;
   struct struct_imputation *ib;
 		      
-  ib = malloc ( sizeof ( struct struct_imputation ));
+  ib = calloc ( 1,
+						     sizeof ( struct struct_imputation ));
 
   /* on place node sur les generalites */
 
@@ -7159,7 +7285,8 @@ gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc )
 		      if ( !liste_tmp_2 )
 			{
 
-			  sous_ib = malloc ( sizeof ( struct struct_sous_imputation ) );
+			  sous_ib = calloc ( 1,
+						     sizeof ( struct struct_sous_imputation ) );
 
 			  sous_ib -> no_sous_imputation = ++ib -> no_derniere_sous_imputation;
 
@@ -7177,7 +7304,8 @@ gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc )
 		  /* l'ib n'existe pas, on l'ajoute */
 
 		      
-		  ib = malloc ( sizeof ( struct struct_imputation ) );
+		  ib = calloc ( 1,
+						     sizeof ( struct struct_imputation ) );
 
 		  ib -> no_imputation = ++no_derniere_imputation;
 		  nb_enregistrements_imputations++;
@@ -7198,7 +7326,8 @@ gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc )
 		    {
 		      struct struct_sous_imputation *sous_ib;
 
-		      sous_ib = malloc ( sizeof ( struct struct_sous_imputation ) );
+		      sous_ib = calloc ( 1,
+					 sizeof ( struct struct_sous_imputation ) );
 
 		      sous_ib -> no_sous_imputation = atoi ( xmlGetProp ( node_sous_ib,
 									  "No" ));

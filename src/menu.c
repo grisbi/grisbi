@@ -99,6 +99,11 @@ void init_menus ( GtkWidget * win )
 			       preferences,
 			       GINT_TO_POINTER ( 8 ),
 			       NULL ),
+      GNOMEUIINFO_ITEM_DATA  ( N_("Affichage liste"),
+			       N_("Affichage liste"),
+			       preferences,
+			       GINT_TO_POINTER ( 9 ),
+			       NULL ),
       GNOMEUIINFO_END
     };
 

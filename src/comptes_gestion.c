@@ -1505,15 +1505,6 @@ void modification_details_compte ( void )
 	    }
 	}
 
-      if ( TYPE_DE_COMPTE == 1 )
-	gtk_clist_set_column_visibility ( GTK_CLIST ( CLIST_OPERATIONS ),
-					  0,
-					  FALSE );
-      else
-	gtk_clist_set_column_visibility ( GTK_CLIST ( CLIST_OPERATIONS ),
-					  0,
-					  TRUE );
-
       mise_a_jour_fin_comptes_passifs();
       mise_a_jour_soldes_minimaux();
       formulaire_a_zero();

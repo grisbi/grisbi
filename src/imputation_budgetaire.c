@@ -350,18 +350,34 @@ GtkWidget *onglet_imputations ( void )
 		       5 );
   gtk_widget_show (frame );
 
+  vbox = gtk_vbox_new ( FALSE,
+			5 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
+				   10 );
+  gtk_container_add ( GTK_CONTAINER ( frame ),
+		      vbox );
+  gtk_widget_show ( vbox );
+
+  /* on y ajoute la barre d'outils */
+
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       creation_barre_outils_imputation(),
+		       FALSE,
+		       FALSE,
+		       0 );
 
 /* création de l'arbre principal */
 
   scroll_window = gtk_scrolled_window_new ( NULL,
 				     NULL );
-  gtk_container_set_border_width ( GTK_CONTAINER ( scroll_window ),
-				   10 );
   gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scroll_window ),
 				   GTK_POLICY_AUTOMATIC,
 				   GTK_POLICY_AUTOMATIC );
-  gtk_container_add ( GTK_CONTAINER ( frame ),
-		      scroll_window );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       scroll_window,
+		       TRUE,
+		       TRUE,
+		       0 );
   gtk_widget_show ( scroll_window );
 
 
@@ -424,10 +440,6 @@ GtkWidget *onglet_imputations ( void )
   gtk_signal_connect ( GTK_OBJECT ( arbre_imputation ),
 		       "tree-expand",
 		       GTK_SIGNAL_FUNC ( ouverture_node_imputation ),
-		       NULL );
-  gtk_signal_connect ( GTK_OBJECT ( arbre_imputation ),
-		       "tree-collapse",
-		       GTK_SIGNAL_FUNC ( fermeture_node_imputation ),
 		       NULL );
   gtk_container_add ( GTK_CONTAINER (  scroll_window ),
 		      arbre_imputation );
@@ -603,17 +615,23 @@ void remplit_arbre_imputation ( void )
 
 	  /* pour chacun des sous imputation, on met un fils bidon pour pouvoir l'ouvrir */
 
-	  gtk_ctree_insert_node ( GTK_CTREE ( arbre_imputation ),
-				  ligne_sous_imputation,
-				  NULL,
-				  text,
-				  5,
-				  NULL,
-				  NULL,
-				  NULL,
-				  NULL,
-				  FALSE,
-				  FALSE );
+	  ligne_sous_imputation = gtk_ctree_insert_node ( GTK_CTREE ( arbre_imputation ),
+							  ligne_sous_imputation,
+							  NULL,
+							  text,
+							  5,
+							  NULL,
+							  NULL,
+							  NULL,
+							  NULL,
+							  FALSE,
+							  FALSE );
+
+	  /* on associe le fils bidon à -1 */
+
+	  gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_imputation ),
+					ligne_sous_imputation,
+					GINT_TO_POINTER (-1));
 
 	  place_sous_imputation++;
 	  liste_sous_imputation_tmp = liste_sous_imputation_tmp -> next;
@@ -658,17 +676,23 @@ void remplit_arbre_imputation ( void )
 
 	  /* pour chacun des sous imputation, on met un fils bidon pour pouvoir l'ouvrir */
 
-	  gtk_ctree_insert_node ( GTK_CTREE ( arbre_imputation ),
-				  ligne_sous_imputation,
-				  NULL,
-				  text,
-				  5,
-				  NULL,
-				  NULL,
-				  NULL,
-				  NULL,
-				  FALSE,
-				  FALSE );
+	  ligne_sous_imputation = gtk_ctree_insert_node ( GTK_CTREE ( arbre_imputation ),
+							  ligne_sous_imputation,
+							  NULL,
+							  text,
+							  5,
+							  NULL,
+							  NULL,
+							  NULL,
+							  NULL,
+							  FALSE,
+							  FALSE );
+
+	  /* on associe le fils bidon à -1 */
+
+	  gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_imputation ),
+					ligne_sous_imputation,
+					GINT_TO_POINTER (-1));
 
 	}
       place_imputation++;
@@ -709,19 +733,55 @@ void remplit_arbre_imputation ( void )
 				      FALSE,
 				      FALSE );
 
-	  /* on met un fils bidon pour pouvoir l'ouvrir */
+      /* on met aucune sous imput */
 
-      gtk_ctree_insert_node ( GTK_CTREE ( arbre_imputation ),
-			      ligne,
-			      NULL,
-			      text,
-			      5,
-			      NULL,
-			      NULL,
-			      NULL,
-			      NULL,
-			      FALSE,
-			      FALSE );
+      if ( etat.affiche_nb_ecritures_listes
+	   &&
+	   nb_ecritures_par_imputation[0] )
+	text[0] = g_strconcat ( _("Aucune sous-imputation ("),
+				itoa ( nb_ecritures_par_imputation[0] ),
+				")",
+				NULL );
+      else
+	text[0] = _("Aucune sous-imputation");
+
+      text[1] = NULL;
+      text[2] = g_strdup_printf ( "%4.2f %s",
+				  tab_montant_imputation[0],
+				  devise_compte -> code_devise );
+      text[3] = NULL;
+
+      ligne = gtk_ctree_insert_node ( GTK_CTREE ( arbre_imputation ),
+				      ligne,
+				      NULL,
+				      text,
+				      10,
+				      NULL,
+				      NULL,
+				      NULL,
+				      NULL,
+				      FALSE,
+				      FALSE );
+
+      /* on met un fils bidon pour pouvoir l'ouvrir */
+
+      ligne = gtk_ctree_insert_node ( GTK_CTREE ( arbre_imputation ),
+				      ligne,
+				      NULL,
+				      text,
+				      5,
+				      NULL,
+				      NULL,
+				      NULL,
+				      NULL,
+				      FALSE,
+				      FALSE );
+
+      /* on associe le fils bidon à -1 */
+      
+      gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_imputation ),
+				    ligne,
+				    GINT_TO_POINTER (-1));
     }
 
   /*   on efface les variables */
@@ -772,11 +832,14 @@ void ouverture_node_imputation ( GtkWidget *arbre,
 
   /*   si on ouvre une imputation, on fait rien */
 
-  if ( row->level == 1
-       &&
-       gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
-				     node )
-       )
+  if ( row->level == 1 )
+    return;
+
+  /*   si le fiston = -1, c'est qu'il n'a pas encore été créé */
+  /* dans le cas contraire, on vire */
+
+  if ( GPOINTER_TO_INT ( gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
+						       row -> children )) != -1 )
     return;
 
 
@@ -792,30 +855,23 @@ void ouverture_node_imputation ( GtkWidget *arbre,
 
   /* séparation entre ouverture de sous-imputation ( 2 ) et ouverture de compte ( 3 ) */
 
-  if ( ( row -> level == 2
-	 &&
-	 gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
-				       GTK_CTREE_ROW ( node ) -> parent ))
-       ||
-       ( row ->level == 1
-	 &&
-	 !gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
-					node )))
+  if ( row -> level == 2 )
     {
       /* c'est une ouverture de sous imputation, on récupère sa structure  */
 
+      struct struct_imputation *imputation;
+      struct struct_sous_imputation *sous_imputation;
       gint no_imputation;
       gint no_sous_imputation;
       gint i;
 
-      if ( row -> level != 1 )
+      if (( imputation = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
+						       GTK_CTREE_ROW ( node ) -> parent )))
 	{
-	  no_imputation = ((struct struct_imputation *)(gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
-									    GTK_CTREE_ROW ( node ) -> parent ))) -> no_imputation;
-	  if ( gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
-					     node))
-	    no_sous_imputation = ((struct struct_sous_imputation *)(gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
-											node))) -> no_sous_imputation;
+	  no_imputation = imputation -> no_imputation;
+	  if (( sous_imputation = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
+								node)))
+	    no_sous_imputation = sous_imputation -> no_sous_imputation;
 	  else
 	    no_sous_imputation = 0;
 	}
@@ -888,17 +944,25 @@ void ouverture_node_imputation ( GtkWidget *arbre,
 
 		  /* on met une ligne bidon pour pouvoir l'ouvrir */
 
-		  gtk_ctree_insert_node ( GTK_CTREE ( arbre_imputation ),
-					  node_insertion,
-					  NULL,
-					  text,
-					  5,
-					  NULL,
-					  NULL,
-					  NULL,
-					  NULL,
-					  FALSE,
-					  FALSE );
+		  node_insertion = gtk_ctree_insert_node ( GTK_CTREE ( arbre_imputation ),
+							   node_insertion,
+							   NULL,
+							   text,
+							   5,
+							   NULL,
+							   NULL,
+							   NULL,
+							   NULL,
+							   FALSE,
+							   FALSE );
+
+		  /* on associe le fils bidon à -1 */
+		  
+		  gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_imputation ),
+						node_insertion,
+						GINT_TO_POINTER (-1));
+		  
+
 		  pointeur_ope = NULL;
 		}
 	      else
@@ -913,19 +977,20 @@ void ouverture_node_imputation ( GtkWidget *arbre,
       /* c'est une ouverture d'un compte */
       /*       cette fois, on fait le tour de toutes les opés du compte pour afficher celles qui correspondent à la imputation */
 
+      struct struct_imputation *imputation;
+      struct struct_sous_imputation *sous_imputation;
       GSList *pointeur_ope;
       gint no_imputation;
       gint no_sous_imputation;
 
-      if ( row -> level != 2 )
+      if (( imputation = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
+						       GTK_CTREE_ROW ( GTK_CTREE_ROW ( node ) -> parent ) -> parent )))
 	{
-	  no_imputation = ((struct struct_imputation *)(gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
-									    GTK_CTREE_ROW ( GTK_CTREE_ROW ( node ) -> parent ) -> parent ))) -> no_imputation;
+	  no_imputation = imputation -> no_imputation;
 
-	  if ( gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
-					     GTK_CTREE_ROW ( node ) -> parent ))
-	    no_sous_imputation = ((struct struct_sous_imputation *)(gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
-											GTK_CTREE_ROW ( node ) -> parent ))) -> no_sous_imputation;
+	  if (( sous_imputation = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
+								GTK_CTREE_ROW ( node ) -> parent )))
+	    no_sous_imputation = sous_imputation -> no_sous_imputation;
 	  else
 	    no_sous_imputation = 0;
 	}
@@ -1026,52 +1091,6 @@ void ouverture_node_imputation ( GtkWidget *arbre,
 
 }
 /* **************************************************************************************************** */
-
-
-
-
-
-/* **************************************************************************************************** */
-/* Fonction fermeture_node_imputation */
-/* appeléé lorsqu'on ferme un tiers ou le compte d'un tiers */
-/* efface tous les fils et en met un bidon */
-/* **************************************************************************************************** */
-
-void fermeture_node_imputation ( GtkWidget *arbre,
-				 GtkCTreeNode *node,
-				 gpointer null )
-{			    
-  GtkCTreeNode *child;
-
-  /*   si on ferme une imputation, on fait rien */
-
-  if ( GTK_CTREE_ROW ( node )->level == 1 
-       &&
-       gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
-				     node ))
-    return;
-
-  /* freeze le ctree */
-
-  gtk_clist_freeze ( GTK_CLIST ( arbre_imputation ));
-
-  child = GTK_CTREE_ROW ( node ) -> children;
-
-
-  while ( child && GTK_CTREE_ROW ( child ) -> sibling )
-    {
-      gtk_ctree_remove_node ( GTK_CTREE ( arbre_imputation ),
-			      child );
-      child = GTK_CTREE_ROW ( node ) -> children;
-    }
-
-  /* defreeze le ctree */
-
-  gtk_clist_thaw ( GTK_CLIST ( arbre_imputation ));
-
-}
-/* **************************************************************************************************** */
-
 
 
 
@@ -1554,22 +1573,22 @@ void supprimer_imputation ( void )
 
       while ( pointeur )
 	{
-	  struct struct_imputation *imputation;
+	  struct struct_imputation *imputation_tmp;
 	  GSList *sous_pointeur;
 
-	  imputation = pointeur -> data;
+	  imputation_tmp = pointeur -> data;
 
-	  if ( imputation-> no_imputation != imputation -> no_imputation )
+	  if ( imputation_tmp -> no_imputation != imputation -> no_imputation )
 	    {
-	      if ( imputation -> type_imputation )
+	      if ( imputation_tmp -> type_imputation )
 		liste_imputation_debit = g_slist_append ( liste_imputation_debit,
-						     g_strdup ( imputation -> nom_imputation ) );
+							  g_strdup ( imputation_tmp -> nom_imputation ) );
 	      else
 		liste_imputation_credit = g_slist_append ( liste_imputation_credit,
-						      g_strdup ( imputation -> nom_imputation ) );
+							   g_strdup ( imputation_tmp -> nom_imputation ) );
 
 
-	      sous_pointeur = imputation -> liste_sous_imputation;
+	      sous_pointeur = imputation_tmp -> liste_sous_imputation;
 
 	      while ( sous_pointeur )
 		{
@@ -1605,7 +1624,8 @@ void supprimer_imputation ( void )
       combofix = gtk_combofix_new_complex ( liste_combofix,
 					    TRUE,
 					    TRUE,
-					    TRUE );
+					    TRUE,
+					    0 );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   combofix,
 			   FALSE,
@@ -1933,7 +1953,8 @@ void supprimer_sous_imputation ( void )
       combofix = gtk_combofix_new_complex ( liste_combofix,
 					    TRUE,
 					    TRUE,
-					    TRUE );
+					    TRUE,
+					    0 );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   combofix,
 			   FALSE,

@@ -1085,12 +1085,52 @@ gint gtktable_affiche_total_periode ( struct structure_operation *operation,
 
       message = NULL;
 
-      /* si l'ancienne date est nulle, on la met à la date de l'opération */
+      /* si la date de début de période est nulle, on la met au début de la période la date de l'opération */
 
       if ( !date_debut_periode )
 	{
 	  if ( operation )
-	    date_debut_periode = operation -> date;
+	    {
+	      /*  il y a une opération, on va rechercher le début de la période qui la contient */
+	      /* ça peut être le début de la semaine, du mois ou de l'année de l'opé */
+
+	      switch ( etat_courant -> type_separation_plage )
+		{
+		case 0:
+		  /* séparation par semaine : on recherche le début de la semaine qui contient l'opé */
+
+		  date_debut_periode = g_date_new_dmy ( g_date_day ( operation -> date ),
+							g_date_month ( operation -> date ),
+							g_date_year ( operation -> date ));
+
+		  if ( g_date_weekday ( date_debut_periode )  != (etat_courant -> jour_debut_semaine + 1 ))
+		    {
+		      if ( g_date_weekday ( date_debut_periode ) < (etat_courant -> jour_debut_semaine + 1 ))
+			g_date_subtract_days ( date_debut_periode,
+					       g_date_weekday ( date_debut_periode ) + etat_courant -> jour_debut_semaine - 2 );
+		      else
+			g_date_subtract_days ( date_debut_periode,
+					       g_date_weekday ( date_debut_periode ) - etat_courant -> jour_debut_semaine - 1 );
+		    }
+		  break;
+
+		case 1:
+		  /* séparation par mois */
+
+		  date_debut_periode = g_date_new_dmy ( 1,
+							g_date_month ( operation -> date ),
+							g_date_year ( operation -> date ));
+		  break;
+
+		case 2:
+		  /* séparation par an */
+
+		  date_debut_periode = g_date_new_dmy ( 1,
+							1,
+							g_date_year ( operation -> date ));
+		  break;
+		}
+	    }
 	  else
 	    date_debut_periode = NULL;
 	  return ( ligne );
@@ -1198,43 +1238,6 @@ gint gtktable_affiche_total_periode ( struct structure_operation *operation,
 				  " : ",
 				  NULL );
 	  break;
-
-/* 	case 3: */
-	  /* séparation perso */
-
-
-/* 	  date_tmp = g_date_new_dmy ( g_date_day ( date_debut_periode ), */
-/* 				      g_date_month ( date_debut_periode ), */
-/* 				      g_date_year ( date_debut_periode )); */
-
-	  /* on ajoute à date_tmp la ppériodicité et on regarde si on l'a dépassé */
-
-/* 	  switch ( etat_cournat -> type_separation_perso ) */
-/* 	    { */
-/* 	    case 0: */
- 	      /* jours */ 
-
-/* 	      g_date_add_days ( date_tmp, */
-/* 				etat_courant -> delai_separation_perso ); */
-/* 	      break; */
-
-/* 	    case 1: */
-	      /* mois */
-
-/* 	      g_date_add_months ( date_tmp, */
-/* 				etat_courant -> delai_separation_perso ); */
-/* 	      break; */
-
-/* 	    case 2: */
-          /* ans */ 
-
-/* 	      g_date_add_years ( date_tmp, */
-/* 				 etat_courant -> delai_separation_perso ); */
-/* 	      break; */
-/* 	    } */
-
-/* 	    return ( ligne ); */
-/* 	  break; */
 	}
 
       /*       si on arrive ici, c'est qu'il y a un chgt de période ou que c'est forcé */
@@ -1339,10 +1342,54 @@ gint gtktable_affiche_total_periode ( struct structure_operation *operation,
 
       montant_periode_etat = 0;
 
-      if ( operation )
-	date_debut_periode = operation -> date;
-      else
-	date_debut_periode = NULL;
+      /* comme il y a un changement de période, on remet la date_debut_periode à celle du début de la période */
+      /* de l'opération  en cours */
+
+
+	  if ( operation )
+	    {
+	      /*  il y a une opération, on va rechercher le début de la période qui la contient */
+	      /* ça peut être le début de la semaine, du mois ou de l'année de l'opé */
+
+	      switch ( etat_courant -> type_separation_plage )
+		{
+		case 0:
+		  /* séparation par semaine : on recherche le début de la semaine qui contient l'opé */
+
+		  date_debut_periode = g_date_new_dmy ( g_date_day ( operation -> date ),
+							g_date_month ( operation -> date ),
+							g_date_year ( operation -> date ));
+
+		  if ( g_date_weekday ( date_debut_periode )  != (etat_courant -> jour_debut_semaine + 1 ))
+		    {
+		      if ( g_date_weekday ( date_debut_periode ) < (etat_courant -> jour_debut_semaine + 1 ))
+			g_date_subtract_days ( date_debut_periode,
+					       g_date_weekday ( date_debut_periode ) + etat_courant -> jour_debut_semaine - 2 );
+		      else
+			g_date_subtract_days ( date_debut_periode,
+					       g_date_weekday ( date_debut_periode ) - etat_courant -> jour_debut_semaine - 1 );
+		    }
+		  break;
+
+		case 1:
+		  /* séparation par mois */
+
+		  date_debut_periode = g_date_new_dmy ( 1,
+							g_date_month ( operation -> date ),
+							g_date_year ( operation -> date ));
+		  break;
+
+		case 2:
+		  /* séparation par an */
+
+		  date_debut_periode = g_date_new_dmy ( 1,
+							1,
+							g_date_year ( operation -> date ));
+		  break;
+		}
+	    }
+	  else
+	    date_debut_periode = NULL;
     }
 
   return (ligne );

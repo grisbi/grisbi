@@ -64,6 +64,9 @@ extern "C" {
 
     gint force_text;
 
+    /* à 0 pour afficher toutes les lignes */
+
+    gint lignes_max;
 
     /* variables privées */
 
@@ -102,6 +105,8 @@ extern "C" {
   /* force_text :            TRUE ( le texte doit correspondre à la liste ) / FALSE */
   /* affiche_liste :         TRUE ( la liste sera affichée en tapant le mot ) / FALSE */
   /* classement_auto : TRUE ( la liste est toujours classée par ordre alphabétique ) / FALSE  */
+  /* lignes_max : contient le nb maximal de lignes affichées de la liste, si 0=les affiche toutes, */
+  /* s'il est dépassé, n'affiche rien */
   /*                                                                                                                                      */
   /* retour : le widget gtk_combofix ( une hbox contenant l'entrée et d'une arrow ) */
   /* **************************************************************************************************** */
@@ -109,7 +114,8 @@ extern "C" {
   GtkWidget *gtk_combofix_new ( GSList *liste,
 				gint force_text,
 				gint affiche_liste,
-				gint classement_auto );
+				gint classement_auto,
+				gint lignes_max );
 
   /* **************************************************************************************************** */
   /* gtk_combofix_new_complex : */
@@ -119,6 +125,8 @@ extern "C" {
   /* force_text :            TRUE ( le texte doit correspondre à la liste ) / FALSE */
   /* affiche_liste :         TRUE ( la liste sera affichée en tapant le mot ) / FALSE */
   /* classement_auto : TRUE ( la liste est toujours classée par ordre alphabétique ) / FALSE  */
+  /* lignes_max : contient le nb maximal de lignes affichées de la liste, si 0=les affiche toutes, */
+  /* s'il est dépassé, n'affiche rien */
   /*                                                                                                                                      */
   /* retour : le widget gtk_combofix ( une hbox contenant l'entrée et d'une arrow ) */
   /* **************************************************************************************************** */
@@ -126,7 +134,8 @@ extern "C" {
   GtkWidget *gtk_combofix_new_complex ( GSList *liste,
 					gint force_text,
 					gint affiche_liste,
-					gint classement_auto );
+					gint classement_auto,
+					gint lignes_max );
 
 
   /* **************************************************************************************************** */
@@ -208,6 +217,19 @@ extern "C" {
 
 
 
+  /* **************************************************************************************************** */
+  /* Fonction gtk_combofix_set_lignes_max : */
+  /* permet de choisir le nombre maximal de lignes affichées dans la liste  */
+  /* s'il vaut 0, toutes les lignes seront affichées */
+  /* arguments :                           */
+  /*       combofix : la combofix          */
+  /*       liste : une gslist              */
+  /*       complex : TRUE : complex / FALSE */
+  /*       classement_auto : TRUE / FALSE   */
+  /* **************************************************************************************************** */
+
+  void gtk_combofix_set_lignes_max ( GtkComboFix *combofix,
+				     gint lignes_max );
 
 
 #ifdef __cplusplus

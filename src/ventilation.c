@@ -357,9 +357,10 @@ GtkWidget *creation_formulaire_ventilation ( void )
   /* mise en place des catégories */
 
   widget_formulaire_ventilation[0] = gtk_combofix_new_complex ( liste_categories_echeances_combofix,
-							    FALSE,
-							    TRUE,
-							    TRUE );
+								FALSE,
+								TRUE,
+								TRUE,
+								0 );
   gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_ventilation[0] ) -> entry ),
  		       "key_press_event",
 		       GTK_SIGNAL_FUNC ( appui_touche_ventilation ),
@@ -450,7 +451,8 @@ GtkWidget *creation_formulaire_ventilation ( void )
   widget_formulaire_ventilation[3] = gtk_combofix_new_complex ( liste_imputations_combofix,
 								FALSE,
 								TRUE,
-								TRUE );
+								TRUE,
+								0 );
   gtk_table_attach ( GTK_TABLE (table),
 		     widget_formulaire_ventilation[3],
 		     0, 1, 1, 2,
@@ -492,7 +494,7 @@ GtkWidget *creation_formulaire_ventilation ( void )
 			 _("Choix de l'exercice") );
   menu = gtk_menu_new ();
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation[4] ),
-			     creation_menu_exercices () );
+			     creation_menu_exercices (0) );
   gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation[4]),
  		       "key_press_event",
 		       GTK_SIGNAL_FUNC ( appui_touche_ventilation ),
@@ -1794,7 +1796,8 @@ void edition_operation_ventilation ( void )
   /* met en place l'exercice */
 
   gtk_option_menu_set_history (  GTK_OPTION_MENU ( widget_formulaire_ventilation[4] ),
-				 cherche_no_menu_exercice ( operation -> no_exercice ));
+				 cherche_no_menu_exercice ( operation -> no_exercice,
+							    widget_formulaire_ventilation[4] ));
 
   /* met en place l'imputation budgétaire */
 

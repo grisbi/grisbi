@@ -142,7 +142,8 @@
   widget_formulaire_operations[2] = gtk_combofix_new ( liste_tiers_combofix,
 						       FALSE,
 						       TRUE,
-						       TRUE );
+						       TRUE,
+						       0 );
   gtk_table_attach ( GTK_TABLE (table),
 		     widget_formulaire_operations[2],
 		     2,3, 0,1,
@@ -335,7 +336,8 @@
   widget_formulaire_operations[8] = gtk_combofix_new_complex ( liste_categories_combofix,
 							       FALSE,
 							       TRUE,
-							       TRUE );
+							       TRUE,
+							       0 );
   gtk_table_attach ( GTK_TABLE (table),
 		     widget_formulaire_operations[8],
 		     2, 3, 1,2,
@@ -434,7 +436,7 @@
 			 _("Choix de l'exercice") );
   menu = gtk_menu_new ();
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[11] ),
-			     creation_menu_exercices () );
+			     creation_menu_exercices (0) );
   gtk_signal_connect ( GTK_OBJECT (widget_formulaire_operations[11]),
  		       "key_press_event",
 		       GTK_SIGNAL_FUNC (touches_champ_formulaire),
@@ -455,7 +457,8 @@
   widget_formulaire_operations[12] = gtk_combofix_new_complex ( liste_imputations_combofix,
 								FALSE,
 								TRUE,
-								TRUE );
+								TRUE,
+								0 );
   gtk_table_attach ( GTK_TABLE (table),
 		     widget_formulaire_operations[12],
 		     2, 3, 2, 3,
@@ -2135,18 +2138,50 @@ gboolean modifie_date ( GtkWidget *entree )
 
   if ( GTK_WIDGET_VISIBLE ( widget_formulaire_operations[9] ))
     {
-      gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
-				    cherche_no_menu_type ( operation -> type_ope ));
-      if ( operation -> type_ope )
-	{
-	  struct struct_type_ope *type;
+      gint place_type;
+      struct struct_type_ope *type;
 
-	  type = g_slist_find_custom ( TYPES_OPES,
-				       GINT_TO_POINTER ( operation -> type_ope ),
-				       (GCompareFunc) recherche_type_ope_par_no ) -> data;
+      place_type = cherche_no_menu_type ( operation -> type_ope );
+
+      if ( place_type == -1 )
+	{
+	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+	  if ( operation -> montant < 0 )
+	    place_type = cherche_no_menu_type ( TYPE_DEFAUT_DEBIT );
+	  else
+	    place_type = cherche_no_menu_type ( TYPE_DEFAUT_CREDIT );
+
+	  if ( place_type != -1 )
+	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
+					  place_type );
+	  else
+	    {
+	      gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
+					    0 );
+
+	      /*  on met ce type par défaut, vu que celui par défaut marche plus ... */
+	      
+	      if ( operation -> montant < 0 )
+		TYPE_DEFAUT_DEBIT = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu_item ),
+						      "no_type" ));
+	      else
+		TYPE_DEFAUT_CREDIT = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu_item ),
+						      "no_type" ));
+	    }
+
+	  /* réupère l'adr du type pour mettre un n° auto si nécessaire */
+
+	  type = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu_item ),
+				       "adr_type" );
+
 
 	  if ( type -> affiche_entree )
 	    {
+	      /* on réaffiche l'entrée car si le menu avait été mis sur le 0, c'était pas affiché */
+
+	      gtk_widget_show ( widget_formulaire_operations[10] );
+
 	      if ( type -> numerotation_auto )
 		{
 		  entree_prend_focus ( widget_formulaire_operations[10] );
@@ -2675,6 +2710,9 @@ gboolean modifie_date ( GtkWidget *entree )
 	  /* -si une des opé de ventilation est un virement, il faut modifier aussi l'opération virée sur l'autre compte */
 
 	  GSList *pointeur_tmp;
+	  gint type_correspondant;
+
+	  type_correspondant = 0;
 
 	  operation -> operation_ventilee = 1;
 	  operation -> categorie = 0;
@@ -2743,7 +2781,15 @@ gboolean modifie_date ( GtkWidget *entree )
 		      ope_virement -> frais_change = operation -> frais_change;
 		      ope_virement -> tiers = ope_de_ventilation -> tiers;
 		      ope_virement -> auto_man = ope_de_ventilation -> auto_man;
-		      ope_virement -> type_ope = ope_de_ventilation -> type_ope;
+
+		      if ( type_correspondant )
+			ope_virement -> type_ope = type_correspondant;
+		      else
+			{
+			  type_correspondant = demande_correspondance_type ( operation,
+									     ope_virement );
+			  ope_virement -> type_ope = type_correspondant;
+			}
 
 		      MISE_A_JOUR = 1;
 
@@ -3101,7 +3147,12 @@ gboolean modifie_date ( GtkWidget *entree )
       if ( operation -> notes )
 	operation_2 -> notes = g_strdup ( operation -> notes);
       operation_2 -> auto_man = operation -> auto_man;
-      operation_2 -> type_ope = operation -> type_ope;
+
+      /*       pour le type, on affiche une fenetre avec un choix des types de l'autre compte */
+
+      operation_2 -> type_ope = demande_correspondance_type ( operation,
+							      operation_2 );
+
 
       if ( operation -> contenu_type )
 	operation_2 -> contenu_type = g_strdup ( operation -> contenu_type );
@@ -3673,3 +3724,280 @@ void degrise_formulaire_operations ( void )
 
  }
  /***********************************************************************************************************/
+
+
+
+/***********************************************************************************************************/
+/* cette fonction essaie de retrouver dans le compte de la nouvelle operation un type qui correspond au */
+/* type d'origine ; elle demande s'il est bon, et propose d'afficher tous les types pour choisir celui */
+/* qui correspond */
+/***********************************************************************************************************/
+
+gint demande_correspondance_type ( struct structure_operation *operation,
+				   struct structure_operation *contre_operation )
+{
+  GtkWidget *dialog;
+  gint resultat;
+  gint type_selectionne;
+  GtkWidget *option_menu;
+  GtkWidget *bouton;
+  GtkWidget *menu;
+  GtkWidget *label;
+  GSList *pointeur_tmp;
+  struct struct_type_ope *type_origine;
+  gpointer **save_ptab;
+  gchar *chaine;
+
+  save_ptab = p_tab_nom_de_compte_variable;
+
+  dialog = gnome_dialog_new ( _( "Choix du type" ),
+			      GNOME_STOCK_BUTTON_OK,
+			      NULL );
+  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
+				 GTK_WINDOW ( window ));
+
+  label = gtk_label_new ( "Sélectionner le type de la contre-opération :" );
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
+
+  pointeur_tmp = g_slist_find_custom ( liste_struct_tiers,
+				       GINT_TO_POINTER ( operation -> tiers ),
+				       (GCompareFunc) recherche_tiers_par_no );
+
+  if ( pointeur_tmp )
+    {
+      label = gtk_label_new ( g_strconcat ( "Tiers : ",
+					    ((struct struct_tiers *)(pointeur_tmp -> data))->nom_tiers,
+					    NULL ));
+      gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+			   label,
+			   FALSE,
+			   FALSE,
+			   0 );
+      gtk_widget_show ( label );
+    }
+
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+
+  chaine = g_strdup_printf ( "Montant : %4.2f\nVirement entre %s et ",
+			     operation -> montant,
+			     NOM_DU_COMPTE );
+
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + contre_operation -> no_compte;
+  chaine = g_strconcat ( chaine,
+			 NOM_DU_COMPTE,
+			 "\n",
+			 NULL );
+
+  label = gtk_label_new ( chaine );
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
+
+
+  option_menu = gtk_option_menu_new ();
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+		       option_menu,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( option_menu );
+
+
+  menu = gtk_menu_new ();
+
+
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+  type_origine = g_slist_find_custom ( TYPES_OPES,
+				       GINT_TO_POINTER ( operation -> type_ope ),
+				       (GCompareFunc) recherche_type_ope_par_no ) -> data;
+
+
+
+
+  /*   on fait le tour de tous les types du compte de la contre opération */
+  /* on n'affiche que les types qui correspondent au type de départ */
+
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + contre_operation -> no_compte;
+  pointeur_tmp = TYPES_OPES;
+  type_selectionne = 0;
+
+  while ( pointeur_tmp )
+    {
+      struct struct_type_ope *type;
+      GtkWidget *menu_item;
+
+      /* pour éviter un warning à la compil */
+
+      menu_item = NULL;
+
+      type = pointeur_tmp -> data;
+
+      /* on commence par créer une item avec ce type */
+      /* s'il est neutre, de signe opposé ou si on a demandé d'afficher tous les types */
+
+      if ( !type -> signe_type
+	   ||
+	   ( type -> signe_type == 1
+	     &&
+	     contre_operation -> montant < 0 )
+	   ||
+	   ( type -> signe_type == 2
+	     &&
+	     contre_operation -> montant >= 0 )
+	   ||
+	   etat.affiche_tous_les_types )
+	{
+	  menu_item = gtk_menu_item_new_with_label ( type -> nom_type );
+	  gtk_menu_append ( GTK_MENU ( menu ),
+			    menu_item );
+	  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+				"no_type",
+				GINT_TO_POINTER ( type -> no_type ));
+	}
+
+      /* on regarde maintenant s'il doit être affiché ou pas */
+
+      /*       1er test, le signe. s'il est neutre ou différent du type d'origine, ça passe */
+
+      if ( ( !type -> signe_type && !type_origine -> signe_type )
+	   ||
+	   ( type -> signe_type != type_origine -> signe_type
+	     &&
+	     type_origine -> signe_type ))
+	{
+	  /* 	  pour le 2ème test, on regarde les noms */
+	  
+	  if ( g_strncasecmp ( type -> nom_type,
+			       type_origine -> nom_type,
+			       MIN ( strlen (type -> nom_type), strlen (type_origine -> nom_type))))
+	    {
+	      /* les 2 noms sont différents, on test sur l'affichage de l'entrée */
+	      /* si le type d'origine affiche une entrée, le contre_type doit aussi en afficher une, et vice-verça */
+
+	      if ( type_origine -> affiche_entree == type -> affiche_entree )
+		{
+		  /* les 2 types se ressemblent, on le garde que si un autre n'était pas déjà selectionné*/
+		  /* 		  par contre, dans tous les cas on l'affiche */
+
+		  gtk_widget_show ( menu_item );
+
+		  if ( !type_selectionne )
+		    type_selectionne = type -> no_type;
+		}
+	    }
+	  else
+	    {
+	      /* les 2 noms sont identiques, on affiche l'item et on le garde pour */
+	      /* la sélection */
+
+	      gtk_widget_show ( menu_item );
+	      type_selectionne = type -> no_type;
+	    }
+	}
+      pointeur_tmp = pointeur_tmp -> next;
+    }
+
+  /*   si on a un type sélectionné, on affiche juste le menu */
+  /*     sinon, on affiche le menu avec tous les menu_item */
+
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( option_menu ),
+			     menu );
+
+  /* on met le type affiché */
+
+  gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu ),
+				place_type_choix_type ( option_menu,
+							type_selectionne ));
+
+
+  if ( type_selectionne )
+    gtk_widget_show ( menu );
+  else
+    gtk_widget_show_all ( menu );
+
+  /* on met en place le bouton pour afficher les menus */
+
+  bouton = gtk_check_button_new_with_label ( "Afficher tous les types du compte" );
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
+			      "clicked",
+			      GTK_SIGNAL_FUNC ( gtk_widget_show_all ),
+			      GTK_OBJECT ( menu ));
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( gtk_widget_set_sensitive ),
+		       NULL );
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton );
+
+  /*   si tous les menus sont déjà affichés, on grise le bouton */
+
+  if ( !type_selectionne )
+    {
+      gtk_widget_set_sensitive ( bouton,
+				 FALSE );
+      type_selectionne = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( option_menu ) -> menu_item ),
+								 "no_type" ));
+    }
+
+  resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
+
+  /* on remet le p_tab */
+
+  p_tab_nom_de_compte_variable = save_ptab;
+
+  /*   si on a fermé la fenetre, on renvoie le type_selectionné */
+
+  if ( resultat )
+    return ( type_selectionne );
+
+  type_selectionne = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( option_menu ) -> menu_item ),
+							     "no_type" ));
+
+  gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+
+  return ( type_selectionne );
+}
+/***********************************************************************************************************/
+
+
+
+
+/***********************************************************************************************************/
+/* retrouve la place du type dans option_menu */
+/* et la renvoie */
+/***********************************************************************************************************/
+
+gint place_type_choix_type ( GtkWidget *option_menu,
+			     gint type )
+{
+  GList *pointeur_liste;
+  gint i;
+
+  pointeur_liste = GTK_MENU_SHELL ( GTK_OPTION_MENU ( option_menu ) -> menu ) -> children;
+  i=0;
+
+  while ( pointeur_liste )
+    {
+      if ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( pointeur_liste -> data ),
+						   "no_type" )) == type )
+	return ( i );
+
+      i++;
+      pointeur_liste = pointeur_liste -> next;
+    }
+
+  return ( 0 );
+}
+/***********************************************************************************************************/

@@ -958,9 +958,11 @@ gint recherche_exercice_par_no ( struct struct_exercice *exercice,
 /* Fonction creation_menu_exercices */
 /* crée un menu qui contient les noms des exercices associés à leur no et adr */
 /* et le renvoie */
+/* origine = 0 si ça vient des opérations */
+/* origine = 1 si ça vient de l'échéancier ; dans ce cas on rajoute automatique */
 /* ************************************************************************************************************ */
 
-GtkWidget *creation_menu_exercices ( void )
+GtkWidget *creation_menu_exercices ( gint origine )
 {
   GtkWidget *menu;
   GtkWidget *menu_item;
@@ -970,7 +972,25 @@ GtkWidget *creation_menu_exercices ( void )
   gtk_widget_show ( menu );
 
 
+  /* si ça vient de l'échéancier, le 1er est automatique */
+  /* on lui associe -2 */
+
+  if ( origine )
+    {
+      menu_item = gtk_menu_item_new_with_label ( _("Automatique") );
+      gtk_menu_append ( GTK_MENU ( menu ),
+			menu_item );
+      gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			    "adr_exercice",
+			    GINT_TO_POINTER (-2));
+      gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			    "no_exercice",
+			    GINT_TO_POINTER (-2));
+      gtk_widget_show ( menu_item );
+    }
+
   /* le premier nom est Aucun */
+  /* on lui associe 0 */
 
   menu_item = gtk_menu_item_new_with_label ( _("Aucun") );
   gtk_menu_append ( GTK_MENU ( menu ),
@@ -983,17 +1003,19 @@ GtkWidget *creation_menu_exercices ( void )
 			NULL );
   gtk_widget_show ( menu_item );
 
+
   /* le second est non affiché */
+  /* on lui associe -1 */
 
   menu_item = gtk_menu_item_new_with_label ( _("Non affiché") );
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"adr_exercice",
-			GINT_TO_POINTER (-1) );
+			GINT_TO_POINTER (-1));
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"no_exercice",
-			GINT_TO_POINTER (-1) );
+			GINT_TO_POINTER (-1));
   gtk_widget_show ( menu_item );
 
 
@@ -1035,28 +1057,41 @@ GtkWidget *creation_menu_exercices ( void )
 /* pour mettre l'history */
 /* ************************************************************************************************************** */
 
-gint cherche_no_menu_exercice ( gint no_demande )
+gint cherche_no_menu_exercice ( gint no_demande,
+				GtkWidget *option_menu )
 {
   GList *liste_tmp;
+  gint trouve;
+  gint non_affiche;
+  gint i;
 
-  if ( !no_demande )
-    return ( FALSE );
-
-  liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_operations[11] ) -> menu ) -> children;
+  liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU ( option_menu ) -> menu ) -> children;
+  i= 0;
+  non_affiche = 0;
 
   while ( liste_tmp )
     {
-      if ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
-				 "no_exercice" ) == GINT_TO_POINTER ( no_demande ))
-	return ( g_list_position ( GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_operations[11] ) -> menu ) -> children,
-				   liste_tmp ));
-      
+
+      trouve = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
+						       "no_exercice" ));
+
+      /*       si trouve = no demandé, c'est bon, on se barre */
+
+      if ( trouve == no_demande )
+	return ( i );
+
+      /*  si on est sur la position du non affiché, on le sauve */
+
+      if ( trouve == -1 )
+	non_affiche = i;
+
+      i++;
       liste_tmp = liste_tmp -> next;
     }
 
-  /*   l'exo n'est pas affiché, on retourne 1 */
+  /*   l'exo n'est pas affiché, on retourne la position de non affiché */
 
-  return ( 1 );
+  return ( non_affiche );
 }
 /* ************************************************************************************************************** */
 
@@ -1118,7 +1153,8 @@ void affiche_exercice_par_date ( GtkWidget *entree_date,
 			     exercice->date_fin ) <= 0 ))
 	{
 	  gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_exercice ),
-					cherche_no_menu_exercice ( exercice->no_exercice ));
+					cherche_no_menu_exercice ( exercice->no_exercice,
+								   option_menu_exercice ));
 	  trouve = 1;
 	}
 
@@ -1212,5 +1248,42 @@ void association_automatique ( void )
   verification_mise_a_jour_liste();
 
   modification_fichier ( TRUE );
+}
+/* ************************************************************************************************************** */
+
+
+
+/* ************************************************************************************************************** */
+/* fonction recherche_exo_correspondant */
+/* renvoie l'exercice correspondant la date donnée en argument */
+/* si aucun ne correspond, on renvoie 0 */
+/* ************************************************************************************************************** */
+
+gint recherche_exo_correspondant ( GDate *date )
+{
+  GSList *liste_tmp;
+
+  liste_tmp = liste_struct_exercices;
+
+  while ( liste_tmp )
+    {
+      struct struct_exercice *exo;
+
+      exo = liste_tmp -> data;
+
+      if ( g_date_compare ( exo -> date_debut,
+			    date ) <= 0
+	   &&
+	   g_date_compare ( exo -> date_fin,
+			    date ) >= 0 )
+	return ( exo -> no_exercice );
+
+      liste_tmp = liste_tmp -> next;
+    }
+
+/*   on n'a pas trouvé l'exo, on retourne 0 */
+
+  return ( 0 );
+
 }
 /* ************************************************************************************************************** */

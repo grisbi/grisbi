@@ -208,3 +208,138 @@ gint classement_liste_par_tri_courant ( GtkWidget *liste,
 
 }
 /* ********************************************************************************************************** */
+
+
+/* ********************************************************************************************************** */
+/* Fonction par défaut : par ordre de date */
+/* ********************************************************************************************************** */
+
+gint classement_sliste_par_date ( struct structure_operation *operation_1,
+				  struct structure_operation *operation_2 )
+{
+  gint retour;
+
+  if ( etat.classement_par_date )
+    /* on classe par dates normales */
+    retour = g_date_compare ( operation_1 -> date,
+			      operation_2 -> date );
+  else
+    {
+      /*       on classe par date de valeur, si elle existe */
+
+      if ( operation_1 -> date_bancaire )
+	{
+	  if ( operation_2 -> date_bancaire )
+	    retour = g_date_compare ( operation_1 -> date_bancaire,
+				      operation_2 -> date_bancaire );
+	  else
+	    retour = g_date_compare ( operation_1 -> date_bancaire,
+				      operation_2 -> date );
+	}
+      else
+	{
+	  if ( operation_2 -> date_bancaire )
+	    retour = g_date_compare ( operation_1 -> date,
+				      operation_2 -> date_bancaire );
+	  else
+	    retour = g_date_compare ( operation_1 -> date,
+				      operation_2 -> date );
+	}
+    }
+
+
+  if ( retour )
+    return ( retour );
+  else
+    return ( operation_1 -> no_operation - operation_2 -> no_operation );
+}
+/* ********************************************************************************************************** */
+
+
+
+/* ********************************************************************************************************** */
+/* identique à classement_liste_par_tri_courant sauf que classe */
+/* une slist */
+/* ********************************************************************************************************** */
+
+gint classement_sliste_par_tri_courant ( struct structure_operation *operation_1,
+					 struct structure_operation *operation_2 )
+{
+  gint pos_type_ope_1;
+  gint pos_type_ope_2;
+  gint buffer;
+
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+  /* si l'opé est négative et que le type est neutre et que les types neutres sont séparés, on lui */
+  /* met la position du type négatif */
+
+  if ( operation_1 -> montant < 0
+       &&
+       ( buffer = g_slist_index ( LISTE_TRI,
+				  GINT_TO_POINTER ( -operation_1 -> type_ope ))) != -1 )
+    pos_type_ope_1 = buffer;
+  else
+    pos_type_ope_1 = g_slist_index ( LISTE_TRI,
+				     GINT_TO_POINTER ( operation_1 -> type_ope ));
+
+  if ( operation_2 -> montant < 0
+       &&
+       ( buffer = g_slist_index ( LISTE_TRI,
+				  GINT_TO_POINTER ( -operation_2 -> type_ope ))) != -1 )
+    pos_type_ope_2 = buffer;
+  else
+    pos_type_ope_2 = g_slist_index ( LISTE_TRI,
+				     GINT_TO_POINTER ( operation_2 -> type_ope ));
+
+
+
+  /*   s'ils ont le même type, on classe par date */
+
+  if ( pos_type_ope_1 == pos_type_ope_2 )
+    {
+      gint retour;
+
+      if ( etat.classement_par_date )
+	/* on classe par dates normales */
+	retour = g_date_compare ( operation_1 -> date,
+				  operation_2 -> date );
+      else
+	{
+	  /*       on classe par date bancaire, si elle existe */
+
+	  if ( operation_1 -> date_bancaire )
+	    {
+	      if ( operation_2 -> date_bancaire )
+		retour = g_date_compare ( operation_1 -> date_bancaire,
+					  operation_2 -> date_bancaire );
+	      else
+		retour = g_date_compare ( operation_1 -> date_bancaire,
+					  operation_2 -> date );
+	    }
+	  else
+	    {
+	      if ( operation_2 -> date_bancaire )
+		retour = g_date_compare ( operation_1 -> date,
+					  operation_2 -> date_bancaire );
+	      else
+		retour = g_date_compare ( operation_1 -> date,
+					  operation_2 -> date );
+	    }
+	}
+
+      if ( retour )
+	return ( retour );
+      else
+	return ( operation_1 -> no_operation - operation_2 -> no_operation );
+    }
+
+
+  if ( pos_type_ope_1 < pos_type_ope_2 )
+    return ( -1 );
+  else
+    return ( 1 );
+
+}
+/* ********************************************************************************************************** */
+

@@ -71,7 +71,7 @@ GtkWidget *creation_fenetre_principale (void )
 
 /*   création de la fenetre des comptes */
 
-  page_comptes = creation_onglet_comptes();
+  page_comptes = creation_onglet_comptes ();
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
 			     page_comptes,
 			     gtk_label_new (_(" Comptes ")) );
@@ -184,17 +184,17 @@ void change_page_notebook ( GtkNotebook *notebook,
       /*   pour les listes, si aucune ligne n'est affichée ( c'est le cas au départ ), */
       /* on le fait ici */
 
-    case 3:
+    case 4:
       if ( modif_tiers )
 	remplit_arbre_tiers ();
       break;
 
-    case 4:
+    case 5:
       if ( modif_categ )
 	remplit_arbre_categ ();
       break;
 
-    case 5:
+    case 6:
       if ( modif_imputation )
 	remplit_arbre_imputation ();
       break;

@@ -56,6 +56,7 @@ void sauve_configuration (void);
 
 void modification_fichier ( gboolean modif );
 void init_variables ( gboolean ouverture );
+void initialise_tab_affichage_ope ( void );
 
 
 
@@ -175,6 +176,8 @@ void ajoute_nouvelle_liste_operation ( gint no_compte );
 void onglet_compte_realize ( GtkWidget *onglet,
 			     GtkWidget *liste );
 void remplissage_liste_operations ( gint compte );
+gchar *recherche_contenu_cellule ( struct structure_operation *operation,
+				   gint no_affichage );
 void selectionne_ligne_souris ( GtkCList *liste_operations,
 				GdkEventButton *evenement,
 				gpointer data);
@@ -200,6 +203,9 @@ void demande_mise_a_jour_tous_comptes ( void );
 void verification_mise_a_jour_liste ( void );
 void mise_a_jour_solde ( gint compte );
 void verifie_ligne_selectionnee_visible ( void );
+void changement_taille_colonne ( GtkWidget *clist,
+				 gint colonne,
+				 gint largeur );
 
 
 /************************/ 
@@ -247,6 +253,10 @@ void click_sur_bouton_voir_change ( void );
 void degrise_formulaire_operations ( void );
 void incremente_decremente_date ( GtkWidget *entree,
 				  gint demande );
+gint demande_correspondance_type ( struct structure_operation *operation,
+				   struct structure_operation *contre_operation );
+gint place_type_choix_type ( GtkWidget *option_menu,
+			     gint type );
 
 
 
@@ -256,7 +266,7 @@ void incremente_decremente_date ( GtkWidget *entree,
 /************************/ 
 
 
-GtkWidget *creation_onglet_compte ( void );
+GtkWidget *creation_onglet_comptes ( void );
 GtkWidget *creation_liste_comptes_onglet ( void );
 GtkWidget *comptes_appel_onglet ( gint no_de_compte );
 void changement_compte_onglet ( GtkWidget *bouton,
@@ -447,9 +457,6 @@ gint classement_alphabetique_tree ( GtkWidget *tree,
 void ouverture_node_tiers ( GtkWidget *arbre,
 			    GtkCTreeNode *node,
 			    gpointer null );
-void fermeture_node_tiers ( GtkWidget *arbre,
-			    GtkCTreeNode *node,
-			    gpointer null );
 void selection_ligne_tiers ( GtkCTree *arbre_tiers,
 			     GtkCTreeNode *noeud,
 			     gint colonne,
@@ -543,6 +550,11 @@ GtkWidget *creation_barre_outils ( void );
 void change_aspect_liste ( GtkWidget *bouton,
 			   gint demande );
 GtkWidget *creation_barre_outils_echeancier ( void );
+GtkWidget *creation_barre_outils_tiers ( void );
+GtkWidget *creation_barre_outils_categ ( void );
+GtkWidget *creation_barre_outils_imputation ( void );
+void demande_expand_arbre ( GtkWidget *bouton,
+			    gint *liste );
 
 
 
@@ -642,6 +654,10 @@ gint classement_liste_par_no_ope ( GtkWidget *liste,
 gint classement_liste_par_tri_courant ( GtkWidget *liste,
 					GtkCListRow *ligne_1,
 					GtkCListRow *ligne_2 );
+gint classement_sliste_par_date ( struct structure_operation *operation_1,
+				  struct structure_operation *operation_2 );
+gint classement_sliste_par_tri_courant ( struct structure_operation *operation_1,
+					 struct structure_operation *operation_2 );
 
 
 /***********************************/ 
@@ -652,9 +668,6 @@ GtkWidget *onglet_categories ( void );
 void remplit_arbre_categ ( void );
 void ouverture_node_categ ( GtkWidget *arbre,
 			    GtkCTreeNode *node,
-			    gpointer null );
-void fermeture_node_categ ( GtkWidget *arbre,
-				 GtkCTreeNode *node,
 			    gpointer null );
 void selection_ligne_categ ( GtkCTree *arbre_categ,
 			     GtkCTreeNode *noeud,
@@ -770,11 +783,13 @@ void annuler_modif_exercice ( GtkWidget *bouton,
 			      GtkWidget *liste );
 gint recherche_exercice_par_no ( struct struct_exercice *exercice,
 				 gint *no_exercice );
-GtkWidget *creation_menu_exercices ( void );
-gint cherche_no_menu_exercice ( gint no_demande );
+GtkWidget *creation_menu_exercices ( gint origine );
+gint cherche_no_menu_exercice ( gint no_demande,
+				GtkWidget *option_menu );
 void affiche_exercice_par_date ( GtkWidget *entree_date,
 				 GtkWidget *option_menu_exercice );
 void association_automatique ( void );
+gint recherche_exo_correspondant ( GDate *date );
 
 
 
@@ -785,9 +800,6 @@ void association_automatique ( void );
 GtkWidget *onglet_imputations ( void );
 void remplit_arbre_imputation ( void );
 void ouverture_node_imputation ( GtkWidget *arbre,
-				 GtkCTreeNode *node,
-				 gpointer null );
-void fermeture_node_imputation ( GtkWidget *arbre,
 				 GtkCTreeNode *node,
 				 gpointer null );
 void selection_ligne_imputation ( GtkCTree *arbre,
@@ -1029,10 +1041,32 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne );
 gint gnomeprint_finish ( );
 
 void gnomeprint_affiche_texte ( char * texte, GnomeFont * font );
-void gnomeprint_set_color ( gfloat red, gfloat green, gfloat blue );
+void gnomeprint_set_color ( gchar tred, gchar tgreen, gchar tblue );
 void gnomeprint_commit_point ( );
 void gnomeprint_commit_x ( );
 void gnomeprint_commit_y ( );
 void gnomeprint_move_point ( gfloat x, gfloat y ); 
 void gnomeprint_update_point ( );
 void gnomeprint_rectangle ( gfloat x1, gfloat y1, gfloat x2, gfloat y2 );
+void gnomeprint_balancer_colonnes (GnomePrintContext *pc, GnomeFont *font, 
+				   GSList * list);
+void gnomeprint_show_words(GnomePrintContext *pc, GnomeFont *font, GSList *words,
+			   gdouble mwidth);
+void show_words(GnomePrintContext *pc, GnomeFont *font, GSList *words, 
+		gdouble x, gdouble y, gdouble mwidth);
+
+
+/************************/ 
+/* fichier affichage_liste.c */
+/************************/ 
+
+GtkWidget *onglet_affichage_liste ( void );
+gboolean pression_bouton_classement_liste ( GtkWidget *clist,
+					    GdkEventButton *ev );
+gboolean lache_bouton_classement_liste ( GtkWidget *clist,
+					 GdkEventButton *ev );
+void remplissage_tab_affichage_ope ( GtkWidget *clist );
+void toggled_bouton_affichage_liste ( GtkWidget *bouton,
+				      gint *no_bouton );
+void changement_taille_liste_affichage ( GtkWidget *clist,
+					 GtkAllocation *allocation );

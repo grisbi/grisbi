@@ -67,6 +67,10 @@ extern GtkWidget *fleche_haut;                        /* adr de l'icone de la fl
 extern GtkWidget *fleche_bas;                        /* adr de l'icone de la flèche vers le bas  */
 extern GtkWidget *frame_droite_bas;                  /* adr de la frame contenant le formulaire */
 extern GtkWidget *barre_outils;                           /* adr de la barre d'outils */
+extern struct struct_devise *devise_compte_affichage_liste;  /* devise du compte en cours pendant l'affichage de la liste */
+extern struct struct_devise *devise_operation_affichage_liste;  /* devise de l'opé en cours pendant l'affichage de la liste */
+extern gdouble solde_courant_affichage_liste;   /* valable uniquement pendant l'affichage de la liste */
+extern gdouble solde_pointe_affichage_liste;   /* valable uniquement pendant l'affichage de la liste */
 
 
 
@@ -787,3 +791,18 @@ extern gchar *nom_ss_ib_en_cours;
 extern gchar *nom_compte_en_cours;
 extern gchar *nom_tiers_en_cours;
 extern gint titres_affiches;
+
+
+/************************/ 
+/* fichier affichage_liste.c */
+/************************/ 
+
+extern gint col_depart_drag;
+extern gint ligne_depart_drag;
+extern gint tab_affichage_ope[4][7];
+extern gint tab_affichage_ope_tmp[4][7];
+extern GtkWidget *boutons_affichage_liste[17];
+extern GtkWidget *clist_affichage_liste;
+extern GtkWidget *bouton_choix_perso_colonnes;
+extern gint rapport_largeur_colonnes[7];    /* contient le % de chaque colonne */
+extern gint taille_largeur_colonnes[7];   /* contient la taille de chaque colonne */

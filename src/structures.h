@@ -65,6 +65,7 @@ struct {
   guint affiche_boutons_valider_annuler :1;
   guint affiche_nb_ecritures_listes :1;
   guint classement_par_date :1;   /* à 1 si le classement de la liste d'opé se fait par date */
+  guint largeur_auto_colonnes :1;
 } etat;
 
 

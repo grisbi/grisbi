@@ -231,18 +231,34 @@ GtkWidget *onglet_tiers ( void )
 		       5 );
   gtk_widget_show (frame );
 
+  vbox = gtk_vbox_new ( FALSE,
+			5 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
+				   10 );
+  gtk_container_add ( GTK_CONTAINER ( frame ),
+		      vbox );
+  gtk_widget_show ( vbox );
+
+  /* on y ajoute la barre d'outils */
+
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       creation_barre_outils_tiers(),
+		       FALSE,
+		       FALSE,
+		       0 );
 
 /* création de l'arbre principal */
 
   scroll_window = gtk_scrolled_window_new ( NULL,
 				     NULL );
-  gtk_container_set_border_width ( GTK_CONTAINER ( scroll_window ),
-				   10 );
   gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scroll_window ),
 				   GTK_POLICY_AUTOMATIC,
 				   GTK_POLICY_AUTOMATIC );
-  gtk_container_add ( GTK_CONTAINER ( frame ),
-		      scroll_window );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       scroll_window,
+		       TRUE,
+		       TRUE,
+		       0 );
   gtk_widget_show ( scroll_window );
 
 
@@ -310,10 +326,6 @@ GtkWidget *onglet_tiers ( void )
   gtk_signal_connect ( GTK_OBJECT ( arbre_tiers ),
 		       "tree-expand",
 		       GTK_SIGNAL_FUNC ( ouverture_node_tiers ),
-		       NULL );
-  gtk_signal_connect ( GTK_OBJECT ( arbre_tiers ),
-		       "tree-collapse",
-		       GTK_SIGNAL_FUNC ( fermeture_node_tiers ),
 		       NULL );
 
   gtk_container_add ( GTK_CONTAINER (  scroll_window ),
@@ -437,17 +449,24 @@ void remplit_arbre_tiers ( void )
 
       /* pour chacun des tiers, on met un fils bidon pour pouvoir l'ouvrir */
 
-      gtk_ctree_insert_node ( GTK_CTREE ( arbre_tiers ),
-			      ligne,
-			      NULL,
-			      text,
-			      5,
-			      NULL,
-			      NULL,
-			      NULL,
-			      NULL,
-			      FALSE,
-			      FALSE );
+      ligne = gtk_ctree_insert_node ( GTK_CTREE ( arbre_tiers ),
+				      ligne,
+				      NULL,
+				      text,
+				      5,
+				      NULL,
+				      NULL,
+				      NULL,
+				      NULL,
+				      FALSE,
+				      FALSE );
+
+      /* on associe le fils bidon à -1 */
+
+      gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_tiers ),
+				    ligne,
+				    GINT_TO_POINTER (-1));
+
 
 
       place_tiers++;
@@ -547,12 +566,19 @@ void ouverture_node_tiers ( GtkWidget *arbre,
   GtkCTreeNode *node_insertion;
 
 
+
+  row = GTK_CTREE_ROW ( node );
+
+  /*   si le fiston = -1, c'est qu'il n'a pas encore été créé */
+  /* dans le cas contraire, on vire */
+
+  if ( GPOINTER_TO_INT ( gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_tiers ),
+						       row -> children )) != -1 )
+    return;
+
   /* freeze le ctree */
 
   gtk_clist_freeze ( GTK_CLIST ( arbre_tiers ));
-
-
-  row = GTK_CTREE_ROW ( node );
 
   /* on commence par virer la ligne bidon qui était attachée à ce noeud */
 
@@ -630,17 +656,24 @@ void ouverture_node_tiers ( GtkWidget *arbre,
 
 		  /* on met une ligne bidon pour pouvoir l'ouvrir */
 
-		  gtk_ctree_insert_node ( GTK_CTREE ( arbre_tiers ),
-					  node_insertion,
-					  NULL,
-					  text,
-					  5,
-					  NULL,
-					  NULL,
-					  NULL,
-					  NULL,
-					  FALSE,
-					  FALSE );
+		  node_insertion = gtk_ctree_insert_node ( GTK_CTREE ( arbre_tiers ),
+							   node_insertion,
+							   NULL,
+							   text,
+							   5,
+							   NULL,
+							   NULL,
+							   NULL,
+							   NULL,
+							   FALSE,
+							   FALSE );
+
+		  /* associe le no de compte à la ligne du compte */
+		  
+		  gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_tiers ),
+						node_insertion,
+						GINT_TO_POINTER ( -1 ));
+
 		  pointeur_ope = NULL;
 		}
 	      else
@@ -730,43 +763,6 @@ void ouverture_node_tiers ( GtkWidget *arbre,
 
 }
 /* **************************************************************************************************** */
-
-
-
-
-
-/* **************************************************************************************************** */
-/* Fonction fermeture_node_tiers */
-/* appeléé lorsqu'on ferme un tiers ou le compte d'un tiers */
-/* efface tous les fils et en met un bidon */
-/* **************************************************************************************************** */
-
-void fermeture_node_tiers ( GtkWidget *arbre,
-			    GtkCTreeNode *node,
-			    gpointer null )
-{			    
-  GtkCTreeNode *child;
-
-  /* freeze le ctree */
-
-  gtk_clist_freeze ( GTK_CLIST ( arbre_tiers ));
-
-  child = GTK_CTREE_ROW ( node ) -> children;
-
-  while ( child && GTK_CTREE_ROW ( child ) -> sibling )
-    {
-      gtk_ctree_remove_node ( GTK_CTREE ( arbre_tiers ),
-			      child );
-      child = GTK_CTREE_ROW ( node ) -> children;
-    }
-
-  /* defreeze le ctree */
-
-  gtk_clist_thaw ( GTK_CLIST ( arbre_tiers ));
-
-}
-/* **************************************************************************************************** */
-
 
 
 
@@ -1211,7 +1207,8 @@ void supprimer_tiers ( GtkWidget *bouton,
       combofix = gtk_combofix_new ( liste_combofix,
 				    TRUE,
 				    TRUE,
-				    TRUE );
+				    TRUE,
+				    0 );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   combofix,
 			   FALSE,
