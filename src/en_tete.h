@@ -126,13 +126,13 @@ void change_page_notebook ( GtkNotebook *notebook,
 
 GtkWidget *creation_onglet_accueil ( void );
 void change_temps ( GtkWidget *label_temps );
-void saisie_echeance_accueil ( GtkWidget *event_box,
+gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 			       GdkEventButton *event,
 			       struct operation_echeance *echeance );
-void met_en_prelight ( GtkWidget *event_box,
+gboolean met_en_prelight ( GtkWidget *event_box,
 		       GdkEventMotion *event,
 		       gpointer pointeur );
-void met_en_normal ( GtkWidget *event_box,
+gboolean met_en_normal ( GtkWidget *event_box,
 		     GdkEventMotion *event,
 		     gpointer pointeur );
 void update_liste_comptes_accueil ( void );
@@ -159,7 +159,7 @@ GtkWidget *creation_liste_comptes (void);
 GtkWidget *comptes_appel ( gint no_de_compte );
 void changement_compte_par_menu ( GtkWidget *menu,
 				  gint *compte );
-void changement_compte ( gint *compte);
+gboolean changement_compte ( gint *compte);
 void reaffiche_liste_comptes ( void );
 
 
@@ -422,16 +422,16 @@ gint classement_liste_echeances ( GtkWidget *liste,
 
 GtkWidget *creation_formulaire_echeancier ( void );
 void echap_formulaire_echeancier ( void );
-void entree_perd_focus_echeancier ( GtkWidget *entree,
-				    GdkEventFocus *ev,
-				    gint *no_origine );
+gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
+					GdkEventFocus *ev,
+					gint *no_origine );
 void affiche_cache_le_formulaire_echeancier ( void );
-void clique_champ_formulaire_echeancier ( GtkWidget *entree,
-					  GdkEventButton *ev,
-					  gint *no_origine );
-void pression_touche_formulaire_echeancier ( GtkWidget *widget,
-					     GdkEventKey *ev,
-					     gint no_widget );
+gboolean clique_champ_formulaire_echeancier ( GtkWidget *entree,
+					      GdkEventButton *ev,
+					      gint *no_origine );
+gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
+						 GdkEventKey *ev,
+						 gint no_widget );
 void affiche_date_limite_echeancier ( void );
 void cache_date_limite_echeancier ( void );
 void affiche_personnalisation_echeancier ( void );

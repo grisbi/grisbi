@@ -328,7 +328,7 @@ void changement_compte_par_menu ( GtkWidget *menu,
 /*  Routine appelée lors de changement de compte */
 /* ********************************************************************************************************** */
 
-void changement_compte ( gint *compte)
+gboolean changement_compte ( gint *compte)
 {
   GtkWidget *menu;
 
@@ -435,6 +435,8 @@ void changement_compte ( gint *compte)
 
   gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
 			  compte_courant + 1 );
+
+  return FALSE;
 }
 /* ********************************************************************************************************** */
 

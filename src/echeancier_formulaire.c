@@ -87,19 +87,19 @@ GtkWidget *creation_formulaire_echeancier ( void )
 
   widget_formulaire_echeancier[0] = gtk_entry_new_with_max_length ( 10 );
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[0] ),
-		       "key_press_event",
+		       "key-press-event",
 		       GTK_SIGNAL_FUNC ( pression_touche_formulaire_echeancier ),
 		       GINT_TO_POINTER ( 0 ) );
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[0] ),
-		       "button_press_event",
+		       "button-press-event",
 		       GTK_SIGNAL_FUNC ( clique_champ_formulaire_echeancier ),
 		       NULL );
   gtk_signal_connect ( GTK_OBJECT (widget_formulaire_echeancier[0]),
-		       "focus_in_event",
+		       "focus-in-event",
 		       GTK_SIGNAL_FUNC (entree_prend_focus),
 		       NULL );
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[0] ),
- 		       "focus_out_event",
+ 		       "focus-out-event",
 		       GTK_SIGNAL_FUNC (entree_perd_focus_echeancier),
 		       NULL );
   gtk_table_attach ( GTK_TABLE ( table ),
@@ -121,23 +121,23 @@ GtkWidget *creation_formulaire_echeancier ( void )
 							TRUE,
 							0 );
   gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_echeancier[1] ) -> entry ),
-		       "key_press_event",
+		       "key-press-event",
 		       GTK_SIGNAL_FUNC ( pression_touche_formulaire_echeancier ),
 		       GINT_TO_POINTER ( 1 ) );
   gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_echeancier[1]) -> entry),
-		       "focus_in_event",
+		       "focus-in-event",
 		       GTK_SIGNAL_FUNC (entree_prend_focus),
 		       NULL );
   gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_echeancier[1] ) -> entry ),
- 		       "focus_out_event",
+ 		       "focus-out-event",
 		       GTK_SIGNAL_FUNC (entree_perd_focus_echeancier),
 		       GINT_TO_POINTER (1) );
   gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_echeancier[1] ) -> entry ),
-		       "button_press_event",
+		       "button-press-event",
 		       GTK_SIGNAL_FUNC ( clique_champ_formulaire_echeancier ),
 		       GINT_TO_POINTER (1) );
   gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_echeancier[1] ) -> arrow ),
-		       "button_press_event",
+		       "button-press-event",
 		       GTK_SIGNAL_FUNC ( clique_champ_formulaire_echeancier ),
 		       GINT_TO_POINTER (1) );
   gtk_table_attach ( GTK_TABLE ( table ),
@@ -154,19 +154,19 @@ GtkWidget *creation_formulaire_echeancier ( void )
 
   widget_formulaire_echeancier[2] = gtk_entry_new ();
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[2] ),
-		       "key_press_event",
+		       "key-press-event",
 		       GTK_SIGNAL_FUNC ( pression_touche_formulaire_echeancier ),
 		       GINT_TO_POINTER ( 2 ) );
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[2] ),
-		       "button_press_event",
+		       "button-press-event",
 		       GTK_SIGNAL_FUNC ( clique_champ_formulaire_echeancier ),
 		       GINT_TO_POINTER (2) );
   gtk_signal_connect ( GTK_OBJECT (widget_formulaire_echeancier[2]),
-		       "focus_in_event",
+		       "focus-in-event",
 		       GTK_SIGNAL_FUNC (entree_prend_focus),
 		       NULL );
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[2] ),
- 		       "focus_out_event",
+ 		       "focus-out-event",
 		       GTK_SIGNAL_FUNC (entree_perd_focus_echeancier),
 		       GINT_TO_POINTER (2) );
   gtk_table_attach ( GTK_TABLE ( table ),
@@ -183,19 +183,19 @@ GtkWidget *creation_formulaire_echeancier ( void )
 
   widget_formulaire_echeancier[3] = gtk_entry_new ();
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[3] ),
-		       "key_press_event",
+		       "key-press-event",
 		       GTK_SIGNAL_FUNC ( pression_touche_formulaire_echeancier ),
 		       GINT_TO_POINTER ( 3 ) );
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[3] ),
-		       "button_press_event",
+		       "button-press-event",
 		       GTK_SIGNAL_FUNC ( clique_champ_formulaire_echeancier ),
 		       GINT_TO_POINTER (3) );
   gtk_signal_connect ( GTK_OBJECT (widget_formulaire_echeancier[3]),
-		       "focus_in_event",
+		       "focus-in-event",
 		       GTK_SIGNAL_FUNC (entree_prend_focus),
 		       NULL );
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[3] ),
- 		       "focus_out_event",
+ 		       "focus-out-event",
 		       GTK_SIGNAL_FUNC (entree_perd_focus_echeancier),
 		       GINT_TO_POINTER (3) );
   gtk_table_attach ( GTK_TABLE ( table ),
@@ -220,7 +220,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[4] ),
 			     menu );
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[4] ),
-		       "key_press_event",
+		       "key-press-event",
 		       GTK_SIGNAL_FUNC ( pression_touche_formulaire_echeancier ),
 		       GINT_TO_POINTER ( 4 ) );
   gtk_table_attach ( GTK_TABLE ( table ),
@@ -249,7 +249,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 				0);
 
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[5] ),
-		       "key_press_event",
+		       "key-press-event",
 		       GTK_SIGNAL_FUNC ( pression_touche_formulaire_echeancier ),
 		       GINT_TO_POINTER (5) );
   gtk_table_attach ( GTK_TABLE ( table ),
@@ -271,23 +271,23 @@ GtkWidget *creation_formulaire_echeancier ( void )
 							       TRUE,
 							       0 );
   gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_echeancier[6] ) -> entry ),
-		       "key_press_event",
+		       "key-press-event",
 		       GTK_SIGNAL_FUNC ( pression_touche_formulaire_echeancier ),
 		       GINT_TO_POINTER ( 6 ) );
   gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_echeancier[6] ) -> entry ),
-		       "button_press_event",
+		       "button-press-event",
 		       GTK_SIGNAL_FUNC ( clique_champ_formulaire_echeancier ),
 		       GINT_TO_POINTER (6) );
   gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_echeancier[6] ) -> arrow ),
-		       "button_press_event",
+		       "button-press-event",
 		       GTK_SIGNAL_FUNC ( clique_champ_formulaire_echeancier ),
 		       GINT_TO_POINTER (6) );
   gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_echeancier[6] ) -> entry ),
-		       "focus_in_event",
+		       "focus-in-event",
 		       GTK_SIGNAL_FUNC (entree_prend_focus),
 		       NULL );
   gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_echeancier[6] ) -> entry ),
- 		       "focus_out_event",
+ 		       "focus-out-event",
 		       GTK_SIGNAL_FUNC (entree_perd_focus_echeancier),
 		       GINT_TO_POINTER (6) );
   gtk_table_attach ( GTK_TABLE ( table ),
@@ -306,19 +306,19 @@ GtkWidget *creation_formulaire_echeancier ( void )
 
   widget_formulaire_echeancier[8] = gtk_entry_new();
   gtk_signal_connect ( GTK_OBJECT (widget_formulaire_echeancier[8]),
- 		       "key_press_event",
+ 		       "key-press-event",
 		       GTK_SIGNAL_FUNC (pression_touche_formulaire_echeancier),
 		       GINT_TO_POINTER(8) );
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[8] ),
-		       "button_press_event",
+		       "button-press-event",
 		       GTK_SIGNAL_FUNC ( clique_champ_formulaire_echeancier ),
 		       GINT_TO_POINTER (8) );
   gtk_signal_connect ( GTK_OBJECT (widget_formulaire_echeancier[8]),
-		       "focus_in_event",
+		       "focus-in-event",
 		       GTK_SIGNAL_FUNC (entree_prend_focus),
 		       NULL );
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[8] ),
- 		       "focus_out_event",
+ 		       "focus-out-event",
 		       GTK_SIGNAL_FUNC (entree_perd_focus_echeancier),
 		       GINT_TO_POINTER (8) );
   gtk_table_attach ( GTK_TABLE ( table ),
@@ -338,7 +338,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 			 _("Choose the method of payment"),
 			 _("Choose the method of payment") );
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[7] ),
-		       "key_press_event",
+		       "key-press-event",
 		       GTK_SIGNAL_FUNC ( pression_touche_formulaire_echeancier ),
 		       GINT_TO_POINTER(7) );
   gtk_table_attach ( GTK_TABLE (table),
@@ -381,7 +381,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[9] ),
 			     creation_menu_exercices (1) );
   gtk_signal_connect ( GTK_OBJECT (widget_formulaire_echeancier[9]),
- 		       "key_press_event",
+ 		       "key-press-event",
 		       GTK_SIGNAL_FUNC (pression_touche_formulaire_echeancier),
 		       GINT_TO_POINTER(9) );
   gtk_table_attach ( GTK_TABLE ( table ),
@@ -412,23 +412,23 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		     GTK_SHRINK | GTK_FILL,
 		     0,0);
   gtk_signal_connect ( GTK_OBJECT (GTK_COMBOFIX (widget_formulaire_echeancier[10]) -> entry),
- 		       "key_press_event",
+ 		       "key-press-event",
 		       GTK_SIGNAL_FUNC (pression_touche_formulaire_echeancier),
 		       GINT_TO_POINTER(10) );
   gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX (widget_formulaire_echeancier[10] ) -> entry ),
-		       "button_press_event",
+		       "button-press-event",
 		       GTK_SIGNAL_FUNC ( clique_champ_formulaire_echeancier ),
 		       GINT_TO_POINTER (10) );
   gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX (widget_formulaire_echeancier[10] ) -> arrow ),
-		       "button_press_event",
+		       "button-press-event",
 		       GTK_SIGNAL_FUNC ( clique_champ_formulaire_echeancier ),
 		       GINT_TO_POINTER (10) );
   gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX (widget_formulaire_echeancier[10]) -> entry ),
-		       "focus_in_event",
+		       "focus-in-event",
 		       GTK_SIGNAL_FUNC (entree_prend_focus),
 		       NULL );
   gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_echeancier[10] ) -> entry ),
- 		       "focus_out_event",
+ 		       "focus-out-event",
 		       GTK_SIGNAL_FUNC (entree_perd_focus_echeancier),
 		       GINT_TO_POINTER (10) );
 
@@ -453,19 +453,19 @@ GtkWidget *creation_formulaire_echeancier ( void )
 /* 		     GTK_SHRINK | GTK_FILL, */
 /* 		     0,0); */
 /*   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[11] ), */
-/* 		       "button_press_event", */
+/* 		       "button-press-event", */
 /* 		       GTK_SIGNAL_FUNC ( clique_champ_formulaire_echeancier ), */
 /* 		       GINT_TO_POINTER (11) ); */
 /*   gtk_signal_connect ( GTK_OBJECT (widget_formulaire_echeancier[11]), */
-/*  		       "key_press_event", */
+/*  		       "key-press-event", */
 /* 		       GTK_SIGNAL_FUNC (pression_touche_formulaire_echeancier), */
 /* 		       GINT_TO_POINTER(11) ); */
 /*   gtk_signal_connect ( GTK_OBJECT (widget_formulaire_echeancier[11]), */
-/* 		       "focus_in_event", */
+/* 		       "focus-in-event", */
 /* 		       GTK_SIGNAL_FUNC (entree_prend_focus), */
 /* 		       NULL ); */
 /*   gtk_signal_connect_after ( GTK_OBJECT (widget_formulaire_echeancier[11]), */
-/*    			     "focus_out_event", */
+/*    			     "focus-out-event", */
 /*    			     GTK_SIGNAL_FUNC ( entree_perd_focus_echeancier ), */
 /*    			     GINT_TO_POINTER (11) ); */
 /*   if ( etat.utilise_info_banque_guichet ) */
@@ -485,19 +485,19 @@ GtkWidget *creation_formulaire_echeancier ( void )
 /* 		     GTK_SHRINK | GTK_FILL, */
 /* 		     0,0); */
 /*   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[12] ), */
-/* 		       "button_press_event", */
+/* 		       "button-press-event", */
 /* 		       GTK_SIGNAL_FUNC ( clique_champ_formulaire_echeancier ), */
 /* 		       GINT_TO_POINTER (12) ); */
 /*   gtk_signal_connect ( GTK_OBJECT (widget_formulaire_echeancier[12]), */
-/*  		       "key_press_event", */
+/*  		       "key-press-event", */
 /* 		       GTK_SIGNAL_FUNC (pression_touche_formulaire_echeancier), */
 /* 		       GINT_TO_POINTER(12) ); */
 /*   gtk_signal_connect ( GTK_OBJECT (widget_formulaire_echeancier[12]), */
-/* 		       "focus_in_event", */
+/* 		       "focus-in-event", */
 /* 		       GTK_SIGNAL_FUNC (entree_prend_focus), */
 /* 		       NULL ); */
 /*   gtk_signal_connect_after ( GTK_OBJECT (widget_formulaire_echeancier[12]), */
-/*    			     "focus_out_event", */
+/*    			     "focus-out-event", */
 /*    			     GTK_SIGNAL_FUNC ( entree_perd_focus_echeancier ), */
 /*    			     GINT_TO_POINTER (12) ); */
 
@@ -514,7 +514,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 			 _("Automatic/manual scheduled transaction"),
 			 _("Automatic/manual scheduled transaction") );
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[13] ),
-		       "key_press_event",
+		       "key-press-event",
 		       GTK_SIGNAL_FUNC ( pression_touche_formulaire_echeancier ),
 		       GINT_TO_POINTER ( 13 ) );
 
@@ -556,19 +556,19 @@ GtkWidget *creation_formulaire_echeancier ( void )
 
   widget_formulaire_echeancier[14] = gtk_entry_new ();
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[14] ),
-		       "key_press_event",
+		       "key-press-event",
 		       GTK_SIGNAL_FUNC ( pression_touche_formulaire_echeancier ),
 		       GINT_TO_POINTER ( 14 ) );
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[14] ),
-		       "button_press_event",
+		       "button-press-event",
 		       GTK_SIGNAL_FUNC ( clique_champ_formulaire_echeancier ),
 		       GINT_TO_POINTER (14) );
   gtk_signal_connect ( GTK_OBJECT (widget_formulaire_echeancier[14]),
-		       "focus_in_event",
+		       "focus-in-event",
 		       GTK_SIGNAL_FUNC (entree_prend_focus),
 		       NULL );
   gtk_signal_connect_after ( GTK_OBJECT (widget_formulaire_echeancier[14]),
-   			     "focus_out_event",
+   			     "focus-out-event",
    			     GTK_SIGNAL_FUNC ( entree_perd_focus_echeancier ),
    			     GINT_TO_POINTER (14) );
   gtk_table_attach ( GTK_TABLE ( table ),
@@ -591,7 +591,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 			 _("Frequency"),
 			 _("Frequency") );
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[15] ),
-		       "key_press_event",
+		       "key-press-event",
 		       GTK_SIGNAL_FUNC ( pression_touche_formulaire_echeancier ),
 		       GINT_TO_POINTER ( 15 ) );
 
@@ -703,19 +703,19 @@ GtkWidget *creation_formulaire_echeancier ( void )
 
   widget_formulaire_echeancier[16] = gtk_entry_new_with_max_length (11);
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[16] ),
-		       "key_press_event",
+		       "key-press-event",
 		       GTK_SIGNAL_FUNC ( pression_touche_formulaire_echeancier ),
 		       GINT_TO_POINTER ( 16 ) );
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[16] ),
-		       "button_press_event",
+		       "button-press-event",
 		       GTK_SIGNAL_FUNC ( clique_champ_formulaire_echeancier ),
 		       GINT_TO_POINTER (16) );
   gtk_signal_connect ( GTK_OBJECT (widget_formulaire_echeancier[16]),
-		       "focus_in_event",
+		       "focus-in-event",
 		       GTK_SIGNAL_FUNC (entree_prend_focus),
 		       NULL );
   gtk_signal_connect_after ( GTK_OBJECT (widget_formulaire_echeancier[16]),
-   			     "focus_out_event",
+   			     "focus-out-event",
    			     GTK_SIGNAL_FUNC ( entree_perd_focus_echeancier ),
    			     GINT_TO_POINTER (16) );
   gtk_table_attach ( GTK_TABLE ( table ),
@@ -735,7 +735,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 			 _("Custom frequency"),
 			 _("Custom frequency") );
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[17] ),
-		       "key_press_event",
+		       "key-press-event",
 		       GTK_SIGNAL_FUNC ( pression_touche_formulaire_echeancier ),
 		       GINT_TO_POINTER ( 17 ) );
   gtk_table_attach ( GTK_TABLE ( table ),
@@ -756,7 +756,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 			 _("Custom frequency"),
 			 _("Custom frequency") );
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[18] ),
-		       "key_press_event",
+		       "key-press-event",
 		       GTK_SIGNAL_FUNC ( pression_touche_formulaire_echeancier ),
 		       GINT_TO_POINTER ( 18 ) );
 
@@ -889,9 +889,9 @@ void echap_formulaire_echeancier ( void )
 /* si elle ne contient rien, on remet la fonction en gris */
 /***********************************************************************************************************/
 
-void entree_perd_focus_echeancier ( GtkWidget *entree,
-				    GdkEventFocus *ev,
-				    gint *no_origine )
+gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
+					GdkEventFocus *ev,
+					gint *no_origine )
 {
   gchar *texte;
 
@@ -905,7 +905,7 @@ void entree_perd_focus_echeancier ( GtkWidget *entree,
     {
       /* on sort de la date, soit c'est vide, soit on la vérifie, la complète si nécessaire et met à jour l'exercice */
     case 0:
-      if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
+      if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	{
 	  modifie_date ( entree );
 
@@ -923,7 +923,7 @@ void entree_perd_focus_echeancier ( GtkWidget *entree,
       /*       on sort du tiers : soit vide soit complète le reste de l'opé */
 
     case 1:
-      if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
+      if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	completion_operation_par_tiers_echeancier ();
       else
 	texte = _("Third party");
@@ -933,7 +933,7 @@ void entree_perd_focus_echeancier ( GtkWidget *entree,
 
     case 2:
 
-      if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
+      if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	{
 	  /* on  commence par virer ce qu'il y avait dans les crédits */
 
@@ -995,7 +995,7 @@ void entree_perd_focus_echeancier ( GtkWidget *entree,
       /*       on sort du crédit : soit vide, soit change le menu des types s'il n'y a aucun tiers ( <=> nouveau tiers ) */
 
     case 3:
-      if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
+      if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	{
 	  /* on  commence par virer ce qu'il y avait dans les débits */
 
@@ -1059,46 +1059,45 @@ void entree_perd_focus_echeancier ( GtkWidget *entree,
       /*       sort des catégories */
 
     case 6:
-      if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
+      if ( !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	texte = _("Categories : Sub-categories");
 
       break;
 
     case 8:
-      if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
+      if ( !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	texte = _("Transfer reference");
       break;
 
     case 10:
-      if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
+      if ( !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	texte = _("Budgetary line");
       break;
 
     case 11:
-      if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
+      if ( !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	texte = _("Bank references");
       break;
 
     case 12:
-      if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
+      if ( !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	texte = _("Voucher");
 
       break;
 
     case 14:
-      if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
+      if ( !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	texte = _("Notes");
       break;
 
       /* on sort de la date limite, soit c'est vide, soit on la vérifie, la complète si nécessaire */
     case 16:
-      if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
+      if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	modifie_date ( entree );
       else
 	texte = _("Limit date");
       break;
 
-    default :
     }
 
 
@@ -1118,13 +1117,15 @@ void entree_perd_focus_echeancier ( GtkWidget *entree,
 	  break;
 
 	default:
-
 	  gtk_entry_set_text ( GTK_ENTRY ( entree ),
 			       texte );
+	  break;
 	}
       gtk_widget_set_style ( entree,
 			     style_entree_formulaire[1] );
     }
+
+  return FALSE;
 }
 /***********************************************************************************************************/
 
@@ -1170,9 +1171,9 @@ void affiche_cache_le_formulaire_echeancier ( void )
 
 
 /***********************************************************************************************************/
-void clique_champ_formulaire_echeancier ( GtkWidget *entree,
-					  GdkEventButton *ev,
-					  gint *no_origine )
+gboolean clique_champ_formulaire_echeancier ( GtkWidget *entree,
+					      GdkEventButton *ev,
+					      gint *no_origine )
 {
   /* on rend sensitif tout ce qui ne l'était pas sur le formulaire */
 
@@ -1193,7 +1194,7 @@ void clique_champ_formulaire_echeancier ( GtkWidget *entree,
 	{
 	  if ( ev )
 	    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( entree ),
-					   "button_press_event");
+					   "button-press-event");
 	  gtk_entry_select_region ( GTK_ENTRY ( entree ),
 				    0,
 				    -1);
@@ -1205,7 +1206,7 @@ void clique_champ_formulaire_echeancier ( GtkWidget *entree,
   /* de fin_edition ), on se barre */
 
   if ( !ev )
-    return;
+    return TRUE;
 
   /* énumération suivant l'entrée où on clique */
 
@@ -1267,10 +1268,10 @@ void clique_champ_formulaire_echeancier ( GtkWidget *entree,
 			      popup_boxv);
 	  gtk_widget_show ( popup_boxv );
 
-	  if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
+	  if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	    {
 	      if ( modifie_date ( entree ))
-		sscanf ( gtk_entry_get_text ( GTK_ENTRY ( entree )),
+		sscanf ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )),
 			 "%d/%d/%d",
 			 &cal_jour,
 			 &cal_mois,
@@ -1313,7 +1314,7 @@ void clique_champ_formulaire_echeancier ( GtkWidget *entree,
 				 popup );
 
 	  gtk_signal_connect ( GTK_OBJECT ( popup ),
-			       "key_press_event",
+			       "key-press-event",
 			       GTK_SIGNAL_FUNC ( touche_calendrier ),
 			       NULL );
 	  gtk_signal_connect_object ( GTK_OBJECT ( popup ),
@@ -1357,20 +1358,19 @@ void clique_champ_formulaire_echeancier ( GtkWidget *entree,
 	}
       break;
 
-
-    default:
     }
+
+  return FALSE;
 }
 /***********************************************************************************************************/
 
 
 
 /***********************************************************************************************************/
-void pression_touche_formulaire_echeancier ( GtkWidget *widget,
-					     GdkEventKey *ev,
-					     gint no_widget )
+gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
+						 GdkEventKey *ev,
+						 gint no_widget )
 {
-
 
  /*   si etat.entree = 1, la touche entrée finit l'opération ( fonction par défaut ) */
 /*   donc si on appuie sur entrée et que etat.entree = 0, c'est comme si on faisait tab */
@@ -1391,17 +1391,17 @@ void pression_touche_formulaire_echeancier ( GtkWidget *widget,
     case 65307 :
 
       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
-				     "key_press_event");
+				     "key-press-event");
       gtk_widget_grab_focus ( liste_echeances );
       echap_formulaire_echeancier();
-      break;
+      return TRUE;
 
       /* tab */
 
     case 65289 :
 
       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
-				     "key_press_event");
+				     "key-press-event");
 
       /* on efface la sélection en cours si c'est une entrée ou un combofix */
 
@@ -1442,7 +1442,7 @@ void pression_touche_formulaire_echeancier ( GtkWidget *widget,
 	     etat.entree ))
 	{
 	  fin_edition_echeance ();
-	  return;
+	  return TRUE;
 	}
 
       /* si le prochain est le débit, on vérifie s'il n'y a rien dans cette entrée et s'il y a quelque chose dans l'entrée du crédit */
@@ -1488,7 +1488,7 @@ void pression_touche_formulaire_echeancier ( GtkWidget *widget,
 	  gtk_widget_grab_focus ( widget_formulaire_echeancier[no_widget]  );
 	}
 
-      break;
+      return TRUE;
 
 
     case 65293 :
@@ -1498,7 +1498,7 @@ void pression_touche_formulaire_echeancier ( GtkWidget *widget,
       if ( !etat.formulaire_echeance_dans_fenetre )
 	{
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
-					 "key_press_event");
+					 "key-press-event");
 
 	  /* on fait perdre le focus au widget courant pour faire les changements automatiques si nécessaire */
 
@@ -1506,7 +1506,7 @@ void pression_touche_formulaire_echeancier ( GtkWidget *widget,
 
 	  fin_edition_echeance ();
 	}
-      break;
+      return TRUE;
 
       /* touches + */
 
@@ -1519,11 +1519,12 @@ void pression_touche_formulaire_echeancier ( GtkWidget *widget,
 	   no_widget == 16 )
 	{
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
-					 "key_press_event");
+					 "key-press-event");
 	  incremente_decremente_date ( widget_formulaire_echeancier[no_widget],
 				       1 );
+	  return TRUE;
 	}
-      break;
+      return FALSE;
 
       /* touches - */
 
@@ -1536,14 +1537,18 @@ void pression_touche_formulaire_echeancier ( GtkWidget *widget,
 	   no_widget == 16 )
 	{
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
-					 "key_press_event");
+					 "key-press-event");
 	  incremente_decremente_date ( widget_formulaire_echeancier[no_widget],
 				       -1 );
+	  return TRUE;
 	}
-      break;
+      return FALSE;
 
-    default : 
+    default:
+      return FALSE;
     }
+
+  return TRUE;
 }
 /***********************************************************************************************************/
 
@@ -1624,7 +1629,7 @@ void fin_edition_echeance ( void )
 
   if ( gtk_widget_get_style ( widget_formulaire_echeancier[16] ) == style_entree_formulaire[0]
        &&
-       strcmp ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[16] ))),
+       strcmp ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[16] ))),
 		_("None") ))
     if ( !modifie_date ( widget_formulaire_echeancier[16] ))
       {
@@ -1731,7 +1736,7 @@ void fin_edition_echeance ( void )
       /* récupère la date */
 
 
-      pointeur_char = g_strstrip ( gtk_entry_get_text ( GTK_ENTRY (widget_formulaire_echeancier[0] )));
+      pointeur_char = g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY (widget_formulaire_echeancier[0] )));
 
       tableau_char = g_strsplit ( pointeur_char,
 				  "/",
@@ -1772,10 +1777,10 @@ void fin_edition_echeance ( void )
       /* récupération du montant */
 
       if ( gtk_widget_get_style ( widget_formulaire_echeancier[2] ) == style_entree_formulaire[0] )
-	echeance -> montant = -g_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[2] ))),
+	echeance -> montant = -g_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[2] ))),
 					  NULL );
       else
-	echeance -> montant = g_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[3] ))),
+	echeance -> montant = g_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[3] ))),
 					 NULL );
 
 
@@ -1894,7 +1899,7 @@ void fin_edition_echeance ( void )
 	  if ( GTK_WIDGET_VISIBLE ( widget_formulaire_echeancier[8] )
 	       &&
 	       gtk_widget_get_style ( widget_formulaire_echeancier[8] ) == style_entree_formulaire[0] )
-	    echeance -> contenu_type = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[8] ))));
+	    echeance -> contenu_type = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[8] ))));
 	}
 
 
@@ -1969,7 +1974,7 @@ void fin_edition_echeance ( void )
       /* récupération des notes */
 
       if ( gtk_widget_get_style ( widget_formulaire_echeancier[14] ) == style_entree_formulaire[0] )
-	echeance -> notes = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[14] ))));
+	echeance -> notes = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[14] ))));
 
 
 
@@ -1983,7 +1988,7 @@ void fin_edition_echeance ( void )
 	  echeance -> intervalle_periodicite_personnalisee = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[18]  ) -> menu_item ),
 												     "intervalle_perso" ) );
 
-	  echeance -> periodicite_personnalisee = g_strtod ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[17] )),
+	  echeance -> periodicite_personnalisee = g_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[17] )),
 							     NULL );
 	}
 
@@ -1993,7 +1998,7 @@ void fin_edition_echeance ( void )
 	{
 	  /* traitement de la date limite */
 
-	  tableau_char = g_strsplit ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[16] ))),
+	  tableau_char = g_strsplit ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[16] ))),
 				      "/",
 				      3 );
 
@@ -2038,7 +2043,7 @@ void fin_edition_echeance ( void )
       /* récupère la date */
 
 
-      pointeur_char = g_strstrip ( gtk_entry_get_text ( GTK_ENTRY (widget_formulaire_echeancier[0] )));
+      pointeur_char = g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY (widget_formulaire_echeancier[0] )));
 
       tableau_char = g_strsplit ( pointeur_char,
 				  "/",
@@ -2084,10 +2089,10 @@ void fin_edition_echeance ( void )
       /* récupération du montant */
 
       if ( gtk_widget_get_style ( widget_formulaire_echeancier[2] ) == style_entree_formulaire[0] )
-	operation -> montant = -g_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[2] ))),
+	operation -> montant = -g_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[2] ))),
 					   NULL );
       else
-	operation -> montant = g_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[3] ))),
+	operation -> montant = g_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[3] ))),
 					  NULL );
 
 
@@ -2234,7 +2239,7 @@ void fin_edition_echeance ( void )
 	      type = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ) -> menu_item ),
 					   "adr_type" );
 
-	      operation -> contenu_type = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[8] ))));
+	      operation -> contenu_type = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[8] ))));
 
 	      if ( type -> numerotation_auto )
 		type -> no_en_cours = ( atoi ( operation -> contenu_type ));
@@ -2317,7 +2322,7 @@ void fin_edition_echeance ( void )
       /* récupération des notes */
 
       if ( gtk_widget_get_style ( widget_formulaire_echeancier[14] ) == style_entree_formulaire[0] )
-	operation -> notes = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[14] ))));
+	operation -> notes = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[14] ))));
 
 
       /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */

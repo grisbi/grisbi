@@ -409,17 +409,15 @@ void change_temps ( GtkWidget *label_temps )
 /*        Fonction appelée lorsqu'on clicke sur une échéance à saisir        */
 /* ************************************************************************* */
 
-void saisie_echeance_accueil ( GtkWidget *event_box,
-			       GdkEventButton *event,
-			       struct operation_echeance *echeance )
+gboolean saisie_echeance_accueil ( GtkWidget *event_box,
+				   GdkEventButton *event,
+				   struct operation_echeance *echeance )
 {
   GtkWidget *ancien_parent;
   struct operation_echeance *ancienne_selection_echeance;
   GtkWidget *dialog;
   gint resultat;
 
-
-    
   /* on sélectionne l'échéance demandée */
 
   ancienne_selection_echeance = echeance_selectionnnee;
@@ -521,26 +519,31 @@ void saisie_echeance_accueil ( GtkWidget *event_box,
   if ( !etat.formulaire_echeancier_toujours_affiche )
     gtk_widget_hide ( frame_formulaire_echeancier );
 
+  return FALSE;
 }
 /* ************************************************************************* */
 
 /* ************************************************************************* */
-void met_en_prelight ( GtkWidget *event_box,
-			GdkEventMotion *event,
-			gpointer pointeur )
+gboolean met_en_prelight ( GtkWidget *event_box,
+			   GdkEventMotion *event,
+			   gpointer pointeur )
 {
   gtk_widget_set_state ( GTK_WIDGET ( GTK_BIN (event_box)->child ),
 			 GTK_STATE_PRELIGHT );
+
+  return FALSE;
 }
 /* ************************************************************************* */
 
 /* ************************************************************************* */
-void met_en_normal ( GtkWidget *event_box,
-		     GdkEventMotion *event,
-		     gpointer pointeur )
+gboolean met_en_normal ( GtkWidget *event_box,
+			 GdkEventMotion *event,
+			 gpointer pointeur )
 {
   gtk_widget_set_state ( GTK_WIDGET ( GTK_BIN (event_box)->child ),
 			 GTK_STATE_NORMAL );
+
+  return FALSE;
 }
 /* ************************************************************************* */
 
@@ -706,15 +709,15 @@ void update_liste_comptes_accueil ( void )
 	  /* Création d'une boite à évènement qui sera rattachée au nom du compte */
 	  pEventBox = gtk_event_box_new ();
 	  gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
-			       "enter_notify_event",
+			       "enter-notify-event",
 			       GTK_SIGNAL_FUNC ( met_en_prelight ),
 			       NULL );
 	  gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
-			       "leave_notify_event",
+			       "leave-notify-event",
 			       GTK_SIGNAL_FUNC ( met_en_normal ),
 			       NULL );
 	  gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
-				      "button_press_event",
+				      "button-press-event",
 				      GTK_SIGNAL_FUNC ( changement_compte ),
 				      GINT_TO_POINTER ( ordre_comptes_variable->data ) );
 	  gtk_table_attach ( GTK_TABLE ( pTable ),
@@ -763,15 +766,15 @@ void update_liste_comptes_accueil ( void )
 	  /* Création d'une boite à évènement qui sera rattachée au solde courant du compte */
 	  pEventBox = gtk_event_box_new ();
 	  gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
-			       "enter_notify_event",
+			       "enter-notify-event",
 			       GTK_SIGNAL_FUNC ( met_en_prelight ),
 			       NULL );
 	  gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
-			       "leave_notify_event",
+			       "leave-notify-event",
 			       GTK_SIGNAL_FUNC ( met_en_normal ),
 			       NULL );
 	  gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
-				      "button_press_event",
+				      "button-press-event",
 				      GTK_SIGNAL_FUNC ( changement_compte ),
 				      GINT_TO_POINTER ( ordre_comptes_variable->data ));
 	  gtk_table_attach ( GTK_TABLE ( pTable ),
@@ -881,15 +884,15 @@ void update_liste_comptes_accueil ( void )
 	  /* Création d'une boite à évènement qui sera rattachée au solde pointé du compte */
 	  pEventBox = gtk_event_box_new ();
 	  gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
-			       "enter_notify_event",
+			       "enter-notify-event",
 			       GTK_SIGNAL_FUNC ( met_en_prelight ),
 			       NULL );
 	  gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
-			       "leave_notify_event",
+			       "leave-notify-event",
 			       GTK_SIGNAL_FUNC ( met_en_normal ),
 			       NULL );
 	  gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
-				      "button_press_event",
+				      "button-press-event",
 				      GTK_SIGNAL_FUNC ( changement_compte ),
 				      GINT_TO_POINTER ( ordre_comptes_variable->data ));
 	  gtk_table_attach ( GTK_TABLE ( pTable ),
@@ -1141,15 +1144,15 @@ void update_liste_echeances_manuelles_accueil ( void )
 
 	  event_box = gtk_event_box_new ();
 	  gtk_signal_connect ( GTK_OBJECT ( event_box ),
-			       "enter_notify_event",
+			       "enter-notify-event",
 			       GTK_SIGNAL_FUNC ( met_en_prelight ),
 			       NULL );
 	  gtk_signal_connect ( GTK_OBJECT ( event_box ),
-			       "leave_notify_event",
+			       "leave-notify-event",
 			       GTK_SIGNAL_FUNC ( met_en_normal ),
 			       NULL );
 	  gtk_signal_connect ( GTK_OBJECT ( event_box ),
-			       "button_press_event",
+			       "button-press-event",
 			       (GtkSignalFunc) saisie_echeance_accueil,
 			       ECHEANCE_COURANTE );
 	  gtk_box_pack_start ( GTK_BOX ( hbox ),
