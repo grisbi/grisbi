@@ -93,15 +93,6 @@ void win32_free(void* ptr) /* {{{ */
 // --------------------------------------------------------------------------
 /** 
  * Retrieve the absolute path of a CSIDL directory named
- *      
- *      *Warning* This function use SHGetFolderPath - [from MSDN library]
- *          This function is a superset of SHGetSpecialFolderPath, included 
- *          with earlier versions of the Shell. It is implemented in a redistri-
- *          butable DLL, SHFolder.dll, that also simulates many of the new Shell
- *          folders on older platforms such as Windows 95, Windows 98, and 
- *          Windows NT® 4.0. This DLL always calls the current platform's ver-
- *          sion of this function. If that fails, it will try to simulate the 
- *          appropriate behavior. Only some CSIDLs are supported
  *
  * \param folder_path  already allocated buffer to retrieve the result
  * \param csidl        Window ID of the directory (csidl)
@@ -111,25 +102,22 @@ void win32_free(void* ptr) /* {{{ */
  */
 HRESULT win32_get_folder_path(gchar* folder_path,const int csidl)        /* {{{ */
 {   
-    HRESULT hr          = NO_ERROR;
-
-    // Allocate a pointer to an Item ID list
-    LPITEMIDLIST pidl;
-
-    *folder_path = 0;
-
-    hr = SHGetFolderPath(NULL, csidl, NULL, 0, folder_path);
-    // Force the application of the CSIDL_FLAG_CREATE nativly supported by XP only 
-    if (!hr && (( csidl & CSIDL_FLAG_CREATE) == CSIDL_FLAG_CREATE))
+    HRESULT hr             = NO_ERROR;
+    int      folder_csidl  = csidl & CSIDL_FOLDER_MASK;
+    gboolean create_folder = csidl & CSIDL_FLAG_CREATE;
+    *folder_path           = 0;
+    if (!SHGetSpecialFolderPath(NULL,folder_path,folder_csidl,create_folder))
     {
-        CreateDirectory(folder_path,NULL);
+        hr = GetLastError();
     }
     return hr;
 } /* }}}  */
 
-static gchar my_documents_path[MAX_PATH+1];
-static gchar windows_path     [MAX_PATH+1]; 
-static gchar grisbirc_path    [MAX_PATH+1];
+static gchar my_documents_path [MAX_PATH+1];
+static gchar windows_path      [MAX_PATH+1]; 
+static gchar grisbirc_path     [MAX_PATH+1];
+static gchar grisbi_exe_path   [MAX_PATH+1];
+
 
 /**
  * Retrive the "My Documents" absloute directory path
@@ -156,7 +144,7 @@ gchar* win32_get_my_documents_folder_path()            /* {{{ */
  * \return a pointer the the result status
  *
  */
-gchar* win32_get_windows_folder_path()                  /* {{{ */
+gchar* win32_get_windows_folder_path(void)                  /* {{{ */
 {
    SetLastError(GetWindowsDirectory(windows_path,MAX_PATH));
     return windows_path;
@@ -177,13 +165,127 @@ gchar* win32_get_windows_folder_path()                  /* {{{ */
  */
 gchar* win32_get_grisbirc_folder_path()  /* {{{ */
 {
-    SetLastError(win32_get_folder_path(grisbirc_path,CSIDL_APPDATA|CSIDL_FLAG_CREATE));
-    g_strlcat(grisbirc_path,"\\Grisbi\\",MAX_PATH+1);
+    /* special cases : APP_DATA & WIN95/NT4) */
+    win_version current_version = win32_get_windows_version();    
+    if ((current_version == WIN95)||(current_version == WINNT4))
+    {
+        g_strlcat(grisbirc_path,win32_get_windows_folder_path(),MAX_PATH+1);
+        g_strlcat (grisbirc_path,"\\",MAX_PATH+1);
+    } 
+    else
+    {
+        SetLastError(win32_get_folder_path(grisbirc_path,CSIDL_APPDATA|CSIDL_FLAG_CREATE));
+        g_strlcat(grisbirc_path,"\\Grisbi\\",MAX_PATH+1);
+    }
     CreateDirectory(grisbirc_path,NULL);
     return grisbirc_path;
 } /* }}} */
+
+
+/**
+ * store full path with filename retrieved from argv[0]
+ */
+void  win32_set_app_path(gchar* app_dir)
+{
+    g_strlcat(grisbi_exe_path,app_dir,MAX_PATH);
+}
+ 
+/**
+ * Construct app subdir like help directory from application running dir
+ */
+gchar* win32_app_subdir_folder_path(gchar * app_subdir)
+{
+    return g_strdelimit(g_strconcat(g_path_get_dirname ( grisbi_exe_path  ),"\\",app_subdir,NULL),
+                        "\\",
+                        '/');
+}
 // }}}1
 // -------------------------------------------------------------------------
+
+// -------------------------------------------------------------------------
+// Windows(c) Version ID and Technology                          PART_3 {{{1
+//      Version ID is 95/98/NT/2K/...
+//      Technology is 3.1/9x/NT/...
+// -------------------------------------------------------------------------
+/**
+ * Return the current Windows(c) Version ID 
+ *
+ * \return The Windows(c) Version ID in win_version
+ *********************************************************************** }}} */
+win_version    win32_get_windows_version(void)                        /* {{{ */
+{
+    win_version current_version = WIN_UNKNOWN;
+
+    OSVERSIONINFO VersInfos;
+    VersInfos.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+    GetVersionEx(&VersInfos);
+
+    DWORD dwPlatormId = VersInfos.dwPlatformId;
+    DWORD dwMajorVers = VersInfos.dwMajorVersion;
+    DWORD dwMinorVers = VersInfos.dwMinorVersion;
+
+    switch (dwPlatormId)
+    {
+        case VER_PLATFORM_WIN32s: // Win 3.1 
+            current_version = WIN31;
+            break;
+        case VER_PLATFORM_WIN32_WINDOWS: // Win 9x
+            if (dwMinorVers == 0)
+            {
+                current_version = WIN95;
+            }
+            else
+            {
+                current_version = WIN98;
+            }
+            break;
+        case VER_PLATFORM_WIN32_NT:
+            if (dwMajorVers == 3 )
+            {
+                current_version = WINNT3;
+            }
+            else if (dwMajorVers == 4 )
+            {
+                current_version = WINNT4;
+            }
+            else if (dwMajorVers == 5 )
+            {
+                current_version = WIN2K;
+            }
+            break;
+        default:
+            current_version = WIN_UNKNOWN;
+            break;
+    }
+    return current_version;
+    
+} /* }}} GetWindowsVersion */
+/**
+ *  Return the current Windows(c) Technology (9x/NT/...) from
+ *      a win_version Windows(c) Version ID.
+ * \param version version to determine the technology
+ * \return The Windows(c) Technology in win_technology
+ */
+win_technology win32_get_windows_technology(win_version version)
+{
+    if ((version & WIN_UNSUPPORTED ) == WIN_UNSUPPORTED)
+    {
+        return WIN_UNSUPPORTED;
+    }
+    else if ((version & WIN_9X) == WIN_9X)
+    {
+        return WIN_9X;
+    }
+    else if ((version & WIN_NT) == WIN_NT)
+    {
+        return WIN_NT;
+    }
+    else
+    {
+        return WIN_UNSUPPORTED;
+    }
+} /* }}} win32_get_windows_technology */
+
 // -------------------------------------------------------------------------
 // End of WinUtils
 // -------------------------------------------------------------------------

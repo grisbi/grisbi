@@ -41,11 +41,54 @@ extern guint  win32_get_last_error();
 //! \def defined CSIDL_FLAG_CREATE if needed
 #ifndef CSIDL_FLAG_CREATE
 #define CSIDL_FLAG_CREATE 0x8000
+#define CSIDL_FOLDER_MASK 0x7FFF
 #endif
 extern HRESULT win32_get_app_data_folder_path     (gchar*, int);
 extern gchar*  win32_get_my_documents_folder_path (void);
 extern gchar*  win32_get_windows_folder_path      (void);
 extern gchar*  win32_get_grisbirc_folder_path     (void);
+extern void    win32_set_app_path(gchar*);
+extern gchar*  win32_app_subdir_folder_path       (gchar*);
+
+#define PIXMAPS_DIR win32_app_subdir_folder_path("pixmaps")  /* pixmaps */
+#define HELP_PATH   win32_app_subdir_folder_path("help")     /* help */
+#define LOCALEDIR   win32_app_subdir_folder_path("locale")   /* locale */
+#define LOGO_PATH   win32_app_subdir_folder_path("pixmaps/grisbi-logo.png");
+#define ANIM_PATH   win32_app_subdir_folder_path("pixmaps/euro.gif")  /* pixmaps */
+
+// -------------------------------------------------------------------------
+// Windows(c) Version ID and Technology                               PART_3 
+//      Version ID is 95/98/NT/2K/...
+//      Technology is 3.1/9x/NT/...
+// -------------------------------------------------------------------------
+// even values are supported values
+// odd are not supported values
+typedef enum
+{
+    WIN_UNKNOWN = 0x00,
+    WIN31       = 0x01,
+    // Win 9x
+    WIN95  = 0x10,
+    WIN98  = 0x12,
+    WINME  = 0x14,
+    // Win NTx
+    WINNT3 = 0x21,
+    WINNT4 = 0x22,
+    WIN2K  = 0x24,
+    WINXP  = 0x25,
+    // Future ??
+    WINNEXT  = 0xFF,
+} win_version;
+
+typedef enum
+{   
+    WIN_UNSUPPORTED = 0x01,
+    WIN_9X          = 0x10,
+    WIN_NT          = 0x20,
+} win_technology;
+
+extern win_version    win32_get_windows_version(void);
+extern win_technology win32_get_windows_technology(win_version);
 
 #endif//!WINUTILS_H_C61461B7_ACF2_4011_888A_030AD5F25F8F
 
