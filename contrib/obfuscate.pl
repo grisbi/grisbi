@@ -30,6 +30,8 @@ my @obfuscate = (
   'Grisbi/Generalites/Adresse_commune',
   'Grisbi/Generalites/Adresse_secondaire',
   'Grisbi/Comptes/Compte/Details/Nom',
+  'Grisbi/Comptes/Compte/Details/Adresse_du_titulaire',
+  'Grisbi/Comptes/Compte/Details/Commentaires',
   'Grisbi/Comptes/Compte/Details/Titulaire',
   'Grisbi/Comptes/Compte/Details/Guichet',
   'Grisbi/Comptes/Compte/Details/No_compte_banque',
@@ -41,6 +43,7 @@ my @obfuscate = (
   'Grisbi/Comptes/Compte/Details/Solde_dernier_releve',
   'Grisbi/Comptes/Compte/Details/Commentaires',
   'Grisbi/Comptes/Compte/Details/Adresse_du_titulaire',
+  'Grisbi/Comptes/Compte/Detail_de_Types/Type=No_en_cours',
   'Grisbi/Comptes/Compte/Detail_des_operations/Operation=M,N',
   'Grisbi/Tiers/Detail_des_tiers/Tiers=Nom,Informations',
   'Grisbi/Echeances/Detail_des_echeances/Echeance=Montant',
@@ -55,7 +58,7 @@ my @obfuscate = (
 my @state;
 my %total;
 
-foreach my $line (<XML>)
+while (my $line = <XML>)
 {
     my $last;
 
@@ -83,8 +86,17 @@ foreach my $line (<XML>)
 	    {
 		$repl = "$last $total{$last}";
 	    }
+
 	    $line =~ s/ $_=\"[^\"]+\"/ $_=\"$repl\"/g;
 	}
+
+	while ( $line =~ /<[-a-z_]+>[^< ]+/gi &&
+	       ! ($line =~ /<\/([-a-z_]+)>/gi) &&
+	       ! ($line =~ /\/>/gi) )
+	{
+	    $line .= <XML>;
+	}
+
 	$line =~ s/>([^<]*)<\//>$last $total{$last}<\//gi;
     }
     print $line;
