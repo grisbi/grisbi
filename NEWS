@@ -1,5 +1,6 @@
-New in version 0.5.1pre1 :
+New in version 0.5.1 :
  - Bug fixes
+ - Reports export to HTML
 
 New in version 0.5.0 :
  - GTK2 & libxml2 support
