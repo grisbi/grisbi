@@ -2,6 +2,7 @@
  *
  *     Copyright (C)	2001 Cédric Auger (cedric@grisbi.org) 
  *			2003 Benjamin Drieu (bdrieu@april.org) 
+ *			2005 Alain Portal (dionysos@grisbi.org) 
  * 			http://www.grisbi.org
  *
  * This library is free software; you can redistribute it and/or
@@ -614,12 +615,13 @@ recherche_completion:
 	{
 	    if ( !case_sensitive )
 	    {
-		if ( !g_strncasecmp ( chaine, liste_tmp->data, strlen ( chaine ) ) )
+		if ( !g_utf8_collate ( g_utf8_casefold ( chaine, strlen ( chaine ) ),
+				       g_utf8_casefold ( liste_tmp->data, strlen ( chaine ) ) ))
 		    completion = liste_tmp -> data;
 	    }
 	    else
 	    {
-		if ( !strncmp ( chaine, liste_tmp->data, strlen ( chaine ) ) )
+		if ( !g_utf8_collate ( chaine, liste_tmp->data ) )
 		    completion = liste_tmp -> data;
 	    }
 
@@ -729,13 +731,11 @@ recherche_completion:
 		    string_tot = g_strconcat ( string,
 					       " : ",
 					       NULL );
-		    if ( !g_strncasecmp ( chaine,
-					  string_tot,
-					  strlen ( chaine )) 
+		    if ( !g_utf8_collate ( g_utf8_casefold ( chaine, strlen ( chaine ) ),
+					   g_utf8_casefold ( string_tot, strlen ( chaine )))
 			 ||
-			 !g_strncasecmp ( chaine,
-					  string_tot,
-					  strlen ( string_tot )))
+			 !g_utf8_collate ( g_utf8_casefold ( chaine, strlen ( chaine ) ),
+					   g_utf8_casefold ( string_tot, strlen ( string_tot ))))
 
 		    {
 			/* cette catégorie devra être affichée */
@@ -747,12 +747,8 @@ recherche_completion:
 		}
 		else
 		{
-		    if ( !g_strncasecmp ( chaine,
-					  g_strconcat ( categorie,
-							" : ",
-							string + 1,
-							NULL ),
-					  strlen ( chaine )))
+		    if ( !g_utf8_collate ( g_utf8_casefold ( chaine, strlen ( chaine ) ),
+					   g_utf8_casefold ( g_strconcat ( categorie, " : ", string + 1, NULL ), strlen ( chaine ))))
 		    {
 			/* cette sous-catég devra être affichée */
 
@@ -811,14 +807,11 @@ recherche_completion:
 		string_tot = g_strconcat ( string,
 					   " : ",
 					   NULL );
-		if ( !g_strncasecmp ( chaine,
-				      string_tot,
-				      strlen ( chaine ) ) 
+		if ( !g_utf8_collate ( g_utf8_casefold ( chaine, strlen ( chaine ) ),
+				       g_utf8_casefold ( string_tot, strlen ( chaine )))
 		     ||
-		     !g_strncasecmp ( chaine,
-				      string_tot,
-				      strlen ( string_tot )))
-
+		     !g_utf8_collate ( g_utf8_casefold ( chaine, strlen ( chaine ) ),
+				       g_utf8_casefold ( string_tot, strlen ( string_tot ))))
 		{
 		    liste_affichee = g_slist_append ( liste_affichee,
 						      string );
@@ -827,12 +820,8 @@ recherche_completion:
 	    }
 	    else
 	    {
-		if ( !g_strncasecmp ( chaine,
-				      g_strconcat ( categorie,
-						    " : ",
-						    string + 1,
-						    NULL ),
-				      strlen ( chaine ) ) )
+		if ( !g_utf8_collate ( g_utf8_casefold ( chaine, strlen ( chaine ) ),
+				       g_utf8_casefold ( g_strconcat ( categorie, " : ", string + 1, NULL ), strlen ( chaine ))))
 		{
 		    liste_affichee = g_slist_append ( liste_affichee,
 						      string );
