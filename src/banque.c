@@ -735,7 +735,7 @@ GtkWidget *onglet_banques ( void )
   gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window), 
 					GTK_SHADOW_IN );
   /* Create the text view */
-  adr_banque = new_text_area ( NULL, NULL ) ;
+  adr_banque = new_text_area ( NULL, NULL );
   gtk_container_add ( GTK_CONTAINER ( scrolled_window ), adr_banque );
   gtk_size_group_add_widget ( size_group, adr_banque );
   gtk_table_attach ( GTK_TABLE ( table ),

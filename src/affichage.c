@@ -305,8 +305,11 @@ GtkWidget * onglet_display_fonts ( void )
   font_button = gtk_button_new ();
   hbox_font = gtk_hbox_new ( FALSE, 0 );
   general_font_name_label = gtk_label_new (general_font_name);
-  gtk_widget_modify_font (general_font_name_label,
-			  pango_font_description_from_string (fonte_general));
+  if (fonte_general)
+    {
+      gtk_widget_modify_font (general_font_name_label,
+			      pango_font_description_from_string (fonte_general));
+    }
   gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
 		       general_font_name_label,
 		       TRUE, TRUE, 5 );
@@ -343,8 +346,11 @@ GtkWidget * onglet_display_fonts ( void )
   font_button = gtk_button_new ();
   hbox_font = gtk_hbox_new ( FALSE, 0 );
   list_font_name_label = gtk_label_new (list_font_name);
-  gtk_widget_modify_font (list_font_name_label,
-			  pango_font_description_from_string (fonte_liste));
+  if ( fonte_liste )
+    {
+      gtk_widget_modify_font (list_font_name_label,
+			      pango_font_description_from_string (fonte_liste));
+    }
   gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
 		       list_font_name_label,
 		       TRUE, TRUE, 5 );

@@ -383,16 +383,16 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
 					  gchar * image_filename);
 gboolean update_homepage_title ( GtkEntry *, gchar *, gint, gint * );
 /* Text functions */
-GtkWidget * new_text_entry ( gchar **, GCallback * );
+GtkWidget * new_text_entry ( gchar **, GCallback );
 gboolean set_text ( GtkEntry *, gchar *, gint, gint * );
 /* Checkbox & radio group functions */
-GtkWidget * new_checkbox_with_title ( gchar *, guint *, GtkSignalFunc * );
+GtkWidget * new_checkbox_with_title ( gchar *, guint *, GCallback );
 GtkWidget * new_radiogroup_with_title ( GtkWidget *, gchar *, gchar *, gchar *, 
-					guint *, GCallback * );
+					guint *, GCallback );
 void checkbox_set_value (GtkWidget *, guint *, gboolean);
 gboolean set_boolean ( GtkWidget * checkbox, guint * dummy);
 /* Date functions */
-GtkWidget * new_date_entry ( gchar ** value, GCallback * hook );
+GtkWidget * new_date_entry ( gchar ** value, GCallback hook );
 GtkWidget * get_entry_from_date_entry (GtkWidget *);
 void date_set_value ( GtkWidget * hbox, GDate ** value, gboolean update );
 gboolean popup_calendar ( GtkWidget * button, gpointer data );

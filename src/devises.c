@@ -1307,6 +1307,8 @@ gboolean devise_selectionnee ( GtkWidget *menu_shell,
 {
   gint position;
 
+  printf (">> zouip\n");
+
   if ( origine )
     {
       /* le 2ème option menu a été changé */
@@ -1477,11 +1479,7 @@ GtkWidget *onglet_devises ( void )
 		     label, 0, 1, 0, 1,
 		     GTK_SHRINK | GTK_FILL, 0,
 		     0, 0 );
-  entree_nom_devise_parametres = new_text_entry ( NULL, NULL );
-  gtk_signal_connect ( GTK_OBJECT ( entree_nom_devise_parametres ),
-		       "changed",
-		       GTK_SIGNAL_FUNC ( changement_nom_entree_devise ),
-		       NULL );
+  entree_nom_devise_parametres = new_text_entry ( NULL, (GCallback) changement_nom_entree_devise );
   gtk_table_attach ( GTK_TABLE ( table ),
 		     entree_nom_devise_parametres, 
 		     1, 2, 0, 1, 
@@ -1497,11 +1495,7 @@ GtkWidget *onglet_devises ( void )
 		     0, 1, 1, 2,
 		     GTK_SHRINK | GTK_FILL, 0,
 		     0, 0 );
-  entree_code_devise_parametres = new_text_entry ( NULL, NULL );
-  gtk_signal_connect ( GTK_OBJECT ( entree_code_devise_parametres ),
-		       "changed",
-		       GTK_SIGNAL_FUNC ( changement_code_entree_devise ),
-		       NULL );
+  entree_code_devise_parametres = new_text_entry ( NULL, (GCallback) changement_code_entree_devise );
   gtk_table_attach ( GTK_TABLE ( table ),
 		     entree_code_devise_parametres, 
 		     1, 2, 1, 2,
@@ -1517,11 +1511,7 @@ GtkWidget *onglet_devises ( void )
 		     0, 1, 2, 3,
 		     GTK_SHRINK | GTK_FILL, 0,
 		     0, 0 );
-  entree_iso_code_devise_parametres = new_text_entry ( NULL, NULL );
-  gtk_signal_connect ( GTK_OBJECT ( entree_iso_code_devise_parametres ),
-		       "changed",
-		       GTK_SIGNAL_FUNC ( changement_iso_code_entree_devise ),
-		       NULL );
+  entree_iso_code_devise_parametres = new_text_entry ( NULL, (GCallback) changement_iso_code_entree_devise );
   gtk_table_attach ( GTK_TABLE ( table ),
 		     entree_iso_code_devise_parametres, 
 		     1, 2, 2, 3,
@@ -1530,7 +1520,7 @@ GtkWidget *onglet_devises ( void )
 
   /* Will switch to Euro? */
   check_button_euro = new_checkbox_with_title( _("Will switch to Euro"), NULL, 
-					       ((GtkSignalFunc*) change_passera_euro) );
+					       ((GCallback) change_passera_euro) );
   gtk_box_pack_start ( GTK_BOX ( paddingbox ), check_button_euro,
 		       FALSE, FALSE, 0);
 
@@ -1611,37 +1601,11 @@ gboolean selection_ligne_devise ( GtkWidget *liste,
 
 
   /* met le nom et le code de la devise */
-
-  gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_nom_devise_parametres ),
-				     GTK_SIGNAL_FUNC ( changement_nom_entree_devise ),
-				     NULL );
-  gtk_entry_set_text ( GTK_ENTRY ( entree_nom_devise_parametres ),
-		       devise -> nom_devise );
-  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_nom_devise_parametres ),
-				       GTK_SIGNAL_FUNC ( changement_nom_entree_devise ),
-				       NULL );
-
-  gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_code_devise_parametres ),
-				     GTK_SIGNAL_FUNC ( changement_code_entree_devise ),
-				     NULL );
-  if (devise -> code_devise)
-    gtk_entry_set_text ( GTK_ENTRY ( entree_code_devise_parametres ),
-			 devise -> code_devise );
-  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_code_devise_parametres ),
-				       GTK_SIGNAL_FUNC ( changement_code_entree_devise ),
-				       NULL );
-  gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_iso_code_devise_parametres ),
-				     GTK_SIGNAL_FUNC ( changement_iso_code_entree_devise ),
-				     NULL );
-  gtk_entry_set_text ( GTK_ENTRY ( entree_iso_code_devise_parametres ),
-		       devise -> code_iso4217_devise );
-  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_iso_code_devise_parametres ),
-				       GTK_SIGNAL_FUNC ( changement_iso_code_entree_devise ),
-				       NULL );
-
+  entry_set_value(entree_nom_devise_parametres, devise -> nom_devise);
+  entry_set_value(entree_code_devise_parametres, devise -> code_devise);
+  entry_set_value(entree_iso_code_devise_parametres, devise -> code_iso4217_devise);
 
   /* crée le menu des devises en enlevant la devise courante */
-
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( option_menu_devises ),
 			     creation_option_menu_devises ( devise -> no_devise,
 							    liste_struct_devises ));

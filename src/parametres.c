@@ -32,7 +32,7 @@ GtkTreeSelection * selection;
 GtkWidget * button_close, * button_help;
 
 /** FIXME move it */
-gboolean set_text_from_area ( GtkTextBuffer *buffer, gpointer tamere );
+gboolean set_text_from_area ( GtkTextBuffer *buffer, gpointer dummy );
 
 
 /**
@@ -78,7 +78,7 @@ GtkWidget * create_preferences_tree ( )
   /* Handle select */
   selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree));
   g_signal_connect (selection, "changed", 
-		    G_CALLBACK (selectionne_liste_preference), 
+		    ((GCallback)selectionne_liste_preference), 
 		    preference_tree_model);
 
   /* Put the tree in the scroll */
@@ -86,7 +86,7 @@ GtkWidget * create_preferences_tree ( )
 
   /* expand all rows after the treeview widget has been realized */
   g_signal_connect (tree, "realize",
-		    G_CALLBACK (gtk_tree_view_expand_all), NULL);
+		    ((GCallback)gtk_tree_view_expand_all), NULL);
 
   return sw;
 }
@@ -271,12 +271,12 @@ gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
 
   gtk_tree_model_get_value (model, &iter, 1, &value);
 
-/*   if (preference_selected) */
-/*     { */
-/*       gtk_widget_hide_all(preference_selected); */
-/*       g_object_ref(preference_selected); /\* GRUIK *\/ */
-/*       gtk_container_remove (GTK_CONTAINER (preference_frame), preference_selected); */
-/*     } */
+  /*   if (preference_selected) */
+  /*     { */
+  /*       gtk_widget_hide_all(preference_selected); */
+  /*       g_object_ref(preference_selected); /\* GRUIK *\/ */
+  /*       gtk_container_remove (GTK_CONTAINER (preference_frame), preference_selected); */
+  /*     } */
 
   preference_selected = g_value_get_int(&value);
   if (preference_selected != -1)
@@ -295,7 +295,7 @@ gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
 /* ************************************************************************************************************** */
 void activer_bouton_appliquer ( )
 {
-/*   gtk_widget_set_sensitive ( button_apply, TRUE ); */
+  /*   gtk_widget_set_sensitive ( button_apply, TRUE ); */
 }
 
 
@@ -313,7 +313,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
   vbox_pref = new_vbox_with_title_and_icon ( _("Messages & warnings"),
 					     "warnings.png" );
 
-   /* Warnings */
+  /* Warnings */
   paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
 					  _("Warnings messages"));
 
@@ -325,7 +325,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
 
   /* Display a warning message if account file is readable by someone else */
   bouton_affiche_permission = new_checkbox_with_title ( _("Display a warning message if account file is readable by someone else"),
-						&(etat.alerte_permission), NULL );
+							&(etat.alerte_permission), NULL );
   gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_affiche_permission,
 		       FALSE, FALSE, 0 );
 
@@ -453,7 +453,7 @@ GtkWidget *onglet_fichier ( void )
 
   /* Automatic backup ? */
   bouton_demande_backup = new_checkbox_with_title (_("Make a backup copy before saving files"),
-						   NULL, changement_choix_backup);
+						   NULL, (GCallback) changement_choix_backup);
   gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_demande_backup,
 		       FALSE, FALSE, 0 );
 
@@ -495,7 +495,7 @@ GtkWidget *onglet_fichier ( void )
 	gtk_widget_set_sensitive ( GTK_WIDGET ( entree_chemin_backup ),
 				   FALSE );
       
-      gtk_signal_connect_object ( GTK_OBJECT ( GTK_COMBO ( gnome_file_entry_gtk_entry ( entree_chemin_backup) ) -> entry ),
+      gtk_signal_connect_object ( GTK_OBJECT ( GTK_COMBO ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY(entree_chemin_backup)) ) -> entry ),
 				  "changed",
 				  activer_bouton_appliquer,
 				  GTK_OBJECT (fenetre_preferences));
@@ -531,7 +531,7 @@ GtkWidget *onglet_fichier ( void )
 			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button_compression_backup,
-		     FALSE, FALSE, 0 );
+		       FALSE, FALSE, 0 );
   gtk_widget_show ( spin_button_compression_backup );
 
   gtk_widget_show_all ( vbox_pref );
@@ -550,10 +550,10 @@ GtkWidget *onglet_echeances ( void )
 
 /* ************************************************************************************************************ */
 void change_selection_verif ( GtkWidget *liste_comptes,
-			       gint ligne,
-			       gint colonne,
-			       GdkEventButton *event,
-			       gint * data )
+			      gint ligne,
+			      gint colonne,
+			      GdkEventButton *event,
+			      gint * data )
 {
   *data = ligne;
   gtk_widget_set_sensitive ( GTK_WIDGET ( bouton_enlever ),
@@ -600,9 +600,9 @@ void ajouter_verification ( GtkWidget *bouton_add,
   FILE *fichier;
 
   dialogue_box = gnome_dialog_new ( _("Looking for the Grisbi file"),
-				GNOME_STOCK_BUTTON_OK,
-				GNOME_STOCK_BUTTON_CANCEL,
-				NULL );
+				    GNOME_STOCK_BUTTON_OK,
+				    GNOME_STOCK_BUTTON_CANCEL,
+				    NULL );
   gnome_dialog_set_default ( GNOME_DIALOG ( dialogue_box ),
 			     0 );
   gnome_dialog_set_parent ( GNOME_DIALOG ( dialogue_box ),
@@ -612,7 +612,7 @@ void ajouter_verification ( GtkWidget *bouton_add,
   gtk_signal_connect ( GTK_OBJECT ( dialogue_box ),
 		       "destroy",
 		       GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
-		        "destroy" );
+		       "destroy" );
 
   label = gtk_label_new ( COLON(_("Enter the accounts file")) );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue_box ) -> vbox ),
@@ -819,7 +819,7 @@ void real_changement_preferences ( GtkWidget *fenetre_preferences,
 
 	      if ( strlen ( titre_fichier ))
 		gtk_label_set_text ( GTK_LABEL ( label_titre_fichier ),
-				      titre_fichier );
+				     titre_fichier );
 	      else
 		{
 		  titre_fichier = NULL;
@@ -900,17 +900,17 @@ void real_changement_preferences ( GtkWidget *fenetre_preferences,
 	    {
 	      modification_fichier ( TRUE );
 	      adresse_secondaire = g_strdup ( g_strstrip ( gtk_editable_get_chars (GTK_EDITABLE ( entree_adresse_secondaire ),
-										0,
-										-1 )));
+										   0,
+										   -1 )));
 
 	      if ( strlen ( adresse_secondaire ))
 		{
 		  adresse_secondaire = g_strdelimit ( adresse_secondaire,
-						   "{",
-						   '(' );
+						      "{",
+						      '(' );
 		  adresse_secondaire = g_strdelimit ( adresse_secondaire,
-						   "}",
-						   ')' );
+						      "}",
+						      ')' );
 		}
 	      else
 		adresse_secondaire = NULL;
@@ -923,14 +923,14 @@ void real_changement_preferences ( GtkWidget *fenetre_preferences,
 							     -1 ))))
 	    {
 	      adresse_secondaire = g_strdup ( g_strstrip ( gtk_editable_get_chars (GTK_EDITABLE ( entree_adresse_secondaire ),
-										0,
-										-1 )));
+										   0,
+										   -1 )));
 	      adresse_secondaire = g_strdelimit ( adresse_secondaire,
-					       "{",
-					       '(' );
+						  "{",
+						  '(' );
 	      adresse_secondaire = g_strdelimit ( adresse_secondaire,
-					       "}",
-					       ')' );
+						  "}",
+						  ')' );
 	      modification_fichier ( TRUE );
 	    }
 	}
@@ -964,14 +964,14 @@ void real_changement_preferences ( GtkWidget *fenetre_preferences,
 	       ( nom_fichier_backup && !gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_demande_backup ) ))
 	       ||
 	       ( nom_fichier_backup && strcmp ( nom_fichier_backup,
-						g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( GTK_COMBO ( gnome_file_entry_gtk_entry (entree_chemin_backup) ) -> entry  ) )))))
+						g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( GTK_COMBO ( gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY(entree_chemin_backup)) ) -> entry  ) )))))
 	    modification_fichier ( TRUE );
 
 	  if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_demande_backup ) )
 	       &&
-	       strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( GTK_COMBO ( gnome_file_entry_gtk_entry (entree_chemin_backup)) -> entry  ) ) )))
+	       strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( GTK_COMBO ( gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY(entree_chemin_backup))) -> entry  ) ) )))
 	    /*** BENJ FIXME : heu .... c'est vraiment ça ? ***/
-	    nom_fichier_backup = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( GTK_COMBO (  gnome_file_entry_gtk_entry(entree_chemin_backup) ) -> entry  ) ) ));
+	    nom_fichier_backup = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( GTK_COMBO (  gnome_file_entry_gtk_entry(GNOME_FILE_ENTRY(entree_chemin_backup)) ) -> entry  ) ) ));
 	  else
 	    nom_fichier_backup = NULL;
 	}
@@ -1025,8 +1025,8 @@ void real_changement_preferences ( GtkWidget *fenetre_preferences,
 
       for ( buffer = 0 ; buffer < nb_comptes ; buffer++ )
 	ordre_comptes = g_slist_append ( ordre_comptes,
-					gtk_clist_get_row_data ( GTK_CLIST ( liste_choix_ordre_comptes ),
-								 buffer ) );
+					 gtk_clist_get_row_data ( GTK_CLIST ( liste_choix_ordre_comptes ),
+								  buffer ) );
 
       /* on récupère les préférences du formulaire */
 
@@ -1100,11 +1100,11 @@ void real_changement_preferences ( GtkWidget *fenetre_preferences,
 
 	  /* on récupère le no de la devise des totaux des tiers si un fichier est ouvert */
 
-	  if ( no_devise_totaux_tiers != GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_choix_devise_totaux_tiers ) -> menu_item ),
-										 "no_devise" )))
+	  if ( no_devise_totaux_tiers != GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( bouton_choix_devise_totaux_tiers ) -> menu_item ),
+									       "no_devise" )))
 	    {
-	      no_devise_totaux_tiers = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_choix_devise_totaux_tiers ) -> menu_item ),
-									       "no_devise" ));
+	      no_devise_totaux_tiers = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( bouton_choix_devise_totaux_tiers ) -> menu_item ),
+									     "no_devise" ));
 	  
 
 	      /* si on est sur une des onglets d'affichage des tiers, categ ou imput, on le réaffiche */
@@ -1206,7 +1206,7 @@ void real_changement_preferences ( GtkWidget *fenetre_preferences,
 	  g_slist_free ( liste_suppression_fichier_a_verifier );
 	  liste_suppression_fichier_a_verifier = NULL;
 
-/* 	  si l'applet est démarrée, envoie le signal 10 ( SIGUSR1 ) pour qu'elle se mette à jour */
+	  /* 	  si l'applet est démarrée, envoie le signal 10 ( SIGUSR1 ) pour qu'elle se mette à jour */
 
 	  if ( verifie_affichage_applet() == 1 )
 	    {
@@ -1223,13 +1223,13 @@ void real_changement_preferences ( GtkWidget *fenetre_preferences,
 
 	  do
 	    fichier_a_verifier = g_slist_append ( fichier_a_verifier,
-					    fichier_a_verifier_tmp_variable  ->data );
+						  fichier_a_verifier_tmp_variable  ->data );
 	  while ( ( fichier_a_verifier_tmp_variable = fichier_a_verifier_tmp_variable ->next ) );
 	  
 	  g_slist_free ( fichier_a_verifier_tmp );
 	  fichier_a_verifier_tmp = NULL;
 
-/* 	  si l'applet est démarrée, envoie le signal 10 ( SIGUSR1 ) pour qu'elle se mette à jour */
+	  /* 	  si l'applet est démarrée, envoie le signal 10 ( SIGUSR1 ) pour qu'elle se mette à jour */
 
 	  if ( verifie_affichage_applet() == 1 )
 	    {
@@ -1239,11 +1239,11 @@ void real_changement_preferences ( GtkWidget *fenetre_preferences,
 	}
 
       /* FIXME: reintroduce if we add applet again */
-/*       if ( ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affichage_applet ) ) ) && (!verifie_affichage_applet() ) ) */
-/* 	system ( g_strconcat ( APPLET_BIN_DIR, "&", NULL ) ); */
+      /*       if ( ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affichage_applet ) ) ) && (!verifie_affichage_applet() ) ) */
+      /* 	system ( g_strconcat ( APPLET_BIN_DIR, "&", NULL ) ); */
 
       if ( ( !gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affichage_applet ) ) ) && (verifie_affichage_applet()  ) )
-	  kill ( pid_applet, SIGTERM );
+	kill ( pid_applet, SIGTERM );
 
       /* 	  reaffiche_liste_equilibrage(); */
 
@@ -1682,13 +1682,13 @@ void real_changement_preferences ( GtkWidget *fenetre_preferences,
 
 	      gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
 					    0 );
-	      TYPE_DEFAUT_DEBIT = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu_item ),
-									  "no_type" ));
+	      TYPE_DEFAUT_DEBIT = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu_item ),
+									"no_type" ));
 
 	      /* on affiche l'entrée des chèques si nécessaire */
 
-	      type = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu_item ),
-					   "adr_type" );
+	      type = g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu_item ),
+					 "adr_type" );
 
 	      if ( type -> affiche_entree )
 		gtk_widget_show ( widget_formulaire_operations[10] );
@@ -1811,27 +1811,27 @@ void real_changement_preferences ( GtkWidget *fenetre_preferences,
 
 	  /* récupère les lignes à afficher en fonction de l'affichage */
 
-	  ligne_affichage_une_ligne = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_une_ligne ) -> menu_item ),
-									      "no_ligne" ));
+	  ligne_affichage_une_ligne = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_une_ligne ) -> menu_item ),
+									    "no_ligne" ));
 
 	  lignes_affichage_deux_lignes = NULL;
 	  lignes_affichage_deux_lignes = g_slist_append ( lignes_affichage_deux_lignes,
-							  gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_deux_lignes_1 ) -> menu_item ),
-										"no_ligne" ));
+							  g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_deux_lignes_1 ) -> menu_item ),
+									      "no_ligne" ));
 	  lignes_affichage_deux_lignes = g_slist_append ( lignes_affichage_deux_lignes,
-							  gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_deux_lignes_2 ) -> menu_item ),
-										"no_ligne" ));
+							  g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_deux_lignes_2 ) -> menu_item ),
+									      "no_ligne" ));
 
 	  lignes_affichage_trois_lignes = NULL;
 	  lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
-							  gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_1 ) -> menu_item ),
-										"no_ligne" ));
+							   g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_1 ) -> menu_item ),
+									       "no_ligne" ));
 	  lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
-							  gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_2 ) -> menu_item ),
-										"no_ligne" ));
+							   g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_2 ) -> menu_item ),
+									       "no_ligne" ));
 	  lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
-							  gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_3 ) -> menu_item ),
-										"no_ligne" ));
+							   g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_3 ) -> menu_item ),
+									       "no_ligne" ));
 
 
 	  demande_mise_a_jour_tous_comptes ();
@@ -1870,17 +1870,18 @@ void fermeture_preferences ( GtkWidget *button,
 {
   GtkTreeIter iter;
   
-  gtk_tree_model_get_iter_first(preference_tree_model, &iter);
+  gtk_tree_model_get_iter_first(GTK_TREE_MODEL (preference_tree_model), &iter);
   
   do
     {
       GValue value = {0, };
-      gtk_tree_model_get_value (preference_tree_model, &iter, 1, &value);
+      gtk_tree_model_get_value (GTK_TREE_MODEL (preference_tree_model), 
+				&iter, 1, &value);
       gtk_widget_destroy(g_value_get_pointer(&value));
     }
-  while (gtk_tree_model_iter_next (preference_tree_model, &iter));
+  while (gtk_tree_model_iter_next (GTK_TREE_MODEL (preference_tree_model), &iter));
 
-  preference_selected = NULL;
+  preference_selected = 0;
   gtk_widget_destroy (fenetre_preferences);
 }
 /* **************************************************************************************************************************** */
@@ -2030,26 +2031,27 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
  * \return A newly allocated GtkVBox
  */
 GtkWidget *
-new_checkbox_with_title ( gchar * label, guint * data, GtkSignalFunc * hook)
+new_checkbox_with_title ( gchar * label, guint * data, GCallback hook)
 {
   GtkWidget * checkbox;
 
   checkbox = gtk_check_button_new_with_label ( label );
   checkbox_set_value ( checkbox, data, TRUE );
 
-  gtk_object_set_data ( GTK_OBJECT ( checkbox ), "set-boolean", 
-			g_signal_connect ( GTK_OBJECT (checkbox), "toggled",
-					   GTK_SIGNAL_FUNC (set_boolean), data ));
- 
-  if (hook)
+  g_object_set_data ( G_OBJECT (checkbox), "set-boolean", 
+		      (gpointer) g_signal_connect (checkbox, "toggled",
+						   ((GCallback) set_boolean), data));
+  
+  if ( hook )
     {
-      gtk_object_set_data ( GTK_OBJECT ( checkbox ), "hook", 
-			    g_signal_connect ( GTK_OBJECT (checkbox), "toggled",
-					       GTK_SIGNAL_FUNC (hook), data ));
+      g_object_set_data ( G_OBJECT ( checkbox ), "hook", 
+			  (gpointer) g_signal_connect (checkbox, "toggled",
+						       ((GCallback) hook), data ));
     }
 
   return checkbox;
 }
+
 
 
 /**
@@ -2066,26 +2068,28 @@ void checkbox_set_value ( GtkWidget * checkbox, guint * data, gboolean update )
 {
   if (data)
     {
-      gulong hook_uid = gtk_object_get_data ( GTK_OBJECT(checkbox), "hook" );
-
-      if ( hook_uid >= 0 )
-	g_signal_handler_block ( checkbox, hook_uid);
-      g_signal_handler_block ( checkbox,
-			       gtk_object_get_data ( GTK_OBJECT(checkbox), 
-						     "set-boolean" ));
-      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( checkbox ),
-				     *data );      
-      if ( hook_uid >= 0 )
-	g_signal_handler_unblock ( checkbox, hook_uid );
-      g_signal_handler_unblock ( checkbox,
-				 gtk_object_get_data ( GTK_OBJECT(checkbox), 
-						       "set-boolean" ));
+      if (g_object_get_data (G_OBJECT(checkbox), "hook") > 0)
+	g_signal_handler_block ( checkbox, 
+				 (gulong) g_object_get_data (G_OBJECT(checkbox), 
+							     "hook" ));
+      if (g_object_get_data (G_OBJECT(checkbox), "set-boolean") > 0)
+	g_signal_handler_block ( checkbox,
+				 (gulong) g_object_get_data (G_OBJECT(checkbox),
+							     "set-boolean" ));
+      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( checkbox ), *data );      
+      if (g_object_get_data (G_OBJECT(checkbox), "hook") > 0)
+	g_signal_handler_unblock ( checkbox, 
+				   (gulong) g_object_get_data (G_OBJECT(checkbox), 
+							       "hook" ));
+      if (g_object_get_data (G_OBJECT(checkbox), "set-boolean") > 0)
+	g_signal_handler_unblock ( checkbox,
+				   (gulong) g_object_get_data ( G_OBJECT(checkbox),
+								"set-boolean" ));
     }
 
   if (update)
-    gtk_object_set_data ( GTK_OBJECT ( checkbox ), "pointer", data);
+    g_object_set_data ( G_OBJECT ( checkbox ), "pointer", data);
 
-  return checkbox;
 }
 
 
@@ -2101,7 +2105,7 @@ set_boolean ( GtkWidget * checkbox, guint * dummy)
 {
   gboolean *data;
 
-  data = gtk_object_get_data ( GTK_OBJECT ( checkbox ), "pointer");
+  data = g_object_get_data ( G_OBJECT ( checkbox ), "pointer");
   if (data)
     *data = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(checkbox));
 
@@ -2122,7 +2126,7 @@ gboolean set_text (GtkEntry *entry, gchar *value,
 {
   gchar ** data;
 
-  data = gtk_object_get_data ( GTK_OBJECT ( entry ), "pointer");
+  data = g_object_get_data ( G_OBJECT ( entry ), "pointer");
   if (data)
     *data = g_strdup ((gchar*) gtk_entry_get_text ( GTK_ENTRY (entry) ));
 
@@ -2139,7 +2143,7 @@ gboolean set_text (GtkEntry *entry, gchar *value,
  * \param hook An optional function to execute as a handler if the
  * entry's contents are modified.
  */
-GtkWidget * new_text_entry ( gchar ** value, GCallback * hook )
+GtkWidget * new_text_entry ( gchar ** value, GCallback hook )
 {
   GtkWidget * entry;
 
@@ -2148,24 +2152,24 @@ GtkWidget * new_text_entry ( gchar ** value, GCallback * hook )
   if (value && *value)
     gtk_entry_set_text ( GTK_ENTRY(entry), *value );
 
-  gtk_object_set_data ( GTK_OBJECT ( entry ), "pointer", value);
+  g_object_set_data ( G_OBJECT ( entry ), "pointer", value);
 
-  gtk_object_set_data ( GTK_OBJECT ( entry ), "insert-text", 
-			g_signal_connect_after (GTK_OBJECT(entry), "insert-text",
-						G_CALLBACK(set_text), NULL));
-  gtk_object_set_data ( GTK_OBJECT ( entry ), "delete-text", 
-			g_signal_connect_after (GTK_OBJECT(entry), "delete-text",
-						G_CALLBACK(set_text), NULL));
+  g_object_set_data ( G_OBJECT ( entry ), "insert-text", 
+		      (gpointer) g_signal_connect_after (GTK_OBJECT(entry), "insert-text",
+							 ((GCallback) set_text), NULL));
+  g_object_set_data ( G_OBJECT ( entry ), "delete-text", 
+		      (gpointer) g_signal_connect_after (GTK_OBJECT(entry), "delete-text",
+							 ((GCallback) set_text), NULL));
   if ( hook )
     {
-      gtk_object_set_data ( GTK_OBJECT ( entry ), "insert-hook", 
-			    g_signal_connect_after (GTK_OBJECT(entry), 
-						    "insert-text",
-						    G_CALLBACK(hook), NULL));
-      gtk_object_set_data ( GTK_OBJECT ( entry ), "delete-hook", 
-			    g_signal_connect_after (GTK_OBJECT(entry), 
-						    "delete-text",
-						    G_CALLBACK(hook), NULL));
+      g_object_set_data ( G_OBJECT ( entry ), "insert-hook", 
+			  (gpointer) g_signal_connect_after (GTK_OBJECT(entry), 
+							     "insert-text",
+							     ((GCallback) hook), NULL));
+      g_object_set_data ( G_OBJECT ( entry ), "delete-hook", 
+			  (gpointer) g_signal_connect_after (GTK_OBJECT(entry), 
+							     "delete-text",
+							     ((GCallback) hook), NULL));
     }
 
   return entry;
@@ -2189,7 +2193,7 @@ GtkWidget * new_text_entry ( gchar ** value, GCallback * hook )
 GtkWidget *
 new_radiogroup_with_title (GtkWidget * parent,
 			   gchar * title, gchar * choice1, gchar * choice2,
-			   guint * data, GCallback * hook)
+			   guint * data, GCallback hook)
 {
   GtkWidget * button1, *button2, *paddingbox;
 
@@ -2197,7 +2201,7 @@ new_radiogroup_with_title (GtkWidget * parent,
   
   button1 = gtk_radio_button_new_with_label ( NULL, choice1 );
   gtk_box_pack_start (GTK_BOX(paddingbox), button1, FALSE, FALSE, 0 );
-  button2 = gtk_radio_button_new_with_label ( gtk_radio_button_group (button1), 
+  button2 = gtk_radio_button_new_with_label ( gtk_radio_button_group (GTK_RADIO_BUTTON(button1)), 
 					      choice2 );
   gtk_box_pack_start (GTK_BOX(paddingbox), button2, FALSE, FALSE, 0 );
 
@@ -2209,14 +2213,14 @@ new_radiogroup_with_title (GtkWidget * parent,
 	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button1 ), TRUE );
     }
 
-  gtk_object_set_data ( GTK_OBJECT ( button2 ), "pointer", data);
+  g_object_set_data ( G_OBJECT ( button2 ), "pointer", data);
   g_signal_connect ( GTK_OBJECT ( button2 ), "toggled",
-		     set_boolean, NULL );
+		     (GCallback) set_boolean, NULL );
 
   if (hook)
     {
       g_signal_connect ( GTK_OBJECT ( button2 ), "toggled",
-			 GTK_SIGNAL_FUNC ( hook ), data );
+			 (GCallback) hook, data );
     }
 
   return paddingbox;
@@ -2237,7 +2241,7 @@ set_date (GtkEntry *entry, gchar *value, gint length, gint * position)
 {
   GDate ** data, temp_date;
 
-  data = gtk_object_get_data ( GTK_OBJECT ( entry ), "pointer");
+  data = g_object_get_data ( G_OBJECT ( entry ), "pointer");
 
   g_date_set_parse ( &temp_date, gtk_entry_get_text (GTK_ENTRY(entry)) );
   if ( g_date_valid (&temp_date) && data)
@@ -2258,7 +2262,7 @@ set_date (GtkEntry *entry, gchar *value, gint length, gint * position)
  * change.
  * \param An optional hook to run.
  */
-GtkWidget * new_date_entry ( gchar ** value, GCallback * hook )
+GtkWidget * new_date_entry ( gchar ** value, GCallback hook )
 {
   GtkWidget *hbox, *entry, *date_entry;
 
@@ -2268,34 +2272,34 @@ GtkWidget * new_date_entry ( gchar ** value, GCallback * hook )
   gtk_box_pack_start ( GTK_BOX(hbox), entry,
 		       TRUE, TRUE, 0 );
   
-  gtk_object_set_data ( GTK_OBJECT ( entry ), "pointer", value);
+  g_object_set_data ( G_OBJECT (entry), "pointer", value);
 
   if ( hook )
     {
-      gtk_object_set_data ( GTK_OBJECT ( entry ), "insert-hook", 
-			    g_signal_connect_after (GTK_OBJECT(entry), 
-						    "insert-text",
-						    G_CALLBACK(hook), NULL));
-      gtk_object_set_data ( GTK_OBJECT ( entry ), "delete-hook", 
-			    g_signal_connect_after (GTK_OBJECT(entry), 
-						    "delete-text",
-						    G_CALLBACK(hook), NULL));
+      g_object_set_data ( G_OBJECT (entry), "insert-hook", 
+			  (gpointer) g_signal_connect_after (GTK_OBJECT(entry), 
+							     "insert-text",
+							     ((GCallback) hook), NULL));
+      g_object_set_data ( G_OBJECT (entry), "delete-hook", 
+			  (gpointer) g_signal_connect_after (GTK_OBJECT(entry), 
+							     "delete-text",
+							     ((GCallback) hook), NULL));
     }
-  gtk_object_set_data ( GTK_OBJECT ( entry ), "insert-text", 
-			g_signal_connect_after (GTK_OBJECT(entry), "insert-text",
-						G_CALLBACK(set_date), NULL));
-  gtk_object_set_data ( GTK_OBJECT ( entry ), "delete-text", 
-			g_signal_connect_after (GTK_OBJECT(entry), "delete-text",
-						G_CALLBACK(set_date), NULL));
+  g_object_set_data ( G_OBJECT (entry), "insert-text", 
+		      (gpointer) g_signal_connect_after (GTK_OBJECT(entry), "insert-text",
+							 ((GCallback) set_date), NULL));
+  g_object_set_data ( G_OBJECT (entry), "delete-text", 
+		      (gpointer) g_signal_connect_after (GTK_OBJECT(entry), "delete-text",
+							 ((GCallback) set_date), NULL));
 
   date_entry = gtk_button_new_with_label ("...");
   gtk_box_pack_start ( GTK_BOX(hbox), date_entry,
 		       FALSE, FALSE, 0 );
-  gtk_object_set_data ( GTK_OBJECT ( date_entry ),
-			"entry", entry);
+  g_object_set_data ( G_OBJECT ( date_entry ),
+		      "entry", entry);
 
   g_signal_connect ( GTK_OBJECT ( date_entry ), "clicked",
-		     G_CALLBACK ( popup_calendar ), NULL );
+		     ((GCallback) popup_calendar ), NULL );
 
   return hbox;
 }
@@ -2303,7 +2307,7 @@ GtkWidget * new_date_entry ( gchar ** value, GCallback * hook )
 
 
 /**
- * Change the date that is handler by a date entry.
+ * Change the date that is handled by a date entry.
  *
  * \param hbox The date entry widget.
  * \param value The new date to modify.
@@ -2311,37 +2315,49 @@ GtkWidget * new_date_entry ( gchar ** value, GCallback * hook )
  */
 void date_set_value ( GtkWidget * hbox, GDate ** value, gboolean update )
 {
-  gtk_object_set_data ( GTK_OBJECT ( get_entry_from_date_entry(hbox) ),
-			"pointer", value );
+  GtkWidget * entry;
+
+
+  entry = get_entry_from_date_entry (hbox);
+  g_object_set_data ( G_OBJECT ( entry ),
+		      "pointer", value );
 
   if ( update )
     {
-      g_signal_handler_block ( get_entry_from_date_entry(hbox),
-			       gtk_object_get_data (nom_exercice, "insert-hook"));
-      g_signal_handler_block ( get_entry_from_date_entry(hbox),
-			       gtk_object_get_data (nom_exercice, "insert-text"));
-      g_signal_handler_block ( get_entry_from_date_entry(hbox),
-			       gtk_object_get_data (nom_exercice, "delete-hook"));
-      g_signal_handler_block ( get_entry_from_date_entry(hbox),
-			       gtk_object_get_data (nom_exercice, "delete-text"));
+      if (g_object_get_data ((GObject*) entry, "insert-hook") > 0)
+	g_signal_handler_block ( entry,
+				 (gulong) g_object_get_data ((GObject*) entry, "insert-hook"));
+      if (g_object_get_data ((GObject*) entry, "insert-text") > 0)
+	g_signal_handler_block ( entry,
+				 (gulong) g_object_get_data ((GObject*) entry, "insert-text"));
+      if (g_object_get_data ((GObject*) entry, "delete-hook") > 0)
+	g_signal_handler_block ( entry,
+				 (gulong) g_object_get_data ((GObject*) entry, "delete-hook"));
+      if (g_object_get_data ((GObject*) entry, "delete-text") > 0)
+	g_signal_handler_block ( entry,
+				 (gulong) g_object_get_data ((GObject*) entry, "delete-text"));
 
       if ( value && *value )
 	{
-	  gtk_entry_set_text ( get_entry_from_date_entry(hbox),
+	  gtk_entry_set_text ( GTK_ENTRY(entry),
 			       g_strdup_printf ( "%02d/%02d/%04d",
 						 g_date_day (*value),
 						 g_date_month (*value),
 						 g_date_year (*value)));
 	}
 
-      g_signal_handler_unblock ( get_entry_from_date_entry(hbox),
-			       gtk_object_get_data (nom_exercice, "insert-hook"));
-      g_signal_handler_unblock ( get_entry_from_date_entry(hbox),
-			       gtk_object_get_data (nom_exercice, "insert-text"));
-      g_signal_handler_unblock ( get_entry_from_date_entry(hbox),
-			       gtk_object_get_data (nom_exercice, "delete-hook"));
-      g_signal_handler_unblock ( get_entry_from_date_entry(hbox),
-			       gtk_object_get_data (nom_exercice, "delete-text"));
+      if (g_object_get_data ((GObject*) entry, "insert-hook") > 0)
+	g_signal_handler_unblock ( entry,
+				   (gulong) g_object_get_data ((GObject*) entry, "insert-hook"));
+      if (g_object_get_data ((GObject*) entry, "insert-text") > 0)
+	g_signal_handler_unblock ( entry,
+				   (gulong) g_object_get_data ((GObject*) entry, "insert-text"));
+      if (g_object_get_data ((GObject*) entry, "delete-hook") > 0)
+	g_signal_handler_unblock ( entry,
+				   (gulong) g_object_get_data ((GObject*) entry, "delete-hook"));
+      if (g_object_get_data ((GObject*) entry, "delete-text") > 0)
+	g_signal_handler_unblock ( entry,
+				   (gulong) g_object_get_data ((GObject*) entry, "delete-text"));
     }
 }
 
@@ -2366,7 +2382,7 @@ gboolean popup_calendar ( GtkWidget * button, gpointer data )
   GtkRequisition taille_entree;
 
   /* Find associated gtkentry */
-  entree = gtk_object_get_data ( GTK_OBJECT(button), "entry" );
+  entree = g_object_get_data ( G_OBJECT(button), "entry" );
 
   /* Find popup position */
   gdk_window_get_origin ( GTK_BUTTON (button) -> event_window, &x, &y );
@@ -2403,18 +2419,18 @@ gboolean popup_calendar ( GtkWidget * button, gpointer data )
 
   /* Create handlers */
   gtk_signal_connect ( GTK_OBJECT ( calendrier), "day-selected-double-click",
-		       GTK_SIGNAL_FUNC ( date_selectionnee ), entree );
+		       ((GCallback)  date_selectionnee ), entree );
   gtk_signal_connect_object ( GTK_OBJECT ( calendrier), "day-selected-double-click",
-			      GTK_SIGNAL_FUNC ( close_calendar_popup ), popup );
+			      ((GCallback)  close_calendar_popup ), popup );
   gtk_signal_connect ( GTK_OBJECT ( popup ), "key-press-event",
-		       GTK_SIGNAL_FUNC ( touche_calendrier ), NULL );
+		       ((GCallback)  touche_calendrier ), NULL );
   gtk_box_pack_start ( GTK_BOX ( popup_boxv ), calendrier,
 		       TRUE, TRUE, 0 );
 
   /* Add the "cancel" button */
   bouton = gtk_button_new_with_label ( _("Cancel") );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton ), "clicked",
-			      GTK_SIGNAL_FUNC ( close_calendar_popup ),
+			      ((GCallback)  close_calendar_popup ),
 			      GTK_WIDGET ( popup ) );
   gtk_box_pack_start ( GTK_BOX ( popup_boxv ), bouton,
 		       TRUE, TRUE, 0 );
@@ -2433,6 +2449,7 @@ gboolean popup_calendar ( GtkWidget * button, gpointer data )
 }
 
 
+
 /**
  * Closes the popup specified as an argument.  As a quick but
  * disgusting hack, we also grab focus on "fenetre_preferences", the
@@ -2448,6 +2465,7 @@ void close_calendar_popup ( GtkWidget *popup )
 }
 
 
+
 /**
  * Convenience function that returns the first widget child of a
  * GtkBox.  This is specially usefull for date "widgets" that contains
@@ -2461,24 +2479,25 @@ GtkWidget * get_entry_from_date_entry (GtkWidget * hbox)
 }
 
 
+
 /** 
  * TODO: document
  */
 void entry_set_value ( GtkWidget * entry, gchar ** value )
 {
   /* Block everything */
-  if (gtk_object_get_data ( entry, "insert-hook" ))
+  if ( g_object_get_data ((GObject*) entry, "insert-hook") > 0 )
     g_signal_handler_block ( GTK_OBJECT(entry),
-			     gtk_object_get_data ( entry, "insert-hook" ));
-  if (gtk_object_get_data ( entry, "insert-text" ))
+			     (gulong) g_object_get_data ((GObject*) entry, "insert-hook"));
+  if ( g_object_get_data ((GObject*) entry, "insert-text") > 0 )
     g_signal_handler_block ( GTK_OBJECT(entry),
-			     gtk_object_get_data ( entry, "insert-text" ));
-  if (gtk_object_get_data ( entry, "delete-hook" ))
+			     (gulong) g_object_get_data ((GObject*) entry, "insert-text"));
+  if ( g_object_get_data ((GObject*) entry, "delete-hook") > 0 )
     g_signal_handler_block ( GTK_OBJECT(entry),
-			     gtk_object_get_data ( entry, "delete-hook" ));
-  if (gtk_object_get_data ( entry, "delete-text" ))
+			     (gulong) g_object_get_data ((GObject*) entry, "delete-hook"));
+  if ( g_object_get_data ((GObject*) entry, "delete-text") > 0 )
     g_signal_handler_block ( GTK_OBJECT(entry),
-			     gtk_object_get_data ( entry, "delete-text" ));
+			     (gulong) g_object_get_data ((GObject*) entry, "delete-text"));
 
   /* Fill in value */
   if (value && *value)
@@ -2486,21 +2505,21 @@ void entry_set_value ( GtkWidget * entry, gchar ** value )
   else
     gtk_entry_set_text ( GTK_ENTRY ( entry ), "" );
 
-  gtk_object_set_data ( entry, "pointer", value );
+  g_object_set_data ( G_OBJECT(entry), "pointer", value );
 
   /* Unblock everything */
-  if (gtk_object_get_data ( entry, "insert-hook" ))
+  if ( g_object_get_data ((GObject*) entry, "insert-hook") > 0 )
     g_signal_handler_unblock ( GTK_OBJECT(entry),
-			       gtk_object_get_data ( entry, "insert-hook" ));
-  if (gtk_object_get_data ( entry, "insert-text" ))
+			       (gulong) g_object_get_data ((GObject*) entry, "insert-hook"));
+  if ( g_object_get_data ((GObject*) entry, "insert-text") > 0 )
     g_signal_handler_unblock ( GTK_OBJECT(entry),
-			       gtk_object_get_data ( entry, "insert-text" ));
-  if (gtk_object_get_data ( entry, "delete-hook" ))
+			       (gulong) g_object_get_data ((GObject*) entry, "insert-text"));
+  if ( g_object_get_data ((GObject*) entry, "delete-hook") > 0 )
     g_signal_handler_unblock ( GTK_OBJECT(entry),
-			       gtk_object_get_data ( entry, "delete-hook" ));
-  if (gtk_object_get_data ( entry, "delete-text" ))
+			       (gulong) g_object_get_data ((GObject*) entry, "delete-hook"));
+  if ( g_object_get_data ((GObject*) entry, "delete-text") > 0 )
     g_signal_handler_unblock ( GTK_OBJECT(entry),
-			       gtk_object_get_data ( entry, "delete-text" ));
+			       (gulong) g_object_get_data ((GObject*) entry, "delete-text"));
 }
 
 
@@ -2510,9 +2529,9 @@ void entry_set_value ( GtkWidget * entry, gchar ** value )
  *
  * \param value A pointer to a string
  * \param hook An optional function to execute as a handler if the
- * entry's contents are modified.
+ * textview's contents are modified.
  */
-GtkWidget * new_text_area ( gchar ** value, GCallback * hook )
+GtkWidget * new_text_area ( gchar ** value, GCallback hook )
 {
   GtkWidget * text_view;
   GtkTextBuffer *buffer;
@@ -2531,18 +2550,19 @@ GtkWidget * new_text_area ( gchar ** value, GCallback * hook )
   g_object_set_data ( G_OBJECT ( buffer ), "pointer", value);
 
   g_object_set_data ( G_OBJECT ( buffer ), "change-text",
-			g_signal_connect (G_OBJECT(buffer),
-					  "changed",
-					  G_CALLBACK(set_text_from_area),
-					  NULL));
+		      (gpointer) g_signal_connect (G_OBJECT(buffer),
+						   "changed",
+						   ((GCallback) set_text_from_area),
+						   NULL));
   if ( hook )
     g_object_set_data ( G_OBJECT ( buffer ), "change-hook",
-			  g_signal_connect (G_OBJECT(buffer),
-					    "changed",
-					    G_CALLBACK(hook),
-					    NULL));
+			(gpointer) g_signal_connect (G_OBJECT(buffer),
+						     "changed",
+						     ((GCallback) hook),
+						     NULL));
   return text_view;
 }
+
 
 
 /** 
@@ -2553,12 +2573,12 @@ void text_area_set_value ( GtkWidget * text_view, gchar ** value )
   GtkTextBuffer * buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
 
   /* Block everything */
-  if (g_object_get_data ( G_OBJECT(buffer), "change-hook" ))
+  if ( g_object_get_data (G_OBJECT(buffer), "change-hook") > 0 )
     g_signal_handler_block ( G_OBJECT(buffer),
-			     g_object_get_data ( G_OBJECT(buffer), "change-hook" ));
-  if (g_object_get_data ( G_OBJECT(buffer), "change-text" ))
+			     (gulong) g_object_get_data ( G_OBJECT(buffer), "change-hook" ));
+  if ( g_object_get_data (G_OBJECT(buffer), "change-text") > 0 )
     g_signal_handler_block ( G_OBJECT(buffer),
-			     g_object_get_data ( G_OBJECT(buffer), "change-text" ));
+			     (gulong) g_object_get_data ( G_OBJECT(buffer), "change-text" ));
 
   /* Fill in value */
   if (value && *value)
@@ -2567,27 +2587,26 @@ void text_area_set_value ( GtkWidget * text_view, gchar ** value )
     gtk_text_buffer_set_text (buffer, "", -1 );
 
   if ( value )
-    g_object_set_data ( buffer, "pointer", value );
+    g_object_set_data ( G_OBJECT(buffer), "pointer", value );
 
   /* Unblock everything */
-  if (g_object_get_data ( buffer, "change-hook" ))
+  if ( g_object_get_data ((GObject*) buffer, "change-hook") > 0 )
     g_signal_handler_unblock ( G_OBJECT(buffer),
-			       g_object_get_data ( buffer, "change-hook" ));
-  if (g_object_get_data ( buffer, "change-text" ))
+			       (gulong) g_object_get_data ((GObject*) buffer, "change-hook" ));
+  if ( g_object_get_data ((GObject*) buffer, "change-text") > 0 )
     g_signal_handler_unblock ( G_OBJECT(buffer),
-			       g_object_get_data ( buffer, "change-text" ));
+			       (gulong) g_object_get_data ((GObject*) buffer, "change-text" ));
 }
+
 
 
 /**
  * Set a string to the value of an GtkTextView
  *
- * \param entry The reference GtkEntry
- * \param value Handler parameter.  Not used.
- * \param length Handler parameter.  Not used.
- * \param position Handler parameter.  Not used.
+ * \param buffer The reference GtkTextBuffer
+ * \param dummy Handler parameter.  Not used.
  */
-gboolean set_text_from_area ( GtkTextBuffer *buffer, gpointer tamere )
+gboolean set_text_from_area ( GtkTextBuffer *buffer, gpointer dummy )
 {
   GtkTextIter start, end;
   gchar ** data;
