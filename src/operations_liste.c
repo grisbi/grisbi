@@ -1687,7 +1687,7 @@ void edition_operation ( void )
     {
       entree_prend_focus ( widget_formulaire_operations[8] );
 
-      if ( operation -> relation_no_compte == -1 )
+      if ( operation -> relation_no_compte == -1)
 	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ),
 				_("Transfer: deleted account") );
       else
@@ -1717,7 +1717,6 @@ void edition_operation ( void )
 					      (GCompareFunc) recherche_operation_par_no ) -> data;
 
 	  /* 	  si la contre opération est relevée, on désensitive les categ et les montants */
-
 	  if ( operation_2 -> pointe == 2 )
 	    {
 	      gtk_widget_set_sensitive ( widget_formulaire_operations[4],
