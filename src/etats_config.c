@@ -933,19 +933,18 @@ void recuperation_info_perso_etat ( void )
 
     /* vérification que les dates init et finales sont correctes */
 
-    if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_init_etat ))))
+    if ( strlen ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_init_etat )))
 	 &&
 	 !format_date ( entree_date_init_etat ))
     {
-	dialogue ( _("Invalid custom initial date") );
+	dialogue_error ( _("Invalid custom initial date") );
 	return;
     }
 
-    if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_finale_etat ))))
+    if ( strlen ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_finale_etat )))
 	 &&
-	 !format_date ( entree_date_finale_etat ))
-    {
-	dialogue ( _("Invalid custom final date") );
+	 !format_date ( entree_date_finale_etat )) {
+	dialogue_error ( _("Invalid custom final date") );
 	return;
     }
 
@@ -2030,8 +2029,7 @@ void click_liste_etat ( GtkCList *liste,
 /******************************************************************************/
 
 /******************************************************************************/
-void clique_sur_entree_date_etat ( GtkWidget *entree,
-				   GdkEventButton *ev )
+gboolean clique_sur_entree_date_etat ( GtkWidget *entree, GdkEventButton *ev )
 {
     GtkWidget *popup_cal;
 
@@ -2046,6 +2044,7 @@ void clique_sur_entree_date_etat ( GtkWidget *entree,
 				    GTK_OBJECT ( entree ) );
 	gtk_widget_grab_focus ( GTK_WIDGET ( popup_cal ) );
     }
+    return FALSE;
 }
 /******************************************************************************/
 
@@ -2080,11 +2079,10 @@ gboolean pression_touche_date_etat ( GtkWidget *widget,
 	    else
 	    {
 		/* ALAIN-FIXME */
-		dialogue("prévoir autre chose");
+/* 		dialogue("prévoir autre chose"); */
+	      return FALSE;
 	    }
 	    return TRUE;
-	    break;
-
 
 	case GDK_plus :		/* touches + */
 	case GDK_KP_Add :
@@ -2099,7 +2097,6 @@ gboolean pression_touche_date_etat ( GtkWidget *widget,
 	    else
 		inc_dec_date ( widget, ONE_WEEK );
 	    return TRUE;
-	    break;
 
 	case GDK_minus :		/* touches - */
 	case GDK_KP_Subtract :
@@ -2114,7 +2111,6 @@ gboolean pression_touche_date_etat ( GtkWidget *widget,
 	    else
 		inc_dec_date ( widget, - ONE_WEEK );
 	    return TRUE;
-	    break;
 
 	case GDK_Page_Up :		/* touche PgUp */
 	case GDK_KP_Page_Up :
@@ -2144,12 +2140,10 @@ gboolean pression_touche_date_etat ( GtkWidget *widget,
 	    else
 		inc_dec_date ( widget, - ONE_YEAR );
 	    return TRUE;
-	    break;
 
 	default :
 	    /* Reverting to default handler */
 	    return FALSE;
-	    break;
     }
 
     //  return TRUE; c'est le cas des opérations
