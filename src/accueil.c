@@ -557,9 +557,9 @@ void update_liste_comptes_accueil ( void )
 
 		/* Est-il réellement nécessaire de créer des labels vides pour */
 		/* remplir des colonnes vides d'un tableau ?                   */
-		pLabel = gtk_label_new ( "" );
-		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 0, 1, i, i+1 );
-		gtk_widget_show ( pLabel );
+/* 		pLabel = gtk_label_new ( "" ); */
+/* 		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 0, 1, i, i+1 ); */
+/* 		gtk_widget_show ( pLabel ); */
 
 		/* Deuxième colonne : elle contient le nom du compte */
 		pLabel = gtk_label_new ( g_strconcat ( (gchar *) NOM_DU_COMPTE, " : ", NULL ));
@@ -683,9 +683,9 @@ void update_liste_comptes_accueil ( void )
 		gtk_widget_show ( pLabel );
 
 		/* Cinquième colonne : vide */
-		pLabel = gtk_label_new ("");
-		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 4, 5, i, i+1 );
-		gtk_widget_show ( pLabel );
+/* 		pLabel = gtk_label_new (""); */
+/* 		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 4, 5, i, i+1 ); */
+/* 		gtk_widget_show ( pLabel ); */
 
 		/* Sixième colonne : elle contient le solde courant du compte */
 		pLabel = gtk_label_new ( g_strdup_printf ( "%4.2f", SOLDE_COURANT ));
@@ -745,9 +745,9 @@ void update_liste_comptes_accueil ( void )
 		gtk_widget_show ( pLabel );
 
 		/* Huitième colonne : vide */
-		pLabel = gtk_label_new ("");
-		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 7, 8, i, i+1 );
-		gtk_widget_show ( pLabel );
+/* 		pLabel = gtk_label_new (""); */
+/* 		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 7, 8, i, i+1 ); */
+/* 		gtk_widget_show ( pLabel ); */
 
 		/* ATTENTION : les sommes effectuées ici présupposent que
 		   TOUS les comptes sont dans la MÊME DEVISE !!!!!        */

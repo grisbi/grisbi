@@ -1342,6 +1342,8 @@ gboolean change_rate_date ( GtkWidget * spin, gdouble * dummy )
     g_date_set_time ( devise -> date_dernier_change,
 		      time (NULL));
 
+    devise -> change = gtk_spin_button_get_value ( GTK_SPIN_BUTTON ( spin ));
+
     return FALSE;
 }
 
