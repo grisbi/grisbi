@@ -26,14 +26,10 @@ AC_SUBST(EXTRA_GNOME_CFLAGS)
 CFLAGS="$CFLAGS `$GNOME_CONFIG --cflags gnome gtk glib applets xml`"
 LDFLAGS="$LDFLAGS `$GNOME_CONFIG --libs gnome gtk glib applets xml`"
 
-AC_ARG_WITH(applet, [  --without-applet        No support for grisbi applet])
-
 APPLET="false"
-if test "$with_applet" != 'no' ; then
 GNOME_CHECK_MODULES(GA, [ applets ],
 		      [ APPLET=true; CFLAGS="$CFLAGS $GA_CFLAGS"; LDFLAGS="$LDFLAGS $GA_LIBS"; ],
 		      [ AC_MSG_WARN(Gnome library Applets is not installed, I won't compile Grisbi applet) ] )
-fi
 AM_CONDITIONAL(APPLET, test $APPLET = true)
 
 AC_SUBST(CFLAGS)
@@ -50,5 +46,6 @@ Makefile
 src/Makefile
 applet/Makefile
 help/Makefile
+help/C/Makefile
 macros/Makefile
 ])
