@@ -79,25 +79,28 @@ gboolean update_financial_year_menus ()
     if ( widget_formulaire_operations[TRANSACTION_FORM_EXERCICE] &&
 	 GTK_OPTION_MENU(widget_formulaire_operations[TRANSACTION_FORM_EXERCICE]) -> menu )
     {
+      if ( GTK_OPTION_MENU(widget_formulaire_operations[TRANSACTION_FORM_EXERCICE]) -> menu )
 	gtk_widget_destroy ( GTK_OPTION_MENU(widget_formulaire_operations[TRANSACTION_FORM_EXERCICE]) -> menu );
-	gtk_option_menu_set_menu ( GTK_OPTION_MENU (widget_formulaire_operations[TRANSACTION_FORM_EXERCICE]),
-				   creation_menu_exercices (0) );
+      gtk_option_menu_set_menu ( GTK_OPTION_MENU (widget_formulaire_operations[TRANSACTION_FORM_EXERCICE]),
+				 creation_menu_exercices (0) );
     }
 
     if ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] &&
 	 GTK_OPTION_MENU(widget_formulaire_operations[TRANSACTION_FORM_DEVISE]) -> menu )
     {
+      if ( GTK_OPTION_MENU(widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CONTRA]) -> menu )
 	gtk_widget_destroy ( GTK_OPTION_MENU(widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CONTRA]) -> menu );
-	gtk_option_menu_set_menu ( GTK_OPTION_MENU(widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CONTRA]),
-				   creation_menu_exercices (0) );
+      gtk_option_menu_set_menu ( GTK_OPTION_MENU(widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CONTRA]),
+				 creation_menu_exercices (0) );
     }
 
     if ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] &&
 	 GTK_OPTION_MENU(widget_formulaire_operations[TRANSACTION_FORM_TYPE]) -> menu )
     {
+      if ( GTK_OPTION_MENU(widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE]) -> menu )
 	gtk_widget_destroy ( GTK_OPTION_MENU(widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE]) -> menu );
-	gtk_option_menu_set_menu ( GTK_OPTION_MENU(widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE]),
-				   creation_menu_exercices (1) );
+      gtk_option_menu_set_menu ( GTK_OPTION_MENU(widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE]),
+				 creation_menu_exercices (1) );
     }
 
     return FALSE;
