@@ -1057,14 +1057,15 @@ void traitement_operations_importees ( void )
 		reaffiche_liste_comptes_onglet ();
 	    }
 	    
-	    if ( MISE_A_JOUR )
+	    if ( gsb_account_get_update_list(i) )
 	    {
 		gtk_list_store_clear ( gsb_account_get_store (i) );
 		SLIST_DERNIERE_OPE_AJOUTEE = NULL;
 		COULEUR_BACKGROUND_FINI = 0;
 		AFFICHAGE_SOLDE_FINI = 0;
 		SELECTION_OPERATION_FINI = 0;
-		MISE_A_JOUR = 0;
+		gsb_account_set_update_list ( i,
+					      0 );
 	    }
 	}
 
@@ -1779,7 +1780,8 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
     }
 
 
-    MISE_A_JOUR = 1;
+    gsb_account_set_update_list ( i,
+				  1 );
 /*     calcule_solde_compte ( NO_COMPTE ); */
 /*     calcule_solde_pointe_compte ( NO_COMPTE ); */
 
@@ -2208,7 +2210,8 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 								operation,
 								(GCompareFunc) CLASSEMENT_COURANT ));
 
-    MISE_A_JOUR = 1;
+    gsb_account_set_update_list ( no_compte,
+				  1 );
 
     return ( operation );
 }
@@ -2380,7 +2383,8 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 		if ( !operation -> pointe )
 		{
 		    operation -> pointe = 2;
-		    MISE_A_JOUR = 1;
+		    gsb_account_set_update_list ( no_compte,
+						  1 );
 
 		    /* si c'est une opé ventilée, on recherche les opé filles pour leur mettre le même pointage que la mère */
 
@@ -2473,7 +2477,8 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 			if ( !operation -> pointe )
 			{
 			    operation -> pointe = 2;
-			    MISE_A_JOUR = 1;
+			    gsb_account_set_update_list ( no_compte,
+							  1 );
 
 			    /* si c'est une opé ventilée, on recherche les opé filles pour leur mettre le même pointage que la mère */
 

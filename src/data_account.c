@@ -1053,3 +1053,41 @@ gboolean gsb_account_set_reconcile_last_number ( gint no_account,
 
 
 
+/** get the update_list on the account given
+ * \param no_account no of the account
+ * \return update_list or 0 if the account doesn't exist
+ * */
+gboolean gsb_account_get_update_list ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return 0;
+
+    return account -> update_list;
+}
+
+
+/** set the update_list in the account given
+ * \param no_account no of the account
+ * \param value 
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_update_list ( gint no_account,
+				       gboolean value )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> update_list = value;
+
+    return TRUE;
+}
+
+

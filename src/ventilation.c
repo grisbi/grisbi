@@ -2788,7 +2788,8 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 
 			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + ope_ventil -> relation_no_compte;
 
-			MISE_A_JOUR = 1;
+			gsb_account_set_update_list ( ope_ventil -> relation_no_compte,
+						      1 );
 
 			if ( ope_ventil -> relation_no_operation != -1 )
 			{

@@ -3050,7 +3050,7 @@ gboolean changement_taille_liste_ope ( GtkWidget *tree_view,
 
 /******************************************************************************/
 /* Fonction  demande_mise_a_jour_tous_comptes */
-/* met la variable MISE_A_JOUR de tous les comptes à 1 */
+/* met la variable update_list de tous les comptes à 1 */
 /* ce qui fait que lorsqu'ils seront affichés, ils seront mis à jour avant */
 /* appelle aussi verification_mise_a_jour_liste pour mettre à jour la liste courante */
 /******************************************************************************/

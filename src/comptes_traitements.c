@@ -199,7 +199,7 @@ gint initialisation_nouveau_compte ( kind_account type_de_compte )
 
 /*     NOM_DU_COMPTE = g_strdup_printf ( _("No name %d"), noname_account_number ); */
     DEVISE = 1;
-    MISE_A_JOUR = 1;
+/*     MISE_A_JOUR = 1; */
 /*     NO_COMPTE = no_compte; */
 /*     OPERATION_SELECTIONNEE = GINT_TO_POINTER (-1); */
 
@@ -421,7 +421,8 @@ void supprimer_compte ( void )
 		if ( operation -> relation_no_compte == compte_modifie )
 		{
 		    operation -> relation_no_compte = -1;
-		    MISE_A_JOUR = 1;
+		    gsb_account_set_update_list ( i,
+						  1 );
 		}
 		else
 		    if ( operation -> relation_no_compte > compte_modifie )

@@ -113,6 +113,7 @@ gpointer gsb_account_get_scrolled_window ( gint no_account );
 gpointer gsb_account_get_store ( gint no_account );
 GSList *gsb_account_get_transactions_list ( gint no_account );
 gpointer gsb_account_get_tree_view ( gint no_account );
+gboolean gsb_account_get_update_list ( gint no_account );
 gboolean gsb_account_set_adjustment_value ( gint no_account,
 					    gdouble value );
 gboolean gsb_account_set_column ( gint no_account,
@@ -158,6 +159,8 @@ gboolean gsb_account_set_transactions_list ( gint no_account,
 					     GSList *list );
 gboolean gsb_account_set_tree_view ( gint no_account,
 				     gpointer tree );
+gboolean gsb_account_set_update_list ( gint no_account,
+				       gboolean value );
 /* END_DECLARATION */
 
 
