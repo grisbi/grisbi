@@ -233,7 +233,7 @@ void preferences ( gint page )
 
   if ( page )
     {
-      gtk_notebook_set_current_page ( preference_frame, page );
+      gtk_notebook_set_current_page ( preference_frame, page-1 );
     }
 
   gtk_widget_show_all ( hpaned );
@@ -299,128 +299,69 @@ void activer_bouton_appliquer ( )
 }
 
 
+/**
+ * Creates the "Warning & Messages" tab.
+ *
+ * \returns A newly allocated vbox
+ */
 GtkWidget *onglet_messages_and_warnings ( void )
 {
-  GtkWidget *vbox, *hbox, *hbox_pref, *vbox_pref;
+  GtkWidget *hbox, *vbox_pref;
   GtkWidget *separateur;
   GtkWidget *paddingbox, *label;
 
   vbox_pref = new_vbox_with_title_and_icon ( _("Messages & warnings"),
 					     "warnings.png" );
 
-  hbox_pref = gtk_hbox_new ( FALSE,
-			     5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-		       hbox_pref,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( hbox_pref );
-
-
-/* création de la 1ère colonne */
-
-  vbox = gtk_vbox_new ( FALSE, 6 );
-  gtk_box_pack_start ( GTK_BOX ( hbox_pref ),
-		       vbox,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( vbox );
-
-
    /* Warnings */
-  paddingbox = new_paddingbox_with_title (vbox, FALSE,
+  paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
 					  _("Warnings messages"));
 
-   /* Affichage ou non d'un message d'alerte quand passage sous les
-      soldes minis */
-  bouton_solde_mini = gtk_check_button_new_with_label ( SPACIFY(_("Display a warning message if minimum balances are under minimum level")) );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-		       bouton_solde_mini,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_solde_mini );
+  /* Display a warning message if minimum balances are under minimum level */
+  bouton_solde_mini = new_checkbox_with_title ( _("Display a warning message if minimum balances are under minimum level"),
+						&(etat.alerte_mini), NULL );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_solde_mini,
+		       FALSE, FALSE, 0 );
 
-  if ( etat.alerte_mini == 1 )
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (bouton_solde_mini  ),
-				   TRUE );
-
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton_solde_mini ),
-			      "toggled",
-			      activer_bouton_appliquer,
-			      GTK_OBJECT (fenetre_preferences));
-     
-
-  /* Affichage ou non d'un message d'alerte sur la permission du
-     fichier de compte */
-  bouton_affiche_permission = gtk_check_button_new_with_label ( SPACIFY(_("Display a warning message if account file is readable by someone else.")) );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-		       bouton_affiche_permission,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_affiche_permission );
-
-  if ( etat.alerte_permission )
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_permission ),
-				   TRUE );
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton_affiche_permission ),
-			      "toggled",
-			      activer_bouton_appliquer,
-			      GTK_OBJECT (fenetre_preferences));
-   
-
-
+  /* Display a warning message if account file is readable by someone else */
+  bouton_affiche_permission = new_checkbox_with_title ( _("Display a warning message if account file is readable by someone else"),
+						&(etat.alerte_permission), NULL );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_affiche_permission,
+		       FALSE, FALSE, 0 );
 
   /* Number of days before a warning message advertising a scheduled
      transaction */
+  paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
+					  _("Scheduler warnings"));
   hbox = gtk_hbox_new ( FALSE, 6 );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0);
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
+		       FALSE, FALSE, 0);
   label = gtk_label_new ( SPACIFY(COLON(_("Number of days before a warning message advertising a scheduled transaction"))) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( label );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
+		       FALSE, FALSE, 0 );
   entree_jours = gtk_entry_new_with_max_length (10);
-  gtk_widget_set_usize ( GTK_WIDGET ( entree_jours ),
-			 60,
-			 FALSE );
+  gtk_widget_set_usize ( GTK_WIDGET ( entree_jours ), 60, FALSE );
   gtk_entry_set_text ( GTK_ENTRY ( entree_jours ),
-		       g_strdup_printf ( "%d",
-					 decalage_echeance ));
-  gtk_signal_connect_object ( GTK_OBJECT ( entree_jours ),
-			      "changed",
+		       g_strdup_printf ( "%d", decalage_echeance ));
+  gtk_signal_connect_object ( GTK_OBJECT ( entree_jours ), "changed",
 			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
-  gtk_box_pack_end ( GTK_BOX ( hbox ),
-		     entree_jours,
-		     FALSE,
-		     FALSE,
-		     0 );
-  gtk_widget_show ( entree_jours );
+  gtk_box_pack_end ( GTK_BOX ( hbox ), entree_jours,
+		     FALSE, FALSE, 0 );
+
+  gtk_widget_show_all ( vbox_pref );
 
   return ( vbox_pref );
 
 }
-/* ************************************************************************************************************** */
 
 
 
-
-
-
-/* ************************************************************************************************************** */
-/* page Fichier */
-/* ************************************************************************************************************** */
-
+/**
+ * Creates the "Files" tab.
+ *
+ * \returns A newly allocated vbox
+ */
 GtkWidget *onglet_fichier ( void )
 {
   GtkWidget *box_pref1, *vbox_pref, *paddingbox;
@@ -597,96 +538,14 @@ GtkWidget *onglet_fichier ( void )
   return ( vbox_pref );
 
 }
-/* ************************************************************************************************************** */
 
 
 
-
-
-
-/* ************************************************************************************************************** */
-/* page Echéances */
-/* ************************************************************************************************************** */
-
+/* FIXME: deprecated */
 GtkWidget *onglet_echeances ( void )
 {
-  GtkWidget *box_pref1, *hbox_pref;
-  GtkWidget *separateur;
-  GtkWidget *label;
-  GtkWidget *hvbox;
-
-
-
-  hbox_pref = gtk_hbox_new ( FALSE,
-			     5 );
-  gtk_widget_show ( hbox_pref );
-
-
-
-  box_pref1 = gtk_vbox_new ( FALSE,
-			    5 );
-  gtk_box_pack_start ( GTK_BOX ( hbox_pref ),
-		       box_pref1,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( box_pref1 );
-
-
-
-/*   configuration du nb de jours avant la prise d'une échéance  */
-
-  label = gtk_label_new ( SPACIFY(COLON(_("Number of days before a warning message advertising a scheduled transaction"))) );
-  gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( label );
-
-  hvbox = gtk_hbox_new ( FALSE,
-			      10 );
-  gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
-		       hvbox,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( hvbox );
-
-  entree_jours = gtk_entry_new_with_max_length (10);
-  gtk_widget_set_usize ( GTK_WIDGET ( entree_jours ),
-			 60,
-			 FALSE );
-  gtk_entry_set_text ( GTK_ENTRY ( entree_jours ),
-		       g_strdup_printf ( "%d",
-					 decalage_echeance ));
-  gtk_signal_connect_object ( GTK_OBJECT ( entree_jours ),
-			      "changed",
-			      activer_bouton_appliquer,
-			      GTK_OBJECT (fenetre_preferences));
-
-  gtk_box_pack_end ( GTK_BOX ( hvbox ),
-		       entree_jours,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( entree_jours );
-
-  separateur = gtk_hseparator_new ();
-
-  gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
-		       separateur,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( separateur );
-
-
-
-  return ( hbox_pref );
-
 }
-/* ************************************************************************************************************** */
+
 
 
 /* ************************************************************************************************************ */
@@ -2171,9 +2030,7 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
  * \return A newly allocated GtkVBox
  */
 GtkWidget *
-new_checkbox_with_title ( gchar * label,
-			  guint * data,
-			  GtkSignalFunc * hook)
+new_checkbox_with_title ( gchar * label, guint * data, GtkSignalFunc * hook)
 {
   GtkWidget * checkbox;
 
@@ -2299,12 +2156,17 @@ GtkWidget * new_text_entry ( gchar ** value, GCallback * hook )
   gtk_object_set_data ( GTK_OBJECT ( entry ), "delete-text", 
 			g_signal_connect_after (GTK_OBJECT(entry), "delete-text",
 						G_CALLBACK(set_text), NULL));
-  gtk_object_set_data ( GTK_OBJECT ( entry ), "insert-hook", 
-			g_signal_connect_after (GTK_OBJECT(entry), "insert-text",
-						G_CALLBACK(hook), NULL));
-  gtk_object_set_data ( GTK_OBJECT ( entry ), "delete-hook", 
-			g_signal_connect_after (GTK_OBJECT(entry), "delete-text",
-						G_CALLBACK(hook), NULL));
+  if ( hook )
+    {
+      gtk_object_set_data ( GTK_OBJECT ( entry ), "insert-hook", 
+			    g_signal_connect_after (GTK_OBJECT(entry), 
+						    "insert-text",
+						    G_CALLBACK(hook), NULL));
+      gtk_object_set_data ( GTK_OBJECT ( entry ), "delete-hook", 
+			    g_signal_connect_after (GTK_OBJECT(entry), 
+						    "delete-text",
+						    G_CALLBACK(hook), NULL));
+    }
 
   return entry;
 }
@@ -2408,12 +2270,17 @@ GtkWidget * new_date_entry ( gchar ** value, GCallback * hook )
   
   gtk_object_set_data ( GTK_OBJECT ( entry ), "pointer", value);
 
-  gtk_object_set_data ( GTK_OBJECT ( entry ), "insert-hook", 
-			g_signal_connect_after (GTK_OBJECT(entry), "insert-text",
-						G_CALLBACK(hook), NULL));
-  gtk_object_set_data ( GTK_OBJECT ( entry ), "delete-hook", 
-			g_signal_connect_after (GTK_OBJECT(entry), "delete-text",
-						G_CALLBACK(hook), NULL));
+  if ( hook )
+    {
+      gtk_object_set_data ( GTK_OBJECT ( entry ), "insert-hook", 
+			    g_signal_connect_after (GTK_OBJECT(entry), 
+						    "insert-text",
+						    G_CALLBACK(hook), NULL));
+      gtk_object_set_data ( GTK_OBJECT ( entry ), "delete-hook", 
+			    g_signal_connect_after (GTK_OBJECT(entry), 
+						    "delete-text",
+						    G_CALLBACK(hook), NULL));
+    }
   gtk_object_set_data ( GTK_OBJECT ( entry ), "insert-text", 
 			g_signal_connect_after (GTK_OBJECT(entry), "insert-text",
 						G_CALLBACK(set_date), NULL));
