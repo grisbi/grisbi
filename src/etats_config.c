@@ -258,7 +258,6 @@ void personnalisation_etat (void)
 	  text[0] = _("Third party");
 	  break;
 
-	default:
 	}
 
       if ( text[0] )
@@ -955,7 +954,7 @@ void recuperation_info_perso_etat ( void )
 
   /* vérification que les dates init et finales sont correctes */
 
-  if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_date_init_etat ))))
+  if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_init_etat ))))
        &&
        !modifie_date ( entree_date_init_etat ))
     {
@@ -963,7 +962,7 @@ void recuperation_info_perso_etat ( void )
       return;
     }
 
-  if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_date_finale_etat ))))
+  if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_finale_etat ))))
        &&
        !modifie_date ( entree_date_finale_etat ))
     {
@@ -975,7 +974,7 @@ void recuperation_info_perso_etat ( void )
   /* on récupère maintenant toutes les données */
   /* récupération du nom du rapport */
 
-  pointeur_char = g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_nom_etat )));
+  pointeur_char = g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_etat )));
 
   if ( strlen ( pointeur_char )
        &&
@@ -1117,13 +1116,13 @@ void recuperation_info_perso_etat ( void )
 
   etat_courant -> no_plage_date = GPOINTER_TO_INT ( GTK_CLIST ( liste_plages_dates_etat ) -> selection -> data );
 
-  if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_date_init_etat ))))
+  if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_init_etat ))))
        &&
        modifie_date ( entree_date_init_etat ))
     {
       gint jour, mois, annee;
 
-      sscanf ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_date_init_etat ))),
+      sscanf ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_init_etat ))),
 	       "%d/%d/%d",
 	       &jour,
 	       &mois,
@@ -1134,13 +1133,13 @@ void recuperation_info_perso_etat ( void )
 							  annee );
     }
 
-  if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_date_finale_etat ))))
+  if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_finale_etat ))))
        &&
        modifie_date ( entree_date_finale_etat ))
     {
       gint jour, mois, annee;
 
-      sscanf ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_date_finale_etat ))),
+      sscanf ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_finale_etat ))),
 	       "%d/%d/%d",
 	       &jour,
 	       &mois,
@@ -1375,11 +1374,11 @@ void recuperation_info_perso_etat ( void )
 
   if ( g_slist_length ( etat_courant -> liste_struct_comparaison_textes ) == 1
        &&
-       !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_txt ))))
+       !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_txt ))))
        &&
-       !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_montant_1 ))))
+       !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_montant_1 ))))
        &&
-       !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_montant_2 ))))
+       !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_montant_2 ))))
        &&
        GTK_WIDGET_SENSITIVE ( comp_textes -> entree_montant_1 )
        &&
@@ -1413,7 +1412,7 @@ void recuperation_info_perso_etat ( void )
 	  comp_textes -> utilise_txt = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( comp_textes -> bouton_utilise_txt ));
 	  comp_textes -> operateur = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_textes -> bouton_operateur ) -> menu_item ),
 										   "no_operateur" ));
-	  comp_textes -> texte = g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_txt ))));
+	  comp_textes -> texte = g_strstrip ( g_strdup ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_txt ))));
 	  if ( !strlen ( comp_textes -> texte ))
 	    comp_textes -> texte = NULL;
 
@@ -1423,8 +1422,8 @@ void recuperation_info_perso_etat ( void )
 									      "no_lien" ));
 	  comp_textes -> comparateur_2 = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_textes -> bouton_comparateur_2 ) -> menu_item ),
 										   "no_comparateur" ));
-	  comp_textes -> montant_1 = atoi ( gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_montant_1 )));
-	  comp_textes -> montant_2 = atoi ( gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_montant_2 )));
+	  comp_textes -> montant_1 = atoi ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_montant_1 )));
+	  comp_textes -> montant_2 = atoi ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_montant_2 )));
 
 	  liste_tmp = liste_tmp -> next;
 	}
@@ -1446,9 +1445,9 @@ void recuperation_info_perso_etat ( void )
 
   if ( g_slist_length ( etat_courant -> liste_struct_comparaison_montants ) == 1
        &&
-       !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( comp_montants -> entree_montant_1 ))))
+       !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_montants -> entree_montant_1 ))))
        &&
-       !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( comp_montants -> entree_montant_2 ))))
+       !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_montants -> entree_montant_2 ))))
        &&
        GTK_WIDGET_SENSITIVE ( comp_montants -> entree_montant_1 )
        &&
@@ -1482,9 +1481,9 @@ void recuperation_info_perso_etat ( void )
 									      "no_lien" ));
 	  comp_montants -> comparateur_2 = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_montants -> bouton_comparateur_2 ) -> menu_item ),
 										   "no_comparateur" ));
-	  comp_montants -> montant_1 = g_strtod ( gtk_entry_get_text ( GTK_ENTRY ( comp_montants -> entree_montant_1 )),
+	  comp_montants -> montant_1 = g_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_montants -> entree_montant_1 )),
 						  NULL );
-	  comp_montants -> montant_2 = g_strtod ( gtk_entry_get_text ( GTK_ENTRY ( comp_montants -> entree_montant_2 )),
+	  comp_montants -> montant_2 = g_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_montants -> entree_montant_2 )),
 						  NULL );
 
 	  liste_tmp = liste_tmp -> next;
@@ -2128,7 +2127,7 @@ void clique_sur_entree_date_etat ( GtkWidget *entree,
 			  popup_boxv);
       gtk_widget_show ( popup_boxv );
 
-      if ( !( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree ))))
+      if ( !( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree ))))
 	      &&
 	      sscanf ( gtk_entry_get_text ( GTK_ENTRY ( entree )),
 		       "%d/%d/%d",

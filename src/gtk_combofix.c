@@ -74,6 +74,7 @@ static gboolean touche_pressee_dans_popup ( GtkWidget *popup,
 static gint rafraichir_selection = 0;
 
 
+static gint bloque_proposition = 0;
 
 
 /* **************************************************************************************************** */
@@ -585,6 +586,9 @@ static gboolean affiche_proposition ( GtkWidget *entree,
   GSList *liste_affichee;
   gchar *categorie;
   gint ligne_en_cours;
+
+  if (bloque_proposition)
+    return;
 
 #define COULEUR_RED  40000
 #define COULEUR_GREEN  40000
@@ -1620,16 +1624,12 @@ void gtk_combofix_set_text ( GtkComboFix *combofix,
   g_return_if_fail (GTK_IS_COMBOFIX (combofix));
   g_return_if_fail ( text);
 
-  
-  gtk_signal_handler_block_by_func ( GTK_OBJECT ( combofix->entry ),
-				     GTK_SIGNAL_FUNC ( affiche_proposition ),
-				     combofix );
+  /* FIXME: gruik but I cannot understand how to *completely* inhibit
+     this signal ... this happened to work fine with GTK1.2 [benj] */
+  bloque_proposition = 1;
   gtk_entry_set_text ( GTK_ENTRY ( combofix -> entry ),
 		       text );
-  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( combofix->entry ),
-				       GTK_SIGNAL_FUNC ( affiche_proposition ),
-				       combofix );
-
+  bloque_proposition = 0;
 }
 /* **************************************************************************************************** */
 

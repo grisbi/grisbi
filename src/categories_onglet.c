@@ -1428,12 +1428,12 @@ void clique_sur_modifier_categ ( void )
 				     "adr_struct_categ" );
 
 
-      if ( strcmp ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_nom_categ ))),
+      if ( strcmp ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_categ ))),
 		    categ -> nom_categ ))
 	{
 	  free ( categ -> nom_categ );
 
-	  categ -> nom_categ = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_nom_categ ))) );
+	  categ -> nom_categ = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_categ ))) );
 
 
 	  node = GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_categ ) -> selection ) -> data );
@@ -1471,7 +1471,7 @@ void clique_sur_modifier_categ ( void )
 
       free ( sous_categ -> nom_sous_categ );
 
-      sous_categ -> nom_sous_categ = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_nom_categ ))) );
+      sous_categ -> nom_sous_categ = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_categ ))) );
 
 
       node = GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_categ ) -> selection ) -> data );
@@ -2994,7 +2994,7 @@ void exporter_categ ( void )
   switch ( resultat )
     {
     case 0 :
-      nom_categ = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
+      nom_categ = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
 
       gnome_dialog_close ( GNOME_DIALOG ( dialog ));
 
@@ -3190,7 +3190,7 @@ void importer_categ ( void )
   switch ( resultat )
     {
     case 0 :
-      nom_categ = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
+      nom_categ = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
 
       gnome_dialog_close ( GNOME_DIALOG ( dialog ));
 
