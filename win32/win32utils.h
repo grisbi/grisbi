@@ -43,6 +43,20 @@ extern guint  win32_get_last_error();
 #define CSIDL_FLAG_CREATE 0x8000
 #define CSIDL_FOLDER_MASK 0x7FFF
 #endif
+
+typedef HRESULT (__stdcall * PFNSHGETFOLDERPATHA)(HWND, int, HANDLE, DWORD, LPSTR);  // "SHGetFolderPathA"
+typedef HRESULT (__stdcall * PFNSHGETFOLDERPATHW)(HWND, int, HANDLE, DWORD, LPWSTR); // "SHGetFolderPathW"
+
+#ifdef UNICODE
+#define SHGetFolderPath     SHGetFolderPathW
+#define SZ_SHGETFOLDERPATH  "SHGetFolderPathW"
+#define PFNSHGETFOLDERPATH  PFNSHGETFOLDERPATHW
+#else
+#define SHGetFolderPath     SHGetFolderPathA
+#define SZ_SHGETFOLDERPATH  "SHGetFolderPathA"
+#define PFNSHGETFOLDERPATH  PFNSHGETFOLDERPATHA
+#endif
+
 extern HRESULT win32_get_app_data_folder_path     (gchar*, int);
 extern gchar*  win32_get_my_documents_folder_path (void);
 extern gchar*  win32_get_windows_folder_path      (void);
@@ -89,6 +103,8 @@ typedef enum
 
 extern win_version    win32_get_windows_version(void);
 extern win_technology win32_get_windows_technology(win_version);
+
+BOOL win32_shell_execute_open(gchar* file);
 
 #endif//!WINUTILS_H_C61461B7_ACF2_4011_888A_030AD5F25F8F
 

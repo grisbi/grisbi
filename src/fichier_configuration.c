@@ -44,13 +44,6 @@
 
 
 
-#ifndef _WIN32
-#define C_GRISBIRC  "/.grisbirc"
-#else
-/* Some old Windows version have difficulties with dat starting file names */
-#define C_GRISBIRC  "\\grisbi.rc"
-#endif
-
 
 PangoFontDescription *pango_desc_fonte_liste;
 
@@ -610,7 +603,7 @@ void raz_configuration ( void )
     /* Commands */
     etat.latex_command = "latex";
     etat.dvips_command = "dvips";
-    etat.browser_command = "www-browser";
+    etat.browser_command = ETAT_WWW_BROWSER;
 
     /* Print */
     etat.print_config.printer = 0;

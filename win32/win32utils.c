@@ -95,7 +95,40 @@ static gchar my_documents_path [MAX_PATH+1];
 static gchar windows_path      [MAX_PATH+1]; 
 static gchar grisbirc_path     [MAX_PATH+1];
 static gchar grisbi_exe_path   [MAX_PATH+1];
+static HMODULE            hSHFolder        = NULL;
+static PFNSHGETFOLDERPATH pSHGetFolderPath = NULL;
+/**
+ * Retrieve the SHGetFolder function pointer from the good dll depending
+ *   of the OS
+ *   W2K/XP => Shell32
+ *  older   => SHFolder.dll
+ */
+static PFNSHGETFOLDERPATH _win32_getfolderpath() /* {{{ */
+{
+    if (pSHGetFolderPath == NULL) 
+    {
+        // First try fom shell32.dll
+        if (hSHFolder) { FreeLibrary(hSHFolder); }
+        hSHFolder = LoadLibrary("shell32.dll");
+        if (hSHFolder)
+        {
+            pSHGetFolderPath = (PFNSHGETFOLDERPATH)GetProcAddress(hSHFolder,SZ_SHGETFOLDERPATH);
+        }
+    }
+    if (pSHGetFolderPath == NULL) 
+    {
+        // Next try fom shfolder.dll
+        if (hSHFolder) { FreeLibrary(hSHFolder); }
+        hSHFolder = LoadLibrary("ShFolder.dll");
+        if (hSHFolder)
+        {
+            pSHGetFolderPath = (PFNSHGETFOLDERPATH)GetProcAddress(hSHFolder,SZ_SHGETFOLDERPATH);
+        }
 
+    }
+
+    return pSHGetFolderPath;
+} /* }}} */
 /** 
  * Retrieve the absolute path of a CSIDL directory named
  *
@@ -105,16 +138,38 @@ static gchar grisbi_exe_path   [MAX_PATH+1];
  * \return error status of the operations 
  *
  */
+
 HRESULT win32_get_folder_path(gchar* folder_path,const int csidl)        /* {{{ */
 {   
+
     HRESULT hr             = NO_ERROR;
     int      folder_csidl  = csidl & CSIDL_FOLDER_MASK;
     gboolean create_folder = csidl & CSIDL_FLAG_CREATE;
+    gchar*   utf8filename  = NULL;
+    
+    PFNSHGETFOLDERPATH  pGetFolderPath = _win32_getfolderpath();
+
     *folder_path           = 0;
-    if (!SHGetSpecialFolderPath(NULL,folder_path,folder_csidl,create_folder))
+
+    if ((pGetFolderPath)&&(!(pGetFolderPath)(NULL,csidl,NULL,0,folder_path)))
     {
         hr = GetLastError();
     }
+    else
+    {
+        folder_path = g_strconcat("C:\\",NULL);
+        hr = 0;
+    }
+ /*   
+    if (!g_utf8_validate(folder_path, -1, NULL))
+    {
+      utf8filename = g_filename_to_utf8(folder_path, -1, NULL, NULL, NULL);
+      if (utf8filename == NULL) {
+	//message_warning(_("Some characters in the filename are neither UTF-8 nor your local encoding.\nSome things will break."));
+      }
+    }
+    if (utf8filename != NULL) g_strlcpy(folder_path,utf8filename,MAX_PATH);
+*/
     return hr;
 } /* }}}  */
 
@@ -165,18 +220,21 @@ gchar* win32_get_windows_folder_path(void)                  /* {{{ */
 gchar* win32_get_grisbirc_folder_path()  /* {{{ */
 {
     /* special cases : APP_DATA & WIN95/NT4) */
-    win_version current_version = win32_get_windows_version();    
-    if ((current_version == WIN95)||(current_version == WINNT4))
-    {
-        g_strlcpy(grisbirc_path,win32_get_windows_folder_path(),MAX_PATH+1);
-        g_strlcat (grisbirc_path,"\\",MAX_PATH+1);        
-    } 
-    else
-    {
+    //win_version current_version = win32_get_windows_version();    
+    //if ((current_version == WIN95)||(current_version == WINNT4))
+    //{
+   //     g_strlcpy(grisbirc_path,win32_get_windows_folder_path(),MAX_PATH+1);
+    //    g_strlcat (grisbirc_path,"\\",MAX_PATH+1);        
+    //} 
+    //else
+    //{
+        gchar* local_filename = NULL;
         SetLastError(win32_get_folder_path(grisbirc_path,CSIDL_APPDATA|CSIDL_FLAG_CREATE));
         g_strlcat(grisbirc_path,"\\Grisbi\\",MAX_PATH+1);
+ //       local_filename = g_filename_from_utf8(grisbirc_path, -1, NULL, NULL, NULL);
+ //       if (local_filename == NULL) g_strlcpy(local_filename,grisbirc_path,MAX_PATH);
         CreateDirectory(grisbirc_path,NULL);
-    }
+    //}
     return grisbirc_path;
 } /* }}} */
 
@@ -284,6 +342,16 @@ win_technology win32_get_windows_technology(win_version version) /* {{{ */
     }
 } /* }}} win32_get_windows_technology */
 /* }}} */
+
+BOOL win32_shell_execute_open(gchar* file)
+{
+   return ((int)ShellExecute(NULL, "open", file, NULL, NULL, SW_SHOWNORMAL)>32);
+}
+
+
 // -------------------------------------------------------------------------
 // End of WinUtils
 // -------------------------------------------------------------------------
+
+
+
