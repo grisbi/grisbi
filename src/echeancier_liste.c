@@ -1468,8 +1468,6 @@ gboolean changement_taille_colonne_echeancier ( GtkWidget *clist, gint colonne,
 {
     gint offset ;
 
-    printf (">>> changement_taille_colonne_echeancier %d\n", colonne);
-
     /* sauvegarde de la largeur de la liste */
     ancienne_largeur_echeances = clist -> allocation.width ;
 
