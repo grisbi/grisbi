@@ -2274,8 +2274,7 @@ new_checkbox_with_title ( gchar * label,
  * checkbox's handlers as well.
  * \param uptdate Whether to update checkbox's appearance as well.
  */
-void
-checkbox_set_value ( GtkWidget * checkbox, guint * data, gboolean update )
+void checkbox_set_value ( GtkWidget * checkbox, guint * data, gboolean update )
 {
   if (data)
     {
@@ -2364,18 +2363,18 @@ GtkWidget * new_text_entry ( gchar ** value, GCallback * hook )
 
   gtk_object_set_data ( GTK_OBJECT ( entry ), "pointer", value);
 
-  gtk_object_set_data ( GTK_OBJECT ( entry ), "insert-hook", 
-			g_signal_connect_after (GTK_OBJECT(entry), "insert-text",
-						G_CALLBACK(hook), NULL));
-  gtk_object_set_data ( GTK_OBJECT ( entry ), "delete-hook", 
-			g_signal_connect_after (GTK_OBJECT(entry), "delete-text",
-						G_CALLBACK(hook), NULL));
   gtk_object_set_data ( GTK_OBJECT ( entry ), "insert-text", 
 			g_signal_connect_after (GTK_OBJECT(entry), "insert-text",
 						G_CALLBACK(set_text), NULL));
   gtk_object_set_data ( GTK_OBJECT ( entry ), "delete-text", 
 			g_signal_connect_after (GTK_OBJECT(entry), "delete-text",
 						G_CALLBACK(set_text), NULL));
+  gtk_object_set_data ( GTK_OBJECT ( entry ), "insert-hook", 
+			g_signal_connect_after (GTK_OBJECT(entry), "insert-text",
+						G_CALLBACK(hook), NULL));
+  gtk_object_set_data ( GTK_OBJECT ( entry ), "delete-hook", 
+			g_signal_connect_after (GTK_OBJECT(entry), "delete-text",
+						G_CALLBACK(hook), NULL));
 
   return entry;
 }
@@ -2662,4 +2661,47 @@ void close_calendar_popup ( GtkWidget *popup )
 GtkWidget * get_entry_from_date_entry (GtkWidget * hbox)
 {
   return ((GtkBoxChild *) GTK_BOX(hbox)->children->data)->widget;
+}
+
+
+/** 
+ * TODO: document
+ */
+void entry_set_value ( GtkWidget * entry, gchar ** value )
+{
+  /* Block everything */
+  if (gtk_object_get_data ( entry, "insert-hook" ))
+    g_signal_handler_block ( GTK_OBJECT(entry),
+			     gtk_object_get_data ( entry, "insert-hook" ));
+  if (gtk_object_get_data ( entry, "insert-text" ))
+    g_signal_handler_block ( GTK_OBJECT(entry),
+			     gtk_object_get_data ( entry, "insert-text" ));
+  if (gtk_object_get_data ( entry, "delete-hook" ))
+    g_signal_handler_block ( GTK_OBJECT(entry),
+			     gtk_object_get_data ( entry, "delete-hook" ));
+  if (gtk_object_get_data ( entry, "delete-text" ))
+    g_signal_handler_block ( GTK_OBJECT(entry),
+			     gtk_object_get_data ( entry, "delete-text" ));
+
+  /* Fill in value */
+  if (value && *value)
+    gtk_entry_set_text ( GTK_ENTRY ( entry ), *value );
+  else
+    gtk_entry_set_text ( GTK_ENTRY ( entry ), "" );
+
+  gtk_object_set_data ( entry, "pointer", value );
+
+  /* Unblock everything */
+  if (gtk_object_get_data ( entry, "insert-hook" ))
+    g_signal_handler_unblock ( GTK_OBJECT(entry),
+			       gtk_object_get_data ( entry, "insert-hook" ));
+  if (gtk_object_get_data ( entry, "insert-text" ))
+    g_signal_handler_unblock ( GTK_OBJECT(entry),
+			       gtk_object_get_data ( entry, "insert-text" ));
+  if (gtk_object_get_data ( entry, "delete-hook" ))
+    g_signal_handler_unblock ( GTK_OBJECT(entry),
+			       gtk_object_get_data ( entry, "delete-hook" ));
+  if (gtk_object_get_data ( entry, "delete-text" ))
+    g_signal_handler_unblock ( GTK_OBJECT(entry),
+			       gtk_object_get_data ( entry, "delete-text" ));
 }
