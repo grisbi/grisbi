@@ -439,7 +439,8 @@ void verification_echeances_a_terme ( void );
 gint recherche_echeance_par_no ( struct operation_echeance *echeance,
 				 gint no_echeance );
 void verifie_ligne_selectionnee_echeance_visible ( void );
-void modification_affichage_echeances ( gint *origine );
+gboolean modification_affichage_echeances ( gint *origine, GdkEventFocus * event,
+					    GtkWidget * widget );
 GDate *date_suivante_echeance ( struct operation_echeance *echeance,
 			      GDate *date_courante );
 gint classement_liste_echeances ( GtkWidget *liste,
