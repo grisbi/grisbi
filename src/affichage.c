@@ -51,25 +51,25 @@ gboolean
 update_transaction_form ( GtkWidget * checkbox,
 			  gpointer data )
 {
-  if ( nb_comptes && gtk_widget_get_style ( widget_formulaire_operations[1] ) == 
+  if ( nb_comptes && gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) == 
        style_entree_formulaire[0] )
     {
       if ( etat.affiche_no_operation )
-	gtk_widget_show ( widget_formulaire_operations[0] );
+	gtk_widget_show ( widget_formulaire_operations[TRANSACTION_FORM_OP_NB] );
       else
-	gtk_widget_hide ( widget_formulaire_operations[0] );
+	gtk_widget_hide ( widget_formulaire_operations[TRANSACTION_FORM_OP_NB] );
 
-      gtk_widget_set_sensitive ( widget_formulaire_operations[7],
+      gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE],
 				 etat.affiche_date_bancaire );
 
-      gtk_widget_set_sensitive ( widget_formulaire_operations[11],
+      gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_EXERCICE],
 				 etat.utilise_exercice );
       gtk_widget_set_sensitive ( widget_formulaire_ventilation[6],
 				 etat.utilise_exercice );
       gtk_widget_set_sensitive ( widget_formulaire_echeancier[9],
 				 etat.utilise_exercice );
 
-      gtk_widget_set_sensitive ( widget_formulaire_operations[12],
+      gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET],
 				 etat.utilise_imputation_budgetaire );
       gtk_widget_set_sensitive ( page_imputations,
 				 etat.utilise_imputation_budgetaire );
@@ -78,14 +78,14 @@ update_transaction_form ( GtkWidget * checkbox,
       gtk_widget_set_sensitive ( widget_formulaire_echeancier[10],
 				 etat.utilise_imputation_budgetaire );
 
-      gtk_widget_set_sensitive ( widget_formulaire_operations[14],
+      gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_VOUCHER],
 				 etat.utilise_piece_comptable );
       gtk_widget_set_sensitive ( widget_formulaire_ventilation[7],
 				 etat.utilise_piece_comptable );
       gtk_widget_set_sensitive ( widget_formulaire_echeancier[12],
 				 etat.utilise_piece_comptable );
 
-      gtk_widget_set_sensitive ( widget_formulaire_operations[17],
+      gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_BANK],
 				 etat.utilise_info_banque_guichet );
       gtk_widget_set_sensitive ( widget_formulaire_echeancier[11],
 				 etat.utilise_info_banque_guichet );

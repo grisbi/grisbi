@@ -1360,13 +1360,13 @@ void edition_operation ( void )
 
   if ( operation == GINT_TO_POINTER ( -1 ) )
     {
-      clique_champ_formulaire ( widget_formulaire_operations[1],
+      clique_champ_formulaire ( widget_formulaire_operations[TRANSACTION_FORM_DATE],
 				NULL,
 				GINT_TO_POINTER ( 1 ));
-      gtk_entry_select_region ( GTK_ENTRY (  widget_formulaire_operations[1]),
+      gtk_entry_select_region ( GTK_ENTRY (  widget_formulaire_operations[TRANSACTION_FORM_DATE]),
 				0,
 				-1);
-      gtk_widget_grab_focus ( GTK_WIDGET ( widget_formulaire_operations[1] ));
+      gtk_widget_grab_focus ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ));
       return;
     }
 
@@ -1381,7 +1381,7 @@ void edition_operation ( void )
 
   /* on met le no de l'opé */
 
-  gtk_label_set_text ( GTK_LABEL ( widget_formulaire_operations[0] ),
+  gtk_label_set_text ( GTK_LABEL ( widget_formulaire_operations[TRANSACTION_FORM_OP_NB] ),
 		       itoa ( operation -> no_operation ));
 
   /* mise en forme de la date */
@@ -1391,8 +1391,8 @@ void edition_operation ( void )
 			   g_date_month ( operation -> date ),
 			   g_date_year ( operation -> date ) );
 
-  entree_prend_focus ( widget_formulaire_operations[1] );
-  gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[1] ),
+  entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_DATE] );
+  gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ),
 		       date );
 
   /* mise en forme du tiers */
@@ -1403,8 +1403,8 @@ void edition_operation ( void )
 					GINT_TO_POINTER ( operation -> tiers ),
 					( GCompareFunc ) recherche_tiers_par_no );
 
-      entree_prend_focus ( widget_formulaire_operations[2] );
-      gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[2] ),
+      entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_PARTY] );
+      gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_PARTY] ),
 			      (( struct struct_tiers * )( liste_tmp -> data )) -> nom_tiers );
     }
 
@@ -1412,8 +1412,8 @@ void edition_operation ( void )
 
   if ( operation -> montant < 0 )
     {
-      entree_prend_focus ( widget_formulaire_operations[3] );
-      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[3] ),
+      entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] );
+      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] ),
 			   g_strdup_printf ( "%4.2f", -operation -> montant ));
       /* met le menu des types débits */
 
@@ -1423,18 +1423,18 @@ void edition_operation ( void )
 
 	  if ( (menu = creation_menu_types ( 1, compte_courant, 0  )))
 	    {
-	      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
+	      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ),
 					 menu );
-	      gtk_widget_show ( widget_formulaire_operations[9] );
+	      gtk_widget_show ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] );
 	    }
 	  else
-	    gtk_widget_hide ( widget_formulaire_operations[9] );
+	    gtk_widget_hide ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] );
 	}
     }
   else
     {
-      entree_prend_focus ( widget_formulaire_operations[4] );
-      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[4] ),
+      entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT] );
+      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT] ),
 			   g_strdup_printf ( "%4.2f", operation -> montant ));
       /* met le menu des types crédits */
 
@@ -1444,14 +1444,14 @@ void edition_operation ( void )
 
 	  if ( (menu = creation_menu_types ( 2, compte_courant, 0 )))
 	    {
-	      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
+	      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ),
 					 menu );
-	      gtk_widget_show ( widget_formulaire_operations[9] );
+	      gtk_widget_show ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] );
 	    }
 	  else
 	    {
-	      gtk_widget_hide ( widget_formulaire_operations[9] );
-	      gtk_widget_hide ( widget_formulaire_operations[10] );
+	      gtk_widget_hide ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] );
+	      gtk_widget_hide ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] );
 	    }
 	}
     }
@@ -1460,15 +1460,15 @@ void edition_operation ( void )
 
   if ( operation -> pointe == 2 )
     {
-      gtk_widget_set_sensitive ( widget_formulaire_operations[4],
+      gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT],
 				 FALSE );
-      gtk_widget_set_sensitive ( widget_formulaire_operations[3],
+      gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT],
 				 FALSE );
     }
 
   /* mise en forme de la devise */
 
-  gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[5] ),
+  gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ),
 				g_slist_position ( liste_struct_devises,
 						   g_slist_find_custom ( liste_struct_devises,
 									 GINT_TO_POINTER ( operation -> devise ),
@@ -1491,7 +1491,7 @@ void edition_operation ( void )
 	  ( devise_compte -> passage_euro && !strcmp ( devise -> nom_devise, _("Euro") ))
 	  ||
 	  ( !strcmp ( devise_compte -> nom_devise, _("Euro") ) && devise -> passage_euro )))
-    gtk_widget_show ( widget_formulaire_operations[6] );
+    gtk_widget_show ( widget_formulaire_operations[TRANSACTION_FORM_CHANGE] );
 
   /* mise en forme des catégories */
 
@@ -1507,16 +1507,16 @@ void edition_operation ( void )
 					  GINT_TO_POINTER ( operation -> sous_categorie ),
 					  ( GCompareFunc ) recherche_sous_categorie_par_no );
 
-      entree_prend_focus ( widget_formulaire_operations[8] );
+      entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] );
  
       if ( liste_tmp_2 )
-	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ),
+	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ),
 				g_strconcat ( (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ,
 					      " : ",
 					      (( struct struct_sous_categ * )( liste_tmp_2 -> data )) -> nom_sous_categ,
 					      NULL ));
       else
-	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ),
+	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ),
 				(( struct struct_categ * )( liste_tmp -> data )) -> nom_categ );
       
     }
@@ -1530,9 +1530,9 @@ void edition_operation ( void )
 					g_date_month ( operation -> date_bancaire ),
 					g_date_year ( operation -> date_bancaire ) );
 
-      entree_prend_focus ( widget_formulaire_operations[7] );
+      entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] );
 
-      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[7] ),
+      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ),
 			   date_bancaire );
     }
 
@@ -1541,10 +1541,10 @@ void edition_operation ( void )
 
   if ( operation -> relation_no_operation )
     {
-      entree_prend_focus ( widget_formulaire_operations[8] );
+      entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] );
 
       if ( operation -> relation_no_compte == -1 )
-	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ),
+	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ),
 				_("Transfer: deleted account") );
       else
 	{
@@ -1555,7 +1555,7 @@ void edition_operation ( void )
 
 	  /* on met le nom du compte du virement */
 
-	  gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ),
+	  gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ),
 				  g_strconcat ( COLON(_("Transfer")),
 						NOM_DU_COMPTE,
 						NULL ));
@@ -1563,7 +1563,7 @@ void edition_operation ( void )
 	  /* si l'opération est relevée, on empêche le changement de virement */
 
 	  if ( operation -> pointe == 2 )
-	    gtk_widget_set_sensitive ( widget_formulaire_operations[8],
+	    gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY],
 				       FALSE );
 
 	  /* récupération de la contre opération */
@@ -1575,11 +1575,11 @@ void edition_operation ( void )
 	  /* 	  si la contre opération est relevée, on désensitive les categ et les montants */
 	  if ( operation_2 -> pointe == 2 )
 	    {
-	      gtk_widget_set_sensitive ( widget_formulaire_operations[4],
+	      gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT],
 					 FALSE );
-	      gtk_widget_set_sensitive ( widget_formulaire_operations[3],
+	      gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT],
 					 FALSE );
-	      gtk_widget_set_sensitive ( widget_formulaire_operations[8],
+	      gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY],
 					 FALSE );
 	    }
 
@@ -1595,12 +1595,12 @@ void edition_operation ( void )
 
 	  if ( menu )
 	    {
-	      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[13] ),
+	      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_CONTRA] ),
 					 menu );
-	      gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[13] ),
+	      gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_CONTRA] ),
 					    cherche_no_menu_type_associe ( operation_2 -> type_ope,
 									   0 ));
-	      gtk_widget_show ( widget_formulaire_operations[13] );
+	      gtk_widget_show ( widget_formulaire_operations[TRANSACTION_FORM_CONTRA] );
 	    }
 	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 	}
@@ -1610,13 +1610,13 @@ void edition_operation ( void )
 
   if ( operation -> operation_ventilee )
     {
-      entree_prend_focus ( widget_formulaire_operations[8] );
-      gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ),
+      entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] );
+      gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ),
 			      _("Breakdown of transaction") );
-      gtk_widget_show ( widget_formulaire_operations[15] );
-      gtk_widget_set_sensitive ( widget_formulaire_operations[11],
+      gtk_widget_show ( widget_formulaire_operations[TRANSACTION_FORM_BREAKDOWN] );
+      gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_EXERCICE],
 				 FALSE );
-      gtk_widget_set_sensitive ( widget_formulaire_operations[12],
+      gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET],
 				 FALSE );
 
       /* met la liste des opés de ventilation dans liste_adr_ventilation */
@@ -1630,9 +1630,9 @@ void edition_operation ( void )
 
   /* met l'option menu du type d'opé */
 
-  if ( GTK_WIDGET_VISIBLE ( widget_formulaire_operations[9] ))
+  if ( GTK_WIDGET_VISIBLE ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ))
     {
-      gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
+      gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ),
 				    cherche_no_menu_type ( operation -> type_ope ));
       if ( operation -> type_ope
 	   &&
@@ -1648,8 +1648,8 @@ void edition_operation ( void )
 	       &&
 	       operation -> contenu_type )
 	    {
-	      entree_prend_focus ( widget_formulaire_operations[10] );
-	      gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[10] ),
+	      entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] );
+	      gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] ),
 				   operation -> contenu_type );
 	    }
 	}
@@ -1657,9 +1657,9 @@ void edition_operation ( void )
 
   /* met en place l'exercice */
 
-  gtk_option_menu_set_history (  GTK_OPTION_MENU ( widget_formulaire_operations[11] ),
+  gtk_option_menu_set_history (  GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_EXERCICE] ),
 				 cherche_no_menu_exercice ( operation -> no_exercice,
-							    widget_formulaire_operations[11] ));
+							    widget_formulaire_operations[TRANSACTION_FORM_EXERCICE] ));
 
   /* met en place l'imputation budgétaire */
   /* si c'est une opé ventilée, on met rien */
@@ -1674,19 +1674,19 @@ void edition_operation ( void )
 	{
 	  GSList *liste_tmp_2;
 
-	  entree_prend_focus ( widget_formulaire_operations[12]);
+	  entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET]);
 
 	  liste_tmp_2 = g_slist_find_custom ( (( struct struct_imputation * )( liste_tmp -> data )) -> liste_sous_imputation,
 					      GINT_TO_POINTER ( operation -> sous_imputation ),
 					      ( GCompareFunc ) recherche_sous_imputation_par_no );
 	  if ( liste_tmp_2 )
-	    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[12] ),
+	    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET] ),
 				    g_strconcat ( (( struct struct_imputation * )( liste_tmp -> data )) -> nom_imputation,
 						  " : ",
 						  (( struct struct_sous_imputation * )( liste_tmp_2 -> data )) -> nom_sous_imputation,
 						  NULL ));
 	  else
-	    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[12] ),
+	    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET] ),
 				    (( struct struct_imputation * )( liste_tmp -> data )) -> nom_imputation );
 	}
     }
@@ -1695,8 +1695,8 @@ void edition_operation ( void )
 
   if ( operation -> no_piece_comptable )
     {
-      entree_prend_focus ( widget_formulaire_operations[14] );
-      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[14] ),
+      entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_VOUCHER] );
+      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_VOUCHER] ),
 			   operation -> no_piece_comptable );
     }
 
@@ -1704,8 +1704,8 @@ void edition_operation ( void )
 
   if ( operation -> notes )
     {
-      entree_prend_focus ( widget_formulaire_operations[16] );
-      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[16] ),
+      entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_NOTES] );
+      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_NOTES] ),
 			   operation -> notes );
     }
 
@@ -1713,26 +1713,26 @@ void edition_operation ( void )
 
   if ( operation -> info_banque_guichet )
     {
-      entree_prend_focus ( widget_formulaire_operations[17] );
-      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[17] ),
+      entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_BANK] );
+      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_BANK] ),
 			   operation -> info_banque_guichet );
     }
 
   /* mise en forme de auto / man */
 
   if ( operation -> auto_man )
-    gtk_label_set_text ( GTK_LABEL ( widget_formulaire_operations[18]),
+    gtk_label_set_text ( GTK_LABEL ( widget_formulaire_operations[TRANSACTION_FORM_MODE]),
 			 _("Auto"));
   else
-    gtk_label_set_text ( GTK_LABEL ( widget_formulaire_operations[18]),
+    gtk_label_set_text ( GTK_LABEL ( widget_formulaire_operations[TRANSACTION_FORM_MODE]),
 			 _("Manual"));
 
 /*   on a fini de remplir le formulaire, on donne le focus à la date */
 
-  gtk_entry_select_region ( GTK_ENTRY ( widget_formulaire_operations[1] ),
+  gtk_entry_select_region ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ),
 			    0,
 			    -1);
-  gtk_widget_grab_focus ( widget_formulaire_operations[1] );
+  gtk_widget_grab_focus ( widget_formulaire_operations[TRANSACTION_FORM_DATE] );
 }
 /******************************************************************************/
 
@@ -2240,67 +2240,67 @@ void changement_taille_liste_ope ( GtkWidget *clist,
  
   /* 1ère ligne */
 
-  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[0] ),
+  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_OP_NB] ),
 			 col0,
 			 FALSE );
-  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[1] ),
+  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ),
 			 col1,
 			 FALSE );
-  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[2] ),
+  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_PARTY] ),
 			 col2,
 			 FALSE  );
-  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[3] ),
+  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] ),
 			 col3,
 			 FALSE  );
-  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[4] ),
+  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT] ),
 			 col4,
 			 FALSE  );
-  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[5] ),
+  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ),
 			 col5,
 			 FALSE  );
-  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[6] ),
+  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_CHANGE] ),
 			 col6,
 			 FALSE  );
 
   /* 2ème ligne */
 
-  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[7] ),
+  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ),
 			 col0+col1,
 			 FALSE );
-  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[8] ),
+  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ),
 			 col2,
 			 FALSE );
-  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[9] ),
+  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ),
 			 col3+col4,
 			 FALSE  );
-  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[10] ),
+  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] ),
 			 col5,
 			 FALSE  );
 
   /* 3ème ligne */
 
-  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[11] ),
+  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_EXERCICE] ),
 			 col0+col1,
 			 FALSE );
-  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[12] ),
+  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET] ),
 			 col2,
 			 FALSE );
-  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[14] ),
+  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_VOUCHER] ),
 			 col5,
 			 FALSE  );
 
   /* 4ème ligne */
 
-  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[15] ),
+  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_BREAKDOWN] ),
 			 col0+col1,
 			 FALSE );
-  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[16] ),
+  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_NOTES] ),
 			 col2,
 			 FALSE );
-  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[17] ),
+  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_BANK] ),
 			 col3+col4+col5,
 			 FALSE  );
-  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[18] ),
+  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_MODE] ),
 			 col6,
 			 FALSE  );
 }

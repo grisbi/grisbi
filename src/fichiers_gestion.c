@@ -359,8 +359,8 @@ void ouverture_confirmee ( void )
       gtk_widget_get_style (label_temps) -> font = gdk_font_load ( fonte_general );
       gtk_widget_get_style (frame_etat_comptes_accueil) -> font = gdk_font_load ( fonte_general );
       gtk_widget_get_style (bouton_ok_equilibrage) -> font = gdk_font_load ( fonte_general );
-      gtk_widget_get_style (widget_formulaire_operations[1]) -> font = gdk_font_load ( fonte_general );
-      gtk_widget_get_style ( GTK_OPTION_MENU ( widget_formulaire_operations[5] )->menu_item ) -> font = gdk_font_load ( fonte_general );
+      gtk_widget_get_style (widget_formulaire_operations[TRANSACTION_FORM_DATE]) -> font = gdk_font_load ( fonte_general );
+      gtk_widget_get_style ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] )->menu_item ) -> font = gdk_font_load ( fonte_general );
 ***/
 /*     } */
 

@@ -372,20 +372,20 @@ gboolean changement_compte ( gint *compte)
     {
       /* on joue avec les sensitive pour éviter que le 1er mot du menu ne reste grise */
 
-      gtk_widget_set_sensitive ( widget_formulaire_operations[9],
+      gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_TYPE],
 				 TRUE );
-      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
+      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ),
 				 menu );
-      gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
+      gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ),
 				    cherche_no_menu_type ( TYPE_DEFAUT_DEBIT ) );
-      gtk_widget_set_sensitive ( widget_formulaire_operations[9],
+      gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_TYPE],
 				 FALSE );
-      gtk_widget_show ( widget_formulaire_operations[9] );
+      gtk_widget_show ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] );
     }
   else
     {
-      gtk_widget_hide ( widget_formulaire_operations[9] );
-      gtk_widget_hide ( widget_formulaire_operations[10] );
+      gtk_widget_hide ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] );
+      gtk_widget_hide ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] );
     }
 
 
@@ -420,7 +420,7 @@ gboolean changement_compte ( gint *compte)
 
   /* change le défaut de l'option menu des devises du formulaire */
 
-  gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[5] ),
+  gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ),
 				g_slist_position ( liste_struct_devises,
 						   g_slist_find_custom ( liste_struct_devises,
 									 GINT_TO_POINTER ( DEVISE ),

@@ -1481,7 +1481,7 @@ void mise_a_jour_tiers ( void )
 {
   creation_liste_tiers_combofix ();
 
-  gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_operations[2] ),
+  gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_PARTY] ),
 			  liste_tiers_combofix,
 			  TRUE,
 			  TRUE );

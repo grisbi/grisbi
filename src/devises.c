@@ -262,8 +262,8 @@ select_currency_in_iso_list (GtkTreeSelection *selection,
  */
 void update_currency_widgets()
 {
-  gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_operations[5] ) -> menu );
-  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[5] ),
+  gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ) -> menu );
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ),
 			     creation_option_menu_devises ( -1,
 							    liste_struct_devises ));
   gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_echeancier[4] ) -> menu );

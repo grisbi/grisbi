@@ -2221,7 +2221,7 @@ void mise_a_jour_imputation ( void )
 {
   creation_liste_imputation_combofix ();
 
-  gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_operations[12] ),
+  gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET] ),
 			  liste_imputations_combofix,
 			  TRUE,
 			  TRUE );

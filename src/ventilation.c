@@ -2526,21 +2526,21 @@ void valider_ventilation ( void )
   gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_formulaire ),
 			  0 );
 
-  gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_operations[8] ) -> entry );
+  gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ) -> entry );
 
   if ( !montant_operation_ventilee )
     {
       if ( somme_ventilee < 0 )
 	{
-	  entree_prend_focus ( widget_formulaire_operations[3] );
-	  gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[3] ),
+	  entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] );
+	  gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] ),
 			       g_strdup_printf ( "%4.2f",
 						 fabs (somme_ventilee) ));
 	}
       else
 	{
-	  entree_prend_focus ( widget_formulaire_operations[4] );
-	  gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[4] ),
+	  entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT] );
+	  gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT] ),
 			       g_strdup_printf ( "%4.2f",
 						 somme_ventilee ));
 	}

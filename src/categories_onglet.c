@@ -2548,7 +2548,7 @@ void mise_a_jour_categ ( void )
 {
   creation_liste_categ_combofix ();
 
-  gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_operations[8] ),
+  gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ),
 			  liste_categories_combofix,
 			  TRUE,
 			  TRUE );

@@ -63,24 +63,24 @@ gboolean update_financial_year_list ( GtkEntry *entry, gchar *value,
  */
 gboolean update_financial_year_menus ()
 {
-  if ( widget_formulaire_operations[11] &&
-       GTK_OPTION_MENU(widget_formulaire_operations[11]) -> menu )
+  if ( widget_formulaire_operations[TRANSACTION_FORM_EXERCICE] &&
+       GTK_OPTION_MENU(widget_formulaire_operations[TRANSACTION_FORM_EXERCICE]) -> menu )
     {
-      gtk_widget_destroy ( GTK_OPTION_MENU(widget_formulaire_operations[11]) -> menu );
-      gtk_option_menu_set_menu ( GTK_OPTION_MENU (widget_formulaire_operations[11]),
+      gtk_widget_destroy ( GTK_OPTION_MENU(widget_formulaire_operations[TRANSACTION_FORM_EXERCICE]) -> menu );
+      gtk_option_menu_set_menu ( GTK_OPTION_MENU (widget_formulaire_operations[TRANSACTION_FORM_EXERCICE]),
 				 creation_menu_exercices (0) );
     }
 
-  if ( widget_formulaire_operations[5] &&
-       GTK_OPTION_MENU(widget_formulaire_operations[5]) -> menu )
+  if ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] &&
+       GTK_OPTION_MENU(widget_formulaire_operations[TRANSACTION_FORM_DEVISE]) -> menu )
     {
       gtk_widget_destroy ( GTK_OPTION_MENU(widget_formulaire_ventilation[5]) -> menu );
       gtk_option_menu_set_menu ( GTK_OPTION_MENU(widget_formulaire_ventilation[5]),
 				 creation_menu_exercices (0) );
     }
 
-  if ( widget_formulaire_operations[9] &&
-       GTK_OPTION_MENU(widget_formulaire_operations[9]) -> menu )
+  if ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] &&
+       GTK_OPTION_MENU(widget_formulaire_operations[TRANSACTION_FORM_TYPE]) -> menu )
     {
       gtk_widget_destroy ( GTK_OPTION_MENU(widget_formulaire_echeancier[9]) -> menu );
       gtk_option_menu_set_menu ( GTK_OPTION_MENU(widget_formulaire_echeancier[9]),

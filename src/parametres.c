@@ -1071,22 +1071,22 @@ void real_changement_preferences ( GtkWidget *fenetre_preferences,
       if ( nb_comptes )
 	{
 	  if ( etat.affiche_no_operation )
-	    gtk_widget_show ( widget_formulaire_operations[0] );
+	    gtk_widget_show ( widget_formulaire_operations[TRANSACTION_FORM_OP_NB] );
 	  else
-	    gtk_widget_hide ( widget_formulaire_operations[0] );
+	    gtk_widget_hide ( widget_formulaire_operations[TRANSACTION_FORM_OP_NB] );
 
 
-	  gtk_widget_set_sensitive ( widget_formulaire_operations[7],
+	  gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE],
 				     etat.affiche_date_bancaire );
 
-	  gtk_widget_set_sensitive ( widget_formulaire_operations[11],
+	  gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_EXERCICE],
 				     etat.utilise_exercice );
 	  gtk_widget_set_sensitive ( widget_formulaire_ventilation[6],
 				     etat.utilise_exercice );
 	  gtk_widget_set_sensitive ( widget_formulaire_echeancier[9],
 				     etat.utilise_exercice );
 
-	  gtk_widget_set_sensitive ( widget_formulaire_operations[12],
+	  gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET],
 				     etat.utilise_imputation_budgetaire );
 	  gtk_widget_set_sensitive ( page_imputations,
 				     etat.utilise_imputation_budgetaire );
@@ -1095,14 +1095,14 @@ void real_changement_preferences ( GtkWidget *fenetre_preferences,
 	  gtk_widget_set_sensitive ( widget_formulaire_echeancier[10],
 				     etat.utilise_imputation_budgetaire );
 
-	  gtk_widget_set_sensitive ( widget_formulaire_operations[14],
+	  gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_VOUCHER],
 				     etat.utilise_piece_comptable );
 	  gtk_widget_set_sensitive ( widget_formulaire_ventilation[7],
 				     etat.utilise_piece_comptable );
 	  gtk_widget_set_sensitive ( widget_formulaire_echeancier[12],
 				     etat.utilise_piece_comptable );
 
-	  gtk_widget_set_sensitive ( widget_formulaire_operations[17],
+	  gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_BANK],
 				     etat.utilise_info_banque_guichet );
 	  gtk_widget_set_sensitive ( widget_formulaire_echeancier[11],
 				     etat.utilise_info_banque_guichet );
@@ -1289,8 +1289,8 @@ void real_changement_preferences ( GtkWidget *fenetre_preferences,
 
       /* on modifie la liste des devises de l'option menu du formulaire */
 
-      gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_operations[5] ) -> menu );
-      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[5] ),
+      gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ) -> menu );
+      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ),
 				 creation_option_menu_devises ( -1,
 								liste_struct_devises ));
       gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_echeancier[4] ) -> menu );
@@ -1513,8 +1513,8 @@ void real_changement_preferences ( GtkWidget *fenetre_preferences,
 
 	  /* on remplace l'option menu des exercices des formulaire */
 
-	  gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_operations[11] ) -> menu );
-	  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[11] ),
+	  gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_EXERCICE] ) -> menu );
+	  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_EXERCICE] ),
 				     creation_menu_exercices (0) );
 
 	  gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_ventilation[5] ) -> menu );
@@ -1696,38 +1696,38 @@ void real_changement_preferences ( GtkWidget *fenetre_preferences,
 
 	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-	  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
+	  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ),
 				     menu );
 
 	  pos_type = cherche_no_menu_type ( TYPE_DEFAUT_DEBIT );
 
 	  if ( pos_type != -1 )
-	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
+	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ),
 					  pos_type );
 	  else
 	    {
 	      struct struct_type_ope *type;
 
-	      gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
+	      gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ),
 					    0 );
-	      TYPE_DEFAUT_DEBIT = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu_item ),
+	      TYPE_DEFAUT_DEBIT = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ) -> menu_item ),
 									"no_type" ));
 
 	      /* on affiche l'entrée des chèques si nécessaire */
 
-	      type = g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu_item ),
+	      type = g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ) -> menu_item ),
 					 "adr_type" );
 
 	      if ( type -> affiche_entree )
-		gtk_widget_show ( widget_formulaire_operations[10] );
+		gtk_widget_show ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] );
 	    }
 
-	  gtk_widget_show ( widget_formulaire_operations[9] );
+	  gtk_widget_show ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] );
 	}
       else
 	{
-	  gtk_widget_hide ( widget_formulaire_operations[9] );
-	  gtk_widget_hide ( widget_formulaire_operations[10] );
+	  gtk_widget_hide ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] );
+	  gtk_widget_hide ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] );
 	}
 
 
