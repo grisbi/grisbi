@@ -347,6 +347,7 @@ extern GtkWidget *frame_etat_echeances_auto_accueil;
 extern GtkWidget *frame_etat_echeances_finies;
 extern GtkWidget *frame_etat_soldes_minimaux_autorises;
 extern GtkWidget *frame_etat_soldes_minimaux_voulus;
+extern GtkStyle *style_label_nom_compte;
 extern GtkStyle *style_label;
 extern GtkWidget *separateur_passif_manu;
 extern GtkWidget *separateur_manu_auto;

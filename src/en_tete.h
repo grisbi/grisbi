@@ -1002,6 +1002,7 @@ gint gtktable_affiche_totaux_sous_jaccent ( gint origine,
 					    gint ligne );
 gint gtktable_affiche_titres_colonnes ( gint ligne );
 gint gtktable_finish ( );
+void gtktable_click_sur_ope_etat ( struct structure_operation *operation );
 
 
 /***********************************/ 

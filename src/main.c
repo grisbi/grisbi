@@ -84,6 +84,8 @@ int main (int argc, char *argv[])
   /* on grise les fonctions inutiles au départ */
 
   init_variables ( FALSE );
+  style_label_nom_compte = NULL;
+
 
   charge_configuration();
 

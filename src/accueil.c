@@ -543,7 +543,6 @@ void met_en_normal ( GtkWidget *event_box,
 
 void update_liste_comptes_accueil ( void )
 {
-  GtkStyle *style_label_nom_compte;
   GdkColor couleur_bleue, couleur_jaune;
   GtkWidget *event_box;
   GtkWidget *label;
@@ -554,25 +553,27 @@ void update_liste_comptes_accueil ( void )
   if ( !nb_comptes )
     return;
 
-/* création du style normal -> bleu */
-/* pointeur dessus -> jaune-rouge */
-
   label = gtk_label_new ("");
 
-  style_label = gtk_style_copy ( gtk_widget_get_style (label));
-  style_label_nom_compte = gtk_style_copy ( gtk_widget_get_style (label));
-  couleur_bleue.red = 500;
-  couleur_bleue.green = 500;
-  couleur_bleue.blue = 65535;
-  couleur_jaune.red =40000;
-  couleur_jaune.green =40000;
-  couleur_jaune.blue = 0;
+  if ( !style_label_nom_compte )
+    {
+      /* création du style normal -> bleu */
+      /* pointeur dessus -> jaune-rouge */
 
-  style_label->fg[GTK_STATE_PRELIGHT] = couleur_jaune;
-  style_label->fg[GTK_STATE_NORMAL] = couleur_bleue;
+      style_label = gtk_style_copy ( gtk_widget_get_style (label));
+      style_label_nom_compte = gtk_style_copy ( gtk_widget_get_style (label));
+      couleur_bleue.red = 500;
+      couleur_bleue.green = 500;
+      couleur_bleue.blue = 65535;
+      couleur_jaune.red =40000;
+      couleur_jaune.green =40000;
+      couleur_jaune.blue = 0;
 
-  style_label_nom_compte ->fg[GTK_STATE_PRELIGHT] = couleur_jaune;
+      style_label->fg[GTK_STATE_PRELIGHT] = couleur_jaune;
+      style_label->fg[GTK_STATE_NORMAL] = couleur_bleue;
 
+      style_label_nom_compte ->fg[GTK_STATE_PRELIGHT] = couleur_jaune;
+    }
 
 
   if ( GTK_BIN ( frame_etat_comptes_accueil ) -> child )

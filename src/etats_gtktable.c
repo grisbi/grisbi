@@ -2042,6 +2042,9 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 {
   gint colonne;
   GtkWidget *label;
+  GtkWidget *event_box;
+
+  /* on met tous les labels dans un event_box pour aller directement sur l'opé si elle est clickée */
 
 
   if ( etat_courant -> afficher_opes )
@@ -2062,17 +2065,36 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 
       if ( etat_courant -> afficher_no_ope )
 	{
-	  label = gtk_label_new ( itoa ( operation -> no_operation ));
-	  gtk_misc_set_alignment ( GTK_MISC ( label ),
-				   0,
-				   0.5 );
+	  event_box = gtk_event_box_new ();
+	  gtk_signal_connect ( GTK_OBJECT ( event_box ),
+			       "enter_notify_event",
+			       GTK_SIGNAL_FUNC ( met_en_prelight ),
+			       NULL );
+	  gtk_signal_connect ( GTK_OBJECT ( event_box ),
+			       "leave_notify_event",
+			       GTK_SIGNAL_FUNC ( met_en_normal ),
+			       NULL );
+	  gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
+				      "button_press_event",
+				      GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
+				      (GtkObject *) operation );
 	  gtk_table_attach ( GTK_TABLE ( table_etat ),
-			     label,
+			     event_box,
 			     colonne, colonne + 1,
 			     ligne, ligne + 1,
 			     GTK_SHRINK | GTK_FILL,
 			     GTK_SHRINK | GTK_FILL,
 			     0, 0 );
+	  gtk_widget_show ( event_box );
+
+	  label = gtk_label_new ( itoa ( operation -> no_operation ));
+	  gtk_misc_set_alignment ( GTK_MISC ( label ),
+				   0,
+				   0.5 );
+	  gtk_widget_set_style ( label,
+				 style_label_nom_compte );
+	  gtk_container_add ( GTK_CONTAINER ( event_box ),
+			      label );
 	  gtk_widget_show ( label );
 
 	  colonne = colonne + 2;
@@ -2080,6 +2102,28 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 
       if ( etat_courant -> afficher_date_ope )
 	{
+	  event_box = gtk_event_box_new ();
+	  gtk_signal_connect ( GTK_OBJECT ( event_box ),
+			       "enter_notify_event",
+			       GTK_SIGNAL_FUNC ( met_en_prelight ),
+			       NULL );
+	  gtk_signal_connect ( GTK_OBJECT ( event_box ),
+			       "leave_notify_event",
+			       GTK_SIGNAL_FUNC ( met_en_normal ),
+			       NULL );
+	  gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
+				      "button_press_event",
+				      GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
+				      (GtkObject *) operation );
+	  gtk_table_attach ( GTK_TABLE ( table_etat ),
+			     event_box,
+			     colonne, colonne + 1,
+			     ligne, ligne + 1,
+			     GTK_SHRINK | GTK_FILL,
+			     GTK_SHRINK | GTK_FILL,
+			     0, 0 );
+	  gtk_widget_show ( event_box );
+
 	  label = gtk_label_new ( g_strdup_printf  ( "%.2d/%.2d/%d",
 						     operation -> jour,
 						     operation -> mois,
@@ -2087,13 +2131,10 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 	  gtk_misc_set_alignment ( GTK_MISC ( label ),
 				   0,
 				   0.5 );
-	  gtk_table_attach ( GTK_TABLE ( table_etat ),
-			     label,
-			     colonne, colonne + 1,
-			     ligne, ligne + 1,
-			     GTK_SHRINK | GTK_FILL,
-			     GTK_SHRINK | GTK_FILL,
-			     0, 0 );
+	  gtk_widget_set_style ( label,
+				 style_label_nom_compte );
+	  gtk_container_add ( GTK_CONTAINER ( event_box ),
+			      label );
 	  gtk_widget_show ( label );
 
 	  colonne = colonne + 2;
@@ -2103,19 +2144,38 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 	{
 	  if ( operation -> no_exercice )
 	    {
+	      event_box = gtk_event_box_new ();
+	      gtk_signal_connect ( GTK_OBJECT ( event_box ),
+				   "enter_notify_event",
+				   GTK_SIGNAL_FUNC ( met_en_prelight ),
+				   NULL );
+	      gtk_signal_connect ( GTK_OBJECT ( event_box ),
+				   "leave_notify_event",
+				   GTK_SIGNAL_FUNC ( met_en_normal ),
+				   NULL );
+	      gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
+					  "button_press_event",
+					  GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
+					  (GtkObject *) operation );
+	      gtk_table_attach ( GTK_TABLE ( table_etat ),
+				 event_box,
+				 colonne, colonne + 1,
+				 ligne, ligne + 1,
+				 GTK_SHRINK | GTK_FILL,
+				 GTK_SHRINK | GTK_FILL,
+				 0, 0 );
+	      gtk_widget_show ( event_box );
+
 	      label = gtk_label_new ( ((struct struct_exercice *)(g_slist_find_custom ( liste_struct_exercices,
 											GINT_TO_POINTER ( operation -> no_exercice ),
 											(GCompareFunc) recherche_exercice_par_no )->data)) -> nom_exercice );
 	      gtk_misc_set_alignment ( GTK_MISC ( label ),
 				       0,
 				       0.5 );
-	      gtk_table_attach ( GTK_TABLE ( table_etat ),
-				 label,
-				 colonne, colonne + 1,
-				 ligne, ligne + 1,
-				 GTK_SHRINK | GTK_FILL,
-				 GTK_SHRINK | GTK_FILL,
-				 0, 0 );
+	      gtk_widget_set_style ( label,
+				     style_label_nom_compte );
+	      gtk_container_add ( GTK_CONTAINER ( event_box ),
+				  label );
 	      gtk_widget_show ( label );
 	    }
 	  colonne = colonne + 2;
@@ -2126,6 +2186,28 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 	{
 	  if ( operation -> tiers )
 	    {
+	      event_box = gtk_event_box_new ();
+	      gtk_signal_connect ( GTK_OBJECT ( event_box ),
+				   "enter_notify_event",
+				   GTK_SIGNAL_FUNC ( met_en_prelight ),
+				   NULL );
+	      gtk_signal_connect ( GTK_OBJECT ( event_box ),
+				   "leave_notify_event",
+				   GTK_SIGNAL_FUNC ( met_en_normal ),
+				   NULL );
+	      gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
+					  "button_press_event",
+					  GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
+					  (GtkObject *) operation );
+	      gtk_table_attach ( GTK_TABLE ( table_etat ),
+				 event_box,
+				 colonne, colonne + 1,
+				 ligne, ligne + 1,
+				 GTK_SHRINK | GTK_FILL,
+				 GTK_SHRINK | GTK_FILL,
+				 0, 0 );
+	      gtk_widget_show ( event_box );
+
 	      label = gtk_label_new ( ((struct struct_tiers *)(g_slist_find_custom ( liste_struct_tiers,
 										     GINT_TO_POINTER ( operation -> tiers ),
 										     (GCompareFunc) recherche_tiers_par_no )->data)) -> nom_tiers );
@@ -2133,13 +2215,10 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 	      gtk_misc_set_alignment ( GTK_MISC ( label ),
 				       0,
 				       0.5 );
-	      gtk_table_attach ( GTK_TABLE ( table_etat ),
-				 label,
-				 colonne, colonne + 1,
-				 ligne, ligne + 1,
-				 GTK_SHRINK | GTK_FILL,
-				 GTK_SHRINK | GTK_FILL,
-				 0, 0 );
+	      gtk_widget_set_style ( label,
+				     style_label_nom_compte );
+	      gtk_container_add ( GTK_CONTAINER ( event_box ),
+				  label );
 	      gtk_widget_show ( label );
 	    }
 
@@ -2195,17 +2274,36 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 
 	  if ( pointeur )
 	    {
-	      label = gtk_label_new ( pointeur );
-	      gtk_misc_set_alignment ( GTK_MISC ( label ),
-				       0,
-				       0.5 );
+	      event_box = gtk_event_box_new ();
+	      gtk_signal_connect ( GTK_OBJECT ( event_box ),
+				   "enter_notify_event",
+				   GTK_SIGNAL_FUNC ( met_en_prelight ),
+				   NULL );
+	      gtk_signal_connect ( GTK_OBJECT ( event_box ),
+				   "leave_notify_event",
+				   GTK_SIGNAL_FUNC ( met_en_normal ),
+				   NULL );
+	      gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
+					  "button_press_event",
+					  GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
+					  (GtkObject *) operation );
 	      gtk_table_attach ( GTK_TABLE ( table_etat ),
-				 label,
+				 event_box,
 				 colonne, colonne + 1,
 				 ligne, ligne + 1,
 				 GTK_SHRINK | GTK_FILL,
 				 GTK_SHRINK | GTK_FILL,
 				 0, 0 );
+	      gtk_widget_show ( event_box );
+
+	      label = gtk_label_new ( pointeur );
+	      gtk_misc_set_alignment ( GTK_MISC ( label ),
+				       0,
+				       0.5 );
+	      gtk_widget_set_style ( label,
+				     style_label_nom_compte );
+	      gtk_container_add ( GTK_CONTAINER ( event_box ),
+				  label );
 	      gtk_widget_show ( label );
 	    }
 	  colonne = colonne + 2;
@@ -2235,17 +2333,36 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 												  (GCompareFunc) recherche_sous_imputation_par_no ) -> data )) -> nom_sous_imputation,
 					 NULL );
 
-	      label = gtk_label_new ( pointeur );
-	      gtk_misc_set_alignment ( GTK_MISC ( label ),
-				       0,
-				       0.5 );
+	      event_box = gtk_event_box_new ();
+	      gtk_signal_connect ( GTK_OBJECT ( event_box ),
+				   "enter_notify_event",
+				   GTK_SIGNAL_FUNC ( met_en_prelight ),
+				   NULL );
+	      gtk_signal_connect ( GTK_OBJECT ( event_box ),
+				   "leave_notify_event",
+				   GTK_SIGNAL_FUNC ( met_en_normal ),
+				   NULL );
+	      gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
+					  "button_press_event",
+					  GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
+					  (GtkObject *) operation );
 	      gtk_table_attach ( GTK_TABLE ( table_etat ),
-				 label,
+				 event_box,
 				 colonne, colonne + 1,
 				 ligne, ligne + 1,
 				 GTK_SHRINK | GTK_FILL,
 				 GTK_SHRINK | GTK_FILL,
 				 0, 0 );
+	      gtk_widget_show ( event_box );
+
+	      label = gtk_label_new ( pointeur );
+	      gtk_misc_set_alignment ( GTK_MISC ( label ),
+				       0,
+				       0.5 );
+	      gtk_widget_set_style ( label,
+				     style_label_nom_compte );
+	      gtk_container_add ( GTK_CONTAINER ( event_box ),
+				  label );
 	      gtk_widget_show ( label );
 	    }
 	  colonne = colonne + 2;
@@ -2256,17 +2373,36 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 	{
 	  if ( operation -> notes )
 	    {
-	      label = gtk_label_new ( operation -> notes );
-	      gtk_misc_set_alignment ( GTK_MISC ( label ),
-				       0,
-				       0.5 );
+	      event_box = gtk_event_box_new ();
+	      gtk_signal_connect ( GTK_OBJECT ( event_box ),
+				   "enter_notify_event",
+				   GTK_SIGNAL_FUNC ( met_en_prelight ),
+				   NULL );
+	      gtk_signal_connect ( GTK_OBJECT ( event_box ),
+				   "leave_notify_event",
+				   GTK_SIGNAL_FUNC ( met_en_normal ),
+				   NULL );
+	      gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
+					  "button_press_event",
+					  GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
+					  (GtkObject *) operation );
 	      gtk_table_attach ( GTK_TABLE ( table_etat ),
-				 label,
+				 event_box,
 				 colonne, colonne + 1,
 				 ligne, ligne + 1,
 				 GTK_SHRINK | GTK_FILL,
 				 GTK_SHRINK | GTK_FILL,
 				 0, 0 );
+	      gtk_widget_show ( event_box );
+
+	      label = gtk_label_new ( operation -> notes );
+	      gtk_misc_set_alignment ( GTK_MISC ( label ),
+				       0,
+				       0.5 );
+	      gtk_widget_set_style ( label,
+				     style_label_nom_compte );
+	      gtk_container_add ( GTK_CONTAINER ( event_box ),
+				  label );
 	      gtk_widget_show ( label );
 	    }
 	  colonne = colonne + 2;
@@ -2288,17 +2424,36 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 
 	      type = pointeur -> data;
 
-	      label = gtk_label_new ( type -> nom_type );
-	      gtk_misc_set_alignment ( GTK_MISC ( label ),
-				       0,
-				       0.5 );
+	      event_box = gtk_event_box_new ();
+	      gtk_signal_connect ( GTK_OBJECT ( event_box ),
+				   "enter_notify_event",
+				   GTK_SIGNAL_FUNC ( met_en_prelight ),
+				   NULL );
+	      gtk_signal_connect ( GTK_OBJECT ( event_box ),
+				   "leave_notify_event",
+				   GTK_SIGNAL_FUNC ( met_en_normal ),
+				   NULL );
+	      gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
+					  "button_press_event",
+					  GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
+					  (GtkObject *) operation );
 	      gtk_table_attach ( GTK_TABLE ( table_etat ),
-				 label,
+				 event_box,
 				 colonne, colonne + 1,
 				 ligne, ligne + 1,
 				 GTK_SHRINK | GTK_FILL,
 				 GTK_SHRINK | GTK_FILL,
 				 0, 0 );
+	      gtk_widget_show ( event_box );
+
+	      label = gtk_label_new ( type -> nom_type );
+	      gtk_misc_set_alignment ( GTK_MISC ( label ),
+				       0,
+				       0.5 );
+	      gtk_widget_set_style ( label,
+				     style_label_nom_compte );
+	      gtk_container_add ( GTK_CONTAINER ( event_box ),
+				  label );
 	      gtk_widget_show ( label );
 	    }
 	  colonne = colonne + 2;
@@ -2309,17 +2464,36 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 	{
 	  if ( operation -> contenu_type )
 	    {
-	      label = gtk_label_new ( operation -> contenu_type );
-	      gtk_misc_set_alignment ( GTK_MISC ( label ),
-				       0,
-				       0.5 );
+	      event_box = gtk_event_box_new ();
+	      gtk_signal_connect ( GTK_OBJECT ( event_box ),
+				   "enter_notify_event",
+				   GTK_SIGNAL_FUNC ( met_en_prelight ),
+				   NULL );
+	      gtk_signal_connect ( GTK_OBJECT ( event_box ),
+				   "leave_notify_event",
+				   GTK_SIGNAL_FUNC ( met_en_normal ),
+				   NULL );
+	      gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
+					  "button_press_event",
+					  GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
+					  (GtkObject *) operation );
 	      gtk_table_attach ( GTK_TABLE ( table_etat ),
-				 label,
+				 event_box,
 				 colonne, colonne + 1,
 				 ligne, ligne + 1,
 				 GTK_SHRINK | GTK_FILL,
 				 GTK_SHRINK | GTK_FILL,
 				 0, 0 );
+	      gtk_widget_show ( event_box );
+
+	      label = gtk_label_new ( operation -> contenu_type );
+	      gtk_misc_set_alignment ( GTK_MISC ( label ),
+				       0,
+				       0.5 );
+	      gtk_widget_set_style ( label,
+				     style_label_nom_compte );
+	      gtk_container_add ( GTK_CONTAINER ( event_box ),
+				  label );
 	      gtk_widget_show ( label );
 	    }
 	  colonne = colonne + 2;
@@ -2330,17 +2504,36 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 	{
 	  if ( operation -> no_piece_comptable )
 	    {
-	      label = gtk_label_new ( operation -> no_piece_comptable );
-	      gtk_misc_set_alignment ( GTK_MISC ( label ),
-				       0,
-				       0.5 );
+	      event_box = gtk_event_box_new ();
+	      gtk_signal_connect ( GTK_OBJECT ( event_box ),
+				   "enter_notify_event",
+				   GTK_SIGNAL_FUNC ( met_en_prelight ),
+				   NULL );
+	      gtk_signal_connect ( GTK_OBJECT ( event_box ),
+				   "leave_notify_event",
+				   GTK_SIGNAL_FUNC ( met_en_normal ),
+				   NULL );
+	      gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
+					  "button_press_event",
+					  GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
+					  (GtkObject *) operation );
 	      gtk_table_attach ( GTK_TABLE ( table_etat ),
-				 label,
+				 event_box,
 				 colonne, colonne + 1,
 				 ligne, ligne + 1,
 				 GTK_SHRINK | GTK_FILL,
 				 GTK_SHRINK | GTK_FILL,
 				 0, 0 );
+	      gtk_widget_show ( event_box );
+
+	      label = gtk_label_new ( operation -> no_piece_comptable );
+	      gtk_misc_set_alignment ( GTK_MISC ( label ),
+				       0,
+				       0.5 );
+	      gtk_widget_set_style ( label,
+				     style_label_nom_compte );
+	      gtk_container_add ( GTK_CONTAINER ( event_box ),
+				  label );
 	      gtk_widget_show ( label );
 	    }
 	  colonne = colonne + 2;
@@ -2350,17 +2543,36 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 	{
 	  if ( operation -> info_banque_guichet )
 	    {
-	      label = gtk_label_new ( operation -> info_banque_guichet );
-	      gtk_misc_set_alignment ( GTK_MISC ( label ),
-				       0,
-				       0.5 );
+	      event_box = gtk_event_box_new ();
+	      gtk_signal_connect ( GTK_OBJECT ( event_box ),
+				   "enter_notify_event",
+				   GTK_SIGNAL_FUNC ( met_en_prelight ),
+				   NULL );
+	      gtk_signal_connect ( GTK_OBJECT ( event_box ),
+				   "leave_notify_event",
+				   GTK_SIGNAL_FUNC ( met_en_normal ),
+				   NULL );
+	      gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
+					  "button_press_event",
+					  GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
+					  (GtkObject *) operation );
 	      gtk_table_attach ( GTK_TABLE ( table_etat ),
-				 label,
+				 event_box,
 				 colonne, colonne + 1,
 				 ligne, ligne + 1,
 				 GTK_SHRINK | GTK_FILL,
 				 GTK_SHRINK | GTK_FILL,
 				 0, 0 );
+	      gtk_widget_show ( event_box );
+
+	      label = gtk_label_new ( operation -> info_banque_guichet );
+	      gtk_misc_set_alignment ( GTK_MISC ( label ),
+				       0,
+				       0.5 );
+	      gtk_widget_set_style ( label,
+				     style_label_nom_compte );
+	      gtk_container_add ( GTK_CONTAINER ( event_box ),
+				  label );
 	      gtk_widget_show ( label );
 	    }
 	  colonne = colonne + 2;
@@ -2379,17 +2591,37 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 	      struct struct_no_rapprochement *rapprochement;
 
 	      rapprochement = pointeur -> data;
-	      label = gtk_label_new ( rapprochement -> nom_rapprochement );
-	      gtk_misc_set_alignment ( GTK_MISC ( label ),
-				       0,
-				       0.5 );
+
+	      event_box = gtk_event_box_new ();
+	      gtk_signal_connect ( GTK_OBJECT ( event_box ),
+				   "enter_notify_event",
+				   GTK_SIGNAL_FUNC ( met_en_prelight ),
+				   NULL );
+	      gtk_signal_connect ( GTK_OBJECT ( event_box ),
+				   "leave_notify_event",
+				   GTK_SIGNAL_FUNC ( met_en_normal ),
+				   NULL );
+	      gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
+					  "button_press_event",
+					  GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
+					  (GtkObject *) operation );
 	      gtk_table_attach ( GTK_TABLE ( table_etat ),
-				 label,
+				 event_box,
 				 colonne, colonne + 1,
 				 ligne, ligne + 1,
 				 GTK_SHRINK | GTK_FILL,
 				 GTK_SHRINK | GTK_FILL,
 				 0, 0 );
+	      gtk_widget_show ( event_box );
+
+	      label = gtk_label_new ( rapprochement -> nom_rapprochement );
+	      gtk_misc_set_alignment ( GTK_MISC ( label ),
+				       0,
+				       0.5 );
+	      gtk_widget_set_style ( label,
+				     style_label_nom_compte );
+	      gtk_container_add ( GTK_CONTAINER ( event_box ),
+				  label );
 	      gtk_widget_show ( label );
 	    }
 	  colonne = colonne + 2;
@@ -2398,6 +2630,28 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 
 
       /* on affiche le montant au bout de la ligne */
+
+      event_box = gtk_event_box_new ();
+      gtk_signal_connect ( GTK_OBJECT ( event_box ),
+			   "enter_notify_event",
+			   GTK_SIGNAL_FUNC ( met_en_prelight ),
+			   NULL );
+      gtk_signal_connect ( GTK_OBJECT ( event_box ),
+			   "leave_notify_event",
+			   GTK_SIGNAL_FUNC ( met_en_normal ),
+			   NULL );
+      gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
+				  "button_press_event",
+				  GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
+				  (GtkObject *) operation );
+      gtk_table_attach ( GTK_TABLE ( table_etat ),
+			 event_box,
+			 GTK_TABLE ( table_etat ) -> ncols - 1, GTK_TABLE ( table_etat ) -> ncols,
+			 ligne, ligne + 1,
+			 GTK_SHRINK | GTK_FILL,
+			 GTK_SHRINK | GTK_FILL,
+			 0, 0 );
+      gtk_widget_show ( event_box );
 
       if ( devise_compte_en_cours_etat
 	   &&
@@ -2420,13 +2674,10 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
       gtk_misc_set_alignment ( GTK_MISC ( label ),
 			       0,
 			       0.5 );
-      gtk_table_attach ( GTK_TABLE ( table_etat ),
-			 label,
-			 GTK_TABLE ( table_etat ) -> ncols - 1, GTK_TABLE ( table_etat ) -> ncols,
-			 ligne, ligne + 1,
-			 GTK_SHRINK | GTK_FILL,
-			 GTK_SHRINK | GTK_FILL,
-			 0, 0 );
+      gtk_widget_set_style ( label,
+			     style_label_nom_compte );
+      gtk_container_add ( GTK_CONTAINER ( event_box ),
+			  label );
       gtk_widget_show ( label );
 
       if ( ligne_debut_partie == -1 )
@@ -3644,8 +3895,45 @@ gint gtktable_affiche_titres_colonnes ( gint ligne )
 /*****************************************************************************************************/
 
 
+/*****************************************************************************************************/
 gint gtktable_finish ()
 {
   /* Nothing to do in GTK */
   return 1;
 }
+/*****************************************************************************************************/
+
+
+/*****************************************************************************************************/
+/* cette fonction est appelée si on click sur une opé dans un état */
+/* elle affiche la liste des opés sur cette opé */
+/*****************************************************************************************************/
+
+void gtktable_click_sur_ope_etat ( struct structure_operation *operation )
+{
+  /* si c'est une opé de ventilation, on affiche l'opération mère */
+
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+
+  if ( operation -> no_operation_ventilee_associee )
+    operation = g_slist_find_custom ( LISTE_OPERATIONS,
+				      GINT_TO_POINTER ( operation -> no_operation_ventilee_associee ),
+				      (GCompareFunc) recherche_operation_par_no ) -> data;
+
+  /* passage sur le compte concerné */
+
+  changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
+
+  /* récupération de la ligne de l'opé dans la liste ; affichage de toutes les opé si nécessaire */
+
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+  if ( operation -> pointe == 2 && !AFFICHAGE_R )
+    change_aspect_liste ( NULL,
+			  2 );
+
+  OPERATION_SELECTIONNEE = operation;
+
+  selectionne_ligne ( compte_courant );
+}
+/*****************************************************************************************************/

@@ -318,6 +318,7 @@ GtkWidget *frame_etat_echeances_auto_accueil;
 GtkWidget *frame_etat_echeances_finies;
 GtkWidget *frame_etat_soldes_minimaux_autorises;
 GtkWidget *frame_etat_soldes_minimaux_voulus;
+GtkStyle *style_label_nom_compte;
 GtkStyle *style_label;
 GtkWidget *separateur_passif_manu;
 GtkWidget *separateur_manu_auto;
