@@ -1,0 +1,149 @@
+<HTML>
+<HEAD><TITLE>Translating Grisbi</TITLE>
+
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
+<meta name="generator" content="Bluefish 0.9">
+</HEAD>
+<BODY BGCOLOR="#ffff99">
+
+<H1 ALIGN=center>Translating Grisbi</H1>
+
+<H3 ALIGN=center>Copyright © 2001-2003 Daniel <FONT COLOR=navy>Cartron</FONT></H3>
+<H4 ALIGN=center>English translation: Daniel <FONT COLOR=navy>Cartron</FONT></H4>
+<H4 ALIGN=center>Proof reading: Sébastien <FONT COLOR=navy>Blondeel</FONT> AKA SBI</H4>
+<H3 ALIGN=center>Copyright © 2004 Alain <FONT COLOR=navy>Portal</FONT></H3>
+
+<H3 ALIGN=center>Last update: April, 11st 2004</H3>
+
+Grisbi needs your help for translations. If you can do some translations
+in a language not yet implemented, please feel free to send a mail to 
+<a href="mailto:grisbi-l10n@lists.sourceforge.net?Subject=[grisbi] Translation & Body="I
+ can translate the user's guide in the following language:">the translation team</a>
+explaining in which language you can translate.
+
+
+<h1>The files to translate</h1>
+
+There are several kinds of files to translate. We'll check all of them.
+
+<h2>The website</h2>
+
+Not the more usefull for the programm but the more usefull for advertising and
+finding some help. 
+
+Once the files are translated you have to rename them with your 
+<a href="http://www.w3.org/WAI/ER/IG/ert/iso639.htm">2 letter ISO-639 language code</a>
+e.g. grisbi-home-en.txt for English or grisbi-home-fr.txt for French.
+
+</ul>
+
+<h2>The programm</h2>
+
+You just have to translate the grisbi.pot file. Then rename it with your 
+<a href="http://www.w3.org/WAI/ER/IG/ert/iso639.htm">2 letter ISO-639 language code</a>
+and .po, e.g. en.po for English or fr.po for French.
+
+
+<h2>The help files</h2>
+
+There are three HTML files and a text file: 
+
+<ul>
+
+<li>quickstart.html;</li>
+<li>grisbi-manuel.html;</li>
+<li>translation.html;</li>
+<li>topic.dat.</li>
+
+</ul>
+
+<h2>The user's guide</h2>
+
+The user's guide is made of several .tex files, a Makefile, an image 
+directory and a tool directory.
+
+The image directory contains all the screenshots and the icons in two
+separate sub-directories. We will soon provide you some scripts to make
+the screenshots automatically. We'll also provide you a script that will
+warn you as soon as a .po change implies a new screenshot. But for the
+moment you'll have to do it by yourself. Sorry for the inconvenience.
+
+The tool directory contains the scripts (mainly in Perl) that will help
+you to compile the sources.
+
+The .tex files will be soon connected to the .po files, so you won't
+have to translate any text that appears in the GUI.
+
+<h1>How to translate</h1>
+
+We'll give you some advice that you are not abliged to follow. Only the
+result matters...
+
+<h2>The website</h2>
+
+As they are HTML files, you can use any editor you want. You can use a
+text editor or an editor dedicated to the HTML as Bluefish or Quanta+.
+
+<h2>The program</h2>
+
+The .po file can be translated easily with Kbabel, Emacs, or even some
+VI clone... Choose the one you want.
+
+If you are not used to any of these programs, Kbabel will certainly be
+the easiest one for you.
+
+<h2>The help files</h2>
+
+As they are HTML and text files, you can use any editor you want for
+translating them. Just be careful not to translate the tags, only the
+text :-) For the topic.dat you <b>must</b> only translate the second
+term of each line (which is the label of the entry in the help menu) but
+not the first one (which is the name of the related file).
+
+<h2>The user's guide</h2>
+
+The user's guide is written in LaTeX, including macros which will help
+to compile the source in two differents types, text-only or illustrated.
+We therefore advise you to keep this format. If you are not used with
+LaTeX, you should try Kile, which is a LaTeX-editor dedicated to KDE. If
+you really want another file format, let us know, but you'll probably
+have difficulties to maintain two differents types at the same time...
+
+<h1>How to verify</h1>
+
+Before commiting your translations it's your duty to control they will work.
+
+<h2>The website</h2>
+
+As the website uses text files with the HTML tags you just have to write
+them with an HTML editor and then copy the text part between tne body
+and /body tags and it should work. Anyway, if it doesn't, it's easy to
+see on the site, so you just have to correct.
+
+<h2>The program</h2>
+
+You should be able to compile the program on your box. If you never do
+such a thing don't panic we'll help you. You just have to install the
+needed libraries then compile as it's explained in the user's guide.
+
+<h2>The help files</h2>
+
+They are HTML and TXT files, so it's easy to see if they work. And if
+you copy them in the right location on your box you can see imediately
+if it's correct.
+
+The directory of your language is
+/usr/share/gnome/help/grisbi/<i>lang</i> where <i>lang</i> is the 2
+letters code for your language.
+
+<h2>The user's guide</h2>
+
+
+<!-- SBIREM explain hot to compile them -->
+
+If you use the LaTeX files you just have to compile them with the tools
+provided, and then control the result either in HTML or PDF format.
+
+
+</BODY>
+</HTML>
