@@ -639,7 +639,6 @@ extern GtkWidget *bouton_utiliser_imputation_budgetaire;
 extern GtkWidget *bouton_utiliser_piece_comptable;
 extern GtkWidget *bouton_utiliser_info_banque_guichet;
 extern GtkWidget *bouton_afficher_boutons_valider_annuler;
-extern GtkWidget *bouton_choix_devise_totaux_tiers;
 extern GtkWidget *bouton_afficher_nb_ecritures;
 extern GtkWidget *bouton_classer_liste_par_date;
 extern GtkWidget *bouton_classer_liste_par_date_bancaire;

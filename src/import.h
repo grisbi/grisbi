@@ -3,6 +3,7 @@ void importer_fichier ( void );
 void selection_fichiers_import ( void );
 gboolean fichier_choisi_importation ( GtkWidget *fenetre );
 gboolean affichage_recapitulatif_importation ( void );
+void ajout_devise_dans_liste_import ( void );
 void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 				gint position );
 void traitement_operations_importees ( void );

@@ -178,13 +178,13 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 		recuperation_donnees_qif ( fichier );
 	    else
 	    {
-/* 		pour l'instant html non implémenté */
+		/* 		pour l'instant html non implémenté */
 		if ( pointeur_char[0] == '<' )
 		    recuperation_donnees_html ( fichier );
 		else
 		{
-		  dialogue_error_hint ( _("Grisbi is unable to determine type of this file.  If it is a QIF, an OFX file or a HTML page from a online bank service, please contact the grisbi team to resolve this problem."),
-					 g_strdup_printf ( _("File \"%s\" cannot be imported."), liste_selection[i]) );
+		    dialogue_error_hint ( _("Grisbi is unable to determine type of this file.  If it is a QIF, an OFX file or a HTML page from a online bank service, please contact the grisbi team to resolve this problem."),
+					  g_strdup_printf ( _("File \"%s\" cannot be imported."), liste_selection[i]) );
 		    free ( pointeur_char );
 		    return;
 		}
@@ -415,7 +415,7 @@ gboolean affichage_recapitulatif_importation ( void )
 				GTK_RELIEF_NONE );
 	gtk_signal_connect ( GTK_OBJECT ( bouton ),
 			     "clicked",
-			     GTK_SIGNAL_FUNC ( ajout_devise ),
+			     GTK_SIGNAL_FUNC ( ajout_devise_dans_liste_import ),
 			     NULL );
 	gtk_box_pack_start ( GTK_BOX ( hbox ),
 			     bouton,
@@ -454,6 +454,34 @@ gboolean affichage_recapitulatif_importation ( void )
 }
 /* *******************************************************************************/
 
+/* *******************************************************************************/
+void ajout_devise_dans_liste_import ( void )
+{
+    /* permet d'ajouter une devise au moment de l'importation d'opérations */
+
+    GSList *liste_tmp;
+
+
+    ajout_devise (NULL);
+
+
+    /*     on met maintenant à jour les options menu des devise dans la liste des comptes importés */
+
+    liste_tmp = liste_comptes_importes;
+
+    while ( liste_tmp )
+    {
+	struct struct_compte_importation *compte;
+
+	compte = liste_tmp -> data;
+	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( compte -> bouton_devise ),
+				   creation_option_menu_devises ( 0,
+								  liste_struct_devises ));
+	gtk_widget_show_all ( compte -> bouton_devise );
+	liste_tmp = liste_tmp -> next;
+    }
+}
+/* *******************************************************************************/
 
 
 /* *******************************************************************************/
@@ -548,10 +576,10 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 	    /* 		soit elle n'est pas créé (l'utilisateur la créera une fois la fenetre affichée) */
 	    /* 		soit elle est créé mais pas avec le bon code */
 
-	  dialogue_warning_hint ( g_strdup_printf ( _( "Currency of imported account '%s' is %s.  Either this currency doesn't exist so you have to create it in dialog window, or this currency already exists but the ISO code is wrong.\nTo avoid this message, please set its ISO code in configuration."),
-						    compte -> nom_de_compte,
-						    compte -> devise ),
-				  g_strdup_printf ( _("Can't associate ISO 4217 code for currency '%s'."),  compte -> devise ));
+	    dialogue_warning_hint ( g_strdup_printf ( _( "Currency of imported account '%s' is %s.  Either this currency doesn't exist so you have to create it in dialog window, or this currency already exists but the ISO code is wrong.\nTo avoid this message, please set its ISO code in configuration."),
+						      compte -> nom_de_compte,
+						      compte -> devise ),
+				    g_strdup_printf ( _("Can't associate ISO 4217 code for currency '%s'."),  compte -> devise ));
 
 	}
     }
@@ -1496,9 +1524,9 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 		/* 		    on propose encore d'arrêter... */
 
 
-	      if ( question_yes_no_hint ( _("The id of the imported and chosen accounts are different"),
-					  _("Perhaps you choose a wrong account ?  If you choose to continue, the id of the account will be changed.  Do you want to continue ?")))
-		ID_COMPTE = g_strdup ( compte_import -> id_compte );
+		if ( question_yes_no_hint ( _("The id of the imported and chosen accounts are different"),
+					    _("Perhaps you choose a wrong account ?  If you choose to continue, the id of the account will be changed.  Do you want to continue ?")))
+		    ID_COMPTE = g_strdup ( compte_import -> id_compte );
 		else
 		    return;
 	    }
@@ -2223,8 +2251,8 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 		/* 		    on propose encore d'arrêter... */
 
 
-	      if ( question_yes_no_hint ( _("The id of the imported and chosen accounts are different"),
-					  _("Perhaps you choose a wrong account ?  If you choose to continue, the id of the account will be changed.  Do you want to continue ?")))
+		if ( question_yes_no_hint ( _("The id of the imported and chosen accounts are different"),
+					    _("Perhaps you choose a wrong account ?  If you choose to continue, the id of the account will be changed.  Do you want to continue ?")))
 		    ID_COMPTE = g_strdup ( compte_import -> id_compte );
 		else
 		    return;
@@ -2744,11 +2772,11 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 	    modification_fichier ( TRUE );
 
 	    if ( result != GTK_RESPONSE_OK )
-	      break;
+		break;
 
-    default:
-      gtk_widget_destroy ( dialog );
-      break;
+	default:
+	    gtk_widget_destroy ( dialog );
+	    break;
     }
 
     return ( FALSE );

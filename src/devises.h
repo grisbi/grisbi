@@ -1,8 +1,7 @@
 void creation_devises_de_base ( void );
 GtkWidget *creation_option_menu_devises ( gint devise_cachee,
 					  GSList *liste_tmp );
-void ajout_devise ( GtkWidget *bouton,
-		    GtkWidget *widget );
+void ajout_devise ( GtkWidget *widget );
 gint bloque_echap_choix_devise ( GtkWidget *dialog,
 				 GdkEventKey *key,
 				 gpointer null );

@@ -290,7 +290,7 @@ select_currency_in_iso_list (GtkTreeSelection *selection,
  */
 void update_currency_widgets()
 {
-    gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ) -> menu );
+   gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ) -> menu );
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ),
 			       creation_option_menu_devises ( -1,
 							      liste_struct_devises ));
@@ -302,7 +302,7 @@ void update_currency_widgets()
     /* on modifie la liste des devises de l'option menu du detail des comptes */
 
     gtk_widget_destroy ( GTK_OPTION_MENU ( detail_devise_compte ) -> menu );
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( detail_devise_compte ),
+     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( detail_devise_compte ),
 			       creation_option_menu_devises ( 0,
 							      liste_struct_devises ));
     gtk_signal_connect_object ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_devise_compte  ) ),
@@ -316,17 +316,7 @@ void update_currency_widgets()
 									   GINT_TO_POINTER ( DEVISE ),
 									   ( GCompareFunc ) recherche_devise_par_no )));
 
-    /* on recrée le bouton devise de l'onglet affichage */
-
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_choix_devise_totaux_tiers ),
-			       creation_option_menu_devises ( -1,
-							      liste_struct_devises ) );
-    gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_choix_devise_totaux_tiers ),
-				  g_slist_position ( liste_struct_devises,
-						     g_slist_find_custom ( liste_struct_devises,
-									   GINT_TO_POINTER ( no_devise_totaux_tiers ),
-									   ( GCompareFunc ) recherche_devise_par_no )));
-
+ 
     /* on recrée les boutons de devises dans la conf de l'état */
 
     if ( onglet_config_etat )
@@ -348,7 +338,7 @@ void update_currency_widgets()
 	selectionne_devise_ib_etat_courant ();
 	selectionne_devise_tiers_etat_courant ();
     }
-
+ 
     mise_a_jour_tiers ();
     mise_a_jour_categ ();
     mise_a_jour_imputation ();
@@ -659,8 +649,7 @@ GtkWidget * new_currency_list ()
 /* soit c'est la clist des paramÃ¨tres, dans ce cas on utilise liste_struct_devises_tmp */
 /***********************************************************************************************************/
 
-void ajout_devise ( GtkWidget *bouton,
-		    GtkWidget *widget )
+void ajout_devise ( GtkWidget *widget )
 {
     GtkWidget *dialog, *label, *hbox, *table;
     GtkWidget *check_bouton, *entree_conversion_euro;
@@ -756,10 +745,9 @@ reprise_dialog:
     gtk_widget_show_all ( GTK_WIDGET ( dialog ) );
     resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
 
-
     switch ( resultat )
     {
-	case 0 :
+	case 1 :
 
 	    nom_devise = g_strstrip ( g_strdup ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom ))));
 	    code_devise = g_strstrip ( g_strdup ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_code ))));
@@ -824,25 +812,30 @@ reprise_dialog:
 							    devise );
 		    nb_devises++;
 
-		    menu = gtk_option_menu_get_menu ( GTK_OPTION_MENU ( widget ));
+		    /* 		    si on vient de l'import de fichier, widget est null car on met à jour les boutons après */
 
-		    item = gtk_menu_item_new_with_label ( g_strconcat ( devise -> nom_devise,
-									" ( ",
-									devise_name ( devise ),
-									" )",
-									NULL ));
-		    g_object_set_data ( G_OBJECT ( item ),
-					"adr_devise",
-					devise );
-		    g_object_set_data ( G_OBJECT ( item ),
-					"no_devise",
-					GINT_TO_POINTER ( devise -> no_devise ) );
-		    gtk_menu_append ( GTK_MENU ( menu ),
-				      item );
-		    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget ),
-					       menu );
+		    if ( widget )
+		    {
+			menu = gtk_option_menu_get_menu ( GTK_OPTION_MENU ( widget ));
 
-		    gtk_widget_show (item );
+			item = gtk_menu_item_new_with_label ( g_strconcat ( devise -> nom_devise,
+									    " ( ",
+									    devise_name ( devise ),
+									    " )",
+									    NULL ));
+			g_object_set_data ( G_OBJECT ( item ),
+					    "adr_devise",
+					    devise );
+			g_object_set_data ( G_OBJECT ( item ),
+					    "no_devise",
+					    GINT_TO_POINTER ( devise -> no_devise ) );
+			gtk_menu_append ( GTK_MENU ( menu ),
+					  item );
+			gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget ),
+						   menu );
+
+			gtk_widget_show (item );
+		    }
 		}
 
 		modification_fichier ( TRUE );
@@ -1121,10 +1114,10 @@ gint selection_devise ( gchar *nom_du_compte )
     gtk_widget_show ( option_menu );
 
     bouton = gtk_button_new_with_label ( _("Add a currency") );
-    gtk_signal_connect ( GTK_OBJECT ( bouton ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( ajout_devise ),
-			 option_menu );
+    gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
+				"clicked",
+				GTK_SIGNAL_FUNC ( ajout_devise ),
+				GTK_OBJECT ( option_menu ));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton,
 			 FALSE,
@@ -1607,10 +1600,10 @@ GtkWidget *onglet_devises ( void )
 
 	/* Button "Add" */
 	bouton = gtk_button_new_from_stock (GTK_STOCK_ADD);
-	gtk_signal_connect ( GTK_OBJECT ( bouton ),
-			     "clicked",
-			     GTK_SIGNAL_FUNC  ( ajout_devise ),
-			     clist_devises_parametres );
+	gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
+				    "clicked",
+				    GTK_SIGNAL_FUNC  ( ajout_devise ),
+				    GTK_OBJECT (clist_devises_parametres ));
 	gtk_box_pack_start ( GTK_BOX ( vbox ), bouton,
 			     FALSE, FALSE, 5 );
 
