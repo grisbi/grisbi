@@ -314,7 +314,6 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_OK, GTK_RESPONSE_OK,
 					   NULL );
-    gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), GTK_WINDOW ( window ));
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER );
 
     /* met le formulaire dans la boite de dialogue */
@@ -329,14 +328,14 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
     etat.formulaire_echeance_dans_fenetre = 1;
     gtk_widget_show ( formulaire_echeancier );
     if ( etat.affiche_boutons_valider_annuler )
-      {
+    {
 	gtk_widget_hide ( separateur_formulaire_echeancier );
 	gtk_widget_hide ( hbox_valider_annuler_echeance );
-      }
+    }
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
     if ( resultat == GTK_RESPONSE_OK )
-      fin_edition_echeance ();
+	fin_edition_echeance ();
 
     gtk_widget_reparent ( formulaire_echeancier, ancien_parent );
     etat.formulaire_echeance_dans_fenetre = 0;
@@ -355,7 +354,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
     echeance_selectionnnee = ancienne_selection_echeance;
 
     if ( !etat.formulaire_echeancier_toujours_affiche )
-      gtk_widget_hide ( frame_formulaire_echeancier );
+	gtk_widget_hide ( frame_formulaire_echeancier );
 
     return FALSE;
 }

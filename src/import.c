@@ -261,8 +261,6 @@ gboolean affichage_recapitulatif_importation ( void )
 							     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 							     GTK_STOCK_OK, GTK_RESPONSE_OK,
 							     NULL );
-	gtk_window_set_transient_for ( GTK_WINDOW ( dialog_recapitulatif ),
-				       GTK_WINDOW ( window ) );
 	gtk_window_set_policy ( GTK_WINDOW ( dialog_recapitulatif ),
 				TRUE,
 				TRUE,
@@ -1767,8 +1765,6 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 					   GTK_STOCK_OK,
 					   GTK_RESPONSE_OK,
 					   NULL );
-    gtk_window_set_transient_for ( GTK_WINDOW ( dialog_recapitulatif ),
-				   GTK_WINDOW ( window ));
     gtk_widget_set_usize ( dialog,
 			   FALSE,
 			   300 );

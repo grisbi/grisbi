@@ -55,144 +55,144 @@
 void mise_en_route_attente ( gchar *message )
 {
 
-  if ( !fenetre_patience )
+    if ( !fenetre_patience )
     {
-      /* création de la fenetre */
+	/* création de la fenetre */
 
-      GtkWidget *vbox;
-      GtkWidget *frame;
-      GtkWidget *label;
-      GtkWidget *aire_dessin;
+	GtkWidget *vbox;
+	GtkWidget *frame;
+	GtkWidget *label;
+	GtkWidget *aire_dessin;
 
-      fenetre_patience = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
-      gtk_window_set_policy ( GTK_WINDOW ( fenetre_patience ),
-			      FALSE,
-			      FALSE,
-			      TRUE );
-      gtk_window_set_transient_for ( GTK_WINDOW ( fenetre_patience ),
-				     GTK_WINDOW ( window ));
-      gtk_widget_set_usize ( fenetre_patience,
-			     200,
-			     FALSE );
+	fenetre_patience = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
+	gtk_window_set_policy ( GTK_WINDOW ( fenetre_patience ),
+				FALSE,
+				FALSE,
+				TRUE );
+	gtk_window_set_transient_for ( GTK_WINDOW ( fenetre_patience ),
+				       GTK_WINDOW ( window ));
+	gtk_widget_set_usize ( fenetre_patience,
+			       200,
+			       FALSE );
 	g_signal_connect ( G_OBJECT ( fenetre_patience ),
-			"delete-event",
-			G_CALLBACK ( gtk_true ),
-			NULL );
+			   "delete-event",
+			   G_CALLBACK ( gtk_true ),
+			   NULL );
 
-      frame = gtk_frame_new ( NULL );
-      gtk_container_add ( GTK_CONTAINER ( fenetre_patience ),
-			  frame );
-      gtk_widget_show ( frame );
+	frame = gtk_frame_new ( NULL );
+	gtk_container_add ( GTK_CONTAINER ( fenetre_patience ),
+			    frame );
+	gtk_widget_show ( frame );
 
-      vbox = gtk_vbox_new ( FALSE,
-			    5 );
-      gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
-				       10 );
-      gtk_container_add ( GTK_CONTAINER ( frame ),
-			  vbox );
-      gtk_widget_show ( vbox );
+	vbox = gtk_vbox_new ( FALSE,
+			      5 );
+	gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
+					 10 );
+	gtk_container_add ( GTK_CONTAINER ( frame ),
+			    vbox );
+	gtk_widget_show ( vbox );
 
-      label = gtk_label_new ( _("Wait please...") );
-      gtk_box_pack_start ( GTK_BOX ( vbox ),
-			   label,
-			   FALSE,
-			   FALSE, 
-			   10 );
-      gtk_widget_show ( label );
+	label = gtk_label_new ( _("Wait please...") );
+	gtk_box_pack_start ( GTK_BOX ( vbox ),
+			     label,
+			     FALSE,
+			     FALSE, 
+			     10 );
+	gtk_widget_show ( label );
 
-      aire_dessin = gtk_hbox_new ( FALSE,
-				   0 );
-      gtk_box_pack_start ( GTK_BOX ( vbox ),
-			   aire_dessin,
-			   FALSE,
-			   FALSE, 
-			   10 );
-      gtk_widget_show ( aire_dessin );
+	aire_dessin = gtk_hbox_new ( FALSE,
+				     0 );
+	gtk_box_pack_start ( GTK_BOX ( vbox ),
+			     aire_dessin,
+			     FALSE,
+			     FALSE, 
+			     10 );
+	gtk_widget_show ( aire_dessin );
 
-      image[0] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g8_xpm );
-      gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
-			  image[0] );
-      gtk_widget_show ( image[0] );
+	image[0] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g8_xpm );
+	gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
+			    image[0] );
+	gtk_widget_show ( image[0] );
 
-      image[1] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g9_xpm );
-      gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
-			  image[1] );
+	image[1] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g9_xpm );
+	gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
+			    image[1] );
 
-      image[2] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g10_xpm );
-      gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
-			  image[2] );
+	image[2] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g10_xpm );
+	gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
+			    image[2] );
 
-      image[3] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g11_xpm );
-      gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
-			  image[3] );
+	image[3] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g11_xpm );
+	gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
+			    image[3] );
 
-      image[4] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g12_xpm );
-      gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
-			  image[4] );
+	image[4] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g12_xpm );
+	gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
+			    image[4] );
 
-      image[5] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g13_xpm );
-      gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
-			  image[5] );
+	image[5] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g13_xpm );
+	gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
+			    image[5] );
 
-      image[6] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g14_xpm );
-      gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
-			  image[6] );
+	image[6] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g14_xpm );
+	gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
+			    image[6] );
 
-      image[7] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g15_xpm );
-      gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
-			  image[7] );
+	image[7] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g15_xpm );
+	gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
+			    image[7] );
 
-      image[8] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g1_xpm );
-      gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
-			  image[8] );
+	image[8] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g1_xpm );
+	gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
+			    image[8] );
 
-      image[9] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g2_xpm );
-      gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
-			  image[9] );
- 
-     image[10] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g3_xpm );
-      gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
-			  image[10] );
+	image[9] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g2_xpm );
+	gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
+			    image[9] );
 
-      image[11] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g4_xpm );
-      gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
-			  image[11] );
+	image[10] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g3_xpm );
+	gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
+			    image[10] );
 
-      image[12] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g5_xpm );
-      gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
-			  image[12] );
+	image[11] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g4_xpm );
+	gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
+			    image[11] );
 
-      image[13] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g6_xpm );
-      gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
-			  image[13] );
+	image[12] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g5_xpm );
+	gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
+			    image[12] );
 
-      image[14] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g7_xpm );
-      gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
-			  image[14] );
+	image[13] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g6_xpm );
+	gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
+			    image[13] );
 
- 
-      label_patience = gtk_label_new ( "" );
-      gtk_box_pack_start ( GTK_BOX ( vbox ),
-			   label_patience,
-			   FALSE,
-			   FALSE,
-			   10 );
-      gtk_widget_show ( label_patience );
+	image[14] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g7_xpm );
+	gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
+			    image[14] );
 
-      image_patience_en_cours = 0;
+
+	label_patience = gtk_label_new ( "" );
+	gtk_box_pack_start ( GTK_BOX ( vbox ),
+			     label_patience,
+			     FALSE,
+			     FALSE,
+			     10 );
+	gtk_widget_show ( label_patience );
+
+	image_patience_en_cours = 0;
     }
 
-  gtk_label_set_text ( GTK_LABEL ( label_patience ),
-		       message );
+    gtk_label_set_text ( GTK_LABEL ( label_patience ),
+			 message );
 
-  gtk_widget_show ( fenetre_patience );
+    gtk_widget_show ( fenetre_patience );
 
-  while ( g_main_iteration ( FALSE ) );
+    while ( g_main_iteration ( FALSE ) );
 
-  timeout_patience = gtk_timeout_add ( 100,
-				       (GtkFunction) animation_patienter,
-				       NULL );
-  patience_en_cours = 1;
+    timeout_patience = gtk_timeout_add ( 100,
+					 (GtkFunction) animation_patienter,
+					 NULL );
+    patience_en_cours = 1;
 }
 /* ******************************************************************************************** */
 
@@ -200,9 +200,9 @@ void mise_en_route_attente ( gchar *message )
 /* ******************************************************************************************** */
 void update_attente ( gchar *message )
 {
-  gtk_label_set_text ( GTK_LABEL ( label_patience ),
-		       message );
-  while ( g_main_iteration ( FALSE ) );
+    gtk_label_set_text ( GTK_LABEL ( label_patience ),
+			 message );
+    while ( g_main_iteration ( FALSE ) );
 
 }
 /* ******************************************************************************************** */
@@ -211,10 +211,10 @@ void update_attente ( gchar *message )
 /* ******************************************************************************************** */
 void annulation_attente ()
 {
-  gtk_timeout_remove ( timeout_patience );
-  gtk_widget_destroy ( fenetre_patience );
-  fenetre_patience = NULL;
-  patience_en_cours = 0;
+    gtk_timeout_remove ( timeout_patience );
+    gtk_widget_destroy ( fenetre_patience );
+    fenetre_patience = NULL;
+    patience_en_cours = 0;
 }
 /* ******************************************************************************************** */
 
@@ -223,13 +223,13 @@ void annulation_attente ()
 /* *********************************************************************************************************** */
 gint animation_patienter ()
 {
-	  gtk_widget_hide (  image[image_patience_en_cours] );
-	  image_patience_en_cours = (image_patience_en_cours + 1)%15;
-	  gtk_widget_show ( image[image_patience_en_cours] );
+    gtk_widget_hide (  image[image_patience_en_cours] );
+    image_patience_en_cours = (image_patience_en_cours + 1)%15;
+    gtk_widget_show ( image[image_patience_en_cours] );
 
-	  while ( g_main_iteration ( FALSE ) );
+    while ( g_main_iteration ( FALSE ) );
 
-  return TRUE;
+    return TRUE;
 }
 /* *********************************************************************************************************** */
 

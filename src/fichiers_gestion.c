@@ -464,21 +464,19 @@ gboolean enregistrement_fichier ( gint origine )
 	gint resultat;
 	struct stat test_fichier;
 
-	dialog = gnome_dialog_new ( _("Name the accounts file"),
-				    GNOME_STOCK_BUTTON_OK,
-				    GNOME_STOCK_BUTTON_CANCEL,
-				    NULL );
-	gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
-				       GTK_WINDOW ( window ));
-	gnome_dialog_set_default ( GNOME_DIALOG ( dialog ),
-				   0 );
+	dialog = gtk_dialog_new_with_buttons ( _("Name the accounts file"),
+					       GTK_WINDOW (window),
+					       GTK_DIALOG_MODAL,
+					       GTK_STOCK_OK,0,
+					       GTK_STOCK_CANCEL,1,
+					       NULL );
 	gtk_signal_connect ( GTK_OBJECT ( dialog ),
 			     "destroy",
 			     GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
 			     "destroy" );
 
 	label = gtk_label_new ( COLON(_("Enter a name for the account file")) );
-	gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
 			     label,
 			     FALSE,
 			     FALSE,
@@ -491,8 +489,8 @@ gboolean enregistrement_fichier ( gint origine )
 				     TRUE );
 	gnome_file_entry_set_default_path ( GNOME_FILE_ENTRY ( fenetre_nom ),
 					    dernier_chemin_de_travail );
-	gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
-				       GTK_EDITABLE ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))));
+	gtk_entry_set_activates_default ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom )) ),
+					  TRUE );
 	gtk_widget_set_usize ( gnome_file_entry_gnome_entry ( GNOME_FILE_ENTRY ( fenetre_nom )),
 			       300,
 			       FALSE );
@@ -502,14 +500,14 @@ gboolean enregistrement_fichier ( gint origine )
 					   NULL ));
 	gtk_entry_set_position ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
 				 strlen (dernier_chemin_de_travail ));
-	gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
 			     fenetre_nom,
 			     FALSE,
 			     FALSE,
 			     0 );
 	gtk_widget_show ( fenetre_nom );
 
-	resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
+	resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
 	switch ( resultat )
 	{
@@ -517,7 +515,7 @@ gboolean enregistrement_fichier ( gint origine )
 		ancien_nom_fichier_comptes = nom_fichier_comptes;
 		nom_fichier_comptes = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
 
-		gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+		gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 
 		/* vérification que c'est possible */
 
@@ -554,7 +552,7 @@ gboolean enregistrement_fichier ( gint origine )
 		break;
 
 	    default :
-		gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+		gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 		return ( FALSE );
 	}
     }

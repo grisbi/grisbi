@@ -453,9 +453,9 @@ GtkWidget *creation_formulaire_echeancier ( void )
 			 GTK_SIGNAL_FUNC ( clique_champ_formulaire_echeancier ),
 			 GINT_TO_POINTER ( SCHEDULER_FORM_BUDGETARY ) );
     gtk_signal_connect_object ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ) -> entry ),
-			 "focus-in-event",
-			 GTK_SIGNAL_FUNC ( entree_prend_focus ),
-			 widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] );
+				"focus-in-event",
+				GTK_SIGNAL_FUNC ( entree_prend_focus ),
+				widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] );
     gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ) -> entry ),
 			 "focus-out-event",
 			 GTK_SIGNAL_FUNC ( entree_perd_focus_echeancier ),

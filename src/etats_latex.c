@@ -39,11 +39,11 @@ gchar * tempname;
 
 
 struct struct_etat_affichage latex_affichage = {
-  latex_initialise,
-  latex_finish,
-  latex_attach_hsep,
-  latex_attach_vsep,
-  latex_attach_label,
+    latex_initialise,
+    latex_finish,
+    latex_attach_hsep,
+    latex_attach_vsep,
+    latex_attach_label,
 };
 
 
@@ -55,93 +55,93 @@ struct struct_etat_affichage latex_affichage = {
 void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
 			  enum alignement align, struct structure_operation * ope )
 {
-  gchar * safe_text;
-  int pad, realsize, realcolumns;
+    gchar * safe_text;
+    int pad, realsize, realcolumns;
 
-  if ( !text )
-    text = "";
+    if ( !text )
+	text = "";
 
-  if ( y >= lastline )
+    if ( y >= lastline )
     {
-      lastcol = 0;
-      lastline = y2;
-      if ( ! last_is_hsep )
+	lastcol = 0;
+	lastline = y2;
+	if ( ! last_is_hsep )
 	{
-	  fprintf ( out, "\\\\\n" );
+	    fprintf ( out, "\\\\\n" );
 	}
     }
 
-  for ( pad = lastcol ; pad < x ; pad ++ )
+    for ( pad = lastcol ; pad < x ; pad ++ )
+	fprintf ( out, "&" );
+
+    if ( (x2 - x) > 1 )
+	fprintf ( out, "\\multicolumn{%d}{l}{", (x2 - x) );
+
+    realsize = (x2 - x);
+    if ( realsize > 1 )
+    {
+	if ( etat_courant -> afficher_opes )
+	{
+	    realsize /= 2;
+	    if ( x == 0 )
+		realsize ++;
+	}
+    }
+    if ( etat_courant -> afficher_opes )
+	realcolumns = (float)((nb_colonnes / 2) + 1);
+    else 
+	realcolumns = nb_colonnes;
+
+    fprintf ( out, 
+	      "\\begin{boxedminipage}{%f\\text%s}\n", 
+	      (float) realsize / (float) realcolumns,
+	      ( etat.print_config.orientation == LANDSCAPE ? "height" : "width") );
+
+    switch ( align )
+    {
+	case LEFT:
+	    fprintf ( out, "\\raggedright\n" );
+	    break;
+
+	case RIGHT:
+	    fprintf ( out, "\\raggedleft\n" );
+	    break;
+
+	case CENTER:
+	    break;
+    }
+
+    if ( ((int) properties) & TEXT_BOLD )
+    {
+	fprintf ( out, "\\bf\n");
+    }
+    if ( ((int) properties) & TEXT_ITALIC )
+    {
+	fprintf ( out, "\\em\n");
+    }
+    if ( ((int) properties) & TEXT_HUGE )
+    {
+	fprintf ( out, "\\huge\n");
+    }
+    if ( ((int) properties) & TEXT_LARGE )
+    {
+	fprintf ( out, "\\Large\n");
+    }
+    if ( ((int) properties) & TEXT_SMALL )
+    {
+	fprintf ( out, "\\small\n");
+    }
+
+    latex_safe(text);
+    fprintf ( out, "\\end{boxedminipage}", safe_text );
+
+    if ( (x2 - x) > 1 )
+	fprintf ( out, "}\n" );
+
     fprintf ( out, "&" );
 
-  if ( (x2 - x) > 1 )
-    fprintf ( out, "\\multicolumn{%d}{l}{", (x2 - x) );
-
-  realsize = (x2 - x);
-  if ( realsize > 1 )
-    {
-      if ( etat_courant -> afficher_opes )
-	{
-	  realsize /= 2;
-	  if ( x == 0 )
-	    realsize ++;
-	}
-    }
-  if ( etat_courant -> afficher_opes )
-    realcolumns = (float)((nb_colonnes / 2) + 1);
-  else 
-    realcolumns = nb_colonnes;
-
-  fprintf ( out, 
-	    "\\begin{boxedminipage}{%f\\text%s}\n", 
-	    (float) realsize / (float) realcolumns,
-	    ( etat.print_config.orientation == LANDSCAPE ? "height" : "width") );
-
-  switch ( align )
-    {
-    case LEFT:
-      fprintf ( out, "\\raggedright\n" );
-      break;
-  
-    case RIGHT:
-      fprintf ( out, "\\raggedleft\n" );
-      break;
-  
-    case CENTER:
-      break;
-    }
-
-  if ( ((int) properties) & TEXT_BOLD )
-    {
-      fprintf ( out, "\\bf\n");
-    }
-  if ( ((int) properties) & TEXT_ITALIC )
-    {
-      fprintf ( out, "\\em\n");
-    }
-  if ( ((int) properties) & TEXT_HUGE )
-    {
-      fprintf ( out, "\\huge\n");
-    }
-  if ( ((int) properties) & TEXT_LARGE )
-    {
-      fprintf ( out, "\\Large\n");
-    }
-  if ( ((int) properties) & TEXT_SMALL )
-    {
-      fprintf ( out, "\\small\n");
-    }
-
-  latex_safe(text);
-  fprintf ( out, "\\end{boxedminipage}", safe_text );
-
-  if ( (x2 - x) > 1 )
-    fprintf ( out, "}\n" );
-
-  fprintf ( out, "&" );
-
-  last_is_hsep = 0;
-  lastcol = x2;
+    last_is_hsep = 0;
+    lastcol = x2;
 }
 
 
@@ -152,22 +152,22 @@ void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y
  */
 void latex_attach_vsep ( int x, int x2, int y, int y2)
 {
-  int pad;
+    int pad;
 
-  if ( y >= lastline )
+    if ( y >= lastline )
     {
-      if ( ! last_is_hsep )
-	fprintf ( out, "\\\\\n" );
-      lastline = y2;
+	if ( ! last_is_hsep )
+	    fprintf ( out, "\\\\\n" );
+	lastline = y2;
     }
 
-  for ( pad = lastcol ; pad < x ; pad ++ )
-    fprintf ( out, "&" );
+    for ( pad = lastcol ; pad < x ; pad ++ )
+	fprintf ( out, "&" );
 
-  fprintf ( out, "{\\vrule}&" );
+    fprintf ( out, "{\\vrule}&" );
 
-  last_is_hsep = 0;
-  lastcol = x2;
+    last_is_hsep = 0;
+    lastcol = x2;
 }
 
 
@@ -178,206 +178,206 @@ void latex_attach_vsep ( int x, int x2, int y, int y2)
  */
 void latex_attach_hsep ( int x, int x2, int y, int y2)
 {
-  if ( ! last_is_hsep )
-    fprintf ( out, "\\\\\n" );
-  lastline = y2;
-  
-  fprintf ( out, "\\hline\n" );
+    if ( ! last_is_hsep )
+	fprintf ( out, "\\\\\n" );
+    lastline = y2;
 
-  last_is_hsep = 1;
-  lastcol = x2;
+    fprintf ( out, "\\hline\n" );
+
+    last_is_hsep = 1;
+    lastcol = x2;
 }
 
 
 
 gint latex_initialise (GSList * opes_selectionnees)
 {
-  gfloat colwidth, real_width;
-  gchar * filename;
-  int i;
+    gfloat colwidth, real_width;
+    gchar * filename;
+    int i;
 
-  if ( ! print_config() )
-    return FALSE;
+    if ( ! print_config() )
+	return FALSE;
 
-  if ( etat.print_config.printer || etat.print_config.filetype == POSTSCRIPT_FILE )
+    if ( etat.print_config.printer || etat.print_config.filetype == POSTSCRIPT_FILE )
     {
-      tempname = g_strdup_printf ( "gsbpt%5d", g_random_int_range (0,99999) );
-      filename =  g_strdup_printf ( "%s.tex", tempname );
+	tempname = g_strdup_printf ( "gsbpt%5d", g_random_int_range (0,99999) );
+	filename =  g_strdup_printf ( "%s.tex", tempname );
     }
-  else
+    else
     {
-      filename = etat.print_config.printer_filename;
-    }
-
-  out = fopen ( filename, "w+x" );
-  if ( ! out )
-    {
-      dialogue_error ( g_strdup_printf ("File '%s' already exists", filename ));;
-      return FALSE;
+	filename = etat.print_config.printer_filename;
     }
 
-  fprintf (out, 
-	   "\\documentclass{article}\n\n"
-	   "\\special{! TeXDict begin /landplus90{true}store end }\n"
-	   "\\usepackage{a4}\n"
-	   "\\usepackage[utf8]{inputenc}\n"
-	   "\\usepackage{eurosym}\n"
-	   "\\usepackage{boxedminipage}\n"
-	   "\\usepackage{longtable}\n"
-	   "\\usepackage{vmargin}\n"
-	   "\\usepackage[T1]{fontenc}\n");
-
-  if ( etat.print_config.orientation == LANDSCAPE )
+    out = fopen ( filename, "w+x" );
+    if ( ! out )
     {
-      fprintf (out,
-	       "\\usepackage{landscape}\n"
-	       "\\def\\printlandscape{\\special{landscape}}\n");
+	dialogue_error ( g_strdup_printf ("File '%s' already exists", filename ));;
+	return FALSE;
     }
 
-  fprintf (out,
-	   "\\setpapersize{%s}\n"
-	   "\\setmarginsrb{1cm}{1cm}{1cm}{1cm}{0cm}{0cm}{0cm}{0cm}\n\n"
-	   "\\begin{document}\n\n"
-	   "\\fboxsep \\parskip\n"
-	   "\\fboxrule 0pt\n"
-	   "\\tabcolsep 0pt\n"
-	   "\\begin{longtable}[l]{", etat.print_config.paper_config.name );
+    fprintf (out, 
+	     "\\documentclass{article}\n\n"
+	     "\\special{! TeXDict begin /landplus90{true}store end }\n"
+	     "\\usepackage{a4}\n"
+	     "\\usepackage[utf8]{inputenc}\n"
+	     "\\usepackage{eurosym}\n"
+	     "\\usepackage{boxedminipage}\n"
+	     "\\usepackage{longtable}\n"
+	     "\\usepackage{vmargin}\n"
+	     "\\usepackage[T1]{fontenc}\n");
 
-  if ( etat.print_config.orientation == LANDSCAPE )
+    if ( etat.print_config.orientation == LANDSCAPE )
     {
-      real_width = ((etat.print_config.paper_config.height-20)/10);
+	fprintf (out,
+		 "\\usepackage{landscape}\n"
+		 "\\def\\printlandscape{\\special{landscape}}\n");
     }
-  else
+
+    fprintf (out,
+	     "\\setpapersize{%s}\n"
+	     "\\setmarginsrb{1cm}{1cm}{1cm}{1cm}{0cm}{0cm}{0cm}{0cm}\n\n"
+	     "\\begin{document}\n\n"
+	     "\\fboxsep \\parskip\n"
+	     "\\fboxrule 0pt\n"
+	     "\\tabcolsep 0pt\n"
+	     "\\begin{longtable}[l]{", etat.print_config.paper_config.name );
+
+    if ( etat.print_config.orientation == LANDSCAPE )
     {
-      real_width = ((etat.print_config.paper_config.width-20)/10);
+	real_width = ((etat.print_config.paper_config.height-20)/10);
     }
-  
-  if ( etat_courant -> afficher_opes )
+    else
     {
-      colwidth = real_width / ((float) (nb_colonnes / 2) + 1 );
-      fprintf ( out, "p{%fcm}", colwidth);
-      for (i = 0 ; i < nb_colonnes/2 ; i++)
+	real_width = ((etat.print_config.paper_config.width-20)/10);
+    }
+
+    if ( etat_courant -> afficher_opes )
+    {
+	colwidth = real_width / ((float) (nb_colonnes / 2) + 1 );
+	fprintf ( out, "p{%fcm}", colwidth);
+	for (i = 0 ; i < nb_colonnes/2 ; i++)
 	{
-	  fprintf ( out, "p{%fcm}p{1pt}", colwidth );
+	    fprintf ( out, "p{%fcm}p{1pt}", colwidth );
 	}
-      fprintf ( out, "}" );
+	fprintf ( out, "}" );
     }
-  else 
+    else 
     {
-      colwidth = real_width / (float) nb_colonnes;
-      for (i = 0 ; i < nb_colonnes ; i++)
+	colwidth = real_width / (float) nb_colonnes;
+	for (i = 0 ; i < nb_colonnes ; i++)
 	{
-	  fprintf (out, "p{%fcm}", colwidth);
+	    fprintf (out, "p{%fcm}", colwidth);
 	}
-      fprintf (out, "p{1pt}}\n", colwidth);
+	fprintf (out, "p{1pt}}\n", colwidth);
     }
 
-  return TRUE;
+    return TRUE;
 }
 
 
 
 gint latex_finish ()
 {
-  gchar * command;
+    gchar * command;
 
-  fprintf (out, "\n"
-	   "\\end{longtable}\n"
-	   "\\end{document}\n");
-  fclose (out);
+    fprintf (out, "\n"
+	     "\\end{longtable}\n"
+	     "\\end{document}\n");
+    fclose (out);
 
-  if ( etat.print_config.printer || etat.print_config.filetype == POSTSCRIPT_FILE )
+    if ( etat.print_config.printer || etat.print_config.filetype == POSTSCRIPT_FILE )
     {
-      command = g_strdup_printf ( "latex -interaction=nonstopmode %s.tex", tempname );
-      if ( system ( command ) > 0 )
-	dialogue ( _("LaTeX run was unable to complete, see console output for details.") );
-      else 
+	command = g_strdup_printf ( "latex -interaction=nonstopmode %s.tex", tempname );
+	if ( system ( command ) > 0 )
+	    dialogue ( _("LaTeX run was unable to complete, see console output for details.") );
+	else 
 	{
-	  command = g_strdup_printf ( "dvips %s %s.dvi -o %s", 
-				      ( etat.print_config.orientation == LANDSCAPE ? "-t landscape" : ""),
-				      tempname,
-				      (etat.print_config.printer ? 
-				       (g_strconcat ( tempname, ".ps", NULL )) : 
-				       etat.print_config.printer_filename) );
-	  unlink ( g_strdup_printf ("%s.tex", tempname) );
-	  unlink ( g_strdup_printf ("%s.aux", tempname) );
-	  unlink ( g_strdup_printf ("%s.log", tempname) );
-	  if ( !system ( command ) )
+	    command = g_strdup_printf ( "dvips %s %s.dvi -o %s", 
+					( etat.print_config.orientation == LANDSCAPE ? "-t landscape" : ""),
+					tempname,
+					(etat.print_config.printer ? 
+					 (g_strconcat ( tempname, ".ps", NULL )) : 
+					 etat.print_config.printer_filename) );
+	    unlink ( g_strdup_printf ("%s.tex", tempname) );
+	    unlink ( g_strdup_printf ("%s.aux", tempname) );
+	    unlink ( g_strdup_printf ("%s.log", tempname) );
+	    if ( !system ( command ) )
 	    {
-	      if ( etat.print_config.printer )
+		if ( etat.print_config.printer )
 		{
-		  command = g_strdup_printf ( "%s %s.ps", etat.print_config.printer_name, 
-					      tempname );
-		  if ( system ( command ) )
+		    command = g_strdup_printf ( "%s %s.ps", etat.print_config.printer_name, 
+						tempname );
+		    if ( system ( command ) )
 		    {
-		      dialogue_error ( _("Cannot send job to printer") );
+			dialogue_error ( _("Cannot send job to printer") );
 		    }
 		}
 	    }
-	  else
+	    else
 	    {
-	      dialogue_error ( _("dvips was unable to complete, see console output for details.") );
+		dialogue_error ( _("dvips was unable to complete, see console output for details.") );
 	    }
-	  unlink ( g_strdup_printf ("%s.dvi", tempname) );
+	    unlink ( g_strdup_printf ("%s.dvi", tempname) );
 	}
 
-      if ( etat.print_config.printer )
+	if ( etat.print_config.printer )
 	{
-	  unlink ( g_strdup_printf ("%s.ps", tempname) );
+	    unlink ( g_strdup_printf ("%s.ps", tempname) );
 	}
 
-      g_free ( tempname );
+	g_free ( tempname );
     }  
-  
-  return 1;
+
+    return 1;
 }
 
 
 
 void latex_safe ( gchar * text ) 
 {
-  gboolean start = 1;
+    gboolean start = 1;
 
-  if ( ! text || ! strlen(text))
-    return;
+    if ( ! text || ! strlen(text))
+	return;
 
-  for ( ; * text; text ++ )
+    for ( ; * text; text ++ )
     {
-      switch ( * text )
+	switch ( * text )
 	{
-	  /* FIXME: this is very iso8859-1 centric */
-	case 'Â':
-	  if ( *(text+1) == '«' )
-	    {
-	      fprintf ( out, "<<" );
-	      text++;
-	    }
-	  else if ( *(text+1) == '»' )
-	    {
-	      fprintf ( out, ">>" );
-	      text++;
-	    }
-	  else 
-	    {
-	      fprintf ( out, "%c", *text );
-	    }
-	  break;
+	    /* FIXME: this is very iso8859-1 centric */
+	    case 'Â':
+		if ( *(text+1) == '«' )
+		{
+		    fprintf ( out, "<<" );
+		    text++;
+		}
+		else if ( *(text+1) == '»' )
+		{
+		    fprintf ( out, ">>" );
+		    text++;
+		}
+		else 
+		{
+		    fprintf ( out, "%c", *text );
+		}
+		break;
 
-	case ' ':
-	  if ( start )
-	    fprintf ( out, "~" );
-	  else
-	    fprintf ( out, "%c", *text );
-	  break;
+	    case ' ':
+		if ( start )
+		    fprintf ( out, "~" );
+		else
+		    fprintf ( out, "%c", *text );
+		break;
 
-	case '&':
-	case '\\':
-	  fprintf ( out, "\\" );
+	    case '&':
+	    case '\\':
+		fprintf ( out, "\\" );
 
-	default:
-	  start = 0;
-	  fprintf ( out, "%c", *text );
-	  break;
+	    default:
+		start = 0;
+		fprintf ( out, "%c", *text );
+		break;
 	}
     }
 

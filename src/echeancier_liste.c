@@ -1376,14 +1376,16 @@ void supprime_echeance ( void )
 	GtkWidget *label;
 
 
-	dialog = gnome_dialog_new ( _("Delete a scheduled transaction maturity"),
-				    _("Only this one"),
-				    _("All the occurences"),
-				    GNOME_STOCK_BUTTON_CANCEL,
-				    NULL );
+	dialog = gtk_dialog_new_with_buttons ( _("Delete a scheduled transaction maturity"),
+					       GTK_WINDOW (window),
+					       GTK_DIALOG_MODAL,
+					       _("Only this one"),0,
+					       _("All the occurences"),1,
+					       GTK_STOCK_CANCEL,2,
+					       NULL );
 
 	label = gtk_label_new ( SPACIFY(_("Do you want to delete just this occurrence or the whole scheduled transaction?")) );
-	gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
 			     label,
 			     FALSE,
 			     FALSE,
@@ -1408,7 +1410,7 @@ void supprime_echeance ( void )
 
 
 
-	gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
 			     label,
 			     FALSE,
 			     FALSE,
@@ -1417,14 +1419,13 @@ void supprime_echeance ( void )
 
 
 
-	gtk_box_set_homogeneous ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+	gtk_box_set_homogeneous ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
 				  TRUE );
-	gnome_dialog_set_default ( GNOME_DIALOG ( dialog ),
-				   2 );
-	gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
-				       GTK_WINDOW ( window ));
+	gtk_dialog_set_default_response ( GTK_DIALOG ( dialog ),
+				 2 );
 
-	resultat = gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
+	resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+	gtk_widget_destroy ( dialog );
     }
     else
 	resultat = 1;

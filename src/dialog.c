@@ -41,7 +41,7 @@
  */
 void dialogue_hint ( gchar *text, gchar *hint )
 {
-  dialogue_special ( GTK_MESSAGE_INFO, make_hint(hint, text) );
+    dialogue_special ( GTK_MESSAGE_INFO, make_hint(hint, text) );
 }
 
 
@@ -53,7 +53,7 @@ void dialogue_hint ( gchar *text, gchar *hint )
  */
 void dialogue ( gchar *texte_dialogue )
 {
-  dialogue_special ( GTK_MESSAGE_INFO, texte_dialogue );
+    dialogue_special ( GTK_MESSAGE_INFO, texte_dialogue );
 }
 
 
@@ -65,7 +65,7 @@ void dialogue ( gchar *texte_dialogue )
  */
 void dialogue_error ( gchar *text )
 {
-  dialogue_special ( GTK_MESSAGE_ERROR, text );
+    dialogue_special ( GTK_MESSAGE_ERROR, text );
 }
 
 
@@ -78,7 +78,7 @@ void dialogue_error ( gchar *text )
  */
 void dialogue_error_hint ( gchar *text, gchar * hint )
 {
-  dialogue_special ( GTK_MESSAGE_ERROR, make_hint(hint, text) );
+    dialogue_special ( GTK_MESSAGE_ERROR, make_hint(hint, text) );
 }
 
 
@@ -90,7 +90,7 @@ void dialogue_error_hint ( gchar *text, gchar * hint )
  */
 void dialogue_warning ( gchar *text )
 {
-  dialogue_special ( GTK_MESSAGE_WARNING, text );
+    dialogue_special ( GTK_MESSAGE_WARNING, text );
 }
 
 
@@ -103,7 +103,7 @@ void dialogue_warning ( gchar *text )
  */
 void dialogue_warning_hint ( gchar *text, gchar * hint )
 {
-  dialogue_special ( GTK_MESSAGE_WARNING, make_hint(hint, text) );
+    dialogue_special ( GTK_MESSAGE_WARNING, make_hint(hint, text) );
 }
 
 
@@ -116,16 +116,16 @@ void dialogue_warning_hint ( gchar *text, gchar * hint )
  */
 void dialogue_special ( GtkMessageType param, gchar * text )
 {
-  GtkWidget *dialog;
+    GtkWidget *dialog;
 
-  dialog = gtk_message_dialog_new ( GTK_WINDOW (window), 
-				    GTK_DIALOG_DESTROY_WITH_PARENT,
-				    param, GTK_BUTTONS_CLOSE, text );
-  gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
-  
-  gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
-  gtk_dialog_run (GTK_DIALOG (dialog));
-  gtk_widget_destroy ( dialog );
+    dialog = gtk_message_dialog_new ( GTK_WINDOW (window), 
+				      GTK_DIALOG_DESTROY_WITH_PARENT,
+				      param, GTK_BUTTONS_CLOSE, text );
+    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
+
+    gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
+    gtk_dialog_run (GTK_DIALOG (dialog));
+    gtk_widget_destroy ( dialog );
 }
 
 
@@ -139,16 +139,16 @@ void dialogue_special ( GtkMessageType param, gchar * text )
 GtkWidget * dialogue_special_no_run ( GtkMessageType param, GtkButtonsType buttons,
 				      gchar * text )
 {
-  GtkWidget *dialog;
+    GtkWidget *dialog;
 
-  dialog = gtk_message_dialog_new ( GTK_WINDOW (window), 
-				    GTK_DIALOG_DESTROY_WITH_PARENT,
-				    param, buttons, text );
-  gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
-  
-  gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
+    dialog = gtk_message_dialog_new ( GTK_WINDOW (window), 
+				      GTK_DIALOG_DESTROY_WITH_PARENT,
+				      param, buttons, text );
+    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
 
-  return dialog;
+    gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
+
+    return dialog;
 }
 
 
@@ -167,7 +167,7 @@ GtkWidget * dialogue_special_no_run ( GtkMessageType param, GtkButtonsType butto
  */
 void dialogue_conditional_hint ( gchar *hint, gchar * text, int * var )
 {
-  dialogue_conditional ( make_hint(hint, text), var );
+    dialogue_conditional ( make_hint(hint, text), var );
 }
 
 
@@ -186,7 +186,7 @@ void dialogue_conditional_hint ( gchar *hint, gchar * text, int * var )
  */
 void dialogue_conditional_info_hint ( gchar *hint, gchar * text, int * var )
 {
-  dialogue_conditional_special ( make_hint(hint, text), var, GTK_MESSAGE_INFO );
+    dialogue_conditional_special ( make_hint(hint, text), var, GTK_MESSAGE_INFO );
 }
 
 
@@ -202,7 +202,7 @@ void dialogue_conditional_info_hint ( gchar *hint, gchar * text, int * var )
  */
 void dialogue_conditional ( gchar *text, int * var )
 {
-  dialogue_conditional_special ( text, var, GTK_MESSAGE_WARNING );
+    dialogue_conditional_special ( text, var, GTK_MESSAGE_WARNING );
 }
 
 
@@ -218,27 +218,27 @@ void dialogue_conditional ( gchar *text, int * var )
  */
 void dialogue_conditional_special ( gchar *text, int * var, GtkMessageType type )
 {
-  GtkWidget * vbox, * checkbox, *dialog;
+    GtkWidget * vbox, * checkbox, *dialog;
 
-  if ( !var || *var)
-    return;
+    if ( !var || *var)
+	return;
 
-  dialog = gtk_message_dialog_new ( GTK_WINDOW (window),
-				    GTK_DIALOG_DESTROY_WITH_PARENT,
-				    type,
-				    GTK_BUTTONS_CLOSE,
-				    text );
-  gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
+    dialog = gtk_message_dialog_new ( GTK_WINDOW (window),
+				      GTK_DIALOG_DESTROY_WITH_PARENT,
+				      type,
+				      GTK_BUTTONS_CLOSE,
+				      text );
+    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
 
-  vbox = GTK_DIALOG(dialog) -> vbox;
-  checkbox = new_checkbox_with_title ( _("Do not show this message again"), var, 
-				       NULL );
-  gtk_box_pack_start ( GTK_BOX ( vbox ), checkbox, TRUE, TRUE, 6 );
-  gtk_widget_show_all ( checkbox );
+    vbox = GTK_DIALOG(dialog) -> vbox;
+    checkbox = new_checkbox_with_title ( _("Do not show this message again"), var, 
+					 NULL );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), checkbox, TRUE, TRUE, 6 );
+    gtk_widget_show_all ( checkbox );
 
-  gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
-  gtk_dialog_run (GTK_DIALOG (dialog));
-  gtk_widget_destroy ( dialog );
+    gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
+    gtk_dialog_run (GTK_DIALOG (dialog));
+    gtk_widget_destroy ( dialog );
 }
 
 
@@ -251,7 +251,7 @@ void dialogue_conditional_special ( gchar *text, int * var, GtkMessageType type 
  */
 gboolean question ( gchar *texte )
 {
-  return question_yes_no ( texte );
+    return question_yes_no ( texte );
 }
 
 
@@ -268,7 +268,7 @@ gboolean question ( gchar *texte )
  */
 gboolean question_yes_no_hint ( gchar * hint, gchar *texte )
 {
-  return question_yes_no ( make_hint ( hint, texte ) );
+    return question_yes_no ( make_hint ( hint, texte ) );
 }
 
 
@@ -283,23 +283,23 @@ gboolean question_yes_no_hint ( gchar * hint, gchar *texte )
  */
 gboolean question_yes_no ( gchar *texte )
 {
-  GtkWidget *dialog;
-  gint response;
+    GtkWidget *dialog;
+    gint response;
 
-  dialog = gtk_message_dialog_new ( GTK_WINDOW (window),
-				    GTK_DIALOG_DESTROY_WITH_PARENT,
-				    GTK_MESSAGE_WARNING,
-				    GTK_BUTTONS_OK_CANCEL,
-				    texte );
-  gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), texte );
+    dialog = gtk_message_dialog_new ( GTK_WINDOW (window),
+				      GTK_DIALOG_DESTROY_WITH_PARENT,
+				      GTK_MESSAGE_WARNING,
+				      GTK_BUTTONS_OK_CANCEL,
+				      texte );
+    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), texte );
 
-  response = gtk_dialog_run (GTK_DIALOG (dialog));
-  gtk_widget_destroy ( dialog );
-  
-  if ( response == GTK_RESPONSE_OK )
-    return TRUE;
-  else
-    return FALSE;
+    response = gtk_dialog_run (GTK_DIALOG (dialog));
+    gtk_widget_destroy ( dialog );
+
+    if ( response == GTK_RESPONSE_OK )
+	return TRUE;
+    else
+	return FALSE;
 }
 
 
@@ -313,53 +313,51 @@ gboolean question_yes_no ( gchar *texte )
 gchar *demande_texte ( gchar *titre_fenetre,
 		       gchar *question )
 {
-  GtkWidget *dialog;
-  gint resultat;
-  GtkWidget *label;
-  GtkWidget *entree;
-  gchar *retour;
+    GtkWidget *dialog;
+    gint resultat;
+    GtkWidget *label;
+    GtkWidget *entree;
+    gchar *retour;
 
-  dialog = gnome_dialog_new ( titre_fenetre,
-			      GNOME_STOCK_BUTTON_OK,
-			      GNOME_STOCK_BUTTON_CANCEL,
-			      NULL );
-  gnome_dialog_set_default ( GNOME_DIALOG ( dialog ),
-			     0 );
-  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
-				 GTK_WINDOW ( window ));
+    dialog = gtk_dialog_new_with_buttons ( titre_fenetre,
+					   GTK_WINDOW (window),
+					   GTK_DIALOG_MODAL,
+					   GTK_STOCK_OK,0,
+					   GTK_STOCK_CANCEL,1,
+					   NULL );
 
-  label = gtk_label_new ( question );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( label );
+    label = gtk_label_new ( question );
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
+			 label,
+			 FALSE,
+			 FALSE,
+			 0 );
+    gtk_widget_show ( label );
 
-  entree = gtk_entry_new ();
-  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
-				 GTK_EDITABLE ( entree ));
-  gtk_window_set_focus ( GTK_WINDOW ( dialog ),
-			entree );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       entree,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( entree );
+    entree = gtk_entry_new ();
+    gtk_entry_set_activates_default ( GTK_ENTRY ( entree ),
+				      TRUE );
+    gtk_window_set_focus ( GTK_WINDOW ( dialog ),
+			   entree );
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
+			 entree,
+			 FALSE,
+			 FALSE,
+			 0 );
+    gtk_widget_show ( entree );
 
-  resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
+    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
-  if ( resultat )
+    if ( resultat )
     {
-      gnome_dialog_close ( GNOME_DIALOG ( dialog ));
-      return ( NULL );
+	gtk_widget_destroy ( GTK_WIDGET ( dialog ));
+	return ( NULL );
     }
 
-  retour = g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( entree ))));
+    retour = g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( entree ))));
 
-  gnome_dialog_close ( GNOME_DIALOG ( dialog ));
-  return ( retour );
+    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
+    return ( retour );
 }
 /*************************************************************************************************************/
 
@@ -369,10 +367,10 @@ gchar *demande_texte ( gchar *titre_fenetre,
 gboolean blocage_boites_dialogues ( GtkWidget *dialog,
 				    gpointer null )
 {
-  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( dialog ),
-				 "delete_event" );
+    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( dialog ),
+				   "delete_event" );
 
-  return ( TRUE );
+    return ( TRUE );
 }
 
 
@@ -388,7 +386,7 @@ gboolean blocage_boites_dialogues ( GtkWidget *dialog,
  */
 gchar * make_hint ( gchar * hint, gchar * text )
 {
-  return g_strconcat ("<span size=\"larger\" weight=\"bold\">",
-		      hint, "</span>\n\n",
-		      text, NULL );
+    return g_strconcat ("<span size=\"larger\" weight=\"bold\">",
+			hint, "</span>\n\n",
+			text, NULL );
 }

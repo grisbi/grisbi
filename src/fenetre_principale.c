@@ -35,105 +35,105 @@
 
 
 /**********************************************************************************************************
-** Création de la fenêtre du gestionnaire de comptes **
-** Renvoie le notebook **
-***********************************************************************************************************/
+ ** Création de la fenêtre du gestionnaire de comptes **
+ ** Renvoie le notebook **
+ ***********************************************************************************************************/
 
 GtkWidget *creation_fenetre_principale (void )
 {
 
-/* création du notebook de base */
+    /* création du notebook de base */
 
-  notebook_general = gtk_notebook_new();
+    notebook_general = gtk_notebook_new();
 
-  gtk_signal_connect ( GTK_OBJECT ( notebook_general ),
-		       "switch_page",
-		       GTK_SIGNAL_FUNC ( change_page_notebook),
-		       NULL );
-
-
-/* Création de la page d'accueil */
-
-  page_accueil = creation_onglet_accueil();
-
-  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
-			     page_accueil,
-			     gtk_label_new (SPACIFY(_("Main page"))) );
-
-  /*  Céation de la fenêtre principale qui contient d'un côté */
-  /*  les comptes, et de l'autre les opérations */
-
-  page_operations = creation_onglet_operations ();
-
-  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
-			     page_operations,
-			     gtk_label_new (SPACIFY(_("Transactions"))) );
-
-/*   création de la fenetre des echéances */
-
-  page_echeancier = creation_onglet_echeancier();
-  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
-			     page_echeancier,
-			     gtk_label_new (SPACIFY(_("Scheduler"))) );
-
-/*   création de la fenetre des comptes */
-
-  page_comptes = creation_onglet_comptes ();
-  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
-			     page_comptes,
-			     gtk_label_new (SPACIFY(_("Accounts"))) );
-
-/* Création de la fenetre des tiers */
-
-  page_tiers = onglet_tiers();
-  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
-			     page_tiers,
-			     gtk_label_new (SPACIFY(_("Third party"))) );
-
-  /* création de la fenetre des categories */
-
-  page_categories = onglet_categories();
-  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
-			     page_categories,
-			     gtk_label_new (SPACIFY(_("Categories"))) );
-
-  /* création de la fenetre des imputations budgétaires */
-
-  page_imputations = onglet_imputations();
-  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
-			     page_imputations,
-			     gtk_label_new (SPACIFY(_("Budgetary lines"))) );
-
-  gtk_widget_set_sensitive ( page_imputations,
-			     etat.utilise_imputation_budgetaire );
-
-  /* création de la fenetre des états */
-
-  page_etats = creation_onglet_etats ();
-  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
-			     page_etats,
-			     gtk_label_new (SPACIFY(_("Reports"))) );
+    gtk_signal_connect ( GTK_OBJECT ( notebook_general ),
+			 "switch_page",
+			 GTK_SIGNAL_FUNC ( change_page_notebook),
+			 NULL );
 
 
+    /* Création de la page d'accueil */
+
+    page_accueil = creation_onglet_accueil();
+
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
+			       page_accueil,
+			       gtk_label_new (SPACIFY(_("Main page"))) );
+
+    /*  Céation de la fenêtre principale qui contient d'un côté */
+    /*  les comptes, et de l'autre les opérations */
+
+    page_operations = creation_onglet_operations ();
+
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
+			       page_operations,
+			       gtk_label_new (SPACIFY(_("Transactions"))) );
+
+    /*   création de la fenetre des echéances */
+
+    page_echeancier = creation_onglet_echeancier();
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
+			       page_echeancier,
+			       gtk_label_new (SPACIFY(_("Scheduler"))) );
+
+    /*   création de la fenetre des comptes */
+
+    page_comptes = creation_onglet_comptes ();
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
+			       page_comptes,
+			       gtk_label_new (SPACIFY(_("Accounts"))) );
+
+    /* Création de la fenetre des tiers */
+
+    page_tiers = onglet_tiers();
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
+			       page_tiers,
+			       gtk_label_new (SPACIFY(_("Third party"))) );
+
+    /* création de la fenetre des categories */
+
+    page_categories = onglet_categories();
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
+			       page_categories,
+			       gtk_label_new (SPACIFY(_("Categories"))) );
+
+    /* création de la fenetre des imputations budgétaires */
+
+    page_imputations = onglet_imputations();
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
+			       page_imputations,
+			       gtk_label_new (SPACIFY(_("Budgetary lines"))) );
+
+    gtk_widget_set_sensitive ( page_imputations,
+			       etat.utilise_imputation_budgetaire );
+
+    /* création de la fenetre des états */
+
+    page_etats = creation_onglet_etats ();
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
+			       page_etats,
+			       gtk_label_new (SPACIFY(_("Reports"))) );
 
 
-  /* change les titres des colonnes si nécessaire */
 
-  if ( etat.affiche_nb_ecritures_listes )
+
+    /* change les titres des colonnes si nécessaire */
+
+    if ( etat.affiche_nb_ecritures_listes )
     {
-      gtk_clist_set_column_title ( GTK_CLIST ( arbre_tiers ),
-				   0,
-				   _("Third parties list (transactions)") );
-      gtk_clist_set_column_title ( GTK_CLIST ( arbre_categ ),
-				   0,
-				   _("Categories list (transactions)") );
-      gtk_clist_set_column_title ( GTK_CLIST ( arbre_imputation ),
-				   0,
-				   _("Budgetary lines list (transactions)") );
+	gtk_clist_set_column_title ( GTK_CLIST ( arbre_tiers ),
+				     0,
+				     _("Third parties list (transactions)") );
+	gtk_clist_set_column_title ( GTK_CLIST ( arbre_categ ),
+				     0,
+				     _("Categories list (transactions)") );
+	gtk_clist_set_column_title ( GTK_CLIST ( arbre_imputation ),
+				     0,
+				     _("Budgetary lines list (transactions)") );
     }
 
 
-  return ( notebook_general );
+    return ( notebook_general );
 }
 /***********************************************************************************************************/
 
@@ -146,65 +146,65 @@ void change_page_notebook ( GtkNotebook *notebook,
 			    gpointer null )
 {
 
-/* retire l'horloge si part de l'accueil */
+    /* retire l'horloge si part de l'accueil */
 
-      if ( id_temps )
-	{
-	  gtk_timeout_remove ( id_temps );
-	  id_temps = 0;
-	}
-
-
-/* remet l'horloge si revient à l'accueil */
-
-
-  if ( !numero_page )
+    if ( id_temps )
     {
-      gchar tampon_date[50];
-      time_t date;
+	gtk_timeout_remove ( id_temps );
+	id_temps = 0;
+    }
 
-      time ( &date );
-      strftime ( (gchar *) tampon_date,
-		 (size_t) 50,
-		 "%X",
-		 (const struct tm *) localtime ( &date ) );
 
-      gtk_label_set_text ( GTK_LABEL (label_temps ),
-			   tampon_date );
-      id_temps = gtk_timeout_add ( 1000,
-				   (GtkFunction) change_temps,
-				   GTK_WIDGET ( label_temps ));
+    /* remet l'horloge si revient à l'accueil */
+
+
+    if ( !numero_page )
+    {
+	gchar tampon_date[50];
+	time_t date;
+
+	time ( &date );
+	strftime ( (gchar *) tampon_date,
+		   (size_t) 50,
+		   "%X",
+		   (const struct tm *) localtime ( &date ) );
+
+	gtk_label_set_text ( GTK_LABEL (label_temps ),
+			     tampon_date );
+	id_temps = gtk_timeout_add ( 1000,
+				     (GtkFunction) change_temps,
+				     GTK_WIDGET ( label_temps ));
 
     }    
 
-  switch ( numero_page )
+    switch ( numero_page )
     {
-      /* si on va sur la fenêtre des comptes => focus à la liste */
+	/* si on va sur la fenêtre des comptes => focus à la liste */
 
-    case 1:
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+	case 1:
+	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-      if ( GTK_IS_WIDGET ( CLIST_OPERATIONS ))
-	gtk_widget_grab_focus ( GTK_WIDGET ( CLIST_OPERATIONS ) );
-      break;
+	    if ( GTK_IS_WIDGET ( CLIST_OPERATIONS ))
+		gtk_widget_grab_focus ( GTK_WIDGET ( CLIST_OPERATIONS ) );
+	    break;
 
-      /*   pour les listes, si aucune ligne n'est affichée ( c'est le cas au départ ), */
-      /* on le fait ici */
+	    /*   pour les listes, si aucune ligne n'est affichée ( c'est le cas au départ ), */
+	    /* on le fait ici */
 
-    case 4:
-      if ( modif_tiers )
-	remplit_arbre_tiers ();
-      break;
+	case 4:
+	    if ( modif_tiers )
+		remplit_arbre_tiers ();
+	    break;
 
-    case 5:
-      if ( modif_categ )
-	remplit_arbre_categ ();
-      break;
+	case 5:
+	    if ( modif_categ )
+		remplit_arbre_categ ();
+	    break;
 
-    case 6:
-      if ( modif_imputation )
-	remplit_arbre_imputation ();
-      break;
+	case 6:
+	    if ( modif_imputation )
+		remplit_arbre_imputation ();
+	    break;
     }
 
 }

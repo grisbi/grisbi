@@ -530,7 +530,7 @@ gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
     gtk_style_set_font (style_rouge_couleur [1], NULL);
 
     /* Find font size */
-    
+
     size = pango_font_description_get_size ( fonte_desc);
 
     if ( nb_comptes )

@@ -577,7 +577,7 @@ gboolean ajout_etat ( void )
 
     resultat = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( option_menu ) -> menu_item ),
 						       "no_etat" ));
-    gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 
 
     /* on crée le nouvel état */
@@ -1151,21 +1151,19 @@ void exporter_etat ( void )
     struct stat test_fichier;
     gchar *nom_etat;
 
-    dialog = gnome_dialog_new ( _("Export report"),
-				GNOME_STOCK_BUTTON_OK,
-				GNOME_STOCK_BUTTON_CANCEL,
-				NULL );
-    gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
-				   GTK_WINDOW ( window ));
-    gnome_dialog_set_default ( GNOME_DIALOG ( dialog ),
-			       0 );
+    dialog = gtk_dialog_new_with_buttons ( _("Export report"),
+					   GTK_WINDOW (window),
+					   GTK_DIALOG_MODAL,
+					   GTK_STOCK_OK,0,
+					   GTK_STOCK_CANCEL,1,
+					   NULL );
     gtk_signal_connect ( GTK_OBJECT ( dialog ),
 			 "destroy",
 			 GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
 			 "destroy" );
 
     label = gtk_label_new ( COLON(_("Enter name for export")) );
-    gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
 			 label,
 			 FALSE,
 			 FALSE,
@@ -1186,25 +1184,25 @@ void exporter_etat ( void )
 				       NULL ));
     gtk_entry_set_position ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
 			     strlen (dernier_chemin_de_travail ));
-    gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
-				   GTK_EDITABLE ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))));
+    gtk_entry_set_activates_default ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom )) ),
+				      TRUE );
     gtk_window_set_focus ( GTK_WINDOW ( dialog ),
 			   gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom )));
-    gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
 			 fenetre_nom,
 			 FALSE,
 			 FALSE,
 			 0 );
     gtk_widget_show ( fenetre_nom );
 
-    resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
+    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
     switch ( resultat )
     {
 	case 0 :
 	    nom_etat = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
 
-	    gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+	    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 
 	    /* vérification que c'est possible */
 
@@ -1219,26 +1217,27 @@ void exporter_etat ( void )
 		    GtkWidget *etes_vous_sur;
 		    GtkWidget *label;
 
-		    etes_vous_sur = gnome_dialog_new ( _("Save file"),
-						       GNOME_STOCK_BUTTON_YES,
-						       GNOME_STOCK_BUTTON_NO,
-						       NULL );
+		    etes_vous_sur = gtk_dialog_new_with_buttons ( _("Save file"),
+								  GTK_WINDOW (window),
+								  GTK_DIALOG_MODAL,
+								  GTK_STOCK_YES,0,
+								  GTK_STOCK_NO,1,
+								  NULL );
 		    label = gtk_label_new ( _("File exists. Do you want to overwrite it?") );
-		    gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( etes_vous_sur ) -> vbox ),
+		    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( etes_vous_sur ) -> vbox ),
 					 label,
 					 TRUE,
 					 TRUE,
 					 5 );
 		    gtk_widget_show ( label );
 
-		    gnome_dialog_set_default ( GNOME_DIALOG ( etes_vous_sur ),
-					       1 );
-		    gnome_dialog_set_parent ( GNOME_DIALOG ( etes_vous_sur ),
-					      GTK_WINDOW ( window ) );
-		    gtk_window_set_modal ( GTK_WINDOW ( etes_vous_sur ),
-					   TRUE );
-		    if ( gnome_dialog_run_and_close ( GNOME_DIALOG ( etes_vous_sur ) ) )
+		    gtk_dialog_set_default_response ( GTK_DIALOG ( etes_vous_sur ),
+					     1 );
+		    if ( gtk_dialog_run ( GTK_DIALOG ( etes_vous_sur ) ) )
+		    {
+			gtk_widget_destroy ( etes_vous_sur );
 			return;
+		    }
 		}
 		else
 		{
@@ -1257,7 +1256,7 @@ void exporter_etat ( void )
 	    break;
 
 	default :
-	    gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+	    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 	    return;
     }
 }
@@ -1273,21 +1272,19 @@ void importer_etat ( void )
     gint resultat;
     gchar *nom_etat;
 
-    dialog = gnome_dialog_new ( _("Import a report"),
-				GNOME_STOCK_BUTTON_OK,
-				GNOME_STOCK_BUTTON_CANCEL,
-				NULL );
-    gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
-				   GTK_WINDOW ( window ));
-    gnome_dialog_set_default ( GNOME_DIALOG ( dialog ),
-			       0 );
+    dialog = gtk_dialog_new_with_buttons ( _("Import a report"),
+					   GTK_WINDOW (window),
+					   GTK_DIALOG_MODAL,
+					   GTK_STOCK_OK,0,
+					   GTK_STOCK_CANCEL,1,
+					   NULL );
     gtk_signal_connect ( GTK_OBJECT ( dialog ),
 			 "destroy",
 			 GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
 			 "destroy" );
 
     label = gtk_label_new ( COLON(_("Enter a filename")) );
-    gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
 			 label,
 			 FALSE,
 			 FALSE,
@@ -1307,25 +1304,25 @@ void importer_etat ( void )
 				       NULL ));
     gtk_entry_set_position ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
 			     strlen (dernier_chemin_de_travail ));
-    gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
-				   GTK_EDITABLE ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))));
+    gtk_entry_set_activates_default ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom )) ),
+				      TRUE );
     gtk_window_set_focus ( GTK_WINDOW ( dialog ),
 			   gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom )));
-    gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
 			 fenetre_nom,
 			 FALSE,
 			 FALSE,
 			 0 );
     gtk_widget_show ( fenetre_nom );
 
-    resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
+    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
     switch ( resultat )
     {
 	case 0 :
 	    nom_etat = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
 
-	    gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+	    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 
 	    /* vérification que c'est possible */
 
@@ -1342,7 +1339,7 @@ void importer_etat ( void )
 	    break;
 
 	default :
-	    gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+	    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 	    return;
     }
 }

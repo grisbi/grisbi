@@ -290,7 +290,7 @@ select_currency_in_iso_list (GtkTreeSelection *selection,
  */
 void update_currency_widgets()
 {
-   gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ) -> menu );
+    gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ) -> menu );
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ),
 			       creation_option_menu_devises ( -1,
 							      liste_struct_devises ));
@@ -302,7 +302,7 @@ void update_currency_widgets()
     /* on modifie la liste des devises de l'option menu du detail des comptes */
 
     gtk_widget_destroy ( GTK_OPTION_MENU ( detail_devise_compte ) -> menu );
-     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( detail_devise_compte ),
+    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( detail_devise_compte ),
 			       creation_option_menu_devises ( 0,
 							      liste_struct_devises ));
     gtk_signal_connect_object ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_devise_compte  ) ),
@@ -316,7 +316,7 @@ void update_currency_widgets()
 									   GINT_TO_POINTER ( DEVISE ),
 									   ( GCompareFunc ) recherche_devise_par_no )));
 
- 
+
     /* on recrée les boutons de devises dans la conf de l'état */
 
     if ( onglet_config_etat )
@@ -338,7 +338,7 @@ void update_currency_widgets()
 	selectionne_devise_ib_etat_courant ();
 	selectionne_devise_tiers_etat_courant ();
     }
- 
+
     mise_a_jour_tiers ();
     mise_a_jour_categ ();
     mise_a_jour_imputation ();
@@ -658,10 +658,12 @@ void ajout_devise ( GtkWidget *widget )
     gchar *nom_devise, *code_devise, *code_iso4217_devise;
     gint resultat;
 
-    dialog = gnome_dialog_new ( _("Add a currency"),
-				GNOME_STOCK_BUTTON_CANCEL,
-				GNOME_STOCK_BUTTON_OK,
-				NULL );
+    dialog = gtk_dialog_new_with_buttons ( _("Add a currency"),
+					   GTK_WINDOW (window),
+					   GTK_DIALOG_MODAL,
+					   GTK_STOCK_CANCEL,0,
+					   GTK_STOCK_OK,1,
+					   NULL );
     gtk_container_set_border_width ( GTK_CONTAINER ( dialog ), 10 );
     gtk_signal_connect ( GTK_OBJECT ( dialog ),
 			 "destroy",
@@ -671,19 +673,16 @@ void ajout_devise ( GtkWidget *widget )
 			 "key-press-event",
 			 GTK_SIGNAL_FUNC ( bloque_echap_choix_devise ),
 			 NULL );
-    gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
-				   GTK_WINDOW ( window ));
-    gnome_dialog_set_default ( GNOME_DIALOG ( dialog ), 0 );
 
     paddingbox = 
-	new_paddingbox_with_title (GTK_WIDGET ( GNOME_DIALOG ( dialog ) -> vbox ),
+	new_paddingbox_with_title (GTK_WIDGET ( GTK_DIALOG ( dialog ) -> vbox ),
 				   FALSE, _("ISO 4217 currencies"));
     list = new_currency_list ();
     gtk_box_pack_start ( GTK_BOX(paddingbox) , list,
 			 FALSE, FALSE, 5 );
 
     paddingbox = 
-	new_paddingbox_with_title (GTK_WIDGET ( GNOME_DIALOG ( dialog ) -> vbox ),
+	new_paddingbox_with_title (GTK_WIDGET ( GTK_DIALOG ( dialog ) -> vbox ),
 				   FALSE, _("Currency details"));
 
     /* Create table */
@@ -704,8 +703,8 @@ void ajout_devise ( GtkWidget *widget )
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
     entree_nom = gtk_entry_new ();
-    gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
-				   GTK_EDITABLE ( entree_nom ));
+    gtk_entry_set_activates_default ( GTK_ENTRY ( entree_nom ),
+				      TRUE );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       entree_nom, 1, 2, 0, 1,
 		       GTK_EXPAND|GTK_FILL, 0,
@@ -743,7 +742,7 @@ void ajout_devise ( GtkWidget *widget )
 
 reprise_dialog:
     gtk_widget_show_all ( GTK_WIDGET ( dialog ) );
-    resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
+    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
     switch ( resultat )
     {
@@ -848,7 +847,7 @@ reprise_dialog:
 	    break;
 
     }
-    gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 
     update_currency_widgets();
 }
@@ -1066,11 +1065,11 @@ gint selection_devise ( gchar *nom_du_compte )
     gint resultat;
 
 
-    dialogue = gnome_dialog_new ( _("Select a currency"),
-				  GNOME_STOCK_BUTTON_OK,
-				  NULL );
-    gtk_window_set_transient_for ( GTK_WINDOW ( dialogue ),
-				   GTK_WINDOW ( window ) );
+    dialogue = gtk_dialog_new_with_buttons ( _("Select a currency"),
+					     GTK_WINDOW (window),
+					     GTK_DIALOG_MODAL,
+					     GTK_STOCK_OK,0,
+					     NULL );
     gtk_signal_connect ( GTK_OBJECT ( dialogue ),
 			 "delete_event",
 			 GTK_SIGNAL_FUNC ( blocage_boites_dialogues ),
@@ -1083,7 +1082,7 @@ gint selection_devise ( gchar *nom_du_compte )
     label = gtk_label_new ( g_strdup_printf ( _("Please choose a currency for account \"%s\":\n"),
 					      nom_du_compte ) );
 
-    gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue ) -> vbox ),
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialogue ) -> vbox ),
 			 label,
 			 TRUE,
 			 TRUE,
@@ -1092,7 +1091,7 @@ gint selection_devise ( gchar *nom_du_compte )
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
-    gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue ) -> vbox ),
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialogue ) -> vbox ),
 			 hbox,
 			 FALSE,
 			 FALSE,
@@ -1127,11 +1126,11 @@ gint selection_devise ( gchar *nom_du_compte )
 
 
 
-    gnome_dialog_run ( GNOME_DIALOG ( dialogue ));
+    gtk_dialog_run ( GTK_DIALOG ( dialogue ));
 
     resultat = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( option_menu ) -> menu_item ),
 						     "no_devise" ) );
-    gnome_dialog_close ( GNOME_DIALOG ( dialogue ));
+    gtk_widget_destroy ( GTK_WIDGET ( dialogue ));
 
     return ( resultat );
 }
@@ -1182,21 +1181,23 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 	return;
     }
 
-    dialog = gnome_dialog_new ( _("Entry of the exchange rate"),
-				GNOME_STOCK_BUTTON_OK, NULL );
-    gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), GTK_WINDOW ( window ));
+    dialog = gtk_dialog_new_with_buttons ( _("Entry of the exchange rate"),
+					   GTK_WINDOW (window),
+					   GTK_DIALOG_MODAL,
+					   GTK_STOCK_OK, 0,
+					   NULL );
     gtk_signal_connect ( GTK_OBJECT ( dialog), "delete_event",
 			 GTK_SIGNAL_FUNC ( blocage_boites_dialogues ),
 			 NULL );
 
     label = gtk_label_new ( COLON(_("Please enter the exchange rate")) );
-    gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ), label,
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), label,
 			 FALSE, FALSE, 20 );
 
     /* crÃ©ation de la ligne du change */
 
     hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ), hbox,
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox,
 			 FALSE, FALSE, 0);
 
     label = gtk_label_new ( POSTSPACIFY(_("A")) );
@@ -1213,8 +1214,8 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 
     entree = gtk_entry_new ();
     gtk_widget_set_usize ( entree, 100, FALSE );
-    gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
-				   GTK_EDITABLE ( entree ));
+    gtk_entry_set_activates_default ( GTK_ENTRY ( entree ),
+				      TRUE );
     gtk_box_pack_start ( GTK_BOX ( hbox ), entree,
 			 FALSE, FALSE, 0);
 
@@ -1266,7 +1267,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 
     /* crÃ©ation de la ligne des frais de change */
     hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ), hbox,
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox,
 			 FALSE, FALSE, 5 );
 
     label = gtk_label_new ( COLON(_("Exchange fees")) );
@@ -1274,8 +1275,8 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 			 FALSE, FALSE, 5 );
 
     entree_frais = gtk_entry_new ();
-    gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
-				   GTK_EDITABLE ( entree_frais ));
+    gtk_entry_set_activates_default ( GTK_ENTRY ( entree_frais ),
+				      TRUE );
     gtk_box_pack_start ( GTK_BOX ( hbox ), entree_frais,
 			 FALSE, FALSE, 5 );
 
@@ -1354,7 +1355,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
     }
 
     /* on lance la fenetre */
-    resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
+    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
     if ( !resultat )
     {
@@ -1373,7 +1374,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 	if ( devise_tmp -> no_devise != devise -> no_devise )
 	    taux_de_change[0] = -taux_de_change[0];
 
-	gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+	gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 
 	update_exchange_rate_cache ( devise_compte, devise, 
 				     taux_de_change[0], taux_de_change[1] );

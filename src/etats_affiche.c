@@ -42,14 +42,14 @@
 /*****************************************************************************************************/
 gint etat_affiche_affiche_titre ( gint ligne )
 {
-  gchar *titre;
+    gchar *titre;
 
-  titre = etats_titre () ;
+    titre = etats_titre () ;
 
-  etat_affiche_attach_label ( titre, TEXT_BOLD | TEXT_HUGE, 0, nb_colonnes,
-			      ligne, ligne + 1, LEFT, NULL );
+    etat_affiche_attach_label ( titre, TEXT_BOLD | TEXT_HUGE, 0, nb_colonnes,
+				ligne, ligne + 1, LEFT, NULL );
 
-  return 1;
+    return 1;
 }
 /*****************************************************************************************************/
 
@@ -57,8 +57,8 @@ gint etat_affiche_affiche_titre ( gint ligne )
 /*****************************************************************************************************/
 gint etat_affiche_affiche_separateur ( gint ligne )
 {
-  etat_affiche_attach_hsep ( 0, nb_colonnes, ligne, ligne + 1 );
-  return ligne + 1;
+    etat_affiche_attach_hsep ( 0, nb_colonnes, ligne, ligne + 1 );
+    return ligne + 1;
 }
 /*****************************************************************************************************/
 
@@ -70,83 +70,83 @@ gint etat_affiche_affiche_separateur ( gint ligne )
 /*****************************************************************************************************/
 gint etat_affiche_affiche_total_categories ( gint ligne )
 {
-  char * text;
+    char * text;
 
-  if ( etat_courant -> utilise_categ
-       &&
-       etat_courant -> affiche_sous_total_categ )
+    if ( etat_courant -> utilise_categ
+	 &&
+	 etat_courant -> affiche_sous_total_categ )
     {
-      /* si rien n'est affiché en dessous de la catég, on */
-      /* met le résultat sur la ligne de la catég */
-      /* sinon on fait une barre et on met le résultat */
+	/* si rien n'est affiché en dessous de la catég, on */
+	/* met le résultat sur la ligne de la catég */
+	/* sinon on fait une barre et on met le résultat */
 
-      if ( etat_courant -> afficher_sous_categ
-	   ||
-	   etat_courant -> utilise_ib
-	   ||
-	   etat_courant -> regroupe_ope_par_compte
-	   ||
-	   etat_courant -> utilise_tiers
-	   ||
-	   etat_courant -> afficher_opes )
+	if ( etat_courant -> afficher_sous_categ
+	     ||
+	     etat_courant -> utilise_ib
+	     ||
+	     etat_courant -> regroupe_ope_par_compte
+	     ||
+	     etat_courant -> utilise_tiers
+	     ||
+	     etat_courant -> afficher_opes )
 	{
-	  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes -1, ligne, ligne + 1, LEFT, NULL );
-	  ligne++;
+	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes -1, ligne, ligne + 1, LEFT, NULL );
+	    ligne++;
 
-	  etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
-	  ligne++;
+	    etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
+	    ligne++;
 
-	  if ( nom_categ_en_cours )
+	    if ( nom_categ_en_cours )
 	    {
-	      if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( _("Total %s (%d transactions)"), nom_categ_en_cours, nb_ope_categ_etat );
-	      else
-		text =g_strconcat ( POSTSPACIFY(_("Total")), nom_categ_en_cours, NULL );
+		if ( etat_courant -> afficher_nb_opes )
+		    text = g_strdup_printf ( _("Total %s (%d transactions)"), nom_categ_en_cours, nb_ope_categ_etat );
+		else
+		    text =g_strconcat ( POSTSPACIFY(_("Total")), nom_categ_en_cours, NULL );
 	    }
-	  else
+	    else
 	    {
-	      if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( COLON(_("Category total (%d transactions)")), nb_ope_categ_etat);
-	      else
-		text = COLON(_("Category total"));
+		if ( etat_courant -> afficher_nb_opes )
+		    text = g_strdup_printf ( COLON(_("Category total (%d transactions)")), nb_ope_categ_etat);
+		else
+		    text = COLON(_("Category total"));
 	    }
-	  etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1,
-				      ligne, ligne + 1, LEFT, NULL );
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1,
+					ligne, ligne + 1, LEFT, NULL );
 
-	  text = g_strdup_printf ( "%4.2f %s", montant_categ_etat, devise_name ( devise_categ_etat ) );
-	  etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes,
-				      ligne, ligne + 1, RIGHT, NULL );
+	    text = g_strdup_printf ( "%4.2f %s", montant_categ_etat, devise_name ( devise_categ_etat ) );
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes,
+					ligne, ligne + 1, RIGHT, NULL );
 
-	  ligne++;
+	    ligne++;
 
-	  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes -1, ligne, ligne + 1, LEFT, NULL );
+	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes -1, ligne, ligne + 1, LEFT, NULL );
 
-	  ligne++;
+	    ligne++;
 	}
-      else
+	else
 	{
-	  ligne--;
+	    ligne--;
 
-	  if ( etat_courant -> afficher_nb_opes )
-	    text = g_strdup_printf ( "%4.2f %s ( %d opérations )", montant_categ_etat,
-				     devise_name ( devise_categ_etat ), nb_ope_categ_etat );
-	  else
-	    text =g_strdup_printf ( "%4.2f %s", montant_categ_etat, devise_name ( devise_categ_etat ) );
+	    if ( etat_courant -> afficher_nb_opes )
+		text = g_strdup_printf ( "%4.2f %s ( %d opérations )", montant_categ_etat,
+					 devise_name ( devise_categ_etat ), nb_ope_categ_etat );
+	    else
+		text =g_strdup_printf ( "%4.2f %s", montant_categ_etat, devise_name ( devise_categ_etat ) );
 
-	  etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes,
-				      ligne, ligne + 1, RIGHT, NULL );
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes,
+					ligne, ligne + 1, RIGHT, NULL );
 
-	  ligne++;
+	    ligne++;
 	}
 
     }
 
-  montant_categ_etat = 0;
-  nom_categ_en_cours = NULL;
-  titres_affiches = 0;
-  nb_ope_categ_etat = 0;
+    montant_categ_etat = 0;
+    nom_categ_en_cours = NULL;
+    titres_affiches = 0;
+    nb_ope_categ_etat = 0;
 
-  return (ligne );
+    return (ligne );
 }
 /*****************************************************************************************************/
 
@@ -159,80 +159,80 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 /*****************************************************************************************************/
 gint etat_affiche_affiche_total_sous_categ ( gint ligne )
 {
-  gchar * text;
+    gchar * text;
 
-  if ( etat_courant -> utilise_categ
-       &&
-       etat_courant -> afficher_sous_categ
-       &&
-       etat_courant -> affiche_sous_total_sous_categ )
+    if ( etat_courant -> utilise_categ
+	 &&
+	 etat_courant -> afficher_sous_categ
+	 &&
+	 etat_courant -> affiche_sous_total_sous_categ )
     {
-      /* si rien n'est affiché en dessous de la sous_categ, on */
-      /* met le résultat sur la ligne de la ss categ */
-      /* sinon on fait une barre et on met le résultat */
+	/* si rien n'est affiché en dessous de la sous_categ, on */
+	/* met le résultat sur la ligne de la ss categ */
+	/* sinon on fait une barre et on met le résultat */
 
-      if ( etat_courant -> utilise_ib
-	   ||
-	   etat_courant -> regroupe_ope_par_compte
-	   ||
-	   etat_courant -> utilise_tiers
-	   ||
-	   etat_courant -> afficher_opes )
+	if ( etat_courant -> utilise_ib
+	     ||
+	     etat_courant -> regroupe_ope_par_compte
+	     ||
+	     etat_courant -> utilise_tiers
+	     ||
+	     etat_courant -> afficher_opes )
 	{
-	  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
-	  ligne++;
+	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
+	    ligne++;
 
-	  etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
-	  ligne++;
+	    etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
+	    ligne++;
 
-	  if ( nom_categ_en_cours
-	       &&
-	       nom_ss_categ_en_cours )
+	    if ( nom_categ_en_cours
+		 &&
+		 nom_ss_categ_en_cours )
 	    {
-	      if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( COLON(_("Total %s: %s (%d transactions)")), nom_categ_en_cours,
-					 nom_ss_categ_en_cours, nb_ope_sous_categ_etat );
-	      else
-		text = g_strdup_printf ( _("Total %s: %s"), nom_categ_en_cours, nom_ss_categ_en_cours );
+		if ( etat_courant -> afficher_nb_opes )
+		    text = g_strdup_printf ( COLON(_("Total %s: %s (%d transactions)")), nom_categ_en_cours,
+					     nom_ss_categ_en_cours, nb_ope_sous_categ_etat );
+		else
+		    text = g_strdup_printf ( _("Total %s: %s"), nom_categ_en_cours, nom_ss_categ_en_cours );
 	    }
-	  else
+	    else
 	    {
-	      if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( COLON(_("Sub-categories total (%d transactions)")),
-					 nb_ope_sous_categ_etat );
-	      else
-		text = COLON(_("Sub-categories total"));
+		if ( etat_courant -> afficher_nb_opes )
+		    text = g_strdup_printf ( COLON(_("Sub-categories total (%d transactions)")),
+					     nb_ope_sous_categ_etat );
+		else
+		    text = COLON(_("Sub-categories total"));
 	    }
-	  etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 
-	  text = g_strdup_printf ( "%4.2f %s", montant_sous_categ_etat, devise_name ( devise_categ_etat ) );
-	  etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
-	  ligne++;
-
-	  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
-	  ligne++;
-	}
-      else
-	{
-	  ligne--;
-
-	  if ( etat_courant -> afficher_nb_opes )
-	    text = g_strdup_printf ( "%4.2f %s ( %d opérations )", montant_sous_categ_etat,
-				     devise_name ( devise_categ_etat ), nb_ope_sous_categ_etat );
-	  else
 	    text = g_strdup_printf ( "%4.2f %s", montant_sous_categ_etat, devise_name ( devise_categ_etat ) );
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
+	    ligne++;
 
-	  etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
-	  ligne++;
+	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
+	    ligne++;
+	}
+	else
+	{
+	    ligne--;
+
+	    if ( etat_courant -> afficher_nb_opes )
+		text = g_strdup_printf ( "%4.2f %s ( %d opérations )", montant_sous_categ_etat,
+					 devise_name ( devise_categ_etat ), nb_ope_sous_categ_etat );
+	    else
+		text = g_strdup_printf ( "%4.2f %s", montant_sous_categ_etat, devise_name ( devise_categ_etat ) );
+
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
+	    ligne++;
 	}
     }
 
-  montant_sous_categ_etat = 0;
-  nom_ss_categ_en_cours = NULL;
-  titres_affiches = 0;
-  nb_ope_sous_categ_etat = 0;
+    montant_sous_categ_etat = 0;
+    nom_ss_categ_en_cours = NULL;
+    titres_affiches = 0;
+    nb_ope_sous_categ_etat = 0;
 
-  return (ligne );
+    return (ligne );
 }
 /*****************************************************************************************************/
 
@@ -245,76 +245,76 @@ gint etat_affiche_affiche_total_sous_categ ( gint ligne )
 /*****************************************************************************************************/
 gint etat_affiche_affiche_total_ib ( gint ligne )
 {
-  gchar * text;
+    gchar * text;
 
-  if ( etat_courant -> utilise_ib
-       &&
-       etat_courant -> affiche_sous_total_ib )
+    if ( etat_courant -> utilise_ib
+	 &&
+	 etat_courant -> affiche_sous_total_ib )
     {
-      /* si rien n'est affiché en dessous de la ib, on */
-      /* met le résultat sur la ligne de l'ib */
-      /* sinon on fait une barre et on met le résultat */
+	/* si rien n'est affiché en dessous de la ib, on */
+	/* met le résultat sur la ligne de l'ib */
+	/* sinon on fait une barre et on met le résultat */
 
-      if ( etat_courant -> afficher_sous_ib
-	   ||
-	   etat_courant -> regroupe_ope_par_compte
-	   ||
-	   etat_courant -> utilise_tiers
-	   ||
-	   etat_courant -> afficher_opes )
+	if ( etat_courant -> afficher_sous_ib
+	     ||
+	     etat_courant -> regroupe_ope_par_compte
+	     ||
+	     etat_courant -> utilise_tiers
+	     ||
+	     etat_courant -> afficher_opes )
 	{
-	  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
-	  ligne++;
+	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
+	    ligne++;
 
-	  etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
-	  ligne++;
+	    etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
+	    ligne++;
 
-	  if ( nom_ib_en_cours )
+	    if ( nom_ib_en_cours )
 	    {
-	      if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( _("Total %s (%d transactions)"), nom_ib_en_cours, nb_ope_ib_etat );
-	      else
-		text = g_strconcat ( POSTSPACIFY(_("Total")), nom_ib_en_cours, NULL );
+		if ( etat_courant -> afficher_nb_opes )
+		    text = g_strdup_printf ( _("Total %s (%d transactions)"), nom_ib_en_cours, nb_ope_ib_etat );
+		else
+		    text = g_strconcat ( POSTSPACIFY(_("Total")), nom_ib_en_cours, NULL );
 	    }
-	  else
+	    else
 	    {
-	      if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( COLON(_("Budgetary lines total: (%d transactions)")),
-					 nb_ope_ib_etat );
-	      else
-		text = COLON(_("Budgetary lines total"));
+		if ( etat_courant -> afficher_nb_opes )
+		    text = g_strdup_printf ( COLON(_("Budgetary lines total: (%d transactions)")),
+					     nb_ope_ib_etat );
+		else
+		    text = COLON(_("Budgetary lines total"));
 	    }
 
-	  etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 
-	  text = g_strdup_printf ( "%4.2f %s", montant_ib_etat, devise_name ( devise_ib_etat ) );
-	  etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
-	  ligne++;
-
-	  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
-	  ligne++;
-	}
-      else
-	{
-	  ligne--;
-
-	  if ( etat_courant -> afficher_nb_opes )
-	    text = g_strdup_printf ( "%4.2f %s ( %d opérations )", montant_ib_etat,
-				     devise_name ( devise_ib_etat ), nb_ope_ib_etat );
-	  else
 	    text = g_strdup_printf ( "%4.2f %s", montant_ib_etat, devise_name ( devise_ib_etat ) );
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
+	    ligne++;
 
-	  etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
-	  ligne++;
+	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
+	    ligne++;
+	}
+	else
+	{
+	    ligne--;
+
+	    if ( etat_courant -> afficher_nb_opes )
+		text = g_strdup_printf ( "%4.2f %s ( %d opérations )", montant_ib_etat,
+					 devise_name ( devise_ib_etat ), nb_ope_ib_etat );
+	    else
+		text = g_strdup_printf ( "%4.2f %s", montant_ib_etat, devise_name ( devise_ib_etat ) );
+
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
+	    ligne++;
 	}
     }
 
-  montant_ib_etat = 0;
-  nom_ib_en_cours = NULL;
-  titres_affiches = 0;
-  nb_ope_ib_etat = 0;
+    montant_ib_etat = 0;
+    nom_ib_en_cours = NULL;
+    titres_affiches = 0;
+    nb_ope_ib_etat = 0;
 
-  return (ligne );
+    return (ligne );
 }
 /*****************************************************************************************************/
 
@@ -327,80 +327,80 @@ gint etat_affiche_affiche_total_ib ( gint ligne )
 /*****************************************************************************************************/
 gint etat_affiche_affiche_total_sous_ib ( gint ligne )
 {
-  gchar * text;
+    gchar * text;
 
-  if ( etat_courant -> utilise_ib
-       &&
-       etat_courant -> afficher_sous_ib
-       &&
-       etat_courant -> affiche_sous_total_sous_ib )
+    if ( etat_courant -> utilise_ib
+	 &&
+	 etat_courant -> afficher_sous_ib
+	 &&
+	 etat_courant -> affiche_sous_total_sous_ib )
     {
-      /* si rien n'est affiché en dessous de la sous ib, on */
-      /* met le résultat sur la ligne de la sous ib */
-      /* sinon on fait une barre et on met le résultat */
+	/* si rien n'est affiché en dessous de la sous ib, on */
+	/* met le résultat sur la ligne de la sous ib */
+	/* sinon on fait une barre et on met le résultat */
 
-      if ( etat_courant -> regroupe_ope_par_compte
-	   ||
-	   etat_courant -> utilise_tiers
-	   ||
-	   etat_courant -> afficher_opes )
+	if ( etat_courant -> regroupe_ope_par_compte
+	     ||
+	     etat_courant -> utilise_tiers
+	     ||
+	     etat_courant -> afficher_opes )
 	{
 
-	  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
-	  ligne++;
+	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
+	    ligne++;
 
-	  etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
-	  ligne++;
+	    etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
+	    ligne++;
 
-	  if ( nom_ib_en_cours
-	       &&
-	       nom_ss_ib_en_cours )
+	    if ( nom_ib_en_cours
+		 &&
+		 nom_ss_ib_en_cours )
 	    {
-	      if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( COLON(_("Total %s: %s (%d transactions)")), nom_ib_en_cours,
-					 nom_ss_ib_en_cours, nb_ope_sous_ib_etat );
-	      else
-		text = g_strdup_printf ( _("Total %s: %s"), nom_ib_en_cours, nom_ss_ib_en_cours );
+		if ( etat_courant -> afficher_nb_opes )
+		    text = g_strdup_printf ( COLON(_("Total %s: %s (%d transactions)")), nom_ib_en_cours,
+					     nom_ss_ib_en_cours, nb_ope_sous_ib_etat );
+		else
+		    text = g_strdup_printf ( _("Total %s: %s"), nom_ib_en_cours, nom_ss_ib_en_cours );
 	    }
-	  else
+	    else
 	    {
-	      if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( COLON(_("Sub-budgetary lines total: (%d transactions)")),
-					 nb_ope_sous_ib_etat );
-	      else
-		text = COLON(_("Sub-budgetary lines total"));
+		if ( etat_courant -> afficher_nb_opes )
+		    text = g_strdup_printf ( COLON(_("Sub-budgetary lines total: (%d transactions)")),
+					     nb_ope_sous_ib_etat );
+		else
+		    text = COLON(_("Sub-budgetary lines total"));
 	    }
-	  
-	  etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 
-	  text = g_strdup_printf ( "%4.2f %s", montant_sous_ib_etat, devise_name ( devise_ib_etat ) );
-	  etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
-	  ligne++;
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 
-	  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
-	  ligne++;
+	    text = g_strdup_printf ( "%4.2f %s", montant_sous_ib_etat, devise_name ( devise_ib_etat ) );
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
+	    ligne++;
+
+	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
+	    ligne++;
 	}
-      else
+	else
 	{
-	  ligne--;
+	    ligne--;
 
-	  if ( etat_courant -> afficher_nb_opes )
-	    text = g_strdup_printf ( "%4.2f %s ( %d opérations )", montant_sous_ib_etat,
-				     devise_name ( devise_ib_etat ), nb_ope_sous_ib_etat );
-	  else
-	    text = g_strdup_printf ( "%4.2f %s", montant_sous_ib_etat, devise_name ( devise_ib_etat )) ;
-				     
-	  etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
-	  ligne++;
+	    if ( etat_courant -> afficher_nb_opes )
+		text = g_strdup_printf ( "%4.2f %s ( %d opérations )", montant_sous_ib_etat,
+					 devise_name ( devise_ib_etat ), nb_ope_sous_ib_etat );
+	    else
+		text = g_strdup_printf ( "%4.2f %s", montant_sous_ib_etat, devise_name ( devise_ib_etat )) ;
+
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
+	    ligne++;
 	}
     }
 
-  montant_sous_ib_etat = 0;
-  nom_ss_ib_en_cours = NULL;
-  titres_affiches = 0;
-  nb_ope_sous_ib_etat = 0;
+    montant_sous_ib_etat = 0;
+    nom_ss_ib_en_cours = NULL;
+    titres_affiches = 0;
+    nb_ope_sous_ib_etat = 0;
 
-  return (ligne );
+    return (ligne );
 }
 /*****************************************************************************************************/
 
@@ -413,71 +413,71 @@ gint etat_affiche_affiche_total_sous_ib ( gint ligne )
 /*****************************************************************************************************/
 gint etat_affiche_affiche_total_compte ( gint ligne )
 {
-  gchar * text;
+    gchar * text;
 
-  if ( etat_courant -> regroupe_ope_par_compte
-       &&
-       etat_courant -> affiche_sous_total_compte )
+    if ( etat_courant -> regroupe_ope_par_compte
+	 &&
+	 etat_courant -> affiche_sous_total_compte )
     {
-      /* si rien n'est affiché en dessous du compte, on */
-      /* met le résultat sur la ligne du compte */
-      /* sinon on fait une barre et on met le résultat */
+	/* si rien n'est affiché en dessous du compte, on */
+	/* met le résultat sur la ligne du compte */
+	/* sinon on fait une barre et on met le résultat */
 
-      if ( etat_courant -> utilise_tiers
-	   ||
-	   etat_courant -> afficher_opes )
+	if ( etat_courant -> utilise_tiers
+	     ||
+	     etat_courant -> afficher_opes )
 	{
-	  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
-	  ligne++;
+	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
+	    ligne++;
 
-	  etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
-	  ligne++;
+	    etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
+	    ligne++;
 
-	  if ( nom_compte_en_cours )
+	    if ( nom_compte_en_cours )
 	    {
-	      if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( _("Total %s (%d transactions)"), nom_compte_en_cours, nb_ope_compte_etat );
-	      else
-		text = g_strconcat ( POSTSPACIFY(_("Total")), nom_compte_en_cours, NULL );
+		if ( etat_courant -> afficher_nb_opes )
+		    text = g_strdup_printf ( _("Total %s (%d transactions)"), nom_compte_en_cours, nb_ope_compte_etat );
+		else
+		    text = g_strconcat ( POSTSPACIFY(_("Total")), nom_compte_en_cours, NULL );
 	    }
-	  else
+	    else
 	    {
-	      if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( COLON(_("Account total: (%d transactions)")), nb_ope_compte_etat );
-	      else
-		text = COLON(_("Account total"));
+		if ( etat_courant -> afficher_nb_opes )
+		    text = g_strdup_printf ( COLON(_("Account total: (%d transactions)")), nb_ope_compte_etat );
+		else
+		    text = COLON(_("Account total"));
 	    }
-	  
-	  etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 
-	  text = g_strdup_printf ( "%4.2f %s", montant_compte_etat, devise_name ( devise_compte_en_cours_etat ) );
-	  etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
-	  ligne++;
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 
-	  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
-	  ligne++;
+	    text = g_strdup_printf ( "%4.2f %s", montant_compte_etat, devise_name ( devise_compte_en_cours_etat ) );
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
+	    ligne++;
+
+	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
+	    ligne++;
 	}
-      else
+	else
 	{
-	  ligne--;
+	    ligne--;
 
-	  if ( etat_courant -> afficher_nb_opes )
-	    text = g_strdup_printf ( "%4.2f %s ( %d opérations )", montant_compte_etat,
-				     devise_name ( devise_compte_en_cours_etat ), nb_ope_compte_etat );
-	  else
-	    text = g_strdup_printf ( "%4.2f %s", montant_compte_etat, devise_name (devise_compte_en_cours_etat) );
+	    if ( etat_courant -> afficher_nb_opes )
+		text = g_strdup_printf ( "%4.2f %s ( %d opérations )", montant_compte_etat,
+					 devise_name ( devise_compte_en_cours_etat ), nb_ope_compte_etat );
+	    else
+		text = g_strdup_printf ( "%4.2f %s", montant_compte_etat, devise_name (devise_compte_en_cours_etat) );
 
-	  etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );  
-	  ligne++;
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );  
+	    ligne++;
 	}
     }
 
-  montant_compte_etat = 0;
-  nom_compte_en_cours = NULL;
-  titres_affiches = 0;
-  nb_ope_compte_etat = 0;
+    montant_compte_etat = 0;
+    nom_compte_en_cours = NULL;
+    titres_affiches = 0;
+    nb_ope_compte_etat = 0;
 
-  return (ligne );
+    return (ligne );
 }
 /*****************************************************************************************************/
 
@@ -490,70 +490,70 @@ gint etat_affiche_affiche_total_compte ( gint ligne )
 /*****************************************************************************************************/
 gint etat_affiche_affiche_total_tiers ( gint ligne )
 {
-  gchar * text;
+    gchar * text;
 
-  if ( etat_courant -> utilise_tiers
-       &&
-       etat_courant -> affiche_sous_total_tiers )
+    if ( etat_courant -> utilise_tiers
+	 &&
+	 etat_courant -> affiche_sous_total_tiers )
     {
-      /* si rien n'est affiché en dessous du tiers, on */
-      /* met le résultat sur la ligne du tiers */
-      /* sinon on fait une barre et on met le résultat */
+	/* si rien n'est affiché en dessous du tiers, on */
+	/* met le résultat sur la ligne du tiers */
+	/* sinon on fait une barre et on met le résultat */
 
-      if ( etat_courant -> afficher_opes )
+	if ( etat_courant -> afficher_opes )
 	{
 
-	  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
-	  ligne++;
+	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
+	    ligne++;
 
-	  etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
-	  ligne++;
+	    etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
+	    ligne++;
 
-	  if ( nom_tiers_en_cours )
+	    if ( nom_tiers_en_cours )
 	    {
-	      if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( _("Total %s (%d transactions)"), nom_tiers_en_cours, nb_ope_tiers_etat );
-	      else
-		text = g_strdup_printf ( _("Total %s"), nom_tiers_en_cours );
+		if ( etat_courant -> afficher_nb_opes )
+		    text = g_strdup_printf ( _("Total %s (%d transactions)"), nom_tiers_en_cours, nb_ope_tiers_etat );
+		else
+		    text = g_strdup_printf ( _("Total %s"), nom_tiers_en_cours );
 	    }
-	  else
+	    else
 	    {
-	      if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( COLON(_("Third party total: (%d transactions)")), nb_ope_tiers_etat );
-	      else
-		text = COLON(_("Third party total"));
+		if ( etat_courant -> afficher_nb_opes )
+		    text = g_strdup_printf ( COLON(_("Third party total: (%d transactions)")), nb_ope_tiers_etat );
+		else
+		    text = COLON(_("Third party total"));
 	    }
-	  
-	  etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
-	  
-	  text = g_strdup_printf ( "%4.2f %s", montant_tiers_etat, devise_name ( devise_tiers_etat ) );
-	  etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
-	  ligne++;
 
-	  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
-	  ligne++;
-	}
-      else
-	{
-	  ligne--;
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 
-	  if ( etat_courant -> afficher_nb_opes )
-	    text = g_strdup_printf ( "%4.2f %s ( %d opérations )", montant_tiers_etat,
-				     devise_name ( devise_tiers_etat ), nb_ope_tiers_etat );
-	  else
 	    text = g_strdup_printf ( "%4.2f %s", montant_tiers_etat, devise_name ( devise_tiers_etat ) );
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
+	    ligne++;
 
-	  etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
-	  ligne++;
+	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
+	    ligne++;
+	}
+	else
+	{
+	    ligne--;
+
+	    if ( etat_courant -> afficher_nb_opes )
+		text = g_strdup_printf ( "%4.2f %s ( %d opérations )", montant_tiers_etat,
+					 devise_name ( devise_tiers_etat ), nb_ope_tiers_etat );
+	    else
+		text = g_strdup_printf ( "%4.2f %s", montant_tiers_etat, devise_name ( devise_tiers_etat ) );
+
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
+	    ligne++;
 	}
     }
 
-  montant_tiers_etat = 0;
-  nom_tiers_en_cours = NULL;
-  titres_affiches = 0;
-  nb_ope_tiers_etat = 0;
+    montant_tiers_etat = 0;
+    nom_tiers_en_cours = NULL;
+    titres_affiches = 0;
+    nb_ope_tiers_etat = 0;
 
-  return (ligne );
+    return (ligne );
 }
 /*****************************************************************************************************/
 
@@ -570,252 +570,252 @@ gint etat_affiche_affiche_total_tiers ( gint ligne )
 /*****************************************************************************************************/
 gint etat_affiche_affiche_total_periode ( struct structure_operation *operation, gint ligne, gint force )
 {
-  if ( etat_courant -> separation_par_plage )
+    if ( etat_courant -> separation_par_plage )
     {
-      gchar *text;
+	gchar *text;
 
-      text = NULL;
+	text = NULL;
 
-      /* si la date de début de période est nulle, on la met au début de la période la date de l'opération */
+	/* si la date de début de période est nulle, on la met au début de la période la date de l'opération */
 
-      if ( !date_debut_periode )
+	if ( !date_debut_periode )
 	{
-	  if ( operation )
+	    if ( operation )
 	    {
-	      /*  il y a une opération, on va rechercher le début de la période qui la contient */
-	      /* ça peut être le début de la semaine, du mois ou de l'année de l'opé */
+		/*  il y a une opération, on va rechercher le début de la période qui la contient */
+		/* ça peut être le début de la semaine, du mois ou de l'année de l'opé */
 
-	      switch ( etat_courant -> type_separation_plage )
+		switch ( etat_courant -> type_separation_plage )
 		{
-		case 0:
-		  /* séparation par semaine : on recherche le début de la semaine qui contient l'opé */
+		    case 0:
+			/* séparation par semaine : on recherche le début de la semaine qui contient l'opé */
 
-		  date_debut_periode = g_date_new_dmy ( g_date_day ( operation -> date ),
-							g_date_month ( operation -> date ),
-							g_date_year ( operation -> date ));
+			date_debut_periode = g_date_new_dmy ( g_date_day ( operation -> date ),
+							      g_date_month ( operation -> date ),
+							      g_date_year ( operation -> date ));
 
-		  if ( g_date_weekday ( date_debut_periode )  != (etat_courant -> jour_debut_semaine + 1 ))
-		    {
-		      if ( g_date_weekday ( date_debut_periode ) < (etat_courant -> jour_debut_semaine + 1 ))
-			g_date_subtract_days ( date_debut_periode,
-					       g_date_weekday ( date_debut_periode ) + etat_courant -> jour_debut_semaine - 2 );
-		      else
-			g_date_subtract_days ( date_debut_periode,
-					       g_date_weekday ( date_debut_periode ) - etat_courant -> jour_debut_semaine - 1 );
-		    }
-		  break;
+			if ( g_date_weekday ( date_debut_periode )  != (etat_courant -> jour_debut_semaine + 1 ))
+			{
+			    if ( g_date_weekday ( date_debut_periode ) < (etat_courant -> jour_debut_semaine + 1 ))
+				g_date_subtract_days ( date_debut_periode,
+						       g_date_weekday ( date_debut_periode ) + etat_courant -> jour_debut_semaine - 2 );
+			    else
+				g_date_subtract_days ( date_debut_periode,
+						       g_date_weekday ( date_debut_periode ) - etat_courant -> jour_debut_semaine - 1 );
+			}
+			break;
 
-		case 1:
-		  /* séparation par mois */
+		    case 1:
+			/* séparation par mois */
 
-		  date_debut_periode = g_date_new_dmy ( 1,
-							g_date_month ( operation -> date ),
-							g_date_year ( operation -> date ));
-		  break;
+			date_debut_periode = g_date_new_dmy ( 1,
+							      g_date_month ( operation -> date ),
+							      g_date_year ( operation -> date ));
+			break;
 
-		case 2:
-		  /* séparation par an */
+		    case 2:
+			/* séparation par an */
 
-		  date_debut_periode = g_date_new_dmy ( 1,
-							1,
-							g_date_year ( operation -> date ));
-		  break;
+			date_debut_periode = g_date_new_dmy ( 1,
+							      1,
+							      g_date_year ( operation -> date ));
+			break;
 		}
 	    }
-	  else
-	    date_debut_periode = NULL;
-	  return ( ligne );
+	    else
+		date_debut_periode = NULL;
+	    return ( ligne );
 	}
 
-      /* on vérifie maintenant s'il faut afficher un total ou pas */
+	/* on vérifie maintenant s'il faut afficher un total ou pas */
 
-      switch ( etat_courant -> type_separation_plage )
+	switch ( etat_courant -> type_separation_plage )
 	{
-	  gchar buffer[30];
-	  GDate *date_tmp;
+	    gchar buffer[30];
+	    GDate *date_tmp;
 
-	case 0:
-	  /* séparation par semaine */
-
-	  /* 	  si c'est le même jour que l'opé précédente, on fait rien */
-
-	  if ( !force
-	       &&
-	       !g_date_compare ( operation -> date,
-				 date_debut_periode ))
-	    return ( ligne );
-
-	  /* 	  si on est en début de semaine, on met un sous total */
-
-	  date_tmp = g_date_new_dmy ( g_date_day ( date_debut_periode ),
-				      g_date_month ( date_debut_periode ),
-				      g_date_year ( date_debut_periode ));
-	  g_date_add_days ( date_tmp,
-			    7 );
-
-	  if ( !force
-	       &&
-	       ( g_date_weekday ( operation -> date )  != (etat_courant -> jour_debut_semaine + 1 )
-		 &&
-		 g_date_compare ( operation -> date,
-				  date_tmp ) < 0 ))
-	    return ( ligne );
-
-	  /* on doit retrouver la date du début de semaine et y ajouter 6j pour afficher la période */
-
-	  if ( g_date_weekday ( date_debut_periode )  != (etat_courant -> jour_debut_semaine + 1 ))
-	    {
-	      if ( g_date_weekday ( date_debut_periode ) < (etat_courant -> jour_debut_semaine + 1 ))
-		g_date_subtract_days ( date_debut_periode,
-				       g_date_weekday ( date_debut_periode ) + etat_courant -> jour_debut_semaine - 2 );
-	      else
-		g_date_subtract_days ( date_debut_periode,
-				       g_date_weekday ( date_debut_periode ) - etat_courant -> jour_debut_semaine - 1 );
-	    }
-
-
-	  g_date_free ( date_tmp );
-
-	  date_tmp = g_date_new_dmy ( g_date_day ( date_debut_periode ),
-				      g_date_month ( date_debut_periode ),
-				      g_date_year ( date_debut_periode ));
-	  g_date_add_days ( date_tmp,
-			    6 );
-	  if ( etat_courant -> afficher_nb_opes )
-	    text = g_strdup_printf ( _("Result from %d/%d/%d to %d/%d/%d (%d transactions):"),
-				     g_date_day ( date_debut_periode ),
-				     g_date_month ( date_debut_periode ),
-				     g_date_year ( date_debut_periode ),
-				     g_date_day ( date_tmp ),
-				     g_date_month ( date_tmp ),
-				     g_date_year ( date_tmp ),
-				     nb_ope_periode_etat );
-	  else
-	    text = g_strdup_printf ( _("Result from %d/%d/%d to %d/%d/%d:"),
-				     g_date_day ( date_debut_periode ),
-				     g_date_month ( date_debut_periode ),
-				     g_date_year ( date_debut_periode ),
-				     g_date_day ( date_tmp ),
-				     g_date_month ( date_tmp ),
-				     g_date_year ( date_tmp ));
-
-	  break;
-
-	case 1:
-	  /* séparation par mois */
-
-	  if ( !force
-	       &&
-	       operation -> mois == g_date_month ( date_debut_periode ) )
-	    return ( ligne );
-
-	  g_date_strftime ( buffer,
-			    29,
-			    "%B %Y",
-			    date_debut_periode );
-			    
-	  if ( etat_courant -> afficher_nb_opes )
-	    text = g_strdup_printf ( COLON(_("Result of %s (%d transactions)")),
-				     buffer, nb_ope_periode_etat );
-	  else
-	    text = g_strdup_printf ( COLON(_("Result of %s")),
-				     buffer );
-				      
-	  break;
-
-	case 2:
-	  /* séparation par an */
-
-	  if ( !force
-	       &&
-	       operation -> annee == g_date_year ( date_debut_periode ) )
-	    return ( ligne );
-
-	  g_date_strftime ( buffer,
-			    29,
-			    "%Y",
-			    date_debut_periode );
-			    
-	  if ( etat_courant -> afficher_nb_opes )
-	    text = g_strdup_printf ( COLON(_("Result of the year%s (%d transactions)")),
-				     buffer, nb_ope_periode_etat );
-	  else
-	    text = g_strdup_printf ( COLON(_("Result of the year%s")),
-				     buffer );
-	  break;
-	}
-
-      /*       si on arrive ici, c'est qu'il y a un chgt de période ou que c'est forcé */
-
-      etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
-      ligne++;
-
-      etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
-      ligne++;
-
-      etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
-
-      text = g_strdup_printf ( "%4.2f %s", montant_periode_etat, devise_name ( devise_generale_etat ) );
-      etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
-      ligne++;
-
-      etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
-      ligne++;
-
-      montant_periode_etat = 0;
-      nb_ope_periode_etat = 0;
-
-      /* comme il y a un changement de période, on remet la date_debut_periode à celle du début de la période */
-      /* de l'opération  en cours */
-
-
-      if ( operation )
-	{
-	  /*  il y a une opération, on va rechercher le début de la période qui la contient */
-	  /* ça peut être le début de la semaine, du mois ou de l'année de l'opé */
-
-	  switch ( etat_courant -> type_separation_plage )
-	    {
 	    case 0:
-	      /* séparation par semaine : on recherche le début de la semaine qui contient l'opé */
+	    /* séparation par semaine */
 
-	      date_debut_periode = g_date_new_dmy ( g_date_day ( operation -> date ),
-						    g_date_month ( operation -> date ),
-						    g_date_year ( operation -> date ));
+	    /* 	  si c'est le même jour que l'opé précédente, on fait rien */
 
-	      if ( g_date_weekday ( date_debut_periode )  != (etat_courant -> jour_debut_semaine + 1 ))
-		{
-		  if ( g_date_weekday ( date_debut_periode ) < (etat_courant -> jour_debut_semaine + 1 ))
+	    if ( !force
+		 &&
+		 !g_date_compare ( operation -> date,
+				   date_debut_periode ))
+		return ( ligne );
+
+	    /* 	  si on est en début de semaine, on met un sous total */
+
+	    date_tmp = g_date_new_dmy ( g_date_day ( date_debut_periode ),
+					g_date_month ( date_debut_periode ),
+					g_date_year ( date_debut_periode ));
+	    g_date_add_days ( date_tmp,
+			      7 );
+
+	    if ( !force
+		 &&
+		 ( g_date_weekday ( operation -> date )  != (etat_courant -> jour_debut_semaine + 1 )
+		   &&
+		   g_date_compare ( operation -> date,
+				    date_tmp ) < 0 ))
+		return ( ligne );
+
+	    /* on doit retrouver la date du début de semaine et y ajouter 6j pour afficher la période */
+
+	    if ( g_date_weekday ( date_debut_periode )  != (etat_courant -> jour_debut_semaine + 1 ))
+	    {
+		if ( g_date_weekday ( date_debut_periode ) < (etat_courant -> jour_debut_semaine + 1 ))
 		    g_date_subtract_days ( date_debut_periode,
 					   g_date_weekday ( date_debut_periode ) + etat_courant -> jour_debut_semaine - 2 );
-		  else
+		else
 		    g_date_subtract_days ( date_debut_periode,
 					   g_date_weekday ( date_debut_periode ) - etat_courant -> jour_debut_semaine - 1 );
-		}
-	      break;
+	    }
+
+
+	    g_date_free ( date_tmp );
+
+	    date_tmp = g_date_new_dmy ( g_date_day ( date_debut_periode ),
+					g_date_month ( date_debut_periode ),
+					g_date_year ( date_debut_periode ));
+	    g_date_add_days ( date_tmp,
+			      6 );
+	    if ( etat_courant -> afficher_nb_opes )
+		text = g_strdup_printf ( _("Result from %d/%d/%d to %d/%d/%d (%d transactions):"),
+					 g_date_day ( date_debut_periode ),
+					 g_date_month ( date_debut_periode ),
+					 g_date_year ( date_debut_periode ),
+					 g_date_day ( date_tmp ),
+					 g_date_month ( date_tmp ),
+					 g_date_year ( date_tmp ),
+					 nb_ope_periode_etat );
+	    else
+		text = g_strdup_printf ( _("Result from %d/%d/%d to %d/%d/%d:"),
+					 g_date_day ( date_debut_periode ),
+					 g_date_month ( date_debut_periode ),
+					 g_date_year ( date_debut_periode ),
+					 g_date_day ( date_tmp ),
+					 g_date_month ( date_tmp ),
+					 g_date_year ( date_tmp ));
+
+	    break;
 
 	    case 1:
-	      /* séparation par mois */
+	    /* séparation par mois */
 
-	      date_debut_periode = g_date_new_dmy ( 1,
-						    g_date_month ( operation -> date ),
-						    g_date_year ( operation -> date ));
-	      break;
+	    if ( !force
+		 &&
+		 operation -> mois == g_date_month ( date_debut_periode ) )
+		return ( ligne );
+
+	    g_date_strftime ( buffer,
+			      29,
+			      "%B %Y",
+			      date_debut_periode );
+
+	    if ( etat_courant -> afficher_nb_opes )
+		text = g_strdup_printf ( COLON(_("Result of %s (%d transactions)")),
+					 buffer, nb_ope_periode_etat );
+	    else
+		text = g_strdup_printf ( COLON(_("Result of %s")),
+					 buffer );
+
+	    break;
 
 	    case 2:
-	      /* séparation par an */
+	    /* séparation par an */
 
-	      date_debut_periode = g_date_new_dmy ( 1,
-						    1,
-						    g_date_year ( operation -> date ));
-	      break;
+	    if ( !force
+		 &&
+		 operation -> annee == g_date_year ( date_debut_periode ) )
+		return ( ligne );
+
+	    g_date_strftime ( buffer,
+			      29,
+			      "%Y",
+			      date_debut_periode );
+
+	    if ( etat_courant -> afficher_nb_opes )
+		text = g_strdup_printf ( COLON(_("Result of the year%s (%d transactions)")),
+					 buffer, nb_ope_periode_etat );
+	    else
+		text = g_strdup_printf ( COLON(_("Result of the year%s")),
+					 buffer );
+	    break;
+	}
+
+	/*       si on arrive ici, c'est qu'il y a un chgt de période ou que c'est forcé */
+
+	etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
+	ligne++;
+
+	etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
+	ligne++;
+
+	etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
+
+	text = g_strdup_printf ( "%4.2f %s", montant_periode_etat, devise_name ( devise_generale_etat ) );
+	etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
+	ligne++;
+
+	etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
+	ligne++;
+
+	montant_periode_etat = 0;
+	nb_ope_periode_etat = 0;
+
+	/* comme il y a un changement de période, on remet la date_debut_periode à celle du début de la période */
+	/* de l'opération  en cours */
+
+
+	if ( operation )
+	{
+	    /*  il y a une opération, on va rechercher le début de la période qui la contient */
+	    /* ça peut être le début de la semaine, du mois ou de l'année de l'opé */
+
+	    switch ( etat_courant -> type_separation_plage )
+	    {
+		case 0:
+		    /* séparation par semaine : on recherche le début de la semaine qui contient l'opé */
+
+		    date_debut_periode = g_date_new_dmy ( g_date_day ( operation -> date ),
+							  g_date_month ( operation -> date ),
+							  g_date_year ( operation -> date ));
+
+		    if ( g_date_weekday ( date_debut_periode )  != (etat_courant -> jour_debut_semaine + 1 ))
+		    {
+			if ( g_date_weekday ( date_debut_periode ) < (etat_courant -> jour_debut_semaine + 1 ))
+			    g_date_subtract_days ( date_debut_periode,
+						   g_date_weekday ( date_debut_periode ) + etat_courant -> jour_debut_semaine - 2 );
+			else
+			    g_date_subtract_days ( date_debut_periode,
+						   g_date_weekday ( date_debut_periode ) - etat_courant -> jour_debut_semaine - 1 );
+		    }
+		    break;
+
+		case 1:
+		    /* séparation par mois */
+
+		    date_debut_periode = g_date_new_dmy ( 1,
+							  g_date_month ( operation -> date ),
+							  g_date_year ( operation -> date ));
+		    break;
+
+		case 2:
+		    /* séparation par an */
+
+		    date_debut_periode = g_date_new_dmy ( 1,
+							  1,
+							  g_date_year ( operation -> date ));
+		    break;
 	    }
 	}
-      else
-	date_debut_periode = NULL;
+	else
+	    date_debut_periode = NULL;
     }
 
-  return (ligne );
+    return (ligne );
 
 }
 /*****************************************************************************************************/
@@ -824,390 +824,390 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 					gint ligne )
 {
-  gint colonne;
-  gchar * text;
+    gint colonne;
+    gchar * text;
 
-  /* on met tous les labels dans un event_box pour aller directement sur l'opé si elle est clickée */
+    /* on met tous les labels dans un event_box pour aller directement sur l'opé si elle est clickée */
 
 
-  if ( etat_courant -> afficher_opes )
+    if ( etat_courant -> afficher_opes )
     {
-      /* on affiche ce qui est demandé pour les opés */
+	/* on affiche ce qui est demandé pour les opés */
 
 
-      /* si les titres ne sont pas affichés et qu'il faut le faire, c'est ici */
+	/* si les titres ne sont pas affichés et qu'il faut le faire, c'est ici */
 
-      if ( !titres_affiches
-	   &&
-	   etat_courant -> afficher_titre_colonnes
-	   &&
-	   etat_courant -> type_affichage_titres )
-	ligne = etat_affiche_affiche_titres_colonnes ( ligne );
+	if ( !titres_affiches
+	     &&
+	     etat_courant -> afficher_titre_colonnes
+	     &&
+	     etat_courant -> type_affichage_titres )
+	    ligne = etat_affiche_affiche_titres_colonnes ( ligne );
 
-      colonne = 1;
+	colonne = 1;
 
-      /*       pour chaque info, on vérifie si on l'opé doit être clickable */
-      /* si c'est le cas, on place le label dans un event_box */
+	/*       pour chaque info, on vérifie si on l'opé doit être clickable */
+	/* si c'est le cas, on place le label dans un event_box */
 
-      if ( etat_courant -> afficher_no_ope )
+	if ( etat_courant -> afficher_no_ope )
 	{
-	  text = itoa ( operation -> no_operation );
+	    text = itoa ( operation -> no_operation );
 
-	  if ( etat_courant -> ope_clickables )
+	    if ( etat_courant -> ope_clickables )
 	    {
-	      etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
+		etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 	    }
-	  else
+	    else
 	    {
-	      etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
 	    }
 
-	  etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
-	  colonne = colonne + 2;
+	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	    colonne = colonne + 2;
 	}
 
-      if ( etat_courant -> afficher_date_ope )
+	if ( etat_courant -> afficher_date_ope )
 	{
-	  text = g_strdup_printf  ( "%.2d/%.2d/%d", operation -> jour, operation -> mois, operation -> annee );
-	  if ( etat_courant -> ope_clickables )
+	    text = g_strdup_printf  ( "%.2d/%.2d/%d", operation -> jour, operation -> mois, operation -> annee );
+	    if ( etat_courant -> ope_clickables )
 	    {
-	      etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
+		etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 	    }
-	  else
+	    else
 	    {
-	      etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
 	    }
 
-	  etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
-	  colonne = colonne + 2;
+	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	    colonne = colonne + 2;
 	}
 
-      if ( etat_courant -> afficher_exo_ope )
+	if ( etat_courant -> afficher_exo_ope )
 	{
-	  if ( operation -> no_exercice )
+	    if ( operation -> no_exercice )
 	    {
-	      text = ((struct struct_exercice *)(g_slist_find_custom ( liste_struct_exercices,
-								       GINT_TO_POINTER ( operation -> no_exercice ),
-								       (GCompareFunc) recherche_exercice_par_no )->data)) -> nom_exercice;
-	      
-	      if ( etat_courant -> ope_clickables )
+		text = ((struct struct_exercice *)(g_slist_find_custom ( liste_struct_exercices,
+									 GINT_TO_POINTER ( operation -> no_exercice ),
+									 (GCompareFunc) recherche_exercice_par_no )->data)) -> nom_exercice;
+
+		if ( etat_courant -> ope_clickables )
 		{
-		  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
-	      else
+		else
 		{
-		  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
 		}
 	    }
-	  etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
-	  colonne = colonne + 2;
-	}
-
-
-      if ( etat_courant -> afficher_tiers_ope )
-	{
-	  if ( operation -> tiers )
-	    {
-	      text = ((struct struct_tiers *)(g_slist_find_custom ( liste_struct_tiers,
-								    GINT_TO_POINTER ( operation -> tiers ),
-								    (GCompareFunc) recherche_tiers_par_no )->data)) -> nom_tiers;
-	      if ( etat_courant -> ope_clickables )
-		{
-		  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
-		}
-	      else
-		{
-		  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
-		}
-	    }
-
-	  etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
-	  colonne = colonne + 2;
-	}
-
-      if ( etat_courant -> afficher_categ_ope )
-	{
-	  gchar *pointeur;
-
-	  pointeur = NULL;
-
-	  if ( operation -> categorie )
-	    {
-	      struct struct_categ *categ;
-
-	      categ = g_slist_find_custom ( liste_struct_categories,
-					    GINT_TO_POINTER ( operation -> categorie ),
-					    (GCompareFunc) recherche_categorie_par_no ) -> data;
-	      pointeur = categ -> nom_categ;
-
-	      if ( operation -> sous_categorie
-		   &&
-		   etat_courant -> afficher_sous_categ_ope )
-		pointeur = g_strconcat ( pointeur,
-					 " : ",
-					 ((struct struct_sous_categ *)(g_slist_find_custom ( categ -> liste_sous_categ,
-											     GINT_TO_POINTER ( operation -> sous_categorie ),
-											     (GCompareFunc) recherche_sous_categorie_par_no ) -> data )) -> nom_sous_categ,
-					 NULL );
-	    }
-	  else
-	    {
-	      /* si c'est un virement, on le marque, sinon c'est qu'il n'y a pas de categ */
-	      /* ou que c'est une opé ventilée, et on marque rien */
-
-	      if ( operation -> relation_no_operation )
-		{
-		  /* c'est un virement */
-
-		  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
-
-		  if ( operation -> montant < 0 )
-		    pointeur = g_strdup_printf ( _("Transfer to %s"), NOM_DU_COMPTE );
-		  else
-		    pointeur = g_strdup_printf ( _("Transfer from %s"), NOM_DU_COMPTE );
-		}
-	    }
-
-	  if ( pointeur )
-	    {
-	      if ( etat_courant -> ope_clickables )
-		{
-		  etat_affiche_attach_label ( pointeur, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
-		}
-	      else
-		{
-		  etat_affiche_attach_label ( pointeur, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
-		}
-	    }
-
-	  etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
-	  colonne = colonne + 2;
-	}
-		
-
-      if ( etat_courant -> afficher_ib_ope )
-	{
-	  if ( operation -> imputation )
-	    {
-	      struct struct_imputation *ib;
-	      gchar *pointeur;
-
-	      ib = g_slist_find_custom ( liste_struct_imputation,
-					 GINT_TO_POINTER ( operation -> imputation ),
-					 (GCompareFunc) recherche_imputation_par_no ) -> data;
-	      pointeur = ib -> nom_imputation;
-
-	      if ( operation -> sous_imputation
-		   &&
-		   etat_courant -> afficher_sous_ib_ope )
-		pointeur = g_strconcat ( pointeur,
-					 " : ",
-					 ((struct struct_sous_imputation *)(g_slist_find_custom ( ib -> liste_sous_imputation,
-												  GINT_TO_POINTER ( operation -> sous_imputation ),
-												  (GCompareFunc) recherche_sous_imputation_par_no ) -> data )) -> nom_sous_imputation,
-					 NULL );
-
-	      if ( etat_courant -> ope_clickables )
-		{
-		  etat_affiche_attach_label ( pointeur, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
-		}
-	      else
-		{
-		  etat_affiche_attach_label ( pointeur, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
-		}
-	    }
-	      
-	  etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
-	  colonne = colonne + 2;
+	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	    colonne = colonne + 2;
 	}
 
 
-      if ( etat_courant -> afficher_notes_ope )
+	if ( etat_courant -> afficher_tiers_ope )
 	{
-	  if ( operation -> notes )
+	    if ( operation -> tiers )
 	    {
-	      text =  operation -> notes;
+		text = ((struct struct_tiers *)(g_slist_find_custom ( liste_struct_tiers,
+								      GINT_TO_POINTER ( operation -> tiers ),
+								      (GCompareFunc) recherche_tiers_par_no )->data)) -> nom_tiers;
+		if ( etat_courant -> ope_clickables )
+		{
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
+		}
+		else
+		{
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		}
+	    }
 
-	      if ( etat_courant -> ope_clickables )
-		{
-		  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
-		}
-	      else
-		{
-		  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
-		}
-	    }
-	  else
-	    {
-	      etat_affiche_attach_label ( NULL, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
-	    }
-	 
-	  etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
-	  colonne = colonne + 2;
+	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	    colonne = colonne + 2;
 	}
 
-      if ( etat_courant -> afficher_type_ope )
+	if ( etat_courant -> afficher_categ_ope )
 	{
-	  GSList *pointeur;
+	    gchar *pointeur;
 
-	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+	    pointeur = NULL;
 
-	  pointeur = g_slist_find_custom ( TYPES_OPES,
-					   GINT_TO_POINTER ( operation -> type_ope ),
-					   (GCompareFunc) recherche_type_ope_par_no );
-
-	  if ( pointeur )
+	    if ( operation -> categorie )
 	    {
-	      struct struct_type_ope *type;
+		struct struct_categ *categ;
 
-	      type = pointeur -> data;
+		categ = g_slist_find_custom ( liste_struct_categories,
+					      GINT_TO_POINTER ( operation -> categorie ),
+					      (GCompareFunc) recherche_categorie_par_no ) -> data;
+		pointeur = categ -> nom_categ;
 
-	      text = type -> nom_type;
+		if ( operation -> sous_categorie
+		     &&
+		     etat_courant -> afficher_sous_categ_ope )
+		    pointeur = g_strconcat ( pointeur,
+					     " : ",
+					     ((struct struct_sous_categ *)(g_slist_find_custom ( categ -> liste_sous_categ,
+												 GINT_TO_POINTER ( operation -> sous_categorie ),
+												 (GCompareFunc) recherche_sous_categorie_par_no ) -> data )) -> nom_sous_categ,
+					     NULL );
+	    }
+	    else
+	    {
+		/* si c'est un virement, on le marque, sinon c'est qu'il n'y a pas de categ */
+		/* ou que c'est une opé ventilée, et on marque rien */
 
-	      if ( etat_courant -> ope_clickables )
+		if ( operation -> relation_no_operation )
 		{
-		  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
-		}
-	      else
-		{
-		  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		    /* c'est un virement */
+
+		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
+
+		    if ( operation -> montant < 0 )
+			pointeur = g_strdup_printf ( _("Transfer to %s"), NOM_DU_COMPTE );
+		    else
+			pointeur = g_strdup_printf ( _("Transfer from %s"), NOM_DU_COMPTE );
 		}
 	    }
 
-	  etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
-	  colonne = colonne + 2;
-	}
-
-
-      if ( etat_courant -> afficher_cheque_ope )
-	{
-	  if ( operation -> contenu_type )
+	    if ( pointeur )
 	    {
-	      text = operation -> contenu_type;
-
-	      if ( etat_courant -> ope_clickables )
+		if ( etat_courant -> ope_clickables )
 		{
-		  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
+		    etat_affiche_attach_label ( pointeur, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
-	      else
+		else
 		{
-		  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		    etat_affiche_attach_label ( pointeur, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
 		}
 	    }
 
-	  etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
-	  colonne = colonne + 2;
-	}
-
-
-      if ( etat_courant -> afficher_pc_ope )
-	{
-	  if ( operation -> no_piece_comptable )
-	    {
-	      text = operation -> no_piece_comptable;
-
-	      if ( etat_courant -> ope_clickables )
-		{
-		  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
-		}
-	      else
-		{
-		  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
-		}
-	    }
-
-	  etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
-	  colonne = colonne + 2;
+	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	    colonne = colonne + 2;
 	}
 
 
-
-      if ( etat_courant -> afficher_infobd_ope )
+	if ( etat_courant -> afficher_ib_ope )
 	{
-	  if ( operation -> info_banque_guichet )
+	    if ( operation -> imputation )
 	    {
-	      text = operation -> info_banque_guichet;
+		struct struct_imputation *ib;
+		gchar *pointeur;
 
-	      if ( etat_courant -> ope_clickables )
+		ib = g_slist_find_custom ( liste_struct_imputation,
+					   GINT_TO_POINTER ( operation -> imputation ),
+					   (GCompareFunc) recherche_imputation_par_no ) -> data;
+		pointeur = ib -> nom_imputation;
+
+		if ( operation -> sous_imputation
+		     &&
+		     etat_courant -> afficher_sous_ib_ope )
+		    pointeur = g_strconcat ( pointeur,
+					     " : ",
+					     ((struct struct_sous_imputation *)(g_slist_find_custom ( ib -> liste_sous_imputation,
+												      GINT_TO_POINTER ( operation -> sous_imputation ),
+												      (GCompareFunc) recherche_sous_imputation_par_no ) -> data )) -> nom_sous_imputation,
+					     NULL );
+
+		if ( etat_courant -> ope_clickables )
 		{
-		  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
+		    etat_affiche_attach_label ( pointeur, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
-	      else
+		else
 		{
-		  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		    etat_affiche_attach_label ( pointeur, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
 		}
 	    }
 
-	  etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
-	  colonne = colonne + 2;
+	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	    colonne = colonne + 2;
 	}
 
-      if ( etat_courant -> afficher_rappr_ope )
+
+	if ( etat_courant -> afficher_notes_ope )
 	{
-	  GSList *pointeur;
-
-	  pointeur = g_slist_find_custom ( liste_no_rapprochements,
-					   GINT_TO_POINTER ( operation -> no_rapprochement ),
-					   (GCompareFunc) recherche_no_rapprochement_par_no );
-
-	  if ( pointeur )
+	    if ( operation -> notes )
 	    {
-	      struct struct_no_rapprochement *rapprochement;
+		text =  operation -> notes;
 
-	      rapprochement = pointeur -> data;
-
-	      if (rapprochement)
+		if ( etat_courant -> ope_clickables )
 		{
-		  text = rapprochement -> nom_rapprochement;
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
+		}
+		else
+		{
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		}
+	    }
+	    else
+	    {
+		etat_affiche_attach_label ( NULL, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+	    }
 
-		  if ( etat_courant -> ope_clickables )
+	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	    colonne = colonne + 2;
+	}
+
+	if ( etat_courant -> afficher_type_ope )
+	{
+	    GSList *pointeur;
+
+	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+
+	    pointeur = g_slist_find_custom ( TYPES_OPES,
+					     GINT_TO_POINTER ( operation -> type_ope ),
+					     (GCompareFunc) recherche_type_ope_par_no );
+
+	    if ( pointeur )
+	    {
+		struct struct_type_ope *type;
+
+		type = pointeur -> data;
+
+		text = type -> nom_type;
+
+		if ( etat_courant -> ope_clickables )
+		{
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
+		}
+		else
+		{
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		}
+	    }
+
+	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	    colonne = colonne + 2;
+	}
+
+
+	if ( etat_courant -> afficher_cheque_ope )
+	{
+	    if ( operation -> contenu_type )
+	    {
+		text = operation -> contenu_type;
+
+		if ( etat_courant -> ope_clickables )
+		{
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
+		}
+		else
+		{
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		}
+	    }
+
+	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	    colonne = colonne + 2;
+	}
+
+
+	if ( etat_courant -> afficher_pc_ope )
+	{
+	    if ( operation -> no_piece_comptable )
+	    {
+		text = operation -> no_piece_comptable;
+
+		if ( etat_courant -> ope_clickables )
+		{
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
+		}
+		else
+		{
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		}
+	    }
+
+	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	    colonne = colonne + 2;
+	}
+
+
+
+	if ( etat_courant -> afficher_infobd_ope )
+	{
+	    if ( operation -> info_banque_guichet )
+	    {
+		text = operation -> info_banque_guichet;
+
+		if ( etat_courant -> ope_clickables )
+		{
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
+		}
+		else
+		{
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		}
+	    }
+
+	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	    colonne = colonne + 2;
+	}
+
+	if ( etat_courant -> afficher_rappr_ope )
+	{
+	    GSList *pointeur;
+
+	    pointeur = g_slist_find_custom ( liste_no_rapprochements,
+					     GINT_TO_POINTER ( operation -> no_rapprochement ),
+					     (GCompareFunc) recherche_no_rapprochement_par_no );
+
+	    if ( pointeur )
+	    {
+		struct struct_no_rapprochement *rapprochement;
+
+		rapprochement = pointeur -> data;
+
+		if (rapprochement)
+		{
+		    text = rapprochement -> nom_rapprochement;
+
+		    if ( etat_courant -> ope_clickables )
 		    {
-		      etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
+			etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		    }
-		  else
+		    else
 		    {
-		      etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+			etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
 		    }
 		}
 	    }
 
-	  etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
-	  colonne = colonne + 2;
+	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	    colonne = colonne + 2;
 	}
 
 
-      /* on affiche le montant au bout de la ligne */
+	/* on affiche le montant au bout de la ligne */
 
-      if ( devise_compte_en_cours_etat
-	   &&
-	   operation -> devise == devise_compte_en_cours_etat -> no_devise )
-	text = g_strdup_printf  ( "%4.2f %s", operation -> montant, devise_name ( devise_compte_en_cours_etat ) );
-      else
+	if ( devise_compte_en_cours_etat
+	     &&
+	     operation -> devise == devise_compte_en_cours_etat -> no_devise )
+	    text = g_strdup_printf  ( "%4.2f %s", operation -> montant, devise_name ( devise_compte_en_cours_etat ) );
+	else
 	{
-	  struct struct_devise *devise_operation;
+	    struct struct_devise *devise_operation;
 
-	  devise_operation = g_slist_find_custom ( liste_struct_devises,
-						   GINT_TO_POINTER ( operation -> devise ),
-						   ( GCompareFunc ) recherche_devise_par_no ) -> data;
-	  text = g_strdup_printf  ( "%4.2f %s", operation -> montant, devise_name ( devise_operation ) );
+	    devise_operation = g_slist_find_custom ( liste_struct_devises,
+						     GINT_TO_POINTER ( operation -> devise ),
+						     ( GCompareFunc ) recherche_devise_par_no ) -> data;
+	    text = g_strdup_printf  ( "%4.2f %s", operation -> montant, devise_name ( devise_operation ) );
 	}
 
-      if ( etat_courant -> ope_clickables )
+	if ( etat_courant -> ope_clickables )
 	{
-	  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, RIGHT, operation );
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, RIGHT, operation );
 	}
-      else
+	else
 	{
-	  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, RIGHT, NULL );
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, RIGHT, NULL );
 	}
 
 
-      if ( ligne_debut_partie == -1 )
-	ligne_debut_partie = ligne;
+	if ( ligne_debut_partie == -1 )
+	    ligne_debut_partie = ligne;
 
-      ligne++;
+	ligne++;
     }
-  return ( ligne );
+    return ( ligne );
 }
 /*****************************************************************************************************/
 
@@ -1217,50 +1217,50 @@ gint etat_affiche_affiche_total_partiel ( gdouble total_partie,
 					  gint ligne,
 					  gint type )
 {
-  gchar * text;
+    gchar * text;
 
-  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
-  ligne++;
+    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
+    ligne++;
 
-  etat_affiche_attach_hsep ( 0, nb_colonnes, ligne, ligne + 1 );
-  ligne++;
+    etat_affiche_attach_hsep ( 0, nb_colonnes, ligne, ligne + 1 );
+    ligne++;
 
-  if ( type )
+    if ( type )
     {
-      if ( etat_courant -> afficher_nb_opes )
-	text = g_strdup_printf ( COLON(_("Total expenses (%d transactions)")), nb_ope_partie_etat );
-      else
-	text = COLON(_("Total expenses"));
+	if ( etat_courant -> afficher_nb_opes )
+	    text = g_strdup_printf ( COLON(_("Total expenses (%d transactions)")), nb_ope_partie_etat );
+	else
+	    text = COLON(_("Total expenses"));
     }
-  else
+    else
     {
-      if ( etat_courant -> afficher_nb_opes )
-	text = g_strdup_printf ( COLON(_("Total income (%d transactions)")), nb_ope_partie_etat );
-      else
-	text = COLON(_("Total income"));
+	if ( etat_courant -> afficher_nb_opes )
+	    text = g_strdup_printf ( COLON(_("Total income (%d transactions)")), nb_ope_partie_etat );
+	else
+	    text = COLON(_("Total income"));
     }
-  
-  etat_affiche_attach_label ( text, TEXT_NORMAL, 0, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 
-  text = g_strdup_printf ( "%4.2f %s", total_partie, devise_name ( devise_generale_etat ) );
-  etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
-  ligne++;
+    etat_affiche_attach_label ( text, TEXT_NORMAL, 0, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 
-  etat_affiche_attach_hsep ( 0, nb_colonnes, ligne, ligne + 1 );
-  ligne++;
-  
-  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
-  ligne++;
+    text = g_strdup_printf ( "%4.2f %s", total_partie, devise_name ( devise_generale_etat ) );
+    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
+    ligne++;
 
-  nom_categ_en_cours = NULL;
-  nom_ss_categ_en_cours = NULL;
-  nom_ib_en_cours = NULL;
-  nom_ss_ib_en_cours = NULL;
-  nom_compte_en_cours = NULL;
-  nom_tiers_en_cours = NULL;
+    etat_affiche_attach_hsep ( 0, nb_colonnes, ligne, ligne + 1 );
+    ligne++;
+
+    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
+    ligne++;
+
+    nom_categ_en_cours = NULL;
+    nom_ss_categ_en_cours = NULL;
+    nom_ib_en_cours = NULL;
+    nom_ss_ib_en_cours = NULL;
+    nom_compte_en_cours = NULL;
+    nom_tiers_en_cours = NULL;
 
 
-  return ( ligne );
+    return ( ligne );
 }
 /*****************************************************************************************************/
 
@@ -1268,32 +1268,32 @@ gint etat_affiche_affiche_total_partiel ( gdouble total_partie,
 gint etat_affiche_affiche_total_general ( gdouble total_general,
 					  gint ligne )
 {
-  gchar * text;
+    gchar * text;
 
-  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes, ligne, ligne + 1, CENTER, NULL );
-  ligne++;
+    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes, ligne, ligne + 1, CENTER, NULL );
+    ligne++;
 
-  etat_affiche_attach_hsep ( 0, nb_colonnes, ligne, ligne + 1 );
-  ligne++;
+    etat_affiche_attach_hsep ( 0, nb_colonnes, ligne, ligne + 1 );
+    ligne++;
 
-  if ( etat_courant -> afficher_nb_opes )
-    text = g_strdup_printf ( COLON(_("General total (%d transactions)")), nb_ope_general_etat );
-  else
-    text = COLON(_("General total"));
-  
-  etat_affiche_attach_label ( text, TEXT_NORMAL, 0, nb_colonnes - 2, ligne, ligne + 1, LEFT, NULL );
+    if ( etat_courant -> afficher_nb_opes )
+	text = g_strdup_printf ( COLON(_("General total (%d transactions)")), nb_ope_general_etat );
+    else
+	text = COLON(_("General total"));
 
-  text = g_strdup_printf ( "%4.2f %s", total_general, devise_name ( devise_generale_etat ) );
-  etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
-  ligne++;
+    etat_affiche_attach_label ( text, TEXT_NORMAL, 0, nb_colonnes - 2, ligne, ligne + 1, LEFT, NULL );
 
-  etat_affiche_attach_hsep ( 0, nb_colonnes, ligne, ligne + 1 );
-  ligne++;
+    text = g_strdup_printf ( "%4.2f %s", total_general, devise_name ( devise_generale_etat ) );
+    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
+    ligne++;
 
-  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes, ligne, ligne + 1, CENTER, NULL );
-  ligne++;
+    etat_affiche_attach_hsep ( 0, nb_colonnes, ligne, ligne + 1 );
+    ligne++;
 
-  return ( ligne );
+    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes, ligne, ligne + 1, CENTER, NULL );
+    ligne++;
+
+    return ( ligne );
 }
 /*****************************************************************************************************/
 
@@ -1304,109 +1304,109 @@ gint etat_affiche_affiche_categ_etat ( struct structure_operation *operation,
 				       gchar *decalage_categ,
 				       gint ligne )
 {
-  gchar *pointeur_char;
+    gchar *pointeur_char;
 
-  /* vérifie qu'il y a un changement de catégorie */
-  /* ça peut être aussi chgt pour virement, ventilation ou pas de categ */
+    /* vérifie qu'il y a un changement de catégorie */
+    /* ça peut être aussi chgt pour virement, ventilation ou pas de categ */
 
-  if ( etat_courant -> utilise_categ
-       &&
-       ( operation -> categorie != ancienne_categ_etat
-	 ||
-	 ( ancienne_categ_speciale_etat == 1
-	   &&
-	   !operation -> relation_no_operation )
-	 ||
-	 ( ancienne_categ_speciale_etat == 2
-	   &&
-	   !operation -> operation_ventilee )
-	 ||
-	 ( ancienne_categ_speciale_etat == 3
-	   &&
-	   ( operation -> operation_ventilee
-	     ||
-	     operation -> relation_no_operation ))))
+    if ( etat_courant -> utilise_categ
+	 &&
+	 ( operation -> categorie != ancienne_categ_etat
+	   ||
+	   ( ancienne_categ_speciale_etat == 1
+	     &&
+	     !operation -> relation_no_operation )
+	   ||
+	   ( ancienne_categ_speciale_etat == 2
+	     &&
+	     !operation -> operation_ventilee )
+	   ||
+	   ( ancienne_categ_speciale_etat == 3
+	     &&
+	     ( operation -> operation_ventilee
+	       ||
+	       operation -> relation_no_operation ))))
     {
 
-      /* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
+	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
 
-      if ( !debut_affichage_etat
-	   &&
-	   !changement_de_groupe_etat )
+	if ( !debut_affichage_etat
+	     &&
+	     !changement_de_groupe_etat )
 	{
-	  /* on affiche le total de la période en le forçant */
+	    /* on affiche le total de la période en le forçant */
 
-	  ligne = etat_affiche_affiche_total_periode ( operation,
-						       ligne,
-						       1 );
+	    ligne = etat_affiche_affiche_total_periode ( operation,
+							 ligne,
+							 1 );
 
-	  /* on ajoute les totaux de tout ce qu'il y a derrière la catégorie */
+	    /* on ajoute les totaux de tout ce qu'il y a derrière la catégorie */
 
-	  ligne = etat_affiche_affiche_totaux_sous_jaccent ( 1,
-							     ligne );
+	    ligne = etat_affiche_affiche_totaux_sous_jaccent ( 1,
+							       ligne );
 
-	  /* on ajoute le total de la categ */
+	    /* on ajoute le total de la categ */
 
-	  ligne = etat_affiche_affiche_total_categories ( ligne );
+	    ligne = etat_affiche_affiche_total_categories ( ligne );
 	}
 
-      /*       si on a demandé de ne pas afficher les noms des catég, on saute la partie suivante */
+	/*       si on a demandé de ne pas afficher les noms des catég, on saute la partie suivante */
 
-      if ( etat_courant -> afficher_nom_categ )
+	if ( etat_courant -> afficher_nom_categ )
 	{
-	  if ( operation -> categorie )
+	    if ( operation -> categorie )
 	    {
-	      nom_categ_en_cours = ((struct struct_categ *)(g_slist_find_custom ( liste_struct_categories,
-										  GINT_TO_POINTER ( operation -> categorie ),
-										  (GCompareFunc) recherche_categorie_par_no ) -> data )) -> nom_categ;
-	      pointeur_char = g_strconcat ( decalage_categ,
-					    nom_categ_en_cours,
-					    NULL );
-	      ancienne_categ_speciale_etat = 0;
+		nom_categ_en_cours = ((struct struct_categ *)(g_slist_find_custom ( liste_struct_categories,
+										    GINT_TO_POINTER ( operation -> categorie ),
+										    (GCompareFunc) recherche_categorie_par_no ) -> data )) -> nom_categ;
+		pointeur_char = g_strconcat ( decalage_categ,
+					      nom_categ_en_cours,
+					      NULL );
+		ancienne_categ_speciale_etat = 0;
 	    }
-	  else
+	    else
 	    {
-	      if ( operation -> relation_no_operation )
+		if ( operation -> relation_no_operation )
 		{
-		  pointeur_char = g_strconcat ( decalage_categ,
-						_("Transfers"),
-						NULL );
-		  ancienne_categ_speciale_etat = 1;
+		    pointeur_char = g_strconcat ( decalage_categ,
+						  _("Transfers"),
+						  NULL );
+		    ancienne_categ_speciale_etat = 1;
 		}
-	      else
+		else
 		{
-		  if ( operation -> operation_ventilee )
+		    if ( operation -> operation_ventilee )
 		    {
-		      pointeur_char = g_strconcat ( decalage_categ,
-						    _("Breakdown of transaction"),
-						    NULL );
-		      ancienne_categ_speciale_etat = 2;
+			pointeur_char = g_strconcat ( decalage_categ,
+						      _("Breakdown of transaction"),
+						      NULL );
+			ancienne_categ_speciale_etat = 2;
 		    }
-		  else
+		    else
 		    {
-		      pointeur_char = g_strconcat ( decalage_categ,
-						    _("No category"),
-						    NULL );
-		      ancienne_categ_speciale_etat = 3;
+			pointeur_char = g_strconcat ( decalage_categ,
+						      _("No category"),
+						      NULL );
+			ancienne_categ_speciale_etat = 3;
 		    }
 		}
 	    }
 
-	  etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1,
-				      ligne, ligne + 1, LEFT, NULL );
-	  ligne++;
+	    etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1,
+					ligne, ligne + 1, LEFT, NULL );
+	    ligne++;
 	}
 
-      ligne_debut_partie = ligne;
-      denote_struct_sous_jaccentes ( 1 );
+	ligne_debut_partie = ligne;
+	denote_struct_sous_jaccentes ( 1 );
 
-      ancienne_categ_etat = operation -> categorie;
+	ancienne_categ_etat = operation -> categorie;
 
-      debut_affichage_etat = 0;
-      changement_de_groupe_etat = 1;
+	debut_affichage_etat = 0;
+	changement_de_groupe_etat = 1;
     }
 
-  return ( ligne );
+    return ( ligne );
 }
 /*****************************************************************************************************/
 
@@ -1417,82 +1417,82 @@ gint etat_affiche_affiche_sous_categ_etat ( struct structure_operation *operatio
 					    gchar *decalage_sous_categ,
 					    gint ligne )
 {
-  gchar *pointeur_char;
+    gchar *pointeur_char;
 
-  if ( etat_courant -> utilise_categ
-       &&
-       etat_courant -> afficher_sous_categ
-       &&
-       operation -> categorie
-       &&
-       operation -> sous_categorie != ancienne_sous_categ_etat )
+    if ( etat_courant -> utilise_categ
+	 &&
+	 etat_courant -> afficher_sous_categ
+	 &&
+	 operation -> categorie
+	 &&
+	 operation -> sous_categorie != ancienne_sous_categ_etat )
     {
-      struct struct_categ *categ;
+	struct struct_categ *categ;
 
-      /* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
+	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
 
-      if ( !debut_affichage_etat
-	   &&
-	   !changement_de_groupe_etat )
+	if ( !debut_affichage_etat
+	     &&
+	     !changement_de_groupe_etat )
 	{
-	  /* on affiche le total de la période en le forçant */
+	    /* on affiche le total de la période en le forçant */
 
-	  ligne = etat_affiche_affiche_total_periode ( operation,
-						       ligne,
-						       1 );
+	    ligne = etat_affiche_affiche_total_periode ( operation,
+							 ligne,
+							 1 );
 
-	  /* on ajoute les totaux de tout ce qu'il y a derrière la sous catégorie */
+	    /* on ajoute les totaux de tout ce qu'il y a derrière la sous catégorie */
 
-	  ligne = etat_affiche_affiche_totaux_sous_jaccent ( 2,
-							     ligne );
+	    ligne = etat_affiche_affiche_totaux_sous_jaccent ( 2,
+							       ligne );
 
-	  /* on ajoute le total de la sous categ */
+	    /* on ajoute le total de la sous categ */
 
-	  ligne = etat_affiche_affiche_total_sous_categ ( ligne );
+	    ligne = etat_affiche_affiche_total_sous_categ ( ligne );
 	}
 
-      /*       si on a demandé de ne pas afficher les noms des ss-catég, on saute la partie suivante */
+	/*       si on a demandé de ne pas afficher les noms des ss-catég, on saute la partie suivante */
 
-      if ( etat_courant -> afficher_nom_categ )
+	if ( etat_courant -> afficher_nom_categ )
 	{
-	  categ = g_slist_find_custom ( liste_struct_categories,
-					GINT_TO_POINTER ( operation -> categorie ),
-					(GCompareFunc) recherche_categorie_par_no ) -> data;
+	    categ = g_slist_find_custom ( liste_struct_categories,
+					  GINT_TO_POINTER ( operation -> categorie ),
+					  (GCompareFunc) recherche_categorie_par_no ) -> data;
 
-	  if ( operation -> sous_categorie )
+	    if ( operation -> sous_categorie )
 	    {
-	      nom_ss_categ_en_cours = ((struct struct_sous_categ *)(g_slist_find_custom ( categ->liste_sous_categ,
-											  GINT_TO_POINTER ( operation -> sous_categorie ),
-											  (GCompareFunc) recherche_sous_categorie_par_no ) -> data )) -> nom_sous_categ;
-	      pointeur_char = g_strconcat ( decalage_sous_categ,
-					    nom_ss_categ_en_cours,
-					    NULL );
-	    }
-	  else
-	    {
-	      if ( etat_courant -> afficher_pas_de_sous_categ )
+		nom_ss_categ_en_cours = ((struct struct_sous_categ *)(g_slist_find_custom ( categ->liste_sous_categ,
+											    GINT_TO_POINTER ( operation -> sous_categorie ),
+											    (GCompareFunc) recherche_sous_categorie_par_no ) -> data )) -> nom_sous_categ;
 		pointeur_char = g_strconcat ( decalage_sous_categ,
-					      _("No subcategory"),
+					      nom_ss_categ_en_cours,
 					      NULL );
-	      else
-		pointeur_char = "";
+	    }
+	    else
+	    {
+		if ( etat_courant -> afficher_pas_de_sous_categ )
+		    pointeur_char = g_strconcat ( decalage_sous_categ,
+						  _("No subcategory"),
+						  NULL );
+		else
+		    pointeur_char = "";
 	    }
 
-	  etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
-				      ligne, ligne + 1, LEFT, NULL );
-	  ligne++;
+	    etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
+					ligne, ligne + 1, LEFT, NULL );
+	    ligne++;
 	}
- 
-      ligne_debut_partie = ligne;
-      denote_struct_sous_jaccentes ( 2 );
 
-      ancienne_sous_categ_etat = operation -> sous_categorie;
+	ligne_debut_partie = ligne;
+	denote_struct_sous_jaccentes ( 2 );
 
-      debut_affichage_etat = 0;
-      changement_de_groupe_etat = 1;
+	ancienne_sous_categ_etat = operation -> sous_categorie;
+
+	debut_affichage_etat = 0;
+	changement_de_groupe_etat = 1;
     }
 
-  return ( ligne );
+    return ( ligne );
 }
 /*****************************************************************************************************/
 
@@ -1504,70 +1504,70 @@ gint etat_affiche_affiche_ib_etat ( struct structure_operation *operation,
 				    gchar *decalage_ib,
 				    gint ligne )
 {
-  gchar *pointeur_char;
+    gchar *pointeur_char;
 
-  /* mise en place de l'ib */
+    /* mise en place de l'ib */
 
 
-  if ( etat_courant -> utilise_ib
-       &&
-       operation -> imputation != ancienne_ib_etat )
+    if ( etat_courant -> utilise_ib
+	 &&
+	 operation -> imputation != ancienne_ib_etat )
     {
-      /* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
+	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
 
-      if ( !debut_affichage_etat
-	   &&
-	   !changement_de_groupe_etat )
+	if ( !debut_affichage_etat
+	     &&
+	     !changement_de_groupe_etat )
 	{
-	  /* on affiche le total de la période en le forçant */
+	    /* on affiche le total de la période en le forçant */
 
-	  ligne = etat_affiche_affiche_total_periode ( operation,
-						       ligne,
-						       1 );
+	    ligne = etat_affiche_affiche_total_periode ( operation,
+							 ligne,
+							 1 );
 
-	  /* on ajoute les totaux de tout ce qu'il y a derrière l'ib */
+	    /* on ajoute les totaux de tout ce qu'il y a derrière l'ib */
 
-	  ligne = etat_affiche_affiche_totaux_sous_jaccent ( 3,
-							     ligne );
+	    ligne = etat_affiche_affiche_totaux_sous_jaccent ( 3,
+							       ligne );
 
-	  /* on ajoute le total de l'ib */
+	    /* on ajoute le total de l'ib */
 
-	  ligne = etat_affiche_affiche_total_ib ( ligne );
+	    ligne = etat_affiche_affiche_total_ib ( ligne );
 	}
- 
-      /*       si on a demandé de ne pas afficher les noms des ib, on saute la partie suivante */
 
-      if ( etat_courant -> afficher_nom_ib )
+	/*       si on a demandé de ne pas afficher les noms des ib, on saute la partie suivante */
+
+	if ( etat_courant -> afficher_nom_ib )
 	{
-	  if ( operation -> imputation )
+	    if ( operation -> imputation )
 	    {
-	      nom_ib_en_cours = ((struct struct_imputation *)(g_slist_find_custom ( liste_struct_imputation,
-										    GINT_TO_POINTER ( operation -> imputation ),
-										    (GCompareFunc) recherche_imputation_par_no ) -> data )) -> nom_imputation;
-	      pointeur_char = g_strconcat ( decalage_ib,
-					    nom_ib_en_cours,
-					    NULL );
+		nom_ib_en_cours = ((struct struct_imputation *)(g_slist_find_custom ( liste_struct_imputation,
+										      GINT_TO_POINTER ( operation -> imputation ),
+										      (GCompareFunc) recherche_imputation_par_no ) -> data )) -> nom_imputation;
+		pointeur_char = g_strconcat ( decalage_ib,
+					      nom_ib_en_cours,
+					      NULL );
 	    }
-	  else
-	    pointeur_char = g_strconcat ( decalage_ib,
-					  _("No budgetary line"),
-					  NULL );
+	    else
+		pointeur_char = g_strconcat ( decalage_ib,
+					      _("No budgetary line"),
+					      NULL );
 
-	  etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
-				      ligne, ligne + 1, LEFT, NULL );
-	  ligne++;
+	    etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
+					ligne, ligne + 1, LEFT, NULL );
+	    ligne++;
 	}
 
-      ligne_debut_partie = ligne;
-      denote_struct_sous_jaccentes ( 3 );
+	ligne_debut_partie = ligne;
+	denote_struct_sous_jaccentes ( 3 );
 
-      ancienne_ib_etat = operation -> imputation;
+	ancienne_ib_etat = operation -> imputation;
 
-      debut_affichage_etat = 0;
-      changement_de_groupe_etat = 1;
+	debut_affichage_etat = 0;
+	changement_de_groupe_etat = 1;
     }
 
-  return ( ligne );
+    return ( ligne );
 }
 /*****************************************************************************************************/
 
@@ -1579,86 +1579,86 @@ gint etat_affiche_affiche_sous_ib_etat ( struct structure_operation *operation,
 					 gchar *decalage_sous_ib,
 					 gint ligne )
 {
-  gchar *pointeur_char;
+    gchar *pointeur_char;
 
 
-  /* mise en place de la sous_ib */
+    /* mise en place de la sous_ib */
 
 
-  if ( etat_courant -> utilise_ib
-       &&
-       etat_courant -> afficher_sous_ib
-       &&
-       operation -> imputation
-       &&
-       operation -> sous_imputation != ancienne_sous_ib_etat )
+    if ( etat_courant -> utilise_ib
+	 &&
+	 etat_courant -> afficher_sous_ib
+	 &&
+	 operation -> imputation
+	 &&
+	 operation -> sous_imputation != ancienne_sous_ib_etat )
     {
-      struct struct_imputation *imputation;
+	struct struct_imputation *imputation;
 
-      /* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
+	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
 
-      if ( !debut_affichage_etat
-	   &&
-	   !changement_de_groupe_etat )
+	if ( !debut_affichage_etat
+	     &&
+	     !changement_de_groupe_etat )
 	{
-	  /* on affiche le total de la période en le forçant */
+	    /* on affiche le total de la période en le forçant */
 
-	  ligne = etat_affiche_affiche_total_periode ( operation,
-						       ligne,
-						       1 );
+	    ligne = etat_affiche_affiche_total_periode ( operation,
+							 ligne,
+							 1 );
 
-	  /* on ajoute les totaux de tout ce qu'il y a derrière la sous ib */
+	    /* on ajoute les totaux de tout ce qu'il y a derrière la sous ib */
 
-	  ligne = etat_affiche_affiche_totaux_sous_jaccent ( 4,
-							     ligne );
+	    ligne = etat_affiche_affiche_totaux_sous_jaccent ( 4,
+							       ligne );
 
-	  /* on ajoute le total de la sous ib */
+	    /* on ajoute le total de la sous ib */
 
-	  ligne = etat_affiche_affiche_total_sous_ib ( ligne );
+	    ligne = etat_affiche_affiche_total_sous_ib ( ligne );
 	}
- 
-      /*       si on a demandé de ne pas afficher les noms des ss-ib, on saute la partie suivante */
 
-      if ( etat_courant -> afficher_nom_ib )
+	/*       si on a demandé de ne pas afficher les noms des ss-ib, on saute la partie suivante */
+
+	if ( etat_courant -> afficher_nom_ib )
 	{
-	  imputation = g_slist_find_custom ( liste_struct_imputation,
-					     GINT_TO_POINTER ( operation -> imputation ),
-					     (GCompareFunc) recherche_imputation_par_no ) -> data;
+	    imputation = g_slist_find_custom ( liste_struct_imputation,
+					       GINT_TO_POINTER ( operation -> imputation ),
+					       (GCompareFunc) recherche_imputation_par_no ) -> data;
 
-	  if ( operation -> sous_imputation )
+	    if ( operation -> sous_imputation )
 	    {
-	      nom_ss_ib_en_cours = ((struct struct_sous_imputation *)(g_slist_find_custom ( imputation->liste_sous_imputation,
-											    GINT_TO_POINTER ( operation -> sous_imputation ),
-											    (GCompareFunc) recherche_sous_imputation_par_no ) -> data )) -> nom_sous_imputation;
-	      pointeur_char = g_strconcat ( decalage_sous_ib,
-					    nom_ss_ib_en_cours,
-					    NULL );
-	    }
-	  else
-	    {
-	      if ( etat_courant -> afficher_pas_de_sous_ib )
+		nom_ss_ib_en_cours = ((struct struct_sous_imputation *)(g_slist_find_custom ( imputation->liste_sous_imputation,
+											      GINT_TO_POINTER ( operation -> sous_imputation ),
+											      (GCompareFunc) recherche_sous_imputation_par_no ) -> data )) -> nom_sous_imputation;
 		pointeur_char = g_strconcat ( decalage_sous_ib,
-					      _("No sub-budgetary line"),
+					      nom_ss_ib_en_cours,
 					      NULL );
-	      else
-		pointeur_char = "";
+	    }
+	    else
+	    {
+		if ( etat_courant -> afficher_pas_de_sous_ib )
+		    pointeur_char = g_strconcat ( decalage_sous_ib,
+						  _("No sub-budgetary line"),
+						  NULL );
+		else
+		    pointeur_char = "";
 	    }
 
-	  etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
-				      ligne, ligne + 1, LEFT, NULL );
-	  ligne++;
+	    etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
+					ligne, ligne + 1, LEFT, NULL );
+	    ligne++;
 	}
 
-      ligne_debut_partie = ligne;
-      denote_struct_sous_jaccentes ( 4 );
+	ligne_debut_partie = ligne;
+	denote_struct_sous_jaccentes ( 4 );
 
-      ancienne_sous_ib_etat = operation -> sous_imputation;
+	ancienne_sous_ib_etat = operation -> sous_imputation;
 
-      debut_affichage_etat = 0;
-      changement_de_groupe_etat = 1;
+	debut_affichage_etat = 0;
+	changement_de_groupe_etat = 1;
     }
 
-  return ( ligne );
+    return ( ligne );
 }
 /*****************************************************************************************************/
 
@@ -1670,62 +1670,62 @@ gint etat_affiche_affiche_compte_etat ( struct structure_operation *operation,
 					gchar *decalage_compte,
 					gint ligne )
 {
-  gchar *pointeur_char;
+    gchar *pointeur_char;
 
-  /* mise en place du compte */
+    /* mise en place du compte */
 
-  if ( etat_courant -> regroupe_ope_par_compte
-       &&
-       operation -> no_compte != ancien_compte_etat )
+    if ( etat_courant -> regroupe_ope_par_compte
+	 &&
+	 operation -> no_compte != ancien_compte_etat )
     {
-      /* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
+	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
 
-      if ( !debut_affichage_etat
-	   &&
-	   !changement_de_groupe_etat )
+	if ( !debut_affichage_etat
+	     &&
+	     !changement_de_groupe_etat )
 	{
- 	  /* on affiche le total de la période en le forçant */
+	    /* on affiche le total de la période en le forçant */
 
-	  ligne = etat_affiche_affiche_total_periode ( operation,
-						       ligne,
-						       1 );
+	    ligne = etat_affiche_affiche_total_periode ( operation,
+							 ligne,
+							 1 );
 
-	  /* on ajoute les totaux de tout ce qu'il y a derrière le compte */
+	    /* on ajoute les totaux de tout ce qu'il y a derrière le compte */
 
-	  ligne = etat_affiche_affiche_totaux_sous_jaccent ( 5,
-							     ligne );
+	    ligne = etat_affiche_affiche_totaux_sous_jaccent ( 5,
+							       ligne );
 
-	  /* on ajoute le total du compte */
+	    /* on ajoute le total du compte */
 
-	  ligne = etat_affiche_affiche_total_compte ( ligne );
-	}
- 
-      /*       si on a demandé de ne pas afficher les noms des comptes, on saute la partie suivante */
-
-      if ( etat_courant -> afficher_nom_compte )
-	{
-	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
-
-	  pointeur_char = g_strconcat ( decalage_compte,
-					NOM_DU_COMPTE,
-					NULL );
-	  nom_compte_en_cours = NOM_DU_COMPTE;
-
-	  etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
-				      ligne, ligne + 1, LEFT, NULL );
-	  ligne++;
+	    ligne = etat_affiche_affiche_total_compte ( ligne );
 	}
 
-      ligne_debut_partie = ligne;
-      denote_struct_sous_jaccentes ( 5 );
+	/*       si on a demandé de ne pas afficher les noms des comptes, on saute la partie suivante */
 
-      ancien_compte_etat = operation -> no_compte;
+	if ( etat_courant -> afficher_nom_compte )
+	{
+	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
-      debut_affichage_etat = 0;
-      changement_de_groupe_etat = 1;
+	    pointeur_char = g_strconcat ( decalage_compte,
+					  NOM_DU_COMPTE,
+					  NULL );
+	    nom_compte_en_cours = NOM_DU_COMPTE;
+
+	    etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
+					ligne, ligne + 1, LEFT, NULL );
+	    ligne++;
+	}
+
+	ligne_debut_partie = ligne;
+	denote_struct_sous_jaccentes ( 5 );
+
+	ancien_compte_etat = operation -> no_compte;
+
+	debut_affichage_etat = 0;
+	changement_de_groupe_etat = 1;
     }
 
-  return ( ligne );
+    return ( ligne );
 }
 /*****************************************************************************************************/
 
@@ -1737,68 +1737,68 @@ gint etat_affiche_affiche_tiers_etat ( struct structure_operation *operation,
 				       gchar *decalage_tiers,
 				       gint ligne )
 {
-  gchar *pointeur_char;
+    gchar *pointeur_char;
 
-  /* affiche le tiers */
+    /* affiche le tiers */
 
-  if ( etat_courant -> utilise_tiers
-       &&
-       operation -> tiers != ancien_tiers_etat )
+    if ( etat_courant -> utilise_tiers
+	 &&
+	 operation -> tiers != ancien_tiers_etat )
     {
-      /* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
+	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
 
-      if ( !debut_affichage_etat
-	   &&
-	   !changement_de_groupe_etat )
+	if ( !debut_affichage_etat
+	     &&
+	     !changement_de_groupe_etat )
 	{
-	  /* on affiche le total de la période en le forçant */
+	    /* on affiche le total de la période en le forçant */
 
-	  ligne = etat_affiche_affiche_total_periode ( operation,
-						       ligne,
-						       1 );
+	    ligne = etat_affiche_affiche_total_periode ( operation,
+							 ligne,
+							 1 );
 
-	  /* on ajoute les totaux de tout ce qu'il y a derrière le tiers */
+	    /* on ajoute les totaux de tout ce qu'il y a derrière le tiers */
 
-	  ligne = etat_affiche_affiche_totaux_sous_jaccent ( 6,
-							     ligne );
+	    ligne = etat_affiche_affiche_totaux_sous_jaccent ( 6,
+							       ligne );
 
-	  /* on ajoute le total du tiers */
+	    /* on ajoute le total du tiers */
 
-	  ligne = etat_affiche_affiche_total_tiers ( ligne );
+	    ligne = etat_affiche_affiche_total_tiers ( ligne );
 	}
 
-      /*       si on a demandé de ne pas afficher les noms des tiers, on saute la partie suivante */
+	/*       si on a demandé de ne pas afficher les noms des tiers, on saute la partie suivante */
 
-      if ( etat_courant -> afficher_nom_tiers )
+	if ( etat_courant -> afficher_nom_tiers )
 	{
-	  if ( operation -> tiers )
+	    if ( operation -> tiers )
 	    {
-	      nom_tiers_en_cours = ((struct struct_tiers *)(g_slist_find_custom ( liste_struct_tiers,
-										  GINT_TO_POINTER ( operation -> tiers ),
-										  (GCompareFunc) recherche_tiers_par_no ) -> data )) -> nom_tiers;
-	      pointeur_char = g_strconcat ( decalage_tiers,
-					    nom_tiers_en_cours,
-					    NULL );
+		nom_tiers_en_cours = ((struct struct_tiers *)(g_slist_find_custom ( liste_struct_tiers,
+										    GINT_TO_POINTER ( operation -> tiers ),
+										    (GCompareFunc) recherche_tiers_par_no ) -> data )) -> nom_tiers;
+		pointeur_char = g_strconcat ( decalage_tiers,
+					      nom_tiers_en_cours,
+					      NULL );
 	    }
-	  else
-	    pointeur_char = g_strconcat ( decalage_tiers,
-					  _("No third party"),
-					  NULL );
+	    else
+		pointeur_char = g_strconcat ( decalage_tiers,
+					      _("No third party"),
+					      NULL );
 
-	  etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
-				      ligne, ligne + 1, LEFT, NULL );
-	  ligne++;
+	    etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
+					ligne, ligne + 1, LEFT, NULL );
+	    ligne++;
 	}
 
-      ligne_debut_partie = ligne;
-      denote_struct_sous_jaccentes ( 6 );
+	ligne_debut_partie = ligne;
+	denote_struct_sous_jaccentes ( 6 );
 
-      ancien_tiers_etat = operation -> tiers;
+	ancien_tiers_etat = operation -> tiers;
 
-      debut_affichage_etat = 0;
-      changement_de_groupe_etat = 1;
+	debut_affichage_etat = 0;
+	changement_de_groupe_etat = 1;
     }
-  return ( ligne );
+    return ( ligne );
 }
 /*****************************************************************************************************/
 
@@ -1806,19 +1806,19 @@ gint etat_affiche_affiche_tiers_etat ( struct structure_operation *operation,
 /*****************************************************************************************************/
 gint etat_affiche_affiche_titre_revenus_etat ( gint ligne )
 {
-  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, 1, 
-			      ligne, ligne + 1, CENTER, NULL );
-  ligne++;
+    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, 1, 
+				ligne, ligne + 1, CENTER, NULL );
+    ligne++;
 
-  etat_affiche_attach_label ( _("Incomes"), TEXT_LARGE, 0, nb_colonnes-1, 
-			      ligne, ligne + 1, CENTER, NULL );
-  ligne++;
+    etat_affiche_attach_label ( _("Incomes"), TEXT_LARGE, 0, nb_colonnes-1, 
+				ligne, ligne + 1, CENTER, NULL );
+    ligne++;
 
-  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, 1, 
-			      ligne, ligne + 1, CENTER, NULL );
-  ligne++;
+    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, 1, 
+				ligne, ligne + 1, CENTER, NULL );
+    ligne++;
 
-  return ( ligne );
+    return ( ligne );
 }
 /*****************************************************************************************************/
 
@@ -1826,19 +1826,19 @@ gint etat_affiche_affiche_titre_revenus_etat ( gint ligne )
 /*****************************************************************************************************/
 gint etat_affiche_affiche_titre_depenses_etat ( gint ligne )
 {
-  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, 1, 
-			      ligne, ligne + 1, CENTER, NULL );
-  ligne++;
+    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, 1, 
+				ligne, ligne + 1, CENTER, NULL );
+    ligne++;
 
-  etat_affiche_attach_label ( _("Outgoings"), TEXT_LARGE, 0, nb_colonnes-1, 
-			      ligne, ligne + 1, CENTER, NULL );
-  ligne++;
+    etat_affiche_attach_label ( _("Outgoings"), TEXT_LARGE, 0, nb_colonnes-1, 
+				ligne, ligne + 1, CENTER, NULL );
+    ligne++;
 
-  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, 1, 
-			      ligne, ligne + 1, CENTER, NULL );
-  ligne++;
+    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, 1, 
+				ligne, ligne + 1, CENTER, NULL );
+    ligne++;
 
-  return ( ligne );
+    return ( ligne );
 }
 /*****************************************************************************************************/
 
@@ -1851,46 +1851,46 @@ gint etat_affiche_affiche_titre_depenses_etat ( gint ligne )
 gint etat_affiche_affiche_totaux_sous_jaccent ( gint origine,
 						gint ligne )
 {
-  GList *pointeur_glist;
+    GList *pointeur_glist;
 
 
-  /* on doit partir du bout de la liste pour revenir vers la structure demandée */
+    /* on doit partir du bout de la liste pour revenir vers la structure demandée */
 
-  pointeur_glist = g_list_last ( etat_courant -> type_classement );
+    pointeur_glist = g_list_last ( etat_courant -> type_classement );
 
 
-  while ( GPOINTER_TO_INT ( pointeur_glist -> data ) != origine )
+    while ( GPOINTER_TO_INT ( pointeur_glist -> data ) != origine )
     {
-      switch ( GPOINTER_TO_INT ( pointeur_glist -> data ))
+	switch ( GPOINTER_TO_INT ( pointeur_glist -> data ))
 	{
-	case 1:
-	  ligne = etat_affiche_affiche_total_categories ( ligne );
-	  break;
+	    case 1:
+		ligne = etat_affiche_affiche_total_categories ( ligne );
+		break;
 
-	case 2:
-	  ligne = etat_affiche_affiche_total_sous_categ ( ligne );
-	  break;
+	    case 2:
+		ligne = etat_affiche_affiche_total_sous_categ ( ligne );
+		break;
 
-	case 3:
-	  ligne = etat_affiche_affiche_total_ib ( ligne );
-	  break;
+	    case 3:
+		ligne = etat_affiche_affiche_total_ib ( ligne );
+		break;
 
-	case 4:
-	  ligne = etat_affiche_affiche_total_sous_ib ( ligne );
-	  break;
+	    case 4:
+		ligne = etat_affiche_affiche_total_sous_ib ( ligne );
+		break;
 
-	case 5:
-	  ligne = etat_affiche_affiche_total_compte ( ligne );
-	  break;
+	    case 5:
+		ligne = etat_affiche_affiche_total_compte ( ligne );
+		break;
 
-	case 6:
-	  ligne = etat_affiche_affiche_total_tiers ( ligne );
-	  break;
+	    case 6:
+		ligne = etat_affiche_affiche_total_tiers ( ligne );
+		break;
 	}
-      pointeur_glist = pointeur_glist -> prev;
+	pointeur_glist = pointeur_glist -> prev;
     }
 
-  return ( ligne );
+    return ( ligne );
 
 }
 /*****************************************************************************************************/
@@ -1900,103 +1900,103 @@ gint etat_affiche_affiche_totaux_sous_jaccent ( gint origine,
 /*****************************************************************************************************/
 gint etat_affiche_affiche_titres_colonnes ( gint ligne )
 {
-  gint colonne;
-  gchar * text;
+    gint colonne;
+    gchar * text;
 
-  colonne = 1;
+    colonne = 1;
 
-  if ( etat_courant -> afficher_no_ope )
+    if ( etat_courant -> afficher_no_ope )
     {
-      etat_affiche_attach_label ( _("Number"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
-      etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
-      colonne = colonne + 2;
+	etat_affiche_attach_label ( _("Number"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	colonne = colonne + 2;
     }
 
-  if ( etat_courant -> afficher_date_ope )
+    if ( etat_courant -> afficher_date_ope )
     {
-      etat_affiche_attach_label ( _("Date"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
-      etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
-      colonne = colonne + 2;
+	etat_affiche_attach_label ( _("Date"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	colonne = colonne + 2;
     }
 
-  if ( etat_courant -> afficher_exo_ope )
+    if ( etat_courant -> afficher_exo_ope )
     {
-      etat_affiche_attach_label ( _("Financial year"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
-      etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
-      colonne = colonne + 2;
+	etat_affiche_attach_label ( _("Financial year"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	colonne = colonne + 2;
     }
 
-  if ( etat_courant -> afficher_tiers_ope )
+    if ( etat_courant -> afficher_tiers_ope )
     {
-      etat_affiche_attach_label ( _("Third party"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
-      etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
-      colonne = colonne + 2;
+	etat_affiche_attach_label ( _("Third party"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	colonne = colonne + 2;
     }
 
-  if ( etat_courant -> afficher_categ_ope )
+    if ( etat_courant -> afficher_categ_ope )
     {
-      etat_affiche_attach_label ( _("Category"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
-      etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
-      colonne = colonne + 2;
+	etat_affiche_attach_label ( _("Category"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	colonne = colonne + 2;
     }
 
-  if ( etat_courant -> afficher_ib_ope )
+    if ( etat_courant -> afficher_ib_ope )
     {
-      etat_affiche_attach_label ( _("Budgetary line"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
-      etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
-      colonne = colonne + 2;
+	etat_affiche_attach_label ( _("Budgetary line"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	colonne = colonne + 2;
     }
 
-  if ( etat_courant -> afficher_notes_ope )
+    if ( etat_courant -> afficher_notes_ope )
     {
-      etat_affiche_attach_label ( _("Notes"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
-      etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
-      colonne = colonne + 2;
+	etat_affiche_attach_label ( _("Notes"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	colonne = colonne + 2;
     }
 
-  if ( etat_courant -> afficher_type_ope )
+    if ( etat_courant -> afficher_type_ope )
     {
-      etat_affiche_attach_label ( _("Payment methods"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
-      etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
-      colonne = colonne + 2;
+	etat_affiche_attach_label ( _("Payment methods"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	colonne = colonne + 2;
     }
 
-  if ( etat_courant -> afficher_cheque_ope )
+    if ( etat_courant -> afficher_cheque_ope )
     {
-      etat_affiche_attach_label ( _("Cheque"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
-      etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
-      colonne = colonne + 2;
+	etat_affiche_attach_label ( _("Cheque"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	colonne = colonne + 2;
     }
 
-  if ( etat_courant -> afficher_pc_ope )
+    if ( etat_courant -> afficher_pc_ope )
     {
-      etat_affiche_attach_label ( _("Voucher"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
-      etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
-      colonne = colonne + 2;
+	etat_affiche_attach_label ( _("Voucher"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	colonne = colonne + 2;
     }
 
-  if ( etat_courant -> afficher_infobd_ope )
+    if ( etat_courant -> afficher_infobd_ope )
     {
-      etat_affiche_attach_label ( _("Bank references"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
-      etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
-      colonne = colonne + 2;
+	etat_affiche_attach_label ( _("Bank references"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	colonne = colonne + 2;
     }
 
-  if ( etat_courant -> afficher_rappr_ope )
+    if ( etat_courant -> afficher_rappr_ope )
     {
-      etat_affiche_attach_label ( _("Statement"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
-      etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
-      colonne = colonne + 2;
+	etat_affiche_attach_label ( _("Statement"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	colonne = colonne + 2;
     }
 
-  ligne++;
+    ligne++;
 
-  etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
-  ligne++;
+    etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
+    ligne++;
 
-  titres_affiches = 1;
+    titres_affiches = 1;
 
-  return ( ligne );
+    return ( ligne );
 }
 /*****************************************************************************************************/
 
@@ -2004,14 +2004,14 @@ gint etat_affiche_affiche_titres_colonnes ( gint ligne )
 
 void etat_affiche_attach_hsep ( int x, int x2, int y, int y2)
 {
-  etat_affichage_output -> attach_hsep ( x, x2, y, y2);
+    etat_affichage_output -> attach_hsep ( x, x2, y, y2);
 }
 
 
 
 void etat_affiche_attach_vsep ( int x, int x2, int y, int y2)
 {
-  etat_affichage_output -> attach_vsep ( x, x2, y, y2);
+    etat_affichage_output -> attach_vsep ( x, x2, y, y2);
 }
 
 
@@ -2019,19 +2019,19 @@ void etat_affiche_attach_vsep ( int x, int x2, int y, int y2)
 void etat_affiche_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
 				 enum alignement align, struct structure_operation * ope )
 {
-  etat_affichage_output -> attach_label ( text, properties, x, x2, y, y2, align, ope );
+    etat_affichage_output -> attach_label ( text, properties, x, x2, y, y2, align, ope );
 }
 
 
 
 gint etat_affiche_initialise (GSList * opes_selectionnees)
 {
-  return etat_affichage_output -> initialise (opes_selectionnees);
+    return etat_affichage_output -> initialise (opes_selectionnees);
 }
 
 
 
 gint etat_affiche_finish ()
 {
-  return etat_affichage_output -> finish ();
+    return etat_affichage_output -> finish ();
 }

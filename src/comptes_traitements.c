@@ -49,85 +49,85 @@
 
 void  nouveau_compte ( void )
 {
-  GtkWidget *bouton;
-  gint type_de_compte;
-  gint no_compte;
+    GtkWidget *bouton;
+    gint type_de_compte;
+    gint no_compte;
 
-  if ( !nb_comptes )
+    if ( !nb_comptes )
     {
-      nouveau_fichier ();
-      return;
+	nouveau_fichier ();
+	return;
     }
 
-  type_de_compte = demande_type_nouveau_compte ();
+    type_de_compte = demande_type_nouveau_compte ();
 
-  if ( type_de_compte == -1 )
-    return;
+    if ( type_de_compte == -1 )
+	return;
 
-  no_compte = initialisation_nouveau_compte ( type_de_compte );
+    no_compte = initialisation_nouveau_compte ( type_de_compte );
 
-  /* si la création s'est mal placée, on se barre */
+    /* si la création s'est mal placée, on se barre */
 
-  if ( no_compte == -1 )
-    return;
+    if ( no_compte == -1 )
+	return;
 
-  /* crée le nouveau bouton du compte et l'ajoute à la liste des comptes */
+    /* crée le nouveau bouton du compte et l'ajoute à la liste des comptes */
 
-  bouton = comptes_appel( NO_COMPTE );
-  gtk_box_pack_start (GTK_BOX (vbox_liste_comptes),
-		      bouton,
-		      FALSE,
-		      FALSE,
-		      0);
-  gtk_widget_show (bouton);
-
-
-  /* on crée la liste des opés */
-
-  ajoute_nouvelle_liste_operation( NO_COMPTE );
-
-  /* on recrée les combofix des catégories */
-
-  mise_a_jour_categ();
-
-/* on met à jour l'option menu des formulaires des échéances et des opés */
-
-  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] ),
-			     creation_option_menu_comptes (GTK_SIGNAL_FUNC(changement_choix_compte_echeancier), TRUE) );
+    bouton = comptes_appel( NO_COMPTE );
+    gtk_box_pack_start (GTK_BOX (vbox_liste_comptes),
+			bouton,
+			FALSE,
+			FALSE,
+			0);
+    gtk_widget_show (bouton);
 
 
-  /* mise à jour de l'accueil */
+    /* on crée la liste des opés */
 
-  update_liste_comptes_accueil ();
+    ajoute_nouvelle_liste_operation( NO_COMPTE );
 
-  remplissage_liste_comptes_etats ();
-  selectionne_liste_comptes_etat_courant ();
+    /* on recrée les combofix des catégories */
 
-  gtk_widget_set_sensitive ( bouton_supprimer_compte,
-			     TRUE );
+    mise_a_jour_categ();
+
+    /* on met à jour l'option menu des formulaires des échéances et des opés */
+
+    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] ),
+			       creation_option_menu_comptes (GTK_SIGNAL_FUNC(changement_choix_compte_echeancier), TRUE) );
 
 
-  /* on crée le nouveau compte dans les propriétés des comptes */
+    /* mise à jour de l'accueil */
 
-  bouton = comptes_appel_onglet ( nb_comptes - 1 );
-  gtk_box_pack_start (GTK_BOX (vbox_liste_comptes_onglet),
-		      bouton,
-		      FALSE,
-		      FALSE,
-		      0);
-  gtk_widget_show (bouton);
+    update_liste_comptes_accueil ();
 
-  /* on se place sur le nouveau compte pour faire les modifs */
+    remplissage_liste_comptes_etats ();
+    selectionne_liste_comptes_etat_courant ();
 
-  changement_compte_onglet ( ((GtkBoxChild *)(GTK_BOX ( bouton ) -> children -> data))->widget,
-			     nb_comptes - 1 );
+    gtk_widget_set_sensitive ( bouton_supprimer_compte,
+			       TRUE );
 
-  /* on se met sur l'onglet de propriétés du compte */
 
-  gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
-			  3 );
+    /* on crée le nouveau compte dans les propriétés des comptes */
 
-  modification_fichier ( TRUE );
+    bouton = comptes_appel_onglet ( nb_comptes - 1 );
+    gtk_box_pack_start (GTK_BOX (vbox_liste_comptes_onglet),
+			bouton,
+			FALSE,
+			FALSE,
+			0);
+    gtk_widget_show (bouton);
+
+    /* on se place sur le nouveau compte pour faire les modifs */
+
+    changement_compte_onglet ( ((GtkBoxChild *)(GTK_BOX ( bouton ) -> children -> data))->widget,
+			       nb_comptes - 1 );
+
+    /* on se met sur l'onglet de propriétés du compte */
+
+    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
+			    3 );
+
+    modification_fichier ( TRUE );
 }
 /* *********************************************************************************************************** */
 
@@ -140,50 +140,50 @@ void  nouveau_compte ( void )
 gint initialisation_nouveau_compte ( gint type_de_compte )
 {
 
-  if  (!(p_tab_nom_de_compte = realloc ( p_tab_nom_de_compte, ( nb_comptes + 1 )* sizeof ( gpointer ) )))
+    if  (!(p_tab_nom_de_compte = realloc ( p_tab_nom_de_compte, ( nb_comptes + 1 )* sizeof ( gpointer ) )))
     {
-      dialogue ( _("Cannot allocate memory, bad things will happen soon") );
-      return (-1);
+	dialogue ( _("Cannot allocate memory, bad things will happen soon") );
+	return (-1);
     };
 
 
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + nb_comptes;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + nb_comptes;
 
-  if  (!(*p_tab_nom_de_compte_variable = calloc ( 1,
-						  sizeof (struct donnees_compte) )) )
+    if  (!(*p_tab_nom_de_compte_variable = calloc ( 1,
+						    sizeof (struct donnees_compte) )) )
     {
-      dialogue ( _("Cannot allocate memory, bad things will happen soon") );
-      return (-1);
+	dialogue ( _("Cannot allocate memory, bad things will happen soon") );
+	return (-1);
     };
 
-  p_tab_nom_de_compte_courant = p_tab_nom_de_compte + compte_courant;
+    p_tab_nom_de_compte_courant = p_tab_nom_de_compte + compte_courant;
 
-  /* insère ses paramètres ( comme c'est un appel à calloc, tout ce qui est à 0 est déjà initialisé )*/
+    /* insère ses paramètres ( comme c'est un appel à calloc, tout ce qui est à 0 est déjà initialisé )*/
 
-  NOM_DU_COMPTE = g_strdup ( _("No name") );
-  OPERATION_SELECTIONNEE = GINT_TO_POINTER ( -1 );
-  DEVISE = 1;
-  MISE_A_JOUR = 1;
-  NO_COMPTE = nb_comptes;
-  AFFICHAGE_R = 0;
-  NB_LIGNES_OPE = 3;
+    NOM_DU_COMPTE = g_strdup ( _("No name") );
+    OPERATION_SELECTIONNEE = GINT_TO_POINTER ( -1 );
+    DEVISE = 1;
+    MISE_A_JOUR = 1;
+    NO_COMPTE = nb_comptes;
+    AFFICHAGE_R = 0;
+    NB_LIGNES_OPE = 3;
 
-  TYPE_DE_COMPTE = type_de_compte;
+    TYPE_DE_COMPTE = type_de_compte;
 
-  nb_comptes++;
+    nb_comptes++;
 
 
-  /* on crée les types par défaut */
+    /* on crée les types par défaut */
 
-  creation_types_par_defaut ( NO_COMPTE,
-			      0);
+    creation_types_par_defaut ( NO_COMPTE,
+				0);
 
-  /* on met le compte à la fin dans le classement des comptes */
+    /* on met le compte à la fin dans le classement des comptes */
 
-  ordre_comptes = g_slist_append ( ordre_comptes,
-				   GINT_TO_POINTER ( NO_COMPTE ) );
+    ordre_comptes = g_slist_append ( ordre_comptes,
+				     GINT_TO_POINTER ( NO_COMPTE ) );
 
-  return (NO_COMPTE);
+    return (NO_COMPTE);
 }
 /* *********************************************************************************************************** */
 
@@ -197,194 +197,194 @@ gint initialisation_nouveau_compte ( gint type_de_compte )
 
 void supprimer_compte ( void )
 {
-  GtkWidget *dialog;
-  GtkWidget *label;
-  GtkWidget *liste_comptes;
-  gint resultat;
-  short actualise = 0, i;
-  GSList *pointeur_liste;
-  gint compte_modifie;
-  gchar *nom_compte_supprime;
-  gint page_en_cours;
+    GtkWidget *dialog;
+    GtkWidget *label;
+    GtkWidget *liste_comptes;
+    gint resultat;
+    short actualise = 0, i;
+    GSList *pointeur_liste;
+    gint compte_modifie;
+    gchar *nom_compte_supprime;
+    gint page_en_cours;
 
-  compte_modifie = compte_courant_onglet;
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_modifie;
+    compte_modifie = compte_courant_onglet;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_modifie;
 
-  if ( !question_yes_no_hint ( g_strdup_printf (_("Delete account \"%s\"?"),
-					       NOM_DU_COMPTE),
-			       _("This will irreversibly remove this account and all operations that were previously contained.  There is no undo for this.") ))
-    return;
+    if ( !question_yes_no_hint ( g_strdup_printf (_("Delete account \"%s\"?"),
+						  NOM_DU_COMPTE),
+				 _("This will irreversibly remove this account and all operations that were previously contained.  There is no undo for this.") ))
+	return;
 
-  /* on commence ici la suppression du compte */
- 
-  /* si qu'un compte, on fermer le fichier */
+    /* on commence ici la suppression du compte */
 
-  if ( nb_comptes == 1 )
+    /* si qu'un compte, on fermer le fichier */
+
+    if ( nb_comptes == 1 )
     {
-      etat.modification_fichier = 0;
-      fermer_fichier ();
-      return;
+	etat.modification_fichier = 0;
+	fermer_fichier ();
+	return;
     }
 
-  /* supprime l'onglet du compte */
-  gtk_notebook_remove_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
-			     compte_modifie + 1 );
+    /* supprime l'onglet du compte */
+    gtk_notebook_remove_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
+			       compte_modifie + 1 );
 
-  /*       suppression des échéances */
-  while ( ( pointeur_liste = 
-	    g_slist_find_custom ( gsliste_echeances,
-				  GINT_TO_POINTER ( compte_modifie ),
-				  (GCompareFunc)cherche_compte_dans_echeances )))
+    /*       suppression des échéances */
+    while ( ( pointeur_liste = 
+	      g_slist_find_custom ( gsliste_echeances,
+				    GINT_TO_POINTER ( compte_modifie ),
+				    (GCompareFunc)cherche_compte_dans_echeances )))
     {
-      if ( echeance_selectionnnee == ECHEANCE_COURANTE )
-	ECHEANCE_COURANTE = GINT_TO_POINTER (-1);
+	if ( echeance_selectionnnee == ECHEANCE_COURANTE )
+	    ECHEANCE_COURANTE = GINT_TO_POINTER (-1);
 
-      gsliste_echeances = g_slist_remove ( gsliste_echeances, ECHEANCE_COURANTE );
-      nb_echeances--;
+	gsliste_echeances = g_slist_remove ( gsliste_echeances, ECHEANCE_COURANTE );
+	nb_echeances--;
     }
 
 
-  /* supprime le compte de la liste de l'ordre des comptes */
-  ordre_comptes = g_slist_remove ( ordre_comptes,
-				   GINT_TO_POINTER ( compte_modifie ));
+    /* supprime le compte de la liste de l'ordre des comptes */
+    ordre_comptes = g_slist_remove ( ordre_comptes,
+				     GINT_TO_POINTER ( compte_modifie ));
 
 
-  /* modifie les numéros des comptes supérieurs au compte supprimé
-     dans l'ordre des comptes */
-  pointeur_liste = ordre_comptes;
+    /* modifie les numéros des comptes supérieurs au compte supprimé
+       dans l'ordre des comptes */
+    pointeur_liste = ordre_comptes;
 
-  do
+    do
     {
-      if ( GPOINTER_TO_INT ( pointeur_liste -> data ) > compte_modifie )
-	pointeur_liste -> data--;
+	if ( GPOINTER_TO_INT ( pointeur_liste -> data ) > compte_modifie )
+	    pointeur_liste -> data--;
     }
-  while ( ( pointeur_liste = pointeur_liste -> next ) );
+    while ( ( pointeur_liste = pointeur_liste -> next ) );
 
 
-  if ( compte_courant == compte_modifie )
+    if ( compte_courant == compte_modifie )
     {
-      actualise = 1;
-      compte_courant = 0;
+	actualise = 1;
+	compte_courant = 0;
     }
-  else
-    if ( compte_courant > compte_modifie )
-      {
-	compte_courant--;
-	actualise = 0;
-      }
-
-
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_modifie;
-  p_tab_nom_de_compte_courant = p_tab_nom_de_compte + compte_courant;
-//  nb_comptes--;
-
-  g_slist_free ( LISTE_OPERATIONS );
-  nom_compte_supprime = g_strdup ( NOM_DU_COMPTE );
-
-  /* on décale en mémoire les comptes situés après */
-  for ( i = compte_modifie ; i < nb_comptes ; i++ )
-    {
-      NO_COMPTE = NO_COMPTE -1;
-      *p_tab_nom_de_compte_variable = *(p_tab_nom_de_compte_variable + 1);
-      p_tab_nom_de_compte_variable++;
-    }
-
-  nb_comptes--;
-
-  /* recherche les échéances pour les comptes plaçés après le compe supprimé */
-  /* pour leur diminuer leur numéro de compte de 1 */
-  pointeur_liste = gsliste_echeances;
-
-  while ( pointeur_liste )
-    {
-      if ( ECHEANCE_COURANTE -> compte > compte_modifie )
-	ECHEANCE_COURANTE -> compte--;
-      if ( ECHEANCE_COURANTE -> compte_virement > compte_modifie )
-	ECHEANCE_COURANTE -> compte_virement--;
-
-      pointeur_liste = pointeur_liste -> next;
-    }
-
-  /*   fait le tour des opés de tous les comptes, */
-  /*     pour les opés des comptes > à celui supprimé, on descend le
-	 no de compte */
-  /*     pour les virements vers le compte supprimé, met
-	 relation_no_compte à -1 */
-
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
-  for ( i=0 ; i < nb_comptes ; i++ )
-    {
-      GSList *pointeur_tmp;
-
-      pointeur_tmp = LISTE_OPERATIONS;
-
-      while ( pointeur_tmp )
+    else
+	if ( compte_courant > compte_modifie )
 	{
-	  struct structure_operation *operation;
-
-	  operation = pointeur_tmp -> data;
-
-	  if ( operation -> no_compte > compte_modifie )
-	    operation -> no_compte--;
-
-	  if ( operation -> relation_no_operation )
-	    {
-	      if ( operation -> relation_no_compte == compte_modifie )
-		{
-		  operation -> relation_no_compte = -1;
-		  MISE_A_JOUR = 1;
-		}
-	      else
-		if ( operation -> relation_no_compte > compte_modifie )
-		  operation -> relation_no_compte--;
-	    }
-	  pointeur_tmp = pointeur_tmp -> next;
+	    compte_courant--;
+	    actualise = 0;
 	}
-      p_tab_nom_de_compte_variable++;
+
+
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_modifie;
+    p_tab_nom_de_compte_courant = p_tab_nom_de_compte + compte_courant;
+    //  nb_comptes--;
+
+    g_slist_free ( LISTE_OPERATIONS );
+    nom_compte_supprime = g_strdup ( NOM_DU_COMPTE );
+
+    /* on décale en mémoire les comptes situés après */
+    for ( i = compte_modifie ; i < nb_comptes ; i++ )
+    {
+	NO_COMPTE = NO_COMPTE -1;
+	*p_tab_nom_de_compte_variable = *(p_tab_nom_de_compte_variable + 1);
+	p_tab_nom_de_compte_variable++;
     }
 
-  /* le compte courant de l'onglet de comptes est diminué de 1 ou reste */
-  /* à 0 s'il l'était */
+    nb_comptes--;
 
-  if ( compte_courant_onglet )
-    compte_courant_onglet--;
+    /* recherche les échéances pour les comptes plaçés après le compe supprimé */
+    /* pour leur diminuer leur numéro de compte de 1 */
+    pointeur_liste = gsliste_echeances;
 
-  /* retire le bouton du compte dans la liste des comptes */
-  /*   pour cela, on efface vbox_liste_comptes et on le recrée */
+    while ( pointeur_liste )
+    {
+	if ( ECHEANCE_COURANTE -> compte > compte_modifie )
+	    ECHEANCE_COURANTE -> compte--;
+	if ( ECHEANCE_COURANTE -> compte_virement > compte_modifie )
+	    ECHEANCE_COURANTE -> compte_virement--;
 
-  reaffiche_liste_comptes();
-  reaffiche_liste_comptes_onglet ();
+	pointeur_liste = pointeur_liste -> next;
+    }
 
-  /* on recrée les combofix des tiers et des catégories */
+    /*   fait le tour des opés de tous les comptes, */
+    /*     pour les opés des comptes > à celui supprimé, on descend le
+	   no de compte */
+    /*     pour les virements vers le compte supprimé, met
+	   relation_no_compte à -1 */
 
-  mise_a_jour_tiers();
-  mise_a_jour_categ();
-  mise_a_jour_imputation();
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
-/* on met à jour l'option menu du formulaire des échéances */
+    for ( i=0 ; i < nb_comptes ; i++ )
+    {
+	GSList *pointeur_tmp;
 
-  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] ),
-			     creation_option_menu_comptes (GTK_SIGNAL_FUNC(changement_choix_compte_echeancier), TRUE) );
+	pointeur_tmp = LISTE_OPERATIONS;
 
-  /* réaffiche la liste si necessaire */
+	while ( pointeur_tmp )
+	{
+	    struct structure_operation *operation;
 
-  page_en_cours = gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook_general));
+	    operation = pointeur_tmp -> data;
 
-  changement_compte ( GINT_TO_POINTER ( compte_courant ));
+	    if ( operation -> no_compte > compte_modifie )
+		operation -> no_compte--;
 
-  gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), page_en_cours );
+	    if ( operation -> relation_no_operation )
+	    {
+		if ( operation -> relation_no_compte == compte_modifie )
+		{
+		    operation -> relation_no_compte = -1;
+		    MISE_A_JOUR = 1;
+		}
+		else
+		    if ( operation -> relation_no_compte > compte_modifie )
+			operation -> relation_no_compte--;
+	    }
+	    pointeur_tmp = pointeur_tmp -> next;
+	}
+	p_tab_nom_de_compte_variable++;
+    }
 
-  remplissage_liste_echeance ();
-  update_liste_echeances_manuelles_accueil();
-  update_liste_comptes_accueil ();
-  mise_a_jour_soldes_minimaux ();
-  mise_a_jour_fin_comptes_passifs();
+    /* le compte courant de l'onglet de comptes est diminué de 1 ou reste */
+    /* à 0 s'il l'était */
 
-  remplissage_liste_comptes_etats ();
-  selectionne_liste_comptes_etat_courant ();
+    if ( compte_courant_onglet )
+	compte_courant_onglet--;
 
-  modification_fichier( TRUE ); 
+    /* retire le bouton du compte dans la liste des comptes */
+    /*   pour cela, on efface vbox_liste_comptes et on le recrée */
+
+    reaffiche_liste_comptes();
+    reaffiche_liste_comptes_onglet ();
+
+    /* on recrée les combofix des tiers et des catégories */
+
+    mise_a_jour_tiers();
+    mise_a_jour_categ();
+    mise_a_jour_imputation();
+
+    /* on met à jour l'option menu du formulaire des échéances */
+
+    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] ),
+			       creation_option_menu_comptes (GTK_SIGNAL_FUNC(changement_choix_compte_echeancier), TRUE) );
+
+    /* réaffiche la liste si necessaire */
+
+    page_en_cours = gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook_general));
+
+    changement_compte ( GINT_TO_POINTER ( compte_courant ));
+
+    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), page_en_cours );
+
+    remplissage_liste_echeance ();
+    update_liste_echeances_manuelles_accueil();
+    update_liste_comptes_accueil ();
+    mise_a_jour_soldes_minimaux ();
+    mise_a_jour_fin_comptes_passifs();
+
+    remplissage_liste_comptes_etats ();
+    selectionne_liste_comptes_etat_courant ();
+
+    modification_fichier( TRUE ); 
 
 }
 /* *********************************************************************************************************** */
@@ -398,8 +398,8 @@ void supprimer_compte ( void )
 gint cherche_compte_dans_echeances ( struct operation_echeance *echeance,
 				     gint no_compte )
 {
-  
-  return ( echeance -> compte != no_compte );
+
+    return ( echeance -> compte != no_compte );
 
 }
 /* *********************************************************************************************************** */
@@ -418,35 +418,35 @@ gint cherche_compte_dans_echeances ( struct operation_echeance *echeance,
 GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func, 
 					   gboolean activate_currrent )
 {
-  GtkWidget *menu;
-  GtkWidget *item;
+    GtkWidget *menu;
+    GtkWidget *item;
 
-  menu = gtk_menu_new ();
+    menu = gtk_menu_new ();
 
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
-  do
+    do
     {
-      item = gtk_menu_item_new_with_label ( NOM_DU_COMPTE );
-      gtk_object_set_data ( GTK_OBJECT ( item ),
-			    "no_compte",
-			    GINT_TO_POINTER ( p_tab_nom_de_compte_variable - p_tab_nom_de_compte ));
-      if ( func )
-      	gtk_signal_connect ( GTK_OBJECT ( item ), "activate", GTK_SIGNAL_FUNC(func), NULL );
-      gtk_menu_append ( GTK_MENU ( menu ), item );
+	item = gtk_menu_item_new_with_label ( NOM_DU_COMPTE );
+	gtk_object_set_data ( GTK_OBJECT ( item ),
+			      "no_compte",
+			      GINT_TO_POINTER ( p_tab_nom_de_compte_variable - p_tab_nom_de_compte ));
+	if ( func )
+	    gtk_signal_connect ( GTK_OBJECT ( item ), "activate", GTK_SIGNAL_FUNC(func), NULL );
+	gtk_menu_append ( GTK_MENU ( menu ), item );
 
-      if ( !activate_currrent && 
-	   p_tab_nom_de_compte_courant == p_tab_nom_de_compte_variable )
+	if ( !activate_currrent && 
+	     p_tab_nom_de_compte_courant == p_tab_nom_de_compte_variable )
 	{
-	  gtk_widget_set_sensitive ( item, FALSE );
+	    gtk_widget_set_sensitive ( item, FALSE );
 	}      
 
-      gtk_widget_show ( item );
-      p_tab_nom_de_compte_variable++;
+	gtk_widget_show ( item );
+	p_tab_nom_de_compte_variable++;
     }
-  while ( p_tab_nom_de_compte_variable < (p_tab_nom_de_compte + nb_comptes ) );
+    while ( p_tab_nom_de_compte_variable < (p_tab_nom_de_compte + nb_comptes ) );
 
-  return ( menu );
+    return ( menu );
 }
 /***********************************************************************************************************/
 
@@ -455,46 +455,46 @@ GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func,
 /***********************************************************************************************************/
 void changement_choix_compte_echeancier ( void )
 {
-  GtkWidget *menu;
+    GtkWidget *menu;
 
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] )->menu_item),
-											       "no_compte" ));
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] )->menu_item),
+												 "no_compte" ));
 
-  if ( gtk_widget_get_style ( widget_formulaire_echeancier[3] ) == style_entree_formulaire[0] )
+    if ( gtk_widget_get_style ( widget_formulaire_echeancier[3] ) == style_entree_formulaire[0] )
     {
-      /*       il y a qque chose dans le crédit, on met le menu des types crédit */
+	/*       il y a qque chose dans le crédit, on met le menu des types crédit */
 
-      if ( (menu = creation_menu_types ( 2,
-					 GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] )->menu_item),
-										 "no_compte" )),
-					 1 )))
+	if ( (menu = creation_menu_types ( 2,
+					   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] )->menu_item),
+										   "no_compte" )),
+					   1 )))
 	{
-	  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ),
-				     menu );
-	  gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ),
-					cherche_no_menu_type_echeancier ( TYPE_DEFAUT_CREDIT ) );
-	  gtk_widget_show ( widget_formulaire_echeancier[7] );
+	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ),
+				       menu );
+	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ),
+					  cherche_no_menu_type_echeancier ( TYPE_DEFAUT_CREDIT ) );
+	    gtk_widget_show ( widget_formulaire_echeancier[7] );
 	}
-      else
-	gtk_widget_hide ( widget_formulaire_echeancier[7] );
+	else
+	    gtk_widget_hide ( widget_formulaire_echeancier[7] );
     }
-  else
+    else
     {
-      /*       il y a qque chose dans le débit ou c'est par défaut, on met le menu des types débit */
+	/*       il y a qque chose dans le débit ou c'est par défaut, on met le menu des types débit */
 
-      if ( (menu = creation_menu_types ( 1,
-					 GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] )->menu_item),
-										 "no_compte" )),
-					 1 )))
+	if ( (menu = creation_menu_types ( 1,
+					   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] )->menu_item),
+										   "no_compte" )),
+					   1 )))
 	{
-	  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ),
-				     menu );
-	  gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ),
-					cherche_no_menu_type_echeancier ( TYPE_DEFAUT_DEBIT ) );
-	  gtk_widget_show ( widget_formulaire_echeancier[7] );
+	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ),
+				       menu );
+	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ),
+					  cherche_no_menu_type_echeancier ( TYPE_DEFAUT_DEBIT ) );
+	    gtk_widget_show ( widget_formulaire_echeancier[7] );
 	}
-      else
-	gtk_widget_hide ( widget_formulaire_echeancier[7] );
+	else
+	    gtk_widget_hide ( widget_formulaire_echeancier[7] );
     }
 }
 /***********************************************************************************************************/
@@ -505,141 +505,141 @@ void changement_choix_compte_echeancier ( void )
 void creation_types_par_defaut ( gint no_compte,
 				 gulong dernier_cheque )
 {
-  gpointer **save_p_tab;
+    gpointer **save_p_tab;
 
-  save_p_tab = p_tab_nom_de_compte_variable;
+    save_p_tab = p_tab_nom_de_compte_variable;
 
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
 
-  /* si des types d'opé existaient déjà, on les vire */
+    /* si des types d'opé existaient déjà, on les vire */
 
-  if ( TYPES_OPES )
-    g_slist_free ( TYPES_OPES );
+    if ( TYPES_OPES )
+	g_slist_free ( TYPES_OPES );
 
-  TYPES_OPES = NULL;
-  TYPE_DEFAUT_DEBIT = 0;
-  TYPE_DEFAUT_CREDIT = 0;
+    TYPES_OPES = NULL;
+    TYPE_DEFAUT_DEBIT = 0;
+    TYPE_DEFAUT_CREDIT = 0;
 
-  if ( !TYPE_DE_COMPTE )
+    if ( !TYPE_DE_COMPTE )
     {
-      /* c'est un compte bancaire, on ajoute virement, prélèvement, chèque et cb */
-      /* 	  modification par rapport à avant, les nouveaux n°: */
-      /* 	    1=virement, 2=dépot, 3=cb, 4=prélèvement, 5=chèque */
-      /* les modifs pour chaque opés se feront à leur chargement */
+	/* c'est un compte bancaire, on ajoute virement, prélèvement, chèque et cb */
+	/* 	  modification par rapport à avant, les nouveaux n°: */
+	/* 	    1=virement, 2=dépot, 3=cb, 4=prélèvement, 5=chèque */
+	/* les modifs pour chaque opés se feront à leur chargement */
 
-      struct struct_type_ope *type_ope;
+	struct struct_type_ope *type_ope;
 
-      type_ope = malloc ( sizeof ( struct struct_type_ope ));
-      type_ope -> no_type = 1;
-      type_ope -> nom_type = g_strdup ( _("Transfer") );
-      type_ope -> signe_type = 0;
-      type_ope -> affiche_entree = 1;
-      type_ope -> numerotation_auto = 0;
-      type_ope -> no_en_cours = 0;
-      type_ope -> no_compte = no_compte;
+	type_ope = malloc ( sizeof ( struct struct_type_ope ));
+	type_ope -> no_type = 1;
+	type_ope -> nom_type = g_strdup ( _("Transfer") );
+	type_ope -> signe_type = 0;
+	type_ope -> affiche_entree = 1;
+	type_ope -> numerotation_auto = 0;
+	type_ope -> no_en_cours = 0;
+	type_ope -> no_compte = no_compte;
 
-      TYPES_OPES = g_slist_append ( TYPES_OPES,
-				    type_ope );
+	TYPES_OPES = g_slist_append ( TYPES_OPES,
+				      type_ope );
 
-      type_ope = malloc ( sizeof ( struct struct_type_ope ));
-      type_ope -> no_type = 2;
-      type_ope -> nom_type = g_strdup ( _("Deposit") );
-      type_ope -> signe_type = 2;
-      type_ope -> affiche_entree = 0;
-      type_ope -> numerotation_auto = 0;
-      type_ope -> no_en_cours = 0;
-      type_ope -> no_compte = no_compte;
+	type_ope = malloc ( sizeof ( struct struct_type_ope ));
+	type_ope -> no_type = 2;
+	type_ope -> nom_type = g_strdup ( _("Deposit") );
+	type_ope -> signe_type = 2;
+	type_ope -> affiche_entree = 0;
+	type_ope -> numerotation_auto = 0;
+	type_ope -> no_en_cours = 0;
+	type_ope -> no_compte = no_compte;
 
-      TYPES_OPES = g_slist_append ( TYPES_OPES,
-				    type_ope );
+	TYPES_OPES = g_slist_append ( TYPES_OPES,
+				      type_ope );
 
-      type_ope = malloc ( sizeof ( struct struct_type_ope ));
-      type_ope -> no_type = 3;
-      type_ope -> nom_type = g_strdup ( _("Credit card") );
-      type_ope -> signe_type = 1;
-      type_ope -> affiche_entree = 0;
-      type_ope -> numerotation_auto = 0;
-      type_ope -> no_en_cours = 0;
-      type_ope -> no_compte = no_compte;
+	type_ope = malloc ( sizeof ( struct struct_type_ope ));
+	type_ope -> no_type = 3;
+	type_ope -> nom_type = g_strdup ( _("Credit card") );
+	type_ope -> signe_type = 1;
+	type_ope -> affiche_entree = 0;
+	type_ope -> numerotation_auto = 0;
+	type_ope -> no_en_cours = 0;
+	type_ope -> no_compte = no_compte;
 
-      TYPES_OPES = g_slist_append ( TYPES_OPES,
-				    type_ope );
+	TYPES_OPES = g_slist_append ( TYPES_OPES,
+				      type_ope );
 
-      type_ope = malloc ( sizeof ( struct struct_type_ope ));
-      type_ope -> no_type = 4;
-      type_ope -> nom_type = g_strdup ( _("Direct debit") );
-      type_ope -> signe_type = 1;
-      type_ope -> affiche_entree = 0;
-      type_ope -> numerotation_auto = 0;
-      type_ope -> no_en_cours = 0;
-      type_ope -> no_compte = no_compte;
+	type_ope = malloc ( sizeof ( struct struct_type_ope ));
+	type_ope -> no_type = 4;
+	type_ope -> nom_type = g_strdup ( _("Direct debit") );
+	type_ope -> signe_type = 1;
+	type_ope -> affiche_entree = 0;
+	type_ope -> numerotation_auto = 0;
+	type_ope -> no_en_cours = 0;
+	type_ope -> no_compte = no_compte;
 
-      TYPES_OPES = g_slist_append ( TYPES_OPES,
-				    type_ope );
+	TYPES_OPES = g_slist_append ( TYPES_OPES,
+				      type_ope );
 
-      type_ope = malloc ( sizeof ( struct struct_type_ope ));
-      type_ope -> no_type = 5;
-      type_ope -> nom_type = g_strdup ( _("Cheque") );
-      type_ope -> signe_type = 1;
-      type_ope -> affiche_entree = 1;
-      type_ope -> numerotation_auto = 1;
-      type_ope -> no_en_cours = dernier_cheque;
-      type_ope -> no_compte = no_compte;
+	type_ope = malloc ( sizeof ( struct struct_type_ope ));
+	type_ope -> no_type = 5;
+	type_ope -> nom_type = g_strdup ( _("Cheque") );
+	type_ope -> signe_type = 1;
+	type_ope -> affiche_entree = 1;
+	type_ope -> numerotation_auto = 1;
+	type_ope -> no_en_cours = dernier_cheque;
+	type_ope -> no_compte = no_compte;
 
-      TYPES_OPES = g_slist_append ( TYPES_OPES,
-				    type_ope );
+	TYPES_OPES = g_slist_append ( TYPES_OPES,
+				      type_ope );
 
 
-      TYPE_DEFAUT_DEBIT = 3;
-      TYPE_DEFAUT_CREDIT = 2;
+	TYPE_DEFAUT_DEBIT = 3;
+	TYPE_DEFAUT_CREDIT = 2;
 
-      /* on crée le tri pour compte bancaire qui sera 1 2 3 4 5 */
+	/* on crée le tri pour compte bancaire qui sera 1 2 3 4 5 */
 
-      LISTE_TRI = g_slist_append ( LISTE_TRI,
-				   GINT_TO_POINTER ( 1 ));
-      LISTE_TRI = g_slist_append ( LISTE_TRI,
-				   GINT_TO_POINTER ( 2 ));
-      LISTE_TRI = g_slist_append ( LISTE_TRI,
-				   GINT_TO_POINTER ( 3 ));
-      LISTE_TRI = g_slist_append ( LISTE_TRI,
-				   GINT_TO_POINTER ( 4 ));
-      LISTE_TRI = g_slist_append ( LISTE_TRI,
-				   GINT_TO_POINTER ( 5 ));
+	LISTE_TRI = g_slist_append ( LISTE_TRI,
+				     GINT_TO_POINTER ( 1 ));
+	LISTE_TRI = g_slist_append ( LISTE_TRI,
+				     GINT_TO_POINTER ( 2 ));
+	LISTE_TRI = g_slist_append ( LISTE_TRI,
+				     GINT_TO_POINTER ( 3 ));
+	LISTE_TRI = g_slist_append ( LISTE_TRI,
+				     GINT_TO_POINTER ( 4 ));
+	LISTE_TRI = g_slist_append ( LISTE_TRI,
+				     GINT_TO_POINTER ( 5 ));
 
 
     }
-  else
+    else
     {
-      if ( TYPE_DE_COMPTE == 2 )
+	if ( TYPE_DE_COMPTE == 2 )
 	{
-	  /* c'est un compte de passif, on ne met que le virement */
+	    /* c'est un compte de passif, on ne met que le virement */
 
-	  struct struct_type_ope *type_ope;
+	    struct struct_type_ope *type_ope;
 
-	  type_ope = malloc ( sizeof ( struct struct_type_ope ));
-	  type_ope -> no_type = 1;
-	  type_ope -> nom_type = g_strdup ( _("Transfer") );
-	  type_ope -> signe_type = 0;
-	  type_ope -> affiche_entree = 1;
-	  type_ope -> numerotation_auto = 0;
-	  type_ope -> no_en_cours = 0;
-	  type_ope -> no_compte = no_compte;
+	    type_ope = malloc ( sizeof ( struct struct_type_ope ));
+	    type_ope -> no_type = 1;
+	    type_ope -> nom_type = g_strdup ( _("Transfer") );
+	    type_ope -> signe_type = 0;
+	    type_ope -> affiche_entree = 1;
+	    type_ope -> numerotation_auto = 0;
+	    type_ope -> no_en_cours = 0;
+	    type_ope -> no_compte = no_compte;
 
-	  TYPES_OPES = g_slist_append ( TYPES_OPES,
-					type_ope );
+	    TYPES_OPES = g_slist_append ( TYPES_OPES,
+					  type_ope );
 
-	  TYPE_DEFAUT_DEBIT = 1;
-	  TYPE_DEFAUT_CREDIT = 1;
+	    TYPE_DEFAUT_DEBIT = 1;
+	    TYPE_DEFAUT_CREDIT = 1;
 
-	  /* on crée le tri pour compte passif qui sera 1 */
+	    /* on crée le tri pour compte passif qui sera 1 */
 
-	  LISTE_TRI = g_slist_append ( LISTE_TRI,
-				       GINT_TO_POINTER ( 1 ));
+	    LISTE_TRI = g_slist_append ( LISTE_TRI,
+					 GINT_TO_POINTER ( 1 ));
 	}
     }
 
-  p_tab_nom_de_compte_variable = save_p_tab;
+    p_tab_nom_de_compte_variable = save_p_tab;
 }
 /***********************************************************************************************************/
 
@@ -651,48 +651,48 @@ void creation_types_par_defaut ( gint no_compte,
 
 gint demande_type_nouveau_compte ( void )
 {
-  GtkWidget *dialog;
-  gint resultat;
-  GtkWidget *label;
-  GtkWidget *hbox;
-  GtkWidget *bouton;
-  GtkWidget *separateur;
-  gint type_compte;
+    GtkWidget *dialog;
+    gint resultat;
+    GtkWidget *label;
+    GtkWidget *hbox;
+    GtkWidget *bouton;
+    GtkWidget *separateur;
+    gint type_compte;
 
-  dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION,
-				     GTK_BUTTONS_OK_CANCEL,
-				     make_hint ( _("Choose account type"),
-						 _("If you choose to continue, an account will be created with default payment methods chosen according to your choice.\nYou will be able to change account type later." ) ) );
+    dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION,
+				       GTK_BUTTONS_OK_CANCEL,
+				       make_hint ( _("Choose account type"),
+						   _("If you choose to continue, an account will be created with default payment methods chosen according to your choice.\nYou will be able to change account type later." ) ) );
 
-  /* création de la ligne du type de compte */
-  hbox = gtk_hbox_new ( FALSE, 0 );
-  gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(dialog) -> vbox ), hbox,
-		       FALSE, FALSE, 6 );
-  gtk_widget_show ( hbox );
+    /* création de la ligne du type de compte */
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(dialog) -> vbox ), hbox,
+			 FALSE, FALSE, 6 );
+    gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( COLON(_("Account type")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 12 );
-  gtk_widget_show ( label );
+    label = gtk_label_new ( COLON(_("Account type")) );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 12 );
+    gtk_widget_show ( label );
 
-  bouton = gtk_option_menu_new ();
-  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton ),
-			     creation_menu_type_compte() );
-  gtk_box_pack_start ( GTK_BOX (hbox), bouton, TRUE, TRUE, 12 );
-  gtk_widget_show ( bouton );
+    bouton = gtk_option_menu_new ();
+    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton ),
+			       creation_menu_type_compte() );
+    gtk_box_pack_start ( GTK_BOX (hbox), bouton, TRUE, TRUE, 12 );
+    gtk_widget_show ( bouton );
 
-  resultat = gtk_dialog_run ( GTK_DIALOG(dialog) );
+    resultat = gtk_dialog_run ( GTK_DIALOG(dialog) );
 
-  if ( resultat != GTK_RESPONSE_OK )
+    if ( resultat != GTK_RESPONSE_OK )
     {
-      gtk_widget_destroy ( dialog );
-      return ( -1 );
+	gtk_widget_destroy ( dialog );
+	return ( -1 );
     }
-  
-  type_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton ) -> menu_item ),
-							"no_type_compte" ));
 
-  gtk_widget_destroy ( dialog );
+    type_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton ) -> menu_item ),
+							  "no_type_compte" ));
 
-  return ( type_compte );
+    gtk_widget_destroy ( dialog );
+
+    return ( type_compte );
 }
 /***********************************************************************************************************/

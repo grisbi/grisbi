@@ -41,33 +41,33 @@
 gboolean fermeture_grisbi ( void )
 {
 
-/*       stoppe le timer */
+    /*       stoppe le timer */
 
-  if ( id_temps )
+    if ( id_temps )
     {
-      gtk_timeout_remove ( id_temps );
-      id_temps = 0;
+	gtk_timeout_remove ( id_temps );
+	id_temps = 0;
     }
 
 
-  sauve_configuration ();
+    sauve_configuration ();
 
-/*   si le fichier est modifié, propose l'enregistrement */
+    /*   si le fichier est modifié, propose l'enregistrement */
 
-  if ( enregistrement_fichier(-1) )
-    gtk_main_quit();
+    if ( enregistrement_fichier(-1) )
+	gtk_main_quit();
 
 
-  /* si le fichier n'était pas déjà ouvert, met à 0 l'ouverture */
+    /* si le fichier n'était pas déjà ouvert, met à 0 l'ouverture */
 
-  if ( !etat.fichier_deja_ouvert
-       &&
-       nb_comptes
-       &&
-       nom_fichier_comptes )
-    fichier_marque_ouvert ( FALSE );
+    if ( !etat.fichier_deja_ouvert
+	 &&
+	 nb_comptes
+	 &&
+	 nom_fichier_comptes )
+	fichier_marque_ouvert ( FALSE );
 
-  return (TRUE );
+    return (TRUE );
 }
 
 
@@ -77,63 +77,64 @@ gboolean fermeture_grisbi ( void )
 
 void affiche_log_message ( void )
 {
-  GtkWidget *dialog;
-  GtkWidget *label;
-  GtkWidget *scrolled_window;
-  GtkWidget *vbox;
+    GtkWidget *dialog;
+    GtkWidget *label;
+    GtkWidget *scrolled_window;
+    GtkWidget *vbox;
 
-  if ( !log_message )
-    return;
+    if ( !log_message )
+	return;
 
-  dialog = gnome_dialog_new ( _("Log message"),
-			      GNOME_STOCK_BUTTON_OK,
-			      NULL );
-  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
-				 GTK_WINDOW ( window ) );
+    dialog = gtk_dialog_new_with_buttons ( _("Log message"),
+					   GTK_WINDOW (window),
+					   GTK_DIALOG_MODAL,
+					   GTK_STOCK_OK,0,
+					   NULL );
 
-  label = gtk_label_new ( COLON(_("This operation returned a message")));
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       label,
-		       FALSE,
-		       FALSE, 
-		       0 );
-  gtk_widget_show ( label );
+    label = gtk_label_new ( COLON(_("This operation returned a message")));
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
+			 label,
+			 FALSE,
+			 FALSE, 
+			 0 );
+    gtk_widget_show ( label );
 
-  scrolled_window = gtk_scrolled_window_new ( NULL,
-					      NULL );
-  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				   GTK_POLICY_AUTOMATIC,
-				   GTK_POLICY_AUTOMATIC );
-  gtk_widget_set_usize ( scrolled_window,
-			 400,
-			 200 );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       scrolled_window,
-		       FALSE,
-		       FALSE, 
-		       0 );
-  gtk_widget_show ( scrolled_window );
+    scrolled_window = gtk_scrolled_window_new ( NULL,
+						NULL );
+    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+				     GTK_POLICY_AUTOMATIC,
+				     GTK_POLICY_AUTOMATIC );
+    gtk_widget_set_usize ( scrolled_window,
+			   400,
+			   200 );
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
+			 scrolled_window,
+			 FALSE,
+			 FALSE, 
+			 0 );
+    gtk_widget_show ( scrolled_window );
 
-  vbox = gtk_vbox_new ( FALSE,
-			5 );
-  gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-					  vbox );
-  gtk_widget_show ( vbox );
+    vbox = gtk_vbox_new ( FALSE,
+			  5 );
+    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+					    vbox );
+    gtk_widget_show ( vbox );
 
-  label = gtk_label_new ( log_message );
-  gtk_label_set_justify ( GTK_LABEL ( label ),
-			  GTK_JUSTIFY_LEFT );
-  gtk_misc_set_alignment ( GTK_MISC ( label ),
-			   0,
-			   0.5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       label,
-		       FALSE,
-		       FALSE, 
-		       0 );
-  gtk_widget_show ( label );
+    label = gtk_label_new ( log_message );
+    gtk_label_set_justify ( GTK_LABEL ( label ),
+			    GTK_JUSTIFY_LEFT );
+    gtk_misc_set_alignment ( GTK_MISC ( label ),
+			     0,
+			     0.5 );
+    gtk_box_pack_start ( GTK_BOX ( vbox ),
+			 label,
+			 FALSE,
+			 FALSE, 
+			 0 );
+    gtk_widget_show ( label );
 
-  gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
+    gtk_dialog_run ( GTK_DIALOG ( dialog ));
+    gtk_widget_destroy ( dialog );
 
 }
 /*************************************************************************************************************/
@@ -143,86 +144,86 @@ void affiche_log_message ( void )
 /*************************************************************************************************************/
 void traitement_sigsegv ( gint signal_nb )
 {
-  GtkWidget *dialog;
-  gchar *home_dir, *errmsg;
+    GtkWidget *dialog;
+    gchar *home_dir, *errmsg;
 
-  errmsg = _("Grisbi triggered a segmentation fault and cannot continue its execution.\n\n");
+    errmsg = _("Grisbi triggered a segmentation fault and cannot continue its execution.\n\n");
 
-  /*   il y a 3 possibilités : */
-  /*     soit on était en train de charger un fichier, c'est que celui-ci est corrompu */
-  /* soit on était en train de sauver un fichier, et là on peut rien faire */
-  /* sinon on essaie de sauver le fichier sous le nom entouré de # */
+    /*   il y a 3 possibilités : */
+    /*     soit on était en train de charger un fichier, c'est que celui-ci est corrompu */
+    /* soit on était en train de sauver un fichier, et là on peut rien faire */
+    /* sinon on essaie de sauver le fichier sous le nom entouré de # */
 
-  if ( etat.en_train_de_charger || 
-       etat.en_train_de_sauvegarder || 
-       !etat.modification_fichier )
+    if ( etat.en_train_de_charger || 
+	 etat.en_train_de_sauvegarder || 
+	 !etat.modification_fichier )
     {
 
-      if ( etat.en_train_de_charger )
+	if ( etat.en_train_de_charger )
 	{
-	  errmsg = g_strconcat ( errmsg, _("File is corrupted."), 
-				 "\n\n", NULL );
+	    errmsg = g_strconcat ( errmsg, _("File is corrupted."), 
+				   "\n\n", NULL );
 	}
 
-      if ( etat.en_train_de_sauvegarder )
+	if ( etat.en_train_de_sauvegarder )
 	{
-	  errmsg = g_strconcat ( errmsg, _("Error occured saving file."), 
-				 "\n\n", NULL );
+	    errmsg = g_strconcat ( errmsg, _("Error occured saving file."), 
+				   "\n\n", NULL );
 	}
 
-      fichier_marque_ouvert ( FALSE );
+	fichier_marque_ouvert ( FALSE );
     }
-  else 
+    else 
     {
-      /* c'est un bug pendant le fonctionnement de Grisbi s'il n'y a
-	 pas de nom de fichier, on le crée, sinon on rajoute #
-	 autour */
+	/* c'est un bug pendant le fonctionnement de Grisbi s'il n'y a
+	   pas de nom de fichier, on le crée, sinon on rajoute #
+	   autour */
 
-      home_dir = getenv ("HOME");
+	home_dir = getenv ("HOME");
 
-      if ( nom_fichier_comptes )
+	if ( nom_fichier_comptes )
 	{
-	  /* on récupère le nome du fichier sans le chemin */
+	    /* on récupère le nome du fichier sans le chemin */
 
-	  gchar **parametres;
-	  gint i=0;
-	  parametres = g_strsplit ( nom_fichier_comptes, "/", 0);
+	    gchar **parametres;
+	    gint i=0;
+	    parametres = g_strsplit ( nom_fichier_comptes, "/", 0);
 
-	  while ( parametres[i] )
-	    i++;
+	    while ( parametres[i] )
+		i++;
 
-	  nom_fichier_comptes = g_strconcat ( home_dir, "/#", parametres [i-1], 
-					      "#", NULL );
-	  g_strfreev ( parametres );
+	    nom_fichier_comptes = g_strconcat ( home_dir, "/#", parametres [i-1], 
+						"#", NULL );
+	    g_strfreev ( parametres );
 	}
-      else
-	nom_fichier_comptes = g_strconcat ( home_dir,
-					    "/#grisbi_plantage_sans_nom#",
-					    NULL );
+	else
+	    nom_fichier_comptes = g_strconcat ( home_dir,
+						"/#grisbi_plantage_sans_nom#",
+						NULL );
 
-      if ( patience_en_cours )
-	update_attente ( _("Save file") );
-      else
-	mise_en_route_attente ( _("Save file") );
+	if ( patience_en_cours )
+	    update_attente ( _("Save file") );
+	else
+	    mise_en_route_attente ( _("Save file") );
 
-      enregistre_fichier ( 1 );
-      annulation_attente();
+	enregistre_fichier ( 1 );
+	annulation_attente();
 
-      errmsg = g_strconcat ( errmsg, 
-			     g_strdup_printf ( _("Grisbi made a backup file at '%s'."),
-					       nom_fichier_comptes, NULL ),
-			     NULL );
-      errmsg = g_strconcat ( errmsg, "\n\n", NULL );
+	errmsg = g_strconcat ( errmsg, 
+			       g_strdup_printf ( _("Grisbi made a backup file at '%s'."),
+						 nom_fichier_comptes, NULL ),
+			       NULL );
+	errmsg = g_strconcat ( errmsg, "\n\n", NULL );
     }
 
-  errmsg = g_strconcat ( errmsg, 
-			 _("Please report this problem to http://www.grisbi.org/bugtracking/"),
-			 NULL );
-      
-  dialogue_error_hint ( errmsg, 
-			_("Grisbi terminated due to a segmentation fault.") );
+    errmsg = g_strconcat ( errmsg, 
+			   _("Please report this problem to http://www.grisbi.org/bugtracking/"),
+			   NULL );
 
-  exit(1);
+    dialogue_error_hint ( errmsg, 
+			  _("Grisbi terminated due to a segmentation fault.") );
+
+    exit(1);
 }
 
 /*************************************************************************************************************/

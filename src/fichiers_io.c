@@ -129,7 +129,7 @@ fix_encoding ( xmlNodePtr droot )
 void remove_file_from_last_opened_files_list ( gchar * nom_fichier )
 {
     gint i, j;
-    
+
     efface_derniers_fichiers_ouverts();
 
     for ( i = 0 ; i < nb_derniers_fichiers_ouverts ; i++ )
@@ -8610,7 +8610,7 @@ void fichier_marque_ouvert ( gint ouvert )
 
     if ( compression_fichier )
 	return;
- 
+
     /* ouverture du fichier */
 
     if (!(pointeur_fichier_comptes = fopen ( nom_fichier_comptes, "r+")) )

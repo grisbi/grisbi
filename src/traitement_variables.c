@@ -79,10 +79,10 @@ void init_variables ( gboolean ouverture )
 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							       _("/File/Export")),
 				   TRUE );
- 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							       _("/File/Close")),
 				   TRUE );
- 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							       _("/Accounts/Remove an account")),
 				   TRUE );
 
@@ -151,13 +151,13 @@ void init_variables ( gboolean ouverture )
 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							       _("/File/Export")),
 				   FALSE );
- 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							       _("/File/Close")),
 				   FALSE );
- 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							       _("/Accounts/Remove an account")),
 				   FALSE );
- 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							       _("/Accounts/Closed accounts")),
 				   FALSE );
 

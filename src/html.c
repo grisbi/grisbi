@@ -36,6 +36,6 @@ gboolean recuperation_donnees_html ( FILE *fichier )
 
 
 
-  return ( TRUE );
+    return ( TRUE );
 }
 /* *******************************************************************************/
