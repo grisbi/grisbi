@@ -2915,61 +2915,84 @@ struct structure_operation *  clone_transaction ( struct structure_operation * o
  *
  * \return A newly created operation.
  */
-struct structure_operation *  new_transaction_from ( struct structure_operation * operation )
+struct structure_operation *  new_transaction_from ( struct structure_operation *pTemplateTransaction )
 {
-    struct structure_operation * new_transaction, * ope_ventilee;
+  struct structure_operation *pNewTransaction, *pScheduledTransaction;
 
-    new_transaction = (struct structure_operation *) malloc ( sizeof(struct structure_operation) );
-    if ( !new_transaction )
+  pNewTransaction = (struct structure_operation *) malloc ( sizeof(struct structure_operation) );
+  if ( !pNewTransaction )
+  {
+    dialogue ( _("Cannot allocate memory, bad things will happen soon") );
+    return(FALSE);
+  }
+
+  memcpy( pNewTransaction, pTemplateTransaction, sizeof(struct structure_operation) );
+
+  pNewTransaction -> no_operation = 0;
+
+  pNewTransaction -> pointe = OPERATION_NORMALE;
+  pNewTransaction -> date = gdate_today();
+  pNewTransaction -> jour = g_date_day ( pNewTransaction -> date ) ;
+  pNewTransaction -> mois = g_date_month ( pNewTransaction -> date ) ;
+  pNewTransaction -> annee = g_date_year ( pNewTransaction -> date ) ;
+  pNewTransaction -> date_bancaire = NULL;
+
+  /* Si l'opération possède un exercice, alors voir
+     s'il n'existe pas un exercice plus approprié */
+  if ( pTemplateTransaction -> no_exercice )
+  {
+    GSList *pFinancialYearList;
+
+    pFinancialYearList = liste_struct_exercices;
+
+    while ( pFinancialYearList )
     {
-	dialogue ( _("Cannot allocate memory, bad things will happen soon") );
-	return(FALSE);
+      struct struct_exercice *pFinancialYear;
+
+      pFinancialYear = pFinancialYearList -> data;
+
+      if ( g_date_compare ( pFinancialYear -> date_debut, pNewTransaction -> date ) <= 0 &&
+	   g_date_compare ( pFinancialYear -> date_fin, pNewTransaction -> date ) >= 0 )
+      {
+	pNewTransaction -> no_exercice = pFinancialYear -> no_exercice;
+      }
+
+      pFinancialYearList = pFinancialYearList -> next;
     }
+  }
 
-    memcpy(new_transaction, operation, sizeof(struct structure_operation) );
+  ajout_operation ( pNewTransaction );
 
-    new_transaction -> no_operation = 0;
+  if ( pNewTransaction -> relation_no_operation != 0 || pNewTransaction -> relation_no_compte != 0 )
+  {
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + pNewTransaction -> relation_no_compte;
+    validation_virement_operation ( pNewTransaction, 0, NOM_DU_COMPTE );
+  }
 
-    new_transaction -> pointe = OPERATION_NORMALE;
-    new_transaction -> date = gdate_today();
-    new_transaction -> jour = g_date_day ( new_transaction -> date ) ;
-    new_transaction -> mois = g_date_month ( new_transaction -> date ) ;
-    new_transaction -> annee = g_date_year ( new_transaction -> date ) ;
-    new_transaction -> date_bancaire = NULL;
-    
-    ajout_operation ( new_transaction );
+  if ( pTemplateTransaction -> operation_ventilee )
+  {
+    GSList *pTransactionList;
 
-    if ( new_transaction -> relation_no_operation != 0 || new_transaction -> relation_no_compte != 0 )
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + pTemplateTransaction -> no_compte;
+
+    pTransactionList = LISTE_OPERATIONS;
+
+    while ( pTransactionList )
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + new_transaction -> relation_no_compte;
-	validation_virement_operation ( new_transaction, 0, NOM_DU_COMPTE );
+      struct structure_operation *operation_2;
+
+      operation_2 = pTransactionList -> data;
+
+      if ( operation_2 -> no_operation_ventilee_associee == pTemplateTransaction -> no_operation )
+      {
+	pScheduledTransaction = new_transaction_from ( operation_2 );
+	pScheduledTransaction -> no_operation_ventilee_associee = pNewTransaction -> no_operation;
+      }
+
+      pTransactionList = pTransactionList -> next;
     }
-
-    if ( operation -> operation_ventilee )
-    {
-	GSList *liste_tmp;
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
-
-	liste_tmp = LISTE_OPERATIONS;
-
-	while ( liste_tmp )
-	{
-	    struct structure_operation *operation_2;
-
-	    operation_2 = liste_tmp -> data;
-
-	    if ( operation_2 -> no_operation_ventilee_associee == operation -> no_operation )
-	    {
-		ope_ventilee = new_transaction_from ( operation_2 );
-		ope_ventilee -> no_operation_ventilee_associee = new_transaction -> no_operation;
-	    }
-
-	    liste_tmp = liste_tmp -> next;
-	}
-    }
-
-    return new_transaction;
+  }
+  return pNewTransaction;
 }
 
 
