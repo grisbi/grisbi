@@ -9,7 +9,6 @@ gboolean nom_nouvelle_devise_defini ( GtkWidget *entree,
 				      GtkWidget *label );
 void retrait_devise ( GtkWidget *bouton,
 		      GtkWidget *liste );
-gint selection_devise ( gchar *nom_du_compte );
 gboolean passe_a_l_euro ( GtkWidget *toggle_bouton,
 			  GtkWidget *hbox );
 void demande_taux_de_change ( struct struct_devise *devise_compte,

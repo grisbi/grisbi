@@ -406,7 +406,10 @@ gboolean affichage_recapitulatif_importation ( void )
 	/* si aucun compte n'est ouvert, on crée les devises de base */
 
 	if ( !nb_comptes )
+	{
+	    init_variables ( FALSE );
 	    creation_devises_de_base ();
+	}
 
 	liste_tmp = liste_comptes_importes;
 
@@ -606,8 +609,7 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
     /* on crée les boutons de comptes et de type de compte tout de suite */
     /*   pour les (dé)sensitiver lors de changement de l'action */
 
-    if ( nb_comptes )
-	compte -> bouton_compte = gtk_option_menu_new ();
+    compte -> bouton_compte = gtk_option_menu_new ();
     compte -> bouton_type_compte = gtk_option_menu_new ();
 
 
@@ -839,12 +841,9 @@ void traitement_operations_importees ( void )
 	nouveau_fichier = 0;
     else
     {
-	init_variables ( FALSE );
 	init_variables ( TRUE );
 	creation_liste_categories ();
-	creation_devises_de_base ();
 
-	nom_fichier_comptes = NULL;
 	nouveau_fichier = 1;
 	affiche_titre_fenetre();
 
@@ -914,7 +913,6 @@ void traitement_operations_importees ( void )
     if ( nouveau_fichier )
     {
 	creation_fenetre_principale();
-
 	creation_listes_operations ();
 	changement_compte ( GINT_TO_POINTER ( compte_courant ) );
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
@@ -925,6 +923,7 @@ void traitement_operations_importees ( void )
 			     TRUE,
 			     TRUE,
 			     0 );
+	gtk_widget_show ( notebook_general );
 
     }
     else

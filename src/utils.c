@@ -682,15 +682,48 @@ GtkWidget *cree_bouton_url ( const gchar *adr,
 /* **************************************************************************************************************************** */
 gboolean lance_navigateur_web ( const gchar *url )
 {
+/*     si la commande du navigateur contient %s, on le remplace par url, */
+/*     sinon on ajoute l'url à la fin et & */
 
-  if ( !strlen ( etat.browser_command )
-       ||
-       system ( g_strconcat ( etat.browser_command, " ", url, "&", NULL ) ) != 0 )
+    gchar **split;
+    gchar *chaine;
+
+    if ( !(etat.browser_command
+	   &&
+	   strlen ( etat.browser_command )))
     {
-      dialogue_error_hint ( g_strdup_printf ( _("Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.  Please adjust your settings to a valid executable."), url ),
-			    _("Cannot execute web browser") );
+	dialogue_error_hint ( g_strdup_printf ( _("Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.  Please adjust your settings to a valid executable."), url ),
+			      _("Cannot execute web browser") );
     }
-  return FALSE;
+
+
+    split = g_strsplit ( etat.browser_command,
+			 "%s",
+			 0 );
+
+    if ( split[1] )
+    {
+	/* 	il y a bien un %s dans la commande de lancement */
+
+	chaine = g_strjoinv ( g_strconcat ( " ",
+					    url,
+					    " ",
+					    NULL ),
+			      split );
+	chaine = g_strconcat ( chaine,
+			       "&",
+			       NULL );
+    }
+    else
+	chaine = g_strconcat ( etat.browser_command, " ", url, "&", NULL ); 
+
+
+    if ( system ( chaine ) == -1 )
+    {
+	dialogue_error_hint ( g_strdup_printf ( _("Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.\nThe command was : %s\nPlease adjust your settings to a valid executable."), url, chaine ),
+			      _("Cannot execute web browser") );
+    }
+    return FALSE;
 }
 /* **************************************************************************************************************************** */
 
@@ -1593,16 +1626,16 @@ void spin_button_set_value ( GtkWidget * spin, gdouble * value )
  */
 gboolean set_double ( GtkWidget * spin, gdouble * dummy)
 {
-    gdouble *data;
+   gint *data;
 
     data = g_object_get_data ( G_OBJECT(spin), "pointer" );
 
     if ( data )
     {
-	*data = gtk_spin_button_get_value ( GTK_SPIN_BUTTON(spin) );
+	*data = gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON(spin) );
     }
 
-    /* Mark file as modified */
+	/* Mark file as modified */
     modification_fichier ( TRUE );
     return (FALSE);
 }
@@ -1683,11 +1716,12 @@ void browse_file ( GtkButton *button, gpointer data )
 gchar* my_get_grisbirc_dir(void)
 {
 #ifndef _WIN32
-    return g_get_home_dir();
+    return (gchar *) g_get_home_dir();
 #else
     return win32_get_grisbirc_folder_path();
 #endif
 }
+
 
 /**
  * return the absolute path of the default accounts files location
@@ -1699,10 +1733,86 @@ gchar* my_get_grisbirc_dir(void)
 gchar* my_get_gsb_file_default_dir(void)
 {
 #ifndef _WIN32
-    return g_get_home_dir();
+    return (gchar *) g_get_home_dir();
 #else
     return win32_get_my_documents_folder_path();
 #endif
 }
 
+/* ******************************************************************************* */
+/* my_strcasecmp : compare 2 chaines case-insensitive que ce soit utf8 ou ascii */
+/* ******************************************************************************* */
+gint my_strcasecmp ( gchar *chaine_1,
+		     gchar *chaine_2 )
+{
+    if ( chaine_1
+	 &&
+	 chaine_2 )
+    {
+	if ( g_utf8_validate ( chaine_1, -1, NULL )
+	     &&
+	     g_utf8_validate ( chaine_2, -1, NULL ))
+	{
+	    gint retour;
+ 	    gchar *new_1, *new_2;
+	    
+	    new_1 = g_utf8_collate_key ( g_utf8_casefold ( chaine_1,-1 ),
+					 -1 );
+	    new_2 = g_utf8_collate_key ( g_utf8_casefold (  chaine_2,-1 ),
+					 -1 );
+	    retour = strcmp ( new_1,
+			      new_2 );
+	    g_free ( new_1 );
+	    g_free ( new_2 );
+	    return ( retour );
+	}
+	else
+	    return ( g_ascii_strcasecmp ( chaine_1,
+					  chaine_2 ));
+    }
+
+    return 0;
+}
+/* ******************************************************************************* */
+
+
+
+
+/* ******************************************************************************* */
+/* my_strncasecmp : compare 2 chaines case-insensitive que ce soit utf8 ou ascii */
+/* ******************************************************************************* */
+gint my_strncasecmp ( gchar *chaine_1,
+		      gchar *chaine_2,
+		      gint longueur )
+{
+    if ( chaine_1
+	 &&
+	 chaine_2 )
+    {
+	if ( g_utf8_validate ( chaine_1, -1, NULL )
+	     &&
+	     g_utf8_validate ( chaine_2, -1, NULL ))
+	{
+	    gint retour;
+ 	    gchar *new_1, *new_2;
+	    
+	    new_1 = g_utf8_collate_key ( g_utf8_casefold ( chaine_1,longueur ),
+					 longueur );
+	    new_2 = g_utf8_collate_key ( g_utf8_casefold (  chaine_2,longueur ),
+					 longueur );
+	    retour = strcmp ( new_1,
+			      new_2);
+	    g_free ( new_1 );
+	    g_free ( new_2 );
+	    return ( retour );
+	}
+	else
+	    return ( g_ascii_strncasecmp ( chaine_1,
+					   chaine_2,
+					   longueur ));
+    }
+
+    return 0;
+}
+/* ******************************************************************************* */
 

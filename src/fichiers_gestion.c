@@ -43,6 +43,7 @@
 #include "patienter.h"
 #include "traitement_variables.h"
 #include "fichier_configuration.h"
+#include "utils.h"
 
 
 extern GtkWidget *window_vbox_principale;
@@ -207,7 +208,7 @@ void fichier_selectionne ( GtkWidget *selection_fichier)
     /* on met le répertoire courant dans la variable correspondante */
 
     dernier_chemin_de_travail = g_strconcat ( GTK_LABEL ( GTK_BIN ( GTK_OPTION_MENU ( GTK_FILE_SELECTION ( selection_fichier ) -> history_pulldown )) -> child ) -> label,
-					      "/",
+					      C_DIRECTORY_SEPARATOR,
 					      NULL );
 
     ouverture_confirmee ();
@@ -249,12 +250,12 @@ void ouverture_confirmee ( void )
 		nom = nom_fichier_comptes;
 		i=0;
 
-		parametres = g_strsplit ( nom_fichier_comptes, "/", 0);
+		parametres = g_strsplit ( nom_fichier_comptes, C_DIRECTORY_SEPARATOR, 0);
 		while ( parametres[i] )
 		    i++;
 
-		nom_fichier_comptes = g_strconcat ( g_get_home_dir(),
-						    "/.",
+		nom_fichier_comptes = g_strconcat ( my_get_gsb_file_default_dir(),
+						    C_DIRECTORY_SEPARATOR,
 						    parametres [i-1],
 						    ".bak",
 						    NULL );
@@ -314,7 +315,7 @@ void ouverture_confirmee ( void )
 		while ( parametres[i] )
 		    i++;
 
-		nom_fichier_comptes = g_strconcat ( g_get_home_dir(),
+		nom_fichier_comptes = g_strconcat ( my_get_gsb_file_default_dir(),
 						    "/.",
 						    parametres [i-1],
 						    ".bak",
@@ -358,6 +359,8 @@ void ouverture_confirmee ( void )
     /* remplit les listes des opés */
 
     creation_listes_operations ();
+
+    changement_compte ( GINT_TO_POINTER ( compte_courant ) );
 
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
 			    0 );
@@ -670,7 +673,7 @@ void affiche_titre_fenetre ( void )
     if ( nom_fichier_comptes )
     {
 	parametres = g_strsplit ( nom_fichier_comptes,
-				  "/",
+				  C_DIRECTORY_SEPARATOR,
 				  0);
 
 	while ( parametres[i] )

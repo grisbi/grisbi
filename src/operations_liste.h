@@ -1,5 +1,5 @@
 GtkWidget *creation_fenetre_operations ( void );
-GtkWidget *initialisation_tree_view_operations ( void );
+GtkWidget *creation_tree_view_operations ( void );
 void creation_titres_tree_view ( void );
 void update_titres_tree_view ( void );
 void creation_listes_operations ( void );

@@ -153,6 +153,7 @@ gint classement_liste_equilibrage ( GtkWidget *liste,
 /* appelée aussi en fin de classement pour tout classement */
 /* classe par date ou date de valeur suivant la conf, puis par no d'opé */
 /* retour = -1 si operation_1 doit être placée en 1er */
+/* et classe en fonction de r/p si demandé (FIXME : virer dans l'instable) */
 /* ************************************************************************** */
 gint classement_sliste_par_date ( struct structure_operation *operation_1,
 				  struct structure_operation *operation_2 )
@@ -1003,5 +1004,4 @@ gint classe_liste_alphabetique ( gchar *string_1,
     return ( g_strcasecmp ( string_1, string_2 ));
 }
 /* ************************************************************************** */
-
 

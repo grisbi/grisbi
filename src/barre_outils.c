@@ -28,6 +28,7 @@
 #include "operations_liste.h"
 #include "operations_formulaire.h"
 #include "echeancier_formulaire.h"
+#include "traitement_variables.h"
 
 
 #include "./xpm/ope_1.xpm"
@@ -579,6 +580,8 @@ gboolean change_aspect_liste ( gint demande )
 
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general )) == 1 )
 	verification_mise_a_jour_liste ();
+
+    modification_fichier ( TRUE );
     return ( TRUE );
 }
 /* ***************************************************************************************************** */

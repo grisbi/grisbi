@@ -20,3 +20,5 @@ void affiche_exercice_par_date ( GtkWidget *entree_date,
 				 GtkWidget *option_menu_exercice );
 void association_automatique ( void );
 gint recherche_exo_correspondant ( GDate *date );
+gchar *exercice_name_by_no ( gint no_exo );
+

@@ -10,6 +10,9 @@ gint etat_affiche_affiche_total_tiers ( gint ligne );
 gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 				      gint ligne,
 				      gint force );
+gint etat_affiche_affiche_total_exercice ( struct structure_operation *operation,
+					   gint ligne,
+					   gint force );
 gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 				    gint ligne );
 gint etat_affiche_affiche_total_partiel ( gdouble total_partie,

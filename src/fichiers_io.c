@@ -6104,6 +6104,10 @@ gboolean charge_operations_version_0_5_1 ( xmlDocPtr doc )
 					    etat -> type_separation_plage = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 					if ( !strcmp ( node_detail_etat -> name,
+						       "Sep_exo" ))
+					    etat -> separation_par_exo = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
+
+					if ( !strcmp ( node_detail_etat -> name,
 						       "Deb_sem_plages" ))
 					    etat -> jour_debut_semaine = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
@@ -6979,11 +6983,15 @@ gboolean enregistre_fichier ( gboolean force )
 			  "Ordre_du_tri",
 			  pointeur_char );
 
-	xmlNewTextChild ( node_compte,
-			  NULL,
-			  "Colonne_classement",
-			  itoa ( g_list_index ( gtk_tree_view_get_columns ( GTK_TREE_VIEW (tree_view_listes_operations )),
-						COLONNE_CLASSEMENT )));
+	/* 	si on effectue la copie de sauvegarde lors de l'ouverture, tree_view_listes_operations */
+	/* 	    n'est pas encore défini... */
+	    
+	if ( GTK_TREE_VIEW ( tree_view_listes_operations ))
+	    xmlNewTextChild ( node_compte,
+			      NULL,
+			      "Colonne_classement",
+			      itoa ( g_list_index ( gtk_tree_view_get_columns ( GTK_TREE_VIEW (tree_view_listes_operations )),
+						    COLONNE_CLASSEMENT )));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
@@ -8214,6 +8222,11 @@ gboolean enregistre_fichier ( gboolean force )
 			  NULL,
 			  "Sep_plages",
 			  itoa ( etat -> type_separation_plage ));
+
+	xmlNewTextChild ( node_etat,
+			  NULL,
+			  "Sep_exo",
+			  itoa ( etat -> separation_par_exo ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,

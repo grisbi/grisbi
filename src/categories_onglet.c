@@ -2822,7 +2822,6 @@ gchar *calcule_total_montant_categ_par_compte ( gint categ, gint sous_categ, gin
 {
     gdouble retour_int;
     GSList *liste_tmp;
-    struct struct_devise * devise;
 
     retour_int = 0;
     nb_ecritures_par_comptes = 0;
@@ -2860,13 +2859,10 @@ gchar *calcule_total_montant_categ_par_compte ( gint categ, gint sous_categ, gin
 	liste_tmp = liste_tmp -> next;
     }
 
-    devise = g_slist_find_custom ( liste_struct_devises, GINT_TO_POINTER(no_devise_totaux_tiers),
-				   ( GCompareFunc ) recherche_devise_par_no) -> data;
-
     if ( retour_int )
 	return ( g_strdup_printf ( "%4.2f %s",
 				   retour_int,
-				   devise_name ( devise ) ));
+				   devise_name_by_no ( no_devise_totaux_tiers ) ));
     else
 	return ( NULL );
 }

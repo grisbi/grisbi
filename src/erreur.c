@@ -194,10 +194,7 @@ void traitement_sigsegv ( gint signal_nb )
 	   pas de nom de fichier, on le crée, sinon on rajoute #
 	   autour */
 
-/* 	FIXME : trouve pas la fonction my_get_gsb_file_default_dir, met rien pour l'instant */
-		    
-/*         gsb_file_default_dir = (gchar *) my_get_gsb_file_default_dir(); */
-	gsb_file_default_dir = "";
+        gsb_file_default_dir = (gchar *) my_get_gsb_file_default_dir();
 
 	if ( nom_fichier_comptes )
 	{

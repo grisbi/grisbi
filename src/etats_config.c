@@ -85,6 +85,10 @@ void personnalisation_etat (void)
     if ( !etat_courant )
 	return;
 
+    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != 7 )
+	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general),
+				7 );
+
 
     if ( !onglet_config_etat )
     {

@@ -653,9 +653,9 @@ GtkWidget * new_currency_list ()
 
 /***********************************************************************************************************/
 /* Fonction ajout_devise */
-/* appelÃ©e pour crÃ©er une nouvelle devise */
-/* le widget est soit un option menu si l'appel vient du chargement de la version 0.2.4, dans ce cas on utilise liste_struct_devises */
-/* soit c'est la clist des paramÃ¨tres, dans ce cas on utilise liste_struct_devises_tmp */
+/* appelée pour créer une nouvelle devise */
+/* soit c'est la clist des paramètres */
+/* soit il est NULL, quand il provient de l'import */
 /***********************************************************************************************************/
 
 void ajout_devise ( GtkWidget *widget )
@@ -765,10 +765,6 @@ reprise_dialog:
 		 (strlen ( code_devise ) ||
 		  strlen ( code_iso4217_devise )))
 	    {
-		GtkWidget *menu;
-		GtkWidget *item;
-
-
 		devise = malloc ( sizeof ( struct struct_devise ));
 		devise -> nom_devise = nom_devise;
 		devise -> code_devise = code_devise;
@@ -785,20 +781,18 @@ reprise_dialog:
 		    devise -> change = 0;
 
 
-		/* 	  si le widget est une clist, c'est que l'appel vient du menu de configuration, */
-		/* on met la liste Ã  jour et on ajoute la devise Ã  liste_struct_devises_tmp */
-		/* 	    sinon, c'est que c'est le chargement de la version 0.2.5, on met l'option menu et liste_struct_devises Ã  jour */
-		/* Ã  retirer Ã  partir de la 0.2.7 */
+		/* 	  si le widget n'est pas nul, c'est une clist, c'est que l'appel vient du menu de configuration, */
+		/* on met la liste à  jour et on ajoute la devise à  liste_struct_devises */
 
-		if ( GTK_IS_CLIST ( widget ))
+		devise -> no_devise = ++no_derniere_devise;
+		liste_struct_devises = g_slist_append ( liste_struct_devises,
+							devise );
+		nb_devises++;
+
+		if ( widget )
 		{
 		    gchar *ligne[3];
 		    gint ligne_liste;
-
-		    devise -> no_devise = ++no_derniere_devise;
-		    liste_struct_devises = g_slist_append ( liste_struct_devises,
-							    devise );
-		    nb_devises++;
 
 		    ligne[0] = devise -> nom_devise;
 		    ligne[1] = devise -> code_iso4217_devise;
@@ -811,42 +805,9 @@ reprise_dialog:
 					      devise );
 		    gtk_clist_select_row ( GTK_CLIST ( widget ),
 					   ligne_liste, 0 );
-		    /* 	      gtk_clist_sort ( GTK_CLIST ( widget ) );  */
+		    update_currency_widgets();
+		    modification_fichier ( TRUE );
 		}
-		else
-		{
-		    devise -> no_devise = ++no_derniere_devise;
-		    liste_struct_devises = g_slist_append ( liste_struct_devises,
-							    devise );
-		    nb_devises++;
-
-		    /* 		    si on vient de l'import de fichier, widget est null car on met à jour les boutons après */
-
-		    if ( widget )
-		    {
-			menu = gtk_option_menu_get_menu ( GTK_OPTION_MENU ( widget ));
-
-			item = gtk_menu_item_new_with_label ( g_strconcat ( devise -> nom_devise,
-									    " ( ",
-									    devise_name ( devise ),
-									    " )",
-									    NULL ));
-			g_object_set_data ( G_OBJECT ( item ),
-					    "adr_devise",
-					    devise );
-			g_object_set_data ( G_OBJECT ( item ),
-					    "no_devise",
-					    GINT_TO_POINTER ( devise -> no_devise ) );
-			gtk_menu_append ( GTK_MENU ( menu ),
-					  item );
-			gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget ),
-						   menu );
-
-			gtk_widget_show (item );
-		    }
-		}
-
-		modification_fichier ( TRUE );
 	    }
 	    else
 	    {
@@ -857,8 +818,6 @@ reprise_dialog:
 
     }
     gtk_widget_destroy ( GTK_WIDGET ( dialog ));
-
-    update_currency_widgets();
 }
 /***********************************************************************************************************/
 
@@ -1008,95 +967,6 @@ void retrait_devise ( GtkWidget *bouton,
     liste_struct_devises = g_slist_remove ( liste_struct_devises, devise );
     nb_devises--;
 
-}
-/***********************************************************************************************************/
-
-
-/***********************************************************************************************************/
-/* Fonction selection_devise */
-/* permet de choisir une devise pour un compte */
-/* utilisÃ©e quand la devise d'un compte est supprimÃ©e, pour le rÃ©affecter */
-/* et pour l'importation d'un fichier qif */
-/***********************************************************************************************************/
-
-gint selection_devise ( gchar *nom_du_compte )
-{
-    GtkWidget *dialogue;
-    GtkWidget *label;
-    GtkWidget *option_menu;
-    GtkWidget *bouton;
-    GtkWidget *hbox;
-    gint resultat;
-
-
-    dialogue = gtk_dialog_new_with_buttons ( _("Select a currency"),
-					     GTK_WINDOW (window),
-					     GTK_DIALOG_MODAL,
-					     GTK_STOCK_OK,0,
-					     NULL );
-    gtk_signal_connect ( GTK_OBJECT ( dialogue ),
-			 "delete_event",
-			 GTK_SIGNAL_FUNC ( blocage_boites_dialogues ),
-			 NULL );
-    gtk_signal_connect ( GTK_OBJECT ( dialogue ),
-			 "key-press-event",
-			 GTK_SIGNAL_FUNC ( bloque_echap_choix_devise ),
-			 NULL );
-
-    label = gtk_label_new ( g_strdup_printf ( _("Please choose a currency for account \"%s\":\n"),
-					      nom_du_compte ) );
-
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialogue ) -> vbox ),
-			 label,
-			 TRUE,
-			 TRUE,
-			 0 );
-    gtk_widget_show ( label );
-
-    hbox = gtk_hbox_new ( FALSE,
-			  5 );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialogue ) -> vbox ),
-			 hbox,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( hbox );
-
-    /* met la liste des devises sans "Aucunes" */
-
-    option_menu = gtk_option_menu_new ();
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( option_menu ),
-			       creation_option_menu_devises ( 0,
-							      liste_struct_devises ) );
-
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 option_menu,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( option_menu );
-
-    bouton = gtk_button_new_with_label ( _("Add a currency") );
-    gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
-				"clicked",
-				GTK_SIGNAL_FUNC ( ajout_devise ),
-				GTK_OBJECT ( option_menu ));
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton );
-
-
-
-    gtk_dialog_run ( GTK_DIALOG ( dialogue ));
-
-    resultat = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( option_menu ) -> menu_item ),
-						     "no_devise" ) );
-    gtk_widget_destroy ( GTK_WIDGET ( dialogue ));
-
-    return ( resultat );
 }
 /***********************************************************************************************************/
 
@@ -2249,27 +2119,24 @@ gchar * devise_name ( struct struct_devise * devise )
     return devise -> code_iso4217_devise;
 }
 
-/**
- * Return either currency's name or currency's ISO4217 nickname if no
- * name is found.
- *
- * \param devise A number of the currency
- * informations.
- *
- * \return name or ISO4217 name of currency.
- */
+
+
+
+/* renvoie le nom de la devise correspondante au no */
+/* ou null si pas trouvée */
+
 gchar * devise_name_by_no ( gint no_devise )
 {
     GSList *liste_tmp;
 
     liste_tmp = g_slist_find_custom ( liste_struct_devises,
-				      GINT_TO_POINTER ( no_devise ),
+				      GINT_TO_POINTER ( DEVISE ),
 				      (GCompareFunc) recherche_devise_par_no );
-    
+
     if ( liste_tmp )
 	return ( devise_name ( liste_tmp -> data ));
     else
-	return ( NULL );
+	return NULL;
 }
 
 

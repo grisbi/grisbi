@@ -62,7 +62,6 @@ extern gint allocation_precedente;
 extern GSList *liste_labels_titres_colonnes_liste_ope;
 
 
-
 /** FIXME: document this */
 GtkWidget *onglet_affichage_liste ( void )
 {
@@ -224,9 +223,6 @@ gboolean change_largeur_colonne ( GtkWidget *clist,
 /***********************************************************************************************************************/
 
 
-
-
-/***********************************************************************************************************************/
 /** TODO: document this */
 gboolean transactions_list_display_modes_menu_changed  ( GtkWidget * menu_shell,
 							 gint origine )
@@ -396,7 +392,6 @@ GtkWidget *onglet_affichage_operations ( void )
 					    _("by date"),
 					    &etat.classement_par_date, NULL);
 
-
     if ( !nb_comptes )
     {
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
@@ -478,7 +473,6 @@ gboolean allocation_clist_affichage_liste ( GtkWidget *clist,
 	gtk_clist_set_column_width ( GTK_CLIST ( clist ),
 				     i,
 				     rapport_largeur_colonnes[i] * ancienne_allocation_liste / 100 );
-
 
     /*     cette variable sert à éviter que la liste des opés ne soit redimmensionnée un peu */
     /* 	lors de l'affichage des préférences */
@@ -1069,6 +1063,8 @@ void raz_affichage_ope ( void )
 	/* on met à jour la liste et les boutons */
 
 	remplissage_tab_affichage_ope ( clist_affichage_liste );
+	demande_mise_a_jour_tous_comptes ();
+	verification_mise_a_jour_liste ();
 
 }
 /* ************************************************************************************************************** */

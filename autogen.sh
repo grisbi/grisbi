@@ -1,7 +1,8 @@
 #!/bin/sh
 #
 # autogen.sh glue for CMU Cyrus IMAP
-# $Id: autogen.sh,v 1.5 2004/04/15 18:40:24 cedric_grisbi Exp $
+# $Id: autogen.sh,v 1.6 2004/04/23 08:56:58 cedric_grisbi Exp $
+# $Id: autogen.sh,v 1.6 2004/04/23 08:56:58 cedric_grisbi Exp $
 #
 # Requires: automake, autoconf, dpkg-dev
 

@@ -33,6 +33,7 @@
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
+#include "devises.h"
 
 
 
@@ -1182,9 +1183,7 @@ gboolean enregistre_etat ( gchar *nom_etat )
     xmlNewTextChild ( node,
 		      NULL,
 		      "Devise_gen",
-		      ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
-								      GINT_TO_POINTER ( etat_courant -> devise_de_calcul_general ),
-								      (GCompareFunc) recherche_devise_par_no ) -> data ))->nom_devise);
+		      devise_name_by_no ( etat_courant -> devise_de_calcul_general ));
 
     xmlNewTextChild ( node,
 		      NULL,
@@ -1439,9 +1438,7 @@ gboolean enregistre_etat ( gchar *nom_etat )
     xmlNewTextChild ( node,
 		      NULL,
 		      "Devise_categ",
-		      ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
-								      GINT_TO_POINTER ( etat_courant -> devise_de_calcul_categ ),
-								      (GCompareFunc) recherche_devise_par_no ) -> data ))->nom_devise);
+		      devise_name_by_no ( etat_courant -> devise_de_calcul_categ ));
 
     xmlNewTextChild ( node,
 		      NULL,
@@ -1514,9 +1511,7 @@ gboolean enregistre_etat ( gchar *nom_etat )
     xmlNewTextChild ( node,
 		      NULL,
 		      "Devise_ib",
-		      ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
-								      GINT_TO_POINTER ( etat_courant -> devise_de_calcul_ib ),
-								      (GCompareFunc) recherche_devise_par_no ) -> data ))->nom_devise);
+		      devise_name_by_no ( etat_courant -> devise_de_calcul_ib ));
 
     xmlNewTextChild ( node,
 		      NULL,
@@ -1566,9 +1561,8 @@ gboolean enregistre_etat ( gchar *nom_etat )
     xmlNewTextChild ( node,
 		      NULL,
 		      "Devise_tiers",
-		      ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
-								      GINT_TO_POINTER ( etat_courant -> devise_de_calcul_tiers ),
-								      (GCompareFunc) recherche_devise_par_no ) -> data ))->nom_devise);
+		      devise_name_by_no ( etat_courant -> devise_de_calcul_tiers ));
+
     xmlNewTextChild ( node,
 		      NULL,
 		      "Aff_nom_tiers",
@@ -1640,9 +1634,7 @@ gboolean enregistre_etat ( gchar *nom_etat )
     xmlNewTextChild ( node,
 		      NULL,
 		      "Montant_devise",
-		      ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
-								      GINT_TO_POINTER ( etat_courant -> choix_devise_montant ),
-								      (GCompareFunc) recherche_devise_par_no ) -> data ))->nom_devise);
+		      devise_name_by_no ( etat_courant -> choix_devise_montant ));
 
     node_2 = xmlNewChild ( node,
 			   NULL,

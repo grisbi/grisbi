@@ -83,6 +83,8 @@ void modification_fichier ( gboolean modif )
 
     if ( modif )
     {
+	if ( DEBUG )
+	    printf ( "fichier modifie\n" );
 	etat.modification_fichier = 1;
 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							       menu_name(_("File"), _("Save"), NULL)),
@@ -90,6 +92,8 @@ void modification_fichier ( gboolean modif )
     }
     else
     {
+	if ( DEBUG )
+	    printf ( "fichier non modifie\n" );
 	etat.modification_fichier = 0;
 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							       menu_name(_("File"), _("Save"), NULL)),

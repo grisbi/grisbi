@@ -328,9 +328,6 @@ GtkWidget *option_menu_devise_1;
 GtkWidget *option_menu_devise_2;
 
 
-GSList *liste_struct_devises_tmp;                 /*  utilisée à la place de la liste des devises pour les paramètres */
-gint no_derniere_devise_tmp;                           /*  utilisé à la place de no_derniere_devise pour les paramètres */
-gint nb_devises_tmp;                             /*  utilisé à la place de nb_devises pour les paramètres */
 GtkWidget *clist_devises_parametres;
 GtkWidget *bouton_supprimer_devise;
 GtkWidget *entree_nom_devise_parametres;
@@ -653,6 +650,7 @@ gdouble montant_sous_ib_etat;
 gdouble montant_compte_etat;
 gdouble montant_tiers_etat;
 gdouble montant_periode_etat;
+gdouble montant_exo_etat;
 gint nb_ope_categ_etat;
 gint nb_ope_sous_categ_etat;
 gint nb_ope_ib_etat;
@@ -660,9 +658,11 @@ gint nb_ope_sous_ib_etat;
 gint nb_ope_compte_etat;
 gint nb_ope_tiers_etat;
 gint nb_ope_periode_etat;
+gint nb_ope_exo_etat;
 gint nb_ope_general_etat;
 gint nb_ope_partie_etat;
 GDate *date_debut_periode;
+gint exo_en_cours_etat;
 gint changement_de_groupe_etat;
 gint debut_affichage_etat;
 struct struct_devise *devise_compte_en_cours_etat;

@@ -36,6 +36,7 @@
 #include "tiers_onglet.h"
 #include "type_operations.h"
 #include "equilibrage.h"
+#include "exercice.h"
 
 
 
@@ -113,7 +114,7 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1,
 					ligne, ligne + 1, LEFT, NULL );
 
-	    text = g_strdup_printf ( "%4.2f %s", montant_categ_etat, devise_name ( devise_categ_etat ) );
+	    text = g_strdup_printf ( _("%4.2f %s"), montant_categ_etat, devise_name ( devise_categ_etat ) );
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes,
 					ligne, ligne + 1, RIGHT, NULL );
 
@@ -128,10 +129,10 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 	    ligne--;
 
 	    if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( "%4.2f %s ( %d opérations )", montant_categ_etat,
+		text = g_strdup_printf ( _("%4.2f %s (%d transactions)"), montant_categ_etat,
 					 devise_name ( devise_categ_etat ), nb_ope_categ_etat );
 	    else
-		text =g_strdup_printf ( "%4.2f %s", montant_categ_etat, devise_name ( devise_categ_etat ) );
+		text =g_strdup_printf ( _("%4.2f %s"), montant_categ_etat, devise_name ( devise_categ_etat ) );
 
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes,
 					ligne, ligne + 1, RIGHT, NULL );
@@ -205,7 +206,7 @@ gint etat_affiche_affiche_total_sous_categ ( gint ligne )
 	    }
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 
-	    text = g_strdup_printf ( "%4.2f %s", montant_sous_categ_etat, devise_name ( devise_categ_etat ) );
+	    text = g_strdup_printf ( _("%4.2f %s"), montant_sous_categ_etat, devise_name ( devise_categ_etat ) );
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
 	    ligne++;
 
@@ -217,10 +218,10 @@ gint etat_affiche_affiche_total_sous_categ ( gint ligne )
 	    ligne--;
 
 	    if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( "%4.2f %s ( %d opérations )", montant_sous_categ_etat,
+		text = g_strdup_printf ( _("%4.2f %s (%d transactions)"), montant_sous_categ_etat,
 					 devise_name ( devise_categ_etat ), nb_ope_sous_categ_etat );
 	    else
-		text = g_strdup_printf ( "%4.2f %s", montant_sous_categ_etat, devise_name ( devise_categ_etat ) );
+		text = g_strdup_printf ( _("%4.2f %s"), montant_sous_categ_etat, devise_name ( devise_categ_etat ) );
 
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
 	    ligne++;
@@ -287,7 +288,7 @@ gint etat_affiche_affiche_total_ib ( gint ligne )
 
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 
-	    text = g_strdup_printf ( "%4.2f %s", montant_ib_etat, devise_name ( devise_ib_etat ) );
+	    text = g_strdup_printf ( _("%4.2f %s"), montant_ib_etat, devise_name ( devise_ib_etat ) );
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
 	    ligne++;
 
@@ -299,10 +300,10 @@ gint etat_affiche_affiche_total_ib ( gint ligne )
 	    ligne--;
 
 	    if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( "%4.2f %s ( %d opérations )", montant_ib_etat,
+		text = g_strdup_printf ( _("%4.2f %s (%d transactions)"), montant_ib_etat,
 					 devise_name ( devise_ib_etat ), nb_ope_ib_etat );
 	    else
-		text = g_strdup_printf ( "%4.2f %s", montant_ib_etat, devise_name ( devise_ib_etat ) );
+		text = g_strdup_printf ( _("%4.2f %s"), montant_ib_etat, devise_name ( devise_ib_etat ) );
 
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
 	    ligne++;
@@ -373,7 +374,7 @@ gint etat_affiche_affiche_total_sous_ib ( gint ligne )
 
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 
-	    text = g_strdup_printf ( "%4.2f %s", montant_sous_ib_etat, devise_name ( devise_ib_etat ) );
+	    text = g_strdup_printf ( _("%4.2f %s"), montant_sous_ib_etat, devise_name ( devise_ib_etat ) );
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
 	    ligne++;
 
@@ -385,10 +386,10 @@ gint etat_affiche_affiche_total_sous_ib ( gint ligne )
 	    ligne--;
 
 	    if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( "%4.2f %s ( %d opérations )", montant_sous_ib_etat,
+		text = g_strdup_printf ( _("%4.2f %s (%d transactions)"), montant_sous_ib_etat,
 					 devise_name ( devise_ib_etat ), nb_ope_sous_ib_etat );
 	    else
-		text = g_strdup_printf ( "%4.2f %s", montant_sous_ib_etat, devise_name ( devise_ib_etat )) ;
+		text = g_strdup_printf ( _("%4.2f %s"), montant_sous_ib_etat, devise_name ( devise_ib_etat )) ;
 
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
 	    ligne++;
@@ -450,7 +451,7 @@ gint etat_affiche_affiche_total_compte ( gint ligne )
 
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 
-	    text = g_strdup_printf ( "%4.2f %s", montant_compte_etat, devise_name ( devise_compte_en_cours_etat ) );
+	    text = g_strdup_printf ( _("%4.2f %s"), montant_compte_etat, devise_name ( devise_compte_en_cours_etat ) );
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
 	    ligne++;
 
@@ -462,10 +463,10 @@ gint etat_affiche_affiche_total_compte ( gint ligne )
 	    ligne--;
 
 	    if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( "%4.2f %s ( %d opérations )", montant_compte_etat,
+		text = g_strdup_printf ( _("%4.2f %s (%d transactions)"), montant_compte_etat,
 					 devise_name ( devise_compte_en_cours_etat ), nb_ope_compte_etat );
 	    else
-		text = g_strdup_printf ( "%4.2f %s", montant_compte_etat, devise_name (devise_compte_en_cours_etat) );
+		text = g_strdup_printf ( _("%4.2f %s"), montant_compte_etat, devise_name (devise_compte_en_cours_etat) );
 
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );  
 	    ligne++;
@@ -526,7 +527,7 @@ gint etat_affiche_affiche_total_tiers ( gint ligne )
 
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 
-	    text = g_strdup_printf ( "%4.2f %s", montant_tiers_etat, devise_name ( devise_tiers_etat ) );
+	    text = g_strdup_printf ( _("%4.2f %s"), montant_tiers_etat, devise_name ( devise_tiers_etat ) );
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
 	    ligne++;
 
@@ -538,10 +539,10 @@ gint etat_affiche_affiche_total_tiers ( gint ligne )
 	    ligne--;
 
 	    if ( etat_courant -> afficher_nb_opes )
-		text = g_strdup_printf ( "%4.2f %s ( %d opérations )", montant_tiers_etat,
+		text = g_strdup_printf ( _("%4.2f %s (%d transactions)"), montant_tiers_etat,
 					 devise_name ( devise_tiers_etat ), nb_ope_tiers_etat );
 	    else
-		text = g_strdup_printf ( "%4.2f %s", montant_tiers_etat, devise_name ( devise_tiers_etat ) );
+		text = g_strdup_printf ( _("%4.2f %s"), montant_tiers_etat, devise_name ( devise_tiers_etat ) );
 
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
 	    ligne++;
@@ -755,7 +756,7 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 
 	etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 
-	text = g_strdup_printf ( "%4.2f %s", montant_periode_etat, devise_name ( devise_generale_etat ) );
+	text = g_strdup_printf ( _("%4.2f %s"), montant_periode_etat, devise_name ( devise_generale_etat ) );
 	etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
 	ligne++;
 
@@ -819,6 +820,94 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 
 }
 /*****************************************************************************************************/
+
+
+
+/*****************************************************************************************************/
+/* affiche le total de l'exo  à l'endroit donné de la table */
+/* retourne le ligne suivante de la table */
+/* si force = 0, vérifie les dates et affiche si nécessaire */
+/*   si force = 1, affiche le total (chgt de categ, ib ...) */
+/*****************************************************************************************************/
+gint etat_affiche_affiche_total_exercice ( struct structure_operation *operation, gint ligne, gint force )
+{
+    if ( etat_courant -> separation_par_exo )
+    {
+	gchar *text;
+
+	text = NULL;
+
+	/* 	si l'exo précédent est -1, on le met à l'exo de l'opé */
+	/* 	utilise ça car des opés peuvent ne pas avoir d'exo */
+
+	if ( exo_en_cours_etat == -1 )
+	{
+	    exo_en_cours_etat = operation -> no_exercice;
+	    return ligne;
+	}
+	
+	/* on vérifie maintenant s'il faut afficher un total ou pas */
+
+	if ( !force
+	     &&
+	     operation -> no_exercice == exo_en_cours_etat )
+	    return ligne;
+
+	if ( exo_en_cours_etat )
+	{
+	    /* 	    les opés ont un exo */
+	    if ( etat_courant -> afficher_nb_opes )
+		text = g_strdup_printf ( COLON(_("Result of %s (%d transactions)")),
+					 exercice_name_by_no ( exo_en_cours_etat ),
+					 nb_ope_periode_etat );
+	    else
+		text = g_strdup_printf ( COLON(_("Result of %s")),
+					 exercice_name_by_no ( exo_en_cours_etat ));
+	}
+	else
+	{
+	    /* 	    les opés n'ont pas d'exo */
+	    if ( etat_courant -> afficher_nb_opes )
+		text = g_strdup_printf ( COLON(_("Result without financial year (%d transactions)")),
+					 nb_ope_periode_etat );
+	    else
+		text = g_strdup_printf ( COLON(_("Result without financial year")));
+	}
+
+    
+    
+    /*       si on arrive ici, c'est qu'il y a un chgt de période ou que c'est forcé */
+
+	etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
+	ligne++;
+
+	etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
+	ligne++;
+
+	etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
+
+	text = g_strdup_printf ( _("%4.2f %s"), montant_exo_etat, devise_name ( devise_generale_etat ) );
+	etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
+	ligne++;
+
+	etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
+	ligne++;
+
+	montant_exo_etat = 0;
+	nb_ope_exo_etat = 0;
+
+	/* comme il y a un changement d'état, on remet exo_en_cours_etat à celle de l'opé en cours */
+
+	if ( operation )
+	    exo_en_cours_etat = operation -> no_exercice;
+	else
+	    date_debut_periode = NULL;
+    }
+
+    return (ligne );
+}
+/*****************************************************************************************************/
+
 
 /*****************************************************************************************************/
 gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
@@ -1126,16 +1215,9 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 	if ( devise_compte_en_cours_etat
 	     &&
 	     operation -> devise == devise_compte_en_cours_etat -> no_devise )
-	    text = g_strdup_printf  ( "%4.2f %s", operation -> montant, devise_name ( devise_compte_en_cours_etat ) );
+	    text = g_strdup_printf  ( _("%4.2f %s"), operation -> montant, devise_name ( devise_compte_en_cours_etat ) );
 	else
-	{
-	    struct struct_devise *devise_operation;
-
-	    devise_operation = g_slist_find_custom ( liste_struct_devises,
-						     GINT_TO_POINTER ( operation -> devise ),
-						     ( GCompareFunc ) recherche_devise_par_no ) -> data;
-	    text = g_strdup_printf  ( "%4.2f %s", operation -> montant, devise_name ( devise_operation ) );
-	}
+	    text = g_strdup_printf  ( _("%4.2f %s"), operation -> montant, devise_name_by_no ( operation -> devise ) );
 
 	if ( etat_courant -> ope_clickables )
 	{
@@ -1187,7 +1269,7 @@ gint etat_affiche_affiche_total_partiel ( gdouble total_partie,
 
     etat_affiche_attach_label ( text, TEXT_NORMAL, 0, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 
-    text = g_strdup_printf ( "%4.2f %s", total_partie, devise_name ( devise_generale_etat ) );
+    text = g_strdup_printf ( _("%4.2f %s"), total_partie, devise_name ( devise_generale_etat ) );
     etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
     ligne++;
 
@@ -1228,7 +1310,7 @@ gint etat_affiche_affiche_total_general ( gdouble total_general,
 
     etat_affiche_attach_label ( text, TEXT_NORMAL, 0, nb_colonnes - 2, ligne, ligne + 1, LEFT, NULL );
 
-    text = g_strdup_printf ( "%4.2f %s", total_general, devise_name ( devise_generale_etat ) );
+    text = g_strdup_printf ( _("%4.2f %s"), total_general, devise_name ( devise_generale_etat ) );
     etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
     ligne++;
 

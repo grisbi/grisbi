@@ -124,6 +124,7 @@ extern gint ligne_selectionnee_ventilation;
 
 
 
+
 /******************************************************************************/
 /*  Routine qui crée la fenêtre de la liste des opé  */
 /******************************************************************************/
@@ -135,6 +136,9 @@ GtkWidget *creation_fenetre_operations ( void )
 
     /*   la fenetre des opé est une vbox : la liste en haut, le solde et  */
     /*     des boutons de conf au milieu, le formulaire en bas */
+
+/* FIXME: à virer sur l'instable */
+    allocation_precedente = 0;
 
     win_operations = gtk_vbox_new ( FALSE,
 				    5 );
@@ -155,7 +159,7 @@ GtkWidget *creation_fenetre_operations ( void )
 
     /* création du notebook des opé */
 
-    notebook_listes_operations = initialisation_tree_view_operations ();
+    notebook_listes_operations = creation_tree_view_operations ();
     gtk_box_pack_start ( GTK_BOX ( win_operations ),
 			 notebook_listes_operations,
 			 TRUE,
@@ -227,23 +231,17 @@ GtkWidget *creation_fenetre_operations ( void )
 /******************************************************************************/
 
 /******************************************************************************/
-/* Création du notebook des opérations					      */
-/* C'est en fait un notebook dont chaque onglet sera une clist qui contient   */
-/* les opérations d'un compte. Il y a autant d'onglet que de comptes	      */
-/* Cette fonction crée le notebook et initialise les variables générales      */
-/* utilisées par les listes						      */
+/* Création du treeview des opérations					      */
+/* y ajoute les colonnes de la liste des opés */
+/* retour le treeviw */
 /******************************************************************************/
-GtkWidget *initialisation_tree_view_operations ( void )
+GtkWidget *creation_tree_view_operations ( void )
 {
-    /*     FIXME changer le nom et la description de la fonction initialisation_tree_view_operations*/
-
     GtkWidget *scrolled_window;
 
     /*     nouveauté de gtk 2: on ne met plus d'onglets, on a différents gtk_list_store */
     /* 	mais un seul gtk_tree_view */
     /* donc remplacement de notebook_listes_operations par tree_view_listes_operations */
-
-    /*     compatibilité : FIXME */
 
     scrolled_window = gtk_scrolled_window_new ( NULL,
 						NULL );
@@ -821,15 +819,11 @@ void remplissage_liste_operations ( gint compte )
     gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
 			 g_strdup_printf ( PRESPACIFY(_("Checked balance: %4.2f %s")),
 					   SOLDE_POINTE,
-					   devise_name ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
-												       GINT_TO_POINTER ( DEVISE ),
-												       (GCompareFunc) recherche_devise_par_no )-> data ))) );
+					   devise_name_by_no ( DEVISE )));
     gtk_label_set_text ( GTK_LABEL ( solde_label ),
 			 g_strdup_printf ( PRESPACIFY(_("Current balance: %4.2f %s")),
 					   SOLDE_COURANT,
-					   devise_name ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
-												       GINT_TO_POINTER ( DEVISE ),
-												       (GCompareFunc) recherche_devise_par_no )-> data ))) );
+					   devise_name_by_no ( DEVISE )));
 }
 /******************************************************************************/
 
@@ -2021,23 +2015,15 @@ printf ( "ça passe\n" );
     }
 
     /* p_tab est déjà sur le compte courant */
-
-    if ( !devise_compte
-	 ||
-	 devise_compte -> no_devise != DEVISE )
-	devise_compte = g_slist_find_custom ( liste_struct_devises,
-					      GINT_TO_POINTER ( DEVISE ),
-					      ( GCompareFunc ) recherche_devise_par_no ) -> data;
-
     /* met le label du solde pointé */
 
     gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
 			 g_strdup_printf ( PRESPACIFY(_("Checked balance: %4.2f %s")),
 					   SOLDE_POINTE,
-					   devise_name ( devise_compte )) );
+					   devise_name_by_no ( DEVISE )) );
 
 
-	modification_fichier( TRUE );
+    modification_fichier( TRUE );
 /* ALAIN-FIXME : solution batarde me semble-t'il pour actualiser le solde pointé
        sur la fenêtre d'accueil après que l'on ait pointé l'opération */
 
