@@ -1515,7 +1515,7 @@ void fin_edition_echeance ( void )
 				     COMPTE_ECHEANCE,
 				     NULL )))
     {
-      dialogue ( PRESPACIFY(_("Error: impossible to transfer an account   \n    on itself")));
+      dialogue_error ( _("An account can't be transfered on itself.") );
       return;
     }
 
@@ -1524,19 +1524,22 @@ void fin_edition_echeance ( void )
 
   pointeur_char = g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] )));
 
-  if ( !g_strncasecmp ( pointeur_char,
-			_("Transfer"),
-			8 ))
+  if ( !g_strncasecmp ( pointeur_char, _("Transfer"), 8 ))
     {
       gint i;
 
-      tableau_char = g_strsplit ( pointeur_char,
-				  ":",
-				  2 );
+      tableau_char = g_strsplit ( pointeur_char, ":", 2 );
+	      
+      /* S'il n'y a rien après "Transfer", alors : */
+      if ( !tableau_char[1] ||
+           !strlen ( tableau_char[1] ) )
+        {
+	 dialogue_error ( _("There is no associated account for this transfer.") );
+	 return;
+        }
 	  
       if ( tableau_char[1] )
 	{
-
 	  tableau_char[1] = g_strstrip ( tableau_char[1] );
 
 	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
@@ -1553,7 +1556,7 @@ void fin_edition_echeance ( void )
 
 	  if ( compte_virement == -1 )
 	    {
-	      dialogue_warning ( _("Associated account of this transfer is invalid") );
+	      dialogue_warning ( _("Associated account of this transfer is invalid.") );
 	      return;
 	    }
 	}

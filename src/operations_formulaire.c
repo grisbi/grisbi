@@ -2406,14 +2406,20 @@ gint verification_validation_operation ( struct structure_operation *operation )
 	tableau_char[1] = g_strstrip ( tableau_char[1] );
 
 
+      /* ALAIN-FIXME : ce premier test est-il vraiment nécessaire ? */
+      
       if ( strlen ( tableau_char[0] ) )
 	{
-	  if ( !strcmp ( tableau_char[0],
-			 _("Transfer") )
-	       && tableau_char[1]
-	       && strlen ( tableau_char[1] ) )
+	  /* Si c'est un virement, on fait les vérifications */
+	  if ( !strcmp ( tableau_char[0], _("Transfer") ) )
 	    {
-	      /* c'est un virement, on fait les vérifications */
+	      /* S'il n'y a rien après "Transfer", alors : */
+	      if ( !tableau_char[1] ||
+	           !strlen ( tableau_char[1] ) )
+	        {
+		 dialogue_error ( _("There is no associated account for this transfer.") );
+		 return (FALSE);
+	        }
 	      /* si c'est un virement vers un compte supprimé, laisse passer */
 
 	      if ( strcmp ( tableau_char[1],
@@ -2440,13 +2446,13 @@ gint verification_validation_operation ( struct structure_operation *operation )
 
 		  if ( compte_virement == -1 )
 		    {
-		      dialogue_warning ( _("Associated account of this transfer is invalid") );
+		      dialogue_warning ( _("Associated account of this transfer is invalid.") );
 		      return (FALSE);
 		    }
 
 		  if ( compte_virement == compte_courant )
 		    {
-		      dialogue_error ( _("An account can't be transfered on itself") );
+		      dialogue_error ( _("An account can't be transfered on itself.") );
 		      return (FALSE);
 		    }
 		}
