@@ -1,23 +1,27 @@
-/* Ce fichier s'occupe de la gestion du formulaire de saisie des échéances */
-/* echeances_formulaire.c */
+/* ************************************************************************** */
+/* Ce fichier s'occupe de la gestion du formulaire de saisie des échéances    */
+/* 			echeances_formulaire.c                                */
+/*                                                                            */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003 Alain Portal (dionysos@grisbi.org) 	      */
+/* 			http://www.grisbi.org   			      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
-/* 			http:// www.grisbi.org */
-
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 
 #include "include.h"
@@ -1216,36 +1220,21 @@ void clique_champ_formulaire_echeancier ( GtkWidget *entree,
 	{
 	  GtkWidget *popup;
 	  GtkWidget *popup_boxv;
-	  GtkRequisition *taille_entree;
-	  gint x, y;
+	  GtkRequisition *taille_popup;
+	  gint x_cal, y_cal;
 	  GtkWidget *calendrier;
 	  int cal_jour, cal_mois, cal_annee;
 	  GtkWidget *bouton;
 	  GtkWidget *frame;
 
-	  /* cherche la position où l'on va mettre la popup */
-
-	  taille_entree = malloc ( sizeof ( GtkRequisition ));
-
-	  gdk_window_get_origin ( GTK_WIDGET ( entree ) -> window,
-				  &x,
-				  &y );
-	  gtk_widget_size_request ( GTK_WIDGET ( entree ),
-				    taille_entree );
-  
-	  y = y + taille_entree->height;
-
-
+	  
+	  
 	  /* création de la popup */
 
 	  popup = gtk_window_new ( GTK_WINDOW_POPUP );
 	  gtk_window_set_modal ( GTK_WINDOW (popup),
 				 TRUE);
-	  gtk_widget_set_uposition ( GTK_WIDGET ( popup ),
-				     x,
-				     y );
-
-
+	  
 	  /* création de l'intérieur de la popup */
 
 	  frame = gtk_frame_new ( NULL );
@@ -1337,8 +1326,43 @@ void clique_champ_formulaire_echeancier ( GtkWidget *entree,
 			       0 );
 	  gtk_widget_show ( bouton );
 
+	  
+	  /* cherche la position où l'on va mettre la popup */
+	  /* on récupère la position de l'entrée date par rapport à laquelle on va placer la popup */
+	  
+	  gdk_window_get_origin ( GTK_WIDGET ( entree ) -> window,
+				  &x_cal,
+				  &y_cal );
+
+	  /* on récupère la taille de la popup */
+	  
+	  taille_popup = malloc ( sizeof ( GtkRequisition ));
+	  gtk_widget_size_request ( GTK_WIDGET ( popup ),
+				    taille_popup );
+	  
+	  /* pour la soustraire à la position de l'entrée date */
+	  
+	  y_cal -= taille_popup -> height;
+	  
+	  /* si une des coordonnées est négative, alors la fonction
+	  gtk_widget_set_uposition échoue et affiche la popup en 0,0 */
+	  
+	  if ( x_cal < 0 )
+	  	x_cal = 0 ;
+	  
+	  if ( y_cal < 0 )
+	  	y_cal = 0 ;
+	  
+	  /* on place la popup */
+	  
+	  gtk_widget_set_uposition ( GTK_WIDGET ( popup ),
+				     x_cal,
+				     y_cal );
+
+	  /* et on la montre */
+	  
 	  gtk_widget_show (popup);
-      
+	  
 	  gdk_pointer_grab ( popup -> window, 
 			     TRUE,
 			     GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK |
@@ -1347,7 +1371,7 @@ void clique_champ_formulaire_echeancier ( GtkWidget *entree,
 			     NULL, 
 			     NULL, 
 			     GDK_CURRENT_TIME );
-
+	  
 	  gtk_widget_grab_focus ( GTK_WIDGET ( popup ));
 	}
       break;
