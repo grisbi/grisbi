@@ -187,7 +187,7 @@ static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint
     gtk_box_pack_start ( GTK_BOX(paddingbox), table, TRUE, TRUE, 0 );
 
     sDirname = g_strconcat ( g_path_get_dirname ( nom_fichier_comptes ),
-			     "/",
+			     C_DIRECTORY_SEPARATOR,
 			     NULL);
 
     /* On met chaque compte dans la table, dans l'ordre préféré de l'utilisateur */
