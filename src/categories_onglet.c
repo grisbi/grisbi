@@ -54,8 +54,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void appui_sur_ajout_categorie ( void );
-static void appui_sur_ajout_sous_categorie ( void );
 static void clique_sur_annuler_categ ( void );
 static void clique_sur_modifier_categ ( void );
 static gboolean enleve_selection_ligne_categ ( void );
@@ -119,351 +117,189 @@ extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
 extern GtkWidget *widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_TOTAL_WIDGET];
 extern GtkWidget *window;
-/* struct struct_categ * without_category; */
 /*END_EXTERN*/
 
 
 
-/* **************************************************************************************************** */
-/* Fonction onglet_categories : */
-/* crée et renvoie le widget contenu dans l'onglet */
-/* **************************************************************************************************** */
-
+/**
+ * Create and return contents of the "Category" notebook page. 
+ *
+ * \return A newly allocated hbox.
+ */
 GtkWidget *onglet_categories ( void )
 {
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
+    GtkWidget *onglet, *scroll_window, *vbox, *frame, *vbox_frame, *hbox;
+    GtkWidget *label, *separateur, *bouton;
+    GtkTreeDragDestIface * dst_iface;
+    GtkTreeDragSourceIface * src_iface;
     static GtkTargetEntry row_targets[] = {
 	{ "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
     };
 
-    GtkWidget *onglet;
-    GtkWidget *scroll_window;
-    GtkWidget *vbox;
-    GtkWidget *frame;
-    GtkWidget *vbox_frame;
-    GtkWidget *hbox;
-    GtkWidget *label;
-    GtkWidget *separateur;
-    GtkWidget *bouton;
-    GtkTreeDragDestIface * dst_iface;
-    GtkTreeDragSourceIface * src_iface;
-
-
     /* création de la fenêtre qui sera renvoyée */
-
-    onglet = gtk_hbox_new ( FALSE,
-			    5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( onglet ),
-				     10 );
+    onglet = gtk_hbox_new ( FALSE, 5 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( onglet ), 10 );
     gtk_widget_show ( onglet );
 
-
     /*   création de la frame de gauche */
-
     frame = gtk_frame_new ( NULL );
-    gtk_frame_set_shadow_type ( GTK_FRAME ( frame ),
-				GTK_SHADOW_IN );
-    gtk_box_pack_start ( GTK_BOX ( onglet ),
-			 frame,
-			 FALSE,
-			 FALSE,
-			 0 );
+    gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), GTK_SHADOW_IN );
+    gtk_box_pack_start ( GTK_BOX ( onglet ), frame, FALSE, FALSE, 0 );
     gtk_widget_show (frame );
 
     /* mise en place du gtk_text */
-
-    vbox = gtk_vbox_new ( FALSE,
-			  5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
-				     15 );
-    gtk_container_add ( GTK_CONTAINER ( frame ),
-			vbox );
+    vbox = gtk_vbox_new ( FALSE, 5 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 15 );
+    gtk_container_add ( GTK_CONTAINER ( frame ), vbox );
     gtk_widget_show ( vbox );
 
-
-
-
     frame = gtk_frame_new ( SPACIFY(COLON(_("Information"))) );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 frame,
-			 FALSE,
-			 FALSE,
-			 0 );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), frame, FALSE, FALSE, 0 );
     gtk_widget_show ( frame );
 
-    vbox_frame = gtk_vbox_new ( FALSE,
-				5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox_frame ),
-				     5 );
-    gtk_container_add ( GTK_CONTAINER ( frame ),
-			vbox_frame );
+    vbox_frame = gtk_vbox_new ( FALSE, 5 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox_frame ), 5 );
+    gtk_container_add ( GTK_CONTAINER ( frame ), vbox_frame );
     gtk_widget_show ( vbox_frame );
 
     entree_nom_categ = gtk_entry_new ();
-    gtk_widget_set_sensitive ( entree_nom_categ,
-			       FALSE );
-    gtk_signal_connect ( GTK_OBJECT ( entree_nom_categ ),
-			 "changed",
-			 GTK_SIGNAL_FUNC ( modification_du_texte_categ),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( vbox_frame ),
-			 entree_nom_categ,
-			 FALSE,
-			 FALSE,
-			 10 );
+    gtk_widget_set_sensitive ( entree_nom_categ, FALSE );
+    gtk_signal_connect ( GTK_OBJECT ( entree_nom_categ ), "changed",
+			 GTK_SIGNAL_FUNC ( modification_du_texte_categ), NULL );
+    gtk_box_pack_start ( GTK_BOX ( vbox_frame ), entree_nom_categ, FALSE, FALSE, 10 );
     gtk_widget_show ( entree_nom_categ );
 
-
     /* création des radio bouton débit/crédit */
-
     separateur = gtk_hseparator_new ();
-    gtk_box_pack_start ( GTK_BOX ( vbox_frame ),
-			 separateur,
-			 FALSE,
-			 FALSE,
-			 0 );
+    gtk_box_pack_start ( GTK_BOX ( vbox_frame ), separateur, FALSE, FALSE, 0 );
     gtk_widget_show ( separateur );
 
-
     label = gtk_label_new ( COLON(_("Sorting")) );
-    gtk_box_pack_start ( GTK_BOX ( vbox_frame ),
-			 label,
-			 FALSE,
-			 FALSE,
-			 10 );
+    gtk_box_pack_start ( GTK_BOX ( vbox_frame ), label, FALSE, FALSE, 10 );
     gtk_widget_show ( label );
 
-    bouton_categ_debit = gtk_radio_button_new_with_label ( NULL,
-							   _("Debit") );
-    gtk_widget_set_sensitive ( bouton_categ_debit,
-			       FALSE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_categ_debit ),
-			 "toggled",
-			 GTK_SIGNAL_FUNC ( modification_du_texte_categ),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( vbox_frame ),
-			 bouton_categ_debit,
-			 FALSE,
-			 FALSE,
-			 0 );
+    bouton_categ_debit = gtk_radio_button_new_with_label ( NULL, _("Debit") );
+    gtk_widget_set_sensitive ( bouton_categ_debit, FALSE );
+    gtk_signal_connect ( GTK_OBJECT ( bouton_categ_debit ), "toggled",
+			 GTK_SIGNAL_FUNC ( modification_du_texte_categ), NULL );
+    gtk_box_pack_start ( GTK_BOX ( vbox_frame ), bouton_categ_debit, FALSE, FALSE, 0 );
     gtk_widget_show ( bouton_categ_debit );
-
 
     bouton_categ_credit = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( bouton_categ_debit ),
 									_("Credit") );
-    gtk_widget_set_sensitive ( bouton_categ_credit,
-			       FALSE );
-    gtk_box_pack_start ( GTK_BOX ( vbox_frame ),
-			 bouton_categ_credit,
-			 FALSE,
-			 FALSE,
-			 0 );
+    gtk_widget_set_sensitive ( bouton_categ_credit, FALSE );
+    gtk_box_pack_start ( GTK_BOX ( vbox_frame ), bouton_categ_credit, FALSE, FALSE, 0 );
     gtk_widget_show ( bouton_categ_credit );
 
-
     separateur = gtk_hseparator_new ();
-    gtk_box_pack_start ( GTK_BOX ( vbox_frame ),
-			 separateur,
-			 FALSE,
-			 FALSE,
-			 10 );
+    gtk_box_pack_start ( GTK_BOX ( vbox_frame ), separateur, FALSE, FALSE, 10 );
     gtk_widget_show ( separateur );
 
-
-
-
     /*   création des boutons modifier et annuler */
-
-    hbox = gtk_hbox_new ( TRUE,
-			  5 );
-    gtk_box_pack_start ( GTK_BOX ( vbox_frame ),
-			 hbox,
-			 FALSE,
-			 FALSE,
-			 0 );
+    hbox = gtk_hbox_new ( TRUE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( vbox_frame ), hbox, FALSE, FALSE, 0 );
     gtk_widget_show ( hbox );
 
     bouton_modif_categ_modifier = gtk_button_new_from_stock (GTK_STOCK_APPLY);
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_modif_categ_modifier ),
-			    GTK_RELIEF_NONE );
-    gtk_widget_set_sensitive ( bouton_modif_categ_modifier,
-			       FALSE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_modif_categ_modifier ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( clique_sur_modifier_categ ),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_modif_categ_modifier,
-			 FALSE,
-			 FALSE,
-			 0 );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton_modif_categ_modifier ), GTK_RELIEF_NONE );
+    gtk_widget_set_sensitive ( bouton_modif_categ_modifier, FALSE );
+    gtk_signal_connect ( GTK_OBJECT ( bouton_modif_categ_modifier ), "clicked",
+			 GTK_SIGNAL_FUNC ( clique_sur_modifier_categ ), NULL );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_modif_categ_modifier, FALSE, FALSE, 0 );
     gtk_widget_show ( bouton_modif_categ_modifier );
 
     bouton_modif_categ_annuler = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_modif_categ_annuler ),
-			    GTK_RELIEF_NONE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_modif_categ_annuler ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( clique_sur_annuler_categ ),
-			 NULL );
-    gtk_widget_set_sensitive ( bouton_modif_categ_annuler,
-			       FALSE );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_modif_categ_annuler,
-			 FALSE,
-			 FALSE,
-			 0 );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton_modif_categ_annuler ), GTK_RELIEF_NONE );
+    gtk_signal_connect ( GTK_OBJECT ( bouton_modif_categ_annuler ), "clicked",
+			 GTK_SIGNAL_FUNC ( clique_sur_annuler_categ ), NULL );
+    gtk_widget_set_sensitive ( bouton_modif_categ_annuler, FALSE );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_modif_categ_annuler, FALSE, FALSE, 0 );
     gtk_widget_show ( bouton_modif_categ_annuler);
 
     bouton_supprimer_categ = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_supprimer_categ ),
-			    GTK_RELIEF_NONE );
-    gtk_widget_set_sensitive ( bouton_supprimer_categ,
-			       FALSE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_supprimer_categ ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( supprimer_categ ),
-			 arbre_categ );
-    gtk_box_pack_start ( GTK_BOX ( vbox_frame ),
-			 bouton_supprimer_categ,
-			 FALSE,
-			 FALSE,
-			 0 );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton_supprimer_categ ), GTK_RELIEF_NONE );
+    gtk_widget_set_sensitive ( bouton_supprimer_categ, FALSE );
+    gtk_signal_connect ( GTK_OBJECT ( bouton_supprimer_categ ), "clicked",
+			 GTK_SIGNAL_FUNC ( supprimer_categ ), arbre_categ );
+    gtk_box_pack_start ( GTK_BOX ( vbox_frame ), bouton_supprimer_categ, FALSE, FALSE, 0 );
     gtk_widget_show ( bouton_supprimer_categ );
 
-
-    /* mise en place des boutons ajout d'1 categ / sous-categ */
-
-    bouton_ajouter_categorie = gtk_button_new_with_label ( _("Add a category") );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_ajouter_categorie ),
-			    GTK_RELIEF_NONE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_ajouter_categorie ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( appui_sur_ajout_categorie ),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 bouton_ajouter_categorie,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_ajouter_categorie );
-
-    bouton_ajouter_sous_categorie = gtk_button_new_with_label ( _("Add a subcategory") );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_ajouter_sous_categorie ),
-			    GTK_RELIEF_NONE );
-    gtk_widget_set_sensitive ( bouton_ajouter_sous_categorie,
-			       FALSE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_ajouter_sous_categorie ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( appui_sur_ajout_sous_categorie ),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 bouton_ajouter_sous_categorie,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_ajouter_sous_categorie );
-
-    separateur = gtk_hseparator_new ();
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 separateur,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( separateur );
-
-    /* on met le bouton exporter */
-
-    bouton = gtk_button_new_with_label ( _("Export") );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			    GTK_RELIEF_NONE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( exporter_categ ),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 bouton,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton );
-
-    /* on met le bouton importer */
-
-    bouton = gtk_button_new_with_label ( _("Import") );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			    GTK_RELIEF_NONE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( importer_categ ),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 bouton,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton );
-
-
-
-    /*   création de la frame de droite */
-
-    frame = gtk_frame_new ( NULL );
-    gtk_frame_set_shadow_type ( GTK_FRAME ( frame ),
-				GTK_SHADOW_IN );
-    gtk_box_pack_start ( GTK_BOX ( onglet ),
-			 frame,
-			 TRUE,
-			 TRUE,
-			 5 );
-    gtk_widget_show (frame );
-
-
-    vbox = gtk_vbox_new ( FALSE,
-			  5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
-				     10 );
-    gtk_container_add ( GTK_CONTAINER ( frame ),
-			vbox );
-    gtk_widget_show ( vbox );
-
-    /* on y ajoute la barre d'outils */
-
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 creation_barre_outils_categ(),
-			 FALSE,
-			 FALSE,
-			 0 );
-
-    /* création de l'arbre principal */
-
-    scroll_window = gtk_scrolled_window_new ( NULL,
-					      NULL );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scroll_window ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scroll_window), 
-					  GTK_SHADOW_IN );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 scroll_window,
-			 TRUE,
-			 TRUE,
-			 0 );
-    gtk_widget_show ( scroll_window );
-
-    /* Create model */
+    /* We create the gtktreeview and model early so that they can be referenced. */
+    arbre_categ = gtk_tree_view_new();
     categ_tree_model = gtk_tree_store_new ( META_TREE_NUM_COLUMNS, 
 					    G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, 
 					    G_TYPE_POINTER, G_TYPE_INT, G_TYPE_INT, 
 					    G_TYPE_INT, G_TYPE_FLOAT );
+
+    /* mise en place des boutons ajout d'1 categ / sous-categ */
+    bouton_ajouter_categorie = gtk_button_new_with_label ( _("Add a category") );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton_ajouter_categorie ), GTK_RELIEF_NONE );
+    gtk_signal_connect ( GTK_OBJECT ( bouton_ajouter_categorie ), "clicked",
+			 GTK_SIGNAL_FUNC ( appui_sur_ajout_categorie ), categ_tree_model );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), bouton_ajouter_categorie, FALSE, FALSE, 0 );
+    gtk_widget_show ( bouton_ajouter_categorie );
+
+    bouton_ajouter_sous_categorie = gtk_button_new_with_label ( _("Add a subcategory") );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton_ajouter_sous_categorie ), GTK_RELIEF_NONE );
+    gtk_widget_set_sensitive ( bouton_ajouter_sous_categorie, FALSE );
+    gtk_signal_connect ( GTK_OBJECT ( bouton_ajouter_sous_categorie ), "clicked",
+			 GTK_SIGNAL_FUNC ( appui_sur_ajout_sous_categorie ), categ_tree_model );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), bouton_ajouter_sous_categorie, FALSE, FALSE, 0 );
+    gtk_widget_show ( bouton_ajouter_sous_categorie );
+
+    separateur = gtk_hseparator_new ();
+    gtk_box_pack_start ( GTK_BOX ( vbox ), separateur, FALSE, FALSE, 0 );
+    gtk_widget_show ( separateur );
+
+    /* on met le bouton exporter */
+    bouton = gtk_button_new_with_label ( _("Export") );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton ), GTK_RELIEF_NONE );
+    gtk_signal_connect ( GTK_OBJECT ( bouton ), "clicked",
+			 GTK_SIGNAL_FUNC ( exporter_categ ), NULL );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), bouton, FALSE, FALSE, 0 );
+    gtk_widget_show ( bouton );
+
+    /* on met le bouton importer */
+    bouton = gtk_button_new_with_label ( _("Import") );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton ), GTK_RELIEF_NONE );
+    gtk_signal_connect ( GTK_OBJECT ( bouton ), "clicked",
+			 GTK_SIGNAL_FUNC ( importer_categ ), NULL );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), bouton, FALSE, FALSE, 0 );
+    gtk_widget_show ( bouton );
+
+    /*   création de la frame de droite */
+    frame = gtk_frame_new ( NULL );
+    gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), GTK_SHADOW_IN );
+    gtk_box_pack_start ( GTK_BOX ( onglet ), frame, TRUE, TRUE, 5 );
+    gtk_widget_show (frame );
+
+    vbox = gtk_vbox_new ( FALSE, 5 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 10 );
+    gtk_container_add ( GTK_CONTAINER ( frame ), vbox );
+    gtk_widget_show ( vbox );
+
+    /* on y ajoute la barre d'outils */
+    gtk_box_pack_start ( GTK_BOX ( vbox ), creation_barre_outils_categ(), FALSE, FALSE, 0 );
+
+    /* création de l'arbre principal */
+
+    scroll_window = gtk_scrolled_window_new ( NULL, NULL );
+    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scroll_window ),
+				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scroll_window), 
+					  GTK_SHADOW_IN );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), scroll_window, TRUE, TRUE, 0 );
+    gtk_widget_show ( scroll_window );
+
+    /* Create model */
     gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE(categ_tree_model), 
 					   META_TREE_TEXT_COLUMN, GTK_SORT_ASCENDING );
     g_object_set_data ( G_OBJECT (categ_tree_model), "metatree-interface", 
 			category_interface );
 
     /* Create container + TreeView */
-    arbre_categ = gtk_tree_view_new();
     gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (arbre_categ), TRUE);
     gtk_tree_view_enable_model_drag_source(GTK_TREE_VIEW(arbre_categ),
 					   GDK_BUTTON1_MASK, row_targets, 1,
@@ -534,53 +370,38 @@ GtkWidget *onglet_categories ( void )
 	src_iface -> drag_data_get = &categ_drag_data_get;
     }
 
-    /* TODO: FIXME  */
-    /* on met la fontion de tri alphabétique en prenant en compte les accents */
-/*     gtk_clist_set_compare_func ( GTK_CLIST ( arbre_categ ), */
-/* 				 (GtkCListCompareFunc) classement_alphabetique_tree ); */
-
     /* la 1ère fois qu'on affichera les catég, il faudra remplir la liste */
     modif_categ = 1;
 
     return ( onglet );
 }
-/* **************************************************************************************************** */
 
 
 
-
-/* **************************************************************************************************** */
-/* Fonction remplit_arbre_categ */
-/* prend en argument le clist arbre_categ, */
-/* le vide et le remplit */
-/* on y met les categ et sous categ et leur montant */
-/* **************************************************************************************************** */
-
+/**
+ * Fill category tree with data.
+ */
 void remplit_arbre_categ ( void )
 {
     GSList *liste_categ_tmp;
     GtkTreeIter iter_categ, iter_sous_categ;
 
-    /*   efface l'ancien arbre */
+    /** First, remove previous tree */
     gtk_tree_store_clear ( GTK_TREE_STORE (categ_tree_model) );
-
-    /*   le devise est choisie dans les paramètres */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
+    /** Currency used for totals is then chosen from preferences.  */
     if ( !devise_compte
 	 ||
 	 devise_compte -> no_devise != no_devise_totaux_tiers )
 	devise_compte = devise_par_no ( no_devise_totaux_tiers );
 
-    /* calcule les montants des catég et sous categ */
-
+    /* Compute category balances. */
     calcule_total_montant_categ ();
 
-    /* remplit l'arbre */
-
+    /** Then, populate tree with categories. */
     liste_categ_tmp = g_slist_prepend ( liste_struct_categories, NULL );
-    
     while ( liste_categ_tmp )
     {
 	struct struct_categ *categ;
@@ -588,12 +409,11 @@ void remplit_arbre_categ ( void )
 
 	categ = liste_categ_tmp -> data;
 
-	/* Populate tree */
 	gtk_tree_store_append (GTK_TREE_STORE (categ_tree_model), &iter_categ, NULL);
 	fill_categ_row ( GTK_TREE_MODEL(categ_tree_model), category_interface, 
 			 &iter_categ, categ );
 
-	/*       pour chaque categ, on met ses sous-categ */
+	/** Each category has subcategories. */
 	if ( categ )
 	    liste_sous_categ_tmp = categ -> liste_sous_categ;
 
@@ -603,7 +423,6 @@ void remplit_arbre_categ ( void )
 
 	    sous_categ = liste_sous_categ_tmp -> data;
 
-	    /* Populate tree */
 	    gtk_tree_store_append (GTK_TREE_STORE (categ_tree_model), 
 				   &iter_sous_categ, &iter_categ);
 	    fill_sub_categ_row ( GTK_TREE_MODEL(categ_tree_model), category_interface, 
@@ -612,7 +431,6 @@ void remplit_arbre_categ ( void )
 	    liste_sous_categ_tmp = liste_sous_categ_tmp -> next;
 	}
 
-	/* Treat the no sub-category sub division. */
 	gtk_tree_store_append (GTK_TREE_STORE (categ_tree_model), 
 			       &iter_sous_categ, &iter_categ);
 	fill_sub_categ_row ( GTK_TREE_MODEL(categ_tree_model), category_interface, 
@@ -627,20 +445,23 @@ void remplit_arbre_categ ( void )
 
 
 
+/**
+ * Unused at the moment.
+ *
+ */
 gboolean keypress_category ( GtkWidget *widget, GdkEventKey *ev, gint *no_origine )
 {
-    GtkCTreeNode *node;
 
-    if ( ev->keyval == GDK_Return || 
-	 ev->keyval == GDK_KP_Enter )
-    { 
-	node = gtk_ctree_node_nth ( GTK_CTREE(arbre_categ), 
-				    GTK_CLIST(arbre_categ) -> focus_row );
-	gtk_ctree_select ( GTK_CTREE(arbre_categ), node );
-	gtk_ctree_expand ( GTK_CTREE(arbre_categ), node );
+/*     if ( ev->keyval == GDK_Return ||  */
+/* 	 ev->keyval == GDK_KP_Enter ) */
+/*     {  */
+/* 	node = gtk_ctree_node_nth ( GTK_CTREE(arbre_categ),  */
+/* 				    GTK_CLIST(arbre_categ) -> focus_row ); */
+/* 	gtk_ctree_select ( GTK_CTREE(arbre_categ), node ); */
+/* 	gtk_ctree_expand ( GTK_CTREE(arbre_categ), node ); */
 
 /* 	expand_selected_category (); */
-    }
+/*     } */
 
     return FALSE;
 }
@@ -648,8 +469,14 @@ gboolean keypress_category ( GtkWidget *widget, GdkEventKey *ev, gint *no_origin
 
 
 /**
- * Clean
+ * Fill the drag & drop structure with the path of selected column.
+ * This is an interface function called from GTK, much like a callback.
  *
+ * \param drag_source		Not used.
+ * \param path			Original path for the gtk selection.
+ * \param selection_data	A pointer to the drag & drop structure.
+ *
+ * \return FALSE, to allow future processing by the callback chain.
  */
 gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
 			       GtkSelectionData * selection_data )
@@ -664,25 +491,28 @@ gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * pa
 
 
 
+/**
+ * Not used at the moment, will be changed a lot with the new UI.
+ */
 gboolean enleve_selection_ligne_categ ( void )
 {
-    gtk_widget_set_sensitive ( bouton_supprimer_categ, FALSE );
-    gtk_widget_set_sensitive ( bouton_modif_categ_modifier, FALSE );
-    gtk_widget_set_sensitive ( bouton_modif_categ_annuler, FALSE );
-    gtk_widget_set_sensitive ( entree_nom_categ, FALSE );
-    gtk_widget_set_sensitive ( bouton_categ_debit, FALSE );
-    gtk_widget_set_sensitive ( bouton_categ_credit, FALSE );
-    gtk_widget_set_sensitive ( bouton_ajouter_sous_categorie, FALSE );
+/*     gtk_widget_set_sensitive ( bouton_supprimer_categ, FALSE ); */
+/*     gtk_widget_set_sensitive ( bouton_modif_categ_modifier, FALSE ); */
+/*     gtk_widget_set_sensitive ( bouton_modif_categ_annuler, FALSE ); */
+/*     gtk_widget_set_sensitive ( entree_nom_categ, FALSE ); */
+/*     gtk_widget_set_sensitive ( bouton_categ_debit, FALSE ); */
+/*     gtk_widget_set_sensitive ( bouton_categ_credit, FALSE ); */
+/*     gtk_widget_set_sensitive ( bouton_ajouter_sous_categorie, FALSE ); */
 
-    gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_nom_categ ),
-				       GTK_SIGNAL_FUNC ( modification_du_texte_categ),
-				       NULL );
+/*     gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_nom_categ ), */
+/* 				       GTK_SIGNAL_FUNC ( modification_du_texte_categ), */
+/* 				       NULL ); */
 
-    gtk_editable_delete_text ( GTK_EDITABLE ( entree_nom_categ ), 0, -1 );
+/*     gtk_editable_delete_text ( GTK_EDITABLE ( entree_nom_categ ), 0, -1 ); */
 
-    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_nom_categ ),
-					 GTK_SIGNAL_FUNC ( modification_du_texte_categ),
-					 NULL );
+/*     gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_nom_categ ), */
+/* 					 GTK_SIGNAL_FUNC ( modification_du_texte_categ), */
+/* 					 NULL ); */
 
     return FALSE;
 }
@@ -690,19 +520,19 @@ gboolean enleve_selection_ligne_categ ( void )
 
 
 /**
- *
+ * Not used at the moment.
  *
  */
 void modification_du_texte_categ ( void )
 {
-    gtk_widget_set_sensitive ( bouton_modif_categ_modifier, TRUE );
-    gtk_widget_set_sensitive ( bouton_modif_categ_annuler, TRUE );
+/*     gtk_widget_set_sensitive ( bouton_modif_categ_modifier, TRUE ); */
+/*     gtk_widget_set_sensitive ( bouton_modif_categ_annuler, TRUE ); */
 }
 
 
 
 /**
- *
+ * Not used at the moment.
  *
  */
 void clique_sur_modifier_categ ( void )
@@ -712,7 +542,7 @@ void clique_sur_modifier_categ ( void )
 
 
 /**
- *
+ * Not used at the moment.
  *
  */
 void clique_sur_annuler_categ ( void )
@@ -721,29 +551,26 @@ void clique_sur_annuler_categ ( void )
 
 
 
-/***********************************************************************************************************/
-/* Routine creation_liste_categories */
-/* appelée lors d'un nouveau fichier */
-/* crée la liste des catégories à partir de la liste ci dessus */
-/* en fait, merge la liste de base avec rien */
-/***********************************************************************************************************/
+/**
+ * Reset some variables related to categories and create the base
+ * category list.
+ */
 void creation_liste_categories ( void )
 {
-
     liste_struct_categories = NULL;
     nb_enregistrements_categories = 0;
     no_derniere_categorie = 0;
 
+    /** In fact, we merge the category list with nothing, ending in
+     * creating the base categories. */
     merge_liste_categories ();
 }
 
 
 
-/***********************************************************************************************************/
-/* Routine merge_liste_categories */
-/*   merge la liste de categories existante ( aucune quand vient de creation_liste_categories ) */
-/* avec la liste de base du début du fichier */
-/***********************************************************************************************************/
+/**
+ * Merge existing category list with base categories.
+ */
 void merge_liste_categories ( void )
 {
     gint i;
@@ -754,9 +581,7 @@ void merge_liste_categories ( void )
     debit = 0;
 
     /* récupération des crédits puis des débits*/
-
     retour_recuperation :
-
 	if ( debit )
 	    categ = categories_de_base_debit;
 	else
@@ -768,8 +593,6 @@ void merge_liste_categories ( void )
     {
 	gchar **split_categ;
 	struct struct_sous_categ *sous_categ;
-
-	split_categ = g_strsplit ( _(categ[i]), " : ", 2 );
 
 	categorie = categ_par_nom( g_strstrip (g_strdup (split_categ[0])),
 				   1, debit, 0 );
@@ -785,7 +608,6 @@ void merge_liste_categories ( void )
     }
 
     /*       si on a fait les crédits, on fait les débits */
-
     if ( !debit )
     {
 	debit = 1;
@@ -793,24 +615,17 @@ void merge_liste_categories ( void )
     }
 
 }
-/***********************************************************************************************************/
 
 
-/***********************************************************************************************************/
-/*  Routine qui crée la liste des catégories pour les combofix du formulaire et de la ventilation */
-/* c'est à dire 3 listes dans 1 liste : */
-/* la première contient les catégories de débit */
-/* la seconde contient les catégories de crédit */
-/* la troisième contient les catégories spéciales ( virement, retrait, ventilation ) */
-/* la ventilation n'apparait pas dans les ventilations */
-/***********************************************************************************************************/
 
+/**
+ * Create category list suitable for transaction form combofix.  In
+ * fact, it create three lists in one : debit categories, credit
+ * categories, special categories (transfer, breakdown, ...).
+ */
 void creation_liste_categ_combofix ( void )
 {
-    GSList *pointeur;
-    GSList *liste_categ_credit;
-    GSList *liste_categ_debit;
-    GSList *liste_categ_special;
+    GSList *pointeur, *liste_categ_credit, *liste_categ_debit, *liste_categ_special;
     gint i;
 
     if ( DEBUG )
@@ -820,7 +635,6 @@ void creation_liste_categ_combofix ( void )
     liste_categories_ventilation_combofix = NULL;
     liste_categ_credit = NULL;
     liste_categ_debit = NULL;
-
 
     pointeur = liste_struct_categories;
 
@@ -865,30 +679,24 @@ void creation_liste_categ_combofix ( void )
 
 
     /*   on ajoute les listes des crédits / débits à la liste du combofix du formulaire */
-
     liste_categories_combofix = g_slist_append ( liste_categories_combofix,
 						 liste_categ_debit );
     liste_categories_combofix = g_slist_append ( liste_categories_combofix,
 						 liste_categ_credit );
 
-
-
-
-    /*   on ajoute les listes des crédits / débits à la liste du combofix des  échéances  */
-
+    /*   on ajoute les listes des crédits / débits à la liste du
+     *   combofix des échéances  */
     liste_categories_ventilation_combofix = g_slist_append ( liste_categories_ventilation_combofix,
 							     liste_categ_debit );
     liste_categories_ventilation_combofix = g_slist_append ( liste_categories_ventilation_combofix,
 							     liste_categ_credit );
 
-
-    /* création des catégories spéciales : les virements et la ventilation pour le formulaire */
-
+    /* création des catégories spéciales : les virements et la
+     * ventilation pour le formulaire */
     liste_categ_special = NULL;
 
     liste_categ_special = g_slist_append ( liste_categ_special,
 					   _("Breakdown of transaction") );
-
     liste_categ_special = g_slist_append ( liste_categ_special,
 					   _("Transfer") );
 
@@ -899,7 +707,7 @@ void creation_liste_categ_combofix ( void )
 	if ( ! COMPTE_CLOTURE )
 	    liste_categ_special = g_slist_append ( liste_categ_special,
 						   g_strconcat ( "\t",
-								 NOM_DU_COMPTE ,
+								 NOM_DU_COMPTE,
 								 NULL ));
 	p_tab_nom_de_compte_variable++;
     }
@@ -908,29 +716,22 @@ void creation_liste_categ_combofix ( void )
 						 liste_categ_special );
 
     /* on saute le texte Opération ventilée */
-
     liste_categ_special = liste_categ_special -> next;
-
     liste_categories_ventilation_combofix = g_slist_append ( liste_categories_ventilation_combofix,
 							     liste_categ_special );
 
 }
-/***********************************************************************************************************/
 
 
 
-
-/***********************************************************************************************************/
-/* Fonction mise_a_jour_combofix_categ */
-/* recrée les listes de catégories des combofix */
-/* et remet les combofix à jour */
-/***********************************************************************************************************/
-
+/**
+ * Create category lists via creation_liste_categ_combofix() and
+ * update category combofixes.
+ */
 void mise_a_jour_combofix_categ ( void )
 {
     if ( DEBUG )
 	printf ( "mise_a_jour_combofix_categ\n" );
-
 
     creation_liste_categ_combofix ();
 
@@ -938,30 +739,21 @@ void mise_a_jour_combofix_categ ( void )
 	 &&
 	 GTK_IS_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_CATEGORY)))
 	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_CATEGORY) ),
-				liste_categories_combofix,
-				TRUE,
-				TRUE );
+				liste_categories_combofix, TRUE, TRUE );
 
     if ( GTK_IS_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ))
 	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ),
-				liste_categories_combofix,
-				TRUE,
-				TRUE );
+				liste_categories_combofix, TRUE, TRUE );
 
     if ( GTK_IS_COMBOFIX ( widget_formulaire_echeancier[TRANSACTION_BREAKDOWN_FORM_CATEGORY] ))
 	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CATEGORY] ),
-				liste_categories_ventilation_combofix,
-				TRUE,
-				TRUE );
+				liste_categories_ventilation_combofix, TRUE, TRUE );
 
     if ( GTK_IS_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ))
 	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ),
-				liste_categories_ventilation_combofix,
-				TRUE,
-				TRUE );
+				liste_categories_ventilation_combofix, TRUE, TRUE );
 
-    /* FIXME : ça ne devrait pas se trouver dans cette fonction */
-
+    /* FIXME : this should not be in this function */
     if ( etat_courant )
     {
 	remplissage_liste_categ_etats ();
@@ -970,154 +762,6 @@ void mise_a_jour_combofix_categ ( void )
 
     mise_a_jour_combofix_categ_necessaire = 0;
     modif_categ = 1;
-}
-/***********************************************************************************************************/
-
-
-
-/* **************************************************************************************************** */
-void appui_sur_ajout_categorie ( void )
-{
-    gchar *nom_categorie;
-    struct struct_categ *nouvelle_categorie;
-    gchar *text[4];
-    GtkCTreeNode *ligne;
-
-    if ( !( nom_categorie = demande_texte ( _("New category"),
-					    COLON(_("Enter name for new category")) )))
-	return;
-
-
-    /* On vérifie si l'opération existe. */
-    if ( categ_par_nom ( nom_categorie, 0, 0, 0 ))
-    {
-	dialogue_warning_hint ( _("Category must be both unique and not empty.  Please use another name for this category."),
-				g_strdup_printf ( _("Category '%s' already exists."),
-						  nom_categorie ) );
-	return;
-    }
-
-    /* on l'ajoute à la liste des opés */
-
-    nouvelle_categorie = categ_par_nom ( nom_categorie,
-					 1,
-					 0,
-					 0 );
-
-
-    /* on l'ajoute directement au ctree et on fait le tri pour éviter de toute la réafficher */
-
-    text[0] = nouvelle_categorie -> nom_categ;
-    text[1] = NULL;
-    text[2] = NULL;
-    text[3] = NULL;
-
-    ligne = gtk_ctree_insert_node ( GTK_CTREE ( arbre_categ ),
-				    NULL,
-				    NULL,
-				    text,
-				    10,
-				    pixmap_ferme,
-				    masque_ferme,
-				    pixmap_ouvre,
-				    masque_ouvre,
-				    FALSE,
-				    FALSE );
-
-    /* on associe à ce categorie à l'adr de sa struct */
-
-    gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_categ ),
-				  ligne,
-				  nouvelle_categorie );
-
-    gtk_ctree_sort_recursive ( GTK_CTREE ( arbre_categ ),
-			       NULL );
-
-    if ( mise_a_jour_combofix_categ_necessaire )
-	mise_a_jour_combofix_categ();
-    modif_categ = 0;
-    modification_fichier(TRUE);
-}
-/* **************************************************************************************************** */
-
-
-
-/* **************************************************************************************************** */
-void appui_sur_ajout_sous_categorie ( void )
-{
-    gchar *nom_sous_categorie;
-    struct struct_sous_categ *nouvelle_sous_categorie;
-    struct struct_categ *categorie;
-    gchar *text[4];
-    GtkCTreeNode *ligne;
-    GtkCTreeNode *node_parent;
-
-    if ( !( nom_sous_categorie = demande_texte ( _("New sub-category"),
-						 COLON(_("Enter name for new sub-category")) )))
-	return;
-
-    /* récupère le node parent */
-
-    node_parent = GTK_CLIST ( arbre_categ ) -> selection -> data;
-
-    while ( GTK_CTREE_ROW ( node_parent ) -> level != 1 )
-	node_parent = GTK_CTREE_ROW ( node_parent ) -> parent;
-
-    /* on récupère l'categorie parente */
-
-    categorie = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-					      node_parent );
-    if ( categorie <= 0 )
-	return;
-
-    /* On vérifie si l'opération existe. */
-    if ( sous_categ_par_nom ( categorie, nom_sous_categorie, 0 ))
-    {
-	dialogue_warning_hint ( _("Sub-category must be both unique and not empty.  Please use another name for this sub-category."),
-				g_strdup_printf ( _("Sub-category '%s' already exists."),
-						  nom_sous_categorie ) );
-	return;
-    }
-
-    /* on l'ajoute à la liste des opés */
-
-    nouvelle_sous_categorie = sous_categ_par_nom ( categorie,
-						   nom_sous_categorie,
-						   1 );
-
-    /* on l'ajoute directement au ctree et on fait le tri pour éviter de toute la réafficher */
-
-    text[0] = nouvelle_sous_categorie -> nom_sous_categ;
-    text[1] = NULL;
-    text[2] = NULL;
-    text[3] = NULL;
-
-    ligne = gtk_ctree_insert_node ( GTK_CTREE ( arbre_categ ),
-				    node_parent,
-				    NULL,
-				    text,
-				    10,
-				    NULL,
-				    NULL,
-				    NULL,
-				    NULL,
-				    FALSE,
-				    FALSE );
-
-    /* on associe à ce categorie à l'adr de sa struct */
-
-    gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_categ ),
-				  ligne,
-				  nouvelle_sous_categorie );
-
-    gtk_ctree_sort_recursive ( GTK_CTREE ( arbre_categ ),
-			       NULL );
-
-
-    if ( mise_a_jour_combofix_categ_necessaire )
-	mise_a_jour_combofix_categ();
-    modif_categ = 0;
-    modification_fichier(TRUE);
 }
 
 
@@ -1249,33 +893,44 @@ GtkWidget *creation_barre_outils_categ ( void )
     /* Add various icons */
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
 			 new_stock_button_with_label ( GTK_STOCK_NEW, 
-						       _("New category"),
-						       G_CALLBACK(appui_sur_ajout_categorie) ), 
+						       _("Category"),
+						       G_CALLBACK(appui_sur_ajout_categorie),
+						       categ_tree_model ), 
+			 FALSE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
+			 new_stock_button_with_label ( GTK_STOCK_NEW, 
+						       _("Sub-category"),
+						       G_CALLBACK(appui_sur_ajout_sous_categorie),
+						       categ_tree_model ), 
 			 FALSE, TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
 			 new_stock_button_with_label ( GTK_STOCK_OPEN, 
 						       _("Import"),
-						       G_CALLBACK(importer_categ) ), 
+						       G_CALLBACK(importer_categ),
+						       NULL ), 
 			 FALSE, TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
 			 new_stock_button_with_label ( GTK_STOCK_SAVE, 
 						       _("Export"),
-						       G_CALLBACK(exporter_categ) ), 
+						       G_CALLBACK(exporter_categ),
+						       NULL ), 
 			 FALSE, TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
 			 new_stock_button_with_label ( GTK_STOCK_DELETE, 
 						       _("Delete"),
-						       G_CALLBACK(supprimer_categ) ), 
+						       G_CALLBACK(supprimer_categ),
+						       arbre_categ ), 
 			 FALSE, TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), /* FIXME: write the property dialog */
 			 new_stock_button_with_label (GTK_STOCK_PROPERTIES, 
 						      _("Properties"),
-						      NULL), 
+						      NULL, NULL ), 
 			 FALSE, TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
 			 new_stock_button_with_label_menu ( GTK_STOCK_SELECT_COLOR, 
 							    _("View"),
-							    G_CALLBACK(popup_category_view_mode_menu) ),
+							    G_CALLBACK(popup_category_view_mode_menu),
+							    NULL ),
 			 FALSE, TRUE, 0 );
 
     /* Vertical separator */
