@@ -1297,7 +1297,9 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import,
 
 	/* récupération du tiers */
 
-	if ( operation_import -> tiers )
+	if ( operation_import -> tiers
+	     &&
+	     strlen ( g_strstrip ( operation_import -> tiers )))
 	{
 	    pointeur_tmp = g_slist_find_custom ( liste_struct_tiers,
 						 g_strstrip ( operation_import -> tiers ),
