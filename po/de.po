@@ -6449,12 +6449,12 @@ msgstr "Bitte einen Empfänger eingeben."
 msgid ""
 "Grisbi is unable to find this third party.  Be sure entered name is valid "
 "and that this third party exists."
-msgstr "Grisbi ist nicht in der Lage, diesen dritten Empfänger zu finden. Vergewissere dich, dass der Name gueltig ist und der dritte Empfänger existiert.\n"
+msgstr "Grisbi ist nicht in der Lage, diesen dritten Empfänger zu finden. Vergewissere dich, dass der Name gueltig ist und der dritte Empfänger existiert."
 
 #: src/tiers_onglet.c:1296
 #, c-format
 msgid "Third party %s not found."
-msgstr "Empfänger %s nicht gefunden.\n"
+msgstr "Empfänger %s nicht gefunden."
 
 #: src/tiers_onglet.c:1646
 msgid "New third party"
