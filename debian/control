@@ -2,8 +2,8 @@ Source: grisbi
 Section: utils
 Priority: optional
 Maintainer: Benjamin Drieu <benj@debian.org>
-Build-Depends: debhelper (>> 3.0.0), libgnome-dev, libgtk1.2-dev, libxml-dev, libgdk-pixbuf-dev, libgnomeprint-dev
-Standards-Version: 3.5.8
+Build-Depends: debhelper (>> 3.0.0), libgnomeui-dev, libgnome2-dev, libgtk2.0-dev, libxml-dev, libgdk-pixbuf-dev, libgnomeprint2.2-dev
+Standards-Version: 3.5.10
 
 Package: grisbi
 Architecture: any

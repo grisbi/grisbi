@@ -1,3 +1,9 @@
+grisbi (0.4.2-1) unstable; urgency=low
+
+  * New (CVS) upstream version with GTK2/Gnome2 enabled
+
+ -- Benjamin Drieu <benj@debian.org>  Tue, 29 Jul 2003 22:48:36 +0200
+
 grisbi (0.4.0-3) unstable; urgency=low
 
   * Update config.guess to help mipsel builds (Closes: #183528)
