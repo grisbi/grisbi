@@ -104,10 +104,11 @@ void reconciliation_check ( void )
 
 	      pText = g_strconcat ( pText,
 				    g_strdup_printf ( _("<span weight=\"bold\">%s</span>\n"
-							"  Last reconciliation amount : %f\n"
-							"  Computed reconciliation amount : %f\n\n"),
-						      NOM_DU_COMPTE, reconcilied_amount,
-						      SOLDE_DERNIER_RELEVE ),
+							"  Last reconciliation amount : %4.2f%s\n"
+							"  Computed reconciliation amount : %4.2f%s\n\n"),
+						      NOM_DU_COMPTE, 
+						      reconcilied_amount, devise_name_by_no ( DEVISE ),
+						      SOLDE_DERNIER_RELEVE, devise_name_by_no ( DEVISE ) ),
 				    NULL );
 	  }
 	  tested_account++;
@@ -117,23 +118,24 @@ void reconciliation_check ( void )
 
     if ( !affected_accounts )
     {
-	dialogue ( _("About reconciliation, your accounting is sane.") );
+	dialogue_hint ( _("Grisbi found no known inconsistency in accounts processed."),
+			_("No inconsistency found.") );
     }
     else
     {
 
 	pText = g_strconcat ( 
-	    _("Grisbi found accounts where reconciliation totals are unconsistent "
+	    _("Grisbi found accounts where reconciliation totals are inconsistent "
 	      "with the sum of reconcilied transactions.  Generally, the cause is "
 	      "too many transfers to other accounts are reconciled.\n"
-	      "The following accounts are unconsistent:\n\n"), 
+	      "The following accounts are inconsistent:\n\n"), 
 	    pText, NULL );
 
       if ( affected_accounts > 1 )
-	  pHint = g_strdup_printf ( _("%d accounts have unconsistencies."), 
+	  pHint = g_strdup_printf ( _("%d accounts have inconsistencies."), 
 				    affected_accounts );
       else
-	  pHint = _("An account has unconsistencies.");
+	  pHint = _("An account has inconsistencies.");
 
       dialogue_warning_hint ( pText, pHint );
 
