@@ -1758,10 +1758,10 @@ void fin_edition_ventilation ( void )
 
   if ( gtk_widget_get_style ( widget_formulaire_ventilation[2] ) == style_entree_formulaire[0] )
     /* c'est un débit */
-    operation -> montant = -g_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[2] ))),
+    operation -> montant = -my_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[2] ))),
 				       NULL );
   else
-    operation -> montant = g_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[3] ))),
+    operation -> montant = my_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[3] ))),
 				      NULL );
 
 
@@ -2151,7 +2151,8 @@ void supprime_operation_ventilation ( void )
 
   operation = ligne_selectionnee_ventilation;
 
-  if ( operation == GINT_TO_POINTER ( -1 ) )
+  if ( operation == GINT_TO_POINTER ( -1 ) ||
+       ! ligne_selectionnee_ventilation )
     return;
 
   /* si l'opération est relevée ou si c'est un virement et que la contre opération est */
@@ -2911,6 +2912,7 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 
 			  nouvelle_ope_2 -> devise = ope_modifiee ->  devise;
 			  nouvelle_ope_2 -> une_devise_compte_egale_x_devise_ope = ope_modifiee ->  une_devise_compte_egale_x_devise_ope;
+
 			  nouvelle_ope_2 -> taux_change = ope_modifiee ->  taux_change;
 			  nouvelle_ope_2 -> frais_change = ope_modifiee ->  frais_change;
 			  nouvelle_ope_2 -> tiers = ope_modifiee ->  tiers;

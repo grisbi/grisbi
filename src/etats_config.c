@@ -1478,9 +1478,9 @@ void recuperation_info_perso_etat ( void )
 									      "no_lien" ));
 	  comp_montants -> comparateur_2 = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_montants -> bouton_comparateur_2 ) -> menu_item ),
 										   "no_comparateur" ));
-	  comp_montants -> montant_1 = g_strtod ( gtk_entry_get_text ( GTK_ENTRY ( comp_montants -> entree_montant_1 )),
+	  comp_montants -> montant_1 = my_strtod ( gtk_entry_get_text ( GTK_ENTRY ( comp_montants -> entree_montant_1 )),
 						  NULL );
-	  comp_montants -> montant_2 = g_strtod ( gtk_entry_get_text ( GTK_ENTRY ( comp_montants -> entree_montant_2 )),
+	  comp_montants -> montant_2 = my_strtod ( gtk_entry_get_text ( GTK_ENTRY ( comp_montants -> entree_montant_2 )),
 						  NULL );
 
 	  liste_tmp = liste_tmp -> next;

@@ -1062,9 +1062,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox_boutons_modif );
 
-  /* FIXME */
-  bouton = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
-/*   bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL ); */
+  bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
 		       "clicked",
 		       GTK_SIGNAL_FUNC ( remplissage_details_compte ),
@@ -1076,9 +1074,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-  /* FIXME */
-  bouton = gtk_button_new_from_stock (GTK_STOCK_APPLY);
-/*   bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_APPLY ); */
+  bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_APPLY );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
 		       "clicked",
 		       GTK_SIGNAL_FUNC ( modification_details_compte ),
@@ -1427,7 +1423,7 @@ void modification_details_compte ( void )
 
   /* vérification que le compte a un nom */
 
-  if ( !strlen ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))) )
+  if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))) )
     {
       dialogue ( _("Account has no name!") );
       return;
@@ -1438,7 +1434,7 @@ void modification_details_compte ( void )
 
   /* récupération du titulaire */
 
-  TITULAIRE = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_titulaire_compte ))));
+  TITULAIRE = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( detail_titulaire_compte ))));
 
   if ( !strlen ( TITULAIRE ))
     TITULAIRE = NULL;
@@ -1574,21 +1570,21 @@ void modification_details_compte ( void )
 
 /* enregistrement du no de guichet */
 
-  NO_GUICHET = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_guichet ))));
+  NO_GUICHET = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( detail_guichet ))));
 
   if ( !strlen ( NO_GUICHET ))
     NO_GUICHET = NULL;
 
 /* enregistrement du no de compte */
 
-  NO_COMPTE_BANQUE = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_no_compte ))));
+  NO_COMPTE_BANQUE = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( detail_no_compte ))));
 
   if ( !strlen ( NO_COMPTE_BANQUE ))
     NO_COMPTE_BANQUE = NULL;
 
 /* enregistrement de la clé du compte */
 
-  CLE_COMPTE = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_cle_compte ))));
+  CLE_COMPTE = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( detail_cle_compte ))));
 
   if ( !strlen ( CLE_COMPTE ))
     CLE_COMPTE = NULL;
@@ -1607,12 +1603,12 @@ void modification_details_compte ( void )
 
 /* vérification du solde initial */
 
-  if ( SOLDE_INIT != g_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_init ))),
+  if ( SOLDE_INIT != my_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( detail_solde_init ))),
 				NULL ) )
     {
       gint value;
 
-      SOLDE_INIT = g_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_init ))),
+      SOLDE_INIT = my_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( detail_solde_init ))),
 			      NULL );
 
       value = gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value;
@@ -1629,10 +1625,10 @@ void modification_details_compte ( void )
 
 /* vérification du solde mini autorisé */
 
-  if ( SOLDE_MINI != g_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_autorise ))),
+  if ( SOLDE_MINI != my_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_autorise ))),
 				NULL ) )
     {
-      SOLDE_MINI = g_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_autorise ))),
+      SOLDE_MINI = my_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_autorise ))),
 			      NULL );
       MESSAGE_SOUS_MINI = 0;
  
@@ -1644,10 +1640,10 @@ void modification_details_compte ( void )
 
 /* vérification du solde mini voulu */
 
-  if ( SOLDE_MINI_VOULU != g_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_voulu ))),
+  if ( SOLDE_MINI_VOULU != my_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_voulu ))),
 				NULL ) )
     {
-      SOLDE_MINI_VOULU = g_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_voulu ))),
+      SOLDE_MINI_VOULU = my_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_voulu ))),
 			      NULL );
       MESSAGE_SOUS_MINI_VOULU = 0;
  
@@ -1682,10 +1678,10 @@ void modification_details_compte ( void )
 
   if ( !NOM_DU_COMPTE
        ||
-       strcmp ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))),
+       strcmp ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))),
 		NOM_DU_COMPTE ) )
     {
-      NOM_DU_COMPTE = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))));
+      NOM_DU_COMPTE = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))));
 
       reaffiche_liste_comptes ();
       reaffiche_liste_comptes_onglet ();

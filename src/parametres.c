@@ -1642,7 +1642,7 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 
     case 2 :
 
-      if ( ( buffer = g_strtod ( gtk_entry_get_text ( GTK_ENTRY ( entree_jours ) ), FALSE ) ) != decalage_echeance )
+      if ( ( buffer = my_strtod ( gtk_entry_get_text ( GTK_ENTRY ( entree_jours ) ), FALSE ) ) != decalage_echeance )
 	{
 	  decalage_echeance = buffer;
 	  update_liste_echeances_manuelles_accueil();

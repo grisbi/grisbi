@@ -1727,11 +1727,11 @@ void fin_edition_echeance ( void )
 				  3 );
 
 
-      echeance -> jour = g_strtod ( tableau_char[0],
+      echeance -> jour = my_strtod ( tableau_char[0],
 				    NULL );
-      echeance -> mois = g_strtod ( tableau_char[1],
+      echeance -> mois = my_strtod ( tableau_char[1],
 				    NULL );
-      echeance -> annee = g_strtod (tableau_char[2],
+      echeance -> annee = my_strtod (tableau_char[2],
 				    NULL );
 
       echeance ->date = g_date_new_dmy ( echeance ->jour,
@@ -1761,10 +1761,10 @@ void fin_edition_echeance ( void )
       /* récupération du montant */
 
       if ( gtk_widget_get_style ( widget_formulaire_echeancier[2] ) == style_entree_formulaire[0] )
-	echeance -> montant = -g_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[2] ))),
+	echeance -> montant = -my_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[2] ))),
 					  NULL );
       else
-	echeance -> montant = g_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[3] ))),
+	echeance -> montant = my_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[3] ))),
 					 NULL );
 
 
@@ -1974,7 +1974,7 @@ void fin_edition_echeance ( void )
 	  echeance -> intervalle_periodicite_personnalisee = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[18]  ) -> menu_item ),
 												     "intervalle_perso" ) );
 
-	  echeance -> periodicite_personnalisee = g_strtod ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[17] )),
+	  echeance -> periodicite_personnalisee = my_strtod ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[17] )),
 							     NULL );
 	}
 
@@ -1988,11 +1988,11 @@ void fin_edition_echeance ( void )
 				      "/",
 				      3 );
 
-	  echeance -> jour_limite = strtod ( tableau_char[0],
+	  echeance -> jour_limite = my_strtod ( tableau_char[0],
 					     NULL );
-	  echeance -> mois_limite = strtod ( tableau_char[1],
+	  echeance -> mois_limite = my_strtod ( tableau_char[1],
 					     NULL );
-	  echeance -> annee_limite = strtod (tableau_char[2],
+	  echeance -> annee_limite = my_strtod (tableau_char[2],
 					     NULL );
 
 	  echeance->date_limite = g_date_new_dmy ( echeance->jour_limite,
@@ -2036,11 +2036,11 @@ void fin_edition_echeance ( void )
 				  3 );
 
 
-      operation -> jour = g_strtod ( tableau_char[0],
+      operation -> jour = my_strtod ( tableau_char[0],
 				     NULL );
-      operation -> mois = g_strtod ( tableau_char[1],
+      operation -> mois = my_strtod ( tableau_char[1],
 				     NULL );
-      operation -> annee = g_strtod (tableau_char[2],
+      operation -> annee = my_strtod (tableau_char[2],
 				     NULL );
 
       operation ->date = g_date_new_dmy ( operation ->jour,
@@ -2075,10 +2075,10 @@ void fin_edition_echeance ( void )
       /* récupération du montant */
 
       if ( gtk_widget_get_style ( widget_formulaire_echeancier[2] ) == style_entree_formulaire[0] )
-	operation -> montant = -g_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[2] ))),
+	operation -> montant = -my_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[2] ))),
 					   NULL );
       else
-	operation -> montant = g_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[3] ))),
+	operation -> montant = my_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[3] ))),
 					  NULL );
 
 

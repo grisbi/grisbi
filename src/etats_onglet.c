@@ -4,7 +4,7 @@
 /*     Copyright (C) 2000-2003  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
-/*     Copyright (C) 2002  Benjamin Drieu */
+/*     Copyright (C) 2002-2003  Benjamin Drieu */
 /* 			bdrieu@april.org */
 /* 			http://www.grisbi.org */
 
@@ -184,6 +184,7 @@ GtkWidget *creation_liste_etats ( void )
   /*   on ne met rien dans le label, il sera rempli ensuite */
 
   label_etat_courant = gtk_label_new ( "" );
+  gtk_label_set_line_wrap ( GTK_LABEL ( label_etat_courant ), TRUE );
   gtk_misc_set_alignment ( GTK_MISC (label_etat_courant  ),
 			   0.5,
 			   0.5);
@@ -207,6 +208,7 @@ GtkWidget *creation_liste_etats ( void )
 		       TRUE,
 		       0);
   gtk_widget_show ( scrolled_window );
+  gtk_widget_set_usize ( scrolled_window, 200, FALSE );
   
 
   /*  création de la vbox qui contient la liste des états */
@@ -340,21 +342,37 @@ GtkWidget *creation_barre_boutons_etats ( void )
 
   /* on met le bouton rafraichir */
 
-  bouton_raffraichir_etat = gtk_button_new_with_label ( _("Refresh") );
-  gtk_button_set_relief ( GTK_BUTTON ( bouton_raffraichir_etat ),
+  bouton = gtk_button_new_with_label ( _("Refresh") );
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton_raffraichir_etat ),
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
 			      "clicked",
 			      GTK_SIGNAL_FUNC ( rafraichissement_etat ),
 			      NULL );
   gtk_box_pack_start ( GTK_BOX ( widget_retour ),
-		       bouton_raffraichir_etat,
+		       bouton,
 		       FALSE,
 		       FALSE,
 		       0 );
-  gtk_widget_set_sensitive ( bouton_raffraichir_etat,
+  gtk_widget_show ( bouton );
+
+  /* on met le bouton imprimer */
+
+  bouton_imprimer_etat = gtk_button_new_with_label ( _("Print") );
+  gtk_button_set_relief ( GTK_BUTTON ( bouton_imprimer_etat ),
+			  GTK_RELIEF_NONE );
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton_imprimer_etat ),
+			      "clicked",
+			      GTK_SIGNAL_FUNC ( impression_etat ),
+			      NULL );
+  gtk_widget_set_sensitive ( bouton_imprimer_etat,
 			     FALSE );
-  gtk_widget_show ( bouton_raffraichir_etat );
+  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+		       bouton_imprimer_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_imprimer_etat );
 
   /* on met le bouton exporter */
 
@@ -469,11 +487,13 @@ void remplissage_liste_etats ( void )
 	   &&
 	   etat -> no_etat == etat_courant -> no_etat )
 	{
-	  icone = gtk_image_new_from_stock (GNOME_STOCK_BOOK_OPEN, GTK_ICON_SIZE_BUTTON);  
+	  icone = gnome_stock_pixmap_widget ( GTK_WIDGET ( bouton ),
+					      GNOME_STOCK_PIXMAP_BOOK_OPEN);
 	  bouton_etat_courant = bouton;
 	}
       else
-	icone = gtk_image_new_from_stock (GNOME_STOCK_BOOK_RED, GTK_ICON_SIZE_BUTTON);  
+	icone = gnome_stock_pixmap_widget ( GTK_WIDGET ( bouton ),
+					    GNOME_STOCK_PIXMAP_BOOK_BLUE);
       gtk_container_add ( GTK_CONTAINER ( bouton ),
 			  icone );
       gtk_widget_show ( icone );
@@ -481,6 +501,7 @@ void remplissage_liste_etats ( void )
       /* on crée le label à coté du bouton */
 
       label = gtk_label_new ( etat -> nom_etat );
+      gtk_label_set_line_wrap ( GTK_LABEL ( label ), TRUE );
       gtk_box_pack_start ( GTK_BOX (hbox),
 			   label,
 			   FALSE,
@@ -1088,8 +1109,11 @@ void ajout_etat ( void )
 
   gtk_widget_set_sensitive ( bouton_personnaliser_etat,
 			     TRUE );
-  gtk_widget_set_sensitive ( bouton_raffraichir_etat,
+  /* FIXME: réactiver àca le jour ou on sort l'impression
+	mais de toutes faàons, àca sera mergé 
+  gtk_widget_set_sensitive ( bouton_imprimer_etat,
 			     TRUE );
+  */
   gtk_widget_set_sensitive ( bouton_exporter_etat,
 			     TRUE );
   gtk_widget_set_sensitive ( bouton_dupliquer_etat,
@@ -1216,7 +1240,7 @@ void efface_etat ( void )
 			   "" );
       gtk_widget_set_sensitive ( bouton_personnaliser_etat,
 				 FALSE );
-      gtk_widget_set_sensitive ( bouton_raffraichir_etat,
+      gtk_widget_set_sensitive ( bouton_imprimer_etat,
 				 FALSE );
       gtk_widget_set_sensitive ( bouton_exporter_etat,
 				 FALSE );
@@ -1255,7 +1279,8 @@ void changement_etat ( GtkWidget *bouton,
 
   if ( bouton_etat_courant )
     {
-      icone = gtk_image_new_from_stock (GNOME_STOCK_BOOK_RED, GTK_ICON_SIZE_BUTTON);  
+      icone = gnome_stock_pixmap_widget ( GTK_WIDGET ( bouton ),
+					  GNOME_STOCK_PIXMAP_BOOK_BLUE);
       gtk_container_remove ( GTK_CONTAINER ( bouton_etat_courant ),
 			     GTK_BIN ( bouton_etat_courant ) -> child );
       gtk_container_add ( GTK_CONTAINER ( bouton_etat_courant ),
@@ -1269,8 +1294,11 @@ void changement_etat ( GtkWidget *bouton,
   etat_courant = etat;
   gtk_widget_set_sensitive ( bouton_personnaliser_etat,
 			     TRUE );
-  gtk_widget_set_sensitive ( bouton_raffraichir_etat,
+/* FIXME: réactiver àca le jour ou on sort l'impression
+	mais de toutes faàons, àca sera mergé 
+  gtk_widget_set_sensitive ( bouton_imprimer_etat,
 			     TRUE );
+*/
   gtk_widget_set_sensitive ( bouton_exporter_etat,
 			     TRUE );
   gtk_widget_set_sensitive ( bouton_dupliquer_etat,
@@ -1278,7 +1306,8 @@ void changement_etat ( GtkWidget *bouton,
   gtk_widget_set_sensitive ( bouton_effacer_etat,
 			     TRUE );
 
-  icone = gtk_image_new_from_stock (GNOME_STOCK_BOOK_OPEN, GTK_ICON_SIZE_BUTTON);
+  icone = gnome_stock_pixmap_widget ( GTK_WIDGET ( bouton ),
+				      GNOME_STOCK_PIXMAP_BOOK_OPEN);
   gtk_container_remove ( GTK_CONTAINER ( bouton_etat_courant ),
 			 GTK_BIN ( bouton_etat_courant ) -> child );
   gtk_container_add ( GTK_CONTAINER ( bouton_etat_courant ),
@@ -1369,7 +1398,7 @@ void exporter_etat ( void )
   switch ( resultat )
     {
     case 0 :
-      nom_etat = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
+      nom_etat = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
 
       gnome_dialog_close ( GNOME_DIALOG ( dialog ));
 
@@ -1490,7 +1519,7 @@ void importer_etat ( void )
   switch ( resultat )
     {
     case 0 :
-      nom_etat = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
+      nom_etat = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
 
       gnome_dialog_close ( GNOME_DIALOG ( dialog ));
 
@@ -1634,8 +1663,11 @@ void dupliquer_etat ( void )
 
   gtk_widget_set_sensitive ( bouton_personnaliser_etat,
 			     TRUE );
-  gtk_widget_set_sensitive ( bouton_raffraichir_etat,
+/* FIXME: réactiver àca le jour ou on sort l'impression
+	mais de toutes faàons, àca sera mergé 
+  gtk_widget_set_sensitive ( bouton_imprimer_etat,
 			     TRUE );
+*/
   gtk_widget_set_sensitive ( bouton_exporter_etat,
 			     TRUE );
   gtk_widget_set_sensitive ( bouton_dupliquer_etat,
