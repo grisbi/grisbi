@@ -1483,34 +1483,27 @@ void fin_edition_echeance ( void )
     {
       dialogue ( PRESPACIFY(_("Error: invalid date")) );
       gtk_widget_grab_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] );
-      gtk_entry_select_region ( GTK_ENTRY (  widget_formulaire_echeancier[SCHEDULER_FORM_DATE]),
-				0,
-				-1);
+      gtk_entry_select_region ( GTK_ENTRY (  widget_formulaire_echeancier[SCHEDULER_FORM_DATE]), 0, -1);
       return;
     }
 
-  if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] ) == style_entree_formulaire[ENCLAIR]
-       &&
+  if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] ) == style_entree_formulaire[ENCLAIR] &&
        strcmp ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] ))),
 		_("None") ))
     if ( !modifie_date ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] ))
       {
 	dialogue ( PRESPACIFY(_("Error: invalid limit date")) );
 	gtk_widget_grab_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] );
-	gtk_entry_select_region ( GTK_ENTRY (  widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE]),
-				  0,
-				  -1);
+	gtk_entry_select_region ( GTK_ENTRY (  widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE]), 0, -1);
 	return;
       }
 
   /* vérification que ce n'est pas un virement sur lui-même */
 
   if ( !g_strcasecmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ))),
-		       g_strconcat ( COLON(_("Transfer")),
-				     COMPTE_ECHEANCE,
-				     NULL )))
+		       g_strconcat ( COLON(_("Transfer")), COMPTE_ECHEANCE, NULL )))
     {
-      dialogue ( PRESPACIFY(_("Error: impossible to transfer an account   \n    on itself")));
+      dialogue ( PRESPACIFY(_("Error: impossible to transfer an account on itself")));
       return;
     }
 
@@ -1524,23 +1517,17 @@ void fin_edition_echeance ( void )
     {
       gint i;
 
-      tableau_char = g_strsplit ( pointeur_char,
-				  ":",
-				  2 );
+      tableau_char = g_strsplit ( pointeur_char, ":", 2 );
 	  
       if ( tableau_char[1] )
 	{
-
 	  tableau_char[1] = g_strstrip ( tableau_char[1] );
-
 	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
 	  compte_virement = -1;
 
 	  for ( i = 0 ; i < nb_comptes ; i++ )
 	    {
-	      if ( !g_strcasecmp ( NOM_DU_COMPTE,
-				   tableau_char[1] ) )
+	      if ( !g_strcasecmp ( NOM_DU_COMPTE, tableau_char[1] ) )
 		compte_virement = i;
 	      p_tab_nom_de_compte_variable++;
 	    }
@@ -1579,35 +1566,26 @@ void fin_edition_echeance ( void )
   if ( strcmp ( GTK_LABEL ( label_saisie_modif ) -> label,
 		_("Input") ) )
     {
-      /*       on commence ici la partie modification / nouvelle échéance */
+      /* On commence ici la partie modification / nouvelle échéance */
 
       /* si c'est une nouvelle échéance, on la crée */
 
       if ( !echeance )
-	echeance = calloc ( 1,
-			    sizeof ( struct operation_echeance ));
+	echeance = calloc ( 1, sizeof ( struct operation_echeance ));
 
       /* récupère la date */
 
 
       pointeur_char = g_strstrip ( gtk_entry_get_text ( GTK_ENTRY (widget_formulaire_echeancier[SCHEDULER_FORM_DATE] )));
+      tableau_char = g_strsplit ( pointeur_char, "/", 3 );
 
-      tableau_char = g_strsplit ( pointeur_char,
-				  "/",
-				  3 );
+      echeance -> jour = my_strtod ( tableau_char[0], NULL );
+      echeance -> mois = my_strtod ( tableau_char[1], NULL );
+      echeance -> annee = my_strtod (tableau_char[2], NULL );
 
-
-      echeance -> jour = my_strtod ( tableau_char[0],
-				    NULL );
-      echeance -> mois = my_strtod ( tableau_char[1],
-				    NULL );
-      echeance -> annee = my_strtod (tableau_char[2],
-				    NULL );
-
-      echeance ->date = g_date_new_dmy ( echeance ->jour,
-					 echeance ->mois,
-					 echeance ->annee);
-
+      echeance -> date = g_date_new_dmy ( echeance -> jour,
+					  echeance -> mois,
+					  echeance -> annee);
 
       /* récupération du tiers, s'il n'existe pas, on le crée */
 
@@ -1626,8 +1604,6 @@ void fin_edition_echeance ( void )
 	    }
 	}
 
-
-
       /* récupération du montant */
 
       if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
@@ -1637,19 +1613,15 @@ void fin_edition_echeance ( void )
 	echeance -> montant = my_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ))),
 					 NULL );
 
-
-
       /* récupération de la devise */
  
       echeance -> devise = ((struct struct_devise *)( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE] ) -> menu_item ),
 									    "adr_devise" ))) -> no_devise;
 
-
        /* récupération du no de compte */
 
       echeance -> compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT]  ) -> menu_item ),
 								   "no_compte" ) );
-
 
      /*   récupération des catégories / sous-catég, s'ils n'existent pas, on les crée */
 
@@ -1657,22 +1629,18 @@ void fin_edition_echeance ( void )
 	{
 	  struct struct_categ *categ;
       
-	  tableau_char = g_strsplit ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ))),
-				      ":",
-				      2 );
+	  tableau_char = g_strsplit ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ))), ":", 2 );
 	  
 	  tableau_char[0] = g_strstrip ( tableau_char[0] );
 
 	  if ( tableau_char[1] )
 	    tableau_char[1] = g_strstrip ( tableau_char[1] );
 
-
 	  if ( strlen ( tableau_char[0] ) )
 	    {
-	      if ( !strcmp ( tableau_char[0],
-			     _("Transfer") )
-		   && tableau_char[1]
-		   && strlen ( tableau_char[1]) )
+	      if ( !strcmp ( tableau_char[0], _("Transfer") ) &&
+		   tableau_char[1] &&
+		   strlen ( tableau_char[1]) )
 		{
 		  /* c'est un virement, il n'y a donc aucune catégorie */
 
@@ -1686,8 +1654,7 @@ void fin_edition_echeance ( void )
 
 		  for ( i = 0 ; i < nb_comptes ; i++ )
 		    {
-		      if ( !g_strcasecmp ( NOM_DU_COMPTE,
-					   tableau_char[1] ) )
+		      if ( !g_strcasecmp ( NOM_DU_COMPTE, tableau_char[1] ) )
 			echeance -> compte_virement = i;
 
 		      p_tab_nom_de_compte_variable++;
@@ -1727,8 +1694,7 @@ void fin_edition_echeance ( void )
 			}
 		      else
 			{
-			  sous_categ = ajoute_nouvelle_sous_categorie ( tableau_char[1],
-									categ );
+			  sous_categ = ajoute_nouvelle_sous_categorie ( tableau_char[1], categ );
 			  rafraichir_categ = 1;
 			}
 
@@ -1743,8 +1709,6 @@ void fin_edition_echeance ( void )
       else
 	echeance -> compte_virement = -1;
 
-
-
       /* récupération du type d'opération */
 
       if ( GTK_WIDGET_VISIBLE ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ))
@@ -1752,18 +1716,15 @@ void fin_edition_echeance ( void )
 	  echeance -> type_ope = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ) -> menu_item ),
 									 "no_type" ));
 
-	  if ( GTK_WIDGET_VISIBLE ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] )
-	       &&
+	  if ( GTK_WIDGET_VISIBLE ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] ) &&
 	       gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] ) == style_entree_formulaire[ENCLAIR] )
 	    echeance -> contenu_type = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] ))));
 	}
-
 
       /* récupération du no d'exercice */
 
       echeance -> no_exercice = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ) -> menu_item ),
 									"no_exercice" ));
-
 
       /* récupération de l'imputation budgétaire */
 
@@ -1772,10 +1733,7 @@ void fin_edition_echeance ( void )
 	  struct struct_imputation *imputation;
       
 	  pointeur_char = gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ));
-
-	  tableau_char = g_strsplit ( pointeur_char,
-				      ":",
-				      2 );
+	  tableau_char = g_strsplit ( pointeur_char, ":", 2 );
       
 	  tableau_char[0] = g_strstrip ( tableau_char[0] );
 
@@ -1822,7 +1780,7 @@ void fin_edition_echeance ( void )
 	  g_strfreev ( tableau_char );
 	}
 
-      /*       récupération de auto_man */
+      /* récupération de auto_man */
 
       echeance -> auto_man = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_MODE]  ) -> menu_item ),
 								     "auto_man" ) );
@@ -1843,31 +1801,22 @@ void fin_edition_echeance ( void )
 	{
 	  echeance -> intervalle_periodicite_personnalisee = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_MENU]  ) -> menu_item ),
 												     "intervalle_perso" ) );
-
 	  echeance -> periodicite_personnalisee = my_strtod ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_NB] )),
 							     NULL );
 	}
 
-      if ( echeance -> periodicite
-	   &&
+      if ( echeance -> periodicite &&
 	   gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] ) == style_entree_formulaire[ENCLAIR] )
 	{
 	  /* traitement de la date limite */
 
-	  tableau_char = g_strsplit ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] ))),
-				      "/",
-				      3 );
-
-	  echeance -> jour_limite = my_strtod ( tableau_char[0],
-					     NULL );
-	  echeance -> mois_limite = my_strtod ( tableau_char[1],
-					     NULL );
-	  echeance -> annee_limite = my_strtod (tableau_char[2],
-					     NULL );
-
-	  echeance->date_limite = g_date_new_dmy ( echeance->jour_limite,
-						   echeance->mois_limite,
-						   echeance->annee_limite);
+	  tableau_char = g_strsplit ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] ))), "/", 3 );
+	  echeance -> jour_limite = my_strtod ( tableau_char[0], NULL );
+	  echeance -> mois_limite = my_strtod ( tableau_char[1], NULL );
+	  echeance -> annee_limite = my_strtod ( tableau_char[2], NULL );
+	  echeance -> date_limite = g_date_new_dmy ( echeance -> jour_limite,
+						     echeance -> mois_limite,
+						     echeance -> annee_limite);
 	}
 
 
@@ -1892,37 +1841,23 @@ void fin_edition_echeance ( void )
 
       /* crée l'opération */
 
-      operation = calloc ( 1,
-			   sizeof ( struct structure_operation ) ); 
-
+      operation = calloc ( 1, sizeof ( struct structure_operation ) ); 
 
       /* récupère la date */
 
-
       pointeur_char = g_strstrip ( gtk_entry_get_text ( GTK_ENTRY (widget_formulaire_echeancier[SCHEDULER_FORM_DATE] )));
-
-      tableau_char = g_strsplit ( pointeur_char,
-				  "/",
-				  3 );
-
-
-      operation -> jour = my_strtod ( tableau_char[0],
-				     NULL );
-      operation -> mois = my_strtod ( tableau_char[1],
-				     NULL );
-      operation -> annee = my_strtod (tableau_char[2],
-				     NULL );
-
-      operation ->date = g_date_new_dmy ( operation ->jour,
-					  operation ->mois,
-					  operation ->annee);
-
+      tableau_char = g_strsplit ( pointeur_char, "/", 3 );
+      operation -> jour = my_strtod ( tableau_char[0], NULL );
+      operation -> mois = my_strtod ( tableau_char[1], NULL );
+      operation -> annee = my_strtod ( tableau_char[2], NULL );
+      operation -> date = g_date_new_dmy ( operation -> jour,
+					   operation -> mois,
+					   operation -> annee);
 
       /* récupération du no de compte */
 
       operation -> no_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT]  ) -> menu_item ),
 								       "no_compte" ) );
-
 
       /* récupération du tiers, s'il n'existe pas, on le crée */
 
@@ -1941,7 +1876,6 @@ void fin_edition_echeance ( void )
 	    }
 	}
 
-
       /* récupération du montant */
 
       if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
@@ -1951,34 +1885,26 @@ void fin_edition_echeance ( void )
 	operation -> montant = my_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ))),
 					  NULL );
 
-
-
       /* récupération de la devise */
  
       devise = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE] ) -> menu_item),
 				     "adr_devise" );
 
-      
       /* si c'est la devise du compte ou si c'est un compte qui doit passer à l'euro ( la transfo se fait au niveau de l'affichage de la liste ) */
       /* ou si c'est un compte en euro et l'opé est dans une devise qui doit passer à l'euro -> ok */
 
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
-      if ( !devise_compte
-	   ||
-	   devise_compte -> no_devise != DEVISE )
+      if ( !devise_compte || devise_compte -> no_devise != DEVISE )
 	devise_compte = g_slist_find_custom ( liste_struct_devises,
 					      GINT_TO_POINTER ( DEVISE ),
 					      ( GCompareFunc ) recherche_devise_par_no ) -> data;
 
       operation -> devise = devise -> no_devise;
 
-      if ( !( operation -> no_operation
-	      ||
-	      devise -> no_devise == DEVISE
-	      ||
-	      ( devise_compte -> passage_euro && !strcmp ( devise -> nom_devise, _("Euro") ))
-	      ||
+      if ( !( operation -> no_operation ||
+	      devise -> no_devise == DEVISE ||
+	      ( devise_compte -> passage_euro && !strcmp ( devise -> nom_devise, _("Euro") )) ||
 	      ( !strcmp ( devise_compte -> nom_devise, _("Euro") ) && devise -> passage_euro )))
 	{
 	  /* c'est une devise étrangère, on demande le taux de change et les frais de change */
@@ -1986,8 +1912,8 @@ void fin_edition_echeance ( void )
 	  demande_taux_de_change ( devise_compte,
 				   devise,
 				   1,
-				   (gdouble ) 0,
-				   (gdouble ) 0 );
+				   ( gdouble ) 0,
+				   ( gdouble ) 0 );
 
 	  operation -> taux_change = taux_de_change[0];
 	  operation -> frais_change = taux_de_change[1];
@@ -1999,7 +1925,6 @@ void fin_edition_echeance ( void )
 	    }
 	}
 
-
       /*   récupération des catégories / sous-catég, s'ils n'existent pas, on les crée */
 
       virement = 0;
@@ -2008,22 +1933,18 @@ void fin_edition_echeance ( void )
 	{
 	  struct struct_categ *categ;
       
-	  tableau_char = g_strsplit ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ))),
-				      ":",
-				      2 );
+	  tableau_char = g_strsplit ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ))), ":", 2 );
       
 	  tableau_char[0] = g_strstrip ( tableau_char[0] );
 
 	  if ( tableau_char[1] )
 	    tableau_char[1] = g_strstrip ( tableau_char[1] );
 
-
 	  if ( strlen ( tableau_char[0] ) )
 	    {
-	      if ( !strcmp ( tableau_char[0],
-			     _("Transfer") )
-		   && tableau_char[1]
-		   && strlen ( tableau_char[1]) )
+	      if ( !strcmp ( tableau_char[0], _("Transfer") ) &&
+		   tableau_char[1] &&
+		   strlen ( tableau_char[1]) )
 		{
 		  /* c'est un virement, il n'y a donc aucune catétorie */
 
@@ -2065,8 +1986,7 @@ void fin_edition_echeance ( void )
 			}
 		      else
 			{
-			  sous_categ = ajoute_nouvelle_sous_categorie ( tableau_char[1],
-									categ );
+			  sous_categ = ajoute_nouvelle_sous_categorie ( tableau_char[1], categ );
 			  rafraichir_categ = 1;
 			}
 		  
@@ -2076,8 +1996,6 @@ void fin_edition_echeance ( void )
 	    }
 	  g_strfreev ( tableau_char );
 	}
- 
-
 
       /* récupération du type d'opération */
 
@@ -2086,8 +2004,7 @@ void fin_edition_echeance ( void )
 	  operation -> type_ope = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ) -> menu_item ),
 									 "no_type" ));
 
-	  if ( GTK_WIDGET_VISIBLE ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] )
-	       &&
+	  if ( GTK_WIDGET_VISIBLE ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] ) &&
 	       gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] ) == style_entree_formulaire[ENCLAIR] )
 	    {
 	      struct struct_type_ope *type;
@@ -2102,16 +2019,13 @@ void fin_edition_echeance ( void )
 	    }
 	}
 
-
       /* récupération du no d'exercice */
 
-      if ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ) -> menu_item ),
-						   "no_exercice" )) == -2 )
+      if ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ) -> menu_item ), "no_exercice" )) == -2 )
 	operation -> no_exercice = recherche_exo_correspondant ( operation -> date );
       else
 	operation -> no_exercice = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ) -> menu_item ),
 									   "no_exercice" ));
-
 
       /* récupération de l'imputation budgétaire */
 
@@ -2120,10 +2034,7 @@ void fin_edition_echeance ( void )
 	  struct struct_imputation *imputation;
       
 	  pointeur_char = gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ));
-
-	  tableau_char = g_strsplit ( pointeur_char,
-				      ":",
-				      2 );
+	  tableau_char = g_strsplit ( pointeur_char, ":", 2 );
       
 	  tableau_char[0] = g_strstrip ( tableau_char[0] );
 
@@ -2170,7 +2081,7 @@ void fin_edition_echeance ( void )
 	  g_strfreev ( tableau_char );
 	}
 
-      /*       récupération de auto_man */
+      /* récupération de auto_man */
 
       operation -> auto_man = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_MODE]  ) -> menu_item ),
 								     "auto_man" ) );
@@ -2181,11 +2092,9 @@ void fin_edition_echeance ( void )
 	operation -> notes = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES] ))));
 
 
-      /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
+      /* on a fini de remplir l'opé, on peut l'ajouter à la liste */
 
       ajout_operation ( operation );
-
-
 
       /*   si c'était un virement, on crée une copie de l'opé, on l'ajout à la liste puis on remplit les relations */
 
@@ -2194,20 +2103,17 @@ void fin_edition_echeance ( void )
 	  struct structure_operation *operation_2;
 	  struct struct_devise *devise_compte_2;
 
-	  operation_2 = calloc ( 1,
-				 sizeof ( struct structure_operation ) );
-
+	  operation_2 = calloc ( 1, sizeof ( struct structure_operation ) );
 	  operation_2 -> no_compte = compte_virement;
-      
 
 	  /* remplit la nouvelle opé */
       
 	  operation_2 -> jour = operation -> jour;
 	  operation_2 -> mois = operation -> mois;
 	  operation_2 -> annee = operation -> annee;
-	  operation_2 ->date = g_date_new_dmy ( operation_2->jour,
-						operation_2->mois,
-						operation_2->annee);
+	  operation_2 -> date = g_date_new_dmy ( operation_2 -> jour,
+						 operation_2 -> mois,
+						 operation_2 -> annee);
 	  operation_2 -> montant = -operation -> montant;
 
 	  /* si c'est la devise du compte ou si c'est un compte qui doit passer à l'euro ( la transfo se fait au niveau */
@@ -2221,12 +2127,9 @@ void fin_edition_echeance ( void )
 
 	  operation_2 -> devise = operation -> devise;
 
-	  if ( !( operation_2-> no_operation
-		  ||
-		  devise -> no_devise == DEVISE
-		  ||
-		  ( devise_compte_2 -> passage_euro && !strcmp ( devise -> nom_devise, _("Euro") ))
-		  ||
+	  if ( !( operation_2-> no_operation ||
+		  devise -> no_devise == DEVISE ||
+		  ( devise_compte_2 -> passage_euro && !strcmp ( devise -> nom_devise, _("Euro") )) ||
 		  ( !strcmp ( devise_compte_2 -> nom_devise, _("Euro") ) && devise -> passage_euro )))
 	    {
 	      /* c'est une devise étrangère, on demande le taux de change et les frais de change */
@@ -2234,8 +2137,8 @@ void fin_edition_echeance ( void )
 	      demande_taux_de_change ( devise_compte_2,
 				       devise,
 				       1,
-				       (gdouble ) 0,
-				       (gdouble ) 0 );
+				       ( gdouble ) 0,
+				       ( gdouble ) 0 );
 
 	      operation_2 -> taux_change = taux_de_change[0];
 	      operation_2 -> frais_change = taux_de_change[1];
@@ -2251,8 +2154,6 @@ void fin_edition_echeance ( void )
 	      operation_2 -> taux_change = 0;
 	      operation_2 -> frais_change = 0;
 	    }
-
-
 
 	  operation_2 -> tiers = operation -> tiers;
 	  operation_2 -> categorie = 0;
@@ -2275,7 +2176,6 @@ void fin_edition_echeance ( void )
 
 	  ajout_operation ( operation_2 );
 
-
 	  /* on met maintenant les relations entre les différentes opé */
 
 	  operation -> relation_no_operation = operation_2 -> no_operation;
@@ -2291,7 +2191,6 @@ void fin_edition_echeance ( void )
 	  verification_mise_a_jour_liste ();
 	}
 
-
       /* passe l'échéance à la prochaine date */
 
       incrementation_echeance ( echeance );
@@ -2301,13 +2200,10 @@ void fin_edition_echeance ( void )
       gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_MODE] );
       gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQUENCY] );
       gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQUENCY] );
-
     }
-
 
   if ( rafraichir_categ )
     mise_a_jour_categ ();
-
 
   formulaire_echeancier_a_zero ();
 
