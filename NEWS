@@ -1,5 +1,8 @@
 New in version 0.4.4 :
  - Bug fixes
+
+New in version 0.4.4 :
+ - Bug fixes
  - Columns are resizable in scheduler
  - Harmonise all date fields:
    + <Ctrl><Enter> in a date field open a calendar
