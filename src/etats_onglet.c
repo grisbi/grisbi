@@ -33,30 +33,6 @@
 void impression_etat ( struct struct_etat *etat );
 
 
-void magic_hpaned_resize (GObject *object, GParamSpec *pspec, gpointer data)
-{
-  gint position;
-
-  g_object_get(object, pspec->name, &position, NULL);
-
-  if ( position < GTK_PANED(object) -> last_allocation )
-    {
-      printf("position change report: object=%p, position value=%d, parameter=%p -> %d\n", object, position, data,
-	     GTK_PANED(object) -> last_allocation );
-      gtk_widget_set_size_request ( GTK_PANED(object) -> child1, position, -1 );
-      gtk_widget_set_size_request ( GTK_PANED(object) -> child2, GTK_PANED(object) -> max_position - position , -1 );
-    }
-}
-
-
-void magic_button_resize (GObject *object, GParamSpec *pspec, gpointer data)
-{
-  printf (">>> PLOP\n");
-  gtk_widget_set_size_request ( vbox_liste_etats, GTK_WIDGET(object)->requisition.width, -1 );
-}
-
-
-
 /*****************************************************************************************************/
 GtkWidget *creation_onglet_etats ( void )
 {
@@ -75,7 +51,6 @@ GtkWidget *creation_onglet_etats ( void )
   gtk_paned_set_position ( GTK_PANED(onglet), 200 );
   gtk_container_set_border_width ( GTK_CONTAINER ( onglet ), 10 );
   gtk_widget_show ( onglet );
-  g_signal_connect(G_OBJECT(onglet), "notify::position", G_CALLBACK(magic_hpaned_resize), NULL);
 
   /*   création de la fenetre des noms des états */
   /* on reprend le principe des comptes dans la fenetre des opés */
@@ -89,7 +64,6 @@ GtkWidget *creation_onglet_etats ( void )
   /* on y met les rapports et les boutons */
   gtk_container_add ( GTK_CONTAINER ( frame_liste_etats ),
 		      creation_liste_etats ());
-  g_signal_connect(G_OBJECT(frame_liste_etats), "size_request", G_CALLBACK(magic_button_resize), NULL);
 
   /* Frame de droite */
   frame = gtk_frame_new ( NULL );
@@ -192,7 +166,7 @@ GtkWidget *creation_liste_etats ( void )
   /*   on ne met rien dans le label, il sera rempli ensuite */
 
   label_etat_courant = gtk_label_new ( "" );
-  gtk_label_set_line_wrap ( label_etat_courant, TRUE );
+  gtk_label_set_line_wrap ( GTK_LABEL(label_etat_courant), TRUE );
   gtk_misc_set_alignment ( GTK_MISC (label_etat_courant  ),
 			   0.5,
 			   0.5);
@@ -221,14 +195,12 @@ GtkWidget *creation_liste_etats ( void )
 
   /*  création de la vbox qui contient la liste des états */
 
-  vbox_liste_etats = gtk_vbox_new ( FALSE,
-				    10);
+  vbox_liste_etats = gtk_vbox_new ( FALSE, 10);
   gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW (scrolled_window ),
 					  vbox_liste_etats);
   gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( GTK_BIN ( scrolled_window )  -> child ),
 				 GTK_SHADOW_NONE );
   gtk_widget_show (vbox_liste_etats);
-  
 
   /*  ajout des différents états */
 
@@ -253,7 +225,7 @@ GtkWidget *creation_liste_etats ( void )
   /* mise en place du bouton ajouter */
 
   bouton = gtk_button_new_with_label ( _("Add a report") );
-  gtk_label_set_line_wrap ( GTK_BIN(bouton)->child, TRUE );
+  gtk_label_set_line_wrap ( GTK_LABEL(GTK_BIN(bouton)->child), TRUE );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE);
   gtk_box_pack_start ( GTK_BOX ( vbox ),
@@ -406,6 +378,7 @@ void remplissage_liste_etats ( void )
 {
   GList *pointeur;
   GSList *liste_tmp;
+  GtkWidget *label;
 
 
   /* on commence par détruire tous les enfants de la vbox */
@@ -438,43 +411,40 @@ void remplissage_liste_etats ( void )
 
       etat = liste_tmp -> data;
 
-      hbox = gtk_hbox_new ( FALSE, 10);
-      gtk_widget_show ( hbox );
-  
-      /* on crée le bouton contenant le livre fermé et ouvert, seul le
-	 fermé est affiché pour l'instant */
-      bouton = gtk_button_new ();
-      gtk_button_set_relief ( GTK_BUTTON (bouton), GTK_RELIEF_NONE);
-      gtk_signal_connect ( GTK_OBJECT (bouton), "clicked",
-			   GTK_SIGNAL_FUNC ( changement_etat ), etat );
-      g_signal_connect(G_OBJECT(vbox_liste_etats), "size_request", G_CALLBACK(magic_button_resize), NULL);
-
-      /* création de l'icone fermée */
-
-      if ( etat_courant && etat -> no_etat == etat_courant -> no_etat )
-	{
-	  icone = gtk_image_new_from_stock (GNOME_STOCK_BOOK_OPEN, 
-					    GTK_ICON_SIZE_BUTTON);  
-	  bouton_etat_courant = bouton;
-	}
-      else
-	icone = gtk_image_new_from_stock (GNOME_STOCK_BOOK_RED, 
-					  GTK_ICON_SIZE_BUTTON);  
-      gtk_box_pack_start ( GTK_BOX (hbox), icone, FALSE, TRUE, 0);
-      gtk_widget_show ( icone );
-
-      /* on crée le label à coté du bouton */
-
-      label = gtk_label_new ( etat -> nom_etat );
-      gtk_label_set_line_wrap ( GTK_LABEL ( label ), TRUE );
-      gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, TRUE, 0);
-      gtk_widget_show (label);
-
-      gtk_container_add ( GTK_CONTAINER ( bouton ), hbox );
-
-      gtk_widget_show (bouton);
+      bouton = gtk_list_button_new ( etat -> nom_etat, 0 );
+      gtk_widget_show_all (bouton) ;
       gtk_box_pack_start ( GTK_BOX ( vbox_liste_etats ), bouton,
 			   FALSE, FALSE, 0 );
+
+      gtk_signal_connect ( GTK_BUTTON(bouton), "clicked",
+			   GTK_SIGNAL_FUNC ( changement_etat ), etat );
+
+/*       /\* création de l'icone fermée *\/ */
+
+/*       if ( etat_courant && etat -> no_etat == etat_courant -> no_etat ) */
+/* 	{ */
+/* 	  icone = gtk_image_new_from_stock (GNOME_STOCK_BOOK_OPEN,  */
+/* 					    GTK_ICON_SIZE_BUTTON);   */
+/* 	  bouton_etat_courant = bouton; */
+/* 	} */
+/*       else */
+/* 	icone = gtk_image_new_from_stock (GNOME_STOCK_BOOK_RED,  */
+/* 					  GTK_ICON_SIZE_BUTTON);   */
+/*       gtk_box_pack_start ( GTK_BOX (hbox), icone, FALSE, TRUE, 0); */
+/*       gtk_widget_show ( icone ); */
+
+/*       /\* on crée le label à coté du bouton *\/ */
+
+/*       label = gtk_label_new ( etat -> nom_etat ); */
+/*       gtk_label_set_line_wrap ( GTK_LABEL ( label ), TRUE ); */
+/*       gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, TRUE, 0); */
+/*       gtk_widget_show (label); */
+
+/*       gtk_container_add ( GTK_CONTAINER ( bouton ), hbox ); */
+
+/*       gtk_widget_show (bouton); */
+/*       gtk_box_pack_start ( GTK_BOX ( vbox_liste_etats ), bouton, */
+/* 			   FALSE, FALSE, 0 ); */
 
       liste_tmp = liste_tmp -> next;
     }
@@ -1242,51 +1212,19 @@ void changement_etat ( GtkWidget *bouton,
 {
   GtkWidget *icone;
 
-  /* on commence par refermer l'ancien bouton */
-
-  if ( bouton_etat_courant )
-    {
-      icone = gtk_image_new_from_stock (GNOME_STOCK_BOOK_RED, GTK_ICON_SIZE_BUTTON);  
-      gtk_container_remove ( GTK_BOX(GTK_BIN(bouton_etat_courant)->child),
-			     ((GtkBoxChild *)GTK_BOX(GTK_BIN(bouton_etat_courant)->child)->children->data)->widget );
-      gtk_box_pack_start ( GTK_BOX(GTK_BIN(bouton_etat_courant)->child), icone, FALSE, FALSE, 0 );
-      gtk_box_reorder_child ( GTK_BOX(GTK_BIN(bouton_etat_courant)->child), icone, 0 );
-      gtk_widget_show ( icone );
-    }
-
-  /* on ouvre le nouveau */
-
   bouton_etat_courant = bouton;
   etat_courant = etat;
-  gtk_widget_set_sensitive ( bouton_personnaliser_etat,
-			     TRUE );
-  gtk_widget_set_sensitive ( bouton_raffraichir_etat,
-			     TRUE );
-  gtk_widget_set_sensitive ( bouton_imprimer_etat,
-			     TRUE );
-  gtk_widget_set_sensitive ( bouton_exporter_etat,
-			     TRUE );
-  gtk_widget_set_sensitive ( bouton_dupliquer_etat,
-			     TRUE );
-  gtk_widget_set_sensitive ( bouton_effacer_etat,
-			     TRUE );
+  gtk_widget_set_sensitive ( bouton_personnaliser_etat, TRUE );
+  gtk_widget_set_sensitive ( bouton_raffraichir_etat, TRUE );
+  gtk_widget_set_sensitive ( bouton_imprimer_etat, TRUE );
+  gtk_widget_set_sensitive ( bouton_exporter_etat, TRUE );
+  gtk_widget_set_sensitive ( bouton_dupliquer_etat, TRUE );
+  gtk_widget_set_sensitive ( bouton_effacer_etat, TRUE );
 
-  icone = gtk_image_new_from_stock (GNOME_STOCK_BOOK_OPEN, GTK_ICON_SIZE_BUTTON);
-
-  gtk_container_remove ( GTK_BOX(GTK_BIN(bouton_etat_courant)->child),
-			 ((GtkBoxChild *)GTK_BOX(GTK_BIN(bouton_etat_courant)->child)->children->data)->widget );
-  gtk_box_pack_start ( GTK_BOX(GTK_BIN(bouton_etat_courant)->child), icone, FALSE, FALSE, 0 );
-  gtk_box_reorder_child ( GTK_BOX(GTK_BIN(bouton_etat_courant)->child), icone, 0 );
-  gtk_widget_show ( icone );
-
-  /* on met le nom de l'état dans la frame du haut */
-
-  gtk_label_set_text ( GTK_LABEL ( label_etat_courant ),
-		       etat -> nom_etat );
+  gtk_label_set_text ( GTK_LABEL ( label_etat_courant ), etat -> nom_etat );
   gtk_label_set_line_wrap ( GTK_LABEL ( label_etat_courant ), TRUE );
 
   /* on affiche l'état */
-
   rafraichissement_etat ( etat );
 }
 /*****************************************************************************************************/
