@@ -870,7 +870,7 @@ new_paddingbox_with_title (GtkWidget * parent, gboolean fill, gchar * title)
   GtkWidget *vbox, *hbox, *paddingbox, *label;
 
   vbox = gtk_vbox_new ( FALSE, 0 );
-  if ( parent )
+  if ( GTK_IS_BOX(parent) )
     {
       gtk_box_pack_start ( GTK_BOX ( parent ), vbox,
 			   fill, fill, 0);
@@ -902,9 +902,14 @@ new_paddingbox_with_title (GtkWidget * parent, gboolean fill, gchar * title)
 		       TRUE, TRUE, 0);
 
   /* Put a label at the end to feed a new line */
-  label = gtk_label_new ( "    " );
-  gtk_box_pack_end ( GTK_BOX ( paddingbox ), label,
-		     FALSE, FALSE, 0 );
+/*   label = gtk_label_new ( "    " ); */
+/*   gtk_box_pack_end ( GTK_BOX ( paddingbox ), label, */
+/* 		     FALSE, FALSE, 0 ); */
+
+  if ( GTK_IS_BOX(parent) )
+    {
+      gtk_box_set_spacing ( GTK_BOX(parent), 18 );
+    }
 
   return paddingbox;
 }
