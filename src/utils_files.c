@@ -57,7 +57,7 @@ void browse_file ( GtkButton *button, gpointer data )
 {
     GtkWidget * file_selector;
 
-    file_selector = gtk_file_selection_new (_("Print to file"));
+    file_selector = file_selection_new (_("Print to file"),FILE_SELECTION_IS_SAVE_DIALOG);
     gtk_window_set_transient_for ( GTK_WINDOW ( file_selector ),
 				   GTK_WINDOW ( window ));
     gtk_window_set_modal ( GTK_WINDOW ( file_selector ), TRUE );
@@ -265,6 +265,21 @@ gint utf8_stat(gchar* utf8filename,struct stat* filestat)
 xmlDocPtr utf8_xmlParseFile(const gchar *utf8filename)
 { 
     return xmlParseFile(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL));
+}
+/**
+ * \brief utf8 version of xmlSaveFormatFile 
+ * 
+ * convert utf8 file path into the locale OS charset before calling xmlSaveFormatFile
+ *
+ * \param utf8filename file to  path coded using utf8 charset
+ * \param cur                   xmlDocPtr structure to save
+ * \param format                file format to use
+ *
+ * \return xmlSaveFormatFile returned value
+ */
+gint        utf8_xmlSaveFormatFile(const gchar *utf8filename, xmlDocPtr cur, gint format);
+{ 
+    return xmlSaveFormatFile(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL),cur,format);
 }
 /**
  * \brief utf8 version of stat (see stat for more detail about mode)
