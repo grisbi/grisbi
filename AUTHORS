@@ -2,29 +2,38 @@ Main Grisbi authors:
 ====================
 
 Programming:
-  Cédric Auger (cedric@grisbi.org)
-  Benjamin Drieu (bdrieu@april.org)
   Alain Portal (dionysos@grisbi.org)
+  Benjamin Drieu (bdrieu@april.org)
+  Cédric Auger (cedric@grisbi.org)
+  François Terrot (francois.terrot@grisbi.org)
 
 Graphics:
   André Pascual (andre@linuxgraphic.org)
 
 Documentation:
-  Daniel Cartron (doc@grisbi.org)
   Alain Portal (dionysos@grisbi.org)
+  Daniel Cartron (doc@grisbi.org)
 
 Translation:
-  Daniel Cartron (doc@grisbi.org)
-  Alain Portal (aportal@univ-montp2.fr)
-  Benjamin Drieu (bdrieu@april.org)
+  Alain Portal (dionysos@grisbi.org) (English)
+  Benjamin Drieu (bdrieu@april.org) (English)
+  Daniel Cartron (doc@grisbi.org) (English)
+  Giorgio Mandolfo (giorgio@pollycoke.org) (Italian)
 
 Packaging:
-  Gérald Niel (gerald.niel@grisbi.org)
-  Benjamin Drieu (benj@debian.org)
+  Alain Pichon (alain.pichon@grisbi.org)
   Alain Portal (dionysos@grisbi.org)
+  Benjamin Drieu (benj@debian.org)
+  François Terrot (francois.terrot@grisbi.org)
+  Gérald Niel (slackware@grisbi.org)
   Matthieu Pupat (mpupat@free.fr)
-  François Terrot (grisbi@terrot.net)
   Thierry Thomas (thierry@pompo.net)
 
 Contributors:
+  Axel Rousseau (axel584@axel584.org)
   Dominique Parisot (parisot@villey-le-sec.com)
+
+
+If you think you should be on this list, please let us know
+(grisbi-admin@lists.sourceforge.net).
+
