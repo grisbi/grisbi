@@ -533,14 +533,14 @@ void ajout_devise ( GtkWidget *bouton,
 
   paddingbox = 
     paddingbox_new_with_title (GTK_WIDGET ( GNOME_DIALOG ( dialog ) -> vbox ),
-			       _("ISO 4217 currencies"));
+			       FALSE, _("ISO 4217 currencies"));
   list = new_currency_list ();
   gtk_box_pack_start ( GTK_BOX(paddingbox) , list,
 		       FALSE, FALSE, 5 );
 
   paddingbox = 
     paddingbox_new_with_title (GTK_WIDGET ( GNOME_DIALOG ( dialog ) -> vbox ),
-			       _("Currency details"));
+			       FALSE, _("Currency details"));
   
   /* Create table */
   table = gtk_table_new ( 2, 2, FALSE );
@@ -600,7 +600,7 @@ void ajout_devise ( GtkWidget *bouton,
   /* Swith to Euro */
   paddingbox = 
     paddingbox_new_with_title (GTK_WIDGET ( GNOME_DIALOG ( dialog ) -> vbox ),
-			       _("Euro zone currency"));
+			       FALSE, _("Euro zone currency"));
 
   check_bouton = gtk_check_button_new_with_label ( _("Will switch to Euro") );
   gtk_box_pack_start ( GTK_BOX ( paddingbox ), check_bouton,
@@ -1430,7 +1430,7 @@ GtkWidget *onglet_devises ( void )
   vbox_pref = new_vbox_with_title_and_icon ( _("Currencies"),
 					     "currencies.png" );
 
-  paddingbox = paddingbox_new_with_title (vbox_pref, 
+  paddingbox = paddingbox_new_with_title (vbox_pref, FALSE,
 					  _("Known currencies"));
   
   hbox = gtk_hbox_new ( FALSE, 5 );
@@ -1442,7 +1442,6 @@ GtkWidget *onglet_devises ( void )
   scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
   gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				   GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_widget_set_usize ( GTK_WIDGET ( scrolled_window ), FALSE, 120 );
   gtk_widget_show ( scrolled_window );
 
   clist_devises_parametres = gtk_clist_new_with_titles ( 3, titres_devise );
@@ -1574,7 +1573,7 @@ GtkWidget *onglet_devises ( void )
 
 
   /* Input form for currencies */
-  paddingbox = paddingbox_new_with_title (vbox_pref, 
+  paddingbox = paddingbox_new_with_title (vbox_pref, FALSE,
 					  _("Currency properties"));
 
   /* Selecting a currency activates this form */

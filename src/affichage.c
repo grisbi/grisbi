@@ -92,7 +92,7 @@ onglet_display_transaction_form ( void )
 					     "form.png" );
 
   /* What to do if RETURN is pressed into transaction form */
-  paddingbox = paddingbox_new_with_title (vbox_pref, 
+  paddingbox = paddingbox_new_with_title (vbox_pref, FALSE,
 					  _("Pressing RETURN in transaction form"));
   bouton_entree_enregistre = 
     gtk_radio_button_new_with_label ( NULL,
@@ -128,8 +128,8 @@ onglet_display_transaction_form ( void )
 
 
   /* Displayed fields */
-  paddingbox = paddingbox_new_with_title 
-    (vbox_pref, COLON(_("Displayed fields")));
+  paddingbox = paddingbox_new_with_title (vbox_pref, FALSE, 
+					  COLON(_("Displayed fields")));
   
   table = gtk_table_new ( 0, 2, TRUE );
   gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
@@ -194,8 +194,8 @@ onglet_display_transaction_form ( void )
 		     0, 0 );
 
   /* How to display financial year */
-  paddingbox = paddingbox_new_with_title 
-    (vbox_pref, COLON(_("By default, use financial year:")));
+  paddingbox = paddingbox_new_with_title (vbox_pref, FALSE,
+					  COLON(_("By default, use financial year:")));
   
   bouton_affichage_auto_exercice = gtk_radio_button_new_with_label ( NULL,
 								     _("according to transaction date") );
@@ -245,7 +245,7 @@ GtkWidget * onglet_display_fonts ( void )
 
 
   /* Change Grisbi Logo */
-  paddingbox = paddingbox_new_with_title ( vbox_pref,
+  paddingbox = paddingbox_new_with_title ( vbox_pref, FALSE,
 					   _("Grisbi logo") );
 
   hbox = gtk_hbox_new ( FALSE, 5 );
@@ -280,8 +280,8 @@ GtkWidget * onglet_display_fonts ( void )
 
 
   /* Change fonts */
-  paddingbox = paddingbox_new_with_title ( vbox_pref ,
-					    _("Fonts") );
+  paddingbox = paddingbox_new_with_title ( vbox_pref, FALSE,
+					   _("Fonts") );
 
   /* Create table */
   table = gtk_table_new ( 2, 2, FALSE );

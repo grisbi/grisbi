@@ -429,8 +429,8 @@ GtkWidget *onglet_messages_and_warnings ( void )
 
 
    /* Warnings */
-   paddingbox = paddingbox_new_with_title (vbox, 
-					   _("Warnings messages"));
+  paddingbox = paddingbox_new_with_title (vbox, FALSE,
+					  _("Warnings messages"));
 
    /* Affichage ou non d'un message d'alerte quand passage sous les
       soldes minis */
@@ -533,7 +533,7 @@ GtkWidget *onglet_fichier ( void )
 					     "files.png" );
 
   /* Account file handling */
-  paddingbox = paddingbox_new_with_title (vbox_pref, 
+  paddingbox = paddingbox_new_with_title (vbox_pref, FALSE,
 					  _("Account files handling"));
 
   /* Automatically load last file on startup? */
@@ -611,7 +611,7 @@ GtkWidget *onglet_fichier ( void )
   gtk_widget_show ( spin_button_compression_fichier );
 
   /* Backups */
-  paddingbox = paddingbox_new_with_title (vbox_pref, 
+  paddingbox = paddingbox_new_with_title (vbox_pref, FALSE,
 					  _("Backups"));
 
   /* Automatic backup ? */
@@ -2212,7 +2212,7 @@ gint verifie_affichage_applet ( void )
 /* **************************************************************************************************************************** */
 
 GtkWidget *
-paddingbox_new_with_title (GtkWidget * parent, gchar * title)
+paddingbox_new_with_title (GtkWidget * parent, gboolean fill, gchar * title)
 {
   GtkWidget * hbox, *paddingbox, *label;
 
@@ -2224,12 +2224,12 @@ paddingbox_new_with_title (GtkWidget * parent, gchar * title)
 				      "</span>",
 				      NULL ) );
   gtk_box_pack_start ( GTK_BOX ( parent ), label,
-		       FALSE, TRUE, 0);
+		       FALSE, FALSE, 0);
   gtk_widget_show ( label );
 
   hbox = gtk_hbox_new ( FALSE, 0 );
   gtk_box_pack_start ( GTK_BOX ( parent ), hbox,
-		       FALSE, FALSE, 0);
+		       fill, fill, 0);
 
   /* Some padding.  ugly but the HiG advises it this way ;-) */
   label = gtk_label_new ( "    " );

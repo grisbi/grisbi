@@ -353,7 +353,7 @@ void calcule_total_pointe_compte ( gint no_compte );
 
 void preferences ( GtkWidget *widget,
 		   gint page_demandee );
-GtkWidget * paddingbox_new_with_title (GtkWidget * parent, gchar * title);
+GtkWidget * paddingbox_new_with_title (GtkWidget * parent, gboolean fill, gchar * title);
 GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
 					  gchar * image_filename);
 GtkWidget *onglet_messages_and_warnings ( void );
