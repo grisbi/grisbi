@@ -445,13 +445,13 @@ void update_liste_comptes_accueil ( void )
     gint nb_comptes_bancaires=0, nb_comptes_passif=0, nb_comptes_actif=0;
 
 
-    if ( DEBUG )
-	printf ( "update_liste_comptes_accueil\n" );
-
     if ( !mise_a_jour_liste_comptes_accueil
 	 ||
 	 !nb_comptes )
 	return;
+
+    if ( DEBUG )
+	printf ( "update_liste_comptes_accueil\n" );
 
     mise_a_jour_liste_comptes_accueil = 0;
 
@@ -510,7 +510,7 @@ void update_liste_comptes_accueil ( void )
     /* Préparation de la séparation de l'affichage des comptes en fonction
        de leur type */
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+    p_tab_nom_de_compte_variable=p_tab_nom_de_compte;
 
     for ( i = 0 ; i < nb_comptes ; i++ )
     {
@@ -541,7 +541,7 @@ void update_liste_comptes_accueil ( void )
     {
 	int devise_is_used = 0;
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+	p_tab_nom_de_compte_variable=p_tab_nom_de_compte;
 
 	for ( i = 0 ; i < nb_comptes ; i++ )
 	{
@@ -585,7 +585,7 @@ void update_liste_comptes_accueil ( void )
 	/* créer toutes les colonnes et les remplir            */
 	do
 	{
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable->data );
+	    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable->data );
 
 	    if ( !COMPTE_CLOTURE &&
 		 DEVISE == ((struct struct_devise *) devise -> data) -> no_devise
@@ -629,43 +629,6 @@ void update_liste_comptes_accueil ( void )
 		gtk_widget_show ( pEventBox );
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 		gtk_widget_show ( pLabel );
-
-		/* Calcul du solde pointé : je ne sais plus pourquoi on fait
-		   ce calcul, sans doute le solde pointé n'est-il pas disponible
-		   en tant que variable globale */
-		solde_pointe_affichage_liste = SOLDE_INIT;
-
-		/* on commence la boucle : fait le tour de toutes les opérations */
-		/* met à jour les solde_courant_affichage_liste et solde_pointe_affichage_liste */
-		/* affiche l'opération à l'écran en fonction de l'affichage de R */
-		liste_operations_tmp = LISTE_OPERATIONS;
-
-		while ( liste_operations_tmp )
-		{
-		    struct structure_operation *operation;
-
-		    operation = liste_operations_tmp -> data;
-
-		    /* si c'est une opé de ventilation, on la saute */
-		    if ( !operation -> no_operation_ventilee_associee )
-		    {
-			/* quelle que soit l'opération (relevée ou non), on calcule les soldes courant */
-			montant = calcule_montant_devise_renvoi ( operation -> montant,
-								  DEVISE,
-								  operation -> devise,
-								  operation -> une_devise_compte_egale_x_devise_ope,
-								  operation -> taux_change,
-								  operation -> frais_change );
-
-			/* si l'opé est pointée ou relevée, on ajoute ce montant au solde pointé */
-			if ( operation -> pointe )
-			    solde_pointe_affichage_liste = solde_pointe_affichage_liste + montant;
-		    }
-		    liste_operations_tmp = liste_operations_tmp -> next;
-		}
-
-		/* on enregistre le solde final */
-		SOLDE_POINTE = solde_pointe_affichage_liste;
 
 		/* Troisième colonne : elle contient le solde pointé du compte */
 		pLabel = gtk_label_new ( g_strdup_printf ( "%4.2f", SOLDE_POINTE ));
@@ -864,7 +827,7 @@ void update_liste_comptes_accueil ( void )
     {
 	int devise_is_used = 0;
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+	p_tab_nom_de_compte_variable=p_tab_nom_de_compte;
 
 	for ( i = 0 ; i < nb_comptes ; i++ )
 	{
@@ -907,7 +870,7 @@ void update_liste_comptes_accueil ( void )
 	/* créer toutes les colonnes et les remplir            */
 	do
 	{
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable->data );
+	    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable->data );
 
 	    if ( !COMPTE_CLOTURE &&
 		 DEVISE == ((struct struct_devise *) devise -> data) -> no_devise &&
@@ -1185,7 +1148,7 @@ void update_liste_comptes_accueil ( void )
     {
 	int devise_is_used = 0;
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+	p_tab_nom_de_compte_variable=p_tab_nom_de_compte;
 
 	for ( i = 0 ; i < nb_comptes ; i++ )
 	{
@@ -1228,7 +1191,7 @@ void update_liste_comptes_accueil ( void )
 	/* créer toutes les colonnes et les remplir            */
 	do
 	{
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable->data );
+	    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable->data );
 
 	    if ( !COMPTE_CLOTURE &&
 		 DEVISE == ((struct struct_devise *) devise -> data) -> no_devise &&
@@ -1534,11 +1497,11 @@ gint classement_date_echeance ( struct operation_echeance * a,
 /* ************************************************************************* */
 void update_liste_echeances_manuelles_accueil ( void )
 {
-    if ( DEBUG )
-	printf ( "update_liste_echeances_manuelles_accueil\n" );
-
     if ( !mise_a_jour_liste_echeances_manuelles_accueil )
 	return;
+
+    if ( DEBUG )
+	printf ( "update_liste_echeances_manuelles_accueil\n" );
 
     mise_a_jour_liste_echeances_manuelles_accueil = 0;
 
@@ -1628,7 +1591,7 @@ void update_liste_echeances_manuelles_accueil ( void )
 
 	    /* label à droite */
 
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + ECHEANCE_COURANTE->compte;
+	    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + ECHEANCE_COURANTE->compte;
 
 	    if ( ECHEANCE_COURANTE -> montant >= 0 )
 		label = gtk_label_new ( g_strdup_printf (_("%4.2f %s credit on %s"),
@@ -1666,11 +1629,11 @@ void update_liste_echeances_manuelles_accueil ( void )
 /* ************************************************************************* */
 void update_liste_echeances_auto_accueil ( void )
 {
-    if ( DEBUG )
-	printf ( "update_liste_echeances_auto_accueil\n" );
-
     if ( ! mise_a_jour_liste_echeances_auto_accueil )
 	return;
+
+    if ( DEBUG )
+	printf ( "update_liste_echeances_auto_accueil\n" );
 
     mise_a_jour_liste_echeances_auto_accueil = 0;
 
@@ -1740,7 +1703,7 @@ void update_liste_echeances_auto_accueil ( void )
 
 	    /* label à droite */
 
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation->no_compte;
+	    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + operation->no_compte;
 
 	    if ( operation -> montant >= 0 )
 		label = gtk_label_new ( g_strdup_printf (_("%4.2f %s credit on %s"),
@@ -1779,14 +1742,24 @@ void update_soldes_minimaux ( void )
     GtkWidget *vbox_2;
     GtkWidget *label;
     gint i;
+    GSList *liste_autorise;
+    GSList *liste_voulu;
+    GSList *liste_autorise_et_voulu;
+    GSList *liste_tmp;
+    gchar *texte_affiche;
 
-    if ( DEBUG )
-	printf ( "update_soldes_minimaux\n" );
 
     if ( !mise_a_jour_soldes_minimaux  )
 	return;
 
+    if ( DEBUG )
+	printf ( "update_soldes_minimaux\n" );
+
     mise_a_jour_soldes_minimaux = 0;
+
+    liste_autorise = NULL;
+    liste_voulu = NULL;
+    liste_autorise_et_voulu = NULL;
 
     /* s'il y avait déjà un fils dans la frame, le détruit */
 
@@ -1807,7 +1780,7 @@ void update_soldes_minimaux ( void )
 	gint solde_mini;
 	gint solde_mini_voulu;
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+	p_tab_nom_de_compte_variable=p_tab_nom_de_compte + i;
 
 	/* le plus simple est de faire les comparaisons de soldes sur des integer */
 
@@ -1834,14 +1807,14 @@ void update_soldes_minimaux ( void )
 	    {
 		if ( solde_courant  - solde_mini_voulu <= 0.01 )
 		{
-		    dialogue_conditional ( g_strdup_printf (_("balance of account %s is under wanted and authorised minima!"), 
-							    NOM_DU_COMPTE ), &(etat.display_message_minimum_alert));
+		    liste_autorise_et_voulu = g_slist_append ( liste_autorise_et_voulu,
+							       NOM_DU_COMPTE );
 		    MESSAGE_SOUS_MINI_VOULU = 1;
 		}
 		else
 		{
-		    dialogue_conditional ( g_strdup_printf (_("balance of account %s is under authorised minimum!"),
-							    NOM_DU_COMPTE ), &(etat.display_message_minimum_alert));
+		    liste_autorise = g_slist_append ( liste_autorise,
+						      NOM_DU_COMPTE );
 		}
 		MESSAGE_SOUS_MINI = 1;
 	    }
@@ -1868,14 +1841,14 @@ void update_soldes_minimaux ( void )
 	    {
 		if ( solde_courant - solde_mini <= 0.01 )
 		{
-		    dialogue_conditional ( g_strdup_printf ( _("balance of account %s is under wanted and authorised minima!"),
-							     NOM_DU_COMPTE), &(etat.display_message_minimum_alert) );
+		    liste_autorise_et_voulu = g_slist_append ( liste_autorise_et_voulu,
+							       NOM_DU_COMPTE );
 		    MESSAGE_SOUS_MINI = 1;
 		}
 		else
 		{
-		    dialogue_conditional ( g_strdup_printf ( _("balance of account %s is under wanted minimum!"),
-							     NOM_DU_COMPTE ), &(etat.display_message_minimum_alert));
+		    liste_voulu = g_slist_append ( liste_voulu,
+						   NOM_DU_COMPTE );
 		}
 		MESSAGE_SOUS_MINI_VOULU = 1;
 	    }
@@ -1888,6 +1861,93 @@ void update_soldes_minimaux ( void )
 	if ( solde_courant - solde_mini_voulu >= 0.01)
 	    MESSAGE_SOUS_MINI_VOULU = 0;
     }
+
+    /*     on crée le texte récapilutatif */
+
+    texte_affiche = "";
+    
+    if ( liste_autorise_et_voulu )
+    {
+	if ( g_slist_length ( liste_autorise_et_voulu ) == 1 )
+	    texte_affiche = g_strdup_printf ( _("balance of account %s is under wanted and authorised minima!"),
+					      (gchar *) liste_autorise_et_voulu -> data );
+	else
+	{
+	    texte_affiche = _("accounts with the balance under wanted and authorised minimal :\n\n");
+	    liste_tmp = liste_autorise_et_voulu;
+	    while ( liste_tmp )
+	    {
+		texte_affiche = g_strconcat ( texte_affiche,
+					      liste_tmp -> data,
+					      "\n",
+					      NULL );
+		liste_tmp = liste_tmp -> next;
+	    }
+	}
+    }
+
+    if ( liste_autorise )
+    {
+	if ( strlen (texte_affiche))
+	    texte_affiche = g_strconcat ( texte_affiche,
+					  "\n\n",
+					  NULL );
+	
+	if ( g_slist_length ( liste_autorise ) == 1 )
+	    texte_affiche = g_strconcat ( texte_affiche,
+					  g_strdup_printf ( _("balance of account %s is under authorised minimum!"),
+							    (gchar *) liste_autorise -> data ),
+					  NULL );
+	else
+	{
+	    texte_affiche = g_strconcat ( texte_affiche,
+					  _("accounts with the balance under authorised minimal :\n\n"),
+					  NULL );
+	    liste_tmp = liste_autorise;
+	    while ( liste_tmp )
+	    {
+		texte_affiche = g_strconcat ( texte_affiche,
+					      liste_tmp -> data,
+					      "\n",
+					      NULL );
+		liste_tmp = liste_tmp -> next;
+	    }
+	}
+    }
+
+    if ( liste_voulu )
+    {
+	if ( strlen (texte_affiche))
+	    texte_affiche = g_strconcat ( texte_affiche,
+					  "\n\n",
+					  NULL );
+	
+	if ( g_slist_length ( liste_voulu ) == 1 )
+	    texte_affiche = g_strconcat ( texte_affiche,
+					  g_strdup_printf ( _("balance of account %s is under wanted minimum!"),
+							    (gchar *) liste_voulu -> data ),
+					  NULL );
+	else
+	{
+	    texte_affiche = g_strconcat ( texte_affiche,
+					  _("accounts with the balance under wanted minimal :\n\n"),
+					  NULL );
+	    liste_tmp = liste_voulu;
+	    while ( liste_tmp )
+	    {
+		texte_affiche = g_strconcat ( texte_affiche,
+					      liste_tmp -> data,
+					      "\n",
+					      NULL );
+		liste_tmp = liste_tmp -> next;
+	    }
+	}
+    }
+
+    if ( strlen ( texte_affiche ))
+	dialogue_conditional ( texte_affiche,
+			       &(etat.display_message_minimum_alert));
+
     mise_a_jour_liste_comptes_accueil = 1;
 }
 /* ************************************************************************* */
@@ -1902,18 +1962,18 @@ void update_fin_comptes_passifs ( void )
     GSList *liste_tmp;
     GSList *pointeur;
 
-    if ( DEBUG )
-	printf ( "update_fin_comptes_passifs\n" );
-
     if ( !mise_a_jour_fin_comptes_passifs  )
 	return;
+
+    if ( DEBUG )
+	printf ( "update_fin_comptes_passifs\n" );
 
     mise_a_jour_fin_comptes_passifs = 0;
 
     gtk_notebook_remove_page ( GTK_NOTEBOOK(frame_etat_fin_compte_passif), 0 );
     hide_paddingbox ( frame_etat_fin_compte_passif );
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+    p_tab_nom_de_compte_variable=p_tab_nom_de_compte;
     liste_tmp = NULL;
 
     for ( i = 0 ; i < nb_comptes ; i++ )

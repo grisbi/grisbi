@@ -35,6 +35,8 @@
 #include "exercice.h"
 #include "search_glist.h"
 #include "type_operations.h"
+#include "utils.h"
+
 
 
 
@@ -189,7 +191,7 @@ gint classement_sliste_par_date ( struct structure_operation *operation_1,
 	    retour = g_date_compare ( operation_1 -> date, operation_2 -> date );
     }
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
     if ( CLASSEMENT_CROISSANT )
 	retour = retour;
     else
@@ -214,7 +216,7 @@ gint classement_sliste_par_no ( struct structure_operation *operation_1,
 
     retour = operation_1 -> no_operation - operation_2 -> no_operation;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
     if ( CLASSEMENT_CROISSANT )
 	retour = retour;
     else
@@ -237,7 +239,7 @@ gint classement_sliste_par_pointage ( struct structure_operation *operation_1,
 
     retour = operation_2 -> pointe - operation_1 -> pointe;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
     if ( CLASSEMENT_CROISSANT )
 	retour = retour;
     else
@@ -288,7 +290,7 @@ gint classement_sliste_par_debit ( struct structure_operation *operation_1,
 	retour = montant_1 - montant_2;
     }
 
-     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
     if ( CLASSEMENT_CROISSANT )
 	retour = retour;
     else
@@ -340,7 +342,7 @@ gint classement_sliste_par_credit ( struct structure_operation *operation_1,
 	retour = montant_1 - montant_2;
     }
 
-     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
     if ( CLASSEMENT_CROISSANT )
 	retour = retour;
     else
@@ -394,7 +396,7 @@ gint classement_sliste_par_montant ( struct structure_operation *operation_1,
 	retour = fabs (montant_1) - fabs(montant_2);
     }
 
-     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
     if ( CLASSEMENT_CROISSANT )
 	retour = retour;
     else
@@ -439,7 +441,7 @@ gint classement_sliste_par_devise ( struct structure_operation *operation_1,
 	    retour = 0;
     }
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
     if ( CLASSEMENT_CROISSANT )
 	retour = retour;
     else
@@ -484,7 +486,7 @@ gint classement_sliste_par_tiers ( struct structure_operation *operation_1,
 	    retour = 0;
     }
 
-     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
     if ( CLASSEMENT_CROISSANT )
 	retour = retour;
     else
@@ -568,7 +570,7 @@ gint classement_sliste_par_categories ( struct structure_operation *operation_1,
 	}
     }
 	    
-     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
     if ( CLASSEMENT_CROISSANT )
 	retour = retour;
     else
@@ -615,7 +617,7 @@ gint classement_sliste_par_imputation ( struct structure_operation *operation_1,
 	    retour = 0;
     }
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
     if ( CLASSEMENT_CROISSANT )
 	retour = retour;
     else
@@ -657,7 +659,7 @@ gint classement_sliste_par_notes ( struct structure_operation *operation_1,
 	    retour = 0;
     }
     
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
     if ( CLASSEMENT_CROISSANT )
 	retour = retour;
     else
@@ -686,7 +688,7 @@ gint classement_sliste_par_auto_man ( struct structure_operation *operation_1,
 
     retour = operation_2 ->  auto_man - operation_1 -> auto_man;
 
-     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
     if ( CLASSEMENT_CROISSANT )
 	retour = retour;
     else
@@ -731,7 +733,7 @@ gint classement_sliste_par_no_rapprochement ( struct structure_operation *operat
 	    retour = 0;
     }
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
     if ( CLASSEMENT_CROISSANT )
 	retour = retour;
     else
@@ -798,7 +800,7 @@ gint classement_sliste_par_exercice ( struct structure_operation *operation_1,
 	}
     }
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
     if ( CLASSEMENT_CROISSANT )
 	retour = retour;
     else
@@ -840,7 +842,7 @@ gint classement_sliste_par_pc ( struct structure_operation *operation_1,
 	    retour = 0;
     }
     
-   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
     if ( CLASSEMENT_CROISSANT )
 	retour = retour;
     else
@@ -883,7 +885,7 @@ gint classement_sliste_par_ibg ( struct structure_operation *operation_1,
     }
     
 
-   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
     if ( CLASSEMENT_CROISSANT )
 	retour = retour;
     else
@@ -947,7 +949,7 @@ gint classement_sliste_par_type_ope ( struct structure_operation *operation_1,
 	    retour = 0;
     }
 
-   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
     if ( CLASSEMENT_CROISSANT )
 	retour = retour;
     else

@@ -272,9 +272,9 @@ gboolean format_date ( GtkWidget *entree )
 	if ( tab_date[2] && tab_date[1] )
 	{
 	    /* on a rentré les 3 chiffres de la date */
-	    jour = gsb_strtod ( tab_date[0],  NULL );
-	    mois = gsb_strtod ( tab_date[1], NULL );
-	    annee = gsb_strtod ( tab_date[2], NULL );
+	    jour = my_atoi ( tab_date[0] );
+	    mois = my_atoi ( tab_date[1] );
+	    annee = my_atoi ( tab_date[2] );
 
 	    if ( annee < 100 )
 	    {
@@ -290,8 +290,8 @@ gboolean format_date ( GtkWidget *entree )
 	    {
 		/* on a rentré la date sous la forme xx/xx,
 		   il suffit de mettre l'année courante */
-		jour = gsb_strtod ( tab_date[0], NULL );
-		mois = gsb_strtod ( tab_date[1], NULL );
+		jour = my_atoi ( tab_date[0] );
+		mois = my_atoi ( tab_date[1] );
 		annee = g_date_year ( date );
 	    }
 	    else
@@ -307,7 +307,7 @@ gboolean format_date ( GtkWidget *entree )
 		    /* forme jj ou j */
 		    case 1:
 		    case 2:
-			jour = gsb_strtod ( tab_date[0], NULL );
+			jour = my_atoi ( tab_date[0] );
 			mois = g_date_month ( date );
 			annee = g_date_year ( date );
 			break;
@@ -319,8 +319,8 @@ gboolean format_date ( GtkWidget *entree )
 			buffer[1] = tab_date[0][1];
 			buffer[2] = 0;
 
-			jour = gsb_strtod ( buffer, NULL );
-			mois = gsb_strtod ( tab_date[0] + 2, NULL );
+			jour = my_atoi ( buffer );
+			mois = my_atoi ( tab_date[0] + 2 );
 			annee = g_date_year ( date );
 			break;
 
@@ -331,12 +331,12 @@ gboolean format_date ( GtkWidget *entree )
 			buffer[1] = tab_date[0][1];
 			buffer[2] = 0;
 
-			jour = gsb_strtod ( buffer, NULL );
+			jour = my_atoi ( buffer );
 			buffer[0] = tab_date[0][2];
 			buffer[1] = tab_date[0][3];
 
-			mois = gsb_strtod ( buffer, NULL );
-			annee = gsb_strtod ( tab_date[0] + 4, NULL ) + 2000;
+			mois = my_atoi ( buffer );
+			annee = my_atoi ( tab_date[0] + 4 ) + 2000;
 			break;
 
 			/* forme jjmmaaaa */
@@ -346,12 +346,12 @@ gboolean format_date ( GtkWidget *entree )
 			buffer[1] = tab_date[0][1];
 			buffer[2] = 0;
 
-			jour = gsb_strtod ( buffer, NULL );
+			jour = my_atoi ( buffer );
 			buffer[0] = tab_date[0][2];
 			buffer[1] = tab_date[0][3];
 
-			mois = gsb_strtod ( buffer, NULL );
-			annee = gsb_strtod ( tab_date[0] + 4, NULL );
+			mois = my_atoi ( buffer );
+			annee = my_atoi ( tab_date[0] + 4 );
 			break;
 
 		    default :
@@ -373,93 +373,6 @@ gboolean format_date ( GtkWidget *entree )
 }
 /******************************************************************************/
 
-
-/******************************************************************************/
-/* Fonction gsb_strtod (string to decimal)                                    */
-/* Convertie une chaine de caractères en un nombre                            */
-/* Paramètres d'entrée :                                                      */
-/*   - nptr : pointeur sur la chaine de caractères à convertir                */
-/*   - endptr : n'est pas utilisé, alors à quoi peut-il bien servir ?         */
-/* Valeur de retour :                                                         */
-/*   - resultat : le résultat de la conversion                                */
-/* Variables locales :                                                        */
-/*   - entier : la partie entière du résultat                                 */
-/*   - mantisse : la partie décimale du résultat                              */
-/*   - invert : le signe du résultat (0 -> positif, 1 -> négatif)             */
-/*   - p, m : pointeurs locaux sur la chaine de caractères à convertir        */
-/******************************************************************************/
-double gsb_strtod ( char *nptr, char **endptr )
-{
-    double entier=0, mantisse=0, resultat=0;
-    int invert = 0;
-    char *p;
-
-    if (!nptr)
-	return 0;
-
-    /* Pour chacun des caractères de la chaine, du début à la fin de la chaine,
-faire : */
-    for ( p = nptr; p < nptr + strlen(nptr); p++ )
-    {
-	/* si c'est un espace ou le signe +, on passe au caractère suivant */
-	if ( isspace(*p) || *p == '+' )
-	    continue;
-
-	/* si c'est le signe -, on positionne invert à 1 et on passe
-	   au caractère suivant */
-	if ( *p == '-' )
-	{
-	    invert = 1;
-	    continue;
-	}
-
-	/* si c'est un point ou une virgule, alors : */
-	if ( *p == ',' || *p == '.' )
-	{
-	    char *m;
-	    /* aller à la fin de la chaine */
-	    for ( m = p+1; m <= nptr+strlen(nptr) &&
-		  (isdigit(*m) || isspace(*m)); m++)
-		/* de la fin de la chaine au dernier caractère avant le point
-		   ou la virgule, faire : */
-		for ( --m; m > p; m-- )
-		{
-		    /* si c'est un chiffre, alors : */
-		    if (isdigit(*m))
-		    {
-			/* "décalage" à droite de la variable mantisse */
-			mantisse /= 10;
-			/* ajout à la variable mantisse de la valeur décimale
-			   du caractère pointé par m */
-			mantisse += (*m - '0');
-		    }
-		}
-	    /* "décalage" à droite de la variable mantisse */
-	    mantisse /= 10;
-	}
-
-	/* si c'est un chiffre, alors : */
-	if ( isdigit(*p) )
-	{
-	    /* "décalage" à gauche de la variable entier */
-	    entier = entier * 10;
-	    /* ajout à la variable entier de la valeur décimale
-	       du caractère pointé par p */
-	    entier += (*p - '0');
-	}
-	else
-	{
-	    break;
-	}
-    }
-
-    resultat = entier + mantisse;
-    if ( invert )
-	resultat = - resultat;
-
-    return resultat;
-}
-/******************************************************************************/
 
 
 
@@ -545,6 +458,20 @@ gint my_atoi ( gchar *chaine )
 
 
 
+/******************************************************************************/
+/* Fonction my_strtod (string to decimal)                                    */
+/* Convertie une chaine de caractères en un nombre                            */
+/* Paramètres d'entrée :                                                      */
+/*   - nptr : pointeur sur la chaine de caractères à convertir                */
+/*   - endptr : n'est pas utilisé, alors à quoi peut-il bien servir ?         */
+/* Valeur de retour :                                                         */
+/*   - resultat : le résultat de la conversion                                */
+/* Variables locales :                                                        */
+/*   - entier : la partie entière du résultat                                 */
+/*   - mantisse : la partie décimale du résultat                              */
+/*   - invert : le signe du résultat (0 -> positif, 1 -> négatif)             */
+/*   - p, m : pointeurs locaux sur la chaine de caractères à convertir        */
+/******************************************************************************/
 double my_strtod ( char *nptr, char **endptr )
 {
     double entier=0, mantisse=0, resultat=0;
@@ -1815,4 +1742,68 @@ gint my_strncasecmp ( gchar *chaine_1,
     return 0;
 }
 /* ******************************************************************************* */
+
+
+
+
+/* ******************************************************************************* */
+/* fonction qui vérifie la validité de la variable p_tab_nom_de_compte_variable */
+/* si elle n'est pas valide, la place sur le compte courant, et si pas encore nécessaire, */
+/*     la place sur le 1er compte. dans ce cas, si nb_comptes = 0 on met un message  */
+/* comme quoi ça va sûrement crasher derrière */
+/*     si p_tab_nom_de_compte_variable n'est pas valide, affiche un message d'erreur */
+/* return le p_tab_nom_de_compte_variable ou NULL si pas de comptes */
+/* ******************************************************************************* */
+
+gpointer **verification_p_tab ( gchar *fonction_appelante )
+{
+    gchar *message=NULL;
+
+    if ( !fonction_appelante )
+	fonction_appelante = _("I don't know !!!");
+
+    if ( !nb_comptes )
+    {
+	dialogue_error_hint ( _("There is no account in memory ! But if you see that error, it should...\nPlease send a bug report to the grisbi team, this is a very big bug !\nGrisbi will probably crash after that message..."),
+			      _("No account in memory"));
+	return NULL;
+    }
+
+    if ( p_tab_nom_de_compte_variable > (p_tab_nom_de_compte + nb_comptes )
+	 ||
+	 p_tab_nom_de_compte_variable < p_tab_nom_de_compte )
+    {
+	/* 	p_tab était mal placée */
+
+	message = _( "Warning : the variable p_tab_nom_de_compte_variable is abnormal.");
+
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+
+	if ( p_tab_nom_de_compte_variable > (p_tab_nom_de_compte + nb_comptes )
+	     ||
+	     p_tab_nom_de_compte_variable < p_tab_nom_de_compte )
+	{
+	    /* 	    cette fois le compte_courant aussi c'est n'importe quoi... */
+
+	    message = g_strconcat ( message,
+				    "\nAnd so the variable compte_courant...\nThis is a bug, please contact the grisbi team to fix it.\nWhat you wanted to do will be done on the first account, so normally you can correct it.\nThe problem comes from the function :\n",
+				    fonction_appelante,
+				    NULL );
+
+	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+	}
+	else
+	{
+	    /* 	    bon, au moins compte_courant est valide... */
+	     
+		    message = g_strconcat ( message,
+				    "\nThis is a bug, please contact the grisbi team to fix it.\nWhat you wanted to do will be done on the current account, so normally you can correct it.\nThe problem comes from the function :\n",
+				    fonction_appelante,
+				    NULL );
+	}
+    }
+    return (p_tab_nom_de_compte_variable);
+}
+/* ******************************************************************************* */
+
 

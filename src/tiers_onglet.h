@@ -24,7 +24,7 @@ void creation_liste_tiers_combofix ( void );
 gboolean changement_taille_liste_tiers ( GtkWidget *clist,
 					 GtkAllocation *allocation,
 					 gpointer null );
-void mise_a_jour_tiers ( void );
+void mise_a_jour_combofix_tiers ( void );
 gfloat *calcule_total_montant_tiers ( void );
 gchar *calcule_total_montant_tiers_par_compte ( gint no_tiers,
 					       gint no_compte );

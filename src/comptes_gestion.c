@@ -55,6 +55,7 @@ extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern gint mise_a_jour_fin_comptes_passifs;
+extern gint mise_a_jour_combofix_categ_necessaire;
 
 
 
@@ -1052,7 +1053,8 @@ void modification_details_compte ( void )
     if ( COMPTE_CLOTURE != gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( detail_compte_cloture )))
     {
 	COMPTE_CLOTURE = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( detail_compte_cloture ));
-	mise_a_jour_categ();
+	if ( mise_a_jour_combofix_categ_necessaire )
+	    mise_a_jour_combofix_categ();
 	reaffiche_liste_comptes ();
 	mise_a_jour_liste_comptes_accueil = 1;
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
@@ -1151,7 +1153,8 @@ void modification_details_compte ( void )
 	mise_a_jour_liste_echeances_manuelles_accueil = 1;
 	mise_a_jour_soldes_minimaux = 1;
 	mise_a_jour_fin_comptes_passifs = 1;
-	mise_a_jour_categ();
+	if ( mise_a_jour_combofix_categ_necessaire )
+	    mise_a_jour_combofix_categ();
 
 	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] ),
 				   creation_option_menu_comptes(GTK_SIGNAL_FUNC(changement_choix_compte_echeancier), TRUE) );

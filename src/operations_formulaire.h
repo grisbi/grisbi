@@ -9,9 +9,10 @@ void ferme_calendrier ( GtkWidget *popup );
 void  touche_calendrier ( GtkWidget *popup, GdkEventKey *ev, gpointer null );
 gboolean date_selectionnee ( GtkCalendar *calendrier, GtkWidget *entry );
 void  completion_operation_par_tiers ( void );
-void fin_edition ( void );
+gboolean fin_edition ( void );
 void ajout_operation ( struct structure_operation *operation );
 void insere_operation_dans_liste ( struct structure_operation *operation );
+void modifie_operation ( struct structure_operation *operation );
 gint verification_validation_operation ( struct structure_operation *operation );
 void recuperation_donnees_generales_formulaire ( struct structure_operation *operation );
 void validation_virement_operation ( struct structure_operation *operation,
@@ -26,3 +27,4 @@ void click_sur_bouton_voir_change ( void );
 void degrise_formulaire_operations ( void );
 void increment_decrement_champ ( GtkWidget *entry, gint increment );
 gint place_type_choix_type ( GtkWidget *option_menu, gint type );
+

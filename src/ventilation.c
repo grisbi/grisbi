@@ -85,6 +85,9 @@ extern GtkWidget *tree_view_liste_ventilations;
 extern GtkWidget *scrolled_window_liste_ventilations;
 extern gint hauteur_ligne_liste_opes;
 extern GdkGC *gc_separateur_operation;
+extern gint mise_a_jour_combofix_categ_necessaire;
+extern gint mise_a_jour_combofix_imputation_necessaire;
+
 
 /*******************************************************************************************/
 /* Fonction  creation_verification_ventilation*/
@@ -1665,8 +1668,10 @@ void fin_edition_ventilation ( void )
 	selectionne_ligne_ventilation ( cherche_ligne_from_operation_ventilee ( operation ));
 
 
-    mise_a_jour_categ ();
-    mise_a_jour_imputation ();
+    if ( mise_a_jour_combofix_categ_necessaire )
+	mise_a_jour_combofix_categ ();
+    if ( mise_a_jour_combofix_imputation_necessaire )
+	mise_a_jour_combofix_imputation ();
 
     /* efface le formulaire et prépare l'opé suivante */
 
@@ -2844,6 +2849,11 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 			    ope_modifiee -> relation_no_compte = nouvelle_ope_2 -> no_compte;
 			    nouvelle_ope_2 -> relation_no_operation = ope_modifiee ->  no_operation;
 			    nouvelle_ope_2 -> relation_no_compte = ope_modifiee ->  no_compte;
+
+			    /* 		    on réaffiche la contre opération pour faire apparaitre la catég */
+
+			    remplit_ligne_operation ( nouvelle_ope_2,
+						      NULL );
 			}
 		    }
 		}
@@ -3002,6 +3012,10 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 		    nouvelle_ope_2 -> relation_no_operation = nouvelle_ope -> no_operation;
 		    nouvelle_ope_2 -> relation_no_compte = nouvelle_ope -> no_compte;
 
+		    /* 		    on réaffiche la contre opération pour faire apparaitre la catég */
+
+		    remplit_ligne_operation ( nouvelle_ope_2,
+					      NULL );
 		}
 	    }
 	}

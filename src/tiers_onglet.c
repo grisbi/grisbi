@@ -46,6 +46,12 @@
 #include "xpm/book-closed.xpm"
 #include "xpm/book-open.xpm"
 
+
+
+gint mise_a_jour_combofix_tiers_necessaire;
+
+
+
 extern GtkWidget *widget_formulaire_echeancier[19];
 extern GSList *liste_struct_echeances; 
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
@@ -871,9 +877,7 @@ gboolean expand_selected_tiers ( GtkWidget *liste, GdkEventButton *ev, gpointer 
     if ( operation -> pointe == 3 && !AFFICHAGE_R )
 	change_aspect_liste ( 5 );
 
-    /* FIXME : mettre l'opé et l'iter s'il existe */
-    selectionne_ligne ( compte_courant,
-			LIGNE_SELECTIONNEE );
+    selectionne_ligne ( OPERATION_SELECTIONNEE );
 
     return FALSE;
 }
@@ -994,7 +998,8 @@ void clique_sur_modifier_tiers ( GtkWidget *bouton_modifier,
 	remplissage_liste_echeance();
 	mise_a_jour_liste_echeances_manuelles_accueil = 1;
 	mise_a_jour_liste_echeances_auto_accueil = 1;
-	mise_a_jour_tiers ();
+	if ( mise_a_jour_combofix_tiers_necessaire )
+	    mise_a_jour_combofix_tiers ();
 
     }
     else
@@ -1084,6 +1089,7 @@ struct struct_tiers *ajoute_nouveau_tiers ( gchar *tiers )
     liste_struct_tiers = g_slist_append ( liste_struct_tiers,
 					  nouveau_tiers );
     nb_enregistrements_tiers++;
+    mise_a_jour_combofix_tiers_necessaire = 1;
 
     return ( nouveau_tiers );
 }
@@ -1350,7 +1356,8 @@ retour_dialogue:
     nb_enregistrements_tiers--;
 
 
-    mise_a_jour_tiers ();
+    if ( mise_a_jour_combofix_tiers_necessaire )
+	mise_a_jour_combofix_tiers ();
     remplit_arbre_tiers ();
 
     gtk_text_set_editable ( GTK_TEXT ( text_box ),
@@ -1473,14 +1480,14 @@ gboolean changement_taille_liste_tiers ( GtkWidget *clist,
 
 
 /* ***************************************************************************************************** */
-/* Fonction mise_a_jour_tiers */
+/* Fonction mise_a_jour_combofix_tiers */
 /* recrée la liste des combofix et l'applique à tous les combofix du tiers */
 /* ***************************************************************************************************** */
 
-void mise_a_jour_tiers ( void )
+void mise_a_jour_combofix_tiers ( void )
 {
     if ( DEBUG )
-	printf ( "mise_a_jour_tiers\n" );
+	printf ( "mise_a_jour_combofix_tiers\n" );
 
     creation_liste_tiers_combofix ();
 
@@ -1493,12 +1500,15 @@ void mise_a_jour_tiers ( void )
 			    FALSE,
 			    TRUE );
 
+    /* FIXME : ça ne devrait pas se trouver dans cette fonction */
+
     if ( etat_courant )
     {
 	remplissage_liste_tiers_etats ();
 	selectionne_liste_tiers_etat_courant ();
     }
 
+    mise_a_jour_combofix_tiers_necessaire = 0;
     modif_tiers = 1;
 }
 /* ***************************************************************************************************** */
@@ -1671,7 +1681,8 @@ void appui_sur_ajout_tiers ( void )
     gtk_ctree_sort_recursive ( GTK_CTREE ( arbre_tiers ),
 			       NULL );
 
-    mise_a_jour_tiers();
+     if ( mise_a_jour_combofix_tiers_necessaire )
+	 mise_a_jour_combofix_tiers();
     modif_tiers = 0;
     modification_fichier(TRUE);
 }
@@ -1722,7 +1733,6 @@ struct struct_tiers *tiers_par_nom ( gchar *nom_tiers,
 	    struct struct_tiers *tiers;
 
 	    tiers = ajoute_nouveau_tiers ( nom_tiers );
-	    mise_a_jour_tiers();
 	    return ( tiers );
 	}
     }

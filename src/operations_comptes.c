@@ -329,15 +329,7 @@ gboolean changement_compte ( gint *compte)
 
     /* affiche le solde final en bas */
 
-    gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
-			 g_strdup_printf ( PRESPACIFY(_("Checked balance: %4.2f %s")),
-					   SOLDE_POINTE,
-					   devise_name_by_no ( DEVISE )));
-    gtk_label_set_text ( GTK_LABEL ( solde_label ),
-			 g_strdup_printf ( PRESPACIFY(_("Current balance: %4.2f %s")),
-					   SOLDE_COURANT,
-					   devise_name_by_no ( DEVISE )));
-
+    mise_a_jour_labels_soldes ( compte_courant );
 
     /* change le défaut de l'option menu des devises du formulaire */
 
@@ -366,37 +358,6 @@ gboolean changement_compte ( gint *compte)
 
      verification_list_store_termine ( compte_courant );
 
-/*     if ( !STORE_LISTE_OPERATIONS ) */
-/*     { */
-	/* 	on commence par arrêter les appels à l'idle */
-
-/* 	if ( id_fonction_idle ) */
-/* 	{ */
-/* 	    g_source_remove ( id_fonction_idle ); */
-/* 	    id_fonction_idle = 0; */
-/* 	} */
-/* 	remplissage_liste_operations ( compte_courant ); */
-/*     } */
-
-/*     if ( !gtk_tree_view_get_model ( GTK_TREE_VIEW (TREE_VIEW_LISTE_OPERATIONS))) */
-/*     { */
-/* 	if ( id_fonction_idle ) */
-/* 	{ */
-/* 	    g_source_remove ( id_fonction_idle ); */
-/* 	    id_fonction_idle = 0; */
-/* 	} */
-/*  */
-/* 	gtk_tree_view_set_model ( GTK_TREE_VIEW (TREE_VIEW_LISTE_OPERATIONS), */
-/* 				  GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS )); */
-/* 	gtk_widget_realize ( TREE_VIEW_LISTE_OPERATIONS ); */
-/* 	while ( g_main_iteration (FALSE)); */
-
-	/* 	on remet en place l'idle */
-
-/* 	id_fonction_idle = g_idle_add ( (GSourceFunc) utilisation_temps_idle, */
-/* 					NULL ); */
-/* 	 */
-/*     } */
 
     /*     on restore ou initialise la value du tree_view */
     /* 	si VALUE_AJUSTEMENT_LISTE_OPERATIONS = -1, c'est que c'est la première ouverture, on se met tout en bas */

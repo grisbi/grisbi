@@ -1,4 +1,4 @@
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+//*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
 /*			2004 Benjamin Drieu (bdrieu@april.org)		      */
 /* 			http://www.grisbi.org				      */
 

@@ -32,6 +32,8 @@
 #include "ventilation.h"
 #include "operations_onglet.h"
 #include "search_glist.h"
+#include "utils.h"
+
 
 
 GtkWidget *paned_onglet_operations;

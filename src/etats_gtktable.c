@@ -250,11 +250,7 @@ void gtktable_click_sur_ope_etat ( struct structure_operation *operation )
 	if ( operation -> pointe == 3 && !AFFICHAGE_R )
 	    change_aspect_liste ( 5 );
 
-	/*     OPERATION_SELECTIONNEE = operation; */
-
-	/* FIXME : mettre l'opé et l'iter s'il existe */
-	selectionne_ligne ( compte_courant,
-			    LIGNE_SELECTIONNEE );
+	selectionne_ligne ( OPERATION_SELECTIONNEE );
     }
 }
 /*****************************************************************************************************/

@@ -64,8 +64,7 @@ gfloat *tab_montant_imputation;             /* buffer */
 gfloat **tab_montant_sous_imputation;            /* buffer */
 gint *nb_ecritures_par_imputation;           /* buffer */
 gint **nb_ecritures_par_sous_imputation;           /* buffer */
-gint rafraichir_imputation;
-
+gint mise_a_jour_combofix_imputation_necessaire;
 
 
 
@@ -1328,11 +1327,7 @@ gboolean expand_selected_ib (  )
 		remplissage_liste_operations ( compte_courant );
 	    }
 
-	    /* 	OPERATION_SELECTIONNEE = operation; */
-
-	    /* FIXME : mettre l'opé et l'iter s'il existe */
-	    selectionne_ligne ( compte_courant,
-				LIGNE_SELECTIONNEE );
+	    selectionne_ligne ( OPERATION_SELECTIONNEE );
 	}
     }
 
@@ -1473,7 +1468,8 @@ void clique_sur_modifier_imputation ( void )
 
     gtk_clist_unselect_all ( GTK_CLIST ( arbre_imputation ));
 
-    mise_a_jour_imputation ();
+    if ( mise_a_jour_combofix_imputation_necessaire )
+	mise_a_jour_combofix_imputation ();
 
     gtk_widget_set_sensitive ( bouton_modif_imputation_modifier,
 			       FALSE );
@@ -1851,7 +1847,8 @@ retour_dialogue:
 
     enleve_selection_ligne_imputation();
 
-    mise_a_jour_imputation  ();
+    if ( mise_a_jour_combofix_imputation_necessaire )
+	mise_a_jour_combofix_imputation  ();
     remplit_arbre_imputation ();
 
     modification_fichier(TRUE);
@@ -2190,7 +2187,8 @@ retour_dialogue:
 
     enleve_selection_ligne_imputation();
 
-    mise_a_jour_imputation  ();
+    if ( mise_a_jour_combofix_imputation_necessaire )
+	mise_a_jour_combofix_imputation  ();
     remplit_arbre_imputation ();
 
     modification_fichier(TRUE);
@@ -2293,15 +2291,15 @@ void creation_liste_imputation_combofix ( void )
 
 
 /***********************************************************************************************************/
-/* Fonction mise_a_jour_imputation */
+/* Fonction mise_a_jour_combofix_imputation */
 /* recrée les listes de catégories des combofix */
 /* et remet les combofix à jour */
 /***********************************************************************************************************/
 
-void mise_a_jour_imputation ( void )
+void mise_a_jour_combofix_imputation ( void )
 {
     if ( DEBUG )
-	printf ( "mise_a_jour_imputation\n" );
+	printf ( "mise_a_jour_combofix_imputation\n" );
 
     creation_liste_imputation_combofix ();
 
@@ -2320,9 +2318,15 @@ void mise_a_jour_imputation ( void )
 			    TRUE,
 			    TRUE );
 
-    remplissage_liste_ib_etats ();
-    selectionne_devise_ib_etat_courant ();
+    /* FIXME : ça ne devrait pas se trouver dans cette fonction */
 
+    if ( etat_courant )
+    {
+	remplissage_liste_ib_etats ();
+	selectionne_devise_ib_etat_courant ();
+    }
+
+    mise_a_jour_combofix_imputation_necessaire = 0;
     modif_imputation = 1;
 }
 /***********************************************************************************************************/
@@ -2382,7 +2386,8 @@ void fusion_categories_imputation ( void )
 
     /* on met à jour les listes */
 
-    mise_a_jour_imputation ();
+    if ( mise_a_jour_combofix_imputation_necessaire )
+	mise_a_jour_combofix_imputation ();
     remplit_arbre_imputation ();
 
     modification_fichier(TRUE);
@@ -2614,7 +2619,8 @@ void appui_sur_ajout_imputation ( void )
     gtk_ctree_sort_recursive ( GTK_CTREE ( arbre_imputation ),
 			       NULL );
 
-    mise_a_jour_imputation();
+    if ( mise_a_jour_combofix_imputation_necessaire )
+	mise_a_jour_combofix_imputation();
     modif_imputation = 0;
     modification_fichier(TRUE);
 }
@@ -2684,7 +2690,8 @@ void appui_sur_ajout_sous_imputation ( void )
 			       NULL );
 
 
-    mise_a_jour_imputation();
+    if ( mise_a_jour_combofix_imputation_necessaire )
+	mise_a_jour_combofix_imputation();
     modif_imputation = 0;
     modification_fichier(TRUE);
 }
@@ -2902,7 +2909,7 @@ void importer_ib ( void )
 /* renvoie NULL si creer = 0*/
 /* la crée et renvoie son adr avec le type_ib et la derniere sous_ib donnés si creer = 1 */
 /* type_ib = 0=crédit ; 1 = débit  */
-/* si on ajoute une ib, on met rafraichir_ib à 1 */
+/* si on ajoute une ib, on met mise_a_jour_combofix_imputation_necessaire à 1 */
 /* **************************************************************************************************** */
 
 struct struct_imputation *imputation_par_nom ( gchar *nom_ib,
@@ -2939,7 +2946,7 @@ struct struct_imputation *imputation_par_nom ( gchar *nom_ib,
 		liste_struct_imputation = g_slist_append ( liste_struct_imputation,
 							   nouvelle_imputation );
 		nb_enregistrements_imputations++;
-		rafraichir_imputation = 1;
+		mise_a_jour_combofix_imputation_necessaire =1;
 
 		return ( nouvelle_imputation );
 	    }
@@ -2957,7 +2964,7 @@ struct struct_imputation *imputation_par_nom ( gchar *nom_ib,
 /* si pas trouvée : */
 /* la crée et renvoie son adr si creer=1 */
 /* renvoie NULL si creer = 0 */
-/* si on ajoute une imputation, on met rafraichir_imputation à 1 */
+/* si on ajoute une imputation, on met mise_a_jour_combofix_imputation_necessaire à 1 */
 /* **************************************************************************************************** */
 
 struct struct_sous_imputation *sous_imputation_par_nom ( struct struct_imputation *imputation,
@@ -2992,7 +2999,7 @@ struct struct_sous_imputation *sous_imputation_par_nom ( struct struct_imputatio
 		imputation -> liste_sous_imputation = g_slist_append ( imputation -> liste_sous_imputation,
 							     nouvelle_sous_imputation );
 
-		rafraichir_imputation = 1;
+		mise_a_jour_combofix_imputation_necessaire =1;
 		return ( nouvelle_sous_imputation );
 	    }
 	}

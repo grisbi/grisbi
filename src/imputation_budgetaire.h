@@ -15,7 +15,7 @@ void supprimer_imputation ( void );
 void supprimer_sous_imputation ( void );
 void creation_liste_imputations ( void );
 void creation_liste_imputation_combofix ( void );
-void mise_a_jour_imputation ( void );
+void mise_a_jour_combofix_imputation ( void );
 struct struct_imputation *ajoute_nouvelle_imputation ( gchar *imputation );
 struct struct_sous_imputation *ajoute_nouvelle_sous_imputation ( gchar *sous_imputation,
 								 struct struct_imputation *imputation );

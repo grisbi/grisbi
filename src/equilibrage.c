@@ -880,13 +880,7 @@ void pointe_equilibrage ( int p_ligne )
 				   FALSE );
     }
 
-    /* met le label du solde pointé */
-
-    gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
-			 g_strdup_printf ( _("Checked balance: %4.2f %s"),
-					   SOLDE_POINTE,
-					   devise_name_by_no ( DEVISE )));
-
+    mise_a_jour_labels_soldes ( compte_courant );
     modification_fichier( TRUE );
 }
 /******************************************************************************/
@@ -1079,7 +1073,23 @@ void calcule_total_pointe_compte ( gint no_compte )
     gtk_label_set_text ( GTK_LABEL ( label_equilibrage_pointe ),
 			 g_strdup_printf ( "%4.2f", 
 					   operations_pointees ));
-    /* FIXME : mettre à jour les pointé aussi dans l'accueil  */
+
+    if ( fabs ( solde_final - solde_initial - operations_pointees ) < 0.01 )
+    {
+	gtk_label_set_text ( GTK_LABEL ( label_equilibrage_ecart ),
+			     g_strdup_printf ( "%4.2f",
+					       0.0 ));
+	gtk_widget_set_sensitive ( GTK_WIDGET ( bouton_ok_equilibrage ),
+				   TRUE );
+    }
+    else
+    {
+	gtk_label_set_text ( GTK_LABEL ( label_equilibrage_ecart ),
+			     g_strdup_printf ( "%4.2f",
+					       solde_final - solde_initial - operations_pointees ));
+	gtk_widget_set_sensitive ( GTK_WIDGET ( bouton_ok_equilibrage ),
+				   FALSE );
+    }
 }
 /******************************************************************************/
 

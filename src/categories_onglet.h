@@ -15,7 +15,7 @@ void supprimer_sous_categ ( void );
 void creation_liste_categories ( void );
 void merge_liste_categories ( void );
 void creation_liste_categ_combofix ( void );
-void mise_a_jour_categ ( void );
+void mise_a_jour_combofix_categ ( void );
 void calcule_total_montant_categ ( void );
 gchar *calcule_total_montant_categ_par_compte ( gint categ,
 						gint sous_categ,

@@ -163,8 +163,7 @@ gchar *categories_de_base_credit [] = {
 };
 
 
-gint rafraichir_categ;
-
+gint mise_a_jour_combofix_categ_necessaire;
 
 extern GSList *liste_struct_echeances;  
 extern GSList *liste_categories_ventilation_combofix; 
@@ -1394,9 +1393,7 @@ void expand_selected_category ()
 		remplissage_liste_operations ( compte_courant );
 	    }
 
-	    /* FIXME : mettre l'opé et l'iter s'il existe */
-	    selectionne_ligne ( compte_courant,
-				LIGNE_SELECTIONNEE );
+	    selectionne_ligne ( operation );
 	}
     }
 
@@ -1537,7 +1534,8 @@ void clique_sur_modifier_categ ( void )
 
     gtk_clist_unselect_all ( GTK_CLIST ( arbre_categ ));
 
-    mise_a_jour_categ ();
+    if ( mise_a_jour_combofix_categ_necessaire )
+	mise_a_jour_combofix_categ ();
 
     gtk_widget_set_sensitive ( bouton_modif_categ_modifier,
 			       FALSE );
@@ -1941,7 +1939,8 @@ retour_dialogue:
 
     enleve_selection_ligne_categ();
 
-    mise_a_jour_categ  ();
+    if ( mise_a_jour_combofix_categ_necessaire )
+	mise_a_jour_combofix_categ  ();
     remplit_arbre_categ ();
 
     modification_fichier(TRUE);
@@ -2317,7 +2316,8 @@ retour_dialogue:
 
     enleve_selection_ligne_categ();
 
-    mise_a_jour_categ  ();
+    if ( mise_a_jour_combofix_categ_necessaire )
+	mise_a_jour_combofix_categ  ();
 
     remplit_arbre_categ ();
 
@@ -2535,15 +2535,15 @@ void creation_liste_categ_combofix ( void )
 
 
 /***********************************************************************************************************/
-/* Fonction mise_a_jour_categ */
+/* Fonction mise_a_jour_combofix_categ */
 /* recrée les listes de catégories des combofix */
 /* et remet les combofix à jour */
 /***********************************************************************************************************/
 
-void mise_a_jour_categ ( void )
+void mise_a_jour_combofix_categ ( void )
 {
     if ( DEBUG )
-	printf ( "mise_a_jour_categ\n" );
+	printf ( "mise_a_jour_combofix_categ\n" );
 
 
     creation_liste_categ_combofix ();
@@ -2569,9 +2569,15 @@ void mise_a_jour_categ ( void )
 			    TRUE,
 			    TRUE );
 
-    remplissage_liste_categ_etats ();
-    selectionne_liste_categ_etat_courant ();
+    /* FIXME : ça ne devrait pas se trouver dans cette fonction */
 
+    if ( etat_courant )
+    {
+	remplissage_liste_categ_etats ();
+	selectionne_liste_categ_etat_courant ();
+    }
+
+    mise_a_jour_combofix_categ_necessaire = 0;
     modif_categ = 1;
 }
 /***********************************************************************************************************/
@@ -2805,7 +2811,8 @@ void appui_sur_ajout_categorie ( void )
     gtk_ctree_sort_recursive ( GTK_CTREE ( arbre_categ ),
 			       NULL );
 
-    mise_a_jour_categ();
+    if ( mise_a_jour_combofix_categ_necessaire )
+	mise_a_jour_combofix_categ();
     modif_categ = 0;
     modification_fichier(TRUE);
 }
@@ -2876,7 +2883,8 @@ void appui_sur_ajout_sous_categorie ( void )
 			       NULL );
 
 
-    mise_a_jour_categ();
+    if ( mise_a_jour_combofix_categ_necessaire )
+	mise_a_jour_combofix_categ();
     modif_categ = 0;
     modification_fichier(TRUE);
 }
@@ -3098,7 +3106,7 @@ void importer_categ ( void )
 /* renvoie NULL si creer = 0*/
 /* la crée et renvoie son adr avec le type_categ et la derniere sous_categ donnés si creer = 1 */
 /* type_categ = 0=crédit ; 1 = débit ; 2 = spécial */
-/* si on ajoute une categ, on met rafraichir_categ à 1 */
+/* si on ajoute une categ, on met mise_a_jour_combofix_categ_necessaire à 1 */
 /* **************************************************************************************************** */
 
 struct struct_categ *categ_par_nom ( gchar *nom_categ,
@@ -3135,7 +3143,7 @@ struct struct_categ *categ_par_nom ( gchar *nom_categ,
 		liste_struct_categories = g_slist_append ( liste_struct_categories,
 							   nouvelle_categorie );
 		nb_enregistrements_categories++;
-		rafraichir_categ = 1;
+		mise_a_jour_combofix_categ_necessaire = 1;
 
 		return ( nouvelle_categorie );
 	    }
@@ -3153,7 +3161,7 @@ struct struct_categ *categ_par_nom ( gchar *nom_categ,
 /* si pas trouvée : */
 /* la crée et renvoie son adr si creer=1 */
 /* renvoie NULL si creer = 0 */
-/* si on ajoute une categ, on met rafraichir_categ à 1 */
+/* si on ajoute une categ, on met mise_a_jour_combofix_categ_necessaire à 1 */
 /* **************************************************************************************************** */
 
 struct struct_sous_categ *sous_categ_par_nom ( struct struct_categ *categ,
@@ -3188,7 +3196,7 @@ struct struct_sous_categ *sous_categ_par_nom ( struct struct_categ *categ,
 		categ -> liste_sous_categ = g_slist_append ( categ -> liste_sous_categ,
 							     nouvelle_sous_categorie );
 
-		rafraichir_categ = 1;
+		mise_a_jour_combofix_categ_necessaire = 1;
 		return ( nouvelle_sous_categorie );
 	    }
 	}

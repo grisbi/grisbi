@@ -29,6 +29,7 @@
 #include "operations_formulaire.h"
 #include "echeancier_formulaire.h"
 #include "traitement_variables.h"
+#include "utils.h"
 
 
 #include "./xpm/ope_1.xpm"
@@ -369,7 +370,7 @@ GtkWidget *creation_barre_outils ( void )
 /****************************************************************************************************/
 gboolean change_aspect_liste ( gint demande )
 {
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+    p_tab_nom_de_compte_variable=p_tab_nom_de_compte_courant;
 
     switch ( demande )
     {
@@ -390,11 +391,11 @@ gboolean change_aspect_liste ( gint demande )
 
 		    for ( i=0 ; i<nb_comptes ; i++ )
 		    {
-			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+			p_tab_nom_de_compte_variable=p_tab_nom_de_compte + i;
 			NB_LIGNES_OPE = 1;
 			MISE_A_JOUR = 1;
 		    }
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+		    p_tab_nom_de_compte_variable=p_tab_nom_de_compte_courant;
 		}
 	    }
 	    gtk_button_clicked ( GTK_BUTTON ( bouton_ope_lignes[0] ));
@@ -425,11 +426,11 @@ gboolean change_aspect_liste ( gint demande )
 
 		    for ( i=0 ; i<nb_comptes ; i++ )
 		    {
-			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+			p_tab_nom_de_compte_variable=p_tab_nom_de_compte + i;
 			NB_LIGNES_OPE = 2;
 			MISE_A_JOUR = 1;
 		    }
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+		    p_tab_nom_de_compte_variable=p_tab_nom_de_compte_courant;
 		}
 	    }
 	    gtk_button_clicked ( GTK_BUTTON ( bouton_ope_lignes[1] ));
@@ -459,11 +460,11 @@ gboolean change_aspect_liste ( gint demande )
 
 		    for ( i=0 ; i<nb_comptes ; i++ )
 		    {
-			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+			p_tab_nom_de_compte_variable=p_tab_nom_de_compte + i;
 			NB_LIGNES_OPE = 3;
 			MISE_A_JOUR = 1;
 		    }
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+		    p_tab_nom_de_compte_variable=p_tab_nom_de_compte_courant;
 		}
 	    }
 	    gtk_button_clicked ( GTK_BUTTON ( bouton_ope_lignes[2] ));
@@ -491,11 +492,11 @@ gboolean change_aspect_liste ( gint demande )
 
 		    for ( i=0 ; i<nb_comptes ; i++ )
 		    {
-			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+			p_tab_nom_de_compte_variable=p_tab_nom_de_compte + i;
 			NB_LIGNES_OPE = 4;
 			MISE_A_JOUR = 1;
 		    }
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+		    p_tab_nom_de_compte_variable=p_tab_nom_de_compte_courant;
 		}
 	    }
 
@@ -527,11 +528,11 @@ gboolean change_aspect_liste ( gint demande )
 
 		    for ( i=0 ; i<nb_comptes ; i++ )
 		    {
-			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+			p_tab_nom_de_compte_variable=p_tab_nom_de_compte + i;
 			AFFICHAGE_R = 1;
 			MISE_A_JOUR = 1;
 		    }
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+		    p_tab_nom_de_compte_variable=p_tab_nom_de_compte_courant;
 		}
 	    }
 		    gtk_button_clicked ( GTK_BUTTON ( bouton_affiche_r ));
@@ -560,11 +561,11 @@ gboolean change_aspect_liste ( gint demande )
 
 		    for ( i=0 ; i<nb_comptes ; i++ )
 		    {
-			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+			p_tab_nom_de_compte_variable=p_tab_nom_de_compte + i;
 			AFFICHAGE_R = 0;
 			MISE_A_JOUR = 1;
 		    }
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+		    p_tab_nom_de_compte_variable=p_tab_nom_de_compte_courant;
 		}
 	    }
 	    gtk_button_clicked ( GTK_BUTTON (bouton_enleve_r ));
@@ -1187,7 +1188,7 @@ void demande_expand_arbre ( GtkWidget *bouton,
 
 void mise_a_jour_boutons_caract_liste ( gint no_compte )
 {
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
+    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + no_compte;
 
     switch ( NB_LIGNES_OPE )
     {

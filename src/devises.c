@@ -233,6 +233,10 @@ extern GSList *liste_struct_echeances;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
+extern gint mise_a_jour_combofix_categ_necessaire;
+extern gint mise_a_jour_combofix_tiers_necessaire;
+extern gint mise_a_jour_combofix_imputation_necessaire;
+
 
 
 gint
@@ -348,9 +352,12 @@ void update_currency_widgets()
 	selectionne_devise_tiers_etat_courant ();
     }
 
-    mise_a_jour_tiers ();
-    mise_a_jour_categ ();
-    mise_a_jour_imputation ();
+    if ( mise_a_jour_combofix_tiers_necessaire )
+	mise_a_jour_combofix_tiers ();
+    if ( mise_a_jour_combofix_categ_necessaire )
+	mise_a_jour_combofix_categ ();
+    if ( mise_a_jour_combofix_imputation_necessaire )
+	mise_a_jour_combofix_imputation ();
     mise_a_jour_liste_comptes_accueil = 1;
     mise_a_jour_liste_echeances_manuelles_accueil = 1;
     mise_a_jour_liste_echeances_auto_accueil = 1;

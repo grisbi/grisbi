@@ -28,6 +28,8 @@
 #include "comptes_gestion.h"
 #include "comptes_traitements.h"
 #include "gtk_list_button.h"
+#include "utils.h"
+
 
 GtkWidget *paned_onglet_comptes;
 

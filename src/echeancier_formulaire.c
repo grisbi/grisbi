@@ -68,13 +68,13 @@ extern struct operation_echeance *echeance_selectionnnee;
 extern gint enregistre_ope_au_retour_echeances; 
 extern GtkWidget *fleche_bas_echeancier;
 extern GtkWidget *fleche_haut_echeancier;
-extern gint rafraichir_categ;
 extern GSList *liste_imputations_combofix;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern gint mise_a_jour_fin_comptes_passifs;
+extern gint mise_a_jour_combofix_categ_necessaire;
 
 
 
@@ -1472,7 +1472,6 @@ void fin_edition_echeance ( void )
 
     gint compte_virement;
     compte_virement = 0;
-    rafraichir_categ = 0;
 
     /* on vérifie que les date et date_limite sont correctes */
 
@@ -2111,6 +2110,7 @@ void fin_edition_echeance ( void )
 
 
 	/*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
+	/* 	c'est forcemment une nouvelle opé, donc on utilise ajout_operation */
 
 	ajout_operation ( operation );
 
@@ -2187,8 +2187,10 @@ void fin_edition_echeance ( void )
 
 
 	    /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
+	    /* 	    comme c'est une opé de ventilation, elle ne sera pas affiché et ne changera */
+	    /* 		rien au solde, donc on l'ajoute juste à la sliste */
 
-	    ajout_operation ( operation_fille );
+	    insere_operation_dans_liste ( operation_fille );
 
 	    /* 	    on vérifie maintenant si c'est un virement */
 
@@ -2218,8 +2220,8 @@ void fin_edition_echeance ( void )
     }
 
 
-    if ( rafraichir_categ )
-	mise_a_jour_categ ();
+    if ( mise_a_jour_combofix_categ_necessaire )
+	mise_a_jour_combofix_categ ();
 
     formulaire_echeancier_a_zero ();
 
@@ -2243,24 +2245,19 @@ void cree_contre_operation_echeance ( struct structure_operation *operation,
 				      gint compte_virement,
 				      gint contre_type_ope )
 {
-    ajoute_contre_operation_echeance_dans_liste ( operation,
-						  compte_virement,
-						  contre_type_ope );
+    struct structure_operation *contre_operation;
+    
+    /*     on crée d'abord la contre opération et l'ajoute dans la liste des opés */
 
-    /* on met à jour le compte courant pour le virement (il a été mis à jour avec ajout opération, mais sans les liens de virement) */
+    contre_operation = ajoute_contre_operation_echeance_dans_liste ( operation,
+								     compte_virement,
+								     contre_type_ope );
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
-    MISE_A_JOUR = 1;
-    verification_mise_a_jour_liste ();
+    /*     on ajoute maintenant cette opé dans la list_store des opés */
+    /* 	comme cette opé a déjà un no, elle ne va pas être réajoutée à la sliste */
 
-    mise_a_jour_solde ( operation -> no_compte );
-
-    /* on réaffiche les comptes de l'accueil */
-
-    mise_a_jour_liste_comptes_accueil = 1;
-    mise_a_jour_soldes_minimaux = 1;
-    mise_a_jour_fin_comptes_passifs = 1;
+    ajout_operation ( contre_operation );
 
 }
 /******************************************************************************/
@@ -2269,11 +2266,12 @@ void cree_contre_operation_echeance ( struct structure_operation *operation,
 /******************************************************************************/
 /* cette fonction crée et ajoute la contre opération dans la slist */
 /* mais ne s'occupe pas du tout des mises à jour graphiques */
+/* elle renvoie l'opération nouvellement créé */
 /******************************************************************************/
 
-void ajoute_contre_operation_echeance_dans_liste ( struct structure_operation *operation,
-						   gint compte_virement,
-						   gint contre_type_ope )
+struct structure_operation *ajoute_contre_operation_echeance_dans_liste ( struct structure_operation *operation,
+									  gint compte_virement,
+									  gint contre_type_ope )
 {
     /*   si c'était un virement, on crée une copie de l'opé, on l'ajout à la liste puis on remplit les relations */
 
@@ -2357,7 +2355,6 @@ void ajoute_contre_operation_echeance_dans_liste ( struct structure_operation *o
     contre_operation -> sous_imputation = operation -> sous_imputation;
 
     /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
-    /*     on ne classe pas */
 
     insere_operation_dans_liste ( contre_operation );
 
@@ -2367,6 +2364,8 @@ void ajoute_contre_operation_echeance_dans_liste ( struct structure_operation *o
     operation -> relation_no_compte = contre_operation -> no_compte;
     contre_operation -> relation_no_operation = operation -> no_operation;
     contre_operation -> relation_no_compte = operation -> no_compte;
+
+    return ( contre_operation );
 }
 /******************************************************************************/
 

@@ -27,6 +27,7 @@
 #include "gtkcombofix.h"
 #include "patienter.h"
 #include "main.h"
+#include "utils.h"
 
 
 GtkWidget *label_patience;

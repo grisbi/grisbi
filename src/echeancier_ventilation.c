@@ -68,6 +68,8 @@ extern GtkWidget *notebook_formulaire_echeances;
 extern GtkWidget *notebook_liste_ventil_echeances;
 extern GtkWidget *widget_formulaire_echeancier[19];
 extern GSList *liste_imputations_combofix;
+extern gint mise_a_jour_combofix_categ_necessaire;
+extern gint mise_a_jour_combofix_imputation_necessaire;
 
 
 
@@ -1883,8 +1885,10 @@ void fin_edition_ventilation_echeances ( void )
 	ligne_selectionnee_ventilation_echeances = operation;
 
 
-    mise_a_jour_categ ();
-    mise_a_jour_imputation ();
+    if ( mise_a_jour_combofix_categ_necessaire )
+	mise_a_jour_combofix_categ ();
+    if ( mise_a_jour_combofix_imputation_necessaire )
+	mise_a_jour_combofix_imputation ();
 
     /* on met à jour la liste des ventilations */
 

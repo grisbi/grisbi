@@ -185,7 +185,7 @@ gboolean change_choix_ajustement_auto_colonnes ( GtkWidget *bouton )
 
     if ( etat.largeur_auto_colonnes )
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+	p_tab_nom_de_compte_variable=p_tab_nom_de_compte + compte_courant;
 
 	allocation_precedente = 0;
 
@@ -219,7 +219,7 @@ gboolean change_largeur_colonne ( GtkWidget *clist,
 
     if ( etat.largeur_auto_colonnes )
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+	p_tab_nom_de_compte_variable=p_tab_nom_de_compte + compte_courant;
 
 	gtk_tree_view_column_set_fixed_width ( COLONNE_LISTE_OPERATIONS(colonne),
 					       rapport_largeur_colonnes[colonne] * TREE_VIEW_LISTE_OPERATIONS -> allocation.width / 100 );
@@ -1003,7 +1003,7 @@ void recuperation_noms_colonnes_et_tips ( void )
 
 			for ( k=0 ; k<nb_comptes ; k++ )
 			{
-			    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + k;
+			    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + k;
 
 			    if ( COLONNE_CLASSEMENT == GINT_TO_POINTER (-1))
 				COLONNE_CLASSEMENT = GINT_TO_POINTER (j);

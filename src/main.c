@@ -474,11 +474,11 @@ gboolean utilisation_temps_idle ( gpointer null )
 	if ( DEBUG )
 	    printf ( "mise en place couleur du fond de liste compte courant no %d par idle\n", compte_courant );
 
-	update_couleurs_background ( compte_courant );
+	update_couleurs_background ( compte_courant,
+				     NULL );
 
 	return TRUE;
     }
- 
 
 /*     mise à jour des soldes du compte courant */
 
@@ -487,7 +487,8 @@ gboolean utilisation_temps_idle ( gpointer null )
 	if ( DEBUG )
 	    printf ( "mise en place des soldes de liste compte courant no %d par idle\n", compte_courant );
 
-	update_soldes_list_store ( compte_courant );
+	update_soldes_list_store ( compte_courant,
+				   NULL );
 
 	return TRUE;
     }
@@ -500,8 +501,7 @@ gboolean utilisation_temps_idle ( gpointer null )
 	if ( DEBUG )
 	    printf ( "mise en place de la selection du compte courant no %d par idle\n", compte_courant );
 
-	selectionne_ligne ( compte_courant,
-			    -1 );
+	selectionne_ligne ( GINT_TO_POINTER(-1) );
 
 	return TRUE;
     }
@@ -537,7 +537,8 @@ gboolean utilisation_temps_idle ( gpointer null )
 	    if ( DEBUG )
 		printf ( "mise en place couleur du fond de liste compte no %d par idle\n", i );
 
-	    update_couleurs_background ( i );
+	    update_couleurs_background ( i,
+					 NULL  );
 
 	    return TRUE;
 	}
@@ -554,7 +555,8 @@ gboolean utilisation_temps_idle ( gpointer null )
 	    if ( DEBUG )
 		printf ( "mise en place des soldes de liste compte no %d par idle\n", i );
 
-	    update_soldes_list_store ( i );
+	    update_soldes_list_store ( i,
+				       NULL );
 
 	    return TRUE;
 	}
@@ -572,8 +574,7 @@ gboolean utilisation_temps_idle ( gpointer null )
 	    if ( DEBUG )
 		printf ( "mise en place de la selection du compte courant no %d par idle\n", i );
 
-	    selectionne_ligne ( i,
-				-1 );
+	    selectionne_ligne ( GINT_TO_POINTER(-1) );
 	    return TRUE;
 	}
     }

@@ -100,7 +100,7 @@ gboolean update_bank_menu ()
 				GTK_SIGNAL_FUNC ( modif_detail_compte ),
 				GTK_OBJECT ( hbox_boutons_modif ) );
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
+    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + compte_courant_onglet;
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( detail_option_menu_banque ),
 				  g_slist_index ( liste_struct_banques,
 						  banque_par_no ( BANQUE )) +1 );

@@ -6,23 +6,28 @@ void verification_list_store_termine ( gint no_compte );
 void remplissage_liste_operations ( gint compte );
 void ajoute_operations_compte_dans_list_store ( gint compte,
 						gint par_partie );
+void remplit_ligne_operation ( struct structure_operation *operation,
+			       GtkTreeIter *iter );
 gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 				   gint no_affichage );
-void update_couleurs_background ( gint compte );
-void update_soldes_list_store ( gint compte );
+void update_couleurs_background ( gint compte,
+				  GtkTreeIter *iter_debut );
+void update_soldes_list_store ( gint compte,
+				GtkTreeIter *iter_debut );
 gdouble solde_debut_affichage ( gint no_compte );
+gdouble calcule_solde_compte ( gint no_compte );
+gdouble calcule_solde_pointe_compte ( gint no_compte );
 gboolean selectionne_ligne_souris ( GtkWidget *tree_view,
 				    GdkEventButton *evenement );
 gboolean traitement_clavier_liste ( GtkWidget *widget_variable,
 				    GdkEventKey *evenement );
-void selectionne_ligne ( gint compte,
-			 gint nouvelle_ligne );
+void selectionne_ligne ( struct structure_operation *nouvelle_operation_selectionnee );
 void ajuste_scrolling_liste_operations_a_selection ( gint compte );
 gint recupere_hauteur_ligne_tree_view ( GtkWidget *tree_view );
 struct structure_operation *cherche_operation_from_ligne ( gint ligne,
 							   gint no_compte );
-GtkTreeIter *cherche_iter_operation ( struct structure_operation *operation,
-				      gint no_compte );
+GtkTreeIter *cherche_iter_operation ( struct structure_operation *operation );
+gint cherche_ligne_operation ( struct structure_operation *operation );
 void edition_operation ( void );
 void p_press (void);
 void r_press (void);
@@ -31,8 +36,6 @@ gboolean changement_taille_liste_ope ( GtkWidget *tree_view,
 				       GtkAllocation *allocation );
 void demande_mise_a_jour_tous_comptes ( void );
 void verification_mise_a_jour_liste ( void );
-void mise_a_jour_solde ( gint compte );
-void verifie_ligne_selectionnee_visible ( void );
 gboolean assert_selected_transaction ();
 void new_transaction ( );
 void remove_transaction ( );
@@ -50,4 +53,5 @@ gboolean click_sur_titre_colonne_operations ( GtkTreeViewColumn *colonne,
 void changement_choix_tri_liste_operations ( gchar *nom_tri );
 gint recupere_no_from_nom_champ_tri ( gchar *nom_tri );
 gpointer recupere_classement_par_no ( gint no_tri );
+void mise_a_jour_labels_soldes ( gint no_compte );
 

@@ -8,7 +8,6 @@ gchar *gsb_today ( void ) ;
 GDate *gdate_today ( void );
 gboolean modifie_date ( GtkWidget *entree );
 gboolean format_date ( GtkWidget *entree );
-double gsb_strtod ( char *nptr, char **endptr );
 void sens_desensitive_pointeur ( GtkWidget *boutton,
 				 GtkWidget *widget );
 void sensitive_widget ( GtkWidget *widget );
@@ -64,4 +63,5 @@ gint my_strncasecmp ( gchar *chaine_1,
 		     gint longueur );
 gchar* my_get_grisbirc_dir(void);
 gchar* my_get_gsb_file_default_dir(void);
+gpointer **verification_p_tab ( gchar *fonction_appelante );
 

@@ -74,6 +74,7 @@ gchar *jours_semaine[] = {
 
 
 extern GSList *liste_struct_imputation;
+extern gint mise_a_jour_combofix_tiers_necessaire;
 
 
 /******************************************************************************/
@@ -1505,7 +1506,8 @@ void recuperation_info_perso_etat ( void )
 
     /* on fait une mise à jour des tiers pour afficher l'état dans la liste des tiers si nécessaire */
 
-    mise_a_jour_tiers ();
+    if ( mise_a_jour_combofix_tiers_necessaire )
+	mise_a_jour_combofix_tiers ();
 
     /* on réaffiche l'état */
 

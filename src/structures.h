@@ -192,7 +192,7 @@ struct donnees_compte
     gdouble solde_courant;
     gdouble solde_pointe;
     GSList *gsliste_operations;
-    gint ligne_selectionnee;      /*contient le no de ligne en cours dans la liste des opés (!! ligne brute, dépend du nb de lignes par ope)*/
+    struct structure_operation *operation_selectionnee;      /* pointe sur l'opération sélectionnée, ou -1 pour la ligne blanche */
     gint message_sous_mini;
     gint message_sous_mini_voulu;
     GDate *date_releve;
@@ -243,58 +243,58 @@ struct donnees_compte
 
 /* pointeurs vers les comptes en fonction de p...variable */
 
-#define NO_COMPTE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> no_compte
-#define ID_COMPTE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> id_compte
-#define TYPE_DE_COMPTE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> type_de_compte
-#define NOM_DU_COMPTE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> nom_de_compte
-#define NB_OPE_COMPTE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> nb_operations
-#define SOLDE_INIT ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> solde_initial
-#define SOLDE_MINI_VOULU ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> solde_mini_voulu 
-#define SOLDE_MINI ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> solde_mini_autorise
-#define SOLDE_COURANT ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> solde_courant
-#define SOLDE_POINTE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> solde_pointe
-#define LISTE_OPERATIONS ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> gsliste_operations
-#define LIGNE_SELECTIONNEE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> ligne_selectionnee
-#define MESSAGE_SOUS_MINI ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) ->  message_sous_mini
-#define MESSAGE_SOUS_MINI_VOULU ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) ->  message_sous_mini_voulu
-#define DATE_DERNIER_RELEVE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) ->  date_releve
-#define SOLDE_DERNIER_RELEVE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) ->  solde_releve
-#define DERNIER_NO_RAPPROCHEMENT ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> dernier_no_rapprochement
-#define ICONE_OUVERTE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> icone_ouverte
-#define ICONE_FERMEE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> icone_fermee
-#define MISE_A_JOUR ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> mise_a_jour
-#define DEVISE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> devise
-#define BANQUE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> banque
-#define NO_GUICHET ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> no_guichet
-#define NO_COMPTE_BANQUE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> no_compte_banque
-#define CLE_COMPTE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> cle_compte
-#define COMPTE_CLOTURE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> compte_cloture
-#define COMMENTAIRE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> commentaire
-#define TRI ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> tri
-#define LISTE_TRI ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> liste_tri
-#define NEUTRES_INCLUS ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> neutres_inclus
-#define TITULAIRE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> titulaire
-#define ADRESSE_TITULAIRE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> adresse_titulaire
-#define TYPES_OPES ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> liste_types_ope
-#define TYPE_DEFAUT_DEBIT ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> type_defaut_debit
-#define TYPE_DEFAUT_CREDIT ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> type_defaut_credit
-#define AFFICHAGE_R ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> affichage_r
-#define NB_LIGNES_OPE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> nb_lignes_ope
-#define CLASSEMENT_COURANT ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> classement_courant
-#define COLONNE_CLASSEMENT ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> colonne_classement
-#define CLASSEMENT_CROISSANT ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> classement_croissant
-#define NO_CLASSEMENT ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> no_classement
+#define NO_COMPTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> no_compte
+#define ID_COMPTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> id_compte
+#define TYPE_DE_COMPTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> type_de_compte
+#define NOM_DU_COMPTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> nom_de_compte
+#define NB_OPE_COMPTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> nb_operations
+#define SOLDE_INIT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> solde_initial
+#define SOLDE_MINI_VOULU ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> solde_mini_voulu 
+#define SOLDE_MINI ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> solde_mini_autorise
+#define SOLDE_COURANT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> solde_courant
+#define SOLDE_POINTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> solde_pointe
+#define LISTE_OPERATIONS ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> gsliste_operations
+#define OPERATION_SELECTIONNEE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> operation_selectionnee
+#define MESSAGE_SOUS_MINI ((struct donnees_compte *) (*verification_p_tab("define_compte"))) ->  message_sous_mini
+#define MESSAGE_SOUS_MINI_VOULU ((struct donnees_compte *) (*verification_p_tab("define_compte"))) ->  message_sous_mini_voulu
+#define DATE_DERNIER_RELEVE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) ->  date_releve
+#define SOLDE_DERNIER_RELEVE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) ->  solde_releve
+#define DERNIER_NO_RAPPROCHEMENT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> dernier_no_rapprochement
+#define ICONE_OUVERTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> icone_ouverte
+#define ICONE_FERMEE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> icone_fermee
+#define MISE_A_JOUR ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> mise_a_jour
+#define DEVISE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> devise
+#define BANQUE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> banque
+#define NO_GUICHET ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> no_guichet
+#define NO_COMPTE_BANQUE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> no_compte_banque
+#define CLE_COMPTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> cle_compte
+#define COMPTE_CLOTURE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> compte_cloture
+#define COMMENTAIRE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> commentaire
+#define TRI ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> tri
+#define LISTE_TRI ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> liste_tri
+#define NEUTRES_INCLUS ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> neutres_inclus
+#define TITULAIRE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> titulaire
+#define ADRESSE_TITULAIRE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> adresse_titulaire
+#define TYPES_OPES ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> liste_types_ope
+#define TYPE_DEFAUT_DEBIT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> type_defaut_debit
+#define TYPE_DEFAUT_CREDIT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> type_defaut_credit
+#define AFFICHAGE_R ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> affichage_r
+#define NB_LIGNES_OPE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> nb_lignes_ope
+#define CLASSEMENT_COURANT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> classement_courant
+#define COLONNE_CLASSEMENT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> colonne_classement
+#define CLASSEMENT_CROISSANT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> classement_croissant
+#define NO_CLASSEMENT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> no_classement
 
-#define TREE_VIEW_LISTE_OPERATIONS ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> tree_view_liste_operations
-#define SCROLLED_WINDOW_LISTE_OPERATIONS ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> scrolled_window_liste_operations
-#define STORE_LISTE_OPERATIONS ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> store_liste_operations
-#define VALUE_AJUSTEMENT_LISTE_OPERATIONS ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> value_ajustement_liste_operations
-#define COLONNE_LISTE_OPERATIONS(s) ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> colonne_liste_operations[s]
+#define TREE_VIEW_LISTE_OPERATIONS ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> tree_view_liste_operations
+#define SCROLLED_WINDOW_LISTE_OPERATIONS ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> scrolled_window_liste_operations
+#define STORE_LISTE_OPERATIONS ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> store_liste_operations
+#define VALUE_AJUSTEMENT_LISTE_OPERATIONS ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> value_ajustement_liste_operations
+#define COLONNE_LISTE_OPERATIONS(s) ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> colonne_liste_operations[s]
 
-#define SLIST_DERNIERE_OPE_AJOUTEE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> slist_derniere_ope_ajoutee
-#define COULEUR_BACKGROUND_FINI ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> couleur_background_fini
-#define AFFICHAGE_SOLDE_FINI ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> affichage_solde_fini
-#define SELECTION_OPERATION_FINI  ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> selection_operation_fini
+#define SLIST_DERNIERE_OPE_AJOUTEE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> slist_derniere_ope_ajoutee
+#define COULEUR_BACKGROUND_FINI ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> couleur_background_fini
+#define AFFICHAGE_SOLDE_FINI ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> affichage_solde_fini
+#define SELECTION_OPERATION_FINI  ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> selection_operation_fini
 
 
 

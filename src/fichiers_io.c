@@ -52,6 +52,8 @@ extern GSList *liste_struct_rapprochements;
 extern gint nb_enregistrements_imputations;
 extern gint no_derniere_imputation;
 extern GSList *liste_struct_imputation;
+extern gint mise_a_jour_combofix_categ_necessaire;
+extern gint mise_a_jour_combofix_imputation_necessaire;
 
 
 
@@ -466,11 +468,6 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 							     NULL );
 
 				if ( !strcmp ( node_detail -> name,
-					       "Solde_courant" ))
-				    SOLDE_COURANT = my_strtod ( xmlNodeGetContent ( node_detail ),
-								NULL );
-
-				if ( !strcmp ( node_detail -> name,
 					       "Date_dernier_relevé" ))
 				{
 				    gchar **pointeur_char;
@@ -785,7 +782,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		    /*       la sélection au départ est en bas de la liste */
 
 		    VALUE_AJUSTEMENT_LISTE_OPERATIONS = -1;
-		    LIGNE_SELECTIONNEE = -1;
+		    OPERATION_SELECTIONNEE = GINT_TO_POINTER (-1);
 
 
 		    /* on incrémente p_tab_nom_de_compte_variable pour le compte suivant */
@@ -2292,11 +2289,6 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 							     NULL );
 
 				if ( !strcmp ( node_detail -> name,
-					       "Solde_courant" ))
-				    SOLDE_COURANT = my_strtod ( xmlNodeGetContent ( node_detail ),
-								NULL );
-
-				if ( !strcmp ( node_detail -> name,
 					       "Date_dernier_releve" ))
 				{
 				    gchar **pointeur_char;
@@ -2603,7 +2595,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		    /*       la selection au depart est en bas de la liste */
 
 		    VALUE_AJUSTEMENT_LISTE_OPERATIONS = -1;
-		    LIGNE_SELECTIONNEE = -1;
+		    OPERATION_SELECTIONNEE = GINT_TO_POINTER (-1);
 
 
 		    /* on incremente p_tab_nom_de_compte_variable pour le compte suivant */
@@ -4630,11 +4622,6 @@ gboolean charge_operations_version_0_5_1 ( xmlDocPtr doc )
 								 NULL );
 
 				    if ( !strcmp ( node_detail -> name,
-						   "Solde_courant" ))
-					SOLDE_COURANT = my_strtod ( xmlNodeGetContent ( node_detail ),
-								    NULL );
-
-				    if ( !strcmp ( node_detail -> name,
 						   "Date_dernier_releve" ))
 				    {
 					gchar **pointeur_char;
@@ -4743,11 +4730,14 @@ gboolean charge_operations_version_0_5_1 ( xmlDocPtr doc )
 			if ( !NOM_DU_COMPTE )
 			    NOM_DU_COMPTE = g_strdup ( "" );
 
-/* 			si on ouvrait un fichier qui n'avait pas de classement, le sens */
-/* 			    est croissant */
+			/* 	si on ouvrait un fichier qui n'avait pas de classement, le sens */
+			/*     est croissant */
 
 			if ( CLASSEMENT_CROISSANT == -1 )
 			    CLASSEMENT_CROISSANT = 1;
+
+			if ( !CLASSEMENT_COURANT )
+			    CLASSEMENT_COURANT = classement_sliste_par_date; 
 
 			/* on recupère ici le detail des types */
 
@@ -4974,7 +4964,7 @@ gboolean charge_operations_version_0_5_1 ( xmlDocPtr doc )
 		    /*       la selection au depart est en bas de la liste */
 
 		    VALUE_AJUSTEMENT_LISTE_OPERATIONS = -1;
-		    LIGNE_SELECTIONNEE = -1;
+		    OPERATION_SELECTIONNEE = GINT_TO_POINTER (-1);
 
 
 		    /* on incremente p_tab_nom_de_compte_variable pour le compte suivant */
@@ -6561,12 +6551,6 @@ gboolean enregistre_fichier ( gboolean force )
 
     etat.en_train_de_sauvegarder = 1;
 
-    /* on met à jour les soldes des comptes */
-
-    for ( i=0 ; i<nb_comptes ; i++ )
-	mise_a_jour_solde ( i );
-
-
     /* creation de l'arbre xml en memoire */
 
     doc = xmlNewDoc("1.0");
@@ -6897,12 +6881,6 @@ gboolean enregistre_fichier ( gboolean force )
 			  "Solde_mini_autorise",
 			  g_strdup_printf ( "%4.7f",
 					    SOLDE_MINI ));
-
-	xmlNewTextChild ( node_compte,
-			  NULL,
-			  "Solde_courant",
-			  g_strdup_printf ( "%4.7f",
-					    SOLDE_COURANT ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
@@ -9030,7 +9008,8 @@ gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc )
     /* creation de la liste des categ pour le combofix */
 
     creation_liste_categ_combofix ();
-    mise_a_jour_categ ();
+    if ( mise_a_jour_combofix_categ_necessaire )
+	mise_a_jour_combofix_categ ();
     remplit_arbre_categ ();
 
     /* on rafraichit la liste des categ */
@@ -9319,7 +9298,8 @@ gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc )
     /* creation de la liste des ib pour le combofix */
 
     creation_liste_imputation_combofix ();
-    mise_a_jour_imputation ();
+    if ( mise_a_jour_combofix_imputation_necessaire )
+	mise_a_jour_combofix_imputation ();
     remplit_arbre_imputation ();
 
 

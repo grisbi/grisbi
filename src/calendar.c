@@ -464,9 +464,9 @@ void inc_dec_date ( GtkWidget *entree, gint demande )
 				"/",
 				3 );
 
-    jour = gsb_strtod ( tableau_char[0], NULL );
-    mois = gsb_strtod ( tableau_char[1], NULL );
-    annee = gsb_strtod ( tableau_char[2], NULL );
+    jour = my_atoi ( tableau_char[0] );
+    mois = my_atoi ( tableau_char[1] );
+    annee = my_atoi ( tableau_char[2] );
 
     date = g_date_new_dmy ( jour, mois, annee);
 

@@ -50,6 +50,7 @@
 #include "utils.h"
 #include "ventilation.h"
 #include "operations_onglet.h"
+#include "main.h"
 
 
 
@@ -65,6 +66,11 @@ extern GSList *liste_imputations_combofix;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern gint mise_a_jour_fin_comptes_passifs;
+extern GtkTreeIter iter_liste_operations;
+extern gint mise_a_jour_combofix_tiers_necessaire;
+extern gint mise_a_jour_combofix_categ_necessaire;
+extern gint mise_a_jour_combofix_imputation_necessaire;
+extern gint id_fonction_idle;
 
 
 
@@ -2016,7 +2022,7 @@ void completion_operation_par_tiers ( void )
 /* crée une nouvelle opération à partir du formulaire */
 /* puis appelle ajout_operation pour la sauver */
 /******************************************************************************/
-void fin_edition ( void )
+gboolean fin_edition ( void )
 {
     struct structure_operation *operation;
     gint modification;
@@ -2037,7 +2043,7 @@ void fin_edition ( void )
     /* si la fonction renvoie false, c'est qu'on doit arrêter là */
 
     if ( !verification_validation_operation ( operation ))
-	return;
+	return FALSE;
 
     /* si le tiers est un état, on va faire autant d'opérations qu'il y a de tiers
        dans l'état concerné. On va créer une liste avec les nos de tiers
@@ -2119,10 +2125,10 @@ void fin_edition ( void )
 
 	if ( liste_tmp -> data == GINT_TO_POINTER ( -1 ) )
 	    liste_tmp = NULL;
-	else if ( liste_tmp -> data == NULL )
+	else if ( !liste_tmp -> data )
 	{
 	    dialogue_error ( _("No third party selected for this report."));
-	    return;
+	    return FALSE;
 	}
 	else
 	{
@@ -2164,7 +2170,7 @@ void fin_edition ( void )
 	    if ( !operation )
 	    {
 		dialogue_error ( _("Cannot allocate memory, bad things will happen soon") );
-		return;
+		return FALSE;
 	    }
 	    operation -> no_compte = compte_courant;
 	}
@@ -2180,7 +2186,10 @@ void fin_edition ( void )
 	/* celui ci sera utilisé si c'est un virement ou si c'est une ventil qui contient des */
 	/* virements */
 
-	ajout_operation ( operation );
+	if ( operation -> no_operation )
+	    modifie_operation ( operation );
+	else
+	    ajout_operation ( operation );
 
 	/*   récupération des catégories / sous-catég, s'ils n'existent pas, on les crée */
 	/* à mettre en dernier car si c'est une opé ventilée, chaque opé de ventil va récupérer les données du dessus */
@@ -2244,19 +2253,18 @@ void fin_edition ( void )
 	gtk_widget_grab_focus ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) );
     }
 
-    /* on réaffiche la liste courante pour afficher les categ qui ont été ajoutée après */
-    /* l'ajout d'opération */
-
-    MISE_A_JOUR = 1;
-    verification_mise_a_jour_liste ();
 
     /* met à jour les listes ( nouvelle opération associée au tiers et à la catégorie ) */
 
-    mise_a_jour_tiers ();
-    mise_a_jour_categ ();
-    mise_a_jour_imputation ();
+    if ( mise_a_jour_combofix_tiers_necessaire )
+	mise_a_jour_combofix_tiers ();
+    if ( mise_a_jour_combofix_categ_necessaire )
+	mise_a_jour_combofix_categ ();
+    if ( mise_a_jour_combofix_imputation_necessaire )
+	mise_a_jour_combofix_imputation ();
 
     modification_fichier ( TRUE );
+    return FALSE;
 }
 /******************************************************************************/
 
@@ -2389,7 +2397,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
     }
 
     /* pour les types qui sont à incrÃ©mentation automatique ( surtout les chÃ¨ques ) */
-    /* on fait le tour des operations pour voir si le no n'a pas déjà été utilisé */
+    /* on fait le tour des operations pour voir si le no n'a pas déjà été utilisÃƒƒƒƒƒƒ© */
     /* si operation n'est pas nul, c'est une modif donc on ne fait pas ce test */
 
     if ( GTK_WIDGET_VISIBLE ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] ))
@@ -3107,53 +3115,137 @@ void validation_virement_operation ( struct structure_operation *operation,
     if ( operation -> info_banque_guichet )
 	contre_operation -> info_banque_guichet = g_strdup ( operation -> info_banque_guichet );
 
-    /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
-
-    ajout_operation ( contre_operation );
-
-    /* on met maintenant les relations entre les différentes opé */
-
     contre_operation -> pointe = operation -> pointe;
     contre_operation -> no_rapprochement = operation -> no_rapprochement;
+
+    /*   on a fini de remplir l'opé, on peut l'ajouter Ã  la liste */
+
+    if ( contre_operation -> no_operation )
+	modifie_operation ( contre_operation );
+    else
+	ajout_operation ( contre_operation );
+
+    /* on met maintenant les relations entre les différentes opé */
 
     operation -> relation_no_operation = contre_operation -> no_operation;
     operation -> relation_no_compte = contre_operation -> no_compte;
     contre_operation -> relation_no_operation = operation -> no_operation;
     contre_operation -> relation_no_compte = operation -> no_compte;
 
+    /*     on réaffiche juste les 2 opés, sans rien modifier d'autre */
+    /* 	juste pour afficher la categ (virement) */
+
+    remplit_ligne_operation ( operation,
+			      NULL );
+    remplit_ligne_operation ( contre_operation,
+			      NULL );
+	
     p_tab_nom_de_compte_variable = save_ptab;
 }
 /******************************************************************************/
+
+
+
+
 
 /******************************************************************************/
 /* Fonction ajout_operation                                                   */
 /* ajoute l'opération donnée en argument à la liste des opés, trie la liste   */
 /* et réaffiche la clist                                                      */
-/* remplit si nécessaire le no d'opération                                    */
+/* remplit le no d'opération     	                                    */
 /******************************************************************************/
 void ajout_operation ( struct structure_operation *operation )
 {
     gpointer **save_ptab;
+    GtkTreeIter *iter;
+    struct structure_operation *operation_suivante;
+    GSList *liste_tmp;
+    gint stop_idle = 0;
+
+    if ( DEBUG )
+	printf ( "ajout_operation\n" );
+
 
     save_ptab = p_tab_nom_de_compte_variable;
 
+    /*     s'il y a de l'idle dans l'air, on le bloque le temps de l'ajout */
+    /*     (peut faire planter) */
+
+    if ( id_fonction_idle )
+    {
+	g_source_remove ( id_fonction_idle );
+	id_fonction_idle = 0;
+	stop_idle = 1;
+    }
+
+    /*     si la liste n'est pas finie, on la finie avant */
+	
+     verification_list_store_termine ( operation -> no_compte );
+
     /* on met l'opé dant la liste en la classant */
+    /*     cette fonction place en même temps p_tab_nom_de_compte_variable */
 
     insere_operation_dans_liste ( operation );
 
-    /* on réaffiche(ra) la liste des opés */
+    /* on recherche l'iter de l'opé suivante */
+    /*     on est sûr que l'opé va être trouvée vu qu'on vient de l'ajouter */
 
-    MISE_A_JOUR = 1;
+    liste_tmp = g_slist_find ( LISTE_OPERATIONS,
+			       operation ) -> next;
 
-    verification_mise_a_jour_liste ();
+    if ( liste_tmp )
+	operation_suivante = liste_tmp -> data;
+    else
+	operation_suivante = GINT_TO_POINTER (-1);
 
-    mise_a_jour_solde ( operation -> no_compte );
+    /*     on recherche l'iter de l'opé suivant pour insérer l'opé juste avant */
 
-    /* on réaffiche les comptes de l'accueil */
+    iter = cherche_iter_operation ( operation_suivante );
+
+    /*     on insère l'iter de l'opération qu'on ajoute */
+
+    remplit_ligne_operation ( operation,
+			      iter );
+
+    /*     on recherche l'iter de l'opération qu'on vient d'ajouter */
+    /* 	pour mettre à jour les couleurs et les soldes */
+    /*     il est nécessaire de faire une copie d'iter, car chaque fonction va */
+    /* 	le modifier */
+
+    iter = cherche_iter_operation ( operation );
+
+    update_couleurs_background ( operation -> no_compte,
+				 gtk_tree_iter_copy (iter));
+    update_soldes_list_store ( operation -> no_compte,
+			       gtk_tree_iter_copy (iter));
+    selectionne_ligne ( OPERATION_SELECTIONNEE );
+    ajuste_scrolling_liste_operations_a_selection ( operation -> no_compte );
+
+    /*     calcul du solde courant */
+
+    SOLDE_COURANT = SOLDE_COURANT + calcule_montant_devise_renvoi ( operation -> montant,
+								    DEVISE,
+								    operation -> devise,
+								    operation -> une_devise_compte_egale_x_devise_ope,
+								    operation -> taux_change,
+								    operation -> frais_change );
+
+    /* on met à jour les labels des soldes */
+
+    mise_a_jour_labels_soldes ( operation -> no_compte );
+
+    /* on réaffichera l'accueil */
 
     mise_a_jour_liste_comptes_accueil = 1;
     mise_a_jour_soldes_minimaux = 1;
     mise_a_jour_fin_comptes_passifs = 1;
+
+
+    /*     on remet l'idle en marche si nécessaire */
+
+    if ( stop_idle )
+	id_fonction_idle = g_idle_add ( (GSourceFunc) utilisation_temps_idle,
+					NULL );
 
     p_tab_nom_de_compte_variable = save_ptab;
 }
@@ -3162,8 +3254,8 @@ void ajout_operation ( struct structure_operation *operation )
 
 /******************************************************************************/
 /* cette fonction met juste l'opé dans la sliste, et ajuste le nb d'opérations */
-/* sinon elle est ajoutée simplement à la liste */
 /* elle ne fait aucune autre mise à jour */
+/* si l'opé a déjà un no, elle ne fait rien */
 /******************************************************************************/
 
 void insere_operation_dans_liste ( struct structure_operation *operation )
@@ -3179,6 +3271,79 @@ void insere_operation_dans_liste ( struct structure_operation *operation )
 						   (GCompareFunc) CLASSEMENT_COURANT );
 	NB_OPE_COMPTE++;
     }
+}
+/******************************************************************************/
+
+
+
+/******************************************************************************/
+/* Fonction modifie_operation                                                 */
+/* modifie l'opération donnée en argument sur la liste des opés, trie la liste*/
+/* et réaffiche la clist                                                      */
+/******************************************************************************/
+void modifie_operation ( struct structure_operation *operation )
+{
+    gpointer **save_ptab;
+    gint stop_idle = 0;
+
+    if ( DEBUG )
+	printf ( "modifie_operation\n" );
+
+    save_ptab = p_tab_nom_de_compte_variable;
+
+    /*     s'il y a de l'idle dans l'air, on le bloque le temps de l'ajout */
+    /*     (peut faire planter) */
+
+    if ( id_fonction_idle )
+    {
+	g_source_remove ( id_fonction_idle );
+	id_fonction_idle = 0;
+	stop_idle = 1;
+    }
+
+    /*     si la liste n'est pas finie, on la finie avant */
+    /*     théoriquement elle est finie à ce niveau car soit on modifie une opé */
+    /* 	qu'on voit, soit ajout_operation a été appelé avant dans le cas */
+    /* 	de virements ; mais bon, ça coute rien de tester... */
+	
+     verification_list_store_termine ( operation -> no_compte );
+
+    /*     réaffiche l'opération */
+
+    remplit_ligne_operation ( operation,
+			      NULL );
+
+    /*     on recherche l'iter de l'opération qu'on vient d'ajouter */
+    /* 	pour mettre à jour les soldes */
+
+    update_soldes_list_store ( operation -> no_compte,
+			       cherche_iter_operation ( operation ));
+
+    /*     on recalcule les soldes pointés ou totaux */
+    /* 	ya plus rapide mais j'ai la flemme */
+    /* 	voir si ralentit vraiment... */
+
+    SOLDE_COURANT = calcule_solde_compte ( operation -> no_compte );
+    SOLDE_POINTE = calcule_solde_pointe_compte ( operation -> no_compte );
+
+    /* on met à jour les labels des soldes */
+
+    mise_a_jour_labels_soldes ( operation -> no_compte );
+
+    /* on réaffichera l'accueil */
+
+    mise_a_jour_liste_comptes_accueil = 1;
+    mise_a_jour_soldes_minimaux = 1;
+    mise_a_jour_fin_comptes_passifs = 1;
+
+
+    /*     on remet l'idle en marche si nécessaire */
+
+    if ( stop_idle )
+	id_fonction_idle = g_idle_add ( (GSourceFunc) utilisation_temps_idle,
+					NULL );
+
+    p_tab_nom_de_compte_variable = save_ptab;
 }
 /******************************************************************************/
 
@@ -3297,7 +3462,7 @@ void affiche_cache_le_formulaire ( void )
     gpointer **save_ptab;
 
     save_ptab = p_tab_nom_de_compte_variable;
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     if ( etat.formulaire_toujours_affiche )
     {
@@ -3310,6 +3475,7 @@ void affiche_cache_le_formulaire ( void )
     else
     {
 	GtkAdjustment *ajustement;
+	gint position_ligne_selectionnee;
 
 	gtk_widget_hide ( fleche_haut );
 	gtk_widget_show ( fleche_bas );
@@ -3322,10 +3488,13 @@ void affiche_cache_le_formulaire ( void )
 
 	while ( g_main_iteration ( FALSE ));
 	ajustement = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ));
+	
+	position_ligne_selectionnee = ( cherche_ligne_operation ( OPERATION_SELECTIONNEE )
+					+ NB_LIGNES_OPE ) * hauteur_ligne_liste_opes;
 
-	if ( (LIGNE_SELECTIONNEE+NB_LIGNES_OPE)*hauteur_ligne_liste_opes > (ajustement->value + ajustement->page_size))
+	if ( position_ligne_selectionnee  > (ajustement->value + ajustement->page_size))
 	    gtk_adjustment_set_value ( ajustement,
-				       (LIGNE_SELECTIONNEE+NB_LIGNES_OPE)*hauteur_ligne_liste_opes - ajustement->page_size );
+				       position_ligne_selectionnee - ajustement->page_size );
     }
 
     p_tab_nom_de_compte_variable = save_ptab;
@@ -3477,3 +3646,6 @@ gint place_type_choix_type ( GtkWidget *option_menu,
     return ( 0 );
 }
 /******************************************************************************/
+
+
+

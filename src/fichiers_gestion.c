@@ -229,6 +229,8 @@ void fichier_selectionne ( GtkWidget *selection_fichier)
 
 void ouverture_confirmee ( void )
 {
+    gint i;
+    
     if ( DEBUG )
 	printf ( "ouverture_confirmee\n" );
 
@@ -246,7 +248,7 @@ void ouverture_confirmee ( void )
 	if ( etat.sauvegarde_demarrage )
 	{
 	    gchar *nom;
-	    gint i, result;
+	    gint result;
 	    gchar **parametres;
 
 	    /* on crée le nom de la sauvegarde */
@@ -303,7 +305,6 @@ void ouverture_confirmee ( void )
 	if ( etat.sauvegarde_demarrage )
 	{
 	    gchar *nom;
-	    gint i;
 	    gchar **parametres;
 	    gint save_force_enregistrement;
 
@@ -360,16 +361,29 @@ void ouverture_confirmee ( void )
 
     recuperation_noms_colonnes_et_tips ();
 
-    /* on crée le notebook principal */
+    /*  on calcule les soldes courants */
+    /*     important de le faire avant l'affichage de l'accueil */
+    /* 	va afficher le message qu'une fois tous les comptes remplis */
+    /* 	(donc après l'idle ) */
+    
+    for ( i=0 ; i<nb_comptes ; i++ )
+    {
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
-    creation_fenetre_principale();
+	SOLDE_COURANT = calcule_solde_compte ( i );
+	SOLDE_POINTE = calcule_solde_pointe_compte ( i );
+    }
 
     /*     on va afficher la page d'accueil */
+    /*     l'appel se fera lors de la création de la fenêtre principale */
 
     mise_a_jour_liste_comptes_accueil = 1;
     mise_a_jour_soldes_minimaux = 1;
     mise_a_jour_fin_comptes_passifs = 1;
 
+    /* on crée le notebook principal */
+
+    creation_fenetre_principale();
     
     /*     on dégrise les menus */
 

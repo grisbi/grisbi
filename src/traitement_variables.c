@@ -28,6 +28,7 @@
 #include "gtkcombofix.h"
 #include "menu.h"
 #include "traitement_variables.h"
+#include "utils.h"
 
 GdkColor couleur_fond[2];
 GdkColor couleur_selection;
@@ -79,6 +80,11 @@ extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern gint mise_a_jour_fin_comptes_passifs;
+extern gint mise_a_jour_combofix_tiers_necessaire;
+extern gint mise_a_jour_combofix_categ_necessaire;
+extern gint mise_a_jour_combofix_imputation_necessaire;
+
+
 
 
 
@@ -221,6 +227,9 @@ void init_variables ( void )
 	    i++;
 	}
     }
+    mise_a_jour_combofix_tiers_necessaire = 0;
+    mise_a_jour_combofix_categ_necessaire = 0;
+    mise_a_jour_combofix_imputation_necessaire = 0;
 }
 /*****************************************************************************************************/
 

@@ -61,6 +61,9 @@ extern GtkWidget *window_vbox_principale;
 extern GtkWidget *widget_formulaire_echeancier[19];
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
+extern gint mise_a_jour_combofix_tiers_necessaire;
+extern gint mise_a_jour_combofix_categ_necessaire;
+
 
 
 /* *******************************************************************************/
@@ -950,8 +953,10 @@ void traitement_operations_importees ( void )
 
 	/* on recrée les combofix des tiers et des catégories */
 
-	mise_a_jour_tiers ();
-	mise_a_jour_categ();
+	if ( mise_a_jour_combofix_tiers_necessaire )
+	    mise_a_jour_combofix_tiers ();
+	if ( mise_a_jour_combofix_categ_necessaire )
+	    mise_a_jour_combofix_categ();
 
 	/* on met à jour l'option menu du formulaire des échéances */
 
@@ -1463,7 +1468,7 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import,
     compte -> nb_lignes_ope = 3;
     compte -> solde_courant = solde_courant;
     compte -> date_releve = NULL;
-    compte -> ligne_selectionnee = -1;
+    compte -> operation_selectionnee = GINT_TO_POINTER (-1);
 
 
 }
@@ -1674,7 +1679,8 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
     }
 
 
-    mise_a_jour_solde ( NO_COMPTE );
+    calcule_solde_compte ( NO_COMPTE );
+    calcule_solde_pointe_compte ( NO_COMPTE );
 
     /* on classe la liste */
 
@@ -2015,7 +2021,7 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
     operation -> notes = operation_import -> notes;
 
 
-    /* récupération du chèque et mise en forme du type d'opération */
+    /* récupÃ©ration du chèque et mise en forme du type d'opération */
 
     if ( operation_import -> cheque )
     {
@@ -2633,8 +2639,10 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 
 	    /* on recrée les combofix des tiers et des catégories */
 
-	    mise_a_jour_tiers ();
-	    mise_a_jour_categ();
+	    if ( mise_a_jour_combofix_tiers_necessaire )
+		mise_a_jour_combofix_tiers ();
+	    if ( mise_a_jour_combofix_categ_necessaire )
+		mise_a_jour_combofix_categ();
 
 	    /* mise à jour de l'accueil */
 

@@ -756,7 +756,7 @@ void update_fonte_listes ( void )
     {
 	GtkTreeIter iter;
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+	p_tab_nom_de_compte_variable=p_tab_nom_de_compte + i;
 
 	if ( STORE_LISTE_OPERATIONS
 	     &&
