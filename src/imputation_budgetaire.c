@@ -29,7 +29,7 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "devises.h"
-#include "erreur.h"
+#include "dialog.h"
 #include "etats_config.h"
 #include "gtkcombofix.h"
 #include "imputation_budgetaire.h"
