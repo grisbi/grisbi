@@ -1,0 +1,10 @@
+[Desktop Entry]
+Comment=
+Exec=grisbi
+Icon=/usr/share/pixmaps/grisbi/grisbi.png
+MimeType=application/x-grisbi
+MiniIcon=/usr/share/pixmaps/grisbi/grisbi.png
+Name=Grisbi
+ServiceTypes=
+Terminal=0
+Type=Application

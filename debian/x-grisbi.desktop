@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Icon=/usr/share/pixmaps/grisbi/grisbi.png
+Type=MimeType
+MimeType=application/x-grisbi
+Patterns=*.grisbi;*.gsb;
+Comment=Grisbi Finance manager
+Comment[fr]=Logiciel de comptabilité Grisbi
+
