@@ -2012,6 +2012,9 @@ void ajuste_scrolling_liste_operations_a_selection ( gint compte )
     GtkAdjustment *v_adjustment;
     gint y_ligne;
 
+    if ( DEBUG )
+      printf ( "ajuste_scrolling_liste_operations_a_selection\n" );
+
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
     
     /*     si on n'a pas encore récupéré la hauteur des lignes, on va le faire ici */
