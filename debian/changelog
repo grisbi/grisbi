@@ -1,8 +1,69 @@
-grisbi (0.4.2-1) unstable; urgency=low
+grisbi (0.5.0-1) unstable; urgency=low
 
-  * New (CVS) upstream version with GTK2/Gnome2 enabled
+  * New upstream version
 
  -- Benjamin Drieu <benj@debian.org>  Tue, 29 Jul 2003 22:48:36 +0200
+
+grisbi (0.4.4-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Benjamin Drieu <benj@debian.org>  Thu, 25 Mar 2004 15:37:24 +0100
+
+grisbi (0.4.3-3) unstable; urgency=low
+
+  * Removed includes of obsolete gnomeprint (closes: #226494)
+
+ -- Benjamin Drieu <benj@debian.org>  Wed,  7 Jan 2004 09:00:41 +0100
+
+grisbi (0.4.3-2) unstable; urgency=low
+
+  * Fix missing changelog.Debian.gz
+  * Fix a crash (closes: #202361)
+
+ -- Benjamin Drieu <benj@debian.org>  Tue,  6 Jan 2004 11:13:53 +0100
+
+grisbi (0.4.3-1) unstable; urgency=low
+
+  * New upstream version
+    
+ -- Benjamin Drieu <benj@debian.org>  Sat,  3 Jan 2004 16:04:15 +0100
+
+grisbi (0.4.2-1) unstable; urgency=low
+
+  * New upstream version
+
+ -- Benjamin Drieu <benj@debian.org>  Tue, 23 Dec 2003 09:23:27 +0100
+
+grisbi (0.4.1+0.4.2-pre2-1) unstable; urgency=low
+
+  * New upstream version (0.4.2-pre2).
+
+ -- Benjamin Drieu <benj@debian.org>  Tue, 16 Dec 2003 15:32:10 +0100
+
+grisbi (0.4.1+0.4.2-pre1-1) unstable; urgency=low
+
+  * New upstream version (0.4.2-pre1).
+
+ -- Benjamin Drieu <benj@debian.org>  Fri,  5 Dec 2003 13:18:04 +0100
+
+grisbi (0.4.1-2) unstable; urgency=low
+
+  * Add some upstream fixes.
+
+ -- Benjamin Drieu <benj@debian.org>  Mon, 24 Nov 2003 20:49:36 +0100
+
+grisbi (0.4.1-1) unstable; urgency=low
+
+  * New upstream version.  Grisbi is now fully i18ned ... hurrah!
+
+ -- Benjamin Drieu <benj@debian.org>  Fri,  4 Jul 2003 13:41:10 +0200
+
+grisbi (0.4.0-4) unstable; urgency=low
+
+  * Update configure stuff (Closes: #184765)
+
+ -- Benjamin Drieu <benj@debian.org>  Mon, 26 May 2003 19:00:29 +0200
 
 grisbi (0.4.0-3) unstable; urgency=low
 
