@@ -1,7 +1,7 @@
 /* ************************************************************************** */
-/*                                  utils_categories.c                    */
+/*                                  utils_categories.c			      */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (dionysos@grisbi.org)	      */
 /* 			http://www.grisbi.org				      */
@@ -27,10 +27,12 @@
 
 /*START_INCLUDE*/
 #include "utils_categories.h"
+#include "utils_devises.h"
 #include "search_glist.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static void reset_category_counters ();
 /*END_STATIC*/
 
 
@@ -39,6 +41,10 @@ extern GSList *liste_struct_categories;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint nb_enregistrements_categories;
 extern gint no_derniere_categorie;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern gint no_devise_totaux_tiers;
 /*END_EXTERN*/
 
 
@@ -268,6 +274,148 @@ gchar *nom_sous_categ_par_no ( gint no_categorie,
 /* **************************************************************************************************** */
 
 
+
+/**
+ *
+ *
+ */
+void calcule_total_montant_categ ( void )
+{
+    gint i;
+
+    reset_category_counters();
+
+    for ( i=0 ; i<nb_comptes ; i++ )
+    {
+	GSList *liste_tmp;
+
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+
+	liste_tmp = LISTE_OPERATIONS;
+	while ( liste_tmp )
+	{
+	    struct structure_operation *operation;
+
+	    operation = liste_tmp -> data;
+
+	    if ( operation -> categorie )
+	    {
+		struct struct_categ *categorie = NULL;
+		struct struct_sous_categ *sous_categorie = NULL;
+
+		/* il y a une catégorie */
+		categorie = categ_par_no ( operation -> categorie );
+
+		/* on ajoute maintenant le montant à la sous categ si elle existe */
+		if ( operation -> sous_categorie )
+		    sous_categorie = sous_categ_par_no ( operation -> categorie, 
+							 operation -> sous_categorie );
+
+		add_transaction_to_category ( operation, categorie, sous_categorie );
+	    }
+
+	    liste_tmp = liste_tmp -> next;
+	}
+    }
+}
+
+
+
+/**
+ *
+ *
+ */
+void remove_transaction_from_category ( struct structure_operation * transaction,
+					struct struct_categ * category,
+					struct struct_sous_categ * sub_category )
+{
+    gdouble amount = 
+	calcule_montant_devise_renvoi ( transaction -> montant, no_devise_totaux_tiers,
+					transaction -> devise,
+					transaction -> une_devise_compte_egale_x_devise_ope,
+					transaction -> taux_change,
+					transaction -> frais_change );
+
+    if ( category )
+    {
+	category -> nb_transactions --;
+	category -> balance -= amount;
+	if ( !category -> nb_transactions ) /* Cope with float errors */
+	    category -> balance = 0.0;
+    }
+   
+    if ( sub_category )
+    {
+	sub_category -> nb_transactions --;
+	sub_category -> balance -= amount;
+	if ( !sub_category -> nb_transactions ) /* Cope with float errors */
+	    sub_category -> balance = 0.0;
+    }
+}
+
+
+
+/**
+ *
+ *
+ */
+void add_transaction_to_category ( struct structure_operation * transaction,
+				   struct struct_categ * category,
+				   struct struct_sous_categ * sub_category )
+{
+    gdouble amount = 
+	calcule_montant_devise_renvoi ( transaction -> montant, no_devise_totaux_tiers,
+					transaction -> devise,
+					transaction -> une_devise_compte_egale_x_devise_ope,
+					transaction -> taux_change,
+					transaction -> frais_change );
+
+    if ( category )
+    {
+	category -> nb_transactions ++;
+	category -> balance += amount;
+    }
+   
+    if ( sub_category )
+    {
+	sub_category -> nb_transactions ++;
+	sub_category -> balance += amount;
+    }
+}
+
+
+
+/**
+ *
+ *
+ */
+void reset_category_counters ()
+{
+    GSList * tmp;
+
+    tmp = liste_struct_categories;
+    while ( tmp )
+    {
+	struct struct_categ * categ = tmp -> data;
+	GSList * sous_categ_list;
+
+	categ -> balance = 0.0;
+	categ -> nb_transactions = 0;
+
+	sous_categ_list = categ -> liste_sous_categ;
+	while ( sous_categ_list )
+	{
+	    struct struct_sous_categ * sous_categ = sous_categ_list -> data;
+
+	    sous_categ -> balance = 0.0;
+	    sous_categ -> nb_transactions = 0;
+
+	    sous_categ_list = sous_categ_list -> next;
+	}
+	
+	tmp = tmp -> next;
+    }
+}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
