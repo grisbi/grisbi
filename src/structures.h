@@ -1,6 +1,7 @@
 /* fichier d'en tête structures.h */
 /* contient toutes les structures du prog */
 
+#include "print_config.h"
 
 #define VERSION_FICHIER "0.5.0"
 #define VERSION_FICHIER_ETAT "0.5.0"
@@ -72,9 +73,14 @@ struct {
   guint retient_affichage_par_compte;   /* à 1 si les caractéristiques de l'affichage (R, non R ...) diffèrent par compte */
   guint en_train_de_sauvegarder;
   guint en_train_de_charger;
+
+  /* Various display message stuff  */
   guint display_message_lock_active;
   guint display_message_file_readable;
   guint display_message_minimum_alert;
+
+  /* Print stuff */
+  struct print_config print_config;
 } etat;
 
 
