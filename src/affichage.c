@@ -24,7 +24,11 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+#include "affichage.h"
+#include "fichiers_gestion.h"
+#include "operations_formulaire.h"
+#include "parametres.h"
+#include "traitement_variables.h"
 
 
 

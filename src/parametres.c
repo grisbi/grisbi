@@ -18,11 +18,21 @@
 /*     along with this program; if not, write to the Free Software */
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+#include "erreur.h"
+#include "gtkcombofix.h"
+#include "parametres.h"
+#include "traitement_variables.h"
+#include "affichage.h"
+#include "affichage_liste.h"
+#include "equilibrage.h"
+#include "devises.h"
+#include "banque.h"
+#include "exercice.h"
+#include "type_operations.h"
+#include "operations_formulaire.h"
 
 GtkTreeStore *preference_tree_model;
 GtkWidget * hpaned;

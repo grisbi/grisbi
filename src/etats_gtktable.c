@@ -24,8 +24,12 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
 
+#include "barre_outils.h"
+#include "etats_gtktable.h"
+#include "operations_comptes.h"
+#include "operations_liste.h"
+#include "accueil.h"
 #include "etats.h"
 #include "etats_gtktable.h"
 

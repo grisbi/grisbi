@@ -23,7 +23,15 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+#include "categories_onglet.h"
+#include "erreur.h"
+#include "fichiers_io.h"
+#include "gtkcombofix.h"
+#include "imputation_budgetaire.h"
+#include "menu.h"
+#include "operations_liste.h"
+#include "parametres.h"
+#include "traitement_variables.h"
 #include <libxml/tree.h>
 
 

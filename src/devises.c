@@ -23,7 +23,17 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+#include "accueil.h"
+#include "categories_onglet.h"
+#include "devises.h"
+#include "erreur.h"
+#include "etats_config.h"
+#include "fichiers_io.h"
+#include "imputation_budgetaire.h"
+#include "parametres.h"
+#include "tiers_onglet.h"
+#include "traitement_variables.h"
+#include "comptes_gestion.h"
 
 
 GtkWidget *entree_nom, *entree_code, *entree_iso_code;

@@ -24,7 +24,10 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+#include "barre_outils.h"
+#include "operations_liste.h"
+#include "operations_formulaire.h"
+#include "echeancier_formulaire.h"
 
 
 #include "./xpm/ope_1.xpm"

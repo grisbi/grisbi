@@ -22,7 +22,8 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+#include "gtkcombofix.h"
+#include "help.h"
 
 
 /* **************************************************************************************************************************** */

@@ -24,7 +24,15 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+#include "comptes_onglet.h"
+#include "gtkcombofix.h"
+#include "ventilation.h"
+#include "operations_liste.h"
+#include "comptes_onglet.h"
+#include "equilibrage.h"
+#include "operations_formulaire.h"
+#include "echeancier_formulaire.h"
+#include "operations_comptes.h"
 
 
 /*****************************************************************************************************/

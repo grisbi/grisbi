@@ -26,32 +26,35 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+#include "accueil.h"
+#include "devises.h"
+#include "echeancier_formulaire.h"
+#include "echeancier_liste.h"
+#include "exercice.h"
+#include "gtkcombofix.h"
+#include "operations_formulaire.h"
+#include "operations_liste.h"
+#include "traitement_variables.h"
+#include "type_operations.h"
+#include "fichiers_io.h"
+#include "barre_outils.h"
+#include "tiers_onglet.h"
+#include "categories_onglet.h"
+#include "imputation_budgetaire.h"
 
   
-  #define COL_NB_DATE 0
-  #define COL_NB_ACCOUNT 1
-  #define COL_NB_PARTY 2
-  #define COL_NB_FREQUENCY 3
-  #define COL_NB_MODE 4
-  #define COL_NB_NOTES 5
-  #define COL_NB_AMOUNT 6
-  #define NB_COLS_SCHEDULER 7
+#define COL_NB_DATE 0
+#define COL_NB_ACCOUNT 1
+#define COL_NB_PARTY 2
+#define COL_NB_FREQUENCY 3
+#define COL_NB_MODE 4
+#define COL_NB_NOTES 5
+#define COL_NB_AMOUNT 6
+#define NB_COLS_SCHEDULER 7
   
-  gint scheduler_col_width[NB_COLS_SCHEDULER] = { 10,
-						  26,
-						  20,
-						  14,
-						  14,
-						  28,
-						  8};
-/*
-  gint start_rezise_x,
-       start_rezise_y ;
-  gboolean userresizing = FALSE ;
-  gint ancienne_largeur_echeances = 0 ;
-  gchar mes_tmp[100] ;
-*/         
+gint scheduler_col_width[NB_COLS_SCHEDULER] = { 10, 26, 20, 14, 14, 28, 8};
+
+
 /* ****************************************************************************************************** */
 GtkWidget *creation_onglet_echeancier ( void )
 {

@@ -22,9 +22,19 @@
 
 
 #include "include.h"
-#include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+#include "accueil.h"
+#include "barre_outils.h"
+#include "devises.h"
+#include "echeancier_liste.h"
+#include "erreur.h"
+#include "etats_config.h"
+#include "gtkcombofix.h"
+#include "operations_comptes.h"
+#include "operations_liste.h"
+#include "structures.h"
+#include "tiers_onglet.h"
+#include "traitement_variables.h"
 
 #include "xpm/book-closed.xpm"
 #include "xpm/book-open.xpm"

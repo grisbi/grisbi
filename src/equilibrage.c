@@ -23,7 +23,17 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+#include "accueil.h"
+#include "barre_outils.h"
+#include "devises.h"
+#include "equilibrage.h"
+#include "erreur.h"
+#include "fichiers_io.h"
+#include "operations_liste.h"
+#include "parametres.h"
+#include "traitement_variables.h"
+#include "type_operations.h"
+#include "operations_classement.h"
 
 
 enum reconciliation_columsn {

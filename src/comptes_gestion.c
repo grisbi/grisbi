@@ -19,12 +19,25 @@
 /*     along with this program; if not, write to the Free Software */
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-
-
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+#include "accueil.h"
+#include "categories_onglet.h"
+#include "comptes_gestion.h"
+#include "comptes_onglet.h"
+#include "echeancier_liste.h"
+#include "erreur.h"
+#include "etats_config.h"
+#include "fichiers_io.h"
+#include "operations_comptes.h"
+#include "operations_formulaire.h"
+#include "operations_liste.h"
+#include "traitement_variables.h"
+#include "devises.h"
+#include "banque.h"
+#include "parametres.h"
+#include "comptes_traitements.h"
 
 
 /* ************************************************************************************************************ */

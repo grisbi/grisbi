@@ -24,7 +24,18 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+#include "categories_onglet.h"
+#include "devises.h"
+#include "erreur.h"
+#include "exercice.h"
+#include "fichiers_io.h"
+#include "gtkcombofix.h"
+#include "imputation_budgetaire.h"
+#include "operations_formulaire.h"
+#include "operations_liste.h"
+#include "type_operations.h"
+#include "ventilation.h"
+#include "operations_classement.h"
 
 
 

@@ -19,12 +19,19 @@
 /*     along with this program; if not, write to the Free Software */
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-
-
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+#include "categories_onglet.h"
+#include "devises.h"
+#include "erreur.h"
+#include "etats_config.h"
+#include "gtkcombofix.h"
+#include "operations_comptes.h"
+#include "operations_liste.h"
+#include "traitement_variables.h"
+#include "barre_outils.h"
+#include "tiers_onglet.h"
 
 gchar *categories_de_base_debit [] = {
   N_("Food : Bar"),

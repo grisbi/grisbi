@@ -28,7 +28,16 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+#include "devises.h"
+#include "erreur.h"
+#include "etats_config.h"
+#include "gtkcombofix.h"
+#include "imputation_budgetaire.h"
+#include "operations_comptes.h"
+#include "operations_liste.h"
+#include "traitement_variables.h"
+#include "barre_outils.h"
+#include "tiers_onglet.h"
 
 
 

@@ -23,7 +23,13 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+#include "erreur.h"
+#include "gtkcombofix.h"
+#include "operations_formulaire.h"
+#include "parametres.h"
+#include "traitement_variables.h"
+#include "type_operations.h"
+#include "fichiers_io.h"
 
 
 /** Columns for payment methods tree */

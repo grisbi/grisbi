@@ -23,9 +23,20 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
 
+#include "devises.h"
+#include "etats_calculs.h"
+#include "etats_gtktable.h"
 #include "etats.h"
+#include "etats_support.h"
+#include "etats.h"
+#include "exercice.h"
+#include "tiers_onglet.h"
+#include "imputation_budgetaire.h"
+#include "type_operations.h"
+#include "equilibrage.h"
+#include "categories_onglet.h"
+#include "tiers_onglet.h"
 
 /*****************************************************************************************************/
 gint etat_affiche_affiche_titre ( gint ligne )

@@ -23,7 +23,8 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+#include "erreur.h"
+#include "etats_latex.h"
 
 #include "etats.h"
 #include "etats_latex.h"

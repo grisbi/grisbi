@@ -36,7 +36,17 @@
 #include "include.h"
 #include "structures.h"
 #include "variables.c"
-#include "en_tete.h"
+#include "etats_calculs.h"
+#include "etats_config.h"
+#include "etats_onglet.h"
+#include "fichier_configuration.h"
+#include "fichiers_gestion.h"
+#include "gtkcombofix.h"
+#include "main.h"
+#include "menu.h"
+#include "parametres.h"
+#include "traitement_variables.h"
+#include "erreur.h"
 
 #include <libintl.h>
 #include <locale.h>

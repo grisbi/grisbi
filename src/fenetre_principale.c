@@ -19,12 +19,19 @@
 /*     along with this program; if not, write to the Free Software */
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-
-
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+
+#include "fenetre_principale.h"
+#include "accueil.h"
+#include "operations_onglet.h"
+#include "echeancier_liste.h"
+#include "comptes_onglet.h"
+#include "tiers_onglet.h"
+#include "categories_onglet.h"
+#include "imputation_budgetaire.h"
+#include "etats_onglet.h"
 
 
 /**********************************************************************************************************

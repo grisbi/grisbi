@@ -21,7 +21,10 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+#include "affichage_liste.h"
+#include "operations_liste.h"
+#include "parametres.h"
+#include "traitement_variables.h"
 
 gchar *labels_boutons [] = { N_("Date"),
 			     N_("Value date"),

@@ -23,7 +23,11 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+#include "erreur.h"
+#include "exercice.h"
+#include "operations_liste.h"
+#include "parametres.h"
+#include "traitement_variables.h"
 
 
 GtkWidget *paddingbox_details;	/** Widget handling financial year details */

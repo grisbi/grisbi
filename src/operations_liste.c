@@ -25,34 +25,38 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
-/*
-  #define TRANSACTION_COL_NB_CHECK 0
-  #define TRANSACTION_COL_NB_DATE 1
-  #define TRANSACTION_COL_NB_PARTY 2
-  #define TRANSACTION_COL_NB_PR 3
-  #define TRANSACTION_COL_NB_DEBIT 4
-  #define TRANSACTION_COL_NB_CREDIT 5
-  #define TRANSACTION_COL_NB_BALANCE 6
-*/
-  #define NB_COLS_TRANSACTION 7
-  #define NB_ROWS_TRANSACTION 4
-/*
-  gint transaction_col_width[NB_COLS_TRANSACTION] = { 10,
-						      26,
-						      20,
-						      14,
-						      14,
-						      28,
-						      8};
-*/
-  GtkJustification col_justs[] = { GTK_JUSTIFY_CENTER,
-				   GTK_JUSTIFY_CENTER,
-				   GTK_JUSTIFY_LEFT,
-				   GTK_JUSTIFY_CENTER,
-				   GTK_JUSTIFY_RIGHT,
-				   GTK_JUSTIFY_RIGHT,
-				   GTK_JUSTIFY_RIGHT };
+
+#include "accueil.h"
+#include "affichage.h"
+#include "barre_outils.h"
+#include "categories_onglet.h"
+#include "devises.h"
+#include "equilibrage.h"
+#include "erreur.h"
+#include "exercice.h"
+#include "fichiers_io.h"
+#include "gtkcombofix.h"
+#include "imputation_budgetaire.h"
+#include "operations_classement.h"
+#include "operations_formulaire.h"
+#include "operations_liste.h"
+#include "tiers_onglet.h"
+#include "traitement_variables.h"
+#include "type_operations.h"
+#include "ventilation.h"
+
+
+#define NB_COLS_TRANSACTION 7
+#define NB_ROWS_TRANSACTION 4
+
+GtkJustification col_justs[] = { GTK_JUSTIFY_CENTER,
+				 GTK_JUSTIFY_CENTER,
+				 GTK_JUSTIFY_LEFT,
+				 GTK_JUSTIFY_CENTER,
+				 GTK_JUSTIFY_RIGHT,
+				 GTK_JUSTIFY_RIGHT,
+				 GTK_JUSTIFY_RIGHT };
+
 
 /******************************************************************************/
 /*  Routine qui crée la fenêtre de la liste des opé  */

@@ -1,0 +1,38 @@
+GtkWidget *onglet_tiers ( void );
+void remplit_arbre_tiers ( void );
+gint classement_alphabetique_tree ( GtkWidget *tree,
+				    GtkCListRow *ligne_1,
+				    GtkCListRow *ligne_2 );
+void ouverture_node_tiers ( GtkWidget *arbre,
+			    GtkCTreeNode *node,
+			    gpointer null );
+void selection_ligne_tiers ( GtkCTree *arbre_tiers,
+			     GtkCTreeNode *noeud,
+			     gint colonne,
+			     gpointer null );
+void verifie_double_click ( GtkWidget *liste,
+			    GdkEventButton *ev,
+			    gpointer null );
+void enleve_selection_ligne_tiers ( void );
+void modification_du_texte_tiers ( GtkText *texte,
+				   gpointer null );
+void clique_sur_modifier_tiers ( GtkWidget *bouton_modifier,
+				 gpointer null );
+void clique_sur_annuler_tiers ( GtkWidget *bouton_annuler,
+				gpointer null );
+struct struct_tiers *ajoute_nouveau_tiers ( gchar *tiers );
+void supprimer_tiers ( GtkWidget *bouton,
+		       gpointer null );
+void creation_liste_tiers_combofix ( void );
+gboolean changement_taille_liste_tiers ( GtkWidget *clist,
+					 GtkAllocation *allocation,
+					 gpointer null );
+void mise_a_jour_tiers ( void );
+gint recherche_tiers_par_no ( struct struct_tiers *tiers,
+			      gint *no_tiers );
+gint recherche_tiers_par_nom ( struct struct_tiers *tiers,
+			       gchar *ancien_tiers );
+gfloat *calcule_total_montant_tiers ( void );
+gchar *calcule_total_montant_tiers_par_compte ( gint no_tiers,
+					       gint no_compte );
+void appui_sur_ajout_tiers ( void );

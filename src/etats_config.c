@@ -22,7 +22,20 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+#include "erreur.h"
+#include "etats_calculs.h"
+#include "etats_config.h"
+#include "etats_onglet.h"
+#include "fichiers_io.h"
+#include "operations_formulaire.h"
+#include "tiers_onglet.h"
+#include "traitement_variables.h"
+#include "devises.h"
+#include "categories_onglet.h"
+#include "exercice.h"
+#include "imputation_budgetaire.h"
+#include "tiers_onglet.h"
+#include "operations_classement.h"
 
 gchar *liste_plages_dates[] = {
   N_("All"),

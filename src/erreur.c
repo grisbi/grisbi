@@ -23,7 +23,11 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+#include "erreur.h"
+#include "fichier_configuration.h"
+#include "fichiers_io.h"
+#include "parametres.h"
+#include "patienter.h"
 
 /*****************************************************************************************************************/
 /* fonction appelée lors de la demande de fermeture du fichier de compte en cours */

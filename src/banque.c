@@ -23,7 +23,9 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+#include "banque.h"
+#include "comptes_gestion.h"
+#include "parametres.h"
 
 
 /** 

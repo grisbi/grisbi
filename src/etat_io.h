@@ -1,0 +1,9 @@
+gboolean charge_etat ( gchar *nom_etat );
+gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc );
+gboolean enregistre_etat ( gchar *nom_etat );
+gint recupere_devise_par_nom_etat ( gchar *nom_devise );
+gint recupere_exo_par_nom_etat ( gchar *nom_exo );
+gint recupere_compte_par_nom_etat ( gchar *nom_compte );
+gint recupere_categ_par_nom_etat ( gchar *nom_categ );
+gint recupere_ib_par_nom_etat ( gchar *nom );
+gint recupere_tiers_par_nom_etat ( gchar *nom );

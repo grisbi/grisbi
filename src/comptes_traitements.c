@@ -24,7 +24,21 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+#include "accueil.h"
+#include "categories_onglet.h"
+#include "comptes_onglet.h"
+#include "comptes_traitements.h"
+#include "echeancier_liste.h"
+#include "erreur.h"
+#include "etats_config.h"
+#include "fichiers_gestion.h"
+#include "imputation_budgetaire.h"
+#include "operations_comptes.h"
+#include "operations_liste.h"
+#include "tiers_onglet.h"
+#include "traitement_variables.h"
+#include "type_operations.h"
+#include "comptes_gestion.h"
 
 
 

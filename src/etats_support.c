@@ -22,7 +22,9 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+
+#include "etats_support.h"
+#include "exercice.h"
 
 gchar * etats_titre ()
 {

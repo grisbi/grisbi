@@ -22,7 +22,15 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+#include "gtkcombofix.h"
+#include "menu.h"
+#include "comptes_traitements.h"
+#include "qif.h"
+#include "help.h"
+#include "fichiers_gestion.h"
+#include "erreur.h"
+#include "operations_formulaire.h"
+#include "parametres.h"
 
 #include "./xpm/export.xpm"
 #include "./xpm/import.xpm"
@@ -124,7 +132,7 @@ void init_menus ( GtkWidget * win )
       GNOMEUIINFO_END
     };
 
-  static GnomeUIInfo tmp_menu_editer [2] = 
+  static GnomeUIInfo tmp_menu_editer [4] = 
     {
       GNOMEUIINFO_ITEM_STOCK (N_("New transaction"), 
 			      N_("Create a new transaction"),

@@ -22,7 +22,7 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+#include "fichier_configuration.h"
 
 
 /******************************************************************************************************************/

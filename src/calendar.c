@@ -23,8 +23,11 @@
 /* ************************************************************************** */
 
 
-#include "calendar.h"
+#include "include.h"
+#include "structures.h"
 
+#include "calendar.h"
+#include "operations_formulaire.h"
 
 
 /******************************************************************************/

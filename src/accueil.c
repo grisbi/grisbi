@@ -28,7 +28,13 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+
+#include "accueil.h"
+#include "parametres.h"
+#include "devises.h"
+#include "operations_comptes.h"
+#include "echeancier_formulaire.h"
+#include "tiers_onglet.h"
 
 #define show_paddingbox(child) gtk_widget_show_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
 #define hide_paddingbox(child) gtk_widget_hide_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))

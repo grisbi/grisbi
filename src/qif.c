@@ -24,7 +24,22 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+#include "accueil.h"
+#include "categories_onglet.h"
+#include "comptes_traitements.h"
+#include "devises.h"
+#include "erreur.h"
+#include "fichiers_gestion.h"
+#include "fichiers_io.h"
+#include "gtkcombofix.h"
+#include "operations_comptes.h"
+#include "operations_liste.h"
+#include "patienter.h"
+#include "qif.h"
+#include "tiers_onglet.h"
+#include "traitement_variables.h"
+#include "operations_formulaire.h"
+#include "type_operations.h"
 
 
 

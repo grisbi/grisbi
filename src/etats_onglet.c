@@ -22,7 +22,12 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "en_tete.h"
+#include "erreur.h"
+#include "etats_calculs.h"
+#include "etats_config.h"
+#include "etats_onglet.h"
+#include "tiers_onglet.h"
+#include "traitement_variables.h"
 
 
 void impression_etat ( struct struct_etat *etat );
