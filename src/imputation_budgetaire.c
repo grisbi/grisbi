@@ -42,6 +42,8 @@
 #include "operations_liste.h"
 #include "dialog.h"
 #include "gtk_combofix.h"
+#include "metatree.h"
+#include "meta_budgetary.h"
 #include "utils_ib.h"
 #include "utils_str.h"
 #include "traitement_variables.h"
@@ -83,6 +85,8 @@ static gboolean verifie_double_click_imputation ( GtkWidget *liste, GdkEventButt
 /*END_STATIC*/
 
 
+GtkWidget *budgetary_line_tree;
+GtkTreeStore *budgetary_line_tree_model;
 
 GtkWidget *arbre_imputation;
 GtkWidget *entree_nom_imputation;
@@ -145,13 +149,6 @@ GtkWidget *onglet_imputations ( void )
 {
     GtkWidget *onglet;
     GtkWidget *scroll_window;
-    gchar *titres[] =
-    {
-	_("Budgetary lines list"),
-	_("Amount per budget line"),
-	_("Amount per sub-budget line"),
-	_("Amount per account")
-    };
     GtkWidget *vbox;
     GtkWidget *frame;
     GtkWidget *vbox_frame;
@@ -159,6 +156,13 @@ GtkWidget *onglet_imputations ( void )
     GtkWidget *label;
     GtkWidget *separateur;
     GtkWidget *bouton;
+    GtkTreeViewColumn *column;
+    GtkCellRenderer *cell;
+    GtkTreeDragDestIface * dst_iface;
+    GtkTreeDragSourceIface * src_iface;
+    static GtkTargetEntry row_targets[] = {
+	{ "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
+    };
 
 
     /* création de la fenêtre qui sera renvoyée */
@@ -479,92 +483,172 @@ GtkWidget *onglet_imputations ( void )
 			 FALSE,
 			 0 );
 
+    /* We create the gtktreeview and model early so that they can be referenced. */
+    budgetary_line_tree = gtk_tree_view_new();
+    budgetary_line_tree_model = gtk_tree_store_new ( META_TREE_NUM_COLUMNS, 
+						     G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, 
+						     G_TYPE_POINTER, G_TYPE_INT, G_TYPE_INT, 
+						     G_TYPE_INT, G_TYPE_FLOAT );
+
+
     /* création de l'arbre principal */
 
-    scroll_window = gtk_scrolled_window_new ( NULL,
-					      NULL );
+    scroll_window = gtk_scrolled_window_new ( NULL, NULL );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scroll_window ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 scroll_window,
-			 TRUE,
-			 TRUE,
-			 0 );
+				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scroll_window), 
+					  GTK_SHADOW_IN );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), scroll_window, TRUE, TRUE, 0 );
     gtk_widget_show ( scroll_window );
 
+    /* Create model */
+    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE(budgetary_line_tree_model), 
+					   META_TREE_TEXT_COLUMN, GTK_SORT_ASCENDING );
+    g_object_set_data ( G_OBJECT (budgetary_line_tree_model), "metatree-interface", 
+			budgetary_interface );
 
-    arbre_imputation = gtk_ctree_new_with_titles ( 4,
-						   0,
-						   titres );
-    gtk_ctree_set_line_style ( GTK_CTREE ( arbre_imputation ),
-			       GTK_CTREE_LINES_DOTTED );
-    gtk_ctree_set_expander_style ( GTK_CTREE ( arbre_imputation ),
-				   GTK_CTREE_EXPANDER_CIRCULAR );
-    gtk_clist_column_titles_passive ( GTK_CLIST ( arbre_imputation ));
+    /* Create container + TreeView */
+    gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (budgetary_line_tree), TRUE);
+    gtk_tree_view_enable_model_drag_source(GTK_TREE_VIEW(budgetary_line_tree),
+					   GDK_BUTTON1_MASK, row_targets, 1,
+					   GDK_ACTION_MOVE | GDK_ACTION_COPY );
+    gtk_tree_view_enable_model_drag_dest ( GTK_TREE_VIEW(budgetary_line_tree), row_targets,
+					   1, GDK_ACTION_MOVE | GDK_ACTION_COPY );
+    gtk_tree_view_set_reorderable (GTK_TREE_VIEW(budgetary_line_tree), TRUE);
+    gtk_tree_selection_set_mode ( gtk_tree_view_get_selection ( GTK_TREE_VIEW(budgetary_line_tree)),
+				  GTK_SELECTION_SINGLE );
+    gtk_tree_view_set_model (GTK_TREE_VIEW (budgetary_line_tree), 
+			     GTK_TREE_MODEL (budgetary_line_tree_model));
+    g_object_set_data ( G_OBJECT(budgetary_line_tree_model), "tree-view", budgetary_line_tree );
 
-    gtk_clist_set_column_justification ( GTK_CLIST ( arbre_imputation ),
-					 0,
-					 GTK_JUSTIFY_LEFT);
-    gtk_clist_set_column_justification ( GTK_CLIST ( arbre_imputation ),
-					 1,
-					 GTK_JUSTIFY_CENTER);
-    gtk_clist_set_column_justification ( GTK_CLIST ( arbre_imputation ),
-					 2,
-					 GTK_JUSTIFY_CENTER);
-    gtk_clist_set_column_justification ( GTK_CLIST ( arbre_imputation ),
-					 3,
-					 GTK_JUSTIFY_CENTER);
+    /* Make category column */
+    cell = gtk_cell_renderer_text_new ();
+    column = gtk_tree_view_column_new_with_attributes ("Category", cell, 
+						       "text", META_TREE_TEXT_COLUMN, 
+						       "weight", META_TREE_FONT_COLUMN,
+						       NULL);
+#if GTK_CHECK_VERSION(2,4,0)
+    gtk_tree_view_column_set_expand ( column, TRUE );
+#endif
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( budgetary_line_tree ), 
+				  GTK_TREE_VIEW_COLUMN ( column ) );
 
-    gtk_clist_set_column_resizeable ( GTK_CLIST ( arbre_imputation ),
-				      0,
-				      FALSE );
-    gtk_clist_set_column_resizeable ( GTK_CLIST ( arbre_imputation ),
-				      1,
-				      FALSE );
-    gtk_clist_set_column_resizeable ( GTK_CLIST ( arbre_imputation ),
-				      2,
-				      FALSE );
-    gtk_clist_set_column_resizeable ( GTK_CLIST ( arbre_imputation ),
-				      3,
-				      FALSE );
+    /* Make account column */
+    cell = gtk_cell_renderer_text_new ();
+    column = gtk_tree_view_column_new_with_attributes ("Account", cell, 
+						       "text", META_TREE_ACCOUNT_COLUMN, 
+						       "weight", META_TREE_FONT_COLUMN,
+						       NULL);
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( budgetary_line_tree ), 
+				  GTK_TREE_VIEW_COLUMN ( column ) );
 
-    /* on met la fontion de tri alphabétique en prenant en compte les accents */
+    /* Make balance column */
+    cell = gtk_cell_renderer_text_new ();
+    column = gtk_tree_view_column_new_with_attributes ("Balance", cell, 
+						       "text", META_TREE_BALANCE_COLUMN,
+						       "weight", META_TREE_FONT_COLUMN,
+						       "xalign", META_TREE_XALIGN_COLUMN,
+						       NULL);
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( budgetary_line_tree ), 
+				  GTK_TREE_VIEW_COLUMN ( column ) );
 
-    gtk_clist_set_compare_func ( GTK_CLIST ( arbre_imputation ),
-				 (GtkCListCompareFunc) classement_alphabetique_tree );
+    gtk_container_add ( GTK_CONTAINER ( scroll_window ), budgetary_line_tree );
+    gtk_widget_show ( budgetary_line_tree );
 
-    gtk_signal_connect ( GTK_OBJECT ( arbre_imputation ),
-			 "tree-select-row",
-			 GTK_SIGNAL_FUNC ( selection_ligne_imputation ),
-			 NULL );
-    gtk_signal_connect ( GTK_OBJECT ( arbre_imputation ),
-			 "tree-unselect-row",
-			 GTK_SIGNAL_FUNC ( enleve_selection_ligne_imputation ),
-			 NULL );
-    gtk_signal_connect ( GTK_OBJECT ( arbre_imputation ),
-			 "button-press-event",
-			 GTK_SIGNAL_FUNC ( verifie_double_click_imputation ),
-			 NULL );
-    gtk_signal_connect ( GTK_OBJECT ( arbre_imputation ),
-			 "key-press-event",
-			 GTK_SIGNAL_FUNC ( keypress_ib ),
-			 NULL );
-    gtk_signal_connect ( GTK_OBJECT ( arbre_imputation ),
-			 "size-allocate",
-			 GTK_SIGNAL_FUNC ( changement_taille_liste_tiers ),
-			 NULL );
-    gtk_signal_connect ( GTK_OBJECT ( arbre_imputation ),
-			 "tree-expand",
-			 GTK_SIGNAL_FUNC ( ouverture_node_imputation ),
-			 NULL );
-    gtk_container_add ( GTK_CONTAINER (  scroll_window ),
-			arbre_imputation );
-    gtk_widget_show ( arbre_imputation );
+    /* Connect to signals */
+    g_signal_connect ( G_OBJECT(budgetary_line_tree), "row-expanded", 
+		       G_CALLBACK(categ_column_expanded), NULL );
+    g_signal_connect( G_OBJECT(budgetary_line_tree), "row-activated",
+		      G_CALLBACK(categ_activated), NULL);
+
+    dst_iface = GTK_TREE_DRAG_DEST_GET_IFACE (budgetary_line_tree_model);
+    if ( dst_iface )
+    {
+	dst_iface -> drag_data_received = &categ_drag_data_received;
+	dst_iface -> row_drop_possible = &categ_row_drop_possible;
+    }
+
+    src_iface = GTK_TREE_DRAG_SOURCE_GET_IFACE (budgetary_line_tree_model);
+    if ( src_iface )
+    {
+	gtk_selection_add_target (budgetary_line_tree,
+				  GDK_SELECTION_PRIMARY,
+				  GDK_SELECTION_TYPE_ATOM,
+				  1);
+	src_iface -> drag_data_get = &categ_drag_data_get;
+    }
+
+/*     arbre_imputation = gtk_ctree_new_with_titles ( 4, */
+/* 						   0, */
+/* 						   titres ); */
+/*     gtk_ctree_set_line_style ( GTK_CTREE ( arbre_imputation ), */
+/* 			       GTK_CTREE_LINES_DOTTED ); */
+/*     gtk_ctree_set_expander_style ( GTK_CTREE ( arbre_imputation ), */
+/* 				   GTK_CTREE_EXPANDER_CIRCULAR ); */
+/*     gtk_clist_column_titles_passive ( GTK_CLIST ( arbre_imputation )); */
+
+/*     gtk_clist_set_column_justification ( GTK_CLIST ( arbre_imputation ), */
+/* 					 0, */
+/* 					 GTK_JUSTIFY_LEFT); */
+/*     gtk_clist_set_column_justification ( GTK_CLIST ( arbre_imputation ), */
+/* 					 1, */
+/* 					 GTK_JUSTIFY_CENTER); */
+/*     gtk_clist_set_column_justification ( GTK_CLIST ( arbre_imputation ), */
+/* 					 2, */
+/* 					 GTK_JUSTIFY_CENTER); */
+/*     gtk_clist_set_column_justification ( GTK_CLIST ( arbre_imputation ), */
+/* 					 3, */
+/* 					 GTK_JUSTIFY_CENTER); */
+
+/*     gtk_clist_set_column_resizeable ( GTK_CLIST ( arbre_imputation ), */
+/* 				      0, */
+/* 				      FALSE ); */
+/*     gtk_clist_set_column_resizeable ( GTK_CLIST ( arbre_imputation ), */
+/* 				      1, */
+/* 				      FALSE ); */
+/*     gtk_clist_set_column_resizeable ( GTK_CLIST ( arbre_imputation ), */
+/* 				      2, */
+/* 				      FALSE ); */
+/*     gtk_clist_set_column_resizeable ( GTK_CLIST ( arbre_imputation ), */
+/* 				      3, */
+/* 				      FALSE ); */
+
+/*     /\* on met la fontion de tri alphabétique en prenant en compte les accents *\/ */
+
+/*     gtk_clist_set_compare_func ( GTK_CLIST ( arbre_imputation ), */
+/* 				 (GtkCListCompareFunc) classement_alphabetique_tree ); */
+
+/*     gtk_signal_connect ( GTK_OBJECT ( arbre_imputation ), */
+/* 			 "tree-select-row", */
+/* 			 GTK_SIGNAL_FUNC ( selection_ligne_imputation ), */
+/* 			 NULL ); */
+/*     gtk_signal_connect ( GTK_OBJECT ( arbre_imputation ), */
+/* 			 "tree-unselect-row", */
+/* 			 GTK_SIGNAL_FUNC ( enleve_selection_ligne_imputation ), */
+/* 			 NULL ); */
+/*     gtk_signal_connect ( GTK_OBJECT ( arbre_imputation ), */
+/* 			 "button-press-event", */
+/* 			 GTK_SIGNAL_FUNC ( verifie_double_click_imputation ), */
+/* 			 NULL ); */
+/*     gtk_signal_connect ( GTK_OBJECT ( arbre_imputation ), */
+/* 			 "key-press-event", */
+/* 			 GTK_SIGNAL_FUNC ( keypress_ib ), */
+/* 			 NULL ); */
+/*     gtk_signal_connect ( GTK_OBJECT ( arbre_imputation ), */
+/* 			 "size-allocate", */
+/* 			 GTK_SIGNAL_FUNC ( changement_taille_liste_tiers ), */
+/* 			 NULL ); */
+/*     gtk_signal_connect ( GTK_OBJECT ( arbre_imputation ), */
+/* 			 "tree-expand", */
+/* 			 GTK_SIGNAL_FUNC ( ouverture_node_imputation ), */
+/* 			 NULL ); */
+/*     gtk_container_add ( GTK_CONTAINER (  scroll_window ), */
+/* 			arbre_imputation ); */
+/*     gtk_widget_show ( arbre_imputation ); */
 
 
-    gtk_clist_set_compare_func ( GTK_CLIST ( arbre_imputation ),
-				 (GtkCListCompareFunc) classement_alphabetique_tree );
+/*     gtk_clist_set_compare_func ( GTK_CLIST ( arbre_imputation ), */
+/* 				 (GtkCListCompareFunc) classement_alphabetique_tree ); */
 
     /* la 1ère fois qu'on affichera les catég, il faudra remplir la liste */
 
@@ -584,337 +668,61 @@ GtkWidget *onglet_imputations ( void )
 
 void remplit_arbre_imputation ( void )
 {
-    gchar *text[4];
-    GSList *liste_imputation_tmp;
-    gint place_imputation;
-    gint i;
+    GSList *liste_budgetary_line_tmp;
+    GtkTreeIter iter_budgetary_line, iter_sub_budgetary_line;
 
-    /* freeze le ctree */
-
-    gtk_clist_freeze ( GTK_CLIST ( arbre_imputation ));
-
-    /* retire la sélection */
-
-    gtk_clist_unselect_all ( GTK_CLIST ( arbre_imputation ));
-
-    /*   efface l'ancien arbre */
-
-    gtk_clist_clear ( GTK_CLIST ( arbre_imputation ));
-
-
-    /* récupération de la devise des paramètres */
+    /** First, remove previous tree */
+    gtk_tree_store_clear ( GTK_TREE_STORE (budgetary_line_tree_model) );
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
+    /** Currency used for totals is then chosen from preferences.  */
     if ( !devise_compte
 	 ||
 	 devise_compte -> no_devise != no_devise_totaux_tiers )
 	devise_compte = devise_par_no ( no_devise_totaux_tiers );
 
-    /* calcule les montants des imputations et sous imputations */
+    /* Compute budgetary lines balances. */
+    calcule_total_montant_budgetary_line ();
 
-    calcule_total_montant_imputation ();
-
-    /* remplit l'arbre */
-
-    liste_imputation_tmp = liste_struct_imputation;
-    place_imputation = 0;
-
-    while ( liste_imputation_tmp )
+    /** Then, populate tree with budgetary lines. */
+    liste_budgetary_line_tmp = g_slist_prepend ( liste_struct_imputation, NULL );
+    while ( liste_budgetary_line_tmp )
     {
-	struct struct_imputation *imputation;
-	GtkCTreeNode *ligne;
-	GSList *liste_sous_imputation_tmp;
-	GtkCTreeNode *ligne_sous_imputation;
-	gint place_sous_imputation;
+	struct struct_imputation *budgetary_line;
+	GSList *liste_sub_budgetary_line_tmp = NULL;
 
-	imputation = liste_imputation_tmp -> data;
+	budgetary_line = liste_budgetary_line_tmp -> data;
 
-	if ( etat.affiche_nb_ecritures_listes
-	     &&
-	     nb_ecritures_par_imputation[place_imputation+1] )
-	    text[0] = g_strconcat ( imputation -> nom_imputation,
-				    " (",
-				    itoa ( nb_ecritures_par_imputation[place_imputation+1] ),
-				    ")",
-				    NULL );
-	else
-	    text[0] = imputation -> nom_imputation ;
+	gtk_tree_store_append (GTK_TREE_STORE (budgetary_line_tree_model), &iter_budgetary_line, NULL);
+	fill_categ_row ( GTK_TREE_MODEL(budgetary_line_tree_model), budgetary_interface, 
+				  &iter_budgetary_line, budgetary_line );
 
-	if ( tab_montant_imputation[place_imputation+1] )
-	    text[1] = g_strdup_printf ( _("%4.2f %s"),
-					tab_montant_imputation[place_imputation+1],
-					devise_code ( devise_compte ) );
-	else
-	    text[1] = NULL;
+	/** Each budgetary line has sub budgetary lines. */
+	if ( budgetary_line )
+	    liste_sub_budgetary_line_tmp = budgetary_line -> liste_sous_imputation;
 
-	text[2] = NULL;
-	text[3] = NULL;
-
-	ligne = gtk_ctree_insert_node ( GTK_CTREE ( arbre_imputation ),
-					NULL,
-					NULL,
-					text,
-					10,
-					pixmap_ferme,
-					masque_ferme,
-					pixmap_ouvre,
-					masque_ouvre,
-					FALSE,
-					FALSE );
-
-	/* on associe à ce imputation à l'adr de sa struct */
-
-	gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_imputation ),
-				      ligne,
-				      imputation );
-
-
-	/*       pour chaque imputation, on met ses sous-imputation */
-
-
-	liste_sous_imputation_tmp = imputation -> liste_sous_imputation;
-	place_sous_imputation = 0;
-
-	while ( liste_sous_imputation_tmp )
+	while ( liste_sub_budgetary_line_tmp )
 	{
-	    struct struct_sous_imputation *sous_imputation;
+	    struct struct_sous_imputation *sub_budgetary_line;
 
-	    sous_imputation = liste_sous_imputation_tmp -> data;
+	    sub_budgetary_line = liste_sub_budgetary_line_tmp -> data;
 
-	    if ( tab_montant_sous_imputation[place_imputation]
-		 &&
-		 tab_montant_sous_imputation[place_imputation][place_sous_imputation+1]
-		 &&
-		 etat.affiche_nb_ecritures_listes
-		 &&
-		 nb_ecritures_par_sous_imputation[place_imputation][place_sous_imputation+1] )
-		text[0] = g_strconcat ( sous_imputation -> nom_sous_imputation,
-					" (",
-					itoa ( nb_ecritures_par_sous_imputation[place_imputation][place_sous_imputation+1] ),
-					")",
-					NULL );
-	    else
-		text[0] = sous_imputation -> nom_sous_imputation ;
+	    gtk_tree_store_append (GTK_TREE_STORE (budgetary_line_tree_model), 
+				   &iter_sub_budgetary_line, &iter_budgetary_line);
+	    fill_sub_categ_row ( GTK_TREE_MODEL(budgetary_line_tree_model), budgetary_interface, 
+				 &iter_sub_budgetary_line, budgetary_line, sub_budgetary_line );
 
-	    text[1] = NULL;
-
-	    if ( tab_montant_sous_imputation[place_imputation]
-		 &&
-		 tab_montant_sous_imputation[place_imputation][place_sous_imputation+1] )
-		text[2] = g_strdup_printf ( _("%4.2f %s"),
-					    tab_montant_sous_imputation[place_imputation][place_sous_imputation+1],
-					    devise_code ( devise_compte ) );
-	    else
-		text[2] = NULL;
-
-	    text[3] = NULL;
-
-	    ligne_sous_imputation = gtk_ctree_insert_node ( GTK_CTREE ( arbre_imputation ),
-							    ligne,
-							    NULL,
-							    text,
-							    10,
-							    NULL,
-							    NULL,
-							    NULL,
-							    NULL,
-							    FALSE,
-							    FALSE );
-
-	    /* on associe cette sous_imputation à l'adr de sa struct */
-
-	    gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_imputation ),
-					  ligne_sous_imputation,
-					  sous_imputation );
-
-
-	    /* pour chacun des sous imputation, on met un fils bidon pour pouvoir l'ouvrir */
-
-	    ligne_sous_imputation = gtk_ctree_insert_node ( GTK_CTREE ( arbre_imputation ),
-							    ligne_sous_imputation,
-							    NULL,
-							    text,
-							    5,
-							    NULL,
-							    NULL,
-							    NULL,
-							    NULL,
-							    FALSE,
-							    FALSE );
-
-	    /* on associe le fils bidon à -1 */
-
-	    gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_imputation ),
-					  ligne_sous_imputation,
-					  GINT_TO_POINTER (-1));
-
-	    place_sous_imputation++;
-	    liste_sous_imputation_tmp = liste_sous_imputation_tmp -> next;
+	    liste_sub_budgetary_line_tmp = liste_sub_budgetary_line_tmp -> next;
 	}
 
-	/*       on a fini de saisir les sous catégories, s'il y avait des opés sans sous catég, on les mets ici */
-
-	if ( tab_montant_sous_imputation[place_imputation]
-	     &&
-	     nb_ecritures_par_sous_imputation[place_imputation][0] )
-	{
-	    if ( etat.affiche_nb_ecritures_listes )
-		text[0] = g_strdup_printf ( _("No sub-budget line (%d)"),
-					    nb_ecritures_par_sous_imputation[place_imputation][0] );
-	    else
-		text[0] = _("No sub-budget line");
-
-	    text[1] = NULL;
-
-	    if ( tab_montant_sous_imputation[place_imputation][0] )
-		text[2] = g_strdup_printf ( _("%4.2f %s"),
-					    tab_montant_sous_imputation[place_imputation][0],
-					    devise_code ( devise_compte ) );
-	    else
-		text[2] = NULL;
-
-	    text[3] = NULL;
-
-	    ligne_sous_imputation = gtk_ctree_insert_node ( GTK_CTREE ( arbre_imputation ),
-							    ligne,
-							    NULL,
-							    text,
-							    10,
-							    NULL,
-							    NULL,
-							    NULL,
-							    NULL,
-							    FALSE,
-							    FALSE );
-
-	    /* pour chacun des sous imputation, on met un fils bidon pour pouvoir l'ouvrir */
-
-	    ligne_sous_imputation = gtk_ctree_insert_node ( GTK_CTREE ( arbre_imputation ),
-							    ligne_sous_imputation,
-							    NULL,
-							    text,
-							    5,
-							    NULL,
-							    NULL,
-							    NULL,
-							    NULL,
-							    FALSE,
-							    FALSE );
-
-	    /* on associe le fils bidon à -1 */
-
-	    gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_imputation ),
-					  ligne_sous_imputation,
-					  GINT_TO_POINTER (-1));
-
-	}
-	place_imputation++;
-	liste_imputation_tmp = liste_imputation_tmp -> next;
+	gtk_tree_store_append (GTK_TREE_STORE (budgetary_line_tree_model), 
+			       &iter_sub_budgetary_line, &iter_budgetary_line);
+	fill_sub_categ_row ( GTK_TREE_MODEL(budgetary_line_tree_model), budgetary_interface, 
+			     &iter_sub_budgetary_line, budgetary_line, NULL );
+	
+	liste_budgetary_line_tmp = liste_budgetary_line_tmp -> next;
     }
-
-    /*   on a fini de mettre les catégories, on met ici les opés sans catég */
-
-    if ( tab_montant_imputation[0] )
-    {
-	GtkCTreeNode *ligne;
-
-	if ( etat.affiche_nb_ecritures_listes
-	     &&
-	     nb_ecritures_par_imputation[0] )
-	    text[0] = g_strdup_printf ( _("No budget line (%d)"),
-					nb_ecritures_par_imputation[0] );
-	else
-	    text[0] = _("No budget line");
-
-	text[1] = g_strdup_printf ( _("%4.2f %s"),
-				    tab_montant_imputation[0],
-				    devise_code ( devise_compte ) );
-	text[2] = NULL;
-	text[3] = NULL;
-
-	ligne = gtk_ctree_insert_node ( GTK_CTREE ( arbre_imputation ),
-					NULL,
-					NULL,
-					text,
-					10,
-					pixmap_ferme,
-					masque_ferme,
-					pixmap_ouvre,
-					masque_ouvre,
-					FALSE,
-					FALSE );
-
-	/* on met aucune sous imput */
-
-	if ( etat.affiche_nb_ecritures_listes
-	     &&
-	     nb_ecritures_par_imputation[0] )
-	    text[0] = g_strdup_printf ( _("No sub-budget line (%d)"),
-					nb_ecritures_par_imputation[0] );
-	else
-	    text[0] = _("No sub-budget line");
-
-	text[1] = NULL;
-	text[2] = g_strdup_printf ( _("%4.2f %s"),
-				    tab_montant_imputation[0],
-				    devise_code ( devise_compte ) );
-	text[3] = NULL;
-
-	ligne = gtk_ctree_insert_node ( GTK_CTREE ( arbre_imputation ),
-					ligne,
-					NULL,
-					text,
-					10,
-					NULL,
-					NULL,
-					NULL,
-					NULL,
-					FALSE,
-					FALSE );
-
-	/* on met un fils bidon pour pouvoir l'ouvrir */
-
-	ligne = gtk_ctree_insert_node ( GTK_CTREE ( arbre_imputation ),
-					ligne,
-					NULL,
-					text,
-					5,
-					NULL,
-					NULL,
-					NULL,
-					NULL,
-					FALSE,
-					FALSE );
-
-	/* on associe le fils bidon à -1 */
-
-	gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_imputation ),
-				      ligne,
-				      GINT_TO_POINTER (-1));
-    }
-
-    /*   on efface les variables */
-
-    free ( tab_montant_imputation );
-    free ( nb_ecritures_par_imputation );
-
-    for ( i=0 ; i<nb_enregistrements_imputations ; i++ )
-	free ( tab_montant_sous_imputation[i] );
-    free ( tab_montant_sous_imputation );
-
-    for ( i=0 ; i<nb_enregistrements_imputations ; i++ )
-	free ( nb_ecritures_par_sous_imputation[i] );
-    free ( nb_ecritures_par_sous_imputation );
-
-
-
-    gtk_ctree_sort_recursive ( GTK_CTREE ( arbre_imputation ),
-			       NULL );
-
-    /* defreeze le ctree */
-
-    gtk_clist_thaw ( GTK_CLIST ( arbre_imputation ));
 
     enleve_selection_ligne_imputation ();
     modif_imputation = 0;
@@ -2439,138 +2247,9 @@ void fusion_categories_imputation ( void )
 
     modification_fichier(TRUE);
 }
-/***************************************************************************************************/
 
 
 
-
-/* **************************************************************************************************** */
-/* crée un tableau de imputation et de sous imputation aussi gds que le nb de tiers */
-/* et les renvoie dans un tab de 2 pointeurs */
-/* **************************************************************************************************** */
-
-void calcule_total_montant_imputation ( void )
-{
-    gint i;
-
-    /* on crée les tableaux de montant */
-
-    /* le +1 pour reserver le [0] pour aucune catégorie */
-
-    tab_montant_imputation = calloc ( nb_enregistrements_imputations + 1,
-				      sizeof ( gfloat ));
-    nb_ecritures_par_imputation = calloc ( nb_enregistrements_imputations + 1,
-					   sizeof ( gint ));
-
-    tab_montant_sous_imputation = calloc ( nb_enregistrements_imputations,
-					   sizeof ( gpointer ));
-    nb_ecritures_par_sous_imputation = calloc ( nb_enregistrements_imputations,
-						sizeof ( gpointer ));
-
-
-    for ( i=0 ; i<nb_comptes ; i++ )
-    {
-	GSList *liste_tmp;
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
-
-	liste_tmp = LISTE_OPERATIONS;
-
-	while ( liste_tmp )
-	{
-	    struct structure_operation *operation;
-	    gdouble montant;
-	    gint place_imputation;
-
-
-	    operation = liste_tmp -> data;
-
-	    /* on commence par calculer le montant dans la devise demandée */
-
-	    montant = calcule_montant_devise_renvoi ( operation -> montant,
-						      no_devise_totaux_tiers,
-						      operation -> devise,
-						      operation -> une_devise_compte_egale_x_devise_ope,
-						      operation -> taux_change,
-						      operation -> frais_change );
-
-	    /* on traite ensuite l'opération */
-
-	    if ( operation -> imputation )
-	    {
-		struct struct_imputation *imputation;
-
-		/* il y a une ib */
-
-		imputation = imputation_par_no ( operation -> imputation );
-
-		/* recherche la place du tiers dans la liste */
-
-		place_imputation = g_slist_index ( liste_struct_imputation,
-						   imputation );
-
-		/* crée la place pour les sous catég de cette imputation si ce n'est déjà fait */
-
-		if ( place_imputation != -1 &&
-		     !tab_montant_sous_imputation[place_imputation] )
-		{
-		    gint nb_sous_imputation;
-
-		    nb_sous_imputation = g_slist_length ( imputation -> liste_sous_imputation );
-
-		    /* on réserve nb_sous_imputation + 1 pour aucune sous imputation qui sera en [0] */
-
-		    tab_montant_sous_imputation[place_imputation] = calloc ( nb_sous_imputation + 1,
-									     sizeof ( float ));
-		    nb_ecritures_par_sous_imputation[place_imputation] = calloc ( nb_sous_imputation + 1,
-										  sizeof ( gint ));
-		}
-
-		tab_montant_imputation[place_imputation+1] = tab_montant_imputation[place_imputation+1] + montant;
-		nb_ecritures_par_imputation[place_imputation+1]++;
-
-		/* on ajoute maintenant le montant à la sous imputation si elle existe */
-
-		if ( place_imputation != -1 && 
-		     operation -> sous_imputation )
-		{
-		    gint place_sous_imputation;
-
-		    place_sous_imputation = g_slist_position ( imputation -> liste_sous_imputation,
-							       g_slist_find_custom ( imputation -> liste_sous_imputation,
-										     GINT_TO_POINTER ( operation -> sous_imputation ),
-										     (GCompareFunc) recherche_sous_imputation_par_no ));
-		    tab_montant_sous_imputation[place_imputation][place_sous_imputation+1] = tab_montant_sous_imputation[place_imputation][place_sous_imputation+1] + montant;
-		    nb_ecritures_par_sous_imputation[place_imputation][place_sous_imputation+1]++;
-		}
-		else
-		{
-		    if ( place_imputation != -1 &&
-			 tab_montant_sous_imputation[place_imputation] )
-		    {
-			tab_montant_sous_imputation[place_imputation][0] = tab_montant_sous_imputation[place_imputation][0] + montant;
-			nb_ecritures_par_sous_imputation[place_imputation][0]++;
-		    }
-		}
-	    }
-	    else
-		/* il n'y a pas d'imputation */
-		/* on met le montant dans tab_montant_imputation[0} si ce n'est une ventil */
-		if ( !operation -> operation_ventilee )
-		{
-		    tab_montant_imputation[0] = tab_montant_imputation[0] + montant;
-		    nb_ecritures_par_imputation[0]++;
-		}
-	    liste_tmp = liste_tmp -> next;
-	}
-    }
-}
-/* **************************************************************************************************** */
-
-
-
-
-/* **************************************************************************************************** */
 gchar *calcule_total_montant_imputation_par_compte ( gint imputation, gint sous_imputation, 
 						     gint no_compte )
 {
