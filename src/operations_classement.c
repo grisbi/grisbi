@@ -511,10 +511,10 @@ gint classement_sliste_par_categories ( struct structure_operation *operation_1,
     gint retour;
     gchar *categ_1, *categ_2;
 
-    categ_1 = categorie_name_by_no ( operation_1 -> categorie,
-				     operation_1 -> sous_categorie );
-    categ_2 = categorie_name_by_no ( operation_2 -> categorie,
-				     operation_2 -> sous_categorie );
+    categ_1 = nom_categ_par_no ( operation_1 -> categorie,
+				 operation_1 -> sous_categorie );
+    categ_2 = nom_categ_par_no ( operation_2 -> categorie,
+				 operation_2 -> sous_categorie );
 
     if ( categ_1 )
     {

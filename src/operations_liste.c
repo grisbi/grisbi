@@ -1011,8 +1011,8 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 
 	    if ( operation -> categorie )
 		/* c'est une categ : ss categ */
-		temp = categorie_name_by_no ( operation -> categorie,
-					      operation -> sous_categorie );
+		temp = nom_categ_par_no ( operation -> categorie,
+					  operation -> sous_categorie );
 	    else
 	    {
 		if ( operation -> relation_no_operation )
@@ -1688,8 +1688,8 @@ void edition_operation ( void )
 
     /* mise en forme des catégories */
 
-    char_temp = categorie_name_by_no ( operation -> categorie,
-				       operation -> sous_categorie );
+    char_temp = nom_categ_par_no ( operation -> categorie,
+				   operation -> sous_categorie );
 
     if ( char_temp )
     {

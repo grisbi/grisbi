@@ -1959,8 +1959,8 @@ void completion_operation_par_tiers ( void )
 	{
 	    /* c'est des catégories normales */
 
-	    char_tmp = categorie_name_by_no ( operation -> categorie,
-					      operation -> sous_categorie );
+	    char_tmp = nom_categ_par_no ( operation -> categorie,
+					  operation -> sous_categorie );
 	    if ( char_tmp )
 	    {
 		entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] );

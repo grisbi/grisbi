@@ -2644,9 +2644,7 @@ void calcule_total_montant_categ ( void )
 
 		/* il y a une catégorie */
 
-		categorie = g_slist_find_custom ( liste_struct_categories,
-						  GINT_TO_POINTER ( operation -> categorie ),
-						  (GCompareFunc) recherche_categorie_par_no ) -> data;
+		categorie = categ_par_no ( operation -> categorie );
 
 		/* recherche la place du tiers dans la liste */
 
@@ -2678,10 +2676,10 @@ void calcule_total_montant_categ ( void )
 		{
 		    gint place_sous_categ;
 
-		    place_sous_categ = g_slist_position ( categorie -> liste_sous_categ,
-							  g_slist_find_custom ( categorie -> liste_sous_categ,
-										GINT_TO_POINTER ( operation -> sous_categorie ),
-										(GCompareFunc) recherche_sous_categorie_par_no ));
+		    place_sous_categ = g_slist_index ( categorie -> liste_sous_categ,
+						       sous_categ_par_no ( operation -> categorie,
+									   operation -> sous_categorie ));
+
 		    tab_montant_sous_categ[place_categ][place_sous_categ+1] = tab_montant_sous_categ[place_categ][place_sous_categ+1] + montant;
 		    nb_ecritures_par_sous_categ[place_categ][place_sous_categ+1]++;
 		}
@@ -3099,116 +3097,6 @@ void importer_categ ( void )
 
 
 
-/* **************************************************************************************************** */
-/* cette fonction renvoie une chaine de la forme */
-/* soit categ : sous categ */
-/* soit categ si no_sous_categorie=0 ou si la sous_categ n'existe pas */
-/* ou NULL si la categ n'existe pas */
-/* **************************************************************************************************** */
-gchar *categorie_name_by_no ( gint no_categorie,
-			      gint no_sous_categorie )
-{
-    gchar *retour;
-
-    if ( no_categorie )
-    {
-	GSList *liste_tmp;
-
-	liste_tmp = g_slist_find_custom ( liste_struct_categories,
-					  GINT_TO_POINTER ( no_categorie ),
-					  (GCompareFunc) recherche_categorie_par_no );
-
-	if ( liste_tmp )
-	{
-	    struct struct_categ *categ;
-
-	    categ = liste_tmp -> data;
-
-	    if ( no_sous_categorie )
-		liste_tmp = g_slist_find_custom ( categ -> liste_sous_categ,
-						  GINT_TO_POINTER ( no_sous_categorie ),
-						  (GCompareFunc) recherche_sous_categorie_par_no );
-	    else
-		liste_tmp = NULL;
-
-	    if ( liste_tmp )
-	    {
-		struct struct_sous_categ *sous_categ;
-
-		sous_categ = liste_tmp -> data;
-
-		retour = g_strconcat ( categ -> nom_categ,
-				       " : ",
-				       sous_categ -> nom_sous_categ,
-				       NULL );
-	    }
-	    else
-		retour = g_strdup ( categ -> nom_categ );
-	}
-	else
-	    retour = NULL;
-    }
-    else
-	retour = NULL;
-    
-
-    return retour;
-}
-/* **************************************************************************************************** */
-
-
-/* **************************************************************************************************** */
-/* cette fonction renvoie une chaine de la forme */
-/* soit sous categ */
-/* ou NULL si la categ ou la sous categ n'existe pas */
-/* **************************************************************************************************** */
-gchar *sous_categorie_name_by_no ( gint no_categorie,
-				   gint no_sous_categorie )
-{
-    gchar *retour;
-
-    if ( no_categorie )
-    {
-	GSList *liste_tmp;
-
-	liste_tmp = g_slist_find_custom ( liste_struct_categories,
-					  GINT_TO_POINTER ( no_categorie ),
-					  (GCompareFunc) recherche_categorie_par_no );
-
-	if ( liste_tmp )
-	{
-	    struct struct_categ *categ;
-
-	    categ = liste_tmp -> data;
-
-	    if ( no_sous_categorie )
-		liste_tmp = g_slist_find_custom ( categ -> liste_sous_categ,
-						  GINT_TO_POINTER ( no_sous_categorie ),
-						  (GCompareFunc) recherche_sous_categorie_par_no );
-	    else
-		liste_tmp = NULL;
-
-	    if ( liste_tmp )
-	    {
-		struct struct_sous_categ *sous_categ;
-
-		sous_categ = liste_tmp -> data;
-
-		retour = g_strdup ( sous_categ -> nom_sous_categ );
-	    }
-	    else
-		retour = NULL;
-	}
-	else
-	    retour = NULL;
-    }
-    else
-	retour = NULL;
-     return retour;
-}
-/* **************************************************************************************************** */
-
-
 
 /* **************************************************************************************************** */
 /* retourne l'adr de la categ dont le nom est donné en argument */
@@ -3312,6 +3200,120 @@ struct struct_sous_categ *sous_categ_par_nom ( struct struct_categ *categ,
 	}
     }
 
+    return NULL;
+}
+/* **************************************************************************************************** */
+
+
+
+
+
+/* **************************************************************************************************** */
+/* cette fonction renvoie l'adr de la categ demandée en argument */
+/* et NULL si pas trouvée */
+/* **************************************************************************************************** */
+struct struct_categ *categ_par_no ( gint no_categorie )
+{
+    if ( no_categorie )
+    {
+	GSList *liste_tmp;
+
+	liste_tmp = g_slist_find_custom ( liste_struct_categories,
+					  GINT_TO_POINTER ( no_categorie ),
+					  (GCompareFunc) recherche_categorie_par_no );
+
+	if ( liste_tmp )
+	    return ( liste_tmp -> data );
+    }
+    return NULL;
+}
+/* **************************************************************************************************** */
+
+
+/* **************************************************************************************************** */
+/* cette fonction renvoie l'adr de la sous categ demandée */
+/* ou NULL si la categ ou la sous categ n'existe pas */
+/* **************************************************************************************************** */
+struct struct_sous_categ *sous_categ_par_no ( gint no_categorie,
+					      gint no_sous_categorie )
+{
+    if ( no_categorie
+	 &&
+	 no_sous_categorie )
+    {
+	GSList *liste_tmp;
+
+	liste_tmp = g_slist_find_custom ( liste_struct_categories,
+					  GINT_TO_POINTER ( no_categorie ),
+					  (GCompareFunc) recherche_categorie_par_no );
+
+	if ( liste_tmp )
+	{
+	    struct struct_categ *categ;
+
+	    categ = liste_tmp -> data;
+
+	    liste_tmp = g_slist_find_custom ( categ -> liste_sous_categ,
+					      GINT_TO_POINTER ( no_sous_categorie ),
+					      (GCompareFunc) recherche_sous_categorie_par_no );
+
+	    if ( liste_tmp )
+		return ( liste_tmp -> data );
+	}
+    }
+    return NULL;
+}
+/* **************************************************************************************************** */
+
+
+
+
+/* **************************************************************************************************** */
+/* cette fonction renvoie une chaine de la forme */
+/* soit categ : sous categ */
+/* soit categ si no_sous_categorie=0 ou si la sous_categ n'existe pas */
+/* ou NULL si la categ n'existe pas */
+/* **************************************************************************************************** */
+gchar *nom_categ_par_no ( gint no_categorie,
+			  gint no_sous_categorie )
+{
+    struct struct_categ *categ;
+    struct struct_sous_categ *sous_categ;
+
+    categ = categ_par_no ( no_categorie );
+    sous_categ = sous_categ_par_no ( no_categorie,
+				     no_sous_categorie );
+
+    if ( sous_categ )
+	/* 	s'il y a une sous categ, c'est qu'il y a une categ... */
+	return ( g_strconcat ( categ -> nom_categ,
+			       " : ",
+			       sous_categ -> nom_sous_categ,
+			       NULL ));
+    else
+	if ( categ )
+	    return ( g_strdup ( categ -> nom_categ ));
+	
+    return NULL;
+}
+/* **************************************************************************************************** */
+
+
+/* **************************************************************************************************** */
+/* cette fonction renvoie une chaine contenant la sous categ */
+/* ou NULL si la categ ou la sous categ n'existe pas */
+/* **************************************************************************************************** */
+gchar *nom_sous_categ_par_no ( gint no_categorie,
+			       gint no_sous_categorie )
+{
+    struct struct_sous_categ *sous_categ;
+
+    sous_categ = sous_categ_par_no ( no_categorie,
+				     no_sous_categorie );
+
+    if ( sous_categ )
+	    return ( g_strdup ( sous_categ -> nom_sous_categ ));
+	
     return NULL;
 }
 /* **************************************************************************************************** */

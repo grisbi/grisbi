@@ -1908,8 +1908,8 @@ void edition_operation_ventilation ( void )
     {
 	gchar *char_tmp;
 
-	char_tmp = categorie_name_by_no ( operation -> categorie,
-					  operation -> sous_categorie );
+	char_tmp = nom_categ_par_no ( operation -> categorie,
+				      operation -> sous_categorie );
 
 	if ( char_tmp )
 	{
@@ -2201,8 +2201,8 @@ void ajoute_ope_sur_liste_ventilation ( struct struct_ope_ventil *operation )
     }
     else
 	/* c'est des categ : sous categ */
-	ligne[0] = categorie_name_by_no ( operation -> categorie,
-					  operation -> sous_categorie );
+	ligne[0] = nom_categ_par_no ( operation -> categorie,
+				      operation -> sous_categorie );
 
 
     /* mise en forme des notes */

@@ -650,7 +650,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 				     GINT_TO_POINTER ( operation -> tiers )) == -1 )
 		    goto operation_refusee;
 
-		/* vérification du type d'opé */
+		/* vérification du type d'opÃƒ© */
 
 		if ( etat -> utilise_mode_paiement &&
 		     operation -> type_ope)
@@ -924,15 +924,15 @@ gchar *recupere_texte_test_etat ( struct structure_operation *operation,
 	case 2:
 	    /* categ */
 
-	    texte = categorie_name_by_no ( operation -> categorie,
-					   0 );
+	    texte = nom_categ_par_no ( operation -> categorie,
+				       0 );
 	    break;
 
 	case 3:
 	    /* ss-categ */
 
-	    texte = sous_categorie_name_by_no ( operation -> categorie,
-						operation -> sous_categorie );
+	    texte = nom_sous_categ_par_no ( operation -> categorie,
+					    operation -> sous_categorie );
 	    break;
 
 	case 4:
@@ -1649,8 +1649,8 @@ gint classement_ope_perso_etat ( struct structure_operation *operation_1,
 		       !operation_2 -> sous_categorie ))
 		    retour = operation_2 -> sous_categorie - operation_1 -> sous_categorie;
 		else
-		    retour = g_strcasecmp ( categorie_name_by_no ( operation_1 -> categorie, operation_1 -> sous_categorie ),
-					    categorie_name_by_no ( operation_2 -> categorie, operation_2 -> sous_categorie ));
+		    retour = g_strcasecmp ( nom_categ_par_no ( operation_1 -> categorie, operation_1 -> sous_categorie ),
+					    nom_categ_par_no ( operation_2 -> categorie, operation_2 -> sous_categorie ));
 	    }
 	    break;
 
@@ -1821,9 +1821,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 		{
 		    struct struct_categ *categ;
 
-		    categ = g_slist_find_custom ( liste_struct_categories,
-						  GINT_TO_POINTER ( operation -> categorie ),
-						  (GCompareFunc) recherche_categorie_par_no ) -> data;
+		    categ = categ_par_no ( operation -> categorie );
 
 		    if ( categ -> type_categ )
 			liste_ope_depenses = g_slist_append ( liste_ope_depenses,
@@ -2572,7 +2570,7 @@ pas_decalage:
 
     }
 
-    /* on affiche maintenant le total général */
+    /* on affiche maintenant le total génÃ©ral */
 
     ligne = etat_affiche_affiche_total_general ( total_general,
 						 ligne );

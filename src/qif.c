@@ -1275,8 +1275,8 @@ choix_liste_fichier:
 
 					gchar *char_tmp;
 
-					char_tmp = categorie_name_by_no ( ope_test -> categorie,
-									  ope_test -> sous_categorie );
+					char_tmp = nom_categ_par_no ( ope_test -> categorie,
+								      ope_test -> sous_categorie );
 					
 					if ( char_tmp )
 					{
@@ -1357,8 +1357,8 @@ choix_liste_fichier:
 
 				gchar *char_tmp;
 
-				char_tmp = categorie_name_by_no ( operation -> categorie,
-								  operation -> sous_categorie );
+				char_tmp = nom_categ_par_no ( operation -> categorie,
+							      operation -> sous_categorie );
 
 				if ( char_tmp )
 				    fprintf ( fichier_qif,

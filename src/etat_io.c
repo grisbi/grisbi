@@ -1388,21 +1388,16 @@ gboolean enregistre_etat ( gchar *nom_etat )
     while ( pointeur_liste )
     {
 	xmlNodePtr node_3;
-	struct struct_categ *categ;
 
 	node_3 = xmlNewChild ( node_2,
 			       NULL,
 			       "Categ",
 			       NULL );
 
-	categ = g_slist_find_custom ( liste_struct_categories,
-				      pointeur_liste -> data,
-				      (GCompareFunc) recherche_categorie_par_no ) -> data;
-
 	xmlSetProp ( node_3,
 		     "Nom",
-		      categorie_name_by_no ( GPOINTER_TO_INT ( pointeur_liste -> data ), 
-					     0 ));
+		     nom_categ_par_no ( GPOINTER_TO_INT ( pointeur_liste -> data ), 
+					0 ));
 
 	pointeur_liste = pointeur_liste -> next;
     }

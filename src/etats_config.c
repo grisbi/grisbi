@@ -37,6 +37,7 @@
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
 #include "utils.h"
+#include "categories_onglet.h"
 
 
 
@@ -3031,12 +3032,12 @@ void click_type_categ_etat ( gint type )
     {
 	struct struct_categ *categ;
 
-	categ = g_slist_find_custom ( liste_struct_categories,
-				      gtk_clist_get_row_data ( GTK_CLIST ( liste_categ_etat ),
-							       i ),
-				      (GCompareFunc) recherche_categorie_par_no ) -> data;
+	categ = categ_par_no ( GPOINTER_TO_INT ( gtk_clist_get_row_data ( GTK_CLIST ( liste_categ_etat ),
+									  i )));
 
-	if ( categ -> type_categ == type )
+	if ( categ
+	     &&
+	     categ -> type_categ == type )
 	    gtk_clist_select_row ( GTK_CLIST ( liste_categ_etat ),
 				   i,
 				   0 );

@@ -26,10 +26,8 @@ void exporter_categ ( void );
 void importer_categ ( void );
 gboolean keypress_category ( GtkWidget *widget, GdkEventKey *ev, gint *no_origine );
 void expand_selected_category () ;
-gchar *categorie_name_by_no ( gint no_categorie,
-			      gint no_sous_categorie );
-gchar *sous_categorie_name_by_no ( gint no_categorie,
-				   gint no_sous_categorie );
+
+
 struct struct_categ *categ_par_nom ( gchar *nom_categ,
 				     gboolean creer,
 				     gint type_categ,
@@ -37,4 +35,11 @@ struct struct_categ *categ_par_nom ( gchar *nom_categ,
 struct struct_sous_categ *sous_categ_par_nom ( struct struct_categ *categ,
 					       gchar *nom_sous_categ,
 					       gboolean creer );
+struct struct_categ *categ_par_no ( gint no_categorie );
+struct struct_sous_categ *sous_categ_par_no ( gint no_categorie,
+					     gint no_sous_categorie );
+gchar *nom_categ_par_no ( gint no_categorie,
+			  gint no_sous_categorie );
+gchar *nom_sous_categ_par_no ( gint no_categorie,
+			       gint no_sous_categorie );
 

@@ -1167,8 +1167,8 @@ void edition_echeance ( void )
 	{
 	    /* 	    il y a donc des catégs/sous-catég */
 
-	   texte =  categorie_name_by_no ( echeance_selectionnnee -> categorie,
-					   echeance_selectionnnee -> sous_categorie );
+	    texte =  nom_categ_par_no ( echeance_selectionnnee -> categorie,
+					echeance_selectionnnee -> sous_categorie );
 	}
 	else
 	{

@@ -2026,8 +2026,8 @@ void edition_operation_ventilation_echeances ( void )
     }
     else
     {
-	char_tmp = categorie_name_by_no ( operation -> categorie,
-					   operation -> sous_categorie );
+	char_tmp = nom_categ_par_no ( operation -> categorie,
+				      operation -> sous_categorie );
 	if ( char_tmp )
 	{
 	    entree_prend_focus (widget_formulaire_ventilation_echeances[0] );
@@ -2246,8 +2246,8 @@ void ajoute_ope_sur_liste_ventilation_echeances ( struct struct_ope_ventil *oper
     {
 	/* c'est des categ : sous categ */
 
-	ligne[0] = categorie_name_by_no ( operation -> categorie,
-					  operation -> sous_categorie );
+	ligne[0] = nom_categ_par_no ( operation -> categorie,
+				      operation -> sous_categorie );
    }
 
 

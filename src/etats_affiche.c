@@ -1020,8 +1020,8 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 	    pointeur = NULL;
 
 	    if ( operation -> categorie )
-		pointeur = categorie_name_by_no ( operation -> categorie,
-						  operation -> sous_categorie );
+		pointeur = nom_categ_par_no ( operation -> categorie,
+					      operation -> sous_categorie );
 	    else
 	    {
 		/* si c'est un virement, on le marque, sinon c'est qu'il n'y a pas de categ */
@@ -1383,8 +1383,8 @@ gint etat_affiche_affiche_categ_etat ( struct structure_operation *operation,
 	{
 	    if ( operation -> categorie )
 	    {
-		nom_categ_en_cours = categorie_name_by_no ( operation -> categorie,
-							    0 );
+		nom_categ_en_cours = nom_categ_par_no ( operation -> categorie,
+							0 );
 		pointeur_char = g_strconcat ( decalage_categ,
 					      nom_categ_en_cours,
 					      NULL );
@@ -1479,8 +1479,8 @@ gint etat_affiche_affiche_sous_categ_etat ( struct structure_operation *operatio
 
 	if ( etat_courant -> afficher_nom_categ )
 	{
-	    pointeur_char = sous_categorie_name_by_no ( operation -> categorie,
-							operation -> sous_categorie );
+	    pointeur_char = nom_sous_categ_par_no ( operation -> categorie,
+						    operation -> sous_categorie );
 
 	    if ( !pointeur_char )
 	    {
