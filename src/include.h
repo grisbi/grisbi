@@ -35,3 +35,10 @@
 #include "structures.h"
 #include "utils_file_selection.h"
 
+
+/* to avoid an error because of mk_include and g2banking */
+
+#ifndef HAVE_G2BANKING
+#define AB_BANKING void
+#endif
+

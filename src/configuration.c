@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2004 Joao F. (joaof@users.sf.net)		              */
-/* 			http://www.grisbi.org				                              */
+/*     Copyright (C)	2004 Joao F. (joaof@users.sf.net)	              */
+/* 			http://www.grisbi.org		                      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -19,8 +19,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "configuration.h"
+#include "include.h"
 #include "xmlnames.h"
+
+/*START_INCLUDE*/
+#include "configuration.h"
+/*END_INCLUDE*/
+
+/*START_STATIC*/
+/*END_STATIC*/
+
+/*START_EXTERN*/
+/*END_EXTERN*/
+
 
 static ConfigFormat  g_config_format;
 

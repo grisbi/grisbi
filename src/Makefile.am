@@ -10,8 +10,8 @@ sources_config = 			\
 	configuration.c
 
 include_config= \
-	configuration.h  \
-	xmlnames.h      
+    configuration.h  \
+    xmlnames.h      
 
 sources = \
 	accueil.c		\
@@ -27,7 +27,11 @@ sources = \
 	comptes_gestion.c	\
 	comptes_onglet.c	\
 	comptes_traitements.c	\
-	import_csv.c	\
+	import_csv.c		\
+	data_account.c		\
+	data_currency.c		\
+	data_form.c		\
+	data_payment.c		\
 	devises.c		\
 	dialog.c		\
 	echeancier_onglet.c	\
@@ -121,6 +125,10 @@ grisbi_INCLUDES =		\
 	comptes_traitements.h	\
 	constants.h		\
 	import_csv.h \
+	data_account.h		\
+	data_currency.h		\
+	data_form.h		\
+	data_payment.h		\
 	devises.h		\
 	dialog.h		\
 	echeancier_onglet.h	\

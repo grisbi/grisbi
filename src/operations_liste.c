@@ -505,6 +505,7 @@ GtkWidget *creation_tree_view_operations_par_compte ( gint no_compte )
 					  GTK_TREE_VIEW_COLUMN ( COLONNE_LISTE_OPERATIONS(j) ));
 	    gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( COLONNE_LISTE_OPERATIONS(j) ),
 						 TRUE );
+	    /* FIXME : autre moyen de faire ça qui parrait bcp mieux (cf tutoriel de gtkfr (cédric) */
 	    g_signal_connect ( G_OBJECT ( COLONNE_LISTE_OPERATIONS(j) ),
 			       "clicked",
 			       G_CALLBACK ( click_sur_titre_colonne_operations ),

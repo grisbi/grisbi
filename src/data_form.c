@@ -1,7 +1,12 @@
 /* ************************************************************************** */
+/* work with the struct of form                                               */
 /*                                                                            */
-/*     Copyright (C)	2004 Joao F. (joaof@users.sf.net)	              */
-/* 			http://www.grisbi.org		                      */
+/*                                     data_form                              */
+/*                                                                            */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2003-2004 Alain Portal (aportal@univ-montp2.fr)	      */
+/* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -19,13 +24,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * \file data_form.c
+ * work with the form structure, no GUI here
+ */
+
 
 #include "include.h"
-#include <assert.h>
 
 
 /*START_INCLUDE*/
-#include "format.h"
+#include "data_form.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -35,34 +44,28 @@
 /*END_EXTERN*/
 
 
-/* ------------------------------------------------------ */
-/* Implementation of date formatting functions            */
-/* ------------------------------------------------------ */
-
-/* (see strftime)
- * %x is replaced by the locale's appropriate date representation.
- * %y is replaced by the year without century as a decimal number [00,99]
- * %Y is replaced by the year with century as a decimal number
- * %m is replaced by the month as a decimal number [01,12]
- * %d is replaced by the day of the month as a decimal number [01,31]
- * %e is replaced by the day of the month as a decimal number [1,31]; 
- *    a single digit is preceded by a space
- */
-
-gchar *g_predefined_formats[] =
+/** create a new form organization
+ * \param none
+ * \return the struct of form_organization
+ * */
+struct organisation_formulaire *gsb_form_new_organization ( void )
 {
-	"%x"      , /* Use default locale               */
-	"%Y/%m/%d", /* ex. 2004/09/25                   */
-	"%d/%m/%Y", /* ex. 25/09/2004                   */
-	"%Y-%m-%d", /* simple XML schema (YYYY-MM-DD)   */
-	NULL
-};
-
-gchar *gsb_format_gdate(GDate *gdate, gchar *fmt, gchar *buf, int lenbuf)
-{
-	assert(buf != NULL); /* Param. buffer should not be NULL */
-	g_date_strftime(buf, lenbuf - 1, fmt, gdate);
-	buf[lenbuf-1] = 0; /* to be sure that the buffer ends with '\0' */
-	return buf;
+    printf ( "to do : create new form organization\n" );
+    /*     FIXME */
+    return NULL;
 }
+
+
+/** duplicate the form organization given in param
+ * \param the form organization to duplicate
+ * \return the new struct of form_organization
+ * */
+struct organisation_formulaire *gsb_form_dup_organization ( struct organisation_formulaire *form_organisation )
+{
+    printf ( "to do : create new form organization\n" );
+    /*     FIXME */
+    return NULL;
+}
+
+
 

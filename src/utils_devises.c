@@ -185,7 +185,6 @@ struct struct_devise *devise_par_code_iso ( gchar *code_iso )
 /* ***************************************************************************************** */
 
 
-
 /**
  * Return either currency's code or currency's ISO4217 nickname if no
  * name is found.

@@ -69,6 +69,7 @@ extern GtkItemFactory *item_factory_menu_general;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
+extern GSList *list_struct_accounts;
 extern GtkWidget *liste_categ_etat;
 extern GSList *liste_struct_banques;
 extern GSList *liste_struct_categories;
@@ -167,6 +168,8 @@ void init_variables ( void )
 
     if ( DEBUG )
 	printf ( "init_variables\n" );
+
+    list_struct_accounts = NULL;
 
     mise_a_jour_liste_comptes_accueil = 0;
     mise_a_jour_liste_echeances_manuelles_accueil = 0;

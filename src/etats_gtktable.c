@@ -22,8 +22,7 @@
 
 
 #include "include.h"
-
-#include "etats.h"
+#include "etats_constants.h"
 
 
 /*START_INCLUDE*/

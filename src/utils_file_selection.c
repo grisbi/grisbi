@@ -38,10 +38,30 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include "include.h"
+
+/*START_INCLUDE*/
+#include "utils_file_selection.h"
 #include "dialog.h"
 #include "utils_files.h"
-#include "utils_file_selection.h"
-#include <gtk/gtk.h>
+/*END_INCLUDE*/
+
+/*START_STATIC*/
+static  gboolean _file_selection_check_filename ( GtkWidget *selection_fichier);
+static  gboolean _file_selection_overwrite_file_check( GtkWidget *selection_fichier);
+static void file_selection_check_filename_signal(GtkWidget *selection_fichier);
+static gchar* file_selection_get_entry(GtkFileSelection* filesel);
+static void file_selection_overwrite_file_check_signal(GtkWidget *selection_fichier);
+/*END_STATIC*/
+
+/*START_EXTERN*/
+extern GtkTreeSelection * selection;
+/*END_EXTERN*/
+
+
+/* #include "dialog.h" */
+/* #include "utils_files.h" */
+/* #include "utils_file_selection.h" */
+/* #include <gtk/gtk.h> */
 
 #ifdef _WIN32_USE_FILE_DIALOG
 #include "win32_file_selection.h"

@@ -3,7 +3,7 @@
 /*                                                                            */
 /*                         comptes_traitements.c                              */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cï¿œric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
 /*			2004 Benjamin Drieu (bdrieu@april.org)		      */
 /*			2004 Alain Portal (aportal@univ-montp2.fr)	      */
 /*			http://www.grisbi.org				      */
@@ -49,8 +49,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void creation_types_par_defaut ( gint no_compte,
-				 gulong dernier_cheque );
 /*END_STATIC*/
 
 

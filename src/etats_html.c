@@ -19,20 +19,33 @@
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 #include "include.h"
-#include "structures.h"
+#include "etats_constants.h"
+
+/*START_INCLUDE*/
 #include "etats_html.h"
-
 #include "dialog.h"
-#include "etats.h"
 #include "etats_support.h"
-#include "utils_files.h"
 #include "utils_file_selection.h"
+#include "utils_files.h"
+/*END_INCLUDE*/
 
+/*START_STATIC*/
+static void html_attach_hsep ( int x, int x2, int y, int y2);
+static void html_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
+			  enum alignement align, struct structure_operation * ope );
+static void html_attach_vsep ( int x, int x2, int y, int y2);
+static gint html_finish ();
+static gint html_initialise (GSList * opes_selectionnees);
+static void html_safe ( gchar * text ) ;
+/*END_STATIC*/
 
+/*START_EXTERN*/
+extern gchar *dernier_chemin_de_travail;
+extern struct struct_etat *etat_courant;
 extern gint nb_colonnes;
-extern gint ligne_debut_partie;
-extern struct struct_etat * etat_courant;
-extern char * dernier_chemin_de_travail;
+/*END_EXTERN*/
+
+
 
 
 FILE * html_out;
