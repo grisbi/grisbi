@@ -27,7 +27,7 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "constants.h"
-#include "operations_liste.h"
+#include "mouse.h"
 
 
 
@@ -35,6 +35,7 @@
 #include "barre_outils.h"
 #include "categories_onglet.h"
 #include "comptes_traitements.h"
+#include "constants.h"
 #include "devises.h"
 #include "dialog.h"
 #include "echeancier_formulaire.h"
@@ -44,28 +45,15 @@
 #include "imputation_budgetaire.h"
 #include "operations_classement.h"
 #include "operations_formulaire.h"
+#include "operations_liste.h"
+#include "operations_onglet.h"
 #include "search_glist.h"
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
 #include "type_operations.h"
 #include "utils.h"
 #include "ventilation.h"
-#include "constants.h"
-#include "operations_onglet.h"
 
-
-
-
-
-#define TRANSACTION_COL_NB_CHECK 0
-#define TRANSACTION_COL_NB_DATE 1
-#define TRANSACTION_COL_NB_PARTY 2
-#define TRANSACTION_COL_NB_PR 3
-#define TRANSACTION_COL_NB_DEBIT 4
-#define TRANSACTION_COL_NB_CREDIT 5
-#define TRANSACTION_COL_NB_BALANCE 6
-
-#define TRANSACTION_LIST_ROWS_NB 4
 
 GtkJustification col_justs[] = { GTK_JUSTIFY_CENTER,
     GTK_JUSTIFY_CENTER,
@@ -81,7 +69,7 @@ GtkWidget *tree_view_listes_operations;
 
 /* les colonnes de la liste des opés */
 
-GtkTreeViewColumn *colonnes_liste_opes[7];
+GtkTreeViewColumn *colonnes_liste_opes[TRANSACTION_LIST_COL_NB];
 
 /* les colonnes de la liste des ventils */
 
@@ -301,11 +289,11 @@ GtkWidget *creation_tree_view_operations ( void )
     /*     normalement les colonnes sont déjà créés */
     /* mais bon, on teste, sait on jamais... */
 
-    if ( colonnes_liste_opes[0] )
+    if ( colonnes_liste_opes[TRANSACTION_COL_NB_CHECK] )
     {
 	gint i;
 
-	for ( i=0 ; i<7 ; i++ )
+	for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
 	{
 	    gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view_listes_operations ),
 					  GTK_TREE_VIEW_COLUMN ( colonnes_liste_opes[i] ));
@@ -349,13 +337,13 @@ void creation_titres_tree_view ( void )
 {
     gint i;
     gfloat alignement[] = {
-	0.5,
-	0.5,
-	0.0,
-	0.5,
-	1.0,
-	1.0,
-	1.0
+	COLUMN_CENTER,
+	COLUMN_CENTER,
+	COLUMN_LEFT,
+	COLUMN_CENTER,
+	COLUMN_RIGHT,
+	COLUMN_RIGHT,
+	COLUMN_RIGHT
     };
     gchar *titres_liste_ventil[] = { 
 	_("Category"),
@@ -363,9 +351,9 @@ void creation_titres_tree_view ( void )
 	_("Amount")
     };
     gfloat alignement_ventil[] = {
-	0.0,
-	0.0,
-	1.0
+	COLUMN_LEFT,
+	COLUMN_LEFT,
+	COLUMN_RIGHT
     };
 
 
@@ -377,7 +365,7 @@ void creation_titres_tree_view ( void )
 
     /*     on commence par s'occuper des listes d'opérations */
 
-    for ( i=0 ; i<7 ; i++ )
+    for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
     {
 	colonnes_liste_opes[i] = gtk_tree_view_column_new_with_attributes ( titres_colonnes_liste_operations[i],
 									    gtk_cell_renderer_text_new (),
@@ -437,13 +425,13 @@ void update_titres_tree_view ( void )
     if ( !titres_colonnes_liste_operations )
 	return;
 
-    if ( !colonnes_liste_opes[0] )
+    if ( !colonnes_liste_opes[TRANSACTION_COL_NB_CHECK] )
 	creation_titres_tree_view ();
 
 
     /*     on commence par s'occuper des listes d'opérations */
 
-    for ( i=0 ; i<7 ; i++ )
+    for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
     {
 	gtk_tree_view_column_set_title ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_opes[i] ),
 					 titres_colonnes_liste_operations[i] );
@@ -1149,7 +1137,7 @@ gboolean selectionne_ligne_souris ( GtkWidget *tree_view,
 					  NULL ))
     {
 	/* 	éventuellement, si c'est un clic du bouton droit, on affiche la popup partielle */
-	if ( evenement -> button == 3 )
+	if ( evenement -> button == RIGHT_BUTTON )
 	    popup_transaction_context_menu ( FALSE );
 
 	return (TRUE);
@@ -1165,7 +1153,7 @@ gboolean selectionne_ligne_souris ( GtkWidget *tree_view,
 
     /*     si on est sur la ligne blanche et qu'on a fait un clic droit, on met le menu contextuel adapté */
 
-    if ( evenement -> button == 3 )
+    if ( evenement -> button == RIGHT_BUTTON )
     {
 	struct structure_operation *operation = NULL;
 	GtkTreeIter iter;
@@ -1215,7 +1203,7 @@ gboolean selectionne_ligne_souris ( GtkWidget *tree_view,
     if ( evenement -> type == GDK_2BUTTON_PRESS )
 	edition_operation ();
     else
-	if ( evenement -> button == 3 )
+	if ( evenement -> button == RIGHT_BUTTON )
 	    popup_transaction_context_menu ( TRUE );
 
     return ( TRUE );
