@@ -1333,9 +1333,10 @@ gboolean keypress_category ( GtkWidget *widget, GdkEventKey *ev, gint *no_origin
   if ( ev->keyval == GDK_Return || 
        ev->keyval == GDK_KP_Enter )
     { 
-      node = gtk_ctree_node_nth ( arbre_categ, GTK_CLIST(arbre_categ) -> focus_row );
-      gtk_ctree_select ( arbre_categ, node );
-      gtk_ctree_expand ( arbre_categ, node );
+      node = gtk_ctree_node_nth ( GTK_CTREE(arbre_categ), 
+				  GTK_CLIST(arbre_categ) -> focus_row );
+      gtk_ctree_select ( GTK_CTREE(arbre_categ), node );
+      gtk_ctree_expand ( GTK_CTREE(arbre_categ), node );
  
       expand_selected_category ();
     }
@@ -2857,12 +2858,11 @@ void calcule_total_montant_categ ( void )
 
 
 /* **************************************************************************************************** */
-gchar *calcule_total_montant_categ_par_compte ( gint categ,
-						gint sous_categ,
-						gint no_compte )
+gchar *calcule_total_montant_categ_par_compte ( gint categ, gint sous_categ, gint no_compte )
 {
   gdouble retour_int;
   GSList *liste_tmp;
+  struct struct_devise * devise;
 
   retour_int = 0;
   nb_ecritures_par_comptes = 0;
@@ -2900,10 +2900,13 @@ gchar *calcule_total_montant_categ_par_compte ( gint categ,
       liste_tmp = liste_tmp -> next;
     }
 
+  devise = g_slist_find_custom ( liste_struct_devises, GINT_TO_POINTER(DEVISE),
+ 				 ( GCompareFunc ) recherche_devise_par_no) -> data;
+
   if ( retour_int )
     return ( g_strdup_printf ( "%4.2f %s",
 			       retour_int,
-			       devise_name ( devise_compte ) ));
+			       devise_name ( devise ) ));
   else
     return ( NULL );
 }
