@@ -13,6 +13,7 @@ void dialogue_hint ( gchar *text, gchar *hint );
 GtkWidget * dialogue_special_no_run ( GtkMessageType param, GtkButtonsType buttons,
 				      gchar * text );
 void dialogue_warning ( gchar *text );
+void dialogue_special ( GtkMessageType param, gchar * text );
 void dialogue_warning_hint ( gchar *text, gchar * hint );
 gchar * make_hint ( gchar * hint, gchar * text );
 gboolean question ( gchar *texte );

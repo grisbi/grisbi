@@ -35,7 +35,6 @@
 
 /*START_STATIC*/
 static void dialogue_conditional_special ( gchar *text, int * var, GtkMessageType type );
-static void dialogue_special ( GtkMessageType param, gchar * text );
 static gboolean question_yes_no ( gchar *texte );
 /*END_STATIC*/
 
