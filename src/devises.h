@@ -22,4 +22,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 GtkWidget *creation_option_menu_devises ( gint devise_cachee,
 					  GSList *liste_tmp );
 gboolean is_euro ( struct struct_devise * currency );
+struct struct_devise * create_currency ( gchar * nom_devise, gchar * code_devise, 
+					 gchar * code_iso4217_devise );
+struct struct_devise * find_currency_from_iso4217_list ( gchar * currency_name );
 
