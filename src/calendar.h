@@ -1,5 +1,6 @@
 /* fichier d'en tête gsbcalendar.h */
-
+#include "include.h"
+#include <gdk/gdkkeysyms.h>
 /* Constantes utilisées par la fonction inc_dec_date */
 # define ONE_DAY 1
 # define ONE_WEEK 7
