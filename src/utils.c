@@ -693,7 +693,7 @@ gboolean lance_navigateur_web ( const gchar *url )
 	   strlen ( etat.browser_command )))
     {
 	dialogue_error_hint ( g_strdup_printf ( _("Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.  Please adjust your settings to a valid executable."), url ),
-			      _("Cannot execute web browser") );
+			      _("Cannot run web browser") );
     }
 
 
@@ -720,8 +720,8 @@ gboolean lance_navigateur_web ( const gchar *url )
 
     if ( system ( chaine ) == -1 )
     {
-	dialogue_error_hint ( g_strdup_printf ( _("Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.\nThe command was : %s\nPlease adjust your settings to a valid executable."), url, chaine ),
-			      _("Cannot execute web browser") );
+	dialogue_error_hint ( g_strdup_printf ( _("Grisbi was unable to execute '%s'\nPlease adjust your settings to a valid executable."), chaine ),
+			      _("Cannot run web browser") );
     }
     return FALSE;
 }
