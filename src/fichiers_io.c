@@ -173,7 +173,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		    if ( etat.force_enregistrement )
 		      dialogue ( _("Warning: either this file is already opened by another user or it wasn't\nclosed correctly (maybe Grisbi crashed?).\nGrisbi will however overwrite the file.\nWe advise you not to use this option except if you know excactly what\nyou are doing (i.e. nobody else uses this file for the moment).\n\nYou can deactivate this option in the setup.") );
 		    else
-		      dialogue ( _("Warning: either this file is already opened by another user or it wasn't closed\nclosed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving\" \noption in the setup.") );
+		      dialogue ( _("Warning: either this file is already opened by another user or it wasn't\nclosed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving\" \noption in the setup.") );
 		  }	    
 
 	      if ( !strcmp ( node_generalites -> name,
