@@ -1,3 +1,4 @@
+# translation of fr.po to français
 # translation of fr.po to
 # translation of fr.po to
 # translation of fr.po to
@@ -10,15 +11,16 @@
 # 			Benjamin Drieu <bdrieu@april.org>, 2003,2004.
 # 			Alain Portal <aportal@univ-montp2.fr>, 2003.
 # Alain PORTAL <alain.portal@free.fr>, 2004.
+# Alain PORTAL <aportal@univ-montp2.fr>, 2005.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-12-29 21:52+0100\n"
-"PO-Revision-Date: 2004-12-29 22:00+0100\n"
-"Last-Translator: Benjamin Drieu <bdrieu@april.org>\n"
-"Language-Team: Francais <traduction@grisbi.org>\n"
+"PO-Revision-Date: 2005-01-06 13:37+0100\n"
+"Last-Translator: Alain PORTAL <aportal@univ-montp2.fr>\n"
+"Language-Team: français <traduc@traduc.org>\n"
 "MIME-Version: (null)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -110,16 +112,15 @@ msgid "%4.2f %s debit on %s"
 msgstr "Débit de %4.2f %s sur %s"
 
 #: src/accueil.c:1978
-#, fuzzy, c-format
+#, c-format
 msgid "balance of account %s is under wanted and authorised minima!"
 msgstr "Le compte %s est passé sous les seuils minimums autorisés et voulus !"
 
 #: src/accueil.c:1982
-#, fuzzy
 msgid ""
 "accounts with the balance under wanted and authorised minimal :\n"
 "\n"
-msgstr "Le compte %s est passé sous les seuils minimums autorisés et voulus !"
+msgstr "Comptes dont le solde est passé sous les seuils minimums autorisés et voulus :\n\n"
 
 #: src/accueil.c:2004
 #, fuzzy, c-format
@@ -127,11 +128,10 @@ msgid "balance of account %s is under authorised minimum!"
 msgstr "Le compte %s est passé sous le seuil minimum autorisé !"
 
 #: src/accueil.c:2010
-#, fuzzy
 msgid ""
 "accounts with the balance under authorised minimal :\n"
 "\n"
-msgstr "Le compte %s est passé sous les seuils minimums autorisés et voulus !"
+msgstr "Comptes dont le solde est passé sous le seuil minimum autorisé :\n\n"
 
 #: src/accueil.c:2033
 #, fuzzy, c-format
@@ -139,11 +139,10 @@ msgid "balance of account %s is under wanted minimum!"
 msgstr "Le compte %s est passé sous le seuil minimum voulu !"
 
 #: src/accueil.c:2039
-#, fuzzy
 msgid ""
 "accounts with the balance under wanted minimal :\n"
 "\n"
-msgstr "Le compte %s est passé sous le seuil minimum voulu !"
+msgstr "Comptes dont le solde est passé sous le seuil minimum voulu :\n\n"
 
 #: src/affichage.c:138
 msgid "Transaction form"
@@ -163,8 +162,7 @@ msgstr "Utiliser le logo"
 
 #: src/affichage.c:253
 msgid "Click on preview to change homepage logo"
-msgstr ""
-"Cliquer sur la prévisualisation pour modifier le logo de l'onglet « Accueil »"
+msgstr "Cliquer sur la prévisualisation pour modifier le logo de l'onglet « Accueil »"
 
 #: src/affichage.c:309
 msgid "Click on preview to change animation"
@@ -222,34 +220,28 @@ msgid "Select a new logo"
 msgstr "Sélection d'un nouveau logo"
 
 #: src/affichage_formulaire.c:73
-#, fuzzy
 msgid "Col 1"
-msgstr "Col1"
+msgstr "Col 1"
 
 #: src/affichage_formulaire.c:74
-#, fuzzy
 msgid "Col 2"
-msgstr "Col2"
+msgstr "Col 2"
 
 #: src/affichage_formulaire.c:75
-#, fuzzy
 msgid "Col 3"
-msgstr "Col3"
+msgstr "Col 3"
 
 #: src/affichage_formulaire.c:76
-#, fuzzy
 msgid "Col 4"
-msgstr "Col4"
+msgstr "Col 4"
 
 #: src/affichage_formulaire.c:77
-#, fuzzy
 msgid "Col 5"
-msgstr "Col5"
+msgstr "Col 5"
 
 #: src/affichage_formulaire.c:78
-#, fuzzy
 msgid "Col 6"
-msgstr "Col6"
+msgstr "Col 6"
 
 #: src/affichage_formulaire.c:151
 msgid "Form structure preview"
@@ -261,14 +253,12 @@ msgid "Each account has his own form"
 msgstr "Chaque compte a son propre formulaire"
 
 #: src/affichage_formulaire.c:307
-#, fuzzy
 msgid "rows"
-msgstr "Parcourir"
+msgstr "lignes"
 
 #: src/affichage_formulaire.c:354
-#, fuzzy
 msgid "columns"
-msgstr "Comptes"
+msgstr "colonnes"
 
 #: src/affichage_formulaire.c:381
 msgid "Form structure content"
@@ -441,9 +431,8 @@ msgid "Transaction number"
 msgstr "N° opération"
 
 #: src/affichage_formulaire.c:909
-#, fuzzy
 msgid "Automatic/Manual"
-msgstr "Automatique"
+msgstr "Automatique/Manuel"
 
 #: src/affichage_liste.c:115
 msgid "Col1"
@@ -475,9 +464,8 @@ msgstr "Col7"
 
 #. Ã  la base, on met une vbox
 #: src/affichage_liste.c:125
-#, fuzzy
 msgid "Information shown in transaction list"
-msgstr "Trier la liste d'opérations"
+msgstr "Informations affichées dans la liste des opérations"
 
 #: src/affichage_liste.c:129
 msgid "Transactions list preview"
@@ -494,8 +482,7 @@ msgstr "Ajuster la taille des colonnes selon le tableau ci-dessus"
 
 #: src/affichage_liste.c:205
 msgid "Remember display settings for each account separately"
-msgstr ""
-"Retenir les caractéristiques de l'affichage séparément pour chaque compte"
+msgstr "Retenir les caractéristiques de l'affichage séparément pour chaque compte"
 
 #: src/affichage_liste.c:211
 msgid "Revert to defaults"
@@ -759,9 +746,8 @@ msgstr "Opérations rapprochées masquées"
 
 #: src/barre_outils.c:410 src/barre_outils.c:411 src/barre_outils.c:703
 #: src/barre_outils.c:704
-#, fuzzy
 msgid "Display grid"
-msgstr "Affichage"
+msgstr "Affichage de la grille"
 
 #: src/barre_outils.c:433
 msgid "Account transactions"
@@ -786,39 +772,33 @@ msgstr "Affichage"
 
 #: src/barre_outils.c:510 src/menu.c:121 src/menu.c:203
 #: src/traitement_variables.c:372
-#, fuzzy
 msgid "Show grid"
-msgstr "Afficher"
+msgstr "Afficher la grille"
 
 #: src/barre_outils.c:522 src/fichiers_gestion.c:495 src/menu.c:124
 #: src/menu.c:125 src/menu.c:126 src/menu.c:127 src/traitement_variables.c:374
-#, fuzzy
 msgid "Show one line per transaction"
-msgstr "1 ligne par opération"
+msgstr "Afficher 1 ligne par opération"
 
 #: src/barre_outils.c:528 src/fichiers_gestion.c:498 src/menu.c:125
 #: src/traitement_variables.c:375
-#, fuzzy
 msgid "Show two lines per transaction"
-msgstr "2 lignes par opération"
+msgstr "Afficher 2 lignes par opération"
 
 #: src/barre_outils.c:534 src/fichiers_gestion.c:501 src/menu.c:126
 #: src/traitement_variables.c:376
-#, fuzzy
 msgid "Show three lines per transaction"
-msgstr "3 lignes par opération"
+msgstr "Afficher 3 lignes par opération"
 
 #: src/barre_outils.c:540 src/fichiers_gestion.c:504 src/menu.c:127
 #: src/traitement_variables.c:377
-#, fuzzy
 msgid "Show four lines per transaction"
-msgstr "4 lignes par opération"
+msgstr "Afficher 4 lignes par opération"
 
 #: src/barre_outils.c:553 src/barre_outils.c:567 src/fichiers_gestion.c:488
 #: src/menu.c:122 src/traitement_variables.c:373
-#, fuzzy
 msgid "Show reconciled transactions"
-msgstr "Les opérations rapprochées"
+msgstr "Afficher les opérations rapprochées"
 
 #: src/barre_outils.c:613 src/barre_outils.c:614
 msgid "Display/hide form"
@@ -900,23 +880,18 @@ msgid "Export categories"
 msgstr "Exporter les catégories"
 
 #: src/categories_onglet.c:791
-#, fuzzy
 msgid "Import categories"
-msgstr "Exporter les catégories"
+msgstr "Importer les catégories"
 
 #: src/categories_onglet.c:810
-#, fuzzy
 msgid "Merge imported categories with existing?"
-msgstr "Fusionner les catégories"
+msgstr "Fusionner les catégories importées avec les existantes ?"
 
 #: src/categories_onglet.c:812
-#, fuzzy
 msgid ""
 "File already contains transactions.  If you decide to continue, existing "
 "categories will be merged with imported ones."
-msgstr ""
-"Le fichier contient déjà des opérations, les deux listes de catégories "
-"seront fusionnées."
+msgstr "Le fichier contient déjà des opérations. Si vous choisissez de continuer, les deux listes de catégories seront fusionnées."
 
 #: src/categories_onglet.c:813
 msgid ""
@@ -925,6 +900,8 @@ msgid ""
 "undo for this.\n"
 "You may also decide to replace existing categories with imported ones."
 msgstr ""
+"Le fichier ne contient pas d'opérations. Si vous choisissez de continuer, les catégories importées seront fusionnées avec les catégories existantes. Cette opération est irréversible.\n"
+"Vous pouvez également décider de remplacer les catégories existantes par les catégories que vous êtes en train d'importer."
 
 #: src/categories_onglet.c:820 src/imputation_budgetaire.c:1876
 msgid "Replace existing"
@@ -1067,12 +1044,11 @@ msgstr "Compte d'actif"
 msgid ""
 "Accounts names are used to distinguish accounts.  It is mandatory that names "
 "are both unique and not empty."
-msgstr ""
+msgstr "Les noms des comptes sont utilisés pour différencier les comptes. Il est donc impératif que ces noms soient uniques et non vides."
 
 #: src/comptes_gestion.c:911
-#, fuzzy
 msgid "Account name is empty"
-msgstr "Numéro de compte / Clé"
+msgstr "Le compte n'a pas de nom"
 
 #: src/comptes_gestion.c:927
 #, c-format
@@ -1320,12 +1296,12 @@ msgstr "Signe de la devise"
 msgid ""
 "Currency names or iso 4217 codes should be unique.  Please choose a new name "
 "for the currency."
-msgstr ""
+msgstr "Le nom des devises ou les codes iso 4217 doivent être uniques. Veuillez choisir un nouveau nom pour la devise."
 
 #: src/devises.c:693
-#, fuzzy, c-format
+#, c-format
 msgid "Currency '%s' already exists."
-msgstr "La catégorie '%s' existe déjà."
+msgstr "La devise « %s » existe déjà."
 
 #: src/devises.c:721
 msgid ""
@@ -1334,7 +1310,6 @@ msgid ""
 msgstr ""
 
 #: src/devises.c:722
-#, fuzzy
 msgid "All fields are not filled in"
 msgstr "Tous les champs ne sont pas remplis !"
 
@@ -1345,21 +1320,20 @@ msgid ""
 msgstr ""
 
 #: src/devises.c:734
-#, fuzzy
 msgid "No currency has been defined."
-msgstr "Aucun change défini"
+msgstr "Aucune devise n'a été définie."
 
 #: src/devises.c:842
-#, fuzzy, c-format
+#, c-format
 msgid "Currency '%s' is used in current account.  Grisbi can't delete it."
 msgstr ""
-"La devise %s est utilisée dans le fichier courant.\n"
+"La devise « %s » est utilisée dans le compte courant.\n"
 "Vous ne pouvez la supprimer."
 
 #: src/devises.c:844
 #, c-format
 msgid "Impossible to remove currency '%s'"
-msgstr ""
+msgstr "Impossible de supprimer la devise « %s »"
 
 #: src/devises.c:888
 msgid "Enter exchange rate"
@@ -1408,7 +1382,7 @@ msgstr "Ne plus montrer ce message"
 msgid ""
 "Hi, you are in the middle of nowhere, between two lines of code.  Grisbi is "
 "expected to crash very soon.  Have a nice day."
-msgstr ""
+msgstr "Salut ! Vous êtes au milieu de nulle part, entre deux lignes de code. Grisbi va très bientôt planter ! Passez une bonne journée."
 
 #: src/dialog.c:419
 msgid "Serious brain damage expected."
@@ -1421,9 +1395,8 @@ msgid ""
 msgstr ""
 
 #: src/dialog.c:431
-#, fuzzy
 msgid "Cannot allocate memory"
-msgstr "Erreur dans l'allocation de mémoire, ça va très mal se passer"
+msgstr "Impossible d'allouer de la mémoire"
 
 #: src/echeancier_formulaire.c:300 src/echeancier_formulaire.c:301
 #: src/operations_formulaire.c:418 src/operations_formulaire.c:419
@@ -1529,25 +1502,24 @@ msgstr ""
 
 #: src/echeancier_formulaire.c:1464 src/equilibrage.c:953
 #: src/equilibrage.c:973
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid date '%s'"
-msgstr "Date invalide"
+msgstr "Date « %s » invalide"
 
 #: src/echeancier_formulaire.c:1480 src/etats_config.c:1171
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid final date '%s'"
-msgstr "Fin de la plage de dates personnalisée invalide"
+msgstr "Date de fin « %s » invalide"
 
 #: src/echeancier_formulaire.c:1516
-#, fuzzy
 msgid ""
 "This breakdown of transaction has a transfer on itself.  Either change the "
 "sub transaction to transfer on another account or change account of the "
 "transaction itself."
 msgstr ""
-"Cette ventilation contient un virement sur elle-même.  Changez l'opération "
+"Cette ventilation contient un virement sur elle-même. Changez l'opération "
 "associée pour faire un virement vers un autre compte ou changez le compte de "
-"l'opération ventilée elle même."
+"l'opération ventilée elle-même."
 
 #: src/echeancier_formulaire.c:1517
 #, fuzzy
@@ -1568,7 +1540,7 @@ msgstr ""
 #: src/ventilation.c:1443
 #, fuzzy
 msgid "Invalid transfer."
-msgstr "La date est invalide."
+msgstr "Virement invalide."
 
 #: src/echeancier_formulaire.c:1562 src/echeancier_ventilation.c:1659
 #: src/ventilation.c:1442
@@ -1584,7 +1556,7 @@ msgstr "Il n'y a pas de compte associé au virement."
 msgid ""
 "Associated account of this transfer does not exist.  Please associate a "
 "valid account with this transfer."
-msgstr "Le compte associé au virement est invalide"
+msgstr "Le compte associé au virement n'existe pas."
 
 #: src/echeancier_formulaire.c:1603
 msgid ""
@@ -1595,9 +1567,8 @@ msgstr ""
 " avec un chèque ou un mode de règlement à incrémentation automatique."
 
 #: src/echeancier_formulaire.c:1604
-#, fuzzy
 msgid "Invalid scheduled transaction."
-msgstr "Échéances terminées"
+msgstr "Opération planifiée invalide."
 
 #: src/echeancier_formulaire.c:1617 src/echeancier_liste.c:451
 #: src/type_operations.c:1458 src/type_operations.c:1531
@@ -1675,22 +1646,20 @@ msgid "%d days"
 msgstr "%d jours"
 
 #: src/echeancier_liste.c:1306
-#, fuzzy, c-format
+#, c-format
 msgid "%02d/%02d/%d : %s [%4.2f %s]"
-msgstr "%d/%d/%d : %4.2f %s [ %s ]"
+msgstr "%02d/%02d/%d : %s [%4.2f %s]"
 
 #: src/echeancier_liste.c:1315
-#, fuzzy
 msgid "Delete this scheduled transaction?"
-msgstr "Effacer une échéance"
+msgstr "Effacer cette opération planifiée ?"
 
 #: src/echeancier_liste.c:1316
-#, fuzzy
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
 "transaction?\n"
 "\n"
-msgstr "Voulez-vous effacer juste cette occurence ou l'échéance complète ?"
+msgstr "Voulez-vous effacer seulement cette occurence ou l'opération planifiée complète ?\n\n"
 
 #: src/echeancier_liste.c:1320
 msgid "All the occurences"
@@ -1744,10 +1713,9 @@ msgstr ""
 "Continuer quand même ?"
 
 #: src/echeancier_ventilation.c:2622
-#, fuzzy
 msgid "A breakdown line is to be deleted thought it is not yet registered."
 msgstr ""
-"Une opé de ventilation a été marquée pour la suppression alors qu'elle "
+"Une opération de ventilation a été marquée pour la suppression alors qu'elle "
 "n'était pas encore enregistrée."
 
 #: src/equilibrage.c:185 src/equilibrage.c:199
@@ -1792,7 +1760,7 @@ msgstr "N° de rapprochement"
 
 #: src/equilibrage.c:952
 msgid "Grisbi can't parse date.  It should be of the form 'dd/mm/yyyy'."
-msgstr ""
+msgstr "Grisbi ne peut pas analyser la date. Celle-ci doit être de la forme « jj/mm/aaaa »."
 
 #: src/equilibrage.c:972
 msgid "Date format looks valid but date is valid according to calendar."
@@ -1888,17 +1856,15 @@ msgstr ""
 #: src/erreur.c:373
 #, c-format
 msgid "%s : %s - %s\n"
-msgstr ""
+msgstr "%s : %s - %s\n"
 
 #: src/etat_io.c:84 src/etat_io.c:101
-msgid ""
-"Grisbi is unable to parse this file as a report file.  Be sure it is valid."
+msgid "Grisbi is unable to parse this file as a report file.  Be sure it is valid."
 msgstr ""
 
 #: src/etat_io.c:85 src/etat_io.c:102
-#, fuzzy
 msgid "Invalid Grisbi report file"
-msgstr "Fichier d'état invalide."
+msgstr "Fichier d'état Grisbi invalide."
 
 #: src/etat_io.c:94
 #, c-format
@@ -1974,9 +1940,9 @@ msgid "Third party %s not found.\n"
 msgstr "Tiers %s non trouvé.\n"
 
 #: src/etat_io.c:1706 src/fichiers_io.c:5324 src/qif.c:1038
-#, fuzzy, c-format
+#, c-format
 msgid "Error saving file '%s'."
-msgstr "Erreur lors de l'enregistrement du fichier '%s': %s"
+msgstr "Erreur lors de l'enregistrement du fichier « %s »."
 
 #: src/etats_affiche.c:168 src/etats_affiche.c:375 src/etats_affiche.c:574
 #: src/etats_affiche.c:666
@@ -2339,58 +2305,49 @@ msgid "Performance issue."
 msgstr ""
 
 #: src/etats_config.c:1315
-#, fuzzy
 msgid ""
 "All financial years have been selected.  Grisbi will run faster without the "
 "\"Detail financial years\" option activated."
 msgstr ""
-"Tous les exercices ont été sélectionnés ; Grisbi sera plus rapide\n"
-"en retirant l'option \"Détailler les exercices utilisés\""
+"Tous les exercices ont été sélectionnés. Grisbi sera plus rapide "
+"en retirant l'option « Détailler les exercices utilisés »."
 
 #: src/etats_config.c:1394
-#, fuzzy
 msgid ""
 "All accounts have been selected.  Grisbi will run faster without the "
 "\"Detail accounts used\" option activated."
 msgstr ""
-"Tous les comptes ont été sélectionnés ; Grisbi sera plus rapide\n"
-"en retirant l'option \"Détailler les comptes utilisés\""
+"Tous les comptes ont été sélectionnés. Grisbi sera plus rapide "
+"en retirant l'option « Détailler les comptes utilisés »."
 
 #: src/etats_config.c:1470
-#, fuzzy
 msgid ""
 "All categories have been selected.  Grisbi will run faster without the "
 "\"Detail categories used\" option activated."
 msgstr ""
-"Toutes les catégories ont été sélectionnées ; Grisbi sera plus rapide\n"
-"en retirant l'option \"Détailler les catégories utilisées\""
+"Toutes les catégories ont été sélectionnées. Grisbi sera plus rapide "
+"en retirant l'option « Détailler les catégories utilisées »."
 
 #: src/etats_config.c:1519
-#, fuzzy
 msgid ""
 "All budgetary lines have been selected.  Grisbi will run faster without the "
 "\"Detail budgetary lines used\" option activated."
 msgstr ""
-"Toutes les imputations budgétaires ont été sélectionnées ; Grisbi sera plus "
-"rapide\n"
-"en retirant l'option \"Détailler les imputations budgétaires utilisées\""
+"Toutes les imputations budgétaires ont été sélectionnées. Grisbi sera plus "
+"rapide en retirant l'option « Détailler les imputations budgétaires utilisées »."
 
 #: src/etats_config.c:1566
-#, fuzzy
 msgid ""
 "All third parties have been selected.  Grisbi will run faster without the "
 "\"Detail third parties used\" option activated."
-msgstr ""
-"Tous les tiers ont été sélectionnés ; Grisbi sera plus rapide\n"
-"en retirant l'option \"Détailler les tiers utilisés\""
+msgstr "Tous les tiers ont été sélectionnés. Grisbi sera plus rapide en retirant l'option « Détailler les tiers utilisés »."
 
 #: src/etats_config.c:1738
-#, fuzzy
 msgid ""
 "All methods of payment have been selected.  Grisbi will run faster without "
 "the \"Detail methods of payment used\" option activated."
 msgstr ""
-"Tous les modes de règlement ont été sélectionnés.  Grisbi sera plus rapide "
+"Tous les modes de règlement ont été sélectionnés. Grisbi sera plus rapide "
 "en retirant l'option « Sélectionner les opérations en fonction des modes de "
 "règlement. »"
 
@@ -2426,7 +2383,7 @@ msgstr "Date initiale"
 msgid "Final date"
 msgstr "Date finale"
 
-#. on met dans la partie de gauche une liste contenant les comptes Ã 
+#. on met dans la partie de gauche une liste contenant les comptes Ã
 #. sÃ©lectionner
 #: src/etats_config.c:2516
 msgid "Select transactions only for given accounts"
@@ -2472,8 +2429,7 @@ msgstr "Inclure les virements de ou vers les comptes d'actif et de passif"
 
 #: src/etats_config.c:2798
 msgid "Include transfers from or to accounts not in this report"
-msgstr ""
-"Inclure les virements de ou vers les comptes ne figurant pas dans l'état"
+msgstr "Inclure les virements de ou vers les comptes ne figurant pas dans l'état"
 
 #: src/etats_config.c:2811
 msgid "Include transfers from or to these accounts"
@@ -2795,8 +2751,7 @@ msgstr "Afficher le nombre d'opérations avec les totaux"
 
 #: src/etats_config.c:6491
 msgid "Consider the third parties of this report as a multiple third party."
-msgstr ""
-"Inclure cet état dans la liste des tiers du formulaire de saisie d'opération."
+msgstr "Inclure cet état dans la liste des tiers du formulaire de saisie d'opération."
 
 #. afficher ou non les opÃ©s
 #: src/etats_config.c:6542
@@ -2984,7 +2939,7 @@ msgstr "Afficher un sous-total lors du changement de sous-imputation"
 msgid "Display \"No sub-budgetary line\" if none"
 msgstr "Afficher \"Pas de sous-imputation\" si absente"
 
-#. on met dans la partie de gauche une liste contenant les modes de paiement Ã 
+#. on met dans la partie de gauche une liste contenant les modes de paiement Ã
 #. sÃ©lectionner
 #: src/etats_config.c:7684
 msgid "Select the transactions by method of payment"
@@ -3177,8 +3132,7 @@ msgstr ""
 #. etat vierge
 #: src/etats_onglet.c:1040
 msgid "This report is an empty one. You need to customise it entirely."
-msgstr ""
-"Cette option crée un état vierge dans lequel vous devez tous configurer."
+msgstr "Cette option crée un état vierge dans lequel vous devez tous configurer."
 
 #. remise de chÃ¨ques
 #: src/etats_onglet.c:1046
@@ -3223,8 +3177,7 @@ msgstr "Effacer l'état \"%s\"?"
 
 #: src/etats_onglet.c:1086
 msgid "This will irreversibly remove this report.  There is no undo for this."
-msgstr ""
-"Cela détruira irrémédiablement cet état. Il n'y a pas d'annulation possible."
+msgstr "Cela détruira irrémédiablement cet état. Il n'y a pas d'annulation possible."
 
 #: src/etats_onglet.c:1226
 msgid "Import a report"
@@ -3341,9 +3294,8 @@ msgid "Not displayed"
 msgstr "Non affiché"
 
 #: src/exercice.c:645
-#, fuzzy
 msgid "Automatic association of financial years?"
-msgstr "Association automatique d'exercice"
+msgstr "Association automatique d'exercice ?"
 
 #: src/exercice.c:646
 #, fuzzy
@@ -3353,8 +3305,7 @@ msgid ""
 "transaction will not be changed."
 msgstr ""
 "Cette fonction associe chaque opération sans exercice avec l'exercice lui "
-"correspondant.\n"
-"Si aucun exercice ne correspond, l'opération sera inchangée."
+"correspondant. Si aucun exercice ne correspond, l'opération sera inchangée."
 
 #: src/fenetre_principale.c:119
 msgid "Main page"
@@ -3419,12 +3370,11 @@ msgid "Error loading file '%s'"
 msgstr "Erreur lors de l'ouverture du fichier « %s »."
 
 #: src/fichiers_gestion.c:360
-#, fuzzy
 msgid ""
 "Grisbi was unable to load file.  Additionally, Grisbi was unable to load a "
 "backup file instead."
 msgstr ""
-"Grisbi n'a pas pu charger ce fichier.  De plus, Grisbi n'a pas pu charger de "
+"Grisbi n'a pas pu charger ce fichier. De plus, Grisbi n'a pas pu charger de "
 "fichier de sauvegarde à la place."
 
 #: src/fichiers_gestion.c:381
@@ -3529,11 +3479,13 @@ msgstr "Impossible d'ouvrir le fichier '%s': %s"
 #. Ã  ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors
 #. la version nÃ©cessaire pour l'ouvrir
 #: src/fichiers_io.c:471
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
-msgstr "Pour ouvrir ce fichier, il vous faut la version %s de Grisbi"
+msgstr ""
+"Pour ouvrir ce fichier, il vous faut la version %s de Grisbi.\n"
+"Vous utilisez la version %s."
 
 #: src/fichiers_io.c:5049 src/fichiers_io.c:5690
 #, c-format
@@ -3622,8 +3574,7 @@ msgstr ""
 #: src/gnucash.c:543
 #, c-format
 msgid "Either file \"%s\" does not exist or it is not a regular file."
-msgstr ""
-"Soit le fichier « %s » n'existe pas, soit ce n'est pas un fichier normal."
+msgstr "Soit le fichier « %s » n'existe pas, soit ce n'est pas un fichier normal."
 
 #: src/gnucash.c:545
 #, c-format
@@ -3681,15 +3632,12 @@ msgstr "Benjamin Drieu (bdrieu[at]april.org) : programmation, paquets Debian"
 
 #: src/help.c:59
 #, fuzzy
-msgid ""
-"Alain Portal <dionysos@grisbi.org>: Programming, manual, RedHat packaging"
-msgstr ""
-"Alain Portal (dionysos[at]grisbi.org) : programmation, manuel, paquets RedHat"
+msgid "Alain Portal <dionysos@grisbi.org>: Programming, manual, RedHat packaging"
+msgstr "Alain Portal (dionysos[at]grisbi.org) : programmation, manuel, paquets RedHat"
 
 #: src/help.c:60
 #, fuzzy
-msgid ""
-"Gerald Niel (gegeweb@users.sourceforge.net): Slackware packaging, website"
+msgid "Gerald Niel (gegeweb@users.sourceforge.net): Slackware packaging, website"
 msgstr "Gérald Niel (gerald.niel[at]grisbi.org) : paquets Slackware, site web"
 
 #: src/help.c:61
@@ -3790,7 +3738,7 @@ msgid "Select files to import"
 msgstr "Sélectionner les fichiers à importer"
 
 #: src/import.c:223 src/qif.c:1065
-#, fuzzy, c-format
+#, c-format
 msgid "Error opening file '%s'"
 msgstr "Erreur lors de l'ouverture du fichier « %s »."
 
@@ -3845,17 +3793,15 @@ msgstr "Aucune"
 #. la crÃ©era une fois la fenetre affichÃ©e)
 #. - soit elle est crÃ©Ã© mais pas avec le bon code
 #: src/import.c:704
-#, fuzzy, c-format
+#, c-format
+#, fuzzy
 msgid ""
 "Currency of imported account '%s' is %s.  Either this currency doesn't exist "
 "so you have to create it in next window, or this currency already exists but "
 "the ISO code is wrong.\n"
 "To avoid this message, please set its ISO code in configuration."
 msgstr ""
-"La devise du compte importé %s est %s.\n"
-"Soit cette devise n'existe pas encore et vous pourrez la créer dans la "
-"prochaine fenêtre,\n"
-"soit cette devise existe déjà mais son code ISO est incorrect.\n"
+"La devise du compte importé « %s » est %s. Soit cette devise n'existe pas encore et vous pourrez la créer dans la prochaine fenêtre, soit cette devise existe déjà mais son code ISO est incorrect.\n"
 "Pour éviter ce message la prochaine fois et détecter la devise "
 "automatiquement,veuillez changer le code ISO dans la configuration."
 
@@ -3885,9 +3831,8 @@ msgid "OFX file"
 msgstr "Fichier OFX"
 
 #: src/import.c:905 src/import.c:2861
-#, fuzzy
 msgid "Gnucash file"
-msgstr "Fichier QIF\\/OFX\\/Gnucash ..."
+msgstr "Fichier Gnucash"
 
 #: src/import.c:909
 msgid "Unknown"
@@ -4016,9 +3961,8 @@ msgid "Please enter a budgetary line!"
 msgstr "Veuillez entrer une imputation !"
 
 #: src/imputation_budgetaire.c:1206
-#, fuzzy
 msgid "Deleting a budgetary line"
-msgstr "Suppression d'une sous-imputation"
+msgstr "Suppression d'une imputation budgétaire"
 
 #: src/imputation_budgetaire.c:1213
 msgid ""
@@ -4088,7 +4032,6 @@ msgid "Cannot save file."
 msgstr "Impossible d'enregistrer le fichier."
 
 #: src/imputation_budgetaire.c:1841
-#, fuzzy
 msgid "Import budgetary lines"
 msgstr "Importer une liste d'imputations budgétaires"
 
@@ -4120,9 +4063,8 @@ msgid "Cannot import file."
 msgstr "Impossible d'importer le fichier."
 
 #: src/imputation_budgetaire.c:1935
-#, fuzzy
 msgid "Sub-budgetary line"
-msgstr "imputation budgétaire"
+msgstr "Sous-imputation budgétaire"
 
 #. Edit transaction
 #: src/imputation_budgetaire.c:1990
@@ -4163,9 +4105,8 @@ msgid "New account file"
 msgstr "Nouveau fichier de compte"
 
 #: src/menu.c:91
-#, fuzzy
 msgid "Open"
-msgstr "_Ouvrir"
+msgstr "Ouvrir"
 
 #: src/menu.c:93 src/traitement_variables.c:139 src/traitement_variables.c:148
 #: src/traitement_variables.c:359
@@ -4187,9 +4128,8 @@ msgid "Import QIF\\/OFX\\/CSV\\/Gnucash file ..."
 msgstr "Fichier QIF\\/OFX\\/Gnucash ..."
 
 #: src/menu.c:99 src/traitement_variables.c:361
-#, fuzzy
 msgid "Export QIF file ..."
-msgstr "Exporter un fichier QIF"
+msgstr "Exporter un fichier QIF ..."
 
 #: src/menu.c:101 src/traitement_variables.c:362
 msgid "Close"
@@ -4260,7 +4200,6 @@ msgid "Closed accounts"
 msgstr "Comptes clos"
 
 #: src/menu.c:145 src/traitement_variables.c:381
-#, fuzzy
 msgid "Import report"
 msgstr "Importer un état"
 
@@ -4307,17 +4246,16 @@ msgstr "fr"
 #: src/metatree.c:291
 #, c-format
 msgid "%02d/%02d/%04d"
-msgstr ""
+msgstr "%02d/%02d/%04d"
 
 #: src/metatree.c:303
-#, fuzzy
 msgid "breakdown"
 msgstr "Ventilation"
 
 #. FIXME: tell the truth ;-)
 #: src/metatree.c:421
 msgid "This should not theorically happen."
-msgstr ""
+msgstr "Cela ne devrait théoriquement pas arriver !"
 
 #: src/metatree.c:422
 msgid "Can't remove selected division."
@@ -4454,8 +4392,7 @@ msgstr ""
 
 #: src/ofx.c:330
 msgid "A transaction try to be saved but no account was created...\n"
-msgstr ""
-"Tentative d'enregistrement d'un opération sans compte créé précedemment...\n"
+msgstr "Tentative d'enregistrement d'un opération sans compte créé précedemment...\n"
 
 #: src/ofx.c:394
 msgid "Check"
@@ -4549,9 +4486,8 @@ msgid "Invalid date"
 msgstr "Date invalide"
 
 #: src/operations_formulaire.c:2588
-#, fuzzy
 msgid "Invalid value date."
-msgstr "La date est invalide."
+msgstr "La date de valeur est invalide."
 
 #: src/operations_formulaire.c:2622
 msgid "There is no associated account for this transfer."
@@ -4644,8 +4580,7 @@ msgid "Imposible to delete a reconciled transaction."
 msgstr "Impossible de supprimer une opération relevée."
 
 #: src/operations_liste.c:2844
-msgid ""
-"The contra-transaction of this transfer is reconciled, deletion impossible."
+msgid "The contra-transaction of this transfer is reconciled, deletion impossible."
 msgstr ""
 "La contre-opération de ce virement est relevée, la suppression est "
 "impossible."
@@ -4669,9 +4604,8 @@ msgstr "Impossible de déplacer un virement vers son compte de destination"
 
 #. ligne trier par
 #: src/operations_liste.c:3832
-#, fuzzy
 msgid "Sort list by :"
-msgstr "Tri par date"
+msgstr "Trier la liste par :"
 
 #: src/operations_liste.c:4025
 #, c-format
@@ -4733,8 +4667,7 @@ msgstr "Ne pas avertir lorsque les seuils minimums sont atteints"
 
 #: src/parametres.c:450
 msgid "Do not warn if account file is readable by someone else"
-msgstr ""
-"Ne pas avertir lorsque le fichier de compte est lisible par quelqu'un d'autre"
+msgstr "Ne pas avertir lorsque le fichier de compte est lisible par quelqu'un d'autre"
 
 #. Display a warning message if file is already opened
 #: src/parametres.c:455
@@ -4748,9 +4681,8 @@ msgstr "Ne pas avertir que le format QIF ne contient pas de devises"
 
 #. Display a warning message if no budgetary line is entered in form
 #: src/parametres.c:465
-#, fuzzy
 msgid "Do not warn if no budgetary line is entered in transaction"
-msgstr "Liste des imputations budgétaires (écritures)"
+msgstr "Ne pas prévenir si aucune imputation budgétaire n'est saisie dans l'opération."
 
 #. Number of days before a warning message advertising a scheduled
 #. transaction
@@ -4759,8 +4691,7 @@ msgid "Scheduler warnings"
 msgstr "Alertes de l'échéancier"
 
 #: src/parametres.c:475
-msgid ""
-"Number of days before a warning message advertising a scheduled transaction"
+msgid "Number of days before a warning message advertising a scheduled transaction"
 msgstr "Nombre de jours précédant le rappel d'une échéance"
 
 #. Tip of the day
@@ -4971,20 +4902,18 @@ msgid "Select accounts to export"
 msgstr "Sélectionner les comptes à exporter"
 
 #: src/qif.c:1029
-#, fuzzy, c-format
+#, c-format
 msgid "File '%s' already exists."
-msgstr "Le fichier '%s' existe déjà"
+msgstr "Le fichier « %s » existe déjà."
 
 #: src/qif.c:1031
-#, fuzzy
 msgid "Do you want to overwrite it?"
-msgstr "Voulez-vous écraser le fichier \"%s\" ?"
+msgstr "Voulez-vous l'écraser ?"
 
 #: src/qif.c:1036
-#, fuzzy, c-format
+#, c-format
 msgid "File \"%s\" exists and is not a regular file."
-msgstr ""
-"Soit le fichier « %s » n'existe pas, soit ce n'est pas un fichier normal."
+msgstr "Le fichier « %s » existe mais n'est pas un fichier normal."
 
 #. mise en place du bouton ajout d'1 tiers
 #: src/tiers_onglet.c:315
@@ -5007,14 +4936,12 @@ msgid "Properties for %s"
 msgstr "Propriétés pour %s"
 
 #: src/tip.c:74
-msgid ""
-"Make sure that grisbi was correctly installed and that tips file is readable."
-msgstr ""
+msgid "Make sure that grisbi was correctly installed and that tips file is readable."
+msgstr "Assurez-vous que Grisbi soit correctement installé et que le fichier des astuces soit accessible en lecture."
 
 #: src/tip.c:75
-#, fuzzy
 msgid "No tip of the day available"
-msgstr "Astuce du jour"
+msgstr "Aucune astuce du jour disponible"
 
 #: src/tip.c:79 src/tip.c:110 src/tip.c:117
 msgid "Did you know that..."
@@ -5087,19 +5014,20 @@ msgstr ""
 "tt>. Veuillez modifier votre configuration vers un exécutable valide."
 
 #: src/utils.c:134 src/utils.c:168
-#, fuzzy
 msgid "Cannot execute web browser"
 msgstr "Impossible de lancer le navigateur web"
 
 #: src/utils.c:167
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.\n"
 "The command was: %s.\n"
 "Please adjust your settings to a valid executable."
 msgstr ""
 "Grisbi n'a pas pu lancer le navigateur web pour parcourir la page <tt>%s</"
-"tt>. Veuillez modifier votre configuration vers un exécutable valide."
+"tt>.\n"
+"La commande était : %s.\n"
+"Veuillez modifier votre configuration vers un exécutable valide."
 
 #: src/utils.c:321
 msgid "I don't know !!!"
@@ -5117,9 +5045,8 @@ msgstr ""
 "cette erreur. Bonne journée !"
 
 #: src/utils.c:326
-#, fuzzy
 msgid "No account in memory"
-msgstr "Nouveau fichier de compte"
+msgstr "Pas de compte en mémoire"
 
 #. p_tab Ã©tait mal placÃ©e
 #: src/utils.c:336
@@ -5144,11 +5071,10 @@ msgid "No third party defined"
 msgstr "Aucun tiers défini"
 
 #: src/ventilation.c:1428
-#, fuzzy
 msgid ""
 "Associated account of this transfer is closed.  Please associate a valid "
 "account with this transfer."
-msgstr "Le compte associé au virement est invalide"
+msgstr "Le compte associé au virement est clos. Veuillez associer un compte valide à ce virement."
 
 #: src/ventilation.c:2032
 msgid "This transaction has a reconciled breakdown line, deletion canceled."
@@ -6868,543 +6794,3 @@ msgstr "Revenus divers : Remboursement"
 msgid "Misc. incomes : Second hand sales"
 msgstr "Revenus divers : Vente occasion"
 
-#~ msgid "Close tree"
-#~ msgstr "Fermer l'arbre"
-
-#~ msgid "Display accounts"
-#~ msgstr "Afficher les comptes"
-
-#~ msgid "Display sub-divisions"
-#~ msgstr "Afficher les sous-divisions"
-
-#~ msgid "Enter name for new category"
-#~ msgstr "Entrer le nom de la nouvelle catégorie"
-
-#, fuzzy
-#~ msgid ""
-#~ "Category must be both unique and not empty.  Please use another name for "
-#~ "this category."
-#~ msgstr ""
-#~ "Les catégories doivent être à la fois uniques et non nulles.  Utiliser un "
-#~ "autre nom pour cette catégorie."
-
-#~ msgid "Category '%s' already exists."
-#~ msgstr "La catégorie '%s' existe déjà."
-
-#~ msgid "Enter name for new sub-category"
-#~ msgstr "Entrer le nom de la nouvelle sous-catégorie"
-
-#, fuzzy
-#~ msgid ""
-#~ "Sub-category must be both unique and not empty.  Please use another name "
-#~ "for this sub-category."
-#~ msgstr ""
-#~ "Les sous catégories doivent être à la fois uniques et non nulles.  "
-#~ "Utiliser un autre nom pour cette sous catégorie."
-
-#~ msgid "Sub-category '%s' already exists."
-#~ msgstr "La sous-catégorie '%s' existe déjà."
-
-#~ msgid "Import a category list"
-#~ msgstr "Importer une liste de catégories"
-
-#, fuzzy
-#~ msgid ""
-#~ "Imported category list will be merged with existing.  There is no undo "
-#~ "for this."
-#~ msgstr ""
-#~ "Cela détruira irrémédiablement le fichier précédent. Il n'y a pas "
-#~ "d'annulation possible."
-
-#~ msgid ""
-#~ "Imported category list can either be merged with existing or replace it.  "
-#~ "Once performed, there is no undo for this."
-#~ msgstr ""
-#~ "La liste des catégories peut soit être fusionnée avec la liste existante, "
-#~ "soit la remplacer.  Une fois l'opération effectuée, il n'y a pas "
-#~ "d'annulation."
-
-#~ msgid "Budgetary lines list (transactions)"
-#~ msgstr "Liste des imputations budgétaires (écritures)"
-
-#~ msgid "Budgetary lines list"
-#~ msgstr "Liste des imputations budgétaires"
-
-#~ msgid "Amount per budget line"
-#~ msgstr "Montant par IB"
-
-#~ msgid "Amount per sub-budget line"
-#~ msgstr "Montant par sous-IB"
-
-#~ msgid "Amount per account"
-#~ msgstr "Montant par compte"
-
-#~ msgid "No sub-budget line (%d)"
-#~ msgstr "Aucune sous-imputation (%d)"
-
-#~ msgid "No sub-budget line"
-#~ msgstr "Aucune sous-imputation"
-
-#~ msgid "No budget line (%d)"
-#~ msgstr "Aucune imputation (%d)"
-
-#~ msgid "No budget line"
-#~ msgstr "Aucune imputation"
-
-#~ msgid "%d/%d/%d : %4.2f %s (breakdown) [ %s ]"
-#~ msgstr "%d/%d/%d : %4.2f %s (ventilation) [ %s ]"
-
-#~ msgid "%d/%d/%d : %4.2f %s [ %s ]"
-#~ msgstr "%d/%d/%d : %4.2f %s [ %s ]"
-
-#~ msgid "%d/%d/%d : %4.2f %s (breakdown)"
-#~ msgstr "%d/%d/%d : %4.2f %s (ventilation)"
-
-#~ msgid "Do you want"
-#~ msgstr "Voulez-vous"
-
-#~ msgid "Merge the two lists of budgetary lines"
-#~ msgstr "Fusionner les deux listes d'imputation budgétaires"
-
-#~ msgid "Replace the old list of budgetary lines"
-#~ msgstr "Remplacer l'ancienne liste d'imputations budgétaires"
-
-#~ msgid "Third parties list"
-#~ msgstr "Liste des tiers"
-
-#~ msgid "Amount per third party"
-#~ msgstr "Montant par tiers"
-
-#~ msgid "Last date"
-#~ msgstr "Dernière date"
-
-#~ msgid ""
-#~ "If you want to remove this third party but want to keep transactions, you "
-#~ "can transfer them to another third party.  Otherwise, transactions can be "
-#~ "simply deleted along with this third party."
-#~ msgstr ""
-#~ "Si vous voulez supprimer ce tiers mais voulez conserver les opérations "
-#~ "associées, vous pouvez les transformer vers un autre tiers.  Sinon, les "
-#~ "transactions peuvent être simplement supprimées avec leur tiers."
-
-#~ msgid "Transfer the transactions to"
-#~ msgstr "Transférer les opérations sur le tiers"
-
-#~ msgid "Just delete this third party."
-#~ msgstr "Supprimer simplement ce tiers."
-
-#~ msgid ""
-#~ "It is compulsory to specify a destination third party to move "
-#~ "transactions but no third party was entered."
-#~ msgstr ""
-#~ "Il est nécessaire de spécifier un tiers de destination pour déplacer les "
-#~ "opérations, mais aucun tiers n'a été entré."
-
-#, fuzzy
-#~ msgid "Please enter a third party!"
-#~ msgstr "Veuillez entrer un tiers."
-
-#~ msgid ""
-#~ "Grisbi is unable to find this third party.  Be sure entered name is valid "
-#~ "and that this third party exists."
-#~ msgstr ""
-#~ "Grisbi ne peut pas trouver ce tiers.  Le nom entré doit être valide et le "
-#~ "tiers doit exister."
-
-#~ msgid "Third party %s not found."
-#~ msgstr "Tiers %s non trouvé."
-
-#~ msgid "New third party"
-#~ msgstr "Nouveau tiers"
-
-#~ msgid "Enter the new third party's name"
-#~ msgstr "Entrer le nom du nouveau tiers"
-
-#, fuzzy
-#~ msgid ""
-#~ "Third party must be both unique and not empty.  Please use another name "
-#~ "for this third party."
-#~ msgstr ""
-#~ "Les tiers doivent être à la fois uniques et non nuls.  Utiliser un autre "
-#~ "nom pour ce tiers. "
-
-#~ msgid "Third party '%s' already exists."
-#~ msgstr "Le tiers « '%s » existe déjà."
-
-#~ msgid "Categories list"
-#~ msgstr "Liste des catégories"
-
-#~ msgid "Amount per category"
-#~ msgstr "Montant par catégorie"
-
-#~ msgid "Amount per subcategory"
-#~ msgstr "Montant par sous-catégorie"
-
-#~ msgid "No sub-category (%d)"
-#~ msgstr "Aucune sous-catégorie (%d)"
-
-#~ msgid "No category (%d)"
-#~ msgstr "Aucune catégorie (%d)"
-
-#, fuzzy
-#~ msgid "Selected category still contains transactions."
-#~ msgstr ""
-#~ "La catégorie sélectionnée contient encore des opérations.\n"
-#~ "\n"
-#~ "Vous pouvez"
-
-#~ msgid ""
-#~ "If you want to remove this category but want to keep transactions, you "
-#~ "can transfer them to another category.  Otherwise, transactions can be "
-#~ "simply deleted along with their category."
-#~ msgstr ""
-#~ "Si vous voulez supprimer cette catégorie mais voulez conserver les "
-#~ "opérations associées, vous pouvez les transformer vers une autre "
-#~ "catégorie.  Sinon, les opérations peuvent être simplement supprimées avec "
-#~ "leur catégorie."
-
-#~ msgid "Just remove this category."
-#~ msgstr "Supprimer simplement cette catégorie."
-
-#, fuzzy
-#~ msgid "Selected sub-category still contains transactions."
-#~ msgstr ""
-#~ "La sous-catégorie sélectionnée contient encore des opérations.\n"
-#~ "\n"
-#~ "Vous pouvez"
-
-#~ msgid "File exists. Do you want to overwrite it?"
-#~ msgstr "Le fichier existe. Voulez-vous l'écraser ?"
-
-#~ msgid "Invalid filename \"%s\"!"
-#~ msgstr "Nom de fichier \"%s\" invalide !"
-
-#~ msgid "Error saving file."
-#~ msgstr "Erreur lors de l'enregistrement du fichier."
-
-#~ msgid "Account has no name!"
-#~ msgstr "Le compte n'a pas de nom !"
-
-#~ msgid "You must define at least one currency for your file!"
-#~ msgstr "Vous devez définir au moins une devise pour votre fichier !"
-
-#~ msgid "Invalid limit date"
-#~ msgstr "Date limite invalide"
-
-#~ msgid "The associated account for this transfer is invalid"
-#~ msgstr "Le compte associé au virement est invalide"
-
-#~ msgid "It's impossible to transfer an account to itself"
-#~ msgstr "Impossible de virer un compte sur lui-même"
-
-#~ msgid "No account associated with the transfer"
-#~ msgstr "Aucun compte associé au virement"
-
-#~ msgid "Valid"
-#~ msgstr "Valider"
-
-#~ msgid "There is a variance"
-#~ msgstr "L'écart n'est pas de zéro"
-
-#~ msgid "This file is not a Grisbi report"
-#~ msgstr "Ce fichier n'est pas un état Grisbi"
-
-#~ msgid ""
-#~ "Error saving the file %s\n"
-#~ "\n"
-#~ "Error:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Erreur dans l'enregistrement du fichier %s\n"
-#~ "\n"
-#~ "Erreur :\n"
-#~ "%s"
-
-#~ msgid "Categories list (transactions)"
-#~ msgstr "Liste des catégories (écritures)"
-
-#~ msgid "File already exists"
-#~ msgstr "Le fichier existe déjà"
-
-#~ msgid "Invalid filename: \"%s\"!"
-#~ msgstr "Nom de fichier invalide: \"%s\" !"
-
-#~ msgid "This does not work at this moment"
-#~ msgstr "Cela ne fonctionne pas pour le moment."
-
-#~ msgid "HTML file"
-#~ msgstr "Fichier HTML"
-
-#~ msgid ""
-#~ "That file contains something on proc_security_cb.\n"
-#~ "I didn't have any file to test that function.\n"
-#~ "Please contact the grisbi team to implement that function."
-#~ msgstr ""
-#~ "Ce fichier contient quelque chose sur proc_security_cb.\n"
-#~ "N'ayant pas de fichier similaire, je n'ai pu implémenter la fonction...\n"
-#~ "Si vous pouvez contacter l'équipe de grisbi pour les aider à combler cet "
-#~ "lacune !! Merci !"
-
-#~ msgid ""
-#~ "This will irreversibly overwrite previous file.  There is no undo for "
-#~ "this."
-#~ msgstr ""
-#~ "Cela détruira irrémédiablement le fichier précédent. Il n'y a pas "
-#~ "d'annulation possible."
-
-#~ msgid "File name '%s' invalid !"
-#~ msgstr "Nom de fichier invalide : \"%s\""
-
-#~ msgid ""
-#~ "Error for the file \"%s\" :\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Erreur pour le fichier \"%s\" :\n"
-#~ "%s"
-
-#, fuzzy
-#~ msgid "The associated account for this transfer is closed"
-#~ msgstr "Le compte associé au virement est invalide"
-
-#~ msgid "Remove a category"
-#~ msgstr "Suppression d'une catégorie"
-
-#~ msgid "Remove category"
-#~ msgstr "Suppression d'une sous-catégorie"
-
-#~ msgid "Merge the two categories lists"
-#~ msgstr "Fusionner les deux listes de catégories"
-
-#~ msgid "Replace the old categories list"
-#~ msgstr "Remplacer l'ancienne liste des catégories"
-
-#~ msgid "Grisbi version %s is needed to open this file"
-#~ msgstr "Pour ouvrir ce fichier, il vous faut la version %s de Grisbi"
-
-#~ msgid "Invalid categories file"
-#~ msgstr "Fichier de catégories invalide."
-
-#, fuzzy
-#~ msgid "This is a breakdown transaction"
-#~ msgstr "Opération ventilée"
-
-#~ msgid "Delete a third party"
-#~ msgstr "Suppression d'un tiers"
-
-#~ msgid ""
-#~ "Some transactions are still assigned to this third party.\n"
-#~ "\n"
-#~ "You can"
-#~ msgstr ""
-#~ "Le tiers sélectionné contient encore des opérations.\n"
-#~ "\n"
-#~ "Vous pouvez"
-
-#~ msgid "File \"%s\" cannot be imported."
-#~ msgstr "Le fichier \"%s\" ne peut pas être importé."
-
-#~ msgid "The new account has not been created."
-#~ msgstr "Le nouveau compte n'a pas été créé."
-
-#~ msgid "This file is empty!"
-#~ msgstr "Le fichier ne contient aucune opération !"
-
-#~ msgid "Voucher number"
-#~ msgstr "Numéro de pièce"
-
-#~ msgid "Bank reference"
-#~ msgstr "Informations de la banque"
-
-#~ msgid "Sans 10"
-#~ msgstr "Sans 10"
-
-#~ msgid "Transactions list cells"
-#~ msgstr "Cellules de la liste des opérations"
-
-#~ msgid "Transactions list"
-#~ msgstr "Liste des opérations"
-
-#~ msgid "Bring together marked transactions"
-#~ msgstr "Regrouper les opérations marquées"
-
-#~ msgid "Convert this account to euros"
-#~ msgstr "Passer ce compte à l'euro"
-
-#~ msgid "Convert account \"%s\" to euro?"
-#~ msgstr "Passer le compte \"%s\" à l'euro ?"
-
-#~ msgid "Euro conversion is irreversible, are you sure you want to continue?"
-#~ msgstr ""
-#~ "Attention, le passage à l'euro est une opération irréversible !\n"
-#~ "Êtes-vous sûr de vouloir continuer ?"
-
-#~ msgid "Exchange rate between the 2 currencies is 0."
-#~ msgstr "Le taux de change entre les deux monnaies est nul."
-
-#~ msgid "Impossible to find the Euro currency, it has probably been deleted."
-#~ msgstr ""
-#~ "La monnaie Euro est introuvable, elle a dû être effacée des devises."
-
-#~ msgid "..."
-#~ msgstr "..."
-
-#~ msgid "Will switch to Euro"
-#~ msgstr "Passera à l'Euro"
-
-#~ msgid "Associated currency"
-#~ msgstr "Devise associée"
-
-#~ msgid "One"
-#~ msgstr "Un(e)"
-
-#~ msgid "costs"
-#~ msgstr "vaut"
-
-#~ msgid "Last exchange rate"
-#~ msgstr "Dernier taux de change"
-
-#~ msgid "A breakdown of transaction is a transfer to this account.\n"
-#~ msgstr "Une ventilation est un virement vers ce compte. \n"
-
-#~ msgid "Can't issue scheduled operation"
-#~ msgstr "Impossible de saisir l'échéance"
-
-#~ msgid "This account does not contain any transaction"
-#~ msgstr "Il n'y a aucune opérations dans ce compte"
-
-#~ msgid "Export report file"
-#~ msgstr "Exporter l'état vers un fichier..."
-
-#~ msgid "Export report as HTML..."
-#~ msgstr "Exporter un état en HTML..."
-
-#~ msgid "The financial year must have a name."
-#~ msgstr "Vous devez donner un nom à l'exercice."
-
-#~ msgid "Formatting transactions"
-#~ msgstr "Mise en forme des opérations"
-
-#~ msgid "Grisbi - No name"
-#~ msgstr "Grisbi - Sans nom"
-
-#~ msgid "Cannot open file '%s' : this is not a grisbi file"
-#~ msgstr "Impossible d'ouvrir le fichier '%s': ce n'est pas un fichier Grisbi"
-
-#~ msgid ""
-#~ "Warning: Grisbi data format has changed. Grisbi made a backup under '%"
-#~ "s'.\n"
-#~ "Keep it for a while just in case."
-#~ msgstr ""
-#~ "Attention, le format de données a changé ; Grisbi a fait une sauvegarde "
-#~ "de votre ancien fichier sous le nom : '%s'.\n"
-#~ "Gardez-la un certain temps pour pouvoir éventuellement y revenir en cas "
-#~ "de problème."
-
-#~ msgid ""
-#~ "There was a bug in versions before 0.4.0, which could lead to orphan "
-#~ "transactions (either transfers without countra-transaction, or breakdown "
-#~ "transactions details without associated breakdown transaction.\n"
-#~ "\n"
-#~ "Grisbi searched for such transaction and found:\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Un bogue dans les versions précédent la version 0.4.0 pouvait créer des "
-#~ "opérations orphelines (soit des virements sans contre opération, soit des "
-#~ "détails d'opérations ventilées sans opération ventilée associée.\n"
-#~ "\n"
-#~ "Grisbi a cherché de telles opérations et a trouvé :\n"
-#~ "\n"
-
-#~ msgid "breakdown transactions, all of them were deleted.\n"
-#~ msgstr "opérations ventilées, toutes ont été effacées.\n"
-
-#~ msgid ""
-#~ "transfers without contra-transaction, which categories were deleted.\n"
-#~ msgstr ""
-#~ "virements sans contre opération, dont les catégories ont été effacées.\n"
-
-#~ msgid ""
-#~ "These modifications should not impact on neither Grisbi's behavior nor "
-#~ "your accounts balances."
-#~ msgstr ""
-#~ "Ces modifications ne devraient pas modifier le comportement de Grisbi ni "
-#~ "les soldes de vos comptes."
-
-#~ msgid ""
-#~ "This categories list has been produced with grisbi version %s, Grisbi "
-#~ "will nevertheless try to import it."
-#~ msgstr ""
-#~ "Ce fichier de catégories à été créé avec la version %s de Grisbi. Grisbi "
-#~ "va néanmoins essayer de l'importer."
-
-#~ msgid "Alain Pichon (alain.pichon[at]grisbi.org): Fedora and RHEL packaging"
-#~ msgstr "Alain Pichon (alain.pichon[at]grisbi.org) : paquets Fedora et RHEL."
-
-#~ msgid "PMF (ugly.duck[at]gmx.de): Zaurus packaging"
-#~ msgstr "PMF (ugly.duck[at]gmx.de): paquets Zaurus"
-
-#~ msgid "Pascal Bleser (guru[at]linuxbe.org): SuSE packaging"
-#~ msgstr "Pascal Bleser (guru[at]linuxbe.org): paquets SuSE"
-
-#~ msgid "Sylvain Glaize (mokona[at]puupuu.org): Mandrake packaging"
-#~ msgstr "Sylvain Glaize (mokona[at]puupuu.org): paquets Mandrake"
-
-#~ msgid "Martin Stromberger (Fabiolla[at]aon.at): German"
-#~ msgstr "Martin Stromberger (Fabiolla[at]aon.at): Allemand"
-
-#~ msgid ""
-#~ "Grisbi is unable to determine type of this file.  If it is a QIF, an OFX "
-#~ "file or a gnucash file, please contact the grisbi team to resolve this "
-#~ "problem."
-#~ msgstr ""
-#~ "Grisbi ne peut pas déterminer le type du fichier pour l'importer. Si "
-#~ "c'est un fichier QIF, OFX ou un fichier Gnucash, contactez l'équipe de "
-#~ "grisbi pour résoudre le problème."
-
-#~ msgid "no third party"
-#~ msgstr "Pas de tiers"
-
-#~ msgid ""
-#~ "Sub-budgetary lines names must be both unique and not empty.  Please use "
-#~ "another name for this sub-budgetary line."
-#~ msgstr ""
-#~ "Les sous imputations budgétaires doivent être à la fois uniques et non "
-#~ "nulles.  Utiliser un autre nom pour cette sous imputation budgétaire."
-
-#~ msgid "Sub-budgetary line '%s' already exists."
-#~ msgstr "La sous imputation budgétaire « %s » existe déjà."
-
-#~ msgid "Import report file"
-#~ msgstr "Importer un fichier d'état"
-
-#~ msgid "Do you want to recover all the lines of the last breakdown?"
-#~ msgstr ""
-#~ "Voulez-vous récupérer aussi les opérations de la dernière ventilation ?"
-
-#~ msgid "Account breakdown"
-#~ msgstr "Ventilation du compte"
-
-#~ msgid "Transfer: deleted account"
-#~ msgstr "Virement : Compte supprimé"
-
-#~ msgid "Grisbi setup"
-#~ msgstr "Configuration Grisbi"
-
-#~ msgid "Transactions list lines"
-#~ msgstr "Lignes de la liste des opérations"
-
-#~ msgid ""
-#~ "Grisbi was unable to execute '%s'\n"
-#~ "Please adjust your settings to a valid executable."
-#~ msgstr ""
-#~ "Grisbi n'a pas pu lancer « %s ». Veuillez modifier votre configuration "
-#~ "vers un exécutable valide."
-
-#~ msgid "QIF file ..."
-#~ msgstr "Fichier QIF ..."
-
-#~ msgid "Delete a scheduled transaction maturity"
-#~ msgstr "Effacer une échéance"
-
-#~ msgid "%02d/%02d/%d : [No third party] [%4.2f]"
-#~ msgstr "%02d/%02d/%d : [Aucun Tiers] [%4.2f]"
