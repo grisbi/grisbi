@@ -307,8 +307,8 @@ gboolean changement_compte ( gint *compte)
 	verifie_compte_clos ( GPOINTER_TO_INT ( compte ));
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-
-	VALUE_AJUSTEMENT_LISTE_OPERATIONS = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte_courant) )) -> value;
+	gsb_account_set_adjustment_value ( compte_courant,
+					   gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte_courant) )) -> value );
 
 	/*     on cache le tree_view */
 
@@ -367,7 +367,7 @@ gboolean changement_compte ( gint *compte)
      /* 	sinon on restore l'ancienne value */
 
 
-    if ( VALUE_AJUSTEMENT_LISTE_OPERATIONS == -1 )
+    if ( gsb_account_get_adjustment_value (compte_courant) == -1 )
     {
 	GtkAdjustment *ajustment;
 
@@ -380,7 +380,7 @@ gboolean changement_compte ( gint *compte)
     }
     else
 	gtk_adjustment_set_value ( GTK_ADJUSTMENT ( gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte_courant) ))),
-				   VALUE_AJUSTEMENT_LISTE_OPERATIONS );
+				   gsb_account_get_adjustment_value (compte_courant) );
 
     /*     on affiche le tree_view */
 

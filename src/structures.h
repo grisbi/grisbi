@@ -334,7 +334,7 @@ struct donnees_compte
 /* #define TREE_VIEW_LISTE_OPERATIONS ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> tree_view_liste_operations */
 /* #define SCROLLED_WINDOW_LISTE_OPERATIONS ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> scrolled_window_liste_operations */
 /* #define STORE_LISTE_OPERATIONS ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> store_liste_operations */
-#define VALUE_AJUSTEMENT_LISTE_OPERATIONS ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> value_ajustement_liste_operations
+/* #define VALUE_AJUSTEMENT_LISTE_OPERATIONS ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> value_ajustement_liste_operations */
 #define COLONNE_LISTE_OPERATIONS(s) ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> colonne_liste_operations[s]
 
 #define SLIST_DERNIERE_OPE_AJOUTEE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> slist_derniere_ope_ajoutee

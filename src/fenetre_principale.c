@@ -30,6 +30,7 @@
 #include "echeancier_onglet.h"
 #include "etats_onglet.h"
 #include "operations_onglet.h"
+#include "data_account.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
@@ -239,7 +240,7 @@ gboolean change_page_notebook ( GtkNotebook *notebook,
 
 	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
-	    if ( VALUE_AJUSTEMENT_LISTE_OPERATIONS == -1 )
+	    if ( gsb_account_get_adjustment_value (compte_courant) == -1 )
 	    {
 		gint i;
 

@@ -622,7 +622,7 @@ gpointer gsb_account_get_scrolled_window ( gint no_account )
 
 /** set the scrolled_window of the account
  * \param no_account no of the account
- * \param name name to set
+ * \param scrolled_window scrolled_window to set
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_account_set_scrolled_window ( gint no_account,
@@ -635,7 +635,85 @@ gboolean gsb_account_set_scrolled_window ( gint no_account,
     if (!account )
 	return FALSE;
 
-    account -> transactions_scrolled_window = tree_view;
+    account -> transactions_scrolled_window = scrolled_window;
+
+    return TRUE;
+}
+
+
+
+/** get the store of the account
+ * \param no_account no of the account
+ * \return  or NULL if the account doesn't exist
+ * */
+gpointer gsb_account_get_store ( gint no_account )
+{
+    struct struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return NULL;
+
+    return account -> transactions_store;
+}
+
+
+/** set the store of the account
+ * \param no_account no of the account
+ * \param store  store to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_store ( gint no_account,
+				 gpointer store )
+{
+    struct struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> transactions_store = store;
+
+    return TRUE;
+}
+
+
+
+/** get the adjustment_value of the account
+ * \param no_account no of the account
+ * \return value or NULL if the account doesn't exist
+ * */
+gdouble gsb_account_get_adjustment_value ( gint no_account )
+{
+    struct struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return 0;
+
+    return account -> transactions_adjustment_value;
+}
+
+
+/** set the adjustment_value balance  of the account
+ * \param no_account no of the account
+ * \param value value to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_adjustment_value ( gint no_account,
+					    gdouble value )
+{
+    struct struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> transactions_adjustment_value = value;
 
     return TRUE;
 }

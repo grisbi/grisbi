@@ -83,6 +83,7 @@ struct struct_account
 
 
 /* START_DECLARATION */
+gdouble gsb_account_get_adjustment_value ( gint no_account );
 gdouble gsb_account_get_current_balance ( gint no_account );
 gchar *gsb_account_get_id ( gint no_account );
 gdouble gsb_account_get_init_balance ( gint no_account );
@@ -96,6 +97,8 @@ gboolean gsb_account_get_r ( gint no_account );
 gpointer gsb_account_get_scrolled_window ( gint no_account );
 gpointer gsb_account_get_store ( gint no_account );
 gpointer gsb_account_get_tree_view ( gint no_account );
+gboolean gsb_account_set_adjustment_value ( gint no_account,
+					    gdouble value );
 gboolean gsb_account_set_current_balance ( gint no_account,
 					   gdouble balance );
 gboolean gsb_account_set_id ( gint no_account,

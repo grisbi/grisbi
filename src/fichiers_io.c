@@ -1387,7 +1387,8 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 	    /*       la selection au depart est en bas de la liste */
 
-	    VALUE_AJUSTEMENT_LISTE_OPERATIONS = -1;
+	    gsb_account_set_adjustment_value ( no_compte,
+					       -1 );
 	    OPERATION_SELECTIONNEE = GINT_TO_POINTER (-1);
 
 

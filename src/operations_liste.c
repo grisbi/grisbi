@@ -4080,7 +4080,7 @@ void my_list_store_sort ( gint no_compte,
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
-    longueur = gsb_account_get_store (no_compte) -> length;
+    longueur = GTK_LIST_STORE (gsb_account_get_store (no_compte)) -> length;
 
     pos = malloc ( longueur * sizeof ( gint ));
 
