@@ -2099,12 +2099,12 @@ void valider_ventilation ( void )
 	  GtkWidget *label;
 	  gint resultat;
 
-	  dialog = gnome_dialog_new ( _("Breakdown incomplete"),
+	  dialog = gnome_dialog_new ( _("Incomplete breakdown"),
 					GNOME_STOCK_BUTTON_YES,
 					GNOME_STOCK_BUTTON_NO,
 					NULL );
 
-	  label = gtk_label_new ( _("The transaction amount isn't fully broken down.\n\nProcess anyway?"));
+	  label = gtk_label_new ( _("Transaction amount isn't fully broken down.\n\nProcess anyway?"));
 	  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 			       label,
 			       FALSE,
