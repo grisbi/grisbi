@@ -61,6 +61,12 @@ gint gtktable_initialise (GSList * opes_selectionnees)
   /* on peut maintenant créer la table */
   /* pas besoin d'indiquer la hauteur, elle grandit automatiquement */
 
+  if ( GTK_IS_WIDGET(table_etat) )
+    gtk_widget_destroy (table_etat);
+
+  if ( GTK_BIN ( scrolled_window_etat ) -> child )
+    gtk_widget_hide ( GTK_BIN ( scrolled_window_etat ) -> child );
+
   table_etat = gtk_table_new ( 0, nb_colonnes, FALSE );
   gtk_table_set_col_spacings ( GTK_TABLE ( table_etat ), 5 );
  
@@ -3616,13 +3622,16 @@ gint gtktable_affiche_titres_colonnes ( gint ligne )
 /*****************************************************************************************************/
 gint gtktable_finish ()
 {
-  if ( GTK_BIN ( scrolled_window_etat ) -> child )
-    gtk_container_remove ( GTK_CONTAINER ( scrolled_window_etat ),
-			   GTK_BIN ( scrolled_window_etat ) -> child );
 
   gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window_etat ),
 					  table_etat );
-  gtk_widget_show ( table_etat );
+  gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window_etat ),
+					GTK_SHADOW_NONE );
+
+  gtk_widget_show_all ( table_etat );
+
+  if ( GTK_BIN ( scrolled_window_etat ) -> child )
+    gtk_widget_show ( GTK_BIN ( scrolled_window_etat ) -> child );
 
   return 1;
 }

@@ -1180,10 +1180,7 @@ void efface_etat ( void )
 
  
       if ( GTK_BIN ( scrolled_window_etat ) -> child )
-	gtk_container_remove ( GTK_CONTAINER ( scrolled_window_etat ),
-			       GTK_BIN ( scrolled_window_etat ) -> child );
-
-
+	gtk_widget_hide ( GTK_BIN ( scrolled_window_etat ) -> child );
 
       /* on réaffiche la liste des états */
 
