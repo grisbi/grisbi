@@ -18,12 +18,30 @@ AC_STDC_HEADERS
 AC_PROG_RANLIB
 
 dnl Check for NLS support.                                                      
-ALL_LINGUAS="fr it de"
+ALL_LINGUAS="fr it de es"
 AM_GNU_GETTEXT
 AC_CHECK_LIB(intl,main)
 
 dnl Check for libofx
-AC_CHECK_HEADER(libofx/libofx.h,LDFLAGS="${LDFLAGS} -lofx",CFLAGS="${CFLAGS} -DNOOFX";noofx=true)
+AC_CHECK_HEADER(libofx/libofx.h,,noofx=true)
+AC_ARG_WITH(ofx,
+    [  --without-ofx           build grisbi without ofx support [default=with]],
+    [build_ofx=$withval],
+    [build_ofx=yes]
+)
+if test x$build_ofx != xno
+then
+    if test x$noofx != xtrue
+    then
+        LDFLAGS="${LDFLAGS} -lofx"
+    else
+        noofx=true
+        AC_MSG_ERROR([Libofx header missing. Check your libofx installation])
+    fi
+else
+    noofx=true
+    CFLAGS="${CFLAGS} -DNOOFX"
+fi
 AM_CONDITIONAL(NOOFX, test x$noofx = xtrue)
 
 
