@@ -6,7 +6,7 @@
 /*                                                                            */
 /* 				check.c                                       */
 /*                                                                            */
-/*     Copyright (C)	2004 Alain Portal (aportal@univ-monpt.fr)	      */
+/*     Copyright (C)	2004 Alain Portal (aportal@univ-montp2.fr)	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
