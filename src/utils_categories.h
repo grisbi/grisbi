@@ -20,5 +20,7 @@ void add_transaction_to_category ( struct structure_operation * transaction,
 				   struct struct_categ * category,
 				   struct struct_sous_categ * sub_category );
 void calcule_total_montant_categ ( void );
+void update_category_in_trees ( struct struct_categ * category, 
+				struct struct_sous_categ * sub_category );
 /*END_DECLARATION*/
 

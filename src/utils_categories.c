@@ -29,9 +29,11 @@
 #include "utils_categories.h"
 #include "utils_devises.h"
 #include "search_glist.h"
+#include "metatree.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static void reset_category_counters ();
 /*END_STATIC*/
 
 
@@ -44,6 +46,8 @@ extern gint nb_comptes;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
 extern gint no_devise_totaux_categ;
+extern MetatreeInterface * category_interface;
+extern GtkTreeModel * categ_tree_model;
 /*END_EXTERN*/
 
 struct struct_categ * without_category;
@@ -93,6 +97,8 @@ struct struct_categ *categ_par_nom ( gchar *nom_categ,
 							   nouvelle_categorie );
 		nb_enregistrements_categories++;
 		mise_a_jour_combofix_categ_necessaire = 1;
+
+		update_category_in_trees ( nouvelle_categorie, NULL );
 
 		return ( nouvelle_categorie );
 	    }
@@ -146,6 +152,9 @@ struct struct_sous_categ *sous_categ_par_nom ( struct struct_categ *categ,
 							     nouvelle_sous_categorie );
 
 		mise_a_jour_combofix_categ_necessaire = 1;
+
+		update_category_in_trees ( categ, nouvelle_sous_categorie );
+
 		return ( nouvelle_sous_categorie );
 	    }
 	}
@@ -435,6 +444,43 @@ void reset_category_counters ()
 	}
 	
 	tmp = tmp -> next;
+    }
+}
+
+
+
+/**
+ *
+ *
+ */
+void update_category_in_trees ( struct struct_categ * category, 
+				struct struct_sous_categ * sub_category )
+{
+    GtkTreeIter * categ_iter, * sub_categ_iter, iter;
+
+    if ( category &&
+	 gtk_tree_model_get_iter_first ( categ_tree_model, &iter ) )
+    {
+
+	categ_iter = get_iter_from_pointer ( categ_tree_model, category );
+	if ( ! categ_iter )
+	{
+	    gtk_tree_store_append ( GTK_TREE_STORE(categ_tree_model), &iter, NULL );
+	    categ_iter = &iter;
+	}
+	fill_division_row ( categ_tree_model, category_interface, categ_iter, category );
+
+	sub_categ_iter = get_iter_from_div ( categ_tree_model, category -> no_categ,
+					     ( sub_category ? 
+					       sub_category -> no_sous_categ : 0 ) );
+	if ( ! sub_categ_iter )
+	{
+	    gtk_tree_store_append ( GTK_TREE_STORE(categ_tree_model), &iter, 
+				    categ_iter );
+	    sub_categ_iter = &iter;
+	}
+	fill_sub_division_row ( categ_tree_model, category_interface, sub_categ_iter, 
+				category, sub_category );
     }
 }
 
