@@ -48,6 +48,7 @@ sources = 			\
 	imputation_budgetaire.c	\
 	main.c			\
 	menu.c			\
+	metatree.c		\
 	ofx.c                   \
 	operations_comptes.c	\
 	operations_formulaire.c \
