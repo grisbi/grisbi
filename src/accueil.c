@@ -1041,6 +1041,36 @@ void update_liste_comptes_accueil ( void )
 /* ************************************************************************* */
 
 /* ************************************************************************* */
+/* Classement de deux échéances d'operations par date   */
+/* ************************************************************************* */
+gint classement_date_echeance (struct operation_echeance * a, 
+			       struct operation_echeance * b)
+{
+  if (a->annee > b->annee)
+    return 1;
+  else if (a->annee < b->annee)
+    return -1;
+  else 
+    {
+      if (a->mois > b->mois)
+	return 1;
+      else if (a->mois < b->mois)
+	return -1;
+      else 
+	{
+	  if (a->jour > b->jour)
+	    return 1;
+	  else if (a->jour < b->jour)
+	    return -1;
+	  else
+	    return 0;
+	}
+    }
+      
+}
+/* ************************************************************************* */
+
+/* ************************************************************************* */
 void update_liste_echeances_manuelles_accueil ( void )
 {
 
@@ -1101,7 +1131,8 @@ void update_liste_echeances_manuelles_accueil ( void )
       style_label->fg[GTK_STATE_NORMAL] = couleur_bleue;
 
 
-      pointeur_liste = echeances_a_saisir;
+      pointeur_liste = g_slist_sort(echeances_a_saisir,
+				    (GCompareFunc) classement_date_echeance);
 
       while ( pointeur_liste )
 	{
