@@ -72,6 +72,7 @@ GtkWidget *onglet_tiers ( void )
     GtkWidget *frame;
     GtkWidget *vbox_frame;
     GtkWidget *hbox;
+    GtkWidget *scrolled_window_text;
 
     /* création des pixmaps pour la liste */
     pixmap_ouvre = gdk_pixmap_create_from_xpm_d ( GTK_WIDGET(window) -> window,
@@ -145,6 +146,12 @@ GtkWidget *onglet_tiers ( void )
 			 0 );
     gtk_widget_show ( entree_nom_tiers );
 
+    scrolled_window_text = gtk_scrolled_window_new ( FALSE, FALSE );
+    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window_text ),
+				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window_text), 
+					  GTK_SHADOW_IN );
+    gtk_box_pack_start ( GTK_BOX ( vbox_frame ), scrolled_window_text, FALSE, FALSE, 0 );
 
     text_box = gtk_text_view_new ();
     gtk_text_view_set_pixels_above_lines (GTK_TEXT_VIEW (text_box), 3);
@@ -152,18 +159,14 @@ GtkWidget *onglet_tiers ( void )
     gtk_text_view_set_left_margin (GTK_TEXT_VIEW (text_box), 3);
     gtk_text_view_set_right_margin (GTK_TEXT_VIEW (text_box), 3);
     gtk_text_view_set_wrap_mode ( GTK_TEXT_VIEW (text_box), GTK_WRAP_WORD );
+    gtk_container_add ( GTK_CONTAINER(scrolled_window_text), text_box );
 
     gtk_widget_set_sensitive ( text_box, FALSE );
 
     g_signal_connect ( G_OBJECT(gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_box))),
 		       "changed", ((GCallback) modification_du_texte_tiers), NULL );
 
-    gtk_box_pack_start ( GTK_BOX ( vbox_frame ),
-			 text_box,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( text_box );
+    gtk_widget_show_all ( scrolled_window_text );
 
     /*   création des boutons modifier et annuler */
 
