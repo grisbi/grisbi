@@ -66,4 +66,36 @@ gboolean gsb_transaction_data_init_variables ( void )
 }
 
 
+/** find the last number of transaction
+ * \param none
+ * \return the number
+ * */
+gint gsb_transaction_data_get_last_number (void)
+{
+    gint last_number = 0;
+    GSList *accounts_list;
+
+/*     accounts_list = gsb_account_get_accounts_list (); */
+
+    while ( accounts_list )
+    {
+	gint i;
+	GSList *transactions_list;
+
+/* 	i = gsb_account_get_no_account ( accounts_list -> data ); */
+/* 	transaction_list = gsb_account_get_transactions_list (i); */
+
+	while ( transactions_list )
+	{
+/* xxx */
+	}
+	accounts_list = accounts_list -> next;
+    }
+
+
+
+
+
+
+}
 

@@ -1031,27 +1031,38 @@ gboolean gsb_transactions_list_fill_row ( struct structure_operation *transactio
     if ( transaction != GINT_TO_POINTER (-1)
 	 &&
 	 transaction -> no_operation != -2 )
-	for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
+    {
+	for ( i = 1 ; i < TRANSACTION_LIST_COL_NB ; i++ )
 	{
-	    if ( i )
-		gtk_list_store_set ( store,
-				     iter,
-				     i, recherche_contenu_cellule ( transaction,
-								    tab_affichage_ope[line_in_transaction][i] ),
-				     -1 );
-	    else
-	    {
-		/* it's the first column, if it's not a breakdown, we put nothing
-		 * else, we put an expander */
-
-		gtk_list_store_set ( store, iter,
-				     TRANSACTION_COL_NB_IS_VISIBLE, transaction -> operation_ventilee,
-				     TRANSACTION_COL_NB_IS_EXPANDER, transaction -> operation_ventilee,
-				     TRANSACTION_COL_NB_IS_EXPANDED, FALSE,
-				     TRANSACTION_COL_NB_IS_VISIBLE, (!line_in_transaction)z,
-				     -1 );
-	    }
+	    gtk_list_store_set ( store,
+				 iter,
+				 i, recherche_contenu_cellule ( transaction,
+								tab_affichage_ope[line_in_transaction][i] ),
+				 -1 );
 	}
+
+	/* work with the col 0 */
+
+	gtk_list_store_set ( store,
+			     iter,
+			     TRANSACTION_COL_NB_IS_VISIBLE, TRUE,
+			     -1 );
+
+	if ( transaction -> operation_ventilee
+	     &&
+	     !line_in_transaction )
+	    gtk_list_store_set ( store,
+				 iter,
+				 TRANSACTION_COL_NB_IS_EXPANDER, TRUE,
+				 TRANSACTION_COL_NB_IS_EXPANDED, FALSE,
+				 -1 );
+    }
+    else
+	/* set visible the whites line */
+	gtk_list_store_set ( store,
+			     iter,
+			     TRANSACTION_COL_NB_IS_VISIBLE, TRUE,
+			     -1 );
 
     /* if we use a custom font... */
 
