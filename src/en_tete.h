@@ -831,3 +831,197 @@ void choix_fonte_general ( GtkWidget *bouton,
 void modification_logo_accueil ( void );
 void remise_a_zero_logo ( GtkWidget *bouton,
 			  GtkWidget *pixmap_entry );
+
+
+/***********************************/ 
+/* fichier etats_onglet.c */
+/***********************************/ 
+
+GtkWidget *creation_onglet_etats ( void );
+GtkWidget *creation_liste_etats ( void );
+GtkWidget *creation_barre_boutons_etats ( void );
+void remplissage_liste_etats ( void );
+void ajout_etat ( void );
+void efface_etat ( void );
+void changement_etat ( GtkWidget *bouton,
+		       struct struct_etat *etat );
+gint recherche_etat_par_no ( struct struct_etat *etat,
+			     gint *no_etat );
+void exporter_etat ( void );
+void importer_etat ( void );
+
+/***********************************/ 
+/* fichier etats_config.c */
+/***********************************/ 
+
+void personnalisation_etat (void);
+void annule_modif_config ( void );
+void selectionne_liste_exo_etat_courant ( void );
+void selectionne_liste_comptes_etat_courant ( void );
+void selectionne_liste_virements_etat_courant ( void );
+void selectionne_liste_categ_etat_courant ( void );
+void selectionne_devise_categ_etat_courant ( void );
+void selectionne_liste_ib_etat_courant ( void );
+void selectionne_devise_ib_etat_courant ( void );
+void selectionne_liste_tiers_etat_courant ( void );
+void selectionne_devise_tiers_etat_courant ( void );
+void recuperation_info_perso_etat ( void );
+GtkWidget *onglet_etat_generalites ( void );
+void click_haut_classement_etat ( void );
+void click_bas_classement_etat ( void );
+void sens_desensitive_pointeur ( GtkWidget *boutton,
+				 GtkWidget *widget );
+GtkWidget *onglet_etat_dates ( void );
+void click_liste_etat ( GtkCList *liste,
+			GdkEventButton *evenement,
+			gint origine );
+void clique_sur_entree_date_etat ( GtkWidget *entree,
+				   GdkEventButton *ev );
+void date_selectionnee_etat ( GtkCalendar *calendrier,
+			      GtkWidget *popup );
+void change_separation_result_periode ( void );
+void modif_type_separation_dates ( gint *origine );
+void remplissage_liste_exo_etats ( void );
+GtkWidget *onglet_etat_comptes ( void );
+void remplissage_liste_comptes_etats ( void );
+GtkWidget *onglet_etat_virements ( void );
+void remplissage_liste_comptes_virements ( void );
+GtkWidget *onglet_etat_categories ( void );
+void click_type_categ_etat ( gint type );
+void remplissage_liste_categ_etats ( void );
+GtkWidget *onglet_etat_ib ( void );
+void click_type_ib_etat ( gint type );
+void remplissage_liste_ib_etats ( void );
+GtkWidget *onglet_etat_tiers ( void );
+void remplissage_liste_tiers_etats ( void );
+GtkWidget *onglet_etat_texte ( void );
+GtkWidget *onglet_etat_montant ( void );
+
+/***********************************/ 
+/* fichier etats_calculs.c */
+/***********************************/ 
+
+void affichage_etat ( struct struct_etat *etat, 
+		      struct struct_etat_affichage *affichage );
+void impression_etat ( struct struct_etat *etat );
+void rafraichissement_etat ( struct struct_etat *etat );
+gint classement_liste_opes_etat ( struct structure_operation *operation_1,
+				  struct structure_operation *operation_2 );
+void etape_finale_affichage_etat ( GSList *ope_selectionnees, 
+				   struct struct_etat_affichage *affichage );
+void denote_struct_sous_jaccentes ( gint origine );
+
+
+/***********************************/ 
+/* fichier impression.c */
+/***********************************/ 
+
+char * latin2utf8 (char * inchar);
+
+
+/***********************************/ 
+/* fichier etats_gtktable.c */
+/***********************************/ 
+
+gint gtktable_initialise ( );
+gint gtktable_affiche_titre ( gint ligne );
+gint gtktable_affiche_separateur ( gint ligne );
+gint gtktable_affiche_total_categories ( gint ligne );
+gint gtktable_affiche_total_sous_categ ( gint ligne );
+gint gtktable_affiche_total_ib ( gint ligne );
+gint gtktable_affiche_total_sous_ib ( gint ligne );
+gint gtktable_affiche_total_compte ( gint ligne );
+gint gtktable_affiche_total_tiers ( gint ligne );
+gint gtktable_affiche_total_periode ( struct structure_operation *operation,
+				      gint ligne,
+				      gint force );
+gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
+				    gint ligne );
+gint gtktable_affiche_total_partiel ( gdouble total_partie,
+				      gint ligne,
+				      gint type );
+gint gtktable_affiche_total_general ( gdouble total_general,
+				      gint ligne );
+gint gtktable_affiche_categ_etat ( struct structure_operation *operation,
+				   gchar *decalage_categ,
+				   gint ligne );
+gint gtktable_affiche_sous_categ_etat ( struct structure_operation *operation,
+					gchar *decalage_sous_categ,
+					gint ligne );
+gint gtktable_affiche_ib_etat ( struct structure_operation *operation,
+				gchar *decalage_ib,
+				gint ligne );
+gint gtktable_affiche_sous_ib_etat ( struct structure_operation *operation,
+				     gchar *decalage_sous_ib,
+				     gint ligne );
+gint gtktable_affiche_compte_etat ( struct structure_operation *operation,
+				    gchar *decalage_compte,
+				    gint ligne );
+gint gtktable_affiche_tiers_etat ( struct structure_operation *operation,
+				   gchar *decalage_tiers,
+				   gint ligne );
+gint gtktable_affiche_titre_revenus_etat ( gint ligne );
+gint gtktable_affiche_titre_depenses_etat ( gint ligne );
+gint gtktable_affiche_totaux_sous_jaccent ( gint origine,
+					    gint ligne );
+gint gtktable_affiche_titres_colonnes ( gint ligne );
+gint gtktable_finish ( );
+
+
+/***********************************/ 
+/* fichier etats_gnomeprint.c */
+/***********************************/ 
+
+gint gnomeprint_initialise ( GSList * );
+gint gnomeprint_affiche_titre ( gint ligne );
+gint gnomeprint_affiche_separateur ( gint ligne );
+gint gnomeprint_affiche_total_categories ( gint ligne );
+gint gnomeprint_affiche_total_sous_categ ( gint ligne );
+gint gnomeprint_affiche_total_ib ( gint ligne );
+gint gnomeprint_affiche_total_sous_ib ( gint ligne );
+gint gnomeprint_affiche_total_compte ( gint ligne );
+gint gnomeprint_affiche_total_tiers ( gint ligne );
+gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
+				      gint ligne );
+gint gnomeprint_affiche_total_partiel ( gdouble total_partie,
+					gint ligne,
+					gint type );
+gint gnomeprint_affiche_total_general ( gdouble total_general,
+					gint ligne );
+gint gnomeprint_affiche_categ_etat ( struct structure_operation *operation,
+				     gchar *decalage_categ,
+				     gint ligne );
+gint gnomeprint_affiche_sous_categ_etat ( struct structure_operation *operation,
+					  gchar *decalage_sous_categ,
+					  gint ligne );
+gint gnomeprint_affiche_ib_etat ( struct structure_operation *operation,
+				  gchar *decalage_ib,
+				  gint ligne );
+gint gnomeprint_affiche_sous_ib_etat ( struct structure_operation *operation,
+				       gchar *decalage_sous_ib,
+				       gint ligne );
+gint gnomeprint_affiche_compte_etat ( struct structure_operation *operation,
+				      gchar *decalage_compte,
+				      gint ligne );
+gint gnomeprint_affiche_tiers_etat ( struct structure_operation *operation,
+				     gchar *decalage_tiers,
+				     gint ligne );
+gint gnomeprint_affiche_titre_revenus_etat ( gint ligne );
+gint gnomeprint_affiche_titre_depenses_etat ( gint ligne );
+gint gnomeprint_affiche_totaux_sous_jaccent ( gint origine,
+					      gint ligne );
+gint gnomeprint_affiche_titres_colonnes ( gint ligne );
+gint gnomeprint_finish ( );
+
+void gnomeprint_affiche_texte ( char * texte, GnomeFont * font );
+void gnomeprint_set_color ( gchar red, gchar green, gchar blue );
+void gnomeprint_commit_point ( );
+void gnomeprint_commit_x ( );
+void gnomeprint_commit_y ( );
+void gnomeprint_move_point ( gfloat x, gfloat y ); 
+void gnomeprint_update_point ( );
+void gnomeprint_rectangle ( gfloat x1, gfloat y1, gfloat x2, gfloat y2 );
+
+void gnomeprint_show_words(GnomePrintContext *, GnomeFont *, GSList *, gdouble);
+void show_words(GnomePrintContext *, GnomeFont *, GSList *, gdouble, gdouble, gdouble);
+void gnomeprint_balancer_colonnes (GnomePrintContext *, GnomeFont *, GSList *);
