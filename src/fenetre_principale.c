@@ -1,23 +1,26 @@
-/*  Fichier qui s'occupe de former les différentes fenêtres de travail */
-/*      fenetre_principale.c */
-
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
-/* 			http://www.grisbi.org */
-
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/* ************************************************************************** */
+/*  Fichier qui s'occupe de former les différentes fenêtres de travail        */
+/*      fenetre_principale.c                                                  */
+/*                                                                            */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003 Alain Portal (dionysos@grisbi.org)		      */
+/* 			http://www.grisbi.org				      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
 
 
@@ -140,7 +143,7 @@ void change_page_notebook ( GtkNotebook *notebook,
 {
 
 /* retire l'horloge si part de l'accueil */
-/* ALAIN : est-ce bien nécessaire
+/* ALAIN-FIXME : est-ce bien nécessaire
       if ( id_temps )
 	{
 	  gtk_timeout_remove ( id_temps );
@@ -150,12 +153,15 @@ void change_page_notebook ( GtkNotebook *notebook,
   switch ( numero_page )
     {
 /* remet l'horloge si revient à l'accueil */
-	
-	case 0:
+
+/* ALAIN-FIXME : semble être à l'origine du bug 150 */
+/*
+    case 0:
 	  id_temps = gtk_timeout_add ( 1000,
 				   (GtkFunction) change_temps,
 				   GTK_WIDGET ( label_temps ));
-      
+    break;
+*/
 	  /* si on va sur la fenêtre des comptes => focus à la liste */
 
     case 1:
