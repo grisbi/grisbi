@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
-"POT-Creation-Date: 2004-12-30 00:29+0100\n"
+"POT-Creation-Date: 2005-01-01 16:59+0100\n"
 "PO-Revision-Date: 2004-11-19 14:07+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -221,7 +221,7 @@ msgstr "Volver a la fuente por defecto"
 msgid "Addresses & titles"
 msgstr "Direcciones y títulos"
 
-#: src/affichage.c:608 src/etats_config.c:6162
+#: src/affichage.c:608 src/etats_config.c:6166
 msgid "Titles"
 msgstr "Títulos"
 
@@ -276,7 +276,7 @@ msgstr "Fecha"
 #: src/affichage_liste.c:37 src/affichage_liste.c:1041
 #: src/echeancier_formulaire.c:914 src/echeancier_formulaire.c:2535
 #: src/echeancier_liste.c:430 src/etats_affiche.c:2161 src/etats_config.c:139
-#: src/etats_config.c:270 src/etats_config.c:7175 src/fenetre_principale.c:96
+#: src/etats_config.c:270 src/etats_config.c:7179 src/fenetre_principale.c:96
 #: src/import.c:2677 src/operations_formulaire.c:789
 #: src/operations_formulaire.c:3319
 msgid "Third party"
@@ -298,8 +298,8 @@ msgstr "Línea presupuestaria"
 #: src/echeancier_ventilation.c:913 src/echeancier_ventilation.c:932
 #: src/echeancier_ventilation.c:1491 src/imputation_budgetaire.c:165
 #: src/operations_formulaire.c:880 src/operations_formulaire.c:3321
-#: src/type_operations.c:154 src/type_operations.c:431
-#: src/type_operations.c:857 src/ventilation.c:914 src/ventilation.c:933
+#: src/type_operations.c:156 src/type_operations.c:433
+#: src/type_operations.c:859 src/ventilation.c:914 src/ventilation.c:933
 #: src/ventilation.c:1489
 msgid "Debit"
 msgstr "Debe"
@@ -312,8 +312,8 @@ msgstr "Debe"
 #: src/echeancier_ventilation.c:960 src/echeancier_ventilation.c:1493
 #: src/imputation_budgetaire.c:181 src/operations_formulaire.c:965
 #: src/operations_formulaire.c:1320 src/operations_formulaire.c:3323
-#: src/type_operations.c:168 src/type_operations.c:438
-#: src/type_operations.c:853 src/ventilation.c:886 src/ventilation.c:961
+#: src/type_operations.c:170 src/type_operations.c:440
+#: src/type_operations.c:855 src/ventilation.c:886 src/ventilation.c:961
 #: src/ventilation.c:1491
 msgid "Credit"
 msgstr "Haber"
@@ -491,12 +491,12 @@ msgstr "cuarta línea"
 msgid "Payer/payee"
 msgstr "Pagador/a"
 
-#: src/affichage_liste.c:816 src/equilibrage.c:1638
+#: src/affichage_liste.c:816 src/equilibrage.c:1640
 msgid "Payment method"
 msgstr "Forma de pago"
 
 #. mise en place de la frame des catégories
-#: src/affichage_liste.c:852 src/etats_config.c:143 src/etats_config.c:7235
+#: src/affichage_liste.c:852 src/etats_config.c:143 src/etats_config.c:7239
 #: src/fenetre_principale.c:103
 msgid "Categories"
 msgstr "Categorías"
@@ -507,7 +507,7 @@ msgid "Cheque/Transfer number"
 msgstr "Cheque/Número de transferencia"
 
 #. mise en place de la frame des ib
-#: src/affichage_liste.c:1045 src/etats_config.c:147 src/etats_config.c:7329
+#: src/affichage_liste.c:1045 src/etats_config.c:147 src/etats_config.c:7333
 #: src/fenetre_principale.c:110
 msgid "Budgetary lines"
 msgstr "Líneas presupuestarias"
@@ -515,7 +515,7 @@ msgstr "Líneas presupuestarias"
 #: src/banque.c:122 src/comptes_traitements.c:135
 #: src/comptes_traitements.c:145 src/operations_formulaire.c:2201
 #: src/operations_liste.c:2859 src/operations_liste.c:2925
-#: src/operations_liste.c:3167 src/operations_liste.c:3260
+#: src/operations_liste.c:3166 src/operations_liste.c:3259
 msgid "Cannot allocate memory, bad things will happen soon"
 msgstr "No puedo reservar memoria, algo terrible ocurrirá pronto"
 
@@ -570,7 +570,7 @@ msgstr "Detalles del banco"
 
 #. Bank name item
 #: src/banque.c:543 src/banque.c:649 src/devises.c:1489 src/exercice.c:123
-#: src/exercice.c:234 src/import.c:374 src/type_operations.c:374
+#: src/exercice.c:234 src/import.c:374 src/type_operations.c:376
 msgid "Name"
 msgstr "Nombre"
 
@@ -666,7 +666,7 @@ msgstr "Mostrar cuentas"
 #. afficher ou non les opés
 #: src/barre_outils.c:923 src/barre_outils.c:924 src/barre_outils.c:1077
 #: src/barre_outils.c:1078 src/barre_outils.c:1232 src/barre_outils.c:1233
-#: src/etats_config.c:6309
+#: src/etats_config.c:6313
 msgid "Display transactions"
 msgstr "Mostrar transacciones"
 
@@ -2994,7 +2994,7 @@ msgstr "Tasas de cambio"
 msgid "Currency"
 msgstr "Moneda"
 
-#: src/devises.c:1371 src/etats_config.c:6170 src/parametres.c:283
+#: src/devises.c:1371 src/etats_config.c:6174 src/parametres.c:283
 msgid "Currencies"
 msgstr "Monedas"
 
@@ -3139,7 +3139,7 @@ msgid "Days"
 msgstr "Días"
 
 #: src/echeancier_formulaire.c:775 src/echeancier_liste.c:288
-#: src/etats_config.c:5963
+#: src/etats_config.c:5967
 msgid "Months"
 msgstr "Meses"
 
@@ -3197,7 +3197,7 @@ msgstr ""
 "automático"
 
 #: src/echeancier_formulaire.c:1634 src/echeancier_liste.c:688
-#: src/type_operations.c:1560 src/type_operations.c:1631
+#: src/type_operations.c:1562 src/type_operations.c:1633
 msgid "Input"
 msgstr "Entrada"
 
@@ -3233,7 +3233,7 @@ msgid "Validate"
 msgstr "Validar"
 
 #: src/echeancier_liste.c:429 src/etats_config.c:266 src/import.c:406
-#: src/type_operations.c:294
+#: src/type_operations.c:296
 msgid "Account"
 msgstr "Cuenta"
 
@@ -3391,20 +3391,20 @@ msgstr ""
 msgid "Last statement: %02d/%02d/%d"
 msgstr ""
 
-#: src/equilibrage.c:1601 src/operations_onglet.c:83 src/parametres.c:258
-#: src/type_operations.c:250
+#: src/equilibrage.c:1603 src/operations_onglet.c:83 src/parametres.c:258
+#: src/type_operations.c:252
 msgid "Reconciliation"
 msgstr ""
 
-#: src/equilibrage.c:1605
+#: src/equilibrage.c:1607
 msgid "Reconciliation: sort transactions"
 msgstr ""
 
-#: src/equilibrage.c:1653
+#: src/equilibrage.c:1655
 msgid "Sort by date"
 msgstr ""
 
-#: src/equilibrage.c:1670
+#: src/equilibrage.c:1672
 msgid "Split neutral payment methods"
 msgstr ""
 
@@ -3804,7 +3804,7 @@ msgstr ""
 
 #. Now we have a model, create view
 #: src/etats_affiche.c:2189 src/etats_config.c:159 src/parametres.c:307
-#: src/type_operations.c:254
+#: src/type_operations.c:256
 msgid "Payment methods"
 msgstr ""
 
@@ -3901,7 +3901,7 @@ msgid "Dates"
 msgstr ""
 
 #. mise en place de la frame des comptes
-#: src/etats_config.c:135 src/etats_config.c:7129 src/export.c:398
+#: src/etats_config.c:135 src/etats_config.c:7133 src/export.c:398
 #: src/fenetre_principale.c:89 src/menu.c:100 src/menu.c:101 src/menu.c:102
 #: src/menu.c:103 src/menu.c:104 src/menu.c:105 src/operations_comptes.c:382
 #: src/operations_comptes.c:387 src/operations_comptes.c:448
@@ -3950,7 +3950,7 @@ msgstr ""
 #: src/etats_config.c:1238
 msgid ""
 "All the categories have been selected. Grisbi will run faster\n"
-"without  the \"Detail categories used \" option"
+"without the \"Detail categories used\" option"
 msgstr ""
 
 #: src/etats_config.c:1285
@@ -4013,554 +4013,554 @@ msgstr ""
 msgid "Select the accounts included in the report"
 msgstr ""
 
-#: src/etats_config.c:2378 src/etats_config.c:2647 src/etats_config.c:2943
-#: src/etats_config.c:3216 src/etats_config.c:3486 src/etats_config.c:7540
+#: src/etats_config.c:2378 src/etats_config.c:2649 src/etats_config.c:2947
+#: src/etats_config.c:3220 src/etats_config.c:3490 src/etats_config.c:7544
 msgid "Select all"
 msgstr ""
 
-#: src/etats_config.c:2392 src/etats_config.c:2661 src/etats_config.c:2957
-#: src/etats_config.c:3230 src/etats_config.c:3500 src/etats_config.c:7554
+#: src/etats_config.c:2392 src/etats_config.c:2663 src/etats_config.c:2961
+#: src/etats_config.c:3234 src/etats_config.c:3504 src/etats_config.c:7558
 msgid "Unselect all"
 msgstr ""
 
-#: src/etats_config.c:2406 src/etats_config.c:2675
+#: src/etats_config.c:2406 src/etats_config.c:2677
 msgid "Select bank accounts"
 msgstr ""
 
-#: src/etats_config.c:2420 src/etats_config.c:2689
+#: src/etats_config.c:2420 src/etats_config.c:2691
 msgid "Select cash accounts"
 msgstr ""
 
-#: src/etats_config.c:2434 src/etats_config.c:2703
+#: src/etats_config.c:2434 src/etats_config.c:2705
 msgid "Select liabilities accounts"
 msgstr ""
 
-#: src/etats_config.c:2448 src/etats_config.c:2717
+#: src/etats_config.c:2448 src/etats_config.c:2719
 msgid "Select assets accounts"
 msgstr ""
 
-#: src/etats_config.c:2550
+#: src/etats_config.c:2552
 msgid "Do not include transfers"
 msgstr ""
 
-#: src/etats_config.c:2559
+#: src/etats_config.c:2561
 msgid "Include transfers from or to assets or liabilities accounts"
 msgstr ""
 
-#: src/etats_config.c:2572
+#: src/etats_config.c:2574
 msgid "Include transfers from or to accounts not in this report"
 msgstr ""
 
-#: src/etats_config.c:2585
+#: src/etats_config.c:2587
 msgid "Include transfers from or to these accounts"
 msgstr ""
 
 #. on rajoute le bouton exclure les opé non virement
-#: src/etats_config.c:2739
+#: src/etats_config.c:2741
 msgid "Exclude the transactions which are not transfers"
 msgstr ""
 
-#: src/etats_config.c:2857
+#: src/etats_config.c:2861
 msgid "Detail categories"
 msgstr ""
 
-#: src/etats_config.c:2895
+#: src/etats_config.c:2899
 msgid "Select categories to include"
 msgstr ""
 
-#: src/etats_config.c:2971
+#: src/etats_config.c:2975
 msgid "Income categories"
 msgstr ""
 
-#: src/etats_config.c:2985
+#: src/etats_config.c:2989
 msgid "Outgoing categories"
 msgstr ""
 
-#: src/etats_config.c:3010
+#: src/etats_config.c:3014
 msgid "Exclude transactions with no category"
 msgstr ""
 
-#: src/etats_config.c:3130
+#: src/etats_config.c:3134
 msgid "Detail budgetary lines"
 msgstr ""
 
-#: src/etats_config.c:3168
+#: src/etats_config.c:3172
 msgid "Select the budgetary lines to include in the report"
 msgstr ""
 
-#: src/etats_config.c:3244
+#: src/etats_config.c:3248
 msgid "Income budget lines"
 msgstr ""
 
-#: src/etats_config.c:3258
+#: src/etats_config.c:3262
 msgid "Outgoing budget lines"
 msgstr ""
 
-#: src/etats_config.c:3281
+#: src/etats_config.c:3285
 msgid "Exclude transactions without budgetary line"
 msgstr ""
 
-#: src/etats_config.c:3400
+#: src/etats_config.c:3404
 msgid "Detail third parties"
 msgstr ""
 
-#: src/etats_config.c:3438
+#: src/etats_config.c:3442
 msgid "Select third parties to include in this report"
 msgstr ""
 
-#: src/etats_config.c:3592
+#: src/etats_config.c:3596
 msgid "Select transactions according to the text"
 msgstr ""
 
-#: src/etats_config.c:3887
+#: src/etats_config.c:3891
 msgid "Transactions whose"
 msgstr ""
 
-#: src/etats_config.c:4028
+#: src/etats_config.c:4032
 msgid "is"
 msgstr ""
 
-#: src/etats_config.c:4043 src/etats_config.c:4096 src/etats_config.c:4911
-#: src/etats_config.c:4964
+#: src/etats_config.c:4047 src/etats_config.c:4100 src/etats_config.c:4915
+#: src/etats_config.c:4968
 msgid "to"
 msgstr ""
 
 #. on met les bouton ajouter et supprimer
-#: src/etats_config.c:4117 src/etats_config.c:4985
+#: src/etats_config.c:4121 src/etats_config.c:4989
 msgid "Add"
 msgstr ""
 
-#: src/etats_config.c:4131 src/etats_config.c:4999
+#: src/etats_config.c:4135 src/etats_config.c:5003
 msgid "Remove"
 msgstr ""
 
-#: src/etats_config.c:4204 src/etats_config.c:6410
+#: src/etats_config.c:4208 src/etats_config.c:6414
 msgid "the third party"
 msgstr ""
 
-#: src/etats_config.c:4232
+#: src/etats_config.c:4236
 msgid "the third party information"
 msgstr ""
 
-#: src/etats_config.c:4260 src/etats_config.c:6427
+#: src/etats_config.c:4264 src/etats_config.c:6431
 msgid "the category"
 msgstr ""
 
-#: src/etats_config.c:4288 src/etats_config.c:6443
+#: src/etats_config.c:4292 src/etats_config.c:6447
 msgid "the sub-category"
 msgstr ""
 
-#: src/etats_config.c:4316 src/etats_config.c:6459
+#: src/etats_config.c:4320 src/etats_config.c:6463
 msgid "the budgetary line"
 msgstr ""
 
-#: src/etats_config.c:4344 src/etats_config.c:6475
+#: src/etats_config.c:4348 src/etats_config.c:6479
 msgid "the sub-budgetary line"
 msgstr ""
 
-#: src/etats_config.c:4372
+#: src/etats_config.c:4376
 msgid "the note"
 msgstr ""
 
-#: src/etats_config.c:4400 src/etats_config.c:6555
+#: src/etats_config.c:4404 src/etats_config.c:6559
 msgid "the bank reference"
 msgstr ""
 
-#: src/etats_config.c:4428 src/etats_config.c:6539
+#: src/etats_config.c:4432 src/etats_config.c:6543
 msgid "the voucher"
 msgstr ""
 
-#: src/etats_config.c:4449
+#: src/etats_config.c:4453
 msgid "the cheque number"
 msgstr ""
 
-#: src/etats_config.c:4469 src/etats_config.c:6571
+#: src/etats_config.c:4473 src/etats_config.c:6575
 msgid "the reconciliation reference"
 msgstr ""
 
-#: src/etats_config.c:4524
+#: src/etats_config.c:4528
 msgid "contains"
 msgstr ""
 
-#: src/etats_config.c:4536
+#: src/etats_config.c:4540
 msgid "doesn't contain"
 msgstr ""
 
-#: src/etats_config.c:4548
+#: src/etats_config.c:4552
 msgid "begins with"
 msgstr ""
 
-#: src/etats_config.c:4560
+#: src/etats_config.c:4564
 msgid "ends with"
 msgstr ""
 
-#: src/etats_config.c:4572
+#: src/etats_config.c:4576
 msgid "is empty"
 msgstr ""
 
-#: src/etats_config.c:4584
+#: src/etats_config.c:4588
 msgid "isn't empty"
 msgstr ""
 
-#: src/etats_config.c:4642
+#: src/etats_config.c:4646
 msgid "Select the transactions by amount"
 msgstr ""
 
 #. on rajoute le bouton exclure les opé dont le montant est nul
-#: src/etats_config.c:4694
+#: src/etats_config.c:4698
 msgid "Exclude the transactions with a null amount"
 msgstr ""
 
-#: src/etats_config.c:4896
+#: src/etats_config.c:4900
 msgid "Transactions with an amount of"
 msgstr ""
 
-#: src/etats_config.c:5031 src/etats_config.c:5386
+#: src/etats_config.c:5035 src/etats_config.c:5390
 msgid "and"
 msgstr ""
 
-#: src/etats_config.c:5039 src/etats_config.c:5398
+#: src/etats_config.c:5043 src/etats_config.c:5402
 msgid "or"
 msgstr ""
 
-#: src/etats_config.c:5047 src/etats_config.c:5410
+#: src/etats_config.c:5051 src/etats_config.c:5414
 msgid "except"
 msgstr ""
 
-#: src/etats_config.c:5077 src/etats_config.c:5253
+#: src/etats_config.c:5081 src/etats_config.c:5257
 msgid "equal"
 msgstr ""
 
-#: src/etats_config.c:5089 src/etats_config.c:5265
+#: src/etats_config.c:5093 src/etats_config.c:5269
 msgid "less than"
 msgstr ""
 
-#: src/etats_config.c:5101 src/etats_config.c:5277
+#: src/etats_config.c:5105 src/etats_config.c:5281
 msgid "less than or equal"
 msgstr ""
 
-#: src/etats_config.c:5113 src/etats_config.c:5289
+#: src/etats_config.c:5117 src/etats_config.c:5293
 msgid "greater than"
 msgstr ""
 
-#: src/etats_config.c:5125 src/etats_config.c:5301
+#: src/etats_config.c:5129 src/etats_config.c:5305
 msgid "greater than or equal"
 msgstr ""
 
-#: src/etats_config.c:5137 src/etats_config.c:5313
+#: src/etats_config.c:5141 src/etats_config.c:5317
 msgid "different from"
 msgstr ""
 
-#: src/etats_config.c:5149
+#: src/etats_config.c:5153
 msgid "null"
 msgstr ""
 
-#: src/etats_config.c:5161
+#: src/etats_config.c:5165
 msgid "not null"
 msgstr ""
 
-#: src/etats_config.c:5173
+#: src/etats_config.c:5177
 msgid "positive"
 msgstr ""
 
-#: src/etats_config.c:5185
+#: src/etats_config.c:5189
 msgid "negative"
 msgstr ""
 
-#: src/etats_config.c:5325
+#: src/etats_config.c:5329
 msgid "the biggest"
 msgstr ""
 
-#: src/etats_config.c:5422
+#: src/etats_config.c:5426
 msgid "stop"
 msgstr ""
 
-#: src/etats_config.c:5515
+#: src/etats_config.c:5519
 msgid "Reconciled transactions"
 msgstr ""
 
-#: src/etats_config.c:5531
+#: src/etats_config.c:5535
 msgid "Select"
 msgstr ""
 
-#: src/etats_config.c:5540
+#: src/etats_config.c:5544
 msgid "All transactions"
 msgstr ""
 
-#: src/etats_config.c:5549
+#: src/etats_config.c:5553
 msgid "Non reconciled transactions"
 msgstr ""
 
-#: src/etats_config.c:5562
+#: src/etats_config.c:5566
 msgid "The reconciled transactions"
 msgstr ""
 
-#: src/etats_config.c:5583
+#: src/etats_config.c:5587
 msgid "Do not detail reconciled transactions"
 msgstr ""
 
 #. choix de ce qu'on utilise dans le classement
-#: src/etats_config.c:5646
+#: src/etats_config.c:5650
 msgid "Informations used for the group"
 msgstr ""
 
-#: src/etats_config.c:5674
+#: src/etats_config.c:5678
 msgid "Group transactions by account"
 msgstr ""
 
-#: src/etats_config.c:5694
+#: src/etats_config.c:5698
 msgid "Group transactions by third party"
 msgstr ""
 
-#: src/etats_config.c:5716
+#: src/etats_config.c:5720
 msgid "Group transactions by category"
 msgstr ""
 
-#: src/etats_config.c:5736
+#: src/etats_config.c:5740
 msgid "Group transactions by budgetary line"
 msgstr ""
 
 #. choix du type de classement
-#: src/etats_config.c:5747
+#: src/etats_config.c:5751
 msgid "Group level organisation"
 msgstr ""
 
-#: src/etats_config.c:5844
+#: src/etats_config.c:5848
 msgid "Split incomes and outgoings"
 msgstr ""
 
-#: src/etats_config.c:5864
+#: src/etats_config.c:5868
 msgid "Split by financial year"
 msgstr ""
 
-#: src/etats_config.c:5890
+#: src/etats_config.c:5894
 msgid "Split by period"
 msgstr ""
 
-#: src/etats_config.c:5951
+#: src/etats_config.c:5955
 msgid "Week"
 msgstr ""
 
-#: src/etats_config.c:5975
+#: src/etats_config.c:5979
 msgid "Year"
 msgstr ""
 
-#: src/etats_config.c:6009
+#: src/etats_config.c:6013
 msgid "The week begins on"
 msgstr ""
 
-#: src/etats_config.c:6028
+#: src/etats_config.c:6032
 msgid "day"
 msgstr ""
 
-#: src/etats_config.c:6158
+#: src/etats_config.c:6162
 msgid "Generalities"
 msgstr ""
 
-#: src/etats_config.c:6166 src/fenetre_principale.c:75
+#: src/etats_config.c:6170 src/fenetre_principale.c:75
 msgid "Transactions"
 msgstr ""
 
-#: src/etats_config.c:6211
+#: src/etats_config.c:6215
 msgid "Report name"
 msgstr ""
 
-#: src/etats_config.c:6239
+#: src/etats_config.c:6243
 msgid "Diplay the number of transactions with the totals"
 msgstr ""
 
-#: src/etats_config.c:6258
+#: src/etats_config.c:6262
 msgid "Consider the third parties of this report as a multiple third party."
 msgstr ""
 
-#: src/etats_config.c:6329
+#: src/etats_config.c:6333
 msgid "Display the information about"
 msgstr ""
 
-#: src/etats_config.c:6362
+#: src/etats_config.c:6366
 msgid "the transaction number"
 msgstr ""
 
-#: src/etats_config.c:6378
+#: src/etats_config.c:6382
 msgid "the date"
 msgstr ""
 
-#: src/etats_config.c:6394
+#: src/etats_config.c:6398
 msgid "the financial year"
 msgstr ""
 
-#: src/etats_config.c:6491
+#: src/etats_config.c:6495
 msgid "the notes"
 msgstr ""
 
-#: src/etats_config.c:6507
+#: src/etats_config.c:6511
 msgid "the method of payment"
 msgstr ""
 
-#: src/etats_config.c:6523
+#: src/etats_config.c:6527
 msgid "the cheque/transfer number"
 msgstr ""
 
-#: src/etats_config.c:6597
+#: src/etats_config.c:6601
 msgid "Display the column titles"
 msgstr ""
 
-#: src/etats_config.c:6614
+#: src/etats_config.c:6618
 msgid "every section"
 msgstr ""
 
-#: src/etats_config.c:6631
+#: src/etats_config.c:6635
 msgid "at the top of the report"
 msgstr ""
 
-#: src/etats_config.c:6656
+#: src/etats_config.c:6660
 msgid "Sort the transactions by"
 msgstr ""
 
-#: src/etats_config.c:6682
+#: src/etats_config.c:6686
 msgid "date"
 msgstr ""
 
-#: src/etats_config.c:6690
+#: src/etats_config.c:6694
 msgid "transaction number"
 msgstr ""
 
-#: src/etats_config.c:6698
+#: src/etats_config.c:6702
 msgid "third party"
 msgstr ""
 
-#: src/etats_config.c:6706
+#: src/etats_config.c:6710
 msgid "category"
 msgstr ""
 
-#: src/etats_config.c:6714
+#: src/etats_config.c:6718
 msgid "budgetary line"
 msgstr ""
 
-#: src/etats_config.c:6722
+#: src/etats_config.c:6726
 msgid "note"
 msgstr ""
 
-#: src/etats_config.c:6730
+#: src/etats_config.c:6734
 msgid "method of payment"
 msgstr ""
 
-#: src/etats_config.c:6738
+#: src/etats_config.c:6742
 msgid "cheque/transfer number"
 msgstr ""
 
-#: src/etats_config.c:6746
+#: src/etats_config.c:6750
 msgid "voucher"
 msgstr ""
 
-#: src/etats_config.c:6754
+#: src/etats_config.c:6758
 msgid "bank reference"
 msgstr ""
 
-#: src/etats_config.c:6762
+#: src/etats_config.c:6766
 msgid "reconciliation reference"
 msgstr ""
 
-#: src/etats_config.c:6785
+#: src/etats_config.c:6789
 msgid "Make transactions clickable"
 msgstr ""
 
-#: src/etats_config.c:6853
+#: src/etats_config.c:6857
 msgid "General totals currency"
 msgstr ""
 
-#: src/etats_config.c:6902
+#: src/etats_config.c:6906
 msgid "Third parties currency"
 msgstr ""
 
-#: src/etats_config.c:6950
+#: src/etats_config.c:6954
 msgid "Categories currency"
 msgstr ""
 
-#: src/etats_config.c:6999
+#: src/etats_config.c:7003
 msgid "Budgetary lines currency"
 msgstr ""
 
-#: src/etats_config.c:7047
+#: src/etats_config.c:7051
 msgid "Amount comparison currency"
 msgstr ""
 
 #. on permet d'afficher le nom du compte
-#: src/etats_config.c:7148
+#: src/etats_config.c:7152
 msgid "Display account name"
 msgstr ""
 
 #. on permet d'afficher un ss total lors de chgt de compte
 #. activé uniquement si on a regroupé les opés par compte
-#: src/etats_config.c:7160
+#: src/etats_config.c:7164
 msgid "Display a sub-total for each account"
 msgstr ""
 
 #. permet d'afficher le nom du tiers, activé uniquement si on utilise les tiers
-#: src/etats_config.c:7193
+#: src/etats_config.c:7197
 msgid "Display third party's name"
 msgstr ""
 
 #. permet d'afficher un ss total lors de chgt de tiers
 #. activé uniquement si on utilise les tiers
-#: src/etats_config.c:7209
+#: src/etats_config.c:7213
 msgid "Dsplay a sub-total for each third party"
 msgstr ""
 
 #. affichage possible du nom de la categ
-#: src/etats_config.c:7254
+#: src/etats_config.c:7258
 msgid "Display the (sub)category's name"
 msgstr ""
 
 #. permet d'afficher un sous total lors de chgt de categ
 #. activé uniquement si on utilise les categ
-#: src/etats_config.c:7270
+#: src/etats_config.c:7274
 msgid "Display a sub-total for each category"
 msgstr ""
 
 #. mise en place du bouton pour afficher les sous categ
-#: src/etats_config.c:7285
+#: src/etats_config.c:7289
 msgid "Display sub-categories"
 msgstr ""
 
-#: src/etats_config.c:7299
+#: src/etats_config.c:7303
 msgid "Display a sub-total for each sub-category"
 msgstr ""
 
-#: src/etats_config.c:7313
+#: src/etats_config.c:7317
 msgid "Display \" No sub-category\" if none"
 msgstr ""
 
-#: src/etats_config.c:7346
+#: src/etats_config.c:7350
 msgid "Display the (sub-)budget line name"
 msgstr ""
 
 #. permet d'afficher un sous total lors de chgt d'ib
 #. activé uniquement si on utilise les ib
-#: src/etats_config.c:7362
+#: src/etats_config.c:7366
 msgid "Display a sub-total for each budgetary line"
 msgstr ""
 
 #. mise en place du bouton pour afficher les sous categ
-#: src/etats_config.c:7377
+#: src/etats_config.c:7381
 msgid "Display sub-budget lines"
 msgstr ""
 
-#: src/etats_config.c:7390
+#: src/etats_config.c:7394
 msgid "Display a sub-total for each sub-budget line"
 msgstr ""
 
-#: src/etats_config.c:7404
+#: src/etats_config.c:7408
 msgid "Display \"No sub-budgetary line\" if none"
 msgstr ""
 
 #. on met dans la partie de gauche une liste contenant les modes de paiement à
 #. sélectionner
-#: src/etats_config.c:7451
+#: src/etats_config.c:7455
 msgid "Select the transactions by method of payment"
 msgstr ""
 
-#: src/etats_config.c:7478
+#: src/etats_config.c:7482
 msgid "Select methods of payment to include"
 msgstr ""
 
@@ -6422,61 +6422,61 @@ msgid "Third party '%s' already exists."
 msgstr ""
 
 #. Should not happen theorically
-#: src/type_operations.c:106 src/type_operations.c:873
+#: src/type_operations.c:106 src/type_operations.c:875
 msgid "Serious brain damage expected."
 msgstr ""
 
-#: src/type_operations.c:259
+#: src/type_operations.c:261
 msgid "Known payment methods"
 msgstr ""
 
-#: src/type_operations.c:308
+#: src/type_operations.c:310
 msgid "Default"
 msgstr ""
 
-#: src/type_operations.c:320
+#: src/type_operations.c:322
 msgid "Numbering"
 msgstr ""
 
-#: src/type_operations.c:364
+#: src/type_operations.c:366
 msgid "Payment method details"
 msgstr ""
 
 #. Automatic numbering
-#: src/type_operations.c:388
+#: src/type_operations.c:390
 msgid "Automatic numbering"
 msgstr ""
 
-#: src/type_operations.c:404
+#: src/type_operations.c:406
 msgid "Activate"
 msgstr ""
 
 #. Payment method type
-#: src/type_operations.c:412
+#: src/type_operations.c:414
 msgid "Type"
 msgstr ""
 
 #. Neutral type
-#: src/type_operations.c:424
+#: src/type_operations.c:426
 msgid "Neutral"
 msgstr ""
 
-#: src/type_operations.c:910
+#: src/type_operations.c:912
 msgid "New payment method"
 msgstr ""
 
-#: src/type_operations.c:1009
+#: src/type_operations.c:1011
 msgid "Delete a payment method"
 msgstr ""
 
-#: src/type_operations.c:1017
+#: src/type_operations.c:1019
 msgid ""
 "Some transactions still use that payment method.  As deletion of this method "
 "is irreversible, these transactions are to be associated with another "
 "payment method."
 msgstr ""
 
-#: src/type_operations.c:1034
+#: src/type_operations.c:1036
 msgid "Associate transactions with"
 msgstr ""
 
