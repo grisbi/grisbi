@@ -260,7 +260,6 @@ void export_accounts_to_csv (GSList* export_entries_list )
 
             /* met le solde initial */
             montant_tmp = g_strdup_printf ( "%4.2f", SOLDE_INIT );
-            montant_tmp = g_strdelimit ( montant_tmp, ",", '.' );
 
             solde           = SOLDE_INIT;
             csv_field_solde = g_strdup_printf ( "%4.2f", solde );
@@ -339,7 +338,6 @@ void export_accounts_to_csv (GSList* export_entries_list )
                                                                   operation -> frais_change );
 
                         montant_tmp = g_strdup_printf ( "%4.2f", montant );
-                        montant_tmp = g_strdelimit ( montant_tmp, ",", '.' );
 
                         if (montant > -0.0 )
                         {
@@ -492,7 +490,6 @@ void export_accounts_to_csv (GSList* export_entries_list )
                                                                               operation -> frais_change );
 
                                     montant_tmp = g_strdup_printf ( "%4.2f", montant );
-                                    montant_tmp = g_strdelimit ( montant_tmp, ",", '.' );
                                     csv_field_montant = g_strdup ( montant_tmp );
 
 				    /* met le rapprochement */
