@@ -15,6 +15,7 @@ sources = 			\
 	comptes_gestion.c	\
 	comptes_onglet.c	\
 	comptes_traitements.c	\
+	csv.c			\
 	devises.c		\
 	dialog.c		\
 	echeancier_onglet.c	\
@@ -33,6 +34,7 @@ sources = 			\
 	etats_onglet.c		\
 	etats_support.c		\
 	exercice.c		\
+	export.c		\
 	fenetre_principale.c	\
 	fichier_configuration.c	\
 	fichiers_gestion.c	\
