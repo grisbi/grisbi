@@ -592,7 +592,7 @@ void update_liste_comptes_accueil ( void )
 
 	for ( i = 0 ; i < nb_comptes ; i++ )
 	{
-	    if ( DEVISE == ((struct struct_devise *) devise -> data) -> no_devise
+	    if ( gsb_account_get_currency (i) == ((struct struct_devise *) devise -> data) -> no_devise
 		 && ! COMPTE_CLOTURE
 		 && ( gsb_account_get_kind (i) == GSB_TYPE_BANK
 		      || gsb_account_get_kind (i) == GSB_TYPE_CASH ))
@@ -639,7 +639,7 @@ void update_liste_comptes_accueil ( void )
 	    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + no_compte;
 
 	    if ( !COMPTE_CLOTURE &&
-		 DEVISE == ((struct struct_devise *) devise -> data) -> no_devise
+		 gsb_account_get_currency (no_compte) == ((struct struct_devise *) devise -> data) -> no_devise
 		 && gsb_account_get_kind (no_compte) != GSB_TYPE_LIABILITIES
 		 && gsb_account_get_kind (no_compte) != GSB_TYPE_ASSET )
 	    {
@@ -730,7 +730,7 @@ void update_liste_comptes_accueil ( void )
 		gtk_widget_show ( pLabel );
 
 		/* Quatrième colonne : elle contient le symbole de la devise du compte */
-		pLabel = gtk_label_new ( devise_code_by_no (  DEVISE ));
+		pLabel = gtk_label_new ( devise_code_by_no (  gsb_account_get_currency (no_compte) ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 				   3, 4, i, i+1,
@@ -792,7 +792,7 @@ void update_liste_comptes_accueil ( void )
 		gtk_widget_show ( pLabel );
 
 		/* Septième colonne : elle contient le symbole de la devise du compte */
-		pLabel = gtk_label_new ( devise_code_by_no ( DEVISE ));
+		pLabel = gtk_label_new ( devise_code_by_no ( gsb_account_get_currency (no_compte) ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 				   6, 7, i, i+1,
@@ -882,7 +882,7 @@ void update_liste_comptes_accueil ( void )
 
 	for ( i = 0 ; i < nb_comptes ; i++ )
 	{
-	    if ( DEVISE == ((struct struct_devise *) devise -> data) -> no_devise
+	    if ( gsb_account_get_currency (i) == ((struct struct_devise *) devise -> data) -> no_devise
 		 && ! COMPTE_CLOTURE
 		 && gsb_account_get_kind (i) == GSB_TYPE_LIABILITIES )
 		devise_is_used = 1;
@@ -928,7 +928,7 @@ void update_liste_comptes_accueil ( void )
 	    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + no_compte;
 
 	    if ( !COMPTE_CLOTURE &&
-		 DEVISE == ((struct struct_devise *) devise -> data) -> no_devise &&
+		 gsb_account_get_currency (no_compte) == ((struct struct_devise *) devise -> data) -> no_devise &&
 		 gsb_account_get_kind (no_compte) == GSB_TYPE_LIABILITIES )
 	    {
 		/* Première colonne : vide */
@@ -990,7 +990,7 @@ void update_liste_comptes_accueil ( void )
 		    {
 			/* quelle que soit l'opération (relevée ou non), on calcule les soldes courant */
 			montant = calcule_montant_devise_renvoi ( operation -> montant,
-								  DEVISE,
+								  gsb_account_get_currency (no_compte),
 								  operation -> devise,
 								  operation -> une_devise_compte_egale_x_devise_ope,
 								  operation -> taux_change,
@@ -1056,7 +1056,7 @@ void update_liste_comptes_accueil ( void )
 		gtk_widget_show ( pLabel );
 
 		/* Quatrième colonne : elle contient le symbole de la devise du compte */
-		pLabel = gtk_label_new ( devise_code_by_no (  DEVISE ));
+		pLabel = gtk_label_new ( devise_code_by_no (  gsb_account_get_currency (no_compte) ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 				   3, 4, i, i+1,
@@ -1118,7 +1118,7 @@ void update_liste_comptes_accueil ( void )
 		gtk_widget_show ( pLabel );
 
 		/* Septième colonne : elle contient le symbole de la devise du compte */
-		pLabel = gtk_label_new ( devise_code_by_no ( DEVISE ));
+		pLabel = gtk_label_new ( devise_code_by_no ( gsb_account_get_currency (no_compte) ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 				   6, 7, i, i+1,
@@ -1208,7 +1208,7 @@ void update_liste_comptes_accueil ( void )
 
 	for ( i = 0 ; i < nb_comptes ; i++ )
 	{
-	    if ( DEVISE == ((struct struct_devise *) devise -> data) -> no_devise &&
+	    if ( gsb_account_get_currency (i) == ((struct struct_devise *) devise -> data) -> no_devise &&
 		 !COMPTE_CLOTURE &&
 		 gsb_account_get_kind (i) == GSB_TYPE_ASSET )
 		devise_is_used = 1;
@@ -1254,7 +1254,7 @@ void update_liste_comptes_accueil ( void )
 	    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + no_compte;
 
 	    if ( !COMPTE_CLOTURE &&
-		 DEVISE == ((struct struct_devise *) devise -> data) -> no_devise &&
+		 gsb_account_get_currency (no_compte) == ((struct struct_devise *) devise -> data) -> no_devise &&
 		 gsb_account_get_kind (no_compte) == GSB_TYPE_ASSET )
 	    {
 		/* Première colonne : vide */
@@ -1316,7 +1316,7 @@ void update_liste_comptes_accueil ( void )
 		    {
 			/* quelle que soit l'opération (relevée ou non), on calcule les soldes courant */
 			montant = calcule_montant_devise_renvoi ( operation -> montant,
-								  DEVISE,
+								  gsb_account_get_currency (no_compte),
 								  operation -> devise,
 								  operation -> une_devise_compte_egale_x_devise_ope,
 								  operation -> taux_change,
@@ -1382,7 +1382,7 @@ void update_liste_comptes_accueil ( void )
 		gtk_widget_show ( pLabel );
 
 		/* Quatrième colonne : elle contient le symbole de la devise du compte */
-		pLabel = gtk_label_new ( devise_code_by_no (  DEVISE ));
+		pLabel = gtk_label_new ( devise_code_by_no (  gsb_account_get_currency (no_compte) ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 				   3, 4, i, i+1,
@@ -1444,7 +1444,7 @@ void update_liste_comptes_accueil ( void )
 		gtk_widget_show ( pLabel );
 
 		/* Septième colonne : elle contient le symbole de la devise du compte */
-		pLabel = gtk_label_new ( devise_code_by_no ( DEVISE ));
+		pLabel = gtk_label_new ( devise_code_by_no ( gsb_account_get_currency (no_compte) ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 				   6, 7, i, i+1,

@@ -1662,12 +1662,12 @@ void verification_echeances_a_terme ( void )
 
 		if ( !devise_compte
 		     ||
-		     devise_compte -> no_devise != DEVISE )
-		    devise_compte = devise_par_no ( DEVISE );
+		     devise_compte -> no_devise != gsb_account_get_currency (operation -> no_compte) )
+		    devise_compte = devise_par_no ( gsb_account_get_currency (operation -> no_compte) );
 
 		if ( !( operation -> no_operation
 			||
-			devise -> no_devise == DEVISE
+			devise -> no_devise == gsb_account_get_currency (operation -> no_compte)
 			||
 			( devise_compte -> passage_euro && !strcmp ( devise -> nom_devise, _("Euro") ))
 			||

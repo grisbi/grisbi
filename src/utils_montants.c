@@ -80,7 +80,7 @@ void calcule_total_pointe_compte ( gint no_compte )
 	    gdouble montant;
 
 	    montant = calcule_montant_devise_renvoi ( operation -> montant,
-						      DEVISE,
+						      gsb_account_get_currency (no_compte),
 						      operation -> devise,
 						      operation -> une_devise_compte_egale_x_devise_ope,
 						      operation -> taux_change,
@@ -143,7 +143,7 @@ gdouble calcule_solde_compte ( gint no_compte )
 
 	if ( !operation -> no_operation_ventilee_associee )
 	solde = solde + calcule_montant_devise_renvoi ( operation -> montant,
-							DEVISE,
+							gsb_account_get_currency (no_compte),
 							operation -> devise,
 							operation -> une_devise_compte_egale_x_devise_ope,
 							operation -> taux_change,
@@ -186,7 +186,7 @@ gdouble calcule_solde_pointe_compte ( gint no_compte )
 	     &&
 	     !operation -> no_operation_ventilee_associee )
 	solde = solde + calcule_montant_devise_renvoi ( operation -> montant,
-							DEVISE,
+							gsb_account_get_currency (no_compte),
 							operation -> devise,
 							operation -> une_devise_compte_egale_x_devise_ope,
 							operation -> taux_change,

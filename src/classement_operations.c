@@ -29,6 +29,7 @@
 #include "classement_operations.h"
 #include "utils_devises.h"
 #include "utils_exercices.h"
+#include "data_account.h"
 #include "utils_str.h"
 #include "utils_categories.h"
 #include "utils_ib.h"
@@ -206,13 +207,13 @@ gint classement_sliste_par_debit ( struct structure_operation *operation_1,
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1 -> no_compte;
 
 	montant_1 = calcule_montant_devise_renvoi ( operation_1 -> montant,
-						    DEVISE,
+						    gsb_account_get_currency (operation_1 -> no_compte),
 						    operation_1 -> devise,
 						    operation_1 -> une_devise_compte_egale_x_devise_ope,
 						    operation_1 -> taux_change,
 						    operation_1 -> frais_change );
 	montant_2 = calcule_montant_devise_renvoi ( operation_2 -> montant,
-						    DEVISE,
+						    gsb_account_get_currency (operation_1 -> no_compte),
 						    operation_2 -> devise,
 						    operation_2 -> une_devise_compte_egale_x_devise_ope,
 						    operation_2 -> taux_change,
@@ -258,13 +259,13 @@ gint classement_sliste_par_credit ( struct structure_operation *operation_1,
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1 -> no_compte;
 
 	montant_1 = calcule_montant_devise_renvoi ( operation_1 -> montant,
-						    DEVISE,
+						    gsb_account_get_currency (operation_1 -> no_compte),
 						    operation_1 -> devise,
 						    operation_1 -> une_devise_compte_egale_x_devise_ope,
 						    operation_1 -> taux_change,
 						    operation_1 -> frais_change );
 	montant_2 = calcule_montant_devise_renvoi ( operation_2 -> montant,
-						    DEVISE,
+						    gsb_account_get_currency (operation_1 -> no_compte),
 						    operation_2 -> devise,
 						    operation_2 -> une_devise_compte_egale_x_devise_ope,
 						    operation_2 -> taux_change,
@@ -312,13 +313,13 @@ gint classement_sliste_par_montant ( struct structure_operation *operation_1,
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1 -> no_compte;
 
 	montant_1 = calcule_montant_devise_renvoi ( operation_1 -> montant,
-						    DEVISE,
+						    gsb_account_get_currency (operation_1 -> no_compte),
 						    operation_1 -> devise,
 						    operation_1 -> une_devise_compte_egale_x_devise_ope,
 						    operation_1 -> taux_change,
 						    operation_1 -> frais_change );
 	montant_2 = calcule_montant_devise_renvoi ( operation_2 -> montant,
-						    DEVISE,
+						    gsb_account_get_currency (operation_1 -> no_compte),
 						    operation_2 -> devise,
 						    operation_2 -> une_devise_compte_egale_x_devise_ope,
 						    operation_2 -> taux_change,

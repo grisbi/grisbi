@@ -1232,7 +1232,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 		     devise_operation -> no_devise != operation -> devise )
 		    devise_operation = devise_par_no ( operation -> devise );
 
-		if ( devise_operation -> no_devise != DEVISE )
+		if ( devise_operation -> no_devise != gsb_account_get_currency (operation -> no_compte) )
 		    temp = g_strconcat ( temp,
 					 "(",
 					 devise_code ( devise_operation ),
@@ -1260,7 +1260,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 		     devise_operation -> no_devise != operation -> devise )
 		    devise_operation = devise_par_no ( operation -> devise );
 
-		if ( devise_operation -> no_devise != DEVISE )
+		if ( devise_operation -> no_devise != gsb_account_get_currency (operation -> no_compte) )
 		    temp = g_strconcat ( temp,
 					 "(",
 					 devise_code ( devise_operation ),
@@ -1288,12 +1288,12 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 	    /* mise en forme du montant dans la devise du compte */
 
 	case 8:
-	    if ( operation -> devise != DEVISE )
+	    if ( operation -> devise != gsb_account_get_currency (operation -> no_compte) )
 	    {
 		/* on doit calculer et afficher le montant de l'opÃ© */
 
 		montant = calcule_montant_devise_renvoi ( operation -> montant,
-							  DEVISE,
+							  gsb_account_get_currency (operation -> no_compte),
 							  operation -> devise,
 							  operation -> une_devise_compte_egale_x_devise_ope,
 							  operation -> taux_change,
@@ -1606,7 +1606,7 @@ void update_soldes_list_store ( gint compte,
 	if ( operation != GINT_TO_POINTER (-1))
 	{
 	    solde_courant = solde_courant + calcule_montant_devise_renvoi ( operation -> montant,
-									    DEVISE,
+									    gsb_account_get_currency (compte),
 									    operation -> devise,
 									    operation -> une_devise_compte_egale_x_devise_ope,
 									    operation -> taux_change,
@@ -1731,7 +1731,7 @@ gdouble solde_debut_affichage ( gint no_compte )
 	       ||
 	       operation -> pointe != 3 ))
 	solde = solde + calcule_montant_devise_renvoi ( operation -> montant,
-							DEVISE,
+							gsb_account_get_currency (no_compte),
 							operation -> devise,
 							operation -> une_devise_compte_egale_x_devise_ope,
 							operation -> taux_change,
@@ -2619,7 +2619,7 @@ void p_press (void)
     if ( operation -> pointe )
     {
 	montant = calcule_montant_devise_renvoi ( operation -> montant,
-						  DEVISE,
+						  gsb_account_get_currency (compte_courant),
 						  operation -> devise,
 						  operation -> une_devise_compte_egale_x_devise_ope,
 						  operation -> taux_change,
@@ -2640,7 +2640,7 @@ void p_press (void)
     else
     {
 	montant = calcule_montant_devise_renvoi ( operation -> montant,
-						  DEVISE,
+						  gsb_account_get_currency (compte_courant),
 						  operation -> devise,
 						  operation-> une_devise_compte_egale_x_devise_ope,
 						  operation-> taux_change,
@@ -2958,7 +2958,7 @@ void supprime_operation ( struct structure_operation *operation )
     /*     calcul des nouveaux soldes */
 
     montant = calcule_montant_devise_renvoi ( operation -> montant,
-					      DEVISE,
+					      gsb_account_get_currency (operation -> no_compte),
 					      operation -> devise,
 					      operation -> une_devise_compte_egale_x_devise_ope,
 					      operation -> taux_change,
@@ -4046,7 +4046,7 @@ void mise_a_jour_labels_soldes ( void )
     gtk_label_set_text ( GTK_LABEL ( solde_label ),
 			 g_strdup_printf ( PRESPACIFY(_("Current balance: %4.2f %s")),
 					   gsb_account_get_current_balance (compte_courant),
-					   devise_code_by_no ( DEVISE )));
+					   devise_code_by_no ( gsb_account_get_currency (compte_courant) )));
 
 
     /* met le label du solde pointé */
@@ -4054,7 +4054,7 @@ void mise_a_jour_labels_soldes ( void )
     gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
 			 g_strdup_printf ( _("Checked balance: %4.2f %s"),
 					   gsb_account_get_marked_balance (compte_courant),
-					   devise_code_by_no ( DEVISE )));
+					   devise_code_by_no ( gsb_account_get_currency (compte_courant) )));
 }
 /******************************************************************************/
 

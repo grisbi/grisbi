@@ -1956,14 +1956,14 @@ void fin_edition_echeance ( void )
 
 	if ( !devise_compte
 	     ||
-	     devise_compte -> no_devise != DEVISE )
-	    devise_compte = devise_par_no ( DEVISE );
+	     devise_compte -> no_devise != gsb_account_get_currency (operation -> no_compte) )
+	    devise_compte = devise_par_no ( gsb_account_get_currency (operation -> no_compte) );
 
 	operation -> devise = devise -> no_devise;
 
 	if ( !( operation -> no_operation
 		||
-		devise -> no_devise == DEVISE
+		devise -> no_devise == gsb_account_get_currency (operation -> no_compte)
 		||
 		( devise_compte -> passage_euro && !strcmp ( devise -> nom_devise, _("Euro") ))
 		||
@@ -2316,7 +2316,7 @@ struct structure_operation *ajoute_contre_operation_echeance_dans_liste ( struct
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_virement;
 
-    contre_devise = devise_par_no ( DEVISE );
+    contre_devise = devise_par_no ( gsb_account_get_currency (compte_virement) );
 
     contre_operation -> devise = operation -> devise;
 
@@ -2326,7 +2326,7 @@ struct structure_operation *ajoute_contre_operation_echeance_dans_liste ( struct
 
     if ( !( contre_operation-> no_operation
 	    ||
-	    devise -> no_devise == DEVISE
+	    devise -> no_devise == gsb_account_get_currency (compte_virement)
 	    ||
 	    ( contre_devise -> passage_euro && !strcmp ( devise -> nom_devise, _("Euro") ))
 	    ||

@@ -268,7 +268,7 @@ void update_currency_widgets()
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
     gtk_option_menu_set_history ( GTK_OPTION_MENU (  detail_devise_compte),
 				  g_slist_index ( liste_struct_devises,
-						  devise_par_no ( DEVISE ))); 
+						  devise_par_no ( gsb_account_get_currency (compte_courant) ))); 
 
 
     /* on recrée les boutons de devises dans la conf de l'état */
@@ -799,7 +799,7 @@ void retrait_devise ( GtkWidget *bouton,
 
     for ( i=0 ; i<nb_comptes ; i++ )
     {
-	if ( DEVISE == devise -> no_devise )
+	if ( gsb_account_get_currency (i) == devise -> no_devise )
 	{
 	    devise_trouvee = 1;
 	    i = nb_comptes;

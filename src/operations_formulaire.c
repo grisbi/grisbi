@@ -424,7 +424,7 @@ GtkWidget *cree_element_formulaire_par_no ( gint no_element )
 				       menu );
 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget ),
 					  g_slist_index ( liste_struct_devises,
-							  devise_par_no ( DEVISE )));
+							  devise_par_no ( gsb_account_get_currency (compte_courant) )));
 	    gtk_widget_show ( widget );
 	    break;
 
@@ -2008,11 +2008,11 @@ void verification_bouton_change_devise ( void )
 
     /*   si la devise n'est pas celle du compte ni l'euro si le compte va y passer, affiche le bouton change */
 
-    devise_compte = devise_par_no ( DEVISE );
+    devise_compte = devise_par_no ( gsb_account_get_currency (compte_courant) );
     devise = g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_DEVISE)) -> menu_item ),
 				 "adr_devise" );
 
-    if ( !( devise -> no_devise == DEVISE
+    if ( !( devise -> no_devise == gsb_account_get_currency (compte_courant)
 	    ||
 	    ( devise_compte -> passage_euro && !strcmp ( devise -> nom_devise, _("Euro") ))
 	    ||
@@ -2467,7 +2467,7 @@ gboolean fin_edition ( void )
 
 	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
-	    operation -> devise = DEVISE;
+	    operation -> devise = gsb_account_get_currency (compte_courant);
 	}
 
 	/* on récupère les données du formulaire sauf la categ qui est traitée plus tard */
@@ -3033,14 +3033,14 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
 
 		    if ( !devise_compte
 			 ||
-			 devise_compte -> no_devise != DEVISE )
-			devise_compte = devise_par_no ( DEVISE );
+			 devise_compte -> no_devise != gsb_account_get_currency (compte_courant) )
+			devise_compte = devise_par_no ( gsb_account_get_currency (compte_courant) );
 
 		    operation -> devise = devise -> no_devise;
 
 		    if ( !( operation -> no_operation
 			    ||
-			    devise -> no_devise == DEVISE
+			    devise -> no_devise == gsb_account_get_currency (compte_courant)
 			    ||
 			    ( devise_compte -> passage_euro
 			      &&
@@ -3375,7 +3375,7 @@ void validation_virement_operation ( struct structure_operation *operation,
     /* si c'est la devise du compte ou si c'est un compte qui doit passer à l'euro ( la transfo se fait au niveau */
     /* de l'affichage de la liste ) ou si c'est un compte en euro et l'opé est dans une devise qui doit passer à l'euro -> ok */
 
-    devise_compte_2 = devise_par_no ( DEVISE );
+    devise_compte_2 = devise_par_no ( gsb_account_get_currency (compte_virement) );
 
     devise = devise_par_no ( operation -> devise );
 
@@ -3383,7 +3383,7 @@ void validation_virement_operation ( struct structure_operation *operation,
 
     if ( !( contre_operation-> no_operation
 	    ||
-	    devise -> no_devise == DEVISE
+	    devise -> no_devise == gsb_account_get_currency (compte_virement)
 	    ||
 	    ( devise_compte_2 -> passage_euro && is_euro(devise))
 	    ||
@@ -3569,7 +3569,7 @@ void ajout_operation ( struct structure_operation *operation )
 				      gsb_account_get_current_balance ( operation -> no_compte)
 				      +
 				      calcule_montant_devise_renvoi ( operation -> montant,
-								      DEVISE,
+								      gsb_account_get_currency (operation -> no_compte),
 								      operation -> devise,
 								      operation -> une_devise_compte_egale_x_devise_ope,
 								      operation -> taux_change,
@@ -3802,7 +3802,7 @@ void formulaire_a_zero (void)
 
 		    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget ),
 						  g_slist_index ( liste_struct_devises,
-								  devise_par_no ( DEVISE )));
+								  devise_par_no ( gsb_account_get_currency (compte_courant) )));
 		    gtk_widget_set_sensitive ( GTK_WIDGET ( widget ),
 					       FALSE );
 		    break;
@@ -3953,8 +3953,8 @@ void click_sur_bouton_voir_change ( void )
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     if ( !devise_compte ||
-	 devise_compte -> no_devise != DEVISE )
-	devise_compte = devise_par_no ( DEVISE );
+	 devise_compte -> no_devise != gsb_account_get_currency (compte_courant) )
+	devise_compte = devise_par_no ( gsb_account_get_currency (compte_courant) );
 
     devise = devise_par_no ( operation -> devise );
 
@@ -3987,7 +3987,7 @@ void degrise_formulaire_operations ( void )
 	gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
 				   TRUE );
 
-    if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_DEVISE ))
+    if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_gsb_account_get_currency (compte_courant) ))
 	gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_par_element (TRANSACTION_FORM_DEVISE) ),
 				   TRUE );
 

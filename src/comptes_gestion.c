@@ -784,7 +784,7 @@ void remplissage_details_compte ( void )
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( detail_type_compte ),
 				  gsb_account_get_kind (compte_courant_onglet) );
 
-    devise = devise_par_no ( DEVISE );
+    devise = devise_par_no ( gsb_account_get_currency (compte_courant_onglet) );
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU (  detail_devise_compte),
 				  g_slist_index ( liste_struct_devises,
@@ -963,7 +963,7 @@ void modification_details_compte ( void )
 
     /* vérification de la devise */
 
-    if ( DEVISE != GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_devise_compte ) -> menu_item ),
+    if ( gsb_account_get_currency (compte_courant_onglet) != GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_devise_compte ) -> menu_item ),
 							   "no_devise" )) )
     {
 	struct struct_devise *nouvelle_devise;
@@ -971,8 +971,8 @@ void modification_details_compte ( void )
 
 	if ( !devise_compte
 	     ||
-	     devise_compte -> no_devise != DEVISE )
-	    devise_compte = devise_par_no ( DEVISE );
+	     devise_compte -> no_devise != gsb_account_get_currency (compte_courant_onglet) )
+	    devise_compte = devise_par_no ( gsb_account_get_currency (compte_courant_onglet) );
 
 	nouvelle_devise = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_devise_compte ) -> menu_item ),
 						"adr_devise" );
@@ -998,7 +998,7 @@ void modification_details_compte ( void )
 
 	    operation = pointeur_liste -> data;
 
-	    if ( operation -> devise == DEVISE )
+	    if ( operation -> devise == gsb_account_get_currency (compte_courant_onglet) )
 		operation -> devise = nouvelle_devise -> no_devise;
 	    else
 		if ( !nouvelle_devise -> passage_euro )
@@ -1006,8 +1006,8 @@ void modification_details_compte ( void )
 
 	    pointeur_liste = pointeur_liste -> next;
 	}
-
-	DEVISE = nouvelle_devise -> no_devise;
+	gsb_account_set_currency ( compte_courant_onglet,
+				   nouvelle_devise -> no_devise );
 	
 /* FIXME : voir pourquoi remplissage opé et remettre l'ajustement */
 

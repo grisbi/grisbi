@@ -93,6 +93,7 @@ typedef struct
 gdouble gsb_account_get_adjustment_value ( gint no_account );
 gpointer gsb_account_get_column ( gint no_account,
 				  gint no_column );
+gint gsb_account_get_currency ( gint no_account );
 gdouble gsb_account_get_current_balance ( gint no_account );
 GDate *gsb_account_get_current_reconcile_date ( gint no_account );
 gpointer gsb_account_get_current_transaction ( gint no_account );
@@ -119,6 +120,8 @@ gboolean gsb_account_set_adjustment_value ( gint no_account,
 gboolean gsb_account_set_column ( gint no_account,
 				  gint no_column,
 				  gpointer column );
+gboolean gsb_account_set_currency ( gint no_account,
+				    gint currency );
 gboolean gsb_account_set_current_balance ( gint no_account,
 					   gdouble balance );
 gboolean gsb_account_set_current_reconcile_date ( gint no_account,

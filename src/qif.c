@@ -1185,7 +1185,7 @@ choix_liste_fichier:
 			/* met le montant, transforme la devise si necessaire */
 
 			montant = calcule_montant_devise_renvoi ( operation -> montant,
-								  DEVISE,
+								  gsb_account_get_currency (no_compte),
 								  operation -> devise,
 								  operation -> une_devise_compte_egale_x_devise_ope,
 								  operation -> taux_change,
@@ -1355,7 +1355,7 @@ choix_liste_fichier:
 				    /* met le montant de la ventilation */
 
 				    montant = calcule_montant_devise_renvoi ( ope_test -> montant,
-									      DEVISE,
+									      gsb_account_get_currency (no_compte),
 									      operation -> devise,
 									      operation -> une_devise_compte_egale_x_devise_ope,
 									      operation -> taux_change,

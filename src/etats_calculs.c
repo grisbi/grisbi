@@ -2419,10 +2419,10 @@ pas_decalage:
 
 		if ( !devise_compte_en_cours_etat
 		     ||
-		     DEVISE != devise_compte_en_cours_etat -> no_devise )
-		    devise_compte_en_cours_etat = devise_par_no ( DEVISE );
+		     gsb_account_get_currency (operation -> no_compte) != devise_compte_en_cours_etat -> no_devise )
+		    devise_compte_en_cours_etat = devise_par_no ( gsb_account_get_currency (operation -> no_compte) );
 
-		if ( operation -> devise == DEVISE )
+		if ( operation -> devise == gsb_account_get_currency (operation -> no_compte) )
 		    montant = operation -> montant;
 		else
 		{

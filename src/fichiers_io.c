@@ -956,7 +956,8 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Devise" ))
-				DEVISE = my_atoi ( xmlNodeGetContent ( node_detail ));
+				gsb_account_set_currency ( no_compte,
+							   my_atoi ( xmlNodeGetContent ( node_detail )));
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Banque" ))
@@ -3273,7 +3274,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Devise",
-			  itoa ( DEVISE ));
+			  itoa ( gsb_account_get_currency (i) ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,

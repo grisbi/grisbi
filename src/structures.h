@@ -307,7 +307,7 @@ struct donnees_compte
 /* #define SOLDE_DERNIER_RELEVE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) ->  solde_releve */
 /* #define DERNIER_NO_RAPPROCHEMENT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> dernier_no_rapprochement */
 /* #define MISE_A_JOUR ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> mise_a_jour */
-#define DEVISE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> devise
+/* #define DEVISE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> devise */
 #define BANQUE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> banque
 #define NO_GUICHET ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> no_guichet
 #define NO_COMPTE_BANQUE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> no_compte_banque

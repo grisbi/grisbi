@@ -198,7 +198,7 @@ gint initialisation_nouveau_compte ( kind_account type_de_compte )
     /* insï¿œe ses paramï¿œres ( comme c'est un appel ï¿œcalloc, tout ce qui est ï¿œ0 est dï¿œï¿œinitialisï¿œ)*/
 
 /*     NOM_DU_COMPTE = g_strdup_printf ( _("No name %d"), noname_account_number ); */
-    DEVISE = 1;
+/*     DEVISE = 1; */
 /*     MISE_A_JOUR = 1; */
 /*     NO_COMPTE = no_compte; */
 /*     OPERATION_SELECTIONNEE = GINT_TO_POINTER (-1); */

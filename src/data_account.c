@@ -1091,3 +1091,41 @@ gboolean gsb_account_set_update_list ( gint no_account,
 }
 
 
+/** get the currency on the account given
+ * \param no_account no of the account
+ * \return last number of reconcile or 0 if the account doesn't exist
+ * */
+gint gsb_account_get_currency ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return 0;
+
+    return account -> currency;
+}
+
+
+/** set the currency in the account given
+ * \param no_account no of the account
+ * \param currency the currency to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_currency ( gint no_account,
+				    gint currency )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> currency = currency;
+
+    return TRUE;
+}
+
+

@@ -824,7 +824,7 @@ void pointe_equilibrage ( int p_ligne )
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     montant = calcule_montant_devise_renvoi ( operation -> montant,
-					      DEVISE,
+					      gsb_account_get_currency (compte_courant),
 					      operation -> devise,
 					      operation -> une_devise_compte_egale_x_devise_ope,
 					      operation -> taux_change,

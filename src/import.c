@@ -1121,7 +1121,7 @@ void cree_liens_virements_ope_import ( void )
 
 	nom_compte_courant = gsb_account_get_name (i);
 	liste_tmp = gsb_account_get_transactions_list (i);
-	currency = DEVISE;
+	currency = gsb_account_get_currency (i);
 
 	while ( liste_tmp )
 	{
@@ -1168,7 +1168,7 @@ void cree_liens_virements_ope_import ( void )
 		    gboolean same_currency = FALSE;
 
 		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_trouve;
-		    if ( currency == DEVISE )
+		    if ( currency == gsb_account_get_currency (compte_trouve) )
 		      same_currency = TRUE;
 
 		    pointeur_tmp = gsb_account_get_transactions_list (compte_trouve);
@@ -1297,8 +1297,9 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 
     /* choix de la devise du compte */
 
-    DEVISE = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( compte_import -> bouton_devise ) -> menu_item ),
-						     "no_devise" ));
+    gsb_account_set_currency ( no_compte,
+			       GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( compte_import -> bouton_devise ) -> menu_item ),
+								       "no_devise" )));
 
     /* met le type de compte si différent de 0 */
 
