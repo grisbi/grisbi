@@ -568,23 +568,28 @@ void export_accounts_to_csv (GSList* export_entries_list )
 	    }
 	    else
 	    {
-	      /* si c'est un virement vers un compte supprimé, ça sera pris comme categ normale vide */
-
-	      if ( operation -> relation_no_operation &&
-		   operation -> relation_no_compte >= 0 )
+	      /* Si c'est un virement ... */
+	      if ( operation -> relation_no_operation )
 	      {
-		/* c'est un virement */
-
-		gpointer **save_ptab;
 		csv_field_categ = g_strdup(_("Transfer"));
 
-		save_ptab = p_tab_nom_de_compte_variable;
+		/* ... vers un compte existant */
+		if ( operation -> relation_no_compte >= 0 )
+		{
+		  gpointer **save_ptab;
 
-		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
+		  save_ptab = p_tab_nom_de_compte_variable;
+		  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
-		csv_field_sous_categ = g_strdup(g_strconcat ( "[", NOM_DU_COMPTE, "]", NULL ));
+		  csv_field_sous_categ = g_strdup(g_strconcat ( "[", NOM_DU_COMPTE, "]", NULL ));
 
-		p_tab_nom_de_compte_variable = save_ptab;
+		  p_tab_nom_de_compte_variable = save_ptab;
+		}
+		/* ... vers un compte supprimé */
+		else
+		{
+		  csv_field_sous_categ = g_strdup(g_strconcat ( "[", _("Deleted account"), "]", NULL ));
+		}
 	      }
 	      else
 	      {
