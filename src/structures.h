@@ -398,12 +398,17 @@ struct struct_categ
     gint type_categ;                   /* 0=crédit ; 1 = débit ; 2 = spécial */
     gint no_derniere_sous_categ;
     GSList *liste_sous_categ;
+    gint nb_transactions;
+    gint nb_direct_transactions;
+    gdouble balance;
 };
 
 struct struct_sous_categ
 {
     gint no_sous_categ;
     gchar *nom_sous_categ;
+    gint nb_transactions;
+    gdouble balance;
 };
 
 
