@@ -110,7 +110,9 @@ GtkWidget *create_transaction_page ( void )
     gtk_container_add ( GTK_CONTAINER ( frame_droite_haut ), fenetre_operations );
     gtk_widget_show ( fenetre_operations ); 
 
-    /* We create the edit form, inside a gtkexpander  */
+    /* We then create the edit form, inside a gtkexpander  */
+
+    /* Expander has a composite label */
     hbox = gtk_hbox_new ( FALSE, 6 );
     label = gtk_label_new ( "" );
     gtk_label_set_markup_with_mnemonic ( GTK_LABEL ( label ), 
@@ -118,8 +120,7 @@ GtkWidget *create_transaction_page ( void )
 						       _("Transaction _form"),
 						       "</span>", NULL ) );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
-
-    label_last_statement = gtk_label_new ( "samer" );
+    label_last_statement = gtk_label_new ( "" );
     gtk_label_set_justify ( GTK_LABEL(label_last_statement), GTK_JUSTIFY_RIGHT ) ;
     gtk_misc_set_alignment (GTK_MISC (label_last_statement), 1, 1);
     gtk_box_pack_start ( GTK_BOX ( hbox ), label_last_statement, TRUE, TRUE, 0 );
@@ -127,13 +128,16 @@ GtkWidget *create_transaction_page ( void )
        as we need. */
     gtk_widget_set_size_request ( hbox, 2048, -1 );
 
+    /* Create the expander */
     frame_droite_bas = gtk_expander_new ( "" );
+    gtk_expander_set_expanded ( GTK_EXPANDER ( frame_droite_bas ), 
+				etat.formulaire_toujours_affiche );
     gtk_expander_set_label_widget ( GTK_EXPANDER(frame_droite_bas), hbox );
     gtk_box_pack_start ( GTK_BOX ( fenetre_operations ), frame_droite_bas, 
 			 FALSE, FALSE, 0 );
     gtk_widget_show_all (frame_droite_bas);
 
-    /* création du formulaire */
+    /* Create form */
     formulaire = creation_formulaire ();
     gtk_container_set_border_width ( GTK_CONTAINER ( formulaire ), 10);
     gtk_container_add ( GTK_CONTAINER ( frame_droite_bas ), formulaire );
