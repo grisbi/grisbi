@@ -59,6 +59,7 @@ sources = 			\
 	import.c		\
 	html.c			\
 	tiers_onglet.c		\
+	tip.c			\
 	traitement_variables.c	\
 	type_operations.c	\
 	ventilation.c		\
@@ -137,6 +138,7 @@ grisbi_INCLUDES =		\
 	qif.h			\
 	import.h		\
 	html.h			\
+	tip.h			\
 	structures.h		\
 	tiers_onglet.h		\
 	traitement_variables.h	\
