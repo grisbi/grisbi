@@ -1244,7 +1244,9 @@ GtkWidget *onglet_devises ( void )
 
 /* ajout du bouton ajouter */
 
-  bouton = gnome_stock_button ( GNOME_STOCK_PIXMAP_ADD );
+  /* FIXME */
+  bouton = gtk_button_new_from_stock (GTK_STOCK_ADD);
+/*   bouton = gnome_stock_button ( GNOME_STOCK_PIXMAP_ADD ); */
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
@@ -1260,7 +1262,9 @@ GtkWidget *onglet_devises ( void )
 
 /* ajout du bouton annuler */
 
-  bouton_supprimer_devise = gnome_stock_button ( GNOME_STOCK_PIXMAP_REMOVE );
+  /* FIXME */
+  bouton_supprimer_devise = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
+/*   bouton_supprimer_devise = gnome_stock_button ( GNOME_STOCK_PIXMAP_REMOVE ); */
   gtk_button_set_relief ( GTK_BUTTON ( bouton_supprimer_devise ),
 			  GTK_RELIEF_NONE );
   gtk_widget_set_sensitive ( bouton_supprimer_devise,

@@ -1,7 +1,6 @@
 /* fichier d'en tête en_tete.h */
  
 
-
 /********************/ 
 /* fichier main.c */
 /********************/ 

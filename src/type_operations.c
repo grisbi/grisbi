@@ -306,7 +306,9 @@ GtkWidget *onglet_types_operations ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  bouton_ajouter_type = gnome_stock_button ( GNOME_STOCK_PIXMAP_ADD );
+  /* FIXME */
+  bouton_ajouter_type = gtk_button_new_from_stock (GTK_STOCK_ADD);
+/*   bouton_ajouter_type = gnome_stock_button ( GNOME_STOCK_PIXMAP_ADD ); */
   gtk_button_set_relief ( GTK_BUTTON ( bouton_ajouter_type ),
 			  GTK_RELIEF_NONE );
   gtk_widget_set_sensitive ( bouton_ajouter_type,
@@ -326,7 +328,9 @@ GtkWidget *onglet_types_operations ( void )
 		       5 );
   gtk_widget_show ( bouton_ajouter_type );
 
-  bouton_retirer_type = gnome_stock_button ( GNOME_STOCK_PIXMAP_REMOVE );
+  /* FIXME */
+  bouton_retirer_type = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
+/*   bouton_retirer_type = gnome_stock_button ( GNOME_STOCK_PIXMAP_REMOVE ); */
   gtk_button_set_relief ( GTK_BUTTON ( bouton_retirer_type ),
 			  GTK_RELIEF_NONE );
   gtk_widget_set_sensitive ( bouton_retirer_type,
@@ -725,7 +729,9 @@ GtkWidget *onglet_types_operations ( void )
 		       0);
   gtk_widget_show ( vbox_fleches_tri );
 
-  bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_UP );
+  /* FIXME */
+  bouton = gtk_button_new_from_stock (GTK_STOCK_GO_UP);
+/*   bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_UP ); */
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
@@ -736,7 +742,9 @@ GtkWidget *onglet_types_operations ( void )
 		      bouton );
   gtk_widget_show ( bouton );
 
-  bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_DOWN );
+  /* FIXME */
+  bouton = gtk_button_new_from_stock (GTK_STOCK_GO_DOWN);
+/*   bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_DOWN ); */
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),

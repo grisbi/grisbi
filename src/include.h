@@ -21,13 +21,7 @@
 #include <gnome-xml/parser.h>
 
 #include <libxml/encoding.h>
-#include <libgnomeprint/gnome-printer.h>
 #include <libgnomeprint/gnome-print.h>
-#include <libgnomeprint/gnome-print-meta.h>
-#include <libgnomeprint/gnome-print-preview.h>
-#include <libgnomeprint/gnome-print-pixbuf.h>
-#include <libgnomeprint/gnome-font.h>
-#include <libgnomeprint/gnome-printer-dialog.h>
-#include <libgnomeprint/gnome-print-master.h>
-#include <libgnomeprint/gnome-print-master-preview.h>
-#include <libgnomeprint/gnome-print-dialog.h>
+
+#define GTK_ENABLE_BROKEN 1
+#include <gtk/gtktext.h>

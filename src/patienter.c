@@ -63,7 +63,7 @@ void mise_en_route_attente ( gchar *message )
       GtkWidget *label;
       GtkWidget *aire_dessin;
 
-      fenetre_patience = gtk_window_new ( GTK_WINDOW_DIALOG );
+      fenetre_patience = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
       gtk_window_set_policy ( GTK_WINDOW ( fenetre_patience ),
 			      FALSE,
 			      FALSE,

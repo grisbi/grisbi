@@ -282,16 +282,17 @@ void lien_web ( GtkWidget *widget,
 {
   switch ( origine )
     {
+    GError *error;
     case 0 :
-      gnome_url_show ( "http://www.grisbi.org" );
+      gnome_url_show ( "http://www.grisbi.org", &error );
       break;
 
     case 1:
-      gnome_url_show ( "http://www.grisbi.org/bugtracking" );
+      gnome_url_show ( "http://www.grisbi.org/bugtracking", &error );
       break;
 
     case 2:
-      gnome_url_show ( "http://www.grisbi.org/modules.php?name=Documentation" );
+      gnome_url_show ( "http://www.grisbi.org/modules.php?name=Documentation", &error);
       break;
     }
 }

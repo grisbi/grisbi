@@ -200,6 +200,7 @@ void sauve_configuration (void)
 
   /*   sauvegarde de la géométrie */
 
+  /* BENJ FIXME 
   if ( GTK_WIDGET ( window) -> window )
     gnome_parse_geometry ( gnome_geometry_string ( GTK_WIDGET ( window) -> window ),
 			   &x,
@@ -211,6 +212,7 @@ void sauve_configuration (void)
       largeur_window = 0;
       hauteur_window = 0;
     }
+    */
 
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Geometry/Width", NULL ),
 			 largeur_window );

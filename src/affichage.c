@@ -199,8 +199,9 @@ GtkWidget *onglet_affichage ( void )
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_container_add ( GTK_CONTAINER ( bouton ),
-		      gnome_stock_pixmap_widget ( bouton,
-						  GNOME_STOCK_PIXMAP_FORWARD ));
+		  bouton = gtk_button_new_from_stock (GTK_STOCK_OK));
+		      //gnome_stock_pixmap_widget ( bouton,
+						  //GNOME_STOCK_PIXMAP_FORWARD ));
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
 		       "clicked",
 		       GTK_SIGNAL_FUNC ( modification_logo_accueil ),
@@ -331,7 +332,10 @@ GtkWidget *onglet_affichage ( void )
 			   FALSE,
 			   0);
 
-      fleche = gnome_stock_button ( GNOME_STOCK_BUTTON_UP );
+      fleche = gtk_button_new_from_stock (GTK_STOCK_GO_UP);
+
+
+//      fleche = gnome_stock_button ( GNOME_STOCK_BUTTON_UP );
       gtk_button_set_relief ( GTK_BUTTON ( fleche ),
 			     GTK_RELIEF_NONE );
       gtk_signal_connect ( GTK_OBJECT ( fleche ),
@@ -341,7 +345,8 @@ GtkWidget *onglet_affichage ( void )
       gtk_container_add ( GTK_CONTAINER ( vbox2 ),
 			  fleche  );
 
-      fleche = gnome_stock_button ( GNOME_STOCK_BUTTON_DOWN );
+      fleche = gtk_button_new_from_stock (GTK_STOCK_GO_DOWN);
+      //fleche = gnome_stock_button ( GNOME_STOCK_BUTTON_DOWN );
       gtk_button_set_relief ( GTK_BUTTON ( fleche ),
 			     GTK_RELIEF_NONE );
       gtk_signal_connect ( GTK_OBJECT ( fleche ),
@@ -728,10 +733,12 @@ void choix_fonte ( GtkWidget *bouton,
 
       /* applique la fonte  */
   
+      /* BENJ FIXME
       style_couleur [0] -> font = font;
       style_couleur [1] -> font = font;
       style_rouge_couleur [0] -> font = font;
       style_rouge_couleur [1] -> font = font;
+      */
 
       /* récupère la hauteur de la fonte */
 
@@ -772,10 +779,12 @@ void choix_fonte_general ( GtkWidget *bouton,
 
   fonte_general = g_strdup ( fonte );
 
+  /*
   style_general = gtk_widget_get_style ( window );
   style_general -> font = gdk_font_load ( fonte );
   style_general = gtk_widget_get_default_style ();
   style_general -> font = gdk_font_load ( fonte );
+  */
 
   if ( nb_comptes )
     {

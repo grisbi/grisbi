@@ -893,7 +893,8 @@ GtkWidget *onglet_banques ( void )
 
 /* ajout du bouton ajouter */
 
-  bouton = gnome_stock_button ( GNOME_STOCK_PIXMAP_ADD );
+  bouton = gtk_button_new_from_stock (GTK_STOCK_ADD);
+  //bouton = gnome_stock_button ( GNOME_STOCK_PIXMAP_ADD );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
 		       "clicked",
 		       GTK_SIGNAL_FUNC  ( ajout_banque ),
@@ -907,7 +908,8 @@ GtkWidget *onglet_banques ( void )
 
 /* ajout du bouton annuler */
 
-  bouton_supprimer_banque = gnome_stock_button ( GNOME_STOCK_PIXMAP_REMOVE );
+  bouton_supprimer_banque = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
+  /*bouton_supprimer_banque = gnome_stock_button ( GNOME_STOCK_PIXMAP_REMOVE );*/
   gtk_widget_set_sensitive ( bouton_supprimer_banque,
 			     FALSE );
   gtk_signal_connect ( GTK_OBJECT ( bouton_supprimer_banque ),
@@ -1461,8 +1463,8 @@ GtkWidget *onglet_banques ( void )
 		       GTK_SIGNAL_FUNC ( modif_detail_banque ),
 		       NULL);
   
-
-  bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL );
+  bouton = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
+  //bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
 		       "clicked",
 		       GTK_SIGNAL_FUNC ( annuler_modif_banque ),
@@ -1474,7 +1476,8 @@ GtkWidget *onglet_banques ( void )
 		       5 );
   gtk_widget_show ( bouton );
 
-  bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_APPLY );
+  bouton = gtk_button_new_from_stock (GTK_STOCK_APPLY);
+  //bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_APPLY );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
 			      "clicked",
 			      GTK_SIGNAL_FUNC ( applique_modif_banque  ),

@@ -609,7 +609,7 @@ static void affiche_proposition ( GtkWidget *entree,
 	  gtk_signal_handler_block_by_func ( GTK_OBJECT ( combofix->entry ),
 					     GTK_SIGNAL_FUNC ( efface_texte ),
 					     combofix );
-	  gtk_editable_delete_text ( GTK_EDITABLE ( combofix->entry ),
+	  gtk_editable_delete_text ( GTK_OLD_EDITABLE ( combofix->entry ),
 				     0,
 				     -1 );
 	  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( combofix->entry ),
@@ -660,13 +660,13 @@ static void affiche_proposition ( GtkWidget *entree,
 					 combofix );
       if ( position )
 	{
-	  gtk_editable_delete_text ( GTK_EDITABLE ( combofix->entry ),
+	  gtk_editable_delete_text ( GTK_OLD_EDITABLE ( combofix->entry ),
 				     *position - longueur,
 				     *position );
 	  (*position) = *position - longueur;
 	}
       else
-	gtk_editable_delete_text ( GTK_EDITABLE ( combofix->entry ),
+	gtk_editable_delete_text ( GTK_OLD_EDITABLE ( combofix->entry ),
 				   0,
 				   -1 );
 
@@ -1499,7 +1499,7 @@ static void met_selection ( GtkWidget *entry,
   if ( GTK_WIDGET_HAS_FOCUS ( combofix->entry ) && rafraichir_selection == 1 )
     {
       gtk_entry_select_region ( GTK_ENTRY ( combofix->entry ),
-				gtk_editable_get_position ( GTK_EDITABLE ( combofix->entry )),
+				gtk_editable_get_position ( GTK_OLD_EDITABLE ( combofix->entry )),
 				-1);
       rafraichir_selection = 0;
     }
@@ -1559,11 +1559,11 @@ static void verifie_efface_texte ( GtkWidget *entree,
 
   /*   la position du curseur a déjà été modifiée, on le remet à sa place */
 
-  if( gtk_editable_get_position ( GTK_EDITABLE ( combofix -> entry ) ) == start )
-    gtk_editable_set_position ( GTK_EDITABLE ( combofix -> entry ),
+  if( gtk_editable_get_position ( GTK_OLD_EDITABLE ( combofix -> entry ) ) == start )
+    gtk_editable_set_position ( GTK_OLD_EDITABLE ( combofix -> entry ),
 				end );
   else
-    gtk_editable_set_position ( GTK_EDITABLE ( combofix -> entry ),
+    gtk_editable_set_position ( GTK_OLD_EDITABLE ( combofix -> entry ),
 				start );
 
 
@@ -1707,12 +1707,12 @@ static void touche_pressee ( GtkWidget *entry,
       /* touche gauche ou droite pressée s'il y a une sélection, vire la sélection et place le curseur à la fin de cette sélection */
     case 65361 :
     case 65363 :
-      if ( ( GTK_EDITABLE ( combofix -> entry ) -> selection_end_pos - GTK_EDITABLE ( combofix -> entry ) -> selection_start_pos ) != 0 )
-	gtk_editable_set_position ( GTK_EDITABLE ( combofix -> entry ),
-				    MAX ( GTK_EDITABLE ( combofix -> entry ) -> selection_start_pos,
-					  GTK_EDITABLE ( combofix -> entry ) -> selection_end_pos ) );
+      if ( ( GTK_OLD_EDITABLE ( combofix -> entry ) -> selection_end_pos - GTK_OLD_EDITABLE ( combofix -> entry ) -> selection_start_pos ) != 0 )
+	gtk_editable_set_position ( GTK_OLD_EDITABLE ( combofix -> entry ),
+				    MAX ( GTK_OLD_EDITABLE ( combofix -> entry ) -> selection_start_pos,
+					  GTK_OLD_EDITABLE ( combofix -> entry ) -> selection_end_pos ) );
 
-      gtk_editable_select_region ( GTK_EDITABLE ( combofix -> entry ),
+      gtk_editable_select_region ( GTK_OLD_EDITABLE ( combofix -> entry ),
 				   0,
 				   0 );
       break;

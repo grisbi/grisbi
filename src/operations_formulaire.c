@@ -629,7 +629,9 @@ GtkWidget *creation_formulaire ( void )
   if ( etat.affiche_boutons_valider_annuler )
     gtk_widget_show ( hbox_valider_annuler_ope );
 
-  bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL );
+  /* FIXME */
+/*   bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL ); */
+  bouton = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
@@ -643,7 +645,9 @@ GtkWidget *creation_formulaire ( void )
 		     0 );
   gtk_widget_show ( bouton );
 
-  bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_OK );
+  /* FIXME */
+/*   bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_OK ); */
+  bouton = gtk_button_new_from_stock (GTK_STOCK_OK);
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),

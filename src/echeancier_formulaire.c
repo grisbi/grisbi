@@ -823,7 +823,9 @@ GtkWidget *creation_formulaire_echeancier ( void )
   if ( etat.affiche_boutons_valider_annuler )
     gtk_widget_show ( hbox_valider_annuler_echeance );
 
-  bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL );
+  /* FIXME */
+  bouton = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
+/*   bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL ); */
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
@@ -837,7 +839,9 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		     0 );
   gtk_widget_show ( bouton );
 
-  bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_OK );
+  /* FIXME */
+  bouton = gtk_button_new_from_stock (GTK_STOCK_OK);
+/*   bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_OK ); */
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),

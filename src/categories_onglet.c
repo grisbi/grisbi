@@ -308,7 +308,9 @@ GtkWidget *onglet_categories ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  bouton_modif_categ_modifier = gnome_stock_button ( GNOME_STOCK_BUTTON_APPLY );
+  /* FIXME */
+  bouton_modif_categ_modifier = gtk_button_new_from_stock (GTK_STOCK_APPLY);
+/*   bouton_modif_categ_modifier = gnome_stock_button ( GNOME_STOCK_BUTTON_APPLY ); */
   gtk_button_set_relief ( GTK_BUTTON ( bouton_modif_categ_modifier ),
 			  GTK_RELIEF_NONE );
   gtk_widget_set_sensitive ( bouton_modif_categ_modifier,
@@ -324,7 +326,9 @@ GtkWidget *onglet_categories ( void )
 		       0 );
   gtk_widget_show ( bouton_modif_categ_modifier );
 
-  bouton_modif_categ_annuler = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL );
+  /* FIXME */
+  bouton_modif_categ_annuler = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
+/*   bouton_modif_categ_annuler = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL ); */
   gtk_button_set_relief ( GTK_BUTTON ( bouton_modif_categ_annuler ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton_modif_categ_annuler ),
@@ -340,7 +344,9 @@ GtkWidget *onglet_categories ( void )
 		       0 );
   gtk_widget_show ( bouton_modif_categ_annuler);
 
-  bouton_supprimer_categ = gnome_stock_button ( GNOME_STOCK_PIXMAP_REMOVE );
+  /* FIXME */
+  bouton_supprimer_categ = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
+/*   bouton_supprimer_categ = gnome_stock_button ( GNOME_STOCK_PIXMAP_REMOVE ); */
   gtk_button_set_relief ( GTK_BUTTON ( bouton_supprimer_categ ),
 			  GTK_RELIEF_NONE );
   gtk_widget_set_sensitive ( bouton_supprimer_categ,

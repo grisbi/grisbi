@@ -183,7 +183,9 @@ void personnalisation_etat (void)
 			   0 );
       gtk_widget_show ( hbox );
 
-      bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL );
+      /* FIXME */
+      bouton = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
+/*       bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL ); */
       gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			      GTK_RELIEF_NONE );
       gtk_signal_connect ( GTK_OBJECT ( bouton ),
@@ -197,7 +199,9 @@ void personnalisation_etat (void)
 			   0 );
       gtk_widget_show ( bouton);
 
-      bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_APPLY );
+  /* FIXME */
+      bouton = gtk_button_new_from_stock (GTK_STOCK_APPLY);
+/*       bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_APPLY ); */
       gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			      GTK_RELIEF_NONE );
       gtk_signal_connect ( GTK_OBJECT ( bouton ),
@@ -5951,7 +5955,9 @@ GtkWidget *page_organisation_donnees ( void )
 		       FALSE,
 		       0);
 
-  fleche = gnome_stock_button ( GNOME_STOCK_BUTTON_UP );
+  /* FIXME */
+  fleche = gtk_button_new_from_stock (GTK_STOCK_GO_UP);
+/*   fleche = gnome_stock_button ( GNOME_STOCK_BUTTON_UP ); */
   gtk_button_set_relief ( GTK_BUTTON ( fleche ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( fleche ),
@@ -5961,7 +5967,9 @@ GtkWidget *page_organisation_donnees ( void )
   gtk_container_add ( GTK_CONTAINER ( vbox ),
 		      fleche  );
 
-  fleche = gnome_stock_button ( GNOME_STOCK_BUTTON_DOWN );
+  /* FIXME */
+  fleche = gtk_button_new_from_stock (GTK_STOCK_GO_DOWN);
+/*   fleche = gnome_stock_button ( GNOME_STOCK_BUTTON_DOWN ); */
   gtk_button_set_relief ( GTK_BUTTON ( fleche ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( fleche ),

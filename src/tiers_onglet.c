@@ -51,7 +51,9 @@ GtkWidget *onglet_tiers ( void )
 
 /* création des pixmaps pour la liste */
 
-  gnome_stock_pixmap_gdk ( GNOME_STOCK_PIXMAP_BOOK_RED,
+  /* FIXME */
+  /* BIG FIXME !!! */
+  /*gnome_stock_pixmap_gdk ( GNOME_STOCK_PIXMAP_BOOK_RED,
 			   "",
 			   &pixmap_ouvre,
 			   &masque_ouvre );
@@ -60,6 +62,7 @@ GtkWidget *onglet_tiers ( void )
 			   "",
 			   &pixmap_ferme,
 			   &masque_ferme );
+			   */
 
 
 
@@ -154,7 +157,9 @@ GtkWidget *onglet_tiers ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  bouton_modif_tiers_modifier = gnome_stock_button ( GNOME_STOCK_BUTTON_APPLY );
+  /* FIXME */
+  bouton_modif_tiers_modifier = gtk_button_new_from_stock (GTK_STOCK_APPLY);
+/*   bouton_modif_tiers_modifier = gnome_stock_button ( GNOME_STOCK_BUTTON_APPLY ); */
   gtk_button_set_relief ( GTK_BUTTON ( bouton_modif_tiers_modifier ),
 			  GTK_RELIEF_NONE );
   gtk_widget_set_sensitive ( bouton_modif_tiers_modifier,
@@ -170,7 +175,9 @@ GtkWidget *onglet_tiers ( void )
 		       0 );
   gtk_widget_show ( bouton_modif_tiers_modifier );
 
-  bouton_modif_tiers_annuler = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL );
+  /* FIXME */
+  bouton_modif_tiers_annuler = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
+/*   bouton_modif_tiers_annuler = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL ); */
   gtk_button_set_relief ( GTK_BUTTON ( bouton_modif_tiers_annuler ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton_modif_tiers_annuler ),
@@ -186,7 +193,9 @@ GtkWidget *onglet_tiers ( void )
 		       0 );
   gtk_widget_show ( bouton_modif_tiers_annuler);
 
-  bouton_supprimer_tiers = gnome_stock_button ( GNOME_STOCK_PIXMAP_REMOVE );
+  /* FIXME */
+  bouton_supprimer_tiers = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
+/*   bouton_supprimer_tiers = gnome_stock_button ( GNOME_STOCK_PIXMAP_REMOVE ); */
   gtk_button_set_relief ( GTK_BUTTON ( bouton_supprimer_tiers ),
 			  GTK_RELIEF_NONE );
   gtk_widget_set_sensitive ( bouton_supprimer_tiers,
@@ -433,10 +442,13 @@ void remplit_arbre_tiers ( void )
 				      NULL,
 				      text,
 				      10,
+				      NULL,NULL,NULL,NULL,
+				      /* FIXME
 				      pixmap_ouvre,
 				      masque_ouvre,
 				      pixmap_ferme,
 				      masque_ferme,
+				      */
 				      FALSE,
 				      FALSE );
 
@@ -976,16 +988,22 @@ void clique_sur_modifier_tiers ( GtkWidget *bouton_modifier,
 					 0,
 					 tiers -> nom_tiers,
 					 10,
+					 NULL, NULL );
+	  /* BENJ FIXME
 					 pixmap_ferme,
 					 masque_ferme );
+					 */
 	  else
 	    gtk_ctree_node_set_pixtext ( GTK_CTREE ( arbre_tiers ),
 					 node,
 					 0,
 					 tiers -> nom_tiers,
 					 10,
+					 NULL, NULL );
+	  /* BENJ FIXME
 					 pixmap_ouvre,
 					 masque_ouvre );
+					 */
 
       demande_mise_a_jour_tous_comptes ();
       remplissage_liste_echeance();
@@ -1679,10 +1697,13 @@ void appui_sur_ajout_tiers ( void )
 				  NULL,
 				  text,
 				  10,
+				  NULL,NULL,NULL,NULL,
+				  /*
 				  pixmap_ouvre,
 				  masque_ouvre,
 				  pixmap_ferme,
 				  masque_ferme,
+				  */
 				  FALSE,
 				  FALSE );
 

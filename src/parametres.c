@@ -733,7 +733,7 @@ GtkWidget *onglet_fichier ( void )
 	gtk_widget_set_sensitive ( GTK_WIDGET ( entree_chemin_backup ),
 				   FALSE );
       
-      gtk_signal_connect_object ( GTK_OBJECT ( GTK_COMBO ( GNOME_FILE_ENTRY ( entree_chemin_backup) -> gentry ) -> entry ),
+      gtk_signal_connect_object ( GTK_OBJECT ( GTK_COMBO ( gnome_file_entry_gtk_entry ( entree_chemin_backup) ) -> entry ),
 				  "changed",
 				  gnome_property_box_changed,
 				  GTK_OBJECT (fenetre_preferences));
@@ -1147,7 +1147,9 @@ GtkWidget *onglet_applet ( void )
 		       0);
   gtk_widget_show ( vbox_fleches );
 
-  fleche = gnome_stock_button ( GNOME_STOCK_PIXMAP_ADD );
+  /* FIXME */
+  fleche = gtk_button_new_from_stock (GTK_STOCK_ADD);
+/*   fleche = gnome_stock_button ( GNOME_STOCK_PIXMAP_ADD ); */
   gtk_button_set_relief ( GTK_BUTTON ( fleche ),
 			 GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( fleche ),
@@ -1161,7 +1163,9 @@ GtkWidget *onglet_applet ( void )
 		       5 );
   gtk_widget_show ( fleche );
 
-  bouton_enlever = gnome_stock_button ( GNOME_STOCK_PIXMAP_REMOVE );
+  /* FIXME */
+  bouton_enlever = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
+/*   bouton_enlever = gnome_stock_button ( GNOME_STOCK_PIXMAP_REMOVE ); */
   gtk_button_set_relief ( GTK_BUTTON ( bouton_enlever ),
 			 GTK_RELIEF_NONE );
   gtk_widget_set_sensitive ( GTK_WIDGET ( bouton_enlever ),
@@ -1600,13 +1604,14 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 	       ( nom_fichier_backup && !gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_demande_backup ) ))
 	       ||
 	       ( nom_fichier_backup && strcmp ( nom_fichier_backup,
-						g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( GTK_COMBO ( GNOME_FILE_ENTRY (entree_chemin_backup) -> gentry) -> entry  ) )))))
+						g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( GTK_COMBO ( gnome_file_entry_gtk_entry (entree_chemin_backup) ) -> entry  ) )))))
 	    modification_fichier ( TRUE );
 
 	  if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_demande_backup ) )
 	       &&
-	       strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( GTK_COMBO ( GNOME_FILE_ENTRY (entree_chemin_backup) -> gentry) -> entry  ) ) )))
-	    nom_fichier_backup = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( GTK_COMBO ( GNOME_FILE_ENTRY (entree_chemin_backup) -> gentry) -> entry  ) ) ));
+	       strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( GTK_COMBO ( gnome_file_entry_gtk_entry (entree_chemin_backup)) -> entry  ) ) )))
+/*** BENJ FIXME : heu .... c'est vraiment ça ? ***/
+	    nom_fichier_backup = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( GTK_COMBO (  gnome_file_entry_gtk_entry(entree_chemin_backup) ) -> entry  ) ) ));
 	  else
 	    nom_fichier_backup = NULL;
 	}

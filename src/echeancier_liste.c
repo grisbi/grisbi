@@ -387,8 +387,9 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
 		      hbox2 );
   gtk_widget_show ( hbox2 );
 
-
-  icone = gnome_stock_new_with_icon ( GNOME_STOCK_PIXMAP_REFRESH );
+  /* FIXME */
+/*   icone = gnome_stock_new_with_icon ( GNOME_STOCK_PIXMAP_REFRESH ); */
+  icone = gtk_image_new_from_stock (GTK_STOCK_PRINT, GTK_ICON_SIZE_BUTTON);  
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       icone,
 		       FALSE,

@@ -272,8 +272,9 @@ GtkWidget *comptes_appel ( gint no_de_compte )
 
   /* création de l'icone fermée */
 
-  icone = gnome_stock_pixmap_widget ( GTK_WIDGET ( bouton ),
-				      GNOME_STOCK_PIXMAP_BOOK_BLUE);
+/*   icone = gnome_stock_pixmap_widget ( GTK_WIDGET ( bouton ), */
+/* 				      GNOME_STOCK_BUTTON_NO); /\* FIXME *\/ */
+  icone = gtk_image_new_from_stock (GTK_STOCK_SAVE, GTK_ICON_SIZE_BUTTON);
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       icone,
 		       FALSE,
@@ -284,9 +285,11 @@ GtkWidget *comptes_appel ( gint no_de_compte )
 
   /* création de l'icone ouverte */
 
-  icone = gnome_stock_pixmap_widget ( GTK_WIDGET ( bouton ),
-				      GNOME_STOCK_PIXMAP_BOOK_OPEN);
+/*   icone = gnome_stock_pixmap_widget ( GTK_WIDGET ( bouton ), */
+/* 				      GNOME_STOCK_BUTTON_YES); /\* FIXME *\/ */
+  icone = gtk_image_new_from_stock (GTK_STOCK_PRINT, GTK_ICON_SIZE_BUTTON);  
   gtk_box_pack_start ( GTK_BOX ( hbox ),
+
 		       icone,
 		       FALSE,
 		       FALSE,

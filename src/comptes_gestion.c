@@ -1062,7 +1062,9 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox_boutons_modif );
 
-  bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL );
+  /* FIXME */
+  bouton = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
+/*   bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL ); */
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
 		       "clicked",
 		       GTK_SIGNAL_FUNC ( remplissage_details_compte ),
@@ -1074,7 +1076,9 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-  bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_APPLY );
+  /* FIXME */
+  bouton = gtk_button_new_from_stock (GTK_STOCK_APPLY);
+/*   bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_APPLY ); */
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
 		       "clicked",
 		       GTK_SIGNAL_FUNC ( modification_details_compte ),
