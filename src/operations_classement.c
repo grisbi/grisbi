@@ -225,17 +225,27 @@ gint classement_liste_par_tri_courant ( GtkWidget *liste,
 gint classement_sliste ( struct structure_operation *operation_1,
 			 struct structure_operation *operation_2 )
 {
-  
+  gpointer **save_ptab;
+  gint result;
+
+  save_ptab = p_tab_nom_de_compte_variable;
+
   /* pour l'instant, soit on est en train d'équilibrer et c'est par tri courant, */
+  /* uniquement si p_tab... est sur le compte courant */
   /* sinon c'est par date (qui utilise la date de valeur si nécessaire) */
 
-  if ( etat.equilibrage )
-    return ( classement_sliste_par_tri_courant ( operation_1,
-						 operation_2 ));
+  if ( etat.equilibrage
+       &&
+       (p_tab_nom_de_compte_variable - p_tab_nom_de_compte ) == compte_courant )
+    result = classement_sliste_par_tri_courant ( operation_1,
+						 operation_2 );
   else
-    return ( classement_sliste_par_date ( operation_1,
-					  operation_2 ));
+    result = classement_sliste_par_date ( operation_1,
+					  operation_2 );
 
+  p_tab_nom_de_compte_variable = save_ptab;
+
+  return ( result );
 }
 /* ********************************************************************************************************** */
 

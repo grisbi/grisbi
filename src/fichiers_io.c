@@ -2329,7 +2329,7 @@ des paramètres.") );
 		    if ( !strcmp ( node_nom_comptes -> name,
 				   "Detail_des_operations" ))
 		      {
-		      xmlNodePtr node_ope;
+			xmlNodePtr node_ope;
 
 		      node_ope = node_nom_comptes -> childs;
 		      LISTE_OPERATIONS = NULL;
@@ -2341,7 +2341,7 @@ des paramètres.") );
 			  gchar *pointeur;
 
 			  operation = calloc ( 1,
-						     sizeof (struct structure_operation ));
+					       sizeof (struct structure_operation ));
 
 			  operation -> no_operation = atoi ( xmlGetProp ( node_ope,
 							      "No" ));

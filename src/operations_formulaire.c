@@ -3438,6 +3438,10 @@ void validation_virement_operation ( struct structure_operation *operation,
   struct struct_devise *devise;
   struct struct_devise *devise_compte_2;
   struct structure_operation *contre_operation;
+  gpointer **save_ptab;
+
+
+  save_ptab = p_tab_nom_de_compte_variable;
 
   /* on n'a plus besoin de faire de tests, ceux ci ont été fait dans verification_validation_operation */
 
@@ -3500,7 +3504,9 @@ void validation_virement_operation ( struct structure_operation *operation,
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_virement;
 
-  if ( modification && operation -> relation_no_operation )
+  if ( modification
+       &&
+       operation -> relation_no_operation )
     contre_operation = g_slist_find_custom ( LISTE_OPERATIONS,
 					     GINT_TO_POINTER ( operation -> relation_no_operation ),
 					     ( GCompareFunc ) recherche_operation_par_no ) -> data;
@@ -3608,6 +3614,8 @@ void validation_virement_operation ( struct structure_operation *operation,
   operation -> relation_no_compte = contre_operation -> no_compte;
   contre_operation -> relation_no_operation = operation -> no_operation;
   contre_operation -> relation_no_compte = operation -> no_compte;
+
+  p_tab_nom_de_compte_variable = save_ptab;
 
 }
 /***********************************************************************************************************/

@@ -606,6 +606,7 @@ void equilibrage ( void )
   change_aspect_liste ( NULL,
 			3 );
 
+
   /* classe la liste des opés en fonction des types ou non */
 
   if ( TRI
@@ -613,10 +614,6 @@ void equilibrage ( void )
        LISTE_TRI )
     LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
 				      (GCompareFunc) classement_sliste );
-
-
-/*     gtk_clist_set_compare_func ( GTK_CLIST ( CLIST_OPERATIONS ), */
-/* 				 (GtkCListCompareFunc) classement_liste_par_tri_courant ); */
 
 
   remplissage_liste_operations ( compte_courant );
@@ -800,6 +797,7 @@ void annuler_equilibrage ( GtkWidget *bouton_ann,
 
   LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
 				    (GCompareFunc) classement_sliste );
+
 
 /*   gtk_clist_set_compare_func ( GTK_CLIST ( CLIST_OPERATIONS ), */
 /* 			       (GtkCListCompareFunc) classement_liste_par_date ); */
