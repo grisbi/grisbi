@@ -2359,6 +2359,8 @@ fflush(0);
 
 		  if ( operation_tmp -> type_ope == type -> no_type
 		       &&
+		       operation_tmp -> contenu_type
+		       &&
 		       !strcmp ( operation_tmp -> contenu_type,
 				 no_cheque ))
 		    {
