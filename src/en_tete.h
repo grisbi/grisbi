@@ -804,7 +804,6 @@ void deselection_ligne_exercice ( GtkWidget *liste,
 				  gint colonne,
 				  GdkEventButton *ev,
 				  GtkWidget *frame );
-void modif_detail_exercice ( void );
 void applique_modif_exercice ( GtkWidget *liste );
 void annuler_modif_exercice ( GtkWidget *bouton,
 			      GtkWidget *liste );
