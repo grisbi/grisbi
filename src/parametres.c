@@ -2228,10 +2228,12 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
 /**
  * Create a GtkCheckButton with a callback associated.  Initial value
  * of this checkbox is set to the value of *data.  This checkbox calls
- * set_boolean upon toggle, which in turn modifies *data.
+ * set_boolean upon toggle, which in turn modifies *data.  If a hook
+ * is possibly executed as well.
  *
  * \param label The label for this checkbutton
  * \param data A pointer to a boolean integer
+ * \param hook A GCallBack to execute if not null
  */
 GtkWidget *
 new_checkbox_with_title ( gchar * label,
@@ -2241,22 +2243,22 @@ new_checkbox_with_title ( gchar * label,
   GtkWidget * checkbox;
 
   checkbox = gtk_check_button_new_with_label ( label );
-  
   checkbox_set_value ( checkbox, data, TRUE );
 
+  gtk_object_set_data ( GTK_OBJECT ( checkbox ), "set-boolean", 
+			g_signal_connect ( GTK_OBJECT (checkbox), "toggled",
+					   GTK_SIGNAL_FUNC (set_boolean), data ));
+ 
   if (hook)
     {
       gtk_object_set_data ( GTK_OBJECT ( checkbox ), "hook", 
-			    g_signal_connect ( GTK_OBJECT ( checkbox ), "toggled",
-					       GTK_SIGNAL_FUNC ( hook ), data ));
+			    g_signal_connect ( GTK_OBJECT (checkbox), "toggled",
+					       GTK_SIGNAL_FUNC (hook), data ));
     }
 
-  gtk_object_set_data ( GTK_OBJECT ( checkbox ), "set-boolean", 
-			g_signal_connect ( GTK_OBJECT ( checkbox ), "toggled",
-					   GTK_SIGNAL_FUNC ( set_boolean ), data ));
- 
   return checkbox;
 }
+
 
 /**
  * FIXME: document!

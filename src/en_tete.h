@@ -759,6 +759,10 @@ gint animation_patienter ();
 /***********************************/ 
 
 GtkWidget *onglet_types_operations ( void );
+gboolean select_payment_method (GtkTreeSelection *selection,
+				GtkTreeModel *model);
+gboolean deselect_payment_method (GtkTreeSelection *selection,
+				  GtkTreeModel *model);
 void selection_ligne_arbre_types ( GtkWidget *arbre,
 				   GtkCTreeNode *node,
 				   gint col,

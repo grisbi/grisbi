@@ -43,13 +43,13 @@ gboolean
 update_transaction_form ( GtkWidget * checkbox,
 			  gpointer data )
 {
-  if ( nb_comptes )
+  if ( nb_comptes && gtk_widget_get_style ( widget_formulaire_operations[1] ) == 
+       style_entree_formulaire[0] )
     {
       if ( etat.affiche_no_operation )
 	gtk_widget_show ( widget_formulaire_operations[0] );
       else
 	gtk_widget_hide ( widget_formulaire_operations[0] );
-
 
       gtk_widget_set_sensitive ( widget_formulaire_operations[7],
 				 etat.affiche_date_bancaire );

@@ -31,22 +31,54 @@ void checkbox_set_value (GtkWidget *, guint *, gboolean);
 
 GtkWidget *paddingbox_details;	/** Widget handling financial year details */
 
-gboolean
-update_financial_year_list ( GtkEntry *entry, gchar *value, 
-			     gint length, gint * position )
+
+/** 
+ * Update financial year name in list.  Normally called as a signal
+ * handler.
+ *
+ * \param entry Widget that triggered signal
+ * \param value Handler parameter, not used
+ * \param length Handler parameter, not used
+ * \param position Handler parameter, not used
+ */
+gboolean update_financial_year_list ( GtkEntry *entry, gchar *value, 
+				      gint length, gint * position )
 {
   struct struct_exercice *exercice;
 
   exercice = gtk_clist_get_row_data ( GTK_CLIST ( clist_exercices_parametres ),
 				      ligne_selection_exercice );
-  
   exercice -> nom_exercice = gtk_entry_get_text ( GTK_ENTRY (nom_exercice) );
   gtk_clist_set_text ( clist_exercices_parametres, ligne_selection_exercice,
 		       0, gtk_entry_get_text ( GTK_ENTRY(nom_exercice)) );
 
+  /* FIXME: perhaps this should not be hooked there */
+  update_financial_year_menus ();
+
   return FALSE;
 }
 
+
+
+/**
+ * Rebuild financial years menus in various forms
+ */
+gboolean update_financial_year_menus ()
+{
+  gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_operations[11] ) -> menu );
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[11] ),
+			     creation_menu_exercices (0) );
+
+  gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_ventilation[5] ) -> menu );
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation[5] ),
+			     creation_menu_exercices (0) );
+
+  gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_echeancier[9] ) -> menu );
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[9] ),
+			     creation_menu_exercices (1) );
+
+  return FALSE;
+}
 
 /**
  * Creates the "Financial years" tab.  It creates a financial years
@@ -138,6 +170,7 @@ GtkWidget *onglet_exercices ( void )
 /*       /\* remplissage de la liste avec les exercices temporaires *\/ */
 
       liste_tmp = liste_struct_exercices;
+      nb_exercices++;
 
       while ( liste_tmp )
 	{
@@ -253,7 +286,8 @@ GtkWidget *onglet_exercices ( void )
 
   /* Activate in transaction form? */
   affichage_exercice = new_checkbox_with_title (_("Activate in transaction form"),
-						NULL, NULL);
+						NULL, 
+						G_CALLBACK(update_financial_year_menus));
   gtk_box_pack_start ( GTK_BOX ( paddingbox_details ), affichage_exercice,
 		       FALSE, FALSE, 0 );
 
@@ -275,56 +309,40 @@ GtkWidget *onglet_exercices ( void )
 /* ***************************************************************************************************** */
 
 void ajout_exercice ( GtkWidget *bouton,
-		    GtkWidget *clist )
+		      GtkWidget *clist )
 {
   struct struct_exercice *exercice;
   gchar *ligne[1];
   gint ligne_insert;
 
-/* enlève la sélection de la liste ( ce qui nettoie les entrées ) */
-
+  /* Enlève la sélection de la liste ( ce qui nettoie les entrées ) */
   gtk_clist_unselect_all ( GTK_CLIST ( clist ));
 
-
-/* crée une nouvelle exercice au nom de "nouvel exercice" en mettant tous les paramètres à 0 et le no à -1 */
-
+  /* crée un nouvelle exercice au nom de "nouvel exercice" en mettant
+     tous les paramètres à 0 et le no à -1 */
   exercice = calloc ( 1, sizeof ( struct struct_exercice ));
-
   exercice -> no_exercice = -1;
   exercice -> nom_exercice = g_strdup ( _("New financial year") );
-
   liste_struct_exercices = g_slist_append ( liste_struct_exercices,
 					    exercice );
-
   ligne[0] = exercice -> nom_exercice;
 
-  ligne_insert = gtk_clist_append ( GTK_CLIST ( clist ),
-				    ligne );
+  ligne_insert = gtk_clist_append ( GTK_CLIST ( clist ), ligne );
 
   /* on associe à la ligne la struct de la exercice */
-
-  gtk_clist_set_row_data ( GTK_CLIST ( clist ),
-			   ligne_insert,
-			   exercice );
+  gtk_clist_set_row_data ( GTK_CLIST ( clist ), ligne_insert, exercice );
 
   /* on sélectionne le nouveau venu */
+  gtk_clist_select_row ( GTK_CLIST ( clist ), ligne_insert, 0 );
 
-  gtk_clist_select_row ( GTK_CLIST ( clist ),
-			 ligne_insert,
-			 0 );
-
-/* on sélectionne le "nouvel exercice" et lui donne le focus */
-
-  gtk_widget_set_sensitive ( hbox_boutons_modif_exercice,
-			     TRUE );
-  gtk_entry_select_region ( GTK_ENTRY ( nom_exercice ),
-			    0,
-			    -1 );
+  /* on sélectionne le "nouvel exercice" et lui donne le focus */
+  gtk_widget_set_sensitive ( hbox_boutons_modif_exercice, TRUE );
+  gtk_entry_select_region ( GTK_ENTRY ( nom_exercice ), 0, -1 );
   gtk_widget_grab_focus ( nom_exercice );
 
-
+  /* Update various menus */
+  update_financial_year_menus ();
 }
-/* ***************************************************************************************************** */
 
 
 /* **************************************************************************************************************************** */
@@ -374,6 +392,8 @@ void supprime_exercice ( GtkWidget *bouton,
       gnome_property_box_changed ( GNOME_PROPERTY_BOX ( fenetre_preferences));
     }
 
+  /* Update various menus */
+  update_financial_year_menus ();
 }
 /* **************************************************************************************************************************** */
 
@@ -400,13 +420,13 @@ void selection_ligne_exercice ( GtkWidget *liste,
   exercice = gtk_clist_get_row_data ( GTK_CLIST ( liste ), ligne );
 
   /* Block all hooks */
-  g_signal_handler_block ( nom_exercice,
+  g_signal_handler_block ( GTK_OBJECT(nom_exercice),
 			   gtk_object_get_data ( nom_exercice, "insert-hook" ));
-  g_signal_handler_block ( nom_exercice,
+  g_signal_handler_block ( GTK_OBJECT(nom_exercice),
 			   gtk_object_get_data ( nom_exercice, "insert-text" ));
-  g_signal_handler_block ( nom_exercice,
+  g_signal_handler_block ( GTK_OBJECT(nom_exercice),
 			   gtk_object_get_data ( nom_exercice, "delete-hook" ));
-  g_signal_handler_block ( nom_exercice,
+  g_signal_handler_block ( GTK_OBJECT(nom_exercice),
 			   gtk_object_get_data ( nom_exercice, "delete-text" ));
   
   /* Fill in all fields */
@@ -467,65 +487,20 @@ void deselection_ligne_exercice ( GtkWidget *liste,
 {
   struct struct_exercice *exercice;
 
-/*   if ( GTK_WIDGET_SENSITIVE ( hbox_boutons_modif_exercice ) ) */
-/*     { */
-/*       GtkWidget *dialogue; */
-/*       GtkWidget *label; */
-/*       gint resultat; */
-
-/*       exercice = gtk_clist_get_row_data ( GTK_CLIST ( liste ), */
-/* 					ligne ); */
-
-/*       dialogue = gnome_dialog_new ( _("Confirmation of changes"), */
-/* 				    GNOME_STOCK_BUTTON_YES, */
-/* 				    GNOME_STOCK_BUTTON_NO, */
-/* 				    NULL ); */
-/*       gtk_window_set_transient_for ( GTK_WINDOW ( dialogue ), */
-/* 				     GTK_WINDOW ( fenetre_preferences )); */
-
-/*       label = gtk_label_new ( g_strdup_printf ( _("The financial year %s had been modified.\n\nDo you want to save the changes?"), */
-/* 						exercice -> nom_exercice ) ); */
-/*       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue ) -> vbox ), */
-/* 			   label, */
-/* 			   FALSE, */
-/* 			   FALSE, */
-/* 			   0 ); */
-/*       gtk_widget_show ( label ); */
-
-/*       resultat = gnome_dialog_run_and_close ( GNOME_DIALOG ( dialogue )); */
-
-      /*       si on veut les enregistrer , ok */
-      /* si on ne veut pas et que c'est un nouvel exercice -> on l'efface */
-
-/*       if ( !resultat ) */
-/* 	applique_modif_exercice ( liste ); */
-/*       else */
-/* 	{ */
-/* 	  if ( exercice -> no_exercice == -1 ) */
-/* 	    { */
-/* 	      gtk_clist_remove ( GTK_CLIST ( liste ), */
-/* 				 ligne ); */
-/* 	      liste_struct_exercices_tmp = g_slist_remove ( liste_struct_exercices_tmp, */
-/* 							    exercice ); */
-/* 	      free ( exercice ); */
-/* 	    } */
-/* 	} */
-/*     } */
-
   /* Blank all entries */
 
   /* FIXME: put this stuff in dedicated functions */
-  g_signal_handler_block ( nom_exercice,
+  g_signal_handler_block ( GTK_OBJECT(nom_exercice),
 			   gtk_object_get_data ( nom_exercice, "insert-hook" ));
-  g_signal_handler_block ( nom_exercice,
+  g_signal_handler_block ( GTK_OBJECT(nom_exercice),
 			   gtk_object_get_data ( nom_exercice, "insert-text" ));
-  g_signal_handler_block ( nom_exercice,
+  g_signal_handler_block ( GTK_OBJECT(nom_exercice),
 			   gtk_object_get_data ( nom_exercice, "delete-hook" ));
-  g_signal_handler_block ( nom_exercice,
+  g_signal_handler_block ( GTK_OBJECT(nom_exercice),
 			   gtk_object_get_data ( nom_exercice, "delete-text" ));
-  g_signal_handler_block ( affichage_exercice,
+  g_signal_handler_block ( GTK_OBJECT(affichage_exercice),
 			   gtk_object_get_data ( affichage_exercice, "hook" ));
-  g_signal_handler_block ( affichage_exercice,
+  g_signal_handler_block ( GTK_OBJECT(affichage_exercice),
 			   gtk_object_get_data ( affichage_exercice, "set-boolean" ));
 
   gtk_entry_set_text ( GTK_ENTRY ( nom_exercice ), "" );
