@@ -560,8 +560,7 @@ gboolean enregistrement_fichier ( gint origine )
       
 
       if ( nom_fichier_backup )
-	if ( !enregistrement_backup() )
-	  return ( FALSE );
+	enregistrement_backup();
 
       if ( patience_en_cours )
 	update_attente ( _("Save file") );
@@ -610,8 +609,7 @@ gboolean enregistrement_fichier ( gint origine )
 	case 0 :
 
 	  if ( nom_fichier_backup )
-	    if ( !enregistrement_backup() )
-	      return ( FALSE );
+	    enregistrement_backup();
 
 	  if ( patience_en_cours )
 	    update_attente ( _("Save file") );
