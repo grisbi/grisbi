@@ -567,6 +567,9 @@ void equilibrage ( void )
 					     g_date_year ( date ) ));
       g_date_add_months ( date, 1 );
 
+      if ( g_date_compare ( date, gdate_today()) > 0 )
+	 date = gdate_today();
+
       gtk_entry_set_text ( GTK_ENTRY ( entree_ancien_solde_equilibrage ),
 			   g_strdup_printf ("%4.2f", SOLDE_DERNIER_RELEVE ));
       gtk_widget_set_sensitive ( GTK_WIDGET ( entree_ancien_solde_equilibrage ),
@@ -574,15 +577,10 @@ void equilibrage ( void )
     }
   else
     {
-      time_t today;
-
       gtk_label_set_text ( GTK_LABEL ( label_ancienne_date_equilibrage ),
 			   _("None") );
 
-      time ( &today );
-      date = g_date_new_dmy ( gmtime ( &today ) -> tm_mday,
-			      gmtime ( &today ) -> tm_mon + 1,
-			      gmtime ( &today ) -> tm_year + 1900 );
+      date = gdate_today();
 
       gtk_entry_set_text ( GTK_ENTRY ( entree_ancien_solde_equilibrage ),
 			   g_strdup_printf ("%4.2f", SOLDE_INIT ));
