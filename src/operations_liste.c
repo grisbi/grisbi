@@ -2,22 +2,22 @@
 /*  fichier qui gère la liste des opérations                                  */
 /* 			liste_operations.c                                    */
 /*                                                                            */
-/*     copyright (c)	2000-2003 cédric auger (cedric@grisbi.org)	      */
-/*			2004      benjamin drieu (bdrieu@april.org) 	      */
-/*			2003-2004 alain portal (aportal@univ-montp2.fr)	      */
+/*     copyright (c)	2000-2005 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004-2005 Benjamin Drieu (bdrieu@april.org) 	      */
+/*			2003-2004 Alain Portal (aportal@univ-montp2.fr)	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
-/*  this program is free software; you can redistribute it and/or modify      */
+/*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the gnu general public license as published by      */
 /*  the free software foundation; either version 2 of the license, or         */
 /*  (at your option) any later version.                                       */
 /*                                                                            */
-/*  this program is distributed in the hope that it will be useful,           */
+/*  This program is distributed in the hope that it will be useful,           */
 /*  but without any warranty; without even the implied warranty of            */
 /*  merchantability or fitness for a particular purpose.  see the             */
 /*  gnu general public license for more details.                              */
 /*                                                                            */
-/*  you should have received a copy of the gnu general public license         */
+/*  You should have received a copy of the gnu general public license         */
 /*  along with this program; if not, write to the free software               */
 /*  foundation, inc., 59 temple place, suite 330, boston, ma  02111-1307  usa */
 /*                                                                            */
@@ -28,8 +28,7 @@
 #include "operations_formulaire_constants.h"
 #include "utils_c.h"
 
-#include "./xpm/image_fleche_droite.xpm"
-#include "./xpm/image_fleche_bas.xpm"
+#include "gtk_cell_renderer_expander.h"
 
 
 /*START_INCLUDE*/
@@ -671,7 +670,7 @@ void creation_colonnes_tree_view_par_compte ( gint no_account )
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *cell_renderer;
 
-	/* 	if it's the column 0, we put a pixbuf, else it's a text column */
+	/* 	if it's the column 0, we put an expander, else it's a text column */
 
 	if ( i )
 	{
@@ -686,14 +685,13 @@ void creation_colonnes_tree_view_par_compte ( gint no_account )
 	}
 	else
 	{
-	    cell_renderer = gtk_cell_renderer_pixbuf_new ();
+	    cell_renderer = gtk_cell_renderer_expander_new ();
 
 	    column = gtk_tree_view_column_new_with_attributes ( titres_colonnes_liste_operations[i],
 								cell_renderer,
-								"pixbuf-expander-closed", TRANSACTION_COL_NB_PIXBUF_CLOSED,
-								"pixbuf-expander-open", TRANSACTION_COL_NB_PIXBUF_OPEN,
 								"is-expanded", TRANSACTION_COL_NB_IS_EXPANDED,
 								"is-expander", TRANSACTION_COL_NB_IS_EXPANDER,
+								"visible", TRANSACTION_COL_NB_IS_EXPANDER,
 								"cell-background-gdk", TRANSACTION_COL_NB_BACKGROUND,
 								NULL );
 	}
@@ -1041,7 +1039,7 @@ gboolean gsb_transactions_list_fill_row ( struct structure_operation *transactio
 	    else
 	    {
 		/* it's the first column, if it's not a breakdown, we put nothing
-		 * else, we put a pixbuf */
+		 * else, we put an expander */
 
 		if ( transaction -> operation_ventilee
 		     &&
@@ -1049,10 +1047,8 @@ gboolean gsb_transactions_list_fill_row ( struct structure_operation *transactio
 		{
 		    gtk_list_store_set ( store,
 					 iter,
-					 i, TRUE,
+					 TRANSACTION_COL_NB_IS_EXPANDER, TRUE,
 					 TRANSACTION_COL_NB_IS_EXPANDED, FALSE,
-					 TRANSACTION_COL_NB_PIXBUF_CLOSED, gdk_pixbuf_new_from_xpm_data ((const gchar **) image_fleche_droite_xpm),
-					 TRANSACTION_COL_NB_PIXBUF_OPEN, gdk_pixbuf_new_from_xpm_data ((const gchar **) image_fleche_bas_xpm),
 					 -1 );
 
 
