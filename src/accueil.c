@@ -1127,7 +1127,7 @@ void mise_a_jour_soldes_minimaux ( void )
 
 	    if ( !MESSAGE_SOUS_MINI && !patience_en_cours )
 	    {
-		if ( solde_courant < solde_mini_voulu )
+		if ( (int) solde_courant < (int) solde_mini_voulu )
 		{
 		    dialogue_conditional ( g_strdup_printf (_("Balance of account %s is under wanted and authorised minima!"), 
 							    NOM_DU_COMPTE ), &(etat.display_message_minimum_alert));
@@ -1144,8 +1144,8 @@ void mise_a_jour_soldes_minimaux ( void )
 	    show_paddingbox ( frame_etat_soldes_minimaux_autorises );
 	}
 
-	if ( solde_courant < solde_mini_voulu && TYPE_DE_COMPTE != 2 &&
-	     solde_courant > solde_mini && TYPE_DE_COMPTE != 2)
+	if ( (int) solde_courant < (int) solde_mini_voulu && TYPE_DE_COMPTE != 2 &&
+	     (int) solde_courant > (int) solde_mini && TYPE_DE_COMPTE != 2)
 	{
 	    if ( !vbox_2 )
 	    {
@@ -1161,7 +1161,7 @@ void mise_a_jour_soldes_minimaux ( void )
 
 	    if ( !MESSAGE_SOUS_MINI_VOULU && !patience_en_cours )
 	    {
-		if ( solde_courant < solde_mini )
+		if ( (int) solde_courant < (int) solde_mini )
 		{
 		    dialogue_conditional ( g_strdup_printf ( _("Balance of account %s is under wanted and authorised minima!"),
 							     NOM_DU_COMPTE), &(etat.display_message_minimum_alert) );
@@ -1178,9 +1178,9 @@ void mise_a_jour_soldes_minimaux ( void )
 	    show_paddingbox ( frame_etat_soldes_minimaux_voulus );
 	}
 
-	if ( solde_courant > solde_mini )
+	if ( (int) solde_courant > (int) solde_mini )
 	    MESSAGE_SOUS_MINI = 0;
-	if ( solde_courant > solde_mini_voulu )
+	if ( (int) solde_courant > (int) solde_mini_voulu )
 	    MESSAGE_SOUS_MINI_VOULU = 0;
 
 	p_tab_nom_de_compte_variable++;
