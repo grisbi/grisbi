@@ -2204,8 +2204,8 @@ paddingbox_new_with_title (GtkWidget * parent, gchar * title)
   GtkWidget * hbox, *paddingbox, *label;
 
   label = gtk_label_new ( "" );
-  gtk_misc_set_alignment ( label, 0, 1 );
-  gtk_label_set_markup ( label, 
+  gtk_misc_set_alignment ( GTK_LABEL ( label ), 0, 1 );
+  gtk_label_set_markup ( GTK_LABEL ( label ), 
 			 g_strconcat ("<span weight=\"bold\">",
 				      title,
 				      "</span>",

@@ -380,10 +380,11 @@ void creation_listes_operations ( void )
 
   /* met la fonte appropriée */
 
-  if ( fonte_liste )
-    choix_fonte ( NULL,
-		  fonte_liste,
-		  NULL );
+  /* FIXME FONTS */
+/*   if ( fonte_liste ) */
+/*     choix_fonte ( NULL, */
+/* 		  fonte_liste, */
+/* 		  NULL ); */
 }
 /***************************************************************************************************/
 

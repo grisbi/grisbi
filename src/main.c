@@ -170,13 +170,14 @@ int main (int argc, char *argv[])
 
   /* on met la fonte choisie */
 
-  if ( fonte_general )
-    {
+  /* FIXME FONTS */
+/*   if ( fonte_general ) */
+/*     { */
 /*** BENJ FIXME
       gtk_widget_get_default_style () -> font = gdk_font_load ( fonte_general );
       gtk_widget_get_style (window) -> font = gdk_font_load ( fonte_general );
 ***/
-    }
+/*     } */
 
   /* on vérifie les arguments de ligne de commande */
 

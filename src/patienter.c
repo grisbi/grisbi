@@ -105,64 +105,64 @@ void mise_en_route_attente ( gchar *message )
 			   10 );
       gtk_widget_show ( aire_dessin );
 
-      image[0] = gnome_pixmap_new_from_xpm_d ( g8_xpm );
+      image[0] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g8_xpm );
       gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
 			  image[0] );
       gtk_widget_show ( image[0] );
 
-      image[1] = gnome_pixmap_new_from_xpm_d ( g9_xpm );
+      image[1] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g9_xpm );
       gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
 			  image[1] );
 
-      image[2] = gnome_pixmap_new_from_xpm_d ( g10_xpm );
+      image[2] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g10_xpm );
       gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
 			  image[2] );
 
-      image[3] = gnome_pixmap_new_from_xpm_d ( g11_xpm );
+      image[3] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g11_xpm );
       gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
 			  image[3] );
 
-      image[4] = gnome_pixmap_new_from_xpm_d ( g12_xpm );
+      image[4] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g12_xpm );
       gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
 			  image[4] );
 
-      image[5] = gnome_pixmap_new_from_xpm_d ( g13_xpm );
+      image[5] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g13_xpm );
       gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
 			  image[5] );
 
-      image[6] = gnome_pixmap_new_from_xpm_d ( g14_xpm );
+      image[6] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g14_xpm );
       gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
 			  image[6] );
 
-      image[7] = gnome_pixmap_new_from_xpm_d ( g15_xpm );
+      image[7] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g15_xpm );
       gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
 			  image[7] );
 
-      image[8] = gnome_pixmap_new_from_xpm_d ( g1_xpm );
+      image[8] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g1_xpm );
       gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
 			  image[8] );
 
-      image[9] = gnome_pixmap_new_from_xpm_d ( g2_xpm );
+      image[9] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g2_xpm );
       gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
 			  image[9] );
  
-     image[10] = gnome_pixmap_new_from_xpm_d ( g3_xpm );
+     image[10] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g3_xpm );
       gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
 			  image[10] );
 
-      image[11] = gnome_pixmap_new_from_xpm_d ( g4_xpm );
+      image[11] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g4_xpm );
       gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
 			  image[11] );
 
-      image[12] = gnome_pixmap_new_from_xpm_d ( g5_xpm );
+      image[12] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g5_xpm );
       gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
 			  image[12] );
 
-      image[13] = gnome_pixmap_new_from_xpm_d ( g6_xpm );
+      image[13] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g6_xpm );
       gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
 			  image[13] );
 
-      image[14] = gnome_pixmap_new_from_xpm_d ( g7_xpm );
+      image[14] = gnome_pixmap_new_from_xpm_d ( (const gchar **) g7_xpm );
       gtk_container_add ( GTK_CONTAINER ( aire_dessin ),
 			  image[14] );
 

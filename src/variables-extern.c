@@ -167,8 +167,10 @@ extern gint ancienne_ligne_selection;
 extern GtkStyle *style_couleur [2];
 extern GtkStyle *style_rouge_couleur [2];
 extern GtkStyle *style_gris;                     /* utilisé pour le grisé des échéances */
-extern gchar *fonte_liste;                                     /*  adr de la fonte en cours ou NULL si non choisie */
-extern gchar *fonte_general;                                     /*  adr de la fonte en cours ou NULL si non choisie */
+extern gchar * list_font_name;
+extern gchar * list_font_size;
+extern gchar * general_font_name;
+extern gchar * general_font_size;
 extern GtkWidget *hbox_comptes_equilibrage;
 extern GtkWidget *formulaire;
 extern GtkWidget *pointeur_fenetre_nouveau_compte;

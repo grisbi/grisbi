@@ -65,15 +65,18 @@ void charge_configuration ( void )
 
   etat.entree = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonction_touche_entree", NULL ));
   etat.alerte_mini = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Affichage_messages_alertes", NULL ));
-  fonte_liste = gnome_config_get_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonte_des_listes", NULL ));
-  fonte_general = gnome_config_get_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonte_generale", NULL ));
+
+  /* FIXME : do that with list_font_name & list_font_size */
+/*   fonte_liste = gnome_config_get_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonte_des_listes", NULL )); */
+/*   fonte_general = gnome_config_get_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonte_generale", NULL )); */
   etat.alerte_permission = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Affichage_alerte_permission", NULL ));
   etat.force_enregistrement = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Force_enregistrement", NULL ));
 
-  if ( fonte_liste && !strlen( fonte_liste ) )
-    fonte_liste = NULL;
-  if ( fonte_general && !strlen( fonte_general ) )
-    fonte_general = NULL;
+  /* FIXME FONTS */
+/*   if ( fonte_liste && !strlen( fonte_liste ) ) */
+/*     fonte_liste = NULL; */
+/*   if ( fonte_general && !strlen( fonte_general ) ) */
+/*     fonte_general = NULL; */
 
   etat.dernier_fichier_auto = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/IO/Chargement_auto_dernier_fichier", NULL ));
   nom_fichier_comptes = gnome_config_get_string ( g_strconcat ( "/", FICHIER_CONF, "/IO/Nom_dernier_fichier", NULL ));
@@ -164,8 +167,9 @@ void raz_configuration ( void )
   etat.formulaire_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
   etat.formulaire_echeancier_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
   etat.affichage_exercice_automatique = 1;        /* l'exercice est choisi en fonction de la date */
-  fonte_liste = NULL;
-  fonte_general = NULL;
+  /* FIXME FONTS */
+/*   fonte_liste = NULL; */
+/*   fonte_general = NULL; */
   etat.alerte_permission = 1;       /* par défaut, on prévient quand le fichier n'est pas à 600 */
   etat.force_enregistrement = 0;     /* par défaut, on ne force pas l'enregistrement */
   etat.affiche_tous_les_types = 0;   /* par défaut, on n'affiche ds le formulaire que les types du débit ou crédit */
@@ -233,10 +237,11 @@ void sauve_configuration (void)
 			 etat.entree );
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Affichage_messages_alertes", NULL ),
 			 etat.alerte_mini );
-  gnome_config_set_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonte_des_listes", NULL ),
-			    fonte_liste );
-  gnome_config_set_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonte_generale", NULL ),
-			    fonte_general );
+  /* FIXME FONTS */
+/*   gnome_config_set_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonte_des_listes", NULL ), */
+/* 			    fonte_liste ); */
+/*   gnome_config_set_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonte_generale", NULL ), */
+/* 			    fonte_general ); */
 
 
   /* sauvegarde de l'onglet I/O */
