@@ -1029,9 +1029,10 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
 
 	operation = pointeur_liste_ope -> data;
 
-	if ( operation -> pointe == 1 )
+	if ( operation -> pointe == OPERATION_POINTEE ||
+	     operation -> pointe == OPERATION_TELERAPPROCHEE )
 	{
-	    operation -> pointe = 3;
+	    operation -> pointe = OPERATION_RAPPROCHEE;
 	    operation -> no_rapprochement = DERNIER_NO_RAPPROCHEMENT;
 	}
 
