@@ -81,8 +81,9 @@ gboolean charge_operations ( void )
 			 "0.4.0" )))
 	  return ( charge_operations_version_0_4_0 ( doc ));
 
-        if (( !strcmp (  xmlNodeGetContent ( doc->root->childs->childs ),
-			 "0.4.1" )))
+	/* Pas de différence entre 0.4.1 et 0.4.2 */
+        if ( !strcmp ( xmlNodeGetContent (doc->root->childs->childs), "0.4.1" ) ||
+	     !strcmp ( xmlNodeGetContent (doc->root->childs->childs), "0.4.2" ) )
 	  return ( charge_operations_version_0_4_1 ( doc ));
 
 	/* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
