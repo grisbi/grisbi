@@ -497,9 +497,9 @@ GtkWidget *creation_formulaire ( void )
 		       GTK_SIGNAL_FUNC (clique_champ_formulaire),
 		       GINT_TO_POINTER(14) );
   gtk_signal_connect_after ( GTK_OBJECT (widget_formulaire_operations[14]),
- 		       "key-press-event",
-		       GTK_SIGNAL_FUNC (touches_champ_formulaire),
-		       GINT_TO_POINTER(14) );
+			     "key-press-event",
+			     GTK_SIGNAL_FUNC (touches_champ_formulaire),
+			     GINT_TO_POINTER(14) );
   gtk_signal_connect_after ( GTK_OBJECT (widget_formulaire_operations[14]),
 			     "focus-in-event",
 			     GTK_SIGNAL_FUNC (entree_prend_focus),
@@ -549,9 +549,9 @@ GtkWidget *creation_formulaire ( void )
 		       GTK_SIGNAL_FUNC (clique_champ_formulaire),
 		       GINT_TO_POINTER(16) );
   gtk_signal_connect_after ( GTK_OBJECT (widget_formulaire_operations[16]),
- 		       "key-press-event",
-		       GTK_SIGNAL_FUNC (touches_champ_formulaire),
-		       GINT_TO_POINTER(16) );
+			     "key-press-event",
+			     GTK_SIGNAL_FUNC (touches_champ_formulaire),
+			     GINT_TO_POINTER(16) );
   gtk_signal_connect_after ( GTK_OBJECT (widget_formulaire_operations[16]),
 			     "focus-in-event",
 			     GTK_SIGNAL_FUNC (entree_prend_focus),
@@ -1135,7 +1135,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 
       break;
 
-    case 15:
+    case 16:
       if ( !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	texte = _("Notes");
       break;
@@ -1169,9 +1169,12 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 
 	  gtk_entry_set_text ( GTK_ENTRY ( entree ),
 			       texte );
+	  break;
 	}
       gtk_widget_set_style ( entree, style_entree_formulaire[1] );
     }
+
+
   return FALSE;
 }
 /***********************************************************************************************************/
@@ -1502,8 +1505,8 @@ gboolean clique_champ_formulaire ( GtkWidget *entree,
 
 /***********************************************************************************************************/
 gboolean touches_champ_formulaire ( GtkWidget *widget,
-				GdkEventKey *ev,
-				gint *no_origine )
+				    GdkEventKey *ev,
+				    gint *no_origine )
 {
   gint origine;
 
@@ -1524,7 +1527,6 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
       /* échap */
 
     case GDK_Escape:
-
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
       gtk_widget_grab_focus ( CLIST_OPERATIONS );
       echap_formulaire();
@@ -1534,12 +1536,11 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
       /*       tabulation */
 
     case GDK_Tab:
-
       /* une tabulation passe au widget affiché suivant */
       /* et retourne à la date ou enregistre l'opé s'il est à la fin */
 
-      gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
-				     "key-press-event");
+/*       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ), */
+/* 				     "key-press-event"); */
 
       /* on efface la sélection en cours si c'est une entrée ou un combofix */
 
@@ -1597,7 +1598,8 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
       /*       si le prochain est le crédit et que le débit a été rempli, on se met sur la devise et on efface le crédit */
 
       if ( origine == 4 )
-	if ( gtk_widget_get_style ( widget_formulaire_operations[origine-1] ) == style_entree_formulaire[0] )
+	if ( gtk_widget_get_style ( widget_formulaire_operations[origine-1] ) == style_entree_formulaire[0] &&
+	     strlen(gtk_entry_get_text(widget_formulaire_operations[origine-1])))
 	  {
 	    origine++;
 	    gtk_widget_set_style (widget_formulaire_operations[4],
@@ -1629,8 +1631,8 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 
     case GDK_KP_Enter :
     case GDK_Return :
-      gtk_signal_emit_stop_by_name ( GTK_OBJECT (widget),
-				     "key-press-event");
+/*       gtk_signal_emit_stop_by_name ( GTK_OBJECT (widget), */
+/* 				     "key-press-event"); */
 
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
       gtk_widget_grab_focus ( CLIST_OPERATIONS );
@@ -1646,8 +1648,8 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
       /* GDC : prise en compte de la date réelle (18) FinGDC */
       if ( origine == 1 || origine == 7)
 	{
-	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
-					 "key-press-event");
+/* 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ), */
+/* 					 "key-press-event"); */
 	  increment_decrement_date ( widget_formulaire_operations[origine], 1 );
 	  return TRUE;
 	}
@@ -1666,10 +1668,9 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
       /* GDC : prise en compte de la date réelle (18) FinGDC */
       if ( origine == 1 || origine == 7)
 	{
-	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
-					 "key-press-event");
-	  increment_decrement_date ( widget_formulaire_operations[origine],
-				       -1 );
+/* 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ), */
+/* 					 "key-press-event"); */
+	  increment_decrement_date ( widget_formulaire_operations[origine], -1 );
 	  return TRUE;
 	}
       else if ( origine == 10 )	/* Voucher number */
