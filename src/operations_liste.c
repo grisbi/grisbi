@@ -1,8 +1,8 @@
 /*  Fichier qui gère la liste des opérations */
 /*      liste_operations.c */
 
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
-/*			2003 Benjamin Drieu (bdrieu@april.org) */
+/*     Copyright (C) 2000-2003  Cédric Auger */
+/* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -799,15 +799,15 @@ void remplissage_liste_operations ( gint compte )
   gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
 		       g_strdup_printf ( PRESPACIFY(_("Checked balance: %4.2f %s")),
 					 SOLDE_POINTE,
-					 devise_name ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
+					 ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 											 GINT_TO_POINTER ( DEVISE ),
-											 (GCompareFunc) recherche_devise_par_no )-> data ))) );
+											 (GCompareFunc) recherche_devise_par_no )-> data )) -> code_devise) );
   gtk_label_set_text ( GTK_LABEL ( solde_label ),
 		       g_strdup_printf ( PRESPACIFY(_("Current balance: %4.2f %s")),
 					 SOLDE_COURANT,
-					 devise_name ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
+					 ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 											 GINT_TO_POINTER ( DEVISE ),
-											 (GCompareFunc) recherche_devise_par_no )-> data ))) );
+											 (GCompareFunc) recherche_devise_par_no )-> data )) -> code_devise) );
 
 
 
@@ -932,7 +932,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 	  if ( devise_operation -> no_devise != DEVISE )
 	    temp = g_strconcat ( temp,
 				 "(",
-				 devise_name ( devise_operation ),
+				 devise_operation -> code_devise,
 				 ")",
 				 NULL );
 
@@ -961,7 +961,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 	  if ( devise_operation -> no_devise != DEVISE )
 	    temp = g_strconcat ( temp,
 				 "(",
-				 devise_name ( devise_operation ),
+				 devise_operation -> code_devise,
 				 ")",
 				 NULL );
 
@@ -996,7 +996,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 
 	  return ( g_strdup_printf ( "(%4.2f %s)",
 				     montant,
-				     devise_name ( devise_compte ) ));
+				     devise_compte -> code_devise ));
 	}
       else
 	return (NULL);
@@ -1526,7 +1526,7 @@ void edition_operation ( void )
 
   g_date_strftime (  date,
 		     11,
-		     "%02d/%02m/%04Y",
+		     "%d/%m/%Y",
 		     operation -> date);
 
   entree_prend_focus ( widget_formulaire_operations[1] );
@@ -1670,7 +1670,7 @@ void edition_operation ( void )
     {
       g_date_strftime (  date_bancaire,
 			 11,
-			 "%02d/%02m/%04Y",
+			 "%d/%m/%Y",
 			 operation -> date_bancaire );
       entree_prend_focus ( widget_formulaire_operations[7] );
 
@@ -1687,7 +1687,8 @@ void edition_operation ( void )
     {
       entree_prend_focus ( widget_formulaire_operations[8] );
 
-      if ( operation -> relation_no_compte == -1 )
+      if ( operation -> relation_no_compte == -1 ||
+	   operation -> relation_no_operation == -1 )
 	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ),
 				_("Transfer: deleted account") );
       else
@@ -1718,7 +1719,7 @@ void edition_operation ( void )
 
 	  /* 	  si la contre opération est relevée, on désensitive les categ et les montants */
 
-	  if ( operation_2 -> pointe == 2 )
+	  if ( operation_2 && operation_2 -> pointe == 2 )
 	    {
 	      gtk_widget_set_sensitive ( widget_formulaire_operations[4],
 					 FALSE );
@@ -1738,7 +1739,7 @@ void edition_operation ( void )
 	  /*  on ne continue que si un menu a été créé */
 	  /*    dans ce cas, on va chercher l'autre opé et retrouve le type */
 
-	  if ( menu )
+	  if ( operation_2 && menu )
 	    {
 
 	      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[13] ),
@@ -2030,7 +2031,7 @@ void p_press (void)
   gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
 		       g_strdup_printf ( PRESPACIFY(_("Checked balance: %4.2f %s")),
 					 SOLDE_POINTE,
-					 devise_name ( devise_compte )) );
+					 devise_compte -> code_devise) );
 }
 /***************************************************************************************************/
 
