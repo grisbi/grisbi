@@ -290,7 +290,7 @@ GtkWidget *creation_liste_organisation_formulaire ( void )
 			 0 );
     gtk_widget_show ( hbox2 );
 
-    bouton = gtk_button_new_with_label ( _("-"));
+    bouton = gtk_button_new_from_stock ( GTK_STOCK_REMOVE );
     g_signal_connect ( G_OBJECT ( bouton ),
 		       "clicked",
 		       G_CALLBACK ( retire_ligne_organisation_formulaire ),
@@ -312,7 +312,7 @@ GtkWidget *creation_liste_organisation_formulaire ( void )
 			 0 );
     gtk_widget_show ( label );
 
-    bouton = gtk_button_new_with_label ( _("+"));
+    bouton = gtk_button_new_from_stock ( GTK_STOCK_ADD );
     g_signal_connect ( G_OBJECT ( bouton ),
 		       "clicked",
 		       G_CALLBACK ( ajoute_ligne_organisation_formulaire ),
@@ -337,7 +337,7 @@ GtkWidget *creation_liste_organisation_formulaire ( void )
 		       0 );
     gtk_widget_show ( hbox2 );
 
-    bouton = gtk_button_new_with_label ( _("-"));
+    bouton = gtk_button_new_from_stock ( GTK_STOCK_REMOVE );
     g_signal_connect ( G_OBJECT ( bouton ),
 		       "clicked",
 		       G_CALLBACK ( retire_colonne_organisation_formulaire ),
@@ -359,7 +359,7 @@ GtkWidget *creation_liste_organisation_formulaire ( void )
 			 0 );
     gtk_widget_show ( label );
 
-    bouton = gtk_button_new_with_label ( _("+"));
+    bouton = gtk_button_new_from_stock ( GTK_STOCK_ADD );
     g_signal_connect ( G_OBJECT ( bouton ),
 		       "clicked",
 		       G_CALLBACK ( ajoute_colonne_organisation_formulaire ),
