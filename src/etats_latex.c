@@ -369,6 +369,7 @@ void latex_safe ( gchar * text )
 		break;
 
 	    case '&':
+	    case '%':
 	    case '\\':
 		fprintf ( latex_out, "\\" );
 
