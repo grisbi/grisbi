@@ -1666,7 +1666,7 @@ void appui_sur_ajout_tiers ( void )
   nom_tiers = demande_texte ( _("New third party"),
 			      COLON(_("Enter the new third party's name")));
 
-  if ( !strcmp(nom_tiers, "") || !nom_tiers)
+  if ( !nom_tiers || !strcmp(nom_tiers, ""))
      return;
 
   /* on l'ajoute à la liste des opés */
