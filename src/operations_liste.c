@@ -2659,7 +2659,7 @@ void popup_transaction_context_menu ( gboolean full )
     gtk_menu_append ( menu, menu_item );
 
     /* New transaction from */
-    menu_item = gtk_image_menu_item_new_with_label ( _("New transaction from") );
+    menu_item = gtk_image_menu_item_new_with_label ( _("Use selected transaction as a template") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
 				    gtk_image_new_from_stock ( GTK_STOCK_NEW,
 							       GTK_ICON_SIZE_MENU ));
