@@ -4848,7 +4848,7 @@ gboolean modification_etat_ouverture_fichier ( gboolean fichier_ouvert )
 {
     struct stat buffer_stat;
     int result;
-    gchar *nom_fichier_swap;
+    gchar *nom_fichier_lock;
     gchar **tab_str;
     gint i;
 
@@ -4869,7 +4869,7 @@ gboolean modification_etat_ouverture_fichier ( gboolean fichier_ouvert )
 
     if ( result == -1 )
     {
-	dialogue_error (g_strdup_printf (_("Cannot open file to mark it as used\n'%s': %s"),
+	dialogue_error (g_strdup_printf (_("Cannot open file '%s' to mark it as used: %s"),
 					 nom_fichier_comptes,
 					 latin2utf8 (strerror(errno))));
 	return FALSE;
@@ -4891,29 +4891,29 @@ gboolean modification_etat_ouverture_fichier ( gboolean fichier_ouvert )
 			       tab_str[i],
 			       ".swp",
 			       NULL );
-    nom_fichier_swap = g_strjoinv ( "/",
+    nom_fichier_lock = g_strjoinv ( "/",
 				   tab_str );
     g_strfreev ( tab_str );
 
-    printf ( "%s\n", nom_fichier_swap );
+    printf ( "%s\n", nom_fichier_lock );
 
     
     /*     maintenant on sépare entre l'effacement ou la création du fichier swp */
 
     if ( fichier_ouvert )
     {
-	/* 	on ouvre le fichier, donc on crée le fichier de swap */
+	/* 	on ouvre le fichier, donc on crée le fichier de lock */
 
 	FILE *fichier;
 
 	/* 	commence par tester si ce fichier existe, si c'est le cas on prévient l'utilisateur */
-	/* 	    avec possibilité d'annuler l'action ou d'effacer le fichier de swap */
+	/* 	    avec possibilité d'annuler l'action ou d'effacer le fichier de lock */
 
-	result = stat ( nom_fichier_swap, &buffer_stat);
+	result = stat ( nom_fichier_lock, &buffer_stat);
 
 	if ( result != -1 )
 	{
-	    /* 	    le fichier de swap existe */
+	    /* 	    le fichier de lock existe */
 
 	    dialogue_conditional_hint ( g_strdup_printf( _("File \"%s\" is already opened"),
 							 nom_fichier_comptes),
@@ -4928,12 +4928,12 @@ gboolean modification_etat_ouverture_fichier ( gboolean fichier_ouvert )
 
 	etat.fichier_deja_ouvert = 0;
 
-	fichier = fopen ( nom_fichier_swap,
+	fichier = fopen ( nom_fichier_lock,
 			  "w" );
 
 	if ( !fichier )
 	{
-	    dialogue_error (g_strdup_printf (_("Cannot write swap file :'%s': %s"),
+	    dialogue_error (g_strdup_printf (_("Cannot write lock file :'%s': %s"),
 					     nom_fichier_comptes,
 					     latin2utf8 (strerror(errno))));
 	    return FALSE;
@@ -4944,27 +4944,27 @@ gboolean modification_etat_ouverture_fichier ( gboolean fichier_ouvert )
     }
     else
     {
-	/* 	on ferme le fichier, donc on détruit le fichier de swap */
+	/* 	on ferme le fichier, donc on détruit le fichier de lock */
 
 	etat.fichier_deja_ouvert = 0;
 
 	/* 	on vérifie d'abord que ce fichier existe */
 
-	result = stat ( nom_fichier_swap, &buffer_stat);
+	result = stat ( nom_fichier_lock, &buffer_stat);
 
 	if ( result == -1 )
 	{
-	    /* 	    le fichier de swap n'existe */
+	    /* 	    le fichier de lock n'existe */
 	    /* 	    on s'en fout, de toute façon fallait le virer, on s'en va */
 
 	    return TRUE;
 	}
 
-	result = remove ( nom_fichier_swap );
+	result = remove ( nom_fichier_lock );
 
 	if ( result == -1 )
 	{
-	    dialogue_error (g_strdup_printf (_("Cannot erase swap file :'%s': %s"),
+	    dialogue_error (g_strdup_printf (_("Cannot erase lock file :'%s': %s"),
 					     nom_fichier_comptes,
 					     latin2utf8 (strerror(errno))));
 	    return FALSE;
