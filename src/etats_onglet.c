@@ -1181,11 +1181,11 @@ void exporter_etat ( void )
 
     fenetre_nom = file_selection_new (_("Export report"),FILE_SELECTION_IS_SAVE_DIALOG );
     file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
-				      dernier_chemin_de_travail );
+				  dernier_chemin_de_travail );
     file_selection_set_entry (  GTK_FILE_SELECTION ( fenetre_nom ),
-			 g_strconcat ( etat_courant -> nom_etat,
-				       ".egsb",
-				       NULL ));
+				g_strconcat ( safe_file_name ( etat_courant -> nom_etat ),
+					      ".egsb",
+					      NULL ));
     resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
 
     switch ( resultat )

@@ -18,6 +18,7 @@ gint        utf8_stat(gchar* utf8filename,struct stat * filestat);
 xmlDocPtr   utf8_xmlParseFile(const gchar *utf8filename);
 gint        utf8_xmlSaveFormatFile(const gchar *utf8filename, xmlDocPtr cur, gint format);
 gint        utf8_remove(const gchar* utf8filename);
+gchar *     safe_file_name ( gchar * filename );
 /*END_DECLARATION*/
 
 #endif
