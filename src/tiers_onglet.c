@@ -1640,6 +1640,16 @@ void appui_sur_ajout_tiers ( void )
     if ( !nom_tiers || !strcmp(nom_tiers, ""))
 	return;
 
+    if ( g_slist_find_custom ( liste_struct_tiers,
+			       nom_tiers,
+			       (GCompareFunc) recherche_tiers_par_nom ) )
+      {
+	dialogue_warning_hint ( _("Third party names must be both unique and not empty.  Please use another name for this third party."),
+				g_strdup_printf ( _("Third party '%s' already exists."),
+						  nom_tiers ) );
+	return;
+      }
+
     /* on l'ajoute à la liste des opés */
 
     nouveau_tiers = ajoute_nouveau_tiers ( nom_tiers );

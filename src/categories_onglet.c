@@ -2883,6 +2883,16 @@ void appui_sur_ajout_categorie ( void )
 					    COLON(_("Enter name for new category")) )))
 	return;
 
+    if ( g_slist_find_custom ( liste_struct_categories,
+			       nom_categorie,
+			       (GCompareFunc) recherche_categorie_par_nom ) )
+      {
+	dialogue_warning_hint ( _("Category names must be both unique and not empty.  Please use another name for this category."),
+				g_strdup_printf ( _("Category '%s' already exists."),
+						  nom_categorie ) );
+	return;
+      }
+
     /* on l'ajoute à la liste des opés */
 
     nouvelle_categorie = ajoute_nouvelle_categorie ( nom_categorie );
@@ -2951,6 +2961,16 @@ void appui_sur_ajout_sous_categorie ( void )
 					      node_parent );
     if ( categorie <= 0 )
 	return;
+
+    if ( g_slist_find_custom ( categorie -> liste_sous_categ,
+			       nom_sous_categorie,
+			       (GCompareFunc) recherche_sous_categorie_par_nom ) )
+      {
+	dialogue_warning_hint ( _("Sub-category names must be both unique and not empty.  Please use another name for this sub-category."),
+				g_strdup_printf ( _("Sub-category '%s' already exists."),
+						  nom_sous_categorie ) );
+	return;
+      }
 
     /* on l'ajoute à la liste des opés */
 
