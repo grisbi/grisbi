@@ -2866,7 +2866,7 @@ GtkWidget * create_file_format_import_menu ()
   omenu = gtk_option_menu_new ();
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( omenu ), menu );
   g_signal_connect ( G_OBJECT(omenu), "changed", G_CALLBACK (filetype_changed), NULL );
-  gtk_box_pack_end ( GTK_BOX(hbox), omenu, FALSE, FALSE, 6 );
+  gtk_box_pack_end ( GTK_BOX(hbox), omenu, TRUE, TRUE, 6 );
   gtk_box_pack_end ( GTK_BOX(hbox), gtk_label_new (COLON(_("Format de fichier"))),
 		     FALSE, FALSE, 0 );
 
