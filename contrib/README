@@ -1,0 +1,8 @@
+-*- outline -*-
+
+* obfuscate.pl
+
+This tool obfuscates grisbi files in order to anonymize them.  This
+allows bug reporters to send their grisbi files without compromising
+their privacy.
+
