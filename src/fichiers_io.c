@@ -1961,7 +1961,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		    if ( etat.force_enregistrement )
 		      dialogue ( _("Warning: either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\n\nGrisbi will however overwrite the file.  We advise you not to use this option except if you know exactly what you are doing (i.e. nobody else uses this file for the moment).\n\nYou can deactivate this option in the setup.") );
 		    else
-		      dialogue ( _("Warning: either this file is already opened by another user or it wasn't closed\nclosed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving\" \noption in the setup.") );
+		      dialogue ( _("Warning: either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving\" \noption in the setup.") );
 		  }
 	    
 
@@ -4115,7 +4115,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		    if ( etat.force_enregistrement )
 		      dialogue ( _("Warning: either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\n\nGrisbi will however overwrite the file.  We advise you not to use this option except if you know exactly what you are doing (i.e. nobody else uses this file for the moment).\n\nYou can deactivate this option in the setup.") );
 		    else
-		      dialogue ( _("Warning: either this file is already opened by another user or it wasn't closed\nclosed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving\" \noption in the setup.") );
+		      dialogue ( _("Warning: either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving\" \noption in the setup.") );
 		  }
 	    
 
@@ -6255,7 +6255,7 @@ gboolean enregistre_fichier ( gboolean force )
 
   if ( etat.fichier_deja_ouvert && !etat.force_enregistrement && !force )
     {
-      dialogue ( PRESPACIFY(_("Warning: either this file is already open by another user or it hasn'tbeen \nclosed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force save\" \noption in the setup.")));
+      dialogue ( PRESPACIFY(_("Warning: either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving\" \noption in the setup.")));
       return ( FALSE );
     }
 

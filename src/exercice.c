@@ -28,6 +28,9 @@
 /* FIXME: remove and put in en_tete.h */
 void checkbox_set_value (GtkWidget *, guint *, gboolean);
 GtkWidget * new_date_entry ( gchar ** value, GCallback * hook );
+GtkWidget * get_entry_from_date_entry (GtkWidget *);
+void date_set_value ( GtkWidget * hbox, GDate ** value, gboolean update );
+
 
 GtkWidget *paddingbox_details;	/** Widget handling financial year details */
 
@@ -446,21 +449,26 @@ void selection_ligne_exercice ( GtkWidget *liste,
   /* FIXME: make a convenience function */
   gtk_object_set_data ( nom_exercice, "pointer",
 			&(exercice -> nom_exercice) );
+  date_set_value ( debut_exercice, &(exercice -> date_debut), TRUE );
+  date_set_value ( fin_exercice, &(exercice -> date_fin), TRUE );
 
+/*   if ( exercice -> date_debut ) */
+/*     gtk_entry_set_text ( get_entry_from_date_entry(debut_exercice), */
+/* 			 g_strdup_printf ( "%d/%d/%d", */
+/* 					   g_date_day ( exercice -> date_debut ), */
+/* 					   g_date_month ( exercice -> date_debut ), */
+/* 					   g_date_year ( exercice -> date_debut ))); */
+/*   else */
+/*     gtk_entry_set_text ( get_entry_from_date_entry(debut_exercice), "" ); */
 
-  if ( exercice -> date_debut )
-    gtk_entry_set_text ( GTK_ENTRY ( debut_exercice ),
-			 g_strdup_printf ( "%d/%d/%d",
-					   g_date_day ( exercice -> date_debut ),
-					   g_date_month ( exercice -> date_debut ),
-					   g_date_year ( exercice -> date_debut )));
-
-  if ( exercice -> date_fin )
-    gtk_entry_set_text ( GTK_ENTRY ( fin_exercice ),
-			 g_strdup_printf ( "%d/%d/%d",
-					   g_date_day ( exercice -> date_fin ),
-					   g_date_month ( exercice -> date_fin ),
-					   g_date_year ( exercice -> date_fin )));
+/*   if ( exercice -> date_fin ) */
+/*     gtk_entry_set_text ( get_entry_from_date_entry(fin_exercice), */
+/* 			 g_strdup_printf ( "%d/%d/%d", */
+/* 					   g_date_day ( exercice -> date_fin ), */
+/* 					   g_date_month ( exercice -> date_fin ), */
+/* 					   g_date_year ( exercice -> date_fin ))); */
+/*   else */
+/*     gtk_entry_set_text ( get_entry_from_date_entry(fin_exercice), "" ); */
 
   checkbox_set_value ( affichage_exercice,
 		       &(exercice->affiche_dans_formulaire), 
@@ -504,12 +512,12 @@ void deselection_ligne_exercice ( GtkWidget *liste,
 			   gtk_object_get_data ( affichage_exercice, "set-boolean" ));
 
   gtk_entry_set_text ( GTK_ENTRY ( nom_exercice ), "" );
-  gtk_entry_set_text ( GTK_ENTRY ( debut_exercice ), "" );
-  gtk_entry_set_text ( GTK_ENTRY ( fin_exercice ), "" );
+/*   gtk_entry_set_text ( GTK_ENTRY ( debut_exercice ), "" ); */
+/*   gtk_entry_set_text ( GTK_ENTRY ( fin_exercice ), "" ); */
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( affichage_exercice ), FALSE );
 
   /* FIXME: put this stuff in dedicated functions */ 
- g_signal_handler_unblock ( nom_exercice,
+  g_signal_handler_unblock ( nom_exercice,
 			     gtk_object_get_data ( nom_exercice, "insert-hook" ));
   g_signal_handler_unblock ( nom_exercice,
 			     gtk_object_get_data ( nom_exercice, "insert-text" ));

@@ -1325,7 +1325,11 @@ gboolean clique_champ_formulaire ( GtkWidget *entree,
 	  gtk_signal_connect ( GTK_OBJECT ( calendrier),
 			       "day-selected-double-click",
 			       GTK_SIGNAL_FUNC ( date_selectionnee ),
-			       popup );
+			       widget_formulaire_operations[1] );
+	  gtk_signal_connect_object ( GTK_OBJECT ( calendrier),
+				      "day-selected-double-click",
+				      GTK_SIGNAL_FUNC ( gtk_widget_destroy ),
+				      NULL );
 	  gtk_signal_connect ( GTK_OBJECT ( popup ),
 			       "key-press-event",
 			       GTK_SIGNAL_FUNC ( touche_calendrier ),
@@ -1723,25 +1727,19 @@ void touche_calendrier ( GtkWidget *popup,
 /* appelée lorsqu'on a clické 2 fois sur une date du calendrier */
 /***********************************************************************************************************/
 
-void date_selectionnee ( GtkCalendar *calendrier,
-			 GtkWidget *popup )
+gboolean date_selectionnee ( GtkCalendar *calendrier,
+			     GtkWidget * entry )
 {
   guint annee, mois, jour;
 
-  gtk_calendar_get_date ( calendrier,
-			  &annee,
-			  &mois,
-			  &jour);
+  gtk_calendar_get_date ( calendrier, &annee, &mois, &jour);
 
-  gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[1] ),
-		       g_strdup_printf ( "%02d/%02d/%04d",
-					 jour,
-					 mois + 1,
-					 annee));
-  gtk_widget_destroy ( popup );
+  gtk_entry_set_text ( GTK_ENTRY ( entry ),
+		       g_strdup_printf ( "%02d/%02d/%04d", jour, mois + 1, annee));
 
-  gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_operations[2] ) -> entry );
-	
+/*   gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_operations[2] ) -> entry ); */
+
+  return FALSE;
 }
 /***********************************************************************************************************/
 

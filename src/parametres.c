@@ -31,6 +31,9 @@ gint preference_selected = -1;
 GtkTreeSelection * selection;
 GtkWidget * button_close, * button_help;
 
+/* FIXME: remove this */
+gboolean popup_calendar ( GtkWidget * button, gpointer data );
+void close_calendar_popup ( GtkWidget *popup );
 
 /**
  * Creates a simple TreeView and a TreeModel to handle preference
@@ -2382,8 +2385,7 @@ new_radiogroup_with_title (GtkWidget * parent,
 	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button1 ), TRUE );
     }
 
-  gtk_object_set_data ( GTK_OBJECT ( button2 ),
-			"pointer", data);
+  gtk_object_set_data ( GTK_OBJECT ( button2 ), "pointer", data);
   g_signal_connect ( GTK_OBJECT ( button2 ), "toggled",
 		     set_boolean, NULL );
 
@@ -2397,6 +2399,26 @@ new_radiogroup_with_title (GtkWidget * parent,
 }
 
 
+gboolean
+set_date (GtkEntry *entry, gchar *value, 
+	  gint length, gint * position)
+{
+  GDate ** data, temp_date;
+
+  data = gtk_object_get_data ( GTK_OBJECT ( entry ), "pointer");
+
+  g_date_set_parse ( &temp_date, gtk_entry_get_text (GTK_ENTRY(entry)) );
+  if ( g_date_valid (&temp_date) && data)
+    {
+      if (!*data)
+	*data = g_date_new ();
+      g_date_set_parse ( *data, gtk_entry_get_text (GTK_ENTRY(entry)) );
+    }
+
+  return FALSE;
+}
+
+
 GtkWidget * new_date_entry ( gchar ** value, GCallback * hook )
 {
   GtkWidget *hbox, *entry, *date_entry;
@@ -2407,12 +2429,160 @@ GtkWidget * new_date_entry ( gchar ** value, GCallback * hook )
   gtk_box_pack_start ( GTK_BOX(hbox), entry,
 		       TRUE, TRUE, 0 );
   
+  if (value && *value)
+    gtk_entry_set_text ( GTK_ENTRY(entry), *value );
+
+  gtk_object_set_data ( GTK_OBJECT ( entry ), "pointer", value);
+
+  gtk_object_set_data ( GTK_OBJECT ( entry ), "insert-hook", 
+			g_signal_connect_after (GTK_OBJECT(entry), "insert-text",
+						G_CALLBACK(hook), NULL));
+  gtk_object_set_data ( GTK_OBJECT ( entry ), "delete-hook", 
+			g_signal_connect_after (GTK_OBJECT(entry), "delete-text",
+						G_CALLBACK(hook), NULL));
+  gtk_object_set_data ( GTK_OBJECT ( entry ), "insert-text", 
+			g_signal_connect_after (GTK_OBJECT(entry), "insert-text",
+						G_CALLBACK(set_date), NULL));
+  gtk_object_set_data ( GTK_OBJECT ( entry ), "delete-text", 
+			g_signal_connect_after (GTK_OBJECT(entry), "delete-text",
+						G_CALLBACK(set_date), NULL));
+
   date_entry = gtk_button_new_with_label ("...");
   gtk_box_pack_start ( GTK_BOX(hbox), date_entry,
 		       FALSE, FALSE, 0 );
+  gtk_object_set_data ( GTK_OBJECT ( date_entry ),
+			"entry", entry);
 
-/*   g_signal_connect ( GTK_OBJECT ( date_entry ), "", */
-/* 		     GTK_SIGNAL_FUNC ( display_calendar ), data ); */
+  g_signal_connect ( GTK_OBJECT ( date_entry ), "clicked",
+		     G_CALLBACK ( popup_calendar ), NULL );
 
   return hbox;
+}
+
+
+void date_set_value ( GtkWidget * hbox, GDate ** value, gboolean update )
+{
+  gtk_object_set_data ( GTK_OBJECT ( get_entry_from_date_entry(hbox) ),
+			"pointer", value );
+
+  if ( update )
+    {
+      g_signal_handler_block ( get_entry_from_date_entry(hbox),
+			       gtk_object_get_data (nom_exercice, "insert-hook"));
+      g_signal_handler_block ( get_entry_from_date_entry(hbox),
+			       gtk_object_get_data (nom_exercice, "insert-text"));
+      g_signal_handler_block ( get_entry_from_date_entry(hbox),
+			       gtk_object_get_data (nom_exercice, "delete-hook"));
+      g_signal_handler_block ( get_entry_from_date_entry(hbox),
+			       gtk_object_get_data (nom_exercice, "delete-text"));
+
+      gtk_entry_set_text ( get_entry_from_date_entry(hbox),
+			   g_strdup_printf ( "%d/%d/%d",
+					     g_date_day (*value),
+					     g_date_month (*value),
+					     g_date_year (*value)));
+
+      g_signal_handler_unblock ( get_entry_from_date_entry(hbox),
+			       gtk_object_get_data (nom_exercice, "insert-hook"));
+      g_signal_handler_unblock ( get_entry_from_date_entry(hbox),
+			       gtk_object_get_data (nom_exercice, "insert-text"));
+      g_signal_handler_unblock ( get_entry_from_date_entry(hbox),
+			       gtk_object_get_data (nom_exercice, "delete-hook"));
+      g_signal_handler_unblock ( get_entry_from_date_entry(hbox),
+			       gtk_object_get_data (nom_exercice, "delete-text"));
+    }
+}
+
+
+
+/**
+ * FIXME: document it
+ *
+ *
+ */
+gboolean popup_calendar ( GtkWidget * button, gpointer data )
+{
+  GtkWidget *popup, *entree, *popup_boxv, *calendrier, *bouton, *frame;
+  gint x, y, cal_jour, cal_mois, cal_annee;
+  GtkRequisition taille_entree;
+
+  /* Find associated gtkentry */
+  entree = gtk_object_get_data ( GTK_OBJECT(button), "entry" );
+
+  /* cherche la position où l'on va mettre la popup */
+  gdk_window_get_origin ( GTK_BUTTON (button) -> event_window, &x, &y );
+  gtk_widget_size_request ( GTK_WIDGET (button), &taille_entree );
+  y = y + taille_entree.height;
+
+  /* création de la popup */
+  popup = gtk_window_new ( GTK_WINDOW_POPUP );
+  gtk_window_set_modal ( GTK_WINDOW (popup), TRUE);
+  gtk_widget_set_uposition ( GTK_WIDGET ( popup ), x, y );
+
+  /* création de l'intérieur de la popup */
+  frame = gtk_frame_new ( NULL );
+  gtk_container_add ( GTK_CONTAINER (popup), frame);
+
+  popup_boxv = gtk_vbox_new ( FALSE, 5 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( popup_boxv ), 5 );
+
+  gtk_container_add ( GTK_CONTAINER ( frame ), popup_boxv);
+
+  if ( !( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree ))))
+	  &&
+	  sscanf ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )),
+		   "%d/%d/%d", &cal_jour, &cal_mois, &cal_annee)))
+    sscanf ( date_jour(), "%d/%d/%d", &cal_jour, &cal_mois, &cal_annee);
+      
+  calendrier = gtk_calendar_new();
+  gtk_calendar_select_month ( GTK_CALENDAR ( calendrier ), cal_mois-1, cal_annee);
+  gtk_calendar_select_day  ( GTK_CALENDAR ( calendrier ), cal_jour);
+
+  gtk_calendar_display_options ( GTK_CALENDAR ( calendrier ),
+				 GTK_CALENDAR_SHOW_HEADING |
+				 GTK_CALENDAR_SHOW_DAY_NAMES |
+				 GTK_CALENDAR_WEEK_START_MONDAY );
+
+  gtk_signal_connect ( GTK_OBJECT ( calendrier), "day-selected-double-click",
+		       GTK_SIGNAL_FUNC ( date_selectionnee ), entree );
+  gtk_signal_connect_object ( GTK_OBJECT ( calendrier), "day-selected-double-click",
+			      GTK_SIGNAL_FUNC ( close_calendar_popup ), popup );
+  gtk_signal_connect ( GTK_OBJECT ( popup ), "key-press-event",
+		       GTK_SIGNAL_FUNC ( touche_calendrier ), NULL );
+  gtk_box_pack_start ( GTK_BOX ( popup_boxv ), calendrier,
+		       TRUE, TRUE, 0 );
+
+  /* ajoute le bouton annuler */
+  bouton = gtk_button_new_with_label ( _("Cancel") );
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton ), "clicked",
+			      GTK_SIGNAL_FUNC ( close_calendar_popup ),
+			      GTK_WIDGET ( popup ) );
+
+  gtk_box_pack_start ( GTK_BOX ( popup_boxv ), bouton,
+		       TRUE, TRUE, 0 );
+      
+  gtk_widget_show_all ( popup );
+
+  gdk_pointer_grab ( popup -> window, TRUE,
+		     GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK |
+		     GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK |
+		     GDK_POINTER_MOTION_MASK,
+		     NULL, NULL, GDK_CURRENT_TIME );
+  
+  return FALSE;
+}
+
+
+void close_calendar_popup ( GtkWidget *popup )
+{
+  gtk_widget_destroy ( popup );
+  gtk_grab_remove ( fenetre_preferences );
+  gtk_grab_add ( fenetre_preferences );
+}
+
+
+
+GtkWidget * get_entry_from_date_entry (GtkWidget * hbox)
+{
+  return ((GtkBoxChild *) GTK_BOX(hbox)->children->data)->widget;
 }

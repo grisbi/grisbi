@@ -227,8 +227,7 @@ void ferme_calendrier ( GtkWidget *popup );
 void  touche_calendrier ( GtkWidget *popup,
 			  GdkEventKey *ev,
 			  gpointer null );
-void date_selectionnee ( GtkCalendar *calendrier,
-			 GtkWidget *popup );
+gboolean date_selectionnee ( GtkCalendar *calendrier, GtkWidget *entry );
 gboolean modifie_date ( GtkWidget *entree );
 void date_bancaire_selectionnee ( GtkCalendar *calendrier,
 			 GtkWidget *popup );
