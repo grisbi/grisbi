@@ -3023,8 +3023,15 @@ des paramètres.") );
 			  g_strfreev ( pointeur_char );
 			}
 
-		      etat -> afficher_r = atoi ( xmlGetProp ( node_detail,
-								  "Aff_r" ));
+		      if (xmlGetProp ( node_detail, "Aff_r" ))
+			{
+			  etat -> afficher_r = atoi ( xmlGetProp ( node_detail,
+								   "Aff_r" ));
+			}
+		      else 
+			{
+			  etat -> afficher_r = 0;
+			}
 
 		      etat -> afficher_opes = atoi ( xmlGetProp ( node_detail,
 								  "Aff_ope" ));
@@ -3152,25 +3159,66 @@ des paramètres.") );
 		      else
 			etat -> date_perso_fin = NULL;
 
+		      if (xmlGetProp ( node_detail, "Utilise_plages" ))
+			{
+			  etat -> separation_par_plage = atoi ( xmlGetProp ( node_detail,
+									     "Utilise_plages" ));
+			}
+		      else
+			{
+			  etat -> separation_par_plage = 0;
+			}
 
-		      etat -> separation_par_plage = atoi ( xmlGetProp ( node_detail,
-								  "Utilise_plages" ));
+		      if (xmlGetProp ( node_detail, "Sep_plages"))
+			{
+			  etat -> type_separation_plage = atoi ( xmlGetProp ( node_detail,
+									      "Sep_plages" ));
+			}
+		      else
+			{
+			  etat -> type_separation_plage = 0;
+			}			
 
-		      etat -> type_separation_plage = atoi ( xmlGetProp ( node_detail,
-									  "Sep_plages" ));
+		      if (xmlGetProp ( node_detail, "Deb_sem_plages" ))
+			{
+			  etat -> jour_debut_semaine = atoi ( xmlGetProp ( node_detail,
+									   "Deb_sem_plages" ));
+			}
+		      else 
+			{
+			  etat -> jour_debut_semaine = 0;
+			}
 
-		      etat -> jour_debut_semaine = atoi ( xmlGetProp ( node_detail,
-								       "Deb_sem_plages" ));
+		      if (xmlGetProp ( node_detail, "Sep_perso_plages" ))
+			{
+			  etat -> type_separation_perso = atoi ( xmlGetProp ( node_detail,
+									      "Sep_perso_plages" ));
+			}
+		      else 
+			{
+			  etat -> type_separation_perso = 0;
+			}
 
-		      etat -> type_separation_perso = atoi ( xmlGetProp ( node_detail,
-									  "Sep_perso_plages" ));
+		      if (xmlGetProp ( node_detail, "Delai_perso_plages" ))
+			{
+			  etat -> delai_separation_perso = atoi ( xmlGetProp ( node_detail,
+									       "Delai_perso_plages" ));
+			}
+		      else 
+			{
+			  etat -> delai_separation_perso = 0;
+			}
 
-		      etat -> delai_separation_perso = atoi ( xmlGetProp ( node_detail,
-									   "Delai_perso_plages" ));
 
-
-		      etat -> utilise_detail_comptes = atoi ( xmlGetProp ( node_detail,
-								  "Detail_comptes" ));
+		      if (xmlGetProp ( node_detail, "Detail_comptes" ))
+			{
+			  etat -> utilise_detail_comptes = atoi ( xmlGetProp ( node_detail,
+									       "Detail_comptes" ));
+			}
+		      else 
+			{
+			  etat -> utilise_detail_comptes = 0;
+			}
 
 		      etat -> no_comptes = NULL;
 
@@ -3207,8 +3255,9 @@ des paramètres.") );
 
 		      etat -> no_comptes_virements = NULL;
 
-		      if ( strlen ( xmlGetProp ( node_detail,
-						 "No_comptes_virements" )))
+		      if (xmlGetProp ( node_detail, "No_comptes_virements" ) &&
+			  strlen ( xmlGetProp ( node_detail,
+						"No_comptes_virements" )))
 			{
 			  gchar **pointeur_char;
 			  gint i;
@@ -3229,15 +3278,37 @@ des paramètres.") );
 			}
 
 
-		      etat -> exclure_ope_non_virement = atoi ( xmlGetProp ( node_detail,
-									     "Exclure_non_vir" ));
+		      if (xmlGetProp ( node_detail, "Exclure_non_vir" ))
+			{
+			  etat -> exclure_ope_non_virement = atoi ( xmlGetProp ( node_detail,
+										 "Exclure_non_vir" ));
+			}
+		      else
+			{
+			  etat -> exclure_ope_non_virement = 0;
+			}
+		      
 
+		      if (xmlGetProp ( node_detail, "Categ" ))
+			{
+			  etat -> utilise_categ = atoi ( xmlGetProp ( node_detail,
+								      "Categ" ));
+			}
+		      else
+			{
+			  etat -> utilise_categ = 0;
+			}
 
-		      etat -> utilise_categ = atoi ( xmlGetProp ( node_detail,
-								  "Categ" ));
-		      etat -> utilise_detail_categ = atoi ( xmlGetProp ( node_detail,
-								  "Detail_categ" ));
-
+		      if (xmlGetProp ( node_detail, "Detail_categ" ))
+			{
+			  etat -> utilise_detail_categ = atoi ( xmlGetProp ( node_detail,
+									     "Detail_categ" ));
+			}
+		      else
+			{
+			  etat -> utilise_detail_categ = 0;
+			}
+		      
 		      etat -> no_categ = NULL;
 
 		      if ( strlen ( xmlGetProp ( node_detail,
@@ -3368,45 +3439,129 @@ des paramètres.") );
 
 
 
-		      etat -> utilise_montant_neg_pos = atoi ( xmlGetProp ( node_detail,
-									    "Montant_n_p" ));
+		      if (xmlGetProp ( node_detail, "Montant_n_p" ))
+			{
+			  etat -> utilise_montant_neg_pos = atoi ( xmlGetProp ( node_detail,
+										"Montant_n_p" ));
+			}
+		      else
+			{
+			  etat -> utilise_montant_neg_pos = 0;
+			}
+		      
+		      if (xmlGetProp ( node_detail, "Type_n_p" ))
+			{
+			  etat -> type_neg_pos = atoi ( xmlGetProp ( node_detail,
+								     "Type_n_p" ));
+			}
+		      else
+			{
+			  etat -> type_neg_pos = 0;
+			}
+		      
+		      if (xmlGetProp ( node_detail, "Util_val" ))
+			{
+			  etat -> utilise_valeur = atoi ( xmlGetProp ( node_detail,
+								       "Util_val" ));
+			}
+		      else
+			{
+			  etat -> utilise_valeur = 0;
+			}
+		      
+		      if (xmlGetProp ( node_detail, "Type_ope_val" ))
+			{
+			  etat -> type_operateur_valeur = atoi ( xmlGetProp ( node_detail,
+									      "Type_ope_val" ));
+			}
+		      else
+			{
+			  etat -> type_operateur_valeur = 0;
+			}
 
-		      etat -> type_neg_pos = atoi ( xmlGetProp ( node_detail,
-								 "Type_n_p" ));
-
-		      etat -> utilise_valeur = atoi ( xmlGetProp ( node_detail,
-								   "Util_val" ));
-
-		      etat -> type_operateur_valeur = atoi ( xmlGetProp ( node_detail,
-									  "Type_ope_val" ));
-
-		      etat -> montant_valeur = g_strtod ( xmlGetProp ( node_detail,
-								       "Montant_val" ),
-							  NULL );
-
-		      etat -> utilise_inclusion = atoi ( xmlGetProp ( node_detail,
-								      "Util_incl" ));
-
-		      etat -> montant_inclusion_inf = g_strtod ( xmlGetProp ( node_detail,
-									      "Montant_incl_inf" ),
-								 NULL );
-
-		      etat -> type_operateur_inf_inclusion = atoi ( xmlGetProp ( node_detail,
-										 "Type_ope_incl_inf" ));
-
-		      etat -> type_operateur_sup_inclusion = atoi ( xmlGetProp ( node_detail,
-										 "Type_ope_incl_sup" ));
-
-		      etat -> montant_inclusion_sup = g_strtod ( xmlGetProp ( node_detail,
-									      "Montant_incl_sup" ),
-								 NULL );
-
-		      etat -> choix_montant_nul = atoi ( xmlGetProp ( node_detail,
-								      "Montant_nul" ));
-
-		      etat -> choix_devise_montant = atoi ( xmlGetProp ( node_detail,
-									 "Montant_devise" ));
-
+		      if ( xmlGetProp ( node_detail, "Montant_val" ) )
+			{
+			  etat -> montant_valeur = g_strtod ( xmlGetProp ( node_detail,
+									   "Montant_val" ), 
+							      NULL );
+			}
+		      else
+			{
+			  etat -> montant_valeur = 0;
+			}
+		      
+		      if (xmlGetProp ( node_detail, "Util_incl" ))
+			{
+			  etat -> utilise_inclusion = atoi ( xmlGetProp ( node_detail,
+									  "Util_incl" ));
+			}
+		      else
+			{
+			  etat -> utilise_inclusion = 0;
+			}
+		      
+		      if ( xmlGetProp ( node_detail, "Montant_incl_inf" ) )
+			{
+			  etat -> montant_inclusion_inf = g_strtod ( xmlGetProp ( node_detail,
+										  "Montant_incl_inf" ), 
+								     NULL );
+			}
+		      else
+			{
+			  etat -> montant_inclusion_inf = 0;
+			}
+		      
+		      if ( xmlGetProp ( node_detail, "Type_ope_incl_inf" ))
+			{
+			  etat -> type_operateur_inf_inclusion = atoi ( xmlGetProp ( node_detail,
+										     "Type_ope_incl_inf" ));
+			}
+		      else
+			{
+			  etat -> type_operateur_inf_inclusion = 0;
+			}
+		      
+		      if ( xmlGetProp ( node_detail, "Type_ope_incl_sup" ))
+			{
+			  etat -> type_operateur_sup_inclusion = atoi ( xmlGetProp ( node_detail,
+										     "Type_ope_incl_sup" ));
+			}
+		      else
+			{
+			  etat -> type_operateur_sup_inclusion = 0;
+			}
+		      
+		      if ( xmlGetProp ( node_detail, "Montant_incl_sup" ))
+			{
+			  etat -> montant_inclusion_sup = g_strtod ( xmlGetProp ( node_detail,
+										  "Montant_incl_sup" ),
+								     NULL );
+			}
+		      else
+			{
+			  etat -> montant_inclusion_sup = 0;
+			}
+		      
+		      if (xmlGetProp ( node_detail, "Montant_nul" ))
+			{
+			  etat -> choix_montant_nul = atoi ( xmlGetProp ( node_detail,
+									  "Montant_nul" ));
+			}
+		      else
+			{
+			  etat -> choix_montant_nul = 0;
+			}
+		      
+		      if (xmlGetProp ( node_detail, "Montant_devise" ))
+			{
+			  etat -> choix_devise_montant = atoi ( xmlGetProp ( node_detail,
+									     "Montant_devise" ));
+			}
+		      else
+			{
+			  etat -> choix_devise_montant = 1;
+			}
+		      
 		      liste_struct_etats = g_slist_append ( liste_struct_etats,
 							    etat );
 
