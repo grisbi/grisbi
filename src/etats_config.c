@@ -2467,20 +2467,21 @@ GtkWidget *onglet_etat_comptes ( void )
 /******************************************************************************/
 void remplissage_liste_comptes_etats ( void )
 {
-    gint i;
+    GSList *pUserAccountsList = NULL;
+
+    pUserAccountsList = g_slist_copy ( ordre_comptes );
 
     if ( !liste_comptes_etat )
 	return;
 
     gtk_clist_clear ( GTK_CLIST ( liste_comptes_etat ) );
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
-    for ( i=0 ; i<nb_comptes ; i++ )
+    do
     {
 	gchar *nom[1];
 	gint ligne;
 
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( pUserAccountsList -> data );
 	nom[0] = NOM_DU_COMPTE;
 
 	ligne = gtk_clist_append ( GTK_CLIST ( liste_comptes_etat ),
@@ -2489,8 +2490,9 @@ void remplissage_liste_comptes_etats ( void )
 	gtk_clist_set_row_data ( GTK_CLIST ( liste_comptes_etat ),
 				 ligne,
 				 GINT_TO_POINTER ( NO_COMPTE ));
-	p_tab_nom_de_compte_variable++;
     }
+    while ( (  pUserAccountsList = pUserAccountsList -> next ) );
+    g_slist_free ( pUserAccountsList );
 }
 /******************************************************************************/
 
@@ -2765,20 +2767,21 @@ GtkWidget *onglet_etat_virements ( void )
 /******************************************************************************/
 void remplissage_liste_comptes_virements ( void )
 {
-    gint i;
+    GSList *pUserAccountsList = NULL;
+
+    pUserAccountsList = g_slist_copy ( ordre_comptes );
 
     if ( !onglet_config_etat )
 	return;
 
     gtk_clist_clear ( GTK_CLIST ( liste_comptes_virements ) );
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
-    for ( i=0 ; i<nb_comptes ; i++ )
+    do
     {
 	gchar *nom[1];
 	gint ligne;
 
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( pUserAccountsList -> data );
 	nom[0] = NOM_DU_COMPTE;
 
 	ligne = gtk_clist_append ( GTK_CLIST ( liste_comptes_virements ),
@@ -2787,8 +2790,9 @@ void remplissage_liste_comptes_virements ( void )
 	gtk_clist_set_row_data ( GTK_CLIST ( liste_comptes_virements ),
 				 ligne,
 				 GINT_TO_POINTER ( NO_COMPTE ));
-	p_tab_nom_de_compte_variable++;
     }
+    while ( (  pUserAccountsList = pUserAccountsList -> next ) );
+    g_slist_free ( pUserAccountsList );
 }
 /******************************************************************************/
 
