@@ -53,6 +53,7 @@ gboolean category_add_transaction_to_div (struct structure_operation *, int);
 gboolean category_add_transaction_to_sub_div (struct structure_operation *, int, int);
 gboolean category_remove_transaction_from_div (struct structure_operation *, int);
 gboolean category_remove_transaction_from_sub_div (struct structure_operation *, int, int);
+GSList * category_div_list ( );
 GSList * category_div_sub_div_list (gpointer);
 gint category_div_type (gpointer);
 gint category_scheduled_div_id (struct operation_echeance *);
@@ -76,6 +77,7 @@ static MetatreeInterface _category_interface = {
     category_sub_div_balance,
     category_div_id,
     category_sub_div_id,
+    category_div_list,
     category_div_sub_div_list,
     category_div_type,
 
@@ -252,6 +254,17 @@ gint category_sub_div_id ( gpointer sub_category )
     if ( sub_category )
 	return ((struct struct_sous_categ *) sub_category) -> no_sous_categ;
     return 0;
+}
+
+
+
+/**
+ *
+ *
+ */
+GSList * category_div_list ( )
+{
+    return liste_struct_categories;
 }
 
 

@@ -64,34 +64,6 @@ static void importer_categ ( void );
 static gboolean keypress_category ( GtkWidget *widget, GdkEventKey *ev, gint *no_origine );
 static void merge_liste_categories ( void );
 static void modification_du_texte_categ ( void );
-static void supprimer_categ ( void );
-static void supprimer_sous_categ ( MetatreeInterface * iface, gpointer sous_categ, 
-				   gint no_categ );
-static gboolean categ_column_expanded  (GtkTreeView * treeview, GtkTreeIter * iter, 
-					GtkTreePath * tree_path, gpointer user_data );
-static gboolean categ_activated ( GtkTreeView * treeview, GtkTreePath * path,
-				  GtkTreeViewColumn * col, gpointer userdata );
-static void fill_categ_row ( MetatreeInterface * iface, GtkTreeIter * iter, struct struct_categ * categ );
-static void fill_sub_categ_row ( MetatreeInterface * iface, GtkTreeIter * iter, struct struct_categ * categ,
-				 struct struct_sous_categ * sous_categ );
-static gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
-				      GtkSelectionData * selection_data );
-static gboolean categ_row_drop_possible (GtkTreeDragDest * drag_dest, 
-					 GtkTreePath * dest_path,
-					 GtkSelectionData * selection_data);
-static gboolean categ_drag_data_received ( GtkTreeDragDest   *drag_dest,
-					   GtkTreePath       *dest_path,
-					   GtkSelectionData  *selection_data );
-void move_transaction_to_sub_category ( struct structure_operation * transaction,
-					GtkTreeModel * model,
-					GtkTreePath * orig_path, GtkTreePath * dest_path,
-					gint no_categ, gint no_sub_categ );
-gboolean find_destination_blob ( MetatreeInterface * iface, struct struct_categ * categ, 
-				 struct struct_sous_categ * sous_categ, 
-				 gint * no_div, gint * no_sub_div );
-gboolean find_associated_transactions ( MetatreeInterface * iface, 
-					gint no_categ, gint no_sous_categ );
-void expand_arbre_categ ( GtkWidget *bouton, gint depth );
 /*END_STATIC*/
 
 
@@ -147,7 +119,7 @@ extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
 extern GtkWidget *widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_TOTAL_WIDGET];
 extern GtkWidget *window;
-struct struct_categ * without_category;
+/* struct struct_categ * without_category; */
 /*END_EXTERN*/
 
 
@@ -352,7 +324,7 @@ GtkWidget *onglet_categories ( void )
     gtk_signal_connect ( GTK_OBJECT ( bouton_supprimer_categ ),
 			 "clicked",
 			 GTK_SIGNAL_FUNC ( supprimer_categ ),
-			 NULL );
+			 arbre_categ );
     gtk_box_pack_start ( GTK_BOX ( vbox_frame ),
 			 bouton_supprimer_categ,
 			 FALSE,
@@ -487,7 +459,8 @@ GtkWidget *onglet_categories ( void )
 					    G_TYPE_INT, G_TYPE_FLOAT );
     gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE(categ_tree_model), 
 					   META_TREE_TEXT_COLUMN, GTK_SORT_ASCENDING );
-    g_object_set_data ( G_OBJECT (categ_tree_model), "metatree-interface", category_interface );
+    g_object_set_data ( G_OBJECT (categ_tree_model), "metatree-interface", 
+			category_interface );
 
     /* Create container + TreeView */
     arbre_categ = gtk_tree_view_new();
@@ -502,6 +475,7 @@ GtkWidget *onglet_categories ( void )
 				  GTK_SELECTION_SINGLE );
     gtk_tree_view_set_model (GTK_TREE_VIEW (arbre_categ), 
 			     GTK_TREE_MODEL (categ_tree_model));
+    g_object_set_data ( G_OBJECT(categ_tree_model), "tree-view", arbre_categ );
 
     /* Make category column */
     cell = gtk_cell_renderer_text_new ();
@@ -605,21 +579,23 @@ void remplit_arbre_categ ( void )
 
     /* remplit l'arbre */
 
-    liste_categ_tmp = g_slist_prepend ( liste_struct_categories, without_category );
-
+    liste_categ_tmp = g_slist_prepend ( liste_struct_categories, NULL );
+    
     while ( liste_categ_tmp )
     {
 	struct struct_categ *categ;
-	GSList *liste_sous_categ_tmp;
+	GSList *liste_sous_categ_tmp = NULL;
 
 	categ = liste_categ_tmp -> data;
 
 	/* Populate tree */
 	gtk_tree_store_append (GTK_TREE_STORE (categ_tree_model), &iter_categ, NULL);
-	fill_categ_row ( category_interface, &iter_categ, categ );
+	fill_categ_row ( GTK_TREE_MODEL(categ_tree_model), category_interface, 
+			 &iter_categ, categ );
 
 	/*       pour chaque categ, on met ses sous-categ */
-	liste_sous_categ_tmp = categ -> liste_sous_categ;
+	if ( categ )
+	    liste_sous_categ_tmp = categ -> liste_sous_categ;
 
 	while ( liste_sous_categ_tmp )
 	{
@@ -630,7 +606,8 @@ void remplit_arbre_categ ( void )
 	    /* Populate tree */
 	    gtk_tree_store_append (GTK_TREE_STORE (categ_tree_model), 
 				   &iter_sous_categ, &iter_categ);
-	    fill_sub_categ_row ( category_interface, &iter_sous_categ, categ, sous_categ );
+	    fill_sub_categ_row ( GTK_TREE_MODEL(categ_tree_model), category_interface, 
+				 &iter_sous_categ, categ, sous_categ );
 
 	    liste_sous_categ_tmp = liste_sous_categ_tmp -> next;
 	}
@@ -638,7 +615,8 @@ void remplit_arbre_categ ( void )
 	/* Treat the no sub-category sub division. */
 	gtk_tree_store_append (GTK_TREE_STORE (categ_tree_model), 
 			       &iter_sous_categ, &iter_categ);
-	fill_sub_categ_row ( category_interface, &iter_sous_categ, categ, NULL );
+	fill_sub_categ_row ( GTK_TREE_MODEL(categ_tree_model), category_interface, 
+			     &iter_sous_categ, categ, NULL );
 	
 	liste_categ_tmp = liste_categ_tmp -> next;
     }
@@ -646,180 +624,6 @@ void remplit_arbre_categ ( void )
     enleve_selection_ligne_categ ();
     modif_categ = 0;
 }
-
-
-
-/**
- * Clean
- *
- * Fill a division row with textual representation of a division
- * structure, in the form: "Name (num transactions) Balance".
- *
- * \param iface		A pointer to the metatree interface to use
- * \param iter		Iter to fill with division data.
- * \param categ		Division structure.
- */
-void fill_categ_row ( MetatreeInterface * iface, GtkTreeIter * iter, 
-		      struct struct_categ * categ )
-{
-    gchar * label = NULL, * balance = NULL;
-
-    label = ( categ ? iface -> div_name (categ) : _(iface->no_div_label) );
-
-    if ( ! categ )
-	categ = without_category;
-
-    if ( etat.affiche_nb_ecritures_listes && 
-	 categ &&
-	  iface -> div_nb_transactions ( categ ) )
-	label = g_strconcat ( label, " (",
-			      itoa ( iface -> div_nb_transactions (categ) ), ")",
-			      NULL );
-
-    if ( categ && iface -> div_balance ( categ ) )
-	balance = g_strdup_printf ( _("%4.2f %s"), iface -> div_balance ( categ ),
-				    devise_code ( devise_compte ) );
-    
-    gtk_tree_store_set (GTK_TREE_STORE (categ_tree_model), iter,
-			META_TREE_TEXT_COLUMN, label,
-			META_TREE_POINTER_COLUMN, categ,
-			META_TREE_BALANCE_COLUMN, balance,
-			META_TREE_XALIGN_COLUMN, 1.0,
-			META_TREE_NO_DIV_COLUMN, iface -> div_id ( categ ),
-			META_TREE_NO_SUB_DIV_COLUMN, -1,
-			META_TREE_FONT_COLUMN, 800,
-			-1);
-}
-
-
-
-/**
- * Clean
- *
- * Fill a sub-division row with textual representation of a
- * sub-division structure, in the form: "Name (num transactions)
- * Balance".
- *
- * \param iface		A pointer to the metatree interface to use
- * \param iter		Iter to fill with sub-division data.
- * \param categ		Division structure (parent).
- * \param sous_categ	Sub-division structure.
- */
-void fill_sub_categ_row ( MetatreeInterface * iface, GtkTreeIter * iter, 
-			  struct struct_categ * categ,
-			  struct struct_sous_categ * sous_categ )
-{
-    gchar * balance = NULL, *label;
-    GtkTreeIter dumb_iter;
-    gint nb_ecritures = 0;
-
-    label = ( sous_categ ? iface -> sub_div_name (sous_categ) : _(iface -> no_sub_div_label) );
-
-    nb_ecritures = iface -> sub_div_nb_transactions ( categ, sous_categ );
-    
-    if ( nb_ecritures )
-    {
-	if ( etat.affiche_nb_ecritures_listes )
-	    label = g_strconcat ( label, " (", itoa ( nb_ecritures ), ")", NULL );
-	
-	if ( ! gtk_tree_model_iter_has_child ( GTK_TREE_MODEL(categ_tree_model), iter ) )
-	{
-	    gtk_tree_store_append (GTK_TREE_STORE (categ_tree_model), &dumb_iter, iter );
-	}
-
-	balance = g_strdup_printf ( _("%4.2f %s"),
-				    iface -> sub_div_balance ( categ, sous_categ ),
-				    devise_code ( devise_compte ) );
-    }
-    
-    gtk_tree_store_set ( GTK_TREE_STORE (categ_tree_model), iter,
-			 META_TREE_TEXT_COLUMN, label,
-			 META_TREE_POINTER_COLUMN, sous_categ,
-			 META_TREE_BALANCE_COLUMN, balance,
-			 META_TREE_XALIGN_COLUMN, 1.0,
-			 META_TREE_NO_DIV_COLUMN, iface -> div_id ( categ ),
-			 META_TREE_NO_SUB_DIV_COLUMN, iface -> sub_div_id ( sous_categ ),
-			 META_TREE_FONT_COLUMN, 400,
-			 -1 );
-}
-
-
-
-/**
- * Clean
- *
- */
-void fill_transaction_row ( GtkTreeIter * iter, struct structure_operation * operation )
-{
-    gchar *montant, * label, * notes = NULL; /* free */
-
-    if ( operation -> notes )
-    {
-	if ( strlen ( operation -> notes ) > 30 )
-	{
-	    gchar * tmp = (operation -> notes) + 30;
-
-	    tmp = strchr ( tmp, ' ' );
-	    if ( !tmp )
-	    {
-		/* We do not risk splitting the string
-		   in the middle of a UTF-8 accent
-		   ... the end is probably near btw. */
-		notes = operation -> notes;
-	    }
-	    else 
-	    {
-		gchar * trunc = g_strndup ( operation -> notes, 
-					    ( tmp - operation -> notes ) );
-		notes = g_strconcat ( trunc, " ...", NULL );
-		free ( trunc );
-	    }
-	}
-	else 
-	{
-	    notes = operation -> notes;
-	}
-    }
-    else
-    {
-	struct struct_tiers * tiers = tiers_par_no ( operation -> tiers );
-	if ( tiers )
-	{
-	    notes = tiers -> nom_tiers;
-	}
-    }
-
-    label = g_strdup_printf ( _("%02d/%02d/%04d"),
-			      operation -> jour,
-			      operation -> mois,
-			      operation -> annee );
- 
-    if ( notes )
-    {
-	label = g_strconcat ( label, " : ", notes, NULL );
-    }
-
-    if ( operation -> no_operation_ventilee_associee )
-    {
-	label = g_strconcat ( label, " (", _("breakdown"), ")", NULL );
-    }
-
-    montant = g_strdup_printf ( "%4.2f %s", operation -> montant,
-				devise_code ( devise_par_no ( operation -> devise ) ) );
-    gtk_tree_store_set (GTK_TREE_STORE(categ_tree_model), iter, 
-			META_TREE_POINTER_COLUMN, operation,
-			META_TREE_TEXT_COLUMN, label,
-			META_TREE_ACCOUNT_COLUMN, compte_name_by_no(operation -> no_compte),
-			META_TREE_BALANCE_COLUMN, montant,
-			META_TREE_NO_DIV_COLUMN, -1,
-			META_TREE_NO_SUB_DIV_COLUMN, -1,
-			META_TREE_XALIGN_COLUMN, 1.0,
-			-1);
-    
-}
-
-
-/* **************************************************************************************************** */
 
 
 
@@ -836,6 +640,23 @@ gboolean keypress_category ( GtkWidget *widget, GdkEventKey *ev, gint *no_origin
 	gtk_ctree_expand ( GTK_CTREE(arbre_categ), node );
 
 /* 	expand_selected_category (); */
+    }
+
+    return FALSE;
+}
+
+
+
+/**
+ * Clean
+ *
+ */
+gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
+			       GtkSelectionData * selection_data )
+{
+    if ( path )
+    {
+	gtk_tree_set_row_drag_data (selection_data, GTK_TREE_MODEL(categ_tree_model), path);
     }
 
     return FALSE;
@@ -900,227 +721,12 @@ void clique_sur_annuler_categ ( void )
 
 
 
-/**
- * Clean
- *
- */
-void supprimer_categ ( void )
-{
-    GtkTreeSelection * selection;
-    GtkTreeModel * model;
-    GtkTreeIter iter;
-    GSList * liste_tmp;
-    gint i, no_categ = 0, no_sub_categ = 0;
-    gpointer pointer;
-    MetatreeInterface * iface;
-
-    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(arbre_categ));
-    if ( selection && gtk_tree_selection_get_selected(selection, &model, &iter))
-    {
-	gtk_tree_model_get ( GTK_TREE_MODEL(categ_tree_model), &iter, 
-			     META_TREE_POINTER_COLUMN, &pointer,
-			     META_TREE_NO_DIV_COLUMN, &no_categ,
-			     META_TREE_NO_SUB_DIV_COLUMN, &no_sub_categ,
-			     -1 );
-    }
-    else 
-    {
-	dialogue_warning ( "Tamere" );
-	return;
-    }
-
-    if ( pointer == NULL )
-    {
-	dialogue_warning ( "Tamere" );
-	return;
-    }
-
-    iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );   
-
-    if ( no_sub_categ != -1 )
-    {
-	supprimer_sous_categ ( iface, pointer, no_categ );
-	return;
-    }
-
-    if ( find_associated_transactions ( iface, no_categ, -1 ) )
-    {
-	gint nouveau_no_categ, nouveau_no_sous_categ;
-	
-	if ( ! find_destination_blob ( iface, (struct struct_categ *) pointer, NULL, 
-				       &nouveau_no_categ, &nouveau_no_sous_categ ) )
-	    return;
-
-	/* on fait le tour des opés pour mettre le nouveau numéro de
-	 * categ et sous_categ */
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
-	for ( i = 0 ; i < nb_comptes ; i++ )
-	{
-	    liste_tmp = LISTE_OPERATIONS;
-
-	    while ( liste_tmp )
-	    {
-		struct structure_operation *operation;
-
-		operation = liste_tmp -> data;
-
-		if ( iface -> transaction_div_id (operation) == no_categ )
-		{
-		    iface -> transaction_set_div_id ( operation, nouveau_no_categ );
-		    iface -> transaction_set_sub_div_id ( operation, nouveau_no_sous_categ );
-		}
-
-		liste_tmp = liste_tmp -> next;
-	    }
-
-	    p_tab_nom_de_compte_variable++;
-	}
-
-	/* fait le tour des échéances pour mettre le nouveau numéro
-	 * de categ et sous_categ  */
-
-	liste_tmp = liste_struct_echeances;
-
-	while ( liste_tmp )
-	{
-	    struct operation_echeance *echeance;
-
-	    echeance = liste_tmp -> data;
-
-	    if ( iface -> scheduled_div_id ( echeance ) == no_categ )
-	    {
-		iface -> scheduled_set_div_id ( echeance, nouveau_no_categ );
-		iface -> scheduled_set_sub_div_id ( echeance, nouveau_no_sous_categ );
-	    }
-
-	    liste_tmp = liste_tmp -> next;
-	}
-
-	demande_mise_a_jour_tous_comptes ();
-
-    }
-
-    /* supprime dans la liste des categ  */
-    iface -> remove_div ( no_categ ); 
-
-    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(arbre_categ));
-    if ( selection && gtk_tree_selection_get_selected(selection, &model, &iter))
-    {
-	gtk_tree_store_remove ( GTK_TREE_STORE(categ_tree_model), &iter );
-    }    
-
-    modification_fichier(TRUE);
-}
-
-
-
-/**
- * Clean
- *
- */
-void supprimer_sous_categ ( MetatreeInterface * iface, gpointer sous_categ, gint no_categ )
-{
-    struct struct_categ *categ;
-    GtkTreeSelection * selection;
-    GtkTreeModel * model;
-    GtkTreeIter iter;
-    gint i;
-
-    categ = iface -> get_div_pointer ( no_categ );
-
-    if ( find_associated_transactions ( iface, no_categ, 
-					iface -> sub_div_id ( sous_categ ) ) )
-    {
-	gint nouveau_no_categ, nouveau_no_sous_categ;
-	GSList *liste_tmp;
-
-	if ( ! find_destination_blob ( iface, categ, sous_categ, 
-				       &nouveau_no_categ, &nouveau_no_sous_categ ) )
-	    return;
-
-	/* on fait le tour des opés pour mettre le nouveau numéro de
-	 * categ et sous_categ */
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
-	for ( i = 0 ; i < nb_comptes ; i++ )
-	{
-
-	    liste_tmp = LISTE_OPERATIONS;
-
-	    while ( liste_tmp )
-	    {
-		struct structure_operation *operation;
-
-		operation = liste_tmp -> data;
-
-		if ( ( iface -> transaction_div_id (operation) == 
-		       iface -> div_id (categ) ) &&
-		     ( iface -> transaction_sub_div_id (operation) == 
-		       iface -> sub_div_id (sous_categ) ) )
-		{
-		    iface -> transaction_set_div_id (operation, nouveau_no_categ);
-		    iface -> transaction_set_sub_div_id (operation, nouveau_no_sous_categ);
-		}
-
-		liste_tmp = liste_tmp -> next;
-	    }
-
-	    p_tab_nom_de_compte_variable++;
-	}
-
-	/* fait le tour des échéances pour mettre le nouveau numéro
-	 * de categ et sous_categ  */
-
-	liste_tmp = liste_struct_echeances;
-
-	while ( liste_tmp )
-	{
-	    struct operation_echeance *echeance;
-
-	    echeance = liste_tmp -> data;
-
-	    if ( iface -> scheduled_div_id ( echeance ) == no_categ &&
-		 ( iface -> scheduled_sub_div_id ( echeance ) == 
-		   iface -> sub_div_id ( sous_categ ) ) )
-	    {
-		iface -> scheduled_set_div_id ( echeance, nouveau_no_categ );
-		iface -> scheduled_set_sub_div_id ( echeance, nouveau_no_sous_categ );
-	    }
-
-	    liste_tmp = liste_tmp -> next;
-	}
-
-	modification_fichier(TRUE);
-
-	demande_mise_a_jour_tous_comptes ();
-
-    }
-
-    /* supprime dans la liste des categ  */
-    iface -> remove_sub_div ( no_categ, iface -> sub_div_id ( sous_categ ) );
-
-    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(arbre_categ));
-    if ( selection && gtk_tree_selection_get_selected(selection, &model, &iter))
-    {
-	gtk_tree_store_remove ( GTK_TREE_STORE(categ_tree_model), &iter );
-    }    
-
-    modification_fichier(TRUE);
-}
-/* **************************************************************************************************** */
-
-
-
-
 /***********************************************************************************************************/
 /* Routine creation_liste_categories */
 /* appelée lors d'un nouveau fichier */
 /* crée la liste des catégories à partir de la liste ci dessus */
 /* en fait, merge la liste de base avec rien */
 /***********************************************************************************************************/
-
 void creation_liste_categories ( void )
 {
 
@@ -1130,9 +736,6 @@ void creation_liste_categories ( void )
 
     merge_liste_categories ();
 }
-/***********************************************************************************************************/
-
-
 
 
 
@@ -1141,7 +744,6 @@ void creation_liste_categories ( void )
 /*   merge la liste de categories existante ( aucune quand vient de creation_liste_categories ) */
 /* avec la liste de base du début du fichier */
 /***********************************************************************************************************/
-
 void merge_liste_categories ( void )
 {
     gint i;
@@ -1703,659 +1305,27 @@ gboolean popup_category_view_mode_menu ( GtkWidget * button )
 
     /* Edit transaction */
     menu_item = gtk_image_menu_item_new_with_label ( _("Category view") );
-    g_signal_connect ( G_OBJECT(menu_item), "activate", G_CALLBACK(expand_arbre_categ), (gpointer) 0 );
+    g_signal_connect ( G_OBJECT(menu_item), "activate", 
+		       G_CALLBACK(expand_arbre_categ), (gpointer) 0 );
+    g_object_set_data ( G_OBJECT(menu_item), "tree-view", arbre_categ );
     gtk_menu_append ( menu, menu_item );
+
     menu_item = gtk_image_menu_item_new_with_label ( _("Subcategory view") );
-    g_signal_connect ( G_OBJECT(menu_item), "activate", G_CALLBACK(expand_arbre_categ), (gpointer) 1 );
+    g_signal_connect ( G_OBJECT(menu_item), "activate", 
+		       G_CALLBACK(expand_arbre_categ), (gpointer) 1 );
+    g_object_set_data ( G_OBJECT(menu_item), "tree-view", arbre_categ );
     gtk_menu_append ( menu, menu_item );
+
     menu_item = gtk_image_menu_item_new_with_label ( _("Complete view") );
-    g_signal_connect ( G_OBJECT(menu_item), "activate", G_CALLBACK(expand_arbre_categ), (gpointer) 2 );
+    g_signal_connect ( G_OBJECT(menu_item), "activate", 
+		       G_CALLBACK(expand_arbre_categ), (gpointer) 2 );
+    g_object_set_data ( G_OBJECT(menu_item), "tree-view", arbre_categ );
     gtk_menu_append ( menu, menu_item );
 
     gtk_widget_show_all ( menu );
 
     gtk_menu_popup ( GTK_MENU(menu), NULL, button, set_popup_position, button, 1, 
 		     gtk_get_current_event_time());
-
-    return FALSE;
-}
-
-
-
-/**
- * Clean
- *
- */
-gboolean categ_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter, 
-				  GtkTreePath * tree_path, gpointer user_data ) 
-{
-    GtkTreeModel * model;
-    GtkTreeIter child_iter;
-    gchar *name;
-    gint no_categ, no_sous_categ;
-
-    /* Get model and metatree interface */
-    model = gtk_tree_view_get_model(treeview);
-
-    gtk_tree_model_iter_children( model, &child_iter, iter );
-    gtk_tree_model_get ( model, &child_iter, META_TREE_TEXT_COLUMN, &name, -1 );
-
-    if (!name)
-    {
-	MetatreeInterface * iface;
-	gboolean first = TRUE;
-	gint account;
-
-	iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );   
-
-	gtk_tree_model_get ( model, iter,
-			     META_TREE_NO_DIV_COLUMN, &no_categ,
-			     META_TREE_NO_SUB_DIV_COLUMN, &no_sous_categ,
-			     -1 );
-
-	for ( account = 0; account < nb_comptes; account ++ )
-	{
-	    GSList *pointeur_ope;
-
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT(account);
-	    
-	    pointeur_ope = LISTE_OPERATIONS;
-	    
-	    while ( pointeur_ope )
-	    {
-		struct structure_operation *operation;
-		
-		operation = pointeur_ope -> data;
-		
-		if ( operation &&
-		     iface -> transaction_div_id ( operation) == no_categ &&
-		     iface -> transaction_sub_div_id ( operation ) == no_sous_categ &&
-		     !operation -> relation_no_operation &&
-		     !operation -> operation_ventilee )
-		{
-		    if ( !first )
-		    {
-			gtk_tree_store_append ( GTK_TREE_STORE(model), &child_iter, iter );
-		    }
-		    else
-		    {
-			first = FALSE;
-		    }
-		
-		    fill_transaction_row ( &child_iter, operation );
-		}
-
-		pointeur_ope = pointeur_ope -> next;
-	    }
-	}
-    }
-
-    return FALSE;
-}
-
-
-
-/**
- * Clean 
- *
- */
-gboolean categ_activated ( GtkTreeView * treeview, GtkTreePath * path,
-			   GtkTreeViewColumn * col, gpointer userdata )
-{
-    struct structure_operation * operation;
-    GtkTreeIter iter;
-    GtkTreeModel *model;
-    gint no_categ, no_sous_categ;
-
-    model = gtk_tree_view_get_model(treeview);
-
-    if ( gtk_tree_model_get_iter ( model, &iter, path ) )
-    {
-	gtk_tree_model_get( model, &iter, 
-			    META_TREE_NO_DIV_COLUMN, &no_categ,
-			    META_TREE_NO_SUB_DIV_COLUMN, &no_sous_categ,
-			    META_TREE_POINTER_COLUMN, &operation, 
-			    -1);
-
-	/* We do not jump to a transaction if a category is specified */
-	if ( operation && no_categ == -1 && no_sous_categ == -1 )
-	{
-	    changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-	    if ( operation -> pointe == 3 && !AFFICHAGE_R )
-		change_aspect_liste ( 5 );
-	    selectionne_ligne ( operation );
-	}
-    }
-
-    return FALSE;
-}
-
-
-
-/**
- * Clean
- *
- */
-gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
-			       GtkSelectionData * selection_data )
-{
-    if ( path )
-    {
-	gtk_tree_set_row_drag_data (selection_data, GTK_TREE_MODEL(categ_tree_model), path);
-    }
-
-    return FALSE;
-}
-
-
-
-/**
- * Clean
- *
- */
-gboolean categ_row_drop_possible ( GtkTreeDragDest * drag_dest, GtkTreePath * dest_path,
-				   GtkSelectionData * selection_data )
-{
-    if ( dest_path && selection_data )
-    {
-	enum meta_tree_row_type orig_type, dest_type;
-	GtkTreePath * orig_path;
-	GtkTreeModel * model;
-	gint no_div;
-	gpointer pointer;
-
-	gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
-	orig_type = metatree_get_row_type ( model, orig_path );
-
-	dest_type = metatree_get_row_type ( model, dest_path );
-	if ( ! metatree_get ( model, dest_path, META_TREE_NO_DIV_COLUMN, 
-			      (gpointer) &no_div ) ||
-	     ! metatree_get ( model, dest_path, META_TREE_POINTER_COLUMN, 
-			      (gpointer) &pointer ) )
-	{
-	    return FALSE;
-	}
-
-	switch ( orig_type )
-	{
-	    case META_TREE_SUB_DIV:
-		if ( dest_type == META_TREE_DIV && 
-		    ! gtk_tree_path_is_ancestor ( dest_path, orig_path ) &&
-		     pointer && no_div != 0 ) /* i.e. ancestor is no "No category" */
-		    return TRUE;
-		break;
-
-	    case META_TREE_TRANSACTION:
-		if ( dest_type == META_TREE_DIV || 
-		     dest_type == META_TREE_SUB_DIV )
-		    return TRUE;
-		break;
-
-	    default:
-		break;
-	}
-    }
-
-    return FALSE;
-}
-
-
-
-/**
- *  Clean
- *
- */
-gboolean categ_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath * dest_path,
-				    GtkSelectionData * selection_data )
-{
-    if ( DEBUG )
-	printf (">>> categ_drag_data_received %p, %p, %p\n", drag_dest, dest_path, selection_data);
-    if ( dest_path && selection_data )
-    {
-	GtkTreeModel * model;
-	GtkTreePath * orig_path;
-	GtkTreeIter iter, iter_parent, orig_iter;
-	gint no_dest_categ, no_dest_sub_categ, no_orig_categ, no_orig_sub_categ, account;
-	gpointer pointer;
-	enum meta_tree_row_type orig_type;
-	struct structure_operation * transaction = NULL;
-	struct struct_sous_categ * sub_categ, * dest_sub_categ;
-	struct struct_categ * orig_categ, * dest_categ;
-	MetatreeInterface * iface;
-
-	gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
-	iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );
-
-	metatree_get_row_properties ( model, orig_path,
-				      NULL, &no_orig_categ, &no_orig_sub_categ, &pointer );
-	orig_type = metatree_get_row_type ( model, orig_path );
-
-	metatree_get_row_properties ( model, dest_path,
-				      NULL, &no_dest_categ, &no_dest_sub_categ, NULL );
-	
-	switch ( orig_type )
-	{
-	    case META_TREE_TRANSACTION:
-		transaction = (struct structure_operation *) pointer;
-		if ( transaction )
-		{
-		    move_transaction_to_sub_category ( transaction, model, 
-						       orig_path, dest_path,
-						       no_dest_categ, no_dest_sub_categ );
-		}
-		break;
-
-	    case META_TREE_SUB_DIV:
-		dest_categ = iface -> get_div_pointer ( no_dest_categ );
-		orig_categ = iface -> get_div_pointer ( no_orig_categ );
-		sub_categ = iface -> get_sub_div_pointer ( no_orig_categ, no_orig_sub_categ );
-
-		dest_sub_categ = iface -> get_sub_div_pointer_from_name ( no_dest_categ,
-									  iface -> sub_div_name (sub_categ),
-									  1 );
-		if ( dest_sub_categ )
-		    no_dest_sub_categ = iface -> sub_div_id ( dest_sub_categ );
-		else
-		    no_dest_sub_categ = 0;
-
-		/* Populate tree */
-		gtk_tree_model_get_iter ( model, &iter_parent, dest_path );
-		gtk_tree_store_append ( GTK_TREE_STORE(model), &iter, &iter_parent);
-		fill_sub_categ_row ( iface, &iter, categ_par_no(no_dest_categ), 
-				     sous_categ_par_no(no_dest_categ, no_dest_sub_categ) );
-
-		for ( account = 0; account < nb_comptes; account ++ )
-		{
-		    GSList *pointeur_ope;
-
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + 
-			GPOINTER_TO_INT ( account );
-	    
-		    pointeur_ope = LISTE_OPERATIONS;
-	    
-		    while ( pointeur_ope )
-		    {
-			transaction = pointeur_ope -> data;
-		
-			if ( transaction &&
-			     iface -> transaction_div_id (transaction) == no_orig_categ &&
-			     iface -> transaction_sub_div_id (transaction) == no_orig_sub_categ &&
-			     !transaction -> relation_no_operation &&
-			     !transaction -> operation_ventilee )
-			{
-			    GtkTreePath * path;
-			    path = gtk_tree_model_get_path ( model, &iter );
-			    move_transaction_to_sub_category ( transaction, model, 
-							       NULL, path,
-							       no_dest_categ, 
-							       no_dest_sub_categ );
-			}
-
-			pointeur_ope = pointeur_ope -> next;
-		    }
-		}
-
-		gtk_tree_model_get_iter ( model, &orig_iter, orig_path );
-		gtk_tree_store_remove ( GTK_TREE_STORE(categ_tree_model), &orig_iter );
-
-		iface -> remove_sub_div ( no_orig_categ, no_orig_sub_categ );
-
-		modification_fichier(TRUE);
-
-		break;
-
-	    default:
-		break;
-	}
-
-    }
-    
-    return FALSE;
-}
-
-
-
-/**
- * Clean
- *
- */
-void move_transaction_to_sub_category ( struct structure_operation * transaction,
-					GtkTreeModel * model,
-					GtkTreePath * orig_path, GtkTreePath * dest_path,
-					gint no_categ, gint no_sub_categ )
-{
-    GtkTreeIter orig_iter, child_iter, dest_iter, parent_iter, gd_parent_iter;
-    gpointer old_categ, new_categ;
-    gpointer old_sous_categ, new_sous_categ;
-    MetatreeInterface * iface;
-
-    if ( ! model )
-	return;
-
-    iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );
-
-    old_categ = iface -> get_div_pointer ( iface -> transaction_div_id (transaction) );
-    new_categ = iface -> get_div_pointer ( no_categ );
-
-    old_sous_categ = iface -> get_sub_div_pointer ( iface -> transaction_div_id (transaction),
-						    iface -> transaction_sub_div_id (transaction) );
-    new_sous_categ = iface -> get_sub_div_pointer ( no_categ, no_sub_categ );
-
-    /* Insert new row */
-    gtk_tree_model_get_iter ( model, &dest_iter, dest_path );
-    gtk_tree_store_insert ( GTK_TREE_STORE(categ_tree_model),
-			    &child_iter, &dest_iter, -1 );
-    fill_transaction_row ( &child_iter, transaction );
-
-    /* Update new parents */
-    iface -> add_transaction_to_sub_div ( transaction, no_categ, no_sub_categ );
-    fill_sub_categ_row ( iface, &dest_iter, new_categ, new_sous_categ );
-    if ( gtk_tree_model_iter_parent ( model, &parent_iter, &dest_iter ) )
-	fill_categ_row ( iface, &parent_iter, new_categ );
-
-    /* Change parameters */
-    iface -> transaction_set_div_id ( transaction, no_categ );
-    iface -> transaction_set_sub_div_id ( transaction, no_sub_categ );
-
-    /* Update old parents */
-    iface -> remove_transaction_from_sub_div ( transaction, 
-					       iface -> transaction_div_id (transaction),
-					       iface -> transaction_sub_div_id (transaction) );
-    if ( orig_path )
-    {
-	gtk_tree_model_get_iter ( model, &orig_iter, orig_path );
-	if ( gtk_tree_model_iter_parent ( model, &parent_iter, &orig_iter ) )
-	{
-	    fill_sub_categ_row ( iface, &parent_iter, old_categ, old_sous_categ );
-	    if ( gtk_tree_model_iter_parent ( model, &gd_parent_iter, &parent_iter ) )
-		fill_categ_row ( iface, &gd_parent_iter, old_categ );
-	}
-
-	/* Remove old row */
-	gtk_tree_store_remove ( GTK_TREE_STORE(categ_tree_model), &orig_iter );
-    }
-		    
-    /* We did some modifications */
-    modification_fichier ( TRUE );
-}
-
-
-
-/**
- * 
- *
- */
-gboolean categ_node_maybe_expand ( GtkTreeModel *model, GtkTreePath *path, 
-				   GtkTreeIter *iter, gpointer data )
-{
-    if ( (gint) data == gtk_tree_path_get_depth ( path ) )
-	gtk_tree_view_expand_to_path ( GTK_TREE_VIEW(arbre_categ), path );
-
-    return FALSE;
-}
-
-
-
-/**
- * Iterates over all categories tree nodes and expand nodes that are
- * not deeper than specified depth.
- *
- * \param bouton	Widget that triggered this callback.  Not used.
- * \param depth		Maximum depth for nodes to expand.
- */
-void expand_arbre_categ ( GtkWidget *bouton, gint depth )
-{
-    gtk_tree_view_collapse_all ( GTK_TREE_VIEW(arbre_categ) );
-    gtk_tree_model_foreach ( GTK_TREE_MODEL(categ_tree_model), 
-			     categ_node_maybe_expand, (gpointer) depth );
-}
-
-
-
-/**
- * Clean
- *
- */
-gboolean find_destination_blob ( MetatreeInterface * iface, struct struct_categ * categ, 
-				 struct struct_sous_categ * sous_categ, 
-				 gint * no_div, gint * no_sub_div )
-{
-    GtkWidget *dialog, *hbox, *bouton_categ_generique, *combofix, *bouton_transfert;
-    GSList *liste_combofix, *pointeur, *liste_categ_credit, *liste_categ_debit;
-    gint resultat, nouveau_no_categ, nouveau_no_sous_categ;
-    struct struct_categ *nouvelle_categ;
-    struct struct_sous_categ *nouvelle_sous_categ;
-    gchar **split_categ;
-
-    dialog = dialogue_special_no_run ( GTK_MESSAGE_WARNING, GTK_BUTTONS_OK_CANCEL,
-				       make_hint ( _("Selected sub-category still contains transactions."),
-						   _("If you want to remove this sub-category but want to keep transactions, you can transfer them to another (sub-)category.  Otherwise, transactions can be simply deleted along with their category.") ));
-
-    /*       mise en place du choix tranfert vers un autre categ */
-
-    hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox,
-			 FALSE, FALSE, 0 );
-
-    bouton_transfert = gtk_radio_button_new_with_label ( NULL,
-							 COLON(_("Transfer transactions to category"))  );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_transfert,
-			 FALSE, FALSE, 0 );
-
-    pointeur = liste_struct_categories;
-    liste_combofix = NULL;
-    liste_categ_credit = NULL;
-    liste_categ_debit = NULL;
-
-    while ( pointeur )
-    {
-	gpointer categorie;
-	GSList *sous_pointeur;
-
-	categorie = pointeur -> data;
-
-	if ( categ && ! sous_categ && categ == categorie )
-	{
-	    pointeur = pointeur -> next;
-	    continue;
-	}
-
-	switch ( iface -> div_type ( categorie ) )
-	{
-	    case 1:
-		liste_categ_debit = g_slist_append ( liste_categ_debit,
-						     g_strdup ( iface -> div_name ( categorie ) ) );
-		break;
-	    case 0:
-		liste_categ_credit = g_slist_append ( liste_categ_credit,
-						      g_strdup ( iface -> div_name ( categorie ) ) );
-		break;
-	    default:
-		break;
-	}
-
-	sous_pointeur = iface -> div_sub_div_list ( categorie );
-
-	while ( sous_pointeur )
-	{
-	    gpointer sous_categorie;
-
-	    sous_categorie = sous_pointeur -> data;
-
-	    if ( iface -> sub_div_id (sous_categorie) !=  iface -> sub_div_id (sous_categ) )
-	    {
-		switch ( iface -> div_type ( categorie ) )
-		{
-		    case 1:
-			liste_categ_debit = g_slist_append ( liste_categ_debit,
-							     g_strconcat ( "\t",
-									   iface -> div_name ( sous_categorie ),
-									   NULL ) );
-			break;
-		    case 0:
-			liste_categ_credit = g_slist_append ( liste_categ_credit,
-							      g_strconcat ( "\t",
-									    iface -> div_name ( sous_categorie ),
-									    NULL ) );
-			break;
-		    default:
-			break;
-		}
-
-	    }
-
-	    sous_pointeur = sous_pointeur -> next;
-	}
-
-	pointeur = pointeur -> next;
-    }
-
-    /*   on ajoute les listes des crÃ©dits / débits à la liste
-     *   du combofix du formulaire */
-    liste_combofix = g_slist_append ( liste_combofix, liste_categ_debit );
-    liste_combofix = g_slist_append ( liste_combofix, liste_categ_credit );
-
-    combofix = gtk_combofix_new_complex ( liste_combofix, TRUE,
-					  TRUE, TRUE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), combofix,
-			 TRUE, TRUE, 0 );
-
-    /*       mise en place du choix supprimer le categ */
-    hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox,
-			 FALSE, FALSE, 0 );
-    
-    bouton_categ_generique = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_transfert )),
-							       PRESPACIFY(_("Just remove this sub-category.")) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_categ_generique,
-			 FALSE, FALSE, 0 );
-
-    gtk_widget_show_all ( dialog );
-
-
-  retour_dialogue:
-    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
-
-    if ( resultat != GTK_RESPONSE_OK )
-    {
-	gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
-	return FALSE;
-    }
-
-    nouveau_no_categ = 0;
-    nouveau_no_sous_categ = 0;
-
-    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_transfert )) )
-    {
-
-	if ( !strlen (gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ))))
-	{
-	    dialogue_warning_hint ( _("It is compulsory to specify a destination category to move transactions but no category was entered."),
-				    _("Please enter a category!"));
-
-	    goto retour_dialogue;
-	}
-
-	/* récupère les no de categ et sous categ */
-	split_categ = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( combofix )),
-				   " : ", 2 );
-
-	nouvelle_categ = categ_par_nom ( split_categ[0], 0, 0, 0 );
-
-	if ( nouvelle_categ )
-	{
-	    nouveau_no_categ = iface -> div_id ( nouvelle_categ );
-	    nouvelle_sous_categ =  iface -> get_sub_div_pointer_from_name ( nouveau_no_categ, split_categ[1], 0 );
-
-	    if ( nouvelle_sous_categ )
-		nouveau_no_sous_categ = iface -> sub_div_id ( nouvelle_sous_categ );
-
-	    /* FIXME: fill_sub_categ_row */
-	}
-
-	g_strfreev ( split_categ );
-    }
-    else
-    {
-	nouveau_no_categ = 0;
-	nouveau_no_sous_categ = 0;
-    }
-
-    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
-
-    if ( no_div)
-	*no_div = nouveau_no_categ;
-    if ( no_sub_div )
-	*no_sub_div = nouveau_no_sous_categ;
-
-    return TRUE;
-}
-
-
-
-/** 
- * Clean
- *
- * Find transactions that are associated with a div or subdiv.
- *
- * \param iface		A MetatreeInterface to use.
- * \param no_categ	Division id to search for.
- * \param no_sous_categ Subdivision id to search for, or -1 to search
- *			only on division.
- *
- * \return TRUE if transactions are associated.
- *
- * \todo Return number of transactions instead, to produce nicer
- * dialogs.
- */
-gboolean find_associated_transactions ( MetatreeInterface * iface, 
-					gint no_categ, gint no_sous_categ )
-{
-    GSList *liste_tmp;
-    gint i;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
-    /* fait le tour des opés pour en trouver une qui a cette sous-catégorie */
-    for ( i=0 ; i<nb_comptes ; i++ )
-    {
-	liste_tmp = LISTE_OPERATIONS;
-
-	while ( liste_tmp )
-	{
-	    struct structure_operation *operation;
-
-	    operation = liste_tmp -> data;
-
-	    if ( iface -> transaction_div_id ( operation ) == no_categ &&
-		 ( no_sous_categ == -1 ||
-		   iface -> transaction_sub_div_id ( operation) == no_sous_categ ) )
-	    {
-		return TRUE;
-	    }
-	    else
-		liste_tmp = liste_tmp -> next;
-	}
-	p_tab_nom_de_compte_variable++;
-    }
-
-    liste_tmp = liste_struct_echeances;
-
-    /* fait le tour des échéances pour en trouver une qui a cette catégorie  */
-    while ( liste_tmp )
-    {
-	struct operation_echeance *echeance = liste_tmp -> data;
-
-	if ( iface -> scheduled_div_id ( echeance ) == no_categ && 
-	     ( no_sous_categ == -1 ||
-	       iface -> scheduled_div_id ( echeance ) == no_sous_categ ) )
-	{
-	    return TRUE;
-	}
-	else
-	    liste_tmp = liste_tmp -> next;
-    }
 
     return FALSE;
 }
