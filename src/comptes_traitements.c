@@ -85,12 +85,12 @@ extern GtkWidget *vbox_liste_comptes;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 /*END_EXTERN*/
 
+gint noname_account_number = 0;
 
 
 /* ************************************************************************** */
 /* Routine appelée lorsque l'on crée un nouveau compte                        */
 /* ************************************************************************** */
-
 void  nouveau_compte ( void )
 {
     gint type_de_compte;
@@ -194,10 +194,11 @@ gint initialisation_nouveau_compte ( gint type_de_compte )
 
     no_compte = nb_comptes;
     nb_comptes++;
+    noname_account_number++;
 
     /* insère ses paramètres ( comme c'est un appel à calloc, tout ce qui est à 0 est déjà initialisé )*/
 
-    NOM_DU_COMPTE = g_strdup ( _("No name") );
+    NOM_DU_COMPTE = g_strdup_printf ( _("No name %d"), noname_account_number );
     DEVISE = 1;
     MISE_A_JOUR = 1;
     NO_COMPTE = no_compte;
