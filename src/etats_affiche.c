@@ -46,7 +46,7 @@ gint etat_affiche_affiche_titre ( gint ligne )
 
   titre = etats_titre () ;
 
-  etat_affiche_attach_label ( titre, TEXT_BOLD | TEXT_HUGE, 0, nb_colonnes-1,
+  etat_affiche_attach_label ( titre, TEXT_BOLD | TEXT_HUGE, 0, nb_colonnes,
 			      ligne, ligne + 1, LEFT, NULL );
 
   return 1;
@@ -57,7 +57,7 @@ gint etat_affiche_affiche_titre ( gint ligne )
 /*****************************************************************************************************/
 gint etat_affiche_affiche_separateur ( gint ligne )
 {
-  etat_affiche_attach_hsep ( 0, nb_colonnes-1, ligne, ligne + 1 );
+  etat_affiche_attach_hsep ( 0, nb_colonnes, ligne, ligne + 1 );
   return ligne + 1;
 }
 /*****************************************************************************************************/
@@ -93,7 +93,7 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 	  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes -1, ligne, ligne + 1, LEFT, NULL );
 	  ligne++;
 
-	  etat_affiche_attach_hsep ( 1, nb_colonnes-1, ligne, ligne + 1 );
+	  etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
 	  ligne++;
 
 	  if ( nom_categ_en_cours )
@@ -1016,7 +1016,6 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 		  etat_affiche_attach_label ( pointeur, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
 		}
 	    }
-
 	      
 	  etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	  colonne = colonne + 2;
@@ -1247,7 +1246,7 @@ gint etat_affiche_affiche_total_partiel ( gdouble total_partie,
   etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
   ligne++;
 
-  etat_affiche_attach_hsep ( 0, nb_colonnes - 1, ligne, ligne + 1 );
+  etat_affiche_attach_hsep ( 0, nb_colonnes, ligne, ligne + 1 );
   ligne++;
   
   etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
@@ -1992,7 +1991,7 @@ gint etat_affiche_affiche_titres_colonnes ( gint ligne )
 
   ligne++;
 
-  etat_affiche_attach_hsep ( 1, nb_colonnes - 1, ligne, ligne + 1 );
+  etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
   ligne++;
 
   titres_affiches = 1;
