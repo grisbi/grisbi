@@ -1819,7 +1819,7 @@ void passage_a_l_euro ( GtkWidget *bouton,
 
       if ( !change )
 	{
-	  dialogue ( _("Error: exchange rate beetween the 2 currencies is 0.") );
+	  dialogue ( _("Error: exchange rate between the 2 currencies is 0.") );
 	  return;
 	}
 
