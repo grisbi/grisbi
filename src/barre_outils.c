@@ -845,22 +845,32 @@ GtkWidget *creation_barre_outils_tiers ( void )
 /*******************************************************************************************/
 GtkWidget *creation_barre_outils_categ ( void )
 {
-    GtkWidget *hbox;
-    GtkWidget *separateur;
-    GtkWidget *icone;
-    GtkWidget *bouton;
+    GtkWidget *hbox, *separateur, *icone, *bouton, *handlebox, *hbox2;
 
-    hbox = gtk_hbox_new ( FALSE,
-			  5 );
-    gtk_widget_show ( hbox );
+    hbox = gtk_hbox_new ( FALSE, 5 );
 
+    /* HandleBox */
+    handlebox = gtk_handle_box_new ();
+    gtk_box_pack_start ( GTK_BOX ( hbox ), handlebox, FALSE, FALSE, 0 );
+    /* Hbox2 */
+    hbox2 = gtk_hbox_new ( FALSE, 0 );
+    gtk_container_add ( GTK_CONTAINER(handlebox), hbox2 );
+
+    /* FIXME: this does not work with GTK 2.2 ! */
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), gtk_tool_button_new_from_stock(GTK_STOCK_NEW), 
+			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), gtk_tool_button_new_from_stock(GTK_STOCK_OPEN), 
+			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), gtk_tool_button_new_from_stock(GTK_STOCK_SAVE), 
+			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), gtk_tool_button_new_from_stock(GTK_STOCK_DELETE), 
+			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), gtk_tool_button_new_from_stock(GTK_STOCK_PROPERTIES), 
+			 FALSE, FALSE, 0 );
+
+    /* Separator */
     separateur = gtk_vseparator_new ();
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 separateur,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( separateur );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), separateur, FALSE, FALSE, 0 );
 
 
     /* bouton fermeture de l'arbre */
@@ -890,7 +900,6 @@ GtkWidget *creation_barre_outils_categ ( void )
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show_all ( bouton );
 
     /* bouton ouverture de l'arbre niveau 1 */
 
@@ -919,7 +928,6 @@ GtkWidget *creation_barre_outils_categ ( void )
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show_all ( bouton );
 
     /* bouton ouverture de l'arbre niveau 2 */
 
@@ -948,7 +956,6 @@ GtkWidget *creation_barre_outils_categ ( void )
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show_all ( bouton );
 
     /* bouton ouverture de l'arbre niveau 3 */
 
@@ -977,7 +984,6 @@ GtkWidget *creation_barre_outils_categ ( void )
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show_all ( bouton );
 
     separateur = gtk_vseparator_new ();
     gtk_box_pack_start ( GTK_BOX ( hbox ),
@@ -985,7 +991,7 @@ GtkWidget *creation_barre_outils_categ ( void )
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show ( separateur );
+    gtk_widget_show_all ( hbox );
 
 
     return ( hbox );
