@@ -22,26 +22,28 @@
 
 
 #include "include.h"
-#include "structures.h"
 
+
+#define START_INCLUDE
+#include "gnucash.h"
 #include "utils.h"
+#define END_INCLUDE
 
-extern GSList *liste_comptes_importes;
-extern gint nb_comptes;
+#define START_STATIC
+static gchar * child_content ( xmlNodePtr node, gchar * child_name );
+static struct struct_compte_importation * find_imported_account_by_uid ( gchar * guid );
+static struct gnucash_category * find_imported_categ_by_uid ( gchar * guid );
+static xmlNodePtr get_child ( xmlNodePtr node, gchar * child_name );
+static gchar * get_currency ( xmlNodePtr currency_node );
+static gdouble gnucash_value ( gchar * value );
+static gboolean node_strcmp ( xmlNodePtr node, gchar * name );
+static xmlDocPtr parse_gnucash_file ( gchar * filename );
+static void recuperation_donnees_gnucash_book ( xmlNodePtr book_node );
+static void recuperation_donnees_gnucash_categorie ( xmlNodePtr categ_node );
+static void recuperation_donnees_gnucash_compte ( xmlNodePtr compte_node );
+static void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node );
+#define END_STATIC
 
-
-void recuperation_donnees_gnucash_book ( xmlNodePtr book_node );
-void recuperation_donnees_gnucash_categorie ( xmlNodePtr categ_node );
-void recuperation_donnees_gnucash_compte ( xmlNodePtr compte_node );
-void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node );
-gboolean node_strcmp ( xmlNodePtr node, gchar * name );
-xmlNodePtr get_child ( xmlNodePtr node, gchar * child_name );
-gchar * child_content ( xmlNodePtr node, gchar * child_name );
-gchar * get_currency ( xmlNodePtr currency_node );
-struct struct_compte_importation * find_imported_account_by_uid ( gchar * guid );
-struct gnucash_category * find_imported_categ_by_uid ( gchar * guid );
-gdouble gnucash_value ( gchar * value );
-xmlDocPtr parse_gnucash_file ( gchar * filename );
 
 
 struct gnucash_category {
@@ -53,6 +55,11 @@ struct gnucash_category {
   gchar * guid;
 };
 GSList * gnucash_categories = NULL;
+
+#define START_EXTERN
+extern GSList *liste_comptes_importes;
+extern gchar * tempname;
+#define END_EXTERN
 
 
 gboolean recuperation_donnees_gnucash ( gchar * filename )

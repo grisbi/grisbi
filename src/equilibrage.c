@@ -25,23 +25,45 @@
 
 
 #include "include.h"
-#include "structures.h"
+
+
+
+
+
+#define START_INCLUDE
 #include "equilibrage.h"
-
-
-
-#include "accueil.h"
-#include "barre_outils.h"
-#include "calendar.h"
-#include "constants.h"
 #include "devises.h"
-#include "dialog.h"
-#include "operations_classement.h"
 #include "operations_liste.h"
-#include "search_glist.h"
-#include "traitement_variables.h"
+#include "dialog.h"
 #include "utils.h"
+#include "calendar.h"
+#include "traitement_variables.h"
+#include "search_glist.h"
 #include "type_operations.h"
+#define END_INCLUDE
+
+#define START_STATIC
+static gboolean annuler_equilibrage ( void );
+static gboolean clavier_equilibrage ( GtkWidget *widget,
+			       GdkEventKey *event );
+static void deplacement_type_tri_bas ( void );
+static void deplacement_type_tri_haut ( GtkWidget * button, gpointer data );
+static void fill_reconciliation_tree ();
+static gboolean fin_equilibrage ( GtkWidget *bouton_ok,
+		       gpointer data );
+static gboolean modif_entree_solde_final_equilibrage ( void );
+static gboolean modif_entree_solde_init_equilibrage ( void );
+static struct struct_no_rapprochement *rapprochement_par_no ( gint no_rapprochement );
+static void reconcile_by_date_toggled ( GtkCellRendererToggle *cell, 
+				 gchar *path_str, gpointer data );
+static void reconcile_include_neutral_toggled ( GtkCellRendererToggle *cell, 
+					 gchar *path_str, gpointer data );
+static void select_reconciliation_entry ( GtkTreeSelection * tselection, 
+				   GtkTreeModel * model );
+static gboolean sortie_entree_date_equilibrage ( GtkWidget *entree );
+static gboolean souris_equilibrage ( GtkWidget *entree,
+			      GdkEventButton *event );
+#define END_STATIC
 
 
 
@@ -86,18 +108,24 @@ gint ancien_r_modifiable;
 gint ancien_retient_affichage_par_compte;
 
 
-extern GtkWidget *bouton_ope_lignes[4];
-extern GtkWidget *label_proprietes_operations_compte;
+#define START_EXTERN
 extern GtkWidget *bouton_affiche_r;
 extern GtkWidget *bouton_enleve_r;
-extern GtkWidget *vbox_fleches_tri;
-extern gint mise_a_jour_liste_comptes_accueil;
+extern GtkWidget *bouton_ope_lignes[4];
 extern gint compte_courant;
+extern GtkWidget *label_proprietes_operations_compte;
 extern GtkWidget *label_releve;
+extern gint mise_a_jour_liste_comptes_accueil;
+extern GtkTreeStore *model;
 extern gint nb_comptes;
+extern GtkWidget *notebook_comptes_equilibrage;
+extern FILE * out;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-extern GtkWidget *notebook_comptes_equilibrage;
+extern GtkWidget *treeview;
+extern GtkWidget *vbox_fleches_tri;
+#define END_EXTERN
+
 
 
 /******************************************************************************/
@@ -1409,12 +1437,6 @@ void deplacement_type_tri_bas ( void )
     }  
 }
 
-
-
-/** TODO: remove this  */
-void save_ordre_liste_type_tri ( void )
-{
-}
 
 
 

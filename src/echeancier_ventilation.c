@@ -23,23 +23,56 @@
 
 
 #include "include.h"
-#include "structures.h"
+
+
+#define START_INCLUDE
 #include "echeancier_ventilation.h"
-#include "echeancier_liste.h"
-#include "operations_classement.h"
-#include "operations_formulaire.h"
+#include "categories_onglet.h"
 #include "exercice.h"
 #include "type_operations.h"
-#include "dialog.h"
-#include "search_glist.h"
-#include "categories_onglet.h"
-#include "utils.h"
-#include "imputation_budgetaire.h"
+#include "operations_classement.h"
 #include "echeancier_formulaire.h"
-#include "constants.h"
+#include "dialog.h"
 #include "echeancier_onglet.h"
-#include "constants.h"
+#include "operations_formulaire.h"
+#include "gtk_combofix.h"
+#include "imputation_budgetaire.h"
+#include "utils.h"
 #include "comptes_traitements.h"
+#include "operations_liste.h"
+#include "echeancier_liste.h"
+#define END_INCLUDE
+
+#define START_STATIC
+static void affiche_liste_ventilation_echeances ( void );
+static void ajoute_ope_sur_liste_ventilation_echeances ( struct struct_ope_ventil *operation );
+static void annuler_ventilation_echeances ( void );
+static gboolean appui_touche_ventilation_echeances ( GtkWidget *entree, GdkEventKey *evenement,
+					      gint *no_origine );
+static void calcule_montant_ventilation_echeances ( void );
+static void changement_taille_liste_ventilation_echeances  ( GtkWidget *clist,
+						      GtkAllocation *allocation,
+						      gpointer null );
+static gboolean clique_champ_formulaire_ventilation_echeances ( void );
+static void echap_formulaire_ventilation_echeances ( void );
+static void edition_operation_ventilation_echeances ( void );
+static gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFocus *ev,
+						   gint *no_origine );
+static void fin_edition_ventilation_echeances ( void );
+static void mise_a_jour_couleurs_liste_ventilation_echeances ( void );
+static void mise_a_jour_labels_ventilation_echeances ( void );
+static void quitter_ventilation_echeances ( void );
+static void selectionne_ligne_souris_ventilation_echeances ( GtkCList *liste,
+						      GdkEventButton *evenement,
+						      gpointer null );
+static void selectionne_ligne_ventilation_echeances ( void );
+static void supprime_operation_ventilation_echeances ( void );
+static gboolean traitement_clavier_liste_ventilation_echeances ( GtkCList *liste,
+							  GdkEventKey *evenement,
+							  gpointer null );
+static void valider_ventilation_echeances ( void );
+#define END_STATIC
+
 
 
 
@@ -59,26 +92,34 @@ gdouble montant_operation_ventilee_echeances;
 gdouble somme_ventilee_echeances;
 gint enregistre_ope_au_retour_echeances;            /* à 1 si au click du bouton valider on enregistre l'opé */
 
-extern GSList *liste_categories_ventilation_combofix; 
+#define START_EXTERN
+extern GtkWidget *barre_outils;
+extern gint compte_courant;
+extern GtkWidget *formulaire;
 extern GtkWidget *formulaire_echeancier;
-extern GSList *liste_struct_echeances; 
+extern GtkWidget *formulaire_echeancier;
+extern GtkWidget *frame_droite_bas;
+extern GSList *liste_categories_ventilation_combofix;
+extern GSList *liste_imputations_combofix;
+extern GSList *liste_struct_echeances;
+extern gint mise_a_jour_combofix_categ_necessaire;
+extern gint mise_a_jour_combofix_imputation_necessaire;
+extern gint nb_comptes;
 extern gint nb_echeances;
 extern gint no_derniere_echeance;
 extern GtkWidget *notebook_calendrier_ventilations;
 extern GtkWidget *notebook_formulaire_echeances;
 extern GtkWidget *notebook_liste_ventil_echeances;
-extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
-extern GSList *liste_imputations_combofix;
-extern gint mise_a_jour_combofix_categ_necessaire;
-extern gint mise_a_jour_combofix_imputation_necessaire;
-extern GtkStyle *style_entree_formulaire[2];
-extern GtkWidget *window;
-extern gint compte_courant;
-extern GtkWidget *barre_outils;
-extern gint nb_comptes;
+extern FILE * out;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
+extern GtkTreeSelection * selection;
 extern GtkStyle *style_couleur [2];
+extern GtkStyle *style_entree_formulaire[2];
+extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
+extern GtkWidget *window;
+#define END_EXTERN
+
 
 
 

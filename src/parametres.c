@@ -19,33 +19,39 @@
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 #include "include.h"
-#include "structures.h"
+
+
+#define START_INCLUDE
 #include "parametres.h"
-
-
-#include "affichage.h"
+#include "utils.h"
+#include "traitement_variables.h"
 #include "affichage_liste.h"
 #include "banque.h"
 #include "devises.h"
-#include "equilibrage.h"
+#include "affichage.h"
 #include "exercice.h"
 #include "import.h"
 #include "type_operations.h"
-#include "utils.h"
-#include "traitement_variables.h"
+#include "equilibrage.h"
+#define END_INCLUDE
 
-static GtkWidget *onglet_messages_and_warnings ( void );
-static GtkWidget *onglet_fichier ( void );
+#define START_STATIC
+static gboolean change_backup_path ( GtkEntry *entry, gchar *value, gint length, gint * position );
 static void changement_choix_backup ( GtkWidget *bouton,
-				      gpointer pointeur );
-static gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
-					       GtkTreeModel *model );
+			       gpointer pointeur );
 static GtkWidget * create_preferences_tree ( );
-static gboolean preference_selectable_func (GtkTreeSelection *selection,
-					    GtkTreeModel *model, GtkTreePath *path,
-					    gboolean path_currently_selected,
-					    gpointer data);
+static GtkWidget *onglet_fichier ( void );
+static GtkWidget *onglet_messages_and_warnings ( void );
 static GtkWidget *onglet_programmes (void);
+static gboolean preference_selectable_func (GtkTreeSelection *selection,
+				     GtkTreeModel *model,
+				     GtkTreePath *path,
+				     gboolean path_currently_selected,
+				     gpointer data);
+static gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
+					GtkTreeModel *model );
+#define END_STATIC
+
 
 
 
@@ -54,7 +60,6 @@ GtkWidget * hpaned;
 GtkNotebook * preference_frame;
 gint preference_selected = -1;
 GtkTreeSelection * selection;
-GtkWidget * button_close, * button_help;
 GtkWidget *tree_view;
 GtkWidget * bouton_display_lock_active;
 
@@ -79,13 +84,18 @@ GtkWidget *entree_jours;
 
 
 
-extern gint decalage_echeance; 
-extern GtkWidget *window;
-extern gint compression_fichier;
+#define START_EXTERN
 extern gint compression_backup;
+extern gint compression_fichier;
+extern gint decalage_echeance;
+extern GtkTreeStore *model;
+extern gint nb_comptes;
 extern gint nb_max_derniers_fichiers_ouverts;
 extern gchar *nom_fichier_backup;
-extern gint nb_comptes;
+extern GtkWidget *treeview;
+extern GtkWidget *window;
+#define END_EXTERN
+
 
 
 /**

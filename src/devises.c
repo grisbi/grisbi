@@ -21,52 +21,63 @@
 
 
 #include "include.h"
-#include "structures.h"
+
+
+
+
+
+#define START_INCLUDE
 #include "devises.h"
-#include "constants.h"
-
-
-
-#include "accueil.h"
-#include "categories_onglet.h"
-#include "comptes_gestion.h"
-#include "comptes_onglet.h"
 #include "dialog.h"
-#include "etats_config.h"
-#include "imputation_budgetaire.h"
-#include "search_glist.h"
-#include "tiers_onglet.h"
-#include "traitement_variables.h"
 #include "utils.h"
-#include "operations_formulaire.h"
+#include "categories_onglet.h"
+#include "imputation_budgetaire.h"
+#include "tiers_onglet.h"
+#include "comptes_gestion.h"
+#include "traitement_variables.h"
+#include "search_glist.h"
+#include "etats_config.h"
 #include "affichage_formulaire.h"
+#include "operations_formulaire.h"
+#define END_INCLUDE
 
-
+#define START_STATIC
 static gint bloque_echap_choix_devise ( GtkWidget *dialog,
-					GdkEventKey *key,
-					gpointer null );
-static void retrait_devise ( GtkWidget *bouton,
-			     GtkWidget *liste );
-static gboolean devise_selectionnee ( GtkWidget *menu_shell,
-				      gint origine );
-static gboolean selection_ligne_devise ( GtkWidget *liste,
-					 gint ligne,
-					 gint colonne,
-					 GdkEventButton *ev,
-					 GtkWidget *frame );
-static gboolean deselection_ligne_devise ( GtkWidget *liste,
-					   gint ligne,
-					   gint colonne,
-					   GdkEventButton *ev,
-					   GtkWidget *frame );
-static gboolean changement_nom_entree_devise ( void );
+				 GdkEventKey *key,
+				 gpointer null );
+static struct cached_exchange_rate *cached_exchange_rate ( struct struct_devise * currency1, 
+						    struct struct_devise * currency2 );
 static gboolean changement_code_entree_devise ( void );
 static gboolean changement_iso_code_entree_devise ( void );
+static gboolean changement_nom_entree_devise ( void );
+static struct struct_devise *create_currency ( gchar * nom_devise, gchar * code_devise, gchar * code_iso4217_devise );
+static gboolean deselection_ligne_devise ( GtkWidget *liste,
+				    gint ligne,
+				    gint colonne,
+				    GdkEventButton *ev,
+				    GtkWidget *frame );
+static gboolean devise_selectionnee ( GtkWidget *menu_shell, gint origine );
+static void fill_currency_list ( GtkTreeView * view, gboolean include_obsolete );
+static GtkWidget * new_currency_list ();
+static gboolean rebuild_currency_list ( GtkWidget * checkbox, GtkTreeView * view );
+static void retrait_devise ( GtkWidget *bouton,
+		      GtkWidget *liste );
+static gboolean select_currency_in_iso_list (GtkTreeSelection *selection,
+				      GtkTreeModel *model);
+static gboolean selection_ligne_devise ( GtkWidget *liste,
+				  gint ligne,
+				  gint colonne,
+				  GdkEventButton *ev,
+				  GtkWidget *frame );
+static gint sort_tree (GtkTreeModel *model,
+		GtkTreeIter *a,
+		GtkTreeIter *b,
+		gpointer user_data);
+static void update_currency_widgets();
 static void update_exchange_rate_cache ( struct struct_devise * currency1, 
-					 struct struct_devise * currency2,
-					 gdouble change, gdouble fees );
-static struct cached_exchange_rate * cached_exchange_rate ( struct struct_devise * currency1, 
-							    struct struct_devise * currency2 );
+				  struct struct_devise * currency2,
+				  gdouble change, gdouble fees );
+#define END_STATIC
 
 
 
@@ -281,34 +292,39 @@ struct struct_devise *devise_operation;
 
 
 
-extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
-extern GSList *liste_struct_echeances;
-extern gint mise_a_jour_liste_comptes_accueil;
-extern gint mise_a_jour_liste_echeances_manuelles_accueil;
-extern gint mise_a_jour_liste_echeances_auto_accueil;
-extern gint mise_a_jour_combofix_categ_necessaire;
-extern gint mise_a_jour_combofix_tiers_necessaire;
-extern gint mise_a_jour_combofix_imputation_necessaire;
-extern GtkWidget *detail_devise_compte;
-extern GtkWidget *hbox_boutons_modif;
-extern GtkWidget *window;
-extern gint compte_courant;
-extern gint nb_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
-extern GtkWidget *onglet_config_etat;
+#define START_EXTERN
 extern GtkWidget *bouton_devise_categ_etat;
 extern GtkWidget *bouton_devise_ib_etat;
-extern GtkWidget *bouton_devise_tiers_etat;
 extern GtkWidget *bouton_devise_montant_etat;
+extern GtkWidget *bouton_devise_tiers_etat;
+extern gint compte_courant;
+extern GtkWidget *detail_devise_compte;
+extern GtkWidget *hbox_boutons_modif;
+extern GSList *liste_struct_echeances;
+extern gint mise_a_jour_combofix_categ_necessaire;
+extern gint mise_a_jour_combofix_imputation_necessaire;
+extern gint mise_a_jour_combofix_tiers_necessaire;
+extern gint mise_a_jour_liste_comptes_accueil;
+extern gint mise_a_jour_liste_echeances_auto_accueil;
+extern gint mise_a_jour_liste_echeances_manuelles_accueil;
+extern GtkTreeStore *model;
+extern gint nb_comptes;
+extern GtkWidget *onglet_config_etat;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern GtkTreeSelection * selection;
+extern GtkWidget *treeview;
+extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
+extern GtkWidget *window;
+#define END_EXTERN
 
 
 
-gint
-sort_tree (GtkTreeModel *model,
-	   GtkTreeIter *a,
-	   GtkTreeIter *b,
-	   gpointer user_data)
+
+gint sort_tree (GtkTreeModel *model,
+		GtkTreeIter *a,
+		GtkTreeIter *b,
+		gpointer user_data)
 {
     GValue value1 = {0, };
     GValue value2 = {0, };
@@ -1274,24 +1290,6 @@ gboolean devise_selectionnee ( GtkWidget *menu_shell, gint origine )
 
 
 
-/** 
- *  TODO: document this
- */
-gboolean change_rate_date ( GtkWidget * spin, gdouble * dummy )
-{
-    struct struct_devise *devise;
-
-    devise = gtk_clist_get_row_data ( GTK_CLIST ( clist_devises_parametres ),
-				      ligne_selection_devise );
-
-    devise -> date_dernier_change = g_date_new ();
-    g_date_set_time ( devise -> date_dernier_change,
-		      time (NULL));
-
-    return FALSE;
-}
-
-
 /**
  * Creates the currency list and associated form to configure them.
  *
@@ -1672,9 +1670,8 @@ gdouble calcule_montant_devise_renvoi ( gdouble montant_init,
  * \return FALSE on failure, a pointer to a cached_exchange_rate
  * structure on success.
  */
-struct cached_exchange_rate *
-cached_exchange_rate ( struct struct_devise * currency1, 
-		       struct struct_devise * currency2 )
+struct cached_exchange_rate *cached_exchange_rate ( struct struct_devise * currency1, 
+						    struct struct_devise * currency2 )
 {
     GSList * liste_tmp = cached_exchange_rates;
     struct cached_exchange_rate * tmp;
@@ -1842,8 +1839,7 @@ gchar * devise_name ( struct struct_devise * devise )
 /* ***************************************************************************************** */
 
 
-struct struct_devise *
-create_currency ( gchar * nom_devise, gchar * code_devise, gchar * code_iso4217_devise )
+struct struct_devise *create_currency ( gchar * nom_devise, gchar * code_devise, gchar * code_iso4217_devise )
 {
   struct struct_devise * devise;
   

@@ -26,13 +26,26 @@
 /* ************************************************************************** */
 
 #include "include.h"
-#include "structures.h"
 
-#include "devises.h"
+
+
+#define START_INCLUDE
 #include "search_glist.h"
+#include "devises.h"
 #include "utils.h"
+#define END_INCLUDE
+
+#define START_STATIC
+static gint recherche_devise_par_code ( struct struct_devise *devise,
+				gchar *code );
+#define END_STATIC
 
 
+
+
+#define START_EXTERN
+extern GtkWidget *nom_exercice;
+#define END_EXTERN
 
 
 

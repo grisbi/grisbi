@@ -19,11 +19,26 @@
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 #include "include.h"
-#include "structures.h"
-#include "etats_latex.h"
 
-#include "dialog.h"
 #include "etats.h"
+
+
+#define START_INCLUDE
+#include "etats_latex.h"
+#include "dialog.h"
+#include "print_config.h"
+#define END_INCLUDE
+
+#define START_STATIC
+static void latex_attach_hsep ( int x, int x2, int y, int y2);
+static void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
+			  enum alignement align, struct structure_operation * ope );
+static void latex_attach_vsep ( int x, int x2, int y, int y2);
+static gint latex_finish ();
+static gint latex_initialise (GSList * opes_selectionnees);
+static void latex_safe ( gchar * text ) ;
+#define END_STATIC
+
 
 
 
@@ -31,7 +46,6 @@ int lastline = 0;
 int lastcol = 0;
 int last_is_hsep = 0;
 FILE * out;
-struct print_config * printer_config;
 gchar * tempname;
 
 
@@ -43,8 +57,11 @@ struct struct_etat_affichage latex_affichage = {
     latex_attach_label,
 };
 
+#define START_EXTERN
 extern struct struct_etat *etat_courant;
 extern gint nb_colonnes;
+#define END_EXTERN
+
 
 /**
  * Backend function that is responsible for printing a label at a

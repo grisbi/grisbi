@@ -22,27 +22,36 @@
 
 
 #include "include.h"
-#include "structures.h"
+
+
+#define START_INCLUDE
 #include "qif.h"
-
-
 #include "devises.h"
 #include "dialog.h"
-#include "search_glist.h"
 #include "utils.h"
+#include "search_glist.h"
+#define END_INCLUDE
 
-GSList *liste_comptes_qif;
+#define START_STATIC
+static void click_compte_export_qif ( GtkWidget *bouton,
+			       GtkWidget *entree );
+#define END_STATIC
+
+
 GSList *liste_entrees_exportation;
 
 
+#define START_EXTERN
 extern GSList *liste_comptes_importes;
-extern GtkWidget *window;
+extern GSList *liste_struct_categories;
+extern GSList *liste_struct_tiers;
 extern gint nb_comptes;
+extern gchar *nom_fichier_comptes;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-extern gchar *nom_fichier_comptes;
-extern GSList *liste_struct_tiers;
-extern GSList *liste_struct_categories;
+extern GtkWidget *window;
+#define END_EXTERN
+
 
 /* *******************************************************************************/
 gboolean recuperation_donnees_qif ( FILE *fichier )

@@ -20,17 +20,25 @@
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 #include "include.h"
-#include "structures.h"
+
+
+#define START_INCLUDE
 #include "etats_support.h"
-
-
-#include "search_glist.h"
 #include "exercice.h"
+#define END_INCLUDE
+
+#define START_STATIC
+#define END_STATIC
 
 
 
-extern GSList *liste_struct_exercices;
+
+#define START_EXTERN
 extern struct struct_etat *etat_courant;
+extern GSList *liste_struct_exercices;
+extern GtkWidget *nom_exercice;
+#define END_EXTERN
+
 
 
 

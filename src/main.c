@@ -34,22 +34,26 @@
 
 
 #include "include.h"
-#include "structures.h"
+
+
+#define START_INCLUDE
 #include "main.h"
-
-
-#include "erreur.h"
-#include "etats_calculs.h"
-#include "etats_config.h"
-#include "etats_onglet.h"
-#include "fichier_configuration.h"
-#include "fichiers_gestion.h"
 #include "menu.h"
-#include "parametres.h"
-#include "traitement_variables.h"
-#include "utils.h"
 #include "operations_liste.h"
-#include "operations_comptes.h"
+#include "fichier_configuration.h"
+#include "utils.h"
+#include "erreur.h"
+#include "traitement_variables.h"
+#include "fichiers_gestion.h"
+#include "etats_config.h"
+#include "parametres.h"
+#include "etats_calculs.h"
+#include "etats_onglet.h"
+#define END_INCLUDE
+
+#define START_STATIC
+#define END_STATIC
+
 
 
 
@@ -63,25 +67,30 @@ gint id_fonction_idle;
 
 
 
-extern gint compte_courant;
-extern gint largeur_window;
-extern gint hauteur_window;
-extern gint nb_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
-extern gchar *nom_fichier_comptes;
-extern GtkWidget *notebook_general;
-extern GtkStyle *style_label_nom_compte;
-extern GSList *liste_struct_etats;
-extern struct struct_etat *etat_courant;
-extern GtkWidget *bouton_personnaliser_etat;
+#define START_EXTERN
+extern GtkWidget *bouton_dupliquer_etat;
 extern GtkWidget *bouton_effacer_etat;
 extern GtkWidget *bouton_exporter_etat;
-extern GtkWidget *bouton_dupliquer_etat;
+extern GtkWidget *bouton_personnaliser_etat;
+extern gint compte_courant;
+extern struct struct_etat *etat_courant;
+extern gint hauteur_window;
 extern GtkWidget *label_etat_courant;
-extern GtkWidget *notebook_selection;
+extern gint largeur_window;
+extern GSList *liste_struct_etats;
+extern gint nb_comptes;
+extern gchar *nom_fichier_comptes;
 extern GtkWidget *notebook_aff_donnees;
 extern GtkWidget *notebook_config_etat;
+extern GtkWidget *notebook_general;
+extern GtkWidget *notebook_selection;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern GtkTreeSelection * selection;
+extern GtkStyle *style_label_nom_compte;
+extern GtkWidget *tree_view;
+#define END_EXTERN
+
 
 
 

@@ -21,17 +21,18 @@
 
 
 #include "include.h"
-#include "structures.h"
 
-#include "affichage_liste.h"
-#include "gtkcombofix.h"
-#include "menu.h"
+
+
+#define START_INCLUDE
 #include "traitement_variables.h"
-#include "utils.h"
-#include "affichage.h"
-#include "affichage_formulaire.h"
+#include "menu.h"
+#define END_INCLUDE
 
+#define START_STATIC
 static void initialise_tab_affichage_ope ( void );
+#define END_STATIC
+
 
 /* les styles de couleur */
 
@@ -65,71 +66,74 @@ gchar *labels_titres_colonnes_liste_ope[] = {
     NULL };
 
 
-extern gint valeur_echelle_recherche_date_import;
-extern GtkItemFactory *item_factory_menu_general;
-extern GSList *liste_struct_echeances; 
-extern gint nb_echeances;
-extern gint no_derniere_echeance;
-extern gint affichage_echeances; 
-extern gint affichage_echeances_perso_nb_libre; 
-extern gint affichage_echeances_perso_j_m_a; 
-extern GSList *echeances_saisies;
 
-extern GtkTooltips *tooltips_general_grisbi;
-extern GtkTreeViewColumn *colonnes_liste_ventils[3];
-extern GSList *liste_struct_banques;
-extern gint nb_banques;
-extern gint no_derniere_banque;
-extern GSList *liste_struct_rapprochements;
-extern GSList *liste_struct_imputation;
-extern gint nb_enregistrements_imputations;
-extern gint no_derniere_imputation;
-extern gint mise_a_jour_liste_comptes_accueil;
-extern gint mise_a_jour_liste_echeances_manuelles_accueil;
-extern gint mise_a_jour_liste_echeances_auto_accueil;
-extern gint mise_a_jour_soldes_minimaux;
-extern gint mise_a_jour_fin_comptes_passifs;
-extern gint mise_a_jour_combofix_tiers_necessaire;
-extern gint mise_a_jour_combofix_categ_necessaire;
-extern gint mise_a_jour_combofix_imputation_necessaire;
-extern struct organisation_formulaire *organisation_generale_formulaire;
-extern struct struct_devise *devise_compte;
-extern struct struct_devise *devise_operation;
-extern GSList *liste_struct_devises;
-extern gint nb_devises;
-extern gint no_derniere_devise;
-extern struct struct_devise *devise_nulle;
-extern GtkWidget *window;
-extern gint compte_courant;
-extern gchar *nom_fichier_backup;
-extern gint nb_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
-extern gint no_derniere_operation;
-extern GSList *ordre_comptes;
-extern gchar *titre_fichier;
+#define START_EXTERN
 extern gchar *adresse_commune;
 extern gchar *adresse_secondaire;
-extern GSList *liste_struct_exercices;
-extern GtkWidget *solde_label;
-extern GtkWidget *solde_label_pointe;
-extern gchar *nom_fichier_comptes;
+extern gint affichage_echeances;
+extern gint affichage_echeances_perso_j_m_a;
+extern gint affichage_echeances_perso_nb_libre;
 extern gchar *chemin_logo;
-extern gint nb_enregistrements_tiers;
-extern gint no_dernier_tiers;
-extern gint no_devise_totaux_tiers;
-extern GSList *liste_struct_tiers;
-extern GSList *liste_struct_categories;
-extern gint nb_enregistrements_categories;
-extern gint no_derniere_categorie;
-extern GSList *liste_struct_etats;
+extern GtkTreeViewColumn *colonnes_liste_ventils[3];
+extern gint compte_courant;
+extern struct struct_devise *devise_compte;
+extern struct struct_devise *devise_nulle;
+extern struct struct_devise *devise_operation;
+extern GSList *echeances_saisies;
 extern struct struct_etat *etat_courant;
-extern gint no_dernier_etat;
-extern GtkWidget *liste_categ_etat;
-extern gint tab_affichage_ope[4][7];
+extern GtkWidget *formulaire;
+extern GtkItemFactory *item_factory_menu_general;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
+extern GtkWidget *liste_categ_etat;
+extern GSList *liste_struct_banques;
+extern GSList *liste_struct_categories;
+extern GSList *liste_struct_devises;
+extern GSList *liste_struct_echeances;
+extern GSList *liste_struct_etats;
+extern GSList *liste_struct_exercices;
+extern GSList *liste_struct_imputation;
+extern GSList *liste_struct_rapprochements;
+extern GSList *liste_struct_tiers;
+extern gint mise_a_jour_combofix_categ_necessaire;
+extern gint mise_a_jour_combofix_imputation_necessaire;
+extern gint mise_a_jour_combofix_tiers_necessaire;
+extern gint mise_a_jour_fin_comptes_passifs;
+extern gint mise_a_jour_liste_comptes_accueil;
+extern gint mise_a_jour_liste_echeances_auto_accueil;
+extern gint mise_a_jour_liste_echeances_manuelles_accueil;
+extern gint mise_a_jour_soldes_minimaux;
+extern gint nb_banques;
+extern gint nb_colonnes;
+extern gint nb_comptes;
+extern gint nb_devises;
+extern gint nb_echeances;
+extern gint nb_enregistrements_categories;
+extern gint nb_enregistrements_imputations;
+extern gint nb_enregistrements_tiers;
+extern gint no_dernier_etat;
+extern gint no_dernier_tiers;
+extern gint no_derniere_banque;
+extern gint no_derniere_categorie;
+extern gint no_derniere_devise;
+extern gint no_derniere_echeance;
+extern gint no_derniere_imputation;
+extern gint no_derniere_operation;
+extern gint no_devise_totaux_tiers;
+extern gchar *nom_fichier_backup;
+extern gchar *nom_fichier_comptes;
+extern GSList *ordre_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern GtkWidget *solde_label;
+extern GtkWidget *solde_label_pointe;
+extern gint tab_affichage_ope[4][7];
+extern gchar *titre_fichier;
+extern GtkTooltips *tooltips_general_grisbi;
+extern gint valeur_echelle_recherche_date_import;
+extern GtkWidget *window;
+#define END_EXTERN
+
 
 
 /*****************************************************************************************************/

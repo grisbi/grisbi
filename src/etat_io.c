@@ -20,31 +20,47 @@
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 #include "include.h"
-#include "structures.h"
-#include "etat_io.h"
 
-#include "dialog.h"
+
+#define START_INCLUDE
+#include "etat_io.h"
 #include "erreur.h"
-#include "etats_onglet.h"
-#include "search_glist.h"
-#include "traitement_variables.h"
-#include "utils.h"
 #include "categories_onglet.h"
-#include "imputation_budgetaire.h"
-#include "tiers_onglet.h"
 #include "devises.h"
+#include "dialog.h"
 #include "exercice.h"
+#include "imputation_budgetaire.h"
+#include "utils.h"
+#include "traitement_variables.h"
+#include "etats_onglet.h"
+#include "tiers_onglet.h"
+#define END_INCLUDE
+
+#define START_STATIC
+static gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc );
+static gint recupere_categ_par_nom_etat ( gchar *nom );
+static gint recupere_compte_par_nom_etat ( gchar *nom );
+static gint recupere_devise_par_nom_etat ( gchar *nom );
+static gint recupere_exo_par_nom_etat ( gchar *nom );
+static gint recupere_ib_par_nom_etat ( gchar *nom );
+static gint recupere_tiers_par_nom_etat ( gchar *nom );
+#define END_STATIC
+
 
 gchar *log_message;        /* utilisé comme log lors de l'import d'un état */
 
 
+#define START_EXTERN
+extern GtkWidget *bouton_effacer_etat;
+extern struct struct_etat *etat_courant;
 extern GSList *liste_struct_devises;
+extern GSList *liste_struct_etats;
 extern gint nb_comptes;
+extern GtkWidget *nom_exercice;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-extern struct struct_etat *etat_courant;
-extern GtkWidget *bouton_effacer_etat;
-extern GSList *liste_struct_etats;
+#define END_EXTERN
+
 
 /***********************************************************************************************************/
 gboolean charge_etat ( gchar *nom_etat )

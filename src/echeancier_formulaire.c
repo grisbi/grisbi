@@ -24,29 +24,50 @@
 
 
 #include "include.h"
-#include "structures.h"
+
+
+#define START_INCLUDE
 #include "echeancier_formulaire.h"
-
-
-
-#include "accueil.h"
-#include "calendar.h"
+#include "exercice.h"
+#include "operations_formulaire.h"
 #include "categories_onglet.h"
 #include "comptes_traitements.h"
-#include "constants.h"
+#include "type_operations.h"
 #include "devises.h"
 #include "dialog.h"
-#include "echeancier_liste.h"
-#include "exercice.h"
-#include "imputation_budgetaire.h"
-#include "operations_formulaire.h"
-#include "operations_liste.h"
-#include "search_glist.h"
-#include "tiers_onglet.h"
-#include "traitement_variables.h"
-#include "type_operations.h"
+#include "calendar.h"
 #include "utils.h"
+#include "gtk_combofix.h"
+#include "imputation_budgetaire.h"
+#include "traitement_variables.h"
+#include "echeancier_liste.h"
+#include "tiers_onglet.h"
+#include "ventilation.h"
 #include "echeancier_ventilation.h"
+#define END_INCLUDE
+
+#define START_STATIC
+static void affiche_date_limite_echeancier ( void );
+static void affiche_personnalisation_echeancier ( void );
+static void basculer_vers_ventilation_echeances ( void );
+static void cache_date_limite_echeancier ( void );
+static void cache_personnalisation_echeancier ( void );
+static gboolean clique_champ_formulaire_echeancier ( GtkWidget *entree,
+					      GdkEventButton *ev,
+					      gint *no_origine );
+static void completion_operation_par_tiers_echeancier ( void );
+static void cree_contre_operation_echeance ( struct structure_operation *operation,
+				      gint compte_virement,
+				      gint contre_type_ope );
+static void echap_formulaire_echeancier ( void );
+static gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
+					GdkEventFocus *ev,
+					gint *no_origine );
+static gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
+						 GdkEventKey *ev,
+						 gint no_widget );
+#define END_STATIC
+
 
 
 
@@ -57,33 +78,36 @@ GSList *liste_categories_ventilation_combofix;        /*  liste des noms des cat
 GtkWidget *separateur_formulaire_echeancier;
 GtkWidget *hbox_valider_annuler_echeance;
 
-extern GtkWidget *formulaire_echeancier;
-extern GtkWidget *liste_echeances;
-extern GtkWidget *frame_formulaire_echeancier;
-extern gint no_derniere_echeance;
-extern gint nb_echeances;
-extern GSList *liste_struct_echeances; 
+#define START_EXTERN
+extern struct struct_devise *devise_compte;
 extern struct operation_echeance *echeance_selectionnnee;
-extern gint enregistre_ope_au_retour_echeances; 
+extern gint enregistre_ope_au_retour_echeances;
 extern GtkWidget *fleche_bas_echeancier;
 extern GtkWidget *fleche_haut_echeancier;
+extern GtkWidget *formulaire;
+extern GtkWidget *formulaire_echeancier;
+extern GtkWidget *formulaire_echeancier;
+extern GtkWidget *frame_etat_echeances_finies;
+extern GtkWidget *frame_formulaire_echeancier;
+extern GSList *liste_categories_combofix;
+extern GtkWidget *liste_echeances;
 extern GSList *liste_imputations_combofix;
-extern gint mise_a_jour_liste_comptes_accueil;
-extern gint mise_a_jour_liste_echeances_manuelles_accueil;
-extern gint mise_a_jour_liste_echeances_auto_accueil;
-extern gint mise_a_jour_soldes_minimaux;
-extern gint mise_a_jour_fin_comptes_passifs;
-extern gint mise_a_jour_combofix_categ_necessaire;
-extern GtkStyle *style_entree_formulaire[2];
 extern GSList *liste_struct_devises;
-extern gdouble taux_de_change[2];
-extern struct struct_devise *devise_compte;
+extern GSList *liste_struct_echeances;
+extern GSList *liste_tiers_combofix_echeancier;
+extern gint mise_a_jour_combofix_categ_necessaire;
+extern gint mise_a_jour_liste_echeances_auto_accueil;
+extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint nb_comptes;
+extern gint nb_echeances;
+extern gint no_derniere_echeance;
+extern FILE * out;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-extern GtkWidget *frame_etat_echeances_finies;
-extern GSList *liste_tiers_combofix_echeancier;
-extern GSList *liste_categories_combofix;
+extern GtkStyle *style_entree_formulaire[2];
+extern gdouble taux_de_change[2];
+#define END_EXTERN
+
 
 
 /******************************************************************************/

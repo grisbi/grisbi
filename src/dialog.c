@@ -25,20 +25,26 @@
 /* ************************************************************************** */
 
 #include "include.h"
-#include "structures.h"
+
+
+#define START_INCLUDE
 #include "dialog.h"
-
-
-#include "comptes_traitements.h"
-#include "constants.h"
-#include "devises.h"
-#include "exercice.h"
-#include "operations_formulaire.h"
-#include "type_operations.h"
 #include "utils.h"
+#include "parametres.h"
+#define END_INCLUDE
+
+#define START_STATIC
+static void dialogue_conditional_special ( gchar *text, int * var, GtkMessageType type );
+static void dialogue_special ( GtkMessageType param, gchar * text );
+static gboolean question_yes_no ( gchar *texte );
+#define END_STATIC
 
 
+
+#define START_EXTERN
 extern GtkWidget *window;
+#define END_EXTERN
+
 
 /**
  * Display an info dialog window with a hint displayed larger and in

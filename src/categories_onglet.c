@@ -20,25 +20,51 @@
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 #include "include.h"
-#include "structures.h"
+#define START_INCLUDE
 #include "categories_onglet.h"
-
-
-
-#include "barre_outils.h"
 #include "devises.h"
-#include "dialog.h"
-#include "etats_config.h"
-#include "fichiers_io.h"
 #include "operations_comptes.h"
-#include "operations_liste.h"
-#include "search_glist.h"
 #include "tiers_onglet.h"
-#include "traitement_variables.h"
+#include "fichiers_io.h"
+#include "barre_outils.h"
+#include "operations_liste.h"
+#include "dialog.h"
+#include "gtk_combofix.h"
 #include "utils.h"
+#include "traitement_variables.h"
 #include "operations_onglet.h"
-#include "operations_formulaire.h"
+#include "search_glist.h"
+#include "etats_config.h"
 #include "affichage_formulaire.h"
+#include "operations_formulaire.h"
+#define END_INCLUDE
+
+#define START_STATIC
+static void appui_sur_ajout_categorie ( void );
+static void appui_sur_ajout_sous_categorie ( void );
+static void calcule_total_montant_categ ( void );
+static gchar *calcule_total_montant_categ_par_compte ( gint categ, gint sous_categ, gint no_compte );
+static void clique_sur_annuler_categ ( void );
+static void clique_sur_modifier_categ ( void );
+static gboolean enleve_selection_ligne_categ ( void );
+static void expand_selected_category ();
+static void exporter_categ ( void );
+static void importer_categ ( void );
+static gboolean keypress_category ( GtkWidget *widget, GdkEventKey *ev, gint *no_origine );
+static void merge_liste_categories ( void );
+static void modification_du_texte_categ ( void );
+static gboolean ouverture_node_categ ( GtkWidget *arbre, GtkCTreeNode *node, 
+				gpointer null );
+static gboolean selection_ligne_categ ( GtkCTree *arbre_categ, GtkCTreeNode *noeud,
+				 gint colonne, gpointer null );
+static struct struct_sous_categ *sous_categ_par_no ( gint no_categorie,
+					      gint no_sous_categorie );
+static void supprimer_categ ( void );
+static void supprimer_sous_categ ( void );
+static gboolean verifie_double_click_categ ( GtkWidget *liste, GdkEventButton *ev,
+				      gpointer null );
+#define END_STATIC
+
 
 
 
@@ -208,28 +234,33 @@ gint **nb_ecritures_par_sous_categ;
 
 
 
-extern GSList *liste_struct_echeances;  
-extern GSList *liste_categories_ventilation_combofix; 
-extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
-extern GSList *liste_categories_ventilation_combofix;
-extern GtkWidget *widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_TOTAL_WIDGET];
-extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
-extern struct struct_devise *devise_compte;
-extern GtkWidget *window;
+#define START_EXTERN
 extern gint compte_courant;
 extern gchar *dernier_chemin_de_travail;
+extern struct struct_devise *devise_compte;
+extern struct struct_devise *devise_operation;
+extern struct struct_etat *etat_courant;
+extern GtkWidget *formulaire;
+extern GSList *liste_categories_ventilation_combofix;
+extern GSList *liste_struct_echeances;
+extern GdkBitmap *masque_ferme;
+extern GdkBitmap *masque_ouvre;
+extern gint modif_categ;
 extern gint nb_comptes;
+extern gint nb_ecritures_par_comptes;
+extern gint no_derniere_operation;
+extern gint no_devise_totaux_tiers;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-extern gint no_derniere_operation;
-extern gint modif_categ;
-extern GdkPixmap *pixmap_ouvre;
-extern GdkBitmap *masque_ouvre;
 extern GdkPixmap *pixmap_ferme;
-extern GdkBitmap *masque_ferme;
-extern gint no_devise_totaux_tiers;
-extern gint nb_ecritures_par_comptes;
-extern struct struct_etat *etat_courant;
+extern GdkPixmap *pixmap_ouvre;
+extern GtkTreeSelection * selection;
+extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
+extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
+extern GtkWidget *widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_TOTAL_WIDGET];
+extern GtkWidget *window;
+#define END_EXTERN
+
 
 
 

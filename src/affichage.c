@@ -22,45 +22,45 @@
 
 
 #include "include.h"
-#include "structures.h"
-#include "affichage.h"
-#include "constants.h"
 
-#include "banque.h"
-#include "fichiers_gestion.h"
+#define START_INCLUDE
+#include "affichage.h"
 #include "operations_formulaire.h"
+#include "fichiers_gestion.h"
 #include "operations_liste.h"
-#include "search_glist.h"
+#include "affichage_formulaire.h"
+#include "main.h"
 #include "traitement_variables.h"
 #include "utils.h"
-#include "affichage_formulaire.h"
+#define END_INCLUDE
 
-
-
-
-static void update_fonte_listes ( void );
+#define START_STATIC
+static void change_animation ( GtkWidget *widget,
+			gpointer user_data );
+static gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
+					    GtkWidget *vbox );
+static gboolean change_choix_utilise_logo ( GtkWidget *check_button,
+				     GtkWidget *hbox );
+static void change_logo_accueil ( GtkWidget *widget, gpointer user_data );
 static void choix_fonte ( GtkWidget *bouton,
-			  gchar *fonte,
-			  gpointer null );
+		   gchar *fonte,
+		   gpointer null );
+static gboolean init_fonts ( GtkWidget * button,
+		      gpointer user_data);
 static gboolean modification_logo_accueil ( gint origine );
 static void update_font_button(GtkWidget * name_label,
-			       GtkWidget * size_label,
-			       gchar * fontname);
-static gboolean init_fonts ( GtkWidget * button,
-			     gpointer user_data);
-static gboolean update_homepage_title ( GtkEntry *, gchar *, gint, gint * );
-static void change_animation ( GtkWidget *widget, gpointer user_data );
-static void change_logo_accueil ( GtkWidget *widget, gpointer user_data );
-static gboolean change_choix_utilise_logo ( GtkWidget *check_button,
-					    GtkWidget *hbox );
-static gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
-						   GtkWidget *vbox );
+			GtkWidget * size_label,
+			gchar * fontname);
+static void update_fonte_listes ( void );
+static gboolean update_homepage_title (GtkEntry *entry, gchar *value, 
+				gint length, gint * position);
+static gboolean update_transaction_form ( GtkWidget * checkbox, gpointer data );
+#define END_STATIC
 
 
 
 
 GtkWidget * list_font_name_label, * list_font_size_label;
-GtkWidget * general_font_name_label, * general_font_size_label;
 
 /** Button used to store a nice preview of the homepage logo */
 GtkWidget *logo_button;
@@ -72,29 +72,31 @@ GtkWidget *anim_button;
 GtkWidget *anim_preview;
 
 
-extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
-extern GtkWidget *separateur_formulaire_echeancier;
-extern GtkWidget *hbox_valider_annuler_echeance;
-extern GtkWidget *liste_echeances;
-extern PangoFontDescription *pango_desc_fonte_liste;
-extern gint hauteur_ligne_liste_opes;
-extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
-extern GtkWidget *vbox_boutons_formulaire;
+#define START_EXTERN
+extern gchar *adresse_commune;
+extern gchar *adresse_secondaire;
+extern GtkWidget *arbre_tiers;
+extern gchar *chemin_logo;
 extern gint compte_courant;
+extern GtkWidget *entree_adresse_commune;
+extern GtkWidget *entree_adresse_secondaire;
+extern GtkWidget *entree_titre_fichier;
+extern GtkWidget *fenetre_preferences;
+extern GtkWidget *formulaire;
+extern gint hauteur_ligne_liste_opes;
+extern GtkWidget *hbox_valider_annuler_echeance;
+extern GtkWidget *label_titre_fichier;
+extern GtkWidget *logo_accueil;
 extern gint nb_comptes;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-extern gchar *titre_fichier;
-extern gchar *adresse_commune;
-extern gchar *adresse_secondaire;
 extern GtkWidget *page_accueil;
-extern GtkWidget *fenetre_preferences;
-extern GtkWidget *entree_titre_fichier;
-extern GtkWidget *entree_adresse_commune;
-extern GtkWidget *entree_adresse_secondaire;
-extern GtkWidget *logo_accueil;
-extern GtkWidget *label_titre_fichier;
-extern gchar *chemin_logo;
+extern PangoFontDescription *pango_desc_fonte_liste;
+extern GtkWidget *separateur_formulaire_echeancier;
+extern gchar *titre_fichier;
+extern GtkWidget *vbox_boutons_formulaire;
+extern GtkWidget *window;
+#define END_EXTERN
 
 
 /**

@@ -23,22 +23,88 @@
 /* ************************************************************************** */
 
 #include "include.h"
-#include "structures.h"
-#include "etats_config.h"
 
-#include "calendar.h"
+
+#define START_INCLUDE
+#include "etats_config.h"
+#include "categories_onglet.h"
+#include "search_glist.h"
+#include "operations_classement.h"
+#include "tiers_onglet.h"
 #include "devises.h"
+#include "utils.h"
 #include "dialog.h"
+#include "exercice.h"
+#include "calendar.h"
+#include "imputation_budgetaire.h"
+#include "traitement_variables.h"
 #include "etats_calculs.h"
 #include "etats_onglet.h"
-#include "operations_classement.h"
-#include "search_glist.h"
-#include "tiers_onglet.h"
-#include "traitement_variables.h"
-#include "utils.h"
-#include "categories_onglet.h"
-#include "exercice.h"
-#include "imputation_budgetaire.h"
+#define END_INCLUDE
+
+#define START_STATIC
+static void ajoute_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_montants_etat *ancien_comp_montants );
+static void ajoute_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_textes_etat *ancien_comp_textes );
+static void annule_modif_config ( void );
+static void change_comparaison_montant ( GtkWidget *menu_item,
+				  struct struct_comparaison_montants_etat *comp_montants );
+static void change_comparaison_texte ( GtkWidget *menu_item,
+				struct struct_comparaison_textes_etat *comp_textes );
+static void change_separation_result_periode ( void );
+static void click_bas_classement_etat ( void );
+static void click_haut_classement_etat ( void );
+static void click_liste_etat ( GtkCList *liste,
+			GdkEventButton *evenement,
+			gint origine );
+static void click_type_categ_etat ( gint type );
+static void click_type_ib_etat ( gint type );
+static gboolean clique_sur_entree_date_etat ( GtkWidget *entree, GdkEventButton *ev );
+static GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_textes );
+static GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_etat *comp_montants );
+static GtkWidget *cree_bouton_comparateur_texte ( struct struct_comparaison_textes_etat *comp_textes );
+static GtkWidget *cree_bouton_lien ( GtkWidget *hbox );
+static GtkWidget *cree_bouton_lien_lignes_comparaison ( void );
+static GtkWidget *cree_bouton_operateur_txt ( struct struct_comparaison_textes_etat *comp_textes );
+static GtkWidget *cree_ligne_comparaison_montant ( struct struct_comparaison_montants_etat *comp_montants );
+static GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat *comp_textes );
+static void modif_type_separation_dates ( gint *origine );
+static GtkWidget *onglet_affichage_etat_devises ( void );
+static GtkWidget *onglet_affichage_etat_divers ( void );
+static GtkWidget *onglet_affichage_etat_generalites ( void );
+static GtkWidget *onglet_affichage_etat_operations ( void );
+static GtkWidget *onglet_etat_categories ( void );
+static GtkWidget *onglet_etat_comptes ( void );
+static GtkWidget *onglet_etat_dates ( void );
+static GtkWidget *onglet_etat_divers ( void );
+static GtkWidget *onglet_etat_ib ( void );
+static GtkWidget *onglet_etat_mode_paiement ( void );
+static GtkWidget *onglet_etat_montant ( void );
+static GtkWidget *onglet_etat_texte ( void );
+static GtkWidget *onglet_etat_tiers ( void );
+static GtkWidget *onglet_etat_virements ( void );
+static GtkWidget *page_affichage_donnees ( void );
+static GtkWidget *page_organisation_donnees ( void );
+static gboolean pression_touche_date_etat ( GtkWidget *widget,
+				     GdkEventKey *ev );
+static void recuperation_info_perso_etat ( void );
+static void remplissage_liste_comptes_virements ( void );
+static void remplissage_liste_exo_etats ( void );
+static void remplissage_liste_modes_paiement_etats ( void );
+static void remplit_liste_comparaisons_montants_etat ( void );
+static void remplit_liste_comparaisons_textes_etat ( void );
+static void retire_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_montants_etat *ancien_comp_montants );
+static void retire_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_textes_etat *ancien_comp_textes );
+static void selectionne_liste_exo_etat_courant ( void );
+static void selectionne_liste_ib_etat_courant ( void );
+static void selectionne_liste_modes_paiement_etat_courant ( void );
+static void selectionne_liste_virements_etat_courant ( void );
+static void selectionne_partie_liste_compte_etat ( gint *type_compte );
+static void selectionne_partie_liste_compte_vir_etat ( gint *type_compte );
+static void sensitive_hbox_fonction_bouton_txt ( struct struct_comparaison_textes_etat *comp_textes );
+static gboolean sortie_entree_date_etat ( GtkWidget *entree );
+static void stylise_tab_label_etat ( gint *no_page );
+#define END_STATIC
+
 
 
 gchar *liste_plages_dates[] = {
@@ -228,26 +294,31 @@ GtkWidget *liste_mode_paiement_etat;
 
 
 
-extern GSList *liste_struct_imputation;
-extern gint mise_a_jour_combofix_tiers_necessaire;
-extern GSList *liste_struct_devises;
-extern gint nb_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
-extern GSList *liste_struct_exercices;
-extern GtkWidget *notebook_general;
-extern GtkStyle *style_label_nom_compte;
-extern GtkStyle *style_label;
-extern GSList *liste_struct_tiers;
-extern GSList *liste_struct_categories;
+#define START_EXTERN
 extern struct struct_etat *etat_courant;
-extern GtkWidget *notebook_etats;
-extern GtkWidget *notebook_config_etat;
-extern GtkWidget *notebook_selection;
 extern GtkWidget *frame_liste_etats;
 extern GtkWidget *label_etat_courant;
-extern GtkWidget *onglet_config_etat;
+extern GSList *liste_struct_categories;
+extern GSList *liste_struct_devises;
+extern GSList *liste_struct_exercices;
+extern GSList *liste_struct_imputation;
+extern GSList *liste_struct_tiers;
+extern gint mise_a_jour_combofix_tiers_necessaire;
+extern gint nb_comptes;
+extern GtkWidget *nom_exercice;
 extern GtkWidget *notebook_aff_donnees;
+extern GtkWidget *notebook_config_etat;
+extern GtkWidget *notebook_etats;
+extern GtkWidget *notebook_general;
+extern GtkWidget *notebook_selection;
+extern GtkWidget *onglet_config_etat;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern GtkTreeSelection * selection;
+extern GtkStyle *style_label;
+extern GtkStyle *style_label_nom_compte;
+#define END_EXTERN
+
 
 
 /******************************************************************************/

@@ -19,25 +19,34 @@
 
 
 #include "include.h"
-#include "structures.h"
-#include "echeancier_onglet.h"
 
+
+#define START_INCLUDE
+#include "echeancier_onglet.h"
+#include "echeancier_ventilation.h"
 #include "echeancier_formulaire.h"
 #include "echeancier_liste.h"
-#include "echeancier_ventilation.h"
 #include "search_glist.h"
+#define END_INCLUDE
+
+#define START_STATIC
+#define END_STATIC
+
 
 
 GtkWidget *notebook_calendrier_ventilations;
 GtkWidget *formulaire_echeancier;
-GtkWidget *fenetre_ventilations;
 GtkWidget *notebook_formulaire_echeances;
 GtkWidget *notebook_liste_ventil_echeances;
 GtkWidget *paned_onglet_echeancier;
 
 
+#define START_EXTERN
+extern GtkWidget *formulaire;
 extern GtkWidget *frame_formulaire_echeancier;
 extern GSList *liste_struct_echeances;
+#define END_EXTERN
+
 
 
 

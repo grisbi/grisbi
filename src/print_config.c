@@ -20,10 +20,19 @@
 /* ************************************************************************** */
 
 #include "include.h"
-#include "structures.h"
-#include "print_config.h"
 
+
+#define START_INCLUDE
+#include "print_config.h"
 #include "utils.h"
+#define END_INCLUDE
+
+#define START_STATIC
+static GtkWidget * print_config_appearance ( GtkWidget * dialog );
+static GtkWidget * print_config_general ( GtkWidget * dialog );
+static GtkWidget * print_config_paper ( GtkWidget * dialog );
+#define END_STATIC
+
 
 
 
@@ -41,7 +50,10 @@ struct paper_config paper_sizes[8] = {
     {NULL, 0, 0},
 };
 
+#define START_EXTERN
 extern GtkWidget *window;
+#define END_EXTERN
+
 
 /** 
  * Open a dialog window which asks for information about paper,

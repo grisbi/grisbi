@@ -26,25 +26,57 @@
 
 
 #include "include.h"
-#include "structures.h"
+
+
+
+#define START_INCLUDE
 #include "imputation_budgetaire.h"
-#include "constants.h"
-
-
-#include "barre_outils.h"
 #include "devises.h"
-#include "dialog.h"
-#include "etats_config.h"
-#include "fichiers_io.h"
 #include "operations_comptes.h"
-#include "operations_liste.h"
-#include "search_glist.h"
 #include "tiers_onglet.h"
-#include "traitement_variables.h"
+#include "fichiers_io.h"
+#include "barre_outils.h"
+#include "operations_liste.h"
+#include "dialog.h"
+#include "gtk_combofix.h"
 #include "utils.h"
+#include "traitement_variables.h"
 #include "operations_onglet.h"
-#include "operations_formulaire.h"
+#include "search_glist.h"
+#include "etats_config.h"
 #include "affichage_formulaire.h"
+#include "operations_formulaire.h"
+#define END_INCLUDE
+
+#define START_STATIC
+static void appui_sur_ajout_imputation ( void );
+static void appui_sur_ajout_sous_imputation ( void );
+static void calcule_total_montant_imputation ( void );
+static gchar *calcule_total_montant_imputation_par_compte ( gint imputation, gint sous_imputation, 
+						     gint no_compte );
+static void clique_sur_annuler_imputation ( void );
+static void clique_sur_modifier_imputation ( void );
+static void enleve_selection_ligne_imputation ( void );
+static gboolean expand_selected_ib (  );
+static void exporter_ib ( void );
+static void fusion_categories_imputation ( void );
+static void importer_ib ( void );
+static gboolean keypress_ib ( GtkWidget *widget, GdkEventKey *ev, gint *no_origine );
+static void modification_du_texte_imputation ( void );
+static void ouverture_node_imputation ( GtkWidget *arbre,
+				 GtkCTreeNode *node,
+				 gpointer null );
+static void selection_ligne_imputation ( GtkCTree *arbre,
+				  GtkCTreeNode *noeud,
+				  gint colonne,
+				  gpointer null );
+static struct struct_sous_imputation *sous_imputation_par_no ( gint no_imputation,
+							gint no_sous_imputation );
+static void supprimer_imputation ( void );
+static void supprimer_sous_imputation ( void );
+static gboolean verifie_double_click_imputation ( GtkWidget *liste, GdkEventButton *ev,
+					   gpointer null );
+#define END_STATIC
 
 
 
@@ -70,26 +102,32 @@ gint mise_a_jour_combofix_imputation_necessaire;
 
 
 
-extern GSList *liste_struct_echeances; 
-extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
-extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
-extern struct struct_devise *devise_compte;
-extern GtkWidget *window;
+#define START_EXTERN
 extern gint compte_courant;
 extern gchar *dernier_chemin_de_travail;
+extern struct struct_devise *devise_compte;
+extern struct struct_devise *devise_operation;
+extern struct struct_etat *etat_courant;
+extern GtkWidget *formulaire;
+extern GSList *liste_struct_categories;
+extern GSList *liste_struct_echeances;
+extern GdkBitmap *masque_ferme;
+extern GdkBitmap *masque_ouvre;
+extern gint modif_imputation;
 extern gint nb_comptes;
+extern gint nb_ecritures_par_comptes;
+extern gint no_derniere_operation;
+extern gint no_devise_totaux_tiers;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-extern gint no_derniere_operation;
-extern gint modif_imputation;
-extern gint no_devise_totaux_tiers;
-extern GdkPixmap *pixmap_ouvre;
-extern GdkBitmap *masque_ouvre;
 extern GdkPixmap *pixmap_ferme;
-extern GdkBitmap *masque_ferme;
-extern gint nb_ecritures_par_comptes;
-extern GSList *liste_struct_categories;
-extern struct struct_etat *etat_courant;
+extern GdkPixmap *pixmap_ouvre;
+extern GtkTreeSelection * selection;
+extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
+extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
+extern GtkWidget *window;
+#define END_EXTERN
+
 
 
 
@@ -2214,24 +2252,6 @@ retour_dialogue:
 }
 /* **************************************************************************************************** */
 
-
-
-
-/***********************************************************************************************************/
-/* Routine creation_liste_imputations */
-/* appelée lors d'un nouveau fichier */
-/* crée la liste des catégories à partir de la liste ci dessus */
-/* en fait, merge la liste de base avec rien */
-/***********************************************************************************************************/
-
-void creation_liste_imputations ( void )
-{
-
-    liste_struct_imputation = NULL;
-    nb_enregistrements_imputations = 0;
-    no_derniere_imputation = 0;
-}
-/***********************************************************************************************************/
 
 
 

@@ -22,15 +22,6 @@
 
 
 #include "include.h"
-#include "structures.h"
-#include "barre_outils.h"
-#include "menu.h"
-#include "operations_liste.h"
-#include "operations_formulaire.h"
-#include "echeancier_formulaire.h"
-#include "traitement_variables.h"
-#include "utils.h"
-#include "ventilation.h"
 
 
 #include "./xpm/ope_1.xpm"
@@ -48,6 +39,21 @@
 #include "./xpm/comments.xpm"
 #include "./xpm/grille.xpm"
 
+#define START_INCLUDE
+#include "barre_outils.h"
+#include "operations_liste.h"
+#include "ventilation.h"
+#include "echeancier_liste.h"
+#include "operations_formulaire.h"
+#include "echeancier_formulaire.h"
+#include "menu.h"
+#define END_INCLUDE
+
+#define START_STATIC
+static void demande_expand_arbre ( GtkWidget *bouton,
+			    gint *liste );
+#define END_STATIC
+
 
 /** Used to display/hide comments in scheduler list */
 GtkWidget *scheduler_display_hide_comments;
@@ -61,7 +67,6 @@ GtkWidget *bouton_affiche_r;
 GtkWidget *bouton_enleve_r;
 GtkWidget *bouton_grille;
 GtkWidget *label_proprietes_operations_compte;
-gulong handler_signal_grille;
 
 /* widgets du bouton pour afficher/cacher le formulaire */
 
@@ -72,17 +77,23 @@ GtkWidget *fleche_bas;
 
 
 
-extern GtkTooltips *tooltips_general_grisbi;
+#define START_EXTERN
+extern GtkWidget *arbre_categ;
 extern GtkWidget *arbre_imputation;
-extern GtkWidget *tree_view_liste_ventilations;
-extern gboolean block_menu_cb;
-extern GtkItemFactory *item_factory_menu_general;
+extern GtkWidget *arbre_tiers;
+extern GtkWidget *barre_outils;
+extern gboolean block_menu_cb ;
 extern gint compte_courant;
+extern GtkWidget *formulaire;
+extern GtkItemFactory *item_factory_menu_general;
 extern gint nb_comptes;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-extern GtkWidget *arbre_tiers;
-extern GtkWidget *arbre_categ;
+extern GtkTreeSelection * selection;
+extern GtkTooltips *tooltips_general_grisbi;
+extern GtkWidget *tree_view_liste_ventilations;
+#define END_EXTERN
+
 
 
 /*******************************************************************************************/

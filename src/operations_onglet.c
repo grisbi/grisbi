@@ -22,16 +22,22 @@
 
 
 #include "include.h"
-#include "structures.h"
 
-#include "equilibrage.h"
-#include "operations_comptes.h"
-#include "operations_formulaire.h"
-#include "operations_liste.h"
-#include "ventilation.h"
+
+
+#define START_INCLUDE
 #include "operations_onglet.h"
+#include "equilibrage.h"
+#include "operations_liste.h"
+#include "operations_formulaire.h"
+#include "ventilation.h"
+#include "operations_comptes.h"
 #include "search_glist.h"
-#include "utils.h"
+#define END_INCLUDE
+
+#define START_STATIC
+#define END_STATIC
+
 
 
 
@@ -39,13 +45,15 @@ GtkWidget *paned_onglet_operations;
 
 
 
+#define START_EXTERN
+extern GtkWidget *formulaire;
 extern GtkWidget *frame_droite_bas;
-extern gint nb_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkWidget *notebook_comptes_equilibrage;
 extern GtkWidget *notebook_formulaire;
-extern GtkWidget *formulaire;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+#define END_EXTERN
+
 
 
 /*****************************************************************************************************/

@@ -1,20 +1,10 @@
+#define START_DECLARATION
+void calcule_total_pointe_compte ( gint no_compte );
 GtkWidget *creation_fenetre_equilibrage ( void );
 void equilibrage ( void );
-gboolean sortie_entree_date_equilibrage ( GtkWidget *entree );
-gboolean modif_entree_solde_init_equilibrage ( void );
-gboolean modif_entree_solde_final_equilibrage ( void );
-gboolean annuler_equilibrage ( void );
 void pointe_equilibrage ( int p_ligne );
-gboolean fin_equilibrage ( GtkWidget *bouton_ok,
-		       gpointer data );
-void calcule_total_pointe_compte ( gint no_compte );
-GtkWidget * tab_display_reconciliation ( void );
-gboolean souris_equilibrage ( GtkWidget *entree,
-			      GdkEventButton *event );
-gboolean clavier_equilibrage ( GtkWidget *widget,
-			       GdkEventKey *event );
-
-
 gchar *rapprochement_name_by_no ( gint no_rapprochement );
-struct struct_no_rapprochement *rapprochement_par_no ( gint no_rapprochement );
 struct struct_no_rapprochement *rapprochement_par_nom ( gchar *nom_rapprochement );
+GtkWidget * tab_display_reconciliation ( void );
+#define END_DECLARATION
+

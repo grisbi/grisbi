@@ -22,24 +22,50 @@
 
 
 #include "include.h"
-#include "structures.h"
+
+
+
+
+#define START_INCLUDE
 #include "ventilation.h"
-#include "constants.h"
-
-
+#include "operations_formulaire.h"
 #include "categories_onglet.h"
+#include "operations_liste.h"
+#include "exercice.h"
+#include "type_operations.h"
 #include "devises.h"
 #include "dialog.h"
-#include "exercice.h"
+#include "gtk_combofix.h"
 #include "imputation_budgetaire.h"
-#include "operations_classement.h"
-#include "operations_formulaire.h"
-#include "operations_liste.h"
-#include "search_glist.h"
-#include "type_operations.h"
 #include "utils.h"
 #include "operations_onglet.h"
 #include "comptes_traitements.h"
+#define END_INCLUDE
+
+#define START_STATIC
+static void ajoute_ope_sur_liste_ventilation ( struct struct_ope_ventil *operation );
+static void ajuste_scrolling_liste_ventilations_a_selection ( void );
+static gboolean appui_touche_ventilation ( GtkWidget *entree,
+				    GdkEventKey *evenement,
+				    gint *no_origine );
+static void calcule_montant_ventilation ( void );
+static gint cherche_ligne_from_operation_ventilee ( struct struct_ope_ventil *operation );
+static struct struct_ope_ventil *cherche_operation_ventilee_from_ligne ( gint no_ligne );
+static gboolean clique_champ_formulaire_ventilation ( void );
+static void echap_formulaire_ventilation ( void );
+static void edition_operation_ventilation ( void );
+static gboolean entree_ventilation_perd_focus ( GtkWidget *entree, GdkEventFocus *ev,
+					 gint *no_origine );
+static void fin_edition_ventilation ( void );
+static void mise_a_jour_couleurs_liste_ventilation ( void );
+static void mise_a_jour_labels_ventilation ( void );
+static void quitter_ventilation ( void );
+static void remplit_liste_ventilation ( void );
+static void selectionne_ligne_ventilation ( gint nouvelle_ligne );
+static void supprime_operation_ventilation ( void );
+static void valider_ventilation ( void );
+#define END_STATIC
+
 
 
 
@@ -76,29 +102,35 @@ gint enregistre_ope_au_retour;
 
 
 
-extern GSList *liste_categories_ventilation_combofix;  
+#define START_EXTERN
+extern GtkWidget *barre_outils;
 extern GtkTreeViewColumn *colonnes_liste_ventils[3];
-extern GdkColor couleur_selection;
+extern gint compte_courant;
 extern GdkColor couleur_fond[2];
-extern PangoFontDescription *pango_desc_fonte_liste;
-extern GSList *liste_imputations_combofix;
-extern GtkWidget *tree_view_liste_ventilations;
-extern GtkWidget *scrolled_window_liste_ventilations;
-extern gint hauteur_ligne_liste_opes;
+extern GdkColor couleur_selection;
+extern GtkWidget *formulaire;
+extern GtkWidget *frame_droite_bas;
 extern GdkGC *gc_separateur_operation;
+extern gint hauteur_ligne_liste_opes;
+extern GSList *liste_categories_ventilation_combofix;
+extern GSList *liste_imputations_combofix;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
-extern GtkStyle *style_entree_formulaire[2];
-extern gdouble taux_de_change[2];
-extern gint compte_courant;
-extern GtkWidget *frame_droite_bas;
-extern GtkWidget *barre_outils;
 extern gint nb_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkWidget *notebook_comptes_equilibrage;
 extern GtkWidget *notebook_formulaire;
-extern GtkWidget *formulaire;
+extern FILE * out;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern PangoFontDescription *pango_desc_fonte_liste;
+extern GtkWidget *scrolled_window_liste_ventilations;
+extern GtkTreeSelection * selection;
+extern GtkStyle *style_entree_formulaire[2];
+extern gdouble taux_de_change[2];
+extern GtkWidget *tree_view;
+extern GtkWidget *tree_view_liste_ventilations;
+#define END_EXTERN
+
 
 
 /*******************************************************************************************/

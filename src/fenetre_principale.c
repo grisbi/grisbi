@@ -20,23 +20,23 @@
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 #include "include.h"
-#include "structures.h"
+
+
+#define START_INCLUDE
 #include "fenetre_principale.h"
-
-
-
 #include "accueil.h"
-#include "categories_onglet.h"
+#include "operations_comptes.h"
 #include "comptes_onglet.h"
 #include "echeancier_onglet.h"
 #include "etats_onglet.h"
-#include "imputation_budgetaire.h"
 #include "operations_onglet.h"
+#include "categories_onglet.h"
+#include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
-#include "operations_comptes.h"
-#include "operations_liste.h"
-#include "utils.h"
+#define END_INCLUDE
 
+#define START_STATIC
+#define END_STATIC
 
 
 /* adr du notebook de base */
@@ -56,17 +56,19 @@ gint modif_categ;
 gint modif_imputation;
 
 
-extern GtkTooltips *tooltips_general_grisbi;
+#define START_EXTERN
+extern GtkWidget *arbre_categ;
 extern GtkWidget *arbre_imputation;
+extern GtkWidget *arbre_tiers;
 extern gint compte_courant;
-extern gchar *tips_col_liste_operations[7];
-extern gint nb_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern gint id_temps;
 extern GtkWidget *label_temps;
-extern GtkWidget *arbre_tiers;
-extern GtkWidget *arbre_categ;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern gchar *tips_col_liste_operations[7];
+extern GtkTooltips *tooltips_general_grisbi;
+#define END_EXTERN
+
 
 
 

@@ -25,25 +25,31 @@
 
 
 #include "include.h"
-#include "structures.h"
+
+
+#define START_INCLUDE
 #include "erreur.h"
-
-
-
-#include "dialog.h"
-#include "fichier_configuration.h"
-#include "fichiers_gestion.h"
-#include "fichiers_io.h"
 #include "patienter.h"
+#include "dialog.h"
+#include "fichiers_io.h"
+#include "fichiers_gestion.h"
+#include "traitement_variables.h"
 #include "utils.h"
-#include "ventilation.h"
+#include "fichier_configuration.h"
+#define END_INCLUDE
+
+#define START_STATIC
+#define END_STATIC
 
 
-extern gint patience_en_cours;
-extern GtkWidget *window;
-extern gchar *nom_fichier_comptes;
+
+#define START_EXTERN
 extern gint id_temps;
 extern gchar *log_message;
+extern gchar *nom_fichier_comptes;
+extern GtkWidget *window;
+#define END_EXTERN
+
 
 
 

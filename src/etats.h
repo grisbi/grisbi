@@ -5,8 +5,6 @@
 #define TEXT_LARGE	(1<<3)
 #define TEXT_SMALL	(1<<4)
 
+#define START_DECLARATION
+#define END_DECLARATION
 
-void etat_affiche_attach_hsep ( int x, int x2, int y, int y2);
-void etat_affiche_attach_vsep ( int x, int x2, int y, int y2);
-void etat_affiche_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
-				 enum alignement align, struct structure_operation * ope );

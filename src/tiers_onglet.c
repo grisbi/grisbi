@@ -22,27 +22,51 @@
 
 
 #include "include.h"
-#include "structures.h"
+
+
+
+
+#define START_INCLUDE
 #include "tiers_onglet.h"
-#include "constants.h"
-
-
-
-#include "accueil.h"
-#include "barre_outils.h"
-#include "categories_onglet.h"
 #include "devises.h"
-#include "dialog.h"
-#include "echeancier_liste.h"
-#include "etats_config.h"
+#include "barre_outils.h"
 #include "operations_comptes.h"
 #include "operations_liste.h"
-#include "search_glist.h"
-#include "traitement_variables.h"
+#include "dialog.h"
+#include "gtk_combofix.h"
 #include "utils.h"
-#include "devises.h"
-#include "operations_formulaire.h"
+#include "traitement_variables.h"
+#include "search_glist.h"
+#include "echeancier_liste.h"
+#include "etats_config.h"
 #include "affichage_formulaire.h"
+#include "operations_formulaire.h"
+#define END_INCLUDE
+
+#define START_STATIC
+static struct struct_tiers *ajoute_nouveau_tiers ( gchar *tiers );
+static void appui_sur_ajout_tiers ( void );
+static gfloat *calcule_total_montant_tiers ( void );
+static gchar *calcule_total_montant_tiers_par_compte ( gint no_tiers, gint no_compte );
+static void clique_sur_annuler_tiers ( GtkWidget *bouton_annuler,
+				gpointer null );
+static void clique_sur_modifier_tiers ( GtkWidget *bouton_modifier,
+				 gpointer null );
+static gboolean enleve_selection_ligne_tiers ( void );
+static gboolean expand_selected_tiers ( GtkWidget *liste, GdkEventButton *ev, gpointer null );
+static gboolean keypress_tiers ( GtkWidget *widget, GdkEventKey *ev, gint *no_origine );
+static void modification_du_texte_tiers ( GtkText *texte,
+				   gpointer null );
+static void ouverture_node_tiers ( GtkWidget *arbre,
+			    GtkCTreeNode *node,
+			    gpointer null );
+static gboolean selection_ligne_tiers ( GtkCTree *arbre_tiers, GtkCTreeNode *noeud,
+				 gint colonne, gpointer null );
+static void supprimer_tiers ( GtkWidget *bouton,
+		       gpointer null );
+static gboolean verifie_double_click ( GtkWidget *liste, GdkEventButton *ev, gpointer null );
+#define END_STATIC
+
 
 
 #include "xpm/book-closed.xpm"
@@ -94,19 +118,25 @@ gint nb_ecritures_par_comptes;
 
 
 
-extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
-extern GSList *liste_struct_echeances;
-extern gint mise_a_jour_liste_echeances_manuelles_accueil;
-extern gint mise_a_jour_liste_echeances_auto_accueil;
-extern struct struct_devise *devise_compte;
-extern GtkWidget *window;
+#define START_EXTERN
 extern gint compte_courant;
+extern struct struct_devise *devise_compte;
+extern struct struct_devise *devise_operation;
+extern struct struct_etat *etat_courant;
+extern GtkWidget *formulaire;
+extern GSList *liste_struct_echeances;
+extern GSList *liste_struct_etats;
+extern gint mise_a_jour_liste_echeances_auto_accueil;
+extern gint mise_a_jour_liste_echeances_manuelles_accueil;
+extern gint modif_tiers;
 extern gint nb_comptes;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-extern gint modif_tiers;
-extern GSList *liste_struct_etats;
-extern struct struct_etat *etat_courant;
+extern GtkTreeSelection * selection;
+extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
+extern GtkWidget *window;
+#define END_EXTERN
+
 
 
 

@@ -21,73 +21,87 @@
 
 
 #include "include.h"
-#include "structures.h"
-#include "etats_affiche.h"
 
-#include "devises.h"
-#include "etats_calculs.h"
 #include "etats.h"
+
+
+#define START_INCLUDE
+#include "etats_affiche.h"
+#include "etats_calculs.h"
+#include "devises.h"
 #include "etats_support.h"
-#include "search_glist.h"
+#include "exercice.h"
 #include "utils.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
+#include "equilibrage.h"
 #include "tiers_onglet.h"
 #include "type_operations.h"
-#include "equilibrage.h"
-#include "exercice.h"
+#define END_INCLUDE
+
+#define START_STATIC
+static void etat_affiche_attach_hsep ( int x, int x2, int y, int y2);
+static void etat_affiche_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
+				 enum alignement align, struct structure_operation * ope );
+static void etat_affiche_attach_vsep ( int x, int x2, int y, int y2);
+#define END_STATIC
 
 
-extern gint nb_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
-extern gint nb_colonnes;
-extern gint ligne_debut_partie;
-extern struct struct_etat *etat_courant;
 
-extern gint ancienne_ib_etat;
-extern gint ancienne_sous_ib_etat;
+
+gint ancien_tiers_etat;
+
+#define START_EXTERN
+extern gint ancien_compte_etat;
+extern gint ancien_tiers_etat;
+extern gint ancien_tiers_etat;
 extern gint ancienne_categ_etat;
 extern gint ancienne_categ_speciale_etat;
+extern gint ancienne_ib_etat;
 extern gint ancienne_sous_categ_etat;
-extern gint ancien_compte_etat;
-gint ancien_tiers_etat;
-extern gdouble montant_categ_etat;
-extern gdouble montant_sous_categ_etat;
-extern gdouble montant_ib_etat;
-extern gdouble montant_sous_ib_etat;
-extern gdouble montant_compte_etat;
-extern gdouble montant_tiers_etat;
-extern gdouble montant_periode_etat;
-extern gdouble montant_exo_etat;
-extern gint nb_ope_categ_etat;
-extern gint nb_ope_sous_categ_etat;
-extern gint nb_ope_ib_etat;
-extern gint nb_ope_sous_ib_etat;
-extern gint nb_ope_compte_etat;
-extern gint nb_ope_tiers_etat;
-extern gint nb_ope_periode_etat;
-extern gint nb_ope_exo_etat;
-extern gint nb_ope_general_etat;
-extern gint nb_ope_partie_etat;
-extern GDate *date_debut_periode;
-extern gint exo_en_cours_etat;
+extern gint ancienne_sous_ib_etat;
 extern gint changement_de_groupe_etat;
+extern GDate *date_debut_periode;
 extern gint debut_affichage_etat;
-extern struct struct_devise *devise_compte_en_cours_etat;
 extern struct struct_devise *devise_categ_etat;
+extern struct struct_devise *devise_compte_en_cours_etat;
+extern struct struct_devise *devise_generale_etat;
 extern struct struct_devise *devise_ib_etat;
 extern struct struct_devise *devise_tiers_etat;
-extern struct struct_devise *devise_generale_etat;
-
-extern gchar *nom_categ_en_cours;
-extern gchar *nom_ss_categ_en_cours;
-extern gchar *nom_ib_en_cours;
-extern gchar *nom_ss_ib_en_cours;
-extern gchar *nom_compte_en_cours;
-extern gchar *nom_tiers_en_cours;
-extern gint titres_affiches;
 extern struct struct_etat_affichage * etat_affichage_output;
+extern struct struct_etat *etat_courant;
+extern gint exo_en_cours_etat;
+extern gint ligne_debut_partie;
+extern gdouble montant_categ_etat;
+extern gdouble montant_compte_etat;
+extern gdouble montant_exo_etat;
+extern gdouble montant_ib_etat;
+extern gdouble montant_periode_etat;
+extern gdouble montant_sous_categ_etat;
+extern gdouble montant_sous_ib_etat;
+extern gdouble montant_tiers_etat;
+extern gint nb_colonnes;
+extern gint nb_ope_categ_etat;
+extern gint nb_ope_compte_etat;
+extern gint nb_ope_exo_etat;
+extern gint nb_ope_general_etat;
+extern gint nb_ope_ib_etat;
+extern gint nb_ope_partie_etat;
+extern gint nb_ope_periode_etat;
+extern gint nb_ope_sous_categ_etat;
+extern gint nb_ope_sous_ib_etat;
+extern gint nb_ope_tiers_etat;
+extern gchar *nom_categ_en_cours;
+extern gchar *nom_compte_en_cours;
+extern gchar *nom_ib_en_cours;
+extern gchar *nom_ss_categ_en_cours;
+extern gchar *nom_ss_ib_en_cours;
+extern gchar *nom_tiers_en_cours;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern gint titres_affiches;
+#define END_EXTERN
+
 
 /*****************************************************************************************************/
 gint etat_affiche_affiche_titre ( gint ligne )

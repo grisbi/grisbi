@@ -25,9 +25,23 @@
 #include <ctype.h>
 #include "include.h"
 #include <gdk/gdkkeysyms.h>
+
+#define START_INCLUDE
 #include "calendar.h"
 #include "utils.h"
-#include "structures.h"
+#define END_INCLUDE
+
+#define START_STATIC
+#define END_STATIC
+
+
+
+#define START_EXTERN
+extern GtkWidget *window;
+#define END_EXTERN
+
+
+
 
 /******************************************************************************/
 /* Crée une fenètre (popup) calendrier.                                       */

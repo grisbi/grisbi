@@ -25,9 +25,7 @@
 /* ************************************************************************** */
 
 #include "include.h"
-#include "structures.h"
 #include "comptes_traitements.h"
-#include "constants.h"
 
 
 
@@ -55,30 +53,63 @@
 
 
 
+#define START_INCLUDE
+#include "comptes_traitements.h"
+#include "operations_comptes.h"
+#include "type_operations.h"
+#include "operations_liste.h"
+#include "comptes_gestion.h"
+#include "utils.h"
+#include "dialog.h"
+#include "echeancier_onglet.h"
+#include "fichiers_gestion.h"
+#include "main.h"
+#include "categories_onglet.h"
+#include "imputation_budgetaire.h"
+#include "tiers_onglet.h"
+#include "traitement_variables.h"
+#include "comptes_onglet.h"
+#include "etats_config.h"
+#include "echeancier_liste.h"
+#define END_INCLUDE
+
+#define START_STATIC
+static void creation_types_par_defaut ( gint no_compte,
+				 gulong dernier_cheque );
+#define END_STATIC
 
 
-extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
-extern GSList *liste_struct_echeances;
+
+
+
+#define START_EXTERN
+extern GtkWidget *bouton_supprimer_compte;
+extern gint compte_courant;
+extern gint compte_courant_onglet;
 extern struct operation_echeance *echeance_selectionnnee;
-extern gint nb_echeances;
+extern GtkWidget *formulaire;
+extern GSList *liste_struct_echeances;
+extern gint mise_a_jour_combofix_categ_necessaire;
+extern gint mise_a_jour_combofix_imputation_necessaire;
+extern gint mise_a_jour_combofix_tiers_necessaire;
+extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_soldes_minimaux;
-extern gint mise_a_jour_fin_comptes_passifs;
-extern gint mise_a_jour_combofix_categ_necessaire;
-extern gint mise_a_jour_combofix_tiers_necessaire;
-extern gint mise_a_jour_combofix_imputation_necessaire;
-extern GtkStyle *style_entree_formulaire[2];
-extern gint id_fonction_idle;
-extern gint compte_courant_onglet;
-extern GtkWidget *bouton_supprimer_compte;
-extern gint compte_courant;
-extern GtkWidget *notebook_listes_operations;
+extern gint nb_colonnes;
 extern gint nb_comptes;
+extern gint nb_echeances;
+extern GtkWidget *notebook_general;
+extern GtkWidget *notebook_listes_operations;
+extern GSList *ordre_comptes;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-extern GSList *ordre_comptes;
-extern GtkWidget *notebook_general;
+extern GtkStyle *style_entree_formulaire[2];
+extern GtkWidget *tree_view;
+extern GtkWidget *vbox_liste_comptes;
+extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
+#define END_EXTERN
+
 
 
 /* ************************************************************************** */

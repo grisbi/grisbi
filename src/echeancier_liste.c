@@ -24,29 +24,55 @@
 
 
 #include "include.h"
-#include "structures.h"
+
+
+
+
+
+#define START_INCLUDE
 #include "echeancier_liste.h"
-#include "constants.h"
-
-
-
-#include "accueil.h"
-#include "barre_outils.h"
-#include "devises.h"
 #include "echeancier_formulaire.h"
-#include "echeancier_ventilation.h"
 #include "exercice.h"
-#include "operations_formulaire.h"
-#include "operations_liste.h"
-#include "search_glist.h"
-#include "traitement_variables.h"
 #include "type_operations.h"
+#include "barre_outils.h"
+#include "echeancier_ventilation.h"
+#include "devises.h"
+#include "operations_formulaire.h"
 #include "utils.h"
-#include "constants.h"
-#include "tiers_onglet.h"
+#include "gtk_combofix.h"
+#include "traitement_variables.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "comptes_traitements.h"
+#include "tiers_onglet.h"
+#define END_INCLUDE
+
+#define START_STATIC
+static void changement_taille_colonne_echeancier ( GtkWidget *clist,
+					    gint colonne,
+					    gint largeur );
+static void changement_taille_liste_echeances ( GtkWidget *clist,
+					 GtkAllocation *allocation,
+					 gpointer null );
+static gint classement_liste_echeances ( GtkWidget *liste,
+				  GtkCListRow *ligne_1,
+				  GtkCListRow *ligne_2 );
+static void click_ligne_echeance ( GtkCList *liste,
+			    GdkEventButton *evenement,
+			    gpointer data );
+static void click_sur_jour_calendrier_echeance ( GtkWidget *calendrier,
+					  gpointer null );
+static GDate *date_suivante_echeance ( struct operation_echeance *echeance,
+				GDate *pGDateCurrent );
+static void mise_a_jour_calendrier ( void );
+static gboolean modification_affichage_echeances ( gint *origine, GdkEventFocus * event,
+					    GtkWidget * widget );
+static gboolean traitement_clavier_liste_echeances ( GtkCList *liste_echeances,
+					      GdkEventKey *evenement,
+					      gpointer null );
+static void verifie_ligne_selectionnee_echeance_visible ( void );
+#define END_STATIC
+
 
 
 
@@ -64,10 +90,6 @@
 
 gint scheduler_col_width_ratio[NB_COLS_SCHEDULER] = { 10, 26, 20, 14, 14, 28, 8};
 gint scheduler_col_width[NB_COLS_SCHEDULER] ;
-
-void changement_taille_colonne_echeancier ( GtkWidget *clist, gint colonne, gint largeur ) ;
-
-
 
 GtkWidget *frame_formulaire_echeancier;
 GtkWidget *formulaire_echeancier;
@@ -94,23 +116,27 @@ gint affichage_echeances; /* contient 0(mois), 1 (2 mois), 2(année), 3(toutes), 
 gint affichage_echeances_perso_nb_libre;     /* contient le contenu de l'entrée */
 gint affichage_echeances_perso_j_m_a;        /* contient 0 (jours), 1 (mois), 2 (années) */
 
+#define START_EXTERN
+extern GtkJustification col_justs[] ;
+extern struct struct_devise *devise_compte;
+extern GtkWidget *formulaire;
+extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *label_saisie_modif;
-extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
-extern PangoFontDescription *pango_desc_fonte_liste;
-extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
-extern gint mise_a_jour_soldes_minimaux;
-extern gint mise_a_jour_fin_comptes_passifs;
-extern struct struct_devise *devise_compte;
-extern gdouble taux_de_change[2];
-extern GtkWidget *window;
-extern gint nb_comptes;
+extern FILE * out;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
+extern PangoFontDescription *pango_desc_fonte_liste;
+extern GtkTreeSelection * selection;
 extern GtkStyle *style_couleur [2];
-extern GtkStyle *style_rouge_couleur [2];
 extern GtkStyle *style_gris;
+extern GtkStyle *style_rouge_couleur [2];
+extern gdouble taux_de_change[2];
+extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
+extern GtkWidget *window;
+#define END_EXTERN
+
 
 
 

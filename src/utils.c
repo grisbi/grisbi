@@ -27,27 +27,50 @@
 /* ************************************************************************** */
 
 #include "include.h"
-#include "structures.h"
+
+
+#define START_INCLUDE
 #include "utils.h"
-
-
+#include "print_config.h"
 #include "calendar.h"
-#include "constants.h"
 #include "dialog.h"
 #include "traitement_variables.h"
 #include "main.h"
+#define END_INCLUDE
+
+#define START_STATIC
+static void browse_file ( GtkButton *button, gpointer data );
+static void close_calendar_popup ( GtkWidget *popup );
+static int myisolat1ToUTF8(unsigned char* out, int *outlen,
+		    const unsigned char* in, int *inlen);
+static gboolean popup_calendar ( GtkWidget * button, gpointer data );
+static gboolean set_boolean ( GtkWidget * checkbox, guint * dummy);
+static gboolean set_date (GtkEntry *entry, gchar *value, gint length, gint * position);
+static gboolean set_double ( GtkWidget * spin, gdouble * dummy);
+static gboolean set_text (GtkEntry *entry, gchar *value, 
+		   gint length, gint * position);
+static gboolean set_text_from_area ( GtkTextBuffer *buffer, gpointer dummy );
+#define END_STATIC
 
 
-extern GtkStyle *style_entree_formulaire[2];
-extern gint id_fonction_idle;
-extern GtkWidget *window;
+
+
+
+#define START_EXTERN
 extern gint compte_courant;
+extern GtkWidget *entree_date_finale_etat;
+extern GtkWidget *entree_date_init_etat;
+extern GtkWidget *fenetre_preferences;
+extern gint id_fonction_idle;
 extern gint nb_comptes;
+extern FILE * out;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-extern GtkWidget *fenetre_preferences;
-extern GtkWidget *entree_date_init_etat;
-extern GtkWidget *entree_date_finale_etat;
+extern GtkTreeSelection * selection;
+extern GtkStyle *style_entree_formulaire[2];
+extern GtkWidget *window;
+#define END_EXTERN
+
 
 
 

@@ -25,27 +25,31 @@
 
 
 #include "include.h"
-#include "structures.h"
+
+
+
+#define START_INCLUDE
 #include "comptes_gestion.h"
-#include "constants.h"
-
-
-
-#include "accueil.h"
 #include "banque.h"
-#include "categories_onglet.h"
-#include "comptes_onglet.h"
-#include "comptes_traitements.h"
 #include "devises.h"
 #include "dialog.h"
-#include "echeancier_liste.h"
-#include "etats_config.h"
-#include "operations_comptes.h"
 #include "operations_formulaire.h"
-#include "operations_liste.h"
-#include "search_glist.h"
+#include "categories_onglet.h"
 #include "traitement_variables.h"
 #include "utils.h"
+#include "operations_comptes.h"
+#include "comptes_onglet.h"
+#include "etats_config.h"
+#include "echeancier_liste.h"
+#include "operations_liste.h"
+#include "comptes_traitements.h"
+#define END_INCLUDE
+
+#define START_STATIC
+static void changement_bouton_adresse_commune_perso ( void );
+static void modification_details_compte ( void );
+#define END_STATIC
+
 
 
 GtkWidget *bouton_detail;
@@ -68,21 +72,24 @@ GtkWidget *detail_commentaire;
 GtkWidget *hbox_boutons_modif;
 
 
-extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
+#define START_EXTERN
+extern GtkWidget *adr_banque;
+extern GtkWidget *code_banque;
+extern gint compte_courant_onglet;
+extern struct struct_devise *devise_compte;
 extern GSList *liste_struct_banques;
+extern GSList *liste_struct_devises;
+extern gint mise_a_jour_combofix_categ_necessaire;
+extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
-extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_soldes_minimaux;
-extern gint mise_a_jour_fin_comptes_passifs;
-extern gint mise_a_jour_combofix_categ_necessaire;
-extern GSList *liste_struct_devises;
-extern struct struct_devise *devise_compte;
-extern GtkWidget *window;
-extern gint compte_courant_onglet;
 extern gint nb_comptes;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
+extern GtkTreeSelection * selection;
+#define END_EXTERN
+
 
 
 

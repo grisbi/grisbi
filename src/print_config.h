@@ -24,12 +24,6 @@
 
 /* Header file for print_config.c */
 
-gboolean print_config ( );
-gboolean change_print_to_file ( GtkButton *button, gpointer data );
-
-GtkWidget * print_config_general ( GtkWidget * );
-GtkWidget * print_config_paper ( GtkWidget * );
-GtkWidget * print_config_appearance ( GtkWidget * );
 
 struct paper_config 
 {
@@ -60,5 +54,9 @@ struct print_config
   struct paper_config paper_config;
   enum orientation orientation;
 };
+#define START_DECLARATION
+gboolean change_print_to_file ( GtkButton *button, gpointer data );
+gboolean print_config ( );
+#define END_DECLARATION
 
 #endif /* PRINT_CONFIG_H */

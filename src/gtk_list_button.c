@@ -23,14 +23,19 @@
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include "gtk_list_button.h"
 
 #define CHILD_SPACING     1
 
 #include "xpm/book-closed.xpm"
 #include "xpm/book-open.xpm"
 
+
+
+#define START_INCLUDE
+#include "gtk_list_button.h"
 #include "utils.h"
+#define END_INCLUDE
+
 
 /* Function protypes */
 static void gtk_list_button_class_init ( GtkListButtonClass * );
@@ -43,6 +48,7 @@ static gboolean gtk_list_button_release_event ( GtkWidget *button,
 						GdkEventButton *ev );
 static gboolean leaving_button_while_dragging ( GtkWidget *button,
 						GdkEventCrossing *ev  );
+
 
 
 
@@ -66,6 +72,10 @@ gint moved;
 /* utilisé à la création du list_button pour passer can_drag à la fonction gtk_list_button_init */
 
 gint list_button_can_drag;
+
+#define START_EXTERN
+extern GtkWidget *window;
+#define END_EXTERN
 
 
 /* Functions */

@@ -20,13 +20,11 @@
 #define COULEUR_GRISE_BLUE 50000
 
 
-
-
-
-void modification_fichier ( gboolean modif );
+#define START_DECLARATION
 void init_variables ( void );
 void initialisation_couleurs_listes ( void );
 void menus_sensitifs ( gboolean sensitif );
 struct organisation_formulaire *mise_a_zero_organisation_formulaire ( void );
-
+void modification_fichier ( gboolean modif );
+#define END_DECLARATION
 

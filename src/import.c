@@ -22,59 +22,55 @@
 
 
 #include "include.h"
-#include "structures.h"
+
+
+
+#define START_INCLUDE
 #include "import.h"
-#include "constants.h"
-
-
-
-#include "accueil.h"
+#include "devises.h"
+#include "patienter.h"
+#include "operations_liste.h"
 #include "categories_onglet.h"
 #include "comptes_gestion.h"
-#include "comptes_onglet.h"
-#include "comptes_traitements.h"
-#include "devises.h"
+#include "utils.h"
 #include "dialog.h"
-#include "fenetre_principale.h"
+#include "traitement_variables.h"
 #include "fichiers_gestion.h"
+#include "comptes_traitements.h"
+#include "accueil.h"
+#include "tiers_onglet.h"
+#include "operations_onglet.h"
+#include "operations_comptes.h"
+#include "comptes_onglet.h"
 #include "gnucash.h"
 #include "html.h"
 #include "ofx.h"
-#include "operations_classement.h"
-#include "operations_comptes.h"
-#include "operations_liste.h"
-#include "patienter.h"
 #include "qif.h"
-#include "search_glist.h"
-#include "tiers_onglet.h"
-#include "traitement_variables.h"
-#include "type_operations.h"
-#include "utils.h"
-#include "operations_onglet.h"
-#include "main.h"
+#define END_INCLUDE
 
-static void selection_fichiers_import ( void );
-static gboolean fichier_choisi_importation ( GtkWidget *fenetre );
+#define START_STATIC
 static gboolean affichage_recapitulatif_importation ( void );
 static void ajout_devise_dans_liste_import ( void );
-static void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
-				gint position );
-static void traitement_operations_importees ( void );
-static void cree_liens_virements_ope_import ( void );
-static void creation_compte_importe ( struct struct_compte_importation *compte_import );
 static void ajout_opes_importees ( struct struct_compte_importation *compte_import );
-static void confirmation_enregistrement_ope_import ( struct struct_compte_importation *compte_import );
-static struct structure_operation *enregistre_ope_importee ( struct struct_ope_importation *operation_import,
-						      gint no_compte  );
-static void pointe_opes_importees ( struct struct_compte_importation *compte_import );
+static gboolean changement_valeur_echelle_recherche_date_import ( GtkWidget *spin_button );
 static gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 				       gint result,
 				       GtkWidget *liste_ope_celibataires );
 static gboolean click_sur_liste_opes_orphelines ( GtkCellRendererToggle *renderer, 
 					   gchar *ligne,
-					   GtkTreeModel *store  );
-static gboolean changement_valeur_echelle_recherche_date_import ( GtkWidget *spin_button );
-
+					   GtkTreeModel *store );
+static void confirmation_enregistrement_ope_import ( struct struct_compte_importation *compte_import );
+static void creation_compte_importe ( struct struct_compte_importation *compte_import );
+static void cree_liens_virements_ope_import ( void );
+static void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
+				gint position );
+static struct structure_operation *enregistre_ope_importee ( struct struct_ope_importation *operation_import,
+						      gint no_compte );
+static gboolean fichier_choisi_importation ( GtkWidget *fenetre );
+static void pointe_opes_importees ( struct struct_compte_importation *compte_import );
+static void selection_fichiers_import ( void );
+static void traitement_operations_importees ( void );
+#define END_STATIC
 
 
 gint derniere_operation_enregistrement_ope_import;
@@ -87,21 +83,26 @@ gint virements_a_chercher;
 
 
 
-extern GtkWidget *window_vbox_principale;
-extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
+#define START_EXTERN
+extern gchar *dernier_chemin_de_travail;
+extern gchar *derniere_date;
+extern GtkWidget *formulaire;
+extern GSList *liste_struct_devises;
+extern gint mise_a_jour_combofix_categ_necessaire;
+extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
-extern gint mise_a_jour_combofix_tiers_necessaire;
-extern gint mise_a_jour_combofix_categ_necessaire;
-extern gint id_fonction_idle;
-extern GSList *liste_struct_devises;
-extern GtkWidget *window;
-extern GtkWidget *notebook_listes_operations;
-extern gchar *dernier_chemin_de_travail;
+extern GtkTreeStore *model;
 extern gint nb_comptes;
+extern gint no_derniere_operation;
+extern GtkWidget *notebook_listes_operations;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-extern gint no_derniere_operation;
+extern GtkTreeSelection * selection;
+extern GtkWidget *tree_view;
+extern GtkWidget *window;
+#define END_EXTERN
+
 
 
 /* *******************************************************************************/

@@ -25,53 +25,55 @@
 
 
 #include "include.h"
-#include "structures.h"
+
+
+#define START_INCLUDE
 #include "operations_formulaire.h"
-
-
-
 #include "accueil.h"
-#include "calendar.h"
-#include "categories_onglet.h"
-#include "constants.h"
-#include "devises.h"
-#include "dialog.h"
-#include "equilibrage.h"
-#include "etats_calculs.h"
 #include "exercice.h"
-#include "imputation_budgetaire.h"
-#include "operations_classement.h"
 #include "operations_liste.h"
-#include "search_glist.h"
-#include "tiers_onglet.h"
-#include "traitement_variables.h"
+#include "devises.h"
+#include "equilibrage.h"
+#include "categories_onglet.h"
 #include "type_operations.h"
+#include "dialog.h"
+#include "calendar.h"
 #include "utils.h"
-#include "ventilation.h"
-#include "operations_onglet.h"
-#include "main.h"
-#include "comptes_traitements.h"
-#include "affichage_formulaire.h"
+#include "gtk_combofix.h"
+#include "imputation_budgetaire.h"
 #include "menu.h"
+#include "tiers_onglet.h"
+#include "operations_comptes.h"
+#include "traitement_variables.h"
+#include "operations_onglet.h"
+#include "affichage_formulaire.h"
+#include "comptes_traitements.h"
+#include "etats_calculs.h"
+#include "ventilation.h"
+#define END_INCLUDE
 
-static GtkWidget *cree_element_formulaire_par_no ( gint no_element );
-static GtkWidget *creation_boutons_formulaire ( void );
-static gboolean touches_champ_formulaire ( GtkWidget *widget, GdkEventKey *ev, gint *no_origine );
-static void verifie_champs_dates ( gint origine );
-static gint recherche_element_suivant_formulaire ( gint element_courant,
-						   gint sens_deplacement );
-static gboolean  completion_operation_par_tiers ( GtkWidget *entree );
-static void modifie_operation ( struct structure_operation *operation );
-static gint verification_validation_operation ( struct structure_operation *operation );
-static gboolean element_focusable ( gint no_element );
-static void widget_grab_focus_echeancier ( gint no_element );
-static struct structure_operation *recherche_derniere_occurence_tiers ( gint no_tiers );
-static void recuperation_ope_filles_completion_tiers ( struct structure_operation *operation );
-static void recuperation_donnees_generales_formulaire ( struct structure_operation *operation );
-static void recuperation_categorie_formulaire ( struct structure_operation *operation,
-						gint modification );
-static void basculer_vers_ventilation ( GtkWidget *bouton, gpointer null );
+#define START_STATIC
 static void click_sur_bouton_voir_change ( void );
+static gboolean completion_operation_par_tiers ( GtkWidget *entree );
+static GtkWidget *creation_boutons_formulaire ( void );
+static GtkWidget *cree_element_formulaire_par_no ( gint no_element );
+static gboolean element_focusable ( gint no_element );
+static void modifie_operation ( struct structure_operation *operation );
+static struct structure_operation *recherche_derniere_occurence_tiers ( gint no_tiers );
+static gint recherche_element_suivant_formulaire ( gint element_courant,
+					    gint sens_deplacement );
+static void recuperation_categorie_formulaire ( struct structure_operation *operation,
+					 gint modification );
+static void recuperation_donnees_generales_formulaire ( struct structure_operation *operation );
+static void recuperation_ope_filles_completion_tiers ( struct structure_operation *operation );
+static gboolean touches_champ_formulaire ( GtkWidget *widget,
+				    GdkEventKey *ev,
+				    gint *no_origine );
+static gint verification_validation_operation ( struct structure_operation *operation );
+static void verifie_champs_dates ( gint origine );
+static void widget_grab_focus_echeancier ( gint no_element );
+#define END_STATIC
+
 
 
 
@@ -98,43 +100,40 @@ GtkWidget *tab_widget_formulaire[4][6];
 
 
 
-extern gint hauteur_ligne_liste_opes;
+#define START_EXTERN
+extern gboolean block_menu_cb ;
+extern GtkWidget *bouton_affiche_cache_formulaire;
+extern gint compte_courant;
+extern gchar *derniere_date;
+extern struct struct_devise *devise_compte;
 extern gint enregistre_ope_au_retour;
-extern gint ligne_selectionnee_ventilation;
-extern gdouble solde_initial;
-extern gdouble solde_final;
-extern gdouble operations_pointees;
-extern GtkWidget *label_equilibrage_ecart;
-extern GtkWidget *bouton_ok_equilibrage;
+extern GtkWidget *fleche_bas;
+extern GtkWidget *fleche_haut;
+extern GtkWidget *formulaire;
+extern GtkWidget *frame_droite_bas;
+extern gint hauteur_ligne_liste_opes;
+extern GtkItemFactory *item_factory_menu_general;
+extern GSList *liste_categories_combofix;
 extern GSList *liste_imputations_combofix;
-extern gint mise_a_jour_liste_comptes_accueil;
-extern gint mise_a_jour_soldes_minimaux;
-extern gint mise_a_jour_fin_comptes_passifs;
-extern GtkTreeIter iter_liste_operations;
-extern gint mise_a_jour_combofix_tiers_necessaire;
+extern GSList *liste_struct_devises;
+extern GSList *liste_struct_etats;
+extern GSList *liste_tiers_combofix;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
-extern gint id_fonction_idle;
-extern gchar *derniere_date;
-extern GtkTooltips *tooltips_general_grisbi;
-extern gboolean block_menu_cb;
-extern GtkItemFactory *item_factory_menu_general;
-extern GSList *liste_struct_devises;
-extern gdouble taux_de_change[2];
-extern struct struct_devise *devise_compte;
-extern gint compte_courant;
-extern GtkWidget *frame_droite_bas;
-extern GtkWidget *bouton_affiche_cache_formulaire;
-extern GtkWidget *fleche_haut;
-extern GtkWidget *fleche_bas;
+extern gint mise_a_jour_combofix_tiers_necessaire;
+extern gint mise_a_jour_fin_comptes_passifs;
+extern gint mise_a_jour_liste_comptes_accueil;
+extern gint mise_a_jour_soldes_minimaux;
+extern gint nb_colonnes;
 extern gint nb_comptes;
+extern gint no_derniere_operation;
+extern FILE * out;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-extern gint no_derniere_operation;
-extern GtkWidget *formulaire;
-extern GSList *liste_tiers_combofix;
-extern GSList *liste_categories_combofix;
-extern GSList *liste_struct_etats;
+extern gdouble taux_de_change[2];
+extern GtkTooltips *tooltips_general_grisbi;
+#define END_EXTERN
+
 
 
 

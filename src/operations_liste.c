@@ -24,8 +24,6 @@
 /* ************************************************************************** */
 
 #include "include.h"
-#include "structures.h"
-#include "constants.h"
 #include "mouse.h"
 
 /* cette structure est utilisée pour retrouver la position de la cellule solde sur une opération */
@@ -38,63 +36,71 @@ struct structure_position_solde
 
 
 
+
+
+#define START_INCLUDE
+#include "operations_liste.h"
+#include "ventilation.h"
 #include "accueil.h"
-#include "barre_outils.h"
-#include "categories_onglet.h"
-#include "comptes_traitements.h"
-#include "constants.h"
+#include "operations_formulaire.h"
 #include "devises.h"
-#include "dialog.h"
-#include "echeancier_formulaire.h"
-#include "echeancier_liste.h"
 #include "equilibrage.h"
 #include "exercice.h"
-#include "imputation_budgetaire.h"
-#include "operations_classement.h"
-#include "operations_formulaire.h"
-#include "operations_liste.h"
-#include "operations_onglet.h"
 #include "search_glist.h"
-#include "tiers_onglet.h"
-#include "traitement_variables.h"
+#include "operations_classement.h"
+#include "echeancier_formulaire.h"
+#include "barre_outils.h"
 #include "type_operations.h"
+#include "comptes_traitements.h"
 #include "utils.h"
-#include "ventilation.h"
+#include "dialog.h"
+#include "echeancier_liste.h"
+#include "gtk_combofix.h"
 #include "main.h"
-#include "affichage_formulaire.h"
+#include "categories_onglet.h"
+#include "imputation_budgetaire.h"
+#include "tiers_onglet.h"
+#include "operations_comptes.h"
+#include "traitement_variables.h"
+#include "operations_onglet.h"
+#define END_INCLUDE
 
-
-
-static GtkWidget *creation_tree_view_operations ( void );
-static void creation_titres_tree_view ( void );
+#define START_STATIC
 static void affiche_ligne_ope ( struct structure_operation *operation,
-				GtkTreeIter *iter,
-				gint ligne );
-static gchar *recherche_contenu_cellule ( struct structure_operation *operation,
-					  gint no_affichage );
-static struct structure_position_solde *recherche_position_solde ( void );
-static gdouble solde_debut_affichage ( gint no_compte );
-static gboolean selectionne_ligne_souris ( GtkWidget *tree_view,
-					   GdkEventButton *evenement );
-static struct structure_operation *operation_from_iter ( GtkTreeIter *iter,
-							 gint no_compte );
-static void p_press (void);
-static void r_press (void);
+			 GtkTreeIter *iter,
+			 gint ligne );
 static gboolean assert_selected_transaction ();
-static struct structure_operation * clone_transaction ( struct structure_operation * operation );
-static void move_selected_operation_to_account ( GtkMenuItem * menu_item );
-static gboolean move_operation_to_account ( struct structure_operation * transaction, 
-					    gint account );
-static void schedule_selected_transaction ( );
-static struct operation_echeance * schedule_transaction ( struct structure_operation * transaction );
-static void popup_transaction_context_menu ( gboolean full );
-static gboolean click_sur_titre_colonne_operations ( GtkTreeViewColumn *colonne,
-						     gint *no_colonne );
 static gboolean changement_choix_classement_liste_operations ( gchar *nom_classement );
-static void my_list_store_sort ( gint no_compte,
-				 GSList *liste_avant_classement,
-				 GSList *liste_apres_classement );
+static gboolean click_sur_titre_colonne_operations ( GtkTreeViewColumn *colonne,
+					      gint *no_colonne );
+static struct structure_operation *  clone_transaction ( struct structure_operation * operation );
+static void creation_titres_tree_view ( void );
+static GtkWidget *creation_tree_view_operations ( void );
 static GSList *cree_slist_affichee ( gint no_compte );
+static gint gtk_list_store_reorder_func (gconstpointer a,
+				  gconstpointer b,
+				  gpointer      user_data);
+static gboolean move_operation_to_account ( struct structure_operation * transaction,
+				     gint account );
+static void move_selected_operation_to_account ( GtkMenuItem * menu_item );
+static void my_list_store_reorder (GtkListStore *store,
+			    gint         *new_order);
+static void my_list_store_sort ( gint no_compte,
+			  GSList *liste_avant_classement,
+			  GSList *liste_apres_classement );
+static struct structure_operation *operation_from_iter ( GtkTreeIter *iter,
+						  gint no_compte );
+static void p_press (void);
+static void popup_transaction_context_menu ( gboolean full );
+static void r_press (void);
+static gchar *recherche_contenu_cellule ( struct structure_operation *operation,
+				   gint no_affichage );
+static struct structure_position_solde *recherche_position_solde ( void );
+static void schedule_selected_transaction ();
+static struct operation_echeance *schedule_transaction ( struct structure_operation * transaction );
+static gdouble solde_debut_affichage ( gint no_compte );
+#define END_STATIC
+
 
 
 
@@ -173,52 +179,50 @@ GtkWidget *solde_label;
 GtkWidget *solde_label_pointe;
 
 
-extern struct operation_echeance *echeance_selectionnnee;
-extern gint no_derniere_echeance;
-extern GSList *liste_struct_echeances; 
-extern gint nb_echeances;
+#define START_EXTERN
+extern GtkWidget *bouton_affiche_cache_formulaire;
+extern GtkWidget *bouton_ok_equilibrage;
+extern gint compte_courant;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_selection;
-extern PangoFontDescription *pango_desc_fonte_liste;
-extern GSList *liste_labels_titres_colonnes_liste_ope;
-extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
-extern gint ligne_selectionnee_ventilation;
-extern GtkWidget *label_equilibrage_pointe;
-extern GtkWidget *label_equilibrage_ecart;
-extern gdouble operations_pointees;
-extern gdouble solde_initial;
-extern gdouble solde_final;
-extern GtkWidget *bouton_ok_equilibrage;
-extern gint mise_a_jour_liste_comptes_accueil;
-extern gint mise_a_jour_soldes_minimaux;
-extern gint mise_a_jour_liste_echeances_auto_accueil;
-extern gint mise_a_jour_combofix_tiers_necessaire;
-extern gint mise_a_jour_combofix_categ_necessaire;
-extern gint mise_a_jour_combofix_imputation_necessaire;
-extern GtkWidget *bouton_affiche_r;
-extern GtkWidget *bouton_enleve_r;
-extern gint id_fonction_idle;
-extern GtkWidget *bouton_ope_lignes[4];
-extern GtkWidget *bouton_grille;
-extern GtkStyle *style_entree_formulaire[2];
 extern struct struct_devise *devise_compte;
 extern struct struct_devise *devise_operation;
-extern GSList *liste_struct_devises;
-extern gint compte_courant;
-extern GtkWidget *bouton_affiche_cache_formulaire;
-extern GtkWidget *fleche_haut;
-extern GtkWidget *fleche_bas;
-extern gint nb_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
-extern GtkWidget *notebook_general;
+extern struct operation_echeance *echeance_selectionnnee;
 extern GtkWidget *formulaire;
-extern gint tab_affichage_ope[4][7];
+extern GtkWidget *label_equilibrage_ecart;
+extern GtkWidget *label_equilibrage_pointe;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
+extern GSList *liste_labels_titres_colonnes_liste_ope ;
+extern GSList *liste_struct_devises;
+extern GSList *liste_struct_echeances;
+extern gint mise_a_jour_combofix_categ_necessaire;
+extern gint mise_a_jour_combofix_imputation_necessaire;
+extern gint mise_a_jour_combofix_tiers_necessaire;
+extern gint mise_a_jour_liste_comptes_accueil;
+extern gint mise_a_jour_liste_echeances_auto_accueil;
+extern gint mise_a_jour_soldes_minimaux;
+extern gint nb_colonnes;
+extern gint nb_comptes;
+extern gint nb_echeances;
+extern gint no_derniere_echeance;
+extern GtkWidget *notebook_general;
+extern gdouble operations_pointees;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern PangoFontDescription *pango_desc_fonte_liste;
 extern gint rapport_largeur_colonnes[7];
+extern gdouble solde_final;
+extern gdouble solde_initial;
+extern GtkStyle *style_entree_formulaire[2];
+extern gint tab_affichage_ope[4][7];
 extern gint taille_largeur_colonnes[7];
+extern GtkWidget *tree_view;
+extern GtkWidget *treeview;
+extern GtkWidget *window;
+#define END_EXTERN
+
 
 
 
@@ -3553,8 +3557,7 @@ void schedule_selected_transaction ()
  *
  * \param transaction Transaction to use as a template.
  */
-    struct operation_echeance *
-schedule_transaction ( struct structure_operation * transaction )
+struct operation_echeance *schedule_transaction ( struct structure_operation * transaction )
 {
     struct operation_echeance *echeance;
 
@@ -4087,10 +4090,9 @@ typedef struct _SortTuple
 } SortTuple;
 
 /* Reordering */
-static gint
-gtk_list_store_reorder_func (gconstpointer a,
-			     gconstpointer b,
-			     gpointer      user_data)
+gint gtk_list_store_reorder_func (gconstpointer a,
+				  gconstpointer b,
+				  gpointer      user_data)
 {
   SortTuple *a_reorder;
   SortTuple *b_reorder;
@@ -4116,9 +4118,8 @@ gtk_list_store_reorder_func (gconstpointer a,
  *
  * Since: 2.2
  **/
-void
-my_list_store_reorder (GtkListStore *store,
-			gint         *new_order)
+void my_list_store_reorder (GtkListStore *store,
+			    gint         *new_order)
 {
   gint i;
   GSList *current_list;
@@ -4496,7 +4497,7 @@ void mise_a_jour_affichage_lignes ( gint nb_lignes )
 
     /*     si nb_lignes = NB_LIGNES_OPE on ne change rien */
     /* 	on vérifie sur le compte courant car soit c'est sur ce compte */
-    /* 	qu'on travaille, soit tous les autres comptes ont la même valeur */
+    /* 	qu'on travaille, soit tous les autres comptes ont la mÃªme valeur */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 

@@ -20,9 +20,15 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include "gtkcombofix.h"
 #include <gdk/gdkkeysyms.h>
 #include <ctype.h>
+#include "include.h"
+
+
+#define START_INCLUDE
+#include "gtk_combofix.h"
+#define END_INCLUDE
+
 
 /* Liste des fonctions statiques */
 
@@ -43,7 +49,7 @@ static gboolean realize_scrolled_window ( GtkWidget *vbox,
 static gboolean gtk_combofix_button_press ( GtkWidget *widget,
 					    GdkEventButton *ev,
 					    GtkComboFix *combofix );
-static gboolean met_en_prelight ( GtkWidget *event_box,
+static gboolean met_combofix_en_prelight ( GtkWidget *event_box,
 				  GdkEventMotion *ev,
 				  GtkComboFix *combofix );
 static gboolean click_sur_label ( GtkWidget *event_box,
@@ -72,12 +78,21 @@ static gboolean touche_pressee_dans_popup ( GtkWidget *popup,
 					    GtkComboFix *combofix );
 
 
+
+
 /* Variables globales */
 
 static gint rafraichir_selection = 0;
 static gint bloque_proposition = 0;
 static gint case_sensitive = 0;
 
+
+#define START_EXTERN
+extern FILE * out;
+extern GtkTreeSelection * selection;
+extern GtkStyle *style_label;
+extern GtkWidget *window;
+#define END_EXTERN
 
 
 /* **************************************************************************************************** */
@@ -999,7 +1014,7 @@ recherche_completion:
 					  string );
 		    gtk_signal_connect ( GTK_OBJECT ( event_box ),
 					 "enter-notify-event",
-					 GTK_SIGNAL_FUNC ( met_en_prelight ),
+					 GTK_SIGNAL_FUNC ( met_combofix_en_prelight ),
 					 combofix );
 		    gtk_signal_connect ( GTK_OBJECT ( event_box ),
 					 "button-press-event",
@@ -1044,7 +1059,7 @@ recherche_completion:
 							NULL ));
 		    gtk_signal_connect ( GTK_OBJECT ( event_box ),
 					 "enter-notify-event",
-					 GTK_SIGNAL_FUNC ( met_en_prelight ),
+					 GTK_SIGNAL_FUNC ( met_combofix_en_prelight ),
 					 combofix );
 		    gtk_signal_connect ( GTK_OBJECT ( event_box ),
 					 "button-press-event",
@@ -1112,7 +1127,7 @@ recherche_completion:
 				      string );
 		gtk_signal_connect ( GTK_OBJECT ( event_box ),
 				     "enter-notify-event",
-				     GTK_SIGNAL_FUNC ( met_en_prelight ),
+				     GTK_SIGNAL_FUNC ( met_combofix_en_prelight ),
 				     combofix );
 		gtk_signal_connect ( GTK_OBJECT ( event_box ),
 				     "button-press-event",
@@ -1157,7 +1172,7 @@ recherche_completion:
 						    NULL ));
 		gtk_signal_connect ( GTK_OBJECT ( event_box ),
 				     "enter-notify-event",
-				     GTK_SIGNAL_FUNC ( met_en_prelight ),
+				     GTK_SIGNAL_FUNC ( met_combofix_en_prelight ),
 				     combofix );
 		gtk_signal_connect ( GTK_OBJECT ( event_box ),
 				     "button-press-event",
@@ -1391,7 +1406,7 @@ static gboolean gtk_combofix_button_press ( GtkWidget *widget,
 
 
 /* **************************************************************************************************** */
-static gboolean met_en_prelight ( GtkWidget *event_box,
+static gboolean met_combofix_en_prelight ( GtkWidget *event_box,
 				  GdkEventMotion *ev,
 				  GtkComboFix *combofix )
 {

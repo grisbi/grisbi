@@ -22,24 +22,21 @@
 
 
 #include "include.h"
-#include "structures.h"
+
+
+#define START_INCLUDE
 #include "fichier_configuration.h"
-
-
-
-#include "accueil.h"
-#include "categories_onglet.h"
-#include "comptes_traitements.h"
-#include "devises.h"
 #include "dialog.h"
-#include "fenetre_principale.h"
-#include "fichiers_io.h"
-#include "operations_comptes.h"
-#include "operations_liste.h"
-#include "patienter.h"
-#include "type_operations.h"
 #include "utils.h"
-#include "constants.h"
+#include "main.h"
+#include "print_config.h"
+#define END_INCLUDE
+
+#define START_STATIC
+static void charge_configuration_ancien ( void );
+static void raz_configuration ( void );
+#define END_STATIC
+
 
 
 
@@ -64,18 +61,22 @@ gint compression_backup;
 
 PangoFontDescription *pango_desc_fonte_liste;
 
-extern gint decalage_echeance;  
-extern GtkWidget *paned_onglet_operations;
-extern GtkWidget *paned_onglet_echeancier;
-extern GtkWidget *paned_onglet_comptes;
-extern GtkWidget *paned_onglet_etats;
-extern GtkWidget *window;
+#define START_EXTERN
 extern gint compte_courant;
+extern gint decalage_echeance;
+extern GtkWidget *formulaire;
 extern gint nb_comptes;
+extern gchar *nom_fichier_comptes;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-extern gchar *nom_fichier_comptes;
+extern GtkWidget *paned_onglet_comptes;
+extern GtkWidget *paned_onglet_echeancier;
+extern GtkWidget *paned_onglet_etats;
+extern GtkWidget *paned_onglet_operations;
 extern gint taille_largeur_colonnes[7];
+extern GtkWidget *window;
+#define END_EXTERN
+
 
 /* ***************************************************************************************************** */
 void charge_configuration ( void )

@@ -21,13 +21,37 @@
 
 
 #include "include.h"
-#include "structures.h"
+
+#define START_INCLUDE
 #include "banque.h"
-
-
 #include "comptes_gestion.h"
-#include "search_glist.h"
+#include "dialog.h"
 #include "utils.h"
+#include "search_glist.h"
+#define END_INCLUDE
+
+#define START_STATIC
+static struct struct_banque * ajout_banque ( GtkWidget *bouton, GtkWidget *clist );
+static GtkWidget * bank_form ( GtkWidget * parent );
+static void deselection_ligne_banque ( GtkWidget *liste,
+				gint ligne,
+				gint colonne,
+				GdkEventButton *ev,
+				GtkWidget *frame );
+static void selection_ligne_banque ( GtkWidget *liste,
+			      gint ligne,
+			      gint colonne,
+			      GdkEventButton *ev,
+			      GtkWidget *frame );
+static void supprime_banque ( GtkWidget *bouton,
+		       GtkWidget *liste );
+static void update_bank_form ( struct struct_banque * bank, GtkWidget * frame );
+static gboolean update_bank_list ( GtkEntry *entry, gchar *value, 
+			    gint length, gint * position );
+static gboolean update_bank_menu ();
+#define END_STATIC
+
+
 
 GSList *liste_struct_banques;
 gint nb_banques;
@@ -52,14 +76,18 @@ gint ligne_selection_banque;
 
 
 
-extern GtkWidget *detail_option_menu_banque;
-extern GtkWidget *hbox_boutons_modif;
-extern GtkWidget *window;
+#define START_EXTERN
 extern gint compte_courant_onglet;
+extern GtkWidget *detail_option_menu_banque;
+extern GtkWidget *fenetre_preferences;
+extern GtkWidget *hbox_boutons_modif;
 extern gint nb_comptes;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-extern GtkWidget *fenetre_preferences;
+extern GtkTreeSelection * selection;
+extern GtkWidget *window;
+#define END_EXTERN
+
 
 
 
@@ -172,20 +200,6 @@ struct struct_banque * ajout_banque ( GtkWidget *bouton, GtkWidget *clist )
 
 
 
-/** FIXME: remove + remove in en_tete.h
-*/
-void applique_modif_banque ( GtkWidget *liste )
-{
-}
-/* ***************************************************************************************************** */
-
-
-/** FIXME: remove + remove in en_tete.h
-*/
-void annuler_modif_banque ( GtkWidget *bouton,
-			    GtkWidget *liste )
-{
-}
 
 
 /* **************************************************************************************************************************** */
@@ -303,16 +317,6 @@ GtkWidget *creation_menu_banques ( void )
     return ( menu );
 }
 /* ************************************************************************************************************ */
-
-
-/** TODO: remove this obsolete function */
-void affiche_detail_banque ( GtkWidget *bouton,
-			     gpointer null )
-{
-}
-/* **************************************************************************************************************************** */
-
-
 
 
 
@@ -507,18 +511,6 @@ void deselection_ligne_banque ( GtkWidget *liste,
     gtk_widget_set_sensitive ( bouton_supprimer_banque, FALSE );
 }
 
-
-
-/* **************************************************************************************************************************** */
-void modif_detail_banque ( GtkWidget *entree,
-			   gpointer null )
-{
-
-    gtk_widget_set_sensitive ( hbox_boutons_modif_banque,
-			       TRUE );
-
-}
-/* **************************************************************************************************************************** */
 
 
 GtkWidget * bank_form ( GtkWidget * parent )

@@ -21,17 +21,37 @@
 
 
 #include "include.h"
-#include "structures.h"
+
+
+
+
+#define START_INCLUDE
 #include "type_operations.h"
-#include "constants.h"
-
-
+#include "utils.h"
 #include "dialog.h"
 #include "operations_formulaire.h"
-#include "search_glist.h"
 #include "traitement_variables.h"
-#include "utils.h"
+#include "search_glist.h"
 #include "affichage_formulaire.h"
+#define END_INCLUDE
+
+#define START_STATIC
+static void ajouter_type_operation ( void );
+static void changement_choix_type_echeancier ( struct struct_type_ope *type );
+static void changement_choix_type_formulaire ( struct struct_type_ope *type );
+static void fill_payment_method_tree ();
+static gint find_operation_type_by_type ( gint no_compte, gint signe_type, gint exclude );
+static void modification_entree_nom_type ( void );
+static void modification_entree_type_dernier_no ( void );
+static void modification_type_numerotation_auto (void);
+static void modification_type_signe ( gint *no_menu );
+static void payment_method_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
+			      gpointer data );
+static gboolean select_payment_method ( GtkTreeSelection *selection, GtkTreeModel *model );
+static gboolean select_type_ope ( GtkTreeModel *model, GtkTreePath *path, 
+			   GtkTreeIter *iter, struct struct_type_ope * data );
+static void supprimer_type_operation ( void );
+#define END_STATIC
 
 
 
@@ -52,37 +72,32 @@ enum payment_methods_columns {
 GtkWidget *treeview;
 GtkTreeStore *model;
 
-gint *type_defaut_debit;
-gint *type_defaut_credit;
 GtkWidget *bouton_ajouter_type;
 GtkWidget *bouton_retirer_type;
 GtkWidget *entree_type_nom;
-GtkWidget *bouton_type_apparaitre_entree;
-GtkWidget *bouton_type_numerotation_automatique;
 GtkWidget *entree_type_dernier_no;
 GtkWidget *bouton_signe_type;
-GtkWidget *bouton_type_choix_defaut;
-GtkWidget *bouton_type_choix_affichage_formulaire;
 GtkWidget *entree_automatic_numbering;
 
-GtkWidget *bouton_type_tri_date;
-GtkWidget *bouton_type_tri_type;
-GtkWidget *bouton_type_neutre_inclut;
-GtkWidget *type_liste_tri;
 GtkWidget *vbox_fleches_tri;
 
 
 /** Global to handle sensitiveness */
 GtkWidget * details_paddingbox;
 
-extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
-extern GtkWidget *label_saisie_modif;
-extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
+#define START_EXTERN
 extern gint compte_courant;
+extern GtkWidget *fenetre_preferences;
+extern GtkWidget *formulaire;
+extern GtkWidget *label_saisie_modif;
 extern gint nb_comptes;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-extern GtkWidget *fenetre_preferences;
+extern GtkTreeSelection * selection;
+extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
+extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
+#define END_EXTERN
+
 
 
 
@@ -487,8 +502,7 @@ GtkWidget *onglet_types_operations ( void )
  * Callback used when a payment method is selected in payment methods
  * list.
  */
-    gboolean
-select_payment_method ( GtkTreeSelection *selection, GtkTreeModel *model )
+gboolean select_payment_method ( GtkTreeSelection *selection, GtkTreeModel *model )
 {
     GtkTreeIter iter;
     GValue value_visible = {0, };
@@ -1174,33 +1188,6 @@ void supprimer_type_operation ( void )
 
 
 
-
-
-/* ************************************************************************************************************** */
-void selection_type_liste_tri ( void )
-{
-
-    /* on rend sensible les boutons de déplacement */
-
-    gtk_widget_set_sensitive ( vbox_fleches_tri,
-			       TRUE );
-
-}
-/* ************************************************************************************************************** */
-
-
-/* ************************************************************************************************************** */
-void deselection_type_liste_tri ( void )
-{
-
-    /* on rend non sensible les boutons de déplacement */
-
-    gtk_widget_set_sensitive ( vbox_fleches_tri,
-			       FALSE );
-
-
-}
-/* ************************************************************************************************************** */
 
 
 /* ************************************************************************************************************** */

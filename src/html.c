@@ -22,10 +22,20 @@
 
 
 #include "include.h"
-#include "structures.h"
+
+
+#define START_INCLUDE
 #include "html.h"
 #include "dialog.h"
+#define END_INCLUDE
 
+#define START_STATIC
+#define END_STATIC
+
+
+
+#define START_EXTERN
+#define END_EXTERN
 
 
 

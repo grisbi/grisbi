@@ -21,22 +21,6 @@
 
 
 #include "include.h"
-#include "structures.h"
-#include "fichiers_io.h"
-
-
-#include "categories_onglet.h"
-#include "dialog.h"
-#include "imputation_budgetaire.h"
-#include "menu.h"
-#include "operations_liste.h"
-#include "search_glist.h"
-#include "traitement_variables.h"
-#include "utils.h"
-#include "operations_classement.h"
-#include "operations_onglet.h"
-#include "devises.h"
-#include "fichiers_gestion.h"
 
 /* structure utilisée pour récupérer les nos de versions */
 
@@ -47,29 +31,44 @@ struct recuperation_version
 };
 
 
-static struct recuperation_version *recupere_version_fichier ( xmlDocPtr doc );
-static struct recuperation_version *recupere_version_fichier ( xmlDocPtr doc );
-static gboolean mise_a_jour_versions_anterieures ( gint no_version,
-						   struct recuperation_version *version );
 
-static void switch_t_r ( void );
+#define START_INCLUDE
+#include "fichiers_io.h"
+#include "categories_onglet.h"
+#include "imputation_budgetaire.h"
+#include "devises.h"
+#include "dialog.h"
+#include "utils.h"
+#include "main.h"
+#include "traitement_variables.h"
+#include "fichiers_gestion.h"
+#include "search_glist.h"
+#include "operations_liste.h"
+#define END_INCLUDE
 
-static gboolean charge_fichier_xml_grisbi ( xmlDocPtr doc );
-static gboolean recuperation_generalites_xml ( xmlNodePtr node_generalites );
-static gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes );
-static gboolean recuperation_echeances_xml ( xmlNodePtr node_echeances );
-static gboolean recuperation_tiers_xml ( xmlNodePtr node_tiers );
-static gboolean recuperation_categories_xml ( xmlNodePtr node_categories );
-static gboolean recuperation_imputations_xml ( xmlNodePtr node_imputations );
-static gboolean recuperation_devises_xml ( xmlNodePtr node_devises );
-static gboolean recuperation_banques_xml ( xmlNodePtr node_banques );
-static gboolean recuperation_exercices_xml ( xmlNodePtr node_exercices );
-static gboolean recuperation_rapprochements_xml ( xmlNodePtr node_rapprochements );
-static gboolean recuperation_etats_xml ( xmlNodePtr node_etats );
-
-static void propose_changement_permissions ( void );
+#define START_STATIC
 static gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc );
+static gboolean charge_fichier_xml_grisbi ( xmlDocPtr doc );
 static gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc );
+static gboolean mise_a_jour_versions_anterieures ( gint no_version,
+					    struct recuperation_version *version );
+static void propose_changement_permissions ( void );
+static gboolean recuperation_banques_xml ( xmlNodePtr node_banques );
+static gboolean recuperation_categories_xml ( xmlNodePtr node_categories );
+static gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes );
+static gboolean recuperation_devises_xml ( xmlNodePtr node_devises );
+static gboolean recuperation_echeances_xml ( xmlNodePtr node_echeances );
+static gboolean recuperation_etats_xml ( xmlNodePtr node_etats );
+static gboolean recuperation_exercices_xml ( xmlNodePtr node_exercices );
+static gboolean recuperation_generalites_xml ( xmlNodePtr node_generalites );
+static gboolean recuperation_imputations_xml ( xmlNodePtr node_imputations );
+static gboolean recuperation_rapprochements_xml ( xmlNodePtr node_rapprochements );
+static gboolean recuperation_tiers_xml ( xmlNodePtr node_tiers );
+static struct recuperation_version *recupere_version_fichier ( xmlDocPtr doc );
+static void switch_t_r ( void );
+#define END_STATIC
+
+
 
 
 
@@ -95,47 +94,63 @@ gint nb_comptes;
 
 
 
-extern gint valeur_echelle_recherche_date_import;
-extern gint affichage_echeances; 
-extern gint affichage_echeances_perso_nb_libre; 
-extern gint affichage_echeances_perso_j_m_a; 
-extern gint nb_echeances;
-extern gint no_derniere_echeance;
-extern GSList *liste_struct_echeances; 
-extern gint nb_banques;
-extern gint no_derniere_banque;
-extern GSList *liste_struct_banques;
-extern GSList *liste_struct_rapprochements;
-extern gint nb_enregistrements_imputations;
-extern gint no_derniere_imputation;
-extern GSList *liste_struct_imputation;
-extern gint mise_a_jour_combofix_categ_necessaire;
-extern gint mise_a_jour_combofix_imputation_necessaire;
-extern GSList *liste_struct_devises;
-extern gint nb_devises;
-extern gint no_derniere_devise;
-extern GtkWidget *window;
-extern gint compte_courant;
-extern gchar *nom_fichier_backup;
-extern GSList *liste_struct_exercices;
-extern gint no_derniere_exercice;
-extern gint nb_exercices;
-extern GSList *ordre_comptes;
+#define START_EXTERN
+extern GtkWidget *adr_banque;
+extern gint affichage_echeances;
+extern gint affichage_echeances_perso_j_m_a;
+extern gint affichage_echeances_perso_nb_libre;
 extern gchar *chemin_logo;
-extern gint no_devise_totaux_tiers;
-extern gint nb_enregistrements_tiers;
-extern gint no_dernier_tiers;
-extern GSList *liste_struct_tiers;
-extern GSList *liste_struct_categories;
-extern gint nb_enregistrements_categories;
-extern gint no_derniere_categorie;
-extern GSList *liste_struct_etats;
-extern gint no_dernier_etat;
-extern gint tab_affichage_ope[4][7];
+extern GtkWidget *code_banque;
+extern gint compte_courant;
+extern GtkWidget *email_banque;
+extern GtkWidget *email_correspondant;
+extern GtkWidget *fax_correspondant;
+extern GtkWidget *formulaire;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
+extern GSList *liste_struct_banques;
+extern GSList *liste_struct_categories;
+extern GSList *liste_struct_devises;
+extern GSList *liste_struct_echeances;
+extern GSList *liste_struct_etats;
+extern GSList *liste_struct_exercices;
+extern GSList *liste_struct_imputation;
+extern GSList *liste_struct_rapprochements;
+extern GSList *liste_struct_tiers;
+extern gint nb_banques;
+extern gint nb_colonnes;
+extern gint nb_devises;
+extern gint nb_echeances;
+extern gint nb_enregistrements_categories;
+extern gint nb_enregistrements_imputations;
+extern gint nb_enregistrements_tiers;
+extern gint nb_exercices;
+extern gint no_dernier_etat;
+extern gint no_dernier_tiers;
+extern gint no_derniere_banque;
+extern gint no_derniere_categorie;
+extern gint no_derniere_devise;
+extern gint no_derniere_echeance;
+extern gint no_derniere_exercice;
+extern gint no_derniere_imputation;
+extern gint no_devise_totaux_tiers;
+extern GtkWidget *nom_banque;
+extern GtkWidget *nom_correspondant;
+extern GtkWidget *nom_exercice;
+extern gchar *nom_fichier_backup;
+extern GSList *ordre_comptes;
 extern gint rapport_largeur_colonnes[7];
+extern GtkWidget *remarque_banque;
+extern GtkTreeSelection * selection;
+extern gint tab_affichage_ope[4][7];
+extern GtkWidget *tel_banque;
+extern GtkWidget *tel_correspondant;
+extern gint valeur_echelle_recherche_date_import;
+extern GtkWidget *web_banque;
+extern GtkWidget *window;
+#define END_EXTERN
+
 
 
 

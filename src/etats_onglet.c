@@ -20,20 +20,29 @@
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 #include "include.h"
-#include "structures.h"
-#include "etats_onglet.h"
 
-#include "dialog.h"
+
+#define START_INCLUDE
+#include "etats_onglet.h"
 #include "etat_io.h"
-#include "etats_calculs.h"
-#include "etats_config.h"
+#include "dialog.h"
 #include "gtk_list_button.h"
+#include "etats_calculs.h"
 #include "menu.h"
-#include "tiers_onglet.h"
 #include "traitement_variables.h"
 #include "utils.h"
+#include "etats_config.h"
+#define END_INCLUDE
 
-void impression_etat ( struct struct_etat *etat );
+#define START_STATIC
+static void change_choix_nouvel_etat ( GtkWidget *menu_item,
+				GtkWidget *label_description );
+static void changement_etat ( GtkWidget *bouton,
+		       struct struct_etat *etat );
+static GtkWidget *creation_barre_boutons_etats ( void );
+static GtkWidget *creation_liste_etats ( void );
+#define END_STATIC
+
 
 
 
@@ -57,7 +66,6 @@ GtkWidget *scrolled_window_etat;          /* contient l'état en cours */
 gint nb_colonnes;
 gint ligne_debut_partie;
 GtkWidget *notebook_etats;
-GtkWidget *onglet_affichage_etat;
 GtkWidget *notebook_config_etat;
 GtkWidget *notebook_selection;
 GtkWidget *notebook_aff_donnees;
@@ -65,9 +73,13 @@ GtkWidget *onglet_config_etat;
 
 
 
-extern GtkItemFactory *item_factory_menu_general;
+#define START_EXTERN
 extern gchar *dernier_chemin_de_travail;
+extern GtkItemFactory *item_factory_menu_general;
 extern GtkWidget *notebook_general;
+extern GtkWidget *window;
+#define END_EXTERN
+
 
 
 /*****************************************************************************************************/

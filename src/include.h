@@ -17,7 +17,6 @@
 #include <ctype.h>
 #include <errno.h>
 #include <math.h>
-#include "gtkcombofix.h"
 
 #include <libxml/encoding.h>
 #include <libxml/tree.h>
@@ -26,4 +25,7 @@
 #define G_BROKEN_FILENAMES 1
 #include <gtk/gtktext.h>
 #include <gdk/gdkkeysyms.h>
+
+#include "gtk_combofix.h"
+#include "structures.h"
 

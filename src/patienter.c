@@ -22,11 +22,16 @@
 
 
 #include "include.h"
-#include "structures.h"
-#include "gtkcombofix.h"
+
+
+#define START_INCLUDE
 #include "patienter.h"
-#include "main.h"
 #include "utils.h"
+#define END_INCLUDE
+
+#define START_STATIC
+#define END_STATIC
+
 
 
 GtkWidget *label_patience;
@@ -34,8 +39,10 @@ GtkWidget *fenetre_patience;
 gint patience_en_cours;
 gint idle_stoppe;
 
-extern gint id_fonction_idle;
+#define START_EXTERN
 extern GtkWidget *window;
+#define END_EXTERN
+
 
 
 /* ******************************************************************************************** */

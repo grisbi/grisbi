@@ -24,23 +24,35 @@
 /* ************************************************************************** */
 
 #include "include.h"
-#include "structures.h"
-#include "menu.h"
 
-#include "barre_outils.h"
-#include "comptes_traitements.h"
-#include "erreur.h"
-#include "etats_calculs.h"
-#include "etats_config.h"
-#include "etats_onglet.h"
-#include "fichiers_gestion.h"
+
+#define START_INCLUDE
+#include "menu.h"
 #include "help.h"
-#include "import.h"
 #include "operations_formulaire.h"
+#include "etats_onglet.h"
+#include "barre_outils.h"
 #include "operations_liste.h"
-#include "parametres.h"
+#include "fichiers_gestion.h"
 #include "qif.h"
+#include "erreur.h"
+#include "import.h"
+#include "etats_calculs.h"
 #include "utils.h"
+#include "main.h"
+#include "comptes_traitements.h"
+#include "etats_config.h"
+#include "parametres.h"
+#define END_INCLUDE
+
+#define START_STATIC
+static void affiche_aide_locale ( gpointer null,
+			   gint origine );
+static void lien_web ( GtkWidget *widget,
+		gint origine );
+static void view_menu_cb ( gpointer callback_data, guint callback_action, GtkWidget *widget );
+#define END_STATIC
+
 
 enum view_menu_action {
   HIDE_SHOW_TRANSACTION_FORM = 0,
@@ -52,15 +64,14 @@ enum view_menu_action {
   FOUR_LINES_PER_TRANSACTION,
 };
 
-extern GtkItemFactory *item_factory_menu_general;
-extern GtkWidget *bouton_ope_lignes[4];
-extern GtkWidget *bouton_affiche_r;
-extern GtkWidget *bouton_enleve_r;
-extern GtkWidget *bouton_grille;
-extern GtkWidget *window;
+#define START_EXTERN
 extern gint compte_courant;
+extern GtkItemFactory *item_factory_menu_general;
 extern gint nb_derniers_fichiers_ouverts;
 extern gchar **tab_noms_derniers_fichiers_ouverts;
+extern GtkWidget *window;
+#define END_EXTERN
+
 
 gboolean block_menu_cb = FALSE;
 

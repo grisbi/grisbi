@@ -19,18 +19,34 @@
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 #include "include.h"
-#include "structures.h"
+#define START_INCLUDE
 #include "affichage_liste.h"
-
 #include "operations_liste.h"
-#include "traitement_variables.h"
 #include "utils.h"
-#include "constants.h"
-#include "main.h"
+#include "traitement_variables.h"
+#define END_INCLUDE
 
-
-
+#define START_STATIC
+static gboolean allocation_clist_affichage_liste ( GtkWidget *clist,
+					    GtkAllocation *allocation );
+static gboolean change_choix_ajustement_auto_colonnes ( GtkWidget *bouton );
+static gboolean change_largeur_colonne ( GtkWidget *clist,
+				  gint colonne,
+				  gint largeur );
+static GtkWidget *cree_menu_quatres_lignes ( void );
+static gboolean lache_bouton_classement_liste ( GtkWidget *clist,
+					 GdkEventButton *ev );
 static gboolean modification_retient_affichage_par_compte ( void );
+static gboolean pression_bouton_classement_liste ( GtkWidget *clist,
+					    GdkEventButton *ev );
+static void raz_affichage_ope ( void );
+static void remplissage_tab_affichage_ope ( GtkWidget *clist );
+static void toggled_bouton_affichage_liste ( GtkWidget *bouton,
+				      gint *no_bouton );
+static gboolean transactions_list_display_modes_menu_changed  ( GtkWidget * menu_shell,
+							 gint origine );
+#define END_STATIC
+
 
 
 gchar *labels_boutons [] = { N_("Date"),
@@ -57,9 +73,6 @@ gchar *labels_boutons [] = { N_("Date"),
 gint ancienne_allocation_liste;
 gint affichage_realise;
 
-/************************/ 
-/* fichier affichage_liste.c */
-/************************/ 
 
 gint col_depart_drag;
 gint ligne_depart_drag;
@@ -87,15 +100,21 @@ GSList *lignes_affichage_deux_lignes;
 GSList *lignes_affichage_trois_lignes;
 
 
+#define START_EXTERN
 extern gint allocation_precedente;
-extern GSList *liste_labels_titres_colonnes_liste_ope;
-extern gint id_fonction_idle;
+extern gint col_depart_drag;
 extern gint compte_courant;
-extern gchar *tips_col_liste_operations[7];
-extern gchar *titres_colonnes_liste_operations[7];
+extern gint ligne_depart_drag;
+extern GSList *liste_labels_titres_colonnes_liste_ope ;
 extern gint nb_comptes;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
+extern GtkWidget *preview;
+extern gchar *tips_col_liste_operations[7];
+extern gchar *titres_colonnes_liste_operations[7];
+extern GtkWidget *window;
+#define END_EXTERN
+
 
 
 

@@ -24,34 +24,37 @@
 
 
 #include "include.h"
-#include "structures.h"
+
+
+#define START_INCLUDE
 #include "fichiers_gestion.h"
-
-
-#include "accueil.h"
-#include "categories_onglet.h"
-#include "comptes_traitements.h"
-#include "devises.h"
-#include "dialog.h"
-#include "fenetre_principale.h"
-#include "fichiers_io.h"
 #include "menu.h"
-#include "operations_comptes.h"
-#include "operations_liste.h"
+#include "devises.h"
 #include "patienter.h"
-#include "traitement_variables.h"
-#include "fichier_configuration.h"
-#include "utils.h"
-#include "affichage_liste.h"
-#include "echeancier_liste.h"
+#include "operations_liste.h"
+#include "fenetre_principale.h"
+#include "operations_comptes.h"
+#include "fichiers_io.h"
+#include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
+#include "comptes_traitements.h"
+#include "dialog.h"
+#include "erreur.h"
+#include "traitement_variables.h"
+#include "main.h"
+#include "utils.h"
+#include "affichage_liste.h"
+#include "fichier_configuration.h"
+#include "echeancier_liste.h"
+#define END_INCLUDE
 
-
-static void fichier_selectionne ( GtkWidget *selection_fichier);
+#define START_STATIC
+static void ajoute_nouveau_fichier_liste_ouverture ( gchar *path_fichier );
 static gchar *demande_nom_enregistrement ( void );
 static gboolean enregistrement_backup ( void );
-static void ajoute_nouveau_fichier_liste_ouverture ( gchar *path_fichier );
+static void fichier_selectionne ( GtkWidget *selection_fichier);
+#define END_STATIC
 
 
 
@@ -60,35 +63,36 @@ gchar *nom_fichier_backup;
 
 
 
-extern GtkWidget *window_vbox_principale;
-extern gint patience_en_cours;
-extern GSList *echeances_saisies;
-extern GSList *liste_struct_echeances;  
-extern GSList *echeances_a_saisir;
-extern gint mise_a_jour_liste_comptes_accueil;
-extern gint mise_a_jour_soldes_minimaux;
-extern gint mise_a_jour_fin_comptes_passifs;
-extern gint id_fonction_idle;
-extern gboolean block_menu_cb;
-extern GtkItemFactory *item_factory_menu_general;
-extern GtkWidget *window;
+#define START_EXTERN
+extern gboolean block_menu_cb ;
+extern gint compression_backup;
+extern gint compression_fichier;
 extern gint compte_courant;
 extern gchar *dernier_chemin_de_travail;
-extern gchar **tab_noms_derniers_fichiers_ouverts;
-extern gint compression_fichier;
-extern gint compression_backup;
-extern gint nb_max_derniers_fichiers_ouverts;
-extern gint nb_derniers_fichiers_ouverts;
+extern GSList *echeances_a_saisir;
+extern GSList *echeances_saisies;
+extern gint id_temps;
+extern GtkItemFactory *item_factory_menu_general;
+extern GSList *liste_struct_echeances;
+extern GSList *liste_struct_etats;
+extern gint mise_a_jour_fin_comptes_passifs;
+extern gint mise_a_jour_liste_comptes_accueil;
+extern gint mise_a_jour_soldes_minimaux;
 extern gint nb_comptes;
+extern gint nb_derniers_fichiers_ouverts;
+extern gint nb_max_derniers_fichiers_ouverts;
+extern gchar *nom_fichier_comptes;
+extern GtkWidget *notebook_general;
+extern GSList *ordre_comptes;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-extern gchar *nom_fichier_comptes;
-extern GSList *ordre_comptes;
-extern gchar *titre_fichier;
-extern GtkWidget *notebook_general;
-extern gint id_temps;
-extern GSList *liste_struct_etats;
 extern gint rapport_largeur_colonnes[7];
+extern gchar **tab_noms_derniers_fichiers_ouverts;
+extern gchar *titre_fichier;
+extern GtkWidget *window;
+extern GtkWidget *window_vbox_principale;
+#define END_EXTERN
+
 
 
 /* ************************************************************************************************************ */

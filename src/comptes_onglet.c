@@ -21,28 +21,39 @@
 
 
 #include "include.h"
-#include "structures.h"
-#include "comptes_onglet.h"
 
-#include "comptes_gestion.h"
-#include "comptes_traitements.h"
-#include "gtk_list_button.h"
-#include "utils.h"
+
+#define START_INCLUDE
+#include "comptes_onglet.h"
 #include "operations_comptes.h"
+#include "comptes_gestion.h"
+#include "gtk_list_button.h"
+#include "comptes_traitements.h"
+#define END_INCLUDE
+
+#define START_STATIC
+static void changement_compte_onglet ( GtkWidget *bouton,
+				gint compte );
+static GtkWidget *comptes_appel_onglet ( gint no_de_compte );
+static GtkWidget *creation_liste_comptes_onglet ( void );
+#define END_STATIC
+
 
 
 GtkWidget *paned_onglet_comptes;
 GtkWidget *bouton_supprimer_compte;
-GtkWidget *bouton_ouvert;
 GtkWidget *label_compte_courant_onglet;
 gint compte_courant_onglet;
 GtkWidget *vbox_liste_comptes_onglet;
 
 
+#define START_EXTERN
 extern gint nb_comptes;
+extern GSList *ordre_comptes;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-extern GSList *ordre_comptes;
+#define END_EXTERN
+
 
 
 /*****************************************************************************************************/

@@ -21,36 +21,40 @@
 
 
 #include "include.h"
-#include "structures.h"
+
+#define START_INCLUDE
 #include "affichage_formulaire.h"
-
-#include "traitement_variables.h"
-#include "utils.h"
-#include "dialog.h"
 #include "comptes_traitements.h"
+#include "dialog.h"
+#include "utils.h"
+#include "operations_comptes.h"
+#include "traitement_variables.h"
 #include "operations_formulaire.h"
+#define END_INCLUDE
 
-
-static void mise_a_jour_organisation_formulaire ( gint no_compte );
-static gboolean toggled_signal_configuration_formulaire ( GtkWidget *toggle_button );
-static void remplissage_liste_organisation_formulaire ( GtkListStore *store,
-							struct organisation_formulaire *structure_formulaire );
-static gchar *recherche_nom_element_formulaire ( gint no_element );
-static gboolean allocation_liste_organisation_formulaire ( GtkWidget *tree_view,
-							   GtkAllocation *allocation );
-static gboolean change_taille_colonne_organisation_formulaire ( GtkWidget *tree_view,
-								GdkEventMotion *motion );
-static gboolean ajoute_ligne_organisation_formulaire ( void );
-static gboolean retire_ligne_organisation_formulaire ( void );
+#define START_STATIC
 static gboolean ajoute_colonne_organisation_formulaire ( void );
-static gboolean retire_colonne_organisation_formulaire ( void );
-static gboolean verification_retrait_possible ( struct organisation_formulaire *structure_formulaire,
-						gint retrait_ligne );
+static gboolean ajoute_ligne_organisation_formulaire ( void );
+static gboolean allocation_liste_organisation_formulaire ( GtkWidget *tree_view,
+						    GtkAllocation *allocation );
 static gboolean button_press_classement_formulaire ( GtkWidget *tree_view,
-						     GdkEventButton *ev );
+					      GdkEventButton *ev );
 static gboolean button_release_classement_formulaire ( GtkWidget *tree_view,
-						       GdkEventButton *ev );
-
+						GdkEventButton *ev );
+static gboolean change_taille_colonne_organisation_formulaire ( GtkWidget *tree_view,
+							 GdkEventMotion *motion );
+static void mise_a_jour_organisation_formulaire ( gint no_compte );
+static gboolean modification_compte_choix_formulaire ( GtkWidget *menu_item );
+static gboolean modification_formulaire_distinct_par_compte ( void );
+static gchar *recherche_nom_element_formulaire ( gint no_element );
+static void remplissage_liste_organisation_formulaire ( GtkListStore *store,
+						 struct organisation_formulaire *structure_formulaire );
+static gboolean retire_colonne_organisation_formulaire ( void );
+static gboolean retire_ligne_organisation_formulaire ( void );
+static gboolean toggled_signal_configuration_formulaire ( GtkWidget *toggle_button );
+static gboolean verification_retrait_possible ( struct organisation_formulaire *structure_formulaire,
+					 gint retrait_ligne );
+#define END_STATIC
 
 
 
@@ -96,11 +100,20 @@ GtkWidget *formulaire;
 
 
 
-extern GtkTooltips *tooltips_general_grisbi;
+#define START_EXTERN
+extern gint col_depart_drag;
 extern gint compte_courant;
-extern gint nb_comptes;
+extern gint ligne_depart_drag;
+extern gint nb_colonnes;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
+extern GtkWidget *preview;
+extern GtkTooltips *tooltips_general_grisbi;
+extern GtkWidget *tree_view;
+extern GtkWidget *treeview;
+extern GtkWidget *window;
+#define END_EXTERN
+
 
 
 /* *************************************************************************** */

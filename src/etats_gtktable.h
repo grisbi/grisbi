@@ -1,5 +1,3 @@
-/* fichier d'en tête etats_gtktable.h */
+#define START_DECLARATION
+#define END_DECLARATION
 
-GtkWidget *table_etat;
-struct struct_etat_affichage gtktable_affichage;
-void gtktable_click_sur_ope_etat ( struct structure_operation *operation );

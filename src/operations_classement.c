@@ -23,24 +23,34 @@
 /* ************************************************************************** */
 
 #include "include.h"
-#include "structures.h"
-#include "gtkcombofix.h"
+
+
+#define START_INCLUDE
 #include "operations_classement.h"
 #include "devises.h"
-#include "tiers_onglet.h"
+#include "exercice.h"
+#include "utils.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "equilibrage.h"
-#include "exercice.h"
-#include "search_glist.h"
+#include "tiers_onglet.h"
 #include "type_operations.h"
-#include "utils.h"
+#define END_INCLUDE
+
+#define START_STATIC
+static gint classement_sliste_par_auto_man ( struct structure_operation *operation_1,
+				      struct structure_operation *operation_2 );
+static gint classement_sliste_par_devise ( struct structure_operation *operation_1,
+				     struct structure_operation *operation_2 );
+#define END_STATIC
 
 
-extern gint compte_courant;
-extern gint nb_comptes;
+
+#define START_EXTERN
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
+#define END_EXTERN
+
 
 
 /* ************************************************************************** */
@@ -70,85 +80,6 @@ gint classement_liste_par_no_ope_ventil ( GtkWidget *liste,
 	return ( -1 );
 
     return ( operation_1 -> no_operation - operation_2 -> no_operation );
-}
-/* ************************************************************************** */
-
-
-/* ************************************************************************** */
-gint classement_liste_equilibrage ( GtkWidget *liste,
-				    GtkCListRow *ligne_1,
-				    GtkCListRow *ligne_2 )
-{
-    struct structure_operation *operation_1;
-    struct structure_operation *operation_2;
-    gint pos_type_ope_1;
-    gint pos_type_ope_2;
-    gint buffer;
-
-    operation_1 = ligne_1 -> data;
-    operation_2 = ligne_2 -> data;
-
-    if ( operation_1 == GINT_TO_POINTER ( -1 ) )
-	return ( 1 );
-
-    if ( operation_2 == GINT_TO_POINTER ( -1 ) )
-	return ( -1 );
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-
-    /* si l'opération est négative et que le type est neutre et que les types
-       neutres sont séparés, on lui met la position du type négatif */
-
-    if ( operation_1 -> montant < 0
-	 && ( buffer = g_slist_index ( LISTE_TRI, GINT_TO_POINTER ( -operation_1 -> type_ope ))) != -1 )
-	pos_type_ope_1 = buffer;
-    else
-	pos_type_ope_1 = g_slist_index ( LISTE_TRI, GINT_TO_POINTER ( operation_1 -> type_ope ));
-
-    if ( operation_2 -> montant < 0
-	 && ( buffer = g_slist_index ( LISTE_TRI, GINT_TO_POINTER ( -operation_2 -> type_ope ))) != -1 )
-	pos_type_ope_2 = buffer;
-    else
-	pos_type_ope_2 = g_slist_index ( LISTE_TRI, GINT_TO_POINTER ( operation_2 -> type_ope ));
-
-    /* s'elles ont le même type, on les classe par date */
-
-    if ( pos_type_ope_1 == pos_type_ope_2 )
-    {
-	gint retour;
-
-	if ( etat.classement_par_date )
-	    /* on classe par date d'opération */
-	    retour = g_date_compare ( operation_1 -> date, operation_2 -> date );
-	else
-	{
-	    /* on classe par date bancaire, si elle existe */
-	    if ( operation_1 -> date_bancaire )
-	    {
-		if ( operation_2 -> date_bancaire )
-		    retour = g_date_compare ( operation_1 -> date_bancaire, operation_2 -> date_bancaire );
-		else
-		    retour = g_date_compare ( operation_1 -> date_bancaire, operation_2 -> date );
-	    }
-	    else
-	    {
-		if ( operation_2 -> date_bancaire )
-		    retour = g_date_compare ( operation_1 -> date, operation_2 -> date_bancaire );
-		else
-		    retour = g_date_compare ( operation_1 -> date, operation_2 -> date );
-	    }
-	}
-
-	if ( retour )
-	    return ( retour );
-	else
-	    return ( operation_1 -> no_operation - operation_2 -> no_operation );
-    }
-
-    if ( pos_type_ope_1 < pos_type_ope_2 )
-	return ( -1 );
-    else
-	return ( 1 );
 }
 /* ************************************************************************** */
 

@@ -6,12 +6,13 @@
 # define ONE_YEAR 365
 #define SIZEOF_FORMATTED_STRING_DATE 11
 
-GtkWidget *gsb_calendar_new ( GtkWidget *entry ) ;
+#define START_DECLARATION
 gboolean clavier_calendrier ( GtkCalendar *pCalendar,
 			      GdkEventKey *ev,
 			      GtkWidget *entry );
 void date_selection ( GtkCalendar *pCalendar,
 		      GtkWidget *entry );
+GtkWidget *gsb_calendar_new ( GtkWidget *entry );
 void inc_dec_date ( GtkWidget *entree, gint demande );
-
+#define END_DECLARATION
 

@@ -20,12 +20,22 @@
 
 
 #include "include.h"
-#include "structures.h"
+
+
+#define START_INCLUDE
 #include "help.h"
-
 #include "utils.h"
+#include "dialog.h"
+#define END_INCLUDE
 
+#define START_STATIC
+#define END_STATIC
+
+
+#define START_EXTERN
 extern GtkWidget *window;
+#define END_EXTERN
+
 
 
 

@@ -26,45 +26,42 @@
 /* ************************************************************************** */
 
 #include "include.h"
-#include "structures.h"
-#include "constants.h"
 
+
+#define START_INCLUDE
 #include "accueil.h"
-#include "utils.h"
-#include "search_glist.h"
-#include "echeancier_liste.h"
 #include "devises.h"
 #include "operations_comptes.h"
+#include "echeancier_liste.h"
+#include "dialog.h"
 #include "operations_liste.h"
 #include "echeancier_formulaire.h"
-#include "tiers_onglet.h"
-#include "imputation_budgetaire.h"
-#include "categories_onglet.h"
-#include "dialog.h"
 #include "gtk_list_button.h"
+#include "utils.h"
+#include "tiers_onglet.h"
+#define END_INCLUDE
 
-static gboolean saisie_echeance_accueil ( GtkWidget *event_box,
-					  GdkEventButton *event,
-					  struct operation_echeance *echeance );
-static void update_liste_comptes_accueil ( void );
+#define START_STATIC
+static gint classement_date_echeance ( struct operation_echeance * a, 
+				struct operation_echeance * b );
 static gboolean click_sur_compte_accueil ( gint *no_compte );
-static void update_liste_echeances_manuelles_accueil ( void );
-static void update_liste_echeances_auto_accueil ( void );
-static void update_soldes_minimaux ( void );
-static void update_fin_comptes_passifs ( void );
+static gboolean saisie_echeance_accueil ( GtkWidget *event_box,
+				   GdkEventButton *event,
+				   struct operation_echeance *echeance );
 static gboolean select_expired_scheduled_transaction ( GtkWidget * event_box, GdkEventButton *event,
-						       struct structure_operation * operation );
+						struct structure_operation * operation );
+static void update_fin_comptes_passifs ( void );
+static void update_liste_comptes_accueil ( void );
+static void update_liste_echeances_auto_accueil ( void );
+static void update_liste_echeances_manuelles_accueil ( void );
+static void update_soldes_minimaux ( void );
+#define END_STATIC
 
 
 
 #define show_paddingbox(child) gtk_widget_show_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
 #define hide_paddingbox(child) gtk_widget_hide_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
 
-
-
-/***********************************/ 
-/* fichier accueil.c */
-/***********************************/ 
 
 gint id_temps;
 gchar *chemin_logo;
@@ -91,23 +88,29 @@ gint mise_a_jour_liste_echeances_auto_accueil;
 gint mise_a_jour_soldes_minimaux;
 gint mise_a_jour_fin_comptes_passifs;
 
-extern gint patience_en_cours;
+
+#define START_EXTERN
 extern struct operation_echeance *echeance_selectionnnee;
-extern GtkWidget *formulaire_echeancier;
-extern GtkWidget *frame_formulaire_echeancier;
-extern GtkWidget *separateur_formulaire_echeancier;
-extern GtkWidget *hbox_valider_annuler_echeance;
 extern GSList *echeances_a_saisir;
 extern GSList *echeances_saisies;
-extern GtkWidget *notebook_formulaire_echeances;
+extern GtkWidget *formulaire;
+extern GtkWidget *formulaire_echeancier;
+extern GtkWidget *formulaire_echeancier;
+extern GtkWidget *frame_formulaire_echeancier;
+extern GtkWidget *hbox_valider_annuler_echeance;
 extern GSList *liste_struct_devises;
-extern GtkWidget *window;
-extern GtkWidget *vbox_liste_comptes;
+extern gint nb_comptes;
+extern GtkWidget *notebook_formulaire_echeances;
+extern GSList *ordre_comptes;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-extern gint nb_comptes;
-extern GSList *ordre_comptes;
+extern gint patience_en_cours;
+extern GtkWidget *separateur_formulaire_echeancier;
 extern gchar *titre_fichier;
+extern GtkWidget *vbox_liste_comptes;
+extern GtkWidget *window;
+#define END_EXTERN
+
 
 /* ************************************************************************* */
 GtkWidget *creation_onglet_accueil ( void )

@@ -254,6 +254,8 @@ struct donnees_compte
 
 /* pointeurs vers les comptes en fonction de p...variable */
 
+gpointer **verification_p_tab ( gchar *fonction_appelante );
+
 #define NO_COMPTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> no_compte
 #define ID_COMPTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> id_compte
 #define TYPE_DE_COMPTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> type_de_compte

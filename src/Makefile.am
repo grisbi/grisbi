@@ -99,7 +99,7 @@ grisbi_INCLUDES =		\
 	fichier_configuration.h	\
 	fichiers_gestion.h	\
 	fichiers_io.h		\
-	gtkcombofix.h		\
+	gtk_combofix.h		\
 	gtk_list_button.h	\
 	help.h			\
 	imputation_budgetaire.h	\

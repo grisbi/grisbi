@@ -20,20 +20,44 @@
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 #include "include.h"
-#include "structures.h"
-#include "etats_calculs.h"
 
+
+#define START_INCLUDE
+#include "etats_calculs.h"
 #include "devises.h"
-#include "etats_gtktable.h"
-#include "etats_latex.h"
-#include "etats_affiche.h"
-#include "search_glist.h"
-#include "utils.h"
 #include "categories_onglet.h"
+#include "search_glist.h"
+#include "etats_affiche.h"
+#include "utils.h"
 #include "imputation_budgetaire.h"
+#include "equilibrage.h"
 #include "tiers_onglet.h"
 #include "type_operations.h"
-#include "equilibrage.h"
+#define END_INCLUDE
+
+#define START_STATIC
+static void affichage_etat ( struct struct_etat *etat, 
+		      struct struct_etat_affichage * affichage );
+static gint classement_liste_opes_etat ( struct structure_operation *operation_1,
+				  struct structure_operation *operation_2 );
+static gint classement_ope_perso_etat ( struct structure_operation *operation_1,
+				 struct structure_operation *operation_2 );
+static gint compare_cheques_etat ( gint chq_ope,
+			    gint chq_test,
+			    gint comparateur );
+static gint compare_montants_etat ( gdouble montant_ope,
+			     gdouble montant_test,
+			     gint comparateur );
+static void etape_finale_affichage_etat ( GSList *ope_selectionnees,
+				   struct struct_etat_affichage *affichage);
+static gchar *recupere_texte_test_etat ( struct structure_operation *operation,
+				  gint champ );
+static gint verifie_chq_test_etat ( struct struct_comparaison_textes_etat *comp_textes,
+			     gchar *no_chq );
+static gint verifie_texte_test_etat ( struct struct_comparaison_textes_etat *comp_textes,
+			       gchar *texte_ope );
+#define END_STATIC
+
 
 
 gint dernier_chq;     /* quand on a choisi le plus grand, contient le dernier no de chq dans les comptes choisis */
@@ -43,56 +67,65 @@ struct struct_etat_affichage * etat_affichage_output;
 
 
 
-extern gint nb_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
-extern GSList *liste_struct_exercices;
-extern GtkWidget *notebook_general;
-extern gint nb_colonnes;
-extern gint ligne_debut_partie;
-extern struct struct_etat *etat_courant;
-extern gint ancienne_ib_etat;
-extern gint ancienne_sous_ib_etat;
+gint ancien_tiers_etat;
+
+#define START_EXTERN
+extern gint ancien_compte_etat;
+extern gint ancien_tiers_etat;
+extern gint ancien_tiers_etat;
 extern gint ancienne_categ_etat;
 extern gint ancienne_categ_speciale_etat;
+extern gint ancienne_ib_etat;
 extern gint ancienne_sous_categ_etat;
-extern gint ancien_compte_etat;
-gint ancien_tiers_etat;
+extern gint ancienne_sous_ib_etat;
+extern gint changement_de_groupe_etat;
+extern GDate *date_debut_periode;
+extern gint debut_affichage_etat;
+extern struct struct_devise *devise_categ_etat;
+extern struct struct_devise *devise_compte_en_cours_etat;
+extern struct struct_devise *devise_generale_etat;
+extern struct struct_devise *devise_ib_etat;
+extern struct struct_devise *devise_operation;
+extern struct struct_devise *devise_tiers_etat;
+extern struct struct_etat *etat_courant;
+extern gint exo_en_cours_etat;
+extern struct struct_etat_affichage gtktable_affichage ;
+extern struct struct_etat_affichage gtktable_affichage;
+extern struct struct_etat_affichage latex_affichage ;
+extern gint ligne_debut_partie;
+extern GSList *liste_struct_exercices;
 extern gdouble montant_categ_etat;
-extern gdouble montant_sous_categ_etat;
-extern gdouble montant_ib_etat;
-extern gdouble montant_sous_ib_etat;
 extern gdouble montant_compte_etat;
-extern gdouble montant_tiers_etat;
-extern gdouble montant_periode_etat;
 extern gdouble montant_exo_etat;
+extern gdouble montant_ib_etat;
+extern gdouble montant_periode_etat;
+extern gdouble montant_sous_categ_etat;
+extern gdouble montant_sous_ib_etat;
+extern gdouble montant_tiers_etat;
+extern gint nb_colonnes;
+extern gint nb_comptes;
 extern gint nb_ope_categ_etat;
-extern gint nb_ope_sous_categ_etat;
-extern gint nb_ope_ib_etat;
-extern gint nb_ope_sous_ib_etat;
 extern gint nb_ope_compte_etat;
-extern gint nb_ope_tiers_etat;
-extern gint nb_ope_periode_etat;
 extern gint nb_ope_exo_etat;
 extern gint nb_ope_general_etat;
+extern gint nb_ope_ib_etat;
 extern gint nb_ope_partie_etat;
-extern GDate *date_debut_periode;
-extern gint exo_en_cours_etat;
-extern gint changement_de_groupe_etat;
-extern gint debut_affichage_etat;
-extern struct struct_devise *devise_compte_en_cours_etat;
-extern struct struct_devise *devise_categ_etat;
-extern struct struct_devise *devise_ib_etat;
-extern struct struct_devise *devise_tiers_etat;
-extern struct struct_devise *devise_generale_etat;
-
+extern gint nb_ope_periode_etat;
+extern gint nb_ope_sous_categ_etat;
+extern gint nb_ope_sous_ib_etat;
+extern gint nb_ope_tiers_etat;
 extern gchar *nom_categ_en_cours;
-extern gchar *nom_ss_categ_en_cours;
-extern gchar *nom_ib_en_cours;
-extern gchar *nom_ss_ib_en_cours;
 extern gchar *nom_compte_en_cours;
+extern gchar *nom_ib_en_cours;
+extern gchar *nom_ss_categ_en_cours;
+extern gchar *nom_ss_ib_en_cours;
 extern gchar *nom_tiers_en_cours;
-extern gint titres_affiches;
+extern GtkWidget *notebook_general;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern GtkTreeSelection * selection;
+#define END_EXTERN
+
 
 /*****************************************************************************************************/
 void affichage_etat ( struct struct_etat *etat, 
