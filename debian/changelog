@@ -1,0 +1,9 @@
+grisbi (0.3.2-1) unstable; urgency=low
+
+  * Initial Release.  (Closes: #156667)
+
+ -- Benjamin Drieu <benj@debian.org>  Tue, 20 Aug 2002 20:52:28 +0200
+
+Local variables:
+mode: debian-changelog
+End:
