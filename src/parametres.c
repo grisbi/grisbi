@@ -182,7 +182,7 @@ GtkWidget *onglet_general ( void )
 /* action de la touche entree */
 
   bouton_entree_enregistre = gtk_radio_button_new_with_label ( NULL,
-						       _(" ENTREE provoque l'enregistrement de l'opération ") );
+						       SPACIFY(_("ENTREE provoque l'enregistrement de l'opération")) );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_entree_enregistre,
 		       FALSE,
@@ -191,7 +191,7 @@ GtkWidget *onglet_general ( void )
   gtk_widget_show ( bouton_entree_enregistre );
 
   bouton_entree_enregistre_pas = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_entree_enregistre )),
-								   _(" ENTREE permet le passage entre les champs du formulaire ") );
+								   SPACIFY(_("ENTREE permet le passage entre les champs du formulaire")) );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_entree_enregistre_pas,
 		       FALSE,
@@ -224,7 +224,7 @@ GtkWidget *onglet_general ( void )
 /* affichage ou non d'un message d'alerte quand passage sous les soldes minis */
 
   bouton_solde_mini = gtk_radio_button_new_with_label ( NULL,
-							_(" Message d'alerte en cas de dépassement des seuils mini définis ") );
+							SPACIFY(_("Message d'alerte en cas de dépassement des seuils mini définis")) );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_solde_mini,
 		       FALSE,
@@ -233,7 +233,7 @@ GtkWidget *onglet_general ( void )
   gtk_widget_show ( bouton_solde_mini );
 
    bouton_pas_solde_mini= gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_solde_mini )),
-						     _(" Pas de message d'alerte ") );
+						     SPACIFY(_("Pas de message d'alerte")) );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_pas_solde_mini,
 		       FALSE,
@@ -268,7 +268,7 @@ GtkWidget *onglet_general ( void )
 /* affichage ou non d'un message d'alerte sur la permission du fichier de compte */
 
   bouton_affiche_permission = gtk_radio_button_new_with_label ( NULL,
-							_(" Message d'alerte lorsque la permission du fichier n'est pas de 600 ") );
+							SPACIFY(_("Message d'alerte lorsque la permission du fichier n'est pas de 600")) );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_affiche_permission,
 		       FALSE,
@@ -277,7 +277,7 @@ GtkWidget *onglet_general ( void )
   gtk_widget_show ( bouton_affiche_permission );
 
   bouton_affiche_pas_permission = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_affiche_permission )),
-							   _(" Pas de message d'alerte ") );
+							   SPACIFY(_("Pas de message d'alerte")) );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_affiche_pas_permission,
 		       FALSE,
@@ -540,7 +540,7 @@ GtkWidget *onglet_fichier ( void )
 /* configuration du démarrage automatique du dernier fichier ou non */
 
   bouton_avec_demarrage = gtk_radio_button_new_with_label ( NULL,
-							    _(" Chargement automatique du dernier fichier consulté ") );
+							    SPACIFY(_("Chargement automatique du dernier fichier consulté")) );
   gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
 		       bouton_avec_demarrage,
 		       FALSE,
@@ -549,7 +549,7 @@ GtkWidget *onglet_fichier ( void )
   gtk_widget_show ( bouton_avec_demarrage );
 
   bouton_sans_demarrage = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_avec_demarrage )),
-						     _(" Démarrage sans chargement automatique ") );
+						     SPACIFY(_("Démarrage sans chargement automatique")) );
   gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
 		       bouton_sans_demarrage,
 		       FALSE,
@@ -581,7 +581,7 @@ GtkWidget *onglet_fichier ( void )
 /* configuration de la sauvegarde automatique */
 
   bouton_save_auto = gtk_radio_button_new_with_label ( NULL,
-							    _(" Enregistrer automatiquement en fermant ") );
+							    SPACIFY(_("Enregistrer automatiquement en fermant")) );
   gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
 		       bouton_save_auto,
 		       FALSE,
@@ -590,7 +590,7 @@ GtkWidget *onglet_fichier ( void )
   gtk_widget_show (bouton_save_auto  );
 
   bouton_save_non_auto = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_save_auto )),
-							   _(" Demander à chaque fois pour enregistrer ") );
+							   SPACIFY(_("Demander à chaque fois pour enregistrer")) );
   gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
 		       bouton_save_non_auto,
 		       FALSE,
@@ -622,7 +622,7 @@ GtkWidget *onglet_fichier ( void )
 /* configuration de l'enregistrement forcé */
 
   bouton_force_enregistrement = gtk_radio_button_new_with_label ( NULL,
-							    _(" Forcer l'enregistrement ") );
+							    SPACIFY(_("Forcer l'enregistrement")) );
   gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
 		       bouton_force_enregistrement,
 		       FALSE,
@@ -631,7 +631,7 @@ GtkWidget *onglet_fichier ( void )
   gtk_widget_show ( bouton_force_enregistrement );
 
   bouton_force_pas_enregistrement = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_force_enregistrement )),
-							   _(" N'enregistrer que si le fichier n'est pas utilisé par un autre utilisateur ") );
+							   SPACIFY(_("N'enregistrer que si le fichier n'est pas utilisé par un autre utilisateur")) );
   gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
 		       bouton_force_pas_enregistrement,
 		       FALSE,
@@ -920,7 +920,7 @@ GtkWidget *onglet_echeances ( void )
 
 /*   configuration du nb de jours avant la prise d'une échéance  */
 
-  label = gtk_label_new ( _(" Nombre de jours précédant le rappel d'une échéance : ") );
+  label = gtk_label_new ( SPACIFY(_("Nombre de jours précédant le rappel d'une échéance :")) );
   gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
 		       label,
 		       FALSE,
@@ -1042,7 +1042,7 @@ GtkWidget *onglet_applet ( void )
 
 /* affiche la liste des comptes à vérifier */
 
-  frame_demarrage = gtk_frame_new ( _(" Liste des comptes vérifiés au démarrage ") );
+  frame_demarrage = gtk_frame_new ( SPACIFY(_("Liste des comptes vérifiés au démarrage")) );
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame_demarrage ),
 			      GTK_SHADOW_ETCHED_OUT );
   gtk_widget_set_sensitive ( GTK_WIDGET ( frame_demarrage ),
@@ -1277,7 +1277,7 @@ void ajouter_verification ( GtkWidget *bouton_add,
 	    if ( !strcmp ( pointeur_liste -> data, nom_fichier ) )
 	      {
 		gnome_dialog_close  ( GNOME_DIALOG ( dialogue_box ) );
-		dialogue ( _(" Ce fichier est déjà vérifié au démarrage ! "));
+		dialogue ( SPACIFY(_("Ce fichier est déjà vérifié au démarrage !")));
 		return;
 	      }
 	  while ( ( pointeur_liste = pointeur_liste-> next ));

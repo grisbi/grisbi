@@ -97,7 +97,7 @@ GtkWidget *onglet_tiers ( void )
 
 
 
-  frame = gtk_frame_new ( _(" Informations : ") );
+  frame = gtk_frame_new ( SPACIFY(_("Informations :")) );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       frame,
 		       FALSE,

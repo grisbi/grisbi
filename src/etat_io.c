@@ -754,16 +754,11 @@ gint recupere_devise_par_nom_etat ( gchar *nom )
       devise = liste_struct_devises -> data;
 
       if ( log_message )
-	log_message = g_strconcat ( log_message,
-				    _("Devise "),
-				    nom,
-				    _(" non trouvée.\n"),
-				    NULL );
+	log_message = g_strdup_printf ( _("%sDevise %s non trouvée.\n"),
+					log_message, nom );
       else
-	log_message = g_strconcat ( _("Devise "),
-				    nom,
-				    _(" non trouvée.\n"),
-				    NULL );
+	log_message = g_strdup_printf ( _("Devise %s non trouvée.\n"),
+					nom );
     }
 
   return ( devise -> no_devise );
@@ -803,16 +798,11 @@ gint recupere_exo_par_nom_etat ( gchar *nom )
       no_exo = 0;
 
       if ( log_message )
-	log_message = g_strconcat ( log_message,
-				    _("Exercice "),
-				    nom,
-				    _(" non trouvé.\n"),
-				    NULL );
+	log_message = g_strdup_printf ( _("%sExercice %s non trouvé.\n"),
+					log_message, nom );
       else
-	log_message = g_strconcat ( _("Exercice "),
-				    nom,
-				    _(" non trouvé.\n"),
-				    NULL );
+	log_message = g_strdup_printf ( _("Exercice %s non trouvé.\n"),
+					nom );
     }
 
   return ( no_exo );
@@ -854,16 +844,11 @@ gint recupere_compte_par_nom_etat ( gchar *nom )
   if ( no_compte == -1 )
     {
       if ( log_message )
-	log_message = g_strconcat ( log_message,
-				    _("Compte "),
-				    nom,
-				    _(" non trouvé.\n"),
-				    NULL );
+	log_message = g_strdup_printf ( _("%sCompte %s non trouvé.\n"),
+					log_message, nom );
       else
-	log_message = g_strconcat ( _("Compte "),
-				    nom,
-				    _(" non trouvé.\n"),
-				    NULL );
+	log_message = g_strdup_printf ( _("Compte %s non trouvé.\n"),
+					nom );
     }
 
   return ( no_compte );
@@ -902,16 +887,11 @@ gint recupere_categ_par_nom_etat ( gchar *nom )
       no_categ = 0;
 
       if ( log_message )
-	log_message = g_strconcat ( log_message,
-				    _("Catégorie "),
-				    nom,
-				    _(" non trouvée.\n"),
-				    NULL );
+	log_message = g_strdup_printf ( _("%sCatégorie %s non trouvée.\n "),
+					log_message, nom );
       else
-	log_message = g_strconcat ( _("Catégorie "),
-				    nom,
-				    _(" non trouvée.\n"),
-				    NULL );
+	log_message = g_strdup_printf ( _("Catégorie %s non trouvée.\n"),
+					nom );
     }
 
   return ( no_categ );
@@ -950,16 +930,11 @@ gint recupere_ib_par_nom_etat ( gchar *nom )
       no_ib = 0;
 
       if ( log_message )
-	log_message = g_strconcat ( log_message,
-				    _("Imputation "),
-				    nom,
-				    _(" non trouvée.\n"),
-				    NULL );
+	log_message = g_strdup_printf ( _("%sImputation %s non trouvée.\n"),
+					log_message, nom );
       else
-	log_message = g_strconcat ( _("Imputation "),
-				    nom,
-				    _(" non trouvée.\n"),
-				    NULL );
+	log_message = g_strdup_printf ( _("Imputation %s non trouvée.\n"),
+					nom );
     }
 
   return ( no_ib );
@@ -999,16 +974,11 @@ gint recupere_tiers_par_nom_etat ( gchar *nom )
       no_tiers = 0;
 
       if ( log_message )
-	log_message = g_strconcat ( log_message,
-				    _("Tiers "),
-				    nom,
-				    _(" non trouvé.\n"),
-				    NULL );
+	log_message = g_strdup_printf ( _("%sTiers %s non trouvé.\n"),
+					log_message, nom );
       else
-	log_message = g_strconcat ( _("Tiers "),
-				    nom,
-				    _(" non trouvé.\n"),
-				    NULL );
+	log_message = g_strdup_printf ( _("Tiers %s non trouvé.\n"),
+					nom );
     }
 
   return ( no_tiers );
@@ -1074,7 +1044,7 @@ gboolean enregistre_etat ( gchar *nom_etat )
   while ( pointeur_list )
     {
       if ( pointeur_char )
-	pointeur_char = g_strconcat ( pointeur_char,
+	pointeur_char = g_strdup_printf ( pointeur_char,
 				      "/",
 				      itoa ( GPOINTER_TO_INT ( pointeur_list -> data )),
 				      NULL );
@@ -1761,11 +1731,9 @@ gboolean enregistre_etat ( gchar *nom_etat )
 
   if ( resultat == -1 )
     {
-      dialogue ( g_strconcat ( _("Erreur dans l'enregistrement du fichier :\n\n"),
-			       nom_etat,
-			       _("\n\nErreur :\n"),
-			       strerror ( errno ),
-			       NULL ));
+      dialogue ( g_strdup_printf ( _("Erreur dans l'enregistrement du fichier %s\n\nErreur :\n%s"),
+				   nom_etat,
+				   strerror ( errno ) ) );
       return ( FALSE );
     }
 

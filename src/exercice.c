@@ -239,7 +239,7 @@ GtkWidget *onglet_exercices ( void )
 
   /* création du bouton association automatique */
 
-  bouton = gtk_button_new_with_label ( _("Association automatique ...") );
+  bouton = gtk_button_new_with_label ( _("Association automatique") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
@@ -728,10 +728,8 @@ void deselection_ligne_exercice ( GtkWidget *liste,
       gtk_window_set_transient_for ( GTK_WINDOW ( dialogue ),
 				     GTK_WINDOW ( fenetre_preferences ));
 
-      label = gtk_label_new ( g_strconcat ( _("Des modifications ont été apportées à l'exercice : "),
-					    exercice -> nom_exercice,
-					    _("\n\nVoulez-vous les enregistrer ?"),
-					    NULL ) );
+      label = gtk_label_new ( g_strdup_printf ( _("Des modifications ont été apportées à l'exercice : %s\n\nVoulez-vous les enregistrer ?"),
+						exercice -> nom_exercice ) );
       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue ) -> vbox ),
 			   label,
 			   FALSE,

@@ -32,6 +32,8 @@
 #define COULEUR_GRISE_GREEN 50000
 #define COULEUR_GRISE_BLUE 50000
 
+#define SPACIFY(s) (g_strconcat ( " ", s, " ", NULL ))
+
 /* variables contenant juste 0 ou 1 */
 
 struct {

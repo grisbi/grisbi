@@ -323,7 +323,7 @@ void traitement_sigsegv ( gint signal_nb )
 
   if ( etat.en_train_de_charger )
     {
-      dialog = gnome_error_dialog ( _("Oups, Grisbi a planté pendant le chargement du fichier (erreur de segmentation).\nSoit celui-ci est corrompu, soit il s'agit d'un bug grave.\nRéessayez de le charger, si ça plante toujours contactez webmestre@grisbi.org." ));
+      dialog = gnome_error_dialog ( _("Oups, Grisbi a planté pendant le chargement du fichier (erreur de segmentation).\nSoit celui-ci est corrompu, soit il s'agit d'un bug grave.\nRéessayez de le charger.  Si vous arrivez à recréer ce bug, pouvez-vous nous le décrire sur le site de grisbi (http://www.grisbi.org/bugtracking/) ?\nCeci nous aiderait beaucoup pour le corriger.\nMerci !" ));
       gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
       gtk_main_quit();
       exit(0);
@@ -332,7 +332,7 @@ void traitement_sigsegv ( gint signal_nb )
 
   if ( etat.en_train_de_sauvegarder )
     {
-      dialog = gnome_error_dialog ( _("Oups, Grisbi a planté pendant la sauvegarde du fichier (erreur de segmentation).\nCelle-ci est donc impossible, essayez de recréer le bug si possible et contactez webmestre@grisbi.org." ));
+      dialog = gnome_error_dialog ( _("Oups, Grisbi a planté pendant la sauvegarde du fichier (erreur de segmentation).\nCelle-ci est donc impossible.  Si vous arrivez à recréer ce bug, pouvez-vous nous le décrire sur le site de grisbi (http://www.grisbi.org/bugtracking/) ?\nCeci nous aiderait beaucoup pour le corriger.\nMerci !" ));
       gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
       gtk_main_quit();
       exit(0);
@@ -340,7 +340,7 @@ void traitement_sigsegv ( gint signal_nb )
 
   if ( !etat.modification_fichier )
     {
-      dialog = gnome_error_dialog ( _("Oups, Grisbi a planté (erreur de segmentation).\nC'est pas bien grave, vous n'aviez pas fait de modifications,\ncependant si vous arrivez à recréer le bug, pouvez-vous l'ajouter sur le site de grisbi (http://www.grisbi.org) ?\n Merci !" ));
+      dialog = gnome_error_dialog ( _("Oups, Grisbi a planté (erreur de segmentation).\nC'est pas bien grave, vous n'aviez pas fait de modifications,\ncependant si vous arrivez à recréer le bug, pouvez-vous nous le décrire sur le site de grisbi (http://www.grisbi.org/bugtracking/) ?\nCeci nous aiderait beaucoup pour le corriger.\nMerci !" ));
       gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
       gtk_main_quit();
       exit(0);
@@ -386,7 +386,7 @@ void traitement_sigsegv ( gint signal_nb )
   enregistre_fichier ( 1 );
   annulation_attente();
 
-  dialog = gnome_error_dialog ( g_strdup_printf (_("Oups, Grisbi a planté (erreur de segmentation).\nIl a essayé de sauvegarder le fichier juste avant, sous le nom %s.\nEssayez de l'ouvrir, avec un peu de chances vous n'aurez rien perdu.\nDe plus, si vous arrivez à recréer le bug, pouvez-vous l'ajouter sur le site de grisbi (http://www.grisbi.org) ?\n Merci !" ),
+  dialog = gnome_error_dialog ( g_strdup_printf (_("Oups, Grisbi a planté (erreur de segmentation).\nIl a essayé de sauvegarder le fichier juste avant, sous le nom %s.\nEssayez de l'ouvrir, avec un peu de chances vous n'aurez rien perdu.\nDe plus, si vous arrivez à recréer le bug, pouvez-vous nous le décrire sur le site de grisbi (http://www.grisbi.org/bugtracking/) ?\nCeci nous aiderait beaucoup pour le corriger.\nMerci !" ),
 						 nom_fichier_comptes ));
   gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
   gtk_main_quit();

@@ -19,7 +19,7 @@
 /*     along with this program; if not, write to the Free Software */
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: etats_gnomeprint.c,v 1.17 2002/11/11 10:44:10 grisbi Exp $ */
+/* $Id: etats_gnomeprint.c,v 1.18 2003/01/13 17:20:45 benj Exp $ */
 
 #include "include.h"
 #include "structures.h"
@@ -406,13 +406,11 @@ gnomeprint_balancer_colonnes (GnomePrintContext *pc, GnomeFont *font,
 		  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
 		  if ( operation -> montant < 0 )
-		    pointeur = g_strconcat ( _("Virement vers "),
-					     NOM_DU_COMPTE,
-					     NULL );
+		    pointeur = g_strdup_printf ( _("Virement vers %s"),
+						 NOM_DU_COMPTE );
 		  else
-		    pointeur = g_strconcat ( _("Virement de "),
-					     NOM_DU_COMPTE,
-					     NULL );
+		    pointeur = g_strdup_printf ( _("Virement de %s"),
+						 NOM_DU_COMPTE );
 		}
 	    }
 
@@ -894,9 +892,8 @@ gint gnomeprint_affiche_total_ib ( gint ligne )
 	  ligne++;
 
 	  if ( nom_ib_en_cours )
-	    gnomeprint_affiche_texte ( g_strconcat ( _("Total "),
-						  nom_ib_en_cours,
-						  NULL ),
+	    gnomeprint_affiche_texte ( g_strdup_printf ( _("Total %s"),
+							 nom_ib_en_cours ),
 				       text_font );
 	  else
 	    gnomeprint_affiche_texte ( _("Total Imputations budgétaires : "),
@@ -1116,13 +1113,11 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 		  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
 		  if ( operation -> montant < 0 )
-		    pointeur = g_strconcat ( _("Virement vers "),
-					     NOM_DU_COMPTE,
-					     NULL );
+		    pointeur = g_strdup_printf ( _("Virement vers %s"),
+						 NOM_DU_COMPTE );
 		  else
-		    pointeur = g_strconcat ( _("Virement de "),
-					     NOM_DU_COMPTE,
-					     NULL );
+		    pointeur = g_strdup_printf ( _("Virement de %s"),
+						 NOM_DU_COMPTE );
 		}
 	    }
 

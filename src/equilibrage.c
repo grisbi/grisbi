@@ -368,7 +368,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 		       0);
   gtk_widget_show ( hbox );
   
-  bouton_ok_equilibrage = gtk_button_new_with_label (_(" Valider  ") );
+  bouton_ok_equilibrage = gtk_button_new_with_label (_("Valider") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_ok_equilibrage),
 			  GTK_RELIEF_NONE);
   gtk_signal_connect (GTK_OBJECT (bouton_ok_equilibrage),
@@ -383,7 +383,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
   gtk_widget_show ( bouton_ok_equilibrage );
 
   
-  bouton = gtk_button_new_with_label (_(" Annuler  ") );
+  bouton = gtk_button_new_with_label (_("Annuler") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton),
 			  GTK_RELIEF_NONE);
   gtk_signal_connect ( GTK_OBJECT (bouton),
@@ -424,7 +424,7 @@ void equilibrage ( void )
 
   if ( !NB_OPE_COMPTE )
     {
-      dialogue ( _(" Il n'y a aucune opérations dans ce compte   ") );
+      dialogue ( _("Il n'y a aucune opérations dans ce compte") );
       return;
     }
 
@@ -899,7 +899,7 @@ void pointe_equilibrage ( int p_ligne )
   /* met le label du solde pointé */
 
   gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
-		       g_strdup_printf ( _(" Solde pointé : %4.2f %s"),
+		       g_strdup_printf ( _("Solde pointé : %4.2f %s"),
 					 SOLDE_POINTE,
 					 ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 											 GINT_TO_POINTER ( DEVISE ),
@@ -928,7 +928,7 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
 
   if ( fabs ( solde_final - solde_initial - operations_pointees ) >= 0.01 )
     {
-      dialogue ( _(" L'écart n'est pas de zéro  "));
+      dialogue ( _("L'écart n'est pas de zéro"));
       return;
     }
 

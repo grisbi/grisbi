@@ -211,7 +211,7 @@ GtkWidget *onglet_categories ( void )
 
 
 
-  frame = gtk_frame_new ( _(" Informations : ") );
+  frame = gtk_frame_new ( SPACIFY(_("Informations :")) );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       frame,
 		       FALSE,
@@ -402,7 +402,7 @@ GtkWidget *onglet_categories ( void )
 
   /* on met le bouton exporter */
 
-  bouton = gtk_button_new_with_label ( _("Exporter ...") );
+  bouton = gtk_button_new_with_label ( _("Exporter") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
@@ -418,7 +418,7 @@ GtkWidget *onglet_categories ( void )
 
   /* on met le bouton importer */
 
-  bouton = gtk_button_new_with_label ( _("Importer ...") );
+  bouton = gtk_button_new_with_label ( _("Importer") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
@@ -735,12 +735,8 @@ void remplit_arbre_categ ( void )
 	   nb_ecritures_par_sous_categ[place_categ][0])
 	{
 	  if ( etat.affiche_nb_ecritures_listes )
-	    text[0] = g_strconcat ( _("Aucune sous-catégorie ("),
-				    itoa ( nb_ecritures_par_sous_categ[place_categ][0] ),
-				    ")",
-				    NULL );
-	  else
-	    text[0] = _("Aucune sous-catégorie");
+	    text[0] = g_strdup_printf ( _("Aucune sous-catégorie (%d)"),
+					nb_ecritures_par_sous_categ[place_categ][0] );
 
 	  text[1] = NULL;
 
@@ -800,10 +796,8 @@ void remplit_arbre_categ ( void )
       if ( etat.affiche_nb_ecritures_listes
 	   &&
 	   nb_ecritures_par_categ[0] )
-	text[0] = g_strconcat ( _("Aucune catégorie ("),
-				itoa ( nb_ecritures_par_categ[0] ),
-				")",
-				NULL );
+	text[0] = g_strdup_printf ( _("Aucune catégorie (%d)"),
+				    nb_ecritures_par_categ[0] );
       else
 	text[0] = _("Aucune catégorie");
 
@@ -831,10 +825,8 @@ void remplit_arbre_categ ( void )
       if ( etat.affiche_nb_ecritures_listes
 	   &&
 	   nb_ecritures_par_categ[0] )
-	text[0] = g_strconcat ( _("Aucune sous-catégorie ("),
-				itoa ( nb_ecritures_par_categ[0] ),
-				")",
-				NULL );
+	text[0] = g_strdup_printf ( _("Aucune sous-catégorie (%d)"),
+				    nb_ecritures_par_categ[0]);
       else
 	text[0] = _("Aucune sous-catégorie");
 
@@ -3037,10 +3029,8 @@ void exporter_categ ( void )
 	    }
 	  else
 	    {
-	      dialogue ( g_strconcat ( _("Nom de fichier \""),
-				       nom_categ,
-				       _("\" invalide !"),
-				       NULL ));
+	      dialogue ( g_strdup_printf ( _("Nom de fichier \"%s\" invalide !"),
+					   nom_categ));
 	      return;
 	    }
 	}

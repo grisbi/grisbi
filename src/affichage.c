@@ -92,7 +92,7 @@ GtkWidget *onglet_affichage ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-  label = gtk_label_new ( _(" : Modifier la fonte des listes / ") );
+  label = gtk_label_new ( SPACIFY(_(": Modifier la fonte des listes /")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -117,7 +117,7 @@ GtkWidget *onglet_affichage ( void )
 
   gtk_container_remove ( GTK_CONTAINER ( bouton ),
 			 GTK_BIN ( bouton ) -> child );
-  label = gtk_label_new ( _("R.A.Z") );
+  label = gtk_label_new ( _("RAZ") );
   gtk_container_add ( GTK_CONTAINER ( bouton ),
 		      label );
   gtk_widget_show ( label );
@@ -152,7 +152,7 @@ GtkWidget *onglet_affichage ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-  label = gtk_label_new ( _(" : Modifier la fonte générale / ") );
+  label = gtk_label_new ( SPACIFY(_(": Modifier la fonte générale /")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -178,7 +178,7 @@ GtkWidget *onglet_affichage ( void )
 
   gtk_container_remove ( GTK_CONTAINER ( bouton ),
 			 GTK_BIN ( bouton ) -> child );
-  label = gtk_label_new ( _("R.A.Z") );
+  label = gtk_label_new ( _("RAZ") );
   gtk_container_add ( GTK_CONTAINER ( bouton ),
 		      label );
   gtk_widget_show ( label );
@@ -242,7 +242,7 @@ GtkWidget *onglet_affichage ( void )
 		       TRUE,
 		       0);
   
-  frame = gtk_frame_new ( _(" Ordre d'affichage des comptes ") );
+  frame = gtk_frame_new ( SPACIFY(_("Ordre d'affichage des comptes")) );
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame ),
 			      GTK_SHADOW_ETCHED_OUT );
   gtk_container_set_border_width ( GTK_CONTAINER ( frame ),

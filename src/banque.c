@@ -306,10 +306,8 @@ void supprime_banque ( GtkWidget *bouton,
   gtk_window_set_transient_for ( GTK_WINDOW ( dialogue ),
 				 GTK_WINDOW ( fenetre_preferences ));
 
-  label = gtk_label_new ( g_strconcat ( _("Etes-vous sûr de vouloir supprimer la banque :\n"),
-					banque -> nom_banque,
-					" ?",
-					NULL ) );
+  label = gtk_label_new ( g_strdup_printf ( _("Etes-vous sûr de vouloir supprimer la banque %s ?\n"),
+					    banque -> nom_banque));
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue ) -> vbox ),
 		       label,
 		       FALSE,

@@ -586,7 +586,7 @@ GtkWidget *creation_details_compte ( void )
 		       5 );
   gtk_widget_show ( separateur );
 
-  bouton = gtk_button_new_with_label ( _("Créer ...") );
+  bouton = gtk_button_new_with_label ( _("Nouvel établissement") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
@@ -1513,12 +1513,9 @@ void modification_details_compte ( void )
 					GNOME_STOCK_BUTTON_NO,
 					NULL );
 
-	  label = gtk_label_new ( g_strconcat ( _("Attention, vous passez d'une devise qui passera à  l'euro : "),
-						devise_compte -> nom_devise,
-						_("\nà une qui n'y passera pas : "),
-						nouvelle_devise -> nom_devise,
-						_("\nLes paiements en euro du compte seront perdus !\n\nConfirmez vous le changement ?"),
-						NULL ));
+	  label = gtk_label_new ( g_strdup_printf ( _("Attention, vous passez d'une devise qui passera à l'euro (%s)\nà une qui n'y passera pas (%s). Les paiements en euro du compte seront perdus !\n\nConfirmez vous le changement ?"), 
+						    devise_compte -> nom_devise,
+						    nouvelle_devise -> nom_devise));
 	  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue ) -> vbox ),
 			       label,
 			       FALSE,
@@ -1736,10 +1733,8 @@ void sort_du_detail_compte ( void )
       gtk_window_set_transient_for ( GTK_WINDOW ( dialogue ),
 				     GTK_WINDOW ( window ));
 
-      label = gtk_label_new ( g_strconcat ( _("Des modifications ont été apportées au compte :\n"),
-					    NOM_DU_COMPTE,
-					    _("\n\nVoulez-vous les enregistrer ?"),
-					    NULL ));
+      label = gtk_label_new ( g_strdup_printf ( _("Des modifications ont été apportées au compte \"%s\"\n\n\nVoulez-vous les enregistrer ?"),
+					    NOM_DU_COMPTE ) );
       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue ) -> vbox ),
 			   label,
 			   FALSE,
@@ -1784,10 +1779,8 @@ void passage_a_l_euro ( GtkWidget *bouton,
   gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
 				 GTK_WINDOW ( window ));
 
-  label = gtk_label_new ( g_strconcat ( _("Attention, le passage à l'euro est une opération irréversible !\n\nÊtes-vous sûr de vouloir passer le compte "),
-					NOM_DU_COMPTE,
-					_(" à l'euro ?"),
-					NULL ));
+  label = gtk_label_new ( g_strdup_printf ( _("Attention, le passage à l'euro est une opération irréversible !\n\nÊtes-vous sûr de vouloir passer le compte \"%s\" à l'euro ?"), 
+					    NOM_DU_COMPTE ) ) ;
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
 		       FALSE,

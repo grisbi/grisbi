@@ -155,10 +155,8 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 		     "!Option",
 		     7 ))
 	{
-	  dialogue ( g_strconcat ( _("Le fichier "),
-				   nom_fichier_qif,
-				   _(" n'est pas un fichier QIF"),
-				   NULL ));
+	  dialogue ( g_strdup_printf ( _("Le fichier \"%s\" n'est pas un fichier QIF"),
+				       nom_fichier_qif ));
 	  free ( pointeur_char );
 	  return;
 	}
@@ -1534,10 +1532,8 @@ void exporter_fichier_qif ( void )
 	    }
 	  else
 	    {
-	      dialogue ( g_strconcat ( _("Nom de fichier \"("),
-				       nom_fichier_qif,
-				       _(")\" invalide !"),
-				       NULL ));
+	      dialogue ( g_strdup_printf ( _("Nom de fichier \"%s\" invalide !"),
+					   nom_fichier_qif ));
 	      goto choix_liste_fichier;
 	    }
 	}
@@ -1562,11 +1558,8 @@ void exporter_fichier_qif ( void )
 
       if ( !( fichier_qif = fopen ( nom_fichier_qif,
 				    "w" ) ))
-	dialogue ( g_strconcat ( _("L'erreur suivante s'est produite pour le fichier\n"),
-				 nom_fichier_qif,
-				 " :\n",
-				 strerror ( errno ),
-				 NULL ));
+	dialogue ( g_strdup_printf ( _("L'erreur suivante s'est produite pour le fichier \"%s\" :\n%s"),
+				     nom_fichier_qif, strerror ( errno ) ));
       else
 	{
 	  GSList *pointeur_tmp;

@@ -87,7 +87,7 @@ GtkWidget *onglet_imputations ( void )
   gtk_widget_show ( vbox );
 
 
-  frame = gtk_frame_new ( _(" Informations : ") );
+  frame = gtk_frame_new ( SPACIFY(_("Informations :")) );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       frame,
 		       FALSE,
@@ -307,7 +307,7 @@ GtkWidget *onglet_imputations ( void )
 
   /* mise en place du bouton exporter */
 
-  bouton = gtk_button_new_with_label ( _("Exporter ...") );
+  bouton = gtk_button_new_with_label ( _("Exporter") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
@@ -323,7 +323,7 @@ GtkWidget *onglet_imputations ( void )
 
   /* mise en place du bouton importer */
 
-  bouton = gtk_button_new_with_label ( _("Importer ...") );
+  bouton = gtk_button_new_with_label ( _("Importer") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
@@ -645,10 +645,8 @@ void remplit_arbre_imputation ( void )
 	   nb_ecritures_par_sous_imputation[place_imputation][0] )
 	{
 	  if ( etat.affiche_nb_ecritures_listes )
-	    text[0] = g_strconcat ( _("Aucune sous-imputation ("),
-				    itoa ( nb_ecritures_par_sous_imputation[place_imputation][0] ),
-				    ")",
-				    NULL );
+	    text[0] = g_strdup_printf ( _("Aucune sous-imputation (%d)"),
+					nb_ecritures_par_sous_imputation[place_imputation][0] );
 	  else
 	    text[0] = _("Aucune sous-imputation");
 
@@ -709,10 +707,8 @@ void remplit_arbre_imputation ( void )
       if ( etat.affiche_nb_ecritures_listes
 	   &&
 	   nb_ecritures_par_imputation[0] )
-	text[0] = g_strconcat ( _("Aucune imputation ("),
-				itoa ( nb_ecritures_par_imputation[0] ),
-				")",
-				NULL );
+	text[0] = g_strdup_printf ( _("Aucune imputation (%d)"),
+				    nb_ecritures_par_imputation[0] );
       else
 	text[0] = _("Aucune imputation");
 
@@ -739,10 +735,8 @@ void remplit_arbre_imputation ( void )
       if ( etat.affiche_nb_ecritures_listes
 	   &&
 	   nb_ecritures_par_imputation[0] )
-	text[0] = g_strconcat ( _("Aucune sous-imputation ("),
-				itoa ( nb_ecritures_par_imputation[0] ),
-				")",
-				NULL );
+	text[0] = g_strdup_printf ( _("Aucune sous-imputation (%d)"),
+				nb_ecritures_par_imputation[0] );
       else
 	text[0] = _("Aucune sous-imputation");
 
@@ -2825,10 +2819,8 @@ void exporter_ib ( void )
 	    }
 	  else
 	    {
-	      dialogue ( g_strconcat ( _("Nom de fichier \""),
-				       nom_ib,
-				       _("\" invalide !"),
-				       NULL ));
+	      dialogue ( g_strdup_printf ( _("Nom de fichier \"%s\" invalide !"),
+					   nom_ib ));
 	      return;
 	    }
 	}

@@ -547,10 +547,8 @@ void retrait_devise ( GtkWidget *bouton,
 
   if ( devise_trouvee )
     {
-      dialogue ( g_strconcat ( _("La devise "),
-			       devise -> nom_devise,
-			       _(" est utilisée dans le fichier courant.\nVous ne pouvez la supprimer."),
-			       NULL ) );
+      dialogue ( g_strdup_printf ( _("La devise %s est utilisée dans le fichier courant.\nVous ne pouvez la supprimer."),
+				   devise -> nom_devise ) ) ;
       return;
     }
 
@@ -630,10 +628,8 @@ gint selection_devise ( gchar *nom_du_compte )
 		       GTK_SIGNAL_FUNC ( bloque_echap_choix_devise ),
 		       NULL );
 
-  label = gtk_label_new ( g_strconcat ( _("Veuillez sélectionner une devise pour le compte\n"),
-					nom_du_compte,
-					" :",
-					NULL ) );
+  label = gtk_label_new ( g_strdup_printf ( _("Veuillez sélectionner une devise pour le compte \"%s\" :\n"),
+					    nom_du_compte ) );
   
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue ) -> vbox ),
 		       label,
@@ -665,7 +661,7 @@ gint selection_devise ( gchar *nom_du_compte )
 		       0 );
   gtk_widget_show ( option_menu );
 
-  bouton = gtk_button_new_with_label ( _("Ajouter une devise ...") );
+  bouton = gtk_button_new_with_label ( _("Ajouter une devise") );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
 		       "clicked",
 		       GTK_SIGNAL_FUNC ( ajout_devise ),

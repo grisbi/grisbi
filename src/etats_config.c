@@ -111,43 +111,43 @@ void personnalisation_etat (void)
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
 				 onglet_etat_dates (),
-				 gtk_label_new (_(" Dates ")) );
+				 gtk_label_new (SPACIFY(_("Dates"))) );
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
 				 onglet_etat_virements (),
-				 gtk_label_new (_(" Virements ")) );
+				 gtk_label_new (SPACIFY(_("Virements"))) );
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
 				 onglet_etat_comptes (),
-				 gtk_label_new (_(" Comptes ")) );
+				 gtk_label_new (SPACIFY(_("Comptes"))) );
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
 				 onglet_etat_tiers (),
-				 gtk_label_new (_(" Tiers ")) );
+				 gtk_label_new (SPACIFY(_("Tiers"))) );
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
 				 onglet_etat_categories (),
-				 gtk_label_new (_(" Catégories ")) );
+				 gtk_label_new (SPACIFY(_("Catégories"))) );
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
 				 onglet_etat_ib (),
-				 gtk_label_new (_(" Imputations budgétaires ")) );
+				 gtk_label_new (SPACIFY(_("Imputations budgétaires"))) );
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
 				 onglet_etat_texte (),
-				 gtk_label_new (_(" Textes ")) );
+				 gtk_label_new (SPACIFY(_("Textes"))) );
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
 				 onglet_etat_montant (),
-				 gtk_label_new (_(" Montants ")) );
+				 gtk_label_new (SPACIFY(_("Montants"))) );
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
 				 onglet_etat_mode_paiement (),
-				 gtk_label_new (_(" Mode de règlement ")) );
+				 gtk_label_new (SPACIFY(_("Mode de règlement"))) );
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
 				 onglet_etat_divers (),
-				 gtk_label_new (_(" Divers ")) );
+				 gtk_label_new (SPACIFY(_("Divers"))) );
 
       /* remplissage de l'onglet d'organisation */
 
@@ -4161,7 +4161,7 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
 		       FALSE,
 		       0 );
 
-  label = gtk_label_new ( _(" à "));
+  label = gtk_label_new ( SPACIFY(_("à")));
   gtk_box_pack_start ( GTK_BOX ( comp_textes -> hbox_chq ),
 		       label,
 		       FALSE,
@@ -4214,7 +4214,7 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
 		       FALSE,
 		       0 );
 
-  label = gtk_label_new ( _(" à "));
+  label = gtk_label_new ( SPACIFY(_("à")));
   gtk_box_pack_start ( GTK_BOX ( comp_textes -> hbox_partie_2 ),
 		       label,
 		       FALSE,
@@ -5017,7 +5017,7 @@ GtkWidget *cree_ligne_comparaison_montant ( struct struct_comparaison_montants_e
 		       FALSE,
 		       0 );
 
-  label = gtk_label_new ( _(" à "));
+  label = gtk_label_new ( SPACIFY(_("à")));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -5070,7 +5070,7 @@ GtkWidget *cree_ligne_comparaison_montant ( struct struct_comparaison_montants_e
 		       FALSE,
 		       0 );
 
-  label = gtk_label_new ( _(" à "));
+  label = gtk_label_new ( SPACIFY(_("à")));
   gtk_box_pack_start ( GTK_BOX ( comp_montants -> hbox_partie_2 ),
 		       label,
 		       FALSE,
@@ -6314,19 +6314,19 @@ GtkWidget *page_affichage_donnees ( void )
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( widget_retour ),
 			     onglet_affichage_etat_generalites (),
-			     gtk_label_new (_(" Généralités ")) );
+			     gtk_label_new (SPACIFY(_("Généralités"))) );
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( widget_retour ),
 			     onglet_affichage_etat_divers (),
-			     gtk_label_new (_(" Titres ")) );
+			     gtk_label_new (SPACIFY(_("Titres"))) );
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( widget_retour ),
 			     onglet_affichage_etat_operations (),
-			     gtk_label_new (_(" Opérations ")) );
+			     gtk_label_new (SPACIFY(_("Opérations"))) );
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( widget_retour ),
 			     onglet_affichage_etat_devises (),
-			     gtk_label_new (_(" Devises ")) );
+			     gtk_label_new (SPACIFY(_("Devises"))) );
 
   return ( widget_retour );
 }

@@ -95,7 +95,7 @@ GtkWidget *creation_fenetre_operations ( void )
   gtk_widget_show ( frame );
 
 
-  solde_label_pointe = gtk_label_new ( _(" Solde pointé : ") );
+  solde_label_pointe = gtk_label_new ( SPACIFY(_("Solde pointé :")) );
   gtk_label_set_justify ( GTK_LABEL ( solde_label_pointe ),
 			  GTK_JUSTIFY_LEFT);
   gtk_container_add ( GTK_CONTAINER ( frame ),
@@ -118,7 +118,7 @@ GtkWidget *creation_fenetre_operations ( void )
   gtk_widget_show ( frame );
 
 
-  solde_label = gtk_label_new ( _(" Solde courant : ") );
+  solde_label = gtk_label_new ( SPACIFY(_("Solde courant :")) );
   gtk_label_set_justify ( GTK_LABEL ( solde_label ),
 			  GTK_JUSTIFY_RIGHT);
   gtk_container_add ( GTK_CONTAINER ( frame ),
@@ -1112,13 +1112,11 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 		  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
 		  if ( operation -> montant < 0 )
-		    temp = g_strconcat ( _("Virement vers "),
-					       NOM_DU_COMPTE,
-					       NULL );
+		    temp = g_strdup_printf ( _("Virement vers %s"),
+					     NOM_DU_COMPTE );
 		  else
-		    temp = g_strconcat ( _("Virement de "),
-					       NOM_DU_COMPTE,
-					       NULL );
+		    temp = g_strdup_printf ( _("Virement de %s"),
+					     NOM_DU_COMPTE );
 
 		  p_tab_nom_de_compte_variable = save_ptab;
 		}
@@ -2146,7 +2144,7 @@ void supprime_operation ( struct structure_operation *operation )
 
   if ( operation -> pointe == 2 )
     {
-      dialogue ( _(" Impossible de supprimer une opération relevée ... "));
+      dialogue ( SPACIFY(_("Impossible de supprimer une opération relevée ...")));
       return;
     }
 
@@ -2170,7 +2168,7 @@ void supprime_operation ( struct structure_operation *operation )
 
 	  if ( ope_liee -> pointe == 2 )
 	    {
-	      dialogue ( _(" La contre-opération de ce virement est relevée,\nla suppression est impossible ... "));
+	      dialogue ( SPACIFY(_("La contre-opération de ce virement est relevée,\nla suppression est impossible ...")));
 	      return;
 	    }
 

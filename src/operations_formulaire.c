@@ -250,7 +250,7 @@ GtkWidget *creation_formulaire ( void )
 
   /* mise en forme du bouton change */
 
-  widget_formulaire_operations[6] = gtk_button_new_with_label ( _("Change ...") );
+  widget_formulaire_operations[6] = gtk_button_new_with_label ( _("Change") );
   gtk_button_set_relief ( GTK_BUTTON ( widget_formulaire_operations[6] ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT (  widget_formulaire_operations[6] ),
@@ -514,7 +514,7 @@ GtkWidget *creation_formulaire ( void )
 
   /* mise en forme du bouton ventilation */
 
-  widget_formulaire_operations[15] = gtk_button_new_with_label ( _("Ventilation ...") );
+  widget_formulaire_operations[15] = gtk_button_new_with_label ( _("Ventilation") );
   gtk_button_set_relief ( GTK_BUTTON ( widget_formulaire_operations[15] ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_operations[15] ),

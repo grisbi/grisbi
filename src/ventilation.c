@@ -2128,7 +2128,7 @@ void supprime_operation_ventilation ( void )
 
 	      if ( operation_associee -> pointe == 2 )
 		{
-		  dialogue ( _(" La contre-opération de ce virement est relevée\non ne peut donc les supprimer ... "));
+		  dialogue ( SPACIFY(_("La contre-opération de ce virement est relevée\non ne peut donc les supprimer ...")));
 		  return;
 		}
 	    }

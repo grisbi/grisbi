@@ -235,7 +235,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
   /* on crée la première frame dans laquelle on met les états des comptes */
 
-  frame_etat_comptes_accueil = gtk_frame_new ( _(" Solde des comptes ") );
+  frame_etat_comptes_accueil = gtk_frame_new ( SPACIFY(_("Solde des comptes")) );
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame_etat_comptes_accueil ),
 			      GTK_SHADOW_ETCHED_OUT );
   gtk_box_pack_start ( GTK_BOX ( base_box_scroll ),
@@ -263,7 +263,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
 /* mise en place de la partie fin des comptes passif */
 
-  frame_etat_fin_compte_passif = gtk_frame_new ( _(" Comptes passifs terminés ") );
+  frame_etat_fin_compte_passif = gtk_frame_new ( SPACIFY(_("Comptes passifs terminés")) );
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame_etat_fin_compte_passif ),
 			      GTK_SHADOW_ETCHED_OUT );
   gtk_box_pack_start ( GTK_BOX ( base_box_scroll ),
@@ -285,7 +285,7 @@ GtkWidget *creation_onglet_accueil ( void )
 /*   mise en place de la partie des échéances manuelles ( non affiché ) */
 
 
-  frame_etat_echeances_manuelles_accueil = gtk_frame_new ( _(" Echéances manuelles arrivées à terme ") );
+  frame_etat_echeances_manuelles_accueil = gtk_frame_new ( SPACIFY(_("Echéances manuelles arrivées à terme")) );
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame_etat_echeances_manuelles_accueil ),
 			      GTK_SHADOW_ETCHED_OUT );
   gtk_box_pack_start ( GTK_BOX ( base_box_scroll ),
@@ -304,7 +304,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
   /* mise en place de la partie des échéances auto  ( non affiché )*/
 
-  frame_etat_echeances_auto_accueil = gtk_frame_new ( _(" Echéances automatiques saisies ") );
+  frame_etat_echeances_auto_accueil = gtk_frame_new ( SPACIFY(_("Echéances automatiques saisies")) );
 
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame_etat_echeances_auto_accueil ),
 			      GTK_SHADOW_ETCHED_OUT );
@@ -324,7 +324,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
 /* partie des fin d'échéances */
 
-  frame_etat_echeances_finies = gtk_frame_new ( _(" Echéances terminées : ") );
+  frame_etat_echeances_finies = gtk_frame_new ( SPACIFY(_("Echéances terminées :")) );
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame_etat_echeances_finies ),
 			      GTK_SHADOW_ETCHED_OUT );
   gtk_box_pack_start ( GTK_BOX ( base_box_scroll ),
@@ -343,7 +343,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
 /* partie des soldes minimaux autorisés */
 
-  frame_etat_soldes_minimaux_autorises = gtk_frame_new ( _(" Soldes minimaux autorisés ") );
+  frame_etat_soldes_minimaux_autorises = gtk_frame_new ( SPACIFY(_("Soldes minimaux autorisés")) );
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame_etat_soldes_minimaux_autorises ),
 			      GTK_SHADOW_ETCHED_OUT );
   gtk_box_pack_start ( GTK_BOX ( base_box_scroll ),
@@ -363,7 +363,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
 /* partie des soldes minimaux voulus */
 
-  frame_etat_soldes_minimaux_voulus = gtk_frame_new ( _(" Soldes minimaux voulus ") );
+  frame_etat_soldes_minimaux_voulus = gtk_frame_new ( SPACIFY(_("Soldes minimaux voulus")) );
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame_etat_soldes_minimaux_voulus ),
 			      GTK_SHADOW_ETCHED_OUT );
   gtk_box_pack_start ( GTK_BOX ( base_box_scroll ),
@@ -855,14 +855,14 @@ void update_liste_echeances_manuelles_accueil ( void )
 	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + ECHEANCE_COURANTE->compte;
 
 	  if ( ECHEANCE_COURANTE -> montant >= 0 )
-	    label = gtk_label_new ( g_strdup_printf (_(" Crédit de %4.2f %s sur %s"),
+	    label = gtk_label_new ( g_strdup_printf (_("Crédit de %4.2f %s sur %s"),
 						     ECHEANCE_COURANTE->montant,
 						     ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 												     GINT_TO_POINTER ( ECHEANCE_COURANTE -> devise ),
 												     (GCompareFunc) recherche_devise_par_no )->data))-> code_devise,
 						     NOM_DU_COMPTE ));
 	  else
-	    label = gtk_label_new ( g_strdup_printf (_(" Débit de %4.2f %s sur %s"),
+	    label = gtk_label_new ( g_strdup_printf (_("Débit de %4.2f %s sur %s"),
 						     -ECHEANCE_COURANTE->montant,
 						     ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 												     GINT_TO_POINTER ( ECHEANCE_COURANTE -> devise ),
@@ -996,14 +996,14 @@ void update_liste_echeances_auto_accueil ( void )
 	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation->no_compte;
 
 	  if ( operation -> montant >= 0 )
-	    label = gtk_label_new ( g_strdup_printf (_(" Crédit de %4.2f %s sur %s"),
+	    label = gtk_label_new ( g_strdup_printf (_("Crédit de %4.2f %s sur %s"),
 						     operation->montant,
 						     ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 												     GINT_TO_POINTER ( operation -> devise ),
 												     (GCompareFunc) recherche_devise_par_no )->data))-> code_devise,
 						     NOM_DU_COMPTE ));
 	  else
-	    label = gtk_label_new ( g_strdup_printf (_(" Débit de %4.2f %s sur %s"),
+	    label = gtk_label_new ( g_strdup_printf (_("Débit de %4.2f %s sur %s"),
 						     -operation->montant,
 						     ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 												     GINT_TO_POINTER (  operation -> devise ),
@@ -1159,18 +1159,14 @@ void mise_a_jour_soldes_minimaux ( void )
 	      if ( solde_courant < solde_mini_voulu )
 		{
 		  if ( !patience_en_cours )
-		    dialogue ( g_strconcat ( _("Attention, le compte "),
-					     NOM_DU_COMPTE,
-					     _(" est passé sous les seuils minimaux autorisés et voulus !"),
-					     NULL ));
+		    dialogue ( g_strdup_printf (_("Attention, le compte %s est passé sous les seuils minimaux autorisés et voulus !"), 
+			       NOM_DU_COMPTE ));
 		  MESSAGE_SOUS_MINI_VOULU = 1;
 		}
 	      else
 		if ( !patience_en_cours )
-		  dialogue ( g_strconcat ( _("Attention, le compte "),
-					   NOM_DU_COMPTE,
-					   _(" est passé sous le seuil minimal autorisé !"),
-					   NULL ));
+		  dialogue ( g_strdup_printf (_("Attention, le compte %s est passé sous le seuil minimal autorisé !"),
+			     NOM_DU_COMPTE ));
 	      MESSAGE_SOUS_MINI = 1;
 	    }
 	}
@@ -1241,18 +1237,14 @@ void mise_a_jour_soldes_minimaux ( void )
 	      if ( solde_courant < solde_mini )
 		{
 		  if ( !patience_en_cours )
-		    dialogue ( g_strconcat ( _("Attention, le compte "),
-					     NOM_DU_COMPTE,
-					     _(" est passé sous les seuils minimaux autorisés et voulus !"),
-					     NULL ));
+		    dialogue ( g_strdup_printf ( _("Attention, le compte %s est passé sous les seuils minimaux autorisés et voulus !"),
+						 NOM_DU_COMPTE));
 		  MESSAGE_SOUS_MINI = 1;
 		}
 	      else
 		if ( !patience_en_cours )
-		  dialogue ( g_strconcat ( _("Attention, le compte "),
-					   NOM_DU_COMPTE,
-					   _(" est passé sous le seuil minimal voulu !"),
-					   NULL ));
+		  dialogue ( g_strdup_printf ( _("Attention, le compte %s est passé sous le seuil minimal voulu !"),
+					       NOM_DU_COMPTE ));
 	      MESSAGE_SOUS_MINI_VOULU = 1;
 	    }
 	}

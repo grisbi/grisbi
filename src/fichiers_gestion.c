@@ -462,10 +462,8 @@ gboolean enregistrement_fichier ( gint origine )
 		}
 	      else
 		{
-		  dialogue ( g_strconcat ( _("Nom de fichier \""),
-					   nom_fichier_comptes,
-					   _("\" invalide !"),
-					   NULL ));
+		  dialogue ( g_strdup_printf ( _("Nom de fichier \"%s\" invalide !"),
+					       nom_fichier_comptes ));
 		  nom_fichier_comptes = ancien_nom_fichier_comptes;
 		  return(FALSE);
 		}
@@ -526,7 +524,7 @@ gboolean enregistrement_fichier ( gint origine )
 	reponse = 0;
       else
 	{
-	  dialogue = gnome_message_box_new ( _("Voulez-vous enregistrer le fichier ? "),
+	  dialogue = gnome_message_box_new ( _("Voulez-vous enregistrer le fichier ?"),
 					     GNOME_MESSAGE_BOX_QUESTION,
 					     GNOME_STOCK_BUTTON_YES,
 					     GNOME_STOCK_BUTTON_NO,
@@ -691,7 +689,7 @@ void affiche_titre_fenetre ( void )
       while ( parametres[i] )
 	i++;
 
-      titre = g_strconcat ( _(" Grisbi : "),
+      titre = g_strconcat ( SPACIFY(_("Grisbi :")),
 			    parametres [i-1],
 			    NULL );
 

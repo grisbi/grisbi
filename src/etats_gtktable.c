@@ -685,11 +685,8 @@ gint gtktable_affiche_total_categories ( gint ligne )
 	  else
 	    {
 	      if ( etat_courant -> afficher_nb_opes )
-		label = gtk_label_new ( g_strconcat ( _("Total Catégorie "),
-						      "( ",
-						      itoa ( nb_ope_categ_etat ),
-						      _(" opérations ) : "),
-						      NULL ));
+		label = gtk_label_new ( g_strdup_printf ( _("Total Catégorie ( %d opérations ) : "),
+							    nb_ope_categ_etat));
 	      else
 		label = gtk_label_new ( _("Total Catégorie : ") );
 	    }
@@ -869,20 +866,15 @@ gint gtktable_affiche_total_sous_categ ( gint ligne )
 							   nom_ss_categ_en_cours,
 							   nb_ope_sous_categ_etat ));
 	      else
-		label = gtk_label_new ( g_strconcat ( _("Total "),
-						      nom_categ_en_cours,
-						      " : ",
-						      nom_ss_categ_en_cours,
-						      NULL ));
+		label = gtk_label_new ( g_strdup_printf ( _("Total %s : %s"),
+							  nom_categ_en_cours,
+							  nom_ss_categ_en_cours ));
 	    }
 	  else
 	    {
 	      if ( etat_courant -> afficher_nb_opes )
-		label = gtk_label_new ( g_strconcat ( _("Total Sous-catégories : "),
-						      "( ",
-						      itoa ( nb_ope_sous_categ_etat ),
-						      _(" opérations ) : "),
-						      NULL ));
+		label = gtk_label_new ( g_strdup_printf ( _("Total sous-catégories ( %d opérations ) : "),
+							  nb_ope_sous_categ_etat ));
 	      else
 		label = gtk_label_new ( _("Total Sous-catégories : ") );
 	    }
@@ -1061,11 +1053,8 @@ gint gtktable_affiche_total_ib ( gint ligne )
 	  else
 	    {
 	      if ( etat_courant -> afficher_nb_opes )
-		label = gtk_label_new ( g_strconcat ( _("Total Imputations budgétaires : "),
-						      "( ",
-						      itoa ( nb_ope_ib_etat ),
-						      _(" opérations ) : "),
-						      NULL ));
+		label = gtk_label_new ( g_strdup_printf ( _("Total Imputations budgétaires : ( %d opérations ) : "),
+							  nb_ope_ib_etat ));
 	      else
 		label = gtk_label_new ( _("Total Imputations budgétaires : ") );
 	    }
@@ -1240,20 +1229,14 @@ gint gtktable_affiche_total_sous_ib ( gint ligne )
 						      nom_ss_ib_en_cours,
 						      nb_ope_sous_ib_etat ));
 	      else
-		label = gtk_label_new ( g_strconcat ( _("Total "),
-						      nom_ib_en_cours,
-						      " : ",
-						      nom_ss_ib_en_cours,
-						      NULL ));
+		label = gtk_label_new ( g_strdup_printf ( _("Total %s : %s"),
+						      nom_ib_en_cours, nom_ss_ib_en_cours ));
 	    }
 	  else
 	    {
 	      if ( etat_courant -> afficher_nb_opes )
-		label = gtk_label_new ( g_strconcat ( _("Total Sous-imputations budgétaires : "),
-						      "( ",
-						      itoa ( nb_ope_sous_ib_etat ),
-						      _(" opérations ) : "),
-						      NULL ));
+		label = gtk_label_new ( g_strdup_printf ( _("Total Sous-imputations budgétaires : ( %d opérations ) : "),
+							  nb_ope_sous_ib_etat ));
 	      else
 		label = gtk_label_new ( _("Total Sous-imputations budgétaires : ") );
 	    }
@@ -1430,11 +1413,8 @@ gint gtktable_affiche_total_compte ( gint ligne )
 	  else
 	    {
 	      if ( etat_courant -> afficher_nb_opes )
-		label = gtk_label_new ( g_strconcat ( _("Total Compte : "),
-						      "( ",
-						      itoa ( nb_ope_compte_etat ),
-						      _(" opérations ) : "),
-						      NULL ));
+		label = gtk_label_new ( g_strdup_printf ( _("Total Compte : ( %d opérations ) : "),
+							    nb_ope_compte_etat ) );
 	      else
 		label = gtk_label_new ( _("Total Compte : ") );
 	    }
@@ -1602,18 +1582,14 @@ gint gtktable_affiche_total_tiers ( gint ligne )
 							  nom_tiers_en_cours,
 							  nb_ope_tiers_etat ));
 	      else
-		label = gtk_label_new ( g_strconcat ( _("Total "),
-						      nom_tiers_en_cours,
-						      NULL ));
+		label = gtk_label_new ( g_strdup_printf ( _("Total %s"),
+							  nom_tiers_en_cours ));
 	    }
 	  else
 	    {
 	      if ( etat_courant -> afficher_nb_opes )
-		label = gtk_label_new ( g_strconcat ( _("Total Tiers : "),
-						      "( ",
-						      itoa ( nb_ope_tiers_etat ),
-						      _(" opérations ) : "),
-						      NULL ));
+		label = gtk_label_new ( g_strdup_printf ( _("Total Tiers : ( %d opérations ) : "),
+							  nb_ope_tiers_etat ));
 	      else
 		label = gtk_label_new ( _("Total Tiers : ") );
 	    }
@@ -1859,18 +1835,11 @@ gint gtktable_affiche_total_periode ( struct structure_operation *operation,
 			    date_debut_periode );
 			    
 	  if ( etat_courant -> afficher_nb_opes )
-	    message = g_strconcat ( _( "Résultat de " ),
-				    buffer,
-				    " (",
-				    itoa ( nb_ope_periode_etat ),
-				    _( " opérations" ),
-				    ") : ",
-				    NULL );
+	    message = g_strdup_printf ( _( "Résultat de %s (%d opérations ) : " ),
+					buffer, nb_ope_periode_etat );
 	  else
-	    message = g_strconcat ( _( "Résultat de " ),
-				    buffer,
-				    " : ",
-				    NULL );
+	    message = g_strconcat ( _( "Résultat de %s : " ),
+				    buffer );
 				      
 	  break;
 
@@ -1888,18 +1857,11 @@ gint gtktable_affiche_total_periode ( struct structure_operation *operation,
 			    date_debut_periode );
 			    
 	  if ( etat_courant -> afficher_nb_opes )
-	    message = g_strconcat ( _( "Résultat de l'année" ),
-				    buffer,
-				    " (",
-				    itoa ( nb_ope_periode_etat ),
-				    _( " opérations" ),
-				    ") : ",
-				    NULL );
+	    message = g_strdup_printf ( _( "Résultat de l'année%s ( %d opérations ) : " ),
+				    buffer, nb_ope_periode_etat );
 	  else
-	    message = g_strconcat ( _( "Résultat de l'année" ),
-				    buffer,
-				    " : ",
-				    NULL );
+	    message = g_strdup_printf ( _( "Résultat de l'année%s : " ),
+					buffer );
 	  break;
 	}
 
@@ -2353,13 +2315,11 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 		  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
 		  if ( operation -> montant < 0 )
-		    pointeur = g_strconcat ( _("Virement vers "),
-					     NOM_DU_COMPTE,
-					     NULL );
+		    pointeur = g_strdup_printf ( _("Virement vers %s"),
+						 NOM_DU_COMPTE );
 		  else
-		    pointeur = g_strconcat ( _("Virement de "),
-					     NOM_DU_COMPTE,
-					     NULL );
+		    pointeur = g_strdup_printf ( _("Virement de %s"),
+						 NOM_DU_COMPTE );
 		}
 	    }
 

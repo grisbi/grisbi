@@ -5946,11 +5946,8 @@ gboolean enregistre_fichier ( gboolean force )
 
   if ( resultat == -1 )
     {
-      dialogue ( g_strconcat ( _("Erreur dans l'enregistrement du fichier :\n\n"),
-			       nom_fichier_comptes,
-			       _("\n\nErreur :\n"),
-			       strerror ( errno ),
-			       NULL ));
+      dialogue ( g_strdup_printf ( _("Erreur dans l'enregistrement du fichier : %s\n\n\n\nErreur :\n%s"),
+				   nom_fichier_comptes, strerror ( errno ) ));
       return ( FALSE );
     }
 
@@ -6165,11 +6162,9 @@ gboolean enregistre_categ ( gchar *nom_categ )
 
   if ( resultat == -1 )
     {
-      dialogue ( g_strconcat ( _("Erreur dans l'enregistrement du fichier :\n\n"),
-			       nom_categ,
-			       _("\n\nErreur :\n"),
-			       strerror ( errno ),
-			       NULL ));
+      dialogue ( g_strdup_printf ( _("Erreur dans l'enregistrement du fichier : %s\n\n\n\nErreur :\n%s"),
+				   nom_categ,
+				   strerror ( errno ) ));
       return ( FALSE );
     }
 
@@ -6515,10 +6510,8 @@ gboolean enregistre_ib ( gchar *nom_ib )
 
   if ( resultat == -1 )
     {
-      dialogue ( g_strconcat ( _("Erreur dans l'enregistrement du fichier :\n\n"),
-			       nom_ib,
-			       _("\n\nErreur :\n"),
-			       strerror ( errno ),
+      dialogue ( g_strconcat ( _("Erreur dans l'enregistrement du fichier %s\n\nErreur :\n"),
+			       nom_ib, strerror ( errno ),
 			       NULL ));
       return ( FALSE );
     }

@@ -434,7 +434,7 @@ GtkWidget *creation_liste_echeances ( void )
 {
   GtkWidget *vbox;
   GtkWidget *win_echeances_scroll;
-  gchar *titres_echeance[] = { _("Date "), _("Périodicité  "), _("Compte "), _("Tiers "), _("Mode ") , _("Montant ")};
+  gchar *titres_echeance[] = { _("Date"), _("Périodicité"), _("Compte"), _("Tiers"), _("Mode") , _("Montant")};
 
 
   /*   à la base, on a une vbox */
@@ -1335,7 +1335,7 @@ void supprime_echeance ( void )
 				  GNOME_STOCK_BUTTON_CANCEL,
 				  NULL );
 
-      label = gtk_label_new ( _(" Voulez-vous effacer juste cette occurence ou l'échéance complète ? ") );
+      label = gtk_label_new ( SPACIFY(_("Voulez-vous effacer juste cette occurence ou l'échéance complète ?")) );
       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 			   label,
 			   FALSE,

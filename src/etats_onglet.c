@@ -374,7 +374,7 @@ GtkWidget *creation_barre_boutons_etats ( void )
 
   /* on met le bouton exporter */
 
-  bouton_exporter_etat = gtk_button_new_with_label ( _("Exporter ...") );
+  bouton_exporter_etat = gtk_button_new_with_label ( _("Exporter") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_exporter_etat ),
 			  GTK_RELIEF_NONE );
   gtk_widget_set_sensitive ( bouton_exporter_etat,
@@ -392,7 +392,7 @@ GtkWidget *creation_barre_boutons_etats ( void )
 
   /* on met le bouton importer */
 
-  bouton_importer_etat = gtk_button_new_with_label ( _("Importer ...") );
+  bouton_importer_etat = gtk_button_new_with_label ( _("Importer") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_importer_etat ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton_importer_etat ),
@@ -837,10 +837,8 @@ void exporter_etat ( void )
 	    }
 	  else
 	    {
-	      dialogue ( g_strconcat ( _("Nom de fichier \""),
-				       nom_etat,
-				       _("\" invalide !"),
-				       NULL ));
+	      dialogue ( g_strdup_printf ( _("Nom de fichier \"%s\" invalide !"),
+					   nom_etat ));
 	      return;
 	    }
 	}
