@@ -26,6 +26,9 @@
 #include "include.h"
 #include "mouse.h"
 #include "operations_formulaire_constants.h"
+#include "format.h"
+#include "utils_c.h"
+#include "configuration.h"
 
 /* cette structure est utilisée pour retrouver la position de la cellule solde sur une opération */
 
@@ -1167,11 +1170,20 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 	    /* mise en forme de la date */
 
 	case 1:
+	{
+#if 1
+		gchar date[32];
+		return g_strndup(gsb_format_gdate(operation->date, 
+							get_config_format()->format_date_liste_ope, 
+						 	date, SIZEOF(date)), SIZEOF(date));
+#else
 	    /* FIXME: should use locale + strftime for that */
-	    return ( g_strdup_printf ("%02d/%02d/%04d", 
+ 	    return ( g_strdup_printf ("%02d/%02d/%04d", 
 				      operation -> jour,
 				      operation -> mois,
 				      operation -> annee ));
+#endif
+	}
 	    break;
 
 	    /* mise en forme de la date de valeur */

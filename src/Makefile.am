@@ -4,7 +4,16 @@ localedir = $(datadir)/locale
 INCLUDES = -I$(top_srcdir) -I$(includedir) -I../intl -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/grisbi\"" -DLOGO_PATH="\"$(datadir)/pixmaps/grisbi/grisbi-logo.png\"" -DANIM_PATH="\"$(datadir)/pixmaps/grisbi/euro.gif\"" -DHELP_PATH="\"$(datadir)/grisbi/help\"" -Wall 
 bin_PROGRAMS = grisbi
 
-sources = 			\
+config_dir = config
+
+sources_config = 			\
+	configuration.c
+
+includes_config= \
+	configuration.h  \
+	xmlnames.h      
+
+sources = \
 	accueil.c		\
 	affichage.c		\
 	affichage_liste.c	\
@@ -41,6 +50,7 @@ sources = 			\
 	fichier_configuration.c	\
 	fichiers_gestion.c	\
 	fichiers_io.c		\
+	format.c		\
 	gnucash.c               \
 	gtk_combofix.c		\
 	gtk_list_button.c	\
@@ -87,9 +97,10 @@ sources = 			\
 	utils_xml.c		\
 	search_glist.c
 
-grisbi_SOURCES = $(sources)
+grisbi_SOURCES = $(sources) $(sources_config)
 
 grisbi_INCLUDES =		\
+	$(include_config)       \
 	accueil.h		\
 	affichage.h		\
 	affichage_liste.h	\
@@ -127,6 +138,7 @@ grisbi_INCLUDES =		\
 	fichier_configuration.h	\
 	fichiers_gestion.h	\
 	fichiers_io.h		\
+	format.h		\
 	gtk_combofix.h		\
 	gtk_list_button.h	\
 	help.h			\
@@ -152,6 +164,7 @@ grisbi_INCLUDES =		\
 	type_operations.h	\
 	ventilation.h		\
 	utils.h			\
+	utils_c.h	\
 	utils_buttons.h		\
 	utils_categories.h	\
 	utils_comptes.h		\

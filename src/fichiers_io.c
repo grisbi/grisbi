@@ -1696,8 +1696,16 @@ gboolean recuperation_categories_xml ( xmlNodePtr node_categories )
 							  "Nom" );
 		    categorie -> type_categ = my_atoi ( xmlGetProp ( node_detail,
 								     "Type" ));
-		    categorie -> no_derniere_sous_categ = my_atoi ( xmlGetProp ( node_detail,
-										 "No_derniere_sous_cagegorie" ));
+		    if  ( xmlHasProp(node_detail, "No_derniere_sous_cagegorie"))
+		    {
+			    categorie -> no_derniere_sous_categ = my_atoi ( xmlGetProp ( node_detail,
+											 "No_derniere_sous_cagegorie" ));
+		    } 
+		    else 
+		    {
+			    categorie -> no_derniere_sous_categ = my_atoi ( xmlGetProp ( node_detail,
+											 "No_derniere_sous_categorie" ));
+		    }
 
 		    /*  pour chaque categorie, on recupère les sous-categories */
 
@@ -3871,7 +3879,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 		     itoa ( categ -> type_categ ));
 
 	xmlSetProp ( node_categ,
-		     "No_derniere_sous_cagegorie",
+		     "No_derniere_sous_categorie",
 		     itoa ( categ -> no_derniere_sous_categ ));
 
 
