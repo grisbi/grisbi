@@ -22,15 +22,19 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "gtkcombofix.h"
-#include "menu.h"
+
 #include "comptes_traitements.h"
-#include "qif.h"
-#include "help.h"
-#include "fichiers_gestion.h"
+#include "etats_calculs.h"
+#include "etats_config.h"
+#include "etats_onglet.h"
 #include "erreur.h"
+#include "fichiers_gestion.h"
+#include "gtkcombofix.h"
+#include "help.h"
+#include "menu.h"
 #include "operations_liste.h"
 #include "parametres.h"
+#include "qif.h"
 
 #include "./xpm/export.xpm"
 #include "./xpm/import.xpm"
@@ -44,6 +48,43 @@ void init_menus ( GtkWidget * win )
 {
   static GnomeUIInfo tmp_menu_cloture [] = 
     {
+      GNOMEUIINFO_END
+    };
+
+  static GnomeUIInfo tmp_menu_reports [] = 
+    {
+      GNOMEUIINFO_ITEM_STOCK (N_("New report"), 
+			      N_("Create a new report"),
+			      ajout_etat,
+			      GNOME_STOCK_MENU_NEW),
+      GNOMEUIINFO_SEPARATOR,
+      GNOMEUIINFO_ITEM_STOCK (N_("Clone report"), 
+			      N_("Clone selected report"),
+			      dupliquer_etat,
+			      GNOME_STOCK_MENU_COPY),
+      GNOMEUIINFO_ITEM_STOCK (N_("Print report"), 
+			      N_("Print selected report"),
+			      impression_etat_courant,
+			      GNOME_STOCK_MENU_PRINT),
+      GNOMEUIINFO_SEPARATOR,
+      GNOMEUIINFO_ITEM_STOCK (N_("Import report"),
+			      N_("Import report from a XML file"),
+			      importer_etat,
+			      GNOME_STOCK_MENU_CONVERT),
+      GNOMEUIINFO_ITEM_STOCK (N_("Export report"), 
+			      N_("Export report to a XML file"),
+			      exporter_etat,
+			      GNOME_STOCK_MENU_CONVERT),
+      GNOMEUIINFO_SEPARATOR,
+      GNOMEUIINFO_ITEM_STOCK (N_("Remove report"), 
+			      N_("Remove selected report"),
+			      efface_etat,
+			      GNOME_STOCK_MENU_TRASH),
+      GNOMEUIINFO_SEPARATOR,
+      GNOMEUIINFO_ITEM_STOCK (N_("Edit report"), 
+			      N_("Edit selected report"),
+			      personnalisation_etat,
+			      GNOME_STOCK_MENU_PROP),
       GNOMEUIINFO_END
     };
 
@@ -170,14 +211,11 @@ void init_menus ( GtkWidget * win )
 
   static GnomeUIInfo tmp_menu_principal [15] = 
     {
-      GNOMEUIINFO_SUBTREE (N_("File"),
-			   &tmp_menu_fichier),
-      GNOMEUIINFO_SUBTREE (N_("Edit"),
-			   &tmp_menu_editer),
-      GNOMEUIINFO_SUBTREE (N_("Accounts"),
-			   &tmp_menu_comptes),
-      GNOMEUIINFO_SUBTREE (N_("Help"),
-			   &tmp_help_menu),
+      GNOMEUIINFO_SUBTREE (N_("File"), &tmp_menu_fichier),
+      GNOMEUIINFO_SUBTREE (N_("Edit"), &tmp_menu_editer),
+      GNOMEUIINFO_SUBTREE (N_("Accounts"), &tmp_menu_comptes),
+      GNOMEUIINFO_SUBTREE (N_("Reports"), &tmp_menu_reports),
+      GNOMEUIINFO_SUBTREE (N_("Help"), &tmp_help_menu),
       GNOMEUIINFO_END
     };
 
@@ -187,12 +225,11 @@ void init_menus ( GtkWidget * win )
   menu_derniers_fichiers = tmp_menu_derniers_fichiers;
   menu_exporter = tmp_menu_exporter;
   menu_importer = tmp_menu_importer;
-/*   menu_parametres = tmp_menu_parametres; */
   menu_comptes = tmp_menu_comptes;
+  menu_reports = tmp_menu_reports;
   menu_cloture = tmp_menu_cloture;
 
-  gnome_app_create_menus ( GNOME_APP ( win ), 
-			   menu_principal );
+  gnome_app_create_menus ( GNOME_APP ( win ), menu_principal );
 }
 
 
