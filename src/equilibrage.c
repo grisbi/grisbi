@@ -1358,8 +1358,8 @@ void deplacement_type_tri_haut ( GtkWidget * button, gpointer data )
       if ( elt -> next &&
 	   GPOINTER_TO_INT(elt -> next -> data) == no_type )
 	{
-	  LISTE_TRI = g_slist_remove ( LISTE_TRI, no_type );
-	  LISTE_TRI = g_slist_insert_before ( LISTE_TRI, elt, no_type );
+	  LISTE_TRI = g_slist_remove ( LISTE_TRI, (gpointer) no_type );
+	  LISTE_TRI = g_slist_insert_before ( LISTE_TRI, elt, (gpointer) no_type );
 	  break;
 	}
     }  
@@ -1407,8 +1407,8 @@ void deplacement_type_tri_bas ( void )
       if ( elt -> next && elt -> data == no_type )
 	{
 	  gint ref = elt -> next -> data;
-	  LISTE_TRI = g_slist_remove ( LISTE_TRI, ref );
-	  LISTE_TRI = g_slist_insert_before ( LISTE_TRI, elt, ref );
+	  LISTE_TRI = g_slist_remove ( LISTE_TRI, (gpointer) ref );
+	  LISTE_TRI = g_slist_insert_before ( LISTE_TRI, elt, (gpointer) ref );
 	  break;
 	}
     }  
