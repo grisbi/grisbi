@@ -146,7 +146,7 @@ void traitement_sigsegv ( gint signal_nb )
   GtkWidget *dialog;
   gchar *home_dir, *errmsg;
 
-  errmsg = _("Grisbi terminated due to a segmentation fault.  Please report it to http://www.grisbi.org/bugtracking/");
+  errmsg = _("Grisbi triggered a segmentation fault and cannot continue its execution.\n\n");
 
   /*   il y a 3 possibilités : */
   /*     soit on était en train de charger un fichier, c'est que celui-ci est corrompu */
@@ -160,19 +160,20 @@ void traitement_sigsegv ( gint signal_nb )
 
       if ( etat.en_train_de_charger )
 	{
-	  errmsg = g_strconcat ( errmsg, "\n\n", _("File is corrupted."), NULL );
+	  errmsg = g_strconcat ( errmsg, _("File is corrupted."), 
+				 "\n\n", NULL );
 	}
 
       if ( etat.en_train_de_sauvegarder )
 	{
-	  errmsg = g_strconcat ( errmsg, "\n\n", _("Error occured saving file."), NULL );
+	  errmsg = g_strconcat ( errmsg, _("Error occured saving file."), 
+				 "\n\n", NULL );
 	}
 
       fichier_marque_ouvert ( FALSE );
     }
   else 
     {
-
       /* c'est un bug pendant le fonctionnement de Grisbi s'il n'y a
 	 pas de nom de fichier, on le crée, sinon on rajoute #
 	 autour */
@@ -207,12 +208,20 @@ void traitement_sigsegv ( gint signal_nb )
       enregistre_fichier ( 1 );
       annulation_attente();
 
-  
-      errmsg = g_strdup_printf ( _("%s\n\nGrisbi made a backup file at '%s'."),
-				 errmsg, nom_fichier_comptes, NULL );
+      errmsg = g_strconcat ( errmsg, 
+			     g_strdup_printf ( _("Grisbi made a backup file at '%s'."),
+					       nom_fichier_comptes, NULL ),
+			     NULL );
+      errmsg = g_strconcat ( errmsg, "\n\n", NULL );
     }
 
-  dialogue_error ( errmsg );
+  errmsg = g_strconcat ( errmsg, 
+			 _("Please report this problem to http://www.grisbi.org/bugtracking/"),
+			 NULL );
+      
+  dialogue_error_hint ( errmsg, 
+			_("Grisbi terminated due to a segmentation fault.") );
+
   exit(1);
 }
 
