@@ -139,10 +139,8 @@ extern GtkWidget *bouton_devise_categ_etat;
 extern GtkWidget *bouton_devise_ib_etat;
 extern GtkWidget *bouton_devise_montant_etat;
 extern GtkWidget *bouton_devise_tiers_etat;
-extern gint compte_courant;
 extern GtkWidget *detail_devise_compte;
 extern GtkWidget *hbox_boutons_modif;
-extern GSList *list_struct_accounts;
 extern GSList *liste_struct_echeances;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
@@ -265,7 +263,7 @@ void update_currency_widgets()
 				GTK_OBJECT ( hbox_boutons_modif ) );
     gtk_option_menu_set_history ( GTK_OPTION_MENU (  detail_devise_compte),
 				  g_slist_index ( liste_struct_devises,
-						  devise_par_no ( gsb_account_get_currency (compte_courant) ))); 
+						  devise_par_no ( gsb_account_get_currency (gsb_account_get_current_account ()) ))); 
 
 
     /* on recrée les boutons de devises dans la conf de l'état */
@@ -793,7 +791,7 @@ void retrait_devise ( GtkWidget *bouton,
 
     devise_trouvee = 0;
 
-    list_tmp = list_struct_accounts;
+    list_tmp = gsb_account_get_list_accounts ();
 
     while ( list_tmp )
     {

@@ -33,7 +33,6 @@
 #include "echeancier_formulaire.h"
 #include "utils_exercices.h"
 #include "type_operations.h"
-#include "utils_comptes.h"
 #include "barre_outils.h"
 #include "echeancier_ventilation.h"
 #include "devises.h"
@@ -48,6 +47,7 @@
 #include "traitement_variables.h"
 #include "utils_categories.h"
 #include "utils_ib.h"
+#include "utils_comptes.h"
 #include "operations_liste.h"
 #include "utils_tiers.h"
 /*END_INCLUDE*/
@@ -112,7 +112,6 @@ extern gint affichage_echeances_perso_j_m_a;
 extern gint affichage_echeances_perso_nb_libre;
 extern GtkWidget *bouton_personnalisation_affichage_echeances;
 extern GtkWidget *bouton_valider_echeance_perso;
-extern GtkJustification col_justs[] ;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
 extern GdkColor couleur_selection;
@@ -257,7 +256,7 @@ GtkWidget *creation_liste_echeances ( void )
 	colonnes_liste_echeancier[i] = gtk_tree_view_column_new_with_attributes ( titres_echeance[i],
 										  cell_renderer,
 										  "text", i,
-										  "background-gdk", 8,
+										  "cell-background-gdk", 8,
 										  "font-desc", 12,
 										  NULL );
 	gtk_tree_view_column_set_alignment ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_echeancier[i] ),
@@ -286,15 +285,7 @@ GtkWidget *creation_liste_echeances ( void )
     /*     on crée le list_store maintenant et on l'associe vide au tree_view */
     /* création de la liste des échéances */
 
-    /*     commence à créer le store : */
-    /* 	col 0 à 7 : les infos affichées */
-    /* 	col 8 : couleur du background */
-    /* 	col 9 : sauvegarde background quand ligne sélectionnée */
-    /* 	col 10 : couleur du solde */
-    /* 	col 11 : adr de l'échéance */
-    /* 	col 12 : contient NULL ou l'adr de la pangofontdescription utilisée */
-
-    store = gtk_list_store_new ( 13,
+    store = gtk_list_store_new ( SCHEDULER_COL_NB_TOTAL,
 				 G_TYPE_STRING,
 				 G_TYPE_STRING,
 				 G_TYPE_STRING,
@@ -538,7 +529,7 @@ void remplissage_liste_echeance ( void )
 
 	    /* mise en forme du compte */
 
-	    ligne[COL_NB_ACCOUNT] = compte_name_by_no ( echeance -> compte );
+	    ligne[COL_NB_ACCOUNT] = gsb_account_get_name ( echeance -> compte );
 
 	    /* mise en forme du tiers */
 
@@ -596,7 +587,7 @@ void remplissage_liste_echeance ( void )
 
 		    gtk_list_store_set ( GTK_LIST_STORE ( store ),
 					 &iter,
-					 11, echeance_tmp,
+					 SCHEDULER_COL_NB_TRANSACTION_ADDRESS, echeance_tmp,
 					 -1 );
 
 		    /* c'est maintenant qu'on voit si on sort ou pas ... */
@@ -636,7 +627,7 @@ void remplissage_liste_echeance ( void )
 
     gtk_list_store_set ( GTK_LIST_STORE ( store ),
 			 &iter,
-			 11, GINT_TO_POINTER (-1),
+			 SCHEDULER_COL_NB_TRANSACTION_ADDRESS, GINT_TO_POINTER (-1),
 			 -1 );
 }
 /*****************************************************************************/
@@ -672,12 +663,12 @@ void update_couleurs_background_echeancier ( void )
 	if ( echeance )
 	    gtk_list_store_set ( store,
 				 &iter,
-				 8, &couleur_fond[couleur_en_cours],
+				 SCHEDULER_COL_NB_BACKGROUND, &couleur_fond[couleur_en_cours],
 				 -1 );
 	else
 	    gtk_list_store_set ( store,
 				 &iter,
-				 8, &couleur_grise,
+				 SCHEDULER_COL_NB_BACKGROUND, &couleur_grise,
 				 -1 );
 
 	result_iter = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( store ),
@@ -735,11 +726,11 @@ void selectionne_echeance ( struct operation_echeance *echeance )
 
 	gtk_tree_model_get ( model,
 			     iter,
-			     9, &couleur,
+			     SCHEDULER_COL_NB_SAVE_BACKGROUND, &couleur,
 			     -1 );
 	gtk_list_store_set ( GTK_LIST_STORE (model),
 			     iter,
-			     8,couleur,
+			     SCHEDULER_COL_NB_BACKGROUND,couleur,
 			     9, NULL,
 			     -1 );
     }
@@ -752,12 +743,12 @@ void selectionne_echeance ( struct operation_echeance *echeance )
 
     gtk_tree_model_get ( model,
 			 iter,
-			 8, &couleur,
+			 SCHEDULER_COL_NB_BACKGROUND, &couleur,
 			 -1 );
     gtk_list_store_set ( GTK_LIST_STORE (model),
 			 iter,
-			 8, &couleur_selection,
-			 9, couleur,
+			 SCHEDULER_COL_NB_BACKGROUND, &couleur_selection,
+			 SCHEDULER_COL_NB_SAVE_BACKGROUND, couleur,
 			 -1 );
 
     /*     on déplace le scrolling de la liste si nécessaire pour afficher la sélection */

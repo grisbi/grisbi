@@ -64,8 +64,7 @@ gint affichage_realise;
 
 gint col_depart_drag;
 gint ligne_depart_drag;
-gint tab_affichage_ope[4][7];
-/* gint tab_affichage_ope_tmp[4][7]; */
+gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
 GtkWidget *boutons_affichage_liste[17];
 GtkWidget *clist_affichage_liste;
 GtkWidget *bouton_choix_perso_colonnes;
@@ -77,9 +76,9 @@ GtkWidget *bouton_affichage_lignes_trois_lignes_1;
 GtkWidget *bouton_affichage_lignes_trois_lignes_2;
 GtkWidget *bouton_affichage_lignes_trois_lignes_3;
 /* contient le % de chaque colonne */
-gint rapport_largeur_colonnes[7];
+gint rapport_largeur_colonnes[TRANSACTION_LIST_COL_NB];
 /* contient la taille de chaque colonne */
-gint taille_largeur_colonnes[7];
+gint taille_largeur_colonnes[TRANSACTION_LIST_COL_NB];
 /* contient le no de ligne à afficher lorsqu'on n'affiche qu'une ligne */
 gint ligne_affichage_une_ligne;
 /* contient les no de lignes à afficher lorsqu'on affiche deux lignes */
@@ -91,14 +90,12 @@ GSList *lignes_affichage_trois_lignes;
 /*START_EXTERN*/
 extern gint allocation_precedente;
 extern gint col_depart_drag;
-extern gint compte_courant;
 extern GtkWidget *formulaire;
 extern gint ligne_depart_drag;
-extern GSList *list_struct_accounts;
 extern GSList *liste_labels_titres_colonnes_liste_ope ;
 extern GtkWidget *preview;
-extern gchar *tips_col_liste_operations[7];
-extern gchar *titres_colonnes_liste_operations[7];
+extern gchar *tips_col_liste_operations[TRANSACTION_LIST_COL_NB];
+extern gchar *titres_colonnes_liste_operations[TRANSACTION_LIST_COL_NB];
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -145,8 +142,8 @@ GtkWidget *onglet_affichage_liste ( void )
 
 	/* mise en place de la clist_affichage_liste */
 	/*   on lui met des titres redimensionnables */
-	/*   elle fait 7 colonnes et 4 lignes */
-	clist_affichage_liste = gtk_clist_new_with_titles ( 7, titres );
+	/*   elle fait TRANSACTION_LIST_COL_NB colonnes et 4 lignes */
+	clist_affichage_liste = gtk_clist_new_with_titles ( TRANSACTION_LIST_COL_NB, titres );
 	gtk_clist_column_titles_passive ( GTK_CLIST ( clist_affichage_liste ));
 
 	gtk_signal_connect ( GTK_OBJECT ( clist_affichage_liste ),
@@ -256,14 +253,14 @@ gboolean modification_retient_affichage_par_compte ( void )
     if ( etat.retient_affichage_par_compte )
 	return FALSE;
 
-    nb_lignes = gsb_account_get_nb_rows ( compte_courant );
-    affichage_r = gsb_account_get_r (compte_courant);
+    nb_lignes = gsb_account_get_nb_rows ( gsb_account_get_current_account () );
+    affichage_r = gsb_account_get_r (gsb_account_get_current_account ());
 
     /*     on doit réafficher tous les comptes qui ne correspondent pas */
 
     GSList *list_tmp;
 
-    list_tmp = list_struct_accounts;
+    list_tmp = gsb_account_get_list_accounts ();
 
     while ( list_tmp )
     {
@@ -315,19 +312,19 @@ gboolean change_choix_ajustement_auto_colonnes ( GtkWidget *bouton )
 	allocation_precedente = 0;
 
 	for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
-	    gtk_tree_view_column_set_resizable ( gsb_account_get_column ( compte_courant, i),
+	    gtk_tree_view_column_set_resizable ( gsb_account_get_column ( gsb_account_get_current_account (), i),
 						 FALSE );
 
-	changement_taille_liste_ope ( gsb_account_get_tree_view (compte_courant),
-				      &( GTK_WIDGET (gsb_account_get_tree_view (compte_courant))-> allocation ));
+	changement_taille_liste_ope ( gsb_account_get_tree_view (gsb_account_get_current_account ()),
+				      &( GTK_WIDGET (gsb_account_get_tree_view (gsb_account_get_current_account ()))-> allocation ));
     }
     else
     {
 	for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
 	{
-	    gtk_tree_view_column_set_resizable ( gsb_account_get_column ( compte_courant, i),
+	    gtk_tree_view_column_set_resizable ( gsb_account_get_column ( gsb_account_get_current_account (), i),
 						 TRUE );
-	    taille_largeur_colonnes[i] = gtk_tree_view_column_get_fixed_width ( gsb_account_get_column ( compte_courant, i));
+	    taille_largeur_colonnes[i] = gtk_tree_view_column_get_fixed_width ( gsb_account_get_column ( gsb_account_get_current_account (), i));
 	}
    }
     return ( FALSE );
@@ -344,9 +341,9 @@ gboolean change_largeur_colonne ( GtkWidget *clist,
 
     if ( etat.largeur_auto_colonnes )
     {
-	if ( rapport_largeur_colonnes[colonne] * GTK_WIDGET (gsb_account_get_tree_view (compte_courant)) -> allocation.width / 100 )
-	    gtk_tree_view_column_set_fixed_width ( gsb_account_get_column ( compte_courant, colonne),
-						   rapport_largeur_colonnes[colonne] * GTK_WIDGET (gsb_account_get_tree_view (compte_courant)) -> allocation.width / 100 );
+	if ( rapport_largeur_colonnes[colonne] * GTK_WIDGET (gsb_account_get_tree_view (gsb_account_get_current_account ())) -> allocation.width / 100 )
+	    gtk_tree_view_column_set_fixed_width ( gsb_account_get_column ( gsb_account_get_current_account (), colonne),
+						   rapport_largeur_colonnes[colonne] * GTK_WIDGET (gsb_account_get_tree_view (gsb_account_get_current_account ())) -> allocation.width / 100 );
     }
 
     return FALSE;
@@ -600,7 +597,7 @@ gboolean allocation_clist_affichage_liste ( GtkWidget *clist,
 
     /* on met la largeur des colonnes en fonction de ce qui avait été enregistré */
 
-    for ( i=0 ; i<7 ; i++ )
+    for ( i=0 ; i<TRANSACTION_LIST_COL_NB ; i++ )
 	gtk_clist_set_column_width ( GTK_CLIST ( clist ),
 				     i,
 				     rapport_largeur_colonnes[i] * ancienne_allocation_liste / 100 );
@@ -636,63 +633,63 @@ gboolean pression_bouton_classement_liste ( GtkWidget *clist,
 	0x80, 0x01, 0x80, 0x01, 0x80, 0x01, 0x80, 0x01, 0x80, 0x01, 0x80, 0x01,
 	0x00, 0x00, 0x3f, 0xfc, 0x3f, 0xfc, 0x00, 0x00, 0x80, 0x01, 0x80, 0x01,
 	0x80, 0x01, 0x80, 0x01, 0x80, 0x01, 0x80, 0x01};
-	static unsigned char cursor1mask_bits[] = {
-	    0x80, 0x01, 0x8e, 0x71, 0x86, 0x61, 0x8a, 0x51, 0x90, 0x09, 0xa0, 0x05,
-	    0x40, 0x02, 0x3f, 0xfc, 0x3f, 0xfc, 0x40, 0x02, 0xa0, 0x05, 0x90, 0x09,
-	    0x8a, 0x51, 0x86, 0x61, 0x8e, 0x71, 0x80, 0x01};
+    static unsigned char cursor1mask_bits[] = {
+	0x80, 0x01, 0x8e, 0x71, 0x86, 0x61, 0x8a, 0x51, 0x90, 0x09, 0xa0, 0x05,
+	0x40, 0x02, 0x3f, 0xfc, 0x3f, 0xfc, 0x40, 0x02, 0xa0, 0x05, 0x90, 0x09,
+	0x8a, 0x51, 0x86, 0x61, 0x8e, 0x71, 0x80, 0x01};
 
-	    /*   si la souris se trouve dans les titres, on se barre simplement */
+    /*   si la souris se trouve dans les titres, on se barre simplement */
 
-	    if ( ev -> window != GTK_CLIST ( clist ) -> clist_window )
-		return ( FALSE );
-
-
-	    /* on crée le nouveau curseur */
+    if ( ev -> window != GTK_CLIST ( clist ) -> clist_window )
+	return ( FALSE );
 
 
-
-	    source = gdk_bitmap_create_from_data (NULL,
-						  cursor1_bits,
-						  16,
-						  16);
-	    mask = gdk_bitmap_create_from_data (NULL,
-						cursor1mask_bits,
-						16,
-						16);
-
-	    cursor = gdk_cursor_new_from_pixmap (source,
-						 mask,
-						 &fg,
-						 &bg,
-						 8,
-						 8);
-	    gdk_pixmap_unref (source);
-	    gdk_pixmap_unref (mask);
+    /* on crée le nouveau curseur */
 
 
 
+    source = gdk_bitmap_create_from_data (NULL,
+					  cursor1_bits,
+					  16,
+					  16);
+    mask = gdk_bitmap_create_from_data (NULL,
+					cursor1mask_bits,
+					16,
+					16);
 
-	    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( clist ),
-					   "button_press_event");
+    cursor = gdk_cursor_new_from_pixmap (source,
+					 mask,
+					 &fg,
+					 &bg,
+					 8,
+					 8);
+    gdk_pixmap_unref (source);
+    gdk_pixmap_unref (mask);
 
-	    /* récupère et sauve les coordonnées de la liste au départ */
 
-	    gtk_clist_get_selection_info ( GTK_CLIST ( clist ),
-					   ev -> x,
-					   ev -> y,
-					   &ligne_depart_drag,
-					   &col_depart_drag );
 
-	    /* on grab la souris */
 
-	    gdk_pointer_grab ( GTK_CLIST ( clist) -> clist_window,
-			       FALSE,
-			       GDK_BUTTON_RELEASE_MASK,
-			       GTK_CLIST ( clist ) -> clist_window,
-			       cursor,
-			       GDK_CURRENT_TIME );
+    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( clist ),
+				   "button_press_event");
 
-	    return ( TRUE );
+    /* récupère et sauve les coordonnées de la liste au départ */
+
+    gtk_clist_get_selection_info ( GTK_CLIST ( clist ),
+				   ev -> x,
+				   ev -> y,
+				   &ligne_depart_drag,
+				   &col_depart_drag );
+
+    /* on grab la souris */
+
+    gdk_pointer_grab ( GTK_CLIST ( clist) -> clist_window,
+		       FALSE,
+		       GDK_BUTTON_RELEASE_MASK,
+		       GTK_CLIST ( clist ) -> clist_window,
+		       cursor,
+		       GDK_CURRENT_TIME );
+
+    return ( TRUE );
 }
 /* ************************************************************************************************************** */
 
@@ -784,17 +781,17 @@ gboolean lache_bouton_classement_liste ( GtkWidget *clist,
 /* ************************************************************************************************************** */
 void remplissage_tab_affichage_ope ( GtkWidget *clist )
 {
-    gchar *ligne [7];
+    gchar *ligne [TRANSACTION_LIST_COL_NB];
     gint i;
 
     gtk_clist_freeze ( GTK_CLIST ( clist ));
     gtk_clist_clear ( GTK_CLIST ( clist ));
 
-    for ( i=0 ; i<4 ; i++ )
+    for ( i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
     {
 	gint j;
 
-	for ( j=0 ; j<7 ; j++ )
+	for ( j=0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
 	{
 	    switch ( tab_affichage_ope[i][j] )
 	    {
@@ -878,7 +875,7 @@ void remplissage_tab_affichage_ope ( GtkWidget *clist )
 
 	    if ( tab_affichage_ope[i][j]
 		 &&
-		 tab_affichage_ope[i][j] != 18 )
+		 tab_affichage_ope[i][j] != TRANSACTION_LIST_CHQ )
 	    {
 		gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[tab_affichage_ope[i][j]-1] ),
 						   GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
@@ -921,8 +918,8 @@ void toggled_bouton_affichage_liste ( GtkWidget *bouton,
 	/* si ce no est 9-1(moyen de paiement), on y met aussi 18 (no chèque) */
 
 
-	for ( i = 0 ; i<4 ; i++ )
-	    for ( j = 0 ; j<7 ; j++ )
+	for ( i = 0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
+	    for ( j = 0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
 		if ( !tab_affichage_ope[i][j] )
 		{
 		    tab_affichage_ope[i][j] = GPOINTER_TO_INT ( no_bouton ) + 1;
@@ -931,8 +928,8 @@ void toggled_bouton_affichage_liste ( GtkWidget *bouton,
 			no_bouton = GINT_TO_POINTER ( 17 );
 		    else
 		    {
-			i=4;
-			j=7;
+			i=TRANSACTION_LIST_ROWS_NB;
+			j=TRANSACTION_LIST_COL_NB;
 		    }
 		}
     }
@@ -943,13 +940,13 @@ void toggled_bouton_affichage_liste ( GtkWidget *bouton,
 	/* recherche le no de bouton dans le tableau et met 0 à la place */
 	/*       s'il s'agit du moyen de paiement(9), vire aussi le no de chèque(18) */
 
-	for ( i = 0 ; i<4 ; i++ )
-	    for ( j = 0 ; j<7 ; j++ )
+	for ( i = 0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
+	    for ( j = 0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
 		if ( tab_affichage_ope[i][j] == ( GPOINTER_TO_INT ( no_bouton ) + 1 )
 		     ||
 		     ( GPOINTER_TO_INT ( no_bouton ) == 8
 		       &&
-		       tab_affichage_ope[i][j] == 18 ))
+		       tab_affichage_ope[i][j] == TRANSACTION_LIST_CHQ ))
 		    tab_affichage_ope[i][j] = 0;
     }
 
@@ -971,19 +968,19 @@ void toggled_bouton_affichage_liste ( GtkWidget *bouton,
 void recuperation_noms_colonnes_et_tips ( void )
 {
     gint i, j;
-    gchar *ligne[7];
+    gchar *ligne[TRANSACTION_LIST_COL_NB];
 
     /* on met les titres et tips à NULL */
 
-    for ( j=0 ; j<7 ; j++ )
+    for ( j=0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
     {
 	titres_colonnes_liste_operations[j] = NULL;
 	tips_col_liste_operations[j] = NULL;
     }
 
 
-    for ( i=0 ; i<4 ; i++ )
-	for ( j=0 ; j<7 ; j++ )
+    for ( i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
+	for ( j=0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
 	{
 	    switch ( tab_affichage_ope[i][j] )
 	    {
@@ -1036,10 +1033,11 @@ void recuperation_noms_colonnes_et_tips ( void )
 void raz_affichage_ope ( void )
 {
     gint i, j;
-    gint tab[4][7] = { { 18, 1, 3, 13, 5, 6, 7 },
-	{0, 0, 12, 0, 9, 8, 0 },
-	{0, 11, 15, 0, 0, 0, 0 },
-	{0, 0, 0, 0, 0, 0, 0 }};
+    gint tab[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB] = {
+	{ 0, 18, 1, 3, 13, 5, 6, 7 },
+	{ 0, 0, 0, 12, 0, 9, 8, 0 },
+	{ 0, 0, 11, 15, 0, 0, 0, 0 },
+	{ 0, 0, 0, 0, 0, 0, 0, 0 }};
 
 
 	/* on remet tous les boutons à inactif */
@@ -1048,8 +1046,8 @@ void raz_affichage_ope ( void )
 	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( boutons_affichage_liste[i] ),
 					   FALSE );
 
-	for ( i = 0 ; i<4 ; i++ )
-	    for ( j = 0 ; j<7 ; j++ )
+	for ( i = 0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
+	    for ( j = 0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
 		tab_affichage_ope[i][j] = tab[i][j];
 
 	/* on met à jour la liste et les boutons */

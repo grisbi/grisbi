@@ -29,8 +29,8 @@
 #include "equilibrage.h"
 #include "operations_liste.h"
 #include "operations_formulaire.h"
-#include "ventilation.h"
 #include "operations_comptes.h"
+#include "data_account.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -47,7 +47,6 @@ GtkWidget *paned_onglet_operations;
 extern GtkWidget *formulaire;
 extern GtkWidget *frame_droite_bas;
 extern GtkWidget *notebook_comptes_equilibrage;
-extern GtkWidget *notebook_formulaire;
 /*END_EXTERN*/
 
 
@@ -92,12 +91,6 @@ GtkWidget *create_transaction_page ( void )
 			       gtk_label_new ( _("Accounts") ) );
 
 
-   /* création de la fenetre de ventilation */
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
-			       creation_verification_ventilation (),
-			       gtk_label_new ( _("Breakdown") ) );
-
-
     /* création de la fenetre de l'équilibrage */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
 			       creation_fenetre_equilibrage (),
@@ -126,31 +119,24 @@ GtkWidget *create_transaction_page ( void )
     gtk_frame_set_shadow_type ( GTK_FRAME ( frame_droite_bas ), GTK_SHADOW_IN );
     gtk_box_pack_start ( GTK_BOX ( vbox ), frame_droite_bas, FALSE, FALSE, 0 );
 
-
-    /* création du notebook du formulaire ( contient le formulaire et le
-       formulaire simplifié pour la ventilation ) */
-    notebook_formulaire = gtk_notebook_new ();
-    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK( notebook_formulaire ), FALSE );
-    gtk_container_add ( GTK_CONTAINER ( frame_droite_bas ), notebook_formulaire );
-    gtk_widget_show ( notebook_formulaire );
-
     if ( etat.formulaire_toujours_affiche )
 	gtk_widget_show (frame_droite_bas);
 
     /* création du formulaire */
     formulaire = creation_formulaire ();
     gtk_container_set_border_width ( GTK_CONTAINER ( formulaire ), 10);
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_formulaire ), formulaire,
-			       gtk_label_new ( _("Form") ) );
+    gtk_container_add ( GTK_CONTAINER ( frame_droite_bas ), formulaire );
     gtk_widget_show (formulaire);
 
-    /* création de la fenetre de ventilation */
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_formulaire ),
-			       creation_formulaire_ventilation (),
-			       gtk_label_new ( _("Breakdown") ) );
 
-    /* on remet la fenetre du formulaire sur le formulaire  */
-    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_formulaire ), 0 );
+    /* for the current account : */
+    /* we show the current form */
+
+    remplissage_formulaire ( gsb_account_get_current_account ());
+
+    /* we fill the marked amount and the total amount */
+
+    mise_a_jour_labels_soldes ();
 
     return ( paned_onglet_operations );
 }

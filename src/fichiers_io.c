@@ -74,8 +74,8 @@ static void switch_t_r ( void );
 /*END_STATIC*/
 
 
-
-
+/* used to get the sort of the accounts in the version < 0.6 */
+static GSList *sort_accounts;
 
 gchar *nom_fichier_comptes;
 
@@ -96,7 +96,6 @@ extern gint affichage_echeances_perso_j_m_a;
 extern gint affichage_echeances_perso_nb_libre;
 extern gchar *chemin_logo;
 extern GtkWidget *code_banque;
-extern gint compte_courant;
 extern GtkWidget *email_banque;
 extern GtkWidget *email_correspondant;
 extern GtkWidget *fax_correspondant;
@@ -104,7 +103,6 @@ extern GtkWidget *formulaire;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
-extern GSList *list_struct_accounts;
 extern GSList *liste_struct_banques;
 extern GSList *liste_struct_categories;
 extern GSList *liste_struct_devises;
@@ -137,12 +135,11 @@ extern GtkWidget *nom_banque;
 extern GtkWidget *nom_correspondant;
 extern GtkWidget *nom_exercice;
 extern gchar *nom_fichier_backup;
-extern GSList *ordre_comptes;
-extern gint rapport_largeur_colonnes[7];
+extern gint rapport_largeur_colonnes[TRANSACTION_LIST_COL_NB];
 extern GtkWidget *remarque_banque;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER] ;
 extern GtkTreeSelection * selection;
-extern gint tab_affichage_ope[4][7];
+extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
 extern GtkWidget *tel_banque;
 extern GtkWidget *tel_correspondant;
 extern gint valeur_echelle_recherche_date_import;
@@ -298,6 +295,8 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
     struct struct_devise *devise;
     struct stat buffer_stat;
     GSList *list_tmp;
+    gint i,j;
+
 
     /*     par défaut le fichier n'est pas modifié sauf si on charge une version précédente */
 
@@ -315,11 +314,10 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 	    /* sauf que la 0.4.0 n'attribuait pas le no de relevé aux opés filles */
 	    /* d'une ventilation */
 
-	    list_tmp = list_struct_accounts;
+	    list_tmp = gsb_account_get_list_accounts ();
 
 	    while ( list_tmp )
 	    {
-		gint i;
 		GSList *liste_tmp;
 
 		i = gsb_account_get_no_account ( list_tmp -> data );
@@ -402,15 +400,13 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 		gint nb_lignes_ope;
 		GSList *list_tmp;
 
-		affichage_r = gsb_account_get_r (compte_courant);
-		nb_lignes_ope = gsb_account_get_nb_rows ( compte_courant );
+		affichage_r = gsb_account_get_r (gsb_account_get_current_account ());
+		nb_lignes_ope = gsb_account_get_nb_rows ( gsb_account_get_current_account () );
 
-		list_tmp = list_struct_accounts;
+		list_tmp = gsb_account_get_list_accounts ();
 
 		while ( list_tmp )
 		{
-		    gint i;
-
 		    i = gsb_account_get_no_account ( list_tmp -> data );
 
 		    gsb_account_set_r ( i,
@@ -437,40 +433,43 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 
 	case 55:
 
-	    /* 	    on met le classement courant par date et ordre croissant */
+	    /* now the order of the accounts are the order in the GSList */
 
-	    list_tmp = list_struct_accounts;
+	    gsb_account_reorder ( sort_accounts );
+	    g_slist_free ( sort_accounts );
+
+
+	    /* we have now 8 columns, but as before it was 7, and the first
+	     * is at the begining, we have to split on the right */
+
+	    for ( j=0 ; j<TRANSACTION_LIST_ROWS_NB ; j++ )
+	    {
+		for ( i=TRANSACTION_LIST_COL_NB-1 ; i ; i-- )
+		    tab_affichage_ope[j][i] = tab_affichage_ope[j][i-1];
+		tab_affichage_ope[j][0] = 0;
+	    }
+
+	    for ( i=TRANSACTION_LIST_COL_NB-1 ; i ; i-- )
+		rapport_largeur_colonnes[i] = rapport_largeur_colonnes[i-1];
+	    rapport_largeur_colonnes[0] = 2;
+
+	    list_tmp = gsb_account_get_list_accounts ();
 
 	    while ( list_tmp )
 	    {
-		gint i;
-
 		i = gsb_account_get_no_account ( list_tmp -> data );
 
+		/* 	    set the form organization at 0 */
+		gsb_account_set_form_organization ( i,
+						    gsb_form_new_organization ());
+
+		/* 	   set the current sort by date and ascending sort */
 		init_default_sort_column (i);
 
 		list_tmp = list_tmp -> next;
 	    }
 
 
-	    /* 	    on met l'organisation des formulaires de tous les comptes à 0 */
-
-	    list_tmp = list_struct_accounts;
-
-	    while ( list_tmp )
-	    {
-		gint i;
-
-		i = gsb_account_get_no_account ( list_tmp -> data );
-
-		gsb_account_set_form_organization ( i,
-						    gsb_form_new_organization ());
-
-		list_tmp = list_tmp -> next;
-	    }
-
-
-	    break;
 
 	    /* ********************************************************* */
 	    /* 	    à mettre à chaque fois juste avant la version stable */
@@ -646,7 +645,7 @@ void switch_t_r ( void )
     if ( DEBUG )
 	printf ( "switch_t_r\n");
 
-    list_tmp = list_struct_accounts;
+    list_tmp = gsb_account_get_list_accounts ();
 
     while ( list_tmp )
     {
@@ -750,14 +749,34 @@ gboolean recuperation_generalites_xml ( xmlNodePtr node_generalites )
 	{
 	    gchar **pointeur_char;
 	    gint i, j;
+	    gint number_columns;
 
 	    pointeur_char = g_strsplit ( xmlNodeGetContent ( node_generalites ),
 					 "-",
-					 28 );
+					 0 );
 
-	    for ( i=0 ; i<4 ; i++ )
-		for ( j=0 ; j< 7 ; j++ )
-		    tab_affichage_ope[i][j] = my_atoi ( pointeur_char[j + i*7]);
+	    /* there is a pb here to go from 0.5.5 and before, untill 0.6.0
+	     * because the nb of columns goes from 8 to 9 ; the best is to
+	     * check how much numbers there is and to divide it by TRANSACTION_LIST_ROWS_NB
+	     * so we'll have the last nb of columns. it will work event if we increase again
+	     * the number of columns, but we need to find another way if TRANSACTION_LIST_ROWS_NB
+	     * increases */
+
+	    i = 0;
+	    while (pointeur_char[i])
+		i++;
+	    number_columns = i/TRANSACTION_LIST_ROWS_NB;
+
+	    for ( i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
+		for ( j=0 ; j<= number_columns ; j++ )
+		{
+		    /* we have to check here because if one time we change TRANSACTION_LIST_ROWS_NB or
+		     * TRANSACTION_LIST_COL_NB, it will crash without that (ex : (5.5 -> 6.0 )) */
+		    if (  pointeur_char[j + i*TRANSACTION_LIST_COL_NB] )
+			tab_affichage_ope[i][j] = my_atoi ( pointeur_char[j + i*number_columns]);
+		    else
+			j = TRANSACTION_LIST_COL_NB;
+		}
 
 	    g_strfreev ( pointeur_char );
 	}
@@ -770,10 +789,11 @@ gboolean recuperation_generalites_xml ( xmlNodePtr node_generalites )
 
 	    pointeur_char = g_strsplit ( xmlNodeGetContent ( node_generalites ),
 					 "-",
-					 7 );
+					 0 );
 
-	    for ( i=0 ; i<7 ; i++ )
-		rapport_largeur_colonnes[i] = my_atoi ( pointeur_char[i]);
+	    for ( i=0 ; i< TRANSACTION_LIST_COL_NB; i++ )
+		if ( pointeur_char[i] )
+		    rapport_largeur_colonnes[i] = my_atoi ( pointeur_char[i]);
 
 	    g_strfreev ( pointeur_char );
 	}
@@ -789,7 +809,7 @@ gboolean recuperation_generalites_xml ( xmlNodePtr node_generalites )
 
 	    pointeur_char = g_strsplit ( xmlNodeGetContent ( node_generalites ),
 					 "-",
-					 2 );
+					 0 );
 
 	    lignes_affichage_deux_lignes = NULL;
 	    lignes_affichage_deux_lignes = g_slist_append ( lignes_affichage_deux_lignes,
@@ -807,7 +827,7 @@ gboolean recuperation_generalites_xml ( xmlNodePtr node_generalites )
 
 	    pointeur_char = g_strsplit ( xmlNodeGetContent ( node_generalites ),
 					 "-",
-					 3 );
+					 0 );
 
 	    lignes_affichage_trois_lignes = NULL;
 	    lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
@@ -832,7 +852,7 @@ gboolean recuperation_generalites_xml ( xmlNodePtr node_generalites )
 
 	    pointeur_char = g_strsplit ( xmlNodeGetContent ( node_generalites ),
 					 "-",
-					 NB_COLS_SCHEDULER );
+					 0 );
 
 	    for ( i=0 ; i<NB_COLS_SCHEDULER ; i++ )
 		scheduler_col_width[i] = my_atoi ( pointeur_char[i]);
@@ -869,7 +889,9 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 	    while ( node_generalites )
 	    {
-		/* recupère l'ordre des comptes */
+		/* get the order of the accounts before the 0.6.0,
+		 * after, the order is directly the order in the file */
+		/* 		it's not saved in that */
 
 		if ( !strcmp ( node_generalites -> name,
 			       "Ordre_des_comptes" ))
@@ -882,11 +904,11 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 						 0 );
 
 		    i = 0;
-		    ordre_comptes = NULL;
+		    sort_accounts = NULL;
 
 		    while ( pointeur_char[i] )
 		    {
-			ordre_comptes = g_slist_append ( ordre_comptes,
+			sort_accounts = g_slist_append ( sort_accounts,
 							 GINT_TO_POINTER ( my_atoi ( pointeur_char[i] )));
 			i++;
 		    }
@@ -898,7 +920,7 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 		if ( !strcmp ( node_generalites -> name,
 			       "Compte_courant" ))
 		{
-		    compte_courant = my_atoi ( xmlNodeGetContent ( node_generalites ));
+		    gsb_account_set_current_account ( my_atoi ( xmlNodeGetContent ( node_generalites )));
 		}
 
 		node_generalites = node_generalites -> next;
@@ -1020,7 +1042,7 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 				if ( xmlNodeGetContent ( node_detail ) &&
 				     strlen (xmlNodeGetContent (node_detail)) > 0 )
 				{
-				    pointeur_char = g_strsplit ( xmlNodeGetContent ( node_detail ), "/", 3 );
+				    pointeur_char = g_strsplit ( xmlNodeGetContent ( node_detail ), "/", 0 );
 				    gsb_account_set_current_reconcile_date ( no_compte,
 									     g_date_new_dmy ( my_atoi ( pointeur_char [0] ),
 											      my_atoi ( pointeur_char [1] ),
@@ -1117,6 +1139,30 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 					   "Classement_croissant" ))
 				gsb_account_set_sort_type ( no_compte,
 							    my_atoi ( xmlNodeGetContent ( node_detail )));
+
+			    if ( !strcmp ( node_detail -> name,
+					   "Classement_colonne" ))
+				gsb_account_set_sort_column ( no_compte,
+							      my_atoi ( xmlNodeGetContent ( node_detail )));
+
+			    if ( !strcmp ( node_detail -> name,
+					   "Classement_type_par_colonne" ))
+			    {
+				gint i;
+				gchar **pointeur_char;
+
+				pointeur_char = g_strsplit ( xmlNodeGetContent ( node_detail ),
+							     "-",
+							     0 );
+
+				for ( i=0 ; i<TRANSACTION_LIST_COL_NB ; i++ )
+				{
+				    gsb_account_set_column_sort ( no_compte,
+								  i,
+								  my_atoi ( pointeur_char[i] ));
+				}
+				g_strfreev ( pointeur_char );
+			    }
 
 			    /* récupération de l'agencement du formulaire */
 
@@ -1272,7 +1318,7 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 				 !strlen ( operation -> id_operation ))
 				operation -> id_operation = NULL;
 
-			    pointeur_char = g_strsplit ( xmlGetProp ( node_ope , "D" ), "/", 3 );
+			    pointeur_char = g_strsplit ( xmlGetProp ( node_ope , "D" ), "/", 0 );
 			    operation -> jour = my_atoi ( pointeur_char[0] );
 			    operation -> mois = my_atoi ( pointeur_char[1] );
 			    operation -> annee = my_atoi ( pointeur_char[2] );
@@ -1290,7 +1336,7 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 			    {
 				pointeur_char = g_strsplit ( pointeur,
 							     "/",
-							     3 );
+							     0 );
 				operation -> jour_bancaire = my_atoi ( pointeur_char[0] );
 				operation -> mois_bancaire = my_atoi ( pointeur_char[1] );
 				operation -> annee_bancaire = my_atoi ( pointeur_char[2] );
@@ -1428,8 +1474,6 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 	    /*       la selection au depart est en bas de la liste */
 
-	    gsb_account_set_adjustment_value ( no_compte,
-					       -1 );
 	    gsb_account_set_current_transaction ( no_compte,
 						  GINT_TO_POINTER (-1) );
 	}
@@ -1500,7 +1544,7 @@ gboolean recuperation_echeances_xml ( xmlNodePtr node_echeances )
 		    pointeur_char = g_strsplit ( xmlGetProp ( node_detail ,
 							      "Date" ),
 						 "/",
-						 3 );
+						 0 );
 		    operation_echeance -> jour = my_atoi ( pointeur_char[0] );
 		    operation_echeance -> mois = my_atoi ( pointeur_char[1] );
 		    operation_echeance -> annee = my_atoi ( pointeur_char[2] );
@@ -1574,7 +1618,7 @@ gboolean recuperation_echeances_xml ( xmlNodePtr node_echeances )
 			pointeur_char = g_strsplit ( xmlGetProp ( node_detail ,
 								  "Date_limite" ),
 						     "/",
-						     3 );
+						     0 );
 
 			operation_echeance -> jour_limite = my_atoi ( pointeur_char[0] );
 			operation_echeance -> mois_limite = my_atoi ( pointeur_char[1] );
@@ -2010,7 +2054,7 @@ gboolean recuperation_devises_xml ( xmlNodePtr node_devises )
 			pointeur_char = g_strsplit ( xmlGetProp ( node_detail,
 								  "Date_dernier_change" ),
 						     "/",
-						     3 );
+						     0 );
 
 			devise -> date_dernier_change = g_date_new_dmy ( my_atoi ( pointeur_char[0] ),
 									 my_atoi ( pointeur_char[1] ),
@@ -2217,7 +2261,7 @@ gboolean recuperation_exercices_xml ( xmlNodePtr node_exercices )
 			pointeur_char = g_strsplit ( xmlGetProp ( node_detail,
 								  "Date_debut" ),
 						     "/",
-						     3 );
+						     0 );
 
 			exercice -> date_debut = g_date_new_dmy ( my_atoi ( pointeur_char[0] ),
 								  my_atoi ( pointeur_char[1] ),
@@ -2235,7 +2279,7 @@ gboolean recuperation_exercices_xml ( xmlNodePtr node_exercices )
 			pointeur_char = g_strsplit ( xmlGetProp ( node_detail,
 								  "Date_fin" ),
 						     "/",
-						     3 );
+						     0 );
 
 			exercice -> date_fin = g_date_new_dmy ( my_atoi ( pointeur_char[0] ),
 								my_atoi ( pointeur_char[1] ),
@@ -2547,7 +2591,7 @@ gboolean recuperation_etats_xml ( xmlNodePtr node_etats )
 
 				    pointeur_char = g_strsplit ( xmlNodeGetContent ( node_detail_etat ),
 								 "/",
-								 3 );
+								 0 );
 
 				    etat -> date_perso_debut = g_date_new_dmy ( my_atoi ( pointeur_char[0] ),
 										my_atoi ( pointeur_char[1] ),
@@ -2563,7 +2607,7 @@ gboolean recuperation_etats_xml ( xmlNodePtr node_etats )
 
 				    pointeur_char = g_strsplit ( xmlNodeGetContent ( node_detail_etat ),
 								 "/",
-								 3 );
+								 0 );
 
 				    etat -> date_perso_fin = g_date_new_dmy ( my_atoi ( pointeur_char[0] ),
 									      my_atoi ( pointeur_char[1] ),
@@ -3104,8 +3148,8 @@ gboolean enregistre_fichier ( gchar *new_file )
 
     pointeur_char = NULL;
 
-    for ( i=0 ; i<4 ; i++ )
-	for ( j=0 ; j< 7 ; j++ )
+    for ( i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
+	for ( j=0 ; j< TRANSACTION_LIST_COL_NB ; j++ )
 	    if ( pointeur_char )
 		pointeur_char = g_strconcat ( pointeur_char,
 					      "-",
@@ -3124,7 +3168,7 @@ gboolean enregistre_fichier ( gchar *new_file )
 
     pointeur_char = NULL;
 
-    for ( i=0 ; i<7 ; i++ )
+    for ( i=0 ; i<TRANSACTION_LIST_COL_NB ; i++ )
 	if ( pointeur_char )
 	    pointeur_char = g_strconcat ( pointeur_char,
 					  "-",
@@ -3209,45 +3253,23 @@ gboolean enregistre_fichier ( gchar *new_file )
 			   "Generalites",
 			   NULL );
 
-    /* creation de l'ordre des comptes */
-
-    pointeur_liste = ordre_comptes;
-    pointeur_char = NULL;
-
-    do
-    {
-	if ( pointeur_char )
-	    pointeur_char = g_strconcat ( pointeur_char,
-					  "-",
-					  itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
-					  NULL );
-	else
-	    pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
-
-	pointeur_liste = pointeur_liste -> next;
-    }
-    while ( pointeur_liste );
-
-    xmlNewTextChild ( node_1,
-		      NULL,
-		      "Ordre_des_comptes",
-		      pointeur_char );
-
     xmlNewTextChild ( node_1,
 		      NULL,
 		      "Compte_courant",
-		      itoa ( compte_courant ) );
+		      itoa ( gsb_account_get_current_account () ) );
 
 
     /* mise en place des comptes 1 par 1 */
 
-    list_tmp = list_struct_accounts;
+    list_tmp = gsb_account_get_list_accounts ();
 
     while ( list_tmp )
     {
 	gint i;
 	xmlNodePtr node_compte;
 	gint k;
+	gint sort_column_id;
+	GtkSortType order;
 
 	i = gsb_account_get_no_account ( list_tmp -> data );
 
@@ -3434,10 +3456,40 @@ gboolean enregistre_fichier ( gchar *new_file )
 			  "Ordre_du_tri",
 			  pointeur_char );
 
+	gtk_tree_sortable_get_sort_column_id ( GTK_TREE_SORTABLE ( gtk_tree_view_get_model (gsb_account_get_tree_view ( i ))),
+					       &sort_column_id,
+					       &order );
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Classement_croissant",
-			  itoa ( gsb_account_get_sort_type (i) ));
+			  itoa ( order ));
+
+	xmlNewTextChild ( node_compte,
+			  NULL,
+			  "Classement_colonne",
+			  itoa ( sort_column_id ));
+
+	/* creation du type de classement par colonne */
+
+	pointeur_char = NULL;
+
+	for ( j=0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
+	{
+	    if ( pointeur_char )
+		pointeur_char = g_strconcat ( pointeur_char,
+					      "-",
+					      itoa ( gsb_account_get_column_sort ( i,
+										   j )),
+					      NULL );
+	    else
+		pointeur_char = itoa ( gsb_account_get_column_sort ( i,
+								     j ));
+	}
+
+	xmlNewTextChild ( node_compte,
+			  NULL,
+			  "Classement_type_par_colonne",
+			  pointeur_char );
 
 	/* 	on sauvegarde l'agencement du formulaire */
 

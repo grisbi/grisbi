@@ -12,18 +12,19 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 			     GdkEventFocus *ev,
 			     gint *no_origine );
 gboolean entree_prend_focus ( GtkWidget *entree );
-gboolean fin_edition ( void );
 void formulaire_a_zero (void);
+gboolean gsb_form_validate_transfer ( struct structure_operation *transaction,
+				      gint new_transaction,
+				      gchar *name_transfer_account );
 gboolean gsb_transactions_append_transaction ( struct structure_operation *transaction );
 gboolean gsb_transactions_list_append_new_transaction ( struct structure_operation *transaction );
 void place_type_formulaire ( gint no_type,
 			     gint no_option_menu,
 			     gchar *contenu );
+gint recherche_element_suivant_formulaire ( gint element_courant,
+					    gint sens_deplacement );
 void remplissage_formulaire ( gint no_compte );
 struct organisation_formulaire *renvoie_organisation_formulaire ( void );
-void validation_virement_operation ( struct structure_operation *transaction,
-				     gint modification,
-				     gchar *nom_compte_vire );
 void verification_bouton_change_devise ( void );
 GtkWidget *widget_formulaire_par_element ( gint no_element );
 /*END_DECLARATION*/

@@ -23,7 +23,6 @@
 #include "include.h"
 #include "operations_formulaire_constants.h"
 #include "echeancier_formulaire_constants.h"
-#include "ventilation_constants.h"
 #include "echeancier_ventilation_constants.h"
 
 
@@ -78,9 +77,7 @@ gint ligne_selection_exercice;
 /*START_EXTERN*/
 extern GtkWidget *fenetre_preferences;
 extern GtkWidget *formulaire;
-extern GSList *list_struct_accounts;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
-extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
 extern GtkWidget *widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_TOTAL_WIDGET];
 /*END_EXTERN*/
 
@@ -129,14 +126,6 @@ gboolean update_financial_year_menus ()
 /* 	gtk_option_menu_set_menu ( GTK_OPTION_MENU (widget_formulaire_operations[TRANSACTION_FORM_EXERCICE]), */
 /* 				   creation_menu_exercices (0) ); */
 /*     } */
-
-    if ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_EXERCICE] &&
-	 GTK_OPTION_MENU(widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_EXERCICE]) -> menu )
-    {
-	gtk_widget_destroy ( GTK_OPTION_MENU(widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_EXERCICE]) -> menu );
-	gtk_option_menu_set_menu ( GTK_OPTION_MENU (widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_EXERCICE]),
-				   creation_menu_exercices (0) );
-    }
 
     if ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] &&
 	 GTK_OPTION_MENU(widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE]) -> menu )
@@ -658,7 +647,7 @@ void association_automatique ( void )
     if ( resultat )
 	return;
 
-    list_tmp = list_struct_accounts;
+    list_tmp = gsb_account_get_list_accounts ();
 
     while ( list_tmp )
     {

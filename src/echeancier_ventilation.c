@@ -101,12 +101,10 @@ gint enregistre_ope_au_retour_echeances;            /* à 1 si au click du bouto
 
 /*START_EXTERN*/
 extern GtkWidget *barre_outils;
-extern gint compte_courant;
 extern GtkWidget *formulaire;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *frame_droite_bas;
-extern GSList *list_struct_accounts;
 extern GSList *liste_categories_ventilation_combofix;
 extern GSList *liste_imputations_combofix;
 extern GSList *liste_struct_echeances;
@@ -828,30 +826,15 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 			    /* recherche le no de compte du virement */
 
 			    gint compte_virement;
-			    GSList *list_tmp;
 
-			    compte_virement = -1;
-			    list_tmp = list_struct_accounts;
-
-			    while ( list_tmp )
-			    {
-				gint i;
-
-				i = gsb_account_get_no_account ( list_tmp -> data );
-
-				if ( !g_strcasecmp ( gsb_account_get_name (i),
-						     tableau_char[1] ) )
-				    compte_virement = i;
-
-				list_tmp = list_tmp -> next;
-			    }
+			    compte_virement = gsb_account_get_no_account_by_name ( tableau_char[1] );
 
 			    /* si on a touvé un compte de virement, que celui ci n'est pas le compte */
 			    /* courant et que son menu des types n'est pas encore affiché, on crée le menu */
 
 			    if ( compte_virement != -1
 				 &&
-				 compte_virement != compte_courant )
+				 compte_virement != gsb_account_get_current_account () )
 			    {
 				/* si le menu affiché est déjà celui du compte de virement, on n'y touche pas */
 
@@ -1624,23 +1607,7 @@ void fin_edition_ventilation_echeances ( void )
 	    {
 		if ( tableau_char[1] )
 		{
-		    GSList *list_tmp;
-
-		    compte_vire = -1;
-		    list_tmp = list_struct_accounts;
-
-		    while ( list_tmp )
-		    {
-			gint i;
-
-			i = gsb_account_get_no_account ( list_tmp -> data );
-
-			if ( !strcmp ( gsb_account_get_name (i),
-				       tableau_char[1] ) )
-			    compte_vire = i;
-
-			list_tmp = list_tmp -> next;
-		    }
+		    compte_vire = gsb_account_get_no_account_by_name ( tableau_char[1] );
 
 		    if ( compte_vire == -1 )
 		    {
@@ -2041,9 +2008,9 @@ void edition_operation_ventilation_echeances ( void )
 	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] ),
 				       menu );
 
-	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] ),
-					  cherche_no_menu_type_associe ( operation -> no_type_associe,
-									 1 ));
+/* 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] ), */
+/* 					  cherche_no_menu_type_associe ( operation -> no_type_associe, */
+/* 									 1 )); */
 	    gtk_widget_show ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] );
 
 	}

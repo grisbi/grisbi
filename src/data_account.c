@@ -42,21 +42,65 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gint gsb_account_get_sort_column ( gint no_account );
 static struct_account *gsb_account_get_structure ( gint no );
 static gint gsb_account_max_number ( void );
-static gboolean gsb_account_set_sort_column ( gint no_account,
-				       gint sort_column );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GSList *ordre_comptes;
 /*END_EXTERN*/
 
 
 
 /** contains a g_slist of struct_account */
-GSList *list_struct_accounts;
+static GSList *list_accounts;
+
+/** a pointer to the last account used (to increase the speed) */
+static struct_account *account_buffer;
+
+/** the number of the current account */
+static gint current_account;
+
+/** set the accounts global variables to NULL, usually when we init all the global variables
+ * \param none
+ * \return FALSE
+ * */
+gboolean gsb_account_init_variables ( void )
+{
+    account_buffer = NULL;
+    list_accounts = NULL;
+    current_account = 0;
+
+    return FALSE;
+}
+
+/**
+ * return a pointer on the g_slist of accounts
+ * carrefull : it's not a copy, so we must not free or change it
+ * if we want to change the list, use gsb_account_get_copy_list_accounts instead
+ * 
+ * \param none
+ * \return a g_slist on the accounts
+ * */
+GSList *gsb_account_get_list_accounts ( void )
+{
+    return list_accounts;
+}
+
+
+/**
+ * return a pointer on a copy g_slist of accounts
+ * that g_slist has to be freed with g_slist_free
+ * 
+ * \param none
+ * \return a copy of the g_slist on the accounts
+ * */
+GSList *gsb_account_get_copy_list_accounts ( void )
+{
+    return g_slist_copy (list_accounts);
+}
+
+
+
 
 
 /** create a new account and add to the list of accounts
@@ -83,8 +127,6 @@ gint gsb_account_new ( kind_account account_kind )
     account -> method_payment_list = gsb_payment_default_payment_list ();
     account -> sort_type = GTK_SORT_DESCENDING;
     
-    account -> transactions_adjustment_value = -1;
-
     /*     if it's the first account, we put default conf (R not displayed and 3 lines per transaction) */
     /*     else we keep the conf of the last account */
     /*     same for the form organization */
@@ -101,13 +143,8 @@ gint gsb_account_new ( kind_account account_kind )
 	account -> form_organization = gsb_form_dup_organization ( gsb_account_get_structure (gsb_account_max_number ()) -> form_organization );
     }
 
-    list_struct_accounts = g_slist_append ( list_struct_accounts,
+    list_accounts = g_slist_append ( list_accounts,
 					    account );
-
-    /* FIXME : à virer les ordre_comptes */
-
-    ordre_comptes = g_slist_append ( ordre_comptes,
-				     GINT_TO_POINTER (account -> account_number ));
 
     return account -> account_number;
 }
@@ -132,7 +169,7 @@ gboolean gsb_account_delete ( gint no_account )
     g_slist_free ( account -> transactions_list );
     g_slist_free ( account -> sort_list );
     
-    list_struct_accounts = g_slist_remove ( list_struct_accounts,
+    list_accounts = g_slist_remove ( list_accounts,
 					    account );
     free ( account );
 
@@ -147,10 +184,10 @@ gboolean gsb_account_delete ( gint no_account )
  * */
 gint gsb_account_get_accounts_amount ( void )
 {
-    if ( !list_struct_accounts )
+    if ( !list_accounts )
 	return 0;
 
-    return g_slist_length ( list_struct_accounts );
+    return g_slist_length ( list_accounts );
 }
 
 
@@ -164,7 +201,7 @@ gint gsb_account_max_number ( void )
     GSList *tmp;
     gint number_tmp = 0;
 
-    tmp = list_struct_accounts;
+    tmp = list_accounts;
     
     while ( tmp )
     {
@@ -189,12 +226,34 @@ gint gsb_account_first_number ( void )
 {
     struct_account *account;
 
-    if ( !list_struct_accounts )
+    if ( !list_accounts )
 	return -1;
 
-    account = list_struct_accounts -> data;
+    account = list_accounts -> data;
 
     return  account -> account_number;
+}
+
+
+/** give the number of the current account 
+ * \param none
+ * \return the number of the current account
+ * */
+gint gsb_account_get_current_account ( void )
+{
+    return  current_account;
+}
+
+
+/** set the number of the current account 
+ * \param none
+ * \return FALSE
+ * */
+gboolean gsb_account_set_current_account ( gint no_current_account )
+{
+    current_account = no_current_account;
+
+    return  FALSE;
 }
 
 
@@ -249,7 +308,14 @@ struct_account *gsb_account_get_structure ( gint no )
 {
     GSList *tmp;
 
-    tmp = list_struct_accounts;
+    /* before checking all the accounts, we check the buffer */
+
+    if ( account_buffer
+	 &&
+	 account_buffer -> account_number == no )
+	return account_buffer;
+
+    tmp = list_accounts;
     
     while ( tmp )
     {
@@ -464,6 +530,36 @@ gboolean gsb_account_set_name ( gint no_account,
     return TRUE;
 }
 
+
+/** find and return the number of account which
+ * have the name given in param
+ * \param account_name
+ * \return the number of account or -1
+ * */
+gint gsb_account_get_no_account_by_name ( gchar *account_name )
+{
+    GSList *list_tmp;
+
+    if ( !account_name )
+	return -1;
+
+    list_tmp = list_accounts;
+
+    while ( list_tmp )
+    {
+	struct_account *account;
+
+	account = list_tmp -> data;
+	
+	if ( !strcmp ( account -> account_name,
+		       account_name ))
+	    return account -> account_number;
+
+	list_tmp = list_tmp -> next;
+    }
+
+    return -1;
+}
 
 
 
@@ -775,44 +871,6 @@ gboolean gsb_account_set_store ( gint no_account,
 
 
 
-/** get the adjustment_value of the account
- * \param no_account no of the account
- * \return value or NULL if the account doesn't exist
- * */
-gdouble gsb_account_get_adjustment_value ( gint no_account )
-{
-    struct_account *account;
-
-    account = gsb_account_get_structure ( no_account );
-
-    if (!account )
-	return 0;
-
-    return account -> transactions_adjustment_value;
-}
-
-
-/** set the adjustment_value balance  of the account
- * \param no_account no of the account
- * \param value value to set
- * \return TRUE, ok ; FALSE, problem
- * */
-gboolean gsb_account_set_adjustment_value ( gint no_account,
-					    gdouble value )
-{
-    struct_account *account;
-
-    account = gsb_account_get_structure ( no_account );
-
-    if (!account )
-	return FALSE;
-
-    account -> transactions_adjustment_value = value;
-
-    return TRUE;
-}
-
-/* FIXME  : to remove and use gtk_tree_view_get_column instead */
 
 /** get the column of the account
  * \param no_account no of the account
@@ -1555,7 +1613,7 @@ gboolean gsb_account_set_reconcile_sort_type ( gint no_account,
 }
 
 
-/** get the sort_list  of the account
+/** get the sort_list of the account
  * \param no_account no of the account
  * \return the g_slist or NULL if the account doesn't exist
  * */
@@ -2168,3 +2226,51 @@ gboolean gsb_account_set_form_organization ( gint no_account,
     return TRUE;
 }
 
+
+/** set a new order in the list of accounts
+ * all the accounts which are not in the new order are appened at the end of the new list
+ * \param new_order a g_slist which contains the number of accounts in the new order
+ * \return FALSE
+ * */
+gboolean gsb_account_reorder ( GSList *new_order )
+{
+    GSList *last_list;
+    GSList *new_list_accounts;
+    GSList *list_tmp;
+
+    new_list_accounts = NULL;
+
+    while ( new_order )
+    {
+	new_list_accounts = g_slist_append ( new_list_accounts,
+					     gsb_account_get_structure ( GPOINTER_TO_INT ( new_order -> data )));
+	new_order = new_order -> next;
+    }
+					     
+    last_list = list_accounts;
+    list_accounts = new_list_accounts;
+    
+    /* now we go to check if all accounts are in the list and
+     * append the at the end */
+
+    list_tmp = last_list;
+
+    while ( list_tmp )
+    {
+	struct_account *account;
+	struct_account *check_account;
+
+	account = list_tmp -> data;
+	
+	check_account = gsb_account_get_structure ( account -> account_number );
+
+	if ( !check_account )
+	    list_accounts = g_slist_append ( list_accounts,
+					     account );
+
+	list_tmp = list_tmp -> next;
+    }
+
+    g_slist_free (last_list);
+    return TRUE;
+}

@@ -93,7 +93,6 @@ extern struct struct_etat_affichage gtktable_affichage ;
 extern struct struct_etat_affichage gtktable_affichage;
 extern struct struct_etat_affichage latex_affichage ;
 extern gint ligne_debut_partie;
-extern GSList *list_struct_accounts;
 extern GSList *liste_struct_exercices;
 extern gdouble montant_categ_etat;
 extern gdouble montant_compte_etat;
@@ -312,7 +311,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 	    dernier_pc = 0;
 	    dernier_no_rappr = 0;
 
-	    list_tmp = list_struct_accounts;
+	    list_tmp = gsb_account_get_list_accounts ();
 
 	    while ( list_tmp )
 	    {
@@ -389,7 +388,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
     }
 
 
-    list_tmp = list_struct_accounts;
+    list_tmp = gsb_account_get_list_accounts ();
 
     while ( list_tmp )
     {

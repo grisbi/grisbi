@@ -1,5 +1,3 @@
-/* Constantes qui dÃ©finisent le numÃ©ro associÃ© au paramÃštre
- * dans le formulaire */
 # define TRANSACTION_FORM_DATE 1
 # define TRANSACTION_FORM_DEBIT 2
 # define TRANSACTION_FORM_CREDIT 3
@@ -7,7 +5,7 @@
 # define TRANSACTION_FORM_EXERCICE 5
 # define TRANSACTION_FORM_PARTY 6
 # define TRANSACTION_FORM_CATEGORY 7
-# define TRANSACTION_FORM_BREAKDOWN 8
+# define TRANSACTION_FORM_FREE 8  /* free for the moment, to be fill with a new thing */
 # define TRANSACTION_FORM_BUDGET 9
 # define TRANSACTION_FORM_NOTES 10
 # define TRANSACTION_FORM_TYPE 11

@@ -33,7 +33,6 @@
 #include "utils_ib.h"
 #include "utils_str.h"
 #include "traitement_variables.h"
-#include "utils_comptes.h"
 #include "etats_onglet.h"
 #include "utils_tiers.h"
 #include "utils_files.h"
@@ -846,7 +845,7 @@ gint recupere_compte_par_nom_etat ( gchar *nom )
 {
     gint no_compte;
 
-    no_compte = no_compte_by_name ( nom );
+    no_compte = gsb_account_get_no_account_by_name ( nom );
 
     if ( no_compte == -1 )
     {

@@ -22,7 +22,6 @@
 
 #include "include.h"
 #include "echeancier_formulaire_constants.h"
-#include "ventilation_constants.h"
 #include "echeancier_ventilation_constants.h"
 #include "categories_onglet_constants.h"
 #include "operations_formulaire_constants.h"
@@ -90,18 +89,20 @@ extern MetatreeInterface * category_interface ;
 extern gchar *dernier_chemin_de_travail;
 extern struct struct_etat *etat_courant;
 extern GtkWidget *formulaire;
-extern GSList *list_struct_accounts;
 extern GSList *liste_categories_ventilation_combofix;
 extern GtkTreeStore *model;
 extern gint modif_categ;
 extern gint no_derniere_operation;
 extern GtkTreeSelection * selection;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
-extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
 extern GtkWidget *widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_TOTAL_WIDGET];
 extern GtkWidget *window;
 /*END_EXTERN*/
 
+
+
+
+	
 
 
 /**
@@ -655,7 +656,7 @@ void creation_liste_categ_combofix ( void )
     liste_categ_special = g_slist_append ( liste_categ_special,
 					   _("Transfer") );
 
-    list_tmp = list_struct_accounts;
+    list_tmp = gsb_account_get_list_accounts ();
 
     while ( list_tmp )
     {
@@ -702,10 +703,6 @@ void mise_a_jour_combofix_categ ( void )
     if ( GTK_IS_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ))
 	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ),
 				liste_categories_combofix, TRUE, TRUE );
-
-    if ( GTK_IS_COMBOFIX ( widget_formulaire_echeancier[TRANSACTION_BREAKDOWN_FORM_CATEGORY] ))
-	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CATEGORY] ),
-				liste_categories_ventilation_combofix, TRUE, TRUE );
 
     if ( GTK_IS_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ))
 	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ),

@@ -51,7 +51,6 @@
 #include "echeancier_liste.h"
 #include "utils_tiers.h"
 #include "utils_operations.h"
-#include "ventilation.h"
 #include "echeancier_ventilation.h"
 /*END_INCLUDE*/
 
@@ -97,7 +96,6 @@ extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *frame_etat_echeances_finies;
 extern GtkWidget *frame_formulaire_echeancier;
-extern GSList *list_struct_accounts;
 extern GSList *liste_categories_combofix;
 extern GSList *liste_imputations_combofix;
 extern GSList *liste_struct_devises;
@@ -1567,25 +1565,7 @@ void fin_edition_echeance ( void )
 
 	if ( tableau_char[1] )
 	{
-	    tableau_char[1] = g_strstrip ( tableau_char[1] );
-	    GSList *list_tmp;
-
-	    compte_virement = -1;
-
-	    list_tmp = list_struct_accounts;
-
-	    while ( list_tmp )
-	    {
-		gint i;
-
-		i = gsb_account_get_no_account ( list_tmp -> data );
-
-		if ( !g_strcasecmp ( gsb_account_get_name (i),
-				     tableau_char[1] ) )
-		    compte_virement = i;
-
-		list_tmp = list_tmp -> next;
-	    }
+	    compte_virement =  gsb_account_get_no_account_by_name ( tableau_char[1] );
 
 	    if ( compte_virement == -1 )
 	    {
@@ -1711,28 +1691,13 @@ void fin_edition_echeance ( void )
 		{
 		    /* c'est un virement, il n'y a donc aucune catégorie */
 
-		    GSList *list_tmp;
-
 		    echeance -> categorie = 0;
 		    echeance -> sous_categorie = 0;
 		    echeance -> operation_ventilee = 0;
 
 		    /* recherche le no de compte du virement */
 
-		    list_tmp = list_struct_accounts;
-
-		    while ( list_tmp )
-		    {
-			gint i;
-
-			i = gsb_account_get_no_account ( list_tmp -> data );
-
-			if ( !g_strcasecmp ( gsb_account_get_name (i),
-					     tableau_char[1] ) )
-			    echeance -> compte_virement = i;
-
-			list_tmp = list_tmp -> next;
-		    }
+		    echeance -> compte_virement = gsb_account_get_no_account_by_name ( tableau_char[1] );
 		}
 		else
 		{
@@ -2773,7 +2738,7 @@ void completion_operation_par_tiers_echeancier ( void )
 
 	GSList *list_tmp;
 
-	list_tmp = list_struct_accounts;
+	list_tmp = gsb_account_get_list_accounts ();
 
 	while ( list_tmp )
 	{

@@ -33,13 +33,13 @@
 /*START_INCLUDE*/
 #include "accueil.h"
 #include "utils_devises.h"
-#include "operations_comptes.h"
 #include "classement_echeances.h"
 #include "echeancier_liste.h"
 #include "dialog.h"
-#include "operations_liste.h"
 #include "echeancier_formulaire.h"
 #include "data_account.h"
+#include "operations_comptes.h"
+#include "operations_liste.h"
 #include "gtk_list_button.h"
 #include "utils_str.h"
 #include "utils.h"
@@ -101,10 +101,8 @@ extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *frame_formulaire_echeancier;
 extern GtkWidget *hbox_valider_annuler_echeance;
-extern GSList *list_struct_accounts;
 extern GSList *liste_struct_devises;
 extern GtkWidget *notebook_formulaire_echeances;
-extern GSList *ordre_comptes;
 extern gint patience_en_cours;
 extern GtkWidget *separateur_formulaire_echeancier;
 extern gchar *titre_fichier;
@@ -401,7 +399,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
     /* met le formulaire dans la boite de dialogue */
     width = frame_formulaire_echeancier -> allocation . width;
     if ( width <= 1 )
-        width = 639 ;
+	width = 639 ;
     gtk_widget_unrealize ( formulaire_echeancier );
     gtk_widget_reparent ( formulaire_echeancier, GTK_DIALOG ( dialog ) -> vbox );
     gtk_widget_set_usize ( GTK_WIDGET ( dialog ), width, FALSE );
@@ -425,8 +423,8 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 
     gtk_widget_reparent ( formulaire_echeancier, ancien_parent );
 
-/*     en remettant la fenetre, elle passe en onglet 2, après l'onglet du formulaire de */
-/* 	ventilation ... on la remet en 1 */
+    /*     en remettant la fenetre, elle passe en onglet 2, après l'onglet du formulaire de */
+    /* 	ventilation ... on la remet en 1 */
 
     gtk_notebook_reorder_child ( GTK_NOTEBOOK ( notebook_formulaire_echeances ),
 				 formulaire_echeancier,
@@ -434,8 +432,8 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_formulaire_echeances ),
 			    0 );
 
-/*     de plus, on a perdu le nom de l'étiquette, c'est inutilisé pour l'instant mais on */
-/* 	sait jamais... */
+    /*     de plus, on a perdu le nom de l'étiquette, c'est inutilisé pour l'instant mais on */
+    /* 	sait jamais... */
 
     gtk_notebook_set_tab_label ( GTK_NOTEBOOK ( notebook_formulaire_echeances ),
 				 formulaire_echeancier,
@@ -477,12 +475,12 @@ void update_liste_comptes_accueil ( void )
 {
     GtkWidget *pTable, *pEventBox, *pLabel, *vbox, *paddingbox;
     GdkColor CouleurSoldeAlarmeVerteNormal, CouleurSoldeAlarmeVertePrelight,
-    CouleurSoldeAlarmeOrangeNormal, CouleurSoldeAlarmeOrangePrelight,
-    CouleurSoldeAlarmeRougeNormal, CouleurSoldeAlarmeRougePrelight,
-    CouleurNomCompteNormal, CouleurNomComptePrelight;
+	     CouleurSoldeAlarmeOrangeNormal, CouleurSoldeAlarmeOrangePrelight,
+	     CouleurSoldeAlarmeRougeNormal, CouleurSoldeAlarmeRougePrelight,
+	     CouleurNomCompteNormal, CouleurNomComptePrelight;
     GtkStyle *pStyleLabelNomCompte, *pStyleLabelSoldeCourant, 
-    *pStyleLabelSoldePointe;
-    GSList *ordre_comptes_variable, *liste_operations_tmp, *devise;
+	     *pStyleLabelSoldePointe;
+    GSList *liste_operations_tmp, *devise;
     gdouble montant, solde_global_courant, solde_global_pointe;
     GList *children;
     gint i;
@@ -556,7 +554,7 @@ void update_liste_comptes_accueil ( void )
     /* Préparation de la séparation de l'affichage des comptes en fonction
        de leur type */
 
-    list_tmp = list_struct_accounts;
+    list_tmp = gsb_account_get_list_accounts ();
 
     while ( list_tmp )
     {
@@ -592,7 +590,7 @@ void update_liste_comptes_accueil ( void )
     {
 	int devise_is_used = 0;
 
-	list_tmp = list_struct_accounts;
+	list_tmp = gsb_account_get_list_accounts ();
 
 	while ( list_tmp )
 	{
@@ -632,18 +630,20 @@ void update_liste_comptes_accueil ( void )
 	gtk_widget_show ( pLabel );
 
 	/* Affichage des comptes et de leur solde */
-	ordre_comptes_variable = ordre_comptes;
 	i = 1;
 	solde_global_courant = 0 ;
 	solde_global_pointe = 0 ;
 
 	/* Pour chaque compte non cloturé (pour chaque ligne), */
 	/* créer toutes les colonnes et les remplir            */
-	do
+
+	list_tmp = gsb_account_get_list_accounts ();
+
+	while ( list_tmp )
 	{
 	    gint no_compte;
 
-	    no_compte = GPOINTER_TO_INT ( ordre_comptes_variable -> data );
+	    no_compte = gsb_account_get_no_account ( list_tmp -> data );
 
 	    if ( !gsb_account_get_closed_account (no_compte) &&
 		 gsb_account_get_currency (no_compte) == ((struct struct_devise *) devise -> data) -> no_devise
@@ -679,7 +679,7 @@ void update_liste_comptes_accueil ( void )
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
 					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
-					    ordre_comptes_variable->data );
+					    GINT_TO_POINTER (no_compte) );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   1, 2, i, i+1,
 				   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
@@ -726,8 +726,8 @@ void update_liste_comptes_accueil ( void )
 				     NULL );
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC ( changement_compte ),
-					    ordre_comptes_variable->data );
+					    GTK_SIGNAL_FUNC ( gsb_account_list_gui_change_current_account ),
+					    GINT_TO_POINTER (no_compte) );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   2, 3, i, i+1,
 				   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
@@ -788,8 +788,8 @@ void update_liste_comptes_accueil ( void )
 				     NULL );
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC ( changement_compte ),
-					    ordre_comptes_variable->data );
+					    GTK_SIGNAL_FUNC ( gsb_account_list_gui_change_current_account ),
+					    GINT_TO_POINTER (no_compte) );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   5, 6, i, i+1,
 				   GTK_FILL| GTK_SHRINK, GTK_FILL| GTK_SHRINK,
@@ -818,8 +818,8 @@ void update_liste_comptes_accueil ( void )
 		solde_global_pointe += gsb_account_get_marked_balance (no_compte) ;
 	    }
 	    i++;
+	    list_tmp = list_tmp -> next;
 	}
-	while ( ( ordre_comptes_variable = ordre_comptes_variable->next ) );
 
 	/* Création de la (nb_comptes + 2)ième ligne du tableau : vide */
 	pLabel = gtk_label_new ( "" );
@@ -886,7 +886,7 @@ void update_liste_comptes_accueil ( void )
 	int devise_is_used = 0;
 	GSList *list_tmp;
 
-	list_tmp = list_struct_accounts;
+	list_tmp = gsb_account_get_list_accounts ();
 
 	while ( list_tmp )
 	{
@@ -913,7 +913,7 @@ void update_liste_comptes_accueil ( void )
 								  ((struct struct_devise *) devise -> data) -> nom_devise ));
 	pTable = gtk_table_new ( nb_comptes_passif + 3, 8, FALSE );
 	gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
-	
+
 	/* Création et remplissage de la première ligne du tableau */
 	pLabel = gtk_label_new (_("Reconciled balance"));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_HORIZ_CENTER, MISC_VERT_CENTER );
@@ -925,18 +925,20 @@ void update_liste_comptes_accueil ( void )
 	gtk_widget_show ( pLabel );
 
 	/* Affichage des comptes et de leur solde */
-	ordre_comptes_variable = ordre_comptes;
 	i = 1;
 	solde_global_courant = 0 ;
 	solde_global_pointe = 0 ;
 
 	/* Pour chaque compte non cloturé (pour chaque ligne), */
 	/* créer toutes les colonnes et les remplir            */
-	do
+
+	list_tmp = gsb_account_get_list_accounts ();
+
+	while ( list_tmp )
 	{
 	    gint no_compte;
 
-	    no_compte = GPOINTER_TO_INT ( ordre_comptes_variable -> data );
+	    no_compte = gsb_account_get_no_account ( list_tmp -> data );
 
 	    if ( !gsb_account_get_closed_account (no_compte) &&
 		 gsb_account_get_currency (no_compte) == ((struct struct_devise *) devise -> data) -> no_devise &&
@@ -971,7 +973,7 @@ void update_liste_comptes_accueil ( void )
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
 					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
-					    GINT_TO_POINTER ( ordre_comptes_variable->data ) );
+					    GINT_TO_POINTER ( GINT_TO_POINTER (no_compte) ) );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   1, 2, i, i+1,
 				   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
@@ -1057,7 +1059,7 @@ void update_liste_comptes_accueil ( void )
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
 					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
-					    GINT_TO_POINTER ( ordre_comptes_variable->data ));
+					    GINT_TO_POINTER ( GINT_TO_POINTER (no_compte) ));
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   2, 3, i, i+1,
 				   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
@@ -1119,7 +1121,7 @@ void update_liste_comptes_accueil ( void )
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
 					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
-					    GINT_TO_POINTER ( ordre_comptes_variable->data ));
+					    GINT_TO_POINTER ( GINT_TO_POINTER (no_compte) ));
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   5, 6, i, i+1,
 				   GTK_FILL| GTK_SHRINK, GTK_FILL| GTK_SHRINK,
@@ -1148,8 +1150,8 @@ void update_liste_comptes_accueil ( void )
 		solde_global_pointe += gsb_account_get_marked_balance (no_compte) ;
 	    }
 	    i++;
+	    list_tmp = list_tmp -> next;
 	}
-	while ( ( ordre_comptes_variable = ordre_comptes_variable->next ) );
 
 	/* Création de la (nb_comptes + 2)ième ligne du tableau : vide */
 	pLabel = gtk_label_new ( "" );
@@ -1216,7 +1218,7 @@ void update_liste_comptes_accueil ( void )
 	int devise_is_used = 0;
 	GSList *list_tmp;
 
-	list_tmp = list_struct_accounts;
+	list_tmp = gsb_account_get_list_accounts ();
 
 	while ( list_tmp )
 	{
@@ -1256,18 +1258,20 @@ void update_liste_comptes_accueil ( void )
 	gtk_widget_show ( pLabel );
 
 	/* Affichage des comptes et de leur solde */
-	ordre_comptes_variable = ordre_comptes;
 	i = 1;
 	solde_global_courant = 0 ;
 	solde_global_pointe = 0 ;
 
 	/* Pour chaque compte non cloturé (pour chaque ligne), */
 	/* créer toutes les colonnes et les remplir            */
-	do
+
+	list_tmp = gsb_account_get_list_accounts ();
+
+	while ( list_tmp )
 	{
 	    gint no_compte;
 
-	    no_compte = GPOINTER_TO_INT ( ordre_comptes_variable -> data );
+	    no_compte = gsb_account_get_no_account ( list_tmp -> data );
 
 	    if ( !gsb_account_get_closed_account (no_compte) &&
 		 gsb_account_get_currency (no_compte) == ((struct struct_devise *) devise -> data) -> no_devise &&
@@ -1302,7 +1306,7 @@ void update_liste_comptes_accueil ( void )
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
 					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
-					    GINT_TO_POINTER ( ordre_comptes_variable->data ) );
+					    GINT_TO_POINTER ( GINT_TO_POINTER (no_compte) ) );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   1, 2, i, i+1,
 				   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
@@ -1388,7 +1392,7 @@ void update_liste_comptes_accueil ( void )
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
 					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
-					    GINT_TO_POINTER ( ordre_comptes_variable->data ));
+					    GINT_TO_POINTER ( GINT_TO_POINTER (no_compte) ));
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   2, 3, i, i+1,
 				   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
@@ -1450,7 +1454,7 @@ void update_liste_comptes_accueil ( void )
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
 					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
-					    GINT_TO_POINTER ( ordre_comptes_variable->data ));
+					    GINT_TO_POINTER ( GINT_TO_POINTER (no_compte) ));
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   5, 6, i, i+1,
 				   GTK_FILL| GTK_SHRINK, GTK_FILL| GTK_SHRINK,
@@ -1479,8 +1483,8 @@ void update_liste_comptes_accueil ( void )
 		solde_global_pointe += gsb_account_get_marked_balance (no_compte) ;
 	    }
 	    i++;
+	    list_tmp = list_tmp -> next;
 	}	
-	while ( ( ordre_comptes_variable = ordre_comptes_variable->next ) );
 
 	/* Création de la (nb_comptes + 2)ième ligne du tableau : vide */
 	pLabel = gtk_label_new ( "" );
@@ -1850,7 +1854,7 @@ void update_soldes_minimaux ( void )
     vbox_1 = NULL;
     vbox_2 = NULL;
 
-    list_tmp = list_struct_accounts;
+    list_tmp = gsb_account_get_list_accounts ();
 
     while ( list_tmp )
     {
@@ -1908,7 +1912,7 @@ void update_soldes_minimaux ( void )
 	list_tmp = list_tmp -> next;
     }
 
-    
+
     /*     on affiche une boite d'avertissement si nécessaire */
 
     affiche_dialogue_soldes_minimaux ();
@@ -1942,7 +1946,7 @@ void affiche_dialogue_soldes_minimaux ( void )
     liste_voulu = NULL;
     liste_autorise_et_voulu = NULL;
 
-    list_tmp = list_struct_accounts;
+    list_tmp = gsb_account_get_list_accounts ();
 
     while ( list_tmp )
     {
@@ -2007,7 +2011,7 @@ void affiche_dialogue_soldes_minimaux ( void )
 							      0 );
 	if ( solde_courant > solde_mini_voulu )
 	    gsb_account_set_mini_balance_wanted_message ( i,
-					  0 );
+							  0 );
 
 	list_tmp = list_tmp -> next;
     }
@@ -2015,7 +2019,7 @@ void affiche_dialogue_soldes_minimaux ( void )
     /*     on crée le texte récapilutatif */
 
     texte_affiche = "";
-    
+
     if ( liste_autorise_et_voulu )
     {
 	if ( g_slist_length ( liste_autorise_et_voulu ) == 1 )
@@ -2042,7 +2046,7 @@ void affiche_dialogue_soldes_minimaux ( void )
 	    texte_affiche = g_strconcat ( texte_affiche,
 					  "\n\n",
 					  NULL );
-	
+
 	if ( g_slist_length ( liste_autorise ) == 1 )
 	    texte_affiche = g_strconcat ( texte_affiche,
 					  g_strdup_printf ( _("balance of account %s is under authorised minimum!"),
@@ -2071,7 +2075,7 @@ void affiche_dialogue_soldes_minimaux ( void )
 	    texte_affiche = g_strconcat ( texte_affiche,
 					  "\n\n",
 					  NULL );
-	
+
 	if ( g_slist_length ( liste_voulu ) == 1 )
 	    texte_affiche = g_strconcat ( texte_affiche,
 					  g_strdup_printf ( _("balance of account %s is under wanted minimum!"),
@@ -2124,7 +2128,7 @@ void update_fin_comptes_passifs ( void )
     gtk_notebook_remove_page ( GTK_NOTEBOOK(frame_etat_fin_compte_passif), 0 );
     hide_paddingbox ( frame_etat_fin_compte_passif );
 
-    list_tmp = list_struct_accounts;
+    list_tmp = gsb_account_get_list_accounts ();
     liste_tmp = NULL;
 
     while ( list_tmp )
@@ -2169,8 +2173,8 @@ void update_fin_comptes_passifs ( void )
 gboolean select_expired_scheduled_transaction ( GtkWidget * event_box, GdkEventButton *event,
 						struct structure_operation * operation )
 {
-    changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
-    edition_operation ();
+    gsb_account_list_gui_change_current_account ( GINT_TO_POINTER ( operation -> no_compte ));
+    gsb_transactions_list_edit_current_transaction ();
     return ( FALSE );
 }
 

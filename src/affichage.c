@@ -79,7 +79,6 @@ extern gchar *adresse_commune;
 extern gchar *adresse_secondaire;
 extern GtkWidget *arbre_tiers;
 extern gchar *chemin_logo;
-extern gint compte_courant;
 extern GtkWidget *entree_adresse_commune;
 extern GtkWidget *entree_adresse_secondaire;
 extern GtkWidget *entree_titre_fichier;
@@ -88,7 +87,6 @@ extern GtkWidget *formulaire;
 extern gint hauteur_ligne_liste_opes;
 extern GtkWidget *hbox_valider_annuler_echeance;
 extern GtkWidget *label_titre_fichier;
-extern GSList *list_struct_accounts;
 extern GtkWidget *logo_accueil;
 extern GtkWidget *page_accueil;
 extern PangoFontDescription *pango_desc_fonte_liste;
@@ -655,7 +653,7 @@ void update_fonte_listes ( void )
 	/* 	fonte_desc = pango_font_description_copy ( arbre_tiers -> style -> font_desc ); */
 	fonte_desc = NULL;
 
-    list_tmp = list_struct_accounts;
+    list_tmp = gsb_account_get_list_accounts ();
 
     while ( list_tmp )
     {
@@ -672,7 +670,7 @@ void update_fonte_listes ( void )
 	    {
 		gtk_list_store_set ( GTK_LIST_STORE (gsb_account_get_store (i)),
 				     &iter,
-				     11, fonte_desc,
+				     TRANSACTION_COL_NB_FONT, fonte_desc,
 				     -1 );
 	    }
 	    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL (gsb_account_get_store (i)),
@@ -685,7 +683,7 @@ void update_fonte_listes ( void )
 
     update_ecran ();
     hauteur_ligne_liste_opes = 0;
-    gsb_transactions_list_move_to_current_transaction ( compte_courant );
+    gsb_transactions_list_move_to_current_transaction ( gsb_account_get_current_account () );
 
 }
 /* **************************************************************************************************************************** */

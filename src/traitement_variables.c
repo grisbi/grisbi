@@ -58,8 +58,6 @@ extern gint affichage_echeances;
 extern gint affichage_echeances_perso_j_m_a;
 extern gint affichage_echeances_perso_nb_libre;
 extern gchar *chemin_logo;
-extern GtkTreeViewColumn *colonnes_liste_ventils[3];
-extern gint compte_courant;
 extern struct struct_devise *devise_compte;
 extern struct struct_devise *devise_nulle;
 extern struct struct_devise *devise_operation;
@@ -69,7 +67,6 @@ extern GtkItemFactory *item_factory_menu_general;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
-extern GSList *list_struct_accounts;
 extern GtkWidget *liste_categ_etat;
 extern GSList *liste_struct_banques;
 extern GSList *liste_struct_categories;
@@ -107,11 +104,10 @@ extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern gchar *nom_fichier_backup;
 extern gchar *nom_fichier_comptes;
-extern GSList *ordre_comptes;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER] ;
 extern GtkWidget *solde_label;
 extern GtkWidget *solde_label_pointe;
-extern gint tab_affichage_ope[4][7];
+extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
 extern gchar *titre_fichier;
 extern GtkTooltips *tooltips_general_grisbi;
 extern gint valeur_echelle_recherche_date_import;
@@ -166,7 +162,7 @@ void init_variables ( void )
     if ( DEBUG )
 	printf ( "init_variables\n" );
 
-    list_struct_accounts = NULL;
+    gsb_account_init_variables ();
 
     mise_a_jour_liste_comptes_accueil = 0;
     mise_a_jour_liste_echeances_manuelles_accueil = 0;
@@ -180,8 +176,6 @@ void init_variables ( void )
     nom_fichier_comptes = NULL;
 
     no_derniere_operation = 0;
-    ordre_comptes = NULL;
-    compte_courant = 0;
     solde_label = NULL;
     solde_label_pointe = NULL;
 
@@ -247,9 +241,6 @@ void init_variables ( void )
     valeur_echelle_recherche_date_import = 2;
 
     tooltips_general_grisbi = NULL;
-
-    for ( i=0 ; i<3 ; i++ )
-	colonnes_liste_ventils[i] = NULL;
 
     /* 	on initialise la liste des labels des titres de colonnes */
 
@@ -408,7 +399,7 @@ void menus_sensitifs ( gboolean sensitif )
 /*****************************************************************************************************/
 void initialise_tab_affichage_ope ( void )
 {
-    gint tab[4][7] = {
+    gint tab[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB] = {
 	{ TRANSACTION_LIST_CHQ, TRANSACTION_LIST_DATE, TRANSACTION_LIST_PARTY, TRANSACTION_LIST_MARK, TRANSACTION_LIST_DEBIT, TRANSACTION_LIST_CREDIT, TRANSACTION_LIST_BALANCE },
 	{0, 0, TRANSACTION_LIST_CATEGORY, 0, TRANSACTION_LIST_TYPE, TRANSACTION_LIST_AMOUNT, 0 },
 	{0, 0, TRANSACTION_LIST_NOTES, 0, 0, 0, 0 },
@@ -416,7 +407,7 @@ void initialise_tab_affichage_ope ( void )
     };
     gint i, j;
 
-    for ( i = 0 ; i<4 ; i++ )
+    for ( i = 0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
 	for ( j = 0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
 	    tab_affichage_ope[i][j] = tab[i][j];
 
@@ -463,11 +454,17 @@ void init_default_sort_column ( gint no_account )
 		 tab_affichage_ope[i][j]
 		 &&
 		 tab_affichage_ope[i][j] != TRANSACTION_LIST_BALANCE )
-
 		gsb_account_set_column_sort ( no_account,
 					      j,
 					      tab_affichage_ope[i][j] );
 	}
+
+    /* the default sort is by date and ascending */
+
+    gsb_account_set_sort_type ( no_account,
+				GTK_SORT_ASCENDING );
+    gsb_account_set_sort_column ( no_account,
+				  TRANSACTION_COL_NB_DATE );
 }
 
 

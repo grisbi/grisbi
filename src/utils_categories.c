@@ -43,7 +43,6 @@ static void update_category_in_trees ( struct struct_categ * category,
 /*START_EXTERN*/
 extern GtkTreeStore * categ_tree_model;
 extern MetatreeInterface * category_interface ;
-extern GSList *list_struct_accounts;
 extern GSList *liste_struct_categories;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint nb_enregistrements_categories, no_derniere_categorie;
@@ -298,7 +297,7 @@ void calcule_total_montant_categ ( void )
     without_category -> type_categ = 0;
     without_category -> no_derniere_sous_categ = 0;
 
-    list_tmp = list_struct_accounts;
+    list_tmp = gsb_account_get_list_accounts ();
 
     while ( list_tmp )
     {

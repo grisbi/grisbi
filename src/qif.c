@@ -47,7 +47,6 @@ GSList *liste_entrees_exportation;
 
 
 /*START_EXTERN*/
-extern GSList *list_struct_accounts;
 extern GSList *liste_comptes_importes;
 extern GSList *liste_struct_categories;
 extern GSList *liste_struct_tiers;
@@ -950,7 +949,7 @@ void exporter_fichier_qif ( void )
 
     /* on met chaque compte dans la table */
 
-    list_tmp = list_struct_accounts;
+    list_tmp = gsb_account_get_list_accounts ();
 
     while ( list_tmp )
     {

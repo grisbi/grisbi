@@ -83,7 +83,6 @@ sources = \
 	tip.c			\
 	traitement_variables.c	\
 	type_operations.c	\
-	ventilation.c		\
 	utils.c			\
 	utils_buttons.c		\
 	utils_categories.c	\
@@ -175,7 +174,6 @@ grisbi_INCLUDES =		\
 	tiers_onglet.h		\
 	traitement_variables.h	\
 	type_operations.h	\
-	ventilation.h		\
 	utils.h			\
 	utils_c.h	\
 	utils_buttons.h		\

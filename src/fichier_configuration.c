@@ -67,7 +67,6 @@ gint compression_backup;
 PangoFontDescription *pango_desc_fonte_liste;
 
 /*START_EXTERN*/
-extern gint compte_courant;
 extern gint decalage_echeance;
 extern GtkWidget *formulaire;
 extern gint max;
@@ -76,7 +75,7 @@ extern GtkWidget *paned_onglet_comptes;
 extern GtkWidget *paned_onglet_echeancier;
 extern GtkWidget *paned_onglet_etats;
 extern GtkWidget *paned_onglet_operations;
-extern gint taille_largeur_colonnes[7];
+extern gint taille_largeur_colonnes[TRANSACTION_LIST_COL_NB];
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -678,8 +677,8 @@ void sauve_configuration(void)
     if ( gsb_account_get_accounts_amount () )
     {
     for ( i=0 ; i<TRANSACTION_LIST_COL_NB ; i++ )
-        if ( GTK_IS_TREE_VIEW_COLUMN ( gsb_account_get_column ( compte_courant, i)))
-         taille_largeur_colonnes[i] = gtk_tree_view_column_get_width ( gsb_account_get_column ( compte_courant, i));
+        if ( GTK_IS_TREE_VIEW_COLUMN ( gsb_account_get_column ( gsb_account_get_current_account (), i)))
+         taille_largeur_colonnes[i] = gtk_tree_view_column_get_width ( gsb_account_get_column ( gsb_account_get_current_account (), i));
     }
 
     /* creation de l'arbre xml en memoire */

@@ -44,6 +44,8 @@
 #include "utils_file_selection.h"
 #include "utils_files.h"
 #include "data_account.h"
+#include "operations_comptes.h"
+#include "comptes_onglet.h"
 #include "fichiers_gestion.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
@@ -51,8 +53,6 @@
 #include "categories_onglet.h"
 #include "tiers_onglet.h"
 #include "utils_operations.h"
-#include "operations_comptes.h"
-#include "comptes_onglet.h"
 #include "import_csv.h"
 #include "gnucash.h"
 #include "html.h"
@@ -110,9 +110,8 @@ enum import_type file_type;
 
 /*START_EXTERN*/
 extern gchar *dernier_chemin_de_travail;
-extern gchar *derniere_date;
 extern GtkWidget *formulaire;
-extern GSList *list_struct_accounts;
+extern gchar *last_date;
 extern GSList *liste_struct_devises;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_tiers_necessaire;
@@ -121,7 +120,6 @@ extern gint mise_a_jour_soldes_minimaux;
 extern GtkTreeStore *model;
 extern gint no_derniere_operation;
 extern GtkWidget *notebook_listes_operations;
-extern GSList *ordre_comptes;
 extern GtkTreeSelection * selection;
 extern GtkWidget *tree_view;
 extern GtkWidget *window;
@@ -619,7 +617,6 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
     GtkWidget *menu;
     GtkWidget *menu_item;
     gint no_compte_trouve;
-    GSList *ordre_comptes_variable;
 
 
     /* mise en place de la date si elle existe */
@@ -799,29 +796,35 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 
     if ( gsb_account_get_accounts_amount () )
     {
+	GSList *list_tmp;
+
 	menu = gtk_menu_new ();
 
-	ordre_comptes_variable = ordre_comptes;
+	list_tmp = gsb_account_get_list_accounts ();
 
-	do
+	while ( list_tmp )
 	{
-	    if ( !gsb_account_get_closed_account (GPOINTER_TO_INT ( ordre_comptes_variable -> data )) )
+	    gint i;
+
+	    i = gsb_account_get_no_account ( list_tmp -> data );
+
+	    if ( !gsb_account_get_closed_account (i))
 	    {
-		menu_item = gtk_menu_item_new_with_label ( gsb_account_get_name (GPOINTER_TO_INT ( ordre_comptes_variable -> data )) );
+		menu_item = gtk_menu_item_new_with_label ( gsb_account_get_name (i));
 		gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 				      "no_compte",
-				      ordre_comptes_variable -> data );
+				      GINT_TO_POINTER (i));
 
 		/* on recherche quel compte était noté dans le fichier  */
 		/* s'il y a une id, on la prend en priorité sur le nom */
 
 		if ( compte -> id_compte
 		     &&
-		     gsb_account_get_id (GPOINTER_TO_INT ( ordre_comptes_variable -> data ))
+		     gsb_account_get_id (i)
 		     &&
 		     !g_strcasecmp ( compte -> id_compte,
-				     gsb_account_get_id (GPOINTER_TO_INT ( ordre_comptes_variable -> data ))))
-		    no_compte_trouve = GPOINTER_TO_INT ( ordre_comptes_variable -> data );
+				     gsb_account_get_id (i)))
+		    no_compte_trouve = i;
 
 		/* on ne passe par cette étape que si le compte n'a pas déjà été trouvé avec l'id */
 
@@ -830,16 +833,16 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 		     compte -> nom_de_compte
 		     &&
 		     !g_strcasecmp ( compte -> nom_de_compte,
-				     gsb_account_get_name (GPOINTER_TO_INT ( ordre_comptes_variable -> data )) ))
-		    no_compte_trouve = GPOINTER_TO_INT ( ordre_comptes_variable -> data );
+				     gsb_account_get_name (i)))
+		    no_compte_trouve = i;
 
 
 		gtk_menu_append ( GTK_MENU ( menu ),
 				  menu_item );
 		gtk_widget_show ( menu_item );
 	    }
+	    list_tmp = list_tmp -> next;
 	}
-	while ( (  ordre_comptes_variable = ordre_comptes_variable -> next ) );
 
 	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( compte -> bouton_compte ),
 				   menu );
@@ -1026,7 +1029,7 @@ void traitement_operations_importees ( void )
 
 	GSList *list_tmp;
 
-	list_tmp = list_struct_accounts;
+	list_tmp = gsb_account_get_list_accounts ();
 
 	while ( list_tmp )
 	{
@@ -1052,8 +1055,8 @@ void traitement_operations_importees ( void )
 
 		/* 	on réaffiche la liste des comptes */
 
-		reaffiche_liste_comptes();
-		reaffiche_liste_comptes_onglet ();
+		gsb_account_list_gui_create_list();
+		gsb_account_page_create_accounts_list ();
 	    }
 	    
 	    if ( gsb_account_get_update_list(i) )
@@ -1116,7 +1119,7 @@ void cree_liens_virements_ope_import ( void )
 
     GSList *list_tmp;
 
-    list_tmp = list_struct_accounts;
+    list_tmp = gsb_account_get_list_accounts ();
 
     while ( list_tmp )
     {
@@ -1148,7 +1151,7 @@ void cree_liens_virements_ope_import ( void )
 
 		compte_trouve = -1;
 
-		list_tmp2 = list_struct_accounts;
+		list_tmp2 = gsb_account_get_list_accounts ();
 
 		while ( list_tmp2 )
 		{
@@ -1596,7 +1599,7 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 {
     GSList *liste_tmp;
-    GDate *derniere_date;
+    GDate *last_date;
     gint demande_confirmation;
     gint no_compte;
     
@@ -1649,7 +1652,7 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 
 
     liste_tmp = gsb_account_get_transactions_list (no_compte);
-    derniere_date = NULL;
+    last_date = NULL;
 
     while ( liste_tmp )
     {
@@ -1657,11 +1660,11 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 
 	operation = liste_tmp -> data;
 
-	if ( !derniere_date
+	if ( !last_date
 	     ||
 	     g_date_compare ( operation -> date,
-			      derniere_date ) > 0 )
-	    derniere_date = operation -> date;
+			      last_date ) > 0 )
+	    last_date = operation -> date;
 
 	liste_tmp = liste_tmp -> next;
     }
@@ -1678,7 +1681,7 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 	/* on ne fait le tour de la liste des opés que si la date de l'opé importée est inférieure à la dernière date */
 	/* de la liste */
 
-	if ( g_date_compare ( derniere_date,
+	if ( g_date_compare ( last_date,
 			      operation_import -> date ) >= 0 )
 	{
 	    /* 	    si l'opé d'import a une id, on recherche ça en priorité */
@@ -2751,7 +2754,7 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 	    mise_a_jour_liste_comptes_accueil = 1;
 	    mise_a_jour_soldes_minimaux = 1;
 
-	    reaffiche_liste_comptes_onglet ();
+	    gsb_account_page_create_accounts_list ();
 
 	    modification_fichier ( TRUE );
 

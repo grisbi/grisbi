@@ -25,12 +25,10 @@
 /*START_INCLUDE*/
 #include "fenetre_principale.h"
 #include "accueil.h"
-#include "operations_comptes.h"
 #include "operations_onglet.h"
 #include "comptes_onglet.h"
 #include "echeancier_onglet.h"
 #include "etats_onglet.h"
-#include "data_account.h"
 #include "main.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
@@ -51,7 +49,6 @@ GtkWidget *page_accueil;
 
 
 GtkWidget *notebook_comptes_equilibrage;
-GtkWidget *notebook_formulaire;
 
 gint modif_tiers;
 gint modif_categ;
@@ -61,13 +58,10 @@ gint modif_imputation;
 /*START_EXTERN*/
 extern GtkTreeStore *budgetary_line_tree_model;
 extern GtkTreeStore * categ_tree_model;
-extern gint compte_courant;
 extern AB_BANKING *gbanking;
 extern gint id_temps;
 extern GtkWidget *label_temps;
 extern GtkTreeStore *payee_tree_model;
-extern gchar *tips_col_liste_operations[7];
-extern GtkTooltips *tooltips_general_grisbi;
 /*END_EXTERN*/
 
 #ifdef HAVE_G2BANKING
@@ -225,28 +219,6 @@ gboolean change_page_notebook ( GtkNotebook *notebook,
 	    /* 	    on passe sur l'accueil, on met à jour les parties nécessaires */
 
 	    mise_a_jour_accueil ();
-	    break;
-
-	case 1:
-	    /* 	    si on va sur l'onglet opérations et que la liste n'est pas déjà remplis, on la rempli */
-	    /* 		et on met la value à -2 pour dire à la fonction que c'est la 1-re fois */
-	    /* et dans ce cas, aussi, on remplit les tips de la liste maintenant qu'elle est créé */
-	    /* 	    on appelle changement_compte avec -1 pour qu'il se mette sur compte_courant et qu'il */
-	    /* 		l'affiche (sinon il ne fait rien car déjà sur compte_courant */
-
-	    if ( gsb_account_get_adjustment_value (compte_courant) == -1 )
-	    {
-		gint i;
-
-		changement_compte ( GINT_TO_POINTER ( -1 ));
-
-		for ( i=0 ; i<7 ; i++ )
-		    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
-					   GTK_TREE_VIEW_COLUMN ( gsb_account_get_column ( compte_courant, i) )->button,
-					   tips_col_liste_operations[i],
-					   tips_col_liste_operations[i] ); 
-	    }
-
 	    break;
 
 	    /*   pour les listes, si aucune ligne n'est affichée ( c'est le cas au départ ), */

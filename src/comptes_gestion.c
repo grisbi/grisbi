@@ -36,12 +36,12 @@
 #include "dialog.h"
 #include "operations_formulaire.h"
 #include "data_account.h"
+#include "operations_comptes.h"
+#include "comptes_onglet.h"
 #include "categories_onglet.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "utils.h"
-#include "operations_comptes.h"
-#include "comptes_onglet.h"
 #include "etats_config.h"
 #include "echeancier_liste.h"
 #include "operations_liste.h"
@@ -82,7 +82,6 @@ extern GtkWidget *adr_banque;
 extern GtkWidget *code_banque;
 extern gint compte_courant_onglet;
 extern struct struct_devise *devise_compte;
-extern GSList *list_struct_accounts;
 extern GSList *liste_struct_banques;
 extern GSList *liste_struct_devises;
 extern gint mise_a_jour_combofix_categ_necessaire;
@@ -899,7 +898,7 @@ void modification_details_compte ( void )
 
     GSList *list_tmp;
 
-    list_tmp = list_struct_accounts;
+    list_tmp = gsb_account_get_list_accounts ();
 
     while ( list_tmp )
     {
@@ -1075,7 +1074,7 @@ void modification_details_compte ( void )
 					 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( detail_compte_cloture )));
 	if ( mise_a_jour_combofix_categ_necessaire )
 	    mise_a_jour_combofix_categ();
-	reaffiche_liste_comptes ();
+	gsb_account_list_gui_create_list ();
 	mise_a_jour_liste_comptes_accueil = 1;
 
 	/* Replace trees contents. */
@@ -1174,8 +1173,8 @@ void modification_details_compte ( void )
 	gsb_account_set_name ( compte_courant_onglet,
 			       g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte )))) );
 
-	reaffiche_liste_comptes ();
-	reaffiche_liste_comptes_onglet ();
+	gsb_account_list_gui_create_list ();
+	gsb_account_page_create_accounts_list ();
 	mise_a_jour_liste_comptes_accueil = 1;
 	remplissage_liste_echeance ();
 	mise_a_jour_liste_echeances_manuelles_accueil = 1;

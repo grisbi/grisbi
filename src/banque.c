@@ -87,7 +87,6 @@ extern gint compte_courant_onglet;
 extern GtkWidget *detail_option_menu_banque;
 extern GtkWidget *fenetre_preferences;
 extern GtkWidget *hbox_boutons_modif;
-extern GSList *list_struct_accounts;
 extern GtkTreeSelection * selection;
 extern GtkWidget *window;
 /*END_EXTERN*/
@@ -227,7 +226,7 @@ void supprime_banque ( GtkWidget *bouton,
 
     bank_nb_to_remove = banque -> no_banque;
 
-    list_tmp = list_struct_accounts;
+    list_tmp = gsb_account_get_list_accounts ();
 
     while ( list_tmp )
     {
@@ -255,7 +254,7 @@ void supprime_banque ( GtkWidget *bouton,
 	/* La suppression de la banque est confirmée, On fait le tour des
 	   comptes pour en modifier le numéro de banque associée */
 
-	list_tmp = list_struct_accounts;
+	list_tmp = gsb_account_get_list_accounts ();
 
 	while ( list_tmp )
 	{

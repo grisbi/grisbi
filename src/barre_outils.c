@@ -51,7 +51,6 @@
 #include "barre_outils.h"
 #include "echeancier_liste.h"
 #include "operations_liste.h"
-#include "ventilation.h"
 #include "operations_formulaire.h"
 #include "echeancier_formulaire.h"
 #include "data_account.h"
@@ -90,13 +89,10 @@ GtkWidget *fleche_bas;
 
 /*START_EXTERN*/
 extern gboolean block_menu_cb ;
-extern gint compte_courant;
 extern GtkWidget *formulaire;
 extern GtkItemFactory *item_factory_menu_general;
-extern GSList *list_struct_accounts;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *tree_view_liste_echeances;
-extern GtkWidget *tree_view_liste_ventilations;
 /*END_EXTERN*/
 
 
@@ -454,16 +450,12 @@ gboolean change_aspect_liste ( gint demande )
 	    {
 		/* 		on affiche les grilles */
 
-		g_signal_connect_after ( G_OBJECT ( tree_view_liste_ventilations ),
-					 "expose-event",
-					 G_CALLBACK ( affichage_traits_liste_ventilation ),
-					 NULL );
 		g_signal_connect_after ( G_OBJECT ( tree_view_liste_echeances ),
 					 "expose-event",
 					 G_CALLBACK ( affichage_traits_liste_echeances ),
 					 NULL );
 
-		list_tmp = list_struct_accounts;
+		list_tmp = gsb_account_get_list_accounts ();
 
 		while ( list_tmp )
 		{
@@ -481,15 +473,13 @@ gboolean change_aspect_liste ( gint demande )
 	    }
 	    else
 	    {
-		g_signal_handlers_disconnect_by_func ( G_OBJECT ( tree_view_liste_ventilations ),
-						       G_CALLBACK ( affichage_traits_liste_ventilation ),
-						       NULL );
+		GSList *list_tmp;
+
 		g_signal_handlers_disconnect_by_func ( G_OBJECT ( tree_view_liste_echeances ),
 						       G_CALLBACK ( affichage_traits_liste_echeances ),
 						       NULL );
-		GSList *list_tmp;
 
-		list_tmp = list_struct_accounts;
+		list_tmp = gsb_account_get_list_accounts ();
 
 		while ( list_tmp )
 		{
@@ -504,7 +494,7 @@ gboolean change_aspect_liste ( gint demande )
 		    list_tmp = list_tmp -> next;
 		}
 	    }
-	    gtk_widget_queue_draw ( gsb_account_get_tree_view (compte_courant) );
+	    gtk_widget_queue_draw ( gsb_account_get_tree_view (gsb_account_get_current_account ()) );
 	    gtk_widget_queue_draw ( tree_view_liste_echeances );
 
 	    block_menu_cb = TRUE;

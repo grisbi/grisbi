@@ -38,7 +38,6 @@ static void reset_budgetary_line_counters ();
 
 
 /*START_EXTERN*/
-extern GSList *list_struct_accounts;
 extern GSList *liste_struct_imputation;
 extern gint mise_a_jour_combofix_imputation_necessaire;
 extern gint nb_enregistrements_imputations;
@@ -293,7 +292,7 @@ void calcule_total_montant_budgetary_line ( void )
     without_budgetary_line -> type_imputation = 0;
     without_budgetary_line -> no_derniere_sous_imputation = 0;
 
-    list_tmp = list_struct_accounts;
+    list_tmp = gsb_account_get_list_accounts ();
 
     while ( list_tmp )
     {

@@ -25,17 +25,15 @@
 
 /*START_INCLUDE*/
 #include "comptes_onglet.h"
-#include "operations_comptes.h"
 #include "comptes_gestion.h"
 #include "comptes_traitements.h"
 #include "data_account.h"
+#include "operations_comptes.h"
 #include "gtk_list_button.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void changement_compte_onglet ( GtkWidget *bouton,
-				gint compte );
-static GtkWidget *comptes_appel_onglet ( gint no_de_compte );
+static void changement_compte_onglet ( gint *compte );
 static GtkWidget *creation_liste_comptes_onglet ( void );
 /*END_STATIC*/
 
@@ -49,7 +47,6 @@ GtkWidget *vbox_liste_comptes_onglet;
 
 
 /*START_EXTERN*/
-extern GSList *ordre_comptes;
 /*END_EXTERN*/
 
 
@@ -64,7 +61,7 @@ GtkWidget *creation_onglet_comptes ( void )
 	etat.largeur_colonne_comptes_comptes = 200;
 
     gtk_paned_set_position ( GTK_PANED(paned_onglet_comptes), etat.largeur_colonne_comptes_comptes );
-    gtk_container_set_border_width ( GTK_CONTAINER ( paned_onglet_comptes ), 0 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( paned_onglet_comptes ), 10 );
     gtk_widget_show ( paned_onglet_comptes );
 
 
@@ -92,7 +89,7 @@ GtkWidget *creation_onglet_comptes ( void )
 	0 */
 
     compte_courant_onglet = 0;
-    reaffiche_liste_comptes_onglet ();
+    gsb_account_page_create_accounts_list ();
     remplissage_details_compte ();
 
     return ( paned_onglet_comptes );
@@ -105,7 +102,7 @@ GtkWidget *creation_liste_comptes_onglet ( void )
 {
     GtkWidget *onglet;
     GtkWidget *frame;
-    GtkWidget *bouton;
+    GtkWidget *button;
     GtkWidget *vbox_frame;
     GtkWidget *scrolled_window;
 
@@ -160,7 +157,7 @@ GtkWidget *creation_liste_comptes_onglet ( void )
     gtk_widget_show ( vbox_liste_comptes_onglet );
 
 
-    /* ajoute les boutons nouveau et supprimer */
+    /* ajoute les buttons nouveau et supprimer */
     /* les 2 seront intégrés dans une frame */
 
     frame = gtk_frame_new ( NULL );
@@ -173,17 +170,17 @@ GtkWidget *creation_liste_comptes_onglet ( void )
     gtk_container_add ( GTK_CONTAINER  ( frame ), vbox_frame );
     gtk_widget_show ( vbox_frame );
 
-    /* mise en place des boutons du bas */
+    /* mise en place des buttons du bas */
 
-    bouton = gtk_button_new_with_label ( _("New account") );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton ), GTK_RELIEF_NONE);
-    gtk_box_pack_start ( GTK_BOX ( vbox_frame ), bouton, FALSE, TRUE, 0);
-    gtk_signal_connect ( GTK_OBJECT (bouton), "clicked",
+    button = gtk_button_new_with_label ( _("New account") );
+    gtk_button_set_relief ( GTK_BUTTON ( button ), GTK_RELIEF_NONE);
+    gtk_box_pack_start ( GTK_BOX ( vbox_frame ), button, FALSE, TRUE, 0);
+    gtk_signal_connect ( GTK_OBJECT (button), "clicked",
 			 GTK_SIGNAL_FUNC ( new_account ), NULL );
-    gtk_widget_show ( bouton );
+    gtk_widget_show ( button );
 
 
-    /* mise en place du bouton "supprimer un compte" */
+    /* mise en place du button "supprimer un compte" */
 
     bouton_supprimer_compte = gtk_button_new_with_label ( _("Remove an account") );
     gtk_button_set_relief ( GTK_BUTTON ( bouton_supprimer_compte ), GTK_RELIEF_NONE);
@@ -202,43 +199,18 @@ GtkWidget *creation_liste_comptes_onglet ( void )
 
 
 
-/* ********************************************************************************************************** */
-/** Fonction qui renvoie un widget contenant un bouton **/
-/** de compte associé à son nom **/
-/* ********************************************************************************************************** */
-
-GtkWidget *comptes_appel_onglet ( gint no_de_compte )
-{
-    GtkWidget *bouton;
-
-    bouton = gtk_list_button_new ( gsb_account_get_name (no_de_compte), 1, TRUE, GINT_TO_POINTER (no_de_compte));
-    gtk_signal_connect ( GTK_OBJECT (bouton),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( changement_compte_onglet ),
-			 GINT_TO_POINTER ( no_de_compte ) );
-    g_signal_connect ( G_OBJECT ( bouton ),
-		       "reordered",
-		       G_CALLBACK ( changement_ordre_liste_comptes ),
-		       NULL );
-
-    return ( bouton );
-}
-/* ********************************************************************************************************** */
-
-
 
 /* ********************************************************************************************************** */
-void changement_compte_onglet ( GtkWidget *bouton,
-				gint compte )
+void changement_compte_onglet ( gint *compte )
 {
     /* demande si nécessaire si on enregistre */
     sort_du_detail_compte ();
 
     /* change le nom du compte courant */
     gtk_label_set_text ( GTK_LABEL ( label_compte_courant_onglet),
-			 gsb_account_get_name (compte));
+			 gsb_account_get_name (GPOINTER_TO_INT (compte)));
 
-    compte_courant_onglet = compte;
+    compte_courant_onglet = GPOINTER_TO_INT (compte);
 
     remplissage_details_compte ();
 }
@@ -246,50 +218,57 @@ void changement_compte_onglet ( GtkWidget *bouton,
 
 
 
-/* *********************************************************************************************************** */
-/*   on réaffiche la liste des comptes s'il y a eu un changement */
-/* *********************************************************************************************************** */
+/** erase and create the clickable list of accounts, on the left of the accounts page
+ * \param none
+ * \return FALSE;
+ * */
 
-void reaffiche_liste_comptes_onglet ( void )
+gboolean gsb_account_page_create_accounts_list ( void )
 {
-    GSList *ordre_comptes_variable;
-    GtkWidget *bouton;
+    GSList *list_tmp;
 
-    /* commence par effacer tous les comptes */
+    if ( DEBUG )
+	printf ( "gsb_account_page_create_accounts_list\n" );
+
+    /*     erase the normal accounts */
 
     while ( GTK_BOX ( vbox_liste_comptes_onglet ) -> children )
 	gtk_container_remove ( GTK_CONTAINER ( vbox_liste_comptes_onglet ),
 			       (( GtkBoxChild *) ( GTK_BOX ( vbox_liste_comptes_onglet ) -> children -> data )) -> widget );
 
+    /* create the list : a button and an icon for each account */
 
-    /*  Création d'une icone et du nom par compte, et placement dans la liste selon l'ordre désiré  */
+    list_tmp = gsb_account_get_list_accounts ();
 
-    if ( gsb_account_get_accounts_amount () )
+    while ( list_tmp )
     {
-	ordre_comptes_variable = ordre_comptes;
+	GtkWidget *button;
+	gint i;
 
-	do
+	i = gsb_account_get_no_account ( list_tmp -> data );
+
+	button = gsb_account_list_gui_create_account_button (i,
+							     2,
+							     G_CALLBACK ( changement_compte_onglet ));
+	gtk_box_pack_start (GTK_BOX (vbox_liste_comptes_onglet), button, FALSE, FALSE, 0);
+	gtk_widget_show (button);
+
+	/* 	    si c'est le compte courant, on ouvre le livre */
+
+	if ( i == compte_courant_onglet )
 	{
-	    bouton = comptes_appel_onglet ( GPOINTER_TO_INT ( ordre_comptes_variable->data ));
-	    gtk_box_pack_start (GTK_BOX (vbox_liste_comptes_onglet), bouton, FALSE, FALSE, 0);
-	    gtk_widget_show_all (bouton);
-
-	    /* 	    si c'est le compte courant, on ouvre le livre */
-
-	    if (  GPOINTER_TO_INT ( ordre_comptes_variable->data ) == compte_courant_onglet )
-	    {
-		gtk_list_button_clicked ( GTK_BUTTON ( bouton ));
-
-		/* change le nom du compte courant */
-		gtk_label_set_text ( GTK_LABEL ( label_compte_courant_onglet ), gsb_account_get_name (compte_courant_onglet));
-	    }
+	    gtk_list_button_clicked ( GTK_BUTTON ( button ));
+	    gtk_label_set_text ( GTK_LABEL ( label_compte_courant_onglet),
+				 gsb_account_get_name (i));
 	}
-	while ( (  ordre_comptes_variable = ordre_comptes_variable->next ) );
-    }
-    remplissage_details_compte ();
-}
-/* *********************************************************************************************************** */
 
+	list_tmp = list_tmp -> next;
+    }
+    return FALSE;
+}
+
+
+    
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

@@ -31,7 +31,6 @@
 
 /*START_INCLUDE*/
 #include "comptes_traitements.h"
-#include "operations_comptes.h"
 #include "type_operations.h"
 #include "operations_liste.h"
 #include "comptes_gestion.h"
@@ -40,12 +39,13 @@
 #include "utils_echeances.h"
 #include "fichiers_gestion.h"
 #include "data_account.h"
+#include "operations_comptes.h"
+#include "comptes_onglet.h"
 #include "main.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
-#include "comptes_onglet.h"
 #include "utils_comptes.h"
 #include "etats_config.h"
 #include "echeancier_liste.h"
@@ -60,10 +60,8 @@
 
 /*START_EXTERN*/
 extern GtkWidget *bouton_supprimer_compte;
-extern gint compte_courant;
 extern gint compte_courant_onglet;
 extern struct operation_echeance *echeance_selectionnnee;
-extern GSList *list_struct_accounts;
 extern GSList *liste_struct_echeances;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
@@ -75,7 +73,6 @@ extern gint mise_a_jour_soldes_minimaux;
 extern gint nb_echeances;
 extern GtkWidget *notebook_general;
 extern GtkWidget *notebook_listes_operations;
-extern GSList *ordre_comptes;
 extern GtkStyle *style_entree_formulaire[2];
 extern GtkWidget *tree_view;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
@@ -138,8 +135,8 @@ gboolean new_account ( void )
 
     /* update the accounts lists */
 
-    reaffiche_liste_comptes ();
-    reaffiche_liste_comptes_onglet ();
+    gsb_account_list_gui_create_list ();
+    gsb_account_page_create_accounts_list ();
 
     compte_courant_onglet = no_compte;
 
@@ -215,18 +212,13 @@ gboolean delete_account ( void )
     }
 
 
-    /* delete the account in the accounts order */
-
-    ordre_comptes = g_slist_remove ( ordre_comptes,
-				     GINT_TO_POINTER ( deleted_account ));
-
     /*     delete the account */
 
     gsb_account_delete ( deleted_account );
 
     /*     check all the transactions, and put -1 if it's a transfer to the deleted account */
 
-    list_tmp = list_struct_accounts;
+    list_tmp = gsb_account_get_list_accounts ();
 
     while ( list_tmp )
     {
@@ -254,17 +246,17 @@ gboolean delete_account ( void )
 	list_tmp = list_tmp -> next;
     }
 
-    /* check compte_courant and compte_courant_onglet and put them
+    /* check gsb_account_get_current_account () and gsb_account_get_current_account ()_onglet and put them
      * on the first account if they are on the deleted account */
 
 
-    if ( compte_courant == deleted_account )
+    if ( gsb_account_get_current_account () == deleted_account )
     {
 	/* update the transaction list */
 
 	page_number = gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook_general));
 
-	changement_compte ( GINT_TO_POINTER ( gsb_account_first_number () ));
+	gsb_account_list_gui_change_current_account ( GINT_TO_POINTER ( gsb_account_first_number () ));
 
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), page_number );
     }
@@ -274,8 +266,8 @@ gboolean delete_account ( void )
 
     /* update the buttons lists */
 
-    reaffiche_liste_comptes();
-    reaffiche_liste_comptes_onglet ();
+    gsb_account_list_gui_create_list();
+    gsb_account_page_create_accounts_list ();
 
     /* update the combofixes if needed */
 
@@ -327,36 +319,40 @@ GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func,
 {
     GtkWidget *menu;
     GtkWidget *item;
-    GSList *ordre_comptes_variable;
+    GSList *list_tmp;
 
     menu = gtk_menu_new ();
 
-    ordre_comptes_variable = ordre_comptes;
+    list_tmp = gsb_account_get_list_accounts ();
 
-    do
+    while ( list_tmp )
     {
-	if ( !gsb_account_get_closed_account (GPOINTER_TO_INT ( ordre_comptes_variable -> data ))
+	gint i;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
+
+	if ( !gsb_account_get_closed_account (i)
 	     ||
 	     include_closed )
 	{
-	    item = gtk_menu_item_new_with_label ( gsb_account_get_name (GPOINTER_TO_INT ( ordre_comptes_variable -> data )) );
+	    item = gtk_menu_item_new_with_label ( gsb_account_get_name (i));
 	    gtk_object_set_data ( GTK_OBJECT ( item ),
 				  "no_compte",
-				  ordre_comptes_variable -> data);
+				  GINT_TO_POINTER (i));
 	    if ( func )
 		gtk_signal_connect ( GTK_OBJECT ( item ), "activate", GTK_SIGNAL_FUNC(func), NULL );
 	    gtk_menu_append ( GTK_MENU ( menu ), item );
 
 	    if ( !activate_currrent && 
-		 compte_courant == GPOINTER_TO_INT ( ordre_comptes_variable -> data ))
+		 gsb_account_get_current_account () == i)
 	    {
 		gtk_widget_set_sensitive ( item, FALSE );
 	    }      
 
 	    gtk_widget_show ( item );
 	}
+	list_tmp = list_tmp -> next;
     }
-    while ( (  ordre_comptes_variable = ordre_comptes_variable -> next ) );
 
     return ( menu );
 }

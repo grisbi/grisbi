@@ -34,8 +34,8 @@
 #include "exercice.h"
 #include "type_operations.h"
 #include "utils_devises.h"
-#include "utils_montants.h"
 #include "utils_editables.h"
+#include "utils_montants.h"
 #include "utils_categories.h"
 #include "operations_liste.h"
 #include "devises.h"
@@ -60,7 +60,6 @@
 #include "utils_tiers.h"
 #include "utils_types.h"
 #include "utils.h"
-#include "ventilation.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -69,18 +68,21 @@ static gboolean completion_operation_par_tiers ( GtkWidget *entree );
 static GtkWidget *creation_boutons_formulaire ( void );
 static GtkWidget *cree_element_formulaire_par_no ( gint no_element );
 static gboolean element_focusable ( gint no_element );
-static void modifie_operation ( struct structure_operation *transaction );
-static struct structure_operation *recherche_derniere_occurence_tiers ( gint no_tiers );
-static gint recherche_element_suivant_formulaire ( gint element_courant,
-					    gint sens_deplacement );
-static void recuperation_categorie_formulaire ( struct structure_operation *transaction,
-					 gint modification );
+static gboolean gsb_form_finish_edition ( void );
+static gboolean gsb_form_get_categories ( struct structure_operation *transaction,
+				   gint new_transaction );
+static GSList *gsb_form_get_parties_list_from_report ( void );
+static gboolean gsb_form_validate_form_transaction ( struct structure_operation *transaction );
+static gboolean gsb_transactions_list_get_breakdowns_of_transaction ( struct structure_operation *new_transaction,
+							       gint no_last_breakdown,
+							       gint no_account );
+static gboolean gsb_transactions_list_update_transaction ( struct structure_operation *transaction );
+static struct structure_operation *gsb_transactions_look_for_last_party ( gint no_party,
+								   gint no_new_transaction );
 static void recuperation_donnees_generales_formulaire ( struct structure_operation *transaction );
-static void recuperation_ope_filles_completion_tiers ( struct structure_operation *transaction );
 static gboolean touches_champ_formulaire ( GtkWidget *widget,
 				    GdkEventKey *ev,
 				    gint *no_origine );
-static gint verification_validation_operation ( struct structure_operation *transaction );
 static void verifie_champs_dates ( gint origine );
 static void widget_grab_focus_formulaire ( gint no_element );
 /*END_STATIC*/
@@ -114,18 +116,15 @@ GtkWidget *tab_widget_formulaire[4][6];
 /*START_EXTERN*/
 extern gboolean block_menu_cb ;
 extern GtkWidget *bouton_affiche_cache_formulaire;
-extern gint compte_courant;
 extern GdkColor couleur_grise;
-extern gchar *derniere_date;
 extern struct struct_devise *devise_compte;
-extern gint enregistre_ope_au_retour;
 extern GtkWidget *fleche_bas;
 extern GtkWidget *fleche_haut;
 extern GtkWidget *formulaire;
 extern GtkWidget *frame_droite_bas;
 extern gint hauteur_ligne_liste_opes;
 extern GtkItemFactory *item_factory_menu_general;
-extern GSList *list_struct_accounts;
+extern gchar *last_date;
 extern GSList *liste_categories_combofix;
 extern GSList *liste_imputations_combofix;
 extern GSList *liste_struct_devises;
@@ -282,7 +281,7 @@ void remplissage_formulaire ( gint no_compte )
 	 &&
 	 GTK_WIDGET_VISIBLE ( widget_formulaire_par_element( TRANSACTION_FORM_TYPE )))
 	gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_par_element( TRANSACTION_FORM_TYPE )),
-				      cherche_no_menu_type ( gsb_account_get_default_debit (compte_courant) ) );
+				      cherche_no_menu_type ( gsb_account_get_default_debit (gsb_account_get_current_account ()) ) );
 
     formulaire_a_zero ();
 
@@ -359,17 +358,7 @@ GtkWidget *cree_element_formulaire_par_no ( gint no_element )
 	    gtk_widget_show ( widget );
 	    break;
 
-	case TRANSACTION_FORM_BREAKDOWN:
-	    /* mise en forme du bouton ventilation */
-
-	    widget = gtk_button_new_with_label ( _("Breakdown") );
-	    gtk_button_set_relief ( GTK_BUTTON ( widget ),
-				    GTK_RELIEF_NONE );
-	    gtk_signal_connect ( GTK_OBJECT ( widget ),
-				 "clicked",
-				 GTK_SIGNAL_FUNC ( basculer_vers_ventilation ),
-				 NULL );
-	    gtk_widget_show ( widget );
+	case TRANSACTION_FORM_FREE:
 	    break;
 
 	case TRANSACTION_FORM_BUDGET:
@@ -397,7 +386,7 @@ GtkWidget *cree_element_formulaire_par_no ( gint no_element )
 	    /* le menu par défaut est celui des débits */
 	    /* 	    le widget ne s'afffiche que s'il y a des types */
 
-	    if ( ( menu = creation_menu_types ( 1, compte_courant, 0 ) ) )
+	    if ( ( menu = creation_menu_types ( 1, gsb_account_get_current_account (), 0 ) ) )
 	    {
 		gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget ),
 					   menu );
@@ -419,7 +408,7 @@ GtkWidget *cree_element_formulaire_par_no ( gint no_element )
 				       menu );
 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget ),
 					  g_slist_index ( liste_struct_devises,
-							  devise_par_no ( gsb_account_get_currency (compte_courant) )));
+							  devise_par_no ( gsb_account_get_currency (gsb_account_get_current_account ()) )));
 	    gtk_widget_show ( widget );
 	    break;
 
@@ -552,7 +541,7 @@ GtkWidget *creation_boutons_formulaire ( void )
 			    GTK_RELIEF_NONE );
     gtk_signal_connect ( GTK_OBJECT ( bouton ),
 			 "clicked",
-			 GTK_SIGNAL_FUNC ( fin_edition ),
+			 GTK_SIGNAL_FUNC ( gsb_form_finish_edition ),
 			 NULL );
     gtk_box_pack_end ( GTK_BOX ( hbox ),
 		       bouton,
@@ -589,33 +578,12 @@ GtkWidget *creation_boutons_formulaire ( void )
 /******************************************************************************/
 void echap_formulaire ( void )
 {
-    GSList *liste_tmp;
-
-    /*     on libère la mémoire des ventilations */
-    /* 	dans tous les cas, toutes les modifs apportées ne l'étaient que */
-    /* 	dans cette liste */
-
-    liste_tmp = gtk_object_get_data ( GTK_OBJECT ( formulaire ),
-				      "liste_adr_ventilation" );
-
-    if ( liste_tmp != GINT_TO_POINTER(-1))
-    {
-	while ( liste_tmp )
-	{
-	    free ( liste_tmp -> data );
-	    liste_tmp = liste_tmp -> next;
-	}
-
-	g_slist_free ( gtk_object_get_data ( GTK_OBJECT ( formulaire ),
-					     "liste_adr_ventilation" ));
-    }
-
     formulaire_a_zero();
 
     if ( !etat.formulaire_toujours_affiche )
 	gtk_widget_hide ( frame_droite_bas );
 
-    gtk_widget_grab_focus ( gsb_account_get_tree_view (compte_courant) );
+    gtk_widget_grab_focus ( gsb_account_get_tree_view (gsb_account_get_current_account ()) );
 
 }
 /******************************************************************************/
@@ -629,7 +597,6 @@ void echap_formulaire ( void )
 /******************************************************************************/
 gboolean entree_prend_focus ( GtkWidget *entree )
 {
-
     /*     l'entrée qui arrive peut être un combofix */
     /* si le style est le gris, on efface le contenu de l'entrée, sinon on fait rien */
 
@@ -754,12 +721,12 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 
 			GtkWidget *menu;
 
-			if ( ( menu = creation_menu_types ( 1, compte_courant, 0  )))
+			if ( ( menu = creation_menu_types ( 1, gsb_account_get_current_account (), 0  )))
 			{
 			    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
 						       menu );
 			    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
-							  cherche_no_menu_type ( gsb_account_get_default_debit (compte_courant) ) );
+							  cherche_no_menu_type ( gsb_account_get_default_debit (gsb_account_get_current_account ()) ) );
 			    gtk_widget_show ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) );
 			}
 			else
@@ -784,7 +751,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 
 			    menu = creation_menu_types ( 2,
 							 GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( widget_formulaire_par_element (TRANSACTION_FORM_CONTRA) ),
-												 "compte_virement" )),
+												 "account_transfer" )),
 							 2  );
 
 			    if ( menu )
@@ -806,7 +773,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 			       ||
 			       gtk_widget_get_style ( widget_formulaire_par_element (TRANSACTION_FORM_CATEGORY) ) == style_entree_formulaire[ENGRIS] ))
 			    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
-							  cherche_no_menu_type ( gsb_account_get_default_debit (compte_courant) ) );
+							  cherche_no_menu_type ( gsb_account_get_default_debit (gsb_account_get_current_account ()) ) );
 		    }
 		}
 	    }
@@ -847,12 +814,12 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 
 			GtkWidget *menu;
 
-			if ( ( menu = creation_menu_types ( 2, compte_courant, 0  ) ) )
+			if ( ( menu = creation_menu_types ( 2, gsb_account_get_current_account (), 0  ) ) )
 			{
 			    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
 						       menu );
 			    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
-							  cherche_no_menu_type ( gsb_account_get_default_credit (compte_courant) ) );
+							  cherche_no_menu_type ( gsb_account_get_default_credit (gsb_account_get_current_account ()) ) );
 			    gtk_widget_show ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) );
 			}
 			else
@@ -875,7 +842,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 
 			    menu = creation_menu_types ( 1,
 							 GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( widget_formulaire_par_element (TRANSACTION_FORM_CONTRA) ),
-												 "compte_virement" )),
+												 "account_transfer" )),
 							 2  );
 
 			    if ( menu )
@@ -898,7 +865,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 			       ||
 			       gtk_widget_get_style ( widget_formulaire_par_element (TRANSACTION_FORM_CATEGORY) ) == style_entree_formulaire[ENGRIS] ))
 			    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
-							  cherche_no_menu_type ( gsb_account_get_default_credit (compte_courant) ) );
+							  cherche_no_menu_type ( gsb_account_get_default_credit (gsb_account_get_current_account ()) ) );
 		    }
 		}
 	    }
@@ -913,7 +880,6 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 		texte = _("Value date");
 	    break;
 
-	    /* sort des catégories : si c'est une opé ventilée, affiche le bouton de ventilation */
 	    /* si c'est un virement affiche le bouton des types de l'autre compte */
 
 	case TRANSACTION_FORM_CATEGORY :
@@ -923,9 +889,8 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 		if ( strcmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_CATEGORY) ))),
 			      _("Breakdown of transaction") ))
 		{
-		    gchar **tableau_char;
+		    gchar **tab_char;
 
-		    gtk_widget_hide ( widget_formulaire_par_element (TRANSACTION_FORM_BREAKDOWN) );
 		    if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_EXERCICE ))
 			gtk_widget_set_sensitive ( widget_formulaire_par_element (TRANSACTION_FORM_EXERCICE),
 						   TRUE );
@@ -935,35 +900,35 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 
 		    /* vérification que ce n'est pas un virement */
 
-		    tableau_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_CATEGORY) )),
+		    tab_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_CATEGORY) )),
 						":",
 						2 );
 
-		    tableau_char[0] = g_strstrip ( tableau_char[0] );
+		    tab_char[0] = g_strstrip ( tab_char[0] );
 
-		    if ( tableau_char[1] )
-			tableau_char[1] = g_strstrip ( tableau_char[1] );
+		    if ( tab_char[1] )
+			tab_char[1] = g_strstrip ( tab_char[1] );
 
 
-		    if ( strlen ( tableau_char[0] ) )
+		    if ( strlen ( tab_char[0] ) )
 		    {
-			if ( !strcmp ( tableau_char[0],
+			if ( !strcmp ( tab_char[0],
 				       _("Transfer") )
-			     && tableau_char[1]
-			     && strlen ( tableau_char[1] ) )
+			     && tab_char[1]
+			     && strlen ( tab_char[1] ) )
 			{
 			    /* c'est un virement : on recherche le compte associé et on affiche les types de paiement */
 
-			    if ( strcmp ( tableau_char[1],
+			    if ( strcmp ( tab_char[1],
 					  _("Deleted account") ) )
 			    {
 				/* recherche le no de compte du virement */
 
-				gint compte_virement;
+				gint account_transfer;
 				GSList *list_tmp;
 
-				compte_virement = -1;
-				list_tmp = list_struct_accounts;
+				account_transfer = -1;
+				list_tmp = gsb_account_get_list_accounts ();
 
 				while ( list_tmp )
 				{
@@ -972,8 +937,8 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 				    i = gsb_account_get_no_account ( list_tmp -> data );
 
 				    if ( !g_strcasecmp ( gsb_account_get_name (i),
-							 tableau_char[1] ) )
-					compte_virement = i;
+							 tab_char[1] ) )
+					account_transfer = i;
 
 				    list_tmp = list_tmp -> next;
 				}
@@ -981,9 +946,9 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 				/* si on a touvé un compte de virement, que celui ci n'est pas le compte */
 				/* courant et que son menu des types n'est pas encore affiché, on crée le menu */
 
-				if ( compte_virement != -1
+				if ( account_transfer != -1
 				     &&
-				     compte_virement != compte_courant
+				     account_transfer != gsb_account_get_current_account ()
 				     &&
 				     verifie_element_formulaire_existe ( TRANSACTION_FORM_CONTRA ))
 				{
@@ -993,7 +958,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 					 ||
 					 ( recupere_no_compte ( widget_formulaire_par_element (TRANSACTION_FORM_CONTRA) )
 					   !=
-					   compte_virement ))
+					   account_transfer ))
 				    {
 					/* vérifie quel est le montant entré, affiche les types opposés de l'autre compte */
 
@@ -1001,10 +966,10 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 
 					if ( gtk_widget_get_style ( widget_formulaire_par_element (TRANSACTION_FORM_CREDIT) ) == style_entree_formulaire[ENCLAIR] )
 					    /* il y a un montant dans le crédit */
-					    menu = creation_menu_types ( 1, compte_virement, 2  );
+					    menu = creation_menu_types ( 1, account_transfer, 2  );
 					else
 					    /* il y a un montant dans le débit ou défaut */
-					    menu = creation_menu_types ( 2, compte_virement, 2  );
+					    menu = creation_menu_types ( 2, account_transfer, 2  );
 
 					/* si un menu à été créé, on l'affiche */
 
@@ -1019,8 +984,8 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 					/* rapidement s'il y a un chgt débit/crédit */
 
 					gtk_object_set_data ( GTK_OBJECT ( widget_formulaire_par_element (TRANSACTION_FORM_CONTRA) ),
-							      "compte_virement",
-							      GINT_TO_POINTER ( compte_virement ));
+							      "account_transfer",
+							      GINT_TO_POINTER ( account_transfer ));
 				    }
 				}
 				else
@@ -1039,11 +1004,10 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 			if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_CONTRA ))
 			    gtk_widget_hide ( widget_formulaire_par_element (TRANSACTION_FORM_CONTRA) );
 
-		    g_strfreev ( tableau_char );
+		    g_strfreev ( tab_char );
 		}
 		else
 		{
-		    gtk_widget_show ( widget_formulaire_par_element (TRANSACTION_FORM_BREAKDOWN) );
 		    if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_EXERCICE ))
 			gtk_widget_set_sensitive ( widget_formulaire_par_element (TRANSACTION_FORM_EXERCICE),
 						   FALSE );
@@ -1140,10 +1104,11 @@ gboolean clique_champ_formulaire ( GtkWidget *entree,
 	     ||
 	     gtk_widget_get_style ( widget_formulaire_par_element (TRANSACTION_FORM_VALUE_DATE) ) == style_entree_formulaire[ENGRIS] )
 	    {
-		if ( !derniere_date )
-		    derniere_date = gsb_today();
+		if ( !last_date )
+		    last_date = gsb_today();
+
 		gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_par_element (TRANSACTION_FORM_DATE) ),
-				     derniere_date );
+				     last_date );
 		gtk_widget_set_style ( widget_formulaire_par_element (TRANSACTION_FORM_DATE),
 				       style_entree_formulaire[ENCLAIR] );
 	    }
@@ -1170,7 +1135,7 @@ gboolean clique_champ_formulaire ( GtkWidget *entree,
     }
 
     /* si ev est null ( cad que ça ne vient pas d'un click mais appelé par ex
-       à la fin de fin_edition ), on se barre */
+       à la fin de gsb_form_finish_edition ), on se barre */
 
     if ( !ev )
 	return FALSE;
@@ -1293,7 +1258,7 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 								     1 );
 
 	    if ( element_suivant == -2 )
-		fin_edition();
+		gsb_form_finish_edition();
 	    else
 		widget_grab_focus_formulaire ( element_suivant );
 
@@ -1319,7 +1284,7 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 		return TRUE;
 	    }
 
-	    fin_edition();
+	    gsb_form_finish_edition();
 
 	    return TRUE;
 	    break;
@@ -1485,25 +1450,25 @@ void verifie_champs_dates ( gint origine )
 		/* si la date d'opération est vide elle aussi */
 		/* 		    on met la date du jour dans les 2 champs */
 
-		GtkWidget *entree_date;
+		GtkWidget *date_entry;
 
-		entree_date = widget_formulaire_par_element (TRANSACTION_FORM_DATE);
+		date_entry = widget_formulaire_par_element (TRANSACTION_FORM_DATE);
 
-		if ( gtk_widget_get_style (entree_date) == style_entree_formulaire[ENCLAIR]
+		if ( gtk_widget_get_style (date_entry) == style_entree_formulaire[ENCLAIR]
 		     &&
-		     strlen ( gtk_entry_get_text ( GTK_ENTRY (entree_date))))
+		     strlen ( gtk_entry_get_text ( GTK_ENTRY (date_entry))))
 		{
 		    /* il y a qque chose dans la date, on le recopie */
 
 		    gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					 gtk_entry_get_text ( GTK_ENTRY (entree_date)));
+					 gtk_entry_get_text ( GTK_ENTRY (date_entry)));
 		}
 		else
 		{
 		    /* il n'y a rien dans la date, on y met la date du jour ainsi que dans la date de valeur */
 
-		    entree_prend_focus ( entree_date );
-		    gtk_entry_set_text ( GTK_ENTRY ( entree_date ),
+		    entree_prend_focus ( date_entry );
+		    gtk_entry_set_text ( GTK_ENTRY ( date_entry ),
 					 gsb_today() );
 		    gtk_entry_set_text ( GTK_ENTRY ( widget ),
 					 gsb_today() );
@@ -1782,7 +1747,8 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 
     /*     on essaie de retrouver la dernière opé entrée avec ce tiers */
 
-    transaction = recherche_derniere_occurence_tiers ( tiers -> no_tiers );
+    transaction = gsb_transactions_look_for_last_party ( tiers -> no_tiers,
+							 0 );
 
     /* si on n'a trouvé aucune opération, on se tire */
 
@@ -1824,15 +1790,11 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 
 		    if ( transaction -> operation_ventilee )
 		    {
-			/* 			c'est une opé ventilée, on met la catég, affiche le bouton, et propose de */
-			/* 			    récupérer les opé filles */
+			/* it's a breakdown of transaction */
 
 			entree_prend_focus ( widget );
 			gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
 						_("Breakdown of transaction") );
-			gtk_widget_show ( widget_formulaire_par_element (TRANSACTION_FORM_BREAKDOWN) );
-
-			recuperation_ope_filles_completion_tiers ( transaction );
 		    }
 		    else
 		    {
@@ -1895,9 +1857,9 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 		case TRANSACTION_FORM_TYPE:
 
 		    if ( transaction -> montant < 0 )
-			menu = creation_menu_types ( 1, compte_courant, 0  );
+			menu = creation_menu_types ( 1, gsb_account_get_current_account (), 0  );
 		    else
-			menu = creation_menu_types ( 2, compte_courant, 0  );
+			menu = creation_menu_types ( 2, gsb_account_get_current_account (), 0  );
 
 		    if ( menu )
 		    {
@@ -1959,7 +1921,7 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 
 			if ( menu )
 			{
-			    struct structure_operation *contre_operation;
+			    struct structure_operation *contra_transaction;
 
 			    /* on met en place les types et se place sur celui correspondant à l'opé */
 
@@ -1967,10 +1929,10 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 						       menu );
 			    gtk_widget_show ( widget );
 
-			    contre_operation = operation_par_no ( transaction -> relation_no_operation,
+			    contra_transaction = operation_par_no ( transaction -> relation_no_operation,
 								  transaction -> relation_no_compte );
-			    if ( contre_operation )
-				place_type_formulaire ( contre_operation -> type_ope,
+			    if ( contra_transaction )
+				place_type_formulaire ( contra_transaction -> type_ope,
 							TRANSACTION_FORM_CONTRA,
 							NULL );
 			}
@@ -1999,11 +1961,11 @@ void verification_bouton_change_devise ( void )
 
     /*   si la devise n'est pas celle du compte ni l'euro si le compte va y passer, affiche le bouton change */
 
-    devise_compte = devise_par_no ( gsb_account_get_currency (compte_courant) );
+    devise_compte = devise_par_no ( gsb_account_get_currency (gsb_account_get_current_account ()) );
     devise = g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_DEVISE)) -> menu_item ),
 				 "adr_devise" );
 
-    if ( !( devise -> no_devise == gsb_account_get_currency (compte_courant)
+    if ( !( devise -> no_devise == gsb_account_get_currency (gsb_account_get_current_account ())
 	    ||
 	    ( devise_compte -> passage_euro && !strcmp ( devise -> nom_devise, _("Euro") ))
 	    ||
@@ -2015,175 +1977,116 @@ void verification_bouton_change_devise ( void )
 /******************************************************************************/
 
 
-/******************************************************************************/
-/* cette fonction recherche la dernière occurence du tiers donné en argument */
-/* commence la recherche dans le comptes courant */
-/* puis fait le tour de tous les comptes si elle n'a pas trouvé */
-/******************************************************************************/
-struct structure_operation *recherche_derniere_occurence_tiers ( gint no_tiers )
+/**
+ * Look for the last transaction with the same party. Begin in the current account,
+ * and continue in other accounts if necessary.
+ *
+ * \param no_party the party we are looking for
+ * \param no_new_transaction if the transaction found is that transaction, we don't
+ * keep it
+ *
+ * \return the transaction found, or NULL
+ * */
+struct structure_operation *gsb_transactions_look_for_last_party ( gint no_party,
+								   gint no_new_transaction )
 {
-    struct structure_operation *transaction;
-    GSList *pointeur_ope;
-    struct structure_operation *ope_test;
+    struct structure_operation *last_transaction_found;
+    GSList *transactions_list;
+    GSList *transactions_accounts;
+    GSList *list_tmp;
 
-    /* on fait d'abord le tour du compte courant pour recherche une opé avec ce tiers */
-    /* s'il n'y a aucune opé correspondante, on fait le tour de tous les comptes */
+    /* set the current account in first place */
 
-    transaction = NULL;
-    pointeur_ope = gsb_account_get_transactions_list (compte_courant);
+    transactions_accounts = gsb_account_get_copy_list_accounts ();
+    transactions_accounts = g_slist_remove ( transactions_accounts,
+					     GINT_TO_POINTER ( gsb_account_get_current_account ()));
+    transactions_accounts = g_slist_prepend ( transactions_accounts,
+					     GINT_TO_POINTER ( gsb_account_get_current_account ()));
+    list_tmp = transactions_accounts;
 
-    while ( pointeur_ope )
+    last_transaction_found = NULL;
+
+    while ( list_tmp
+	    &&
+	    !last_transaction_found )
     {
-	ope_test = pointeur_ope -> data;
+	transactions_list = gsb_account_get_transactions_list ( GPOINTER_TO_INT ( list_tmp -> data ));
 
-	if ( ope_test -> tiers == no_tiers
-	     &&
-	     !ope_test -> no_operation_ventilee_associee )
+	while ( transactions_list )
 	{
-	    if ( transaction )
+	    struct structure_operation *transaction;
+
+	    transaction = transactions_list -> data;
+
+	    if ( transaction -> tiers == no_party
+		 &&
+		 transaction -> no_operation != no_new_transaction
+		 &&
+		 !transaction -> no_operation_ventilee_associee )
 	    {
-		if ( g_date_compare ( ope_test -> date,
-				      transaction -> date ) >= 0 )
-		    transaction = ope_test;
-	    }
-	    else
-		transaction = ope_test;
-	}
-	pointeur_ope = pointeur_ope -> next;
-    }
-
-    if ( !transaction )
-    {
-	/* aucune opération correspondant à ce tiers n'a été trouvée dans le compte courant */
-	/* on recherche dans les autres comptes, la première trouvée fera l'affaire */
-	/* FIXME : tester si c'est beaucoup plus long sur un gros fichier de récupérer la dernière opé entrée... */
-
-	GSList *list_tmp;
-
-	list_tmp = list_struct_accounts;
-
-	while ( list_tmp )
-	{
-	    gint i;
-
-	    i = gsb_account_get_no_account ( list_tmp -> data );
-
-	    if ( i != compte_courant )
-	    {
-		pointeur_ope = gsb_account_get_transactions_list (i);
-
-		while ( pointeur_ope )
+		if ( last_transaction_found )
 		{
-		    ope_test = pointeur_ope -> data;
-
-		    if ( ope_test -> tiers == no_tiers )
-		    {
-			transaction = ope_test;
-			pointeur_ope = NULL;
-			i = gsb_account_get_accounts_amount ();
-		    }
-		    else
-			pointeur_ope = pointeur_ope -> next;
+		    if ( last_transaction_found -> no_operation > transaction -> no_operation )
+			last_transaction_found = transaction;
 		}
+		else
+		    last_transaction_found = transaction;
 	    }
-	    list_tmp = list_tmp -> next;
+	    transactions_list = transactions_list -> next;
 	}
+	list_tmp = list_tmp -> next;
     }
 
-    return transaction;
+    g_slist_free ( transactions_accounts );
+    return last_transaction_found;
 }
 /******************************************************************************/
 
 
 
-/******************************************************************************/
-/* cette fonction est appelée lors de la complétion par tiers si l'opé de complétion */
-/* est une ventilation. propose de récupérer les opés filles */
-/******************************************************************************/
-void recuperation_ope_filles_completion_tiers ( struct structure_operation *transaction )
+/**
+ * Get a breakdown of transactions and ask if we want to clone the daughters
+ * do the copy if needed, set for the daugthers the number of the new transaction
+ * 
+ * \param new_transaction the new mother of the cloned transaction
+ * \param no_last_breakdown the no of last breakdown mother
+ * \param no_account the account of the last breakdown mother (important if it's not the same of the new_transaction)
+ *
+ * \return FALSE
+ * */
+gboolean gsb_transactions_list_get_breakdowns_of_transaction ( struct structure_operation *new_transaction,
+							       gint no_last_breakdown,
+							       gint no_account )
 {
     gint result;
-    GSList *liste_des_opes_de_ventilation;
-    GSList *pointeur_ope;
-
-    /* affiche la question de récupération */
+    GSList *transactions_list;
 
     result = question_yes_no_hint ( _("Recover breakdown?"),
 				    _("This is a breakdown of transaction, associated transactions can be recovered as in last transaction with this third party.") );
 
     if ( !result )
-	return;
+	return FALSE;
 
-    /* récupération des anciennes opés filles de la ventilation */
+    /* go around the transactions list to get the daughters of the last breakdown */
 
-    liste_des_opes_de_ventilation = NULL;
-    pointeur_ope = gsb_account_get_transactions_list (transaction -> no_compte);
+    transactions_list = gsb_account_get_transactions_list (no_account);
 
-    while ( pointeur_ope )
+    while ( transactions_list )
     {
-	struct structure_operation *ope_test;
+	struct structure_operation *transaction;
 
-	ope_test = pointeur_ope -> data;
+	transaction = transactions_list -> data;
 
-	if ( ope_test -> no_operation_ventilee_associee == transaction -> no_operation )
+	if ( transaction -> no_operation_ventilee_associee == no_last_breakdown )
 	{
-	    struct struct_ope_ventil *nouvelle_operation;
+	    struct structure_operation *breakdown_transaction;
 
-	    nouvelle_operation = calloc ( 1,
-					  sizeof ( struct struct_ope_ventil ));
-
-	    nouvelle_operation -> montant = ope_test -> montant;
-	    nouvelle_operation -> categorie = ope_test -> categorie;
-	    nouvelle_operation -> sous_categorie = ope_test -> sous_categorie;
-
-	    if ( ope_test -> notes )
-		nouvelle_operation -> notes = g_strdup ( ope_test -> notes );
-
-	    nouvelle_operation -> no_exercice = ope_test -> no_exercice;
-	    nouvelle_operation -> imputation = ope_test -> imputation;
-	    nouvelle_operation -> sous_imputation = ope_test -> sous_imputation;
-
-	    if ( ope_test -> no_piece_comptable )
-		nouvelle_operation -> no_piece_comptable = g_strdup ( ope_test -> no_piece_comptable );
-
-
-	    /* 		    on met par_completion à 1 pour éviter de les effacer si on va dans l'échéance */
-	    /* 			et qu'on annule */
-
-	    nouvelle_operation -> par_completion = 1;
-
-	    /* si c'est un virement, on met le compte de virement et le type choisi */
-
-	    if ( ope_test -> relation_no_operation )
-	    {
-		struct structure_operation *contre_operation;
-
-		nouvelle_operation -> relation_no_operation = -1;
-		nouvelle_operation -> relation_no_compte = ope_test -> relation_no_compte;
-
-		/*  on va chercher le type de l'opé associée */
-
-		contre_operation = operation_par_no ( ope_test -> relation_no_operation,
-						      ope_test -> relation_no_compte );
-
-		if ( contre_operation )
-		    nouvelle_operation -> no_type_associe = contre_operation -> type_ope;
-	    }
-
-	    liste_des_opes_de_ventilation = g_slist_append ( liste_des_opes_de_ventilation,
-							     nouvelle_operation );
+	    breakdown_transaction = gsb_transactions_list_clone_transaction ( transaction );
+	    breakdown_transaction -> no_operation_ventilee_associee = new_transaction -> no_operation;
 	}
-	pointeur_ope = pointeur_ope -> next;
+	transactions_list = transactions_list -> next;
     }
-
-    if ( liste_des_opes_de_ventilation )
-	gtk_object_set_data ( GTK_OBJECT ( formulaire ),
-			      "liste_adr_ventilation",
-			      liste_des_opes_de_ventilation );
-    else
-	gtk_object_set_data ( GTK_OBJECT ( formulaire ),
-			      "liste_adr_ventilation",
-			      GINT_TO_POINTER ( -1 ) );
+    return FALSE;
 }
 /******************************************************************************/
 
@@ -2273,37 +2176,44 @@ void place_type_formulaire ( gint no_type,
 
 
 
-/******************************************************************************/
-/* procédure appelée lors de la fin de l'édition d'opération */
-/* crée une nouvelle opération à partir du formulaire */
-/* puis appelle gsb_transactions_list_append_transaction pour la sauver */
-/******************************************************************************/
-gboolean fin_edition ( void )
+/** called when the user finishes the edition of a transaction, 
+ * add/modify the transaction shown in the form
+ * \param none
+ * \return FALSE
+ * */
+gboolean gsb_form_finish_edition ( void )
 {
     struct structure_operation *transaction;
-    gint modification;
-    GSList *liste_no_tiers;
-    GSList *liste_tmp;
+    gint new_transaction;
+    GSList *list_nb_parties;
+    GSList *list_tmp;
 
     /* récupération de l'opération : soit l'adr de la struct, soit NULL si nouvelle */
 
     transaction = gtk_object_get_data ( GTK_OBJECT ( formulaire ),
-				      "adr_struct_ope" );
+					"adr_struct_ope" );
 
-    if ( transaction )
-	modification = 1;
+    /* a new transaction is
+     * either transaction = NULL (normal transaction)
+     * either transaction -> no_transaction = -2 (new breakdown daughter)
+     * */
+
+    if ( transaction
+	 &&
+	 transaction -> no_operation != -2 )
+	new_transaction = 0;
     else
-	modification = 0;
+	new_transaction = 1;
 
     /*     on donne le focus à la liste, pour que le widget en cours perde le focus */
     /* 	et applique les modifs nécessaires */
 
-    gtk_widget_grab_focus ( gsb_account_get_tree_view (compte_courant) );
+    gtk_widget_grab_focus ( gsb_account_get_tree_view (gsb_account_get_current_account ()) );
     
    /* on commence par vérifier que les données entrées sont correctes */
     /* si la fonction renvoie false, c'est qu'on doit arrêter là */
 
-    if ( !verification_validation_operation ( transaction ))
+    if ( !gsb_form_validate_form_transaction ( transaction ))
 	return FALSE;
 
     /* si le tiers est un état, on va faire autant d'opérations qu'il y a de tiers
@@ -2311,97 +2221,24 @@ gboolean fin_edition ( void )
        ( ou -1, le tiers n'est pas un état), puis on fera une boucle sur cette liste
        pour ajouter autant d'opérations que de tiers */
 
-    liste_no_tiers = NULL;
+    list_nb_parties = gsb_form_get_parties_list_from_report ();
 
-    /*     on vérifie que le champ tiers existe... */
-
-    if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_PARTY ))
-    {
-	if ( strncmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_PARTY) ))),
-		       COLON(_("Report")),
-		       7 ))
-	    /*     ce n'est pas un état, on met -1 comme no de tiers */
-	    liste_no_tiers = g_slist_append (liste_no_tiers,
-					     GINT_TO_POINTER ( -1 ));
-	else
-	{
-	    /* c'est bien un état */
-	    /* on commence par retrouver le nom de l'état */
-	    /* toutes les vérifications ont été faites précédemment */
-
-	    gchar **tableau_char;
-	    struct struct_etat *etat;
-	    GSList *liste_opes_selectionnees;
-
-	    tableau_char = g_strsplit ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_PARTY) ))),
-					":",
-					2 );
-
-	    if ( tableau_char[1] )
-	    {
-		tableau_char[1] = g_strstrip ( tableau_char[1] );
-		liste_tmp = liste_struct_etats;
-		etat = NULL;
-
-		while ( liste_tmp )
-		{
-		    etat = liste_tmp -> data;
-
-		    if ( !strcmp ( etat -> nom_etat,
-				   tableau_char[1] ))
-			liste_tmp = NULL;
-		    else
-			liste_tmp = liste_tmp -> next;
-		}
-
-		g_strfreev ( tableau_char );
-
-		/* à ce niveau, etat contient l'adr le la struct de l'état choisi */
-
-		liste_opes_selectionnees = recupere_opes_etat ( etat );
-
-		liste_tmp = liste_opes_selectionnees;
-
-		while ( liste_tmp )
-		{
-		    struct structure_operation *transaction;
-
-		    transaction = liste_tmp -> data;
-
-		    if ( !g_slist_find ( liste_no_tiers,
-					 GINT_TO_POINTER ( transaction -> tiers )))
-			liste_no_tiers = g_slist_append ( liste_no_tiers,
-							  GINT_TO_POINTER ( transaction -> tiers ));
-
-		    liste_tmp = liste_tmp -> next;
-		}
-
-		g_slist_free ( liste_opes_selectionnees );
-	    }
-	}
-    }
-    else
-	/* 	il n'y a pas de tiers, donc ce n'est pas un état */
-	liste_no_tiers = g_slist_append (liste_no_tiers,
-					 GINT_TO_POINTER ( -1 ));
-
-
-    /* à ce niveau, liste_no_tiers contient la liste des no de tiers pour chacun desquels on */
+    /* à ce niveau, list_nb_parties contient la liste des no de tiers pour chacun desquels on */
     /* fera une opé, ou -1 si on utilise que le tiers dans l'entrée du formulaire */
     /* on fait donc le tour de cette liste en ajoutant l'opé à chaque fois */
 
-    liste_tmp = liste_no_tiers;
+    list_tmp = list_nb_parties;
 
-    while ( liste_tmp )
+    while ( list_tmp )
     {
 	/* soit on va chercher le tiers dans la liste des no de tiers et on le met dans le formulaire, */
-	/* soit on laisse tel quel et on met liste_tmp à NULL */
+	/* soit on laisse tel quel et on met list_tmp à NULL */
 
-	if ( liste_tmp -> data == GINT_TO_POINTER ( -1 ) )
-	    liste_tmp = NULL;
+	if ( list_tmp -> data == GINT_TO_POINTER ( -1 ) )
+	    list_tmp = NULL;
 	else
 	{
-	    if ( !liste_tmp -> data )
+	    if ( !list_tmp -> data )
 	    {
 		dialogue_error ( _("No third party selected for this report."));
 		return FALSE;
@@ -2409,7 +2246,7 @@ gboolean fin_edition ( void )
 	    else
 	    {
 		gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_PARTY) ),
-					tiers_name_by_no ( GPOINTER_TO_INT (liste_tmp -> data), TRUE ));
+					tiers_name_by_no ( GPOINTER_TO_INT (list_tmp -> data), TRUE ));
 
 		/* si le moyen de paiement est à incrémentation automatique, à partir de la 2ème opé, */
 		/* on incrémente le contenu (no de chèque en général) */
@@ -2424,7 +2261,7 @@ gboolean fin_edition ( void )
 		    struct struct_type_ope *type;
 
 		    type = type_ope_par_no ( transaction -> type_ope,
-					     compte_courant );
+					     gsb_account_get_current_account () );
 
 		    if ( type
 			 &&
@@ -2436,14 +2273,23 @@ gboolean fin_edition ( void )
 			gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) ),
 					     automatic_numbering_get_new_number ( type ));
 		}
-		liste_tmp = liste_tmp -> next;
+		list_tmp = list_tmp -> next;
 	    }
 	}
 
 	/* si c'est une nouvelle opé, on la crée en mettant tout à 0 sauf le no de compte et la devise */
 
-	if ( !modification )
+	if ( new_transaction )
 	{
+	    gint mother_transaction;
+
+	    /* if transaction exists, it's a white daughter of a breakdown, so keep the no of the mother */
+
+	    if ( transaction )
+		mother_transaction = transaction -> no_operation_ventilee_associee;
+	    else
+		mother_transaction = 0;
+	    
 	    transaction = calloc ( 1,
 				 sizeof ( struct structure_operation ) );
 	    if ( !transaction )
@@ -2451,11 +2297,12 @@ gboolean fin_edition ( void )
 		dialogue_error ( _("Cannot allocate memory, bad things will happen soon") );
 		return FALSE;
 	    }
-	    transaction -> no_compte = compte_courant;
+	    transaction -> no_compte = gsb_account_get_current_account ();
 
 	    /* 	    la devise par défaut est celle du compte, elle sera modifiée si nécessaire plus tard */
 
-	    transaction -> devise = gsb_account_get_currency (compte_courant);
+	    transaction -> devise = gsb_account_get_currency (gsb_account_get_current_account ());
+	    transaction -> no_operation_ventilee_associee = mother_transaction;
 	}
 
 	/* on récupère les données du formulaire sauf la categ qui est traitée plus tard */
@@ -2466,56 +2313,55 @@ gboolean fin_edition ( void )
 	/* celui ci sera utilisé si c'est un virement ou si c'est une ventil qui contient des */
 	/* virements */
 
-	if ( modification )
-	    modifie_operation ( transaction );
-	else
+	if ( new_transaction )
 	    gsb_transactions_append_transaction ( transaction );
 
 	/*   récupération des catégories / sous-catég, s'ils n'existent pas, on les crée */
 	/* à mettre en dernier car si c'est une opé ventilée, chaque opé de ventil va récupérer les données du dessus */
 
-	recuperation_categorie_formulaire ( transaction,
-					    modification );
+	gsb_form_get_categories ( transaction,
+				  new_transaction );
 
-	gsb_transactions_list_append_new_transaction ( transaction );
+	if ( new_transaction )
+	    gsb_transactions_list_append_new_transaction ( transaction );
+	else
+	    gsb_transactions_list_update_transaction ( transaction );
     }
 
     /* on libère la liste des no tiers */
 
-    g_slist_free ( liste_no_tiers );
+    g_slist_free ( list_nb_parties );
 
-    /* si on est en train d'équilibrer => recalcule le total pointé */
+    /* if it's a reconciliation and we modify a transaction, check
+     * the amount of marked transactions */
 
-    if ( etat.equilibrage )
-	calcule_total_pointe_compte ( compte_courant );
+    if ( etat.equilibrage
+	 &&
+	 !new_transaction )
+	calcule_total_pointe_compte ( gsb_account_get_current_account () );
 
 
     /* si c'était une nouvelle opération, on efface le formulaire,
        on remet la date pour la suivante,
-       si c'était une modification, on redonne le focus à la liste */
+       si c'était une modif, on redonne le focus à la liste */
 
-    formulaire_a_zero ();
 
-    if ( modification )
+    if ( new_transaction )
     {
-	if ( !etat.formulaire_toujours_affiche )
-	    gtk_widget_hide ( frame_droite_bas );
+	GtkWidget *date_entry;
+
+	/* it was a new transaction, we save the last date entry */
+
+	date_entry = widget_formulaire_par_element (TRANSACTION_FORM_DATE);
+	last_date = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( date_entry )));
+
+	gsb_transactions_list_edit_current_transaction ();
     }
     else
     {
-	/* 	c'est une nouvelle opé, on sauvegarde la dernière date */
-
-	GtkWidget *entree_date;
-
-	entree_date = widget_formulaire_par_element (TRANSACTION_FORM_DATE);
-
-	derniere_date = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( entree_date )));
-
-	clique_champ_formulaire ( entree_date,
-				  NULL,
-				  GINT_TO_POINTER ( TRANSACTION_FORM_DATE ) );
-	gtk_entry_select_region ( GTK_ENTRY ( entree_date ), 0, -1);
-	gtk_widget_grab_focus ( GTK_WIDGET ( entree_date ) );
+	formulaire_a_zero ();
+	if ( !etat.formulaire_toujours_affiche )
+	    gtk_widget_hide ( frame_droite_bas );
     }
 
 
@@ -2538,14 +2384,104 @@ gboolean fin_edition ( void )
 }
 /******************************************************************************/
 
-/******************************************************************************/
-/* vérifie que les données dans le formulaire sont valides pour enregistrer   */
-/* l'opération appelée lors de la fin_edition d'une opé                       */
-/******************************************************************************/
-gint verification_validation_operation ( struct structure_operation *transaction )
+
+
+/** return a list of numbers of parties if the party in the form is a 
+ * report
+ * \param none
+ * \return a g_slist, with -1 if it's a normal party or a list of parties if it's a report
+ * */
+GSList *gsb_form_get_parties_list_from_report ( void )
 {
-    gchar **tableau_char;
-    GSList *liste_tmp;
+    GSList *list_nb_parties;
+
+    list_nb_parties = NULL;
+
+    /*     check that the party's form exist, else, append -1 and go away */
+
+    if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_PARTY ))
+    {
+	if ( strncmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_PARTY) ))),
+		       COLON(_("Report")),
+		       7 ))
+	    /* the party is not a report, set -1 and go away */
+	    list_nb_parties = g_slist_append (list_nb_parties,
+					     GINT_TO_POINTER ( -1 ));
+	else
+	{
+	    /* c'est bien un état */
+	    /* on commence par retrouver le nom de l'état */
+	    /* toutes les vérifications ont été faites précédemment */
+
+	    gchar **tab_char;
+	    struct struct_etat *report;
+	    GSList *list_transactions;
+	    GSList *list_tmp;
+
+	    tab_char = g_strsplit ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_PARTY) ))),
+					":",
+					2 );
+
+	    if ( tab_char[1] )
+	    {
+		tab_char[1] = g_strstrip ( tab_char[1] );
+		list_tmp = liste_struct_etats;
+		report = NULL;
+
+		while ( list_tmp )
+		{
+		    report = list_tmp -> data;
+
+		    if ( !strcmp ( report -> nom_etat,
+				   tab_char[1] ))
+			list_tmp = NULL;
+		    else
+			list_tmp = list_tmp -> next;
+		}
+
+		g_strfreev ( tab_char );
+
+		/* à ce niveau, report contient l'adr le la struct de l'état choisi */
+
+		list_transactions = recupere_opes_etat ( report );
+
+		list_tmp = list_transactions;
+
+		while ( list_tmp )
+		{
+		    struct structure_operation *transaction;
+
+		    transaction = list_tmp -> data;
+
+		    if ( !g_slist_find ( list_nb_parties,
+					 GINT_TO_POINTER ( transaction -> tiers )))
+			list_nb_parties = g_slist_append ( list_nb_parties,
+							  GINT_TO_POINTER ( transaction -> tiers ));
+
+		    list_tmp = list_tmp -> next;
+		}
+
+		g_slist_free ( list_transactions );
+	    }
+	}
+    }
+    else
+	/* 	il n'y a pas de tiers, donc ce n'est pas un état */
+	list_nb_parties = g_slist_append (list_nb_parties,
+					 GINT_TO_POINTER ( -1 ));
+
+    return list_nb_parties;
+}
+
+
+/** called to check if the transaction in the form is correct
+ * \param transaction the new transaction
+ * \return TRUE or FALSE
+ * */
+gboolean gsb_form_validate_form_transaction ( struct structure_operation *transaction )
+{
+    gchar **tab_char;
+    GSList *list_tmp;
 
 
     /* on vérifie qu'il y a bien une date */
@@ -2585,6 +2521,25 @@ gint verification_validation_operation ( struct structure_operation *transaction
 	return (FALSE);
     }
 
+    /* check if it's a daughter breakdown that the category is not a breakdown of transaction */
+
+    if ( transaction
+	 &&
+	 verifie_element_formulaire_existe ( TRANSACTION_FORM_CATEGORY )
+	 &&
+	 gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_CATEGORY) ) -> entry ) == style_entree_formulaire[ENCLAIR] )
+    {
+	if ( !strcmp ( gtk_entry_get_text ( GTK_ENTRY ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_CATEGORY))->entry)),
+		       _("Breakdown of transaction"))
+	     &&
+	     transaction -> no_operation_ventilee_associee )
+	{
+	    dialogue_error ( _("You cannot set a daughter of a breakdown of transaction as a breakdown of transaction.") );
+	    return (FALSE);
+	}
+    }
+
+
     /* vérification que ce n'est pas un virement sur lui-même */
     /* et que le compte de virement existe */
 
@@ -2592,24 +2547,24 @@ gint verification_validation_operation ( struct structure_operation *transaction
 	 &&
 	 gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_CATEGORY) ) -> entry ) == style_entree_formulaire[ENCLAIR] )
     {
-	tableau_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_CATEGORY) )),
+	tab_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_CATEGORY) )),
 				    ":",
 				    2 );
 
-	tableau_char[0] = g_strstrip ( tableau_char[0] );
+	tab_char[0] = g_strstrip ( tab_char[0] );
 
-	if ( tableau_char[1] )
-	    tableau_char[1] = g_strstrip ( tableau_char[1] );
+	if ( tab_char[1] )
+	    tab_char[1] = g_strstrip ( tab_char[1] );
 
 
 	/* Si c'est un virement, on fait les vérifications */
 	
-	if ( !strcmp ( tableau_char[0], _("Transfer") ) )
+	if ( !strcmp ( tab_char[0], _("Transfer") ) )
 	{
 	    /* S'il n'y a rien après "Transfer", alors : */
 	    
-	    if ( !tableau_char[1] ||
-		 !strlen ( tableau_char[1] ) )
+	    if ( !tab_char[1] ||
+		 !strlen ( tab_char[1] ) )
 	    {
 		dialogue_error ( _("There is no associated account for this transfer.") );
 		return (FALSE);
@@ -2617,38 +2572,22 @@ gint verification_validation_operation ( struct structure_operation *transaction
 	    
 	    /* si c'est un virement vers un compte supprimé, laisse passer */
 
-	    if ( strcmp ( tableau_char[1],
+	    if ( strcmp ( tab_char[1],
 			  _("Deleted account") ) )
 	    {
 		/* recherche le no de compte du virement */
 
-		gint compte_virement;
-		GSList *list_tmp;
+		gint account_transfer;
 
-		compte_virement = -1;
-		list_tmp = list_struct_accounts;
+		account_transfer = gsb_account_get_no_account_by_name ( tab_char[1] );
 
-		while ( list_tmp )
-		{
-		    gint i;
-
-		    i = gsb_account_get_no_account ( list_tmp -> data );
-
-		    if ( !g_strcasecmp ( gsb_account_get_name (i),
-					 tableau_char[1] ) )
-			compte_virement = i;
-
-		    list_tmp = list_tmp -> next;
-		}
-
-
-		if ( compte_virement == -1 )
+		if ( account_transfer == -1 )
 		{
 		    dialogue_warning ( _("Associated account of this transfer is invalid.") );
 		    return (FALSE);
 		}
 
-		if ( compte_virement == compte_courant )
+		if ( account_transfer == gsb_account_get_current_account () )
 		{
 		    dialogue_error ( _("Can't issue a transfer its own account.") );
 		    return (FALSE);
@@ -2656,14 +2595,14 @@ gint verification_validation_operation ( struct structure_operation *transaction
 
 		/* 		    vérifie si le compte n'est pas clos */
 
-		if ( gsb_account_get_closed_account (compte_virement) )
+		if ( gsb_account_get_closed_account (account_transfer) )
 		{
 		    dialogue_error ( _("Can't issue a transfer on a closed account." ));
 		    return ( FALSE );
 		}
 	    }
 	}
-	g_strfreev ( tableau_char );
+	g_strfreev ( tab_char );
     }
 
     /* pour les types qui sont à incrémentation automatique ( surtout les chèques ) */
@@ -2696,7 +2635,7 @@ gint verification_validation_operation ( struct structure_operation *transaction
 	    /* vérifie si le no de chèque n'est pas déjà utilisé */
 
 	    operation_tmp = operation_par_cheque ( my_atoi ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) )))),
-						   compte_courant );
+						   gsb_account_get_current_account () );
 
 	    /* si on a trouvé le même no de chèque, si c'est une nouvelle opé, c'est pas normal, */
 	    /* si c'est une modif d'opé, c'est normal que si c'est cette opé qu'on a trouvé */
@@ -2716,30 +2655,6 @@ gint verification_validation_operation ( struct structure_operation *transaction
     }
 
 sort_test_cheques :
-
-    /* vérifie  si c'est une opération ventilée, */
-    /* si c'est le cas, si la liste des ventilation existe (soit adr de liste, soit -1), on va l'enregistrer plus tard */
-    /* sinon on va ventiler tout de suite */
-
-    if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_CATEGORY )
-	 &&
-	 GTK_WIDGET_VISIBLE ( widget_formulaire_par_element (TRANSACTION_FORM_BREAKDOWN))
-	 &&
-	 !gtk_object_get_data ( GTK_OBJECT ( formulaire ),
-				"liste_adr_ventilation" ))
-    {
-	enregistre_ope_au_retour = 1;
-
-	if ( gtk_widget_get_style ( widget_formulaire_par_element (TRANSACTION_FORM_DEBIT) ) == style_entree_formulaire[ENCLAIR] )
-	    ventiler_operation ( -my_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_par_element (TRANSACTION_FORM_DEBIT))),
-					      NULL ));
-	else
-	    ventiler_operation ( my_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_par_element (TRANSACTION_FORM_CREDIT))),
-					     NULL ));
-
-	return (FALSE);
-    }
-
 
     /* on vérifie si le tiers est un état, que c'est une nouvelle opération */
 
@@ -2761,33 +2676,33 @@ sort_test_cheques :
 
 	/* on vérifie maintenant si l'état existe */
 
-	tableau_char = g_strsplit ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_PARTY) ))),
+	tab_char = g_strsplit ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_PARTY) ))),
 				    ":",
 				    2 );
 
-	if ( tableau_char[1] )
+	if ( tab_char[1] )
 	{
-	    tableau_char[1] = g_strstrip ( tableau_char[1] );
-	    liste_tmp = liste_struct_etats;
+	    tab_char[1] = g_strstrip ( tab_char[1] );
+	    list_tmp = liste_struct_etats;
 	    trouve = 0;
 
-	    while ( liste_tmp )
+	    while ( list_tmp )
 	    {
-		struct struct_etat *etat;
+		struct struct_etat *report;
 
-		etat = liste_tmp -> data;
+		report = list_tmp -> data;
 
-		if ( !strcmp ( etat -> nom_etat,
-			       tableau_char[1] ))
+		if ( !strcmp ( report -> nom_etat,
+			       tab_char[1] ))
 		{
 		    trouve = 1;
-		    liste_tmp = NULL;
+		    list_tmp = NULL;
 		}
 		else
-		    liste_tmp = liste_tmp -> next;
+		    list_tmp = list_tmp -> next;
 	    }
 
-	    g_strfreev ( tableau_char );
+	    g_strfreev ( tab_char );
 
 	    if ( !trouve )
 	    {
@@ -2823,10 +2738,12 @@ sort_test_cheques :
 /******************************************************************************/
 void recuperation_donnees_generales_formulaire ( struct structure_operation *transaction )
 {
-    gchar **tableau_char;
+    gchar **tab_char;
     struct struct_devise *devise;
     gint i, j;
     struct organisation_formulaire *organisation_formulaire;
+    struct struct_imputation *imputation;
+
 
 
     /*     on fait le tour du formulaire en ne récupérant que ce qui est nécessaire */
@@ -2924,21 +2841,11 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 
 		case TRANSACTION_FORM_BUDGET:
 
-		    /* si c'est une opé ventilée, on ne récupère pas l'ib */
-
-		    if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget ) -> entry ) == style_entree_formulaire[ENCLAIR]
-			 &&
-			 (!verifie_element_formulaire_existe ( TRANSACTION_FORM_BREAKDOWN )
-			  ||
-			  !GTK_WIDGET_VISIBLE ( widget_formulaire_par_element (TRANSACTION_FORM_BREAKDOWN) )))
-		    {
-			struct struct_imputation *imputation;
-
-			tableau_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget )),
+			tab_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget )),
 						    ":",
 						    2 );
 
-			imputation = imputation_par_nom ( tableau_char[0],
+			imputation = imputation_par_nom ( tab_char[0],
 							  1,
 							  transaction -> montant < 0,
 							  0 );
@@ -2950,7 +2857,7 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 			    transaction -> imputation = imputation -> no_imputation;
 
 			    sous_imputation = sous_imputation_par_nom ( imputation,
-									tableau_char[1],
+									tab_char[1],
 									1 );
 
 			    if ( sous_imputation )
@@ -2961,14 +2868,7 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 			else
 			    transaction -> imputation = 0;
 
-			g_strfreev ( tableau_char );
-		    }
-		    else
-		    {
-			transaction -> imputation = 0;
-			transaction -> sous_imputation = 0;
-		    }
-
+			g_strfreev ( tab_char );
 		    break;
 
 		case TRANSACTION_FORM_NOTES:
@@ -3023,14 +2923,14 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 
 		    if ( !devise_compte
 			 ||
-			 devise_compte -> no_devise != gsb_account_get_currency (compte_courant) )
-			devise_compte = devise_par_no ( gsb_account_get_currency (compte_courant) );
+			 devise_compte -> no_devise != gsb_account_get_currency (gsb_account_get_current_account ()) )
+			devise_compte = devise_par_no ( gsb_account_get_currency (gsb_account_get_current_account ()) );
 
 		    transaction -> devise = devise -> no_devise;
 
 		    if ( !( transaction -> no_operation
 			    ||
-			    devise -> no_devise == gsb_account_get_currency (compte_courant)
+			    devise -> no_devise == gsb_account_get_currency (gsb_account_get_current_account ())
 			    ||
 			    ( devise_compte -> passage_euro
 			      &&
@@ -3078,133 +2978,141 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 }
 /******************************************************************************/
 
-/******************************************************************************/
-/* récupération des categ du formulaire, crée la contre opération si          */
-/* nécessaire ou remplit les opés de ventil                                   */
-/******************************************************************************/
-void recuperation_categorie_formulaire ( struct structure_operation *transaction,
-					 gint modification )
+
+/** deal with the category in the form, append it in the transaction given in param
+ * create the oter transaction if it's a transfer...
+ * \param transaction the transaction which work with
+ * \param new_transaction 1 if it's a new_transaction
+ * \return FALSE
+ * */
+gboolean gsb_form_get_categories ( struct structure_operation *transaction,
+				   gint new_transaction )
 {
-    gchar *pointeur_char;
-    gchar **tableau_char;
-    struct structure_operation *contre_operation;
-    GtkWidget *entree_categ;
+    gchar *char_ptr;
+    gchar **tab_char;
+    struct structure_operation *contra_transaction;
+    GtkWidget *category_entry;
 
     if ( !verifie_element_formulaire_existe ( TRANSACTION_FORM_CATEGORY ))
-	return;
+	return FALSE;
 
-    entree_categ = GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_CATEGORY) ) -> entry;
+    category_entry = GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_CATEGORY) ) -> entry;
 
-    if ( gtk_widget_get_style ( entree_categ ) == style_entree_formulaire[ENCLAIR] )
+    if ( gtk_widget_get_style ( category_entry ) == style_entree_formulaire[ENCLAIR] )
     {
 	struct struct_categ *categ;
 
-	pointeur_char = g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( entree_categ ))));
+	char_ptr = g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( category_entry ))));
 
-	/* récupération de la ventilation si nécessaire */
-
-	if ( !strcmp ( pointeur_char,
+	if ( !strcmp ( char_ptr,
 		       _("Breakdown of transaction") ))
 	{
-	    /* c'est une opé ventilée, on va appeler la fonction validation_ope_de_ventilation */
-	    /* qui va créer les nouvelles opé, les contre-opérations et faire toutes les */
-	    /* suppressions nécessaires */
+	    /* it's a breakdown of transaction */
+	    /* if it was a transfer, we delete the contra-transaction */
 
-	    /*  auparavant, si c'est une modif d'opé et que l'ancienne opé était un virement, on  */
-	    /* vire l'ancienne opé associée */
-
-	    if ( modification &&
+	    if ( !new_transaction
+		 &&
 		 transaction -> relation_no_operation )
 	    {
-		/* c'était un virement, et ce ne l'est plus, donc on efface l'opé en relation */
+		contra_transaction = operation_par_no ( transaction -> relation_no_operation,
+							transaction -> relation_no_compte );
 
-		contre_operation = operation_par_no ( transaction -> relation_no_operation,
-						      transaction -> relation_no_compte );
-
-		if ( contre_operation )
+		if ( contra_transaction )
 		{
-		    contre_operation -> relation_no_operation = 0;
-		    supprime_operation ( contre_operation );
+		    contra_transaction -> relation_no_operation = 0;
+		    gsb_transactions_list_delete_transaction ( contra_transaction );
 		}
 
 		transaction -> relation_no_operation = 0;
 		transaction -> relation_no_compte = 0;
 	    }
 
-	    validation_ope_de_ventilation ( transaction );
 	    transaction -> operation_ventilee = 1;
 	    transaction -> categorie = 0;
 	    transaction -> sous_categorie = 0;
+
+	    /*we will check here if there is another breakdown with the same party,
+	     * if yes, we propose to copy the daughters transactions */
+
+	    if ( new_transaction )
+	    {
+		struct structure_operation *breakdown_transaction;
+
+		breakdown_transaction = gsb_transactions_look_for_last_party ( transaction -> tiers,
+									       transaction -> no_operation );
+
+		if ( breakdown_transaction )
+		    gsb_transactions_list_get_breakdowns_of_transaction ( transaction,
+									  breakdown_transaction -> no_operation,
+									  breakdown_transaction -> no_compte );
+	    }
 	}
 	else
 	{
-	    /* ce n'est pas une opé ventilée, si c'est une modif d'opé et que */
-	    /* c'en était une, on supprime les opés de ventil asssociées */
+	    /* it's not a breakdown of transaction, if it was, we delete the
+	     * transaction's daughters */
 
-	    if ( modification
+	    if ( !new_transaction
 		 &&
 		 transaction -> operation_ventilee )
 	    {
-		GSList *liste_tmp;
+		GSList *list_tmp;
 
-		liste_tmp = gsb_account_get_transactions_list (compte_courant);
+		list_tmp = gsb_account_get_transactions_list (gsb_account_get_current_account ());
 
-		while ( liste_tmp )
+		while ( list_tmp )
 		{
-		    struct structure_operation *ope_tmp;
+		    struct structure_operation *transaction_tmp;
 
-		    ope_tmp = liste_tmp -> data;
+		    transaction_tmp = list_tmp -> data;
 
-		    if ( ope_tmp -> no_operation_ventilee_associee == transaction -> no_operation )
+		    if ( transaction_tmp -> no_operation_ventilee_associee == transaction -> no_operation )
 		    {
-			liste_tmp = liste_tmp -> next;
-			supprime_operation ( ope_tmp );
+			list_tmp = list_tmp -> next;
+			gsb_transactions_list_delete_transaction ( transaction_tmp );
 		    }
 		    else
-			liste_tmp = liste_tmp -> next;
+			list_tmp = list_tmp -> next;
 		}
 		transaction -> operation_ventilee = 0;
 	    }
 
-	    /* on va maintenant séparer entre virement et catég normale */
+	    /* now, check if it's a transfer or a normal category */
 
-	    tableau_char = g_strsplit ( pointeur_char,
+	    tab_char = g_strsplit ( char_ptr,
 					":",
 					2 );
 
-	    tableau_char[0] = g_strstrip ( tableau_char[0] );
+	    tab_char[0] = g_strstrip ( tab_char[0] );
 
-	    if ( tableau_char[1] )
-		tableau_char[1] = g_strstrip ( tableau_char[1] );
+	    if ( tab_char[1] )
+		tab_char[1] = g_strstrip ( tab_char[1] );
 
-
-	    if ( strlen ( tableau_char[0] ) )
+	    if ( strlen ( tab_char[0] ) )
 	    {
-		if ( !strcmp ( tableau_char[0],
+		if ( !strcmp ( tab_char[0],
 			       _("Transfer") )
-		     && tableau_char[1]
-		     && strlen ( tableau_char[1] ) )
+		     && tab_char[1]
+		     && strlen ( tab_char[1] ) )
 		{
-		    /* c'est un virement, il n'y a donc aucune catégorie */
+		    /* it's a transfert */
 
 		    transaction -> categorie = 0;
 		    transaction -> sous_categorie = 0;
 
 		    /* sépare entre virement vers un compte et virement vers un compte supprimé */
 
-		    if ( strcmp ( tableau_char[1],
+		    if ( strcmp ( tab_char[1],
 				  _("Deleted account") ) )
 		    {
-			/* c'est un virement normal, on appelle la fonction qui va traiter ça */
-
-			validation_virement_operation ( transaction,
-							modification,
-							tableau_char[1] );
+			/* it's a real transfert */
+			gsb_form_validate_transfer ( transaction,
+						     new_transaction,
+						     tab_char[1] );
 		    }
 		    else
 		    {
-			/* c'est un virement vers un compte supprimé */
-
+			/* it's a transfert to a deleted account */
 			transaction -> relation_no_compte = -1;
 			transaction -> relation_no_operation = 1;
 		    }
@@ -3213,26 +3121,26 @@ void recuperation_categorie_formulaire ( struct structure_operation *transaction
 		{
 		    /* c'est une catég normale, si c'est une modif d'opé, vérifier si ce n'était pas un virement */
 
-		    if ( modification
+		    if ( !new_transaction
 			 &&
 			 transaction -> relation_no_operation )
 		    {
 			/* c'était un virement, et ce ne l'est plus, donc on efface l'opé en relation */
 
-			contre_operation = operation_par_no ( transaction -> relation_no_operation,
+			contra_transaction = operation_par_no ( transaction -> relation_no_operation,
 							      transaction -> relation_no_compte );
 
-			if ( contre_operation )
+			if ( contra_transaction )
 			{
-			    contre_operation -> relation_no_operation = 0;
-			    supprime_operation ( contre_operation );
+			    contra_transaction -> relation_no_operation = 0;
+			    gsb_transactions_list_delete_transaction ( contra_transaction );
 			}
 
 			transaction -> relation_no_operation = 0;
 			transaction -> relation_no_compte = 0;
 		    }
 
-		    categ = categ_par_nom ( tableau_char[0],
+		    categ = categ_par_nom ( tab_char[0],
 					    1,
 					    transaction -> montant < 0,
 					    0 );
@@ -3244,7 +3152,7 @@ void recuperation_categorie_formulaire ( struct structure_operation *transaction
 			transaction -> categorie = categ -> no_categ;
 
 			sous_categ = sous_categ_par_nom ( categ,
-							  tableau_char[1],
+							  tab_char[1],
 							  1 );
 
 			if ( sous_categ )
@@ -3252,55 +3160,39 @@ void recuperation_categorie_formulaire ( struct structure_operation *transaction
 		    }
 		}
 	    }
-	    g_strfreev ( tableau_char );
+	    g_strfreev ( tab_char );
 	}
     }
+    return FALSE;
 }
 /******************************************************************************/
 
-/******************************************************************************/
-/* cette fonction crée la contre-opération, l'enregistre et met en place      */
-/* les liens si c'est une modif de virement, elle supprime aussi l'ancienne   */
-/* contre opération                                                           */
-/******************************************************************************/
-void validation_virement_operation ( struct structure_operation *transaction,
-				     gint modification,
-				     gchar *nom_compte_vire )
+/** validate a transfert from a form :
+ * - create the contra-transaction
+ * - delete the last contra-transaction if it's a modification
+ * \param transaction the new transaction or the modify transaction
+ * \param new_transaction TRUE if it's a new transaction
+ * \param name_transfer_account the name of the account we want to create the contra-transaction
+ * \return FALSE
+ * */
+gboolean gsb_form_validate_transfer ( struct structure_operation *transaction,
+				      gint new_transaction,
+				      gchar *name_transfer_account )
 {
-    struct struct_devise *devise, *devise_compte_2;
-    struct structure_operation *contre_operation;
-    gint compte_virement;
-    GSList *list_tmp;
+    struct struct_devise *transaction_currency;
+    struct struct_devise *account_currency;
+    struct structure_operation *contra_transaction;
+    gint account_transfer;
 
-    /* on n'a plus besoin de faire de tests, ceux ci ont été fait dans verification_validation_operation */
+    account_transfer = gsb_account_get_no_account_by_name ( name_transfer_account );
 
-    /* récupère le no du compte de la contre opération */
+    /* either it's a new transfer or a change of a non-transfer transaction
+     * either it was already a transfer, in that case, if we change the target account,
+     * we delete the contra-transaction and it's the same as a new transfer */
 
-    compte_virement = -1;
-    list_tmp = list_struct_accounts;
-
-    while ( list_tmp )
+    if ( !new_transaction )
     {
-	gint i;
-
-	i = gsb_account_get_no_account ( list_tmp -> data );
-
-	if ( !g_strcasecmp ( gsb_account_get_name (i),
-			     nom_compte_vire ))
-	{
-	    compte_virement = i;
-	    i = gsb_account_get_accounts_amount ();
-	}
-	list_tmp = list_tmp -> next;
-    }
-
-    /*   2 possibilités, soit c'est un nouveau virement ou une modif qui n'était pas un virement, */
-    /* soit c'est une modif de virement */
-    /*     dans le 2nd cas, si on a modifié le compte de la contre opération */
-    /*     on supprime l'ancienne contre opération et c'est un nouveau virement */
-
-    if ( modification )
-    {
+	/* it's a modification of a transaction */
 	/*       c'est une modif d'opé */
 	/* 	soit c'était un virement vers un autre compte et dans ce cas on vire la contre-opération pour la recréer plus tard */
 	/* soit c'est un virement vers le même compte et dans ce cas on fait rien, la contre opé sera modifiée automatiquement */
@@ -3308,201 +3200,215 @@ void validation_virement_operation ( struct structure_operation *transaction,
 
 	if ( transaction -> relation_no_operation )
 	{
-	    /* c'était déjà un virement, on ne vire la contre opé que si le compte cible a changé */
-
-	    if ( transaction -> relation_no_compte != compte_virement )
+	    if ( transaction -> relation_no_compte != account_transfer )
 	    {
-		/* il faut retirer l'ancienne contre opération */
+		/* it was a transfer and the user changed the target account */
 
-		contre_operation = operation_par_no ( transaction -> relation_no_operation,
-						      transaction -> relation_no_compte );
-
-		if ( contre_operation )
+		contra_transaction = operation_par_no ( transaction -> relation_no_operation,
+							transaction -> relation_no_compte );
+printf ( "ça passe\n" );
+		if ( contra_transaction )
 		{
-		    contre_operation -> relation_no_operation = 0;
-
-		    supprime_operation ( contre_operation );
-		    modification = 0;
+		    contra_transaction -> relation_no_operation = 0;
+		    gsb_transactions_list_delete_transaction ( contra_transaction );
+		    new_transaction = 1;
 		}
 	    }
 	}
 	else
 	{
-	    /* ce n'était pas un virement, on considère que c'est une nouvelle opé pour créer la contre opération */
+	    /* it was not a transfer, so it's the same as a new transaction, to do the contra-transaction */
 
-	    modification = 0;
+	    new_transaction = 1;
 	}
     }
 
-    /*   on en est maintenant à soit nouveau virement, soit modif de virement sans chgt de compte */
+    /* so, now, it's either a new transfer, either a transfer without changing the target account */
 
-    if ( modification
+    if ( !new_transaction
 	 &&
 	 transaction -> relation_no_operation )
-	contre_operation = operation_par_no ( transaction -> relation_no_operation,
-					      compte_virement );
+	contra_transaction = operation_par_no ( transaction -> relation_no_operation,
+						account_transfer );
     else
     {
-	contre_operation = calloc ( 1,
+	contra_transaction = calloc ( 1,
 				    sizeof ( struct structure_operation ) );
-	contre_operation -> no_compte = compte_virement;
-	contre_operation -> taux_change = 0;
-	contre_operation -> frais_change = 0;
+	contra_transaction -> no_compte = account_transfer;
     }
 
-    /* remplit la nouvelle opé */
+    /* fill the contra-transaction */
 
-    contre_operation -> jour = transaction -> jour;
-    contre_operation -> mois = transaction -> mois;
-    contre_operation -> annee = transaction -> annee;
-    contre_operation -> date = g_date_new_dmy ( contre_operation->jour,
-						contre_operation->mois,
-						contre_operation->annee);
-    contre_operation -> montant = -transaction -> montant;
+    contra_transaction -> jour = transaction -> jour;
+    contra_transaction -> mois = transaction -> mois;
+    contra_transaction -> annee = transaction -> annee;
+    contra_transaction -> date = g_date_new_dmy ( contra_transaction->jour,
+						  contra_transaction->mois,
+						  contra_transaction->annee);
+    contra_transaction -> montant = -transaction -> montant;
 
-    /* si c'est la devise du compte ou si c'est un compte qui doit passer à l'euro ( la transfo se fait au niveau */
-    /* de l'affichage de la liste ) ou si c'est un compte en euro et l'opé est dans une devise qui doit passer à l'euro -> ok */
+    /* check if we have to ask to convert a currency */
 
-    devise_compte_2 = devise_par_no ( gsb_account_get_currency (compte_virement) );
+    account_currency = devise_par_no ( gsb_account_get_currency (account_transfer) );
+    transaction_currency = devise_par_no ( transaction -> devise );
 
-    devise = devise_par_no ( transaction -> devise );
+    contra_transaction -> devise = transaction -> devise;
 
-    contre_operation -> devise = transaction -> devise;
-
-    if ( !( contre_operation-> no_operation
+    if ( !( contra_transaction-> no_operation
 	    ||
-	    devise -> no_devise == gsb_account_get_currency (compte_virement)
+	    transaction_currency -> no_devise == gsb_account_get_currency (account_transfer)
 	    ||
-	    ( devise_compte_2 -> passage_euro && is_euro(devise))
+	    ( account_currency -> passage_euro && is_euro(transaction_currency))
 	    ||
-	    ( is_euro(devise_compte_2) && devise -> passage_euro )))
+	    ( is_euro(account_currency) && transaction_currency -> passage_euro )))
     {
-	/* c'est une devise étrangère, on demande le taux de change et les frais de change */
+	/* c'est une currency étrangère, on demande le taux de change et les frais de change */
 
-	demande_taux_de_change ( devise_compte_2, devise, 1,
+	demande_taux_de_change ( account_currency, transaction_currency, 1,
 				 (gdouble ) 0, (gdouble ) 0, FALSE );
 
-	contre_operation -> taux_change = taux_de_change[0];
-	contre_operation -> frais_change = taux_de_change[1];
+	contra_transaction -> taux_change = taux_de_change[0];
+	contra_transaction -> frais_change = taux_de_change[1];
 
-	if ( contre_operation -> taux_change < 0 )
+	if ( contra_transaction -> taux_change < 0 )
 	{
-	    contre_operation -> taux_change = -contre_operation -> taux_change;
-	    contre_operation -> une_devise_compte_egale_x_devise_ope = 1;
+	    contra_transaction -> taux_change = -contra_transaction -> taux_change;
+	    contra_transaction -> une_devise_compte_egale_x_devise_ope = 1;
 	}
     }
 
-    contre_operation -> tiers = transaction -> tiers;
-    contre_operation -> categorie = transaction -> categorie;
-    contre_operation -> sous_categorie = transaction -> sous_categorie;
+    contra_transaction -> tiers = transaction -> tiers;
+    contra_transaction -> categorie = transaction -> categorie;
+    contra_transaction -> sous_categorie = transaction -> sous_categorie;
 
     if ( transaction -> notes )
-	contre_operation -> notes = g_strdup ( transaction -> notes);
+	contra_transaction -> notes = g_strdup ( transaction -> notes);
 
-    contre_operation -> auto_man = transaction -> auto_man;
+    contra_transaction -> auto_man = transaction -> auto_man;
 
     /* récupération du type de l'autre opé */
 
     if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_CONTRA )
 	 &&
 	 GTK_WIDGET_VISIBLE ( widget_formulaire_par_element (TRANSACTION_FORM_CONTRA) ))
-	contre_operation -> type_ope = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_CONTRA) ) -> menu_item ),
+	contra_transaction -> type_ope = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_CONTRA) ) -> menu_item ),
 									       "no_type" ));
-    else
-    {
-	contre_operation -> type_ope = 0;
-    }
 
-    if ( contre_operation -> type_ope
+    if ( contra_transaction -> type_ope
 	 &&
 	 transaction -> contenu_type )
-	contre_operation -> contenu_type = g_strdup ( transaction -> contenu_type );
+	contra_transaction -> contenu_type = g_strdup ( transaction -> contenu_type );
 
-    contre_operation -> no_exercice = transaction -> no_exercice;
-    contre_operation -> imputation = transaction -> imputation;
-    contre_operation -> sous_imputation = transaction -> sous_imputation;
+    contra_transaction -> no_exercice = transaction -> no_exercice;
+    contra_transaction -> imputation = transaction -> imputation;
+    contra_transaction -> sous_imputation = transaction -> sous_imputation;
 
     if ( transaction -> no_piece_comptable )
-	contre_operation -> no_piece_comptable = g_strdup ( transaction -> no_piece_comptable );
+	contra_transaction -> no_piece_comptable = g_strdup ( transaction -> no_piece_comptable );
 
     if ( transaction -> info_banque_guichet )
-	contre_operation -> info_banque_guichet = g_strdup ( transaction -> info_banque_guichet );
+	contra_transaction -> info_banque_guichet = g_strdup ( transaction -> info_banque_guichet );
 
-//    contre_operation -> pointe = transaction -> pointe;
-//    contre_operation -> no_rapprochement = transaction -> no_rapprochement;
+    /* append the contra_transaction to the list */
 
-    /*   on a fini de remplir l'opé, on peut l'ajouter Ã  la liste */
+    if ( new_transaction )
+	gsb_transactions_append_transaction ( contra_transaction );
 
-    if ( contre_operation -> no_operation )
-	modifie_operation ( contre_operation );
+    /* set the link between the transactions */
+
+    transaction -> relation_no_operation = contra_transaction -> no_operation;
+    transaction -> relation_no_compte = contra_transaction -> no_compte;
+    contra_transaction -> relation_no_operation = transaction -> no_operation;
+    contra_transaction -> relation_no_compte = transaction -> no_compte;
+
+    /* show the contra_transaction */
+
+    if ( new_transaction )
+	gsb_transactions_list_append_new_transaction ( contra_transaction );
     else
-    {
-	gsb_transactions_append_transaction ( contre_operation );
-	gsb_transactions_list_append_new_transaction ( contre_operation );
-    }
+	gsb_transactions_list_update_transaction ( contra_transaction );
 
-    /* on met maintenant les relations entre les diffÃ©rentes opé */
-
-    transaction -> relation_no_operation = contre_operation -> no_operation;
-    transaction -> relation_no_compte = contre_operation -> no_compte;
-    contre_operation -> relation_no_operation = transaction -> no_operation;
-    contre_operation -> relation_no_compte = transaction -> no_compte;
-
-    /*     on réaffiche juste les 2 opés, sans rien modifier d'autre */
-    /* 	juste pour afficher la categ (virement) */
-
-    gsb_transactions_list_append_transaction ( transaction,
-					       transaction -> no_compte );
-    gsb_transactions_list_append_transaction ( contre_operation,
-					       contre_operation -> no_compte );
+    return FALSE;
 }
 /******************************************************************************/
 
 
 
-/** append a new transaction in the tree_view
+/** 
+ * append a new transaction in the tree_view
+ * if the transaction is a breakdown, append a white line and open
+ * the breakdown to see the daughters
+ *
  * \param transaction
+ *
  * \return FALSE
  * */
 gboolean gsb_transactions_list_append_new_transaction ( struct structure_operation *transaction )
 {
     if ( DEBUG )
-	printf ( "gsb_transactions_list_append_new_transaction\n" );
+	printf ( "gsb_transactions_list_append_new_transaction %d\n",
+		 transaction -> no_operation );
 
 
     /*     update the tree_view */
 
-    if ( !transaction -> no_operation_ventilee_associee)
+    gsb_transactions_list_append_transaction ( transaction,
+					       transaction -> no_compte );
+
+    /* if the transaction is a breakdown mother, we happen a white line,
+     * which is a normal transaction but with nothing and with the breakdown
+     * relation to the last transaction */
+
+    if ( transaction -> operation_ventilee )
     {
-	gsb_transactions_list_append_transaction ( transaction,
-						   transaction -> no_compte );
-	gsb_transactions_list_set_background_color ( transaction -> no_compte );
-	gsb_transactions_list_set_transactions_balances ( transaction -> no_compte);
-	gsb_transactions_list_set_current_transaction ( gsb_account_get_current_transaction (transaction -> no_compte),
-							transaction -> no_compte );
-	gsb_transactions_list_move_to_current_transaction ( transaction -> no_compte );
+	struct structure_operation *breakdown_transaction;
+	GtkTreeIter *iter;
 
-	/*     calcul du solde courant */
+	breakdown_transaction = gsb_transactions_list_append_white_breakdown ( transaction );
 
-	gsb_account_set_current_balance ( transaction -> no_compte,
-					  gsb_account_get_current_balance ( transaction -> no_compte)
-					  +
-					  calcule_montant_devise_renvoi ( transaction -> montant,
-									  gsb_account_get_currency (transaction -> no_compte),
-									  transaction -> devise,
-									  transaction -> une_devise_compte_egale_x_devise_ope,
-									  transaction -> taux_change,
-									  transaction -> frais_change ));
-	/* on met à jour les labels des soldes */
+	/* we show the breakdowns daughters */
 
-	mise_a_jour_labels_soldes ();
+	gsb_account_list_set_breakdowns_visible ( transaction -> no_compte,
+						  transaction,
+						  TRUE );
 
-	/* on réaffichera l'accueil */
+	iter = cherche_iter_operation ( transaction,
+					transaction -> no_compte );
+	gtk_list_store_set ( GTK_LIST_STORE ( gsb_account_get_store ( transaction -> no_compte )),
+			     iter,
+			     TRANSACTION_COL_NB_IS_EXPANDED, TRUE,
+			     -1 );
+	gtk_tree_iter_free ( iter );
 
-	mise_a_jour_liste_comptes_accueil = 1;
-	mise_a_jour_soldes_minimaux = 1;
-	mise_a_jour_fin_comptes_passifs = 1;
-    }
+	gsb_transactions_list_set_current_transaction ( breakdown_transaction,
+							breakdown_transaction -> no_compte );
+    }	
+
+    gsb_transactions_list_set_visibles_rows_on_transaction ( transaction );
+    gsb_transactions_list_set_background_color ( transaction -> no_compte );
+    gsb_transactions_list_set_transactions_balances ( transaction -> no_compte);
+    gsb_transactions_list_move_to_current_transaction ( transaction -> no_compte );
+
+    /*     calcul du solde courant */
+
+    gsb_account_set_current_balance ( transaction -> no_compte,
+				      gsb_account_get_current_balance ( transaction -> no_compte)
+				      +
+				      calcule_montant_devise_renvoi ( transaction -> montant,
+								      gsb_account_get_currency (transaction -> no_compte),
+								      transaction -> devise,
+								      transaction -> une_devise_compte_egale_x_devise_ope,
+								      transaction -> taux_change,
+								      transaction -> frais_change ));
+    /* on met à jour les labels des soldes */
+
+    mise_a_jour_labels_soldes ();
+
+    /* on réaffichera l'accueil */
+
+    mise_a_jour_liste_comptes_accueil = 1;
+    mise_a_jour_soldes_minimaux = 1;
+    mise_a_jour_fin_comptes_passifs = 1;
     return FALSE;
 }
 /******************************************************************************/
@@ -3528,41 +3434,56 @@ gboolean gsb_transactions_append_transaction ( struct structure_operation *trans
 
 
 
-/******************************************************************************/
-/* Fonction modifie_operation                                                 */
-/* modifie l'opération donnée en argument sur la liste des opés, trie la liste*/
-/******************************************************************************/
-void modifie_operation ( struct structure_operation *transaction )
+/** update the transaction given in the tree_view
+ * \param transaction transaction to update
+ * \return FALSE
+ * */
+gboolean gsb_transactions_list_update_transaction ( struct structure_operation *transaction )
 {
+    gint j;
+    GtkListStore *store;
+    GtkTreeIter *iter;
+
     if ( DEBUG )
-	printf ( "modifie_operation\n" );
+	printf ( "gsb_transactions_list_update_transaction no %d\n",
+		 transaction -> no_operation );
 
-    /*     si la liste n'est pas finie, on la finie avant */
-    /*     théoriquement elle est finie à ce niveau car soit on modifie une opé */
-    /* 	qu'on voit, soit gsb_transactions_list_append_transaction a été appelé avant dans le cas */
-    /* 	de virements ; mais bon, ça coute rien de tester... */
-	
-     verification_list_store_termine ( transaction -> no_compte );
+    store = gsb_account_get_store (transaction -> no_compte);
+    iter = cherche_iter_operation ( transaction,
+				    transaction -> no_compte );
 
-    /*     réaffiche l'opÃ©ration */
+    for ( j = 0 ; j < TRANSACTION_LIST_ROWS_NB ; j++ )
+    {
+	gsb_transactions_list_fill_row ( transaction,
+					 iter,
+					 store,
+					 j );
 
-     gsb_transactions_list_append_transaction ( transaction,
-						transaction -> no_compte );
+	/* if it's a breakdown, there is only 1 line */
 
-    /*     on recherche l'iter de l'opération qu'on vient d'ajouter */
-    /* 	pour mettre à jour les soldes */
+	if ( transaction != GINT_TO_POINTER (-1)
+	     &&
+	     transaction -> no_operation_ventilee_associee )
+	    j = TRANSACTION_LIST_ROWS_NB;
+
+	gtk_tree_model_iter_next ( GTK_TREE_MODEL (store),
+				   iter );
+    }
+
+    gtk_tree_iter_free ( iter );
 
     gsb_transactions_list_set_transactions_balances ( transaction -> no_compte);
+    /*     calcul du solde courant */
 
-    /*     on recalcule les soldes pointés ou totaux */
-    /* 	ya plus rapide mais j'ai la flemme */
-    /* 	voir si ralentit vraiment... */
-
-    gsb_account_set_current_balance ( transaction -> no_compte, 
-				      calcule_solde_compte ( transaction -> no_compte ));
-    gsb_account_set_marked_balance ( transaction -> no_compte, 
-				     calcule_solde_pointe_compte ( transaction -> no_compte ));
-
+    gsb_account_set_current_balance ( transaction -> no_compte,
+				      gsb_account_get_current_balance ( transaction -> no_compte)
+				      +
+				      calcule_montant_devise_renvoi ( transaction -> montant,
+								      gsb_account_get_currency (transaction -> no_compte),
+								      transaction -> devise,
+								      transaction -> une_devise_compte_egale_x_devise_ope,
+								      transaction -> taux_change,
+								      transaction -> frais_change ));
     /* on met à jour les labels des soldes */
 
     mise_a_jour_labels_soldes ();
@@ -3572,6 +3493,8 @@ void modifie_operation ( struct structure_operation *transaction )
     mise_a_jour_liste_comptes_accueil = 1;
     mise_a_jour_soldes_minimaux = 1;
     mise_a_jour_fin_comptes_passifs = 1;
+
+    return FALSE;
 }
 /******************************************************************************/
 
@@ -3599,6 +3522,8 @@ void formulaire_a_zero (void)
 	    {
 		case TRANSACTION_FORM_DATE:
 
+		    gtk_widget_set_sensitive ( widget,
+					       TRUE );
 		    gtk_widget_set_style ( widget,
 					   style_entree_formulaire[ENGRIS] );
 		    gtk_entry_set_text ( GTK_ENTRY ( widget ),
@@ -3621,6 +3546,8 @@ void formulaire_a_zero (void)
 
 		case TRANSACTION_FORM_PARTY:
 
+		    gtk_widget_set_sensitive ( widget,
+					       TRUE );
 		    gtk_widget_set_style ( GTK_COMBOFIX ( widget ) -> entry,
 					   style_entree_formulaire[ENGRIS] );
 		    gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
@@ -3657,9 +3584,7 @@ void formulaire_a_zero (void)
 					       TRUE );
 		    break;
 
-		case TRANSACTION_FORM_BREAKDOWN:
-
-		    gtk_widget_hide ( widget );
+		case TRANSACTION_FORM_FREE:
 		    break;
 
 		case TRANSACTION_FORM_BUDGET:
@@ -3681,7 +3606,7 @@ void formulaire_a_zero (void)
 		case TRANSACTION_FORM_TYPE:
 
 		    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget ),
-						  cherche_no_menu_type ( gsb_account_get_default_debit (compte_courant) ) );
+						  cherche_no_menu_type ( gsb_account_get_default_debit (gsb_account_get_current_account ()) ) );
 		    gtk_widget_set_sensitive ( GTK_WIDGET ( widget ),
 					       FALSE );
 		    break;
@@ -3704,7 +3629,7 @@ void formulaire_a_zero (void)
 
 		    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget ),
 						  g_slist_index ( liste_struct_devises,
-								  devise_par_no ( gsb_account_get_currency (compte_courant) )));
+								  devise_par_no ( gsb_account_get_currency (gsb_account_get_current_account ()) )));
 		    gtk_widget_set_sensitive ( GTK_WIDGET ( widget ),
 					       FALSE );
 		    break;
@@ -3793,11 +3718,11 @@ void affiche_cache_le_formulaire ( void )
 	/* 	on la remonte pour la mettre juste au dessus du formulaire */
 
 	update_ecran ();
-	ajustement = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte_courant) ));
+	ajustement = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( gsb_account_get_tree_view (gsb_account_get_current_account ()) ));
 	
-	position_ligne_selectionnee = ( cherche_ligne_operation ( gsb_account_get_current_transaction (compte_courant),
-								  compte_courant )
-					+ gsb_account_get_nb_rows ( compte_courant ) ) * hauteur_ligne_liste_opes;
+	position_ligne_selectionnee = ( cherche_ligne_operation ( gsb_account_get_current_transaction (gsb_account_get_current_account ()),
+								  gsb_account_get_current_account () )
+					+ gsb_account_get_nb_rows ( gsb_account_get_current_account () ) ) * hauteur_ligne_liste_opes;
 
 	if ( position_ligne_selectionnee  > (ajustement->value + ajustement->page_size))
 	    gtk_adjustment_set_value ( ajustement,
@@ -3816,25 +3741,6 @@ void affiche_cache_le_formulaire ( void )
 
 
 /******************************************************************************/
-/* Fonction basculer_vers_ventilation                                         */
-/* appelée par l'appui du bouton Ventilation...                               */
-/* permet de voir les opés ventilées d'une ventilation                        */
-/******************************************************************************/
-void basculer_vers_ventilation ( GtkWidget *bouton,
-				 gpointer null )
-{
-    enregistre_ope_au_retour = 0;
-
-    if ( gtk_widget_get_style ( widget_formulaire_par_element (TRANSACTION_FORM_DEBIT) ) == style_entree_formulaire[ENCLAIR] )
-	ventiler_operation ( -my_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_par_element (TRANSACTION_FORM_DEBIT))),
-					  NULL ));
-    else
-	ventiler_operation ( my_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_par_element (TRANSACTION_FORM_CREDIT))),
-					 NULL ));
-}
-/******************************************************************************/
-
-/******************************************************************************/
 /* Fonction click_sur_bouton_voir_change  */
 /* permet de modifier un change établi pour une opération */
 /******************************************************************************/
@@ -3849,8 +3755,8 @@ void click_sur_bouton_voir_change ( void )
 				      "adr_struct_ope" );
 
     if ( !devise_compte ||
-	 devise_compte -> no_devise != gsb_account_get_currency (compte_courant) )
-	devise_compte = devise_par_no ( gsb_account_get_currency (compte_courant) );
+	 devise_compte -> no_devise != gsb_account_get_currency (gsb_account_get_current_account ()) )
+	devise_compte = devise_par_no ( gsb_account_get_currency (gsb_account_get_current_account ()) );
 
     devise = devise_par_no ( transaction -> devise );
 
@@ -3883,6 +3789,7 @@ void degrise_formulaire_operations ( void )
 	gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
 				   TRUE );
 
+    if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_DEVISE ))
 	gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_par_element (TRANSACTION_FORM_DEVISE) ),
 				   TRUE );
 
@@ -3904,7 +3811,7 @@ struct organisation_formulaire *renvoie_organisation_formulaire ( void )
 {
     struct organisation_formulaire *retour;
 
-    retour = gsb_account_get_form_organization (compte_courant);
+    retour = gsb_account_get_form_organization (gsb_account_get_current_account ());
 
     return retour;
 }

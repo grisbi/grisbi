@@ -25,12 +25,11 @@
 /*START_INCLUDE*/
 #include "metatree.h"
 #include "barre_outils.h"
-#include "operations_comptes.h"
-#include "utils_comptes.h"
 #include "operations_liste.h"
 #include "utils_devises.h"
 #include "dialog.h"
 #include "data_account.h"
+#include "operations_comptes.h"
 #include "gtk_combofix.h"
 #include "utils_str.h"
 #include "traitement_variables.h"
@@ -70,9 +69,7 @@ static void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * mod
 
 
 /*START_EXTERN*/
-extern gint compte_courant;
 extern GtkWidget *formulaire;
-extern GSList *list_struct_accounts;
 extern GSList *liste_struct_echeances;
 extern GtkTreeStore *model;
 extern GtkTreeSelection * selection;
@@ -339,7 +336,7 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
     gtk_tree_store_set ( GTK_TREE_STORE(model), iter, 
 			 META_TREE_POINTER_COLUMN, operation,
 			 META_TREE_TEXT_COLUMN, label,
-			 META_TREE_ACCOUNT_COLUMN, compte_name_by_no(operation->no_compte),
+			 META_TREE_ACCOUNT_COLUMN, gsb_account_get_name(operation->no_compte),
 			 META_TREE_BALANCE_COLUMN, montant,
 			 META_TREE_NO_DIV_COLUMN, -1,
 			 META_TREE_NO_SUB_DIV_COLUMN, -1,
@@ -474,7 +471,7 @@ gboolean supprimer_division ( GtkWidget * button, GtkTreeView * tree_view )
 	/* on fait le tour des opés pour mettre le nouveau numéro de
 	 * division et sub_division */
 
-	list_tmp = list_struct_accounts;
+	list_tmp = gsb_account_get_list_accounts ();
 
 	while ( list_tmp )
 	{
@@ -586,7 +583,7 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 	/* on fait le tour des opés pour mettre le nouveau numéro de
 	 * division et sub_division */
 
-	list_tmp = list_struct_accounts;
+	list_tmp = gsb_account_get_list_accounts ();
 
 	while ( list_tmp )
 	{
@@ -708,7 +705,7 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
 			     META_TREE_NO_SUB_DIV_COLUMN, &no_sub_division,
 			     -1 );
 
-	list_tmp = list_struct_accounts;
+	list_tmp = gsb_account_get_list_accounts ();
 
 	while ( list_tmp )
 	{
@@ -779,11 +776,11 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 	/* We do not jump to a transaction if a division is specified */
 	if ( operation && no_division == -1 && no_sub_division == -1 )
 	{
-	    changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
-	    if ( operation -> pointe == 3 && !gsb_account_get_r (compte_courant) )
+	    gsb_account_list_gui_change_current_account ( GINT_TO_POINTER ( operation -> no_compte ));
+	    if ( operation -> pointe == 3 && !gsb_account_get_r (gsb_account_get_current_account ()) )
 		change_aspect_liste ( 5 );
 	    gsb_transactions_list_set_current_transaction ( operation,
-							    compte_courant );
+							    gsb_account_get_current_account () );
 	}
     }
 
@@ -918,7 +915,7 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 		fill_sub_division_row ( model, iface, &iter, 
 					dest_division, dest_sub_division );
 
-		list_tmp = list_struct_accounts;
+		list_tmp = gsb_account_get_list_accounts ();
 
 		while ( list_tmp )
 		{
@@ -1305,7 +1302,7 @@ gboolean find_associated_transactions ( MetatreeInterface * iface,
     GSList *liste_tmp;
     GSList *list_tmp;
 
-    list_tmp = list_struct_accounts;
+    list_tmp = gsb_account_get_list_accounts ();
 
     while ( list_tmp )
     {

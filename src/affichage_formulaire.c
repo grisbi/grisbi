@@ -104,7 +104,6 @@ GtkWidget *formulaire;
 
 /*START_EXTERN*/
 extern gint col_depart_drag;
-extern gint compte_courant;
 extern gint ligne_depart_drag;
 extern gint nb_colonnes;
 extern GtkWidget *preview;
@@ -611,16 +610,6 @@ gboolean toggled_signal_configuration_formulaire ( GtkWidget *toggle_button )
 
     switch ( no_element )
     {
-	case TRANSACTION_FORM_CATEGORY:
-	    /* 	    c'est une catÃ©g, on met le bouton de ventil */
-	    no_second_element = TRANSACTION_FORM_BREAKDOWN;
-	    break;
-
-	case TRANSACTION_FORM_BREAKDOWN:
-	    /* 	    c'est le bouton de ventil, on met la catÃ©g */
-	    no_second_element = TRANSACTION_FORM_CATEGORY;
-	    break;
-
 	case TRANSACTION_FORM_TYPE:
 	    /* 	    c'est le mode de paiement, on met le chq */
 	    no_second_element = TRANSACTION_FORM_CHEQUE;
@@ -812,8 +801,8 @@ void remplissage_liste_organisation_formulaire ( GtkListStore *store,
 
     if ( !etat.formulaire_distinct_par_compte
 	 ||
-	 recupere_no_compte ( option_menu_comptes_choix_formulaire ) == compte_courant )
-	remplissage_formulaire ( compte_courant );
+	 recupere_no_compte ( option_menu_comptes_choix_formulaire ) == gsb_account_get_current_account () )
+	remplissage_formulaire ( gsb_account_get_current_account () );
 }
 /* *************************************************************************** */
 
@@ -856,8 +845,8 @@ gchar *recherche_nom_element_formulaire ( gint no_element )
 	    return (N_("Categories"));
 	    break;
 
-	case TRANSACTION_FORM_BREAKDOWN:
-	    return (N_("Breakdown"));
+	case TRANSACTION_FORM_FREE:
+	    return (N_("Free"));
 	    break;
 
 	case TRANSACTION_FORM_BUDGET:
@@ -984,7 +973,7 @@ gboolean change_taille_colonne_organisation_formulaire ( GtkWidget *tree_view,
 
     if ( !etat.formulaire_distinct_par_compte
 	 ||
-	 recupere_no_compte ( option_menu_comptes_choix_formulaire ) == compte_courant )
+	 recupere_no_compte ( option_menu_comptes_choix_formulaire ) == gsb_account_get_current_account () )
 	mise_a_jour_taille_formulaire ( formulaire -> allocation.width );
 
     return FALSE;

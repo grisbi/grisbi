@@ -27,7 +27,6 @@
 
 #include "include.h"
 #include "echeancier_formulaire_constants.h"
-#include "ventilation_constants.h"
 #include "operations_formulaire_constants.h"
 
 
@@ -100,7 +99,6 @@ extern gchar *dernier_chemin_de_travail;
 extern struct struct_devise *devise_compte;
 extern struct struct_etat *etat_courant;
 extern GtkWidget *formulaire;
-extern GSList *list_struct_accounts;
 extern GSList *liste_struct_categories;
 extern GSList *liste_struct_echeances;
 extern GdkBitmap *masque_ferme;
@@ -113,7 +111,6 @@ extern GdkPixmap *pixmap_ferme;
 extern GdkPixmap *pixmap_ouvre;
 extern GtkTreeSelection * selection;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
-extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -805,7 +802,7 @@ void supprimer_imputation ( void )
 
     ope_trouvee = 0;
 
-    list_tmp = list_struct_accounts;
+    list_tmp = gsb_account_get_list_accounts ();
 
     while ( list_tmp )
     {
@@ -1039,7 +1036,7 @@ retour_dialogue:
 
 	/* on fait le tour des opés pour mettre le nouveau numéro de imputation et sous_imputation */
 
-	list_tmp = list_struct_accounts;
+	list_tmp = gsb_account_get_list_accounts ();
 
 	while ( list_tmp )
 	{
@@ -1143,7 +1140,7 @@ void supprimer_sous_imputation ( void )
 
     ope_trouvee = 0;
 
-    list_tmp = list_struct_accounts;
+    list_tmp = gsb_account_get_list_accounts ();
 
     while ( list_tmp )
     {
@@ -1381,7 +1378,7 @@ retour_dialogue:
 
 	/* on fait le tour des opés pour mettre le nouveau numéro de imputation et sous_imputation */
 
-	list_tmp = list_struct_accounts;
+	list_tmp = gsb_account_get_list_accounts ();
 
 	while ( list_tmp )
 	{
@@ -1556,11 +1553,6 @@ void mise_a_jour_combofix_imputation ( void )
 				liste_imputations_combofix,
 				TRUE,
 				TRUE );
-
-    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_BUDGETARY] ),
-			    liste_imputations_combofix,
-			    TRUE,
-			    TRUE );
 
     gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ),
 			    liste_imputations_combofix,

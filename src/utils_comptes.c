@@ -29,7 +29,6 @@
 /*START_INCLUDE*/
 #include "utils_comptes.h"
 #include "comptes_traitements.h"
-#include "data_account.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -37,7 +36,6 @@
 
 
 /*START_EXTERN*/
-extern GSList *list_struct_accounts;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 /*END_EXTERN*/
 
@@ -116,57 +114,6 @@ void update_options_menus_comptes ( void )
 }
 /* ************************************************************************** */
 
-
-/* ************************************************************************** */
-/* renvoie le nom du compte donnÃ© en argument ou NULL */
-/* ************************************************************************** */
-gchar *compte_name_by_no ( gint no_compte )
-{
-
-    if ( no_compte >= 0
-	 &&
-	 no_compte <= gsb_account_get_accounts_amount () )
-    {
-	return ( g_strdup ( gsb_account_get_name (no_compte) ));
-    }
-    else
-	return NULL;
-
-}
-/* ************************************************************************** */
-
-
-/* ************************************************************************** */
-/* renvoie le no du compte donnÃ© en argument ou -1 */
-/* ************************************************************************** */
-gint no_compte_by_name ( gchar *name )
-{
-    gint no_compte;
-    GSList *list_tmp;
-
-    no_compte = -1;
-
-    list_tmp = list_struct_accounts;
-
-    while ( list_tmp )
-    {
-	gint i;
-
-	i = gsb_account_get_no_account ( list_tmp -> data );
-
-	if ( !g_strcasecmp ( gsb_account_get_name (i),
-			     name ))
-	{
-	    no_compte = i;
-	    i=gsb_account_get_accounts_amount ();
-	}
-
-	list_tmp = list_tmp -> next;
-    }
-
-    return no_compte;
-}
-/* ************************************************************************** */
 
 
 /* Local Variables: */

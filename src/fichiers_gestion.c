@@ -34,7 +34,6 @@
 #include "patienter.h"
 #include "utils_montants.h"
 #include "fenetre_principale.h"
-#include "operations_comptes.h"
 #include "fichiers_io.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
@@ -44,8 +43,10 @@
 #include "erreur.h"
 #include "utils_file_selection.h"
 #include "data_account.h"
+#include "operations_comptes.h"
 #include "traitement_variables.h"
 #include "main.h"
+#include "accueil.h"
 #include "utils_files.h"
 #include "affichage_liste.h"
 #include "fichier_configuration.h"
@@ -71,13 +72,11 @@ gchar *nom_fichier_backup;
 extern gboolean block_menu_cb ;
 extern gint compression_backup;
 extern gint compression_fichier;
-extern gint compte_courant;
 extern gchar *dernier_chemin_de_travail;
 extern GSList *echeances_a_saisir;
 extern GSList *echeances_saisies;
 extern gint id_temps;
 extern GtkItemFactory *item_factory_menu_general;
-extern GSList *list_struct_accounts;
 extern GSList *liste_struct_echeances;
 extern GSList *liste_struct_etats;
 extern gint max;
@@ -88,8 +87,7 @@ extern gint nb_derniers_fichiers_ouverts;
 extern gint nb_max_derniers_fichiers_ouverts;
 extern gchar *nom_fichier_comptes;
 extern GtkWidget *notebook_general;
-extern GSList *ordre_comptes;
-extern gint rapport_largeur_colonnes[7];
+extern gint rapport_largeur_colonnes[TRANSACTION_LIST_COL_NB];
 extern gchar **tab_noms_derniers_fichiers_ouverts;
 extern gchar *titre_fichier;
 extern GtkWidget *window;
@@ -122,11 +120,11 @@ gboolean new_file ( void )
 
     ajout_devise ( NULL );
 
-    compte_courant = gsb_account_new( type_de_compte );
+    gsb_account_set_current_account ( gsb_account_new( type_de_compte ));
 
     /* si la création s'est mal passée, on se barre */
 
-    if ( compte_courant == -1 )
+    if ( gsb_account_get_current_account () == -1 )
 	return FALSE;
 
     init_variables_new_file ();
@@ -190,7 +188,7 @@ void init_gui_new_file ( void )
 			 TRUE,
 			 0 );
 
-    changement_compte ( GINT_TO_POINTER ( compte_courant ) );
+    gsb_account_list_gui_change_current_account ( GINT_TO_POINTER ( gsb_account_get_current_account () ) );
 
     /* affiche le nom du fichier de comptes dans le titre de la fenetre */
 
@@ -433,7 +431,7 @@ void ouverture_confirmee ( void )
     
     update_attente ( _("Checking amounts"));
 
-    list_tmp = list_struct_accounts;
+    list_tmp = gsb_account_get_list_accounts ();
 
     while ( list_tmp )
     {
@@ -490,12 +488,12 @@ void ouverture_confirmee ( void )
     widget = gtk_item_factory_get_item ( item_factory_menu_general,
 					 menu_name(_("View"), _("Show reconciled transactions"), NULL) );
 
-    /* FIXME : à vérifier pour les 2 prochains gsb_account, mis compte_courant en attendant */
+    /* FIXME : à vérifier pour les 2 prochains gsb_account, mis gsb_account_get_current_account () en attendant */
 
-    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), gsb_account_get_r (compte_courant) );
+    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), gsb_account_get_r (gsb_account_get_current_account ()) );
 
     /* On met à jour le contrôle dans le menu du nombre de lignes affichées */
-    switch ( gsb_account_get_nb_rows ( compte_courant ) )
+    switch ( gsb_account_get_nb_rows ( gsb_account_get_current_account () ) )
       {
       case 1 :
 	item_name = menu_name ( _("View"), _("Show one line per transaction"), NULL );
@@ -524,6 +522,7 @@ void ouverture_confirmee ( void )
 			 0 );
     gtk_widget_show ( notebook_general );
 
+    mise_a_jour_accueil ();
     annulation_attente ();
 }
 /* ************************************************************************************************************ */
@@ -546,12 +545,18 @@ gboolean enregistrement_fichier ( gint origine )
     gint etat_force, result;
     gchar *nouveau_nom_enregistrement;
 
+    if ( DEBUG )
+	printf ( "enregistrement_fichier from %d\n", origine );
 
     etat_force = 0;
 
     if ( ( ! etat.modification_fichier && origine != -2 ) ||
 	 ! gsb_account_get_accounts_amount () )
+    {
+	if ( DEBUG )
+	    printf ( "nothing done in enregistrement_fichier\n" );
 	return ( TRUE );
+    }
 
     /* si le fichier de comptes n'a pas de nom ou si on enregistre sous un nouveau nom */
     /*     c'est ici */
@@ -808,7 +813,7 @@ gboolean fermer_fichier ( void )
 
 	    /* libère les opérations de tous les comptes */
 
-	    list_tmp = list_struct_accounts;
+	    list_tmp = gsb_account_get_list_accounts ();
 
 	    while ( list_tmp )
 	    {
@@ -822,14 +827,13 @@ gboolean fermer_fichier ( void )
 		list_tmp = list_tmp -> next;
 	    }
 
-	    g_slist_free ( list_struct_accounts );
+	    g_slist_free ( gsb_account_get_list_accounts () );
 
 	    /* libère les échéances */
 
 	    g_slist_free ( liste_struct_echeances );
 	    g_slist_free ( echeances_a_saisir );
 	    g_slist_free ( echeances_saisies );
-	    g_slist_free ( ordre_comptes );
 	    g_slist_free ( liste_struct_etats );
 
 	    gtk_signal_disconnect_by_func ( GTK_OBJECT ( notebook_general ),

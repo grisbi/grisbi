@@ -277,7 +277,6 @@ GtkWidget *liste_mode_paiement_etat;
 extern struct struct_etat *etat_courant;
 extern GtkWidget *frame_liste_etats;
 extern GtkWidget *label_etat_courant;
-extern GSList *list_struct_accounts;
 extern GSList *liste_struct_categories;
 extern GSList *liste_struct_devises;
 extern GSList *liste_struct_exercices;
@@ -291,7 +290,6 @@ extern GtkWidget *notebook_etats;
 extern GtkWidget *notebook_general;
 extern GtkWidget *notebook_selection;
 extern GtkWidget *onglet_config_etat;
-extern GSList *ordre_comptes;
 extern GtkTreeSelection * selection;
 extern GtkStyle *style_label;
 extern GtkStyle *style_label_nom_compte;
@@ -2693,31 +2691,34 @@ GtkWidget *onglet_etat_comptes ( void )
 /******************************************************************************/
 void remplissage_liste_comptes_etats ( void )
 {
-    GSList *pUserAccountsList = NULL;
-
-    pUserAccountsList = g_slist_copy ( ordre_comptes );
+    GSList *list_tmp;
 
     if ( !liste_comptes_etat )
 	return;
 
     gtk_clist_clear ( GTK_CLIST ( liste_comptes_etat ) );
 
-    do
+   list_tmp = gsb_account_get_list_accounts ();
+
+    while ( list_tmp )
     {
+	gint i;
 	gchar *nom[1];
 	gint ligne;
 
-	nom[0] = gsb_account_get_name (GPOINTER_TO_INT ( pUserAccountsList -> data ));
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
+
+	nom[0] = gsb_account_get_name (i);
 
 	ligne = gtk_clist_append ( GTK_CLIST ( liste_comptes_etat ),
 				   nom );
 
 	gtk_clist_set_row_data ( GTK_CLIST ( liste_comptes_etat ),
 				 ligne,
-				 pUserAccountsList -> data );
+				 GINT_TO_POINTER (i));
+	list_tmp = list_tmp -> next;
     }
-    while ( (  pUserAccountsList = pUserAccountsList -> next ) );
-    g_slist_free ( pUserAccountsList );
 }
 /******************************************************************************/
 
@@ -2990,31 +2991,33 @@ GtkWidget *onglet_etat_virements ( void )
 /******************************************************************************/
 void remplissage_liste_comptes_virements ( void )
 {
-    GSList *pUserAccountsList = NULL;
-
-    pUserAccountsList = g_slist_copy ( ordre_comptes );
+    GSList *list_tmp;
 
     if ( !onglet_config_etat )
 	return;
 
     gtk_clist_clear ( GTK_CLIST ( liste_comptes_virements ) );
 
-    do
+    list_tmp = gsb_account_get_list_accounts ();
+
+    while ( list_tmp )
     {
+	gint i;
 	gchar *nom[1];
 	gint ligne;
 
-	nom[0] = gsb_account_get_name (GPOINTER_TO_INT ( pUserAccountsList -> data ));
+	i = gsb_account_get_no_account ( list_tmp -> data );
+
+	nom[0] = gsb_account_get_name (i);
 
 	ligne = gtk_clist_append ( GTK_CLIST ( liste_comptes_virements ),
 				   nom );
 
 	gtk_clist_set_row_data ( GTK_CLIST ( liste_comptes_virements ),
 				 ligne,
-				 pUserAccountsList -> data );
+				 GINT_TO_POINTER (i));
+	list_tmp = list_tmp -> next;
     }
-    while ( (  pUserAccountsList = pUserAccountsList -> next ) );
-    g_slist_free ( pUserAccountsList );
 }
 /******************************************************************************/
 
@@ -7817,7 +7820,7 @@ void remplissage_liste_modes_paiement_etats ( void )
     /* on va commencer par créer une liste de textes contenant les noms */
     /* des modes de paiement sans doublon */
 
-    list_tmp = list_struct_accounts;
+    list_tmp = gsb_account_get_list_accounts ();
     liste_nom_types = NULL;
 
     while ( list_tmp )

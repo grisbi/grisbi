@@ -24,7 +24,6 @@
 #include "type_operations_constants.h"
 #include "echeancier_formulaire_constants.h"
 #include "operations_formulaire_constants.h"
-#include "ventilation_constants.h"
 
 
 
@@ -82,12 +81,10 @@ GtkWidget *vbox_fleches_tri;
 GtkWidget * details_paddingbox;
 
 /*START_EXTERN*/
-extern gint compte_courant;
 extern GtkWidget *fenetre_preferences;
 extern GtkWidget *formulaire;
 extern GtkWidget *label_saisie_modif;
 extern gint max;
-extern GSList *ordre_comptes;
 extern GtkTreeSelection * selection;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 /*END_EXTERN*/
@@ -160,22 +157,27 @@ void payment_method_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
 void fill_payment_method_tree ()
 {
     GtkTreeIter account_iter, debit_iter, credit_iter;
-    GSList *pUserAccountsList = NULL;
+    GSList *list_tmp;
 
-    pUserAccountsList = g_slist_copy ( ordre_comptes );
 
     /* Fill tree, iter over with accounts */
-    do
+
+    list_tmp = gsb_account_get_list_accounts ();
+
+    while ( list_tmp )
     {
+	gint i;
 	GSList *liste_tmp;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
 	gtk_tree_store_append (model, &account_iter, NULL);
 	gtk_tree_store_set (model, &account_iter,
-			    PAYMENT_METHODS_NAME_COLUMN, gsb_account_get_name (GPOINTER_TO_INT ( pUserAccountsList -> data )),
+			    PAYMENT_METHODS_NAME_COLUMN, gsb_account_get_name (i),
 			    PAYMENT_METHODS_NUMBERING_COLUMN, "",
 			    /* This is a hack: account number is put in 
 			       Debit/Credit nodes */
-			    PAYMENT_METHODS_TYPE_COLUMN, GPOINTER_TO_INT ( pUserAccountsList -> data ),
+			    PAYMENT_METHODS_TYPE_COLUMN, i,
 			    PAYMENT_METHODS_DEFAULT_COLUMN, FALSE,
 			    PAYMENT_METHODS_ACTIVABLE_COLUMN, FALSE, 
 			    PAYMENT_METHODS_VISIBLE_COLUMN, FALSE, 
@@ -189,7 +191,7 @@ void fill_payment_method_tree ()
 			    PAYMENT_METHODS_NUMBERING_COLUMN, "",
 			    /* This is a hack: account number is put in 
 			       Debit/Credit nodes */
-			    PAYMENT_METHODS_TYPE_COLUMN, GPOINTER_TO_INT ( pUserAccountsList -> data ),
+			    PAYMENT_METHODS_TYPE_COLUMN, i,
 			    PAYMENT_METHODS_DEFAULT_COLUMN, FALSE,
 			    PAYMENT_METHODS_ACTIVABLE_COLUMN, FALSE, 
 			    PAYMENT_METHODS_VISIBLE_COLUMN, FALSE, 
@@ -203,7 +205,7 @@ void fill_payment_method_tree ()
 			    PAYMENT_METHODS_NUMBERING_COLUMN, "",
 			    /* This is a hack: account number is put in 
 			       Debit/Credit nodes */
-			    PAYMENT_METHODS_TYPE_COLUMN, GPOINTER_TO_INT ( pUserAccountsList -> data ),
+			    PAYMENT_METHODS_TYPE_COLUMN, i,
 			    PAYMENT_METHODS_DEFAULT_COLUMN, FALSE,
 			    PAYMENT_METHODS_ACTIVABLE_COLUMN, FALSE, 
 			    PAYMENT_METHODS_VISIBLE_COLUMN, FALSE, 
@@ -212,7 +214,7 @@ void fill_payment_method_tree ()
 
 
 	/* Iter over account payment methods */
-	liste_tmp = gsb_account_get_method_payment_list (GPOINTER_TO_INT ( pUserAccountsList -> data ));
+	liste_tmp = gsb_account_get_method_payment_list (i);
 
 	while ( liste_tmp )
 	{
@@ -224,9 +226,9 @@ void fill_payment_method_tree ()
 
 	    type_ope = liste_tmp->data;
 
-	    if ( type_ope -> no_type == gsb_account_get_default_debit (GPOINTER_TO_INT ( pUserAccountsList -> data ))
+	    if ( type_ope -> no_type == gsb_account_get_default_debit (i)
 		 ||
-		 type_ope -> no_type == gsb_account_get_default_credit (GPOINTER_TO_INT ( pUserAccountsList -> data )) )
+		 type_ope -> no_type == gsb_account_get_default_credit (i) )
 		isdefault = 1;
 	    else
 		isdefault = 0;
@@ -262,9 +264,8 @@ void fill_payment_method_tree ()
 
 	    liste_tmp = liste_tmp -> next;
 	}
+	list_tmp = list_tmp -> next;
     }
-    while ( (  pUserAccountsList = pUserAccountsList -> next ) );
-    g_slist_free ( pUserAccountsList );
 }
 
 
@@ -579,14 +580,14 @@ void modification_entree_nom_type ( void )
 
 	if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_TYPE ))
 	{
-	    if ( (menu = creation_menu_types ( 1, compte_courant , 0 )))
+	    if ( (menu = creation_menu_types ( 1, gsb_account_get_current_account () , 0 )))
 	    {
 		gint pos_type;
 
 		gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
 					   menu );
 
-		pos_type = cherche_no_menu_type ( gsb_account_get_default_debit (compte_courant) );
+		pos_type = cherche_no_menu_type ( gsb_account_get_default_debit (gsb_account_get_current_account ()) );
 
 		if ( pos_type != -1 )
 		    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
@@ -597,7 +598,7 @@ void modification_entree_nom_type ( void )
 
 		    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
 						  0 );
-		    gsb_account_set_default_debit ( compte_courant,
+		    gsb_account_set_default_debit ( gsb_account_get_current_account (),
 						    GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ) -> menu_item ),
 											  "no_type" )));
 
@@ -1344,12 +1345,9 @@ gint cherche_no_menu_type ( gint demande )
 /*   argument : le numéro du type demandé */
 /* renvoie la place demandée dans l'option menu du formulaire du type associé */
 /* retourne -1 si pas trouvé */
-/* origine = 0 pour les opérations */
-/* origine = 1 pour les ventilations */
 /* ************************************************************************************************************** */
 
-gint cherche_no_menu_type_associe ( gint demande,
-				    gint origine )
+gint cherche_no_menu_type_associe ( gint demande )
 {
     GList *liste_tmp = NULL;
     gint retour;
@@ -1359,29 +1357,16 @@ gint cherche_no_menu_type_associe ( gint demande,
 	return ( FALSE );
 
 
-    if ( origine )
-      {
+    if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_CONTRA ))
+    {
 	GtkWidget * menu = NULL, *widget;
 
-	widget = widget_formulaire_par_element (TRANSACTION_BREAKDOWN_FORM_CONTRA);
+	widget = widget_formulaire_par_element (TRANSACTION_FORM_CONTRA);
 	if ( widget )
-	  menu = GTK_OPTION_MENU ( widget ) -> menu;
+	    menu = GTK_OPTION_MENU ( widget ) -> menu;
 	if ( menu )
-	  liste_tmp = GTK_MENU_SHELL ( menu ) -> children;
-      }
-    else
-      {
-	if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_CONTRA ))
-	  {
-	    GtkWidget * menu = NULL, *widget;
-	    
-	    widget = widget_formulaire_par_element (TRANSACTION_FORM_CONTRA);
-	    if ( widget )
-	      menu = GTK_OPTION_MENU ( widget ) -> menu;
-	    if ( menu )
-	      liste_tmp = GTK_MENU_SHELL ( menu ) -> children;
-	  }
-      }
+	    liste_tmp = GTK_MENU_SHELL ( menu ) -> children;
+    }
 
     retour = -1;
     i=0;

@@ -61,7 +61,6 @@ static void view_menu_cb ( gpointer callback_data, guint callback_action, GtkWid
 
 
 /*START_EXTERN*/
-extern gint compte_courant;
 extern GtkItemFactory *item_factory_menu_general;
 extern gint nb_derniers_fichiers_ouverts;
 extern gchar **tab_noms_derniers_fichiers_ouverts;
@@ -108,7 +107,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	{menu_name(_("Edit"), _("New transaction"), NULL),  "<CTRL>T", G_CALLBACK (new_transaction ), 0, "<StockItem>", GTK_STOCK_NEW },
 	{menu_name(_("Edit"), _("Remove transaction"), NULL),   NULL, G_CALLBACK (remove_transaction ), 0, "<StockItem>", GTK_STOCK_DELETE },
 	{menu_name(_("Edit"), _("Clone transaction"), NULL), "<SHIFT><CTRL>C", G_CALLBACK ( clone_selected_transaction), 0, "<StockItem>", GTK_STOCK_COPY },
-	{menu_name(_("Edit"), _("Edit transaction"), NULL),   NULL, G_CALLBACK ( edition_operation), 0, "<StockItem>", GTK_STOCK_PROPERTIES },
+	{menu_name(_("Edit"), _("Edit transaction"), NULL),   NULL, G_CALLBACK ( gsb_transactions_list_edit_current_transaction), 0, "<StockItem>", GTK_STOCK_PROPERTIES },
 	{menu_name(_("Edit"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
 	{menu_name(_("Edit"), _("Convert transaction to scheduled transaction"), NULL),   NULL, NULL, 0, "<StockItem>", GTK_STOCK_CONVERT },
 	{menu_name(_("Edit"), _("Move transaction to another account"), NULL),   NULL, NULL, 0, "<Branch>", NULL },
@@ -378,7 +377,7 @@ void view_menu_cb ( gpointer callback_data, guint callback_action, GtkWidget *wi
       change_aspect_liste (0);
       break;
     case HIDE_SHOW_RECONCILED_TRANSACTIONS:
-      if ( gsb_account_get_r (compte_courant) )
+      if ( gsb_account_get_r (gsb_account_get_current_account ()) )
 	change_aspect_liste(6);
       else
 	change_aspect_liste(5);
@@ -398,7 +397,7 @@ void view_menu_cb ( gpointer callback_data, guint callback_action, GtkWidget *wi
       break;
     }
 
-  mise_a_jour_boutons_caract_liste (compte_courant);
+  mise_a_jour_boutons_caract_liste (gsb_account_get_current_account ());
 }
 
 /* Local Variables: */

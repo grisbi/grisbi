@@ -39,7 +39,6 @@ static void reset_payee_counters ();
 
 
 /*START_EXTERN*/
-extern GSList *list_struct_accounts;
 extern GSList *liste_struct_tiers;
 extern gint no_devise_totaux_tiers;
 extern struct struct_tiers * without_payee;
@@ -143,7 +142,7 @@ void calcule_total_montant_payee ( void )
     without_payee -> no_tiers = 0;
     without_payee -> nom_tiers = _("No payee");
 
-    list_tmp = list_struct_accounts;
+    list_tmp = gsb_account_get_list_accounts ();
 
     while ( list_tmp )
     {
