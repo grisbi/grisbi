@@ -1963,7 +1963,7 @@ void completion_operation_par_tiers ( void )
 						NULL ));
 	else
 	  gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ),
-				  "Virement" );
+				  _("Transfer") );
 
 	/* comme c'est un virement, on va afficher le type de la contre opé s'il existe */
 
