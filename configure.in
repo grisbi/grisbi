@@ -1,6 +1,6 @@
 AC_INIT(src/main.c)
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(grisbi,0.4)
+AM_INIT_AUTOMAKE(grisbi,0.4.0)
 AM_ACLOCAL_INCLUDE(macros)
 
 PACKAGE=grisbi
