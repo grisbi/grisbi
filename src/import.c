@@ -2908,24 +2908,12 @@ enum import_type autodetect_file_type ( FILE * fichier, gchar * pointeur_char )
     {
       type = TYPE_OFX;
     }
-  else if ( !strncmp ( pointeur_char,
-		       "!Type",
-		       5 )
-	    ||
-	    !strncmp ( pointeur_char,
-		       "!type",
-		       5 )
-	    ||
-	    !strncmp ( pointeur_char,
-		       "!Account",
-		       8 )
-	    ||
-	    !strncmp ( pointeur_char,
-		       "!Option",
-		       7 ))
-    {
-      type = TYPE_QIF;
-    }
+   else if ( !my_strncasecmp ( pointeur_char, "!Type", 5 ) ||
+	     !my_strncasecmp ( pointeur_char, "!Account", 8 ) || 
+	     !my_strncasecmp ( pointeur_char, "!Option", 7 ))
+   {
+       type = TYPE_QIF;
+   }
   else
     {
       if ( !strncmp ( pointeur_char, "<?xml", 5 ))
