@@ -3188,7 +3188,7 @@ void importer_categ ( void )
 		gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 		return;
 	    }
-
+	    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 	    break;
 
 	default :

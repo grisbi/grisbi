@@ -8715,8 +8715,9 @@ gboolean enregistre_categ ( gchar *nom_categ )
 
     /* l'arbre est fait, on sauvegarde */
 
-    resultat = xmlSaveFile ( nom_categ,
-			     doc );
+    resultat = xmlSaveFormatFile ( nom_categ,
+				   doc,
+				   1 );
 
     /* on libère la memoire */
 
@@ -8750,6 +8751,8 @@ gboolean charge_categ ( gchar *nom_categ )
     {
 	/* vérifications d'usage */
 
+	xmlNodePtr root = xmlDocGetRootElement(doc);
+
 	if ( !doc->children
 	     ||
 	     !doc->children->name
@@ -8764,8 +8767,14 @@ gboolean charge_categ ( gchar *nom_categ )
 
 	/* récupère la version de fichier */
 
-	if (( !strcmp (  xmlNodeGetContent ( doc->children->children->children ),
+	if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
 			 "0.4.0" )))
+	    return ( charge_categ_version_0_4_0 ( doc ));
+	if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
+			 "0.4.1" )))
+	    return ( charge_categ_version_0_4_0 ( doc ));
+	if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
+			 "0.5.0" )))
 	    return ( charge_categ_version_0_4_0 ( doc ));
 
 	/* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
@@ -8818,7 +8827,6 @@ gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc )
 	    {
 		/* rien pour l'instant, peut être un jour ? */
 
-
 		node_generalites = node_generalites -> next;
 	    }
 	}
@@ -8850,7 +8858,6 @@ gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc )
 								   "Nom" ),
 						      (GCompareFunc) recherche_categorie_par_nom );
 
-
 		    if ( liste_tmp )
 		    {
 			/* 		  la catégorie existe, on fait le tour des sous catégories */
@@ -8864,26 +8871,29 @@ gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc )
 			    struct struct_sous_categ *sous_categ;
 			    GSList *liste_tmp_2;
 
-			    /* on ne prend la sous catég que si elle n'existe pas */
-
-			    liste_tmp_2 = g_slist_find_custom ( categorie -> liste_sous_categ,
-								xmlGetProp ( node_sous_categ,
-									     "Nom" ),
-								(GCompareFunc) recherche_sous_categorie_par_nom );
-
-			    if ( !liste_tmp_2 )
+			    if ( node_sous_categ -> type != XML_TEXT_NODE )
 			    {
+				/* on ne prend la sous catég que si elle n'existe pas */
 
-				sous_categ = calloc ( 1,
-						      sizeof ( struct struct_sous_categ ) );
+				liste_tmp_2 = g_slist_find_custom ( categorie -> liste_sous_categ,
+								    xmlGetProp ( node_sous_categ,
+										 "Nom" ),
+								    (GCompareFunc) recherche_sous_categorie_par_nom );
 
-				sous_categ -> no_sous_categ = ++categorie -> no_derniere_sous_categ;
+				if ( !liste_tmp_2 )
+				{
 
-				sous_categ -> nom_sous_categ = xmlGetProp ( node_sous_categ,
-									    "Nom" );
+				    sous_categ = calloc ( 1,
+							  sizeof ( struct struct_sous_categ ) );
 
-				categorie -> liste_sous_categ = g_slist_append ( categorie -> liste_sous_categ,
-										 sous_categ );
+				    sous_categ -> no_sous_categ = ++categorie -> no_derniere_sous_categ;
+
+				    sous_categ -> nom_sous_categ = xmlGetProp ( node_sous_categ,
+										"Nom" );
+
+				    categorie -> liste_sous_categ = g_slist_append ( categorie -> liste_sous_categ,
+										     sous_categ );
+				}
 			    }
 			    node_sous_categ = node_sous_categ -> next;
 			}
@@ -8913,18 +8923,22 @@ gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc )
 
 			while ( node_sous_categ )
 			{
-			    struct struct_sous_categ *sous_categ;
 
-			    sous_categ = calloc ( 1,
-						  sizeof ( struct struct_sous_categ ) );
+			    if ( node_sous_categ -> type != XML_TEXT_NODE )
+			    {
+				struct struct_sous_categ *sous_categ;
 
-			    sous_categ -> no_sous_categ = my_atoi ( xmlGetProp ( node_sous_categ,
-									      "No" ));
-			    sous_categ -> nom_sous_categ = xmlGetProp ( node_sous_categ,
-									"Nom" );
+				sous_categ = calloc ( 1,
+						      sizeof ( struct struct_sous_categ ) );
 
-			    categorie -> liste_sous_categ = g_slist_append ( categorie -> liste_sous_categ,
-									     sous_categ );
+				sous_categ -> no_sous_categ = my_atoi ( xmlGetProp ( node_sous_categ,
+										     "No" ));
+				sous_categ -> nom_sous_categ = xmlGetProp ( node_sous_categ,
+									    "Nom" );
+
+				categorie -> liste_sous_categ = g_slist_append ( categorie -> liste_sous_categ,
+										 sous_categ );
+			    }
 			    node_sous_categ = node_sous_categ -> next;
 			}
 
@@ -9067,8 +9081,9 @@ gboolean enregistre_ib ( gchar *nom_ib )
 
     /* l'arbre est fait, on sauvegarde */
 
-    resultat = xmlSaveFile ( nom_ib,
-			     doc );
+    resultat = xmlSaveFormatFile ( nom_ib,
+				   doc,
+				   1 );
 
     /* on libère la memoire */
 
@@ -9101,6 +9116,8 @@ gboolean charge_ib ( gchar *nom_ib )
     {
 	/* vérifications d'usage */
 
+	xmlNodePtr root = xmlDocGetRootElement(doc);
+	    
 	if ( !doc->children
 	     ||
 	     !doc->children->name
@@ -9115,8 +9132,14 @@ gboolean charge_ib ( gchar *nom_ib )
 
 	/* récupère la version de fichier */
 
-	if (( !strcmp (  xmlNodeGetContent ( doc->children->children->children ),
+	if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
 			 "0.4.0" )))
+	    return ( charge_ib_version_0_4_0 ( doc ));
+	if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
+			 "0.4.1" )))
+	    return ( charge_ib_version_0_4_0 ( doc ));
+	if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
+			 "0.5.0" )))
 	    return ( charge_ib_version_0_4_0 ( doc ));
 
 	/* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
@@ -9216,26 +9239,29 @@ gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc )
 			    struct struct_sous_imputation *sous_ib;
 			    GSList *liste_tmp_2;
 
-			    /* on ne prend la sous catég que si elle n'existe pas */
-
-			    liste_tmp_2 = g_slist_find_custom ( ib -> liste_sous_imputation,
-								latin2utf8(xmlGetProp ( node_sous_ib,
-											"Nom" )),
-								(GCompareFunc) recherche_sous_imputation_par_nom );
-
-			    if ( !liste_tmp_2 )
+			    if ( node_sous_ib -> type != XML_TEXT_NODE )
 			    {
+				/* on ne prend la sous catég que si elle n'existe pas */
 
-				sous_ib = calloc ( 1,
-						   sizeof ( struct struct_sous_imputation ) );
+				liste_tmp_2 = g_slist_find_custom ( ib -> liste_sous_imputation,
+								    latin2utf8(xmlGetProp ( node_sous_ib,
+											    "Nom" )),
+								    (GCompareFunc) recherche_sous_imputation_par_nom );
 
-				sous_ib -> no_sous_imputation = ++ib -> no_derniere_sous_imputation;
+				if ( !liste_tmp_2 )
+				{
 
-				sous_ib -> nom_sous_imputation = latin2utf8(xmlGetProp ( node_sous_ib,
-											 "Nom" ));
+				    sous_ib = calloc ( 1,
+						       sizeof ( struct struct_sous_imputation ) );
 
-				ib -> liste_sous_imputation = g_slist_append ( ib -> liste_sous_imputation,
-									       sous_ib );
+				    sous_ib -> no_sous_imputation = ++ib -> no_derniere_sous_imputation;
+
+				    sous_ib -> nom_sous_imputation = latin2utf8(xmlGetProp ( node_sous_ib,
+											     "Nom" ));
+
+				    ib -> liste_sous_imputation = g_slist_append ( ib -> liste_sous_imputation,
+										   sous_ib );
+				}
 			    }
 			    node_sous_ib = node_sous_ib -> next;
 			}
@@ -9265,18 +9291,21 @@ gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc )
 
 			while ( node_sous_ib )
 			{
-			    struct struct_sous_imputation *sous_ib;
+			    if ( node_sous_ib -> type != XML_TEXT_NODE )
+			    {
+				struct struct_sous_imputation *sous_ib;
 
-			    sous_ib = calloc ( 1,
-					       sizeof ( struct struct_sous_imputation ) );
+				sous_ib = calloc ( 1,
+						   sizeof ( struct struct_sous_imputation ) );
 
-			    sous_ib -> no_sous_imputation = my_atoi ( latin2utf8(xmlGetProp ( node_sous_ib,
-											   "No" )));
-			    sous_ib -> nom_sous_imputation = latin2utf8(xmlGetProp ( node_sous_ib,
-										     "Nom" ));
+				sous_ib -> no_sous_imputation = my_atoi ( latin2utf8(xmlGetProp ( node_sous_ib,
+												  "No" )));
+				sous_ib -> nom_sous_imputation = latin2utf8(xmlGetProp ( node_sous_ib,
+											 "Nom" ));
 
-			    ib -> liste_sous_imputation = g_slist_append ( ib -> liste_sous_imputation,
-									   sous_ib );
+				ib -> liste_sous_imputation = g_slist_append ( ib -> liste_sous_imputation,
+									       sous_ib );
+			    }
 			    node_sous_ib = node_sous_ib -> next;
 			}
 

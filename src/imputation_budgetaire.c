@@ -2915,6 +2915,8 @@ void importer_ib ( void )
 		return;
 	    }
 
+	    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
+
 	    break;
 
 	default :
