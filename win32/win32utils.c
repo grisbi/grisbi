@@ -143,7 +143,6 @@ HRESULT win32_get_folder_path(gchar* folder_path,const int csidl)        /* {{{ 
 {   
 
     HRESULT hr             = NO_ERROR;
-    int      folder_csidl  = csidl & CSIDL_FOLDER_MASK;
     gboolean create_folder = csidl & CSIDL_FLAG_CREATE;
     gchar*   utf8filename  = NULL;
     
