@@ -399,22 +399,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 		       0);
     gtk_widget_show ( hbox );
 
-    bouton_ok_equilibrage = gtk_button_new_with_label (_("Valid") );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_ok_equilibrage),
-			    GTK_RELIEF_NONE);
-    gtk_signal_connect ( GTK_OBJECT ( bouton_ok_equilibrage ),
-			 "clicked",
-			 ( GtkSignalFunc ) fin_equilibrage,
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_ok_equilibrage,
-			 FALSE,
-			 FALSE,
-			 0);
-    gtk_widget_show ( bouton_ok_equilibrage );
-
-
-    bouton = gtk_button_new_with_label (_("Cancel") );
+    bouton = gtk_button_new_from_stock ( GTK_STOCK_CANCEL );
     gtk_button_set_relief ( GTK_BUTTON ( bouton),
 			    GTK_RELIEF_NONE);
     gtk_signal_connect ( GTK_OBJECT (bouton),
@@ -428,6 +413,19 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 			 0);
     gtk_widget_show ( bouton );
 
+    bouton_ok_equilibrage = gtk_button_new_from_stock ( GTK_STOCK_OK );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton_ok_equilibrage),
+			    GTK_RELIEF_NONE);
+    gtk_signal_connect ( GTK_OBJECT ( bouton_ok_equilibrage ),
+			 "clicked",
+			 ( GtkSignalFunc ) fin_equilibrage,
+			 NULL );
+    gtk_box_pack_start ( GTK_BOX ( hbox ),
+			 bouton_ok_equilibrage,
+			 FALSE,
+			 FALSE,
+			 0);
+    gtk_widget_show ( bouton_ok_equilibrage );
 
     separateur = gtk_hseparator_new();
     gtk_box_pack_end ( GTK_BOX ( fenetre_equilibrage ),
