@@ -13,6 +13,7 @@
 # translation of pt_BR.po to
 # translation of pt_BR.po to
 # translation of pt_BR.po to
+# translation of pt_BR.po to
 # translation of pt_BR.po to Brazilian Portuguese
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
@@ -22,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "POT-Creation-Date: 2004-12-24 01:18+0100\n"
-"PO-Revision-Date: 2004-12-24 14:25-0200\n"
+"PO-Revision-Date: 2004-12-25 11:46-0200\n"
 "Last-Translator: \n"
 "Language-Team:  <pt@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -4981,7 +4982,7 @@ msgstr "Selecionar contas para exportar"
 
 #: src/export.c:258 src/qif.c:1018
 msgid "This will irreversibly overwrite previous file.  There is no undo for this."
-msgstr ""
+msgstr "Isto irá sobrescrever irreversívelmente o arquivo anterior. Você não terá como recuperá-lo."
 
 #: src/export.c:266 src/qif.c:1023
 #, c-format
@@ -4990,11 +4991,11 @@ msgstr "Nome de arquivo '%s' inválido!"
 
 #: src/export.c:335 src/qif.c:909
 msgid "Your file must have a name (saved) to be exported."
-msgstr ""
+msgstr "Seu arquivo deve ter um nome (salvado) para ser exportado."
 
 #: src/export.c:339
 msgid "Export format does not define currencies."
-msgstr ""
+msgstr "Formato de exportação não definiu a moeda."
 
 #: src/export.c:340 src/qif.c:915
 msgid "All transactions will be converted into currency of their account."
@@ -5008,14 +5009,12 @@ msgstr "Contas fechadas"
 
 #. To add a new supported format, just add a new line here ...
 #: src/export.c:415
-#, fuzzy
 msgid "Accounts to QIF file ..."
-msgstr "Exportar para arquivo QIF..."
+msgstr "Contas para arquivo QIF..."
 
 #: src/export.c:416
-#, fuzzy
 msgid "Accounts to CSV file ..."
-msgstr "Título para contas"
+msgstr "Contas para arquivo CSV ..."
 
 #. File menu
 #: src/export.c:418 src/menu.c:65 src/menu.c:66 src/menu.c:67 src/menu.c:68
@@ -5102,9 +5101,8 @@ msgstr ""
 "arquivo de backup."
 
 #: src/fichiers_gestion.c:343
-#, fuzzy
 msgid "Formatting transactions"
-msgstr "Organizar lista de transações"
+msgstr "Formatando transações"
 
 #: src/fichiers_gestion.c:432
 #, c-format
@@ -5147,7 +5145,7 @@ msgstr "Grisbi"
 
 #: src/fichiers_gestion.c:707
 msgid "Grisbi - No name"
-msgstr ""
+msgstr "Grisbi - Sem nome"
 
 #: src/fichiers_gestion.c:738
 msgid "Saving backup"
@@ -5170,9 +5168,9 @@ msgid "Cannot open file '%s': %s"
 msgstr "Não posso abrir arquivo '%s': %s"
 
 #: src/fichiers_io.c:155
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open file '%s' : this is not a grisbi file"
-msgstr "Não posso abrir o arquivo %s para marcá-lo como usado: %s"
+msgstr "Não posso abrir o arquivo '%s' ; este não é um arquivo no formato grisbi"
 
 #: src/fichiers_io.c:197
 #, c-format
@@ -5180,6 +5178,8 @@ msgid ""
 "Warning: Grisbi data format has changed. Grisbi made a backup under '%s'.\n"
 "Keep it for a while just in case."
 msgstr ""
+"Atenção: Dados do Grisbi foram alterados. Grisbi irá fazer uma cópia sob '%s'.\n"
+"mantenha-o pelo tempo que julgar necessário."
 
 #: src/fichiers_io.c:232 src/fichiers_io.c:1960 src/fichiers_io.c:4200
 #, c-format
@@ -5215,13 +5215,13 @@ msgstr ""
 
 #: src/fichiers_io.c:1834
 msgid "transfers without contra-transaction, which categories were deleted.\n"
-msgstr ""
+msgstr "transferência sem uma contra-transação, cujas categorias foram apagadas.\n"
 
 #: src/fichiers_io.c:1839
 msgid ""
 "These modifications should not impact on neither Grisbi's behavior nor your "
 "accounts balances."
-msgstr ""
+msgstr "Estas modificações não devem impactar nem no comportamento do Grisbi's nem nos saldos de suas contas."
 
 #: src/fichiers_io.c:6428
 #, c-format
@@ -5249,22 +5249,20 @@ msgid "Cannot save file '%s': %s"
 msgstr "Não posso salvar arquivo '%s': %s"
 
 #: src/fichiers_io.c:8573
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot lock file '%s': %s"
-msgstr "Não posso abrir arquivo '%s': %s"
+msgstr "Não posso bloquear o arquivo '%s': %s"
 
 #: src/fichiers_io.c:8778
 msgid "This file is not a Grisbi category list file"
 msgstr "Este arquivo não é um arquivo de categorias do Grisbi."
 
 #: src/fichiers_io.c:8787
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This categories list has been produced with grisbi version %s, Grisbi will "
 "nevertheless try to import it."
-msgstr ""
-"Este relatório foi elaborado ao a versão %s do Grisbi, idependente disso "
-"Grisbi tentará importar ele."
+msgstr "Esta lista de categorias foi elaborado com a versão %s,independente disso Grisbi tentará importar ela."
 
 #: src/fichiers_io.c:8795
 msgid "Invalid categories file"
@@ -5300,23 +5298,23 @@ msgstr ""
 #: src/gnucash.c:516
 #, c-format
 msgid "Either file \"%s\" does not exist or it is not a regular file."
-msgstr ""
+msgstr "Outro arquivo \"%s\" não existe ou não é uma arquivo regular."
 
 #: src/gnucash.c:518
-#, fuzzy, c-format
+#, c-format
 msgid "Error opening file '%s'."
-msgstr "Erro salvando arquivo '%s': %s"
+msgstr "Erro abrindo arquivo '%s'."
 
 #: src/gnucash.c:526
 msgid ""
 "Grisbi needs to open a temporary file in order to import Gnucash data but "
 "file can't be created.  Check that you have permission to do that."
-msgstr ""
+msgstr "Grisbi precisou abrir um arquivo temporário para importar dados do Gnucash mas o arquivo não pode ser,criado.Verifique se você em permissões para isso."
 
 #: src/gnucash.c:527
-#, fuzzy, c-format
+#, c-format
 msgid "Error opening temporary file '%s'."
-msgstr "Erro salvando arquivo '%s': %s"
+msgstr "Erro abrindo arquivo temporário '%s'."
 
 #: src/help.c:44
 msgid ""
@@ -5328,99 +5326,89 @@ msgid ""
 "powerful use for power users.  We will always try to respect this as "
 "features will come."
 msgstr ""
+"Grisbi é um aplicativo financeiro pessoal para Linux\n "
+"Este programa permite que você classifique suas transações financeiras, o que quer que sejam em uma maneira conveniente e intuitiva. Assim, você poderá controlá-los  da maneira que você precisa e que você quiser.\n"
+"Grisbi é simples e eficiente para uso básico, e poderoso para usuários avançados. Nós sempre tentaremos respeitar isto nas próximas versões que virão."
 
 #: src/help.c:47
-#, fuzzy
 msgid "Alain Pichon (alain.pichon[at]grisbi.org): Fedora and RHEL packaging"
-msgstr "Alain Portal <dionysos@grisbi.org>: Programador, manual, versão RedHat "
+msgstr "Alain Pichon (alain.pichon[at]grisbi.org): Pacotes para Fedora and RHEL"
 
 #: src/help.c:48
-#, fuzzy
 msgid "Alain Portal <dionysos[at]grisbi.org>: Programming, manual, RedHat packaging"
-msgstr "Alain Portal <dionysos@grisbi.org>: Programador, manual, versão RedHat "
+msgstr "Alain Portal <dionysos[at]grisbi.org>: Programador, Manual, pacotes RedHat"
 
 #: src/help.c:49
-#, fuzzy
 msgid "Andre Pascual (andre[at]linuxgraphic.org) : Logo"
-msgstr "Andre Pascual (andre@linuxgraphic.org) : Logo"
+msgstr "Andre Pascual (andre[at]linuxgraphic.org) : Logotipo"
 
 #: src/help.c:50
-#, fuzzy
 msgid "Axel Rousseau (axel584[at]axel584.org): contributor"
-msgstr "Axel Rousseau (axel584@axel584.org): colaborador"
+msgstr "Axel Rousseau (axel584[at]axel584.org): colaborador"
 
 #: src/help.c:51
-#, fuzzy
 msgid "Benjamin Drieu (bdrieu[at]april.org) : Programming, Debian packaging"
-msgstr "Benjamin Drieu (bdrieu@april.org) : Programador,pacotes Debian "
+msgstr "Benjamin Drieu (bdrieu[at]april.org) : Programador, pacotes Debian"
 
 #: src/help.c:52
-#, fuzzy
 msgid "Cedric Auger (cedric[at]grisbi.org) : Programming"
-msgstr "Cedric Auger (cedric@grisbi.org) : Programador"
+msgstr "Cedric Auger (cedric[at]grisbi.org) : Programador"
 
 #: src/help.c:53
-#, fuzzy
 msgid "Daniel Cartron (doc[at]grisbi.org) : Manual, website, consultancy"
-msgstr "Daniel Cartron (doc@grisbi.org) : Manual, website, consultor"
+msgstr "Daniel Cartron (doc[at]grisbi.org) : Manual, website, consultor"
 
 #: src/help.c:54
-#, fuzzy
 msgid "Dominique Parisot (parisot[at]villey-le-sec.com): contributor"
-msgstr "Dominique Parisot (parisot@villey-le-sec.com): colaborador"
+msgstr "Dominique Parisot (parisot[at]villey-le-sec.com): colaborador"
 
 #: src/help.c:55
-#, fuzzy
 msgid ""
 "Francois Terrot (grisbi[at]terrot.net): Windows packaging and port, "
 "programming"
-msgstr "Francois Terrot (grisbi@terrot.net): versão Windows , cygwin port"
+msgstr ""
+"Francois Terrot (grisbi[at]terrot.net): pacotes Windows port, "
+"programador"
 
 #: src/help.c:56
-#, fuzzy
 msgid "Gerald Niel (gerald.niel[at]grisbi.org): Slackware packaging, website"
-msgstr "Gerald Niel (gegeweb@users.sourceforge.net): Versão Slackware, website"
+msgstr "Gerald Niel (gerald.niel[at]grisbi.org): pacotes Slackware , website"
 
 #: src/help.c:57
 msgid "PMF (ugly.duck[at]gmx.de): Zaurus packaging"
-msgstr ""
+msgstr "PMF (ugly.duck[at]gmx.de): pacotes Zaurus"
 
 #: src/help.c:58
 msgid "Pascal Bleser (guru[at]linuxbe.org): SuSE packaging"
-msgstr ""
+msgstr "Pascal Bleser (guru[at]linuxbe.org): pacotes SuSE"
 
 #: src/help.c:59
 msgid "Sylvain Glaize (mokona[at]puupuu.org): Mandrake packaging"
-msgstr ""
+msgstr "Sylvain Glaize (mokona[at]puupuu.org): pacotes Mandrake"
 
 #: src/help.c:60
-#, fuzzy
 msgid "Thierry Thomas (thierry[at]pompo.net): FreeBSD packaging"
-msgstr "Thierry Thomas (thierry@pompo.net): versão FreeBSD"
+msgstr "Thierry Thomas (thierry[at]pompo.net): pacotes FreeBSD"
 
 #: src/help.c:63
-#, fuzzy
 msgid "Alain Portal (dionysos[at]grisbi.org) : English"
-msgstr "Alain Portal (dionysos@grisbi.org) : English"
+msgstr "Alain Portal (dionysos[at]grisbi.org) : English"
 
 #: src/help.c:64
-#, fuzzy
 msgid "Benjamin Drieu (bdrieu[at]april.org) : English"
-msgstr "Benjamin Drieu (bdrieu@april.org) : English"
+msgstr "Benjamin Drieu (bdrieu[at]april.org) : English"
 
 #: src/help.c:65
-#, fuzzy
 msgid "Daniel Cartron (cartron[at]grisbi.org) : English"
-msgstr "Daniel Cartron (cartron@grisbi.org) : English"
+msgstr "Daniel Cartron (cartron[at]grisbi.org) : English"
 
 #: src/help.c:66
-#, fuzzy
 msgid "Giorgio Mandolfo (giorgio[at]pollycoke.org) : Italian"
-msgstr "Giorgo Mandolfo (giorgio@pollycoke.org) : Italian"
+msgstr "Giorgio Mandolfo (giorgio[at]pollycoke.org) : Italian"
 
 #: src/help.c:67
 msgid "Martin Stromberger (Fabiolla[at]aon.at): German"
-msgstr ""
+msgstr "Martin Stromberger (Fabiolla[at]aon.at): German"
 
 #: src/help.c:73
 msgid "Development list (discuss, participate, criticize, ...) : "
@@ -5428,7 +5416,7 @@ msgstr "Lista de desnnvolvedores (discussões, participantes, sugestões, ...) :
 
 #: src/help.c:75 src/help.c:81
 msgid "subscribe"
-msgstr ""
+msgstr "subscrever"
 
 #: src/help.c:76
 msgid "Bug report"
@@ -5475,12 +5463,12 @@ msgid ""
 "Grisbi is unable to determine type of this file.  If it is a QIF, an OFX "
 "file or a gnucash file, please contact the grisbi team to resolve this "
 "problem."
-msgstr ""
+msgstr "Grisbi não consegue determinar o tipo deste arquivo. Se ele for um arquivo QIF, um OFX ou um arquivo Gnucash, por favor entre em contato com o suporte do Grisbi para resolver este problema."
 
 #: src/import.c:231 src/import.c:239
 #, c-format
 msgid "File \"%s\" cannot be imported."
-msgstr ""
+msgstr "Arquivo \"%s\" não pode ser importado."
 
 #. la boite n'a pas encore été crée, on le fait
 #: src/import.c:309
@@ -5522,6 +5510,8 @@ msgid ""
 "but the ISO code is wrong.\n"
 "To avoid this message, please set its ISO code in configuration."
 msgstr ""
+"Moeda importada da conta '%s' é %s. Uma moeda não existe até que você a crie, ou esta moeda já existe mas o código ISO é inválido.\n"
+"Para omitir esta mensagem, corrija o código ISO nas configurações."
 
 #: src/import.c:638
 #, c-format
@@ -5575,7 +5565,7 @@ msgstr "Os códigos da conta importada e da alterada são diferentes"
 msgid ""
 "Perhaps you choose a wrong account ?  If you choose to continue, the id of "
 "the account will be changed.  Do you want to continue ?"
-msgstr ""
+msgstr "Talvez você escolheu a conta errada. Se você escolher continuar o código da conta será alterado. Você tem certeza que quer continuar ?"
 
 #: src/import.c:1808
 msgid "Confirmation of importation of transactions"
@@ -5585,7 +5575,7 @@ msgstr "Confirmação da importação das transações"
 msgid ""
 "Some imported transactions seem to be already saved. Please select the "
 "transactions to import."
-msgstr ""
+msgstr "Algumas transações importadas parecem já ter sido salvas. Por favor, selecione as transações para importar."
 
 #: src/import.c:1886
 #, c-format
@@ -5593,7 +5583,6 @@ msgid "Transactions to import : %02d/%02d/%04d ; %s ; %4.2f"
 msgstr "Transações a importar : %02d/%02d/%04d ; %s ; %4.2f"
 
 #: src/import.c:1923
-#, fuzzy
 msgid "no third party"
 msgstr "Sem terceiros"
 
@@ -5613,7 +5602,7 @@ msgstr "Transações órfãs"
 
 #: src/import.c:2592
 msgid "Mark transactions you want to add to the list and click the add button"
-msgstr ""
+msgstr "Selecione as transações que você quer adicionar a lista e clique no botão [Adicionar] "
 
 #: src/import.c:2662
 msgid "Mark"
@@ -5724,23 +5713,23 @@ msgstr "Apagar este suborçamento."
 msgid ""
 "Budgetary lines names must be both unique and not empty.  Please use another "
 "name for this budgetary line."
-msgstr ""
+msgstr "Nome dos orçamentos devem ser únicos e não estar em branco. Por favor utilize outro nome para este orçamento."
 
 #: src/imputation_budgetaire.c:2320
-#, fuzzy, c-format
+#, c-format
 msgid "Budgetary line '%s' already exists."
-msgstr "Arquivo %s já existe"
+msgstr "Orçamento %s já existe"
 
 #: src/imputation_budgetaire.c:2361
 msgid ""
 "Sub-budgetary lines names must be both unique and not empty.  Please use "
 "another name for this sub-budgetary line."
-msgstr ""
+msgstr "Nome dos sub-orçamentos devem ser únicos e não estar em branco. Por favor utilize outro nome para este sub-orçamento."
 
 #: src/imputation_budgetaire.c:2362
-#, fuzzy, c-format
+#, c-format
 msgid "Sub-budgetary line '%s' already exists."
-msgstr "Arquivo %s já existe"
+msgstr "Sub-orçamento '%s' já existe"
 
 #: src/imputation_budgetaire.c:2384
 msgid ""
@@ -5750,6 +5739,10 @@ msgid ""
 "We advise you not to use this unless you know exactly what you are doing.\n"
 "Do you want to continue anyway?"
 msgstr ""
+"Atenção: Isto irá adicionar categorias e sub-categorias a um orçamento!\n"
+"Além disso você não poderá cancelar isto depois.\n"
+"Nós advertimos para você não fazer isto a não ser que você saiba exatamente o que está fazendo.\n"
+"Você quer continuar ?"
 
 #: src/imputation_budgetaire.c:2642
 msgid "New budgetary line"
@@ -5800,9 +5793,8 @@ msgid "New account file"
 msgstr "Novo arquivo de conta"
 
 #: src/menu.c:68
-#, fuzzy
 msgid "_Open"
-msgstr "Abrir"
+msgstr "_Abrir"
 
 #: src/menu.c:70 src/traitement_variables.c:58 src/traitement_variables.c:65
 #: src/traitement_variables.c:207
@@ -5819,14 +5811,12 @@ msgid "Recently opened files"
 msgstr "Arquivos abertos recentemente"
 
 #: src/menu.c:76
-#, fuzzy
 msgid "QIF\\/OFX\\/Gnucash file ..."
-msgstr "Importar arquivos QIF\\/OFX\\/CSV\\/Gnucash ..."
+msgstr "Arquivos QIF\\/OFX\\/Gnucash ..."
 
 #: src/menu.c:80 src/traitement_variables.c:96 src/traitement_variables.c:219
-#, fuzzy
 msgid "Debug file"
-msgstr "Salvar arquivo"
+msgstr "Depurar arquivo"
 
 #: src/menu.c:82 src/traitement_variables.c:93 src/traitement_variables.c:216
 msgid "Close"
@@ -5861,9 +5851,8 @@ msgstr "Nova transação"
 #. New transaction from
 #: src/menu.c:89 src/operations_liste.c:2663 src/traitement_variables.c:105
 #: src/traitement_variables.c:231
-#, fuzzy
 msgid "Use selected transaction as a template"
-msgstr "Selecionar as transações por valor"
+msgstr "Use as transações como modelo"
 
 #: src/menu.c:90 src/traitement_variables.c:108 src/traitement_variables.c:234
 msgid "Remove transaction"
@@ -5901,9 +5890,8 @@ msgstr "Preferências"
 
 #: src/menu.c:116 src/traitement_variables.c:126
 #: src/traitement_variables.c:252
-#, fuzzy
 msgid "Import report file"
-msgstr "Importar relatório"
+msgstr "Importar arquivo de relatório"
 
 #. Help menu
 #: src/menu.c:124 src/menu.c:125 src/menu.c:126 src/menu.c:127 src/menu.c:128
@@ -5912,9 +5900,8 @@ msgid "Help"
 msgstr "Ajuda"
 
 #: src/menu.c:126
-#, fuzzy
 msgid "Grisbi Manual"
-msgstr "Logotipo do Grisbi"
+msgstr "Manual do Grisbi"
 
 #: src/menu.c:127
 msgid "Quickstart"
@@ -5959,7 +5946,7 @@ msgstr "Não posso processar arquivo OFX '%s '"
 
 #: src/ofx.c:77
 msgid "The new account has not been created."
-msgstr ""
+msgstr "A nova conta não pode ser criada."
 
 #: src/ofx.c:82
 msgid "Warning"
@@ -5967,15 +5954,15 @@ msgstr "Atenção"
 
 #: src/ofx.c:83
 msgid "An error or warning has occured. Do you still want to import the file ?"
-msgstr ""
+msgstr "Um erro ou problema aconteceu. Você quer continuar importando o arquivo assim mesmo?"
 
 #: src/ofx.c:135 src/ofx.c:147
 msgid "The file has returned the next message :\n"
-msgstr ""
+msgstr "O arquivo retornou a seguinte mensagem: \n"
 
 #: src/ofx.c:141 src/ofx.c:153
 msgid "The file has returned a warning message which is no valid."
-msgstr ""
+msgstr "O arquivo retornou uma mensagem de advertência que não é valida."
 
 #: src/ofx.c:190
 msgid ""
@@ -5983,10 +5970,13 @@ msgid ""
 "I didn't have any file to test that function.\n"
 "Please contact the grisbi team to implement that function."
 msgstr ""
+"Este arquivo contém algo em proc_security_cb.\n"
+"Eu não tenho como testar esta função.\n"
+"Por favor , entre em contato com o suporte do grisbi para implementar esta função."
 
 #: src/ofx.c:304
 msgid "A transaction try to be saved but no account was created...\n"
-msgstr ""
+msgstr "Uma transação tentou ser salva mas a conta não foi criada...\n"
 
 #: src/ofx.c:368
 msgid "Check"
@@ -5994,7 +5984,7 @@ msgstr "Checar"
 
 #: src/ofx.c:372
 msgid "Interest"
-msgstr ""
+msgstr "Interesses"
 
 #: src/ofx.c:376
 msgid "Dividend"
@@ -6010,7 +6000,7 @@ msgstr "Taxa"
 
 #: src/ofx.c:392
 msgid "Cash dispenser"
-msgstr ""
+msgstr "Dinheiro em caixa"
 
 #: src/ofx.c:396
 msgid "Point of sale"
@@ -6030,11 +6020,11 @@ msgstr "Depósito direto"
 
 #: src/ofx.c:416
 msgid "Merchant initiated debit"
-msgstr ""
+msgstr "Débito comercial iniciado"
 
 #: src/ofx.c:420
 msgid "Repeating payment/standing order"
-msgstr ""
+msgstr "Repetindo a ordem de pagamento"
 
 #: src/operations_comptes.c:164 src/operations_comptes.c:168
 msgid "Last statement"
@@ -6086,13 +6076,12 @@ msgid "You must enter a date."
 msgstr "Você deve informar uma data."
 
 #: src/operations_formulaire.c:2347
-#, fuzzy
 msgid "Invalid date."
-msgstr "Data inválida"
+msgstr "Data inválida."
 
 #: src/operations_formulaire.c:2424
 msgid "Can't issue a transfer on a closed account."
-msgstr ""
+msgstr "Não é possível efetuar uma transferência em uma conta fechada."
 
 #: src/operations_formulaire.c:2455
 msgid ""
@@ -6100,6 +6089,8 @@ msgid ""
 "but doesn't contain any number.\n"
 "Continue anyway?"
 msgstr ""
+"Forma de pagamento selecionada tem incremento automático de numeração mas não contém nenhum número.\n"
+"Continuar mesmo assim ?"
 
 #: src/operations_formulaire.c:2485
 msgid ""
@@ -6122,9 +6113,8 @@ msgid "Curent balance"
 msgstr "Saldo atual"
 
 #: src/operations_liste.c:203
-#, fuzzy
 msgid "Account breakdown"
-msgstr "Não é possível transferências para a mesma conta"
+msgstr ""
 
 #: src/operations_liste.c:1060
 msgid "Transfer to a deleted account"
@@ -6143,9 +6133,8 @@ msgid "T"
 msgstr "T"
 
 #: src/operations_liste.c:1621
-#, fuzzy
 msgid "Transfer: deleted account"
-msgstr "Transferir para uma conta apagada."
+msgstr "Transferir: conta apagada."
 
 #: src/operations_liste.c:1798
 msgid "Auto"
@@ -6174,13 +6163,12 @@ msgstr "Apagar transação"
 
 #: src/operations_liste.c:3070
 msgid "Cannot move a transfer on his contra-account"
-msgstr ""
+msgstr "Não posso mover uma transferência para esta contra-conta"
 
 #. Create dialog
 #: src/parametres.c:147
-#, fuzzy
 msgid "Grisbi setup"
-msgstr "Grisbi website"
+msgstr "Configurações do Grisbi"
 
 #: src/parametres.c:177 src/parametres.c:474
 msgid "Files"
@@ -6199,7 +6187,6 @@ msgid "Messages & warnings"
 msgstr "Mensagens & Avisos"
 
 #: src/parametres.c:249
-#, fuzzy
 msgid "Transactions list lines"
 msgstr "Conteúdo da lista de transações"
 
@@ -6382,15 +6369,14 @@ msgid "Footers"
 msgstr "Rodapés"
 
 #: src/qif.c:131 src/qif.c:299
-#, fuzzy
 msgid "This file is empty!"
-msgstr "Este arquivo não é um relatório do Grisbi"
+msgstr "Este arquivo está vazio!"
 
 #: src/qif.c:161
 msgid ""
 "Grisbi found an investment account, which is not implemented yet.  "
 "Nevertheless, Grisbi will try to import it as a bank account."
-msgstr ""
+msgstr "Grisbi encontrou uma conta de investimento, que não foi implementada ainda. Grisbi tentará importar ela como uma conta do tipo 'banco'."
 
 #: src/qif.c:292
 msgid "Imported account with no name"
@@ -6402,18 +6388,18 @@ msgstr " [Transação importada sem nenhuma data]"
 
 #: src/qif.c:731
 msgid "Dates can't be parsed in QIF file."
-msgstr ""
+msgstr "Datas não podem ter separadores em um arquivo QIF."
 
 #: src/qif.c:732
 msgid ""
 "Grisbi automatically tries to parse dates from QIF files using heuristics.  "
 "Please double check that they are valid and contact grisbi development team "
 "for assistance if needed"
-msgstr ""
+msgstr "Grisbi tentará converter automaticamente as datas do arquivo QIF usando heuristica. Por favor verifique novamente se elas são válidas e entre em contato com o suporte do grisbi se precisar de ajuda."
 
 #: src/qif.c:914
 msgid "QIF format does not define currencies."
-msgstr ""
+msgstr "Formato QIF não define moeda."
 
 #: src/qif.c:918
 msgid "Export QIF files"
@@ -6475,12 +6461,12 @@ msgstr "Por favor, informe um terceiro"
 msgid ""
 "Grisbi is unable to find this third party.  Be sure entered name is valid "
 "and that this third party exists."
-msgstr ""
+msgstr "Grisbi não conseguiu encontrar este terceiro. Verifique se o nome é váido ou já não existe um terceiro com este nome."
 
 #: src/tiers_onglet.c:1296
-#, fuzzy, c-format
+#, c-format
 msgid "Third party %s not found."
-msgstr "Terceiros %s não encontrado.\n"
+msgstr "Terceiros %s não encontrado."
 
 #: src/tiers_onglet.c:1647
 msgid "New third party"
@@ -6494,12 +6480,12 @@ msgstr "Informe um nome para o novo terceiro"
 msgid ""
 "Third party names must be both unique and not empty.  Please use another "
 "name for this third party."
-msgstr ""
+msgstr "Nome de terceiros devem ser únicos e não podem estar em branco. Por favor, use outro nome para este terceiro."
 
 #: src/tiers_onglet.c:1658
-#, fuzzy, c-format
+#, c-format
 msgid "Third party '%s' already exists."
-msgstr "Arquivo %s já existe"
+msgstr "Terceiro '%s' já existe"
 
 #. Should not happen theorically
 #: src/type_operations.c:106 src/type_operations.c:873
@@ -6508,7 +6494,7 @@ msgstr ""
 
 #: src/type_operations.c:259
 msgid "Known payment methods"
-msgstr ""
+msgstr "Formas de pagamento"
 
 #: src/type_operations.c:308
 msgid "Default"
@@ -6516,7 +6502,7 @@ msgstr "Padrão"
 
 #: src/type_operations.c:320
 msgid "Numbering"
-msgstr ""
+msgstr "Enumerando"
 
 #: src/type_operations.c:364
 msgid "Payment method details"
@@ -6554,7 +6540,7 @@ msgid ""
 "Some transactions still use that payment method.  As deletion of this method "
 "is irreversible, these transactions are to be associated with another "
 "payment method."
-msgstr ""
+msgstr "Algumas transações ainda usam esta forma de pagamento. Ao apagar esta forma de pagamento, estas transações não terão nenhuma forma de pagamento associada."
 
 #: src/type_operations.c:1034
 msgid "Associate transactions with"
@@ -6565,10 +6551,9 @@ msgstr "Associar transacoes com"
 msgid ""
 "Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.  "
 "Please adjust your settings to a valid executable."
-msgstr ""
+msgstr "Grisbi não pode encontrar um navegador executável para a página <tt>%s</tt>.  Por favor, ajuste sua configurações para um executável válido."
 
 #: src/utils.c:711 src/utils.c:745
-#, fuzzy
 msgid "Cannot run web browser"
 msgstr "Não posso abrir o navegador de internet"
 
@@ -6578,6 +6563,8 @@ msgid ""
 "Grisbi was unable to execute '%s'\n"
 "Please adjust your settings to a valid executable."
 msgstr ""
+"Grisbi não consegue executar '%s'\n"
+"Por favor, ajustes suas configurações para um executável válido."
 
 #: src/utils_files.c:61
 msgid "Print to file"
@@ -6598,5 +6585,5 @@ msgstr ""
 
 #: src/ventilation.c:2229
 msgid "This transfer has a reconciled contra-transaction, deletion canceled."
-msgstr ""
+msgstr "Esta transferência tem uma contra-transação reconciliada, Não é possível apagá-la."
 
