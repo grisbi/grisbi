@@ -1386,6 +1386,10 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	  increment_decrement_champ ( widget_formulaire_operations[origine], 1 );
 	  return TRUE;
 	}
+      else 
+	{
+	  return FALSE;
+	}
       break;
 
     case GDK_KP_Subtract:		/* touches - */
@@ -2176,7 +2180,7 @@ void fin_edition ( void )
 	liste_tmp = NULL;
       else if ( liste_tmp -> data == NULL )
 	{
-	  dialogue ( _("Error: no third party selected for this report."));
+	  dialogue_error ( _("No third party selected for this report."));
 	  return;
 	}
       else
@@ -2229,6 +2233,11 @@ void fin_edition ( void )
 	{
 	  operation = calloc ( 1,
 			       sizeof ( struct structure_operation ) );
+	  if ( !operation )
+	    {
+	      dialogue_error ( _("Cannot allocate memory, bad things will happen soon") );
+	      return;
+	    }
 	  operation -> no_compte = compte_courant;
 	}
 
@@ -2340,7 +2349,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 
   if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) != style_entree_formulaire[ENCLAIR] )
     {
-      dialogue ( PRESPACIFY(_("Error: you must enter a date.")));
+      dialogue_error ( _("You must enter a date.") );
       return (FALSE);
     }
 
@@ -2348,7 +2357,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 
   if ( !modifie_date ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ))
     {
-      dialogue ( PRESPACIFY(_("Error: invalid date")) );
+      dialogue_error ( _("Invalid date") );
       gtk_widget_grab_focus ( widget_formulaire_operations[TRANSACTION_FORM_DATE] );
       gtk_entry_select_region ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ),
 				0,
@@ -2368,7 +2377,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
        &&
        !modifie_date ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ) )
     {
-      dialogue ( PRESPACIFY(_("Error: invalid date.")) );
+      dialogue_error ( _("Invalid date.") );
       gtk_widget_grab_focus ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] );
       gtk_entry_select_region ( GTK_ENTRY (  widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ),
  				0,
@@ -2425,13 +2434,13 @@ gint verification_validation_operation ( struct structure_operation *operation )
 
 		  if ( compte_virement == -1 )
 		    {
-		      dialogue ( _("Warning: the associated account for this transfer is invalid") );
+		      dialogue_warning ( _("Associated account of this transfer is invalid") );
 		      return (FALSE);
 		    }
 
 		  if ( compte_virement == compte_courant )
 		    {
-		      dialogue ( PRESPACIFY(_("Error: impossible to transfer an account on itself")));
+		      dialogue_error ( _("An account can't be transfered on itself") );
 		      return (FALSE);
 		    }
 		}
@@ -2537,7 +2546,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 
       if ( operation )
 	{
-	  dialogue ( _("Error: a transaction with a multiple third party must be a new one.") );
+	  dialogue_error ( _("A transaction with a multiple third party must be a new one.") );
 	  return (FALSE);
 	}
 
@@ -2571,7 +2580,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 
       if ( !trouve )
 	{
-	  dialogue ( _("Error: invalid multiple third party.") );
+	  dialogue_error ( _("Invalid multiple third party.") );
 	  return (FALSE);
 	}
     }
@@ -3055,12 +3064,11 @@ void validation_virement_operation ( struct structure_operation *operation,
 				     gint modification,
 				     gchar *nom_compte_vire )
 {
-  gint compte_virement;
-  gint i;
-  struct struct_devise *devise;
-  struct struct_devise *devise_compte_2;
+  struct struct_devise *devise, *devise_compte_2;
   struct structure_operation *contre_operation;
   gpointer **save_ptab;
+  gint compte_virement, i;
+  GSList *tmp;
 
   save_ptab = p_tab_nom_de_compte_variable;
 
@@ -3156,8 +3164,11 @@ void validation_virement_operation ( struct structure_operation *operation,
   devise_compte_2 = g_slist_find_custom ( liste_struct_devises,
 					  GINT_TO_POINTER ( DEVISE ),
 					  ( GCompareFunc ) recherche_devise_par_no ) -> data;
-  devise = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ) -> menu_item ),
-				 "adr_devise" );
+  tmp = g_slist_find_custom ( liste_struct_devises,
+			      GINT_TO_POINTER ( operation -> devise ),
+			      ( GCompareFunc ) recherche_devise_par_no);
+  if ( tmp )
+    devise = (struct struct_devise *) tmp -> data;
 
   contre_operation -> devise = operation -> devise;
 
@@ -3165,9 +3176,9 @@ void validation_virement_operation ( struct structure_operation *operation,
 	  ||
 	  devise -> no_devise == DEVISE
 	  ||
-	  ( devise_compte_2 -> passage_euro && !strcmp ( devise -> nom_devise, _("Euro") ))
+	  ( devise_compte_2 -> passage_euro && is_euro(devise))
 	  ||
-	  ( !strcmp ( devise_compte_2 -> nom_devise, _("Euro") ) && devise -> passage_euro )))
+	  ( is_euro(devise_compte_2) && devise -> passage_euro )))
     {
       /* c'est une devise étrangère, on demande le taux de change et les frais de change */
 	  
