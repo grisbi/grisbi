@@ -84,7 +84,7 @@ gboolean update_transaction_form ( GtkWidget * checkbox, gpointer data )
 	gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET],
 				   etat.utilise_imputation_budgetaire && selected  );
 	gtk_widget_set_sensitive ( page_imputations,
-				   etat.utilise_imputation_budgetaire && selected  );
+				   etat.utilise_imputation_budgetaire );
 	gtk_widget_set_sensitive ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_BUDGETARY],
 				   etat.utilise_imputation_budgetaire && selected  );
 	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY],
