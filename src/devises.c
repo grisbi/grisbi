@@ -1503,9 +1503,9 @@ GtkWidget *onglet_devises ( void )
 				       1, GTK_JUSTIFY_CENTER);
   gtk_clist_set_column_justification ( GTK_CLIST ( clist_devises_parametres ),
 				       2, GTK_JUSTIFY_CENTER);
-  gtk_signal_connect_object  ( GTK_OBJECT ( fenetre_preferences ), "apply",
-			       GTK_SIGNAL_FUNC ( gtk_clist_unselect_all ),
-			       GTK_OBJECT ( clist_devises_parametres ));
+/*   gtk_signal_connect_object  ( GTK_OBJECT ( fenetre_preferences ), "apply", */
+/* 			       GTK_SIGNAL_FUNC ( gtk_clist_unselect_all ), */
+/* 			       GTK_OBJECT ( clist_devises_parametres )); */
   gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
 		      clist_devises_parametres );
   gtk_box_pack_start ( GTK_BOX ( hbox ), scrolled_window,
@@ -1730,7 +1730,7 @@ gboolean selection_ligne_devise ( GtkWidget *liste,
   entry_set_value(entree_code_devise_parametres, &(devise->code_devise));
   entry_set_value(entree_iso_code_devise_parametres, &(devise->code_iso4217_devise));
   checkbox_set_value ( check_button_euro, &(devise->passage_euro), TRUE);
-  change_passera_euro ( check_button_euro, GTK_WIDGET(liste_struct_devises) );
+  change_passera_euro ( check_button_euro, NULL );
 
   /* crée le menu des devises en enlevant la devise courante */
   g_signal_handlers_block_by_func ( G_OBJECT(option_menu_devises),
