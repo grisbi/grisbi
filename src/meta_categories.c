@@ -23,10 +23,12 @@
 #include "include.h"
 
 /*START_INCLUDE*/
-#include "metatree.h"
-#include "utils_categories.h"
+#include "categories_onglet.h"
 #include "meta_categories.h"
+#include "metatree.h"
 #include "structures.h"
+#include "utils_categories.h"
+#include "utils_devises.h"
 /*END_INCLUDE*/
 
 
@@ -334,13 +336,25 @@ gint category_div_type ( gpointer div )
 
 
 /**
+ * Get category number for transaction.
  *
- * \return -1 if no type is supported in backend model, type otherwise.
+ * @param transaction	Transaction to get category number from.
+ *
+ * @return	Transaction category number.  0 if no transaction is
+ *		demanded.  -1 if transaction is a transfert or a
+ *		breakdown of transaction to avoid transaction being
+ *		considered as a "No category" transaction.
  */
 gint category_transaction_div_id ( struct structure_operation * transaction )
 {
     if ( transaction )
-	return transaction -> categorie;
+    {
+	if ( transaction -> relation_no_operation || 
+	     transaction -> operation_ventilee )
+	    return -1;
+	else
+	    return transaction -> categorie;
+    }
     return 0;
 }
 
