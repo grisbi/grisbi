@@ -194,7 +194,7 @@ GtkWidget *creation_liste_comptes_onglet ( void )
 
 
 
-  /* mise en place du bouton équilibrage */
+  /* mise en place du bouton "supprimer un compte" */
 
   bouton_supprimer_compte = gtk_button_new_with_label ( _("Remove an account") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_supprimer_compte ),
