@@ -36,10 +36,14 @@ GNOME_CHECK_MODULES(GNOMELIBS, [ gnome gtk glib xml gdk_pixbuf print ])
 CFLAGS="$CFLAGS $GNOMELIBS_CFLAGS"
 LDFLAGS="$LDFLAGS $GNOMELIBS_LIBS"
 
+AC_ARG_WITH(applet, [  --with-applet           Support for grisbi applet])
+
 APPLET="false"
+if test "$with_applet" != 'no' ; then
 GNOME_CHECK_MODULES(GA, [ applets ],
 		      [ APPLET=true; CFLAGS="$CFLAGS $GA_CFLAGS"; LDFLAGS="$LDFLAGS $GA_LIBS"; ],
 		      [ AC_MSG_WARN(Gnome library Applets is not installed, I won't compile Grisbi applet) ] )
+fi
 AM_CONDITIONAL(APPLET, test $APPLET = true)
 
 
