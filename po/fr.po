@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-05-15 12:21+0200\n"
-"PO-Revision-Date: 2004-05-15 12:21GMT\n"
+"POT-Creation-Date: 2004-05-16 13:49+0200\n"
+"PO-Revision-Date: 2004-05-16 13:52+0200\n"
 "Last-Translator: Benjamin Drieu <bdrieu@april.org>\n"
 "Language-Team: Francais <traduction@grisbi.org>\n"
 "MIME-Version: (null)\n"
@@ -87,9 +87,9 @@ msgid "Liabilities accounts balances in %s"
 msgstr "Solde des comptes de passif en %s"
 
 #: src/accueil.c:1172
-#, fuzzy, c-format
+#, c-format
 msgid "Assets accounts balances in %s"
-msgstr "Solde des comptes en %s"
+msgstr "Solde des comptes d'actifs en %s"
 
 #: src/accueil.c:1633 src/accueil.c:1745 src/echeancier_formulaire.c:2597
 #: src/echeancier_formulaire.c:2641
@@ -104,40 +104,43 @@ msgid "%4.2f %s debit on %s"
 msgstr "Débit de %4.2f %s sur %s"
 
 #: src/accueil.c:1964
-#, fuzzy, c-format
+#, c-format
 msgid "balance of account %s is under wanted and authorised minima!"
-msgstr "Le compte %s est passé sous les seuils minimaux autorisés et voulus !"
+msgstr "le compte %s est sous les seuils minimaux autorisés et voulus !"
 
 #: src/accueil.c:1968
-#, fuzzy
 msgid ""
 "accounts with the balance under wanted and authorised minimal :\n"
 "\n"
-msgstr "Le compte %s est passé sous les seuils minimaux autorisés et voulus !"
+msgstr ""
+"comptes sous les seuils minimaux autorisés et voulus : \n"
+"\n"
 
 #: src/accueil.c:1990
-#, fuzzy, c-format
+#, c-format
 msgid "balance of account %s is under authorised minimum!"
-msgstr "Le compte %s est passé sous le seuil minimal autorisé !"
+msgstr "le compte %s est sous le seuil minimal autorisé !"
 
 #: src/accueil.c:1996
-#, fuzzy
 msgid ""
 "accounts with the balance under authorised minimal :\n"
 "\n"
-msgstr "Le compte %s est passé sous les seuils minimaux autorisés et voulus !"
+msgstr ""
+"comptes sous les seuils minimaux autorisés: \n"
+"\n"
 
 #: src/accueil.c:2019
-#, fuzzy, c-format
+#, c-format
 msgid "balance of account %s is under wanted minimum!"
-msgstr "Le compte %s est passé sous le seuil minimal voulu !"
+msgstr "le compte %s est sous le seuil minimal voulu !"
 
 #: src/accueil.c:2025
-#, fuzzy
 msgid ""
 "accounts with the balance under wanted minimal :\n"
 "\n"
-msgstr "Le compte %s est passé sous le seuil minimal voulu !"
+msgstr ""
+"comptes sous le seuil minimal voulu : \n"
+"\n"
 
 #: src/affichage.c:135 src/parametres.c:232
 msgid "Transaction form"
@@ -533,7 +536,7 @@ msgstr "Etes-vous sûr de vouloir supprimer la banque %s ?\n"
 #. le premier nom est Aucun
 #. on lui associe 0
 #: src/banque.c:252 src/echeancier_formulaire.c:1491 src/equilibrage.c:608
-#: src/exercice.c:559
+#: src/exercice.c:540
 msgid "None"
 msgstr "Aucun"
 
@@ -636,9 +639,8 @@ msgid "Mask reconciled transactions"
 msgstr "Opérations rapprochées masquées"
 
 #: src/barre_outils.c:373 src/barre_outils.c:374
-#, fuzzy
-msgid "Display the grid"
-msgstr "Champs affiché"
+msgid "Display grid"
+msgstr "Afficher la grille"
 
 #: src/barre_outils.c:396
 msgid "Account transactions"
@@ -657,36 +659,30 @@ msgid "View"
 msgstr "Affichage"
 
 #: src/barre_outils.c:466 src/menu.c:117 src/menu.c:198
-#, fuzzy
 msgid "Show grid"
-msgstr "Afficher"
+msgstr "Afficher la grille"
 
 #: src/barre_outils.c:477 src/fichiers_gestion.c:416 src/menu.c:120
 #: src/menu.c:121 src/menu.c:122 src/menu.c:123
-#, fuzzy
 msgid "Show one line per transaction"
-msgstr "1 ligne par opération"
+msgstr "Afficher une ligne par opération"
 
 #: src/barre_outils.c:483 src/fichiers_gestion.c:419 src/menu.c:121
-#, fuzzy
 msgid "Show two lines per transaction"
-msgstr "2 lignes par opération"
+msgstr "Afficher deux lignes par opération"
 
 #: src/barre_outils.c:489 src/fichiers_gestion.c:422 src/menu.c:122
-#, fuzzy
 msgid "Show three lines per transaction"
-msgstr "3 lignes par opération"
+msgstr "Afficher trois lignes par opération"
 
 #: src/barre_outils.c:495 src/fichiers_gestion.c:425 src/menu.c:123
-#, fuzzy
 msgid "Show four lines per transaction"
-msgstr "4 lignes par opération"
+msgstr "Afficher quatre lignes par opération"
 
 #: src/barre_outils.c:508 src/barre_outils.c:522 src/fichiers_gestion.c:409
 #: src/menu.c:118
-#, fuzzy
 msgid "Show reconciled transactions"
-msgstr "Les opérations rapprochées"
+msgstr "Afficher les opérations rapprochées"
 
 #: src/barre_outils.c:567 src/barre_outils.c:568
 msgid "Display/hide form"
@@ -720,7 +716,7 @@ msgstr "Afficher les sous-divisions"
 
 #. ajoute le bouton annuler
 #. Add the "cancel" button
-#: src/calendar.c:111 src/equilibrage.c:453 src/utils.c:1407
+#: src/calendar.c:111 src/equilibrage.c:453 src/utils.c:1431
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -3039,7 +3035,7 @@ msgid "Manual"
 msgstr "Manuel"
 
 #: src/echeancier_formulaire.c:554 src/echeancier_liste.c:821
-#: src/exercice.c:544
+#: src/exercice.c:525
 msgid "Automatic"
 msgstr "Automatique"
 
@@ -4777,29 +4773,26 @@ msgstr "Activer dans le formulaire de saisie d'opérations"
 msgid "New financial year"
 msgstr "Nouvel exercice"
 
-#: src/exercice.c:451
+#: src/exercice.c:432
 msgid "The financial year must have a name."
 msgstr "Vous devez donner un nom à l'exercice."
 
 #. le second est non affiché
 #. on lui associe -1
-#: src/exercice.c:574
+#: src/exercice.c:555
 msgid "Not displayed"
 msgstr "Non affiché"
 
-#: src/exercice.c:750
-msgid "Automatic association for the financial year"
-msgstr "Association automatique d'exercice"
+#: src/exercice.c:728
+msgid "Automatic association of financial years?"
+msgstr "Association automatique des exercices?"
 
-#: src/exercice.c:757
+#: src/exercice.c:729
 msgid ""
-"This function assigns each transaction without a financial year to the\n"
-"one related to its transaction date.  If no financial year matches,\n"
-"the transaction will not be changed."
-msgstr ""
-"Cette fonction associe chaque opération sans exercice avec l'exercice lui "
-"correspondant.\n"
-"Si aucun exercice ne correspond, l'opération sera inchangée."
+"This function assigns each transaction without a financial year to the one "
+"related to its transaction date.  If no financial year matches, the "
+"transaction will not be changed."
+msgstr "Cette fonction associe chaque opération sans exercice avec l'exercice lui correspondant.  Si aucun exercice ne correspond, l'opération sera inchangée."
 
 #: src/fenetre_principale.c:74
 msgid "Main page"
@@ -4968,11 +4961,13 @@ msgstr "Impossible d'ouvrir le fichier '%s': %s"
 #. à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors
 #. la version nécessaire pour l'ouvrir
 #: src/fichiers_io.c:354
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
-msgstr "Pour ouvrir ce fichier, il vous faut la version %s de Grisbi"
+msgstr ""
+"La version %s de Grisbi est nécessaire pour ouvrir ce fichier. Vous utilisez "
+"la version %s."
 
 #: src/fichiers_io.c:4821 src/fichiers_io.c:5093 src/fichiers_io.c:5384
 #, c-format
@@ -4980,13 +4975,11 @@ msgid "Cannot save file '%s': %s"
 msgstr "Impossible de sauvegarder le fichier '%s': %s"
 
 #: src/fichiers_io.c:4872
-#, fuzzy, c-format
-msgid ""
-"Cannot open file to mark it as used\n"
-"'%s': %s"
-msgstr "Impossible d'ouvrir le fichier '%s': %s"
+#, c-format
+msgid "Cannot open file '%s' to mark it as used: %s"
+msgstr "Impossible d'ouvrir le fichier '%s' pour le marquer comme utilisé : %s"
 
-#. le fichier de swap existe
+#. le fichier de lock existe
 #: src/fichiers_io.c:4918
 #, c-format
 msgid "File \"%s\" is already opened"
@@ -5006,14 +4999,14 @@ msgstr ""
 "Préférences. »"
 
 #: src/fichiers_io.c:4936
-#, fuzzy, c-format
-msgid "Cannot write swap file :'%s': %s"
-msgstr "Impossible de sauvegarder le fichier '%s': %s"
+#, c-format
+msgid "Cannot write lock file :'%s': %s"
+msgstr "Impossible de sauvegarder le fichier verrou '%s' : %s"
 
 #: src/fichiers_io.c:4967
-#, fuzzy, c-format
-msgid "Cannot erase swap file :'%s': %s"
-msgstr "Impossible de sauvegarder le fichier '%s': %s"
+#, c-format
+msgid "Cannot erase lock file :'%s': %s"
+msgstr "Impossible d'effacer le fichier verrou '%s' : %s"
 
 #: src/fichiers_io.c:5125
 msgid "This file is not a Grisbi category list file"
@@ -5081,10 +5074,10 @@ msgid "Benjamin Drieu (bdrieu@april.org) : Programming, Debian packaging"
 msgstr "Benjamin Drieu (bdrieu@april.org) : programmation, paquets Debian"
 
 #: src/help.c:49
-#, fuzzy
 msgid ""
 "Alain Portal <dionysos@grisbi.org>: Programming, manual, RedHat packaging"
-msgstr "Alain Portal (dionysos@grisbi.org) : programmation, paquets RedHat"
+msgstr ""
+"Alain Portal (dionysos@grisbi.org) : programmation, manuel, paquets RedHat"
 
 #: src/help.c:50
 msgid ""
@@ -5592,9 +5585,8 @@ msgid "Preferences"
 msgstr "Paramètres"
 
 #: src/menu.c:116 src/menu.c:193 src/operations_formulaire.c:3541
-#, fuzzy
 msgid "Show transaction form"
-msgstr "Formulaire de saisie d'opérations"
+msgstr "Montrer le formulaire de saisie d'opérations"
 
 #: src/menu.c:132 src/operations_comptes.c:444 src/operations_comptes.c:449
 #: src/operations_comptes.c:487 src/operations_comptes.c:499
@@ -5650,9 +5642,9 @@ msgstr ""
 "Grisbi avec le support OFX activé."
 
 #: src/ofx.c:34
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot process OFX file '%s'"
-msgstr "Impossible de marquer le fichier '%s' comme utilisé: %s"
+msgstr "Impossible de traiter le fichier OFX '%s'"
 
 #: src/ofx.c:77
 msgid "The new account has not been created."
@@ -5874,9 +5866,8 @@ msgid "Delete transaction"
 msgstr "Supprimer l'opération"
 
 #: src/operations_liste.c:3269
-#, fuzzy
 msgid "Cannot move a transfer on his contra-account"
-msgstr "Impossibilité de transférer sur son propre compte"
+msgstr "Impossibilité de déplacer un virement vers son compte de destination"
 
 #. ligne trier par
 #: src/operations_liste.c:3701
@@ -5895,9 +5886,8 @@ msgstr "Solde pointé : %4.2f %s"
 
 #. Create dialog
 #: src/parametres.c:146
-#, fuzzy
 msgid "Grisbi preferences"
-msgstr "Paramètres"
+msgstr "Préférence de Grisbi"
 
 #: src/parametres.c:176 src/parametres.c:462
 msgid "Files"
@@ -6302,7 +6292,7 @@ msgstr ""
 msgid "Associate transactions with"
 msgstr "Associer ces opérations avec"
 
-#: src/utils.c:626
+#: src/utils.c:635
 #, c-format
 msgid ""
 "Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.  "
@@ -6311,11 +6301,11 @@ msgstr ""
 "Grisbi n'a pas pu exécuter le navigateur web pour parcourir la page <tt>%s</"
 "tt>. Veuillez modifier votre configuration vers un exécutable valide."
 
-#: src/utils.c:627 src/utils.c:655
+#: src/utils.c:636 src/utils.c:670
 msgid "Cannot execute web browser"
 msgstr "Impossible d'exécuter le navigateur web"
 
-#: src/utils.c:654
+#: src/utils.c:669
 #, c-format
 msgid ""
 "Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.\n"
@@ -6325,19 +6315,19 @@ msgstr ""
 "Grisbi n'a pas pu exécuter le navigateur web pour parcourir la page <tt>%s</"
 "tt>. Veuillez modifier votre configuration vers un exécutable valide."
 
-#: src/utils.c:1593
+#: src/utils.c:1617
 msgid "Browse"
 msgstr "Parcourir"
 
-#: src/utils.c:1617
+#: src/utils.c:1641
 msgid "Print to file"
 msgstr "Imprimer dans un fichier"
 
-#: src/utils.c:1808
+#: src/utils.c:1832
 msgid "I don't know !!!"
 msgstr "Je ne sais pas !"
 
-#: src/utils.c:1812
+#: src/utils.c:1836
 msgid ""
 "There is no account in memory ! But if you see that error, it should...\n"
 "Please send a bug report to the grisbi team, this is a very big bug !\n"
@@ -6348,15 +6338,14 @@ msgstr ""
 "de Grisbi, c'est un bug important. Grisbi va probablement planter après "
 "cette erreur. Bonne journée !"
 
-#: src/utils.c:1813
-#, fuzzy
+#: src/utils.c:1837
 msgid "No account in memory"
-msgstr "Nouveau fichier de compte"
+msgstr "Pas de compte chargé en mémoire"
 
 #. p_tab était mal placée
-#: src/utils.c:1823
+#: src/utils.c:1847
 msgid "Warning : variable p_tab_nom_de_compte_variable is abnormal."
-msgstr ""
+msgstr "Attention: la variable p_tab_nom_de_compte_variable est anormale."
 
 #: src/ventilation.c:1379
 msgid "The associated account for this transfer is closed"
@@ -6372,10 +6361,6 @@ msgstr ""
 msgid "This transfer has a reconciled contra-transaction, deletion canceled."
 msgstr ""
 "La contre-opération de ce virement est relevée on ne peut donc les supprimer."
-
-#, fuzzy
-#~ msgid "Hide\\/show reconciled transactions"
-#~ msgstr "Les opérations non rapprochées"
 
 #~ msgid "This account does not contain any transaction"
 #~ msgstr "Il n'y a aucune opérations dans ce compte"
