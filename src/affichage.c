@@ -715,8 +715,9 @@ void modification_logo_accueil ( void )
 			      GNOME_STOCK_BUTTON_OK,
 			      GNOME_STOCK_BUTTON_CANCEL,
 			      NULL );
-/*   gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), */
-/* 				 GTK_WINDOW ( fenetre_preferences )); */
+  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
+				 GTK_WINDOW ( fenetre_preferences ));
+  gtk_window_set_modal ( GTK_WINDOW ( dialog ), FALSE );
 
   choix = gnome_pixmap_entry_new ( "path_logo_grisbi",
 				   _("Select a new logo"),

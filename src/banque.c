@@ -211,10 +211,6 @@ GtkWidget *creation_menu_banques ( void )
   GSList *pointeur;
 
   menu = gtk_menu_new ();
-  gtk_signal_connect ( GTK_OBJECT ( menu ),
-		       "selection-done",
-		       GTK_SIGNAL_FUNC ( changement_de_banque ),
-		       NULL );
   gtk_widget_show ( menu );
 
 
@@ -249,6 +245,10 @@ GtkWidget *creation_menu_banques ( void )
       gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			    "no_banque",
 			    GINT_TO_POINTER ( banque -> no_banque ));
+      g_signal_connect ( G_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( changement_de_banque ),
+			 NULL );
       gtk_widget_show ( menu_item );
 
       pointeur = pointeur -> next;
@@ -281,8 +281,8 @@ void affiche_detail_banque ( GtkWidget *bouton,
     return;
 
   dialogue = gnome_dialog_new ( _("Information about the bank"),
-				GNOME_STOCK_BUTTON_OK,
 				GNOME_STOCK_PIXMAP_PROPERTIES,
+				GNOME_STOCK_BUTTON_CLOSE,
 				NULL );
   gtk_window_set_transient_for ( GTK_WINDOW ( dialogue ),
 				 GTK_WINDOW ( window ));
@@ -526,9 +526,9 @@ void affiche_detail_banque ( GtkWidget *bouton,
 
   switch (gnome_dialog_run_and_close ( GNOME_DIALOG ( dialogue )))
     {
-    case 0:			/* OK */
+    case 1:			/* Close */
       return;
-    case 1:			/* Properties */
+    case 0:			/* Properties */
       preferences ( BANKS_PAGE );
       gtk_clist_select_row ( (GtkCList *) clist_banques_parametres, 
 			     banque -> no_banque-1, 0 );

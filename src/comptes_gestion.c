@@ -1857,12 +1857,11 @@ void passage_a_l_euro ( GtkWidget *bouton,
 /* ************************************************************************************************************ */
 /* Appelée lorsqu'on change de banque le compte, met à jour le code de la banque écrit en dessous */
 /* ************************************************************************************************************ */
-void changement_de_banque ( void )
+void changement_de_banque ( GtkWidget * menu_shell )
 {
   struct struct_banque *banque;
 
-  banque = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_option_menu_banque ) -> menu_item ),
-				 "adr_banque" );
+  banque = g_object_get_data ( G_OBJECT ( menu_shell ), "adr_banque" );
 
   if ( banque )
     {
