@@ -33,6 +33,7 @@
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
 #include "utils.h"
+#include "utils_files.h"
 #include "utils_file_selection.h"
 
 GtkWidget *paned_onglet_etats;
