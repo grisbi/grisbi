@@ -8575,13 +8575,11 @@ void fichier_marque_ouvert ( gint ouvert )
 
     if ( retour != EOF )
     {
-#if defined (CYGWIN) || defined (__FreeBSD__)
-
-	/* CYGWIN ne pouvant maitrise l'acces bufferise au fichier de
-	 * Windows, il gere 2 curseurs de fichiers differents afin de
+	/* CYGWIN et BSD ne pouvant maitriser l'acces bufferise au fichier de
+	 * Windows, il gerent 2 curseurs de fichiers differents afin de
 	 * maitriser la bufferisation en lecture des fichiers: le
 	 * curseur reel au sein du fichier, et un curseur de lecture
-	 * simule.  Lors d'un lecture, CYGWIN lit le fichier par
+	 * simule.  Lors d'un lecture, ils lisent le fichier par
 	 * morceaux (le curseur reel est place apres la fin du dernier
 	 * morceau lu).  Les fonctions de lecture n'accedent pas en
 	 * direct au fichier.  Elles utilisent le curseur de lecture
@@ -8593,18 +8591,16 @@ void fichier_marque_ouvert ( gint ouvert )
 	 * curseur reel.
 	 * 
 	 * Pour ecrire apres le dernier caractere lu, il faut donc
-	 * repositionne le curseur reel a la positon du curseur de
+	 * repositionner le curseur reel a la positon du curseur de
 	 * lecture simule
 	 *
 	 * -- francois@terrot.net
-	 *
-	 * Il semble que FreeBSD rencontre le même problème.  Peut-être
-	 * est-ce le cas d'autres UNIX ? -- benj
 	 */
-	fseek(pointeur_fichier_comptes,ftell(pointeur_fichier_comptes),SEEK_SET);
-
-#endif /* CYGWIN + __FreeBSD__ */
-
+	position = ftell(pointeur_fichier_comptes);
+	if ( position != -1 )
+	{
+	    fseek ( pointeur_fichier_comptes, position, SEEK_SET );
+	}
 	fprintf ( pointeur_fichier_comptes, itoa ( ouvert ));
     }
 
