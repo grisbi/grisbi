@@ -39,12 +39,6 @@
 #include "utils.h"
 
 
-
-
-gboolean pression_touche_date_etat ( GtkWidget *widget,
-				     GdkEventKey *ev );
-gboolean sortie_entree_date_etat ( GtkWidget *entree );
-
 gchar *liste_plages_dates[] = {
     N_("All"),
     N_("Custom"),
