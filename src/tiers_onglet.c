@@ -23,6 +23,8 @@
 
 #include "include.h"
 #include "variables-extern.c"
+#include "structures.h"
+
 #include "accueil.h"
 #include "barre_outils.h"
 #include "devises.h"
@@ -32,7 +34,6 @@
 #include "gtkcombofix.h"
 #include "operations_comptes.h"
 #include "operations_liste.h"
-#include "structures.h"
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
 
