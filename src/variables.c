@@ -72,8 +72,8 @@ gchar *dernier_chemin_de_travail;
 gint nb_derniers_fichiers_ouverts;          /* contient le nb de derniers fichiers ouverts */
 gint nb_max_derniers_fichiers_ouverts;        /* contient le nb max que peut contenir nb_derniers_fichiers_ouverts ( réglé dans les paramètres ) */
 gchar **tab_noms_derniers_fichiers_ouverts;
-gint compression_fichier;
-gint compression_backup;
+gdouble compression_fichier;
+gdouble compression_backup;
 
 /********************/ 
 /* fichier disque.c */
