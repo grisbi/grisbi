@@ -1059,7 +1059,6 @@ void efface_etat ( void )
     /*   on met l'état courant à -1 et */
     /* le bouton à null, et le label de l'état en cours à rien */
     liste_struct_etats = g_slist_remove ( liste_struct_etats, etat_courant );
-    free ( etat_courant );
 
     etat_courant = NULL;
     bouton_etat_courant = NULL;

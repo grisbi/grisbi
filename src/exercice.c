@@ -368,7 +368,7 @@ void supprime_exercice ( GtkWidget *bouton, GtkWidget *liste )
 					      exercice );
     free ( exercice );
     nb_exercices--;
-    free ( exercice );
+
     if ( ligne_selection_exercice > 0 )
 	gtk_clist_select_row ( GTK_CLIST(liste), ligne_selection_exercice-1, 0 );
     else

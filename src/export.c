@@ -127,7 +127,6 @@ void signal_toggle_account_entry(GtkWidget* check_button,GtkWidget* account_entr
         gtk_widget_set_sensitive ( account_entry, FALSE );
         g_selected_entries = g_slist_remove ( g_selected_entries,
                                                      account_entry);
-	free ( account_entry );
     }
 } /* }}} signal_toggle_account_entry */
 
