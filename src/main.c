@@ -120,7 +120,7 @@ int main (int argc, char *argv[])
 
   /*  Création de la fenêtre principale */
 
-  window = gnome_app_new (_("Grisbi"), _("Grisbi"));
+  window = gnome_app_new ( FICHIER_CONF, _("Grisbi"));
 
 
   gtk_signal_connect ( GTK_OBJECT (window),
