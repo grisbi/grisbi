@@ -389,6 +389,23 @@ void latex_safe ( gchar * text )
 	switch ( * text )
 	{
 	    /* FIXME: this is very iso8859-1 centric */
+	    case 'Ã':
+		if ( *(text+1) == '«' )
+		{
+		    fprintf ( latex_out, "<<" );
+		    text++;
+		}
+		else if ( *(text+1) == '»' )
+		{
+		    fprintf ( latex_out, ">>" );
+		    text++;
+		}
+		else 
+		{
+		    fprintf ( latex_out, "%c", *text );
+		}
+		break;
+
 	    case ' ':
 		if ( start )
 		    fprintf ( latex_out, "~" );
@@ -396,9 +413,13 @@ void latex_safe ( gchar * text )
 		    fprintf ( latex_out, "%c", *text );
 		break;
 
-	    case 'â‚¬':
-		fprintf ( latex_out, "\\officialeuro" );
-		break;
+	    case 'â':
+		if ( *(text+1) == '‚' && *(text+2) == '¬' )
+		{
+		    fprintf ( latex_out, "\\officialeuro" );
+		    text+=2;
+		}
+		break;		    
 		
 	    case '&':
 	    case '%':
