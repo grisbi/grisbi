@@ -155,6 +155,7 @@ gboolean modifie_date ( GtkWidget *entree )
 		jour = my_strtod ( tab_date[0], NULL );
 		mois = my_strtod ( tab_date[1], NULL );
 		annee = g_date_year ( date );
+		if ( g_date_month ( date ) == 1 && mois >= 10 ) annee--;
 	    }
 	    else
 	    {
@@ -183,6 +184,7 @@ gboolean modifie_date ( GtkWidget *entree )
 			jour = my_strtod ( buffer, NULL );
 			mois = my_strtod ( tab_date[0] + 2, NULL );
 			annee = g_date_year ( date );
+			if ( g_date_month ( date ) == 1 && mois >= 10 ) annee--;
 			break;
 
 			/* forme jjmmaa */
@@ -198,6 +200,7 @@ gboolean modifie_date ( GtkWidget *entree )
 
 			mois = my_strtod ( buffer, NULL );
 			annee = my_strtod ( tab_date[0] + 4, NULL ) + 2000;
+
 			break;
 
 			/* forme jjmmaaaa */
