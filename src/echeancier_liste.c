@@ -228,7 +228,7 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
   gtk_widget_show ( item );
 
 
-  item = gtk_menu_item_new_with_label ( _("All") );
+  item = gtk_menu_item_new_with_label ( _("Once") );
   gtk_signal_connect_object ( GTK_OBJECT ( item ),
 			      "activate",
 			      GTK_SIGNAL_FUNC ( modification_affichage_echeances ),
@@ -331,10 +331,10 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
   gtk_widget_set_usize ( entree_personnalisation_affichage_echeances,
 			 30,
 			 FALSE );
-  gtk_signal_connect_object ( GTK_OBJECT ( entree_personnalisation_affichage_echeances ),
-			      "focus_out_event",
-			      GTK_SIGNAL_FUNC ( modification_affichage_echeances ),
-			      GINT_TO_POINTER (5) );
+  gtk_signal_connect_object ( GTK_OBJECT(entree_personnalisation_affichage_echeances),
+			    "focus-out-event",
+			    GTK_SIGNAL_FUNC ( modification_affichage_echeances ),
+			    GINT_TO_POINTER (5) );
   gtk_box_pack_end ( GTK_BOX ( hbox ),
 		       entree_personnalisation_affichage_echeances,
 		       FALSE,
@@ -1981,7 +1981,8 @@ void verifie_ligne_selectionnee_echeance_visible ( void )
 /* Fonction appelée lorsqu'on change le bouton pour l'affichage des échéances ( choix mois, 2 mois ... ) */
 /* ***************************************************************************************************** */
 
-void modification_affichage_echeances ( gint *origine )
+gboolean modification_affichage_echeances ( gint *origine, GdkEventFocus * event,
+					    GtkWidget * widget )
 {
 
   switch ( GPOINTER_TO_INT ( origine ))
@@ -2033,6 +2034,8 @@ void modification_affichage_echeances ( gint *origine )
   remplissage_liste_echeance ();
 
   modification_fichier ( TRUE );
+  
+  return FALSE;
 }
 /* ***************************************************************************************************** */
 					
