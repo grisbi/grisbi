@@ -165,40 +165,35 @@ gboolean question ( gchar *texte )
 /* Fonction question_yes_no : */
 /* affiche le texte donné en argument et attend l'appui sur oui ( renvoie TRUE ) ou non (renvoie FALSE )*/
 /*************************************************************************************************************/
+gboolean question_yes_no_hint ( gchar * hint, gchar *texte )
+{
+  return question_yes_no ( g_strconcat ("<span size=\"larger\" weight=\"bold\">",
+					hint, "</span>\n\n",
+					texte, NULL ) );
+}
+
 
 gboolean question_yes_no ( gchar *texte )
 {
-  GtkWidget *dialogue;
-  GtkWidget *label;
-  gint resultat;
+  GtkWidget *dialog;
+  gint response;
 
-  dialogue = gnome_dialog_new ( "Warning",
-				GNOME_STOCK_BUTTON_YES,
-				GNOME_STOCK_BUTTON_NO,
-				NULL );
-  gtk_window_set_transient_for ( GTK_WINDOW ( dialogue ),
-				 GTK_WINDOW ( window ) );
-  gtk_signal_connect ( GTK_OBJECT ( dialogue ),
-		       "delete_event",
-		       GTK_SIGNAL_FUNC ( blocage_boites_dialogues ),
-		       NULL );
+  dialog = gtk_message_dialog_new ( GTK_WINDOW (window),
+				    GTK_DIALOG_DESTROY_WITH_PARENT,
+				    GTK_MESSAGE_WARNING,
+				    GTK_BUTTONS_OK_CANCEL,
+				    texte );
+  gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), texte );
 
-  label = gtk_label_new ( texte );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue ) -> vbox ),
-		       label,
-		       TRUE,
-		       TRUE,
-		       0 );
-  gtk_widget_show ( label );
-
-  resultat = gnome_dialog_run_and_close ( GNOME_DIALOG ( dialogue ));
-
-  if ( resultat )
-    return ( FALSE );
+  response = gtk_dialog_run (GTK_DIALOG (dialog));
+  gtk_widget_destroy ( dialog );
+  
+  if ( response == GTK_RESPONSE_YES )
+    return TRUE;
   else
-    return ( TRUE );
+    return FALSE;
 }
-/*************************************************************************************************************/
+
 
 
 
