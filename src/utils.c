@@ -1829,8 +1829,7 @@ gint my_strncasecmp ( gchar *chaine_1,
 					 longueur );
 	    new_2 = g_utf8_collate_key ( g_utf8_casefold (  chaine_2,longueur ),
 					 longueur );
-	    retour = strcmp ( new_1,
-			      new_2);
+	    retour = strcasecmp ( new_1, new_2);
 	    g_free ( new_1 );
 	    g_free ( new_2 );
 	    return ( retour );
