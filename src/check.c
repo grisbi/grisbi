@@ -54,7 +54,13 @@ gboolean contra_transaction_check ( void );
  */
 gboolean debug_check ( void )
 {
-    if ( !reconciliation_check() && !duplicate_div_check () && !contra_transaction_check() )
+    gboolean inconsistency = FALSE;
+    
+    inconsistency = reconciliation_check();
+    inconsistency |= duplicate_div_check();
+    inconsistency |= contra_transaction_check();
+
+    if ( !inconsistency )
     {
 	dialogue_hint ( _("Grisbi found no known inconsistency in accounts processed."),
 			_("No inconsistency found.") );
