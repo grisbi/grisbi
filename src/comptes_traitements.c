@@ -198,7 +198,7 @@ gint initialisation_nouveau_compte ( type_compte_t type_de_compte )
     NOM_DU_COMPTE = g_strdup_printf ( _("No name %d"), noname_account_number );
     DEVISE = 1;
     MISE_A_JOUR = 1;
-    NO_COMPTE = no_compte;
+/*     NO_COMPTE = no_compte; */
     OPERATION_SELECTIONNEE = GINT_TO_POINTER (-1);
 
     /*     par dï¿œaut on n'affiche pas les R et le nb de lignes par opï¿œest de 3 */
@@ -209,8 +209,6 @@ gint initialisation_nouveau_compte ( type_compte_t type_de_compte )
 	 &&
 	 no_compte )
     {
-	gint affichage_r;
-	gint nb_lignes_ope;
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 /* 	affichage_r = AFFICHAGE_R; */
@@ -231,13 +229,13 @@ gint initialisation_nouveau_compte ( type_compte_t type_de_compte )
 
     /* on crï¿œ les types par dï¿œaut */
 
-    creation_types_par_defaut ( NO_COMPTE,
-				0);
+/*     creation_types_par_defaut ( NO_COMPTE, */
+/* 				0); */
 
     /* on met le compte ï¿œla fin dans le classement des comptes */
 
-    ordre_comptes = g_slist_append ( ordre_comptes,
-				     GINT_TO_POINTER ( NO_COMPTE ) );
+/*     ordre_comptes = g_slist_append ( ordre_comptes, */
+/* 				     GINT_TO_POINTER ( NO_COMPTE ) ); */
 
     /*     on crï¿œ l'organisation du formulaire */
     /* 	si c'est une organisation gï¿œï¿œale, on recopie l'organisation du premier compte */
@@ -278,7 +276,8 @@ gint initialisation_nouveau_compte ( type_compte_t type_de_compte )
     CLASSEMENT_COURANT = recupere_classement_par_no (NO_CLASSEMENT);
     CLASSEMENT_CROISSANT = GTK_SORT_DESCENDING;
 
-    return (NO_COMPTE);
+/*     return (NO_COMPTE); */
+    return 0;
 }
 /* ************************************************************************** */
 
@@ -294,6 +293,9 @@ void supprimer_compte ( void )
     gchar *nom_compte_supprime;
     gint page_en_cours;
     struct operation_echeance *echeance;
+
+/* FIXME : à modifier une fois que fini le chgt de structure de compte */
+    printf ( "FIXME : à modifier une fois que fini le chgt de structure de compte\n" );
 
     compte_modifie = compte_courant_onglet;
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_modifie;
@@ -368,7 +370,7 @@ void supprimer_compte ( void )
     /* on dï¿œale en mï¿œoire les comptes situï¿œ aprï¿œ */
     for ( i = compte_modifie ; i < nb_comptes ; i++ )
     {
-	NO_COMPTE = NO_COMPTE -1;
+/* 	NO_COMPTE = NO_COMPTE -1; */
 	*p_tab_nom_de_compte_variable = *(p_tab_nom_de_compte_variable + 1);
 	p_tab_nom_de_compte_variable++;
     }

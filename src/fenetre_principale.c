@@ -258,17 +258,17 @@ gboolean change_page_notebook ( GtkNotebook *notebook,
 	    /* on le fait ici */
 
 	case 4:
-	    if ( ! gtk_tree_model_get_iter_first ( payee_tree_model, &dummy_iter ) )
+	    if ( ! gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (payee_tree_model), &dummy_iter ) )
 		remplit_arbre_tiers ();
 	    break;
 
 	case 5:
-	    if ( ! gtk_tree_model_get_iter_first ( categ_tree_model, &dummy_iter ) )
+	    if ( ! gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (categ_tree_model), &dummy_iter ) )
 		remplit_arbre_categ ();
 	    break;
 
 	case 6:
-	    if ( ! gtk_tree_model_get_iter_first ( budgetary_line_tree_model, &dummy_iter ) )
+	    if ( ! gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (budgetary_line_tree_model), &dummy_iter ) )
 		remplit_arbre_imputation ();
 	    break;
     }

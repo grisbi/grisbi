@@ -257,7 +257,7 @@ gpointer gsb_account_find_sort_by_no ( gint sort_number )
 }
 
 
-/** take the nb of rows displayed on the account given
+/** get the nb of rows displayed on the account given
  * \param no_account no of the account
  * \return nb of rows displayed or 0 if the account doesn't exist
  * */
@@ -334,4 +334,43 @@ gboolean gsb_account_set_r ( gint no_account,
     account -> show_r = show_r;
     return TRUE;
 }
+
+
+/** get the id of the account
+ * \param no_account no of the account
+ * \return id or 0 if the account doesn't exist
+ * */
+gchar *gsb_account_get_id ( gint no_account )
+{
+    struct struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return NULL;
+
+    return account -> account_id;
+}
+
+
+/** set the id of the account
+ * \param no_account no of the account
+ * \param id id to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_id ( gint no_account,
+			      gchar *id )
+{
+    struct struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> account_id = id;
+
+    return TRUE;
+}
+
 

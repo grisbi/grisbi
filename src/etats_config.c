@@ -2716,7 +2716,7 @@ void remplissage_liste_comptes_etats ( void )
 
 	gtk_clist_set_row_data ( GTK_CLIST ( liste_comptes_etat ),
 				 ligne,
-				 GINT_TO_POINTER ( NO_COMPTE ));
+				 pUserAccountsList -> data );
     }
     while ( (  pUserAccountsList = pUserAccountsList -> next ) );
     g_slist_free ( pUserAccountsList );
@@ -3016,7 +3016,7 @@ void remplissage_liste_comptes_virements ( void )
 
 	gtk_clist_set_row_data ( GTK_CLIST ( liste_comptes_virements ),
 				 ligne,
-				 GINT_TO_POINTER ( NO_COMPTE ));
+				 pUserAccountsList -> data );
     }
     while ( (  pUserAccountsList = pUserAccountsList -> next ) );
     g_slist_free ( pUserAccountsList );

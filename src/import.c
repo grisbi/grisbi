@@ -42,6 +42,7 @@
 #include "dialog.h"
 #include "utils_file_selection.h"
 #include "utils_files.h"
+#include "data_account.h"
 #include "traitement_variables.h"
 #include "fichiers_gestion.h"
 #include "comptes_traitements.h"
@@ -820,10 +821,10 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 
 		if ( compte -> id_compte
 		     &&
-		     ID_COMPTE
+		     gsb_account_get_id (GPOINTER_TO_INT ( ordre_comptes_variable -> data ))
 		     &&
 		     !g_strcasecmp ( compte -> id_compte,
-				     ID_COMPTE ))
+				     gsb_account_get_id (GPOINTER_TO_INT ( ordre_comptes_variable -> data ))))
 		    no_compte_trouve = p_tab_nom_de_compte_variable - p_tab_nom_de_compte;
 
 		/* on ne passe par cette étape que si le compte n'a pas déjà été trouvé avec l'id */
@@ -1254,13 +1255,14 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
     {
 	gchar **tab_str;
 
-	ID_COMPTE = g_strdup ( compte_import -> id_compte );
+	gsb_account_set_id (no_compte,
+			    g_strdup ( compte_import -> id_compte ));
 
 	/* 	en théorie cet id est "no_banque no_guichet no_comptecle" */
 	/* on va essayer d'importer ces données ici */
 	/* si on rencontre un null, on s'arrête */
 
-	tab_str = g_strsplit ( ID_COMPTE,
+	tab_str = g_strsplit ( gsb_account_get_id (no_compte),
 			       " ",
 			       3 );
 	if ( tab_str[1] )
@@ -1585,9 +1587,9 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 
     if ( compte_import -> id_compte )
     {
-	if ( ID_COMPTE )
+	if ( gsb_account_get_id (no_compte) )
 	{
-	    if ( g_strcasecmp ( ID_COMPTE,
+	    if ( g_strcasecmp ( gsb_account_get_id (no_compte),
 				compte_import -> id_compte ))
 	    {
 		/* 		l'id du compte choisi et l'id du compte importé sont différents */
@@ -1596,13 +1598,15 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 
 		if ( question_yes_no_hint ( _("The id of the imported and chosen accounts are different"),
 					    _("Perhaps you choose a wrong account ?  If you choose to continue, the id of the account will be changed.  Do you want to continue ?")))
-		    ID_COMPTE = g_strdup ( compte_import -> id_compte );
+		    gsb_account_set_id (no_compte,
+					g_strdup ( compte_import -> id_compte ));
 		else
 		    return;
 	    }
 	}
 	else
-	    ID_COMPTE = g_strdup ( compte_import -> id_compte );
+	    gsb_account_set_id (no_compte,
+				g_strdup ( compte_import -> id_compte ));
 
     }
 
@@ -2220,9 +2224,9 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
     if ( compte_import -> id_compte )
     {
-	if ( ID_COMPTE )
+	if ( gsb_account_get_id (no_compte) )
 	{
-	    if ( g_strcasecmp ( ID_COMPTE,
+	    if ( g_strcasecmp ( gsb_account_get_id (no_compte),
 				compte_import -> id_compte ))
 	    {
 		/* 		l'id du compte choisi et l'id du compte importé sont différents */
@@ -2231,13 +2235,15 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 		if ( question_yes_no_hint ( _("The id of the imported and chosen accounts are different"),
 					    _("Perhaps you choose a wrong account ?  If you choose to continue, the id of the account will be changed.  Do you want to continue ?")))
-		    ID_COMPTE = g_strdup ( compte_import -> id_compte );
+		    gsb_account_set_id (no_compte,
+					g_strdup ( compte_import -> id_compte ));
 		else
 		    return;
 	    }
 	}
 	else
-	    ID_COMPTE = g_strdup ( compte_import -> id_compte );
+	    gsb_account_set_id (no_compte,
+				g_strdup ( compte_import -> id_compte ));
 
     }
 

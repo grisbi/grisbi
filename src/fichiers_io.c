@@ -901,7 +901,8 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 	    *p_tab_nom_de_compte_variable = calloc ( 1,
 						     sizeof (struct donnees_compte));
-	    /* FIXME : il faut mettre le no compte */
+	    /* FIXME : il faut mettre le no compte
+	     * peut le mettre à -1 en attendant le numéro réel ? à vooir */
 	    printf ( "fixme : il faut mettre le no compte lors du chargement\n" );
 
 	    no_compte = 0;
@@ -933,9 +934,11 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 			    if ( !strcmp ( node_detail -> name,
 					   "Id_compte" ))
 			    {
-				ID_COMPTE = xmlNodeGetContent ( node_detail );
-				if ( !strlen ( ID_COMPTE ))
-				    ID_COMPTE = NULL;
+				gsb_account_set_id (no_compte,
+						    xmlNodeGetContent ( node_detail ));
+				if ( !strlen ( gsb_account_get_id (no_compte)))
+				    gsb_account_set_id (no_compte,
+							NULL );
 			    }
 			    if ( !strcmp ( node_detail -> name,
 					   "No_de_compte" ))
@@ -3233,7 +3236,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Id_compte",
-			  ID_COMPTE );
+			  gsb_account_get_id (i) );
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
