@@ -38,39 +38,39 @@ void init_menus ( GtkWidget * win )
 
   static GnomeUIInfo tmp_menu_comptes [] = 
     {
-      GNOMEUIINFO_ITEM_STOCK (N_("Nouveau compte"), 
-			      N_("Créer un nouveau compte"),
+      GNOMEUIINFO_ITEM_STOCK (N_("New account"), 
+			      N_("Create a new account"),
 			      nouveau_compte,
 			      GNOME_STOCK_PIXMAP_BOOK_OPEN),
-      GNOMEUIINFO_ITEM_STOCK (N_("Supprimer un compte"), 
-			      N_("Supprimer un compte"),
+      GNOMEUIINFO_ITEM_STOCK (N_("Remove an account"), 
+			      N_("Remove an account"),
 			      supprimer_compte,
 			      GNOME_STOCK_MENU_TRASH),
       GNOMEUIINFO_SEPARATOR,
-      GNOMEUIINFO_SUBTREE (N_("Comptes cloturés"),
+      GNOMEUIINFO_SUBTREE (N_("Closed accounts"),
 			   &tmp_menu_cloture),
       GNOMEUIINFO_END
     };
 
   static GnomeUIInfo tmp_menu_parametres [] = 
     {
-      GNOMEUIINFO_ITEM_DATA  ( N_("Général"),
-			       N_("Général"),
+      GNOMEUIINFO_ITEM_DATA  ( N_("Main"),
+			       N_("Main"),
 			       preferences,
 			       NULL,
 			       NULL ),
-      GNOMEUIINFO_ITEM_DATA  ( N_("Fichiers"),
-			       N_("Fichiers"),
+      GNOMEUIINFO_ITEM_DATA  ( N_("Files"),
+			       N_("Files"),
 			       preferences,
 			       GINT_TO_POINTER ( 1 ),
 			       NULL ),
-      GNOMEUIINFO_ITEM_DATA  ( N_("Échéances"),
-			       N_("Échéances"),
+      GNOMEUIINFO_ITEM_DATA  ( N_("Scheduler"),
+			       N_("Scheduler"),
 			       preferences,
 			       GINT_TO_POINTER ( 2 ),
 			       NULL ),
-      GNOMEUIINFO_ITEM_DATA  ( N_("Affichage"),
-			       N_("Affichage"),
+      GNOMEUIINFO_ITEM_DATA  ( N_("Display"),
+			       N_("Display"),
 			       preferences,
 			       GINT_TO_POINTER ( 3 ),
 			       NULL ),
@@ -79,28 +79,28 @@ void init_menus ( GtkWidget * win )
 			       preferences,
 			       GINT_TO_POINTER ( 4 ),
 			       NULL ),
-      GNOMEUIINFO_ITEM_DATA  ( N_("Devises"),
-			       N_("Devises"),
+      GNOMEUIINFO_ITEM_DATA  ( N_("Currencies"),
+			       N_("Currencies"),
 			       preferences,
 			       GINT_TO_POINTER ( 5 ),
 			       NULL ),
-      GNOMEUIINFO_ITEM_DATA  ( N_("Banques"),
-			       N_("Banques"),
+      GNOMEUIINFO_ITEM_DATA  ( N_("Banks"),
+			       N_("Banks"),
 			       preferences,
 			       GINT_TO_POINTER ( 6 ),
 			       NULL ),
-      GNOMEUIINFO_ITEM_DATA  ( N_("Exercices"),
-			       N_("Exercices"),
+      GNOMEUIINFO_ITEM_DATA  ( N_("Financial years"),
+			       N_("Financial years"),
 			       preferences,
 			       GINT_TO_POINTER ( 7 ),
 			       NULL ),
-      GNOMEUIINFO_ITEM_DATA  ( N_("Mode de règlement"),
-			       N_("Mode de règlement"),
+      GNOMEUIINFO_ITEM_DATA  ( N_("Methods of payment"),
+			       N_("Methods of payment"),
 			       preferences,
 			       GINT_TO_POINTER ( 8 ),
 			       NULL ),
-      GNOMEUIINFO_ITEM_DATA  ( N_("Informations affichées"),
-			       N_("Informations affichées"),
+      GNOMEUIINFO_ITEM_DATA  ( N_("Informations"),
+			       N_("Informations"),
 			       preferences,
 			       GINT_TO_POINTER ( 9 ),
 			       NULL ),
@@ -109,12 +109,12 @@ void init_menus ( GtkWidget * win )
 
   static GnomeUIInfo tmp_menu_importer [] = 
     {
-      GNOMEUIINFO_ITEM_STOCK ( N_("Fichier QIF"),
-			       N_("Importation de fichiers QIF"),
+      GNOMEUIINFO_ITEM_STOCK ( N_("QIF File"),
+			       N_("Import QIF files"),
 			       importer_fichier_qif,
 			       GNOME_STOCK_PIXMAP_CONVERT ),
 /*       GNOMEUIINFO_ITEM_STOCK ( N_("Fichier QIF GD"), */
-/* 			       N_("Importation de fichiers QIF"), */
+/* 			       N_("Import QIF files"), */
 /* 			       iqc_fichier, */
 /* 			       GNOME_STOCK_PIXMAP_CONVERT ), */
       GNOMEUIINFO_END
@@ -122,8 +122,8 @@ void init_menus ( GtkWidget * win )
 
   static GnomeUIInfo tmp_menu_exporter [] = 
     {
-      GNOMEUIINFO_ITEM_STOCK ( N_("Fichier QIF"),
-			       N_("Exportation de fichiers QIF"),
+      GNOMEUIINFO_ITEM_STOCK ( N_("QIF File"),
+			       N_("Export QIF files"),
 			       exporter_fichier_qif,
 			       GNOME_STOCK_PIXMAP_REMOVE ),
       GNOMEUIINFO_END
@@ -140,18 +140,18 @@ void init_menus ( GtkWidget * win )
       GNOMEUIINFO_MENU_ABOUT_ITEM (  a_propos,
 				     GINT_TO_POINTER (1)  ),
       GNOMEUIINFO_SEPARATOR,
-      GNOMEUIINFO_ITEM_DATA  ( N_("Site Grisbi"),
-			       N_("Site Grisbi"),
+      GNOMEUIINFO_ITEM_DATA  ( N_("Grisbi website"),
+			       N_("Grisbi website"),
 			       lien_web,
 			       NULL,
 			       NULL ),
-      GNOMEUIINFO_ITEM_DATA  ( N_("Signaler un bug"),
-			       N_("Signaler un bug"),
+      GNOMEUIINFO_ITEM_DATA  ( N_("Report a bug"),
+			       N_("Report a bug"),
 			       lien_web,
 			       GINT_TO_POINTER ( 1 ),
 			       NULL ),
-      GNOMEUIINFO_ITEM_DATA  ( N_("Documentation sur le site"),
-			       N_("Documentation sur le site"),
+      GNOMEUIINFO_ITEM_DATA  ( N_("On line User's guide"),
+			       N_("On line User's guide"),
 			       lien_web,
 			       GINT_TO_POINTER ( 2 ),
 			       NULL ),
@@ -160,8 +160,8 @@ void init_menus ( GtkWidget * win )
 
   static GnomeUIInfo tmp_menu_fichier [] = 
     {
-      GNOMEUIINFO_ITEM_STOCK (N_("Nouveau"), 
-			      N_("Création d'un nouveau fichier"),
+      GNOMEUIINFO_ITEM_STOCK (N_("New"), 
+			      N_("Create a new accounts file"),
 			      nouveau_fichier,
 			      GNOME_STOCK_MENU_NEW),
       GNOMEUIINFO_MENU_OPEN_ITEM ( ouvrir_fichier, NULL),
@@ -169,12 +169,12 @@ void init_menus ( GtkWidget * win )
       GNOMEUIINFO_MENU_SAVE_ITEM ( enregistrement_fichier, NULL),
       GNOMEUIINFO_MENU_SAVE_AS_ITEM ( enregistrer_fichier_sous, NULL),
       GNOMEUIINFO_SEPARATOR,
-      GNOMEUIINFO_SUBTREE ( N_("Derniers fichiers"),
+      GNOMEUIINFO_SUBTREE ( N_("Recently opened files"),
 			    &tmp_menu_derniers_fichiers),
       GNOMEUIINFO_SEPARATOR,
-      GNOMEUIINFO_SUBTREE (N_("Importer"),
+      GNOMEUIINFO_SUBTREE (N_("Import"),
 			   &tmp_menu_importer),
-      GNOMEUIINFO_SUBTREE (N_("Exporter"),
+      GNOMEUIINFO_SUBTREE (N_("Export"),
 			   &tmp_menu_exporter),
       GNOMEUIINFO_SEPARATOR,
       GNOMEUIINFO_MENU_CLOSE_ITEM ( fermer_fichier, NULL),
@@ -184,13 +184,13 @@ void init_menus ( GtkWidget * win )
 
   static GnomeUIInfo tmp_menu_principal [15] = 
     {
-      GNOMEUIINFO_SUBTREE (N_("Fichier"),
+      GNOMEUIINFO_SUBTREE (N_("File"),
 			   &tmp_menu_fichier),
-      GNOMEUIINFO_SUBTREE (N_("Comptes"),
+      GNOMEUIINFO_SUBTREE (N_("Accounts"),
 			   &tmp_menu_comptes),
-      GNOMEUIINFO_SUBTREE (N_("Configuration"),
+      GNOMEUIINFO_SUBTREE (N_("Setup"),
 			   &tmp_menu_parametres),
-      GNOMEUIINFO_SUBTREE (N_("Aide"),
+      GNOMEUIINFO_SUBTREE (N_("Help"),
 			   &tmp_help_menu),
       GNOMEUIINFO_END
     };
@@ -221,7 +221,7 @@ void efface_derniers_fichiers_ouverts ( void )
 
   if ( nb_derniers_fichiers_ouverts )
     gnome_app_remove_menus ( GNOME_APP ( window ),
-			     _("Fichier/Derniers fichiers/"),
+			     _("File/Recently opened files/"),
 			     2 * ( nb_derniers_fichiers_ouverts + 1 ));
   gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[DERNIERS_FICHIERS].widget ),
 			     FALSE );
@@ -267,7 +267,7 @@ void affiche_derniers_fichiers_ouverts ( void )
 
 
       gnome_app_insert_menus ( GNOME_APP ( window ),
-			       _("Fichier/Derniers fichiers/"),
+			       _("File/Recently opened files/"),
 			       menu );
     }
 

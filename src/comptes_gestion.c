@@ -101,7 +101,7 @@ GtkWidget *creation_details_compte ( void )
   gtk_widget_show ( hbox2 );
 
 
-  label = gtk_label_new ( COLON(_("Nom du compte")) );
+  label = gtk_label_new ( COLON(_("Account name")) );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -148,7 +148,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( COLON(_("Type du compte")) );
+  label = gtk_label_new ( COLON(_("Account type")) );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -197,7 +197,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( COLON(_("Devise du compte")) );
+  label = gtk_label_new ( COLON(_("Account currency")) );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -238,7 +238,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox_bouton_passage_euro );
 
-  bouton_passage_euro = gtk_button_new_with_label ( _("Passer ce compte à l'euro") );
+  bouton_passage_euro = gtk_button_new_with_label ( _("Convert this account to euros") );
   gtk_signal_connect ( GTK_OBJECT ( bouton_passage_euro ),
 		       "clicked",
 		       GTK_SIGNAL_FUNC ( passage_a_l_euro ),
@@ -264,7 +264,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  detail_compte_cloture = gtk_check_button_new_with_label ( _("Compte clôturé") );
+  detail_compte_cloture = gtk_check_button_new_with_label ( _("Closed account") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       detail_compte_cloture,
 		       FALSE,
@@ -322,7 +322,7 @@ GtkWidget *creation_details_compte ( void )
   gtk_widget_show ( hbox2 );
 
 
-  label = gtk_label_new ( COLON(_("Titulaire du compte")) );
+  label = gtk_label_new ( COLON(_("Account holder")) );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -372,7 +372,7 @@ GtkWidget *creation_details_compte ( void )
 
 
   detail_bouton_adresse_commune = gtk_radio_button_new_with_label ( NULL,
-								    _("L'adresse commune est celle du titulaire") );
+								    _("Common address is holder's address") );
   gtk_signal_connect ( GTK_OBJECT ( detail_bouton_adresse_commune ),
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( changement_bouton_adresse_commune_perso ),
@@ -393,7 +393,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( COLON(_("Adresse")) );
+  label = gtk_label_new ( COLON(_("Address")) );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -434,7 +434,7 @@ GtkWidget *creation_details_compte ( void )
   gtk_widget_show ( hbox2 );
 
   bouton = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( detail_bouton_adresse_commune)),
-					     _("Le titulaire a sa propre adresse") );
+					     _("Holder has his own address") );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       bouton,
 		       FALSE,
@@ -507,7 +507,7 @@ GtkWidget *creation_details_compte ( void )
   gtk_widget_show ( hbox2 );
 
 
-  label = gtk_label_new ( COLON(_("Etablissement financier")) );
+  label = gtk_label_new ( COLON(_("Financial institution")) );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -564,7 +564,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  bouton_detail = gtk_button_new_with_label ( _("Détails") );
+  bouton_detail = gtk_button_new_with_label ( _("Details") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_detail ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton_detail ),
@@ -586,7 +586,7 @@ GtkWidget *creation_details_compte ( void )
 		       5 );
   gtk_widget_show ( separateur );
 
-  bouton = gtk_button_new_with_label ( _("Nouvel établissement") );
+  bouton = gtk_button_new_with_label ( _("New financial institution") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
@@ -621,7 +621,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( COLON(_("Code de la banque")) );
+  label = gtk_label_new ( COLON(_("Bank sort code")) );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -668,7 +668,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( COLON(_("Guichet / Agence")) );
+  label = gtk_label_new ( COLON(_("Bank branch code")) );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -719,7 +719,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( COLON(_("Numéro de compte / Clé")) );
+  label = gtk_label_new ( COLON(_("Account number / Key")) );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -811,7 +811,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( COLON(_("Solde initial")) );
+  label = gtk_label_new ( COLON(_("Initial balance")) );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -860,7 +860,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( COLON(_("Solde minimal autorisé")) );
+  label = gtk_label_new ( COLON(_("Minimum authorised balance")) );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -907,7 +907,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( COLON(_("Solde minimal voulu")) );
+  label = gtk_label_new ( COLON(_("Minimum wanted balance")) );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -983,7 +983,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( vbox2 );
 
-  label = gtk_label_new ( COLON(_("Commentaires")) );
+  label = gtk_label_new ( COLON(_("Comments")) );
   gtk_box_pack_start ( GTK_BOX ( vbox2 ),
 		       label,
 		       FALSE,
@@ -1194,7 +1194,7 @@ GtkWidget *creation_menu_type_compte ( void )
 
   /* création de l'item compte bancaire */
 
-  menu_item = gtk_menu_item_new_with_label ( _("Compte bancaire") );
+  menu_item = gtk_menu_item_new_with_label ( _("Bank account") );
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -1205,7 +1205,7 @@ GtkWidget *creation_menu_type_compte ( void )
 
   /* création de l'item compte de caisse */
 
-  menu_item = gtk_menu_item_new_with_label ( _("Compte de caisse") );
+  menu_item = gtk_menu_item_new_with_label ( _("Cash account") );
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -1216,7 +1216,7 @@ GtkWidget *creation_menu_type_compte ( void )
 
   /* création de l'item compte passif */
 
-  menu_item = gtk_menu_item_new_with_label ( _("Compte de passif") );
+  menu_item = gtk_menu_item_new_with_label ( _("Liabilities account") );
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -1226,7 +1226,7 @@ GtkWidget *creation_menu_type_compte ( void )
 
   /* création de l'item compte actif */
 
-  menu_item = gtk_menu_item_new_with_label ( _("Compte d'actif") );
+  menu_item = gtk_menu_item_new_with_label ( _("Assets account") );
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -1425,7 +1425,7 @@ void modification_details_compte ( void )
 
   if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))) )
     {
-      dialogue ( _("Le compte n'a pas de nom !") );
+      dialogue ( _("Account has no name!") );
       return;
     }
 
@@ -1482,12 +1482,12 @@ void modification_details_compte ( void )
 	  GtkWidget *label;
 	  gint resultat;
 
-	  dialogue = gnome_dialog_new ( _("Confirmation de changement de devise"),
+	  dialogue = gnome_dialog_new ( _("Confirm currency change"),
 					GNOME_STOCK_BUTTON_YES,
 					GNOME_STOCK_BUTTON_NO,
 					NULL );
 
-	  label = gtk_label_new ( g_strdup_printf ( _("Attention, vous passez d'une devise qui passera à l'euro (%s)\nà une qui n'y passera pas (%s). Les paiements en euro du compte seront perdus !\n\nConfirmez vous le changement ?"), 
+	  label = gtk_label_new ( g_strdup_printf ( _("Be carefull, you are changing from a currency that is in the euro zone\n(%s) to one that isn't (%s). Transactions in euros will be lost!\n\nDo you confirm this change?"), 
 						    devise_compte -> nom_devise,
 						    nouvelle_devise -> nom_devise));
 	  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue ) -> vbox ),
@@ -1731,14 +1731,14 @@ void sort_du_detail_compte ( void )
       save = p_tab_nom_de_compte_variable;
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
 
-      dialogue = gnome_dialog_new ( _("Appliquer les modifications au compte ?"),
+      dialogue = gnome_dialog_new ( _("Apply changes to account?"),
 				    GNOME_STOCK_BUTTON_YES,
 				    GNOME_STOCK_BUTTON_NO,
 				    NULL );
       gtk_window_set_transient_for ( GTK_WINDOW ( dialogue ),
 				     GTK_WINDOW ( window ));
 
-      label = gtk_label_new ( g_strdup_printf ( _("Des modifications ont été apportées au compte \"%s\"\n\n\nVoulez-vous les enregistrer ?"),
+      label = gtk_label_new ( g_strdup_printf ( _("Account \"%s\" has been modified.\n\n\nDo you want to save changes?"),
 					    NOM_DU_COMPTE ) );
       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue ) -> vbox ),
 			   label,
@@ -1777,14 +1777,14 @@ void passage_a_l_euro ( GtkWidget *bouton,
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-  dialog = gnome_dialog_new ( _("Confirmation de passage à l'euro"),
+  dialog = gnome_dialog_new ( _("Confirm euro conversion"),
 				GNOME_STOCK_BUTTON_YES,
 				GNOME_STOCK_BUTTON_NO,
 				NULL );
   gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
 				 GTK_WINDOW ( window ));
 
-  label = gtk_label_new ( g_strdup_printf ( _("Attention, le passage à l'euro est une opération irréversible !\n\nÊtes-vous sûr de vouloir passer le compte \"%s\" à l'euro ?"), 
+  label = gtk_label_new ( g_strdup_printf ( _("Warning, euro conversion is irreversible!\n\nAre you sure you want to convert account \"%s\" to euros?"), 
 					    NOM_DU_COMPTE ) ) ;
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
@@ -1814,7 +1814,7 @@ void passage_a_l_euro ( GtkWidget *bouton,
 
       if ( !change )
 	{
-	  dialogue ( _("Erreur : le taux de change entre les 2 monnaies est de 0.") );
+	  dialogue ( _("Error: exchange rate beetween the 2 currencies is 0.") );
 	  return;
 	}
 
@@ -1826,7 +1826,7 @@ void passage_a_l_euro ( GtkWidget *bouton,
 
       if ( !pointeur )
 	{
-	  dialogue ( _("La monnaie Euro est introuvable, elle a dû être effacée des devises.") );
+	  dialogue ( _("Impossible to find the Euro currency, it has probably been deleted.") );
 	  return;
 	}
 

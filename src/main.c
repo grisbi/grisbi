@@ -105,7 +105,7 @@ int main (int argc, char *argv[])
   if ( sigaction ( SIGSEGV,
 		   &sig_sev,
 		   NULL ))
-    printf (_( "Erreur sur sigaction, le signal SIGSEGV ne sera pas détourné\n" ));
+    printf (_("Error on sigaction: SIGSEGV won't be trapped\n"));
 
 
   /*  Création de la fenêtre principale */

@@ -179,7 +179,7 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( COLON(_("Affichage des échéances")) );
+  label = gtk_label_new ( COLON(_("Display scheduled transactions")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -200,7 +200,7 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
   bouton = gtk_option_menu_new ();
   menu = gtk_menu_new();
 
-  item = gtk_menu_item_new_with_label ( _("Du mois") );
+  item = gtk_menu_item_new_with_label ( _("Of month") );
   gtk_signal_connect_object ( GTK_OBJECT ( item ),
 			      "activate",
 			      GTK_SIGNAL_FUNC ( modification_affichage_echeances ),
@@ -209,7 +209,7 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
 		    item );
   gtk_widget_show ( item );
 
-  item = gtk_menu_item_new_with_label ( _("Des 2 prochains mois") );
+  item = gtk_menu_item_new_with_label ( _("Of next two months") );
   gtk_signal_connect_object ( GTK_OBJECT ( item ),
 			      "activate",
 			      GTK_SIGNAL_FUNC ( modification_affichage_echeances ),
@@ -218,7 +218,7 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
 		    item );
   gtk_widget_show ( item );
 
-  item = gtk_menu_item_new_with_label ( _("De l'année") );
+  item = gtk_menu_item_new_with_label ( _("Of year") );
   gtk_signal_connect_object ( GTK_OBJECT ( item ),
 			      "activate",
 			      GTK_SIGNAL_FUNC ( modification_affichage_echeances ),
@@ -228,7 +228,7 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
   gtk_widget_show ( item );
 
 
-  item = gtk_menu_item_new_with_label ( _("Toutes") );
+  item = gtk_menu_item_new_with_label ( _("All") );
   gtk_signal_connect_object ( GTK_OBJECT ( item ),
 			      "activate",
 			      GTK_SIGNAL_FUNC ( modification_affichage_echeances ),
@@ -238,7 +238,7 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
   gtk_widget_show ( item );
 
 
-  item = gtk_menu_item_new_with_label ( _("Personnalisées") );
+  item = gtk_menu_item_new_with_label ( _("Custom") );
   gtk_signal_connect_object ( GTK_OBJECT ( item ),
 			      "activate",
 			      GTK_SIGNAL_FUNC ( modification_affichage_echeances ),
@@ -273,7 +273,7 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
 
   /* met un bouton valider qui est juste utilisé pour faire sortir le focus de l'entrée */
 
-  bouton_valider_echeance_perso = gtk_button_new_with_label ( _("Afficher" ));
+  bouton_valider_echeance_perso = gtk_button_new_with_label ( _("Show"));
   gtk_button_set_relief ( GTK_BUTTON ( bouton_valider_echeance_perso ),
 				GTK_RELIEF_NONE );
   gtk_box_pack_end ( GTK_BOX ( hbox ),
@@ -288,7 +288,7 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
   bouton_personnalisation_affichage_echeances = gtk_option_menu_new ();
   menu = gtk_menu_new ();
 
-  item = gtk_menu_item_new_with_label ( _("Jours") );
+  item = gtk_menu_item_new_with_label ( _("Days") );
   gtk_object_set_data ( GTK_OBJECT ( item ),
 			"intervalle_perso",
 			GINT_TO_POINTER ( 0 ));
@@ -296,7 +296,7 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
 		    item );
   gtk_widget_show ( item );
 
-  item = gtk_menu_item_new_with_label ( _("Mois") );
+  item = gtk_menu_item_new_with_label ( _("Months") );
   gtk_object_set_data ( GTK_OBJECT ( item ),
 			"intervalle_perso",
 			GINT_TO_POINTER ( 1 ));
@@ -304,7 +304,7 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
 		    item );
   gtk_widget_show ( item );
 
-  item = gtk_menu_item_new_with_label ( _("Années") );
+  item = gtk_menu_item_new_with_label ( _("Years") );
   gtk_object_set_data ( GTK_OBJECT ( item ),
 			"intervalle_perso",
 			GINT_TO_POINTER ( 2 ));
@@ -397,7 +397,7 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
   gtk_widget_show ( icone );
     
 
-  label = gtk_label_new ( _("Saisir") );
+  label = gtk_label_new ( _("Enter") );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -434,7 +434,7 @@ GtkWidget *creation_liste_echeances ( void )
 {
   GtkWidget *vbox;
   GtkWidget *win_echeances_scroll;
-  gchar *titres_echeance[] = { _("Date"), _("Périodicité"), _("Compte"), _("Tiers"), _("Mode") , _("Montant")};
+  gchar *titres_echeance[] = { _("Date"), _("Frequency"), _("Account"), _("Third party"), _("Mode") , _("Amount")};
 
 
   /*   à la base, on a une vbox */
@@ -585,7 +585,7 @@ gboolean traitement_clavier_liste_echeances ( GtkCList *liste_echeances,
       degrise_formulaire_echeancier();
 
       gtk_label_set_text ( GTK_LABEL ( label_saisie_modif ),
-			   _("Modif") );
+			   _("Modification") );
       edition_echeance ();
       break;
 
@@ -653,7 +653,7 @@ void click_sur_saisir_echeance ( void )
   degrise_formulaire_echeancier();
 
   gtk_label_set_text ( GTK_LABEL ( label_saisie_modif ),
-		       _("Saisie") );
+		       _("Input") );
   edition_echeance ();
 
   gtk_widget_hide ( widget_formulaire_echeancier[16] );
@@ -759,24 +759,24 @@ void remplissage_liste_echeance ( void )
  
       switch ( ECHEANCE_COURANTE ->periodicite )
 	{
-	case 0 : ligne[1] = _("Une fois");
+	case 0 : ligne[1] = _("Once");
 	  break;
-	case 1 : ligne[1] = _("Hebdomadaire");
+	case 1 : ligne[1] = _("Weekly");
 	  break;
-	case 2 : ligne[1] = _("Mensuelle");
+	case 2 : ligne[1] = _("Monthly");
 	  break;
-	case 3 : ligne[1] = _("Annuelle");
+	case 3 : ligne[1] = _("Yearly");
 	  break;
 	case 4 :
 	  if ( ECHEANCE_COURANTE -> intervalle_periodicite_personnalisee )
 	    if ( ECHEANCE_COURANTE -> intervalle_periodicite_personnalisee == 1 )
-	      ligne[1] = g_strdup_printf ( _("%d mois"),
+	      ligne[1] = g_strdup_printf ( _("%d months"),
 					   ECHEANCE_COURANTE -> periodicite_personnalisee );
 	    else
-	      ligne[1] = g_strdup_printf ( _("%d ans"),
+	      ligne[1] = g_strdup_printf ( _("%d years"),
 					   ECHEANCE_COURANTE -> periodicite_personnalisee );
 	  else
-	    ligne[1] = g_strdup_printf ( _("%d jours"),
+	    ligne[1] = g_strdup_printf ( _("%d days"),
 					 ECHEANCE_COURANTE -> periodicite_personnalisee );
 	  break;
 	}
@@ -799,9 +799,9 @@ void remplissage_liste_echeance ( void )
       /* mise en forme de auto/man */
 
       if ( ECHEANCE_COURANTE -> auto_man )
-	ligne[4]=_("Automatique");
+	ligne[4]=_("Automatic");
       else
-	ligne[4] = _("Manuel");
+	ligne[4] = _("Manual");
 
 
       /* mise en forme du montant */
@@ -976,7 +976,7 @@ void click_ligne_echeance ( GtkCList *liste,
       degrise_formulaire_echeancier();
 
       gtk_label_set_text ( GTK_LABEL ( label_saisie_modif ),
-			   _("Modif") );
+			   _("Modification") );
       edition_echeance ();
     }
   else
@@ -1185,7 +1185,7 @@ void edition_echeance ( void )
 	{
 	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + echeance_selectionnnee -> compte_virement;
 
-	  texte = g_strconcat ( COLON(_("Virement")),
+	  texte = g_strconcat ( COLON(_("Transfer")),
 				NOM_DU_COMPTE,
 				NULL );
 	}
@@ -1329,13 +1329,13 @@ void supprime_echeance ( void )
       GtkWidget *label;
 
 
-      dialog = gnome_dialog_new ( _("Effacer une échéance"),
-				  _("Juste celle-ci"),
-				  _("Toutes les occurences"),
+      dialog = gnome_dialog_new ( _("Delete a scheduled transaction maturity"),
+				  _("Only this one"),
+				  _("All the occurences"),
 				  GNOME_STOCK_BUTTON_CANCEL,
 				  NULL );
 
-      label = gtk_label_new ( SPACIFY(_("Voulez-vous effacer juste cette occurence ou l'échéance complète ?")) );
+      label = gtk_label_new ( SPACIFY(_("Do you want to delete just this occurrence or the whole scheduled transaction?")) );
       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 			   label,
 			   FALSE,
@@ -1353,7 +1353,7 @@ void supprime_echeance ( void )
 												 (GCompareFunc ) recherche_tiers_par_no )->data )) -> nom_tiers,
 						  echeance_selectionnnee -> montant ));
       else
-	label = gtk_label_new ( g_strdup_printf ( _("%02d/%02d/%d : [Aucun Tiers] [%4.2f]"),
+	label = gtk_label_new ( g_strdup_printf ( _("%02d/%02d/%d : [No third party] [%4.2f]"),
 						  echeance_selectionnnee -> jour,
 						  echeance_selectionnnee -> mois,
 						  echeance_selectionnnee -> annee,

@@ -36,9 +36,9 @@
 GtkWidget *creation_fenetre_ventilation ( void )
 {
   GtkWidget *onglet;
-  gchar *titres[] ={ _("Catégorie"),
+  gchar *titres[] ={ _("Category"),
 		     _("Notes"),
-		     _("Montant") };
+		     _("Amount") };
 
   /* création de la scrolled window  */
 
@@ -159,7 +159,7 @@ GtkWidget *creation_verification_ventilation ( void )
 		       0 );
   gtk_widget_show ( frame );
 
-  label = gtk_label_new ( _("Opération ventilée") );
+  label = gtk_label_new ( _("Breakdown of transaction") );
   gtk_container_add ( GTK_CONTAINER ( frame ),
 		      label );
   gtk_widget_show ( label );
@@ -182,7 +182,7 @@ GtkWidget *creation_verification_ventilation ( void )
   gtk_widget_show ( tableau );
 
 
-  label = gtk_label_new ( COLON(_("Somme ventilée")) );
+  label = gtk_label_new ( COLON(_("Break down amount")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
 			   0.5 );
@@ -209,7 +209,7 @@ GtkWidget *creation_verification_ventilation ( void )
   gtk_widget_show ( label_somme_ventilee );
 
 
-  label = gtk_label_new ( COLON(_("Non affecté")) );
+  label = gtk_label_new ( COLON(_("Not assigned")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
 			   0.5 );
@@ -248,7 +248,7 @@ GtkWidget *creation_verification_ventilation ( void )
 
 
 
-  label = gtk_label_new ( COLON(_("Montant")) );
+  label = gtk_label_new ( COLON(_("Amount")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
 			   0.5 );
@@ -535,8 +535,8 @@ GtkWidget *creation_formulaire_ventilation ( void )
   widget_formulaire_ventilation[5] = gtk_option_menu_new ();
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
 			 widget_formulaire_ventilation[5],
-			 _("Type d'opération associée"),
-			 _("Type d'opération associée") );
+			 _("Associated method of payment"),
+			 _("Associated method of payment") );
   gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation[5]),
  		       "key_press_event",
 		       GTK_SIGNAL_FUNC ( appui_touche_ventilation ),
@@ -553,8 +553,8 @@ GtkWidget *creation_formulaire_ventilation ( void )
   widget_formulaire_ventilation[6] = gtk_option_menu_new ();
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
 			 widget_formulaire_ventilation[6],
-			 _("Choix de l'exercice"),
-			 _("Choix de l'exercice") );
+			 _("Choose the financial year"),
+			 _("Choose the financial year") );
   menu = gtk_menu_new ();
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation[6] ),
 			     creation_menu_exercices (0) );
@@ -725,7 +725,7 @@ void entree_ventilation_perd_focus ( GtkWidget *entree,
 	  if ( strlen ( tableau_char[0] ) )
 	    {
 	      if ( !strcmp ( tableau_char[0],
-			     _("Virement") )
+			     _("Transfer") )
 		   && tableau_char[1]
 		   && strlen ( tableau_char[1]) )
 		{
@@ -734,7 +734,7 @@ void entree_ventilation_perd_focus ( GtkWidget *entree,
 		  gint i;
 
 		  if ( strcmp ( tableau_char[1],
-				_("Compte supprimé") ) )
+				_("Deleted account") ) )
 		    {
 		      /* recherche le no de compte du virement */
 
@@ -811,7 +811,7 @@ void entree_ventilation_perd_focus ( GtkWidget *entree,
 	  g_strfreev ( tableau_char );
 	}
       else
-	texte = _("Catégories : Sous-catégories");
+	texte = _("Categories : Sub-categories");
       break;
 
       /* sort des notes */
@@ -839,7 +839,7 @@ void entree_ventilation_perd_focus ( GtkWidget *entree,
 	      gtk_widget_set_style ( widget_formulaire_ventilation[3],
 				     style_entree_formulaire[1] );
 	      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[3]),
-				   _("Crédit") );
+				   _("Credit") );
 	    }
 
 	  /* comme il y a eu un changement de signe, on change aussi le type de l'opé associée */
@@ -867,7 +867,7 @@ void entree_ventilation_perd_focus ( GtkWidget *entree,
 	    }
 	}
       else
-	texte = _("Débit");
+	texte = _("Debit");
       break;
 
       /* sort du crédit */
@@ -886,7 +886,7 @@ void entree_ventilation_perd_focus ( GtkWidget *entree,
 	      gtk_widget_set_style ( widget_formulaire_ventilation[2],
 				     style_entree_formulaire[1] );
 	      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[2]),
-				   _("Débit") );
+				   _("Debit") );
 	    }
 
 	  /* comme il y a eu un changement de signe, on change aussi le type de l'opé associée */
@@ -914,21 +914,21 @@ void entree_ventilation_perd_focus ( GtkWidget *entree,
 	    }
 	}
       else
-	texte = _("Crédit");
+	texte = _("Credit");
       break;
 
       /* sort de l'ib */
 
     case 4:
       if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-	texte = _("Imputation budgétaire");
+	texte = _("Budgetary line");
       break;
 
       /* sort de la pièce comptable */
 
     case 7:
       if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-	texte = _("Pièce comptable");
+	texte = _("Voucher");
       break;
 
 
@@ -1454,17 +1454,17 @@ void echap_formulaire_ventilation ( void )
 
 
   gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation[0] ),
-			  _("Catégories : Sous-catégories") );
+			  _("Categories : Sub-categories") );
   gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[1]),
 		       _("Notes") );
   gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[2]),
-		       _("Débit") );
+		       _("Debit") );
   gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[3]),
-		       _("Crédit") );
+		       _("Credit") );
   gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation[4] ),
-			  _("Imputation budgétaire") );
+			  _("Budgetary line") );
   gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[7]),
-		       _("Pièce comptable") );
+		       _("Voucher") );
 
   gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_ventilation[5] ),
 				0 );
@@ -1547,7 +1547,7 @@ void fin_edition_ventilation ( void )
 
 
 	  if ( !strcmp ( tableau_char[0],
-			 _("Virement")))
+			 _("Transfer")))
 	    {
 	      gint i;
 
@@ -1566,19 +1566,19 @@ void fin_edition_ventilation ( void )
 
 		  if ( compte_vire == -1 )
 		    {
-		      dialogue ( _("Erreur : le compte associé au virement est invalide") );
+		      dialogue ( _("Warning: the associated account for this transfer is invalid") );
 		      return;
 		    }
 
 		  if ( compte_vire == compte_courant )
 		    {
-		      dialogue ( _("Erreur : impossible de virer un compte sur lui-même") );
+		      dialogue ( _("Error: it's impossible to transfer an account to itself") );
 		      return;
 		    }
 		}
 	      else
 		{
-		  dialogue ( _("Erreur : aucun compte associé au virement.") );
+		  dialogue ( _("Error: no account associated with the transfer") );
 		  return;
 		}
 	    }
@@ -1625,7 +1625,7 @@ void fin_edition_ventilation ( void )
 	  /* on vérifie ici si c'est un virement */
 
 	  if ( strcmp ( tableau_char[0],
-			_("Virement") ) )
+			_("Transfer") ) )
 	    {
 	      /* ce n'est pas un virement, recherche les catég */
 
@@ -1993,7 +1993,7 @@ void edition_operation_ventilation ( void )
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
       gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation[0] ),
-			      g_strconcat ( COLON(_("Virement")),
+			      g_strconcat ( COLON(_("Transfer")),
 					    NOM_DU_COMPTE,
 					    NULL ));
 
@@ -2163,7 +2163,7 @@ void supprime_operation_ventilation ( void )
 
   if ( operation -> pointe == 2 )
     {
-      dialogue ( PRESPACIFY(_("L'opération ventilée de cette opération est relevée,\n la suppression est annulée ...")));
+      dialogue ( PRESPACIFY(_("This transaction has a reconciled breakdown line,\ndeletion canceled...")));
       return;
     }
   else
@@ -2190,7 +2190,7 @@ void supprime_operation_ventilation ( void )
 
 	      if ( operation_associee -> pointe == 2 )
 		{
-		  dialogue ( SPACIFY(_("La contre-opération de ce virement est relevée\non ne peut donc les supprimer ...")));
+		  dialogue ( SPACIFY(_("This transfer has a reconciled contra-transaction,\ndeletion canceled...")));
 		  return;
 		}
 	    }
@@ -2325,7 +2325,7 @@ void ajoute_ope_sur_liste_ventilation ( struct struct_ope_ventil *operation )
 
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
-      ligne [0] = g_strconcat ( COLON(_("Virement")),
+      ligne [0] = g_strconcat ( COLON(_("Transfer")),
 				NOM_DU_COMPTE,
 				NULL );
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
@@ -2713,7 +2713,7 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 	  /* petite protection quand même, normalement le texte ne devrait jamais apparaitre */
 
 	  if ( !ope_ventil -> no_operation )
-	    dialogue ( _( "Bizarre ... une opé de ventilation a été marquée pour la suppression alors\nqu'elle n'était pas encore enregistrée..." ));
+	    dialogue ( _("Strange... a breakdown line is to be deleted though it is not yet registered..."));
 	  else
 	    {
 	      GSList *tmp;

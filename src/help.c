@@ -38,11 +38,7 @@ void a_propos ( GtkWidget *bouton,
   GtkWidget *hbox;
   gint i;
 
-  const gchar *generalites = _( "Grisbi est un logiciel vous permettant de gérer votre comptabilité personnelle sous Linux.
-
-Le principe de base d'un tel logiciel est de vous permettre de classer vos opérations financières, quelles qu'elles soient, de façon simple et intuitive, afin de pouvoir les exploiter au mieux en fonction de vos besoins.
-
-Grisbi a pris le parti de la simplicité et de l'efficacité pour un usage de base, sans toutefois exclure la sophistication nécessaire à un usage avancé. Les fonctionnalités futures tenteront toujours de respecter ces critères." );
+  const gchar *generalites = _("Grisbi est un logiciel vous permettant de gérer votre comptabilité personnelle sous Linux.\nLe principe de base d'un tel logiciel est de vous permettre de classer vos opérations financières, quelles qu'elles soient, de façon simple et intuitive, afin de pouvoir les exploiter au mieux en fonction de vos besoins.\nGrisbi a pris le parti de la simplicité et de l'efficacité pour un usage de base, sans toutefois exclure la sophistication nécessaire à un usage avancé. Les fonctionnalités futures tenteront toujours de respecter ces critères.");
 
   const gchar *auteurs[] = { _("Auger Cédric ( cedric@grisbi.org ) : Programmation"),
 			    _("Cartron Daniel ( doc@grisbi.org ) : Manuel, Site internet, conseils en comptabilité"),
@@ -52,39 +48,26 @@ Grisbi a pris le parti de la simplicité et de l'efficacité pour un usage de base
 			    NULL };
   const gchar *traducteurs[] = { "prénom nom (nom@prénom.org) : Anglais",
 				 NULL };
-  const gchar *liens[] = { _("Site internet : "),
+  const gchar *liens[] = { COLON(_("Web site")),
 			   "http://www.grisbi.org/",
 			   _("http://www.grisbi.org/"),
-			   _("Liste de développement (discuter, participer, critiquer...) : "),
+			   _("Development list (discuss, participate, criticize, ...) : "),
 			   "mailto:devel-subscribe@grisbi.org",
-			   _("s'inscrire"),
-			   _("Signaler un bug : "),
+			   _("subscribe"),
+			   COLON(_("Bug report")),
 			   "http://www.grisbi.org/bugtracking",
 			   "http://www.grisbi.org/bugtracking",
-			   _("Liste d'informations (annonces de sorties de nouvelles versions) : "),
+			   _("Information list (new releases announces, ...) : "),
 			   "mailto:infos-subscribe@grisbi.org",
-			   _("s'inscrire"),
-			   _("Documentation illustrée sur le site de grisbi : "),
+			   _("subscribe"),
+			   COLON(_("Grisbi documentation")),
 			   "http://www.grisbi.org/modules.php?name=Documentation",
 			   _("http://www.grisbi.org/modules.php?name=Documentation"),
 			   NULL };
 
-  const gchar *license = "
-    This program is free software; you can redistribute it and/or modify     
-    it under the terms of the GNU General Public License as published by     
-    the Free Software Foundation; either version 2 of the License, or        
-    (at your option) any later version.                                      
-                                                                             
-    This program is distributed in the hope that it will be useful,          
-    but WITHOUT ANY WARRANTY; without even the implied warranty of           
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            
-    GNU General Public License for more details.                             
-                                                                             
-    You should have received a copy of the GNU General Public License        
-    along with this program; if not, write to the Free Software              
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA";
+  const gchar *license = "This program is free software; you can redistribute it and/or modify\nit under the terms of the GNU General Public License as published by\nthe Free Software Foundation; either version 2 of the License, or\n(at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.You should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA";
 
-  dialogue = gnome_dialog_new ( _("À propos de..."),
+  dialogue = gnome_dialog_new ( _("About..."),
 				GNOME_STOCK_BUTTON_APPLY,
 				NULL );
   gtk_window_set_transient_for ( GTK_WINDOW ( dialogue ),
@@ -131,7 +114,7 @@ Grisbi a pris le parti de la simplicité et de l'efficacité pour un usage de base
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
 			     vbox,
-			     gtk_label_new ( _("Généralités" )));
+			     gtk_label_new ( _("Generalities")));
 
   /* mise en forme de l'onglet auteurs */
 
@@ -167,7 +150,7 @@ Grisbi a pris le parti de la simplicité et de l'efficacité pour un usage de base
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
 			     vbox,
-			     gtk_label_new ( _("Auteurs" )));
+			     gtk_label_new ( _("Authors")));
 
 
   /* mise en forme de l'onglet traduction */
@@ -204,7 +187,7 @@ Grisbi a pris le parti de la simplicité et de l'efficacité pour un usage de base
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
 			     vbox,
-			     gtk_label_new ( _("Traducteurs" )));
+			     gtk_label_new ( _("Translators")));
 
 
   /* mise en forme de l'onglet liens */
@@ -251,7 +234,7 @@ Grisbi a pris le parti de la simplicité et de l'efficacité pour un usage de base
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
 			     vbox,
-			     gtk_label_new ( _("Liens" )));
+			     gtk_label_new ( _("Links")));
 
 
   /* mise en forme de l'onglet de license */
@@ -274,7 +257,7 @@ Grisbi a pris le parti de la simplicité et de l'efficacité pour un usage de base
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
 			     vbox,
-			     gtk_label_new ( _("License" )));
+			     gtk_label_new ( _("License")));
 
   gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook ),
 			  0 );

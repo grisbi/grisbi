@@ -144,7 +144,7 @@ GtkWidget *creation_liste_comptes (void)
 
 
 	      gnome_app_insert_menus ( GNOME_APP ( window ),
-				       _("Comptes/Comptes cloturés/"),
+				       _("Accounts/Closed accounts/"),
 				       menu );
 
 	      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[3].widget ),
@@ -185,11 +185,11 @@ GtkWidget *creation_liste_comptes (void)
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
   if ( nb_comptes )
-    label_releve = gtk_label_new ( g_strconcat ( COLON(_("Dernier relevé")),
+    label_releve = gtk_label_new ( g_strconcat ( COLON(_("Last statement")),
 						 DATE_DERNIER_RELEVE,
 						 NULL ) );
   else
-    label_releve = gtk_label_new ( COLON(_("Dernier relevé")) );
+    label_releve = gtk_label_new ( COLON(_("Last statement")) );
 
   gtk_box_pack_start ( GTK_BOX ( vbox_frame_equilibrage ),
 		       label_releve,
@@ -201,7 +201,7 @@ GtkWidget *creation_liste_comptes (void)
 
   /* mise en place du bouton équilibrage */
 
-  bouton = gtk_button_new_with_label ( _("Rapprocher") );
+  bouton = gtk_button_new_with_label ( _("Reconcile") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE);
   gtk_box_pack_start ( GTK_BOX ( vbox_frame_equilibrage ),
@@ -389,26 +389,26 @@ void changement_compte ( gint *compte)
 
   if ( DATE_DERNIER_RELEVE )
     gtk_label_set_text ( GTK_LABEL ( label_releve ),
-			 g_strdup_printf ( _("Dernier relevé : %02d/%02d/%d"), 
+			 g_strdup_printf ( _("Last statement: %02d/%02d/%d"), 
 					     g_date_day ( DATE_DERNIER_RELEVE ),
 					     g_date_month ( DATE_DERNIER_RELEVE ),
 					     g_date_year ( DATE_DERNIER_RELEVE ) ));
 
   else
     gtk_label_set_text ( GTK_LABEL ( label_releve ),
-			 _("Dernier relevé : Aucun") );
+			 _("Last statement: none") );
 
 
   /* affiche le solde final en bas */
 
   gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
-		       g_strdup_printf ( PRESPACIFY(_("Solde pointé : %4.2f %s")),
+		       g_strdup_printf ( PRESPACIFY(_("Checked balance: %4.2f %s")),
 					 SOLDE_POINTE,
 					 ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 											 GINT_TO_POINTER ( DEVISE ),
 											 (GCompareFunc) recherche_devise_par_no )-> data )) -> code_devise) );
   gtk_label_set_text ( GTK_LABEL ( solde_label ),
-		       g_strdup_printf ( PRESPACIFY(_("Solde courant : %4.2f %s")),
+		       g_strdup_printf ( PRESPACIFY(_("Current balance: %4.2f %s")),
 					 SOLDE_COURANT,
 					 ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 											 GINT_TO_POINTER ( DEVISE ),
@@ -461,7 +461,7 @@ void reaffiche_liste_comptes ( void )
     {
       if ( COMPTE_CLOTURE )
 	gnome_app_remove_menus ( GNOME_APP ( window ),
-				 _("Comptes/Comptes cloturés/"),
+				 _("Accounts/Closed accounts/"),
 				 2 );
       p_tab_nom_de_compte_variable++;
     }
@@ -506,7 +506,7 @@ void reaffiche_liste_comptes ( void )
 
 
 	      gnome_app_insert_menus ( GNOME_APP ( window ),
-				       _("Comptes/Comptes cloturés/"),
+				       _("Accounts/Closed accounts/"),
 				       menu );
 
 	      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[3].widget ),

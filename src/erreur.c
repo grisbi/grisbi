@@ -255,13 +255,13 @@ void affiche_log_message ( void )
   if ( !log_message )
     return;
 
-  dialog = gnome_dialog_new ( _("Message de log"),
+  dialog = gnome_dialog_new ( _("Log message"),
 			      GNOME_STOCK_BUTTON_OK,
 			      NULL );
   gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
 				 GTK_WINDOW ( window ) );
 
-  label = gtk_label_new ( COLON(_("Cette opération a retourné un message")));
+  label = gtk_label_new ( COLON(_("This operation returned a message")));
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
 		       FALSE,
@@ -323,7 +323,7 @@ void traitement_sigsegv ( gint signal_nb )
 
   if ( etat.en_train_de_charger )
     {
-      dialog = gnome_error_dialog ( _("Oups, Grisbi a planté pendant le chargement du fichier (erreur de segmentation).\nSoit celui-ci est corrompu, soit il s'agit d'un bug grave.\nRéessayez de le charger.  Si vous arrivez à recréer ce bug, pouvez-vous nous le décrire sur le site de grisbi (http://www.grisbi.org/bugtracking/) ?\nCeci nous aiderait beaucoup pour le corriger.\nMerci !" ));
+      dialog = gnome_error_dialog ( _("Ooops, Grisbi crashed while loading the file (segfault).\nEither the file is corrupted, or it is a major bug.\nTry to load the file again. If you can repeat this crash, could you report it on Grisbi's bugtracker (http://www.grisbi.org/bugtracking/)?\nIt would really help us to fix it.\nThanks a lot!"));
       gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
       fichier_marque_ouvert ( FALSE );
       gtk_main_quit();
@@ -333,7 +333,7 @@ void traitement_sigsegv ( gint signal_nb )
 
   if ( etat.en_train_de_sauvegarder )
     {
-      dialog = gnome_error_dialog ( _("Oups, Grisbi a planté pendant la sauvegarde du fichier (erreur de segmentation).\nCelle-ci est donc impossible.  Si vous arrivez à recréer ce bug, pouvez-vous nous le décrire sur le site de grisbi (http://www.grisbi.org/bugtracking/) ?\nCeci nous aiderait beaucoup pour le corriger.\nMerci !" ));
+      dialog = gnome_error_dialog ( _("Ooops, Grisbi crashed while trying to save the file (segfault).\nSo it's impossible to save your file.\nIf you can repeat this crash, could you report it on Grisbi's bugtracker (http://www.grisbi.org/bugtracking/)?\nIt would really help us to fix it.\nThanks a lot!"));
       gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
       fichier_marque_ouvert ( FALSE );
       gtk_main_quit();
@@ -342,7 +342,7 @@ void traitement_sigsegv ( gint signal_nb )
 
   if ( !etat.modification_fichier )
     {
-      dialog = gnome_error_dialog ( _("Oups, Grisbi a planté (erreur de segmentation).\nC'est pas bien grave, vous n'aviez pas fait de modifications,\ncependant si vous arrivez à recréer le bug, pouvez-vous nous le décrire sur le site de grisbi (http://www.grisbi.org/bugtracking/) ?\nCeci nous aiderait beaucoup pour le corriger.\nMerci !" ));
+      dialog = gnome_error_dialog ( _("Ooops, Grisbi crashed (segfault).\nNo matter, you didn't modify anything.\nIf you can repeat this crash, could you report it on Grisbi's bugtracker (http://www.grisbi.org/bugtracking/)?\nIt would really help us to fix it.\nThanks a lot!"));
       gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
       fichier_marque_ouvert ( FALSE );
       gtk_main_quit();
@@ -382,14 +382,14 @@ void traitement_sigsegv ( gint signal_nb )
 					NULL );
 
     if ( patience_en_cours )
-      update_attente ( _("Enregistrement du fichier") );
+      update_attente ( _("Save file") );
     else
-      mise_en_route_attente ( _("Enregistrement du fichier") );
+      mise_en_route_attente ( _("Save file") );
 
   enregistre_fichier ( 1 );
   annulation_attente();
 
-  dialog = gnome_error_dialog ( g_strdup_printf (_("Oups, Grisbi a planté (erreur de segmentation).\nIl a essayé de sauvegarder le fichier juste avant, sous le nom %s.\nEssayez de l'ouvrir, avec un peu de chances vous n'aurez rien perdu.\nDe plus, si vous arrivez à recréer le bug, pouvez-vous nous le décrire sur le site de grisbi (http://www.grisbi.org/bugtracking/) ?\nCeci nous aiderait beaucoup pour le corriger.\nMerci !" ),
+  dialog = gnome_error_dialog ( g_strdup_printf (_("Ooops, Grisbi crashed (segfault).\nGrisbi tried to save your file before, with the name %s.\nTry to load it, with a bit of luck you won't loose anything.\nIf you can repeat this crash, could you report it on Grisbi's bugtracker (http://www.grisbi.org/bugtracking/)?\nIt would really help us to fix it.\nThanks a lot!"),
 						 nom_fichier_comptes ));
   gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
   gtk_main_quit();

@@ -19,7 +19,7 @@ AC_STDC_HEADERS
 AC_PROG_RANLIB
 
 dnl Check for NLS support.                                                      
-ALL_LINGUAS="en"
+ALL_LINGUAS="fr"
 AM_GNU_GETTEXT
 AC_CHECK_LIB(intl,main)
 

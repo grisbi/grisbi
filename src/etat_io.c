@@ -45,7 +45,7 @@ gboolean charge_etat ( gchar *nom_etat )
 	   g_strcasecmp ( doc->root->name,
 			  "Grisbi_etat" ))
 	{
-	  dialogue ( _("Ce fichier n'est pas un état Grisbi") );
+	  dialogue ( _("This file is not a Grisbi report") );
 	  xmlFreeDoc ( doc );
 	  return ( FALSE );
 	}
@@ -59,7 +59,7 @@ gboolean charge_etat ( gchar *nom_etat )
       /* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
       /* la version nécessaire pour l'ouvrir */
 
-      dialogue ( g_strdup_printf ( _("Pour ouvrir ce fichier, il vous faut la version %s de Grisbi"),
+      dialogue ( g_strdup_printf ( _("Grisbi version %s is needed to open this file"),
 				   xmlNodeGetContent ( doc->root->childs->childs->next )));
 
       xmlFreeDoc ( doc );
@@ -68,7 +68,7 @@ gboolean charge_etat ( gchar *nom_etat )
     }
   else
     {
-      dialogue ( _("Fichier d'état invalide.") );
+      dialogue ( _("Invalid report file") );
       return ( FALSE );
     }
 }
@@ -754,10 +754,10 @@ gint recupere_devise_par_nom_etat ( gchar *nom )
       devise = liste_struct_devises -> data;
 
       if ( log_message )
-	log_message = g_strdup_printf ( _("%sDevise %s non trouvée.\n"),
+	log_message = g_strdup_printf ( _("%sCurrency %s not found.\n"),
 					log_message, nom );
       else
-	log_message = g_strdup_printf ( _("Devise %s non trouvée.\n"),
+	log_message = g_strdup_printf ( _("Currency %s not found.\n"),
 					nom );
     }
 
@@ -798,10 +798,10 @@ gint recupere_exo_par_nom_etat ( gchar *nom )
       no_exo = 0;
 
       if ( log_message )
-	log_message = g_strdup_printf ( _("%sExercice %s non trouvé.\n"),
+	log_message = g_strdup_printf ( _("%sFinancial year %s not found.\n"),
 					log_message, nom );
       else
-	log_message = g_strdup_printf ( _("Exercice %s non trouvé.\n"),
+	log_message = g_strdup_printf ( _("Financial year %s not found.\n"),
 					nom );
     }
 
@@ -844,10 +844,10 @@ gint recupere_compte_par_nom_etat ( gchar *nom )
   if ( no_compte == -1 )
     {
       if ( log_message )
-	log_message = g_strdup_printf ( _("%sCompte %s non trouvé.\n"),
+	log_message = g_strdup_printf ( _("%sAccount %s not found.\n"),
 					log_message, nom );
       else
-	log_message = g_strdup_printf ( _("Compte %s non trouvé.\n"),
+	log_message = g_strdup_printf ( _("Account %s not found.\n"),
 					nom );
     }
 
@@ -887,10 +887,10 @@ gint recupere_categ_par_nom_etat ( gchar *nom )
       no_categ = 0;
 
       if ( log_message )
-	log_message = g_strdup_printf ( _("%sCatégorie %s non trouvée.\n"),
+	log_message = g_strdup_printf ( _("%sCategory %s not found.\n"),
 					log_message, nom );
       else
-	log_message = g_strdup_printf ( _("Catégorie %s non trouvée.\n"),
+	log_message = g_strdup_printf ( _("Category %s not found.\n"),
 					nom );
     }
 
@@ -930,10 +930,10 @@ gint recupere_ib_par_nom_etat ( gchar *nom )
       no_ib = 0;
 
       if ( log_message )
-	log_message = g_strdup_printf ( _("%sImputation %s non trouvée.\n"),
+	log_message = g_strdup_printf ( _("%sBudget line %s not found.\n"),
 					log_message, nom );
       else
-	log_message = g_strdup_printf ( _("Imputation %s non trouvée.\n"),
+	log_message = g_strdup_printf ( _("Budget line %s not found.\n"),
 					nom );
     }
 
@@ -974,10 +974,10 @@ gint recupere_tiers_par_nom_etat ( gchar *nom )
       no_tiers = 0;
 
       if ( log_message )
-	log_message = g_strdup_printf ( _("%sTiers %s non trouvé.\n"),
+	log_message = g_strdup_printf ( _("%sThird party %s not found.\n"),
 					log_message, nom );
       else
-	log_message = g_strdup_printf ( _("Tiers %s non trouvé.\n"),
+	log_message = g_strdup_printf ( _("Third party %s not found.\n"),
 					nom );
     }
 
@@ -1731,7 +1731,7 @@ gboolean enregistre_etat ( gchar *nom_etat )
 
   if ( resultat == -1 )
     {
-      dialogue ( g_strdup_printf ( _("Erreur dans l'enregistrement du fichier %s\n\nErreur :\n%s"),
+      dialogue ( g_strdup_printf ( _("Error saving the file %s\n\nError:\n%s"),
 				   nom_etat,
 				   strerror ( errno ) ) );
       return ( FALSE );

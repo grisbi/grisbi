@@ -87,7 +87,7 @@ GtkWidget *creation_onglet_etats ( void )
 			10 );
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_etats ),
 			     vbox,
-			     gtk_label_new ( _( "Affichage états" )));
+			     gtk_label_new ( _("Reports display")));
   gtk_widget_show ( vbox );
 
 
@@ -246,7 +246,7 @@ GtkWidget *creation_liste_etats ( void )
 
   /* mise en place du bouton ajouter */
 
-  bouton = gtk_button_new_with_label ( _("Ajouter un état") );
+  bouton = gtk_button_new_with_label ( _("Add a report") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE);
   gtk_box_pack_start ( GTK_BOX ( vbox ),
@@ -262,7 +262,7 @@ GtkWidget *creation_liste_etats ( void )
 
   /* on met le bouton personnaliser */
 
-  bouton_personnaliser_etat = gtk_button_new_with_label ( _("Personnaliser l'état") );
+  bouton_personnaliser_etat = gtk_button_new_with_label ( _("Customise the report") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_personnaliser_etat ),
 			  GTK_RELIEF_NONE );
   gtk_widget_set_sensitive ( bouton_personnaliser_etat,
@@ -280,7 +280,7 @@ GtkWidget *creation_liste_etats ( void )
 
   /* on met le bouton dupliquer */
 
-  bouton_dupliquer_etat = gtk_button_new_with_label ( _("Dupliquer l'état") );
+  bouton_dupliquer_etat = gtk_button_new_with_label ( _("Duplicate the report") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_dupliquer_etat ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton_dupliquer_etat ),
@@ -296,7 +296,7 @@ GtkWidget *creation_liste_etats ( void )
 
   /* mise en place du bouton effacer état */
 
-  bouton_effacer_etat = gtk_button_new_with_label ( _("Effacer l'état") );
+  bouton_effacer_etat = gtk_button_new_with_label ( _("Delete the report") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_effacer_etat ),
 			  GTK_RELIEF_NONE);
   gtk_box_pack_start ( GTK_BOX ( vbox ),
@@ -340,7 +340,7 @@ GtkWidget *creation_barre_boutons_etats ( void )
 
   /* on met le bouton rafraichir */
 
-  bouton = gtk_button_new_with_label ( _("Rafraichir") );
+  bouton = gtk_button_new_with_label ( _("Refresh") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
@@ -356,7 +356,7 @@ GtkWidget *creation_barre_boutons_etats ( void )
 
   /* on met le bouton imprimer */
 
-  bouton_imprimer_etat = gtk_button_new_with_label ( _("Imprimer") );
+  bouton_imprimer_etat = gtk_button_new_with_label ( _("Print") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_imprimer_etat ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_imprimer_etat ),
@@ -374,7 +374,7 @@ GtkWidget *creation_barre_boutons_etats ( void )
 
   /* on met le bouton exporter */
 
-  bouton_exporter_etat = gtk_button_new_with_label ( _("Exporter") );
+  bouton_exporter_etat = gtk_button_new_with_label ( _("Export") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_exporter_etat ),
 			  GTK_RELIEF_NONE );
   gtk_widget_set_sensitive ( bouton_exporter_etat,
@@ -392,7 +392,7 @@ GtkWidget *creation_barre_boutons_etats ( void )
 
   /* on met le bouton importer */
 
-  bouton_importer_etat = gtk_button_new_with_label ( _("Importer") );
+  bouton_importer_etat = gtk_button_new_with_label ( _("Import") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_importer_etat ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton_importer_etat ),
@@ -538,7 +538,7 @@ void ajout_etat ( void )
   GtkWidget *scrolled_window;
 
 
-  dialog = gnome_dialog_new ( _("Création d'un état"),
+  dialog = gnome_dialog_new ( _("Create a report"),
 			      GNOME_STOCK_BUTTON_OK,
 			      GNOME_STOCK_BUTTON_CANCEL,
 			      NULL );
@@ -552,7 +552,7 @@ void ajout_etat ( void )
 			  FALSE,
 			  FALSE );
 
-  label = gtk_label_new ( _("Sélectionner le type d'état voulu :" ));
+  label = gtk_label_new ( _("Select report type:"));
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
 			   0.5 );
@@ -575,7 +575,7 @@ void ajout_etat ( void )
 
   /* on ajoute maintenant la frame */
 
-  frame = gtk_frame_new ( _("Description :" ));
+  frame = gtk_frame_new ( _("Description:"));
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       frame,
 		       TRUE,
@@ -611,7 +611,7 @@ void ajout_etat ( void )
 
   menu = gtk_menu_new ();
 
-  menu_item = gtk_menu_item_new_with_label ( _("Revenus et dépenses du mois dernier"));
+  menu_item = gtk_menu_item_new_with_label ( _("Last month incomes and outgoings"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -629,7 +629,7 @@ void ajout_etat ( void )
 			     label_description );
 
 
-  menu_item = gtk_menu_item_new_with_label ( _("Revenus et dépenses du mois en cours"));
+  menu_item = gtk_menu_item_new_with_label ( _("Current month incomes and outgoings"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -642,7 +642,7 @@ void ajout_etat ( void )
   gtk_widget_show ( menu_item );
 
 
-  menu_item = gtk_menu_item_new_with_label ( _("Budget annuel"));
+  menu_item = gtk_menu_item_new_with_label ( _("Annual budget"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -654,7 +654,7 @@ void ajout_etat ( void )
 			      GTK_OBJECT ( label_description ));
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("Remise de chèques"));
+  menu_item = gtk_menu_item_new_with_label ( _("Cheques deposit"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -667,7 +667,7 @@ void ajout_etat ( void )
   gtk_widget_show ( menu_item );
 
 
-  menu_item = gtk_menu_item_new_with_label ( _("Dépenses mensuelles par tiers"));
+  menu_item = gtk_menu_item_new_with_label ( _("Monthly outgoings by third party"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -680,7 +680,7 @@ void ajout_etat ( void )
   gtk_widget_show ( menu_item );
 
 
-  menu_item = gtk_menu_item_new_with_label ( _("Recherche"));
+  menu_item = gtk_menu_item_new_with_label ( _("Search"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -693,7 +693,7 @@ void ajout_etat ( void )
   gtk_widget_show ( menu_item );
 
 
-  menu_item = gtk_menu_item_new_with_label ( _("État vierge"));
+  menu_item = gtk_menu_item_new_with_label ( _("Blank report"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -744,7 +744,7 @@ void ajout_etat ( void )
     case 0:
       /*  revenus et dépenses du mois précédent  */
 
-      etat -> nom_etat = g_strdup ( _("Revenus et dépenses du mois précédent") );
+      etat -> nom_etat = g_strdup ( _("Previous month incomes and outgoings") );
 
       etat -> separer_revenus_depenses = 1;
       etat -> no_plage_date = 7;
@@ -786,7 +786,7 @@ void ajout_etat ( void )
     case 1:
      /*  revenus et dépenses du mois courant  */
 
-      etat -> nom_etat = g_strdup ( _("Revenus et dépenses du mois en cours") );
+      etat -> nom_etat = g_strdup ( _("Current month incomes and outgoings") );
 
       etat -> separer_revenus_depenses = 1;
       etat -> no_plage_date = 3;
@@ -830,7 +830,7 @@ void ajout_etat ( void )
 
       /* on ajoute le budget annuel */
 
-      etat -> nom_etat = g_strdup ( _("Budget annuel") );
+      etat -> nom_etat = g_strdup ( _("Annual budget") );
 
       /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
 
@@ -876,7 +876,7 @@ void ajout_etat ( void )
 
       /* on ajoute un état vierge appelé nouvel état */
 
-      etat -> nom_etat = g_strdup ( _("Nouvel état") );
+      etat -> nom_etat = g_strdup ( _("New report") );
 
       /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
 
@@ -927,7 +927,7 @@ void ajout_etat ( void )
 
       /* remise de chèques */
 
-      etat -> nom_etat = g_strdup ( _("Remise de chèques") );
+      etat -> nom_etat = g_strdup ( _("Cheques deposit") );
 
       /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
 
@@ -981,7 +981,7 @@ void ajout_etat ( void )
 
       /* dépenses mensuelles par tiers */
 
-      etat -> nom_etat = g_strdup ( _("Dépenses mensuelles par tiers") );
+      etat -> nom_etat = g_strdup ( _("Monthly outgoings by third party") );
 
       /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
 
@@ -1036,7 +1036,7 @@ void ajout_etat ( void )
 
       /* dépenses mensuelles par tiers */
 
-      etat -> nom_etat = g_strdup ( _("Recherche") );
+      etat -> nom_etat = g_strdup ( _("Search") );
 
       /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
 
@@ -1089,7 +1089,7 @@ void ajout_etat ( void )
 
 
     default :
-      dialogue ( _( "Type d'état inconnu, création abandonnée" ));
+      dialogue ( _("Unknown report type, creation cancelled"));
       return;
     }
 
@@ -1139,48 +1139,48 @@ void change_choix_nouvel_etat ( GtkWidget *menu_item,
     case 0:
       /* revenus et dépenses du mois dernier  */
 
-      description = _("Cet état affiche les totaux classés par catégorie et sous-catégorie des opérations du mois dernier. Il suffira de choisir le ou les comptes et de valider (par-défaut, tous les comptes sont utilisés).");
+      description = _("This report displays totals for last month's transactions sorted by categories and sub-categories. You just need to select the account(s). By default, all accounts are selected.");
       break;
 
     case 1:
       /* revenus et dépenses du mois en cours  */
 
-      description = _("Cet état affiche les totaux classés par catégorie et sous-catégorie des opérations du mois en cours. Il suffira de choisir le ou les comptes et de valider (par-défaut, tous les comptes sont utilisés).");
+      description = _("This report displays totals of current month's transactions sorted by categories and sub-categories. You just need to select the account(s). By default, all accounts are selected.");
       break;
  
     case 2:
       /* budget annuel  */
 
-      description = _("Cet état affiche le budget annuel. Il suffira de choisir le ou les comptes et de valider (par-défaut, tous les comptes sont utilisés).");
+      description = _("This report displays annual budget. You just need to select the account(s). By default all accounts are selected.");
       break;
  
     case 3:
       /* etat vierge  */
 
-      description = _("Cette option crée un état vierge dans lequel vous devez tous configurer.");
+      description = _("This report is an empty one. You need to customise it entirely.");
       break;
  
     case 4:
       /* remise de chèques  */
 
-      description = _("Cet état affiche les chèques encaissés. Il suffira de choisir le ou les comptes et de valider (par-défaut, tous les comptes sont utilisés).");
+      description = _("This report displays the cheques deposit. You just need to select the account(s). By default all accounts are selected.");
       break;
  
     case 5:
       /* dépenses mensuelles par tiers  */
 
-      description = _("Cet état affiche les dépenses du mois classées par tiers. Il suffira de choisir le ou les comptes et de valider (par-défaut, tous les comptes sont utilisés).");
+      description = _("This report displays current month's outgoings sorted by third parties. You just need to select the account(s). By default all accounts areselected.");
       break;
  
     case 6:
       /* recherche  */
 
-      description = _("Cet état affiche toutes les informations de toutes les opérations de tous les comptes pour l'année courante. Il vous suffit de rajouter les critères de recherche (par montant, tiers, date, etc.) qui vous intéressent. Les opérations sont interactives par défaut.");
+      description = _("This report displays all the information for all transactions of all accounts for the current year. You just have to add the amount, date, third parties etc. criteria thant you want. By default the transactions are clickables.");
       break;
  
     default:
 
-     description = _("????  ne devrait pas être affiché ...");
+     description = _("???? should not be displayed...");
      }
 
   gtk_label_set_text ( GTK_LABEL ( label_description ),
@@ -1204,14 +1204,14 @@ void efface_etat ( void )
   if ( !etat_courant )
     return;
 
-  dialog = gnome_dialog_new ( _("Confirmation de la suppression d'un état"),
+  dialog = gnome_dialog_new ( _("Confirm the deletion of a report"),
 			      GNOME_STOCK_BUTTON_YES,
 			      GNOME_STOCK_BUTTON_NO,
 			      NULL );
   gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
 				 GTK_WINDOW ( window ));
 
-  label = gtk_label_new ( g_strdup_printf ( _("Êtes-vous sûr de vouloir supprimer l'état %s ?"),
+  label = gtk_label_new ( g_strdup_printf ( _("Do you really want to delete report %s?"),
 					    etat_courant -> nom_etat ));
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
@@ -1344,7 +1344,7 @@ void exporter_etat ( void )
   struct stat test_fichier;
   gchar *nom_etat;
 
-  dialog = gnome_dialog_new ( _("Exporter un état"),
+  dialog = gnome_dialog_new ( _("Export a report"),
 			      GNOME_STOCK_BUTTON_OK,
 			      GNOME_STOCK_BUTTON_CANCEL,
 			      NULL );
@@ -1357,7 +1357,7 @@ void exporter_etat ( void )
 		       GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
 		       "destroy" );
 
-  label = gtk_label_new ( COLON(_("Entrer un nom pour l'export")) );
+  label = gtk_label_new ( COLON(_("Enter name for export")) );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
 		       FALSE,
@@ -1412,11 +1412,11 @@ void exporter_etat ( void )
 	      GtkWidget *etes_vous_sur;
 	      GtkWidget *label;
 
-	      etes_vous_sur = gnome_dialog_new ( _("Enregistrer le fichier"),
+	      etes_vous_sur = gnome_dialog_new ( _("Save file"),
 						 GNOME_STOCK_BUTTON_YES,
 						 GNOME_STOCK_BUTTON_NO,
 						 NULL );
-	      label = gtk_label_new ( _("Le fichier existe. Voulez-vous l'écraser ?") );
+	      label = gtk_label_new ( _("File exists. Do you want to overwrite it?") );
 	      gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( etes_vous_sur ) -> vbox ),
 				   label,
 				   TRUE,
@@ -1435,7 +1435,7 @@ void exporter_etat ( void )
 	    }
 	  else
 	    {
-	      dialogue ( g_strdup_printf ( _("Nom de fichier \"%s\" invalide !"),
+	      dialogue ( g_strdup_printf ( _("Invalid filename \"%s\"!"),
 					   nom_etat ));
 	      return;
 	    }
@@ -1466,7 +1466,7 @@ void importer_etat ( void )
   gint resultat;
   gchar *nom_etat;
 
-  dialog = gnome_dialog_new ( _("Importer un état"),
+  dialog = gnome_dialog_new ( _("Import a report"),
 			      GNOME_STOCK_BUTTON_OK,
 			      GNOME_STOCK_BUTTON_CANCEL,
 			      NULL );
@@ -1479,7 +1479,7 @@ void importer_etat ( void )
 		       GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
 		       "destroy" );
 
-  label = gtk_label_new ( COLON(_("Entrer le nom du fichier")) );
+  label = gtk_label_new ( COLON(_("Enter a filename")) );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
 		       FALSE,

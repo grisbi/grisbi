@@ -95,7 +95,7 @@ GtkWidget *creation_fenetre_operations ( void )
   gtk_widget_show ( frame );
 
 
-  solde_label_pointe = gtk_label_new ( SPACIFY(COLON(_("Solde pointé"))) );
+  solde_label_pointe = gtk_label_new ( SPACIFY(COLON(_("Reconciled balance"))) );
   gtk_label_set_justify ( GTK_LABEL ( solde_label_pointe ),
 			  GTK_JUSTIFY_LEFT);
   gtk_container_add ( GTK_CONTAINER ( frame ),
@@ -118,7 +118,7 @@ GtkWidget *creation_fenetre_operations ( void )
   gtk_widget_show ( frame );
 
 
-  solde_label = gtk_label_new ( SPACIFY(COLON(_("Solde courant"))) );
+  solde_label = gtk_label_new ( SPACIFY(COLON(_("Curent balance"))) );
   gtk_label_set_justify ( GTK_LABEL ( solde_label ),
 			  GTK_JUSTIFY_RIGHT);
   gtk_container_add ( GTK_CONTAINER ( frame ),
@@ -215,7 +215,7 @@ GtkWidget *initialisation_notebook_operations ( void )
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
 			     creation_fenetre_ventilation (),
-			     gtk_label_new ( _("Ventilation du compte") ) );
+			     gtk_label_new ( _("Account breakdown") ) );
 
   return ( notebook_listes_operations );
 }
@@ -797,13 +797,13 @@ void remplissage_liste_operations ( gint compte )
   /* on met les soldes en bas */
 
   gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
-		       g_strdup_printf ( PRESPACIFY(_("Solde pointé : %4.2f %s")),
+		       g_strdup_printf ( PRESPACIFY(_("Checked balance: %4.2f %s")),
 					 SOLDE_POINTE,
 					 ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 											 GINT_TO_POINTER ( DEVISE ),
 											 (GCompareFunc) recherche_devise_par_no )-> data )) -> code_devise) );
   gtk_label_set_text ( GTK_LABEL ( solde_label ),
-		       g_strdup_printf ( PRESPACIFY(_("Solde courant : %4.2f %s")),
+		       g_strdup_printf ( PRESPACIFY(_("Current balance: %4.2f %s")),
 					 SOLDE_COURANT,
 					 ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 											 GINT_TO_POINTER ( DEVISE ),
@@ -1100,9 +1100,9 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 	      if ( operation -> relation_no_compte == -1 )
 		{
 		  if ( operation -> montant < 0 )
-		    temp = _("Virement vers un compte supprimé");
+		    temp = _("Transfer to a deleted account");
 		  else
-		    temp = _("Virement d'un compte supprimé");
+		    temp = _("Transfer from a deleted account");
 		}
 	      else
 		{
@@ -1112,10 +1112,10 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 		  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
 		  if ( operation -> montant < 0 )
-		    temp = g_strdup_printf ( _("Virement vers %s"),
+		    temp = g_strdup_printf ( _("Transfer to %s"),
 					     NOM_DU_COMPTE );
 		  else
-		    temp = g_strdup_printf ( _("Virement de %s"),
+		    temp = g_strdup_printf ( _("Transfer from %s"),
 					     NOM_DU_COMPTE );
 
 		  p_tab_nom_de_compte_variable = save_ptab;
@@ -1126,7 +1126,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 	      /* vérification si l'opération est ventilée */
 
 	      if ( operation -> operation_ventilee )
-		temp = _("Opération ventilée");
+		temp = _("Breakdown of transaction");
 	    }
 	}
       return ( temp );
@@ -1689,7 +1689,7 @@ void edition_operation ( void )
 
       if ( operation -> relation_no_compte == -1 )
 	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ),
-				_("Virement : Compte supprimé") );
+				_("Transfer: deleted account") );
       else
 	{
 	  GtkWidget *menu;
@@ -1700,7 +1700,7 @@ void edition_operation ( void )
 	  /* on met le nom du compte du virement */
 
 	  gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ),
-				  g_strconcat ( COLON(_("Virement")),
+				  g_strconcat ( COLON(_("Transfer")),
 						NOM_DU_COMPTE,
 						NULL ));
 
@@ -1759,7 +1759,7 @@ void edition_operation ( void )
     {
       entree_prend_focus ( widget_formulaire_operations[8] );
       gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ),
-			      _("Opération ventilée") );
+			      _("Breakdown of transaction") );
       gtk_widget_show ( widget_formulaire_operations[15] );
       gtk_widget_set_sensitive ( widget_formulaire_operations[11],
 				 FALSE );
@@ -1878,7 +1878,7 @@ void edition_operation ( void )
 			 _("Auto"));
   else
     gtk_label_set_text ( GTK_LABEL ( widget_formulaire_operations[18]),
-			 _("Manuel"));
+			 _("Manual"));
 
 
 
@@ -2028,7 +2028,7 @@ void p_press (void)
   /* met le label du solde pointé */
 
   gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
-		       g_strdup_printf ( PRESPACIFY(_("Solde pointé : %4.2f %s")),
+		       g_strdup_printf ( PRESPACIFY(_("Checked balance: %4.2f %s")),
 					 SOLDE_POINTE,
 					 devise_compte -> code_devise) );
 }
@@ -2165,7 +2165,7 @@ void supprime_operation ( struct structure_operation *operation )
 
   if ( operation -> pointe == 2 )
     {
-      dialogue ( SPACIFY(_("Impossible de supprimer une opération relevée ...")));
+      dialogue ( SPACIFY(_("Imposible to delete a reconciled transaction...")));
       return;
     }
 
@@ -2189,7 +2189,7 @@ void supprime_operation ( struct structure_operation *operation )
 
 	  if ( ope_liee -> pointe == 2 )
 	    {
-	      dialogue ( SPACIFY(_("La contre-opération de ce virement est relevée,\nla suppression est impossible ...")));
+	      dialogue ( SPACIFY(_("The contra-transaction of this transfer is reconciled,\ndeletion impossible...")));
 	      return;
 	    }
 
@@ -2235,7 +2235,7 @@ void supprime_operation ( struct structure_operation *operation )
 
 		  if ( contre_operation -> pointe == 2 )
 		    {
-		      dialogue ( _("Une des opération de la ventilation est un virement dont la contre-opération est relevée.\nLa suppression est annulée ..."));
+		      dialogue ( _("One of the breakdown lines is a transfer whose contra-transaction is reconciled.\nDeletion canceled..."));
 		      return;
 		    }
 		}

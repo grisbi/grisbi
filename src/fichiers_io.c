@@ -62,7 +62,7 @@ gboolean charge_operations ( void )
 	   g_strcasecmp ( doc->root->name,
 			  "Grisbi" ))
 	{
-	  dialogue ( _("Fichier de compte invalide.") );
+	  dialogue ( _("Invalid accounts file") );
 	  xmlFreeDoc ( doc );
 	  return ( FALSE );
 	}
@@ -89,7 +89,7 @@ gboolean charge_operations ( void )
 	/* la version nécessaire pour l'ouvrir */
 
 
-	dialogue ( g_strdup_printf ( _("Pour ouvrir ce fichier, il vous faut la version %s de Grisbi"),
+	dialogue ( g_strdup_printf ( _("Grisbi version %s is needed to open this file"),
 				     xmlNodeGetContent ( doc->root->childs->childs->next )));
 
 	xmlFreeDoc ( doc );
@@ -98,11 +98,11 @@ gboolean charge_operations ( void )
     }
   else
     {
-      dialogue ( _("Fichier de compte invalide.") );
+      dialogue ( _("Invalid accounts file") );
       return ( FALSE );
     }
     
-  dialogue ( _("Fichier de compte invalide ou inférieur à la version 0.3.1.") );
+  dialogue ( _("Invalid accounts file or file version prior to 0.3.1.") );
 
   return ( FALSE );
 
@@ -134,7 +134,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
   system ( g_strdup_printf ( "cp %s %s",
 			     nom_fichier_comptes,
 			     nom_sauvegarde ));
-  dialogue ( g_strdup_printf ( _("Attention, le format de données a changé ; Grisbi a fait une sauvegarde de votre ancien fichier\nsous le nom : %s.\nGardez-la un certain temps pour pouvoir éventuellement y revenir en cas de gros bug découvert."),
+  dialogue ( g_strdup_printf ( _("Warning: Grisbi data format has changed. Grisbi made a backup of your file\nnamed %s. \nKeep it for a while just in case."),
 			       nom_sauvegarde ));
 
   /* on place node_1 sur les généralités */
@@ -170,18 +170,10 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		if ( (etat.fichier_deja_ouvert  = atoi ( xmlNodeGetContent ( node_generalites ))))
 		  {
 		    if ( etat.force_enregistrement )
-		      dialogue ( _("Attention, le fichier semble déjà ouvert par un autre \
-utilisateur ou n'a pas été fermé correctement (plantage ?).\nCependant Grisbi va \
-forcer l'enregistrement ; cette option est déconseillée\n sauf si vous êtes sûr \
-que personne d'autre n'utilise le fichier pour le moment.\nLa désactivation de \
-cette option s'effectue dans le menu de configuration") );
+		      dialogue ( _("Warning: either this file is already opened by another user or it wasn't\nclosed correctly (maybe Grisbi crashed?).\nGrisbi will however overwrite the file.\nWe advise you not to use this option except if you know excactly what\nyou are doing (i.e. nobody else uses this file for the moment).\n\nYou can deactivate this option in the setup.") );
 		    else
-		      dialogue ( _("Attention, le fichier semble déjà ouvert pas un autre \
-utilisateur ou n'a pas été fermé correctement (plantage ?).\nVous ne pourrez \
-enregistrer vos modification qu'en activant l'option \"Forcer l'enregistrement\" \
-des paramètres.") );
-		  }
-	    
+		      dialogue ( _("Warning: either this file is already opened by another user or it wasn't closed\nclosed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving\" \noption in the setup.") );
+		  }	    
 
 	      if ( !strcmp ( node_generalites -> name,
 			     "Backup" ))
@@ -1866,16 +1858,9 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		if ( (etat.fichier_deja_ouvert  = atoi ( xmlNodeGetContent ( node_generalites ))))
 		  {
 		    if ( etat.force_enregistrement )
-		      dialogue ( _("Attention, le fichier semble déjà ouvert pas un autre \
-utilisateur.\nCependant Grisbi va \
-forcer l'enregistrement ; cette option est déconseillée\n sauf si vous êtes sûr \
-que personne d'autre n'utilise le fichier pour le moment.\nLa désactivation de \
-cette option s'effectue dans le menu de configuration") );
+		      dialogue ( _("Warning: either this file is already opened by another user or it wasn't\nclosed correctly (maybe Grisbi crashed?).\nGrisbi will however overwrite the file.\nWe advise you not to use this option except if you know excactly what\nyou are doing (i.e. nobody else uses this file for the moment).\n\nYou can deactivate this option in the setup.") );
 		    else
-		      dialogue ( _("Attention, le fichier semble dejà ouvert pas un autre \
-utilisateur.\nVous ne pourrez \
-enregistrer vos modification qu'en activant l'option \"Forcer l'enregistrement\" \
-des paramètres.") );
+		      dialogue ( _("Warning: either this file is already opened by another user or it wasn't closed\nclosed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving\" \noption in the setup.") );
 		  }
 	    
 
@@ -4006,7 +3991,7 @@ gboolean enregistre_fichier ( gboolean force )
 
   if ( etat.fichier_deja_ouvert && !etat.force_enregistrement && !force )
     {
-      dialogue ( PRESPACIFY(_("Fichier ouvert par un autre utilisateur, enregistrement impossible\nVous pouvez forcer l'enregistrement à partir des paramètres.")));
+      dialogue ( PRESPACIFY(_("Warning: either this file is already open by another user or it hasn'tbeen \nclosed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force save\" \noption in the setup.")));
       return ( FALSE );
     }
 
@@ -6054,7 +6039,7 @@ gboolean enregistre_fichier ( gboolean force )
 
   if ( resultat == -1 )
     {
-      dialogue ( g_strdup_printf ( _("Erreur dans l'enregistrement du fichier : %s\n\n\n\nErreur :\n%s"),
+      dialogue ( g_strdup_printf ( _("Error saving the file: %s\n\nError:\n%s"),
 				   nom_fichier_comptes, strerror ( errno ) ));
       return ( FALSE );
     }
@@ -6131,7 +6116,7 @@ void fichier_marque_ouvert ( gint ouvert )
 
   if (!(pointeur_fichier_comptes = fopen ( nom_fichier_comptes, "r+")) )
     {
-      dialogue ( g_strconcat ( _("Erreur dans la tentative d'ouvrir le fichier\npour le déclarer comme utilisé\n\n"),
+      dialogue ( g_strconcat ( _("Error opening and locking file.\n"),
 			       strerror ( errno ),
 			       NULL ));
       return;
@@ -6274,7 +6259,7 @@ gboolean enregistre_categ ( gchar *nom_categ )
 
   if ( resultat == -1 )
     {
-      dialogue ( g_strdup_printf ( _("Erreur dans l'enregistrement du fichier : %s\n\n\n\nErreur :\n%s"),
+      dialogue ( g_strdup_printf ( _("Error saving the file: %s\n\nError:\n%s"),
 				   nom_categ,
 				   strerror ( errno ) ));
       return ( FALSE );
@@ -6306,7 +6291,7 @@ gboolean charge_categ ( gchar *nom_categ )
 	   g_strcasecmp ( doc->root->name,
 			  "Grisbi_categ" ))
 	{
-	  dialogue ( _("Ce fichier n'est pas une liste de catégories Grisbi") );
+	  dialogue ( _("This file is not a Grisbi category list file") );
 	  xmlFreeDoc ( doc );
 	  return ( FALSE );
 	}
@@ -6320,7 +6305,7 @@ gboolean charge_categ ( gchar *nom_categ )
       /* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
       /* la version nécessaire pour l'ouvrir */
 
-      dialogue ( g_strdup_printf ( _("Pour ouvrir ce fichier, il vous faut la version %s de Grisbi"),
+      dialogue ( g_strdup_printf ( _("Grisbi version %s is needed to open this file"),
 				   xmlNodeGetContent ( doc->root->childs->childs->next )));
 
       xmlFreeDoc ( doc );
@@ -6329,7 +6314,7 @@ gboolean charge_categ ( gchar *nom_categ )
     }
   else
     {
-      dialogue ( _("Fichier de catégories invalide.") );
+      dialogue ( _("Invalid categories file") );
       return ( FALSE );
     }
 }
@@ -6622,7 +6607,7 @@ gboolean enregistre_ib ( gchar *nom_ib )
 
   if ( resultat == -1 )
     {
-      dialogue ( g_strconcat ( _("Erreur dans l'enregistrement du fichier %s\n\nErreur :\n"),
+      dialogue ( g_strconcat ( _("Error saving the file: %s\n\nError:\n"),
 			       nom_ib, strerror ( errno ),
 			       NULL ));
       return ( FALSE );
@@ -6654,7 +6639,7 @@ gboolean charge_ib ( gchar *nom_ib )
 	   g_strcasecmp ( doc->root->name,
 			  "Grisbi_ib" ))
 	{
-	  dialogue ( _("Ce fichier n'est pas une liste d'imputaions budgétaires Grisbi") );
+	  dialogue ( _("This file is not a grisbi budgetary lines file") );
 	  xmlFreeDoc ( doc );
 	  return ( FALSE );
 	}
@@ -6668,7 +6653,7 @@ gboolean charge_ib ( gchar *nom_ib )
       /* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
       /* la version nécessaire pour l'ouvrir */
 
-      dialogue ( g_strdup_printf ( _("Pour ouvrir ce fichier, il vous faut la version %s de Grisbi"),
+      dialogue ( g_strdup_printf ( _("Grisbi version %s is needed to open this file"),
 				   xmlNodeGetContent ( doc->root->childs->childs->next )));
 
       xmlFreeDoc ( doc );
@@ -6677,7 +6662,7 @@ gboolean charge_ib ( gchar *nom_ib )
     }
   else
     {
-      dialogue ( _("Fichier d'imputations budgétaires invalide.") );
+      dialogue ( _("Invalid budgetary lines file") );
       return ( FALSE );
     }
 }
@@ -6857,7 +6842,7 @@ void propose_changement_permissions ( void )
   GtkWidget *label;
   gint resultat;
 
-  dialog = gnome_dialog_new ( _("Modification de permission"),
+  dialog = gnome_dialog_new ( _("Permission fix"),
 			      GNOME_STOCK_BUTTON_OK,
 			      GNOME_STOCK_BUTTON_NO,
 			      NULL );
@@ -6865,7 +6850,7 @@ void propose_changement_permissions ( void )
 				GTK_WINDOW ( window ));
 
 
-  label = gtk_label_new ( _("Votre fichier de compte ne devrait pas être lisible par qui que ce soit\nd'autre que vous ; or, il l'est.\nVoulez-vous que je me charge de changer ses permissions ?\n(Ce message est désactivable dans les paramètres)"));
+  label = gtk_label_new ( _("Your account file should not be readable by anybody else,\nbut it is. You should change its permissions.\nShould I fix this now?\n"));
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
 		       FALSE,

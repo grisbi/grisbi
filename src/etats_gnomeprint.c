@@ -86,7 +86,7 @@ gint gnomeprint_initialise (GSList * opes_selectionnees)
 /*   GnomePaper * paper; */
   static int copies=1, collate;
 
-  gpd = GNOME_PRINT_DIALOG (gnome_print_dialog_new(_("Impression de Grisbi"), 
+  gpd = GNOME_PRINT_DIALOG (gnome_print_dialog_new(_("Grisbi Print"), 
 						   GNOME_PRINT_DIALOG_COPIES));
   gnome_print_dialog_set_copies(gpd, copies, collate);
 
@@ -409,10 +409,10 @@ gnomeprint_balancer_colonnes (GnomePrintContext *pc, GnomeFont *font,
 		  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
 		  if ( operation -> montant < 0 )
-		    pointeur = g_strdup_printf ( _("Virement vers %s"),
+		    pointeur = g_strdup_printf ( _("Transfer to %s"),
 						 NOM_DU_COMPTE );
 		  else
-		    pointeur = g_strdup_printf ( _("Virement de %s"),
+		    pointeur = g_strdup_printf ( _("Transfer from %s"),
 						 NOM_DU_COMPTE );
 		}
 	    }
@@ -916,7 +916,7 @@ gint gnomeprint_affiche_total_categories ( gint ligne )
 	  if ( nom_categ_en_cours )
 	    {
 	      if ( etat_courant -> afficher_nb_opes )
-		pointeur_char = g_strdup_printf ( _("Total %s ( %d opérations )"),
+		pointeur_char = g_strdup_printf ( _("Total %s (%d transactions)"),
 						  nom_categ_en_cours,
 						  nb_ope_categ_etat);
 	      else
@@ -927,13 +927,13 @@ gint gnomeprint_affiche_total_categories ( gint ligne )
 	  else
 	    {
 	      if ( etat_courant -> afficher_nb_opes )
-		pointeur_char = g_strconcat ( _("Total Catégorie "),
+		pointeur_char = g_strconcat ( _("Category total"),
 					      "( ",
 					      itoa ( nb_ope_categ_etat ),
-					      _(" opérations ) : "),
+					      _("operations ): "),
 					      NULL );
 	      else
-		pointeur_char = _("Total Catégorie : ");
+		pointeur_char = _("Category total: ");
 	    }
 
 	  point.x = 400;	/* FIXME: trouver le bon alignement */
@@ -1046,7 +1046,7 @@ gint gnomeprint_affiche_total_ib ( gint ligne )
 							 nom_ib_en_cours ),
 				       text_font );
 	  else
-	    gnomeprint_affiche_texte ( COLON(_("Total Imputations budgétaires")),
+	    gnomeprint_affiche_texte ( COLON(_("Budgetary lines total")),
 					text_font);
 
 	  gnomeprint_update_point ( );
@@ -1156,7 +1156,7 @@ gint gnomeprint_affiche_total_tiers ( gint ligne )
 	  if ( nom_tiers_en_cours )
 	    {
 	      if ( etat_courant -> afficher_nb_opes )
-		pointeur_char = g_strdup_printf ( _("Total %s ( %d opérations )"),
+		pointeur_char = g_strdup_printf ( _("Total %s (%d transactions)"),
 						  nom_tiers_en_cours,
 						  nb_ope_tiers_etat );
 	      else
@@ -1167,13 +1167,13 @@ gint gnomeprint_affiche_total_tiers ( gint ligne )
 	  else
 	    {
 	      if ( etat_courant -> afficher_nb_opes )
-		pointeur_char = g_strconcat ( _("Total Tiers : "),
+		pointeur_char = g_strconcat ( _("Third party total: "),
 					      "( ",
 					      itoa ( nb_ope_tiers_etat ),
-					      _(" opérations ) : "),
+					      _("operations ): "),
 					      NULL );
 	      else
-		pointeur_char = _("Total Tiers : ") ;
+		pointeur_char = _("Third party total: ") ;
 	    }
 
 	  gnomeprint_show_text ( pc, total_font, pointeur_char, 400 );
@@ -1331,10 +1331,10 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 		  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
 		  if ( operation -> montant < 0 )
-		    pointeur = g_strdup_printf ( _("Virement vers %s"),
+		    pointeur = g_strdup_printf ( _("Transfer to %s"),
 						 NOM_DU_COMPTE );
 		  else
-		    pointeur = g_strdup_printf ( _("Virement de %s"),
+		    pointeur = g_strdup_printf ( _("Transfer from %s"),
 						 NOM_DU_COMPTE );
 		}
 	    }
@@ -1533,20 +1533,20 @@ gint gnomeprint_affiche_total_partiel ( gdouble total_partie,
     {
       if ( etat_courant -> afficher_nb_opes )
 	gnomeprint_show_text ( pc, total_font, 
-			       g_strdup_printf ( _("Total dépenses (%d opérations) : "),
+			       g_strdup_printf ( _("Outgoings total (%d transactions): "),
 						 nb_ope_partie_etat ), PAPER_WIDTH );
       else
-	gnomeprint_show_text ( pc, total_font, _("Total dépenses : "), PAPER_WIDTH );
+	gnomeprint_show_text ( pc, total_font, _("Outgoings total: "), PAPER_WIDTH );
     }
   else
     {
       if ( etat_courant -> afficher_nb_opes )
 	gnomeprint_show_text ( pc, total_font, 
-			       g_strdup_printf ( _("Total revenus (%d opérations) : "),
+			       g_strdup_printf ( _("Incomes total (%d transactions):"),
 						 nb_ope_partie_etat ),
 			       PAPER_WIDTH );
       else
-	gnomeprint_show_text ( pc, total_font, _("Total revenus : "), PAPER_WIDTH );
+	gnomeprint_show_text ( pc, total_font, _("Incomes total: "), PAPER_WIDTH );
     }
 
 /*   gnomeprint_update_pointer_x ( ); */
@@ -1597,10 +1597,10 @@ gint gnomeprint_affiche_total_general ( gdouble total_general,
 
   if ( etat_courant -> afficher_nb_opes )
     gnomeprint_show_text ( pc, subtitle_font, 
-			   g_strdup_printf ( _("Total général (%d opérations) : "),
+			   g_strdup_printf ( _("General total (%d transactions): "),
 					     nb_ope_general_etat ), 400 );
   else
-    gnomeprint_show_text ( pc, subtitle_font, _("Total général : "), 400 );
+    gnomeprint_show_text ( pc, subtitle_font, _("General total: "), 400 );
 
   point.x = 400;	/* FIXME: trouver le bon alignement */  
   gnomeprint_show_text ( pc, subtitle_font, 
@@ -1680,7 +1680,7 @@ gint gnomeprint_affiche_categ_etat ( struct structure_operation *operation,
 	      if ( operation -> relation_no_operation )
 		{
 		  pointeur_char = g_strconcat ( decalage_categ,
-						_("Virements"),
+						_("Transfers"),
 						NULL );
 		  ancienne_categ_speciale_etat = 1;
 		}
@@ -1689,14 +1689,14 @@ gint gnomeprint_affiche_categ_etat ( struct structure_operation *operation,
 		  if ( operation -> operation_ventilee )
 		    {
 		      pointeur_char = g_strconcat ( decalage_categ,
-						    _("Opération ventilée"),
+						    _("Breakdown of transaction"),
 						    NULL );
 		      ancienne_categ_speciale_etat = 2;
 		    }
 		  else
 		    {
 		      pointeur_char = g_strconcat ( decalage_categ,
-						    _("Pas de catégorie"),
+						    _("No category"),
 						    NULL );
 		      ancienne_categ_speciale_etat = 3;
 		    }
@@ -1781,7 +1781,7 @@ gint gnomeprint_affiche_ib_etat ( struct structure_operation *operation,
 	}
       else
 	pointeur_char = g_strconcat ( decalage_ib,
-				      _("Pas d'imputation budgétaire"),
+				      _("No budgetary line"),
 				      NULL );
 
       gnomeprint_affiche_texte ( pointeur_char, text_font );
@@ -1880,7 +1880,7 @@ gint gnomeprint_affiche_tiers_etat ( struct structure_operation *operation,
 	    }
 	  else
 	    pointeur_char = g_strconcat ( decalage_tiers,
-					  _("Pas de tiers"),
+					  _("No third party"),
 					  NULL );
 
 	  gnomeprint_show_text ( pc, total_font, pointeur_char, 400);
@@ -1906,7 +1906,7 @@ gint gnomeprint_affiche_tiers_etat ( struct structure_operation *operation,
 /*****************************************************************************************************/
 gint gnomeprint_affiche_titre_revenus_etat ( gint ligne )
 {
-  gnomeprint_show_text ( pc, subtitle_font, _("Revenus"), PAPER_WIDTH );
+  gnomeprint_show_text ( pc, subtitle_font, _("Incomes"), PAPER_WIDTH );
   gnomeprint_update_pointer_y ( );
 /*   gnomeprint_commit_y ( ); */
 /*   gnomeprint_move_point ( 0, -5 ); */
@@ -1919,7 +1919,7 @@ gint gnomeprint_affiche_titre_revenus_etat ( gint ligne )
 /*****************************************************************************************************/
 gint gnomeprint_affiche_titre_depenses_etat ( gint ligne )
 {
-  gnomeprint_show_text ( pc, subtitle_font, _("Dépenses"), PAPER_WIDTH );
+  gnomeprint_show_text ( pc, subtitle_font, _("Outgoings"), PAPER_WIDTH );
   gnomeprint_update_pointer_y ( );
 /*   gnomeprint_move_point ( 0, -5 ); */
 
@@ -2016,7 +2016,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
   if ( etat_courant -> afficher_exo_ope )
     {
       gnomeprint_verifier_nouvelle_ligne ( size, 30 );
-      gnomeprint_affiche_texte ( _("Exercice"), header_font );
+      gnomeprint_affiche_texte ( _("Financial year"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
       gnomeprint_move_point ( 30, 0);
@@ -2031,7 +2031,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
   if ( etat_courant -> afficher_tiers_ope )
     {
       gnomeprint_verifier_nouvelle_ligne ( size, 80 );
-      gnomeprint_affiche_texte ( _("Tiers"), header_font );
+      gnomeprint_affiche_texte ( _("Third party"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
       gnomeprint_move_point ( 80, 0);
@@ -2046,7 +2046,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
   if ( etat_courant -> afficher_categ_ope )
     {
       gnomeprint_verifier_nouvelle_ligne ( size, 70 );
-      gnomeprint_affiche_texte ( _("Catégorie"), header_font );
+      gnomeprint_affiche_texte ( _("Category"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
       gnomeprint_move_point ( 70, 0);
@@ -2061,7 +2061,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
   if ( etat_courant -> afficher_ib_ope )
     {
       gnomeprint_verifier_nouvelle_ligne ( size, 50 );
-      gnomeprint_affiche_texte ( _("Imputation budgétaire"), header_font );
+      gnomeprint_affiche_texte ( _("Budgetary line"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
       gnomeprint_move_point ( 50, 0);
@@ -2091,7 +2091,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
   if ( etat_courant -> afficher_type_ope )
     {
       gnomeprint_verifier_nouvelle_ligne ( size, 30 );
-      gnomeprint_affiche_texte ( _("Type"), header_font );
+      gnomeprint_affiche_texte ( _("Method of payment"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
       gnomeprint_move_point ( 30, 0);
@@ -2106,7 +2106,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
   if ( etat_courant -> afficher_cheque_ope )
     {
       gnomeprint_verifier_nouvelle_ligne ( size, 20 );
-      gnomeprint_affiche_texte ( _("Chèque"), header_font );
+      gnomeprint_affiche_texte ( _("Cheque"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
       gnomeprint_move_point ( 20, 0);
@@ -2121,7 +2121,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
   if ( etat_courant -> afficher_pc_ope )
     {
       gnomeprint_verifier_nouvelle_ligne ( size, 30 );
-      gnomeprint_affiche_texte ( _("Pièce comptable"), header_font );
+      gnomeprint_affiche_texte ( _("Voucher"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
       gnomeprint_move_point ( 30, 0);
@@ -2136,7 +2136,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
   if ( etat_courant -> afficher_infobd_ope )
     {
       gnomeprint_verifier_nouvelle_ligne ( size, 30 );
-      gnomeprint_affiche_texte ( _("Info banque/guichet"), header_font );
+      gnomeprint_affiche_texte ( _("Bank references"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
       gnomeprint_move_point ( 30, 0);
@@ -2151,7 +2151,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
   if ( etat_courant -> afficher_rappr_ope )
     {
       gnomeprint_verifier_nouvelle_ligne ( size, 30 );
-      gnomeprint_affiche_texte ( _("Relevé"), header_font );
+      gnomeprint_affiche_texte ( _("Statement"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
       gnomeprint_move_point ( 30, 0);
@@ -2163,7 +2163,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
     }
 
   gnomeprint_verifier_nouvelle_ligne ( size, 20 );
-  gnomeprint_affiche_texte ( _("Montant"), header_font);
+  gnomeprint_affiche_texte ( _("Amount"), header_font);
   gnomeprint_update_point ( );
 
   ligne++;
@@ -2200,7 +2200,7 @@ gint gnomeprint_finish ( )
     {
       GnomePrintMasterPreview * pmp;
       pmp = gnome_print_master_preview_new(gpm, 
-					   _("Prévisualisation de l'impression de Grisbi"));
+					   _("Print Preview"));
       gtk_widget_show(GTK_WIDGET(pmp));
     }
   else

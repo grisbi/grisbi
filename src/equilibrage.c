@@ -86,7 +86,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 		       10);
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( COLON(_("N° de rapprochement")) );
+  label = gtk_label_new ( COLON(_("Reconciliation reference")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -100,8 +100,8 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 			 FALSE );
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
 			 entree_no_rapprochement,
-			 _("Si le n° de rapprochement est terminé par un chiffre, celui-ci est automatiquement incrémenté à chaque nouveau rapprochement."),
-			 _("Numéro de rapprochement") );
+			 _("If reconciliation reference ends in a digit, it is automatically incremented at each reconciliation."),
+			 _("Reconciliation reference") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       entree_no_rapprochement,
 		       FALSE,
@@ -170,7 +170,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
   gtk_widget_show ( label );
 
 
-  label = gtk_label_new ( _("Solde") );
+  label = gtk_label_new ( _("Balance") );
   gtk_table_attach_defaults ( GTK_TABLE ( table ),
 			      label,
 			      2, 3,
@@ -260,7 +260,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 
 
 
-  label = gtk_label_new ( COLON(_("Solde initial")) );
+  label = gtk_label_new ( COLON(_("Initial balance")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
 			   0.5 );
@@ -282,7 +282,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
   gtk_widget_show ( label_equilibrage_initial );
 
 
-  label = gtk_label_new ( COLON(_("Solde final")) );
+  label = gtk_label_new ( COLON(_("Final balance")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
 			   0.5 );
@@ -304,7 +304,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
   gtk_widget_show ( label_equilibrage_final );
 
 
-  label = gtk_label_new ( COLON(_("Pointage")) );
+  label = gtk_label_new ( COLON(_("Checking")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
 			   0.5 );
@@ -333,7 +333,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
   gtk_widget_show ( separateur );
 
 
-  label = gtk_label_new ( COLON(_("Écart")) );
+  label = gtk_label_new ( COLON(_("Variance")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
 			   0.5 );
@@ -368,7 +368,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 		       0);
   gtk_widget_show ( hbox );
   
-  bouton_ok_equilibrage = gtk_button_new_with_label (_("Valider") );
+  bouton_ok_equilibrage = gtk_button_new_with_label (_("Valid") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_ok_equilibrage),
 			  GTK_RELIEF_NONE);
   gtk_signal_connect (GTK_OBJECT (bouton_ok_equilibrage),
@@ -383,7 +383,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
   gtk_widget_show ( bouton_ok_equilibrage );
 
   
-  bouton = gtk_button_new_with_label (_("Annuler") );
+  bouton = gtk_button_new_with_label (_("Cancel") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton),
 			  GTK_RELIEF_NONE);
   gtk_signal_connect ( GTK_OBJECT (bouton),
@@ -424,7 +424,7 @@ void equilibrage ( void )
 
   if ( !NB_OPE_COMPTE )
     {
-      dialogue ( _("Il n'y a aucune opérations dans ce compte") );
+      dialogue ( _("This account does not contain any transaction") );
       return;
     }
 
@@ -552,7 +552,7 @@ void equilibrage ( void )
       time_t today;
 
       gtk_label_set_text ( GTK_LABEL ( label_ancienne_date_equilibrage ),
-			   _("Aucune") );
+			   _("None") );
 
       time ( &today );
       date = g_date_new_dmy ( gmtime ( &today ) -> tm_mday,
@@ -670,7 +670,7 @@ void sortie_entree_date_equilibrage ( void )
 			  date_releve_annee)
        == FALSE )
     {
-      dialogue ( _("Erreur : date invalide") );
+      dialogue ( _("Error: invalid date") );
       return;
     };
 
@@ -920,7 +920,7 @@ void pointe_equilibrage ( int p_ligne )
   /* met le label du solde pointé */
 
   gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
-		       g_strdup_printf ( _("Solde pointé : %4.2f %s"),
+		       g_strdup_printf ( _("Checked balance: %4.2f %s"),
 					 SOLDE_POINTE,
 					 ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 											 GINT_TO_POINTER ( DEVISE ),
@@ -949,7 +949,7 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
 
   if ( fabs ( solde_final - solde_initial - operations_pointees ) >= 0.01 )
     {
-      dialogue ( _("L'écart n'est pas de zéro"));
+      dialogue ( _("There is a variance"));
       return;
     }
 
@@ -970,7 +970,7 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
     {
       if ( !nb_parametres || nb_parametres == -1 )
 	{
-	  dialogue ( _("Erreur : date invalide") );
+	  dialogue ( _("Error: invalid date") );
 	  return;
 	}
 
@@ -990,7 +990,7 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
 			   date_releve_mois,
 			   date_releve_annee))
     {
-      dialogue ( _("Erreur : date invalide") );
+      dialogue ( _("Error: invalid date") );
       return;
     }
 
@@ -999,7 +999,7 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
 					 date_releve_annee );
 
   gtk_label_set_text ( GTK_LABEL ( label_releve ),
-		       g_strdup_printf ( _("Dernier relevé : %02d/%02d/%d"), 
+		       g_strdup_printf ( _("Last statement: %02d/%02d/%d"), 
 					 date_releve_jour,
 					 date_releve_mois,
 					 date_releve_annee ));

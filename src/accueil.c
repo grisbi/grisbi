@@ -120,10 +120,10 @@ GtkWidget *creation_onglet_accueil ( void )
     }
   else
     {
-      nom_utilisateur = _("Pas d'utilisateur");
+      nom_utilisateur = _("No user");
     }
 
-  label = gtk_label_new ( g_strconcat ( COLON(_("Utilisateur")), nom_utilisateur, NULL) );
+  label = gtk_label_new ( g_strconcat ( COLON(_("User")), nom_utilisateur, NULL) );
 
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
@@ -237,7 +237,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
   /* on crée la première frame dans laquelle on met les états des comptes */
 
-  frame_etat_comptes_accueil = gtk_frame_new ( SPACIFY(_("Solde des comptes")) );
+  frame_etat_comptes_accueil = gtk_frame_new ( SPACIFY(_("Account balances")) );
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame_etat_comptes_accueil ),
 			      GTK_SHADOW_ETCHED_OUT );
   gtk_box_pack_start ( GTK_BOX ( base_box_scroll ),
@@ -265,7 +265,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
 /* mise en place de la partie fin des comptes passif */
 
-  frame_etat_fin_compte_passif = gtk_frame_new ( SPACIFY(_("Comptes passifs terminés")) );
+  frame_etat_fin_compte_passif = gtk_frame_new ( SPACIFY(_("Closed liabilities accounts")) );
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame_etat_fin_compte_passif ),
 			      GTK_SHADOW_ETCHED_OUT );
   gtk_box_pack_start ( GTK_BOX ( base_box_scroll ),
@@ -287,7 +287,7 @@ GtkWidget *creation_onglet_accueil ( void )
 /*   mise en place de la partie des échéances manuelles ( non affiché ) */
 
 
-  frame_etat_echeances_manuelles_accueil = gtk_frame_new ( SPACIFY(_("Echéances manuelles arrivées à terme")) );
+  frame_etat_echeances_manuelles_accueil = gtk_frame_new ( SPACIFY(_("Manual scheduled transactions at maturity date")) );
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame_etat_echeances_manuelles_accueil ),
 			      GTK_SHADOW_ETCHED_OUT );
   gtk_box_pack_start ( GTK_BOX ( base_box_scroll ),
@@ -306,7 +306,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
   /* mise en place de la partie des échéances auto  ( non affiché )*/
 
-  frame_etat_echeances_auto_accueil = gtk_frame_new ( SPACIFY(_("Echéances automatiques saisies")) );
+  frame_etat_echeances_auto_accueil = gtk_frame_new ( SPACIFY(_("Automatic scheduled transactions entered")) );
 
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame_etat_echeances_auto_accueil ),
 			      GTK_SHADOW_ETCHED_OUT );
@@ -326,7 +326,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
 /* partie des fin d'échéances */
 
-  frame_etat_echeances_finies = gtk_frame_new ( SPACIFY(COLON(_("Echéances terminées"))) );
+  frame_etat_echeances_finies = gtk_frame_new ( SPACIFY(COLON(_("Closed scheduled transactions"))) );
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame_etat_echeances_finies ),
 			      GTK_SHADOW_ETCHED_OUT );
   gtk_box_pack_start ( GTK_BOX ( base_box_scroll ),
@@ -345,7 +345,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
 /* partie des soldes minimaux autorisés */
 
-  frame_etat_soldes_minimaux_autorises = gtk_frame_new ( SPACIFY(_("Soldes minimaux autorisés")) );
+  frame_etat_soldes_minimaux_autorises = gtk_frame_new ( SPACIFY(_("Minimum authorised balances")) );
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame_etat_soldes_minimaux_autorises ),
 			      GTK_SHADOW_ETCHED_OUT );
   gtk_box_pack_start ( GTK_BOX ( base_box_scroll ),
@@ -365,7 +365,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
 /* partie des soldes minimaux voulus */
 
-  frame_etat_soldes_minimaux_voulus = gtk_frame_new ( SPACIFY(_("Soldes minimaux voulus")) );
+  frame_etat_soldes_minimaux_voulus = gtk_frame_new ( SPACIFY(_("Minimum wanted balances")) );
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame_etat_soldes_minimaux_voulus ),
 			      GTK_SHADOW_ETCHED_OUT );
   gtk_box_pack_start ( GTK_BOX ( base_box_scroll ),
@@ -426,7 +426,7 @@ void saisie_echeance_accueil ( GtkWidget *event_box,
 
   /* crée la boite de dialogue */
 
-  dialog = gnome_dialog_new ( _("Saisie d'une échéance"),
+  dialog = gnome_dialog_new ( _("Enter a scheduled transaction"),
 			      GNOME_STOCK_BUTTON_OK,
 			      GNOME_STOCK_BUTTON_CANCEL,
 			      NULL );
@@ -642,7 +642,7 @@ void update_liste_comptes_accueil ( void )
   gtk_widget_show ( pTable );
 
   /* Création et remplissage de la première ligne du tableau */
-  pLabel = gtk_label_new (_("Solde courant"));
+  pLabel = gtk_label_new (_("Curent balance"));
   gtk_misc_set_alignment ( GTK_MISC ( pLabel ),
 			   0.5,
 			   0.5);
@@ -651,7 +651,7 @@ void update_liste_comptes_accueil ( void )
 			      2, 4,
 			      0, 1 );
   gtk_widget_show ( pLabel );
-  pLabel = gtk_label_new (_("Solde pointé"));
+  pLabel = gtk_label_new (_("Reconciled balance"));
   gtk_misc_set_alignment ( GTK_MISC ( pLabel ),
 			   0.5,
 			   0.5);
@@ -947,7 +947,7 @@ void update_liste_comptes_accueil ( void )
   /* Création et remplissage de la (nb_comptes + 3)ième ligne du tableau : */
   /* elle contient la somme des soldes de chaque compte */
   /* Deuxième colonne */
-  pLabel = gtk_label_new (_("Soldes globaux : "));
+  pLabel = gtk_label_new (COLON(_("Global balances")));
   gtk_table_attach_defaults ( GTK_TABLE ( pTable ),
 			      pLabel,
 			      1, 2,
@@ -1139,7 +1139,7 @@ void update_liste_echeances_manuelles_accueil ( void )
 						      ECHEANCE_COURANTE->jour,
 						      ECHEANCE_COURANTE->mois,
 						      ECHEANCE_COURANTE->annee,
-						      _("Aucun tiers défini") ));
+						      _("No third party defined") ));
 	  
 	  gtk_widget_set_style ( label,
 				 style_label );
@@ -1155,14 +1155,14 @@ void update_liste_echeances_manuelles_accueil ( void )
 	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + ECHEANCE_COURANTE->compte;
 
 	  if ( ECHEANCE_COURANTE -> montant >= 0 )
-	    label = gtk_label_new ( g_strdup_printf (_("Crédit de %4.2f %s sur %s"),
+	    label = gtk_label_new ( g_strdup_printf (_("%4.2f %s credit on %s"),
 						     ECHEANCE_COURANTE->montant,
 						     ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 												     GINT_TO_POINTER ( ECHEANCE_COURANTE -> devise ),
 												     (GCompareFunc) recherche_devise_par_no )->data))-> code_devise,
 						     NOM_DU_COMPTE ));
 	  else
-	    label = gtk_label_new ( g_strdup_printf (_("Débit de %4.2f %s sur %s"),
+	    label = gtk_label_new ( g_strdup_printf (_("%4.2f %s debit on %s"),
 						     -ECHEANCE_COURANTE->montant,
 						     ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 												     GINT_TO_POINTER ( ECHEANCE_COURANTE -> devise ),
@@ -1274,7 +1274,7 @@ void update_liste_echeances_auto_accueil ( void )
 						      operation ->jour,
 						      operation ->mois,
 						      operation ->annee,
-						      _("Aucun tiers défini") ));
+						      _("No third party defined") ));
 	  
 
 	  gtk_misc_set_alignment ( GTK_MISC ( label ),
@@ -1292,14 +1292,14 @@ void update_liste_echeances_auto_accueil ( void )
 	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation->no_compte;
 
 	  if ( operation -> montant >= 0 )
-	    label = gtk_label_new ( g_strdup_printf (_("Crédit de %4.2f %s sur %s"),
+	    label = gtk_label_new ( g_strdup_printf (_("%4.2f %s credit on %s"),
 						     operation->montant,
 						     ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 												     GINT_TO_POINTER ( operation -> devise ),
 												     (GCompareFunc) recherche_devise_par_no )->data))-> code_devise,
 						     NOM_DU_COMPTE ));
 	  else
-	    label = gtk_label_new ( g_strdup_printf (_("Débit de %4.2f %s sur %s"),
+	    label = gtk_label_new ( g_strdup_printf (_("%4.2f %s debit on %s"),
 						     -operation->montant,
 						     ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 												     GINT_TO_POINTER (  operation -> devise ),
@@ -1430,7 +1430,7 @@ void mise_a_jour_soldes_minimaux ( void )
 				   0 );
 	      gtk_widget_show ( hbox );
 
-	      label = gtk_label_new ( COLON(_("Les comptes suivants sont sous le seuil minimal autorisé")) );
+	      label = gtk_label_new ( COLON(_("The balances of the following accounts are under the authorized minimum")) );
 	      gtk_box_pack_start ( GTK_BOX ( hbox ),
 				   label,
 				   FALSE,
@@ -1452,13 +1452,13 @@ void mise_a_jour_soldes_minimaux ( void )
 	      if ( solde_courant < solde_mini_voulu )
 		{
 		  if ( !patience_en_cours )
-		    dialogue ( g_strdup_printf (_("Attention, le compte %s est passé sous les seuils minimaux autorisés et voulus !"), 
+		    dialogue ( g_strdup_printf (_("Warning, balance of account %s is under wanted and authorised minima!"), 
 			       NOM_DU_COMPTE ));
 		  MESSAGE_SOUS_MINI_VOULU = 1;
 		}
 	      else
 		if ( !patience_en_cours )
-		  dialogue ( g_strdup_printf (_("Attention, le compte %s est passé sous le seuil minimal autorisé !"),
+		  dialogue ( g_strdup_printf (_("Warning, the balance of the account %s  is under the authorised minimum!"),
 			     NOM_DU_COMPTE ));
 	      MESSAGE_SOUS_MINI = 1;
 	    }
@@ -1508,7 +1508,7 @@ void mise_a_jour_soldes_minimaux ( void )
 				   0 );
 	      gtk_widget_show ( hbox );
 
-	      label = gtk_label_new ( COLON(_("Les comptes suivants sont sous le seuil minimal voulu")) );
+	      label = gtk_label_new ( COLON(_("The balances of the following accounts are under the wanted minimum")) );
 	      gtk_box_pack_start ( GTK_BOX ( hbox ),
 				   label,
 				   FALSE,
@@ -1530,13 +1530,13 @@ void mise_a_jour_soldes_minimaux ( void )
 	      if ( solde_courant < solde_mini )
 		{
 		  if ( !patience_en_cours )
-		    dialogue ( g_strdup_printf ( _("Attention, le compte %s est passé sous les seuils minimaux autorisés et voulus !"),
+		    dialogue ( g_strdup_printf ( _("Warning, balance of account %s is under wanted and authorised minima!"),
 						 NOM_DU_COMPTE));
 		  MESSAGE_SOUS_MINI = 1;
 		}
 	      else
 		if ( !patience_en_cours )
-		  dialogue ( g_strdup_printf ( _("Attention, le compte %s est passé sous le seuil minimal voulu !"),
+		  dialogue ( g_strdup_printf ( _("Warning, the balance of the account %s is under the wanted minimum!"),
 					       NOM_DU_COMPTE ));
 	      MESSAGE_SOUS_MINI_VOULU = 1;
 	    }
@@ -1630,9 +1630,9 @@ void mise_a_jour_fin_comptes_passifs ( void )
       gtk_widget_show ( label );
 
       if ( g_slist_length ( liste_tmp ) > 1 )
-	label = gtk_label_new (COLON(_("Les comptes de passif suivants sont soldés")));
+	label = gtk_label_new (COLON(_("The following liabilities accounts are closed")));
       else
-	label = gtk_label_new (COLON(_("Le compte de passif suivant est soldé")));
+	label = gtk_label_new (COLON(_("The following liabilities account is closed")));
       gtk_misc_set_alignment ( GTK_MISC ( label ),
 			       0,
 			       0.5 );

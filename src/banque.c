@@ -51,7 +51,7 @@ void ajout_banque ( GtkWidget *bouton,
 		    sizeof ( struct struct_banque ));
 
   banque -> no_banque = -1;
-  banque -> nom_banque = g_strdup ( _("Nouvelle banque") );
+  banque -> nom_banque = g_strdup ( _("New bank") );
 
   liste_struct_banques_tmp = g_slist_append ( liste_struct_banques_tmp,
 					      banque );
@@ -102,7 +102,7 @@ void applique_modif_banque ( GtkWidget *liste )
 
   if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( nom_banque )))))
     {
-      dialogue ( _("Vous devez donner un nom à la banque.") );
+      dialogue ( _("You must name this bank.") );
       return;
     }
 
@@ -334,14 +334,14 @@ void supprime_banque ( GtkWidget *bouton,
   banque = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
 				    ligne_selection_banque );
 
-  dialogue = gnome_dialog_new ( _("Confirmation de suppression de banque"),
+  dialogue = gnome_dialog_new ( _("Confirmation of bank removal"),
 				GNOME_STOCK_BUTTON_YES,
 				GNOME_STOCK_BUTTON_NO,
 				NULL );
   gtk_window_set_transient_for ( GTK_WINDOW ( dialogue ),
 				 GTK_WINDOW ( fenetre_preferences ));
 
-  label = gtk_label_new ( g_strdup_printf ( _("Etes-vous sûr de vouloir supprimer la banque %s ?\n"),
+  label = gtk_label_new ( g_strdup_printf ( _("Are you sure you want to remove bank '%s'?\n"),
 					    banque -> nom_banque));
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue ) -> vbox ),
 		       label,
@@ -398,7 +398,7 @@ GtkWidget *creation_menu_banques ( void )
 
   /* le premier nom est Aucune */
 
-  menu_item = gtk_menu_item_new_with_label ( _("Aucun") );
+  menu_item = gtk_menu_item_new_with_label ( _("None") );
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -458,7 +458,7 @@ void affiche_detail_banque ( GtkWidget *bouton,
   if ( !banque )
     return;
 
-  dialogue = gnome_dialog_new ( _("Détail d'une banque"),
+  dialogue = gnome_dialog_new ( _("Information about the bank"),
 				GNOME_STOCK_BUTTON_OK,
 				GNOME_STOCK_PIXMAP_PROPERTIES,
 				NULL );
@@ -484,7 +484,7 @@ void affiche_detail_banque ( GtkWidget *bouton,
 
   /* mise en place du nom */
 
-  label = gtk_label_new ( COLON(_("Banque")) );
+  label = gtk_label_new ( COLON(_("Bank")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
 			   0.5 );
@@ -523,7 +523,7 @@ void affiche_detail_banque ( GtkWidget *bouton,
 
   if ( banque -> tel_banque )
     {
-      label = gtk_label_new ( COLON(_("Téléphone")) );
+      label = gtk_label_new ( COLON(_("Phone number")) );
       gtk_misc_set_alignment ( GTK_MISC ( label ),
 			       0,
 			       0.5 );
@@ -545,7 +545,7 @@ void affiche_detail_banque ( GtkWidget *bouton,
 
   if ( banque -> email_banque )
     {
-      label = gtk_label_new ( COLON(_("Mail")) );
+      label = gtk_label_new ( COLON(_("E-Mail")) );
       gtk_misc_set_alignment ( GTK_MISC ( label ),
 			       0,
 			       0.5 );
@@ -566,7 +566,7 @@ void affiche_detail_banque ( GtkWidget *bouton,
       
   if ( banque -> web_banque )
     {
-      label = gtk_label_new ( COLON(_("Web")) );
+      label = gtk_label_new ( COLON(_("Website")) );
       gtk_misc_set_alignment ( GTK_MISC ( label ),
 			       0,
 			       0.5 );
@@ -597,7 +597,7 @@ void affiche_detail_banque ( GtkWidget *bouton,
     {
       /* mise en place du nom */
 
-      label = gtk_label_new ( COLON(_("Correspondant")) );
+      label = gtk_label_new ( COLON(_("Contact name")) );
       gtk_misc_set_alignment ( GTK_MISC ( label ),
 			       0,
 			       0.5 );
@@ -620,7 +620,7 @@ void affiche_detail_banque ( GtkWidget *bouton,
 
   if ( banque -> tel_correspondant )
     {
-      label = gtk_label_new ( COLON(_("Téléphone")) );
+      label = gtk_label_new ( COLON(_("Phone number")) );
       gtk_misc_set_alignment ( GTK_MISC ( label ),
 			       0,
 			       0.5 );
@@ -665,7 +665,7 @@ void affiche_detail_banque ( GtkWidget *bouton,
 
   if ( banque -> email_correspondant )
     {
-      label = gtk_label_new ( COLON(_("Mail")) );
+      label = gtk_label_new ( COLON(_("E-Mail")) );
       gtk_misc_set_alignment ( GTK_MISC ( label ),
 			       0,
 			       0.5 );
@@ -688,7 +688,7 @@ void affiche_detail_banque ( GtkWidget *bouton,
 
   if ( banque -> remarque_banque )
     {
-      label = gtk_label_new ( COLON(_("Remarques")) );
+      label = gtk_label_new ( COLON(_("Notes")) );
       gtk_misc_set_alignment ( GTK_MISC ( label ),
 			       0,
 			       0.5 );
@@ -1006,7 +1006,7 @@ GtkWidget *onglet_banques ( void )
 		       5 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( COLON(_("Banque")) );
+  label = gtk_label_new ( COLON(_("Bank")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -1024,7 +1024,7 @@ GtkWidget *onglet_banques ( void )
 		       5 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( COLON(_("Nom")) );
+  label = gtk_label_new ( COLON(_("Name")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -1048,7 +1048,7 @@ GtkWidget *onglet_banques ( void )
 		       0 );
   gtk_widget_show ( separateur );
 
-  label = gtk_label_new ( COLON(_("Code Banque")) );
+  label = gtk_label_new ( COLON(_("Bank sort code")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -1084,7 +1084,7 @@ GtkWidget *onglet_banques ( void )
 		       0 );
   gtk_widget_show ( hvbox );
 
-  label = gtk_label_new ( COLON(_("Adresse")) );
+  label = gtk_label_new ( COLON(_("Address")) );
   gtk_box_pack_start ( GTK_BOX ( hvbox ),
 		       label,
 		       FALSE,
@@ -1153,7 +1153,7 @@ GtkWidget *onglet_banques ( void )
 
   /* mise en forme du téléphone de la banque */
 
-  label = gtk_label_new ( COLON(_("Téléphone")) );
+  label = gtk_label_new ( COLON(_("Phone number")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -1180,7 +1180,7 @@ GtkWidget *onglet_banques ( void )
 		       5 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( COLON(_("Web")) );
+  label = gtk_label_new ( COLON(_("Website")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -1218,7 +1218,7 @@ GtkWidget *onglet_banques ( void )
 		       5 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( COLON(_("Correspondant")) );
+  label = gtk_label_new ( COLON(_("Contact name")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -1236,7 +1236,7 @@ GtkWidget *onglet_banques ( void )
 		       5 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( COLON(_("Nom")) );
+  label = gtk_label_new ( COLON(_("Name")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -1260,7 +1260,7 @@ GtkWidget *onglet_banques ( void )
 		       0 );
   gtk_widget_show ( separateur );
 
-  label = gtk_label_new ( COLON(_("Téléphone")) );
+  label = gtk_label_new ( COLON(_("Phone number")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -1357,7 +1357,7 @@ GtkWidget *onglet_banques ( void )
 		       0 );
   gtk_widget_show ( hvbox );
 
-  label = gtk_label_new ( COLON(_("Remarques")) );
+  label = gtk_label_new ( COLON(_("Notes")) );
   gtk_box_pack_start ( GTK_BOX ( hvbox ),
 		       label,
 		       FALSE,
@@ -1602,16 +1602,16 @@ void deselection_ligne_banque ( GtkWidget *liste,
       banque = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
 					ligne );
 
-      dialogue = gnome_dialog_new ( _("Confirmation de modification"),
+      dialogue = gnome_dialog_new ( _("Confirmation of changes"),
 				    GNOME_STOCK_BUTTON_YES,
 				    GNOME_STOCK_BUTTON_NO,
 				    NULL );
       gtk_window_set_transient_for ( GTK_WINDOW ( dialogue ),
 				     GTK_WINDOW ( fenetre_preferences ));
 
-      label = gtk_label_new ( g_strconcat ( COLON(_("Des modifications ont été apportées à la banque")),
+      label = gtk_label_new ( g_strconcat ( COLON(_("The bank has changed")),
 					    banque -> nom_banque,
-					    _("\n\nVoulez-vous les enregistrer ?"),
+					    _("\n\nDo you want to save your changes?"),
 					    NULL ) );
       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue ) -> vbox ),
 			   label,

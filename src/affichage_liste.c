@@ -25,22 +25,22 @@
 #include "en_tete.h"
 
 gchar *labels_boutons [] = { N_("Date"),
-			     N_("Date de valeur"),
-			     N_("Tiers"),
-			     N_("Imputation budgétaire"),
-			     N_("Débit"),
-			     N_("Crédit"),
-			     N_("Solde"),
-			     N_("Montant (devise compte)"),
-			     N_("Moyen de paiement"),
-			     N_("N° rapprochement"),
-			     N_("Exercice"),
-			     N_("Catégorie"),
-			     N_("P/R"),
-			     N_("Pièce comptable"),
+			     N_("Value date"),
+			     N_("Third party"),
+			     N_("Budgetary line"),
+			     N_("Debit"),
+			     N_("Credit"),
+			     N_("Balance"),
+			     N_("Amount (account currency)"),
+			     N_("Method of payment"),
+			     N_("Reconciliation reference"),
+			     N_("Financial year"),
+			     N_("Category"),
+			     N_("C/R"),
+			     N_("Voucher"),
 			     N_("Notes"),
-			     N_("Infos banque/guichet"),
-			     N_("N° opération"),
+			     N_("Bank references"),
+			     N_("Transaction number"),
 			     NULL };
 
 
@@ -114,7 +114,7 @@ GtkWidget *onglet_affichage_liste ( void )
 		       5 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Informations affichées dans la liste :" ));
+  label = gtk_label_new ( _("Information displayed in list:"));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -123,7 +123,7 @@ GtkWidget *onglet_affichage_liste ( void )
   gtk_widget_show ( label );
 
 
-  bouton = gtk_button_new_with_label ( _("Rétablir les réglages par défaut" ));
+  bouton = gtk_button_new_with_label ( _("Revert to defaults"));
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
@@ -187,7 +187,7 @@ GtkWidget *onglet_affichage_liste ( void )
 
   /* on permet maintenant de choisir soi même la taille des colonnes */
 
-  bouton_choix_perso_colonnes = gtk_check_button_new_with_label ( _("Ajuster la taille des colonnes selon le tableau ci-dessus" ));
+  bouton_choix_perso_colonnes = gtk_check_button_new_with_label ( _("Adjust column size according to this table"));
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_choix_perso_colonnes ),
 				 etat.largeur_auto_colonnes );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_choix_perso_colonnes ),
@@ -204,7 +204,7 @@ GtkWidget *onglet_affichage_liste ( void )
 
   /* on permet maintenant de choisir soi même la taille des colonnes */
 
-  bouton_caracteristiques_lignes_par_compte = gtk_check_button_new_with_label ( _("Retenir les caractéristiques de l'affichage séparément pour chaque compte" ));
+  bouton_caracteristiques_lignes_par_compte = gtk_check_button_new_with_label ( _("Remember display settings for each account separately"));
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_caracteristiques_lignes_par_compte ),
 				 etat.retient_affichage_par_compte );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_caracteristiques_lignes_par_compte ),
@@ -230,7 +230,7 @@ GtkWidget *onglet_affichage_liste ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( POSTSPACIFY(_("Afficher pour une ligne la")));
+  label = gtk_label_new ( POSTSPACIFY(_("Display for a line the")));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -259,7 +259,7 @@ GtkWidget *onglet_affichage_liste ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( POSTSPACIFY(_("Afficher pour deux lignes les")));
+  label = gtk_label_new ( POSTSPACIFY(_("Display for two lines the")));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -298,7 +298,7 @@ GtkWidget *onglet_affichage_liste ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Afficher pour trois lignes les"));
+  label = gtk_label_new ( _("Display for three lines the"));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -418,7 +418,7 @@ GtkWidget *cree_menu_quatres_lignes ( void )
 
   menu = gtk_menu_new ();
 
-  menu_item = gtk_menu_item_new_with_label ( _("1ère ligne"));
+  menu_item = gtk_menu_item_new_with_label ( _("first line"));
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"no_ligne",
 			GINT_TO_POINTER ( 0 ));
@@ -430,7 +430,7 @@ GtkWidget *cree_menu_quatres_lignes ( void )
 		    menu_item );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("2ème ligne"));
+  menu_item = gtk_menu_item_new_with_label ( _("second line"));
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"no_ligne",
 			GINT_TO_POINTER ( 1 ));
@@ -442,7 +442,7 @@ GtkWidget *cree_menu_quatres_lignes ( void )
 		    menu_item );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("3ème ligne"));
+  menu_item = gtk_menu_item_new_with_label ( _("third line"));
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"no_ligne",
 			GINT_TO_POINTER ( 2 ));
@@ -454,7 +454,7 @@ GtkWidget *cree_menu_quatres_lignes ( void )
 		    menu_item );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("4ème ligne"));
+  menu_item = gtk_menu_item_new_with_label ( _("fourth line"));
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"no_ligne",
 			GINT_TO_POINTER ( 3 ));
@@ -1020,75 +1020,75 @@ void recuperation_noms_colonnes_et_tips ( void )
 		break;
 
 	      case 1:
-		ligne[j] = "Date";
+		ligne[j] = _("Date");
 		break;
 
 	      case 2:
-		ligne[j] = "Date de valeur";
+		ligne[j] = _("Value date");
 		break;
 
 	      case 3:
-		ligne[j] = "Tiers";
+		ligne[j] = _("Third party");
 		break;
 
 	      case 4:
-		ligne[j] = "Imputations budgétaires";
+		ligne[j] = _("Budgetary lines");
 		break;
 
 	      case 5:
-		ligne[j] = "Débit";
+		ligne[j] = _("Debit");
 		break;
 
 	      case 6:
-		ligne[j] = "Crédit";
+		ligne[j] = _("Credit");
 		break;
 
 	      case 7:
-		ligne[j] = "Solde";
+		ligne[j] = _("Balance");
 		break;
 
 	      case 8:
-		ligne[j] = "Montant(devise compte)";
+		ligne[j] = _("Amount (account currency)");
 		break;
 
 	      case 9:
-		ligne[j] = "Moyen de paiement";
+		ligne[j] = _("Method of payment");
 		break;
 
 	      case 10:
-		ligne[j] = "N° de rapprochement";
+		ligne[j] = _("Reconciliation reference");
 		break;
 
 	      case 11:
-		ligne[j] = "Exercice";
+		ligne[j] = _("Financial year");
 		break;
 
 	      case 12:
-		ligne[j] = "Catégories";
+		ligne[j] = _("Category");
 		break;
 
 	      case 13:
-		ligne[j] = "P/R";
+		ligne[j] = _("C/R");
 		break;
 
 	      case 14:
-		ligne[j] = "Pièce comptable";
+		ligne[j] = _("Voucher");
 		break;
 
 	      case 15:
-		ligne[j] = "Notes";
+		ligne[j] = _("Notes");
 		break;
 
 	      case 16:
-		ligne[j] = "Info banque/guichet";
+		ligne[j] = _("Bank references");
 		break;
 
 	      case 17:
-		ligne[j] = "N° d'opération";
+		ligne[j] = _("Transaction number");
 		break;
 
 	      case 18:
-		ligne[j] = "N° chèque/virement";
+		ligne[j] = _("Cheque/Transfer number");
 		break;
 	    }
 

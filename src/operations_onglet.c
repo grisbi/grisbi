@@ -69,20 +69,20 @@ GtkWidget *creation_onglet_operations ( void )
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
 			     creation_liste_comptes (),
-			     gtk_label_new ( _("Comptes") ) );
+			     gtk_label_new ( _("Accounts") ) );
 
 
   /* création de la fenetre de ventilation */
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
 			     creation_verification_ventilation (),
-			     gtk_label_new ( _("Ventilation") ) );
+			     gtk_label_new ( _("Breakdown") ) );
   
   /* création de la fenetre de l'équilibrage */
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
 			     creation_fenetre_equilibrage (),
-			     gtk_label_new ( _("Equilibrage") ) );
+			     gtk_label_new ( _("Reconciliation") ) );
   
 
 
@@ -158,7 +158,7 @@ GtkWidget *creation_onglet_operations ( void )
 				   10);
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_formulaire ),
 			     formulaire,
-			     gtk_label_new ( _("Formulaire") ) );
+			     gtk_label_new ( _("Form") ) );
   gtk_widget_show (formulaire);
 
 
@@ -166,7 +166,7 @@ GtkWidget *creation_onglet_operations ( void )
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_formulaire ),
 			     creation_formulaire_ventilation (),
-			     gtk_label_new ( _("Ventilation") ) );
+			     gtk_label_new ( _("Breakdown") ) );
   
 
   /* on remet la fenetre du formulaire sur le formulaire  */

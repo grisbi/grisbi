@@ -25,29 +25,29 @@
 #include "en_tete.h"
 
 gchar *liste_plages_dates[] = {
-  N_("Toutes"),
-  N_("Personnalisé"),
-  N_("Cumul à ce jour"),
-  N_("Mois en cours"),
-  N_("Année en cours"),
-  N_("Cumul mensuel"),
-  N_("Cumul annuel"),
-  N_("Mois précédent"),
-  N_("Année précédente"),
-  N_("30 derniers jours"),
-  N_("3 derniers mois"),
-  N_("6 derniers mois"),
-  N_("12 derniers mois"),
+  N_("All"),
+  N_("Custom"),
+  N_("Year to date"),
+  N_("Current month"),
+  N_("Current year"),
+  N_("Month to date"),
+  N_("Year to date"),
+  N_("Previous month"),
+  N_("Previous year"),
+  N_("Last 30 days"),
+  N_("Last 3 months"),
+  N_("Last 6 months"),
+  N_("Last 12 months"),
   NULL };
 
 gchar *jours_semaine[] = {
-  N_("Lundi"),
-  N_("Mardi"),
-  N_("Mercredi"),
-  N_("Jeudi"),
-  N_("Vendredi"),
-  N_("Samedi"),
-  N_("Dimanche"),
+  N_("Monday"),
+  N_("Tuesday"),
+  N_("Wednesday"),
+  N_("Thursday"),
+  N_("Friday"),
+  N_("Saturday"),
+  N_("Sunday"),
   NULL };
 
 
@@ -76,7 +76,7 @@ void personnalisation_etat (void)
 					5 );
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_etats ),
 				 onglet_config_etat,
-				 gtk_label_new ( _( "Configuration états" )));
+				 gtk_label_new ( _("Reports setup")));
       gtk_widget_show ( onglet_config_etat );
 
       /* on commence par créer le notebook parent de la config des états */
@@ -103,7 +103,7 @@ void personnalisation_etat (void)
 				    TRUE );
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 				 notebook_selection,
-				 gtk_label_new (_("Sélection des données")) );
+				 gtk_label_new (_("Data selection")) );
       gtk_widget_show ( notebook_selection );
 
 
@@ -113,52 +113,52 @@ void personnalisation_etat (void)
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
 				 onglet_etat_virements (),
-				 gtk_label_new (SPACIFY(_("Virements"))) );
+				 gtk_label_new (SPACIFY(_("Transfers"))) );
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
 				 onglet_etat_comptes (),
-				 gtk_label_new (SPACIFY(_("Comptes"))) );
+				 gtk_label_new (SPACIFY(_("Accounts"))) );
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
 				 onglet_etat_tiers (),
-				 gtk_label_new (SPACIFY(_("Tiers"))) );
+				 gtk_label_new (SPACIFY(_("Third party"))) );
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
 				 onglet_etat_categories (),
-				 gtk_label_new (SPACIFY(_("Catégories"))) );
+				 gtk_label_new (SPACIFY(_("Categories"))) );
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
 				 onglet_etat_ib (),
-				 gtk_label_new (SPACIFY(_("Imputations budgétaires"))) );
+				 gtk_label_new (SPACIFY(_("Budgetary lines"))) );
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
 				 onglet_etat_texte (),
-				 gtk_label_new (SPACIFY(_("Textes"))) );
+				 gtk_label_new (SPACIFY(_("Texts"))) );
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
 				 onglet_etat_montant (),
-				 gtk_label_new (SPACIFY(_("Montants"))) );
+				 gtk_label_new (SPACIFY(_("Amounts"))) );
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
 				 onglet_etat_mode_paiement (),
-				 gtk_label_new (SPACIFY(_("Mode de règlement"))) );
+				 gtk_label_new (SPACIFY(_("Methods of payment"))) );
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
 				 onglet_etat_divers (),
-				 gtk_label_new (SPACIFY(_("Divers"))) );
+				 gtk_label_new (SPACIFY(_("Misc."))) );
 
       /* remplissage de l'onglet d'organisation */
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 				 page_organisation_donnees (),
-				 gtk_label_new (_("Organisation des données")) );
+				 gtk_label_new (_("Data organisation")) );
 
 
       /* remplissage de l'onglet d'affichage */
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 				 page_affichage_donnees (),
-				 gtk_label_new (_("Affichage des données")) );
+				 gtk_label_new (_("Data display")) );
 
 
       gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_config_etat),
@@ -239,19 +239,19 @@ void personnalisation_etat (void)
       switch ( GPOINTER_TO_INT ( pointeur_liste -> data ))
 	{
 	case 1:
-	  text[0] = _("Catégorie");
+	  text[0] = _("Category");
 	  break;
 
 	case 3:
-	  text[0] = _("Imputation budgétaire");
+	  text[0] = _("Budgetary line");
 	  break;
 
 	case 5:
-	  text[0] = _("Compte");
+	  text[0] = _("Account");
 	  break;
 
 	case 6:
-	  text[0] = _("Tiers");
+	  text[0] = _("Third party");
 	  break;
 
 	default:
@@ -955,7 +955,7 @@ void recuperation_info_perso_etat ( void )
        &&
        !modifie_date ( entree_date_init_etat ))
     {
-      dialogue ( _("La date initiale personnelle est invalide") );
+      dialogue ( _("Invalid custom initial date") );
       return;
     }
 
@@ -963,7 +963,7 @@ void recuperation_info_perso_etat ( void )
        &&
        !modifie_date ( entree_date_finale_etat ))
     {
-      dialogue ( _("La date finale personnelle est invalide") );
+      dialogue ( _("Invalid custom final date") );
       return;
     }
 
@@ -1104,7 +1104,7 @@ void recuperation_info_perso_etat ( void )
        &&
        etat_courant -> utilise_detail_exo == 3 )
     {
-      dialogue ( _("Tous les exercices ont été sélectionnés ; Grisbi sera plus rapide\nen retirant l'option \"Détailler les exercices utilisés\"") );
+      dialogue ( _("All the financial years have been selected. Grisbi will run faster\nwithout the \"Detail financial years\" option") );
       etat_courant -> utilise_detail_exo = FALSE;
     }
   
@@ -1181,7 +1181,7 @@ void recuperation_info_perso_etat ( void )
        &&
        etat_courant -> utilise_detail_comptes )
     {
-      dialogue ( _("Tous les comptes ont été sélectionnés ; Grisbi sera plus rapide\nen retirant l'option \"Détailler les comptes utilisés\"") );
+      dialogue ( _("All the accounts have been selected. Grisbi will run faster\nwithout the \"Detail accounts used\" option") );
       etat_courant -> utilise_detail_comptes = FALSE;
     }
   
@@ -1255,7 +1255,7 @@ void recuperation_info_perso_etat ( void )
        &&
        etat_courant -> utilise_detail_categ )
     {
-      dialogue ( _("Toutes les catégories ont été sélectionnées ; Grisbi sera plus rapide\nen retirant l'option \"Détailler les catégories utilisées\"") );
+      dialogue ( _("All the categories have been selected. Grisbi will run faster\nwithout  the \"Detail categories used \" option") );
       etat_courant -> utilise_detail_categ = FALSE;
     }
   
@@ -1302,7 +1302,7 @@ void recuperation_info_perso_etat ( void )
        &&
        etat_courant -> utilise_detail_ib )
     {
-      dialogue ( _("Toutes les imputations budgétaires ont été sélectionnées ; Grisbi sera plus rapide\nen retirant l'option \"Détailler les imputations budgétaires utilisées\"") );
+      dialogue ( _("All budgetary lines have been selected.  Grisbi will run faster\nwithout \"Detail the budgetary lines used\" option") );
       etat_courant -> utilise_detail_ib = FALSE;
     }
   
@@ -1347,7 +1347,7 @@ void recuperation_info_perso_etat ( void )
        &&
        etat_courant -> utilise_detail_tiers )
     {
-      dialogue ( _("Tous les tiers ont été sélectionnés ; Grisbi sera plus rapide\nen retirant l'option \"Détailler les tiers utilisés\"") );
+      dialogue ( _("All the third parts have been selected. Grisbi will run faster\nwithout the \"Detail the third parties\" option") );
       etat_courant -> utilise_detail_tiers = FALSE;
     }
   
@@ -1517,7 +1517,7 @@ void recuperation_info_perso_etat ( void )
        &&
        etat_courant -> utilise_mode_paiement )
     {
-      dialogue ( _("Tous les modes de règlement ont été sélectionnés\nGrisbi sera plus rapide en retirant l'option\n\"Sélectionner les opérations en fonction des modes de règlement\"") );
+      dialogue ( _("All the méthods of payment have been selected. Grisbi will run faster\n without the \"Select the transactions based on payment method\" option") );
       etat_courant -> utilise_mode_paiement = FALSE;
     }
   
@@ -1704,7 +1704,7 @@ GtkWidget *onglet_etat_dates ( void )
   gtk_widget_show ( vbox );
 
   radio_button_utilise_dates = gtk_radio_button_new_with_label ( NULL,
-								 _("Utiliser des plages de dates") );
+								 _("Use dates ranges") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       radio_button_utilise_dates,
 		       FALSE,
@@ -1801,7 +1801,7 @@ GtkWidget *onglet_etat_dates ( void )
   gtk_widget_show ( vbox );
 
   radio_button_utilise_exo = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( radio_button_utilise_dates )),
-							       _("Utiliser les exercices") );
+							       _("Use financial years") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       radio_button_utilise_exo,
 		       FALSE,
@@ -1839,7 +1839,7 @@ GtkWidget *onglet_etat_dates ( void )
   /*   on met le détail, exo courant ou précédent */
 
   bouton_exo_tous = gtk_radio_button_new_with_label ( NULL,
-						      _( "Tous les exercices" ));
+						      _("All financial years"));
   gtk_box_pack_start ( GTK_BOX ( vbox_utilisation_exo ),
 		       bouton_exo_tous,
 		       FALSE,
@@ -1848,7 +1848,7 @@ GtkWidget *onglet_etat_dates ( void )
   gtk_widget_show ( bouton_exo_tous );
 
   bouton_exo_courant = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_exo_tous )),
-							 _( "Exercice courant" ));
+							 _("Current financial year"));
   gtk_box_pack_start ( GTK_BOX ( vbox_utilisation_exo ),
 		       bouton_exo_courant,
 		       FALSE,
@@ -1857,7 +1857,7 @@ GtkWidget *onglet_etat_dates ( void )
   gtk_widget_show ( bouton_exo_courant );
 
   bouton_exo_precedent = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_exo_tous )),
-							   _( "Exercice précédent" ));
+							   _("Former financial year"));
   gtk_box_pack_start ( GTK_BOX ( vbox_utilisation_exo ),
 		       bouton_exo_precedent,
 		       FALSE,
@@ -1868,7 +1868,7 @@ GtkWidget *onglet_etat_dates ( void )
 
 
   bouton_detaille_exo_etat = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_exo_tous )),
-							       _("Détailler les exercices utilisés") );
+							       _("Detail financial years") );
   gtk_box_pack_start ( GTK_BOX ( vbox_utilisation_exo ),
 		       bouton_detaille_exo_etat,
 		       FALSE,
@@ -1930,7 +1930,7 @@ GtkWidget *onglet_etat_dates ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( COLON(_("Date initiale")) );
+  label = gtk_label_new ( COLON(_("Initial date")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -1968,7 +1968,7 @@ GtkWidget *onglet_etat_dates ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( COLON(_("Date finale")) );
+  label = gtk_label_new ( COLON(_("Final date")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -2171,7 +2171,7 @@ void clique_sur_entree_date_etat ( GtkWidget *entree,
 
       /* ajoute le bouton annuler */
 
-      bouton = gtk_button_new_with_label ( _("Annuler") );
+      bouton = gtk_button_new_with_label ( _("Cancel") );
       gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
 				  "clicked",
 				  GTK_SIGNAL_FUNC ( gtk_widget_destroy ),
@@ -2359,7 +2359,7 @@ GtkWidget *onglet_etat_comptes ( void )
   /* on met dans la partie de gauche une liste contenant les comptes à */
   /* sélectionner */
 
-  bouton_detaille_comptes_etat = gtk_check_button_new_with_label ( _("Sélectionner les opérations uniquement sur certains comptes"));
+  bouton_detaille_comptes_etat = gtk_check_button_new_with_label ( _("Select transactions only for given accounts"));
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_detaille_comptes_etat ),
 			      "toggled",
 			      GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
@@ -2386,7 +2386,7 @@ GtkWidget *onglet_etat_comptes ( void )
 		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
 		       vbox_generale_comptes_etat );
 
-  label = gtk_label_new ( COLON(_("Sélectionner les comptes à inclure dans l'état")) );
+  label = gtk_label_new ( COLON(_("Select the accounts included in the report")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0.1,
 			   0.5 );
@@ -2448,7 +2448,7 @@ GtkWidget *onglet_etat_comptes ( void )
 		       0 );
   gtk_widget_show ( vbox );
 
-  bouton = gtk_button_new_with_label ( _("Sélectionner tout") );
+  bouton = gtk_button_new_with_label ( _("Select all") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
@@ -2462,7 +2462,7 @@ GtkWidget *onglet_etat_comptes ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-  bouton = gtk_button_new_with_label ( _("Désélectionner tout") );
+  bouton = gtk_button_new_with_label ( _("Unselect all") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
@@ -2476,7 +2476,7 @@ GtkWidget *onglet_etat_comptes ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-  bouton = gtk_button_new_with_label ( _("Sélectionner les comptes bancaires") );
+  bouton = gtk_button_new_with_label ( _("Select bank accounts") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
@@ -2490,7 +2490,7 @@ GtkWidget *onglet_etat_comptes ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-  bouton = gtk_button_new_with_label ( _("Sélectionner les comptes de caisse") );
+  bouton = gtk_button_new_with_label ( _("Select cash accounts") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
@@ -2504,7 +2504,7 @@ GtkWidget *onglet_etat_comptes ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-  bouton = gtk_button_new_with_label ( _("Sélectionner les comptes de passif") );
+  bouton = gtk_button_new_with_label ( _("Select liabilities accounts") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
@@ -2518,7 +2518,7 @@ GtkWidget *onglet_etat_comptes ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-  bouton = gtk_button_new_with_label ( _("Sélectionner les comptes d'actif") );
+  bouton = gtk_button_new_with_label ( _("Select assets accounts") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
@@ -2626,7 +2626,7 @@ GtkWidget *onglet_etat_virements ( void )
   /*   on met les boutons d'inclusion ou non des virements */
 
   bouton_non_inclusion_virements = gtk_radio_button_new_with_label ( NULL,
-								     _("Ne pas inclure les virements") );
+								     _("Do not include transfers") );
   gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 		       bouton_non_inclusion_virements,
 		       FALSE,
@@ -2635,7 +2635,7 @@ GtkWidget *onglet_etat_virements ( void )
   gtk_widget_show ( bouton_non_inclusion_virements );
 
   bouton_inclusion_virements_actifs_etat = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_non_inclusion_virements )),
-									     _("Inclure les virements de ou vers les comptes d'actif et de passif") );
+									     _("Include transfers from or to assets or liabilities accounts") );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_inclusion_virements_actifs_etat ),
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
@@ -2648,7 +2648,7 @@ GtkWidget *onglet_etat_virements ( void )
   gtk_widget_show ( bouton_inclusion_virements_actifs_etat );
 
   bouton_inclusion_virements_hors_etat = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_non_inclusion_virements )),
-									   _("Inclure les virements de ou vers les comptes ne figurant pas dans l'état") );
+									   _("Include transfers from or to accounts not in this report") );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_inclusion_virements_hors_etat ),
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
@@ -2661,7 +2661,7 @@ GtkWidget *onglet_etat_virements ( void )
   gtk_widget_show ( bouton_inclusion_virements_hors_etat );
 
   bouton_inclusion_virements_perso = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_non_inclusion_virements )),
-									   COLON(POSTSPACIFY(_("Inclure les virements de ou vers les comptes"))) );
+									   COLON(POSTSPACIFY(_("Include transfers from or to these accounts"))) );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_inclusion_virements_perso ),
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
@@ -2723,7 +2723,7 @@ GtkWidget *onglet_etat_virements ( void )
 		       0 );
   gtk_widget_show ( vbox );
 
-  bouton = gtk_button_new_with_label ( _("Sélectionner tout") );
+  bouton = gtk_button_new_with_label ( _("Select all") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
@@ -2737,7 +2737,7 @@ GtkWidget *onglet_etat_virements ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-  bouton = gtk_button_new_with_label ( _("Désélectionner tout") );
+  bouton = gtk_button_new_with_label ( _("Unselect all") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
@@ -2751,7 +2751,7 @@ GtkWidget *onglet_etat_virements ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-  bouton = gtk_button_new_with_label ( _("Sélectionner les comptes bancaires") );
+  bouton = gtk_button_new_with_label ( _("Select bank accounts") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
@@ -2765,7 +2765,7 @@ GtkWidget *onglet_etat_virements ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-  bouton = gtk_button_new_with_label ( _("Sélectionner les comptes de caisse") );
+  bouton = gtk_button_new_with_label ( _("Select cash accounts") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
@@ -2779,7 +2779,7 @@ GtkWidget *onglet_etat_virements ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-  bouton = gtk_button_new_with_label ( _("Sélectionner les comptes de passif") );
+  bouton = gtk_button_new_with_label ( _("Select liabilities accounts") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
@@ -2793,7 +2793,7 @@ GtkWidget *onglet_etat_virements ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-  bouton = gtk_button_new_with_label ( _("Sélectionner les comptes d'actif") );
+  bouton = gtk_button_new_with_label ( _("Select assets accounts") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
@@ -2815,7 +2815,7 @@ GtkWidget *onglet_etat_virements ( void )
 
   /* on rajoute le bouton exclure les opé non virement */
 
-  bouton_exclure_non_virements_etat = gtk_check_button_new_with_label ( _("Exclure les opérations qui ne sont pas des virements") );
+  bouton_exclure_non_virements_etat = gtk_check_button_new_with_label ( _("Exclude the transactions which are not transfers") );
   gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 		       bouton_exclure_non_virements_etat,
 		       FALSE,
@@ -2942,7 +2942,7 @@ GtkWidget *onglet_etat_categories ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  bouton_detaille_categ_etat = gtk_check_button_new_with_label ( _("Détailler les catégories utilisées") );
+  bouton_detaille_categ_etat = gtk_check_button_new_with_label ( _("Detail categories") );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_detaille_categ_etat ),
 			      "toggled",
 			      GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
@@ -2980,7 +2980,7 @@ GtkWidget *onglet_etat_categories ( void )
 		       0 );
   gtk_widget_show ( vbox );
 
-  label = gtk_label_new ( COLON(_("Sélectionner les catégories à inclure dans l'état")) );
+  label = gtk_label_new ( COLON(_("Select categories to include")) );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       label,
 		       FALSE,
@@ -3028,7 +3028,7 @@ GtkWidget *onglet_etat_categories ( void )
 		       0 );
   gtk_widget_show ( vbox );
 
-  bouton = gtk_button_new_with_label ( _("Sélectionner tout") );
+  bouton = gtk_button_new_with_label ( _("Select all") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
@@ -3042,7 +3042,7 @@ GtkWidget *onglet_etat_categories ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-  bouton = gtk_button_new_with_label ( _("Désélectionner tout") );
+  bouton = gtk_button_new_with_label ( _("Unselect all") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
@@ -3056,7 +3056,7 @@ GtkWidget *onglet_etat_categories ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-  bouton = gtk_button_new_with_label ( _("Catégories de revenus") );
+  bouton = gtk_button_new_with_label ( _("Income categories") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
@@ -3070,7 +3070,7 @@ GtkWidget *onglet_etat_categories ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-  bouton = gtk_button_new_with_label ( _("Catégories de dépenses") );
+  bouton = gtk_button_new_with_label ( _("Outgoing categories") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
@@ -3095,7 +3095,7 @@ GtkWidget *onglet_etat_categories ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  bouton_exclure_ope_sans_categ = gtk_check_button_new_with_label ( _("Exclure les opérations sans catégorie") );
+  bouton_exclure_ope_sans_categ = gtk_check_button_new_with_label ( _("Exclude transactions with no category") );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_exclure_ope_sans_categ ),
 			      "toggled",
 			      GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
@@ -3222,7 +3222,7 @@ GtkWidget *onglet_etat_ib ( void )
   gtk_widget_show ( hbox );
 
 
-  bouton_detaille_ib_etat = gtk_check_button_new_with_label ( _("Détailler les imputations budgétaires utilisées") );
+  bouton_detaille_ib_etat = gtk_check_button_new_with_label ( _("Detail budgetary lines") );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_detaille_ib_etat ),
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
@@ -3260,7 +3260,7 @@ GtkWidget *onglet_etat_ib ( void )
 		       0 );
   gtk_widget_show ( vbox );
 
-  label = gtk_label_new ( COLON(_("Sélectionner les imputations budgétaires à inclure dans l'état")) );
+  label = gtk_label_new ( COLON(_("Select the budgetary lines to include in the report")) );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       label,
 		       FALSE,
@@ -3308,7 +3308,7 @@ GtkWidget *onglet_etat_ib ( void )
 		       0 );
   gtk_widget_show ( vbox );
 
-  bouton = gtk_button_new_with_label ( _("Sélectionner tout") );
+  bouton = gtk_button_new_with_label ( _("Select all") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
@@ -3322,7 +3322,7 @@ GtkWidget *onglet_etat_ib ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-  bouton = gtk_button_new_with_label ( _("Désélectionner tout") );
+  bouton = gtk_button_new_with_label ( _("Unselect all") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
@@ -3336,7 +3336,7 @@ GtkWidget *onglet_etat_ib ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-  bouton = gtk_button_new_with_label ( _("I.B. de revenus") );
+  bouton = gtk_button_new_with_label ( _("Income budget lines") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
@@ -3350,7 +3350,7 @@ GtkWidget *onglet_etat_ib ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-  bouton = gtk_button_new_with_label ( _("I.B. de dépenses") );
+  bouton = gtk_button_new_with_label ( _("Outgoing budget lines") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
@@ -3373,7 +3373,7 @@ GtkWidget *onglet_etat_ib ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  bouton_exclure_ope_sans_ib = gtk_check_button_new_with_label ( _("Exclure les opérations sans imputation budgétaire") );
+  bouton_exclure_ope_sans_ib = gtk_check_button_new_with_label ( _("Exclude transactions without budgetary line") );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_exclure_ope_sans_ib ),
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
@@ -3497,7 +3497,7 @@ GtkWidget *onglet_etat_tiers ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  bouton_detaille_tiers_etat = gtk_check_button_new_with_label ( _("Détailler les tiers utilisés") );
+  bouton_detaille_tiers_etat = gtk_check_button_new_with_label ( _("Detail third parties") );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_detaille_tiers_etat ),
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
@@ -3535,7 +3535,7 @@ GtkWidget *onglet_etat_tiers ( void )
 		       0 );
   gtk_widget_show ( vbox );
 
-  label = gtk_label_new ( COLON(_("Sélectionner les tiers à inclure dans l'état")) );
+  label = gtk_label_new ( COLON(_("Select third parties to include in this report")) );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       label,
 		       FALSE,
@@ -3583,7 +3583,7 @@ GtkWidget *onglet_etat_tiers ( void )
 		       0 );
   gtk_widget_show ( vbox );
 
-  bouton = gtk_button_new_with_label ( _("Sélectionner tout") );
+  bouton = gtk_button_new_with_label ( _("Select all") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
@@ -3597,7 +3597,7 @@ GtkWidget *onglet_etat_tiers ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-  bouton = gtk_button_new_with_label ( _("Désélectionner tout") );
+  bouton = gtk_button_new_with_label ( _("Unselect all") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
@@ -3696,7 +3696,7 @@ GtkWidget *onglet_etat_texte ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  bouton_utilise_texte = gtk_check_button_new_with_label ( _("Sélectionner les opérations par rapport à du texte") );
+  bouton_utilise_texte = gtk_check_button_new_with_label ( _("Select transactions according to the text") );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_utilise_texte ),
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
@@ -4002,7 +4002,7 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
 		       FALSE,
 		       0 );
 
-  label = gtk_label_new ( POSTSPACIFY(_("Opérations dont")));
+  label = gtk_label_new ( POSTSPACIFY(_("Transactions whose")));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -4143,7 +4143,7 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
   gtk_widget_show ( comp_textes -> hbox_chq );
 
 
-  label = gtk_label_new ( POSTSPACIFY(_("est")));
+  label = gtk_label_new ( POSTSPACIFY(_("is")));
   gtk_box_pack_start ( GTK_BOX ( comp_textes -> hbox_chq ),
 		       label,
 		       FALSE,
@@ -4158,7 +4158,7 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
 		       FALSE,
 		       0 );
 
-  label = gtk_label_new ( SPACIFY(_("à")));
+  label = gtk_label_new ( SPACIFY(_("to")));
   gtk_box_pack_start ( GTK_BOX ( comp_textes -> hbox_chq ),
 		       label,
 		       FALSE,
@@ -4211,7 +4211,7 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
 		       FALSE,
 		       0 );
 
-  label = gtk_label_new ( SPACIFY(_("à")));
+  label = gtk_label_new ( SPACIFY(_("to")));
   gtk_box_pack_start ( GTK_BOX ( comp_textes -> hbox_partie_2 ),
 		       label,
 		       FALSE,
@@ -4232,7 +4232,7 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
 
   /* on met les bouton ajouter et supprimer */
 
-  bouton = gtk_button_new_with_label ( _("Ajouter"));
+  bouton = gtk_button_new_with_label ( _("Add"));
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
@@ -4246,7 +4246,7 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
 		       0 );
   gtk_widget_show ( bouton );
 
-  bouton = gtk_button_new_with_label ( _("Retirer"));
+  bouton = gtk_button_new_with_label ( _("Remove"));
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
@@ -4324,7 +4324,7 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 
   menu = gtk_menu_new ();
 
-  menu_item = gtk_menu_item_new_with_label ( _("le tiers"));
+  menu_item = gtk_menu_item_new_with_label ( _("the third party"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -4348,7 +4348,7 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 			      GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("l'information du tiers"));
+  menu_item = gtk_menu_item_new_with_label ( _("the third party information"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -4372,7 +4372,7 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 			      GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("la catégorie"));
+  menu_item = gtk_menu_item_new_with_label ( _("the category"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -4396,7 +4396,7 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 			      GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("la sous-catégorie"));
+  menu_item = gtk_menu_item_new_with_label ( _("the sub-category"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -4420,7 +4420,7 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 			      GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("l'imputation budgétaire"));
+  menu_item = gtk_menu_item_new_with_label ( _("the budgetary line"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -4444,7 +4444,7 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 			      GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("la sous-imputation budgétaire"));
+  menu_item = gtk_menu_item_new_with_label ( _("the sub-budgetary line"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -4468,7 +4468,7 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 			      GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("la note"));
+  menu_item = gtk_menu_item_new_with_label ( _("the note"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -4492,7 +4492,7 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 			      GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("la référence bancaire"));
+  menu_item = gtk_menu_item_new_with_label ( _("the bank reference"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -4516,7 +4516,7 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 			      GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("la pièce comptable"));
+  menu_item = gtk_menu_item_new_with_label ( _("the voucher"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -4537,7 +4537,7 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
   gtk_widget_show ( menu_item );
 
 
-  menu_item = gtk_menu_item_new_with_label ( _("le numéro de chèque"));
+  menu_item = gtk_menu_item_new_with_label ( _("the cheque number"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -4557,7 +4557,7 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 			      (GtkObject *) comp_textes );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("le numéro de rapprochement"));
+  menu_item = gtk_menu_item_new_with_label ( _("the reconciliation reference"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -4618,7 +4618,7 @@ GtkWidget *cree_bouton_operateur_txt ( struct struct_comparaison_textes_etat *co
 
   menu = gtk_menu_new ();
 
-  menu_item = gtk_menu_item_new_with_label ( _("contient"));
+  menu_item = gtk_menu_item_new_with_label ( _("contains"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -4630,7 +4630,7 @@ GtkWidget *cree_bouton_operateur_txt ( struct struct_comparaison_textes_etat *co
 			      GTK_OBJECT ( comp_textes -> entree_txt ));
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("ne contient pas"));
+  menu_item = gtk_menu_item_new_with_label ( _("doesn't contain"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -4642,7 +4642,7 @@ GtkWidget *cree_bouton_operateur_txt ( struct struct_comparaison_textes_etat *co
 			      GTK_OBJECT ( comp_textes -> entree_txt ));
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("commence par"));
+  menu_item = gtk_menu_item_new_with_label ( _("begins with"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -4654,7 +4654,7 @@ GtkWidget *cree_bouton_operateur_txt ( struct struct_comparaison_textes_etat *co
 			      GTK_OBJECT ( comp_textes -> entree_txt ));
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("se termine par"));
+  menu_item = gtk_menu_item_new_with_label ( _("ends with"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -4666,7 +4666,7 @@ GtkWidget *cree_bouton_operateur_txt ( struct struct_comparaison_textes_etat *co
 			      GTK_OBJECT ( comp_textes -> entree_txt ));
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("est vide"));
+  menu_item = gtk_menu_item_new_with_label ( _("is empty"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -4678,7 +4678,7 @@ GtkWidget *cree_bouton_operateur_txt ( struct struct_comparaison_textes_etat *co
 			      GTK_OBJECT ( comp_textes -> entree_txt ));
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("est non vide"));
+  menu_item = gtk_menu_item_new_with_label ( _("isn't empty"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -4739,7 +4739,7 @@ GtkWidget *onglet_etat_montant ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  bouton_utilise_montant = gtk_check_button_new_with_label ( _("Sélectionner les opérations d'après les montants") );
+  bouton_utilise_montant = gtk_check_button_new_with_label ( _("Select the transactions by amount") );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_utilise_montant ),
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
@@ -4791,7 +4791,7 @@ GtkWidget *onglet_etat_montant ( void )
 
   /* on rajoute le bouton exclure les opé dont le montant est nul */
 
-  bouton_exclure_ope_nulles_etat = gtk_check_button_new_with_label ( _("Exclure les opérations dont le montant est nul") );
+  bouton_exclure_ope_nulles_etat = gtk_check_button_new_with_label ( _("Exclude the transactions with a null amount") );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_exclure_ope_nulles_etat ),
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
@@ -4999,7 +4999,7 @@ GtkWidget *cree_ligne_comparaison_montant ( struct struct_comparaison_montants_e
 		       FALSE,
 		       0 );
 
-  label = gtk_label_new ( POSTSPACIFY(_("Opérations dans lesquelles le montant est")));
+  label = gtk_label_new ( POSTSPACIFY(_("Transactions with an amount of")));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -5014,7 +5014,7 @@ GtkWidget *cree_ligne_comparaison_montant ( struct struct_comparaison_montants_e
 		       FALSE,
 		       0 );
 
-  label = gtk_label_new ( SPACIFY(_("à")));
+  label = gtk_label_new ( SPACIFY(_("to")));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -5067,7 +5067,7 @@ GtkWidget *cree_ligne_comparaison_montant ( struct struct_comparaison_montants_e
 		       FALSE,
 		       0 );
 
-  label = gtk_label_new ( SPACIFY(_("à")));
+  label = gtk_label_new ( SPACIFY(_("to")));
   gtk_box_pack_start ( GTK_BOX ( comp_montants -> hbox_partie_2 ),
 		       label,
 		       FALSE,
@@ -5088,7 +5088,7 @@ GtkWidget *cree_ligne_comparaison_montant ( struct struct_comparaison_montants_e
 
   /* on met les bouton ajouter et supprimer */
 
-  bouton = gtk_button_new_with_label ( _("Ajouter"));
+  bouton = gtk_button_new_with_label ( _("Add"));
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
@@ -5102,7 +5102,7 @@ GtkWidget *cree_ligne_comparaison_montant ( struct struct_comparaison_montants_e
 		       0 );
   gtk_widget_show ( bouton );
 
-  bouton = gtk_button_new_with_label ( _("Retirer"));
+  bouton = gtk_button_new_with_label ( _("Remove"));
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
@@ -5137,7 +5137,7 @@ GtkWidget *cree_bouton_lien_lignes_comparaison ( void )
 
   menu = gtk_menu_new ();
 
-  menu_item = gtk_menu_item_new_with_label ( _("et"));
+  menu_item = gtk_menu_item_new_with_label ( _("and"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5145,7 +5145,7 @@ GtkWidget *cree_bouton_lien_lignes_comparaison ( void )
 			GINT_TO_POINTER ( 0 ));
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("ou"));
+  menu_item = gtk_menu_item_new_with_label ( _("or"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5153,7 +5153,7 @@ GtkWidget *cree_bouton_lien_lignes_comparaison ( void )
 			GINT_TO_POINTER ( 1 ));
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("sauf"));
+  menu_item = gtk_menu_item_new_with_label ( _("except"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5186,7 +5186,7 @@ GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_
 
   menu = gtk_menu_new ();
 
-  menu_item = gtk_menu_item_new_with_label ( _("égal"));
+  menu_item = gtk_menu_item_new_with_label ( _("equal"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5198,7 +5198,7 @@ GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_
 		       comp_montants );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("inférieur"));
+  menu_item = gtk_menu_item_new_with_label ( _("less than"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5210,7 +5210,7 @@ GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_
 		       comp_montants );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("inférieur ou égal"));
+  menu_item = gtk_menu_item_new_with_label ( _("less than or equal"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5222,7 +5222,7 @@ GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_
 		       comp_montants );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("supérieur"));
+  menu_item = gtk_menu_item_new_with_label ( _("greater than"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5234,7 +5234,7 @@ GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_
 		       comp_montants );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("supérieur ou égal"));
+  menu_item = gtk_menu_item_new_with_label ( _("greater than or equal"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5246,7 +5246,7 @@ GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_
 		       comp_montants );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("différent de"));
+  menu_item = gtk_menu_item_new_with_label ( _("different from"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5258,7 +5258,7 @@ GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_
 		       comp_montants );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("nul"));
+  menu_item = gtk_menu_item_new_with_label ( _("null"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5270,7 +5270,7 @@ GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_
 		       comp_montants );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("non nul"));
+  menu_item = gtk_menu_item_new_with_label ( _("not null"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5282,7 +5282,7 @@ GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_
 		       comp_montants );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("positif"));
+  menu_item = gtk_menu_item_new_with_label ( _("positive"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5294,7 +5294,7 @@ GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_
 		       comp_montants );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("négatif"));
+  menu_item = gtk_menu_item_new_with_label ( _("negative"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5369,7 +5369,7 @@ GtkWidget *cree_bouton_comparateur_texte ( struct struct_comparaison_textes_etat
 
   menu = gtk_menu_new ();
 
-  menu_item = gtk_menu_item_new_with_label ( _("égal"));
+  menu_item = gtk_menu_item_new_with_label ( _("equal"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5381,7 +5381,7 @@ GtkWidget *cree_bouton_comparateur_texte ( struct struct_comparaison_textes_etat
 		       comp_textes );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("inférieur"));
+  menu_item = gtk_menu_item_new_with_label ( _("less than"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5393,7 +5393,7 @@ GtkWidget *cree_bouton_comparateur_texte ( struct struct_comparaison_textes_etat
 		       comp_textes );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("inférieur ou égal"));
+  menu_item = gtk_menu_item_new_with_label ( _("less than or equal"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5405,7 +5405,7 @@ GtkWidget *cree_bouton_comparateur_texte ( struct struct_comparaison_textes_etat
 		       comp_textes );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("supérieur"));
+  menu_item = gtk_menu_item_new_with_label ( _("greater than"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5417,7 +5417,7 @@ GtkWidget *cree_bouton_comparateur_texte ( struct struct_comparaison_textes_etat
 		       comp_textes );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("supérieur ou égal"));
+  menu_item = gtk_menu_item_new_with_label ( _("greater than or equal"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5429,7 +5429,7 @@ GtkWidget *cree_bouton_comparateur_texte ( struct struct_comparaison_textes_etat
 		       comp_textes );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("différent de"));
+  menu_item = gtk_menu_item_new_with_label ( _("different from"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5441,7 +5441,7 @@ GtkWidget *cree_bouton_comparateur_texte ( struct struct_comparaison_textes_etat
 		       comp_textes );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("le plus grand"));
+  menu_item = gtk_menu_item_new_with_label ( _("the biggest"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5509,7 +5509,7 @@ GtkWidget *cree_bouton_lien ( GtkWidget *hbox )
 
   menu = gtk_menu_new ();
 
-  menu_item = gtk_menu_item_new_with_label ( _("et"));
+  menu_item = gtk_menu_item_new_with_label ( _("and"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5521,7 +5521,7 @@ GtkWidget *cree_bouton_lien ( GtkWidget *hbox )
 			      GTK_OBJECT ( hbox ));
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("ou"));
+  menu_item = gtk_menu_item_new_with_label ( _("or"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5533,7 +5533,7 @@ GtkWidget *cree_bouton_lien ( GtkWidget *hbox )
 			      GTK_OBJECT ( hbox ));
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("sauf"));
+  menu_item = gtk_menu_item_new_with_label ( _("except"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5657,7 +5657,7 @@ GtkWidget *onglet_etat_divers ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  frame = gtk_frame_new ( _( "Opérations rapprochées" ));
+  frame = gtk_frame_new ( _("Reconciled transactions"));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       frame,
 		       FALSE,
@@ -5682,7 +5682,7 @@ GtkWidget *onglet_etat_divers ( void )
   gtk_widget_show ( label );
 
   bouton_opes_r_et_non_r_etat = gtk_radio_button_new_with_label ( NULL,
-				       _("Toutes les opérations") );
+				       _("All transactions") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_opes_r_et_non_r_etat,
 		       FALSE,
@@ -5691,7 +5691,7 @@ GtkWidget *onglet_etat_divers ( void )
   gtk_widget_show ( bouton_opes_r_et_non_r_etat );
 
   bouton_opes_non_r_etat = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_opes_r_et_non_r_etat )),
-							   _("Les opérations non rapprochées") );
+							   _("Non reconciled transactions") );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_opes_non_r_etat ),
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
@@ -5704,7 +5704,7 @@ GtkWidget *onglet_etat_divers ( void )
   gtk_widget_show ( bouton_opes_non_r_etat );
 
   bouton_opes_r_etat = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_opes_r_et_non_r_etat )),
-							   _("Les opérations rapprochées") );
+							   _("The reconciled transactions") );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_opes_r_etat ),
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
@@ -5725,7 +5725,7 @@ GtkWidget *onglet_etat_divers ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  bouton_pas_detailler_ventilation = gtk_check_button_new_with_label ( _("Ne pas détailler les opérations ventilées") );
+  bouton_pas_detailler_ventilation = gtk_check_button_new_with_label ( _("Do not detail reconciled transactions") );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_pas_detailler_ventilation ),
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
@@ -5790,7 +5790,7 @@ GtkWidget *page_organisation_donnees ( void )
 
   /* choix de ce qu'on utilise dans le classement */
 
-  frame = gtk_frame_new ( COLON(_("Informations utilisées pour le regroupement")) );
+  frame = gtk_frame_new ( COLON(_("Informations used for the group")) );
   gtk_box_pack_start ( GTK_BOX ( hbox_haut ),
 		       frame,
 		       FALSE,
@@ -5818,7 +5818,7 @@ GtkWidget *page_organisation_donnees ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  bouton_regroupe_ope_compte_etat = gtk_check_button_new_with_label ( _("Regrouper les opérations par compte") );
+  bouton_regroupe_ope_compte_etat = gtk_check_button_new_with_label ( _("Group transactions by account") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_regroupe_ope_compte_etat,
 		       FALSE,
@@ -5838,7 +5838,7 @@ GtkWidget *page_organisation_donnees ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  bouton_utilise_tiers_etat = gtk_check_button_new_with_label ( _("Regrouper les opérations par tiers") );
+  bouton_utilise_tiers_etat = gtk_check_button_new_with_label ( _("Group transactions by third party") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_utilise_tiers_etat,
 		       FALSE,
@@ -5860,7 +5860,7 @@ GtkWidget *page_organisation_donnees ( void )
   gtk_widget_show ( hbox );
 
 
-  bouton_utilise_categ_etat = gtk_check_button_new_with_label ( _("Regrouper les opérations par catégorie") );
+  bouton_utilise_categ_etat = gtk_check_button_new_with_label ( _("Group transactions by category") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_utilise_categ_etat,
 		       FALSE,
@@ -5880,7 +5880,7 @@ GtkWidget *page_organisation_donnees ( void )
   gtk_widget_show ( hbox );
 
 
-  bouton_utilise_ib_etat = gtk_check_button_new_with_label ( _("Regrouper les opérations par imputation budgétaire") );
+  bouton_utilise_ib_etat = gtk_check_button_new_with_label ( _("Group transactions by budgetary line") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_utilise_ib_etat,
 		       FALSE,
@@ -5891,7 +5891,7 @@ GtkWidget *page_organisation_donnees ( void )
 
   /* choix du type de classement */
 
-  frame = gtk_frame_new ( COLON(_("Organisation des niveaux de regroupement")) );
+  frame = gtk_frame_new ( COLON(_("Group level organisation")) );
   gtk_box_pack_start ( GTK_BOX ( hbox_haut ),
 		       frame,
 		       FALSE,
@@ -5987,7 +5987,7 @@ GtkWidget *page_organisation_donnees ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  bouton_separer_revenus_depenses = gtk_check_button_new_with_label ( _("Séparer les revenus et les dépenses") );
+  bouton_separer_revenus_depenses = gtk_check_button_new_with_label ( _("Split incomes and outgoings") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_separer_revenus_depenses,
 		       FALSE,
@@ -6007,7 +6007,7 @@ GtkWidget *page_organisation_donnees ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  bouton_separe_exo_etat = gtk_check_button_new_with_label ( _("Séparer les résultats par exercice") );
+  bouton_separe_exo_etat = gtk_check_button_new_with_label ( _("Split by financial year") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_separe_exo_etat,
 		       FALSE,
@@ -6033,7 +6033,7 @@ GtkWidget *page_organisation_donnees ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  bouton_separe_plages_etat = gtk_check_button_new_with_label ( _("Séparer les résultats par période") );
+  bouton_separe_plages_etat = gtk_check_button_new_with_label ( _("Split by period") );
   gtk_signal_connect ( GTK_OBJECT ( bouton_separe_plages_etat ),
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( change_separation_result_periode ),
@@ -6094,7 +6094,7 @@ GtkWidget *page_organisation_donnees ( void )
 
   menu = gtk_menu_new ();
 
-  menu_item = gtk_menu_item_new_with_label ( _("Semaine") );
+  menu_item = gtk_menu_item_new_with_label ( _("Week") );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"type",
 			NULL );
@@ -6106,7 +6106,7 @@ GtkWidget *page_organisation_donnees ( void )
 		    menu_item );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("Mois") );
+  menu_item = gtk_menu_item_new_with_label ( _("Months") );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"type",
 			GINT_TO_POINTER (1) );
@@ -6118,7 +6118,7 @@ GtkWidget *page_organisation_donnees ( void )
 		    menu_item );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("Année") );
+  menu_item = gtk_menu_item_new_with_label ( _("Year") );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"type",
 			GINT_TO_POINTER (2));
@@ -6152,7 +6152,7 @@ GtkWidget *page_organisation_donnees ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( POSTSPACIFY(_("La semaine commence le")) );
+  label = gtk_label_new ( POSTSPACIFY(_("The week begins on")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE, 
@@ -6171,7 +6171,7 @@ GtkWidget *page_organisation_donnees ( void )
     {
       menu_item = gtk_menu_item_new_with_label ( jours_semaine[i] );
       gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			    _("jour"),
+			    _("day"),
 			    GINT_TO_POINTER (i));
       gtk_menu_append ( GTK_MENU ( menu ),
 			menu_item );
@@ -6314,19 +6314,19 @@ GtkWidget *page_affichage_donnees ( void )
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_aff_donnees ),
 			     onglet_affichage_etat_generalites (),
-			     gtk_label_new (SPACIFY(_("Généralités"))) );
+			     gtk_label_new (SPACIFY(_("Generalities"))) );
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_aff_donnees ),
 			     onglet_affichage_etat_divers (),
-			     gtk_label_new (SPACIFY(_("Titres"))) );
+			     gtk_label_new (SPACIFY(_("Titles"))) );
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_aff_donnees ),
 			     onglet_affichage_etat_operations (),
-			     gtk_label_new (SPACIFY(_("Opérations"))) );
+			     gtk_label_new (SPACIFY(_("Transactions"))) );
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_aff_donnees ),
 			     onglet_affichage_etat_devises (),
-			     gtk_label_new (SPACIFY(_("Devises"))) );
+			     gtk_label_new (SPACIFY(_("Currencies"))) );
 
   return ( notebook_aff_donnees );
 }
@@ -6369,7 +6369,7 @@ GtkWidget *onglet_affichage_etat_generalites ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( COLON(_("Nom de l'état")) );
+  label = gtk_label_new ( COLON(_("Report name")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -6399,7 +6399,7 @@ GtkWidget *onglet_affichage_etat_generalites ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  bouton_afficher_nb_opes = gtk_check_button_new_with_label ( _("Afficher le nombre d'opérations avec les totaux") );
+  bouton_afficher_nb_opes = gtk_check_button_new_with_label ( _("Diplay the number of transactions with the totals") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_afficher_nb_opes,
 		       FALSE,
@@ -6418,7 +6418,7 @@ GtkWidget *onglet_affichage_etat_generalites ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  bouton_inclure_dans_tiers = gtk_check_button_new_with_label ( _("Inclure cet état dans la liste des tiers du formulaire de saisie d'opération.") );
+  bouton_inclure_dans_tiers = gtk_check_button_new_with_label ( _("Consider the third parties of this report as a multiple third party.") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_inclure_dans_tiers,
 		       FALSE,
@@ -6474,7 +6474,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 
   /* afficher ou non les opés */
 
-  bouton_afficher_opes = gtk_check_button_new_with_label ( _("Afficher les opérations") );
+  bouton_afficher_opes = gtk_check_button_new_with_label ( _("Display transactions") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_afficher_opes,
 		       FALSE,
@@ -6494,7 +6494,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  frame_onglet_generalites = gtk_frame_new ( _("Afficher les informations sur") );
+  frame_onglet_generalites = gtk_frame_new ( _("Display the information about") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       frame_onglet_generalites,
 		       FALSE,
@@ -6527,7 +6527,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			      0, 1 );
   gtk_widget_show ( hbox );
 
-  bouton_afficher_no_ope = gtk_check_button_new_with_label ( _("le n° d'opération") );
+  bouton_afficher_no_ope = gtk_check_button_new_with_label ( _("the transaction number") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_afficher_no_ope,
 		       FALSE,
@@ -6543,7 +6543,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			      0, 1 );
   gtk_widget_show ( hbox );
 
-  bouton_afficher_date_opes = gtk_check_button_new_with_label ( _("la date") );
+  bouton_afficher_date_opes = gtk_check_button_new_with_label ( _("the date") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_afficher_date_opes,
 		       FALSE,
@@ -6559,7 +6559,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			      0, 1 );
   gtk_widget_show ( hbox );
 
-  bouton_afficher_exo_opes = gtk_check_button_new_with_label ( _("l'exercice") );
+  bouton_afficher_exo_opes = gtk_check_button_new_with_label ( _("the financial year") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_afficher_exo_opes,
 		       FALSE,
@@ -6575,7 +6575,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			      1, 2 );
   gtk_widget_show ( hbox );
 
-  bouton_afficher_tiers_opes = gtk_check_button_new_with_label ( _("le tiers") );
+  bouton_afficher_tiers_opes = gtk_check_button_new_with_label ( _("the third party") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_afficher_tiers_opes,
 		       FALSE,
@@ -6592,7 +6592,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			      1, 2 );
   gtk_widget_show ( hbox );
 
-  bouton_afficher_categ_opes = gtk_check_button_new_with_label ( _("la catégorie") );
+  bouton_afficher_categ_opes = gtk_check_button_new_with_label ( _("the category") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_afficher_categ_opes,
 		       FALSE,
@@ -6608,7 +6608,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			      1, 2 );
   gtk_widget_show ( hbox );
 
-  bouton_afficher_sous_categ_opes = gtk_check_button_new_with_label ( _("la sous-catégorie") );
+  bouton_afficher_sous_categ_opes = gtk_check_button_new_with_label ( _("the sub-category") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_afficher_sous_categ_opes,
 		       FALSE,
@@ -6624,7 +6624,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			      2, 3 );
   gtk_widget_show ( hbox );
 
-  bouton_afficher_ib_opes = gtk_check_button_new_with_label ( _("l'imputation budgétaire") );
+  bouton_afficher_ib_opes = gtk_check_button_new_with_label ( _("the budgetary line") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_afficher_ib_opes,
 		       FALSE,
@@ -6640,7 +6640,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			      2, 3 );
   gtk_widget_show ( hbox );
 
-  bouton_afficher_sous_ib_opes = gtk_check_button_new_with_label ( _("la sous-imputation budgétaire") );
+  bouton_afficher_sous_ib_opes = gtk_check_button_new_with_label ( _("the sub-budgetary line") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_afficher_sous_ib_opes,
 		       FALSE,
@@ -6656,7 +6656,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			      2, 3 );
   gtk_widget_show ( hbox );
 
-  bouton_afficher_notes_opes = gtk_check_button_new_with_label ( _("les notes") );
+  bouton_afficher_notes_opes = gtk_check_button_new_with_label ( _("the notes") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_afficher_notes_opes,
 		       FALSE,
@@ -6672,7 +6672,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			      3, 4 );
   gtk_widget_show ( hbox );
 
-  bouton_afficher_type_ope = gtk_check_button_new_with_label ( _("le mode de règlement") );
+  bouton_afficher_type_ope = gtk_check_button_new_with_label ( _("the method of payment") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_afficher_type_ope,
 		       FALSE,
@@ -6688,7 +6688,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			      3, 4 );
   gtk_widget_show ( hbox );
 
-  bouton_afficher_no_cheque = gtk_check_button_new_with_label ( _("le n° de chèque/virement") );
+  bouton_afficher_no_cheque = gtk_check_button_new_with_label ( _("the cheque/transfer number") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_afficher_no_cheque,
 		       FALSE,
@@ -6704,7 +6704,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			      3, 4 );
   gtk_widget_show ( hbox );
 
-  bouton_afficher_pc_opes = gtk_check_button_new_with_label ( _("la pièce comptable") );
+  bouton_afficher_pc_opes = gtk_check_button_new_with_label ( _("the voucher") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_afficher_pc_opes,
 		       FALSE,
@@ -6720,7 +6720,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			      4, 5 );
   gtk_widget_show ( hbox );
 
-  bouton_afficher_infobd_opes = gtk_check_button_new_with_label ( _("l'information banque-guichet") );
+  bouton_afficher_infobd_opes = gtk_check_button_new_with_label ( _("the bank reference") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_afficher_infobd_opes,
 		       FALSE,
@@ -6736,7 +6736,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			      4, 5  );
   gtk_widget_show ( hbox );
 
-  bouton_afficher_no_rappr = gtk_check_button_new_with_label ( _("le n° de rapprochement") );
+  bouton_afficher_no_rappr = gtk_check_button_new_with_label ( _("the reconciliation reference") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_afficher_no_rappr,
 		       FALSE,
@@ -6762,7 +6762,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			      6, 7 );
   gtk_widget_show ( hbox );
 
-  bouton_afficher_titres_colonnes = gtk_check_button_new_with_label ( _("Afficher les titres des colonnes") );
+  bouton_afficher_titres_colonnes = gtk_check_button_new_with_label ( _("Display the column titles") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_afficher_titres_colonnes,
 		       FALSE,
@@ -6779,7 +6779,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
   gtk_widget_show ( hbox );
 
   bouton_titre_changement = gtk_radio_button_new_with_label ( NULL,
-							      _("à chaque changement de section") );
+							      _("every section") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_titre_changement,
 		       FALSE,
@@ -6796,7 +6796,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
   gtk_widget_show ( hbox );
 
   bouton_titre_en_haut = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_titre_changement )),
-							   _("en haut de l'état") );
+							   _("at the top of the report") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_titre_en_haut,
 		       FALSE,
@@ -6821,7 +6821,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			      10, 11 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( POSTSPACIFY(_("Classement des opérations par")) );
+  label = gtk_label_new ( POSTSPACIFY(_("Sort the transactions by")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -6847,7 +6847,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 
   menu = gtk_menu_new ();
 
-  menu_item = gtk_menu_item_new_with_label ( _( "date" ));
+  menu_item = gtk_menu_item_new_with_label ( _("date"));
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"no_classement",
 			GINT_TO_POINTER ( 0 ));
@@ -6855,7 +6855,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 		    menu_item );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _( "n° d'opérations" ));
+  menu_item = gtk_menu_item_new_with_label ( _("transaction number"));
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"no_classement",
 			GINT_TO_POINTER ( 1 ));
@@ -6863,7 +6863,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 		    menu_item );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _( "tiers" ));
+  menu_item = gtk_menu_item_new_with_label ( _("third party"));
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"no_classement",
 			GINT_TO_POINTER ( 2 ));
@@ -6871,7 +6871,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 		    menu_item );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _( "catégorie" ));
+  menu_item = gtk_menu_item_new_with_label ( _("category"));
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"no_classement",
 			GINT_TO_POINTER ( 3 ));
@@ -6879,7 +6879,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 		    menu_item );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _( "imputation budgétaire" ));
+  menu_item = gtk_menu_item_new_with_label ( _("budgetary line"));
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"no_classement",
 			GINT_TO_POINTER ( 4 ));
@@ -6887,7 +6887,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 		    menu_item );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _( "note" ));
+  menu_item = gtk_menu_item_new_with_label ( _("note"));
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"no_classement",
 			GINT_TO_POINTER ( 5 ));
@@ -6895,7 +6895,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 		    menu_item );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _( "mode de règlement" ));
+  menu_item = gtk_menu_item_new_with_label ( _("method of payment"));
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"no_classement",
 			GINT_TO_POINTER ( 6 ));
@@ -6903,7 +6903,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 		    menu_item );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _( "n° de chèque/virement" ));
+  menu_item = gtk_menu_item_new_with_label ( _("cheque/transfer number"));
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"no_classement",
 			GINT_TO_POINTER ( 7 ));
@@ -6911,7 +6911,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 		    menu_item );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _( "pièce comptable" ));
+  menu_item = gtk_menu_item_new_with_label ( _("voucher"));
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"no_classement",
 			GINT_TO_POINTER ( 8 ));
@@ -6919,7 +6919,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 		    menu_item );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _( "information bancaire" ));
+  menu_item = gtk_menu_item_new_with_label ( _("bank reference"));
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"no_classement",
 			GINT_TO_POINTER ( 9 ));
@@ -6927,7 +6927,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 		    menu_item );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _( "n° de rapprochement" ));
+  menu_item = gtk_menu_item_new_with_label ( _("reconciliation reference"));
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"no_classement",
 			GINT_TO_POINTER ( 10 ));
@@ -6950,7 +6950,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			      11, 12 );
   gtk_widget_show ( hbox );
 
-  bouton_rendre_ope_clickables = gtk_check_button_new_with_label ( _("Rendre les opérations interactives"));
+  bouton_rendre_ope_clickables = gtk_check_button_new_with_label ( _("Make transactions clickable"));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_rendre_ope_clickables,
 		       FALSE,
@@ -7026,7 +7026,7 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( COLON(_("Devise utilisée pour les totaux généraux")) );
+  label = gtk_label_new ( COLON(_("General totals currency")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			    0,
 			    0.5 );
@@ -7075,7 +7075,7 @@ GtkWidget *onglet_affichage_etat_devises ( void )
   gtk_widget_show ( hbox );
 
 
-  label = gtk_label_new ( COLON(_("Devise utilisée pour les tiers")) );
+  label = gtk_label_new ( COLON(_("Third parties currency")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			    0,
 			    0.5 );
@@ -7123,7 +7123,7 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( COLON(_("Devise utilisée pour les catégories")) );
+  label = gtk_label_new ( COLON(_("Categories currency")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			    0,
 			    0.5 );
@@ -7172,7 +7172,7 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( COLON(_("Devise utilisée pour les imputations budgétaires")) );
+  label = gtk_label_new ( COLON(_("Budgetary lines currency")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			    0,
 			    0.5 );
@@ -7220,7 +7220,7 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( POSTSPACIFY(_("Devise utilisée pour les comparaisons de montant")));
+  label = gtk_label_new ( POSTSPACIFY(_("Amount comparison currency")));
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			    0,
 			    0.5 );
@@ -7306,7 +7306,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 
   /* mise en place de la frame des comptes */
 
-  frame = gtk_frame_new ( COLON(_("Comptes")));
+  frame = gtk_frame_new ( COLON(_("Accounts")));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       frame,
 		       FALSE,
@@ -7325,7 +7325,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 
   /* on permet d'afficher le nom du compte */
 
-  bouton_afficher_noms_comptes = gtk_check_button_new_with_label ( _("Afficher le nom du compte") );
+  bouton_afficher_noms_comptes = gtk_check_button_new_with_label ( _("Display account name") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_afficher_noms_comptes,
 		       FALSE,
@@ -7337,7 +7337,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
   /* on permet d'afficher un ss total lors de chgt de compte */
   /* activé uniquement si on a regroupé les opés par compte */
 
-  bouton_affiche_sous_total_compte = gtk_check_button_new_with_label ( _("Afficher un sous-total lors d'un changement de compte") );
+  bouton_affiche_sous_total_compte = gtk_check_button_new_with_label ( _("Display a sub-total for each account") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_affiche_sous_total_compte,
 		       FALSE,
@@ -7352,7 +7352,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 
   /* mise en place de la frame des tiers */
 
-  frame = gtk_frame_new ( COLON(_("Tiers")));
+  frame = gtk_frame_new ( COLON(_("Third party")));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       frame,
 		       FALSE,
@@ -7370,7 +7370,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 
   /* permet d'afficher le nom du tiers, activé uniquement si on utilise les tiers */
 
-  bouton_afficher_noms_tiers = gtk_check_button_new_with_label ( _("Afficher le nom du tiers") );
+  bouton_afficher_noms_tiers = gtk_check_button_new_with_label ( _("Display third party's name") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_afficher_noms_tiers,
 		       FALSE,
@@ -7386,7 +7386,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
   /* permet d'afficher un ss total lors de chgt de tiers */
   /* activé uniquement si on utilise les tiers */
 
-  bouton_affiche_sous_total_tiers = gtk_check_button_new_with_label ( _("Afficher un sous-total lors du changement de tiers") );
+  bouton_affiche_sous_total_tiers = gtk_check_button_new_with_label ( _("Dsplay a sub-total for each third party") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_affiche_sous_total_tiers,
 		       FALSE,
@@ -7414,7 +7414,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 
   /* mise en place de la frame des catégories */
 
-  frame = gtk_frame_new ( COLON(_("Catégories")));
+  frame = gtk_frame_new ( COLON(_("Categories")));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       frame,
 		       FALSE,
@@ -7433,7 +7433,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 
   /* affichage possible du nom de la categ */
 
-  bouton_afficher_noms_categ = gtk_check_button_new_with_label ( _("Afficher le nom de la (sous-)catégorie") );
+  bouton_afficher_noms_categ = gtk_check_button_new_with_label ( _("Display the (sub)category's name") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_afficher_noms_categ,
 		       FALSE,
@@ -7449,7 +7449,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
   /* permet d'afficher un sous total lors de chgt de categ */
   /* activé uniquement si on utilise les categ */
 
-  bouton_affiche_sous_total_categ = gtk_check_button_new_with_label ( _("Afficher un sous-total lors du changement de catégorie") );
+  bouton_affiche_sous_total_categ = gtk_check_button_new_with_label ( _("Display a sub-total for each category") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_affiche_sous_total_categ,
 		       FALSE,
@@ -7464,7 +7464,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 
   /* mise en place du bouton pour afficher les sous categ */
 
-  bouton_afficher_sous_categ = gtk_check_button_new_with_label ( _("Afficher les sous-catégories") );
+  bouton_afficher_sous_categ = gtk_check_button_new_with_label ( _("Display sub-categories") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_afficher_sous_categ,
 		       FALSE,
@@ -7478,7 +7478,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 		       bouton_afficher_sous_categ );
 
 
-  bouton_affiche_sous_total_sous_categ = gtk_check_button_new_with_label ( _("Afficher un sous-total lors du changement de sous-catégorie") );
+  bouton_affiche_sous_total_sous_categ = gtk_check_button_new_with_label ( _("Display a sub-total for each sub-category") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_affiche_sous_total_sous_categ,
 		       FALSE,
@@ -7492,7 +7492,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 		       bouton_affiche_sous_total_sous_categ );
 
 
-  bouton_afficher_pas_de_sous_categ = gtk_check_button_new_with_label ( _("Afficher \"Pas de sous-catégorie\" si absente") );
+  bouton_afficher_pas_de_sous_categ = gtk_check_button_new_with_label ( _("Display \" No sub-category\" if none") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_afficher_pas_de_sous_categ,
 		       FALSE,
@@ -7509,7 +7509,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 
   /* mise en place de la frame des ib */
 
-  frame = gtk_frame_new ( COLON(_("Imputations budgétaires")));
+  frame = gtk_frame_new ( COLON(_("Budgetary lines")));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       frame,
 		       FALSE,
@@ -7526,7 +7526,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
   gtk_widget_show ( vbox );
 
 
-  bouton_afficher_noms_ib = gtk_check_button_new_with_label ( _("Afficher le nom de la (sous-)imputation") );
+  bouton_afficher_noms_ib = gtk_check_button_new_with_label ( _("Display the (sub-)budget line name") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_afficher_noms_ib,
 		       FALSE,
@@ -7542,7 +7542,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
   /* permet d'afficher un sous total lors de chgt d'ib */
   /* activé uniquement si on utilise les ib */
 
-  bouton_affiche_sous_total_ib = gtk_check_button_new_with_label ( _("Afficher un sous-total lors du changement d'imputation") );
+  bouton_affiche_sous_total_ib = gtk_check_button_new_with_label ( _("Display a sub-total for each budgetary line") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_affiche_sous_total_ib,
 		       FALSE,
@@ -7557,7 +7557,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 
   /* mise en place du bouton pour afficher les sous categ */
 
-  bouton_afficher_sous_ib = gtk_check_button_new_with_label ( _("Afficher les sous-imputations") );
+  bouton_afficher_sous_ib = gtk_check_button_new_with_label ( _("Display sub-budget lines") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_afficher_sous_ib,
 		       FALSE,
@@ -7570,7 +7570,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
 		       bouton_afficher_sous_ib );
 
-  bouton_affiche_sous_total_sous_ib = gtk_check_button_new_with_label ( _("Afficher un sous-total lors du changement de sous-imputation") );
+  bouton_affiche_sous_total_sous_ib = gtk_check_button_new_with_label ( _("Display a sub-total for each sub-budget line") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_affiche_sous_total_sous_ib,
 		       FALSE,
@@ -7584,7 +7584,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 		       bouton_affiche_sous_total_sous_ib );
 
 
-  bouton_afficher_pas_de_sous_ib = gtk_check_button_new_with_label ( _("Afficher \"Pas de sous-imputation\" si absente") );
+  bouton_afficher_pas_de_sous_ib = gtk_check_button_new_with_label ( _("Display \"No sub-budgetary line\" if none") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_afficher_pas_de_sous_ib,
 		       FALSE,
@@ -7639,7 +7639,7 @@ GtkWidget *onglet_etat_mode_paiement ( void )
   /* on met dans la partie de gauche une liste contenant les modes de paiement à */
   /* sélectionner */
 
-  bouton_detaille_mode_paiement_etat = gtk_check_button_new_with_label ( _("Sélectionner les opérations en fonction des modes de règlement"));
+  bouton_detaille_mode_paiement_etat = gtk_check_button_new_with_label ( _("Select the transactions by method of payment"));
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_detaille_mode_paiement_etat ),
 			      "toggled",
 			      GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
@@ -7666,7 +7666,7 @@ GtkWidget *onglet_etat_mode_paiement ( void )
 		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
 		       vbox_mode_paiement_etat );
 
-  label = gtk_label_new ( COLON(_("Sélectionner les modes de règlement à inclure dans l'état")) );
+  label = gtk_label_new ( COLON(_("Select methods of payment to include")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0.1,
 			   0.5 );
@@ -7728,7 +7728,7 @@ GtkWidget *onglet_etat_mode_paiement ( void )
 		       0 );
   gtk_widget_show ( vbox );
 
-  bouton = gtk_button_new_with_label ( _("Sélectionner tout") );
+  bouton = gtk_button_new_with_label ( _("Select all") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
@@ -7742,7 +7742,7 @@ GtkWidget *onglet_etat_mode_paiement ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-  bouton = gtk_button_new_with_label ( _("Désélectionner tout") );
+  bouton = gtk_button_new_with_label ( _("Unselect all") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),

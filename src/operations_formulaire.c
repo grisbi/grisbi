@@ -230,8 +230,8 @@ GtkWidget *creation_formulaire ( void )
   widget_formulaire_operations[5] = gtk_option_menu_new ();
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
 			 widget_formulaire_operations[5],
-			 _("Choix de la devise"),
-			 _("Choix de la devise") );
+			 _("Choose currency"),
+			 _("Choose currency") );
   menu = creation_option_menu_devises ( -1,
 					liste_struct_devises );
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[5] ),
@@ -370,8 +370,8 @@ GtkWidget *creation_formulaire ( void )
   widget_formulaire_operations[9] = gtk_option_menu_new ();
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
 			 widget_formulaire_operations[9],
-			 _("Choix du mode de règlement"),
-			 _("Choix du mode de règlement") );
+			 _("Choose the method of payment"),
+			 _("Choose the method of payment") );
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_operations[9] ),
 		       "key_press_event",
 		       GTK_SIGNAL_FUNC ( touches_champ_formulaire ),
@@ -403,8 +403,8 @@ GtkWidget *creation_formulaire ( void )
   widget_formulaire_operations[11] = gtk_option_menu_new ();
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
 			 widget_formulaire_operations[11],
-			 _("Choix de l'exercice"),
-			 _("Choix de l'exercice") );
+			 _("Choose the financial year"),
+			 _("Choose the financial year") );
   menu = gtk_menu_new ();
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[11] ),
 			     creation_menu_exercices (0) );
@@ -469,8 +469,8 @@ GtkWidget *creation_formulaire ( void )
   widget_formulaire_operations[13] = gtk_option_menu_new ();
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
 			 widget_formulaire_operations[13],
-			 _("Mode de règlement de la contre-opération"),
-			 _("Mode de règlement de la contre-opération") );
+			 _("Contra-transaction method of payment"),
+			 _("Contra-transaction method of payment") );
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_operations[13] ),
 		       "key_press_event",
 		       GTK_SIGNAL_FUNC ( touches_champ_formulaire ),
@@ -515,7 +515,7 @@ GtkWidget *creation_formulaire ( void )
 
   /* mise en forme du bouton ventilation */
 
-  widget_formulaire_operations[15] = gtk_button_new_with_label ( _("Ventilation") );
+  widget_formulaire_operations[15] = gtk_button_new_with_label ( _("Breakdown") );
   gtk_button_set_relief ( GTK_BUTTON ( widget_formulaire_operations[15] ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_operations[15] ),
@@ -791,7 +791,7 @@ void entree_perd_focus ( GtkWidget *entree,
       if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	completion_operation_par_tiers ();
       else
-	texte = _("Tiers");
+	texte = _("Third party");
       break;
 
       /*       on sort du débit : soit vide, soit change le menu des types s'il ne correspond pas */
@@ -883,7 +883,7 @@ void entree_perd_focus ( GtkWidget *entree,
 	    }
 	}
       else
-	texte = _("Débit");
+	texte = _("Debit");
       break;
 
       /*       on sort du crédit : soit vide, soit change le menu des types s'il n'y a aucun tiers ( <=> nouveau tiers ) */
@@ -974,14 +974,14 @@ void entree_perd_focus ( GtkWidget *entree,
 	    }
 	}
       else
-	texte = _("Crédit");
+	texte = _("Credit");
       break;
 
     case 7:
       if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	modifie_date ( entree );
       else
-	texte = _("Date de valeur");
+	texte = _("Value date");
       break;
 
 
@@ -993,7 +993,7 @@ void entree_perd_focus ( GtkWidget *entree,
       if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	{
 	  if ( strcmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_operations[8]))),
-			_("Opération ventilée") ))
+			_("Breakdown of transaction") ))
 	    {
 	      gchar **tableau_char;
 
@@ -1018,7 +1018,7 @@ void entree_perd_focus ( GtkWidget *entree,
 	      if ( strlen ( tableau_char[0] ) )
 		{
 		  if ( !strcmp ( tableau_char[0],
-				 _("Virement") )
+				 _("Transfer") )
 		       && tableau_char[1]
 		       && strlen ( tableau_char[1]) )
 		    {
@@ -1027,7 +1027,7 @@ void entree_perd_focus ( GtkWidget *entree,
 		      gint i;
 
 		      if ( strcmp ( tableau_char[1],
-				    _("Compte supprimé") ) )
+				    _("Deleted account") ) )
 			{
 			  /* recherche le no de compte du virement */
 
@@ -1113,23 +1113,23 @@ void entree_perd_focus ( GtkWidget *entree,
 	    }
 	}
       else
-	texte = _("Catégories : Sous-catégories");
+	texte = _("Categories : Sub-categories");
 
       break;
 
     case 10:
       if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-	texte = _("n° Chèque/Virement");
+	texte = _("Cheque/Transfer number");
       break;
 
     case 12:
       if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-	texte = _("Imputation budgétaire");
+	texte = _("Budgetary line");
       break;
 
     case 14:
       if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-	texte = _("Pièce comptable");
+	texte = _("Voucher");
 
       break;
 
@@ -1140,7 +1140,7 @@ void entree_perd_focus ( GtkWidget *entree,
 
     case 17:
       if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-	texte = _("Informations banque/guichet");
+	texte = _("Bank references");
       break;
 
     default :
@@ -1335,7 +1335,7 @@ void clique_champ_formulaire ( GtkWidget *entree,
 
 	  /* ajoute le bouton annuler */
 
-	  bouton = gtk_button_new_with_label ( _("Annuler") );
+	  bouton = gtk_button_new_with_label ( _("Cancel") );
 	  gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
 				      "clicked",
 				      GTK_SIGNAL_FUNC ( ferme_calendrier ),
@@ -1460,7 +1460,7 @@ void clique_champ_formulaire ( GtkWidget *entree,
 
  	  /* ajoute le bouton annuler */
 
- 	  bouton = gtk_button_new_with_label ( _("Annuler") );
+ 	  bouton = gtk_button_new_with_label ( _("Cancel") );
  	  gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
  				      "clicked",
  				      GTK_SIGNAL_FUNC ( ferme_calendrier ),
@@ -1598,7 +1598,7 @@ void touches_champ_formulaire ( GtkWidget *widget,
 	    gtk_widget_set_style (widget_formulaire_operations[4],
 				  style_entree_formulaire[1] );
 	    gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[4]),
-				 _("Crédit") );
+				 _("Credit") );
 	  }
 
       /* on sélectionne le contenu de la nouvelle entrée */
@@ -2155,19 +2155,19 @@ void completion_operation_par_tiers ( void )
       /* on demande si on veut récupérer les anciennes opés de ventilation */
 
       gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ),
-			      _("Opération ventilée") );
+			      _("Breakdown of transaction") );
       gtk_widget_show ( widget_formulaire_operations[15] );
 
       /* affiche la question de récupération */
 
-      dialog = gnome_dialog_new ( _("Récupération des ventilations ?"),
+      dialog = gnome_dialog_new ( _("Recover breakdown?"),
 				  GNOME_STOCK_BUTTON_YES,
 				  GNOME_STOCK_BUTTON_NO,
 				  NULL );
       gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
 				     GTK_WINDOW ( window ));
 
-      label = gtk_label_new ( _("Voulez-vous récupérer aussi les opérations de la dernière ventilation ?") );
+      label = gtk_label_new ( _("Do you want to recover all the lines of the last breakdown?") );
       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 			   label,
 			   FALSE,
@@ -2264,7 +2264,7 @@ void completion_operation_par_tiers ( void )
 
 	if ( operation -> relation_no_operation != -1 )
 	  gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ),
-				  g_strconcat ( COLON(_("Virement")),
+				  g_strconcat ( COLON(_("Transfer")),
 						NOM_DU_COMPTE,
 						NULL ));
 	else
@@ -2428,7 +2428,7 @@ void fin_edition ( void )
   liste_no_tiers = NULL;
 
   if ( strncmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_operations[2] ))),
-		 COLON(_("État")),
+		 COLON(_("Report")),
 		 7 ))
     /*     ce n'est pas un état, on met -1 comme no de tiers */
     liste_no_tiers = g_slist_append (liste_no_tiers,
@@ -2503,7 +2503,7 @@ void fin_edition ( void )
 	liste_tmp = NULL;
       else if ( liste_tmp -> data == NULL )
 	{
-	  dialogue ( _("Erreur: cet état ne comporte pas de tiers sélectionnés."));
+	  dialogue ( _("Error: no third party selected for this report."));
 	  return;
 	}
       else
@@ -2679,7 +2679,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 
   if ( gtk_widget_get_style ( widget_formulaire_operations[1] ) != style_entree_formulaire[0] )
     {
-      dialogue ( PRESPACIFY(_("Erreur : il faut obligatoirement entrer une date.")));
+      dialogue ( PRESPACIFY(_("Error: you must enter a date.")));
       return (FALSE);
     }
 
@@ -2687,7 +2687,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 
   if ( !modifie_date ( widget_formulaire_operations[1] ))
     {
-      dialogue ( PRESPACIFY(_("Erreur : La date est invalide")) );
+      dialogue ( PRESPACIFY(_("Error: invalid date")) );
       gtk_widget_grab_focus ( widget_formulaire_operations[1] );
       gtk_entry_select_region ( GTK_ENTRY (  widget_formulaire_operations[1]),
 				0,
@@ -2707,7 +2707,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
        &&
        !modifie_date ( widget_formulaire_operations[7] ))
     {
-      dialogue ( PRESPACIFY(_("Erreur : La date de valeur est invalide")) );
+      dialogue ( PRESPACIFY(_("Error: invalid date.")) );
       gtk_widget_grab_focus ( widget_formulaire_operations[7] );
       gtk_entry_select_region ( GTK_ENTRY (  widget_formulaire_operations[7]),
  				0,
@@ -2733,7 +2733,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
       if ( strlen ( tableau_char[0] ) )
 	{
 	  if ( !strcmp ( tableau_char[0],
-			 _("Virement") )
+			 _("Transfer") )
 	       && tableau_char[1]
 	       && strlen ( tableau_char[1]) )
 	    {
@@ -2741,7 +2741,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 	      /* si c'est un virement vers un compte supprimé, laisse passer */
 
 	      if ( strcmp ( tableau_char[1],
-			    _("Compte supprimé") ) )
+			    _("Deleted account") ) )
 		{
 		  /* recherche le no de compte du virement */
 
@@ -2764,13 +2764,13 @@ gint verification_validation_operation ( struct structure_operation *operation )
 
 		  if ( compte_virement == -1 )
 		    {
-		      dialogue ( _("Erreur : le compte associé au virement est invalide") );
+		      dialogue ( _("Warning: the associated account for this transfer is invalid") );
 		      return (FALSE);
 		    }
 
 		  if ( compte_virement == compte_courant )
 		    {
-		      dialogue ( PRESPACIFY(_("Erreur : impossibilité de virer un compte   \n    sur lui-même")));
+		      dialogue ( PRESPACIFY(_("Error: impossible to transfer an account   \n    on itself")));
 		      return (FALSE);
 		    }
 		}
@@ -2799,7 +2799,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 
 	  if ( gtk_widget_get_style ( widget_formulaire_operations[10] ) == style_entree_formulaire[1] )
 	    {
-	      if ( question ( _("Le mode de règlement choisi est à numérotation automatique mais ne contient aucun numéro.\nSouhaitez-vous continuer ?") ) )
+	      if ( question ( _("Selected method of payment has an automatic incremental number\nbut doesn't contain any number.\nContinue anyway?") ) )
 		goto sort_test_cheques;
 	      else
 		return (FALSE);
@@ -2832,7 +2832,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 			   ||
 			   operation_tmp -> no_operation != operation -> no_operation )
 			{
-			  if ( question ( _("Attention, le numéro du chèque est déjà utilisé.\nSouhaitez-vous continuer ?") ))
+			  if ( question ( _("Warning: this cheque number is already used.\nContinue anyway?") ))
 			    goto sort_test_cheques;
 			  else
 			    return (FALSE);
@@ -2852,7 +2852,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
     /* sinon on va ventiler tout de suite */
 
     if ( !strcmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ))),
-		   _("Opération ventilée") )
+		   _("Breakdown of transaction") )
 	 &&
 	 !gtk_object_get_data ( GTK_OBJECT ( formulaire ),
 				"liste_adr_ventilation" ))
@@ -2872,7 +2872,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
   /*   on vérifie si le tiers est un état, que c'est une nouvelle opérations */
 
   if ( !strncmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_operations[2] ))),
-		  COLON(_("État")),
+		  COLON(_("Report")),
 		  7 ))
     {
       gint trouve;
@@ -2881,7 +2881,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 
       if ( operation )
 	{
-	  dialogue ( _("Erreur : Une opération dont le tiers est un état doit forcemment être une nouvelle opération.") );
+	  dialogue ( _("Error: a transaction with a multiple third party must be a new one.") );
 	  return (FALSE);
 	}
 
@@ -2915,7 +2915,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 
       if ( !trouve )
 	{
-	  dialogue ( _("Erreur : Le nom de l'état dans le tiers est invalide.") );
+	  dialogue ( _("Error: invalid multiple third party.") );
 	  return (FALSE);
 	}
     }
@@ -3233,7 +3233,7 @@ void recuperation_categorie_formulaire ( struct structure_operation *operation,
       /* récupération de la ventilation si nécessaire */
 
       if ( !strcmp ( g_strstrip ( pointeur_char ),
-		     _("Opération ventilée") ))
+		     _("Breakdown of transaction") ))
 	{
 	  /* c'est une opé ventilée, on va appeler la fonction validation_ope_de_ventilation */
 	  /* qui va créer les nouvelles opé, les contre-opérations et faire toutes les */
@@ -3316,7 +3316,7 @@ void recuperation_categorie_formulaire ( struct structure_operation *operation,
 	  if ( strlen ( tableau_char[0] ) )
 	    {
 	      if ( !strcmp ( tableau_char[0],
-			     _("Virement") )
+			     _("Transfer") )
 		   && tableau_char[1]
 		   && strlen ( tableau_char[1]) )
 		{
@@ -3328,7 +3328,7 @@ void recuperation_categorie_formulaire ( struct structure_operation *operation,
 		  /* sépare entre virement vers un compte et virement vers un compte supprimé */
 
 		  if ( strcmp ( tableau_char[1],
-				_("Compte supprimé") ) )
+				_("Deleted account") ) )
 		    {
 		      /* c'est un virement normal, on appelle la fonction qui va traiter ça */
 
@@ -3737,28 +3737,28 @@ void formulaire_a_zero (void)
 		       _("Date") );
 
   gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[2] ),
-			  _("Tiers") );
+			  _("Third party") );
   gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[3]),
-		       _("Débit") );
+		       _("Debit") );
   gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[4]),
-		       _("Crédit") );
+		       _("Credit") );
 
   gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[7]),
-		       _("Date de valeur") );
+		       _("Value date") );
   gtk_combofix_set_text ( GTK_COMBOFIX (widget_formulaire_operations[8]),
-			  _("Catégories : Sous-catégories") );
+			  _("Categories : Sub-categories") );
   gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[10]),
-		       _("n° Chèque/Virement") );
+		       _("Cheque/Transfer number") );
 
   gtk_combofix_set_text ( GTK_COMBOFIX (widget_formulaire_operations[12]),
-			  _("Imputation budgétaire") );
+			  _("Budgetary line") );
   gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[14]),
-		       _("Pièce comptable") );
+		       _("Voucher") );
 
   gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[16]),
 		       _("Notes") );
   gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[17]),
-		       _("Informations banque/guichet") );
+		       _("Bank references") );
 
   gtk_widget_hide ( widget_formulaire_operations[6] );
   gtk_widget_hide ( widget_formulaire_operations[13] );

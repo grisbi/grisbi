@@ -205,7 +205,7 @@ gboolean impression_etat ( struct struct_etat *etat )
   if (do_preview)
   {
       GnomePrintMasterPreview * pmp;
-      pmp = gnome_print_master_preview_new(gpm, _("Prévisualisation de l'impression de Grisbi"));
+      pmp = gnome_print_master_preview_new(gpm, _("Print Preview"));
       gtk_widget_show(GTK_WIDGET(pmp));
     }
   else

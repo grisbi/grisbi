@@ -74,8 +74,8 @@ GtkWidget *creation_barre_outils ( void )
 			  GTK_RELIEF_NONE );
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton_affiche_cache_formulaire,
-			 _("Affiche / Masque le formulaire"),
-			 _("Affiche / Masque le formulaire") );
+			 _("Display/Hide form"),
+			 _("Display/Hide form") );
   gtk_widget_set_usize ( bouton_affiche_cache_formulaire,
 			 15,
 			 15 );
@@ -134,8 +134,8 @@ GtkWidget *creation_barre_outils ( void )
 			  GTK_RELIEF_NONE );
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton_ope_4_lignes,
-			 _("4 lignes par opération"),
-			 _("4 lignes par opération") );
+			 _("Four lines per transaction"),
+			 _("Four lines per transaction") );
 
   icone = gnome_pixmap_new_from_xpm_d ( ope_4_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton_ope_4_lignes ),
@@ -163,8 +163,8 @@ GtkWidget *creation_barre_outils ( void )
 			  GTK_RELIEF_NONE );
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton_ope_3_lignes,
-			 _("3 lignes par opération"),
-			 _("3 lignes par opération") );
+			 _("Three lines per transaction"),
+			 _("Three lines per transaction") );
 
   icone = gnome_pixmap_new_from_xpm_d ( ope_3_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton_ope_3_lignes ),
@@ -191,8 +191,8 @@ GtkWidget *creation_barre_outils ( void )
 			  GTK_RELIEF_NONE );
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton_ope_2_lignes,
-			 _("2 lignes par opération"),
-			 _("2 lignes par opération") );
+			 _("Two lines per transaction"),
+			 _("Two lines per transaction") );
 
   icone = gnome_pixmap_new_from_xpm_d ( ope_2_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton_ope_2_lignes ),
@@ -220,8 +220,8 @@ GtkWidget *creation_barre_outils ( void )
 			  GTK_RELIEF_NONE );
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton_ope_1_lignes,
-			 _("1 ligne par opération"),
-			 _("1 ligne par opération") );
+			 _("One line per transaction"),
+			 _("One line per transaction") );
 
   icone = gnome_pixmap_new_from_xpm_d ( ope_1_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton_ope_1_lignes ),
@@ -256,8 +256,8 @@ GtkWidget *creation_barre_outils ( void )
 			  GTK_RELIEF_NONE );
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton_affiche_r,
-			 _("Opérations rapprochées non masquées"),
-			 _("Opérations rapprochées non masquées") );
+			 _("Display reconciled transactions"),
+			 _("Display reconciled transactions") );
   gtk_widget_set_usize ( bouton_affiche_r,
 			 15,
 			 15 );
@@ -283,8 +283,8 @@ GtkWidget *creation_barre_outils ( void )
 			  GTK_RELIEF_NONE );
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton_enleve_r,
-			 _("Opérations rapprochées masquées"),
-			 _("Opérations rapprochées masquées") );
+			 _("Mask reconciled transactions"),
+			 _("Mask reconciled transactions") );
   icone = gnome_pixmap_new_from_xpm_d ( ope_sans_r );
   gtk_container_add ( GTK_CONTAINER ( bouton_enleve_r ),
 		      icone );
@@ -313,7 +313,7 @@ GtkWidget *creation_barre_outils ( void )
 
 
 
-  label_proprietes_operations_compte = gtk_label_new (_("Opérations du compte"));
+  label_proprietes_operations_compte = gtk_label_new (_("Account transactions"));
   gtk_box_pack_end ( GTK_BOX ( hbox ),
 		     label_proprietes_operations_compte,
 		     FALSE,
@@ -738,8 +738,8 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 			  GTK_RELIEF_NONE );
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton_affiche_cache_formulaire_echeancier,
-			 _("Affiche / masque le formulaire"),
-			 _("Affiche / masque le formulaire") );
+			 _("Display/hide form"),
+			 _("Display/hide form") );
   gtk_widget_set_usize ( bouton_affiche_cache_formulaire_echeancier,
 			 15,
 			 15 );
@@ -828,8 +828,8 @@ GtkWidget *creation_barre_outils_tiers ( void )
 			GINT_TO_POINTER ( 0 ));
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton,
-			 _("Fermer l'arbre"),
-			 _("Fermer l'arbre") );
+			 _("Close tree"),
+			 _("Close tree") );
   icone = gnome_pixmap_new_from_xpm_d ( liste_0_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton ),
 		      icone );
@@ -857,8 +857,8 @@ GtkWidget *creation_barre_outils_tiers ( void )
 			GINT_TO_POINTER ( 1 ));
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton,
-			 _("Afficher les comptes"),
-			 _("Afficher les comptes") );
+			 _("Display accounts"),
+			 _("Display accounts") );
   icone = gnome_pixmap_new_from_xpm_d ( liste_1_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton ),
 		      icone );
@@ -886,8 +886,8 @@ GtkWidget *creation_barre_outils_tiers ( void )
 			GINT_TO_POINTER ( 2 ));
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton,
-			 _("Afficher les opérations"),
-			 _("Afficher les opérations") );
+			 _("Display transactions"),
+			 _("Display transactions") );
   icone = gnome_pixmap_new_from_xpm_d ( liste_2_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton ),
 		      icone );
@@ -953,8 +953,8 @@ GtkWidget *creation_barre_outils_categ ( void )
 			GINT_TO_POINTER ( 0 ));
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton,
-			 _("Fermer l'arbre"),
-			 _("Fermer l'arbre") );
+			 _("Close tree"),
+			 _("Close tree") );
   icone = gnome_pixmap_new_from_xpm_d ( liste_0_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton ),
 		      icone );
@@ -982,8 +982,8 @@ GtkWidget *creation_barre_outils_categ ( void )
 			GINT_TO_POINTER ( 1 ));
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton,
-			 _("Afficher les sous-divisions"),
-			 _("Afficher les sous-divisions") );
+			 _("Display sub-divisions"),
+			 _("Display sub-divisions") );
   icone = gnome_pixmap_new_from_xpm_d ( liste_1_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton ),
 		      icone );
@@ -1011,8 +1011,8 @@ GtkWidget *creation_barre_outils_categ ( void )
 			GINT_TO_POINTER ( 2 ));
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton,
-			 _("Afficher les comptes"),
-			 _("Afficher les comptes") );
+			 _("Display accounts"),
+			 _("Display accounts") );
   icone = gnome_pixmap_new_from_xpm_d ( liste_2_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton ),
 		      icone );
@@ -1040,8 +1040,8 @@ GtkWidget *creation_barre_outils_categ ( void )
 			GINT_TO_POINTER ( 3 ));
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton,
-			 _("Afficher les opérations"),
-			 _("Afficher les opérations") );
+			 _("Display transactions"),
+			 _("Display transactions") );
   icone = gnome_pixmap_new_from_xpm_d ( liste_3_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton ),
 		      icone );
@@ -1108,8 +1108,8 @@ GtkWidget *creation_barre_outils_imputation ( void )
 			GINT_TO_POINTER ( 0 ));
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton,
-			 _("Fermer l'arbre"),
-			 _("Fermer l'arbre") );
+			 _("Close tree"),
+			 _("Close tree") );
   icone = gnome_pixmap_new_from_xpm_d ( liste_0_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton ),
 		      icone );
@@ -1137,8 +1137,8 @@ GtkWidget *creation_barre_outils_imputation ( void )
 			GINT_TO_POINTER ( 1 ));
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton,
-			 _("Afficher les sous-divisions"),
-			 _("Afficher les sous-divisions") );
+			 _("Display sub-divisions"),
+			 _("Display sub-divisions") );
   icone = gnome_pixmap_new_from_xpm_d ( liste_1_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton ),
 		      icone );
@@ -1166,8 +1166,8 @@ GtkWidget *creation_barre_outils_imputation ( void )
 			GINT_TO_POINTER ( 2 ));
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton,
-			 _("Afficher les comptes"),
-			 _("Afficher les comptes") );
+			 _("Display accounts"),
+			 _("Display accounts") );
   icone = gnome_pixmap_new_from_xpm_d ( liste_2_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton ),
 		      icone );
@@ -1195,8 +1195,8 @@ GtkWidget *creation_barre_outils_imputation ( void )
 			GINT_TO_POINTER ( 3 ));
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton,
-			 _("Afficher les opérations"),
-			 _("Afficher les opérations") );
+			 _("Display transactions"),
+			 _("Display transactions") );
   icone = gnome_pixmap_new_from_xpm_d ( liste_3_xpm );
   gtk_container_add ( GTK_CONTAINER ( bouton ),
 		      icone );

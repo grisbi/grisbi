@@ -35,7 +35,7 @@ void preferences ( GtkWidget *widget,
 
   fenetre_preferences = gnome_property_box_new ();
   gtk_window_set_title ( GTK_WINDOW ( fenetre_preferences ),
-			 _("Configuration Grisbi") );
+			 _("Grisbi setup") );
   gtk_window_set_transient_for ( GTK_WINDOW (fenetre_preferences),
 				 GTK_WINDOW (window));
   gtk_window_set_modal ( GTK_WINDOW (fenetre_preferences),
@@ -50,27 +50,27 @@ void preferences ( GtkWidget *widget,
 
   gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
 				   onglet_general(),
-				   gtk_label_new ( _("Général") ) );
+				   gtk_label_new ( _("Main") ) );
 
 
 /* création du 2ème onglet */
 
   gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
 				   onglet_fichier(),
-				   gtk_label_new ( _("Fichiers")  ));
+				   gtk_label_new ( _("Files")  ));
 
 /* création du 3ème onglet */
 
   gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
 				   onglet_echeances(),
-				   gtk_label_new ( _("Échéances") ) );
+				   gtk_label_new ( _("Scheduler") ) );
 
 
 /* création du 4ème onglet */
 
   gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
 				   onglet_affichage(),
-				   gtk_label_new ( _("Affichage") ) );
+				   gtk_label_new ( _("Display") ) );
 
 
 /* création du 5ème onglet */
@@ -85,32 +85,32 @@ void preferences ( GtkWidget *widget,
 
   gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
 				   onglet_devises(),
-				   gtk_label_new ( _("Devises") ) );
+				   gtk_label_new ( _("Currencies") ) );
 
 
 /* création du 7ème onglet */
 
   gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
 				   onglet_banques(),
-				   gtk_label_new ( _("Banques") ) );
+				   gtk_label_new ( _("Banks") ) );
 
 /* création du 9ème onglet */
 
   gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
 				   onglet_exercices(),
-				   gtk_label_new ( _("Exercices") ) );
+				   gtk_label_new ( _("Financial years") ) );
 
 /* création du 9ème onglet */
 
   gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
 				   onglet_types_operations(),
-				   gtk_label_new ( _("Modes de règlement") ) );
+				   gtk_label_new ( _("Methods of payment") ) );
 
 /* création du 10ème onglet */
 
   gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
 				   onglet_affichage_liste(),
-				   gtk_label_new ( _("Informations affichées") ) );
+				   gtk_label_new ( _("Informations") ) );
 
 /* connection du bouton appliquer */
 
@@ -182,7 +182,7 @@ GtkWidget *onglet_general ( void )
 /* action de la touche entree */
 
   bouton_entree_enregistre = gtk_radio_button_new_with_label ( NULL,
-						       SPACIFY(_("ENTREE provoque l'enregistrement de l'opération")) );
+						       SPACIFY(_("ENTER means save the transaction")) );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_entree_enregistre,
 		       FALSE,
@@ -191,7 +191,7 @@ GtkWidget *onglet_general ( void )
   gtk_widget_show ( bouton_entree_enregistre );
 
   bouton_entree_enregistre_pas = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_entree_enregistre )),
-								   SPACIFY(_("ENTREE permet le passage entre les champs du formulaire")) );
+								   SPACIFY(_("ENTER means switch beetween the form fields")) );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_entree_enregistre_pas,
 		       FALSE,
@@ -224,7 +224,7 @@ GtkWidget *onglet_general ( void )
 /* affichage ou non d'un message d'alerte quand passage sous les soldes minis */
 
   bouton_solde_mini = gtk_radio_button_new_with_label ( NULL,
-							SPACIFY(_("Message d'alerte en cas de dépassement des seuils mini définis")) );
+							SPACIFY(_("Warning message if the minimum balances are over minimum level defined")) );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_solde_mini,
 		       FALSE,
@@ -233,7 +233,7 @@ GtkWidget *onglet_general ( void )
   gtk_widget_show ( bouton_solde_mini );
 
    bouton_pas_solde_mini= gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_solde_mini )),
-						     SPACIFY(_("Pas de message d'alerte")) );
+						     SPACIFY(_("No warnings")) );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_pas_solde_mini,
 		       FALSE,
@@ -268,7 +268,7 @@ GtkWidget *onglet_general ( void )
 /* affichage ou non d'un message d'alerte sur la permission du fichier de compte */
 
   bouton_affiche_permission = gtk_radio_button_new_with_label ( NULL,
-							SPACIFY(_("Message d'alerte lorsque la permission du fichier n'est pas de 600")) );
+							SPACIFY(_("Warning message if the file is readable by someone else")) );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_affiche_permission,
 		       FALSE,
@@ -277,7 +277,7 @@ GtkWidget *onglet_general ( void )
   gtk_widget_show ( bouton_affiche_permission );
 
   bouton_affiche_pas_permission = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_affiche_permission )),
-							   SPACIFY(_("Pas de message d'alerte")) );
+							   SPACIFY(_("No warnings")) );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_affiche_pas_permission,
 		       FALSE,
@@ -343,7 +343,7 @@ GtkWidget *onglet_general ( void )
 		       0);
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( COLON(_("Titre du fichier")) );
+  label = gtk_label_new ( COLON(_("File name")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -381,7 +381,7 @@ GtkWidget *onglet_general ( void )
 		       0);
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( COLON(_("Adresse commune")) );
+  label = gtk_label_new ( COLON(_("Common address")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -431,7 +431,7 @@ GtkWidget *onglet_general ( void )
 		       0);
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( COLON(_("Adresse secondaire")) );
+  label = gtk_label_new ( COLON(_("Secondary address")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -540,7 +540,7 @@ GtkWidget *onglet_fichier ( void )
 /* configuration du démarrage automatique du dernier fichier ou non */
 
   bouton_avec_demarrage = gtk_radio_button_new_with_label ( NULL,
-							    SPACIFY(_("Chargement automatique du dernier fichier consulté")) );
+							    SPACIFY(_("Automatic loading of the last file used")) );
   gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
 		       bouton_avec_demarrage,
 		       FALSE,
@@ -549,7 +549,7 @@ GtkWidget *onglet_fichier ( void )
   gtk_widget_show ( bouton_avec_demarrage );
 
   bouton_sans_demarrage = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_avec_demarrage )),
-						     SPACIFY(_("Démarrage sans chargement automatique")) );
+						     SPACIFY(_("Start without automatic loading")) );
   gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
 		       bouton_sans_demarrage,
 		       FALSE,
@@ -581,7 +581,7 @@ GtkWidget *onglet_fichier ( void )
   /* configuration de la sauvegarde automatique */
 
   bouton_save_auto = gtk_radio_button_new_with_label ( NULL,
-							    SPACIFY(_("Enregistrer automatiquement en fermant")) );
+							    SPACIFY(_("Automatically save while closing")) );
   gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
 		       bouton_save_auto,
 		       FALSE,
@@ -590,7 +590,7 @@ GtkWidget *onglet_fichier ( void )
   gtk_widget_show (bouton_save_auto  );
 
   bouton_save_non_auto = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_save_auto )),
-							   SPACIFY(_("Demander à chaque fois pour enregistrer")) );
+							   SPACIFY(_("Ask each time for saving")) );
   gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
 		       bouton_save_non_auto,
 		       FALSE,
@@ -622,7 +622,7 @@ GtkWidget *onglet_fichier ( void )
 /* configuration de l'enregistrement forcé */
 
   bouton_force_enregistrement = gtk_radio_button_new_with_label ( NULL,
-							    SPACIFY(_("Forcer l'enregistrement")) );
+							    SPACIFY(_("Force saving")) );
   gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
 		       bouton_force_enregistrement,
 		       FALSE,
@@ -631,7 +631,7 @@ GtkWidget *onglet_fichier ( void )
   gtk_widget_show ( bouton_force_enregistrement );
 
   bouton_force_pas_enregistrement = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_force_enregistrement )),
-							   SPACIFY(_("N'enregistrer que si le fichier n'est pas utilisé par un autre utilisateur")) );
+							   SPACIFY(_("Save only if the file isn't open by another user")) );
   gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
 		       bouton_force_pas_enregistrement,
 		       FALSE,
@@ -686,7 +686,7 @@ GtkWidget *onglet_fichier ( void )
 
   /* mise en forme de la demande de backup */
 
-  bouton_demande_backup = gtk_check_button_new_with_label ( _("Faire une sauvegarde automatique (backup)") );
+  bouton_demande_backup = gtk_check_button_new_with_label ( _("Automatic backup") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_demande_backup,
 		       FALSE,
@@ -715,7 +715,7 @@ GtkWidget *onglet_fichier ( void )
       /* mise en forme de l'entrée du chemin de la backup */
 
       entree_chemin_backup = gnome_file_entry_new ( "backup_grisbi",
-						    _("Backup Grisbi") );
+						    _("Grisbi backup") );
       gtk_widget_set_usize ( gnome_file_entry_gnome_entry ( GNOME_FILE_ENTRY ( entree_chemin_backup )),
 			     300,
 			     FALSE );
@@ -753,7 +753,7 @@ GtkWidget *onglet_fichier ( void )
 
   /* mise en forme de la demande de sauvegarde à l'ouverture */
 
-  bouton_save_demarrage = gtk_check_button_new_with_label ( _("Faire une sauvegarde à chaque ouverture (~/.nom_du_fichier.bak)") );
+  bouton_save_demarrage = gtk_check_button_new_with_label ( _("Backup at each opening (~/.filename.bak)") );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_save_demarrage ),
 			      "toggled",
 			      GTK_SIGNAL_FUNC ( gnome_property_box_changed),
@@ -789,7 +789,7 @@ GtkWidget *onglet_fichier ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( COLON(_("Mémorisation des derniers fichiers ouverts")) );
+  label = gtk_label_new ( COLON(_("Memorise last opened files")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -829,7 +829,7 @@ GtkWidget *onglet_fichier ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( COLON(_("Niveau de compression du fichier")) );
+  label = gtk_label_new ( COLON(_("File compression level")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -869,7 +869,7 @@ GtkWidget *onglet_fichier ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( COLON(_("Niveau de compression de la sauvegarde")) );
+  label = gtk_label_new ( COLON(_("Backup compression level")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -941,7 +941,7 @@ GtkWidget *onglet_echeances ( void )
 
 /*   configuration du nb de jours avant la prise d'une échéance  */
 
-  label = gtk_label_new ( SPACIFY(COLON(_("Nombre de jours précédant le rappel d'une échéance"))) );
+  label = gtk_label_new ( SPACIFY(COLON(_("Number of days before a warning message advertising a scheduled transaction"))) );
   gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
 		       label,
 		       FALSE,
@@ -1035,7 +1035,7 @@ GtkWidget *onglet_applet ( void )
 
 /* affichage ou non de l'applet */
 
-  bouton_affichage_applet = gtk_check_button_new_with_label ( _("Utiliser l'applet de vérification des échéances") );
+  bouton_affichage_applet = gtk_check_button_new_with_label ( _("Use the applet for checking scheduled transactions") );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affichage_applet ),
 				  verifie_affichage_applet () );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_affichage_applet ),
@@ -1063,7 +1063,7 @@ GtkWidget *onglet_applet ( void )
 
 /* affiche la liste des comptes à vérifier */
 
-  frame_demarrage = gtk_frame_new ( SPACIFY(_("Liste des comptes vérifiés au démarrage")) );
+  frame_demarrage = gtk_frame_new ( SPACIFY(_("List of the account files that will be checked")) );
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame_demarrage ),
 			      GTK_SHADOW_ETCHED_OUT );
   gtk_widget_set_sensitive ( GTK_WIDGET ( frame_demarrage ),
@@ -1236,7 +1236,7 @@ void ajouter_verification ( GtkWidget *bouton_add,
   GSList *pointeur_liste;
   FILE *fichier;
 
-  dialogue_box = gnome_dialog_new ( _("Recherche de fichier Grisbi"),
+  dialogue_box = gnome_dialog_new ( _("Looking for the Grisbi file"),
 				GNOME_STOCK_BUTTON_OK,
 				GNOME_STOCK_BUTTON_CANCEL,
 				NULL );
@@ -1251,7 +1251,7 @@ void ajouter_verification ( GtkWidget *bouton_add,
 		       GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
 		        "destroy" );
 
-  label = gtk_label_new ( COLON(_("Entrez le nom du fichier de comptes")) );
+  label = gtk_label_new ( COLON(_("Enter the accounts file")) );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue_box ) -> vbox ),
 		       label,
 		       TRUE,
@@ -1261,7 +1261,7 @@ void ajouter_verification ( GtkWidget *bouton_add,
 
 
   fenetre_choix_fichier = gnome_file_entry_new ( "fichier_grisbi",
-						 _("Fichier Grisbi") );
+						 _("Grisbi file") );
   gnome_file_entry_set_default_path ( GNOME_FILE_ENTRY ( fenetre_choix_fichier ),
 				      dernier_chemin_de_travail );
   gtk_widget_set_usize ( gnome_file_entry_gnome_entry ( GNOME_FILE_ENTRY ( fenetre_choix_fichier )),
@@ -1298,7 +1298,7 @@ void ajouter_verification ( GtkWidget *bouton_add,
 	    if ( !strcmp ( pointeur_liste -> data, nom_fichier ) )
 	      {
 		gnome_dialog_close  ( GNOME_DIALOG ( dialogue_box ) );
-		dialogue ( SPACIFY(_("Ce fichier est déjà vérifié au démarrage !")));
+		dialogue ( SPACIFY(_("This accounts file has already been checked!")));
 		return;
 	      }
 	  while ( ( pointeur_liste = pointeur_liste-> next ));
@@ -1325,7 +1325,7 @@ void ajouter_verification ( GtkWidget *bouton_add,
 			"<Grisbi>" ))
 	    {
 	      gnome_dialog_close  ( GNOME_DIALOG ( dialogue_box ) );
-	      dialogue ( _("Ce n'est pas un fichier de compte Grisbi.") );
+	      dialogue ( _("This file is not a grisbi file") );
 	      fclose ( fichier );
 	      return;
 	    }
@@ -1335,7 +1335,7 @@ void ajouter_verification ( GtkWidget *bouton_add,
       else
 	{
 	  gnome_dialog_close  ( GNOME_DIALOG ( dialogue_box ) );
-	  dialogue ( g_strconcat ( _("Erreur :\n"),
+	  dialogue ( g_strconcat ( _("Error:\n"),
 				   strerror ( errno ),
 				   NULL ));
 	  return;
@@ -1635,7 +1635,7 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
       xmlSetCompressMode ( compression_fichier );
 
       if ( compression_fichier )
-	dialogue ( _("Attention, la compression du fichier empêche la vérification multi-utilisateurs.") );
+	dialogue ( _("Warning: the compression disables the multi-users checking.") );
 
       break;
 
@@ -1784,25 +1784,25 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 		{
 		  gtk_clist_set_column_title ( GTK_CLIST ( arbre_tiers ),
 					       0,
-					       _("Liste des tiers (écritures)") );
+					       _("Third parties list (transactions)") );
 		  gtk_clist_set_column_title ( GTK_CLIST ( arbre_categ ),
 					       0,
-					       _("Liste des catégories (écritures)") );
+					       _("Categories list (transactions)") );
 		  gtk_clist_set_column_title ( GTK_CLIST ( arbre_imputation ),
 					       0,
-					       _("Liste des imputations budgétaires (écritures)") );
+					       _("Budgetary lines list (transactions)") );
 		}
 	      else
 		{
 		  gtk_clist_set_column_title ( GTK_CLIST ( arbre_tiers ),
 					       0,
-					       _("Liste des tiers") );
+					       _("Third parties list") );
 		  gtk_clist_set_column_title ( GTK_CLIST ( arbre_categ ),
 					       0,
-					       _("Liste des catégories") );
+					       _("Categories list") );
 		  gtk_clist_set_column_title ( GTK_CLIST ( arbre_imputation ),
 					       0,
-					       _("Liste des imputations budgétaires") );
+					       _("Budgetary lines list") );
 		}
 
 	      mise_a_jour_tiers ();

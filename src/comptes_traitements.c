@@ -127,7 +127,7 @@ gint initialisation_nouveau_compte ( gint type_de_compte )
 
   if  (!(p_tab_nom_de_compte = realloc ( p_tab_nom_de_compte, ( nb_comptes + 1 )* sizeof ( gpointer ) )))
     {
-      dialogue ( _("Erreur dans l'allocation de mémoire pour créer un nouveau compte !") );
+      dialogue ( _("Error: cannot allocate memory for this new account!") );
       return (-1);
     };
 
@@ -137,7 +137,7 @@ gint initialisation_nouveau_compte ( gint type_de_compte )
   if  (!(*p_tab_nom_de_compte_variable = calloc ( 1,
 						  sizeof (struct donnees_compte) )) )
     {
-      dialogue ( _("Erreur dans l'allocation de mémoire pour créer un nouveau compte !") );
+      dialogue ( _("Error: cannot allocate memory for this new account!") );
       return (-1);
     };
 
@@ -145,7 +145,7 @@ gint initialisation_nouveau_compte ( gint type_de_compte )
 
   /* insère ses paramètres ( comme c'est un appel à calloc, tout ce qui est à 0 est déjà initialisé )*/
 
-  NOM_DU_COMPTE = g_strdup ( _("Sans nom") );
+  NOM_DU_COMPTE = g_strdup ( _("No name") );
   OPERATION_SELECTIONNEE = GINT_TO_POINTER ( -1 );
   DEVISE = 1;
   MISE_A_JOUR = 1;
@@ -193,7 +193,7 @@ void supprimer_compte ( void )
   gint page_en_cours;
 
 
-  dialog = gnome_dialog_new ( _("Sélection d'un compte"),
+  dialog = gnome_dialog_new ( _("Select an account"),
 			      GNOME_STOCK_BUTTON_OK,
 			      GNOME_STOCK_BUTTON_CANCEL,
 			      NULL );
@@ -210,7 +210,7 @@ void supprimer_compte ( void )
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
-  label = gtk_label_new ( _("Choisir le compte à supprimer :\n\n\n( Attention, il s'agit d'un suppression définitive !\n Pour clôturer un compte, il faut\naller dans le détail du compte concerné. )") );
+  label = gtk_label_new ( _("Select the account to delete:\n\n\n(Be careful, the account will be permanently deleted!\nIf you just want to close the account, you must\ngo to the account properties.)") );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
 		       FALSE,
@@ -569,7 +569,7 @@ void creation_types_par_defaut ( gint no_compte,
 
       type_ope = malloc ( sizeof ( struct struct_type_ope ));
       type_ope -> no_type = 1;
-      type_ope -> nom_type = g_strdup ( _("Virement") );
+      type_ope -> nom_type = g_strdup ( _("Transfer") );
       type_ope -> signe_type = 0;
       type_ope -> affiche_entree = 1;
       type_ope -> numerotation_auto = 0;
@@ -581,7 +581,7 @@ void creation_types_par_defaut ( gint no_compte,
 
       type_ope = malloc ( sizeof ( struct struct_type_ope ));
       type_ope -> no_type = 2;
-      type_ope -> nom_type = g_strdup ( _("Dépôt") );
+      type_ope -> nom_type = g_strdup ( _("Deposit") );
       type_ope -> signe_type = 2;
       type_ope -> affiche_entree = 0;
       type_ope -> numerotation_auto = 0;
@@ -593,7 +593,7 @@ void creation_types_par_defaut ( gint no_compte,
 
       type_ope = malloc ( sizeof ( struct struct_type_ope ));
       type_ope -> no_type = 3;
-      type_ope -> nom_type = g_strdup ( _("C.B.") );
+      type_ope -> nom_type = g_strdup ( _("Credit card") );
       type_ope -> signe_type = 1;
       type_ope -> affiche_entree = 0;
       type_ope -> numerotation_auto = 0;
@@ -605,7 +605,7 @@ void creation_types_par_defaut ( gint no_compte,
 
       type_ope = malloc ( sizeof ( struct struct_type_ope ));
       type_ope -> no_type = 4;
-      type_ope -> nom_type = g_strdup ( _("Prélèvement") );
+      type_ope -> nom_type = g_strdup ( _("Direct debit") );
       type_ope -> signe_type = 1;
       type_ope -> affiche_entree = 0;
       type_ope -> numerotation_auto = 0;
@@ -617,7 +617,7 @@ void creation_types_par_defaut ( gint no_compte,
 
       type_ope = malloc ( sizeof ( struct struct_type_ope ));
       type_ope -> no_type = 5;
-      type_ope -> nom_type = g_strdup ( _("Chèque") );
+      type_ope -> nom_type = g_strdup ( _("Cheque") );
       type_ope -> signe_type = 1;
       type_ope -> affiche_entree = 1;
       type_ope -> numerotation_auto = 1;
@@ -656,7 +656,7 @@ void creation_types_par_defaut ( gint no_compte,
 
 	  type_ope = malloc ( sizeof ( struct struct_type_ope ));
 	  type_ope -> no_type = 1;
-	  type_ope -> nom_type = g_strdup ( _("Virement") );
+	  type_ope -> nom_type = g_strdup ( _("Transfer") );
 	  type_ope -> signe_type = 0;
 	  type_ope -> affiche_entree = 1;
 	  type_ope -> numerotation_auto = 0;
@@ -739,7 +739,7 @@ gint demande_type_nouveau_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( COLON(_("Type du compte")) );
+  label = gtk_label_new ( COLON(_("Account type")) );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,

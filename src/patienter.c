@@ -88,7 +88,7 @@ void mise_en_route_attente ( gchar *message )
 			  vbox );
       gtk_widget_show ( vbox );
 
-      label = gtk_label_new ( _("Veuillez patienter ...") );
+      label = gtk_label_new ( _("Wait please...") );
       gtk_box_pack_start ( GTK_BOX ( vbox ),
 			   label,
 			   FALSE,

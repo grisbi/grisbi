@@ -51,7 +51,7 @@ GtkWidget *creation_fenetre_principale (void )
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
 			     page_accueil,
-			     gtk_label_new (SPACIFY(_("Accueil"))) );
+			     gtk_label_new (SPACIFY(_("Main page"))) );
 
   /*  Céation de la fenêtre principale qui contient d'un côté */
   /*  les comptes, et de l'autre les opérations */
@@ -60,42 +60,42 @@ GtkWidget *creation_fenetre_principale (void )
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
 			     page_operations,
-			     gtk_label_new (SPACIFY(_("Opérations"))) );
+			     gtk_label_new (SPACIFY(_("Transactions"))) );
 
 /*   création de la fenetre des echéances */
 
   page_echeancier = creation_onglet_echeancier();
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
 			     page_echeancier,
-			     gtk_label_new (SPACIFY(_("Échéancier"))) );
+			     gtk_label_new (SPACIFY(_("Scheduler"))) );
 
 /*   création de la fenetre des comptes */
 
   page_comptes = creation_onglet_comptes ();
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
 			     page_comptes,
-			     gtk_label_new (SPACIFY(_("Comptes"))) );
+			     gtk_label_new (SPACIFY(_("Accounts"))) );
 
 /* Création de la fenetre des tiers */
 
   page_tiers = onglet_tiers();
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
 			     page_tiers,
-			     gtk_label_new (SPACIFY(_("Tiers"))) );
+			     gtk_label_new (SPACIFY(_("Third party"))) );
 
   /* création de la fenetre des categories */
 
   page_categories = onglet_categories();
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
 			     page_categories,
-			     gtk_label_new (SPACIFY(_("Catégories"))) );
+			     gtk_label_new (SPACIFY(_("Categories"))) );
 
   /* création de la fenetre des imputations budgétaires */
 
   page_imputations = onglet_imputations();
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
 			     page_imputations,
-			     gtk_label_new (SPACIFY(_("Imputations Budgétaires"))) );
+			     gtk_label_new (SPACIFY(_("Budgetary lines"))) );
 
   gtk_widget_set_sensitive ( page_imputations,
 			     etat.utilise_imputation_budgetaire );
@@ -105,7 +105,7 @@ GtkWidget *creation_fenetre_principale (void )
   page_etats = creation_onglet_etats ();
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
 			     page_etats,
-			     gtk_label_new (SPACIFY(_("États"))) );
+			     gtk_label_new (SPACIFY(_("Reports"))) );
 
 
 
@@ -116,13 +116,13 @@ GtkWidget *creation_fenetre_principale (void )
     {
       gtk_clist_set_column_title ( GTK_CLIST ( arbre_tiers ),
 				   0,
-				   _("Liste des tiers (écritures)") );
+				   _("Third parties list (transactions)") );
       gtk_clist_set_column_title ( GTK_CLIST ( arbre_categ ),
 				   0,
-				   _("Liste des catégories (écritures)") );
+				   _("Categories list (transactions)") );
       gtk_clist_set_column_title ( GTK_CLIST ( arbre_imputation ),
 				   0,
-				   _("Liste des imputations budgétaires (écritures)") );
+				   _("Budgetary lines list (transactions)") );
     }
 
 

@@ -108,7 +108,7 @@ void ouvrir_fichier ( void )
 {
   GtkWidget *selection_fichier;
 
-  selection_fichier = gtk_file_selection_new ( _("Ouverture d'un fichier de comptes"));
+  selection_fichier = gtk_file_selection_new ( _("Open an accounts file"));
   gtk_window_set_position ( GTK_WINDOW ( selection_fichier ),
 			    GTK_WIN_POS_MOUSE);
 
@@ -194,7 +194,7 @@ void fichier_selectionne ( GtkWidget *selection_fichier)
 
 void ouverture_confirmee ( void )
 {
-  mise_en_route_attente ( _("Chargement du fichier") );
+  mise_en_route_attente ( _("Load an accounts file") );
 
   /*   si nb_comptes est différent de 0, c'est que l'on veut tout redessiner car on a changé la fonte */
   /*  si charge opérations renvoie FALSE, c'est qu'il y a eu un pb et un message est déjà affiché */
@@ -214,7 +214,7 @@ void ouverture_confirmee ( void )
 	      gint i;
 	      gchar **parametres;
 
-	      dialogue ( _("Le chargement du fichier a échoué. Grisbi va maintenant essayer de charger\nla sauvegarde automatique réalisée lors de la dernière ouverture.\n(vous perdrez donc tous ce que vous avez fait lors de l'ouverture précédente)"));
+	      dialogue ( _("Loading of the file failed. Grisbi will now try to load\nthe last automatic backup.\nYou will loose all you made since this backup."));
 
 	      /* on crée le nom de la sauvegarde */
 
@@ -234,7 +234,7 @@ void ouverture_confirmee ( void )
 						  NULL );
 	      g_strfreev ( parametres );
 
-	      mise_en_route_attente ( _("Chargement de la sauvegarde") );
+	      mise_en_route_attente ( _("Loading backup") );
 
 	      if ( charge_operations () )
 		/* on a réussi a charger la sauvegarde */
@@ -245,13 +245,13 @@ void ouverture_confirmee ( void )
 
 		  nom_fichier_comptes = nom;
 		  annulation_attente ();
-		  dialogue ( _("Le chargement de la sauvegarde a échoué. Veuillez contacter les développeurs\npour essayer de restaurer vos données." ));
+		  dialogue ( _("Failed to load backup. Please contact the developpement\n team. They will try to recover your data."));
 		  return;
 		}
 	    }
 	  else
 	    {
-	      dialogue ( _("Problème lors du chargement du fichier !") );
+	      dialogue ( _("Problem loading file!") );
 	      init_variables ( FALSE );
 	      return;
 	    }
@@ -302,7 +302,7 @@ void ouverture_confirmee ( void )
 	}
     }
 
-  update_attente ( _("Mise en forme des opérations") );
+  update_attente ( _("Formatting transactions") );
 
   /* on save le nom du fichier dans les derniers ouverts */
 
@@ -393,7 +393,7 @@ gboolean enregistrement_fichier ( gint origine )
 
       if ( origine == -1 )
 	{
-	  dialog = gnome_message_box_new ( _("Voulez-vous enregistrer le fichier ?"),
+	  dialog = gnome_message_box_new ( _("Save file?"),
 					     GNOME_MESSAGE_BOX_QUESTION,
 					     GNOME_STOCK_BUTTON_YES,
 					     GNOME_STOCK_BUTTON_NO,
@@ -420,7 +420,7 @@ gboolean enregistrement_fichier ( gint origine )
 	    }
 	}
 
-      dialog = gnome_dialog_new ( _("Création d'un nom de fichier de comptes"),
+      dialog = gnome_dialog_new ( _("Name the accounts file"),
 				  GNOME_STOCK_BUTTON_OK,
 				  GNOME_STOCK_BUTTON_CANCEL,
 				  NULL );
@@ -433,7 +433,7 @@ gboolean enregistrement_fichier ( gint origine )
 			   GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
 			   "destroy" );
 
-      label = gtk_label_new ( COLON(_("Entrer un nom pour le fichier de comptes")) );
+      label = gtk_label_new ( COLON(_("Enter a name for the account file")) );
       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 			   label,
 			   FALSE,
@@ -494,11 +494,11 @@ gboolean enregistrement_fichier ( gint origine )
 		  GtkWidget *etes_vous_sur;
 		  GtkWidget *label;
 
-		  etes_vous_sur = gnome_dialog_new ( _("Enregistrer le fichier"),
+		  etes_vous_sur = gnome_dialog_new ( _("Save file"),
 						     GNOME_STOCK_BUTTON_YES,
 						     GNOME_STOCK_BUTTON_NO,
 						     NULL );
-		  label = gtk_label_new ( _("Le fichier existe. Voulez-vous l'écraser ?") );
+		  label = gtk_label_new ( _("File exists. Do you want to overwrite it?") );
 		  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( etes_vous_sur ) -> vbox ),
 				       label,
 				       TRUE,
@@ -520,7 +520,7 @@ gboolean enregistrement_fichier ( gint origine )
 		}
 	      else
 		{
-		  dialogue ( g_strdup_printf ( _("Nom de fichier \"%s\" invalide !"),
+		  dialogue ( g_strdup_printf ( _("Invalid filename \"%s\"!"),
 					       nom_fichier_comptes ));
 		  nom_fichier_comptes = ancien_nom_fichier_comptes;
 		  return(FALSE);
@@ -558,9 +558,9 @@ gboolean enregistrement_fichier ( gint origine )
 	  return ( FALSE );
 
       if ( patience_en_cours )
-	update_attente ( _("Enregistrement du fichier") );
+	update_attente ( _("Save file") );
       else
-	mise_en_route_attente ( _("Enregistrement du fichier") );
+	mise_en_route_attente ( _("Save file") );
 
       result = enregistre_fichier ( 0 );
       annulation_attente();
@@ -585,7 +585,7 @@ gboolean enregistrement_fichier ( gint origine )
 	reponse = 0;
       else
 	{
-	  dialogue = gnome_message_box_new ( _("Voulez-vous enregistrer le fichier ?"),
+	  dialogue = gnome_message_box_new ( _("Save file?"),
 					     GNOME_MESSAGE_BOX_QUESTION,
 					     GNOME_STOCK_BUTTON_YES,
 					     GNOME_STOCK_BUTTON_NO,
@@ -608,9 +608,9 @@ gboolean enregistrement_fichier ( gint origine )
 	      return ( FALSE );
 
 	  if ( patience_en_cours )
-	    update_attente ( _("Enregistrement du fichier") );
+	    update_attente ( _("Save file") );
 	  else
-	    mise_en_route_attente ( _("Enregistrement du fichier") );
+	    mise_en_route_attente ( _("Save file") );
 
 	  result = enregistre_fichier ( 0 );
 	  annulation_attente();
@@ -762,7 +762,7 @@ void affiche_titre_fenetre ( void )
   else
     {
       if ( nb_comptes )
-	titre = _("Grisbi - Sans nom");
+	titre = _("Grisbi - No name");
       else
 	titre = _("Grisbi");
     }
@@ -792,7 +792,7 @@ gboolean enregistrement_backup ( void )
 
   xmlSetCompressMode ( compression_backup );
 
-  mise_en_route_attente ( _("Enregistrement de la sauvegarde") );
+  mise_en_route_attente ( _("Saving backup") );
   retour = enregistre_fichier( 1 );
 
   if ( !retour )

@@ -176,7 +176,7 @@ GtkWidget *creation_liste_comptes_onglet ( void )
 
   /* mise en place des boutons du bas */
 
-  bouton = gtk_button_new_with_label ( _("Nouveau compte") );
+  bouton = gtk_button_new_with_label ( _("New account") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE);
   gtk_box_pack_start ( GTK_BOX ( vbox_frame ),
@@ -194,7 +194,7 @@ GtkWidget *creation_liste_comptes_onglet ( void )
 
   /* mise en place du bouton équilibrage */
 
-  bouton_supprimer_compte = gtk_button_new_with_label ( _("Supprimer un compte") );
+  bouton_supprimer_compte = gtk_button_new_with_label ( _("Remove an account") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_supprimer_compte ),
 			  GTK_RELIEF_NONE);
   gtk_box_pack_start ( GTK_BOX ( vbox_frame ),
