@@ -246,15 +246,16 @@ void preferences ( gint page )
 		      -1);
   gtk_notebook_append_page (preference_frame, onglet_types_operations(), NULL);
 
-  if ( page )
-    {
-      gtk_notebook_set_current_page ( preference_frame, page-1 );
-    }
-
   gtk_widget_show_all ( hpaned );
   gtk_container_set_border_width ( GTK_CONTAINER(hpaned), 6 );
   gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(fenetre_preferences) -> vbox ), 
 		       hpaned, TRUE, TRUE, 0);
+
+  if ( page != NOT_A_PAGE )
+    {
+      /* FIXME: iterate over iters to select the one corresponding to
+	 page */
+    }
 
   while ( 1 )
     {
@@ -294,8 +295,9 @@ gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
   /*     } */
 
   preference_selected = g_value_get_int(&value);
-  if (preference_selected != -1)
+  if ( preference_selected != NOT_A_PAGE )
     {
+      printf (">>> PLOP %d\n", preference_selected);
       gtk_notebook_set_page (preference_frame, preference_selected);
     }
 
@@ -471,7 +473,8 @@ GtkWidget *onglet_fichier ( void )
 
   if ( nb_comptes )
     {
-      gboolean dummy = (nom_fichier_backup != NULL);
+      gboolean dummy = (nom_fichier_backup != NULL &&
+			strlen(nom_fichier_backup) > 0);
       /* Ugly dance ... */
       checkbox_set_value ( bouton_demande_backup, &dummy, FALSE );
 
