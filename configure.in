@@ -29,7 +29,6 @@ GNOME_COMPILE_WARNINGS
 GNOME_X_CHECKS
 GNOME_XML_CHECK
 
-AC_SUBST(prefix)
 
 AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)
@@ -42,9 +41,7 @@ LDFLAGS="$LDFLAGS $GNOMELIBS_LIBS"
 AC_SUBST(CFLAGS)
 AC_SUBST(LDFLAGS)
 
-AC_DEFINE_UNQUOTED(APPLET_BIN_DIR, "$acl_final_exec_prefix/bin/grisbi_applet", APPLET_BIN_DIR)
-AC_DEFINE_UNQUOTED(GRISBI_BIN_DIR, "$acl_final_exec_prefix/bin/grisbi", GRISBI_BIN_DIR)
-AC_DEFINE_UNQUOTED(CHEMIN_LOGO, "$acl_final_prefix/share/pixmaps/logo_grisbi.xpm", CHEMIN_LOGO)
+AC_SUBST(prefix)
 
 dnl ******************************
 dnl Makefiles

@@ -7716,7 +7716,6 @@ fi
 
 
 
-
   succeeded=yes
 
   if test -z "$GNOME_CONFIG"; then
@@ -7811,20 +7810,6 @@ LDFLAGS="$LDFLAGS $GNOMELIBS_LIBS"
 
 
 
-
-cat >>confdefs.h <<_ACEOF
-#define APPLET_BIN_DIR "$acl_final_exec_prefix/bin/grisbi_applet"
-_ACEOF
-
-
-cat >>confdefs.h <<_ACEOF
-#define GRISBI_BIN_DIR "$acl_final_exec_prefix/bin/grisbi"
-_ACEOF
-
-
-cat >>confdefs.h <<_ACEOF
-#define CHEMIN_LOGO "$acl_final_prefix/share/pixmaps/logo_grisbi.xpm"
-_ACEOF
 
 
 
