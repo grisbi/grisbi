@@ -3437,8 +3437,8 @@ void validation_virement_operation ( struct structure_operation *operation,
     if ( operation -> info_banque_guichet )
 	contre_operation -> info_banque_guichet = g_strdup ( operation -> info_banque_guichet );
 
-    contre_operation -> pointe = operation -> pointe;
-    contre_operation -> no_rapprochement = operation -> no_rapprochement;
+//    contre_operation -> pointe = operation -> pointe;
+//    contre_operation -> no_rapprochement = operation -> no_rapprochement;
 
     /*   on a fini de remplir l'opé, on peut l'ajouter Ã  la liste */
 
