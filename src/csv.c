@@ -198,7 +198,7 @@ static void csv_add_record(FILE* file,gboolean clear_all)
  */
 void export_accounts_to_csv (GSList* export_entries_list )
 {
-    gchar *nom_fichier_csv, *montant_tmp;
+    gchar *nom_fichier_csv;
     GSList *liste_tmp;
     FILE *fichier_csv;
     gdouble solde = 0;
@@ -259,19 +259,16 @@ void export_accounts_to_csv (GSList* export_entries_list )
             csv_field_tiers = g_strdup_printf ( g_strconcat (_("Initial balance") , " [", NOM_DU_COMPTE, "]", NULL ) );
 
             /* met le solde initial */
-            montant_tmp = g_strdup_printf ( "%4.2f", SOLDE_INIT );
-
             solde           = SOLDE_INIT;
             csv_field_solde = g_strdup_printf ( "%4.2f", solde );
             if (SOLDE_INIT >= 0)
             {
-                csv_field_credit = g_strdup ( montant_tmp );
+                csv_field_credit = g_strdup_printf ( "%4.2f", SOLDE_INIT );
             }
             else
             {
-                csv_field_debit = g_strdup( montant_tmp );
+                csv_field_debit = g_strdup_printf ( "%4.2f", -SOLDE_INIT );
             }
-
 
             csv_add_record(fichier_csv,TRUE);
 
@@ -337,15 +334,13 @@ void export_accounts_to_csv (GSList* export_entries_list )
                                                                   operation -> taux_change,
                                                                   operation -> frais_change );
 
-                        montant_tmp = g_strdup_printf ( "%4.2f", montant );
-
                         if (montant > -0.0 )
                         {
-                            csv_field_credit = g_strdup(montant_tmp );
+                            csv_field_credit = g_strdup_printf ( "%4.2f", montant );
                         }
                         else
                         {
-                            csv_field_debit  = g_strdup( montant_tmp );
+                            csv_field_debit  = g_strdup_printf ( "%4.2f", -montant );
                         }
 
                         /* met le chèque si c'est un type à numérotation automatique */
@@ -489,8 +484,7 @@ void export_accounts_to_csv (GSList* export_entries_list )
                                                                               operation -> taux_change,
                                                                               operation -> frais_change );
 
-                                    montant_tmp = g_strdup_printf ( "%4.2f", montant );
-                                    csv_field_montant = g_strdup ( montant_tmp );
+                                    csv_field_montant = g_strdup_printf ( "%4.2f", montant );
 
 				    /* met le rapprochement */
 				    if ( ope_test -> no_rapprochement )
