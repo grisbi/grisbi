@@ -73,6 +73,8 @@ struct struct_etat_affichage gnomeprint_affichage = {
 GnomePrintContext *pc = NULL;
 GnomePrintMaster *gpm = NULL;
 int do_preview=0;
+GnomeFont *title_font, *text_font;
+int point_x=10, point_y=650;
 
 
 gint gnomeprint_initialise ()
@@ -80,7 +82,8 @@ gint gnomeprint_initialise ()
   GnomePrintDialog *gpd;
   static int copies=1, collate;
   
-  gpd = GNOME_PRINT_DIALOG (gnome_print_dialog_new("Impression de Grisbi", GNOME_PRINT_DIALOG_COPIES));
+  gpd = GNOME_PRINT_DIALOG (gnome_print_dialog_new("Impression de Grisbi", 
+						   GNOME_PRINT_DIALOG_COPIES));
   gnome_print_dialog_set_copies(gpd, copies, collate);
 
   switch (gnome_dialog_run(GNOME_DIALOG(gpd))) {
@@ -103,28 +106,35 @@ gint gnomeprint_initialise ()
   gnome_dialog_close (GNOME_DIALOG(gpd));
   pc = gnome_print_master_get_context(gpm);
 
+  title_font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, 1, 36);
+  text_font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, 1, 14);
+
   return 1;
 }
 
 
 gint gnomeprint_affiche_titre ( gint ligne )
 {
-  GnomeFont *title_font, *text_font;
-  int point_x=10, point_y=600;
+  gint i;
 
-  /* TODO: use a page counter ? */
+  /* TODO: utiliser un compteur de page ? */
   gnome_print_beginpage (pc, "1");
 
-  title_font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, 1, 36);
-  text_font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, 1, 14);
-
+  /* FIXME: crado */
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-  gnome_print_gsave (pc);
-  gnome_print_setfont (pc, title_font);
-  gnome_print_setrgbcolor (pc, 1, 0, 0);
-  gnome_print_moveto (pc, point_x, point_y);
-  gnome_print_show (pc, latin2utf8(NOM_DU_COMPTE));
-  gnome_print_grestore (pc);
+
+  for ( i=0 ; i < nb_comptes ; i++ )
+    {
+      gnome_print_gsave (pc);
+      gnome_print_setfont (pc, title_font);
+      gnome_print_setrgbcolor (pc, 1, 0, 0);
+      gnome_print_moveto (pc, point_x, point_y);
+      gnome_print_show (pc, latin2utf8(NOM_DU_COMPTE));
+      gnome_print_grestore (pc);
+
+      point_y -= gnome_font_get_size(title_font);
+      p_tab_nom_de_compte_variable++;
+    }
 
   return 1;
 }
@@ -378,7 +388,8 @@ gint gnomeprint_finish ( )
   if (do_preview)
     {
       GnomePrintMasterPreview * pmp;
-      pmp = gnome_print_master_preview_new(gpm, "Prévisualisation de l'impression de Grisbi");
+      pmp = gnome_print_master_preview_new(gpm, 
+					   "Prévisualisation de l'impression de Grisbi");
       gtk_widget_show(GTK_WIDGET(pmp));
     }
   else
