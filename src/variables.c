@@ -590,12 +590,23 @@ gint no_dernier_etat;
 GtkWidget *label_etat_courant;        /* label en haut de la liste des états */
 GtkWidget *vbox_liste_etats;          /* vbox contenant la liste des états */
 GtkWidget *bouton_etat_courant;          /* adr du bouton de l'état en cours, pour le refermer qd change */
-gint no_etat_courant;
+struct struct_etat *etat_courant;
 GtkWidget *bouton_effacer_etat;
 GtkWidget *bouton_personnaliser_etat;
+GtkWidget *scrolled_window_etat;          /* contient l'état en cours */
 
 GtkWidget *entree_nom_etat;
 GtkWidget *liste_type_classement_etat;
+GtkWidget *bouton_afficher_opes;
+GtkWidget *bouton_afficher_date_opes;
+GtkWidget *bouton_afficher_tiers_opes;
+GtkWidget *bouton_afficher_categ_opes;
+GtkWidget *bouton_afficher_sous_categ_opes;
+GtkWidget *bouton_afficher_ib_opes;
+GtkWidget *bouton_afficher_sous_ib_opes;
+GtkWidget *bouton_afficher_notes_opes;
+GtkWidget *bouton_afficher_pc_opes;
+GtkWidget *bouton_afficher_infobd_opes;
 
 GtkWidget *radio_button_utilise_exo;
 GtkWidget *radio_button_utilise_dates;
@@ -617,27 +628,36 @@ GtkWidget *entree_separe_perso_etat;
 GtkWidget *liste_comptes_etat;
 GtkWidget *bouton_detaille_comptes_etat;
 GtkWidget *vbox_generale_comptes_etat;
+GtkWidget *bouton_regroupe_ope_compte_etat;
+GtkWidget *bouton_affiche_sous_total_compte;
 
 GtkWidget *bouton_utilise_categ_etat;
 GtkWidget *vbox_generale_categ_etat;
 GtkWidget *bouton_detaille_categ_etat;
 GtkWidget *hbox_detaille_categ_etat;
+GtkWidget *bouton_afficher_sous_categ;
 GtkWidget *bouton_inclusion_virements_actifs_etat;
 GtkWidget *bouton_inclusion_virements_hors_etat;
 GtkWidget *bouton_non_inclusion_virements;
 GtkWidget *liste_categ_etat;
+GtkWidget *bouton_affiche_sous_total_categ;
+GtkWidget *bouton_affiche_sous_total_sous_categ;
 
 GtkWidget *bouton_utilise_ib_etat;
 GtkWidget *vbox_generale_ib_etat;
 GtkWidget *bouton_detaille_ib_etat;
 GtkWidget *hbox_detaille_ib_etat;
 GtkWidget *liste_ib_etat;
+GtkWidget *bouton_afficher_sous_ib;
+GtkWidget *bouton_affiche_sous_total_ib;
+GtkWidget *bouton_affiche_sous_total_sous_ib;
 
 GtkWidget *bouton_utilise_tiers_etat;
 GtkWidget *vbox_generale_tiers_etat;
 GtkWidget *bouton_detaille_tiers_etat;
 GtkWidget *hbox_detaille_tiers_etat;
 GtkWidget *liste_tiers_etat;
+GtkWidget *bouton_affiche_sous_total_tiers;
 
 GtkWidget *entree_texte_etat;
 GtkWidget *entree_montant_etat;

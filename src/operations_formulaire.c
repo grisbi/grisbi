@@ -3315,7 +3315,6 @@ gboolean modifie_date ( GtkWidget *entree )
 		       "Informations banque/guichet" );
 
   gtk_widget_hide ( widget_formulaire_operations[6] );
-/*   gtk_widget_hide ( widget_formulaire_operations[7] ); */
   gtk_widget_hide ( widget_formulaire_operations[14] );
   gtk_widget_hide ( widget_formulaire_operations[17] );
 
@@ -3331,15 +3330,11 @@ gboolean modifie_date ( GtkWidget *entree )
 						   g_slist_find_custom ( liste_struct_devises,
 									 GINT_TO_POINTER ( DEVISE ),
 									 ( GCompareFunc ) recherche_devise_par_no )));
-/*   gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[7] ), */
-/* 				compte_courant ); */
 
   gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_operations[9] ),
 			     FALSE );
   gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_operations[5] ),
 			     FALSE );
-/*   gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_operations[7] ), */
-/* 			     FALSE ); */
   gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_operations[11] ),
 			     FALSE );
   gtk_widget_set_sensitive ( GTK_WIDGET ( hbox_valider_annuler_ope ),

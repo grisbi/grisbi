@@ -394,6 +394,17 @@ struct struct_etat
   gint no_etat;
   gchar *nom_etat;
 
+  gint afficher_opes;
+  gint afficher_date_ope;
+  gint afficher_tiers_ope;
+  gint afficher_categ_ope;
+  gint afficher_sous_categ_ope;
+  gint afficher_ib_ope;
+  gint afficher_sous_ib_ope;
+  gint afficher_notes_ope;
+  gint afficher_pc_ope;
+  gint afficher_infobd_ope;
+
   gint exo_date;         /* 1-> utilise l'exo / 0 -> utilise une plage de date */
   gint utilise_detail_exo;
   GSList *no_exercices;            /* liste des no d'exos utilisés dans l'état */
@@ -411,21 +422,28 @@ struct struct_etat
 
   gint utilise_detail_comptes;
   GSList *no_comptes;
+  gint regroupe_ope_par_compte;
+  gint affiche_sous_total_compte;
 
   gint utilise_categ;
   gint utilise_detail_categ;
   GSList *no_categ;
-  gint inclusion_virements_passif;    /* vers comptes passifs/actifs */
-  gint inclusion_virements_hors_etat;
-  gint pas_inclusion_virements;
+  gint afficher_sous_categ;
+  gint type_virement;   /* 0: pas de virements / 1:seulement les virements vers comptes actifs-passifs/2:virements hors état */
+  gint affiche_sous_total_categ;
+  gint affiche_sous_total_sous_categ;
 
   gint utilise_ib;
   gint utilise_detail_ib;
   GSList *no_ib;
+  gint afficher_sous_ib;
+  gint affiche_sous_total_ib;
+  gint affiche_sous_total_sous_ib;
 
   gint utilise_tiers;
   gint utilise_detail_tiers;
   GSList *no_tiers;
+  gint affiche_sous_total_tiers;
 
   gchar *texte;
   gdouble montant;

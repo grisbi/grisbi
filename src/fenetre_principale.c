@@ -98,7 +98,7 @@ GtkWidget *creation_fenetre_principale (void )
   page_etats = creation_onglet_etats ();
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
 			     page_etats,
-			     gtk_label_new (" Rapports financiers ") );
+			     gtk_label_new (" États ") );
 
 
 

@@ -614,12 +614,23 @@ extern gint no_dernier_etat;
 extern GtkWidget *label_etat_courant;        /* label en haut de la liste des états */
 extern GtkWidget *vbox_liste_etats;          /* vbox contenant la liste des états */
 extern GtkWidget *bouton_etat_courant;          /* adr du bouton de l'état en cours, pour le refermer qd change */
-extern gint no_etat_courant;
+extern struct struct_etat *etat_courant;
 extern GtkWidget *bouton_effacer_etat;
 extern GtkWidget *bouton_personnaliser_etat;
+extern GtkWidget *scrolled_window_etat;          /* contient l'état en cours */
 
 extern GtkWidget *entree_nom_etat;
 extern GtkWidget *liste_type_classement_etat;
+extern GtkWidget *bouton_afficher_opes;
+extern GtkWidget *bouton_afficher_date_opes;
+extern GtkWidget *bouton_afficher_tiers_opes;
+extern GtkWidget *bouton_afficher_categ_opes;
+extern GtkWidget *bouton_afficher_sous_categ_opes;
+extern GtkWidget *bouton_afficher_ib_opes;
+extern GtkWidget *bouton_afficher_sous_ib_opes;
+extern GtkWidget *bouton_afficher_notes_opes;
+extern GtkWidget *bouton_afficher_pc_opes;
+extern GtkWidget *bouton_afficher_infobd_opes;
 
 extern GtkWidget *radio_button_utilise_exo;
 extern GtkWidget *radio_button_utilise_dates;
@@ -641,27 +652,36 @@ extern GtkWidget *entree_separe_perso_etat;
 extern GtkWidget *liste_comptes_etat;
 extern GtkWidget *bouton_detaille_comptes_etat;
 extern GtkWidget *vbox_generale_comptes_etat;
+extern GtkWidget *bouton_regroupe_ope_compte_etat;
+extern GtkWidget *bouton_affiche_sous_total_compte;
 
 extern GtkWidget *bouton_utilise_categ_etat;
 extern GtkWidget *vbox_generale_categ_etat;
 extern GtkWidget *bouton_detaille_categ_etat;
 extern GtkWidget *hbox_detaille_categ_etat;
+extern GtkWidget *bouton_afficher_sous_categ;
 extern GtkWidget *bouton_inclusion_virements_actifs_etat;
 extern GtkWidget *bouton_inclusion_virements_hors_etat;
 extern GtkWidget *bouton_non_inclusion_virements;
 extern GtkWidget *liste_categ_etat;
+extern GtkWidget *bouton_affiche_sous_total_categ;
+extern GtkWidget *bouton_affiche_sous_total_sous_categ;
 
 extern GtkWidget *bouton_utilise_ib_etat;
 extern GtkWidget *vbox_generale_ib_etat;
 extern GtkWidget *bouton_detaille_ib_etat;
 extern GtkWidget *hbox_detaille_ib_etat;
 extern GtkWidget *liste_ib_etat;
+extern GtkWidget *bouton_afficher_sous_ib;
+extern GtkWidget *bouton_affiche_sous_total_ib;
+extern GtkWidget *bouton_affiche_sous_total_sous_ib;
 
 extern GtkWidget *bouton_utilise_tiers_etat;
 extern GtkWidget *vbox_generale_tiers_etat;
 extern GtkWidget *bouton_detaille_tiers_etat;
 extern GtkWidget *hbox_detaille_tiers_etat;
 extern GtkWidget *liste_tiers_etat;
+extern GtkWidget *bouton_affiche_sous_total_tiers;
 
 extern GtkWidget *entree_texte_etat;
 extern GtkWidget *entree_montant_etat;

@@ -840,9 +840,9 @@ gint recherche_etat_par_no ( struct struct_etat *etat,
 			     gint *no_etat );
 void personnalisation_etat (void);
 GtkWidget *onglet_etat_generalites ( struct struct_etat *etat );
+void sens_desensitive_pointeur ( GtkWidget *boutton,
+				 GtkWidget *widget );
 GtkWidget *onglet_etat_dates ( struct struct_etat *etat );
-void verifie_separation_exo_possible ( void );
-void changement_choix_date_etat ( void );
 void click_liste_etat ( GtkCList *liste,
 			GdkEventButton *evenement,
 			gint origine );
@@ -850,24 +850,43 @@ void clique_sur_entree_date_etat ( GtkWidget *entree,
 				   GdkEventButton *ev );
 void date_selectionnee_etat ( GtkCalendar *calendrier,
 			      GtkWidget *popup );
-void click_detaille_exo_etat ( void );
 void change_separation_result_periode ( void );
 void modif_type_separation_dates ( gint *origine );
 GtkWidget *onglet_etat_comptes ( struct struct_etat *etat );
-void click_detaille_comptes_etat ( void );
 GtkWidget *onglet_etat_categories ( struct struct_etat *etat );
-void click_utilise_categ_etat ( void );
-void click_detaille_categ_etat ( void );
 void click_type_categ_etat ( gint type );
 GtkWidget *onglet_etat_ib ( struct struct_etat *etat );
-void click_utilise_ib_etat ( void );
-void click_detaille_ib_etat ( void );
 void click_type_ib_etat ( gint type );
 GtkWidget *onglet_etat_tiers ( struct struct_etat *etat );
-void click_utilise_tiers_etat ( void );
-void click_detaille_tiers_etat ( void );
 GtkWidget *onglet_etat_texte ( struct struct_etat *etat );
 GtkWidget *onglet_etat_montant ( struct struct_etat *etat );
+void affichage_etat ( struct struct_etat *etat );
+gint classement_liste_opes_etat ( struct structure_operation *operation_1,
+				  struct structure_operation *operation_2 );
+void etat_c_i_co ( GSList *ope_selectionnees );
+gint affiche_total_categories ( GtkWidget *table_etat,
+				gdouble montant_categ,
+				gint ligne );
+gint affiche_total_sous_categ ( GtkWidget *table_etat,
+				gdouble montant_sous_categ,
+				gint ligne );
+gint affiche_total_ib ( GtkWidget *table_etat,
+			gdouble montant_ib,
+			gint ligne );
+gint affiche_total_sous_ib ( GtkWidget *table_etat,
+			     gdouble montant_sous_ib,
+			     gint ligne );
+gint affiche_total_compte ( GtkWidget *table_etat,
+			    gdouble montant_compte,
+			    gint ligne );
+gint affiche_total_tiers ( GtkWidget *table_etat,
+			   gdouble montant_tiers,
+			   gint ligne );
+void etat_c_co_i ( GSList *ope_selectionnees );
+void etat_i_c_co ( GSList *ope_selectionnees );
+void etat_i_co_c ( GSList *ope_selectionnees );
+void etat_co_i_c ( GSList *ope_selectionnees );
+void etat_co_c_i ( GSList *ope_selectionnees );
 
 
 

@@ -1510,24 +1510,24 @@ gboolean charge_operations_version_0_3_3 ( xmlDocPtr doc )
 {
   xmlNodePtr node_1;
 
-  /* on place node_1 sur les généralités */
+  /* on place node_1 sur les generalites */
 
   node_1 = doc -> root -> childs;
 
   /*   on met en place la boucle de node_1, qui va successivement passer */
-  /*     par les généralités, les comptes, les échéances ... */
+  /*     par les generalites, les comptes, les echeances ... */
 
   while ( node_1 )
     {
 
-      /* on récupère ici les généralités */
+      /* on recupère ici les generalites */
 
       if ( !strcmp ( node_1 -> name,
-		     "Généralités" ) )
+		     "Generalites" ) )
 	{
 	  xmlNodePtr node_generalites;
 
-	  /* node_generalites va faire le tour des généralités */
+	  /* node_generalites va faire le tour des generalites */
 
 	  node_generalites = node_1 -> childs;
 
@@ -1538,14 +1538,14 @@ gboolean charge_operations_version_0_3_3 ( xmlDocPtr doc )
 		if ( (etat.fichier_deja_ouvert  = atoi ( xmlNodeGetContent ( node_generalites ))))
 		  {
 		    if ( etat.force_enregistrement )
-		      dialogue ( "Attention, le fichier semble déjà ouvert pas un autre \
-utilisateur ou n'a pas été fermé correctement (plantage ?).\nCependant Grisbi va \
-forcer l'enregistrement ; cette option est déconseillée\n sauf si vous êtes sûr \
-que personne d'autre n'utilise le fichier pour le moment.\nLa désactivation de \
+		      dialogue ( "Attention, le fichier semble dejà ouvert pas un autre \
+utilisateur ou n'a pas ete ferme correctement (plantage ?).\nCependant Grisbi va \
+forcer l'enregistrement ; cette option est deconseillee\n sauf si vous êtes sûr \
+que personne d'autre n'utilise le fichier pour le moment.\nLa desactivation de \
 cette option s'effectue dans le menu de configuration" );
 		    else
-		      dialogue ( "Attention, le fichier semble déjà ouvert pas un autre \
-utilisateur ou n'a pas été fermé correctement (plantage ?).\nVous ne pourrez \
+		      dialogue ( "Attention, le fichier semble dejà ouvert pas un autre \
+utilisateur ou n'a pas ete ferme correctement (plantage ?).\nVous ne pourrez \
 enregistrer vos modification qu'en activant l'option \"Forcer l'enregistrement\" \
 des paramètres." );
 		  }
@@ -1580,11 +1580,11 @@ des paramètres." );
 		etat.utilise_info_banque_guichet = atoi ( xmlNodeGetContent ( node_generalites ));
 
 	      if ( !strcmp ( node_generalites -> name,
-			     "Numéro_devise_totaux_tiers" ))
+			     "Numero_devise_totaux_tiers" ))
 		no_devise_totaux_tiers = atoi ( xmlNodeGetContent ( node_generalites ));
 
 	      if ( !strcmp ( node_generalites -> name,
-			     "Type_affichage_des_échéances" ))
+			     "Type_affichage_des_echeances" ))
 		affichage_echeances = atoi ( xmlNodeGetContent ( node_generalites ));
 
 	      if ( !strcmp ( node_generalites -> name,
@@ -1596,14 +1596,14 @@ des paramètres." );
 		affichage_echeances_perso_j_m_a = atoi ( xmlNodeGetContent ( node_generalites ));
 
 	      if ( !strcmp ( node_generalites -> name,
-			     "Numéro_derniere_operation" ))
+			     "Numero_derniere_operation" ))
 		no_derniere_operation= atoi ( xmlNodeGetContent ( node_generalites ));
 
 	      node_generalites = node_generalites -> next;
 	    }
 	}
 
-      /* on récupère ici les comptes et opérations */
+      /* on recupère ici les comptes et operations */
 
       if ( !strcmp ( node_1 -> name,
 		     "Comptes" ))
@@ -1617,10 +1617,10 @@ des paramètres." );
 	  while ( node_comptes )
 	    {
 
-	      /* on va récupérer ici les généralités des comptes */
+	      /* on va recuperer ici les generalites des comptes */
 	      
 	      if ( !strcmp ( node_comptes -> name,
-			     "Généralités" ))
+			     "Generalites" ))
 		{
 		xmlNodePtr node_generalites;
 
@@ -1628,7 +1628,7 @@ des paramètres." );
 
 		while ( node_generalites )
 		  {
-		    /* récupère l'ordre des comptes */
+		    /* recupère l'ordre des comptes */
 
 		    if ( !strcmp ( node_generalites -> name,
 				   "Ordre_des_comptes" ))
@@ -1655,13 +1655,13 @@ des paramètres." );
 
 			nb_comptes = g_slist_length ( ordre_comptes );
 
-			/* Création du tableau de pointeur vers les structures de comptes */
+			/* Creation du tableau de pointeur vers les structures de comptes */
 
 			p_tab_nom_de_compte = malloc ( nb_comptes * sizeof ( gpointer ));
 			p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 		      }
 
-		    /* récupère le compte courant */
+		    /* recupère le compte courant */
 
 		    if ( !strcmp ( node_generalites -> name,
 				   "Compte_courant" ))
@@ -1674,30 +1674,30 @@ des paramètres." );
 		  }
 	      }
 	    
-		/* on récupère les détails de chaque compte */
+		/* on recupère les details de chaque compte */
 
 	      if ( !strcmp ( node_comptes -> name,
 			     "Compte" ))
 	      {
 		xmlNodePtr node_nom_comptes;
 
-		/* normalement p_tab_nom_de_compte_variable est déjà placé */
+		/* normalement p_tab_nom_de_compte_variable est dejà place */
 
-		/* on crée la structure du compte */
+		/* on cree la structure du compte */
 
 		*p_tab_nom_de_compte_variable = calloc ( 1,
 							 sizeof (struct donnees_compte));
 
-		/* on fait le tour dans l'arbre nom, cad : les détails, détails de type et détails des opérations */
+		/* on fait le tour dans l'arbre nom, cad : les details, details de type et details des operations */
 
 		node_nom_comptes = node_comptes -> childs;
 
 		while ( node_nom_comptes )
 		  {
-		    /* on récupère les détails du compte */
+		    /* on recupère les details du compte */
 
 		    if ( !strcmp ( node_nom_comptes -> name,
-				   "Détails" ))
+				   "Details" ))
 		    {
 		      xmlNodePtr node_detail;
 
@@ -1723,7 +1723,7 @@ des paramètres." );
 			   TYPE_DE_COMPTE = atoi ( xmlNodeGetContent ( node_detail ));
 
 			  if ( !strcmp ( node_detail -> name,
-					 "Nb_opérations" ))
+					 "Nb_operations" ))
 			   NB_OPE_COMPTE = atoi ( xmlNodeGetContent ( node_detail ));
 
 			  if ( !strcmp ( node_detail -> name,
@@ -1743,7 +1743,7 @@ des paramètres." );
 			   NO_COMPTE_BANQUE = xmlNodeGetContent ( node_detail );
 
 			  if ( !strcmp ( node_detail -> name,
-					 "Clé_du_compte" ))
+					 "Cle_du_compte" ))
 			   CLE_COMPTE = xmlNodeGetContent ( node_detail );
 
 			  if ( !strcmp ( node_detail -> name,
@@ -1757,7 +1757,7 @@ des paramètres." );
 							 NULL );
 
 			  if ( !strcmp ( node_detail -> name,
-					 "Solde_mini_autorisé" ))
+					 "Solde_mini_autorise" ))
 			   SOLDE_MINI = g_strtod ( xmlNodeGetContent ( node_detail ),
 						   NULL );
 
@@ -1767,7 +1767,7 @@ des paramètres." );
 						      NULL );
 
 			  if ( !strcmp ( node_detail -> name,
-					 "Date_dernier_relevé" ))
+					 "Date_dernier_releve" ))
 			    {
 			      gchar **pointeur_char;
 
@@ -1784,7 +1784,7 @@ des paramètres." );
 			    }
 
 			  if ( !strcmp ( node_detail -> name,
-					 "Solde_dernier_relevé" ))
+					 "Solde_dernier_releve" ))
 			   SOLDE_DERNIER_RELEVE = g_strtod ( xmlNodeGetContent ( node_detail ),
 							     NULL );
 
@@ -1793,7 +1793,7 @@ des paramètres." );
 			   DERNIER_NO_RAPPROCHEMENT = atoi ( xmlNodeGetContent ( node_detail ));
 
 			  if ( !strcmp ( node_detail -> name,
-					 "Compte_cloturé" ))
+					 "Compte_cloture" ))
 			   COMPTE_CLOTURE = atoi ( xmlNodeGetContent ( node_detail ));
 
 			  if ( !strcmp ( node_detail -> name,
@@ -1805,11 +1805,11 @@ des paramètres." );
 			   ADRESSE_TITULAIRE = xmlNodeGetContent ( node_detail );
 
 			  if ( !strcmp ( node_detail -> name,
-					 "Type_défaut_débit" ))
+					 "Type_defaut_debit" ))
 			   TYPE_DEFAUT_DEBIT = atoi ( xmlNodeGetContent ( node_detail ));
 
 			  if ( !strcmp ( node_detail -> name,
-					 "Type_défaut_crédit" ))
+					 "Type_defaut_credit" ))
 			   TYPE_DEFAUT_CREDIT = atoi ( xmlNodeGetContent ( node_detail ));
 
 			  if ( !strcmp ( node_detail -> name,
@@ -1849,10 +1849,10 @@ des paramètres." );
 			}
 		    }
 		  
-		    /* on récupère ici le détail des types */
+		    /* on recupère ici le detail des types */
 
 		    if ( !strcmp ( node_nom_comptes -> name,
-				   "Détail_de_Types" ))
+				   "Detail_de_Types" ))
 		    {
 		      xmlNodePtr node_type;
 
@@ -1874,7 +1874,7 @@ des paramètres." );
 			  type -> affiche_entree = atoi ( xmlGetProp ( node_type,
 								       "Affiche_entree" ));
 			  type -> numerotation_auto = atoi ( xmlGetProp ( node_type,
-									  "Numérotation_auto" ));
+									  "Numerotation_auto" ));
 			  type -> no_en_cours = atoi ( xmlGetProp ( node_type,
 								    "No_en_cours" ));
 
@@ -1888,10 +1888,10 @@ des paramètres." );
 		    }
 
 
-		    /* on récupère ici le détail des opés */
+		    /* on recupère ici le detail des opes */
 
 		    if ( !strcmp ( node_nom_comptes -> name,
-				   "Détail_des_opérations" ))
+				   "Detail_des_operations" ))
 		      {
 		      xmlNodePtr node_ope;
 
@@ -2035,7 +2035,7 @@ des paramètres." );
 											    "Va" ));
 
 
-			  /* on met le compte associé */
+			  /* on met le compte associe */
 			  
 			  operation -> no_compte = NO_COMPTE;
 
@@ -2061,12 +2061,12 @@ des paramètres." );
 		else
 		  MESSAGE_SOUS_MINI = 0;
 
-		/*       la sélection au départ est en bas de la liste */
+		/*       la selection au depart est en bas de la liste */
 
 		OPERATION_SELECTIONNEE = GINT_TO_POINTER ( -1 );
 
 
-		/* on incrémente p_tab_nom_de_compte_variable pour le compte suivant */
+		/* on incremente p_tab_nom_de_compte_variable pour le compte suivant */
 
 		p_tab_nom_de_compte_variable++;
 	      }
@@ -2075,23 +2075,23 @@ des paramètres." );
 	    }
 	}
 	
-      /* on récupère ici les échéances */
+      /* on recupère ici les echeances */
 
       if ( !strcmp ( node_1 -> name,
-		     "Échéances" ))
+		     "Echeances" ))
 	{
 	  xmlNodePtr node_echeances;
 
-	  /* node_echeances va faire le tour de l'arborescence des échéances */
+	  /* node_echeances va faire le tour de l'arborescence des echeances */
 
 	  node_echeances = node_1 -> childs;
 
 	  while ( node_echeances )
 	    {
-	      /* on va récupérer ici les généralités des échéances */
+	      /* on va recuperer ici les generalites des echeances */
 
 	      if ( !strcmp ( node_echeances -> name,
-			     "Généralités" ))
+			     "Generalites" ))
 		{
 		  xmlNodePtr node_generalites;
 
@@ -2100,11 +2100,11 @@ des paramètres." );
 		  while ( node_generalites )
 		    {
 		      if ( !strcmp ( node_generalites -> name,
-				     "Nb_échéances" ))
+				     "Nb_echeances" ))
 			nb_echeances = atoi ( xmlNodeGetContent ( node_generalites ));
 
 		      if ( !strcmp ( node_generalites -> name,
-				     "No_dernière_échéance" ))
+				     "No_derniere_echeance" ))
 			no_derniere_echeance = atoi ( xmlNodeGetContent ( node_generalites ));
 
 			node_generalites = node_generalites -> next;
@@ -2112,10 +2112,10 @@ des paramètres." );
 		}
 
 
-	      /* on va récupérer ici les échéances */
+	      /* on va recuperer ici les echeances */
 	      
 	      if ( !strcmp ( node_echeances -> name,
-			     "Détail_des_échéances" ))
+			     "Detail_des_echeances" ))
 		{
 		  xmlNodePtr node_detail;
 
@@ -2159,10 +2159,10 @@ des paramètres." );
 									"Tiers" ));
 
 		      operation_echeance -> categorie = atoi ( xmlGetProp ( node_detail,
-								      "Catégorie" ));
+								      "Categorie" ));
 
 		      operation_echeance -> sous_categorie = atoi ( xmlGetProp ( node_detail,
-								      "Sous-catégorie" ));
+								      "Sous-categorie" ));
 
 		      operation_echeance -> compte_virement = atoi ( xmlGetProp ( node_detail,
 								      "Virement_compte" ));
@@ -2185,7 +2185,7 @@ des paramètres." );
 								      "Sous-imputation" ));
 
 		      operation_echeance -> no_piece_comptable = xmlGetProp ( node_detail,
-								      "Pièce_comptable" );
+								      "Piece_comptable" );
 		      if ( !strlen ( operation_echeance -> no_piece_comptable ))
 			operation_echeance -> no_piece_comptable = NULL;
 
@@ -2203,13 +2203,13 @@ des paramètres." );
 								      "Automatique" ));
 
 		      operation_echeance -> periodicite = atoi ( xmlGetProp ( node_detail,
-								      "Périodicité" ));
+								      "Periodicite" ));
 
 		      operation_echeance -> intervalle_periodicite_personnalisee = atoi ( xmlGetProp ( node_detail,
-								      "Intervalle_périodicité" ));
+								      "Intervalle_periodicite" ));
 
 		      operation_echeance -> periodicite_personnalisee = atoi ( xmlGetProp ( node_detail,
-								      "Périodicité_personnalisée" ));
+								      "Periodicite_personnalisee" ));
 
 		      if ( strlen ( xmlGetProp ( node_detail ,
 						 "Date_limite" )))
@@ -2246,7 +2246,7 @@ des paramètres." );
 	    }
 	}
 	
-      /* on récupère ici les tiers */
+      /* on recupère ici les tiers */
 
       if ( !strcmp ( node_1 -> name,
 		     "Tiers" ))
@@ -2259,10 +2259,10 @@ des paramètres." );
 
 	  while ( node_tiers )
 	    {
-	      /* on va récupérer ici les généralités des tiers */
+	      /* on va recuperer ici les generalites des tiers */
 	      
 	      if ( !strcmp ( node_tiers -> name,
-			     "Généralités" ))
+			     "Generalites" ))
 		{
 		  xmlNodePtr node_generalites;
 
@@ -2284,10 +2284,10 @@ des paramètres." );
 		}
 
 
-	      /* on va récupérer ici les tiers */
+	      /* on va recuperer ici les tiers */
 	      
 	      if ( !strcmp ( node_tiers -> name,
-			     "Détail_des_tiers" ))
+			     "Detail_des_tiers" ))
 		{
 		  xmlNodePtr node_detail;
 
@@ -2323,23 +2323,23 @@ des paramètres." );
 	    }
 	}
 	
-      /* on récupère ici les catégories */
+      /* on recupère ici les categories */
 
       if ( !strcmp ( node_1 -> name,
-		     "Catégories" ))
+		     "Categories" ))
 	{
 	  xmlNodePtr node_categories;
 
-	  /* node_categories va faire le tour de l'arborescence des catégories */
+	  /* node_categories va faire le tour de l'arborescence des categories */
 
 	  node_categories = node_1 -> childs;
 
 	  while ( node_categories )
 	    {
-	      /* on va récupérer ici les généralités des catégories */
+	      /* on va recuperer ici les generalites des categories */
 	      
 	      if ( !strcmp ( node_categories -> name,
-			     "Généralités" ))
+			     "Generalites" ))
 		{
 		  xmlNodePtr node_generalites;
 
@@ -2348,11 +2348,11 @@ des paramètres." );
 		  while ( node_generalites )
 		    {
 		      if ( !strcmp ( node_generalites -> name,
-				     "Nb_catégories" ))
+				     "Nb_categories" ))
 			nb_enregistrements_categories = atoi ( xmlNodeGetContent ( node_generalites ));
 
 		      if ( !strcmp ( node_generalites -> name,
-				     "No_dernière_catégorie" ))
+				     "No_derniere_categorie" ))
 			no_derniere_categorie = atoi ( xmlNodeGetContent ( node_generalites ));
 
 			node_generalites = node_generalites -> next;
@@ -2360,10 +2360,10 @@ des paramètres." );
 		}
 
 
-	      /* on va récupérer ici les catégories */
+	      /* on va recuperer ici les categories */
 	      
 	      if ( !strcmp ( node_categories -> name,
-			     "Détail_des_catégories" ))
+			     "Detail_des_categories" ))
 		{
 		  xmlNodePtr node_detail;
 
@@ -2384,9 +2384,9 @@ des paramètres." );
 		      categorie -> type_categ = atoi ( xmlGetProp ( node_detail,
 								    "Type" ));
 		      categorie -> no_derniere_sous_categ = atoi ( xmlGetProp ( node_detail,
-										"No_dernière_sous_cagégorie" ));
+										"No_derniere_sous_cagegorie" ));
 
-		      /*  pour chaque catégorie, on récupère les sous-catégories */
+		      /*  pour chaque categorie, on recupère les sous-categories */
 
 		      categorie -> liste_sous_categ = NULL;
 		      node_sous_categ = node_detail -> childs;
@@ -2415,12 +2415,12 @@ des paramètres." );
 		}
 	      node_categories = node_categories -> next;
 	    }
-	  /* création de la liste des catég pour le combofix */
+	  /* creation de la liste des categ pour le combofix */
 
 	  creation_liste_categ_combofix ();
 	}
 	
-      /* on récupère ici les imputations */
+      /* on recupère ici les imputations */
 
       if ( !strcmp ( node_1 -> name,
 		     "Imputations" ))
@@ -2433,10 +2433,10 @@ des paramètres." );
 
 	  while ( node_imputations )
 	    {
-	      /* on va récupérer ici les généralités des imputations */
+	      /* on va recuperer ici les generalites des imputations */
 	      
 	      if ( !strcmp ( node_imputations -> name,
-			     "Généralités" ))
+			     "Generalites" ))
 		{
 		  xmlNodePtr node_generalites;
 
@@ -2449,7 +2449,7 @@ des paramètres." );
 			nb_enregistrements_imputations = atoi ( xmlNodeGetContent ( node_generalites ));
 
 		      if ( !strcmp ( node_generalites -> name,
-				     "No_dernière_imputation" ))
+				     "No_derniere_imputation" ))
 			no_derniere_imputation = atoi ( xmlNodeGetContent ( node_generalites ));
 
 			node_generalites = node_generalites -> next;
@@ -2457,10 +2457,10 @@ des paramètres." );
 		}
 
 
-	      /* on va récupérer ici les imputations */
+	      /* on va recuperer ici les imputations */
 	      
 	      if ( !strcmp ( node_imputations -> name,
-			     "Détail_des_imputations" ))
+			     "Detail_des_imputations" ))
 		{
 		  xmlNodePtr node_detail;
 
@@ -2481,9 +2481,9 @@ des paramètres." );
 		      imputation -> type_imputation = atoi ( xmlGetProp ( node_detail,
 								    "Type" ));
 		      imputation -> no_derniere_sous_imputation = atoi ( xmlGetProp ( node_detail,
-										"No_dernière_sous_imputation" ));
+										"No_derniere_sous_imputation" ));
 
-		      /*  pour chaque catégorie, on récupère les sous-catégories */
+		      /*  pour chaque categorie, on recupère les sous-categories */
 
 		      imputation -> liste_sous_imputation = NULL;
 		      node_sous_imputation = node_detail -> childs;
@@ -2512,13 +2512,13 @@ des paramètres." );
 		}
 	      node_imputations = node_imputations -> next;
 	    }
-	  /* création de la liste des imputations pour le combofix */
+	  /* creation de la liste des imputations pour le combofix */
 
 	  creation_liste_imputation_combofix ();
 	}
 
 	
-      /* on récupère ici les devises */
+      /* on recupère ici les devises */
 
       if ( !strcmp ( node_1 -> name,
 		     "Devises" ))
@@ -2531,10 +2531,10 @@ des paramètres." );
 
 	  while ( node_devises )
 	    {
-	      /* on va récupérer ici les généralités des devises */
+	      /* on va recuperer ici les generalites des devises */
 	      
 	      if ( !strcmp ( node_devises -> name,
-			     "Généralités" ))
+			     "Generalites" ))
 		{
 		  xmlNodePtr node_generalites;
 
@@ -2547,7 +2547,7 @@ des paramètres." );
 			nb_devises = atoi ( xmlNodeGetContent ( node_generalites ));
 
 		      if ( !strcmp ( node_generalites -> name,
-				     "No_dernière_devise" ))
+				     "No_derniere_devise" ))
 			no_derniere_devise = atoi ( xmlNodeGetContent ( node_generalites ));
 
 			node_generalites = node_generalites -> next;
@@ -2555,10 +2555,10 @@ des paramètres." );
 		}
 
 
-	      /* on va récupérer ici les devises */
+	      /* on va recuperer ici les devises */
 
 	      if ( !strcmp ( node_devises -> name,
-			     "Détail_des_devises" ))
+			     "Detail_des_devises" ))
 		{
 		  xmlNodePtr node_detail;
 
@@ -2620,7 +2620,7 @@ des paramètres." );
 	    }
 	}
 	
-      /* on récupère ici les banques */
+      /* on recupère ici les banques */
 
       if ( !strcmp ( node_1 -> name,
 		     "Banques" ))
@@ -2633,10 +2633,10 @@ des paramètres." );
 
 	  while ( node_banques )
 	    {
-	      /* on va récupérer ici les généralités des banques */
+	      /* on va recuperer ici les generalites des banques */
 	      
 	      if ( !strcmp ( node_banques -> name,
-			     "Généralités" ))
+			     "Generalites" ))
 		{
 		  xmlNodePtr node_generalites;
 
@@ -2649,7 +2649,7 @@ des paramètres." );
 			nb_banques = atoi ( xmlNodeGetContent ( node_generalites ));
 
 		      if ( !strcmp ( node_generalites -> name,
-				     "No_dernière_banque" ))
+				     "No_derniere_banque" ))
 			no_derniere_banque = atoi ( xmlNodeGetContent ( node_generalites ));
 
 
@@ -2658,10 +2658,10 @@ des paramètres." );
 		}
 
 
-	      /* on va récupérer ici les banques */
+	      /* on va recuperer ici les banques */
 	      
 	      if ( !strcmp ( node_banques -> name,
-			     "Détail_des_banques" ))
+			     "Detail_des_banques" ))
 		{
 		  xmlNodePtr node_detail;
 
@@ -2687,7 +2687,7 @@ des paramètres." );
 		      if ( !strlen ( banque -> adr_banque ))
 			banque -> adr_banque = NULL;
 		      banque -> tel_banque = xmlGetProp ( node_detail,
-						 "Tél" );
+						 "Tel" );
 		      if ( !strlen ( banque -> tel_banque ))
 			banque -> tel_banque = NULL;
 		      banque -> email_banque = xmlGetProp ( node_detail,
@@ -2707,7 +2707,7 @@ des paramètres." );
 		      if ( !strlen ( banque -> fax_correspondant ))
 			banque -> fax_correspondant = NULL;
 		      banque -> tel_correspondant = xmlGetProp ( node_detail,
-						 "Tél_correspondant" );
+						 "Tel_correspondant" );
 		      if ( !strlen ( banque -> tel_correspondant ))
 			banque -> tel_correspondant = NULL;
 		      banque -> email_correspondant = xmlGetProp ( node_detail,
@@ -2729,7 +2729,7 @@ des paramètres." );
 	    }
 	}
 	
-      /* on récupère ici les exercices */
+      /* on recupère ici les exercices */
 
       if ( !strcmp ( node_1 -> name,
 		     "Exercices" ))
@@ -2742,10 +2742,10 @@ des paramètres." );
 
 	  while ( node_exercices )
 	    {
-	      /* on va récupérer ici les généralités des exercices */
+	      /* on va recuperer ici les generalites des exercices */
 	      
 	      if ( !strcmp ( node_exercices -> name,
-			     "Généralités" ))
+			     "Generalites" ))
 		{
 		  xmlNodePtr node_generalites;
 
@@ -2766,10 +2766,10 @@ des paramètres." );
 		}
 
 	 
-	      /* on va récupérer ici les exercices */
+	      /* on va recuperer ici les exercices */
 	      
 	      if ( !strcmp ( node_exercices -> name,
-			     "Détail_des_exercices" ))
+			     "Detail_des_exercices" ))
 		{
 		  xmlNodePtr node_detail;
 
@@ -2788,12 +2788,12 @@ des paramètres." );
 						 "Nom" );
 
 		      if ( strlen ( xmlGetProp ( node_detail,
-						 "Date_début" )))
+						 "Date_debut" )))
 			{
 			  gchar **pointeur_char;
 
 			  pointeur_char = g_strsplit ( xmlGetProp ( node_detail,
-								    "Date_début" ),
+								    "Date_debut" ),
 						       "/",
 						       3 );
 
@@ -2824,7 +2824,7 @@ des paramètres." );
 			exercice -> date_fin = NULL;
 
 		      exercice -> affiche_dans_formulaire = atoi ( xmlGetProp ( node_detail,
-										"Affiché" ));
+										"Affiche" ));
 
 		      liste_struct_exercices = g_slist_append ( liste_struct_exercices,
 								exercice );
@@ -2836,7 +2836,7 @@ des paramètres." );
 	    }
 	}
 	
-      /* on récupère ici les rapprochements */
+      /* on recupère ici les rapprochements */
 
       if ( !strcmp ( node_1 -> name,
 		     "Rapprochements" ))
@@ -2849,12 +2849,12 @@ des paramètres." );
 
 	  while ( node_rapprochements )
 	    {
-	      /* il n'y a pas de généralités ... */
+	      /* il n'y a pas de generalites ... */
 
-	      /* on va récupérer ici les rapprochements */
+	      /* on va recuperer ici les rapprochements */
 	      
 	      if ( !strcmp ( node_rapprochements -> name,
-			     "Détail_des_rapprochements" ))
+			     "Detail_des_rapprochements" ))
 		{
 		  xmlNodePtr node_detail;
 
@@ -2884,7 +2884,7 @@ des paramètres." );
 	    }
 	}
 
-      /* on récupère ici les états */
+      /* on recupère ici les etats */
 
       if ( !strcmp ( node_1 -> name,
 		     "Etats" ))
@@ -2897,10 +2897,10 @@ des paramètres." );
 
 	  while ( node_etats )
 	    {
-	      /* on va récupérer ici les généralités des etats */
+	      /* on va recuperer ici les generalites des etats */
 	      
 	      if ( !strcmp ( node_etats -> name,
-			     "Généralités" ))
+			     "Generalites" ))
 		{
 		  xmlNodePtr node_generalites;
 
@@ -2917,10 +2917,10 @@ des paramètres." );
 		}
 
 	 
-	      /* on va récupérer ici les etats */
+	      /* on va recuperer ici les etats */
 	    
 	      if ( !strcmp ( node_etats -> name,
-			     "Détail_des_etats" ))
+			     "Detail_des_etats" ))
 		{
 		  xmlNodePtr node_detail;
 
@@ -2931,13 +2931,42 @@ des paramètres." );
 		    {
 		      struct struct_etat *etat;
 		      
-		      etat = calloc ( 1,
-				      sizeof ( struct struct_etat ));
+		      etat = malloc ( sizeof ( struct struct_etat ));
 
 		      etat -> no_etat = atoi ( xmlGetProp ( node_detail,
-						 "No" ));
+							    "No" ));
 		      etat -> nom_etat = xmlGetProp ( node_detail,
-						 "Nom" );
+						      "Nom" );
+
+		      etat -> afficher_opes = atoi ( xmlGetProp ( node_detail,
+								  "Aff_ope" ));
+
+		      etat -> afficher_date_ope = atoi ( xmlGetProp ( node_detail,
+								      "Aff_date_ope" ));
+
+		      etat -> afficher_tiers_ope = atoi ( xmlGetProp ( node_detail,
+								       "Aff_tiers_ope" ));
+
+		      etat -> afficher_categ_ope = atoi ( xmlGetProp ( node_detail,
+								       "Aff_categ_ope" ));
+
+		      etat -> afficher_sous_categ_ope = atoi ( xmlGetProp ( node_detail,
+									    "Aff_ss_categ_ope" ));
+
+		      etat -> afficher_ib_ope = atoi ( xmlGetProp ( node_detail,
+								    "Aff_ib_ope" ));
+
+		      etat -> afficher_sous_ib_ope = atoi ( xmlGetProp ( node_detail,
+									 "Aff_ss_ib_ope" ));
+
+		      etat -> afficher_notes_ope = atoi ( xmlGetProp ( node_detail,
+								       "Aff_notes_ope" ));
+
+		      etat -> afficher_pc_ope = atoi ( xmlGetProp ( node_detail,
+								    "Aff_pc_ope" ));
+
+		      etat -> afficher_infobd_ope = atoi ( xmlGetProp ( node_detail,
+									"Aff_infobd_ope" ));
 
 		      etat -> exo_date = atoi ( xmlGetProp ( node_detail,
 							     "Exo_date" ));
@@ -2945,6 +2974,8 @@ des paramètres." );
 		      etat -> utilise_detail_exo = atoi ( xmlGetProp ( node_detail,
 								       "Detail_exo" ));
 							  			  
+		      etat -> no_exercices = NULL;
+
 		      if ( strlen ( xmlGetProp ( node_detail,
 						 "No_exo" )))
 			{
@@ -2956,7 +2987,6 @@ des paramètres." );
 						       "/",
 						       0 );
 			  i=0;
-			  etat -> no_exercices = NULL;
 
 			  while ( pointeur_char[i] )
 			    {
@@ -2966,11 +2996,8 @@ des paramètres." );
 			    }
 			  g_strfreev ( pointeur_char );
 			}
-
+			
 							 
-		      etat -> separation_par_exo = atoi ( xmlGetProp ( node_detail,
-								       "Exo_separation" ));
-							  			  
 		      etat -> no_plage_date = atoi ( xmlGetProp ( node_detail,
 								  "Plage_date" ));
 
@@ -3010,26 +3037,13 @@ des paramètres." );
 		      else
 			etat -> date_perso_fin = NULL;
 
-		      etat -> separation_par_plage = atoi ( xmlGetProp ( node_detail,
-								       "Plage_separation" ));
-							  			  
-		      etat -> type_separation_plage = atoi ( xmlGetProp ( node_detail,
-								       "Plage_type_sep" ));
-							  			  
-		      etat -> jour_debut_semaine = atoi ( xmlGetProp ( node_detail,
-								       "Debut_sem" ));
-							  			  
-		      etat -> type_separation_perso = atoi ( xmlGetProp ( node_detail,
-								       "Plage_type_perso" ));
-							  			  
-		      etat -> delai_separation_perso = atoi ( xmlGetProp ( node_detail,
-								       "Plage_delai_perso" ));
-							  			  
 		      etat -> type_classement = atoi ( xmlGetProp ( node_detail,
 								  "Type_classement" ));
 
 		      etat -> utilise_detail_comptes = atoi ( xmlGetProp ( node_detail,
 								  "Detail_comptes" ));
+
+		      etat -> no_comptes = NULL;
 
 		      if ( strlen ( xmlGetProp ( node_detail,
 						 "No_comptes" )))
@@ -3042,7 +3056,6 @@ des paramètres." );
 						       "/",
 						       0 );
 			  i=0;
-			  etat -> no_comptes = NULL;
 
 			  while ( pointeur_char[i] )
 			    {
@@ -3054,10 +3067,19 @@ des paramètres." );
 			}
 
 
+		      etat -> regroupe_ope_par_compte = atoi ( xmlGetProp ( node_detail,
+									    "Grp_ope_compte" ));
+
+		      etat -> affiche_sous_total_compte = atoi ( xmlGetProp ( node_detail,
+									    "Total_compte" ));
+
 		      etat -> utilise_categ = atoi ( xmlGetProp ( node_detail,
 								  "Categ" ));
 		      etat -> utilise_detail_categ = atoi ( xmlGetProp ( node_detail,
 								  "Detail_categ" ));
+
+		      etat -> no_categ = NULL;
+
 		      if ( strlen ( xmlGetProp ( node_detail,
 						 "No_categ" )))
 			{
@@ -3069,7 +3091,6 @@ des paramètres." );
 						       "/",
 						       0 );
 			  i=0;
-			  etat -> no_categ = NULL;
 
 			  while ( pointeur_char[i] )
 			    {
@@ -3080,16 +3101,24 @@ des paramètres." );
 			  g_strfreev ( pointeur_char );
 			}
 
-		      etat -> inclusion_virements_passif = atoi ( xmlGetProp ( node_detail,
-								  "Vir_passif" ));
-		      etat -> inclusion_virements_hors_etat = atoi ( xmlGetProp ( node_detail,
-								  "Vir_hors" ));
-		      etat -> pas_inclusion_virements = atoi ( xmlGetProp ( node_detail,
-								  "Pas_vir" ));
+		      etat -> affiche_sous_total_categ = atoi ( xmlGetProp ( node_detail,
+									"Total_categ" ));
+
+		      etat -> afficher_sous_categ = atoi ( xmlGetProp ( node_detail,
+									"Aff_ss_categ" ));
+
+		      etat -> affiche_sous_total_sous_categ = atoi ( xmlGetProp ( node_detail,
+									"Total_ss_categ" ));
+
+		      etat -> type_virement = atoi ( xmlGetProp ( node_detail,
+						     "Type_vir" ));
+
 		      etat -> utilise_ib = atoi ( xmlGetProp ( node_detail,
 								  "IB" ));
 		      etat -> utilise_detail_ib = atoi ( xmlGetProp ( node_detail,
 								  "Detail_ib" ));
+		      etat -> no_ib = NULL;
+
 		      if ( strlen ( xmlGetProp ( node_detail,
 						 "No_ib" )))
 			{
@@ -3101,7 +3130,6 @@ des paramètres." );
 						       "/",
 						       0 );
 			  i=0;
-			  etat -> no_ib = NULL;
 
 			  while ( pointeur_char[i] )
 			    {
@@ -3112,10 +3140,22 @@ des paramètres." );
 			  g_strfreev ( pointeur_char );
 			}
 
+
+		      etat -> affiche_sous_total_ib = atoi ( xmlGetProp ( node_detail,
+									"Total_ib" ));
+
+		      etat -> afficher_sous_ib = atoi ( xmlGetProp ( node_detail,
+									"Aff_ss_ib" ));
+
+		      etat -> affiche_sous_total_sous_ib = atoi ( xmlGetProp ( node_detail,
+									"Total_ss_ib" ));
+
 		      etat -> utilise_tiers = atoi ( xmlGetProp ( node_detail,
 								  "Tiers" ));
 		      etat -> utilise_detail_tiers = atoi ( xmlGetProp ( node_detail,
 								  "Detail_tiers" ));
+
+		      etat -> no_tiers = NULL;
 
 		      if ( strlen ( xmlGetProp ( node_detail,
 						 "No_tiers" )))
@@ -3128,7 +3168,6 @@ des paramètres." );
 						       "/",
 						       0 );
 			  i=0;
-			  etat -> no_tiers = NULL;
 
 			  while ( pointeur_char[i] )
 			    {
@@ -3138,6 +3177,9 @@ des paramètres." );
 			    }
 			  g_strfreev ( pointeur_char );
 			}
+
+		      etat -> affiche_sous_total_tiers = atoi ( xmlGetProp ( node_detail,
+								  "Total_tiers" ));
 
 		      if ( strlen ( xmlGetProp ( node_detail,
 						 "Texte" )))
@@ -3163,7 +3205,7 @@ des paramètres." );
     }
 
 
-  /* on libère la mémoire */
+  /* on libère la memoire */
 
   xmlFreeDoc ( doc );
 
@@ -3181,7 +3223,7 @@ des paramètres." );
 
 
 /***********************************************************************************************************/
-/* Procédure qui sauvegarde le fichier */
+/* Procedure qui sauvegarde le fichier */
 /* retourne TRUE : no problem */
 /* retourne FALSE : pas de nom => gtkfileselection a pris la main ou erreur */
 /***********************************************************************************************************/
@@ -3197,7 +3239,7 @@ gboolean enregistre_fichier ( void )
   gint i;
   GSList *pointeur_liste_2;
 
-  /*   si le fichier est déjà ouvert par un autre, ne peut enregistrer */
+  /*   si le fichier est dejà ouvert par un autre, ne peut enregistrer */
 
   if ( etat.fichier_deja_ouvert && !etat.force_enregistrement )
     {
@@ -3212,7 +3254,7 @@ gboolean enregistre_fichier ( void )
     mise_a_jour_solde ( i );
 
 
-  /* création de l'arbre xml en mémoire */
+  /* creation de l'arbre xml en memoire */
 
   doc = xmlNewDoc("1.0");
 
@@ -3223,11 +3265,11 @@ gboolean enregistre_fichier ( void )
 			      "Grisbi",
 			      NULL );
 
-  /* on commence à ajouter les généralités */
+  /* on commence à ajouter les generalites */
 
   node = xmlNewChild ( doc->root,
 		       NULL,
-		       "Généralités",
+		       "Generalites",
 		       NULL );
   xmlNewTextChild ( node,
 		    NULL,
@@ -3274,11 +3316,11 @@ gboolean enregistre_fichier ( void )
 		    itoa (etat.utilise_info_banque_guichet));
   xmlNewTextChild ( node,
 		    NULL,
-		    "Numéro_devise_totaux_tiers",
+		    "Numero_devise_totaux_tiers",
 		    itoa ( no_devise_totaux_tiers));
   xmlNewTextChild ( node,
 		    NULL,
-		    "Type_affichage_des_échéances",
+		    "Type_affichage_des_echeances",
 		    itoa (affichage_echeances));
   xmlNewTextChild ( node,
 		    NULL,
@@ -3290,11 +3332,11 @@ gboolean enregistre_fichier ( void )
 		    itoa (affichage_echeances_perso_j_m_a));
   xmlNewTextChild ( node,
 		    NULL,
-		    "Numéro_derniere_operation",
+		    "Numero_derniere_operation",
 		    itoa ( no_derniere_operation));
 
 
-  /*   on commence la sauvegarde des comptes : 2 parties, les généralités */
+  /*   on commence la sauvegarde des comptes : 2 parties, les generalites */
   /* puis les comptes 1 par 1 */
 
   node = xmlNewChild ( doc->root,
@@ -3302,14 +3344,14 @@ gboolean enregistre_fichier ( void )
 		       "Comptes",
 		       NULL );
 
-  /* c'est node_1 qui va contenir les généralités puis les comptes */
+  /* c'est node_1 qui va contenir les generalites puis les comptes */
 
   node_1 = xmlNewChild ( node,
 			 NULL,
-			 "Généralités",
+			 "Generalites",
 			 NULL );
 
-  /* création de l'ordre des comptes */
+  /* creation de l'ordre des comptes */
 
   pointeur_liste = ordre_comptes;
   pointeur_char = NULL;
@@ -3352,9 +3394,9 @@ gboolean enregistre_fichier ( void )
 			     "Compte",
 			     NULL );
 
-      /* on met d'abord le détail du compte, les types puis les opérations */
+      /* on met d'abord le detail du compte, les types puis les operations */
 
-      /* mise en forme de la date du dernier relevé */
+      /* mise en forme de la date du dernier releve */
 
       if ( DATE_DERNIER_RELEVE )
 	pointeur_char = g_strconcat ( itoa ( g_date_day ( DATE_DERNIER_RELEVE ) ),
@@ -3369,7 +3411,7 @@ gboolean enregistre_fichier ( void )
 
       node_compte = xmlNewChild ( node_1,
 				  NULL,
-				  "Détails",
+				  "Details",
 				  NULL );
 
       xmlNewTextChild ( node_compte,
@@ -3394,7 +3436,7 @@ gboolean enregistre_fichier ( void )
 
       xmlNewTextChild ( node_compte,
 			NULL,
-			"Nb_opérations",
+			"Nb_operations",
 			itoa ( NB_OPE_COMPTE ));
 
       xmlNewTextChild ( node_compte,
@@ -3419,7 +3461,7 @@ gboolean enregistre_fichier ( void )
 
       xmlNewTextChild ( node_compte,
 			NULL,
-			"Clé_du_compte",
+			"Cle_du_compte",
 			CLE_COMPTE );
 
       xmlNewTextChild ( node_compte,
@@ -3436,7 +3478,7 @@ gboolean enregistre_fichier ( void )
 
       xmlNewTextChild ( node_compte,
 			NULL,
-			"Solde_mini_autorisé",
+			"Solde_mini_autorise",
 			g_strdup_printf ( "%4.2f",
 					  SOLDE_MINI ));
 
@@ -3448,12 +3490,12 @@ gboolean enregistre_fichier ( void )
 
       xmlNewTextChild ( node_compte,
 			NULL,
-			"Date_dernier_relevé",
+			"Date_dernier_releve",
 			pointeur_char );
 
       xmlNewTextChild ( node_compte,
 			NULL,
-			"Solde_dernier_relevé",
+			"Solde_dernier_releve",
 			g_strdup_printf ( "%4.2f",
 					  SOLDE_DERNIER_RELEVE ));
 
@@ -3464,7 +3506,7 @@ gboolean enregistre_fichier ( void )
 
       xmlNewTextChild ( node_compte,
 			NULL,
-			"Compte_cloturé",
+			"Compte_cloture",
 			itoa ( COMPTE_CLOTURE ));
 
       xmlNewTextChild ( node_compte,
@@ -3484,12 +3526,12 @@ gboolean enregistre_fichier ( void )
 
       xmlNewTextChild ( node_compte,
 			NULL,
-			"Type_défaut_débit",
+			"Type_defaut_debit",
 			itoa ( TYPE_DEFAUT_DEBIT ));
 
       xmlNewTextChild ( node_compte,
 			NULL,
-			"Type_défaut_crédit",
+			"Type_defaut_credit",
 			itoa ( TYPE_DEFAUT_CREDIT ));
 
       xmlNewTextChild ( node_compte,
@@ -3530,7 +3572,7 @@ gboolean enregistre_fichier ( void )
 
       node_compte = xmlNewChild ( node_1,
 				  NULL,
-				  "Détail_de_Types",
+				  "Detail_de_Types",
 				  NULL );
 
       pointeur_liste = TYPES_OPES;
@@ -3565,7 +3607,7 @@ gboolean enregistre_fichier ( void )
 		       itoa ( type -> affiche_entree ));
 
 	  xmlSetProp ( node_type,
-		       "Numérotation_auto",
+		       "Numerotation_auto",
 		       itoa ( type -> numerotation_auto ));
 
 	  xmlSetProp ( node_type,
@@ -3576,11 +3618,11 @@ gboolean enregistre_fichier ( void )
 	}
 
 
-      /* mise en place des opérations */
+      /* mise en place des operations */
 
       node_compte = xmlNewChild ( node_1,
 				  NULL,
-				  "Détail_des_opérations",
+				  "Detail_des_operations",
 				  NULL );
 
       pointeur_liste = LISTE_OPERATIONS;
@@ -3594,7 +3636,7 @@ gboolean enregistre_fichier ( void )
 
 	  node_ope = xmlNewChild ( node_compte,
 				   NULL,
-				   "Opération",
+				   "Operation",
 				   NULL );
 
 	  xmlSetProp ( node_ope,
@@ -3717,36 +3759,36 @@ gboolean enregistre_fichier ( void )
     }
 
 
-  /* on sauvegarde maintenant les échéances : généralités puis liste des échéances */
+  /* on sauvegarde maintenant les echeances : generalites puis liste des echeances */
 
 
   node = xmlNewChild ( doc->root,
 		       NULL,
-		       "Échéances",
+		       "Echeances",
 		       NULL );
 
-  /* c'est node_1 qui va contenir les généralités */
+  /* c'est node_1 qui va contenir les generalites */
 
   node_1 = xmlNewChild ( node,
 			 NULL,
-			 "Généralités",
+			 "Generalites",
 			 NULL );
 
   xmlNewTextChild ( node_1,
 		    NULL,
-		    "Nb_échéances",
+		    "Nb_echeances",
 		    itoa ( nb_echeances ));
 
   xmlNewTextChild ( node_1,
 		    NULL,
-		    "No_dernière_échéance",
+		    "No_derniere_echeance",
 		    itoa ( no_derniere_echeance ));
 
-  /* on met les échéances */
+  /* on met les echeances */
 
   node_1 = xmlNewChild ( node,
 			 NULL,
-			 "Détail_des_échéances",
+			 "Detail_des_echeances",
 			 NULL );
 
   pointeur_liste = gsliste_echeances;
@@ -3761,7 +3803,7 @@ gboolean enregistre_fichier ( void )
 
       node_echeance = xmlNewChild ( node_1,
 				    NULL,
-				    "Échéance",
+				    "Echeance",
 				    NULL );
 
       xmlSetProp ( node_echeance,
@@ -3793,11 +3835,11 @@ gboolean enregistre_fichier ( void )
 		   itoa ( echeance -> tiers ));
 
       xmlSetProp ( node_echeance,
-		   "Catégorie",
+		   "Categorie",
 		   itoa ( echeance -> categorie ));
 
       xmlSetProp ( node_echeance,
-		   "Sous-catégorie",
+		   "Sous-categorie",
 		   itoa ( echeance -> sous_categorie ));
 
       xmlSetProp ( node_echeance,
@@ -3825,7 +3867,7 @@ gboolean enregistre_fichier ( void )
 		   itoa ( echeance -> sous_imputation ));
 
       xmlSetProp ( node_echeance,
-		   "Pièce_comptable",
+		   "Piece_comptable",
 		   echeance -> no_piece_comptable );
 
       xmlSetProp ( node_echeance,
@@ -3841,15 +3883,15 @@ gboolean enregistre_fichier ( void )
 		   itoa ( echeance -> auto_man ));
 
       xmlSetProp ( node_echeance,
-		   "Périodicité",
+		   "Periodicite",
 		   itoa ( echeance -> periodicite ));
 
       xmlSetProp ( node_echeance,
-		   "Intervalle_périodicité",
+		   "Intervalle_periodicite",
 		   itoa ( echeance -> intervalle_periodicite_personnalisee ));
 
       xmlSetProp ( node_echeance,
-		   "Périodicité_personnalisée",
+		   "Periodicite_personnalisee",
 		   itoa ( echeance -> periodicite_personnalisee ));
 
       if ( echeance -> jour_limite )
@@ -3868,7 +3910,7 @@ gboolean enregistre_fichier ( void )
     }
 
 
-  /* mise en place des tiers : généralités puis liste */
+  /* mise en place des tiers : generalites puis liste */
 
 
   node = xmlNewChild ( doc->root,
@@ -3876,11 +3918,11 @@ gboolean enregistre_fichier ( void )
 		       "Tiers",
 		       NULL );
 
-  /* c'est node_1 qui va contenir les généralités */
+  /* c'est node_1 qui va contenir les generalites */
 
   node_1 = xmlNewChild ( node,
 			 NULL,
-			 "Généralités",
+			 "Generalites",
 			 NULL );
 
   xmlNewTextChild ( node_1,
@@ -3897,7 +3939,7 @@ gboolean enregistre_fichier ( void )
 
   node_1 = xmlNewChild ( node,
 			 NULL,
-			 "Détail_des_tiers",
+			 "Detail_des_tiers",
 			 NULL );
 
   pointeur_liste = liste_struct_tiers;
@@ -3935,36 +3977,36 @@ gboolean enregistre_fichier ( void )
     }
 
 
-  /* mise en place des catégories : généralités puis liste */
+  /* mise en place des categories : generalites puis liste */
 
 
   node = xmlNewChild ( doc->root,
 		       NULL,
-		       "Catégories",
+		       "Categories",
 		       NULL );
 
-  /* c'est node_1 qui va contenir les généralités */
+  /* c'est node_1 qui va contenir les generalites */
 
   node_1 = xmlNewChild ( node,
 			 NULL,
-			 "Généralités",
+			 "Generalites",
 			 NULL );
 
   xmlNewTextChild ( node_1,
 		    NULL,
-		    "Nb_catégories",
+		    "Nb_categories",
 		    itoa ( nb_enregistrements_categories ));
 
   xmlNewTextChild ( node_1,
 		    NULL,
-		    "No_dernière_catégorie",
+		    "No_derniere_categorie",
 		    itoa ( no_derniere_categorie ));
 
-  /* on met les catégories */
+  /* on met les categories */
 
   node_1 = xmlNewChild ( node,
 			 NULL,
-			 "Détail_des_catégories",
+			 "Detail_des_categories",
 			 NULL );
 
   pointeur_liste = liste_struct_categories;
@@ -3980,7 +4022,7 @@ gboolean enregistre_fichier ( void )
 
       node_categ = xmlNewChild ( node_1,
 				 NULL,
-				 "Catégorie",
+				 "Categorie",
 				 NULL );
 
       xmlSetProp ( node_categ,
@@ -3996,11 +4038,11 @@ gboolean enregistre_fichier ( void )
 		   itoa ( categ -> type_categ ));
 
       xmlSetProp ( node_categ,
-		   "No_dernière_sous_cagégorie",
+		   "No_derniere_sous_cagegorie",
 		   itoa ( categ -> no_derniere_sous_categ ));
 
 
-      /* on ajoute les sous catégories */
+      /* on ajoute les sous categories */
 
       pointeur_sous_categ = categ -> liste_sous_categ;
 
@@ -4013,7 +4055,7 @@ gboolean enregistre_fichier ( void )
 
 	  node_sous_categ = xmlNewChild ( node_categ,
 					  NULL,
-					  "Sous-catégorie",
+					  "Sous-categorie",
 					  NULL );
 
 	  xmlSetProp ( node_sous_categ,
@@ -4030,7 +4072,7 @@ gboolean enregistre_fichier ( void )
     }
 
 
-  /* mise en place des imputations budgétaires : généralités puis liste */
+  /* mise en place des imputations budgetaires : generalites puis liste */
 
 
   node = xmlNewChild ( doc->root,
@@ -4038,11 +4080,11 @@ gboolean enregistre_fichier ( void )
 		       "Imputations",
 		       NULL );
 
-  /* c'est node_1 qui va contenir les généralités */
+  /* c'est node_1 qui va contenir les generalites */
 
   node_1 = xmlNewChild ( node,
 			 NULL,
-			 "Généralités",
+			 "Generalites",
 			 NULL );
 
   xmlNewTextChild ( node_1,
@@ -4052,14 +4094,14 @@ gboolean enregistre_fichier ( void )
 
   xmlNewTextChild ( node_1,
 		    NULL,
-		    "No_dernière_imputation",
+		    "No_derniere_imputation",
 		    itoa ( no_derniere_imputation ));
 
-  /* on met les catégories */
+  /* on met les categories */
 
   node_1 = xmlNewChild ( node,
 			 NULL,
-			 "Détail_des_imputations",
+			 "Detail_des_imputations",
 			 NULL );
 
   pointeur_liste = liste_struct_imputation;
@@ -4091,10 +4133,10 @@ gboolean enregistre_fichier ( void )
 		   itoa ( imputation -> type_imputation ));
 
       xmlSetProp ( node_imputation,
-		   "No_dernière_sous_imputation",
+		   "No_derniere_sous_imputation",
 		   itoa ( imputation -> no_derniere_sous_imputation ));
 
-      /* on ajoute les sous catégories */
+      /* on ajoute les sous categories */
 
       pointeur_sous_imputation = imputation -> liste_sous_imputation;
 
@@ -4107,7 +4149,7 @@ gboolean enregistre_fichier ( void )
 
 	  node_sous_imputation = xmlNewChild ( node_imputation,
 					  NULL,
-					  "Catégorie",
+					  "Categorie",
 					  NULL );
 
 	  xmlSetProp ( node_sous_imputation,
@@ -4124,7 +4166,7 @@ gboolean enregistre_fichier ( void )
     }
 
 
-  /* mise en place des devises : généralités puis liste */
+  /* mise en place des devises : generalites puis liste */
 
 
   node = xmlNewChild ( doc->root,
@@ -4132,11 +4174,11 @@ gboolean enregistre_fichier ( void )
 		       "Devises",
 		       NULL );
 
-  /* c'est node_1 qui va contenir les généralités */
+  /* c'est node_1 qui va contenir les generalites */
 
   node_1 = xmlNewChild ( node,
 			 NULL,
-			 "Généralités",
+			 "Generalites",
 			 NULL );
 
   xmlNewTextChild ( node_1,
@@ -4146,14 +4188,14 @@ gboolean enregistre_fichier ( void )
 
   xmlNewTextChild ( node_1,
 		    NULL,
-		    "No_dernière_devise",
+		    "No_derniere_devise",
 		    itoa ( no_derniere_devise ));
 
   /* on met les devises */
 
   node_1 = xmlNewChild ( node,
 			 NULL,
-			 "Détail_des_devises",
+			 "Detail_des_devises",
 			 NULL );
 
   pointeur_liste = liste_struct_devises;
@@ -4216,7 +4258,7 @@ gboolean enregistre_fichier ( void )
     }
 
 
-  /* mise en place des banques : généralités puis liste */
+  /* mise en place des banques : generalites puis liste */
 
 
   node = xmlNewChild ( doc->root,
@@ -4224,11 +4266,11 @@ gboolean enregistre_fichier ( void )
 		       "Banques",
 		       NULL );
 
-  /* c'est node_1 qui va contenir les généralités */
+  /* c'est node_1 qui va contenir les generalites */
 
   node_1 = xmlNewChild ( node,
 			 NULL,
-			 "Généralités",
+			 "Generalites",
 			 NULL );
 
   xmlNewTextChild ( node_1,
@@ -4238,14 +4280,14 @@ gboolean enregistre_fichier ( void )
 
   xmlNewTextChild ( node_1,
 		    NULL,
-		    "No_dernière_banque",
+		    "No_derniere_banque",
 		    itoa ( no_derniere_banque ));
 
   /* on met les banques */
 
   node_1 = xmlNewChild ( node,
 			 NULL,
-			 "Détail_des_banques",
+			 "Detail_des_banques",
 			 NULL );
 
   pointeur_liste = liste_struct_banques;
@@ -4280,7 +4322,7 @@ gboolean enregistre_fichier ( void )
 		   banque -> adr_banque );
 
       xmlSetProp ( node_banque,
-		   "Tél",
+		   "Tel",
 		   banque -> tel_banque );
 
       xmlSetProp ( node_banque,
@@ -4300,7 +4342,7 @@ gboolean enregistre_fichier ( void )
 		   banque -> fax_correspondant );
 
       xmlSetProp ( node_banque,
-		   "Tél_correspondant",
+		   "Tel_correspondant",
 		   banque -> tel_correspondant );
 
       xmlSetProp ( node_banque,
@@ -4314,7 +4356,7 @@ gboolean enregistre_fichier ( void )
       pointeur_liste = pointeur_liste -> next;
     }
 
-  /* mise en place des exercices : généralités puis liste */
+  /* mise en place des exercices : generalites puis liste */
 
 
   node = xmlNewChild ( doc->root,
@@ -4322,11 +4364,11 @@ gboolean enregistre_fichier ( void )
 		       "Exercices",
 		       NULL );
 
-  /* c'est node_1 qui va contenir les généralités */
+  /* c'est node_1 qui va contenir les generalites */
 
   node_1 = xmlNewChild ( node,
 			 NULL,
-			 "Généralités",
+			 "Generalites",
 			 NULL );
 
   xmlNewTextChild ( node_1,
@@ -4343,7 +4385,7 @@ gboolean enregistre_fichier ( void )
 
   node_1 = xmlNewChild ( node,
 			 NULL,
-			 "Détail_des_exercices",
+			 "Detail_des_exercices",
 			 NULL );
 
   pointeur_liste = liste_struct_exercices;
@@ -4371,14 +4413,14 @@ gboolean enregistre_fichier ( void )
 
       if ( exercice->date_debut )
 	xmlSetProp ( node_exercice,
-		     "Date_début",
+		     "Date_debut",
 		     g_strdup_printf ( "%d/%d/%d",
 				       g_date_day ( exercice->date_debut ),
 				       g_date_month ( exercice->date_debut ),
 				       g_date_year ( exercice->date_debut )));
       else
 	xmlSetProp ( node_exercice,
-		     "Date_début",
+		     "Date_debut",
 		     NULL );
 
       if ( exercice->date_fin )
@@ -4394,14 +4436,14 @@ gboolean enregistre_fichier ( void )
 		     NULL );
 
       xmlSetProp ( node_exercice,
-		   "Affiché",
+		   "Affiche",
 		   itoa ( exercice -> affiche_dans_formulaire ));
 
       pointeur_liste = pointeur_liste -> next;
     }
 
 
-  /* mise en place des no de rapprochement : généralités puis liste */
+  /* mise en place des no de rapprochement : generalites puis liste */
 
 
   node = xmlNewChild ( doc->root,
@@ -4409,13 +4451,13 @@ gboolean enregistre_fichier ( void )
 		       "Rapprochements",
 		       NULL );
 
-  /* c'est node_1 qui va contenir les généralités */
+  /* c'est node_1 qui va contenir les generalites */
 
-  /* on n'a pas de généralités, peut être un jour ... */
+  /* on n'a pas de generalites, peut être un jour ... */
 
 /*   node_1 = xmlNewChild ( node, */
 /* 			 NULL, */
-/* 			 "Généralités", */
+/* 			 "Generalites", */
 /* 			 NULL ); */
 
 /*   xmlNewTextChild ( node_1, */
@@ -4427,7 +4469,7 @@ gboolean enregistre_fichier ( void )
 
   node_1 = xmlNewChild ( node,
 			 NULL,
-			 "Détail_des_rapprochements",
+			 "Detail_des_rapprochements",
 			 NULL );
 
   pointeur_liste = liste_no_rapprochements;
@@ -4457,18 +4499,18 @@ gboolean enregistre_fichier ( void )
     }
 
 
-  /* sauvegarde des états */
+  /* sauvegarde des etats */
 
   node = xmlNewChild ( doc->root,
 		       NULL,
 		       "Etats",
 		       NULL );
 
-  /* c'est node_1 qui va contenir les généralités */
+  /* c'est node_1 qui va contenir les generalites */
 
   node_1 = xmlNewChild ( node,
 			 NULL,
-			 "Généralités",
+			 "Generalites",
 			 NULL );
 
   xmlNewTextChild ( node_1,
@@ -4476,11 +4518,11 @@ gboolean enregistre_fichier ( void )
 		    "No_dernier_etat",
 		    itoa ( no_dernier_etat ));
 
-  /* on met les états */
+  /* on met les etats */
 
   node_1 = xmlNewChild ( node,
 			 NULL,
-			 "Détail_des_etats",
+			 "Detail_des_etats",
 			 NULL );
 
   pointeur_liste_2 = liste_struct_etats;
@@ -4505,6 +4547,47 @@ gboolean enregistre_fichier ( void )
       xmlSetProp ( node_etat,
 		   "Nom",
 		   etat -> nom_etat );
+
+      xmlSetProp ( node_etat,
+		   "Aff_ope",
+		   itoa ( etat -> afficher_opes ));
+
+      xmlSetProp ( node_etat,
+		   "Aff_date_ope",
+		   itoa ( etat -> afficher_date_ope ));
+
+      xmlSetProp ( node_etat,
+		   "Aff_tiers_ope",
+		   itoa ( etat -> afficher_tiers_ope ));
+
+      xmlSetProp ( node_etat,
+		   "Aff_categ_ope",
+		   itoa ( etat -> afficher_categ_ope ));
+
+      xmlSetProp ( node_etat,
+		   "Aff_ss_categ_ope",
+		   itoa ( etat -> afficher_sous_categ_ope ));
+
+      xmlSetProp ( node_etat,
+		   "Aff_ib_ope",
+		   itoa ( etat -> afficher_ib_ope ));
+
+      xmlSetProp ( node_etat,
+		   "Aff_ss_ib_ope",
+		   itoa ( etat -> afficher_sous_ib_ope ));
+
+      xmlSetProp ( node_etat,
+		   "Aff_notes_ope",
+		   itoa ( etat -> afficher_notes_ope ));
+
+      xmlSetProp ( node_etat,
+		   "Aff_pc_ope",
+		   itoa ( etat -> afficher_pc_ope ));
+
+      xmlSetProp ( node_etat,
+		   "Aff_infobd_ope",
+		   itoa ( etat -> afficher_infobd_ope ));
+
 
       xmlSetProp ( node_etat,
 		   "Exo_date",
@@ -4533,10 +4616,6 @@ gboolean enregistre_fichier ( void )
       xmlSetProp ( node_etat,
 		   "No_exo",
 		   pointeur_char );
-
-      xmlSetProp ( node_etat,
-		   "Exo_separation",
-		   itoa ( etat -> separation_par_exo ));
 
       xmlSetProp ( node_etat,
 		   "Plage_date",
@@ -4568,26 +4647,6 @@ gboolean enregistre_fichier ( void )
 		     NULL );
 
       xmlSetProp ( node_etat,
-		   "Plage_separation",
-		   itoa ( etat -> separation_par_plage ));
-
-      xmlSetProp ( node_etat,
-		   "Plage_type_sep",
-		   itoa ( etat -> type_separation_plage ));
-
-      xmlSetProp ( node_etat,
-		   "Debut_sem",
-		   itoa ( etat -> jour_debut_semaine ));
-
-      xmlSetProp ( node_etat,
-		   "Plage_type_perso",
-		   itoa ( etat -> type_separation_perso ));
-
-      xmlSetProp ( node_etat,
-		   "Plage_delai_perso",
-		   itoa ( etat -> delai_separation_perso ));
-
-      xmlSetProp ( node_etat,
 		   "Type_classement",
 		   itoa ( etat -> type_classement ));
 
@@ -4614,6 +4673,14 @@ gboolean enregistre_fichier ( void )
       xmlSetProp ( node_etat,
 			"No_comptes",
 			pointeur_char );
+
+      xmlSetProp ( node_etat,
+		   "Grp_ope_compte",
+		   itoa ( etat -> regroupe_ope_par_compte ));
+
+      xmlSetProp ( node_etat,
+		   "Total_compte",
+		   itoa ( etat -> affiche_sous_total_compte ));
 
       xmlSetProp ( node_etat,
 		   "Categ",
@@ -4644,16 +4711,20 @@ gboolean enregistre_fichier ( void )
 			pointeur_char );
 
       xmlSetProp ( node_etat,
-		   "Vir_passif",
-		   itoa ( etat -> inclusion_virements_passif ));
+		   "Total_categ",
+		   itoa ( etat -> affiche_sous_total_categ ));
 
       xmlSetProp ( node_etat,
-		   "Vir_hors",
-		   itoa ( etat -> inclusion_virements_hors_etat ));
+		   "Aff_ss_categ",
+		   itoa ( etat -> afficher_sous_categ ));
 
       xmlSetProp ( node_etat,
-		   "Pas_vir",
-		   itoa ( etat -> pas_inclusion_virements ));
+		   "Total_ss_categ",
+		   itoa ( etat -> affiche_sous_total_sous_categ ));
+
+      xmlSetProp ( node_etat,
+		   "Type_vir",
+		   itoa ( etat -> type_virement ));
 
       xmlSetProp ( node_etat,
 		   "IB",
@@ -4684,6 +4755,18 @@ gboolean enregistre_fichier ( void )
 			pointeur_char );
 
       xmlSetProp ( node_etat,
+		   "Total_ib",
+		   itoa ( etat -> affiche_sous_total_ib ));
+
+      xmlSetProp ( node_etat,
+		   "Aff_ss_ib",
+		   itoa ( etat -> afficher_sous_ib ));
+
+      xmlSetProp ( node_etat,
+		   "Total_ss_ib",
+		   itoa ( etat -> affiche_sous_total_sous_ib ));
+
+      xmlSetProp ( node_etat,
 		   "Tiers",
 		   itoa ( etat -> utilise_tiers ));
 
@@ -4712,6 +4795,10 @@ gboolean enregistre_fichier ( void )
 			pointeur_char );
 
       xmlSetProp ( node_etat,
+		   "Total_tiers",
+		   itoa ( etat -> affiche_sous_total_tiers ));
+
+      xmlSetProp ( node_etat,
 			"Texte",
 			etat -> texte );
 
@@ -4731,7 +4818,7 @@ gboolean enregistre_fichier ( void )
   resultat = xmlSaveFile ( nom_fichier_comptes,
 			   doc );
 
-  /* on libère la mémoire */
+  /* on libère la memoire */
 
   xmlFreeDoc ( doc );
 
@@ -4796,8 +4883,8 @@ gchar *itoa ( gint integer )
 
 /***********************************************************************************************************/
 /* Fonction vire_les_points_virgules */
-/* utilisée à l'enregistrement de texte */
-/* quand les ; sont utilisés comme séparation */
+/* utilisee à l'enregistrement de texte */
+/* quand les ; sont utilises comme separation */
 /***********************************************************************************************************/
 
 gchar *vire_les_points_virgules ( gchar *origine )
@@ -4817,8 +4904,8 @@ gchar *vire_les_points_virgules ( gchar *origine )
 
 /***********************************************************************************************************/
 /* Fonction vire_les_accolades */
-/* utilisée à l'enregistrement de texte */
-/* quand les {} sont utilisés comme séparation */
+/* utilisee à l'enregistrement de texte */
+/* quand les {} sont utilises comme separation */
 /***********************************************************************************************************/
 
 gchar *vire_les_accolades ( gchar *origine )
@@ -4842,7 +4929,7 @@ gchar *vire_les_accolades ( gchar *origine )
 
 /***********************************************************************************************************/
 /* ouvre le fichier, recherche <Fichier_ouvert> */
-/* et le met à la valeur demandée */
+/* et le met à la valeur demandee */
 /***********************************************************************************************************/
 
 void fichier_marque_ouvert ( gint ouvert )
@@ -4872,7 +4959,7 @@ void fichier_marque_ouvert ( gint ouvert )
 	  &&
 	  retour != EOF );
 
-  /*   s'il n'a rien trouvé, c'est que c'était la version 0.3.1 et on passe */
+  /*   s'il n'a rien trouve, c'est que c'etait la version 0.3.1 et on passe */
 
   if ( retour != EOF )
     fprintf ( pointeur_fichier_comptes,
