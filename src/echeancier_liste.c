@@ -1443,6 +1443,7 @@ void supprime_echeance ( struct operation_echeance *echeance )
 			liste_tmp = liste_tmp -> next;
 			gsliste_echeances = g_slist_remove ( gsliste_echeances, 
 							     echeance_tmp );
+			free ( echeance_tmp );
 			nb_echeances--;
 		    }
 		    else

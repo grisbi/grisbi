@@ -2375,6 +2375,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 		     !strlen ( tableau_char[1] ) )
 		{
 		    dialogue_error ( _("There is no associated account for this transfer.") );
+		    g_strfreev ( tableau_char );
 		    return (FALSE);
 		}
 		/* si c'est un virement vers un compte supprimé, laisse passer */
@@ -2403,12 +2404,14 @@ gint verification_validation_operation ( struct structure_operation *operation )
 		    if ( compte_virement == -1 )
 		    {
 			dialogue_warning ( _("Associated account of this transfer is invalid.") );
+			g_strfreev ( tableau_char );
 			return (FALSE);
 		    }
 
 		    if ( compte_virement == compte_courant )
 		    {
 			dialogue_error ( _("Can't issue a transfer its own account.") );
+			g_strfreev ( tableau_char );
 			return (FALSE);
 		    }
 
@@ -2419,6 +2422,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 		    if ( COMPTE_CLOTURE )
 		    {
 			dialogue_error ( _("Can't issue a transfer on a closed account." ));
+			g_strfreev ( tableau_char );
 			return ( FALSE );
 		    }
 
@@ -2797,6 +2801,7 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
 	operation -> imputation = 0;
 	operation -> sous_imputation = 0;
     }
+    g_strfreev ( tableau_char );
 
     /* récupération du no de pièce comptable */
 

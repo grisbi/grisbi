@@ -366,6 +366,7 @@ void supprime_exercice ( GtkWidget *bouton, GtkWidget *liste )
     gtk_clist_remove ( GTK_CLIST(liste), ligne_selection_exercice );
     liste_struct_exercices = g_slist_remove ( liste_struct_exercices,
 					      exercice );
+    free ( exercice );
     nb_exercices--;
     free ( exercice );
     if ( ligne_selection_exercice > 0 )

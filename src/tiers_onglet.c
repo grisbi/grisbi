@@ -1359,6 +1359,7 @@ retour_dialogue:
 
     liste_struct_tiers = g_slist_remove ( liste_struct_tiers,
 					  tiers );
+    free ( tiers );
     nb_enregistrements_tiers--;
 
 

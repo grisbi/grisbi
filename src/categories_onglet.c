@@ -1947,6 +1947,7 @@ retour_dialogue:
 
     liste_struct_categories = g_slist_remove ( liste_struct_categories,
 					       categ );
+    free ( categ );
     nb_enregistrements_categories--;
 
     enleve_selection_ligne_categ();
@@ -2319,7 +2320,7 @@ retour_dialogue:
 
     categ -> liste_sous_categ = g_slist_remove ( categ -> liste_sous_categ,
 						 sous_categ );
-
+    free ( sous_categ );
 
     enleve_selection_ligne_categ();
 

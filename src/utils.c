@@ -745,6 +745,8 @@ gboolean lance_navigateur_web ( const gchar *url )
 			      _("Cannot run web browser") );
     }
 
+    g_strfreev( split );    
+
 #ifdef _WIN32
     }
     else

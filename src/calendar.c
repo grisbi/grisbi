@@ -468,6 +468,7 @@ void inc_dec_date ( GtkWidget *entree, gint demande )
     mois = gsb_strtod ( tableau_char[1], NULL );
     annee = gsb_strtod ( tableau_char[2], NULL );
 
+    g_strfreev ( tableau_char );
     date = g_date_new_dmy ( jour, mois, annee);
 
     switch ( demande )

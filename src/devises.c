@@ -969,6 +969,7 @@ void retrait_devise ( GtkWidget *bouton,
     gtk_clist_remove ( GTK_CLIST ( liste ), ligne_selection_devise );
 
     liste_struct_devises = g_slist_remove ( liste_struct_devises, devise );
+    free ( devise );
     nb_devises--;
 
 }

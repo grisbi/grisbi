@@ -1825,6 +1825,7 @@ retour_dialogue:
 
     liste_struct_imputation = g_slist_remove ( liste_struct_imputation,
 					       imputation );
+    free ( imputation );
     nb_enregistrements_imputations--;
 
     enleve_selection_ligne_imputation();
@@ -2158,7 +2159,7 @@ retour_dialogue:
 
     imputation -> liste_sous_imputation = g_slist_remove ( imputation -> liste_sous_imputation,
 							   sous_imputation );
-
+    free ( sous_imputation );
 
     enleve_selection_ligne_imputation();
 

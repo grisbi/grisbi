@@ -1788,6 +1788,7 @@ void supprime_operations_orphelines ( void )
 			liste_tmp = liste_tmp -> next;
 			LISTE_OPERATIONS = g_slist_remove ( LISTE_OPERATIONS,
 							    operation );
+			free ( operation );
 			NB_OPE_COMPTE--;
 			nb_ventil++;
 		    }
@@ -1800,6 +1801,7 @@ void supprime_operations_orphelines ( void )
 		    liste_tmp = liste_tmp -> next;
 		    LISTE_OPERATIONS = g_slist_remove ( LISTE_OPERATIONS,
 							operation );
+		    free ( operation );
 		    NB_OPE_COMPTE--;
 		    nb_ventil++;
 		}

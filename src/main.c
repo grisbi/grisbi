@@ -422,8 +422,10 @@ int main (int argc, char *argv[])
 			    }
 			}
 			break;
-		}
+		    }
+		g_strfreev( split_chiffres );
 	    }
+	    g_strfreev( split_argument );
 	}
 
 

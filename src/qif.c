@@ -744,6 +744,7 @@ changement_format_date:
 
 		compte -> operations_importees = g_slist_remove ( compte -> operations_importees,
 								  liste_tmp -> data );
+		free ( liste_tmp -> data );
 	    }
 	    liste_tmp = liste_tmp -> next;
 	}
@@ -1480,6 +1481,7 @@ void click_compte_export_qif ( GtkWidget *bouton,
 				   FALSE );
 	liste_entrees_exportation = g_slist_remove ( liste_entrees_exportation,
 						     entree);
+	free ( entree );
     }
 
 }

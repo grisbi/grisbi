@@ -1578,6 +1578,7 @@ void fin_edition_echeance ( void )
 	     !strlen ( tableau_char[1] ) )
 	{
 	    dialogue_error ( _("There is no associated account for this transfer.") );
+	    g_strfreev ( tableau_char );
 	    return;
 	}
 
@@ -1600,6 +1601,7 @@ void fin_edition_echeance ( void )
 	    if ( compte_virement == -1 )
 	    {
 		dialogue_warning ( _("Associated account of this transfer is invalid.") );
+		g_strfreev ( tableau_char );
 		return;
 	    }
 	}
@@ -1661,6 +1663,8 @@ void fin_edition_echeance ( void )
 	echeance -> annee = my_strtod (tableau_char[2],
 				       NULL );
 
+	g_strfreev ( tableau_char );
+	
 	echeance ->date = g_date_new_dmy ( echeance ->jour,
 					   echeance ->mois,
 					   echeance ->annee);
@@ -1939,6 +1943,7 @@ void fin_edition_echeance ( void )
 	    echeance->date_limite = g_date_new_dmy ( echeance->jour_limite,
 						     echeance->mois_limite,
 						     echeance->annee_limite);
+	    g_strfreev ( tableau_char );
 	}
 
 
@@ -1949,6 +1954,7 @@ void fin_edition_echeance ( void )
 	    gsliste_echeances = g_slist_insert_sorted ( gsliste_echeances,
 							echeance,
 							(GCompareFunc) comparaison_date_echeance );
+	g_strfreev ( tableau_char );
     }
     else
     {
@@ -2010,7 +2016,7 @@ void fin_edition_echeance ( void )
 	}
 
 
-	/* rÃÂ©cupération du montant */
+	/* récupération du montant */
 
 	if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
 	    operation -> montant = -my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ))),
@@ -2347,6 +2353,7 @@ void fin_edition_echeance ( void )
 	gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_MODE] );
 	gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQUENCY] );
 	gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQUENCY] );
+	g_strfreev ( tableau_char );
 
     }
 

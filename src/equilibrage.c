@@ -1570,6 +1570,7 @@ void reconcile_include_neutral_toggled ( GtkCellRendererToggle *cell,
 	    if ( GPOINTER_TO_INT ( liste_tmp->data ) < 0 )
 	    {
 		LISTE_TRI = g_slist_remove ( LISTE_TRI, liste_tmp -> data );
+		free ( liste_tmp -> data );
 		liste_tmp = LISTE_TRI;
 		clear_tree = 1;
 	    }

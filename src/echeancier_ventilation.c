@@ -1597,6 +1597,7 @@ void fin_edition_ventilation_echeances ( void )
 		    if ( compte_vire == -1 )
 		    {
 			dialogue_error ( _("The associated account for this transfer is invalid") );
+			g_strfreev ( tableau_char );
 			return;
 		    }
 
@@ -1604,15 +1605,18 @@ void fin_edition_ventilation_echeances ( void )
 										"no_compte" )) )
 		    {
 			dialogue_error ( _("It's impossible to transfer an account to itself") );
+			g_strfreev ( tableau_char );
 			return;
 		    }
 		}
 		else
 		{
 		    dialogue_error ( _("No account associated with the transfer") );
+		    g_strfreev ( tableau_char );
 		    return;
 		}
 	    }
+	    g_strfreev ( tableau_char );
 	}
     }
 
@@ -2174,6 +2178,7 @@ void supprime_operation_ventilation_echeances ( void )
 
 	liste_struct_ventilations = g_slist_remove ( liste_struct_ventilations,
 						     operation );
+	free ( operation );
 	gtk_object_set_data ( GTK_OBJECT ( formulaire_echeancier ),
 			      "liste_adr_ventilation",
 			      liste_struct_ventilations );

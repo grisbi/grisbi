@@ -4175,6 +4175,7 @@ void retire_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_tex
 
     etat_courant -> liste_struct_comparaison_textes = g_slist_remove ( etat_courant -> liste_struct_comparaison_textes,
 								       ancien_comp_textes );
+    free( ancien_comp_textes );
 }
 /******************************************************************************/
 
@@ -5470,6 +5471,7 @@ void retire_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_m
 
     etat_courant -> liste_struct_comparaison_montants = g_slist_remove ( etat_courant -> liste_struct_comparaison_montants,
 									 ancien_comp_montants );
+    free( ancien_comp_montants );
 }
 /******************************************************************************/
 
