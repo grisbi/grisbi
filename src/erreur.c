@@ -42,7 +42,7 @@
 /*START_STATIC*/
 /*END_STATIC*/
 
-
+gint debugging_grisbi;
 
 /*START_EXTERN*/
 extern gint id_temps;
@@ -269,6 +269,75 @@ void traitement_sigsegv ( gint signal_nb )
     modification_etat_ouverture_fichier ( FALSE );
     exit(1);
 }
+
+/*************************************************************************************************************/
+/* initialise show_grisbi_debug a TRUE si on souhaite le debug																							 */
+/*************************************************************************************************************/
+void initialize_debugging ( void )
+{
+	/* un int pour stocker le level de debug et une chaine qui contient sa version texte */
+	gint debug_variable=0;
+	gchar *debug_level="";
+	
+	if (getenv ("DEBUG_GRISBI"))
+	{
+		/* on choppe la variable d'environnement */
+		debug_variable=my_atoi (getenv ("DEBUG_GRISBI"));
+		
+		/* on verifie que la variable est cohérente */
+		if (debug_variable > 0 && debug_variable <= MAX_DEBUG_LEVEL) 
+		{
+			/* on renseigne le texte du level de debug */
+			debugging_grisbi = debug_variable;
+			switch(debug_variable)
+			{
+					case DEBUG_LEVEL_ALERT: { debug_level="Alert"; break; }
+					case DEBUG_LEVEL_IMPORTANT: { debug_level="Important"; break; }
+					case DEBUG_LEVEL_NOTICE: { debug_level="Notice"; break; }
+					case DEBUG_LEVEL_INFO: { debug_level="Info"; break; }
+					case DEBUG_LEVEL_DEBUG: { debug_level="Debug"; break; }
+			}
+			
+			/* on affiche un message de debug pour indiquer que le debug est actif */
+			debug_message(g_strdup_printf(_("GRISBI %s Debug"),VERSION) , 
+										g_strdup_printf(_("Debug enable, level is '%s'"),debug_level),
+										DEBUG_LEVEL_INFO, TRUE);
+		}
+		else
+		{
+			/* on affiche un message de debug pour indiquer que le debug est actif */
+			debug_message(g_strdup_printf(_("GRISBI %s Debug"),VERSION) , 
+										g_strdup_printf(_("Wrong debug level, please check DEBUG_GRISBI environnement variable"),debug_level),
+										DEBUG_LEVEL_INFO, TRUE);
+		}
+	}
+}
+
+/*************************************************************************************************************/
+/* affiche de message de debug dans la console (uniquement si show_grisbi_debug est a TRUE)									 */
+/*************************************************************************************************************/
+void debug_message ( gchar *prefixe, gchar *message, gint level, gboolean force_debug_display)
+{
+	/* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
+  if ( ( debugging_grisbi && level>=debugging_grisbi) || force_debug_display) 
+	{
+		/* le temps courant et une chaine dans laquelle on stocke le temps courant */
+	 	time_t debug_time;
+		gchar *str_debug_time;
+		
+		/* on choppe le temps courant et on va le mettre dans une chaine */
+	  time(&debug_time);
+		str_debug_time=ctime(&debug_time);
+		
+		/* on fait sauter le retour a la ligne */
+		str_debug_time[strlen(str_debug_time) - 1] = '\0';
+		
+		/* on affiche dans la console le message */
+		printf(g_strdup_printf(_("%s : %s - %s\n"),str_debug_time,prefixe,message));
+	}
+}
+
+/*************************************************************************************************************/
 
 /*************************************************************************************************************/
 

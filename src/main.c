@@ -119,6 +119,8 @@ extern GtkWidget *tree_view;
  */
 int main (int argc, char *argv[])
 {
+		initialize_debugging();
+	
 #ifndef _WIN32
     struct sigaction sig_sev;
 #endif

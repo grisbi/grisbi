@@ -19,7 +19,16 @@ gpointer **verification_p_tab ( gchar *fonction_appelante );
 #define VERSION_FICHIER_CATEG "0.5.0"
 #define VERSION_FICHIER_IB "0.5.0"
 
+/* variable de debug originale, obsolete il faudrait utiliser maintenant */
+/* la variable globale debugging_grisbi, voir erreur.c */
 #define DEBUG my_atoi (getenv ("DEBUG_GRISBI"))
+/* variables de niveau de debug */
+#define	DEBUG_LEVEL_ALERT			5		/* grave probleme */
+#define DEBUG_LEVEL_IMPORTANT	4		/* probleme moins grave */
+#define DEBUG_LEVEL_NOTICE		3		/* probleme encore moins grave :) */
+#define DEBUG_LEVEL_INFO			2		/* autre information */
+#define DEBUG_LEVEL_DEBUG			1		/* information de debug */
+#define MAX_DEBUG_LEVEL				5		/* ignore higher debug levels */
 
 /* initialisation des couleurs */
 
@@ -854,4 +863,4 @@ struct organisation_formulaire
     gint taille_colonne_pourcent[6];
 
 };
-#endif 
+#endif
