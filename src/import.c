@@ -59,6 +59,8 @@ gint valeur_echelle_recherche_date_import;
 extern GtkWidget *window_vbox_principale;
 
 extern GtkWidget *widget_formulaire_echeancier[19];
+extern gint mise_a_jour_liste_comptes_accueil;
+extern gint mise_a_jour_soldes_minimaux;
 
 
 /* *******************************************************************************/
@@ -404,7 +406,7 @@ gboolean affichage_recapitulatif_importation ( void )
 
 	if ( !nb_comptes )
 	{
-	    init_variables ( FALSE );
+	    menus_sensitifs ( FALSE );
 	    creation_devises_de_base ();
 	}
 
@@ -837,7 +839,8 @@ void traitement_operations_importees ( void )
 	nouveau_fichier = 0;
     else
     {
-	init_variables ( TRUE );
+	init_variables ();
+	menus_sensitifs ( TRUE );
 	creation_liste_categories ();
 
 	nouveau_fichier = 1;
@@ -957,8 +960,8 @@ void traitement_operations_importees ( void )
 									  FALSE ) );
 
 
-	update_liste_comptes_accueil ();
-	mise_a_jour_soldes_minimaux ();
+	mise_a_jour_liste_comptes_accueil = 1;
+	mise_a_jour_soldes_minimaux = 1;
 
 	affiche_titre_fenetre ();
 	reaffiche_liste_comptes();
@@ -2635,8 +2638,8 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 
 	    /* mise à jour de l'accueil */
 
-	    update_liste_comptes_accueil ();
-	    mise_a_jour_soldes_minimaux ();
+	    mise_a_jour_liste_comptes_accueil = 1;
+	    mise_a_jour_soldes_minimaux = 1;
 
 	    reaffiche_liste_comptes_onglet ();
 

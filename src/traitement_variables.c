@@ -74,6 +74,12 @@ extern GSList *liste_struct_rapprochements;
 extern GSList *liste_struct_imputation;
 extern gint nb_enregistrements_imputations;
 extern gint no_derniere_imputation;
+extern gint mise_a_jour_liste_comptes_accueil;
+extern gint mise_a_jour_liste_echeances_manuelles_accueil;
+extern gint mise_a_jour_liste_echeances_auto_accueil;
+extern gint mise_a_jour_soldes_minimaux;
+extern gint mise_a_jour_fin_comptes_passifs;
+
 
 
 /*****************************************************************************************************/
@@ -111,143 +117,108 @@ void modification_fichier ( gboolean modif )
 
 
 /*****************************************************************************************************/
-/* fonction appelée à chaque ouverture de fichier et qui initialise les variables globales */
-/* si ouverture = TRUE, la fonction considère qu'on est en train d'ouvrir un fichier et ajuste les menus */
-/* en conséquence */
-/* sinon, suppose que fermeture de fichier */
+/* fonction  qui initialise les variables globales */
 /*****************************************************************************************************/
 
-void init_variables ( gboolean ouverture )
+void init_variables ( void )
 {
     gint i;
 
-    if ( ouverture )
+    if ( DEBUG )
+	printf ( "init_variables\n" );
+
+    mise_a_jour_liste_comptes_accueil = 0;
+    mise_a_jour_liste_echeances_manuelles_accueil = 0;
+    mise_a_jour_liste_echeances_auto_accueil = 0;
+    mise_a_jour_soldes_minimaux = 0;
+    mise_a_jour_fin_comptes_passifs = 0;
+
+    etat.modification_fichier = 0;
+    etat.utilise_logo = 1;
+
+    nom_fichier_comptes = NULL;
+
+    nb_comptes = 0;
+    no_derniere_operation = 0;
+    p_tab_nom_de_compte = NULL;
+    ordre_comptes = NULL;
+    compte_courant = 0;
+    solde_label = NULL;
+    p_tab_nom_de_compte = NULL;
+
+    nom_fichier_backup = NULL;
+    chemin_logo = NULL;
+
+    liste_struct_echeances = NULL;
+    nb_echeances = 0;
+    no_derniere_echeance = 0;
+    affichage_echeances = 3;
+    affichage_echeances_perso_nb_libre = 0;
+    affichage_echeances_perso_j_m_a = 0;
+    echeances_saisies = NULL;
+
+    liste_struct_tiers = NULL;
+    nb_enregistrements_tiers = 0;
+    no_dernier_tiers = 0;
+
+    liste_struct_categories = NULL;
+    nb_enregistrements_categories = 0;
+    no_derniere_categorie = 0;
+
+    liste_struct_imputation = NULL;
+    nb_enregistrements_imputations = 0;
+    no_derniere_imputation = 0;
+
+    liste_struct_devises = NULL;
+    nb_devises = 0;
+    no_derniere_devise = 0;
+    devise_nulle = calloc ( 1,
+			    sizeof ( struct struct_devise ));
+    no_devise_totaux_tiers = 1;
+    devise_compte = NULL;
+    devise_operation = NULL;
+
+    liste_struct_banques = NULL;
+    nb_banques = 0;
+    no_derniere_banque = 0;
+
+
+    liste_struct_rapprochements = NULL;
+
+    titre_fichier = NULL;
+    adresse_commune = NULL;
+
+    if ( liste_struct_exercices )
     {
-	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							       menu_name(_("File"), _("Save as"), NULL)),
-				   TRUE );
-	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							       menu_name(_("File"), _("Export"), NULL)),
-				   TRUE );
-	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							       menu_name(_("File"), _("Close"), NULL)),
-				   TRUE );
-	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							       menu_name(_("Accounts"), _("Remove an account"), NULL)),
-				   TRUE );
-
-	/* remplit les tabeaux tips_col_liste_operations et titres_colonnes_liste_operations */
-
-	recuperation_noms_colonnes_et_tips();
+	g_slist_free ( liste_struct_exercices );
+	liste_struct_exercices = NULL;
     }
-    else
+
+    liste_struct_etats = NULL;
+    no_dernier_etat = 0;
+    etat_courant = NULL;
+    liste_categ_etat = NULL;
+
+    initialise_tab_affichage_ope();
+
+    etat.fichier_deja_ouvert = 0;
+    valeur_echelle_recherche_date_import = 2;
+
+    tooltips_general_grisbi = NULL;
+
+    for ( i=0 ; i<3 ; i++ )
+	colonnes_liste_ventils[i] = NULL;
+
+    /* 	on initialise la liste des labels des titres de colonnes */
+
+    if ( !liste_labels_titres_colonnes_liste_ope )
     {
-	etat.modification_fichier = 0;
-	etat.utilise_logo = 1;
-
-	nom_fichier_comptes = NULL;
-
-	nb_comptes = 0;
-	no_derniere_operation = 0;
-	p_tab_nom_de_compte = NULL;
-	ordre_comptes = NULL;
-	compte_courant = 0;
-	solde_label = NULL;
-	p_tab_nom_de_compte = NULL;
-
-	nom_fichier_backup = NULL;
-	chemin_logo = NULL;
-
-	liste_struct_echeances = NULL;
-	nb_echeances = 0;
-	no_derniere_echeance = 0;
-	affichage_echeances = 3;
-	affichage_echeances_perso_nb_libre = 0;
-	affichage_echeances_perso_j_m_a = 0;
-	echeances_saisies = NULL;
-
-	liste_struct_tiers = NULL;
-	nb_enregistrements_tiers = 0;
-	no_dernier_tiers = 0;
-
-	liste_struct_categories = NULL;
-	nb_enregistrements_categories = 0;
-	no_derniere_categorie = 0;
-
-	liste_struct_imputation = NULL;
-	nb_enregistrements_imputations = 0;
-	no_derniere_imputation = 0;
-
-	liste_struct_devises = NULL;
-	nb_devises = 0;
-	no_derniere_devise = 0;
-	devise_nulle = calloc ( 1,
-				sizeof ( struct struct_devise ));
-	no_devise_totaux_tiers = 1;
-	devise_compte = NULL;
-	devise_operation = NULL;
-
-	liste_struct_banques = NULL;
-	nb_banques = 0;
-	no_derniere_banque = 0;
-
-	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							       menu_name(_("File"), _("Save"), NULL)),
-				   FALSE );
-	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							       menu_name(_("File"), _("Save as"), NULL)),
-				   FALSE );
-	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							       menu_name(_("File"), _("Export"), NULL)),
-				   FALSE );
-	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							       menu_name(_("File"), _("Close"), NULL)),
-				   FALSE );
-	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							       menu_name(_("Accounts"), _("Remove an account"), NULL)),
-				   FALSE );
-	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							       menu_name(_("Accounts"), _("Closed accounts"), NULL)),
-				   FALSE );
-
-
-	liste_struct_rapprochements = NULL;
-
-	titre_fichier = NULL;
-	adresse_commune = NULL;
-
-	if ( liste_struct_exercices )
+	i=0;
+	while ( labels_titres_colonnes_liste_ope[i] )
 	{
-	    g_slist_free ( liste_struct_exercices );
-	    liste_struct_exercices = NULL;
-	}
-
-	liste_struct_etats = NULL;
-	no_dernier_etat = 0;
-	etat_courant = NULL;
-	liste_categ_etat = NULL;
-
-	initialise_tab_affichage_ope();
-
-	etat.fichier_deja_ouvert = 0;
-	valeur_echelle_recherche_date_import = 2;
-
-	tooltips_general_grisbi = NULL;
-
-	for ( i=0 ; i<3 ; i++ )
-	    colonnes_liste_ventils[i] = NULL;
-
-/* 	on initialise la liste des labels des titres de colonnes */
-
-	if ( !liste_labels_titres_colonnes_liste_ope )
-	{
-	    i=0;
-	    while ( labels_titres_colonnes_liste_ope[i] )
-	    {
-		liste_labels_titres_colonnes_liste_ope = g_slist_append ( liste_labels_titres_colonnes_liste_ope,
-									  labels_titres_colonnes_liste_ope[i] );
-		i++;
-	    }
+	    liste_labels_titres_colonnes_liste_ope = g_slist_append ( liste_labels_titres_colonnes_liste_ope,
+								      labels_titres_colonnes_liste_ope[i] );
+	    i++;
 	}
     }
 }
@@ -359,6 +330,38 @@ void initialisation_couleurs_listes ( void )
     style_gris ->base[GTK_STATE_NORMAL] = couleur_grise;
     style_gris ->fg[GTK_STATE_NORMAL] = style_gris->black;
 
+}
+/*****************************************************************************************************/
+
+/*****************************************************************************************************/
+/* si grise = 1 ; grise tous les menus qui doivent l'être quand aucun fichier n'est en mémoire */
+/* si grise = 0 ; dégrise les même menus */
+/*****************************************************************************************************/
+
+void menus_sensitifs ( gboolean sensitif )
+{
+
+    if ( DEBUG )
+	printf ( "menus_sensitifs : %d\n", sensitif );
+
+    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							   menu_name(_("File"), _("Save"), NULL)),
+			       sensitif );
+    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							   menu_name(_("File"), _("Save as"), NULL)),
+			       sensitif );
+    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							   menu_name(_("File"), _("Export"), NULL)),
+			       sensitif );
+    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							   menu_name(_("File"), _("Close"), NULL)),
+			       sensitif );
+    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							   menu_name(_("Accounts"), _("Remove an account"), NULL)),
+			       sensitif );
+    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							   menu_name(_("Accounts"), _("Closed accounts"), NULL)),
+			       sensitif );
 }
 /*****************************************************************************************************/
 

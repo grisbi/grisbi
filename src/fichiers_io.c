@@ -94,6 +94,9 @@ gboolean charge_operations ( void )
     xmlDocPtr doc;
     int result;
 
+    if ( DEBUG )
+	printf ( "charge_operations\n" );
+
     /* vérification de la permission du fichier */
 
     result = stat ( nom_fichier_comptes, &buffer_stat);
@@ -155,7 +158,7 @@ gboolean charge_operations ( void )
 
 
 	    dialogue_error ( g_strdup_printf ( _("Grisbi version %s is needed to open this file"),
-					       xmlNodeGetContent ( root->children->children->next )));
+					       xmlNodeGetContent ( root->children->next -> children->next ->next ->next )));
 
 	    xmlFreeDoc ( doc );
 
@@ -190,6 +193,9 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
     gint i;
     gchar *nom_sauvegarde;
     xmlNodePtr root = xmlDocGetRootElement(doc);
+
+      if ( DEBUG )
+	printf ( "charge_operations_version_0_3_2\n" );
 
     etat.en_train_de_charger = 1;
 
@@ -1835,6 +1841,8 @@ void supprime_operations_orphelines ( void )
 
 	dialogue ( message );
     }
+
+    etat.fichier_animation_attente = g_strdup ( ANIM_PATH );
     /*     ajout de la 0.5 -> valeur_echelle_recherche_date_import qu'on me à 2 */
 
     valeur_echelle_recherche_date_import = 2;
@@ -1852,6 +1860,9 @@ gboolean charge_operations_version_0_4_0 ( xmlDocPtr doc )
 {
     gint retour;
     gint i;
+
+      if ( DEBUG )
+	printf ( "charge_operations_version_0_4_0\n" );
 
     /* il n'y a aucune différence de struct entre la 0.4.0 et la 0.4.1 */
     /* sauf que la 0.4.0 n'attribuait pas le no de relevé aux opés filles */
@@ -1915,6 +1926,9 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
     xmlNodePtr root = xmlDocGetRootElement(doc);
     struct stat buffer_stat;
 
+
+    if ( DEBUG )
+	printf ( "charge_operations_version_0_4_1\n" );
 
     etat.en_train_de_charger = 1;
 
@@ -4148,6 +4162,8 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
     etat.en_train_de_charger = 0;
     switch_t_r ();
 
+    etat.fichier_animation_attente = g_strdup ( ANIM_PATH );
+
     /* on marque le fichier comme ouvert */
 
     fichier_marque_ouvert ( TRUE );
@@ -4165,6 +4181,10 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 
     gint retour;
     
+    if ( DEBUG )
+	printf ( "charge_operations_version_0_5_0\n" );
+
+  
 /* pour l'instant le fichier 0.5.1 ne diffère pas de la version 0.5.0 */
 /*     excepté un changement dans la notation du pointage */
 /*     rien=0 ; P=1 ; T=2 ; R=3 */
@@ -4232,6 +4252,9 @@ gboolean charge_operations_version_0_5_1 ( xmlDocPtr doc )
     xmlNodePtr node_1;
     xmlNodePtr root = xmlDocGetRootElement(doc);
     struct stat buffer_stat;
+
+      if ( DEBUG )
+	printf ( "charge_operations_version_0_5_1\n" );
 
 
     etat.en_train_de_charger = 1;

@@ -13,7 +13,8 @@ void selectionne_ligne ( gint compte,
 			 gint nouvelle_ligne );
 void ajuste_scrolling_liste_operations_a_selection ( gint compte );
 gint recupere_hauteur_ligne_tree_view ( GtkWidget *tree_view );
-struct structure_operation *cherche_operation_from_ligne ( gint ligne );
+struct structure_operation *cherche_operation_from_ligne ( gint ligne,
+							   gint no_compte );
 GtkTreeIter *cherche_iter_operation ( struct structure_operation *operation );
 void edition_operation ( void );
 void p_press (void);

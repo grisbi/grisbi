@@ -26,11 +26,14 @@
 #include "variables-extern.c"
 #include "gtkcombofix.h"
 #include "patienter.h"
+#include "main.h"
 
 
 GtkWidget *label_patience;
 GtkWidget *fenetre_patience;
 gint patience_en_cours;
+
+extern gint id_fonction_idle;
 
 
 /* ******************************************************************************************** */
@@ -47,7 +50,23 @@ void mise_en_route_attente ( gchar *message )
     GtkWidget *frame;
     GtkWidget *label;
 
+    if ( DEBUG )
+	printf ( "mise_en_route_attente %s\n", message );
+
+    /*     on doit absolument bloquer la fonction idle si elle est active */
+    /* 	sinon le programme bloquera à la fin de cette fonction */
+    /* 	par l'appel g_main_iteration */
+    /*     de toute façon gtk n'est pas censé être idle pendant une attente... */
+
+    if ( id_fonction_idle )
+    {
+	g_source_remove ( id_fonction_idle );
+	id_fonction_idle = 0;
+    }
+
     fenetre_patience = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
+    gtk_window_set_position ( GTK_WINDOW ( fenetre_patience),
+			      GTK_WIN_POS_CENTER );
     gtk_window_set_policy ( GTK_WINDOW ( fenetre_patience ),
 			    FALSE,
 			    FALSE,
@@ -98,6 +117,7 @@ void mise_en_route_attente ( gchar *message )
 	    gtk_widget_show ( animation );
 	}
     }
+
     label_patience = gtk_label_new ( message );
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 label_patience,
@@ -108,6 +128,8 @@ void mise_en_route_attente ( gchar *message )
 
     gtk_widget_show ( fenetre_patience );
 
+    while ( g_main_iteration ( FALSE ));
+
     patience_en_cours = 1;
 }
 /* ******************************************************************************************** */
@@ -116,10 +138,15 @@ void mise_en_route_attente ( gchar *message )
 /* ******************************************************************************************** */
 void update_attente ( gchar *message )
 {
+    if ( DEBUG )
+	printf ( "update_attente %s\n", message );
+
     if ( GTK_IS_LABEL ( label_patience ))
+    {
 	gtk_label_set_text ( GTK_LABEL ( label_patience ),
 			     message );
-
+	while ( g_main_iteration ( FALSE ));
+    }
 }
 /* ******************************************************************************************** */
 
@@ -127,10 +154,17 @@ void update_attente ( gchar *message )
 /* ******************************************************************************************** */
 void annulation_attente ()
 {
+    if ( DEBUG )
+	printf ( "annulation_attente\n" );
+
     patience_en_cours = 0;
     gtk_widget_destroy ( fenetre_patience );
+
+    /*     on remet l'idle en marche */
+
+    id_fonction_idle = g_idle_add ( (GSourceFunc) utilisation_temps_idle,
+				    NULL );
+	   
 }
 /* ******************************************************************************************** */
-
-
 

@@ -54,6 +54,10 @@ extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GSList *liste_struct_echeances;
 extern struct operation_echeance *echeance_selectionnnee;
 extern gint nb_echeances;
+extern gint mise_a_jour_liste_comptes_accueil;
+extern gint mise_a_jour_liste_echeances_manuelles_accueil;
+extern gint mise_a_jour_soldes_minimaux;
+extern gint mise_a_jour_fin_comptes_passifs;
 
 
 /* ************************************************************************** */
@@ -95,7 +99,7 @@ void  nouveau_compte ( void )
 
     /* mise à jour de l'accueil */
 
-    update_liste_comptes_accueil ();
+    mise_a_jour_liste_comptes_accueil = 1;
 
     remplissage_liste_comptes_etats ();
     selectionne_liste_comptes_etat_courant ();
@@ -353,10 +357,10 @@ void supprimer_compte ( void )
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), page_en_cours );
 
     remplissage_liste_echeance ();
-    update_liste_echeances_manuelles_accueil();
-    update_liste_comptes_accueil ();
-    mise_a_jour_soldes_minimaux ();
-    mise_a_jour_fin_comptes_passifs();
+    mise_a_jour_liste_echeances_manuelles_accueil = 1;
+    mise_a_jour_liste_comptes_accueil = 1;
+    mise_a_jour_soldes_minimaux = 1;
+    mise_a_jour_fin_comptes_passifs = 1;
 
     remplissage_liste_comptes_etats ();
     selectionne_liste_comptes_etat_courant ();

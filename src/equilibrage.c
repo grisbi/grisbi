@@ -87,6 +87,7 @@ extern GtkWidget *label_proprietes_operations_compte;
 extern GtkWidget *bouton_affiche_r;
 extern GtkWidget *bouton_enleve_r;
 extern GtkWidget *vbox_fleches_tri;
+extern gint mise_a_jour_liste_comptes_accueil;
 
 
 /******************************************************************************/
@@ -786,7 +787,8 @@ void pointe_equilibrage ( int p_ligne )
     gdouble montant;
     GtkTreeIter iter;
 
-    operation = cherche_operation_from_ligne ( p_ligne );
+    operation = cherche_operation_from_ligne ( p_ligne,
+					       compte_courant );
 
     if ( operation == GINT_TO_POINTER ( -1 )
 	 ||
@@ -1031,7 +1033,7 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
     annuler_equilibrage ();
 
     /* Update account list */
-    update_liste_comptes_accueil ();
+    mise_a_jour_liste_comptes_accueil = 1;
 }
 /******************************************************************************/
 

@@ -631,7 +631,8 @@ void sauve_configuration(void)
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
 	for ( i=0 ; i<TRANSACTION_LIST_COL_NB ; i++ )
-	    taille_largeur_colonnes[i] = gtk_tree_view_column_get_width ( COLONNE_LISTE_OPERATIONS(i) );
+	    if ( GTK_IS_TREE_VIEW_COLUMN ( COLONNE_LISTE_OPERATIONS(i)))
+		 taille_largeur_colonnes[i] = gtk_tree_view_column_get_width ( COLONNE_LISTE_OPERATIONS(i) );
     }
 
     /* creation de l'arbre xml en memoire */

@@ -51,6 +51,9 @@ extern GtkWidget *arbre_imputation;
 GtkWidget *creation_fenetre_principale (void )
 {
 
+    if ( DEBUG )
+	printf ( "creation_fenetre_principale\n" );
+
     /* création du notebook de base */
 
     notebook_general = gtk_notebook_new();
@@ -188,6 +191,12 @@ gboolean change_page_notebook ( GtkNotebook *notebook,
 
     switch ( numero_page )
     {
+	case 0:
+	    /* 	    on passe sur l'accueil, on met à jour les parties nécessaires */
+
+	    mise_a_jour_accueil ();
+	    break;
+
 	case 1:
 	    /* 	    si on va sur l'onglet opérations et que la liste n'est pas déjà remplis, on la rempli */
 	    /* 		et on met la value à -2 pour dire à la fonction que c'est la 1-re fois */

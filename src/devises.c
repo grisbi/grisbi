@@ -230,6 +230,9 @@ struct cached_exchange_rate {
 
 extern GtkWidget *widget_formulaire_echeancier[19];
 extern GSList *liste_struct_echeances;
+extern gint mise_a_jour_liste_comptes_accueil;
+extern gint mise_a_jour_liste_echeances_manuelles_accueil;
+extern gint mise_a_jour_liste_echeances_auto_accueil;
 
 
 gint
@@ -348,9 +351,9 @@ void update_currency_widgets()
     mise_a_jour_tiers ();
     mise_a_jour_categ ();
     mise_a_jour_imputation ();
-    update_liste_comptes_accueil();
-    update_liste_echeances_manuelles_accueil ();
-    update_liste_echeances_auto_accueil ();
+    mise_a_jour_liste_comptes_accueil = 1;
+    mise_a_jour_liste_echeances_manuelles_accueil = 1;
+    mise_a_jour_liste_echeances_auto_accueil = 1;
 }
 
 /* ***************************************************************************************************** */
@@ -2032,9 +2035,9 @@ gboolean changement_iso_code_entree_devise ( void )
 
 
 /* **************************************************************************************************************************** */
-/* cette fonction prend en argument un montant, la devise de renvoi (en gÃ©nÃ©ral la devise du compte) */
-/*      et la devise du montant donnÃ© en argument */
-/* elle renvoie le montant de l'opÃ©ration dans la devise de renvoi */
+/* cette fonction prend en argument un montant, la devise de renvoi (en général la devise du compte) */
+/*      et la devise du montant donné en argument */
+/* elle renvoie le montant de l'opération dans la devise de renvoi */
 /* **************************************************************************************************************************** */
 
 gdouble calcule_montant_devise_renvoi ( gdouble montant_init,

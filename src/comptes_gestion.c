@@ -50,6 +50,12 @@
 
 extern GtkWidget *widget_formulaire_echeancier[19];
 extern GSList *liste_struct_banques;
+extern gint mise_a_jour_liste_comptes_accueil;
+extern gint mise_a_jour_liste_echeances_manuelles_accueil;
+extern gint mise_a_jour_liste_echeances_auto_accueil;
+extern gint mise_a_jour_soldes_minimaux;
+extern gint mise_a_jour_fin_comptes_passifs;
+
 
 
 
@@ -899,8 +905,8 @@ void modification_details_compte ( void )
     {
 	TYPE_DE_COMPTE = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_type_compte ) -> menu_item ),
 								 "no_type_compte" ));
-	mise_a_jour_fin_comptes_passifs();
-	mise_a_jour_soldes_minimaux();
+	mise_a_jour_fin_comptes_passifs = 1;
+	mise_a_jour_soldes_minimaux = 1;
 	formulaire_a_zero();
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
 
@@ -983,8 +989,8 @@ void modification_details_compte ( void )
 	remplissage_liste_operations ( compte_courant_onglet );
 /* 	gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value = value; */
 
-	update_liste_comptes_accueil ();
-	update_liste_echeances_manuelles_accueil ();
+	mise_a_jour_liste_comptes_accueil = 1;
+	mise_a_jour_liste_echeances_manuelles_accueil = 1;
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
 
@@ -1048,7 +1054,7 @@ void modification_details_compte ( void )
 	COMPTE_CLOTURE = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( detail_compte_cloture ));
 	mise_a_jour_categ();
 	reaffiche_liste_comptes ();
-	update_liste_comptes_accueil ();
+	mise_a_jour_liste_comptes_accueil = 1;
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
 
     }
@@ -1069,9 +1075,9 @@ void modification_details_compte ( void )
 	remplissage_liste_operations ( compte_courant_onglet );
 /* 	gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value = value; */
 
-	update_liste_comptes_accueil ();
-	mise_a_jour_soldes_minimaux();
-	mise_a_jour_fin_comptes_passifs();
+	mise_a_jour_liste_comptes_accueil = 1;
+	mise_a_jour_soldes_minimaux = 1;
+	mise_a_jour_fin_comptes_passifs = 1;
 
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
@@ -1086,8 +1092,8 @@ void modification_details_compte ( void )
 				 NULL );
 	MESSAGE_SOUS_MINI = 0;
 
-	update_liste_comptes_accueil ();
-	mise_a_jour_soldes_minimaux();
+	mise_a_jour_liste_comptes_accueil = 1;
+	mise_a_jour_soldes_minimaux = 1;
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
     }
 
@@ -1102,7 +1108,7 @@ void modification_details_compte ( void )
 				       NULL );
 	MESSAGE_SOUS_MINI_VOULU = 0;
 
-	mise_a_jour_soldes_minimaux();
+	mise_a_jour_soldes_minimaux = 1;
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
     }
 
@@ -1140,11 +1146,11 @@ void modification_details_compte ( void )
 
 	reaffiche_liste_comptes ();
 	reaffiche_liste_comptes_onglet ();
-	update_liste_comptes_accueil ();
+	mise_a_jour_liste_comptes_accueil = 1;
 	remplissage_liste_echeance ();
-	update_liste_echeances_manuelles_accueil ();
-	mise_a_jour_soldes_minimaux();
-	mise_a_jour_fin_comptes_passifs();
+	mise_a_jour_liste_echeances_manuelles_accueil = 1;
+	mise_a_jour_soldes_minimaux = 1;
+	mise_a_jour_fin_comptes_passifs = 1;
 	mise_a_jour_categ();
 
 	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] ),
@@ -1211,7 +1217,7 @@ void sort_du_detail_compte ( void )
 	else
 	{
 	    modification_details_compte ();
-	    update_liste_comptes_accueil ();
+	    mise_a_jour_liste_comptes_accueil = 1;
 	}
 
 	p_tab_nom_de_compte_variable = save;
@@ -1280,7 +1286,7 @@ void passage_a_l_euro ( GtkWidget *bouton, gpointer null )
 	remplissage_liste_operations ( compte_courant );
 /* 	gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value = value; */
 
-	update_liste_comptes_accueil ();
+	mise_a_jour_liste_comptes_accueil = 1;
 	remplissage_details_compte ();
 
 	modification_fichier ( TRUE );

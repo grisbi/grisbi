@@ -24,7 +24,8 @@
 
 
 void modification_fichier ( gboolean modif );
-void init_variables ( gboolean ouverture );
+void init_variables ( void );
 void initialise_tab_affichage_ope ( void );
 void initialisation_couleurs_listes ( void );
+void menus_sensitifs ( gboolean sensitif );
 

@@ -62,6 +62,9 @@ extern gdouble operations_pointees;
 extern GtkWidget *label_equilibrage_ecart;
 extern GtkWidget *bouton_ok_equilibrage;
 extern GSList *liste_imputations_combofix;
+extern gint mise_a_jour_liste_comptes_accueil;
+extern gint mise_a_jour_soldes_minimaux;
+extern gint mise_a_jour_fin_comptes_passifs;
 
 
 
@@ -3134,12 +3137,41 @@ void ajout_operation ( struct structure_operation *operation )
 
     save_ptab = p_tab_nom_de_compte_variable;
 
-    /* si c'est une nouvelle opération, on lui met son no d'opération */
+    /* on met l'opé dant la liste en la classant */
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+    insere_operation_dans_liste ( operation );
 
+    /* on réaffiche(ra) la liste des opés */
+
+    MISE_A_JOUR = 1;
+
+    verification_mise_a_jour_liste ();
+
+    mise_a_jour_solde ( operation -> no_compte );
+
+    /* on réaffiche les comptes de l'accueil */
+
+    mise_a_jour_liste_comptes_accueil = 1;
+    mise_a_jour_soldes_minimaux = 1;
+    mise_a_jour_fin_comptes_passifs = 1;
+
+    p_tab_nom_de_compte_variable = save_ptab;
+}
+/******************************************************************************/
+
+
+/******************************************************************************/
+/* cette fonction met juste l'opé dans la sliste, et ajuste le nb d'opérations */
+/* sinon elle est ajoutée simplement à la liste */
+/* elle ne fait aucune autre mise à jour */
+/******************************************************************************/
+
+void insere_operation_dans_liste ( struct structure_operation *operation )
+{
     if ( !operation -> no_operation )
     {
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+
 	operation -> no_operation = ++no_derniere_operation;
 
 	LISTE_OPERATIONS = g_slist_insert_sorted ( LISTE_OPERATIONS,
@@ -3147,30 +3179,9 @@ void ajout_operation ( struct structure_operation *operation )
 						   (GCompareFunc) CLASSEMENT_COURANT );
 	NB_OPE_COMPTE++;
     }
-
-    /* on réaffiche(ra) la liste des opés */
-
-    MISE_A_JOUR = 1;
-
-    /* on classe la liste */
-
-/*     LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS, */
-/* 				      (GCompareFunc) CLASSEMENT_COURANT ); */
-
-    if ( operation -> no_compte == compte_courant )
-	verification_mise_a_jour_liste ();
-
-    mise_a_jour_solde ( operation -> no_compte );
-
-    /* on réaffiche les comptes de l'accueil */
-
-    update_liste_comptes_accueil();
-    mise_a_jour_soldes_minimaux();
-    mise_a_jour_fin_comptes_passifs ();
-
-    p_tab_nom_de_compte_variable = save_ptab;
 }
 /******************************************************************************/
+
 
 /******************************************************************************/
 /* efface le contenu du formulaire                                            */

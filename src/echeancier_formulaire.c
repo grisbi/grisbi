@@ -70,6 +70,11 @@ extern GtkWidget *fleche_bas_echeancier;
 extern GtkWidget *fleche_haut_echeancier;
 extern gint rafraichir_categ;
 extern GSList *liste_imputations_combofix;
+extern gint mise_a_jour_liste_comptes_accueil;
+extern gint mise_a_jour_liste_echeances_manuelles_accueil;
+extern gint mise_a_jour_liste_echeances_auto_accueil;
+extern gint mise_a_jour_soldes_minimaux;
+extern gint mise_a_jour_fin_comptes_passifs;
 
 
 
@@ -2221,8 +2226,8 @@ void fin_edition_echeance ( void )
     if ( !etat.formulaire_echeancier_toujours_affiche )
 	gtk_widget_hide ( frame_formulaire_echeancier );
 
-    update_liste_echeances_manuelles_accueil ();
-    update_liste_echeances_auto_accueil ();
+    mise_a_jour_liste_echeances_manuelles_accueil = 1;
+    mise_a_jour_liste_echeances_auto_accueil = 1;
     remplissage_liste_echeance ();
     gtk_widget_grab_focus ( liste_echeances );
 
@@ -2237,6 +2242,38 @@ void fin_edition_echeance ( void )
 void cree_contre_operation_echeance ( struct structure_operation *operation,
 				      gint compte_virement,
 				      gint contre_type_ope )
+{
+    ajoute_contre_operation_echeance_dans_liste ( operation,
+						  compte_virement,
+						  contre_type_ope );
+
+    /* on met à jour le compte courant pour le virement (il a été mis à jour avec ajout opération, mais sans les liens de virement) */
+
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+
+    MISE_A_JOUR = 1;
+    verification_mise_a_jour_liste ();
+
+    mise_a_jour_solde ( operation -> no_compte );
+
+    /* on réaffiche les comptes de l'accueil */
+
+    mise_a_jour_liste_comptes_accueil = 1;
+    mise_a_jour_soldes_minimaux = 1;
+    mise_a_jour_fin_comptes_passifs = 1;
+
+}
+/******************************************************************************/
+
+
+/******************************************************************************/
+/* cette fonction crée et ajoute la contre opération dans la slist */
+/* mais ne s'occupe pas du tout des mises à jour graphiques */
+/******************************************************************************/
+
+void ajoute_contre_operation_echeance_dans_liste ( struct structure_operation *operation,
+						   gint compte_virement,
+						   gint contre_type_ope )
 {
     /*   si c'était un virement, on crée une copie de l'opé, on l'ajout à la liste puis on remplit les relations */
 
@@ -2302,8 +2339,6 @@ void cree_contre_operation_echeance ( struct structure_operation *operation,
 	contre_operation -> frais_change = 0;
     }
 
-
-
     contre_operation -> tiers = operation -> tiers;
     contre_operation -> categorie = 0;
     contre_operation -> sous_categorie = 0;
@@ -2322,9 +2357,9 @@ void cree_contre_operation_echeance ( struct structure_operation *operation,
     contre_operation -> sous_imputation = operation -> sous_imputation;
 
     /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
+    /*     on ne classe pas */
 
-    ajout_operation ( contre_operation );
-
+    insere_operation_dans_liste ( contre_operation );
 
     /* on met maintenant les relations entre les différentes opé */
 
@@ -2332,15 +2367,10 @@ void cree_contre_operation_echeance ( struct structure_operation *operation,
     operation -> relation_no_compte = contre_operation -> no_compte;
     contre_operation -> relation_no_operation = operation -> no_operation;
     contre_operation -> relation_no_compte = operation -> no_compte;
-
-    /* on met à jour le compte courant pour le virement (il a été mis à jour avec ajout opération, mais sans les liens de virement) */
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
-
-    MISE_A_JOUR = 1;
-    verification_mise_a_jour_liste ();
 }
 /******************************************************************************/
+
+
 
 
 
@@ -2652,8 +2682,6 @@ void incrementation_echeance ( struct operation_echeance *echeance )
 	echeance -> mois = echeance -> date -> month;
 	echeance -> annee = echeance -> date -> year;
     }
-
-    mise_a_jour_calendrier ();
 
     g_date_free ( date_suivante );
 

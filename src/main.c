@@ -181,7 +181,9 @@ int main (int argc, char *argv[])
 
 	/* on grise les fonctions inutiles au départ */
 
-	init_variables ( FALSE );
+	menus_sensitifs ( FALSE );
+	init_variables ();
+
 	style_label_nom_compte = NULL;
 
 

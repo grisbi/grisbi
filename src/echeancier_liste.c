@@ -96,6 +96,11 @@ gint affichage_echeances_perso_j_m_a;        /* contient 0 (jours), 1 (mois), 2 
 extern GtkWidget *label_saisie_modif;
 extern GtkWidget *widget_formulaire_echeancier[19];
 extern PangoFontDescription *pango_desc_fonte_liste;
+extern gint mise_a_jour_liste_comptes_accueil;
+extern gint mise_a_jour_liste_echeances_auto_accueil;
+extern gint mise_a_jour_liste_echeances_manuelles_accueil;
+extern gint mise_a_jour_soldes_minimaux;
+extern gint mise_a_jour_fin_comptes_passifs;
 
 /*****************************************************************************/
 GtkWidget *creation_partie_gauche_echeancier ( void )
@@ -698,6 +703,9 @@ void remplissage_liste_echeance ( void )
     time_t temps;
     struct tm *temps_tm;
     GDate *date_fin;
+
+    if ( DEBUG )
+	printf ( "remplissage_liste_echeance\n" );
 
     /* on récupère la date du jour et la met dans date_fin pour les vérifications ultérieures */
 
@@ -1400,7 +1408,7 @@ void supprime_echeance ( struct operation_echeance *echeance )
     }
 
     mise_a_jour_calendrier();
-    update_liste_echeances_manuelles_accueil();
+    mise_a_jour_liste_echeances_manuelles_accueil = 1;
     modification_fichier (TRUE);
 }
 /*****************************************************************************/
@@ -1789,6 +1797,9 @@ void verification_echeances_a_terme ( void )
     GSList *ancien_pointeur;
     struct struct_devise *devise;
 
+    if ( DEBUG )
+	printf ( "verification_echeances_a_terme\n" );
+
     /* les échéances à saisir sont revérifiées à chaque fois. Par contre, les
        échéances saisies sont ajoutées à la liste de celles déjà saisies */
 
@@ -1926,15 +1937,17 @@ void verification_echeances_a_terme ( void )
 
 		/*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
 
-		ajout_operation ( operation );
+		insere_operation_dans_liste ( operation );
 
 		/*   si c'était un virement, on crée une copie de l'opé, on l'ajoute à la liste puis on remplit les relations */
 
 		/* FIXME : le jour où on choisira le type de la contre opération dans les échéances, il faudra changer ici */
+		/* cette opé de ventil est un virement */
+
 		if ( virement )
-		    cree_contre_operation_echeance ( operation,
-						     ECHEANCE_COURANTE -> compte_virement,
-						     operation -> type_ope );
+		    ajoute_contre_operation_echeance_dans_liste ( operation,
+								  ECHEANCE_COURANTE -> compte_virement,
+								  operation -> type_ope );
 
 		/* 	si c'était une échéance ventilée, c'est ici qu'on fait joujou */
 
@@ -2002,7 +2015,8 @@ void verification_echeances_a_terme ( void )
 
 		    /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
 
-		    ajout_operation ( operation_fille );
+		    insere_operation_dans_liste ( operation_fille );
+
 
 		    /* 	    on vérifie maintenant si c'est un virement */
 
@@ -2010,7 +2024,7 @@ void verification_echeances_a_terme ( void )
 		    {
 			/* cette opé de ventil est un virement */
 
-			cree_contre_operation_echeance ( operation_fille,
+			ajoute_contre_operation_echeance_dans_liste ( operation_fille,
 							 ope_ventil -> relation_no_compte,
 							 ope_ventil -> no_type_associe );
 		    }
@@ -2059,9 +2073,13 @@ void verification_echeances_a_terme ( void )
 
     if ( echeances_saisies )
     {
-	remplissage_liste_echeance ();
+	mise_a_jour_liste_echeances_auto_accueil = 1;
 	modification_fichier ( TRUE );
     }
+
+    if ( echeances_a_saisir )
+	mise_a_jour_liste_echeances_manuelles_accueil = 1;
+
 }
 /*****************************************************************************/
 

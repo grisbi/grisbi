@@ -47,6 +47,16 @@
 #define hide_paddingbox(child) gtk_widget_hide_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
 
 GtkWidget * label_jour;
+
+/* ces 5 variables sont mises à 1 lorsqu'il est nécessaire de rafraichir cette */
+/* partie la prochaine fois qu'on va sur l'accueil */
+
+gint mise_a_jour_liste_comptes_accueil;
+gint mise_a_jour_liste_echeances_manuelles_accueil;
+gint mise_a_jour_liste_echeances_auto_accueil;
+gint mise_a_jour_soldes_minimaux;
+gint mise_a_jour_fin_comptes_passifs;
+
 extern gint patience_en_cours;
 extern struct operation_echeance *echeance_selectionnnee;
 extern GtkWidget *formulaire_echeancier;
@@ -188,7 +198,7 @@ GtkWidget *creation_onglet_accueil ( void )
     gtk_box_pack_start ( GTK_BOX(base_box_scroll), frame_etat_comptes_accueil, FALSE, FALSE, 0 );
 
     /* on met la liste des comptes et leur état dans la frame */
-    update_liste_comptes_accueil ();
+    mise_a_jour_liste_comptes_accueil = 1;
     gtk_widget_show_all ( frame_etat_comptes_accueil );
 
 
@@ -199,10 +209,11 @@ GtkWidget *creation_onglet_accueil ( void )
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_fin_compte_passif), FALSE );
     gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_fin_compte_passif), FALSE );
     gtk_box_pack_start ( GTK_BOX(paddingbox), frame_etat_fin_compte_passif, FALSE, FALSE, 0 );
-    mise_a_jour_fin_comptes_passifs ();
+    mise_a_jour_fin_comptes_passifs = 1;
 
 
     /* mise en place de la partie des échéances manuelles ( non affiché ) */
+    /*     sera mis à jour automatiquement si nécessaire */
     paddingbox = new_paddingbox_with_title ( base_box_scroll, FALSE,
 					     _("Manual scheduled transactions at maturity date") );
     frame_etat_echeances_manuelles_accueil = gtk_notebook_new ();
@@ -214,6 +225,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
 
     /* mise en place de la partie des échéances auto  ( non affiché )*/
+    /*     sera mis à jour automatiquement si nécessaire */
     paddingbox = new_paddingbox_with_title ( base_box_scroll, FALSE,
 					     _("Automatic scheduled transactions entered") );
     frame_etat_echeances_auto_accueil = gtk_notebook_new ();
@@ -256,11 +268,32 @@ GtkWidget *creation_onglet_accueil ( void )
     gtk_box_set_spacing ( GTK_BOX(paddingbox), 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), frame_etat_soldes_minimaux_voulus, FALSE, FALSE, 6 );
 
-    mise_a_jour_soldes_minimaux ();
+    mise_a_jour_soldes_minimaux = 1;
 
     return ( fenetre_accueil );
 }
 /* ************************************************************************* */
+
+
+
+
+
+/* ************************************************************************* */
+/* fonction appelée lors de l'ouverture de nouveau fichier */
+/* et quand on passe sur l'onglet accueil */
+/* fait le tour des fonctions update qui vont */
+/* s'updater si nécessaire */
+/* ************************************************************************* */
+void mise_a_jour_accueil ( void )
+{
+    update_liste_comptes_accueil ();
+    update_liste_echeances_manuelles_accueil ();
+    update_liste_echeances_auto_accueil ();
+    update_soldes_minimaux ();
+    update_fin_comptes_passifs ();
+}
+/* ************************************************************************* */
+
 
 /* ************************************************************************* */
 void change_temps ( GtkWidget *label_temps )
@@ -415,8 +448,12 @@ void update_liste_comptes_accueil ( void )
     if ( DEBUG )
 	printf ( "update_liste_comptes_accueil\n" );
 
-    if ( !nb_comptes )
+    if ( !mise_a_jour_liste_comptes_accueil
+	 ||
+	 !nb_comptes )
 	return;
+
+    mise_a_jour_liste_comptes_accueil = 0;
 
     /* Initialisation des couleurs des différents labels */
     /* Pourra être intégré à la configuration générale */
@@ -756,7 +793,7 @@ void update_liste_comptes_accueil ( void )
 
 		/* ATTENTION : les sommes effectuées ici présupposent que
 		   TOUS les comptes sont dans la MÊME DEVISE !!!!!        */
-		solde_global_courant += SOLDE_COURANT ;
+		solde_global_courant += SOLDE_COURANT;
 		solde_global_pointe += SOLDE_POINTE ;
 	    }
 	    i++;
@@ -1500,7 +1537,10 @@ void update_liste_echeances_manuelles_accueil ( void )
     if ( DEBUG )
 	printf ( "update_liste_echeances_manuelles_accueil\n" );
 
-    verification_echeances_a_terme ();
+    if ( !mise_a_jour_liste_echeances_manuelles_accueil )
+	return;
+
+    mise_a_jour_liste_echeances_manuelles_accueil = 0;
 
     if ( echeances_a_saisir )
     {
@@ -1629,6 +1669,11 @@ void update_liste_echeances_auto_accueil ( void )
     if ( DEBUG )
 	printf ( "update_liste_echeances_auto_accueil\n" );
 
+    if ( ! mise_a_jour_liste_echeances_auto_accueil )
+	return;
+
+    mise_a_jour_liste_echeances_auto_accueil = 0;
+
     if ( echeances_saisies )
     {
 	GtkWidget *vbox, *label, *event_box, *hbox;
@@ -1714,11 +1759,6 @@ void update_liste_echeances_auto_accueil ( void )
 
 	    pointeur_liste = pointeur_liste -> next;
 	}
-
-	/* comme des opés ont été saisies, on met à jour les listes */
-	mise_a_jour_tiers ();
-	mise_a_jour_categ ();
-	mise_a_jour_imputation ();
     }
     else
     {
@@ -1728,12 +1768,12 @@ void update_liste_echeances_auto_accueil ( void )
 /* ************************************************************************* */
 
 /* ************************************************************************* */
-/* Fonction mise_a_jour_soldes_minimaux */
+/* Fonction update_soldes_minimaux */
 /* vérifie les soldes de tous les comptes, affiche un message d'alerte si nécessaire */
 /* et ajoute dans l'accueil les comptes sous les soldes minimaux */
 /* ************************************************************************* */
 
-void mise_a_jour_soldes_minimaux ( void )
+void update_soldes_minimaux ( void )
 {
     GtkWidget *vbox_1;
     GtkWidget *vbox_2;
@@ -1741,7 +1781,12 @@ void mise_a_jour_soldes_minimaux ( void )
     gint i;
 
     if ( DEBUG )
-	printf ( "mise_a_jour_soldes_minimaux\n" );
+	printf ( "update_soldes_minimaux\n" );
+
+    if ( !mise_a_jour_soldes_minimaux  )
+	return;
+
+    mise_a_jour_soldes_minimaux = 0;
 
     /* s'il y avait déjà un fils dans la frame, le détruit */
 
@@ -1788,13 +1833,13 @@ void mise_a_jour_soldes_minimaux ( void )
 	    {
 		if ( solde_courant  - solde_mini_voulu <= 0.01 )
 		{
-		    dialogue_conditional ( g_strdup_printf (_("Balance of account %s is under wanted and authorised minima!"), 
+		    dialogue_conditional ( g_strdup_printf (_("balance of account %s is under wanted and authorised minima!"), 
 							    NOM_DU_COMPTE ), &(etat.display_message_minimum_alert));
 		    MESSAGE_SOUS_MINI_VOULU = 1;
 		}
 		else
 		{
-		    dialogue_conditional ( g_strdup_printf (_("Balance of account %s is under authorised minimum!"),
+		    dialogue_conditional ( g_strdup_printf (_("balance of account %s is under authorised minimum!"),
 							    NOM_DU_COMPTE ), &(etat.display_message_minimum_alert));
 		}
 		MESSAGE_SOUS_MINI = 1;
@@ -1822,13 +1867,13 @@ void mise_a_jour_soldes_minimaux ( void )
 	    {
 		if ( solde_courant - solde_mini <= 0.01 )
 		{
-		    dialogue_conditional ( g_strdup_printf ( _("Balance of account %s is under wanted and authorised minima!"),
+		    dialogue_conditional ( g_strdup_printf ( _("balance of account %s is under wanted and authorised minima!"),
 							     NOM_DU_COMPTE), &(etat.display_message_minimum_alert) );
 		    MESSAGE_SOUS_MINI = 1;
 		}
 		else
 		{
-		    dialogue_conditional ( g_strdup_printf ( _("Balance of account %s is under wanted minimum!"),
+		    dialogue_conditional ( g_strdup_printf ( _("balance of account %s is under wanted minimum!"),
 							     NOM_DU_COMPTE ), &(etat.display_message_minimum_alert));
 		}
 		MESSAGE_SOUS_MINI_VOULU = 1;
@@ -1844,13 +1889,13 @@ void mise_a_jour_soldes_minimaux ( void )
 
 	p_tab_nom_de_compte_variable++;
     }
-    update_liste_comptes_accueil ();
+    mise_a_jour_liste_comptes_accueil = 1;
 }
 /* ************************************************************************* */
 
 
 /* ************************************************************************* */
-void mise_a_jour_fin_comptes_passifs ( void )
+void update_fin_comptes_passifs ( void )
 {
     gint i;
     GtkWidget *vbox;
@@ -1859,7 +1904,12 @@ void mise_a_jour_fin_comptes_passifs ( void )
     GSList *pointeur;
 
     if ( DEBUG )
-	printf ( "mise_a_jour_fin_comptes_passifs\n" );
+	printf ( "update_fin_comptes_passifs\n" );
+
+    if ( !mise_a_jour_fin_comptes_passifs  )
+	return;
+
+    mise_a_jour_fin_comptes_passifs = 0;
 
     gtk_notebook_remove_page ( GTK_NOTEBOOK(frame_etat_fin_compte_passif), 0 );
     hide_paddingbox ( frame_etat_fin_compte_passif );

@@ -48,6 +48,8 @@
 
 extern GtkWidget *widget_formulaire_echeancier[19];
 extern GSList *liste_struct_echeances; 
+extern gint mise_a_jour_liste_echeances_manuelles_accueil;
+extern gint mise_a_jour_liste_echeances_auto_accueil;
 
 
 
@@ -171,9 +173,7 @@ GtkWidget *onglet_tiers ( void )
 			 0 );
     gtk_widget_show ( hbox );
 
-    /* FIXME */
     bouton_modif_tiers_modifier = gtk_button_new_from_stock (GTK_STOCK_APPLY);
-    /*   bouton_modif_tiers_modifier = GTK_STOCK ( GTK_STOCK_APPLY ); */
     gtk_button_set_relief ( GTK_BUTTON ( bouton_modif_tiers_modifier ),
 			    GTK_RELIEF_NONE );
     gtk_widget_set_sensitive ( bouton_modif_tiers_modifier,
@@ -189,9 +189,7 @@ GtkWidget *onglet_tiers ( void )
 			 0 );
     gtk_widget_show ( bouton_modif_tiers_modifier );
 
-    /* FIXME */
     bouton_modif_tiers_annuler = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
-    /*   bouton_modif_tiers_annuler = GTK_STOCK ( GTK_STOCK_CANCEL ); */
     gtk_button_set_relief ( GTK_BUTTON ( bouton_modif_tiers_annuler ),
 			    GTK_RELIEF_NONE );
     gtk_signal_connect ( GTK_OBJECT ( bouton_modif_tiers_annuler ),
@@ -207,9 +205,7 @@ GtkWidget *onglet_tiers ( void )
 			 0 );
     gtk_widget_show ( bouton_modif_tiers_annuler);
 
-    /* FIXME */
     bouton_supprimer_tiers = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
-    /*   bouton_supprimer_tiers = GTK_STOCK ( GNOME_STOCK_PIXMAP_REMOVE ); */
     gtk_button_set_relief ( GTK_BUTTON ( bouton_supprimer_tiers ),
 			    GTK_RELIEF_NONE );
     gtk_widget_set_sensitive ( bouton_supprimer_tiers,
@@ -389,6 +385,9 @@ void remplit_arbre_tiers ( void )
     GSList *liste_tiers_tmp;
     gfloat *tab_montant;
     gint place_tiers;
+
+    if ( DEBUG )
+	printf ( "remplit_arbre_tiers\n" );
 
     /* freeze le ctree */
 
@@ -993,8 +992,8 @@ void clique_sur_modifier_tiers ( GtkWidget *bouton_modifier,
 
 	demande_mise_a_jour_tous_comptes ();
 	remplissage_liste_echeance();
-	update_liste_echeances_manuelles_accueil ();
-	update_liste_echeances_auto_accueil ();
+	mise_a_jour_liste_echeances_manuelles_accueil = 1;
+	mise_a_jour_liste_echeances_auto_accueil = 1;
 	mise_a_jour_tiers ();
 
     }

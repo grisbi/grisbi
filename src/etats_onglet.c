@@ -428,12 +428,6 @@ void remplissage_liste_etats ( void )
 			     GTK_SIGNAL_FUNC ( changement_etat ), etat );
 	liste_tmp = liste_tmp -> next;
     }
-
-    /*   si on a remplit la liste, c'est qu'il y a eu des modifs ( ajout, dupplication ... ) */
-    /* donc on met à jour la liste des tiers */
-
-    mise_a_jour_tiers ();
-
 }
 /*****************************************************************************************************/
 

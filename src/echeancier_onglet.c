@@ -111,7 +111,7 @@ GtkWidget *creation_onglet_echeancier ( void )
 				GTK_SHADOW_IN );
     gtk_widget_show (frame_droite_haut);
 
-     notebook_liste_ventil_echeances = gtk_notebook_new ();
+    notebook_liste_ventil_echeances = gtk_notebook_new ();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK( notebook_liste_ventil_echeances ),
 				 FALSE );
     gtk_container_add ( GTK_CONTAINER ( frame_droite_haut ),

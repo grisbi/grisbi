@@ -108,6 +108,8 @@ extern gdouble operations_pointees;
 extern gdouble solde_initial;
 extern gdouble solde_final;
 extern GtkWidget *bouton_ok_equilibrage;
+extern gint mise_a_jour_liste_comptes_accueil;
+extern gint mise_a_jour_liste_echeances_auto_accueil;
 
 
 
@@ -538,7 +540,8 @@ void remplissage_liste_operations ( gint compte )
 	 !STORE_LISTE_OPERATIONS )
 	operation_selectionnee = GINT_TO_POINTER ( -1 );
     else
-	operation_selectionnee = cherche_operation_from_ligne ( LIGNE_SELECTIONNEE );
+	operation_selectionnee = cherche_operation_from_ligne ( LIGNE_SELECTIONNEE,
+								compte );
 
     /* efface la liste si nécessaire */
 
@@ -1270,7 +1273,8 @@ gboolean traitement_clavier_liste ( GtkWidget *widget_variable,
 	    return TRUE;
 
 	case GDK_Delete:		/*  del  */
-	    supprime_operation ( cherche_operation_from_ligne (LIGNE_SELECTIONNEE ));
+	    supprime_operation ( cherche_operation_from_ligne (LIGNE_SELECTIONNEE,
+							       compte_courant  ));
 	    return TRUE;
 
 	case GDK_P:			/* touche P */
@@ -1432,12 +1436,13 @@ gint recupere_hauteur_ligne_tree_view ( GtkWidget *tree_view )
 /* renvoie l'adr de l'opération correspondant  à la ligne envoyées */
 /* en argument */
 /******************************************************************************/
-struct structure_operation *cherche_operation_from_ligne ( gint ligne )
+struct structure_operation *cherche_operation_from_ligne ( gint ligne,
+							   gint no_compte )
 {
     GtkTreeIter iter;
     struct structure_operation *operation;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
     if ( !gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
 					       &iter,
@@ -1517,7 +1522,8 @@ void edition_operation ( void )
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-    operation = cherche_operation_from_ligne (LIGNE_SELECTIONNEE );
+    operation = cherche_operation_from_ligne (LIGNE_SELECTIONNEE,
+					       compte_courant  );
     formulaire_a_zero ();
 
     /* on affiche le formulaire sans modifier l'état => si il n'est pas affiché normalement,
@@ -1893,7 +1899,8 @@ void p_press (void)
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-    operation = cherche_operation_from_ligne ( LIGNE_SELECTIONNEE );
+    operation = cherche_operation_from_ligne ( LIGNE_SELECTIONNEE,
+					       compte_courant  );
 
     /* si on est sur l'opération vide -> on se barre */
 
@@ -2007,7 +2014,7 @@ void p_press (void)
 /* ALAIN-FIXME : solution batarde me semble-t'il pour actualiser le solde pointé
        sur la fenêtre d'accueil après que l'on ait pointé l'opération */
 
-    update_liste_comptes_accueil ();
+    mise_a_jour_liste_comptes_accueil = 1;
 }
 /******************************************************************************/
 
@@ -2023,7 +2030,8 @@ void r_press (void)
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-    operation = cherche_operation_from_ligne ( LIGNE_SELECTIONNEE );
+    operation = cherche_operation_from_ligne ( LIGNE_SELECTIONNEE,
+					       compte_courant  );
 
 
     /* si on est sur l'opération vide -> on se barre */
@@ -2225,7 +2233,8 @@ void supprime_operation ( struct structure_operation *operation )
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
-    if ( cherche_operation_from_ligne ( LIGNE_SELECTIONNEE ) == operation )
+    if ( cherche_operation_from_ligne ( LIGNE_SELECTIONNEE,
+					operation -> no_compte ) == operation )
     {
 	LIGNE_SELECTIONNEE = LIGNE_SELECTIONNEE + NB_LIGNES_OPE;
 	selectionne_ligne ( operation -> no_compte,
@@ -2293,7 +2302,7 @@ void supprime_operation ( struct structure_operation *operation )
     /* on réaffiche la liste de l'état des comptes de l'accueil */
 
     mise_a_jour_solde ( no_compte );
-    update_liste_comptes_accueil ();
+    mise_a_jour_liste_comptes_accueil = 1;
 
     /* on réaffiche la liste des tiers */
 
@@ -2464,7 +2473,7 @@ void verification_mise_a_jour_liste ( void )
     gfloat nouvelle_value;
 
     if ( DEBUG )
-	printf ( "verifie_mise_a_jour_liste : compte %d\n", compte_courant );
+	printf ( "verification_mise_a_jour_liste : compte %d\n", compte_courant );
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
@@ -2600,7 +2609,8 @@ void popup_transaction_context_menu ( gboolean full )
     else 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
-    if ( cherche_operation_from_ligne ( LIGNE_SELECTIONNEE ) == GINT_TO_POINTER(-1) )
+    if ( cherche_operation_from_ligne ( LIGNE_SELECTIONNEE,
+					compte_courant ) == GINT_TO_POINTER(-1) )
 	full = FALSE;
 
     menu = gtk_menu_new ();
@@ -2690,7 +2700,8 @@ gboolean assert_selected_transaction ()
     else 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
-    if ( cherche_operation_from_ligne (LIGNE_SELECTIONNEE ) == GINT_TO_POINTER(-1) )
+    if ( cherche_operation_from_ligne (LIGNE_SELECTIONNEE,
+				       compte_courant  ) == GINT_TO_POINTER(-1) )
 	return FALSE;
 
     return TRUE;
@@ -2724,7 +2735,8 @@ void remove_transaction ()
 {
     if (! assert_selected_transaction()) return;
 
-    supprime_operation ( cherche_operation_from_ligne ( LIGNE_SELECTIONNEE ));
+    supprime_operation ( cherche_operation_from_ligne ( LIGNE_SELECTIONNEE,
+							compte_courant  ));
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 }
 
@@ -2736,7 +2748,8 @@ void clone_selected_transaction ()
 {
     if (! assert_selected_transaction()) return;
 
-    clone_transaction ( cherche_operation_from_ligne ( LIGNE_SELECTIONNEE ));
+    clone_transaction ( cherche_operation_from_ligne ( LIGNE_SELECTIONNEE,
+						       compte_courant  ));
 
     MISE_A_JOUR = 1;
     verification_mise_a_jour_liste ();
@@ -2828,7 +2841,8 @@ void move_selected_operation_to_account ( GtkMenuItem * menu_item )
     account = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT(menu_item), 
 						      "no_compte" ) );  
 
-    move_operation_to_account ( cherche_operation_from_ligne ( LIGNE_SELECTIONNEE ), account );
+    move_operation_to_account ( cherche_operation_from_ligne ( LIGNE_SELECTIONNEE,
+							       compte_courant  ), account );
 
     MISE_A_JOUR = 1;
     verification_mise_a_jour_liste ();
@@ -2916,9 +2930,10 @@ void schedule_selected_transaction ()
 
     if (! assert_selected_transaction()) return;
 
-    echeance = schedule_transaction ( cherche_operation_from_ligne ( LIGNE_SELECTIONNEE ));
+    echeance = schedule_transaction ( cherche_operation_from_ligne ( LIGNE_SELECTIONNEE,
+								     compte_courant  ));
 
-    update_liste_echeances_auto_accueil ();
+    mise_a_jour_liste_echeances_auto_accueil = 1;
     remplissage_liste_echeance ();
 
     echeance_selectionnnee = echeance;
@@ -3146,7 +3161,7 @@ gboolean affichage_traits_liste_operation ( void )
 
     /*     si la hauteur des lignes n'est pas encore calculée, on le fait ici */
 
-    if ( !hauteur_ligne_liste_opes )
+/*     if ( !hauteur_ligne_liste_opes ) */
 	hauteur_ligne_liste_opes = recupere_hauteur_ligne_tree_view ( TREE_VIEW_LISTE_OPERATIONS );
 
     /*     on commence par calculer la dernière ligne en pixel correspondant à la dernière opé de la liste */
@@ -3186,7 +3201,7 @@ gboolean affichage_traits_liste_operation ( void )
 			largeur, y );
 	y = y + hauteur_ligne_liste_opes*NB_LIGNES_OPE;
     }
-    while ( y < ( adjustment -> value + adjustment -> page_size )
+    while ( y < ( adjustment -> page_size )
 	    &&
 	    y <= derniere_ligne );
 

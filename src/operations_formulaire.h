@@ -11,6 +11,7 @@ gboolean date_selectionnee ( GtkCalendar *calendrier, GtkWidget *entry );
 void  completion_operation_par_tiers ( void );
 void fin_edition ( void );
 void ajout_operation ( struct structure_operation *operation );
+void insere_operation_dans_liste ( struct structure_operation *operation );
 gint verification_validation_operation ( struct structure_operation *operation );
 void recuperation_donnees_generales_formulaire ( struct structure_operation *operation );
 void validation_virement_operation ( struct structure_operation *operation,
