@@ -114,17 +114,12 @@ int main (int argc, char *argv[])
 
 
   /* on commence par détourner le signal SIGSEGV */
-
-  memset ( &sig_sev,
-	   0,
-	   sizeof ( struct sigaction ));
+  memset ( &sig_sev, 0, sizeof ( struct sigaction ));
   sig_sev.sa_handler = traitement_sigsegv;
   sig_sev.sa_flags = 0;
   sigemptyset (&(sig_sev.sa_mask));
       
-  if ( sigaction ( SIGSEGV,
-		   &sig_sev,
-		   NULL ))
+  if ( sigaction ( SIGSEGV, &sig_sev, NULL ))
     printf (_("Error on sigaction: SIGSEGV won't be trapped\n"));
 
 
