@@ -7,12 +7,10 @@ Our aim is to provide you with the most simple and intuitive software
 for basic use, although it can be very powerful if you spend a little
 time on the setup.
 
-Grisbi is an application written by French developpers, so it
-perfectly respects French accounting rules. Grisbi can manage multiple
-accounts, currencies and users. It manages third party, expenditure
-and receipt categories, and also budgetary lines, financial years, and
-other informations that make Grisbi adapted for associations (except
-those that require double entry accounting). 
+Grisbi can handle multiple accounts, currencies and users. It supports
+third parties, expenditure and receipt categories, budgetary lines,
+financial years and other informations that also make Grisbi suited
+for associations (except those that require double entry accounting).
 
 The complete manuel is avaliable on line. The version that comes with
 the software is not illustrated, but you can replace it by the
@@ -20,7 +18,7 @@ illustrated version at any time, which is availiable for download on
 this site.  The manuel will be soon completed with a Guide concerning
 accounting for associations.
 
-If you want to keep updated with Grisbi releases, you may subscribe to
+If you want to be informed of Grisbi releases, you may subscribe to
 the mailing list infos@grisbi.org (see Contacts) and if you like to
 live dangerously you even can download the unstables sources from CVS
 and compile them.
@@ -28,13 +26,13 @@ and compile them.
 Grisbi is free software, any contribution is welcome.
 
 
-Website :     http://www.grisbi.org
-Bug reports : http://www.grisbi.org/bugtracking
+Website :     http://www.grisbi.org/
+Bug reports : http://www.grisbi.org/bugtracking/
               mailto:bugs-report@grisbi.org
 
 Release history :
 
-  Version 0.5.4 : 25/12/2004
+  Version 0.5.4 : 27/12/2004
   Version 0.5.3 : 19/11/2004
   Version 0.5.2 : 18/10/2004
   Version 0.5.1 : 29/07/2004
