@@ -1,536 +1,69 @@
-2004-03-25  Alain Portal <dionysos@grisbi.org>
+2004-04-07  Alain Portal <dionysos@grisbi.org>
 
-	* ChangeLog: Update
+	* grisbi.1, configure.in: Update new version
 
-2004-03-25  Alain Portal <dionysos@grisbi.org>
+2004-04-07  Alain Portal <dionysos@grisbi.org>
 
-	* debian/grisbi.1: Grisbi man page is for all distrib now.
+	* po/Makefile.in.in: Downgrade gettext version
 
-2004-03-25  Benjamin Drieu <bdrieu@april.org>
+2004-04-07  Alain Portal <dionysos@grisbi.org>
 
-	* debian/changelog, debian/copyright, debian/rules: Update to 0.4.4
+	* NEWS, README: GGRRHH!! I said new version
 
-2004-03-25  Benjamin Drieu <bdrieu@april.org>
+2004-04-07  Alain Portal <dionysos@grisbi.org>
 
-	* grisbi.1: Be meticulous ;-) + explicitely set version
+	* NEWS, README: Update to new version
 
-2004-03-25  Benjamin Drieu <bdrieu@april.org>
+2004-04-07  Alain Portal <dionysos@grisbi.org>
 
-	* grisbi.1: Advertise --tab and remove debian notes as this is
-	upstream now
+	* src/main.c: Update version
 
-2004-03-25  Benjamin Drieu <bdrieu@april.org>
-
-	* README: Update manual description + update release date
-
-2004-03-24  Alain Portal <dionysos@grisbi.org>
-
-	* src/etats_config.c: Remove a forgotten debug dialog box.  Dirty
-	fix crash: force field date to never be empty.
-
-2004-03-23  Alain Portal <dionysos@grisbi.org>
-
-	* src/Makefile.am, src/Makefile.in: Update logo and icon to euro
-
-2004-03-23  Alain Portal <dionysos@grisbi.org>
-
-	* src/logo_grisbi.xpm: Update logo to euro.
-
-2004-03-23  Alain Portal <dionysos@grisbi.org>
-
-	* src/grisbi-logo.png, src/grisbi.png: Update logo and icon to
-	euro.
-
-2004-03-23  Alain Portal <dionysos@grisbi.org>
-
-	* ChangeLog: Update
-
-2004-03-23  Alain Portal <dionysos@grisbi.org>
+2004-04-07  Alain Portal <dionysos@grisbi.org>
 
 	* po/grisbi.pot, po/fr.po: Update
 
-2004-03-23  Alain Portal <dionysos@grisbi.org>
+2004-04-07  Alain Portal <dionysos@grisbi.org>
 
-	* src/help.c: Update contribution
+	* src/etats_config.c: Backward two strings
 
-2004-03-23  Alain Portal <dionysos@grisbi.org>
+2004-04-07  Alain Portal <dionysos@grisbi.org>
 
-	* AUTHORS, README: Update
+	* AUTHORS: Update email
 
-2004-03-22  Benjamin Drieu <bdrieu@april.org>
+2004-04-05  Benjamin Drieu <bdrieu@april.org>
 
-	* src/categories_onglet.c, src/imputation_budgetaire.c,
-	src/tiers_onglet.c: Fix a weird side effect that caused totals to
-	be displayed wrongly
+	* src/etats_config.c: Fix typo (Closes: #215)
 
-2004-03-19  Alain Portal <dionysos@grisbi.org>
-
-	* po/fr.po: Fix translation.
-
-2004-03-19  Benjamin Drieu <bdrieu@april.org>
-
-	* src/echeancier_formulaire.c: Fix a bug that caused any scheduled
-	transaction modification to create a new transaction
-
-2004-03-18  Benjamin Drieu <bdrieu@april.org>
-
-	* src/comptes_gestion.c: Minor euro conversion visual glitch
-	(closes: #203)
-
-2004-03-13  Benjamin Drieu <bdrieu@april.org>
-
-	* src/operations_comptes.c: Fix the "duplicate closed accounts" bug
-
-2004-03-12  Alain Portal <dionysos@grisbi.org>
-
-	* ChangeLog: Update
-
-2004-03-12  Alain Portal <dionysos@grisbi.org>
-
-	* src/calendar.c, src/echeancier_liste.c, src/gtk_combofix.c,
-	src/operations_liste.c, src/ventilation.c: Add some forgotten
-	keypad management.
-
-2004-03-12  Alain Portal <dionysos@grisbi.org>
-
-	* configure: Update
-
-2004-03-12  Alain Portal <dionysos@grisbi.org>
-
-	* configure.in: Update
-
-2004-03-11  Alain Portal <dionysos@grisbi.org>
-
-	* README: Update
-
-2004-03-11  Alain Portal <dionysos@grisbi.org>
-
-	* src/categories_onglet.c, src/imputation_budgetaire.c,
-	src/tiers_onglet.c: A dirty try of fixing #119.
-
-2004-03-11  Alain Portal <dionysos@grisbi.org>
+2004-04-05  Alain Portal <dionysos@grisbi.org>
 
 	* po/grisbi.pot, po/fr.po: Update
 
-2004-03-11  Alain Portal <dionysos@grisbi.org>
+2004-04-02  Alain Portal <dionysos@grisbi.org>
 
-	* src/main.c: Internationalize option
+	* src/help.c: Update email contributor
 
-2004-03-11  Alain Portal <dionysos@grisbi.org>
+2004-03-31  Alain Portal <dionysos@grisbi.org>
 
-	* Makefile.am, Makefile.in, grisbi.1: Add man page
+	* src/echeancier_formulaire.c: fix a devel-list reported bug.
 
-2004-03-11  Benjamin Drieu <bdrieu@april.org>
+2004-03-30  Alain Portal <dionysos@grisbi.org>
 
-	* grisbi.1: Add man page
+	* src/equilibrage.c: Fix #211
 
-2004-03-11  Benjamin Drieu <bdrieu@april.org>
+2004-03-30  Alain Portal <dionysos@grisbi.org>
 
-	* src/qif.c: Fix a segfault with QIF from the Crédit Lyonnais
+	* src/echeancier_liste.c: Fix #213.
 
-2004-03-11  Benjamin Drieu <bdrieu@april.org>
+2004-03-29  Alain Portal <dionysos@grisbi.org>
 
-	* NEWS: Minor typos
+	* src/operations_formulaire.c: Fix #209
 
-2004-03-11  Benjamin Drieu <bdrieu@april.org>
+2004-03-26  Benjamin Drieu <bdrieu@april.org>
 
-	* ChangeLog: Advertise 0.4.4
+	* debian/dirs, debian/grisbi.mime, debian/menu, debian/rules: Typos
+	+ add mime support
 
-2004-03-09  Alain Portal <dionysos@grisbi.org>
+2004-03-26  Benjamin Drieu <bdrieu@april.org>
 
-	* src/accueil.c: Remove home page separators.
-
-2004-03-08  Alain Portal <dionysos@grisbi.org>
-
-	* src/parametres.c: Fix #190.
-
-2004-03-08  Alain Portal <dionysos@grisbi.org>
-
-	* src/comptes_gestion.c: Update copyright
-
-2004-03-08  Alain Portal <dionysos@grisbi.org>
-
-	* po/grisbi.pot, po/fr.po: Update.
-
-2004-03-08  Alain Portal <dionysos@grisbi.org>
-
-	* src/comptes_gestion.c: Fix #189
-
-2004-03-08  Alain Portal <dionysos@grisbi.org>
-
-	* po/grisbi.pot, po/fr.po: Update.
-
-2004-03-07  Alain Portal <dionysos@grisbi.org>
-
-	* src/echeancier_formulaire.c, src/operations_formulaire.c: Fix
-	#126.  po files coming soon.
-
-2004-03-07  Benjamin Drieu <bdrieu@april.org>
-
-	* src/gtk_combofix.c: Fix a crash introduced by my previous commits
-
-2004-03-05  Alain Portal <dionysos@grisbi.org>
-
-	* src/operations_comptes.c: Fix #176
-
-2004-03-05  Benjamin Drieu <bdrieu@april.org>
-
-	* src/gtk_combofix.c: Fix a bug wrt #144
-
-2004-03-05  Alain Portal <dionysos@grisbi.org>
-
-	* po/fr.po, po/grisbi.pot: Update
-
-2004-03-05  Alain Portal <dionysos@grisbi.org>
-
-	* src/operations_formulaire.c: Found untranslated string
-
-2004-03-05  Alain Portal <dionysos@grisbi.org>
-
-	* src/operations_comptes.c: Fix a part of #176
-
-2004-03-05  Alain Portal <dionysos@grisbi.org>
-
-	* src/operations_comptes.c: More clean
-
-2004-03-05  Alain Portal <dionysos@grisbi.org>
-
-	* src/operations_comptes.c: Clean file
-
-2004-03-05  Alain Portal <dionysos@grisbi.org>
-
-	* src/main.c: Fix version
-
-2004-03-05  Alain Portal <dionysos@grisbi.org>
-
-	* src/accueil.c: Fix copyright
-
-2004-03-05  Alain Portal <dionysos@grisbi.org>
-
-	* src/ventilation.c: Fix comment
-
-2004-03-04  Benjamin Drieu <bdrieu@april.org>
-
-	* src/gtk_combofix.c: Fix #144
-
-2004-03-04  Alain Portal <dionysos@grisbi.org>
-
-	* src/equilibrage.c: Fix #97 (feature) default reconciliation date.
-
-2004-03-04  Alain Portal <dionysos@grisbi.org>
-
-	* src/calendar.c, src/calendar.h: Add new date function
-
-2004-03-04  Alain Portal <dionysos@grisbi.org>
-
-	* po/grisbi.pot, po/fr.po: Update strings.
-
-2004-03-04  Alain Portal <dionysos@grisbi.org>
-
-	* src/ventilation.c: Fix string
-
-2004-03-03  Benjamin Drieu <bdrieu@april.org>
-
-	* src/categories_onglet.c: ppily kludge #184
-
-2004-03-03  Alain Portal <dionysos@grisbi.org>
-
-	* src/ventilation.c: Fix #146 (feature) Popup a window when a
-	transaction isn't fully broken down.
-
-2004-03-03  Alain Portal <dionysos@grisbi.org>
-
-	* src/comptes_gestion.c: Fix spelling
-
-2004-03-03  Alain Portal <dionysos@grisbi.org>
-
-	* src/accueil.c: Typo
-
-2004-03-02  Alain Portal <dionysos@grisbi.org>
-
-	* src/operations_classement.c: Update copyright.  Clean file.
-
-2004-03-02  Alain Portal <dionysos@grisbi.org>
-
-	* src/operations_classement.c: Fix #129 (feature).  New
-	transactions sorting : reconcilied transactions always first, then
-	checked transactions, then the other.
-
-2004-03-01  Alain Portal <dionysos@grisbi.org>
-
-	* src/comptes_traitements.c: Fix #171, and perhaps several other.
-	Prevent numerous segment fault !!!! AARgghh Putain que c'est bon
-	!!! Sig ! Sig ! Désolé....
-
-2004-03-01  Alain Portal <dionysos@grisbi.org>
-
-	* src/tiers_onglet.c: Fix an annoyance. If the balance of
-	transactions on a third party was null, the report, in the tree
-	list, didn't show the balance.
-
-2004-03-01  Alain Portal <dionysos@grisbi.org>
-
-	* src/qif.c: Fix #185
-
-2004-03-01  Alain Portal <dionysos@grisbi.org>
-
-	* src/qif.c: Fix #179
-
-2004-03-01  Alain Portal <dionysos@grisbi.org>
-
-	* po/grisbi.pot, po/fr.po: Update
-
-2004-02-29  Alain Portal <dionysos@grisbi.org>
-
-	* src/fichiers_io.c: Fix a string
-
-2004-02-29  Alain Portal <dionysos@grisbi.org>
-
-	* src/calendar.c: Add comments
-
-2004-02-29  Alain Portal <dionysos@grisbi.org>
-
-	* src/echeancier_formulaire.c: Hummm...
-
-2004-02-29  Alain Portal <dionysos@grisbi.org>
-
-	* src/echeancier_formulaire.c, src/echeancier_liste.c: Fix a
-	segment fault that I have previously commit.  Sorry.
-
-2004-02-27  Alain Portal <dionysos@grisbi.org>
-
-	* src/fichiers_gestion.c: Dirty fix bug #152
-
-2004-02-27  Alain Portal <dionysos@grisbi.org>
-
-	* src/qif.c: Fix #177
-
-2004-02-27  Alain Portal <dionysos@grisbi.org>
-
-	* src/erreur.c: Center screen dialog box
-
-2004-02-27  Alain Portal <dionysos@grisbi.org>
-
-	* po/grisbi.pot, po/fr.po: Update strings
-
-2004-02-27  Alain Portal <dionysos@grisbi.org>
-
-	* src/accueil.c, src/constants.h, src/ventilation.c: I'm am a big
-	washing machine :-)
-
-2004-02-27  Alain Portal <dionysos@grisbi.org>
-
-	* src/erreur.c: Found untranslated strings Clean file
-
-2004-02-26  Alain Portal <dionysos@grisbi.org>
-
-	* src/erreur.c: Center screen dialogue bos instead of top left.
-	Should fix a feature in bugtracker, but I can't found it again :-)
-
-2004-02-26  Alain Portal <dionysos@grisbi.org>
-
-	* src/echeancier_formulaire.c, src/echeancier_liste.c: Clean files.
-	Fix a string in scheduler : a new scheduled transaction isn't a
-	modification.
-
-2004-02-26  Alain Portal <dionysos@grisbi.org>
-
-	* src/accueil.c: More clean
-
-2004-02-26  Alain Portal <dionysos@grisbi.org>
-
-	* src/accueil.c: Fix #166 (enlarge window).  Put this window on
-	center screen.	Clean file.
-
-2004-02-26  Alain Portal <dionysos@grisbi.org>
-
-	* src/etats_gtktable.c: Fix #180
-
-2004-02-25  Alain Portal <dionysos@grisbi.org>
-
-	* src/comptes_gestion.c: Fix #178
-
-2004-02-25  Alain Portal <dionysos@grisbi.org>
-
-	* src/accueil.c: Fix #170 Clean file
-
-2004-02-24  Alain Portal <dionysos@grisbi.org>
-
-	* src/echeancier_formulaire.c: Clean file
-
-2004-02-24  Alain Portal <dionysos@grisbi.org>
-
-	* src/operations_formulaire.c: Fix #183 Clean file
-
-2004-02-19  Alain Portal <dionysos@grisbi.org>
-
-	* po/fr.po, src/operations_liste.c, po/grisbi.pot: Found a "P/R"
-	string hard coded
-
-2004-02-18  Alain Portal <dionysos@grisbi.org>
-
-	* src/echeancier_formulaire.c, src/equilibrage.c: Clean files
-
-2004-02-17  Alain Portal <dionysos@grisbi.org>
-
-	* src/operations_formulaire.c: More cleanup
-
-2004-02-17  Alain Portal <dionysos@grisbi.org>
-
-	* src/echeancier_formulaire.c, src/echeancier_liste.c,
-	src/en_tete.h, src/equilibrage.c, src/etats_config.c,
-	src/exercice.c, src/fichier_configuration.c,
-	src/operations_formulaire.c, src/operations_liste.c,
-	src/calendar.c, src/calendar.h: - Clean files - Update copyright -
-	Close bug #181 (previouly commited, but I don't remember when)
-
-2004-02-16  Alain Portal <dionysos@grisbi.org>
-
-	* po/grisbi.pot, po/fr.po: Fix a string
-
-2004-02-16  Alain Portal <dionysos@grisbi.org>
-
-	* NEWS, src/operations_formulaire.c, src/echeancier_formulaire.c,
-	src/etats_config.c, src/calendar.c, src/calendar.h,
-	src/constants.h, src/en_tete.h, src/equilibrage.c,
-	src/operations_liste.c: Harmonising all date fileds: +
-	<Ctrl><Enter> in a date field open a calendar + Arrows keys are
-	sensitive on a calendar + <Shift><+> (<->) in a date field increase
-	(decrease) date about one week + <PgUp> (<PgDn>) increase
-	(decrease) date about one month + <Shift><PgUp> (<PgDn>) increase
-	date about one year
-
-	New mouse feature: + <Ctrl><Click> as same effect than <Ctrl><P>
-
-2004-01-24  Alain Portal <dionysos@grisbi.org>
-
-	* src/calendar.c, src/calendar.h, src/en_tete.h, src/equilibrage.c:
-	Fix #98
-
-2004-01-23  Alain Portal <dionysos@grisbi.org>
-
-	* src/equilibrage.c: Add new date feature in the reconcialition
-	form.  FIXME: bug #98
-
-2004-01-23  Alain Portal <dionysos@grisbi.org>
-
-	* src/operations_formulaire.c: Fix a mistake.
-
-2004-01-23  Alain Portal <dionysos@grisbi.org>
-
-	* src/calendar.c, src/calendar.h, src/echeancier_formulaire.c,
-	src/echeancier_liste.c, src/en_tete.h, src/etats_config.c,
-	src/exercice.c, src/operations_formulaire.c,
-	src/variables-extern.c: Clean code according the new file
-	"calendar.c"
-
-2004-01-23  Alain Portal <dionysos@grisbi.org>
-
-	* src/constants.h: Constants definitions that are needed in several
-	source files.
-
-2004-01-23  Alain Portal <dionysos@grisbi.org>
-
-	* src/Makefile.am, src/Makefile.in: Add calendar.c
-
-2004-01-18  Alain Portal <dionysos@grisbi.org>
-
-	* src/operations_formulaire.c: Clean file.
-
-2004-01-18  Alain Portal <dionysos@grisbi.org>
-
-	* src/calendar.c, src/calendar.h, src/operations_formulaire.c:
-	Clean code.  Add news features on calendar : day date can be
-	selected by using keypad arrows - right, left, up, down, home, end.
-	Add new feature on transaction form : <CTRL><ENTER> on a date
-	field open a calendar.
-
-2004-01-16  Alain Portal <dionysos@grisbi.org>
-
-	* src/operations_liste.c, src/en_tete.h, src/gtk_combofix.c,
-	src/structures.h: Clean up code (better keyboard management)
-
-2004-01-14  Alain Portal <dionysos@grisbi.org>
-
-	* src/operations_formulaire.c: Add new keyboard features on
-	transaction form date entry : PgUp (PgDown) add (substract) one
-	month to the date Shift + (-) add (substract) one week to the date
-	Shift PgUp (PgDown) add (substract) one year to the date
-
-	Devel branch coming soon.
-
-2004-01-14  Alain Portal <dionysos@grisbi.org>
-
-	* src/operations_formulaire.c: Clean code and file
-
-2004-01-08  Alain Portal <dionysos@grisbi.org>
-
-	* src/echeancier_liste.c, src/gtk_combofix.c,
-	src/operations_formulaire.c, src/ventilation.c: Close #173 #174.
-	Replace evenement keyval numerics value by symbols.  Improve human
-	understanding :-)
-
-2004-01-08  Alain Portal <dionysos@grisbi.org>
-
-	* src/operations_liste.c: Clean file
-
-2004-01-08  Alain Portal <dionysos@grisbi.org>
-
-	* src/echeancier_liste.c, src/fichier_configuration.c: Columns in
-	scheduler are now fully resizable.  Add numerous comments
-
-2004-01-07  Benjamin Drieu <bdrieu@april.org>
-
-	* src/tiers_onglet.c: Fix a crash when add third party and then
-	cancel is hit
-
-2004-01-07  Alain Portal <dionysos@grisbi.org>
-
-	* src/echeancier_liste.c: Make columns in scheduler resizable.	Not
-	fully implemented
-
-2004-01-07  Benjamin Drieu <bdrieu@april.org>
-
-	* src/en_tete.h: Remove gnomeprint occurences
-
-2004-01-07  Benjamin Drieu <bdrieu@april.org>
-
-	* debian/changelog: Update to 0.4.3-3
-
-2004-01-07  Benjamin Drieu <bdrieu@april.org>
-
-	* src/include.h: Removed occurences of gnome-print
-
-2004-01-06  Benjamin Drieu <bdrieu@april.org>
-
-	* debian/changelog: Fix missing changelog + advertise #202361 close
-
-2004-01-06  Benjamin Drieu <bdrieu@april.org>
-
-	* debian/rules: Install changelog as needed
-
-2004-01-06  Benjamin Drieu <bdrieu@april.org>
-
-	* README: This is 0.4.3 !
-
-2004-01-06  Alain Portal <dionysos@grisbi.org>
-
-	* src/operations_liste.c: Fix #99 Cleanup code
-
-2004-01-05  Alain Portal <dionysos@grisbi.org>
-
-	* po/fr.po, src/imputation_budgetaire.c, po/grisbi.pot: Fix typo
-
-2004-01-05  Alain Portal <dionysos@grisbi.org>
-
-	* po/fr.po, po/grisbi.pot: News strings translated
-
-2004-01-05  Alain Portal <dionysos@grisbi.org>
-
-	* src/imputation_budgetaire.c: Fix a part of bug #171.	Find 2
-	french strings :-(
-
-2004-01-04  Benjamin Drieu <bdrieu@april.org>
-
-	* src/tiers_onglet.c: Fix crash
-
+	* debian/grisbi.applnk, debian/grisbi.mimelnk: Add files needed for
+	KDE integration in Debian
