@@ -55,7 +55,6 @@
 /*START_STATIC*/
 static void appui_sur_ajout_categorie ( void );
 static void appui_sur_ajout_sous_categorie ( void );
-static void calcule_total_montant_categ ( void );
 static void clique_sur_annuler_categ ( void );
 static void clique_sur_modifier_categ ( void );
 static gboolean enleve_selection_ligne_categ ( void );
@@ -71,11 +70,9 @@ static gboolean categ_column_expanded  (GtkTreeView * treeview, GtkTreeIter * it
 					GtkTreePath * tree_path, gpointer user_data );
 static gboolean categ_activated ( GtkTreeView * treeview, GtkTreePath * path,
 				  GtkTreeViewColumn * col, gpointer userdata );
-static void fill_categ_row ( GtkTreeIter * iter, struct struct_categ * categ, 
-			     gint place_categ );
-static void fill_sub_categ_row ( GtkTreeIter * iter, struct struct_sous_categ * sous_categ,
-				 struct struct_categ * categ, gint place_categ,
-				 gint place_sous_categ );
+static void fill_categ_row ( GtkTreeIter * iter, struct struct_categ * categ );
+static void fill_sub_categ_row ( GtkTreeIter * iter, struct struct_categ * categ,
+				 struct struct_sous_categ * sous_categ );
 static gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
 				      GtkSelectionData * selection_data );
 static gboolean categ_row_drop_possible (GtkTreeDragDest * drag_dest, 
@@ -84,6 +81,10 @@ static gboolean categ_row_drop_possible (GtkTreeDragDest * drag_dest,
 static gboolean categ_drag_data_received ( GtkTreeDragDest   *drag_dest,
 					   GtkTreePath       *dest_path,
 					   GtkSelectionData  *selection_data );
+void move_transaction_to_sub_category ( struct structure_operation * transaction,
+					GtkTreeModel * model,
+					GtkTreePath * orig_path, GtkTreePath * dest_path,
+					gint no_categ, gint no_sub_categ );
 /*END_STATIC*/
 
 
@@ -139,6 +140,7 @@ extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
 extern GtkWidget *widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_TOTAL_WIDGET];
 extern GtkWidget *window;
+struct struct_categ * without_category;
 /*END_EXTERN*/
 
 
@@ -153,7 +155,7 @@ GtkWidget *onglet_categories ( void )
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
     static GtkTargetEntry row_targets[] = {
-	{ "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_APP, 0 }
+	{ "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
     };
 
     GtkWidget *onglet;
@@ -484,10 +486,12 @@ GtkWidget *onglet_categories ( void )
     gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (arbre_categ), TRUE);
     gtk_tree_view_enable_model_drag_source(GTK_TREE_VIEW(arbre_categ),
 					   GDK_BUTTON1_MASK, row_targets, 1,
-					   GDK_ACTION_MOVE | GDK_ACTION_COPY );
+					   GDK_ACTION_MOVE );
     gtk_tree_view_enable_model_drag_dest ( GTK_TREE_VIEW(arbre_categ), row_targets,
 					   1, GDK_ACTION_MOVE );
-    gtk_tree_view_set_reorderable (GTK_TREE_VIEW (arbre_categ), TRUE);
+    gtk_tree_view_set_reorderable (GTK_TREE_VIEW(arbre_categ), TRUE);
+    gtk_tree_selection_set_mode ( gtk_tree_view_get_selection ( GTK_TREE_VIEW(arbre_categ)),
+				  GTK_SELECTION_MULTIPLE );
     gtk_tree_view_set_model (GTK_TREE_VIEW (arbre_categ), 
 			     GTK_TREE_MODEL (categ_tree_model));
 
@@ -572,8 +576,6 @@ GtkWidget *onglet_categories ( void )
 void remplit_arbre_categ ( void )
 {
     GSList *liste_categ_tmp;
-    gint place_categ;
-    gint i;
     GtkTreeIter iter_categ, iter_sous_categ;
 
     /*   efface l'ancien arbre */
@@ -594,25 +596,21 @@ void remplit_arbre_categ ( void )
 
     /* remplit l'arbre */
 
-    liste_categ_tmp = liste_struct_categories;
-    place_categ = 0;
+    liste_categ_tmp = g_slist_prepend ( liste_struct_categories, without_category );
 
     while ( liste_categ_tmp )
     {
 	struct struct_categ *categ;
 	GSList *liste_sous_categ_tmp;
-	gint place_sous_categ;
 
 	categ = liste_categ_tmp -> data;
 
 	/* Populate tree */
 	gtk_tree_store_append (GTK_TREE_STORE (categ_tree_model), &iter_categ, NULL);
-	fill_categ_row ( &iter_categ, categ, place_categ + 1 );
+	fill_categ_row ( &iter_categ, categ );
 
 	/*       pour chaque categ, on met ses sous-categ */
-
 	liste_sous_categ_tmp = categ -> liste_sous_categ;
-	place_sous_categ = 0;
 
 	while ( liste_sous_categ_tmp )
 	{
@@ -623,52 +621,18 @@ void remplit_arbre_categ ( void )
 	    /* Populate tree */
 	    gtk_tree_store_append (GTK_TREE_STORE (categ_tree_model), 
 				   &iter_sous_categ, &iter_categ);
-	    fill_sub_categ_row ( &iter_sous_categ, sous_categ, categ, 
-				 place_categ, place_sous_categ + 1 );
+	    fill_sub_categ_row ( &iter_sous_categ, categ, sous_categ );
 
-	    place_sous_categ++;
 	    liste_sous_categ_tmp = liste_sous_categ_tmp -> next;
 	}
 
-	/*       on a fini de saisir les sous catégories, s'il y
-		 avait des opés sans sous catég, on les mets ici */
-	if ( tab_montant_sous_categ[place_categ]
-	     &&
-	     nb_ecritures_par_sous_categ[place_categ][0] )
-	{	    
-	    gtk_tree_store_append ( GTK_TREE_STORE (categ_tree_model), 
-				    &iter_sous_categ, &iter_categ );
-	    fill_sub_categ_row ( &iter_sous_categ, NULL, categ, place_categ, 0 );
-	}
-
-	place_categ++;
+	/* Treat the no sub-category sub division. */
+	gtk_tree_store_append (GTK_TREE_STORE (categ_tree_model), 
+			       &iter_sous_categ, &iter_categ);
+	fill_sub_categ_row ( &iter_sous_categ, categ, NULL );
+	
 	liste_categ_tmp = liste_categ_tmp -> next;
     }
-
-    /*   on a fini de mettre les catégories, on met ici les opés sans catég */
-
-    if ( tab_montant_categ[0] )
-    {
-	gtk_tree_store_append ( GTK_TREE_STORE (categ_tree_model), &iter_categ, NULL );
-	fill_categ_row ( &iter_categ, NULL, 0 );
-
-	gtk_tree_store_append ( GTK_TREE_STORE (categ_tree_model), 
-				&iter_sous_categ, &iter_categ );
-	fill_sub_categ_row ( &iter_sous_categ, NULL, NULL, 0, 0 );
-    }
-
-    /*   on efface les variables */
-
-    free ( tab_montant_categ );
-    free ( nb_ecritures_par_categ );
-
-    for ( i=0 ; i<nb_enregistrements_categories ; i++ )
-	free ( tab_montant_sous_categ[i] );
-    free ( tab_montant_sous_categ );
-
-    for ( i=0 ; i<nb_enregistrements_categories ; i++ )
-	free ( nb_ecritures_par_sous_categ[i] );
-    free ( nb_ecritures_par_sous_categ );
 
     enleve_selection_ligne_categ ();
     modif_categ = 0;
@@ -677,26 +641,27 @@ void remplit_arbre_categ ( void )
 
 
 /**
+ * Fill a division row with textual representation of a division
+ * structure, in the form: "Name (num transactions) Balance".
  *
- *
+ * \param iter		Iter to fill with division data.
+ * \param categ		Division structure.
  */
-void fill_categ_row ( GtkTreeIter * iter, struct struct_categ * categ,
-		      gint place_categ )
+void fill_categ_row ( GtkTreeIter * iter, struct struct_categ * categ )
 {
     gchar * label = NULL, * balance = NULL;
 
-    label = ( place_categ ? categ -> nom_categ : _("No category") );
+    label = ( categ ? categ -> nom_categ : _("No category") );
 
     if ( etat.affiche_nb_ecritures_listes
 	 &&
-	 nb_ecritures_par_categ[place_categ] )
+	 categ -> nb_transactions )
 	label = g_strconcat ( label, " (",
-			      itoa ( nb_ecritures_par_categ[place_categ] ), ")",
+			      itoa ( categ -> nb_transactions ), ")",
 			      NULL );
 
-    if ( tab_montant_categ[place_categ] )
-	balance = g_strdup_printf ( _("%4.2f %s"), 
-				    tab_montant_categ[place_categ],
+    if ( categ -> nb_transactions )
+	balance = g_strdup_printf ( _("%4.2f %s"), categ -> balance,
 				    devise_code ( devise_compte ) );
     
     gtk_tree_store_set (GTK_TREE_STORE (categ_tree_model), iter,
@@ -713,41 +678,36 @@ void fill_categ_row ( GtkTreeIter * iter, struct struct_categ * categ,
 
 
 /**
+ * Fill a sub-division row with textual representation of a
+ * sub-division structure, in the form: "Name (num transactions)
+ * Balance".
  *
- *
+ * \param iter		Iter to fill with sub-division data.
+ * \param categ		Division structure (parent).
+ * \param sous_categ	Sub-division structure.
  */
-void fill_sub_categ_row ( GtkTreeIter * iter, struct struct_sous_categ * sous_categ,
-			  struct struct_categ * categ, 
-			  gint place_categ, gint place_sous_categ )
+void fill_sub_categ_row ( GtkTreeIter * iter, struct struct_categ * categ,
+			  struct struct_sous_categ * sous_categ )
 {
     gchar * balance = NULL, *label;
     GtkTreeIter dumb_iter;
     gint nb_ecritures = 0;
 
-    if ( !place_sous_categ )
-    {
-	label = _("No sub-category");
-    }
-    else 
-    {
-	label = sous_categ -> nom_sous_categ;
-    }	
+    label = ( sous_categ ? sous_categ -> nom_sous_categ : _("No sub-category") );
 
-    if ( tab_montant_sous_categ[place_categ] &&
-	 tab_montant_sous_categ[place_categ][place_sous_categ] &&
-	 etat.affiche_nb_ecritures_listes &&
-	 nb_ecritures_par_sous_categ[place_categ][place_sous_categ] )
+    if ( sous_categ && sous_categ -> nb_transactions )
     {
-	nb_ecritures = nb_ecritures_par_sous_categ[place_categ][place_sous_categ];
+	nb_ecritures = sous_categ -> nb_transactions;
     }
-    else if ( ! place_categ && ! place_sous_categ && tab_montant_categ[place_categ] )
+    else if ( categ && !sous_categ )
     {
-	nb_ecritures = nb_ecritures_par_categ[place_categ];
+	nb_ecritures = categ -> nb_direct_transactions;
     }
-
+    
     if ( nb_ecritures )
     {
-	label = g_strconcat ( label, " (", itoa ( nb_ecritures ), ")", NULL );
+	if ( etat.affiche_nb_ecritures_listes )
+	    label = g_strconcat ( label, " (", itoa ( nb_ecritures ), ")", NULL );
 	
 	if ( ! gtk_tree_model_iter_has_child ( GTK_TREE_MODEL(categ_tree_model), iter ) )
 	{
@@ -755,11 +715,13 @@ void fill_sub_categ_row ( GtkTreeIter * iter, struct struct_sous_categ * sous_ca
 	}
     }
 
-    if ( tab_montant_sous_categ[place_categ]
-	 &&
-	 tab_montant_sous_categ[place_categ][place_sous_categ] )
+    if ( sous_categ && sous_categ -> balance )
 	balance = g_strdup_printf ( _("%4.2f %s"),
-				    tab_montant_sous_categ[place_categ][place_sous_categ],
+				    sous_categ -> balance,
+				    devise_code ( devise_compte ) );
+    else if ( categ && categ -> balance )
+	balance = g_strdup_printf ( _("%4.2f %s"),
+				    categ -> direct_balance,
 				    devise_code ( devise_compte ) );
 
     gtk_tree_store_set ( GTK_TREE_STORE (categ_tree_model), iter,
@@ -2196,130 +2158,6 @@ void appui_sur_ajout_sous_categorie ( void )
 
 
 
-
-
-/* **************************************************************************************************** */
-/* crée un tableau de categ et de sous categ aussi gds que le nb de tiers */
-/* et les renvoie dans un tab de 2 pointeurs */
-/* **************************************************************************************************** */
-
-void calcule_total_montant_categ ( void )
-{
-    gint i;
-
-    /* on crée les tableaux de montant */
-
-    /* le +1 pour reserver le [0] pour aucune catégorie */
-
-    tab_montant_categ = calloc ( nb_enregistrements_categories + 1,
-				 sizeof ( gfloat ));
-    nb_ecritures_par_categ = calloc ( nb_enregistrements_categories + 1,
-				      sizeof ( gint ));
-
-    tab_montant_sous_categ = calloc ( nb_enregistrements_categories,
-				      sizeof ( gpointer ));
-    nb_ecritures_par_sous_categ = calloc ( nb_enregistrements_categories,
-					   sizeof ( gpointer ));
-
-    for ( i=0 ; i<nb_comptes ; i++ )
-    {
-	GSList *liste_tmp;
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
-
-	liste_tmp = LISTE_OPERATIONS;
-
-	while ( liste_tmp )
-	{
-	    struct structure_operation *operation;
-	    gdouble montant;
-	    gint place_categ;
-
-
-	    operation = liste_tmp -> data;
-
-	    /* on commence par calculer le montant dans la devise choisie dans les paramètres */
-
-	    montant = calcule_montant_devise_renvoi ( operation -> montant,
-						      no_devise_totaux_tiers,
-						      operation -> devise,
-						      operation -> une_devise_compte_egale_x_devise_ope,
-						      operation -> taux_change,
-						      operation -> frais_change );
-
-	    /* on traite ensuite l'opération */
-
-	    if ( operation -> categorie )
-	    {
-		struct struct_categ *categorie;
-
-		/* il y a une catégorie */
-
-		categorie = categ_par_no ( operation -> categorie );
-
-		/* recherche la place du tiers dans la liste */
-
-		place_categ = g_slist_index ( liste_struct_categories,
-					      categorie );
-
-		/* crée la place pour les sous catég de cette categ si ce n'est déjà fait */
-
-		if ( !tab_montant_sous_categ[place_categ] )
-		{
-		    gint nb_sous_categ;
-
-		    nb_sous_categ = g_slist_length ( categorie -> liste_sous_categ );
-
-		    /* on réserve nb_sous_categ + 1 pour aucune sous categ qui sera en [0] */
-
-		    tab_montant_sous_categ[place_categ] = calloc ( nb_sous_categ + 1,
-								   sizeof ( float ));
-		    nb_ecritures_par_sous_categ[place_categ] = calloc ( nb_sous_categ + 1,
-									sizeof ( gint ));
-		}
-
-		tab_montant_categ[place_categ+1] = tab_montant_categ[place_categ+1] + montant;
-		nb_ecritures_par_categ[place_categ+1]++;
-
-		/* on ajoute maintenant le montant à la sous categ si elle existe */
-
-		if ( operation -> sous_categorie )
-		{
-		    gint place_sous_categ;
-
-		    place_sous_categ = g_slist_index ( categorie -> liste_sous_categ,
-						       sous_categ_par_no ( operation -> categorie,
-									   operation -> sous_categorie ));
-
-		    tab_montant_sous_categ[place_categ][place_sous_categ+1] = tab_montant_sous_categ[place_categ][place_sous_categ+1] + montant;
-		    nb_ecritures_par_sous_categ[place_categ][place_sous_categ+1]++;
-		}
-		else
-		{
-		    if ( tab_montant_sous_categ[place_categ] )
-		    {
-			tab_montant_sous_categ[place_categ][0] = tab_montant_sous_categ[place_categ][0] + montant;
-			nb_ecritures_par_sous_categ[place_categ][0]++;
-		    }
-		}
-	    }
-	    else
-		/* il n'y a pas de catégorie */
-		/* on met le montant dans tab_montant_categ[0} si e n'est ni un virement ni une ventil */
-		if ( !operation -> relation_no_operation
-		     &&
-		     !operation -> operation_ventilee )
-		{
-		    tab_montant_categ[0] = tab_montant_categ[0] + montant;
-		    nb_ecritures_par_categ[0]++;
-		}
-	    liste_tmp = liste_tmp -> next;
-	}
-    }
-}
-
-
-
 /**
  *
  *
@@ -2675,6 +2513,18 @@ gboolean categ_row_drop_possible ( GtkTreeDragDest * drag_dest, GtkTreePath * de
 
 
 /**
+ *
+ *
+ */
+void create_new_sub_div ( GtkTreeModel * model, GtkTreePath * parent,
+			  gint no_categ, gint no_sub_categ )
+{
+    
+}
+
+
+
+/**
  * 
  *
  */
@@ -2685,21 +2535,21 @@ gboolean categ_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath * d
     {
 	GtkTreeModel * model;
 	GtkTreePath * orig_path;
-	gchar * buffer;
-	gint no_dest_categ, no_dest_sub_categ;
-	gint no_orig_categ, no_orig_sub_categ;
-	enum meta_tree_row_type orig_type;
-	struct structure_operation * transaction;
+	GtkTreeIter iter, iter_parent;
+	gint no_dest_categ, no_dest_sub_categ, no_orig_categ, no_orig_sub_categ, account;
 	gpointer pointer;
+	enum meta_tree_row_type orig_type;
+	struct structure_operation * transaction = NULL;
+	struct struct_sous_categ * sub_categ;
+	struct struct_categ * orig_categ, * dest_categ;
 
 	gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
 	metatree_get_row_properties ( model, orig_path,
-				      &buffer, &no_orig_categ, &no_orig_sub_categ, &pointer );
+				      NULL, &no_orig_categ, &no_orig_sub_categ, &pointer );
 	orig_type = metatree_get_row_type ( model, orig_path );
-	printf ("!!> %s\n", buffer);
 
 	metatree_get_row_properties ( model, dest_path,
-				      &buffer, &no_dest_categ, &no_dest_sub_categ, NULL );
+				      NULL, &no_dest_categ, &no_dest_sub_categ, NULL );
 	
 	switch ( orig_type )
 	{
@@ -2707,27 +2557,57 @@ gboolean categ_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath * d
 		transaction = (struct structure_operation *) pointer;
 		if ( transaction )
 		{
-		    GtkTreeIter orig_iter, child_iter, dest_iter;
-		    
-		    /* Change parameters */
-		    transaction -> categorie = no_dest_categ;
-		    transaction -> sous_categorie = no_dest_sub_categ;
+		    move_transaction_to_sub_category ( transaction, model, 
+						       orig_path, dest_path,
+						       no_dest_categ, no_dest_sub_categ );
+		}
+		break;
 
-		    /* Insert new row */
-		    /* TODO: update parents */
-		    gtk_tree_model_get_iter ( model, &dest_iter, dest_path );
-		    gtk_tree_store_insert ( GTK_TREE_STORE(categ_tree_model),
-					    &child_iter, &dest_iter, -1 );
-		    fill_transaction_row ( &child_iter, transaction );
+	    case META_TREE_SUB_DIV:
+		sub_categ = sous_categ_par_no ( no_orig_categ, no_orig_sub_categ );
+		dest_categ = categ_par_no ( no_dest_categ );
+		dest_categ -> liste_sous_categ = g_slist_append ( dest_categ -> liste_sous_categ,
+								  sub_categ );
+		orig_categ = categ_par_no ( no_orig_categ );
+		orig_categ -> liste_sous_categ = g_slist_remove ( orig_categ -> liste_sous_categ,
+								  sub_categ );
+		no_dest_sub_categ = no_orig_sub_categ;
 
-		    /* Remove old row */
-		    /* TODO: update parents */
-		    gtk_tree_model_get_iter ( model, &orig_iter, orig_path );
-		    gtk_tree_store_remove ( GTK_TREE_STORE(categ_tree_model), 
-					    &orig_iter );
-		    
-		    /* We did some modifications */
-		    modification_fichier ( TRUE );
+		/* Populate tree */
+		gtk_tree_model_get_iter ( model, &iter_parent, dest_path );
+		gtk_tree_store_append ( GTK_TREE_STORE(model), &iter, &iter_parent);
+		fill_sub_categ_row ( &iter, categ_par_no(no_dest_categ), 
+				     sous_categ_par_no(no_dest_categ, no_orig_sub_categ) );
+
+		for ( account = 0; account < nb_comptes; account ++ )
+		{
+		    GSList *pointeur_ope;
+
+		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + 
+			GPOINTER_TO_INT ( account );
+	    
+		    pointeur_ope = LISTE_OPERATIONS;
+	    
+		    while ( pointeur_ope )
+		    {
+			transaction = pointeur_ope -> data;
+		
+			if ( transaction &&
+			     transaction -> categorie == no_orig_categ &&
+			     transaction -> sous_categorie == no_orig_sub_categ &&
+			     !transaction -> relation_no_operation &&
+			     !transaction -> operation_ventilee )
+			{
+			    GtkTreePath * path;
+			    path = gtk_tree_model_get_path ( model, &iter );
+			    move_transaction_to_sub_category ( transaction, model, 
+							       orig_path, path,
+							       no_dest_categ, 
+							       no_dest_sub_categ );
+			}
+
+			pointeur_ope = pointeur_ope -> next;
+		    }
 		}
 		break;
 
@@ -2738,6 +2618,55 @@ gboolean categ_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath * d
     }
     
     return FALSE;
+}
+
+
+
+/**
+ *
+ *
+ */
+void move_transaction_to_sub_category ( struct structure_operation * transaction,
+					GtkTreeModel * model,
+					GtkTreePath * orig_path, GtkTreePath * dest_path,
+					gint no_categ, gint no_sub_categ )
+{
+    GtkTreeIter orig_iter, child_iter, dest_iter, parent_iter, gd_parent_iter;
+    struct struct_categ * old_categ = categ_par_no ( transaction -> categorie);
+    struct struct_categ * new_categ = categ_par_no (no_categ);
+    struct struct_sous_categ * old_sous_categ = 
+	sous_categ_par_no ( transaction -> categorie, transaction -> sous_categorie);
+    struct struct_sous_categ * new_sous_categ = sous_categ_par_no (no_categ, no_sub_categ);
+		    
+    /* Insert new row */
+    gtk_tree_model_get_iter ( model, &dest_iter, dest_path );
+    gtk_tree_store_insert ( GTK_TREE_STORE(categ_tree_model),
+			    &child_iter, &dest_iter, -1 );
+    fill_transaction_row ( &child_iter, transaction );
+
+    /* Update new parents */
+    add_transaction_to_category ( transaction, new_categ, new_sous_categ );
+    fill_sub_categ_row ( &dest_iter, new_categ, new_sous_categ );
+    gtk_tree_model_iter_parent ( model, &parent_iter, &dest_iter );
+    fill_categ_row ( &parent_iter, new_categ );
+
+    /* Change parameters */
+    transaction -> categorie = no_categ;
+    transaction -> sous_categorie = no_sub_categ;
+
+    /* Update old parents */
+    remove_transaction_from_category ( transaction, old_categ, old_sous_categ );
+    gtk_tree_model_get_iter ( model, &orig_iter, orig_path );
+    gtk_tree_model_iter_parent ( model, &parent_iter, &orig_iter );
+    fill_sub_categ_row ( &parent_iter, old_categ, old_sous_categ );
+    gtk_tree_model_iter_parent ( model, &gd_parent_iter, &parent_iter );
+    fill_categ_row ( &gd_parent_iter, old_categ );
+
+    /* Remove old row */
+    gtk_tree_store_remove ( GTK_TREE_STORE(categ_tree_model), &orig_iter );
+		    
+    /* We did some modifications */
+    modification_fichier ( TRUE );
 }
 
 
