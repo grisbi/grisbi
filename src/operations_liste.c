@@ -3049,9 +3049,8 @@ schedule_transaction ( struct structure_operation * transaction )
     
     echeance -> no_operation = ++no_derniere_echeance;
     nb_echeances++;
-    gsliste_echeances = g_slist_insert_sorted ( gsliste_echeances,
-						echeance,
-						(GCompareFunc) comparaison_date_echeance );
+    gsliste_echeances = g_slist_append ( gsliste_echeances,
+					 echeance );
 
 /*     on récupère les opé de ventil si c'était une opé ventilée*/
 
@@ -3141,9 +3140,8 @@ schedule_transaction ( struct structure_operation * transaction )
 
 		echeance_de_ventil -> no_operation = ++no_derniere_echeance;
 		nb_echeances++;
-		gsliste_echeances = g_slist_insert_sorted ( gsliste_echeances,
-							    echeance_de_ventil,
-							    (GCompareFunc) comparaison_date_echeance );
+		gsliste_echeances = g_slist_append ( gsliste_echeances,
+							    echeance_de_ventil );
 	    }
 	    liste_tmp = liste_tmp -> next;
 	}
