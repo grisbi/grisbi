@@ -62,6 +62,7 @@
 static void demande_expand_arbre ( GtkWidget *bouton,
 				   gint liste );
 static void mise_a_jour_boutons_grille ( void );
+static GtkWidget *creation_barre_outils_tiers ( void );
 /*END_STATIC*/
 
 
@@ -723,132 +724,6 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     return ( hbox );
 }
 /*******************************************************************************************/
-
-
-
-
-/*******************************************************************************************/
-GtkWidget *creation_barre_outils_tiers ( void )
-{
-    GtkWidget *hbox;
-    GtkWidget *separateur;
-    GtkWidget *icone;
-    GtkWidget *bouton;
-
-    hbox = gtk_hbox_new ( FALSE,
-			  5 );
-    gtk_widget_show ( hbox );
-
-    separateur = gtk_vseparator_new ();
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 separateur,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( separateur );
-
-
-    /* bouton fermeture de l'arbre */
-
-    bouton = gtk_button_new ();
-    gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			    GTK_RELIEF_NONE );
-    gtk_object_set_data ( GTK_OBJECT ( bouton ),
-			  "profondeur",
-			  GINT_TO_POINTER ( 0 ));
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
-			   bouton,
-			   _("Close tree"),
-			   _("Close tree") );
-    icone = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) liste_0_xpm ));
-    gtk_container_add ( GTK_CONTAINER ( bouton ),
-			icone );
-    gtk_widget_set_usize ( bouton,
-			   15,
-			   15 );
-    gtk_signal_connect ( GTK_OBJECT ( bouton ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( demande_expand_arbre ),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show_all ( bouton );
-
-    /* bouton ouverture de l'arbre niveau 1 */
-
-    bouton = gtk_button_new ();
-    gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			    GTK_RELIEF_NONE );
-    gtk_object_set_data ( GTK_OBJECT ( bouton ),
-			  "profondeur",
-			  GINT_TO_POINTER ( 1 ));
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
-			   bouton,
-			   _("Display accounts"),
-			   _("Display accounts") );
-    icone = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) liste_1_xpm ));
-    gtk_container_add ( GTK_CONTAINER ( bouton ),
-			icone );
-    gtk_widget_set_usize ( bouton,
-			   15,
-			   15 );
-    gtk_signal_connect ( GTK_OBJECT ( bouton ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( demande_expand_arbre ),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show_all ( bouton );
-
-    /* bouton ouverture de l'arbre niveau 2 */
-
-    bouton = gtk_button_new ();
-    gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			    GTK_RELIEF_NONE );
-    gtk_object_set_data ( GTK_OBJECT ( bouton ),
-			  "profondeur",
-			  GINT_TO_POINTER ( 2 ));
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
-			   bouton,
-			   _("Display transactions"),
-			   _("Display transactions") );
-    icone = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) liste_2_xpm ));
-    gtk_container_add ( GTK_CONTAINER ( bouton ),
-			icone );
-    gtk_widget_set_usize ( bouton,
-			   15,
-			   15 );
-    gtk_signal_connect ( GTK_OBJECT ( bouton ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( demande_expand_arbre ),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show_all ( bouton );
-
-    separateur = gtk_vseparator_new ();
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 separateur,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( separateur );
-
-
-    return ( hbox );
-}
-/*******************************************************************************************/
-
-
 
 
 /*******************************************************************************************/
