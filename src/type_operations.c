@@ -536,7 +536,7 @@ gboolean select_payment_method ( GtkTreeSelection *selection, GtkTreeModel *mode
 	/* Filling entries */
 	entry_set_value ( entree_type_nom, &(type_ope -> nom_type) );
 	spin_button_set_value ( entree_type_dernier_no, 
-				(gdouble *) &(type_ope -> no_en_cours) );
+				&(type_ope -> no_en_cours) );
 	checkbox_set_value ( entree_automatic_numbering, 
 			     &(type_ope -> numerotation_auto), TRUE );
 	gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_signe_type ),
