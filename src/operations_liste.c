@@ -4212,25 +4212,24 @@ void mise_a_jour_affichage_r ( gint affichage_r )
 			    liste_recherche = g_slist_nth ( LISTE_OPERATIONS,
 							    ligne_ope_pour_insertion );
 
-			    do
-			    {
-				operation_recherche = liste_recherche -> data;
-				liste_recherche = liste_recherche -> next;
-			    }
-			    while ( operation_recherche -> pointe == 3
-				    &&
-				    liste_recherche );
-
-			    /*   à ce niveau, soit operation_recherche pointe sur la 1ere opé non R */
-			    /*après l'opé R en cours */
-			    /*	soit liste_recherche = NULL, et donc on a atteind la fin de la liste */
-				
 			    if ( liste_recherche )
-			    {
+			      {
+				do
+				  {
+				    operation_recherche = liste_recherche -> data;
+				    liste_recherche = liste_recherche -> next;
+				  }
+				while ( operation_recherche -> pointe == 3
+					&& liste_recherche );
+
+				/*   à ce niveau, soit operation_recherche pointe sur la 1ere opé non R */
+				/*après l'opé R en cours */
+				/*	soit liste_recherche = NULL, et donc on a atteind la fin de la liste */
+				
 				ligne_ope_pour_insertion = g_slist_position ( LISTE_OPERATIONS,
 									      liste_recherche );
 				iter = cherche_iter_operation ( operation_recherche );
-			    }
+			      }
 			    else
 				iter = cherche_iter_operation ( GINT_TO_POINTER (-1));
 			}

@@ -71,6 +71,8 @@ extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
 extern gint id_fonction_idle;
+extern gboolean block_menu_cb;
+extern GtkItemFactory *item_factory_menu_general;
 
 
 
@@ -3492,9 +3494,11 @@ void formulaire_a_zero (void)
 /* Fonction affiche_cache_le_formulaire                                       */
 /* si le formulaire était affiché, le cache et vice-versa                     */
 /******************************************************************************/
+
 void affiche_cache_le_formulaire ( void )
 {
     gpointer **save_ptab;
+    GtkWidget * widget;
 
     save_ptab = p_tab_nom_de_compte_variable;
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
@@ -3531,6 +3535,12 @@ void affiche_cache_le_formulaire ( void )
 	    gtk_adjustment_set_value ( ajustement,
 				       position_ligne_selectionnee - ajustement->page_size );
     }
+
+    block_menu_cb = TRUE;
+    widget = gtk_item_factory_get_item ( item_factory_menu_general,
+					 menu_name(_("View"), _("Show transaction form"), NULL) );
+    gtk_check_menu_item_set_active( widget, etat.formulaire_toujours_affiche );
+    block_menu_cb = FALSE;
 
     p_tab_nom_de_compte_variable = save_ptab;
 }

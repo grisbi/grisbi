@@ -25,6 +25,7 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "barre_outils.h"
+#include "menu.h"
 #include "operations_liste.h"
 #include "operations_formulaire.h"
 #include "echeancier_formulaire.h"
@@ -68,7 +69,8 @@ gulong handler_signal_grille;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *arbre_imputation;
 extern GtkWidget *tree_view_liste_ventilations;
-
+extern gboolean block_menu_cb;
+extern GtkItemFactory *item_factory_menu_general;
 
 
 /*******************************************************************************************/
@@ -406,16 +408,18 @@ GtkWidget *creation_barre_outils ( void )
 
 
 /****************************************************************************************************/
-gboolean change_aspect_liste ( gint *demande )
+gboolean change_aspect_liste ( gint demande )
 {
     gint i;
+    GtkWidget * widget;
 
     p_tab_nom_de_compte_variable=p_tab_nom_de_compte + compte_courant;
 
 /* FIXME : dès que gtk 2.4 à la maison, utiliser le gtk_tree_model_filter */
 
+    block_menu_cb = TRUE;
 
-    switch ( GPOINTER_TO_INT (demande))
+    switch ( demande )
     {
 	case 0:
 	    /* 	    changement de l'affichage de la grille */
@@ -456,17 +460,39 @@ gboolean change_aspect_liste ( gint *demande )
 	    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + compte_courant;
 	    gtk_widget_queue_draw ( TREE_VIEW_LISTE_OPERATIONS );
 
+	    block_menu_cb = TRUE;
+	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
+						 menu_name(_("View"), _("Show grid"), NULL) );
+	    gtk_check_menu_item_set_active( widget, etat.affichage_grille );
+	    block_menu_cb = FALSE;
+
 	    break;
 
 	/* 	1, 2, 3 et 4 sont les nb de lignes qu'on demande à afficher */
 
 	case 1 :
+	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
+						 menu_name(_("View"), _("Show one line per transaction"), NULL) );
+	    gtk_check_menu_item_set_active( widget, TRUE );
+	    mise_a_jour_affichage_lignes ( demande );
+	    break;
 	case 2 :
+	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
+						 menu_name(_("View"), _("Show two lines per transaction"), NULL) );
+	    gtk_check_menu_item_set_active( widget, TRUE );
+	    mise_a_jour_affichage_lignes ( demande );
+	    break;
 	case 3 :
+	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
+						 menu_name(_("View"), _("Show three lines per transaction"), NULL) );
+	    gtk_check_menu_item_set_active( widget, TRUE );
+	    mise_a_jour_affichage_lignes ( demande );
+	    break;
 	case 4 :
-
-	    mise_a_jour_affichage_lignes ( GPOINTER_TO_INT (demande));
-
+	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
+						 menu_name(_("View"), _("Show four lines per transaction"), NULL) );
+	    gtk_check_menu_item_set_active( widget, TRUE );
+	    mise_a_jour_affichage_lignes ( demande );
 	    break;
 
 	case 5 :
@@ -474,6 +500,12 @@ gboolean change_aspect_liste ( gint *demande )
 	    /* ope avec r */
 
 	    mise_a_jour_affichage_r ( 1 );
+
+	    block_menu_cb = TRUE;
+	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
+						 menu_name(_("View"), _("Show reconciled transactions"), NULL) );
+	    gtk_check_menu_item_set_active( widget, TRUE );
+	    block_menu_cb = FALSE;
 
 	    break;
 
@@ -483,9 +515,16 @@ gboolean change_aspect_liste ( gint *demande )
 
 	    mise_a_jour_affichage_r ( 0 );
 
+	    block_menu_cb = TRUE;
+	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
+						 menu_name(_("View"), _("Show reconciled transactions"), NULL) );
+	    gtk_check_menu_item_set_active( widget, FALSE );
+	    block_menu_cb = FALSE;
+
 	    break;
     }
 
+    block_menu_cb = FALSE;
 
     return ( TRUE );
 }

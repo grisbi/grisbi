@@ -31,7 +31,7 @@
 #include "variables-extern.c"
 #include "menu.h"
 
-
+#include "barre_outils.h"
 #include "comptes_traitements.h"
 #include "erreur.h"
 #include "etats_calculs.h"
@@ -40,14 +40,30 @@
 #include "fichiers_gestion.h"
 #include "help.h"
 #include "import.h"
+#include "operations_formulaire.h"
 #include "operations_liste.h"
 #include "parametres.h"
 #include "qif.h"
 #include "utils.h"
 
-
+enum view_menu_action {
+  HIDE_SHOW_TRANSACTION_FORM = 0,
+  HIDE_SHOW_GRID,
+  HIDE_SHOW_RECONCILED_TRANSACTIONS,
+  ONE_LINE_PER_TRANSACTION,
+  TWO_LINES_PER_TRANSACTION,
+  THREE_LINES_PER_TRANSACTION,
+  FOUR_LINES_PER_TRANSACTION,
+};
 
 extern GtkItemFactory *item_factory_menu_general;
+extern GtkWidget *bouton_ope_lignes[4];
+extern GtkWidget *bouton_affiche_r;
+extern GtkWidget *bouton_enleve_r;
+extern GtkWidget *bouton_grille;
+
+gboolean block_menu_cb = FALSE;
+
 
 /***********************************************/
 /* définition de la barre des menus, version gtk */
@@ -55,7 +71,7 @@ extern GtkItemFactory *item_factory_menu_general;
 
 GtkWidget *init_menus ( GtkWidget *vbox )
 {
-    GtkWidget *barre_menu;
+    GtkWidget *barre_menu, *widget;
     GtkAccelGroup *accel;
     gint nb_item_menu;
 
@@ -93,6 +109,19 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	{menu_name(_("Edit"), _("Move transaction to another account"), NULL),   NULL, NULL, 0, "<StockItem>", GTK_STOCK_GO_FORWARD },
 	{menu_name(_("Edit"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
 	{menu_name(_("Edit"), _("Preferences"), NULL),   NULL, G_CALLBACK (preferences ), 1, "<StockItem>", GTK_STOCK_PREFERENCES },
+
+	/* View menu */
+	{menu_name(_("View"), NULL, NULL), NULL, NULL, 0, "<Branch>", NULL },
+	{menu_name(_("View"), "Detach", NULL),    NULL,  NULL, 0, "<Tearoff>", NULL },
+	{menu_name(_("View"), _("Show transaction form"), NULL),   NULL, G_CALLBACK(view_menu_cb), HIDE_SHOW_TRANSACTION_FORM, "<ToggleItem>", },
+	{menu_name(_("View"), _("Show grid"), NULL),   NULL, G_CALLBACK(view_menu_cb), HIDE_SHOW_GRID, "<ToggleItem>", },
+	{menu_name(_("View"), _("Show reconciled transactions"), NULL),   NULL, G_CALLBACK(view_menu_cb), HIDE_SHOW_RECONCILED_TRANSACTIONS, "<ToggleItem>", },
+	{menu_name(_("View"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
+	{menu_name(_("View"), _("Show one line per transaction"), NULL),   NULL, G_CALLBACK(view_menu_cb), ONE_LINE_PER_TRANSACTION, "<RadioItem>" },
+	{menu_name(_("View"), _("Show two lines per transaction"), NULL),   NULL, G_CALLBACK(view_menu_cb), TWO_LINES_PER_TRANSACTION, menu_name(_("View"), _("Show one line per transaction"), NULL) },
+	{menu_name(_("View"), _("Show three lines per transaction"), NULL),   NULL, G_CALLBACK(view_menu_cb), THREE_LINES_PER_TRANSACTION, menu_name(_("View"), _("Show one line per transaction"), NULL)},
+	{menu_name(_("View"), _("Show four lines per transaction"), NULL),   NULL, G_CALLBACK(view_menu_cb), FOUR_LINES_PER_TRANSACTION, menu_name(_("View"), _("Show one line per transaction"), NULL)},
+	{menu_name(_("View"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
 
 	/* Accounts menu */
 	{menu_name(_("Accounts"), NULL, NULL), NULL, NULL, 0, "<Branch>", NULL },
@@ -158,10 +187,19 @@ GtkWidget *init_menus ( GtkWidget *vbox )
     barre_menu = gtk_item_factory_get_widget(item_factory_menu_general,
 					     "<main>");
 
-    /* Association des raccourcis avec la fenetre */
+    /* Update View/Show * menu items */
+    block_menu_cb = TRUE;
+    widget = gtk_item_factory_get_item ( item_factory_menu_general,
+					 menu_name(_("View"), _("Show transaction form"), NULL) );
+    gtk_check_menu_item_set_active( GTK_MENU_ITEM(widget),
+				    etat.formulaire_toujours_affiche );
 
-    gtk_window_add_accel_group(GTK_WINDOW(window),
-			       accel );
+    widget = gtk_item_factory_get_item ( item_factory_menu_general,
+					 menu_name(_("View"), _("Show grid"), NULL) );
+    gtk_check_menu_item_set_active( GTK_MENU_ITEM(widget), etat.affichage_grille );
+    block_menu_cb = FALSE;
+
+    gtk_window_add_accel_group(GTK_WINDOW(window), accel );
 
     gtk_widget_show_all ( barre_menu );
 
@@ -305,4 +343,77 @@ gchar * menu_name ( gchar * menu, gchar * submenu, gchar * subsubmenu )
     return g_strconcat ( "/", menu, "/", submenu, NULL );
   else
     return g_strconcat ( "/", menu, NULL );
+}
+
+
+/** 
+ * Callback called when an item of the "View" menu is triggered.
+ * Responsible for all handler blocking needed by change_aspect_liste.
+ *
+ * \param callback_data Not used
+ * \param callback_action A view_menu_action enum which contains the
+ *                        action to perform
+ * \param widget The GtkItemFactory that triggered this event.  Not used.
+ */
+void view_menu_cb ( gpointer callback_data, guint callback_action, GtkWidget *widget )
+{
+  /* FIXME benj: ugly but I cannot find a way to block this ... I
+     understand why gtkitemfactory is deprecated. */
+  if ( block_menu_cb ) return;
+
+  switch ( callback_action )
+    {
+    case HIDE_SHOW_TRANSACTION_FORM:
+      affiche_cache_le_formulaire();
+      break;
+    case HIDE_SHOW_GRID:
+      g_signal_handlers_block_by_func ( G_OBJECT ( bouton_affiche_r ),
+					G_CALLBACK ( change_aspect_liste ),
+					GINT_TO_POINTER (0));
+      g_signal_handlers_block_by_func ( G_OBJECT ( bouton_enleve_r ),
+					G_CALLBACK ( change_aspect_liste ),
+					GINT_TO_POINTER (0));
+      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (bouton_grille), !etat.affichage_grille );
+      change_aspect_liste (0);
+      g_signal_handlers_unblock_by_func ( G_OBJECT ( bouton_affiche_r ),
+					  G_CALLBACK ( change_aspect_liste ),
+					  GINT_TO_POINTER (0));
+      g_signal_handlers_unblock_by_func ( G_OBJECT ( bouton_enleve_r ),
+					  G_CALLBACK ( change_aspect_liste ),
+					  GINT_TO_POINTER (0));
+      break;
+    case HIDE_SHOW_RECONCILED_TRANSACTIONS:
+      g_signal_handlers_block_by_func ( G_OBJECT ( bouton_affiche_r ),
+					G_CALLBACK ( change_aspect_liste ),
+					GINT_TO_POINTER (5));
+      g_signal_handlers_block_by_func ( G_OBJECT ( bouton_enleve_r ),
+					G_CALLBACK ( change_aspect_liste ),
+					GINT_TO_POINTER (6));
+      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (bouton_affiche_r), !AFFICHAGE_R );
+      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (bouton_enleve_r), AFFICHAGE_R );
+      g_signal_handlers_unblock_by_func ( G_OBJECT ( bouton_affiche_r ),
+					  G_CALLBACK ( change_aspect_liste ),
+					  GINT_TO_POINTER (5));
+      g_signal_handlers_unblock_by_func ( G_OBJECT ( bouton_enleve_r ),
+					  G_CALLBACK ( change_aspect_liste ),
+					  GINT_TO_POINTER (6));
+      if ( AFFICHAGE_R )
+	change_aspect_liste(6);
+      else
+	change_aspect_liste(5);
+      
+      break;
+    case ONE_LINE_PER_TRANSACTION:
+      change_aspect_liste (1);
+      break;
+    case TWO_LINES_PER_TRANSACTION:
+      change_aspect_liste (2);
+      break;
+    case THREE_LINES_PER_TRANSACTION:
+      change_aspect_liste (3);
+      break;
+    case FOUR_LINES_PER_TRANSACTION:
+      change_aspect_liste (4);
+      break;
+    }
 }
