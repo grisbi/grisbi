@@ -210,7 +210,9 @@ void supprimer_compte ( void )
   compte_modifie = compte_courant_onglet;
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_modifie;
 
-  if ( !question_yes_no (g_strdup_printf (_("Are you sure you want to delete account '%s'?"), NOM_DU_COMPTE) ))
+  if ( !question_yes_no_hint ( g_strdup_printf (_("Delete account \"%s\"?"),
+					       NOM_DU_COMPTE),
+			       _("This will irreversibly remove this account and all operations that were previously contained.  There is no undo for this.") ))
     return;
 
   /* on commence ici la suppression du compte */
