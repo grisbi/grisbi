@@ -109,12 +109,8 @@ void a_propos ( GtkWidget *bouton,
 		       0 );
   gtk_widget_show ( label );
 
-  if ( data == 1 )
-    gnome_dialog_set_parent ( GNOME_DIALOG ( boite ),
-			      GTK_WINDOW ( window));
-  else
-    gtk_window_set_position ( GTK_WINDOW ( boite ),
-			      GTK_WIN_POS_CENTER );
+  gnome_dialog_set_parent ( GNOME_DIALOG ( boite ),
+			    GTK_WINDOW ( window));
 
   gtk_widget_show ( boite );
 }

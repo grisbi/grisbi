@@ -9,7 +9,7 @@
 
 /* Chemin des fichiers */
 
-#define FICHIER_CONF "Grisbi-dev"       /* à mettre à Grisbi-dev pdt le dvt et Grisbi à la sortie d'une version */
+#define FICHIER_CONF "Grisbi"       /* à mettre à Grisbi-dev pdt le dvt et Grisbi à la sortie d'une version */
 
 /* initialisation des couleurs */
 
@@ -44,7 +44,8 @@ struct {
   guint valeur_r_avant_rapprochement : 1;
   guint r_modifiable : 1;
   guint dernier_fichier_auto : 1;
-  guint sauvegarde_auto : 1;
+  guint sauvegarde_auto : 1;             /* utilisé pour enregistrer le fichier automatiquementà la fermeture */
+  guint sauvegarde_demarrage : 1;        /* utilisé pour enregistrer le fichier s'il s'est bien ouvert */
   guint entree : 1;
   guint alerte_mini : 1;
   guint formulaire_toujours_affiche : 1;

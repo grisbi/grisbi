@@ -28,21 +28,21 @@
 
 /* on inclut les dessins */
 
-#include "../applet/xpm/g1.xpm"
-#include "../applet/xpm/g2.xpm"
-#include "../applet/xpm/g3.xpm"
-#include "../applet/xpm/g4.xpm"
-#include "../applet/xpm/g5.xpm"
-#include "../applet/xpm/g6.xpm"
-#include "../applet/xpm/g7.xpm"
-#include "../applet/xpm/g8.xpm"
-#include "../applet/xpm/g9.xpm"
-#include "../applet/xpm/g10.xpm"
-#include "../applet/xpm/g11.xpm"
-#include "../applet/xpm/g12.xpm"
-#include "../applet/xpm/g13.xpm"
-#include "../applet/xpm/g14.xpm"
-#include "../applet/xpm/g15.xpm"
+#include "./xpm/g1.xpm"
+#include "./xpm/g2.xpm"
+#include "./xpm/g3.xpm"
+#include "./xpm/g4.xpm"
+#include "./xpm/g5.xpm"
+#include "./xpm/g6.xpm"
+#include "./xpm/g7.xpm"
+#include "./xpm/g8.xpm"
+#include "./xpm/g9.xpm"
+#include "./xpm/g10.xpm"
+#include "./xpm/g11.xpm"
+#include "./xpm/g12.xpm"
+#include "./xpm/g13.xpm"
+#include "./xpm/g14.xpm"
+#include "./xpm/g15.xpm"
 
 
 /* ******************************************************************************************** */

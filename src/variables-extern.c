@@ -248,14 +248,18 @@ extern GtkWidget *entree_adresse_commune;
 extern GtkWidget *entree_adresse_secondaire;
 
 
-extern GtkWidget *bouton_avec_demarrage, *bouton_sans_demarrage;
-extern GtkWidget *bouton_save_auto, *bouton_save_non_auto;
-extern GtkWidget *bouton_force_enregistrement, *bouton_force_pas_enregistrement;
+extern GtkWidget *bouton_avec_demarrage;
+extern GtkWidget *bouton_sans_demarrage;
+extern GtkWidget *bouton_save_auto;
+extern GtkWidget *bouton_save_non_auto;
+extern GtkWidget *bouton_force_enregistrement;
+extern GtkWidget *bouton_force_pas_enregistrement;
 extern GtkWidget *bouton_demande_backup;
 extern GtkWidget *entree_chemin_backup;
 extern GtkWidget *spin_button_derniers_fichiers_ouverts;
 extern GtkWidget *spin_button_compression_fichier;
 extern GtkWidget *spin_button_compression_backup;
+extern GtkWidget *bouton_save_demarrage;
 
 extern GtkWidget *entree_jours;
 extern GtkWidget *bouton_2click_saisie, *bouton_2click_pas_saisie;

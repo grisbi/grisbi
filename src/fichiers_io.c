@@ -1777,13 +1777,13 @@ gboolean charge_operations_version_0_4_0 ( xmlDocPtr doc )
 		  {
 		    if ( etat.force_enregistrement )
 		      dialogue ( _("Attention, le fichier semble dejà ouvert pas un autre \
-utilisateur ou n'a pas ete ferme correctement (plantage ?).\nCependant Grisbi va \
+utilisateur.\nCependant Grisbi va \
 forcer l'enregistrement ; cette option est deconseillee\n sauf si vous êtes sûr \
 que personne d'autre n'utilise le fichier pour le moment.\nLa desactivation de \
 cette option s'effectue dans le menu de configuration") );
 		    else
 		      dialogue ( _("Attention, le fichier semble dejà ouvert pas un autre \
-utilisateur ou n'a pas ete ferme correctement (plantage ?).\nVous ne pourrez \
+utilisateur.\nVous ne pourrez \
 enregistrer vos modification qu'en activant l'option \"Forcer l'enregistrement\" \
 des paramètres.") );
 		  }
@@ -5951,9 +5951,6 @@ gboolean enregistre_fichier ( gboolean force )
       return ( FALSE );
     }
 
-  modification_fichier ( FALSE );
-
-  affiche_titre_fenetre ();
 
   etat.en_train_de_sauvegarder = 0;
 

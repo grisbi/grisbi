@@ -325,6 +325,7 @@ void traitement_sigsegv ( gint signal_nb )
     {
       dialog = gnome_error_dialog ( _("Oups, Grisbi a planté pendant le chargement du fichier (erreur de segmentation).\nSoit celui-ci est corrompu, soit il s'agit d'un bug grave.\nRéessayez de le charger.  Si vous arrivez à recréer ce bug, pouvez-vous nous le décrire sur le site de grisbi (http://www.grisbi.org/bugtracking/) ?\nCeci nous aiderait beaucoup pour le corriger.\nMerci !" ));
       gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
+      fichier_marque_ouvert ( FALSE );
       gtk_main_quit();
       exit(0);
     }
@@ -334,6 +335,7 @@ void traitement_sigsegv ( gint signal_nb )
     {
       dialog = gnome_error_dialog ( _("Oups, Grisbi a planté pendant la sauvegarde du fichier (erreur de segmentation).\nCelle-ci est donc impossible.  Si vous arrivez à recréer ce bug, pouvez-vous nous le décrire sur le site de grisbi (http://www.grisbi.org/bugtracking/) ?\nCeci nous aiderait beaucoup pour le corriger.\nMerci !" ));
       gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
+      fichier_marque_ouvert ( FALSE );
       gtk_main_quit();
       exit(0);
     }
@@ -342,6 +344,7 @@ void traitement_sigsegv ( gint signal_nb )
     {
       dialog = gnome_error_dialog ( _("Oups, Grisbi a planté (erreur de segmentation).\nC'est pas bien grave, vous n'aviez pas fait de modifications,\ncependant si vous arrivez à recréer le bug, pouvez-vous nous le décrire sur le site de grisbi (http://www.grisbi.org/bugtracking/) ?\nCeci nous aiderait beaucoup pour le corriger.\nMerci !" ));
       gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
+      fichier_marque_ouvert ( FALSE );
       gtk_main_quit();
       exit(0);
     }

@@ -237,14 +237,107 @@ void ouverture_confirmee ( void )
   /*  si charge opérations renvoie FALSE, c'est qu'il y a eu un pb et un message est déjà affiché */
 
   if ( !nb_comptes )
-    if ( !charge_operations () )
-      {
-	annulation_attente ();
-	init_variables ( FALSE );
-	dialogue ( _("Problème lors du chargement du fichier !") );
+    {
+      if ( !charge_operations () )
+	{
+	  /* 	  le chargement du fichier a planté, si l'option sauvegarde à l'ouverture est activée, on */
+	  /* propose de charger l'ancien fichier */
+ 
+	  annulation_attente ();
 
-	return;
-      }
+	  if ( etat.sauvegarde_demarrage )
+	    {
+	      gchar *nom;
+	      gint i;
+	      gchar **parametres;
+
+	      dialogue ( _("Le chargement du fichier a échoué. Grisbi va maintenant essayer de charger\nla sauvegarde automatique réalisée lors de la dernière ouverture.\n(vous perdrez donc tous ce que vous avez fait lors de l'ouverture précédente)"));
+
+	      /* on crée le nom de la sauvegarde */
+
+	      nom = nom_fichier_comptes;
+	      i=0;
+
+	      parametres = g_strsplit ( nom_fichier_comptes,
+					"/",
+					0);
+	      while ( parametres[i] )
+		i++;
+
+	      nom_fichier_comptes = g_strconcat ( getenv ("HOME"),
+						  "/.",
+						  parametres [i-1],
+						  ".bak",
+						  NULL );
+	      g_strfreev ( parametres );
+
+	      mise_en_route_attente ( _("Chargement de la sauvegarde") );
+
+	      if ( charge_operations () )
+		/* on a réussi a charger la sauvegarde */
+		nom_fichier_comptes = nom;
+	      else
+		{
+		  /* le chargement de la sauvegarde a échoué */
+
+		  nom_fichier_comptes = nom;
+		  annulation_attente ();
+		  dialogue ( _("Le chargement de la sauvegarde a échoué. Veuillez contacter les développeurs\npour essayer de restaurer vos données." ));
+		  return;
+		}
+	    }
+	  else
+	    {
+	      dialogue ( _("Problème lors du chargement du fichier !") );
+	      init_variables ( FALSE );
+	      return;
+	    }
+	}
+      else
+	{
+	  /* 	si on veut faire une sauvegarde auto à chaque ouverture, c'est ici */
+
+	  if ( etat.sauvegarde_demarrage )
+	    {
+	      gchar *nom;
+	      gint i;
+	      gchar **parametres;
+	      gint save_force_enregistrement;
+
+	      nom = nom_fichier_comptes;
+
+	      i=0;
+
+	      /* 	      on récupère uniquement le nom du fichier, pas le chemin */
+
+	      parametres = g_strsplit ( nom_fichier_comptes,
+					"/",
+					0);
+
+	      while ( parametres[i] )
+		i++;
+
+	      nom_fichier_comptes = g_strconcat ( getenv ("HOME"),
+						  "/.",
+						  parametres [i-1],
+						  ".bak",
+						  NULL );
+
+	      g_strfreev ( parametres );
+
+	      /* on force l'enregistrement */
+
+	      save_force_enregistrement = etat.force_enregistrement;
+	      etat.force_enregistrement = 1;
+
+	      enregistre_fichier ( TRUE );
+
+	      etat.force_enregistrement = save_force_enregistrement;
+
+	      nom_fichier_comptes = nom;
+	    }
+	}
+    }
 
   update_attente ( _("Mise en forme des opérations") );
 
@@ -507,6 +600,9 @@ gboolean enregistrement_fichier ( gint origine )
       result = enregistre_fichier ( 0 );
       annulation_attente();
 
+      modification_fichier ( FALSE );
+      affiche_titre_fenetre ();
+
       fichier_marque_ouvert ( TRUE );
 
       ajoute_nouveau_fichier_liste_ouverture ( nom_fichier_comptes );
@@ -554,6 +650,9 @@ gboolean enregistrement_fichier ( gint origine )
 	  result = enregistre_fichier ( 0 );
 	  annulation_attente();
 
+	  modification_fichier ( FALSE );
+	  affiche_titre_fenetre ();
+  
 	  fichier_marque_ouvert ( TRUE );
 	  ajoute_nouveau_fichier_liste_ouverture ( nom_fichier_comptes );
 

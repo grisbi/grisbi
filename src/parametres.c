@@ -578,7 +578,7 @@ GtkWidget *onglet_fichier ( void )
 		       0 );
   gtk_widget_show ( separateur );
 
-/* configuration de la sauvegarde automatique */
+  /* configuration de la sauvegarde automatique */
 
   bouton_save_auto = gtk_radio_button_new_with_label ( NULL,
 							    SPACIFY(_("Enregistrer automatiquement en fermant")) );
@@ -747,6 +747,25 @@ GtkWidget *onglet_fichier ( void )
     else
       gtk_widget_set_sensitive ( bouton_demande_backup,
 				 FALSE );
+
+
+  /* mise en forme de la demande de sauvegarde à l'ouverture */
+
+  bouton_save_demarrage = gtk_check_button_new_with_label ( _("Faire une sauvegarde à chaque ouverture (~/.nom_du_fichier.bak)") );
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton_save_demarrage ),
+			      "toggled",
+			      GTK_SIGNAL_FUNC ( gnome_property_box_changed),
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       bouton_save_demarrage,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_save_demarrage );
+
+
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_save_demarrage ),
+				 etat.sauvegarde_demarrage );
 
 
   separateur = gtk_hseparator_new ();
@@ -1589,6 +1608,10 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 	  else
 	    nom_fichier_backup = NULL;
 	}
+
+
+      etat.sauvegarde_demarrage = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_save_demarrage ));
+
 
       /* récupère le nb max de noms de derniers fichiers à garder */
 

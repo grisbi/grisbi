@@ -224,14 +224,18 @@ GtkWidget *entree_titre_fichier;
 GtkWidget *entree_adresse_commune;
 GtkWidget *entree_adresse_secondaire;
 
-GtkWidget *bouton_avec_demarrage, *bouton_sans_demarrage;
-GtkWidget *bouton_save_auto, *bouton_save_non_auto;
-GtkWidget *bouton_force_enregistrement, *bouton_force_pas_enregistrement;
+GtkWidget *bouton_avec_demarrage;
+GtkWidget *bouton_sans_demarrage;
+GtkWidget *bouton_save_auto;
+GtkWidget *bouton_save_non_auto;
+GtkWidget *bouton_force_enregistrement;
+GtkWidget *bouton_force_pas_enregistrement;
 GtkWidget *bouton_demande_backup;
 GtkWidget *entree_chemin_backup;
 GtkWidget *spin_button_derniers_fichiers_ouverts;
 GtkWidget *spin_button_compression_fichier;
 GtkWidget *spin_button_compression_backup;
+GtkWidget *bouton_save_demarrage;
 
 GtkWidget *entree_jours;
 GtkWidget *bouton_2click_saisie, *bouton_2click_pas_saisie;
@@ -620,6 +624,7 @@ GtkWidget *notebook_etats;
 GtkWidget *onglet_affichage_etat;
 GtkWidget *onglet_config_etat;
 GtkWidget *notebook_selection;
+
 
 /***********************************/ 
 /* fichier etats_config.c */

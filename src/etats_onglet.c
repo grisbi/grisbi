@@ -199,7 +199,7 @@ GtkWidget *creation_liste_etats ( void )
   scrolled_window = gtk_scrolled_window_new ( NULL,
 					      NULL);
   gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				   GTK_POLICY_NEVER,
+				   GTK_POLICY_AUTOMATIC,
 				   GTK_POLICY_AUTOMATIC);
   gtk_box_pack_start ( GTK_BOX ( onglet ),
 		       scrolled_window,
@@ -518,45 +518,272 @@ void remplissage_liste_etats ( void )
 /*****************************************************************************************************/
 
 
-
 /*****************************************************************************************************/
+/* on propose une liste d'états prémachés et les remplis en fonction du choix */
+/* de la personne */
+/*****************************************************************************************************/
+
 void ajout_etat ( void )
 {
   struct struct_etat *etat;
+  GtkWidget *dialog;
+  gint resultat;
+  GtkWidget *label;
+  GtkWidget *frame;
+  GtkWidget *option_menu;
+  GtkWidget *menu;
+  GtkWidget *menu_item;
 
-  /* on ajoute un état vierge appelé nouvel état */
-  /*   pour modifier le nom, il faudra aller dans la */
-  /* personnalisation */
+
+  dialog = gnome_dialog_new ( _("Création d'un état"),
+			      GNOME_STOCK_BUTTON_OK,
+			      GNOME_STOCK_BUTTON_CANCEL,
+			      NULL );
+  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
+				 GTK_WINDOW ( window ));
+  gtk_widget_set_usize ( dialog,
+			 400,
+			 250 );
+  gtk_window_set_policy ( GTK_WINDOW ( dialog ),
+			  FALSE,
+			  FALSE,
+			  FALSE );
+
+  label = gtk_label_new ( _("Sélectionner le type d'état voulu :" ));
+  gtk_misc_set_alignment ( GTK_MISC ( label ),
+			   0,
+			   0.5 );
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
+
+  /* on crée la frame avant l'option menu */
+  /* pour pouvoir l'envoyer par les menu_item */
+
+  frame = gtk_frame_new ( _("Description :" ));
+
+
+  option_menu = gtk_option_menu_new ();
+
+  menu = gtk_menu_new ();
+
+  menu_item = gtk_menu_item_new_with_label ( _("Revenus et dépenses du mois dernier"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_etat",
+			GINT_TO_POINTER ( 0 ));
+  gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
+			      GTK_OBJECT ( frame ));
+  gtk_widget_show ( menu_item );
+
+  /* on met le texte du 1er choix */
+
+  change_choix_nouvel_etat ( menu_item,
+			     frame );
+
+
+  menu_item = gtk_menu_item_new_with_label ( _("Revenus et dépenses du mois en cours"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_etat",
+			GINT_TO_POINTER ( 1 ));
+  gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+		       "activate",
+		       GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
+		       GTK_OBJECT ( frame ));
+  gtk_widget_show ( menu_item );
+
+
+  menu_item = gtk_menu_item_new_with_label ( _("État vierge"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_etat",
+			GINT_TO_POINTER ( 2 ));
+  gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
+			      GTK_OBJECT ( frame ));
+  gtk_widget_show ( menu_item );
+
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( option_menu ),
+			     menu );
+  gtk_widget_show ( menu );
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+		       option_menu,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( option_menu );
+
+  /* on ajoute maintenant la frame */
+
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+		       frame,
+		       TRUE,
+		       TRUE,
+		       0 );
+  gtk_widget_show ( frame );
+
+
+  resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
+
+  if ( resultat )
+    {
+      if ( GNOME_IS_DIALOG ( dialog ))
+	gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+      return;
+    }
+
+
+  /* on récupère le type d'état voulu */
+
+  resultat = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( option_menu ) -> menu_item ),
+						     "no_etat" ));
+  gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+
+
+  /* on crée le nouvel état */
 
   etat = calloc ( 1,
 		  sizeof ( struct struct_etat ));
 
   etat -> no_etat = ++no_dernier_etat;
-  etat -> nom_etat = g_strdup ( _("Nouvel état") );
 
-  /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
 
-  etat -> type_classement = g_list_append ( etat -> type_classement,
-					    GINT_TO_POINTER ( 1 ));
-  etat -> type_classement = g_list_append ( etat -> type_classement,
-					    GINT_TO_POINTER ( 2 ));
-  etat -> type_classement = g_list_append ( etat -> type_classement,
-					    GINT_TO_POINTER ( 3 ));
-  etat -> type_classement = g_list_append ( etat -> type_classement,
-					    GINT_TO_POINTER ( 4 ));
-  etat -> type_classement = g_list_append ( etat -> type_classement,
-					    GINT_TO_POINTER ( 5 ));
-  etat -> type_classement = g_list_append ( etat -> type_classement,
-					    GINT_TO_POINTER ( 6 ));
+  /* on remplit maintenant l'état en fonction de ce qu'on a demandé */
 
-  /*   les devises sont à 1 (euro) */
+  switch ( resultat )
+    {
+    case 0:
+      /*  revenus et dépenses du mois précédent  */
 
-  etat -> devise_de_calcul_general = 1;
-  etat -> devise_de_calcul_categ = 1;
-  etat -> devise_de_calcul_ib = 1;
-  etat -> devise_de_calcul_tiers = 1;
+      etat -> nom_etat = g_strdup ( _("Revenus et dépenses du mois précédent") );
 
-  /*   tout le reste est à NULL, ce qui est très bien */
+      etat -> separer_revenus_depenses = 1;
+      etat -> no_plage_date = 7;
+
+
+      /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
+
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 1 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 2 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 3 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 4 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 5 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 6 ));
+
+      etat -> type_virement = 2;
+      etat -> utilise_categ = 1;
+      etat -> afficher_sous_categ = 1;
+      etat -> affiche_sous_total_categ = 1;
+      etat -> affiche_sous_total_sous_categ = 1;
+      etat -> afficher_pas_de_sous_categ = 1;
+      etat -> afficher_nom_categ = 1;
+
+      /*   les devises sont à 1 (euro) */
+
+      etat -> devise_de_calcul_general = 1;
+      etat -> devise_de_calcul_categ = 1;
+      etat -> devise_de_calcul_ib = 1;
+      etat -> devise_de_calcul_tiers = 1;
+
+      break;
+
+    case 1:
+     /*  revenus et dépenses du mois courant  */
+
+      etat -> nom_etat = g_strdup ( _("Revenus et dépenses du mois en cours") );
+
+      etat -> separer_revenus_depenses = 1;
+      etat -> no_plage_date = 3;
+
+
+      /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
+
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 1 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 2 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 3 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 4 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 5 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 6 ));
+
+      etat -> type_virement = 2;
+      etat -> utilise_categ = 1;
+      etat -> afficher_sous_categ = 1;
+      etat -> affiche_sous_total_categ = 1;
+      etat -> affiche_sous_total_sous_categ = 1;
+      etat -> afficher_pas_de_sous_categ = 1;
+      etat -> afficher_nom_categ = 1;
+
+      /*   les devises sont à 1 (euro) */
+
+      etat -> devise_de_calcul_general = 1;
+      etat -> devise_de_calcul_categ = 1;
+      etat -> devise_de_calcul_ib = 1;
+      etat -> devise_de_calcul_tiers = 1;
+
+      break;
+
+
+    case 2:
+
+      /* on ajoute un état vierge appelé nouvel état */
+      /*   pour modifier le nom, il faudra aller dans la */
+      /* personnalisation */
+
+      etat -> nom_etat = g_strdup ( _("Nouvel état") );
+
+      /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
+
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 1 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 2 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 3 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 4 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 5 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 6 ));
+
+      /*   les devises sont à 1 (euro) */
+
+      etat -> devise_de_calcul_general = 1;
+      etat -> devise_de_calcul_categ = 1;
+      etat -> devise_de_calcul_ib = 1;
+      etat -> devise_de_calcul_tiers = 1;
+
+      /*   tout le reste est à NULL, ce qui est très bien */
+
+  break;
+
+    default :
+      dialogue ( _( "Type d'état inconnu, création abandonnée" ));
+      return;
+    }
+
   /* on l'ajoute à la liste */
 
   liste_struct_etats = g_slist_append ( liste_struct_etats,
@@ -585,9 +812,57 @@ void ajout_etat ( void )
   gtk_label_set_text ( GTK_LABEL ( label_etat_courant ),
 		       etat_courant -> nom_etat );
 
-
   personnalisation_etat ();
   modification_fichier ( TRUE );
+}
+/*****************************************************************************************************/
+
+
+/*****************************************************************************************************/
+void change_choix_nouvel_etat ( GtkWidget *menu_item,
+				GtkWidget *frame )
+{
+  gchar *description;
+  GtkWidget *label;
+
+  switch ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( menu_item ),
+						   "no_etat" )))
+    {
+    case 0:
+      /* revenus et dépenses du mois dernier  */
+
+      description = _("Cet état affiche les totaux classés par catégorie et sous-catégorie des opérations du mois dernier. Il suffira de choisir le ou les comptes et de valider (par-défaut, tous les comptes sont utilisés).");
+      break;
+
+    case 1:
+      /* revenus et dépenses du mois en cours  */
+
+      description = _("Cet état affiche les totaux classés par catégorie et sous-catégorie des opérations du mois en cours. Il suffira de choisir le ou les comptes et de valider (par-défaut, tous les comptes sont utilisés).");
+      break;
+ 
+    case 2:
+      /* etat vierge  */
+
+      description = _("Cette option crée un état vierge dans lequel vous devez tous configurer.");
+      break;
+ 
+    default:
+
+     description = _("????  ne devrait pas être affiché ...");
+     }
+
+
+  if ( GTK_IS_WIDGET ( GTK_BIN ( frame ) -> child ))
+    gtk_container_remove ( GTK_CONTAINER ( frame ),
+			   GTK_BIN ( frame ) -> child );
+
+  label = gtk_label_new ( description );
+  gtk_label_set_line_wrap ( GTK_LABEL ( label ),
+			    TRUE );
+  gtk_container_add ( GTK_CONTAINER ( frame ),
+		      label );
+  gtk_widget_show ( label );
+
 }
 /*****************************************************************************************************/
 

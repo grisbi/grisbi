@@ -71,6 +71,7 @@ void charge_configuration ( void )
   etat.dernier_fichier_auto = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/IO/Chargement_auto_dernier_fichier", NULL ));
   nom_fichier_comptes = gnome_config_get_string ( g_strconcat ( "/", FICHIER_CONF, "/IO/Nom_dernier_fichier", NULL ));
   etat.sauvegarde_auto = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/IO/Enregistrement_automatique", NULL ));
+  etat.sauvegarde_demarrage = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/IO/Enregistrement_au_demarrage", NULL ));
 
   nb_max_derniers_fichiers_ouverts = gnome_config_get_int_with_default ( g_strconcat ( "/", FICHIER_CONF, "/IO/Nb_max_derniers_fichiers_ouverts", NULL ),
 									 &flag );
@@ -237,6 +238,8 @@ void sauve_configuration (void)
 			    nom_fichier_comptes );
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/IO/Enregistrement_automatique", NULL ),
 			 etat.sauvegarde_auto );
+  gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/IO/Enregistrement_au_demarrage", NULL ),
+			 etat.sauvegarde_demarrage );
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/IO/Nb_max_derniers_fichiers_ouverts", NULL ),
 			 nb_max_derniers_fichiers_ouverts );
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/IO/Compression_fichier", NULL ),
