@@ -39,6 +39,8 @@
 #define BREAKDOWN_FORM_VOUCHER 7
 #define BREAKDOWN_FORM_WIDGET_NB 8	 /* must be the last of the list */
 
+void quitter_ventilation ( void );
+
 /* ************************************************************************** */
 /* Fonction creation_fenetre_ventilation                                      */
 /* crée la fenetre qui contient la liste des ventilation                      */
@@ -1561,6 +1563,7 @@ void fin_edition_ventilation ( void )
       clique_champ_formulaire_ventilation ();
       gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_ventilation[BREAKDOWN_FORM_CATEGORY] ) -> entry );
     }
+//  enregistre_ope_au_retour = 1 ;
 }
 /* ************************************************************************** */
 
@@ -1764,6 +1767,7 @@ void edition_operation_ventilation ( void )
       gtk_entry_select_region ( GTK_ENTRY ( widget_formulaire_ventilation[BREAKDOWN_FORM_NOTES] ), 0, -1);
       gtk_widget_grab_focus ( widget_formulaire_ventilation[BREAKDOWN_FORM_NOTES] );
     }
+  enregistre_ope_au_retour = 1 ;
 }
 /* ************************************************************************** */
 
@@ -1847,6 +1851,7 @@ void supprime_operation_ventilation ( void )
   calcule_montant_ventilation();
   mise_a_jour_couleurs_liste_ventilation();
   selectionne_ligne_ventilation ();
+  enregistre_ope_au_retour = 1 ;
 }
 /* ************************************************************************** */
 
@@ -2084,6 +2089,74 @@ void valider_ventilation ( void )
     gtk_object_set_data ( GTK_OBJECT ( formulaire ),
 			  "liste_adr_ventilation",
 			  GINT_TO_POINTER ( -1 ) );
+/*
+  if ( gtk_object_get_data ( GTK_OBJECT ( formulaire ), "liste_adr_ventilation" ) == GINT_TO_POINTER ( -1 ) )
+    dialogue("Liste nulle");
+*/
+  if ( fabs ( montant_operation_ventilee - somme_ventilee ) >= 0.000001 )
+	{
+	  GtkWidget *dialog;
+	  GtkWidget *label;
+	  gint resultat;
+
+	  dialog = gnome_dialog_new ( _("Breakdown incomplete"),
+					GNOME_STOCK_BUTTON_YES,
+					GNOME_STOCK_BUTTON_NO,
+					NULL );
+
+	  label = gtk_label_new ( _("The transaction amount isn't fully broken down.\n\nProcess anyway?"));
+	  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+			       label,
+			       FALSE,
+			       FALSE,
+			       0 );
+	  gtk_widget_show ( label );
+	  gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER );
+
+	  resultat = gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
+
+	  /* si on n'appuye pas sur YES, alors on abandonne */
+	  if ( resultat != 0 )
+	    {
+	     return;
+	    }
+	}
+
+  quitter_ventilation ();
+
+  if ( enregistre_ope_au_retour )
+    fin_edition();
+}
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/* Fonction annuler_ventilation                                               */
+/* appelée par appui du bouton annuler                                        */
+/* ************************************************************************** */
+void annuler_ventilation ( void )
+{
+  /* Cette fonction remet la liste des structures de ventilation par défaut
+     en recherchant les opérations de ventilation dans la liste des opérations
+     puis appelle valider ventilation */
+
+  gtk_object_set_data ( GTK_OBJECT ( formulaire ),
+			"liste_adr_ventilation",
+			creation_liste_ope_de_ventil ( gtk_object_get_data ( GTK_OBJECT ( formulaire ),
+									     "adr_struct_ope" )));
+
+  quitter_ventilation ();
+}
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/* Fonction quitter_ventilation                                               */
+/* appelée valider_ventilation et quitter_ventilation                         */
+/* ************************************************************************** */
+void quitter_ventilation ( void )
+{
+  /* Cette fonction remet la liste des structures de ventilation par défaut
+     en recherchant les opérations de ventilation dans la liste des opérations
+     puis appelle valider ventilation */
 
   gtk_widget_show ( barre_outils );
   gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_listes_operations ), compte_courant + 1 );
@@ -2110,7 +2183,7 @@ void valider_ventilation ( void )
 	{
 	  entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] );
 	  gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] ),
-			       g_strdup_printf ( "%4.2f", fabs (somme_ventilee) ));
+			       g_strdup_printf ( "%4.2f", fabs ( somme_ventilee ) ));
 	}
       else
 	{
@@ -2119,27 +2192,6 @@ void valider_ventilation ( void )
 			       g_strdup_printf ( "%4.2f", somme_ventilee ));
 	}
     }
-  if ( enregistre_ope_au_retour )
-    fin_edition();
-}
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/* Fonction annuler_ventilation                                               */
-/* appelée par appui du bouton annuler                                        */
-/* ************************************************************************** */
-void annuler_ventilation ( void )
-{
-  /* Cette fonction remet la liste des structures de ventilation par défaut
-     en recherchant les opérations de ventilation dans la liste des opérations
-     puis appelle valider ventilation */
-
-  gtk_object_set_data ( GTK_OBJECT ( formulaire ),
-			"liste_adr_ventilation",
-			creation_liste_ope_de_ventil ( gtk_object_get_data ( GTK_OBJECT ( formulaire ),
-									     "adr_struct_ope" )));
-
-  valider_ventilation ();
 }
 /* ************************************************************************** */
 
