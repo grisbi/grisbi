@@ -26,7 +26,7 @@
 
 
 #include "search_glist.h"
-
+#include "exercice.h"
 
 
 gchar * etats_titre ()
@@ -170,9 +170,7 @@ gchar * etats_titre ()
 
 		while ( liste_tmp )
 		{
-		    exo = g_slist_find_custom ( liste_struct_exercices,
-						liste_tmp -> data,
-						(GCompareFunc) recherche_exercice_par_no ) -> data;
+		    exo = exercice_par_no ( GPOINTER_TO_INT ( liste_tmp -> data ));
 
 		    if ( liste_tmp == g_slist_last ( etat_courant -> no_exercices ))
 			titre = g_strconcat ( titre,

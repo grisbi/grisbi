@@ -199,15 +199,6 @@ gint recherche_nom_dans_liste ( gchar *nom_liste,
 /******************************************************************************/
 
 
-/*****************************************************************************************************/
-gint recherche_etat_par_no ( struct struct_etat *etat,
-			     gint *no_etat )
-{
-    return ( etat -> no_etat != GPOINTER_TO_INT (no_etat) );
-}
-/*****************************************************************************************************/
-
-
 /* ************************************************************************************************************ */
 gint recherche_exercice_par_nom ( struct struct_exercice *exercice,
 				  gchar *nom )
@@ -230,38 +221,6 @@ gint recherche_exercice_par_no ( struct struct_exercice *exercice,
     return ( exercice -> no_exercice != GPOINTER_TO_INT ( no_exercice ));
 }
 /***********************************************************************************************************/
-
-
-
-/******************************************************************************/
-/* Fonction recherche_operation_par_cheque					      */
-/* appelée par un slist_find_custom					      */
-/* recherche une opé par son numéro de cheque dans la liste des opérations	      */
-/******************************************************************************/
-gint recherche_operation_par_cheque ( struct structure_operation *operation,
-				      gint *no_chq )
-{
-  if ( operation -> contenu_type )
-    return ( ! ( my_atoi (operation -> contenu_type) == GPOINTER_TO_INT ( no_chq ) ));
-  return -1;
-}
-/******************************************************************************/
-
-
-
-
-
-/* *******************************************************************************/
-gint recherche_operation_par_id ( struct structure_operation *operation,
-				      gchar *id_recherchee )
-{
-    if ( operation -> id_operation )
-	return ( strcmp ( id_recherchee,
-			  operation -> id_operation ));
-    else
-	return -1;
-}
-/* *******************************************************************************/
 
 
 
@@ -335,6 +294,38 @@ gint recherche_operation_par_no ( struct structure_operation *operation,
     return ( ! ( operation -> no_operation == GPOINTER_TO_INT ( no_ope ) ));
 }
 /******************************************************************************/
+
+
+
+/******************************************************************************/
+/* Fonction recherche_operation_par_cheque					      */
+/* appelée par un slist_find_custom					      */
+/* recherche une opé par son numéro de cheque dans la liste des opérations	      */
+/******************************************************************************/
+gint recherche_operation_par_cheque ( struct structure_operation *operation,
+				      gint *no_chq )
+{
+  if ( operation -> contenu_type )
+    return ( ! ( my_atoi (operation -> contenu_type) == GPOINTER_TO_INT ( no_chq ) ));
+  return -1;
+}
+/******************************************************************************/
+
+
+
+
+
+/* *******************************************************************************/
+gint recherche_operation_par_id ( struct structure_operation *operation,
+				      gchar *id_recherchee )
+{
+    if ( operation -> id_operation )
+	return ( strcmp ( id_recherchee,
+			  operation -> id_operation ));
+    else
+	return -1;
+}
+/* *******************************************************************************/
 
 
 /***************************************************************************************************/

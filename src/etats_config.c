@@ -38,7 +38,8 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "categories_onglet.h"
-
+#include "exercice.h"
+#include "imputation_budgetaire.h"
 
 
 
@@ -70,6 +71,10 @@ gchar *jours_semaine[] = {
     N_("Saturday"),
     N_("Sunday"),
     NULL };
+
+
+extern GSList *liste_struct_imputation;
+
 
 /******************************************************************************/
 /* Fontion personnalistation_etat */
@@ -748,10 +753,8 @@ void selectionne_liste_exo_etat_courant ( void )
     while ( pointeur_sliste )
     {
 	gtk_clist_select_row ( GTK_CLIST ( liste_exo_etat ),
-			       g_slist_position ( liste_struct_exercices,
-						  g_slist_find_custom ( liste_struct_exercices,
-									pointeur_sliste -> data,
-									(GCompareFunc) recherche_exercice_par_no )),
+			       g_slist_index ( liste_struct_exercices,
+					       exercice_par_no ( GPOINTER_TO_INT ( pointeur_sliste -> data ))),
 			       0 );
 	pointeur_sliste = pointeur_sliste -> next;
     }
@@ -3297,12 +3300,12 @@ void click_type_ib_etat ( gint type )
     {
 	struct struct_imputation *imputation;
 
-	imputation = g_slist_find_custom ( liste_struct_imputation,
-					   gtk_clist_get_row_data ( GTK_CLIST ( liste_ib_etat ),
-								    i ),
-					   (GCompareFunc) recherche_imputation_par_no ) -> data;
+	imputation = imputation_par_no ( GPOINTER_TO_INT ( gtk_clist_get_row_data ( GTK_CLIST ( liste_ib_etat ),
+										    i )));
 
-	if ( imputation -> type_imputation == type )
+	if ( imputation
+	     &&
+	     imputation -> type_imputation == type )
 	    gtk_clist_select_row ( GTK_CLIST ( liste_ib_etat ),
 				   i,
 				   0 );
@@ -4799,7 +4802,7 @@ void ajoute_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_m
     gtk_widget_show ( comp_montants -> hbox_ligne );
 
     /* on vire le lien de la ligne s'il n'y a pas encore de liste */
-    /*   (cad si c'est la 1ère ligne) */
+    /*   (cad si c'est la 1Ã¨re ligne) */
 
     if ( !etat_courant -> liste_struct_comparaison_montants )
     {

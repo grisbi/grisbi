@@ -67,7 +67,7 @@ extern GtkWidget *notebook_calendrier_ventilations;
 extern GtkWidget *notebook_formulaire_echeances;
 extern GtkWidget *notebook_liste_ventil_echeances;
 extern GtkWidget *widget_formulaire_echeancier[19];
-
+extern GSList *liste_imputations_combofix;
 
 
 
@@ -1790,53 +1790,33 @@ void fin_edition_ventilation_echeances ( void )
     {
 	struct struct_imputation *imputation;
 	gchar **tableau_char;
-	GSList *pointeur_liste;
 
 	tableau_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[4] )),
 				    ":",
 				    2 );
 
-	tableau_char[0] = g_strstrip ( tableau_char[0] );
+	imputation = imputation_par_nom ( tableau_char[0],
+					  1,
+					  operation -> montant < 0,
+					  0 );
 
-	if ( tableau_char[1] )
-	    tableau_char[1] = g_strstrip ( tableau_char[1] );
-
-	pointeur_liste = g_slist_find_custom ( liste_struct_imputation,
-					       tableau_char[0],
-					       ( GCompareFunc ) recherche_imputation_par_nom );
-
-	if ( pointeur_liste )
-	    imputation = pointeur_liste -> data;
-	else
-	{
-	    imputation = ajoute_nouvelle_imputation ( tableau_char[0] );
-
-	    if ( operation -> montant < 0 )
-		imputation -> type_imputation = 1;
-	    else
-		imputation -> type_imputation = 0;
-	}
-
-	operation -> imputation = imputation -> no_imputation;
-
-	if ( tableau_char[1] && strlen (tableau_char[1]) )
+	if ( imputation )
 	{
 	    struct struct_sous_imputation *sous_imputation;
 
-	    pointeur_liste = g_slist_find_custom ( imputation -> liste_sous_imputation,
-						   tableau_char[1],
-						   ( GCompareFunc ) recherche_sous_imputation_par_nom );
+	    operation -> imputation = imputation -> no_imputation;
 
-	    if ( pointeur_liste )
-		sous_imputation = pointeur_liste -> data;
+	    sous_imputation = sous_imputation_par_nom ( imputation,
+							tableau_char[1],
+							1 );
+
+	    if ( sous_imputation )
+		operation -> sous_imputation = sous_imputation -> no_sous_imputation;
 	    else
-		sous_imputation = ajoute_nouvelle_sous_imputation ( tableau_char[1],
-								    imputation );
-
-	    operation -> sous_imputation = sous_imputation -> no_sous_imputation;
+		operation -> sous_imputation = 0;
 	}
 	else
-	    operation -> sous_imputation = 0;
+	    operation -> imputation = 0;
 
 	g_strfreev ( tableau_char );
     }
@@ -2050,8 +2030,8 @@ void edition_operation_ventilation_echeances ( void )
 
     /* met en place l'imputation budgétaire */
 
-    char_tmp = ib_name_by_no (  operation -> imputation,
-				operation -> sous_imputation );
+    char_tmp = nom_imputation_par_no (  operation -> imputation,
+					operation -> sous_imputation );
     if ( char_tmp )
     {
 	entree_prend_focus ( widget_formulaire_ventilation_echeances[4] );

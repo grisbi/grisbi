@@ -38,6 +38,9 @@
 #include "search_glist.h"
 #include "type_operations.h"
 #include "utils.h"
+#include "operations_onglet.h"
+
+
 
 /* list strore des ventilations, créé à l'appel de la ventil */
 /* et détruit ensuite */
@@ -80,7 +83,7 @@ extern GdkColor couleur_selection;
 extern GdkColor couleur_fond[2];
 extern PangoFontDescription *pango_desc_fonte_liste;
 extern GSList *list_store_comptes;
-
+extern GSList *liste_imputations_combofix;
 
 
 /*******************************************************************************************/
@@ -1578,53 +1581,33 @@ void fin_edition_ventilation ( void )
     {
 	struct struct_imputation *imputation;
 	gchar **tableau_char;
-	GSList *pointeur_liste;
 
 	tableau_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_ventilation[4] )),
 				    ":",
 				    2 );
 
-	tableau_char[0] = g_strstrip ( tableau_char[0] );
+	imputation = imputation_par_nom ( tableau_char[0],
+					  1,
+					  operation -> montant < 0,
+					  0 );
 
-	if ( tableau_char[1] )
-	    tableau_char[1] = g_strstrip ( tableau_char[1] );
-
-	pointeur_liste = g_slist_find_custom ( liste_struct_imputation,
-					       tableau_char[0],
-					       ( GCompareFunc ) recherche_imputation_par_nom );
-
-	if ( pointeur_liste )
-	    imputation = pointeur_liste -> data;
-	else
-	{
-	    imputation = ajoute_nouvelle_imputation ( tableau_char[0] );
-
-	    if ( operation -> montant < 0 )
-		imputation -> type_imputation = 1;
-	    else
-		imputation -> type_imputation = 0;
-	}
-
-	operation -> imputation = imputation -> no_imputation;
-
-	if ( tableau_char[1] && strlen (tableau_char[1]) )
+	if ( imputation )
 	{
 	    struct struct_sous_imputation *sous_imputation;
 
-	    pointeur_liste = g_slist_find_custom ( imputation -> liste_sous_imputation,
-						   tableau_char[1],
-						   ( GCompareFunc ) recherche_sous_imputation_par_nom );
+	    operation -> imputation = imputation -> no_imputation;
 
-	    if ( pointeur_liste )
-		sous_imputation = pointeur_liste -> data;
+	    sous_imputation = sous_imputation_par_nom ( imputation,
+							tableau_char[1],
+							1 );
+
+	    if ( sous_imputation )
+		operation -> sous_imputation = sous_imputation -> no_sous_imputation;
 	    else
-		sous_imputation = ajoute_nouvelle_sous_imputation ( tableau_char[1],
-								    imputation );
-
-	    operation -> sous_imputation = sous_imputation -> no_sous_imputation;
+		operation -> sous_imputation = 0;
 	}
 	else
-	    operation -> sous_imputation = 0;
+	    operation -> imputation = 0;
 
 	g_strfreev ( tableau_char );
     }
@@ -1867,11 +1850,12 @@ void edition_operation_ventilation ( void )
 	{
 	    struct structure_operation *contre_operation;
 
-	    contre_operation = g_slist_find_custom ( LISTE_OPERATIONS,
-						     GINT_TO_POINTER ( operation -> relation_no_operation ),
-						     (GCompareFunc) recherche_operation_par_no ) -> data;
+	    contre_operation = operation_par_no ( operation -> relation_no_operation,
+						  operation -> relation_no_compte );
 
-	    if ( contre_operation -> pointe == 2 )
+	    if ( contre_operation
+		 &&
+		 contre_operation -> pointe == 2 )
 	    {
 		gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_ventilation[0] ),
 					   FALSE );
@@ -1932,8 +1916,8 @@ void edition_operation_ventilation ( void )
 
     /* met en place l'imputation budgétaire */
 
-    char_tmp = ib_name_by_no ( operation -> imputation,
-			       operation -> sous_imputation );
+    char_tmp = nom_imputation_par_no ( operation -> imputation,
+				       operation -> sous_imputation );
     if ( char_tmp )
     {
 	entree_prend_focus ( widget_formulaire_ventilation[4] );
@@ -2015,25 +1999,17 @@ void supprime_operation_ventilation ( void )
 	{
 	    /* on va chercher la contre opération */
 
-	    GSList *tmp;
+	    struct structure_operation *operation_associee;
 
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
+	    operation_associee = operation_par_no ( operation -> relation_no_operation,
+						    operation -> relation_no_compte );
 
-	    tmp = g_slist_find_custom ( LISTE_OPERATIONS,
-					GINT_TO_POINTER ( operation -> relation_no_operation ),
-					(GCompareFunc) recherche_operation_par_no );
-
-	    if ( tmp )
+	    if ( operation_associee
+		 &&
+		 operation_associee -> pointe == 2 )
 	    {
-		struct structure_operation *operation_associee;
-
-		operation_associee = tmp -> data;
-
-		if ( operation_associee -> pointe == 2 )
-		{
-		    dialogue_error ( _("This transfer has a reconciled contra-transaction, deletion canceled.") );
-		    return;
-		}
+		dialogue_error ( _("This transfer has a reconciled contra-transaction, deletion canceled.") );
+		return;
 	    }
 	}
     }
@@ -2607,21 +2583,13 @@ GSList *creation_liste_ope_de_ventil ( struct structure_operation *operation )
 
 	    if ( ope_ventil -> relation_no_operation )
 	    {
-		GSList *tmp;
+		struct structure_operation *operation_associee;
 
-		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + ope_ventil -> relation_no_compte;
+		operation_associee = operation_par_no ( ope_ventil -> relation_no_operation,
+							ope_ventil -> relation_no_compte );
 
-		tmp = g_slist_find_custom ( LISTE_OPERATIONS,
-					    GINT_TO_POINTER ( ope_ventil -> relation_no_operation ),
-					    (GCompareFunc) recherche_operation_par_no );
-
-		if ( tmp )
-		{
-		    struct structure_operation *operation_associee;
-
-		    operation_associee = tmp -> data;
+		if ( operation_associee )
 		    ope_ventil -> no_type_associe = operation_associee -> type_ope;
-		}
 	    }
 
 	    liste_ventil = g_slist_append ( liste_ventil,
@@ -2673,17 +2641,8 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 	    if ( !ope_ventil -> no_operation )
 		dialogue_warning ( _("A breakdown line is to be deleted though it is not yet registered."));
 	    else
-	    {
-		GSList *tmp;
-
-		p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-		tmp = g_slist_find_custom ( LISTE_OPERATIONS,
-					    GINT_TO_POINTER ( ope_ventil -> no_operation ),
-					    (GCompareFunc) recherche_operation_par_no );
-
-		if ( tmp )
-		    supprime_operation  ( tmp -> data );
-	    }
+		supprime_operation  ( operation_par_no ( ope_ventil -> no_operation,
+							 compte_courant ));
 	}
 	else
 	{
@@ -2695,19 +2654,13 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 	    {
 		/* c'est une modif d'opération */
 
-		GSList *tmp;
+		struct structure_operation *ope_modifiee;
 
-		p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-		tmp = g_slist_find_custom ( LISTE_OPERATIONS,
-					    GINT_TO_POINTER ( ope_ventil -> no_operation ),
-					    (GCompareFunc) recherche_operation_par_no );
+		ope_modifiee = operation_par_no ( ope_ventil -> no_operation,
+						  compte_courant );
 
-		if ( tmp )
+		if ( ope_modifiee )
 		{
-		    struct structure_operation *ope_modifiee;
-
-		    ope_modifiee = tmp -> data;
-
 		    /* on récupère d'abord les modifs de l'opé de ventil */
 
 		    ope_modifiee -> montant = ope_ventil -> montant;
@@ -2774,16 +2727,13 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 			{
 			    /* c'était déjà un virement vers ce compte */
 
-			    tmp = g_slist_find_custom ( LISTE_OPERATIONS,
-							GINT_TO_POINTER ( ope_ventil -> relation_no_operation ),
-							(GCompareFunc) recherche_operation_par_no );
+			    struct structure_operation *ope_modifiee_2;
 
-			    if ( tmp )
+			    ope_modifiee_2 = operation_par_no ( ope_ventil -> relation_no_operation,
+								ope_ventil -> relation_no_compte );
+
+			    if ( ope_modifiee_2 )
 			    {
-				struct structure_operation *ope_modifiee_2;
-
-				ope_modifiee_2 = tmp -> data;
-
 				/* on commence par mettre le type choisi */
 
 				ope_modifiee_2 -> type_ope = ope_ventil -> no_type_associe;

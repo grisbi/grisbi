@@ -650,7 +650,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 				     GINT_TO_POINTER ( operation -> tiers )) == -1 )
 		    goto operation_refusee;
 
-		/* vérification du type d'opÃƒƒƒƒƒƒ© */
+		/* vérification du type d'opÃƒƒƒƒƒƒƒ© */
 
 		if ( etat -> utilise_mode_paiement &&
 		     operation -> type_ope)
@@ -938,15 +938,15 @@ gchar *recupere_texte_test_etat ( struct structure_operation *operation,
 	case 4:
 	    /* ib */
 
-	    texte = ib_name_by_no ( operation -> imputation,
-				    0 );
+	    texte = nom_imputation_par_no ( operation -> imputation,
+					    0 );
 	    break;
 
 	case 5:
 	    /* ss-ib */
 
-	    texte = ib_name_by_no ( operation -> imputation,
-				    operation -> sous_imputation );
+	    texte = nom_imputation_par_no ( operation -> imputation,
+					    operation -> sous_imputation );
 	    break;
 
 	case 6:
@@ -1669,8 +1669,8 @@ gint classement_ope_perso_etat ( struct structure_operation *operation_1,
 		       !operation_2 -> sous_imputation ))
 		    retour = operation_2 -> sous_imputation - operation_1 -> sous_imputation;
 		else
-		    retour = g_strcasecmp ( ib_name_by_no ( operation_1 -> imputation, operation_1 -> sous_imputation ),
-					    ib_name_by_no ( operation_2 -> imputation, operation_2 -> sous_imputation ));
+		    retour = g_strcasecmp ( nom_imputation_par_no ( operation_1 -> imputation, operation_1 -> sous_imputation ),
+					    nom_imputation_par_no ( operation_2 -> imputation, operation_2 -> sous_imputation ));
 	    }
 	    break;
 

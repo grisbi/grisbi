@@ -397,31 +397,6 @@ extern gint *neutres_inclus_tmp;
 
 
 
-/***********************************/ 
-/* fichier imputation_budgetaire.c */
-/***********************************/ 
-
-
-extern GtkWidget *arbre_imputation;
-extern GtkWidget *entree_nom_imputation;
-extern GtkWidget *bouton_imputation_debit;
-extern GtkWidget *bouton_imputation_credit;
-extern GtkWidget *bouton_modif_imputation_modifier;
-extern GtkWidget *bouton_modif_imputation_annuler;
-extern GtkWidget *bouton_supprimer_imputation;
-extern GtkWidget *bouton_ajouter_imputation;
-extern GtkWidget *bouton_ajouter_sous_imputation;
-
-extern GSList *liste_struct_imputation;    /* liste des structures de catég */
-extern GSList *liste_imputations_combofix;        /*  liste des noms des imputation et sous imputation pour le combofix */
-extern gint nb_enregistrements_imputations;        /* nombre de catégories */
-extern gint no_derniere_imputation;
-extern gfloat *tab_montant_imputation;             /* buffer */
-extern gfloat **tab_montant_sous_imputation;            /* buffer */
-extern gint *nb_ecritures_par_imputation;           /* buffer */
-extern gint **nb_ecritures_par_sous_imputation;           /* buffer */
-
-
 
 /***********************************/ 
 /* fichier affichage.c */

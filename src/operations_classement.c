@@ -594,10 +594,10 @@ gint classement_sliste_par_imputation ( struct structure_operation *operation_1,
     gint retour;
     gchar *ib_1, *ib_2;
 
-    ib_1 = ib_name_by_no ( operation_1 -> imputation,
-			   operation_1 -> sous_imputation );
-    ib_2 = ib_name_by_no ( operation_2 -> imputation,
-			   operation_2 -> sous_imputation );
+    ib_1 = nom_imputation_par_no ( operation_1 -> imputation,
+				   operation_1 -> sous_imputation );
+    ib_2 = nom_imputation_par_no ( operation_2 -> imputation,
+				   operation_2 -> sous_imputation );
 
     if ( ib_1 )
     {
@@ -765,33 +765,22 @@ gint classement_sliste_par_exercice ( struct structure_operation *operation_1,
 	{
 	    if ( operation_2 -> no_exercice )
 	    {
-		GSList *liste_tmp_1, *liste_tmp_2;
+		struct struct_exercice *exo_1, *exo_2;
 
-		liste_tmp_1 = g_slist_find_custom ( liste_struct_exercices,
-						    GINT_TO_POINTER ( operation_1 -> no_exercice ),
-						    (GCompareFunc) recherche_exercice_par_no );
-		liste_tmp_2 = g_slist_find_custom ( liste_struct_exercices,
-						    GINT_TO_POINTER ( operation_2 -> no_exercice ),
-						    (GCompareFunc) recherche_exercice_par_no );
+		exo_1 = exercice_par_no ( operation_1 -> no_exercice );
+		exo_2 = exercice_par_no ( operation_2 -> no_exercice );
 
-		if ( liste_tmp_1 )
+		if ( exo_1 )
 		{
-		    if ( liste_tmp_2 )
-		    {
-			struct struct_exercice *exo_1, *exo_2;
-
-			exo_1 = liste_tmp_1 -> data;
-			exo_2 = liste_tmp_2 -> data;
-
+		    if ( exo_2 )
 			retour = g_date_compare ( exo_1 -> date_debut,
 						  exo_2 -> date_debut );
-		    }
 		    else
 			retour = -1;
 		}
 		else
 		{
-		    if ( liste_tmp_2 )
+		    if ( exo_2 )
 			retour = 1;
 		    else
 			retour = 0;

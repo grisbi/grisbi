@@ -975,9 +975,7 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 	{
 	    if ( operation -> no_exercice )
 	    {
-		text = ((struct struct_exercice *)(g_slist_find_custom ( liste_struct_exercices,
-									 GINT_TO_POINTER ( operation -> no_exercice ),
-									 (GCompareFunc) recherche_exercice_par_no )->data)) -> nom_exercice;
+		text = exercice_name_by_no ( operation -> no_exercice );
 
 		if ( etat_courant -> ope_clickables )
 		{
@@ -1063,8 +1061,8 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 	    {
 		gchar *pointeur;
 
-		pointeur = ib_name_by_no ( operation -> imputation,
-					   operation -> sous_imputation );
+		pointeur = nom_imputation_par_no ( operation -> imputation,
+						   operation -> sous_imputation );
 
 		if ( etat_courant -> ope_clickables )
 		{
@@ -1555,8 +1553,8 @@ gint etat_affiche_affiche_ib_etat ( struct structure_operation *operation,
 	{
 	    if ( operation -> imputation )
 	    {
-		nom_ib_en_cours = ib_name_by_no ( operation -> imputation,
-						  0 );
+		nom_ib_en_cours = nom_imputation_par_no ( operation -> imputation,
+							  0 );
 
 		pointeur_char = g_strconcat ( decalage_ib,
 					      nom_ib_en_cours,
@@ -1633,8 +1631,8 @@ gint etat_affiche_affiche_sous_ib_etat ( struct structure_operation *operation,
 
 	if ( etat_courant -> afficher_nom_ib )
 	{
-	    nom_ss_ib_en_cours = sous_ib_name_by_no ( operation -> imputation,
-						      operation -> sous_imputation );
+	    nom_ss_ib_en_cours = nom_sous_imputation_par_no ( operation -> imputation,
+							      operation -> sous_imputation );
 	    if ( nom_ss_ib_en_cours )
 		pointeur_char = g_strconcat ( decalage_sous_ib,
 					      nom_ss_ib_en_cours,

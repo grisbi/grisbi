@@ -854,13 +854,11 @@ gint recherche_exo_correspondant ( GDate *date )
 /* ************************************************************************************************************** */
 
 
-
 /* ************************************************************************************************************** */
-/* renvoie le nom de l'exercice donné en argument */
-/* ou bien null si non trouvé */
+/* renvoie l'adr de l'exo demandé par son no */
+/* ou NULL si pas trouvé */
 /* ************************************************************************************************************** */
-
-gchar *exercice_name_by_no ( gint no_exo )
+struct struct_exercice *exercice_par_no ( gint no_exo )
 {
     GSList *liste_tmp;
 
@@ -869,15 +867,48 @@ gchar *exercice_name_by_no ( gint no_exo )
 				      (GCompareFunc) recherche_exercice_par_no );
 
     if ( liste_tmp )
-    {
-	struct struct_exercice *exo;
+	return ( liste_tmp -> data );
+ 
+    return NULL;
+}
+/* ************************************************************************************************************** */
 
-	exo = liste_tmp -> data;
-	
-	return ( exo -> nom_exercice );
-    }
-    else
-	return NULL;
+
+
+/* ************************************************************************************************************** */
+/* renvoie l'adr de l'exo demandé par son nom */
+/* ou NULL si pas trouvé */
+/* ************************************************************************************************************** */
+struct struct_exercice *exercice_par_nom ( gchar *nom_exo )
+{
+    GSList *liste_tmp;
+
+    liste_tmp = g_slist_find_custom ( liste_struct_exercices,
+				      g_strstrip ( nom_exo ),
+				      (GCompareFunc) recherche_exercice_par_nom );
+
+    if ( liste_tmp )
+	return ( liste_tmp -> data );
+ 
+    return NULL;
+}
+/* ************************************************************************************************************** */
+
+/* ************************************************************************************************************** */
+/* renvoie le nom de l'exercice donné en argument */
+/* ou bien null si non trouvé */
+/* ************************************************************************************************************** */
+
+gchar *exercice_name_by_no ( gint no_exo )
+{
+    struct struct_exercice *exo;
+
+    exo = exercice_par_no ( no_exo );
+
+    if ( exo )
+	return ( g_strdup (exo -> nom_exercice ));
+
+    return NULL;
 }
 /* ************************************************************************************************************** */
 

@@ -69,7 +69,7 @@ extern gint enregistre_ope_au_retour_echeances;
 extern GtkWidget *fleche_bas_echeancier;
 extern GtkWidget *fleche_haut_echeancier;
 extern gint rafraichir_categ;
-
+extern GSList *liste_imputations_combofix;
 
 
 
@@ -1796,47 +1796,24 @@ void fin_edition_echeance ( void )
 					":",
 					2 );
 
-	    tableau_char[0] = g_strstrip ( tableau_char[0] );
+	    imputation = imputation_par_nom ( tableau_char[0],
+					      1,
+					      echeance -> montant < 0,
+					      0 );
 
-	    if ( tableau_char[1] )
-		tableau_char[1] = g_strstrip ( tableau_char[1] );
-
-	    pointeur_liste = g_slist_find_custom ( liste_struct_imputation,
-						   tableau_char[0],
-						   ( GCompareFunc ) recherche_imputation_par_nom );
-
-	    if ( pointeur_liste )
-		imputation = pointeur_liste -> data;
-	    else
-	    {
-		imputation = ajoute_nouvelle_imputation ( tableau_char[0] );
-
-		if ( echeance -> montant < 0 )
-		    imputation -> type_imputation = 1;
-		else
-		    imputation -> type_imputation = 0;
-	    }
-
-	    echeance -> imputation = imputation -> no_imputation;
-
-	    if ( tableau_char[1] && strlen (tableau_char[1]) )
+	    if ( imputation )
 	    {
 		struct struct_sous_imputation *sous_imputation;
 
-		pointeur_liste = g_slist_find_custom ( imputation -> liste_sous_imputation,
-						       tableau_char[1],
-						       ( GCompareFunc ) recherche_sous_imputation_par_nom );
+		echeance -> imputation = imputation -> no_imputation;
 
-		if ( pointeur_liste )
-		    sous_imputation = pointeur_liste -> data;
-		else
-		    sous_imputation = ajoute_nouvelle_sous_imputation ( tableau_char[1],
-									imputation );
+		sous_imputation = sous_imputation_par_nom ( imputation,
+							    tableau_char[1],
+							    1 );
 
-		echeance -> sous_imputation = sous_imputation -> no_sous_imputation;
+		if ( sous_imputation )
+		    echeance -> sous_imputation = sous_imputation -> no_sous_imputation;
 	    }
-	    else
-		echeance -> sous_imputation = 0;
 
 	    g_strfreev ( tableau_char );
 	}
@@ -2109,44 +2086,23 @@ void fin_edition_echeance ( void )
 					":",
 					2 );
 
-	    tableau_char[0] = g_strstrip ( tableau_char[0] );
+	    imputation = imputation_par_nom ( tableau_char[0],
+					      1,
+					      operation -> montant < 0,
+					      0 );
 
-	    if ( tableau_char[1] )
-		tableau_char[1] = g_strstrip ( tableau_char[1] );
-
-	    pointeur_liste = g_slist_find_custom ( liste_struct_imputation,
-						   tableau_char[0],
-						   ( GCompareFunc ) recherche_imputation_par_nom );
-
-	    if ( pointeur_liste )
-		imputation = pointeur_liste -> data;
-	    else
-	    {
-		imputation = ajoute_nouvelle_imputation ( tableau_char[0] );
-
-		if ( operation -> montant < 0 )
-		    imputation -> type_imputation = 1;
-		else
-		    imputation -> type_imputation = 0;
-	    }
-
-	    operation -> imputation = imputation -> no_imputation;
-
-	    if ( tableau_char[1] && strlen (tableau_char[1]) )
+	    if ( imputation )
 	    {
 		struct struct_sous_imputation *sous_imputation;
 
-		pointeur_liste = g_slist_find_custom ( imputation -> liste_sous_imputation,
-						       tableau_char[1],
-						       ( GCompareFunc ) recherche_sous_imputation_par_nom );
+		operation -> imputation = imputation -> no_imputation;
 
-		if ( pointeur_liste )
-		    sous_imputation = pointeur_liste -> data;
-		else
-		    sous_imputation = ajoute_nouvelle_sous_imputation ( tableau_char[1],
-									imputation );
+		sous_imputation = sous_imputation_par_nom ( imputation,
+							    tableau_char[1],
+							    1 );
 
-		operation -> sous_imputation = sous_imputation -> no_sous_imputation;
+		if ( sous_imputation )
+		    operation -> sous_imputation = sous_imputation -> no_sous_imputation;
 	    }
 	    else
 		operation -> sous_imputation = 0;
@@ -2979,8 +2935,8 @@ void completion_operation_par_tiers_echeancier ( void )
     /* met en place l'imputation budgétaire */
 
 
-    char_tmp = ib_name_by_no ( operation -> imputation,
-			       operation -> sous_imputation );
+    char_tmp = nom_imputation_par_no ( operation -> imputation,
+				       operation -> sous_imputation );
 
    if ( char_tmp )
     {

@@ -49,6 +49,12 @@ extern gint nb_banques;
 extern gint no_derniere_banque;
 extern GSList *liste_struct_banques;
 extern GSList *liste_struct_rapprochements;
+extern gint nb_enregistrements_imputations;
+extern gint no_derniere_imputation;
+extern GSList *liste_struct_imputation;
+
+
+
 
 /****************************************************************************/
 void remove_file_from_last_opened_files_list ( gchar * nom_fichier )
@@ -1661,16 +1667,8 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		if ( !operation_associee
 		     ||
 		     operation -> no_operation_ventilee_associee != operation_associee -> no_operation )
-		{
-		    GSList *pointeur_2;
-
-		    pointeur_2 = g_slist_find_custom ( LISTE_OPERATIONS,
-						       GINT_TO_POINTER ( operation -> no_operation_ventilee_associee ),
-						       (GCompareFunc) recherche_operation_par_no );
-
-		    if ( pointeur_2 )
-			operation_associee = pointeur_2 -> data;
-		}
+		    operation_associee = operation_par_no ( operation -> no_operation_ventilee_associee,
+							    i );
 
 		if ( operation_associee
 		     &&
@@ -1751,15 +1749,14 @@ void supprime_operations_orphelines ( void )
 
 		if ( operation -> relation_no_compte >= 0 )
 		{
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
+		    struct structure_operation *contre_ope;
 
-		    result = g_slist_find_custom ( LISTE_OPERATIONS,
-						   GINT_TO_POINTER ( operation -> relation_no_operation ),
-						   (GCompareFunc) recherche_operation_par_no );
+		    contre_ope = operation_par_no ( operation -> relation_no_operation,
+						    operation -> relation_no_compte );
 
 		    /* si la contre opération n'est pas trouvée, on met les relations de cette opé à 0 */
 
-		    if ( !result )
+		    if ( !contre_ope )
 		    {
 			nb_vir++;
 			operation -> relation_no_operation = 0;
@@ -1779,33 +1776,18 @@ void supprime_operations_orphelines ( void )
 
 	    if ( operation -> no_operation_ventilee_associee )
 	    {
-		result = g_slist_find_custom ( LISTE_OPERATIONS,
-					       GINT_TO_POINTER ( operation -> no_operation_ventilee_associee ),
-					       (GCompareFunc) recherche_operation_par_no );
+		struct structure_operation *contre_ope;
+
+		contre_ope = operation_par_no ( operation -> no_operation_ventilee_associee,
+						i );
 
 		/*  si on a trouvé une opé, vérifie que c'est une ventil */
 		/* sinon, supprime l'opé de ventil */
 
-		if ( result )
-		{
-		    struct structure_operation *ope_ventil;
-
-		    ope_ventil = result -> data;
-
-		    if ( ope_ventil -> operation_ventilee )
-			liste_tmp = liste_tmp -> next;
-		    else
-		    {
-			/* supprime l'opération dans la liste des opés */
-
-			liste_tmp = liste_tmp -> next;
-			LISTE_OPERATIONS = g_slist_remove ( LISTE_OPERATIONS,
-							    operation );
-			NB_OPE_COMPTE--;
-			nb_ventil++;
-		    }
-
-		}
+		if ( contre_ope
+		     &&
+		     contre_ope -> operation_ventilee )
+		    liste_tmp = liste_tmp -> next;
 		else
 		{
 		    /* supprime l'opération dans la liste des opés */
@@ -9265,101 +9247,38 @@ gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc )
 
 	    while ( node_detail )
 	    {
-		GSList *liste_tmp;
 		struct struct_imputation *ib;
 
 		if ( node_detail -> type != XML_TEXT_NODE )
 		{
 
-		    /* 	      on doit réaliser une fusion, pour ça, soit l'ib existe, et on fait le */
-		    /* tour des sous ib en ajoutant celles qui n'existent pas, soit elle n'existe pas et on */
-		    /* ajoute l'ib et ses sous ib */
+		    /* 	      on doit réaliser une fusion 
+		     *  	      on ajoute les ib et sous ib qui n'existent pas encore */
 
-		    liste_tmp = g_slist_find_custom ( liste_struct_imputation,
-						      latin2utf8(xmlGetProp ( node_detail,
-									      "Nom" )),
-						      (GCompareFunc) recherche_imputation_par_nom );
+		    ib = imputation_par_nom ( latin2utf8(xmlGetProp ( node_detail,
+								      "Nom" )),
+					      1,
+					      my_atoi ( latin2utf8(xmlGetProp ( node_detail,
+										  "Type" ))),
+					      my_atoi ( latin2utf8(xmlGetProp ( node_detail,
+										"No_derniere_sous_imputation" )))); 
 
-
-		    if ( liste_tmp )
+		    if ( ib )
 		    {
 			/* 		  la catégorie existe, on fait le tour des sous catégories */
 
-			ib = liste_tmp -> data;
-
 			node_sous_ib = node_detail -> children;
 
 			while ( node_sous_ib )
 			{
 			    struct struct_sous_imputation *sous_ib;
-			    GSList *liste_tmp_2;
 
-			    /* on ne prend la sous catég que si elle n'existe pas */
-
-			    liste_tmp_2 = g_slist_find_custom ( ib -> liste_sous_imputation,
+			    sous_ib = sous_imputation_par_nom ( ib,
 								latin2utf8(xmlGetProp ( node_sous_ib,
 											"Nom" )),
-								(GCompareFunc) recherche_sous_imputation_par_nom );
-
-			    if ( !liste_tmp_2 )
-			    {
-
-				sous_ib = calloc ( 1,
-						   sizeof ( struct struct_sous_imputation ) );
-
-				sous_ib -> no_sous_imputation = ++ib -> no_derniere_sous_imputation;
-
-				sous_ib -> nom_sous_imputation = latin2utf8(xmlGetProp ( node_sous_ib,
-											 "Nom" ));
-
-				ib -> liste_sous_imputation = g_slist_append ( ib -> liste_sous_imputation,
-									       sous_ib );
-			    }
+								1 );
 			    node_sous_ib = node_sous_ib -> next;
 			}
-		    }
-		    else
-		    {
-			/* l'ib n'existe pas, on l'ajoute */
-
-
-			ib = calloc ( 1,
-				      sizeof ( struct struct_imputation ) );
-
-			ib -> no_imputation = ++no_derniere_imputation;
-			nb_enregistrements_imputations++;
-
-			ib -> nom_imputation = latin2utf8(xmlGetProp ( node_detail,
-								       "Nom" ));
-			ib -> type_imputation = my_atoi ( latin2utf8(xmlGetProp ( node_detail,
-										  "Type" )));
-			ib -> no_derniere_sous_imputation = my_atoi ( latin2utf8(xmlGetProp ( node_detail,
-											      "No_derniere_sous_imputation" )));
-
-			/*  pour chaque ib, on recupère les sous-ib */
-
-			ib -> liste_sous_imputation = NULL;
-			node_sous_ib = node_detail -> children;
-
-			while ( node_sous_ib )
-			{
-			    struct struct_sous_imputation *sous_ib;
-
-			    sous_ib = calloc ( 1,
-					       sizeof ( struct struct_sous_imputation ) );
-
-			    sous_ib -> no_sous_imputation = my_atoi ( latin2utf8(xmlGetProp ( node_sous_ib,
-											      "No" )));
-			    sous_ib -> nom_sous_imputation = latin2utf8(xmlGetProp ( node_sous_ib,
-										     "Nom" ));
-
-			    ib -> liste_sous_imputation = g_slist_append ( ib -> liste_sous_imputation,
-									   sous_ib );
-			    node_sous_ib = node_sous_ib -> next;
-			}
-
-			liste_struct_imputation = g_slist_append ( liste_struct_imputation,
-								   ib );
 		    }
 		}
 		node_detail = node_detail -> next;

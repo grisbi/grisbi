@@ -72,7 +72,9 @@ extern GSList *liste_struct_banques;
 extern gint nb_banques;
 extern gint no_derniere_banque;
 extern GSList *liste_struct_rapprochements;
-
+extern GSList *liste_struct_imputation;
+extern gint nb_enregistrements_imputations;
+extern gint no_derniere_imputation;
 
 
 /*****************************************************************************************************/

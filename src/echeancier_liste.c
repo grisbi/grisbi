@@ -1237,8 +1237,8 @@ void edition_echeance ( void )
 
     /* met en place l'imputation budgétaire */
 
-    char_tmp = ib_name_by_no ( echeance_selectionnnee -> imputation,
-			       echeance_selectionnnee -> sous_imputation );
+    char_tmp = nom_imputation_par_no ( echeance_selectionnnee -> imputation,
+				       echeance_selectionnnee -> sous_imputation );
 
     if ( char_tmp )
     {

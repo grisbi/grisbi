@@ -41,6 +41,7 @@ extern GtkWidget *tree_view_listes_operations;
 extern GSList *list_store_comptes;
 extern GtkTreeViewColumn *colonnes_liste_opes[7];
 extern GtkTooltips *tooltips_general_grisbi;
+extern GtkWidget *arbre_imputation;
 
 
 

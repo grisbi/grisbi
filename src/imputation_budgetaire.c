@@ -44,6 +44,30 @@
 #include "utils.h"
 
 
+
+GtkWidget *arbre_imputation;
+GtkWidget *entree_nom_imputation;
+GtkWidget *bouton_imputation_debit;
+GtkWidget *bouton_imputation_credit;
+GtkWidget *bouton_modif_imputation_modifier;
+GtkWidget *bouton_modif_imputation_annuler;
+GtkWidget *bouton_supprimer_imputation;
+GtkWidget *bouton_ajouter_imputation;
+GtkWidget *bouton_ajouter_sous_imputation;
+
+GSList *liste_struct_imputation;    /* liste des structures de catég */
+GSList *liste_imputations_combofix;        /*  liste des noms des imputation et sous imputation pour le combofix */
+gint nb_enregistrements_imputations;        /* nombre de catégories */
+gint no_derniere_imputation;
+gfloat *tab_montant_imputation;             /* buffer */
+gfloat **tab_montant_sous_imputation;            /* buffer */
+gint *nb_ecritures_par_imputation;           /* buffer */
+gint **nb_ecritures_par_sous_imputation;           /* buffer */
+gint rafraichir_imputation;
+
+
+
+
 extern GSList *liste_struct_echeances; 
 extern GtkWidget *widget_formulaire_echeancier[19];
 extern GtkWidget *widget_formulaire_ventilation[8];
@@ -1288,29 +1312,27 @@ gboolean expand_selected_ib (  )
 	/* si c'est une opé de ventilation, on se place sur l'opé ventilée correspondante */
 
 	if ( operation -> no_operation_ventilee_associee )
+	    operation = operation_par_no ( operation -> no_operation_ventilee_associee,
+					   operation -> no_compte );
+
+	if ( operation )
 	{
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+	    changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
 
-	    operation = g_slist_find_custom ( LISTE_OPERATIONS,
-					      GINT_TO_POINTER ( operation -> no_operation_ventilee_associee ),
-					      (GCompareFunc) recherche_operation_par_no ) -> data;
+	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+	    if ( operation -> pointe == 2 && !AFFICHAGE_R )
+	    {
+		AFFICHAGE_R = 1;
+		remplissage_liste_operations ( compte_courant );
+	    }
+
+	    /* 	OPERATION_SELECTIONNEE = operation; */
+
+	    /* FIXME : mettre l'opé et l'iter s'il existe */
+	    selectionne_ligne ( compte_courant,
+				LIGNE_SELECTIONNEE );
 	}
-
-	changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-
-	if ( operation -> pointe == 2 && !AFFICHAGE_R )
-	{
-	    AFFICHAGE_R = 1;
-	    remplissage_liste_operations ( compte_courant );
-	}
-
-/* 	OPERATION_SELECTIONNEE = operation; */
-
-	/* FIXME : mettre l'opé et l'iter s'il existe */
-	selectionne_ligne ( compte_courant,
-			LIGNE_SELECTIONNEE );
     }
 
     return FALSE;
@@ -1581,8 +1603,8 @@ void supprimer_imputation ( void )
 	GSList *liste_imputation_credit;
 	GSList *liste_imputation_debit;
 	gchar **split_imputation;
-	gint nouveau_no_imputation;
-	gint nouveau_no_sous_imputation;
+	gint nouveau_no_imputation = 0;
+	gint nouveau_no_sous_imputation = 0;
 
 	dialog = gtk_dialog_new_with_buttons ( _("Delete a budgetary line"),
 					       GTK_WINDOW (window),
@@ -1737,21 +1759,24 @@ retour_dialogue:
 					    " : ",
 					    2 );
 
-	    nouvelle_imputation = g_slist_find_custom ( liste_struct_imputation,
-							split_imputation[0],
-							(GCompareFunc) recherche_imputation_par_nom ) -> data;
-	    nouveau_no_imputation = nouvelle_imputation -> no_imputation;
+	    nouvelle_imputation = imputation_par_nom ( split_imputation[0],
+						       0,
+						       0,
+						       0 );
 
-	    if ( split_imputation[1] )
+	    if ( nouvelle_imputation )
 	    {
-		nouvelle_sous_imputation = g_slist_find_custom ( nouvelle_imputation -> liste_sous_imputation,
-								 split_imputation[1],
-								 (GCompareFunc) recherche_sous_imputation_par_nom ) -> data;
-		nouveau_no_sous_imputation = nouvelle_sous_imputation -> no_sous_imputation;
-	    }
-	    else
-		nouveau_no_sous_imputation = 0;
+		nouveau_no_imputation = nouvelle_imputation -> no_imputation;
 
+		nouvelle_sous_imputation = sous_imputation_par_nom ( nouvelle_imputation,
+								     split_imputation[1],
+								     0 );
+
+		if ( nouvelle_sous_imputation )
+		    nouveau_no_sous_imputation = nouvelle_sous_imputation -> no_sous_imputation;
+		else
+		    nouveau_no_sous_imputation = 0;
+	    }
 	    g_strfreev ( split_imputation );
 	}
 	else
@@ -1911,8 +1936,8 @@ void supprimer_sous_imputation ( void )
 	GSList *liste_imputation_credit;
 	GSList *liste_imputation_debit;
 	gchar **split_imputation;
-	gint nouveau_no_imputation;
-	gint nouveau_no_sous_imputation;
+	gint nouveau_no_imputation = 0;
+	gint nouveau_no_sous_imputation = 0;
 
 	dialog = gtk_dialog_new_with_buttons ( _("Deleting a budgetaty line"),
 					       GTK_WINDOW (window),
@@ -2066,20 +2091,26 @@ retour_dialogue:
 					    " : ",
 					    2 );
 
-	    nouvelle_imputation = g_slist_find_custom ( liste_struct_imputation,
-							split_imputation[0],
-							(GCompareFunc) recherche_imputation_par_nom ) -> data;
-	    nouveau_no_imputation = nouvelle_imputation -> no_imputation;
+	    nouvelle_imputation = imputation_par_nom ( split_imputation[0],
+						       0,
+						       0,
+						       0 );
 
-	    if ( split_imputation[1] )
+	    if ( nouvelle_imputation )
 	    {
-		nouvelle_sous_imputation = g_slist_find_custom ( nouvelle_imputation -> liste_sous_imputation,
-								 split_imputation[1],
-								 (GCompareFunc) recherche_sous_imputation_par_nom ) -> data;
+		nouveau_no_imputation = nouvelle_imputation -> no_imputation;
+		
+		nouvelle_sous_imputation = sous_imputation_par_nom ( nouvelle_imputation,
+								     split_imputation[1],
+								     0 );
+
+		if ( nouvelle_sous_imputation )
 		nouveau_no_sous_imputation = nouvelle_sous_imputation -> no_sous_imputation;
+		else
+		    nouveau_no_sous_imputation = 0;
 	    }
 	    else
-		nouveau_no_sous_imputation = 0;
+		nouveau_no_imputation = 0;
 
 	    g_strfreev ( split_imputation );
 	}
@@ -2298,60 +2329,6 @@ void mise_a_jour_imputation ( void )
 
 
 
-
-/***********************************************************************************************************/
-/* Fonction ajoute_nouvelle_imputation */
-/* appelée pour ajouter une nouvelle catég à la liste des catég */
-/* entrée : la nouvelle catég */
-/* retour : l'adr de la struct */
-/***********************************************************************************************************/
-
-struct struct_imputation *ajoute_nouvelle_imputation ( gchar *imputation )
-{
-    struct struct_imputation *nouvelle_imputation;
-
-    nouvelle_imputation = calloc ( 1,
-				   sizeof ( struct struct_imputation ));
-
-    nouvelle_imputation -> no_imputation = ++no_derniere_imputation;
-    nouvelle_imputation -> nom_imputation = g_strdup ( g_strstrip ( imputation ));
-
-    liste_struct_imputation = g_slist_append ( liste_struct_imputation,
-					       nouvelle_imputation );
-    nb_enregistrements_imputations++;
-
-    return ( nouvelle_imputation );
-}
-/***********************************************************************************************************/
-
-
-
-
-/***********************************************************************************************************/
-/* Fonction ajoute_nouvelle_sous_imputation */
-/* appelée pour ajouter une nouvelle sous catég à une catég */
-/* entrée : la nouvelle sous catég et l'adr de la struct de la catég correspondante */
-/* retour : l'adr de la struct */
-/***********************************************************************************************************/
-
-struct struct_sous_imputation *ajoute_nouvelle_sous_imputation ( gchar *sous_imputation,
-								 struct struct_imputation *imputation )
-{
-    struct struct_sous_imputation *nouvelle_sous_imputation;
-
-    nouvelle_sous_imputation = malloc ( sizeof ( struct struct_sous_imputation ));
-
-    nouvelle_sous_imputation -> no_sous_imputation = ++( imputation->no_derniere_sous_imputation );
-    nouvelle_sous_imputation -> nom_sous_imputation = g_strdup ( g_strstrip ( sous_imputation ));
-
-    imputation -> liste_sous_imputation = g_slist_append ( imputation -> liste_sous_imputation,
-							   nouvelle_sous_imputation );
-
-    return ( nouvelle_sous_imputation );
-}
-/***********************************************************************************************************/
-
-
 /***************************************************************************************************/
 void fusion_categories_imputation ( void )
 {
@@ -2368,48 +2345,36 @@ void fusion_categories_imputation ( void )
     {
 	struct struct_categ *categorie;
 	struct struct_imputation *imputation;
-	GSList *result;
 	GSList *liste_sous_tmp;
 
 	categorie = liste_tmp -> data;
 
 	/* vérifie si une imputation du nom de la catégorie existe */
 
-	result = g_slist_find_custom ( liste_struct_imputation,
-				       categorie -> nom_categ,
-				       (GCompareFunc) recherche_imputation_par_nom );
-
-	if ( result )
-	    /* l'imputation existe, on la récupère */
-	    imputation = result -> data;
-	else
+	imputation = imputation_par_nom ( categorie -> nom_categ,
+					  1,
+					  categorie -> type_categ,
+					  0 );
+	
+	if ( imputation )
 	{
-	    /* 	  l'imputation n'existe pas, on la crée */
+	    /* on fait maintenant la comparaison avec les sous catég et les sous imputations */
 
-	    imputation = ajoute_nouvelle_imputation ( categorie -> nom_categ );
-	    imputation -> type_imputation = categorie -> type_categ;
-	}
+	    liste_sous_tmp = categorie -> liste_sous_categ;
 
-	/* on fait maintenant la comparaison avec les sous catég et les sous imputations */
+	    while ( liste_sous_tmp )
+	    {
+		struct struct_sous_categ *sous_categ;
+		struct struct_sous_imputation *sous_ib;
 
-	liste_sous_tmp = categorie -> liste_sous_categ;
+		sous_categ = liste_sous_tmp -> data;
 
-	while ( liste_sous_tmp )
-	{
-	    struct struct_sous_categ *sous_categ;
+		sous_ib = sous_imputation_par_nom ( imputation,
+						    sous_categ -> nom_sous_categ,
+						    1 );
 
-	    sous_categ = liste_sous_tmp -> data;
-
-	    result = g_slist_find_custom ( imputation -> liste_sous_imputation,
-					   sous_categ -> nom_sous_categ,
-					   (GCompareFunc) recherche_sous_imputation_par_nom );
-
-	    if ( !result )
-		/* 	  la sous imputation n'existe pas, on la crée */
-		ajoute_nouvelle_sous_imputation ( sous_categ -> nom_sous_categ,
-						  imputation );
-
-	    liste_sous_tmp = liste_sous_tmp -> next;
+		liste_sous_tmp = liste_sous_tmp -> next;
+	    }
 	}
 	liste_tmp = liste_tmp -> next;
     }
@@ -2484,9 +2449,7 @@ void calcule_total_montant_imputation ( void )
 
 		/* il y a une ib */
 
-		imputation = g_slist_find_custom ( liste_struct_imputation,
-						   GINT_TO_POINTER ( operation -> imputation ),
-						   (GCompareFunc) recherche_imputation_par_no ) -> data;
+		imputation = imputation_par_no ( operation -> imputation );
 
 		/* recherche la place du tiers dans la liste */
 
@@ -2617,8 +2580,10 @@ void appui_sur_ajout_imputation ( void )
 
     /* on l'ajoute à la liste des opés */
 
-    nouvelle_imputation = ajoute_nouvelle_imputation ( nom_imputation );
-
+    nouvelle_imputation = imputation_par_nom ( nom_imputation,
+					       1,
+					       0,
+					       0 );
 
     /* on l'ajoute directement au ctree et on fait le tri pour éviter de toute la réafficher */
 
@@ -2684,8 +2649,9 @@ void appui_sur_ajout_sous_imputation ( void )
 
     /* on l'ajoute à la liste des opés */
 
-    nouvelle_sous_imputation = ajoute_nouvelle_sous_imputation ( nom_sous_imputation,
-								 imputation );
+    nouvelle_sous_imputation = sous_imputation_par_nom ( imputation,
+							 nom_sous_imputation,
+							 1 );
 
 
     /* on l'ajoute directement au ctree et on fait le tri pour éviter de toute la réafficher */
@@ -2930,113 +2896,225 @@ void importer_ib ( void )
 
 
 /* **************************************************************************************************** */
-/* cette fonction renvoie une chaine de la forme */
-/* soit ib : sous ib */
-/* soit ib si no_sous_ib=0 ou si la sous_ib n'existe pas */
-/* ou NULL si l'ib n'existe pas */
+/* retourne l'adr de la ib dont le nom est donné en argument */
+/* si pas trouvée : */
+/* renvoie NULL si creer = 0*/
+/* la crée et renvoie son adr avec le type_ib et la derniere sous_ib donnés si creer = 1 */
+/* type_ib = 0=crédit ; 1 = débit  */
+/* si on ajoute une ib, on met rafraichir_ib à 1 */
 /* **************************************************************************************************** */
-gchar *ib_name_by_no ( gint no_ib,
-		       gint no_sous_ib )
-{
-    gchar *retour;
 
-    if ( no_ib )
+struct struct_imputation *imputation_par_nom ( gchar *nom_ib,
+					       gboolean creer,
+					       gint type_ib,
+					       gint no_derniere_sous_ib )
+{
+    if ( nom_ib
+	 &&
+	 strlen (g_strstrip ( nom_ib )))
     {
 	GSList *liste_tmp;
 
 	liste_tmp = g_slist_find_custom ( liste_struct_imputation,
-					  GINT_TO_POINTER ( no_ib ),
+					  g_strstrip (nom_ib),
+					  (GCompareFunc) recherche_imputation_par_nom );
+
+	if ( liste_tmp )
+	    return liste_tmp -> data;
+	else
+	{
+	    if ( creer )
+	    {
+		struct struct_imputation *nouvelle_imputation;
+
+		nouvelle_imputation = calloc ( 1,
+					      sizeof ( struct struct_imputation ));
+
+		nouvelle_imputation -> no_imputation = ++no_derniere_imputation;
+		nouvelle_imputation -> nom_imputation = g_strdup ( g_strstrip ( nom_ib ));
+		nouvelle_imputation -> type_imputation = type_ib;
+		nouvelle_imputation -> no_derniere_sous_imputation = no_derniere_sous_ib;
+
+		liste_struct_imputation = g_slist_append ( liste_struct_imputation,
+							   nouvelle_imputation );
+		nb_enregistrements_imputations++;
+		rafraichir_imputation = 1;
+
+		return ( nouvelle_imputation );
+	    }
+	}
+    }
+    return NULL;
+}
+/* **************************************************************************************************** */
+   
+
+
+
+/* **************************************************************************************************** */
+/* retourne l'adr de la sous imputation dont le nom est donné en argument */
+/* si pas trouvée : */
+/* la crée et renvoie son adr si creer=1 */
+/* renvoie NULL si creer = 0 */
+/* si on ajoute une imputation, on met rafraichir_imputation à 1 */
+/* **************************************************************************************************** */
+
+struct struct_sous_imputation *sous_imputation_par_nom ( struct struct_imputation *imputation,
+							 gchar *nom_sous_imputation,
+							 gboolean creer )
+{
+    if ( imputation
+	 &&
+	 nom_sous_imputation
+	 &&
+	 strlen ( g_strstrip ( nom_sous_imputation )))
+    {
+	GSList *liste_tmp;
+
+	liste_tmp = g_slist_find_custom ( imputation -> liste_sous_imputation,
+					  g_strstrip (nom_sous_imputation),
+					  (GCompareFunc) recherche_sous_imputation_par_nom );
+
+	if ( liste_tmp )
+	    return liste_tmp -> data;
+	else
+	{
+	    if ( creer )
+	    {
+		struct struct_sous_imputation *nouvelle_sous_imputation;
+
+		nouvelle_sous_imputation = malloc ( sizeof ( struct struct_sous_imputation ));
+
+		nouvelle_sous_imputation -> no_sous_imputation = ++( imputation -> no_derniere_sous_imputation );
+		nouvelle_sous_imputation -> nom_sous_imputation = g_strdup ( g_strstrip ( nom_sous_imputation ));
+
+		imputation -> liste_sous_imputation = g_slist_append ( imputation -> liste_sous_imputation,
+							     nouvelle_sous_imputation );
+
+		rafraichir_imputation = 1;
+		return ( nouvelle_sous_imputation );
+	    }
+	}
+    }
+
+    return NULL;
+}
+/* **************************************************************************************************** */
+
+
+
+
+
+/* **************************************************************************************************** */
+/* cette fonction renvoie l'adr de la imputation demandée en argument */
+/* et NULL si pas trouvée */
+/* **************************************************************************************************** */
+struct struct_imputation *imputation_par_no ( gint no_imputation )
+{
+    if ( no_imputation )
+    {
+	GSList *liste_tmp;
+
+	liste_tmp = g_slist_find_custom ( liste_struct_imputation,
+					  GINT_TO_POINTER ( no_imputation ),
 					  (GCompareFunc) recherche_imputation_par_no );
 
 	if ( liste_tmp )
-	{
-	    struct struct_imputation *ib;
-
-	    ib = liste_tmp -> data;
-
-	    if ( no_sous_ib )
-		liste_tmp = g_slist_find_custom ( ib -> liste_sous_imputation,
-						  GINT_TO_POINTER ( no_sous_ib ),
-						  (GCompareFunc) recherche_sous_imputation_par_no );
-	    else
-		liste_tmp = NULL;
-
-	    if ( liste_tmp )
-	    {
-		struct struct_sous_imputation *sous_ib;
-
-		sous_ib = liste_tmp -> data;
-
-		retour = g_strconcat ( ib -> nom_imputation,
-				       " : ",
-				       sous_ib -> nom_sous_imputation,
-				       NULL );
-	    }
-	    else
-		retour = g_strdup ( ib -> nom_imputation );
-	}
-	else
-	    retour = NULL;
+	    return ( liste_tmp -> data );
     }
-    else
-	retour = NULL;
-    
-
-    return retour;
+    return NULL;
 }
 /* **************************************************************************************************** */
 
 
 /* **************************************************************************************************** */
-/* cette fonction renvoie une chaine de la forme */
-/* soit sous ib */
-/* ou NULL si l'ib ou la sous ib n'existent pas */
+/* cette fonction renvoie l'adr de la sous imputation demandée */
+/* ou NULL si la imputation ou la sous imputation n'existe pas */
 /* **************************************************************************************************** */
-gchar *sous_ib_name_by_no ( gint no_ib,
-			    gint no_sous_ib )
+struct struct_sous_imputation *sous_imputation_par_no ( gint no_imputation,
+							gint no_sous_imputation )
 {
-    gchar *retour;
-
-    if ( no_ib )
+    if ( no_imputation
+	 &&
+	 no_sous_imputation )
     {
 	GSList *liste_tmp;
 
 	liste_tmp = g_slist_find_custom ( liste_struct_imputation,
-					  GINT_TO_POINTER ( no_ib ),
+					  GINT_TO_POINTER ( no_imputation ),
 					  (GCompareFunc) recherche_imputation_par_no );
 
 	if ( liste_tmp )
 	{
-	    struct struct_imputation *ib;
+	    struct struct_imputation *imputation;
 
-	    ib = liste_tmp -> data;
+	    imputation = liste_tmp -> data;
 
-	    if ( no_sous_ib )
-		liste_tmp = g_slist_find_custom ( ib -> liste_sous_imputation,
-						  GINT_TO_POINTER ( no_sous_ib ),
-						  (GCompareFunc) recherche_sous_imputation_par_no );
-	    else
-		liste_tmp = NULL;
+	    liste_tmp = g_slist_find_custom ( imputation -> liste_sous_imputation,
+					      GINT_TO_POINTER ( no_sous_imputation ),
+					      (GCompareFunc) recherche_sous_imputation_par_no );
 
 	    if ( liste_tmp )
-	    {
-		struct struct_sous_imputation *sous_ib;
-
-		sous_ib = liste_tmp -> data;
-
-		retour = g_strdup ( sous_ib -> nom_sous_imputation );
-	    }
-	    else
-		retour = NULL;
+		return ( liste_tmp -> data );
 	}
-	else
-	    retour = NULL;
     }
-    else
-	retour = NULL;
-    
-
-    return retour;
+    return NULL;
 }
 /* **************************************************************************************************** */
+
+
+
+
+/* **************************************************************************************************** */
+/* cette fonction renvoie une chaine de la forme */
+/* soit imputation : sous imputation */
+/* soit imputation si no_sous_imputation=0 ou si la sous_imputation n'existe pas */
+/* ou NULL si la imputation n'existe pas */
+/* **************************************************************************************************** */
+gchar *nom_imputation_par_no ( gint no_imputation,
+			       gint no_sous_imputation )
+{
+    struct struct_imputation *imputation;
+    struct struct_sous_imputation *sous_imputation;
+
+    imputation = imputation_par_no ( no_imputation );
+    sous_imputation = sous_imputation_par_no ( no_imputation,
+				     no_sous_imputation );
+
+    if ( sous_imputation )
+	/* 	s'il y a une sous imputation, c'est qu'il y a une imputation... */
+	return ( g_strconcat ( imputation -> nom_imputation,
+			       " : ",
+			       sous_imputation -> nom_sous_imputation,
+			       NULL ));
+    else
+	if ( imputation )
+	    return ( g_strdup ( imputation -> nom_imputation ));
+	
+    return NULL;
+}
+/* **************************************************************************************************** */
+
+
+/* **************************************************************************************************** */
+/* cette fonction renvoie une chaine contenant la sous imputation */
+/* ou NULL si la imputation ou la sous imputation n'existe pas */
+/* **************************************************************************************************** */
+gchar *nom_sous_imputation_par_no ( gint no_imputation,
+				    gint no_sous_imputation )
+{
+    struct struct_sous_imputation *sous_imputation;
+
+    sous_imputation = sous_imputation_par_no ( no_imputation,
+					       no_sous_imputation );
+
+    if ( sous_imputation )
+	    return ( g_strdup ( sous_imputation -> nom_sous_imputation ));
+	
+    return NULL;
+}
+/* **************************************************************************************************** */
+
+
+
 

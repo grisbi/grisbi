@@ -233,28 +233,27 @@ void gtktable_click_sur_ope_etat ( struct structure_operation *operation )
 {
     /* si c'est une opé de ventilation, on affiche l'opération mère */
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+    operation = operation_par_no ( operation -> no_operation_ventilee_associee,
+				   operation -> no_compte );
 
-    if ( operation -> no_operation_ventilee_associee )
-	operation = g_slist_find_custom ( LISTE_OPERATIONS,
-					  GINT_TO_POINTER ( operation -> no_operation_ventilee_associee ),
-					  (GCompareFunc) recherche_operation_par_no ) -> data;
+    if ( operation )
+    {
+	/* passage sur le compte concerné */
 
-    /* passage sur le compte concerné */
+	changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
 
-    changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
+	/* récupération de la ligne de l'opé dans la liste ; affichage de toutes les opé si nécessaire */
 
-    /* récupération de la ligne de l'opé dans la liste ; affichage de toutes les opé si nécessaire */
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+	if ( operation -> pointe == 2 && !AFFICHAGE_R )
+	    change_aspect_liste ( 5 );
 
-    if ( operation -> pointe == 2 && !AFFICHAGE_R )
-	change_aspect_liste ( 5 );
+	/*     OPERATION_SELECTIONNEE = operation; */
 
-/*     OPERATION_SELECTIONNEE = operation; */
-
-    /* FIXME : mettre l'opé et l'iter s'il existe */
-    selectionne_ligne ( compte_courant,
-			LIGNE_SELECTIONNEE );
+	/* FIXME : mettre l'opé et l'iter s'il existe */
+	selectionne_ligne ( compte_courant,
+			    LIGNE_SELECTIONNEE );
+    }
 }
 /*****************************************************************************************************/

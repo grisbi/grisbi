@@ -1378,28 +1378,26 @@ void expand_selected_category ()
 
 	/* si c'est une opé de ventilation, on se place sur l'opé
 	   ventilée correspondante */ 
-	if ( operation -> no_operation_ventilee_associee )
+
+	operation = operation_par_no ( operation -> no_operation_ventilee_associee,
+				       operation -> no_compte );
+
+	if ( operation )
 	{
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+	    changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
 
-	    operation = g_slist_find_custom ( LISTE_OPERATIONS,
-					      GINT_TO_POINTER ( operation -> no_operation_ventilee_associee ),
-					      (GCompareFunc) recherche_operation_par_no ) -> data;
+	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+	    if ( operation -> pointe == 2 && !AFFICHAGE_R )
+	    {
+		AFFICHAGE_R = 1;
+		remplissage_liste_operations ( compte_courant );
+	    }
+
+	    /* FIXME : mettre l'opé et l'iter s'il existe */
+	    selectionne_ligne ( compte_courant,
+				LIGNE_SELECTIONNEE );
 	}
-
-	changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-
-	if ( operation -> pointe == 2 && !AFFICHAGE_R )
-	{
-	    AFFICHAGE_R = 1;
-	    remplissage_liste_operations ( compte_courant );
-	}
-
-	/* FIXME : mettre l'opé et l'iter s'il existe */
-	selectionne_ligne ( compte_courant,
-			LIGNE_SELECTIONNEE );
     }
 
 }

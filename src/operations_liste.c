@@ -51,6 +51,7 @@
 #include "utils.h"
 #include "ventilation.h"
 #include "constants.h"
+#include "operations_onglet.h"
 
 
 
@@ -842,7 +843,6 @@ void remplissage_liste_operations ( gint compte )
 gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 				   gint no_affichage )
 {
-    GSList *liste_tmp;
     gchar *temp;
     gdouble montant;
 
@@ -885,8 +885,8 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 
 	case 4:
 
-	    temp = ib_name_by_no ( operation -> imputation,
-				   operation -> sous_imputation );
+	    temp = nom_imputation_par_no ( operation -> imputation,
+					   operation -> sous_imputation );
 	    break;
 
 
@@ -991,19 +991,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 	    /* mise en place de l'exo */
 
 	case 11:
-	    if ( operation -> no_exercice )
-	    {
-		liste_tmp = g_slist_find_custom ( liste_struct_exercices,
-						  GINT_TO_POINTER ( operation -> no_exercice ),
-						  (GCompareFunc) recherche_exercice_par_no );
-
-		if (liste_tmp)
-		    return ( ((struct struct_exercice *)(liste_tmp->data)) -> nom_exercice );
-		else
-		    return ( NULL );
-	    }
-	    else
-		return ( NULL );
+	    return ( exercice_name_by_no (  operation -> no_exercice ));
 	    break;
 
 	    /* mise en place des catégories */
@@ -1742,12 +1730,13 @@ void edition_operation ( void )
 
 	    /* récupération de la contre opération */
 
-	    operation_2 = g_slist_find_custom ( LISTE_OPERATIONS,
-						GINT_TO_POINTER ( operation -> relation_no_operation ),
-						(GCompareFunc) recherche_operation_par_no ) -> data;
+	    operation_2 = operation_par_no ( operation -> relation_no_operation,
+					     operation -> relation_no_compte );
 
 	    /* 	  si la contre opération est relevée, on désensitive les categ et les montants */
-	    if ( operation_2 -> pointe == 2 )
+	    if ( operation_2
+		 &&
+		 operation_2 -> pointe == 2 )
 	    {
 		gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT],
 					   FALSE );
@@ -1842,8 +1831,8 @@ void edition_operation ( void )
     {
 	gchar *char_tmp;
 
-	char_tmp = ib_name_by_no ( operation -> imputation,
-				   operation -> sous_imputation );
+	char_tmp = nom_imputation_par_no ( operation -> imputation,
+					   operation -> sous_imputation );
 	if ( char_tmp )
 	{
 	    entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET]);
@@ -2119,7 +2108,9 @@ void supprime_operation ( struct structure_operation *operation )
 {
     gint no_compte;
     
-    if ( operation == GINT_TO_POINTER ( -1 ) )
+    if ( !operation
+	 ||
+	 operation == GINT_TO_POINTER ( -1 ) )
 	return;
 
     no_compte = operation -> no_compte;
@@ -2140,19 +2131,13 @@ void supprime_operation ( struct structure_operation *operation )
 
     if ( operation -> relation_no_operation && operation -> relation_no_compte != -1 )
     {
-	GSList *liste_tmp;
 	struct structure_operation *ope_liee;
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
+	ope_liee = operation_par_no ( operation -> relation_no_operation,
+				      operation -> relation_no_compte );
 
-	liste_tmp = g_slist_find_custom ( LISTE_OPERATIONS,
-					  GINT_TO_POINTER ( operation -> relation_no_operation ),
-					  ( GCompareFunc ) recherche_operation_par_no );
-
-	if ( liste_tmp )
+	if ( ope_liee )
 	{
-	    ope_liee =  liste_tmp -> data;
-
 	    if ( ope_liee -> pointe == 2 )
 	    {
 		dialogue_error ( _("The contra-transaction of this transfer is reconciled, deletion impossible.") );
@@ -2195,13 +2180,12 @@ void supprime_operation ( struct structure_operation *operation )
 
 		    struct structure_operation *contre_operation;
 
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + ope_test -> relation_no_compte;
+		    contre_operation = operation_par_no ( ope_test -> relation_no_operation,
+							  ope_test -> relation_no_compte );
 
-		    contre_operation = g_slist_find_custom ( LISTE_OPERATIONS,
-							     GINT_TO_POINTER ( ope_test -> relation_no_operation ),
-							     (GCompareFunc) recherche_operation_par_no ) -> data;
-
-		    if ( contre_operation -> pointe == 2 )
+		    if ( contre_operation
+			 &&
+			 contre_operation -> pointe == 2 )
 		    {
 			dialogue_error ( _("One of the breakdown lines is a transfer whose contra-transaction is reconciled.  Deletion canceled."));
 			return;
@@ -2933,13 +2917,11 @@ void move_operation_to_account ( struct structure_operation * transaction,
     if ( transaction -> relation_no_compte )
     {
 	struct structure_operation * contra_transaction;
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + transaction -> relation_no_compte;
-	contra_transaction = 
-	    g_slist_find_custom ( LISTE_OPERATIONS,
-				  GINT_TO_POINTER ( transaction -> relation_no_operation ),
-				  ( GCompareFunc ) recherche_operation_par_no ) -> data;
-	contra_transaction -> relation_no_compte = account;
 
+	contra_transaction = operation_par_no (  transaction -> relation_no_operation,
+						 transaction -> relation_no_compte );
+	if ( contra_transaction )
+	    contra_transaction -> relation_no_compte = account;
     }
 
     if ( transaction -> operation_ventilee )
@@ -3058,11 +3040,10 @@ schedule_transaction ( struct structure_operation * transaction )
 
 	save_ptab = p_tab_nom_de_compte_variable;
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + echeance -> compte_virement;
-	contre_operation = g_slist_find_custom ( LISTE_OPERATIONS,
-						 GINT_TO_POINTER ( transaction -> relation_no_operation ),
-						 (GCompareFunc) recherche_operation_par_no ) -> data;
-	echeance -> type_contre_ope = contre_operation -> type_ope;
+	contre_operation = operation_par_no ( transaction -> relation_no_operation,
+					      echeance -> compte_virement );
+	if ( contre_operation )
+	    echeance -> type_contre_ope = contre_operation -> type_ope;
 	p_tab_nom_de_compte_variable = save_ptab;
     }
     else
@@ -3152,11 +3133,11 @@ schedule_transaction ( struct structure_operation * transaction )
 
 		    save_ptab = p_tab_nom_de_compte_variable;
 
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + echeance_de_ventil -> compte_virement;
-		    contre_operation = g_slist_find_custom ( LISTE_OPERATIONS,
-							     GINT_TO_POINTER ( transaction_de_ventil -> relation_no_operation ),
-							     (GCompareFunc) recherche_operation_par_no ) -> data;
-		    echeance_de_ventil -> type_contre_ope = contre_operation -> type_ope;
+		    contre_operation = operation_par_no ( transaction_de_ventil -> relation_no_operation,
+							  echeance_de_ventil -> compte_virement );
+
+		    if ( contre_operation )
+			echeance_de_ventil -> type_contre_ope = contre_operation -> type_ope;
 		    p_tab_nom_de_compte_variable = save_ptab;
 		}
 		else

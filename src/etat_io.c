@@ -34,6 +34,7 @@
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
 #include "devises.h"
+#include "exercice.h"
 
 
 
@@ -785,19 +786,12 @@ gint recupere_devise_par_nom_etat ( gchar *nom )
 gint recupere_exo_par_nom_etat ( gchar *nom )
 {
     gint no_exo;
-    GSList *liste_tmp;
     struct struct_exercice *exo;
 
+    exo = exercice_par_nom ( nom );
 
-    liste_tmp = g_slist_find_custom ( liste_struct_exercices,
-				      g_strstrip ( nom ),
-				      (GCompareFunc) recherche_exercice_par_nom  );
-
-    if ( liste_tmp )
-    {
-	exo = liste_tmp -> data;
+    if ( exo )
 	no_exo = exo -> no_exercice;
-    }
     else
     {
 	no_exo = 0;
@@ -914,19 +908,15 @@ gint recupere_categ_par_nom_etat ( gchar *nom )
 gint recupere_ib_par_nom_etat ( gchar *nom )
 {
     gint no_ib;
-    GSList *liste_tmp;
     struct struct_imputation *imputation;
 
+    imputation = imputation_par_nom ( nom,
+				      0,
+				      0,
+				      0 );
 
-    liste_tmp = g_slist_find_custom ( liste_struct_imputation,
-				      g_strstrip ( nom ),
-				      (GCompareFunc) recherche_imputation_par_nom  );
-
-    if ( liste_tmp )
-    {
-	imputation = liste_tmp -> data;
+    if ( imputation )
 	no_ib = imputation -> no_imputation;
-    }
     else
     {
 	no_ib = 0;
@@ -1216,9 +1206,7 @@ gboolean enregistre_etat ( gchar *nom_etat )
 			       "Exo",
 			       NULL );
 
-	exo = g_slist_find_custom ( liste_struct_exercices,
-				    pointeur_liste -> data,
-				    (GCompareFunc) recherche_exercice_par_no ) -> data;
+	exo = exercice_par_no ( GPOINTER_TO_INT ( pointeur_liste -> data ));
 
 	xmlSetProp ( node_3,
 		     "Nom",
@@ -1463,8 +1451,8 @@ gboolean enregistre_etat ( gchar *nom_etat )
 
 	xmlSetProp ( node_3,
 		     "Nom",
-		     ib_name_by_no( GPOINTER_TO_INT ( pointeur_liste -> data ),
-				    0 ));
+		     nom_imputation_par_no( GPOINTER_TO_INT ( pointeur_liste -> data ),
+					    0 ));
 
 	pointeur_liste = pointeur_liste -> next;
     }

@@ -28,8 +28,20 @@ void appui_sur_ajout_imputation ( void );
 void appui_sur_ajout_sous_imputation ( void );
 void exporter_ib ( void );
 void importer_ib ( void );
-gchar *ib_name_by_no ( gint no_ib,
-		       gint no_sous_ib );
-gchar *sous_ib_name_by_no ( gint no_ib,
-			    gint no_sous_ib );
+
+
+struct struct_imputation *imputation_par_nom ( gchar *nom_ib,
+					       gboolean creer,
+					       gint type_ib,
+					       gint no_derniere_sous_ib );
+struct struct_sous_imputation *sous_imputation_par_nom ( struct struct_imputation *imputation,
+							 gchar *nom_sous_imputation,
+							 gboolean creer );
+struct struct_imputation *imputation_par_no ( gint no_imputation );
+struct struct_sous_imputation *sous_imputation_par_no ( gint no_imputation,
+							gint no_sous_imputation );
+gchar *nom_imputation_par_no ( gint no_imputation,
+			       gint no_sous_imputation );
+gchar *nom_sous_imputation_par_no ( gint no_imputation,
+				    gint no_sous_imputation );
 

@@ -24,16 +24,10 @@ gint recherche_rapprochement_par_no ( struct struct_no_rapprochement *rapprochem
 				      gint *no_rap );
 gint recherche_nom_dans_liste ( gchar *nom_liste,
 				gchar *nom_test );
-gint recherche_etat_par_no ( struct struct_etat *etat,
-			     gint *no_etat );
 gint recherche_exercice_par_nom ( struct struct_exercice *exercice,
 				  gchar *nom );
 gint recherche_exercice_par_no ( struct struct_exercice *exercice,
 				 gint *no_exercice );
-gint recherche_operation_par_cheque ( struct structure_operation *operation,
-				  gint *no_chq );
-gint recherche_operation_par_id ( struct structure_operation *operation,
-				      gchar *id_recherchee );
 gint recherche_imputation_par_nom ( struct struct_imputation *imputation,
 				    gchar *nom_imputation );
 gint recherche_sous_imputation_par_nom ( struct struct_sous_imputation *sous_imputation,
@@ -44,6 +38,10 @@ gint recherche_sous_imputation_par_no ( struct struct_sous_imputation *sous_impu
 					gint *no_sous_imputation );
 gint recherche_operation_par_no ( struct structure_operation *operation,
 				  gint *no_ope );
+gint recherche_operation_par_cheque ( struct structure_operation *operation,
+				  gint *no_chq );
+gint recherche_operation_par_id ( struct structure_operation *operation,
+				      gchar *id_recherchee );
 gint recherche_tiers_par_no ( struct struct_tiers *tiers,
 			      gint *no_tiers );
 gint recherche_tiers_par_nom ( struct struct_tiers *tiers,

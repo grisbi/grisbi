@@ -49,6 +49,7 @@
 #include "traitement_variables.h"
 #include "type_operations.h"
 #include "utils.h"
+#include "operations_onglet.h"
 
 
 
@@ -590,7 +591,7 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 	else
 	{
 	    /* 	    la devise avait un nom mais n'a pas été retrouvée (n'existe que pour ofx); 2 possibilités : */
-	    /* 		soit elle n'est pas créé (l'utilisateur la créera une fois la fenetre affichée) */
+	    /* 		soit elle n'est pas crÃƒ©é (l'utilisateur la créera une fois la fenetre affichée) */
 	    /* 		soit elle est créé mais pas avec le bon code */
 
 	    dialogue_warning_hint ( g_strdup_printf ( _( "Currency of imported account '%s' is %s.  Either this currency doesn't exist so you have to create it in dialog window, or this currency already exists but the ISO code is wrong.\nTo avoid this message, please set its ISO code in configuration."),
@@ -1489,11 +1490,15 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
     GSList *liste_tmp;
     GDate *derniere_date;
     gint demande_confirmation;
+    gint no_compte;
+    
 
     /* on se place sur le compte dans lequel on va importer les opés */
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( compte_import -> bouton_compte )->menu_item ),
-												 "no_compte" ));
+    no_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( compte_import -> bouton_compte )->menu_item ),
+							"no_compte" ));
+
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
     /* si le compte importé a une id, on la vérifie ici */
     /*     si elle est absente, on met celle importée */
@@ -1561,7 +1566,6 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
     while ( liste_tmp )
     {
 	struct struct_ope_importation *operation_import;
-	GSList *liste_ope;
 	operation_import = liste_tmp -> data;
 
 	/* on ne fait le tour de la liste des opés que si la date de l'opé importée est inférieure à la dernière date */
@@ -1572,44 +1576,25 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 	{
 	    /* 	    si l'opé d'import a une id, on recherche ça en priorité */
 
-	    if ( operation_import -> id_operation )
-	    {
-		GSList *liste;
-
-		liste = g_slist_find_custom ( LISTE_OPERATIONS,
-					      operation_import -> id_operation,
-					      (GCompareFunc) recherche_operation_par_id );
-
-		if (liste)
-		{
-		    /* 			comme on est sûr que cette opé a déjà été enregistree, on met l'action à 2, cad on demande l'avis de personne pour */
-		    /* 			    pas l'enregistrer */
-
+	    if ( operation_import -> id_operation
+		 &&
+		 operation_par_id ( operation_import -> id_operation,
+				    no_compte ))
+		/* comme on est sûr que cette opé a déjà été enregistree, on met l'action à 2, cad on demande l'avis de personne pour */
+		    /*     pas l'enregistrer */
 		    operation_import -> action = 2;
-		}
-
-	    }
 
 	    /* 	    si l'opé d'import a un no de chq, on le recherche */
 
 	    if ( operation_import -> action != 2
 		 &&
-		 operation_import -> cheque )
-	    {
-		GSList *liste;
-
-		liste = g_slist_find_custom ( LISTE_OPERATIONS,
-					      GINT_TO_POINTER ( operation_import -> cheque ),
-					      (GCompareFunc) recherche_operation_par_cheque );
-
-		if (liste)
-		{
-		    /* 	comme on est sûr que cette opé a déjà été enregistree, on met l'action à 2, cad on demande l'avis de personne pour */
-		    /*  pas l'enregistrer */
-
-		    operation_import -> action = 2;
-		}
-	    }
+		 operation_import -> cheque
+		 &&
+		 operation_par_cheque ( operation_import -> cheque,
+					no_compte ))
+		/* 	comme on est sûr que cette opé a déjà été enregistree, on met l'action à 2, cad on demande l'avis de personne pour */
+		/*  pas l'enregistrer */
+		operation_import -> action = 2;
 
 	    /* on fait donc le tour de la liste des opés pour retrouver une opé comparable */
 	    /* si elle n'a pas déjà été retrouvée par id... */
@@ -1618,6 +1603,7 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 	    {
 		GDate *date_debut_comparaison;
 		GDate *date_fin_comparaison;
+		GSList *liste_ope;
 
 		date_debut_comparaison = g_date_new_dmy ( g_date_get_day ( operation_import -> date ),
 							  g_date_get_month ( operation_import -> date ),
@@ -2214,14 +2200,14 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 	if ( ope_import -> id_operation )
 	{
-	    GSList *liste;
+	    struct structure_operation *ope;
 
-	    liste = g_slist_find_custom ( LISTE_OPERATIONS,
-					  ope_import -> id_operation,
-					  (GCompareFunc) recherche_operation_par_id );
-	    if ( liste )
+	    ope = operation_par_id ( ope_import -> id_operation,
+				     no_compte );
+
+	    if ( ope )
 		ope_trouvees = g_slist_append ( ope_trouvees,
-						liste -> data );
+						ope );
 	}
 
 	/* si on n'a rien trouvé par id, */

@@ -61,6 +61,9 @@ extern gdouble solde_final;
 extern gdouble operations_pointees;
 extern GtkWidget *label_equilibrage_ecart;
 extern GtkWidget *bouton_ok_equilibrage;
+extern GSList *liste_imputations_combofix;
+
+
 
 /******************************************************************************/
 /*  Routine qui crée le formulaire et le renvoie                              */
@@ -1883,15 +1886,12 @@ void completion_operation_par_tiers ( void )
 
 			/*  on va chercher le type de l'opé associée */
 
-			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + ope_test -> relation_no_compte;
+			contre_operation = operation_par_no ( ope_test -> relation_no_operation,
+							      ope_test -> relation_no_compte );
 
-			contre_operation = g_slist_find_custom ( LISTE_OPERATIONS,
-								 GINT_TO_POINTER ( ope_test -> relation_no_operation ),
-								 (GCompareFunc) recherche_operation_par_no ) -> data;
+			if ( contre_operation )
+			    nouvelle_operation -> no_type_associe = contre_operation -> type_ope;
 
-			nouvelle_operation -> no_type_associe = contre_operation -> type_ope;
-
-			//		      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 			p_tab_nom_de_compte_variable = p_tab_nom_de_compte_ope_trouvee;
 		    }
 
@@ -1949,12 +1949,12 @@ void completion_operation_par_tiers ( void )
 					   menu );
 		gtk_widget_show ( widget_formulaire_operations[TRANSACTION_FORM_CONTRA] );
 
-		operation_2 = g_slist_find_custom ( LISTE_OPERATIONS,
-						    GINT_TO_POINTER ( operation -> relation_no_operation ),
-						    (GCompareFunc) recherche_operation_par_no ) -> data;
-		gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_CONTRA] ),
-					      cherche_no_menu_type_associe ( operation_2 -> type_ope,
-									     0 ));
+		operation_2 = operation_par_no ( operation -> relation_no_operation,
+						 operation -> relation_no_compte );
+		if ( operation_2 )
+		    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_CONTRA] ),
+						  cherche_no_menu_type_associe ( operation_2 -> type_ope,
+										 0 ));
 	    }
 	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 	}
@@ -1974,8 +1974,8 @@ void completion_operation_par_tiers ( void )
 
     /* met en place l'imputation budgétaire */
 
-    char_tmp = ib_name_by_no ( operation -> imputation,
-			       operation -> sous_imputation );
+    char_tmp = nom_imputation_par_no ( operation -> imputation,
+				       operation -> sous_imputation );
     if ( char_tmp )
     {
 	entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET] );
@@ -2719,47 +2719,28 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
 				    ":",
 				    2 );
 
-	tableau_char[0] = g_strstrip ( tableau_char[0] );
+	imputation = imputation_par_nom ( tableau_char[0],
+					  1,
+					  operation -> montant < 0,
+					  0 );
 
-	if ( tableau_char[1] )
-	    tableau_char[1] = g_strstrip ( tableau_char[1] );
-
-	pointeur_liste = g_slist_find_custom ( liste_struct_imputation,
-					       tableau_char[0],
-					       ( GCompareFunc ) recherche_imputation_par_nom );
-
-	if ( pointeur_liste )
-	    imputation = pointeur_liste -> data;
-	else
-	{
-	    imputation = ajoute_nouvelle_imputation ( tableau_char[0] );
-
-	    if ( operation -> montant < 0 )
-		imputation -> type_imputation = 1;
-	    else
-		imputation -> type_imputation = 0;
-	}
-
-	operation -> imputation = imputation -> no_imputation;
-
-	if ( tableau_char[1] && strlen ( tableau_char[1] ) )
+	if ( imputation )
 	{
 	    struct struct_sous_imputation *sous_imputation;
 
-	    pointeur_liste = g_slist_find_custom ( imputation -> liste_sous_imputation,
-						   tableau_char[1],
-						   ( GCompareFunc ) recherche_sous_imputation_par_nom );
+	    operation -> imputation = imputation -> no_imputation;
 
-	    if ( pointeur_liste )
-		sous_imputation = pointeur_liste -> data;
+	    sous_imputation = sous_imputation_par_nom ( imputation,
+							tableau_char[1],
+							1 );
+
+	    if ( sous_imputation )
+		operation -> sous_imputation = sous_imputation -> no_sous_imputation;
 	    else
-		sous_imputation = ajoute_nouvelle_sous_imputation ( tableau_char[1],
-								    imputation );
-
-	    operation -> sous_imputation = sous_imputation -> no_sous_imputation;
+		operation -> sous_imputation = 0;
 	}
 	else
-	    operation -> sous_imputation = 0;
+	    operation -> imputation = 0;
 
 	g_strfreev ( tableau_char );
     }
@@ -2826,16 +2807,16 @@ void recuperation_categorie_formulaire ( struct structure_operation *operation,
 	    {
 		/* c'était un virement, et ce ne l'est plus, donc on efface l'opé en relation */
 
-		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
+		operation_2 = operation_par_no ( operation -> relation_no_operation,
+						 operation -> relation_no_compte );
 
-		operation_2 = g_slist_find_custom ( LISTE_OPERATIONS,
-						    GINT_TO_POINTER ( operation -> relation_no_operation ),
-						    ( GCompareFunc ) recherche_operation_par_no ) -> data;
+		if ( operation_2 )
+		{
+		    operation_2 -> relation_no_operation = 0;
+		    MISE_A_JOUR = 1;
 
-		operation_2 -> relation_no_operation = 0;
-		MISE_A_JOUR = 1;
-
-		supprime_operation ( operation_2 );
+		    supprime_operation ( operation_2 );
+		}
 
 		p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
@@ -2929,16 +2910,16 @@ void recuperation_categorie_formulaire ( struct structure_operation *operation,
 		    {
 			/* c'était un virement, et ce ne l'est plus, donc on efface l'opé en relation */
 
-			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
+			operation_2 = operation_par_no ( operation -> relation_no_operation,
+							 operation -> relation_no_compte );
 
-			operation_2 = g_slist_find_custom ( LISTE_OPERATIONS,
-							    GINT_TO_POINTER ( operation -> relation_no_operation ),
-							    ( GCompareFunc ) recherche_operation_par_no ) -> data;
+			if ( operation_2 )
+			{
+			    operation_2 -> relation_no_operation = 0;
+			    MISE_A_JOUR = 1;
 
-			operation_2 -> relation_no_operation = 0;
-			MISE_A_JOUR = 1;
-
-			supprime_operation ( operation_2 );
+			    supprime_operation ( operation_2 );
+			}
 
 			p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
@@ -3026,15 +3007,16 @@ void validation_virement_operation ( struct structure_operation *operation,
 	    {
 		/* il faut retirer l'ancienne contre opération */
 
-		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
+		contre_operation = operation_par_no ( operation -> relation_no_operation,
+						      operation -> relation_no_compte );
 
-		contre_operation = g_slist_find_custom ( LISTE_OPERATIONS,
-							 GINT_TO_POINTER ( operation -> relation_no_operation ),
-							 ( GCompareFunc ) recherche_operation_par_no ) -> data;
-		contre_operation -> relation_no_operation = 0;
+		if ( contre_operation )
+		{
+		    contre_operation -> relation_no_operation = 0;
 
-		supprime_operation ( contre_operation );
-		modification = 0;
+		    supprime_operation ( contre_operation );
+		    modification = 0;
+		}
 	    }
 	}
 	else
@@ -3052,9 +3034,8 @@ void validation_virement_operation ( struct structure_operation *operation,
     if ( modification
 	 &&
 	 operation -> relation_no_operation )
-	contre_operation = g_slist_find_custom ( LISTE_OPERATIONS,
-						 GINT_TO_POINTER ( operation -> relation_no_operation ),
-						 ( GCompareFunc ) recherche_operation_par_no ) -> data;
+	contre_operation = operation_par_no ( operation -> relation_no_operation,
+					      compte_virement );
     else
     {
 	contre_operation = calloc ( 1,
