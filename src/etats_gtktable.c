@@ -63,14 +63,7 @@ gint gtktable_initialise (GSList * opes_selectionnees)
 
   table_etat = gtk_table_new ( 0, nb_colonnes, FALSE );
   gtk_table_set_col_spacings ( GTK_TABLE ( table_etat ), 5 );
-  if ( GTK_BIN ( scrolled_window_etat ) -> child )
-    gtk_container_remove ( GTK_CONTAINER ( scrolled_window_etat ),
-			   GTK_BIN ( scrolled_window_etat ) -> child );
-
-  gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window_etat ),
-					  table_etat );
-  gtk_widget_show ( table_etat );
-  
+ 
   return 1;
 }
 /*****************************************************************************************************/
@@ -3623,7 +3616,14 @@ gint gtktable_affiche_titres_colonnes ( gint ligne )
 /*****************************************************************************************************/
 gint gtktable_finish ()
 {
-  /* Nothing to do in GTK */
+  if ( GTK_BIN ( scrolled_window_etat ) -> child )
+    gtk_container_remove ( GTK_CONTAINER ( scrolled_window_etat ),
+			   GTK_BIN ( scrolled_window_etat ) -> child );
+
+  gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window_etat ),
+					  table_etat );
+  gtk_widget_show ( table_etat );
+
   return 1;
 }
 /*****************************************************************************************************/
