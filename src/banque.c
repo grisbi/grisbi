@@ -187,6 +187,10 @@ void applique_modif_banque ( GtkWidget *liste )
 		       ligne_selection_banque,
 		       0,
 		       banque -> nom_banque );
+  gtk_clist_set_text ( GTK_CLIST ( liste ),
+		       ligne_selection_banque,
+		       1,
+		       banque -> nom_correspondant );
 
   gnome_property_box_changed ( GNOME_PROPERTY_BOX ( fenetre_preferences));
 }
@@ -727,96 +731,58 @@ void affiche_detail_banque ( GtkWidget *bouton,
 
 
 
-
-/* ************************************************************************************************************** */
-/* page banque */
-/* ************************************************************************************************************** */
-
+/**
+ * Creates the "Banks" tab.  It creates a bank list and then a form
+ * that allows to edit selected bank.
+ *
+ * \returns A newly allocated vbox
+ */
 GtkWidget *onglet_banques ( void )
 {
-  GtkWidget *hbox_pref, *vbox_pref;
-  GtkWidget *separateur;
-  GtkWidget *label;
-  GtkWidget *frame;
+  GtkWidget *vbox_pref, *separateur, *label, *frame;
+  GtkWidget *scrolled_window, *vbox, *vbox2, *hvbox;
+  GtkWidget *bouton, *hbox, *paddingbox;
   GSList *liste_tmp;
-  GtkWidget *scrolled_window;
-  GtkWidget *vbox, *vbox2, *hvbox;
-  GtkWidget *bouton;
-  GtkWidget *hbox;
+  gchar *bank_cols_titles [2] = {_("Bank"),
+				 _("Contact name") };
 
   vbox_pref = new_vbox_with_title_and_icon ( _("Banks"),
 					     "banks.png" );
 
-  gtk_widget_show ( vbox_pref );
 
-  hbox_pref = gtk_hbox_new ( FALSE,
-			     5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-		       hbox_pref,
-		       TRUE,
-		       TRUE,
-		       0);
-  gtk_widget_show ( hbox_pref );
-
-
-
-/* création de la 1ère colonne */
-
-  vbox = gtk_vbox_new ( FALSE,
-			    5 );
-  gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
-				   10 );
-  gtk_box_pack_start ( GTK_BOX ( hbox_pref ),
-		       vbox,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( vbox );
-
-
-/* création de la clist des banques */
-
-
+  /* Create bank list */
+  paddingbox = paddingbox_new_with_title ( vbox_pref, _("Known banks") );
   scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       scrolled_window,
-		       FALSE,
-		       FALSE,
-		       0);
   gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				   GTK_POLICY_NEVER,
 				   GTK_POLICY_AUTOMATIC);
-  gtk_widget_set_usize ( GTK_WIDGET ( scrolled_window ),
-			 FALSE,
-			 120 );
-  gtk_widget_show ( scrolled_window );
-
-
-  clist_banques_parametres = gtk_clist_new ( 1 );
+  clist_banques_parametres = gtk_clist_new_with_titles ( 2,
+							 bank_cols_titles);
+  gtk_widget_set_usize ( clist_banques_parametres,
+			 FALSE, 120 );
   gtk_clist_set_column_auto_resize ( GTK_CLIST ( clist_banques_parametres ) ,
-				      0,
-				      TRUE );
+				      0, TRUE );
+  gtk_clist_set_column_auto_resize ( GTK_CLIST ( clist_banques_parametres ) ,
+				      1, TRUE );
   gtk_signal_connect_object  ( GTK_OBJECT ( fenetre_preferences ),
 			       "apply",
 			       GTK_SIGNAL_FUNC ( gtk_clist_unselect_all ),
 			       GTK_OBJECT ( clist_banques_parametres ));
   gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
 		      clist_banques_parametres );
-  gtk_widget_show ( clist_banques_parametres );
 
+  hbox = gtk_hbox_new ( 5, FALSE );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
+		       FALSE, FALSE, 0);
+  gtk_box_pack_start ( GTK_BOX ( hbox ), scrolled_window,
+		       TRUE, TRUE, 0);
 
-
-  /*   si pas de fichier ouvert, on grise */
-
+  /* Do not activate unless an account is opened */
   if ( !nb_comptes )
-    gtk_widget_set_sensitive ( vbox,
-			       FALSE );
+    gtk_widget_set_sensitive ( vbox_pref, FALSE );
   else
     {
-
-      /* on crée la liste_struct_banques_tmp qui est un copie de liste_struct_devises originale */
-      /* avec laquelle on travaillera dans les parametres */
-
+      /* Work an a copy of original liste_struct_devises */
       liste_struct_banques_tmp = NULL;
       liste_tmp = liste_struct_banques;
 
@@ -857,12 +823,13 @@ GtkWidget *onglet_banques ( void )
       while ( liste_tmp )
 	{
 	  struct struct_banque *banque;
-	  gchar *ligne[1];
+	  gchar *ligne[2];
 	  gint ligne_insert;
 
 	  banque = liste_tmp -> data;
 
 	  ligne[0] = banque -> nom_banque;
+	  ligne[1] = banque -> nom_correspondant;
 
 	  ligne_insert = gtk_clist_append ( GTK_CLIST ( clist_banques_parametres ),
 					    ligne );
@@ -877,64 +844,25 @@ GtkWidget *onglet_banques ( void )
 	}
     }
 
-/* création de la hbox des boutons en dessous */
-
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( hbox );
-
-
-/* ajout du bouton ajouter */
-
+  /* Handle Add & Remove buttons */
+  vbox = gtk_vbox_new ( FALSE, 5 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), vbox,
+		       FALSE, FALSE, 0 );
+  /* Add button */
   bouton = gtk_button_new_from_stock (GTK_STOCK_ADD);
-  //bouton = gnome_stock_button ( GNOME_STOCK_PIXMAP_ADD );
-  gtk_signal_connect ( GTK_OBJECT ( bouton ),
-		       "clicked",
+  gtk_signal_connect ( GTK_OBJECT ( bouton ), "clicked",
 		       GTK_SIGNAL_FUNC  ( ajout_banque ),
 		       clist_banques_parametres );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       bouton,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( bouton );
-
-/* ajout du bouton annuler */
-
+  gtk_box_pack_start ( GTK_BOX ( vbox ), bouton,
+		       FALSE, FALSE, 5 );
+  /* Remove button */
   bouton_supprimer_banque = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
-  /*bouton_supprimer_banque = gnome_stock_button ( GNOME_STOCK_PIXMAP_REMOVE );*/
-  gtk_widget_set_sensitive ( bouton_supprimer_banque,
-			     FALSE );
-  gtk_signal_connect ( GTK_OBJECT ( bouton_supprimer_banque ),
-		       "clicked",
+  gtk_widget_set_sensitive ( bouton_supprimer_banque, FALSE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton_supprimer_banque ), "clicked",
 		       GTK_SIGNAL_FUNC  ( supprime_banque ),
 		       clist_banques_parametres );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       bouton_supprimer_banque,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( bouton_supprimer_banque );
-
-
-
-
-
-/* séparation */
-
-  separateur = gtk_hseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       separateur,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( separateur );
-
+  gtk_box_pack_start ( GTK_BOX ( vbox ), bouton_supprimer_banque,
+		       FALSE, FALSE, 5 );
 
 
 /* frame de droite qui contient les caractéristiques de la banque */
@@ -944,11 +872,8 @@ GtkWidget *onglet_banques ( void )
 				   10 );
   gtk_widget_set_sensitive ( frame,
 			     FALSE );
-  gtk_box_pack_start ( GTK_BOX ( hbox_pref ),
-		       frame,
-		       TRUE,
-		       TRUE,
-		       0);
+  gtk_box_pack_start ( GTK_BOX ( vbox_pref ), frame,
+		       TRUE, TRUE, 0);
   gtk_widget_show ( frame );
 
   /* la sélection d'une banque dégrise la frame */
