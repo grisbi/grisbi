@@ -141,7 +141,7 @@ dvi info tags TAGS ID:
 
 mostlyclean:
 	rm -f core core.* *.pox $(PACKAGE).po *.new.po
-	rm -fr *.o
+	rm -fr *.gmo
 
 clean: mostlyclean
 
