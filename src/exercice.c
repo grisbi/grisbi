@@ -486,8 +486,8 @@ void deselection_ligne_exercice ( GtkWidget *liste,
 			   gtk_object_get_data ( affichage_exercice, "set-boolean" ));
 
   gtk_entry_set_text ( GTK_ENTRY ( nom_exercice ), "" );
-/*   gtk_entry_set_text ( GTK_ENTRY ( debut_exercice ), "" ); */
-/*   gtk_entry_set_text ( GTK_ENTRY ( fin_exercice ), "" ); */
+  gtk_entry_set_text ( GTK_ENTRY ( get_entry_from_date_entry(debut_exercice)), "" );
+  gtk_entry_set_text ( GTK_ENTRY ( get_entry_from_date_entry(fin_exercice)), "" );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( affichage_exercice ), FALSE );
 
   /* FIXME: put this stuff in dedicated functions */ 
@@ -545,7 +545,7 @@ void applique_modif_exercice ( GtkWidget *liste )
 	  gint jour, mois, an;
 
 	  sscanf ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( debut_exercice ))),
-		   "%d/%d/%d",
+		   "%02d/%02d/%04d",
 		   &jour,
 		   &mois,
 		   &an );
@@ -567,7 +567,7 @@ void applique_modif_exercice ( GtkWidget *liste )
 	  gint jour, mois, an;
 
 	  sscanf ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( fin_exercice ))),
-		   "%d/%d/%d",
+		   "%02d/%02d/%04d",
 		   &jour,
 		   &mois,
 		   &an );
@@ -632,14 +632,14 @@ void annuler_modif_exercice ( GtkWidget *bouton,
 
 /*   if ( exercice -> date_debut ) */
 /*     gtk_entry_set_text ( GTK_ENTRY ( debut_exercice ), */
-/* 			 g_strdup_printf ( "%d/%d/%d", */
+/* 			 g_strdup_printf ( "%02d/%02d/%04d", */
 /* 					   g_date_day ( exercice -> date_debut ), */
 /* 					   g_date_month ( exercice -> date_debut ), */
 /* 					   g_date_year ( exercice -> date_debut ))); */
 
 /*   if ( exercice -> date_fin ) */
 /*     gtk_entry_set_text ( GTK_ENTRY ( fin_exercice ), */
-/* 			 g_strdup_printf ( "%d/%d/%d", */
+/* 			 g_strdup_printf ( "%02d/%02d/%04d", */
 /* 					   g_date_day ( exercice -> date_fin ), */
 /* 					   g_date_month ( exercice -> date_fin ), */
 /* 					   g_date_year ( exercice -> date_fin ))); */
@@ -847,7 +847,7 @@ void affiche_exercice_par_date ( GtkWidget *entree_date,
 
 
   sscanf ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date )),
-	   "%d/%d/%d",
+	   "%02d/%02d/%04d",
 	   &jour,
 	   &mois,
 	   &an );

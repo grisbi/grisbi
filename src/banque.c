@@ -737,6 +737,8 @@ GtkWidget *onglet_banques ( void )
   GtkWidget *scrolled_window, *vbox, *vbox2, *hvbox;
   GtkWidget *bouton, *hbox, *paddingbox, *table;
   GtkSizeGroup * size_group;
+  GtkTextBuffer *buffer;
+ 
   GSList *liste_tmp;
   gchar *bank_cols_titles [2] = {_("Bank"),
 				 _("Contact name") };
@@ -942,12 +944,20 @@ GtkWidget *onglet_banques ( void )
   adr_banque = gtk_entry_new ();
   scrolled_window = gtk_scrolled_window_new ( FALSE, FALSE );
   gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_NEVER,
 				   GTK_POLICY_AUTOMATIC );
-  gtk_widget_show ( scrolled_window );
   adr_banque = gtk_text_new ( FALSE, FALSE );
   gtk_widget_set_usize ( adr_banque, FALSE, 50 );
   gtk_editable_set_editable ( GTK_EDITABLE ( adr_banque ), TRUE );
+  /* Create the text view */
+  adr_banque = gtk_text_view_new ();
+  buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (adr_banque));
+/*   gtk_text_buffer_set_text (buffer, "Hello, this is some text", -1); */
+  gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window), 
+					GTK_SHADOW_IN );
+  gtk_text_view_set_indent (GTK_TEXT_VIEW(adr_banque), 3);
+  gtk_text_view_set_wrap_mode ( GTK_TEXT_VIEW(adr_banque), GTK_WRAP_WORD );
+
   gtk_container_add ( GTK_CONTAINER ( scrolled_window ), adr_banque );
   gtk_size_group_add_widget ( size_group, adr_banque );
   gtk_table_attach ( GTK_TABLE ( table ),
@@ -1009,6 +1019,7 @@ GtkWidget *onglet_banques ( void )
   gtk_box_pack_start ( GTK_BOX ( paddingbox ), table,
 		       TRUE, TRUE, 5 );
 
+  /* Name */
   label = gtk_label_new ( COLON(_("Name")) );
   gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
   gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
@@ -1068,17 +1079,24 @@ GtkWidget *onglet_banques ( void )
 		     GTK_EXPAND | GTK_FILL, 0,
 		     0, 0 );
 
+
   /* Notes */
   paddingbox = new_paddingbox_with_title ( vbox2, FALSE, _("Notes") );
   scrolled_window = gtk_scrolled_window_new ( FALSE,
 					      FALSE );
   gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_NEVER,
 				   GTK_POLICY_AUTOMATIC );
   gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window,
 		       TRUE, TRUE, 5 );
-  gtk_widget_show ( scrolled_window );
-  remarque_banque = gtk_text_new ( FALSE, FALSE );
+  remarque_banque = gtk_text_view_new ();
+  buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (remarque_banque));
+/*   gtk_text_buffer_set_text (buffer, "Remarques sur ma banque a moi", -1); */
+  gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window), 
+					GTK_SHADOW_IN );
+  gtk_text_view_set_indent ( GTK_TEXT_VIEW(remarque_banque), 3 );
+  gtk_text_view_set_wrap_mode ( GTK_TEXT_VIEW(remarque_banque), GTK_WRAP_WORD );
+/*   remarque_banque = gtk_text_new ( FALSE, FALSE ); */
   gtk_widget_set_usize ( remarque_banque, FALSE, 100 );
   gtk_editable_set_editable ( GTK_EDITABLE ( remarque_banque ), TRUE );
   gtk_container_add ( GTK_CONTAINER ( scrolled_window ), remarque_banque );
@@ -1086,7 +1104,6 @@ GtkWidget *onglet_banques ( void )
   return ( vbox_pref );
 
 }
-/* ************************************************************************************************************** */
 
 
 

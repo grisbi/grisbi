@@ -2529,11 +2529,14 @@ void date_set_value ( GtkWidget * hbox, GDate ** value, gboolean update )
       g_signal_handler_block ( get_entry_from_date_entry(hbox),
 			       gtk_object_get_data (nom_exercice, "delete-text"));
 
-      gtk_entry_set_text ( get_entry_from_date_entry(hbox),
-			   g_strdup_printf ( "%d/%d/%d",
-					     g_date_day (*value),
-					     g_date_month (*value),
-					     g_date_year (*value)));
+      if ( value && *value )
+	{
+	  gtk_entry_set_text ( get_entry_from_date_entry(hbox),
+			       g_strdup_printf ( "%02d/%02d/%04d",
+						 g_date_day (*value),
+						 g_date_month (*value),
+						 g_date_year (*value)));
+	}
 
       g_signal_handler_unblock ( get_entry_from_date_entry(hbox),
 			       gtk_object_get_data (nom_exercice, "insert-hook"));
@@ -2590,8 +2593,8 @@ gboolean popup_calendar ( GtkWidget * button, gpointer data )
   if ( !( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree ))))
 	  &&
 	  sscanf ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )),
-		   "%d/%d/%d", &cal_jour, &cal_mois, &cal_annee)))
-    sscanf ( date_jour(), "%d/%d/%d", &cal_jour, &cal_mois, &cal_annee);
+		   "%02d/%02d/%04d", &cal_jour, &cal_mois, &cal_annee)))
+    sscanf ( date_jour(), "%02d/%02d/%04d", &cal_jour, &cal_mois, &cal_annee);
       
   /* Creates calendar */
   calendrier = gtk_calendar_new();
