@@ -38,6 +38,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include "include.h"
+#include "dialog.h"
 #include "utils_files.h"
 #include "utils_file_selection.h"
 #include <gtk/gtk.h>
