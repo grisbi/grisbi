@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: en\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-18 12:41+0100\n"
+"POT-Creation-Date: 2003-12-23 09:16+0100\n"
 "PO-Revision-Date: 2003-12-18 12:41+0100\n"
 "Last-Translator: Alain PORTAL <aportal@univ-montp2.fr>\n"
 "Language-Team:  <traduction@grisbi.org>\n"
@@ -1081,21 +1081,21 @@ msgstr "Aucune catégorie (%d)"
 msgid "No category"
 msgstr "Aucune catégorie"
 
-#: src/categories_onglet.c:1118 src/imputation_budgetaire.c:1023
+#: src/categories_onglet.c:1123 src/imputation_budgetaire.c:1023
 #, c-format
 msgid "%02d/%02d/%04d : %4.2f %s (breakdown) [ %s ]"
 msgstr "%02d/%02d/%04d : %4.2f %s (ventilation) [ %s ]"
 
-#: src/categories_onglet.c:1137 src/imputation_budgetaire.c:1042
+#: src/categories_onglet.c:1142 src/imputation_budgetaire.c:1042
 #, c-format
 msgid "%02d/%02d/%04d : %4.2f %s (breakdown)"
 msgstr "%02d/%02d/%04d : %4.2f %s (ventilation)"
 
-#: src/categories_onglet.c:1654
+#: src/categories_onglet.c:1661
 msgid "Remove a category"
 msgstr "Suppression d'une catégorie"
 
-#: src/categories_onglet.c:1661
+#: src/categories_onglet.c:1668
 msgid ""
 "Selected category still contains transactions.\n"
 "\n"
@@ -1105,23 +1105,23 @@ msgstr ""
 "\n"
 "Vous pouvez"
 
-#: src/categories_onglet.c:1686 src/categories_onglet.c:2046
+#: src/categories_onglet.c:1693 src/categories_onglet.c:2058
 msgid "Transfer transactions to category"
 msgstr "Transférer les opérations sur la catégorie"
 
-#: src/categories_onglet.c:1774
+#: src/categories_onglet.c:1781
 msgid "Just remove this category."
 msgstr "Supprimer simplement cette catégorie."
 
-#: src/categories_onglet.c:1800 src/categories_onglet.c:2163
+#: src/categories_onglet.c:1807 src/categories_onglet.c:2175
 msgid "Please enter a category!"
 msgstr "Veuillez entrer une catégorie !"
 
-#: src/categories_onglet.c:2012
+#: src/categories_onglet.c:2024
 msgid "Remove category"
 msgstr "Suppression d'une sous-catégorie"
 
-#: src/categories_onglet.c:2021
+#: src/categories_onglet.c:2033
 msgid ""
 "Selected sub-category still contains transactions.\n"
 "\n"
@@ -1131,11 +1131,11 @@ msgstr ""
 "\n"
 "Vous pouvez"
 
-#: src/categories_onglet.c:2137
+#: src/categories_onglet.c:2149
 msgid "Just remove this sub-category."
 msgstr "Supprimer simplement cette sous-catégorie."
 
-#: src/categories_onglet.c:2504 src/etats_gtktable.c:2772
+#: src/categories_onglet.c:2516 src/etats_gtktable.c:2772
 #: src/operations_formulaire.c:996 src/operations_formulaire.c:2167
 #: src/operations_formulaire.c:2864 src/operations_formulaire.c:3245
 #: src/operations_liste.c:1129 src/operations_liste.c:1757
@@ -1143,7 +1143,7 @@ msgstr "Supprimer simplement cette sous-catégorie."
 msgid "Breakdown of transaction"
 msgstr "Opération ventilée"
 
-#: src/categories_onglet.c:2507 src/comptes_traitements.c:572
+#: src/categories_onglet.c:2519 src/comptes_traitements.c:572
 #: src/comptes_traitements.c:659 src/echeancier_formulaire.c:1629
 #: src/echeancier_formulaire.c:1644 src/echeancier_formulaire.c:1799
 #: src/echeancier_formulaire.c:2150 src/echeancier_formulaire.c:3051
@@ -1155,32 +1155,32 @@ msgstr "Opération ventilée"
 msgid "Transfer"
 msgstr "Virement"
 
-#: src/categories_onglet.c:2877
+#: src/categories_onglet.c:2889
 msgid "New category"
 msgstr "Nouvelle catégorie"
 
-#: src/categories_onglet.c:2878
+#: src/categories_onglet.c:2890
 msgid "Enter name for new category"
 msgstr "Entrer le nom de la nouvelle catégorie"
 
-#: src/categories_onglet.c:2932
+#: src/categories_onglet.c:2944
 msgid "New sub-category"
 msgstr "Nouvelle sous-catégorie"
 
-#: src/categories_onglet.c:2933
+#: src/categories_onglet.c:2945
 msgid "Enter name for new sub-category"
 msgstr "Entrer le nom de la nouvelle sous-catégorie"
 
-#: src/categories_onglet.c:3001
+#: src/categories_onglet.c:3015
 msgid "Export categories"
 msgstr "Exporter les catégories"
 
-#: src/categories_onglet.c:3014 src/etats_onglet.c:1363
+#: src/categories_onglet.c:3028 src/etats_onglet.c:1363
 #: src/imputation_budgetaire.c:2745
 msgid "Enter name for export"
 msgstr "Entrer un nom pour l'export"
 
-#: src/categories_onglet.c:3068 src/erreur.c:385 src/erreur.c:387
+#: src/categories_onglet.c:3082 src/erreur.c:385 src/erreur.c:387
 #: src/etats_onglet.c:1418 src/fichiers_gestion.c:498
 #: src/fichiers_gestion.c:562 src/fichiers_gestion.c:564
 #: src/fichiers_gestion.c:612 src/fichiers_gestion.c:614
@@ -1188,22 +1188,22 @@ msgstr "Entrer un nom pour l'export"
 msgid "Save file"
 msgstr "Enregistrer le fichier"
 
-#: src/categories_onglet.c:3072 src/etats_onglet.c:1422
+#: src/categories_onglet.c:3086 src/etats_onglet.c:1422
 #: src/fichiers_gestion.c:502 src/imputation_budgetaire.c:2803 src/qif.c:1540
 msgid "File exists. Do you want to overwrite it?"
 msgstr "Le fichier existe. Voulez-vous l'écraser ?"
 
-#: src/categories_onglet.c:3091 src/etats_onglet.c:1441
+#: src/categories_onglet.c:3105 src/etats_onglet.c:1441
 #: src/fichiers_gestion.c:524 src/imputation_budgetaire.c:2822 src/qif.c:1558
 #, c-format
 msgid "Invalid filename \"%s\"!"
 msgstr "Nom de fichier \"%s\" invalide !"
 
-#: src/categories_onglet.c:3128
+#: src/categories_onglet.c:3142
 msgid "Import a category list"
 msgstr "Importer une liste de catégories"
 
-#: src/categories_onglet.c:3141 src/etats_onglet.c:1485
+#: src/categories_onglet.c:3155 src/etats_onglet.c:1485
 #: src/imputation_budgetaire.c:2872
 msgid "Enter a filename"
 msgstr "Entrer le nom du fichier"
