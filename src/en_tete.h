@@ -216,13 +216,13 @@ void entree_prend_focus ( GtkWidget *entree );
 void entree_perd_focus ( GtkWidget *entree,
 			 GdkEventFocus *ev,
 			 gint *no_origine );
-void clique_champ_formulaire ( GtkWidget *entree,
+gboolean clique_champ_formulaire ( GtkWidget *entree,
 			       GdkEventButton *ev,
 			       gint *no_origine );
 gboolean touches_champ_formulaire ( GtkWidget *widget,
 				    GdkEventKey *ev,
 				    gint *no_origine );
-void ferme_calendrier ( GtkWidget *popup );
+//void ferme_calendrier ( GtkWidget *popup );
 void  touche_calendrier ( GtkWidget *popup,
 			  GdkEventKey *ev,
 			  gpointer null );

@@ -1,11 +1,5 @@
 /* Fichier de définition de constantes constant.h */
 
-/* Constantes utilisées par la fonction incremente_decremente_date */
-# define ONE_DAY 1
-# define ONE_WEEK 7
-# define ONE_MONTH 30
-# define ONE_YEAR 365
-
 /* Constantes qui définisent le numéro de widget dans le formulaire
    de saisie des opérations */
 # define TRANSACTION_FORM_OP_NB 0
@@ -27,3 +21,28 @@
 # define TRANSACTION_FORM_NOTES 16
 # define TRANSACTION_FORM_BANK 17
 # define TRANSACTION_FORM_MODE 18
+# define TRANSACTION_FORM_WIDGET_NB 19		/* doit être le dernier de la liste */
+
+# define SCHEDULER_FORM_DATE 0
+# define SCHEDULER_FORM_PARTY 1
+# define SCHEDULER_FORM_DEBIT 2
+# define SCHEDULER_FORM_CREDIT 3
+# define SCHEDULER_FORM_DEVISE 4
+# define SCHEDULER_FORM_ACCOUNT 5
+# define SCHEDULER_FORM_CATEGORY 6
+# define SCHEDULER_FORM_TYPE 7
+# define SCHEDULER_FORM_CHEQUE 8
+# define SCHEDULER_FORM_EXERCICE 9
+# define SCHEDULER_FORM_BUDGETARY 10
+# define SCHEDULER_FORM_BANK 11
+# define SCHEDULER_FORM_VOUCHER 12
+# define SCHEDULER_FORM_MODE 13
+# define SCHEDULER_FORM_NOTES 14
+# define SCHEDULER_FORM_FREQUENCY 15
+# define SCHEDULER_FORM_FINAL_DATE 16
+# define SCHEDULER_FORM_FREQ_CUSTOM_NB 17
+# define SCHEDULER_FORM_FREQ_CUSTOM_MENU 18
+# define SCHEDULER_FORM_TOTAL_WIDGET 19	 /* must be the last of the list */
+
+# define ENCLAIR 0
+# define ENGRIS 1

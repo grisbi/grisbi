@@ -1,29 +1,35 @@
-/*  Fichier qui s'occupe de la configuration des états */
-/*      etats.c */
-
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
-/* 			http://www.grisbi.org */
-
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/* ************************************************************************** */
+/* Ce fichier s'occupe de la configuration des états                          */
+/* 			etats_config.c                                        */
+/*                                                                            */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004 Alain Portal (dionysos@grisbi.org) 	      */
+/*			http://www.grisbi.org   			      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
 #include "en_tete.h"
 #include "calendar.h"
+
+gboolean pression_touche_date_etat ( GtkWidget *widget,
+				     GdkEventKey *ev );
 
 gchar *liste_plages_dates[] = {
   N_("All"),
@@ -51,14 +57,10 @@ gchar *jours_semaine[] = {
   N_("Sunday"),
   NULL };
 
-
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 /* Fontion personnalistation_etat */
 /* affiche la fenetre de personnalisation */
-/*****************************************************************************************************/
-
+/******************************************************************************/
 void personnalisation_etat (void)
 {
   GtkWidget *separateur;
@@ -707,24 +709,19 @@ void personnalisation_etat (void)
 			     FALSE );
 
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void annule_modif_config ( void )
 {
-
   gtk_widget_set_sensitive ( frame_liste_etats,
 			     TRUE );
   gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_etats ),
 			  0 );
-
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void selectionne_liste_exo_etat_courant ( void )
 {
   GSList *pointeur_sliste;
@@ -747,12 +744,9 @@ void selectionne_liste_exo_etat_courant ( void )
       pointeur_sliste = pointeur_sliste -> next;
     }
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void selectionne_liste_comptes_etat_courant ( void )
 {
   GSList *pointeur_sliste;
@@ -775,13 +769,9 @@ void selectionne_liste_comptes_etat_courant ( void )
       pointeur_sliste = pointeur_sliste -> next;
     }
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void selectionne_liste_virements_etat_courant ( void )
 {
   GSList *pointeur_sliste;
@@ -802,12 +792,9 @@ void selectionne_liste_virements_etat_courant ( void )
       pointeur_sliste = pointeur_sliste -> next;
     }
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void selectionne_liste_categ_etat_courant ( void )
 {
   GSList *pointeur_sliste;
@@ -830,9 +817,9 @@ void selectionne_liste_categ_etat_courant ( void )
       pointeur_sliste = pointeur_sliste -> next;
     }
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-/*****************************************************************************************************/
+/******************************************************************************/
 void selectionne_devise_categ_etat_courant ( void )
 {
 
@@ -845,12 +832,9 @@ void selectionne_devise_categ_etat_courant ( void )
 									 GINT_TO_POINTER ( etat_courant -> devise_de_calcul_categ ),
 									 ( GCompareFunc ) recherche_devise_par_no )));
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void selectionne_liste_ib_etat_courant ( void )
 {
   GSList *pointeur_sliste;
@@ -871,11 +855,9 @@ void selectionne_liste_ib_etat_courant ( void )
       pointeur_sliste = pointeur_sliste -> next;
     }
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void selectionne_devise_ib_etat_courant ( void )
 {
 
@@ -888,12 +870,9 @@ void selectionne_devise_ib_etat_courant ( void )
 									 GINT_TO_POINTER ( etat_courant -> devise_de_calcul_ib ),
 									 ( GCompareFunc ) recherche_devise_par_no )));
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void selectionne_liste_tiers_etat_courant ( void )
 {
   GSList *pointeur_sliste;
@@ -917,16 +896,11 @@ void selectionne_liste_tiers_etat_courant ( void )
       pointeur_sliste = pointeur_sliste -> next;
     }
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void selectionne_devise_tiers_etat_courant ( void )
 {
-
   if ( !etat_courant )
     return;
 
@@ -936,12 +910,9 @@ void selectionne_devise_tiers_etat_courant ( void )
 									 GINT_TO_POINTER ( etat_courant -> devise_de_calcul_tiers ),
 									 ( GCompareFunc ) recherche_devise_par_no )));
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void recuperation_info_perso_etat ( void )
 {
   GList *pointeur_liste;
@@ -955,7 +926,7 @@ void recuperation_info_perso_etat ( void )
 
   if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_date_init_etat ))))
        &&
-       !modifie_date ( entree_date_init_etat ))
+       !format_date ( entree_date_init_etat ))
     {
       dialogue ( _("Invalid custom initial date") );
       return;
@@ -963,7 +934,7 @@ void recuperation_info_perso_etat ( void )
 
   if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_date_finale_etat ))))
        &&
-       !modifie_date ( entree_date_finale_etat ))
+       !format_date ( entree_date_finale_etat ))
     {
       dialogue ( _("Invalid custom final date") );
       return;
@@ -1117,7 +1088,7 @@ void recuperation_info_perso_etat ( void )
 
   if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_date_init_etat ))))
        &&
-       modifie_date ( entree_date_init_etat ))
+       format_date ( entree_date_init_etat ))
     {
       gint jour, mois, annee;
 
@@ -1134,7 +1105,7 @@ void recuperation_info_perso_etat ( void )
 
   if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_date_finale_etat ))))
        &&
-       modifie_date ( entree_date_finale_etat ))
+       format_date ( entree_date_finale_etat ))
     {
       gint jour, mois, annee;
 
@@ -1544,10 +1515,9 @@ void recuperation_info_perso_etat ( void )
 			     TRUE );
 
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void sens_desensitive_pointeur ( GtkWidget *bouton,
 				 GtkWidget *widget )
 {
@@ -1555,16 +1525,12 @@ void sens_desensitive_pointeur ( GtkWidget *bouton,
 			     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton )));
 
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 /* vérifie pour la page donnée en argument si le label du notebook doit */
 /* être mis d'une couleur différente ou non */
-/*****************************************************************************************************/
-
+/******************************************************************************/
 void stylise_tab_label_etat ( gint *no_page )
 {
   GtkStyle *style;
@@ -1659,10 +1625,9 @@ void stylise_tab_label_etat ( gint *no_page )
 			 style );
 
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-/*****************************************************************************************************/
+/******************************************************************************/
 GtkWidget *onglet_etat_dates ( void )
 {
   GtkWidget *widget_retour;
@@ -1691,7 +1656,6 @@ GtkWidget *onglet_etat_dates ( void )
   gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
 					  hbox_onglet );
   gtk_widget_show ( hbox_onglet );
-
 
 
   /* mise en place de la plage de dates */
@@ -1940,7 +1904,7 @@ GtkWidget *onglet_etat_dates ( void )
 		       0 );
   gtk_widget_show ( label );
 
-  entree_date_init_etat = gtk_entry_new_with_max_length ( 11 );
+  entree_date_init_etat = gtk_entry_new_with_max_length ( 10 );
   gtk_widget_set_usize ( entree_date_init_etat,
 			 100,
 			 FALSE );
@@ -1948,9 +1912,13 @@ GtkWidget *onglet_etat_dates ( void )
 		       "button_press_event",
 		       GTK_SIGNAL_FUNC ( clique_sur_entree_date_etat ),
 		       NULL );
+  gtk_signal_connect ( GTK_OBJECT ( entree_date_init_etat ),
+		       "key_press_event",
+		       GTK_SIGNAL_FUNC ( pression_touche_date_etat ),
+		       NULL );
   gtk_signal_connect_object ( GTK_OBJECT ( entree_date_init_etat ),
 			      "focus_out_event",
-			      GTK_SIGNAL_FUNC ( modifie_date ),
+			      GTK_SIGNAL_FUNC ( format_date ),
 			      GTK_OBJECT ( entree_date_init_etat ));
   gtk_box_pack_end ( GTK_BOX ( hbox ),
 		     entree_date_init_etat,
@@ -1978,7 +1946,7 @@ GtkWidget *onglet_etat_dates ( void )
 		       0 );
   gtk_widget_show ( label );
 
-  entree_date_finale_etat = gtk_entry_new_with_max_length ( 11 );
+  entree_date_finale_etat = gtk_entry_new_with_max_length ( 10 );
   gtk_widget_set_usize ( entree_date_finale_etat,
 			 100,
 			 FALSE );
@@ -1986,9 +1954,13 @@ GtkWidget *onglet_etat_dates ( void )
 		       "button_press_event",
 		       GTK_SIGNAL_FUNC ( clique_sur_entree_date_etat ),
 		       NULL );
+  gtk_signal_connect ( GTK_OBJECT ( entree_date_finale_etat ),
+		       "key_press_event",
+		       GTK_SIGNAL_FUNC ( pression_touche_date_etat ),
+		       NULL );
   gtk_signal_connect_object ( GTK_OBJECT ( entree_date_finale_etat ),
 			      "focus_out_event",
-			      GTK_SIGNAL_FUNC ( modifie_date ),
+			      GTK_SIGNAL_FUNC ( format_date ),
 			      GTK_OBJECT ( entree_date_finale_etat ));
   gtk_box_pack_end ( GTK_BOX ( hbox ),
 		     entree_date_finale_etat,
@@ -1997,17 +1969,13 @@ GtkWidget *onglet_etat_dates ( void )
 		     0 );
   gtk_widget_show ( entree_date_finale_etat );
 
-
   return ( widget_retour );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 /* vérifie où l'on clique et empèche la désélection de ligne */
-/*****************************************************************************************************/
-
+/******************************************************************************/
 void click_liste_etat ( GtkCList *liste,
 			GdkEventButton *evenement,
 			gint origine )
@@ -2062,175 +2030,136 @@ void click_liste_etat ( GtkCList *liste,
 	}
     }
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void clique_sur_entree_date_etat ( GtkWidget *entree,
 				   GdkEventButton *ev )
 {
+  GtkWidget *popup_cal;
 
-  if ( ev->type == GDK_2BUTTON_PRESS )
+  if ( ev -> type == GDK_2BUTTON_PRESS )
     {
-      GtkWidget *popup;
-      GtkWidget *popup_boxv;
-      GtkRequisition *taille_entree;
-      gint x, y;
-      GtkWidget *calendrier;
-      int cal_jour, cal_mois, cal_annee;
-      GtkWidget *bouton;
-      GtkWidget *frame;
-
-      /* cherche la position où l'on va mettre la popup */
-
-      taille_entree = malloc ( sizeof ( GtkRequisition ));
-
-      gdk_window_get_origin ( GTK_WIDGET ( entree ) -> window,
-			      &x,
-			      &y );
-      gtk_widget_size_request ( GTK_WIDGET ( entree ),
-				taille_entree );
-  
-      y = y + taille_entree->height;
-
-
-      /* création de la popup */
-
-      popup = gtk_window_new ( GTK_WINDOW_POPUP );
-      gtk_window_set_modal ( GTK_WINDOW (popup),
-			     TRUE);
-      gtk_widget_set_uposition ( GTK_WIDGET ( popup ),
-				 x,
-				 y );
-
-      /* on associe l'entrée qui sera remplie à la popup */
-
-      gtk_object_set_data ( GTK_OBJECT ( popup ),
-			    "entree",
-			    entree );
-
-      /* création de l'intérieur de la popup */
-
-      frame = gtk_frame_new ( NULL );
-      gtk_container_add ( GTK_CONTAINER (popup),
-			  frame);
-      gtk_widget_show ( frame );
-
-      popup_boxv = gtk_vbox_new ( FALSE,
-				  5 );
-      gtk_container_set_border_width ( GTK_CONTAINER ( popup_boxv ),
-				       5 );
-
-      gtk_container_add ( GTK_CONTAINER ( frame ),
-			  popup_boxv);
-      gtk_widget_show ( popup_boxv );
-
-      if ( !( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree ))))
-	      &&
-	      sscanf ( gtk_entry_get_text ( GTK_ENTRY ( entree )),
-		       "%d/%d/%d",
-		       &cal_jour,
-		       &cal_mois,
-		       &cal_annee)))
-	sscanf ( gsb_today(),
-		 "%d/%d/%d",
-		 &cal_jour,
-		 &cal_mois,
-		 &cal_annee);
-      
-      calendrier = gtk_calendar_new();
-      gtk_calendar_select_month ( GTK_CALENDAR ( calendrier ),
-				  cal_mois-1,
-				  cal_annee);
-      gtk_calendar_select_day  ( GTK_CALENDAR ( calendrier ),
-				 cal_jour);
-
-      gtk_calendar_display_options ( GTK_CALENDAR ( calendrier ),
-				     GTK_CALENDAR_SHOW_HEADING |
-				     GTK_CALENDAR_SHOW_DAY_NAMES |
-				     GTK_CALENDAR_WEEK_START_MONDAY );
-
-      gtk_signal_connect ( GTK_OBJECT ( calendrier),
-			   "day_selected_double_click",
-			   GTK_SIGNAL_FUNC ( date_selectionnee_etat ),
-			   popup );
-      gtk_signal_connect ( GTK_OBJECT ( popup ),
-			   "key_press_event",
-			   GTK_SIGNAL_FUNC ( touche_calendrier ),
-			   NULL );
-      gtk_signal_connect_object ( GTK_OBJECT ( popup ),
-				  "destroy",
-				  GTK_SIGNAL_FUNC ( gdk_pointer_ungrab ),
-				  GDK_CURRENT_TIME );
-      gtk_box_pack_start ( GTK_BOX ( popup_boxv ),
-			   calendrier,
-			   TRUE,
-			   TRUE,
-			   0 );
-      gtk_widget_show ( calendrier );
-
-
-      /* ajoute le bouton annuler */
-
-      bouton = gtk_button_new_with_label ( _("Cancel") );
-      gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
-				  "clicked",
-				  GTK_SIGNAL_FUNC ( gtk_widget_destroy ),
-				  GTK_OBJECT ( popup ));
-      gtk_box_pack_start ( GTK_BOX ( popup_boxv ),
-			   bouton,
-			   TRUE,
-			   TRUE,
-			   0 );
-      gtk_widget_show ( bouton );
-
-      gtk_widget_show (popup);
-      
-      gdk_pointer_grab ( popup -> window, 
-			 TRUE,
-			 GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK |
-			 GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK |
-			 GDK_POINTER_MOTION_MASK,
-			 NULL, 
-			 NULL, 
-			 GDK_CURRENT_TIME );
-
-      gtk_widget_grab_focus ( GTK_WIDGET ( popup ));
+     gtk_signal_emit_stop_by_name ( GTK_OBJECT ( entree ),
+				    "button-press-event");
+     popup_cal = gsb_calendar_new ( entree );
+     gtk_signal_connect_object ( GTK_OBJECT ( popup_cal ),
+				 "destroy",
+				 GTK_SIGNAL_FUNC ( ferme_calendrier ),
+				 GTK_OBJECT ( entree ) );
+     gtk_widget_grab_focus ( GTK_WIDGET ( popup_cal ) );
     }
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-/***********************************************************************************************************/
-/* Fonction date_selectionnee */
-/* appelée lorsqu'on a clické 2 fois sur une date du calendrier */
-/***********************************************************************************************************/
-
-void date_selectionnee_etat ( GtkCalendar *calendrier,
-			      GtkWidget *popup )
+/******************************************************************************/
+gboolean pression_touche_date_etat ( GtkWidget *widget,
+				     GdkEventKey *ev )
 {
-  guint annee, mois, jour;
+  GtkWidget *popup_cal;
 
-  gtk_calendar_get_date ( calendrier,
-			  &annee,
-			  &mois,
-			  &jour);
+  switch ( ev -> keyval )
+    {
+     case GDK_Return :		/* touches entrée */
+     case GDK_KP_Enter :
 
-  gtk_entry_set_text ( GTK_ENTRY ( gtk_object_get_data ( GTK_OBJECT ( popup ),
-							 "entree" )),
-		       g_strdup_printf ( "%02d/%02d/%d",
-					 jour,
-					 mois + 1,
-					 annee));
-  gtk_widget_destroy ( popup );
+       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
+				      "key_press_event");
+
+       /* si la touche CTRL est elle aussi active, alors c'est que l'on est
+	  probablement sur un champ de date et que l'on souhaite ouvrir
+	  un calendrier */
+       if ( ( ev -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK )
+	 {
+	  popup_cal = gsb_calendar_new ( widget );
+	  gtk_signal_connect_object ( GTK_OBJECT ( popup_cal ),
+				      "destroy",
+				      GTK_SIGNAL_FUNC ( ferme_calendrier ),
+				      GTK_OBJECT ( widget ) );
+	  gtk_widget_grab_focus ( GTK_WIDGET ( popup_cal ) );
+	 }
+       /* si la touche CTRL n'est pas active, alors on valide simplement
+	  la saisie de l'échéance */
+       else
+	 {
+	  dialogue("prévoir autre chose");
+	 }
+       return TRUE;
+       break;
+
+
+     case GDK_plus :		/* touches + */
+     case GDK_KP_Add :
+
+       /* si on est dans une entree de date, on augmente d'un jour
+          (d'une semaine) la date */
+
+       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
+				      "key-press-event");
+       if ( ( ev -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
+	 inc_dec_date ( widget, ONE_DAY );
+       else
+	 inc_dec_date ( widget, ONE_WEEK );
+       return TRUE;
+       break;
+
+     case GDK_minus :		/* touches - */
+     case GDK_KP_Subtract :
+
+       /* si on est dans une entree de date, on diminue d'un jour
+	  (d'une semaine) la date */
+
+       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
+				      "key-press-event");
+       if ( ( ev -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
+	 inc_dec_date ( widget, - ONE_DAY );
+       else
+	 inc_dec_date ( widget, - ONE_WEEK );
+       return TRUE;
+       break;
+
+     case GDK_Page_Up :		/* touche PgUp */
+     case GDK_KP_Page_Up :
+
+       /* si on est dans une entree de date,
+          on augmente d'un mois (d'un an) la date */
+
+       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
+				      "key-press-event");
+       if ( ( ev -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
+	 inc_dec_date ( widget, ONE_MONTH );
+       else
+	 inc_dec_date ( widget, ONE_YEAR );
+       return TRUE;
+       break;
+
+     case GDK_Page_Down :		/* touche PgDown */
+     case GDK_KP_Page_Down :
+
+       /* si on est dans une entree de date,
+          on augmente d'un mois (d'un an) la date */
+
+       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
+				      "key-press-event");
+       if ( ( ev -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
+	 inc_dec_date ( widget, - ONE_MONTH );
+       else
+	 inc_dec_date ( widget, - ONE_YEAR );
+      return TRUE;
+      break;
+
+    default :
+      /* Reverting to default handler */
+      return FALSE;
+      break;
+    }
+
+//  return TRUE; c'est le cas des opérations
+  return FALSE;
 }
-/***********************************************************************************************************/
+/******************************************************************************/
 
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void change_separation_result_periode ( void )
 {
   if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_separe_plages_etat )))
@@ -2252,14 +2181,11 @@ void change_separation_result_periode ( void )
 /* 				 FALSE ); */
     }
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void modif_type_separation_dates ( gint *origine )
 {
-
   switch ( GPOINTER_TO_INT ( origine ))
     {
     case 0:
@@ -2290,10 +2216,9 @@ void modif_type_separation_dates ( gint *origine )
 /* 				 TRUE ); */
     }
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void remplissage_liste_exo_etats ( void )
 {
   GSList *pointeur_liste;
@@ -2325,11 +2250,9 @@ void remplissage_liste_exo_etats ( void )
       pointeur_liste = pointeur_liste -> next;
     }
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 GtkWidget *onglet_etat_comptes ( void )
 {
   GtkWidget *widget_retour;
@@ -2355,7 +2278,6 @@ GtkWidget *onglet_etat_comptes ( void )
   gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
 					  vbox_onglet );
   gtk_widget_show ( vbox_onglet );
-
 
 
   /* on met dans la partie de gauche une liste contenant les comptes à */
@@ -2437,7 +2359,6 @@ GtkWidget *onglet_etat_comptes ( void )
 
   remplissage_liste_comptes_etats ();
 
-      
 
   /*   sur la partie de droite, on met les boutons (dé)sélectionner tout */
 
@@ -2537,11 +2458,9 @@ GtkWidget *onglet_etat_comptes ( void )
 
   return ( widget_retour );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void remplissage_liste_comptes_etats ( void )
 {
   gint i;
@@ -2569,11 +2488,9 @@ void remplissage_liste_comptes_etats ( void )
       p_tab_nom_de_compte_variable++;
     }
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void selectionne_partie_liste_compte_etat ( gint *type_compte )
 {
   gint i;
@@ -2595,11 +2512,9 @@ void selectionne_partie_liste_compte_etat ( gint *type_compte )
 			       0 );
     }
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 GtkWidget *onglet_etat_virements ( void )
 {
   GtkWidget *widget_retour;
@@ -2841,11 +2756,9 @@ GtkWidget *onglet_etat_virements ( void )
 
   return ( widget_retour );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void remplissage_liste_comptes_virements ( void )
 {
   gint i;
@@ -2873,12 +2786,9 @@ void remplissage_liste_comptes_virements ( void )
       p_tab_nom_de_compte_variable++;
     }
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void selectionne_partie_liste_compte_vir_etat ( gint *type_compte )
 {
   gint i;
@@ -2900,13 +2810,9 @@ void selectionne_partie_liste_compte_vir_etat ( gint *type_compte )
 			       0 );
     }
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 GtkWidget *onglet_etat_categories ( void )
 {
   GtkWidget *widget_retour;
@@ -3112,12 +3018,9 @@ GtkWidget *onglet_etat_categories ( void )
 
   return ( widget_retour );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void click_type_categ_etat ( gint type )
 {
   /* type est 0 pour les revenus et 1 pour les dépenses */
@@ -3143,10 +3046,9 @@ void click_type_categ_etat ( gint type )
 			       0 );
     }
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void remplissage_liste_categ_etats ( void )
 {
   GSList *pointeur_liste;
@@ -3179,14 +3081,10 @@ void remplissage_liste_categ_etats ( void )
     }
 
   gtk_clist_sort ( GTK_CLIST ( liste_categ_etat ));
-
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 GtkWidget *onglet_etat_ib ( void )
 {
   GtkWidget *widget_retour;
@@ -3387,15 +3285,11 @@ GtkWidget *onglet_etat_ib ( void )
 		       0 );
   gtk_widget_show ( bouton_exclure_ope_sans_ib );
 
-
-
   return ( widget_retour );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void click_type_ib_etat ( gint type )
 {
   /* type est 0 pour les revenus et 1 pour les dépenses */
@@ -3421,10 +3315,9 @@ void click_type_ib_etat ( gint type )
 			       0 );
     }
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void remplissage_liste_ib_etats ( void )
 {
   GSList *pointeur_liste;
@@ -3458,11 +3351,9 @@ void remplissage_liste_ib_etats ( void )
 
   gtk_clist_sort ( GTK_CLIST ( liste_ib_etat ));
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 GtkWidget *onglet_etat_tiers ( void )
 {
   GtkWidget *widget_retour;
@@ -3616,12 +3507,9 @@ GtkWidget *onglet_etat_tiers ( void )
 
   return ( widget_retour );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void remplissage_liste_tiers_etats ( void )
 {
   GSList *pointeur_liste;
@@ -3657,11 +3545,9 @@ void remplissage_liste_tiers_etats ( void )
 
 
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 GtkWidget *onglet_etat_texte ( void )
 {
   GtkWidget *widget_retour;
@@ -3724,8 +3610,6 @@ GtkWidget *onglet_etat_texte ( void )
 		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
 		       vbox_generale_textes_etat );
 
-
-
   /* on va ensuite créer la liste qui contiendra les critères */
   /* le remplissage ou la ligne vide se mettent plus tard */
 
@@ -3747,16 +3631,11 @@ GtkWidget *onglet_etat_texte ( void )
 					  liste_textes_etat );
   gtk_widget_show ( liste_textes_etat );
 
-
-
   return ( widget_retour );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void remplit_liste_comparaisons_textes_etat ( void )
 {
   GSList *liste_tmp;
@@ -3884,14 +3763,12 @@ void remplit_liste_comparaisons_textes_etat ( void )
       liste_tmp = liste_tmp -> next;
     }
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-/*****************************************************************************************************/
+/******************************************************************************/
 /* cette fonction ajoute une ligne vierge */
 /* si ancien_comp_textes n'est pas nul, la ligne est insérée juste après celle de l'argument */
-/*****************************************************************************************************/
-
+/******************************************************************************/
 void ajoute_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_textes_etat *ancien_comp_textes )
 {
   struct struct_comparaison_textes_etat *comp_textes;
@@ -3962,16 +3839,12 @@ void ajoute_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_tex
 			  comp_textes -> vbox_ligne,
 			  position );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 /* crée la hbox de la ligne et la renvoie */
 /* remplie en même temps les widget de la struct envoyée en argument, sauf hbox_ligne */
-/*****************************************************************************************************/
-
+/******************************************************************************/
 GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat *comp_textes )
 {
   GtkWidget *vbox;
@@ -4265,11 +4138,9 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
 
   return ( vbox );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void retire_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_textes_etat *ancien_comp_textes )
 {
   /* il faut qu'il y ai plus d'une ligne affichée */
@@ -4298,15 +4169,13 @@ void retire_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_tex
   etat_courant -> liste_struct_comparaison_textes = g_slist_remove ( etat_courant -> liste_struct_comparaison_textes,
 								       ancien_comp_textes );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-/*****************************************************************************************************/
+/******************************************************************************/
 /* cette fonction crée un option_menu avec les noms de champs de txt, et rend (non-)sensitif */
 /* la hbox correspondante ( txt ou chq ) */
 /* il faut donc que hbox_txt,  hbox_chq et les 2 check button soient déjà créées */
-/*****************************************************************************************************/
-
+/******************************************************************************/
 GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_textes )
 {
   GtkWidget *bouton;
@@ -4318,8 +4187,6 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
   /*     sauf pour les items à no (chq et pc) où on rend sensitif les check button et la */
   /*     ligne correspondans au check button, et désensitive celle où le check button n'est pas */
   /* mis */
-
-
 
   bouton = gtk_option_menu_new ();
   gtk_widget_show ( bouton );
@@ -4585,14 +4452,12 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 
   return ( bouton );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-/*****************************************************************************************************/
+/******************************************************************************/
 /* cette fonction est appellée lorsqu'on sélectionne un champ de texte à no */
 /* elle rend sensitif la hbox correspondant au check button */
-/*****************************************************************************************************/
-
+/******************************************************************************/
 void sensitive_hbox_fonction_bouton_txt ( struct struct_comparaison_textes_etat *comp_textes )
 {
   sens_desensitive_pointeur ( comp_textes -> bouton_utilise_txt,
@@ -4600,15 +4465,11 @@ void sensitive_hbox_fonction_bouton_txt ( struct struct_comparaison_textes_etat 
   sens_desensitive_pointeur ( comp_textes -> bouton_utilise_no,
 			      comp_textes -> hbox_chq );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 /* cette fonction crée un option_menu avec contient, ne contient pas ... */
-/*****************************************************************************************************/
-
+/******************************************************************************/
 GtkWidget *cree_bouton_operateur_txt ( struct struct_comparaison_textes_etat *comp_textes )
 {
   GtkWidget *bouton;
@@ -4699,12 +4560,9 @@ GtkWidget *cree_bouton_operateur_txt ( struct struct_comparaison_textes_etat *co
 
   return ( bouton );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 GtkWidget *onglet_etat_montant ( void )
 {
   GtkWidget *widget_retour;
@@ -4727,8 +4585,6 @@ GtkWidget *onglet_etat_montant ( void )
   gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
 					  vbox_onglet );
   gtk_widget_show ( vbox_onglet );
-
-
 
   /* on commence par créer le choix d'utiliser le montant */
 
@@ -4808,10 +4664,9 @@ GtkWidget *onglet_etat_montant ( void )
 
   return ( widget_retour );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void remplit_liste_comparaisons_montants_etat ( void )
 {
   GSList *liste_tmp;
@@ -4906,14 +4761,12 @@ void remplit_liste_comparaisons_montants_etat ( void )
       liste_tmp = liste_tmp -> next;
     }
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-/*****************************************************************************************************/
+/******************************************************************************/
 /* cette fonction ajoute une ligne vierge */
 /* si ancien_comp_montants n'est pas nul, la ligne est insérée juste après celle de l'argument */
-/*****************************************************************************************************/
-
+/******************************************************************************/
 void ajoute_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_montants_etat *ancien_comp_montants )
 {
   struct struct_comparaison_montants_etat *comp_montants;
@@ -4973,16 +4826,12 @@ void ajoute_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_m
 			  comp_montants -> hbox_ligne,
 			  position );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 /* crée la hbox de la ligne et la renvoie */
 /* remplie en même temps les widget de la struct envoyée en argument, sauf hbox_ligne */
-/*****************************************************************************************************/
-
+/******************************************************************************/
 GtkWidget *cree_ligne_comparaison_montant ( struct struct_comparaison_montants_etat *comp_montants )
 {
   GtkWidget *hbox;
@@ -5120,14 +4969,11 @@ GtkWidget *cree_ligne_comparaison_montant ( struct struct_comparaison_montants_e
 
   return ( hbox );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 /* cette fonction crée un option_menu avec et/ou/sauf */
-/*****************************************************************************************************/
-
+/******************************************************************************/
 GtkWidget *cree_bouton_lien_lignes_comparaison ( void )
 {
   GtkWidget *bouton;
@@ -5169,14 +5015,11 @@ GtkWidget *cree_bouton_lien_lignes_comparaison ( void )
 
   return ( bouton );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 /* cette fonction crée un option_menu avec =,<,<=,>,>=, nul, non nul, positif, nég */
-/*****************************************************************************************************/
-
+/******************************************************************************/
 GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_etat *comp_montants )
 {
   GtkWidget *bouton;
@@ -5314,14 +5157,12 @@ GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_
 
   return ( bouton );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-/*****************************************************************************************************/
+/******************************************************************************/
 /* cette fonction rend sensitive ou non l'entrée après le label après l'option menu du menu_item en argument */
 /* donc si on choisit nul, non nul, pos ou nég, on grise l'entrée */
-/*****************************************************************************************************/
-
+/******************************************************************************/
 void change_comparaison_montant ( GtkWidget *menu_item,
 				  struct struct_comparaison_montants_etat *comp_montants )
 {
@@ -5350,16 +5191,12 @@ void change_comparaison_montant ( GtkWidget *menu_item,
   else
     gtk_widget_set_sensitive ( comp_montants -> entree_montant_2,
 			       sensitif );
-
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 /* cette fonction crée un option_menu avec =,<,<=,>,>= */
-/*****************************************************************************************************/
-
+/******************************************************************************/
 GtkWidget *cree_bouton_comparateur_texte ( struct struct_comparaison_textes_etat *comp_textes )
 {
   GtkWidget *bouton;
@@ -5462,15 +5299,12 @@ GtkWidget *cree_bouton_comparateur_texte ( struct struct_comparaison_textes_etat
 
   return ( bouton );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 /* cette fonction rend sensitive ou non l'entrée après le label après l'option menu du menu_item en argument */
 /* donc si on choisit nul, non nul, pos ou nég, on grise l'entrée */
-/*****************************************************************************************************/
-
+/******************************************************************************/
 void change_comparaison_texte ( GtkWidget *menu_item,
 				struct struct_comparaison_textes_etat *comp_textes )
 {
@@ -5491,15 +5325,11 @@ void change_comparaison_texte ( GtkWidget *menu_item,
 			       sensitif );
 
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 /* cette fonction crée un option_menu avec et/ou/aucun */
-/*****************************************************************************************************/
-
+/******************************************************************************/
 GtkWidget *cree_bouton_lien ( GtkWidget *hbox )
 {
   GtkWidget *bouton;
@@ -5567,28 +5397,25 @@ GtkWidget *cree_bouton_lien ( GtkWidget *hbox )
 				3 );
   return ( bouton );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void sensitive_widget ( GtkWidget *widget )
 {
   gtk_widget_set_sensitive ( widget,
 			     TRUE );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void desensitive_widget ( GtkWidget *widget )
 {
   gtk_widget_set_sensitive ( widget,
 			     FALSE );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void retire_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_montants_etat *ancien_comp_montants )
 {
   /* il faut qu'il y ai plus d'une ligne affichée */
@@ -5617,12 +5444,9 @@ void retire_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_m
   etat_courant -> liste_struct_comparaison_montants = g_slist_remove ( etat_courant -> liste_struct_comparaison_montants,
 								       ancien_comp_montants );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 GtkWidget *onglet_etat_divers ( void )
 {
   GtkWidget *widget_retour;
@@ -5739,15 +5563,11 @@ GtkWidget *onglet_etat_divers ( void )
 		       0 );
   gtk_widget_show ( bouton_pas_detailler_ventilation );
 
-
-
   return ( widget_retour );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 GtkWidget *page_organisation_donnees ( void )
 {
   GtkWidget *widget_retour;
@@ -6194,13 +6014,9 @@ GtkWidget *page_organisation_donnees ( void )
 
   return ( widget_retour );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void click_haut_classement_etat ( void )
 {
   GtkCTreeNode *node_parent;
@@ -6246,10 +6062,9 @@ void click_haut_classement_etat ( void )
 			       node );
 
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void click_bas_classement_etat ( void )
 {
   GtkCTreeNode *node_parent;
@@ -6293,18 +6108,12 @@ void click_bas_classement_etat ( void )
 
   gtk_ctree_expand_recursive ( GTK_CTREE ( liste_type_classement_etat ),
 			       node );
-
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 GtkWidget *page_affichage_donnees ( void )
 {
-
   /* on crée un notebook */
 
   notebook_aff_donnees = gtk_notebook_new ();
@@ -6332,11 +6141,9 @@ GtkWidget *page_affichage_donnees ( void )
 
   return ( notebook_aff_donnees );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 GtkWidget *onglet_affichage_etat_generalites ( void )
 {
   GtkWidget *widget_retour;
@@ -6431,13 +6238,9 @@ GtkWidget *onglet_affichage_etat_generalites ( void )
 
   return ( widget_retour );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 GtkWidget *onglet_affichage_etat_operations ( void )
 {
   GtkWidget *widget_retour;
@@ -6986,13 +6789,9 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 
   return ( widget_retour );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 GtkWidget *onglet_affichage_etat_devises ( void )
 {
   GtkWidget *widget_retour;
@@ -7265,13 +7064,9 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 
   return ( widget_retour );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 GtkWidget *onglet_affichage_etat_divers ( void )
 {
   GtkWidget *widget_retour;
@@ -7603,15 +7398,9 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 
   return ( widget_retour );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 GtkWidget *onglet_etat_mode_paiement ( void )
 {
   GtkWidget *widget_retour;
@@ -7761,11 +7550,9 @@ GtkWidget *onglet_etat_mode_paiement ( void )
 
   return ( widget_retour );
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void remplissage_liste_modes_paiement_etats ( void )
 {
   gint i;
@@ -7827,21 +7614,18 @@ void remplissage_liste_modes_paiement_etats ( void )
       liste_tmp = liste_tmp -> next;
     }
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-/*****************************************************************************************************/
+/******************************************************************************/
 gint recherche_nom_dans_liste ( gchar *nom_liste,
 				gchar *nom_test )
 {
   return ( g_strcasecmp ( nom_liste,
 			  nom_test ));
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
-
-
-/*****************************************************************************************************/
+/******************************************************************************/
 void selectionne_liste_modes_paiement_etat_courant ( void )
 {
   gint i;
@@ -7869,7 +7653,7 @@ void selectionne_liste_modes_paiement_etat_courant ( void )
 			       0 );
     }
 }
-/*****************************************************************************************************/
+/******************************************************************************/
 
 
 

@@ -1,7 +1,19 @@
-New in version 0.4.3 : 
+New in version 0.4.4 :
+ - Bug fixes
+ - Columns are resizable in scheduler
+ - Harmonising all date fields:
+   + <Ctrl><Enter> in a date field open a calendar
+   + Arrows keys are sensitive on a calendar
+   + <Shift><+> (<->) in a date field increase (decrease) date about one week
+   + <PgUp> (<PgDn>) increase (decrease) date about one month
+   + <Shift><PgUp> (<PgDn>) increase (decrease) date about one year
+ - New mouse feature:
+   + <Ctrl><Click> as same effect than <Ctrl><P>
+
+New in version 0.4.3 :
  - Bug fixes
 
-New in version 0.4.2 : 
+New in version 0.4.2 :
  - Bug fixes
  - Translation improved
  - Multi-currencies balances in startup screen

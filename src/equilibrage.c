@@ -1130,9 +1130,9 @@ gboolean clavier_equilibrage ( GtkWidget *widget,
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					 "key-press-event");
 	  if ( ( event -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
-	    incremente_decremente_date ( widget, ONE_DAY );
+	    inc_dec_date ( widget, ONE_DAY );
 	  else
-	    incremente_decremente_date ( widget, ONE_WEEK );
+	    inc_dec_date ( widget, ONE_WEEK );
 	  return TRUE;
       break;
 
@@ -1142,9 +1142,9 @@ gboolean clavier_equilibrage ( GtkWidget *widget,
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					 "key-press-event");
 	  if ( ( event -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
-	    incremente_decremente_date ( widget, - ONE_DAY );
+	    inc_dec_date ( widget, - ONE_DAY );
 	  else
-	    incremente_decremente_date ( widget, - ONE_WEEK );
+	    inc_dec_date ( widget, - ONE_WEEK );
 	  return TRUE;
       break;
 
@@ -1154,9 +1154,9 @@ gboolean clavier_equilibrage ( GtkWidget *widget,
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					 "key-press-event");
 	  if ( ( event -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
-	    incremente_decremente_date ( widget, ONE_MONTH );
+	    inc_dec_date ( widget, ONE_MONTH );
 	  else
-	    incremente_decremente_date ( widget, ONE_YEAR );
+	    inc_dec_date ( widget, ONE_YEAR );
 	  return TRUE;
       break;
 
@@ -1166,9 +1166,9 @@ gboolean clavier_equilibrage ( GtkWidget *widget,
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					 "key-press-event");
 	  if ( ( event -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
-	    incremente_decremente_date ( widget, - ONE_MONTH );
+	    inc_dec_date ( widget, - ONE_MONTH );
 	  else
-	    incremente_decremente_date ( widget, - ONE_YEAR );
+	    inc_dec_date ( widget, - ONE_YEAR );
 	  return TRUE;
 
       break;

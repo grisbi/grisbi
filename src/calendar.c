@@ -101,6 +101,10 @@ GtkWidget *gsb_calendar_new ( GtkWidget *entry )
 		       "key-press-event",
 		       GTK_SIGNAL_FUNC ( clavier_calendrier ),
 		       entry );
+/*  gtk_signal_connect_object ( GTK_OBJECT ( pCalendar ),
+			      "destroy",
+			      GTK_SIGNAL_FUNC ( close_calendar ),
+			      GDK_CURRENT_TIME );*/
   gtk_box_pack_start ( GTK_BOX ( pVBox ),
 		       pCalendar,
 		       TRUE,
@@ -475,7 +479,7 @@ gboolean format_date ( GtkWidget *entree )
   if (( gtk_widget_get_style ( entree ) == style_entree_formulaire[1] ))
     return ( FALSE );
 */
-  pEntry = g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree ) ) );
+  pEntry = g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree ) ) );
 
   if ( !strlen ( pEntry ))
     {
@@ -598,6 +602,111 @@ gboolean format_date ( GtkWidget *entree )
   return ( TRUE );
 }
 /******************************************************************************/
+
+/******************************************************************************/
+/* appelée lors de l'appui des touche + ou - sur les formulaires              */
+/* augmente ou diminue la date entrée de 1 jour, 1 semaine, 1 mois, 1 an,     */
+/* suivant la valeur du paramètre « demande »                                 */
+/******************************************************************************/
+void inc_dec_date ( GtkWidget *entree, gint demande )
+{
+  gchar **tableau_char;
+  GDate *date;
+  gint jour, mois, annee;
+
+  /* on commence par vérifier que la date est valide */
+
+  if ( !format_date ( entree ))
+    return;
+
+  tableau_char = g_strsplit ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree ))),
+			      "/",
+			      3 );
+
+  jour = gsb_strtod ( tableau_char[0], NULL );
+  mois = gsb_strtod ( tableau_char[1], NULL );
+  annee = gsb_strtod ( tableau_char[2], NULL );
+
+  date = g_date_new_dmy ( jour, mois, annee);
+
+  switch ( demande )
+    {
+     case ONE_DAY :
+     case ONE_WEEK :
+
+       g_date_add_days ( date, demande ) ;
+       break ;
+
+     case -ONE_DAY :
+     case -ONE_WEEK :
+
+       g_date_subtract_days ( date, -demande ) ;
+       break ;
+
+     case ONE_MONTH :
+
+       g_date_add_months ( date, 1 ) ;
+       break ;
+
+     case -ONE_MONTH :
+
+       g_date_subtract_months ( date, 1 ) ;
+       break ;
+
+     case ONE_YEAR :
+
+       g_date_add_years ( date, 1 ) ;
+       break ;
+
+     case -ONE_YEAR :
+
+       g_date_subtract_years ( date, 1 ) ;
+       break ;
+
+     default :
+       break ;
+    }
+
+/*  g_date_add_days ( date,
+		    demande );*/
+
+  gtk_entry_set_text ( GTK_ENTRY ( entree ),
+		       g_strdup_printf ( "%02d/%02d/%04d",
+					 g_date_day ( date ),
+					 g_date_month ( date ),
+					 g_date_year ( date )));
+
+}
+/******************************************************************************/
+
+/******************************************************************************/
+void ferme_calendrier ( GtkWidget *entree )
+{
+//  gtk_widget_destroy ( popup );
+
+  /* magouille pour récupérer le focus, sinon le focus reste sur l'entrée */
+  /* de la date tant qu'on n'a pas clické dessus */
+
+//  entree_prend_focus ( entree );
+//  gtk_widget_grab_focus ( GTK_WIDGET ( entree ) );
+//  dialogue("Ca passe !!!!!!!!!!!");
+  gtk_grab_remove ( entree );
+//  gtk_grab_add ( window );*/
+}
+/******************************************************************************/
+
+/******************************************************************************/
+void close_calendar ( GtkWidget *pMainWindow )
+{
+
+  /* magouille pour récupérer le focus, sinon le focus reste sur l'entrée */
+  /* de la date tant qu'on n'a pas clické dessus */
+
+  gtk_grab_remove ( pMainWindow );
+  gtk_grab_add ( pMainWindow );
+}
+/******************************************************************************/
+
 double gsb_strtod ( char *nptr, char **endptr )
 {
   double entier=0, mantisse=0, resultat=0;

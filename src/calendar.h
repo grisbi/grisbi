@@ -1,4 +1,11 @@
-/* fichier d'en tête gsbcalendar.h */
+/* fichier d'en tête calendar.h */
+
+/* Constantes utilisées par la fonction incremente_decremente_date */
+# define ONE_DAY 1
+# define ONE_WEEK 7
+# define ONE_MONTH 30
+# define ONE_YEAR 365
+
 GtkWidget *gsb_calendar_new ( GtkWidget *entry ) ;
 gboolean clavier_calendrier ( GtkCalendar *pCalendar,
 			      GdkEventKey *ev,
@@ -7,5 +14,8 @@ void date_selection ( GtkCalendar *pCalendar,
 		      GtkWidget *entry );
 gchar *gsb_today ( void ) ;
 gboolean format_date ( GtkWidget *entree );
+void inc_dec_date ( GtkWidget *entree, gint demande );
+void ferme_calendrier ( GtkWidget *entree );
+void close_calendar ( GtkWidget *pMainWindow );
 
 double gsb_strtod ( char *nptr, char **endptr );
