@@ -2311,18 +2311,6 @@ gboolean categ_row_drop_possible ( GtkTreeDragDest * drag_dest, GtkTreePath * de
 
 
 /**
- *
- *
- */
-void create_new_sub_div ( GtkTreeModel * model, GtkTreePath * parent,
-			  gint no_categ, gint no_sub_categ )
-{
-    
-}
-
-
-
-/**
  * 
  *
  */
@@ -2369,7 +2357,9 @@ gboolean categ_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath * d
 		orig_categ = categ_par_no ( no_orig_categ );
 
 		dest_sub_categ = sous_categ_par_nom ( dest_categ,
-						      sub_categ -> nom_sous_categ, 1 );
+						      ( sub_categ ?
+							sub_categ -> nom_sous_categ : NULL ), 
+						      1 );
 		if ( dest_sub_categ )
 		    no_dest_sub_categ = dest_sub_categ -> no_sous_categ;
 		else
@@ -2415,8 +2405,9 @@ gboolean categ_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath * d
 		gtk_tree_model_get_iter ( model, &orig_iter, orig_path );
 		gtk_tree_store_remove ( GTK_TREE_STORE(categ_tree_model), &orig_iter );
 
-		orig_categ -> liste_sous_categ = g_slist_remove ( orig_categ -> liste_sous_categ,
-								  sub_categ );
+		if ( orig_categ)
+		    orig_categ -> liste_sous_categ = g_slist_remove ( orig_categ -> liste_sous_categ,
+								      sub_categ );
 		mise_a_jour_combofix_categ();
 		modification_fichier(TRUE);
 
