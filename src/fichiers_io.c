@@ -2983,6 +2983,9 @@ des paramètres." );
 		      etat -> pas_detailler_ventilation = atoi ( xmlGetProp ( node_detail,
 									"Pas_detail_ventil" ));
 
+		      etat -> devise_de_calcul_general = atoi ( xmlGetProp ( node_detail,
+									"Devise_gen" ));
+
 		      etat -> exo_date = atoi ( xmlGetProp ( node_detail,
 							     "Exo_date" ));
 							  			  
@@ -3052,8 +3055,29 @@ des paramètres." );
 		      else
 			etat -> date_perso_fin = NULL;
 
-		      etat -> type_classement = atoi ( xmlGetProp ( node_detail,
-								  "Type_classement" ));
+		      etat -> type_classement = NULL;
+
+		      if ( strlen ( xmlGetProp ( node_detail,
+						 "Type_classement" )))
+			{
+			  gchar **pointeur_char;
+			  gint i;
+
+			  pointeur_char = g_strsplit ( xmlGetProp ( node_detail,
+								    "Type_classement" ),
+						       "/",
+						       0 );
+			  i=0;
+
+			  while ( pointeur_char[i] )
+			    {
+			      etat -> type_classement = g_list_append ( etat -> type_classement,
+									GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
+			      i++;
+			    }
+			  g_strfreev ( pointeur_char );
+			}
+
 
 		      etat -> utilise_detail_comptes = atoi ( xmlGetProp ( node_detail,
 								  "Detail_comptes" ));
@@ -3128,6 +3152,9 @@ des paramètres." );
 		      etat -> affiche_sous_total_sous_categ = atoi ( xmlGetProp ( node_detail,
 									"Total_ss_categ" ));
 
+		      etat -> devise_de_calcul_categ = atoi ( xmlGetProp ( node_detail,
+									"Devise_categ" ));
+
 		      etat -> type_virement = atoi ( xmlGetProp ( node_detail,
 						     "Type_vir" ));
 
@@ -3171,6 +3198,9 @@ des paramètres." );
 		      etat -> affiche_sous_total_sous_ib = atoi ( xmlGetProp ( node_detail,
 									"Total_ss_ib" ));
 
+		      etat -> devise_de_calcul_ib = atoi ( xmlGetProp ( node_detail,
+									"Devise_ib" ));
+
 		      etat -> utilise_tiers = atoi ( xmlGetProp ( node_detail,
 								  "Tiers" ));
 		      etat -> utilise_detail_tiers = atoi ( xmlGetProp ( node_detail,
@@ -3201,6 +3231,9 @@ des paramètres." );
 
 		      etat -> affiche_sous_total_tiers = atoi ( xmlGetProp ( node_detail,
 								  "Total_tiers" ));
+
+		      etat -> devise_de_calcul_tiers = atoi ( xmlGetProp ( node_detail,
+									"Devise_tiers" ));
 
 		      if ( strlen ( xmlGetProp ( node_detail,
 						 "Texte" )))
@@ -3257,6 +3290,7 @@ gboolean enregistre_fichier ( void )
   gint resultat;
   gchar *pointeur_char;
   GSList *pointeur_liste;
+  GList *pointeur_list;
   gint i;
   GSList *pointeur_liste_2;
 
@@ -4629,6 +4663,10 @@ gboolean enregistre_fichier ( void )
 		   "Pas_detail_ventil",
 		   itoa ( etat -> pas_detailler_ventilation ));
 
+      xmlSetProp ( node_etat,
+		   "Devise_gen",
+		   itoa ( etat -> devise_de_calcul_general ));
+
 
       xmlSetProp ( node_etat,
 		   "Exo_date",
@@ -4687,9 +4725,26 @@ gboolean enregistre_fichier ( void )
 		     "Date_fin",
 		     NULL );
 
+      pointeur_list = etat -> type_classement;
+      pointeur_char = NULL;
+
+      while ( pointeur_list )
+	{
+	  if ( pointeur_char )
+	    pointeur_char = g_strconcat ( pointeur_char,
+					  "/",
+					  itoa ( GPOINTER_TO_INT ( pointeur_list -> data )),
+					  NULL );
+	  else
+	    pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_list -> data ));
+
+	  pointeur_list = pointeur_list -> next;
+	}
+
       xmlSetProp ( node_etat,
 		   "Type_classement",
-		   itoa ( etat -> type_classement ));
+		   pointeur_char );
+
 
       xmlSetProp ( node_etat,
 		   "Detail_comptes",
@@ -4768,6 +4823,10 @@ gboolean enregistre_fichier ( void )
 		   itoa ( etat -> affiche_sous_total_sous_categ ));
 
       xmlSetProp ( node_etat,
+		   "Devise_categ",
+		   itoa ( etat -> devise_de_calcul_categ ));
+
+      xmlSetProp ( node_etat,
 		   "Type_vir",
 		   itoa ( etat -> type_virement ));
 
@@ -4816,6 +4875,10 @@ gboolean enregistre_fichier ( void )
 		   itoa ( etat -> affiche_sous_total_sous_ib ));
 
       xmlSetProp ( node_etat,
+		   "Devise_ib",
+		   itoa ( etat -> devise_de_calcul_ib ));
+
+      xmlSetProp ( node_etat,
 		   "Tiers",
 		   itoa ( etat -> utilise_tiers ));
 
@@ -4846,6 +4909,10 @@ gboolean enregistre_fichier ( void )
       xmlSetProp ( node_etat,
 		   "Total_tiers",
 		   itoa ( etat -> affiche_sous_total_tiers ));
+
+      xmlSetProp ( node_etat,
+		   "Devise_tiers",
+		   itoa ( etat -> devise_de_calcul_tiers ));
 
       xmlSetProp ( node_etat,
 			"Texte",

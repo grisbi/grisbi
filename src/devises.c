@@ -87,7 +87,7 @@ void creation_devises_de_base ( void )
 /* Fonction creation_option_menu_devises */
 /* retourne le menu d'un option menu avec les différentes devises définies */
 /* si devise_cachee = -1, met toutes les devises sous forme de leur sigle */
-/* sinon, ne met pas le devise correspondant à devise_cachee ( 0 = aucune ) */
+/* sinon, ne met pas la devise correspondant à devise_cachee ( 0 = aucune ) */
 /* liste_tmp est la liste utilisée : soit liste_struct_devises dans le cas général, */
 /*                       soit liste_struct_devises_tmp dans le cas des paramètres */
 /* **************************************************************************************************** */

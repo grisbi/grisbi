@@ -407,6 +407,7 @@ struct struct_etat
   gint afficher_cheque_ope;
   gint afficher_rappr_ope;
   gint pas_detailler_ventilation;
+  gint devise_de_calcul_general;
 
   gint exo_date;         /* 1-> utilise l'exo / 0 -> utilise une plage de date */
   gint utilise_detail_exo;
@@ -421,7 +422,7 @@ struct struct_etat
   gint type_separation_perso;        /* 0=jour, 1=mois, 2=année */
   gint delai_separation_perso;
 
-  gint type_classement;
+  GList *type_classement;  /* liste de no : 1=caté,2=ss categ,3=ib,4=ss ib,5=compte,6=tiers */
 
   gint utilise_detail_comptes;
   GSList *no_comptes;
@@ -436,6 +437,7 @@ struct struct_etat
   gint affiche_sous_total_categ;
   gint affiche_sous_total_sous_categ;
   gint exclure_ope_sans_categ;
+  gint devise_de_calcul_categ;
 
   gint utilise_ib;
   gint utilise_detail_ib;
@@ -444,11 +446,13 @@ struct struct_etat
   gint affiche_sous_total_ib;
   gint affiche_sous_total_sous_ib;
   gint exclure_ope_sans_ib;
+  gint devise_de_calcul_ib;
 
   gint utilise_tiers;
   gint utilise_detail_tiers;
   GSList *no_tiers;
   gint affiche_sous_total_tiers;
+  gint devise_de_calcul_tiers;
 
   gchar *texte;
   gdouble montant;

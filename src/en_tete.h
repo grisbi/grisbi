@@ -840,6 +840,8 @@ gint recherche_etat_par_no ( struct struct_etat *etat,
 			     gint *no_etat );
 void personnalisation_etat (void);
 GtkWidget *onglet_etat_generalites ( struct struct_etat *etat );
+void click_haut_classement_etat ( void );
+void click_bas_classement_etat ( void );
 void sens_desensitive_pointeur ( GtkWidget *boutton,
 				 GtkWidget *widget );
 GtkWidget *onglet_etat_dates ( struct struct_etat *etat );
@@ -863,31 +865,61 @@ GtkWidget *onglet_etat_montant ( struct struct_etat *etat );
 void affichage_etat ( struct struct_etat *etat );
 gint classement_liste_opes_etat ( struct structure_operation *operation_1,
 				  struct structure_operation *operation_2 );
-void etat_c_i_co ( GSList *ope_selectionnees );
+void etape_finale_affichage_etat ( GSList *ope_selectionnees );
 gint affiche_total_categories ( GtkWidget *table_etat,
-				gdouble montant_categ,
 				gint ligne );
 gint affiche_total_sous_categ ( GtkWidget *table_etat,
-				gdouble montant_sous_categ,
 				gint ligne );
 gint affiche_total_ib ( GtkWidget *table_etat,
-			gdouble montant_ib,
 			gint ligne );
 gint affiche_total_sous_ib ( GtkWidget *table_etat,
-			     gdouble montant_sous_ib,
 			     gint ligne );
 gint affiche_total_compte ( GtkWidget *table_etat,
-			    gdouble montant_compte,
 			    gint ligne );
 gint affiche_total_tiers ( GtkWidget *table_etat,
-			   gdouble montant_tiers,
 			   gint ligne );
-void etat_c_co_i ( GSList *ope_selectionnees );
-void etat_i_c_co ( GSList *ope_selectionnees );
-void etat_i_co_c ( GSList *ope_selectionnees );
-void etat_co_i_c ( GSList *ope_selectionnees );
-void etat_co_c_i ( GSList *ope_selectionnees );
-
+gint affichage_ligne_ope ( GtkWidget *table_etat,
+			   struct structure_operation *operation,
+			   gint ligne );
+gint affiche_total_partiel ( GtkWidget *table_etat,
+			     gdouble total_partie,
+			     gint ligne,
+			     gint type );
+gint affiche_total_general ( GtkWidget *table_etat,
+			     gdouble total_general,
+			     gint ligne );
+gint affiche_categ_etat ( struct structure_operation *operation,
+			  GtkWidget *table_etat,
+			  gchar *decalage_categ,
+			  gint ligne );
+gint affiche_sous_categ_etat ( struct structure_operation *operation,
+			       GtkWidget *table_etat,
+			       gchar *decalage_sous_categ,
+			       gint ligne );
+gint affiche_ib_etat ( struct structure_operation *operation,
+		       GtkWidget *table_etat,
+		       gchar *decalage_ib,
+		       gint ligne );
+gint affiche_sous_ib_etat ( struct structure_operation *operation,
+			    GtkWidget *table_etat,
+			    gchar *decalage_sous_ib,
+			    gint ligne );
+gint affiche_compte_etat ( struct structure_operation *operation,
+			   GtkWidget *table_etat,
+			   gchar *decalage_compte,
+			   gint ligne );
+gint affiche_tiers_etat ( struct structure_operation *operation,
+			  GtkWidget *table_etat,
+			  gchar *decalage_tiers,
+			  gint ligne );
+gint affiche_titre_revenus_etat ( GtkWidget *table_etat,
+				  gint ligne );
+gint affiche_titre_depenses_etat ( GtkWidget *table_etat,
+				   gint ligne );
+gint affiche_totaux_sous_jaccent ( GtkWidget *table_etat,
+				   gint origine,
+				   gint ligne );
+void denote_struct_sous_jaccentes ( gint origine );
 
 
 /***********************************/ 

@@ -612,6 +612,7 @@ GtkWidget *bouton_afficher_type_ope;
 GtkWidget *bouton_afficher_no_rappr;
 GtkWidget *bouton_afficher_no_cheque;
 GtkWidget *bouton_pas_detailler_ventilation;
+GtkWidget *bouton_devise_general_etat;
 
 GtkWidget *radio_button_utilise_exo;
 GtkWidget *radio_button_utilise_dates;
@@ -648,6 +649,7 @@ GtkWidget *liste_categ_etat;
 GtkWidget *bouton_affiche_sous_total_categ;
 GtkWidget *bouton_affiche_sous_total_sous_categ;
 GtkWidget *bouton_exclure_ope_sans_categ;
+GtkWidget *bouton_devise_categ_etat;
 
 GtkWidget *bouton_utilise_ib_etat;
 GtkWidget *vbox_generale_ib_etat;
@@ -658,6 +660,7 @@ GtkWidget *bouton_afficher_sous_ib;
 GtkWidget *bouton_affiche_sous_total_ib;
 GtkWidget *bouton_affiche_sous_total_sous_ib;
 GtkWidget *bouton_exclure_ope_sans_ib;
+GtkWidget *bouton_devise_ib_etat;
 
 GtkWidget *bouton_utilise_tiers_etat;
 GtkWidget *vbox_generale_tiers_etat;
@@ -665,6 +668,28 @@ GtkWidget *bouton_detaille_tiers_etat;
 GtkWidget *hbox_detaille_tiers_etat;
 GtkWidget *liste_tiers_etat;
 GtkWidget *bouton_affiche_sous_total_tiers;
+GtkWidget *bouton_devise_tiers_etat;
 
 GtkWidget *entree_texte_etat;
 GtkWidget *entree_montant_etat;
+
+gint ancienne_ib_etat;
+gint ancienne_sous_ib_etat;
+gint ancienne_categ_etat;
+gint ancienne_categ_speciale_etat;
+gint ancienne_sous_categ_etat;
+gint ancien_compte_etat;
+gint ancien_tiers_etat;
+gdouble montant_categ_etat;
+gdouble montant_sous_categ_etat;
+gdouble montant_ib_etat;
+gdouble montant_sous_ib_etat;
+gdouble montant_compte_etat;
+gdouble montant_tiers_etat;
+gint changement_de_groupe_etat;
+gint debut_affichage_etat;
+struct struct_devise *devise_compte_en_cours_etat;
+struct struct_devise *devise_categ_etat;
+struct struct_devise *devise_ib_etat;
+struct struct_devise *devise_tiers_etat;
+struct struct_devise *devise_generale_etat;

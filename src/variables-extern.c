@@ -636,6 +636,7 @@ extern GtkWidget *bouton_afficher_type_ope;
 extern GtkWidget *bouton_afficher_no_rappr;
 extern GtkWidget *bouton_afficher_no_cheque;
 extern GtkWidget *bouton_pas_detailler_ventilation;
+extern GtkWidget *bouton_devise_general_etat;
 
 extern GtkWidget *radio_button_utilise_exo;
 extern GtkWidget *radio_button_utilise_dates;
@@ -672,6 +673,7 @@ extern GtkWidget *liste_categ_etat;
 extern GtkWidget *bouton_affiche_sous_total_categ;
 extern GtkWidget *bouton_affiche_sous_total_sous_categ;
 extern GtkWidget *bouton_exclure_ope_sans_categ;
+extern GtkWidget *bouton_devise_categ_etat;
 
 extern GtkWidget *bouton_utilise_ib_etat;
 extern GtkWidget *vbox_generale_ib_etat;
@@ -682,6 +684,7 @@ extern GtkWidget *bouton_afficher_sous_ib;
 extern GtkWidget *bouton_affiche_sous_total_ib;
 extern GtkWidget *bouton_affiche_sous_total_sous_ib;
 extern GtkWidget *bouton_exclure_ope_sans_ib;
+extern GtkWidget *bouton_devise_ib_etat;
 
 extern GtkWidget *bouton_utilise_tiers_etat;
 extern GtkWidget *vbox_generale_tiers_etat;
@@ -689,6 +692,28 @@ extern GtkWidget *bouton_detaille_tiers_etat;
 extern GtkWidget *hbox_detaille_tiers_etat;
 extern GtkWidget *liste_tiers_etat;
 extern GtkWidget *bouton_affiche_sous_total_tiers;
+extern GtkWidget *bouton_devise_tiers_etat;
 
 extern GtkWidget *entree_texte_etat;
 extern GtkWidget *entree_montant_etat;
+
+extern gint ancienne_ib_etat;
+extern gint ancienne_sous_ib_etat;
+extern gint ancienne_categ_etat;
+extern gint ancienne_categ_speciale_etat;
+extern gint ancienne_sous_categ_etat;
+extern gint ancien_compte_etat;
+extern gint ancien_tiers_etat;
+extern gdouble montant_categ_etat;
+extern gdouble montant_sous_categ_etat;
+extern gdouble montant_ib_etat;
+extern gdouble montant_sous_ib_etat;
+extern gdouble montant_compte_etat;
+extern gdouble montant_tiers_etat;
+extern gint changement_de_groupe_etat;
+extern gint debut_affichage_etat;
+extern struct struct_devise *devise_compte_en_cours_etat;
+extern struct struct_devise *devise_categ_etat;
+extern struct struct_devise *devise_ib_etat;
+extern struct struct_devise *devise_tiers_etat;
+extern struct struct_devise *devise_generale_etat;
