@@ -457,11 +457,6 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 
     /* sauvegarde les redimensionnement des colonnes */
 
-    /* on ajoute l'onglet au notebook des comptes */
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
-			       onglet,
-			       gtk_label_new ( NOM_DU_COMPTE ) );
-
     CLIST_OPERATIONS = liste;
 
     /* par défaut, le classement de la liste s'effectue par date */
@@ -473,6 +468,11 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 			 "resize_column",
 			 GTK_SIGNAL_FUNC ( changement_taille_colonne ),
 			 NULL );
+
+    /* on ajoute l'onglet au notebook des comptes */
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
+			       onglet,
+			       gtk_label_new ( NOM_DU_COMPTE ) );
 
     remplissage_liste_operations ( no_compte );
 }
