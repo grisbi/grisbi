@@ -2724,6 +2724,7 @@ struct structure_operation *  clone_transaction ( struct structure_operation * o
 	  liste_tmp = liste_tmp -> next;
 	}
     }
+
   return new_transaction;
 }
 
@@ -2773,19 +2774,10 @@ void move_operation_to_account ( struct structure_operation * transaction,
 {
   gpointer ** tmp = p_tab_nom_de_compte_variable;
 
-  LISTE_OPERATIONS = g_slist_remove ( LISTE_OPERATIONS, transaction );
-  NB_OPE_COMPTE--;
-
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + account;
-  transaction -> no_compte = account;
-  LISTE_OPERATIONS = g_slist_sort ( g_slist_append ( LISTE_OPERATIONS, transaction ),
-				    (GCompareFunc) classement_sliste );
-  NB_OPE_COMPTE++;
-
   if ( transaction -> relation_no_compte )
     {
       struct structure_operation * contra_transaction;
-      p_tab_nom_de_compte = p_tab_nom_de_compte_variable + transaction -> relation_no_compte;
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + transaction -> relation_no_compte;
       contra_transaction = 
 	g_slist_find_custom ( LISTE_OPERATIONS,
 			      GINT_TO_POINTER ( transaction -> relation_no_operation ),
@@ -2794,5 +2786,40 @@ void move_operation_to_account ( struct structure_operation * transaction,
 
     }
 
+  if ( transaction -> operation_ventilee )
+    {
+      GSList *liste_tmp;
+      
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + transaction -> no_compte;
+      liste_tmp = g_slist_copy ( LISTE_OPERATIONS );
+
+      while ( liste_tmp )
+	{
+	  struct structure_operation *transaction_2;
+
+	  transaction_2 = liste_tmp -> data;
+
+	  if ( transaction_2 -> no_operation_ventilee_associee == 
+	       transaction -> no_operation )
+	    {
+	      move_operation_to_account ( transaction_2, account );
+	      transaction_2 -> relation_no_compte = account;
+	    }
+	  
+	  liste_tmp = liste_tmp -> next;
+	}
+
+      g_slist_free ( liste_tmp );
+    }
+
+  LISTE_OPERATIONS = g_slist_remove ( LISTE_OPERATIONS, transaction );
+  NB_OPE_COMPTE--;
+
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + account;
+  LISTE_OPERATIONS = g_slist_sort ( g_slist_append ( LISTE_OPERATIONS, transaction ),
+				    (GCompareFunc) classement_sliste );
+  NB_OPE_COMPTE++;
+
+  transaction -> no_compte = account;
   p_tab_nom_de_compte_variable = tmp;
 }
