@@ -38,8 +38,8 @@ EXTRA_DIST = 		\
 	next_motif.gif	\
 	topic.dat
 
-$(HTML_FILES) : grisbi/index.html
-	-cp $(srcdir)/grisbi/*.html .
+$(HTML_FILES) : index.html
+	-cp $(srcdir)/*.html .
 
 #grisbi/grisbi.html: gphoneman.sgml
 #	-(cd $(srcdir); db2html gphoneman.sgml)
@@ -47,13 +47,13 @@ $(HTML_FILES) : grisbi/index.html
 dist-hook:
 	mkdir $(distdir)/grisbi
 	mkdir $(distdir)/images
-	-cp grisbi/*.html $(distdir)/grisbi
+	-cp *.html $(distdir)/grisbi
 	-cp $(HTML_FILES) $(distdir)
 	-cp images/*.png $(distdir)/images
 
 install-data-local: index.html
 	$(mkinstalldirs) $(grisbi_helpdir)/images
-	-for file in $(srcdir)/grisbi/*.html; do \
+	-for file in $(srcdir)/*.html; do \
 	  basefile=`basename $$file`; \
 	  $(INSTALL_DATA) $(srcdir)/$$file $(grisbi_helpdir)/$$basefile; \
 	done

@@ -117,7 +117,7 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 TAR = gtar
 GZIP_ENV = --best
 all: all-redirect
-SUFFIXES:
+.SUFFIXES:
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu help/C/Makefile
 
@@ -223,7 +223,7 @@ maintainer-clean-am:  maintainer-clean-generic distclean-am
 
 maintainer-clean: maintainer-clean-am
 
-PHONY: uninstall-grisbi_helpDATA install-grisbi_helpDATA tags distdir \
+.PHONY: uninstall-grisbi_helpDATA install-grisbi_helpDATA tags distdir \
 info-am info dvi-am dvi check check-am installcheck-am installcheck \
 install-exec-am install-exec install-data-local install-data-am \
 install-data install-am install uninstall-am uninstall all-redirect \
@@ -232,8 +232,8 @@ clean-generic maintainer-clean-generic clean mostlyclean distclean \
 maintainer-clean
 
 
-$(HTML_FILES) : grisbi/index.html
-	-cp $(srcdir)/grisbi/*.html .
+$(HTML_FILES) : index.html
+	-cp $(srcdir)/*.html .
 
 #grisbi/grisbi.html: gphoneman.sgml
 #	-(cd $(srcdir); db2html gphoneman.sgml)
@@ -241,13 +241,13 @@ $(HTML_FILES) : grisbi/index.html
 dist-hook:
 	mkdir $(distdir)/grisbi
 	mkdir $(distdir)/images
-	-cp grisbi/*.html $(distdir)/grisbi
+	-cp *.html $(distdir)/grisbi
 	-cp $(HTML_FILES) $(distdir)
 	-cp images/*.png $(distdir)/images
 
 install-data-local: index.html
 	$(mkinstalldirs) $(grisbi_helpdir)/images
-	-for file in $(srcdir)/grisbi/*.html; do \
+	-for file in $(srcdir)/*.html; do \
 	  basefile=`basename $$file`; \
 	  $(INSTALL_DATA) $(srcdir)/$$file $(grisbi_helpdir)/$$basefile; \
 	done
@@ -259,4 +259,4 @@ install-data-local: index.html
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
-NOEXPORT:
+.NOEXPORT:
