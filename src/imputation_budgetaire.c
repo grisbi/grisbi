@@ -2815,7 +2815,7 @@ void importer_ib ( void )
     GtkWidget *menu_item;
 
 
-    fenetre_nom = file_selection_new (_("Import the budgetary lines" ),FILE_SELECTION_MUST_EXISTS);
+    fenetre_nom = file_selection_new (_("Import the budgetary lines" ),FILE_SELECTION_MUST_EXIST);
     file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
 				      dernier_chemin_de_travail );
     file_selection_set_entry ( GTK_FILE_SELECTION ( fenetre_nom ), ".igsb" );

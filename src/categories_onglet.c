@@ -2506,14 +2506,13 @@ void importer_categ ( void )
     gchar *nom_categ;
 
     fenetre_nom = file_selection_new ( _("Import a category list"),
-				       FILE_SELECTION_IS_OPEN_DIALOG | FILE_SELECTION_MUST_EXISTS);
+				       FILE_SELECTION_IS_OPEN_DIALOG | FILE_SELECTION_MUST_EXIST);
     file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ), dernier_chemin_de_travail );
     file_selection_set_entry ( GTK_FILE_SELECTION ( fenetre_nom ), ".cgsb" );
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
 
-    if ( resultat != GTK_RESPONSE_OK ||
-	 ! file_selection_check_filename ( fenetre_nom, NULL ) )
+    if ( resultat != GTK_RESPONSE_OK  )
     {
 	gtk_widget_destroy ( fenetre_nom );
 	return;

@@ -1223,7 +1223,7 @@ void importer_etat ( void )
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general),
 				7 );
 
-    fenetre_nom = file_selection_new ( _("Import a report") , FILE_SELECTION_MUST_EXISTS);
+    fenetre_nom = file_selection_new ( _("Import a report") , FILE_SELECTION_MUST_EXIST);
     file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
 				      dernier_chemin_de_travail );
     file_selection_set_entry (  GTK_FILE_SELECTION ( fenetre_nom ),

@@ -34,7 +34,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef _H_UTILS_FILE_SELECTION_
-#define _H_UTILS_FILE_SELECTION_ "$Id: utils_file_selection.h,v 1.3 2004/09/15 16:16:11 benj2 Exp $"
+#define _H_UTILS_FILE_SELECTION_ "$Id: utils_file_selection.h,v 1.4 2004/09/15 20:32:24 teilginn Exp $"
 
 #include <gtk/gtk.h>
 
@@ -43,18 +43,20 @@
 #define FILE_SELECTION_IS_OPEN_DIALOG   0x0000  /**< The file selection is used for open operation   */
 #define FILE_SELECTION_IS_SAVE_DIALOG   0x0001  /**< The file selection is used for a save operation */
 #define FILE_SELECTION_NOOVERWRITECHECK 0x0002  /**< No existance check and overwrite confirmation done - used only for save operations */
-#define FILE_SELECTION_MUST_EXISTS      0x0002  /**< The selected file name must exists - only for open operation*/
-#define FILE_SELECTION_MULTISELECTION   0x0004  /**< allow the multi selection behaviour */
+#define FILE_SELECTION_MUST_EXIST       0x0002  /**< The selected file name must exists - only for open operation*/
+#define FILE_SELECTION_MULTISELECTION   0x0004  /**< \todo allow the multi selection behaviour */
 
 
 GtkWidget* file_selection_new(const gchar* title,const gint properties);
-void file_selection_overwrite_file_check( GtkWidget *selection_fichier, gboolean* presult);
 void   file_selection_set_entry(GtkFileSelection* filesel,const gchar* utf8string);
 gchar* file_selection_get_entry(GtkFileSelection* filesel);
 void   file_selection_set_filename(GtkFileSelection* filsel,const gchar* utf8filename);
 gchar* file_selection_get_filename(GtkFileSelection* filesel);
 gchar** file_selection_get_selections(GtkFileSelection* filesel);
 gchar* file_selection_get_last_directory(GtkFileSelection* filesel,gboolean ended);
-gboolean file_selection_check_filename ( GtkWidget *selection_fichier, gboolean* presult);
+
+// signal function - must not be used directly in the code
+void file_selection_check_filename_signal ( GtkWidget *selection_fichier);
+void file_selection_overwrite_file_check_signal( GtkWidget *selection_fichier);
 
 #endif

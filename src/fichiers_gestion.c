@@ -215,7 +215,7 @@ void ouvrir_fichier ( void )
 {
     GtkWidget *selection_fichier;
 
-    selection_fichier = file_selection_new ( _("Open an accounts file"),FILE_SELECTION_MUST_EXISTS);
+    selection_fichier = file_selection_new ( _("Open an accounts file"),FILE_SELECTION_MUST_EXIST);
     gtk_window_set_position ( GTK_WINDOW ( selection_fichier ),
 			      GTK_WIN_POS_MOUSE);
 
