@@ -2863,6 +2863,7 @@ struct structure_operation *  clone_transaction ( struct structure_operation * o
     memcpy(new_transaction, operation, sizeof(struct structure_operation) );
 
     new_transaction -> no_operation = 0;
+    new_transaction -> no_rapprochement = 0;
 
     if ( operation -> pointe == OPERATION_RAPPROCHEE ||
 	 operation -> pointe == OPERATION_TELERAPPROCHEE )
@@ -2936,6 +2937,7 @@ struct structure_operation *  new_transaction_from ( struct structure_operation 
   pNewTransaction -> mois = g_date_month ( pNewTransaction -> date ) ;
   pNewTransaction -> annee = g_date_year ( pNewTransaction -> date ) ;
   pNewTransaction -> date_bancaire = NULL;
+  pNewTransaction -> no_rapprochement = 0;
 
   /* Si l'opération possède un exercice, alors voir
      s'il n'existe pas un exercice plus approprié */
