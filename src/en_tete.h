@@ -334,7 +334,7 @@ void a_propos ( GtkWidget *bouton,
 
 GtkWidget *creation_fenetre_equilibrage ( void );
 void equilibrage ( void );
-void sortie_entree_date_equilibrage ( void );
+void sortie_entree_date_equilibrage ( GtkWidget *entree );
 void modif_entree_solde_init_equilibrage ( void );
 void modif_entree_solde_final_equilibrage ( void );
 void annuler_equilibrage ( GtkWidget *bouton_ann,

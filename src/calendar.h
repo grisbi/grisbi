@@ -6,4 +6,6 @@ gboolean clavier_calendrier ( GtkCalendar *pCalendar,
 void date_selection ( GtkCalendar *pCalendar,
 		      GtkWidget *entry );
 gchar *gsb_today ( void ) ;
+gboolean format_date ( GtkWidget *entree );
 
+double gsb_strtod ( char *nptr, char **endptr );

@@ -56,8 +56,8 @@ GtkWidget *creation_fenetre_equilibrage ( void )
   /* on met le nom du compte à équilibrer en haut */
  
   label_equilibrage_compte = gtk_label_new ( "" );
-  gtk_label_set_justify ( GTK_LABEL (label_equilibrage_compte ),
-			  GTK_JUSTIFY_CENTER);
+  gtk_label_set_justify ( GTK_LABEL ( label_equilibrage_compte ),
+			  GTK_JUSTIFY_CENTER );
   gtk_box_pack_start ( GTK_BOX ( fenetre_equilibrage ),
 		       label_equilibrage_compte,
 		       FALSE,
@@ -201,7 +201,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 		       "key-press-event",
 		       GTK_SIGNAL_FUNC ( clavier_equilibrage ),
 		       NULL );
-  gtk_signal_connect_after ( GTK_OBJECT ( entree_nouvelle_date_equilibrage ),
+  gtk_signal_connect ( GTK_OBJECT ( entree_nouvelle_date_equilibrage ),
 		       "focus-out-event",
 		       GTK_SIGNAL_FUNC ( sortie_entree_date_equilibrage ),
 		       NULL );
@@ -337,8 +337,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 
 /* on met les boutons */
 
-  hbox = gtk_hbox_new ( TRUE,
-					    5);
+  hbox = gtk_hbox_new ( TRUE, 5);
   gtk_box_pack_end ( GTK_BOX ( fenetre_equilibrage ),
 		       hbox,
 		       FALSE,
@@ -349,10 +348,10 @@ GtkWidget *creation_fenetre_equilibrage ( void )
   bouton_ok_equilibrage = gtk_button_new_with_label (_("Valid") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_ok_equilibrage),
 			  GTK_RELIEF_NONE);
-  gtk_signal_connect (GTK_OBJECT (bouton_ok_equilibrage),
-		      "clicked",
-		      (GtkSignalFunc) fin_equilibrage,
-		      NULL );
+  gtk_signal_connect ( GTK_OBJECT ( bouton_ok_equilibrage ),
+		       "clicked",
+		       ( GtkSignalFunc ) fin_equilibrage,
+		       NULL );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_ok_equilibrage,
 		       FALSE,
@@ -365,7 +364,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 			  GTK_RELIEF_NONE);
   gtk_signal_connect ( GTK_OBJECT (bouton),
 		       "clicked",
-		       (GtkSignalFunc) annuler_equilibrage,
+		       ( GtkSignalFunc ) annuler_equilibrage,
 		       NULL );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton,
@@ -585,14 +584,35 @@ void equilibrage ( void )
 /******************************************************************************/
 
 /******************************************************************************/
-void sortie_entree_date_equilibrage ( void )
+void sortie_entree_date_equilibrage ( GtkWidget *entree )
 {
-  gchar *text;
+/*  gchar *text;
   gint nb_parametres;
   GDate *date;
-  gint jour, mois, annee;
+  gint jour, mois, annee;*/
 
-  text = gtk_entry_get_text ( GTK_ENTRY ( entree_nouvelle_date_equilibrage ) );
+  format_date ( entree );
+
+  
+/*      if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
+	{
+	  format_date ( entree );
+	}*/
+  /* vérifie que la date est correcte */
+/*
+  if ( format_date ( entree ) == FALSE )
+    {
+     dialogue ( PRESPACIFY(_("Error: invalid date")) );
+     gtk_widget_grab_focus ( entree );
+     gtk_entry_select_region ( GTK_ENTRY ( entree ),
+			       0,
+			       -1);
+      return FALSE;
+    }
+      return TRUE;
+*/
+/*
+  text = gtk_entry_get_text ( GTK_ENTRY ( entree ) );
 
   if ( ( nb_parametres = sscanf ( text, "%d/%d/%d", &jour, &mois, &annee ) ) != 3 )
     {
@@ -602,23 +622,25 @@ void sortie_entree_date_equilibrage ( void )
       date = g_date_new ();
       g_date_set_time ( date, time( NULL ) );
 
-      if ( nb_parametres == 1)
+      if ( nb_parametres == 1 )
 	mois = g_date_month ( date );
 
       annee = g_date_year ( date );
     }
 
-  if ( g_date_valid_dmy ( jour, mois, annee) == FALSE )
+  if ( g_date_valid_dmy ( jour, mois, annee ) == FALSE )
     {
       dialogue ( _("Error: invalid date") );
       return;
-    };
+    }
 
-  gtk_entry_set_text ( GTK_ENTRY ( entree_nouvelle_date_equilibrage ),
-		       g_strdup_printf ( "%02d/%02d/%d", 
+  format_date ( entree );
+
+  gtk_entry_set_text ( GTK_ENTRY ( entree ),
+		       g_strdup_printf ( "%02d/%02d/%04d",
 					 jour,
 					 mois,
-					 annee ) );
+					 annee ) );*/
 	   
 }
 /******************************************************************************/

@@ -24,6 +24,7 @@
 
 
 #include <gnome.h>
+#include <ctype.h>
 #include "calendar.h"
 
 
@@ -454,3 +455,200 @@ gchar *gsb_today ( void )
   return ( g_strdup ( date ) );
 }
 /******************************************************************************/
+
+/******************************************************************************/
+/* Fonction format_date                                                       */
+/* prend en argument une entrée contenant une date                            */
+/* vérifie la validité et la modifie si seulement une partie est donnée       */
+/* met la date du jour si l'entrée est vide                                   */
+/* renvoie TRUE si la date est correcte                                       */
+/******************************************************************************/
+gboolean format_date ( GtkWidget *entree )
+{
+  gchar *pEntry;
+  int jour, mois, annee;
+  GDate *date;
+  gchar **tab_date;
+
+  /* si l'entrée est grise, on se barre */
+/*
+  if (( gtk_widget_get_style ( entree ) == style_entree_formulaire[1] ))
+    return ( FALSE );
+*/
+  pEntry = g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree ) ) );
+
+  if ( !strlen ( pEntry ))
+    {
+      /* si on est dans la conf des états, on ne met pas la date du jour, on */
+      /* laisse vide */
+/*
+      if ( entree != entree_date_init_etat &&
+	   entree != entree_date_finale_etat )
+	gtk_entry_set_text ( GTK_ENTRY ( entree ),
+			     gsb_today() );*/
+    }
+  else
+    {
+      date = g_date_new();
+      g_date_set_time ( date, time(NULL) );
+
+      tab_date = g_strsplit ( pEntry, "/", 3 );
+
+      if ( tab_date[2] && tab_date[1] )
+	{
+	  /* on a rentré les 3 chiffres de la date */
+	 jour = gsb_strtod ( tab_date[0],  NULL );
+	 mois = gsb_strtod ( tab_date[1], NULL );
+	 annee = gsb_strtod ( tab_date[2], NULL );
+
+	 if ( annee < 100 )
+	   {
+	    if ( annee < 80 )
+	      annee = annee + 2000;
+	    else
+	      annee = annee + 1900;
+	   }
+	}
+      else
+	{
+	 if ( tab_date[1] )
+	   {
+	    /* on a rentré la date sous la forme xx/xx,
+	       il suffit de mettre l'année courante */
+	    jour = gsb_strtod ( tab_date[0], NULL );
+	    mois = gsb_strtod ( tab_date[1], NULL );
+	    annee = g_date_year ( date );
+	   }
+	 else
+	   {
+	    /* on a rentré que le jour de la date,
+	       il faut mettre le mois et l'année courante
+	       ou bien on a rentré la date sous forme
+	       jjmm ou jjmmaa ou jjmmaaaa */
+
+	    gchar buffer[3];
+
+	    switch ( strlen ( tab_date[0] ) )
+	      {
+	       /* forme jj ou j */
+	       case 1:
+	       case 2:
+		 jour = gsb_strtod ( tab_date[0], NULL );
+		 mois = g_date_month ( date );
+		 annee = g_date_year ( date );
+		 break;
+
+	       /* forme jjmm */
+
+	       case 4 :
+		 buffer[0] = tab_date[0][0];
+		 buffer[1] = tab_date[0][1];
+		 buffer[2] = 0;
+
+		 jour = gsb_strtod ( buffer, NULL );
+		 mois = gsb_strtod ( tab_date[0] + 2, NULL );
+		 annee = g_date_year ( date );
+		 break;
+
+		 /* forme jjmmaa */
+
+	       case 6:
+		 buffer[0] = tab_date[0][0];
+		 buffer[1] = tab_date[0][1];
+		 buffer[2] = 0;
+
+		 jour = gsb_strtod ( buffer, NULL );
+		 buffer[0] = tab_date[0][2];
+		 buffer[1] = tab_date[0][3];
+
+		 mois = gsb_strtod ( buffer, NULL );
+		 annee = gsb_strtod ( tab_date[0] + 4, NULL ) + 2000;
+		 break;
+
+	       /* forme jjmmaaaa */
+
+	       case 8:
+		 buffer[0] = tab_date[0][0];
+		 buffer[1] = tab_date[0][1];
+		 buffer[2] = 0;
+
+		 jour = gsb_strtod ( buffer, NULL );
+		 buffer[0] = tab_date[0][2];
+		 buffer[1] = tab_date[0][3];
+
+		 mois = gsb_strtod ( buffer, NULL );
+		 annee = gsb_strtod ( tab_date[0] + 4, NULL );
+		 break;
+
+	       default :
+		 jour = 0;
+		 mois = 0;
+		 annee = 0;
+	      }
+	   }
+	}
+      g_strfreev ( tab_date );
+
+      if ( g_date_valid_dmy ( jour, mois, annee) )
+	gtk_entry_set_text ( GTK_ENTRY ( entree ),
+			     g_strdup_printf ( "%02d/%02d/%04d", jour, mois, annee ));
+      else
+	return ( FALSE );
+    }
+  return ( TRUE );
+}
+/******************************************************************************/
+double gsb_strtod ( char *nptr, char **endptr )
+{
+  double entier=0, mantisse=0, resultat=0;
+  int invert = 0;
+  char * p;
+
+  if (!nptr)
+    return 0;
+
+  for ( p = nptr; p < nptr + strlen(nptr); p++ )
+    {
+      if (isspace(*p) || *p == '+' )
+	continue;
+
+      if (*p == '-')
+	{
+	  invert = 1;
+	  continue;
+	}
+
+      if ( *p == ',' || *p == '.' )
+	{
+	  char * m;
+	  for ( m = p+1; m <= nptr+strlen(nptr) &&
+		  (isdigit(*m) || isspace(*m)); m++)
+	    /* Nothing, just loop */ ;
+	  for ( --m; m > p; m-- )
+	    {
+	      if (isdigit(*m))
+		{
+		  mantisse /= 10;
+		  mantisse += (*m - '0');
+		}
+	    }
+	  mantisse /= 10;
+	}
+
+      if (isdigit(*p))
+	{
+	  entier = entier * 10;
+	  entier += (*p - '0');
+	}
+      else
+	{
+	  break;
+	}
+    }
+
+  resultat = entier + mantisse;
+  if ( invert )
+    resultat = - resultat;
+
+  return resultat;
+}
