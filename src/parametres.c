@@ -372,6 +372,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
 {
     GtkWidget *hbox, *vbox_pref;
     GtkWidget *paddingbox, *label;
+    GtkWidget *pCheckBox;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Messages & warnings"),
 					       "warnings.png" );
@@ -403,6 +404,12 @@ GtkWidget *onglet_messages_and_warnings ( void )
     bouton_display_lock_active = new_checkbox_with_title ( _("Do not warn about about QIF not containing currencies"),
 							   &(etat.display_message_qif_export_currency), NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_display_lock_active, FALSE, FALSE, 0 );
+
+    /* Display a warning message that manually reconciliation isn't a good way */
+    pCheckBox = new_checkbox_with_title ( _("Do not warn about manually reconciliation\n"
+					    "(with shortcut <Ctrl><R>)"),
+					  &(etat.display_message_reconcile_transaction), NULL );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), pCheckBox, FALSE, FALSE, 0 );
 
 
     /* Number of days before a warning message advertising a scheduled

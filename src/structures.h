@@ -99,6 +99,7 @@ struct {
     guint display_message_file_readable;
     guint display_message_minimum_alert;
     guint display_message_qif_export_currency;
+    guint display_message_reconcile_transaction;
 
     /* Various commands */
     gchar * browser_command;
