@@ -125,7 +125,8 @@ void reconciliation_check ( void )
   {
     pText = g_strconcat ( _("Grisbi found accounts where reconciliation totals are inconsistent "
 			    "with the sum of reconcilied transactions.  Generally, the cause is "
-			    "too many transfers to other accounts are reconciled.\n"
+			    "too many transfers to other accounts are reconciled.  You have to "
+			    "manually unreconcile some transferts in inconsistent accounts.\n"
 			    "The following accounts are inconsistent:\n\n"), 
 			  pText, NULL );
 
