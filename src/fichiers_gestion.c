@@ -420,7 +420,9 @@ gboolean enregistrement_fichier ( gint origine )
     if ( !etat.modification_fichier && origine != -2 )
 	return ( TRUE );
 
-    if ( origine == -1 )
+    if ( origine == -1
+	 &&
+	 !etat.sauvegarde_auto )
     {
 	gchar * hint;
 
