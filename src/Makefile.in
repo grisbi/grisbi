@@ -98,7 +98,7 @@ localedir = $(datadir)/locale
 INCLUDES = -I$(top_srcdir) -I$(includedir) $(GNOME_INCLUDEDIR) -I../intl -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/grisbi\"" -DCHEMIN_LOGO="\"$(datadir)/pixmaps/grisbi/grisbi-logo.png\""
 bin_PROGRAMS = grisbi
 
-grisbi_SOURCES =  	accueil.c			affichage.c			affichage_liste.c		banque.c			barre_outils.c			calendar.c			categories_onglet.c		comptes_gestion.c		comptes_onglet.c		comptes_traitements.c		devises.c			echeancier_formulaire.c		echeancier_liste.c		equilibrage.c			erreur.c			etat_io.c			etats_affiche.c			etats_calculs.c			etats_config.c			etats_gtktable.c		etats_latex.c			etats_onglet.c			etats_support.c			exercice.c			fenetre_principale.c		fichier_configuration.c		fichiers_gestion.c		fichiers_io.c			gtk_combofix.c			help.c				imputation_budgetaire.c		main.c				menu.c				operations_classement.c		operations_comptes.c		operations_formulaire.c 	operations_liste.c		operations_onglet.c		parametres.c			patienter.c			qif.c				tiers_onglet.c			traitement_variables.c		type_operations.c		ventilation.c
+grisbi_SOURCES =  	accueil.c			affichage.c			affichage_liste.c		banque.c			barre_outils.c			calendar.c			categories_onglet.c		comptes_gestion.c		comptes_onglet.c		comptes_traitements.c		devises.c			dialog.c			echeancier_formulaire.c		echeancier_liste.c		equilibrage.c			erreur.c			etat_io.c			etats_affiche.c			etats_calculs.c			etats_config.c			etats_gtktable.c		etats_latex.c			etats_onglet.c			etats_support.c			exercice.c			fenetre_principale.c		fichier_configuration.c		fichiers_gestion.c		fichiers_io.c			gtk_combofix.c			help.c				imputation_budgetaire.c		main.c				menu.c				operations_classement.c		operations_comptes.c		operations_formulaire.c 	operations_liste.c		operations_onglet.c		parametres.c			patienter.c			qif.c				tiers_onglet.c			traitement_variables.c		type_operations.c		ventilation.c
 
 
 #grisbi_LDADD =	$(GNOME_LIBDIR)	$(GNOMEUI_LIBS)
@@ -121,7 +121,7 @@ CPPFLAGS = @CPPFLAGS@
 LIBS = @LIBS@
 grisbi_OBJECTS =  accueil.o affichage.o affichage_liste.o banque.o \
 barre_outils.o calendar.o categories_onglet.o comptes_gestion.o \
-comptes_onglet.o comptes_traitements.o devises.o \
+comptes_onglet.o comptes_traitements.o devises.o dialog.o \
 echeancier_formulaire.o echeancier_liste.o equilibrage.o erreur.o \
 etat_io.o etats_affiche.o etats_calculs.o etats_config.o \
 etats_gtktable.o etats_latex.o etats_onglet.o etats_support.o \
@@ -150,7 +150,7 @@ DEP_FILES =  .deps/accueil.P .deps/affichage.P .deps/affichage_liste.P \
 .deps/banque.P .deps/barre_outils.P .deps/calendar.P \
 .deps/categories_onglet.P .deps/comptes_gestion.P \
 .deps/comptes_onglet.P .deps/comptes_traitements.P .deps/devises.P \
-.deps/echeancier_formulaire.P .deps/echeancier_liste.P \
+.deps/dialog.P .deps/echeancier_formulaire.P .deps/echeancier_liste.P \
 .deps/equilibrage.P .deps/erreur.P .deps/etat_io.P \
 .deps/etats_affiche.P .deps/etats_calculs.P .deps/etats_config.P \
 .deps/etats_gtktable.P .deps/etats_latex.P .deps/etats_onglet.P \

@@ -16,6 +16,7 @@ grisbi_SOURCES = 		\
 	comptes_onglet.c	\
 	comptes_traitements.c	\
 	devises.c		\
+	dialog.c		\
 	echeancier_formulaire.c	\
 	echeancier_liste.c	\
 	equilibrage.c		\
