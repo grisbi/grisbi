@@ -1,4 +1,4 @@
-#include "account_constants.h"
+#include "gsb_account.h"
 
 /*START_DECLARATION*/
 void changement_choix_compte_echeancier ( void );
