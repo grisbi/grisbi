@@ -71,6 +71,19 @@ void dialogue_error ( gchar *text )
 
 
 /**
+ * Display an error dialog window with an optional hint.
+ *
+ * \param text Text to display in window
+ * \param hint Text to display in window as hint (bold, larger)
+ */
+void dialogue_error_hint ( gchar *text, gchar * hint )
+{
+  dialogue_special ( GTK_MESSAGE_ERROR,
+		     g_strconcat ("<span size=\"larger\" weight=\"bold\">",
+				  hint, "</span>\n\n",
+				  text, NULL) );
+}
+/**
  * Display a warning dialog window
  *
  * \param text Text to display in window
@@ -109,6 +122,7 @@ void dialogue_special ( GtkMessageType param, gchar * text )
   dialog = gtk_message_dialog_new ( GTK_WINDOW (window), 
 				    GTK_DIALOG_DESTROY_WITH_PARENT,
 				    param, GTK_BUTTONS_CLOSE, text );
+  gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
   
   gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
   gtk_dialog_run (GTK_DIALOG (dialog));
