@@ -175,6 +175,98 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
     }
 
 
+  /*   si on a utilisé "le plus grand" dans la recherche de texte, c'est ici qu'on recherche */
+  /*     les plus grands no de chq, de rappr et de pc dans les comptes choisis */
+
+  /* commence par rechercher si on a utilisé "le plus grand" */
+
+  liste_tmp = etat -> liste_struct_comparaison_textes;
+
+  while ( liste_tmp )
+    {
+      struct struct_comparaison_textes_etat *comp_textes;
+
+      comp_textes = liste_tmp -> data;
+
+      if ( comp_textes -> comparateur_1 == 6
+	   ||
+	   comp_textes -> comparateur_2 == 6 )
+	{
+	  /* on utilise "le plus grand" qque part, donc on va remplir les 3 variables */
+
+	  dernier_chq = 0;
+	  dernier_pc = 0;
+	  dernier_no_rappr = 0;
+
+	  for ( i=0 ; i<nb_comptes ; i++ )
+	    {
+	      /* on commence par vérifier que le compte fait partie de l'état */
+
+	      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+
+	      if ( !etat -> utilise_detail_comptes
+		   ||
+		   g_slist_index ( etat -> no_comptes,
+				   GINT_TO_POINTER ( i )) != -1 )
+		{
+		  GSList *pointeur_tmp;
+
+		  /* on fait le tour de la liste des opés en recherchant le plus grand ds les 3 variables */
+
+		  pointeur_tmp = LISTE_OPERATIONS;
+
+		  while ( pointeur_tmp )
+		    {
+		      struct structure_operation *operation;
+
+		      operation = pointeur_tmp -> data;
+
+		      /* commence par le cheque, il faut que le type opé soit à incrémentation auto */
+		      /* et le no le plus grand */
+		      /* on ne recherche le type d'opé que si l'opé a un contenu du type et que celui ci */
+		      /* est > que dernier_chq */
+
+		      if ( operation -> contenu_type 
+			   &&
+			   atoi ( operation -> contenu_type ) > dernier_chq )
+			{
+			  struct struct_type_ope *type_ope;
+
+			  type_ope = g_slist_find_custom ( TYPES_OPES,
+							   GINT_TO_POINTER ( operation -> type_ope ),
+							   (GCompareFunc) recherche_type_ope_par_no ) -> data;
+
+			  if ( type_ope -> affiche_entree
+			       &&
+			       type_ope -> numerotation_auto )
+			    dernier_chq = atoi ( operation -> contenu_type );
+			}
+
+
+		      /* on récupère maintenant la plus grande pc */
+
+		      if ( operation -> no_piece_comptable
+			   &&
+			   atoi ( operation -> no_piece_comptable ) > dernier_pc )
+			dernier_pc = atoi ( operation -> no_piece_comptable );
+
+
+		      /* on récupère maintenant le dernier relevé */
+
+		      if ( operation -> no_rapprochement > dernier_no_rappr )
+			dernier_no_rappr = operation -> no_rapprochement;
+
+		      pointeur_tmp = pointeur_tmp -> next;
+		    }
+		}
+	    }
+	  liste_tmp = NULL;
+	}
+      else
+	liste_tmp = liste_tmp -> next;
+    }
+
+
   for ( i=0 ; i<nb_comptes ; i++ )
     {
       /* on commence par vérifier que le compte fait partie de l'état */
@@ -1041,14 +1133,93 @@ gint verifie_chq_test_etat ( struct struct_comparaison_textes_etat *comp_textes,
   gint ope_dans_premier_test;
   gint ope_dans_second_test;
 
-  ope_dans_premier_test = compare_cheques_etat ( atoi ( no_chq ),
-						comp_textes -> montant_1,
-						comp_textes -> comparateur_1 );
+  /* pour éviter les warnings lors de la compil */
+
+  ope_dans_premier_test = 0;
+  ope_dans_second_test = 0;
+
+  /*   si on cherche le plus grand, on met la valeur recherchée à la place de montant_1 */
+
+  if ( comp_textes -> comparateur_1 != 6 )
+    ope_dans_premier_test = compare_cheques_etat ( atoi ( no_chq ),
+						   comp_textes -> montant_1,
+						   comp_textes -> comparateur_1 );
+  else
+    {
+      struct struct_no_rapprochement *rapprochement;
+
+      switch ( comp_textes -> champ )
+	{
+	case 8:
+	  /* pc */
+	  
+	  ope_dans_premier_test = compare_cheques_etat ( atoi ( no_chq ),
+							 dernier_pc,
+							 comp_textes -> comparateur_1 );
+	  break;
+
+	case 9:
+	  /* chq */
+
+	  ope_dans_premier_test = compare_cheques_etat ( atoi ( no_chq ),
+							 dernier_chq,
+							 comp_textes -> comparateur_1 );
+	  break;
+
+	case 10:
+	  /* rappr */
+	  /* no_chq contient le nom du rapprochement de l'opé, or pour le plus grand, on cherche */
+	  /* le no du rapprochement, on le cherche ici */
+
+	  rapprochement = g_slist_find_custom ( liste_no_rapprochements,
+						no_chq,
+						(GCompareFunc) recherche_no_rapprochement_par_nom ) -> data;
+
+	  ope_dans_premier_test = compare_cheques_etat ( rapprochement -> no_rapprochement,
+							 dernier_no_rappr,
+							 comp_textes -> comparateur_1 );
+	  break;
+	}
+    }
+
+
 
   if ( comp_textes -> lien_1_2 != 3 )
-    ope_dans_second_test = compare_cheques_etat ( atoi ( no_chq ),
-						 comp_textes -> montant_2,
-						 comp_textes -> comparateur_2 );
+    {
+      if ( comp_textes -> comparateur_2 != 6 )
+	ope_dans_second_test = compare_cheques_etat ( atoi ( no_chq ),
+						      comp_textes -> montant_2,
+						      comp_textes -> comparateur_2 );
+      else
+	{
+	  switch ( comp_textes -> champ )
+	    {
+	    case 8:
+	      /* pc */
+	  
+	      ope_dans_second_test = compare_cheques_etat ( atoi ( no_chq ),
+							     dernier_pc,
+							     comp_textes -> comparateur_2 );
+	      break;
+
+	    case 9:
+	      /* chq */
+
+	      ope_dans_second_test = compare_cheques_etat ( atoi ( no_chq ),
+							     dernier_chq,
+							     comp_textes -> comparateur_2 );
+	      break;
+
+	    case 10:
+	      /* rappr */
+
+	      ope_dans_second_test = compare_cheques_etat ( atoi ( no_chq ),
+							     dernier_no_rappr,
+							     comp_textes -> comparateur_2 );
+	      break;
+	    }
+	}
+    }
   else
     /* pour éviter les warning lors de la compil */
     ope_dans_second_test = 0;
@@ -1095,8 +1266,8 @@ gint verifie_chq_test_etat ( struct struct_comparaison_textes_etat *comp_textes,
 /*****************************************************************************************************/
 
 gint compare_cheques_etat ( gint chq_ope,
-			   gint chq_test,
-			   gint comparateur )
+			    gint chq_test,
+			    gint comparateur )
 {
   gint retour;
 
@@ -1144,6 +1315,13 @@ gint compare_cheques_etat ( gint chq_ope,
       /* !=  */
 
       if ( chq_ope != chq_test )
+	retour = 1;
+      break;
+
+    case 6:
+      /* le plus grand */
+
+      if ( chq_ope == chq_test )
 	retour = 1;
       break;
     }

@@ -807,3 +807,12 @@ gint taille_largeur_colonnes[7];   /* contient la taille de chaque colonne */
 gint ligne_affichage_une_ligne;    /* contient le no de ligne à afficher lorsqu'on n'affiche qu'une ligne */
 GSList *lignes_affichage_deux_lignes;    /* contient les no de lignes à afficher lorsqu'on affiche deux lignes */
 GSList *lignes_affichage_trois_lignes;    /* contient les no de lignes à afficher lorsqu'on affiche trois lignes */
+
+
+/************************/ 
+/* fichier etats_calculs.c */
+/************************/ 
+
+gint dernier_chq;     /* quand on a choisi le plus grand, contient le dernier no de chq dans les comptes choisis */
+gint dernier_pc;     /* quand on a choisi le plus grand, contient le dernier no de pc dans les comptes choisis */
+gint dernier_no_rappr;     /* quand on a choisi le plus grand, contient le dernier no de rappr dans les comptes choisis */

@@ -520,10 +520,10 @@ struct struct_comparaison_textes_etat
 
   /* pour les comparaisons de chq */
 
-  gint comparateur_1;            /* 0= =, 1= <, 2= <=, 3= >, 4= >=, 5= != */
+  gint comparateur_1;            /* 0= =, 1= <, 2= <=, 3= >, 4= >=, 5= !=, 6= le plus grand */
   gint montant_1;
   gint lien_1_2;                   /* 0=et, 1=ou, 2=sauf, 3=aucun */
-  gint comparateur_2;            /* 0= =, 1= <, 2= <=, 3= >, 4= >=, 5= != */
+  gint comparateur_2;            /* 0= =, 1= <, 2= <=, 3= >, 4= >=, 5= !=, 6= le plus grand */
   gint montant_2;
 
 

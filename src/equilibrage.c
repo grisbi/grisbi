@@ -420,10 +420,6 @@ void equilibrage ( void )
 {
   GDate *date;
 
-  p_tab_nom_de_compte_variable = NULL;
-  printf ( "%d\n", NB_OPE_COMPTE );
-
-
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
   if ( !NB_OPE_COMPTE )
@@ -476,20 +472,45 @@ void equilibrage ( void )
 	    {
 	      /* la fin du no de rapprochement est numérique */
 
+	      gchar *rempl_zero;
 	      gchar *partie_num;
+	      gint longueur;
+	      gint nouvelle_longueur;
 
 	      pointeur_mobile++;
 
 	      partie_num = g_strdup ( pointeur_mobile );
 	      pointeur_mobile[0] = 0;
 
+	      longueur = strlen ( partie_num );
+
 	      /* on incrémente la partie numérique */
 
 	      partie_num = itoa ( atoi ( partie_num ) + 1 );
 
+	      /* si la nouvelle partie numérique est plus petite que l'ancienne, */
+	      /* c'est que des 0 ont été shuntés, on va les rajouter ici */
+ 
+	      nouvelle_longueur = strlen ( partie_num );
+
+	      if ( nouvelle_longueur < longueur )
+		{
+		  gint i;
+
+		  rempl_zero = malloc ((longueur-nouvelle_longueur+1)*sizeof (gchar));
+
+		  for ( i=0 ; i<longueur-nouvelle_longueur ; i++ )
+		    rempl_zero[i]=48;
+
+		  rempl_zero[longueur-nouvelle_longueur] = 0;
+		}
+	      else
+		rempl_zero = "";
+
 	      /* on  remet le tout ensemble */
 
 	      new_rap = g_strconcat ( new_rap,
+				      rempl_zero,
 				      partie_num,
 				      NULL );
 	    }
