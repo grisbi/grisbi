@@ -998,6 +998,13 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
 	if ( liste_tmp )
 	{
 	    /* le rapprochement existe déjà */
+	    if ( !question_conditional_yes_no_hint ( _("Reconciliation reference already exist"),
+						     _("The choosen reconciliation reference already "
+						       "exists.  Perhaps it's not a problem, but perhaps "
+						       "it is.  Be sure you want to do.\nProceed anyway?"),
+						     &etat.display_message_reconciliation_ref_exist)) {
+	        return FALSE;
+	    }
 
 	    rapprochement = liste_tmp -> data;
 	    DERNIER_NO_RAPPROCHEMENT = rapprochement -> no_rapprochement;

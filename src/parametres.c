@@ -434,6 +434,11 @@ GtkWidget *onglet_messages_and_warnings ( void )
 					  &(etat.display_message_no_reconciliation_ref), NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), pCheckBox, FALSE, FALSE, 0 );
 
+    /* Display a warning message when no reconciliation reference given */
+    pCheckBox = new_checkbox_with_title ( _("Do not warn about existing reconciliation reference"),
+					  &(etat.display_message_reconciliation_ref_exist), NULL );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), pCheckBox, FALSE, FALSE, 0 );
+
 
     /* Number of days before a warning message advertising a scheduled
        transaction */
