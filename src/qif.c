@@ -24,12 +24,14 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "qif.h"
-#include "type_operations.h"
-#include "tiers_onglet.h"
+
 #include "categories_onglet.h"
-#include "fichiers_io.h"
 #include "devises.h"
+#include "fichiers_io.h"
+#include "parametres.h"
+#include "qif.h"
+#include "tiers_onglet.h"
+#include "type_operations.h"
 
 /* *******************************************************************************/
 gboolean recuperation_donnees_qif ( FILE *fichier )
@@ -665,7 +667,8 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 	    {
 	      if ( format_date )
 		{
-		  dialogue ( _("Problème dans la récupération des dates du fichier QIF.") );
+		  dialogue_error_hint ( _("Dates can't be parsed in QIF file."),
+					_("Grisbi automatically tries to parse dates from QIF files using heuristics.  Please double check that they are valid and contact grisbi development team for assistance if needed") );
 		  return (FALSE);
 		}
 
@@ -825,23 +828,16 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 
 void exporter_fichier_qif ( void )
 {
-  GtkWidget *dialog;
-  GtkWidget *label;
-  GtkWidget *frame;
-  GtkWidget *table;
-  GtkWidget *entree;
-  GtkWidget *check_button;
-  gint i;
-  gint resultat;
+  GtkWidget *dialog, *label, *table, *entree, *check_button, *paddingbox;
+  gchar *nom_fichier_qif, *montant_tmp;
   GSList *liste_tmp;
-  gchar *nom_fichier_qif;
   FILE *fichier_qif;
-  gchar *montant_tmp;
-  
+  gint i, resultat;
+ 
 
   if ( !nom_fichier_comptes )
     {
-      dialogue ( _("Your file must have a name (saved) to be exported.") );
+      dialogue_error ( _("Your file must have a name (saved) to be exported.") );
       return;
     }
 
@@ -850,49 +846,29 @@ void exporter_fichier_qif ( void )
 			      _("All transactions will be converted into currency of their account."),
 			      &etat.display_message_qif_export_currency ); 
 
-  dialog = gnome_dialog_new ( _("Export QIF files"),
-			      GNOME_STOCK_BUTTON_CANCEL,
-			      GNOME_STOCK_BUTTON_OK,
-			      NULL );
-  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
-				 GTK_WINDOW ( window ));
-  gtk_signal_connect ( GTK_OBJECT ( dialog ),
-		       "destroy",
-		       GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
-		        "destroy" );
+  dialog = gtk_dialog_new_with_buttons ( _("Export QIF files"),
+					 GTK_WINDOW(window),
+					 GTK_DIALOG_DESTROY_WITH_PARENT,
+					 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					 GTK_STOCK_OK, GTK_RESPONSE_OK,
+					 NULL );
 
-  label = gtk_label_new ( COLON(_("Select the accounts to export")) );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( label );
+  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), GTK_WINDOW ( window ));
+  gtk_signal_connect ( GTK_OBJECT ( dialog ), "destroy",
+		       GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ), "destroy" );
 
-  frame = gtk_frame_new ( NULL );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       frame,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( frame );
+  paddingbox = new_paddingbox_with_title ( GTK_DIALOG(dialog)->vbox, FALSE,
+					   _("Select accounts to export") );
+  gtk_box_set_spacing ( GTK_BOX(GTK_DIALOG(dialog)->vbox), 6 );
+  gtk_container_set_border_width ( paddingbox, 6 );
 
-
-  table = gtk_table_new ( 3,
-			  nb_comptes,
-			  FALSE );
-  gtk_container_set_border_width ( GTK_CONTAINER ( table ),
-				   10 );
-  gtk_table_set_col_spacings ( GTK_TABLE ( table ),
-			       10 );
-  gtk_container_add ( GTK_CONTAINER ( frame ),
-		      table );
+  table = gtk_table_new ( 3, nb_comptes, FALSE );
+  gtk_container_set_border_width ( GTK_CONTAINER ( table ), 10 );
+  gtk_table_set_col_spacings ( GTK_TABLE ( table ), 10 );
+  gtk_box_pack_start ( GTK_BOX(paddingbox), table, FALSE, FALSE, 0 );
   gtk_widget_show ( table );
 
-
-
   /* on met chaque compte dans la table */
-
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
   for ( i = 0 ; i < nb_comptes ; i++ )
@@ -959,16 +935,17 @@ void exporter_fichier_qif ( void )
     }
 
   liste_entrees_exportation = NULL;
+  gtk_widget_show_all ( dialog );
 
  choix_liste_fichier:
-  resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
+  resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
-  if ( resultat || !liste_entrees_exportation )
+  if ( resultat != GTK_RESPONSE_OK || !liste_entrees_exportation )
     {
       if ( liste_entrees_exportation )
 	g_slist_free ( liste_entrees_exportation );
 
-      gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+      gtk_widget_destroy ( dialog );
       return;
     }
 
@@ -984,37 +961,18 @@ void exporter_fichier_qif ( void )
       nom_fichier_qif = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( liste_tmp -> data )));
 
 
-      if ( stat ( nom_fichier_qif,
-		  &test_fichier ) != -1 )
+      if ( stat ( nom_fichier_qif, &test_fichier ) != -1 )
 	{
 	  if ( S_ISREG ( test_fichier.st_mode ) )
 	    {
-	      GtkWidget *etes_vous_sur;
-
-	      etes_vous_sur = gnome_dialog_new ( _("Save the file"),
-						 GNOME_STOCK_BUTTON_YES,
-						 GNOME_STOCK_BUTTON_NO,
-						 NULL );
-	      label = gtk_label_new ( g_strdup_printf ( _("The file '%s' exists.\n Do you want to continue ?"),
-				      nom_fichier_qif ));
-	      gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( etes_vous_sur ) -> vbox ),
-				   label,
-				   TRUE,
-				   TRUE,
-				   5 );
-	      gtk_widget_show ( label );
-
-	      gnome_dialog_set_default ( GNOME_DIALOG ( etes_vous_sur ),
-					 1 );
-	      gtk_window_set_transient_for ( GTK_WINDOW ( etes_vous_sur ),
-					     GTK_WINDOW ( dialog ));
-
-	      if ( gnome_dialog_run_and_close ( GNOME_DIALOG ( etes_vous_sur ) ) )
+	      if ( ! question_yes_no_hint ( g_strdup_printf (_("File '%s' already exists"),
+							     nom_fichier_qif),	     
+					    _("This will irreversibly overwrite previous file.  There is no undo for this.")) )
 		goto choix_liste_fichier;
 	    }
 	  else
 	    {
-	      dialogue ( g_strdup_printf ( _("File name \"%s\" invalid !"),
+	      dialogue ( g_strdup_printf ( _("File name '%s' invalid !"),
 					   nom_fichier_qif ));
 	      goto choix_liste_fichier;
 	    }
@@ -1449,10 +1407,7 @@ void exporter_fichier_qif ( void )
       liste_tmp = liste_tmp -> next;
     }
 
-
-
-  gnome_dialog_close ( GNOME_DIALOG ( dialog ));
-
+  gtk_widget_destroy ( dialog );
 }
 /* *******************************************************************************/
 
