@@ -60,8 +60,7 @@ gboolean charge_etat ( gchar *nom_etat )
 
 	/* récupère la version de fichier */
 
-	if (( !strcmp (  xmlNodeGetContent ( doc->children->children->children ),
-			 VERSION )))
+	if (( strcmp (  xmlNodeGetContent ( doc->children->children->children ), VERSION )))
 	  {
 	    dialogue_warning_hint ( g_strdup_printf (_("This report has been produced with grisbi version %s, Grisbi will nevertheless try to import it."), xmlNodeGetContent ( doc->children->children->children )),
 				    _("Version mismatch") );
@@ -292,16 +291,17 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 		     &&
 		     xmlNodeGetContent ( node_detail_etat ))
 		{
-		    gchar **pointeur_char;
-
-		    pointeur_char = g_strsplit ( xmlNodeGetContent ( node_detail_etat ),
-						 "/",
-						 3 );
-
-		    etat -> date_perso_debut = g_date_new_dmy ( my_atoi ( pointeur_char[0] ),
-								my_atoi ( pointeur_char[1] ),
-								my_atoi ( pointeur_char[2] ));
-		    g_strfreev ( pointeur_char );
+		    if ( xmlNodeGetContent (node_detail_etat) &&  
+			 strlen (xmlNodeGetContent (node_detail_etat)) )
+		      {
+			gchar **pointeur_char;
+		    
+			pointeur_char = g_strsplit ( xmlNodeGetContent ( node_detail_etat ), "/", 3 );
+			etat -> date_perso_debut = g_date_new_dmy ( my_atoi ( pointeur_char[0] ),
+								    my_atoi ( pointeur_char[1] ),
+								    my_atoi ( pointeur_char[2] ));
+			g_strfreev ( pointeur_char );
+		      }
 		}
 
 		if ( !strcmp ( node_detail_etat -> name,
@@ -309,16 +309,17 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 		     &&
 		     xmlNodeGetContent ( node_detail_etat ))
 		{
-		    gchar **pointeur_char;
-
-		    pointeur_char = g_strsplit ( xmlNodeGetContent ( node_detail_etat ),
-						 "/",
-						 3 );
-
-		    etat -> date_perso_fin = g_date_new_dmy ( my_atoi ( pointeur_char[0] ),
-							      my_atoi ( pointeur_char[1] ),
-							      my_atoi ( pointeur_char[2] ));
-		    g_strfreev ( pointeur_char );
+		    if ( xmlNodeGetContent (node_detail_etat) &&  
+			 strlen (xmlNodeGetContent (node_detail_etat)) )
+		      {
+			gchar **pointeur_char;
+			
+			pointeur_char = g_strsplit ( xmlNodeGetContent ( node_detail_etat ), "/", 3 ); 
+			etat -> date_perso_fin = g_date_new_dmy ( my_atoi ( pointeur_char[0] ),
+								  my_atoi ( pointeur_char[1] ),
+								  my_atoi ( pointeur_char[2] ));
+			g_strfreev ( pointeur_char );
+		      }
 		}
 
 		if ( !strcmp ( node_detail_etat -> name,
@@ -747,7 +748,7 @@ gint recupere_devise_par_nom_etat ( gchar *nom )
 
     liste_tmp = g_slist_find_custom ( liste_struct_devises,
 				      g_strstrip ( nom ),
-				      (GCompareFunc) recherche_devise_par_nom  );
+				      (GCompareFunc) recherche_devise_par_nom );
 
     if ( liste_tmp )
 	devise = liste_tmp -> data;
