@@ -3,6 +3,7 @@
 # translation of fr.po to
 # translation of fr.po to
 # translation of fr.po to
+# translation of fr.po to
 # translation of fr.po to Francais
 # Grisbi translation into French
 # Copyright (C) 2003	Daniel Cartron <daniel@cartron.org>, 2003.
@@ -14,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "POT-Creation-Date: 2004-05-20 17:48+0200\n"
-"PO-Revision-Date: 2004-05-20 18:02GMT\n"
+"PO-Revision-Date: 2004-05-20 19:13GMT\n"
 "Last-Translator: Alain PORTAL <alain.portal@free.fr>\n"
 "Language-Team:  <fr@li.org>\n"
 "MIME-Version: (null)\n"
@@ -3205,7 +3206,7 @@ msgid ""
 "Transaction amount isn't fully broken down.\n"
 "Proceed anyway?"
 msgstr ""
-"Le montant de la transaction n'est pas totalement ventilé.\n"
+"Le montant de l'opération n'est pas totalement ventilé.\n"
 "Continuer quand même ?"
 
 #: src/echeancier_ventilation.c:2665 src/ventilation.c:2796
@@ -5010,11 +5011,11 @@ msgid ""
 "Grisbi searched for such transaction and found:\n"
 "\n"
 msgstr ""
-"Un bug dans les versions précédent la version 0.4.0 pouvait créer des "
-"transactions orphelines (soit des virements sans contre opération, soit des "
+"Un bogue dans les versions précédent la version 0.4.0 pouvait créer des "
+"opérations orphelines (soit des virements sans contre opération, soit des "
 "détails d'opérations ventilées sans opération ventilée associée.\n"
 "\n"
-"Grisbi a cherché de telles opérations et a trouvé:\n"
+"Grisbi a cherché de telles opérations et a trouvé :\n"
 "\n"
 
 #: src/fichiers_io.c:1820
