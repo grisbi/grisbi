@@ -81,6 +81,10 @@ gboolean charge_operations ( void )
 			 "0.4.0" )))
 	  return ( charge_operations_version_0_4_0 ( doc ));
 
+        if (( !strcmp (  xmlNodeGetContent ( doc->root->childs->childs ),
+			 "0.4.1" )))
+	  return ( charge_operations_version_0_4_1 ( doc ));
+
 	/* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
 	/* la version nécessaire pour l'ouvrir */
 
@@ -1750,6 +1754,68 @@ void supprime_operations_orphelines ( void )
 
 gboolean charge_operations_version_0_4_0 ( xmlDocPtr doc )
 {
+  gint retour;
+  gint i;
+
+  /* il n'y a aucune différence de struct entre la 0.4.0 et la 0.4.1 */
+  /* sauf que la 0.4.0 n'attribuait pas le no de relevé aux opés filles */
+  /* d'une ventilation */
+
+  retour = charge_operations_version_0_4_1 (doc);
+
+  if ( !retour )
+    return ( FALSE );
+
+  for ( i = 0 ; i < nb_comptes ; i++ )
+    {
+      GSList *liste_tmp;
+
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+
+      liste_tmp = LISTE_OPERATIONS;
+
+      while ( liste_tmp )
+	{
+	  struct structure_operation *operation;
+
+	  operation = liste_tmp -> data;
+
+	  /*  si l'opération est une ventil, on refait le tour de la liste pour trouver ses filles */
+
+	  if ( operation -> operation_ventilee )
+	    {
+	      GSList *liste_tmp_2;
+
+	      liste_tmp_2 = LISTE_OPERATIONS;
+
+	      while ( liste_tmp_2 )
+		{
+		  struct structure_operation *operation_2;
+
+		  operation_2 = liste_tmp_2 -> data;
+
+		  if ( operation_2 -> no_operation_ventilee_associee == operation -> no_operation )
+		    operation_2 -> no_rapprochement = operation -> no_rapprochement;
+
+		  liste_tmp_2 = liste_tmp_2 -> next;
+		}
+	    }
+	  liste_tmp = liste_tmp -> next;
+	}
+    }
+
+  return ( TRUE );
+}
+/*****************************************************************************/
+
+
+
+/*****************************************************************************/
+/* version 0.4.1 */
+/*****************************************************************************/
+
+gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
+{
   xmlNodePtr node_1;
 
   etat.en_train_de_charger = 1;
@@ -2139,8 +2205,6 @@ des paramètres.") );
 			  if ( !strcmp ( node_detail -> name,
 					 "Nb_lignes_ope" ))
 			    NB_LIGNES_OPE = atoi ( xmlNodeGetContent ( node_detail ));
-			  else
-			    NB_LIGNES_OPE = 3;
 
 			  if ( !strcmp ( node_detail -> name,
 					 "Commentaires" ))
@@ -3917,6 +3981,8 @@ gboolean enregistre_fichier ( gboolean force )
   GList *pointeur_list;
   gint i, j;
   GSList *pointeur_liste_2;
+  struct stat buffer_stat;
+  gint nouveau_fichier;
 
   /*   si le fichier est dejà ouvert par un autre, ne peut enregistrer */
 
@@ -3925,6 +3991,15 @@ gboolean enregistre_fichier ( gboolean force )
       dialogue ( PRESPACIFY(_("Fichier ouvert par un autre utilisateur, enregistrement impossible\nVous pouvez forcer l'enregistrement à partir des paramètres.")));
       return ( FALSE );
     }
+
+  /* on regarde ici si le fichier existe */
+  /*   s'il n'existe pas on mettre ses permissions à 600, sinon on les laisse comme ça */
+
+  if ( stat ( nom_fichier_comptes,
+	      &buffer_stat ) == -1 )
+    nouveau_fichier = 1;
+  else
+    nouveau_fichier = 0;
 
 
   etat.en_train_de_sauvegarder = 1;
@@ -5965,6 +6040,13 @@ gboolean enregistre_fichier ( gboolean force )
 				   nom_fichier_comptes, strerror ( errno ) ));
       return ( FALSE );
     }
+
+
+  /* si c'est un nouveau fichier, on met à 600 ses permissions */
+
+  if ( nouveau_fichier )
+    chmod ( nom_fichier_comptes,
+	    S_IRUSR | S_IWUSR );
 
 
   etat.en_train_de_sauvegarder = 0;

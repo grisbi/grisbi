@@ -874,6 +874,29 @@ void pointe_equilibrage ( int p_ligne )
     }
 
     
+  /* si c'est une opé ventilée, on recherche les opé filles pour leur mettre le même pointage que la mère */
+
+  if ( operation -> operation_ventilee )
+    {
+      /* p_tab est déjà pointé sur le compte courant */
+
+      GSList *liste_tmp;
+
+      liste_tmp = LISTE_OPERATIONS;
+
+      while ( liste_tmp )
+	{
+	  struct structure_operation *ope_fille;
+
+	  ope_fille = liste_tmp -> data;
+
+	  if ( ope_fille -> no_operation_ventilee_associee == operation -> no_operation )
+	    ope_fille -> pointe = operation -> pointe;
+
+	      liste_tmp = liste_tmp -> next;
+	}
+    }
+
 
   gtk_label_set_text ( GTK_LABEL ( label_equilibrage_pointe ),
 		       g_strdup_printf ("%4.2f",
@@ -948,10 +971,10 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
        != 3 )
     {
       if ( !nb_parametres || nb_parametres == -1 )
-    {
-      dialogue ( _("Erreur : date invalide") );
-      return;
-    }
+	{
+	  dialogue ( _("Erreur : date invalide") );
+	  return;
+	}
 
 
       date = g_date_new ();
@@ -1135,7 +1158,11 @@ void calcule_total_pointe_compte ( gint no_compte )
 
       operation = pointeur_liste_ope -> data;
 
-      if ( operation -> pointe == 1 )
+      /* on ne prend en compte l'opé que si c'est pas une opé de ventil */
+
+      if ( operation -> pointe == 1
+	   &&
+	   !operation -> no_operation_ventilee_associee )
 	{
 	  gdouble montant;
 

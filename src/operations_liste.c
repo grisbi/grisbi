@@ -1967,6 +1967,29 @@ void p_press (void)
       modification_fichier( TRUE );
     }
 
+  /* si c'est une opé ventilée, on recherche les opé filles pour leur mettre le même pointage que la mère */
+
+  if ( OPERATION_SELECTIONNEE -> operation_ventilee )
+    {
+      /* p_tab est déjà pointé sur le compte courant */
+
+      GSList *liste_tmp;
+
+      liste_tmp = LISTE_OPERATIONS;
+
+      while ( liste_tmp )
+	{
+	  struct structure_operation *ope_fille;
+
+	  ope_fille = liste_tmp -> data;
+
+	  if ( ope_fille -> no_operation_ventilee_associee == OPERATION_SELECTIONNEE -> no_operation )
+	    ope_fille -> pointe = OPERATION_SELECTIONNEE -> pointe;
+
+	  liste_tmp = liste_tmp -> next;
+	}
+    }
+
 
   if ( etat.equilibrage )
     {
@@ -2036,31 +2059,6 @@ void r_press (void)
 
       OPERATION_SELECTIONNEE -> pointe = 2;
 
-      /* si c'est une ventil */
-      /* fait le tour des opés du compte pour rechercher les opés de ventil associées à */
-      /* cette ventil */
-
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-
-      if ( OPERATION_SELECTIONNEE -> operation_ventilee )
-	{
-	  GSList *liste_tmp;
-
-	  liste_tmp = LISTE_OPERATIONS;
-
-	  while ( liste_tmp )
-	    {
-	      struct structure_operation *operation;
-
-	      operation = liste_tmp -> data;
-
-	      if ( operation -> no_operation_ventilee_associee == OPERATION_SELECTIONNEE -> no_operation )
-		operation -> pointe = 2;
-
-	      liste_tmp = liste_tmp -> next;
-	    }
-	}
-
       /*       on met soit le R, soit on change la sélection vers l'opé suivante */
 
       if ( AFFICHAGE_R )
@@ -2095,31 +2093,35 @@ void r_press (void)
 			     3,
 			     NULL );
 
-	/* si c'est une ventil */
-	/* fait le tour des opés du compte pour rechercher les opés de ventil associées à */
-	/* cette ventil */
-
-	if ( OPERATION_SELECTIONNEE -> operation_ventilee )
-	  {
-	    GSList *liste_tmp;
-
-	    liste_tmp = LISTE_OPERATIONS;
-
-	    while ( liste_tmp )
-	      {
-		struct structure_operation *operation;
-
-		operation = liste_tmp -> data;
-
-		if ( operation -> no_operation_ventilee_associee == OPERATION_SELECTIONNEE -> no_operation )
-		  operation -> pointe = 0;
-
-		liste_tmp = liste_tmp -> next;
-	      }
-	  }
 
 	modification_fichier( TRUE );
       }
+
+  /* si c'est une ventil */
+  /* fait le tour des opés du compte pour rechercher les opés de ventil associées à */
+  /* cette ventil */
+
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+  if ( OPERATION_SELECTIONNEE -> operation_ventilee )
+    {
+      GSList *liste_tmp;
+
+      liste_tmp = LISTE_OPERATIONS;
+
+      while ( liste_tmp )
+	{
+	  struct structure_operation *operation;
+
+	  operation = liste_tmp -> data;
+
+	  if ( operation -> no_operation_ventilee_associee == OPERATION_SELECTIONNEE -> no_operation )
+	    operation -> pointe = OPERATION_SELECTIONNEE -> pointe;
+
+	  liste_tmp = liste_tmp -> next;
+	}
+    }
+
 }
 /***************************************************************************************************/
 

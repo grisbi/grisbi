@@ -737,6 +737,8 @@ void remplit_arbre_categ ( void )
 	  if ( etat.affiche_nb_ecritures_listes )
 	    text[0] = g_strdup_printf ( _("Aucune sous-catégorie (%d)"),
 					nb_ecritures_par_sous_categ[place_categ][0] );
+	  else
+	    text[0] = g_strdup ( _("Aucune sous-catégorie" ));
 
 	  text[1] = NULL;
 

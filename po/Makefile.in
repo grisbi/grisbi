@@ -8,7 +8,7 @@
 # Please note that the actual code is *not* freely available.
 
 PACKAGE = grisbi
-VERSION = 0.4.0
+VERSION = 0.4.1
 
 # These two variables depend on the location of this directory.
 subdir = po

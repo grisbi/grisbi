@@ -719,6 +719,8 @@ GtkWidget *onglet_fichier ( void )
       gtk_widget_set_usize ( gnome_file_entry_gnome_entry ( GNOME_FILE_ENTRY ( entree_chemin_backup )),
 			     300,
 			     FALSE );
+      gnome_file_entry_set_modal ( GNOME_FILE_ENTRY ( entree_chemin_backup ),
+				   TRUE );
 
       if ( nom_fichier_backup )
 	{

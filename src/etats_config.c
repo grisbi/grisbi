@@ -6959,7 +6959,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			      11, 12 );
   gtk_widget_show ( hbox );
 
-  bouton_rendre_ope_clickables = gtk_check_button_new_with_label ( _("Rendre les opérations intéractives"));
+  bouton_rendre_ope_clickables = gtk_check_button_new_with_label ( _("Rendre les opérations interactives"));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_rendre_ope_clickables,
 		       FALSE,
