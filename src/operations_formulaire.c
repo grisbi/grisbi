@@ -3696,10 +3696,6 @@ void affiche_cache_le_formulaire ( void )
 
     if ( etat.formulaire_toujours_affiche )
     {
-/* 	gtk_widget_hide ( fleche_bas ); */
-/* 	gtk_widget_show ( fleche_haut ); */
-
-	gtk_widget_hide ( frame_droite_bas );
 	etat.formulaire_toujours_affiche = 0;
     }
     else
@@ -3707,26 +3703,23 @@ void affiche_cache_le_formulaire ( void )
 	GtkAdjustment *ajustement;
 	gint position_ligne_selectionnee;
 
-/* 	gtk_widget_hide ( fleche_haut ); */
-/* 	gtk_widget_show ( fleche_bas ); */
-
-	gtk_widget_show ( frame_droite_bas );
 	etat.formulaire_toujours_affiche = 1;
 
-	/* 	si après avoir remonté le formulaire la ligne sélectionnée est cachée, */
-	/* 	on la remonte pour la mettre juste au dessus du formulaire */
-
 	update_ecran ();
-	ajustement = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( gsb_account_get_tree_view (gsb_account_get_current_account ()) ));
-	
-	position_ligne_selectionnee = ( cherche_ligne_operation ( gsb_account_get_current_transaction (gsb_account_get_current_account ()),
-								  gsb_account_get_current_account () )
-					+ gsb_account_get_nb_rows ( gsb_account_get_current_account () ) ) * hauteur_ligne_liste_opes;
 
-	if ( position_ligne_selectionnee  > (ajustement->value + ajustement->page_size))
-	    gtk_adjustment_set_value ( ajustement,
-				       position_ligne_selectionnee - ajustement->page_size );
+/* 	ajustement = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( gsb_account_get_tree_view (gsb_account_get_current_account ()) )); */
+	
+/* 	position_ligne_selectionnee = ( cherche_ligne_operation ( gsb_account_get_current_transaction (gsb_account_get_current_account ()), */
+/* 								  gsb_account_get_current_account () ) */
+/* 					+ gsb_account_get_nb_rows ( gsb_account_get_current_account () ) ) * hauteur_ligne_liste_opes; */
+
+/* 	if ( position_ligne_selectionnee  > (ajustement->value + ajustement->page_size)) */
+/* 	    gtk_adjustment_set_value ( ajustement, */
+/* 				       position_ligne_selectionnee - ajustement->page_size ); */
     }
+
+    gtk_expander_set_expanded ( GTK_EXPANDER ( frame_droite_bas ), 
+				etat.formulaire_toujours_affiche );
 
     block_menu_cb = TRUE;
     widget = gtk_item_factory_get_item ( item_factory_menu_general,
