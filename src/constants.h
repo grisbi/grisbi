@@ -37,6 +37,18 @@
 # define TRANSACTION_FORM_WIDGET_NB 19	 /* must be the last of the list */
 
 /* Constantes qui définisent le numéro de widget dans le formulaire
+   de ventilation des opérations */
+# define TRANSACTION_BREAKDOWN_FORM_CATEGORY 0
+# define TRANSACTION_BREAKDOWN_FORM_NOTES 1
+# define TRANSACTION_BREAKDOWN_FORM_DEBIT 2
+# define TRANSACTION_BREAKDOWN_FORM_CREDIT 3
+# define TRANSACTION_BREAKDOWN_FORM_BUDGETARY 4
+# define TRANSACTION_BREAKDOWN_FORM_CONTRA 5
+# define TRANSACTION_BREAKDOWN_FORM_EXERCICE 6
+# define TRANSACTION_BREAKDOWN_FORM_VOUCHER 7
+# define TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET 8	 /* must be the last of the list */
+
+/* Constantes qui définisent le numéro de widget dans le formulaire
    de saisie des échéances */
 # define SCHEDULER_FORM_DATE 0
 # define SCHEDULER_FORM_PARTY 1
@@ -58,6 +70,18 @@
 # define SCHEDULER_FORM_FREQ_CUSTOM_NB 17
 # define SCHEDULER_FORM_FREQ_CUSTOM_MENU 18
 # define SCHEDULER_FORM_TOTAL_WIDGET 19	 /* must be the last of the list */
+
+/* Constantes qui définisent le numéro de widget dans le formulaire
+   de ventilation des opérations planifiées */
+# define SCHEDULER_BREAKDOWN_FORM_CATEGORY 0
+# define SCHEDULER_BREAKDOWN_FORM_NOTES 1
+# define SCHEDULER_BREAKDOWN_FORM_DEBIT 2
+# define SCHEDULER_BREAKDOWN_FORM_CREDIT 3
+# define SCHEDULER_BREAKDOWN_FORM_BUDGETARY 4
+# define SCHEDULER_BREAKDOWN_FORM_CONTRA 5
+# define SCHEDULER_BREAKDOWN_FORM_EXERCICE 6
+# define SCHEDULER_BREAKDOWN_FORM_VOUCHER 7
+# define SCHEDULER_BREAKDOWN_FORM_TOTAL_WIDGET 8	 /* must be the last of the list */
 
 /* Constantes pour style_entree_formulaire[] */
 # define ENCLAIR 0
