@@ -6315,7 +6315,6 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 				}
 
 			      /* on a fini de remplir l'état, on l'ajoute à la liste */
-			      printf (">>> %s\n",  etat->nom_etat);
 			      liste_struct_etats = g_slist_append ( liste_struct_etats, etat );
 			    }
 			  node_detail = node_detail -> next;
