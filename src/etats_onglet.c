@@ -421,7 +421,7 @@ void remplissage_liste_etats ( void )
 
 	/* 	on associe au bouton le no de l'état (en cas de changement d'ordre) */
 
-	bouton = gtk_list_button_new ( etat -> nom_etat, 0, 1, GINT_TO_POINTER (etat -> no_etat));
+	bouton = gtk_list_button_new ( etat -> nom_etat, 0, 0, GINT_TO_POINTER (etat -> no_etat));
 	gtk_widget_show_all (bouton) ;
 	gtk_box_pack_start ( GTK_BOX ( vbox_liste_etats ), bouton,
 			     FALSE, FALSE, 0 );
