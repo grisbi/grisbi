@@ -262,7 +262,7 @@ gboolean modification_retient_affichage_par_compte ( void )
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     nb_lignes = gsb_account_get_nb_rows ( compte_courant );
-    affichage_r = AFFICHAGE_R;
+    affichage_r = gsb_account_get_r (compte_courant);
 
     /*     on doit réafficher tous les comptes qui ne correspondent pas */
 
@@ -272,11 +272,12 @@ gboolean modification_retient_affichage_par_compte ( void )
 
 	if (  gsb_account_get_nb_rows ( i ) != nb_lignes
 	      ||
-	      AFFICHAGE_R != affichage_r )
+	      gsb_account_get_r (i) != affichage_r )
 	{
 	    gsb_account_set_nb_rows ( i, 
 				      nb_lignes );
-	    AFFICHAGE_R = affichage_r;
+	    gsb_account_set_r (i,
+			       affichage_r );
 	    SLIST_DERNIERE_OPE_AJOUTEE = NULL;
 	    COULEUR_BACKGROUND_FINI = 0;
 	    AFFICHAGE_SOLDE_FINI = 0;

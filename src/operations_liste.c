@@ -906,7 +906,7 @@ void ajoute_operations_compte_dans_list_store ( gint compte,
 
 	if ( !(operation -> no_operation_ventilee_associee
 	       ||
-	       ( !AFFICHAGE_R
+	       ( !gsb_account_get_r (compte)
 		 &&
 		 operation -> pointe == 3 )))
 	{
@@ -1708,7 +1708,7 @@ gdouble solde_debut_affichage ( gint no_compte )
 
     solde = SOLDE_INIT;
 
-    if ( AFFICHAGE_R )
+    if ( gsb_account_get_r (no_compte) )
 	return (solde);
 
     /*     les R ne sont pas affichés, on les déduit du solde initial */
@@ -2747,7 +2747,7 @@ void r_press (void)
 
 	/* on met soit le R, soit on change la sélection vers l'opé suivante */
 
-	if ( AFFICHAGE_R )
+	if ( gsb_account_get_r (compte_courant) )
 	    gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
 				 iter,
 				 col, _("R"),
@@ -4139,7 +4139,7 @@ GSList *cree_slist_affichee ( gint no_compte )
 	       ||
 	       ( operation -> pointe == 3
 		 &&
-		 !AFFICHAGE_R )))
+		 !gsb_account_get_r (no_compte) )))
 	    nouvelle_liste = g_slist_append ( nouvelle_liste,
 					      operation );
 		     
@@ -4164,22 +4164,23 @@ void mise_a_jour_affichage_r ( gint affichage_r )
     GtkTreeIter *iter;
     struct structure_operation *operation;
 
-    /*     si affichage_r = AFFICHAGE_R on ne change rien */
+    /*     si affichage_r est déjà correct on ne change rien */
     /* 	on vérifie sur le compte courant car soit c'est sur ce compte */
     /* 	qu'on travaille, soit tous les autres comptes ont la même valeur */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
-    if ( affichage_r == AFFICHAGE_R )
+    if ( affichage_r == gsb_account_get_r (compte_courant) )
 	return;
 
     if ( DEBUG )
 	printf ( "mise_a_jour_affichage_r afficher : %d\n", affichage_r );
 
-    AFFICHAGE_R = affichage_r;
+    gsb_account_set_r (compte_courant,
+		       affichage_r );
     iter = &iter_liste_operations;
 
-    if ( AFFICHAGE_R )
+    if ( gsb_account_get_r (compte_courant) )
     {
 	/* 	on a demandé d'afficher les R */
 	for ( i=0 ; i<nb_comptes ; i++ )

@@ -488,7 +488,10 @@ void ouverture_confirmee ( void )
     block_menu_cb = TRUE;
     widget = gtk_item_factory_get_item ( item_factory_menu_general,
 					 menu_name(_("View"), _("Show reconciled transactions"), NULL) );
-    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), AFFICHAGE_R );
+
+    /* FIXME : à vérifier pour les 2 prochains gsb_account, mis compte_courant en attendant */
+
+    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), gsb_account_get_r (compte_courant) );
 
     /* On met à jour le contrôle dans le menu du nombre de lignes affichées */
     switch ( gsb_account_get_nb_rows ( compte_courant ) )

@@ -47,7 +47,6 @@ static gpointer gsb_account_find_sort_by_no ( gint sort_number );
 static struct struct_account *gsb_account_get_structure ( gint no );
 static gint gsb_account_last_number ( void );
 static gint gsb_account_new ( kind_account account_type );
-static gint gsb_account_take_r( gint no_account );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -181,7 +180,7 @@ gint gsb_account_new ( kind_account account_type )
     }
     else
     {
-	account -> show_r = gsb_account_take_r ( gsb_account_last_number ());
+	account -> show_r = gsb_account_get_r ( gsb_account_last_number ());
 	account -> nb_rows_by_transaction = gsb_account_get_nb_rows ( gsb_account_last_number ());
 	account -> form_organization = gsb_form_dup_organization ( gsb_account_get_structure (gsb_account_last_number ()) -> form_organization );
     }
@@ -275,7 +274,7 @@ gint gsb_account_get_nb_rows ( gint no_account )
 }
 
 
-/** take the nb of rows displayed on the account given
+/** set the nb of rows displayed in the account given
  * \param no_account no of the account
  * \param nb_rows number of rows per transaction (1, 2, 3 or 4)
  * \return TRUE, ok ; FALSE, problem
@@ -303,9 +302,9 @@ gboolean gsb_account_set_nb_rows ( gint no_account,
 
 /** return if R are displayed in the account asked
  * \param no_account no of the account
- * \return nb of rows displayed or 0 if the account doesn't exist
+ * \return boolean show/not show R
  * */
-gint gsb_account_take_r( gint no_account )
+gboolean gsb_account_get_r ( gint no_account )
 {
     struct struct_account *account;
 
@@ -315,5 +314,24 @@ gint gsb_account_take_r( gint no_account )
 	return 0;
 
     return account -> show_r;
+}
+
+/** set if R are displayed in the account asked
+ * \param no_account no of the account
+ * \param show_r boolean
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_r ( gint no_account,
+			     gboolean show_r )
+{
+    struct struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> show_r = show_r;
+    return TRUE;
 }
 

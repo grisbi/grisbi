@@ -30,6 +30,7 @@
 #include "operations_liste.h"
 #include "utils_devises.h"
 #include "dialog.h"
+#include "data_account.h"
 #include "gtk_combofix.h"
 #include "utils_str.h"
 #include "traitement_variables.h"
@@ -767,7 +768,7 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 	{
 	    changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
 	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-	    if ( operation -> pointe == 3 && !AFFICHAGE_R )
+	    if ( operation -> pointe == 3 && !gsb_account_get_r (compte_courant) )
 		change_aspect_liste ( 5 );
 	    selectionne_ligne ( operation );
 	}

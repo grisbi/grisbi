@@ -39,6 +39,7 @@
 #include "qif.h"
 #include "erreur.h"
 #include "tip.h"
+#include "data_account.h"
 #include "import.h"
 #include "etats_calculs.h"
 #include "utils.h"
@@ -377,7 +378,7 @@ void view_menu_cb ( gpointer callback_data, guint callback_action, GtkWidget *wi
       change_aspect_liste (0);
       break;
     case HIDE_SHOW_RECONCILED_TRANSACTIONS:
-      if ( AFFICHAGE_R )
+      if ( gsb_account_get_r (compte_courant) )
 	change_aspect_liste(6);
       else
 	change_aspect_liste(5);

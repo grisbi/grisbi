@@ -416,14 +416,13 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 
 		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
-		affichage_r = AFFICHAGE_R;
+		affichage_r = gsb_account_get_r (compte_courant);
 		nb_lignes_ope = gsb_account_get_nb_rows ( compte_courant );
 
 		for ( i=0 ; i<nb_comptes ; i++ )
 		{
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
-
-		    AFFICHAGE_R = affichage_r;
+		    gsb_account_set_r ( i,
+					affichage_r );
 		    gsb_account_set_nb_rows ( i, 
 					      nb_lignes_ope );
 		}
@@ -903,6 +902,7 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 	    *p_tab_nom_de_compte_variable = calloc ( 1,
 						     sizeof (struct donnees_compte));
 	    /* FIXME : il faut mettre le no compte */
+	    printf ( "fixme : il faut mettre le no compte lors du chargement\n" );
 
 	    no_compte = 0;
 
@@ -1015,7 +1015,8 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Affichage_r" ))
-				AFFICHAGE_R  = my_atoi ( xmlNodeGetContent ( node_detail ));
+				gsb_account_set_r ( no_compte,
+						    my_atoi ( xmlNodeGetContent ( node_detail )));
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Nb_lignes_ope" ))
@@ -3316,12 +3317,12 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Affichage_r",
-			  itoa ( AFFICHAGE_R ));
+			  itoa ( gsb_account_get_r (i)));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Nb_lignes_ope",
-			  itoa ( gsb_account_get_nb_rows ( i )));
+			  itoa ( gsb_account_get_nb_rows (i)));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,

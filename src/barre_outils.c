@@ -790,7 +790,7 @@ void mise_a_jour_boutons_caract_liste ( gint no_compte )
     g_signal_handlers_block_by_func ( G_OBJECT ( bouton_enleve_r ),
 				      G_CALLBACK ( change_aspect_liste ),
 				      GINT_TO_POINTER (6));
-    if ( AFFICHAGE_R )
+    if ( gsb_account_get_r (no_compte) )
 	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_r ),
 				       TRUE );
     else

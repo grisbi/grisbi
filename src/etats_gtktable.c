@@ -29,6 +29,7 @@
 #include "etats_gtktable.h"
 #include "barre_outils.h"
 #include "operations_comptes.h"
+#include "data_account.h"
 #include "utils.h"
 #include "utils_operations.h"
 #include "operations_liste.h"
@@ -272,7 +273,7 @@ void gtktable_click_sur_ope_etat ( struct structure_operation *operation )
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
-	if ( operation -> pointe == 3 && !AFFICHAGE_R )
+	if ( operation -> pointe == 3 && !gsb_account_get_r (compte_courant) )
 	    change_aspect_liste ( 5 );
 
 	selectionne_ligne ( OPERATION_SELECTIONNEE );

@@ -3503,7 +3503,7 @@ void ajout_operation ( struct structure_operation *operation )
 	   ||
 	   ( operation -> pointe == 3
 	     &&
-	     !AFFICHAGE_R )))
+	     !gsb_account_get_r (operation -> no_compte))))
     {
 	/*     si la liste n'est pas finie, on la finie avant */
 
@@ -3527,7 +3527,7 @@ void ajout_operation ( struct structure_operation *operation )
 		      ||
 		      ( operation_suivante -> pointe == 3
 			&&
-			!AFFICHAGE_R )))
+			!gsb_account_get_r (operation -> no_compte))))
 	    {
 		liste_tmp = liste_tmp -> next;
 		operation_suivante = liste_tmp -> data;

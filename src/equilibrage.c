@@ -668,8 +668,9 @@ void equilibrage ( void )
 
     /*     on passe en non affichage des R */
 
-    ancien_r_modifiable = AFFICHAGE_R;
-    AFFICHAGE_R = 0;
+    ancien_r_modifiable = gsb_account_get_r (compte_courant);
+    gsb_account_set_r (compte_courant,
+		       FALSE );
     mise_a_jour_affichage_r ( 0 );
 
     /*     on affiche les opés sur 1 ligne */
@@ -785,7 +786,8 @@ gboolean annuler_equilibrage ( void )
 			      ancien_nb_lignes_ope );
     mise_a_jour_affichage_lignes ( ancien_nb_lignes_ope );
 
-    AFFICHAGE_R = ancien_r_modifiable;
+    gsb_account_set_r (compte_courant,
+		       ancien_r_modifiable );
     mise_a_jour_affichage_r ( ancien_r_modifiable );
 
     etat.retient_affichage_par_compte = ancien_retient_affichage_par_compte;
