@@ -112,6 +112,7 @@ extern GtkWidget *label_releve;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern GtkTreeStore *model;
 extern gint nb_comptes;
+extern GSList *ordre_comptes;
 extern GtkWidget *notebook_comptes_equilibrage;
 extern FILE * out;
 extern gpointer **p_tab_nom_de_compte;
@@ -1157,12 +1158,14 @@ gboolean clavier_equilibrage ( GtkWidget *widget,
 void fill_reconciliation_tree ()
 {
     GtkTreeIter account_iter, payment_method_iter;
-    gint i;
+    GSList *pUserAccountsList = NULL;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+    pUserAccountsList = g_slist_copy ( ordre_comptes );
 
-    for ( i=0 ; i<nb_comptes ; i++ )
+    do
     {
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( pUserAccountsList -> data );
+
 	GSList * liste_tmp;
 
 	gtk_tree_store_append (reconcile_model, &account_iter, NULL);
@@ -1182,7 +1185,7 @@ void fill_reconciliation_tree ()
 	    struct struct_type_ope * type_ope;
 
 	    type_ope = type_ope_par_no ( abs(GPOINTER_TO_INT(liste_tmp -> data)),
-					 i );
+					 GPOINTER_TO_INT ( pUserAccountsList -> data ) );
 	    if ( type_ope )
 	    {
 		gchar * nom;
@@ -1233,9 +1236,9 @@ void fill_reconciliation_tree ()
 		gtk_tree_path_free ( treepath );
 	    }
 	}
-
-	p_tab_nom_de_compte_variable++;
     }
+    while ( (  pUserAccountsList = pUserAccountsList -> next ) );
+    g_slist_free ( pUserAccountsList );
 }
 
 
