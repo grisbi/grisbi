@@ -33,6 +33,9 @@ void verifie_ligne_selectionnee_visible ( void );
 void changement_taille_colonne ( GtkWidget *clist,
 				 gint colonne,
 				 gint largeur );
+
+
+gboolean assert_selected_transaction ();
 void new_transaction ( );
 void remove_transaction ( );
 void clone_selected_transaction ( );
@@ -40,4 +43,6 @@ struct structure_operation * clone_transaction ( struct structure_operation * op
 void move_selected_operation_to_account ( GtkMenuItem * menu_item );
 void move_operation_to_account ( struct structure_operation * transaction, 
 				 gint account );
+void schedule_selected_transaction ( );
+struct operation_echeance * schedule_transaction ( struct structure_operation * transaction );
 void popup_menu ( gboolean full );
