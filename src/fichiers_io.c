@@ -1836,22 +1836,25 @@ void supprime_operations_orphelines ( void )
       gchar *message;
 
       /* FIXME */
-      message = "Un bug dans les versions inférieures à la 0.4.0 pouvait faire apparaître des opérations orphelines :\n-soit des virements sans contre-opération,\n-soit des opérations de détails de ventilation sans ventilation mère associée.\n\nGrisbi a recherché ces types d'opérations et a trouvé :\n\n";
+      message = _("There was a bug in versions before 0.4.0, which could lead to orphan transactions (either transfers without countra-transaction, or breakdown transactions details without associated breakdown transaction.\n\nGrisbi searched for such transaction and found:\n\n");
 
       if ( nb_ventil )
 	message = g_strconcat ( message,
 				itoa ( nb_ventil ),
-				" opérations de ventilations orphelines qui ont été simplement supprimées.\n",
+				" ",
+				_("breakdown transactions, all of them were deleted.\n"),
 				NULL );
 
       if ( nb_vir )
 	message = g_strconcat ( message,
 				itoa ( nb_vir ),
-				" virements sans contre-opération, dont les catégories ont été annulées.\n",
+				" ",
+				_("transfers without contra-transaction, which categories were deleted.\n"),
 				NULL );
 
 	message = g_strconcat ( message,
-				"\nCes modifications ne devraient pas affecter le fonctionnement de Grisbi ni les soldes de vos comptes.",
+				"\n",
+				_("These modifications should not impact on neither Grisbi's behavior nor your accounts balances."),
 				NULL );
 
 
