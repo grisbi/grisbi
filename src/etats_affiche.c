@@ -1150,6 +1150,10 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 		  etat_affiche_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
 		}
 	    }
+	  else
+	    {
+	      etat_affiche_attach_label ( NULL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+	    }
 	 
 	  colonne = colonne + 2;
 	}
