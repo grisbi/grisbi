@@ -1156,7 +1156,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 					     g_strdup_printf( _("Please enter exchange rate for %s"), 
 							      devise->nom_devise) );
     gtk_container_set_border_width ( GTK_CONTAINER ( paddingbox ), 6 );
-    gtk_box_set_spacing ( GTK_BOX ( GTK_DIALOG (dialog)->vbox ), 12 );
+    gtk_box_set_spacing ( GTK_BOX ( GTK_DIALOG (dialog)->vbox ), 6 );
     
 
     /* création de la ligne du change */

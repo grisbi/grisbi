@@ -1209,20 +1209,9 @@ void mise_a_jour_fin_comptes_passifs ( void )
 
     if ( g_slist_length ( liste_tmp ) )
     {
-	vbox = gtk_vbox_new ( FALSE,
-			      0 );
-	/*       gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 5 ); */
+	vbox = gtk_vbox_new ( FALSE, 0 );
 	gtk_container_add ( GTK_CONTAINER ( frame_etat_fin_compte_passif ), vbox );
 	gtk_widget_show ( vbox );
-
-	if ( g_slist_length ( liste_tmp ) > 1 )
-	    label = gtk_label_new (COLON(_("The following liabilities accounts are closed")));
-	else
-	    label = gtk_label_new (COLON(_("The following liabilities account is closed")));
-
-	gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
-	gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 0 );
-	gtk_widget_show ( label );
 
 	pointeur = liste_tmp;
 
@@ -1230,6 +1219,7 @@ void mise_a_jour_fin_comptes_passifs ( void )
 	{
 	    label = gtk_label_new (pointeur -> data );
 	    gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 0 );
+	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
 	    gtk_widget_show ( label );
 
 	    pointeur = pointeur -> next;
