@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.4.0\n"
-"POT-Creation-Date: 2003-04-11 10:52+0200\n"
-"PO-Revision-Date: 2003-04-11 11:14+0200\n"
+"POT-Creation-Date: 2003-04-11 14:59+0200\n"
+"PO-Revision-Date: 2003-04-11 15:03+0200\n"
 "Last-Translator: Daniel Cartron <daniel@cartron.org>\n"
 "Language-Team: Français <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3075,9 +3075,8 @@ msgid "Création d'un état"
 msgstr "Create a report"
 
 #: src/etats_onglet.c:555
-#, fuzzy
 msgid "Sélectionner le type d'état voulu :"
-msgstr "Select the report type:"
+msgstr "Select report type:"
 
 #. on ajoute maintenant la frame
 #: src/etats_onglet.c:578
@@ -3086,7 +3085,6 @@ msgid "Description :"
 msgstr "Description:"
 
 #: src/etats_onglet.c:614
-#, fuzzy
 msgid "Revenus et dépenses du mois dernier"
 msgstr "Last month incomes and outgoings"
 
@@ -3116,7 +3114,6 @@ msgid "Recherche"
 msgstr ""
 
 #: src/etats_onglet.c:696
-#, fuzzy
 msgid "État vierge"
 msgstr "Blank report"
 
@@ -3136,15 +3133,11 @@ msgstr "Unknown report type, creation cancelled"
 
 #. revenus et dépenses du mois dernier
 #: src/etats_onglet.c:1142
-#, fuzzy
 msgid ""
 "Cet état affiche les totaux classés par catégorie et sous-catégorie des "
 "opérations du mois dernier. Il suffira de choisir le ou les comptes et de "
 "valider (par-défaut, tous les comptes sont utilisés)."
-msgstr ""
-"This report displays the totals of the last month's transactions sorted "
-"bycategories and subcategories. You just need to select the account(s). "
-"Bydefault all the accounts are selected."
+msgstr "This report displays totals for last month's transactions sorted by categories and subcategories. You just need to select the account(s). By default, all accounts are selected."
 
 #. revenus et dépenses du mois en cours
 #: src/etats_onglet.c:1148
@@ -3268,7 +3261,7 @@ msgstr "the financial year"
 msgid "toutes les dates"
 msgstr "All transactions"
 
-#: src/etats_support.c:216 src/etats_support.c:342
+#: src/etats_support.c:216 src/etats_support.c:324
 #, fuzzy, c-format
 msgid "du %d/%d/%d au %d/%d/%d"
 msgstr "Result from %d/%d/%d to %d/%d/%d:"
@@ -3282,47 +3275,42 @@ msgstr ""
 msgid "cumul au %d/%d/%d"
 msgstr ""
 
-#: src/etats_support.c:253 src/etats_support.c:310
+#: src/etats_support.c:250 src/etats_support.c:298
 #, c-format
-msgid "mois d'%s %d"
+msgid "%s %d"
 msgstr ""
 
-#: src/etats_support.c:259 src/etats_support.c:316
-#, c-format
-msgid "mois de %s %d"
-msgstr ""
-
-#: src/etats_support.c:269 src/etats_support.c:326
+#: src/etats_support.c:260 src/etats_support.c:308
 #, fuzzy, c-format
 msgid "année %d"
 msgstr "Year"
 
-#: src/etats_support.c:278
+#: src/etats_support.c:269
 #, fuzzy, c-format
 msgid "cumul mensuel au %d/%d/%d"
 msgstr "Month to date"
 
-#: src/etats_support.c:289
+#: src/etats_support.c:280
 #, fuzzy, c-format
 msgid "cumul annuel au %d/%d/%d"
 msgstr "Year to date"
 
-#: src/etats_support.c:374 src/etats_support.c:423 src/etats_support.c:472
+#: src/etats_support.c:356 src/etats_support.c:405 src/etats_support.c:454
 #, c-format
 msgid "du mois d'%s %d "
 msgstr ""
 
-#: src/etats_support.c:380 src/etats_support.c:429 src/etats_support.c:478
+#: src/etats_support.c:362 src/etats_support.c:411 src/etats_support.c:460
 #, c-format
 msgid "du mois de %s %d "
 msgstr ""
 
-#: src/etats_support.c:389 src/etats_support.c:438 src/etats_support.c:487
+#: src/etats_support.c:371 src/etats_support.c:420 src/etats_support.c:469
 #, c-format
 msgid "au mois d'%s %d"
 msgstr ""
 
-#: src/etats_support.c:395 src/etats_support.c:444 src/etats_support.c:493
+#: src/etats_support.c:377 src/etats_support.c:426 src/etats_support.c:475
 #, c-format
 msgid "au mois de %s %d"
 msgstr ""

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-04-11 10:52+0200\n"
+"POT-Creation-Date: 2003-04-11 14:59+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3094,7 +3094,7 @@ msgstr ""
 msgid "toutes les dates"
 msgstr ""
 
-#: src/etats_support.c:216 src/etats_support.c:342
+#: src/etats_support.c:216 src/etats_support.c:324
 #, c-format
 msgid "du %d/%d/%d au %d/%d/%d"
 msgstr ""
@@ -3108,47 +3108,42 @@ msgstr ""
 msgid "cumul au %d/%d/%d"
 msgstr ""
 
-#: src/etats_support.c:253 src/etats_support.c:310
+#: src/etats_support.c:250 src/etats_support.c:298
 #, c-format
-msgid "mois d'%s %d"
+msgid "%s %d"
 msgstr ""
 
-#: src/etats_support.c:259 src/etats_support.c:316
-#, c-format
-msgid "mois de %s %d"
-msgstr ""
-
-#: src/etats_support.c:269 src/etats_support.c:326
+#: src/etats_support.c:260 src/etats_support.c:308
 #, c-format
 msgid "année %d"
 msgstr ""
 
-#: src/etats_support.c:278
+#: src/etats_support.c:269
 #, c-format
 msgid "cumul mensuel au %d/%d/%d"
 msgstr ""
 
-#: src/etats_support.c:289
+#: src/etats_support.c:280
 #, c-format
 msgid "cumul annuel au %d/%d/%d"
 msgstr ""
 
-#: src/etats_support.c:374 src/etats_support.c:423 src/etats_support.c:472
+#: src/etats_support.c:356 src/etats_support.c:405 src/etats_support.c:454
 #, c-format
 msgid "du mois d'%s %d "
 msgstr ""
 
-#: src/etats_support.c:380 src/etats_support.c:429 src/etats_support.c:478
+#: src/etats_support.c:362 src/etats_support.c:411 src/etats_support.c:460
 #, c-format
 msgid "du mois de %s %d "
 msgstr ""
 
-#: src/etats_support.c:389 src/etats_support.c:438 src/etats_support.c:487
+#: src/etats_support.c:371 src/etats_support.c:420 src/etats_support.c:469
 #, c-format
 msgid "au mois d'%s %d"
 msgstr ""
 
-#: src/etats_support.c:395 src/etats_support.c:444 src/etats_support.c:493
+#: src/etats_support.c:377 src/etats_support.c:426 src/etats_support.c:475
 #, c-format
 msgid "au mois de %s %d"
 msgstr ""
