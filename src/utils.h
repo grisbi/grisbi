@@ -57,4 +57,6 @@ void spin_button_set_value ( GtkWidget * spin, gdouble * value );
 gboolean set_double ( GtkWidget * spin, gdouble * dummy );
 GtkWidget * my_file_chooser ();
 void browse_file ( GtkButton *button, gpointer data );
+gchar* my_get_grisbirc_dir(void);
+gchar* my_get_gsb_file_default_dir(void);
 

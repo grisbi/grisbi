@@ -7,6 +7,7 @@
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (dionysos@grisbi.org)	      */
+/*			2003-2004 Francois Terrot (francois.terrot@grisbi.org)*/
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -816,7 +817,7 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
     /* Icon */
     if ( image_filename )
     {
-	image = gtk_image_new_from_file (g_strconcat(PIXMAPS_DIR, "/",
+	image = gtk_image_new_from_file (g_strconcat(PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
 						     image_filename, NULL));
 	gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 0);
 	gtk_widget_show ( image );
@@ -1670,6 +1671,36 @@ void browse_file ( GtkButton *button, gpointer data )
     gtk_widget_show_all ( file_selector );
 }
 
+/**
+ * return the absolute path of where the configuration file should be located
+ * on Un*x based system return $HOME
+ * on Windows based systems return APPDATA\Grisbi
+ * 
+ * \return the absolute path of the configuration file directory
+ */
+gchar* my_get_grisbirc_dir(void)
+{
+#ifndef _WIN32
+    return g_get_home_dir();
+#else
+    return win32_get_grisbirc_folder_path();
+#endif
+}
 
+/**
+ * return the absolute path of the default accounts files location
+ * on Un*x based system return $HOME
+ * on Windows based systems return "My Documents"
+ * 
+ * \return the absolute path of the configuration file directory
+ */
+gchar* my_get_gsb_file_default_dir(void)
+{
+#ifndef _WIN32
+    return g_get_home_dir();
+#else
+    return win32_get_my_documents_folder_path();
+#endif
+}
 
 

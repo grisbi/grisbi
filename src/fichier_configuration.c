@@ -48,7 +48,7 @@
 #define C_GRISBIRC  "/.grisbirc"
 #else
 /* Some old Windows version have difficulties with dat starting file names */
-#define C_GRISBIRC  "/grisbi.rc"
+#define C_GRISBIRC  "\\grisbi.rc"
 #endif
 
 extern gint decalage_echeance;  
@@ -68,16 +68,16 @@ void charge_configuration ( void )
 
     raz_configuration ();
 
-    if ( stat ( g_strconcat ( g_get_home_dir(), C_GRISBIRC, NULL ),&buffer_stat ) == -1 )
+    if ( stat ( g_strconcat ( my_get_grisbirc_dir(), C_GRISBIRC, NULL ),&buffer_stat ) == -1 )
     {
 #ifndef _WIN32 /* No old configuration under Windows */
-	if (  stat ( g_strconcat ( g_get_home_dir(), "/.gnome/Grisbi", NULL ),&buffer_stat ) != -1 )
+	if (  stat ( g_strconcat ( my_get_grisbirc_dir(), "/.gnome/Grisbi", NULL ),&buffer_stat ) != -1 )
 	    charge_configuration_ancien();
 #endif
 	return;
     }
 
-    doc = xmlParseFile ( g_strconcat ( g_get_home_dir(), C_GRISBIRC, NULL ) );
+    doc = xmlParseFile ( g_strconcat ( my_get_grisbirc_dir(), C_GRISBIRC, NULL ) );
 
     /* vérifications d'usage */
     xmlNodePtr root = xmlDocGetRootElement(doc);
@@ -122,7 +122,7 @@ void charge_configuration ( void )
 		if ( !strcmp ( node_general -> name, "Dernier_chemin_de_travail" ) ) {
 		    dernier_chemin_de_travail = xmlNodeGetContent ( node_general);
 		    if ( !dernier_chemin_de_travail )
-			dernier_chemin_de_travail = g_strconcat ( g_get_home_dir(), "/",NULL );
+			dernier_chemin_de_travail = g_strconcat ( my_get_gsb_file_default_dir(), C_DIRECTORY_SEPARATOR,NULL );
 		}
 		if ( !strcmp ( node_general -> name, "Affichage_alerte_permission" ) ) {
 		    etat.alerte_permission = my_atoi(xmlNodeGetContent ( node_general));
@@ -392,7 +392,7 @@ void charge_configuration_ancien ( void )
 
     /* modif -> vire gnome, donc fait tout à la main */
 
-    fichier_conf = g_strconcat ( g_get_home_dir(),
+    fichier_conf = g_strconcat ( my_get_grisbirc_dir(),
 				 "/.gnome/Grisbi",
 				 NULL );
 
@@ -528,8 +528,8 @@ void charge_configuration_ancien ( void )
     }
 
     if ( !dernier_chemin_de_travail )
-	dernier_chemin_de_travail = g_strconcat ( g_get_home_dir(),
-						  "/",
+	dernier_chemin_de_travail = g_strconcat ( my_get_gsb_file_default_dir(),
+						  C_DIRECTORY_SEPARATOR,
 						  NULL );
     if ( fonte_liste && !strlen( fonte_liste ) )
 	fonte_liste = NULL;
@@ -574,8 +574,8 @@ void raz_configuration ( void )
     etat.classement_par_date = 1;  /* par défaut, on tri la liste des opés par les dates */
     etat.affiche_boutons_valider_annuler = 1;
     etat.classement_par_date = 1;
-    dernier_chemin_de_travail = g_strconcat ( g_get_home_dir(),
-					      "/",
+    dernier_chemin_de_travail = g_strconcat ( my_get_gsb_file_default_dir(),
+					      C_DIRECTORY_SEPARATOR,
 					      NULL );
     nb_derniers_fichiers_ouverts = 0;
     nb_max_derniers_fichiers_ouverts = 3;
@@ -764,7 +764,7 @@ void sauve_configuration(void)
 
 
     /* Enregistre dans le ~/.grisbirc */
-    resultat = xmlSaveFormatFile ( g_strconcat ( g_get_home_dir(), C_GRISBIRC,
+    resultat = xmlSaveFormatFile ( g_strconcat ( my_get_grisbirc_dir(), C_GRISBIRC,
 						 NULL), doc, 1 );
 
     /* on libère la memoire */
@@ -772,7 +772,7 @@ void sauve_configuration(void)
     if ( resultat == -1 ) 
     {
 	dialogue_error ( g_strdup_printf ( _("Error saving file '%s': %s"), 
-					   nom_fichier_comptes, 
+					   g_strconcat ( my_get_grisbirc_dir(), C_GRISBIRC, NULL), 
 					   latin2utf8(strerror(errno)) ));
     }
 }

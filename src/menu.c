@@ -187,8 +187,8 @@ void efface_derniers_fichiers_ouverts ( void )
 	gchar *tmp;
 
 	tmp = my_strdelimit ( tab_noms_derniers_fichiers_ouverts[i-1],
-			      "/",
-			      "\\/" );
+			      C_DIRECTORY_SEPARATOR,
+			      "\\" C_DIRECTORY_SEPARATOR );
 
 	gtk_item_factory_delete_item ( item_factory_menu_general,
 				       menu_name ( _("File"), _("Recently opened files"), tmp ));
@@ -228,8 +228,8 @@ void affiche_derniers_fichiers_ouverts ( void )
 				      sizeof ( GtkItemFactoryEntry ));
 
 	tmp = my_strdelimit ( tab_noms_derniers_fichiers_ouverts[i-1],
-			      "/",
-			      "\\/" );
+			      C_DIRECTORY_SEPARATOR,
+			      "\\" C_DIRECTORY_SEPARATOR);
 	tmp = my_strdelimit ( tmp,
 			      "_",
 			      "__" );
