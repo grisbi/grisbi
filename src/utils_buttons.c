@@ -92,19 +92,37 @@ GtkWidget *new_checkbox_with_title ( gchar * label, guint * data, GCallback hook
  *
  * \return A newly created paddingbox
  */
-GtkWidget *new_radiogroup_with_title (GtkWidget * parent,
-				      gchar * title, gchar * choice1, gchar * choice2,
-				      guint * data, GCallback hook)
+GtkWidget *new_radiogroup_with_title ( GtkWidget * parent,
+				       gchar * title, gchar * choice1, gchar * choice2,
+				       guint * data, GCallback hook )
 {
-    GtkWidget * button1, *button2, *paddingbox;
+    GtkWidget * paddingbox;
 
     paddingbox = new_paddingbox_with_title (parent, FALSE, COLON(title));
 
+    gtk_box_pack_start (GTK_BOX(paddingbox), new_radiogroup ( choice1, choice2, data, hook ), 
+			FALSE, FALSE, 0 );
+
+    return paddingbox;
+}
+
+
+
+/**
+ *
+ *
+ */
+GtkWidget * new_radiogroup ( gchar * choice1, gchar * choice2, guint * data, GCallback hook )
+{
+    GtkWidget * button1, *button2, *vbox;
+    
+    vbox = gtk_vbox_new ( FALSE, 6 );
+
     button1 = gtk_radio_button_new_with_label ( NULL, choice1 );
-    gtk_box_pack_start (GTK_BOX(paddingbox), button1, FALSE, FALSE, 0 );
+    gtk_box_pack_start (GTK_BOX(vbox), button1, FALSE, FALSE, 0 );
     button2 = gtk_radio_button_new_with_label ( gtk_radio_button_group (GTK_RADIO_BUTTON(button1)), 
 						choice2 );
-    gtk_box_pack_start (GTK_BOX(paddingbox), button2, FALSE, FALSE, 0 );
+    gtk_box_pack_start (GTK_BOX(vbox), button2, FALSE, FALSE, 0 );
 
     if (data)
     {
@@ -124,8 +142,9 @@ GtkWidget *new_radiogroup_with_title (GtkWidget * parent,
 			   (GCallback) hook, data );
     }
 
-    return paddingbox;
+    return vbox;
 }
+
 
 
 /**

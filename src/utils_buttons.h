@@ -6,6 +6,7 @@ GtkWidget *new_checkbox_with_title ( gchar * label, guint * data, GCallback hook
 GtkWidget *new_radiogroup_with_title (GtkWidget * parent,
 				      gchar * title, gchar * choice1, gchar * choice2,
 				      guint * data, GCallback hook);
+GtkWidget * new_radiogroup ( gchar * choice1, gchar * choice2, guint * data, GCallback hook );
 GtkWidget * new_int_spin_button ( gint * value, 
 				  gdouble lower, gdouble upper, 
 				  gdouble step_increment, gdouble page_increment, 
