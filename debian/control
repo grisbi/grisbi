@@ -1,9 +1,9 @@
 Source: grisbi
-Section: utils
+Section: gnome
 Priority: optional
 Maintainer: Benjamin Drieu <benj@debian.org>
 Build-Depends: debhelper (>> 3.0.0), libgnome-dev, libgtk1.2-dev, libxml-dev, libgdk-pixbuf-dev, libgnomeprint-dev
-Standards-Version: 3.5.8
+Standards-Version: 3.5.10
 
 Package: grisbi
 Architecture: any

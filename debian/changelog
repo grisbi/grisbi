@@ -1,9 +1,21 @@
+grisbi (0.4.1-1) unstable; urgency=low
+
+  * New upstream version.  Grisbi is now fully i18ned ... hurrah!
+
+ -- Benjamin Drieu <benj@debian.org>  Fri,  4 Jul 2003 13:41:10 +0200
+
+grisbi (0.4.0-4) unstable; urgency=low
+
+  * Update configure stuff (Closes: #184765)
+
+ -- Benjamin Drieu <benj@debian.org>  Mon, 26 May 2003 19:00:29 +0200
+
 grisbi (0.4.0-3) unstable; urgency=low
 
   * Update config.guess to help mipsel builds (Closes: #183528)
   * Remove doc-base entry until I build a grisbi-doc package (Closes: #169374)
 
- -- Benjamin Drieu <benj@debian.org>  Thu,  6 Mar 2003 15:36:42 +0100
+ -- Benjamin Drieu <benj@debian.org>  Thu, 6 Mar 2003 14:57:23 +0100
 
 grisbi (0.4.0-2) unstable; urgency=low
 
