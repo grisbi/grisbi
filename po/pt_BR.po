@@ -20,6 +20,8 @@
 # translation of pt_BR.po to
 # translation of pt_BR.po to
 # translation of pt_BR.po to
+# translation of pt_BR.po to
+# translation of pt_BR.po to
 # translation of pt_BR.po to Brazilian Portuguese
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
@@ -31,7 +33,7 @@ msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-04 14:32+0100\n"
-"PO-Revision-Date: 2005-01-04 12:59-0200\n"
+"PO-Revision-Date: 2005-01-04 21:41-0200\n"
 "Last-Translator: \n"
 "Language-Team:  <pt@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1360,9 +1362,7 @@ msgstr "Informe um nome para a nova sub-categoria"
 msgid ""
 "Sub-category names must be both unique and not empty.  Please use another "
 "name for this sub-category."
-msgstr ""
-"Nomes de sub-categoria devem ser únicos e não podem estar em branco.  Por "
-"favor utilize outro nome para esta sub-categoria."
+msgstr "Nomes de sub-categoria devem ser únicos e não podem estar em branco.  Por favor utilize outro nome para esta sub-categoria."
 
 #: src/categories_onglet.c:2972
 #, c-format
@@ -1419,7 +1419,7 @@ msgstr "Sobrescrever a lista de categorias anterior"
 #: src/categories_onglet.c:3209 src/etats_onglet.c:1249
 #: src/imputation_budgetaire.c:2947
 msgid "Cannot import file."
-msgstr "Não importar arquivo."
+msgstr "Não posso importar arquivo."
 
 #: src/check.c:106
 #, c-format
@@ -1507,7 +1507,7 @@ msgstr "Endereço principal é o mesmo do titular"
 
 #: src/comptes_gestion.c:253
 msgid "Holder has his own address"
-msgstr "Tem seu próprio endereço"
+msgstr "Titular tem seu próprio endereço"
 
 #: src/comptes_gestion.c:290
 msgid "Financial institution"
@@ -3044,7 +3044,7 @@ msgstr "Trocará para Euro"
 
 #: src/devises.c:1558
 msgid "Associated currency"
-msgstr "Nenhuma moeda associada"
+msgstr "Moeda associada"
 
 #: src/devises.c:1579
 msgid "One"
@@ -3056,19 +3056,19 @@ msgstr "custos"
 
 #: src/devises.c:1649 src/parametres.c:266
 msgid "Totals currencies"
-msgstr "Moedas atuais"
+msgstr "Total das moedas"
 
 #: src/devises.c:1656
 msgid "Currency for third parties tree"
-msgstr "Moeda para terceiros"
+msgstr "Moeda para árvore de terceiros"
 
 #: src/devises.c:1666
 msgid "Currency for categories tree"
-msgstr "Moeda para categorias"
+msgstr "Moeda para árvore de categorias"
 
 #: src/devises.c:1676
 msgid "Currency for budgetary lines tree"
-msgstr "Moeda para orçamentos"
+msgstr "Moeda para árvore de orçamentos"
 
 #: src/devises.c:1887
 msgid "Last exchange rate"
@@ -3076,7 +3076,7 @@ msgstr "Última taxa do câmbio"
 
 #: src/devises.c:1893
 msgid "No exchange rate defined"
-msgstr "nenhuma taxa de troca definida"
+msgstr "Nenhuma taxa de troca definida"
 
 #: src/dialog.c:244 src/fichiers_io.c:6432 src/fichiers_io.c:9345
 msgid "Do not show this message again"
@@ -3094,7 +3094,7 @@ msgstr "Alterar a conta"
 #: src/echeancier_formulaire.c:371 src/echeancier_formulaire.c:372
 #: src/operations_formulaire.c:392 src/operations_formulaire.c:393
 msgid "Choose the method of payment"
-msgstr "Alterar o método de pagamento"
+msgstr "Alterar a forma de pagamento"
 
 #: src/echeancier_formulaire.c:407 src/echeancier_formulaire.c:408
 #: src/echeancier_ventilation.c:598 src/echeancier_ventilation.c:599
@@ -3137,15 +3137,15 @@ msgstr "Uma vez"
 
 #: src/echeancier_formulaire.c:626 src/echeancier_liste.c:793
 msgid "Weekly"
-msgstr "Semanalmente"
+msgstr "Semanal"
 
 #: src/echeancier_formulaire.c:642 src/echeancier_liste.c:795
 msgid "Monthly"
-msgstr "Mensalmente"
+msgstr "Mensal"
 
 #: src/echeancier_formulaire.c:658 src/echeancier_liste.c:797
 msgid "Yearly"
-msgstr "Anualmente"
+msgstr "Anual"
 
 #: src/echeancier_formulaire.c:674 src/echeancier_liste.c:226
 #: src/etats_config.c:44
@@ -3155,7 +3155,7 @@ msgstr "Padrão"
 #: src/echeancier_formulaire.c:738 src/echeancier_formulaire.c:739
 #: src/echeancier_formulaire.c:758 src/echeancier_formulaire.c:759
 msgid "Custom frequency"
-msgstr "Frequência padrão"
+msgstr "Freqüência padrão"
 
 #: src/echeancier_formulaire.c:767 src/echeancier_liste.c:276
 msgid "Days"
@@ -3208,7 +3208,7 @@ msgstr "Esta conta não pode ser usada para transferências."
 
 #: src/echeancier_formulaire.c:1603 src/operations_formulaire.c:2406
 msgid "Associated account of this transfer is invalid."
-msgstr "Conta para esta transferências é inválida."
+msgstr "Conta escolhida para esta transferência é inválida."
 
 #: src/echeancier_formulaire.c:1621
 msgid ""
@@ -3325,7 +3325,7 @@ msgstr "Agenda"
 
 #: src/echeancier_onglet.c:135
 msgid "Scheduler broken down transactions"
-msgstr "Erro na transações da agenda"
+msgstr "Agenda de transações divididas"
 
 #: src/echeancier_ventilation.c:227 src/ventilation.c:230
 msgid "Break down amount"
@@ -3462,7 +3462,7 @@ msgstr "Ocorreu um erro salvando o arquivo."
 #: src/erreur.c:226
 #, c-format
 msgid "Grisbi made a backup file at '%s'."
-msgstr "Grisbi fez uma arquivo de backup as %s ."
+msgstr "Grisbi criou um arquivo de backup para %s ."
 
 #: src/erreur.c:233
 msgid "Please report this problem to http://www.grisbi.org/bugtracking/"
@@ -3546,7 +3546,7 @@ msgstr "Linha de orçamento %s não encontrada.\n"
 #: src/etat_io.c:981
 #, c-format
 msgid "%sThird party %s not found.\n"
-msgstr "%sTerceiros %s não encontrado.\n"
+msgstr "%s Terceiros %s não encontrado.\n"
 
 #: src/etat_io.c:984
 #, c-format
@@ -3570,7 +3570,7 @@ msgstr ""
 #: src/etats_affiche.c:600
 #, c-format
 msgid "Total %s (%d transaction)"
-msgstr "Saldo %s (%d transações)"
+msgstr "Saldo %s (%d transação)"
 
 #: src/etats_affiche.c:104 src/etats_affiche.c:311 src/etats_affiche.c:510
 #: src/etats_affiche.c:602
@@ -3784,16 +3784,16 @@ msgstr "Total das despesas"
 #: src/etats_affiche.c:1461
 #, c-format
 msgid "Total income (%d transaction)"
-msgstr "Renda total (%d transação)"
+msgstr "Total da receitas (%d transação)"
 
 #: src/etats_affiche.c:1463
 #, c-format
 msgid "Total income (%d transactions)"
-msgstr "Renda total (%d transações)"
+msgstr "Total da receitas (%d transações)"
 
 #: src/etats_affiche.c:1466
 msgid "Total income"
-msgstr "Total da renda"
+msgstr "Total da receita"
 
 #: src/etats_affiche.c:1508
 #, c-format
@@ -4090,7 +4090,7 @@ msgstr "Selecionar contas de responsabilidades"
 
 #: src/etats_config.c:2448 src/etats_config.c:2719
 msgid "Select assets accounts"
-msgstr "Selecionar contas de recursos"
+msgstr "Selecionar contas de bens"
 
 #: src/etats_config.c:2552
 msgid "Do not include transfers"
@@ -4123,7 +4123,7 @@ msgstr "Selecionar categorias para incluir"
 
 #: src/etats_config.c:2975
 msgid "Income categories"
-msgstr "Categorias de renda"
+msgstr "Categorias de receitas"
 
 #: src/etats_config.c:2989
 msgid "Outgoing categories"
@@ -4359,7 +4359,7 @@ msgstr "Informações usadas para o grupo"
 
 #: src/etats_config.c:5678
 msgid "Group transactions by account"
-msgstr "Transações do grupo por conta"
+msgstr "Agrupar transações por conta"
 
 #: src/etats_config.c:5698
 msgid "Group transactions by third party"
@@ -4367,11 +4367,11 @@ msgstr "Agrupar transações por terceiros"
 
 #: src/etats_config.c:5720
 msgid "Group transactions by category"
-msgstr "Transações do grupo por categoria"
+msgstr "Agrupar transações por categoria"
 
 #: src/etats_config.c:5740
 msgid "Group transactions by budgetary line"
-msgstr "Transações agrupadas por orçamento"
+msgstr "Agrupar transações por orçamento"
 
 #. choix du type de classement
 #: src/etats_config.c:5751
@@ -4448,7 +4448,7 @@ msgstr "as notas"
 
 #: src/etats_config.c:6511
 msgid "the method of payment"
-msgstr "o método de pagamento"
+msgstr "a forma de pagamento"
 
 #: src/etats_config.c:6527
 msgid "the cheque/transfer number"
@@ -4496,7 +4496,7 @@ msgstr "nota"
 
 #: src/etats_config.c:6734
 msgid "method of payment"
-msgstr "método de pagamento"
+msgstr "forma de pagamento"
 
 #: src/etats_config.c:6742
 msgid "cheque/transfer number"
@@ -4673,7 +4673,7 @@ msgstr "Customizar relatório"
 #: src/etats_onglet.c:1118 src/menu.c:112 src/traitement_variables.c:129
 #: src/traitement_variables.c:255
 msgid "Clone report"
-msgstr "Copia relatório"
+msgstr "Clonar relatório"
 
 #. mise en place du bouton effacer Ã©tat
 #: src/etats_onglet.c:286
@@ -5216,8 +5216,7 @@ msgid ""
 "Warning: Grisbi data format has changed. Grisbi made a backup under '%s'.\n"
 "Keep it for a while just in case."
 msgstr ""
-"Atenção: Dados do Grisbi foram alterados. Grisbi irá fazer uma cópia sob '%"
-"s'.\n"
+"Atenção: Dados do Grisbi foram alterados. Grisbi irá fazer uma cópia sob '%s'.\n"
 "mantenha-o pelo tempo que julgar necessário."
 
 #: src/fichiers_io.c:232 src/fichiers_io.c:1960 src/fichiers_io.c:4200
@@ -5266,9 +5265,7 @@ msgstr "transferência sem uma contra-transação, cujas categorias foram apagad
 msgid ""
 "These modifications should not impact on neither Grisbi's behavior nor your "
 "accounts balances."
-msgstr ""
-"Estas modificações não devem impactar nem no comportamento do Grisbi's nem "
-"nos saldos de suas contas."
+msgstr "Estas modificações não devem impactar nem no comportamento do Grisbi's nem nos saldos de suas contas."
 
 #: src/fichiers_io.c:6428
 #, c-format
@@ -5326,9 +5323,7 @@ msgstr "Este não é um arquivo de orçamentos do Grisbi."
 msgid ""
 "This budgetary lines list has been produced with grisbi version %s, Grisbi "
 "will nevertheless try to import it."
-msgstr ""
-"Esta lista de orçamentos foi produzida com o GRISBI versão %s, Grisbi fará "
-"uma tentativa de importar ela."
+msgstr "Esta lista de orçamentos foi produzida com o GRISBI versão %s, Grisbi fará uma tentativa de importar ela."
 
 #: src/fichiers_io.c:9148
 msgid "Invalid budgetary lines file"
@@ -5652,12 +5647,12 @@ msgstr "Sem terceiros"
 #: src/import.c:1926
 #, c-format
 msgid "Transaction found : %02d/%02d/%04d ; %s ; %4.2f ; %s"
-msgstr "Transações não encontradas : %02d/%02d/%04d ; %s ; %4.2f ; %s"
+msgstr "Transação não encontrada : %02d/%02d/%04d ; %s ; %4.2f ; %s"
 
 #: src/import.c:1934
 #, c-format
 msgid "Transaction found : %02d/%02d/%04d ; %s ; %4.2f"
-msgstr "Transações encontradas : %02d/%02d/%04d ; %s ; %4.2f"
+msgstr "Transação encontrada : %02d/%02d/%04d ; %s ; %4.2f"
 
 #: src/import.c:2584
 msgid "Orphaned transactions"
@@ -5844,7 +5839,7 @@ msgstr "Importar orçamento"
 msgid ""
 "File already contains transactions, the two budgetary lines lists will be "
 "merged."
-msgstr "Arquivo já contem transações, os dos orçamentos serão mesclados."
+msgstr "Arquivo já contem transações, os dois orçamentos serão mesclados."
 
 #: src/imputation_budgetaire.c:2905
 msgid "Merge the two lists of budgetary lines"
@@ -5857,7 +5852,7 @@ msgstr "Sobrescrever a lista do orçamento anterior"
 #: src/main.c:140
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
-msgstr "Erro no sigaction: SIGSEGV não será prendido\n"
+msgstr "Erro em sigaction: SIGSEGV não será prendido\n"
 
 #: src/menu.c:67
 msgid "New account file"
@@ -5933,7 +5928,7 @@ msgstr "Apagar transação"
 #: src/menu.c:91 src/operations_liste.c:2683 src/traitement_variables.c:111
 #: src/traitement_variables.c:237
 msgid "Clone transaction"
-msgstr "Copiar transação"
+msgstr "Clonar transação"
 
 #. Edit transaction
 #: src/menu.c:92 src/operations_liste.c:2642 src/traitement_variables.c:114
@@ -6156,7 +6151,7 @@ msgstr "Refazer divisão ?"
 
 #: src/operations_formulaire.c:1820
 msgid "Do you want to recover all the lines of the last breakdown?"
-msgstr "Você que refazer todos os lançamentos da última divisão ?"
+msgstr "Você quer refazer todos os lançamentos da última divisão ?"
 
 #: src/operations_formulaire.c:2072 src/operations_formulaire.c:2524
 #: src/tiers_onglet.c:1429
@@ -6243,9 +6238,7 @@ msgstr "Impossível apagar uma transação reconciliada"
 
 #: src/operations_liste.c:2103
 msgid "The contra-transaction of this transfer is reconciled, deletion impossible."
-msgstr ""
-"A contra transação para esta transferência está reconciliada, Não é possível "
-"apagá-la."
+msgstr "A contra transação para esta transferência está reconciliada, Não é possível apagá-la."
 
 #: src/operations_liste.c:2151
 msgid ""
@@ -6657,7 +6650,7 @@ msgstr ""
 
 #: src/type_operations.c:1036
 msgid "Associate transactions with"
-msgstr "Associar transacoes com"
+msgstr "Associar transações com"
 
 #: src/utils.c:710
 #, c-format
