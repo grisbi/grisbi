@@ -1120,7 +1120,7 @@ void exporter_etat ( void )
   struct stat test_fichier;
   gchar *nom_etat;
 
-  dialog = gnome_dialog_new ( _("Export a report"),
+  dialog = gnome_dialog_new ( _("Export report"),
 			      GNOME_STOCK_BUTTON_OK,
 			      GNOME_STOCK_BUTTON_CANCEL,
 			      NULL );
