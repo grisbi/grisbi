@@ -1,24 +1,27 @@
-/* ce fichier de la gestion de l'import de fichiers (qif, ofx...) */
-
-
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
-/* 			http://www.grisbi.org */
-
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
-
+/* ************************************************************************** */
+/* ce fichier de la gestion de l'import de fichiers (qif, ofx, csv, gnucash)  */
+/*                                                                            */
+/*                                  accueil.c                                 */
+/*                                                                            */
+/*     Copyright (C)	2000-2004 Cédric Auger (cedric@grisbi.org)	      */
+/*			     2004 Benjamin Drieu (bdrieu@april.org)	      */
+/* 			http://www.grisbi.org				      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
 
 #include "include.h"
@@ -52,6 +55,7 @@
 #include "html.h"
 #include "ofx.h"
 #include "qif.h"
+/* #include "csv.h" */
 #include "utils_comptes.h"
 #include "utils_tiers.h"
 /*END_INCLUDE*/
@@ -78,6 +82,9 @@ static gboolean fichier_choisi_importation ( GtkWidget *fenetre );
 static void pointe_opes_importees ( struct struct_compte_importation *compte_import );
 static void selection_fichiers_import ( void );
 static void traitement_operations_importees ( void );
+GtkWidget * create_file_format_import_menu ();
+gboolean filetype_changed ( GtkOptionMenu * option_menu, gpointer user_data );
+enum import_type autodetect_file_type ( FILE * fichier, gchar * pointeur_char );
 /*END_STATIC*/
 
 
@@ -88,8 +95,16 @@ GtkWidget *dialog_recapitulatif;
 GtkWidget *table_recapitulatif;
 gint virements_a_chercher;
 
+enum import_type {
+  TYPE_UNKNOWN = 0,
+  TYPE_QIF,
+  TYPE_OFX,
+  TYPE_GNUCASH,
+  TYPE_CSV,
+  TYPE_HTML,
+};
 
-
+enum import_type file_type;
 
 /*START_EXTERN*/
 extern gchar *dernier_chemin_de_travail;
@@ -138,6 +153,7 @@ void selection_fichiers_import ( void )
 {
     GtkWidget *fenetre;
 
+    file_type = TYPE_UNKNOWN;
 
     fenetre = gtk_file_selection_new ( _("Select files to import") );
     gtk_window_set_transient_for ( GTK_WINDOW ( fenetre ),
@@ -148,6 +164,9 @@ void selection_fichiers_import ( void )
     gtk_file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre ),
 				      dernier_chemin_de_travail );
 
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( fenetre ) -> vbox ), 
+			 create_file_format_import_menu(), FALSE, FALSE, 0 );
+
     gtk_signal_connect_object (GTK_OBJECT ( GTK_FILE_SELECTION( fenetre ) -> ok_button ),
 			       "clicked",
 			       GTK_SIGNAL_FUNC ( fichier_choisi_importation ),
@@ -156,10 +175,6 @@ void selection_fichiers_import ( void )
 			       "clicked",
 			       GTK_SIGNAL_FUNC (gtk_widget_destroy),
 			       GTK_OBJECT ( fenetre ));
-    gtk_signal_connect ( GTK_OBJECT ( fenetre ),
-			 "destroy",
-			 GTK_SIGNAL_FUNC ( affichage_recapitulatif_importation ),
-			 NULL );
     gtk_widget_show ( fenetre );
 
 
@@ -177,13 +192,6 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
     gchar **liste_selection;
     gint i;	
     gboolean result = TRUE;
-    enum import_type {
-      TYPE_UNKNOWN,
-      TYPE_QIF,
-      TYPE_OFX,
-      TYPE_GNUCASH,
-      TYPE_HTML,
-    } type;
 
     /* on sauve le répertoire courant  */
 
@@ -196,6 +204,7 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 
     liste_selection = gtk_file_selection_get_selections ( GTK_FILE_SELECTION ( fenetre ));
     i=0;
+    gtk_widget_destroy ( fenetre );
 
     while ((result == TRUE)&&( liste_selection[i]))
     {
@@ -205,86 +214,26 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 
 	/* on ouvre maintenant le fichier pour tester sa structure */
 
-	if ( !( fichier = fopen ( liste_selection[i],
-				  "r" )))
+	if ( !( fichier = fopen ( liste_selection[i], "r" )))
 	{
-	    /* on n'a pas réussi à ouvrir le fichier, on affiche l'erreur et on retourne sur la sélection des fichiers */
-
+	    /* on n'a pas réussi à ouvrir le fichier, on affiche
+	       l'erreur et on retourne sur la sélection des
+	       fichiers */
 	    dialogue ( latin2utf8 ( strerror ( errno ) ) );
             return FALSE;
 	}
-
-
-	/*       le fichier est ouvert, on va trier entre qif/ofx/html */
-	/* 	le plus simple est ofx, on a <OFX> au départ */
-	/* 	bon, en fait, non... on peut avoir ofx ou OFX n'importe où... */
-	/*       pour le qif, on recherche !Type, !Account ou !Option */
-	/* si ce n'est aucun des 3, on regarde s'il y a une ouverture de balise < dans ce cas */
-	/* on fait comme si c'était du html */
-	/*       chacune des fonctions récupèrent les infos du compte et les opés, et ajoutent la struct_compte_importation */
-	/* 	à liste_comptes_importes */
-
-	/* 	certains fichiers contiennent une ligne blanche au début... */
 
 	do
 	    get_line_from_file ( fichier,
 				 &pointeur_char );
 	while ( strlen ( pointeur_char ) == 1 );
 
-
-	if ( g_strrstr ( pointeur_char,
-			 "ofx" )
-	     ||
-	     g_strrstr ( pointeur_char,
-			 "OFX" ))
-        {
-	  type = TYPE_OFX;
-        }
-	else if ( !strncmp ( pointeur_char,
-			    "!Type",
-			    5 )
-		 ||
-		 !strncmp ( pointeur_char,
-			    "!type",
-			    5 )
-		 ||
-		 !strncmp ( pointeur_char,
-			    "!Account",
-			    8 )
-		 ||
-		 !strncmp ( pointeur_char,
-			    "!Option",
-			    7 ))
-        {
-	  type = TYPE_QIF;
-        }
-	else
-	{
-	  if ( !strncmp ( pointeur_char, "<?xml", 5 ))
-	    {
-	      get_line_from_file ( fichier, &pointeur_char );
-	      if ( !strncmp ( pointeur_char, "<gnc-v2", 7 ))
-		{
-		  type = TYPE_GNUCASH;
-		}
-	      else
-		{
-		  type = TYPE_UNKNOWN;
-		}
-	    }
-	  else {
-	    if ( pointeur_char[0] == '<' )
-	      {
-		type = TYPE_HTML;
-	      }
-	    else
-	      {
-		type = TYPE_UNKNOWN;
-	      }
+	if ( file_type == TYPE_UNKNOWN )
+	  {
+	    file_type = autodetect_file_type ( fichier, pointeur_char );
 	  }
-	}
 
-	switch ( type )
+	switch ( file_type )
 	  {
 	  case TYPE_OFX:
 	    result = recuperation_donnees_ofx ( liste_selection[i]);
@@ -302,11 +251,14 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 	  case TYPE_GNUCASH:
 	    result = recuperation_donnees_gnucash ( liste_selection[i] );
 	    break;
-
+		
+/* TODO: add it again */
+/* 	  case TYPE_CSV: */
+/* 	    result = recuperation_donnees_csv ( fichier ); */
+/* 	    break;	 */
+		
 	  case TYPE_UNKNOWN:
 	  default:
-	    dialogue_error_hint ( _("Grisbi is unable to determine type of this file.  If it is a QIF file, an OFX file, a Gnucash file or a HTML page from a online bank service, please contact the grisbi team to resolve this problem."),
-				  g_strdup_printf ( _("File \"%s\" cannot be imported."), liste_selection[i]) );
 	    result = FALSE;
 	    break;
 	  }
@@ -316,15 +268,16 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
         if (pointeur_char) free ( pointeur_char );
         pointeur_char = NULL;
         
-        /* In case of error, return to file selection dialog, else import next selected file */
-        if (!result) return result;
+        /* In case of error, return to file selection dialog, else
+	   import next selected file */
+        if (!result) 
+	  break;
 	
         i++;
     }
 
-    /* le fait de détruire la fenetre va envoyer directement sur l'affichage des infos */
+    affichage_recapitulatif_importation();
 
-    gtk_widget_destroy ( fenetre );
     return ( result );
 }
 /* *******************************************************************************/
@@ -346,7 +299,11 @@ gboolean affichage_recapitulatif_importation ( void )
     GtkWidget *hbox;
 
     if ( !liste_comptes_importes )
+      {
+	dialogue_warning_hint ( _("Grisbi is unable to find an account in imported file.  Be sure this file is valid or try with another one.\nIf you think imported file is in valid format, please contact Grisbi development team."), 
+				_("No account was imported") );
 	return (FALSE);
+      }
 
     /* We have to do that as soon as possible since this would reset currencies */
     if ( !nb_comptes )
@@ -2869,3 +2826,120 @@ gboolean changement_valeur_echelle_recherche_date_import ( GtkWidget *spin_butto
 }
 /* *******************************************************************************/
 
+
+GtkWidget * create_file_format_import_menu ()
+{
+  GtkWidget *hbox, *omenu, *menu, *menu_item;
+
+  hbox = gtk_hbox_new ( FALSE, 0 );
+
+  menu = gtk_menu_new ();
+
+  menu_item = gtk_menu_item_new_with_label ( _("Autodetect") );
+  g_object_set_data ( G_OBJECT ( menu_item ), "file", (gpointer) TYPE_UNKNOWN );
+  gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("QIF file") );
+  g_object_set_data ( G_OBJECT ( menu_item ), "file", (gpointer) TYPE_QIF );
+  gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("OFX file") );
+  g_object_set_data ( G_OBJECT ( menu_item ), "file", (gpointer) TYPE_OFX );
+  gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("Gnucash file") );
+  g_object_set_data ( G_OBJECT ( menu_item ), "file", (gpointer) TYPE_GNUCASH );
+  gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+
+/* TODO: add it again */
+/*   menu_item = gtk_menu_item_new_with_label ( _("CSV file") ); */
+/*   g_object_set_data ( G_OBJECT ( menu_item ), "file", (gpointer) TYPE_CSV ); */
+/*   gtk_menu_append ( GTK_MENU ( menu ), menu_item ); */
+
+  omenu = gtk_option_menu_new ();
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( omenu ), menu );
+  g_signal_connect ( G_OBJECT(omenu), "changed", G_CALLBACK (filetype_changed), NULL );
+  gtk_box_pack_end ( GTK_BOX(hbox), omenu, FALSE, FALSE, 6 );
+  gtk_box_pack_end ( GTK_BOX(hbox), gtk_label_new (COLON(_("Format de fichier"))),
+		     FALSE, FALSE, 0 );
+
+  gtk_widget_show_all ( hbox );
+
+  return hbox;
+}
+
+
+
+gboolean filetype_changed ( GtkOptionMenu * option_menu, gpointer user_data )
+{
+  file_type = gtk_option_menu_get_history ( option_menu );
+  return FALSE;
+}
+
+
+
+enum import_type autodetect_file_type ( FILE * fichier, gchar * pointeur_char )
+{
+  enum import_type type;
+
+/* TODO: add it again */
+/*   if ( g_strrstr ( pointeur_char,  */
+/* 		   "Date;Type;" )) /\* c'est un fichier csv *\/ */
+/*     { */
+/*       type = TYPE_CSV; */
+/*     } */
+/*   else  */
+   if ( g_strrstr ( pointeur_char,
+			"ofx" )
+	    ||
+	    g_strrstr ( pointeur_char,
+			"OFX" ))
+    {
+      type = TYPE_OFX;
+    }
+  else if ( !strncmp ( pointeur_char,
+		       "!Type",
+		       5 )
+	    ||
+	    !strncmp ( pointeur_char,
+		       "!type",
+		       5 )
+	    ||
+	    !strncmp ( pointeur_char,
+		       "!Account",
+		       8 )
+	    ||
+	    !strncmp ( pointeur_char,
+		       "!Option",
+		       7 ))
+    {
+      type = TYPE_QIF;
+    }
+  else
+    {
+      if ( !strncmp ( pointeur_char, "<?xml", 5 ))
+	{
+	  get_line_from_file ( fichier, &pointeur_char );
+	  if ( !strncmp ( pointeur_char, "<gnc-v2", 7 ))
+	    {
+	      type = TYPE_GNUCASH;
+	    }
+	  else
+	    {
+	      type = TYPE_UNKNOWN;
+	    }
+	}
+      else {
+	if ( pointeur_char[0] == '<' )
+	  {
+	    type = TYPE_HTML;
+	  }
+	else
+	  {
+	    type = TYPE_UNKNOWN;
+	  }
+      }
+    }
+
+  return type;
+}
