@@ -1,13 +1,24 @@
 AC_INIT(src/main.c)
-
-AM_INIT_AUTOMAKE(grisbi, 1.0 )
 AM_CONFIG_HEADER(config.h)
-
+AM_INIT_AUTOMAKE(grisbi,0.4)
 AM_ACLOCAL_INCLUDE(macros)
+
+PACKAGE=grisbi
+VERSION=0.4
+dnl AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE")
+dnl AC_DEFINE_UNQUOTED(VERSION, "$VERSION")
+AC_SUBST(PACKAGE)
+AC_SUBST(VERSION)
 
 AC_ISC_POSIX
 AC_PROG_CC
 AC_STDC_HEADERS
+AC_PROG_RANLIB
+
+dnl Check for NLS support.                                                      
+ALL_LINGUAS="en es"
+AM_GNU_GETTEXT
+AC_CHECK_LIB(intl,main)
 
 GNOME_INIT
 
@@ -61,6 +72,8 @@ dnl ******************************
 
 AC_OUTPUT([
 Makefile
+po/Makefile.in
+intl/Makefile
 src/Makefile
 applet/Makefile
 help/Makefile
