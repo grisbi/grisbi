@@ -3,7 +3,7 @@
 /*                                                                            */
 /*                         comptes_traitements.c                              */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 Cï¿½ric Auger (cedric@grisbi.org)	      */
 /*			2004 Benjamin Drieu (bdrieu@april.org)		      */
 /*			2004 Alain Portal (dionysos@grisbi.org)		      */
 /*			http://www.grisbi.org				      */
@@ -89,7 +89,7 @@ gint noname_account_number = 0;
 
 
 /* ************************************************************************** */
-/* Routine appelée lorsque l'on crée un nouveau compte                        */
+/* Routine appelï¿½ lorsque l'on crï¿½ un nouveau compte                        */
 /* ************************************************************************** */
 void  nouveau_compte ( void )
 {
@@ -109,21 +109,20 @@ void  nouveau_compte ( void )
 
     no_compte = initialisation_nouveau_compte ( type_de_compte );
 
-    /* si la création s'est mal placée, on se barre */
+    /* si la crï¿½tion s'est mal placï¿½, on se barre */
 
     if ( no_compte == -1 )
 	return;
 
-    /* on recrée les combofix des catégories */
+    /* on recrï¿½ les combofix des catï¿½ories */
 
-    if ( mise_a_jour_combofix_categ_necessaire )
-	mise_a_jour_combofix_categ();
+    mise_a_jour_combofix_categ();
 
-    /* on met à jour l'option menu des formulaires des échéances et des opés */
+    /* on met ï¿½jour l'option menu des formulaires des ï¿½hï¿½nces et des opï¿½ */
 
     update_options_menus_comptes ();
 
-    /* mise à jour de l'accueil */
+    /* mise ï¿½jour de l'accueil */
 
     mise_a_jour_liste_comptes_accueil = 1;
 
@@ -133,21 +132,21 @@ void  nouveau_compte ( void )
     gtk_widget_set_sensitive ( bouton_supprimer_compte,
 			       TRUE );
 
-    /* crée le nouveau bouton du compte et l'ajoute à la liste des comptes */
+    /* crï¿½ le nouveau bouton du compte et l'ajoute ï¿½la liste des comptes */
 
     reaffiche_liste_comptes ();
 
-    /* on crée le nouveau compte dans les propriétés des comptes */
+    /* on crï¿½ le nouveau compte dans les propriï¿½ï¿½ des comptes */
 
     compte_courant_onglet = nb_comptes - 1;
     reaffiche_liste_comptes_onglet ();
 
-   /* on se met sur l'onglet de propriétés du compte */
+   /* on se met sur l'onglet de propriï¿½ï¿½ du compte */
 
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
 			    3 );
 
-    /*     on crée le tree_view du compte */
+    /*     on crï¿½ le tree_view du compte */
 
     creation_colonnes_tree_view_par_compte (no_compte);
 
@@ -166,8 +165,8 @@ void  nouveau_compte ( void )
 /* ************************************************************************** */
 
 /* ************************************************************************** */
-/* Cette fonction crée un nouveau compte, l'initialise, l'ajoute aux comptes  */
-/* et renvoie le no du compte créé                                            */
+/* Cette fonction crï¿½ un nouveau compte, l'initialise, l'ajoute aux comptes  */
+/* et renvoie le no du compte crï¿½                                            */
 /* renvoie -1 s'il y a un pb                                                  */
 /* ************************************************************************** */
 gint initialisation_nouveau_compte ( gint type_de_compte )
@@ -189,14 +188,14 @@ gint initialisation_nouveau_compte ( gint type_de_compte )
 	return (-1);
     };
 
-    /*     il faut incrémenter nb_comptes tout de suite pour éviter la protection */
+    /*     il faut incrï¿½enter nb_comptes tout de suite pour ï¿½iter la protection */
     /* 	des p_tab_nom_de_compte_variable */
 
     no_compte = nb_comptes;
     nb_comptes++;
     noname_account_number++;
 
-    /* insère ses paramètres ( comme c'est un appel à calloc, tout ce qui est à 0 est déjà initialisé )*/
+    /* insï¿½e ses paramï¿½res ( comme c'est un appel ï¿½calloc, tout ce qui est ï¿½0 est dï¿½ï¿½initialisï¿½)*/
 
     NOM_DU_COMPTE = g_strdup_printf ( _("No name %d"), noname_account_number );
     DEVISE = 1;
@@ -204,8 +203,8 @@ gint initialisation_nouveau_compte ( gint type_de_compte )
     NO_COMPTE = no_compte;
     OPERATION_SELECTIONNEE = GINT_TO_POINTER (-1);
 
-    /*     par défaut on n'affiche pas les R et le nb de lignes par opé est de 3 */
-    /* 	sauf si l'affichage n'est pas séparé par compte */
+    /*     par dï¿½aut on n'affiche pas les R et le nb de lignes par opï¿½est de 3 */
+    /* 	sauf si l'affichage n'est pas sï¿½arï¿½par compte */
     /* 	dans ce cas, on reprend ceux du 1er compte */
 
     if ( !etat.retient_affichage_par_compte
@@ -232,19 +231,19 @@ gint initialisation_nouveau_compte ( gint type_de_compte )
     TYPE_DE_COMPTE = type_de_compte;
 
 
-    /* on crée les types par défaut */
+    /* on crï¿½ les types par dï¿½aut */
 
     creation_types_par_defaut ( NO_COMPTE,
 				0);
 
-    /* on met le compte à la fin dans le classement des comptes */
+    /* on met le compte ï¿½la fin dans le classement des comptes */
 
     ordre_comptes = g_slist_append ( ordre_comptes,
 				     GINT_TO_POINTER ( NO_COMPTE ) );
 
-    /*     on crée l'organisation du formulaire */
-    /* 	si c'est une organisation générale, on recopie l'organisation du premier compte */
-    /* 	si c'est une organisation séparée, on récupère l'organisation par défaut */
+    /*     on crï¿½ l'organisation du formulaire */
+    /* 	si c'est une organisation gï¿½ï¿½ale, on recopie l'organisation du premier compte */
+    /* 	si c'est une organisation sï¿½arï¿½, on rï¿½upï¿½e l'organisation par dï¿½aut */
 
     if ( etat.formulaire_distinct_par_compte
 	 &&
@@ -321,7 +320,7 @@ void supprimer_compte ( void )
     gtk_notebook_remove_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
 			       compte_modifie + 1 );
 
-    /*       suppression des échéances */
+    /*       suppression des ï¿½hï¿½nces */
     while ( (echeance = echeance_par_no_compte ( compte_modifie )))
     {
 	if ( echeance_selectionnnee == echeance )
@@ -338,8 +337,7 @@ void supprimer_compte ( void )
 				     GINT_TO_POINTER ( compte_modifie ));
 
 
-    /* modifie les numéros des comptes supérieurs au compte supprimé
-       dans l'ordre des comptes */
+    /* modifie les numï¿½os des comptes supï¿½ieurs au compte supprimï¿½       dans l'ordre des comptes */
     pointeur_liste = ordre_comptes;
 
     do
@@ -369,7 +367,7 @@ void supprimer_compte ( void )
     g_slist_free ( LISTE_OPERATIONS );
     nom_compte_supprime = g_strdup ( NOM_DU_COMPTE );
 
-    /* on décale en mémoire les comptes situés après */
+    /* on dï¿½ale en mï¿½oire les comptes situï¿½ aprï¿½ */
     for ( i = compte_modifie ; i < nb_comptes ; i++ )
     {
 	NO_COMPTE = NO_COMPTE -1;
@@ -379,8 +377,8 @@ void supprimer_compte ( void )
 
     nb_comptes--;
 
-    /* recherche les échéances pour les comptes plaçés après le compe supprimé */
-    /* pour leur diminuer leur numéro de compte de 1 */
+    /* recherche les ï¿½hï¿½nces pour les comptes plaï¿½s aprï¿½ le compe supprimï¿½*/
+    /* pour leur diminuer leur numï¿½o de compte de 1 */
     pointeur_liste = liste_struct_echeances;
 
     while ( pointeur_liste )
@@ -393,11 +391,11 @@ void supprimer_compte ( void )
 	pointeur_liste = pointeur_liste -> next;
     }
 
-    /*   fait le tour des opés de tous les comptes, */
-    /*     pour les opés des comptes > à celui supprimé, on descend le
+    /*   fait le tour des opï¿½ de tous les comptes, */
+    /*     pour les opï¿½ des comptes > ï¿½celui supprimï¿½ on descend le
 	   no de compte */
-    /*     pour les virements vers le compte supprimé, met
-	   relation_no_compte à -1 */
+    /*     pour les virements vers le compte supprimï¿½ met
+	   relation_no_compte ï¿½-1 */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
@@ -432,19 +430,19 @@ void supprimer_compte ( void )
 	p_tab_nom_de_compte_variable++;
     }
 
-    /* le compte courant de l'onglet de comptes est diminué de 1 ou reste */
-    /* à 0 s'il l'était */
+    /* le compte courant de l'onglet de comptes est diminuï¿½de 1 ou reste */
+    /* ï¿½0 s'il l'ï¿½ait */
 
     if ( compte_courant_onglet )
 	compte_courant_onglet--;
 
     /* retire le bouton du compte dans la liste des comptes */
-    /*   pour cela, on efface vbox_liste_comptes et on le recrée */
+    /*   pour cela, on efface vbox_liste_comptes et on le recrï¿½ */
 
     reaffiche_liste_comptes();
     reaffiche_liste_comptes_onglet ();
 
-    /* on recrée les combofix des tiers et des catégories si nécessaire */
+    /* on recrï¿½ les combofix des tiers et des catï¿½ories si nï¿½essaire */
 
     if ( mise_a_jour_combofix_tiers_necessaire )
 	mise_a_jour_combofix_tiers();
@@ -454,11 +452,11 @@ void supprimer_compte ( void )
     if ( mise_a_jour_combofix_imputation_necessaire )
 	mise_a_jour_combofix_imputation();
 
-    /* on met à jour l'option menu du formulaire des échéances */
+    /* on met ï¿½jour l'option menu du formulaire des ï¿½hï¿½nces */
 
 	update_options_menus_comptes ();
 
-    /* réaffiche la liste si necessaire */
+    /* rï¿½ffiche la liste si necessaire */
 
     page_en_cours = gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook_general));
 
@@ -546,7 +544,7 @@ void changement_choix_compte_echeancier ( void )
 
     if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ) == style_entree_formulaire[ENCLAIR] )
     {
-	/*       il y a qque chose dans le crédit, on met le menu des types crédit */
+	/*       il y a qque chose dans le crï¿½it, on met le menu des types crï¿½it */
 
 	if ( (menu = creation_menu_types ( 2,
 					   recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT]),
@@ -563,7 +561,7 @@ void changement_choix_compte_echeancier ( void )
     }
     else
     {
-	/*       il y a qque chose dans le débit ou c'est par défaut, on met le menu des types débit */
+	/*       il y a qque chose dans le dï¿½it ou c'est par dï¿½aut, on met le menu des types dï¿½it */
 
 	if ( (menu = creation_menu_types ( 1,
 					   recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT]),
@@ -592,7 +590,7 @@ void creation_types_par_defaut ( gint no_compte,
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
 
-    /* si des types d'opé existaient déjà, on les vire */
+    /* si des types d'opï¿½existaient dï¿½ï¿½ on les vire */
 
     if ( TYPES_OPES )
 	g_slist_free ( TYPES_OPES );
@@ -603,10 +601,10 @@ void creation_types_par_defaut ( gint no_compte,
 
     if ( !TYPE_DE_COMPTE )
     {
-	/* c'est un compte bancaire, on ajoute virement, prélèvement, chèque et cb */
-	/* 	  modification par rapport à avant, les nouveaux n°: */
-	/* 	    1=virement, 2=dépot, 3=cb, 4=prélèvement, 5=chèque */
-	/* les modifs pour chaque opés se feront à leur chargement */
+	/* c'est un compte bancaire, on ajoute virement, prï¿½ï¿½ement, chï¿½ue et cb */
+	/* 	  modification par rapport ï¿½avant, les nouveaux n: */
+	/* 	    1=virement, 2=dï¿½ot, 3=cb, 4=prï¿½ï¿½ement, 5=chï¿½ue */
+	/* les modifs pour chaque opï¿½ se feront ï¿½leur chargement */
 
 	struct struct_type_ope *type_ope;
 
@@ -673,7 +671,7 @@ void creation_types_par_defaut ( gint no_compte,
 	TYPE_DEFAUT_DEBIT = 3;
 	TYPE_DEFAUT_CREDIT = 2;
 
-	/* on crée le tri pour compte bancaire qui sera 1 2 3 4 5 */
+	/* on crï¿½ le tri pour compte bancaire qui sera 1 2 3 4 5 */
 
 	LISTE_TRI = g_slist_append ( LISTE_TRI,
 				     GINT_TO_POINTER ( 1 ));
@@ -709,7 +707,7 @@ void creation_types_par_defaut ( gint no_compte,
 	    TYPE_DEFAUT_DEBIT = 1;
 	    TYPE_DEFAUT_CREDIT = 1;
 
-	    /* on crée le tri pour compte passif qui sera 1 */
+	    /* on crï¿½ le tri pour compte passif qui sera 1 */
 
 	    LISTE_TRI = g_slist_append ( LISTE_TRI,
 					 GINT_TO_POINTER ( 1 ));
@@ -721,9 +719,9 @@ void creation_types_par_defaut ( gint no_compte,
 /* ************************************************************************** */
 
 /* ************************************************************************** */
-/* Cette fonction est appelée lors de la création d'un nouveau compte.        */
-/* elle renvoie le type demandé pour pouvoir mettre ensuite les types par     */
-/* défaut.                                                                    */
+/* Cette fonction est appelï¿½ lors de la crï¿½tion d'un nouveau compte.        */
+/* elle renvoie le type demandï¿½pour pouvoir mettre ensuite les types par     */
+/* dï¿½aut.                                                                    */
 /* ************************************************************************** */
 gint demande_type_nouveau_compte ( void )
 {
@@ -739,7 +737,7 @@ gint demande_type_nouveau_compte ( void )
 				       make_hint ( _("Choose account type"),
 						   _("If you choose to continue, an account will be created with default payment methods chosen according to your choice.\nYou will be able to change account type later." ) ) );
 
-    /* création de la ligne du type de compte */
+    /* crï¿½tion de la ligne du type de compte */
     hbox = gtk_hbox_new ( FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(dialog) -> vbox ), hbox,
 			 FALSE, FALSE, 6 );
