@@ -1642,8 +1642,15 @@ void touches_champ_formulaire ( GtkWidget *widget,
 	{
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					 "key_press_event");
-	  incremente_decremente_date ( widget_formulaire_operations[origine],
-				       1 );
+	  incremente_decremente_date ( widget_formulaire_operations[origine], 1 );
+	  return TRUE;
+	}
+      else if ( origine == 10 )	/* Voucher number */
+	{
+	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
+					 "key_press_event");
+	  increment_decrement_champ ( widget_formulaire_operations[origine], 1 );
+	  return TRUE;
 	}
       break;
 
@@ -1658,8 +1665,14 @@ void touches_champ_formulaire ( GtkWidget *widget,
 	{
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					 "key_press_event");
-	  incremente_decremente_date ( widget_formulaire_operations[origine],
-				       -1 );
+	  incremente_decremente_date ( widget_formulaire_operations[origine], -1 );
+	}
+      else if ( origine == 10 )	/* Voucher number */
+	{
+	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
+					 "key_press_event");
+	  increment_decrement_champ ( widget_formulaire_operations[origine], -1 );
+	  return TRUE;
 	}
       break;
 
@@ -4095,6 +4108,22 @@ void incremente_decremente_date ( GtkWidget *entree,
 /***********************************************************************************************************/
 
 
+
+/**
+ *  Increment or decrement the value of a GtkEntry.
+ *
+ * \param entry Entry to change the value of.
+ * \param increment Value to add or substract from the numerical value of entry.
+ */
+void increment_decrement_champ ( GtkWidget *entry, gint increment )
+{
+  double number;
+
+  number = my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text (GTK_ENTRY(entry))), NULL );
+  number += increment;
+
+  gtk_entry_set_text ( GTK_ENTRY (entry), itoa ( number ) );
+}
 
 
 
