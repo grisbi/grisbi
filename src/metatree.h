@@ -6,6 +6,7 @@ typedef struct metatree_interface {
     /* Read operations */
     gchar * no_div_label;
     gchar * no_sub_div_label;
+    gpointer (* get_without_div_pointer) ();
     gpointer (* get_div_pointer) (int);
     gpointer (* get_sub_div_pointer) (int,int);
     gpointer (* get_div_pointer_from_name) (gchar *,gboolean);
@@ -41,6 +42,7 @@ typedef struct metatree_interface {
     gboolean (* add_transaction_to_sub_div) (struct structure_operation *, int, int);
     gboolean (* remove_transaction_from_div) (struct structure_operation *, int);
     gboolean (* remove_transaction_from_sub_div) (struct structure_operation *, int, int);
+
 } MetatreeInterface;
 
 enum meta_tree_columns {
@@ -72,38 +74,40 @@ enum meta_tree_row_type metatree_get_row_type ( GtkTreeModel * tree_model,
 						GtkTreePath * path );
 gboolean metatree_get ( GtkTreeModel * model, GtkTreePath * path,
 			gint column, gpointer * data );
-gboolean supprimer_categ ( GtkWidget * button, GtkTreeView * tree_view );
-void supprimer_sous_categ ( GtkTreeView * tree_view, MetatreeInterface * iface, 
-			    gpointer sous_categ, gint no_categ );
-gboolean categ_column_expanded  (GtkTreeView * treeview, GtkTreeIter * iter, 
+gboolean supprimer_division ( GtkWidget * button, GtkTreeView * tree_view );
+void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
+			      MetatreeInterface * iface, 
+			      gpointer sub_division, gint no_division );
+gboolean division_column_expanded  (GtkTreeView * treeview, GtkTreeIter * iter, 
 				 GtkTreePath * tree_path, gpointer user_data );
-gboolean categ_activated ( GtkTreeView * treeview, GtkTreePath * path,
+gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 			   GtkTreeViewColumn * col, gpointer userdata );
-void fill_categ_row ( GtkTreeModel * model, MetatreeInterface * iface, 
-		      GtkTreeIter * iter, gpointer categ );
-void fill_sub_categ_row ( GtkTreeModel * model, MetatreeInterface * iface, 
-			  GtkTreeIter * iter, gpointer categ,
-			  gpointer sous_categ );
-gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
+void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface, 
+		      GtkTreeIter * iter, gpointer division );
+void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface, 
+			  GtkTreeIter * iter, gpointer division,
+			  gpointer sub_division );
+gboolean division_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
 			       GtkSelectionData * selection_data );
-gboolean categ_row_drop_possible (GtkTreeDragDest * drag_dest, 
+gboolean division_row_drop_possible (GtkTreeDragDest * drag_dest, 
 				  GtkTreePath * dest_path,
 				  GtkSelectionData * selection_data);
-gboolean categ_drag_data_received ( GtkTreeDragDest   *drag_dest,
+gboolean division_drag_data_received ( GtkTreeDragDest   *drag_dest,
 				    GtkTreePath       *dest_path,
 				    GtkSelectionData  *selection_data );
-void move_transaction_to_sub_category ( struct structure_operation * transaction,
+void move_transaction_to_sub_division ( struct structure_operation * transaction,
 					GtkTreeModel * model,
 					GtkTreePath * orig_path, GtkTreePath * dest_path,
-					gint no_categ, gint no_sub_categ );
-gboolean find_destination_blob ( MetatreeInterface * iface, gpointer categ, 
-				 gpointer sous_categ, 
+					gint no_division, gint no_sub_division );
+gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model,
+				 gpointer division, gpointer sub_division, 
 				 gint * no_div, gint * no_sub_div );
 gboolean find_associated_transactions ( MetatreeInterface * iface, 
-					gint no_categ, gint no_sous_categ );
-void expand_arbre_categ ( GtkWidget *bouton, gint depth );
-void appui_sur_ajout_categorie ( GtkWidget * button, GtkTreeModel * model );
-void appui_sur_ajout_sous_categorie ( GtkWidget * button, GtkTreeModel * model );
+					gint no_division, gint no_sub_division );
+void expand_arbre_division ( GtkWidget *bouton, gint depth );
+void appui_sur_ajout_division ( GtkWidget * button, GtkTreeModel * model );
+void appui_sur_ajout_sub_division ( GtkWidget * button, GtkTreeModel * model );
+GtkTreeIter * get_iter_from_div ( GtkTreeModel * model, int div, int sub_div );
 /*END_DECLARATION*/
 
 #endif
