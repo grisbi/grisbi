@@ -91,7 +91,10 @@ gboolean recuperation_donnees_gnucash ( gchar * filename )
   if ( doc )
     {
       xmlNodePtr root = xmlDocGetRootElement(doc);
-      xmlNodePtr root_node = root -> children;
+      xmlNodePtr root_node;
+
+      if ( root )
+	root_node = root -> children;
 
       while ( root_node )
 	{
@@ -121,8 +124,6 @@ gboolean recuperation_donnees_gnucash ( gchar * filename )
 	  root_node = root_node -> next;
 	}
     }
-
-  printf ("fini\n");
 
   return ( TRUE );
 }
