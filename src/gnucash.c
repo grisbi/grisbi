@@ -260,7 +260,7 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
       struct struct_compte_importation * split_account = NULL; 
       struct gnucash_category * categ = NULL;
       struct gnucash_split * split;
-      enum operation_etat_rapprochement p_r;
+      enum operation_etat_rapprochement p_r = OPERATION_NORMALE;
       gdouble amount;
 
       if ( node_strcmp ( split_node, "split" ) )
@@ -280,9 +280,7 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 		 the account split, not the category one */
 	      account_name = split_account -> nom_de_compte;
 	      total += amount;
-	      if ( !strcmp(child_content(split_node, "reconciled-state"), "n") )
-		p_r = OPERATION_NORMAL;
-	      else
+	      if ( strcmp(child_content(split_node, "reconciled-state"), "n") )
 		p_r = OPERATION_RAPPROCHEE;
 	    }
 
