@@ -299,7 +299,7 @@ gboolean gtk_list_button_press_event ( GtkWidget *button,
 
 	gtk_box_set_spacing ( GTK_BOX ( dragging_button -> parent ),
 			      0 );
-	printf ( "Warning : the spacing of the parent's box was not 0.\nIt is necessary to permit to drag the buttons\nIt's done.\n" );
+/* 	printf ( "Warning : the spacing of the parent's box was not 0.\nIt is necessary to permit to drag the buttons\nIt's done.\n" ); */
     }
 
     /*     on fait le tour des fils */
@@ -324,9 +324,9 @@ gboolean gtk_list_button_press_event ( GtkWidget *button,
 				      &pack_type );
 	if ( padding )
 	{
-	    printf ( "Warning : the padding of the button n°%d was not 0.\nIt is necessary to permit to drag the buttons\nIt's done.\n",
-		     g_list_position ( GTK_BOX ( dragging_button -> parent ) -> children,
-				       liste_tmp ));
+/* 	    printf ( "Warning : the padding of the button n°%d was not 0.\nIt is necessary to permit to drag the buttons\nIt's done.\n", */
+/* 		     g_list_position ( GTK_BOX ( dragging_button -> parent ) -> children, */
+/* 				       liste_tmp )); */
 	    padding = 0;
 	    gtk_box_set_child_packing ( GTK_BOX ( dragging_button -> parent ),
 					box_child -> widget,
