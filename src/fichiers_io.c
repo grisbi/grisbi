@@ -5938,7 +5938,12 @@ void propose_changement_permissions ( void )
 				      GTK_DIALOG_DESTROY_WITH_PARENT,
 				      GTK_MESSAGE_QUESTION,
 				      GTK_BUTTONS_YES_NO,
-				      _("Your account file should not be readable by anybody else, but it is. You should change its permissions.\nShould this be fixed now?") );
+				      " ");
+
+    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), 
+			   make_hint ( _("Account file is world readable."),
+				       _("Your account file should not be readable by anybody else, but it is. You should change its permissions.\nShould this be fixed now?")));
+    
 
     vbox = GTK_DIALOG(dialog) -> vbox;
     checkbox = new_checkbox_with_title ( _("Do not show this message again"),
