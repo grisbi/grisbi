@@ -1,5 +1,5 @@
 Source: grisbi
-Section: utils
+Section: gnome
 Priority: optional
 Maintainer: Benjamin Drieu <benj@debian.org>
 Build-Depends: debhelper (>> 3.0.0), libgnomeui-dev, libgnome2-dev, libgtk2.0-dev, libxml-dev, libgdk-pixbuf-dev, libgnomeprint2.2-dev
