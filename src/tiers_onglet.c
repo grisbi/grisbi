@@ -148,9 +148,8 @@ extern GtkWidget *window;
 
 GtkWidget *onglet_tiers ( void )
 {
-    GtkWidget *onglet;
-    GtkWidget *scroll_window;
-    GtkWidget *scrolled_window_text;
+    GtkWidget *onglet, *scroll_window, *scrolled_window_text;
+    GtkWidget *vbox, *frame, *vbox_frame, *hbox;
     gchar *titres[] =
     {
 	_("Third parties list"),
@@ -158,10 +157,6 @@ GtkWidget *onglet_tiers ( void )
 	_("Amount per account"),
 	_("Last date")
     };
-    GtkWidget *vbox;
-    GtkWidget *frame;
-    GtkWidget *vbox_frame;
-    GtkWidget *hbox;
 
     /* création des pixmaps pour la liste */
     pixmap_ouvre = gdk_pixmap_create_from_xpm_d ( GTK_WIDGET(window) -> window,
@@ -268,6 +263,9 @@ GtkWidget *onglet_tiers ( void )
 			 FALSE,
 			 0 );
     gtk_widget_show ( hbox );
+
+    /* Button panel */
+
 
     bouton_modif_tiers_modifier = gtk_button_new_from_stock (GTK_STOCK_APPLY);
     gtk_button_set_relief ( GTK_BUTTON ( bouton_modif_tiers_modifier ),
@@ -1276,7 +1274,6 @@ void supprimer_tiers ( GtkWidget *bouton,
 			     FALSE,
 			     0 );
 
-
 	pointeur = liste_struct_tiers;
 	liste_combofix = NULL;
 
@@ -1288,12 +1285,12 @@ void supprimer_tiers ( GtkWidget *bouton,
 	    pointeur = pointeur -> next;
 	}
 
-
 	combofix = gtk_combofix_new ( liste_combofix,
+				      FALSE,
 				      TRUE,
 				      TRUE,
-				      TRUE,
-				      50 );
+				      0 );
+
 	gtk_box_pack_start ( GTK_BOX ( hbox ),
 			     combofix,
 			     FALSE,
@@ -1346,6 +1343,15 @@ retour_dialogue:
 
 	    nouveau_tiers = tiers_par_nom ( gtk_combofix_get_text ( GTK_COMBOFIX ( combofix )),
 					    0 );
+
+ 	    if ( !nouveau_tiers )
+ 	    {
+ 		dialogue_error_hint ( _("Grisbi is unable to find this third party.  Be sure entered name is valid and that this third party exists."),
+ 				      g_strdup_printf ( _("Third party %s not found."),
+ 							gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ) ) ) );
+ 		goto retour_dialogue;
+ 	    }
+	    
 	    nouveau_no = nouveau_tiers -> no_tiers;
 	}
 	else
