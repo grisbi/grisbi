@@ -2601,7 +2601,7 @@ void popup_menu ( gboolean full )
 
   /* Add accounts submenu */
   gtk_menu_item_set_submenu ( GTK_MENU_ITEM(menu_item), 
-			      GTK_WIDGET(creation_option_menu_comptes(GTK_SIGNAL_FUNC(move_selected_operation_to_account))) );
+			      GTK_WIDGET(creation_option_menu_comptes(GTK_SIGNAL_FUNC(move_selected_operation_to_account), FALSE)) );
 
   gtk_widget_show_all (menu);
   gtk_menu_popup ( GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time());
@@ -2751,6 +2751,7 @@ void move_selected_operation_to_account ( GtkMenuItem * menu_item )
 
   MISE_A_JOUR = 1;
   verification_mise_a_jour_liste ();
+  remplissage_liste_operations ( account );
 
   mise_a_jour_tiers ();
   mise_a_jour_categ ();
@@ -2785,9 +2786,10 @@ void move_operation_to_account ( struct structure_operation * transaction,
     {
       struct structure_operation * contra_transaction;
       p_tab_nom_de_compte = p_tab_nom_de_compte_variable + transaction -> relation_no_compte;
-      contra_transaction = g_slist_find_custom ( LISTE_OPERATIONS,
-						 GINT_TO_POINTER ( transaction -> relation_no_operation ),
-						 ( GCompareFunc ) recherche_operation_par_no ) -> data;
+      contra_transaction = 
+	g_slist_find_custom ( LISTE_OPERATIONS,
+			      GINT_TO_POINTER ( transaction -> relation_no_operation ),
+			      ( GCompareFunc ) recherche_operation_par_no ) -> data;
       contra_transaction -> relation_no_compte = account;
 
     }

@@ -1712,7 +1712,7 @@ void modification_details_compte ( void )
       mise_a_jour_categ();
 
       gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] ),
-				 creation_option_menu_comptes(GTK_SIGNAL_FUNC(changement_choix_compte_echeancier)) );
+				 creation_option_menu_comptes(GTK_SIGNAL_FUNC(changement_choix_compte_echeancier), TRUE) );
 
       remplissage_liste_comptes_etats ();
       selectionne_liste_comptes_etat_courant ();

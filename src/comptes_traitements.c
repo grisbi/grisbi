@@ -92,7 +92,7 @@ void  nouveau_compte ( void )
 /* on met à jour l'option menu des formulaires des échéances et des opés */
 
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] ),
-			     creation_option_menu_comptes (GTK_SIGNAL_FUNC(changement_choix_compte_echeancier)) );
+			     creation_option_menu_comptes (GTK_SIGNAL_FUNC(changement_choix_compte_echeancier), TRUE) );
 
 
   /* mise à jour de l'accueil */
@@ -235,7 +235,7 @@ void supprimer_compte ( void )
 
   liste_comptes = gtk_option_menu_new ();
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( liste_comptes ),
-			     creation_option_menu_comptes (GTK_SIGNAL_FUNC(changement_choix_compte_echeancier)) );
+			     creation_option_menu_comptes (GTK_SIGNAL_FUNC(changement_choix_compte_echeancier), TRUE) );
   gtk_option_menu_set_history ( GTK_OPTION_MENU ( liste_comptes ),
 				compte_courant_onglet );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
@@ -421,7 +421,7 @@ void supprimer_compte ( void )
 /* on met à jour l'option menu du formulaire des échéances */
 
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] ),
-			     creation_option_menu_comptes (GTK_SIGNAL_FUNC(changement_choix_compte_echeancier)) );
+			     creation_option_menu_comptes (GTK_SIGNAL_FUNC(changement_choix_compte_echeancier), TRUE) );
 
   /* réaffiche la liste si necessaire */
 
@@ -462,16 +462,18 @@ gint cherche_compte_dans_echeances ( struct operation_echeance *echeance,
 /* *********************************************************************************************************** */
 
 
-
-
-
-
-/***********************************************************************************************************/
-/* Fonction creation_option_menu_comptes */
-/* retourne un option menu contenant les comptes du fichier courant */
-/***********************************************************************************************************/
-
-GtkWidget *creation_option_menu_comptes ( GtkSignalFunc func )
+/**
+ *  Create an option menu with the list of accounts.  This list is
+ *  clickable and activates func if specified.
+ *
+ * \param func Function to call when a line is selected
+ * \param activate_currrent If set to TRUE, does not mark as
+ *        unsensitive current account
+ *
+ * \return A newly created option menu
+ */
+GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func, 
+					   gboolean activate_currrent )
 {
   GtkWidget *menu;
   GtkWidget *item;
@@ -487,8 +489,14 @@ GtkWidget *creation_option_menu_comptes ( GtkSignalFunc func )
 			    "no_compte",
 			    GINT_TO_POINTER ( p_tab_nom_de_compte_variable - p_tab_nom_de_compte ));
       gtk_signal_connect ( GTK_OBJECT ( item ), "activate", GTK_SIGNAL_FUNC(func), NULL );
-      gtk_menu_append ( GTK_MENU ( menu ),
-			item );
+      gtk_menu_append ( GTK_MENU ( menu ), item );
+
+      if ( !activate_currrent && 
+	   p_tab_nom_de_compte_courant == p_tab_nom_de_compte_variable )
+	{
+	  gtk_widget_set_sensitive ( item, FALSE );
+	}      
+
       gtk_widget_show ( item );
       p_tab_nom_de_compte_variable++;
     }
