@@ -1023,8 +1023,6 @@ void edition_echeance ( void )
 {
     gchar *char_tmp;
     
-    formulaire_echeancier_a_zero ();
-
     /*   si le formulaire est caché, on le montre */
 
     gtk_widget_show ( frame_formulaire_echeancier );
