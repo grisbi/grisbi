@@ -891,6 +891,11 @@ void choix_fonte_general ( GtkWidget *bouton,
 void modification_logo_accueil ( void );
 void remise_a_zero_logo ( GtkWidget *bouton,
 			  GtkWidget *pixmap_entry );
+void update_font_button(GtkWidget * name_label,
+			GtkWidget * size_label,
+			gchar * fontname);
+gboolean init_fonts ( GtkWidget * button,
+		      gpointer user_data);
 
 
 /***********************************/ 
