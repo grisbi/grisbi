@@ -1479,7 +1479,7 @@ fi
 
 PACKAGE=grisbi
 
-VERSION=0.4.1
+VERSION=0.4.0
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { { echo "$as_me:$LINENO: error: source directory already configured; run \"make distclean\" there first" >&5
@@ -1590,7 +1590,6 @@ fi
 
 	for k in macros ; do ACLOCAL="$ACLOCAL -I $k" ; done
 
-
 echo "$as_me:$LINENO: checking whether to enable maintainer-specific portions of Makefiles" >&5
 echo $ECHO_N "checking whether to enable maintainer-specific portions of Makefiles... $ECHO_C" >&6
     # Check whether --enable-maintainer-mode or --disable-maintainer-mode was given.
@@ -1616,7 +1615,7 @@ fi
 
 
 PACKAGE=grisbi
-VERSION=0.4.1
+VERSION=0.4.0
 
 
 
@@ -3706,7 +3705,7 @@ else
 fi
 
 
-ALL_LINGUAS="en"
+ALL_LINGUAS="en es"
 # Make sure we can run config.sub.
 $ac_config_sub sun4 >/dev/null 2>&1 ||
   { { echo "$as_me:$LINENO: error: cannot run $ac_config_sub" >&5
