@@ -3681,8 +3681,6 @@ void formulaire_a_zero (void)
 			  "liste_adr_ventilation",
 			  NULL );
 
-    gtk_widget_set_sensitive ( bouton_affiche_cache_formulaire,
-			       TRUE );
 }
 /******************************************************************************/
 

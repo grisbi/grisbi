@@ -188,20 +188,20 @@ GtkWidget *creation_liste_comptes (void)
 
 	current_account = gsb_account_get_current_account ();
 	reconcile_date = gsb_account_get_current_reconcile_date (current_account);
-	label_last_statement = gtk_label_new ( g_strdup_printf ( _("Last statement: %02d/%02d/%d"), 
-							 g_date_day (reconcile_date),
-							 g_date_month (reconcile_date),
-							 g_date_year (reconcile_date)));
+/* 	label_last_statement = gtk_label_new ( g_strdup_printf ( _("Last statement: %02d/%02d/%d"),  */
+/* 							 g_date_day (reconcile_date), */
+/* 							 g_date_month (reconcile_date), */
+/* 							 g_date_year (reconcile_date))); */
     }
-    else
-	label_last_statement = gtk_label_new ( COLON(_("Last statement")) );
+/*     else */
+/* 	label_last_statement = gtk_label_new ( COLON(_("Last statement")) ); */
 
-    gtk_box_pack_start ( GTK_BOX ( vbox_frame_equilibrage ),
-			 label_last_statement,
-			 FALSE,
-			 TRUE,
-			 0);
-    gtk_widget_show ( label_last_statement );
+/*     gtk_box_pack_start ( GTK_BOX ( vbox_frame_equilibrage ), */
+/* 			 label_last_statement, */
+/* 			 FALSE, */
+/* 			 TRUE, */
+/* 			 0); */
+/*     gtk_widget_show ( label_last_statement ); */
 
 
     /* mise en place du button équilibrage */
