@@ -434,7 +434,8 @@ GtkWidget *creation_liste_echeances ( void )
 {
   GtkWidget *vbox;
   GtkWidget *win_echeances_scroll;
-  gchar *titres_echeance[] = { _("Date"), _("Frequency"), _("Account"), _("Third party"), _("Mode") , _("Amount")};
+  /* dOm : ajout de la colonne notes */
+  gchar *titres_echeance[] = { _("Date"), _("Frequency"), _("Account"), _("Third party"), _("Mode"), _("Notes"), _("Amount")};
 
 
   /*   à la base, on a une vbox */
@@ -473,7 +474,8 @@ GtkWidget *creation_liste_echeances ( void )
 
 /* création de la liste des échéances */
 
-  liste_echeances = gtk_clist_new_with_titles( 6,
+  /* dOm : on passe de 6 a 7 colonnes */
+  liste_echeances = gtk_clist_new_with_titles( 7,
 					       titres_echeance );
 
   gtk_clist_set_selection_mode ( GTK_CLIST ( liste_echeances ),
@@ -521,8 +523,14 @@ GtkWidget *creation_liste_echeances ( void )
   gtk_clist_set_column_justification ( GTK_CLIST ( liste_echeances ),
 				       4,
 				       GTK_JUSTIFY_CENTER );
+
+  /* dOm : fixer alignement colonne commentaire */
   gtk_clist_set_column_justification ( GTK_CLIST ( liste_echeances ),
 				       5,
+				       GTK_JUSTIFY_LEFT);
+
+  gtk_clist_set_column_justification ( GTK_CLIST ( liste_echeances ),
+				       6,
 				       GTK_JUSTIFY_RIGHT );
 
   gtk_clist_set_column_resizeable ( GTK_CLIST ( liste_echeances ),
@@ -540,9 +548,16 @@ GtkWidget *creation_liste_echeances ( void )
   gtk_clist_set_column_resizeable ( GTK_CLIST ( liste_echeances ),
 				    4,
 				    FALSE );
+  /* dOm : empecher redimensionnement colonne commentaire */
   gtk_clist_set_column_resizeable ( GTK_CLIST ( liste_echeances ),
 				    5,
 				    FALSE );
+  gtk_clist_set_column_resizeable ( GTK_CLIST ( liste_echeances ),
+				    6,
+				    FALSE );
+
+  /* dOm : rendre invisible la colonne notes */
+gtk_clist_set_column_visibility(GTK_CLIST(liste_echeances),5,FALSE);
 
   gtk_clist_set_selection_mode ( GTK_CLIST  ( liste_echeances ),
 				 GTK_SELECTION_SINGLE ) ;
@@ -639,7 +654,23 @@ gboolean traitement_clavier_liste_echeances ( GtkCList *liste_echeances,
 }
 /* *************************************************************************************************************** */
 
+/* dOm fonction callback  */
+void affiche_cache_commentaire_echeancier( void )
+{
+	static gboolean visible = FALSE;
+	if (visible == FALSE){
+		visible = TRUE;
+		gtk_clist_set_column_visibility(GTK_CLIST(liste_echeances),3,FALSE);
+		gtk_clist_set_column_visibility(GTK_CLIST(liste_echeances),4,FALSE);
+		gtk_clist_set_column_visibility(GTK_CLIST(liste_echeances),5,TRUE);
+	} else {
+		visible = FALSE;
+		gtk_clist_set_column_visibility(GTK_CLIST(liste_echeances),3,TRUE);
+		gtk_clist_set_column_visibility(GTK_CLIST(liste_echeances),4,TRUE);
+		gtk_clist_set_column_visibility(GTK_CLIST(liste_echeances),5,FALSE);
+	}
 
+}
 
 /* *************************************************************************************************************** */
 void click_sur_saisir_echeance ( void )
@@ -798,10 +829,14 @@ void remplissage_liste_echeance ( void )
       else
 	ligne[4] = _("Manual");
 
+      /* dOm TODO remplir la colonne notes */
+      ligne[5] = g_strdup_printf ("%s", 
+		      (ECHEANCE_COURANTE->notes == NULL) ? "":ECHEANCE_COURANTE->notes);
+
 
       /* mise en forme du montant */
-
-      ligne[5] = g_strdup_printf ( "%4.2f",
+/* dOm la colonne 5 est devenue colonne 6 */
+      ligne[6] = g_strdup_printf ( "%4.2f",
 				   ECHEANCE_COURANTE -> montant );
 
       /* on va ajouter l'échéance une ou plusieurs fois en changeant juste sa date */
@@ -899,9 +934,10 @@ void remplissage_liste_echeance ( void )
 	   echeance != GINT_TO_POINTER (-1)
 	   &&
 	   echeance -> montant < 0 )
+	      /* dOm : la colonne montant est maintenant la 6 */
 	gtk_clist_set_cell_style ( GTK_CLIST ( liste_echeances ),
 				   i,
-				   5,
+				   6,
 				   style_rouge_couleur [ couleur_en_cours ] );
 
       /* on ne met le bleu ou blanc que si c'est pas gris */
@@ -1434,7 +1470,10 @@ void changement_taille_liste_echeances ( GtkWidget *clist,
   col3 = ( 15 * largeur ) / 100;
   col4 = ( 20 * largeur ) / 100;
   col5 = ( 15 * largeur ) / 100;
-  col6 = ( 5 * largeur ) / 100;
+  /* dOm : les colonnes 4 et 5 sont remplacées par la 6. 
+   * sa largeur est donc la somme des deux autres*/
+  col6 = col4 + col5; 
+  col7 = ( 5 * largeur ) / 100;
 
   gtk_clist_set_column_width ( GTK_CLIST ( clist ),
 			       0,
@@ -1451,9 +1490,13 @@ void changement_taille_liste_echeances ( GtkWidget *clist,
   gtk_clist_set_column_width ( GTK_CLIST ( clist ),
 			       4,
 			       col5 );
+  /* dOm : changement de la largeur de la colonne note */
   gtk_clist_set_column_width ( GTK_CLIST ( clist ),
 			       5,
 			       col6 );
+  gtk_clist_set_column_width ( GTK_CLIST ( clist ),
+			       6,
+			       col7 );
 
 
 /* met les entrées du formulaire à la même taille */

@@ -478,6 +478,8 @@ GSList *liste_entrees_exportation;
 
 GtkTooltips *tooltips;
 GtkWidget *bouton_affiche_cache_formulaire_echeancier;
+/* dOm : bouton d'affichage des commentaires dans echeancier */
+GtkWidget *bouton_affiche_commentaire_echeancier;
 GtkWidget *fleche_bas_echeancier;
 GtkWidget *fleche_haut_echeancier;
 GtkWidget *bouton_ope_4_lignes;

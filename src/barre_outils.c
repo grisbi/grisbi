@@ -39,6 +39,10 @@
 #include "./xpm/liste_1.xpm"
 #include "./xpm/liste_2.xpm"
 #include "./xpm/liste_3.xpm"
+#include "./xpm/comments.xpm"
+
+
+GtkWidget *scheduler_display_hide_comments;
 
 
 
@@ -74,8 +78,8 @@ GtkWidget *creation_barre_outils ( void )
 			  GTK_RELIEF_NONE );
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton_affiche_cache_formulaire,
-			 _("Display/Hide form"),
-			 _("Display/Hide form") );
+			 _("Display/hide form"),
+			 _("Display/hide form") );
   gtk_widget_set_usize ( bouton_affiche_cache_formulaire,
 			 15,
 			 15 );
@@ -739,8 +743,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 			 _("Display/hide form"),
 			 _("Display/hide form") );
   gtk_widget_set_usize ( bouton_affiche_cache_formulaire_echeancier,
-			 15,
-			 15 );
+			 16, 16 );
 
   hbox2 = gtk_hbox_new ( TRUE,
 			 0 );
@@ -787,6 +790,32 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 		       FALSE,
 		       0 );
   gtk_widget_show ( separateur );
+
+  /* dOm : ajout commutateur d'affichage de commentaires */
+  /* bouton affiche / cache le commentaire dans la liste de l'echeancier */
+  scheduler_display_hide_comments = gnome_pixmap_new_from_xpm_d ( comments_xpm );
+  bouton_affiche_commentaire_echeancier = gtk_button_new ();
+  gtk_widget_show ( scheduler_display_hide_comments );
+  gtk_container_add ( GTK_CONTAINER ( bouton_affiche_commentaire_echeancier ),
+		      scheduler_display_hide_comments );
+  gtk_button_set_relief ( GTK_BUTTON ( bouton_affiche_commentaire_echeancier ),
+			  GTK_RELIEF_NONE );
+  gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
+			 bouton_affiche_commentaire_echeancier ,
+			 _("Display/hide comments"),
+			 _("Display/hide comments") );
+  gtk_widget_set_usize ( bouton_affiche_commentaire_echeancier ,
+			 16, 16 );
+  gtk_signal_connect ( GTK_OBJECT ( bouton_affiche_commentaire_echeancier ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( affiche_cache_commentaire_echeancier ),
+		       NULL );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton_affiche_commentaire_echeancier,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_affiche_commentaire_echeancier );
 
   return ( hbox );
 }
