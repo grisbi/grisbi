@@ -593,7 +593,7 @@ void update_font_button(GtkWidget * name_label,
 
     font_name = g_strdup ( fontname );
     tmp = font_name + strlen(font_name) - 1;
-    while (isdigit(*tmp) ||
+    while (g_ascii_isdigit(*tmp) ||
 	   (*tmp) == '.')
 	tmp --;
     font_size = tmp+1;

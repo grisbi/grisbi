@@ -121,7 +121,7 @@ double my_strtod ( char *nptr, char **endptr )
 
     for ( p = nptr; p < nptr + strlen(nptr); p++ )
     {
-	if (isspace(*p) || *p == '+' )
+	if (g_ascii_isspace(*p) || *p == '+' )
 	    continue;
 
 	if (*p == '-')
@@ -134,7 +134,7 @@ double my_strtod ( char *nptr, char **endptr )
 	{
 	    char * m;
 	    for ( m = p+1; m <= nptr+strlen(nptr) && 
-		  (isdigit(*m) || isspace(*m)); m++)
+		  (g_ascii_isdigit(*m) || g_ascii_isspace(*m)); m++)
 		/* Nothing, just loop */ ;
 	    for ( --m; m > p; m-- )
 	    {
