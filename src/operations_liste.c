@@ -2644,7 +2644,7 @@ void new_transaction ()
   gtk_clist_unselect_all ( GTK_CLIST ( CLIST_OPERATIONS ) );
   echap_formulaire();
 
-  OPERATION_SELECTIONNEE = -1;
+  OPERATION_SELECTIONNEE = GINT_TO_POINTER(-1);
   edition_operation ();
 
   gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
