@@ -1,6 +1,17 @@
 /* Fichier de définition de constantes constant.h */
 
-#define TRANSACTION_LIST_COL_NB 7
+/* Constantes qui définisent le numéro de colonne dans la liste des opérations
+   dans l'onglet opérations */
+#define TRANSACTION_COL_NB_CHECK 0
+#define TRANSACTION_COL_NB_DATE 1
+#define TRANSACTION_COL_NB_PARTY 2
+#define TRANSACTION_COL_NB_PR 3
+#define TRANSACTION_COL_NB_DEBIT 4
+#define TRANSACTION_COL_NB_CREDIT 5
+#define TRANSACTION_COL_NB_BALANCE 6
+#define TRANSACTION_LIST_COL_NB 7	 /* must be the last of the list */
+
+#define TRANSACTION_LIST_ROWS_NB 4
 
 /* Constantes qui définisent le numéro de widget dans le formulaire
    de saisie des opérations */
@@ -52,10 +63,7 @@
 # define ENCLAIR 0
 # define ENGRIS 1
 
-/* Constantes pour la fonction gtk_misc_set_alignment() */
-#define MISC_TOP 0
-#define MISC_VERT_CENTER 0.5
-#define MISC_BOTTOM 1
-#define MISC_LEFT 0
-#define MISC_HORIZ_CENTER 0.5
-#define MISC_RIGHT 1
+/* Constantes pour la fonction gtk_tree_view_column_set_alignment() */
+#define COLUMN_LEFT 0.0
+#define COLUMN_CENTER 0.5
+#define COLUMN_RIGHT 1.0
