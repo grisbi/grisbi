@@ -31,6 +31,7 @@
 #include "equilibrage.h"
 #include "exercice.h"
 #include "import.h"
+#include "traitement_variables.h"
 #include "type_operations.h"
 #include "utils.h"
 
