@@ -51,6 +51,11 @@
 #include <libintl.h>
 #include <locale.h>
 
+/* vbox ajoutée dans la fenetre de base, contient le menu et la fenetre d'utilisation */
+
+GtkWidget *window_vbox_principale;
+GtkWidget *menu_general;
+GtkItemFactory *item_factory_menu_general;
 
 
 /***********************************************************************************************
@@ -125,8 +130,7 @@ int main (int argc, char *argv[])
 
 	/*  Création de la fenêtre principale */
 
-	window = gnome_app_new ( FICHIER_CONF, _("Grisbi"));
-
+	window = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
 
 	gtk_signal_connect ( GTK_OBJECT (window),
 			     "delete_event",
@@ -147,9 +151,20 @@ int main (int argc, char *argv[])
 				TRUE,
 				FALSE );
 
+	window_vbox_principale = gtk_vbox_new ( FALSE,
+						5 );
+	gtk_container_add ( GTK_CONTAINER ( window ),
+			    window_vbox_principale );
+	gtk_widget_show ( window_vbox_principale );
+
 	/*   création des menus */
 
-	init_menus ( window );
+	menu_general = init_menus ( window_vbox_principale );
+	gtk_box_pack_start ( GTK_BOX ( window_vbox_principale ),
+			     menu_general,
+			     FALSE,
+			     FALSE,
+			     0 );
 
 	/* on grise les fonctions inutiles au départ */
 

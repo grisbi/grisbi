@@ -40,198 +40,125 @@
 #include "./xpm/export.xpm"
 #include "./xpm/import.xpm"
 
+extern GtkItemFactory *item_factory_menu_general;
 
-/***********************************************
-** Définition de la barre des menus**
-***********************************************/
 
-void init_menus ( GtkWidget * win )
+/***********************************************/
+/* définition de la barre des menus, version gtk */
+/***********************************************/
+
+GtkWidget *init_menus ( GtkWidget *vbox )
 {
-  static GnomeUIInfo tmp_menu_cloture [] = 
-    {
-      GNOMEUIINFO_END
+    GtkWidget *barre_menu;
+    GtkAccelGroup *accel;
+    gint nb_item_menu;
+
+    /* Definition des elements du menu */
+
+    GtkItemFactoryEntry menu_item[] = {
+	{_("/File"),    NULL,  NULL, 0, "<Branch>", NULL },
+	{_("/File/Detach"),    NULL,  NULL, 0, "<Tearoff>", NULL },
+	{_("/File/New account file"),  NULL,  G_CALLBACK ( nouveau_fichier), 0, "<StockItem>", GTK_STOCK_NEW },
+	{_("/File/_Open"),   "<CTRL>O", G_CALLBACK ( ouvrir_fichier ), 0, "<StockItem>", GTK_STOCK_OPEN },
+	{"/File/Sep1",    NULL,  NULL, 0, "<Separator>", NULL },
+	{_("/File/Save"),   NULL,  G_CALLBACK ( enregistrement_fichier ) , 1, "<StockItem>", GTK_STOCK_SAVE },
+	{_("/File/Save as"),   NULL,  G_CALLBACK ( enregistrer_fichier_sous ), 0, "<StockItem>", GTK_STOCK_SAVE_AS },
+	{"/File/Sep1",    NULL, NULL, 0, "<Separator>", NULL },
+	{_("/File/Recently opened files"), NULL,NULL , 0, "<Branch>",NULL, },
+	{"/File/Sep1",    NULL, NULL, 0, "<Separator>", NULL },
+	{_("/File/Import"),   NULL,NULL , 0, "<Branch>",NULL  },
+	{_("/File/Import/QIF\\/OFX file ..."),   NULL, G_CALLBACK ( importer_fichier), 0, NULL ,NULL  },
+	{_("/File/Export"),   NULL, NULL, 0, "<Branch>",NULL  },
+	{_("/File/Export/QIF file ..."),   NULL,G_CALLBACK ( exporter_fichier_qif ), 0, NULL ,NULL  },
+	{"/File/Sep1",    NULL, NULL, 0, "<Separator>", NULL },
+	{_("/File/Close"),   NULL,G_CALLBACK ( fermer_fichier ), 0, "<StockItem>", GTK_STOCK_CLOSE },
+	{_("/File/Exit"),   NULL, G_CALLBACK ( fermeture_grisbi), 0, "<StockItem>", GTK_STOCK_QUIT },
+
+	{ _("/Edit"), NULL, NULL, 0, "<Branch>", NULL },
+	{_("/Edit/Detach"),    NULL,  NULL, 0, "<Tearoff>", NULL },
+	{_("/Edit/New transaction"),   NULL, G_CALLBACK (new_transaction ), 0, "<StockItem>", GTK_STOCK_NEW },
+	{_("/Edit/Remove transaction"),   NULL, G_CALLBACK (remove_transaction ), 0, "<StockItem>", GTK_STOCK_DELETE },
+	{_("/Edit/Clone transaction"),   NULL, G_CALLBACK ( clone_selected_transaction), 0, "<StockItem>", GTK_STOCK_COPY },
+	{_("/Edit/Edit transaction"),   NULL, G_CALLBACK ( edition_operation), 0, "<StockItem>", GTK_STOCK_PROPERTIES },
+	{"/Edit/Sep1",    NULL, NULL, 0, "<Separator>", NULL },
+	{_("/Edit/Convert transaction to scheduled transaction"),   NULL, NULL, 0, "<StockItem>", GTK_STOCK_CONVERT },
+	{_("/Edit/Move transaction to another account"),   NULL, NULL, 0, "<StockItem>", GTK_STOCK_GO_FORWARD },
+	{"/Edit/Sep1",    NULL, NULL, 0, "<Separator>", NULL },
+	{_("/Edit/Preferences"),   NULL, G_CALLBACK (preferences ), 1, "<StockItem>", GTK_STOCK_PREFERENCES },
+
+	{ _("/Accounts"), NULL, NULL, 0, "<Branch>", NULL },
+	{_("/Accounts/Detach"),    NULL,  NULL, 0, "<Tearoff>", NULL },
+	{_("/Accounts/New account"),   NULL, G_CALLBACK (nouveau_compte ), 0, "<StockItem>", GTK_STOCK_NEW },
+	{_("/Accounts/Remove an account"),   NULL, G_CALLBACK ( supprimer_compte), 0, "<StockItem>", GTK_STOCK_DELETE },
+	{"/Accounts/Sep1",    NULL, NULL, 0, "<Separator>", NULL },
+	{_("/Accounts/Closed accounts"),   NULL, NULL , 0, "<Branch>", NULL },
+
+	{ _("/Reports"), NULL, NULL, 0, "<Branch>", NULL },
+	{_("/Reports/Detach"),    NULL,  NULL, 0, "<Tearoff>", NULL },
+	{_("/Reports/New report"),   NULL, G_CALLBACK ( ajout_etat), 0, "<StockItem>", GTK_STOCK_NEW },
+	{"/Reports/Sep1",    NULL, NULL, 0, "<Separator>", NULL },
+	{_("/Reports/Clone report"),   NULL, G_CALLBACK (dupliquer_etat ), 0, "<StockItem>", GTK_STOCK_COPY },
+	{_("/Reports/Print report"),   NULL, G_CALLBACK ( impression_etat_courant), 0, "<StockItem>", GTK_STOCK_PRINT },
+	{"/Reports/Sep1",    NULL, NULL, 0, "<Separator>", NULL },
+	{_("/Reports/Import report"),   NULL, G_CALLBACK (importer_etat ), 0, "<StockItem>", GTK_STOCK_CONVERT },
+	{_("/Reports/Export report"),   NULL, G_CALLBACK ( exporter_etat), 0, "<StockItem>", GTK_STOCK_CONVERT },
+	{"/Reports/Sep1",    NULL, NULL, 0, "<Separator>", NULL },
+	{_("/Reports/Remove report"),   NULL, G_CALLBACK ( efface_etat), 0, "<StockItem>", GTK_STOCK_DELETE },
+	{"/Reports/Sep1",    NULL, NULL, 0, "<Separator>", NULL },
+	{_("/Reports/Edit report"),   NULL, G_CALLBACK (personnalisation_etat ), 0, "<StockItem>", GTK_STOCK_PROPERTIES },
+
+	{ _("/Help"), NULL, NULL, 0, "<Branch>", NULL },
+	{_("/Help/Detach"),    NULL,  NULL, 0, "<Tearoff>", NULL },
+	{_("/Help/Manual"),   NULL, affiche_aide_locale, 1, NULL, NULL },
+	{_("/Help/Quickstart"),   NULL, affiche_aide_locale, 2, "<StockItem>", GTK_STOCK_INDEX },
+	{_("/Help/Translation"),   NULL, affiche_aide_locale, 3, NULL, NULL },
+	{_("/Help/About"),   NULL, G_CALLBACK (a_propos ) , 1, NULL, NULL },
+	{"/Help/Sep1",    NULL, NULL, 0, "<Separator>", NULL },
+	{_("/Help/Grisbi website"),   NULL, G_CALLBACK (lien_web ), 1, NULL, NULL },
+	{_("/Help/Report a bug"),   NULL, G_CALLBACK ( lien_web), 2,NULL , NULL },
+	{_("/Help/On line User's guide"),   NULL, G_CALLBACK ( lien_web), 3, NULL, NULL }
     };
 
-  static GnomeUIInfo tmp_menu_reports [] = 
-    {
-      GNOMEUIINFO_ITEM_STOCK (N_("New report"), 
-			      N_("Create a new report"),
-			      ajout_etat,
-			      GNOME_STOCK_MENU_NEW),
-      GNOMEUIINFO_SEPARATOR,
-      GNOMEUIINFO_ITEM_STOCK (N_("Clone report"), 
-			      N_("Clone selected report"),
-			      dupliquer_etat,
-			      GNOME_STOCK_MENU_COPY),
-      GNOMEUIINFO_ITEM_STOCK (N_("Print report"), 
-			      N_("Print selected report"),
-			      impression_etat_courant,
-			      GNOME_STOCK_MENU_PRINT),
-      GNOMEUIINFO_SEPARATOR,
-      GNOMEUIINFO_ITEM_STOCK (N_("Import report"),
-			      N_("Import report from a XML file"),
-			      importer_etat,
-			      GNOME_STOCK_MENU_CONVERT),
-      GNOMEUIINFO_ITEM_STOCK (N_("Export report"), 
-			      N_("Export report to a XML file"),
-			      exporter_etat,
-			      GNOME_STOCK_MENU_CONVERT),
-      GNOMEUIINFO_SEPARATOR,
-      GNOMEUIINFO_ITEM_STOCK (N_("Remove report"), 
-			      N_("Remove selected report"),
-			      efface_etat,
-			      GNOME_STOCK_MENU_TRASH),
-      GNOMEUIINFO_SEPARATOR,
-      GNOMEUIINFO_ITEM_STOCK (N_("Edit report"), 
-			      N_("Edit selected report"),
-			      personnalisation_etat,
-			      GNOME_STOCK_MENU_PROP),
-      GNOMEUIINFO_END
-    };
 
-  static GnomeUIInfo tmp_menu_comptes [] = 
-    {
-      GNOMEUIINFO_ITEM_STOCK (N_("New account"), 
-			      N_("Create a new account"),
-			      nouveau_compte,
-			      GNOME_STOCK_PIXMAP_BOOK_OPEN),
-      GNOMEUIINFO_ITEM_STOCK (N_("Remove an account"), 
-			      N_("Remove an account"),
-			      supprimer_compte,
-			      GNOME_STOCK_MENU_TRASH),
-      GNOMEUIINFO_SEPARATOR,
-      GNOMEUIINFO_SUBTREE (N_("Closed accounts"),
-			   &tmp_menu_cloture),
-      GNOMEUIINFO_END
-    };
 
-  static GnomeUIInfo tmp_menu_importer [] = 
-    {
-      GNOMEUIINFO_ITEM ( N_("QIF/OFX file ..."),
-			 N_("Import file"),
-			 importer_fichier,
-			 import_xpm ),
-      GNOMEUIINFO_END
-    };
+    /* Nombre d elements du menu */
 
-  static GnomeUIInfo tmp_menu_exporter [] = 
-    {
-      GNOMEUIINFO_ITEM ( N_("QIF File..."),
-			 N_("Export QIF file"),
-			 exporter_fichier_qif,
-			 export_xpm ),
-      GNOMEUIINFO_END
-    };
+    nb_item_menu = sizeof(menu_item) / sizeof(menu_item[0]);
 
-  static GnomeUIInfo tmp_menu_derniers_fichiers [] = 
-    {
-      GNOMEUIINFO_END
-    };
 
-  static GnomeUIInfo tmp_help_menu [] =
-    {
-      GNOMEUIINFO_HELP ( "grisbi" ),
-      GNOMEUIINFO_MENU_ABOUT_ITEM (  a_propos,
-				     GINT_TO_POINTER (1)  ),
-      GNOMEUIINFO_SEPARATOR,
-      GNOMEUIINFO_ITEM_DATA  ( N_("Grisbi website"),
-			       N_("Grisbi website"),
-			       lien_web,
-			       NULL,
-			       NULL ),
-      GNOMEUIINFO_ITEM_DATA  ( N_("Report a bug"),
-			       N_("Report a bug"),
-			       lien_web,
-			       GINT_TO_POINTER ( 1 ),
-			       NULL ),
-      GNOMEUIINFO_ITEM_DATA  ( N_("On line User's guide"),
-			       N_("On line User's guide"),
-			       lien_web,
-			       GINT_TO_POINTER ( 2 ),
-			       NULL ),
-      GNOMEUIINFO_END
-    };
+    /* Creation de la table d acceleration */
+    accel = gtk_accel_group_new ();
 
-  static GnomeUIInfo tmp_menu_fichier [] = 
-    {
-      GNOMEUIINFO_ITEM_STOCK (N_("New account file"), 
-			      N_("Create a new account file"),
-			      nouveau_fichier,
-			      GNOME_STOCK_MENU_NEW),
-      GNOMEUIINFO_MENU_OPEN_ITEM ( ouvrir_fichier, NULL),
-      GNOMEUIINFO_SEPARATOR,
-      GNOMEUIINFO_MENU_SAVE_ITEM ( enregistrement_fichier, NULL),
-      GNOMEUIINFO_MENU_SAVE_AS_ITEM ( enregistrer_fichier_sous, NULL),
-      GNOMEUIINFO_SEPARATOR,
-      GNOMEUIINFO_SUBTREE ( N_("Recently opened files"),
-			    &tmp_menu_derniers_fichiers),
-      GNOMEUIINFO_SEPARATOR,
-      GNOMEUIINFO_SUBTREE (N_("Import"), &tmp_menu_importer),
-      GNOMEUIINFO_SUBTREE (N_("Export"), &tmp_menu_exporter),
-      GNOMEUIINFO_SEPARATOR,
-      GNOMEUIINFO_MENU_CLOSE_ITEM ( fermer_fichier, NULL),
-      GNOMEUIINFO_MENU_EXIT_ITEM ( fermeture_grisbi, NULL),
-      GNOMEUIINFO_END
-    };
+    /* Creation du menu */
 
-  static GnomeUIInfo tmp_menu_editer [10] = 
-    {
-      GNOMEUIINFO_ITEM_STOCK (N_("New transaction"), 
-			      N_("Create a new transaction"),
-			      new_transaction,
-			      GNOME_STOCK_MENU_NEW),
-      GNOMEUIINFO_ITEM_STOCK (N_("Remove transaction"), 
-			      N_("Remove selected transaction"),
-			      remove_transaction,
-			      GNOME_STOCK_MENU_TRASH),
-      GNOMEUIINFO_ITEM_STOCK (N_("Clone transaction"), 
-			      N_("Clone selected transaction"),
-			      clone_selected_transaction,
-			      GNOME_STOCK_MENU_COPY),
-      GNOMEUIINFO_ITEM_STOCK (N_("Edit transaction"), 
-			      N_("Edit selected transaction"),
-			      edition_operation,
-			      GNOME_STOCK_MENU_PROP),
-      GNOMEUIINFO_SEPARATOR,
-      GNOMEUIINFO_ITEM_STOCK (N_("Convert transaction to scheduled transaction"), 
-			      N_("Convert selected transaction to scheduled transaction"),
-			      edition_operation,
-			      GNOME_STOCK_MENU_CONVERT),
-      GNOMEUIINFO_ITEM_STOCK (N_("Move transaction to another account"), 
-			      N_("Move selected transaction to another account"),
-			      edition_operation,
-			      GNOME_STOCK_MENU_TRASH),
-/*       gtk_menu_item_set_submenu ( GTK_MENU_ITEM(menu_item),  */
-/* 				  GTK_WIDGET(creation_option_menu_comptes(GTK_SIGNAL_FUNC(move_selected_operation_to_account), FALSE)) ); */
-      
+    item_factory_menu_general = gtk_item_factory_new(GTK_TYPE_MENU_BAR,
+						     "<main>",
+						     accel);
 
-      GNOMEUIINFO_SEPARATOR,
-      GNOMEUIINFO_MENU_PREFERENCES_ITEM (preferences, NULL),
-      GNOMEUIINFO_END
-    };
+    /* Recuperation des elements du menu */
 
-  static GnomeUIInfo tmp_menu_principal [15] = 
-    {
-      GNOMEUIINFO_SUBTREE (N_("File"), &tmp_menu_fichier),
-      GNOMEUIINFO_SUBTREE (N_("Edit"), &tmp_menu_editer),
-      GNOMEUIINFO_SUBTREE (N_("Accounts"), &tmp_menu_comptes),
-      GNOMEUIINFO_SUBTREE (N_("Reports"), &tmp_menu_reports),
-      GNOMEUIINFO_SUBTREE (N_("Help"), &tmp_help_menu),
-      GNOMEUIINFO_END
-    };
+    gtk_item_factory_create_items(item_factory_menu_general,
+				  nb_item_menu,
+				  menu_item,
+				  NULL );
 
-  menu_principal = tmp_menu_principal;
-  menu_fichier = tmp_menu_fichier;
-  help_menu = tmp_help_menu;
-  menu_derniers_fichiers = tmp_menu_derniers_fichiers;
-  menu_exporter = tmp_menu_exporter;
-  menu_importer = tmp_menu_importer;
-  menu_comptes = tmp_menu_comptes;
-  menu_reports = tmp_menu_reports;
-  menu_cloture = tmp_menu_cloture;
+    /* Recuperation du widget pour l affichage du menu */
 
-  gnome_app_create_menus ( GNOME_APP ( win ), menu_principal );
+    barre_menu = gtk_item_factory_get_widget(item_factory_menu_general,
+					     "<main>");
+
+    /* Association des raccourcis avec la fenetre */
+
+    gtk_window_add_accel_group(GTK_WINDOW(window),
+			       accel );
+
+    gtk_widget_show_all ( barre_menu );
+
+    return ( barre_menu );
 }
+/***********************************************/
+
+
 
 
 
@@ -241,14 +168,26 @@ void init_menus ( GtkWidget * win )
 
 void efface_derniers_fichiers_ouverts ( void )
 {
-  /* on met +1 pour la séparation */
 
-  if ( nb_derniers_fichiers_ouverts )
-    gnome_app_remove_menus ( GNOME_APP ( window ),
-			     _("File/Recently opened files/"),
-			     2 * ( nb_derniers_fichiers_ouverts + 1 ));
-  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[DERNIERS_FICHIERS].widget ),
-			     FALSE );
+    gint i;
+
+    for ( i=nb_derniers_fichiers_ouverts ; i>0 ; i-- )
+    {
+	gchar *tmp;
+
+	tmp = my_strdelimit ( tab_noms_derniers_fichiers_ouverts[i-1],
+			      "/",
+			      "\\/" );
+
+	gtk_item_factory_delete_item ( item_factory_menu_general,
+				       g_strconcat ( _("/File/Recently opened files/"),
+						     tmp,
+						     NULL ));
+    }
+
+    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							   _("/File/Recently opened files")),
+			       FALSE );
 
 }
 /* **************************************************************************************************** */
@@ -260,64 +199,140 @@ void efface_derniers_fichiers_ouverts ( void )
 
 void affiche_derniers_fichiers_ouverts ( void )
 {
-  gint i;
+    gint i;
 
-  if ( !nb_derniers_fichiers_ouverts )
+    if ( !nb_derniers_fichiers_ouverts )
     {
-      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[DERNIERS_FICHIERS].widget ),
-				 FALSE );
-      return;
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       _("/File/Recently opened files")),
+				   FALSE );
+
+	return;
     }
 
-  for ( i=nb_derniers_fichiers_ouverts ; i>0 ; i-- )
+    for ( i=nb_derniers_fichiers_ouverts ; i>0 ; i-- )
     {
-      GnomeUIInfo *menu;
+	GtkItemFactoryEntry *item_factory_entry;
+	gchar *tmp;
 
-      menu = malloc ( 2 * sizeof ( GnomeUIInfo ));
+	item_factory_entry = calloc ( 1,
+				      sizeof ( GtkItemFactoryEntry ));
 
-      menu -> type = GNOME_APP_UI_ITEM;
-      menu -> label = tab_noms_derniers_fichiers_ouverts[i-1];
-      menu -> hint = tab_noms_derniers_fichiers_ouverts[i-1];
-      menu -> moreinfo = (gpointer) ouverture_fichier_par_menu;
-      menu -> user_data = tab_noms_derniers_fichiers_ouverts[i-1];
-      menu -> unused_data = NULL;
-      menu -> pixmap_type = 0;
-      menu -> pixmap_info = 0;
-      menu -> accelerator_key = 0;
-      menu -> ac_mods = GDK_BUTTON1_MASK;
-      menu -> widget = NULL;
+	tmp = my_strdelimit ( tab_noms_derniers_fichiers_ouverts[i-1],
+			      "/",
+			      "\\/" );
+	tmp = my_strdelimit ( tmp,
+			      "_",
+			      "__" );
 
-      (menu + 1)->type = GNOME_APP_UI_ENDOFINFO;
-    
-      gnome_app_insert_menus ( GNOME_APP ( window ),
-			       _("File/Recently opened files/"),
-			       menu );
+	item_factory_entry -> path = g_strconcat ( _("/File/Recently opened files/"),
+						   tmp,
+						   NULL);
+	item_factory_entry -> callback = G_CALLBACK ( ouverture_fichier_par_menu );
+	item_factory_entry -> callback_action = i;
+
+	gtk_item_factory_create_item ( item_factory_menu_general,
+				       item_factory_entry,
+				       NULL,
+				       1 );
     }
 
-  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[DERNIERS_FICHIERS].widget ),
-			     TRUE );
+    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							   _("/File/Recently opened files")),
+			       TRUE );
+
 }
 /* **************************************************************************************************** */
+
+
+
+
+/* **************************************************************************************************** */
+gchar *my_strdelimit ( gchar *string,
+		       gchar *delimiters,
+		       gchar *new_delimiters )
+{
+    /* fonction identique à g_strdelimit, sauf que new_delimiters n'est pas limité à 1 caractère */
+    /*     et la chaine renvoyée est une copie, pas l'original */
+
+    gchar **tab_str;
+    gchar *retour;
+
+    if ( !( string
+	    &&
+	    delimiters
+	    &&
+	    new_delimiters ))
+	return string;
+
+    tab_str = g_strsplit ( string,
+			   delimiters,
+			   0 );
+    retour = g_strjoinv ( new_delimiters,
+			  tab_str );
+    g_strfreev ( tab_str );
+
+    return ( retour );
+}
+/* **************************************************************************************************** */
+
 
 
 /* **************************************************************************************************** */
 void lien_web ( GtkWidget *widget,
 		gint origine )
 {
-  switch ( origine )
+    switch ( origine )
     {
-    GError *error;
-    case 0 :
-      gnome_url_show ( "http://www.grisbi.org", &error );
-      break;
+	GError *error;
+	case 1 :
+	gnome_url_show ( "http://www.grisbi.org", &error );
+	break;
 
-    case 1:
-      gnome_url_show ( "http://www.grisbi.org/bugtracking", &error );
-      break;
+	case 2:
+	gnome_url_show ( "http://www.grisbi.org/bugtracking", &error );
+	break;
 
-    case 2:
-      gnome_url_show ( "http://www.grisbi.org/modules.php?name=Documentation", &error);
-      break;
+	case 3:
+	gnome_url_show ( "http://www.grisbi.org/modules.php?name=Documentation", &error);
+	break;
     }
 }
 /* **************************************************************************************************** */
+
+
+/* **************************************************************************************************** */
+void affiche_aide_locale ( gpointer null,
+			   gint origine )
+{
+    switch ( origine )
+    {
+	GError *error;
+	case 1:
+	gnome_url_show ( g_strconcat ( "file://",
+				       HELP,
+				       "grisbi-manuel.html",
+				       NULL ),
+			 &error );
+	break;	
+
+	case 2:
+	gnome_url_show ( g_strconcat ( "file://",
+				       HELP,
+				       "quickstart.html",
+				       NULL ),
+			 &error );
+	break;
+
+	case 3:
+	gnome_url_show ( g_strconcat ( "file://",
+				       HELP,
+				       "translation.html",
+				       NULL ),
+			 &error );
+	break;
+    }
+}
+/* **************************************************************************************************** */
+
+

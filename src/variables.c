@@ -5,19 +5,6 @@
 /* Ce fichier contient toutes les variables globales définies */
 /* ainsi que toutes les définitions diverses */
 
-
-const GnomeUIInfo * menu_fichier;
-const GnomeUIInfo * menu_comptes; 
-const GnomeUIInfo * menu_reports; 
-const GnomeUIInfo * help_menu;
-const GnomeUIInfo * menu_principal; 
-const GnomeUIInfo * menu_parametres;
-const GnomeUIInfo * menu_importer;
-const GnomeUIInfo * menu_exporter;
-const GnomeUIInfo * menu_derniers_fichiers; 
-const GnomeUIInfo * menu_cloture;
-
-
 /*********************/ 
 /* fichier main.c */
 /*********************/ 

@@ -43,6 +43,8 @@
 
 gint derniere_operation_enregistrement_ope_import;
 gint valeur_echelle_recherche_date_import;
+extern GtkWidget *window_vbox_principale;
+
 
 
 /* *******************************************************************************/
@@ -900,8 +902,13 @@ void traitement_operations_importees ( void )
 	changement_compte ( GINT_TO_POINTER ( compte_courant ) );
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
 				0 );
-	gnome_app_set_contents ( GNOME_APP ( window ), 
-				 notebook_general );
+
+	gtk_box_pack_start ( GTK_BOX ( window_vbox_principale),
+			     notebook_general,
+			     TRUE,
+			     TRUE,
+			     0 );
+
     }
     else
     {

@@ -11,6 +11,8 @@
 /* Chemin des fichiers */
 
 #define FICHIER_CONF "Grisbi-dev"       /* à mettre à Grisbi-dev pdt le dvt et Grisbi à la sortie d'une version */
+/* FIXME */
+#define HELP "/usr/share/gnome/help/grisbi/fr/"
 
 /* initialisation des couleurs */
 

@@ -34,6 +34,10 @@
 #include "type_operations.h"
 #include "equilibrage.h"
 #include "gtk_list_button.h"
+#include "menu.h"
+
+extern GtkItemFactory *item_factory_menu_general;
+
 
 
 /* ********************************************************************************************************** */
@@ -208,10 +212,10 @@ GtkWidget *comptes_appel ( gint no_de_compte )
 
 
 /* ********************************************************************************************************** */
-void changement_compte_par_menu ( GtkWidget *menu,
-				  gint *compte )
+void changement_compte_par_menu ( gpointer null,
+				  gint compte_plus_un )
 {
-    changement_compte ( compte );
+    changement_compte ( GINT_TO_POINTER ( compte_plus_un - 1) );
 }
 /* ********************************************************************************************************** */
 
@@ -348,14 +352,23 @@ void reaffiche_liste_comptes ( void )
 
     for ( i=0 ; i<nb_comptes ; i++ )
     {
-	if ( COMPTE_CLOTURE )
-	    gnome_app_remove_menus ( GNOME_APP ( window ),
-				     _("Accounts/Closed accounts/"),
-				     2 );
+	gchar *tmp;
+
+	tmp = my_strdelimit ( NOM_DU_COMPTE,
+			      "/",
+			      "\\/" );
+
+	gtk_item_factory_delete_item ( item_factory_menu_general,
+				       g_strconcat ( _("/Accounts/Closed accounts/"),
+						     tmp,
+						     NULL ));
 	p_tab_nom_de_compte_variable++;
     }
 
-    gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[3].widget ), FALSE );
+    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							   _("/Accounts/Closed accounts")),
+			       FALSE );
+
 
     /*  Création d'une icone et du nom par compte, et placement dans la liste selon l'ordre désiré  */
 
@@ -370,38 +383,44 @@ void reaffiche_liste_comptes ( void )
 	    gtk_box_pack_start (GTK_BOX (vbox_liste_comptes), bouton, FALSE, FALSE, 0);
 	    gtk_widget_show (bouton);
 
-/* 	    si c'est le compte courant, on ouvre le livre */
+	    /* 	    si c'est le compte courant, on ouvre le livre */
 
 	    if ( p_tab_nom_de_compte_variable == p_tab_nom_de_compte + compte_courant )
 		gtk_list_button_clicked ( GTK_BUTTON ( bouton ));
 	}
 	else
 	{
-	    GnomeUIInfo *menu;
-
-	    menu = malloc ( 2 * sizeof ( GnomeUIInfo ));
-
-	    menu -> type = GNOME_APP_UI_ITEM;
-	    menu -> label = NOM_DU_COMPTE;
-	    menu -> hint = NOM_DU_COMPTE;
-	    menu -> moreinfo = (gpointer) changement_compte_par_menu;
-	    menu -> user_data = ordre_comptes_variable->data;
-	    menu -> unused_data = NULL;
-	    menu -> pixmap_type = 0;
-	    menu -> pixmap_info = 0;
-	    menu -> accelerator_key = 0;
-	    menu -> ac_mods = GDK_BUTTON1_MASK;
-	    menu -> widget = NULL;
-
-	    (menu + 1)->type = GNOME_APP_UI_ENDOFINFO;
+	    GtkItemFactoryEntry *item_factory_entry;
+	    gchar *tmp;
 
 
-	    gnome_app_insert_menus ( GNOME_APP ( window ),
-				     _("Accounts/Closed accounts/"),
-				     menu );
+	    item_factory_entry = calloc ( 1,
+					  sizeof ( GtkItemFactoryEntry ));
 
-	    gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[3].widget ),
+	    tmp = my_strdelimit ( NOM_DU_COMPTE,
+				  "/",
+				  "\\/" );
+	    tmp = my_strdelimit ( tmp,
+				  "_",
+				  "__" );
+
+	    item_factory_entry -> path = g_strconcat ( _("/Accounts/Closed accounts/"),
+						       tmp,
+						       NULL);
+	    item_factory_entry -> callback = G_CALLBACK ( changement_compte_par_menu );
+
+	    /* 	    on rajoute 1 car sinon pour le compte 0 ça passerait pas... */
+
+	    item_factory_entry -> callback_action = GPOINTER_TO_INT ( ordre_comptes_variable->data ) + 1;
+
+	    gtk_item_factory_create_item ( item_factory_menu_general,
+					   item_factory_entry,
+					   NULL,
+					   1 );
+	    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+								   _("/Accounts/Closed accounts")),
 				       TRUE );
+
 	}
 
     }

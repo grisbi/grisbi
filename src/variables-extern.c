@@ -7,26 +7,6 @@
 extern gchar *categories_de_base [];
 
 
-enum menu_fichier_widget {
-  NOUVEAU, OUVRIR, SEP1, 
-  SAUVER, SAUVER_SOUS, SEP2,
-  DERNIERS_FICHIERS, SEP3,
-  IMPORTER, EXPORTER, SEP4,
-  FERMER, QUITTER, MAX_MENU_FICHIER
-};
-extern GnomeUIInfo * menu_fichier;
-extern GnomeUIInfo * menu_comptes; 
-extern GnomeUIInfo * menu_reports; 
-extern GnomeUIInfo * help_menu;
-extern GnomeUIInfo * menu_principal; 
-extern GnomeUIInfo * menu_parametres;
-extern GnomeUIInfo * menu_importer;
-extern GnomeUIInfo * menu_exporter;
-extern GnomeUIInfo * menu_derniers_fichiers; 
-extern GnomeUIInfo * menu_cloture;
-
-
-
 /*********************/ 
 /* fichier main.c */
 /*********************/ 

@@ -1,7 +1,7 @@
 void nouveau_fichier ( void );
 void ouvrir_fichier ( void );
-void ouverture_fichier_par_menu ( GtkWidget *menu,
-				  gchar *nom );
+void ouverture_fichier_par_menu ( gpointer null,
+				  gint no_fichier );
 void fichier_selectionne ( GtkWidget *selection_fichier);
 void ouverture_confirmee ( void );
 gboolean enregistrement_fichier ( gint origine );

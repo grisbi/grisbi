@@ -42,6 +42,9 @@
 #include "fenetre_principale.h"
 
 
+extern GtkWidget *window_vbox_principale;
+
+
 /* ************************************************************************************************************ */
 void nouveau_fichier ( void )
 {
@@ -93,8 +96,11 @@ void nouveau_fichier ( void )
 
     /* on crée le notebook principal */
 
-    gnome_app_set_contents ( GNOME_APP ( window ),
-			     creation_fenetre_principale() );
+    gtk_box_pack_start ( GTK_BOX ( window_vbox_principale),
+			 creation_fenetre_principale(),
+			 TRUE,
+			 TRUE,
+			 0 );
 
     /* remplit les listes des opés */
 
@@ -149,16 +155,15 @@ void ouvrir_fichier ( void )
 /* ************************************************************************************************************ */
 
 /* ************************************************************************************************************ */
-void ouverture_fichier_par_menu ( GtkWidget *menu,
-				  gchar *nom )
+void ouverture_fichier_par_menu ( gpointer null,
+				  gint no_fichier )
 {
-
     /*   si la fermeture du fichier courant se passe mal, on se barre */
 
     if ( !fermer_fichier() )
 	return;
 
-    nom_fichier_comptes = nom;
+    nom_fichier_comptes = tab_noms_derniers_fichiers_ouverts[no_fichier-1];
 
     ouverture_confirmee ();
 }
@@ -363,8 +368,12 @@ void ouverture_confirmee ( void )
     update_liste_echeances_manuelles_accueil ();
     update_liste_echeances_auto_accueil ();
 
-    gnome_app_set_contents ( GNOME_APP ( window ),
-			     notebook_general );
+    gtk_box_pack_start ( GTK_BOX ( window_vbox_principale),
+			 notebook_general,
+			 TRUE,
+			 TRUE,
+			 0 );
+    gtk_widget_show ( notebook_general );
 
     /* on met la fonte sur les différents widgets pour que kde la prenne en compte */
 

@@ -28,6 +28,7 @@
 #include "traitement_variables.h"
 
 extern gint valeur_echelle_recherche_date_import;
+extern GtkItemFactory *item_factory_menu_general;
 
 
 /*****************************************************************************************************/
@@ -43,15 +44,16 @@ void modification_fichier ( gboolean modif )
     if ( modif )
     {
 	etat.modification_fichier = 1;
-	gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[SAUVER].widget ),
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       _("/File/Save")),
 				   TRUE );
     }
     else
     {
 	etat.modification_fichier = 0;
-	gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[SAUVER].widget ),
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       _("/File/Save")),
 				   FALSE );
-
     }
 
 }
@@ -71,14 +73,17 @@ void init_variables ( gboolean ouverture )
 
     if ( ouverture )
     {
-	gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[SAUVER_SOUS].widget ),
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       _("/File/Save as")),
 				   TRUE );
-	gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[EXPORTER].widget ),
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       _("/File/Export")),
 				   TRUE );
-	gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[FERMER].widget ),
+ 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       _("/File/Close")),
 				   TRUE );
-
-	gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[1].widget ),
+ 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       _("/Accounts/Remove an account")),
 				   TRUE );
 
 	/* remplit les tabeaux tips_col_liste_operations et titres_colonnes_liste_operations */
@@ -137,19 +142,25 @@ void init_variables ( gboolean ouverture )
 	nb_banques = 0;
 	no_derniere_banque = 0;
 
-	gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[SAUVER].widget ),
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       _("/File/Save")),
 				   FALSE );
-	gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[SAUVER_SOUS].widget ),
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       _("/File/Save as")),
 				   FALSE );
-	gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[EXPORTER].widget ),
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       _("/File/Export")),
 				   FALSE );
-	gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[FERMER].widget ),
+ 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       _("/File/Close")),
+				   FALSE );
+ 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       _("/Accounts/Remove an account")),
+				   FALSE );
+ 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       _("/Accounts/Closed accounts")),
 				   FALSE );
 
-	gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[1].widget ),
-				   FALSE );
-	gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[3].widget ),
-				   FALSE );
 
 	liste_no_rapprochements = NULL;
 

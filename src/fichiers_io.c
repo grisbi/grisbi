@@ -129,6 +129,8 @@ fix_encoding ( xmlNodePtr droot )
 void remove_file_from_last_opened_files_list ( gchar * nom_fichier )
 {
     gint i, j;
+    
+    efface_derniers_fichiers_ouverts();
 
     for ( i = 0 ; i < nb_derniers_fichiers_ouverts ; i++ )
     {
@@ -143,7 +145,6 @@ void remove_file_from_last_opened_files_list ( gchar * nom_fichier )
 	}
     }
     nb_derniers_fichiers_ouverts--;
-    efface_derniers_fichiers_ouverts();
     affiche_derniers_fichiers_ouverts();
 }
 
