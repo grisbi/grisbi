@@ -921,7 +921,7 @@ void ouverture_node_categ ( GtkWidget *arbre,
 
   /*   si on ouvre une categ, on fait rien */
 
-  if ( row->level == 1 )
+  if ( !row || row->level == 1 )
     return;
 
   /*   si le fiston = -1, c'est qu'il n'a pas encore été créé */
@@ -957,12 +957,12 @@ void ouverture_node_categ ( GtkWidget *arbre,
 
       if ( ( categ = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
 						   row -> parent )) &&
-	     categ != GINT_TO_POINTER(-1) )
+	     categ != GINT_TO_POINTER(-1) && categ != NULL )
 	{
 	  no_categ = categ -> no_categ;
 	  if ( ( sous_categ = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
 							    node)) &&
-	       sous_categ != GINT_TO_POINTER(-1) )
+	       sous_categ != GINT_TO_POINTER(-1) && sous_categ != NULL )
 	    no_sous_categ = sous_categ -> no_sous_categ;
 	  else
 	    no_sous_categ = 0;
@@ -1076,13 +1076,13 @@ void ouverture_node_categ ( GtkWidget *arbre,
 
       if (( categ = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
 						  GTK_CTREE_ROW ( row -> parent ) -> parent )) && 
-	  categ != GINT_TO_POINTER(-1) )
+	  categ != GINT_TO_POINTER(-1) && categ != NULL )
 	{
 	  no_categ = categ -> no_categ;
 
 	  if ( (sous_categ = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
 							   row -> parent ))
-	       && sous_categ != GINT_TO_POINTER(-1) )
+	       && sous_categ != GINT_TO_POINTER(-1) && sous_categ != NULL )
 	    no_sous_categ = sous_categ -> no_sous_categ;
 	  else
 	    no_sous_categ = 0;
