@@ -1218,7 +1218,8 @@ gboolean traitement_clavier_liste ( GtkCList *liste,
       edition_operation ();
       break;
 
-    case GDK_Up :		/* flèche haut  */
+    case GDK_Up :		/* touches flèche haut */
+    case GDK_KP_Up :
 
       ligne = gtk_clist_find_row_from_data ( GTK_CLIST ( liste ),
 					     OPERATION_SELECTIONNEE );
@@ -1234,7 +1235,9 @@ gboolean traitement_clavier_liste ( GtkCList *liste,
 	}
       return TRUE;
 
-    case GDK_Down:		/* flèche bas */
+    case GDK_Down :		/* touches flèche bas */
+    case GDK_KP_Down :
+
       if ( OPERATION_SELECTIONNEE != GINT_TO_POINTER ( -1 ) )
 	{
 	  ligne = gtk_clist_find_row_from_data ( GTK_CLIST ( liste ),

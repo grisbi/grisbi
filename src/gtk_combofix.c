@@ -1721,18 +1721,23 @@ static gboolean touche_pressee ( GtkWidget *entry,
   switch ( ev -> keyval )
     {
 
-      /* touche gauche ou droite pressée s'il y a une sélection, vire la sélection et place le curseur à la fin de cette sélection */
+      /* touche gauche ou droite pressée s'il y a une sélection, vire la
+         sélection et place le curseur à la fin de cette sélection */
     case GDK_Left :
+    case GDK_KP_Left:
     case GDK_Right :
+    case GDK_KP_Right:
     case GDK_Tab :
+
       gtk_grab_remove ( combofix -> popup );
       gdk_pointer_ungrab ( GDK_CURRENT_TIME );
       gtk_widget_hide ( combofix->popup );
       return FALSE;
 
-      /*       touche entrée : prend le label sélectionné puis vire la popup */
+      /* touche entrée : prend le label sélectionné puis vire la popup */
     case GDK_KP_Enter :
     case GDK_Return :
+
       if ( GTK_WIDGET_VISIBLE ( combofix -> popup ) &&   combofix -> label_selectionne != -1 )
       {
 	gtk_combofix_set_text ( combofix,
@@ -1741,8 +1746,9 @@ static gboolean touche_pressee ( GtkWidget *entry,
 				       "key-press-event" );
       }
 
-      /*       touches échap  : vire la popup et  la sélection */
+      /* touches échap  : vire la popup et  la sélection */
     case GDK_Escape:
+
       if ( GTK_WIDGET_VISIBLE ( combofix -> popup ))
 	{
 	  gtk_grab_remove ( combofix -> popup );
@@ -1757,9 +1763,9 @@ static gboolean touche_pressee ( GtkWidget *entry,
 	}
       break;
      
-      /* flèche bas */
+    case GDK_Down :		/* touches flèche bas */
+    case GDK_KP_Down :
 
-    case GDK_Down:
       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( combofix -> entry ),
 				     "key-press-event" );
       /*     si la popup n'est pas affichée à cause de l'arrow, descend l'arrow, affiche la liste */
@@ -1799,9 +1805,9 @@ static gboolean touche_pressee ( GtkWidget *entry,
 	}
       break;
  
-      /* flèche haut */
+    case GDK_Up :		/* touches flèche haut */
+    case GDK_KP_Up :
 
-    case GDK_Up:
       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( combofix -> entry ),
 				     "key-press-event" );
 
@@ -1829,9 +1835,9 @@ static gboolean touche_pressee ( GtkWidget *entry,
 	}
       break;
 
-      /* page up */
+    case GDK_Page_Up :		/* touches PgUp */
+    case GDK_KP_Page_Up :
 
-    case GDK_Page_Up:
       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( combofix -> entry ),
 				     "key-press-event" );
 
@@ -1866,13 +1872,11 @@ static gboolean touche_pressee ( GtkWidget *entry,
 				 GTK_STATE_PRELIGHT );
 	}
 
-
-
       break;
 
-      /* page down */
+    case GDK_Page_Down :		/* touches PgDn */
+    case GDK_KP_Page_Down :
 
-    case GDK_Page_Down:
       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( combofix -> entry ),
 				     "key-press-event" );
       /*     si la popup n'est pas affichée à cause de l'arrow, descend l'arrow, affiche la liste */

@@ -1175,11 +1175,13 @@ gboolean traitement_clavier_liste_ventilation ( GtkCList *liste,
      /* entrée */
     case GDK_KP_Enter:
     case GDK_Return:
+
       edition_operation_ventilation ();
       break;
 
-     /* flèche haut  */
-    case GDK_Up:
+    case GDK_Up :		/* touches flèche haut */
+    case GDK_KP_Up :
+
       ligne = gtk_clist_find_row_from_data ( GTK_CLIST ( liste ),
 					     ligne_selectionnee_ventilation );
       if ( ligne )
@@ -1199,8 +1201,9 @@ gboolean traitement_clavier_liste_ventilation ( GtkCList *liste,
       break;
 
 
-      /* flèche bas */
-    case GDK_Down:
+    case GDK_Down :		/* touches flèche bas */
+    case GDK_KP_Down :
+
       if ( ligne_selectionnee_ventilation != GINT_TO_POINTER ( -1 ) )
 	{
 	  ligne = gtk_clist_find_row_from_data ( GTK_CLIST ( liste ),
@@ -1230,6 +1233,7 @@ gboolean traitement_clavier_liste_ventilation ( GtkCList *liste,
 
     /*  del  */
     case GDK_Delete:
+
       supprime_operation_ventilation ();
       break;
 
@@ -1327,9 +1331,11 @@ gboolean appui_touche_ventilation ( GtkWidget *entree, GdkEventKey *evenement,
 
   switch (evenement->keyval)
     {
+     case GDK_Down :		/* touches flèche bas */
+     case GDK_KP_Down :
+     case GDK_Up :		/* touches flèche haut */
+     case GDK_KP_Up :
 
-    case GDK_Up:
-    case GDK_Down:
       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( entree ),
 				     "key_press_event");
       gtk_widget_grab_focus ( entree );
@@ -1337,6 +1343,7 @@ gboolean appui_touche_ventilation ( GtkWidget *entree, GdkEventKey *evenement,
 
 
     case GDK_Tab:
+
       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( entree ),
 				     "key_press_event");
 
@@ -1403,6 +1410,7 @@ gboolean appui_touche_ventilation ( GtkWidget *entree, GdkEventKey *evenement,
 
     case GDK_KP_Enter:
     case GDK_Return:
+
       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( entree ),
 				     "key_press_event");
       fin_edition_ventilation ();
@@ -1410,6 +1418,7 @@ gboolean appui_touche_ventilation ( GtkWidget *entree, GdkEventKey *evenement,
 
 
     case GDK_Escape :
+
       echap_formulaire_ventilation ();
       break;
 

@@ -599,9 +599,8 @@ gboolean traitement_clavier_liste_echeances ( GtkCList *liste_echeances,
 
   switch ( evenement->keyval )
     {
-    case GDK_Return :
-    case GDK_KP_Enter :
-                         /* entrée */
+     case GDK_Return :		/* touches entrée */
+     case GDK_KP_Enter :
 
       formulaire_echeancier_a_zero();
       degrise_formulaire_echeancier();
@@ -613,7 +612,8 @@ gboolean traitement_clavier_liste_echeances ( GtkCList *liste_echeances,
       break;
 
 
-    case GDK_Up :                       /* flèche haut  */
+     case GDK_Up :		/* touches flèche haut */
+     case GDK_KP_Up :
 
       ligne = gtk_clist_find_row_from_data ( GTK_CLIST ( liste_echeances ),
 					     echeance_selectionnnee );
@@ -634,7 +634,8 @@ gboolean traitement_clavier_liste_echeances ( GtkCList *liste_echeances,
       break;
 
 
-    case GDK_Down :                /* flèche bas */
+     case GDK_Down :		/* touches flèche bas */
+     case GDK_KP_Down :
 
       if ( echeance_selectionnnee != GINT_TO_POINTER ( -1 ) )
 	{
