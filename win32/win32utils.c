@@ -130,7 +130,7 @@ static PFNSHGETFOLDERPATH _win32_getfolderpath() /* {{{ */
     return pSHGetFolderPath;
 } /* }}} */
 /** 
- * Retrieve the absolute path of a CSIDL directory named
+ * Retrieve the absolute path in utf8 of a CSIDL directory named
  *
  * \param folder_path  already allocated buffer to retrieve the result
  * \param csidl        Window ID of the directory (csidl)
@@ -159,16 +159,15 @@ HRESULT win32_get_folder_path(gchar* folder_path,const int csidl)        /* {{{ 
         folder_path = g_strconcat("C:\\",NULL);
         hr = 0;
     }
- /*   
+    
     if (!g_utf8_validate(folder_path, -1, NULL))
     {
       utf8filename = g_filename_to_utf8(folder_path, -1, NULL, NULL, NULL);
       if (utf8filename == NULL) {
-	//message_warning(_("Some characters in the filename are neither UTF-8 nor your local encoding.\nSome things will break."));
+        utf8filename = g_strconcat("C:\\",NULL);
       }
+      if (utf8filename != NULL) g_strlcpy(folder_path,utf8filename,MAX_PATH);
     }
-    if (utf8filename != NULL) g_strlcpy(folder_path,utf8filename,MAX_PATH);
-*/
     return hr;
 } /* }}}  */
 
@@ -218,22 +217,17 @@ gchar* win32_get_windows_folder_path(void)                  /* {{{ */
  */
 gchar* win32_get_grisbirc_folder_path()  /* {{{ */
 {
-    /* special cases : APP_DATA & WIN95/NT4) */
-    //win_version current_version = win32_get_windows_version();    
-    //if ((current_version == WIN95)||(current_version == WINNT4))
-    //{
-   //     g_strlcpy(grisbirc_path,win32_get_windows_folder_path(),MAX_PATH+1);
-    //    g_strlcat (grisbirc_path,"\\",MAX_PATH+1);        
-    //} 
-    //else
-    //{
-        gchar* local_filename = NULL;
-        SetLastError(win32_get_folder_path(grisbirc_path,CSIDL_APPDATA|CSIDL_FLAG_CREATE));
-        g_strlcat(grisbirc_path,"\\Grisbi\\",MAX_PATH+1);
- //       local_filename = g_filename_from_utf8(grisbirc_path, -1, NULL, NULL, NULL);
- //       if (local_filename == NULL) g_strlcpy(local_filename,grisbirc_path,MAX_PATH);
-        CreateDirectory(grisbirc_path,NULL);
-    //}
+    gchar* local_filename = NULL;
+
+    SetLastError(win32_get_folder_path(grisbirc_path,CSIDL_APPDATA|CSIDL_FLAG_CREATE));
+    g_strlcat(grisbirc_path,"\\Grisbi\\",MAX_PATH+1);
+
+    // To create directory we need to go back from utf8 to locale
+    local_filename = g_filename_from_utf8(grisbirc_path, -1, NULL, NULL, NULL);
+    if (local_filename == NULL) g_strlcpy(local_filename,grisbirc_path,MAX_PATH);
+
+    CreateDirectory(local_filename,NULL);
+
     return grisbirc_path;
 } /* }}} */
 
