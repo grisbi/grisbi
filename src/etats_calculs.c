@@ -2631,10 +2631,6 @@ pas_decalage:
 		nb_ope_periode_etat++;
 	    }
 
-	    total_partie = total_partie + montant;
-	    nb_ope_partie_etat++;
-
-
 	    /* calcule le montant de l'exo */
 
 	    if ( etat_courant -> separation_par_exo )
