@@ -325,9 +325,16 @@ void charge_configuration ( void )
 		if ( !strcmp ( node_messages -> name, "display_message_lock_active" ) ) {
 		    etat.display_message_lock_active = my_atoi(xmlNodeGetContent ( node_messages));
 		}
+    /* On Windows, the chmod feature does not work: FAT does not have right access permission notions , 
+     * on NTFS it to complicated to implement => the feature is removed from the Windows version :
+     * for that the corresponding parameter check box is not displayed and the paramater is forced to not display msg */
+#ifndef _WIN32
 		if ( !strcmp ( node_messages -> name, "display_message_file_readable" ) ) {
 		    etat.display_message_file_readable = my_atoi(xmlNodeGetContent ( node_messages));
 		}
+#else
+                    etat.display_message_file_readable = 1;
+#endif
 		if ( !strcmp ( node_messages -> name, "display_message_minimum_alert" ) ) {
 		    etat.display_message_minimum_alert = my_atoi(xmlNodeGetContent ( node_messages));
 		}
@@ -586,8 +593,15 @@ void raz_configuration ( void )
     etat.fichier_animation_attente = g_strdup ( ANIM_PATH );
 
 	/* Messages */
-    etat.display_message_lock_active = 0;
+	etat.display_message_lock_active = 0;
+    /* On Windows, the chmod feature does not work: FAT does not have right access permission notions , 
+     * on NTFS it to complicated to implement => the feature is removed from the Windows version :
+     * for that the corresponding parameter check box is not displayed and the paramater is forced to not display msg */
+#ifndef _WIN32        
     etat.display_message_file_readable = 0;
+#else
+    etat.display_message_file_readable = 1;
+#endif
     etat.display_message_minimum_alert = 0;
 
     /* Commands */
