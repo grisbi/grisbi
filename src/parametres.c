@@ -31,14 +31,6 @@ gint preference_selected = -1;
 GtkTreeSelection * selection;
 GtkWidget * button_close, * button_help;
 
-/** FIXME move it */
-gboolean set_text_from_area ( GtkTextBuffer *buffer, gpointer dummy );
-GtkWidget * new_spin_button ( gint * value, 
-			      gdouble lower, gdouble upper, 
-			      gdouble step_increment, gdouble page_increment, 
-			      gdouble page_size, 
-			      gdouble climb_rate, guint digits,
-			      GCallback hook );
 
 
 /**
@@ -346,11 +338,11 @@ GtkWidget *onglet_messages_and_warnings ( void )
   gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 		       FALSE, FALSE, 0 );
 
-  entree_jours = new_spin_button ( (gint *) &(decalage_echeance),
+  entree_jours = new_spin_button ( &(decalage_echeance),
 				   /* Limit to one year */
 				   0, 365, 1, 5, 1, 1, 0, NULL ); 
-  gtk_box_pack_end ( GTK_BOX ( hbox ), entree_jours,
-		     FALSE, FALSE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), entree_jours,
+		       FALSE, FALSE, 0 );
 
   gtk_widget_show_all ( vbox_pref );
 
@@ -407,7 +399,7 @@ GtkWidget *onglet_fichier ( void )
   gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 		       FALSE, FALSE, 0 );
   spin_button_compression_fichier = 
-    new_spin_button ( (gint *) &(compression_fichier),
+    new_spin_button ( &(compression_fichier),
 		      0, 9, 1, 5, 1, 1, 0, NULL );
   
   gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button_compression_fichier,
@@ -421,7 +413,7 @@ GtkWidget *onglet_fichier ( void )
   gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 		       FALSE, FALSE, 0 );
   spin_button_derniers_fichiers_ouverts = 
-    new_spin_button ( (gint *) &(nb_max_derniers_fichiers_ouverts),
+    new_spin_button ( &(nb_max_derniers_fichiers_ouverts),
 		      0, 20, 1, 5, 1, 1, 0, NULL );
   gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button_derniers_fichiers_ouverts,
 		       FALSE, FALSE, 0 );
@@ -502,7 +494,7 @@ GtkWidget *onglet_fichier ( void )
   gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 		       FALSE, FALSE, 0 );
 
-  spin_button_compression_backup = new_spin_button ( (gint *) &(compression_backup),
+  spin_button_compression_backup = new_spin_button ( &(compression_backup),
 						     0, 9, 1, 5, 1, 1, 0, NULL );
   gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button_compression_backup,
 		       FALSE, FALSE, 0 );
@@ -2034,7 +2026,7 @@ new_checkbox_with_title ( gchar * label, guint * data, GCallback hook)
  * \param data A pointer to a boolean which contains the new value to
  * fill in checkbox's properties.  This boolean will be modified by
  * checkbox's handlers as well.
- * \param uptdate Whether to update checkbox's appearance as well.
+ * \param update Whether to update checkbox's appearance as well.
  */
 void checkbox_set_value ( GtkWidget * checkbox, guint * data, gboolean update )
 {
@@ -2048,10 +2040,10 @@ void checkbox_set_value ( GtkWidget * checkbox, guint * data, gboolean update )
 	g_signal_handler_block ( checkbox,
 				 (gulong) g_object_get_data (G_OBJECT(checkbox),
 							     "set-boolean" ));
-      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( checkbox ), *data );      
+      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( checkbox ), *data );
       if (g_object_get_data (G_OBJECT(checkbox), "hook") > 0)
 	g_signal_handler_unblock ( checkbox, 
-				   (gulong) g_object_get_data (G_OBJECT(checkbox), 
+				   (gulong) g_object_get_data (G_OBJECT(checkbox),
 							       "hook" ));
       if (g_object_get_data (G_OBJECT(checkbox), "set-boolean") > 0)
 	g_signal_handler_unblock ( checkbox,
@@ -2638,14 +2630,16 @@ gboolean set_text_from_area ( GtkTextBuffer *buffer, gpointer dummy )
  * \param dummy unused
  */
 gboolean
-set_integer ( GtkWidget * spin, guint * dummy)
+set_double ( GtkWidget * spin, gdouble * dummy)
 {
-  gint *data;
+  gdouble *data;
   
   data = g_object_get_data ( G_OBJECT(spin), "pointer" );
   
   if ( data )
-    *data = gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON(spin) );
+    {
+      *data = gtk_spin_button_get_value ( GTK_SPIN_BUTTON(spin) );
+    }
 }
 
 
@@ -2658,7 +2652,7 @@ set_integer ( GtkWidget * spin, guint * dummy)
  * \param hook An optional function to execute as a handler if the
  * textview's contents are modified.
  */
-GtkWidget * new_spin_button ( gint * value, 
+GtkWidget * new_spin_button ( gdouble * value, 
 			      gdouble lower, gdouble upper, 
 			      gdouble step_increment, gdouble page_increment, 
 			      gdouble page_size, 
@@ -2667,7 +2661,7 @@ GtkWidget * new_spin_button ( gint * value,
 {
   GtkWidget * spin;
   GtkAdjustment * adjustment;
-  gint initial = 0;
+  gdouble initial = 0;
 
   if ( value )  /* Sanity check */
     initial = *value;
@@ -2678,8 +2672,44 @@ GtkWidget * new_spin_button ( gint * value,
   spin = gtk_spin_button_new ( adjustment, climb_rate, digits );
   gtk_spin_button_set_numeric ( GTK_SPIN_BUTTON (spin), TRUE );
   g_object_set_data ( G_OBJECT (spin), "pointer", value);
-  g_signal_connect ( GTK_OBJECT (spin), "changed", (GCallback) set_integer, NULL );
 
+  g_object_set_data ( G_OBJECT (spin), "change-value",
+		      g_signal_connect ( GTK_OBJECT (spin), "value_changed", 
+					 (GCallback) set_double, NULL ));
+  if ( hook )
+    g_object_set_data ( G_OBJECT (spin), "hook",
+			g_signal_connect ( GTK_OBJECT (spin), "value_changed", 
+					   (GCallback) hook, NULL ));
   return spin;
+}
 
+
+/**
+ *  TODO: document
+ *
+ */
+void spin_button_set_value ( GtkWidget * spin, gdouble * value )
+{
+  /* Block everything */
+  if ( g_object_get_data ((GObject*) spin, "change-value") > 0 )
+    g_signal_handler_block ( GTK_OBJECT(spin),
+			     (gulong) g_object_get_data ((GObject*) spin, "change-value"));
+  if ( g_object_get_data ((GObject*) spin, "hook") > 0 )
+    g_signal_handler_block ( GTK_OBJECT(spin),
+			     (gulong) g_object_get_data ((GObject*) spin, "hook"));
+
+  if (value)
+    gtk_spin_button_set_value (spin, *value);
+  else
+    gtk_spin_button_set_value (spin, 0);
+
+  g_object_set_data ( G_OBJECT(spin), "pointer", value);
+
+  /* Unblock everything */
+  if ( g_object_get_data ((GObject*) spin, "change-value") > 0 )
+    g_signal_handler_unblock ( GTK_OBJECT(spin),
+			       (gulong) g_object_get_data ((GObject*) spin, "change-value"));
+  if ( g_object_get_data ((GObject*) spin, "hook") > 0 )
+    g_signal_handler_unblock ( GTK_OBJECT(spin),
+			       (gulong) g_object_get_data ((GObject*) spin, "hook"));
 }
