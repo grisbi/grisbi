@@ -825,24 +825,13 @@ void association_automatique ( void )
 
 		  exo = pointeur_exo -> data;
 
-		  printf (">>> Verifying %02d/%02d/%04d for %s ... ",
-			  g_date_day ( operation -> date ),
-			  g_date_month ( operation -> date ),
-			  g_date_year ( operation -> date ),
-			  exo -> nom_exercice );
-
 		  if ( g_date_compare ( exo -> date_debut,
 					operation -> date ) <= 0
 		       &&
 		       g_date_compare ( exo -> date_fin,
 					operation -> date ) >= 0 )
 		    {
-		      printf ("matched\n");
 		      operation -> no_exercice = exo -> no_exercice;
-		    }
-		  else
-		    {
-		      printf ("not matched\n");
 		    }
 
 		  pointeur_exo = pointeur_exo -> next;

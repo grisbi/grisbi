@@ -281,7 +281,7 @@ int main (int argc, char *argv[])
 	      if ( split_chiffres[1] )
 		preferences ( atoi ( split_chiffres[1] ));
 	      else
-		preferences ( 0 );
+		preferences ( NOT_A_PAGE );
 
 	      break;
 

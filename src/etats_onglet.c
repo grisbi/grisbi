@@ -4,7 +4,7 @@
 /*     Copyright (C) 2000-2003  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
-/*     Copyright (C) 2002  Benjamin Drieu */
+/*     Copyright (C) 2002-2003  Benjamin Drieu */
 /* 			bdrieu@april.org */
 /* 			http://www.grisbi.org */
 
@@ -163,6 +163,7 @@ GtkWidget *creation_liste_etats ( void )
   gtk_container_add ( GTK_CONTAINER ( frame ),
 		      label_etat_courant );
   gtk_widget_show (label_etat_courant);
+  gtk_label_set_line_wrap ( GTK_LABEL ( label_etat_courant ), TRUE );
 
 
   /*  Création de la fenêtre des etats */
@@ -438,6 +439,7 @@ void remplissage_liste_etats ( void )
 			   TRUE,
 			   0);
       gtk_widget_show (label);
+      gtk_label_set_line_wrap ( GTK_LABEL ( label ), TRUE );
 
       liste_tmp = liste_tmp -> next;
     }
@@ -1240,6 +1242,7 @@ void changement_etat ( GtkWidget *bouton,
 
   gtk_label_set_text ( GTK_LABEL ( label_etat_courant ),
 		       etat -> nom_etat );
+  gtk_label_set_line_wrap ( GTK_LABEL ( label_etat_courant ), TRUE );
 
   /* on affiche l'état */
 

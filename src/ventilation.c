@@ -1751,10 +1751,10 @@ void fin_edition_ventilation ( void )
 
   if ( gtk_widget_get_style ( widget_formulaire_ventilation[2] ) == style_entree_formulaire[0] )
     /* c'est un débit */
-    operation -> montant = -g_strtod ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[2] ))),
+    operation -> montant = -my_strtod ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[2] ))),
 				       NULL );
   else
-    operation -> montant = g_strtod ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[3] ))),
+    operation -> montant = my_strtod ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[3] ))),
 				      NULL );
 
 

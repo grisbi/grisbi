@@ -297,7 +297,6 @@ gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
   preference_selected = g_value_get_int(&value);
   if ( preference_selected != NOT_A_PAGE )
     {
-      printf (">>> PLOP %d\n", preference_selected);
       gtk_notebook_set_page (preference_frame, preference_selected);
     }
 
@@ -1009,7 +1008,7 @@ void real_changement_preferences ( GtkWidget *fenetre_preferences,
 
     case 2 :
 
-      if ( ( buffer = g_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_jours ) ), FALSE ) ) != decalage_echeance )
+      if ( ( buffer = my_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_jours ) ), FALSE ) ) != decalage_echeance )
 	{
 	  decalage_echeance = buffer;
 	  update_liste_echeances_manuelles_accueil();

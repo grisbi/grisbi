@@ -1802,9 +1802,9 @@ gboolean modifie_date ( GtkWidget *entree )
 	{
 	  /*       on a rentré les 3 chiffres de la date */
 
-	  jour = strtod ( tab_date[0],  NULL );
-	  mois = strtod ( tab_date[1], NULL );
-	  annee = strtod ( tab_date[2], NULL );
+	  jour = my_strtod ( tab_date[0],  NULL );
+	  mois = my_strtod ( tab_date[1], NULL );
+	  annee = my_strtod ( tab_date[2], NULL );
  
 	  if ( annee < 100 )
 	    {
@@ -1817,8 +1817,8 @@ gboolean modifie_date ( GtkWidget *entree )
 	  {
 	    /* 	on a rentré la date sous la forme xx/xx , il suffit de mettre l'année courante */
 
-	    jour = strtod ( tab_date[0], NULL );
-	    mois = strtod ( tab_date[1], NULL );
+	    jour = my_strtod ( tab_date[0], NULL );
+	    mois = my_strtod ( tab_date[1], NULL );
 	    annee = g_date_year ( date );
 	  }
 	else
@@ -1833,7 +1833,7 @@ gboolean modifie_date ( GtkWidget *entree )
 		/* 	      forme jj ou j */
 	      case 1:
 	      case 2:
-		jour = strtod ( tab_date[0], 	NULL );
+		jour = my_strtod ( tab_date[0], 	NULL );
 		mois = g_date_month ( date );
 		annee = g_date_year ( date );
 		break;
@@ -1845,8 +1845,8 @@ gboolean modifie_date ( GtkWidget *entree )
 		buffer[1] = tab_date[0][1];
 		buffer[2] = 0;
 
-		jour = strtod ( buffer, NULL );
-		mois = strtod ( tab_date[0] + 2, NULL );
+		jour = my_strtod ( buffer, NULL );
+		mois = my_strtod ( tab_date[0] + 2, NULL );
 		annee = g_date_year ( date );
 		break;
 
@@ -1857,12 +1857,12 @@ gboolean modifie_date ( GtkWidget *entree )
 		buffer[1] = tab_date[0][1];
 		buffer[2] = 0;
 
-		jour = strtod ( buffer, NULL );
+		jour = my_strtod ( buffer, NULL );
 		buffer[0] = tab_date[0][2];
 		buffer[1] = tab_date[0][3];
 
-		mois = strtod ( buffer, NULL );
-		annee = strtod ( tab_date[0] + 4, NULL ) + 2000;
+		mois = my_strtod ( buffer, NULL );
+		annee = my_strtod ( tab_date[0] + 4, NULL ) + 2000;
 		break;
 
 		/* forme jjmmaaaa */
@@ -1872,12 +1872,12 @@ gboolean modifie_date ( GtkWidget *entree )
 		buffer[1] = tab_date[0][1];
 		buffer[2] = 0;
 
-		jour = strtod ( buffer, NULL );
+		jour = my_strtod ( buffer, NULL );
 		buffer[0] = tab_date[0][2];
 		buffer[1] = tab_date[0][3];
 
-		mois = strtod ( buffer, NULL );
-		annee = strtod ( tab_date[0] + 4, NULL );
+		mois = my_strtod ( buffer, NULL );
+		annee = my_strtod ( tab_date[0] + 4, NULL );
 		break;
 
 	      default :
@@ -2858,10 +2858,10 @@ gint verification_validation_operation ( struct structure_operation *operation )
 	enregistre_ope_au_retour = 1;
 
 	if ( gtk_widget_get_style ( widget_formulaire_operations[3] ) == style_entree_formulaire[0] )
-	  ventiler_operation ( -g_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[3] ))),
+	  ventiler_operation ( -my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[3] ))),
 					   NULL ));
 	else
-	  ventiler_operation ( g_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[4] ))),
+	  ventiler_operation ( my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[4] ))),
 					  NULL ));
 
 	return (FALSE);
@@ -2945,11 +2945,11 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
 			      "/",
 			      3 );
 
-  operation -> jour = strtod ( tableau_char[0],
+  operation -> jour = my_strtod ( tableau_char[0],
 			       NULL );
-  operation -> mois = strtod ( tableau_char[1],
+  operation -> mois = my_strtod ( tableau_char[1],
 			       NULL );
-  operation -> annee = strtod (tableau_char[2],
+  operation -> annee = my_strtod (tableau_char[2],
 			       NULL );
 
   operation->date = g_date_new_dmy ( operation->jour,
@@ -2968,11 +2968,11 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
 				  "/",
 				  3 );
 
-      operation -> jour_bancaire = strtod ( tableau_char[0],
+      operation -> jour_bancaire = my_strtod ( tableau_char[0],
 					    NULL );
-      operation -> mois_bancaire = strtod ( tableau_char[1],
+      operation -> mois_bancaire = my_strtod ( tableau_char[1],
 					    NULL );
-      operation -> annee_bancaire = strtod (tableau_char[2],
+      operation -> annee_bancaire = my_strtod (tableau_char[2],
 					    NULL );
 
       operation->date_bancaire = g_date_new_dmy ( operation->jour_bancaire,
@@ -3009,10 +3009,10 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
   /* récupération du montant */
 
   if ( gtk_widget_get_style ( widget_formulaire_operations[3] ) == style_entree_formulaire[0] )
-    operation -> montant = -g_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[3] ))),
+    operation -> montant = -my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[3] ))),
 				       NULL );
   else
-    operation -> montant = g_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[4] ))),
+    operation -> montant = my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[4] ))),
 				      NULL );
 
   /* récupération de la devise */
@@ -3949,10 +3949,10 @@ void basculer_vers_ventilation ( GtkWidget *bouton,
   enregistre_ope_au_retour = 0;
 
   if ( gtk_widget_get_style ( widget_formulaire_operations[3] ) == style_entree_formulaire[0] )
-    ventiler_operation ( -g_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[3] ))),
+    ventiler_operation ( -my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[3] ))),
 				     NULL ));
   else
-    ventiler_operation ( g_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[4] ))),
+    ventiler_operation ( my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[4] ))),
 				    NULL ));
 }
 /***********************************************************************************************************/
@@ -4074,11 +4074,11 @@ void incremente_decremente_date ( GtkWidget *entree,
 			      "/",
 			      3 );
 
-  jour = strtod ( tableau_char[0],
+  jour = my_strtod ( tableau_char[0],
 		  NULL );
-  mois = strtod ( tableau_char[1],
+  mois = my_strtod ( tableau_char[1],
 		  NULL );
-  annee = strtod (tableau_char[2],
+  annee = my_strtod (tableau_char[2],
 		  NULL );
 
   date = g_date_new_dmy ( jour,

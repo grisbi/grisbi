@@ -655,10 +655,10 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 								      "Lien_1_2" ));
 		      comp_montants -> comparateur_2 = atoi ( xmlGetProp ( node_comp_montants,
 									   "Comp_2" ));
-		      comp_montants -> montant_1 = g_strtod ( xmlGetProp ( node_comp_montants,
+		      comp_montants -> montant_1 = my_strtod ( xmlGetProp ( node_comp_montants,
 									   "Mont_1" ),
 							      NULL );
-		      comp_montants -> montant_2 = g_strtod ( xmlGetProp ( node_comp_montants,
+		      comp_montants -> montant_2 = my_strtod ( xmlGetProp ( node_comp_montants,
 									   "Mont_2" ),
 							      NULL );
 

@@ -1603,12 +1603,12 @@ void modification_details_compte ( void )
 
 /* vérification du solde initial */
 
-  if ( SOLDE_INIT != g_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_init ))),
+  if ( SOLDE_INIT != my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_init ))),
 				NULL ) )
     {
       gint value;
 
-      SOLDE_INIT = g_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_init ))),
+      SOLDE_INIT = my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_init ))),
 			      NULL );
 
       value = gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value;
@@ -1625,10 +1625,10 @@ void modification_details_compte ( void )
 
 /* vérification du solde mini autorisé */
 
-  if ( SOLDE_MINI != g_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_autorise ))),
+  if ( SOLDE_MINI != my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_autorise ))),
 				NULL ) )
     {
-      SOLDE_MINI = g_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_autorise ))),
+      SOLDE_MINI = my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_autorise ))),
 			      NULL );
       MESSAGE_SOUS_MINI = 0;
  
@@ -1640,10 +1640,10 @@ void modification_details_compte ( void )
 
 /* vérification du solde mini voulu */
 
-  if ( SOLDE_MINI_VOULU != g_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_voulu ))),
+  if ( SOLDE_MINI_VOULU != my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_voulu ))),
 				NULL ) )
     {
-      SOLDE_MINI_VOULU = g_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_voulu ))),
+      SOLDE_MINI_VOULU = my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_voulu ))),
 			      NULL );
       MESSAGE_SOUS_MINI_VOULU = 0;
  

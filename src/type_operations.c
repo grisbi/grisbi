@@ -743,27 +743,6 @@ void modification_type_signe ( gint *no_menu )
 
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte + type_ope -> no_compte;
 
-/*       /\* Operation will be of default type if target list is empty *\/ */
-/*       switch (GPOINTER_TO_INT ( no_menu )) */
-/* 	{ */
-/* 	case 1:			/\* Debit *\/ */
-/* 	  if ( ! TYPE_DEFAUT_DEBIT ) */
-/* 	    { */
-/* 	      printf(">>> empty debit\n"); */
-/* 	    TYPE_DEFAUT_DEBIT = type_ope -> no_type; */
-/* 	    } */
-/* 	  break; */
-
-/* 	case 2:			/\* Credit *\/ */
-/* 	      printf(">>> empty credit\n"); */
-/* 	  if ( ! TYPE_DEFAUT_CREDIT ) */
-/* 	    TYPE_DEFAUT_CREDIT = type_ope -> no_type; */
-/* 	  break; */
-
-/* 	default: */
-/* 	  break;		/\* Other *\/ */
-/* 	} */
-
       switch (type_ope -> signe_type)
 	{
 	case 1:			/* Debit */

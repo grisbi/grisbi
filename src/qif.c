@@ -273,12 +273,12 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 
 		      pointeur_char = g_strjoinv ( NULL,
 						   tab_char );
-		      compte -> solde_initial = g_strtod ( pointeur_char + 1,
+		      compte -> solde_initial = my_strtod ( pointeur_char + 1,
 							   NULL );
 		      g_strfreev ( tab_char );
 		    }
 		  else
-		    compte -> solde_initial = g_strtod ( pointeur_char + 1,
+		    compte -> solde_initial = my_strtod ( pointeur_char + 1,
 							 NULL );
 
 		  g_strfreev ( tab );
@@ -406,12 +406,12 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 
 			  pointeur_char = g_strjoinv ( NULL,
 						       tab_char );
-			  operation -> montant = g_strtod ( pointeur_char + 1,
+			  operation -> montant = my_strtod ( pointeur_char + 1,
 							    NULL );
 			  g_strfreev ( tab_char );
 			}
 		      else
-			operation -> montant = g_strtod ( pointeur_char + 1,
+			operation -> montant = my_strtod ( pointeur_char + 1,
 							  NULL );
 
 		      g_strfreev ( tab );
@@ -420,7 +420,7 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 		  /* récupération du chèque */
 
 		  if ( pointeur_char[0] == 'N' )
-		    operation -> cheque = g_strtod ( pointeur_char + 1,
+		    operation -> cheque = my_strtod ( pointeur_char + 1,
 						     NULL );
 
 
@@ -528,13 +528,13 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 
 			  pointeur_char = g_strjoinv ( NULL,
 						       tab_char );
-			  ventilation -> montant = g_strtod ( pointeur_char + 1,
+			  ventilation -> montant = my_strtod ( pointeur_char + 1,
 							      NULL );
 
 			  g_strfreev ( tab_char );
 			}
 		      else
-			ventilation -> montant = g_strtod ( pointeur_char + 1,
+			ventilation -> montant = my_strtod ( pointeur_char + 1,
 							    NULL );
 
 		      g_strfreev ( tab );
@@ -870,25 +870,25 @@ void traitement_donnees_brutes ( void )
 
 		  if ( format_date )
 		    {
-		      operation -> mois = g_strtod ( tab_str[0],
+		      operation -> mois = my_strtod ( tab_str[0],
 						     NULL );
-		      operation -> jour = g_strtod ( tab_str[1],
+		      operation -> jour = my_strtod ( tab_str[1],
 						     NULL );
 		    }
 		  else
 		    {
-		      operation -> jour = g_strtod ( tab_str[0],
+		      operation -> jour = my_strtod ( tab_str[0],
 						     NULL );
-		      operation -> mois = g_strtod ( tab_str[1],
+		      operation -> mois = my_strtod ( tab_str[1],
 						     NULL );
 		    }
 
 		  if ( strlen ( tab_str[2] ) == 4 )
-		    operation -> annee = g_strtod ( tab_str[2],
+		    operation -> annee = my_strtod ( tab_str[2],
 						    NULL );
 		  else
 		    {
-		      operation -> annee = g_strtod ( tab_str[2],
+		      operation -> annee = my_strtod ( tab_str[2],
 						      NULL );
 		      if ( operation -> annee < 80 )
 			operation -> annee = operation -> annee + 2000;
@@ -910,26 +910,26 @@ void traitement_donnees_brutes ( void )
 
 		      if ( format_date )
 			{
-			  operation -> mois = g_strtod ( tab_str[0],
+			  operation -> mois = my_strtod ( tab_str[0],
 							 NULL );
-			  operation -> jour = g_strtod ( tab_str2[0],
+			  operation -> jour = my_strtod ( tab_str2[0],
 							 NULL );
 			}
 		      else
 			{
-			  operation -> jour = g_strtod ( tab_str[0],
+			  operation -> jour = my_strtod ( tab_str[0],
 							 NULL );
-			  operation -> mois = g_strtod ( tab_str2[0],
+			  operation -> mois = my_strtod ( tab_str2[0],
 							 NULL );
 			}
 
 		      /* si on avait 'xx, en fait ça peut être 'xx ou 'xxxx ... */
 
 		      if ( strlen ( tab_str2[1] ) == 2 )
-			operation -> annee = g_strtod ( tab_str2[1],
+			operation -> annee = my_strtod ( tab_str2[1],
 							NULL ) + 2000;
 		      else
-			operation -> annee = g_strtod ( tab_str2[1],
+			operation -> annee = my_strtod ( tab_str2[1],
 							NULL );
 		      g_strfreev ( tab_str2 );
 
@@ -942,16 +942,16 @@ void traitement_donnees_brutes ( void )
 					     "-",
 					     3 );
 
-		      operation -> mois = g_strtod ( tab_str[1],
+		      operation -> mois = my_strtod ( tab_str[1],
 						     NULL );
-		      operation -> jour = g_strtod ( tab_str[2],
+		      operation -> jour = my_strtod ( tab_str[2],
 						     NULL );
 		      if ( strlen ( tab_str[0] ) == 4 )
-			operation -> annee = g_strtod ( tab_str[0],
+			operation -> annee = my_strtod ( tab_str[0],
 							NULL );
 		      else
 			{
-			  operation -> annee = g_strtod ( tab_str[0],
+			  operation -> annee = my_strtod ( tab_str[0],
 							NULL );
 			if ( operation -> annee < 80 )
 			  operation -> annee = operation -> annee + 2000;

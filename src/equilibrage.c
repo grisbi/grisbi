@@ -706,7 +706,7 @@ void modif_entree_solde_init_equilibrage ( void )
   gtk_label_set_text ( GTK_LABEL ( label_equilibrage_initial ),
 		       (char *) gtk_entry_get_text ( GTK_ENTRY ( entree_ancien_solde_equilibrage )) );
 
-  solde_initial = g_strtod ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree_ancien_solde_equilibrage )),
+  solde_initial = my_strtod ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree_ancien_solde_equilibrage )),
 			     NULL );
 
 
@@ -743,7 +743,7 @@ void modif_entree_solde_final_equilibrage ( void )
   gtk_label_set_text ( GTK_LABEL ( label_equilibrage_final ),
 		       (char *) gtk_entry_get_text ( GTK_ENTRY ( entree_nouveau_montant_equilibrage )) );
 
-  solde_final = g_strtod ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree_nouveau_montant_equilibrage )),
+  solde_final = my_strtod ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree_nouveau_montant_equilibrage )),
 			   NULL );
 
   if ( fabs ( solde_final - solde_initial - operations_pointees ) < 0.01 )
@@ -1516,7 +1516,6 @@ void reconcile_include_neutral_toggled ( GtkCellRendererToggle *cell,
 		  LISTE_TRI = g_slist_append ( LISTE_TRI,
 					       GINT_TO_POINTER ( - GPOINTER_TO_INT ( liste_tmp->data )));
 
-		  printf(">>> Adding %s\n", type_ope->nom_type);
 		  clear_tree = 1;
 		}
 

@@ -755,7 +755,7 @@ void ajout_devise ( GtkWidget *bouton,
 	  devise -> une_devise_1_egale_x_devise_2 = 0;
 
 	  if ( devise -> passage_euro )
-	    devise -> change = g_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_conversion_euro ))),
+	    devise -> change = my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_conversion_euro ))),
 					  NULL );
 	  else
 	    devise -> change = 0;
@@ -1317,9 +1317,9 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
     {
       struct struct_devise *devise_tmp;
 
-      taux_de_change[0] = g_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )),
+      taux_de_change[0] = my_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )),
 				  NULL );
-      taux_de_change[1] = g_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_frais )),
+      taux_de_change[1] = my_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_frais )),
 				  NULL );
 
       /* FIXME: use gtk_menu_get_active + gtk_option_menu_get_menu ? */
@@ -1398,7 +1398,7 @@ update_devise ( )
 
       devise -> une_devise_1_egale_x_devise_2 = 0;
       devise -> no_devise_en_rapport = 1;
-      devise -> change = g_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_conversion )),
+      devise -> change = my_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_conversion )),
 				    NULL );
       devise -> date_dernier_change = NULL;
 
@@ -1408,7 +1408,7 @@ update_devise ( )
       GObject * item;
 
       /*       si le change a changé, c'est qu'il y a une mise à jours */
-      if ( g_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_conversion )),
+      if ( my_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_conversion )),
 		      NULL )
 	   !=
 	   devise -> change )
@@ -1435,7 +1435,7 @@ update_devise ( )
       else
 	devise -> une_devise_1_egale_x_devise_2 = 0;
       
-      devise -> change = g_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_conversion )),
+      devise -> change = my_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_conversion )),
 				    NULL );
     }
 	    

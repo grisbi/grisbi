@@ -589,15 +589,6 @@ void update_liste_comptes_accueil ( void )
 
   /* Création du tableau dans lequel seront stockés les comptes avec leur     */
   /* solde.                                                                   */
-  /* ATTENTION : ce tableau est créé de façon à pouvoir afficher la somme des */
-  /* soldes de tous les comptes.                                              */
-  /* Il faut donc TOUS les comptes soient dans la MÊME DEVISE !!!!!!!         */
-  /* Il serait donc utile d'effectuer un test sur les devises utilisées,      */
-  /* et si les comptes utilisaient des devises différentes, il faudrait alors */
-  /* soit renoncer à afficher le solde global ;                               */
-  /* soit effectuer une conversion des soldes des tous les comptes vers une   */
-  /* même devise qu'il faudrait également définir.                            */
-  /* Bref, pas simple.                                                        */
   paddingbox = new_paddingbox_with_title ( vbox, FALSE,
 					   g_strdup_printf (_("Account balances in %s"),
 							      ((struct struct_devise *) devise -> data) -> nom_devise ));

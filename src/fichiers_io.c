@@ -500,22 +500,22 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 
 			      if ( !strcmp ( node_detail -> name,
 					     "Solde_initial" ))
-				SOLDE_INIT = g_strtod ( xmlNodeGetContent ( node_detail ),
+				SOLDE_INIT = my_strtod ( xmlNodeGetContent ( node_detail ),
 							NULL );
 
 			      if ( !strcmp ( node_detail -> name,
 					     "Solde_mini_voulu" ))
-				SOLDE_MINI_VOULU = g_strtod ( xmlNodeGetContent ( node_detail ),
+				SOLDE_MINI_VOULU = my_strtod ( xmlNodeGetContent ( node_detail ),
 							      NULL );
 
 			      if ( !strcmp ( node_detail -> name,
 					     "Solde_mini_autorisé" ))
-				SOLDE_MINI = g_strtod ( xmlNodeGetContent ( node_detail ),
+				SOLDE_MINI = my_strtod ( xmlNodeGetContent ( node_detail ),
 							NULL );
 
 			      if ( !strcmp ( node_detail -> name,
 					     "Solde_courant" ))
-				SOLDE_COURANT = g_strtod ( xmlNodeGetContent ( node_detail ),
+				SOLDE_COURANT = my_strtod ( xmlNodeGetContent ( node_detail ),
 							   NULL );
 
 			      if ( !strcmp ( node_detail -> name,
@@ -537,7 +537,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 
 			      if ( !strcmp ( node_detail -> name,
 					     "Solde_dernier_relevé" ))
-				SOLDE_DERNIER_RELEVE = g_strtod ( xmlNodeGetContent ( node_detail ),
+				SOLDE_DERNIER_RELEVE = my_strtod ( xmlNodeGetContent ( node_detail ),
 								  NULL );
 
 			      if ( !strcmp ( node_detail -> name,
@@ -718,7 +718,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 			  
 				  /* GDCFin */
 
-				  operation -> montant = g_strtod ( xmlGetProp ( node_ope,
+				  operation -> montant = my_strtod ( xmlGetProp ( node_ope,
 											    "M" ),
 								    NULL );
 
@@ -728,11 +728,11 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 				  operation -> une_devise_compte_egale_x_devise_ope = atoi ( xmlGetProp ( node_ope,
 														     "Rdc" ));
 
-				  operation -> taux_change = g_strtod ( xmlGetProp ( node_ope,
+				  operation -> taux_change = my_strtod ( xmlGetProp ( node_ope,
 												"Tc" ),
 									NULL );
 
-				  operation -> frais_change = g_strtod ( xmlGetProp ( node_ope,
+				  operation -> frais_change = my_strtod ( xmlGetProp ( node_ope,
 												 "Fc" ),
 									 NULL );
 
@@ -916,7 +916,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 			  operation_echeance -> compte = atoi ( xmlGetProp ( node_detail,
 											"Compte" ));
 
-			  operation_echeance -> montant = g_strtod ( xmlGetProp ( node_detail,
+			  operation_echeance -> montant = my_strtod ( xmlGetProp ( node_detail,
 											     "Montant" ),
 								     NULL );
 
@@ -1386,7 +1386,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 												   "Rapport_entre_devises" )));
 			  devise -> no_devise_en_rapport = atoi ( latin2utf8(xmlGetProp ( node_detail,
 											  "Devise_en_rapport" )));
-			  devise -> change = g_strtod ( latin2utf8(xmlGetProp ( node_detail,
+			  devise -> change = my_strtod ( latin2utf8(xmlGetProp ( node_detail,
 										"Change" )),
 							NULL );
 
@@ -2315,22 +2315,22 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 			  if ( !strcmp ( node_detail -> name,
 					 "Solde_initial" ))
-			   SOLDE_INIT = g_strtod ( xmlNodeGetContent ( node_detail ),
+			   SOLDE_INIT = my_strtod ( xmlNodeGetContent ( node_detail ),
 						   NULL );
 
 			  if ( !strcmp ( node_detail -> name,
 					 "Solde_mini_voulu" ))
-			   SOLDE_MINI_VOULU = g_strtod ( xmlNodeGetContent ( node_detail ),
+			   SOLDE_MINI_VOULU = my_strtod ( xmlNodeGetContent ( node_detail ),
 							 NULL );
 
 			  if ( !strcmp ( node_detail -> name,
 					 "Solde_mini_autorise" ))
-			   SOLDE_MINI = g_strtod ( xmlNodeGetContent ( node_detail ),
+			   SOLDE_MINI = my_strtod ( xmlNodeGetContent ( node_detail ),
 						   NULL );
 
 			  if ( !strcmp ( node_detail -> name,
 					 "Solde_courant" ))
-			   SOLDE_COURANT = g_strtod ( xmlNodeGetContent ( node_detail ),
+			   SOLDE_COURANT = my_strtod ( xmlNodeGetContent ( node_detail ),
 						      NULL );
 
 			  if ( !strcmp ( node_detail -> name,
@@ -2352,7 +2352,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 			  if ( !strcmp ( node_detail -> name,
 					 "Solde_dernier_releve" ))
-			   SOLDE_DERNIER_RELEVE = g_strtod ( xmlNodeGetContent ( node_detail ),
+			   SOLDE_DERNIER_RELEVE = my_strtod ( xmlNodeGetContent ( node_detail ),
 							     NULL );
 
 			  if ( !strcmp ( node_detail -> name,
@@ -2532,12 +2532,12 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 			  
 			      /* GDCFin */
 
-			      operation -> montant = g_strtod ( xmlGetProp ( node_ope, "M" ), NULL );
+			      operation -> montant = my_strtod ( xmlGetProp ( node_ope, "M" ), NULL );
 			      operation -> devise = atoi ( xmlGetProp ( node_ope, "De" ));
 			      operation -> une_devise_compte_egale_x_devise_ope = atoi ( xmlGetProp ( node_ope, "Rdc" ));
-			      operation -> taux_change = g_strtod ( xmlGetProp ( node_ope, "Tc" ), NULL );
+			      operation -> taux_change = my_strtod ( xmlGetProp ( node_ope, "Tc" ), NULL );
 
-			      operation -> frais_change = g_strtod ( xmlGetProp ( node_ope,
+			      operation -> frais_change = my_strtod ( xmlGetProp ( node_ope,
 											     "Fc" ),
 								     NULL );
 
@@ -2721,7 +2721,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 			  operation_echeance -> compte = atoi ( xmlGetProp ( node_detail,
 											"Compte" ));
 
-			  operation_echeance -> montant = g_strtod ( xmlGetProp ( node_detail,
+			  operation_echeance -> montant = my_strtod ( xmlGetProp ( node_detail,
 											     "Montant" ),
 								     NULL );
 
@@ -3203,7 +3203,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 												   "Rapport_entre_devises" ));
 			  devise -> no_devise_en_rapport = atoi ( xmlGetProp ( node_detail,
 											  "Devise_en_rapport" ));
-			  devise -> change = g_strtod ( xmlGetProp ( node_detail,
+			  devise -> change = my_strtod ( xmlGetProp ( node_detail,
 										"Change" ),
 							NULL );
 
@@ -4087,10 +4087,10 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 												  "Lien_1_2" ));
 						  comp_montants -> comparateur_2 = atoi ( xmlGetProp ( node_comp_montants,
 												       "Comp_2" ));
-						  comp_montants -> montant_1 = g_strtod ( xmlGetProp ( node_comp_montants,
+						  comp_montants -> montant_1 = my_strtod ( xmlGetProp ( node_comp_montants,
 												       "Mont_1" ),
 											  NULL );
-						  comp_montants -> montant_2 = g_strtod ( xmlGetProp ( node_comp_montants,
+						  comp_montants -> montant_2 = my_strtod ( xmlGetProp ( node_comp_montants,
 												       "Mont_2" ),
 											  NULL );
 
@@ -4502,22 +4502,22 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 
 			      if ( !strcmp ( node_detail -> name,
 					     "Solde_initial" ))
-				SOLDE_INIT = g_strtod ( xmlNodeGetContent ( node_detail ),
+				SOLDE_INIT = my_strtod ( xmlNodeGetContent ( node_detail ),
 							NULL );
 
 			      if ( !strcmp ( node_detail -> name,
 					     "Solde_mini_voulu" ))
-				SOLDE_MINI_VOULU = g_strtod ( xmlNodeGetContent ( node_detail ),
+				SOLDE_MINI_VOULU = my_strtod ( xmlNodeGetContent ( node_detail ),
 							      NULL );
 
 			      if ( !strcmp ( node_detail -> name,
 					     "Solde_mini_autorise" ))
-				SOLDE_MINI = g_strtod ( xmlNodeGetContent ( node_detail ),
+				SOLDE_MINI = my_strtod ( xmlNodeGetContent ( node_detail ),
 							NULL );
 
 			      if ( !strcmp ( node_detail -> name,
 					     "Solde_courant" ))
-				SOLDE_COURANT = g_strtod ( xmlNodeGetContent ( node_detail ),
+				SOLDE_COURANT = my_strtod ( xmlNodeGetContent ( node_detail ),
 							   NULL );
 
 			      if ( !strcmp ( node_detail -> name,
@@ -4538,7 +4538,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 
 			      if ( !strcmp ( node_detail -> name,
 					     "Solde_dernier_releve" ))
-				SOLDE_DERNIER_RELEVE = g_strtod ( xmlNodeGetContent ( node_detail ),
+				SOLDE_DERNIER_RELEVE = my_strtod ( xmlNodeGetContent ( node_detail ),
 								  NULL );
 
 			      if ( !strcmp ( node_detail -> name,
@@ -4726,7 +4726,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 			  
 			      /* GDCFin */
 
-			      operation -> montant = g_strtod ( xmlGetProp ( node_ope,
+			      operation -> montant = my_strtod ( xmlGetProp ( node_ope,
 									     "M" ),
 								NULL );
 
@@ -4736,11 +4736,11 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 			      operation -> une_devise_compte_egale_x_devise_ope = atoi ( xmlGetProp ( node_ope,
 												      "Rdc" ));
 
-			      operation -> taux_change = g_strtod ( xmlGetProp ( node_ope,
+			      operation -> taux_change = my_strtod ( xmlGetProp ( node_ope,
 										 "Tc" ),
 								    NULL );
 
-			      operation -> frais_change = g_strtod ( xmlGetProp ( node_ope,
+			      operation -> frais_change = my_strtod ( xmlGetProp ( node_ope,
 										  "Fc" ),
 								     NULL );
 
@@ -4924,7 +4924,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 			  operation_echeance -> compte = atoi ( xmlGetProp ( node_detail,
 									     "Compte" ));
 
-			  operation_echeance -> montant = g_strtod ( xmlGetProp ( node_detail,
+			  operation_echeance -> montant = my_strtod ( xmlGetProp ( node_detail,
 										  "Montant" ),
 								     NULL );
 
@@ -5407,7 +5407,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 											"Rapport_entre_devises" ));
 			  devise -> no_devise_en_rapport = atoi ( xmlGetProp ( node_detail,
 									       "Devise_en_rapport" ));
-			  devise -> change = g_strtod ( xmlGetProp ( node_detail,
+			  devise -> change = my_strtod ( xmlGetProp ( node_detail,
 								     "Change" ),
 							NULL );
 
@@ -6292,10 +6292,10 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 												  "Lien_1_2" ));
 						  comp_montants -> comparateur_2 = atoi ( xmlGetProp ( node_comp_montants,
 												       "Comp_2" ));
-						  comp_montants -> montant_1 = g_strtod ( xmlGetProp ( node_comp_montants,
+						  comp_montants -> montant_1 = my_strtod ( xmlGetProp ( node_comp_montants,
 												       "Mont_1" ),
 											  NULL );
-						  comp_montants -> montant_2 = g_strtod ( xmlGetProp ( node_comp_montants,
+						  comp_montants -> montant_2 = my_strtod ( xmlGetProp ( node_comp_montants,
 												       "Mont_2" ),
 											  NULL );
 
@@ -9285,3 +9285,59 @@ void propose_changement_permissions ( void )
 
 }
 /***********************************************************************************************************/
+
+
+double my_strtod ( const char *nptr, char **endptr )
+{
+  double entier=0, mantisse=0, resultat=0;
+  int invert = 0;
+  char * p;
+
+  if (!nptr)
+    return 0;
+
+  for ( p = nptr; p < nptr + strlen(nptr); p++ )
+    {
+      if (isspace(*p) || *p == '+' )
+	continue;
+
+      if (*p == '-')
+	{
+	  invert = 1;
+	  continue;
+	}
+
+      if ( *p == ',' || *p == '.' )
+	{
+	  char * m;
+	  for ( m = p+1; m <= nptr+strlen(nptr) && 
+		  (isdigit(*m) || isspace(*m)); m++)
+	    /* Nothing, just loop */ ;
+	  for ( --m; m > p; m-- )
+	    {
+	      if (isdigit(*m))
+		{
+		  mantisse /= 10;
+		  mantisse += (*m - '0');
+		}
+	    }
+	  mantisse /= 10;
+	}
+      
+      if (isdigit(*p))
+	{
+	  entier = entier * 10;
+	  entier += (*p - '0');
+	}
+      else
+	{
+	  break;
+	}
+    }
+
+  resultat = entier + mantisse;
+  if ( invert )
+    resultat = - resultat;
+
+  return resultat;
+}
