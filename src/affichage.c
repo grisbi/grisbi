@@ -32,6 +32,7 @@
 #include "search_glist.h"
 #include "traitement_variables.h"
 #include "utils.h"
+#include "utils_file_selection.h"
 
 
 GtkWidget * list_font_name_label, * list_font_size_label;

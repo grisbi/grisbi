@@ -37,6 +37,7 @@ sources = 			\
 	fichier_configuration.c	\
 	fichiers_gestion.c	\
 	fichiers_io.c		\
+	gnucash.c		\
 	gtk_combofix.c		\
 	gtk_list_button.c	\
 	help.c			\
@@ -62,6 +63,7 @@ sources = 			\
 	utils.c			\
 	utils_files.c		\
 	utils_file_selection.c	\
+	utils_xml.c		\
 	search_glist.c
 
 grisbi_SOURCES = $(sources)
@@ -99,6 +101,7 @@ grisbi_INCLUDES =		\
 	fichier_configuration.h	\
 	fichiers_gestion.h	\
 	fichiers_io.h		\
+	gnucash.h		\
 	gtkcombofix.h		\
 	gtk_list_button.h	\
 	help.h			\
@@ -123,6 +126,7 @@ grisbi_INCLUDES =		\
 	type_operations.h	\
 	ventilation.h		\
 	utils.h			\
+	utils_xml.h		\
 	search_glist.h
 
 

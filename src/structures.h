@@ -670,8 +670,9 @@ struct iso_4217_currency
 struct struct_compte_importation
 {
     gchar *id_compte;
+    gchar * guid;
 
-    gint origine;    /* 0=qif, 1=ofx, 2=html */
+    gint origine;    /* 0=qif, 1=ofx, 2=html, 3=gnucash */
 
     gchar *nom_de_compte;
     gint type_de_compte;  /* 0=OFX_CHECKING,1=OFX_SAVINGS,2=OFX_MONEYMRKT,3=OFX_CREDITLINE,4=OFX_CMA,5=OFX_CREDITCARD,6=OFX_INVESTMENT, 7=cash */

@@ -39,6 +39,7 @@
 #include "fenetre_principale.h"
 #include "fichiers_gestion.h"
 #include "html.h"
+#include "gnucash.h"
 #include "ofx.h"
 #include "operations_classement.h"
 #include "operations_comptes.h"
@@ -217,19 +218,26 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
         {
 		result = recuperation_donnees_qif ( fichier );
         }
+	else if ( !strncmp ( pointeur_char, "<?xml", 5 ))
+	{
+	  get_line_from_file ( fichier, &pointeur_char );
+	  if ( !strncmp ( pointeur_char, "<gnc-v2", 7 ))
+	  {
+	    result = recuperation_donnees_gnucash ( liste_selection[i] );
+	  }	  
+	  else
+	    {
+	      dialogue_error_hint ( _("Grisbi is unable to determine type of this file.  If it is a QIF, an OFX file or a gnucash file, please contact the grisbi team to resolve this problem."),
+				    g_strdup_printf ( _("File \"%s\" cannot be imported."), liste_selection[i]) );
+	      result = FALSE;
+	      break;
+	    }
+	}
 	else
 	{
-		/* 		pour l'instant html non implémenté */
-		if ( pointeur_char[0] == '<' )
-                {
-		    result = recuperation_donnees_html ( fichier );
-                }
-		else
-		{
-		    dialogue_error_hint ( _("Grisbi is unable to determine type of this file.  If it is a QIF, an OFX file or a HTML page from a online bank service, please contact the grisbi team to resolve this problem."),
-					  g_strdup_printf ( _("File \"%s\" cannot be imported."), liste_selection[i]) );
-		    result = FALSE;
-		}
+	  dialogue_error_hint ( _("Grisbi is unable to determine type of this file.  If it is a QIF, an OFX file or a gnucash file, please contact the grisbi team to resolve this problem."),
+				g_strdup_printf ( _("File \"%s\" cannot be imported."), liste_selection[i]) );
+	  result = FALSE;
 	}
         /* clean up */
 	fclose ( fichier );

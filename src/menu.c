@@ -70,7 +70,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	{menu_name(_("File"), _("Recently opened files"), NULL), NULL,NULL , 0, "<Branch>",NULL, },
 	{menu_name(_("File"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
 	{menu_name(_("File"), _("Import"), NULL),   NULL,NULL , 0, "<Branch>",NULL  },
-	{menu_name(_("File"), _("Import"), _("QIF\\/OFX file ...")),   NULL, G_CALLBACK ( importer_fichier), 0, NULL ,NULL  },
+	{menu_name(_("File"), _("Import"), _("QIF\\/OFX\\/Gnucash file ...")),   NULL, G_CALLBACK ( importer_fichier), 0, NULL ,NULL  },
 	{menu_name(_("File"), _("Export"), NULL),   NULL, NULL, 0, "<Branch>",NULL  },
 	{menu_name(_("File"), _("Export"), _("QIF file ...")),   NULL,G_CALLBACK ( exporter_fichier_qif ), 0, NULL ,NULL  },
 	{menu_name(_("File"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
