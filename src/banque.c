@@ -1,24 +1,28 @@
-/* Fichier banque.c */
-/* s'occupe de tout ce qui concerne les banques */
-
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
-/*			2003-2004 Benjamin Drieu (bdrieu@april.org) */
-/* 			http://www.grisbi.org */
-
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
-
+/* ************************************************************************** */
+/* Fichier s'occupe de tout ce qui concerne les banques                       */
+/*                                                                            */
+/*                                banque.c                                    */
+/*                                                                            */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2004 Alain Portal (dionysos@grisbi.org)		      */
+/*			http://www.grisbi.org				      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "include.h"
 
@@ -26,9 +30,10 @@
 #include "banque.h"
 #include "comptes_gestion.h"
 #include "dialog.h"
-#include "utils_editables.h"
-#include "utils.h"
 #include "search_glist.h"
+#include "traitement_variables.h"
+#include "utils.h"
+#include "utils_editables.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -169,15 +174,18 @@ struct struct_banque * ajout_banque ( GtkWidget *bouton, GtkWidget *clist )
     }
 
     /* crée une nouvelle banque au nom de "nouvelle banque" en mettant
-       tous les paramètres à 0 et le no à -1 */
+       tous les paramètres à 0 */
     banque = calloc ( 1, sizeof ( struct struct_banque ));
-    banque -> no_banque = -1;
+    if (!banque)
+    {
+	dialogue_error ( _("Cannot allocate memory, bad things will happen soon") );
+	return NULL;
+    }
+    banque -> no_banque = ++nb_banques;
     banque -> nom_banque = g_strdup ( _("New bank") );
     banque -> nom_correspondant = "";
     liste_struct_banques = g_slist_append ( liste_struct_banques, banque );
     ligne[0] = banque -> nom_banque;
-
-    nb_banques++;
 
     if ( clist && GTK_IS_CLIST(clist) )
     {
@@ -205,55 +213,96 @@ struct struct_banque * ajout_banque ( GtkWidget *bouton, GtkWidget *clist )
 
 /* **************************************************************************************************************************** */
 /* Fonction supprime_banque */
-/* appelée lorsqu'on clicke sur le bouton annuler dans les paramètres */
+/* appelée lorsqu'on clicke sur le bouton enlever */
 /* **************************************************************************************************************************** */
-
 void supprime_banque ( GtkWidget *bouton,
 		       GtkWidget *liste )
 {
     struct struct_banque *banque;
-    GtkWidget *dialogue;
-    GtkWidget *label;
-    gint resultat;
+    gboolean resultat;
+    gpointer **save;
+    gint i;
+    gboolean bank_is_used=FALSE;
+    gint bank_nb_to_remove;
 
     banque = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
 				      ligne_selection_banque );
 
-    dialogue = gtk_dialog_new_with_buttons ( _("Confirmation of bank removal"),
-					     GTK_WINDOW ( window ),
-					     GTK_DIALOG_MODAL,
-					     GTK_STOCK_YES, 0,
-					     GTK_STOCK_NO, 1,
-					     NULL );
+    bank_nb_to_remove = banque -> no_banque;
 
-    label = gtk_label_new ( g_strdup_printf ( _("Are you sure you want to remove bank '%s'?\n"),
-					      banque -> nom_banque));
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialogue ) -> vbox ),
-			 label,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( label );
+    save = p_tab_nom_de_compte_variable;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
-    resultat = gtk_dialog_run ( GTK_DIALOG ( dialogue ));
-    gtk_widget_destroy ( dialogue );
-
-    if ( !resultat )
+    for ( i=0 ; i < nb_comptes ; i++ )
     {
-	/* on désensitive la hbox_boutons_modif_banque au cas où on était en train de modifier */
-	/* la banque */
+	if ( BANQUE == bank_nb_to_remove )
+	    bank_is_used = TRUE;
+	p_tab_nom_de_compte_variable++;
+    }
+
+    if ( bank_is_used )
+	resultat = question_yes_no_hint ( _("Confirmation of bank removal"),
+					  g_strdup_printf ( _("Bank \"%s\" is used by one or several accounts.\nDo you really want to remove it?"),
+							    banque -> nom_banque));
+    else
+	resultat = question_yes_no_hint ( _("Confirmation of bank removal"),
+					  g_strdup_printf ( _("Are you sure you want to remove bank \"%s\"?\n"),
+							    banque -> nom_banque));
+
+    if ( resultat )
+    {
+	/* La suppression de la banque est confirmée, On fait le tour des
+	   comptes pour en modifier le numéro de banque associée */
+	
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+
+	for ( i=0 ; i < nb_comptes ; i++ )
+	{
+	    if ( BANQUE == bank_nb_to_remove )
+		BANQUE = 0;
+	    if ( BANQUE > bank_nb_to_remove )
+		BANQUE--;
+	    p_tab_nom_de_compte_variable++;
+	}
+
+	/* On désensitive la hbox_boutons_modif_banque au cas où on
+	   était en train de modifier la banque */
 
 	gtk_widget_set_sensitive ( hbox_boutons_modif_banque,
 				   FALSE );
+
+	/* On retire la banque de la liste */
 
 	gtk_clist_remove ( GTK_CLIST ( liste ),
 			   ligne_selection_banque );
 	liste_struct_banques = g_slist_remove ( liste_struct_banques,
 						banque );
 	free ( banque );
+
+	/* Puis on fait le tour des banques pour recaler leurs numéros
+	   et ne pas créer de trous dans la suite des numéros */
+
+	for ( i = bank_nb_to_remove+1 ; i <= nb_banques ; i++ )
+	{
+	    GSList *pList;
+
+	    pList = g_slist_find_custom ( liste_struct_banques,
+					  GINT_TO_POINTER ( i ),
+					 ( GCompareFunc ) recherche_banque_par_no );
+
+	    if ( pList )
+	    {
+		struct struct_banque *pBank;
+	    
+		pBank = pList -> data;
+		pBank -> no_banque--;
+	    }
+	}
 	nb_banques--;
+	modification_fichier ( TRUE );
     }
 
+    p_tab_nom_de_compte_variable = save;
     update_bank_menu ();
 }
 
