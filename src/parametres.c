@@ -89,8 +89,20 @@ void preferences ( GtkWidget *widget,
   tree = create_preferences_tree();  
   hpaned = gtk_hpaned_new();
   gtk_paned_add1(GTK_PANED(hpaned), tree);
-  preference_frame = gtk_hpaned_new ();
-  gtk_paned_add2(GTK_PANED(hpaned), preference_frame);
+  hbox = gtk_hbox_new ( FALSE, 0 );
+  gtk_paned_add2(GTK_PANED(hpaned), hbox);
+
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       gtk_label_new ( "    " ),
+		       FALSE,
+		       FALSE,
+		       0 );
+  preference_frame = gtk_hpaned_new ();	/* Gruik! */
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       preference_frame,
+		       TRUE,
+		       TRUE,
+		       0 );
 
   /* On arange le tout dans une vbox */
   vbox = gtk_vbox_new ( FALSE, 10 );
@@ -109,7 +121,7 @@ void preferences ( GtkWidget *widget,
 		       0 );
   
   /* Création des boutons en bas */
-  hbox = gtk_hbox_new ( FALSE, 10 );
+  hbox = gtk_hbox_new ( FALSE, 6 );
 /*   button_ok = gtk_button_new_with_label (_("OK")); */
 /*   button_cancel = gtk_button_new_from_stock (GTK_STOCK_CANCEL); */
 /*   button_apply = gtk_button_new_with_label (_("Apply")); */
@@ -406,11 +418,11 @@ GtkWidget *onglet_general ( void )
 
    /* Warnings */
    paddingbox = paddingbox_new_with_title (vbox, 
-					   _("Display warnings messages if"));
+					   _("Warnings messages"));
 
    /* Affichage ou non d'un message d'alerte quand passage sous les
       soldes minis */
-  bouton_solde_mini = gtk_check_button_new_with_label ( SPACIFY(_("minimum balances are under minimum level")) );
+  bouton_solde_mini = gtk_check_button_new_with_label ( SPACIFY(_("Display a warning message if minimum balances are under minimum level")) );
   gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 		       bouton_solde_mini,
 		       FALSE,
@@ -430,7 +442,7 @@ GtkWidget *onglet_general ( void )
 
   /* Affichage ou non d'un message d'alerte sur la permission du
      fichier de compte */
-  bouton_affiche_permission = gtk_check_button_new_with_label ( SPACIFY(_("account file is readable by someone else")) );
+  bouton_affiche_permission = gtk_check_button_new_with_label ( SPACIFY(_("Display a warning message if account file is readable by someone else")) );
   gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 		       bouton_affiche_permission,
 		       FALSE,
