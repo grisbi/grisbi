@@ -41,7 +41,6 @@
 #include "search_glist.h"
 #include "traitement_variables.h"
 #include "utils.h"
-#include "devises.h"
 
 
 #include "xpm/book-closed.xpm"
