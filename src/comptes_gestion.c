@@ -1437,7 +1437,7 @@ gint recherche_banque_par_no ( struct struct_banque *banque,
 
 void modification_details_compte ( void )
 {
-
+  gint i;
 
   /* vérification que le compte a un nom */
 
@@ -1445,6 +1445,22 @@ void modification_details_compte ( void )
     {
       dialogue ( _("Account has no name!") );
       return;
+    }
+
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+
+  /* vérification que ce nom ne soit pas déjà utilisé */
+
+  for ( i = 0; i < nb_comptes; i++)
+    {
+     if ( i == compte_courant_onglet )
+       continue;
+     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+     if ( !strcmp ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))), NOM_DU_COMPTE ))
+       {
+	dialogue( g_strdup_printf ( _("Account \"%s\" already exists!"), gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))));
+	return;
+       }
     }
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
