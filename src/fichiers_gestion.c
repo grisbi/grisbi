@@ -705,7 +705,6 @@ gchar *demande_nom_enregistrement ( void )
     gchar *nouveau_nom;
     GtkWidget *fenetre_nom;
     gint resultat;
-    struct stat test_fichier;
 
     fenetre_nom = file_selection_new ( _("Name the accounts file"),FILE_SELECTION_IS_SAVE_DIALOG);
     gtk_window_set_modal ( GTK_WINDOW ( fenetre_nom ),

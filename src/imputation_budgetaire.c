@@ -2768,7 +2768,6 @@ void exporter_ib ( void )
 {
     GtkWidget *fenetre_nom;
     gint resultat;
-    struct stat test_fichier;
     gchar *nom_ib;
 
     fenetre_nom = file_selection_new (  _("Export the budgetary lines"),FILE_SELECTION_IS_SAVE_DIALOG);
