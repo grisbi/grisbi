@@ -141,28 +141,14 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 
       /* récupération des données du compte */
 
-      fscanf ( fichier_qif,
-	       "%a[^\n]\n",
-	       &pointeur_char );
+      fscanf ( fichier_qif, "%a[^\n]\n", &pointeur_char );
 
-      if ( strncmp ( pointeur_char,
-		     "!Type",
-		     5 )
-	   &&
-	   strncmp ( pointeur_char,
-		     "!type",
-		     5 )
-	   &&
-	   strncmp ( pointeur_char,
-		     "!Account",
-		     8 )
-	   &&
-	   strncmp ( pointeur_char,
-		     "!Option",
-		     7 ))
+      if ( strncmp ( pointeur_char, "!Type", 5 )
+	   && strncmp ( pointeur_char, "!type", 5 )
+	   && strncmp ( pointeur_char, "!Account", 8 )
+	   && strncmp ( pointeur_char, "!Option", 7 ))
 	{
-	  dialogue ( g_strdup_printf ( _("The file \"%s\" is not a QIF file"),
-				       nom_fichier_qif ));
+	  dialogue ( g_strdup_printf ( _("The file \"%s\" is not a QIF file"), nom_fichier_qif ));
 	  free ( pointeur_char );
 	  return;
 	}
@@ -171,145 +157,99 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 					   GTK_SIGNAL_FUNC ( traitement_donnees_brutes ),
 					   NULL );
 
-
       /* c'est bien un fichier qif, on peut commencer */
-
 
       /* si ça commence par !Option ou !Account ou !Type:Cat, on avance jusqu'à ce qu'on */
       /* trouve un autre !Type */
 
     retour:
-      if ( !strncmp ( pointeur_char,
-		      "!Option",
-		      7 )
-	   ||
-	   !strncmp ( pointeur_char,
-		      "!Account",
-		      8 )
-	   ||
-	   !strncmp ( pointeur_char,
-		      "!Type:Cat",
-		      9 ))
+      if ( !strncmp ( pointeur_char, "!Option", 7 )
+	   || !strncmp ( pointeur_char, "!Account", 8 )
+	   || !strncmp ( pointeur_char, "!Type:Cat", 9 ))
 	{
 	  do
 	    {
-	      fscanf ( fichier_qif,
-		       "%a[^\n]\n",
-		       &pointeur_char );
+	      fscanf ( fichier_qif, "%a[^\n]\n", &pointeur_char );
 	    }
-	  while ( strncmp ( pointeur_char,
-			    "!Type",
-			    5 ));
+	  while ( strncmp ( pointeur_char, "!Type", 5 ));
 	  goto retour;
 	}
-	    
 
       /* rafraichit la fenetre d'attente */
 
       if ( patience_en_cours )
 	while ( g_main_iteration ( FALSE ) );
 
-      compte = calloc ( 1,
-			sizeof ( struct donnees_compte ));
-
+      compte = calloc ( 1, sizeof ( struct donnees_compte ));
 
       /* ajoute ce compte aux autres comptes importés */
  
-      liste_comptes_qif = g_slist_append ( liste_comptes_qif,
-					   compte );
-
+      liste_comptes_qif = g_slist_append ( liste_comptes_qif, compte );
 
       /* récupération du type de compte */
 
-      tab_char = g_strsplit ( pointeur_char,
-			      ":",
-			      2 );
+      tab_char = g_strsplit ( pointeur_char, ":", 2 );
 
-      if ( strcmp ( g_strstrip (tab_char[1]),
-		    "Cash" ) )
-	if ( strcmp ( g_strstrip ( tab_char[1]),
-		      "Oth L" ))
+      if ( strcmp ( g_strstrip ( tab_char[1] ), "Cash" ) )
+	if ( strcmp ( g_strstrip ( tab_char[1] ), "Oth L" ))
 	  compte -> type_de_compte = 0;
 	else
 	  compte -> type_de_compte = 2;
       else
 	compte -> type_de_compte = 1;
 
-
-
       /* récupère les autres données du compte */
 
-      /*       pour un type CCard, le qif commence directement une opé sans donner les */
-      /* 	caractéristiques de départ du compte, on crée donc un compte du nom */
-      /* "carte de crédit" avec un solde init de 0 */
+      /* pour un type CCard, le qif commence directement une opération
+         sans donner les caractéristiques de départ du compte, on crée
+	 donc un compte du nom "carte de crédit" avec un solde initial de 0 */
 
-      if ( strcmp ( g_strstrip (tab_char[1]),
-		    "CCard" ))
+      if ( strcmp ( g_strstrip ( tab_char[1] ), "CCard" ))
 	{
 	  /* ce n'est pas une ccard, on récupère les infos */
 
 	  do
 	    {
 	      free ( pointeur_char );
+	      retour = fscanf ( fichier_qif, "%a[^\n]\n", &pointeur_char );
 
-	      retour = fscanf ( fichier_qif,
-				"%a[^\n]\n",
-				&pointeur_char );
-
-
-	      /* récupération du solde initial ( on doit virer la , que money met pour séparer les milliers ) */
-	      /* on ne vire la , que s'il y a un . */
+	      /* récupération du solde initial ( on doit virer la virgule que
+	         money met pour séparer les milliers ). On ne vire la virgule
+		 que s'il y a un point */
 
 	      if ( pointeur_char[0] == 'T' )
 		{
 		  gchar **tab;
 
-		  tab = g_strsplit ( pointeur_char,
-				     ".",
-				     2 );
+		  tab = g_strsplit ( pointeur_char, ".", 2 );
 
 		  if( tab[1] )
 		    {
 		      gchar **tab_char;
 
-		      tab_char = g_strsplit ( pointeur_char,
-					      ",",
-					      FALSE );
-
-		      pointeur_char = g_strjoinv ( NULL,
-						   tab_char );
-		      compte -> solde_initial = my_strtod ( pointeur_char + 1,
-							   NULL );
+		      tab_char = g_strsplit ( pointeur_char, ",", FALSE );
+		      pointeur_char = g_strjoinv ( NULL, tab_char );
+		      compte -> solde_initial = my_strtod ( pointeur_char + 1, NULL );
 		      g_strfreev ( tab_char );
 		    }
 		  else
-		    compte -> solde_initial = my_strtod ( pointeur_char + 1,
-							 NULL );
+		    compte -> solde_initial = my_strtod ( pointeur_char + 1, NULL );
 
 		  g_strfreev ( tab );
-
 		}
 
-
-	      /* récupération du nom du compte */
-	      /* 	      parfois, le nom est entre crochet et parfois non ... */
+	      /* récupération du nom du compte
+		 parfois, le nom est entre crochet et parfois non ... */
 
 	      if ( pointeur_char[0] == 'L' )
 		{
-		  sscanf ( pointeur_char,
-			   "L%a[^\n]",
-			   &compte -> nom_de_compte );
+		  sscanf ( pointeur_char, "L%a[^\n]", &compte -> nom_de_compte );
 
 		  /* on vire les crochets s'ils y sont */
 
-		  compte -> nom_de_compte = g_strdelimit ( compte -> nom_de_compte,
-							   "[",
-							   ' ' );
-		  compte -> nom_de_compte = g_strdelimit ( compte -> nom_de_compte,
-							   "]",
-							   ' ' );
+		  compte -> nom_de_compte = g_strdelimit ( compte -> nom_de_compte, "[", ' ' );
+		  compte -> nom_de_compte = g_strdelimit ( compte -> nom_de_compte, "]", ' ' );
 		  compte -> nom_de_compte = g_strstrip ( compte -> nom_de_compte );
-
 		}
 	    }
 	  while ( pointeur_char[0] != '^' && retour != EOF );
@@ -345,14 +285,11 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 
 	  ventilation = NULL;
 
-	  operation = calloc ( 1,
-			       sizeof ( struct struct_operation_qif ));
+	  operation = calloc ( 1, sizeof ( struct struct_operation_qif ));
 
 	  do
 	    {
-	      retour = fscanf ( fichier_qif,
-				"%a[^\n]\n",
-				&pointeur_char );
+	      retour = fscanf ( fichier_qif, "%a[^\n]\n", &pointeur_char );
 
 	      if ( retour != EOF )
 		{
@@ -366,7 +303,6 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 		  if ( pointeur_char[0] == 'D' )
 		    operation -> date = g_strdup ( pointeur_char + 1 );
 
-
 		  /* récupération du pointage */
 
 		  if ( pointeur_char[0] == 'C' )
@@ -376,7 +312,6 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 		      else
 			operation -> p_r = 2;
 		    }
-
 
 		  /* récupération de la note */
 
@@ -389,35 +324,26 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 			operation -> notes = NULL;
 		    }
 
-
-		  /* récupération du montant ( on doit virer la , que money met pour séparer les milliers ) */
-		  /* on ne vire la , que s'il y a un . */
-
+		  /* récupération du montant ( on doit virer la virgule que
+		     money met pour séparer les milliers ). On ne vire la virgule
+		     que s'il y a un point */
 		  if ( pointeur_char[0] == 'T' )
 		    {
 		      gchar **tab;
 
-		      tab = g_strsplit ( pointeur_char,
-					 ".",
-					 2 );
+		      tab = g_strsplit ( pointeur_char, ".", 2 );
 
 		      if( tab[1] )
 			{
 			  gchar **tab_char;
 
-			  tab_char = g_strsplit ( pointeur_char,
-						  ",",
-						  FALSE );
-
-			  pointeur_char = g_strjoinv ( NULL,
-						       tab_char );
-			  operation -> montant = my_strtod ( pointeur_char + 1,
-							    NULL );
+			  tab_char = g_strsplit ( pointeur_char, ",", FALSE );
+			  pointeur_char = g_strjoinv ( NULL, tab_char );
+			  operation -> montant = my_strtod ( pointeur_char + 1, NULL );
 			  g_strfreev ( tab_char );
 			}
 		      else
-			operation -> montant = my_strtod ( pointeur_char + 1,
-							  NULL );
+			operation -> montant = my_strtod ( pointeur_char + 1, NULL );
 
 		      g_strfreev ( tab );
 		    }
@@ -425,21 +351,17 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 		  /* récupération du chèque */
 
 		  if ( pointeur_char[0] == 'N' )
-		    operation -> cheque = my_strtod ( pointeur_char + 1,
-						     NULL );
-
+		    operation -> cheque = my_strtod ( pointeur_char + 1, NULL );
 
 		  /* récupération du tiers */
 	  
 		  if ( pointeur_char[0] == 'P' )
 		    operation -> tiers = g_strdup ( pointeur_char + 1 );
 
-
 		  /* récupération des catég */
 
 		  if ( pointeur_char[0] == 'L' )
 		    operation -> categ = g_strdup ( pointeur_char + 1 );
-
 
 		  /* récupération de la ventilation et de sa categ */
 
@@ -447,15 +369,23 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 		    {
 		      /* on commence une ventilation, si une opé était en cours, on l'enregistre */
 
-		      if ( retour != EOF && operation -> date )
+		      /* ALAIN-FIXME : je ne comprends pas du tout ce test.
+		         D'abord, normalement, on est dans une boucle où
+			 retour != EOF.
+			 Ensuite, pourquoi tester la date de l'opération ?
+			 le bug #180 survient car operation n'existe pas,
+			 on a donc un segment fault lorsqu'on essaye d'accéder
+			 au membre date */
+/*		      if ( retour != EOF && operation -> date ) */
+		      if ( retour != EOF && operation )
 			{
 			  if ( !ventilation )
-			    liste_ope_brut = g_slist_append ( liste_ope_brut,
-							      operation );
+			    liste_ope_brut = g_slist_append ( liste_ope_brut, operation );
 			}
 		      else
 			{
-			  /*c'est la fin du fichier ou l'opé n'est pas valide, donc les ventils ne sont pas valides non plus */
+			  /* c'est la fin du fichier ou l'opé n'est pas valide,
+			     donc les ventils ne sont pas valides non plus */
 
 			  free ( operation );
 
@@ -469,13 +399,11 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 		      /* si une ventilation était en cours, on l'enregistre */
 
 		      if ( ventilation )
-			liste_ope_brut = g_slist_append ( liste_ope_brut,
-							  ventilation );
+			liste_ope_brut = g_slist_append ( liste_ope_brut, ventilation );
 
 		      if ( operation )
 			{
-			  ventilation = calloc ( 1,
-						 sizeof ( struct struct_operation_qif ));
+			  ventilation = calloc ( 1, sizeof ( struct struct_operation_qif ));
 			  operation -> operation_ventilee = 1;
 
 			  /* récupération des données de l'opération en cours */
@@ -485,21 +413,16 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 			  ventilation -> cheque = operation -> cheque;
 			  ventilation -> p_r = operation -> p_r;
 			  ventilation -> ope_de_ventilation = 1;
-
 			  ventilation -> categ = g_strdup ( pointeur_char + 1 );
 			}
 		    }
 
-
 		  /* récupération de la note de ventilation */
 
 		  if ( pointeur_char[0] == 'E'
-		       &&
-		       ventilation )
+		       && ventilation )
 		    {
-		      ventilation -> notes = g_strstrip ( g_strdelimit ( pointeur_char + 1,
-									 ";",
-									 '/' ));
+		      ventilation -> notes = g_strstrip ( g_strdelimit ( pointeur_char + 1, ";", '/' ));
 
 		      if ( !strlen ( ventilation -> notes ))
 			ventilation -> notes = NULL;
@@ -513,57 +436,41 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 		  /* soit c'est de signe contraire et on prend la vraie valeur */
 
 		  if ( pointeur_char[0] == '$'
-		       &&
-		       ventilation )
+		       && ventilation )
 		    {
 		      gchar **tab;
 
-		      tab = g_strsplit ( pointeur_char,
-					 ".",
-					 2 );
+		      tab = g_strsplit ( pointeur_char, ".", 2 );
 
 		      if( tab[1] )
 			{
 			  gchar **tab_char;
 
-			  tab_char = g_strsplit ( pointeur_char,
-						  ",",
-						  FALSE );
-
-			  pointeur_char = g_strjoinv ( NULL,
-						       tab_char );
-			  ventilation -> montant = my_strtod ( pointeur_char + 1,
-							      NULL );
-
+			  tab_char = g_strsplit ( pointeur_char, ",", FALSE );
+			  pointeur_char = g_strjoinv ( NULL, tab_char );
+			  ventilation -> montant = my_strtod ( pointeur_char + 1, NULL );
 			  g_strfreev ( tab_char );
 			}
 		      else
-			ventilation -> montant = my_strtod ( pointeur_char + 1,
-							    NULL );
+			ventilation -> montant = my_strtod ( pointeur_char + 1, NULL );
 
 		      g_strfreev ( tab );
-
 		    }
-
 		}
 	    }
 	  while ( pointeur_char[0] != '^' && retour != EOF );
 
-
 	  /* on n'enregistre l'opération que si elle est datée */
-
 
 	  if ( ventilation )
 	    {
-	      liste_ope_brut = g_slist_append ( liste_ope_brut,
-						ventilation );
+	      liste_ope_brut = g_slist_append ( liste_ope_brut, ventilation );
 	      ventilation = NULL;
 	    }
 	  else
 	    {
 	      if ( retour != EOF && operation -> date )
-		liste_ope_brut = g_slist_append ( liste_ope_brut,
-						  operation );
+		liste_ope_brut = g_slist_append ( liste_ope_brut, operation );
 	      else
 		free ( operation );
 	    }
@@ -573,28 +480,16 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 
       fclose ( fichier_qif );
 
-
       /* pour l'instant, on met la liste créée dans la liste des opés du compte */
 
       compte -> gsliste_operations = liste_ope_brut;
-
       selection = selection -> next;
     }
 
   gtk_widget_hide ( fenetre );
-
-
   traitement_donnees_brutes();
 }
 /* *******************************************************************************/
-
-
-
-
-
-
-
-
 
 /* *******************************************************************************/
 void traitement_donnees_brutes ( void )
