@@ -1367,6 +1367,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 			    if (! strcmp (devise -> code_devise, "E"))
 			    {
 				devise -> code_devise = "€";
+				devise -> code_iso4217_devise = "EUR";
 			    }
 
 			    devise -> passage_euro = atoi ( latin2utf8(xmlGetProp ( node_detail,
