@@ -55,16 +55,10 @@ GtkWidget * new_spin_button ( gint * value,
 			      GCallback hook );
 void spin_button_set_value ( GtkWidget * spin, gdouble * value );
 gboolean set_double ( GtkWidget * spin, gdouble * dummy );
-GtkWidget * my_file_chooser ();
-void browse_file ( GtkButton *button, gpointer data );
 gint my_strcasecmp ( gchar *chaine_1,
 		     gchar *chaine_2 );
 gint my_strncasecmp ( gchar *chaine_1,
 		     gchar *chaine_2,
 		     gint longueur );
-gchar* my_get_grisbirc_dir(void);
-gchar* my_get_gsb_file_default_dir(void);
-gint get_line_from_file ( FILE *fichier,
-			  gchar **string );
 gchar *get_line_from_string ( gchar *string );
 

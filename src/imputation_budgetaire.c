@@ -43,6 +43,8 @@
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
 #include "utils.h"
+#include "utils_files.h"
+#include "utils_file_selection.h"
 
 
 extern GSList *gsliste_echeances; 
@@ -2733,16 +2735,15 @@ void exporter_ib ( void )
     gchar *nom_ib;
 
     fenetre_nom = gtk_file_selection_new (  _("Export the budgetary lines"));
-    gtk_file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
+    file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
 				      dernier_chemin_de_travail );
-    gtk_entry_set_text ( GTK_ENTRY ( GTK_FILE_SELECTION ( fenetre_nom )->selection_entry),
-			 ".igsb" );
+    file_selection_set_entry ( GTK_FILE_SELECTION ( fenetre_nom ), ".igsb" );
     resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
 
     switch ( resultat )
     {
 	case GTK_RESPONSE_OK :
-	    nom_ib =g_strdup (gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom )));
+	    nom_ib = file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom ));
 
 	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
@@ -2751,7 +2752,7 @@ void exporter_ib ( void )
 	    if ( !strlen ( nom_ib ))
 		return;
 
-	    if ( stat ( nom_ib,
+	    if ( utf8_stat ( nom_ib,
 			&test_fichier ) != -1 )
 	    {
 		if ( S_ISREG ( test_fichier.st_mode ) )
@@ -2798,9 +2799,9 @@ void importer_ib ( void )
 
 
     fenetre_nom = gtk_file_selection_new (_("Import the budgetary lines" ));
-    gtk_file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
+    file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
 				      dernier_chemin_de_travail );
-    gtk_entry_set_text ( GTK_ENTRY ( GTK_FILE_SELECTION ( fenetre_nom )->selection_entry),
+    file_selection_set_entry ( GTK_FILE_SELECTION ( fenetre_nom ),
 			 ".igsb" );
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
@@ -2811,7 +2812,7 @@ void importer_ib ( void )
 	return;
     }
 
-    nom_ib =g_strdup (gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom )));
+    nom_ib = file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom ));
 
     gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 

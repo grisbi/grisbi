@@ -25,6 +25,7 @@
 
 #include "dialog.h"
 #include "etats.h"
+#include "utils_files.h"
 
 
 int latex_lastcol = 0;
@@ -233,7 +234,7 @@ gint latex_initialise (GSList * opes_selectionnees)
 	filename = etat.print_config.printer_filename;
     }
 
-    latex_out = fopen ( filename, "w+x" );
+    latex_out = utf8_fopen ( filename, "w+x" );
     if ( ! latex_out )
     {
 	dialogue_error ( g_strdup_printf (_("File '%s' already exists"), filename ));

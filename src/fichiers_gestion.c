@@ -27,10 +27,6 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "fichiers_gestion.h"
-#include "file_selection.h"
-
-
-
 #include "accueil.h"
 #include "categories_onglet.h"
 #include "comptes_traitements.h"
@@ -45,7 +41,8 @@
 #include "traitement_variables.h"
 #include "fichier_configuration.h"
 #include "utils.h"
-
+#include "utils_files.h"
+#include "utils_file_selection.h"
 
 extern GtkWidget *window_vbox_principale;
 extern gint patience_en_cours;
@@ -206,17 +203,13 @@ void fichier_selectionne ( GtkWidget *selection_fichier)
 
     /* on prend le nouveau nom du fichier */
 
-    nom_fichier_comptes = g_strdup ( file_selection_get_filename ( GTK_FILE_SELECTION ( selection_fichier)) );
+    nom_fichier_comptes = file_selection_get_filename ( GTK_FILE_SELECTION ( selection_fichier)) ;
 
     gtk_widget_hide ( selection_fichier );
 
     /* on met le répertoire courant dans la variable correspondante */
 
-    dernier_chemin_de_travail = g_strconcat ( g_filename_to_utf8(
-                                                                 GTK_LABEL ( GTK_BIN ( GTK_OPTION_MENU ( GTK_FILE_SELECTION ( selection_fichier ) -> history_pulldown )) -> child ) -> label,
-					      -1,NULL,NULL,NULL),
-                                              C_DIRECTORY_SEPARATOR,
-					      NULL );
+    dernier_chemin_de_travail = file_selection_get_last_directory( GTK_FILE_SELECTION (selection_fichier),TRUE);
 
     ouverture_confirmee ();
 }
@@ -269,7 +262,7 @@ void ouverture_confirmee ( void )
 						    NULL );
 		g_strfreev ( parametres );
 
-		result = open_from_utf8 ( nom_fichier_comptes, O_RDONLY);
+		result = utf8_open ( nom_fichier_comptes, O_RDONLY);
 		if (result == -1)
 		    return;
 		else
@@ -482,8 +475,7 @@ gboolean enregistrement_fichier ( gint origine )
 			       TRUE );
 	file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
 					  dernier_chemin_de_travail );
-	gtk_entry_set_text ( GTK_ENTRY ( GTK_FILE_SELECTION ( fenetre_nom )->selection_entry),
-			     ".gsb" );
+        file_selection_set_entry (GTK_FILE_SELECTION ( fenetre_nom ), ".gsb");
 
 	resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
 
@@ -491,7 +483,7 @@ gboolean enregistrement_fichier ( gint origine )
 	{
 	    case GTK_RESPONSE_OK :
 		ancien_nom_fichier_comptes = nom_fichier_comptes;
-		nom_fichier_comptes =g_strdup ( file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom )));
+		nom_fichier_comptes = file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom ));
 
 		gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
@@ -504,7 +496,7 @@ gboolean enregistrement_fichier ( gint origine )
 		}
 
 
-		if ( stat_from_utf8 ( nom_fichier_comptes,
+		if ( utf8_stat ( nom_fichier_comptes,
 			    &test_fichier ) != -1 )
 		{
 		    if ( S_ISREG ( test_fichier.st_mode ) )

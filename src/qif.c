@@ -31,6 +31,7 @@
 #include "dialog.h"
 #include "search_glist.h"
 #include "utils.h"
+#include "utils_files.h"
 
 
 
@@ -1007,7 +1008,7 @@ choix_liste_fichier:
 	nom_fichier_qif = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( liste_tmp -> data )));
 
 
-	if ( stat ( nom_fichier_qif, &test_fichier ) != -1 )
+	if ( utf8_stat ( nom_fichier_qif, &test_fichier ) != -1 )
 	{
 	    if ( S_ISREG ( test_fichier.st_mode ) )
 	    {
@@ -1042,7 +1043,7 @@ choix_liste_fichier:
 
 	nom_fichier_qif = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( liste_tmp -> data )));
 
-	if ( !( fichier_qif = fopen ( nom_fichier_qif,
+	if ( !( fichier_qif = utf8_fopen ( nom_fichier_qif,
 				      "w" ) ))
 	    dialogue ( g_strdup_printf ( _("Error for the file \"%s\" :\n%s"),
 					 nom_fichier_qif, strerror ( errno ) ));

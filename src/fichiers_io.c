@@ -34,6 +34,7 @@
 #include "search_glist.h"
 #include "traitement_variables.h"
 #include "utils.h"
+#include "utils_files.h"
 
 
 
@@ -85,7 +86,7 @@ gboolean charge_operations ( void )
 
     /* vérification de la permission du fichier */
 
-    result = stat ( nom_fichier_comptes, &buffer_stat);
+    result = utf8_stat ( nom_fichier_comptes, &buffer_stat);
 
     if ( result != -1 && 
 	 buffer_stat.st_mode != 33152 && !etat.display_message_file_readable )
@@ -96,7 +97,7 @@ gboolean charge_operations ( void )
 
     if ( result != -1 )
     {
-	doc = xmlParseFile ( nom_fichier_comptes );
+	doc = utf8_xmlParseFile ( nom_fichier_comptes );
 
 	if ( doc )
 	{
@@ -2109,7 +2110,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 	       &&
 	       strlen ( chemin_logo )
 	       &&
-	       stat ( chemin_logo, &buffer_stat) == -1 ))
+	       utf8_stat ( chemin_logo, &buffer_stat) == -1 ))
 	    chemin_logo = g_strdup ( LOGO_PATH );
 
 
@@ -4353,7 +4354,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 	       &&
 	       strlen ( chemin_logo )
 	       &&
-	       stat ( chemin_logo, &buffer_stat) == -1 ))
+	       utf8_stat ( chemin_logo, &buffer_stat) == -1 ))
 	    chemin_logo = LOGO_PATH;
 
 
@@ -6429,7 +6430,7 @@ gboolean enregistre_fichier ( gboolean force )
     /* on regarde ici si le fichier existe */
     /*   s'il n'existe pas on mettre ses permissions à 600, sinon on les laisse comme ça */
 
-    if ( stat ( nom_fichier_comptes,
+    if ( utf8_stat ( nom_fichier_comptes,
 		&buffer_stat ) == -1 )
 	nouveau_fichier = 1;
     else
@@ -8553,7 +8554,7 @@ void fichier_marque_ouvert ( gint ouvert )
 
     /* ouverture du fichier */
 
-    if (!(pointeur_fichier_comptes = fopen ( nom_fichier_comptes, "r+")) )
+    if (!(pointeur_fichier_comptes = utf8_fopen ( nom_fichier_comptes, "r+")) )
     {
 	dialogue_error ( g_strdup_printf ( _("Cannot lock file '%s': %s"),
 					   nom_fichier_comptes,

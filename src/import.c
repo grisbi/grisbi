@@ -50,6 +50,8 @@
 #include "traitement_variables.h"
 #include "type_operations.h"
 #include "utils.h"
+#include "utils_files.h"
+#include "utils_file_selection.h"
 
 
 
@@ -93,7 +95,7 @@ void selection_fichiers_import ( void )
     gtk_window_set_modal ( GTK_WINDOW ( fenetre ),
 			   TRUE );
     gtk_file_selection_set_select_multiple ( GTK_FILE_SELECTION ( fenetre ), TRUE );
-    gtk_file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre ),
+    file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre ),
 				      dernier_chemin_de_travail );
 
     gtk_signal_connect_object (GTK_OBJECT ( GTK_FILE_SELECTION( fenetre ) -> ok_button ),
@@ -128,14 +130,12 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 
     /* on sauve le répertoire courant  */
 
-    dernier_chemin_de_travail = g_strconcat ( GTK_LABEL ( GTK_BIN ( GTK_OPTION_MENU ( GTK_FILE_SELECTION ( fenetre ) -> history_pulldown )) -> child ) -> label,
-                                              C_DIRECTORY_SEPARATOR,
-					      NULL );
+    dernier_chemin_de_travail = file_selection_get_last_directory(GTK_FILE_SELECTION ( fenetre ) ,TRUE);
 
     /* on va récupérer tous les fichiers sélectionnés puis proposer d'en importer d'autres */
 
 
-    liste_selection = gtk_file_selection_get_selections ( GTK_FILE_SELECTION ( fenetre ));
+    liste_selection = file_selection_get_selections ( GTK_FILE_SELECTION ( fenetre ));
     i=0;
 
     while ((result == TRUE)&&( liste_selection[i]))
@@ -146,7 +146,7 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 
 	/* on ouvre maintenant le fichier pour tester sa structure */
 
-	if ( !( fichier = fopen ( liste_selection[i],
+	if ( !( fichier = utf8_fopen ( liste_selection[i],
 				  "r" )))
 	{
 	    /* on n'a pas réussi à ouvrir le fichier, on affiche l'erreur et on retourne sur la sélection des fichiers */

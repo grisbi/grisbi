@@ -26,7 +26,8 @@
 #include "dialog.h"
 #include "etats.h"
 #include "etats_support.h"
-
+#include "utils_files.h"
+#include "utils_file_selection.h"
 
 
 FILE * html_out;
@@ -260,17 +261,16 @@ gint html_initialise (GSList * opes_selectionnees)
     html_first_line = TRUE;
 
     file_selector = gtk_file_selection_new ( _("Export report to HTML file."));
-    gtk_file_selection_set_filename ( GTK_FILE_SELECTION ( file_selector ),
+    file_selection_set_filename ( GTK_FILE_SELECTION ( file_selector ),
 				      dernier_chemin_de_travail );
 
-    gtk_entry_set_text ( GTK_ENTRY ( GTK_FILE_SELECTION ( file_selector )->selection_entry),
-			 g_strconcat ( etats_titre(), ".html", NULL ));
+    file_selection_set_entry ( GTK_FILE_SELECTION ( file_selector ), g_strconcat ( etats_titre(), ".html", NULL ));
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( file_selector ));
     switch ( resultat )
       {
       case GTK_RESPONSE_OK :
-	filename = g_strdup (gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( file_selector )));
+	filename = file_selection_get_filename ( GTK_FILE_SELECTION ( file_selector ));
 	break;
 	
       default:
@@ -279,7 +279,7 @@ gint html_initialise (GSList * opes_selectionnees)
       }
     gtk_widget_destroy ( file_selector );
     
-    html_out = fopen ( filename, "w" );
+    html_out = utf8_fopen ( filename, "w" );
     if ( ! html_out )
     {
       dialogue_error_hint ( _("Make sure file exists and is writable."),
