@@ -637,7 +637,7 @@ gboolean traitement_clavier_liste_echeances ( GtkCList *liste_echeances,
 
     }
 
-  return ( TRUE );    
+  return ( FALSE );    
 }
 /* *************************************************************************************************************** */
 
