@@ -182,11 +182,11 @@ void efface_derniers_fichiers_ouverts ( void )
 
     gint i;
 
-    for ( i=nb_derniers_fichiers_ouverts ; i>0 ; i-- )
+    for ( i=0 ; i<nb_derniers_fichiers_ouverts ; i++ )
     {
 	gchar *tmp;
 
-	tmp = my_strdelimit ( tab_noms_derniers_fichiers_ouverts[i-1],
+	tmp = my_strdelimit ( tab_noms_derniers_fichiers_ouverts[i],
 			      C_DIRECTORY_SEPARATOR,
 			      "\\" C_DIRECTORY_SEPARATOR );
 
@@ -219,7 +219,7 @@ void affiche_derniers_fichiers_ouverts ( void )
 	return;
     }
 
-    for ( i=nb_derniers_fichiers_ouverts ; i>0 ; i-- )
+    for ( i=0 ; i<nb_derniers_fichiers_ouverts ; i++ )
     {
 	GtkItemFactoryEntry *item_factory_entry;
 	gchar *tmp;
@@ -227,7 +227,7 @@ void affiche_derniers_fichiers_ouverts ( void )
 	item_factory_entry = calloc ( 1,
 				      sizeof ( GtkItemFactoryEntry ));
 
-	tmp = my_strdelimit ( tab_noms_derniers_fichiers_ouverts[i-1],
+	tmp = my_strdelimit ( tab_noms_derniers_fichiers_ouverts[i],
 			      C_DIRECTORY_SEPARATOR,
 			      "\\" C_DIRECTORY_SEPARATOR);
 	tmp = my_strdelimit ( tmp,
