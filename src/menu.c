@@ -24,6 +24,8 @@
 #include "variables-extern.c"
 #include "en_tete.h"
 
+#include "./xpm/export.xpm"
+
 
 /***********************************************
 ** Définition de la barre des menus**
@@ -109,10 +111,10 @@ void init_menus ( GtkWidget * win )
 
   static GnomeUIInfo tmp_menu_importer [] = 
     {
-      GNOMEUIINFO_ITEM_STOCK ( N_("QIF File"),
-			       N_("Import QIF files"),
+      GNOMEUIINFO_ITEM ( N_("QIF File"),
+			       N_("Import QIF file"),
 			       importer_fichier_qif,
-			       GNOME_STOCK_PIXMAP_CONVERT ),
+			       export_xpm ),
 /*       GNOMEUIINFO_ITEM_STOCK ( N_("Fichier QIF GD"), */
 /* 			       N_("Import QIF files"), */
 /* 			       iqc_fichier, */
@@ -122,10 +124,10 @@ void init_menus ( GtkWidget * win )
 
   static GnomeUIInfo tmp_menu_exporter [] = 
     {
-      GNOMEUIINFO_ITEM_STOCK ( N_("QIF File"),
-			       N_("Export QIF files"),
-			       exporter_fichier_qif,
-			       GNOME_STOCK_PIXMAP_REMOVE ),
+      GNOMEUIINFO_ITEM ( N_("QIF File"),
+			 N_("Export QIF file"),
+			 exporter_fichier_qif,
+			 export_xpm ),
       GNOMEUIINFO_END
     };
 
