@@ -562,9 +562,11 @@ void reaffiche_liste_comptes ( void )
 	    item_factory_entry = calloc ( 1, sizeof ( GtkItemFactoryEntry ));
 
 	    tmp = my_strdelimit ( NOM_DU_COMPTE, "/", "\\/" );
-	    tmp = my_strdelimit ( tmp, "_", "__" );
+	    ;
 
-	    item_factory_entry -> path = menu_name(_("Edit"), _("Move transaction to another account"), tmp ); 
+	    item_factory_entry -> path = menu_name(_("Edit"), 
+						   _("Move transaction to another account"), 
+						   my_strdelimit ( tmp, "_", "__" ) ); 
 
 	    item_factory_entry -> callback = G_CALLBACK ( move_selected_operation_to_account_nb );
 
