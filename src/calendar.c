@@ -659,6 +659,19 @@ void ferme_calendrier ( GtkWidget *entree )
 /******************************************************************************/
 
 /******************************************************************************/
+/* Fonction gsb_strtod (string to decimal)                                    */
+/* Convertie une chaine de caractères en un nombre                            */
+/* Paramètres d'entrée :                                                      */
+/*   - nptr : pointeur sur la chaine de caractères à convertir                */
+/*   - endptr : n'est pas utilisé, alors à quoi peut-il bien servir ?         */
+/* Valeur de retour :                                                         */
+/*   - resultat : le résultat de la conversion                                */
+/* Variables locales :                                                        */
+/*   - entier : la partie entière du résultat                                 */
+/*   - mantisse : la partie décimale du résultat                              */
+/*   - invert : le signe du résultat (0 -> positif, 1 -> négatif)             */
+/*   - p, m : pointeurs locaux sur la chaine de caractères à convertir        */
+/******************************************************************************/
 double gsb_strtod ( char *nptr, char **endptr )
 {
   double entier=0, mantisse=0, resultat=0;
@@ -668,37 +681,54 @@ double gsb_strtod ( char *nptr, char **endptr )
   if (!nptr)
     return 0;
 
+  /* Pour chacun des caractères de la chaine, du début à la fin de la chaine,
+     faire : */
   for ( p = nptr; p < nptr + strlen(nptr); p++ )
     {
+      /* si c'est un espace ou le signe +, on passe au caractère suivant */
       if ( isspace(*p) || *p == '+' )
 	continue;
 
+      /* si c'est le signe -, on positionne invert à 1 et on passe
+         au caractère suivant */
       if ( *p == '-' )
 	{
 	  invert = 1;
 	  continue;
 	}
 
+      /* si c'est un point ou une virgule, alors : */
       if ( *p == ',' || *p == '.' )
 	{
 	  char *m;
+	  /* aller à la fin de la chaine */
 	  for ( m = p+1; m <= nptr+strlen(nptr) &&
 		  (isdigit(*m) || isspace(*m)); m++)
-	    /* Nothing, just loop */ ;
+	  /* de la fin de la chaine au dernier caractère avant le point
+	     ou la virgule, faire : */
 	  for ( --m; m > p; m-- )
 	    {
+	      /* si c'est un chiffre, alors : */
 	      if (isdigit(*m))
 		{
+		  /* "décalage" à droite de la variable mantisse */
 		  mantisse /= 10;
+		  /* ajout à la variable mantisse de la valeur décimale
+		     du caractère pointé par m */
 		  mantisse += (*m - '0');
 		}
 	    }
+	  /* "décalage" à droite de la variable mantisse */
 	  mantisse /= 10;
 	}
 
+      /* si c'est un chiffre, alors : */
       if ( isdigit(*p) )
 	{
+	  /* "décalage" à gauche de la variable entier */
 	  entier = entier * 10;
+	  /* ajout à la variable entier de la valeur décimale
+	     du caractère pointé par p */
 	  entier += (*p - '0');
 	}
       else
