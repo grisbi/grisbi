@@ -1,5 +1,59 @@
+New in version 0.5.0 :
+ - GTK2 & libxml2 support
+ - no more Gnome dependency
+ - native Windows version (thanks to François Terrot)
+ - native UTF-8 support
+ - customized reports printing via LaTeX
+ - improve user interface (follow Gnome HiG)
+   + improve warning messages so that users can ignore some types of warnings
+   + improve segfault handling
+   + improve preferences windows
+   + new context menu on transactions list
+   + application menu improvements
+   + accounts and reports lists are now fully clickable
+ - global configuration is now in XML (thanks to Axel Rousseau)
+ - total redesign of import code :
+   + OFX & QIF support
+   + incremental import
+   + automatic reconciliation
+ - exchange rates are cached for a session so that users don't need to
+   type them repeatedly
+ - reports now support text faces (bold, slant, large, huge, small)
+ - new logo with our mascot over an euro sign
+ - combofix completion (i.e. in transaction form) can now be either
+   case sensitive or insensitive according to input upper/lower case
+ - improve bank details and new bank dialogs
+ - keyboard navigation in third party, categories and budgetary lines trees
+ - automatic expired scheduled transactions are now clickable
+
+New in version 0.4.5 :
+ - Bug fixes
+
+New in version 0.4.4 :
+ - Bug fixes
+ - Columns are resizable in scheduler
+ - Harmonise all date fields:
+   + <Ctrl><Enter> in a date field open a calendar
+   + Arrows keys are sensitive on a calendar
+   + <Shift><+> (<->) in a date field increase (decrease) date about one week
+   + <PgUp> (<PgDn>) increase (decrease) date about one month
+   + <Shift><PgUp> (<PgDn>) increase (decrease) date about one year
+ - New mouse feature:
+   + <Ctrl><Click> has the same effect as <Ctrl><P>
+
+New in version 0.4.3 : 
+ - Bug fixes
+
+New in version 0.4.2 : 
+ - Bug fixes
+ - Translation improved
+ - Multi-currencies balances in startup screen
+ - Comments can be displayed in scheduler (thanks to Dominique Parisot)
+ - New contrib tool to obfuscate grisbi files and keep privacy while
+   allowing reporters to send grisbi files
+
 New in version 0.4.1 : 
-- *Many* bug fixes
-- Grisbi is now internationalized
+ - *Many* bug fixes
+ - Grisbi is now internationalized
 
 Old news (in French) in OLDNEWS
