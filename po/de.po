@@ -37,8 +37,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-14 13:53+0200\n"
-"PO-Revision-Date: 2004-10-24 20:58+0200\n"
+"POT-Creation-Date: 2004-11-18 13:18+0100\n"
+"PO-Revision-Date: 2004-11-18 13:19+0100\n"
 "Last-Translator: Martin Stromberger <fabiolla@aon.at>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -123,14 +123,14 @@ msgstr "Salden der Anlagekonten in %s"
 msgid "No third party defined"
 msgstr "Kein Empfänger definiert"
 
-#: src/accueil.c:1596 src/accueil.c:1710 src/echeancier_formulaire.c:2709
-#: src/echeancier_formulaire.c:2753
+#: src/accueil.c:1596 src/accueil.c:1710 src/echeancier_formulaire.c:2711
+#: src/echeancier_formulaire.c:2755
 #, c-format
 msgid "%4.2f %s credit on %s"
 msgstr "%4.2f %s Haben in %s"
 
-#: src/accueil.c:1601 src/accueil.c:1715 src/echeancier_formulaire.c:2714
-#: src/echeancier_formulaire.c:2758
+#: src/accueil.c:1601 src/accueil.c:1715 src/echeancier_formulaire.c:2716
+#: src/echeancier_formulaire.c:2760
 #, c-format
 msgid "%4.2f %s debit on %s"
 msgstr "%4.2f %s Soll in %s"
@@ -138,7 +138,8 @@ msgstr "%4.2f %s Soll in %s"
 #: src/accueil.c:1797 src/accueil.c:1832
 #, c-format
 msgid "Balance of account %s is under wanted and authorised minima!"
-msgstr "Der Saldo des Kontos %s ist unter dem festgelegtem und zulässigen Minimum!"
+msgstr ""
+"Der Saldo des Kontos %s ist unter dem festgelegtem und zulässigen Minimum!"
 
 #: src/accueil.c:1803
 #, c-format
@@ -150,149 +151,149 @@ msgstr "Der Saldo des Kontos %s ist unter dem zulässigen Minimum!"
 msgid "Balance of account %s is under wanted minimum!"
 msgstr "Der Saldo des Kontos %s ist unter dem festegelegten Minimum!"
 
-#: src/affichage.c:130 src/parametres.c:233
+#: src/affichage.c:131 src/parametres.c:233
 msgid "Transaction form"
 msgstr "Buchungsformular"
 
-#: src/affichage.c:135
+#: src/affichage.c:136
 msgid "Pressing RETURN in transaction form"
 msgstr "Drücken der Enter Taste im Buchungsformular"
 
-#: src/affichage.c:136
+#: src/affichage.c:137
 msgid "selects next field"
 msgstr "Nächstes Feld auswählen"
 
-#: src/affichage.c:137
+#: src/affichage.c:138
 msgid "terminates transaction"
 msgstr "Buchung eintragen"
 
-#: src/affichage.c:142
+#: src/affichage.c:143
 msgid "Displayed fields"
 msgstr "Felder anzeigen"
 
-#: src/affichage.c:151 src/affichage_liste.c:51 src/affichage_liste.c:912
+#: src/affichage.c:152 src/affichage_liste.c:51 src/affichage_liste.c:912
 #: src/affichage_liste.c:1097
 msgid "Transaction number"
 msgstr "Buchungsnummer"
 
-#: src/affichage.c:160 src/affichage_liste.c:36 src/affichage_liste.c:732
+#: src/affichage.c:161 src/affichage_liste.c:36 src/affichage_liste.c:732
 #: src/affichage_liste.c:1037 src/operations_formulaire.c:972
 #: src/operations_formulaire.c:3328
 msgid "Value date"
 msgstr "Buchungsdatum"
 
-#: src/affichage.c:169 src/affichage_liste.c:45 src/affichage_liste.c:840
+#: src/affichage.c:170 src/affichage_liste.c:45 src/affichage_liste.c:840
 #: src/affichage_liste.c:1073 src/etats_affiche.c:2154
 msgid "Financial year"
 msgstr "Geschäftsjahr"
 
-#: src/affichage.c:178 src/affichage_liste.c:756
+#: src/affichage.c:179 src/affichage_liste.c:756
 msgid "Budgetary information"
 msgstr "Buchungsinformation"
 
-#: src/affichage.c:187
+#: src/affichage.c:188
 msgid "Voucher number"
 msgstr "Belegnummer"
 
-#: src/affichage.c:196
+#: src/affichage.c:197
 msgid "Bank reference"
 msgstr "Bankreferenz"
 
-#: src/affichage.c:205
+#: src/affichage.c:206
 msgid "'Accept' and 'Cancel' buttons"
 msgstr "'Annehmen' und 'Abbrechen' Buttons"
 
-#: src/affichage.c:215
+#: src/affichage.c:216
 msgid "By default, use financial year"
 msgstr "Geschäftsjahr verwenden"
 
-#: src/affichage.c:216
+#: src/affichage.c:217
 msgid "last selected financial year"
 msgstr "letztes gewähltes Geschäftsjahr"
 
-#: src/affichage.c:217
+#: src/affichage.c:218
 msgid "according to transaction date"
 msgstr "entsprechend Buchungsdatum"
 
-#: src/affichage.c:247 src/parametres.c:209
+#: src/affichage.c:248 src/parametres.c:209
 msgid "Fonts & logo"
 msgstr "Schriften & Logo"
 
-#: src/affichage.c:253
+#: src/affichage.c:254
 msgid "Grisbi logo"
 msgstr "Grisbi Logo"
 
-#: src/affichage.c:259
+#: src/affichage.c:260
 msgid "Use the logo"
 msgstr "Das Logo anzeigen"
 
-#: src/affichage.c:320
+#: src/affichage.c:321
 msgid "Click on preview to change homepage logo"
 msgstr "Zum Ändern das Logo auswählen"
 
-#: src/affichage.c:376
+#: src/affichage.c:377
 msgid "Click on preview to change animation"
 msgstr "Zum Ändern die Animation auswählen"
 
-#: src/affichage.c:383
+#: src/affichage.c:384
 msgid "Fonts"
 msgstr "Schriften"
 
-#: src/affichage.c:393
+#: src/affichage.c:394
 msgid "Use a custom font for the transactions"
 msgstr "Eine benutzerdefinierte Schrift für die Buchungen verwenden"
 
-#: src/affichage.c:474
+#: src/affichage.c:475
 msgid "Revert to default font"
 msgstr "Standardschrift wiederherstellen"
 
-#: src/affichage.c:600 src/parametres.c:225
+#: src/affichage.c:603 src/parametres.c:225
 msgid "Addresses & titles"
 msgstr "Adressen & Bezeichnungen"
 
-#: src/affichage.c:605 src/etats_config.c:6160
+#: src/affichage.c:608 src/etats_config.c:6160
 msgid "Titles"
 msgstr "Bezeichnungen"
 
-#: src/affichage.c:610
+#: src/affichage.c:613
 msgid "Accounts file title"
 msgstr "Bezeichnung"
 
-#: src/affichage.c:621
+#: src/affichage.c:624
 msgid "Addresses"
 msgstr "Adressen"
 
 #. Common address
-#: src/affichage.c:624
+#: src/affichage.c:627
 msgid "Common address"
 msgstr "Hauptadresse"
 
 #. Secondary address
 #. * \note This is not implemented yet
-#: src/affichage.c:643
+#: src/affichage.c:646
 msgid "Secondary address"
 msgstr "Zusatzadresse"
 
-#: src/affichage.c:757
+#: src/affichage.c:760
 msgid "Sans 10"
 msgstr "Sans 10"
 
-#: src/affichage.c:805
+#: src/affichage.c:811
 msgid "Transaction list font"
 msgstr "Schrift auswählen - Grisbi"
 
-#: src/affichage.c:989
+#: src/affichage.c:997
 msgid "Select a new animation"
 msgstr "Animation auswählen - Grisbi"
 
-#: src/affichage.c:997
+#: src/affichage.c:1005
 msgid "Select a new logo"
 msgstr "Logo auswählen - Grisbi"
 
 #. on met les titres des colonnes
 #: src/affichage_liste.c:35 src/affichage_liste.c:720
 #: src/affichage_liste.c:1033 src/echeancier_formulaire.c:905
-#: src/echeancier_formulaire.c:2527 src/echeancier_liste.c:428
+#: src/echeancier_formulaire.c:2528 src/echeancier_liste.c:428
 #: src/equilibrage.c:194 src/etats_affiche.c:2147 src/import.c:364
 #: src/import.c:2667 src/operations_formulaire.c:779
 #: src/operations_formulaire.c:1400 src/operations_formulaire.c:1450
@@ -303,7 +304,7 @@ msgstr "Datum"
 
 #. mise en place de la frame des tiers
 #: src/affichage_liste.c:37 src/affichage_liste.c:1041
-#: src/echeancier_formulaire.c:914 src/echeancier_formulaire.c:2529
+#: src/echeancier_formulaire.c:914 src/echeancier_formulaire.c:2530
 #: src/echeancier_liste.c:430 src/etats_affiche.c:2161 src/etats_config.c:139
 #: src/etats_config.c:270 src/etats_config.c:7173 src/fenetre_principale.c:96
 #: src/import.c:2674 src/operations_formulaire.c:789
@@ -312,24 +313,24 @@ msgid "Third party"
 msgstr "Empfänger"
 
 #: src/affichage_liste.c:38 src/echeancier_formulaire.c:1067
-#: src/echeancier_formulaire.c:2539 src/echeancier_ventilation.c:967
-#: src/echeancier_ventilation.c:1493 src/etats_affiche.c:2175
+#: src/echeancier_formulaire.c:2540 src/echeancier_ventilation.c:967
+#: src/echeancier_ventilation.c:1495 src/etats_affiche.c:2175
 #: src/etats_config.c:262 src/operations_formulaire.c:1116
-#: src/operations_formulaire.c:3335 src/ventilation.c:970
-#: src/ventilation.c:1495
+#: src/operations_formulaire.c:3335 src/ventilation.c:968
+#: src/ventilation.c:1493
 msgid "Budgetary line"
 msgstr "Buchungszeile"
 
 #. Debit type
 #: src/affichage_liste.c:39 src/affichage_liste.c:768
 #: src/affichage_liste.c:1049 src/categories_onglet.c:288
-#: src/echeancier_formulaire.c:975 src/echeancier_formulaire.c:2531
+#: src/echeancier_formulaire.c:975 src/echeancier_formulaire.c:2532
 #: src/echeancier_ventilation.c:913 src/echeancier_ventilation.c:932
-#: src/echeancier_ventilation.c:1489 src/imputation_budgetaire.c:165
+#: src/echeancier_ventilation.c:1491 src/imputation_budgetaire.c:165
 #: src/operations_formulaire.c:880 src/operations_formulaire.c:3323
 #: src/type_operations.c:154 src/type_operations.c:431
-#: src/type_operations.c:857 src/ventilation.c:916 src/ventilation.c:935
-#: src/ventilation.c:1491
+#: src/type_operations.c:857 src/ventilation.c:914 src/ventilation.c:933
+#: src/ventilation.c:1489
 msgid "Debit"
 msgstr "Ausgaben"
 
@@ -337,13 +338,13 @@ msgstr "Ausgaben"
 #: src/affichage_liste.c:40 src/affichage_liste.c:780
 #: src/affichage_liste.c:1053 src/categories_onglet.c:304
 #: src/echeancier_formulaire.c:1037 src/echeancier_formulaire.c:1279
-#: src/echeancier_formulaire.c:2533 src/echeancier_ventilation.c:885
-#: src/echeancier_ventilation.c:960 src/echeancier_ventilation.c:1491
+#: src/echeancier_formulaire.c:2534 src/echeancier_ventilation.c:885
+#: src/echeancier_ventilation.c:960 src/echeancier_ventilation.c:1493
 #: src/imputation_budgetaire.c:181 src/operations_formulaire.c:965
 #: src/operations_formulaire.c:1320 src/operations_formulaire.c:3325
 #: src/type_operations.c:168 src/type_operations.c:438
-#: src/type_operations.c:853 src/ventilation.c:888 src/ventilation.c:963
-#: src/ventilation.c:1493
+#: src/type_operations.c:853 src/ventilation.c:886 src/ventilation.c:961
+#: src/ventilation.c:1491
 msgid "Credit"
 msgstr "Einnahmen"
 
@@ -381,22 +382,22 @@ msgstr "V/A"
 
 #: src/affichage_liste.c:48 src/affichage_liste.c:876
 #: src/affichage_liste.c:1085 src/echeancier_formulaire.c:1075
-#: src/echeancier_formulaire.c:2541 src/echeancier_ventilation.c:974
-#: src/echeancier_ventilation.c:1495 src/etats_affiche.c:2203
+#: src/echeancier_formulaire.c:2542 src/echeancier_ventilation.c:974
+#: src/echeancier_ventilation.c:1497 src/etats_affiche.c:2203
 #: src/operations_formulaire.c:1122 src/operations_formulaire.c:3337
-#: src/ventilation.c:977 src/ventilation.c:1497
+#: src/ventilation.c:975 src/ventilation.c:1495
 msgid "Voucher"
 msgstr "Beleg"
 
 #. Notes
 #: src/affichage_liste.c:49 src/affichage_liste.c:888
 #: src/affichage_liste.c:1089 src/banque.c:727
-#: src/echeancier_formulaire.c:1081 src/echeancier_formulaire.c:2543
+#: src/echeancier_formulaire.c:1081 src/echeancier_formulaire.c:2544
 #: src/echeancier_liste.c:433 src/echeancier_ventilation.c:82
-#: src/echeancier_ventilation.c:864 src/echeancier_ventilation.c:1487
+#: src/echeancier_ventilation.c:864 src/echeancier_ventilation.c:1489
 #: src/etats_affiche.c:2182 src/operations_formulaire.c:1129
-#: src/operations_formulaire.c:3340 src/ventilation.c:85 src/ventilation.c:867
-#: src/ventilation.c:1489
+#: src/operations_formulaire.c:3340 src/ventilation.c:85 src/ventilation.c:865
+#: src/ventilation.c:1487
 msgid "Notes"
 msgstr "Notizen"
 
@@ -519,7 +520,7 @@ msgstr "vierte Zeile"
 msgid "Payer/payee"
 msgstr "Auftraggeber/Empfänger"
 
-#: src/affichage_liste.c:816 src/equilibrage.c:1647
+#: src/affichage_liste.c:816 src/equilibrage.c:1645
 msgid "Payment method"
 msgstr "Zahlungsweise"
 
@@ -542,8 +543,8 @@ msgstr "Buchungszeilen"
 
 #: src/banque.c:122 src/comptes_traitements.c:135
 #: src/comptes_traitements.c:145 src/operations_formulaire.c:2201
-#: src/operations_liste.c:2803 src/operations_liste.c:3045
-#: src/operations_liste.c:3138
+#: src/operations_liste.c:2804 src/operations_liste.c:3046
+#: src/operations_liste.c:3139
 msgid "Cannot allocate memory, bad things will happen soon"
 msgstr "Der Speicher kann nicht zugeteilt werden"
 
@@ -572,7 +573,7 @@ msgstr "Soll die ausgewählte Bank \"%s\" gelöscht werden?\n"
 #. le premier nom est Aucune
 #. le premier nom est Aucun
 #. on lui associe 0
-#: src/banque.c:284 src/echeancier_formulaire.c:1486 src/equilibrage.c:582
+#: src/banque.c:284 src/echeancier_formulaire.c:1486 src/equilibrage.c:580
 #: src/exercice.c:561
 msgid "None"
 msgstr "Kein"
@@ -711,7 +712,7 @@ msgstr "Splittbuchungen anzeigen"
 
 #. ajoute le bouton annuler
 #. Add the "cancel" button
-#: src/calendar.c:111 src/equilibrage.c:417 src/utils.c:1506
+#: src/calendar.c:111 src/utils.c:1506
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -1204,7 +1205,7 @@ msgstr "Unterkategorie hinzufügen"
 
 #. on met le bouton exporter
 #. mise en place du bouton exporter
-#: src/categories_onglet.c:428 src/etats_onglet.c:365
+#: src/categories_onglet.c:428 src/etats_onglet.c:365 src/export.c:416
 #: src/imputation_budgetaire.c:340 src/menu.c:76 src/traitement_variables.c:90
 #: src/traitement_variables.c:204
 msgid "Export"
@@ -1229,7 +1230,7 @@ msgstr "Importieren"
 #: src/etats_affiche.c:1409 src/etats_affiche.c:1471 src/etats_affiche.c:1517
 #: src/imputation_budgetaire.c:564 src/imputation_budgetaire.c:624
 #: src/imputation_budgetaire.c:690 src/imputation_budgetaire.c:749
-#: src/imputation_budgetaire.c:778 src/imputation_budgetaire.c:2619
+#: src/imputation_budgetaire.c:778 src/imputation_budgetaire.c:2624
 #: src/tiers_onglet.c:434 src/tiers_onglet.c:1629
 #, c-format
 msgid "%4.2f %s"
@@ -1313,7 +1314,7 @@ msgstr "Ohne zuordnen löschen."
 #: src/echeancier_ventilation.c:204 src/etats_affiche.c:1612
 #: src/operations_formulaire.c:983 src/operations_formulaire.c:1814
 #: src/operations_formulaire.c:2500 src/operations_formulaire.c:2851
-#: src/operations_liste.c:1086 src/operations_liste.c:1691
+#: src/operations_liste.c:1086 src/operations_liste.c:1688
 #: src/ventilation.c:207
 msgid "Breakdown of transaction"
 msgstr "Buchung aufsplitten"
@@ -1322,16 +1323,16 @@ msgstr "Buchung aufsplitten"
 #: src/categories_onglet.c:2566 src/comptes_traitements.c:556
 #: src/comptes_traitements.c:641 src/echeancier_formulaire.c:1523
 #: src/echeancier_formulaire.c:1570 src/echeancier_formulaire.c:1728
-#: src/echeancier_formulaire.c:2087 src/echeancier_formulaire.c:2987
+#: src/echeancier_formulaire.c:2087 src/echeancier_formulaire.c:2989
 #: src/echeancier_liste.c:1243 src/echeancier_ventilation.c:771
-#: src/echeancier_ventilation.c:1578 src/echeancier_ventilation.c:1657
-#: src/echeancier_ventilation.c:2016 src/echeancier_ventilation.c:2288
-#: src/gnucash.c:623 src/gnucash.c:625 src/ofx.c:400
+#: src/echeancier_ventilation.c:1580 src/echeancier_ventilation.c:1659
+#: src/echeancier_ventilation.c:2018 src/echeancier_ventilation.c:2290
+#: src/gnucash.c:666 src/gnucash.c:668 src/ofx.c:400
 #: src/operations_formulaire.c:1008 src/operations_formulaire.c:1918
 #: src/operations_formulaire.c:1923 src/operations_formulaire.c:2371
-#: src/operations_formulaire.c:2931 src/operations_liste.c:1635
-#: src/ventilation.c:774 src/ventilation.c:1580 src/ventilation.c:1658
-#: src/ventilation.c:2027 src/ventilation.c:2364
+#: src/operations_formulaire.c:2931 src/operations_liste.c:1632
+#: src/ventilation.c:772 src/ventilation.c:1578 src/ventilation.c:1656
+#: src/ventilation.c:2025 src/ventilation.c:2362
 msgid "Transfer"
 msgstr "Umbuchung"
 
@@ -1383,17 +1384,17 @@ msgstr "Kategorien exportieren - Grisbi"
 
 #: src/categories_onglet.c:3050 src/erreur.c:218 src/erreur.c:220
 #: src/etats_onglet.c:1185 src/fichiers_gestion.c:544
-#: src/fichiers_gestion.c:546 src/imputation_budgetaire.c:2786
+#: src/fichiers_gestion.c:546 src/imputation_budgetaire.c:2791
 msgid "Save file"
 msgstr "Datei speichern"
 
 #: src/categories_onglet.c:3051 src/etats_onglet.c:1186
-#: src/imputation_budgetaire.c:2787
+#: src/imputation_budgetaire.c:2792
 msgid "File exists. Do you want to overwrite it?"
 msgstr "Die vorhandene Datei ersetzen?"
 
 #: src/categories_onglet.c:3056 src/etats_onglet.c:1191
-#: src/imputation_budgetaire.c:2792
+#: src/imputation_budgetaire.c:2797
 #, c-format
 msgid "Invalid filename \"%s\"!"
 msgstr "Ungültiger Dateiname \"n%s\"!"
@@ -1409,10 +1410,12 @@ msgstr "Kategorien importieren - Grisbi"
 
 #. il y a déjà des opérations dans le fichier, on ne peut que fusionner
 #: src/categories_onglet.c:3137
-msgid "File already contains transactions, the two categories lists will be merged."
-msgstr "Die Datei enhält bereis Buchungen, die Kategorien werden zusammengeführt."
+msgid ""
+"File already contains transactions, the two categories lists will be merged."
+msgstr ""
+"Die Datei enhält bereis Buchungen, die Kategorien werden zusammengeführt."
 
-#: src/categories_onglet.c:3147 src/imputation_budgetaire.c:2881
+#: src/categories_onglet.c:3147 src/imputation_budgetaire.c:2886
 msgid "Do you want"
 msgstr "Wollen Sie"
 
@@ -1425,7 +1428,7 @@ msgid "Replace the old categories list"
 msgstr "Die alte Kategorienliste ersetzen"
 
 #: src/categories_onglet.c:3207 src/etats_onglet.c:1249
-#: src/imputation_budgetaire.c:2941
+#: src/imputation_budgetaire.c:2946
 msgid "Cannot import file."
 msgstr "Die Datei kann nicht importiert werden."
 
@@ -1588,23 +1591,25 @@ msgstr "Der Wechselkurs zwischen den zwei Währungen ist 0."
 #: src/comptes_gestion.c:1240 src/devises.c:377 src/devises.c:953
 #: src/devises.c:1646 src/devises.c:1728 src/devises.c:2071 src/devises.c:2076
 #: src/devises.c:2186 src/echeancier_formulaire.c:2046
-#: src/echeancier_formulaire.c:2048 src/echeancier_formulaire.c:2422
-#: src/echeancier_formulaire.c:2424 src/echeancier_liste.c:1965
-#: src/echeancier_liste.c:1967 src/etats_calculs.c:2452
-#: src/etats_calculs.c:2457 src/etats_calculs.c:2487 src/etats_calculs.c:2492
-#: src/etats_calculs.c:2522 src/etats_calculs.c:2527 src/etats_calculs.c:2571
-#: src/etats_calculs.c:2576 src/etats_calculs.c:2602 src/etats_calculs.c:2607
-#: src/etats_calculs.c:2635 src/etats_calculs.c:2640 src/etats_calculs.c:2668
-#: src/etats_calculs.c:2673 src/operations_formulaire.c:2680
-#: src/operations_formulaire.c:2681 src/operations_liste.c:1567
-#: src/operations_liste.c:1569 src/ventilation.c:2965 src/ventilation.c:2967
-#: src/ventilation.c:3184 src/ventilation.c:3186
+#: src/echeancier_formulaire.c:2048 src/echeancier_formulaire.c:2423
+#: src/echeancier_formulaire.c:2425 src/echeancier_liste.c:1965
+#: src/echeancier_liste.c:1967 src/etats_calculs.c:2443
+#: src/etats_calculs.c:2448 src/etats_calculs.c:2478 src/etats_calculs.c:2483
+#: src/etats_calculs.c:2513 src/etats_calculs.c:2518 src/etats_calculs.c:2562
+#: src/etats_calculs.c:2567 src/etats_calculs.c:2593 src/etats_calculs.c:2598
+#: src/etats_calculs.c:2626 src/etats_calculs.c:2631 src/etats_calculs.c:2659
+#: src/etats_calculs.c:2664 src/operations_formulaire.c:2680
+#: src/operations_formulaire.c:2681 src/operations_liste.c:1564
+#: src/operations_liste.c:1566 src/ventilation.c:2967 src/ventilation.c:2969
+#: src/ventilation.c:3186 src/ventilation.c:3188
 msgid "Euro"
 msgstr "Euro"
 
 #: src/comptes_gestion.c:1245
 msgid "Impossible to find the Euro currency, it has probably been deleted."
-msgstr "Die Euro Währung kann nicht gefunden werden, vermutlich wurde die Euro Währung gelöscht."
+msgstr ""
+"Die Euro Währung kann nicht gefunden werden, vermutlich wurde die Euro "
+"Währung gelöscht."
 
 #. mise en place des boutons du bas
 #: src/comptes_onglet.c:159 src/menu.c:98
@@ -3015,9 +3020,9 @@ msgid "Choose the method of payment"
 msgstr "Zahlungsweise auswählen"
 
 #: src/echeancier_formulaire.c:407 src/echeancier_formulaire.c:408
-#: src/echeancier_ventilation.c:599 src/echeancier_ventilation.c:600
+#: src/echeancier_ventilation.c:598 src/echeancier_ventilation.c:599
 #: src/operations_formulaire.c:423 src/operations_formulaire.c:424
-#: src/ventilation.c:602 src/ventilation.c:603
+#: src/ventilation.c:601 src/ventilation.c:602
 msgid "Choose the financial year"
 msgstr "Geschäftsjahr auswählen"
 
@@ -3033,8 +3038,8 @@ msgstr "Splittbuchung"
 msgid "Automatic/manual scheduled transaction"
 msgstr "Automatische/manuell geplante Buchung"
 
-#: src/echeancier_formulaire.c:538 src/echeancier_liste.c:833 src/menu.c:122
-#: src/operations_liste.c:1804
+#: src/echeancier_formulaire.c:538 src/echeancier_liste.c:833
+#: src/operations_liste.c:1801
 msgid "Manual"
 msgstr "Manual"
 
@@ -3088,23 +3093,23 @@ msgstr "Monate"
 msgid "Years"
 msgstr "Jahre"
 
-#: src/echeancier_formulaire.c:1044 src/echeancier_formulaire.c:2535
-#: src/echeancier_ventilation.c:857 src/echeancier_ventilation.c:1485
+#: src/echeancier_formulaire.c:1044 src/echeancier_formulaire.c:2536
+#: src/echeancier_ventilation.c:857 src/echeancier_ventilation.c:1487
 #: src/operations_formulaire.c:1103 src/operations_formulaire.c:3330
-#: src/ventilation.c:860 src/ventilation.c:1487
+#: src/ventilation.c:858 src/ventilation.c:1485
 msgid "Categories : Sub-categories"
 msgstr "Kategorien : Unterkategorien"
 
-#: src/echeancier_formulaire.c:1062 src/echeancier_formulaire.c:2537
+#: src/echeancier_formulaire.c:1062 src/echeancier_formulaire.c:2538
 msgid "Transfer reference"
 msgstr "Buchungsreferenz"
 
-#: src/echeancier_formulaire.c:1090 src/echeancier_formulaire.c:2545
+#: src/echeancier_formulaire.c:1090 src/echeancier_formulaire.c:2546
 msgid "Limit date"
 msgstr "Fälligkeitstermin"
 
-#: src/echeancier_formulaire.c:1475 src/equilibrage.c:949
-#: src/equilibrage.c:969 src/operations_formulaire.c:2327
+#: src/echeancier_formulaire.c:1475 src/equilibrage.c:947
+#: src/equilibrage.c:967 src/operations_formulaire.c:2327
 msgid "Invalid date"
 msgstr "Ungültiges Datum"
 
@@ -3142,7 +3147,7 @@ msgstr ""
 msgid "Input"
 msgstr "Eingabe"
 
-#: src/echeancier_formulaire.c:2585 src/echeancier_liste.c:585
+#: src/echeancier_formulaire.c:2586 src/echeancier_liste.c:585
 #: src/echeancier_liste.c:1012
 msgid "Modification"
 msgstr "Änderung"
@@ -3209,7 +3214,8 @@ msgstr "Eine geplante Buchung löschen"
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
 "transaction?"
-msgstr "Wollen Sie nur dieses Vorkommen, oder die gesamte geplante Buchung löschen?"
+msgstr ""
+"Wollen Sie nur dieses Vorkommen, oder die gesamte geplante Buchung löschen?"
 
 #: src/echeancier_liste.c:1405
 msgid "All the occurences"
@@ -3253,34 +3259,34 @@ msgstr "Splittbuchung Betrag"
 msgid "Not assigned"
 msgstr "Nicht zugeordnet"
 
-#: src/echeancier_ventilation.c:581 src/echeancier_ventilation.c:582
-#: src/ventilation.c:584 src/ventilation.c:585
+#: src/echeancier_ventilation.c:580 src/echeancier_ventilation.c:581
+#: src/ventilation.c:583 src/ventilation.c:584
 msgid "Associated method of payment"
 msgstr "Zugeordnete Zahlungsweise"
 
 #: src/echeancier_ventilation.c:780 src/operations_formulaire.c:1017
 #: src/operations_formulaire.c:2383 src/operations_formulaire.c:2943
-#: src/ventilation.c:783
+#: src/ventilation.c:781
 msgid "Deleted account"
 msgstr "Gelöschtes Konto"
 
-#: src/echeancier_ventilation.c:1597 src/ventilation.c:1599
+#: src/echeancier_ventilation.c:1599 src/ventilation.c:1597
 msgid "The associated account for this transfer is invalid"
 msgstr "Das zugeordnete Konto für diese Buchung ist ungültig"
 
-#: src/echeancier_ventilation.c:1604 src/ventilation.c:1605
+#: src/echeancier_ventilation.c:1606 src/ventilation.c:1603
 msgid "It's impossible to transfer an account to itself"
 msgstr "Eine Buchung auf das gleiche Konto ist nicht möglich"
 
-#: src/echeancier_ventilation.c:1610 src/ventilation.c:1611
+#: src/echeancier_ventilation.c:1612 src/ventilation.c:1609
 msgid "No account associated with the transfer"
 msgstr "Kein zugeordnetes Konto für diese Buchung"
 
-#: src/echeancier_ventilation.c:2483 src/ventilation.c:2559
+#: src/echeancier_ventilation.c:2485 src/ventilation.c:2557
 msgid "Incomplete breakdown"
 msgstr "Unvollständige Splittbuchung"
 
-#: src/echeancier_ventilation.c:2484 src/ventilation.c:2560
+#: src/echeancier_ventilation.c:2486 src/ventilation.c:2558
 msgid ""
 "Transaction amount isn't fully broken down.\n"
 "Proceed anyway?"
@@ -3288,7 +3294,7 @@ msgstr ""
 "Die Buchung ist nicht vollständung gesplittet worden.\n"
 "Trotzdem fortfahren?"
 
-#: src/echeancier_ventilation.c:2666 src/ventilation.c:2799
+#: src/echeancier_ventilation.c:2668 src/ventilation.c:2801
 msgid "A breakdown line is to be deleted though it is not yet registered."
 msgstr ""
 "Es soll der Stichtag einer Splittbuchung gelöscht werden, die Splittbuchung "
@@ -3318,48 +3324,44 @@ msgstr "Überprüfen"
 msgid "Variance"
 msgstr "Abweichung"
 
-#: src/equilibrage.c:402
-msgid "Valid"
-msgstr "Gültig"
-
-#: src/equilibrage.c:454
+#: src/equilibrage.c:452
 msgid "This account does not contain any transaction"
 msgstr "Diesem Konto sind keine Buchungen zugeordnet"
 
-#: src/equilibrage.c:848 src/operations_liste.c:1097
-#: src/operations_liste.c:1889
+#: src/equilibrage.c:846 src/operations_liste.c:1097
+#: src/operations_liste.c:1886
 msgid "P"
 msgstr "V"
 
-#: src/equilibrage.c:901 src/operations_comptes.c:314
-#: src/operations_liste.c:765 src/operations_liste.c:1944
+#: src/equilibrage.c:899 src/operations_comptes.c:314
+#: src/operations_liste.c:765 src/operations_liste.c:1941
 #, c-format
 msgid "Checked balance: %4.2f %s"
 msgstr "Abgestimmer Saldo: %4.2f %s"
 
-#: src/equilibrage.c:928
+#: src/equilibrage.c:926
 msgid "There is a variance"
 msgstr "Es gibt eine Abweichung"
 
-#: src/equilibrage.c:978 src/operations_comptes.c:301
+#: src/equilibrage.c:976 src/operations_comptes.c:301
 #, c-format
 msgid "Last statement: %02d/%02d/%d"
 msgstr "Letze Abstimmung: %02d/%02d/%d"
 
-#: src/equilibrage.c:1610 src/operations_onglet.c:83 src/parametres.c:258
+#: src/equilibrage.c:1608 src/operations_onglet.c:83 src/parametres.c:258
 #: src/type_operations.c:250
 msgid "Reconciliation"
 msgstr "Abstimmung"
 
-#: src/equilibrage.c:1614
+#: src/equilibrage.c:1612
 msgid "Reconciliation: sort transactions"
 msgstr "Abstimmung : sortiert nach Buchungen"
 
-#: src/equilibrage.c:1662
+#: src/equilibrage.c:1660
 msgid "Sort by date"
 msgstr "sortiert nach Datum"
 
-#: src/equilibrage.c:1679
+#: src/equilibrage.c:1677
 msgid "Split neutral payment methods"
 msgstr "Neutrale Zahlungsweisen aufsplitten"
 
@@ -3865,12 +3867,13 @@ msgstr "Daten"
 
 #. mise en place de la frame des comptes
 #. Accounts menu
-#: src/etats_config.c:135 src/etats_config.c:7127 src/fenetre_principale.c:89
-#: src/menu.c:96 src/menu.c:97 src/menu.c:98 src/menu.c:99 src/menu.c:100
-#: src/menu.c:101 src/operations_comptes.c:382 src/operations_comptes.c:387
-#: src/operations_comptes.c:448 src/operations_comptes.c:461
-#: src/operations_onglet.c:71 src/traitement_variables.c:96
-#: src/traitement_variables.c:210 src/traitement_variables.c:213
+#: src/etats_config.c:135 src/etats_config.c:7127 src/export.c:396
+#: src/fenetre_principale.c:89 src/menu.c:96 src/menu.c:97 src/menu.c:98
+#: src/menu.c:99 src/menu.c:100 src/menu.c:101 src/operations_comptes.c:382
+#: src/operations_comptes.c:387 src/operations_comptes.c:448
+#: src/operations_comptes.c:461 src/operations_onglet.c:71
+#: src/traitement_variables.c:96 src/traitement_variables.c:210
+#: src/traitement_variables.c:213
 msgid "Accounts"
 msgstr "Konten"
 
@@ -4342,7 +4345,8 @@ msgstr "Name des Berichts"
 
 #: src/etats_config.c:6237
 msgid "Diplay the number of transactions with the totals"
-msgstr "Die Anzahl der Buchungen in einem Verhältnis zu allen Buchungen anzeigen"
+msgstr ""
+"Die Anzahl der Buchungen in einem Verhältnis zu allen Buchungen anzeigen"
 
 #: src/etats_config.c:6256
 msgid "Consider the third parties of this report as a multiple third party."
@@ -4539,7 +4543,7 @@ msgstr "Die Buchungen nach Zahlungsweise auswählen"
 msgid "Select methods of payment to include"
 msgstr "Die Zahlungsweisen für den Bericht auswählen"
 
-#: src/etats_latex.c:240 src/qif.c:1015
+#: src/etats_latex.c:240 src/export.c:254 src/qif.c:1015
 #, c-format
 msgid "File '%s' already exists"
 msgstr "Die Datei '%s' ist bereits vorhanden"
@@ -4796,7 +4800,7 @@ msgstr "Der Bericht wird gelöscht. Es gibt keine Wiederherstellung."
 msgid "Export report"
 msgstr "Bericht exportieren - Grisbi"
 
-#: src/etats_onglet.c:1199 src/imputation_budgetaire.c:2799
+#: src/etats_onglet.c:1199 src/imputation_budgetaire.c:2804
 msgid "Cannot save file."
 msgstr "Datei kann nicht gespeichert werden."
 
@@ -4937,10 +4941,39 @@ msgstr ""
 msgid "Export files"
 msgstr "Datei(en) exportieren - Grisbi"
 
+#: src/export.c:165 src/qif.c:928
+msgid "Select accounts to export"
+msgstr "Die zu exportierenden Konten auswählen"
+
+#: src/export.c:256 src/qif.c:1017
+msgid ""
+"This will irreversibly overwrite previous file.  There is no undo for this."
+msgstr "Dieser Vorgang wird die bestehende Datei überschreiben."
+
+#: src/export.c:264 src/qif.c:1022
+#, c-format
+msgid "File name '%s' invalid !"
+msgstr "Der Dateiname '%s' ist ungültig!"
+
+#: src/export.c:333 src/qif.c:908
+msgid "Your file must have a name (saved) to be exported."
+msgstr "Die Datei muss vor dem Export gespeichert werden."
+
 #: src/export.c:337
 msgid "Export format does not define currencies."
 msgstr "Das Dateiformat unterstützt keine Währungen."
 
+#: src/export.c:338 src/qif.c:914
+msgid "All transactions will be converted into currency of their account."
+msgstr "Alle Buchungen werden in die Währung des Kontos konvertiert."
+
+#: src/export.c:396 src/menu.c:101 src/operations_comptes.c:382
+#: src/operations_comptes.c:387 src/operations_comptes.c:448
+#: src/operations_comptes.c:461 src/traitement_variables.c:213
+msgid "Closed accounts"
+msgstr "Geschlossene Konten"
+
+#. To add a new supported format, just add a new line here ...
 #: src/export.c:413
 msgid "Accounts to QIF file ..."
 msgstr "In eine Qif Datei exportieren..."
@@ -4948,6 +4981,22 @@ msgstr "In eine Qif Datei exportieren..."
 #: src/export.c:414
 msgid "Accounts to CSV file ..."
 msgstr "In eine Csv Datei exportieren..."
+
+#. File menu
+#. {menu_name(_("File"), _("Export"), _("QIF file ...")),   NULL,G_CALLBACK ( exporter_fichier_qif ), 0, NULL ,NULL  },
+#. Print to file
+#: src/export.c:416 src/menu.c:64 src/menu.c:65 src/menu.c:66 src/menu.c:67
+#: src/menu.c:68 src/menu.c:69 src/menu.c:70 src/menu.c:71 src/menu.c:72
+#: src/menu.c:73 src/menu.c:74 src/menu.c:75 src/menu.c:76 src/menu.c:78
+#: src/menu.c:79 src/menu.c:80 src/menu.c:196 src/menu.c:200 src/menu.c:218
+#: src/menu.c:239 src/menu.c:250 src/print_config.c:168
+#: src/traitement_variables.c:58 src/traitement_variables.c:65
+#: src/traitement_variables.c:87 src/traitement_variables.c:90
+#: src/traitement_variables.c:93 src/traitement_variables.c:198
+#: src/traitement_variables.c:201 src/traitement_variables.c:204
+#: src/traitement_variables.c:207
+msgid "File"
+msgstr "Datei"
 
 #: src/fenetre_principale.c:66
 msgid "Main page"
@@ -5085,7 +5134,8 @@ msgstr "Die Datei '%s' kann nicht geöffnet werden: %s"
 #: src/fichiers_io.c:155
 #, c-format
 msgid "Cannot open file '%s' : this is not a grisbi file"
-msgstr "Die Datei %s kann nicht geöffnet werden. Diese Datei ist keine Grisbi Datei"
+msgstr ""
+"Die Datei %s kann nicht geöffnet werden. Diese Datei ist keine Grisbi Datei"
 
 #: src/fichiers_io.c:197
 #, c-format
@@ -5220,19 +5270,19 @@ msgstr ""
 "geändert werden.\n"
 "Soll dies nun durchgeführt werden?"
 
-#: src/gnucash.c:471
+#: src/gnucash.c:514
 #, c-format
 msgid "Either file \"%s\" does not exist or it is not a regular file."
 msgstr ""
 "Entweder ist die Datei \"%s\" nicht vorhanden oder es handelt sich nicht um "
 "eine gültige Datei."
 
-#: src/gnucash.c:473
+#: src/gnucash.c:516
 #, c-format
 msgid "Error opening file '%s'."
 msgstr "Fehler beim Öffnen der Datei '%s'."
 
-#: src/gnucash.c:481
+#: src/gnucash.c:524
 msgid ""
 "Grisbi needs to open a temporary file in order to import Gnucash data but "
 "file can't be created.  Check that you have permission to do that."
@@ -5241,7 +5291,7 @@ msgstr ""
 "Datei kann jedoch nicht erzeugt werden. Bitte überprüfen Sie, ob die "
 "notwendigen Berechtigungen vorhanden sind."
 
-#: src/gnucash.c:482
+#: src/gnucash.c:525
 #, c-format
 msgid "Error opening temporary file '%s'."
 msgstr "Fehler beim Öffnen der Temporärdatei '%s'."
@@ -5265,8 +5315,11 @@ msgid "Alain Pichon (alain.pichon[at]grisbi.org): Fedora and RHEL packaging"
 msgstr "Alain Pichon (alain.pichon[at]grisbi.org): Fedora Paketverwaltung"
 
 #: src/help.c:48
-msgid "Alain Portal <dionysos[at]grisbi.org>: Programming, manual, RedHat packaging"
-msgstr "Alain Portal (dionysos[at]grisbi.org): Programmierung, Handbuch, RedHat Paketverwaltung"
+msgid ""
+"Alain Portal <dionysos[at]grisbi.org>: Programming, manual, RedHat packaging"
+msgstr ""
+"Alain Portal (dionysos[at]grisbi.org): Programmierung, Handbuch, RedHat "
+"Paketverwaltung"
 
 #: src/help.c:49
 msgid "Andre Pascual (andre[at]linuxgraphic.org) : Logo"
@@ -5278,7 +5331,8 @@ msgstr "Axel Rousseau (axel584[at]axel584.org): Mitarbeiter"
 
 #: src/help.c:51
 msgid "Benjamin Drieu (bdrieu[at]april.org) : Programming, Debian packaging"
-msgstr "Benjamin Drieu (bdrieu[at]april.org) : Programmierung, Debian Paketverwaltung"
+msgstr ""
+"Benjamin Drieu (bdrieu[at]april.org) : Programmierung, Debian Paketverwaltung"
 
 #: src/help.c:52
 msgid "Cedric Auger (cedric[at]grisbi.org) : Programming"
@@ -5296,11 +5350,14 @@ msgstr "Dominique Parisot (parisot[at]villey-le-sec.com): Mitarbeiter"
 msgid ""
 "Francois Terrot (grisbi[at]terrot.net): Windows packaging and port, "
 "programming"
-msgstr "Francois Terrot (grisbi[at]terrot.net): Windows Paketverwaltung, Cygwin Portierung"
+msgstr ""
+"Francois Terrot (grisbi[at]terrot.net): Windows Paketverwaltung, Cygwin "
+"Portierung"
 
 #: src/help.c:56
 msgid "Gerald Niel (gerald.niel[at]grisbi.org): Slackware packaging, website"
-msgstr "Gerald Niel (gerald.niel[at]grisbi.org): Slackware Paketverwaltung, Webseite"
+msgstr ""
+"Gerald Niel (gerald.niel[at]grisbi.org): Slackware Paketverwaltung, Webseite"
 
 #: src/help.c:57
 msgid "PMF (ugly.duck[at]gmx.de): Zaurus packaging"
@@ -5511,7 +5568,9 @@ msgstr "Buchungen auwählen - Grisbi"
 msgid ""
 "Some imported transactions seem to be already saved. Please select the "
 "transactions to import."
-msgstr "Einige der zu importierenden Buchungen sind bereits vorhanden. Wählen Sie die Buchungen aus, welche importiert werden sollten."
+msgstr ""
+"Einige der zu importierenden Buchungen sind bereits vorhanden. Wählen Sie "
+"die Buchungen aus, welche importiert werden sollten."
 
 #: src/import.c:1886
 #, c-format
@@ -5687,33 +5746,33 @@ msgstr ""
 "ausführen.\n"
 "Wollen Sie trotzdem fortfahren?"
 
-#: src/imputation_budgetaire.c:2636
+#: src/imputation_budgetaire.c:2641
 msgid "New budgetary line"
 msgstr "Neue Buchungszeile"
 
-#: src/imputation_budgetaire.c:2637
+#: src/imputation_budgetaire.c:2642
 msgid "Enter the name of the new budgetary line"
 msgstr "Den Namen der Buchungszeile eingeben"
 
-#: src/imputation_budgetaire.c:2693
+#: src/imputation_budgetaire.c:2698
 msgid "New sub-budgetary line"
 msgstr "Neue Unterbuchungszeile"
 
-#: src/imputation_budgetaire.c:2694
+#: src/imputation_budgetaire.c:2699
 msgid "Enter the name of the new sub-budgetary line"
 msgstr "Den Namen der Unterbuchungszeile eingeben"
 
-#: src/imputation_budgetaire.c:2763
+#: src/imputation_budgetaire.c:2768
 msgid "Export the budgetary lines"
 msgstr "Die Buchungszeilen exportieren"
 
 #. on permet de remplacer/fusionner la liste
-#: src/imputation_budgetaire.c:2827 src/imputation_budgetaire.c:2852
+#: src/imputation_budgetaire.c:2832 src/imputation_budgetaire.c:2857
 msgid "Import the budgetary lines"
 msgstr "Die Buchungszeilen importieren"
 
 #. il y a déjà des opérations dans le fichier, on ne peut que fusionner
-#: src/imputation_budgetaire.c:2871
+#: src/imputation_budgetaire.c:2876
 msgid ""
 "File already contains transactions, the two budgetary lines lists will be "
 "merged."
@@ -5721,11 +5780,11 @@ msgstr ""
 "Die Datei enthält bereits Buchungszeilen, die Buchungszeilen werden "
 "zusammengeführt."
 
-#: src/imputation_budgetaire.c:2899
+#: src/imputation_budgetaire.c:2904
 msgid "Merge the two lists of budgetary lines"
 msgstr "Die zwei Listen der Buchungszeilen zusammenführen"
 
-#: src/imputation_budgetaire.c:2907
+#: src/imputation_budgetaire.c:2912
 msgid "Replace the old list of budgetary lines"
 msgstr "Die alte Liste von Buchungszeilen ersetzen"
 
@@ -5733,21 +5792,6 @@ msgstr "Die alte Liste von Buchungszeilen ersetzen"
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Fehler bei der Sigaktion. SIGSEGV wird nicht eingeschlossen\n"
-
-#. File menu
-#. {menu_name(_("File"), _("Export"), _("QIF file ...")),   NULL,G_CALLBACK ( exporter_fichier_qif ), 0, NULL ,NULL  },
-#. Print to file
-#: src/menu.c:64 src/menu.c:65 src/menu.c:66 src/menu.c:67 src/menu.c:68
-#: src/menu.c:69 src/menu.c:70 src/menu.c:71 src/menu.c:72 src/menu.c:73
-#: src/menu.c:74 src/menu.c:75 src/menu.c:76 src/menu.c:78 src/menu.c:79
-#: src/menu.c:80 src/menu.c:196 src/menu.c:200 src/menu.c:218 src/menu.c:239
-#: src/menu.c:250 src/print_config.c:168 src/traitement_variables.c:58
-#: src/traitement_variables.c:65 src/traitement_variables.c:87
-#: src/traitement_variables.c:90 src/traitement_variables.c:93
-#: src/traitement_variables.c:198 src/traitement_variables.c:201
-#: src/traitement_variables.c:204 src/traitement_variables.c:207
-msgid "File"
-msgstr "Datei"
 
 #: src/menu.c:66
 msgid "New account file"
@@ -5799,7 +5843,7 @@ msgid "Edit"
 msgstr "Bearbeiten"
 
 #. New transaction
-#: src/menu.c:85 src/operations_liste.c:2653 src/traitement_variables.c:99
+#: src/menu.c:85 src/operations_liste.c:2654 src/traitement_variables.c:99
 #: src/traitement_variables.c:216
 msgid "New transaction"
 msgstr "Neue Buchung"
@@ -5809,19 +5853,19 @@ msgid "Remove transaction"
 msgstr "Buchung löschen"
 
 #. Clone transaction
-#: src/menu.c:87 src/operations_liste.c:2673 src/traitement_variables.c:105
+#: src/menu.c:87 src/operations_liste.c:2674 src/traitement_variables.c:105
 #: src/traitement_variables.c:222
 msgid "Clone transaction"
 msgstr "Buchung klonen"
 
 #. Edit transaction
-#: src/menu.c:88 src/operations_liste.c:2640 src/traitement_variables.c:108
+#: src/menu.c:88 src/operations_liste.c:2641 src/traitement_variables.c:108
 #: src/traitement_variables.c:225
 msgid "Edit transaction"
 msgstr "Buchung bearbeiten"
 
 #. Convert to scheduled transaction
-#: src/menu.c:90 src/operations_liste.c:2686 src/traitement_variables.c:111
+#: src/menu.c:90 src/operations_liste.c:2687 src/traitement_variables.c:111
 #: src/traitement_variables.c:228
 msgid "Convert transaction to scheduled transaction"
 msgstr "Buchung regelmäßg ausführen"
@@ -5829,7 +5873,7 @@ msgstr "Buchung regelmäßg ausführen"
 #. Move to another account
 #: src/menu.c:91 src/operations_comptes.c:405 src/operations_comptes.c:410
 #: src/operations_comptes.c:490 src/operations_comptes.c:505
-#: src/operations_comptes.c:512 src/operations_liste.c:2696
+#: src/operations_comptes.c:512 src/operations_liste.c:2697
 #: src/traitement_variables.c:114 src/traitement_variables.c:231
 msgid "Move transaction to another account"
 msgstr "Buchung verschieben"
@@ -5837,12 +5881,6 @@ msgstr "Buchung verschieben"
 #: src/menu.c:93
 msgid "Preferences"
 msgstr "Einstellungen"
-
-#: src/menu.c:101 src/operations_comptes.c:382 src/operations_comptes.c:387
-#: src/operations_comptes.c:448 src/operations_comptes.c:461
-#: src/traitement_variables.c:213
-msgid "Closed accounts"
-msgstr "Geschlossene Konten"
 
 #: src/menu.c:112 src/traitement_variables.c:120
 #: src/traitement_variables.c:237
@@ -5854,6 +5892,10 @@ msgstr "Bericht importieren"
 #: src/menu.c:125 src/menu.c:126 src/menu.c:127 src/menu.c:128 src/menu.c:129
 msgid "Help"
 msgstr "Hilfe"
+
+#: src/menu.c:122
+msgid "Grisbi Manual"
+msgstr "Grisbi Handbuch"
 
 #: src/menu.c:123
 msgid "Quickstart"
@@ -6017,7 +6059,8 @@ msgstr "Splittbuchung wiederherstellen?"
 
 #: src/operations_formulaire.c:1820
 msgid "Do you want to recover all the lines of the last breakdown?"
-msgstr "Sollen alle Buchungszeilen der letzten Aufsplittung wiederhergestellt werden?"
+msgstr ""
+"Sollen alle Buchungszeilen der letzten Aufsplittung wiederhergestellt werden?"
 
 #: src/operations_formulaire.c:2072 src/operations_formulaire.c:2520
 #: src/tiers_onglet.c:1428
@@ -6061,7 +6104,8 @@ msgstr ""
 
 #: src/operations_formulaire.c:2529
 msgid "A transaction with a multiple third party must be a new one."
-msgstr "Es kann nur eine neue Buchung an mehrere Empfänger durchgeführt werden."
+msgstr ""
+"Es kann nur eine neue Buchung an mehrere Empfänger durchgeführt werden."
 
 #: src/operations_formulaire.c:2563
 msgid "Invalid multiple third party."
@@ -6083,7 +6127,7 @@ msgstr "Die Buchung zu einem gelöschten Konto ausführen"
 msgid "Transfer from a deleted account"
 msgstr "Die Buchung von einem gelöschten Konto ausführen"
 
-#: src/operations_liste.c:1101 src/operations_liste.c:2001
+#: src/operations_liste.c:1101 src/operations_liste.c:1998
 msgid "R"
 msgstr "A"
 
@@ -6091,23 +6135,25 @@ msgstr "A"
 msgid "T"
 msgstr "T"
 
-#: src/operations_liste.c:1624
+#: src/operations_liste.c:1621
 msgid "Transfer: deleted account"
 msgstr "Buchung: gelöschtes Konto"
 
-#: src/operations_liste.c:1801
+#: src/operations_liste.c:1798
 msgid "Auto"
 msgstr "Auto"
 
-#: src/operations_liste.c:2081
+#: src/operations_liste.c:2078
 msgid "Imposible to delete a reconciled transaction."
 msgstr "Eine abgestimmte Buchung kann nicht gelöscht werden."
 
-#: src/operations_liste.c:2106
-msgid "The contra-transaction of this transfer is reconciled, deletion impossible."
-msgstr "Die Gegenbuchung ist bereits abgestimmt, eine Löschung ist nicht möglich."
+#: src/operations_liste.c:2103
+msgid ""
+"The contra-transaction of this transfer is reconciled, deletion impossible."
+msgstr ""
+"Die Gegenbuchung ist bereits abgestimmt, eine Löschung ist nicht möglich."
 
-#: src/operations_liste.c:2154
+#: src/operations_liste.c:2151
 msgid ""
 "One of the breakdown lines is a transfer whose contra-transaction is "
 "reconciled.  Deletion canceled."
@@ -6116,11 +6162,11 @@ msgstr ""
 "der Löschvorgang wird abgebrochen."
 
 #. Delete transaction
-#: src/operations_liste.c:2661
+#: src/operations_liste.c:2662
 msgid "Delete transaction"
 msgstr "Buchung löschen"
 
-#: src/operations_liste.c:2949
+#: src/operations_liste.c:2950
 msgid "Cannot move a transfer on his contra-account"
 msgstr "Eingen Gegenbuchung kann nicht auf sich selbst verschoben werden"
 
@@ -6181,7 +6227,8 @@ msgid "Scheduler warnings"
 msgstr "Planer Meldungen"
 
 #: src/parametres.c:407
-msgid "Number of days before a warning message advertising a scheduled transaction"
+msgid ""
+"Number of days before a warning message advertising a scheduled transaction"
 msgstr "Hinweis für eine geplante Buchung (Tage davor) anzeigen"
 
 #: src/parametres.c:471
@@ -6362,34 +6409,13 @@ msgstr ""
 "Grisbi versucht automatisch alle Quicken Daten zu lesen. Bitte überprüfen "
 "Sie nach dem Import die Buchungen"
 
-#: src/qif.c:908
-msgid "Your file must have a name (saved) to be exported."
-msgstr "Die Datei muss vor dem Export gespeichert werden."
-
 #: src/qif.c:913
 msgid "QIF format does not define currencies."
 msgstr "Das Qif Format enthält keine Währungen."
 
-#: src/qif.c:914
-msgid "All transactions will be converted into currency of their account."
-msgstr "Alle Buchungen werden in die Währung des Kontos konvertiert."
-
 #: src/qif.c:917
 msgid "Export QIF files"
 msgstr "Dateien exportieren - Grisbi"
-
-#: src/qif.c:928
-msgid "Select accounts to export"
-msgstr "Die zu exportierenden Konten auswählen"
-
-#: src/qif.c:1017
-msgid "This will irreversibly overwrite previous file.  There is no undo for this."
-msgstr "Dieser Vorgang wird die bestehende Datei überschreiben."
-
-#: src/qif.c:1022
-#, c-format
-msgid "File name '%s' invalid !"
-msgstr "Der Dateiname '%s' ist ungültig!"
 
 #: src/qif.c:1048 src/qif.c:1506
 #, c-format
@@ -6447,7 +6473,10 @@ msgstr "Bitte einen Empfänger eingeben."
 msgid ""
 "Grisbi is unable to find this third party.  Be sure entered name is valid "
 "and that this third party exists."
-msgstr "Grisbi ist nicht in der Lage, diesen dritten Empfänger zu finden. Vergewissere dich, dass der Name gueltig ist und der dritte Empfänger existiert."
+msgstr ""
+"Grisbi ist nicht in der Lage, diesen dritten Empfänger zu finden. "
+"Vergewissere dich, dass der Name gueltig ist und der dritte Empfänger "
+"existiert."
 
 #: src/tiers_onglet.c:1296
 #, c-format
@@ -6573,15 +6602,17 @@ msgstr "Speicherzugriffsverletzung"
 msgid "Browse"
 msgstr "umsehen"
 
-#: src/ventilation.c:2200
+#: src/ventilation.c:2198
 msgid "This transaction has a reconciled breakdown line, deletion canceled."
 msgstr ""
 "Diese Buchung hat ein abgestimmtes Buchungsdatum, die Löschung wurde "
 "abgebrochen."
 
-#: src/ventilation.c:2227
+#: src/ventilation.c:2225
 msgid "This transfer has a reconciled contra-transaction, deletion canceled."
 msgstr ""
 "Diese Buchung hat eine abgestimmte Gegenbuchung, die Löschung wurde "
 "abgebrochen."
 
+#~ msgid "Valid"
+#~ msgstr "Gültig"
