@@ -66,6 +66,7 @@ void category_scheduled_set_sub_div_id (struct operation_echeance *, int);
 /*END_STATIC*/
 
 static MetatreeInterface _category_interface = {
+    2,
     N_("No category"),
     N_("No sub-category"),
     category_get_without_div_pointer,

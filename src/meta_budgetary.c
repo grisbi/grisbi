@@ -76,6 +76,7 @@ extern struct struct_imputation * without_budgetary_line;
 
 
 static MetatreeInterface _budgetary_interface = {
+    2,
     N_("No budgetary line"),
     N_("No sub-budgetary line"),
     budgetary_line_get_without_div_pointer,
