@@ -19,6 +19,8 @@
 /*     along with this program; if not, write to the Free Software */
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
+/* $Id: etats_gnomeprint.c,v 1.15 2002/10/17 18:46:41 benj Exp $ */
+
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
@@ -279,7 +281,7 @@ do_print_text_page (GnomePrintContext *pc, GnomeFont *font, GSList * list)
 {
   int i, lines=0, column=0;
   gdouble total_text=0;
-  gdouble total_width = 700;
+  gdouble total_width = gnome_paper_pswidth(gnome_print_master_get_paper(gpm))-20;
   struct structure_operation *operation;
   GSList * list_pointeur;
 
@@ -531,27 +533,29 @@ do_print_text_page (GnomePrintContext *pc, GnomeFont *font, GSList * list)
 	}
     }
 
-/*   for (column=0; column<4; column++) */
-/*     { */
-/*       if (! columns_max[column]) */
-/* 	{ */
-/* 	  columns_max[column] = ((columns_total[column]/total_text) * total_width); */
-/* 	  printf ("++ %d, %f, %f, %f\n", column, columns_max[column], columns_total[column], total_text); */
-/* 	} */
-/*       if (column > 0) */
-/* 	{ */
-/* 	  columns_pos[column] = columns_pos[column-1] + columns_max[column-1]; */
-/* 	  printf ("** %d, %f, %f\n", column, columns_pos[column-1], columns_pos[column]); */
-/* 	} */
-/*       printf ("-- %d, %f, %f, %f\n", column, columns_max[column], columns_total[column], total_text); */
-/*       gnome_print_gsave (pc); */
-/*       gnome_print_setlinewidth (pc, 1); */
-/*       gnome_print_moveto (pc, columns_pos[column]+10, 800); */
-/*       gnome_print_lineto (pc, columns_pos[column]+10, 200); */
-/*       gnome_print_stroke (pc); */
-/*       gnome_print_grestore (pc); */
-/*     } */
-
+  for (i=0; i<column; i++)
+    {
+      if (! columns_max[i])
+	{
+	  columns_max[i] = ((columns_total[i]/total_text) * total_width);
+	  printf ("++ %d, %f, %f, %f\n", i, columns_max[i], columns_total[i], total_text);
+	}
+      else
+	{
+	  printf ("-- %d, %f, %f, %f\n", i, columns_max[i], columns_total[i], total_text);
+	}
+      if (i > 0)
+	{
+	  columns_pos[i] = columns_pos[i-1] + columns_max[i-1];
+	  printf ("** %d, %f, %f\n", i, columns_pos[i-1], columns_pos[i]);
+	}
+      gnome_print_gsave (pc);
+      gnome_print_setlinewidth (pc, 1);
+      gnome_print_moveto (pc, columns_pos[i]+10, 800);
+      gnome_print_lineto (pc, columns_pos[i]+10, 200);
+      gnome_print_stroke (pc);
+      gnome_print_grestore (pc);
+    }
 /*   for (i=0; i<maxi; i++) */
 /*     { */
 /*       for (column=0; column<4; column++) */
@@ -967,8 +971,8 @@ gint gnomeprint_affiche_total_tiers ( gint ligne )
 gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 			   gint ligne )
 {
-  int colonne, origine_y = tmp_y;
-  int size=0;
+  int column=0;
+  GSList * words = NULL;
 
   gnomeprint_verifier_nouvelle_page ();
 
@@ -988,210 +992,241 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 	  num_ope = 0;
 	}
 
-      colonne = 1;
-
       /* On affiche l'opération elle-même */
 
       /* [FIXME] DÉCOMMENTER PUIS IMPRIMER LA LIGNE */
       
-/*       if (etat_courant -> afficher_no_ope) */
-/* 	{ */
-/* 	  total_text += update_columns (pc, font, column, g_strdup_printf ( "%d", operation -> no_operation ) ); */
-/* 	  column++; */
-/* 	} */
-/*       if (etat_courant -> afficher_date_ope) */
-/* 	{ */
-/* 	  total_text += update_columns (pc, font, column, */
-/* 					g_strdup_printf  ( "%.2d/%.2d/%d", */
-/* 							   operation -> jour, */
-/* 							   operation -> mois, */
-/* 							   operation -> annee ) ) ; */
-/* 	  column++; */
-/* 	} */
-/*       if (etat_courant -> afficher_exo_ope) */
-/* 	{ */
-/* 	  total_text += update_columns (pc, font, column, */
-/* 					((struct struct_exercice *) */
-/* 					 (g_slist_find_custom ( liste_struct_exercices, */
-/* 								GINT_TO_POINTER ( operation -> no_exercice ), */
-/* 								(GCompareFunc) recherche_exercice_par_no )->data)) -> nom_exercice); */
-/* 	    column++; */
-/* 	} */
-/*       if (etat_courant -> afficher_tiers_ope) */
-/* 	{ */
-/* 	  total_text += update_columns (pc, font, column, */
-/* 					((struct struct_tiers *) */
-/* 					 (g_slist_find_custom ( liste_struct_tiers, */
-/* 								GINT_TO_POINTER ( operation -> tiers ), */
-/* 								(GCompareFunc) recherche_tiers_par_no )->data)) -> nom_tiers); */
-/* 	  column++; */
-/* 	} */
-/*       if (etat_courant -> afficher_categ_ope) */
-/* 	{ */
-/* 	  gchar * pointeur=NULL; */
-/* 	  if ( operation -> categorie ) */
-/* 	    { */
-/* 	      struct struct_categ *categ; */
+      if (etat_courant -> afficher_no_ope)
+	{
+	  words = text_to_words( g_strdup_printf ( "%d", operation -> no_operation ) );
+	  show_words ( pc, text_font, words, 10+columns_pos[column], point_y, columns_max[column] );
+	  column++;
+	}
+      if (etat_courant -> afficher_date_ope)
+	{
+	  words = text_to_words ( g_strdup_printf  ( "%.2d/%.2d/%d",
+						     operation -> jour,
+						     operation -> mois,
+						     operation -> annee ) ) ;
+	  show_words ( pc, text_font, words, 
+		       10+columns_pos[column], point_y, columns_max[column] );
+	  column++;
+	}
+      if (etat_courant -> afficher_exo_ope)
+	{
+	  words = text_to_words(((struct struct_exercice *)
+				 (g_slist_find_custom ( liste_struct_exercices,
+							GINT_TO_POINTER ( operation -> no_exercice ),
+							(GCompareFunc) recherche_exercice_par_no )->data)) -> nom_exercice);
+	  show_words ( pc, text_font, words, 
+		       10+columns_pos[column], point_y, columns_max[column] );
+	    column++;
+	}
+      if (etat_courant -> afficher_tiers_ope)
+	{
+	  words = text_to_words( ((struct struct_tiers *)
+				  (g_slist_find_custom ( liste_struct_tiers,
+							 GINT_TO_POINTER ( operation -> tiers ),
+							 (GCompareFunc) recherche_tiers_par_no )->data)) -> nom_tiers);
+	  show_words ( pc, text_font, words, 
+		       10+columns_pos[column], point_y, columns_max[column] );
+	  column++;
+	}
+      if (etat_courant -> afficher_categ_ope)
+	{
+	  gchar * pointeur=NULL;
+	  if ( operation -> categorie )
+	    {
+	      struct struct_categ *categ;
 
-/* 	      categ = g_slist_find_custom ( liste_struct_categories, */
-/* 					    GINT_TO_POINTER ( operation -> categorie ), */
-/* 					    (GCompareFunc) recherche_categorie_par_no ) -> data; */
-/* 	      pointeur = categ -> nom_categ; */
+	      categ = g_slist_find_custom ( liste_struct_categories,
+					    GINT_TO_POINTER ( operation -> categorie ),
+					    (GCompareFunc) recherche_categorie_par_no ) -> data;
+	      pointeur = categ -> nom_categ;
 
-/* 	      if ( operation -> sous_categorie */
-/* 		   && */
-/* 		   etat_courant -> afficher_sous_categ_ope ) */
-/* 		pointeur = g_strconcat ( pointeur, */
-/* 					 " : ", */
-/* 					 ((struct struct_sous_categ *)(g_slist_find_custom ( categ -> liste_sous_categ, */
-/* 											     GINT_TO_POINTER ( operation -> sous_categorie ), */
-/* 											     (GCompareFunc) recherche_sous_categorie_par_no ) -> data )) -> nom_sous_categ, */
-/* 					 NULL ); */
-/* 	    } */
-/* 	  else */
-/* 	    { */
-/* 	      /\* si c'est un virement, on le marque, sinon c'est qu'il n'y a pas de categ *\/ */
-/* 	      /\* ou que c'est une opé ventilée, et on marque rien *\/ */
+	      if ( operation -> sous_categorie
+		   &&
+		   etat_courant -> afficher_sous_categ_ope )
+		pointeur = g_strconcat ( pointeur,
+					 " : ",
+					 ((struct struct_sous_categ *)(g_slist_find_custom ( categ -> liste_sous_categ,
+											     GINT_TO_POINTER ( operation -> sous_categorie ),
+											     (GCompareFunc) recherche_sous_categorie_par_no ) -> data )) -> nom_sous_categ,
+					 NULL );
+	    }
+	  else
+	    {
+	      /* si c'est un virement, on le marque, sinon c'est qu'il n'y a pas de categ */
+	      /* ou que c'est une opé ventilée, et on marque rien */
 
-/* 	      if ( operation -> relation_no_operation ) */
-/* 		{ */
-/* 		  /\* c'est un virement *\/ */
+	      if ( operation -> relation_no_operation )
+		{
+		  /* c'est un virement */
 
-/* 		  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte; */
+		  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
-/* 		  if ( operation -> montant < 0 ) */
-/* 		    pointeur = g_strconcat ( _("Virement vers "), */
-/* 					     NOM_DU_COMPTE, */
-/* 					     NULL ); */
-/* 		  else */
-/* 		    pointeur = g_strconcat ( _("Virement de "), */
-/* 					     NOM_DU_COMPTE, */
-/* 					     NULL ); */
-/* 		} */
-/* 	    } */
+		  if ( operation -> montant < 0 )
+		    pointeur = g_strconcat ( _("Virement vers "),
+					     NOM_DU_COMPTE,
+					     NULL );
+		  else
+		    pointeur = g_strconcat ( _("Virement de "),
+					     NOM_DU_COMPTE,
+					     NULL );
+		}
+	    }
 
-/* 	  if (pointeur) */
-/* 	    total_text += update_columns (pc, font, column, */
-/* 					  pointeur); */
-/* 	  column++; */
-/* 	} */
-/*       if (etat_courant -> afficher_ib_ope) */
-/* 	{ */
-/* 	  gchar *pointeur = NULL; */
-/* 	  if ( operation -> imputation ) */
-/* 	    { */
-/* 	      struct struct_imputation *ib; */
+	  if (pointeur)
+	    {
+	      words = text_to_words( pointeur );
+	      show_words ( pc, text_font, words, 
+			   10+columns_pos[column], point_y, columns_max[column] );
+	    }
+	  column++;
+	}
+      if (etat_courant -> afficher_ib_ope)
+	{
+	  gchar *pointeur = NULL;
+	  if ( operation -> imputation )
+	    {
+	      struct struct_imputation *ib;
 
-/* 	      ib = g_slist_find_custom ( liste_struct_imputation, */
-/* 					 GINT_TO_POINTER ( operation -> imputation ), */
-/* 					 (GCompareFunc) recherche_imputation_par_no ) -> data; */
-/* 	      pointeur = ib -> nom_imputation; */
+	      ib = g_slist_find_custom ( liste_struct_imputation,
+					 GINT_TO_POINTER ( operation -> imputation ),
+					 (GCompareFunc) recherche_imputation_par_no ) -> data;
+	      pointeur = ib -> nom_imputation;
 
-/* 	      if ( operation -> sous_imputation */
-/* 		   && */
-/* 		   etat_courant -> afficher_sous_ib_ope ) */
-/* 		pointeur = g_strconcat ( pointeur, */
-/* 					 " : ", */
-/* 					 ((struct struct_sous_imputation *)(g_slist_find_custom ( ib -> liste_sous_imputation, */
-/* 												  GINT_TO_POINTER ( operation -> sous_imputation ), */
-/* 												  (GCompareFunc) recherche_sous_imputation_par_no ) -> data )) -> nom_sous_imputation, */
-/* 					 NULL ); */
+	      if ( operation -> sous_imputation
+		   &&
+		   etat_courant -> afficher_sous_ib_ope )
+		pointeur = g_strconcat ( pointeur,
+					 " : ",
+					 ((struct struct_sous_imputation *)(g_slist_find_custom ( ib -> liste_sous_imputation,
+												  GINT_TO_POINTER ( operation -> sous_imputation ),
+												  (GCompareFunc) recherche_sous_imputation_par_no ) -> data )) -> nom_sous_imputation,
+					 NULL );
 
-/* 	    } */
-/* 	  if (pointeur) */
-/* 	    total_text += update_columns (pc, font, column, pointeur); */
-/* 	  column++; */
-/* 	} */
-/*       if (etat_courant -> afficher_notes_ope) */
-/* 	{ */
-/* 	  if ( operation -> notes ) */
-/* 	    total_text += update_columns (pc, font, column, operation -> notes); */
-/* 	  column++; */
-/* 	} */
-/*       if (etat_courant -> afficher_type_ope) */
-/* 	{ */
-/* 	  GSList *pointeur; */
-/* 	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte; */
+	    }
+	  if (pointeur)
+	    {
+	      words = text_to_words( pointeur );
+	      show_words ( pc, text_font, words, 
+			   10+columns_pos[column], point_y, columns_max[column] );
+	    }
+	  column++;
+	}
+      if (etat_courant -> afficher_notes_ope)
+	{
+	  if ( operation -> notes )
+	    {
+	      words = text_to_words( operation -> notes );
+	      show_words ( pc, text_font, words, 
+			   10+columns_pos[column], point_y, columns_max[column] );
+	    }
+	  column++;
+	}
+      if (etat_courant -> afficher_type_ope)
+	{
+	  GSList *pointeur;
+	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
-/* 	  pointeur = g_slist_find_custom ( TYPES_OPES, */
-/* 					   GINT_TO_POINTER ( operation -> type_ope ), */
-/* 					   (GCompareFunc) recherche_type_ope_par_no ); */
+	  pointeur = g_slist_find_custom ( TYPES_OPES,
+					   GINT_TO_POINTER ( operation -> type_ope ),
+					   (GCompareFunc) recherche_type_ope_par_no );
 
-/* 	  if ( pointeur ) */
-/* 	    { */
-/* 	      struct struct_type_ope *type; */
-/* 	      type = pointeur -> data; */
-/* 	      total_text += update_columns (pc, font, column, type -> nom_type); */
-/* 	    } */
+	  if ( pointeur )
+	    {
+	      struct struct_type_ope *type;
+	      type = pointeur -> data;
+	      words = text_to_words( type -> nom_type );
+	      show_words ( pc, text_font, words, 
+			   10+columns_pos[column], point_y, columns_max[column] );
+	    }
 
-/* 	  column++; */
-/* 	} */
-/*       if (etat_courant -> afficher_cheque_ope) */
-/* 	{ */
+	  column++;
+	}
+      if (etat_courant -> afficher_cheque_ope)
+	{
 	  
-/* 	  if ( operation -> contenu_type ) */
-/* 	    { */
-/* 	      total_text += update_columns (pc, font, column, operation -> contenu_type); */
-/* 	    } */
+	  if ( operation -> contenu_type )
+	    {
+	      words = text_to_words ( operation -> contenu_type );
+	      show_words ( pc, text_font, words, 
+			   10+columns_pos[column], point_y, columns_max[column] );
 
-/* 	  column++; */
-/* 	} */
-/*       if (etat_courant -> afficher_pc_ope) */
-/* 	{ */
-/* 	  if ( operation -> no_piece_comptable ) */
-/* 	    { */
-/* 	      total_text += update_columns (pc, font, column, operation -> no_piece_comptable); */
-/* 	    } */
-/* 	  column++; */
-/* 	} */
-/*       if (etat_courant -> afficher_infobd_ope) */
-/* 	{ */
-/* 	  if ( operation -> info_banque_guichet ) */
-/* 	    { */
-/* 	      total_text += update_columns (pc, font, column, operation -> info_banque_guichet); */
-/* 	    } */
-/* 	  column++; */
-/* 	} */
-/*       if (etat_courant -> afficher_rappr_ope) */
-/* 	{ */
-/* 	  GSList *pointeur; */
+	    }
 
-/* 	  pointeur = g_slist_find_custom ( liste_no_rapprochements, */
-/* 					   GINT_TO_POINTER ( operation -> no_rapprochement ), */
-/* 					   (GCompareFunc) recherche_no_rapprochement_par_no ); */
+	  column++;
+	}
+      if (etat_courant -> afficher_pc_ope)
+	{
+	  if ( operation -> no_piece_comptable )
+	    {
+	      words = text_to_words ( operation -> no_piece_comptable );
+	      show_words ( pc, text_font, words, 
+			   10+columns_pos[column], point_y, columns_max[column] );
+	    }
+	  column++;
+	}
+      if (etat_courant -> afficher_infobd_ope)
+	{
+	  if ( operation -> info_banque_guichet )
+	    {
+	      words = text_to_words ( operation -> info_banque_guichet );
+	      show_words ( pc, text_font, words, 
+			   10+columns_pos[column], point_y, columns_max[column] );
+	    }
+	  column++;
+	}
+      if (etat_courant -> afficher_rappr_ope)
+	{
+	  GSList *pointeur;
 
-/* 	  if ( pointeur ) */
-/* 	    { */
-/* 	      struct struct_no_rapprochement *rapprochement; */
-/* 	      rapprochement = pointeur -> data; */
-/* 	      total_text += update_columns (pc, font, column, rapprochement -> nom_rapprochement); */
-/* 	    } */
-/* 	  column++; */
-/* 	} */
+	  pointeur = g_slist_find_custom ( liste_no_rapprochements,
+					   GINT_TO_POINTER ( operation -> no_rapprochement ),
+					   (GCompareFunc) recherche_no_rapprochement_par_no );
 
-/*       if ( devise_compte_en_cours_etat */
-/* 	   && */
-/* 	   operation -> devise == devise_compte_en_cours_etat -> no_devise ) */
-/* 	total_text += update_columns (pc, font, column, g_strdup_printf  ("%4.2f %s", */
-/* 									  operation -> montant, */
-/* 									  devise_compte_en_cours_etat -> code_devise )); */
-/*       else */
-/* 	{ */
-/* 	  struct struct_devise *devise_operation; */
+	  if ( pointeur )
+	    {
+	      struct struct_no_rapprochement *rapprochement;
+	      rapprochement = pointeur -> data;
+	      words = text_to_words ( rapprochement -> nom_rapprochement );
+	      show_words ( pc, text_font, words, 
+			   10+columns_pos[column], point_y, columns_max[column] );
+	    }
+	  column++;
+	}
+
+      if ( devise_compte_en_cours_etat
+	   &&
+	   operation -> devise == devise_compte_en_cours_etat -> no_devise )
+	{
+	  words = text_to_words ( g_strdup_printf  ("%4.2f %s",
+						    operation -> montant,
+						    devise_compte_en_cours_etat -> code_devise ));
+	  show_words ( pc, text_font, words, 
+		       10+columns_pos[column], point_y, columns_max[column] );
+	}
+      else
+	{
+	  struct struct_devise *devise_operation;
 	  
-/* 	  devise_operation = g_slist_find_custom ( liste_struct_devises, */
-/* 						   GINT_TO_POINTER ( operation -> devise ), */
-/* 						   ( GCompareFunc ) recherche_devise_par_no ) -> data; */
-/* 	  total_text += update_columns (pc, font, column, g_strdup_printf  ("%4.2f %s", */
-/* 									    operation -> montant, */
-/* 									    devise_operation -> code_devise )); */
-/* 	} */
+	  devise_operation = g_slist_find_custom ( liste_struct_devises,
+						   GINT_TO_POINTER ( operation -> devise ),
+						   ( GCompareFunc ) recherche_devise_par_no ) -> data;
+	  {
+	    words = text_to_words ( g_strdup_printf  ("%4.2f %s",
+						      operation -> montant,
+						      devise_operation -> code_devise ));
+	    show_words ( pc, text_font, words, 
+			 10+columns_pos[column], point_y, columns_max[column] );
+	  }
+	}
      
-/*       lines++; */
-/*       list_pointeur = list_pointeur->next; */
     }
 
   tmp_x = HMARGIN;
+  tmp_y -= 20;
   gnomeprint_commit_point ();
 
   num_ope ++;
