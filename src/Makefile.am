@@ -54,6 +54,7 @@ sources = 			\
 	operations_liste.c	\
 	operations_onglet.c	\
 	parametres.c		\
+	parse_cmdline.c		\
 	patienter.c		\
 	print_config.c		\
 	qif.c			\
@@ -135,6 +136,7 @@ grisbi_INCLUDES =		\
 	operations_liste.h	\
 	operations_onglet.h	\
 	parametres.h		\
+	parse_cmdline.h		\
 	patienter.h		\
 	print_config.h		\
 	qif.h			\

@@ -52,6 +52,7 @@
 #include "etats_calculs.h"
 #include "etats_onglet.h"
 #include "tip.h"
+#include "parse_cmdline.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -115,8 +116,8 @@ int main (int argc, char *argv[])
 #ifndef _WIN32
     struct sigaction sig_sev;
 #endif
-    gint demande_page;
     struct stat buffer_stat;
+    cmdline_options  opt;
 
     /* on ajoute la possibilité de mettre l'option --onglet dans la ligne de commande */
     /* Permet d'ouvrir le fichier demandé sur l'onglet désiré  */
@@ -171,6 +172,13 @@ int main (int argc, char *argv[])
 	    printf (_("Error on sigaction: SIGSEGV won't be trapped\n"));
 #endif
 
+	/* parse des options de la ligne de commande */
+	if (parse_options(argc, argv, &opt)) 
+	{
+		/* en cas d'erreur dans les options ou si on a passé --version ou --help */
+		exit(0);
+	}
+	
 	/*  Création de la fenêtre principale */
 
 	window = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
@@ -251,108 +259,37 @@ int main (int argc, char *argv[])
 
 	/* on vérifie les arguments de ligne de commande */
 
-	demande_page = 0;
-
-	switch ( argc )
+	if (opt.fichier != NULL) 
 	{
-	    case 1:
-		/* il n'y a aucun argument */
-
-		/* ouvre le dernier fichier s'il existe et si c'est demandé */
-
+		/* nom de fichier sur la ligne de commande; c'est celui-là qu'on ouvre */
+		nom_fichier_comptes = opt.fichier;
+		ouverture_confirmee();
+	}
+	else 
+	{
+		/* ouvre le dernier fichier si defini et si chargement auto. */
 		if ( etat.dernier_fichier_auto
 		     &&
 		     nom_fichier_comptes
 		     &&
 		     strlen ( nom_fichier_comptes ) )
 		    ouverture_confirmee();
-		break;
-
-	    case 2:
-		/* l'argument peut être soit --onglet, soit le fichier à ouvrir */
-
-		if ( !strncmp ( argv[1],
-				"--",
-				2 ))
-		{
-		    demande_page = 1;
-
-		    /* ouvre le dernier fichier s'il existe et si c'est demandé */
-
-		    if ( etat.dernier_fichier_auto
-			 &&
-			 nom_fichier_comptes
-			 &&
-			 strlen ( nom_fichier_comptes ) )
-			ouverture_confirmee();
-		}
-		else
-		{
-		    nom_fichier_comptes = argv[1];
-		    ouverture_confirmee();
-		}
-		break;
-
-	    case 3:
-		/* il y a --onglet et un nom de fichier */
-		/*       il faut que argv[1] commence par -- sinon on considère que c'est le nom de fichier */
-		/* et on oublie le 2ème argument */
-
-		if ( !strncmp ( argv[1],
-				"--",
-				2 ))
-		{
-		    demande_page = 1;
-
-		    /* ouvre le fichier demandé */
-
-		    nom_fichier_comptes = argv[2];
-		    ouverture_confirmee();
-		}
-		else
-		{
-		    nom_fichier_comptes = argv[1];
-		    ouverture_confirmee();
-		}
-		break;
 	}
-
+	
 	/*   à ce niveau, le fichier doit être chargé, on met sur l'onglet demandé si nécessaire */
 
 	if ( nb_comptes
 	     &&
-	     demande_page )
+	     opt.demande_page )
 	{
-	    gchar **split_argument;
-
-	    split_argument = g_strsplit ( argv[1],
-					  "=",
-					  2 );
-
-	    /*       si le 2ème argument retourné est null, c'est qu'on avait marqué --onglet= */
-	    /* et dans ce cas on fait rien */
-
-	    if ( split_argument[1] )
-	    {
-		gchar **split_chiffres;
-
-		split_chiffres = g_strsplit ( split_argument[1],
-					      ",",
-					      0 );
-
-		/* 	  comme split_argument[1] existait, split_chiffres[0] existe forcemment */
-
-		switch ( my_atoi ( split_chiffres[0] ))
+		switch ( opt.page_w )
 		{
 		    case -1:
 			/* on demande l'onglet de configuration */
 
 			/* on affiche l'onglet du 2ème argument s'il existe */
 
-			if ( split_chiffres[1] )
-			    preferences ( my_atoi ( split_chiffres[1] ));
-			else
-			    preferences ( NOT_A_PAGE );
+		    preferences ( NOT_A_PAGE );
 
 			break;
 
@@ -365,25 +302,25 @@ int main (int argc, char *argv[])
 		    case 6:
 
 			gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
-						my_atoi ( split_chiffres[0] ));
+						opt.page_w);
 			break;
 
 		    case 7:
 			/* on demande l'onglet des états  */
 
 			gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
-						my_atoi ( split_chiffres[0] ));
+						opt.page_w);
 
 			/* s'il y a un chiffre ensuite, on ouvre l'état correspondant à ce chiffre */
 
-			if ( split_chiffres[1]
+			if ( (opt.report_no != -1)
 			     &&
 			     liste_struct_etats )
 			{
 			    GSList *liste_tmp;
 
 			    liste_tmp = g_slist_nth ( liste_struct_etats,
-						      my_atoi ( split_chiffres[1] ));
+						      opt.report_no);
 
 			    /* si on a sélectionné un état qui n'existait pas, on ouvre le 1er */
 
@@ -411,29 +348,29 @@ int main (int argc, char *argv[])
 
 			    /* s'il y a une suite dans la demande en ligne de commande, on ouvre la personnalisation */
 
-			    if ( split_chiffres[2] )
+			    if ( opt.customization_tab_no != -1 )
 			    {
 				personnalisation_etat ();
 
 				/* le 1er chiffre correspond aux 1ers onglets */
 
 				gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_config_etat ),
-							my_atoi ( split_chiffres[2] ));
+							opt.customization_tab_no);
 
 				/* s'il y a encore un chiffre, c'est pour le sous onglet */
 
-				if ( split_chiffres[3] )
+				if ( opt.subcustom_tab_no != -1 )
 				{
-				    switch ( my_atoi ( split_chiffres[2] ))
+				    switch ( opt.customization_tab_no )
 				    {
 					case 0:
 
 					    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_selection ),
-								    my_atoi ( split_chiffres[3] ));
+								    opt.subcustom_tab_no);
 					    break;
 					case 2:
 					    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_aff_donnees ),
-								    my_atoi ( split_chiffres[3] ));
+								    opt.subcustom_tab_no);
 					    break;
 				    }
 				}
@@ -441,7 +378,6 @@ int main (int argc, char *argv[])
 			}
 			break;
 		}
-	    }
 	}
 
 	display_tip ( FALSE );
