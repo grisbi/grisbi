@@ -550,7 +550,7 @@ changement_format_date:
 
 	/*   vérification qu'il y a une date, sinon on vire l'opé de toute manière */
 
-	if ( operation -> date_tmpp
+	if ( operation -> date_tmp
 	     &&
 	     strlen ( g_strstrip ( operation -> date_tmp )) )
 	{	      
