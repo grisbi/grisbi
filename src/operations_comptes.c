@@ -113,69 +113,12 @@ GtkWidget *creation_liste_comptes (void)
   gtk_widget_show (vbox_liste_comptes);
   
 
-  /*  Création d'une icone et du nom par compte, et placement dans la liste selon l'ordre désiré  */
-
+  /*  Création d'une icone et du nom par compte, et placement dans la
+      liste selon l'ordre désiré  */
   if ( nb_comptes )
     {
-      int i;
-
-      ordre_comptes_variable = ordre_comptes;
-
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-      for ( i = 0 ; i < nb_comptes ; i++ )
-	{
-	  if ( COMPTE_CLOTURE )
-	    gnome_app_remove_menus ( GNOME_APP ( window ), _("Accounts/Closed accounts/"), 2 );
-	  p_tab_nom_de_compte_variable++;
-	}
-
-      do
-	{
-	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable->data );
-	  
-	  bouton = comptes_appel( GPOINTER_TO_INT ( ordre_comptes_variable->data ));
-	  gtk_box_pack_start (GTK_BOX (vbox_liste_comptes),
-			      bouton,
-			      FALSE,
-			      FALSE,
-			      0);
-
-	  if ( COMPTE_CLOTURE )
-	    {
-	      GnomeUIInfo *menu;
-
-	      menu = malloc ( 2 * sizeof ( GnomeUIInfo ));
-
-	      menu -> type = GNOME_APP_UI_ITEM;
-	      menu -> label = NOM_DU_COMPTE;
-	      menu -> hint = NOM_DU_COMPTE;
-	      menu -> moreinfo = (gpointer) changement_compte_par_menu;
-	      menu -> user_data = ordre_comptes_variable->data;
-	      menu -> unused_data = NULL;
-	      menu -> pixmap_type = 0;
-	      menu -> pixmap_info = 0;
-	      menu -> accelerator_key = 0;
-	      menu -> ac_mods = GDK_BUTTON1_MASK;
-	      menu -> widget = NULL;
-
-	      (menu + 1)->type = GNOME_APP_UI_ENDOFINFO;
-
-
-	      gnome_app_insert_menus ( GNOME_APP ( window ),
-				       _("Accounts/Closed accounts/"),
-				       menu );
-
-	      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[3].widget ),
-					 TRUE );
-	    }
-	  else
-	    gtk_widget_show (bouton);
-
-	  
-	}
-      while ( (  ordre_comptes_variable = ordre_comptes_variable->next ) );
+      reaffiche_liste_comptes ();
     }
-
 
   /* ajoute le bouton et le label pour l'équilibrage de compte */
   /* les 2 seront intégrés dans une frame */
@@ -412,8 +355,7 @@ void reaffiche_liste_comptes ( void )
       p_tab_nom_de_compte_variable++;
     }
 
-  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[3].widget ),
-			     FALSE );
+  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[3].widget ), FALSE );
 
   /*  Création d'une icone et du nom par compte, et placement dans la liste selon l'ordre désiré  */
 
@@ -422,53 +364,45 @@ void reaffiche_liste_comptes ( void )
     {
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable->data );
       
-      bouton = comptes_appel( GPOINTER_TO_INT ( ordre_comptes_variable->data ));
-      gtk_box_pack_start (GTK_BOX (vbox_liste_comptes),
-			  bouton,
-			  FALSE,
-			  FALSE,
-			  0);
+      if ( ! COMPTE_CLOTURE )
+	{
+	  bouton = comptes_appel( GPOINTER_TO_INT ( ordre_comptes_variable->data ));
+	  gtk_box_pack_start (GTK_BOX (vbox_liste_comptes), bouton, FALSE, FALSE, 0);
+	  gtk_widget_show (bouton);
+	}
+      else
+	{
+	  GnomeUIInfo *menu;
 
-	  if ( COMPTE_CLOTURE )
-	    {
-	      GnomeUIInfo *menu;
+	  menu = malloc ( 2 * sizeof ( GnomeUIInfo ));
 
-	      menu = malloc ( 2 * sizeof ( GnomeUIInfo ));
+	  menu -> type = GNOME_APP_UI_ITEM;
+	  menu -> label = NOM_DU_COMPTE;
+	  menu -> hint = NOM_DU_COMPTE;
+	  menu -> moreinfo = (gpointer) changement_compte_par_menu;
+	  menu -> user_data = ordre_comptes_variable->data;
+	  menu -> unused_data = NULL;
+	  menu -> pixmap_type = 0;
+	  menu -> pixmap_info = 0;
+	  menu -> accelerator_key = 0;
+	  menu -> ac_mods = GDK_BUTTON1_MASK;
+	  menu -> widget = NULL;
 
-	      menu -> type = GNOME_APP_UI_ITEM;
-	      menu -> label = NOM_DU_COMPTE;
-	      menu -> hint = NOM_DU_COMPTE;
-	      menu -> moreinfo = (gpointer) changement_compte_par_menu;
-	      menu -> user_data = ordre_comptes_variable->data;
-	      menu -> unused_data = NULL;
-	      menu -> pixmap_type = 0;
-	      menu -> pixmap_info = 0;
-	      menu -> accelerator_key = 0;
-	      menu -> ac_mods = GDK_BUTTON1_MASK;
-	      menu -> widget = NULL;
-
-	      (menu + 1)->type = GNOME_APP_UI_ENDOFINFO;
+	  (menu + 1)->type = GNOME_APP_UI_ENDOFINFO;
 
 
-	      gnome_app_insert_menus ( GNOME_APP ( window ),
-				       _("Accounts/Closed accounts/"),
-				       menu );
+	  gnome_app_insert_menus ( GNOME_APP ( window ),
+				   _("Accounts/Closed accounts/"),
+				   menu );
 
-	      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[3].widget ),
-					 TRUE );
-	    }
-	  else
-	    gtk_widget_show (bouton);
+	  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[3].widget ),
+				     TRUE );
+	}
 
     }
   while ( (  ordre_comptes_variable = ordre_comptes_variable->next ) );
 
-
-
   /* ouvre le livre */
-
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-
-
 }
 /* *********************************************************************************************************** */
