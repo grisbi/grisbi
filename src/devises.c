@@ -536,8 +536,7 @@ void ajout_devise ( GtkWidget *bouton,
 		       NULL );
   gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
 				 GTK_WINDOW ( window ));
-  gnome_dialog_set_default ( GNOME_DIALOG ( dialog ),
-			    0 );
+  gnome_dialog_set_default ( GNOME_DIALOG ( dialog ), 0 );
 
   paddingbox = 
     new_paddingbox_with_title (GTK_WIDGET ( GNOME_DIALOG ( dialog ) -> vbox ),

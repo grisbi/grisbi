@@ -27,7 +27,7 @@
 
 /* FIXME: remove and put in en_tete.h */
 void checkbox_set_value (GtkWidget *, guint *, gboolean);
-
+GtkWidget * new_date_entry ( gchar ** value, GCallback * hook );
 
 GtkWidget *paddingbox_details;	/** Widget handling financial year details */
 
@@ -264,7 +264,7 @@ GtkWidget *onglet_exercices ( void )
 		     label, 0, 1, 1, 2,
 		     GTK_SHRINK | GTK_FILL, 0,
 		     0, 0 );
-  debut_exercice = gtk_entry_new (); /* FIXME: add a "date" type */
+  debut_exercice = new_date_entry ( NULL, NULL );
   gtk_table_attach ( GTK_TABLE ( table ),
 		     debut_exercice, 1, 2, 1, 2,
 		     GTK_EXPAND | GTK_FILL, 0,
@@ -278,7 +278,7 @@ GtkWidget *onglet_exercices ( void )
 		     label, 0, 1, 2, 3,
 		     GTK_SHRINK | GTK_FILL, 0,
 		     0, 0 );
-  fin_exercice = gtk_entry_new ();
+  fin_exercice = new_date_entry ( NULL, NULL );
   gtk_table_attach ( GTK_TABLE ( table ),
 		     fin_exercice, 1, 2, 2, 3,
 		     GTK_EXPAND | GTK_FILL, 0,

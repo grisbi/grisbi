@@ -2329,9 +2329,7 @@ set_text (GtkEntry *entry, gchar *value,
 
 
 /* FIXME: move it ! */
-GtkWidget *
-new_text_entry ( gchar ** value,
-		 GCallback * hook )
+GtkWidget * new_text_entry ( gchar ** value, GCallback * hook )
 {
   GtkWidget * entry;
 
@@ -2396,4 +2394,25 @@ new_radiogroup_with_title (GtkWidget * parent,
     }
 
   return paddingbox;
+}
+
+
+GtkWidget * new_date_entry ( gchar ** value, GCallback * hook )
+{
+  GtkWidget *hbox, *entry, *date_entry;
+
+  hbox = gtk_hbox_new ( FALSE, 6 );
+  
+  entry = gtk_entry_new ();
+  gtk_box_pack_start ( GTK_BOX(hbox), entry,
+		       TRUE, TRUE, 0 );
+  
+  date_entry = gtk_button_new_with_label ("...");
+  gtk_box_pack_start ( GTK_BOX(hbox), date_entry,
+		       FALSE, FALSE, 0 );
+
+/*   g_signal_connect ( GTK_OBJECT ( date_entry ), "", */
+/* 		     GTK_SIGNAL_FUNC ( display_calendar ), data ); */
+
+  return hbox;
 }
