@@ -131,14 +131,14 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
     pango_font_description_set_weight ( style -> font_desc, 
 					PANGO_WEIGHT_BOLD );
   if ( ((gint) properties) & TEXT_HUGE )
-    pango_font_description_set_weight ( style -> font_desc, 
-					pango_font_description_get_size(style->font_desc) + 100 );
+    pango_font_description_set_size ( style -> font_desc, 
+				      pango_font_description_get_size(style->font_desc) + 100 );
   if ( ((gint) properties) & TEXT_LARGE )
-    pango_font_description_set_weight ( style -> font_desc, 
-					pango_font_description_get_size(style->font_desc) + 2 );
+    pango_font_description_set_size ( style -> font_desc, 
+				      pango_font_description_get_size(style->font_desc) + 2 );
   if ( ((gint) properties) & TEXT_SMALL )
-    pango_font_description_set_weight ( style -> font_desc, 
-					pango_font_description_get_size(style->font_desc) - 2 );
+    pango_font_description_set_size ( style -> font_desc, 
+				      pango_font_description_get_size(style->font_desc) - 2 );
 
   gtk_widget_set_style ( label, style );
   gtk_widget_show ( label );
