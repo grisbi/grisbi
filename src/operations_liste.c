@@ -2912,6 +2912,8 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
 	g_slist_free ( liste_tmp );
     }
 
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + transaction -> no_compte;
+
     LISTE_OPERATIONS = g_slist_remove ( LISTE_OPERATIONS, transaction );
     NB_OPE_COMPTE--;
 
