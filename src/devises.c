@@ -670,8 +670,8 @@ void ajout_devise ( GtkWidget *bouton,
     gint resultat;
 
     dialog = gnome_dialog_new ( _("Add a currency"),
-				GNOME_STOCK_BUTTON_OK,
 				GNOME_STOCK_BUTTON_CANCEL,
+				GNOME_STOCK_BUTTON_OK,
 				NULL );
     gtk_container_set_border_width ( GTK_CONTAINER ( dialog ), 10 );
     gtk_signal_connect ( GTK_OBJECT ( dialog ),
