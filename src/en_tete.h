@@ -1012,6 +1012,13 @@ void denote_struct_sous_jaccentes ( gint origine );
 
 
 /***********************************/ 
+/* fichier etats_support.c */
+/***********************************/ 
+
+gchar * etats_titre ();
+
+
+/***********************************/ 
 /* fichier impression.c */
 /***********************************/ 
 
@@ -1086,6 +1093,9 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 gint gnomeprint_affiche_total_partiel ( gdouble total_partie,
 					gint ligne,
 					gint type );
+gint gnomeprint_affiche_total_periode ( struct structure_operation *operation,
+					gint ligne,
+					gint force );
 gint gnomeprint_affiche_total_general ( gdouble total_general,
 					gint ligne );
 gint gnomeprint_affiche_categ_etat ( struct structure_operation *operation,
@@ -1114,7 +1124,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne );
 gint gnomeprint_finish ( );
 
 void gnomeprint_affiche_texte ( char * texte, GnomeFont * font );
-void gnomeprint_set_color ( gchar tred, gchar tgreen, gchar tblue );
+void gnomeprint_set_color ( gint tred, gint tgreen, gint tblue );
 void gnomeprint_commit_point ( );
 void gnomeprint_commit_x ( );
 void gnomeprint_commit_y ( );
