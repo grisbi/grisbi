@@ -212,6 +212,7 @@ extern GtkWidget *window;
 /******************************************************************************/
 /*  routine qui crée la fenêtre de la liste des opé  */
 /******************************************************************************/
+
 GtkWidget *creation_fenetre_operations ( void )
 {
     GtkWidget *win_operations;
@@ -496,6 +497,7 @@ GtkWidget *creation_tree_view_operations_par_compte ( gint no_account )
 				 G_TYPE_BOOLEAN,
 				 G_TYPE_OBJECT,
 				 G_TYPE_OBJECT,
+				 G_TYPE_BOOLEAN,
 				 G_TYPE_BOOLEAN );
 
     /*     save the store */
@@ -692,7 +694,7 @@ void creation_colonnes_tree_view_par_compte ( gint no_account )
 								cell_renderer,
 								"is-expanded", TRANSACTION_COL_NB_IS_EXPANDED,
 								"is-expander", TRANSACTION_COL_NB_IS_EXPANDER,
-								"visible", TRANSACTION_COL_NB_IS_EXPANDER,
+								"visible", TRANSACTION_COL_NB_IS_VISIBLE,
 								"cell-background-gdk", TRANSACTION_COL_NB_BACKGROUND,
 								NULL );
 	}
@@ -1042,18 +1044,12 @@ gboolean gsb_transactions_list_fill_row ( struct structure_operation *transactio
 		/* it's the first column, if it's not a breakdown, we put nothing
 		 * else, we put an expander */
 
-		if ( transaction -> operation_ventilee
-		     &&
-		     !line_in_transaction )
-		{
-		    gtk_list_store_set ( store,
-					 iter,
-					 TRANSACTION_COL_NB_IS_EXPANDER, TRUE,
-					 TRANSACTION_COL_NB_IS_EXPANDED, FALSE,
-					 -1 );
-
-
-		}
+		gtk_list_store_set ( store, iter,
+				     TRANSACTION_COL_NB_IS_VISIBLE, transaction -> operation_ventilee,
+				     TRANSACTION_COL_NB_IS_EXPANDER, transaction -> operation_ventilee,
+				     TRANSACTION_COL_NB_IS_EXPANDED, FALSE,
+				     TRANSACTION_COL_NB_IS_VISIBLE, (!line_in_transaction)z,
+				     -1 );
 	    }
 	}
 
