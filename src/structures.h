@@ -83,6 +83,8 @@ struct structure_operation
 {
   guint no_operation;
 
+  gchar *id_operation;   /* utilisé lors d'import ofx pour éviter les doublons */
+
   GDate *date;
   guint jour;
   guint mois;
@@ -111,7 +113,7 @@ struct structure_operation
   guint type_ope;               /* variable suivant le type de compte */
   gchar *contenu_type;          /* ce peut être un no de chèque, de virement ou tout ce qu'on veut */
 
-  gshort pointe;            /*  0=rien, 1=pointée, 2=rapprochée */
+  gshort pointe;            /*  0=rien, 1=pointée, 2=rapprochée, 3=T */
   gshort auto_man;           /* 0=manuel, 1=automatique */
   gint no_rapprochement;          /* contient le numéro du rapprochement si elle est rapprochée */
 
@@ -320,24 +322,6 @@ struct struct_banque
   gchar *tel_correspondant;
   gchar *email_correspondant;
   gchar *fax_correspondant;
-};
-
-
-struct struct_operation_qif
-{
-  gchar *date;
-
-  gchar *tiers;
-  gchar *categ;
-  gchar *notes;
-
-  gdouble montant;
-  gulong cheque;
-  gint operation_ventilee;
-
-  gint p_r;
-
-  gint ope_de_ventilation;
 };
 
 
@@ -664,3 +648,68 @@ enum transaction_form_widget {
   TRANSACTION_FORM_BANK,
   TRANSACTION_FORM_MODE = 18,
 };
+
+
+
+
+
+/* struture d'une importation : compte contient la liste des opés importées */
+
+struct struct_compte_importation
+{
+  gchar *id_compte;
+
+  gint origine;    /* 0=qif, 1=ofx, 2=html */
+
+  gchar *nom_de_compte;
+  gint type_de_compte;  /* 0=OFX_CHECKING,1=OFX_SAVINGS,2=OFX_MONEYMRKT,3=OFX_CREDITLINE,4=OFX_CMA,5=OFX_CREDITCARD,6=OFX_INVESTMENT, 7=cash */
+  gchar *devise;
+
+  GDate *date_depart;
+  GDate *date_fin;
+
+  GSList *operations_importees;          /* liste des struct des opés importées */
+
+  gdouble solde;
+  GDate *date_solde;
+  gchar *date_solde_qif;            /* utilisé temporairement pour un fichier qif */
+
+  GtkWidget *bouton_devise;             /* adr du bouton de la devise dans le récapitulatif */
+  GtkWidget *bouton_action;             /* adr du bouton de l'action dans le récapitulatif */
+  GtkWidget *bouton_type_compte;             /* adr du bouton du type de compte dans le récapitulatif */
+  GtkWidget *bouton_compte;             /* adr du bouton du compte dans le récapitulatif */
+};
+
+
+struct struct_ope_importation
+{
+  gchar *id_operation;
+
+  gint no_compte;    /*  mis à jour si lors du marquage, si pas d'opé associée trouvée */
+  gint devise;      /* mis à jour au moment de l'enregistrement de l'opé */
+  GDate *date;
+  GDate *date_de_valeur;
+  gchar *date_tmp;      /* pour un fichier qif, utilisé en tmp avant de le transformer en gdate */
+
+  gint action;       /* ce champ est à 0 si on enregisre l'opé, à 1 si on ne l'enregistre pas (demandé lors d'ajout des opés à un compte existant) */
+  struct structure_operation *ope_correspondante; /* contient l'adrde l'opé qui correspond peut être à l'opé importée pour la présentation à l'utilisateur */
+  GtkWidget *bouton;  /*  adr du bouton si cette opé est douteuse et vérifiée par l'utilisateur */
+
+  gchar *tiers;
+  gchar *notes;
+  gulong cheque;
+
+  gchar *categ;
+
+  gdouble montant;
+
+  gint p_r;
+
+  gint type_de_transaction;
+
+  gint operation_ventilee;  /* à 1 si c'est une ventil, dans ce cas les opés de ventil suivent et ont ope_de_ventilation à 1 */
+  gint ope_de_ventilation;
+};
+
+
+

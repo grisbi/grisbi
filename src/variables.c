@@ -478,6 +478,17 @@ GSList *liste_comptes_qif;
 GSList *liste_entrees_exportation;
 
 
+
+/***********************************/ 
+/* fichier import.c */
+/***********************************/ 
+
+GSList *liste_comptes_importes;
+GtkWidget *dialog_recapitulatif;
+GtkWidget *table_recapitulatif;
+gint virements_a_chercher;
+
+
 /***********************************/ 
 /* fichier barre_outils */
 /***********************************/ 

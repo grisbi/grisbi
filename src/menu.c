@@ -34,6 +34,7 @@
 #include "menu.h"
 #include "operations_liste.h"
 #include "parametres.h"
+#include "import.h"
 #include "qif.h"
 
 #include "./xpm/export.xpm"
@@ -106,9 +107,9 @@ void init_menus ( GtkWidget * win )
 
   static GnomeUIInfo tmp_menu_importer [] = 
     {
-      GNOMEUIINFO_ITEM ( N_("QIF File"),
-			       N_("Import QIF file"),
-			       importer_fichier_qif,
+      GNOMEUIINFO_ITEM ( N_("File"),
+			       N_("Import file"),
+			       importer_fichier,
 			       import_xpm ),
       GNOMEUIINFO_END
     };

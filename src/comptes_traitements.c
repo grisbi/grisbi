@@ -431,7 +431,8 @@ GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func,
       gtk_object_set_data ( GTK_OBJECT ( item ),
 			    "no_compte",
 			    GINT_TO_POINTER ( p_tab_nom_de_compte_variable - p_tab_nom_de_compte ));
-      gtk_signal_connect ( GTK_OBJECT ( item ), "activate", GTK_SIGNAL_FUNC(func), NULL );
+      if ( func )
+      	gtk_signal_connect ( GTK_OBJECT ( item ), "activate", GTK_SIGNAL_FUNC(func), NULL );
       gtk_menu_append ( GTK_MENU ( menu ), item );
 
       if ( !activate_currrent && 

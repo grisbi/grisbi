@@ -1,7 +1,7 @@
 # Process this file with automake to produce Makefile.in
 
 localedir = $(datadir)/locale
-INCLUDES = -I$(top_srcdir) -I$(includedir) $(GNOME_INCLUDEDIR) -I../intl -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/grisbi\"" -DCHEMIN_LOGO="\"$(datadir)/pixmaps/grisbi/grisbi-logo.png\""
+INCLUDES = -I$(top_srcdir) -I$(includedir) $(GNOME_INCLUDEDIR) -I../intl -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/grisbi\"" -DCHEMIN_LOGO="\"$(datadir)/pixmaps/grisbi/grisbi-logo.png\"" 
 bin_PROGRAMS = grisbi
 
 grisbi_SOURCES = 		\
@@ -49,6 +49,9 @@ grisbi_SOURCES = 		\
 	patienter.c		\
 	print_config.c		\
 	qif.c			\
+	import.c		\
+	ofx.c			\
+	html.c			\
 	tiers_onglet.c		\
 	traitement_variables.c	\
 	type_operations.c	\
@@ -101,6 +104,9 @@ grisbi_INCLUDES =		\
 	patienter.h		\
 	print_config.h		\
 	qif.h			\
+	import.h		\
+	ofx.h			\
+	html.h			\
 	structures.h		\
 	tiers_onglet.h		\
 	traitement_variables.h	\
@@ -108,8 +114,7 @@ grisbi_INCLUDES =		\
 	ventilation.h
 
 
-#grisbi_LDADD =	$(GNOME_LIBDIR)	$(GNOMEUI_LIBS)
-
+#grisbi_LDADD = -lofx
 
 EXTRA_DIST = grisbi.desktop grisbi.keys grisbi.mime $(grisbi_INCLUDES)
 

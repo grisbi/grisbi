@@ -14,4 +14,4 @@ gboolean charge_ib ( gchar *nom_ib );
 gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc );
 void propose_changement_permissions ( void );
 double my_strtod ( char *nptr, char **endptr );
-char * latin2utf8 (char * inchar);
+gchar * latin2utf8 (char * inchar);

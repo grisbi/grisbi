@@ -74,7 +74,7 @@ myisolat1ToUTF8(unsigned char* out, int *outlen,
 
 
 
-char * latin2utf8 (char * inchar)
+gchar * latin2utf8 (char * inchar)
 {
   char buffer[1024];
   int outlen, inlen, res;
@@ -4213,6 +4213,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 
 
+/***********************************************************************************************************/
 gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 {
   xmlNodePtr node_1;
@@ -4725,6 +4726,11 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 			  if ( node_ope -> type != XML_TEXT_NODE )
 			    {
 			      operation -> no_operation = atoi ( xmlGetProp ( node_ope, "No" ));
+
+				operation -> id_operation = xmlGetProp ( node_ope,
+								"Id" );
+			      if ( !strlen ( operation -> id_operation ))
+				operation -> id_operation = NULL;
 
 			      pointeur_char = g_strsplit ( xmlGetProp ( node_ope , "D" ), "/", 3 );
 			      operation -> jour = atoi ( pointeur_char[0] );
@@ -6944,6 +6950,10 @@ gboolean enregistre_fichier ( gboolean force )
 	  xmlSetProp ( node_ope,
 		       "No",
 		       itoa ( operation -> no_operation ));
+	  
+	  xmlSetProp ( node_ope,
+		       "Id",
+			operation -> id_operation );
 
 	  xmlSetProp ( node_ope,
 		       "D",
@@ -9363,9 +9373,10 @@ double my_strtod ( char *nptr, char **endptr )
   double entier=0, mantisse=0, resultat=0;
   int invert = 0;
   char * p;
-
+  
   if (!nptr)
     return 0;
+
 
   for ( p = nptr; p < nptr + strlen(nptr); p++ )
     {

@@ -510,6 +510,16 @@ extern GSList *liste_entrees_exportation;
 
 
 /***********************************/ 
+/* fichier import.c */
+/***********************************/ 
+
+extern GSList *liste_comptes_importes;
+extern GtkWidget *dialog_recapitulatif;
+extern GtkWidget *table_recapitulatif;
+extern gint virements_a_chercher;
+
+
+/***********************************/ 
 /* fichier barre_outils */
 /***********************************/ 
 

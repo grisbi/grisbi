@@ -1071,7 +1071,12 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 	  if ( operation -> pointe == 2 )
 	    return ( _("R") );
 	  else
-	    return ( NULL );
+		    {
+	      if ( operation -> pointe == 3 )
+		return ( _("T"));
+	      else
+		return ( NULL );
+	    }
 	}
       break;
 

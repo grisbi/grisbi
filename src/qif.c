@@ -24,1289 +24,777 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "accueil.h"
-#include "categories_onglet.h"
-#include "comptes_traitements.h"
-#include "devises.h"
-#include "erreur.h"
-#include "fichiers_gestion.h"
-#include "fichiers_io.h"
-#include "gtkcombofix.h"
-#include "operations_comptes.h"
-#include "operations_liste.h"
-#include "patienter.h"
 #include "qif.h"
-#include "tiers_onglet.h"
-#include "traitement_variables.h"
-#include "operations_formulaire.h"
 #include "type_operations.h"
-
-
+#include "tiers_onglet.h"
+#include "categories_onglet.h"
+#include "fichiers_io.h"
+#include "devises.h"
 
 /* *******************************************************************************/
-/* fonction importer_fichier_qif */
-/* appelée par le menu importer */
-/* *******************************************************************************/
-
-void importer_fichier_qif ( void )
+gboolean recuperation_donnees_qif ( FILE *fichier )
 {
-  liste_comptes_qif = NULL;
-
-  selection_fichier_qif ();
-
-  update_liste_comptes_accueil();
-}
-/* *******************************************************************************/
-
-
-
-/* *******************************************************************************/
-/* Affiche la fenêtre de sélection de fichier */
-/* *******************************************************************************/
-
-void selection_fichier_qif ( void )
-{
-  GtkWidget *fenetre;
-
-
-  fenetre = gtk_file_selection_new ( _("Select a QIF file") );
-  gtk_window_set_transient_for ( GTK_WINDOW ( fenetre ),
-				 GTK_WINDOW ( window ));
-  gtk_window_set_modal ( GTK_WINDOW ( fenetre ),
-			 TRUE );
-  gtk_file_selection_set_select_multiple ( GTK_FILE_SELECTION ( fenetre ), TRUE );
-  gtk_file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre ),
-				    dernier_chemin_de_travail );
-
-  gtk_signal_connect_object (GTK_OBJECT ( GTK_FILE_SELECTION( fenetre ) -> ok_button ),
-			     "clicked",
-			     GTK_SIGNAL_FUNC ( fichier_choisi_importation_qif ),
-			     GTK_OBJECT ( fenetre ));
-  gtk_signal_connect_object (GTK_OBJECT ( GTK_FILE_SELECTION( fenetre ) -> cancel_button ),
-			     "clicked",
-			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT ( fenetre ));
-  gtk_signal_connect ( GTK_OBJECT ( fenetre ),
-		       "destroy",
-		       GTK_SIGNAL_FUNC ( traitement_donnees_brutes ),
-		       NULL );
-  gtk_widget_show ( fenetre );
-
-
-}
-/* *******************************************************************************/
-
-
-
-
-
-/* *******************************************************************************/
-void fichier_choisi_importation_qif ( GtkWidget *fenetre )
-{
-  gchar *nom_fichier_qif;
-  FILE *fichier_qif;
   gchar *pointeur_char;
   gchar **tab_char;
-  struct donnees_compte *compte;
-  GSList *liste_ope_brut;
+  struct struct_compte_importation *compte;
   gint retour;
-  gchar ** selection, **iter;
+  gint format_date;
+  GSList *liste_tmp;
+  gchar **tab;
+
+  /* fichier pointe sur le fichier qui a été reconnu comme qif */
+
+  rewind ( fichier );
+
+  fscanf ( fichier,
+	   "%a[^\n]\n",
+	   &pointeur_char );
 
 
-  /* on met le répertoire courant dans la variable correspondante */
+  /* si ça commence par !Option ou !Account ou !Type:Cat, on avance jusqu'à ce qu'on */
+  /* trouve un autre !Type */
 
-  dernier_chemin_de_travail = g_strconcat ( GTK_LABEL ( GTK_BIN ( GTK_OPTION_MENU ( GTK_FILE_SELECTION ( fenetre ) -> history_pulldown )) -> child ) -> label,
-					    "/",
-					    NULL );
-
-  /* on va récupérer tous les fichiers sélectionnés puis proposer d'en importer d'autres */
-
-
-  selection = gtk_file_selection_get_selections ( GTK_FILE_SELECTION(fenetre) );
-  iter = selection;
-
-  while ( iter && *iter )
+ retour:
+  if ( !strncmp ( pointeur_char,
+		  "!Option",
+		  7 )
+       ||
+       !strncmp ( pointeur_char,
+		  "!Account",
+		  8 )
+       ||
+       !strncmp ( pointeur_char,
+		  "!Type:Cat",
+		  9 ))
     {
-      gchar *fichier;
-
-/*       separation = g_strsplit ( GTK_LABEL ( GTK_FILE_SELECTION ( fenetre ) -> selection_text ) -> label, */
-/* 				":", */
-/* 				2 ); */
-
-/*       nom_fichier_qif = g_strconcat ( g_strstrip ( separation[1] ), */
-/* 				      "/", */
-/* 				      fichier[0], */
-/* 				      NULL ); */
-/*       g_strfreev ( separation ); */
-
-      nom_fichier_qif = (char*) *iter;
-
-      if ( !( fichier_qif = fopen ( nom_fichier_qif,
-				    "r" ) ))
+      do
 	{
-	  dialogue ( g_strconcat ("cannot open ", nom_fichier_qif, ": ",
-				  latin2utf8 ( strerror(errno) ), NULL ));
-	  return;
+	  fscanf ( fichier,
+		   "%a[^\n]\n",
+		   &pointeur_char );
 	}
+      while ( strncmp ( pointeur_char,
+			"!Type",
+			5 )
+		&&
+		strncmp ( pointeur_char,
+			"!type",
+			5 ) );
+      goto retour;
+    }
 
 
-      /* récupération des données du compte */
+  compte = calloc ( 1,
+		    sizeof ( struct struct_compte_importation ));
 
-      fscanf ( fichier_qif,
-	       "%a[^\n]\n",
-	       &pointeur_char );
+  /* c'est une importation qif */
 
-      if ( strncmp ( pointeur_char,
-		     "!Type",
-		     5 )
-	   &&
-	   strncmp ( pointeur_char,
-		     "!type",
-		     5 )
-	   &&
-	   strncmp ( pointeur_char,
-		     "!Account",
-		     8 )
-	   &&
-	   strncmp ( pointeur_char,
-		     "!Option",
-		     7 ))
-	{
-	  dialogue ( g_strdup_printf ( _("The file \"%s\" is not a QIF file"),
-				       nom_fichier_qif ));
-	  free ( pointeur_char );
-	  return;
-	}
+  compte -> origine = 0;
+
+  /* récupération du type de compte */
+  /* on n'a pas autant de types que dans le format ofx, mais on peut déjà */
+  /* en classer une partie */
+
+  tab_char = g_strsplit ( pointeur_char,
+			  ":",
+			  2 );
+
+  if ( !strcmp ( g_strstrip (tab_char[1]),
+		 "Cash" ))
+    compte -> type_de_compte = 7;
+  else
+    {
+      if ( !strcmp ( g_strstrip (tab_char[1]),
+		     "Bank" ))
+	compte -> type_de_compte = 0;
       else
-	gtk_signal_handler_block_by_func ( GTK_OBJECT ( fenetre ),
-					   GTK_SIGNAL_FUNC ( traitement_donnees_brutes ),
-					   NULL );
-
-
-      /* c'est bien un fichier qif, on peut commencer */
-
-
-      /* si ça commence par !Option ou !Account ou !Type:Cat, on avance jusqu'à ce qu'on */
-      /* trouve un autre !Type */
-
-    retour:
-      if ( !strncmp ( pointeur_char,
-		      "!Option",
-		      7 )
-	   ||
-	   !strncmp ( pointeur_char,
-		      "!Account",
-		      8 )
-	   ||
-	   !strncmp ( pointeur_char,
-		      "!Type:Cat",
-		      9 ))
 	{
-	  do
+	  if ( !strcmp ( g_strstrip (tab_char[1]),
+			 "Oth A" ))
+	    compte -> type_de_compte = 2;
+	  else
 	    {
-	      fscanf ( fichier_qif,
-		       "%a[^\n]\n",
-		       &pointeur_char );
+	      if ( !strcmp ( g_strstrip (tab_char[1]),
+			     "Oth L" ))
+		compte -> type_de_compte = 3;
+	      else
+		/* CCard */
+		compte -> type_de_compte = 5;
 	    }
-	  while ( strncmp ( pointeur_char, "!Type", 5 ) && 
-		  strncmp ( pointeur_char, "!type", 5 ) );
-	  goto retour;
 	}
-	    
-
-      /* rafraichit la fenetre d'attente */
-
-      if ( patience_en_cours )
-	while ( g_main_iteration ( FALSE ) );
-
-      compte = calloc ( 1,
-			sizeof ( struct donnees_compte ));
-
-
-      /* ajoute ce compte aux autres comptes importés */
- 
-      liste_comptes_qif = g_slist_append ( liste_comptes_qif,
-					   compte );
-
-
-      /* récupération du type de compte */
-
-      if ( strchr(pointeur_char, ':') )
-	tab_char = g_strsplit ( pointeur_char, ":", 2 );
-      else if ( strchr(pointeur_char, ' ') )
-	tab_char = g_strsplit ( pointeur_char, " ", 2 );
-      else 
-	tab_char = NULL;
-
-      if ( tab_char && strcmp ( g_strstrip (tab_char[1]), "Cash" ) )
-	if ( strcmp ( g_strstrip ( tab_char[1]), "Oth L" ))
-	  compte -> type_de_compte = 0;
-	else
-	  compte -> type_de_compte = 2;
-      else
-	compte -> type_de_compte = 1;
+    }
 
 
 
-      /* récupère les autres données du compte */
+  /* récupère les autres données du compte */
 
-      /*       pour un type CCard, le qif commence directement une opé sans donner les */
-      /* 	caractéristiques de départ du compte, on crée donc un compte du nom */
-      /* "carte de crédit" avec un solde init de 0 */
+  /*       pour un type CCard, le qif commence directement une opé sans donner les */
+  /* 	caractéristiques de départ du compte, on crée donc un compte du nom */
+  /* "carte de crédit" avec un solde init de 0 */
 
-      if ( strcmp ( g_strstrip (tab_char[1]),
-		    "CCard" ))
+  if ( strcmp ( g_strstrip (tab_char[1]),
+		"CCard" ))
+    {
+      /* ce n'est pas une ccard, on récupère les infos */
+
+	g_strfreev ( tab_char );
+	
+      do
 	{
-	  /* ce n'est pas une ccard, on récupère les infos */
+	  free ( pointeur_char );
 
-	  do
+	  retour = fscanf ( fichier,
+			    "%a[^\n]\n",
+			    &pointeur_char );
+
+
+	  /* récupération du solde initial ( on doit virer la , que money met pour séparer les milliers ) */
+	  /* on ne vire la , que s'il y a un . */
+
+	  if ( pointeur_char[0] == 'T' )
 	    {
-	      free ( pointeur_char );
+	      tab = g_strsplit ( pointeur_char,
+				 ".",
+				 2 );
 
-	      retour = fscanf ( fichier_qif,
-				"%a[^\n]\n",
-				&pointeur_char );
+	      if( tab[1] )
+		{
+		  tab_char = g_strsplit ( pointeur_char,
+					  ",",
+					  FALSE );
+
+		  pointeur_char = g_strjoinv ( NULL,
+					       tab_char );
+		  compte -> solde = my_strtod ( pointeur_char + 1,
+					       NULL );
+		  g_strfreev ( tab_char );
+		}
+	      else
+		compte -> solde = g_strtod ( pointeur_char + 1,
+					     NULL );
+	      
+	      g_strfreev ( tab );
+
+	    }
 
 
-	      /* récupération du solde initial ( on doit virer la , que money met pour séparer les milliers ) */
+	  /* récupération du nom du compte */
+	  /* 	      parfois, le nom est entre crochet et parfois non ... */
+
+	  if ( pointeur_char[0] == 'L' )
+	    {
+	      sscanf ( pointeur_char,
+		       "L%a[^\n]",
+		       &compte -> nom_de_compte );
+
+	      /* on vire les crochets s'ils y sont */
+
+	      if ( g_utf8_validate ( compte -> nom_de_compte,-1,NULL ))
+		{
+		compte -> nom_de_compte = g_strdelimit ( compte -> nom_de_compte,
+						       "[",
+						       ' ' );
+	      compte -> nom_de_compte =  g_strdelimit ( compte -> nom_de_compte,
+						       "]",
+						       ' ' );
+	      compte -> nom_de_compte =  g_strstrip ( compte -> nom_de_compte );
+	
+		}
+	      else
+	      {
+		compte -> nom_de_compte = latin2utf8 ( g_strdelimit ( compte -> nom_de_compte,
+						       "[",
+						       ' ' ));
+	      compte -> nom_de_compte =  latin2utf8 (g_strdelimit ( compte -> nom_de_compte,
+						       "]",
+						       ' ' ));
+	      compte -> nom_de_compte =  latin2utf8 (g_strstrip ( compte -> nom_de_compte ));
+	      }
+	    }
+
+	  /* on récupère la date du fichier */
+	  /*  on ne la traite pas maintenant mais quand on traitera toutes les dates */
+
+	  if ( pointeur_char[0] == 'D' )
+	    sscanf ( pointeur_char,
+		     "D%a[^\n]",
+		     &compte -> date_solde_qif );
+
+	}
+      while ( pointeur_char[0] != '^'
+	      &&
+	      retour != EOF );
+    }
+  else
+    {
+      /* c'est un compte ccard */
+
+      compte -> nom_de_compte = g_strdup ( _("Credit card"));
+      compte -> solde = 0;
+      retour = 0;
+	g_strfreev ( tab_char );
+    }
+
+  /* si le compte n'a pas de nom, on en met un ici */
+
+  if ( !compte -> nom_de_compte )
+    compte -> nom_de_compte = g_strdup ( _("Imported account with no name" ));
+
+  if ( retour == EOF )
+    {
+      dialogue ( _("This file is empty!") );
+      free (compte);
+      return (FALSE);
+    }
+
+
+  /* récupération des opérations en brut, on les traitera ensuite */
+
+  do
+    {
+      struct struct_ope_importation *operation;
+      struct struct_ope_importation *ventilation;
+
+      ventilation = NULL;
+
+      operation = calloc ( 1,
+			   sizeof ( struct struct_ope_importation ));
+
+      do
+	{
+	  retour = fscanf ( fichier,
+			    "%a[^\n]\n",
+			    &pointeur_char );
+
+	  if ( retour != EOF )
+	    {
+	      /* on vire le 0d à la fin de la chaîne s'il y est  */
+
+	      if ( pointeur_char [ strlen (pointeur_char)-1 ] == 13 )
+		pointeur_char [ strlen (pointeur_char)-1 ] = 0;
+
+	      /* récupération de la date */
+	      /* on la met pour l'instant dans date_tmp, et après avoir récupéré toutes */
+	      /* les opés on transformera les dates en gdate */
+
+	      if ( pointeur_char[0] == 'D' )
+		operation -> date_tmp = g_strdup ( pointeur_char + 1 );
+
+
+	      /* récupération du pointage */
+
+	      if ( pointeur_char[0] == 'C' )
+		{
+		  if ( pointeur_char[1] == '*' )
+		    operation -> p_r = 1;
+		  else
+		    operation -> p_r = 2;
+		}
+
+
+	      /* récupération de la note */
+
+	      if ( pointeur_char[0] == 'M' )
+		{
+		  operation -> notes = g_strstrip ( g_strdelimit ( pointeur_char + 1,
+								   ";",
+								   '/' ));
+
+	      	if ( !g_utf8_validate ( operation -> notes ,-1,NULL ))
+		  operation -> notes = latin2utf8 (operation -> notes ); 
+		
+		  if ( !strlen ( operation -> notes ))
+		    operation -> notes = NULL;
+			}
+
+
+	      /* récupération du montant ( on doit virer la , que money met pour séparer les milliers ) */
 	      /* on ne vire la , que s'il y a un . */
 
 	      if ( pointeur_char[0] == 'T' )
 		{
-		  gchar **tab;
-
 		  tab = g_strsplit ( pointeur_char,
 				     ".",
 				     2 );
 
 		  if( tab[1] )
 		    {
-		      gchar **tab_char;
-
 		      tab_char = g_strsplit ( pointeur_char,
 					      ",",
 					      FALSE );
 
 		      pointeur_char = g_strjoinv ( NULL,
 						   tab_char );
-		      compte -> solde_initial = my_strtod ( pointeur_char + 1,
-							   NULL );
+		        operation -> montant = my_strtod ( pointeur_char + 1,
+							NULL ); 
+		       
 		      g_strfreev ( tab_char );
 		    }
-		  else
-		    compte -> solde_initial = my_strtod ( pointeur_char + 1,
-							 NULL );
+		    else
+		    operation -> montant = my_strtod ( pointeur_char + 1,
+						      NULL );
+		   
 
 		  g_strfreev ( tab );
+		}
 
+	      /* récupération du chèque */
+
+	        if ( pointeur_char[0] == 'N' )
+		operation -> cheque = my_strtod ( pointeur_char + 1,
+						 NULL ); 
+	       
+
+
+	      /* récupération du tiers */
+	  
+	        if ( pointeur_char[0] == 'P' )
+		{
+			if ( g_utf8_validate ( pointeur_char+1,-1,NULL ))
+			{
+			   operation -> tiers = g_strdup ( pointeur_char + 1 );
+			}
+			else
+			  operation -> tiers = latin2utf8 (g_strdup ( pointeur_char + 1 )); 
+		}
+	
+
+	      /* récupération des catég */
+
+	        if ( pointeur_char[0] == 'L' )
+		{
+	      		if ( g_utf8_validate ( pointeur_char+1,-1,NULL ))
+			{
+			   operation -> categ = g_strdup ( pointeur_char + 1 );
+			}
+			else
+			  operation -> categ = latin2utf8 (g_strdup ( pointeur_char + 1 )); 
 		}
 
 
-	      /* récupération du nom du compte */
-	      /* 	      parfois, le nom est entre crochet et parfois non ... */
 
-	      if ( pointeur_char[0] == 'L' )
+	      /* récupération de la ventilation et de sa categ */
+
+	      if ( pointeur_char[0] == 'S' )
 		{
-		  sscanf ( pointeur_char,
-			   "L%a[^\n]",
-			   &compte -> nom_de_compte );
+		  /* on commence une ventilation, si une opé était en cours, on l'enregistre */
 
-		  /* on vire les crochets s'ils y sont */
+		  if ( retour != EOF && operation -> date_tmp )
+		    {
+		      if ( !ventilation )
+			compte -> operations_importees = g_slist_append ( compte -> operations_importees,
+									  operation );
+		    }
+		  else
+		    {
+		      /*c'est la fin du fichier ou l'opé n'est pas valide, donc les ventils ne sont pas valides non plus */
 
-		  compte -> nom_de_compte = latin2utf8 (g_strdelimit ( compte -> nom_de_compte,
-								       "[", ' ' ));
-		  compte -> nom_de_compte = latin2utf8 (g_strdelimit ( compte -> nom_de_compte,
-							   "]", ' ' ));
-		  compte -> nom_de_compte = latin2utf8 (g_strstrip ( compte -> nom_de_compte ));
+		      free ( operation );
 
+		      if ( ventilation )
+			free ( ventilation );
+
+		      operation = NULL;
+		      ventilation = NULL;
+		    }
+
+		  /* si une ventilation était en cours, on l'enregistre */
+
+		  if ( ventilation )
+		    compte -> operations_importees = g_slist_append ( compte -> operations_importees,
+								      ventilation );
+
+		  ventilation = calloc ( 1,
+					 sizeof ( struct struct_ope_importation ));
+
+		  operation -> operation_ventilee = 1;
+
+		  /* récupération des données de l'opération en cours */
+
+		  ventilation -> date_tmp = g_strdup ( operation -> date_tmp );
+		  ventilation -> tiers = operation -> tiers;
+		  ventilation -> cheque = operation -> cheque;
+		  ventilation -> p_r = operation -> p_r;
+		  ventilation -> ope_de_ventilation = 1;
+
+	      	if ( g_utf8_validate ( pointeur_char+1,-1,NULL ))
+		{
+		   ventilation -> categ = g_strdup ( pointeur_char + 1 );
+		}
+		else
+		  ventilation -> categ = latin2utf8 (g_strdup ( pointeur_char + 1 )); 
+
+		   
+		}
+
+
+	      /* récupération de la note de ventilation */
+
+	      if ( pointeur_char[0] == 'E'
+		   &&
+		   ventilation )
+		{
+		  ventilation -> notes = g_strstrip ( g_strdelimit ( pointeur_char + 1,
+								     ";",
+								     '/' ));
+
+		 if ( !g_utf8_validate ( ventilation -> notes ,-1,NULL ))
+		  ventilation -> notes = latin2utf8 (ventilation -> notes ); 
+			
+		  if ( !strlen ( ventilation -> notes ))
+		    ventilation -> notes = NULL;
+		}
+
+	      /* récupération du montant de la ventilation */
+	      /* récupération du montant ( on doit virer la , que money met pour séparer les milliers ) */
+	      /* on ne vire la , que s'il y a un . */
+
+	      if ( pointeur_char[0] == '$'
+		   &&
+		   ventilation )
+		{
+		  tab = g_strsplit ( pointeur_char,
+				     ".",
+				     2 );
+
+		  if( tab[1] )
+		    {
+		      tab_char = g_strsplit ( pointeur_char,
+					      ",",
+					      FALSE );
+
+		      pointeur_char = g_strjoinv ( NULL,
+						   tab_char );
+		        ventilation -> montant = my_strtod ( pointeur_char + 1,
+							  NULL ); 
+		       
+
+		      g_strfreev ( tab_char );
+		    }
+		    else
+		    ventilation -> montant = my_strtod ( pointeur_char + 1,
+							NULL );
+		   
+
+		  g_strfreev ( tab );
 		}
 	    }
-	  while ( pointeur_char[0] != '^' && retour != EOF );
+	}
+      while ( pointeur_char[0] != '^' && retour != EOF );
+
+
+      /* on n'enregistre l'opération que si elle est datée */
+
+
+        if ( ventilation )
+	{
+	  compte -> operations_importees = g_slist_append ( compte -> operations_importees,
+							       ventilation );
+	  ventilation = NULL;
 	}
       else
 	{
-	  /* c'est un compte ccard */
-
-	  compte -> nom_de_compte = _("Credit card");
-	  compte -> solde_initial = 0;
-	  retour = 0;
-	}
-
-      /* si le compte n'a pas de nom, on en met un ici */
-
-      if ( !compte -> nom_de_compte )
-	compte -> nom_de_compte = g_strdup ( _("Imported account with no name"));
-
-      if ( retour == EOF )
-	{
-	  dialogue ( _("This file is empty!") );
-	  return;
-	}
-
-      /* récupération des opérations en brut, on les traitera ensuite */
-
-      liste_ope_brut = NULL;
-
-      do
-	{
-	  struct struct_operation_qif *operation;
-	  struct struct_operation_qif *ventilation;
-
-	  ventilation = NULL;
-
-	  operation = calloc ( 1, sizeof ( struct struct_operation_qif ));
-
-	  do
-	    {
-	      retour = fscanf ( fichier_qif,
-				"%a[^\n]\n",
-				&pointeur_char );
-
-	      if ( retour != EOF )
-		{
-		  /* on vire le 0d à la fin de la chaîne s'il y est  */
-
-		  if ( pointeur_char [ strlen (pointeur_char)-1 ] == 13 )
-		    pointeur_char [ strlen (pointeur_char)-1 ] = 0;
-
-		  /* récupération de la date */
-
-		  if ( pointeur_char[0] == 'D' )
-		    operation -> date = g_strdup ( pointeur_char + 1 );
-
-
-		  /* récupération du pointage */
-
-		  if ( pointeur_char[0] == 'C' )
-		    {
-		      if ( pointeur_char[1] == '*' )
-			operation -> p_r = 1;
-		      else
-			operation -> p_r = 2;
-		    }
-
-
-		  /* récupération de la note */
-
-		  if ( pointeur_char[0] == 'M' )
-		    {
-		      operation -> notes = latin2utf8 (g_strstrip ( g_strdelimit ( pointeur_char + 1,
-								       ";", '/' )));
-		      if ( !strlen ( operation -> notes ))
-			operation -> notes = NULL;
-		    }
-
-
-		  /* récupération du montant ( on doit virer la , que money met pour séparer les milliers ) */
-		  /* on ne vire la , que s'il y a un . */
-
-		  if ( pointeur_char[0] == 'T' )
-		    {
-		      gchar **tab;
-
-		      tab = g_strsplit ( pointeur_char,
-					 ".",
-					 2 );
-
-		      if( tab[1] )
-			{
-			  gchar **tab_char;
-
-			  tab_char = g_strsplit ( pointeur_char,
-						  ",",
-						  FALSE );
-
-			  pointeur_char = g_strjoinv ( NULL,
-						       tab_char );
-			  operation -> montant = my_strtod ( pointeur_char + 1, NULL );
-			  g_strfreev ( tab_char );
-			}
-		      else
-			operation -> montant = my_strtod ( pointeur_char + 1, NULL );
-
-		      g_strfreev ( tab );
-		    }
-
-		  /* récupération du chèque */
-
-		  if ( pointeur_char[0] == 'N' )
-		    operation -> cheque = my_strtod ( pointeur_char + 1, NULL );
-
-
-		  /* récupération du tiers */
-	  
-		  if ( pointeur_char[0] == 'P' )
-		    operation -> tiers = latin2utf8 (g_strdup ( pointeur_char + 1 ));
-
-
-		  /* récupération des catég */
-
-		  if ( pointeur_char[0] == 'L' )
-		    operation -> categ = latin2utf8 (g_strdup ( pointeur_char + 1 ));
-
-
-		  /* récupération de la ventilation et de sa categ */
-
-		  if ( pointeur_char[0] == 'S' )
-		    {
-		      /* on commence une ventilation, si une opé était en cours, on l'enregistre */
-
-		      /* ALAIN-FIXME : je ne comprends pas du tout ce test.
-		         D'abord, normalement, on est dans une boucle où
-			 retour != EOF.
-			 Ensuite, pourquoi tester la date de l'opération ?
-			 le bug #180 survient car operation n'existe pas,
-			 on a donc un segment fault lorsqu'on essaye d'accéder
-			 au membre date */
-/*		      if ( retour != EOF && operation -> date ) */
-		      if ( retour != EOF && operation )
-			{
-			  if ( !ventilation )
-			    liste_ope_brut = g_slist_append ( liste_ope_brut, operation );
-			}
-		      else
-			{
-			  /*c'est la fin du fichier ou l'opé n'est pas
-			    valide, donc les ventils ne sont pas
-			    valides non plus */
-			  free ( operation );
-
-			  if ( ventilation )
-			    free ( ventilation );
-
-			  operation = NULL;
-			  ventilation = NULL;
-			}
-
-		      /* si une ventilation était en cours, on l'enregistre */
-
-		      if ( ventilation )
-			liste_ope_brut = g_slist_append ( liste_ope_brut, ventilation );
-
-		      if ( operation )
-			{
-			  ventilation = calloc ( 1, sizeof ( struct struct_operation_qif ));
-			  operation -> operation_ventilee = 1;
-
-			  /* récupération des données de l'opération en cours */
-			  ventilation -> date = operation -> date;
-			  ventilation -> tiers = operation -> tiers;
-			  ventilation -> cheque = operation -> cheque;
-			  ventilation -> p_r = operation -> p_r;
-			  ventilation -> ope_de_ventilation = 1;
-
-			  ventilation -> categ = latin2utf8 (g_strdup ( pointeur_char + 1 ));
-			}
-		    }
-
-
-		  /* récupération de la note de ventilation */
-
-		  if ( pointeur_char[0] == 'E'
-		       &&
-		       ventilation )
-		    {
-		      ventilation -> notes = g_strstrip ( g_strdelimit ( pointeur_char + 1,
-									 ";",
-									 '/' ));
-
-		      if ( !strlen ( ventilation -> notes ))
-			ventilation -> notes = NULL;
-		    }
-
-		  /* récupération du montant de la ventilation */
-		  /* récupération du montant ( on doit virer la , que money met pour séparer les milliers ) */
-		  /* on ne vire la , que s'il y a un . */
-		  /* comme money enregistre en négatif ou en positif */
-		  /* soit c'est du même signe que l'opé et on prend la valeur absolue */
-		  /* soit c'est de signe contraire et on prend la vraie valeur */
-
-		  if ( pointeur_char[0] == '$'
-		       &&
-		       ventilation )
-		    {
-		      gchar **tab;
-
-		      tab = g_strsplit ( pointeur_char, ".", 2 );
-
-		      if( tab[1] )
-			{
-			  gchar **tab_char;
-			  tab_char = g_strsplit ( pointeur_char, ",", FALSE );
-			  pointeur_char = g_strjoinv ( NULL, tab_char );
-			  ventilation -> montant = my_strtod ( pointeur_char + 1, NULL );
-			  g_strfreev ( tab_char );
-			}
-		      else
-			ventilation -> montant = my_strtod ( pointeur_char + 1, NULL );
-
-		      g_strfreev ( tab );
-		    }
-		}
-	    }
-	  while ( pointeur_char[0] != '^' && retour != EOF );
-
-
-	  /* on n'enregistre l'opération que si elle est datée */
-
-
-	  if ( ventilation )
-	    {
-	      liste_ope_brut = g_slist_append ( liste_ope_brut, ventilation );
-	      ventilation = NULL;
-	    }
+	  if ( retour != EOF
+	       &&
+	       operation -> date_tmp )
+	   compte -> operations_importees = g_slist_append ( compte -> operations_importees,
+								 operation );
 	  else
-	    {
-	      if ( retour != EOF && operation -> date )
-		liste_ope_brut = g_slist_append ( liste_ope_brut, operation );
-	      else
-		free ( operation );
-	    }
-
+	    free ( operation );
 	}
-      while ( retour != EOF );
-
-      fclose ( fichier_qif );
-
-
-      /* pour l'instant, on met la liste créée dans la liste des opés du compte */
-
-      compte -> gsliste_operations = liste_ope_brut;
-
-      iter++;
-    }
-
-  g_strfreev(selection);
-
-  gtk_widget_hide ( fenetre );
-
-  traitement_donnees_brutes();
-}
-/* *******************************************************************************/
+    } 
+       
+  while ( retour != EOF );
 
 
+  /* toutes les opérations ont été récupérées */
+  /* on peut maintenant transformer la date_tmp en gdate */
 
+  format_date = 0;
 
+  changement_format_date:
 
-
-
-
-
-/* *******************************************************************************/
-void traitement_donnees_brutes ( void )
-{
-  gint retour;
-  GtkWidget *dialog;
-  GtkWidget *label;
-  GSList *liste_tmp;
-  GtkWidget *frame;
-  GtkWidget *vbox;
-  GSList *liste_comptes_tmp;
-  gint nb_comptes_ajoutes;
-  gint nouveau_fichier;
-  GtkWidget *scrolled_window;
-
-  if ( !liste_comptes_qif )
-    return;
-
-
-  /* on permet ici de récupérer d'autres comptes */
-
-
-  dialog = gnome_dialog_new ( _("List of the imported accounts"),
-			      GNOME_STOCK_BUTTON_YES,
-			      GNOME_STOCK_BUTTON_NO,
-			      GNOME_STOCK_BUTTON_CANCEL,
-			      NULL );
-  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
-				 GTK_WINDOW ( window ));
-  gnome_dialog_set_default ( GNOME_DIALOG ( dialog ),
-			     0 );
-
-  if ( g_slist_length ( liste_comptes_qif ) == 1 )
-    label = gtk_label_new ( _("Account to import:\n") );
-  else
-    label = gtk_label_new ( _("Accounts to import:\n") );
-
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ), label,
-		       FALSE, FALSE, 0 );
-  gtk_widget_show ( label );
-
-
-  frame = gtk_frame_new ( NULL );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ), frame,
-		       FALSE, FALSE, 0 );
-  gtk_widget_show ( frame );
-
-  scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
-  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				   GTK_POLICY_AUTOMATIC,
-				   GTK_POLICY_AUTOMATIC );
-  gtk_container_add ( GTK_CONTAINER ( frame ),
-		      scrolled_window );
-  gtk_widget_show ( scrolled_window );
-
-
-  vbox = gtk_vbox_new ( FALSE, 10 );
-  gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 10 );
-  gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-					  vbox );
-  gtk_widget_set_usize ( scrolled_window, 200, 200 );
-  gtk_widget_show ( vbox );
-
-
-  liste_tmp = liste_comptes_qif;
+  liste_tmp = compte -> operations_importees;
 
   while ( liste_tmp )
     {
-      label = gtk_label_new ( (( struct donnees_compte * )( liste_tmp -> data )) -> nom_de_compte );
-      gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5 );
-      gtk_box_pack_start ( GTK_BOX ( vbox ), label,
-			   FALSE, FALSE, 0 );
-      gtk_widget_show ( label );
+      struct struct_ope_importation *operation;
+      gchar **tab_str;
+      gint jour, mois, annee;
 
+      operation = liste_tmp -> data;
+
+      /*   vérification qu'il y a une date, sinon on vire l'opé de toute manière */
+
+      if ( operation -> date_tmp )
+	{	      
+	  /* récupération de la date qui est du format jj/mm/aaaa ou jj/mm/aa ou jj/mm'aa à partir de 2000 */
+	  /* 	      si format_date = 0, c'est sous la forme jjmm sinon mmjj */
+
+
+	  tab_str = g_strsplit ( operation -> date_tmp,
+				 "/",
+				 3 );
+
+	  if ( tab_str [2] && tab_str [1] )
+	    {
+	      /* 		  le format est xx/xx/xx, pas d'apostrophe */
+
+	      if ( format_date )
+		{
+		  mois = g_strtod ( tab_str[0],
+				    NULL );
+		  jour = g_strtod ( tab_str[1],
+				    NULL );
+		}
+	      else
+		{
+		  jour = g_strtod ( tab_str[0],
+				    NULL );
+		  mois = g_strtod ( tab_str[1],
+				    NULL );
+		}
+
+	      if ( strlen ( tab_str[2] ) == 4 )
+		annee = g_strtod ( tab_str[2],
+				   NULL );
+	      else
+		{
+		  annee = g_strtod ( tab_str[2],
+				     NULL );
+		  if ( annee < 80 )
+		    annee = annee + 2000;
+		  else
+		    annee = annee + 1900;
+		}
+	    }
+	  else
+	    {
+	      if ( tab_str[1] )
+		{
+		  /* le format est xx/xx'xx */
+
+		  gchar **tab_str2;
+
+		  tab_str2 = g_strsplit ( tab_str[1],
+					  "'",
+					  2 );
+
+		  if ( format_date )
+		    {
+		      mois = g_strtod ( tab_str[0],
+					NULL );
+		      jour = g_strtod ( tab_str2[0],
+					NULL );
+		    }
+		  else
+		    {
+		      jour = g_strtod ( tab_str[0],
+					NULL );
+		      mois = g_strtod ( tab_str2[0],
+					NULL );
+		    }
+
+		  /* si on avait 'xx, en fait ça peut être 'xx ou 'xxxx ... */
+
+		  if ( strlen ( tab_str2[1] ) == 2 )
+		    annee = g_strtod ( tab_str2[1],
+				       NULL ) + 2000;
+		  else
+		    annee = g_strtod ( tab_str2[1],
+				       NULL );
+		  g_strfreev ( tab_str2 );
+
+		}
+	      else
+		{
+		  /* le format est aaaa-mm-jj */
+
+		  tab_str = g_strsplit ( operation -> date_tmp,
+					 "-",
+					 3 );
+
+		  mois = g_strtod ( tab_str[1],
+				    NULL );
+		  jour = g_strtod ( tab_str[2],
+				    NULL );
+		  if ( strlen ( tab_str[0] ) == 4 )
+		    annee = g_strtod ( tab_str[0],
+				       NULL );
+		  else
+		    {
+		      annee = g_strtod ( tab_str[0],
+					 NULL );
+		      if ( annee < 80 )
+			annee = annee + 2000;
+		      else
+			annee = annee + 1900;
+		    }
+		}
+	    }
+
+	  g_strfreev ( tab_str );
+
+	  if ( g_date_valid_dmy ( jour,
+				  mois,
+				  annee ))
+	    operation -> date = g_date_new_dmy ( jour,
+						 mois,
+						 annee );
+	  else
+	    {
+	      if ( format_date )
+		{
+		  dialogue ( _("Problème dans la récupération des dates du fichier QIF.") );
+		  return (FALSE);
+		}
+
+	      format_date = 1;
+
+	      goto changement_format_date;
+	    }
+	}
+      else
+	{
+	  /* il n'y a pas de date, on vire l'opé de la liste */
+
+	  compte -> operations_importees = g_slist_remove ( compte -> operations_importees,
+							    liste_tmp -> data );
+	}
       liste_tmp = liste_tmp -> next;
     }
 
-  label = gtk_label_new ( _("Import another account?") );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ), label,
-		       FALSE, FALSE, 0 );
-  gtk_widget_show ( label );
 
-  retour = gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
+  /* récupération de la date du fichier  */
+  /* si format_date = 0, c'est sous la forme jjmm sinon mmjj */
 
-
-  /*   si on veut importer un autre compte, on renvoie sur selection_fichier_qif */
-
-  if ( !retour )
+  if ( compte -> date_solde_qif )
     {
-      selection_fichier_qif();
-      return;
-    }
+      gchar **tab_str;
+      gint jour, mois, annee;
 
-  /*   si on annule : on s'en va */
+      tab_str = g_strsplit ( compte -> date_solde_qif,
+			     "/",
+			     3 );
 
-  if ( retour == 2 )
-    return;
-
-
-  /* on réalise maintenant les transformations pour importer les fichiers */
-
-/* fait le nécessaire si aucun compte n'est ouvert */
-
-  if ( nb_comptes )
-      nouveau_fichier = 0;
-  else
-    {
-      init_variables ( FALSE );
-      init_variables ( TRUE );
-      creation_liste_categories ();
-      creation_devises_de_base ();
-
-      nom_fichier_comptes = NULL;
-      nouveau_fichier = 1;
-      affiche_titre_fenetre();
-
-      /*   la taille des colonnes est automatique au départ, on y met les rapports de base */
-
-      etat.largeur_auto_colonnes = 1;
-      rapport_largeur_colonnes[0] = 11;
-      rapport_largeur_colonnes[1] = 13;
-      rapport_largeur_colonnes[2] = 30;
-      rapport_largeur_colonnes[3] = 3;
-      rapport_largeur_colonnes[4] = 11;
-      rapport_largeur_colonnes[5] = 11;
-      rapport_largeur_colonnes[6] = 11;
-    }
-
-
-  /* on commence par enregistrer les comptes */
-
-  nb_comptes_ajoutes = 0;
-  liste_comptes_tmp = liste_comptes_qif;
-
-  while ( liste_comptes_tmp )
-    {
-      struct donnees_compte *compte;
-      GtkWidget *bouton;
-      gint compte_visible;
-
-      compte = liste_comptes_tmp -> data;
-
-      /* enregistre le compte */
-
-      compte_visible = p_tab_nom_de_compte_courant - p_tab_nom_de_compte;
-
-      p_tab_nom_de_compte = realloc ( p_tab_nom_de_compte, ( nb_comptes + 1 )* sizeof ( gpointer ) );
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + nb_comptes;
-      nb_comptes++;
-      *p_tab_nom_de_compte_variable = (gpointer) compte;
-
-      p_tab_nom_de_compte_courant = p_tab_nom_de_compte + compte_visible; 
-
-
-      /* choix de la devise du compte */
-
-      compte -> devise = selection_devise ( compte -> nom_de_compte );
-
-      /* met le no de compte */
-
-      compte -> no_compte = nb_comptes - 1;
-
-      ordre_comptes = g_slist_append ( ordre_comptes,
-				       GINT_TO_POINTER ( nb_comptes - 1 ));
-
-      /* on crée les types d'opé par défaut */
-
-      creation_types_par_defaut ( nb_comptes - 1,
-				  0);
-      if ( !nouveau_fichier )
+      if ( tab_str [2] && tab_str [1] )
 	{
-	  /* crée le nouveau bouton du compte et l'ajoute à la liste des comptes */
+	  /* 		  le format est xx/xx/xx, pas d'apostrophe */
 
-	  bouton = comptes_appel(nb_comptes - 1 );
-	  gtk_box_pack_start (GTK_BOX (vbox_liste_comptes),
-			      bouton,
-			      FALSE,
-			      FALSE,
-			      0);
-	  gtk_widget_show (bouton);
-	}
-
-      nb_comptes_ajoutes++;
-
-      liste_comptes_tmp = liste_comptes_tmp -> next;
-    }
-
-  p_tab_nom_de_compte_courant = p_tab_nom_de_compte + compte_courant;
-
-
-  /* on fait maintenant le tour des opés et cette fois on les convertit */
-
-
-  liste_comptes_tmp = liste_comptes_qif;
-
-  while ( liste_comptes_tmp )
-    {
-      struct donnees_compte *compte;
-      gdouble solde_courant;
-      struct structure_operation *operation;
-      gint format_date;
-      GSList *save_gsliste;
-      gint derniere_operation;
-      GSList *liste_ope_brut;
-
-      derniere_operation = 0;
-      compte = liste_comptes_tmp -> data;
-
-      /*       au début, on considère que la date est sous forme jjmmaa, si pb, on passe à mmjjaa */
-
-      format_date = 0;
-      liste_ope_brut = compte -> gsliste_operations;
-
-      changement_format_date :
-
-      compte -> nb_operations = 0;
-      liste_tmp = liste_ope_brut;
-      save_gsliste = liste_tmp;
-
-      compte -> gsliste_operations = NULL;
-      solde_courant = compte -> solde_initial;
-
-      while ( liste_tmp )
-	{
-	  struct struct_operation_qif *operation_qif;
-	  gchar **tab_str;
-	  GSList *pointeur_tmp;
-
-	  operation_qif = liste_tmp -> data;
-
-	  /* 	  vérification qu'il y a une date, sinon ce n'est pas une opé, on prend pas */
-
-	  if ( operation_qif -> date )
+	  if ( format_date )
 	    {
-	      operation = calloc ( 1, sizeof ( struct structure_operation ));
-
-
-	      /* récupération du no de l'opé */
-
-	      operation -> no_operation = ++no_derniere_operation;
-	      operation -> type_ope = 0;
-
-	      /* récupération de la date qui est du format jj/mm/aaaa ou jj/mm/aa ou jj/mm'aa à partir de 2000 */
-	      /* 	      si format_date = 0, c'est sous la forme jjmm sinon mmjj */
-
-
-	      tab_str = g_strsplit ( operation_qif -> date, "/", 3 );
-
-	      if ( tab_str [2] && tab_str [1] )
-		{
-		  /* 		  le format est xx/xx/xx, pas d'apostrophe */
-
-		  if ( format_date )
-		    {
-		      operation -> mois = my_strtod ( tab_str[0], NULL );
-		      operation -> jour = my_strtod ( tab_str[1], NULL );
-		    }
-		  else
-		    {
-		      operation -> jour = my_strtod ( tab_str[0], NULL );
-		      operation -> mois = my_strtod ( tab_str[1], NULL );
-		    }
-
-		  if ( strlen ( tab_str[2] ) == 4 )
-		    operation -> annee = my_strtod ( tab_str[2], NULL );
-		  else
-		    {
-		      operation -> annee = my_strtod ( tab_str[2], NULL );
-		      if ( operation -> annee < 80 )
-			operation -> annee = operation -> annee + 2000;
-		      else
-			operation -> annee = operation -> annee + 1900;
-		    }
-		}
-	      else
-		{
-		  if ( tab_str[1] )
-		    {
-		      /* le format est xx/xx'xx */
-
-		      gchar **tab_str2;
-
-		      tab_str2 = g_strsplit ( tab_str[1], "'", 2 );
-
-		      if ( format_date )
-			{
-			  operation -> mois = my_strtod ( tab_str[0], NULL );
-			  operation -> jour = my_strtod ( tab_str2[0], NULL );
-			}
-		      else
-			{
-			  operation -> jour = my_strtod ( tab_str[0], NULL );
-			  operation -> mois = my_strtod ( tab_str2[0], NULL );
-			}
-
-		      /* si on avait 'xx, en fait ça peut être 'xx ou 'xxxx ... */
-
-		      if ( strlen ( tab_str2[1] ) == 2 )
-			operation -> annee = my_strtod ( tab_str2[1], NULL ) + 2000;
-		      else
-			operation -> annee = my_strtod ( tab_str2[1], NULL );
-		      g_strfreev ( tab_str2 );
-
-		    }
-		  else
-		    {
-		      /* le format est aaaa-mm-jj */
-
-		      tab_str = g_strsplit ( operation_qif -> date, "-", 3 );
-
-		      operation -> mois = my_strtod ( tab_str[1], NULL );
-		      operation -> jour = my_strtod ( tab_str[2], NULL );
-		      if ( strlen ( tab_str[0] ) == 4 )
-			operation -> annee = my_strtod ( tab_str[0], NULL );
-		      else
-			{
-			  operation -> annee = my_strtod ( tab_str[0], NULL );
-			if ( operation -> annee < 80 )
-			  operation -> annee = operation -> annee + 2000;
-			else
-			  operation -> annee = operation -> annee + 1900;
-			}
-
-		    }
-		}
-
-	      g_strfreev ( tab_str );
-
-	      if ( g_date_valid_dmy ( operation -> jour,
-				      operation -> mois,
-				      operation -> annee ))
-		operation -> date = g_date_new_dmy ( operation -> jour,
-						     operation -> mois,
-						     operation -> annee );
-	      else
-		{
-		  if ( format_date )
-		    {
-		      dialogue ( _("Problem recovering the dates in the QIF file. Import canceled.") );
-		      return;
-		    }
-
-		  format_date = 1;
-
-		  goto changement_format_date;
-		}
-
-	      /* récupération du no de compte ( stocké pour l'instant dans no_derniere_operation ) */
-
-	      operation -> no_compte = compte->no_compte;
-
-
-	      /* récupération du montant */
-
-	      operation -> montant = operation_qif -> montant;
-	      solde_courant = solde_courant + operation_qif -> montant;
-	      operation -> devise = compte -> devise;
-
-	      /* récupération du tiers */
-
-	      if ( operation_qif -> tiers )
-		{
-		  pointeur_tmp = g_slist_find_custom ( liste_struct_tiers,
-						       g_strstrip ( operation_qif -> tiers ),
-						       (GCompareFunc) recherche_tiers_par_nom );
-
-		  /* si le tiers n'existait pas, on le crée */
-
-		  if ( pointeur_tmp )
-		    operation -> tiers = ((struct struct_tiers *)(pointeur_tmp -> data)) -> no_tiers;
-		  else
-		    operation -> tiers = (( struct struct_tiers * )( ajoute_nouveau_tiers ( operation_qif -> tiers ))) -> no_tiers;
-
-		}
-
-
-	      /* vérification si c'est ventilé, sinon récupération des catégories */
-
-
-	      if ( operation_qif -> operation_ventilee )
-		{
-		  /* l'opération est ventilée */
-
-		  operation -> operation_ventilee = 1;
-		}
-	      else
-		{
-		  /* vérification que ce n'est pas un virement */
-
-		  if ( operation_qif -> categ && strlen ( g_strstrip (operation_qif -> categ)) )
-		    {
-		      if ( operation_qif -> categ[0] == '[' )
-			{
-			  /* recherche du compte en relation ( on cherchera l'opé ensuite, une fois */
-			  /* que toutes les opés auront été importées */
-
-			  gint i;
-
-			  p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
-			  for ( i = 0 ; i < nb_comptes ; i++ )
-			    {
-			      if ( !g_strcasecmp ( g_strconcat ( "[",
-								 NOM_DU_COMPTE,
-								 "]",
-								 NULL ),
-						   operation_qif -> categ ))
-				{
-				  /* on a trouvé le compte, met la relation de l'opé à -1 pour dire qu'il faut la chercher */
-				  operation -> relation_no_compte = i;
-				  operation -> relation_no_operation = -1;
-				  operation -> type_ope = 1;
-				}
-			      p_tab_nom_de_compte_variable++;
-			    }
-			}
-		      else
-			{
-			  struct struct_categ *categ;
-			  struct struct_sous_categ *sous_categ ;
-
-
-			  tab_str = g_strsplit ( operation_qif -> categ, ":", 2 );
-
-
-			  /* récupération ou création de la catégorie */
-
-			  if ( !g_slist_find_custom ( liste_struct_categories,
-						      g_strstrip ( tab_str[0] ),
-						      (GCompareFunc) recherche_categorie_par_nom ))
-			    {
-			      categ = calloc ( 1, sizeof ( struct struct_categ ));
-
-			      categ -> no_categ = ++no_derniere_categorie;
-			      categ -> nom_categ = g_strdup ( g_strstrip ( tab_str[0] ) );
-
-			      if ( operation_qif -> montant < 0 )
-				categ -> type_categ = 1;
-			      else
-				categ -> type_categ = 0;
-
-			      nb_enregistrements_categories++;
-
-			      liste_struct_categories = g_slist_append ( liste_struct_categories,
-									 categ );
-			    }
-			  else
-			    categ = g_slist_find_custom ( liste_struct_categories,
-							  g_strstrip ( tab_str[0] ),
-							  (GCompareFunc) recherche_categorie_par_nom ) -> data;
-
-
-			  operation -> categorie = categ -> no_categ;
-
-
-			  /* récupération ou création de la sous-catégorie */
-
-			  if ( tab_str[1] )
-			    {
-			      if ( !g_slist_find_custom ( categ -> liste_sous_categ,
-							  g_strstrip ( tab_str[1] ),
-							  (GCompareFunc) recherche_sous_categorie_par_nom ))
-				{
-				  sous_categ = calloc ( 1, sizeof ( struct struct_sous_categ ));
-
-				  sous_categ -> no_sous_categ = ++( categ -> no_derniere_sous_categ );
-				  sous_categ -> nom_sous_categ = g_strdup ( g_strstrip ( tab_str[1] ));
-
-				  categ -> liste_sous_categ = g_slist_append ( categ -> liste_sous_categ,
-									       sous_categ );
-				}
-			      else
-				sous_categ = g_slist_find_custom ( categ -> liste_sous_categ,
-								   g_strstrip ( tab_str[1] ),
-								   (GCompareFunc) recherche_sous_categorie_par_nom ) -> data;
-
-			      operation -> sous_categorie = sous_categ -> no_sous_categ;
-
-			    }
-
-			  g_strfreev ( tab_str );
-
-			}
-		    }
-		}
-
-	      /* récupération des notes */
-
-	      operation -> notes = operation_qif -> notes;
-
-
-	      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-
-	      /* récupération du chèque et mise en forme du type d'opération */
-
-	      if ( operation_qif -> cheque )
-		{
-		  /* c'est un chèque, on va rechercher un type à incrémentation automatique et mettre l'opé sous ce type */
-		  /* si un tel type n'existe pas, on met quand même le no dans contenu_type et on met le type par défaut */
-
-		  struct struct_type_ope *type_choisi;
-		  GSList *liste_tmp;
-
-		  if ( operation -> montant < 0 )
-		    operation -> type_ope = TYPE_DEFAUT_DEBIT;
-		  else
-		    operation -> type_ope = TYPE_DEFAUT_CREDIT;
-
-		  operation -> contenu_type = itoa ( operation_qif -> cheque );
-
-		  liste_tmp = TYPES_OPES;
-		  type_choisi = NULL;
-
-		  while ( liste_tmp )
-		    {
-		      struct struct_type_ope *type;
-
-		      type = liste_tmp -> data;
-
-		      /* si l'opé on trouve un type à incrémentation
-			 automatique et que le signe du type est bon,
-			 on l'enregistre et on arrête la recherche,
-			 sinon, on l'enregistre mais on continue la
-			 recherche dans l'espoir de mieux */
-
-		      if ( type -> numerotation_auto )
-			{
-			  if ( !type -> signe_type
-			       ||
-			       ( type -> signe_type == 1 && operation -> montant < 0 )
-			       ||
-			       ( type -> signe_type == 2 && operation -> montant > 0 ))
-			    {
-			      operation -> type_ope = type -> no_type;
-			      type_choisi = type;
-			      liste_tmp = NULL;
-			    }
-			  else
-			    {
-			      operation -> type_ope = type -> no_type;
-			      type_choisi = type;
-			      liste_tmp = liste_tmp -> next;
-			    }
-			}
-		      else
-			liste_tmp = liste_tmp -> next;
-		    }
-
-		  /* type_choisi contient l'adr du type qui a été utilisé, on peut y mettre le dernier no de chèque */
-
-		  if ( type_choisi )
-		    type_choisi -> no_en_cours = MAX ( operation_qif -> cheque,
-						       type_choisi -> no_en_cours );
-		}
-	      else
-		{
-		  /* comme ce n'est pas un chèque, on met sur le type par défaut */
-		  if ( operation -> type_ope != 1 )
-		    {
-		      if ( operation -> montant < 0 )
-			operation -> type_ope = TYPE_DEFAUT_DEBIT;
-		      else
-			operation -> type_ope = TYPE_DEFAUT_CREDIT;
-		    }
-		}
-
-	      /* récupération du pointé */
-
-	      operation -> pointe = operation_qif -> p_r;
-
-
-	      /* si c'est une ope de ventilation, lui ajoute le no de l'opération précédente */
-
-	      if ( operation_qif -> ope_de_ventilation )
-		operation -> no_operation_ventilee_associee = derniere_operation;
-	      else
-		derniere_operation = operation -> no_operation;
-
-
-	      /* ajoute l'opération dans la liste des opés du compte */
-
-	      compte -> gsliste_operations = g_slist_append ( compte -> gsliste_operations,
-							      operation );
-	      compte -> nb_operations++;
+	      mois = g_strtod ( tab_str[0],
+				NULL );
+	      jour = g_strtod ( tab_str[1],
+				NULL );
+	    }
+	  else
+	    {
+	      jour = g_strtod ( tab_str[0],
+				NULL );
+	      mois = g_strtod ( tab_str[1],
+				NULL );
 	    }
 
-	  liste_tmp = liste_tmp -> next;
-	}
-
-      compte -> nb_lignes_ope = 3;
-      compte -> solde_courant = solde_courant;
-      compte -> date_releve = NULL;
-      compte -> operation_selectionnee = GINT_TO_POINTER ( -1 );
-
-      liste_comptes_tmp = liste_comptes_tmp -> next;
-    }
-
-
-
-  /* on fait maintenant le lien entre les différents virements : */
-  /* on fait le tour de toutes les opés des comptes ajoutés, */
-  /* si une opé à un relation_no_operation à -1 , */
-  /* on recherche dans le compte associé une opé avec aussi une relation_no_operation à -1  */
-  /* le même jour avec le même tiers */
-
-
-  liste_comptes_tmp = liste_comptes_qif;
-
-  while ( liste_comptes_tmp )
-    {
-      struct donnees_compte *compte;
-      struct structure_operation *operation;
-
-
-      compte = liste_comptes_tmp -> data;
-
-      liste_tmp = compte -> gsliste_operations;
-
-      while ( liste_tmp )
-	{
-
-	  operation = liste_tmp -> data;
-
-
-	  if ( operation -> relation_no_operation == -1 )
+	  if ( strlen ( tab_str[2] ) == 4 )
+	    annee = g_strtod ( tab_str[2],
+			       NULL );
+	  else
 	    {
-	      GSList *pointeur_tmp;
+	      annee = g_strtod ( tab_str[2],
+				 NULL );
+	      if ( annee < 80 )
+		annee = annee + 2000;
+	      else
+		annee = annee + 1900;
+	    }
+	}
+      else
+	{
+	  if ( tab_str[1] )
+	    {
+	      /* le format est xx/xx'xx */
 
-	      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
+	      gchar **tab_str2;
 
-	      pointeur_tmp = LISTE_OPERATIONS;
+	      tab_str2 = g_strsplit ( tab_str[1],
+				      "'",
+				      2 );
 
-	      while ( pointeur_tmp )
+	      if ( format_date )
 		{
-		  struct structure_operation *operation_2;
-
-		  operation_2 = pointeur_tmp -> data;
-
-		  if ( operation_2 -> relation_no_operation == -1 )
-		    {
-		      if ( !g_date_compare ( operation -> date, operation_2 -> date )
-			   &&
-			   ( operation -> tiers == operation_2 -> tiers )
-			   &&
-			   ( fabs ( operation -> montant ) == fabs ( operation_2 -> montant ) ))
-			{
-			  operation -> relation_no_operation = operation_2 -> no_operation;
-			  operation_2 -> relation_no_operation = operation -> no_operation;
-			}
-		    }
-
-		  pointeur_tmp = pointeur_tmp -> next;
+		  mois = g_strtod ( tab_str[0],
+				    NULL );
+		  jour = g_strtod ( tab_str2[0],
+				    NULL );
+		}
+	      else
+		{
+		  jour = g_strtod ( tab_str[0],
+				    NULL );
+		  mois = g_strtod ( tab_str2[0],
+				    NULL );
 		}
 
+	      /* si on avait 'xx, en fait ça peut être 'xx ou 'xxxx ... */
+
+	      if ( strlen ( tab_str2[1] ) == 2 )
+		annee = g_strtod ( tab_str2[1],
+				   NULL ) + 2000;
+	      else
+		annee = g_strtod ( tab_str2[1],
+				   NULL );
+	      g_strfreev ( tab_str2 );
+
 	    }
-	  liste_tmp = liste_tmp -> next;
+	  else
+	    {
+	      /* le format est aaaa-mm-jj */
+
+	      tab_str = g_strsplit ( compte -> date_solde_qif,
+				     "-",
+				     3 );
+
+	      mois = g_strtod ( tab_str[1],
+				NULL );
+	      jour = g_strtod ( tab_str[2],
+				NULL );
+	      if ( strlen ( tab_str[0] ) == 4 )
+		annee = g_strtod ( tab_str[0],
+				   NULL );
+	      else
+		{
+		  annee = g_strtod ( tab_str[0],
+				     NULL );
+		  if ( annee < 80 )
+		    annee = annee + 2000;
+		  else
+		    annee = annee + 1900;
+		}
+	    }
 	}
 
-      liste_comptes_tmp = liste_comptes_tmp -> next;
+      g_strfreev ( tab_str );
+
+      if ( g_date_valid_dmy ( jour,
+			      mois,
+			      annee ))
+	compte -> date_solde = g_date_new_dmy ( jour,
+						mois,
+						annee );
     }
 
 
+      /* ajoute ce compte aux autres comptes importés */
 
-  /* création des listes d'opé */
+  liste_comptes_importes = g_slist_append ( liste_comptes_importes,
+					    compte );
 
-  mise_en_route_attente ( _("Processing the information can be long...") );
-
-  if ( nouveau_fichier )
-    {
-      creation_fenetre_principale();
-
-      creation_listes_operations ();
-      changement_compte ( GINT_TO_POINTER ( compte_courant ) );
-      gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 0 );
-    }
-  else
-    while ( nb_comptes_ajoutes )
-      {
-	/* trie la liste */
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + nb_comptes - nb_comptes_ajoutes;
-
-	LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
-					  ( GCompareFunc ) comparaison_date_list_ope );
-
-	ajoute_nouvelle_liste_operation( nb_comptes - nb_comptes_ajoutes );
-	nb_comptes_ajoutes--;
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-	MISE_A_JOUR = 1;
-      }
-
-
-  /* on recrée les combofix des tiers et des catégories */
-
-  mise_a_jour_tiers ();
-  mise_a_jour_categ();
-
-/* on met à jour l'option menu du formulaire des échéances */
-
-  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] ),
-			     creation_option_menu_comptes (changement_choix_compte_echeancier, TRUE) );
-
-  /* mise à jour de l'accueil */
-
-  mise_a_jour_soldes_minimaux ();
-  reaffiche_liste_comptes();
-  reaffiche_liste_comptes_onglet();
-  update_liste_comptes_accueil ();
-  affiche_titre_fenetre ();
-  annulation_attente();
-
-  gnome_app_set_contents ( GNOME_APP ( window ), notebook_general );
-  modification_fichier ( TRUE );
+  return ( TRUE );
 }
 /* *******************************************************************************/
+
+
 
 
 
@@ -1333,14 +821,14 @@ void exporter_fichier_qif ( void )
 
   if ( !nom_fichier_comptes )
     {
-      dialogue ( _("You must name (save) your file to be able to export it.") );
+      dialogue ( _("Your file must have a name (saved) to be exported.") );
       return;
     }
 
 
-  dialogue_warning ( _("QIF files don't use currencies.\nAll transactions will be converted to appropriate account's currency.") );
+  dialogue ( _("Carreful, the QIF format cannot use currencies,\nall the transactions will be convert in the currencie of their account.")); 
 
-  dialog = gnome_dialog_new ( _("Export QIF files"),
+  dialog = gnome_dialog_new ( _("Exporter des fichiers QIF"),
 			      GNOME_STOCK_BUTTON_OK,
 			      GNOME_STOCK_BUTTON_CANCEL,
 			      NULL );
@@ -1411,7 +899,7 @@ void exporter_fichier_qif ( void )
 			 0, 0 );
       gtk_widget_show ( label );
 
-      entree = gnome_file_entry_new ("qif", _("Export a QIF file"));
+      entree = gnome_file_entry_new ("qif", _("Exportation of a QIF file"));
       gtk_widget_set_usize ( GTK_WIDGET ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( entree ) )),
 			     300,
 			     FALSE );
@@ -1471,7 +959,7 @@ void exporter_fichier_qif ( void )
       struct stat test_fichier;
 
 
-      nom_fichier_qif = (gchar *) gtk_entry_get_text ( GTK_ENTRY ( liste_tmp -> data ));
+      nom_fichier_qif = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( liste_tmp -> data )));
 
 
       if ( stat ( nom_fichier_qif,
@@ -1481,11 +969,12 @@ void exporter_fichier_qif ( void )
 	    {
 	      GtkWidget *etes_vous_sur;
 
-	      etes_vous_sur = gnome_dialog_new ( _("Save file"),
+	      etes_vous_sur = gnome_dialog_new ( _("Save the file"),
 						 GNOME_STOCK_BUTTON_YES,
 						 GNOME_STOCK_BUTTON_NO,
 						 NULL );
-	      label = gtk_label_new ( _("File exists. Do you want to overwrite it?") );
+	      label = gtk_label_new ( g_strdup_printf ( _("The file '%s' exists.\n Do you want to continue ?"),
+				      nom_fichier_qif ));
 	      gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( etes_vous_sur ) -> vbox ),
 				   label,
 				   TRUE,
@@ -1503,7 +992,7 @@ void exporter_fichier_qif ( void )
 	    }
 	  else
 	    {
-	      dialogue ( g_strdup_printf ( _("Invalid filename \"%s\"!"),
+	      dialogue ( g_strdup_printf ( _("File name \"%s\" invalid !"),
 					   nom_fichier_qif ));
 	      goto choix_liste_fichier;
 	    }
@@ -1525,11 +1014,11 @@ void exporter_fichier_qif ( void )
 
       /*       ouverture du fichier, si pb, on marque l'erreur et passe au fichier suivant */
 
-      nom_fichier_qif = (gchar *) gtk_entry_get_text ( GTK_ENTRY ( liste_tmp -> data ));
+      nom_fichier_qif = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( liste_tmp -> data )));
 
       if ( !( fichier_qif = fopen ( nom_fichier_qif,
 				    "w" ) ))
-	dialogue ( g_strdup_printf ( _("The following error occured for the file \"%s\":\n%s"),
+	dialogue ( g_strdup_printf ( _("Error for the file \"%s\" :\n%s"),
 				     nom_fichier_qif, strerror ( errno ) ));
       else
 	{
@@ -1626,7 +1115,9 @@ void exporter_fichier_qif ( void )
 
 		      /* met le pointage */
 
-		      if ( operation -> pointe == 1 )
+		      if ( operation -> pointe == 1
+			   ||
+			   operation -> pointe == 3 )
 			fprintf ( fichier_qif,
 				  "C*\n" );
 		      else
@@ -1813,18 +1304,11 @@ void exporter_fichier_qif ( void )
 					      "E%s\n",
 					      ope_test -> notes );
 
-				/* met le montant de la ventilation
-				  transforme la devise si necessaire */
+				/* met le montant de la ventilation */
 
-				  montant = calcule_montant_devise_renvoi ( ope_test -> montant,
-									    DEVISE,
-									    operation -> devise,
-									    operation -> une_devise_compte_egale_x_devise_ope,
-									    operation -> taux_change,
-									    operation -> frais_change );
 
 				  montant_tmp = g_strdup_printf ( "%4.2f",
-								  montant );
+								  ope_test -> montant );
 				  montant_tmp = g_strdelimit ( montant_tmp,
 							       ",",
 							       '.' );

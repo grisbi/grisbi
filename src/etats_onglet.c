@@ -290,12 +290,14 @@ GtkWidget *creation_liste_etats ( void )
       gtk_widget_set_sensitive ( bouton_dupliquer_etat, FALSE );
     }
 
+  if ( menu_reports )
+  {
   gtk_widget_set_sensitive ( GTK_WIDGET ( menu_reports[2].widget ), FALSE );
   gtk_widget_set_sensitive ( GTK_WIDGET ( menu_reports[3].widget ), FALSE );
   gtk_widget_set_sensitive ( GTK_WIDGET ( menu_reports[6].widget ), FALSE );
   gtk_widget_set_sensitive ( GTK_WIDGET ( menu_reports[8].widget ), FALSE );
   gtk_widget_set_sensitive ( GTK_WIDGET ( menu_reports[10].widget ), FALSE );
-
+  }
   return ( onglet );
 
 }

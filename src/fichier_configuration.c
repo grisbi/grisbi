@@ -299,7 +299,7 @@ void charge_configuration ( void )
 /* appelée à l'ouverture de grisbi, charge les préférences */
 /******************************************************************************************************************/
 
- void charge_configuration_ancien ( void )
+void charge_configuration_ancien ( void )
 {
   gint nb_fichiers_a_verifier;
   gchar **tab_noms_fichiers;
