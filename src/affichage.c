@@ -46,7 +46,7 @@ GtkWidget *preview;
 GtkWidget *anim_button;
 GtkWidget *anim_preview;
 
-extern GtkWidget *widget_formulaire_echeancier[19];
+extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *separateur_formulaire_echeancier;
 extern GtkWidget *hbox_valider_annuler_echeance;
 extern GtkWidget *liste_echeances;
@@ -61,7 +61,7 @@ extern GtkWidget *liste_echeances;
  */
 gboolean update_transaction_form ( GtkWidget * checkbox, gpointer data )
 {
-    gboolean selected = gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) == style_entree_formulaire[0];
+    gboolean selected = gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) == style_entree_formulaire[ENCLAIR];
     if ( nb_comptes )
     {
 	if ( etat.affiche_no_operation )
@@ -74,25 +74,25 @@ gboolean update_transaction_form ( GtkWidget * checkbox, gpointer data )
 
 	gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_EXERCICE],
 				   etat.utilise_exercice && selected );
-	gtk_widget_set_sensitive ( widget_formulaire_ventilation[6],
+	gtk_widget_set_sensitive ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_EXERCICE],
 				   etat.utilise_exercice && selected  );
-	gtk_widget_set_sensitive ( widget_formulaire_echeancier[9],
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE],
 				   etat.utilise_exercice && selected  );
 
 	gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET],
 				   etat.utilise_imputation_budgetaire && selected  );
 	gtk_widget_set_sensitive ( page_imputations,
 				   etat.utilise_imputation_budgetaire && selected  );
-	gtk_widget_set_sensitive ( widget_formulaire_ventilation[4],
+	gtk_widget_set_sensitive ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_BUDGETARY],
 				   etat.utilise_imputation_budgetaire && selected  );
-	gtk_widget_set_sensitive ( widget_formulaire_echeancier[10],
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY],
 				   etat.utilise_imputation_budgetaire && selected  );
 
 	gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_VOUCHER],
 				   etat.utilise_piece_comptable && selected  );
-	gtk_widget_set_sensitive ( widget_formulaire_ventilation[7],
+	gtk_widget_set_sensitive ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_VOUCHER],
 				   etat.utilise_piece_comptable && selected  );
-	gtk_widget_set_sensitive ( widget_formulaire_echeancier[12],
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_VOUCHER],
 				   etat.utilise_piece_comptable && selected  );
 
 	gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_BANK],

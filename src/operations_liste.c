@@ -1362,11 +1362,11 @@ void edition_operation ( void )
 
     if ( operation == GINT_TO_POINTER ( -1 ) )
     {
-	if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) == style_entree_formulaire[1] )
+	if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) == style_entree_formulaire[ENGRIS] )
 	{
 	    entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_DATE] );
 
-	    if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ) == style_entree_formulaire[1] )
+	    if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ) == style_entree_formulaire[ENGRIS] )
 	    {
 		gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ),
 				     gsb_today() );
