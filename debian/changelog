@@ -1,8 +1,20 @@
-grisbi (0.4.2-1) unstable; urgency=low
+grisbi (0.4.1-2) unstable; urgency=low
 
-  * New (CVS) upstream version with GTK2/Gnome2 enabled
+  * Add some upstream fixes.
 
- -- Benjamin Drieu <benj@debian.org>  Tue, 29 Jul 2003 22:48:36 +0200
+ -- Benjamin Drieu <benj@debian.org>  Mon, 24 Nov 2003 20:49:36 +0100
+
+grisbi (0.4.1-1) unstable; urgency=low
+
+  * New upstream version.  Grisbi is now fully i18ned ... hurrah!
+
+ -- Benjamin Drieu <benj@debian.org>  Fri,  4 Jul 2003 13:41:10 +0200
+
+grisbi (0.4.0-4) unstable; urgency=low
+
+  * Update configure stuff (Closes: #184765)
+
+ -- Benjamin Drieu <benj@debian.org>  Mon, 26 May 2003 19:00:29 +0200
 
 grisbi (0.4.0-3) unstable; urgency=low
 
