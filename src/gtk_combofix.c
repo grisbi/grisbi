@@ -1047,7 +1047,7 @@ static void affiche_proposition ( GtkWidget *entree,
 
   if ( !GTK_WIDGET_REALIZED ( combofix->popup ) )
     {
-      if ( !completion || g_slist_length ( combofix->event_box ) == 1 )
+      if ( !completion || !g_slist_length ( combofix->event_box ))
 	return;
 
       gtk_container_add ( GTK_CONTAINER ( GTK_BIN ( combofix -> popup ) -> child  ),
@@ -1071,7 +1071,7 @@ static void affiche_proposition ( GtkWidget *entree,
       {
 	gfloat value;
 
-	if ( !completion  || g_slist_length ( combofix->event_box ) == 1 )
+	if ( !completion  || !g_slist_length ( combofix->event_box ))
 	  return;
 
 	value = gtk_scrolled_window_get_vadjustment ( GTK_SCROLLED_WINDOW  ( combofix->box ) ) -> value;
@@ -1099,7 +1099,7 @@ static void affiche_proposition ( GtkWidget *entree,
     else
       {
 
-	if ( !completion  || g_slist_length ( combofix->event_box ) == 1 )
+	if ( !completion  || !g_slist_length ( combofix->event_box ))
 	  {
 	    gtk_widget_hide ( combofix->popup );
 

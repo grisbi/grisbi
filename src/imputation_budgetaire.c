@@ -2083,7 +2083,6 @@ void creation_liste_imputation_combofix ( void )
   GSList *liste_imputation_debit;
 
   liste_imputations_combofix = NULL;
-/*   liste_imputations_echeances_combofix = NULL; */
   liste_imputation_credit = NULL;
   liste_imputation_debit = NULL;
 
@@ -2099,11 +2098,10 @@ void creation_liste_imputation_combofix ( void )
 
       if ( imputation -> type_imputation )
 	liste_imputation_debit = g_slist_append ( liste_imputation_debit,
-						    g_strdup ( imputation -> nom_imputation ) );
+						  g_strdup ( imputation -> nom_imputation ) );
       else
 	liste_imputation_credit = g_slist_append ( liste_imputation_credit,
-						     g_strdup ( imputation -> nom_imputation ) );
-
+						   g_strdup ( imputation -> nom_imputation ) );
 
       sous_pointeur = imputation -> liste_sous_imputation;
 
@@ -2115,16 +2113,14 @@ void creation_liste_imputation_combofix ( void )
 
 	  if ( imputation -> type_imputation )
 	    liste_imputation_debit = g_slist_append ( liste_imputation_debit,
-							g_strconcat ( "\t",
-								      sous_imputation -> nom_sous_imputation,
-								      NULL ) );
+						      g_strconcat ( "\t",
+								    sous_imputation -> nom_sous_imputation,
+								    NULL ) );
 	  else
-
 	    liste_imputation_credit = g_slist_append ( liste_imputation_credit,
-							 g_strconcat ( "\t",
-								       sous_imputation -> nom_sous_imputation,
-								       NULL ) );
-
+						       g_strconcat ( "\t",
+								     sous_imputation -> nom_sous_imputation,
+								     NULL ) );
 	  sous_pointeur = sous_pointeur -> next;
 	}
       pointeur = pointeur -> next;
@@ -2137,7 +2133,6 @@ void creation_liste_imputation_combofix ( void )
 					       liste_imputation_debit );
   liste_imputations_combofix = g_slist_append ( liste_imputations_combofix,
 					       liste_imputation_credit );
-
 }
 /***********************************************************************************************************/
 
