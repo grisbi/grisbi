@@ -3,14 +3,13 @@
 /* Programme de gestion financière personnelle                                   */
 /*           	  license : GPL                                                  */
 /*                                                                               */
-/*     Copyright (C)    2000-2003 Cédric Auger (cedric@grisbi.org)               */
-/*                      2003 Benjamin Drieu (bdrieu@april.org)                   */
-/*                      http://www.grisbi.org                                    */
-/*      Version : 0.5.0                                                           */
-/*                                                                               */
+/* 	          Version : 0.4.1                                                */
+/*      Auteur : Cédric Auger   ( cedric@grisbi.org )                            */
+/*                                http://www.grisbi.org                          */
 /* *******************************************************************************/
 
 /* *******************************************************************************/
+/*     Copyright (C) 2000-2003  Cédric Auger                                     */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
 /*     it under the terms of the GNU General Public License as published by      */
@@ -25,7 +24,6 @@
 /*     You should have received a copy of the GNU General Public License         */
 /*     along with this program; if not, write to the Free Software               */
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
-/*                                                                               */
 /* *******************************************************************************/
 
 
@@ -47,18 +45,10 @@
 ** Début de la procédure principale **
 ***********************************************************************************************/
 
-/**                                                                              
- * Main function
- *
- * @param argc number of arguments
- * @param argv arguments
- *
- * @return Nothing
- */
 int main (int argc, char *argv[])
 {
   struct sigaction sig_sev;
-  gchar *texte = _("Selects initial tab");
+  gchar *texte = _("Choose initial tab");
   gchar *short_texte = "w[,x[,y[,z]]]]";
   poptContext ctx;
   gint demande_page;
@@ -95,10 +85,10 @@ int main (int argc, char *argv[])
       {NULL, '\0', 0, NULL, 0}};
 
 
-/*   setlocale (LC_ALL, ""); */
-  bindtextdomain (PACKAGE, LOCALEDIR);
-  bind_textdomain_codeset (PACKAGE, "UTF-8");
-  textdomain (PACKAGE);
+  setlocale (LC_ALL, "");
+  bindtextdomain ("grisbi", LOCALEDIR);
+  textdomain ("grisbi");
+
 
   gnome_init_with_popt_table ("Grisbi", VERSION, argc, argv, options, 0, &ctx);
 
@@ -172,10 +162,8 @@ int main (int argc, char *argv[])
 
   if ( fonte_general )
     {
-      gtk_style_set_font(gtk_widget_get_default_style(), 
-			 gdk_font_load ( fonte_general ));
-      gtk_style_set_font(gtk_widget_get_style (window),
-			 gdk_font_load ( fonte_general ));
+      gtk_widget_get_default_style () -> font = gdk_font_load ( fonte_general );
+      gtk_widget_get_style (window) -> font = gdk_font_load ( fonte_general );
     }
 
   /* on vérifie les arguments de ligne de commande */
@@ -279,9 +267,11 @@ int main (int argc, char *argv[])
 	      /* on affiche l'onglet du 2ème argument s'il existe */
 
 	      if ( split_chiffres[1] )
-		preferences ( atoi ( split_chiffres[1] ));
+		preferences ( NULL,
+			      atoi ( split_chiffres[1] ));
 	      else
-		preferences ( 0 );
+		preferences ( NULL,
+			      0 );
 
 	      break;
 
@@ -325,6 +315,11 @@ int main (int argc, char *argv[])
 
 		  gtk_widget_set_sensitive ( bouton_personnaliser_etat,
 					     TRUE );
+		  /* FIXME: réactiver àca le jour ou on sort l'impression
+		     mais de toutes faàons, àca sera mergé 
+		     gtk_widget_set_sensitive ( bouton_imprimer_etat,
+		     TRUE );
+		  */
 		  gtk_widget_set_sensitive ( bouton_exporter_etat,
 					     TRUE );
 		  gtk_widget_set_sensitive ( bouton_dupliquer_etat,

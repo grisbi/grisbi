@@ -20,7 +20,7 @@ srcdir = .
 top_srcdir = ..
 
 
-prefix = /tmp
+prefix = /tmp/gsbcor
 exec_prefix = ${prefix}
 datadir = ${prefix}/share
 localedir = $(datadir)/locale
@@ -39,7 +39,7 @@ MSGMERGE = msgmerge
 
 DEFS = -DHAVE_CONFIG_H
 CFLAGS = -g -O2 -Wall -Wunused 
-CPPFLAGS =  -I/usr/include/gtk-1.2 -I/usr/include/glib-1.2 -I/usr/lib/glib/include
+CPPFLAGS =  -I/usr/include/gtk-1.2 -I/usr/include/glib-1.2 -I/usr/lib/glib/include -I/usr/X11R6/include
 
 INCLUDES = -I.. -I$(top_srcdir)/intl
 
