@@ -25,12 +25,6 @@
 #include "variables-extern.c"
 #include "en_tete.h"
 
-/* FIXME: remove and put in en_tete.h */
-void checkbox_set_value (GtkWidget *, guint *, gboolean);
-GtkWidget * new_date_entry ( gchar ** value, GCallback * hook );
-GtkWidget * get_entry_from_date_entry (GtkWidget *);
-void date_set_value ( GtkWidget * hbox, GDate ** value, gboolean update );
-
 
 GtkWidget *paddingbox_details;	/** Widget handling financial year details */
 
@@ -55,7 +49,7 @@ gboolean update_financial_year_list ( GtkEntry *entry, gchar *value,
   gtk_clist_set_text ( clist_exercices_parametres, ligne_selection_exercice,
 		       0, gtk_entry_get_text ( GTK_ENTRY(nom_exercice)) );
 
-  /* FIXME: perhaps this should not be hooked there */
+  /* TODO: perhaps this should not be hooked there */
   update_financial_year_menus ();
 
   return FALSE;
@@ -399,14 +393,14 @@ void supprime_exercice ( GtkWidget *bouton,
 
 
 
-
-
-
-/* **************************************************************************************************************************** */
-/* Fonction selection_ligne_exercice */
-/* appelée lorsqu'on sélectionne une exercice dans la liste */
-/* **************************************************************************************************************************** */
-
+/**
+ * Called when a line is selected in the financial years list.
+ *
+ * \param ligne Line number of selected line
+ * \param colonne Column number of selected cell.  Not used.
+ * \param ev GdkEventButton that triggered this handler.  Not used
+ * \param frame Not used.
+ */
 void selection_ligne_exercice ( GtkWidget *liste,
 				gint ligne,
 				gint colonne,
@@ -449,24 +443,6 @@ void selection_ligne_exercice ( GtkWidget *liste,
   date_set_value ( debut_exercice, &(exercice -> date_debut), TRUE );
   date_set_value ( fin_exercice, &(exercice -> date_fin), TRUE );
 
-/*   if ( exercice -> date_debut ) */
-/*     gtk_entry_set_text ( get_entry_from_date_entry(debut_exercice), */
-/* 			 g_strdup_printf ( "%d/%d/%d", */
-/* 					   g_date_day ( exercice -> date_debut ), */
-/* 					   g_date_month ( exercice -> date_debut ), */
-/* 					   g_date_year ( exercice -> date_debut ))); */
-/*   else */
-/*     gtk_entry_set_text ( get_entry_from_date_entry(debut_exercice), "" ); */
-
-/*   if ( exercice -> date_fin ) */
-/*     gtk_entry_set_text ( get_entry_from_date_entry(fin_exercice), */
-/* 			 g_strdup_printf ( "%d/%d/%d", */
-/* 					   g_date_day ( exercice -> date_fin ), */
-/* 					   g_date_month ( exercice -> date_fin ), */
-/* 					   g_date_year ( exercice -> date_fin ))); */
-/*   else */
-/*     gtk_entry_set_text ( get_entry_from_date_entry(fin_exercice), "" ); */
-
   checkbox_set_value ( affichage_exercice,
 		       &(exercice->affiche_dans_formulaire), 
 		       TRUE );
@@ -474,21 +450,22 @@ void selection_ligne_exercice ( GtkWidget *liste,
   gtk_widget_set_sensitive ( paddingbox_details, TRUE );
   gtk_widget_set_sensitive ( bouton_supprimer_exercice, TRUE );
 }
-/* **************************************************************************************************************************** */
 
 
 
-
-/* **************************************************************************************************************************** */
-/* Fonction deselection_ligne_exercice */
-/* appelée lorsqu'on désélectionne une exercice dans la liste */
-/* **************************************************************************************************************************** */
-
+/**
+ * Called when a line is deselected in the financial years list.
+ *
+ * \param ligne Line number of last selected line
+ * \param colonne Column number of last selected cell.  Not used.
+ * \param ev GdkEventButton that triggered this handler.  Not used
+ * \param frame Not used.
+ */
 void deselection_ligne_exercice ( GtkWidget *liste,
-			      gint ligne,
-			      gint colonne,
-			      GdkEventButton *ev,
-			      GtkWidget *frame )
+				  gint ligne,
+				  gint colonne,
+				  GdkEventButton *ev,
+				  GtkWidget *frame )
 {
   struct struct_exercice *exercice;
 
@@ -530,7 +507,6 @@ void deselection_ligne_exercice ( GtkWidget *liste,
   gtk_widget_set_sensitive ( paddingbox_details, FALSE );
   gtk_widget_set_sensitive ( bouton_supprimer_exercice, FALSE );
 }
-/* **************************************************************************************************************************** */
 
 
 

@@ -1476,7 +1476,14 @@ void remise_a_zero_logo ( GtkWidget *bouton,
 
 
 
-/* FIXME: document it ! */
+/**
+ * Update the label that contain main title in homepage.
+ *
+ * \param entry Widget that triggered this handled.  Not used.
+ * \param value Not used handler parameter.
+ * \param length Not used handler parameter.
+ * \param position Not used handler parameter.
+ */
 gboolean
 update_homepage_title (GtkEntry *entry, gchar *value, 
 		       gint length, gint * position)
