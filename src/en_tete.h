@@ -947,6 +947,9 @@ gint gtktable_affiche_total_ib ( gint ligne );
 gint gtktable_affiche_total_sous_ib ( gint ligne );
 gint gtktable_affiche_total_compte ( gint ligne );
 gint gtktable_affiche_total_tiers ( gint ligne );
+gint gtktable_affiche_total_periode ( struct structure_operation *operation,
+				      gint ligne,
+				      gint force );
 gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 				    gint ligne );
 gint gtktable_affiche_total_partiel ( gdouble total_partie,

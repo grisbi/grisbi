@@ -292,6 +292,7 @@ extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *liste_echeances;
 extern GtkWidget *entree_personnalisation_affichage_echeances;
 extern GtkWidget *bouton_personnalisation_affichage_echeances;
+extern GtkWidget *bouton_valider_echeance_perso;
 extern GtkWidget *bouton_saisir_echeancier;
 extern GtkWidget *calendrier_echeances;
 
@@ -691,8 +692,8 @@ extern GtkWidget *vbox_utilisation_date;
 extern GtkWidget *bouton_separe_plages_etat;
 extern GtkWidget *bouton_type_separe_plages_etat;
 extern GtkWidget *bouton_debut_semaine;
-extern GtkWidget *bouton_type_separe_perso_etat;
-extern GtkWidget *entree_separe_perso_etat;
+/* extern GtkWidget *bouton_type_separe_perso_etat; */
+/* extern GtkWidget *entree_separe_perso_etat; */
 
 extern GtkWidget *liste_comptes_etat;
 extern GtkWidget *bouton_detaille_comptes_etat;
@@ -769,6 +770,8 @@ extern gdouble montant_ib_etat;
 extern gdouble montant_sous_ib_etat;
 extern gdouble montant_compte_etat;
 extern gdouble montant_tiers_etat;
+extern gdouble montant_periode_etat;
+extern GDate *date_debut_periode;
 extern gint changement_de_groupe_etat;
 extern gint debut_affichage_etat;
 extern struct struct_devise *devise_compte_en_cours_etat;

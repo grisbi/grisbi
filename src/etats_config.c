@@ -414,22 +414,22 @@ void personnalisation_etat (void)
 				 FALSE );
       gtk_widget_set_sensitive ( bouton_debut_semaine,
 				 FALSE );
-      gtk_widget_set_sensitive ( bouton_type_separe_perso_etat,
-				 FALSE );
-      gtk_widget_set_sensitive ( entree_separe_perso_etat,
-				 FALSE );
+/*       gtk_widget_set_sensitive ( bouton_type_separe_perso_etat, */
+/* 				 FALSE ); */
+/*       gtk_widget_set_sensitive ( entree_separe_perso_etat, */
+/* 				 FALSE ); */
     }
 
   gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_type_separe_plages_etat ),
 				etat_courant -> type_separation_plage );
   gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_debut_semaine ),
 				etat_courant -> jour_debut_semaine );
-  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_type_separe_perso_etat ),
-				etat_courant -> type_separation_perso );
+/*   gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_type_separe_perso_etat ), */
+/* 				etat_courant -> type_separation_perso ); */
 
-  if ( etat_courant -> delai_separation_perso )
-    gtk_entry_set_text ( GTK_ENTRY ( entree_separe_perso_etat ),
-			 itoa ( etat_courant -> delai_separation_perso ));
+/*   if ( etat_courant -> delai_separation_perso ) */
+/*     gtk_entry_set_text ( GTK_ENTRY ( entree_separe_perso_etat ), */
+/* 			 itoa ( etat_courant -> delai_separation_perso )); */
 
 
   /* onglet comptes */
@@ -1079,9 +1079,9 @@ void recuperation_info_perso_etat ( void )
 										  "type" ));
   etat_courant -> jour_debut_semaine = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_debut_semaine ) -> menu_item ),
 									       "jour" ));
-  etat_courant -> type_separation_perso = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_type_separe_perso_etat ) -> menu_item ),
-										  "type" ));
-  etat_courant -> delai_separation_perso = atoi ( gtk_entry_get_text ( GTK_ENTRY ( entree_separe_perso_etat )));
+/*   etat_courant -> type_separation_perso = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_type_separe_perso_etat ) -> menu_item ), */
+/* 										  "type" )); */
+/*   etat_courant -> delai_separation_perso = atoi ( gtk_entry_get_text ( GTK_ENTRY ( entree_separe_perso_etat ))); */
 
   /* récupération des comptes */
 
@@ -2304,7 +2304,7 @@ GtkWidget *onglet_etat_dates ( void )
 		      liste_plages_dates_etat );
   gtk_widget_show ( liste_plages_dates_etat );
 
-  /* on remplit la liste des exercices */
+  /* on remplit la liste des dates */
 
   plages_dates = liste_plages_dates;
 
@@ -2398,21 +2398,13 @@ GtkWidget *onglet_etat_dates ( void )
   
   /* on permet ensuite la séparation des résultats */
 
-  separateur = gtk_hseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( vbox_utilisation_date ),
-		       separateur,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( separateur );
-
 
   bouton_separe_plages_etat = gtk_check_button_new_with_label ( _("Séparer les résultats par période") );
   gtk_signal_connect ( GTK_OBJECT ( bouton_separe_plages_etat ),
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( change_separation_result_periode ),
 		       NULL );
-  gtk_box_pack_start ( GTK_BOX ( vbox_utilisation_date ),
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_separe_plages_etat,
 		       FALSE,
 		       FALSE,
@@ -2423,7 +2415,7 @@ GtkWidget *onglet_etat_dates ( void )
 
   hbox = gtk_hbox_new ( FALSE,
 			5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox_utilisation_date ),
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       hbox,
 		       FALSE,
 		       FALSE,
@@ -2472,17 +2464,17 @@ GtkWidget *onglet_etat_dates ( void )
 		    menu_item );
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("Personnalisé") );
-  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			"type",
-			GINT_TO_POINTER (3));
-  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-			      "activate",
-			      GTK_SIGNAL_FUNC ( modif_type_separation_dates ),
-			      GINT_TO_POINTER (3));
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    menu_item );
-  gtk_widget_show ( menu_item );
+/*   menu_item = gtk_menu_item_new_with_label ( _("Personnalisé") ); */
+/*   gtk_object_set_data ( GTK_OBJECT ( menu_item ), */
+/* 			"type", */
+/* 			GINT_TO_POINTER (3)); */
+/*   gtk_signal_connect_object ( GTK_OBJECT ( menu_item ), */
+/* 			      "activate", */
+/* 			      GTK_SIGNAL_FUNC ( modif_type_separation_dates ), */
+/* 			      GINT_TO_POINTER (3)); */
+/*   gtk_menu_append ( GTK_MENU ( menu ), */
+/* 		    menu_item ); */
+/*   gtk_widget_show ( menu_item ); */
 
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_type_separe_plages_etat ),
 			     menu );
@@ -2494,61 +2486,61 @@ GtkWidget *onglet_etat_dates ( void )
 		       0 );
   gtk_widget_show ( bouton_type_separe_plages_etat );
 
-  entree_separe_perso_etat = gtk_entry_new ();
-  gtk_widget_set_usize ( entree_separe_perso_etat,
-			 50,
-			 FALSE );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       entree_separe_perso_etat,
-		       FALSE, 
-		       FALSE,
-		       0 );
-  gtk_widget_show ( entree_separe_perso_etat );
+/*   entree_separe_perso_etat = gtk_entry_new (); */
+/*   gtk_widget_set_usize ( entree_separe_perso_etat, */
+/* 			 50, */
+/* 			 FALSE ); */
+/*   gtk_box_pack_start ( GTK_BOX ( hbox ), */
+/* 		       entree_separe_perso_etat, */
+/* 		       FALSE,  */
+/* 		       FALSE, */
+/* 		       0 ); */
+/*   gtk_widget_show ( entree_separe_perso_etat ); */
 
 
-  bouton_type_separe_perso_etat = gtk_option_menu_new ();
+/*   bouton_type_separe_perso_etat = gtk_option_menu_new (); */
 
-  menu = gtk_menu_new ();
+/*   menu = gtk_menu_new (); */
 
-  menu_item = gtk_menu_item_new_with_label ( _("Jours") );
-  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			"type",
-			GINT_TO_POINTER (0));
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    menu_item );
-  gtk_widget_show ( menu_item );
+/*   menu_item = gtk_menu_item_new_with_label ( _("Jours") ); */
+/*   gtk_object_set_data ( GTK_OBJECT ( menu_item ), */
+/* 			"type", */
+/* 			GINT_TO_POINTER (0)); */
+/*   gtk_menu_append ( GTK_MENU ( menu ), */
+/* 		    menu_item ); */
+/*   gtk_widget_show ( menu_item ); */
 
-  menu_item = gtk_menu_item_new_with_label ( _("Mois") );
-  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			"type",
-			GINT_TO_POINTER (1));
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    menu_item );
-  gtk_widget_show ( menu_item );
+/*   menu_item = gtk_menu_item_new_with_label ( _("Mois") ); */
+/*   gtk_object_set_data ( GTK_OBJECT ( menu_item ), */
+/* 			"type", */
+/* 			GINT_TO_POINTER (1)); */
+/*   gtk_menu_append ( GTK_MENU ( menu ), */
+/* 		    menu_item ); */
+/*   gtk_widget_show ( menu_item ); */
 
-  menu_item = gtk_menu_item_new_with_label ( _("Ans") );
-  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			"type",
-			GINT_TO_POINTER (2));
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    menu_item );
-  gtk_widget_show ( menu_item );
+/*   menu_item = gtk_menu_item_new_with_label ( _("Ans") ); */
+/*   gtk_object_set_data ( GTK_OBJECT ( menu_item ), */
+/* 			"type", */
+/* 			GINT_TO_POINTER (2)); */
+/*   gtk_menu_append ( GTK_MENU ( menu ), */
+/* 		    menu_item ); */
+/*   gtk_widget_show ( menu_item ); */
 
-  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_type_separe_perso_etat ),
-			     menu );
-  gtk_widget_show ( menu );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       bouton_type_separe_perso_etat,
-		       FALSE, 
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_type_separe_perso_etat );
+/*   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_type_separe_perso_etat ), */
+/* 			     menu ); */
+/*   gtk_widget_show ( menu ); */
+/*   gtk_box_pack_start ( GTK_BOX ( hbox ), */
+/* 		       bouton_type_separe_perso_etat, */
+/* 		       FALSE,  */
+/* 		       FALSE, */
+/* 		       0 ); */
+/*   gtk_widget_show ( bouton_type_separe_perso_etat ); */
 
   /* mise en place de la ligne de début de semaine */
 
   hbox = gtk_hbox_new ( FALSE,
 			5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox_utilisation_date ),
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       hbox,
 		       FALSE,
 		       FALSE,
@@ -2841,10 +2833,10 @@ void change_separation_result_periode ( void )
 				 FALSE );
       gtk_widget_set_sensitive ( bouton_debut_semaine,
 				 FALSE );
-      gtk_widget_set_sensitive ( bouton_type_separe_perso_etat,
-				 FALSE );
-      gtk_widget_set_sensitive ( entree_separe_perso_etat,
-				 FALSE );
+/*       gtk_widget_set_sensitive ( bouton_type_separe_perso_etat, */
+/* 				 FALSE ); */
+/*       gtk_widget_set_sensitive ( entree_separe_perso_etat, */
+/* 				 FALSE ); */
     }
 }
 /*****************************************************************************************************/
@@ -2860,29 +2852,29 @@ void modif_type_separation_dates ( gint *origine )
     case 0:
       gtk_widget_set_sensitive ( bouton_debut_semaine,
 				 TRUE );
-      gtk_widget_set_sensitive ( bouton_type_separe_perso_etat,
-				 FALSE );
-      gtk_widget_set_sensitive ( entree_separe_perso_etat,
-				 FALSE );
+/*       gtk_widget_set_sensitive ( bouton_type_separe_perso_etat, */
+/* 				 FALSE ); */
+/*       gtk_widget_set_sensitive ( entree_separe_perso_etat, */
+/* 				 FALSE ); */
       break;
 
     case 1:
     case 2:
       gtk_widget_set_sensitive ( bouton_debut_semaine,
 				 FALSE );
-      gtk_widget_set_sensitive ( bouton_type_separe_perso_etat,
-				 FALSE );
-      gtk_widget_set_sensitive ( entree_separe_perso_etat,
-				 FALSE );
+/*       gtk_widget_set_sensitive ( bouton_type_separe_perso_etat, */
+/* 				 FALSE ); */
+/*       gtk_widget_set_sensitive ( entree_separe_perso_etat, */
+/* 				 FALSE ); */
       break;
 
     case 3:
       gtk_widget_set_sensitive ( bouton_debut_semaine,
 				 FALSE );
-      gtk_widget_set_sensitive ( bouton_type_separe_perso_etat,
-				 TRUE );
-      gtk_widget_set_sensitive ( entree_separe_perso_etat,
-				 TRUE );
+/*       gtk_widget_set_sensitive ( bouton_type_separe_perso_etat, */
+/* 				 TRUE ); */
+/*       gtk_widget_set_sensitive ( entree_separe_perso_etat, */
+/* 				 TRUE ); */
     }
 }
 /*****************************************************************************************************/

@@ -931,35 +931,38 @@ gint classement_liste_opes_etat ( struct structure_operation *operation_1,
 
     case 1:
 
-      if ( operation_1 -> categorie != operation_2 -> categorie )
-	return ( operation_1 -> categorie - operation_2 -> categorie );
-
-      /*     si  les catégories sont nulles, on doit départager entre virements, pas */
-      /* de categ ou opé ventilée */
-      /* on met en 1er les opés sans categ, ensuite les ventilations et enfin les virements */
-
-      if ( !operation_1 -> categorie )
+      if ( etat_courant -> utilise_categ )
 	{
-	  if ( operation_1 -> operation_ventilee )
+	  if ( operation_1 -> categorie != operation_2 -> categorie )
+	    return ( operation_1 -> categorie - operation_2 -> categorie );
+
+	  /*     si  les catégories sont nulles, on doit départager entre virements, pas */
+	  /* de categ ou opé ventilée */
+	  /* on met en 1er les opés sans categ, ensuite les ventilations et enfin les virements */
+
+	  if ( !operation_1 -> categorie )
 	    {
-	      if ( operation_2 -> relation_no_operation )
-		return ( -1 );
-	      else
-		if ( !operation_2 -> operation_ventilee )
-		  return ( 1 );
-	    }
-	  else
-	    {
-	      if ( operation_1 -> relation_no_operation )
+	      if ( operation_1 -> operation_ventilee )
 		{
-		  if ( !operation_2 -> relation_no_operation )
-		    return ( 1 );
+		  if ( operation_2 -> relation_no_operation )
+		    return ( -1 );
+		  else
+		    if ( !operation_2 -> operation_ventilee )
+		      return ( 1 );
 		}
 	      else
-		if ( operation_2 -> relation_no_operation
-		     ||
-		     operation_2 -> operation_ventilee )
-		  return ( -1 );
+		{
+		  if ( operation_1 -> relation_no_operation )
+		    {
+		      if ( !operation_2 -> relation_no_operation )
+			return ( 1 );
+		    }
+		  else
+		    if ( operation_2 -> relation_no_operation
+			 ||
+			 operation_2 -> operation_ventilee )
+		      return ( -1 );
+		}
 	    }
 	}
 
@@ -974,8 +977,13 @@ gint classement_liste_opes_etat ( struct structure_operation *operation_1,
 
     case 2:
 
-      if ( operation_1 -> sous_categorie != operation_2 -> sous_categorie )
-	return ( operation_1 -> sous_categorie - operation_2 -> sous_categorie );
+      if ( etat_courant -> utilise_categ
+	   &&
+	   etat_courant -> afficher_sous_categ )
+	{
+	  if ( operation_1 -> sous_categorie != operation_2 -> sous_categorie )
+	    return ( operation_1 -> sous_categorie - operation_2 -> sous_categorie );
+	}
 
       /*       les ss-catégories sont identiques, passe au classement suivant */
 
@@ -988,8 +996,11 @@ gint classement_liste_opes_etat ( struct structure_operation *operation_1,
 
     case 3:
 
-      if ( operation_1 -> imputation != operation_2 -> imputation )
-	return ( operation_1 -> imputation - operation_2 -> imputation );
+      if ( etat_courant -> utilise_ib )
+	{
+	  if ( operation_1 -> imputation != operation_2 -> imputation )
+	    return ( operation_1 -> imputation - operation_2 -> imputation );
+	}
 
       /*       les ib sont identiques, passe au classement suivant */
 
@@ -1002,8 +1013,13 @@ gint classement_liste_opes_etat ( struct structure_operation *operation_1,
 
     case 4:
 
-      if ( operation_1 -> sous_imputation != operation_2 -> sous_imputation )
-	return ( operation_1 -> sous_imputation - operation_2 -> sous_imputation );
+      if ( etat_courant -> utilise_ib
+	   &&
+	   etat_courant -> afficher_sous_ib )
+	{
+	  if ( operation_1 -> sous_imputation != operation_2 -> sous_imputation )
+	    return ( operation_1 -> sous_imputation - operation_2 -> sous_imputation );
+	}
 
       /*       les ib sont identiques, passe au classement suivant */
 
@@ -1017,8 +1033,11 @@ gint classement_liste_opes_etat ( struct structure_operation *operation_1,
 
     case 5:
 
-      if ( operation_1 -> no_compte != operation_2 -> no_compte )
-	return ( operation_1 ->no_compte  - operation_2 -> no_compte );
+      if ( etat_courant -> regroupe_ope_par_compte )
+	{
+	  if ( operation_1 -> no_compte != operation_2 -> no_compte )
+	    return ( operation_1 ->no_compte  - operation_2 -> no_compte );
+	}
 
       /*       les comptes sont identiques, passe au classement suivant */
 
@@ -1031,8 +1050,11 @@ gint classement_liste_opes_etat ( struct structure_operation *operation_1,
 
     case 6:
 
-      if ( operation_1 -> tiers != operation_2 -> tiers )
-	return ( operation_1 ->tiers  - operation_2 -> tiers );
+      if ( etat_courant -> utilise_tiers )
+	{
+	  if ( operation_1 -> tiers != operation_2 -> tiers )
+	    return ( operation_1 ->tiers  - operation_2 -> tiers );
+	}
 
       /*       les tiers sont identiques, passe au classement suivant */
 
@@ -1343,7 +1365,9 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
       montant_sous_ib_etat = 0;
       montant_compte_etat = 0;
       montant_tiers_etat = 0;
+      montant_periode_etat = 0;
       total_partie = 0;
+      date_debut_periode = NULL;
 
       changement_de_groupe_etat = 0;
       debut_affichage_etat = 1;
@@ -1431,46 +1455,53 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 		{
 		case 1:
 		  ligne = affichage -> affiche_categ_etat ( operation,
-					       					       decalage_categ,
-					       ligne );
+							    decalage_categ,
+							    ligne );
 		  break;
 
 		case 2:
 		  ligne = affichage -> affiche_sous_categ_etat ( operation,
-						    						    decalage_sous_categ,
-						    ligne );
+								 decalage_sous_categ,
+								 ligne );
 
 		  break;
 
 		case 3:
 		  ligne = affichage -> affiche_ib_etat ( operation,
-					    					    decalage_ib,
-					    ligne );
+							 decalage_ib,
+							 ligne );
 
 		  break;
 
 		case 4:
 		  ligne = affichage -> affiche_sous_ib_etat ( operation,
-						 						 decalage_sous_ib,
-						 ligne );
+							      decalage_sous_ib,
+							      ligne );
 
 		  break;
 
 		case 5:
 		  ligne = affichage -> affiche_compte_etat ( operation,
-												decalage_compte,
-						ligne );
+							     decalage_compte,
+							     ligne );
 
 		  break;
 
 		case 6:
 		  ligne = affichage -> affiche_tiers_etat ( operation,
-					       					       decalage_tiers,
-					       ligne );
+							    decalage_tiers,
+							    ligne );
 		}
 
 	      pointeur_glist = pointeur_glist -> next;
 	    }
+
+
+	  /* on affiche si nécessaire le total de la période */
+
+	  ligne = gtktable_affiche_total_periode ( operation,
+						   ligne,
+						   0 );
 
 
 	  ligne = affichage -> affichage_ligne_ope ( operation,
@@ -1653,6 +1684,38 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 	    }
 
 
+	  /* calcule le montant de la periode */
+
+	  if ( etat_courant -> separation_par_plage )
+	    {
+	      if ( operation -> devise == devise_categ_etat -> no_devise )
+		montant = operation -> montant;
+	      else
+		{
+		  devise_operation = g_slist_find_custom ( liste_struct_devises,
+							   GINT_TO_POINTER ( operation -> devise ),
+							   ( GCompareFunc ) recherche_devise_par_no ) -> data;
+
+		  if ( devise_categ_etat -> passage_euro
+		       &&
+		       !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
+		    montant = operation -> montant * devise_categ_etat -> change;
+		  else
+		    if ( devise_operation -> passage_euro
+			 &&
+			 !strcmp ( devise_categ_etat -> nom_devise, _("Euro") ))
+		      montant = operation -> montant / devise_operation -> change;
+		    else
+		      if ( operation -> une_devise_compte_egale_x_devise_ope )
+			montant = operation -> montant / operation -> taux_change - operation -> frais_change;
+		      else
+			montant = operation -> montant * operation -> taux_change - operation -> frais_change;
+
+		  montant = ( rint (montant * 100 )) / 100;
+		}
+	      montant_periode_etat = montant_periode_etat + montant;
+	    }
+
 	  total_partie = total_partie + montant;
 	  total_general = total_general + montant;
 
@@ -1661,7 +1724,14 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 	  pointeur_tmp = pointeur_tmp -> next;
 	}
 
+
       /*   à la fin, on affiche les totaux des dernières lignes */
+
+      /* on affiche le total de la période en le forçant */
+
+      ligne = gtktable_affiche_total_periode ( NULL,
+					       ligne,
+					       1 );
 
       ligne = affichage -> affiche_totaux_sous_jaccent ( GPOINTER_TO_INT ( etat_courant -> type_classement -> data ),
 					    ligne );

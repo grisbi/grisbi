@@ -3000,6 +3000,29 @@ des paramètres.") );
 		      etat -> nom_etat = xmlGetProp ( node_detail,
 						      "Nom" );
 
+		      etat -> type_classement = NULL;
+
+		      if ( strlen ( xmlGetProp ( node_detail,
+						 "Type_classement" )))
+			{
+			  gchar **pointeur_char;
+			  gint i;
+
+			  pointeur_char = g_strsplit ( xmlGetProp ( node_detail,
+								    "Type_classement" ),
+						       "/",
+						       0 );
+			  i=0;
+
+			  while ( pointeur_char[i] )
+			    {
+			      etat -> type_classement = g_list_append ( etat -> type_classement,
+									GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
+			      i++;
+			    }
+			  g_strfreev ( pointeur_char );
+			}
+
 		      etat -> afficher_r = atoi ( xmlGetProp ( node_detail,
 								  "Aff_r" ));
 
@@ -3129,28 +3152,21 @@ des paramètres.") );
 		      else
 			etat -> date_perso_fin = NULL;
 
-		      etat -> type_classement = NULL;
 
-		      if ( strlen ( xmlGetProp ( node_detail,
-						 "Type_classement" )))
-			{
-			  gchar **pointeur_char;
-			  gint i;
+		      etat -> separation_par_plage = atoi ( xmlGetProp ( node_detail,
+								  "Utilise_plages" ));
 
-			  pointeur_char = g_strsplit ( xmlGetProp ( node_detail,
-								    "Type_classement" ),
-						       "/",
-						       0 );
-			  i=0;
+		      etat -> type_separation_plage = atoi ( xmlGetProp ( node_detail,
+									  "Sep_plages" ));
 
-			  while ( pointeur_char[i] )
-			    {
-			      etat -> type_classement = g_list_append ( etat -> type_classement,
-									GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
-			      i++;
-			    }
-			  g_strfreev ( pointeur_char );
-			}
+		      etat -> jour_debut_semaine = atoi ( xmlGetProp ( node_detail,
+								       "Deb_sem_plages" ));
+
+		      etat -> type_separation_perso = atoi ( xmlGetProp ( node_detail,
+									  "Sep_perso_plages" ));
+
+		      etat -> delai_separation_perso = atoi ( xmlGetProp ( node_detail,
+									   "Delai_perso_plages" ));
 
 
 		      etat -> utilise_detail_comptes = atoi ( xmlGetProp ( node_detail,
@@ -4750,6 +4766,27 @@ gboolean enregistre_fichier ( void )
 		   "Nom",
 		   etat -> nom_etat );
 
+      pointeur_list = etat -> type_classement;
+      pointeur_char = NULL;
+
+      while ( pointeur_list )
+	{
+	  if ( pointeur_char )
+	    pointeur_char = g_strconcat ( pointeur_char,
+					  "/",
+					  itoa ( GPOINTER_TO_INT ( pointeur_list -> data )),
+					  NULL );
+	  else
+	    pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_list -> data ));
+
+	  pointeur_list = pointeur_list -> next;
+	}
+
+      xmlSetProp ( node_etat,
+		   "Type_classement",
+		   pointeur_char );
+
+
       xmlSetProp ( node_etat,
 		   "Aff_r",
 		   itoa ( etat -> afficher_r ));
@@ -4888,25 +4925,26 @@ gboolean enregistre_fichier ( void )
 		     "Date_fin",
 		     NULL );
 
-      pointeur_list = etat -> type_classement;
-      pointeur_char = NULL;
-
-      while ( pointeur_list )
-	{
-	  if ( pointeur_char )
-	    pointeur_char = g_strconcat ( pointeur_char,
-					  "/",
-					  itoa ( GPOINTER_TO_INT ( pointeur_list -> data )),
-					  NULL );
-	  else
-	    pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_list -> data ));
-
-	  pointeur_list = pointeur_list -> next;
-	}
 
       xmlSetProp ( node_etat,
-		   "Type_classement",
-		   pointeur_char );
+		   "Utilise_plages",
+		   itoa ( etat -> separation_par_plage ));
+
+      xmlSetProp ( node_etat,
+		   "Sep_plages",
+		   itoa ( etat -> type_separation_plage ));
+
+      xmlSetProp ( node_etat,
+		   "Deb_sem_plages",
+		   itoa ( etat -> jour_debut_semaine ));
+
+      xmlSetProp ( node_etat,
+		   "Sep_perso_plages",
+		   itoa ( etat -> type_separation_perso ));
+
+      xmlSetProp ( node_etat,
+		   "Delai_perso_plages",
+		   itoa ( etat -> delai_separation_perso ));
 
 
       xmlSetProp ( node_etat,
@@ -5380,6 +5418,27 @@ gboolean enregistre_etat ( gchar *nom_etat )
 		       "Details",
 		       NULL );
 
+  pointeur_list = etat_courant -> type_classement;
+  pointeur_char = NULL;
+
+  while ( pointeur_list )
+    {
+      if ( pointeur_char )
+	pointeur_char = g_strconcat ( pointeur_char,
+				      "/",
+				      itoa ( GPOINTER_TO_INT ( pointeur_list -> data )),
+				      NULL );
+      else
+	pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_list -> data ));
+
+      pointeur_list = pointeur_list -> next;
+    }
+
+  xmlSetProp ( node,
+	       "Type_classement",
+	       pointeur_char );
+
+
   xmlSetProp ( node,
 	       "Aff_r",
 	       itoa ( etat_courant -> afficher_r ));
@@ -5518,26 +5577,25 @@ gboolean enregistre_etat ( gchar *nom_etat )
 		 "Date_fin",
 		 NULL );
 
-  pointeur_list = etat_courant -> type_classement;
-  pointeur_char = NULL;
-
-  while ( pointeur_list )
-    {
-      if ( pointeur_char )
-	pointeur_char = g_strconcat ( pointeur_char,
-				      "/",
-				      itoa ( GPOINTER_TO_INT ( pointeur_list -> data )),
-				      NULL );
-      else
-	pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_list -> data ));
-
-      pointeur_list = pointeur_list -> next;
-    }
+  xmlSetProp ( node,
+	       "Utilise_plages",
+	       itoa ( etat_courant -> separation_par_plage ));
 
   xmlSetProp ( node,
-	       "Type_classement",
-	       pointeur_char );
+	       "Sep_plages",
+	       itoa ( etat_courant -> type_separation_plage ));
 
+  xmlSetProp ( node,
+	       "Deb_sem_plages",
+	       itoa ( etat_courant -> jour_debut_semaine ));
+
+  xmlSetProp ( node,
+	       "Sep_perso_plages",
+	       itoa ( etat_courant -> type_separation_perso ));
+
+  xmlSetProp ( node,
+	       "Delai_perso_plages",
+	       itoa ( etat_courant -> delai_separation_perso ));
 
   xmlSetProp ( node,
 	       "Detail_comptes",
@@ -5910,6 +5968,30 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
       if ( !strcmp ( node -> name,
 		     "Details" ))
 	{
+	  etat -> type_classement = NULL;
+
+	  if ( strlen ( xmlGetProp ( node,
+				     "Type_classement" )))
+	    {
+	      gchar **pointeur_char;
+	      gint i;
+
+	      pointeur_char = g_strsplit ( xmlGetProp ( node,
+							"Type_classement" ),
+					   "/",
+					   0 );
+	      i=0;
+
+	      while ( pointeur_char[i] )
+		{
+		  etat -> type_classement = g_list_append ( etat -> type_classement,
+							    GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
+		  i++;
+		}
+	      g_strfreev ( pointeur_char );
+	    }
+
+
 	  etat -> afficher_r = atoi ( xmlGetProp ( node,
 						   "Aff_r" ));
 
@@ -6039,28 +6121,20 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 	  else
 	    etat -> date_perso_fin = NULL;
 
-	  etat -> type_classement = NULL;
+	  etat -> separation_par_plage = atoi ( xmlGetProp ( node,
+							     "Utilise_plages" ));
 
-	  if ( strlen ( xmlGetProp ( node,
-				     "Type_classement" )))
-	    {
-	      gchar **pointeur_char;
-	      gint i;
+	  etat -> type_separation_plage = atoi ( xmlGetProp ( node,
+							      "Sep_plages" ));
 
-	      pointeur_char = g_strsplit ( xmlGetProp ( node,
-							"Type_classement" ),
-					   "/",
-					   0 );
-	      i=0;
+	  etat -> jour_debut_semaine = atoi ( xmlGetProp ( node,
+							   "Deb_sem_plages" ));
 
-	      while ( pointeur_char[i] )
-		{
-		  etat -> type_classement = g_list_append ( etat -> type_classement,
-							    GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
-		  i++;
-		}
-	      g_strfreev ( pointeur_char );
-	    }
+	  etat -> type_separation_perso = atoi ( xmlGetProp ( node,
+							      "Sep_perso_plages" ));
+
+	  etat -> delai_separation_perso = atoi ( xmlGetProp ( node,
+							       "Delai_perso_plages" ));
 
 
 	  etat -> utilise_detail_comptes = atoi ( xmlGetProp ( node,

@@ -487,7 +487,7 @@ struct struct_etat_affichage
   gint (* init) ( );
   gint (* afficher_titre) ( gint );
   gint (* afficher_separateur) ( gint );
-  gint (* affiche_total_categories) ( gint );
+  gint (* affiche_total_categories) ( gint ligne );
   gint (* affiche_total_sous_categ) ( gint ligne );
   gint (* affiche_total_ib) ( gint ligne );
   gint (* affiche_total_sous_ib) ( gint ligne );

@@ -1064,9 +1064,295 @@ gint gtktable_affiche_total_tiers ( gint ligne )
 
 
 
+
+
+/*****************************************************************************************************/
+/* affiche le total de la période à l'endroit donné de la table */
+/* retourne le ligne suivante de la table */
+/* si force = 0, vérifie les dates et affiche si nécessaire */
+/*   si force = 1, affiche le total (chgt de categ, ib ...) */
+/*****************************************************************************************************/
+gint gtktable_affiche_total_periode ( struct structure_operation *operation,
+				      gint ligne,
+				      gint force )
+{
+  GtkWidget *label;
+  GtkWidget *separateur;
+
+  if ( etat_courant -> separation_par_plage )
+    {
+      gchar *message;
+
+      message = NULL;
+
+      /* si l'ancienne date est nulle, on la met à la date de l'opération */
+
+      if ( !date_debut_periode )
+	{
+	  if ( operation )
+	    date_debut_periode = operation -> date;
+	  else
+	    date_debut_periode = NULL;
+	  return ( ligne );
+	}
+
+      /* on vérifie maintenant s'il faut afficher un total ou pas */
+
+      switch ( etat_courant -> type_separation_plage )
+	{
+	  gchar buffer[30];
+	  GDate *date_tmp;
+
+	case 0:
+	  /* séparation par semaine */
+
+	  /* 	  si c'est le même jour que l'opé précédente, on fait rien */
+
+	  if ( !force
+	       &&
+	       !g_date_compare ( operation -> date,
+				date_debut_periode ))
+	    return ( ligne );
+
+	  /* 	  si on est en début de semaine, on met un sous total */
+
+	  date_tmp = g_date_new_dmy ( g_date_day ( date_debut_periode ),
+				      g_date_month ( date_debut_periode ),
+				      g_date_year ( date_debut_periode ));
+	  g_date_add_days ( date_tmp,
+			    7 );
+
+	  if ( !force
+	       &&
+	       ( g_date_weekday ( operation -> date )  != (etat_courant -> jour_debut_semaine + 1 )
+		 &&
+		 g_date_compare ( operation -> date,
+				  date_tmp ) < 0 ))
+	    return ( ligne );
+
+	  /* on doit retrouver la date du début de semaine et y ajouter 6j pour afficher la période */
+
+	  if ( g_date_weekday ( date_debut_periode )  != (etat_courant -> jour_debut_semaine + 1 ))
+	    {
+	      if ( g_date_weekday ( date_debut_periode ) < (etat_courant -> jour_debut_semaine + 1 ))
+		g_date_subtract_days ( date_debut_periode,
+				       g_date_weekday ( date_debut_periode ) + etat_courant -> jour_debut_semaine - 2 );
+	      else
+		g_date_subtract_days ( date_debut_periode,
+				       g_date_weekday ( date_debut_periode ) - etat_courant -> jour_debut_semaine - 1 );
+	    }
+
+
+	  g_date_free ( date_tmp );
+
+	  date_tmp = g_date_new_dmy ( g_date_day ( date_debut_periode ),
+				      g_date_month ( date_debut_periode ),
+				      g_date_year ( date_debut_periode ));
+	  g_date_add_days ( date_tmp,
+				6 );
+	  message = g_strdup_printf ( _( "Résultat du %d/%d/%d au %d/%d/%d :" ),
+				      g_date_day ( date_debut_periode ),
+				      g_date_month ( date_debut_periode ),
+				      g_date_year ( date_debut_periode ),
+				      g_date_day ( date_tmp ),
+				      g_date_month ( date_tmp ),
+				      g_date_year ( date_tmp ));
+
+	  break;
+
+	case 1:
+	  /* séparation par mois */
+
+	  if ( !force
+	       &&
+	       operation -> mois == g_date_month ( date_debut_periode ) )
+	    return ( ligne );
+
+	  g_date_strftime ( buffer,
+			    29,
+			    "%B %Y",
+			    date_debut_periode );
+			    
+	  message = g_strconcat ( _( "Résultat de " ),
+				  buffer,
+				  " : ",
+				  NULL );
+				      
+	  break;
+
+	case 2:
+	  /* séparation par an */
+
+	  if ( !force
+	       &&
+	       operation -> annee == g_date_year ( date_debut_periode ) )
+	    return ( ligne );
+
+	  g_date_strftime ( buffer,
+			    29,
+			    "%Y",
+			    date_debut_periode );
+			    
+	  message = g_strconcat ( _( "Résultat de l'année" ),
+				  buffer,
+				  " : ",
+				  NULL );
+	  break;
+
+/* 	case 3: */
+	  /* séparation perso */
+
+
+/* 	  date_tmp = g_date_new_dmy ( g_date_day ( date_debut_periode ), */
+/* 				      g_date_month ( date_debut_periode ), */
+/* 				      g_date_year ( date_debut_periode )); */
+
+	  /* on ajoute à date_tmp la ppériodicité et on regarde si on l'a dépassé */
+
+/* 	  switch ( etat_cournat -> type_separation_perso ) */
+/* 	    { */
+/* 	    case 0: */
+ 	      /* jours */ 
+
+/* 	      g_date_add_days ( date_tmp, */
+/* 				etat_courant -> delai_separation_perso ); */
+/* 	      break; */
+
+/* 	    case 1: */
+	      /* mois */
+
+/* 	      g_date_add_months ( date_tmp, */
+/* 				etat_courant -> delai_separation_perso ); */
+/* 	      break; */
+
+/* 	    case 2: */
+          /* ans */ 
+
+/* 	      g_date_add_years ( date_tmp, */
+/* 				 etat_courant -> delai_separation_perso ); */
+/* 	      break; */
+/* 	    } */
+
+/* 	    return ( ligne ); */
+/* 	  break; */
+	}
+
+      /*       si on arrive ici, c'est qu'il y a un chgt de période ou que c'est forcé */
+      /* 	  si on affiche les opés, on met les traits entre eux */
+
+      if ( etat_courant -> afficher_opes
+	   &&
+	   ligne_debut_partie != -1 )
+	{
+	  gint i;
+	  gint colonne;
+
+	  colonne = 2;
+
+	  for ( i=0 ; i<((nb_colonnes-2)/2) ; i++ )
+	    {
+	      separateur = gtk_vseparator_new ();
+	      gtk_table_attach ( GTK_TABLE ( table_etat ),
+				 separateur,
+				 colonne, colonne + 1,
+				 ligne_debut_partie, ligne,
+				 GTK_SHRINK | GTK_FILL,
+				 GTK_SHRINK | GTK_FILL,
+				 0, 0 );
+	      gtk_widget_show ( separateur );
+
+	      colonne = colonne + 2;
+	    }
+	  ligne_debut_partie = -1;
+	}
+
+
+      label = gtk_label_new ( "" );
+      gtk_misc_set_alignment ( GTK_MISC ( label ),
+			       0,
+			       0.5 );
+      gtk_table_attach ( GTK_TABLE ( table_etat ),
+			 label,
+			 1, GTK_TABLE ( table_etat ) -> ncols - 1,
+			 ligne, ligne + 1,
+			 GTK_SHRINK | GTK_FILL,
+			 GTK_SHRINK | GTK_FILL,
+			 0, 0 );
+      gtk_widget_show ( label );
+
+      ligne++;
+
+      separateur = gtk_hseparator_new ();
+      gtk_table_attach ( GTK_TABLE ( table_etat ),
+			 separateur,
+			 1, GTK_TABLE ( table_etat ) -> ncols,
+			 ligne, ligne + 1,
+			 GTK_SHRINK | GTK_FILL,
+			 GTK_SHRINK | GTK_FILL,
+			 0, 0 );
+      gtk_widget_show ( separateur );
+
+      ligne++;
+
+      label = gtk_label_new ( message );
+      gtk_misc_set_alignment ( GTK_MISC ( label ),
+			       0,
+			       0.5 );
+      gtk_table_attach ( GTK_TABLE ( table_etat ),
+			 label,
+			 1, GTK_TABLE ( table_etat ) -> ncols - 1,
+			 ligne, ligne + 1,
+			 GTK_SHRINK | GTK_FILL,
+			 GTK_SHRINK | GTK_FILL,
+			 0, 0 );
+      gtk_widget_show ( label );
+
+      label = gtk_label_new ( g_strdup_printf ( "%4.2f %s",
+						montant_periode_etat,
+						devise_generale_etat -> code_devise ));
+      gtk_table_attach ( GTK_TABLE ( table_etat ),
+			 label,
+			 GTK_TABLE ( table_etat ) -> ncols - 1, GTK_TABLE ( table_etat ) -> ncols,
+			 ligne, ligne + 1,
+			 GTK_SHRINK | GTK_FILL,
+			 GTK_SHRINK | GTK_FILL,
+			 0, 0 );
+      gtk_widget_show ( label );
+
+      ligne++;
+
+	  label = gtk_label_new ( "" );
+	  gtk_misc_set_alignment ( GTK_MISC ( label ),
+				   0,
+				   0.5 );
+	  gtk_table_attach ( GTK_TABLE ( table_etat ),
+			     label,
+			     1, GTK_TABLE ( table_etat ) -> ncols - 1,
+			     ligne, ligne + 1,
+			     GTK_SHRINK | GTK_FILL,
+			     GTK_SHRINK | GTK_FILL,
+			     0, 0 );
+	  gtk_widget_show ( label );
+
+	  ligne++;
+
+
+      montant_periode_etat = 0;
+
+      if ( operation )
+	date_debut_periode = operation -> date;
+      else
+	date_debut_periode = NULL;
+    }
+
+  return (ligne );
+
+}
+/*****************************************************************************************************/
+
 /*****************************************************************************************************/
 gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
-			   gint ligne )
+				    gint ligne )
 {
   gint colonne;
   GtkWidget *label;
@@ -1724,8 +2010,8 @@ gint gtktable_affiche_total_general ( gdouble total_general,
 
 /*****************************************************************************************************/
 gint gtktable_affiche_categ_etat ( struct structure_operation *operation,
-			  			  gchar *decalage_categ,
-			  gint ligne )
+				   gchar *decalage_categ,
+				   gint ligne )
 {
   gchar *pointeur_char;
   GtkWidget *label;
@@ -1758,10 +2044,16 @@ gint gtktable_affiche_categ_etat ( struct structure_operation *operation,
 	   &&
 	   !changement_de_groupe_etat )
 	{
+	  /* on affiche le total de la période en le forçant */
+
+	  ligne = gtktable_affiche_total_periode ( operation,
+						   ligne,
+						   1 );
+
 	  /* on ajoute les totaux de tout ce qu'il y a derrière la catégorie */
 
 	  ligne = gtktable_affichage . affiche_totaux_sous_jaccent ( 1,
-							     ligne );
+								     ligne );
 
 	  /* on ajoute le total de la categ */
 
@@ -1861,6 +2153,12 @@ gint gtktable_affiche_sous_categ_etat ( struct structure_operation *operation,
 	   &&
 	   !changement_de_groupe_etat )
 	{
+	  /* on affiche le total de la période en le forçant */
+
+	  ligne = gtktable_affiche_total_periode ( operation,
+						   ligne,
+						   1 );
+
 	  /* on ajoute les totaux de tout ce qu'il y a derrière la sous catégorie */
 
 	  ligne = gtktable_affichage . affiche_totaux_sous_jaccent ( 2,
@@ -1947,6 +2245,12 @@ gint gtktable_affiche_ib_etat ( struct structure_operation *operation,
 	   &&
 	   !changement_de_groupe_etat )
 	{
+	  /* on affiche le total de la période en le forçant */
+
+	  ligne = gtktable_affiche_total_periode ( operation,
+						   ligne,
+						   1 );
+
 	  /* on ajoute les totaux de tout ce qu'il y a derrière l'ib */
 
 	  ligne = gtktable_affichage . affiche_totaux_sous_jaccent ( 3,
@@ -2030,6 +2334,12 @@ gint gtktable_affiche_sous_ib_etat ( struct structure_operation *operation,
 	   &&
 	   !changement_de_groupe_etat )
 	{
+	  /* on affiche le total de la période en le forçant */
+
+	  ligne = gtktable_affiche_total_periode ( operation,
+						   ligne,
+						   1 );
+
 	  /* on ajoute les totaux de tout ce qu'il y a derrière la sous ib */
 
 	  ligne = gtktable_affichage . affiche_totaux_sous_jaccent ( 4,
@@ -2108,12 +2418,18 @@ gint gtktable_affiche_compte_etat ( struct structure_operation *operation,
        &&
        operation -> no_compte != ancien_compte_etat )
     {
-      /* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
+     /* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
 
       if ( !debut_affichage_etat
 	   &&
 	   !changement_de_groupe_etat )
 	{
+ 	  /* on affiche le total de la période en le forçant */
+
+	  ligne = gtktable_affiche_total_periode ( operation,
+						   ligne,
+						   1 );
+
 	  /* on ajoute les totaux de tout ce qu'il y a derrière le compte */
 
 	  ligne = gtktable_affichage . affiche_totaux_sous_jaccent ( 5,
@@ -2182,6 +2498,12 @@ gint gtktable_affiche_tiers_etat ( struct structure_operation *operation,
 	   &&
 	   !changement_de_groupe_etat )
 	{
+	  /* on affiche le total de la période en le forçant */
+
+	  ligne = gtktable_affiche_total_periode ( operation,
+						   ligne,
+						   1 );
+
 	  /* on ajoute les totaux de tout ce qu'il y a derrière le tiers */
 
 	  ligne = gtktable_affichage . affiche_totaux_sous_jaccent ( 6,
@@ -2333,9 +2655,10 @@ gint gtktable_affiche_titre_depenses_etat ( gint ligne )
 /*****************************************************************************************************/
 
 gint gtktable_affiche_totaux_sous_jaccent ( gint origine,
-				   gint ligne )
+					    gint ligne )
 {
   GList *pointeur_glist;
+
 
   /* on doit partir du bout de la liste pour revenir vers la structure demandée */
 
