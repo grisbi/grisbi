@@ -7,6 +7,7 @@
 # translation of pt_BR.po to
 # translation of pt_BR.po to
 # translation of pt_BR.po to
+# translation of pt_BR.po to
 # translation of pt_BR.po to Brazilian Portuguese
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
@@ -17,7 +18,7 @@ msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-03 17:36+0200\n"
-"PO-Revision-Date: 2004-11-26 14:47-0200\n"
+"PO-Revision-Date: 2004-11-28 11:28-0200\n"
 "Last-Translator: \n"
 "Language-Team:  <pt@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1673,7 +1674,7 @@ msgstr "Verificando"
 
 #: src/equilibrage.c:433
 msgid "Variance"
-msgstr ""
+msgstr "variação"
 
 #: src/equilibrage.c:465
 msgid "Valid"
@@ -1686,7 +1687,7 @@ msgstr "P"
 
 #: src/equilibrage.c:927
 msgid "There is a variance"
-msgstr ""
+msgstr "Há uma variação"
 
 #: src/equilibrage.c:977 src/operations_comptes.c:341
 #, c-format
@@ -1708,7 +1709,7 @@ msgstr "Organizar por data"
 
 #: src/equilibrage.c:1579
 msgid "Split neutral payment methods"
-msgstr ""
+msgstr "Dividir formas de pagamento neutras"
 
 #: src/erreur.c:133
 msgid "Log message"
@@ -1723,6 +1724,8 @@ msgid ""
 "Grisbi triggered a segmentation fault and cannot continue its execution.\n"
 "\n"
 msgstr ""
+"Grisbi provocou uma falha da segmentação e não pode continuar sua execução.\n"
+"\n"
 
 #: src/erreur.c:208
 msgid "File is corrupted."
@@ -1743,7 +1746,7 @@ msgstr "Por favor, reporte este problema para http://www.grisbi.org/bugtracking/
 
 #: src/erreur.c:264
 msgid "Grisbi terminated due to a segmentation fault."
-msgstr ""
+msgstr "Grisbi terminou devido a uma falha de segmentação."
 
 #: src/etat_io.c:83
 msgid "This file is not a Grisbi report"
@@ -1754,7 +1757,7 @@ msgstr "Este arquivo não é um relatório do Grisbi"
 msgid ""
 "This report has been produced with grisbi version %s, Grisbi will "
 "nevertheless try to import it."
-msgstr ""
+msgstr "Este relatório foi elaborado ao a versão %s do Grisbi, idependente disso Grisbi tentará importar ele."
 
 #: src/etat_io.c:93 src/fichiers_io.c:5356 src/fichiers_io.c:5739
 msgid "Version mismatch"
@@ -1807,12 +1810,12 @@ msgstr "Categoria %s não encontrada.\n"
 #: src/etat_io.c:931
 #, c-format
 msgid "%sBudget line %s not found.\n"
-msgstr ""
+msgstr "%s linha de Orçamento %s não encontrada.\n"
 
 #: src/etat_io.c:934
 #, c-format
 msgid "Budget line %s not found.\n"
-msgstr ""
+msgstr "Linha de orçamento %s não encontrada.\n"
 
 #: src/etat_io.c:969
 #, c-format
@@ -1911,30 +1914,30 @@ msgstr "Total sub-categorias"
 #: src/etats_affiche.c:387
 #, c-format
 msgid "Budgetary lines total: (%d transaction)"
-msgstr ""
+msgstr "Total do orçamento: (%d transação)"
 
 #: src/etats_affiche.c:390
 #, c-format
 msgid "Budgetary lines total: (%d transactions)"
-msgstr ""
+msgstr "Total do orçamento: (%d transações)"
 
 #: src/etats_affiche.c:394
 msgid "Budgetary lines total"
-msgstr ""
+msgstr "Total do orçamento"
 
 #: src/etats_affiche.c:491
 #, c-format
 msgid "Sub-budgetary lines total: (%d transaction)"
-msgstr ""
+msgstr "Total do sub-orçamento: (%d transação)"
 
 #: src/etats_affiche.c:494
 #, c-format
 msgid "Sub-budgetary lines total: (%d transactions)"
-msgstr ""
+msgstr "Total do sub-orçamento: (%d transações)"
 
 #: src/etats_affiche.c:498
 msgid "Sub-budgetary lines total"
-msgstr ""
+msgstr "Total do sub-orçamento"
 
 #: src/etats_affiche.c:586
 #, c-format
@@ -2055,16 +2058,16 @@ msgstr "Total das despesas"
 #: src/etats_affiche.c:1470
 #, c-format
 msgid "Total income (%d transaction)"
-msgstr ""
+msgstr "Renda total (%d transação)"
 
 #: src/etats_affiche.c:1472
 #, c-format
 msgid "Total income (%d transactions)"
-msgstr ""
+msgstr "Renda total (%d transações)"
 
 #: src/etats_affiche.c:1475
 msgid "Total income"
-msgstr ""
+msgstr "Total da renda"
 
 #: src/etats_affiche.c:1517
 #, c-format
@@ -2090,11 +2093,11 @@ msgstr "Sem sub-categoria"
 
 #: src/etats_affiche.c:1780
 msgid "No budgetary line"
-msgstr ""
+msgstr "Nenhum orçamento"
 
 #: src/etats_affiche.c:1859
 msgid "No sub-budgetary line"
-msgstr ""
+msgstr "Nenhum sub-orçamento"
 
 #: src/etats_affiche.c:2002
 msgid "No third party"
@@ -2102,7 +2105,7 @@ msgstr "Sem terceiros"
 
 #: src/etats_affiche.c:2030
 msgid "Incomes"
-msgstr ""
+msgstr "Rendas"
 
 #: src/etats_affiche.c:2050
 msgid "Outgoings"
@@ -2120,7 +2123,7 @@ msgstr "Formas de pagamento"
 
 #: src/etats_affiche.c:2203
 msgid "Statement"
-msgstr ""
+msgstr "Indicação"
 
 #: src/etats_config.c:328
 msgid "Reports setup"
@@ -2148,7 +2151,7 @@ msgstr "Contas"
 #. mise en place de la frame des ib
 #: src/etats_config.c:381 src/etats_config.c:7516 src/fenetre_principale.c:154
 msgid "Budgetary lines"
-msgstr ""
+msgstr "Orçamentos"
 
 #: src/etats_config.c:385
 msgid "Texts"
@@ -2205,12 +2208,16 @@ msgid ""
 "All budgetary lines have been selected.  Grisbi will run faster\n"
 "without \"Detail the budgetary lines used\" option"
 msgstr ""
+"Todos os orámentos foram selecionados.  Grisbi será executado mais rapidamente\n"
+" sem a opção \"Detalhes dos orçamentos usados\""
 
 #: src/etats_config.c:1552
 msgid ""
 "All the third parts have been selected. Grisbi will run faster\n"
 "without the \"Detail the third parties\" option"
 msgstr ""
+"Todos os terceiros foram selecionados. Grisbi será executado mais rapidamente \n"
+" sem a opção \"Detalhes dos terceiros\""
 
 #: src/etats_config.c:1722
 msgid ""
@@ -2238,7 +2245,7 @@ msgstr "Ano contábil atual"
 
 #: src/etats_config.c:2045
 msgid "Former financial year"
-msgstr ""
+msgstr "Ano contábil anterior"
 
 #: src/etats_config.c:2056
 msgid "Detail financial years"
@@ -2256,7 +2263,7 @@ msgstr "Data final"
 #. sÃ©lectionner
 #: src/etats_config.c:2502
 msgid "Select transactions only for given accounts"
-msgstr ""
+msgstr "Selecionar as transações somente para as contas escolhidas"
 
 #: src/etats_config.c:2529
 msgid "Select the accounts included in the report"
@@ -2282,15 +2289,15 @@ msgstr "Selecionar contas de caixa"
 
 #: src/etats_config.c:2646 src/etats_config.c:2915
 msgid "Select liabilities accounts"
-msgstr ""
+msgstr "Selecionar contas de responsabilidades"
 
 #: src/etats_config.c:2660 src/etats_config.c:2929
 msgid "Select assets accounts"
-msgstr ""
+msgstr "Selecionar contas de recursos"
 
 #: src/etats_config.c:2762
 msgid "Do not include transfers"
-msgstr ""
+msgstr "Não incluir transferências"
 
 #: src/etats_config.c:2771
 msgid "Include transfers from or to assets or liabilities accounts"
@@ -2298,7 +2305,7 @@ msgstr "Não incluir transferências"
 
 #: src/etats_config.c:2784
 msgid "Include transfers from or to accounts not in this report"
-msgstr ""
+msgstr "Transferências incluidas a partir ou para contas não estão neste relatório"
 
 #: src/etats_config.c:2797
 msgid "Include transfers from or to these accounts"
@@ -2307,7 +2314,7 @@ msgstr "Incluir transferências a partir ou para estas contas"
 #. on rajoute le bouton exclure les opÃ© non virement
 #: src/etats_config.c:2951
 msgid "Exclude the transactions which are not transfers"
-msgstr ""
+msgstr "Excluir as transações que não são de transferência"
 
 #: src/etats_config.c:3069
 msgid "Detail categories"
@@ -2315,15 +2322,15 @@ msgstr "Detalhes das categorias"
 
 #: src/etats_config.c:3107
 msgid "Select categories to include"
-msgstr ""
+msgstr "Selecionar categorias para incluir"
 
 #: src/etats_config.c:3183
 msgid "Income categories"
-msgstr ""
+msgstr "Categorias de renda"
 
 #: src/etats_config.c:3197
 msgid "Outgoing categories"
-msgstr ""
+msgstr "Categorias de Despesas"
 
 #: src/etats_config.c:3222
 msgid "Exclude transactions with no category"
@@ -2331,31 +2338,31 @@ msgstr "Excluir transações sem categoria"
 
 #: src/etats_config.c:3345
 msgid "Detail budgetary lines"
-msgstr ""
+msgstr "Detalhes do orçamento"
 
 #: src/etats_config.c:3383
 msgid "Select the budgetary lines to include in the report"
-msgstr ""
+msgstr "Selecione um orçamento para incluir no relatório"
 
 #: src/etats_config.c:3459
 msgid "Income budget lines"
-msgstr ""
+msgstr "Orçamento de rendas"
 
 #: src/etats_config.c:3473
 msgid "Outgoing budget lines"
-msgstr ""
+msgstr "Orçamento de despesas"
 
 #: src/etats_config.c:3496
 msgid "Exclude transactions without budgetary line"
-msgstr ""
+msgstr "Excluir transações sem orçamentos"
 
 #: src/etats_config.c:3618
 msgid "Detail third parties"
-msgstr ""
+msgstr "Detalhes de terceiros"
 
 #: src/etats_config.c:3656
 msgid "Select third parties to include in this report"
-msgstr ""
+msgstr "Selecione um terceiro para incluir no relatório"
 
 #: src/etats_config.c:3813
 msgid "Select transactions according to the text"
@@ -2363,7 +2370,7 @@ msgstr "Selecione transações de acordo com texto"
 
 #: src/etats_config.c:4108
 msgid "Transactions whose"
-msgstr ""
+msgstr "Transações cujo"
 
 #: src/etats_config.c:4249
 msgid "is"
@@ -2401,11 +2408,11 @@ msgstr "a sub-categoria"
 
 #: src/etats_config.c:4520 src/etats_config.c:6646
 msgid "the budgetary line"
-msgstr ""
+msgstr "o orçamento"
 
 #: src/etats_config.c:4544 src/etats_config.c:6662
 msgid "the sub-budgetary line"
-msgstr ""
+msgstr "o sub-orçamento"
 
 #: src/etats_config.c:4568
 msgid "the note"
@@ -2417,7 +2424,7 @@ msgstr "as referências bancárias"
 
 #: src/etats_config.c:4616 src/etats_config.c:6726
 msgid "the voucher"
-msgstr ""
+msgstr "o comprovante"
 
 #: src/etats_config.c:4637
 msgid "the cheque number"
@@ -2425,7 +2432,7 @@ msgstr "o cheque número"
 
 #: src/etats_config.c:4657 src/etats_config.c:6758
 msgid "the reconciliation reference"
-msgstr ""
+msgstr "a reconciliação referente"
 
 #: src/etats_config.c:4712
 msgid "contains"
@@ -2518,7 +2525,7 @@ msgstr "negativo"
 
 #: src/etats_config.c:5513
 msgid "the biggest"
-msgstr ""
+msgstr "o maior"
 
 #: src/etats_config.c:5610
 msgid "stop"
@@ -2567,16 +2574,16 @@ msgstr "Transações do grupo por categoria"
 
 #: src/etats_config.c:5923
 msgid "Group transactions by budgetary line"
-msgstr ""
+msgstr "Transações agrupadas por orçamento"
 
 #. choix du type de classement
 #: src/etats_config.c:5934
 msgid "Group level organisation"
-msgstr ""
+msgstr "Organização nivelada por grupo"
 
 #: src/etats_config.c:6031
 msgid "Split incomes and outgoings"
-msgstr ""
+msgstr "Dividir rendas e despesas"
 
 #: src/etats_config.c:6051
 msgid "Split by financial year"
@@ -2604,7 +2611,7 @@ msgstr "dia"
 
 #: src/etats_config.c:6345
 msgid "Generalities"
-msgstr ""
+msgstr "Gerais"
 
 #: src/etats_config.c:6353 src/fenetre_principale.c:119 src/parametres.c:285
 msgid "Transactions"
@@ -2620,7 +2627,7 @@ msgstr "Mostrar o número de transações com o total"
 
 #: src/etats_config.c:6445
 msgid "Consider the third parties of this report as a multiple third party."
-msgstr ""
+msgstr "Considerar os terceiros para este relatório como um terceiro múltiplo."
 
 #: src/etats_config.c:6516
 msgid "Display the information about"
@@ -2656,11 +2663,11 @@ msgstr "Mostrar títulos das colunas"
 
 #: src/etats_config.c:6801
 msgid "every section"
-msgstr ""
+msgstr "cada seção"
 
 #: src/etats_config.c:6818
 msgid "at the top of the report"
-msgstr ""
+msgstr " no topo do relatório"
 
 #: src/etats_config.c:6843
 msgid "Sort the transactions by"
@@ -2684,7 +2691,7 @@ msgstr "categoria"
 
 #: src/etats_config.c:6901
 msgid "budgetary line"
-msgstr ""
+msgstr "orçamento"
 
 #: src/etats_config.c:6909
 msgid "note"
@@ -2700,7 +2707,7 @@ msgstr "cheque/transferência número"
 
 #: src/etats_config.c:6933
 msgid "voucher"
-msgstr ""
+msgstr "comprovante"
 
 #: src/etats_config.c:6941
 msgid "bank reference"
@@ -2708,31 +2715,31 @@ msgstr "referência bancária"
 
 #: src/etats_config.c:6949
 msgid "reconciliation reference"
-msgstr ""
+msgstr "reconciliação referente"
 
 #: src/etats_config.c:6972
 msgid "Make transactions clickable"
-msgstr ""
+msgstr "Fazer transação clicáveis"
 
 #: src/etats_config.c:7040
 msgid "General totals currency"
-msgstr ""
+msgstr "Total geral da moeda"
 
 #: src/etats_config.c:7089
 msgid "Third parties currency"
-msgstr ""
+msgstr "Moeda dos tereceiros"
 
 #: src/etats_config.c:7137
 msgid "Categories currency"
-msgstr ""
+msgstr "Moeda das categorias"
 
 #: src/etats_config.c:7186
 msgid "Budgetary lines currency"
-msgstr ""
+msgstr "Moeda dos orçamentos"
 
 #: src/etats_config.c:7234
 msgid "Amount comparison currency"
-msgstr ""
+msgstr "Moeda da comparação dos totais"
 
 #. on permet d'afficher le nom du compte
 #: src/etats_config.c:7335
@@ -2778,30 +2785,30 @@ msgstr "Exibir um sub-total por cada sub-categoria"
 
 #: src/etats_config.c:7500
 msgid "Display \" No sub-category\" if none"
-msgstr ""
+msgstr "Exibir \"Sem sub-categorias\" se não existirem"
 
 #: src/etats_config.c:7533
 msgid "Display the (sub-)budget line name"
-msgstr ""
+msgstr "Exibir nome do (sub-)orçamento"
 
 #. permet d'afficher un sous total lors de chgt d'ib
 #. activÃ© uniquement si on utilise les ib
 #: src/etats_config.c:7549
 msgid "Display a sub-total for each budgetary line"
-msgstr ""
+msgstr "Exibir um sub-total para cada orçamento"
 
 #. mise en place du bouton pour afficher les sous categ
 #: src/etats_config.c:7564
 msgid "Display sub-budget lines"
-msgstr ""
+msgstr "Exibir sub-orçamentos"
 
 #: src/etats_config.c:7577
 msgid "Display a sub-total for each sub-budget line"
-msgstr ""
+msgstr "Exibir um sub-total para cada sub-orçamento"
 
 #: src/etats_config.c:7591
 msgid "Display \"No sub-budgetary line\" if none"
-msgstr ""
+msgstr "Exibir \"Nenhum sub-orçamento\" se não existir"
 
 #. on met dans la partie de gauche une liste contenant les modes de paiement Ã
 #. sÃ©lectionner
@@ -2811,11 +2818,11 @@ msgstr "Selecionar as transações por forma de pagamento"
 
 #: src/etats_config.c:7665
 msgid "Select methods of payment to include"
-msgstr ""
+msgstr "Selecionar a forma de pagamento para incluir"
 
 #: src/etats_latex.c:347
 msgid "LaTeX run was unable to complete, see console output for details."
-msgstr ""
+msgstr "LaTeX foi incapaz de terminar, veja a saída no console para maiores detalhes."
 
 #: src/etats_latex.c:367
 msgid "Cannot send job to printer"
@@ -2823,7 +2830,7 @@ msgstr "Não posso enviar trabalho para imprimir"
 
 #: src/etats_latex.c:373
 msgid "dvips was unable to complete, see console output for details."
-msgstr ""
+msgstr "dvips foi incapaz de terminar, veja a saída no console para maiores detalhes."
 
 #. Reports menu
 #: src/etats_onglet.c:134 src/etats_onglet.c:339 src/etats_onglet.c:342
@@ -2847,7 +2854,7 @@ msgstr "Novo relatório"
 #. on met le bouton personnaliser
 #: src/etats_onglet.c:292
 msgid "Customize report"
-msgstr ""
+msgstr "Customizar relatório"
 
 #. on met le bouton dupliquer
 #: src/etats_onglet.c:310 src/etats_onglet.c:339 src/etats_onglet.c:1101
