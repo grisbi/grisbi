@@ -4,17 +4,18 @@ New in version 0.5.0 :
  - libxml2 support
  - native UTF-8 support
  - total redesign of preferences windows
- - improve user interface
+ - improve user interface (follow Gnome HiG)
  - improve segfault handling
  - improve warning messages so that users can ignore some types of warnings
  - exchange rates are cached for a session so that users don't need to
    type them repeatedly
- - add context menu on transactions list
+ - new context menu on transactions list
  - reports now support text faces (bold, slant, large, huge, small)
  - reports printing via LaTeX
  - new logo with our mascot over an euro sign
  - application menu improvements
- - context menu in transaction list
+ - combofix completion (i.e. in transaction form) can now be either
+   case sensitive or insensitive according to input upper/lower case
 
 New in version 0.4.3 : 
  - Bug fixes
