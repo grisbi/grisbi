@@ -299,8 +299,6 @@ void export_accounts_to_csv (GSList* export_entries_list )
                         
 	    if (pTransaction->date_bancaire)
 	      csv_field_date_val = g_strdup_printf ("%d/%d/%d", pTransaction -> jour_bancaire, pTransaction -> mois_bancaire, pTransaction -> annee_bancaire );
-	    else
-	      csv_field_date_val = "";
 
 	    /* met le pointage */
 	    if      ( pTransaction -> pointe == CHECKED_TRANSACTION ) csv_field_pointage = g_strdup(_("C"));
