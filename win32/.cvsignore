@@ -1,0 +1,6 @@
+config.h
+config.nsh
+Grisbi_private.h
+Grisbi_private.rc
+Makefile
+autogen.ini
