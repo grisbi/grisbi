@@ -31,14 +31,15 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 # Martin Stromberger <mstromberger@aon.at>, 2004.
 # Benjamin Drieu <bdrieu@april.org>, 2004.
+# Martin Stromberger <fabiolla@aon.at>, 2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-10-14 13:53+0200\n"
-"PO-Revision-Date: 2004-10-14 14:17+0200\n"
-"Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
+"PO-Revision-Date: 2004-10-24 20:58+0200\n"
+"Last-Translator: Martin Stromberger <fabiolla@aon.at>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -137,8 +138,7 @@ msgstr "%4.2f %s Soll in %s"
 #: src/accueil.c:1797 src/accueil.c:1832
 #, c-format
 msgid "Balance of account %s is under wanted and authorised minima!"
-msgstr ""
-"Der Saldo des Kontos %s ist unter dem festgelegtem und zulässigen Minimum!"
+msgstr "Der Saldo des Kontos %s ist unter dem festgelegtem und zulässigen Minimum!"
 
 #: src/accueil.c:1803
 #, c-format
@@ -168,7 +168,7 @@ msgstr "Buchung eintragen"
 
 #: src/affichage.c:142
 msgid "Displayed fields"
-msgstr "Angezeigte Felder"
+msgstr "Felder anzeigen"
 
 #: src/affichage.c:151 src/affichage_liste.c:51 src/affichage_liste.c:912
 #: src/affichage_liste.c:1097
@@ -497,7 +497,7 @@ msgstr "nach Datum"
 #. on permet de regrouper les opérations pointées
 #: src/affichage_liste.c:427
 msgid "Bring together marked transactions"
-msgstr "Die ausgewählten Buchungen zusammenführen"
+msgstr "Buchungen mit gleichen Status zusammenfassen"
 
 #: src/affichage_liste.c:459
 msgid "first line"
@@ -584,7 +584,7 @@ msgstr "Bank"
 
 #: src/banque.c:352
 msgid "Contact name"
-msgstr "Kontaktname"
+msgstr "Ansprechpartner"
 
 #: src/banque.c:354 src/parametres.c:283
 msgid "Banks"
@@ -636,7 +636,7 @@ msgstr "Webseite"
 #. Contact
 #: src/banque.c:659
 msgid "Contact"
-msgstr "Kontakt"
+msgstr "Ansprechpartner"
 
 #. Fax
 #: src/banque.c:697
@@ -1173,16 +1173,16 @@ msgstr "Kategorien"
 
 #: src/categories_onglet.c:190
 msgid "Amount per category"
-msgstr "Betrag Kategorie"
+msgstr "Betrag pro Kategorie"
 
 #: src/categories_onglet.c:191
 msgid "Amount per subcategory"
-msgstr "Betrag Unterkategorie"
+msgstr "Betrag pro Unterkategorie"
 
 #: src/categories_onglet.c:192 src/imputation_budgetaire.c:70
 #: src/tiers_onglet.c:67
 msgid "Amount per account"
-msgstr "Betrag Konto"
+msgstr "Betrag pro Konto"
 
 #: src/categories_onglet.c:237 src/imputation_budgetaire.c:114
 #: src/tiers_onglet.c:118
@@ -1279,7 +1279,7 @@ msgstr ""
 
 #: src/categories_onglet.c:1741 src/categories_onglet.c:2105
 msgid "Transfer transactions to category"
-msgstr "Die Buchungen einer Kategorie zuordnen"
+msgstr "Eine neue Kategorie zuordnen"
 
 #: src/categories_onglet.c:1829
 msgid "Just remove this category."
@@ -1349,7 +1349,7 @@ msgid ""
 "for this category."
 msgstr ""
 "Kategorien müssen eindeutig sein. Weiters ist die Eingabe einer leeren "
-"Bezeichnung nicht zulässig.  Verwenden Sie bitte eine andere Bezeichnung."
+"Bezeichnung nicht zulässig. Verwenden Sie bitte eine andere Bezeichnung."
 
 #: src/categories_onglet.c:2891
 #, c-format
@@ -1370,7 +1370,7 @@ msgid ""
 "name for this sub-category."
 msgstr ""
 "Unterkategorien müssen eindeutig sein. Weiters ist die Eingabe einer leeren "
-"Bezeichnung nicht zulässig.  Verwenden Sie bitte eine andere Bezeichnung."
+"Bezeichnung nicht zulässig. Verwenden Sie bitte eine andere Bezeichnung."
 
 #: src/categories_onglet.c:2970
 #, c-format
@@ -1409,10 +1409,8 @@ msgstr "Kategorien importieren - Grisbi"
 
 #. il y a déjà des opérations dans le fichier, on ne peut que fusionner
 #: src/categories_onglet.c:3137
-msgid ""
-"File already contains transactions, the two categories lists will be merged."
-msgstr ""
-"Die Datei enhält bereis Buchungen, die 2 Kategorien werden zusammengeführt."
+msgid "File already contains transactions, the two categories lists will be merged."
+msgstr "Die Datei enhält bereis Buchungen, die Kategorien werden zusammengeführt."
 
 #: src/categories_onglet.c:3147 src/imputation_budgetaire.c:2881
 msgid "Do you want"
@@ -1606,9 +1604,7 @@ msgstr "Euro"
 
 #: src/comptes_gestion.c:1245
 msgid "Impossible to find the Euro currency, it has probably been deleted."
-msgstr ""
-"Die Euro Währung kann nicht gefunden werden, vermutlich wurde die Euro "
-"Währung gelöscht."
+msgstr "Die Euro Währung kann nicht gefunden werden, vermutlich wurde die Euro Währung gelöscht."
 
 #. mise en place des boutons du bas
 #: src/comptes_onglet.c:159 src/menu.c:98
@@ -3213,8 +3209,7 @@ msgstr "Eine geplante Buchung löschen"
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
 "transaction?"
-msgstr ""
-"Wollen Sie nur dieses Vorkommen, oder die gesamte geplante Buchung löschen?"
+msgstr "Wollen Sie nur dieses Vorkommen, oder die gesamte geplante Buchung löschen?"
 
 #: src/echeancier_liste.c:1405
 msgid "All the occurences"
@@ -4347,8 +4342,7 @@ msgstr "Name des Berichts"
 
 #: src/etats_config.c:6237
 msgid "Diplay the number of transactions with the totals"
-msgstr ""
-"Die Anzahl der Buchungen in einem Verhältnis zu allen Buchungen anzeigen"
+msgstr "Die Anzahl der Buchungen in einem Verhältnis zu allen Buchungen anzeigen"
 
 #: src/etats_config.c:6256
 msgid "Consider the third parties of this report as a multiple third party."
@@ -4939,6 +4933,22 @@ msgstr ""
 "in den Datumsbereich fallen \n"
 "werden die Buchungen nicht geändert."
 
+#: src/export.c:153
+msgid "Export files"
+msgstr "Datei(en) exportieren - Grisbi"
+
+#: src/export.c:337
+msgid "Export format does not define currencies."
+msgstr "Das Dateiformat unterstützt keine Währungen."
+
+#: src/export.c:413
+msgid "Accounts to QIF file ..."
+msgstr "In eine Qif Datei exportieren..."
+
+#: src/export.c:414
+msgid "Accounts to CSV file ..."
+msgstr "In eine Csv Datei exportieren..."
+
 #: src/fenetre_principale.c:66
 msgid "Main page"
 msgstr "Startseite"
@@ -5012,7 +5022,7 @@ msgstr "Buchungen formatieren"
 #: src/fichiers_gestion.c:432
 #, c-format
 msgid "Save changes to document '%s' before closing?"
-msgstr "Die Datei %s vor dem Beenden speichern?"
+msgstr "Die Datei '%s' vor dem Beenden speichern?"
 
 #: src/fichiers_gestion.c:433
 msgid "unnamed"
@@ -5070,13 +5080,12 @@ msgstr "Grisbi mit Version %s ist zum Öffnen der Datei notwendig"
 #: src/fichiers_io.c:152 src/fichiers_io.c:163
 #, c-format
 msgid "Cannot open file '%s': %s"
-msgstr "Die Datei kann nicht geöffnet werden '%s': %s"
+msgstr "Die Datei '%s' kann nicht geöffnet werden: %s"
 
 #: src/fichiers_io.c:155
 #, c-format
 msgid "Cannot open file '%s' : this is not a grisbi file"
-msgstr ""
-"Die Datei %s kann nicht geöffnet werden. Diese Datei ist keine Grisbi Datei"
+msgstr "Die Datei %s kann nicht geöffnet werden. Diese Datei ist keine Grisbi Datei"
 
 #: src/fichiers_io.c:197
 #, c-format
@@ -5256,8 +5265,7 @@ msgid "Alain Pichon (alain.pichon[at]grisbi.org): Fedora and RHEL packaging"
 msgstr "Alain Pichon (alain.pichon[at]grisbi.org): Fedora Paketverwaltung"
 
 #: src/help.c:48
-msgid ""
-"Alain Portal <dionysos[at]grisbi.org>: Programming, manual, RedHat packaging"
+msgid "Alain Portal <dionysos[at]grisbi.org>: Programming, manual, RedHat packaging"
 msgstr "Alain Portal (dionysos[at]grisbi.org): Programmierung, Handbuch, RedHat Paketverwaltung"
 
 #: src/help.c:49
@@ -5376,7 +5384,7 @@ msgstr "Lizenz"
 
 #: src/import.c:93
 msgid "Select files to import"
-msgstr "Datei importieren - Grisbi"
+msgstr "Datei(en) importieren - Grisbi"
 
 #: src/import.c:230 src/import.c:238
 msgid ""
@@ -5400,11 +5408,11 @@ msgstr "Datenimport - Grisbi"
 
 #: src/import.c:312
 msgid "Add more accounts"
-msgstr "Mehrere Konten hinzufügen"
+msgstr "Weitere Dateien hinzufügen"
 
 #: src/import.c:331
 msgid "List of the selection of accounts :"
-msgstr "Auflistung für die Kontoauswahl :"
+msgstr "Kontoauswahl :"
 
 #: src/import.c:394
 msgid "Action"
@@ -5497,20 +5505,18 @@ msgstr ""
 
 #: src/import.c:1808
 msgid "Confirmation of importation of transactions"
-msgstr "Den Import der Buchungen bestätigen"
+msgstr "Buchungen auwählen - Grisbi"
 
 #: src/import.c:1818
 msgid ""
 "Some imported transactions seem to be already saved. Please select the "
 "transactions to import."
-msgstr ""
-"Einige der importieren Buchungen sind bereits vorhanden. Bitte wählen Sie "
-"die Buchungen aus, die importiert werden sollen."
+msgstr "Einige der zu importierenden Buchungen sind bereits vorhanden. Wählen Sie die Buchungen aus, welche importiert werden sollten."
 
 #: src/import.c:1886
 #, c-format
 msgid "Transactions to import : %02d/%02d/%04d ; %s ; %4.2f"
-msgstr "Zu importierende Buchungen : %02d/%02d/%04d ; %s ; %4.2f"
+msgstr "Zu importierende Buchung : %02d/%02d/%04d ; %s ; %4.2f"
 
 #: src/import.c:1923
 msgid "no third party"
@@ -6011,8 +6017,7 @@ msgstr "Splittbuchung wiederherstellen?"
 
 #: src/operations_formulaire.c:1820
 msgid "Do you want to recover all the lines of the last breakdown?"
-msgstr ""
-"Sollen alle Buchungszeilen der letzten Aufsplittung wiederhergestellt werden?"
+msgstr "Sollen alle Buchungszeilen der letzten Aufsplittung wiederhergestellt werden?"
 
 #: src/operations_formulaire.c:2072 src/operations_formulaire.c:2520
 #: src/tiers_onglet.c:1428
@@ -6056,8 +6061,7 @@ msgstr ""
 
 #: src/operations_formulaire.c:2529
 msgid "A transaction with a multiple third party must be a new one."
-msgstr ""
-"Es kann nur eine neue Buchung an mehrere Empfänger durchgeführt werden."
+msgstr "Es kann nur eine neue Buchung an mehrere Empfänger durchgeführt werden."
 
 #: src/operations_formulaire.c:2563
 msgid "Invalid multiple third party."
@@ -6100,10 +6104,8 @@ msgid "Imposible to delete a reconciled transaction."
 msgstr "Eine abgestimmte Buchung kann nicht gelöscht werden."
 
 #: src/operations_liste.c:2106
-msgid ""
-"The contra-transaction of this transfer is reconciled, deletion impossible."
-msgstr ""
-"Die Gegenbuchung ist bereits abgestimmt, eine Löschung ist nicht möglich."
+msgid "The contra-transaction of this transfer is reconciled, deletion impossible."
+msgstr "Die Gegenbuchung ist bereits abgestimmt, eine Löschung ist nicht möglich."
 
 #: src/operations_liste.c:2154
 msgid ""
@@ -6179,8 +6181,7 @@ msgid "Scheduler warnings"
 msgstr "Planer Meldungen"
 
 #: src/parametres.c:407
-msgid ""
-"Number of days before a warning message advertising a scheduled transaction"
+msgid "Number of days before a warning message advertising a scheduled transaction"
 msgstr "Hinweis für eine geplante Buchung (Tage davor) anzeigen"
 
 #: src/parametres.c:471
@@ -6363,9 +6364,7 @@ msgstr ""
 
 #: src/qif.c:908
 msgid "Your file must have a name (saved) to be exported."
-msgstr ""
-"Die Datei muss einen (gespeicherten) Namen haben, bevor sie eportiert werden "
-"kann."
+msgstr "Die Datei muss vor dem Export gespeichert werden."
 
 #: src/qif.c:913
 msgid "QIF format does not define currencies."
@@ -6384,8 +6383,7 @@ msgid "Select accounts to export"
 msgstr "Die zu exportierenden Konten auswählen"
 
 #: src/qif.c:1017
-msgid ""
-"This will irreversibly overwrite previous file.  There is no undo for this."
+msgid "This will irreversibly overwrite previous file.  There is no undo for this."
 msgstr "Dieser Vorgang wird die bestehende Datei überschreiben."
 
 #: src/qif.c:1022
@@ -6421,7 +6419,7 @@ msgstr "Empfänger hinzufügen"
 
 #: src/tiers_onglet.c:1183
 msgid "Delete a third party"
-msgstr "Einen Empfänger löschen"
+msgstr "Empfänger löschen - Grisbi"
 
 #: src/tiers_onglet.c:1190
 msgid ""
@@ -6458,7 +6456,7 @@ msgstr "Empfänger %s nicht gefunden."
 
 #: src/tiers_onglet.c:1646
 msgid "New third party"
-msgstr "Neuer Empfänger"
+msgstr "Empfänger - Grisbi"
 
 #: src/tiers_onglet.c:1647
 msgid "Enter the new third party's name"
@@ -6586,3 +6584,4 @@ msgid "This transfer has a reconciled contra-transaction, deletion canceled."
 msgstr ""
 "Diese Buchung hat eine abgestimmte Gegenbuchung, die Löschung wurde "
 "abgebrochen."
+
