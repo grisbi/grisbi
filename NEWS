@@ -8,6 +8,7 @@ New in version 0.5.0 :
  - improved segfault handling
  - improved warning messages so that users can ignore some types of warnings
  - exchange rates are cached so that users don't need to type them repeatedly
+ - test
 
 New in version 0.4.3 : 
  - Bug fixes
