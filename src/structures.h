@@ -401,6 +401,7 @@ struct struct_categ
     gint nb_transactions;
     gint nb_direct_transactions;
     gdouble balance;
+    gdouble direct_balance;
 };
 
 struct struct_sous_categ
