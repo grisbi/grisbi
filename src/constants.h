@@ -21,8 +21,10 @@
 # define TRANSACTION_FORM_NOTES 16
 # define TRANSACTION_FORM_BANK 17
 # define TRANSACTION_FORM_MODE 18
-# define TRANSACTION_FORM_WIDGET_NB 19		/* doit être le dernier de la liste */
+# define TRANSACTION_FORM_WIDGET_NB 19	 /* must be the last of the list */
 
+/* Constantes qui définisent le numéro de widget dans le formulaire
+   de saisie des échéances */
 # define SCHEDULER_FORM_DATE 0
 # define SCHEDULER_FORM_PARTY 1
 # define SCHEDULER_FORM_DEBIT 2
@@ -44,5 +46,14 @@
 # define SCHEDULER_FORM_FREQ_CUSTOM_MENU 18
 # define SCHEDULER_FORM_TOTAL_WIDGET 19	 /* must be the last of the list */
 
+/* Constantes pour style_entree_formulaire[] */
 # define ENCLAIR 0
 # define ENGRIS 1
+
+/* Constantes pour la fonction gtk_misc_set_alignment() */
+#define MISC_TOP 0
+#define MISC_VERT_CENTER 0.5
+#define MISC_BOTTOM 1
+#define MISC_LEFT 0
+#define MISC_HORIZ_CENTER 0.5
+#define MISC_RIGHT 1

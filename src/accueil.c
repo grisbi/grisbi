@@ -71,8 +71,7 @@ GtkWidget *creation_onglet_accueil ( void )
   if ( chemin_logo )
     {
       logo_accueil =  gnome_pixmap_new_from_file ( chemin_logo );
-      gtk_box_pack_start ( GTK_BOX ( fenetre_accueil ), logo_accueil,
-			   FALSE, FALSE, 20 );
+      gtk_box_pack_start ( GTK_BOX ( fenetre_accueil ), logo_accueil, FALSE, FALSE, 20 );
       gtk_widget_show ( logo_accueil );
      }
   else
@@ -81,16 +80,14 @@ GtkWidget *creation_onglet_accueil ( void )
   /* création de la partie droite */
 
   base = gtk_vbox_new ( FALSE, 15 );
-  gtk_box_pack_end ( GTK_BOX ( fenetre_accueil ), base,
-		       TRUE, TRUE, 0 );
+  gtk_box_pack_end ( GTK_BOX ( fenetre_accueil ), base, TRUE, TRUE, 0 );
   gtk_widget_show ( base );
 
 
   /* la partie tout en haut affiche la date, le nom et l'heure */
 
   hbox = gtk_hbox_new ( FALSE, 5 );
-  gtk_box_pack_start ( GTK_BOX ( base ), hbox,
-		       FALSE, FALSE, 10 );
+  gtk_box_pack_start ( GTK_BOX ( base ), hbox, FALSE, FALSE, 10 );
   gtk_widget_show ( hbox );
 
 
@@ -114,21 +111,17 @@ GtkWidget *creation_onglet_accueil ( void )
     }
 
   label = gtk_label_new ( g_strconcat ( COLON(_("User")), nom_utilisateur, NULL) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-		       TRUE, FALSE, 5 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, FALSE, 5 );
   gtk_widget_show ( label );
-
 
   label_jour = gtk_label_new ( "" );
   gtk_misc_set_alignment ( GTK_MISC ( label_jour ), MISC_RIGHT, MISC_RIGHT );
 
-  gtk_box_pack_start ( GTK_BOX ( hbox ), label_jour,
-		       TRUE, TRUE, 5 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), label_jour, TRUE, TRUE, 5 );
   gtk_widget_show ( label_jour );
 
   label_temps = gtk_label_new ( "" );
-  gtk_box_pack_start ( GTK_BOX ( hbox ), label_temps,
-		       TRUE, FALSE, 5 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), label_temps, TRUE, FALSE, 5 );
   gtk_widget_show ( label_temps );
 
   change_temps ( label_temps );
@@ -152,8 +145,7 @@ GtkWidget *creation_onglet_accueil ( void )
       label_titre_fichier = gtk_label_new ( "" );
     }
 
-  gtk_box_pack_start ( GTK_BOX ( base ), label_titre_fichier,
-		       FALSE, FALSE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( base ), label_titre_fichier, FALSE, FALSE, 0 );
   gtk_widget_show ( label_titre_fichier );
 
 
@@ -165,21 +157,16 @@ GtkWidget *creation_onglet_accueil ( void )
   gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( base_scroll ),
 				   GTK_POLICY_NEVER,
 				   GTK_POLICY_AUTOMATIC);
-  gtk_box_pack_start ( GTK_BOX ( base ), base_scroll,
-		       TRUE, TRUE, 0);
+  gtk_box_pack_start ( GTK_BOX ( base ), base_scroll, TRUE, TRUE, 0);
   gtk_widget_show ( base_scroll );
   
 
   /* on met la nouvelle vbox dans le fenetre scrollable */
 
   base_box_scroll = gtk_vbox_new ( FALSE, 0 );
-  gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( base_scroll ),
-					  base_box_scroll);
-
-  gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( GTK_BIN ( base_scroll )  -> child ),
-				 GTK_SHADOW_NONE );
-  gtk_container_set_border_width ( GTK_CONTAINER ( base_box_scroll ),
-				   10 );
+  gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( base_scroll ), base_box_scroll);
+  gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( GTK_BIN ( base_scroll )  -> child ), GTK_SHADOW_NONE );
+  gtk_container_set_border_width ( GTK_CONTAINER ( base_box_scroll ), 10 );
   gtk_widget_show (base_box_scroll);
 
 
@@ -188,8 +175,8 @@ GtkWidget *creation_onglet_accueil ( void )
   gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_comptes_accueil), FALSE );
   gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_comptes_accueil), FALSE );
   gtk_container_set_border_width ( GTK_CONTAINER(frame_etat_comptes_accueil), 0 );
-  gtk_box_pack_start ( GTK_BOX(base_box_scroll), frame_etat_comptes_accueil,
-		       FALSE, FALSE, 0 );
+  gtk_box_pack_start ( GTK_BOX(base_box_scroll), frame_etat_comptes_accueil, FALSE, FALSE, 0 );
+
   /* on met la liste des comptes et leur état dans la frame */
   update_liste_comptes_accueil ();
   gtk_widget_show_all ( frame_etat_comptes_accueil );
@@ -201,8 +188,7 @@ GtkWidget *creation_onglet_accueil ( void )
   frame_etat_fin_compte_passif = gtk_notebook_new ();
   gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_fin_compte_passif), FALSE );
   gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_fin_compte_passif), FALSE );
-  gtk_box_pack_start ( GTK_BOX(paddingbox), frame_etat_fin_compte_passif,
-		       FALSE, FALSE, 0 );
+  gtk_box_pack_start ( GTK_BOX(paddingbox), frame_etat_fin_compte_passif, FALSE, FALSE, 0 );
   mise_a_jour_fin_comptes_passifs ();
 
 
@@ -214,9 +200,7 @@ GtkWidget *creation_onglet_accueil ( void )
   gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_echeances_manuelles_accueil), FALSE );
   gtk_container_set_border_width ( GTK_CONTAINER(frame_etat_echeances_manuelles_accueil), 0 );
   gtk_box_set_spacing ( GTK_BOX(paddingbox), 6 );
-  gtk_box_pack_start ( GTK_BOX(paddingbox), 
-		       frame_etat_echeances_manuelles_accueil,
-		       FALSE, FALSE, 6 );
+  gtk_box_pack_start ( GTK_BOX(paddingbox), frame_etat_echeances_manuelles_accueil, FALSE, FALSE, 6 );
 
 
   /* mise en place de la partie des échéances auto  ( non affiché )*/
@@ -227,9 +211,7 @@ GtkWidget *creation_onglet_accueil ( void )
   gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_echeances_auto_accueil), FALSE );
   gtk_container_set_border_width ( GTK_CONTAINER(frame_etat_echeances_auto_accueil), 0 );
   gtk_box_set_spacing ( GTK_BOX(paddingbox), 6 );
-  gtk_box_pack_start ( GTK_BOX(paddingbox), 
-		       frame_etat_echeances_auto_accueil,
-		       FALSE, FALSE, 6 );
+  gtk_box_pack_start ( GTK_BOX(paddingbox), frame_etat_echeances_auto_accueil, FALSE, FALSE, 6 );
 
   
   /* partie des fin d'échéances */
@@ -240,9 +222,7 @@ GtkWidget *creation_onglet_accueil ( void )
   gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_echeances_finies), FALSE );
   gtk_container_set_border_width ( GTK_CONTAINER(frame_etat_echeances_finies), 0 );
   gtk_box_set_spacing ( GTK_BOX(paddingbox), 6 );
-  gtk_box_pack_start ( GTK_BOX(paddingbox), 
-		       frame_etat_echeances_finies,
-		       FALSE, FALSE, 6 );
+  gtk_box_pack_start ( GTK_BOX(paddingbox), frame_etat_echeances_finies, FALSE, FALSE, 6 );
 
 
   /* partie des soldes minimaux autorisés */
@@ -253,24 +233,18 @@ GtkWidget *creation_onglet_accueil ( void )
   gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_soldes_minimaux_autorises), FALSE );
   gtk_container_set_border_width ( GTK_CONTAINER(frame_etat_soldes_minimaux_autorises), 0 );
   gtk_box_set_spacing ( GTK_BOX(paddingbox), 6 );
-  gtk_box_pack_start ( GTK_BOX(paddingbox), 
-		       frame_etat_soldes_minimaux_autorises,
-		       FALSE, FALSE, 6 );
+  gtk_box_pack_start ( GTK_BOX(paddingbox), frame_etat_soldes_minimaux_autorises, FALSE, FALSE, 6 );
 
 
   /* partie des soldes minimaux voulus */
   paddingbox = new_paddingbox_with_title ( base_box_scroll, FALSE,
 					   _("Accounts under wanted balance") );
   frame_etat_soldes_minimaux_voulus = gtk_notebook_new ();
-  gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_soldes_minimaux_voulus),
-			       FALSE );
-  gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_soldes_minimaux_voulus),
-				 FALSE );
+  gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_soldes_minimaux_voulus), FALSE );
+  gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_soldes_minimaux_voulus), FALSE );
   gtk_container_set_border_width ( GTK_CONTAINER(frame_etat_soldes_minimaux_voulus), 0 );
   gtk_box_set_spacing ( GTK_BOX(paddingbox), 6 );
-  gtk_box_pack_start ( GTK_BOX(paddingbox), 
-		       frame_etat_soldes_minimaux_voulus,
-		       FALSE, FALSE, 6 );
+  gtk_box_pack_start ( GTK_BOX(paddingbox), frame_etat_soldes_minimaux_voulus, FALSE, FALSE, 6 );
 
   mise_a_jour_soldes_minimaux ();
 
@@ -338,49 +312,34 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 			      GNOME_STOCK_BUTTON_OK,
 			      GNOME_STOCK_BUTTON_CANCEL,
 			      NULL );
-  gtk_widget_set_usize ( GTK_WIDGET ( dialog ),
-			 750,
-			 FALSE );
+  gtk_widget_set_usize ( GTK_WIDGET ( dialog ), 750, FALSE );
   gtk_signal_connect ( GTK_OBJECT ( dialog ),
 		       "destroy",
 		       GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
 		        "destroy" );
-  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
-				 GTK_WINDOW ( window ));
-  gnome_dialog_set_default ( GNOME_DIALOG ( dialog ),
-			     0 );
+  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), GTK_WINDOW ( window ));
+  gnome_dialog_set_default ( GNOME_DIALOG ( dialog ), 0 );
 
   gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER );
 
   /* met le formulaire dans la boite de dialogue */
 
   gtk_widget_unrealize ( frame_formulaire_echeancier );
-  gtk_widget_reparent ( formulaire_echeancier,
-			GNOME_DIALOG ( dialog ) -> vbox );
+  gtk_widget_reparent ( formulaire_echeancier, GNOME_DIALOG ( dialog ) -> vbox );
 
 
 /* applique aux entry l'entrée à ok */
 
-  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
-				 GTK_EDITABLE ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] ));
-  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
-				 GTK_EDITABLE ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ) -> entry ));
-  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
-				 GTK_EDITABLE ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ));
-  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
-				 GTK_EDITABLE ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ));
-  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
-				 GTK_EDITABLE ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ) -> entry ));
-  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
-				 GTK_EDITABLE ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] ));
-  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
-				 GTK_EDITABLE ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ) -> entry ));
-  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
-				 GTK_EDITABLE ( widget_formulaire_echeancier[SCHEDULER_FORM_BANK] ));
-  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
-				 GTK_EDITABLE ( widget_formulaire_echeancier[SCHEDULER_FORM_VOUCHER] ));
-  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
-				 GTK_EDITABLE ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES] ));
+  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ), GTK_EDITABLE ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] ));
+  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ), GTK_EDITABLE ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ));
+  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ), GTK_EDITABLE ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ));
+  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ), GTK_EDITABLE ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] ));
+  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ), GTK_EDITABLE ( widget_formulaire_echeancier[SCHEDULER_FORM_BANK] ));
+  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ), GTK_EDITABLE ( widget_formulaire_echeancier[SCHEDULER_FORM_VOUCHER] ));
+  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ), GTK_EDITABLE ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES] ));
+  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ), GTK_EDITABLE ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ) -> entry ));
+  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ), GTK_EDITABLE ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ) -> entry ));
+  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ), GTK_EDITABLE ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ) -> entry ));
 
 
   /* enlève les boutons valider/annuler si necessaire */
@@ -407,8 +366,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
   if ( resultat == -1 )
     {
       creation_formulaire_echeancier(); 
-      gtk_container_add ( GTK_CONTAINER ( frame_formulaire_echeancier ),
-			  creation_formulaire_echeancier () );
+      gtk_container_add ( GTK_CONTAINER ( frame_formulaire_echeancier ), creation_formulaire_echeancier () );
       return;
     }
 
@@ -442,8 +400,7 @@ gboolean met_en_prelight ( GtkWidget *event_box,
 			   GdkEventMotion *event,
 			   gpointer pointeur )
 {
-  gtk_widget_set_state ( GTK_WIDGET ( GTK_BIN (event_box)->child ),
-			 GTK_STATE_PRELIGHT );
+  gtk_widget_set_state ( GTK_WIDGET ( GTK_BIN (event_box)->child ), GTK_STATE_PRELIGHT );
   return FALSE;
 }
 /* ************************************************************************* */
@@ -453,8 +410,7 @@ gboolean met_en_normal ( GtkWidget *event_box,
 			 GdkEventMotion *event,
 			 gpointer pointeur )
 {
-  gtk_widget_set_state ( GTK_WIDGET ( GTK_BIN (event_box)->child ),
-			 GTK_STATE_NORMAL );
+  gtk_widget_set_state ( GTK_WIDGET ( GTK_BIN (event_box)->child ), GTK_STATE_NORMAL );
   return FALSE;
 }
 /* ************************************************************************* */
@@ -557,19 +513,16 @@ void update_liste_comptes_accueil ( void )
 					   g_strdup_printf (_("Account balances in %s"),
 							      ((struct struct_devise *) devise -> data) -> nom_devise ));
   pTable = gtk_table_new ( nb_comptes + 4, 8, FALSE );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable,
-		       FALSE, FALSE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
   /* Création et remplissage de la première ligne du tableau */
   pLabel = gtk_label_new (_("Reconciled balance"));
   gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_HORIZ_CENTER, MISC_VERT_CENTER );
-  gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel,
-			      2, 4, 0, 1 );
+  gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 2, 4, 0, 1 );
   gtk_widget_show ( pLabel );
   pLabel = gtk_label_new (_("Current balance"));
   gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_HORIZ_CENTER, MISC_VERT_CENTER );
-  gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel,
-			      5, 7, 0, 1 );
+  gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 5, 7, 0, 1 );
   gtk_widget_show ( pLabel );
 
   /* Affichage des comptes et de leur solde */
@@ -595,8 +548,7 @@ void update_liste_comptes_accueil ( void )
 	  /* Est-il réellement nécessaire de créer des labels vides pour */
 	  /* remplir des colonnes vides d'un tableau ?                   */
 	  pLabel = gtk_label_new ( "" );
-	  gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel,
-				      0, 1, i, i+1 );
+	  gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 0, 1, i, i+1 );
 	  gtk_widget_show ( pLabel );
 
 	  /* Deuxième colonne : elle contient le nom du compte */
@@ -623,7 +575,6 @@ void update_liste_comptes_accueil ( void )
 			     GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
 			     20, 0 );
 	  gtk_widget_show ( pEventBox );
-
 	  gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 	  gtk_widget_show ( pLabel );
 
@@ -709,7 +660,6 @@ void update_liste_comptes_accueil ( void )
 			     GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
 			     0, 0 );
 	  gtk_widget_show ( pEventBox );
-
 	  gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 	  gtk_widget_show ( pLabel );
 
@@ -726,8 +676,7 @@ void update_liste_comptes_accueil ( void )
 
 	  /* Cinquième colonne : vide */
 	  pLabel = gtk_label_new ("");
-	  gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel,
-				      4, 5, i, i+1 );
+	  gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 4, 5, i, i+1 );
 	  gtk_widget_show ( pLabel );
 
 	  /* Sixième colonne : elle contient le solde courant du compte */
@@ -775,7 +724,6 @@ void update_liste_comptes_accueil ( void )
 			     GTK_FILL| GTK_SHRINK, GTK_FILL| GTK_SHRINK,
 			     0, 0 );
 	  gtk_widget_show ( pEventBox );
-
 	  gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 	  gtk_widget_show ( pLabel );
 
@@ -792,12 +740,11 @@ void update_liste_comptes_accueil ( void )
 
 	  /* Huitième colonne : vide */
 	  pLabel = gtk_label_new ("");
-	  gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel,
-				      7, 8, i, i+1 );
+	  gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 7, 8, i, i+1 );
 	  gtk_widget_show ( pLabel );
 
-	  /* ATTENTION : les sommes effectuées ici présupposent que */
-	  /* TOUS les comptes sont dans la MÊME DEVISE !!!!!        */
+	  /* ATTENTION : les sommes effectuées ici présupposent que
+	     TOUS les comptes sont dans la MÊME DEVISE !!!!!        */
 	  solde_global_courant += SOLDE_COURANT ;
 	  solde_global_pointe += SOLDE_POINTE ;
 	}
@@ -807,12 +754,11 @@ void update_liste_comptes_accueil ( void )
 
   /* Création de la (nb_comptes + 2)ième ligne du tableau : vide */
   pLabel = gtk_label_new ( "" );
-  gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel,
-			      0, 1, i, i+1 );
+  gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 0, 1, i, i+1 );
   gtk_widget_show ( pLabel );
 
-  /* Création et remplissage de la (nb_comptes + 3)ième ligne du tableau : */
-  /* elle contient la somme des soldes de chaque compte */
+  /* Création et remplissage de la (nb_comptes + 3)ième ligne du tableau :
+     elle contient la somme des soldes de chaque compte */
   /* Deuxième colonne */
   pLabel = gtk_label_new ( COLON(_("Global balances")));
   gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
@@ -872,12 +818,12 @@ void update_liste_comptes_accueil ( void )
   gtk_widget_show_all (vbox);
 
   /* Création de la (nb_comptes + 4)ième (et dernière) ligne du tableau : vide */
-/*   pLabel = gtk_label_new ( "" ); */
-/*   gtk_table_attach_defaults ( GTK_TABLE ( pTable ), */
-/* 			      pLabel, */
-/* 			      0, 1, */
-/* 			      i+2, i+3 ); */
-/*   gtk_widget_show ( pLabel ); */
+/*  pLabel = gtk_label_new ( "" );
+  gtk_table_attach_defaults ( GTK_TABLE ( pTable ),
+			      pLabel,
+			      0, 1,
+			      i+2, i+3 );
+  gtk_widget_show ( pLabel ); */
 }
 /* ************************************************************************* */
 
@@ -938,12 +884,8 @@ void update_liste_echeances_manuelles_accueil ( void )
 
       /* on met une ligne vide pour faire joli */
       label = gtk_label_new ("");
-/*       gtk_box_pack_start ( GTK_BOX (vbox ), */
-/* 			   label, */
-/* 			   FALSE, */
-/* 			   FALSE, */
-/* 			   0 ); */
-/*       gtk_widget_show ( label ); */
+/*       gtk_box_pack_start ( GTK_BOX (vbox ), label, FALSE, FALSE, 0 );
+      gtk_widget_show ( label ); */
 
       /* création du style normal -> bleu */
       /* pointeur dessus -> jaune-rouge */
@@ -971,11 +913,7 @@ void update_liste_echeances_manuelles_accueil ( void )
       while ( pointeur_liste )
 	{
 	  hbox = gtk_hbox_new ( TRUE, 5 );
-	  gtk_box_pack_start ( GTK_BOX ( vbox ),
-			       hbox,
-			       FALSE,
-			       FALSE,
-			       0 );
+	  gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 	  gtk_widget_show (  hbox );
 
 	  /* bouton à gauche */
@@ -993,11 +931,7 @@ void update_liste_echeances_manuelles_accueil ( void )
 			       "button-press-event",
 			       (GtkSignalFunc) saisie_echeance_accueil,
 			       ECHEANCE_COURANTE );
-	  gtk_box_pack_start ( GTK_BOX ( hbox ),
-			       event_box,
-			       TRUE,
-			       TRUE,
-			       5 );
+	  gtk_box_pack_start ( GTK_BOX ( hbox ), event_box, TRUE, TRUE, 5 );
 	  gtk_widget_show ( event_box  );
 
 
@@ -1016,13 +950,12 @@ void update_liste_echeances_manuelles_accueil ( void )
 						      ECHEANCE_COURANTE->annee,
 						      _("No third party defined") ));
 	  
-	  gtk_widget_set_style ( label,
-				 style_label );
+	  gtk_widget_set_style ( label, style_label );
 	  gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
 	  gtk_container_add ( GTK_CONTAINER ( event_box ), label );
 	  gtk_widget_show ( label  );
 	  
-	  /* 	  label à droite */
+	  /* label à droite */
 
 	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + ECHEANCE_COURANTE->compte;
 
@@ -1043,11 +976,7 @@ void update_liste_echeances_manuelles_accueil ( void )
 
 
 	  gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
-	  gtk_box_pack_start ( GTK_BOX ( hbox ),
-			       label,
-			       FALSE,
-			       TRUE,
-			       0 );
+	  gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, TRUE, 0 );
 	  gtk_widget_show (  label );
 
 	  pointeur_liste = pointeur_liste -> next;
@@ -1055,13 +984,9 @@ void update_liste_echeances_manuelles_accueil ( void )
 
       /* on met une ligne vide pour faire joli */
 
-/*       label = gtk_label_new (""); */
-/*       gtk_box_pack_start ( GTK_BOX (vbox ), */
-/* 			   label, */
-/* 			   FALSE, */
-/* 			   FALSE, */
-/* 			   0 ); */
-/*       gtk_widget_show ( label ); */
+/*      label = gtk_label_new ("");
+      gtk_box_pack_start ( GTK_BOX (vbox ), label, FALSE, FALSE, 0 );
+      gtk_widget_show ( label ); */
 
     }
   else
@@ -1090,8 +1015,7 @@ void update_liste_echeances_auto_accueil ( void )
 
       /* on y place la liste des échéances */
 
-      vbox = gtk_vbox_new ( FALSE,
-			    5 );
+      vbox = gtk_vbox_new ( FALSE, 5 );
       gtk_container_add ( GTK_CONTAINER ( frame_etat_echeances_auto_accueil ), vbox);
       gtk_widget_show ( vbox);
 
@@ -1101,32 +1025,30 @@ void update_liste_echeances_auto_accueil ( void )
 	{
 	  operation = pointeur_liste -> data;
 
-	  hbox = gtk_hbox_new ( TRUE,5 );
-	  gtk_box_pack_start ( GTK_BOX ( vbox ), hbox,
-			       FALSE, FALSE, 0 );
+	  hbox = gtk_hbox_new ( TRUE, 5 );
+	  gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 	  gtk_widget_show (  hbox );
 
 	  /* label à gauche */
 	  
 	  if ( operation ->tiers )
 	    label = gtk_label_new ( g_strdup_printf ( "%02d/%02d/%d : %s",
-						      operation ->jour,
-						      operation ->mois,
-						      operation ->annee,
+						      operation -> jour,
+						      operation -> mois,
+						      operation -> annee,
 						      ((struct struct_tiers *)(g_slist_find_custom ( liste_struct_tiers,
 												     GINT_TO_POINTER ( operation->tiers ),
 												     (GCompareFunc) recherche_tiers_par_no )->data)) -> nom_tiers ) );
 	  else
 	    label = gtk_label_new ( g_strdup_printf ( "%02d/%02d/%d : %s",
-						      operation ->jour,
-						      operation ->mois,
-						      operation ->annee,
+						      operation -> jour,
+						      operation -> mois,
+						      operation -> annee,
 						      _("No third party defined") ));
 	  
 
 	  gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
-	  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-			       TRUE, TRUE, 5 );
+	  gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 5 );
 	  gtk_widget_show ( label  );
 
 	  /* label à droite */
@@ -1149,9 +1071,8 @@ void update_liste_echeances_auto_accueil ( void )
 						     NOM_DU_COMPTE ));
 
 	  gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
-	  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-			       FALSE, TRUE, 0 );
-	  gtk_widget_show (  label );
+	  gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, TRUE, 0 );
+	  gtk_widget_show ( label );
 
 	  pointeur_liste = pointeur_liste -> next;
 	}
@@ -1219,8 +1140,7 @@ void mise_a_jour_soldes_minimaux ( void )
 	      show_paddingbox ( frame_etat_soldes_minimaux_autorises );
 	    }
 	  label = gtk_label_new ( NOM_DU_COMPTE );
-	  gtk_box_pack_start ( GTK_BOX ( vbox_1 ), label,
-			       FALSE, FALSE, 0 );
+	  gtk_box_pack_start ( GTK_BOX ( vbox_1 ), label, FALSE, FALSE, 0 );
 	  gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_TOP );
 	  gtk_widget_show ( label );
 
@@ -1256,8 +1176,7 @@ void mise_a_jour_soldes_minimaux ( void )
 
 	  label = gtk_label_new ( NOM_DU_COMPTE );
 	   ( GTK_MISC ( label ), MISC_LEFT, MISC_TOP);
-	  gtk_box_pack_start ( GTK_BOX ( vbox_2 ), label,
-			       FALSE, FALSE, 0 );
+	  gtk_box_pack_start ( GTK_BOX ( vbox_2 ), label, FALSE, FALSE, 0 );
 	  gtk_widget_show ( label );
 
 	  if ( !MESSAGE_SOUS_MINI_VOULU && !patience_en_cours)
@@ -1320,8 +1239,7 @@ void mise_a_jour_fin_comptes_passifs ( void )
     {
       vbox = gtk_vbox_new ( FALSE,
 			    0 );
-/*       gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), */
-/* 				       5 ); */
+/*       gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 5 ); */
       gtk_container_add ( GTK_CONTAINER ( frame_etat_fin_compte_passif ), vbox );
       gtk_widget_show ( vbox );
 
@@ -1329,19 +1247,17 @@ void mise_a_jour_fin_comptes_passifs ( void )
 	label = gtk_label_new (COLON(_("The following liabilities accounts are closed")));
       else
 	label = gtk_label_new (COLON(_("The following liabilities account is closed")));
-      gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
-      gtk_box_pack_start ( GTK_BOX ( vbox ), label,
-			   FALSE, FALSE, 0 );
-      gtk_widget_show ( label );
 
+      gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
+      gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 0 );
+      gtk_widget_show ( label );
 
       pointeur = liste_tmp;
 
       while ( pointeur )
 	{
 	  label = gtk_label_new (pointeur -> data );
-	  gtk_box_pack_start ( GTK_BOX ( vbox ), label,
-			       FALSE, FALSE, 0 );
+	  gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 0 );
 	  gtk_widget_show ( label );
 
 	  pointeur = pointeur -> next;
@@ -1349,6 +1265,5 @@ void mise_a_jour_fin_comptes_passifs ( void )
 
       show_paddingbox ( frame_etat_fin_compte_passif );
     }
-
 }
 /* ************************************************************************* */
