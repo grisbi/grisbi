@@ -84,7 +84,17 @@ GtkWidget *creation_liste_comptes (void)
 
   if ( nb_comptes )
     {
+      int i;
+
       ordre_comptes_variable = ordre_comptes;
+
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+      for ( i = 0 ; i < nb_comptes ; i++ )
+	{
+	  if ( COMPTE_CLOTURE )
+	    gnome_app_remove_menus ( GNOME_APP ( window ), _("Accounts/Closed accounts/"), 2 );
+	  p_tab_nom_de_compte_variable++;
+	}
 
       do
 	{
@@ -376,7 +386,6 @@ void reaffiche_liste_comptes ( void )
       
       bouton = comptes_appel( GPOINTER_TO_INT ( ordre_comptes_variable -> data ));
       gtk_box_pack_start ( GTK_BOX ( vbox_liste_comptes ), bouton, FALSE, FALSE, 0 );
-
       if ( COMPTE_CLOTURE )
 	{
 	 GnomeUIInfo *menu;
