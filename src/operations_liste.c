@@ -820,16 +820,16 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 		{
 		    GSList *liste_tmp_2;
 
-		    liste_tmp_2 = g_slist_find_custom ( (( struct struct_categ * )( liste_tmp -> data )) -> liste_sous_categ,
+		    liste_tmp_2 = g_slist_find_custom ( (( struct struct_imputation * )( liste_tmp -> data )) -> liste_sous_imputation,
 							GINT_TO_POINTER ( operation -> sous_imputation ),
 							( GCompareFunc ) recherche_sous_imputation_par_no );
 		    if ( liste_tmp_2 )
-			temp = g_strconcat ( (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ,
+			temp = g_strconcat ( (( struct struct_imputation * )( liste_tmp -> data )) -> nom_imputation,
 					     " : ",
-					     (( struct struct_sous_categ * )( liste_tmp_2 -> data )) -> nom_sous_categ,
+					     (( struct struct_sous_imputation * )( liste_tmp_2 -> data )) -> nom_sous_imputation,
 					     NULL );
 		    else
-			temp = (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ;
+			temp = (( struct struct_imputation * )( liste_tmp -> data )) -> nom_imputation;
 		}
 	    }
 
