@@ -51,6 +51,7 @@
 #include "parametres.h"
 #include "etats_calculs.h"
 #include "etats_onglet.h"
+#include "tip.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -443,6 +444,7 @@ int main (int argc, char *argv[])
 	    }
 	}
 
+	display_tip ( FALSE );
 
 	gtk_main ();
 
