@@ -1,3 +1,10 @@
+grisbi (0.4.3-2) unstable; urgency=low
+
+  * Fix missing changelog.Debian.gz
+  * Fix a crash (closes: #202361)
+
+ -- Benjamin Drieu <benj@debian.org>  Tue,  6 Jan 2004 11:13:53 +0100
+
 grisbi (0.4.3-1) unstable; urgency=low
 
   * New upstream version
