@@ -1153,13 +1153,13 @@ void mise_a_jour_soldes_minimaux ( void )
 	      if ( solde_courant < solde_mini_voulu )
 		{
 		  if ( !patience_en_cours )
-		    dialogue ( g_strdup_printf (_("Warning, balance of account %s is under wanted and authorised minima!"), 
+		    dialogue ( g_strdup_printf (_("Warning, balance of account %s is under wanted and authorised minima!"),
 			       NOM_DU_COMPTE ));
 		  MESSAGE_SOUS_MINI_VOULU = 1;
 		}
 	      else
 		if ( !patience_en_cours )
-		  dialogue ( g_strdup_printf (_("Warning, the balance of the account %s  is under the authorised minimum!"),
+		  dialogue ( g_strdup_printf (_("Warning, the balance of the account %s is under the authorised minimum!"),
 			     NOM_DU_COMPTE ));
 	      MESSAGE_SOUS_MINI = 1;
 	    }
@@ -1314,3 +1314,4 @@ void mise_a_jour_fin_comptes_passifs ( void )
     }
 }
 /* ************************************************************************* */
+
