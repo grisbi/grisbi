@@ -1685,6 +1685,9 @@ void edition_operation ( void )
 		gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_CONTRA] ),
 					      cherche_no_menu_type_associe ( operation_2 -> type_ope,
 									     0 ));
+		gtk_object_set_data ( GTK_OBJECT ( widget_formulaire_operations[TRANSACTION_FORM_CONTRA] ),
+				      "compte_virement",
+				      GINT_TO_POINTER ( operation -> relation_no_compte ));
 		gtk_widget_show ( widget_formulaire_operations[TRANSACTION_FORM_CONTRA] );
 	    }
 	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
