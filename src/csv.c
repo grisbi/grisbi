@@ -509,7 +509,7 @@ void export_accounts_to_csv (GSList* export_entries_list )
 		    struct struct_type_ope * type = pointeur -> data;
 
 		    if ( type -> numerotation_auto )
-		      csv_field_cheque = operation -> contenu_type ;
+		      csv_field_cheque = ope_test -> contenu_type ;
 		  }
 
 
