@@ -909,8 +909,6 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 							g_date_year ( date_jour ) );
 			    g_date_subtract_months ( date_tmp,
 						     3 );
-			    g_date_subtract_months ( date_jour,
-						     1 );
 			    if ( g_date_compare ( date_tmp,
 						  operation -> date ) > 0
 				 ||
@@ -927,8 +925,6 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 							g_date_year ( date_jour ) );
 			    g_date_subtract_months ( date_tmp,
 						     6 );
-			    g_date_subtract_months ( date_jour,
-						     1 );
 			    if ( g_date_compare ( date_tmp,
 						  operation -> date ) > 0
 				 ||
@@ -945,8 +941,6 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 							g_date_year ( date_jour ) );
 			    g_date_subtract_months ( date_tmp,
 						     12 );
-			    g_date_subtract_months ( date_jour,
-						     1 );
 			    if ( g_date_compare ( date_tmp,
 						  operation -> date ) > 0
 				 ||
