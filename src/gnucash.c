@@ -53,6 +53,7 @@ struct struct_compte_importation * find_imported_account_by_uid ( gchar * guid )
 struct struct_compte_importation * find_imported_account_by_name ( gchar * name );
 struct struct_ope_importation * new_transaction_from_split ( struct gnucash_split * split,
 							     gchar * tiers, GDate * date );
+GSList * make_split_list_from_xml_transaction_node ( xmlNodePtr, gint * );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -253,63 +254,12 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
     struct struct_ope_importation * transaction;
     struct struct_compte_importation * account = NULL; 
     gchar * date_string, *space, *tiers;
-    GDate * date;
-    xmlNodePtr splits, split_node, date_node;
     GSList * split_list = NULL;
     gdouble total = 0;
+    xmlNodePtr date_node;
+    GDate * date;
 
-    /* Transaction amount, category, account, etc.. */
-    splits = get_child ( transaction_node, "splits" );
-    split_node = splits -> children;
-
-    while ( split_node )
-    {
-	struct struct_compte_importation * split_account = NULL; 
-	struct gnucash_category * categ = NULL;
-	struct gnucash_split * split;
-	enum operation_etat_rapprochement p_r = OPERATION_NORMALE;
-	gdouble amount;
-
-	if ( node_strcmp ( split_node, "split" ) )
-	{
-	    gchar * account_name = NULL, * categ_name = NULL;
-
-	    split_account = find_imported_account_by_uid ( child_content ( split_node, 
-									   "account" ) );
-	    categ = find_imported_categ_by_uid ( child_content ( split_node, "account" ) );
-	    amount = gnucash_value ( child_content(split_node, "value") );
-
-	    if ( categ ) 
-		categ_name = categ -> name;
-
-	    if ( split_account )
-	    {
-		/* All of this stuff is here since we are dealing with
-		   the account split, not the category one */
-		account_name = split_account -> nom_de_compte;
-		total += amount;
-		if ( strcmp(child_content(split_node, "reconciled-state"), "n") )
-		    p_r = OPERATION_RAPPROCHEE;
-	    }
-
-	    split = find_split ( split_list, amount, split_account, categ );
-	    if ( split )
-	    {
-		update_split ( split, amount, account_name, categ_name );
-	    }
-	    else
-	    {
-		split = new_split ( amount, account_name, categ_name );
-		split_list = g_slist_append ( split_list, split );
-		split -> notes = child_content(split_node, "memo");
-	    }
-	    if ( p_r != OPERATION_NORMALE )
-		split -> p_r = p_r;
-	}
-
-	split_node = split_node -> next;
-    }
-
+    split_list = make_split_list_from_xml_transaction_node ( transaction_node, &total );
     if ( ! split_list )
 	return;
 
@@ -391,6 +341,68 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
     }
 }
 
+
+
+GSList * make_split_list_from_xml_transaction_node ( xmlNodePtr transaction_node,
+						     gint * total )
+{
+    xmlNodePtr splits, split_node;
+    GSList * split_list = NULL;
+
+    /* Transaction amount, category, account, etc.. */
+    splits = get_child ( transaction_node, "splits" );
+    split_node = splits -> children;
+
+    while ( split_node )
+    {
+	struct struct_compte_importation * split_account = NULL; 
+	struct gnucash_category * categ = NULL;
+	struct gnucash_split * split;
+	enum operation_etat_rapprochement p_r = OPERATION_NORMALE;
+	gdouble amount;
+
+	if ( node_strcmp ( split_node, "split" ) )
+	{
+	    gchar * account_name = NULL, * categ_name = NULL;
+
+	    split_account = find_imported_account_by_uid ( child_content ( split_node, 
+									   "account" ) );
+	    categ = find_imported_categ_by_uid ( child_content ( split_node, "account" ) );
+	    amount = gnucash_value ( child_content(split_node, "value") );
+
+	    if ( categ ) 
+		categ_name = categ -> name;
+
+	    if ( split_account )
+	    {
+		/* All of this stuff is here since we are dealing with
+		   the account split, not the category one */
+		account_name = split_account -> nom_de_compte;
+		*total += amount;
+		if ( strcmp(child_content(split_node, "reconciled-state"), "n") )
+		    p_r = OPERATION_RAPPROCHEE;
+	    }
+
+	    split = find_split ( split_list, amount, split_account, categ );
+	    if ( split )
+	    {
+		update_split ( split, amount, account_name, categ_name );
+	    }
+	    else
+	    {
+		split = new_split ( amount, account_name, categ_name );
+		split_list = g_slist_append ( split_list, split );
+		split -> notes = child_content(split_node, "memo");
+	    }
+	    if ( p_r != OPERATION_NORMALE )
+		split -> p_r = p_r;
+	}
+
+	split_node = split_node -> next;
+    }
+
+    return split_list;
+}
 
 
 gchar * get_currency ( xmlNodePtr currency_node )
