@@ -62,12 +62,10 @@ void charge_configuration ( void )
 					      NULL );
 
   etat.entree = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonction_touche_entree", NULL ));
-  etat.alerte_mini = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Affichage_messages_alertes", NULL ));
 
   /* FIXME : do that with list_font_name & list_font_size */
 /*   fonte_liste = gnome_config_get_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonte_des_listes", NULL )); */
 /*   fonte_general = gnome_config_get_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonte_generale", NULL )); */
-  etat.alerte_permission = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Affichage_alerte_permission", NULL ));
   etat.force_enregistrement = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Force_enregistrement", NULL ));
 
   if ( fonte_liste && !strlen( fonte_liste ) )
@@ -139,6 +137,9 @@ void charge_configuration ( void )
 
   /* Messages */
   etat.display_message_lock_active  = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Messages/display_message_lock_active", NULL ));
+  etat.display_message_file_readable  = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Messages/display_message_file_readable", NULL ));
+  etat.display_message_minimum_alert = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Messages/display_message_minimum_alert", NULL ));
+
 
 }
 /* ***************************************************************************************************** */
@@ -155,21 +156,17 @@ void raz_configuration ( void )
   largeur_window = 0;
   hauteur_window = 0;
 
-  etat.alerte_permission = 1;
-  etat.alerte_mini = 1;
   etat.r_modifiable = 0;       /* on ne peux modifier les opé relevées */
   etat.dernier_fichier_auto = 1;   /*  on n'ouvre pas directement le dernier fichier */
   buffer_dernier_fichier = g_strdup ( "" );
   etat.sauvegarde_auto = 0;    /* on ne sauvegarde pas automatiquement */
   etat.entree = 1;    /* la touche entree provoque l'enregistrement de l'opération */
   decalage_echeance = 3;     /* nb de jours avant l'échéance pour prévenir */
-  etat.alerte_mini = 1;     /* alerte si dépassement des seuils mini définis */
   etat.formulaire_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
   etat.formulaire_echeancier_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
   etat.affichage_exercice_automatique = 1;        /* l'exercice est choisi en fonction de la date */
   fonte_liste = NULL;
   fonte_general = NULL;
-  etat.alerte_permission = 1;       /* par défaut, on prévient quand le fichier n'est pas à 600 */
   etat.force_enregistrement = 0;     /* par défaut, on ne force pas l'enregistrement */
   etat.affiche_tous_les_types = 0;   /* par défaut, on n'affiche ds le formulaire que les types du débit ou crédit */
   etat.classement_par_date = 1;  /* par défaut, on tri la liste des opés par les dates */
@@ -187,7 +184,9 @@ void raz_configuration ( void )
   etat.retient_affichage_par_compte = 0;
 
   /* Messages */
-  etat.display_message_lock_active = 1;
+  etat.display_message_lock_active = 0;
+  etat.display_message_file_readable = 0;
+  etat.display_message_minimum_alert = 0;
 }
 /* ***************************************************************************************************** */
 
@@ -226,14 +225,10 @@ void sauve_configuration (void)
 			 etat.r_modifiable );
   gnome_config_set_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Dernier_chemin_de_travail", NULL ),
 			    dernier_chemin_de_travail );
-  gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Affichage_alerte_permission", NULL ),
-			 etat.alerte_permission );
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Force_enregistrement", NULL ),
 			 etat.force_enregistrement );
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonction_touche_entree", NULL ),
 			 etat.entree );
-  gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Affichage_messages_alertes", NULL ),
-			 etat.alerte_mini );
   gnome_config_set_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonte_des_listes", NULL ),
 			    fonte_liste );
   gnome_config_set_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonte_generale", NULL ),
@@ -320,8 +315,14 @@ void sauve_configuration (void)
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Exercice/Affichage_exercice_automatique", NULL ),
 			 etat.affichage_exercice_automatique );
 
+  /* Save messages settings */
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Messages/display_message_lock_active", NULL ),
 			 etat.display_message_lock_active );
+  gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Messages/display_message_file_readable", NULL ),
+			 etat.display_message_file_readable );
+  gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Messages/display_message_minimum_alert", NULL ),
+			 etat.display_message_minimum_alert );
+
 
   gnome_config_sync();
 }
