@@ -815,7 +815,14 @@ void changement_choix_backup ( GtkWidget *bouton,
 			       gpointer pointeur )
 {
   if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_demande_backup )))
-    gtk_widget_set_sensitive ( GTK_WIDGET ( entree_chemin_backup ), TRUE );
+    {
+      gtk_widget_set_sensitive ( GTK_WIDGET ( entree_chemin_backup ), TRUE );
+      if (! nom_fichier_backup || !strlen(nom_fichier_backup) )
+	{
+	  gtk_entry_set_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY (entree_chemin_backup ))),
+			       _("backup.gsb") );
+	}
+    }
   else
     {
       gtk_widget_set_sensitive ( GTK_WIDGET ( entree_chemin_backup ), FALSE );
