@@ -313,8 +313,9 @@ gint recherche_exercice_par_no ( struct struct_exercice *exercice,
 gint recherche_operation_par_cheque ( struct structure_operation *operation,
 				      gint *no_chq )
 {
-    if ( operation -> contenu_type )
-	return ( ! ( atoi (operation -> contenu_type) == GPOINTER_TO_INT ( no_chq ) ));
+  if ( operation -> contenu_type )
+    return ( ! ( atoi (operation -> contenu_type) == GPOINTER_TO_INT ( no_chq ) ));
+  return -1;
 }
 /******************************************************************************/
 
