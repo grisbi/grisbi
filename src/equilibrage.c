@@ -41,7 +41,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
   GtkWidget *label;
   GtkWidget *table;
   GtkWidget *hbox;
-  GtkWidget *bouton;  
+  GtkWidget *bouton;
   GtkWidget *separateur;
   GtkTooltips *tips;
 
@@ -502,7 +502,7 @@ void equilibrage ( void )
 			      g_date_year ( DATE_DERNIER_RELEVE ));
 
       gtk_label_set_text ( GTK_LABEL ( label_ancienne_date_equilibrage ),
-			   g_strdup_printf ( "%02d/%02d/%d", 
+			   g_strdup_printf ( "%02d/%02d/%d",
 					     g_date_day ( date ),
 					     g_date_month ( date ),
 					     g_date_year ( date ) ));
@@ -532,7 +532,7 @@ void equilibrage ( void )
     }
 
   gtk_entry_set_text ( GTK_ENTRY ( entree_nouvelle_date_equilibrage ),
-		       g_strdup_printf ( "%02d/%02d/%d", 
+		       g_strdup_printf ( "%02d/%02d/%d",
 					 g_date_day ( date ),
 					 g_date_month ( date ),
 					 g_date_year ( date ) ));
@@ -840,7 +840,7 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
       g_date_set_time ( date,
 			time(NULL));
 
-      if ( nb_parametres == 1)
+      if ( nb_parametres == 1 )
 	date_releve_mois = g_date_month( date );
 
       date_releve_annee = g_date_year( date );
