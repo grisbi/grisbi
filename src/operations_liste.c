@@ -2574,6 +2574,7 @@ void popup_menu ()
   gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
 				  gtk_image_new_from_stock ( GTK_STOCK_NEW,
 							     GTK_ICON_SIZE_MENU ));
+  g_signal_connect ( G_OBJECT(menu_item), "activate", new_transaction, NULL );
   gtk_menu_append ( menu, menu_item );
 
   /* Delete transaction */
@@ -2581,6 +2582,7 @@ void popup_menu ()
   gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
 				  gtk_image_new_from_stock ( GTK_STOCK_DELETE,
 							     GTK_ICON_SIZE_MENU ));
+  g_signal_connect ( G_OBJECT(menu_item), "activate", remove_transaction, NULL );
   gtk_menu_append ( menu, menu_item );
 
   /* Clone transaction */
