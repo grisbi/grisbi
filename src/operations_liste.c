@@ -35,6 +35,7 @@
 #include "categories_onglet.h"
 #include "devises.h"
 #include "equilibrage.h"
+#include "echeancier_formulaire.h"
 #include "erreur.h"
 #include "exercice.h"
 #include "fichiers_io.h"
@@ -2580,7 +2581,8 @@ void popup_menu ( gboolean full )
   gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
 				  gtk_image_new_from_stock ( GTK_STOCK_CONVERT,
 							     GTK_ICON_SIZE_MENU ));
-  if ( !full )
+  g_signal_connect ( G_OBJECT(menu_item), "activate", schedule_selected_transaction, NULL );
+  if ( !full || OPERATION_SELECTIONNEE -> operation_ventilee )
     gtk_widget_set_sensitive ( menu_item, FALSE );
   gtk_menu_append ( menu, menu_item );
 
@@ -2603,16 +2605,31 @@ void popup_menu ( gboolean full )
 
 
 /**
- *  Empty transaction form and select transactions tab.
+ *  Check that a transaction is selected and sets the
+ *  p_tab_nom_de_compte_variable pointer accordingly.
+ *
+ * \return TRUE on success, FALSE otherwise.
  */
-void new_transaction () 
+gboolean assert_selected_transaction ()
 {
   if ( p_tab_nom_de_compte_courant )
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
   else 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
-  OPERATION_SELECTIONNEE = GINT_TO_POINTER ( -1 );
+  if ( OPERATION_SELECTIONNEE == GINT_TO_POINTER(-1) )
+    return FALSE;
+
+  return TRUE;
+}
+
+
+/**
+ *  Empty transaction form and select transactions tab.
+ */
+void new_transaction () 
+{
+  if (! assert_selected_transaction()) return;
 
   gtk_clist_unselect_all ( GTK_CLIST ( CLIST_OPERATIONS ) );
   gtk_widget_grab_focus ( CLIST_OPERATIONS );
@@ -2627,13 +2644,7 @@ void new_transaction ()
  */
 void remove_transaction ()
 {
-  if ( p_tab_nom_de_compte_courant )
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-  else 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
-  if ( OPERATION_SELECTIONNEE == GINT_TO_POINTER(-1) )
-    return;
+  if (! assert_selected_transaction()) return;
 
   supprime_operation ( OPERATION_SELECTIONNEE );
   gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
@@ -2645,13 +2656,7 @@ void remove_transaction ()
  */
 void clone_selected_transaction ()
 {
-  if ( p_tab_nom_de_compte_courant )
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-  else 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
-  if ( OPERATION_SELECTIONNEE == GINT_TO_POINTER(-1) )
-    return;
+  if (! assert_selected_transaction()) return;
 
   clone_transaction ( OPERATION_SELECTIONNEE );
 
@@ -2725,22 +2730,19 @@ struct structure_operation *  clone_transaction ( struct structure_operation * o
 
 
 /**
- * Move selected transaction to another account
+ * Move selected transaction to another account.  Normally called as a
+ * handler.
+ *
+ * \param menu_item The GtkMenuItem that triggered this handler.
  */
 void move_selected_operation_to_account ( GtkMenuItem * menu_item )
 {
   gint account;
 
-  if ( p_tab_nom_de_compte_courant )
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-  else 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+  if (! assert_selected_transaction()) return;
 
   account = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT(menu_item), 
-						    "no_compte" ) );
-  
-  if ( OPERATION_SELECTIONNEE == GINT_TO_POINTER(-1) )
-    return;
+						    "no_compte" ) );  
 
   move_operation_to_account ( OPERATION_SELECTIONNEE, account );
 
@@ -2816,4 +2818,95 @@ void move_operation_to_account ( struct structure_operation * transaction,
 
   transaction -> no_compte = account;
   p_tab_nom_de_compte_variable = tmp;
+}
+
+
+
+/**
+ * Convert selected transaction to a template of scheduled transaction
+ * via schedule_transaction().
+ */
+void schedule_selected_transaction ()
+{
+  struct operation_echeance * echeance;
+
+  if (! assert_selected_transaction()) return;
+
+  echeance = schedule_transaction ( OPERATION_SELECTIONNEE );
+
+  update_liste_echeances_auto_accueil ();
+  remplissage_liste_echeance ();
+
+  echeance_selectionnnee = echeance;
+  formulaire_echeancier_a_zero();
+  degrise_formulaire_echeancier();
+  selectionne_echeance ();
+  edition_echeance ();
+
+  gtk_notebook_set_current_page ( GTK_NOTEBOOK(notebook_general), 2 );
+
+  modification_fichier ( TRUE );
+}
+
+
+
+/**
+ *  Convert transaction to a template of scheduled transaction.
+ *
+ * \param transaction Transaction to use as a template.
+ */
+struct operation_echeance *
+schedule_transaction ( struct structure_operation * transaction )
+{
+  struct operation_echeance *echeance;
+  
+  echeance = (struct operation_echeance *) malloc ( sizeof(struct operation_echeance) );
+  if ( !echeance )
+    {
+      dialogue ( _("Cannot allocate memory, bad things will happen soon") );
+      return;
+    }
+
+  echeance -> no_operation = 0;
+  echeance -> compte = transaction -> no_compte;
+  echeance -> date = transaction -> date;
+  echeance -> jour = transaction -> jour;
+  echeance -> mois = transaction -> mois;
+  echeance -> annee = transaction -> annee;
+
+  echeance -> montant = transaction -> montant;
+  echeance -> devise = transaction -> devise;
+
+  echeance -> tiers = transaction -> tiers;
+  echeance -> categorie = transaction -> categorie;
+  echeance -> sous_categorie = transaction -> sous_categorie;
+
+  /* Trouver le compte vers lequel on vire */
+/*   echeance -> compte_virement = transaction -> compte_virement; */
+
+  echeance -> notes = transaction -> notes;
+  echeance -> type_ope = transaction -> type_ope;
+  echeance -> contenu_type = transaction -> contenu_type;
+
+  echeance -> auto_man = 0;
+
+  echeance -> no_exercice = transaction -> no_exercice;
+  echeance -> imputation = transaction -> imputation;
+  echeance -> sous_imputation = transaction -> sous_imputation;
+
+  echeance -> periodicite = 0;
+  echeance -> intervalle_periodicite_personnalisee = 0;
+  echeance -> periodicite_personnalisee = 0;
+  echeance -> date_limite = NULL;
+  echeance -> jour_limite = 0;
+  echeance -> mois_limite = 0;
+  echeance -> annee_limite = 0;
+
+  echeance -> no_operation = ++no_derniere_echeance;
+  nb_echeances++;
+  gsliste_echeances = g_slist_insert_sorted ( gsliste_echeances,
+					      echeance,
+					      (GCompareFunc) comparaison_date_echeance );
+
+  return echeance;
 }
