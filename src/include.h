@@ -28,8 +28,3 @@
 #include <gdk/gdkkeysyms.h>
 #include <popt.h>
 
-#ifndef _WIN32
-#define C_DIRECTORY_SEPARATOR "/"
-#else
-#define C_DIRECTORY_SEPARATOR "\\"
-#endif

@@ -1,3 +1,5 @@
+#ifndef _CONSTANTS_H
+#define _CONSTANTS_H 1
 /* Fichier de définition de constantes constant.h */
 
 /* Constantes qui définisent le numéro de colonne dans la liste des opérations
@@ -99,3 +101,17 @@
 #define COLUMN_LEFT 0.0
 #define COLUMN_CENTER 0.5
 #define COLUMN_RIGHT 1.0
+
+#ifndef _WIN32
+#define C_DIRECTORY_SEPARATOR "/"
+#define C_GRISBIRC  "/.grisbirc"
+#else
+/* Some old Windows version have difficulties with dat starting file names */
+#define C_DIRECTORY_SEPARATOR "\\"
+#define C_GRISBIRC  "\\grisbi.rc"
+#endif
+
+/* quelques chaines de configuration*/
+#define ETAT_WWW_BROWSER "www-browser"
+
+#endif // !_CONSTANTS_H

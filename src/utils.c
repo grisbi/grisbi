@@ -689,10 +689,19 @@ gboolean lance_navigateur_web ( const gchar *url )
 {
 /*     si la commande du navigateur contient %s, on le remplace par url, */
 /*     sinon on ajoute l'url à la fin et & */
+/*     sous Windows si la commande est vide ou equale a la valeur par defaut on lance le butineur par defaut (open) */
 
     gchar **split;
     gchar *chaine;
+#ifdef _WIN32
+    gboolean use_default_browser = TRUE;
 
+    if ( etat.browser_command && strlen ( etat.browser_command) )
+    {
+        use_default_browser = !strcmp(etat.browser_command,ETAT_WWW_BROWSER);
+    }
+    
+#else // !_WIN32
     if ( !(etat.browser_command
 	   &&
 	   strlen ( etat.browser_command )))
@@ -700,7 +709,13 @@ gboolean lance_navigateur_web ( const gchar *url )
 	dialogue_error_hint ( g_strdup_printf ( _("Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.  Please adjust your settings to a valid executable."), url ),
 			      _("Cannot run web browser") );
     }
+#endif // _WIN32
 
+
+#ifdef _WIN32
+    if (!use_default_browser)
+    {
+#endif // _WIN32
 
     split = g_strsplit ( etat.browser_command,
 			 "%s",
@@ -728,6 +743,15 @@ gboolean lance_navigateur_web ( const gchar *url )
 	dialogue_error_hint ( g_strdup_printf ( _("Grisbi was unable to execute '%s'\nPlease adjust your settings to a valid executable."), chaine ),
 			      _("Cannot run web browser") );
     }
+
+#ifdef _WIN32
+    }
+    else
+    {
+        win32_shell_execute_open(url);
+    } 
+#endif // _WIN32
+
     return FALSE;
 }
 /* **************************************************************************************************************************** */
