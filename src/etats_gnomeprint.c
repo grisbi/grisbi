@@ -111,8 +111,8 @@ gint gnomeprint_initialise ()
   gnome_print_dialog_get_copies(gpd, &copies, &collate);
   gnome_print_master_set_copies(gpm, copies, collate);
   gnome_print_master_set_printer(gpm, gnome_print_dialog_get_printer(gpd));
-/*   paper = gnome_paper_with_size (841.88976, 595.27559); */
-/*   gnome_print_master_set_paper ( gpm, paper ); */
+  paper = gnome_paper_with_size (841.88976, 595.27559); 
+  gnome_print_master_set_paper ( gpm, paper ); 
        
 
   gnome_dialog_close (GNOME_DIALOG(gpd));
