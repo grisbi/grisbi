@@ -144,7 +144,7 @@ gboolean charge_operations ( void )
        !strcmp ( version , "0.2.5" ) || !strcmp ( version , "0,2,5" ) )
     {
       dialogue ( "Le fichier est trop ancien :\ncette version de Grisbi ne peut\
- charger que les fichiers provenant\ndes versions 0.3.0, 0.3.1 et 0.3.2\nPour \
+ charge que les fichiers provenant\ndes versions 0.3.0, 0.3.1 et 0.3.2\nPour \
 mettre à jour votre fichier, vous devez charger une version plus ancienne de Grisbi" );
       fclose ( pointeur_fichier_comptes );
       return ( FALSE );
@@ -954,10 +954,10 @@ operation = %*d\nDate du dernier releve = %a[^\n]\nSolde du dernier releve = %as
       gchar *texte;
 
       if ( g_slist_length ( liste_ope_liees ) < 10 )
-	texte = "Les opérations suivantes étaient liées (virement ou ventilation)\
+	texte = "Les opérations suivantes étaient liées ( virement ou ventilation )\
 \nmais n'ont pas trouvé d'opération correspondante :\n\n";
       else
-	dialogue ( texte = "Des opérations étaient liées (virement ou ventilation)\
+	dialogue ( texte = "Des opérations étaient liées ( virement ou ventilation)\
 \nmais n'ont pas trouvé d'opération correspondante\n(Elles vont être écrites \
 sur la sortie standart).\nL'erreur provient sûrement d'un bug non connu d'une \
 version précédente ...\nVous pouvez aller voir les opérations directement dans \
@@ -1614,16 +1614,16 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		if ( (etat.fichier_deja_ouvert  = atoi ( xmlNodeGetContent ( node_generalites ))))
 		  {
 		    if ( etat.force_enregistrement )
-		      dialogue ( "Attention, le fichier semble déjà ouvert par un autre \
+		      dialogue ( "Attention, le fichier semble déjà ouvert pas un autre \
 utilisateur ou n'a pas été fermé correctement (plantage ?).\nCependant Grisbi va \
 forcer l'enregistrement ; cette option est déconseillée\n sauf si vous êtes sûr \
 que personne d'autre n'utilise le fichier pour le moment.\nLa désactivation de \
-cette option s'effectue dans le menu \"Configuration/Fichiers\"." );
+cette option s'effectue dans le menu de configuration" );
 		    else
-		      dialogue ( "Attention, le fichier semble déjà ouvert par un autre \
+		      dialogue ( "Attention, le fichier semble déjà ouvert pas un autre \
 utilisateur ou n'a pas été fermé correctement (plantage ?).\nVous ne pourrez \
 enregistrer vos modification qu'en activant l'option \"Forcer l'enregistrement\" \
-dans le menu \"Configuration/Fichiers\"." );
+des paramètres." );
 		  }
 	    
 
@@ -3000,7 +3000,7 @@ gboolean enregistre_fichier ( void )
 
   if ( etat.fichier_deja_ouvert && !etat.force_enregistrement )
     {
-      dialogue ( " Fichier ouvert par un autre utilisateur, enregistrement impossible\nVous pouvez forcer l'enregistrement à partir du menu \"Configuration/Fichiers\"." );
+      dialogue ( " Fichier ouvert par un autre utilisateur, enregistrement impossible\nVous pouvez forcer l'enregistrement à partir des paramètres." );
       return ( FALSE );
     }
 

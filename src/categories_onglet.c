@@ -1649,7 +1649,8 @@ void supprimer_categ ( void )
       combofix = gtk_combofix_new_complex ( liste_combofix,
 					    TRUE,
 					    TRUE,
-					    TRUE );
+					    TRUE,
+					    0 );
 /*       gtk_widget_set_usize ( combofix, */
 /* 			     300, */
 /* 			     FALSE ); */
@@ -1987,7 +1988,8 @@ void supprimer_sous_categ ( void )
       combofix = gtk_combofix_new_complex ( liste_combofix,
 					    TRUE,
 					    TRUE,
-					    TRUE );
+					    TRUE,
+					    0 );
 /*       gtk_widget_set_usize ( combofix, */
 /* 			     300, */
 /* 			     FALSE ); */

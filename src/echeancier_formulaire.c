@@ -118,7 +118,8 @@ GtkWidget *creation_formulaire_echeancier ( void )
   widget_formulaire_echeancier[1] = gtk_combofix_new (  liste_tiers_combofix,
 							FALSE,
 							TRUE,
-							TRUE );
+							TRUE,
+							0 );
   gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_echeancier[1] ) -> entry ),
 		       "key_press_event",
 		       GTK_SIGNAL_FUNC ( pression_touche_formulaire_echeancier ),
@@ -267,7 +268,8 @@ GtkWidget *creation_formulaire_echeancier ( void )
   widget_formulaire_echeancier[6] = gtk_combofix_new_complex ( liste_categories_echeances_combofix,
 							       FALSE,
 							       TRUE,
-							       TRUE );
+							       TRUE,
+							       0 );
   gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_echeancier[6] ) -> entry ),
 		       "key_press_event",
 		       GTK_SIGNAL_FUNC ( pression_touche_formulaire_echeancier ),
@@ -399,7 +401,8 @@ GtkWidget *creation_formulaire_echeancier ( void )
   widget_formulaire_echeancier[10] = gtk_combofix_new_complex ( liste_imputations_combofix,
 								FALSE,
 								TRUE,
-								TRUE );
+								TRUE,
+								0 );
   gtk_table_attach ( GTK_TABLE ( table ),
 		     widget_formulaire_echeancier[10],
 		     2, 3,
@@ -1805,6 +1808,8 @@ void fin_edition_echeance ( void )
 		  /* c'est un virement, il n'y a donc aucune catégorie */
 
 		  gint i;
+		  echeance -> categorie = 0;
+		  echeance -> sous_categorie = 0;
 
 		  /* recherche le no de compte du virement */
 
@@ -2163,6 +2168,8 @@ void fin_edition_echeance ( void )
 		{
 		  /* c'est un virement, il n'y a donc aucune catétorie */
 
+		  operation -> categorie = 0;
+		  operation-> sous_categorie = 0;
 		  virement = 1;
 		}
 	      else
@@ -2324,6 +2331,9 @@ void fin_edition_echeance ( void )
 	operation -> notes = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[14] ))));
 
 
+      /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
+
+      ajout_operation ( operation );
 
 
       /*   si c'était un virement, on crée une copie de l'opé, on l'ajout à la liste puis on remplit les relations */
@@ -2394,14 +2404,19 @@ void fin_edition_echeance ( void )
 
 
 	  operation_2 -> tiers = operation -> tiers;
-	  operation_2 -> categorie = operation -> categorie;
-	  operation_2 -> sous_categorie = operation -> sous_categorie;
+	  operation_2 -> categorie = 0;
+	  operation_2 -> sous_categorie = 0;
 
 	  if ( operation -> notes )
 	    operation_2 -> notes = g_strdup ( operation -> notes);
 
 	  operation_2 -> auto_man = operation -> auto_man;
-	  operation_2 -> type_ope = operation -> type_ope;
+
+	  /*       pour le type, on affiche une fenetre avec un choix des types de l'autre compte */
+
+	  operation_2 -> type_ope = demande_correspondance_type ( operation,
+								  operation_2 );
+
 
 	  if ( operation -> contenu_type )
 	    operation_2 -> contenu_type = g_strdup ( operation -> contenu_type );
@@ -2429,11 +2444,13 @@ void fin_edition_echeance ( void )
 	  operation_2 -> relation_no_operation = operation -> no_operation;
 	  operation_2 -> relation_no_compte = operation -> no_compte;
 
+	  /* on met à jour le compte courant pour le virement (il a été mis à jour avec ajout opération, mais sans les liens de virement) */
+
+	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+
+	  MISE_A_JOUR = 1;
+	  verification_mise_a_jour_liste ();
 	}
-
-      /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
-
-      ajout_operation ( operation );
 
 
       /* passe l'échéance à la prochaine date */

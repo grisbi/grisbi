@@ -1883,7 +1883,11 @@ void verification_echeances_a_terme ( void )
 		  if ( operation -> notes )
 		    operation_2 -> notes = g_strdup ( operation -> notes);
 
-		  operation_2 -> type_ope = operation -> type_ope;
+		  /*       pour le type, on affiche une fenetre avec un choix des types de l'autre compte */
+
+		  operation_2 -> type_ope = demande_correspondance_type ( operation,
+									  operation_2 );
+
 		  if ( operation -> contenu_type )
 		    operation_2 -> contenu_type = operation -> contenu_type;
 
@@ -1901,6 +1905,13 @@ void verification_echeances_a_terme ( void )
 		  operation_2 -> relation_no_operation = operation -> no_operation;
 		  operation_2 -> relation_no_compte = operation -> no_compte;
 
+
+		  /* on met à jour le compte courant pour le virement (il a été mis à jour avec ajout opération, mais sans les liens de virement) */
+
+		  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+
+		  MISE_A_JOUR = 1;
+		  verification_mise_a_jour_liste ();
 		}
 
 

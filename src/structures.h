@@ -76,13 +76,10 @@ struct structure_operation
   guint mois;
   guint annee;
 
-  /* GDC La date a laquelle a reellement ete effectuee l'operation
-     contrairement a date qui est celle de prise en compte en banque */
   GDate *date_bancaire;
   guint jour_bancaire;
   guint mois_bancaire;
   guint annee_bancaire;
-  /* GDCFin */
 
   guint no_compte;
 
@@ -162,7 +159,7 @@ struct donnees_compte
 
 
 
-/* pointeurs vers les comptes en fonction de p...variable */
+/* pointeurs vers les comptes en fonction de p_tab_nom_de_compte_variable */
 
 #define NO_COMPTE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> no_compte
 #define TYPE_DE_COMPTE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> type_de_compte

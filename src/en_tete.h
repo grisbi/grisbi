@@ -241,6 +241,10 @@ void click_sur_bouton_voir_change ( void );
 void degrise_formulaire_operations ( void );
 void incremente_decremente_date ( GtkWidget *entree,
 				  gint demande );
+gint demande_correspondance_type ( struct structure_operation *operation,
+				   struct structure_operation *contre_operation );
+gint place_type_choix_type ( GtkWidget *option_menu,
+			     gint type );
 
 
 /************************/ 

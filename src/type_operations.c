@@ -1914,22 +1914,23 @@ gint cherche_no_menu_type ( gint demande )
 {
   GList *liste_tmp;
   gint retour;
+  gint i;
 
   if ( !demande )
     return ( FALSE );
 
   liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu ) -> children;
   retour = -1;
+  i=0;
 
-  while ( liste_tmp && !retour )
+  while ( liste_tmp && retour == -1 )
     {
       if ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
 				 "no_type" ) == GINT_TO_POINTER ( demande ))
 	{
 	  struct struct_type_ope *type;
 
-	  retour = g_list_position ( GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu ) -> children,
-				     liste_tmp );
+	  retour = i;
 
 	  /* affiche l'entrée chq du formulaire si nécessaire */
 
@@ -1942,6 +1943,7 @@ gint cherche_no_menu_type ( gint demande )
 	    gtk_widget_hide ( widget_formulaire_operations[10] );
 	}
 
+      i++;
       liste_tmp = liste_tmp -> next;
     }
 
@@ -1964,23 +1966,23 @@ gint cherche_no_menu_type_echeancier ( gint demande )
 {
   GList *liste_tmp;
   gint retour;
-
+  gint i;
 
   if ( !demande )
     return ( FALSE );
 
   liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ) -> menu ) -> children;
   retour = -1;
+  i=0;
 
-  while ( liste_tmp && !retour )
+  while ( liste_tmp && retour == -1 )
     {
       if ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
 				 "no_type" ) == GINT_TO_POINTER ( demande ))
 	{
 	  struct struct_type_ope *type;
 
-	  retour = g_list_position ( GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ) -> menu ) -> children,
-				     liste_tmp );
+	  retour = i;
 
 	  /* affiche l'entrée chq du formulaire si nécessaire */
 
@@ -2009,6 +2011,7 @@ gint cherche_no_menu_type_echeancier ( gint demande )
 	    gtk_widget_hide ( widget_formulaire_echeancier[8] );
 	}
 
+      i++;
       liste_tmp = liste_tmp -> next;
     }
 

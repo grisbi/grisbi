@@ -390,9 +390,10 @@ GtkWidget *creation_formulaire_ventilation ( void )
   /* mise en place des catégories */
 
   widget_formulaire_ventilation[0] = gtk_combofix_new_complex ( liste_categories_echeances_combofix,
-							    FALSE,
-							    TRUE,
-							    TRUE );
+								FALSE,
+								TRUE,
+								TRUE,
+								0 );
   gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_ventilation[0] ) -> entry ),
  		       "key_press_event",
 		       GTK_SIGNAL_FUNC ( appui_touche_ventilation ),
@@ -483,7 +484,8 @@ GtkWidget *creation_formulaire_ventilation ( void )
   widget_formulaire_ventilation[3] = gtk_combofix_new_complex ( liste_imputations_combofix,
 								FALSE,
 								TRUE,
-								TRUE );
+								TRUE,
+								0 );
   gtk_table_attach ( GTK_TABLE (table),
 		     widget_formulaire_ventilation[3],
 		     0, 1, 1, 2,

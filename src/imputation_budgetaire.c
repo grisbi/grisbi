@@ -1511,22 +1511,22 @@ void supprimer_imputation ( void )
 
       while ( pointeur )
 	{
-	  struct struct_imputation *imputation;
+	  struct struct_imputation *imputation_tmp;
 	  GSList *sous_pointeur;
 
-	  imputation = pointeur -> data;
+	  imputation_tmp = pointeur -> data;
 
-	  if ( imputation-> no_imputation != imputation -> no_imputation )
+	  if ( imputation_tmp -> no_imputation != imputation -> no_imputation )
 	    {
-	      if ( imputation -> type_imputation )
+	      if ( imputation_tmp -> type_imputation )
 		liste_imputation_debit = g_slist_append ( liste_imputation_debit,
-						     g_strdup ( imputation -> nom_imputation ) );
+							  g_strdup ( imputation_tmp -> nom_imputation ));
 	      else
 		liste_imputation_credit = g_slist_append ( liste_imputation_credit,
-						      g_strdup ( imputation -> nom_imputation ) );
+							   g_strdup ( imputation_tmp -> nom_imputation ));
 
 
-	      sous_pointeur = imputation -> liste_sous_imputation;
+	      sous_pointeur = imputation_tmp -> liste_sous_imputation;
 
 	      while ( sous_pointeur )
 		{
@@ -1562,7 +1562,8 @@ void supprimer_imputation ( void )
       combofix = gtk_combofix_new_complex ( liste_combofix,
 					    TRUE,
 					    TRUE,
-					    TRUE );
+					    TRUE,
+					    0 );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   combofix,
 			   FALSE,
@@ -1890,7 +1891,8 @@ void supprimer_sous_imputation ( void )
       combofix = gtk_combofix_new_complex ( liste_combofix,
 					    TRUE,
 					    TRUE,
-					    TRUE );
+					    TRUE,
+					    0 );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   combofix,
 			   FALSE,
