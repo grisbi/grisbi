@@ -82,10 +82,6 @@ GtkWidget *onglet_affichage_liste ( void )
 		       "button_release_event",
 		       GTK_SIGNAL_FUNC ( lache_bouton_classement_liste ),
 		       NULL );
-  gtk_signal_connect_object ( GTK_OBJECT ( clist_affichage_liste ),
-			      "resize-column",
-			      gnome_property_box_changed,
-			      GTK_OBJECT (fenetre_preferences));
   gtk_signal_connect ( GTK_OBJECT ( clist_affichage_liste ),
 		       "size-allocate",
 		       GTK_SIGNAL_FUNC ( changement_taille_liste_affichage ),
@@ -124,10 +120,6 @@ GtkWidget *onglet_affichage_liste ( void )
 		       "clicked",
 		       GTK_SIGNAL_FUNC ( raz_affichage_ope ),
 		       NULL );
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
-			      "clicked",
-			      gnome_property_box_changed,
-			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_end ( GTK_BOX ( hbox ),
 		       bouton,
 		       FALSE,
@@ -158,10 +150,6 @@ GtkWidget *onglet_affichage_liste ( void )
 				 "toggled",
 				 GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
 				 GINT_TO_POINTER ( j + i*6 ));
-	    gtk_signal_connect_object ( GTK_OBJECT ( boutons_affichage_liste[j + i*6] ),
-					"toggled",
-					gnome_property_box_changed,
-					GTK_OBJECT (fenetre_preferences));
 	    gtk_table_attach_defaults ( GTK_TABLE ( table ),
 					boutons_affichage_liste[j + i*6],
 					j, j+1,
@@ -175,10 +163,6 @@ GtkWidget *onglet_affichage_liste ( void )
   bouton_choix_perso_colonnes = gtk_check_button_new_with_label ( _("Adjust column size according to this table"));
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_choix_perso_colonnes ),
 				 etat.largeur_auto_colonnes );
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton_choix_perso_colonnes ),
-			      "toggled",
-			      gnome_property_box_changed,
-			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_start ( GTK_BOX ( onglet ),
 		       bouton_choix_perso_colonnes,
 		       FALSE,
@@ -193,10 +177,6 @@ GtkWidget *onglet_affichage_liste ( void )
   
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_caracteristiques_lignes_par_compte ),
 				 etat.retient_affichage_par_compte );
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton_caracteristiques_lignes_par_compte ),
-			      "toggled",
-			      gnome_property_box_changed,
-			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_start ( GTK_BOX ( onglet ),
 		       bouton_caracteristiques_lignes_par_compte,
 		       FALSE,
@@ -441,10 +421,6 @@ GtkWidget *cree_menu_quatres_lignes ( void )
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"no_ligne",
 			GINT_TO_POINTER ( 0 ));
-  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-			      "activate",
-			      gnome_property_box_changed,
-			      GTK_OBJECT (fenetre_preferences));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_widget_show ( menu_item );
@@ -453,10 +429,6 @@ GtkWidget *cree_menu_quatres_lignes ( void )
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"no_ligne",
 			GINT_TO_POINTER ( 1 ));
-  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-			      "activate",
-			      gnome_property_box_changed,
-			      GTK_OBJECT (fenetre_preferences));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_widget_show ( menu_item );
@@ -465,10 +437,6 @@ GtkWidget *cree_menu_quatres_lignes ( void )
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"no_ligne",
 			GINT_TO_POINTER ( 2 ));
-  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-			      "activate",
-			      gnome_property_box_changed,
-			      GTK_OBJECT (fenetre_preferences));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_widget_show ( menu_item );
@@ -477,10 +445,6 @@ GtkWidget *cree_menu_quatres_lignes ( void )
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"no_ligne",
 			GINT_TO_POINTER ( 3 ));
-  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-			      "activate",
-			      gnome_property_box_changed,
-			      GTK_OBJECT (fenetre_preferences));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_widget_show ( menu_item );
