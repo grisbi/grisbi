@@ -351,6 +351,23 @@ GtkWidget *onglet_messages_and_warnings ( void )
 }
 
 
+/** 
+ * TODO: document
+ *
+ */
+gboolean change_backup_path (GtkEntry *entry, gchar *value, 
+			     gint length, gint * position)
+{
+/*   if ( nom_fichier_backup ) */
+/*     g_strfreev ( nom_fichier_backup ); */
+  nom_fichier_backup = g_strdup ( gtk_entry_get_text ( GTK_ENTRY(entry) ));
+  if ( !strlen(nom_fichier_backup) )
+    {
+      nom_fichier_backup = NULL;
+    }
+}
+
+
 
 /**
  * Creates the "Files" tab.
@@ -437,12 +454,9 @@ GtkWidget *onglet_fichier ( void )
 
   if ( nb_comptes )
     {
-      if ( nom_fichier_backup )
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_demande_backup ),
-				       TRUE );
-      else
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_demande_backup ),
-				       FALSE );
+      gboolean dummy = (nom_fichier_backup != NULL);
+      /* Ugly dance ... */
+      checkbox_set_value ( bouton_demande_backup, &dummy, FALSE );
 
       /* Mise en forme de l'entrée du chemin de la backup */
       hbox = gtk_hbox_new ( FALSE, 5 );
@@ -472,10 +486,14 @@ GtkWidget *onglet_fichier ( void )
 	gtk_widget_set_sensitive ( GTK_WIDGET ( entree_chemin_backup ),
 				   FALSE );
       
-      gtk_signal_connect_object ( GTK_OBJECT ( GTK_COMBO ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY(entree_chemin_backup)) ) -> entry ),
-				  "changed",
-				  activer_bouton_appliquer,
-				  GTK_OBJECT (fenetre_preferences));
+      g_signal_connect_after ( GTK_OBJECT ( gnome_file_entry_gtk_entry(GNOME_FILE_ENTRY(entree_chemin_backup))),
+			       "insert-text",
+			       (GCallback) change_backup_path,
+			       NULL);
+      g_signal_connect_after ( GTK_OBJECT ( gnome_file_entry_gtk_entry(GNOME_FILE_ENTRY(entree_chemin_backup))),
+			       "delete-text",
+			       (GCallback) change_backup_path,
+			       NULL);
       gtk_box_pack_start ( GTK_BOX ( hbox ), entree_chemin_backup,
 			   FALSE, FALSE, 0 );
     }
@@ -2019,14 +2037,14 @@ new_checkbox_with_title ( gchar * label, guint * data, GCallback hook)
 
 
 /**
- * Update the widget's property accordingly.  If update is set, update
- * widget as well.
+ * Update the widget's appearance accordingly.  If update is set, update
+ * property as well.
  * 
  * \param checkbox The checkbox to update
  * \param data A pointer to a boolean which contains the new value to
  * fill in checkbox's properties.  This boolean will be modified by
  * checkbox's handlers as well.
- * \param update Whether to update checkbox's appearance as well.
+ * \param update Whether to update checkbox's data as well.
  */
 void checkbox_set_value ( GtkWidget * checkbox, guint * data, gboolean update )
 {
@@ -2074,6 +2092,9 @@ set_boolean ( GtkWidget * checkbox, guint * dummy)
   if (data)
     *data = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(checkbox));
 
+  /* Mark file as modified */
+  modification_fichier ( TRUE );
+
   return FALSE;
 }
 
@@ -2095,6 +2116,9 @@ gboolean set_text (GtkEntry *entry, gchar *value,
   data = g_object_get_data ( G_OBJECT ( entry ), "pointer");
   if (data)
     *data = g_strdup ((gchar*) gtk_entry_get_text ( GTK_ENTRY (entry) ));
+
+  /* Mark file as modified */
+  modification_fichier ( TRUE );
 
   return FALSE;
 }
@@ -2217,6 +2241,9 @@ set_date (GtkEntry *entry, gchar *value, gint length, gint * position)
 	*data = g_date_new ();
       g_date_set_parse ( *data, gtk_entry_get_text (GTK_ENTRY(entry)) );
     }
+
+  /* Mark file as modified */
+  modification_fichier ( TRUE );
 
   return FALSE;
 }
@@ -2617,6 +2644,9 @@ gboolean set_text_from_area ( GtkTextBuffer *buffer, gpointer dummy )
   if (data)
     *data = g_strdup ( gtk_text_buffer_get_text (buffer, &start, &end, 0) );
 
+  /* Mark file as modified */
+  modification_fichier ( TRUE );
+
   return FALSE;
 }
 
@@ -2640,6 +2670,9 @@ set_double ( GtkWidget * spin, gdouble * dummy)
     {
       *data = gtk_spin_button_get_value ( GTK_SPIN_BUTTON(spin) );
     }
+
+  /* Mark file as modified */
+  modification_fichier ( TRUE );
 }
 
 
