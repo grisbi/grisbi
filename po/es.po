@@ -2751,19 +2751,19 @@ msgstr ""
 
 #: src/menu.c:181
 msgid "Fichier"
-msgstr ""
+msgstr "Archivo"
 
 #: src/menu.c:183 src/operations_onglet.c:72 src/type_operations.c:39
 msgid "Comptes"
-msgstr ""
+msgstr "Cuentas"
 
 #: src/menu.c:185
 msgid "Configuration"
-msgstr ""
+msgstr "Configuración"
 
 #: src/menu.c:187
 msgid "Aide"
-msgstr ""
+msgstr "Ayuda"
 
 #: src/menu.c:205 src/menu.c:251
 msgid "Fichier/Derniers fichiers/"

@@ -1681,11 +1681,11 @@ msgstr ""
 
 #: src/etats.c:48
 msgid "Lundi"
-msgstr ""
+msgstr "Monday"
 
 #: src/etats.c:49
 msgid "Mardi"
-msgstr ""
+msgstr "Tuesday"
 
 #: src/etats.c:50
 msgid "Mercredi"
@@ -2751,19 +2751,19 @@ msgstr ""
 
 #: src/menu.c:181
 msgid "Fichier"
-msgstr ""
+msgstr "File"
 
 #: src/menu.c:183 src/operations_onglet.c:72 src/type_operations.c:39
 msgid "Comptes"
-msgstr ""
+msgstr "Accounts"
 
 #: src/menu.c:185
 msgid "Configuration"
-msgstr ""
+msgstr "Configuration"
 
 #: src/menu.c:187
 msgid "Aide"
-msgstr ""
+msgstr "Help"
 
 #: src/menu.c:205 src/menu.c:251
 msgid "Fichier/Derniers fichiers/"
