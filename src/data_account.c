@@ -50,7 +50,6 @@ static gint gsb_account_new ( kind_account account_kind );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *tree_view;
 /*END_EXTERN*/
 
 
@@ -206,7 +205,10 @@ gboolean gsb_account_set_nb_rows ( gint no_account,
     if ( nb_rows < 1
 	 ||
 	 nb_rows > 4 )
+    {
+	printf ( _("Bad nb rows to gsb_account_set_nb_rows () in data_account.c\n" ));
 	return FALSE;
+    }
 
     account = gsb_account_get_structure ( no_account );
 
@@ -565,9 +567,9 @@ gboolean gsb_account_set_marked_balance ( gint no_account,
 }
 
 
-/** get the tree_view of the account
+/** get the tree of the account
  * \param no_account no of the account
- * \return tree_view or NULL if the account doesn't exist
+ * \return tree or NULL if the account doesn't exist
  * */
 gpointer gsb_account_get_tree_view ( gint no_account )
 {
@@ -582,13 +584,13 @@ gpointer gsb_account_get_tree_view ( gint no_account )
 }
 
 
-/** set the tree_view of the account
+/** set the tree of the account
  * \param no_account no of the account
- * \param name name to set
+ * \param tree tree to set
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_account_set_tree_view ( gint no_account,
-				     gpointer tree_view )
+				     gpointer tree )
 {
     struct struct_account *account;
 
@@ -597,7 +599,7 @@ gboolean gsb_account_set_tree_view ( gint no_account,
     if (!account )
 	return FALSE;
 
-    account -> transactions_tree_view = tree_view;
+    account -> transactions_tree_view = tree;
 
     return TRUE;
 }
@@ -605,7 +607,7 @@ gboolean gsb_account_set_tree_view ( gint no_account,
 
 /** get the scrolled_window of the account
  * \param no_account no of the account
- * \return tree_view or NULL if the account doesn't exist
+ * \return tree or NULL if the account doesn't exist
  * */
 gpointer gsb_account_get_scrolled_window ( gint no_account )
 {
@@ -718,13 +720,64 @@ gboolean gsb_account_set_adjustment_value ( gint no_account,
     return TRUE;
 }
 
+/** get the column of the account
+ * \param no_account no of the account
+ * \param no_column no of the column
+ * \return  or NULL if the account doesn't exist
+ * */
+gpointer gsb_account_get_column ( gint no_account,
+				  gint no_column )
+{
+    struct struct_account *account;
+
+    if ( no_column < 0
+	 ||
+	 no_column > TRANSACTION_LIST_COL_NB )
+    {
+	g_strdup_printf ( _("Bad no column to gsb_account_get_column () in data_account.c\nno_column = %d\n" ),
+			  no_column );
+	return FALSE;
+    }
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return NULL;
+
+    return account -> transactions_column[no_column];
+}
 
 
+/** set the column of the account
+ * \param no_account no of the account
+ * \param no_column no of the column
+ * \param column  column to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_column ( gint no_account,
+				  gint no_column,
+				  gpointer column )
+{
+    struct struct_account *account;
 
+    account = gsb_account_get_structure ( no_account );
 
+    if ( no_column < 0
+	 ||
+	 no_column > TRANSACTION_LIST_COL_NB )
+    {
+	g_strdup_printf ( _("Bad no column to gsb_account_set_column () in data_account.c\nno_column = %d\n" ),
+			  no_column );
+	return FALSE;
+    }
 
+    if (!account )
+	return FALSE;
 
+    account -> transactions_column[no_column] = column;
 
+    return TRUE;
+}
 
 
 

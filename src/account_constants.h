@@ -1,5 +1,6 @@
-#ifndef ACCOUNT_CONSTANTS 
-#define ACCOUNT_CONSTANTS
+#ifndef _ACCOUNT_CONSTANTS 
+#define _ACCOUNT_CONSTANTS (1)
+
 
 /** \struct
  * kind of the account

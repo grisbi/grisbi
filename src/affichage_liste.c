@@ -282,7 +282,7 @@ gboolean modification_retient_affichage_par_compte ( void )
 	    COULEUR_BACKGROUND_FINI = 0;
 	    AFFICHAGE_SOLDE_FINI = 0;
 	    SELECTION_OPERATION_FINI = 0;
-	    gtk_list_store_clear ( STORE_LISTE_OPERATIONS );
+	    gtk_list_store_clear ( gsb_account_get_store (i) );
 	}
     }
 	
@@ -310,7 +310,7 @@ gboolean change_choix_ajustement_auto_colonnes ( GtkWidget *bouton )
 	allocation_precedente = 0;
 
 	for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
-	    gtk_tree_view_column_set_resizable ( COLONNE_LISTE_OPERATIONS(i),
+	    gtk_tree_view_column_set_resizable ( gsb_account_get_column ( compte_courant, i),
 						 FALSE );
 
 	changement_taille_liste_ope ( gsb_account_get_tree_view (compte_courant),
@@ -320,9 +320,9 @@ gboolean change_choix_ajustement_auto_colonnes ( GtkWidget *bouton )
     {
 	for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
 	{
-	    gtk_tree_view_column_set_resizable ( COLONNE_LISTE_OPERATIONS(i),
+	    gtk_tree_view_column_set_resizable ( gsb_account_get_column ( compte_courant, i),
 						 TRUE );
-	    taille_largeur_colonnes[i] = gtk_tree_view_column_get_fixed_width ( COLONNE_LISTE_OPERATIONS(i) );
+	    taille_largeur_colonnes[i] = gtk_tree_view_column_get_fixed_width ( gsb_account_get_column ( compte_courant, i));
 	}
    }
     return ( FALSE );
@@ -342,7 +342,7 @@ gboolean change_largeur_colonne ( GtkWidget *clist,
 	p_tab_nom_de_compte_variable=p_tab_nom_de_compte + compte_courant;
 
 	if ( rapport_largeur_colonnes[colonne] * GTK_WIDGET (gsb_account_get_tree_view (compte_courant)) -> allocation.width / 100 )
-	    gtk_tree_view_column_set_fixed_width ( COLONNE_LISTE_OPERATIONS(colonne),
+	    gtk_tree_view_column_set_fixed_width ( gsb_account_get_column ( compte_courant, colonne),
 						   rapport_largeur_colonnes[colonne] * GTK_WIDGET (gsb_account_get_tree_view (compte_courant)) -> allocation.width / 100 );
     }
 

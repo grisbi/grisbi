@@ -248,7 +248,7 @@ gboolean change_page_notebook ( GtkNotebook *notebook,
 
 		for ( i=0 ; i<7 ; i++ )
 		    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
-					   GTK_TREE_VIEW_COLUMN ( COLONNE_LISTE_OPERATIONS(i) )->button,
+					   GTK_TREE_VIEW_COLUMN ( gsb_account_get_column ( compte_courant, i) )->button,
 					   tips_col_liste_operations[i],
 					   tips_col_liste_operations[i] ); 
 	    }

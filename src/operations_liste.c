@@ -498,18 +498,18 @@ GtkWidget *creation_tree_view_operations_par_compte ( gint no_compte )
     /*     normalement les colonnes sont déjà créés */
     /* mais bon, on teste, sait on jamais... */
 
-    if ( COLONNE_LISTE_OPERATIONS(TRANSACTION_COL_NB_CHECK) )
+    if ( gsb_account_get_column ( no_compte, TRANSACTION_COL_NB_CHECK) )
     {
 	gint j;
 
 	for ( j = 0 ; j < TRANSACTION_LIST_COL_NB ; j++ )
 	{
 	    gtk_tree_view_append_column ( GTK_TREE_VIEW ( gsb_account_get_tree_view (no_compte) ),
-					  GTK_TREE_VIEW_COLUMN ( COLONNE_LISTE_OPERATIONS(j) ));
-	    gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( COLONNE_LISTE_OPERATIONS(j) ),
+					  GTK_TREE_VIEW_COLUMN ( gsb_account_get_column ( no_compte, j)));
+	    gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( gsb_account_get_column ( no_compte, j)),
 						 TRUE );
 	    /* FIXME : autre moyen de faire ça qui parrait bcp mieux (cf tutoriel de gtkfr (cédric) */
-	    g_signal_connect ( G_OBJECT ( COLONNE_LISTE_OPERATIONS(j) ),
+	    g_signal_connect ( G_OBJECT ( gsb_account_get_column ( no_compte, j)),
 			       "clicked",
 			       G_CALLBACK ( click_sur_titre_colonne_operations ),
 			       GINT_TO_POINTER (j));
@@ -652,22 +652,24 @@ void creation_colonnes_tree_view_par_compte ( gint no_compte )
 		       alignement[i],
 		       NULL );
 
-	COLONNE_LISTE_OPERATIONS(i) = gtk_tree_view_column_new_with_attributes ( titres_colonnes_liste_operations[i],
-										 cell_renderer,
-										 "text", i,
-										 "background-gdk", 7,
-										 "font-desc", 11,
-										 NULL );
-	gtk_tree_view_column_set_alignment ( GTK_TREE_VIEW_COLUMN ( COLONNE_LISTE_OPERATIONS(i) ),
+	gsb_account_set_column ( no_compte,
+				 i,
+				 gtk_tree_view_column_new_with_attributes ( titres_colonnes_liste_operations[i],
+									    cell_renderer,
+									    "text", i,
+									    "background-gdk", 7,
+									    "font-desc", 11,
+									    NULL ));
+	gtk_tree_view_column_set_alignment ( GTK_TREE_VIEW_COLUMN ( gsb_account_get_column ( no_compte, i)),
 					     alignement[i] );
-	gtk_tree_view_column_set_sizing ( GTK_TREE_VIEW_COLUMN ( COLONNE_LISTE_OPERATIONS(i) ),
+	gtk_tree_view_column_set_sizing ( GTK_TREE_VIEW_COLUMN ( gsb_account_get_column ( no_compte, i) ),
 					  GTK_TREE_VIEW_COLUMN_FIXED );
 
 	if ( etat.largeur_auto_colonnes )
-	    gtk_tree_view_column_set_resizable ( COLONNE_LISTE_OPERATIONS(i),
+	    gtk_tree_view_column_set_resizable ( gsb_account_get_column ( no_compte, i),
 						 FALSE );
 	else
-	    gtk_tree_view_column_set_resizable ( COLONNE_LISTE_OPERATIONS(i),
+	    gtk_tree_view_column_set_resizable ( gsb_account_get_column ( no_compte, i),
 						 TRUE );
 
     }
@@ -675,8 +677,8 @@ void creation_colonnes_tree_view_par_compte ( gint no_compte )
     /*     pour la colonne du solde, on rajoute le foreground */
 
     if ( position_solde -> colonne != -1 )
-	gtk_tree_view_column_add_attribute ( COLONNE_LISTE_OPERATIONS(position_solde -> colonne),
-					     gtk_tree_view_column_get_cell_renderers ( COLONNE_LISTE_OPERATIONS(position_solde -> colonne) ) -> data,
+	gtk_tree_view_column_add_attribute ( gsb_account_get_column ( no_compte, position_solde -> colonne),
+					     gtk_tree_view_column_get_cell_renderers ( gsb_account_get_column ( no_compte, position_solde -> colonne)) -> data,
 					     "foreground", 8 );
 }
 /******************************************************************************/
@@ -698,7 +700,7 @@ void update_titres_tree_view ( void )
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
-    if ( !COLONNE_LISTE_OPERATIONS(TRANSACTION_COL_NB_CHECK) )
+    if ( !gsb_account_get_column ( compte_courant, TRANSACTION_COL_NB_CHECK))
 	creation_titres_tree_view ();
 
 
@@ -710,13 +712,13 @@ void update_titres_tree_view ( void )
 
 	for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
 	{
-	    gtk_tree_view_column_set_title ( GTK_TREE_VIEW_COLUMN ( COLONNE_LISTE_OPERATIONS(i) ),
+	    gtk_tree_view_column_set_title ( GTK_TREE_VIEW_COLUMN ( gsb_account_get_column ( j, i)),
 					     titres_colonnes_liste_operations[i] );
 
-	    if ( GTK_TREE_VIEW_COLUMN ( COLONNE_LISTE_OPERATIONS(i) )->button )
+	    if ( GTK_TREE_VIEW_COLUMN ( gsb_account_get_column ( j, i))->button )
 	    {
 		gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
-				       GTK_TREE_VIEW_COLUMN ( COLONNE_LISTE_OPERATIONS(i) )->button,
+				       GTK_TREE_VIEW_COLUMN ( gsb_account_get_column ( j, i))->button,
 				       tips_col_liste_operations[i],
 				       tips_col_liste_operations[i] ); 
 	    }
@@ -758,13 +760,13 @@ void update_fleches_classement_tree_view ( gint no_compte )
 
 	    /*     on met la flèche sur le classement courant */
 
-	    gtk_tree_view_column_set_sort_indicator ( COLONNE_LISTE_OPERATIONS (COLONNE_CLASSEMENT),
+	    gtk_tree_view_column_set_sort_indicator ( gsb_account_get_column ( compte, COLONNE_CLASSEMENT),
 						      FALSE );
-	    gtk_tree_view_column_set_sort_indicator ( COLONNE_LISTE_OPERATIONS (colonne_classement),
+	    gtk_tree_view_column_set_sort_indicator ( gsb_account_get_column ( compte, colonne_classement),
 						      TRUE );
 	    COLONNE_CLASSEMENT = colonne_classement;
 
-	    gtk_tree_view_column_set_sort_order ( COLONNE_LISTE_OPERATIONS (colonne_classement),
+	    gtk_tree_view_column_set_sort_order ( gsb_account_get_column ( compte, colonne_classement),
 						  !CLASSEMENT_CROISSANT );
 	}
     }
@@ -3022,12 +3024,12 @@ gboolean changement_taille_liste_ope ( GtkWidget *tree_view,
 
 	if ( etat.largeur_auto_colonnes )
 	    for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
-		gtk_tree_view_column_set_fixed_width ( COLONNE_LISTE_OPERATIONS(i),
+		gtk_tree_view_column_set_fixed_width ( gsb_account_get_column ( j, i),
 						       rapport_largeur_colonnes[i] * allocation_precedente / 100 );
 	else
 	    for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
 		if ( taille_largeur_colonnes[i] )
-		    gtk_tree_view_column_set_fixed_width ( COLONNE_LISTE_OPERATIONS(i),
+		    gtk_tree_view_column_set_fixed_width ( gsb_account_get_column ( j, i),
 							   taille_largeur_colonnes[i]  );
     }
 
@@ -3758,7 +3760,7 @@ gboolean affichage_traits_liste_operation ( void )
 
     for ( i=0 ; i<6 ; i++ )
     {
-	x = x + gtk_tree_view_column_get_width ( GTK_TREE_VIEW_COLUMN ( COLONNE_LISTE_OPERATIONS(i) ));
+	x = x + gtk_tree_view_column_get_width ( GTK_TREE_VIEW_COLUMN ( gsb_account_get_column ( compte_courant, i)));
 	gdk_draw_line ( GDK_DRAWABLE ( fenetre ),
 			gc_separateur_operation,
 			x, 0,

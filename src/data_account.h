@@ -1,3 +1,6 @@
+#ifndef _DATA_ACCOUNT_H
+#define _DATA_ACCOUNT_H (1)
+
 #include "account_constants.h"
 
 /** \struct
@@ -58,11 +61,11 @@ struct struct_account
     gint split_neutral_payment;               /**< if 1 : neutral payments are splitted into debits/credits */
 
     /** @name tree_view stuff */
-    GtkWidget *transactions_tree_view;
-    GtkWidget *transactions_scrolled_window;
-    GtkListStore *transactions_store;
+    gpointer transactions_tree_view;
+    gpointer transactions_scrolled_window;
+    gpointer transactions_store;
     gdouble transactions_adjustment_value; 
-    GtkTreeViewColumn *transactions_column[TRANSACTION_LIST_COL_NB];
+    gpointer transactions_column[TRANSACTION_LIST_COL_NB];
 
     /** @name tree_view sort stuff */
     gint (*current_sort) ( struct structure_operation *operation_1,
@@ -84,6 +87,8 @@ struct struct_account
 
 /* START_DECLARATION */
 gdouble gsb_account_get_adjustment_value ( gint no_account );
+gpointer gsb_account_get_column ( gint no_account,
+				  gint no_column );
 gdouble gsb_account_get_current_balance ( gint no_account );
 gchar *gsb_account_get_id ( gint no_account );
 gdouble gsb_account_get_init_balance ( gint no_account );
@@ -99,6 +104,9 @@ gpointer gsb_account_get_store ( gint no_account );
 gpointer gsb_account_get_tree_view ( gint no_account );
 gboolean gsb_account_set_adjustment_value ( gint no_account,
 					    gdouble value );
+gboolean gsb_account_set_column ( gint no_account,
+				  gint no_column,
+				  gpointer column );
 gboolean gsb_account_set_current_balance ( gint no_account,
 					   gdouble balance );
 gboolean gsb_account_set_id ( gint no_account,
@@ -124,5 +132,8 @@ gboolean gsb_account_set_scrolled_window ( gint no_account,
 gboolean gsb_account_set_store ( gint no_account,
 				 gpointer store );
 gboolean gsb_account_set_tree_view ( gint no_account,
-				     gpointer tree_view );
+				     gpointer tree );
 /* END_DECLARATION */
+
+
+#endif

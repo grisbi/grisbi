@@ -29,6 +29,7 @@
 /*START_INCLUDE*/
 #include "fichier_configuration.h"
 #include "dialog.h"
+#include "data_account.h"
 #include "utils_str.h"
 #include "configuration.h"
 #include "main.h"
@@ -682,8 +683,8 @@ void sauve_configuration(void)
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     for ( i=0 ; i<TRANSACTION_LIST_COL_NB ; i++ )
-        if ( GTK_IS_TREE_VIEW_COLUMN ( COLONNE_LISTE_OPERATIONS(i)))
-         taille_largeur_colonnes[i] = gtk_tree_view_column_get_width ( COLONNE_LISTE_OPERATIONS(i) );
+        if ( GTK_IS_TREE_VIEW_COLUMN ( gsb_account_get_column ( compte_courant, i)))
+         taille_largeur_colonnes[i] = gtk_tree_view_column_get_width ( gsb_account_get_column ( compte_courant, i));
     }
 
     /* creation de l'arbre xml en memoire */
