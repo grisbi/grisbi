@@ -40,13 +40,13 @@ void a_propos ( GtkWidget *bouton,
 
   const gchar *generalites = _("Grisbi is a personnal accounting application for Linux\nSuch a program allows you to sort your financial transactions, whatever they are, in a convenient and intuitive way.  Thus, you will be able to manage them as to fit your needs the more you can.\nGrisbi aims both at simplicty and efficiency for common use, and at a powerful use for power users.  We will always try to respect this as features will come.");
 
-  const gchar *auteurs[] = { _("CÃ©dric Auger (cedric@grisbi.org) : Programming"),
+  const gchar *auteurs[] = { _("Cédric Auger (cedric@grisbi.org) : Programming"),
 			    _("Daniel Cartron (doc@grisbi.org) : Manual, website, consultancy"),
 			    _("Benjamin Drieu (bdrieu@april.org) : Programming, Debian packaging"),
-			    _("GÃ©rald Niel (gerald.niel@grisbi.org) : RPM packaging, website"),
-			    _("AndrÃ© Pascual (andre@linuxgraphic.org) : Logo"),
+			    _("Gérald Niel (gerald.niel@grisbi.org) : Mdk RPM and Slackware packaging, website"),
+			    _("André Pascual (andre@linuxgraphic.org) : Logo"),
 			    NULL };
-  const gchar *traducteurs[] = { "Daniel Cartron (cartron@grisbi.org) : English",
+  const gchar *traducteurs[] = { "Alain Portal (aportal@univ-montp2.fr) : English",
 				 NULL };
   const gchar *liens[] = { COLON(_("Website")),
 			   "http://www.grisbi.org/",
@@ -55,8 +55,8 @@ void a_propos ( GtkWidget *bouton,
 			   "mailto:devel-subscribe@grisbi.org",
 			   _("subscribe"),
 			   COLON(_("Bug report")),
-			   "http://www.grisbi.org/bugtracking.html",
-			   "http://www.grisbi.org/bugtracking.html",
+			   "http://www.grisbi.org/bugtracking",
+			   "http://www.grisbi.org/bugtracking",
 			   _("Information list (new releases announces, ...) : "),
 			   "mailto:infos-subscribe@grisbi.org",
 			   _("subscribe"),
@@ -65,7 +65,7 @@ void a_propos ( GtkWidget *bouton,
 			   "http://www.grisbi.org/manuel.html",
 			   NULL };
 
-  const gchar *license = "This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA";
+  const gchar *license = "This program is free software; you can redistribute it and/or modify\nit under the terms of the GNU General Public License as published by\nthe Free Software Foundation; either version 2 of the License, or\n(at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.You should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA";
 
   dialogue = gnome_dialog_new ( _("About..."),
 				GNOME_STOCK_BUTTON_APPLY,
@@ -84,22 +84,25 @@ void a_propos ( GtkWidget *bouton,
 
   /* mise en forme de l'onglet de généralités */
 
-  vbox = gtk_vbox_new ( FALSE, 5 );
-  gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 10 );
+  vbox = gtk_vbox_new ( FALSE,
+			5 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
+				   10 );
   gtk_widget_show ( vbox );
 
-  label = gtk_label_new ( g_strconcat ( "Grisbi ", VERSION, "\n\n", NULL ));
-  gtk_label_set_markup ( GTK_LABEL (label), 
-			 g_strconcat ( "<span size=\"large\" weight=\"bold\">",
-				       
-				       "Grisbi ", VERSION, "</span>", NULL ) );
-
-  gtk_box_pack_start ( GTK_BOX ( vbox ), label,
-		       FALSE, FALSE, 0 );
+  label = gtk_label_new ( g_strconcat ( "Grisbi ",
+					VERSION,
+					"\n\n",
+					NULL ));
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
   gtk_widget_show ( label );
 
+
   label = gtk_label_new ( generalites );
-  gtk_label_set_selectable ( GTK_LABEL ( label ), TRUE );
   gtk_label_set_line_wrap ( GTK_LABEL ( label ),
 			    TRUE );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
@@ -111,7 +114,7 @@ void a_propos ( GtkWidget *bouton,
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
 			     vbox,
-			     gtk_label_new ( _("About Grisbi")));
+			     gtk_label_new ( _("Generalities")));
 
   /* mise en forme de l'onglet auteurs */
 
@@ -243,9 +246,8 @@ void a_propos ( GtkWidget *bouton,
   gtk_widget_show ( vbox );
 
   label = gtk_label_new ( license );
-  gtk_label_set_selectable ( GTK_LABEL ( label ), TRUE );
-  gtk_label_set_line_wrap ( GTK_LABEL ( label ),
-			    TRUE );
+/*   gtk_label_set_line_wrap ( GTK_LABEL ( label ), */
+/* 			    TRUE ); */
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       label,
 		       FALSE,
