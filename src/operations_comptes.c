@@ -238,11 +238,28 @@ void changement_compte_par_menu ( GtkWidget *menu,
 void changement_compte ( gint *compte)
 {
   GtkWidget *menu;
+//  gint page;
 
   /* Si on n'est pas sur l'onglet comptes du notebook, on y passe */
 
   if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general ) ) != 1 )
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
+  if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ) ) != 0 )
+    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ), 0 );
+  
+/*
+  page = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_formulaire ) );
+  if ( page != 0 )
+    {
+     gchar *tmp;
+     tmp = g_strdup_printf ( "On avait la page %d", page );
+     dialogue(tmp);
+     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_formulaire ), 0 );
+     page = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_formulaire ) );
+     tmp = g_strdup_printf ( "On a la page %d", page );
+     dialogue(tmp);
+    }
+*/
 
   /* ferme le formulaire */
 
