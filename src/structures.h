@@ -466,7 +466,19 @@ struct struct_etat
   gint devise_de_calcul_tiers;
 
   gchar *texte;
-  gdouble montant;
+
+  gint utilise_montant_neg_pos;
+  gint type_neg_pos;               /* 1=positif, 0=négatif */
+  gint utilise_valeur;
+  gint type_operateur_valeur;     /* 0=, 1<, 2<=, 3>, 4>= */
+  gfloat montant_valeur;
+  gint utilise_inclusion;
+  gfloat montant_inclusion_inf;
+  gint type_operateur_inf_inclusion;   /* 0<, 1<= */
+  gint type_operateur_sup_inclusion;    /* 0<, 1<= */
+  gfloat montant_inclusion_sup;
+  gint choix_montant_nul;     /* 1=exclu, 0=pos et neg, 2=neg, 3=pos */
+  gint choix_devise_montant;
 };
 
 

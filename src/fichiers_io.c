@@ -3350,9 +3350,46 @@ des paramètres.") );
 		      else
 			etat -> texte = NULL;
 
-		      etat -> montant = g_strtod ( xmlGetProp ( node_detail,
-								"Montant" ),
-						   NULL );
+
+
+		      etat -> utilise_montant_neg_pos = atoi ( xmlGetProp ( node_detail,
+									    "Montant_n_p" ));
+
+		      etat -> type_neg_pos = atoi ( xmlGetProp ( node_detail,
+								 "Type_n_p" ));
+
+		      etat -> utilise_valeur = atoi ( xmlGetProp ( node_detail,
+								   "Util_val" ));
+
+		      etat -> type_operateur_valeur = atoi ( xmlGetProp ( node_detail,
+									  "Type_ope_val" ));
+
+		      etat -> montant_valeur = g_strtod ( xmlGetProp ( node_detail,
+								       "Montant_val" ),
+							  NULL );
+
+		      etat -> utilise_inclusion = atoi ( xmlGetProp ( node_detail,
+								      "Util_incl" ));
+
+		      etat -> montant_inclusion_inf = g_strtod ( xmlGetProp ( node_detail,
+									      "Montant_incl_inf" ),
+								 NULL );
+
+		      etat -> type_operateur_inf_inclusion = atoi ( xmlGetProp ( node_detail,
+										 "Type_ope_incl_inf" ));
+
+		      etat -> type_operateur_sup_inclusion = atoi ( xmlGetProp ( node_detail,
+										 "Type_ope_incl_sup" ));
+
+		      etat -> montant_inclusion_sup = g_strtod ( xmlGetProp ( node_detail,
+									      "Montant_incl_sup" ),
+								 NULL );
+
+		      etat -> choix_montant_nul = atoi ( xmlGetProp ( node_detail,
+								      "Montant_nul" ));
+
+		      etat -> choix_devise_montant = atoi ( xmlGetProp ( node_detail,
+									 "Montant_devise" ));
 
 		      liste_struct_etats = g_slist_append ( liste_struct_etats,
 							    etat );
@@ -5075,13 +5112,59 @@ gboolean enregistre_fichier ( void )
 		   itoa ( etat -> devise_de_calcul_tiers ));
 
       xmlSetProp ( node_etat,
-			"Texte",
-			etat -> texte );
+		   "Texte",
+		   etat -> texte );
+
+
 
       xmlSetProp ( node_etat,
-		   "Montant",
+		   "Montant_n_p",
+		   itoa ( etat -> utilise_montant_neg_pos ));
+
+      xmlSetProp ( node_etat,
+		   "Type_n_p",
+		   itoa ( etat -> type_neg_pos ));
+
+      xmlSetProp ( node_etat,
+		   "Util_val",
+		   itoa ( etat -> utilise_valeur ));
+
+      xmlSetProp ( node_etat,
+		   "Type_ope_val",
+		   itoa ( etat -> type_operateur_valeur ));
+
+      xmlSetProp ( node_etat,
+		   "Montant_val",
 		   g_strdup_printf ( "%4.2f",
-				     etat -> montant ));
+				     etat -> montant_valeur ));
+      xmlSetProp ( node_etat,
+		   "Util_incl",
+		   itoa ( etat -> utilise_inclusion ));
+
+      xmlSetProp ( node_etat,
+		   "Montant_incl_inf",
+		   g_strdup_printf ( "%4.2f",
+				     etat -> montant_inclusion_inf ));
+      xmlSetProp ( node_etat,
+		   "Type_ope_incl_inf",
+		   itoa ( etat -> type_operateur_inf_inclusion ));
+
+      xmlSetProp ( node_etat,
+		   "Type_ope_incl_sup",
+		   itoa ( etat -> type_operateur_sup_inclusion ));
+
+      xmlSetProp ( node_etat,
+		   "Montant_incl_sup",
+		   g_strdup_printf ( "%4.2f",
+				     etat -> montant_inclusion_sup ));
+
+      xmlSetProp ( node_etat,
+		   "Montant_nul",
+		   itoa ( etat -> choix_montant_nul ));
+
+      xmlSetProp ( node_etat,
+		   "Montant_devise",
+		   itoa ( etat -> choix_devise_montant ));
 
       pointeur_liste_2 = pointeur_liste_2 -> next;
     }
@@ -5660,10 +5743,57 @@ gboolean enregistre_etat ( gchar *nom_etat )
 	       "Texte",
 	       etat_courant -> texte );
 
+
   xmlSetProp ( node,
-	       "Montant",
+	       "Montant_n_p",
+	       itoa ( etat_courant -> utilise_montant_neg_pos ));
+
+  xmlSetProp ( node,
+	       "Type_n_p",
+	       itoa ( etat_courant -> type_neg_pos ));
+
+  xmlSetProp ( node,
+	       "Util_val",
+	       itoa ( etat_courant -> utilise_valeur ));
+
+  xmlSetProp ( node,
+	       "Type_ope_val",
+	       itoa ( etat_courant -> type_operateur_valeur ));
+
+  xmlSetProp ( node,
+	       "Montant_val",
 	       g_strdup_printf ( "%4.2f",
-				 etat_courant -> montant ));
+				 etat_courant -> montant_valeur ));
+  xmlSetProp ( node,
+	       "Util_incl",
+	       itoa ( etat_courant -> utilise_inclusion ));
+
+  xmlSetProp ( node,
+	       "Montant_incl_inf",
+	       g_strdup_printf ( "%4.2f",
+				 etat_courant -> montant_inclusion_inf ));
+  xmlSetProp ( node,
+	       "Type_ope_incl_inf",
+	       itoa ( etat_courant -> type_operateur_inf_inclusion ));
+
+  xmlSetProp ( node,
+	       "Type_ope_incl_sup",
+	       itoa ( etat_courant -> type_operateur_sup_inclusion ));
+
+  xmlSetProp ( node,
+	       "Montant_incl_sup",
+	       g_strdup_printf ( "%4.2f",
+				 etat_courant -> montant_inclusion_sup ));
+ 
+  xmlSetProp ( node,
+	       "Montant_nul",
+	       itoa ( etat_courant -> choix_montant_nul ));
+
+  xmlSetProp ( node,
+	       "Montant_devise",
+	       itoa ( etat_courant -> choix_devise_montant ));
+
+
 
   /* l'arbre est fait, on sauvegarde */
 
@@ -6127,9 +6257,45 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 	  else
 	    etat -> texte = NULL;
 
-	  etat -> montant = g_strtod ( xmlGetProp ( node,
-						    "Montant" ),
-				       NULL );
+
+	  etat -> utilise_montant_neg_pos = atoi ( xmlGetProp ( node,
+								"Montant_n_p" ));
+
+	  etat -> type_neg_pos = atoi ( xmlGetProp ( node,
+						     "Type_n_p" ));
+
+	  etat -> utilise_valeur = atoi ( xmlGetProp ( node,
+						       "Util_val" ));
+
+	  etat -> type_operateur_valeur = atoi ( xmlGetProp ( node,
+							      "Type_ope_val" ));
+
+	  etat -> montant_valeur = g_strtod ( xmlGetProp ( node,
+							   "Montant_val" ),
+					      NULL );
+
+	  etat -> utilise_inclusion = atoi ( xmlGetProp ( node,
+							  "Util_incl" ));
+
+	  etat -> montant_inclusion_inf = g_strtod ( xmlGetProp ( node,
+								  "Montant_incl_inf" ),
+						     NULL );
+
+	  etat -> type_operateur_inf_inclusion = atoi ( xmlGetProp ( node,
+								     "Type_ope_incl_inf" ));
+
+	  etat -> type_operateur_sup_inclusion = atoi ( xmlGetProp ( node,
+								     "Type_ope_incl_sup" ));
+
+	  etat -> montant_inclusion_sup = g_strtod ( xmlGetProp ( node,
+								  "Montant_incl_sup" ),
+						     NULL );
+
+	  etat -> choix_montant_nul = atoi ( xmlGetProp ( node,
+							  "Montant_nul" ));
+	  
+	  etat -> choix_devise_montant = atoi ( xmlGetProp ( node,
+							     "Montant_devise" ));
 
 	  liste_struct_etats = g_slist_append ( liste_struct_etats,
 						etat );

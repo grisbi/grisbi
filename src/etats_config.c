@@ -600,10 +600,45 @@ void personnalisation_etat (void)
 
   /* onglet montant */
 
-  if ( etat_courant -> montant )
-    gtk_entry_set_text ( GTK_ENTRY ( entree_montant_etat ),
-			 g_strdup_printf ( "%4.2f",
-					   etat_courant -> montant ));
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclut_choix_positif_negatif_etat ),
+				 etat_courant -> utilise_montant_neg_pos );
+  sens_desensitive_pointeur ( bouton_inclut_choix_positif_negatif_etat,
+			      bouton_choix_positif_negatif_etat );
+  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_choix_positif_negatif_etat ),
+				etat_courant -> type_neg_pos );
+
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclut_choix_valeur_etat ),
+				 etat_courant -> utilise_valeur );
+  sens_desensitive_pointeur ( bouton_inclut_choix_valeur_etat,
+			      hbox_choix_valeur_etat );
+  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_choix_operateur_valeur_etat ),
+				etat_courant -> type_operateur_valeur );
+  gtk_entry_set_text ( GTK_ENTRY ( entree_choix_valeur_etat ),
+		       g_strdup_printf ( "%4.2f",
+					 etat_courant -> montant_valeur ));
+
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclut_choix_inclusion_valeur_etat ),
+				 etat_courant -> utilise_inclusion );
+  sens_desensitive_pointeur ( bouton_inclut_choix_inclusion_valeur_etat,
+			      hbox_choix_inclut_etat );
+  gtk_entry_set_text ( GTK_ENTRY ( entree_choix_inclut_inf_etat ),
+		       g_strdup_printf ( "%4.2f",
+					 etat_courant -> montant_inclusion_inf ));
+  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_choix_operateur_inclut_inf_etat ),
+				etat_courant -> type_operateur_inf_inclusion );
+  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_choix_operateur_inclut_sup_etat ),
+				etat_courant -> type_operateur_sup_inclusion );
+  gtk_entry_set_text ( GTK_ENTRY ( entree_choix_inclut_sup_etat ),
+		       g_strdup_printf ( "%4.2f",
+					 etat_courant -> montant_inclusion_sup ));
+  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_choix_montant_nul ),
+				etat_courant -> choix_montant_nul );
+  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_devise_montant_etat ),
+				g_slist_position ( liste_struct_devises,
+						   g_slist_find_custom ( liste_struct_devises,
+									 GINT_TO_POINTER ( etat_courant -> choix_devise_montant ),
+									 ( GCompareFunc ) recherche_devise_par_no )));
+
 
   /* on se met sur la bonne page */
 
@@ -1257,11 +1292,28 @@ void recuperation_info_perso_etat ( void )
 
   /* récupération du montant */
 
-  if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_montant_etat )))))
-    etat_courant -> montant = g_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_montant_etat ))),
-					 NULL );
-  else
-    etat_courant -> montant = 0;
+  etat_courant -> utilise_montant_neg_pos = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclut_choix_positif_negatif_etat ));
+  etat_courant -> type_neg_pos = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_choix_positif_negatif_etat ) -> menu_item ),
+									 "no_item" ));
+  etat_courant -> utilise_valeur = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclut_choix_valeur_etat ));
+  etat_courant -> type_operateur_valeur = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_choix_operateur_valeur_etat ) -> menu_item ),
+										  "no_item" ));
+  etat_courant -> montant_valeur = g_strtod ( gtk_entry_get_text ( GTK_ENTRY ( entree_choix_valeur_etat )),
+					      NULL );
+  etat_courant -> utilise_inclusion = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclut_choix_inclusion_valeur_etat ));
+  etat_courant -> montant_inclusion_inf = g_strtod ( gtk_entry_get_text ( GTK_ENTRY ( entree_choix_inclut_inf_etat )),
+						     NULL );
+  etat_courant -> type_operateur_inf_inclusion = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_choix_operateur_inclut_inf_etat ) -> menu_item ),
+											 "no_item" ));
+  etat_courant -> type_operateur_sup_inclusion = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_choix_operateur_inclut_sup_etat ) -> menu_item ),
+											 "no_item" ));
+  etat_courant -> montant_inclusion_sup = g_strtod ( gtk_entry_get_text ( GTK_ENTRY ( entree_choix_inclut_sup_etat )),
+						     NULL );
+
+  etat_courant -> choix_montant_nul = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_choix_montant_nul ) -> menu_item ),
+									      "no_montant_nul" ));
+  etat_courant -> choix_devise_montant = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_devise_montant_etat ) -> menu_item ),
+									      "no_devise" ));
 
 
   modification_fichier ( TRUE );
@@ -4375,6 +4427,9 @@ GtkWidget *onglet_etat_montant ( void )
   GtkWidget *hbox;
   GtkWidget *label;
   GtkWidget *vbox_onglet;
+  GtkWidget *menu;
+  GtkWidget *menu_item;
+
 
   widget_retour = gtk_scrolled_window_new ( FALSE,
 					    FALSE );
@@ -4403,13 +4458,16 @@ GtkWidget *onglet_etat_montant ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Réduire la recherche aux opérations contenant ce montant :") );
+  label = gtk_label_new ( _("Réduire la recherche aux opérations :") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
 		       FALSE,
 		       0 );
   gtk_widget_show ( label );
+
+  /* mise en place du choix montant positif ou négatif */
+
 
   hbox = gtk_hbox_new ( FALSE,
 			5 );
@@ -4420,13 +4478,371 @@ GtkWidget *onglet_etat_montant ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  entree_montant_etat = gtk_entry_new ();
-  gtk_box_pack_end ( GTK_BOX ( hbox ),
-		     entree_montant_etat,
-		     FALSE,
-		     FALSE,
-		     0 );
-  gtk_widget_show ( entree_montant_etat );
+  bouton_inclut_choix_positif_negatif_etat = gtk_check_button_new_with_label ( _("dont le montant est " ));
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton_inclut_choix_positif_negatif_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_inclut_choix_positif_negatif_etat );
+
+  bouton_choix_positif_negatif_etat = gtk_option_menu_new ();
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton_choix_positif_negatif_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_choix_positif_negatif_etat );
+
+  menu = gtk_menu_new ();
+
+  menu_item = gtk_menu_item_new_with_label ( _( "négatif" ));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_item",
+			NULL );
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _( "positif" ));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_item",
+			GINT_TO_POINTER (1) );
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_choix_positif_negatif_etat ),
+			     menu );
+  gtk_widget_show ( menu );
+
+
+  gtk_signal_connect ( GTK_OBJECT ( bouton_inclut_choix_positif_negatif_etat ),
+		       "toggled",
+		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+		       bouton_choix_positif_negatif_etat );
+
+  /* mise en place du choix montant = < > ... à une valeur */
+
+
+  hbox = gtk_hbox_new ( FALSE,
+			5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
+		       hbox,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( hbox );
+
+  bouton_inclut_choix_valeur_etat = gtk_check_button_new_with_label ( _("dont le montant est " ));
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton_inclut_choix_valeur_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_inclut_choix_valeur_etat );
+
+  hbox_choix_valeur_etat = gtk_hbox_new ( FALSE,
+					  5 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       hbox_choix_valeur_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( hbox_choix_valeur_etat );
+
+  gtk_signal_connect ( GTK_OBJECT ( bouton_inclut_choix_valeur_etat ),
+		       "toggled",
+		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+		       hbox_choix_valeur_etat );
+
+
+  bouton_choix_operateur_valeur_etat = gtk_option_menu_new ();
+  gtk_box_pack_start ( GTK_BOX ( hbox_choix_valeur_etat ),
+		       bouton_choix_operateur_valeur_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_choix_operateur_valeur_etat );
+
+  menu = gtk_menu_new ();
+
+  menu_item = gtk_menu_item_new_with_label ( _( "=" ));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_item",
+			NULL );
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _( "<" ));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_item",
+			GINT_TO_POINTER (1) );
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _( "<=" ));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_item",
+			GINT_TO_POINTER (2) );
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _( ">" ));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_item",
+			GINT_TO_POINTER (3) );
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _( ">=" ));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_item",
+			GINT_TO_POINTER (4) );
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_choix_operateur_valeur_etat ),
+			     menu );
+  gtk_widget_show ( menu );
+
+
+  entree_choix_valeur_etat = gtk_entry_new ();
+  gtk_box_pack_start ( GTK_BOX ( hbox_choix_valeur_etat ),
+		       entree_choix_valeur_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( entree_choix_valeur_etat );
+
+
+
+  /* mise en place du choix montant inclut  */
+
+
+  hbox = gtk_hbox_new ( FALSE,
+			5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
+		       hbox,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( hbox );
+
+  bouton_inclut_choix_inclusion_valeur_etat = gtk_check_button_new_with_label ( _("dans lesquelles " ));
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton_inclut_choix_inclusion_valeur_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_inclut_choix_inclusion_valeur_etat );
+
+  hbox_choix_inclut_etat = gtk_hbox_new ( FALSE,
+					  5 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       hbox_choix_inclut_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( hbox_choix_inclut_etat );
+
+  gtk_signal_connect ( GTK_OBJECT ( bouton_inclut_choix_inclusion_valeur_etat ),
+		       "toggled",
+		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+		       hbox_choix_inclut_etat );
+
+  entree_choix_inclut_inf_etat = gtk_entry_new ();
+  gtk_box_pack_start ( GTK_BOX ( hbox_choix_inclut_etat ),
+		       entree_choix_inclut_inf_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( entree_choix_inclut_inf_etat );
+
+
+  bouton_choix_operateur_inclut_inf_etat = gtk_option_menu_new ();
+  gtk_box_pack_start ( GTK_BOX ( hbox_choix_inclut_etat ),
+		       bouton_choix_operateur_inclut_inf_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_choix_operateur_inclut_inf_etat );
+
+  menu = gtk_menu_new ();
+
+  menu_item = gtk_menu_item_new_with_label ( _( "<" ));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_item",
+			NULL );
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _( "<=" ));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_item",
+			GINT_TO_POINTER (1) );
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_choix_operateur_inclut_inf_etat ),
+			     menu );
+  gtk_widget_show ( menu );
+
+
+  label = gtk_label_new ( _( " montant " ));
+  gtk_box_pack_start ( GTK_BOX ( hbox_choix_inclut_etat ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
+
+
+  bouton_choix_operateur_inclut_sup_etat = gtk_option_menu_new ();
+  gtk_box_pack_start ( GTK_BOX ( hbox_choix_inclut_etat ),
+		       bouton_choix_operateur_inclut_sup_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_choix_operateur_inclut_sup_etat );
+
+  menu = gtk_menu_new ();
+
+  menu_item = gtk_menu_item_new_with_label ( _( "<" ));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_item",
+			NULL );
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _( "<=" ));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_item",
+			GINT_TO_POINTER (1) );
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_choix_operateur_inclut_sup_etat ),
+			     menu );
+  gtk_widget_show ( menu );
+
+  entree_choix_inclut_sup_etat = gtk_entry_new ();
+  gtk_box_pack_start ( GTK_BOX ( hbox_choix_inclut_etat ),
+		       entree_choix_inclut_sup_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( entree_choix_inclut_sup_etat );
+
+  /* choix pour le montant nul */
+
+
+  hbox = gtk_hbox_new ( FALSE,
+			5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
+		       hbox,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( hbox );
+
+  label = gtk_label_new ( _( "Un montant nul est " ));
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
+
+  bouton_choix_montant_nul = gtk_option_menu_new ();
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton_choix_montant_nul,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_choix_montant_nul );
+
+  menu = gtk_menu_new ();
+
+  menu_item = gtk_menu_item_new_with_label ( _( "est à la fois positif et négatif" ));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_montant_nul",
+			NULL );
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _( "est toujours exclu" ));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_montant_nul",
+			GINT_TO_POINTER (1));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _( "est considéré comme négatif" ));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_montant_nul",
+			GINT_TO_POINTER (2));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _( "est considéré comme positif" ));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_montant_nul",
+			GINT_TO_POINTER (3));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_choix_montant_nul ),
+			     menu );
+  gtk_widget_show ( menu );
+
+
+  /* choix pour le montant nul */
+
+
+  hbox = gtk_hbox_new ( FALSE,
+			5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
+		       hbox,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( hbox );
+
+  label = gtk_label_new ( _( "Devise utilisée pour les comparaisons de montant " ));
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
+
+  bouton_devise_montant_etat = gtk_option_menu_new ();
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_devise_montant_etat ),
+			     creation_option_menu_devises ( 0,
+							    liste_struct_devises ));
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton_devise_montant_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_devise_montant_etat );
+
 
 
   return ( widget_retour );

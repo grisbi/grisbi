@@ -37,6 +37,9 @@ void affichage_etat ( struct struct_etat *etat,
   GSList *liste_opes_selectionnees;
   gint i;
   gint no_exercice_recherche;
+  struct struct_devise *devise_montant;
+  struct struct_devise *devise_operation;
+
 
   if ( !etat )
     {
@@ -145,6 +148,14 @@ void affichage_etat ( struct struct_etat *etat,
 	}
     }
 
+  /* on récupère la devise des monants pour les tests de montants */
+
+  devise_montant = g_slist_find_custom ( liste_struct_devises,
+					GINT_TO_POINTER ( etat_courant -> choix_devise_montant ),
+					( GCompareFunc ) recherche_devise_par_no) -> data;
+  devise_operation = NULL;
+
+
   /*   selection des opérations */
   /* on va mettre l'adresse des opés sélectionnées dans une liste */
 
@@ -162,6 +173,7 @@ void affichage_etat ( struct struct_etat *etat,
 			   GINT_TO_POINTER ( i )) != -1 )
 	{
 	  /* 	  le compte est bon, passe à la suite de la sélection */
+
 
 	  /* on va faire le tour de toutes les opés du compte */
 
@@ -188,15 +200,6 @@ void affichage_etat ( struct struct_etat *etat,
 		goto operation_refusee;
 
 
-
-	      /* 	  on va vérifier si un montant est demandé, c'est le test le plus rapide */
-	      /* et le plus limitant */
-
-	      if ( etat -> montant
-		   &&
-		   operation -> montant != etat -> montant )
-		goto operation_refusee;
-
 	      /* on vérifie ensuite si un texte est recherché */
 
 	      if ( etat -> texte
@@ -207,6 +210,279 @@ void affichage_etat ( struct struct_etat *etat,
 		    !g_strcasecmp ( operation -> notes,
 				    etat -> texte )))
 		goto operation_refusee;
+
+
+	      /* 	  on va vérifier les montant est demandé */
+
+	      /* 	      si les montants nuls sont exclus, c'est ici */
+
+	      if ( etat -> choix_montant_nul == 1
+		   &&
+		   fabs (operation -> montant ) < 0.01 )
+		goto operation_refusee;
+
+
+	      /* vérifie le positif/nég */
+
+	      if ( etat -> utilise_montant_neg_pos
+		   &&
+		   ( (( etat -> type_neg_pos
+			 &&
+			 operation -> montant < 0 )
+		       ||
+		       ( etat -> type_neg_pos
+			 &&
+			 fabs (operation -> montant) < 0.01
+			 &&
+			 etat -> choix_montant_nul == 2 ))
+		     ||
+		     (( !etat -> type_neg_pos
+			&&
+			operation -> montant > 0 )
+		      ||
+		      ( !etat -> type_neg_pos
+			&&
+			fabs (operation -> montant) < 0.01
+			&&
+			etat -> choix_montant_nul == 3 ))))
+		goto operation_refusee;
+
+	      /* vérifie la valeur du montant */
+
+	      if ( etat -> utilise_valeur )
+		{
+		  switch ( etat -> type_operateur_valeur )
+		    {
+		    case 0 :
+		      /* = */
+
+		      if ( fabs ( operation -> montant - etat -> montant_valeur ) > 0.01 )
+			goto operation_refusee;
+		      break;
+
+		    case 1 :
+		      /* < */
+
+		      if ( operation -> devise == devise_montant -> no_devise )
+			{
+			  if ( operation -> montant >= etat -> montant_valeur )
+			    goto operation_refusee;
+			}
+		      else
+			{
+			  gfloat montant;
+
+			  if ( !devise_operation
+			       ||
+			       operation -> devise != devise_operation -> no_devise )
+			    devise_operation = g_slist_find_custom ( liste_struct_devises,
+								     GINT_TO_POINTER ( operation -> devise ),
+								     ( GCompareFunc ) recherche_devise_par_no ) -> data;
+
+			  if ( devise_montant -> passage_euro
+			       &&
+			       !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
+			    montant = operation -> montant * devise_montant -> change;
+			  else
+			    if ( devise_operation -> passage_euro
+				 &&
+				 !strcmp ( devise_montant -> nom_devise, _("Euro") ))
+			      montant = operation -> montant / devise_operation -> change;
+			    else
+			      if ( operation -> une_devise_compte_egale_x_devise_ope )
+				montant = operation -> montant / operation -> taux_change - operation -> frais_change;
+			      else
+				montant = operation -> montant * operation -> taux_change - operation -> frais_change;
+
+			  montant = ( rint (montant * 100 )) / 100;
+
+			  if ( montant >= etat -> montant_valeur )
+			    goto operation_refusee;
+			}
+
+		      break;
+		    case 2 :
+		      /* <= */
+
+		      if ( operation -> devise == devise_montant -> no_devise )
+			{
+			  if ( operation -> montant > etat -> montant_valeur )
+			    goto operation_refusee;
+			}
+		      else
+			{
+			  gfloat montant;
+
+			  if ( !devise_operation
+			       ||
+			       operation -> devise != devise_operation -> no_devise )
+			    devise_operation = g_slist_find_custom ( liste_struct_devises,
+								     GINT_TO_POINTER ( operation -> devise ),
+								     ( GCompareFunc ) recherche_devise_par_no ) -> data;
+
+			  if ( devise_montant -> passage_euro
+			       &&
+			       !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
+			    montant = operation -> montant * devise_montant -> change;
+			  else
+			    if ( devise_operation -> passage_euro
+				 &&
+				 !strcmp ( devise_montant -> nom_devise, _("Euro") ))
+			      montant = operation -> montant / devise_operation -> change;
+			    else
+			      if ( operation -> une_devise_compte_egale_x_devise_ope )
+				montant = operation -> montant / operation -> taux_change - operation -> frais_change;
+			      else
+				montant = operation -> montant * operation -> taux_change - operation -> frais_change;
+
+			  montant = ( rint (montant * 100 )) / 100;
+
+			  if ( montant > etat -> montant_valeur )
+			    goto operation_refusee;
+			}
+
+		      break;
+		    case 3 :
+		      /* > */
+
+		      if ( operation -> devise == devise_montant -> no_devise )
+			{
+			  if ( operation -> montant <= etat -> montant_valeur )
+			    goto operation_refusee;
+			}
+		      else
+			{
+			  gfloat montant;
+
+			  if ( !devise_operation
+			       ||
+			       operation -> devise != devise_operation -> no_devise )
+			    devise_operation = g_slist_find_custom ( liste_struct_devises,
+								     GINT_TO_POINTER ( operation -> devise ),
+								     ( GCompareFunc ) recherche_devise_par_no ) -> data;
+
+			  if ( devise_montant -> passage_euro
+			       &&
+			       !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
+			    montant = operation -> montant * devise_montant -> change;
+			  else
+			    if ( devise_operation -> passage_euro
+				 &&
+				 !strcmp ( devise_montant -> nom_devise, _("Euro") ))
+			      montant = operation -> montant / devise_operation -> change;
+			    else
+			      if ( operation -> une_devise_compte_egale_x_devise_ope )
+				montant = operation -> montant / operation -> taux_change - operation -> frais_change;
+			      else
+				montant = operation -> montant * operation -> taux_change - operation -> frais_change;
+
+			  montant = ( rint (montant * 100 )) / 100;
+
+			  if ( montant <= etat -> montant_valeur )
+			    goto operation_refusee;
+			}
+
+		      break;
+		    case 4 :
+		      /* >= */
+
+		      if ( operation -> devise == devise_montant -> no_devise )
+			{
+			  if ( operation -> montant < etat -> montant_valeur )
+			    goto operation_refusee;
+			}
+		      else
+			{
+			  gfloat montant;
+
+			  if ( !devise_operation
+			       ||
+			       operation -> devise != devise_operation -> no_devise )
+			    devise_operation = g_slist_find_custom ( liste_struct_devises,
+								     GINT_TO_POINTER ( operation -> devise ),
+								     ( GCompareFunc ) recherche_devise_par_no ) -> data;
+
+			  if ( devise_montant -> passage_euro
+			       &&
+			       !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
+			    montant = operation -> montant * devise_montant -> change;
+			  else
+			    if ( devise_operation -> passage_euro
+				 &&
+				 !strcmp ( devise_montant -> nom_devise, _("Euro") ))
+			      montant = operation -> montant / devise_operation -> change;
+			    else
+			      if ( operation -> une_devise_compte_egale_x_devise_ope )
+				montant = operation -> montant / operation -> taux_change - operation -> frais_change;
+			      else
+				montant = operation -> montant * operation -> taux_change - operation -> frais_change;
+
+			  montant = ( rint (montant * 100 )) / 100;
+
+			  if ( montant < etat -> montant_valeur )
+			    goto operation_refusee;
+			}
+
+		      break;
+		    }
+		}
+
+	      /* vérifie l'inclusion du montant */
+
+	      if ( etat -> utilise_inclusion )
+		{
+		  /* on calcule le montant de l'opé dans la devise demandée pour faire les comparaisons */
+
+		  gfloat montant;
+
+
+		  if ( operation -> devise == devise_montant -> no_devise )
+		    montant = operation -> montant;
+		  else
+		    {
+		      if ( !devise_operation
+			   ||
+			   operation -> devise != devise_operation -> no_devise )
+			devise_operation = g_slist_find_custom ( liste_struct_devises,
+								 GINT_TO_POINTER ( operation -> devise ),
+								 ( GCompareFunc ) recherche_devise_par_no ) -> data;
+
+		      if ( devise_montant -> passage_euro
+			   &&
+			   !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
+			montant = operation -> montant * devise_montant -> change;
+		      else
+			if ( devise_operation -> passage_euro
+			     &&
+			     !strcmp ( devise_montant -> nom_devise, _("Euro") ))
+			  montant = operation -> montant / devise_operation -> change;
+			else
+			  if ( operation -> une_devise_compte_egale_x_devise_ope )
+			    montant = operation -> montant / operation -> taux_change - operation -> frais_change;
+			  else
+			    montant = operation -> montant * operation -> taux_change - operation -> frais_change;
+
+		      montant = ( rint (montant * 100 )) / 100;
+		    }
+
+		  if ( ( etat -> type_operateur_inf_inclusion
+			 &&
+			 montant < etat -> montant_inclusion_inf )
+		       ||
+		       ( !etat -> type_operateur_inf_inclusion
+			 &&
+			 montant <= etat -> montant_inclusion_inf ))
+		    goto operation_refusee;
+
+		  if ( ( etat -> type_operateur_sup_inclusion
+			 &&
+			 montant > etat -> montant_inclusion_sup )
+		       ||
+		       ( !etat -> type_operateur_sup_inclusion
+			 &&
+			 montant >= etat -> montant_inclusion_sup ))
+		    goto operation_refusee;
+		}
 
 
 	      /* on vérifie les R */
@@ -830,7 +1106,11 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 	    }
 	  else
 	    {
-	      if ( operation -> montant < 0 )
+	      if ( operation -> montant < 0
+	       ||
+	       ( fabs ( operation -> montant ) < 0.01
+		 &&
+		 etat_courant -> choix_montant_nul == 2 ))
 		liste_ope_depenses = g_slist_append ( liste_ope_depenses,
 						      operation );
 	      else
@@ -842,7 +1122,11 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 	{
 	  /* le classement racine n'est pas la catég, on sépare en fonction du montant */
 
-	  if ( operation -> montant < 0 )
+	  if ( operation -> montant < 0
+	       ||
+	       ( fabs ( operation -> montant ) < 0.01
+		 &&
+		 etat_courant -> choix_montant_nul == 2 ))
 	    liste_ope_depenses = g_slist_append ( liste_ope_depenses,
 						  operation );
 	  else
@@ -994,9 +1278,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
       nb_colonnes = nb_colonnes + etat_courant -> afficher_date_ope;
       nb_colonnes = nb_colonnes + etat_courant -> afficher_tiers_ope;
       nb_colonnes = nb_colonnes + etat_courant -> afficher_categ_ope;
-/*       nb_colonnes = nb_colonnes + etat_courant -> afficher_sous_categ_ope; */
       nb_colonnes = nb_colonnes + etat_courant -> afficher_ib_ope;
-/*       nb_colonnes = nb_colonnes + etat_courant -> afficher_sous_ib_ope; */
       nb_colonnes = nb_colonnes + etat_courant -> afficher_notes_ope;
       nb_colonnes = nb_colonnes + etat_courant -> afficher_pc_ope;
       nb_colonnes = nb_colonnes + etat_courant -> afficher_infobd_ope;
@@ -1105,6 +1387,11 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 
 	      i++;
 	      pointeur_tmp = liste_ope_depenses;
+
+	      /* 	      s'il n'y a pas de dépenses non plus, on sort de la boucle */
+ 
+	      if ( !liste_ope_depenses )
+		goto fin_boucle_affichage_etat;
 
 	      ligne = affichage -> affiche_titre_depenses_etat ( ligne );
 	    }
