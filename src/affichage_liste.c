@@ -47,7 +47,7 @@ gchar *labels_boutons [] = { N_("Date"),
 /** FIXME: document this */
 GtkWidget *onglet_affichage_liste ( void )
 {
-  GtkWidget *onglet, *table, *label, *hbox, *bouton, *paddingbox;
+  GtkWidget *onglet, *table, *label, *bouton, *paddingbox;
   gchar *titres [] = { _("Col1"), _("Col2"), _("Col3"), _("Col4"), 
 		       _("Col5"), _("Col6"), _("Col7") };
   gint i, j;
@@ -60,14 +60,14 @@ GtkWidget *onglet_affichage_liste ( void )
   onglet = new_vbox_with_title_and_icon ( _("Transactions list cells"),
 					  "transaction-list.png" );
 
+  paddingbox = new_paddingbox_with_title (onglet, FALSE,
+					  _("Transactions list preview"));
+
   /* mise en place de la clist_affichage_liste */
   /*   on lui met des titres redimensionnables */
   /*   elle fait 7 colonnes et 4 lignes */
-
-  clist_affichage_liste = gtk_clist_new_with_titles ( 7,
-				      titres );
+  clist_affichage_liste = gtk_clist_new_with_titles ( 7, titres );
   gtk_clist_column_titles_passive ( GTK_CLIST ( clist_affichage_liste ));
-
 
   gtk_signal_connect ( GTK_OBJECT ( clist_affichage_liste ),
 		       "button_press_event",
@@ -81,73 +81,93 @@ GtkWidget *onglet_affichage_liste ( void )
 		       "size-allocate",
 		       GTK_SIGNAL_FUNC ( changement_taille_liste_affichage ),
 		       NULL );
-  gtk_box_pack_start ( GTK_BOX ( onglet ), clist_affichage_liste,
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), clist_affichage_liste,
 		       FALSE, FALSE, 0 );
-  gtk_widget_show ( clist_affichage_liste );
 
 
-  hbox = gtk_hbox_new ( FALSE, 5 );
-  gtk_box_pack_start ( GTK_BOX ( onglet ), hbox,
-		       FALSE, FALSE, 5 );
-  gtk_widget_show ( hbox );
-
-  label = gtk_label_new ( _("Information displayed in list:"));
-  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-		       FALSE, FALSE, 0 );
-  gtk_widget_show ( label );
-
-  bouton = gtk_button_new_with_label ( _("Revert to defaults"));
-  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			  GTK_RELIEF_NONE );
-  gtk_signal_connect ( GTK_OBJECT ( bouton ), "clicked",
-		       GTK_SIGNAL_FUNC ( raz_affichage_ope ), NULL );
-  gtk_box_pack_end ( GTK_BOX ( hbox ), bouton,
-		       FALSE, FALSE, 0 );
-  gtk_widget_show ( bouton );
-
+  paddingbox = new_paddingbox_with_title (onglet, FALSE,
+					  _("Transactions list contents"));
 
   /* on crée maintenant une table de 3x6 boutons */
   table = gtk_table_new ( 3, 6, FALSE );
-  gtk_box_pack_start ( GTK_BOX ( onglet ), table,
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), table,
 		       FALSE, FALSE, 0 );
-  gtk_widget_show ( table );
 
   for ( i=0 ; i<3 ; i++ )
     for ( j=0 ; j<6 ; j++ )
       {
 	if ( labels_boutons[j+ i*6] )
 	  {
-	    boutons_affichage_liste[j + i*6] = gtk_toggle_button_new_with_label ( _(labels_boutons[j + i*6]) );
+	    boutons_affichage_liste[j + i*6] = 
+	      gtk_toggle_button_new_with_label ( _(labels_boutons[j + i*6]) );
 	    gtk_signal_connect ( GTK_OBJECT ( boutons_affichage_liste[j + i*6] ),
 				 "toggled",
-				 GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
+				 GTK_SIGNAL_FUNC (toggled_bouton_affichage_liste),
 				 GINT_TO_POINTER ( j + i*6 ));
 	    gtk_table_attach_defaults ( GTK_TABLE ( table ),
 					boutons_affichage_liste[j + i*6],
 					j, j+1,
 					i, i+1 );
-	    gtk_widget_show ( boutons_affichage_liste[j + i*6] );
 	  }
       }
 
   /* on permet maintenant de choisir soi même la taille des colonnes */
-
   bouton_choix_perso_colonnes = gtk_check_button_new_with_label ( _("Adjust column size according to this table"));
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_choix_perso_colonnes ),
 				 etat.largeur_auto_colonnes );
-  gtk_box_pack_start ( GTK_BOX ( onglet ), bouton_choix_perso_colonnes,
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_choix_perso_colonnes,
 		       FALSE, FALSE, 0 );
-  gtk_widget_show ( bouton_choix_perso_colonnes );
 
 
-  /* on permet maintenant de choisir soi même la taille des colonnes */
-  bouton_caracteristiques_lignes_par_compte = new_checkbox_with_title ( _("Remember display settings for each account separately"),
-									&(etat.retient_affichage_par_compte),
-									NULL ) ;
-  gtk_box_pack_start ( GTK_BOX(onglet), bouton_caracteristiques_lignes_par_compte,
+  /* on permet maintenant de choisir soi-même la taille des colonnes */
+  bouton_caracteristiques_lignes_par_compte = 
+    new_checkbox_with_title ( _("Remember display settings for each account separately"),
+			      &(etat.retient_affichage_par_compte),
+			      NULL ) ;
+  gtk_box_pack_start ( GTK_BOX(paddingbox), bouton_caracteristiques_lignes_par_compte,
 		       FALSE, FALSE, 0 );
+
+  bouton = gtk_button_new_with_label ( _("Revert to defaults"));
+  gtk_signal_connect ( GTK_OBJECT ( bouton ), "clicked",
+		       GTK_SIGNAL_FUNC ( raz_affichage_ope ), NULL );
+  gtk_box_pack_end ( GTK_BOX(onglet), bouton,
+		     TRUE, FALSE, 0 );
 
   return ( onglet );
+}
+
+
+/** TODO: document this */
+gboolean transactions_list_display_modes_menu_changed  ( GtkWidget * menu_shell,
+							 gint origine )
+{
+  ligne_affichage_une_ligne = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_une_ligne ) -> menu_item ),
+								    "no_ligne" ));
+
+  lignes_affichage_deux_lignes = NULL;
+  lignes_affichage_deux_lignes = g_slist_append ( lignes_affichage_deux_lignes,
+						  g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_deux_lignes_1 ) -> menu_item ),
+								      "no_ligne" ));
+  lignes_affichage_deux_lignes = g_slist_append ( lignes_affichage_deux_lignes,
+						  g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_deux_lignes_2 ) -> menu_item ),
+								      "no_ligne" ));
+
+  lignes_affichage_trois_lignes = NULL;
+  lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
+						   g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_1 ) -> menu_item ),
+								       "no_ligne" ));
+  lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
+						   g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_2 ) -> menu_item ),
+								       "no_ligne" ));
+  lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
+						   g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_3 ) -> menu_item ),
+								       "no_ligne" ));
+
+
+  demande_mise_a_jour_tous_comptes ();
+  verification_mise_a_jour_liste ();
+  modification_fichier ( TRUE );
+
 }
 
 
@@ -165,120 +185,72 @@ GtkWidget *onglet_affichage_operations ( void )
   paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
 					  _("Display modes"));
 
-  hbox = gtk_hbox_new ( FALSE, 5 );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
+  table = gtk_table_new ( 3, 6, FALSE );
+  gtk_table_set_col_spacings ( GTK_TABLE ( table ), 6 );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), table,
 		       FALSE, FALSE, 0 );
-  gtk_widget_show ( hbox );
 
   label = gtk_label_new ( COLON(_("One line mode")));
-  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-		       FALSE, FALSE, 0 );
-  gtk_widget_show ( label );
+  gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+  gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_RIGHT );
+  gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
+		     GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
 
   bouton_affichage_lignes_une_ligne = gtk_option_menu_new ();
-  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_affichage_lignes_une_ligne ),
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU(bouton_affichage_lignes_une_ligne),
 			     cree_menu_quatres_lignes ());
-  gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_affichage_lignes_une_ligne,
-		       FALSE, FALSE, 0 );
-  gtk_widget_show ( bouton_affichage_lignes_une_ligne );
+  gtk_table_attach_defaults ( GTK_TABLE(table), bouton_affichage_lignes_une_ligne,
+			      1, 2, 0, 1 );
 
   /* pour 2 lignes */
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( hbox );
-
   label = gtk_label_new ( COLON(_("Two lines mode")));
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( label );
+  gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+  gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_RIGHT );
+  gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 1, 2,
+		     GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
 
   bouton_affichage_lignes_deux_lignes_1 = gtk_option_menu_new ();
-  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_affichage_lignes_deux_lignes_1 ),
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU(bouton_affichage_lignes_deux_lignes_1),
 			     cree_menu_quatres_lignes ());
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       bouton_affichage_lignes_deux_lignes_1,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_affichage_lignes_deux_lignes_1 );
+  gtk_table_attach_defaults ( GTK_TABLE(table), bouton_affichage_lignes_deux_lignes_1,
+			      1, 2, 1, 2 );
 
   bouton_affichage_lignes_deux_lignes_2 = gtk_option_menu_new ();
-  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_affichage_lignes_deux_lignes_2 ),
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU(bouton_affichage_lignes_deux_lignes_2),
 			     cree_menu_quatres_lignes ());
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       bouton_affichage_lignes_deux_lignes_2,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_affichage_lignes_deux_lignes_2 );
+  gtk_table_attach_defaults ( GTK_TABLE(table), bouton_affichage_lignes_deux_lignes_2,
+			      2, 3, 1, 2 );
+
 
   /* pour 3 lignes */
-
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( hbox );
-
   label = gtk_label_new ( COLON(_("Three lines mode")));
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( label );
+  gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+  gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_RIGHT );
+  gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 2, 3,
+		     GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
 
   bouton_affichage_lignes_trois_lignes_1 = gtk_option_menu_new ();
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_1 ),
 			     cree_menu_quatres_lignes ());
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       bouton_affichage_lignes_trois_lignes_1,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_affichage_lignes_trois_lignes_1 );
+  gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_affichage_lignes_trois_lignes_1,
+			      1, 2, 2, 3 );
 
   bouton_affichage_lignes_trois_lignes_2 = gtk_option_menu_new ();
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_2 ),
 			     cree_menu_quatres_lignes ());
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       bouton_affichage_lignes_trois_lignes_2,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_affichage_lignes_trois_lignes_2 );
+  gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_affichage_lignes_trois_lignes_2,
+			      2, 3, 2, 3 );
+
 
   bouton_affichage_lignes_trois_lignes_3 = gtk_option_menu_new ();
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_3 ),
 			     cree_menu_quatres_lignes ());
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       bouton_affichage_lignes_trois_lignes_3,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_affichage_lignes_trois_lignes_3 );
+  gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_affichage_lignes_trois_lignes_3,
+			      3, 4, 2, 3 );
 
 
   if ( nb_comptes )
     {
-      /* on recopie le tab_affichage_ope */
-
-      /* FIXME: remove tab_affichage_ope_tmp from variables.c */
-/*       for ( i = 0 ; i<4 ; i++ ) */
-/* 	for ( j = 0 ; j<7 ; j++ ) */
-/* 	  tab_affichage_ope_tmp[i][j] = tab_affichage_ope[i][j]; */
-
       /* on remplit le tableau */
 
       remplissage_tab_affichage_ope ( clist_affichage_liste );
@@ -317,6 +289,26 @@ GtkWidget *onglet_affichage_operations ( void )
       gtk_widget_set_sensitive ( bouton_affichage_lignes_trois_lignes_3, FALSE );
       gtk_widget_set_sensitive ( bouton, FALSE );
     }
+
+  /* Connect all menus */
+  g_signal_connect ( G_OBJECT ( bouton_affichage_lignes_une_ligne ), "changed",
+		     (GCallback) transactions_list_display_modes_menu_changed,
+		     NULL );
+  g_signal_connect ( G_OBJECT (bouton_affichage_lignes_deux_lignes_1), "changed",
+		     (GCallback) transactions_list_display_modes_menu_changed,
+		     NULL );
+  g_signal_connect ( G_OBJECT(bouton_affichage_lignes_deux_lignes_2), "changed",
+		     (GCallback) transactions_list_display_modes_menu_changed,
+		     NULL );
+  g_signal_connect ( G_OBJECT(bouton_affichage_lignes_trois_lignes_1), "changed",
+		     (GCallback) transactions_list_display_modes_menu_changed,
+		     NULL );
+  g_signal_connect ( G_OBJECT(bouton_affichage_lignes_trois_lignes_2), "changed",
+		     (GCallback) transactions_list_display_modes_menu_changed,
+		     NULL );
+  g_signal_connect ( G_OBJECT(bouton_affichage_lignes_trois_lignes_3), "changed",
+		     (GCallback) transactions_list_display_modes_menu_changed,
+		     NULL );
 
   /* Then add the "sort by" buttons */
   paddingbox = new_radiogroup_with_title (vbox_pref,
