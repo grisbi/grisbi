@@ -1216,8 +1216,6 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 	if ( devise_tmp -> no_devise != devise -> no_devise )
 	    taux_de_change[0] = -taux_de_change[0];
 
-	gtk_widget_destroy ( GTK_WIDGET ( dialog ));
-
 	update_exchange_rate_cache ( devise_compte, devise, 
 				     taux_de_change[0], taux_de_change[1] );
 
@@ -1227,6 +1225,8 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 	taux_de_change[0] = 0;
 	taux_de_change[1] = 0;
     }
+
+    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 }
 /***********************************************************************************************************/
 
