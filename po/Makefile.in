@@ -34,7 +34,7 @@ mkinstalldirs = $(SHELL) `case "$(MKINSTALLDIRS)" in /*) echo "$(MKINSTALLDIRS)"
 CC = gcc
 GMSGFMT = /usr/bin/msgfmt
 MSGFMT = /usr/bin/msgfmt
-XGETTEXT = /usr/bin/xgettext
+XGETTEXT = :
 MSGMERGE = msgmerge
 
 DEFS = -DHAVE_CONFIG_H
