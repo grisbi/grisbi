@@ -1045,31 +1045,34 @@ void supprimer_type_operation ( void )
 	  GtkWidget *dialog, *label, * option_menu, *separateur, *hbox, *menu;
 	  gint resultat, nouveau_type;
 
-	  dialog = gnome_dialog_new ( _("Delete a method of payment"),
-				      GNOME_STOCK_BUTTON_OK,
-				      GNOME_STOCK_BUTTON_CANCEL,
-				      NULL );
+	  dialog = gtk_dialog_new_with_buttons ( _("Delete a payment method"),
+						 (GtkWindow *) fenetre_preferences,
+						 GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
+						 GTK_STOCK_CANCEL, GTK_RESPONSE_HELP,
+						 GTK_STOCK_OK, GTK_RESPONSE_OK,
+						 NULL );
+	  gtk_box_set_spacing ( GTK_BOX(GTK_DIALOG(dialog) -> vbox), 6 );
 
-	  label = gtk_label_new ( _("Some transactions are still registered with this method of payment, though this deletion is irreversible. The changes about the method of payment will be registered."));
+	  label = gtk_label_new ( _("Some transactions still use that payment method.  As deletion of this method is irreversible, these transactions are to be associated with another payment method."));
 	  gtk_label_set_selectable ( GTK_LABEL (label), TRUE );
 	  gtk_label_set_line_wrap ( GTK_LABEL (label), TRUE );
-	  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ), label,
-			       FALSE, FALSE, 0 );
+	  gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), label,
+			       FALSE, FALSE, 6 );
 
 	  separateur = gtk_hseparator_new ();
-	  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+	  gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
 			       separateur,
 			       FALSE, FALSE, 0 );
 	  gtk_widget_show ( separateur );
 
 	  hbox = gtk_hbox_new ( FALSE, 6 );
-	  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ), hbox,
+	  gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox,
 			       FALSE, FALSE, 0 );
 
 
-	  label = gtk_label_new ( POSTSPACIFY(_("Move the transactions to")));
+	  label = gtk_label_new ( POSTSPACIFY(_("Associate transactions with")));
 	  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-			       FALSE, FALSE, 0 );
+			       FALSE, FALSE, 6 );
 
 	  option_menu = gtk_option_menu_new ();
 	  menu = gtk_menu_new ();
@@ -1104,12 +1107,12 @@ void supprimer_type_operation ( void )
 
 	  gtk_widget_show_all ( GTK_WIDGET(dialog) );
 
-	  resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
+	  resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
-	  if ( resultat )
+	  if ( resultat != GTK_RESPONSE_OK )
 	    {
-	      if ( GNOME_IS_DIALOG ( dialog ))
-		gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+	      if ( GTK_IS_DIALOG ( dialog ))
+		gtk_widget_destroy ( GTK_WIDGET(dialog) );
 	      return;
 	    }
 
@@ -1133,7 +1136,7 @@ void supprimer_type_operation ( void )
 	      pointeur_tmp = pointeur_tmp -> next;
 	    }
 
-	  gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+	  gtk_widget_destroy ( GTK_WIDGET(dialog) );
 	}
 
       /* Remove type from tree & memory */
