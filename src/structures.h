@@ -2,13 +2,13 @@
 /* contient toutes les structures du prog */
 
 
-#define VERSION "0.3.3"
+#define VERSION "0.3.2"
 
 /* Chemin des fichiers */
 
-#define APPLET_BIN_DIR "/usr/bin/grisbi_applet"
+#define APPLET_BIN_DIR "/usr/local/bin/grisbi_applet"
 #define CHEMIN_LOGO "/usr/share/pixmaps/logo_grisbi.xpm"
-#define FICHIER_CONF "Grisbi-dev"       /* à mettre à Grisbi-dev pdt le dvt et Grisbi à la sortie d'une version */
+#define FICHIER_CONF "Grisbi"       /* à mettre à Grisbi-dev pdt le dvt et Grisbi à la sortie d'une version */
 
 /* initialisation des couleurs */
 
@@ -386,65 +386,4 @@ struct struct_no_rapprochement
 {
   gint no_rapprochement;
   gchar *nom_rapprochement;
-};
-
-
-struct struct_etat
-{
-  gint no_etat;
-  gchar *nom_etat;
-
-  gint afficher_opes;
-  gint afficher_date_ope;
-  gint afficher_tiers_ope;
-  gint afficher_categ_ope;
-  gint afficher_sous_categ_ope;
-  gint afficher_ib_ope;
-  gint afficher_sous_ib_ope;
-  gint afficher_notes_ope;
-  gint afficher_pc_ope;
-  gint afficher_infobd_ope;
-
-  gint exo_date;         /* 1-> utilise l'exo / 0 -> utilise une plage de date */
-  gint utilise_detail_exo;
-  GSList *no_exercices;            /* liste des no d'exos utilisés dans l'état */
-  gint separation_par_exo;       /* 1=oui, 0=non */
-  gint no_plage_date;       /* 0=perso, 1=toutes ... */
-  GDate *date_perso_debut;
-  GDate *date_perso_fin;
-  gint separation_par_plage;       /* 1=oui, 0=non */
-  gint type_separation_plage;        /*  0=semaines, 1=mois, 2=année, 3=perso */
-  gint jour_debut_semaine;           /* 0=lundi ... */
-  gint type_separation_perso;        /* 0=jour, 1=mois, 2=année */
-  gint delai_separation_perso;
-
-  gint type_classement;
-
-  gint utilise_detail_comptes;
-  GSList *no_comptes;
-  gint regroupe_ope_par_compte;
-  gint affiche_sous_total_compte;
-
-  gint utilise_categ;
-  gint utilise_detail_categ;
-  GSList *no_categ;
-  gint afficher_sous_categ;
-  gint type_virement;   /* 0: pas de virements / 1:seulement les virements vers comptes actifs-passifs/2:virements hors état */
-  gint affiche_sous_total_categ;
-  gint affiche_sous_total_sous_categ;
-
-  gint utilise_ib;
-  gint utilise_detail_ib;
-  GSList *no_ib;
-  gint afficher_sous_ib;
-  gint affiche_sous_total_ib;
-  gint affiche_sous_total_sous_ib;
-
-  gint utilise_tiers;
-  gint utilise_detail_tiers;
-  GSList *no_tiers;
-  gint affiche_sous_total_tiers;
-
-  gchar *texte;
-  gdouble montant;
 };
