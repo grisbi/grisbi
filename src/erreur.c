@@ -67,6 +67,8 @@ gboolean fermeture_grisbi ( void )
 
     if ( enregistrement_fichier(-1) )
 	gtk_main_quit();
+    else
+      return FALSE;
 
 
     /* si le fichier n'était pas déjà ouvert, met à 0 l'ouverture */
