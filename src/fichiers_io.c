@@ -8767,7 +8767,7 @@ gboolean charge_categ ( gchar *nom_categ )
 
 	/* récupère la version de fichier */
 
-	if (( strcmp (  xmlNodeGetContent ( root->children->next->children->next ), VERSION )))
+	if (( strcmp (  xmlNodeGetContent ( root->children->next->children->next ), VERSION_FICHIER_CATEG )))
 	  {
 	    dialogue_warning_hint ( g_strdup_printf (_("This categories list has been produced with grisbi version %s, Grisbi will nevertheless try to import it."), xmlNodeGetContent ( root->children->next->children->next )),
 				    _("Version mismatch") );
@@ -9120,7 +9120,7 @@ gboolean charge_ib ( gchar *nom_ib )
 
 	/* récupère la version de fichier */
 
-	if (( strcmp (  xmlNodeGetContent ( root->children->next->children->next ), VERSION )))
+	if (( strcmp (  xmlNodeGetContent ( root->children->next->children->next ), VERSION_FICHIER_IB )))
 	  {
 	    dialogue_warning_hint ( g_strdup_printf (_("This budgetary lines list has been produced with grisbi version %s, Grisbi will nevertheless try to import it."), xmlNodeGetContent ( root->children->next->children->next )),
 				    _("Version mismatch") );
