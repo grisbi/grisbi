@@ -802,7 +802,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
       if ( g_date_valid_dmy ( jour,
 			      mois,
 			      annee ))
-	compte -> date_solde = g_date_new_dmy ( jour,
+	compte -> date_fin = g_date_new_dmy ( jour,
 						mois,
 						annee );
     }

@@ -37,6 +37,7 @@
 #include "qif.h"
 #include "ofx.h"
 #include "html.h"
+#include "dialog.h"
 
 
 gint derniere_operation_enregistrement_ope_import;
@@ -138,6 +139,7 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 
 	/*       le fichier est ouvert, on va trier entre qif/ofx/html */
 	/* 	le plus simple est ofx, on a <OFX> au départ */
+	/* 	bon, en fait, non... on peut avoir ofx ou OFX n'importe où... */
 	/*       pour le qif, on recherche !Type, !Account ou !Option */
 	/* si ce n'est aucun des 3, on regarde s'il y a une ouverture de balise < dans ce cas */
 	/* on fait comme si c'était du html */
@@ -148,9 +150,11 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 		 "%a[^\n]\n",
 		 &pointeur_char );
 
-	if ( !strncmp ( pointeur_char,
-			"<OFX>",
-			5 ))
+	if ( g_strrstr ( pointeur_char,
+			 "ofx" )
+	     ||
+	     g_strrstr ( pointeur_char,
+			 "OFX" ))
 	    recuperation_donnees_ofx ( liste_selection[i]);
 	else
 	{
@@ -466,12 +470,12 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 
     /* mise en place de la date si elle existe */
 
-    if ( compte -> date_solde )
+    if ( compte -> date_fin )
     {
 	label = gtk_label_new ( g_strdup_printf ( "%02d/%02d/%d",
-						  g_date_day ( compte -> date_solde ),
-						  g_date_month ( compte -> date_solde ),
-						  g_date_year ( compte -> date_solde )));
+						  g_date_day ( compte -> date_fin ),
+						  g_date_month ( compte -> date_fin ),
+						  g_date_year ( compte -> date_fin )));
 	gtk_table_attach ( GTK_TABLE ( table_recapitulatif ),
 			   label,
 			   0, 1,
@@ -481,6 +485,19 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 			   0, 0 );
 	gtk_widget_show ( label );
     }
+    else
+    {
+	label = gtk_label_new ( _("none"));
+	gtk_table_attach ( GTK_TABLE ( table_recapitulatif ),
+			   label,
+			   0, 1,
+			   position, position+1,
+			   GTK_SHRINK,
+			   GTK_SHRINK,
+			   0, 0 );
+	gtk_widget_show ( label );
+    }
+
 
     /* mise en place du nom du compte s'il existe */
 
@@ -518,12 +535,23 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
     {
 	liste_tmp = g_slist_find_custom ( liste_struct_devises,
 					  compte -> devise,
-					  (GCompareFunc) recherche_devise_par_nom );
+					  (GCompareFunc) recherche_devise_par_code_iso );
 
 	if ( liste_tmp )
 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( compte -> bouton_devise ),
 					  g_slist_position ( liste_struct_devises,
 							     liste_tmp ));
+	else
+	{
+	    /* 	    la devise avait un nom mais n'a pas été retrouvée (n'existe que pour ofx); 2 possibilités : */
+	    /* 		soit elle n'est pas créé (l'utilisateur la créera une fois la fenetre affichée) */
+	    /* 		soit elle est créé mais pas avec le bon code */
+
+	    dialogue_warning ( g_strdup_printf ( _( "The currency of the imported account %s is %s.\nEither that currency still doesn't exist and you can create it in the next window,\neither that currency exists already but the ISO code is incorrect.\nTo avoid that message next time and make a detection of the currency, please change the ISO code in the configuration."),
+						 compte -> nom_de_compte,
+						 compte -> devise ));
+
+	}
     }
 
     /* on crée les boutons de comptes et de type de compte tout de suite */
@@ -609,13 +637,13 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
     /* on crée le bouton du compte sélectionné */
     /* si aucun fichier n'est ouvert, on ne crée pas ce bouton */
 
+    no_compte_trouve = -1;
+
     if ( nb_comptes )
     {
 	menu = gtk_menu_new ();
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-	no_compte_trouve = -1;
-
 	do
 	{
 	    menu_item = gtk_menu_item_new_with_label ( NOM_DU_COMPTE );
@@ -624,8 +652,21 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 				  GINT_TO_POINTER ( p_tab_nom_de_compte_variable - p_tab_nom_de_compte ));
 
 	    /* on recherche quel compte était noté dans le fichier  */
+	    /* s'il y a une id, on la prend en priorité sur le nom */
 
-	    if ( compte -> nom_de_compte
+	    if ( compte -> id_compte
+		 &&
+		 ID_COMPTE
+		 &&
+		 !g_strcasecmp ( compte -> id_compte,
+				 ID_COMPTE ))
+		no_compte_trouve = p_tab_nom_de_compte_variable - p_tab_nom_de_compte;
+
+	    /* 		on ne passe par cette étape que si le compte n'a pas déjà été trouvé avec l'id */
+
+	    if ( no_compte_trouve == -1
+		 &&
+		 compte -> nom_de_compte
 		 &&
 		 !g_strcasecmp ( compte -> nom_de_compte,
 				 NOM_DU_COMPTE ))
@@ -652,12 +693,6 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 			   0, 0 );
 	gtk_widget_show ( compte -> bouton_compte );
 
-	if ( no_compte_trouve != -1 )
-	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( compte -> bouton_compte ),
-					  no_compte_trouve );
-
-	gtk_widget_set_sensitive ( compte -> bouton_compte,
-				   FALSE );
     }
 
     /* on crée le bouton du type de compte  */
@@ -720,6 +755,20 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 		       0, 0 );
     gtk_widget_show ( label );
 
+    /* 	si on a trouvé un compte qui correspond, on l'affiche, et on passe le 1er option menu à ajouter les opérations */
+
+    if ( no_compte_trouve != -1 )
+    {
+	gtk_option_menu_set_history ( GTK_OPTION_MENU ( compte -> bouton_compte ),
+				      no_compte_trouve );
+	gtk_option_menu_set_history ( GTK_OPTION_MENU ( compte -> bouton_action ),
+				      1 );
+	gtk_widget_set_sensitive ( compte -> bouton_type_compte,
+				   FALSE );
+    }
+    else
+	gtk_widget_set_sensitive ( compte -> bouton_compte,
+				   FALSE );
 
 }
 /* *******************************************************************************/
@@ -1030,6 +1079,39 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import,
     p_tab_nom_de_compte_courant = p_tab_nom_de_compte + compte_courant; 
 
 
+    /*     met l'id du compte s'il existe (import ofx) */
+
+    if ( compte_import -> id_compte )
+    {
+	gchar **tab_str;
+
+	compte -> id_compte = g_strdup ( compte_import -> id_compte );
+
+	/* 	en théorie cet id est "no_banque no_guichet no_comptecle" */
+	/* on va essayer d'importer ces données ici */
+	/* si on rencontre un null, on s'arrête */
+
+	tab_str = g_strsplit ( compte -> id_compte,
+			       " ",
+			       3 );
+	if ( tab_str[1] )
+	{
+	    compte -> no_guichet = g_strdup ( tab_str[1] );
+	    if ( tab_str[2] )
+	    {
+		gchar *temp;
+
+		compte -> cle_compte = g_strdup ( tab_str[2] + strlen ( tab_str[2] ) - 1 );
+
+		temp = g_strdup ( tab_str[2] );
+
+		temp[strlen (temp) - 1 ] = 0;
+		compte -> no_compte_banque = temp;
+	    }
+	}
+	g_strfreev ( tab_str );
+    }
+
     /* met le nom du compte */
 
     if ( compte_import -> nom_de_compte )
@@ -1041,12 +1123,6 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import,
 
     compte -> devise = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( compte_import -> bouton_devise ) -> menu_item ),
 							       "no_devise" ));
-
-    /* on met l'id du compte, il faudra voir avec les essais à quoi ça correspond exactement */
-    /* no compte/no banque/clé ? */
-
-    if ( compte_import -> id_compte )
-	compte -> no_compte_banque = g_strdup ( compte_import -> id_compte );
 
     /* met le type de compte */
 
@@ -1108,6 +1184,10 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import,
 
 	operation -> no_operation = ++no_derniere_operation;
 
+	/* 	récupéération de l'id si elle existe */
+
+	if ( operation_import -> id_operation )
+	    operation -> id_operation = g_strdup ( operation_import -> id_operation );
 
 	/* récupération de la date */
 
@@ -1266,7 +1346,7 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import,
 
 	/* récupération des notes */
 
-	operation -> notes = operation_import -> notes;
+	operation -> notes = g_strdup ( operation_import -> notes );
 
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
@@ -1399,6 +1479,32 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( compte_import -> bouton_compte )->menu_item ),
 												 "no_compte" ));
 
+/* si le compte importé a une id, on la vérifie ici */
+/*     si elle est absente, on met celle importée */
+/*     si elle est différente, on demande si on la remplace */
+
+    if ( compte_import -> id_compte )
+    {
+	if ( ID_COMPTE )
+	{
+	    if ( g_strcasecmp ( ID_COMPTE,
+				compte_import -> id_compte ))
+	    {
+/* 		l'id du compte choisi et l'id du compte importé sont différents */
+/* 		    on propose encore d'arrêter... */
+
+
+		if ( question_yes_no ( _("The id of the imported and chosen accounts are not the same.\nPerhaps you choose a wrong account ?\nIf you choose to continue, the id of the account will be changed.\nDo you want to continue ?")))
+		    ID_COMPTE = g_strdup ( compte_import -> id_compte );
+		else
+		    return;
+	    }
+	}
+	else
+	    ID_COMPTE = g_strdup ( compte_import -> id_compte );
+
+    }
+    
     /* on fait un premier tour de la liste des opés pour repérer celles qui sont déjà entrées */
     /*   si on n'importe que du ofx, c'est facile, chaque opé est repérée par une id */
     /*     donc si l'opé importée a une id, il suffit de rechercher l'id dans le compte, si elle */
@@ -1438,7 +1544,6 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
     {
 	struct struct_ope_importation *operation_import;
 	GSList *liste_ope;
-
 	operation_import = liste_tmp -> data;
 
 	/* on ne fait le tour de la liste des opés que si la date de l'opé importée est inférieure à la dernière date */
@@ -1447,27 +1552,50 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 	if ( g_date_compare ( derniere_date,
 			      operation_import -> date ) >= 0 )
 	{
-	    /* on fait donc le tour de la liste des opés pour retrouver une opé comparable */
+	    /* 	    si l'opé d'import a une id, on recherche ça en priorité */
 
-	    liste_ope = LISTE_OPERATIONS;
-
-	    while ( liste_ope )
+	    if ( operation_import -> id_operation )
 	    {
-		struct structure_operation *operation;
+		GSList *liste;
 
-		operation = liste_ope -> data;
+		liste = g_slist_find_custom ( LISTE_OPERATIONS,
+					      operation_import -> id_operation,
+					      (GCompareFunc) recherche_operation_par_id );
 
-		if ( operation -> montant == operation_import -> montant
-		     &&
-		     !g_date_compare ( operation -> date,
-				       operation_import -> date ))
+		if (liste)
 		{
-		    /* l'opé a la même date et le même montant, on la marque pour demander quoi faire à l'utilisateur */
-		    operation_import -> action = 1; 
-		    operation_import -> ope_correspondante = operation;
-		    demande_confirmation = 1;
+		    /* 			comme on est sûr que cette opé a déjà été enregistree, on met l'action à 2, cad on demande l'avis de personne pour */
+		    /* 			    pas l'enregistrer */
+
+		    operation_import -> action = 2;
 		}
-		liste_ope = liste_ope -> next;
+
+	    }
+	    /* on fait donc le tour de la liste des opés pour retrouver une opé comparable */
+	    /* si elle n'a pas déjà été retrouvée par id... */
+
+	    if ( operation_import -> action != 2 )
+	    {
+		liste_ope = LISTE_OPERATIONS;
+
+		while ( liste_ope )
+		{
+		    struct structure_operation *operation;
+
+		    operation = liste_ope -> data;
+
+		    if ( operation -> montant == operation_import -> montant
+			 &&
+			 !g_date_compare ( operation -> date,
+					   operation_import -> date ))
+		    {
+			/* l'opé a la même date et le même montant, on la marque pour demander quoi faire à l'utilisateur */
+			operation_import -> action = 1; 
+			operation_import -> ope_correspondante = operation;
+			demande_confirmation = 1;
+		    }
+		    liste_ope = liste_ope -> next;
+		}
 	    }
 	}
 	liste_tmp = liste_tmp -> next;
@@ -2017,7 +2145,34 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 							"no_compte" ));
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
-    /* on fait le tour des opés importées et recherche dans la liste d'opé s'il y a la correspondance */
+ 
+/* si le compte importé a une id, on la vérifie ici */
+/*     si elle est absente, on met celle importée */
+/*     si elle est différente, on demande si on la remplace */
+
+    if ( compte_import -> id_compte )
+    {
+	if ( ID_COMPTE )
+	{
+	    if ( g_strcasecmp ( ID_COMPTE,
+				compte_import -> id_compte ))
+	    {
+/* 		l'id du compte choisi et l'id du compte importé sont différents */
+/* 		    on propose encore d'arrêter... */
+
+
+		if ( question_yes_no ( _("The id of the imported and chosen accounts are not the same.\nPerhaps you choose a wrong account ?\nIf you choose to continue, the id of the account will be changed.\nDo you want to continue ?")))
+		    ID_COMPTE = g_strdup ( compte_import -> id_compte );
+		else
+		    return;
+	    }
+	}
+	else
+	    ID_COMPTE = g_strdup ( compte_import -> id_compte );
+
+    }
+    
+   /* on fait le tour des opés importées et recherche dans la liste d'opé s'il y a la correspondance */
 
 
     liste_tmp = compte_import -> operations_importees;
@@ -2039,10 +2194,16 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 	   une id comparable */
 
 	if ( ope_import -> id_operation )
-	    ope_trouvees = g_slist_find_custom ( LISTE_OPERATIONS,
-						 ope_import -> id_operation,
-						 (GCompareFunc) recherche_operation_par_id );
+	{
+	    GSList *liste;
 
+	    liste = g_slist_find_custom ( LISTE_OPERATIONS,
+					  ope_import -> id_operation,
+					  (GCompareFunc) recherche_operation_par_id );
+	    if ( liste )
+		ope_trouvees = g_slist_append ( ope_trouvees,
+						liste -> data );
+	}
 
 	/* si on n'a rien trouvé par id, */
 	/* on fait le tour de la liste d'opés pour trouver des opés comparable */
@@ -2355,12 +2516,14 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 
 /* *******************************************************************************/
-gboolean recherche_operation_par_id ( gchar *id_recherchee,
-				      struct structure_operation *operation )
+gboolean recherche_operation_par_id ( struct structure_operation *operation,
+				      gchar *id_recherchee )
 {
-
-    return ( strcmp ( id_recherchee,
-		      operation -> id_operation ));
+    if ( operation -> id_operation )
+	return ( strcmp ( id_recherchee,
+			  operation -> id_operation ));
+    else
+	return -1;
 }
 /* *******************************************************************************/
 

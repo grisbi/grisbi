@@ -14,8 +14,8 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 struct structure_operation *enregistre_ope_importee ( struct struct_ope_importation *operation_import,
 		gint no_compte  );
 void pointe_opes_importees ( struct struct_compte_importation *compte_import );
-gboolean recherche_operation_par_id ( gchar *id_recherchee,
-		struct structure_operation *operation );
+gboolean recherche_operation_par_id ( struct structure_operation *operation,
+				      gchar *id_recherchee );
 gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 		gint result,
 		GtkWidget *liste_ope_celibataires );

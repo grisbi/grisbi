@@ -25,84 +25,357 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "ofx.h"
-/*#include <libofx/libofx.h>*/
+#include <libofx/libofx.h>
+#include "dialog.h"
+#
+/* on doit mettre le compte en cours d'importation en global pour que la libofx puisse le traiter */
 
+struct struct_compte_importation *compte_ofx_en_importation;
+gint erreur_import_ofx;
+gint  message_erreur_operation;
 
 /* *******************************************************************************/
 gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 {
-	gchar *argv[1];
+    gchar *argv[2];
 
-	argv[0] = nom_fichier;
+    compte_ofx_en_importation = NULL;
+    erreur_import_ofx = 0;
+    message_erreur_operation = 0;
 
-	printf ( "début procédure\n" );
-	/*printf ( "%d\n",
-			ofx_proc_file ( 1,
-			&nom_fichier ));*/
-	printf ( "fin procédure\n" );
+    /* 	la lib ofx ne tient pas compte du 1er argument */
+    argv[1] = nom_fichier;
 
+    ofx_proc_file ( 2,
+		    argv );
 
+    if ( !compte_ofx_en_importation )
+    {
+	dialogue_error ( _("The new account has not been created."));
+	return ( FALSE );
+    }
 
-  return ( TRUE );
+    if ( erreur_import_ofx )
+	erreur_import_ofx = !question_yes_no_hint ( _("Warning" ),
+						    _( "An error or warning has occured. Do you still want to import the file ?" ));
+
+    if ( !erreur_import_ofx )
+    {
+	/* ajoute ce compte aux autres comptes importés */
+
+	liste_comptes_importes = g_slist_append ( liste_comptes_importes,
+						  compte_ofx_en_importation );
+    }
+
+    return ( TRUE );
 }
 /* *******************************************************************************/
 
 
 
 /* *******************************************************************************/
- /* int ofx_proc_status_cb(struct OfxStatusData data)
+int ofx_proc_status_cb(struct OfxStatusData data)
 {
-	printf ( "ofx_proc_status_cb\n" );
-return 0;
-}*/
+    /*     printf ( "ofx_proc_status_cb:\n" ); */
+    /*     printf ( "ofx_element_name_valid %d\n", data . ofx_element_name_valid); */
+    /*     printf ( "ofx_element_name %s\n", data . ofx_element_name ); */
+    /*     printf ( "code_valid %d\n", data . code_valid ); */
+    /*     printf ( "code %d\n", data . code); */
+    /*     printf ( "name %s\n", data . name); */
+    /*     printf ( "description %s\n", data . description); */
+    /*     printf ( "severity_valid %d\n", data . severity_valid ); */
+    /*     printf ( "severity %d\n", data . severity); */
+    /*     printf ( "server_message_valid %d\n", data.server_message_valid ); */
+    /*     printf ( "server_message %s\n\n", data . server_message ); */
+
+    /*     	on vérifie l'état, si c'est un warning, on l'affiche, si c'est une erreur, on vire */
+
+    if ( data.severity_valid )
+    {
+	switch ( data.severity )
+	{
+	    case INFO :
+		/* 		pas de pb, on fait rien */
+		break;
+
+	    case WARN :
+		if ( data.code_valid )
+		    dialogue_warning ( g_strconcat ( _("The file has returned the next message :\n"),
+						     data.name,
+						     "\n",
+						     data.description,
+						     NULL ));
+		else
+		    dialogue_warning ( _("The file has returned a warning message which is no valid."));
+		erreur_import_ofx = 1;
+		break;
+
+	    case ERROR:
+		if ( data.code_valid )
+		    dialogue_error ( g_strconcat ( _("The file has returned the next message :\n"),
+						   data.name,
+						   "\n",
+						   data.description,
+						   NULL ));
+		else
+		    dialogue_error ( _("The file has returned a warning message which is no valid."));
+		erreur_import_ofx = 1;
+		break;
+	}		
+    }
+
+
+    return 0;
+}
 /* *******************************************************************************/
- 
+
 
 
 
 
 
 /* *******************************************************************************/
- /* int ofx_proc_security_cb(struct OfxSecurityData data)
+int ofx_proc_security_cb(struct OfxSecurityData data)
 {
-	printf ( "ofx_proc_security_cb\n" );
-return 0;
-} */
+    printf ( "ofx_proc_security_cb :\n" );
+    printf ( "unique_id_valid %d\n", data.unique_id_valid );
+    printf ( "unique_id %s\n", data.unique_id );
+    printf ( "unique_id_type_valid %d\n", data.unique_id_type_valid );
+    printf ( "unique_id_type %s\n", data.unique_id_type );
+    printf ( "secname_valid %d\n", data.secname_valid );
+    printf ( "secname %s\n", data.secname );
+    printf ( "ticker_valid %d\n", data.ticker_valid );
+    printf ( "ticker %s\n", data.ticker );
+    printf ( "unitprice_valid %d\n", data.unitprice_valid );
+    printf ( "unitprice %f\n", data.unitprice );
+    printf ( "date_unitprice_valid %d\n", data.date_unitprice_valid );
+    printf ( "date_unitprice %s\n", ctime ( &data.date_unitprice ));
+    printf ( "currency_valid %d\n", data.currency_valid );
+    printf ( "currency %s\n", data.currency );
+    printf ( "memo_valid %d\n", data.memo_valid );
+    printf ( "memo %s\n", data.memo );
+
+    dialogue ( _("That file contains something on proc_security_cb.\nI didn't have any file to test that function.\nPlease contact the grisbi team to implement that function."));
+
+
+    return 0;
+}
 /* *******************************************************************************/
- 
 
 
 
 
 /* *******************************************************************************/
- /* int ofx_proc_transaction_cb(struct OfxTransactionData data)
+
+int ofx_proc_account_cb(struct OfxAccountData data)
 {
-	printf ( "ofx_proc_transaction_cb\n" );
- return 0; 
- 
-}*/
+    /*     printf ( "ofx_proc_account_cb\n" );  */
+    /*     printf ( "account_id_valid %d\n", data.account_id_valid ); */
+    /*     printf ( "account_id %s\n", data.account_id ); */
+    /*     printf ( "account_name %s\n", data.account_name ); */
+    /*     printf ( "account_type_valid %d\n", data.account_type_valid ); */
+    /*     printf ( "account_type %d\n", data.account_type ); */
+    /*     printf ( "currency_valid %d\n", data.currency_valid ); */
+    /*     printf ( "currency %s\n", data. currency); */
+
+    compte_ofx_en_importation = calloc ( 1,
+					 sizeof ( struct struct_compte_importation ));
+
+    if ( data.account_id_valid )
+    {
+	compte_ofx_en_importation -> id_compte = g_strdup ( data.account_id );
+	compte_ofx_en_importation -> nom_de_compte = g_strdup ( data.account_name );
+    }
+
+    compte_ofx_en_importation -> origine = 1;
+
+    if ( data.account_type_valid )
+	compte_ofx_en_importation -> type_de_compte = data.account_type;
+
+    if ( data.currency_valid )
+	compte_ofx_en_importation -> devise = g_strdup ( data.currency );
+
+
+    return 0;
+}
 /* *******************************************************************************/
 
 
 
+
 /* *******************************************************************************/
-/*int ofx_proc_statement_cb(struct OfxStatementData data)
+int ofx_proc_transaction_cb(struct OfxTransactionData data)
 {
-	printf ( "ofx_proc_statement_cb\n" );
-  return 0;
-}*/
+    struct struct_ope_importation *ope_import;
+    GDate *date;
+
+
+    /*     printf ( "ofx_proc_transaction_cb\n" );  */
+    /*     printf ( "account_id_valid : %d  \n", data.account_id_valid ); */
+    /*     printf ( "account_id : %s  \n", data.account_id ); */
+    /*     printf ( "transactiontype_valid : %d  \n", data.transactiontype_valid ); */
+    /*     printf ( "transactiontype : %d  \n", data.transactiontype ); */
+    /*     printf ( "invtransactiontype_valid : %d  \n", data.invtransactiontype_valid ); */
+    /*     printf ( "invtransactiontype : %d  \n", data.invtransactiontype ); */
+    /*     printf ( "units_valid : %d  \n", data. units_valid); */
+    /*     printf ( "units : %f  \n", data.units ); */
+    /*     printf ( "unitprice_valid : %d  \n", data.unitprice_valid ); */
+    /*     printf ( "unitprice : %f  \n", data.unitprice ); */
+    /*     printf ( "amount_valid : %d  \n", data.amount_valid ); */
+    /*     printf ( "amount : %f  \n", data.amount ); */
+    /*     printf ( "fi_id_valid : %d  \n", data.fi_id_valid ); */
+    /*     printf ( "fi_id : %s  \n", data.fi_id ); */
+    /*     printf ( "unique_id_valid : %d  \n", data.unique_id_valid ); */
+    /*     printf ( "unique_id : %s  \n", data.unique_id ); */
+    /*     printf ( "unique_id_type_valid : %d  \n", data.unique_id_type_valid ); */
+    /*     printf ( "unique_id_type : %s  \n", data.unique_id_type ); */
+    /*     printf ( "security_data_valid : %d  \n", data.security_data_valid ); */
+    /*     printf ( "security_data_ptr : %s  \n", data.security_data_ptr ); */
+    /*     printf ( "date_posted_valid : %d  \n", data.date_posted_valid ); */
+    /*     printf ( "date_posted : %s  \n", ctime ( &data.date_posted )); */
+    /*     printf ( "date_initiated_valid : %d  \n", data.date_initiated_valid ); */
+    /*     printf ( "date_initiated : %s  \n", ctime ( &data.date_initiated )); */
+    /*     printf ( "date_funds_available_valid : %d  \n", data.date_funds_available_valid ); */
+    /*     printf ( "date_funds_available : %s  \n", ctime ( &data.date_funds_available )); */
+    /*     printf ( "fi_id_corrected_valid : %d  \n", data.fi_id_corrected_valid ); */
+    /*     printf ( "fi_id_corrected : %s  \n", data.fi_id_corrected ); */
+    /*     printf ( "fi_id_correction_action_valid : %d  \n", data.fi_id_correction_action_valid ); */
+    /*     printf ( "fi_id_correction_action : %d  \n", data.fi_id_correction_action ); */
+    /*     printf ( "server_transaction_id_valid : %d  \n", data.server_transaction_id_valid ); */
+    /*     printf ( "server_transaction_id : %s  \n", data.server_transaction_id ); */
+    /*     printf ( "check_number_valid : %d  \n", data.check_number_valid ); */
+    /*     printf ( "check_number : %s  \n", data.check_number ); */
+    /*     printf ( "reference_number_valid : %d  \n", data.reference_number_valid ); */
+    /*     printf ( "reference_number : %s  \n", data.reference_number ); */
+    /*     printf ( "standard_industrial_code_valid : %d  \n", data.standard_industrial_code_valid ); */
+    /*     printf ( "standard_industrial_code : %s  \n", data.standard_industrial_code ); */
+    /*     printf ( "payee_id_valid : %d  \n", data.payee_id_valid ); */
+    /*     printf ( "payee_id : %s  \n", data.payee_id ); */
+    /*     printf ( "name_valid : %d  \n", data.name_valid ); */
+    /*     printf ( "name : %s  \n", data.name ); */
+    /*     printf ( "memo_valid : %d  \n", data.memo_valid ); */
+    /*     printf ( "memo : %s  \n\n\n\n", data.memo ); */
+
+    /* si à ce niveau le comtpe n'est pas créé, c'est qu'il y a un pb... */
+
+    if ( !compte_ofx_en_importation )
+    {
+	if ( !message_erreur_operation )
+	{
+	    dialogue_error ( _("A transaction try to be saved but no account was created...\n"));
+	    message_erreur_operation = 1;
+	    erreur_import_ofx = 1;
+	}
+	return 0;
+    }
+
+    /*     c'est parti, on crée et remplit l'opération */
+
+    ope_import = calloc ( 1,
+			  sizeof ( struct struct_ope_importation ));
+
+    if ( data.fi_id_valid )
+	ope_import -> id_operation = g_strdup ( data.fi_id );
+
+    date = g_date_new ();
+    if ( data.date_posted_valid )
+    {
+	g_date_set_time ( date,
+			  data.date_posted );
+	if ( g_date_valid ( date ))
+	    ope_import -> date_de_valeur = date;
+	else
+	    ope_import -> date_de_valeur = NULL;
+    }
+
+    if ( data.date_initiated_valid )
+    {
+	g_date_set_time ( date,
+			  data.date_initiated );
+	if ( g_date_valid ( date ))
+	    ope_import -> date = date;
+	else
+	    ope_import -> date = ope_import -> date_de_valeur;
+    }
+    else
+	ope_import -> date = ope_import -> date_de_valeur;
+
+    if ( data.name_valid )
+	ope_import -> tiers = g_strdup ( data.name );
+
+    if ( data.memo_valid )
+	ope_import -> notes = g_strdup ( data.memo );
+
+    if ( data.check_number_valid )
+	ope_import -> cheque = atoi ( data.check_number );
+
+    if ( data.amount_valid )
+	ope_import -> montant = data.amount;
+
+    if ( data.transactiontype_valid )
+	ope_import -> type_de_transaction = data.transactiontype;
+
+
+    /*     on ajoute l'opé à son compte */
+
+    compte_ofx_en_importation -> operations_importees = g_slist_append ( compte_ofx_en_importation -> operations_importees,
+									 ope_import );
+
+
+    return 0; 
+}
 /* *******************************************************************************/
 
 
 
-
 /* *******************************************************************************/
-
-/*int ofx_proc_account_cb(struct OfxAccountData data)
+int ofx_proc_statement_cb(struct OfxStatementData data)
 {
-	printf ( "ofx_proc_account_cb\n" );
- return 0;
-}*/
+    GDate *date;
+
+/*     printf ( "ofx_proc_statement_cb\n" ); */
+/*     printf ( "currency_valid : %d\n", data.currency_valid ); */
+/*     printf ( "currency : %s\n", data.currency ); */
+/*     printf ( "account_id_valid : %d\n", data.account_id_valid ); */
+/*     printf ( "account_id : %s\n", data.account_id ); */
+/*     printf ( "ledger_balance_valid : %d\n", data.ledger_balance_valid ); */
+/*     printf ( "ledger_balance : %f\n", data.ledger_balance ); */
+/*     printf ( "ledger_balance_date_valid : %d\n", data.ledger_balance_date_valid ); */
+/*     printf ( "ledger_balance_date : %s\n", ctime ( &data.ledger_balance_date)); */
+/*     printf ( "available_balance_valid : %d\n", data.available_balance_valid ); */
+/*     printf ( "available_balance : %f\n", data.available_balance ); */
+/*     printf ( "available_balance_date_valid : %d\n", data.available_balance_date_valid ); */
+/*     printf ( "available_balance_date : %s\n", ctime ( &data.available_balance_date )); */
+/*     printf ( "date_start_valid : %d\n", data.date_start_valid ); */
+/*     printf ( "date_start : %s\n", ctime ( &data.date_start )); */
+/*     printf ( "date_end_valid : %d\n", data.date_end_valid ); */
+/*     printf ( "date_end : %s\n", ctime ( &data.date_end )); */
+/*     printf ( "marketing_info_valid : %d\n", data.marketing_info_valid ); */
+/*     printf ( "marketing_info : %s\n", data.marketing_info ); */
+
+    if ( data.date_start_valid )
+    {
+	date = g_date_new ();
+
+	g_date_set_time ( date,
+			  data.date_start );
+	if ( g_date_valid ( date ))
+	    compte_ofx_en_importation -> date_depart = date;
+    }
+
+    if ( data.date_end_valid )
+    {
+	date = g_date_new ();
+
+	g_date_set_time ( date,
+			  data.date_end );
+	if ( g_date_valid ( date ))
+	    compte_ofx_en_importation -> date_fin = date;
+    }
+
+     return 0;
+}
 /* *******************************************************************************/
+
 
 
