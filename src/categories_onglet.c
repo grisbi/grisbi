@@ -91,6 +91,7 @@ gchar *categories_de_base_debit [] = {
   N_("Housiing : Garden"),
   N_("Housing : House keeper"),
   N_("Housing : Phone"),
+  N_("Housing : Mobile Phone"),
   N_("Leisures : Snooker"),
   N_("Leisures : Bowling"),
   N_("Leisures : Movies"),
