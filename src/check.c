@@ -68,8 +68,9 @@ void reconciliation_check ( void )
     {
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( pUserAccountsList -> data );
     
-      /* Si le compte a été rapproché au moins une fois */
-      if ( DERNIER_NO_RAPPROCHEMENT )
+      /* Si le compte a été rapproché au moins une fois.
+         Seule la date permet de l'affirmer. */
+      if ( DATE_DERNIER_RELEVE )
       {
         GSList *pTransactionList;
         gdouble reconcilied_amount = 0;
