@@ -971,11 +971,13 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 			    if ( !strcmp ( node_detail -> name,
 					   "No_compte_banque" ))
-				NO_COMPTE_BANQUE = xmlNodeGetContent ( node_detail );
+				gsb_account_set_bank_account_number ( no_compte,
+								      xmlNodeGetContent ( node_detail ));
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Cle_du_compte" ))
-				CLE_COMPTE = xmlNodeGetContent ( node_detail );
+				gsb_account_set_bank_account_key ( no_compte,
+								   xmlNodeGetContent ( node_detail ) );
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Solde_initial" ))
@@ -3291,12 +3293,12 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "No_compte_banque",
-			  NO_COMPTE_BANQUE );
+			  gsb_account_get_bank_account_number (i) );
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Cle_du_compte",
-			  CLE_COMPTE );
+			  gsb_account_get_bank_account_key (i) );
 
 	xmlNewTextChild ( node_compte,
 			  NULL,

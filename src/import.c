@@ -1276,7 +1276,8 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 	    {
 		gchar *temp;
 
-		CLE_COMPTE = g_strdup ( tab_str[2] + strlen ( tab_str[2] ) - 1 );
+		gsb_account_set_bank_account_key ( no_compte,
+						   g_strdup ( tab_str[2] + strlen ( tab_str[2] ) - 1 ) );
 
 		temp = g_strdup ( tab_str[2] );
 

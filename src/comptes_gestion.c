@@ -842,16 +842,16 @@ void remplissage_details_compte ( void )
 	gtk_entry_set_text ( GTK_ENTRY ( detail_guichet ),
 			     "" );
 
-    if ( NO_COMPTE_BANQUE )
+    if ( gsb_account_get_bank_account_number (compte_courant_onglet) )
 	gtk_entry_set_text ( GTK_ENTRY ( detail_no_compte ),
-			     NO_COMPTE_BANQUE );
+			     gsb_account_get_bank_account_number (compte_courant_onglet) );
     else
 	gtk_entry_set_text ( GTK_ENTRY ( detail_no_compte ),
 			     "" );
 
-    if ( CLE_COMPTE )
+    if ( gsb_account_get_bank_account_key (compte_courant_onglet) )
 	gtk_entry_set_text ( GTK_ENTRY ( detail_cle_compte ),
-			     CLE_COMPTE );
+			     gsb_account_get_bank_account_key (compte_courant_onglet) );
     else
 	gtk_entry_set_text ( GTK_ENTRY ( detail_cle_compte ),
 			     "" );
@@ -1064,17 +1064,21 @@ void modification_details_compte ( void )
 
     /* enregistrement du no de compte */
 
-    NO_COMPTE_BANQUE = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_no_compte ))));
+    gsb_account_set_bank_account_number ( compte_courant_onglet,
+					  g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_no_compte )))) );
 
-    if ( !strlen ( NO_COMPTE_BANQUE ))
-	NO_COMPTE_BANQUE = NULL;
+    if ( !strlen ( gsb_account_get_bank_account_number (compte_courant_onglet) ))
+	gsb_account_set_bank_account_number ( compte_courant_onglet,
+					      NULL );
 
     /* enregistrement de la clé du compte */
 
-    CLE_COMPTE = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_cle_compte ))));
+    gsb_account_set_bank_account_key ( compte_courant_onglet,
+				       g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_cle_compte )))) );
 
-    if ( !strlen ( CLE_COMPTE ))
-	CLE_COMPTE = NULL;
+    if ( !strlen ( gsb_account_get_bank_account_key (compte_courant_onglet) ))
+	gsb_account_set_bank_account_key ( compte_courant_onglet,
+					   NULL );
 
     /* enregistrement du compte cloturé */
 

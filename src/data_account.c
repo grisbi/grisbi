@@ -1224,11 +1224,11 @@ gchar *gsb_account_get_bank_account_number ( gint no_account )
 
 /** set the bank_account_number of the account
  * \param no_account no of the account
- * \param bank_branch_code bank_branch_code to set
+ * \param bank_account_number bank_account_number to set
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_account_set_bank_account_number ( gint no_account,
-					    gchar *bank_account_number )
+					       gchar *bank_account_number )
 {
     struct_account *account;
 
@@ -1241,6 +1241,46 @@ gboolean gsb_account_set_bank_account_number ( gint no_account,
 
     return TRUE;
 }
+
+
+
+/** get the bank_account_key of the account
+ * \param no_account no of the account
+ * \return id or NULL if the account doesn't exist
+ * */
+gchar *gsb_account_get_bank_account_key ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return NULL;
+
+    return account -> bank_account_key;
+}
+
+
+/** set the bank_account_key of the account
+ * \param no_account no of the account
+ * \param bank_account_key bank_account_key to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_bank_account_key ( gint no_account,
+					    gchar *bank_account_key )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> bank_account_key = bank_account_key;
+
+    return TRUE;
+}
+
 
 
 

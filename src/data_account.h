@@ -91,6 +91,10 @@ typedef struct
 
 /* START_DECLARATION */
 gdouble gsb_account_get_adjustment_value ( gint no_account );
+gint gsb_account_get_bank ( gint no_account );
+gchar *gsb_account_get_bank_account_key ( gint no_account );
+gchar *gsb_account_get_bank_account_number ( gint no_account );
+gchar *gsb_account_get_bank_branch_code ( gint no_account );
 gpointer gsb_account_get_column ( gint no_account,
 				  gint no_column );
 gint gsb_account_get_currency ( gint no_account );
@@ -117,6 +121,14 @@ gpointer gsb_account_get_tree_view ( gint no_account );
 gboolean gsb_account_get_update_list ( gint no_account );
 gboolean gsb_account_set_adjustment_value ( gint no_account,
 					    gdouble value );
+gboolean gsb_account_set_bank ( gint no_account,
+				gint bank );
+gboolean gsb_account_set_bank_account_key ( gint no_account,
+					    gchar *bank_account_key );
+gboolean gsb_account_set_bank_account_number ( gint no_account,
+					       gchar *bank_account_number );
+gboolean gsb_account_set_bank_branch_code ( gint no_account,
+					    gchar *bank_branch_code );
 gboolean gsb_account_set_column ( gint no_account,
 				  gint no_column,
 				  gpointer column );
