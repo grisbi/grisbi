@@ -2150,7 +2150,7 @@ void annuler_ventilation ( void )
 
 /* ************************************************************************** */
 /* Fonction quitter_ventilation                                               */
-/* appelée valider_ventilation et quitter_ventilation                         */
+/* appelée valider_ventilation et annuler_ventilation                         */
 /* ************************************************************************** */
 void quitter_ventilation ( void )
 {
