@@ -2769,9 +2769,24 @@ void remove_transaction ()
  */
 void clone_selected_transaction ()
 {
+    gint compte;
+
+    compte = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_listes_operations )) - 1;
+
+    if ( compte < 0 )
+	return;
+    
     if (! assert_selected_transaction()) return;
 
-    clone_transaction ( OPERATION_SELECTIONNEE );
+    OPERATION_SELECTIONNEE = clone_transaction ( OPERATION_SELECTIONNEE );
+
+    gtk_clist_moveto ( GTK_CLIST ( CLIST_OPERATIONS ),
+		       gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
+						      OPERATION_SELECTIONNEE ),
+		       0,
+		       0.5,
+		       0 );
+    selectionne_ligne ( compte );
 
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 
@@ -2802,11 +2817,8 @@ struct structure_operation *  clone_transaction ( struct structure_operation * o
 	return(FALSE);
     }
 
-#ifndef _WIN32
-    bcopy ( operation, new_transaction, sizeof(struct structure_operation) );
-#else
     memcpy(new_transaction, operation, sizeof(struct structure_operation) );
-#endif
+
     new_transaction -> no_operation = 0;
 
     if ( operation -> pointe == OPERATION_RAPPROCHEE ||
