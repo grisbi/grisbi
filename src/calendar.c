@@ -22,20 +22,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include <gnome.h>
 #include <ctype.h>
 #include "calendar.h"
 
-
 #define SIZEOF_FORMATTED_STRING_DATE 11
 
 /******************************************************************************/
-/* crée une fenètre (popup) calendrier dans le formulaire d'opération.        */
+/* Crée une fenètre (popup) calendrier.                                       */
 /* Cette fenètre est « rattachée » au widget (une entrée de texte) que l'on   */
 /* passe en paramètre et qui récupèrera une date, à moins que l'on abandonne  */
 /* la saisie de la date par un appui sur la touche ESC lorsque le calendrier  */
-/* est ouvert                                                                 */
+/* est ouvert.                                                                */
 /******************************************************************************/
 GtkWidget *gsb_calendar_new ( GtkWidget *entry )
 {
@@ -101,10 +99,6 @@ GtkWidget *gsb_calendar_new ( GtkWidget *entry )
 		       "key-press-event",
 		       GTK_SIGNAL_FUNC ( clavier_calendrier ),
 		       entry );
-/*  gtk_signal_connect_object ( GTK_OBJECT ( pCalendar ),
-			      "destroy",
-			      GTK_SIGNAL_FUNC ( close_calendar ),
-			      GDK_CURRENT_TIME );*/
   gtk_box_pack_start ( GTK_BOX ( pVBox ),
 		       pCalendar,
 		       TRUE,
@@ -383,7 +377,7 @@ gboolean clavier_calendrier ( GtkCalendar *pCalendar,
        gtk_calendar_select_day( pCalendar, 1 );
        break ;
 
-     case GDK_End :		/* touche Home */
+     case GDK_End :		/* touche End */
 
        /* on passe au dernier jour du mois */
 
@@ -462,10 +456,10 @@ gchar *gsb_today ( void )
 
 /******************************************************************************/
 /* Fonction format_date                                                       */
-/* prend en argument une entrée contenant une date                            */
-/* vérifie la validité et la modifie si seulement une partie est donnée       */
-/* met la date du jour si l'entrée est vide                                   */
-/* renvoie TRUE si la date est correcte                                       */
+/* Prend en argument une entrée contenant une date                            */
+/* Vérifie la validité et la modifie si seulement une partie est donnée       */
+/* Met la date du jour si l'entrée est vide                                   */
+/* Renvoie TRUE si la date est correcte                                       */
 /******************************************************************************/
 gboolean format_date ( GtkWidget *entree )
 {
@@ -474,131 +468,113 @@ gboolean format_date ( GtkWidget *entree )
   GDate *date;
   gchar **tab_date;
 
-  /* si l'entrée est grise, on se barre */
-/*
-  if (( gtk_widget_get_style ( entree ) == style_entree_formulaire[1] ))
-    return ( FALSE );
-*/
-  pEntry = g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree ) ) );
+  pEntry = g_strstrip ( ( gchar * ) gtk_entry_get_text ( GTK_ENTRY ( entree ) ) );
 
-  if ( !strlen ( pEntry ))
+  date = g_date_new();
+  g_date_set_time ( date, time( NULL ) );
+
+  tab_date = g_strsplit ( pEntry, "/", 3 );
+
+  if ( tab_date[2] && tab_date[1] )
     {
-      /* si on est dans la conf des états, on ne met pas la date du jour, on */
-      /* laisse vide */
-/*
-      if ( entree != entree_date_init_etat &&
-	   entree != entree_date_finale_etat )
-	gtk_entry_set_text ( GTK_ENTRY ( entree ),
-			     gsb_today() );*/
+     /* on a rentré les 3 chiffres de la date */
+     jour = gsb_strtod ( tab_date[0],  NULL );
+     mois = gsb_strtod ( tab_date[1], NULL );
+     annee = gsb_strtod ( tab_date[2], NULL );
+
+     if ( annee < 100 )
+       {
+        if ( annee < 80 )
+          annee = annee + 2000;
+        else
+          annee = annee + 1900;
+       }
     }
   else
     {
-      date = g_date_new();
-      g_date_set_time ( date, time(NULL) );
+     if ( tab_date[1] )
+       {
+        /* on a rentré la date sous la forme xx/xx,
+           il suffit de mettre l'année courante */
+        jour = gsb_strtod ( tab_date[0], NULL );
+        mois = gsb_strtod ( tab_date[1], NULL );
+        annee = g_date_year ( date );
+       }
+     else
+       {
+        /* on a rentré que le jour de la date,
+           il faut mettre le mois et l'année courante
+           ou bien on a rentré la date sous forme
+           jjmm ou jjmmaa ou jjmmaaaa */
+        gchar buffer[3];
 
-      tab_date = g_strsplit ( pEntry, "/", 3 );
+        switch ( strlen ( tab_date[0] ) )
+          {
+           /* forme jj ou j */
+           case 1:
+           case 2:
+	     jour = gsb_strtod ( tab_date[0], NULL );
+	     mois = g_date_month ( date );
+	     annee = g_date_year ( date );
+	     break;
 
-      if ( tab_date[2] && tab_date[1] )
-	{
-	  /* on a rentré les 3 chiffres de la date */
-	 jour = gsb_strtod ( tab_date[0],  NULL );
-	 mois = gsb_strtod ( tab_date[1], NULL );
-	 annee = gsb_strtod ( tab_date[2], NULL );
+	   /* forme jjmm */
 
-	 if ( annee < 100 )
-	   {
-	    if ( annee < 80 )
-	      annee = annee + 2000;
-	    else
-	      annee = annee + 1900;
-	   }
-	}
-      else
-	{
-	 if ( tab_date[1] )
-	   {
-	    /* on a rentré la date sous la forme xx/xx,
-	       il suffit de mettre l'année courante */
-	    jour = gsb_strtod ( tab_date[0], NULL );
-	    mois = gsb_strtod ( tab_date[1], NULL );
-	    annee = g_date_year ( date );
-	   }
-	 else
-	   {
-	    /* on a rentré que le jour de la date,
-	       il faut mettre le mois et l'année courante
-	       ou bien on a rentré la date sous forme
-	       jjmm ou jjmmaa ou jjmmaaaa */
+	   case 4 :
+	     buffer[0] = tab_date[0][0];
+	     buffer[1] = tab_date[0][1];
+	     buffer[2] = 0;
 
-	    gchar buffer[3];
+	     jour = gsb_strtod ( buffer, NULL );
+	     mois = gsb_strtod ( tab_date[0] + 2, NULL );
+	     annee = g_date_year ( date );
+	     break;
 
-	    switch ( strlen ( tab_date[0] ) )
-	      {
-	       /* forme jj ou j */
-	       case 1:
-	       case 2:
-		 jour = gsb_strtod ( tab_date[0], NULL );
-		 mois = g_date_month ( date );
-		 annee = g_date_year ( date );
-		 break;
+	   /* forme jjmmaa */
 
-	       /* forme jjmm */
+	   case 6:
+	     buffer[0] = tab_date[0][0];
+	     buffer[1] = tab_date[0][1];
+	     buffer[2] = 0;
 
-	       case 4 :
-		 buffer[0] = tab_date[0][0];
-		 buffer[1] = tab_date[0][1];
-		 buffer[2] = 0;
+	     jour = gsb_strtod ( buffer, NULL );
+	     buffer[0] = tab_date[0][2];
+	     buffer[1] = tab_date[0][3];
 
-		 jour = gsb_strtod ( buffer, NULL );
-		 mois = gsb_strtod ( tab_date[0] + 2, NULL );
-		 annee = g_date_year ( date );
-		 break;
+	     mois = gsb_strtod ( buffer, NULL );
+	     annee = gsb_strtod ( tab_date[0] + 4, NULL ) + 2000;
+	     break;
 
-		 /* forme jjmmaa */
+	   /* forme jjmmaaaa */
 
-	       case 6:
-		 buffer[0] = tab_date[0][0];
-		 buffer[1] = tab_date[0][1];
-		 buffer[2] = 0;
+	   case 8:
+	     buffer[0] = tab_date[0][0];
+	     buffer[1] = tab_date[0][1];
+	     buffer[2] = 0;
 
-		 jour = gsb_strtod ( buffer, NULL );
-		 buffer[0] = tab_date[0][2];
-		 buffer[1] = tab_date[0][3];
+	     jour = gsb_strtod ( buffer, NULL );
+	     buffer[0] = tab_date[0][2];
+	     buffer[1] = tab_date[0][3];
 
-		 mois = gsb_strtod ( buffer, NULL );
-		 annee = gsb_strtod ( tab_date[0] + 4, NULL ) + 2000;
-		 break;
+	     mois = gsb_strtod ( buffer, NULL );
+	     annee = gsb_strtod ( tab_date[0] + 4, NULL );
+	     break;
 
-	       /* forme jjmmaaaa */
-
-	       case 8:
-		 buffer[0] = tab_date[0][0];
-		 buffer[1] = tab_date[0][1];
-		 buffer[2] = 0;
-
-		 jour = gsb_strtod ( buffer, NULL );
-		 buffer[0] = tab_date[0][2];
-		 buffer[1] = tab_date[0][3];
-
-		 mois = gsb_strtod ( buffer, NULL );
-		 annee = gsb_strtod ( tab_date[0] + 4, NULL );
-		 break;
-
-	       default :
-		 jour = 0;
-		 mois = 0;
-		 annee = 0;
-	      }
-	   }
-	}
-      g_strfreev ( tab_date );
-
-      if ( g_date_valid_dmy ( jour, mois, annee) )
-	gtk_entry_set_text ( GTK_ENTRY ( entree ),
-			     g_strdup_printf ( "%02d/%02d/%04d", jour, mois, annee ));
-      else
-	return ( FALSE );
+	   default :
+	     jour = 0;
+	     mois = 0;
+	     annee = 0;
+	  }
+       }
     }
+  g_strfreev ( tab_date );
+
+  if ( g_date_valid_dmy ( jour, mois, annee) )
+    gtk_entry_set_text ( GTK_ENTRY ( entree ),
+			 g_strdup_printf ( "%02d/%02d/%04d", jour, mois, annee ));
+  else
+    return ( FALSE );
+
   return ( TRUE );
 }
 /******************************************************************************/
@@ -616,7 +592,7 @@ void inc_dec_date ( GtkWidget *entree, gint demande )
 
   /* on commence par vérifier que la date est valide */
 
-  if ( !format_date ( entree ))
+  if ( !format_date ( entree ) )
     return;
 
   tableau_char = g_strsplit ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree ))),
@@ -667,61 +643,37 @@ void inc_dec_date ( GtkWidget *entree, gint demande )
        break ;
     }
 
-/*  g_date_add_days ( date,
-		    demande );*/
-
   gtk_entry_set_text ( GTK_ENTRY ( entree ),
-		       g_strdup_printf ( "%02d/%02d/%04d",
-					 g_date_day ( date ),
-					 g_date_month ( date ),
-					 g_date_year ( date )));
-
+  g_strdup_printf ( "%02d/%02d/%04d",
+		    g_date_day ( date ),
+		    g_date_month ( date ),
+		    g_date_year ( date )));
 }
 /******************************************************************************/
 
 /******************************************************************************/
 void ferme_calendrier ( GtkWidget *entree )
 {
-//  gtk_widget_destroy ( popup );
-
-  /* magouille pour récupérer le focus, sinon le focus reste sur l'entrée */
-  /* de la date tant qu'on n'a pas clické dessus */
-
-//  entree_prend_focus ( entree );
-//  gtk_widget_grab_focus ( GTK_WIDGET ( entree ) );
-//  dialogue("Ca passe !!!!!!!!!!!");
   gtk_grab_remove ( entree );
-//  gtk_grab_add ( window );*/
 }
 /******************************************************************************/
 
 /******************************************************************************/
-void close_calendar ( GtkWidget *pMainWindow )
-{
-
-  /* magouille pour récupérer le focus, sinon le focus reste sur l'entrée */
-  /* de la date tant qu'on n'a pas clické dessus */
-
-  gtk_grab_remove ( pMainWindow );
-  gtk_grab_add ( pMainWindow );
-}
-/******************************************************************************/
-
 double gsb_strtod ( char *nptr, char **endptr )
 {
   double entier=0, mantisse=0, resultat=0;
   int invert = 0;
-  char * p;
+  char *p;
 
   if (!nptr)
     return 0;
 
   for ( p = nptr; p < nptr + strlen(nptr); p++ )
     {
-      if (isspace(*p) || *p == '+' )
+      if ( isspace(*p) || *p == '+' )
 	continue;
 
-      if (*p == '-')
+      if ( *p == '-' )
 	{
 	  invert = 1;
 	  continue;
@@ -729,7 +681,7 @@ double gsb_strtod ( char *nptr, char **endptr )
 
       if ( *p == ',' || *p == '.' )
 	{
-	  char * m;
+	  char *m;
 	  for ( m = p+1; m <= nptr+strlen(nptr) &&
 		  (isdigit(*m) || isspace(*m)); m++)
 	    /* Nothing, just loop */ ;
@@ -744,7 +696,7 @@ double gsb_strtod ( char *nptr, char **endptr )
 	  mantisse /= 10;
 	}
 
-      if (isdigit(*p))
+      if ( isdigit(*p) )
 	{
 	  entier = entier * 10;
 	  entier += (*p - '0');
@@ -761,3 +713,4 @@ double gsb_strtod ( char *nptr, char **endptr )
 
   return resultat;
 }
+/******************************************************************************/

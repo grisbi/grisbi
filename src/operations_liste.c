@@ -354,13 +354,6 @@ void creation_listes_operations ( void )
 			   GTK_SIGNAL_FUNC ( traitement_clavier_liste ),
 			   NULL );
 
-      /* attente du relachement de ctrl+p */
-/*
-      gtk_signal_connect ( GTK_OBJECT (liste),
-			   "key_release_event",
-			   GTK_SIGNAL_FUNC ( fin_ctrl ),
-			   NULL );
-*/
       /* on ajoute l'onglet au notebook des comptes */
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
@@ -495,13 +488,6 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 		       GTK_SIGNAL_FUNC ( traitement_clavier_liste ),
 		       NULL );
 
-  /* attente du relachement de ctrl+p */
-/*
-  gtk_signal_connect ( GTK_OBJECT ( liste ),
-		       "key_release_event",
-		       GTK_SIGNAL_FUNC ( fin_ctrl ),
-		       NULL );
-*/
   /* sauvegarde les redimensionnement des colonnes */
 
   gtk_signal_connect ( GTK_OBJECT ( liste ),
@@ -1388,11 +1374,6 @@ void edition_operation ( void )
 
   if ( operation == GINT_TO_POINTER ( -1 ) )
     {
-/*      ALAIN-FIXME : le « if.. else.. » remplace l'appel à la fonction
-        clique_champ_formulaire(widget_formulaire_operations[TRANSACTION_FORM_DATE],
-				NULL,
-				GINT_TO_POINTER ( TRANSACTION_FORM_DATE ) );*/
-
      if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) == style_entree_formulaire[1] )
        {
 	entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_DATE] );
@@ -1401,8 +1382,6 @@ void edition_operation ( void )
 	  {
 	   gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ),
 				gsb_today() );
-/*	gtk_widget_set_style ( widget_formulaire_operations[TRANSACTION_FORM_DATE],
-			       style_entree_formulaire[0] );*/
 	  }
        }
      gtk_entry_select_region ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ), 0, -1);
@@ -1410,13 +1389,11 @@ void edition_operation ( void )
      return;
     }
 
-
 /*   l'opé n'est pas -1, c'est une modif, on remplit les champs */
 
   gtk_object_set_data ( GTK_OBJECT ( formulaire ),
 			"adr_struct_ope",
 			operation );
-  
 
   /* on met le no de l'opé */
 
@@ -1434,7 +1411,6 @@ void edition_operation ( void )
   gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ),
 		       date );
 
-
   /* mise en forme du tiers */
 
   if ( operation -> tiers )
@@ -1447,7 +1423,6 @@ void edition_operation ( void )
       gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_PARTY] ),
 			      (( struct struct_tiers * )( liste_tmp -> data )) -> nom_tiers );
     }
-
 
   /* mise en forme du débit / crédit */
 
@@ -1496,7 +1471,6 @@ void edition_operation ( void )
 	    }
 	}
     }
-
 
   /* si l'opération est relevée, on désensitive les entrées de crédit et débit */
 
@@ -1564,7 +1538,6 @@ void edition_operation ( void )
       
     }
 
-
   /* mise en forme de la date réelle */
 
   if ( operation -> date_bancaire )
@@ -1579,8 +1552,6 @@ void edition_operation ( void )
       gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ),
 			   date_bancaire );
     }
-
-
 
   /* si l'opération est liée, marque le virement */
   /*   et si la contre opération est relevée, on désensitive la categ et le montant */
@@ -1678,7 +1649,6 @@ void edition_operation ( void )
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
     }
 
-
   /* met l'option menu du type d'opé */
 
   if ( GTK_WIDGET_VISIBLE ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ))
@@ -1705,7 +1675,6 @@ void edition_operation ( void )
 	    }
 	}
     }
-
 
   /* met en place l'exercice */
 
@@ -1752,8 +1721,6 @@ void edition_operation ( void )
 			   operation -> no_piece_comptable );
     }
 
-
-
   /*   remplit les notes */
 
   if ( operation -> notes )
@@ -1772,8 +1739,6 @@ void edition_operation ( void )
 			   operation -> info_banque_guichet );
     }
 
-
-
 /* mise en forme de auto / man */
 
   if ( operation -> auto_man )
@@ -1782,8 +1747,6 @@ void edition_operation ( void )
   else
     gtk_label_set_text ( GTK_LABEL ( widget_formulaire_operations[TRANSACTION_FORM_MODE]),
 			 _("Manual"));
-
-
 
 /*   on a fini de remplir le formulaire, on donne le focus à la date */
 
@@ -1805,7 +1768,6 @@ void p_press (void)
   gdouble montant;
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-
 
   /* si on est sur l'opération vide -> on se barre */
 
@@ -1884,7 +1846,6 @@ void p_press (void)
 	}
     }
 
-
   if ( etat.equilibrage )
     {
       gtk_label_set_text ( GTK_LABEL ( label_equilibrage_pointe ),
@@ -1908,7 +1869,6 @@ void p_press (void)
 				     FALSE );
 	}
     }
-
 
   /* p_tab est déjà sur le compte courant */
 
@@ -2179,14 +2139,12 @@ void supprime_operation ( struct structure_operation *operation )
 				      operation );
   NB_OPE_COMPTE--;
 
-
   /* on met à jour, immédiatement si on a la liste affichée */
 
   MISE_A_JOUR = 1;
 
   if ( no_compte == compte_courant )
     verification_mise_a_jour_liste ();
-
 
 /* si on est en train d'équilibrer => recalcule le total pointé */
 
@@ -2233,7 +2191,6 @@ void supprime_operation ( struct structure_operation *operation )
 	}
     }
 
-
   /* on réaffiche la liste de l'état des comptes de l'accueil */
 
   mise_a_jour_solde ( no_compte );
@@ -2245,7 +2202,6 @@ void supprime_operation ( struct structure_operation *operation )
   mise_a_jour_categ ();
   mise_a_jour_imputation ();
   modification_fichier( TRUE );
-
 }
 /******************************************************************************/
 
@@ -2275,7 +2231,6 @@ void changement_taille_liste_ope ( GtkWidget *clist,
   gint largeur;
   gint col0, col1, col2, col3, col4, col5, col6;
 
-
   /* si la largeur de grisbi est < 700, on fait rien */
 
   if ( window -> allocation.width < 700 )
@@ -2299,7 +2254,6 @@ void changement_taille_liste_ope ( GtkWidget *clist,
       gtk_clist_set_column_width ( GTK_CLIST ( clist ),
 				   i,
 				   taille_largeur_colonnes[i] );
-
 
 /* met les entrées du formulaire selon une taille proportionnelle */
 
@@ -2435,7 +2389,6 @@ void verification_mise_a_jour_liste ( void )
   if ( !MISE_A_JOUR )
     return;
 
-
   ajustement = gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS ));
 
   haut = ajustement -> upper;
@@ -2549,7 +2502,6 @@ void mise_a_jour_solde ( gint compte )
 /******************************************************************************/
 void verifie_ligne_selectionnee_visible ( void )
 {
-
   selectionne_ligne ( compte_courant );
 
   gtk_signal_disconnect_by_func ( GTK_OBJECT ( frame_droite_bas ),

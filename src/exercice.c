@@ -747,7 +747,6 @@ void deselection_ligne_exercice ( GtkWidget *liste,
 void modif_detail_exercice ( void )
 {
   gtk_widget_set_sensitive ( hbox_boutons_modif_exercice, TRUE );
-
 }
 /* ************************************************************************** */
 

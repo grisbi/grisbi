@@ -1,23 +1,25 @@
-/* ce fichier se charge de toutes les opérations relative à la configuration sauvegardée */
-
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
-/* 			http://www.grisbi.org */
-
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
-
+/* Ce fichier se charge de toutes les opérations relatives à la configuration */
+/* sauvegardée                                                                */
+/*                                                                            */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004 Alain Portal (dionysos@grisbi.org) 	      */
+/*			http://www.grisbi.org   			      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "include.h"
 #include "structures.h"
@@ -27,10 +29,10 @@
   #define NB_COLS_SCHEDULER 7
   extern gint scheduler_col_width[NB_COLS_SCHEDULER] ;
 
-/******************************************************************************************************************/
+/******************************************************************************/
 /* Fonction charge_configuration */
 /* appelée à l'ouverture de grisbi, charge les préférences */
-/******************************************************************************************************************/
+/******************************************************************************/
 
 void charge_configuration ( void )
 {
@@ -141,19 +143,14 @@ void charge_configuration ( void )
   for ( i = 0 ; i < nb_fichiers_a_verifier ; i++ )
     fichier_a_verifier = g_slist_append ( fichier_a_verifier,
 					  tab_noms_fichiers[i] );
-
 }
-/* ***************************************************************************************************** */
+/******************************************************************************/
 
-
-
-/* ***************************************************************************************************** */
+/******************************************************************************/
 /* Fonction RAZ_configuration */
-/* ***************************************************************************************************** */
-
+/******************************************************************************/
 void raz_configuration ( void )
 {
-
   largeur_window = 0;
   hauteur_window = 0;
 
@@ -188,15 +185,12 @@ void raz_configuration ( void )
   etat.largeur_auto_colonnes = 1;
   etat.retient_affichage_par_compte = 0;
 }
-/* ***************************************************************************************************** */
+/******************************************************************************/
 
-
-
-/* ***************************************************************************************************** */
-/* Fonction sauve_configuration */
-/* Appelée à chaque changement de configuration */
-/* ***************************************************************************************************** */
-
+/******************************************************************************/
+/* Fonction sauve_configuration                                               */
+/* Appelée à chaque changement de configuration                               */
+/******************************************************************************/
 void sauve_configuration (void)
 {
   GSList *pointeur_fichier_a_verifier;
@@ -241,7 +235,6 @@ void sauve_configuration (void)
   gnome_config_set_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonte_generale", NULL ),
 			    fonte_general );
 
-
   /* sauvegarde de l'onglet I/O */
 
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/IO/Chargement_auto_dernier_fichier", NULL ),
@@ -267,7 +260,6 @@ void sauve_configuration (void)
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Echeances/Delai_rappel_echeances", NULL ),
 			 decalage_echeance );
 
-
   /* sauvegarde des fichiers à vérifier par l'applet */
 
   tab_pointeurs = malloc ( g_slist_length ( fichier_a_verifier ) * sizeof ( gchar * ) );
@@ -282,11 +274,9 @@ void sauve_configuration (void)
       pointeur_fichier_a_verifier = pointeur_fichier_a_verifier -> next;
     }
 
-
   gnome_config_set_vector ( g_strconcat ( "/", FICHIER_CONF, "/Applet/Fichiers_a_verifier", NULL ),
 			    g_slist_length ( fichier_a_verifier ),
 			    (const char **) tab_pointeurs );
-
 
   /*   sauvegarde de l'onglet affichage */
 
@@ -326,6 +316,5 @@ void sauve_configuration (void)
 			 etat.affichage_exercice_automatique );
 
   gnome_config_sync();
-
 }
-/* ***************************************************************************************************** */
+/******************************************************************************/

@@ -2687,59 +2687,6 @@ void incrementation_echeance ( struct operation_echeance *echeance )
 /******************************************************************************/
 
 /******************************************************************************/
-/* Fonction date_selectionnee_echeancier */
-/* appelée lorsqu'on a clické 2 fois sur une date du calendrier */
-/******************************************************************************/
-void date_selectionnee_echeancier ( GtkCalendar *calendrier,
-				    GtkWidget *popup )
-{
-  guint annee, mois, jour;
-
-  gtk_calendar_get_date ( calendrier,
-			  &annee,
-			  &mois,
-			  &jour);
-
-  gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] ),
-		       g_strdup_printf ( "%02d/%02d/%d",
-					 jour,
-					 mois + 1,
-					 annee));
-  gtk_widget_destroy ( popup );
-
-  gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ) -> entry );
-	
-}
-/******************************************************************************/
-
-/******************************************************************************/
-/* Fonction date_limite_selectionnee_echeancier */
-/* appelée lorsqu'on a clické 2 fois sur une date du calendrier */
-/******************************************************************************/
-void date_limite_selectionnee_echeancier ( GtkCalendar *calendrier,
-					   GtkWidget *popup )
-{
-  guint annee, mois, jour;
-
-  gtk_calendar_get_date ( calendrier,
-			  &annee,
-			  &mois,
-			  &jour);
-
-  gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] ),
-		       g_strdup_printf ( "%02d/%02d/%d",
-					 jour,
-					 mois + 1,
-					 annee));
-
-  gtk_widget_destroy ( popup );
-
-  gtk_widget_grab_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] );
-	
-}
-/******************************************************************************/
-
-/******************************************************************************/
 /* Fonction completion_operation_par_tiers_echeancier */
 /* appelée lorsque le tiers perd le focus */
 /* récupère le tiers, et recherche la dernière opé associée à ce tiers */
@@ -2845,8 +2792,6 @@ void completion_operation_par_tiers_echeancier ( void )
 
   if ( !operation )
     return;
-
-
 
   /* remplit les différentes entrées du formulaire */
 
@@ -2956,7 +2901,6 @@ void completion_operation_par_tiers_echeancier ( void )
       
 	}
     }
-
 
   /* met l'option menu du type d'opé */
 

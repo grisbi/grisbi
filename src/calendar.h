@@ -16,6 +16,5 @@ gchar *gsb_today ( void ) ;
 gboolean format_date ( GtkWidget *entree );
 void inc_dec_date ( GtkWidget *entree, gint demande );
 void ferme_calendrier ( GtkWidget *entree );
-void close_calendar ( GtkWidget *pMainWindow );
 
 double gsb_strtod ( char *nptr, char **endptr );

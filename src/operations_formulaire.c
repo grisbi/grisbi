@@ -31,10 +31,6 @@
 #include "calendar.h"
 #include "constants.h"
 
-void calendar_destroyed ( GtkWidget *entry );
-void keyboard_calendrier ( GtkWidget *popup,
-			 GdkEventKey *ev );
-
 /******************************************************************************/
 /*  Routine qui crée le formulaire et le renvoie                              */
 /******************************************************************************/
@@ -936,7 +932,6 @@ void entree_perd_focus ( GtkWidget *entree,
 	      /* sont affichés, soit le widget n'est pas visible */
 	      /* on met donc le défaut, sauf si il y a qque chose dans les categ ou que le widget n'est pas visible */
 
-
 	      if ( GTK_WIDGET_VISIBLE ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ) &&
 		   gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ) == style_entree_formulaire[ENGRIS] )
 		gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ),
@@ -1164,9 +1159,6 @@ gboolean clique_champ_formulaire ( GtkWidget *entree,
 
   if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) == style_entree_formulaire[ENGRIS] )
     {
-//     entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_DATE] );
-//     entree_prend_focus ( entree );
-
      if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ) == style_entree_formulaire[ENGRIS] )
        {
 	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ),
@@ -1174,24 +1166,7 @@ gboolean clique_champ_formulaire ( GtkWidget *entree,
 	gtk_widget_set_style ( widget_formulaire_operations[TRANSACTION_FORM_DATE],
 			       style_entree_formulaire[ENCLAIR] );
        }
-      
-     /* si le click est sur l'entrée de la date, on la sélectionne et elle prend le focus */
-
-/*     if ( GPOINTER_TO_INT ( no_origine ) == TRANSACTION_FORM_DATE )
-       {
-	if ( ( ev ) && ( ev -> type != GDK_2BUTTON_PRESS ) )
-	{
-	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( entree ),
-					 "button-press-event");
-	gtk_entry_select_region ( GTK_ENTRY ( entree ), 0, -1 );
-//	gtk_widget_grab_focus ( GTK_WIDGET ( entree ) );
-	}
-       }*/
     }
-/*
-  entree_prend_focus ( entree );
-  gtk_widget_grab_focus ( GTK_WIDGET ( entree ) );
-*/
   /* si ev est null ( cad que ça ne vient pas d'un click mais appelé par ex
      à la fin de fin_edition ), on se barre */
 
@@ -1208,17 +1183,9 @@ gboolean clique_champ_formulaire ( GtkWidget *entree,
       /* si double click, on popup le calendrier */
       if ( ev -> type == GDK_2BUTTON_PRESS )
 	{
-	      gtk_signal_emit_stop_by_name ( GTK_OBJECT ( entree ),
-					     "button-press-event");
+	 gtk_signal_emit_stop_by_name ( GTK_OBJECT ( entree ),
+					"button-press-event" );
 	 popup_cal = gsb_calendar_new ( entree );
-/*	 gtk_signal_connect_object ( GTK_OBJECT ( popup_cal ),
-				     "destroy",
-				     GTK_SIGNAL_FUNC ( calendar_destroyed ),
-				     GTK_OBJECT ( entree ) );*/
-/*  gtk_signal_connect ( GTK_OBJECT ( popup_cal ),
-		       "key-press-event",
-		       GTK_SIGNAL_FUNC ( keyboard_calendrier ),
-		       NULL  );*/
 	 gtk_signal_connect_object ( GTK_OBJECT ( popup_cal ),
 				     "destroy",
 				     GTK_SIGNAL_FUNC ( ferme_calendrier ),
@@ -1233,14 +1200,6 @@ gboolean clique_champ_formulaire ( GtkWidget *entree,
       return FALSE ;
       break;
     }
-}
-/******************************************************************************/
-
-/******************************************************************************/
-void calendar_destroyed ( GtkWidget *entry )
-{
-	      gtk_signal_emit_by_name ( GTK_OBJECT ( entry ),
-					     "focus-in-event");
 }
 /******************************************************************************/
 
@@ -1264,8 +1223,6 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
     {
     case GDK_Escape :		/* échap */
 
-/*      gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
-				     "button-press-event");*/
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
       gtk_widget_grab_focus ( CLIST_OPERATIONS );
       echap_formulaire();
@@ -1480,74 +1437,6 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
       break;
     }
   return TRUE;
-}
-/******************************************************************************/
-
-/******************************************************************************/
-/* Fonction touche_calendrier */
-/* supprime le calendrier si on appuie sur échap */
-/******************************************************************************/
-void touche_calendrier ( GtkWidget *popup,
-			 GdkEventKey *ev,
-			 gpointer null )
-{
-  if ( ev->keyval == GDK_Escape )
-    ferme_calendrier ( popup );
-}
-/******************************************************************************/
-
-/******************************************************************************/
-/* Fonction touche_calendrier */
-/* supprime le calendrier si on appuie sur échap */
-/******************************************************************************/
-void keyboard_calendrier ( GtkWidget *popup,
-			 GdkEventKey *ev )
-{
-  if ( ev->keyval == GDK_Escape )
-  {
-  dialogue("ca passe ici");
-    ferme_calendrier ( popup );
-    }
-}
-/******************************************************************************/
-
-/******************************************************************************/
-/* Fonction date_selectionnee */
-/* appelée lorsqu'on a clické 2 fois sur une date du calendrier */
-/******************************************************************************/
-void date_selectionnee ( GtkCalendar *pCalendar,
-			 GtkWidget *popup )
-{
-  guint annee, mois, jour;
-
-  gtk_calendar_get_date ( pCalendar, &annee, &mois, &jour);
-
-  gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ),
-		       g_strdup_printf ( "%02d/%02d/%04d",
-					 jour,
-					 mois + 1,
-					 annee));
-  gtk_widget_destroy ( popup );
-
-//  gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_PARTY] ) -> entry );
-}
-/******************************************************************************/
-
-/******************************************************************************/
-/* Fonction date_bancaire_selectionnee                                        */
-/* appelée lorsqu'on a clické 2 fois sur une date du calendrier pour la date reelle */
-/******************************************************************************/
-void date_bancaire_selectionnee ( GtkCalendar *pCalendar, GtkWidget *popup )
-{
-  guint annee, mois, jour;
-
-  gtk_calendar_get_date ( pCalendar, &annee, &mois, &jour);
-
-  gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ),
-		       g_strdup_printf ( "%02d/%02d/%04d", jour, mois + 1, annee));
-  gtk_widget_destroy ( popup );
-
-  gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_PARTY] ) -> entry );
 }
 /******************************************************************************/
 

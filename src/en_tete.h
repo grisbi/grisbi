@@ -1,24 +1,16 @@
 /* fichier d'en tête en_tete.h */
  
-
-
 /********************/ 
 /* fichier main.c */
 /********************/ 
-
-
 int main (int argc, char *argv[]);
 gint tente_modif_taille ( GtkWidget *win,
 			  GtkAllocation *requisition,
 			  gpointer null );
 
-
-
-
 /********************/ 
 /* fichier menu.c */
 /********************/ 
-
 void init_menus ( GtkWidget * );
 void efface_derniers_fichiers_ouverts ( void );
 void affiche_derniers_fichiers_ouverts ( void );
@@ -28,7 +20,6 @@ void lien_web ( GtkWidget *widget,
 /********************/ 
 /* fichier erreurs.c */
 /********************/ 
-
 gboolean fermeture_grisbi ( void );
 void dialogue ( gchar * texte_dialogue );
 gboolean blocage_boites_dialogues ( GtkWidget *dialog,
@@ -40,33 +31,23 @@ gchar *demande_texte ( gchar *titre_fenetre,
 void affiche_log_message ( void );
 void traitement_sigsegv ( gint signal_nb );
 
-
-
 /***********************************/ 
 /* fichier fichier_configuration.c */
 /***********************************/ 
-
 void charge_configuration ( void );
 void raz_configuration ( void );
 void sauve_configuration (void);
 
-
-
 /********************/ 
 /* fichier traitement_variables.c */
 /********************/ 
-
 void modification_fichier ( gboolean modif );
 void init_variables ( gboolean ouverture );
 void initialise_tab_affichage_ope ( void );
 
-
-
 /********************/ 
 /* fichier fichiers_io.c */
 /********************/ 
-
-
 gboolean charge_operations ( void );
 gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc );
 void supprime_operations_orphelines ( void );
@@ -84,14 +65,9 @@ gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc );
 void propose_changement_permissions ( void );
 double my_strtod ( char *nptr, char **endptr );
 
-
-
-
 /************************/ 
 /* fichier fichiers_gestion.c */
 /************************/ 
-
-
 void nouveau_fichier ( void );
 void ouvrir_fichier ( void );
 void ouverture_fichier_par_menu ( GtkWidget *menu,
@@ -106,26 +82,18 @@ void affiche_titre_fenetre ( void );
 gboolean enregistrement_backup ( void );
 void ajoute_nouveau_fichier_liste_ouverture ( gchar *path_fichier );
 
-
-
-
 /*********************/ 
 /* fichier fenetre_principale.c */
 /*********************/ 
-
-
 GtkWidget *creation_fenetre_principale ( void );
 void change_page_notebook ( GtkNotebook *notebook,
 			    GtkNotebookPage *page,
 			    guint numero_page,
 			    gpointer null );
 
-
-
 /***********************************/ 
 /* fichier accueil.c */
 /***********************************/ 
-
 GtkWidget *creation_onglet_accueil ( void );
 void change_temps ( GtkWidget *label_temps );
 void saisie_echeance_accueil ( GtkWidget *event_box,
@@ -143,20 +111,14 @@ void update_liste_echeances_auto_accueil ( void );
 void mise_a_jour_soldes_minimaux ( void );
 void mise_a_jour_fin_comptes_passifs ( void );
 
-
-
 /*********************/ 
 /* fichier onglet_operations.c */
 /*********************/ 
-
 GtkWidget *creation_onglet_operations ( void );
-
-
 
 /************************/ 
 /* fichier operations_comptes.c */
 /************************/ 
-
 GtkWidget *creation_liste_comptes (void);
 GtkWidget *comptes_appel ( gint no_de_compte );
 void changement_compte_par_menu ( GtkWidget *menu,
@@ -164,12 +126,9 @@ void changement_compte_par_menu ( GtkWidget *menu,
 void changement_compte ( gint *compte);
 void reaffiche_liste_comptes ( void );
 
-
-
 /************************/ 
 /* fichier operations_liste.c */
 /************************/ 
-
 GtkWidget *creation_fenetre_operations ( void );
 GtkWidget *initialisation_notebook_operations ( void );
 void creation_listes_operations ( void );
@@ -205,11 +164,9 @@ void changement_taille_colonne ( GtkWidget *clist,
 				 gint colonne,
 				 gint largeur );
 
-
 /************************/ 
 /* fichier operations_formulaire.c */
 /************************/ 
-
 GtkWidget *creation_formulaire ( void );
 void echap_formulaire ( void );
 void entree_prend_focus ( GtkWidget *entree );
@@ -222,15 +179,7 @@ gboolean clique_champ_formulaire ( GtkWidget *entree,
 gboolean touches_champ_formulaire ( GtkWidget *widget,
 				    GdkEventKey *ev,
 				    gint *no_origine );
-//void ferme_calendrier ( GtkWidget *popup );
-void  touche_calendrier ( GtkWidget *popup,
-			  GdkEventKey *ev,
-			  gpointer null );
-void date_selectionnee ( GtkCalendar *calendrier,
-			 GtkWidget *popup );
 gboolean modifie_date ( GtkWidget *entree );
-void date_bancaire_selectionnee ( GtkCalendar *calendrier,
-			 GtkWidget *popup );
 void  completion_operation_par_tiers ( void );
 void fin_edition ( void );
 void ajout_operation ( struct structure_operation *operation );
@@ -257,20 +206,13 @@ void basculer_vers_ventilation ( GtkWidget *bouton,
 				 gpointer null );
 void click_sur_bouton_voir_change ( void );
 void degrise_formulaire_operations ( void );
-void incremente_decremente_date ( GtkWidget *entree,
-				  gint demande );
 gint place_type_choix_type ( GtkWidget *option_menu,
 			     gint type );
 void increment_decrement_champ ( GtkWidget *entry, gint increment );
 
-
-
-
 /************************/ 
 /* fichier comptes_onglet.c */
 /************************/ 
-
-
 GtkWidget *creation_onglet_comptes ( void );
 GtkWidget *creation_liste_comptes_onglet ( void );
 GtkWidget *comptes_appel_onglet ( gint no_de_compte );
@@ -278,13 +220,9 @@ void changement_compte_onglet ( GtkWidget *bouton,
 				gint compte );
 void reaffiche_liste_comptes_onglet ( void );
 
-
-
-
 /***********************************/ 
 /* fichier comptes_gestion.c */
 /***********************************/ 
-
 GtkWidget *creation_details_compte ( void );
 GtkWidget *creation_menu_type_compte ( void );
 void changement_bouton_adresse_commune_perso ( void );
@@ -298,11 +236,9 @@ void passage_a_l_euro ( GtkWidget *bouton,
 			gpointer null );
 void changement_de_banque ( void );
 
-
 /************************/ 
 /* fichier comptes_traitements.c */
 /************************/ 
-
 void nouveau_compte (void);
 gint initialisation_nouveau_compte ( gint type_de_compte );
 void supprimer_compte ( void );
@@ -317,21 +253,15 @@ void creation_types_par_defaut ( gint no_compte,
 				 gulong dernier_cheque );
 gint demande_type_nouveau_compte ( void );
 
-
 /************************/ 
 /* fichier help.c */
 /************************/ 
-
 void a_propos ( GtkWidget *bouton,
 		gint data );
-
-
-
 
 /************************/ 
 /* fichier equilibrage.c */
 /************************/ 
-
 GtkWidget *creation_fenetre_equilibrage ( void );
 void equilibrage ( void );
 void sortie_entree_date_equilibrage ( GtkWidget *entree );
@@ -348,12 +278,9 @@ gint recherche_no_rapprochement_par_no ( struct struct_no_rapprochement *rapproc
 					 gint *no_rap );
 void calcule_total_pointe_compte ( gint no_compte );
 
-
-
 /************************/ 
 /* fichier parametres.c */
 /************************/ 
-
 void preferences ( GtkWidget *widget,
 		   gint page_demandee );
 GtkWidget *onglet_general ( void );
@@ -377,12 +304,9 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 			      gpointer data );
 gint verifie_affichage_applet ( void );
 
-
-
 /***********************************/ 
 /* fichier echeancier_liste.c */
 /***********************************/ 
-
 GtkWidget *creation_onglet_echeancier ( void );
 GtkWidget *creation_partie_gauche_echeancier ( void );
 GtkWidget *creation_liste_echeances ( void );
@@ -414,12 +338,9 @@ gint classement_liste_echeances ( GtkWidget *liste,
 				  GtkCListRow *ligne_1,
 				  GtkCListRow *ligne_2 );
 
-
-
 /************************/ 
 /* fichier echeancier_formulaire.c */
 /************************/ 
-
 GtkWidget *creation_formulaire_echeancier ( void );
 void echap_formulaire_echeancier ( void );
 void entree_perd_focus_echeancier ( GtkWidget *entree,
@@ -441,20 +362,12 @@ gint comparaison_date_echeance (  struct operation_echeance *echeance_1,
 				  struct operation_echeance *echeance_2);
 void formulaire_echeancier_a_zero ( void );
 void incrementation_echeance ( struct operation_echeance *echeance );
-void date_selectionnee_echeancier ( GtkCalendar *calendrier,
-				    GtkWidget *popup );
-void date_limite_selectionnee_echeancier ( GtkCalendar *calendrier,
-					   GtkWidget *popup );
 void completion_operation_par_tiers_echeancier ( void );
 void degrise_formulaire_echeancier ( void );
-
-
-
 
 /***********************************/ 
 /* fichier tiers_onglet.c */
 /***********************************/ 
-
 GtkWidget *onglet_tiers ( void );
 void remplit_arbre_tiers ( void );
 gint classement_alphabetique_tree ( GtkWidget *tree,
@@ -494,13 +407,9 @@ gchar *calcule_total_montant_tiers_par_compte ( gint no_tiers,
 					       gint no_compte );
 void appui_sur_ajout_tiers ( void );
 
-
-
 /***********************************/ 
 /* fichier devises.c */
 /***********************************/ 
-
-
 void creation_devises_de_base ( void );
 GtkWidget *creation_option_menu_devises ( gint devise_cachee,
 					  GSList *liste_tmp );
@@ -552,14 +461,9 @@ gdouble calcule_montant_devise_renvoi ( gdouble montant_init,
 					gdouble taux_change,
 					gdouble frais_change );
 
-
-
 /***********************************/ 
 /* fichier barre_outils.c */
 /***********************************/ 
-
-
-
 GtkWidget *creation_barre_outils ( void );
 void change_aspect_liste ( GtkWidget *bouton,
 			   gint demande );
@@ -571,12 +475,9 @@ void demande_expand_arbre ( GtkWidget *bouton,
 			    gint *liste );
 void mise_a_jour_boutons_caract_liste ( gint no_compte );
 
-
-
 /************************/ 
 /* fichier banque.c */
 /************************/ 
-
 void ajout_banque ( GtkWidget *bouton,
 		    GtkWidget *clist );
 void applique_modif_banque ( GtkWidget *liste );
@@ -601,11 +502,9 @@ void deselection_ligne_banque ( GtkWidget *liste,
 void modif_detail_banque ( GtkWidget *entree,
 			   gpointer null );
 
-
 /************************/ 
 /* fichier ventilation.c */
 /************************/ 
-
 GtkWidget *creation_fenetre_ventilation ( void );
 GtkWidget *creation_verification_ventilation ( void );
 GtkWidget *creation_formulaire_ventilation ( void );
@@ -641,13 +540,9 @@ void annuler_ventilation ( void );
 GSList *creation_liste_ope_de_ventil ( struct structure_operation *operation );
 void validation_ope_de_ventilation ( struct structure_operation *operation );
 
-
-
-
 /***********************************/ 
 /* fichier qif.c */
 /***********************************/ 
-
 void importer_fichier_qif ( void );
 /* void iqc_fichier(void); */
 void selection_fichier_qif ( void );
@@ -658,12 +553,9 @@ void exporter_fichier_qif ( void );
 void click_compte_export_qif ( GtkWidget *bouton,
 			       GtkWidget *entree );
 
-
-
 /***********************************/ 
 /* fichier operations_classement.c */
 /***********************************/ 
-
 gint classement_liste_par_date ( GtkWidget *liste,
 				 GtkCListRow *ligne_1,
 				 GtkCListRow *ligne_2 );
@@ -682,11 +574,9 @@ gint classement_sliste_par_tri_courant ( struct structure_operation *operation_1
 gint classe_liste_alphabetique ( gchar *string_1,
 				 gchar *string_2 );
 
-
 /***********************************/ 
 /* fichier categories_onglet.c */
 /***********************************/ 
-
 GtkWidget *onglet_categories ( void );
 void remplit_arbre_categ ( void );
 void ouverture_node_categ ( GtkWidget *arbre,
@@ -730,22 +620,17 @@ void appui_sur_ajout_sous_categorie ( void );
 void exporter_categ ( void );
 void importer_categ ( void );
 
-
-
 /***********************************/ 
 /* fichier patienter.c */
 /***********************************/ 
-
 void mise_en_route_attente ( gchar *message );
 void update_attente ( gchar *message );
 void annulation_attente ();
 gint animation_patienter ();
 
-
 /***********************************/ 
 /* fichier type_operations.c */
 /***********************************/ 
-
 GtkWidget *onglet_types_operations ( void );
 void selection_ligne_arbre_types ( GtkWidget *arbre,
 				   GtkCTreeNode *node,
@@ -786,7 +671,6 @@ void changement_choix_type_echeancier ( struct struct_type_ope *type );
 /***********************************/ 
 /* fichier exercice.c */
 /***********************************/ 
-
 GtkWidget *onglet_exercices ( void );
 void ajout_exercice ( GtkWidget *bouton,
 		      GtkWidget *clist );
@@ -818,12 +702,9 @@ void affiche_exercice_par_date ( GtkWidget *entree_date,
 void association_automatique ( void );
 gint recherche_exo_correspondant ( GDate *date );
 
-
-
 /***********************************/ 
 /* fichier imputation_budgetaire.c */
 /***********************************/ 
-
 GtkWidget *onglet_imputations ( void );
 void remplit_arbre_imputation ( void );
 void ouverture_node_imputation ( GtkWidget *arbre,
@@ -866,11 +747,9 @@ void appui_sur_ajout_sous_imputation ( void );
 void exporter_ib ( void );
 void importer_ib ( void );
 
-
 /***********************************/ 
 /* fichier affichage.c */
 /***********************************/ 
-
 GtkWidget *onglet_affichage ( void );
 void selection_choix_ordre_comptes ( GtkWidget *box );
 void deselection_choix_ordre_comptes ( GtkWidget *box );
@@ -886,11 +765,9 @@ void modification_logo_accueil ( void );
 void remise_a_zero_logo ( GtkWidget *bouton,
 			  GtkWidget *pixmap_entry );
 
-
 /***********************************/ 
 /* fichier etats_onglet.c */
 /***********************************/ 
-
 GtkWidget *creation_onglet_etats ( void );
 GtkWidget *creation_liste_etats ( void );
 GtkWidget *creation_barre_boutons_etats ( void );
@@ -910,7 +787,6 @@ void dupliquer_etat ( void );
 /***********************************/ 
 /* fichier etats_config.c */
 /***********************************/ 
-
 void personnalisation_etat (void);
 void annule_modif_config ( void );
 void selectionne_liste_exo_etat_courant ( void );
@@ -932,8 +808,6 @@ void click_liste_etat ( GtkCList *liste,
 			gint origine );
 void clique_sur_entree_date_etat ( GtkWidget *entree,
 				   GdkEventButton *ev );
-void date_selectionnee_etat ( GtkCalendar *calendrier,
-			      GtkWidget *popup );
 void change_separation_result_periode ( void );
 void modif_type_separation_dates ( gint *origine );
 void remplissage_liste_exo_etats ( void );
@@ -992,7 +866,6 @@ void selectionne_liste_modes_paiement_etat_courant ( void );
 /***********************************/ 
 /* fichier etats_calculs.c */
 /***********************************/ 
-
 void affichage_etat ( struct struct_etat *etat, 
 		      struct struct_etat_affichage *affichage );
 GSList *recupere_opes_etat ( struct struct_etat *etat );
@@ -1017,18 +890,14 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 				   struct struct_etat_affichage *affichage );
 void denote_struct_sous_jaccentes ( gint origine );
 
-
 /***********************************/ 
 /* fichier etats_support.c */
 /***********************************/ 
-
 gchar * etats_titre ();
-
 
 /***********************************/ 
 /* fichier etats_gtktable.c */
 /***********************************/ 
-
 gint gtktable_initialise ( );
 gint gtktable_affiche_titre ( gint ligne );
 gint gtktable_affiche_separateur ( gint ligne );
@@ -1074,11 +943,9 @@ gint gtktable_affiche_titres_colonnes ( gint ligne );
 gint gtktable_finish ( );
 void gtktable_click_sur_ope_etat ( struct structure_operation *operation );
 
-
 /************************/ 
 /* fichier affichage_liste.c */
 /************************/ 
-
 GtkWidget *onglet_affichage_liste ( void );
 GtkWidget *cree_menu_quatres_lignes ( void );
 void allocation_clist_affichage_liste ( GtkWidget *clist,
@@ -1095,11 +962,9 @@ void changement_taille_liste_affichage ( GtkWidget *clist,
 void recuperation_noms_colonnes_et_tips ( void );
 void raz_affichage_ope ( void );
 
-
 /************************/ 
 /* fichier etat_io.c */
 /************************/ 
-
 gboolean charge_etat ( gchar *nom_etat );
 gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc );
 gboolean enregistre_etat ( gchar *nom_etat );

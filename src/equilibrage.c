@@ -586,62 +586,7 @@ void equilibrage ( void )
 /******************************************************************************/
 void sortie_entree_date_equilibrage ( GtkWidget *entree )
 {
-/*  gchar *text;
-  gint nb_parametres;
-  GDate *date;
-  gint jour, mois, annee;*/
-
   format_date ( entree );
-
-  
-/*      if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-	{
-	  format_date ( entree );
-	}*/
-  /* vérifie que la date est correcte */
-/*
-  if ( format_date ( entree ) == FALSE )
-    {
-     dialogue ( PRESPACIFY(_("Error: invalid date")) );
-     gtk_widget_grab_focus ( entree );
-     gtk_entry_select_region ( GTK_ENTRY ( entree ),
-			       0,
-			       -1);
-      return FALSE;
-    }
-      return TRUE;
-*/
-/*
-  text = gtk_entry_get_text ( GTK_ENTRY ( entree ) );
-
-  if ( ( nb_parametres = sscanf ( text, "%d/%d/%d", &jour, &mois, &annee ) ) != 3 )
-    {
-      if ( !nb_parametres || nb_parametres == -1 )
-	return;
-
-      date = g_date_new ();
-      g_date_set_time ( date, time( NULL ) );
-
-      if ( nb_parametres == 1 )
-	mois = g_date_month ( date );
-
-      annee = g_date_year ( date );
-    }
-
-  if ( g_date_valid_dmy ( jour, mois, annee ) == FALSE )
-    {
-      dialogue ( _("Error: invalid date") );
-      return;
-    }
-
-  format_date ( entree );
-
-  gtk_entry_set_text ( GTK_ENTRY ( entree ),
-		       g_strdup_printf ( "%02d/%02d/%04d",
-					 jour,
-					 mois,
-					 annee ) );*/
-	   
 }
 /******************************************************************************/
 
@@ -794,7 +739,7 @@ void pointe_equilibrage ( int p_ligne )
       gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
 			   p_ligne,
 			   3,
-			   "P");
+			   _("P"));
     }
     
   /* si c'est une opération ventilée, on recherche les opérations filles
@@ -1092,18 +1037,8 @@ void souris_equilibrage ( GtkWidget *entree,
 {
   GtkWidget *popup_cal;
       
-      if ( event -> type == GDK_2BUTTON_PRESS )
-	{
-	 popup_cal = gsb_calendar_new ( entree );
-/*	 gtk_signal_connect_object ( GTK_OBJECT ( popup_cal ),
-				     "destroy",
-				     GTK_SIGNAL_FUNC ( calendar_destroyed ),
-				     GTK_OBJECT ( entree ) );
-	 gtk_signal_connect_object ( GTK_OBJECT ( popup_cal ),
-				     "destroy",
-				     GTK_SIGNAL_FUNC ( gdk_pointer_ungrab ),
-				     GDK_CURRENT_TIME );*/
-	}
+  if ( event -> type == GDK_2BUTTON_PRESS )
+    popup_cal = gsb_calendar_new ( entree );
 }
 /******************************************************************************/
 
@@ -1180,6 +1115,7 @@ gboolean clavier_equilibrage ( GtkWidget *widget,
     }
   return TRUE;
 }
+/******************************************************************************/
 
 
 

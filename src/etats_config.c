@@ -2082,6 +2082,7 @@ gboolean pression_touche_date_etat ( GtkWidget *widget,
 	  la saisie de l'échéance */
        else
 	 {
+	  /* ALAIN-FIXME */
 	  dialogue("prévoir autre chose");
 	 }
        return TRUE;
@@ -5794,9 +5795,6 @@ GtkWidget *page_organisation_donnees ( void )
 		      fleche  );
   gtk_widget_show_all ( vbox );
 
-  
-
-
 
   /* on permet la séparation des revenus et des dépenses */
 
@@ -6193,9 +6191,6 @@ GtkWidget *onglet_affichage_etat_generalites ( void )
 		       FALSE,
 		       0 );
   gtk_widget_show ( entree_nom_etat );
-
-
-
 
   /* afficher ou non le nb d'opés avec les totaux */
 
@@ -6764,8 +6759,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
   gtk_widget_show ( bouton_rendre_ope_clickables );
 
 
-
-  /* on met les connections */
+  /* on met les connexions */
 
   gtk_signal_connect ( GTK_OBJECT ( bouton_afficher_categ_opes ),
 		       "toggled",
@@ -6783,9 +6777,6 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
 		       bouton_titre_en_haut );
-
-
-
 
   return ( widget_retour );
 }
@@ -7197,8 +7188,6 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 		       bouton_affiche_sous_total_tiers );
 
 
-
-
   hbox = gtk_hbox_new ( FALSE,
 			5 );
   gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
@@ -7303,7 +7292,6 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 		       bouton_afficher_pas_de_sous_categ );
 
 
-
   /* mise en place de la frame des ib */
 
   frame = gtk_frame_new ( COLON(_("Budgetary lines")));
@@ -7394,8 +7382,6 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
 		       bouton_afficher_pas_de_sous_ib );
 
-
-
   return ( widget_retour );
 }
 /******************************************************************************/
@@ -7425,7 +7411,6 @@ GtkWidget *onglet_etat_mode_paiement ( void )
   gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
 					  vbox_onglet );
   gtk_widget_show ( vbox_onglet );
-
 
   /* on met dans la partie de gauche une liste contenant les modes de paiement à */
   /* sélectionner */
@@ -7506,8 +7491,6 @@ GtkWidget *onglet_etat_mode_paiement ( void )
 
   remplissage_liste_modes_paiement_etats ();
 
-      
-
   /*   sur la partie de droite, on met les boutons (dé)sélectionner tout */
 
   vbox = gtk_vbox_new ( FALSE,
@@ -7546,7 +7529,6 @@ GtkWidget *onglet_etat_mode_paiement ( void )
 		       FALSE,
 		       0 );
   gtk_widget_show ( bouton );
-
 
   return ( widget_retour );
 }
