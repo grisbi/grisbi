@@ -168,7 +168,6 @@ static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint
     pScroll = gtk_scrolled_window_new ( NULL, NULL); 
     gtk_container_add ( GTK_CONTAINER ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox) ),
 			pScroll );
-    gtk_widget_show ( pScroll );
 
     pVBox = gtk_vbox_new ( FALSE, 5);
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( pScroll ),
@@ -176,7 +175,6 @@ static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( pScroll ),
 				     GTK_POLICY_NEVER,
 				     GTK_POLICY_AUTOMATIC);
-    gtk_widget_show ( pVBox );
 
     paddingbox = new_paddingbox_with_title ( pVBox, FALSE,
 					     _("Select accounts to export") );
@@ -185,7 +183,6 @@ static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint
     table = gtk_table_new ( nb_comptes, 2, FALSE );
     gtk_table_set_col_spacings ( GTK_TABLE ( table ), 12 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), table, TRUE, TRUE, 0 );
-    gtk_widget_show ( table );
 
     /* on met chaque compte dans la table */
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
@@ -200,7 +197,6 @@ static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint
 			   GTK_SHRINK | GTK_FILL,
 			   GTK_SHRINK | GTK_FILL,
 			   0, 0 );
-	gtk_widget_show ( check_button );
 
 	account_entry = gtk_entry_new ();
 	sFilename = g_strconcat ( nom_fichier_comptes,
@@ -223,7 +219,6 @@ static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint
 			   GTK_EXPAND | GTK_FILL,
 			   GTK_SHRINK | GTK_FILL,
 			   0, 0 );
-	gtk_widget_show ( account_entry );
 
 
 	/*       si on clique sur le check bouton, ça rend éditable l'entrée */
@@ -238,6 +233,8 @@ static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint
     }
 
     g_selected_entries = NULL;
+    
+    /* Needed to get size */
     gtk_widget_show_all ( dialog );
     pScrollHorizontalSize = gtk_scrolled_window_get_hadjustment(GTK_SCROLLED_WINDOW ( pScroll ));
 
@@ -247,6 +244,8 @@ static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint
 	pScroll -> allocation.height = ( nb_comptes + 1 ) * check_button -> allocation.height;
     
     gtk_widget_set_size_request( pScroll, pScrollHorizontalSize -> page_size, pScroll -> allocation.height);
+
+    /* Needed to set custom size */
     gtk_widget_show_all ( dialog );
     return (dialog);
 
