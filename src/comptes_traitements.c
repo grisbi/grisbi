@@ -1,7 +1,7 @@
 /* Ce fichier s'occupe des manipulations de comptes */
 /* comptes_traitements.c */
 
-/*     Copyright (C) 2000-2001  Cédric Auger */
+/*     Copyright (C) 2000-2002  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -35,16 +35,12 @@
 void  nouveau_compte ( void )
 {
   GtkWidget *bouton;
-  gint compte_visible;
-
 
   if ( !nb_comptes )
     {
       nouveau_fichier ();
       return;
     }
-
-  compte_visible = p_tab_nom_de_compte_courant - p_tab_nom_de_compte;
 
   if  (!(p_tab_nom_de_compte = realloc ( p_tab_nom_de_compte, ( nb_comptes + 1 )* sizeof ( gpointer ) )))
     {
@@ -54,7 +50,6 @@ void  nouveau_compte ( void )
 
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + nb_comptes;
-  p_tab_nom_de_compte_courant = p_tab_nom_de_compte + compte_visible; 
 
 
   if  (!(*p_tab_nom_de_compte_variable = calloc ( 1,
@@ -108,8 +103,6 @@ void  nouveau_compte ( void )
 
 /* on met à jour l'option menu des formulaires des échéances et des opés */
 
-/*   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[7] ), */
-/* 			     creation_option_menu_comptes () ); */
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] ),
 			     creation_option_menu_comptes () );
 
@@ -118,14 +111,33 @@ void  nouveau_compte ( void )
 
   update_liste_comptes_accueil ();
 
-  changement_compte ( GINT_TO_POINTER ( nb_comptes - 1 ));
-
-  change_aspect_liste ( NULL,
-			5 );
 
   remplissage_liste_comptes_etats ();
   selectionne_liste_comptes_etat_courant ();
 
+  gtk_widget_set_sensitive ( bouton_supprimer_compte,
+			     TRUE );
+
+
+  /* on crée le nouveau compte dans les propriétés des comptes */
+
+  bouton = comptes_appel_onglet ( nb_comptes - 1 );
+  gtk_box_pack_start (GTK_BOX (vbox_liste_comptes_onglet),
+		      bouton,
+		      FALSE,
+		      FALSE,
+		      0);
+  gtk_widget_show (bouton);
+
+  /* on se place sur le nouveau compte pour faire les modifs */
+
+  changement_compte_onglet ( ((GtkBoxChild *)(GTK_BOX ( bouton ) -> children -> data))->widget,
+			     nb_comptes - 1 );
+
+  /* on se met sur l'onglet de propriétés du compte */
+
+  gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
+			  3 );
 
   modification_fichier ( TRUE );
 }

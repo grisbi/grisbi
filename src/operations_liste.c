@@ -1,7 +1,7 @@
 /*  Fichier qui gère la liste des opérations */
 /*      liste_operations.c */
 
-/*     Copyright (C) 2000-2001  Cédric Auger */
+/*     Copyright (C) 2000-2002  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -64,24 +64,12 @@ GtkWidget *creation_fenetre_operations ( void )
   /* création du notebook des opé */
 
   notebook_listes_operations = initialisation_notebook_operations ();
-
-/*   qd on change de page, vérifie si on était sur le détail du compte et qu'on change sans avoir sauvé */
-
-  gtk_signal_connect ( GTK_OBJECT ( notebook_listes_operations ),
-		       "switch-page",
-		       GTK_SIGNAL_FUNC ( sort_du_detail_compte ),
-		       NULL );
   gtk_box_pack_start ( GTK_BOX (win_operations),
 		       notebook_listes_operations,
 		       TRUE,
 		       TRUE,
 		       0);
   gtk_widget_show ( notebook_listes_operations );
-  
-  /* rafraichit la fentre d'attente */
-
-  if ( patience_en_cours )
-  while ( g_main_iteration ( FALSE ) );
 
 /*   création de la ligne contenant le solde ( sous la liste des opérations ) et les boutons */
 
@@ -228,27 +216,11 @@ GtkWidget *initialisation_notebook_operations ( void )
   gtk_notebook_set_show_tabs ( GTK_NOTEBOOK ( notebook_listes_operations ),
 			       FALSE );
 
-  /* création de l'onglet qui contient les détails du compte */
-  
-  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
-			     creation_details_compte (),
-			     gtk_label_new ( _("Détails du compte") ) );
-
-  /* rafraichit la fentre d'attente */
-
-  if ( patience_en_cours )
-  while ( g_main_iteration ( FALSE ) );
-
   /* création de l'onglet de la ventilation */
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
 			     creation_fenetre_ventilation (),
 			     gtk_label_new ( _("Ventilation du compte") ) );
-
-  /* rafraichit la fentre d'attente */
-
-  if ( patience_en_cours )
-  while ( g_main_iteration ( FALSE ) );
 
   return ( notebook_listes_operations );
 }

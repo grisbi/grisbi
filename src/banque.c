@@ -2,9 +2,9 @@
 /* s'occupe de tout ce qui concerne les banques */
 
 
-/*     Copyright (C) 2000-2001  Cédric Auger */
-/* 			grisbi@tuxfamily.org */
-/* 			http://grisbi.tuxfamily.org */
+/*     Copyright (C) 2000-2002  Cédric Auger */
+/* 			cedric@grisbi.org */
+/* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
 /*     it under the terms of the GNU General Public License as published by */

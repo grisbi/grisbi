@@ -36,9 +36,19 @@ extern GtkWidget *window;
 extern GtkWidget *statusbar;
 
 
+/***********************************/ 
+/* fichier comptes_onglet.c */
+/***********************************/ 
+
+extern GtkWidget *bouton_supprimer_compte;
+extern GtkWidget *bouton_ouvert;
+extern GtkWidget *label_compte_courant_onglet;
+extern gint compte_courant_onglet;
+extern GtkWidget *vbox_liste_comptes_onglet;
+
 
 /***********************************/ 
-/* fichier liste_comptes.c */
+/* fichier operations_comptes.c */
 /***********************************/ 
 
 extern GtkWidget *label_compte_courant;
@@ -48,7 +58,7 @@ extern GtkWidget *label_releve;                    /* adr du label du dernier re
 
 
 /***********************************/ 
-/* fichier liste_operations.c */
+/* fichier operations_liste.c */
 /***********************************/ 
 
 extern GtkWidget *notebook_listes_operations;          /*  adr du notebook qui contient les opés de chaque compte */
@@ -128,6 +138,7 @@ extern GtkWidget *notebook_general;       /* adr du notebook de base */
 extern GtkWidget *page_accueil;           /* adr de l'onglet accueil */
 extern GtkWidget *page_operations;        /* adr de l'onglet opérations ( ancien gest_main ) */
 extern GtkWidget *page_echeancier;        /* adr de l'onglet échéances */
+extern GtkWidget *page_comptes;        /* adr de l'onglet comptes */
 extern GtkWidget *page_tiers;             /* adr de l'onglet tiers */
 extern GtkWidget *page_categories;             /* adr de l'onglet categories */
 extern GtkWidget *page_imputations;             /* adr de l'onglet ib */
@@ -494,8 +505,6 @@ extern GtkWidget *bouton_ope_semi_completes;
 extern GtkWidget *bouton_ope_simples;
 extern GtkWidget *bouton_affiche_r;
 extern GtkWidget *bouton_enleve_r;
-extern GtkWidget *bouton_affiche_liste;
-extern GtkWidget *bouton_affiche_detail_compte;
 extern GtkWidget *label_proprietes_operations_compte;
 
 

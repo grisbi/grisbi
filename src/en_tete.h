@@ -153,7 +153,7 @@ GtkWidget *creation_onglet_operations ( void );
 /* fichier operations_comptes.c */
 /************************/ 
 
-GtkWidget *creation_onglet_comptes (void);
+GtkWidget *creation_liste_comptes (void);
 GtkWidget *comptes_appel ( gint no_de_compte );
 void changement_compte_par_menu ( GtkWidget *menu,
 				  gint *compte );
@@ -245,6 +245,43 @@ void click_sur_bouton_voir_change ( void );
 void degrise_formulaire_operations ( void );
 void incremente_decremente_date ( GtkWidget *entree,
 				  gint demande );
+
+
+
+
+/************************/ 
+/* fichier comptes_onglet.c */
+/************************/ 
+
+
+GtkWidget *creation_onglet_compte ( void );
+GtkWidget *creation_liste_comptes_onglet ( void );
+GtkWidget *comptes_appel_onglet ( gint no_de_compte );
+void changement_compte_onglet ( GtkWidget *bouton,
+				gint compte );
+void reaffiche_liste_comptes_onglet ( void );
+
+
+
+
+/***********************************/ 
+/* fichier comptes_gestion.c */
+/***********************************/ 
+
+GtkWidget *creation_details_compte ( void );
+GtkWidget *creation_menu_type_compte ( void );
+void changement_bouton_adresse_commune_perso ( void );
+void modif_detail_compte ( GtkWidget *hbox );
+void remplissage_details_compte ( void );
+gint recherche_banque_par_no ( struct struct_banque *banque,
+			       gint *no_banque );
+void modification_details_compte ( void );
+void sort_du_detail_compte ( void );
+void passage_a_l_euro ( GtkWidget *bouton,
+			gpointer null );
+gint recherche_devise_par_nom ( struct struct_devise *devise,
+				gchar *nom );
+void changement_de_banque ( void );
 
 
 /************************/ 
@@ -501,37 +538,10 @@ void changement_code_entree_devise ( void );
 
 
 GtkWidget *creation_barre_outils ( void );
-void affiche_detail_compte ( void );
-void affiche_detail_liste_ope ( void );
 void change_aspect_liste ( GtkWidget *bouton,
 			   gint demande );
 GtkWidget *creation_barre_outils_echeancier ( void );
 
-
-
-/***********************************/ 
-/* fichier gestion_comptes.c */
-/***********************************/ 
-
-
-
-GtkWidget *creation_details_compte ( void );
-GtkWidget *creation_menu_type_compte ( void );
-void changement_bouton_adresse_commune_perso ( void );
-void modif_detail_compte ( GtkWidget *hbox );
-void remplissage_details_compte ( void );
-gint recherche_banque_par_no ( struct struct_banque *banque,
-			       gint *no_banque );
-void modification_details_compte ( void );
-void sort_du_detail_compte ( GtkWidget *notebook,
-			     GtkNotebookPage *page,
-			     gint page_num,
-			     gpointer null );
-void passage_a_l_euro ( GtkWidget *bouton,
-			gpointer null );
-gint recherche_devise_par_nom ( struct struct_devise *devise,
-				gchar *nom );
-void changement_de_banque ( void );
 
 
 /************************/ 

@@ -1,7 +1,7 @@
 /* Ce fichier comprend toutes les opérations concernant le traitement */
 /* des fichiers */
 
-/*     Copyright (C) 2000-2001  Cédric Auger */
+/*     Copyright (C) 2000-2002  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -107,15 +107,17 @@ void nouveau_fichier ( void )
 
   changement_compte ( GINT_TO_POINTER ( compte_courant ) );
 
-  change_aspect_liste ( NULL,
-			5 );
-
 
   /* affiche le nom du fichier de comptes dans le titre de la fenetre */
 
   affiche_titre_fenetre();
 
   gtk_widget_show ( notebook_general );
+
+  /* on se met sur l'onglet de propriétés du compte */
+
+  gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
+			  3 );
 
   modification_fichier ( TRUE );
 }

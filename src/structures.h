@@ -125,7 +125,7 @@ struct structure_operation
 struct donnees_compte
 {
   gint no_compte;
-  gint type_de_compte;          /* 0 = bancaire, 1 = espèce, 2 = passif */
+  gint type_de_compte;          /* 0 = bancaire, 1 = espèce, 2 = passif, 3= actif */
   gchar *nom_de_compte;
   gint nb_operations;
   gdouble solde_initial;

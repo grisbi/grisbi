@@ -19,6 +19,7 @@ grisbi_SOURCES = 		\
 	fichiers_io.c		\
 	patienter.c		\
 	comptes_gestion.c	\
+	comptes_onglet.c	\
 	gtk_combofix.c		\
 	qif.c			\
 	comptes_traitements.c	\

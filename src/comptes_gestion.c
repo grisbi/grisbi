@@ -1,7 +1,7 @@
 /* fichier qui s'occupe de la gestion des comptes */
 /*           gestion_comptes.c */
 
-/*     Copyright (C) 2000-2001  Cédric Auger */
+/*     Copyright (C) 2000-2002  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -1224,6 +1224,16 @@ GtkWidget *creation_menu_type_compte ( void )
 			GINT_TO_POINTER ( 2 ));
   gtk_widget_show ( menu_item );
 
+  /* création de l'item compte actif */
+
+  menu_item = gtk_menu_item_new_with_label ( _("Compte d'actif") );
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_type_compte",
+			GINT_TO_POINTER ( 3 ));
+  gtk_widget_show ( menu_item );
+
 
 
   return ( menu );
@@ -1255,7 +1265,7 @@ void remplissage_details_compte ( void )
 {
   GSList *pointeur_banque;
 
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
 
 
   gtk_entry_set_text ( GTK_ENTRY ( detail_nom_compte ),
@@ -1419,7 +1429,7 @@ void modification_details_compte ( void )
       return;
     }
 
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
 
 
   /* récupération du titulaire */
@@ -1451,7 +1461,7 @@ void modification_details_compte ( void )
       remplissage_liste_comptes_etats ();
       selectionne_liste_comptes_etat_courant ();
 
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
     }
 
 
@@ -1507,7 +1517,7 @@ void modification_details_compte ( void )
       mise_a_jour_fin_comptes_passifs();
       mise_a_jour_soldes_minimaux();
       formulaire_a_zero();
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
       
     }
 
@@ -1590,7 +1600,7 @@ void modification_details_compte ( void )
       update_liste_comptes_accueil ();
       update_liste_echeances_manuelles_accueil ();
 
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
 
     }
 
@@ -1652,7 +1662,7 @@ void modification_details_compte ( void )
       COMPTE_CLOTURE = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( detail_compte_cloture ));
       reaffiche_liste_comptes ();
       update_liste_comptes_accueil ();
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
 
     }
 
@@ -1676,7 +1686,7 @@ void modification_details_compte ( void )
       mise_a_jour_fin_comptes_passifs();
 
 
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
     }
 
 /* vérification du solde mini autorisé */
@@ -1689,7 +1699,7 @@ void modification_details_compte ( void )
       MESSAGE_SOUS_MINI = 0;
  
       mise_a_jour_soldes_minimaux();
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
    }
 
 
@@ -1704,7 +1714,7 @@ void modification_details_compte ( void )
       MESSAGE_SOUS_MINI_VOULU = 0;
  
       mise_a_jour_soldes_minimaux();
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
     }
 
 
@@ -1739,17 +1749,14 @@ void modification_details_compte ( void )
 
 /* ************************************************************************************************************ */
 /* Fonction sort_du_detail_compte */
-/* appelée dès que la fenêtre du détail du compte est effacée, demande si nécessaire */
-/* d'appliquer les changements */
+/* appelée quand on change de compte dans les propriétés des comptes */
+/* si des modifs avaient été faites, on demande si on enregistre */
 /* ************************************************************************************************************ */
 
-void sort_du_detail_compte ( GtkWidget *notebook,
-			     GtkNotebookPage *page,
-			     gint page_num,
-			     gpointer null )
+void sort_du_detail_compte ( void )
 {
 
-  if ( !gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook )) && GTK_WIDGET_SENSITIVE ( hbox_boutons_modif ) )
+  if ( GTK_WIDGET_SENSITIVE ( hbox_boutons_modif ) )
     {
       GtkWidget *dialogue;
       GtkWidget *label;
@@ -1757,7 +1764,7 @@ void sort_du_detail_compte ( GtkWidget *notebook,
       gpointer **save;
 
       save = p_tab_nom_de_compte_variable;
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
 
       dialogue = gnome_dialog_new ( _("Appliquer les modifications au compte ?"),
 				    GNOME_STOCK_BUTTON_YES,
@@ -1779,13 +1786,14 @@ void sort_du_detail_compte ( GtkWidget *notebook,
 
       resultat = gnome_dialog_run_and_close ( GNOME_DIALOG ( dialogue ));
 
-      if ( !resultat )
+      if ( resultat )
+	gtk_widget_set_sensitive ( hbox_boutons_modif,
+				   FALSE );
+      else
 	modification_details_compte ();
 
       p_tab_nom_de_compte_variable = save;
     }
-
-
 }
 /* ************************************************************************************************************ */
 

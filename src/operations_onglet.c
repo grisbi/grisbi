@@ -1,7 +1,7 @@
 /*  Fichier qui s'occupe de former les différentes fenêtres de l'onglet des opés */
 /*      onglet_operations.c */
 
-/*     Copyright (C) 2000-2001  Cédric Auger */
+/*     Copyright (C) 2000-2002  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -68,7 +68,7 @@ GtkWidget *creation_onglet_operations ( void )
   /*  Création de la fenêtre des comptes */
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
-			     creation_onglet_comptes (),
+			     creation_liste_comptes (),
 			     gtk_label_new ( _("Comptes") ) );
 
 

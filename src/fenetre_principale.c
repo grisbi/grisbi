@@ -1,7 +1,7 @@
 /*  Fichier qui s'occupe de former les différentes fenêtres de travail */
 /*      fenetre_principale.c */
 
-/*     Copyright (C) 2000-2001  Cédric Auger */
+/*     Copyright (C) 2000-2002  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -68,6 +68,13 @@ GtkWidget *creation_fenetre_principale (void )
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
 			     page_echeancier,
 			     gtk_label_new (_(" Échéancier ")) );
+
+/*   création de la fenetre des comptes */
+
+  page_comptes = creation_onglet_comptes();
+  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
+			     page_comptes,
+			     gtk_label_new (_(" Comptes ")) );
 
 /* Création de la fenetre des tiers */
 

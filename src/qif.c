@@ -1,7 +1,7 @@
 /* ce fichier de la gestion du format qif */
 
 
-/*     Copyright (C) 2000-2001  Cédric Auger */
+/*     Copyright (C) 2000-2002  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -1583,7 +1583,9 @@ void exporter_fichier_qif ( void )
 	    fprintf ( fichier_qif,
 		      "!Type:Cash\n" );
 	  else
-	    if ( TYPE_DE_COMPTE == 2 )
+	    if ( TYPE_DE_COMPTE == 2
+		 ||
+		 TYPE_DE_COMPTE == 3 )
 	      fprintf ( fichier_qif,
 			"!Type:Oth L\n" );
 	    else

@@ -1,9 +1,9 @@
 /* fichier qui barre d'outils */
 /*           barre_outils.c */
 
-/*     Copyright (C) 2000-2001  Cédric Auger */
-/* 			grisbi@tuxfamily.org */
-/* 			http://grisbi.tuxfamily.org */
+/*     Copyright (C) 2000-2002  Cédric Auger */
+/* 			cedric@grisbi.org */
+/* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
 /*     it under the terms of the GNU General Public License as published by */
@@ -34,8 +34,6 @@
 #include "./xpm/ope_avec_r.xpm"
 #include "./xpm/image_fleche_haut.xpm"
 #include "./xpm/image_fleche_bas.xpm"
-#include "./xpm/detail_compte.xpm"
-#include "./xpm/liste_ope.xpm"
 
 
 
@@ -177,7 +175,7 @@ GtkWidget *creation_barre_outils ( void )
   gtk_signal_connect ( GTK_OBJECT ( bouton_ope_semi_completes ),
 		       "clicked",
 		       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-		       GINT_TO_POINTER ( 6 ) );
+		       GINT_TO_POINTER ( 4 ) );
   gtk_widget_set_usize ( bouton_ope_semi_completes,
 			 15,
 			 15 );
@@ -269,9 +267,9 @@ GtkWidget *creation_barre_outils ( void )
 			 bouton_enleve_r,
 			 _("Opérations rapprochées masquées"),
 			 _("Opérations rapprochées masquées") );
-      if (  !etat.r_affiches )
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_enleve_r ),
-				       TRUE );
+  if (  !etat.r_affiches )
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_enleve_r ),
+				   TRUE );
 
   icone = gnome_pixmap_new_from_xpm_d ( ope_sans_r );
   gtk_container_add ( GTK_CONTAINER ( bouton_enleve_r ),
@@ -299,70 +297,6 @@ GtkWidget *creation_barre_outils ( void )
 		       0 );
   gtk_widget_show_all ( separateur );
 
-  /* bouton affiche la liste des opés */
-
-  bouton_affiche_liste = gtk_toggle_button_new ();
-  gtk_button_set_relief ( GTK_BUTTON ( bouton_affiche_liste ),
-			  GTK_RELIEF_NONE );
-  gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
-			 bouton_affiche_liste,
-			 _("Affiche la liste des opérations"),
-			 _("Affiche la liste des opérations") );
-  gtk_widget_set_usize ( bouton_affiche_liste,
-			 15,
-			 15 );
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_liste ),
-				 TRUE );
-
-  icone = gnome_pixmap_new_from_xpm_d ( liste_ope );
-  gtk_container_add ( GTK_CONTAINER ( bouton_affiche_liste ),
-		      icone );
-  gtk_signal_connect ( GTK_OBJECT ( bouton_affiche_liste ),
-		       "clicked",
-		       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-		       GINT_TO_POINTER ( 4 ) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       bouton_affiche_liste,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show_all ( bouton_affiche_liste );
-
-
-  /* bouton affiche le détail du compte */
-
-  bouton_affiche_detail_compte = gtk_toggle_button_new ();
-  gtk_button_set_relief ( GTK_BUTTON ( bouton_affiche_detail_compte ),
-			  GTK_RELIEF_NONE );
-  gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
-			 bouton_affiche_detail_compte,
-			 _("Affiche les propriétés du compte"),
-			 _("Affiche les propriétés du compte") );
-  icone = gnome_pixmap_new_from_xpm_d ( detail_compte );
-  gtk_container_add ( GTK_CONTAINER ( bouton_affiche_detail_compte ),
-		      icone );
-  gtk_widget_set_usize ( bouton_affiche_detail_compte,
-			 15,
-			 15 );
-  gtk_signal_connect ( GTK_OBJECT ( bouton_affiche_detail_compte ),
-		       "clicked",
-		       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-		       GINT_TO_POINTER ( 5 ) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       bouton_affiche_detail_compte,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show_all ( bouton_affiche_detail_compte );
-
-
-  separateur = gtk_vseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       separateur,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show_all ( separateur );
 
 
   label_proprietes_operations_compte = gtk_label_new (_("Opérations du compte"));
@@ -380,49 +314,10 @@ GtkWidget *creation_barre_outils ( void )
 
 
 
-/*******************************************************************************************/
-/* Fonction appelée par le menu */
-/*******************************************************************************************/
-
-void affiche_detail_compte ( void )
-{
-
-  if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general ) ) != 1 )
-    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
-			    1 );
-  change_aspect_liste ( NULL,
-			5 );
-
-}
-/*******************************************************************************************/
-
-
-
-/*******************************************************************************************/
-/* Fonction appelée par le menu */
-/*******************************************************************************************/
-
-void affiche_detail_liste_ope ( void )
-{
-
-  if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general ) ) != 1 )
-    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
-			    1 );
-  change_aspect_liste ( NULL,
-			4 );
-
-}
-/*******************************************************************************************/
-
-
-
-
-
 /****************************************************************************************************/
 void change_aspect_liste ( GtkWidget *bouton,
 			   gint demande )
 {
-  GnomeUIInfo *menu;
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
@@ -433,12 +328,12 @@ void change_aspect_liste ( GtkWidget *bouton,
       /* ope complètes */
       gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_completes ),
 					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					 GINT_TO_POINTER ( 0 ));
+					 NULL );
       gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_completes ),
 				     TRUE );
       gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_ope_completes ),
 					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					 GINT_TO_POINTER ( 0 ));
+					 NULL );
 
       gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_simples),
 					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
@@ -448,14 +343,15 @@ void change_aspect_liste ( GtkWidget *bouton,
       gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_ope_simples),
 					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
 					 GINT_TO_POINTER ( 1 ));
+
       gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_semi_completes ),
 					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					 GINT_TO_POINTER ( 6 ));
+					 GINT_TO_POINTER ( 4 ));
       gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_semi_completes ),
 				     FALSE );
       gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_ope_semi_completes ),
 					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					 GINT_TO_POINTER ( 6 ));
+					 GINT_TO_POINTER ( 4 ));
 
       if ( nb_lignes_ope == 4 )
 	break;
@@ -470,12 +366,12 @@ void change_aspect_liste ( GtkWidget *bouton,
       /* ope simples */
       gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_completes ),
 					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					 GINT_TO_POINTER ( 0 ));
+					 NULL );
       gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_completes ),
 				     FALSE );
       gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_ope_completes ),
 					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					 GINT_TO_POINTER ( 0 ));
+					 NULL );
 
       gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_simples),
 					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
@@ -488,12 +384,12 @@ void change_aspect_liste ( GtkWidget *bouton,
 
       gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_semi_completes ),
 					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					 GINT_TO_POINTER ( 6 ));
+					 GINT_TO_POINTER ( 4 ));
       gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_semi_completes ),
 				     FALSE );
       gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_ope_semi_completes ),
 					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					 GINT_TO_POINTER ( 6 ));
+					 GINT_TO_POINTER ( 4 ));
 
       if ( nb_lignes_ope == 1 )
 	break;
@@ -561,157 +457,28 @@ void change_aspect_liste ( GtkWidget *bouton,
       selectionne_ligne ( compte_courant );
       break;
 
+
     case 4 :
-
-      /* affiche la liste des opés */
-
-      if ( etat.formulaire_toujours_affiche )
-	gtk_widget_show ( frame_droite_bas );
-
-      gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_affiche_liste ),
-					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					 GINT_TO_POINTER ( 4 ));
-      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_liste ),
-				     TRUE );
-      gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_affiche_liste ),
-					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					 GINT_TO_POINTER ( 4 ));
-
-      gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_affiche_detail_compte ),
-					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					 GINT_TO_POINTER ( 5 ));
-      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_detail_compte ),
-				     FALSE );
-      gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_affiche_detail_compte ),
-					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					 GINT_TO_POINTER ( 5 ));
-
-      gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
-			      compte_courant + 2 );
-
-      gtk_widget_set_sensitive ( bouton_affiche_cache_formulaire,
-				 TRUE );
-      gtk_label_set_text ( GTK_LABEL ( label_proprietes_operations_compte ),
-			   _("Opérations du compte"));
-
-
-      /* changement du menu */
- 
-      menu = malloc ( 2 * sizeof ( GnomeUIInfo ));
-
-      menu -> type = GNOME_APP_UI_ITEM;
-      menu -> label = _("Propriétés du compte");
-      menu -> hint = _("Propriétés du compte");
-      menu -> moreinfo = (gpointer) affiche_detail_compte;
-      menu -> user_data = NULL;
-      menu -> unused_data = NULL;
-      menu -> pixmap_type = GNOME_APP_PIXMAP_STOCK;
-      menu -> pixmap_info = GNOME_STOCK_MENU_ABOUT;
-      menu -> accelerator_key = 0;
-      menu -> ac_mods = GDK_BUTTON1_MASK;
-      menu -> widget = NULL;
-
-      (menu + 1)->type = GNOME_APP_UI_ENDOFINFO;
-
-      
-      gnome_app_insert_menus ( GNOME_APP ( window ),
-			       _("Comptes/Opérations du compte"),
-			       menu );
-      gnome_app_remove_menus ( GNOME_APP ( window ),
-			       _("Comptes/Opérations du compte"),
-			       1 );
-
-      break;
-
-    case 5:
-
-      /* affiche le détail du compte */
-
-      formulaire_a_zero ();
-
-      gtk_widget_set_sensitive ( bouton_affiche_cache_formulaire,
-				 FALSE );
-
-
-      gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_affiche_liste ),
-					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					 GINT_TO_POINTER ( 4 ));
-      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_liste ),
-				     FALSE );
-      gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_affiche_liste ),
-					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					 GINT_TO_POINTER ( 4 ));
-
-      gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_affiche_detail_compte ),
-					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					 GINT_TO_POINTER ( 5 ));
-      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_detail_compte ),
-				     TRUE );
-      gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_affiche_detail_compte ),
-					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					 GINT_TO_POINTER ( 5 ));
-
-      remplissage_details_compte ();
-
-      /* changement du menu */
-
-      if ( gtk_notebook_current_page ( GTK_NOTEBOOK ( notebook_listes_operations )) )
-	{
-	  menu = malloc ( 2 * sizeof ( GnomeUIInfo ));
-
-	  menu -> type = GNOME_APP_UI_ITEM;
-	  menu -> label = _("Opérations du compte");
-	  menu -> hint = _("Opérations du compte");
-	  menu -> moreinfo = (gpointer) affiche_detail_liste_ope;
-	  menu -> user_data = NULL;
-	  menu -> unused_data = NULL;
-	  menu -> pixmap_type = GNOME_APP_PIXMAP_STOCK;
-	  menu -> pixmap_info = GNOME_STOCK_MENU_ABOUT;
-	  menu -> accelerator_key = 0;
-	  menu -> ac_mods = GDK_BUTTON1_MASK;
-	  menu -> widget = NULL;
-
-	  (menu + 1)->type = GNOME_APP_UI_ENDOFINFO;
-
-      
-	  gnome_app_insert_menus ( GNOME_APP ( window ),
-				   _("Comptes/Propriétés du compte"),
-				   menu );
-	  gnome_app_remove_menus ( GNOME_APP ( window ),
-				   _("Comptes/Propriétés du compte"),
-				   1 );
-	}
-
-      gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
-			      0 );
-
-      gtk_widget_hide ( frame_droite_bas );
-      gtk_label_set_text ( GTK_LABEL ( label_proprietes_operations_compte ),
-			   _("Propriétés du compte"));
-
-      break;
-
-    case 6 :
 
       /* ope semi-complètes */
 
       gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_semi_completes ),
 					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					 GINT_TO_POINTER ( 6 ));
+					 GINT_TO_POINTER ( 4 ));
       gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_semi_completes ),
 				     TRUE );
       gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_ope_semi_completes ),
 					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					 GINT_TO_POINTER ( 6 ));
+					 GINT_TO_POINTER ( 4 ));
 
       gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_completes ),
 					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					 GINT_TO_POINTER ( 0 ));
+					 NULL );
       gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_completes ),
 				     FALSE );
       gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_ope_completes ),
 					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
-					 GINT_TO_POINTER ( 0 ));
+					 NULL );
 
       gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_ope_simples),
 					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
@@ -740,7 +507,6 @@ void change_aspect_liste ( GtkWidget *bouton,
        verification_mise_a_jour_liste ();
 
   focus_a_la_liste ();
-
 }
 /* ***************************************************************************************************** */
 

@@ -1,7 +1,7 @@
 /*  Fichier qui gère la liste des comptes, la partie gauche de l'onglet opérations */
 /*      operations_comptes.c */
 
-/*     Copyright (C) 2000-2001  Cédric Auger */
+/*     Copyright (C) 2000-2002  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -32,7 +32,7 @@
 /*** Création de la fenêtre de comptes ***/
 /* **************************************************************************************************** */
 
-GtkWidget *creation_onglet_comptes (void)
+GtkWidget *creation_liste_comptes (void)
 {
   GtkWidget *onglet;
   GtkWidget *frame_label_compte_courant;
@@ -147,7 +147,7 @@ GtkWidget *creation_onglet_comptes (void)
 				       _("Comptes/Comptes cloturés/"),
 				       menu );
 
-	      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[5].widget ),
+	      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[3].widget ),
 					 TRUE );
 	    }
 	  else
@@ -432,11 +432,8 @@ void changement_compte ( gint *compte)
   focus_a_la_liste ();
   etat.ancienne_date = 0;
 
-  if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_liste )))
-    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
-			    compte_courant + 2 );
-  else
-      remplissage_details_compte ();
+  gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
+			  compte_courant + 1 );
 }
 /* ********************************************************************************************************** */
 
@@ -471,7 +468,7 @@ void reaffiche_liste_comptes ( void )
       p_tab_nom_de_compte_variable++;
     }
 
-  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[5].widget ),
+  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[3].widget ),
 			     FALSE );
 
   /*  Création d'une icone et du nom par compte, et placement dans la liste selon l'ordre désiré  */
@@ -514,7 +511,7 @@ void reaffiche_liste_comptes ( void )
 				       _("Comptes/Comptes cloturés/"),
 				       menu );
 
-	      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[5].widget ),
+	      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[3].widget ),
 					 TRUE );
 	    }
 	  else

@@ -1,6 +1,6 @@
 /* ce fichier se charge de toutes les opérations relative à la configuration sauvegardée */
 
-/*     Copyright (C) 2000-2001  Cédric Auger */
+/*     Copyright (C) 2000-2002  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 

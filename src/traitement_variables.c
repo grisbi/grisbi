@@ -1,7 +1,7 @@
 /* Fichier traitement_variables.c */
 /* Contient toutes les procédures relatives au traitement des variables */
 
-/*     Copyright (C) 2000-2001  Cédric Auger */
+/*     Copyright (C) 2000-2002  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -139,7 +139,7 @@ void init_variables ( gboolean ouverture )
 
       gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[1].widget ),
 				 FALSE );
-      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[5].widget ),
+      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[3].widget ),
 				 FALSE );
 
       liste_no_rapprochements = NULL;

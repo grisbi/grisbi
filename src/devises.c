@@ -2,7 +2,7 @@
 /* s'occupe de tout ce qui concerne les devises */
 
 
-/*     Copyright (C) 2000-2001  Cédric Auger */
+/*     Copyright (C) 2000-2002  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 

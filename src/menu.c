@@ -1,7 +1,7 @@
 /* ce fichier contient les définitions de tous les menus et barres d'outils */
 
 
-/*     Copyright (C) 2000-2001  Cédric Auger */
+/*     Copyright (C) 2000-2002  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -46,11 +46,6 @@ void init_menus ( GtkWidget * win )
 			      N_("Supprimer un compte"),
 			      supprimer_compte,
 			      GNOME_STOCK_MENU_TRASH),
-      GNOMEUIINFO_SEPARATOR,
-      GNOMEUIINFO_ITEM_STOCK (N_("Propriétés du compte"), 
-			      N_("Propriétés du compte"),
-			      affiche_detail_compte,
-			      GNOME_STOCK_MENU_ABOUT),
       GNOMEUIINFO_SEPARATOR,
       GNOMEUIINFO_SUBTREE (N_("Comptes cloturés"),
 			   &tmp_menu_cloture),

@@ -125,7 +125,7 @@ INCLUDES = -I$(top_srcdir) -I$(includedir) $(GNOME_INCLUDEDIR) $(EXTRA_GNOME_CFL
 
 bin_PROGRAMS = grisbi
 
-grisbi_SOURCES =  	accueil.c			fenetre_principale.c		operations_liste.c		banque.c			fichier_configuration.c		operations_onglet.c		barre_outils.c			fichiers_gestion.c		parametres.c			categories_onglet.c		fichiers_io.c			patienter.c			comptes_gestion.c		gtk_combofix.c			qif.c				comptes_traitements.c		help.c				tiers_onglet.c			devises.c			main.c				traitement_variables.c		echeancier_formulaire.c		menu.c				echeancier_liste.c		operations_classement.c		equilibrage.c			operations_comptes.c		ventilation.c			erreur.c			operations_formulaire.c 	type_operations.c		exercice.c			imputation_budgetaire.c		affichage.c			etats_onglet.c			etats_config.c			etats_calculs.c			etats_gtktable.c		etats_gnomeprint.c		impression.c
+grisbi_SOURCES =  	accueil.c			fenetre_principale.c		operations_liste.c		banque.c			fichier_configuration.c		operations_onglet.c		barre_outils.c			fichiers_gestion.c		parametres.c			categories_onglet.c		fichiers_io.c			patienter.c			comptes_gestion.c		comptes_onglet.c		gtk_combofix.c			qif.c				comptes_traitements.c		help.c				tiers_onglet.c			devises.c			main.c				traitement_variables.c		echeancier_formulaire.c		menu.c				echeancier_liste.c		operations_classement.c		equilibrage.c			operations_comptes.c		ventilation.c			erreur.c			operations_formulaire.c 	type_operations.c		exercice.c			imputation_budgetaire.c		affichage.c			etats_onglet.c			etats_config.c			etats_calculs.c			etats_gtktable.c		etats_gnomeprint.c		impression.c
 
 
 grisbi_LDADD = $(GNOME_LIBDIR)	$(GNOMEUI_LIBS) $(EXTRA_GNOME_LIBS) -lgnomeprint
@@ -152,7 +152,7 @@ LIBS = @LIBS@
 grisbi_OBJECTS =  accueil.o fenetre_principale.o operations_liste.o \
 banque.o fichier_configuration.o operations_onglet.o barre_outils.o \
 fichiers_gestion.o parametres.o categories_onglet.o fichiers_io.o \
-patienter.o comptes_gestion.o gtk_combofix.o qif.o \
+patienter.o comptes_gestion.o comptes_onglet.o gtk_combofix.o qif.o \
 comptes_traitements.o help.o tiers_onglet.o devises.o main.o \
 traitement_variables.o echeancier_formulaire.o menu.o \
 echeancier_liste.o operations_classement.o equilibrage.o \
@@ -176,7 +176,7 @@ TAR = tar
 GZIP_ENV = --best
 DEP_FILES =  .deps/accueil.P .deps/affichage.P .deps/banque.P \
 .deps/barre_outils.P .deps/categories_onglet.P .deps/comptes_gestion.P \
-.deps/comptes_traitements.P .deps/devises.P \
+.deps/comptes_onglet.P .deps/comptes_traitements.P .deps/devises.P \
 .deps/echeancier_formulaire.P .deps/echeancier_liste.P \
 .deps/equilibrage.P .deps/erreur.P .deps/etats_calculs.P \
 .deps/etats_config.P .deps/etats_gnomeprint.P .deps/etats_gtktable.P \
