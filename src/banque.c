@@ -170,154 +170,94 @@ void annuler_modif_banque ( GtkWidget *bouton,
 /* Fonction supprime_banque */
 /* appelée lorsqu'on clicke sur le bouton enlever */
 /* **************************************************************************************************************************** */
-
 void supprime_banque ( GtkWidget *bouton,
 		       GtkWidget *liste )
 {
     struct struct_banque *banque;
     gboolean resultat;
+    gpointer **save;
+    gint i;
+    gboolean bank_is_used=FALSE;
+    gint bank_nb_to_remove;
 
     banque = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
 				      ligne_selection_banque );
 
-    resultat = question_yes_no_hint ( _("Confirmation of bank removal"),
-				      g_strdup_printf ( _("Are you sure you want to remove bank \"%s\"?\n"),
-							banque -> nom_banque));
+    bank_nb_to_remove = banque -> no_banque;
+
+    save = p_tab_nom_de_compte_variable;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+
+    for ( i=0 ; i < nb_comptes ; i++ )
+    {
+	if ( BANQUE == bank_nb_to_remove )
+	    bank_is_used = TRUE;
+	p_tab_nom_de_compte_variable++;
+    }
+
+    if ( bank_is_used )
+	resultat = question_yes_no_hint ( _("Confirmation of bank removal"),
+					  g_strdup_printf ( _("Bank \"%s\" is used by one or several accounts.\nDo you really want to remove it?"),
+							    banque -> nom_banque));
+    else
+	resultat = question_yes_no_hint ( _("Confirmation of bank removal"),
+					  g_strdup_printf ( _("Are you sure you want to remove bank \"%s\"?\n"),
+							    banque -> nom_banque));
 
     if ( resultat )
     {
-	/* La suppression de la banque est confirmée, on vérifie que celle-ci
-	   n'est pas utilisée. Dans le cas contraire, on demande une seconde
-	   confirmation */
+	/* La suppression de la banque est confirmée, On fait le tour des
+	   comptes pour en modifier le numéro de banque associée */
 	
-	gpointer **save;
-	gint i;
-	gboolean bank_is_used = FALSE;
-	gint bank_nb_to_remove = banque -> no_banque;
-
-	save = p_tab_nom_de_compte_variable;
-
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
 	for ( i=0 ; i < nb_comptes ; i++ )
 	{
 	    if ( BANQUE == bank_nb_to_remove )
-		bank_is_used = TRUE;
+		BANQUE = 0;
+	    if ( BANQUE > bank_nb_to_remove )
+		BANQUE--;
 	    p_tab_nom_de_compte_variable++;
 	}
 
-	if ( bank_is_used )
+	/* On désensitive la hbox_boutons_modif_banque au cas où on
+	   était en train de modifier la banque */
+
+	gtk_widget_set_sensitive ( hbox_boutons_modif_banque,
+				   FALSE );
+
+	/* On retire la banque de la liste */
+
+	gtk_clist_remove ( GTK_CLIST ( liste ),
+			   ligne_selection_banque );
+	liste_struct_banques = g_slist_remove ( liste_struct_banques,
+						banque );
+	free ( banque );
+
+	/* Puis on fait le tour des banques pour recaler leurs numéros
+	   et ne pas créer de trous dans la suite des numéros */
+
+	for ( i = bank_nb_to_remove+1 ; i <= nb_banques ; i++ )
 	{
-	    resultat = question_yes_no_hint ( _("Confirmation of bank removal"),
-					      g_strdup_printf ( _("Bank \"%s\" is used by one or several accounts.\nDo you really want to remove it?"),
-								banque -> nom_banque));
-	    if ( resultat )
+	    GSList *pList;
+
+	    pList = g_slist_find_custom ( liste_struct_banques,
+					  GINT_TO_POINTER ( i ),
+					 ( GCompareFunc ) recherche_banque_par_no );
+
+	    if ( pList )
 	    {
-		/* La suppression est confirmée une deuxième fois. On fait le
-		   tour des comptes pour en modifier le numéro de banque
-		   associée */
-
-		p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
-		for ( i=0 ; i < nb_comptes ; i++ )
-		{
-		    if ( BANQUE == bank_nb_to_remove )
-			BANQUE = 0;
-		    if ( BANQUE > bank_nb_to_remove )
-			BANQUE--;
-		    p_tab_nom_de_compte_variable++;
-		}
-
-		/* On désensitive la hbox_boutons_modif_banque au cas où on
-		   était en train de modifier la banque */
-
-		gtk_widget_set_sensitive ( hbox_boutons_modif_banque,
-					   FALSE );
-
-		/* On retire la banque de la liste */
-
-		gtk_clist_remove ( GTK_CLIST ( liste ),
-				   ligne_selection_banque );
-		liste_struct_banques = g_slist_remove ( liste_struct_banques,
-							banque );
-		free ( banque );
-
-		/* Puis on fait le tour des banques pour recaler leurs numéros
-		   et ne pas créer de trous dans la suite des numéros */
-
-		for ( i = bank_nb_to_remove+1 ; i <= nb_banques ; i++ )
-		{
-		    GSList *pList;
-
-		    pList = g_slist_find_custom ( liste_struct_banques,
-						  GINT_TO_POINTER ( i ),
-						 ( GCompareFunc ) recherche_banque_par_no );
-
-		    if ( pList )
-		    {
-			struct struct_banque *pBank;
+		struct struct_banque *pBank;
 	    
-			pBank = pList -> data;
-			pBank -> no_banque--;
-		    }
-		}
-		nb_banques--;
-		modification_fichier ( TRUE );
+		pBank = pList -> data;
+		pBank -> no_banque--;
 	    }
 	}
-	else
-	{
-	    /* La banque n'est pas utilisée. On fait le tour des comptes pour
-	       en modifier le numéro de banque associée */
-
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
-	    for ( i=0 ; i < nb_comptes ; i++ )
-	    {
-		if ( BANQUE > bank_nb_to_remove )
-		    BANQUE--;
-		p_tab_nom_de_compte_variable++;
-	    }
-
-	    /* On désensitive la hbox_boutons_modif_banque au cas où on
-	       était en train de modifier la banque */
-
-	    gtk_widget_set_sensitive ( hbox_boutons_modif_banque,
-				       FALSE );
-
-	    /* On retire la banque de la liste */
-
-	    gtk_clist_remove ( GTK_CLIST ( liste ),
-			       ligne_selection_banque );
-	    liste_struct_banques = g_slist_remove ( liste_struct_banques,
-						    banque );
-	    free ( banque );
-
-	    /* Puis on fait le tour des banques pour recaler leurs numéros
-	       et ne pas créer de trous dans la suite des numéros */
-
-	    for ( i = bank_nb_to_remove+1 ; i <= nb_banques ; i++ )
-	    {
-		GSList *pList;
-
-		pList = g_slist_find_custom ( liste_struct_banques,
-					      GINT_TO_POINTER ( i ),
-					     ( GCompareFunc ) recherche_banque_par_no );
-
-		if ( pList )
-		{
-		    struct struct_banque *pBank;
-	    
-		    pBank = pList -> data;
-		    pBank -> no_banque--;
-		}
-	    }
-	    nb_banques--;
-	    modification_fichier ( TRUE );
-	}
-	p_tab_nom_de_compte_variable = save;
+	nb_banques--;
+	modification_fichier ( TRUE );
     }
 
+    p_tab_nom_de_compte_variable = save;
     update_bank_menu ();
 }
 
