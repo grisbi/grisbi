@@ -35,7 +35,7 @@ void a_propos ( GtkWidget *bouton,
   GtkWidget *label;
 
   const gchar *auteur[] = { "Auger Cédric ( cedric@grisbi.org ) : Programmation",
-			    "Cartron Daniel ( doc@grisbi.org ) : Manuel, Site internet",
+			    "Cartron Daniel ( doc@grisbi.org ) : Manuel, Site internet, conseils en comptabilité",
 			    "Drieu Benjamin ( bdrieu@april.org ) : Programmation, packages deb",
 			    "Niel Gérald ( gerald.niel@gegeweb.net ) : Packages RPM, Site internet",
 			    "Pascual André ( andre@linuxgraphic.org ) : Logo",

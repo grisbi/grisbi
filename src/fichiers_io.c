@@ -4008,7 +4008,7 @@ gboolean enregistre_fichier ( void )
 
       xmlSetProp ( node_devise,
 		   "Change",
-		   g_strdup_printf ( "%4.2f",
+		   g_strdup_printf ( "%f",
 				     devise -> change ));
 
       pointeur_liste = pointeur_liste -> next;
