@@ -143,6 +143,8 @@ struct struct_sous_categ *sous_categ_par_nom ( struct struct_categ *categ,
 
 		nouvelle_sous_categorie -> no_sous_categ = ++( categ -> no_derniere_sous_categ );
 		nouvelle_sous_categorie -> nom_sous_categ = g_strdup ( g_strstrip ( nom_sous_categ ));
+		nouvelle_sous_categorie -> nb_transactions = 0;
+		nouvelle_sous_categorie -> balance = 0.0;
 
 		categ -> liste_sous_categ = g_slist_append ( categ -> liste_sous_categ,
 							     nouvelle_sous_categorie );
