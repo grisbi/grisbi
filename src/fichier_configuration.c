@@ -24,6 +24,8 @@
 #include "variables-extern.c"
 #include "en_tete.h"
 
+  #define NB_COLS_SCHEDULER 7
+  extern gint scheduler_col_width[NB_COLS_SCHEDULER] ;
 
 /******************************************************************************************************************/
 /* Fonction charge_configuration */
@@ -65,10 +67,8 @@ void charge_configuration ( void )
 
   etat.entree = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonction_touche_entree", NULL ));
   etat.alerte_mini = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Affichage_messages_alertes", NULL ));
-
-  /* FIXME : do that with list_font_name & list_font_size */
-/*   fonte_liste = gnome_config_get_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonte_des_listes", NULL )); */
-/*   fonte_general = gnome_config_get_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonte_generale", NULL )); */
+  fonte_liste = gnome_config_get_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonte_des_listes", NULL ));
+  fonte_general = gnome_config_get_string ( g_strconcat ( "/", FICHIER_CONF, "/General/Fonte_generale", NULL ));
   etat.alerte_permission = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Affichage_alerte_permission", NULL ));
   etat.force_enregistrement = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/General/Force_enregistrement", NULL ));
 
@@ -130,6 +130,9 @@ void charge_configuration ( void )
 
   for ( i=0 ; i<7 ; i++ )
     taille_largeur_colonnes[i] = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Exercice/taille_largeur_colonne", itoa(i), NULL ));
+
+  for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
+    scheduler_col_width[i] = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Geometry_Scheduler/Column", itoa(i), NULL ) );
 
   /* remplissage de la liste des fichiers à vérifier */
 
@@ -202,7 +205,6 @@ void sauve_configuration (void)
 
   /*   sauvegarde de la géométrie */
 
-  /* BENJ FIXME 
   if ( GTK_WIDGET ( window) -> window )
     gnome_parse_geometry ( gnome_geometry_string ( GTK_WIDGET ( window) -> window ),
 			   &x,
@@ -214,7 +216,6 @@ void sauve_configuration (void)
       largeur_window = 0;
       hauteur_window = 0;
     }
-    */
 
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Geometry/Width", NULL ),
 			 largeur_window );
@@ -312,6 +313,9 @@ void sauve_configuration (void)
     gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Exercice/taille_largeur_colonne", itoa(i), NULL ),
 			   taille_largeur_colonnes[i] );
 
+  for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
+    gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Geometry_Scheduler/Column", itoa(i), NULL ),
+			   scheduler_col_width[i] );
 
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Exercice/Affichage_nb_ecritures", NULL ),
 			 etat.affiche_nb_ecritures_listes );

@@ -40,23 +40,17 @@
 
 //  #define SCHEDULER_SCROLL_BORDER 5
 
-  gint scheduler_col_width_ratio[NB_COLS_SCHEDULER] = { 10,
+  gint scheduler_col_width_ratio[NB_COLS_SCHEDULER] = { 12,
 							26,
 							20,
-							14,
-							14,
-							28,
+							13,
+							13,
+							26,
 							8};
 
-  gint scheduler_col_width[NB_COLS_SCHEDULER] = { 10,
-						  26,
-						  20,
-						  14,
-						  14,
-						  28,
-						  8};
+  gint scheduler_col_width[NB_COLS_SCHEDULER] ;
 
-//  gchar *mes_tmp ;
+  gchar *mes_tmp ;
 
 
 void changement_taille_colonne_echeancier ( GtkWidget *clist, gint colonne, gint largeur ) ;
@@ -969,7 +963,6 @@ void click_ligne_echeance ( GtkCList *liste,
 
   if ( evenement -> window != liste -> clist_window )
     return;
-
   
   gtk_signal_emit_stop_by_name ( GTK_OBJECT ( liste_echeances ),
 				 "button-press-event");
@@ -1097,7 +1090,7 @@ void edition_echeance ( void )
 					 echeance_selectionnnee -> jour,
 					 echeance_selectionnnee -> mois,
 					 echeance_selectionnnee -> annee ));
-  
+
   /* mise en place du tiers */
 
   pointeur_tmp = g_slist_find_custom ( liste_struct_tiers,
@@ -1421,27 +1414,31 @@ void changement_taille_colonne_echeancier ( GtkWidget *clist,
 				 gint colonne,
 				 gint largeur )
 {
-  gint offset, tmp_largeur = 0, bkp_largeur = 0 ;
-  gint i;
+  gint offset ;
 
-  for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
-    bkp_largeur += scheduler_col_width[i] ;
+  /* sauvegarde de la largeur de la liste */
+  ancienne_largeur_echeances = clist -> allocation.width ;
 
-  bkp_largeur -= scheduler_col_width[COL_NB_NOTES] ;
-  bkp_largeur = clist -> allocation.width ;
-
+  /* calcul de la valeur relative du redimensionnement de la colonne concernée */
   offset = largeur - scheduler_col_width[colonne] ;
 
+  /* suivant la colonne en cours de redimensionnement */
   switch ( colonne )
     {
       case COL_NB_FREQUENCY :
       case COL_NB_MODE :
 
+	/* si c'est la colonne Périodicité ou Mode, alors on redimensionne
+	   également la colonne Remarques en lui ajoutant la valeur relative
+	   du redimensionnement */
 	scheduler_col_width[COL_NB_NOTES] += offset ;
 	break;
 
       case COL_NB_NOTES :
 
+	/* si c'est la colonne Remarques, alors on redimensionne également
+	   les colonnes Périodicité ou Mode en leur ajoutant de manière
+	   proportionnelle la valeur relative du redimensionnement */
 	scheduler_col_width[COL_NB_FREQUENCY] = (( scheduler_col_width[colonne] + offset ) * scheduler_col_width[COL_NB_FREQUENCY] ) / scheduler_col_width[colonne] ;
 	scheduler_col_width[COL_NB_MODE] = (( scheduler_col_width[colonne] + offset ) * scheduler_col_width[COL_NB_MODE] ) / scheduler_col_width[colonne] ;
 	break;
@@ -1450,14 +1447,9 @@ void changement_taille_colonne_echeancier ( GtkWidget *clist,
 
 	break;
     }
-
+  
+  /* on sauve la valeur de la nouvelle largeur de la colonne concernée */
   scheduler_col_width[colonne] = largeur ;
-
-  for ( i = 0 ; i < COL_NB_NOTES ; i++ )
-    tmp_largeur += scheduler_col_width[i] ;
-
-  scheduler_col_width[COL_NB_AMOUNT] = bkp_largeur - tmp_largeur ;
-  ancienne_largeur_echeances = bkp_largeur ;
 }
 /*****************************************************************************/
 
@@ -1474,18 +1466,69 @@ void changement_taille_liste_echeances ( GtkWidget *clist,
   gint i;
   gint col1, col2, col3, col4, col5, col6, col7;
 
-  /* on stoppe l'appel à cette fonction */
-/*
-  gtk_signal_handler_block_by_func ( GTK_OBJECT ( clist ),
-				     GTK_SIGNAL_FUNC ( changement_taille_liste_echeances ),
-				     NULL );
-*/
   /*   si la largeur de grisbi est < 700, on fait rien */
+  
   if ( window -> allocation.width < 700 )
     return;
 
+  /* si ancienne_largeur est nul, c'est que la vue sur la liste n'a pas encore
+     été créée, il faut donc initialiser les largeurs des colonnes */
+  
   if ( ancienne_largeur_echeances == 0 )
-    ancienne_largeur_echeances = clist -> allocation.width ;
+    {
+     /* on affecte à ancienne_valeur la largeur qu'aura la liste des échéances
+        lorsqu'on cliquera sur l'onglet Échéancier (cette largeur fait 4 pixels
+	de moins que la largeur que l'on récupère maintenant */
+
+     ancienne_largeur_echeances = clist -> allocation.width - 4 ;
+
+     /* on teste si des valeurs valides (non nulles) ont été récupérées dans
+        le fichier de configuration */
+     
+     for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
+       {
+        if ( scheduler_col_width[i] == 0 )
+	  {
+	   scheduler_col_width[0] = 0 ;
+	   /* inutile d'aller plus loin, on sort de la boucle */
+	   i = NB_COLS_SCHEDULER ;
+	  }
+       }
+
+     if ( scheduler_col_width[0] == 0 )
+       {
+	/* si ce n'est pas le cas, alors on initialise ces largeurs avec
+	   un rapport de largeur prédéfini */
+
+	for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
+	  scheduler_col_width[i] = scheduler_col_width_ratio[i] * ancienne_largeur_echeances / 100 ;
+       }
+     else
+       {
+	/* et si on a des valeurs valides, alors on réajuste ces largeurs avec
+	   la largeur courante de la liste et le rapport de largeur du fichier
+	   de configuration */
+
+	for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
+	  tmp_largeur += scheduler_col_width[i] ;
+
+	/* à cette largeur calculée, on retire la largeur de la colonne Notes
+	   puisque celle-ci est « cachée » derrière les colonnes Tiers et Mode */
+
+	tmp_largeur -= scheduler_col_width[COL_NB_NOTES] ;
+	
+	/* c'est une astuce grossière pour ne pas voir apparaitre les barres
+	   de défilement horizontal dans l'échéancier lors du lancement,
+	   en attendant de trouver comment faire de façon plus rigoureuse */
+
+	ancienne_largeur_echeances -= 37 ;
+
+	for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
+	  scheduler_col_width[i] = ( scheduler_col_width[i] * ancienne_largeur_echeances ) / tmp_largeur ;
+
+	ancienne_largeur_echeances += 37 ;
+       }
+    }
 
   if ( allocation )
     largeur = allocation -> width ;
@@ -1494,31 +1537,31 @@ void changement_taille_liste_echeances ( GtkWidget *clist,
 
   if ( largeur == ancienne_largeur_echeances )
     return ;
-  
+
   /* on ajuste les largeurs de colonnes proportionnellement au rapport
      nouvelle largeur / ancienne largeur */
-  
+
   for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
-    scheduler_col_width[i] = ( scheduler_col_width[i] * ( largeur ) ) / ancienne_largeur_echeances ;
-  
+    scheduler_col_width[i] = ( scheduler_col_width[i] * largeur ) / ancienne_largeur_echeances ;
+
   /* pour être certain que la largeur de la colonne Remarque soit égale
      à la somme des largeurs des colonnes Tiers et Périodicité */
-  
+
   scheduler_col_width[COL_NB_NOTES] = scheduler_col_width[COL_NB_FREQUENCY] + scheduler_col_width[COL_NB_MODE] ;
 
   /* pour pouvoir déterminer la largeur de la colonne Montant, on effectue
      la somme des largeurs des colonnes affichées (sauf Montant) */
-  
+/*
   for ( i = 0 ; i < COL_NB_NOTES ; i++ )
     tmp_largeur += scheduler_col_width[i] ;
-
+*/
   /* que l'on soustrait à la largeur récupérée pour obtenir la largeur
      de la colonne Montant */
-  
-  scheduler_col_width[COL_NB_AMOUNT] = largeur - tmp_largeur ;
+
+//  scheduler_col_width[COL_NB_AMOUNT] = largeur - tmp_largeur ;
 
   /* on établit alors les largeurs des colonnes */
-  
+
   for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
     gtk_clist_set_column_width ( GTK_CLIST ( clist ),
 				 i,
@@ -1526,11 +1569,10 @@ void changement_taille_liste_echeances ( GtkWidget *clist,
 
   /* on sauve la valeur courante de la largeur de la liste pour
      une utilisation ultérieure */
-  
+
   ancienne_largeur_echeances = largeur ;
 
-
-/* met les entrées du formulaire à la même taille */
+  /* met les entrées du formulaire à la même taille */
   
   col1 = ( 7 * largeur) / 100;
   col2 = ( 13 * largeur) / 100;
@@ -1539,7 +1581,6 @@ void changement_taille_liste_echeances ( GtkWidget *clist,
   col5 = ( 12 * largeur) / 100;
   col6 = ( 10 * largeur) / 100;
   col7 = ( 10 * largeur) / 100;
-
 
   /* 1ère ligne */
 
