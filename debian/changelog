@@ -1,3 +1,9 @@
+grisbi (0.4.4-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Benjamin Drieu <benj@debian.org>  Thu, 25 Mar 2004 15:37:24 +0100
+
 grisbi (0.4.3-3) unstable; urgency=low
 
   * Removed includes of obsolete gnomeprint (closes: #226494)

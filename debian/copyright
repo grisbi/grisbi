@@ -4,10 +4,11 @@ Tue, 20 Aug 2002 20:52:28 +0200.
 It was downloaded from http://www.grisbi.org/telechargement/
 
 Upstream Authors: 	
+	Alain Portal (dionysos@grisbi.org)
+	Benjamin Drieu (benj@debian.org)
 	Cédric Auger (cedric@grisbi.org)
 	Daniel Cartron (doc@grisbi.org)
-	André Pascual (andre@linuxgraphic.org)
-	Benjamin Drieu (benj@debian.org)
+
 
 Grisbi is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
