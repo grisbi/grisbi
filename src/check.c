@@ -43,7 +43,6 @@
 /******************************************************************************/
 void reconciliation_check ( void )
 {
-  gboolean first_run = TRUE;
   gint affected_account = 0;
   GSList *ordre_comptes_variable;
 
@@ -51,90 +50,88 @@ void reconciliation_check ( void )
   if ( !nb_comptes )
     return;
 
-  /* On fera la vérification des comptes
-     dans l'ordre préféré de l'utilisateur */
-  ordre_comptes_variable = ordre_comptes;
-
-  /* Pour chacun des comptes, faire */
-  do
+  /* si l'utilisateur n'abandonne pas, faire */
+  if ( question_yes_no ( g_strdup_printf ( _("This will check that the last reconciliation amounts matches with "
+					     "total amounts of reconcilied transactions (and initial balance).") )))
   {
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable -> data );
-    
-    /* Si le compte a été rapproché au moins une fois */
-    if ( DERNIER_NO_RAPPROCHEMENT )
+    /* On fera la vérification des comptes
+       dans l'ordre préféré de l'utilisateur */
+    ordre_comptes_variable = ordre_comptes;
+
+    /* Pour chacun des comptes, faire */
+    do
     {
-      GSList *pTransactionList;
-      gdouble reconcilied_amount = 0;
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable -> data );
+    
+      /* Si le compte a été rapproché au moins une fois */
+      if ( DERNIER_NO_RAPPROCHEMENT )
+      {
+        GSList *pTransactionList;
+        gdouble reconcilied_amount = 0;
 
-      /* On va recalculer le montant rapproché du compte (c-à-d le solde initial
-         plus le montant des opérations rapprochées) et le comparer à la valeur
-         stockée dans le fichier. Si les valeurs diffèrent, on affiche une boite
-	 d'avertissement */
+        /* On va recalculer le montant rapproché du compte (c-à-d le solde initial
+           plus le montant des opérations rapprochées) et le comparer à la valeur
+           stockée dans le fichier. Si les valeurs diffèrent, on affiche une boite
+	   d'avertissement */
       
-      reconcilied_amount = SOLDE_INIT;
+        reconcilied_amount = SOLDE_INIT;
 
-      /* On récupère la liste des opérations */
-      pTransactionList = LISTE_OPERATIONS;
+        /* On récupère la liste des opérations */
+        pTransactionList = LISTE_OPERATIONS;
 
-      while ( pTransactionList )
-      {
-	struct structure_operation *pTransaction;
+        while ( pTransactionList )
+        {
+	  struct structure_operation *pTransaction;
 
-	pTransaction = pTransactionList -> data;
+	  pTransaction = pTransactionList -> data;
 
-	/* On ne prend en compte que les opérations rapprochées.
-	   On ne prend pas en compte les opérations de ventilation. */
-	if ( pTransaction -> pointe == OPERATION_RAPPROCHEE
-	     &&
-	     !pTransaction -> no_operation_ventilee_associee )
-	{
-	    gdouble transaction_amount;
+	  /* On ne prend en compte que les opérations rapprochées.
+	     On ne prend pas en compte les opérations de ventilation. */
+	 if ( pTransaction -> pointe == OPERATION_RAPPROCHEE
+	       &&
+	       !pTransaction -> no_operation_ventilee_associee )
+	  {
+	      gdouble transaction_amount;
 
-	    transaction_amount = calcule_montant_devise_renvoi ( pTransaction -> montant,
-								 DEVISE,
-								 pTransaction -> devise,
-								 pTransaction -> une_devise_compte_egale_x_devise_ope,
-								 pTransaction -> taux_change,
-								 pTransaction -> frais_change );
+	      transaction_amount = calcule_montant_devise_renvoi ( pTransaction -> montant,
+								  DEVISE,
+								   pTransaction -> devise,
+								   pTransaction -> une_devise_compte_egale_x_devise_ope,
+								   pTransaction -> taux_change,
+								   pTransaction -> frais_change );
 
-	    reconcilied_amount = reconcilied_amount + transaction_amount;
+	      reconcilied_amount = reconcilied_amount + transaction_amount;
+	  }
+
+	  pTransactionList = pTransactionList -> next;
 	}
 
-	pTransactionList = pTransactionList -> next;
-      }
-
-      if ( fabs ( reconcilied_amount - SOLDE_DERNIER_RELEVE ) >= 0.01 )
-      {
-	affected_account++;
-
-	if ( first_run )
+	if ( fabs ( reconcilied_amount - SOLDE_DERNIER_RELEVE ) >= 0.01 )
 	{
-	  dialogue ( g_strdup_printf ( _("This will check that the last reconciliation amounts matches with "
-				         "total amounts of reconcilied transactions (and initial balance).") ));
-	  first_run = FALSE;
+	  affected_account++;
+
+	  dialogue_warning_hint ( g_strdup_printf ( _("Last reconciliation amount : %f\n"
+						    "Computed reconciliation amount : %f"),
+						    SOLDE_DERNIER_RELEVE,
+						    reconcilied_amount ),
+				  g_strdup_printf ( _("Account name : %s\n"),
+						    NOM_DU_COMPTE ));
+
 	}
-
-	dialogue_warning_hint ( g_strdup_printf ( _("Last reconciliation amount : %f\n"
-						  "Computed reconciliation amount : %f"),
-						SOLDE_DERNIER_RELEVE,
-						reconcilied_amount ),
-			      g_strdup_printf ( _("Account name : %s\n"),
-						NOM_DU_COMPTE ));
-
       }
     }
-  }
-  while ( (  ordre_comptes_variable = ordre_comptes_variable -> next ) );
+    while ( (  ordre_comptes_variable = ordre_comptes_variable -> next ) );
 
-  if ( !affected_account )
-  {
-    dialogue ( g_strdup_printf ( _("About reconciliation, your accounting is sane.")));
-  }
-  else
-  {
-    dialogue ( g_strdup_printf ( _("In %d account(s) on %d, stored and computed reconciliation "
-				   "don't match.  You should correct this quickly."),
-				 affected_account,
-				 nb_comptes ));
+    if ( !affected_account )
+    {
+      dialogue ( g_strdup_printf ( _("About reconciliation, your accounting is sane.")));
+    }
+    else
+    {
+      dialogue ( g_strdup_printf ( _("In %d account(s) on %d, stored and computed reconciliation "
+				     "don't match.  You should correct this quickly."),
+				   affected_account,
+				   nb_comptes ));
+    }
   }
 }
