@@ -47,6 +47,7 @@ AC_SUBST(CFLAGS)
 AC_SUBST(LDFLAGS)
 
 AC_DEFINE_UNQUOTED(APPLET_BIN_DIR, "$acl_final_exec_prefix/bin/grisbi_applet")
+AC_DEFINE_UNQUOTED(GRISBI_BIN_DIR, "$acl_final_exec_prefix/bin/grisbi")
 AC_DEFINE_UNQUOTED(CHEMIN_LOGO, "$acl_final_prefix/share/pixmaps/logo_grisbi.xpm")
 
 dnl ******************************

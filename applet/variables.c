@@ -1,7 +1,5 @@
 /* Variables globales de l'applet grisbi */
 
-#define GRISBI_BIN_DIR "/usr/local/bin/grisbi"
-
 GtkWidget *applet;
 GtkWidget *canvas;
 GtkWidget *root_canvas;
