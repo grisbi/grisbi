@@ -1174,7 +1174,7 @@ void fill_reconciliation_tree ()
 	gtk_tree_store_set (reconcile_model, &account_iter,
 			    RECONCILIATION_NAME_COLUMN, gsb_account_get_name (GPOINTER_TO_INT ( pUserAccountsList -> data )),
 			    RECONCILIATION_VISIBLE_COLUMN, TRUE,
-			    RECONCILIATION_SORT_COLUMN, ! TRI,
+			    RECONCILIATION_SORT_COLUMN, !gsb_account_get_sort_type(GPOINTER_TO_INT ( pUserAccountsList -> data )),
 			    RECONCILIATION_SPLIT_NEUTRAL_COLUMN, gsb_account_get_split_neutral_payment (GPOINTER_TO_INT ( pUserAccountsList -> data )),
 			    RECONCILIATION_ACCOUNT_COLUMN, p_tab_nom_de_compte_variable,
 			    RECONCILIATION_TYPE_COLUMN, -1,

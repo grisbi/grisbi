@@ -1055,7 +1055,7 @@ void modification_details_compte ( void )
 
     if ( !strlen ( gsb_account_get_bank_branch_code (compte_courant_onglet) ))
 	gsb_account_set_bank ( compte_courant_onglet,
-			       NULL );
+			       0 );
 
     /* enregistrement du no de compte */
 

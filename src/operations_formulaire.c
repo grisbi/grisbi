@@ -285,7 +285,7 @@ void remplissage_formulaire ( gint no_compte )
 	 &&
 	 GTK_WIDGET_VISIBLE ( widget_formulaire_par_element( TRANSACTION_FORM_TYPE )))
 	gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_par_element( TRANSACTION_FORM_TYPE )),
-				      cherche_no_menu_type ( TYPE_DEFAUT_DEBIT ) );
+				      cherche_no_menu_type ( gsb_account_get_default_debit (compte_courant) ) );
 
     formulaire_a_zero ();
 
@@ -768,7 +768,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 			    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
 						       menu );
 			    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
-							  cherche_no_menu_type ( TYPE_DEFAUT_DEBIT ) );
+							  cherche_no_menu_type ( gsb_account_get_default_debit (compte_courant) ) );
 			    gtk_widget_show ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) );
 			}
 			else
@@ -815,7 +815,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 			       ||
 			       gtk_widget_get_style ( widget_formulaire_par_element (TRANSACTION_FORM_CATEGORY) ) == style_entree_formulaire[ENGRIS] ))
 			    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
-							  cherche_no_menu_type ( TYPE_DEFAUT_DEBIT ) );
+							  cherche_no_menu_type ( gsb_account_get_default_debit (compte_courant) ) );
 		    }
 		}
 	    }
@@ -863,7 +863,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 			    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
 						       menu );
 			    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
-							  cherche_no_menu_type ( TYPE_DEFAUT_CREDIT ) );
+							  cherche_no_menu_type ( gsb_account_get_default_credit (compte_courant) ) );
 			    gtk_widget_show ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) );
 			}
 			else
@@ -909,7 +909,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 			       ||
 			       gtk_widget_get_style ( widget_formulaire_par_element (TRANSACTION_FORM_CATEGORY) ) == style_entree_formulaire[ENGRIS] ))
 			    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
-							  cherche_no_menu_type ( TYPE_DEFAUT_CREDIT ) );
+							  cherche_no_menu_type ( gsb_account_get_default_credit (compte_courant) ) );
 		    }
 		}
 	    }
@@ -2231,9 +2231,9 @@ void place_type_formulaire ( gint no_type,
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
 	if ( signe == 1 )
-	    place_type = cherche_no_menu_type ( TYPE_DEFAUT_DEBIT );
+	    place_type = cherche_no_menu_type ( gsb_account_get_default_debit (no_compte) );
 	else
-	    place_type = cherche_no_menu_type ( TYPE_DEFAUT_CREDIT );
+	    place_type = cherche_no_menu_type ( gsb_account_get_default_credit (no_compte) );
 
 	/* si le type par défaut n'est pas trouvé, on met 0 */
 
@@ -3780,7 +3780,7 @@ void formulaire_a_zero (void)
 		case TRANSACTION_FORM_TYPE:
 
 		    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget ),
-						  cherche_no_menu_type ( TYPE_DEFAUT_DEBIT ) );
+						  cherche_no_menu_type ( gsb_account_get_default_debit (compte_courant) ) );
 		    gtk_widget_set_sensitive ( GTK_WIDGET ( widget ),
 					       FALSE );
 		    break;

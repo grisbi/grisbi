@@ -1269,8 +1269,8 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 			       3 );
 	if ( tab_str[1] )
 	{
-	    gsb_account_set_bank ( no_compte,
-				   g_strdup ( tab_str[1] ) );
+	    gsb_account_set_bank_branch_code ( no_compte,
+					       g_strdup ( tab_str[1] ) );
 
 	    if ( tab_str[2] )
 	    {
@@ -1481,9 +1481,9 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 	    GSList *liste_tmp;
 
 	    if ( operation -> montant < 0 )
-		operation -> type_ope = TYPE_DEFAUT_DEBIT;
+		operation -> type_ope = gsb_account_get_default_debit (no_compte);
 	    else
-		operation -> type_ope = TYPE_DEFAUT_CREDIT;
+		operation -> type_ope = gsb_account_get_default_credit (no_compte);
 
 	    operation -> contenu_type = itoa ( operation_import -> cheque );
 
@@ -1534,9 +1534,9 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 	    /* comme ce n'est pas un chèque, on met sur le type par défaut */
 
 	    if ( operation -> montant < 0 )
-		operation -> type_ope = TYPE_DEFAUT_DEBIT;
+		operation -> type_ope = gsb_account_get_default_debit (no_compte);
 	    else
-		operation -> type_ope = TYPE_DEFAUT_CREDIT;
+		operation -> type_ope = gsb_account_get_default_credit (no_compte);
 
 	}
 
@@ -1784,7 +1784,7 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
     }
 
 
-    gsb_account_set_update_list ( i,
+    gsb_account_set_update_list ( no_compte,
 				  1 );
 /*     calcule_solde_compte ( NO_COMPTE ); */
 /*     calcule_solde_pointe_compte ( NO_COMPTE ); */
@@ -2135,9 +2135,9 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 	GSList *liste_tmp;
 
 	if ( operation -> montant < 0 )
-	    operation -> type_ope = TYPE_DEFAUT_DEBIT;
+	    operation -> type_ope = gsb_account_get_default_debit (no_compte);
 	else
-	    operation -> type_ope = TYPE_DEFAUT_CREDIT;
+	    operation -> type_ope = gsb_account_get_default_credit (no_compte);
 
 	operation -> contenu_type = itoa ( operation_import -> cheque );
 
@@ -2188,9 +2188,9 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 	/* comme ce n'est pas un chèque, on met sur le type par défaut */
 
 	if ( operation -> montant < 0 )
-	    operation -> type_ope = TYPE_DEFAUT_DEBIT;
+	    operation -> type_ope = gsb_account_get_default_debit (no_compte);
 	else
-	    operation -> type_ope = TYPE_DEFAUT_CREDIT;
+	    operation -> type_ope = gsb_account_get_default_credit (no_compte);
 
     }
 

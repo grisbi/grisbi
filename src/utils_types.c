@@ -27,6 +27,7 @@
 
 /*START_INCLUDE*/
 #include "utils_types.h"
+#include "data_account.h"
 #include "search_glist.h"
 /*END_INCLUDE*/
 

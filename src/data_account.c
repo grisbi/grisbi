@@ -1562,7 +1562,7 @@ GSList *gsb_account_get_method_payment_list ( gint no_account )
     if (!account )
 	return NULL;
 
-    return account -> ;
+    return account -> method_payment_list;
 }
 
 
@@ -1587,8 +1587,80 @@ gboolean gsb_account_set_method_payment_list ( gint no_account,
 }
 
 
+/** get default_debit on the account given
+ * \param no_account no of the account
+ * \return default_debit or 0 if the account doesn't exist
+ * */
+gint gsb_account_get_default_debit ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return 0;
+
+    return account -> default_debit;
+}
+
+
+/** set default_debit in the account given
+ * \param no_account no of the account
+ * \param default_debit default_debit to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_default_debit ( gint no_account,
+					 gint default_debit )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> default_debit = default_debit;
+
+    return TRUE;
+}
 
 
 
+/** get default_credit on the account given
+ * \param no_account no of the account
+ * \return default_credit or 0 if the account doesn't exist
+ * */
+gint gsb_account_get_default_credit ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return 0;
+
+    return account -> default_credit;
+}
+
+
+/** set default_credit in the account given
+ * \param no_account no of the account
+ * \param default_credit default_credit to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_default_credit ( gint no_account,
+					  gint default_credit )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> default_credit = default_credit;
+
+    return TRUE;
+}
 
 

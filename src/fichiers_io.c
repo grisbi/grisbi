@@ -967,8 +967,8 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Guichet" ))
-				gsb_account_set_bank ( no_compte,
-						       xmlNodeGetContent ( node_detail ) );
+				gsb_account_set_bank_branch_code ( no_compte,
+								   xmlNodeGetContent ( node_detail ) );
 
 			    if ( !strcmp ( node_detail -> name,
 					   "No_compte_banque" ))
@@ -1053,15 +1053,18 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Type_defaut_debit" ))
-				TYPE_DEFAUT_DEBIT = my_atoi ( xmlNodeGetContent ( node_detail ));
+				gsb_account_set_default_debit ( no_compte,
+								my_atoi ( xmlNodeGetContent ( node_detail )) );
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Type_defaut_credit" ))
-				TYPE_DEFAUT_CREDIT = my_atoi ( xmlNodeGetContent ( node_detail ));
+				gsb_account_set_default_credit ( no_compte,
+								 my_atoi ( xmlNodeGetContent ( node_detail )));
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Tri_par_type" ))
-				TRI = my_atoi ( xmlNodeGetContent ( node_detail ));
+				gsb_account_set_sort_type ( no_compte,
+							    my_atoi ( xmlNodeGetContent ( node_detail )));
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Neutres_inclus" ))
@@ -3376,12 +3379,12 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Type_defaut_debit",
-			  itoa ( TYPE_DEFAUT_DEBIT ));
+			  itoa ( gsb_account_get_default_debit (i) ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Type_defaut_credit",
-			  itoa ( TYPE_DEFAUT_CREDIT ));
+			  itoa ( gsb_account_get_default_credit (i) ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,

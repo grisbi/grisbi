@@ -550,21 +550,23 @@ GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func,
 void changement_choix_compte_echeancier ( void )
 {
     GtkWidget *menu;
+    gint no_compte;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] );
+    no_compte = recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] );
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
     if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ) == style_entree_formulaire[ENCLAIR] )
     {
 	/*       il y a qque chose dans le crï¿œit, on met le menu des types crï¿œit */
 
 	if ( (menu = creation_menu_types ( 2,
-					   recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT]),
+					   no_compte,
 					   1 )))
 	{
 	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
 				       menu );
 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
-					  cherche_no_menu_type_echeancier ( TYPE_DEFAUT_CREDIT ) );
+					  cherche_no_menu_type_echeancier ( gsb_account_get_default_credit (no_compte)));
 	    gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
 	}
 	else
@@ -581,7 +583,7 @@ void changement_choix_compte_echeancier ( void )
 	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
 				       menu );
 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
-					  cherche_no_menu_type_echeancier ( TYPE_DEFAUT_DEBIT ) );
+					  cherche_no_menu_type_echeancier ( gsb_account_get_default_debit (no_compte) ) );
 	    gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
 	}
 	else
@@ -608,8 +610,10 @@ void creation_types_par_defaut ( gint no_compte,
 
     gsb_account_set_method_payment_list ( no_compte,
 					  NULL );
-    TYPE_DEFAUT_DEBIT = 0;
-    TYPE_DEFAUT_CREDIT = 0;
+    gsb_account_set_default_debit ( no_compte,
+				    0 );
+    gsb_account_set_default_credit ( no_compte,
+				     0 );
 
     if ( gsb_account_get_kind (no_compte) == GSB_TYPE_BANK )
     {
@@ -685,8 +689,10 @@ void creation_types_par_defaut ( gint no_compte,
 					      g_slist_append ( gsb_account_get_method_payment_list (no_compte),
 							       type_ope ) );
 
-	TYPE_DEFAUT_DEBIT = 3;
-	TYPE_DEFAUT_CREDIT = 2;
+	gsb_account_set_default_debit ( no_compte,
+					3 );
+	gsb_account_set_default_credit ( no_compte,
+					 2 );
 
 	/* on crï¿œ le tri pour compte bancaire qui sera 1 2 3 4 5 */
 
@@ -727,8 +733,10 @@ void creation_types_par_defaut ( gint no_compte,
 						  g_slist_append ( gsb_account_get_method_payment_list (no_compte),
 								   type_ope ) );
 
-	    TYPE_DEFAUT_DEBIT = 1;
-	    TYPE_DEFAUT_CREDIT = 1;
+	    gsb_account_set_default_debit ( no_compte,
+					    1 );
+	    gsb_account_set_default_credit ( no_compte,
+					     1 );
 
 	    /* on crï¿œ le tri pour compte passif qui sera 1 */
 

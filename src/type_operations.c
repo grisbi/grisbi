@@ -119,9 +119,11 @@ void payment_method_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + type_ope -> no_compte;
 
     if (type_ope -> signe_type == 1) /* Débit */
-	TYPE_DEFAUT_DEBIT = type_ope -> no_type;
+	gsb_account_set_default_debit ( type_ope -> no_compte,
+					type_ope -> no_type);
     else if  (type_ope -> signe_type == 2) /* Crédit */
-	TYPE_DEFAUT_CREDIT = type_ope -> no_type;
+	gsb_account_set_default_credit ( type_ope -> no_compte,
+					 type_ope -> no_type );
 
     if (! toggle_item)
     {
@@ -229,9 +231,9 @@ void fill_payment_method_tree ()
 
 	    type_ope = liste_tmp->data;
 
-	    if ( type_ope -> no_type == TYPE_DEFAUT_DEBIT
+	    if ( type_ope -> no_type == gsb_account_get_default_debit (GPOINTER_TO_INT ( pUserAccountsList -> data ))
 		 ||
-		 type_ope -> no_type == TYPE_DEFAUT_CREDIT )
+		 type_ope -> no_type == gsb_account_get_default_credit (GPOINTER_TO_INT ( pUserAccountsList -> data )) )
 		isdefault = 1;
 	    else
 		isdefault = 0;
@@ -593,7 +595,7 @@ void modification_entree_nom_type ( void )
 		gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
 					   menu );
 
-		pos_type = cherche_no_menu_type ( TYPE_DEFAUT_DEBIT );
+		pos_type = cherche_no_menu_type ( gsb_account_get_default_debit (compte_courant) );
 
 		if ( pos_type != -1 )
 		    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
@@ -604,8 +606,9 @@ void modification_entree_nom_type ( void )
 
 		    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
 						  0 );
-		    TYPE_DEFAUT_DEBIT = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ) -> menu_item ),
-									      "no_type" ));
+		    gsb_account_set_default_debit ( compte_courant,
+						    GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ) -> menu_item ),
+											  "no_type" )));
 
 		    /* on affiche l'entrée des chèques si nécessaire */
 		    type = g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ) -> menu_item ),
@@ -808,20 +811,22 @@ void modification_type_signe ( gint *no_menu )
 	switch (type_ope -> signe_type)
 	{
 	    case 1:			/* Debit */
-		if ( TYPE_DEFAUT_DEBIT == type_ope -> no_type)
+		if ( gsb_account_get_default_debit (type_ope -> no_compte) == type_ope -> no_type)
 		{
-		    TYPE_DEFAUT_DEBIT = find_operation_type_by_type (type_ope->no_compte,
-								     type_ope->signe_type,
-								     type_ope->no_type);
+		    gsb_account_set_default_debit ( type_ope -> no_compte,
+						    find_operation_type_by_type (type_ope->no_compte,
+										 type_ope->signe_type,
+										 type_ope->no_type));
 		}
 		break;
 
 	    case 2:			/* Credit */
-		if ( TYPE_DEFAUT_CREDIT == type_ope -> no_type)
+		if ( gsb_account_get_default_credit (type_ope -> no_compte) == type_ope -> no_type)
 		{
-		    TYPE_DEFAUT_DEBIT = find_operation_type_by_type (type_ope->no_compte,
-								     type_ope->signe_type,
-								     type_ope->no_type);
+		    gsb_account_set_default_credit ( type_ope -> no_compte,
+						     find_operation_type_by_type (type_ope->no_compte,
+										  type_ope->signe_type,
+										  type_ope->no_type) );
 		}
 		break;
 
@@ -1152,20 +1157,22 @@ void supprimer_type_operation ( void )
 	switch (type_ope -> signe_type)
 	{
 	    case 1:			/* Debit */
-		if ( TYPE_DEFAUT_DEBIT == type_ope -> no_type)
+		if ( gsb_account_get_default_debit (type_ope -> no_compte) == type_ope -> no_type)
 		{
-		    TYPE_DEFAUT_DEBIT = find_operation_type_by_type (type_ope->no_compte,
-								     type_ope->signe_type,
-								     type_ope->no_type);
+		    gsb_account_set_default_debit ( type_ope -> no_compte,
+						    find_operation_type_by_type (type_ope->no_compte,
+										 type_ope->signe_type,
+										 type_ope->no_type));
 		}
 		break;
 
 	    case 2:			/* Credit */
-		if ( TYPE_DEFAUT_CREDIT == type_ope -> no_type)
+		if ( gsb_account_get_default_credit (type_ope -> no_compte) == type_ope -> no_type)
 		{
-		    TYPE_DEFAUT_DEBIT = find_operation_type_by_type (type_ope->no_compte,
-								     type_ope->signe_type,
-								     type_ope->no_type);
+		    gsb_account_set_default_credit ( type_ope -> no_compte,
+						     find_operation_type_by_type (type_ope->no_compte,
+										  type_ope->signe_type,
+										  type_ope->no_type));
 		}
 		break;
 

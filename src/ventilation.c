@@ -2846,9 +2846,9 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 				    ope_modifiee_2 -> une_devise_compte_egale_x_devise_ope = ope_modifiee -> une_devise_compte_egale_x_devise_ope;
 
 				    devise_compte_1 = devise_par_no ( ope_modifiee -> devise );
-				    devise_compte_2 = devise_par_no ( gsb_account_get_currency (ope_ventil -> relation_no_compte;) );
+				    devise_compte_2 = devise_par_no ( gsb_account_get_currency (ope_ventil -> relation_no_compte));
 
-				    if ( !( ope_modifiee -> devise == gsb_account_get_currency (ope_ventil -> relation_no_compte;)
+				    if ( !( ope_modifiee -> devise == gsb_account_get_currency (ope_ventil -> relation_no_compte)
 					    ||
 					    ( devise_compte_2 -> passage_euro && !strcmp ( devise_compte_1 -> nom_devise, _("Euro") ))
 					    ||

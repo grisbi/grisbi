@@ -103,12 +103,15 @@ gint gsb_account_get_currency ( gint no_account );
 gdouble gsb_account_get_current_balance ( gint no_account );
 GDate *gsb_account_get_current_reconcile_date ( gint no_account );
 gpointer gsb_account_get_current_transaction ( gint no_account );
+gint gsb_account_get_default_credit ( gint no_account );
+gint gsb_account_get_default_debit ( gint no_account );
 gchar *gsb_account_get_holder_address ( gint no_account );
 gchar *gsb_account_get_holder_name ( gint no_account );
 gchar *gsb_account_get_id ( gint no_account );
 gdouble gsb_account_get_init_balance ( gint no_account );
 kind_account gsb_account_get_kind ( gint no_account );
 gdouble gsb_account_get_marked_balance ( gint no_account );
+GSList *gsb_account_get_method_payment_list ( gint no_account );
 gdouble gsb_account_get_mini_balance_authorized ( gint no_account );
 gboolean gsb_account_get_mini_balance_authorized_message ( gint no_account );
 gdouble gsb_account_get_mini_balance_wanted ( gint no_account );
@@ -151,6 +154,10 @@ gboolean gsb_account_set_current_reconcile_date ( gint no_account,
 						  GDate *date );
 gboolean gsb_account_set_current_transaction ( gint no_account,
 					       gpointer transaction );
+gboolean gsb_account_set_default_credit ( gint no_account,
+					  gint default_credit );
+gboolean gsb_account_set_default_debit ( gint no_account,
+					 gint default_debit );
 gboolean gsb_account_set_holder_address ( gint no_account,
 					  gchar *holder_address );
 gboolean gsb_account_set_holder_name ( gint no_account,
@@ -163,6 +170,8 @@ gboolean gsb_account_set_kind ( gint no_account,
 				kind_account account_kind );
 gboolean gsb_account_set_marked_balance ( gint no_account,
 					  gdouble balance );
+gboolean gsb_account_set_method_payment_list ( gint no_account,
+					       GSList *list );
 gboolean gsb_account_set_mini_balance_authorized ( gint no_account,
 						   gdouble balance );
 gboolean gsb_account_set_mini_balance_authorized_message ( gint no_account,
