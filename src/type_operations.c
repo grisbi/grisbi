@@ -1103,7 +1103,6 @@ void supprimer_type_operation ( void )
 	/* Remove type from tree & memory */
 	gtk_tree_store_remove ( GTK_TREE_STORE(model), &iter );
 	TYPES_OPES = g_slist_remove ( TYPES_OPES, type_ope );
-	free ( type_ope );
 
 	/* If it was a default, change default */
 	switch (type_ope -> signe_type)
