@@ -13,12 +13,13 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier );
 #ifndef OFX_INFO
 #define OFX_INFO    INFO
 #endif
+
 #ifndef OFX_WARN
 #define OFX_WARN    WARN
 #endif
+
 #ifndef OFX_ERROR
 #define OFX_ERROR   ERROR
-#endif
 #endif
 
 #ifndef OFX_DELETE
@@ -27,6 +28,8 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier );
 
 #ifndef OFX_REPLACE
 #define OFX_REPLACE REPLACE
+#endif
+
 #endif
 
 #endif
