@@ -294,6 +294,7 @@ gint html_initialise (GSList * opes_selectionnees)
 	     "  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n\n"
 	     "<html>\n"
 	     "  <head>\n"
+	     "    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n"
 	     "    <title>");
     /* FIXME: be sure this works if displayed report is not the current one. */
     html_safe (etats_titre());
