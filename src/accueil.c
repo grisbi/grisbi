@@ -965,13 +965,16 @@ void update_liste_comptes_accueil ( void )
   /* elle contient la somme des soldes de chaque compte */
   /* Deuxième colonne */
   pLabel = gtk_label_new (COLON(_("Global balances")));
-  gtk_table_attach_defaults ( GTK_TABLE ( pTable ),
-			      pLabel,
-			      1, 2,
-			      i+1, i+2 );
   gtk_misc_set_alignment ( GTK_MISC ( pLabel ),
 			   0,
 			   0.5);
+  gtk_table_attach ( GTK_TABLE ( pTable ),
+			     pLabel,
+			     1, 2,
+			     i+1, i+2,
+			     GTK_FILL |GTK_SHRINK,
+			     GTK_FILL| GTK_SHRINK,
+			     20, 0 );
   gtk_widget_show ( pLabel );
 
   /* Troisième colonne : elle contient le solde total courant des comptes */
@@ -986,7 +989,7 @@ void update_liste_comptes_accueil ( void )
 		     i+1, i+2,
 		     GTK_FILL | GTK_SHRINK,
 		     GTK_FILL | GTK_SHRINK,
-		     5, 0 );
+		     0, 0 );
   gtk_widget_show ( pLabel );
 
   /* Quatrième colonne : elle contient le symbole de la devise du compte */
@@ -1017,7 +1020,7 @@ void update_liste_comptes_accueil ( void )
 		     i+1, i+2,
 		     GTK_FILL | GTK_SHRINK,
 		     GTK_FILL | GTK_SHRINK,
-		     5, 0 );
+		     0, 0 );
   gtk_widget_show ( pLabel );
 
   /* Septième colonne : elle contient le symbole de la devise du compte */
