@@ -8,6 +8,8 @@ Thus it is unlikely that you loose any data in case Grisbi encounters a segmenta
 
 4 - "You can organize transactions into budgetary lines, which are budgetary items (why money is spent) that can help you classify your spendings.  Combined with categories (how money is spend), budgetary lines are a powerful way to analyse budget and to make reports."
 
-100 - "You can create categories or budgetary lines directly by typing them in transaction form.
+5 - "You can create categories or budgetary lines directly by typing them in transaction form.
 
 If you write a category or a budgetary line which name contains a ':', a sub-category or sub-budgetary line will be created as well."
+
+6 - "No more tips available !  Please send any tips you know to grisbi-devel@lists.sourceforge.net so that we can include them in next version for all users."

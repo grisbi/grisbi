@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-07-03 17:29+0200\n"
+"POT-Creation-Date: 2004-12-29 21:00+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,13 +30,28 @@ msgid ""
 "when you switch from Gnucash to Grisbi."
 msgstr ""
 
-#: tips.txt:9
+#: tips.txt:15
+msgid ""
+"No more tips available !  Please send any tips you know to grisbi-"
+"devel@lists.sourceforge.net so that we can include them in next version for "
+"all users."
+msgstr ""
+
+#: tips.txt:11
 msgid ""
 "You can create categories or budgetary lines directly by typing them in "
 "transaction form.\n"
 "\n"
 "If you write a category or a budgetary line which name contains a ':', a sub-"
 "category or sub-budgetary line will be created as well."
+msgstr ""
+
+#: tips.txt:9
+msgid ""
+"You can organize transactions into budgetary lines, which are budgetary "
+"items (why money is spent) that can help you classify your spendings.  "
+"Combined with categories (how money is spend), budgetary lines are a "
+"powerful way to analyse budget and to make reports."
 msgstr ""
 
 #: tips.txt:1
