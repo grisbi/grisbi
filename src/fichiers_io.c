@@ -1541,6 +1541,14 @@ des paramètres.") );
 	}
     }
 
+  /*   récupère le chemin du logo, qui est dans le fichier à partir de la 0.4.0 */
+
+  chemin_logo = gnome_config_get_string ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Chemin_du_logo", NULL ));
+
+  if ( !chemin_logo
+       ||
+       !strlen ( chemin_logo ))
+    chemin_logo = CHEMIN_LOGO;
 
 
 
@@ -1654,9 +1662,18 @@ des paramètres.") );
 			     "Numero_derniere_operation" ))
 		no_derniere_operation= atoi ( xmlNodeGetContent ( node_generalites ));
 
+	      if ( !strcmp ( node_generalites -> name,
+			     "Chemin_logo" ))
+		chemin_logo = xmlNodeGetContent ( node_generalites );
+
 	      node_generalites = node_generalites -> next;
 	    }
 	}
+
+      if ( !chemin_logo
+	   ||
+	   !strlen ( chemin_logo ))
+	chemin_logo = CHEMIN_LOGO;
 
       /* on recupère ici les comptes et operations */
 
@@ -3485,6 +3502,11 @@ gboolean enregistre_fichier ( void )
 		    NULL,
 		    "Numero_derniere_operation",
 		    itoa ( no_derniere_operation));
+
+  xmlNewTextChild ( node,
+		    NULL,
+		    "Chemin_logo",
+		    chemin_logo );
 
 
   /*   on commence la sauvegarde des comptes : 2 parties, les generalites */

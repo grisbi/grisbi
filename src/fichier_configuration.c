@@ -111,10 +111,6 @@ void charge_configuration ( void )
 
   etat.formulaire_toujours_affiche = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affichage_formulaire", NULL ));
   etat.formulaire_echeancier_toujours_affiche  = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affichage_formulaire_echeancier", NULL ));
-  chemin_logo = gnome_config_get_string ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Chemin_du_logo", NULL ));
-
-  if ( !chemin_logo )
-    chemin_logo = CHEMIN_LOGO;
 
   etat.affiche_tous_les_types = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affichage_tous_types", NULL ));
   etat.affiche_no_operation = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affiche_no_operation", NULL ));
@@ -164,7 +160,6 @@ void raz_configuration ( void )
   fonte_general = NULL;
   etat.alerte_permission = 1;       /* par défaut, on prévient quand le fichier n'est pas à 600 */
   etat.force_enregistrement = 0;     /* par défaut, on ne force pas l'enregistrement */
-  chemin_logo = CHEMIN_LOGO;         /* au départ, le logo est celui livré avec grisbi */
   etat.affiche_tous_les_types = 0;   /* par défaut, on n'affiche ds le formulaire que les types du débit ou crédit */
   etat.affiche_no_operation = 1;
   etat.affiche_date_bancaire = 1; /* GDC : par défaut, on affiche la date bancaire (colonne et champ) */
@@ -289,8 +284,6 @@ void sauve_configuration (void)
 			 etat.formulaire_toujours_affiche );
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affichage_formulaire_echeancier", NULL ),
 			 etat.formulaire_echeancier_toujours_affiche );
-  gnome_config_set_string ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Chemin_du_logo", NULL ),
-			    chemin_logo );
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affichage_tous_types", NULL ),
 			 etat.affiche_tous_les_types );
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affiche_no_operation", NULL ),

@@ -96,6 +96,7 @@ void init_variables ( gboolean ouverture )
       etat.ancienne_date = 0;
 
       nom_fichier_backup = NULL;
+      chemin_logo = NULL;
 
       gsliste_echeances = NULL;
       nb_echeances = 0;
