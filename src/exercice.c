@@ -32,7 +32,7 @@
 #include "operations_liste.h"
 #include "traitement_variables.h"
 #include "utils.h"
-
+#include "search_glist.h"
 
 
 
@@ -851,3 +851,32 @@ gint recherche_exo_correspondant ( GDate *date )
 
 }
 /* ************************************************************************************************************** */
+
+
+
+/* ************************************************************************************************************** */
+/* renvoie le nom de l'exercice donné en argument */
+/* ou bien null si non trouvé */
+/* ************************************************************************************************************** */
+
+gchar *exercice_name_by_no ( gint no_exo )
+{
+    GSList *liste_tmp;
+
+    liste_tmp = g_slist_find_custom ( liste_struct_exercices,
+				      GINT_TO_POINTER ( no_exo ),
+				      (GCompareFunc) recherche_exercice_par_no );
+
+    if ( liste_tmp )
+    {
+	struct struct_exercice *exo;
+
+	exo = liste_tmp -> data;
+	
+	return ( exo -> nom_exercice );
+    }
+    else
+	return NULL;
+}
+/* ************************************************************************************************************** */
+

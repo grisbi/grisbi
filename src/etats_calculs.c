@@ -560,9 +560,9 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
-			/* pour l'instant on n'a que le compte passif */
-
-			if ( TYPE_DE_COMPTE != 2 )
+			if ( TYPE_DE_COMPTE != 2
+			     &&
+			     TYPE_DE_COMPTE != 3 )
 			    goto operation_refusee;
 
 			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i; 
@@ -574,8 +574,14 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			    /* on inclut l'opé que si le compte de virement n'est */
 			    /* pas présent dans l'état */
 
-			    if ( g_slist_index ( etat -> no_comptes,
-						 GINT_TO_POINTER ( operation -> relation_no_compte )) != -1 )
+			    /*    si on ne détaille pas les comptes, on ne cherche pas, l'opé est refusée */
+			    if ( etat -> utilise_detail_comptes )
+			    {
+				if ( g_slist_index ( etat -> no_comptes,
+						     GINT_TO_POINTER ( operation -> relation_no_compte )) != -1 )
+				    goto operation_refusee;
+			    }
+			    else
 				goto operation_refusee;
 			}
 			else
@@ -637,7 +643,6 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		     g_slist_index ( etat -> no_tiers,
 				     GINT_TO_POINTER ( operation -> tiers )) == -1 )
 		    goto operation_refusee;
-
 
 		/* vérification du type d'opé */
 
@@ -2248,8 +2253,11 @@ pas_decalage:
 	montant_compte_etat = 0;
 	montant_tiers_etat = 0;
 	montant_periode_etat = 0;
+	montant_exo_etat = 0;
 	total_partie = 0;
 	date_debut_periode = NULL;
+	exo_en_cours_etat = -1;
+
 
 	nb_ope_categ_etat = 0;
 	nb_ope_sous_categ_etat = 0;
@@ -2259,6 +2267,7 @@ pas_decalage:
 	nb_ope_tiers_etat = 0;
 	nb_ope_partie_etat = 0;
 	nb_ope_periode_etat = 0;
+	nb_ope_exo_etat = 0;
 
 	changement_de_groupe_etat = 0;
 	debut_affichage_etat = 1;
@@ -2392,6 +2401,13 @@ pas_decalage:
 	    ligne = etat_affiche_affiche_total_periode ( operation,
 							 ligne,
 							 0 );
+
+	    /* on affiche si nécessaire le total de  l'exercice */
+
+	    ligne = etat_affiche_affiche_total_exercice ( operation,
+							 ligne,
+							 0 );
+
 
 
 	    ligne = etat_affiche_affichage_ligne_ope ( operation,
@@ -2618,6 +2634,44 @@ pas_decalage:
 	    total_partie = total_partie + montant;
 	    nb_ope_partie_etat++;
 
+
+	    /* calcule le montant de l'exo */
+
+	    if ( etat_courant -> separation_par_exo )
+	    {
+		if ( operation -> devise == devise_categ_etat -> no_devise )
+		    montant = operation -> montant;
+		else
+		{
+		    devise_operation = g_slist_find_custom ( liste_struct_devises,
+							     GINT_TO_POINTER ( operation -> devise ),
+							     ( GCompareFunc ) recherche_devise_par_no ) -> data;
+
+		    if ( devise_categ_etat -> passage_euro
+			 &&
+			 !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
+			montant = operation -> montant * devise_categ_etat -> change;
+		    else
+			if ( devise_operation -> passage_euro
+			     &&
+			     !strcmp ( devise_categ_etat -> nom_devise, _("Euro") ))
+			    montant = operation -> montant / devise_operation -> change;
+			else
+			    if ( operation -> une_devise_compte_egale_x_devise_ope )
+				montant = operation -> montant / operation -> taux_change - operation -> frais_change;
+			    else
+				montant = operation -> montant * operation -> taux_change - operation -> frais_change;
+
+		    montant = ( rint (montant * 100 )) / 100;
+		}
+		montant_exo_etat = montant_exo_etat + montant;
+		nb_ope_exo_etat++;
+	    }
+
+	    total_partie = total_partie + montant;
+	    nb_ope_partie_etat++;
+
+
 	    changement_de_groupe_etat = 0;
 
 	    pointeur_tmp = pointeur_tmp -> next;
@@ -2629,6 +2683,12 @@ pas_decalage:
 	/* on affiche le total de la période en le forçant */
 
 	ligne = etat_affiche_affiche_total_periode ( NULL,
+						     ligne,
+						     1 );
+
+	/* on affiche le total de l'exercice en le forçant */
+
+	ligne = etat_affiche_affiche_total_exercice ( NULL,
 						     ligne,
 						     1 );
 

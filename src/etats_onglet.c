@@ -760,12 +760,10 @@ gboolean ajout_etat ( void )
 	    etat -> separer_revenus_depenses = 1;
 	    etat -> type_virement = 2;
 	    etat -> utilise_categ = 1;
-	    etat -> exclure_ope_sans_categ = 1;
 	    etat -> affiche_sous_total_categ = 1;
 	    etat -> afficher_sous_categ = 1;
 	    etat -> affiche_sous_total_sous_categ = 1;
 	    etat -> afficher_nom_categ = 1;
-	    etat -> exclure_ope_sans_ib = 1;
 	    etat -> exclure_montants_nuls = 1;
 
 

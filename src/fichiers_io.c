@@ -5988,6 +5988,10 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 					    etat -> type_separation_plage = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 					if ( !strcmp ( node_detail_etat -> name,
+						       "Sep_exo" ))
+					    etat -> separation_par_exo = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
+
+					if ( !strcmp ( node_detail_etat -> name,
 						       "Deb_sem_plages" ))
 					    etat -> jour_debut_semaine = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
@@ -8077,6 +8081,11 @@ gboolean enregistre_fichier ( gboolean force )
 			  NULL,
 			  "Sep_plages",
 			  itoa ( etat -> type_separation_plage ));
+
+	xmlNewTextChild ( node_etat,
+			  NULL,
+			  "Sep_exo",
+			  itoa ( etat -> separation_par_exo ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
