@@ -94,7 +94,8 @@ GtkWidget *creation_onglet_comptes (void)
   gtk_widget_show ( scrolled_window );
   
 
-  /*  création d'une vbox contenant la liste des comptes */
+  /*  Maintenant, création d'une vbox placée dans gest_comptes_fils */
+  /*  dans laquelle on mettra les boutons */
 
   vbox_liste_comptes = gtk_vbox_new ( FALSE,
 				      10);
@@ -201,7 +202,7 @@ GtkWidget *creation_onglet_comptes (void)
 
   /* mise en place du bouton équilibrage */
 
-  bouton = gtk_button_new_with_label ( "Rapprochements ..." );
+  bouton = gtk_button_new_with_label ( "Rapprocher" );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE);
   gtk_box_pack_start ( GTK_BOX ( vbox_frame_equilibrage ),

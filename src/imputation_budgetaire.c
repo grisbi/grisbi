@@ -803,8 +803,6 @@ void ouverture_node_imputation ( GtkWidget *arbre,
 		   &&
 		   operation -> sous_imputation == no_sous_imputation
 		   &&
-		   !operation -> relation_no_operation
-		   &&
 		   !operation -> operation_ventilee )
 		{
 		  /* affiche le compte courant */
@@ -914,8 +912,6 @@ void ouverture_node_imputation ( GtkWidget *arbre,
 	       &&
 	       operation -> sous_imputation == no_sous_imputation
 	       &&
-	       !operation -> relation_no_operation
-	       &&
 	       !operation -> operation_ventilee  )
 	    {
 		      if ( operation -> notes )
@@ -1006,7 +1002,10 @@ void fermeture_node_imputation ( GtkWidget *arbre,
 
   /*   si on ferme une imputation, on fait rien */
 
-  if ( GTK_CTREE_ROW ( node )->level == 1 )
+  if ( GTK_CTREE_ROW ( node )->level == 1
+       &&
+       gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
+				     node ))
     return;
 
   /* freeze le ctree */
@@ -2501,9 +2500,7 @@ void calcule_total_montant_imputation ( void )
 	  else
 	      /* il n'y a pas de catégorie */
 	      /* on met le montant dans tab_montant_imputation[0} si e n'est ni un virement ni une ventil */
-	    if ( !operation -> relation_no_operation
-		 &&
-		 !operation -> operation_ventilee )
+	    if ( !operation -> operation_ventilee )
 	      {
 		tab_montant_imputation[0] = tab_montant_imputation[0] + montant;
 		nb_ecritures_par_imputation[0]++;
@@ -2546,8 +2543,6 @@ gchar *calcule_total_montant_imputation_par_compte ( gint imputation,
       if ( operation -> imputation == imputation
 	   &&
 	   operation -> sous_imputation == sous_imputation
-	   &&
-	   !operation -> relation_no_operation
 	   &&
 	   !operation -> operation_ventilee   )
 	{

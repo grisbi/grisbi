@@ -1090,7 +1090,10 @@ void fermeture_node_categ ( GtkWidget *arbre,
 
   /*   si on ferme une categ, on fait rien */
 
-  if ( GTK_CTREE_ROW ( node )->level == 1 )
+  if ( GTK_CTREE_ROW ( node )->level == 1
+       &&
+       gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
+				     node ))
     return;
 
   /* freeze le ctree */
@@ -1126,15 +1129,15 @@ void selection_ligne_categ ( GtkCTree *arbre_categ,
 {
   GtkCTreeNode *node_tmp;
 
-  /* on allume le bouton ajouter une sous imputation si ce n'est pas dans aucune imputation */
-
   node_tmp = noeud;
 
   while ( GTK_CTREE_ROW ( node_tmp ) -> level  != 1 )
     node_tmp = GTK_CTREE_ROW ( node_tmp ) -> parent;
 
-  if ( gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-				     node_tmp ))
+  if ( GTK_CTREE_ROW ( noeud ) -> level != 1 )
+    gtk_widget_set_sensitive ( bouton_ajouter_sous_categorie,
+			       FALSE );
+  else
     gtk_widget_set_sensitive ( bouton_ajouter_sous_categorie,
 			       TRUE );
 

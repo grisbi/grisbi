@@ -271,16 +271,16 @@ void creation_listes_operations ( void )
     {
       GtkWidget *onglet;
       GtkWidget *liste;
-      gchar *titres_liste [] = { "Chèque", "Date ", "Date bancaire",
-					"Tiers,Catégories, I.B., Notes ",
+      gchar *titres_liste [] = { "Chèque", "Date ",
+				 "Tiers,Catégories, I.B., Notes ",
 				 "R ", "Débit", "Crédit ", "Solde " };
 
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
       /* rafraichit la fenetre d'attente */
 
-  if ( patience_en_cours )
-      while ( g_main_iteration ( FALSE ) );
+      if ( patience_en_cours )
+	while ( g_main_iteration ( FALSE ) );
 
       /*  Création de la scrolled window qui contient la clist */
       
@@ -294,7 +294,7 @@ void creation_listes_operations ( void )
 
       /* création de l'onglet */
 
-      liste = gtk_clist_new_with_titles ( 8,
+      liste = gtk_clist_new_with_titles ( 7,
 					   titres_liste );
       gtk_widget_set_usize ( GTK_WIDGET ( liste ),
 			     1,
@@ -320,17 +320,6 @@ void creation_listes_operations ( void )
 					  0,
 					  FALSE );
 
-	/* GDC : gestion de l'affichage de la colonne de la date réelle */
-      if ( ! etat.affiche_date_bancaire )
-		gtk_clist_set_column_visibility ( GTK_CLIST ( liste ),
-					  2,
-					  FALSE );
-	else
-		gtk_clist_set_column_visibility ( GTK_CLIST ( liste ),
-					  2,
-					  TRUE );
-	/* FinGDC */
-
       /* on permet la sélection de plusieurs lignes */
 
       gtk_clist_set_selection_mode ( GTK_CLIST ( liste ),
@@ -354,21 +343,18 @@ void creation_listes_operations ( void )
 					   GTK_JUSTIFY_CENTER);
       gtk_clist_set_column_justification ( GTK_CLIST ( liste),
 					   2,
-					   GTK_JUSTIFY_CENTER);
-      gtk_clist_set_column_justification ( GTK_CLIST ( liste),
-					   3,
 					   GTK_JUSTIFY_LEFT);
       gtk_clist_set_column_justification ( GTK_CLIST ( liste),
-					   4,
+					   3,
 					   GTK_JUSTIFY_CENTER);
+      gtk_clist_set_column_justification ( GTK_CLIST ( liste),
+					   4,
+					   GTK_JUSTIFY_RIGHT);
       gtk_clist_set_column_justification ( GTK_CLIST ( liste),
 					   5,
 					   GTK_JUSTIFY_RIGHT);
       gtk_clist_set_column_justification ( GTK_CLIST ( liste),
 					   6,
-					   GTK_JUSTIFY_RIGHT);
-      gtk_clist_set_column_justification ( GTK_CLIST ( liste),
-					   7,
 					   GTK_JUSTIFY_RIGHT);
 
 
@@ -392,9 +378,6 @@ void creation_listes_operations ( void )
 					FALSE );
       gtk_clist_set_column_resizeable ( GTK_CLIST ( liste ),
 					6,
-					FALSE );
-      gtk_clist_set_column_resizeable ( GTK_CLIST ( liste ),
-					7,
 					FALSE );
 
        /* vérifie le simple ou double click */
@@ -460,8 +443,8 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 {
   GtkWidget *onglet;
   GtkWidget *liste;
-  gchar *titres_liste [] = { "Chèque", "Date ", "Date bancaire",
-				"Tiers, Catégories, I.B., Notes ",
+  gchar *titres_liste [] = { "Chèque", "Date ",
+			     "Tiers, Catégories, I.B., Notes ",
 			     "R ", "Débit", "Crédit ", "Solde " };
       
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
@@ -479,7 +462,7 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 
   /* création de l'onglet */
 
-  liste = gtk_clist_new_with_titles ( 8,
+  liste = gtk_clist_new_with_titles ( 7,
 				      titres_liste );
   gtk_widget_set_usize ( GTK_WIDGET ( liste ),
 			 1,
@@ -529,21 +512,18 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 				       GTK_JUSTIFY_CENTER);
   gtk_clist_set_column_justification ( GTK_CLIST ( liste),
 				       2,
-				       GTK_JUSTIFY_CENTER);
-  gtk_clist_set_column_justification ( GTK_CLIST ( liste),
-				       3,
 				       GTK_JUSTIFY_LEFT);
   gtk_clist_set_column_justification ( GTK_CLIST ( liste),
-				       4,
+				       3,
 				       GTK_JUSTIFY_CENTER);
+  gtk_clist_set_column_justification ( GTK_CLIST ( liste),
+				       4,
+				       GTK_JUSTIFY_RIGHT);
   gtk_clist_set_column_justification ( GTK_CLIST ( liste),
 				       5,
 				       GTK_JUSTIFY_RIGHT);
   gtk_clist_set_column_justification ( GTK_CLIST ( liste),
 				       6,
-				       GTK_JUSTIFY_RIGHT);
-  gtk_clist_set_column_justification ( GTK_CLIST ( liste),
-				       7,
 				       GTK_JUSTIFY_RIGHT);
 
 
@@ -628,10 +608,10 @@ void remplissage_liste_operations ( gint compte )
   gdouble solde_courant;
   gdouble solde_pointe;
   gint couleur_en_cours;
-  gchar *ligne1 [8];
-  gchar *ligne2 [8];
-  gchar *ligne3 [8];
-  gchar *ligne4 [8];
+  gchar *ligne1 [7];
+  gchar *ligne2 [7];
+  gchar *ligne3 [7];
+  gchar *ligne4 [7];
   gint i;
   gint ligne;
   struct struct_devise *devise_compte;
@@ -649,17 +629,6 @@ void remplissage_liste_operations ( gint compte )
   gtk_clist_clear ( GTK_CLIST ( CLIST_OPERATIONS ));
 
 
-  /* GDC : gestion de l'affichage de la colonne de la date réelle */
-  if ( ! etat.affiche_date_bancaire )
-    gtk_clist_set_column_visibility ( GTK_CLIST ( CLIST_OPERATIONS ),
-				      2,
-				      FALSE );
-  else
-    gtk_clist_set_column_visibility ( GTK_CLIST ( CLIST_OPERATIONS ),
-				      2,
-				      TRUE );
-  /* FinGDC */
-
   /* met les titres des colonnes appropriés aux nb de lignes affichés */
 
   if ( nb_lignes_ope == 1 )
@@ -669,12 +638,9 @@ void remplissage_liste_operations ( gint compte )
 				   "Date" );
       gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
 				   2,
-				   "Date bancaire" );
-      gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
-				   3,
 				   "Tiers" );
       gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
-				   4,
+				   3,
 				   "R" );
     }
   else
@@ -683,30 +649,24 @@ void remplissage_liste_operations ( gint compte )
 	{
 	  gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
 				       1,
-				       "Date" );
+				       "Dates" );
 	  gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
 				       2,
-				       "Date bancaire" );
-	  gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
-				       3,
 				       "Tiers, Catégories, Notes" );
 	  gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
-				       5,
+				       4,
 				       "Débit, Type, N° virement" );
 	}
       else
 	{
 	  gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
 				       1,
-				       "Date / Exercice" );
+				       "Dates / Exercice" );
 	  gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
 				       2,
-				       "Date bancaire" );
-	  gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
-				       3,
 				       "Tiers, Catégories, I.B., Notes" );
 	  gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
-				       5,
+				       4,
 				       "Débit, Type, N° virement, PC" );
 	}
     }
@@ -819,7 +779,7 @@ void remplissage_liste_operations ( gint compte )
 
 	      /* on met à NULL tout les pointeurs */
 
-	      for ( i = 0 ; i < 8 ; i++ )
+	      for ( i = 0 ; i < 7 ; i++ )
 		{
 		  ligne1 [i] = NULL;
 		  ligne2 [i] = NULL;
@@ -835,17 +795,6 @@ void remplissage_liste_operations ( gint compte )
 				 operation -> date);
 	      ligne1 [1] = date;
 
-	      /* mise en forme de la date bancaire */
-
-		if ( operation -> date_bancaire )
-		  {
-		    g_date_strftime (  date_bancaire,
-				       11,
-				       "%d/%m/%Y",
-				       operation -> date_bancaire);
-		    ligne1 [2] = date_bancaire;
-		  }
-
 	      /* mise en forme du tiers */
 
 	      if ( operation -> tiers )
@@ -854,25 +803,25 @@ void remplissage_liste_operations ( gint compte )
 						    GINT_TO_POINTER ( operation -> tiers ),
 						    ( GCompareFunc ) recherche_tiers_par_no );
 
-		  ligne1 [3] = (( struct struct_tiers * )( liste_tmp -> data )) -> nom_tiers;
+		  ligne1 [2] = (( struct struct_tiers * )( liste_tmp -> data )) -> nom_tiers;
 		}
 
 	      /* 	  mise en forme de pointé, relevé */
 
 	      if ( operation -> pointe == 1 )
-		ligne1 [4] = "P";
+		ligne1 [3] = "P";
 	      else
 		if ( operation -> pointe == 2 )
-		  ligne1 [4] = "R";
+		  ligne1 [3] = "R";
 
 
 	      /* mise en forme du débit / crédit */
 
 	      if ( operation -> montant < 0 )
 		{
-		  ligne1 [5] = g_strdup_printf ( "%4.2f", -operation -> montant );
+		  ligne1 [4] = g_strdup_printf ( "%4.2f", -operation -> montant );
 		  if ( devise_operation -> no_devise != DEVISE )
-		    ligne1 [5] = g_strconcat ( ligne1 [5],
+		    ligne1 [4] = g_strconcat ( ligne1 [4],
 					       "(",
 					       devise_operation -> code_devise,
 					       ")",
@@ -880,9 +829,9 @@ void remplissage_liste_operations ( gint compte )
 		}
 	      else
 		{
-		  ligne1 [6] = g_strdup_printf ( "%4.2f", operation -> montant );
+		  ligne1 [5] = g_strdup_printf ( "%4.2f", operation -> montant );
 		  if ( devise_operation -> no_devise != DEVISE )
-		    ligne1 [6] = g_strconcat ( ligne1 [6],
+		    ligne1 [5] = g_strconcat ( ligne1 [5],
 					       "(",
 					       devise_operation -> code_devise,
 					       ")",
@@ -909,7 +858,7 @@ void remplissage_liste_operations ( gint compte )
 
 
 		      if ( nb_lignes_ope != 1 )
-			ligne2 [5] = type -> nom_type;
+			ligne2 [4] = type -> nom_type;
 
 		      /* si c'est un chèque, on le met devant à gauche */
 
@@ -925,15 +874,24 @@ void remplissage_liste_operations ( gint compte )
 							NULL );
 			}
 		    }
-
 		}
-
 
 
 	      /* 	  à ce niveau, on ne continue que si on veut afficher 3 lignes */
 
 	      if ( nb_lignes_ope != 1 )
 		{
+
+		  /* mise en forme de la date de valeur */
+
+		  if ( operation -> date_bancaire )
+		    {
+		      g_date_strftime (  date_bancaire,
+					 11,
+					 "%d/%m/%Y",
+					 operation -> date_bancaire);
+		      ligne2 [1] = date_bancaire;
+		    }
 
 		  /* mise en forme des catégories */
 
@@ -949,12 +907,12 @@ void remplissage_liste_operations ( gint compte )
 							  GINT_TO_POINTER ( operation -> sous_categorie ),
 							  ( GCompareFunc ) recherche_sous_categorie_par_no );
 		      if ( liste_tmp_2 )
-			ligne2 [3] = g_strconcat ( (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ,
+			ligne2 [2] = g_strconcat ( (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ,
 						   " : ",
 						   (( struct struct_sous_categ * )( liste_tmp_2 -> data )) -> nom_sous_categ,
 						   NULL );
 		      else
-			ligne2 [3] = (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ;
+			ligne2 [2] = (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ;
 
 		    }
 
@@ -967,9 +925,9 @@ void remplissage_liste_operations ( gint compte )
 		      if ( operation -> relation_no_compte == -1 )
 			{
 			  if ( operation -> montant < 0 )
-			    ligne2 [3] = "Virement vers un compte supprimé";
+			    ligne2 [2] = "Virement vers un compte supprimé";
 			  else
-			    ligne2 [3] = "Virement d'un compte supprimé";
+			    ligne2 [2] = "Virement d'un compte supprimé";
 			}
 		      else
 			{
@@ -977,11 +935,11 @@ void remplissage_liste_operations ( gint compte )
 			  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
 			  if ( operation -> montant < 0 )
-			    ligne2 [3] = g_strconcat ( "Virement vers ",
+			    ligne2 [2] = g_strconcat ( "Virement vers ",
 						       NOM_DU_COMPTE,
 						       NULL );
 			  else
-			    ligne2 [3] = g_strconcat ( "Virement de ",
+			    ligne2 [2] = g_strconcat ( "Virement de ",
 						       NOM_DU_COMPTE,
 						       NULL );
 
@@ -993,7 +951,7 @@ void remplissage_liste_operations ( gint compte )
 		  /* si l'opération est ventilée */
 
 		  if ( operation -> operation_ventilee )
-		    ligne2 [3] = "Opération ventilée";
+		    ligne2 [2] = "Opération ventilée";
 
 
 		  /*  si on affiche 4 lignes, on met l'exercice, l'ib et la pièce comptable en plus */
@@ -1028,12 +986,12 @@ void remplissage_liste_operations ( gint compte )
 							      GINT_TO_POINTER ( operation -> sous_imputation ),
 							      ( GCompareFunc ) recherche_sous_imputation_par_no );
 			  if ( liste_tmp_2 )
-			    ligne3 [3] = g_strconcat ( (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ,
+			    ligne3 [2] = g_strconcat ( (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ,
 						       " : ",
 						       (( struct struct_sous_categ * )( liste_tmp_2 -> data )) -> nom_sous_categ,
 						       NULL );
 			  else
-			    ligne3 [3] = (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ;
+			    ligne3 [2] = (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ;
 			}
 
 		      /* met la piece comptable */
@@ -1043,12 +1001,12 @@ void remplissage_liste_operations ( gint compte )
 
 		      /* met les notes */
 
-		      ligne4 [3] = operation -> notes;
+		      ligne4 [2] = operation -> notes;
 		    }
 		  else
 		    /* mise en forme des notes */
 	      
-		    ligne3 [3] = operation -> notes;
+		    ligne3 [2] = operation -> notes;
 		}
 
 
@@ -1096,7 +1054,7 @@ void remplissage_liste_operations ( gint compte )
 
   /* on met à NULL tout les pointeurs */
 
-  for ( i = 0 ; i < 8 ; i++ )
+  for ( i = 0 ; i < 7 ; i++ )
     ligne1 [i] = NULL;
 
 
@@ -1203,13 +1161,13 @@ void remplissage_liste_operations ( gint compte )
 
 	  gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
 			       ligne,
-			       7,
+			       6,
 			       g_strdup_printf ( "%4.2f",
 						 solde_courant ));
 	  if ( nb_lignes_ope != 1 && devise_operation )
 	    gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
 				 ligne + 1,
-				 5,
+				 4,
 				 g_strdup_printf ( "(%4.2f %s)",
 						   montant,
 						   devise_compte -> code_devise ));
@@ -1223,7 +1181,7 @@ void remplissage_liste_operations ( gint compte )
       if ( solde_courant < 0 )
 	gtk_clist_set_cell_style ( GTK_CLIST ( CLIST_OPERATIONS ),
 				   ligne,
-				   7,
+				   6,
 				   style_rouge_couleur [ couleur_en_cours ] );
 
 
@@ -1995,7 +1953,7 @@ void p_press (void)
 	gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
 			     gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
 							    OPERATION_SELECTIONNEE ),
-			     4,
+			     3,
 			     NULL );
 
 	modification_fichier( TRUE );
@@ -2041,7 +1999,7 @@ void p_press (void)
       gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
 			   gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
 							  OPERATION_SELECTIONNEE ),
-			   4,
+			   3,
 			   "P");
       modification_fichier( TRUE );
     }
@@ -2123,14 +2081,22 @@ void r_press (void)
 	gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
 			     gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
 							    OPERATION_SELECTIONNEE ),
-			     4,
+			     3,
 			     "R");
       else
-	remplissage_liste_operations ( compte_courant );
+	{
+	  struct structure_operation *ope;
+
+	  ope = OPERATION_SELECTIONNEE;
+	  remplissage_liste_operations ( compte_courant );
+	  OPERATION_SELECTIONNEE = ope;
+	}
 
       /* si c'est une ventil */
       /* fait le tour des opés du compte pour rechercher les opés de ventil associées à */
       /* cette ventil */
+
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
       if ( OPERATION_SELECTIONNEE -> operation_ventilee )
 	{
@@ -2162,7 +2128,7 @@ void r_press (void)
 	  gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
 			       gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
 							      OPERATION_SELECTIONNEE ),
-			       4,
+			       3,
 			       NULL );
 
 	  /* si c'est une ventil */
@@ -2414,9 +2380,9 @@ void changement_taille_liste_ope ( GtkWidget *clist,
 
 
 
-  chiffres = ( 10 * largeur) / 100;
+  chiffres = ( 12 * largeur) / 100;
   p = ( 3 * largeur) / 100;
-  date = ( 12 * largeur) / 100;
+  date = ( 13 * largeur) / 100;
 
   if ( TYPE_DE_COMPTE == 1 )
     {
@@ -2443,21 +2409,18 @@ void changement_taille_liste_ope ( GtkWidget *clist,
 			       date );
   gtk_clist_set_column_width ( GTK_CLIST ( clist ),
 			       2,
-			       date );
-  gtk_clist_set_column_width ( GTK_CLIST ( clist ),
-			       3,
 			       tiers );
   gtk_clist_set_column_width ( GTK_CLIST ( clist ),
-			       4,
+			       3,
 			       p );
+  gtk_clist_set_column_width ( GTK_CLIST ( clist ),
+			       4,
+			       chiffres );
   gtk_clist_set_column_width ( GTK_CLIST ( clist ),
 			       5,
 			       chiffres );
   gtk_clist_set_column_width ( GTK_CLIST ( clist ),
 			       6,
-			       chiffres );
-  gtk_clist_set_column_width ( GTK_CLIST ( clist ),
-			       7,
 			       chiffres );
 
 

@@ -1089,15 +1089,28 @@ void entree_perd_focus_echeancier ( GtkWidget *entree,
 
 
   /* l'entrée était vide, on remet le défaut */
+  /* si l'origine était un combofix, il faut remettre le texte */
+  /* avec le gtk_combofix (sinon risque de complétion), donc utiliser l'origine */
 
   if ( texte )
     {
+      switch ( GPOINTER_TO_INT ( no_origine ))
+	{
+	case 1:
+	case 6:
+	case 10:
+	  gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[GPOINTER_TO_INT ( no_origine )] ),
+				  texte );
+	  break;
+
+	default:
+
+	  gtk_entry_set_text ( GTK_ENTRY ( entree ),
+			       texte );
+	}
       gtk_widget_set_style ( entree,
 			     style_entree_formulaire[1] );
-      gtk_entry_set_text ( GTK_ENTRY ( entree ),
-			   texte );
     }
-
 }
 /***********************************************************************************************************/
 
@@ -1240,18 +1253,28 @@ void clique_champ_formulaire_echeancier ( GtkWidget *entree,
 			      popup_boxv);
 	  gtk_widget_show ( popup_boxv );
 
-	  if ( !( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree ))))
-		  &&
-		  sscanf ( gtk_entry_get_text ( GTK_ENTRY ( entree )),
-			   "%d/%d/%d",
-			   &cal_jour,
-			   &cal_mois,
-			   &cal_annee)))
+	  if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
+	    {
+	      if ( modifie_date ( entree ))
+		sscanf ( gtk_entry_get_text ( GTK_ENTRY ( entree )),
+			 "%d/%d/%d",
+			 &cal_jour,
+			 &cal_mois,
+			 &cal_annee );
+	      else
+		sscanf ( date_jour(),
+			 "%d/%d/%d",
+			 &cal_jour,
+			 &cal_mois,
+			 &cal_annee);
+	    }
+	  else
 	    sscanf ( date_jour(),
 		     "%d/%d/%d",
 		     &cal_jour,
 		     &cal_mois,
 		     &cal_annee);
+
       
 	  calendrier = gtk_calendar_new();
 	  gtk_calendar_select_month ( GTK_CALENDAR ( calendrier ),

@@ -1530,21 +1530,6 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
       else
 	gtk_widget_hide ( widget_formulaire_operations[0] );
 
-	/* GDC : affichage ou effacement du champ de date réelle et de la liste */
-
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-
-      if ( ( etat.affiche_date_bancaire = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_date_bancaire ))))
-	{
-	  gtk_widget_show ( widget_formulaire_operations[7] );
-	  gtk_clist_set_column_visibility ( GTK_CLIST ( CLIST_OPERATIONS ), 2, TRUE );
-	}
-      else
-	{
-	  gtk_widget_hide ( widget_formulaire_operations[7] );
-	  gtk_clist_set_column_visibility ( GTK_CLIST ( CLIST_OPERATIONS ), 2, FALSE );
-	}
-	/* FinGDC */
 
       if ( ( etat.utilise_exercice = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utiliser_exercices ))))
 	{

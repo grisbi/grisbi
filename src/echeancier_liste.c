@@ -840,7 +840,9 @@ void remplissage_liste_echeance ( void )
 		   g_date_compare ( date_fin,
 				    date_courante ) > 0
 		   &&
-		   affichage_echeances != 3 )
+		   affichage_echeances != 3
+		   &&
+		   ECHEANCE_COURANTE -> periodicite )
 		{
 		  ligne[0] = g_strdup_printf ( "%02d/%02d/%d",
 					       g_date_day ( date_courante ),
@@ -1832,6 +1834,9 @@ void verification_echeances_a_terme ( void )
 		operation -> contenu_type = ECHEANCE_COURANTE -> contenu_type;
 
 	      operation -> auto_man = ECHEANCE_COURANTE -> auto_man;
+	      operation -> imputation = ECHEANCE_COURANTE -> imputation;
+	      operation -> sous_imputation = ECHEANCE_COURANTE -> sous_imputation;
+	      operation -> no_exercice = ECHEANCE_COURANTE -> no_exercice;
 
 
 	      /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
