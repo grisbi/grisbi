@@ -2072,7 +2072,7 @@ void supprimer_sous_categ ( void )
 	gint nouveau_no_categ;
 	gint nouveau_no_sous_categ;
 
-	dialog = gtk_dialog_new_with_buttons ( _("Remove category"),
+	dialog = gtk_dialog_new_with_buttons ( _("Remove sub-category"),
 					       GTK_WINDOW ( window ),
 					       GTK_DIALOG_MODAL,
 					       GTK_STOCK_OK, 0,
