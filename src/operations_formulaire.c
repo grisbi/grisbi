@@ -3559,7 +3559,7 @@ void ajout_operation ( struct structure_operation *operation )
 				     gtk_tree_iter_copy (iter));
 	update_soldes_list_store ( operation -> no_compte,
 				   gtk_tree_iter_copy (iter));
-	selectionne_ligne ( OPERATION_SELECTIONNEE );
+	selectionne_ligne ( gsb_account_get_current_transaction (operation -> no_compte) );
 	ajuste_scrolling_liste_operations_a_selection ( operation -> no_compte );
     }
 
@@ -3897,7 +3897,7 @@ void affiche_cache_le_formulaire ( void )
 	update_ecran ();
 	ajustement = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte_courant) ));
 	
-	position_ligne_selectionnee = ( cherche_ligne_operation ( OPERATION_SELECTIONNEE )
+	position_ligne_selectionnee = ( cherche_ligne_operation ( gsb_account_get_current_transaction (compte_courant) )
 					+ gsb_account_get_nb_rows ( compte_courant ) ) * hauteur_ligne_liste_opes;
 
 	if ( position_ligne_selectionnee  > (ajustement->value + ajustement->page_size))

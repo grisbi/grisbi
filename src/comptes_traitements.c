@@ -201,7 +201,7 @@ gint initialisation_nouveau_compte ( kind_account type_de_compte )
     DEVISE = 1;
     MISE_A_JOUR = 1;
 /*     NO_COMPTE = no_compte; */
-    OPERATION_SELECTIONNEE = GINT_TO_POINTER (-1);
+/*     OPERATION_SELECTIONNEE = GINT_TO_POINTER (-1); */
 
     /*     par dï¿œaut on n'affiche pas les R et le nb de lignes par opï¿œest de 3 */
     /* 	sauf si l'affichage n'est pas sï¿œarï¿œpar compte */

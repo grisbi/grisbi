@@ -44,7 +44,7 @@
 
 /*START_STATIC*/
 static gpointer gsb_account_find_sort_by_no ( gint sort_number );
-static struct struct_account *gsb_account_get_structure ( gint no );
+static struct_account *gsb_account_get_structure ( gint no );
 static gint gsb_account_last_number ( void );
 static gint gsb_account_new ( kind_account account_kind );
 /*END_STATIC*/
@@ -64,10 +64,10 @@ GSList *list_struct_accounts;
  * */
 gint gsb_account_new ( kind_account account_kind )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = calloc ( 1,
-		       sizeof ( struct struct_account ));
+		       sizeof ( struct_account ));
 
     if ( !account )
     {
@@ -125,7 +125,7 @@ gint gsb_account_last_number ( void )
     
     while ( tmp )
     {
-	struct struct_account *account;
+	struct_account *account;
 
 	account = tmp -> data;
 
@@ -142,7 +142,7 @@ gint gsb_account_last_number ( void )
  * \param no number of account
  * \return the adr of the struct of the account (NULL if doesn't exit)
  * */
-struct struct_account *gsb_account_get_structure ( gint no )
+struct_account *gsb_account_get_structure ( gint no )
 {
     GSList *tmp;
 
@@ -150,7 +150,7 @@ struct struct_account *gsb_account_get_structure ( gint no )
     
     while ( tmp )
     {
-	struct struct_account *account;
+	struct_account *account;
 
 	account = tmp -> data;
 
@@ -181,7 +181,7 @@ gpointer gsb_account_find_sort_by_no ( gint sort_number )
  * */
 gint gsb_account_get_nb_rows ( gint no_account )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -200,7 +200,7 @@ gint gsb_account_get_nb_rows ( gint no_account )
 gboolean gsb_account_set_nb_rows ( gint no_account,
 				   gint nb_rows )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     if ( nb_rows < 1
 	 ||
@@ -227,7 +227,7 @@ gboolean gsb_account_set_nb_rows ( gint no_account,
  * */
 gboolean gsb_account_get_r ( gint no_account )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -245,7 +245,7 @@ gboolean gsb_account_get_r ( gint no_account )
 gboolean gsb_account_set_r ( gint no_account,
 			     gboolean show_r )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -263,7 +263,7 @@ gboolean gsb_account_set_r ( gint no_account,
  * */
 gchar *gsb_account_get_id ( gint no_account )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -282,7 +282,7 @@ gchar *gsb_account_get_id ( gint no_account )
 gboolean gsb_account_set_id ( gint no_account,
 			      gchar *id )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -302,7 +302,7 @@ gboolean gsb_account_set_id ( gint no_account,
  * */
 kind_account gsb_account_get_kind ( gint no_account )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -321,7 +321,7 @@ kind_account gsb_account_get_kind ( gint no_account )
 gboolean gsb_account_set_kind ( gint no_account,
 				kind_account account_kind )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -341,7 +341,7 @@ gboolean gsb_account_set_kind ( gint no_account,
  * */
 gchar *gsb_account_get_name ( gint no_account )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -360,7 +360,7 @@ gchar *gsb_account_get_name ( gint no_account )
 gboolean gsb_account_set_name ( gint no_account,
 				gchar *name )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -381,7 +381,7 @@ gboolean gsb_account_set_name ( gint no_account,
  * */
 gdouble gsb_account_get_init_balance ( gint no_account )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -400,7 +400,7 @@ gdouble gsb_account_get_init_balance ( gint no_account )
 gboolean gsb_account_set_init_balance ( gint no_account,
 					gdouble balance )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -420,7 +420,7 @@ gboolean gsb_account_set_init_balance ( gint no_account,
  * */
 gdouble gsb_account_get_mini_balance_wanted ( gint no_account )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -439,7 +439,7 @@ gdouble gsb_account_get_mini_balance_wanted ( gint no_account )
 gboolean gsb_account_set_mini_balance_wanted ( gint no_account,
 					       gdouble balance )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -457,7 +457,7 @@ gboolean gsb_account_set_mini_balance_wanted ( gint no_account,
  * */
 gdouble gsb_account_get_mini_balance_authorized ( gint no_account )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -476,7 +476,7 @@ gdouble gsb_account_get_mini_balance_authorized ( gint no_account )
 gboolean gsb_account_set_mini_balance_authorized ( gint no_account,
 						   gdouble balance )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -496,7 +496,7 @@ gboolean gsb_account_set_mini_balance_authorized ( gint no_account,
  * */
 gdouble gsb_account_get_current_balance ( gint no_account )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -515,7 +515,7 @@ gdouble gsb_account_get_current_balance ( gint no_account )
 gboolean gsb_account_set_current_balance ( gint no_account,
 					   gdouble balance )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -535,7 +535,7 @@ gboolean gsb_account_set_current_balance ( gint no_account,
  * */
 gdouble gsb_account_get_marked_balance ( gint no_account )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -554,7 +554,7 @@ gdouble gsb_account_get_marked_balance ( gint no_account )
 gboolean gsb_account_set_marked_balance ( gint no_account,
 					  gdouble balance )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -573,7 +573,7 @@ gboolean gsb_account_set_marked_balance ( gint no_account,
  * */
 gpointer gsb_account_get_tree_view ( gint no_account )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -592,7 +592,7 @@ gpointer gsb_account_get_tree_view ( gint no_account )
 gboolean gsb_account_set_tree_view ( gint no_account,
 				     gpointer tree )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -611,7 +611,7 @@ gboolean gsb_account_set_tree_view ( gint no_account,
  * */
 gpointer gsb_account_get_scrolled_window ( gint no_account )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -630,7 +630,7 @@ gpointer gsb_account_get_scrolled_window ( gint no_account )
 gboolean gsb_account_set_scrolled_window ( gint no_account,
 					   gpointer scrolled_window )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -650,7 +650,7 @@ gboolean gsb_account_set_scrolled_window ( gint no_account,
  * */
 gpointer gsb_account_get_store ( gint no_account )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -669,7 +669,7 @@ gpointer gsb_account_get_store ( gint no_account )
 gboolean gsb_account_set_store ( gint no_account,
 				 gpointer store )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -689,7 +689,7 @@ gboolean gsb_account_set_store ( gint no_account,
  * */
 gdouble gsb_account_get_adjustment_value ( gint no_account )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -708,7 +708,7 @@ gdouble gsb_account_get_adjustment_value ( gint no_account )
 gboolean gsb_account_set_adjustment_value ( gint no_account,
 					    gdouble value )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -728,7 +728,7 @@ gboolean gsb_account_set_adjustment_value ( gint no_account,
 gpointer gsb_account_get_column ( gint no_account,
 				  gint no_column )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     if ( no_column < 0
 	 ||
@@ -758,7 +758,7 @@ gboolean gsb_account_set_column ( gint no_account,
 				  gint no_column,
 				  gpointer column )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -787,7 +787,7 @@ gboolean gsb_account_set_column ( gint no_account,
  * */
 GSList *gsb_account_get_transactions_list ( gint no_account )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -806,7 +806,7 @@ GSList *gsb_account_get_transactions_list ( gint no_account )
 gboolean gsb_account_set_transactions_list ( gint no_account,
 					     GSList *list )
 {
-    struct struct_account *account;
+    struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
@@ -817,5 +817,45 @@ gboolean gsb_account_set_transactions_list ( gint no_account,
 
     return TRUE;
 }
+
+
+
+/** get the current transaction of the account
+ * \param no_account no of the account
+ * \return pointer to the transaction or NULL if the account doesn't exist
+ * */
+gpointer gsb_account_get_current_transaction ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return NULL;
+
+    return account -> current_transaction;
+}
+
+
+/** set the current transaction of the account
+ * \param no_account no of the account
+ * \param transaction  store to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_current_transaction ( gint no_account,
+					       gpointer transaction )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> current_transaction = transaction;
+
+    return TRUE;
+}
+
 
 

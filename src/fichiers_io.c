@@ -1391,7 +1391,8 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 	    gsb_account_set_adjustment_value ( no_compte,
 					       -1 );
-	    OPERATION_SELECTIONNEE = GINT_TO_POINTER (-1);
+	    gsb_account_set_current_transaction ( no_compte,
+						  GINT_TO_POINTER (-1) );
 
 
 	    /* on incremente p_tab_nom_de_compte_variable pour le compte suivant */

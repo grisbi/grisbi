@@ -276,7 +276,7 @@ void gtktable_click_sur_ope_etat ( struct structure_operation *operation )
 	if ( operation -> pointe == 3 && !gsb_account_get_r (compte_courant) )
 	    change_aspect_liste ( 5 );
 
-	selectionne_ligne ( OPERATION_SELECTIONNEE );
+	selectionne_ligne ( gsb_account_get_current_transaction (compte_courant) );
     }
 }
 /*****************************************************************************************************/

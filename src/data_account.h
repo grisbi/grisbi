@@ -7,7 +7,7 @@
  * describe an account
  * */
 
-struct struct_account
+typedef struct
 {
     /** @name general stuff */
     gint account_number;
@@ -28,7 +28,7 @@ struct struct_account
     /** @name showed list stuff */
     gint show_r;                      /**< 1 : reconciled transactions are showed */
     gint nb_rows_by_transaction;      /**< 1, 2, 3, 4  */
-    GtkWidget *account_button;        /**< the button in the list of accounts on the transactions page */
+    gpointer account_button;        /**< the button in the list of accounts on the transactions page */
     gint update_list;                /**< 1 when the list need to be updated when showed */
 
     /** @name remaining of the balances */
@@ -82,7 +82,7 @@ struct struct_account
 
     /** @name struct of the form's organization */
     struct organisation_formulaire *form_organization;
-};
+} struct_account;
 
 
 /* START_DECLARATION */
@@ -90,6 +90,7 @@ gdouble gsb_account_get_adjustment_value ( gint no_account );
 gpointer gsb_account_get_column ( gint no_account,
 				  gint no_column );
 gdouble gsb_account_get_current_balance ( gint no_account );
+gpointer gsb_account_get_current_transaction ( gint no_account );
 gchar *gsb_account_get_id ( gint no_account );
 gdouble gsb_account_get_init_balance ( gint no_account );
 kind_account gsb_account_get_kind ( gint no_account );
@@ -110,6 +111,8 @@ gboolean gsb_account_set_column ( gint no_account,
 				  gpointer column );
 gboolean gsb_account_set_current_balance ( gint no_account,
 					   gdouble balance );
+gboolean gsb_account_set_current_transaction ( gint no_account,
+					       gpointer transaction );
 gboolean gsb_account_set_id ( gint no_account,
 			      gchar *id );
 gboolean gsb_account_set_init_balance ( gint no_account,

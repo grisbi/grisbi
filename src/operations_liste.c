@@ -797,7 +797,7 @@ void verification_list_store_termine ( gint no_compte )
 				   NULL );
 
     if ( !SELECTION_OPERATION_FINI )
-	selectionne_ligne ( OPERATION_SELECTIONNEE );
+	selectionne_ligne ( gsb_account_get_current_transaction (no_compte) );
 
     return;
 }
@@ -1874,7 +1874,7 @@ gboolean traitement_clavier_liste ( GtkWidget *widget_variable,
 	case GDK_Up :		/* touches flèche haut */
 	case GDK_KP_Up :
 
-	    ligne_selectionnee = cherche_ligne_operation ( OPERATION_SELECTIONNEE );
+	    ligne_selectionnee = cherche_ligne_operation ( gsb_account_get_current_transaction (compte_courant) );
 
 	    if ( ligne_selectionnee )
 		selectionne_ligne ( cherche_operation_from_ligne ( ligne_selectionnee - gsb_account_get_nb_rows ( compte_courant ),
@@ -1884,7 +1884,7 @@ gboolean traitement_clavier_liste ( GtkWidget *widget_variable,
 	case GDK_Down :		/* touches flèche bas */
 	case GDK_KP_Down :
 
-	    ligne_selectionnee = cherche_ligne_operation ( OPERATION_SELECTIONNEE );
+	    ligne_selectionnee = cherche_ligne_operation ( gsb_account_get_current_transaction (compte_courant) );
 
 	    if ( ligne_selectionnee
 		 !=
@@ -1894,7 +1894,7 @@ gboolean traitement_clavier_liste ( GtkWidget *widget_variable,
 	    break;
 
 	case GDK_Delete:		/*  del  */
-	    supprime_operation ( OPERATION_SELECTIONNEE );
+	    supprime_operation ( gsb_account_get_current_transaction (compte_courant) );
 	    break;
 
 	case GDK_P:			/* touche P */
@@ -1948,10 +1948,10 @@ void selectionne_ligne ( struct structure_operation *nouvelle_operation_selectio
 
 
     /*     si SELECTION_OPERATION_FINI=0, c'est qu'il n'y a encore aucune sélection sur la liste */
-    /*     donc nouvelle_operation_selectionnee = OPERATION_SELECTIONNEE = -1, mais on ne se barre pas */
+    /*     donc nouvelle_operation_selectionnee = gsb_account_get_current_transaction () = -1, mais on ne se barre pas */
     /*     sinon si on est déjà dessus, on se barre */
 
-    if ( nouvelle_operation_selectionnee == OPERATION_SELECTIONNEE
+    if ( nouvelle_operation_selectionnee == gsb_account_get_current_transaction (compte_courant)
 	 &&
 	 SELECTION_OPERATION_FINI )
 	return;
@@ -1960,7 +1960,7 @@ void selectionne_ligne ( struct structure_operation *nouvelle_operation_selectio
 
     if ( SELECTION_OPERATION_FINI )
     {
-	iter = cherche_iter_operation ( OPERATION_SELECTIONNEE );
+	iter = cherche_iter_operation ( gsb_account_get_current_transaction (compte_courant) );
 
 	/* 	iter est maintenant positionné sur la 1ère ligne de l'opé à désélectionner */
 
@@ -1984,9 +1984,10 @@ void selectionne_ligne ( struct structure_operation *nouvelle_operation_selectio
 	}
     }
 
-    OPERATION_SELECTIONNEE = nouvelle_operation_selectionnee;
+    gsb_account_set_current_transaction ( compte_courant,
+					  nouvelle_operation_selectionnee );
 
-    iter = cherche_iter_operation ( OPERATION_SELECTIONNEE );
+    iter = cherche_iter_operation ( gsb_account_get_current_transaction (compte_courant) );
 
     /* 	iter est maintenant positionnÃ© sur la 1ère ligne de l'opÃ© à sélectionner */
 
@@ -2038,7 +2039,7 @@ void ajuste_scrolling_liste_operations_a_selection ( gint compte )
 
     v_adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte) ));
 
-    y_ligne = cherche_ligne_operation ( OPERATION_SELECTIONNEE ) * hauteur_ligne_liste_opes;
+    y_ligne = cherche_ligne_operation ( gsb_account_get_current_transaction (compte) ) * hauteur_ligne_liste_opes;
 
     /*     si l'opé est trop haute, on la rentre et la met en haut */
 
@@ -2235,7 +2236,7 @@ void edition_operation ( void )
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
-    operation = OPERATION_SELECTIONNEE;
+    operation = gsb_account_get_current_transaction (compte_courant);
 
     /*     initialisation du formulaire */
 
@@ -2604,7 +2605,7 @@ void p_press (void)
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
-    operation = OPERATION_SELECTIONNEE;
+    operation = gsb_account_get_current_transaction (compte_courant);
 
     /* si on est sur l'opération vide -> on se barre */
 
@@ -2613,7 +2614,7 @@ void p_press (void)
 	operation -> pointe == 3 )
 	return;
     
-    iter = cherche_iter_operation ( OPERATION_SELECTIONNEE );
+    iter = cherche_iter_operation ( gsb_account_get_current_transaction (compte_courant) );
 
     if ( operation -> pointe )
     {
@@ -2735,7 +2736,7 @@ void r_press (void)
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
-    operation = OPERATION_SELECTIONNEE;
+    operation = gsb_account_get_current_transaction (compte_courant);
 
 
     /* si on est sur l'opération vide -> on se barre */
@@ -2743,7 +2744,7 @@ void r_press (void)
     if ( operation == GINT_TO_POINTER ( -1 ))
 	return;
 
-    iter = cherche_iter_operation ( OPERATION_SELECTIONNEE );
+    iter = cherche_iter_operation ( gsb_account_get_current_transaction (compte_courant) );
 
     if ( !operation -> pointe )
     {
@@ -2762,8 +2763,9 @@ void r_press (void)
 	{
 	    /*  l'opération va disparaitre, on met donc la sélection sur l'opé suivante */
 
-	    OPERATION_SELECTIONNEE = cherche_operation_from_ligne ( cherche_ligne_operation ( OPERATION_SELECTIONNEE ) + gsb_account_get_nb_rows ( compte_courant ),
-								compte_courant );
+	    gsb_account_set_current_transaction ( compte_courant,
+						  cherche_operation_from_ligne ( cherche_ligne_operation ( gsb_account_get_current_transaction (compte_courant)) + gsb_account_get_nb_rows ( compte_courant ),
+										 compte_courant ) );
  	    remplissage_liste_operations ( compte_courant );
  	}
 
@@ -2935,9 +2937,10 @@ void supprime_operation ( struct structure_operation *operation )
 	/* si la sélection est sur l'opération qu'on supprime, */
 	/* on met la sélection sur celle du dessous */
 
-	if ( OPERATION_SELECTIONNEE == operation )
-	    OPERATION_SELECTIONNEE = cherche_operation_from_ligne ( cherche_ligne_operation ( OPERATION_SELECTIONNEE ) + gsb_account_get_nb_rows ( operation -> no_compte ),
-								    operation -> no_compte );
+	if ( gsb_account_get_current_transaction (operation -> no_compte) == operation )
+	    gsb_account_set_current_transaction ( operation -> no_compte,
+						  cherche_operation_from_ligne ( cherche_ligne_operation ( gsb_account_get_current_transaction (operation -> no_compte)) + gsb_account_get_nb_rows ( operation -> no_compte ),
+										 operation -> no_compte ) );
 
 	for ( i=0 ; i<gsb_account_get_nb_rows ( operation -> no_compte ) ; i++ )
 	    gtk_list_store_remove ( GTK_LIST_STORE ( gsb_account_get_store (operation -> no_compte) ),
@@ -2949,7 +2952,7 @@ void supprime_operation ( struct structure_operation *operation )
 				     gtk_tree_iter_copy (iter));
 	update_soldes_list_store ( operation -> no_compte,
 				   iter );
-	selectionne_ligne ( OPERATION_SELECTIONNEE );
+	selectionne_ligne ( gsb_account_get_current_transaction (operation -> no_compte) );
     }
 
     /*     calcul des nouveaux soldes */
@@ -3082,7 +3085,7 @@ void popup_transaction_context_menu ( gboolean full )
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 	
-    if ( OPERATION_SELECTIONNEE == GINT_TO_POINTER(-1) )
+    if ( gsb_account_get_current_transaction (compte_courant) == GINT_TO_POINTER(-1) )
 	full = FALSE;
 
     menu = gtk_menu_new ();
@@ -3115,8 +3118,8 @@ void popup_transaction_context_menu ( gboolean full )
 							       GTK_ICON_SIZE_MENU ));
     g_signal_connect ( G_OBJECT(menu_item), "activate", remove_transaction, NULL );
     if ( !full || 
-	 OPERATION_SELECTIONNEE -> pointe == OPERATION_RAPPROCHEE ||
-	 OPERATION_SELECTIONNEE -> pointe == OPERATION_TELERAPPROCHEE )
+	 ((struct structure_operation *) gsb_account_get_current_transaction (compte_courant)) -> pointe == OPERATION_RAPPROCHEE ||
+	 ((struct structure_operation *) gsb_account_get_current_transaction (compte_courant)) -> pointe == OPERATION_TELERAPPROCHEE )
 	gtk_widget_set_sensitive ( menu_item, FALSE );
     gtk_menu_append ( menu, menu_item );
 
@@ -3149,8 +3152,8 @@ void popup_transaction_context_menu ( gboolean full )
 				    gtk_image_new_from_stock ( GTK_STOCK_JUMP_TO,
 							       GTK_ICON_SIZE_MENU ));
     if ( !full || 
-	 OPERATION_SELECTIONNEE -> pointe == OPERATION_RAPPROCHEE ||
-	 OPERATION_SELECTIONNEE -> pointe == OPERATION_TELERAPPROCHEE )
+	 ((struct structure_operation *) gsb_account_get_current_transaction (compte_courant)) -> pointe == OPERATION_RAPPROCHEE ||
+	 ((struct structure_operation *) gsb_account_get_current_transaction (compte_courant)) -> pointe == OPERATION_TELERAPPROCHEE )
 	gtk_widget_set_sensitive ( menu_item, FALSE );
     gtk_menu_append ( menu, menu_item );
 
@@ -3173,7 +3176,7 @@ gboolean assert_selected_transaction ()
 {
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
-    if ( OPERATION_SELECTIONNEE == GINT_TO_POINTER(-1) )
+    if ( gsb_account_get_current_transaction (compte_courant) == GINT_TO_POINTER(-1) )
 	return FALSE;
 
     return TRUE;
@@ -3189,7 +3192,8 @@ void new_transaction ()
        transaction */
     assert_selected_transaction();
     echap_formulaire();
-    OPERATION_SELECTIONNEE = GINT_TO_POINTER (-1);
+    gsb_account_set_current_transaction ( compte_courant,
+					  GINT_TO_POINTER (-1) );
     edition_operation ();
 
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
@@ -3203,7 +3207,7 @@ void remove_transaction ()
 {
     if (! assert_selected_transaction()) return;
 
-    supprime_operation ( OPERATION_SELECTIONNEE );
+    supprime_operation ( gsb_account_get_current_transaction (compte_courant) );
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 }
 
@@ -3215,7 +3219,7 @@ void clone_selected_transaction ()
 {
     if (! assert_selected_transaction()) return;
 
-    update_transaction_in_trees ( clone_transaction ( OPERATION_SELECTIONNEE ) );
+    update_transaction_in_trees ( clone_transaction ( gsb_account_get_current_transaction (compte_courant) ) );
 
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 
@@ -3314,11 +3318,11 @@ void move_selected_operation_to_account ( GtkMenuItem * menu_item )
     target_account = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT(menu_item), 
 							     "no_compte" ) );  
 
-    if ( move_operation_to_account ( OPERATION_SELECTIONNEE, target_account ))
+    if ( move_operation_to_account ( gsb_account_get_current_transaction (source_account), target_account ))
     {
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 
-	update_transaction_in_trees ( OPERATION_SELECTIONNEE );
+	update_transaction_in_trees ( gsb_account_get_current_transaction (source_account) );
 
 	if ( mise_a_jour_combofix_tiers_necessaire )
 	    mise_a_jour_combofix_tiers ();
@@ -3359,7 +3363,7 @@ void move_selected_operation_to_account_nb ( gint *account )
     source_account = NO_COMPTE;
     target_account = GPOINTER_TO_INT ( account );  
 
-    if ( move_operation_to_account ( OPERATION_SELECTIONNEE, target_account ))
+    if ( move_operation_to_account ( gsb_account_get_current_transaction (source_account), target_account ))
     {
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 
@@ -3370,7 +3374,7 @@ void move_selected_operation_to_account_nb ( gint *account )
 	if ( mise_a_jour_combofix_imputation_necessaire )
 	    mise_a_jour_combofix_imputation ();
 
-	update_transaction_in_trees ( OPERATION_SELECTIONNEE );
+	update_transaction_in_trees ( gsb_account_get_current_transaction (source_account) );
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + source_account;
 
@@ -3472,9 +3476,10 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
 	/* si la sélection est sur l'opération qu'on supprime, */
 	/* on met la sélection sur celle du dessous */
 
-	if ( OPERATION_SELECTIONNEE == transaction )
-	    OPERATION_SELECTIONNEE = cherche_operation_from_ligne ( cherche_ligne_operation ( OPERATION_SELECTIONNEE ) + gsb_account_get_nb_rows ( transaction -> no_compte ),
-								    transaction -> no_compte );
+	if ( gsb_account_get_current_transaction (transaction -> no_compte) == transaction )
+	    gsb_account_set_current_transaction ( transaction -> no_compte,
+						  cherche_operation_from_ligne ( cherche_ligne_operation ( gsb_account_get_current_transaction (transaction -> no_compte) ) + gsb_account_get_nb_rows ( transaction -> no_compte ),
+										 transaction -> no_compte ) );
 
 	for ( i=0 ; i<gsb_account_get_nb_rows ( transaction -> no_compte ) ; i++ )
 	    gtk_list_store_remove ( GTK_LIST_STORE ( gsb_account_get_store (transaction -> no_compte) ),
@@ -3486,7 +3491,7 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
 				     gtk_tree_iter_copy (iter));
 	update_soldes_list_store ( transaction -> no_compte,
 				   iter );
-	selectionne_ligne ( OPERATION_SELECTIONNEE );
+	selectionne_ligne ( gsb_account_get_current_transaction (transaction -> no_compte) );
     }
 
 
@@ -3518,7 +3523,7 @@ void schedule_selected_transaction ()
 
     if (! assert_selected_transaction()) return;
 
-    echeance = schedule_transaction ( OPERATION_SELECTIONNEE);
+    echeance = schedule_transaction ( gsb_account_get_current_transaction (compte_courant));
 
     mise_a_jour_liste_echeances_auto_accueil = 1;
     remplissage_liste_echeance ();
@@ -4120,7 +4125,7 @@ void my_list_store_sort ( gint no_compte,
 				NULL );
     update_soldes_list_store ( no_compte,
 			       NULL );
-    selectionne_ligne ( OPERATION_SELECTIONNEE );
+    selectionne_ligne ( gsb_account_get_current_transaction (no_compte) );
 }
 /******************************************************************************/
 
