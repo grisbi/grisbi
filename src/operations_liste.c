@@ -1,8 +1,8 @@
 /* ************************************************************************** */
-/*  Fichier qui gère la liste des opérations                                  */
+/*  Fichier qui gï¿½e la liste des opï¿½ations                                  */
 /* 			liste_operations.c                                    */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 Cï¿½ric Auger (cedric@grisbi.org)	      */
 /*			2004      Benjamin Drieu (bdrieu@april.org) 	      */
 /*			2003-2004 Alain Portal (dionysos@grisbi.org) 	      */
 /*			http://www.grisbi.org   			      */
@@ -65,7 +65,7 @@ GtkJustification col_justs[] = { GTK_JUSTIFY_CENTER,
 gint allocation_precedente;
 gint allocation_encore_avant;
 
-/* contient la chaine de la dernière date entrée */
+/* contient la chaine de la derniï¿½e date entrï¿½ */
 
 gchar *derniere_date;
 
@@ -80,7 +80,7 @@ extern gint nb_echeances;
 /* AUTRES QUE L'AJUSTEMENT DE LA TAILLE DES COLONNES */
 
 /******************************************************************************/
-/*  Routine qui crée la fenêtre de la liste des opé  */
+/*  Routine qui crï¿½ la fenï¿½re de la liste des opï¿½ */
 /******************************************************************************/
 GtkWidget *creation_fenetre_operations ( void )
 {
@@ -88,16 +88,16 @@ GtkWidget *creation_fenetre_operations ( void )
     GtkWidget *solde_box;
     GtkWidget *frame;
 
-    /*   la fenetre des opé est une vbox : la liste en haut, le solde et  */
+    /*   la fenetre des opï¿½est une vbox : la liste en haut, le solde et  */
     /*     des boutons de conf au milieu, le formulaire en bas */
 
-/* FIXME: à virer sur l'instable */
+/* FIXME: ï¿½virer sur l'instable */
     allocation_precedente = 0;
 
     win_operations = gtk_vbox_new ( FALSE,
 				    5 );
 
-    /* création de la barre d'outils */
+    /* crï¿½tion de la barre d'outils */
 
     barre_outils = creation_barre_outils ();
     gtk_box_pack_start ( GTK_BOX ( win_operations ),
@@ -107,7 +107,7 @@ GtkWidget *creation_fenetre_operations ( void )
 			 0);
     gtk_widget_show ( barre_outils );
 
-    /* création du notebook des opé */
+    /* crï¿½tion du notebook des opï¿½*/
 
     notebook_listes_operations = initialisation_notebook_operations ();
     gtk_box_pack_start ( GTK_BOX ( win_operations ),
@@ -117,7 +117,7 @@ GtkWidget *creation_fenetre_operations ( void )
 			 0);
     gtk_widget_show ( notebook_listes_operations );
 
-    /*   création de la ligne contenant le solde ( sous la liste des opérations ) et les boutons */
+    /*   crï¿½tion de la ligne contenant le solde ( sous la liste des opï¿½ations ) et les boutons */
 
     solde_box = gtk_table_new ( 1,
 				3,
@@ -131,7 +131,7 @@ GtkWidget *creation_fenetre_operations ( void )
     gtk_widget_show ( solde_box );
 
 
-    /* mise en forme du solde pointé */
+    /* mise en forme du solde pointï¿½*/
 
     frame = gtk_frame_new ( NULL );
     gtk_frame_set_shadow_type ( GTK_FRAME ( frame ),
@@ -181,21 +181,21 @@ GtkWidget *creation_fenetre_operations ( void )
 /******************************************************************************/
 
 /******************************************************************************/
-/* Création du notebook des opérations					      */
+/* Crï¿½tion du notebook des opï¿½ations					      */
 /* C'est en fait un notebook dont chaque onglet sera une clist qui contient   */
-/* les opérations d'un compte. Il y a autant d'onglet que de comptes	      */
-/* Cette fonction crée le notebook et initialise les variables générales      */
-/* utilisées par les listes						      */
+/* les opï¿½ations d'un compte. Il y a autant d'onglet que de comptes	      */
+/* Cette fonction crï¿½ le notebook et initialise les variables gï¿½ï¿½ales      */
+/* utilisï¿½s par les listes						      */
 /******************************************************************************/
 GtkWidget *initialisation_notebook_operations ( void )
 {
-    /* création du notebook */
+    /* crï¿½tion du notebook */
 
     notebook_listes_operations = gtk_notebook_new ();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK ( notebook_listes_operations ),
 				 FALSE );
 
-    /* création de l'onglet de la ventilation */
+    /* crï¿½tion de l'onglet de la ventilation */
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
 			       creation_fenetre_ventilation (),
@@ -206,8 +206,8 @@ GtkWidget *initialisation_notebook_operations ( void )
 /******************************************************************************/
 
 /******************************************************************************/
-/* Création de la liste des opé */
-/* cette fonction crée autant d'onglets que de comptes dans le notebook */
+/* Crï¿½tion de la liste des opï¿½*/
+/* cette fonction crï¿½ autant d'onglets que de comptes dans le notebook */
 /* elle y met les clist et les remplit */
 /******************************************************************************/
 void creation_listes_operations ( void )
@@ -224,7 +224,7 @@ void creation_listes_operations ( void )
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
 
-	/*  Création de la scrolled window qui contient la clist */
+	/*  Crï¿½tion de la scrolled window qui contient la clist */
 
 	onglet = gtk_scrolled_window_new ( NULL,
 					   NULL);
@@ -234,7 +234,7 @@ void creation_listes_operations ( void )
 	gtk_widget_show ( onglet );
 
 
-	/* création de l'onglet */
+	/* crï¿½tion de l'onglet */
 
 	liste = gtk_clist_new_with_titles ( TRANSACTION_LIST_COL_NB,
 					    titres_colonnes_liste_operations );
@@ -268,7 +268,7 @@ void creation_listes_operations ( void )
 
 	/* on met les tooltips aux boutons de la clist */
 	/* le fait de mettre des tips sur les titres rend les boutons sensitifs */
-	/* on va détourner le click pour ne pas faire enfoncer le bouton */
+	/* on va dï¿½ourner le click pour ne pas faire enfoncer le bouton */
 
 	tooltip = gtk_tooltips_new ();
 
@@ -284,7 +284,7 @@ void creation_listes_operations ( void )
 				 NULL );
 	}
 
-	/* on permet la sélection de plusieurs lignes */
+	/* on permet la sï¿½ection de plusieurs lignes */
 
 	gtk_clist_set_selection_mode ( GTK_CLIST ( liste ),
 				       GTK_SELECTION_MULTIPLE );
@@ -306,14 +306,14 @@ void creation_listes_operations ( void )
 					      !etat.largeur_auto_colonnes );
 	}
 
-	/* vérifie le simple ou double click */
+	/* vï¿½ifie le simple ou double click */
 
 	gtk_signal_connect ( GTK_OBJECT ( liste ),
 			     "button_press_event",
 			     GTK_SIGNAL_FUNC ( selectionne_ligne_souris ),
 			     NULL );
 
-	/* vérifie la touche entrée, haut et bas */
+	/* vï¿½ifie la touche entrï¿½, haut et bas */
 
 	gtk_signal_connect ( GTK_OBJECT ( liste ),
 			     "key_press_event",
@@ -341,7 +341,7 @@ void creation_listes_operations ( void )
 
 /******************************************************************************/
 /* Fonction empeche_pression_titre_colonne */
-/* permet d'éviter que le bouton s'enfonce si on clicke dessus */
+/* permet d'ï¿½iter que le bouton s'enfonce si on clicke dessus */
 /******************************************************************************/
 gint empeche_pression_titre_colonne ( GtkWidget *bouton )
 {
@@ -352,7 +352,7 @@ gint empeche_pression_titre_colonne ( GtkWidget *bouton )
 /******************************************************************************/
 
 /******************************************************************************/
-/* Création de la liste des opérations d'un nouveau compte */
+/* Crï¿½tion de la liste des opï¿½ations d'un nouveau compte */
 /******************************************************************************/
 void ajoute_nouvelle_liste_operation ( gint no_compte )
 {
@@ -363,7 +363,7 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
-    /*  Création de la scrolled window qui contient la clist */
+    /*  Crï¿½tion de la scrolled window qui contient la clist */
 
     onglet = gtk_scrolled_window_new ( NULL,
 				       NULL);
@@ -372,7 +372,7 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 				     GTK_POLICY_AUTOMATIC);
     gtk_widget_show ( onglet );
 
-    /* création de l'onglet */
+    /* crï¿½tion de l'onglet */
 
     liste = gtk_clist_new_with_titles ( TRANSACTION_LIST_COL_NB,
 					titres_colonnes_liste_operations );
@@ -396,7 +396,7 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
     gtk_widget_show ( liste );
 
     /* le fait de mettre des tips sur les titres rend les boutons sensitifs ; */
-    /* on va détourner le click pour ne pas faire enfoncer le bouton */
+    /* on va dï¿½ourner le click pour ne pas faire enfoncer le bouton */
 
     tooltip = gtk_tooltips_new ();
 
@@ -412,7 +412,7 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 			     NULL );
     }
 
-    /* on permet la sélection de plusieurs lignes */
+    /* on permet la sï¿½ection de plusieurs lignes */
 
     gtk_clist_set_selection_mode ( GTK_CLIST ( liste ),
 				   GTK_SELECTION_MULTIPLE );
@@ -430,14 +430,14 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 					     col_justs[i] );
     }
 
-    /* vérifie le simple ou double click */
+    /* vï¿½ifie le simple ou double click */
 
     gtk_signal_connect ( GTK_OBJECT ( liste ),
 			 "button_press_event",
 			 GTK_SIGNAL_FUNC ( selectionne_ligne_souris ),
 			 NULL );
 
-    /*   vérifie la touche entrée, haut et bas */
+    /*   vï¿½ifie la touche entrï¿½, haut et bas */
 
     gtk_signal_connect ( GTK_OBJECT ( liste ),
 			 "key_press_event",
@@ -455,7 +455,7 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 
     CLIST_OPERATIONS = liste;
 
-    /* par défaut, le classement de la liste s'effectue par date */
+    /* par dï¿½aut, le classement de la liste s'effectue par date */
 
     LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
 				      (GCompareFunc) classement_sliste );
@@ -500,8 +500,8 @@ void update_titres_colonnes ( void )
 
 /******************************************************************************/
 /* Fonction onglet_compte_realize */
-/* appelée lorsque la liste est affichée la 1ère fois */
-/* permet de se placer en bas de toutes les opés au départ */
+/* appelï¿½ lorsque la liste est affichï¿½ la 1ï¿½e fois */
+/* permet de se placer en bas de toutes les opï¿½ au dï¿½art */
 /******************************************************************************/
 void onglet_compte_realize ( GtkWidget *onglet,
 			     GtkWidget *liste )
@@ -516,8 +516,8 @@ void onglet_compte_realize ( GtkWidget *onglet,
 /******************************************************************************/
 
 /******************************************************************************/
-/* remplissage de la liste des opérations du compte donné en argument */
-/* par les opérations du compte courant */
+/* remplissage de la liste des opï¿½ations du compte donnï¿½en argument */
+/* par les opï¿½ations du compte courant */
 /******************************************************************************/
 void remplissage_liste_operations ( gint compte )
 {
@@ -538,7 +538,7 @@ void remplissage_liste_operations ( gint compte )
 
     gtk_clist_clear ( GTK_CLIST ( CLIST_OPERATIONS ));
 
-    /*   au départ, les soldes courant et pointé sont = au solde init */
+    /*   au dï¿½art, les soldes courant et pointï¿½sont = au solde init */
 
     solde_courant_affichage_liste = SOLDE_INIT;
     solde_pointe_affichage_liste = SOLDE_INIT;
@@ -557,7 +557,7 @@ void remplissage_liste_operations ( gint compte )
 
 	    operation = liste_operations_tmp -> data;
 
-	    /* si c'est une opé de ventilation, on la saute */
+	    /* si c'est une opï¿½de ventilation, on la saute */
 
 	    if ( !operation -> no_operation_ventilee_associee
 		 &&
@@ -578,9 +578,9 @@ void remplissage_liste_operations ( gint compte )
 	}
     }
 
-    /* on commence la boucle : fait le tour de toutes les opérations */
-    /* met à jour les solde_courant_affichage_liste et solde_pointe_affichage_liste */
-    /* affiche l'opération à l'écran en fonction de l'affichage de R */
+    /* on commence la boucle : fait le tour de toutes les opï¿½ations */
+    /* met ï¿½jour les solde_courant_affichage_liste et solde_pointe_affichage_liste */
+    /* affiche l'opï¿½ation ï¿½l'ï¿½ran en fonction de l'affichage de R */
 
     liste_operations_tmp = LISTE_OPERATIONS;
 
@@ -590,12 +590,12 @@ void remplissage_liste_operations ( gint compte )
 
 	operation = liste_operations_tmp -> data;
 
-	/* si c'est une opé de ventilation, on la saute */
+	/* si c'est une opï¿½de ventilation, on la saute */
 
 	if ( !operation -> no_operation_ventilee_associee )
 	{
 
-	    /* si l'opération est relevée et qu'on ne désire pas les afficher, on passe la suite  */
+	    /* si l'opï¿½ation est relevï¿½ et qu'on ne dï¿½ire pas les afficher, on passe la suite  */
 
 	    if ( AFFICHAGE_R || operation -> pointe != 2 )
 	    {
@@ -612,7 +612,7 @@ void remplissage_liste_operations ( gint compte )
 
 		solde_courant_affichage_liste = solde_courant_affichage_liste + montant;
 
-		/* si l'opé est pointée ou relevée, on ajoute ce montant au solde pointé */
+		/* si l'opï¿½est pointï¿½ ou relevï¿½, on ajoute ce montant au solde pointï¿½*/
 
 		if ( operation -> pointe )
 		    solde_pointe_affichage_liste = solde_pointe_affichage_liste + montant;
@@ -621,7 +621,7 @@ void remplissage_liste_operations ( gint compte )
 
 		for ( i = 0 ; i < TRANSACTION_LIST_ROWS_NB ; i++ )
 		{
-		    /* on ne passe que si la ligne doit être affichée */
+		    /* on ne passe que si la ligne doit ï¿½re affichï¿½ */
 
 		    if ( !i ||
 			 NB_LIGNES_OPE == 4 ||
@@ -684,7 +684,7 @@ void remplissage_liste_operations ( gint compte )
 			ligne = gtk_clist_append ( GTK_CLIST ( CLIST_OPERATIONS ),
 						   ligne_clist[i] );
 
-			/* on associe à cette ligne l'adr de la struct de l'opé */
+			/* on associe ï¿½cette ligne l'adr de la struct de l'opï¿½*/
 
 			gtk_clist_set_row_data ( GTK_CLIST (CLIST_OPERATIONS),
 						 ligne,
@@ -719,7 +719,7 @@ void remplissage_liste_operations ( gint compte )
 
     for ( j = 0 ; j < NB_LIGNES_OPE ; j++ )
     {
-	/* on met à NULL tout les pointeurs */
+	/* on met ï¿½NULL tout les pointeurs */
 
 	for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
 	    ligne_clist[0][i] = NULL;
@@ -727,7 +727,7 @@ void remplissage_liste_operations ( gint compte )
 	ligne = gtk_clist_append ( GTK_CLIST ( CLIST_OPERATIONS ),
 				   ligne_clist[0] );
 
-	/* on associe à cette ligne à -1 */
+	/* on associe ï¿½cette ligne ï¿½-1 */
 
 	gtk_clist_set_row_data ( GTK_CLIST ( CLIST_OPERATIONS ),
 				 ligne,
@@ -767,9 +767,9 @@ void remplissage_liste_operations ( gint compte )
 
 /******************************************************************************/
 /* Fonction recherche_contenu_cellule */
-/* prend en argument l'opération concernée */
-/* et le numéro de l'argument qu'on veut afficher (tab_affichage_ope) */
-/* renvoie la chaine à afficher ou NULL */
+/* prend en argument l'opï¿½ation concernï¿½ */
+/* et le numï¿½o de l'argument qu'on veut afficher (tab_affichage_ope) */
+/* renvoie la chaine ï¿½afficher ou NULL */
 /******************************************************************************/
 gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 				   gint no_affichage )
@@ -857,13 +857,13 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 	    break;
 
 
-	    /* mise en forme du débit */
+	    /* mise en forme du dï¿½it */
 	case 5:
 	    if ( operation -> montant < 0 )
 	    {
 		temp = g_strdup_printf ( "%4.2f", -operation -> montant );
 
-		/* si la devise en cours est différente de celle de l'opé, on la retrouve */
+		/* si la devise en cours est diffï¿½ente de celle de l'opï¿½ on la retrouve */
 
 		if ( !devise_operation
 		     ||
@@ -886,13 +886,13 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 
 	    break;
 
-	    /* mise en forme du crédit */
+	    /* mise en forme du crï¿½it */
 	case 6:
 	    if ( operation -> montant >= 0 )
 	    {
 		temp = g_strdup_printf ( "%4.2f", operation -> montant );
 
-		/* si la devise en cours est différente de celle de l'opé, on la retrouve */
+		/* si la devise en cours est diffï¿½ente de celle de l'opï¿½ on la retrouve */
 
 		if ( !devise_operation
 		     ||
@@ -916,7 +916,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 	    break;
 
 	    /* mise en forme du solde */
-	    /* il a déjà été calculé pour l'opération courante, il suffit de le renvoyer */
+	    /* il a dï¿½ï¿½ï¿½ï¿½calculï¿½pour l'opï¿½ation courante, il suffit de le renvoyer */
 
 	case 7:
 	    return ( g_strdup_printf ( "%4.2f",
@@ -928,7 +928,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 	case 8:
 	    if ( operation -> devise != DEVISE )
 	    {
-		/* on doit calculer et afficher le montant de l'opé */
+		/* on doit calculer et afficher le montant de l'opï¿½*/
 
 		montant = calcule_montant_devise_renvoi ( operation -> montant,
 							  DEVISE,
@@ -1004,7 +1004,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 		return ( NULL );
 	    break;
 
-	    /* mise en place des catégories */
+	    /* mise en place des catï¿½ories */
 
 	case 12:
 	    temp = NULL;
@@ -1066,7 +1066,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 		}
 		else
 		{
-		    /* vérification si l'opération est ventilée */
+		    /* vï¿½ification si l'opï¿½ation est ventilï¿½ */
 
 		    if ( operation -> operation_ventilee )
 			temp = _("Breakdown of transaction");
@@ -1096,7 +1096,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 	    break;
 
 
-	    /* mise en place de la pièce comptable */
+	    /* mise en place de la piï¿½e comptable */
 
 	case 14:
 	    return ( operation -> no_piece_comptable );
@@ -1114,13 +1114,13 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 	    return ( operation -> info_banque_guichet );
 	    break;
 
-	    /* mise en place du no d'opé */
+	    /* mise en place du no d'opï¿½*/
 
 	case 17:
 	    return ( itoa ( operation -> no_operation ));
 	    break;
 
-	    /* mise en place du no de chèque/virement */
+	    /* mise en place du no de chï¿½ue/virement */
 
 	case 18:
 
@@ -1139,7 +1139,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 
 /******************************************************************************/
 /* Fonction selectionne_ligne_souris */
-/* place la sélection sur l'opé clickée */
+/* place la sï¿½ection sur l'opï¿½clickï¿½ */
 /******************************************************************************/
 gboolean selectionne_ligne_souris ( GtkCList *liste,
 				GdkEventButton *evenement,
@@ -1157,7 +1157,7 @@ gboolean selectionne_ligne_souris ( GtkCList *liste,
     gtk_signal_emit_stop_by_name ( GTK_OBJECT ( CLIST_OPERATIONS ),
 				   "button_press_event");
 
-    /* Récupération des coordonnées de la souris */
+    /* Rï¿½upï¿½ation des coordonnï¿½s de la souris */
 
     gdk_window_get_pointer ( GTK_CLIST ( CLIST_OPERATIONS ) -> clist_window,
 			     &x,
@@ -1185,11 +1185,11 @@ gboolean selectionne_ligne_souris ( GtkCList *liste,
 	p_tab_nom_de_compte_variable =  p_tab_nom_de_compte + compte_courant;
     }
 
-    /* Récupération de la 1ère ligne de l'opération cliquée */
+    /* Rï¿½upï¿½ation de la 1ï¿½e ligne de l'opï¿½ation cliquï¿½ */
 
     ligne = ligne / NB_LIGNES_OPE * NB_LIGNES_OPE;
 
-    /*   vire l'ancienne sélection */
+    /*   vire l'ancienne sï¿½ection */
 
     gtk_clist_unselect_all ( GTK_CLIST ( CLIST_OPERATIONS ) );
 
@@ -1200,8 +1200,8 @@ gboolean selectionne_ligne_souris ( GtkCList *liste,
 
     selectionne_ligne( compte_courant );
 
-    /* si on a cliqué sur la colonne P/R alors que la touche CTRL
-       est enfoncée, alors on (dé)pointe l'opération */
+    /* si on a cliquï¿½sur la colonne P/R alors que la touche CTRL
+       est enfoncï¿½, alors on (dï¿½pointe l'opï¿½ation */
 
     if ( ( ( evenement -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK ) &&
 	 colonne == TRANSACTION_COL_NB_PR )
@@ -1220,7 +1220,7 @@ gboolean selectionne_ligne_souris ( GtkCList *liste,
 
 /******************************************************************************/
 /* Fonction traitement_clavier_liste */
-/* gère le clavier sur la clist */
+/* gï¿½e le clavier sur la clist */
 /******************************************************************************/
 gboolean traitement_clavier_liste ( GtkCList *liste,
 				    GdkEventKey *evenement,
@@ -1236,13 +1236,13 @@ gboolean traitement_clavier_liste ( GtkCList *liste,
 
     switch ( evenement -> keyval )
     {
-	case GDK_Return :		/* entrée */
+	case GDK_Return :		/* entrï¿½ */
 	case GDK_KP_Enter :
 
 	    edition_operation ();
 	    break;
 
-	case GDK_Up :		/* touches flèche haut */
+	case GDK_Up :		/* touches flï¿½he haut */
 	case GDK_KP_Up :
 
 	    ligne = gtk_clist_find_row_from_data ( GTK_CLIST ( liste ),
@@ -1259,7 +1259,7 @@ gboolean traitement_clavier_liste ( GtkCList *liste,
 	    }
 	    return TRUE;
 
-	case GDK_Down :		/* touches flèche bas */
+	case GDK_Down :		/* touches flï¿½he bas */
 	case GDK_KP_Down :
 
 	    if ( OPERATION_SELECTIONNEE != GINT_TO_POINTER ( -1 ) )
@@ -1304,7 +1304,7 @@ gboolean traitement_clavier_liste ( GtkCList *liste,
 /******************************************************************************/
 
 /******************************************************************************/
-/* Routine qui sélectionne ou désélectionne l'opération */
+/* Routine qui sï¿½ectionne ou dï¿½ï¿½ectionne l'opï¿½ation */
 /******************************************************************************/
 void selectionne_ligne ( gint compte )
 {
@@ -1366,8 +1366,8 @@ void selectionne_ligne ( gint compte )
 
 /******************************************************************************/
 /* Fonction edition_operation */
-/* appelée lors d'un double click sur une ligne ou entree */
-/* place l'opération sélectionnée dans le formulaire */
+/* appelï¿½ lors d'un double click sur une ligne ou entree */
+/* place l'opï¿½ation sï¿½ectionnï¿½ dans le formulaire */
 /******************************************************************************/
 void edition_operation ( void )
 {
@@ -1382,7 +1382,7 @@ void edition_operation ( void )
     operation = OPERATION_SELECTIONNEE;
     formulaire_a_zero ();
 
-    /* on affiche le formulaire sans modifier l'état => si il n'est pas affiché normalement,
+    /* on affiche le formulaire sans modifier l'ï¿½at => si il n'est pas affichï¿½normalement,
        il sera efface lors du prochain formulaire_a_zero */
 
     if ( !etat.formulaire_toujours_affiche )
@@ -1398,7 +1398,7 @@ void edition_operation ( void )
 
     degrise_formulaire_operations ();
 
-    /* si l'opé est -1, c'est que c'est une nouvelle opé */
+    /* si l'opï¿½est -1, c'est que c'est une nouvelle opï¿½*/
 
     if ( operation == GINT_TO_POINTER ( -1 ) )
     {
@@ -1420,7 +1420,7 @@ void edition_operation ( void )
 	return;
     }
 
-    /*   l'opé n'est pas -1, c'est une modif, on remplit les champs */
+    /*   l'opï¿½n'est pas -1, c'est une modif, on remplit les champs */
 
 
     gtk_object_set_data ( GTK_OBJECT ( formulaire ),
@@ -1428,7 +1428,7 @@ void edition_operation ( void )
 			  operation );
 
 
-    /* on met le no de l'opé */
+    /* on met le no de l'opï¿½*/
 
     gtk_label_set_text ( GTK_LABEL ( widget_formulaire_operations[TRANSACTION_FORM_OP_NB] ),
 			 itoa ( operation -> no_operation ));
@@ -1457,14 +1457,14 @@ void edition_operation ( void )
 				(( struct struct_tiers * )( liste_tmp -> data )) -> nom_tiers );
     }
 
-    /* mise en forme du débit / crédit */
+    /* mise en forme du dï¿½it / crï¿½it */
 
     if ( operation -> montant < 0 )
     {
 	entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] );
 	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] ),
 			     g_strdup_printf ( "%4.2f", -operation -> montant ));
-	/* met le menu des types débits */
+	/* met le menu des types dï¿½its */
 
 	if ( !etat.affiche_tous_les_types )
 	{
@@ -1485,7 +1485,7 @@ void edition_operation ( void )
 	entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT] );
 	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT] ),
 			     g_strdup_printf ( "%4.2f", operation -> montant ));
-	/* met le menu des types crédits */
+	/* met le menu des types crï¿½its */
 
 	if ( !etat.affiche_tous_les_types )
 	{
@@ -1505,7 +1505,7 @@ void edition_operation ( void )
 	}
     }
 
-    /* si l'opération est relevée, on désensitive les entrées de crédit et débit */
+    /* si l'opï¿½ation est relevï¿½, on dï¿½ensitive les entrï¿½s de crï¿½it et dï¿½it */
 
     if ( operation -> pointe == 2 )
     {
@@ -1542,7 +1542,7 @@ void edition_operation ( void )
 	    ( !strcmp ( devise_compte -> nom_devise, _("Euro") ) && devise -> passage_euro )))
 	gtk_widget_show ( widget_formulaire_operations[TRANSACTION_FORM_CHANGE] );
 
-    /* mise en forme des catégories */
+    /* mise en forme des catï¿½ories */
 
     liste_tmp = g_slist_find_custom ( liste_struct_categories,
 				      GINT_TO_POINTER ( operation -> categorie ),
@@ -1570,7 +1570,7 @@ void edition_operation ( void )
 
     }
 
-    /* mise en forme de la date réelle */
+    /* mise en forme de la date rï¿½lle */
 
     if ( operation -> date_bancaire )
     {
@@ -1585,8 +1585,8 @@ void edition_operation ( void )
 			     date_bancaire );
     }
 
-    /* si l'opération est liée, marque le virement */
-    /* et si la contre opération est relevée, on désensitive la categ et le montant */
+    /* si l'opï¿½ation est liï¿½, marque le virement */
+    /* et si la contre opï¿½ation est relevï¿½, on dï¿½ensitive la categ et le montant */
 
     if ( operation -> relation_no_operation )
     {
@@ -1609,19 +1609,19 @@ void edition_operation ( void )
 						  NOM_DU_COMPTE,
 						  NULL ));
 
-	    /* si l'opération est relevée, on empêche le changement de virement */
+	    /* si l'opï¿½ation est relevï¿½, on empï¿½he le changement de virement */
 
 	    if ( operation -> pointe == 2 )
 		gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY],
 					   FALSE );
 
-	    /* récupération de la contre opération */
+	    /* rï¿½upï¿½ation de la contre opï¿½ation */
 
 	    operation_2 = g_slist_find_custom ( LISTE_OPERATIONS,
 						GINT_TO_POINTER ( operation -> relation_no_operation ),
 						(GCompareFunc) recherche_operation_par_no ) -> data;
 
-	    /* 	  si la contre opération est relevée, on désensitive les categ et les montants */
+	    /* 	  si la contre opï¿½ation est relevï¿½, on dï¿½ensitive les categ et les montants */
 	    if ( operation_2 -> pointe == 2 )
 	    {
 		gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT],
@@ -1632,15 +1632,15 @@ void edition_operation ( void )
 					   FALSE );
 	    }
 
-	    /* comme c'est un virement, on affiche s'il existe l'option menu du type de l'autre opé */
+	    /* comme c'est un virement, on affiche s'il existe l'option menu du type de l'autre opï¿½*/
 
 	    if ( operation -> montant >= 0 )
 		menu = creation_menu_types ( 1, operation -> relation_no_compte, 2  );
 	    else
 		menu = creation_menu_types ( 2, operation -> relation_no_compte, 2  );
 
-	    /*  on ne continue que si un menu a été créé */
-	    /*    dans ce cas, on va chercher l'autre opé et retrouve le type */
+	    /*  on ne continue que si un menu a ï¿½ï¿½crï¿½ */
+	    /*    dans ce cas, on va chercher l'autre opï¿½et retrouve le type */
 
 	    if ( menu )
 	    {
@@ -1655,7 +1655,7 @@ void edition_operation ( void )
 	}
     }
 
-    /* mise en forme si l'opération est ventilée */
+    /* mise en forme si l'opï¿½ation est ventilï¿½ */
 
     if ( operation -> operation_ventilee )
     {
@@ -1668,7 +1668,7 @@ void edition_operation ( void )
 	gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET],
 				   FALSE );
 
-	/* met la liste des opés de ventilation dans liste_adr_ventilation */
+	/* met la liste des opï¿½ de ventilation dans liste_adr_ventilation */
 
 	gtk_object_set_data ( GTK_OBJECT ( formulaire ),
 			      "liste_adr_ventilation",
@@ -1677,7 +1677,7 @@ void edition_operation ( void )
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
     }
 
-    /* met l'option menu du type d'opé */
+    /* met l'option menu du type d'opï¿½*/
 
     if ( GTK_WIDGET_VISIBLE ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ))
     {
@@ -1710,8 +1710,8 @@ void edition_operation ( void )
 				   cherche_no_menu_exercice ( operation -> no_exercice,
 							      widget_formulaire_operations[TRANSACTION_FORM_EXERCICE] ));
 
-    /* met en place l'imputation budgétaire */
-    /* si c'est une opé ventilée, on met rien */
+    /* met en place l'imputation budgï¿½aire */
+    /* si c'est une opï¿½ventilï¿½, on met rien */
 
     if ( !operation -> operation_ventilee )
     {
@@ -1740,7 +1740,7 @@ void edition_operation ( void )
 	}
     }
 
-    /* mise en place de la pièce comptable */
+    /* mise en place de la piï¿½e comptable */
 
     if ( operation -> no_piece_comptable )
     {
@@ -1776,7 +1776,7 @@ void edition_operation ( void )
 	gtk_label_set_text ( GTK_LABEL ( widget_formulaire_operations[TRANSACTION_FORM_MODE]),
 			     _("Manual"));
 
-    /*   on a fini de remplir le formulaire, on donne le focus à la date */
+    /*   on a fini de remplir le formulaire, on donne le focus ï¿½la date */
 
     gtk_entry_select_region ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ),
 			      0,
@@ -1787,8 +1787,8 @@ void edition_operation ( void )
 
 /******************************************************************************/
 /* Fonction p_press */
-/* appelée lorsque la touche p est pressée sur la liste */
-/* pointe ou dépointe l'opération courante */
+/* appelï¿½ lorsque la touche p est pressï¿½ sur la liste */
+/* pointe ou dï¿½ointe l'opï¿½ation courante */
 /******************************************************************************/
 void p_press (void)
 {
@@ -1796,7 +1796,7 @@ void p_press (void)
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-    /* si on est sur l'opération vide -> on se barre */
+    /* si on est sur l'opï¿½ation vide -> on se barre */
 
     if ( OPERATION_SELECTIONNEE == GINT_TO_POINTER ( -1 ) )
 	return;
@@ -1850,11 +1850,11 @@ void p_press (void)
 	modification_fichier( TRUE );
     }
 
-    /* si c'est une opé ventilée, on recherche les opé filles pour leur mettre le même pointage que la mère */
+    /* si c'est une opï¿½ventilï¿½, on recherche les opï¿½filles pour leur mettre le mï¿½e pointage que la mï¿½e */
 
     if ( OPERATION_SELECTIONNEE -> operation_ventilee )
     {
-	/* p_tab est déjà pointé sur le compte courant */
+	/* p_tab est dï¿½ï¿½pointï¿½sur le compte courant */
 
 	GSList *liste_tmp;
 
@@ -1897,21 +1897,20 @@ void p_press (void)
 	}
     }
 
-    /* p_tab est déjà sur le compte courant */
-    /* met le label du solde pointé */
+    /* p_tab est dï¿½ï¿½sur le compte courant */
+    /* met le label du solde pointï¿½*/
 
     gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
 			 g_strdup_printf ( PRESPACIFY(_("Checked balance: %4.2f %s")),
 					   SOLDE_POINTE,
 					   devise_name_by_no ( DEVISE )) );
 
-/*     si on a choisi de classer la liste avec les rp, on met à jour ici */
+/*     si on a choisi de classer la liste avec les rp, on met ï¿½jour ici */
 
     if ( etat.classement_rp )
 	demande_mise_a_jour_tous_comptes ();
 
-    /* ALAIN-FIXME : solution batarde me semble-t'il pour actualiser le solde pointé
-       sur la fenêtre d'accueil après que l'on ait pointé l'opération */
+    /* ALAIN-FIXME : solution batarde me semble-t'il pour actualiser le solde pointï¿½       sur la fenï¿½re d'accueil aprï¿½ que l'on ait pointï¿½l'opï¿½ation */
 
     update_liste_comptes_accueil ();
 }
@@ -1919,25 +1918,25 @@ void p_press (void)
 
 /******************************************************************************/
 /* Fonction r_press */
-/* appelée lorsque la touche r est pressée sur la liste */
-/* relève ou dérelève l'opération courante */
+/* appelï¿½ lorsque la touche r est pressï¿½ sur la liste */
+/* relï¿½e ou dï¿½elï¿½e l'opï¿½ation courante */
 /******************************************************************************/
 void r_press (void)
 {
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-    /* si on est sur l'opération vide -> on se barre */
+    /* si on est sur l'opï¿½ation vide -> on se barre */
 
     if ( OPERATION_SELECTIONNEE == GINT_TO_POINTER ( -1 ) )
 	return;
 
     if ( OPERATION_SELECTIONNEE -> pointe == 0 )
     {
-	/* on relève l'opération */
+	/* on relï¿½e l'opï¿½ation */
 
 	OPERATION_SELECTIONNEE -> pointe = 2;
 
-	/* on met soit le R, soit on change la sélection vers l'opé suivante */
+	/* on met soit le R, soit on change la sï¿½ection vers l'opï¿½suivante */
 
 	if ( AFFICHAGE_R )
 	    gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
@@ -1947,7 +1946,7 @@ void r_press (void)
 				 _("R"));
 	else
 	{
-	    /* l'opération va disparaitre, on met donc la sélection sur l'opé suivante */
+	    /* l'opï¿½ation va disparaitre, on met donc la sï¿½ection sur l'opï¿½suivante */
 
 	    gint ligne;
 
@@ -1963,7 +1962,7 @@ void r_press (void)
     else
 	if ( OPERATION_SELECTIONNEE -> pointe == 2 )
 	{
-	    /* dé-relève l'opération */
+	    /* dï¿½relï¿½e l'opï¿½ation */
 	    OPERATION_SELECTIONNEE -> pointe = 0;
 	    gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
 				 gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
@@ -1974,16 +1973,16 @@ void r_press (void)
 	    modification_fichier( TRUE );
 	}
 
-    /* à ce niveau, on reteste OPERATION_SELECTIONNEE car comme on a peut être */
-    /* déplacé la sélection vers le bas, elle peut être revenue à -1 */
+    /* ï¿½ce niveau, on reteste OPERATION_SELECTIONNEE car comme on a peut ï¿½re */
+    /* dï¿½lacï¿½la sï¿½ection vers le bas, elle peut ï¿½re revenue ï¿½-1 */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
     if ( OPERATION_SELECTIONNEE == GINT_TO_POINTER ( -1 ) )
 	return;
 
-    /* si c'est une ventilation, on fait le tour des opérations du compte pour */
-    /* rechercher les opérations de ventilation associées à cette ventilation */
+    /* si c'est une ventilation, on fait le tour des opï¿½ations du compte pour */
+    /* rechercher les opï¿½ations de ventilation associï¿½s ï¿½cette ventilation */
 
     if ( OPERATION_SELECTIONNEE -> operation_ventilee )
     {
@@ -2007,7 +2006,7 @@ void r_press (void)
 /******************************************************************************/
 
 /******************************************************************************/
-/*  Routine qui supprime l'opération donnée en argument */
+/*  Routine qui supprime l'opï¿½ation donnï¿½ en argument */
 /******************************************************************************/
 void supprime_operation ( struct structure_operation *operation )
 {
@@ -2018,9 +2017,9 @@ void supprime_operation ( struct structure_operation *operation )
 
     no_compte = operation -> no_compte;
 
-    /* vérifications de bases */
+    /* vï¿½ifications de bases */
 
-    /* l'opération ne doit pas être pointée */
+    /* l'opï¿½ation ne doit pas ï¿½re pointï¿½ */
 
     if ( operation -> pointe == 2 )
     {
@@ -2028,9 +2027,9 @@ void supprime_operation ( struct structure_operation *operation )
 	return;
     }
 
-    /* si l'opération est liée, on recherche l'autre opération, */
+    /* si l'opï¿½ation est liï¿½, on recherche l'autre opï¿½ation, */
     /* on vire ses liaisons et on l'efface */
-    /* sauf si elle est relevée, dans ce cas on annule tout */
+    /* sauf si elle est relevï¿½, dans ce cas on annule tout */
 
     if ( operation -> relation_no_operation && operation -> relation_no_compte != -1 )
     {
@@ -2060,9 +2059,9 @@ void supprime_operation ( struct structure_operation *operation )
 	}
     }
 
-    /* si c'est une ventilation, on fait le tour de ses opérations */
-    /* de ventilation pour vérifier qu'il n'y en a pas une qui est un virement */
-    /* vers une opération relevée */
+    /* si c'est une ventilation, on fait le tour de ses opï¿½ations */
+    /* de ventilation pour vï¿½ifier qu'il n'y en a pas une qui est un virement */
+    /* vers une opï¿½ation relevï¿½ */
 
     if ( operation -> operation_ventilee )
     {
@@ -2080,12 +2079,12 @@ void supprime_operation ( struct structure_operation *operation )
 
 	    if ( ope_test -> no_operation_ventilee_associee == operation -> no_operation )
 	    {
-		/* ope_test est une opération de ventilation de l'opération */
-		/* à supprimer, on recherche si c'est un virement */
+		/* ope_test est une opï¿½ation de ventilation de l'opï¿½ation */
+		/* ï¿½supprimer, on recherche si c'est un virement */
 
 		if ( ope_test -> relation_no_operation )
 		{
-		    /* c'est un virement, on va voir la contre opération */
+		    /* c'est un virement, on va voir la contre opï¿½ation */
 
 		    struct structure_operation *contre_operation;
 
@@ -2106,8 +2105,8 @@ void supprime_operation ( struct structure_operation *operation )
 	}
     }
 
-    /* les tests sont passés, si c'est une ventilation, */
-    /* on vire toutes les opérations associées */
+    /* les tests sont passï¿½, si c'est une ventilation, */
+    /* on vire toutes les opï¿½ations associï¿½s */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
@@ -2125,7 +2124,7 @@ void supprime_operation ( struct structure_operation *operation )
 
 	    if ( ope_test -> no_operation_ventilee_associee == operation -> no_operation )
 	    {
-		/* on se place tout de suite sur l'opé suivante */
+		/* on se place tout de suite sur l'opï¿½suivante */
 
 		pointeur_tmp = pointeur_tmp -> next;
 
@@ -2136,8 +2135,8 @@ void supprime_operation ( struct structure_operation *operation )
 	}
     }
 
-    /* si la sélection est sur l'opération qu'on supprime, */
-    /* on met la sélection sur celle du dessous */
+    /* si la sï¿½ection est sur l'opï¿½ation qu'on supprime, */
+    /* on met la sï¿½ection sur celle du dessous */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
@@ -2153,20 +2152,20 @@ void supprime_operation ( struct structure_operation *operation )
 	selectionne_ligne ( operation -> no_compte );
     }
 
-    /* supprime l'opération dans la liste des opés */
+    /* supprime l'opï¿½ation dans la liste des opï¿½ */
 
     LISTE_OPERATIONS = g_slist_remove ( LISTE_OPERATIONS,
 					operation );
     NB_OPE_COMPTE--;
 
-    /* on met à jour, immédiatement si on a la liste affichée */
+    /* on met ï¿½jour, immï¿½iatement si on a la liste affichï¿½ */
 
     MISE_A_JOUR = 1;
 
     if ( no_compte == compte_courant )
 	verification_mise_a_jour_liste ();
 
-    /* si on est en train d'équilibrer => recalcule le total pointé */
+    /* si on est en train d'ï¿½uilibrer => recalcule le total pointï¿½*/
 
     if ( etat.equilibrage )
     {
@@ -2211,13 +2210,13 @@ void supprime_operation ( struct structure_operation *operation )
 	}
     }
 
-    /* on réaffiche la liste de l'état des comptes de l'accueil */
+    /* on rï¿½ffiche la liste de l'ï¿½at des comptes de l'accueil */
 
     mise_a_jour_solde ( no_compte );
     update_liste_comptes_accueil ();
     mise_a_jour_soldes_minimaux ();
 
-    /* on réaffiche la liste des tiers */
+    /* on rï¿½ffiche la liste des tiers */
 
     mise_a_jour_tiers ();
     mise_a_jour_categ ();
@@ -2229,8 +2228,8 @@ void supprime_operation ( struct structure_operation *operation )
 
 /******************************************************************************/
 /* Fonction changement_taille_liste_ope					      */
-/* appelée dès que la taille de la clist a changé			      */
-/* pour mettre la taille des différentes colonnes			      */
+/* appelï¿½ dï¿½ que la taille de la clist a changï¿½		      */
+/* pour mettre la taille des diffï¿½entes colonnes			      */
 /******************************************************************************/
 void changement_taille_liste_ope ( GtkWidget *clist,
 				   GtkAllocation *allocation,
@@ -2245,10 +2244,10 @@ void changement_taille_liste_ope ( GtkWidget *clist,
     if ( window -> allocation.width < 700 )
 	return;
 
-    /*     pour éviter que le système ne s'emballe... */
-    /*     encore plus grosse magouille avec allocation_encore_avant pour éviter */
+    /*     pour ï¿½iter que le systï¿½e ne s'emballe... */
+    /*     encore plus grosse magouille avec allocation_encore_avant pour ï¿½iter */
     /* 	un joli effet glissant pendant l'affichage d'un bouton du formulaire */
-    /* 	c'est résolu dans l'instable de manière plus jolie !! */
+    /* 	c'est rï¿½olu dans l'instable de maniï¿½e plus jolie !! */
 
     if ( allocation -> width
 	 ==
@@ -2287,7 +2286,7 @@ void changement_taille_liste_ope ( GtkWidget *clist,
 					     taille_largeur_colonnes[i] );
     }
 
-    /* met les entrées du formulaire selon une taille proportionnelle */
+    /* met les entrï¿½s du formulaire selon une taille proportionnelle */
 
     col0 = largeur * 5 / 100;
     col1 = largeur * 12 / 100;
@@ -2297,7 +2296,7 @@ void changement_taille_liste_ope ( GtkWidget *clist,
     col5 = largeur * 12 / 100;
     col6 = largeur * 12 / 100;
 
-    /* 1ère ligne */
+    /* 1ï¿½e ligne */
 
     gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_OP_NB] ),
 			   col0,
@@ -2321,7 +2320,7 @@ void changement_taille_liste_ope ( GtkWidget *clist,
 			   col6,
 			   FALSE  );
 
-    /* 2ème ligne */
+    /* 2ï¿½e ligne */
 
     gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ),
 			   col0+col1,
@@ -2336,7 +2335,7 @@ void changement_taille_liste_ope ( GtkWidget *clist,
 			   col5,
 			   FALSE  );
 
-    /* 3ème ligne */
+    /* 3ï¿½e ligne */
 
     gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_EXERCICE] ),
 			   col0+col1,
@@ -2348,7 +2347,7 @@ void changement_taille_liste_ope ( GtkWidget *clist,
 			   col5,
 			   FALSE  );
 
-    /* 4ème ligne */
+    /* 4ï¿½e ligne */
 
     gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_BREAKDOWN] ),
 			   col0+col1,
@@ -2367,7 +2366,7 @@ void changement_taille_liste_ope ( GtkWidget *clist,
 
 /******************************************************************************/
 /* Fonction focus_a_la_liste */
-/* donne le focus à la liste des opés en cours */
+/* donne le focus ï¿½la liste des opï¿½ en cours */
 /******************************************************************************/
 void focus_a_la_liste ( void )
 {
@@ -2378,8 +2377,8 @@ void focus_a_la_liste ( void )
 
 /******************************************************************************/
 /* Fonction  demande_mise_a_jour_tous_comptes */
-/* met la variable MISE_A_JOUR de tous les comptes à 1 */
-/* ce qui fait que lorsqu'ils seront affichés, ils seront mis à jour avant */
+/* met la variable MISE_A_JOUR de tous les comptes ï¿½1 */
+/* ce qui fait que lorsqu'ils seront affichï¿½, ils seront mis ï¿½jour avant */
 /******************************************************************************/
 void demande_mise_a_jour_tous_comptes ( void )
 {
@@ -2403,8 +2402,8 @@ void demande_mise_a_jour_tous_comptes ( void )
 
 /******************************************************************************/
 /* Fonction verification_mise_a_jour_liste */
-/* appelée à chaque affichage de la liste */
-/* vérifie que la liste ne doit pas être réaffichée */
+/* appelï¿½ ï¿½chaque affichage de la liste */
+/* vï¿½ifie que la liste ne doit pas ï¿½re rï¿½ffichï¿½ */
 /******************************************************************************/
 void verification_mise_a_jour_liste ( void )
 {
@@ -2467,26 +2466,26 @@ void verification_mise_a_jour_liste ( void )
 
 /******************************************************************************/
 /* Fonction mise_a_jour_solde */
-/* recalcule le solde du compte demandé */
+/* recalcule le solde du compte demandï¿½*/
 /******************************************************************************/
 void mise_a_jour_solde ( gint compte )
 {
     gdouble solde_courant;
 
     /* ALAIN-FIXME : si on recalcule le solde courant, il n'y a pas de raison d'en faire autant
-       pour le solde pointé. C'est donc à vérifier */
+       pour le solde pointï¿½ C'est donc ï¿½vï¿½ifier */
     gdouble solde_pointe;
 
     GSList *liste_operations_tmp;
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
 
-    /* on fait le tour de toutes les opérations */
+    /* on fait le tour de toutes les opï¿½ations */
 
     solde_courant = SOLDE_INIT;
 
     /* ALAIN-FIXME : si on recalcule le solde courant, il n'y a pas de raison d'en faire autant
-       pour le solde pointé. C'est donc à vérifier */
+       pour le solde pointï¿½ C'est donc ï¿½vï¿½ifier */
     solde_pointe = SOLDE_INIT;
 
     liste_operations_tmp = LISTE_OPERATIONS;
@@ -2497,7 +2496,7 @@ void mise_a_jour_solde ( gint compte )
 
 	operation = liste_operations_tmp -> data;
 
-	/* si c'est une opé de ventilation, on la saute */
+	/* si c'est une opï¿½de ventilation, on la saute */
 
 	if ( !operation -> no_operation_ventilee_associee )
 	{
@@ -2514,10 +2513,10 @@ void mise_a_jour_solde ( gint compte )
 	    solde_courant = solde_courant + montant;
 
 	    /* ALAIN-FIXME : si on recalcule le solde courant, il n'y a pas de
-	       raison de ne pas en faire autant pour le solde pointé.
-	       C'est donc à vérifier */
-	    /* si l'opé est pointée ou relevée,
-	       on ajoute ce montant au solde pointé */
+	       raison de ne pas en faire autant pour le solde pointï¿½
+	       C'est donc ï¿½vï¿½ifier */
+	    /* si l'opï¿½est pointï¿½ ou relevï¿½,
+	       on ajoute ce montant au solde pointï¿½*/
 	    if ( operation -> pointe )
 		solde_pointe = solde_pointe + montant;
 	}
@@ -2527,15 +2526,15 @@ void mise_a_jour_solde ( gint compte )
     SOLDE_COURANT = solde_courant;
 
     /* ALAIN-FIXME : si on recalcule le solde courant, il n'y a pas de raison d'en faire autant
-       pour le solde pointé. C'est donc à vérifier */
+       pour le solde pointï¿½ C'est donc ï¿½vï¿½ifier */
     SOLDE_POINTE = solde_pointe;
 }
 /******************************************************************************/
 
 /******************************************************************************/
 /* Fonction verifie_ligne_selectionnee_visible */
-/* appelée lorsqu'on édite une opé et que le formulaire n'était pas visible, */
-/* pour éviter que la ligne éditée se retrouve hors du champ de vision */
+/* appelï¿½ lorsqu'on ï¿½ite une opï¿½et que le formulaire n'ï¿½ait pas visible, */
+/* pour ï¿½iter que la ligne ï¿½itï¿½ se retrouve hors du champ de vision */
 /******************************************************************************/
 void verifie_ligne_selectionnee_visible ( void )
 {
@@ -2821,6 +2820,7 @@ void move_selected_operation_to_account ( GtkMenuItem * menu_item )
 	mise_a_jour_tiers ();
 	mise_a_jour_categ ();
 	mise_a_jour_imputation ();
+	update_liste_comptes_accueil ();
 
 	modification_fichier ( TRUE );
     }
@@ -2879,8 +2879,8 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
     {
 	struct structure_operation * contra_transaction;
 
-	/* 	l'opération est un virement, si on veut la déplacer vers le compte */
-	/* 	    viré, on refuse */
+	/* 	l'opï¿½ation est un virement, si on veut la dï¿½lacer vers le compte */
+	/* 	    virï¿½ on refuse */
 
 	if ( transaction -> relation_no_compte == account )
 	{
@@ -3000,13 +3000,13 @@ schedule_transaction ( struct structure_operation * transaction )
     echeance -> categorie = transaction -> categorie;
     echeance -> sous_categorie = transaction -> sous_categorie;
 
-/*     pour 1 virement, categ et sous categ sont à 0, et compte_virement contient le no de compte */
-/* 	mais si categ et sous categ sont à 0 et que ce n'est pas un virement ni une ventil, compte_virement = -1 */
-/*     on va changer ça la prochaine version, dès que c'est pas un virement -> -1 */
+/*     pour 1 virement, categ et sous categ sont ï¿½0, et compte_virement contient le no de compte */
+/* 	mais si categ et sous categ sont ï¿½0 et que ce n'est pas un virement ni une ventil, compte_virement = -1 */
+/*     on va changer ï¿½ la prochaine version, dï¿½ que c'est pas un virement -> -1 */
 
     if ( transaction -> relation_no_operation )
     {
-	/* 	c'est un virement, on met la relation et on recherche le type de la contre opération */
+	/* 	c'est un virement, on met la relation et on recherche le type de la contre opï¿½ation */
 	
 	gpointer **save_ptab;
 	struct structure_operation *contre_operation;
@@ -3039,10 +3039,10 @@ schedule_transaction ( struct structure_operation * transaction )
 
     echeance -> operation_ventilee = transaction -> operation_ventilee;
 
-/*     par défaut, on met en manuel, pour éviter si l'utilisateur se gourre dans la date, */
-/*     (c'est le cas, à 0 avec calloc) */
-/*     que l'opé soit enregistrée immédiatement ; de même on le met en mensuel par défaut */
-/* 	pour la même raison */
+/*     par dï¿½aut, on met en manuel, pour ï¿½iter si l'utilisateur se gourre dans la date, */
+/*     (c'est le cas, ï¿½0 avec calloc) */
+/*     que l'opï¿½soit enregistrï¿½ immï¿½iatement ; de mï¿½e on le met en mensuel par dï¿½aut */
+/* 	pour la mï¿½e raison */
 
     echeance -> periodicite = 2;
     
@@ -3052,7 +3052,7 @@ schedule_transaction ( struct structure_operation * transaction )
 						echeance,
 						(GCompareFunc) comparaison_date_echeance );
 
-/*     on récupère les opés de ventil si c'était une opé ventilée */
+/*     on rï¿½upï¿½e les opï¿½ de ventil si c'ï¿½ait une opï¿½ventilï¿½ */
 
     if ( echeance -> operation_ventilee )
     {
@@ -3094,13 +3094,13 @@ schedule_transaction ( struct structure_operation * transaction )
 		echeance_de_ventil -> categorie = transaction_de_ventil -> categorie;
 		echeance_de_ventil -> sous_categorie = transaction_de_ventil -> sous_categorie;
 
-		/*     pour 1 virement, categ et sous categ sont à 0, et compte_virement contient le no de compte */
-		/* 	mais si categ et sous categ sont à 0 et que ce n'est pas un virement, compte_virement = -1 */
-		/*     on va changer ça la prochaine version, dès que c'est pas un virement -> -1 */
+		/*     pour 1 virement, categ et sous categ sont ï¿½0, et compte_virement contient le no de compte */
+		/* 	mais si categ et sous categ sont ï¿½0 et que ce n'est pas un virement, compte_virement = -1 */
+		/*     on va changer ï¿½ la prochaine version, dï¿½ que c'est pas un virement -> -1 */
 
 		if ( transaction_de_ventil -> relation_no_operation )
 		{
-		    /* 	c'est un virement, on met la relation et on recherche le type de la contre opération */
+		    /* 	c'est un virement, on met la relation et on recherche le type de la contre opï¿½ation */
 
 		    gpointer **save_ptab;
 		    struct structure_operation *contre_operation;
@@ -3131,10 +3131,10 @@ schedule_transaction ( struct structure_operation * transaction )
 
 		echeance_de_ventil-> no_operation_ventilee_associee = echeance -> no_operation;
 
-		/*     par défaut, on met en manuel, pour éviter si l'utilisateur se gourre dans la date, */
-		/*     (c'est le cas, à 0 avec calloc) */
-		/*     que l'opé soit enregistrée immédiatement ; de même on le met en mensuel par défaut */
-		/* 	pour la même raison */
+		/*     par dï¿½aut, on met en manuel, pour ï¿½iter si l'utilisateur se gourre dans la date, */
+		/*     (c'est le cas, ï¿½0 avec calloc) */
+		/*     que l'opï¿½soit enregistrï¿½ immï¿½iatement ; de mï¿½e on le met en mensuel par dï¿½aut */
+		/* 	pour la mï¿½e raison */
 
 		echeance_de_ventil -> periodicite = 2;
 
