@@ -1231,9 +1231,9 @@ void fill_reconciliation_tree ()
 
     do
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( pUserAccountsList -> data );
-
 	GSList * liste_tmp;
+
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( pUserAccountsList -> data );
 
 	gtk_tree_store_append (reconcile_model, &account_iter, NULL);
 	gtk_tree_store_set (reconcile_model, &account_iter,
