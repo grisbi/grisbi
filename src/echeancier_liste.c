@@ -31,6 +31,7 @@
 
 
 #include "accueil.h"
+#include "dialog.h"
 #include "barre_outils.h"
 #include "devises.h"
 #include "echeancier_formulaire.h"
@@ -1365,56 +1366,31 @@ void supprime_echeance ( struct operation_echeance *echeance )
     if ( echeance -> periodicite )
     {
 	GtkWidget *dialog;
-	GtkWidget *label;
+	gchar * occurences = "";
 
+	occurences = g_strdup_printf ( "%02d/%02d/%d : %s [%4.2f]",
+				       echeance -> jour,
+				       echeance -> mois,
+				       echeance -> annee,
+				       ( echeance -> tiers ? (((struct struct_tiers *)(g_slist_find_custom ( liste_struct_tiers,
+											GINT_TO_POINTER ( echeance -> tiers ),
+											(GCompareFunc ) recherche_tiers_par_no )->data )) -> nom_tiers) : _("No third party")),
+				       echeance -> montant );
 
-	dialog = gtk_dialog_new_with_buttons ( _("Delete a scheduled transaction maturity"),
-					       GTK_WINDOW (window),
-					       GTK_DIALOG_MODAL,
-					       _("Only this one"),0,
-					       _("All the occurences"),1,
-					       GTK_STOCK_CANCEL,2,
-					       NULL );
+	dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION,
+					   GTK_BUTTONS_NONE,
+					   make_hint ( _("Delete a scheduled transaction"),
+						       g_strconcat ( _("Do you want to delete just this occurrence or the whole scheduled transaction?"),
+								     occurences, NULL )));
+	gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
+				 GTK_STOCK_CANCEL, 2,
+				 _("All the occurences"), 1,
+				 _("Only this one"), 0,
+				 NULL );
 
-	label = gtk_label_new ( SPACIFY(_("Do you want to delete just this occurrence or the whole scheduled transaction?")) );
-	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			     label,
-			     FALSE,
-			     FALSE,
-			     0 );
-	gtk_widget_show ( label );
-
-	if ( echeance -> tiers )
-	    label = gtk_label_new ( g_strdup_printf ( "%02d/%02d/%d : %s [%4.2f]",
-						      echeance -> jour,
-						      echeance -> mois,
-						      echeance -> annee,
-						      ((struct struct_tiers *)(g_slist_find_custom ( liste_struct_tiers,
-												     GINT_TO_POINTER ( echeance -> tiers ),
-												     (GCompareFunc ) recherche_tiers_par_no )->data )) -> nom_tiers,
-						      echeance -> montant ));
-	else
-	    label = gtk_label_new ( g_strdup_printf ( _("%02d/%02d/%d : [No third party] [%4.2f]"),
-						      echeance -> jour,
-						      echeance -> mois,
-						      echeance -> annee,
-						      echeance -> montant ));
-
-
-
-	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			     label,
-			     FALSE,
-			     FALSE,
-			     0 );
-	gtk_widget_show ( label );
-
-
-
-	gtk_box_set_homogeneous ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-				  TRUE );
-	gtk_dialog_set_default_response ( GTK_DIALOG ( dialog ),
-					  2 );
+/* 	gtk_box_set_homogeneous ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), */
+/* 				  TRUE ); */
+	gtk_dialog_set_default_response ( GTK_DIALOG ( dialog ), 2 );
 
 	resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 	gtk_widget_destroy ( dialog );
@@ -1899,6 +1875,28 @@ void verification_echeances_a_terme ( void )
 		struct structure_operation *operation;
 		gint virement;
 		GSList *pointeur_liste_ventil;
+
+		/* We check if one of the subtransactions of the breakdown of
+		   transaction is a transfer on itself. */
+
+		pointeur_liste_ventil = creation_liste_ope_de_ventil_echeances (ECHEANCE_COURANTE);
+		while ( pointeur_liste_ventil &&
+			pointeur_liste_ventil != GINT_TO_POINTER ( -1 ))
+		  {
+		    struct struct_ope_ventil *ope_ventil;
+
+		    ope_ventil = pointeur_liste_ventil -> data;
+
+		    if ( ope_ventil -> relation_no_compte != -1 &&
+			 ope_ventil -> relation_no_compte == ECHEANCE_COURANTE -> compte )
+		      {
+			dialogue_error_hint ( _("This breakdown of transaction contains a transfer on itself.  Either change the sub transaction to transfer on another account or change account of the transaction itself."),
+					      _("Can't issue scheduled operation"));
+			return;
+		      }
+
+		    pointeur_liste_ventil = pointeur_liste_ventil -> next;
+		  }
 
 
 		/* crée l'opération */
