@@ -252,15 +252,12 @@ gboolean affichage_recapitulatif_importation ( void )
     {
 	/* la boite n'a pas encore été créé, on le fait */
 
-	dialog_recapitulatif = gtk_dialog_new_with_buttons ( _("Recap of the accounts to import :" ),
+	dialog_recapitulatif = gtk_dialog_new_with_buttons ( _("Actions on imported accounts:" ),
 							     GTK_WINDOW ( window ),
 							     GTK_DIALOG_MODAL,
-							     GTK_STOCK_OK,
-							     GTK_RESPONSE_OK,
-							     GTK_STOCK_ADD,
-							     1,
-							     GTK_STOCK_CANCEL,
-							     GTK_RESPONSE_CANCEL,
+							     _("Add more accounts"), 1,
+							     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+							     GTK_STOCK_OK, GTK_RESPONSE_OK,
 							     NULL );
 	gtk_window_set_transient_for ( GTK_WINDOW ( dialog_recapitulatif ),
 				       GTK_WINDOW ( window ) );
@@ -305,8 +302,9 @@ gboolean affichage_recapitulatif_importation ( void )
 					      FALSE );
 	gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 						table_recapitulatif );
-	gtk_container_set_border_width ( GTK_CONTAINER ( table_recapitulatif ),
-					 10 );
+	gtk_container_set_border_width ( GTK_CONTAINER ( table_recapitulatif ), 10 );
+	gtk_table_set_col_spacings ( GTK_TABLE(table_recapitulatif), 6 );
+	gtk_table_set_row_spacings ( GTK_TABLE(table_recapitulatif), 6 );
 	gtk_widget_show ( table_recapitulatif );
 
 	/* on met les titres des colonnes */
@@ -550,9 +548,10 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 	    /* 		soit elle n'est pas créé (l'utilisateur la créera une fois la fenetre affichée) */
 	    /* 		soit elle est créé mais pas avec le bon code */
 
-	    dialogue_warning ( g_strdup_printf ( _( "The currency of the imported account %s is %s.\nEither that currency still doesn't exist and you can create it in the next window,\neither that currency exists already but the ISO code is incorrect.\nTo avoid that message next time and make a detection of the currency, please change the ISO code in the configuration."),
-						 compte -> nom_de_compte,
-						 compte -> devise ));
+	  dialogue_warning_hint ( g_strdup_printf ( _( "Currency of imported account '%s' is %s.  Either this currency doesn't exist so you have to create it in dialog window, or this currency already exists but the ISO code is wrong.\nTo avoid this message, please set its ISO code in configuration."),
+						    compte -> nom_de_compte,
+						    compte -> devise ),
+				  g_strdup_printf ( _("Can't associate ISO 4217 code for currency '%s'."),  compte -> devise ));
 
 	}
     }
@@ -2506,7 +2505,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 	dialog = gtk_dialog_new_with_buttons ( _("Orphaned transactions"),
 					       GTK_WINDOW ( window ),
 					       GTK_DIALOG_DESTROY_WITH_PARENT,
-					       GTK_STOCK_ADD, 1,
+					       GTK_STOCK_APPLY, 1,
 					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					       GTK_STOCK_OK, GTK_RESPONSE_OK,
 					       NULL );
