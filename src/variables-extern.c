@@ -762,6 +762,7 @@ extern GtkWidget *bouton_utilise_montant;
 extern GtkWidget *vbox_generale_montants_etat;
 extern GtkWidget *liste_montants_etat;
 extern GtkWidget *bouton_devise_montant_etat;
+extern GtkWidget *bouton_exclure_ope_nulles_etat;
 
 extern gint ancienne_ib_etat;
 extern gint ancienne_sous_ib_etat;

@@ -3807,6 +3807,10 @@ des paramètres.") );
 
 
 			  if ( !strcmp ( node_detail_etat -> name,
+					 "Excl_nul" ))
+			    etat -> exclure_montants_nuls = atoi ( xmlNodeGetContent ( node_detail_etat ));
+
+			  if ( !strcmp ( node_detail_etat -> name,
 					 "Detail_mod_paie" ))
 			    etat -> utilise_mode_paiement = atoi ( xmlNodeGetContent ( node_detail_etat ));
 
@@ -5816,6 +5820,7 @@ gboolean enregistre_fichier ( void )
 		    NULL,
 		   "Montant",
 		   itoa ( etat -> utilise_montant ));
+
       xmlNewTextChild ( node_etat,
 		    NULL,
 		   "Montant_devise",
@@ -5862,6 +5867,11 @@ gboolean enregistre_fichier ( void )
 					 montants_comp -> montant_2 ));
 	  pointeur_liste = pointeur_liste -> next;
 	}
+
+      xmlNewTextChild ( node_etat,
+		    NULL,
+		   "Excl_nul",
+		   itoa ( etat -> exclure_montants_nuls ));
 
       xmlNewTextChild ( node_etat,
 			NULL,

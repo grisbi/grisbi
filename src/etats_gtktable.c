@@ -1826,7 +1826,7 @@ gint gtktable_affiche_total_periode ( struct structure_operation *operation,
 	  g_date_add_days ( date_tmp,
 			    6 );
 	  if ( etat_courant -> afficher_nb_opes )
-	    message = g_strdup_printf ( _( "Résultat du %d/%d/%d au %d/%d/%d (%d opérations):" ),
+	    message = g_strdup_printf ( _( "Résultat du %d/%d/%d au %d/%d/%d (%d opérations) :" ),
 					g_date_day ( date_debut_periode ),
 					g_date_month ( date_debut_periode ),
 					g_date_year ( date_debut_periode ),
@@ -1861,10 +1861,10 @@ gint gtktable_affiche_total_periode ( struct structure_operation *operation,
 	  if ( etat_courant -> afficher_nb_opes )
 	    message = g_strconcat ( _( "Résultat de " ),
 				    buffer,
-				    "(",
+				    " (",
 				    itoa ( nb_ope_periode_etat ),
 				    _( " opérations" ),
-				    " : ",
+				    ") : ",
 				    NULL );
 	  else
 	    message = g_strconcat ( _( "Résultat de " ),
@@ -1890,10 +1890,10 @@ gint gtktable_affiche_total_periode ( struct structure_operation *operation,
 	  if ( etat_courant -> afficher_nb_opes )
 	    message = g_strconcat ( _( "Résultat de l'année" ),
 				    buffer,
-				    "(",
+				    " (",
 				    itoa ( nb_ope_periode_etat ),
 				    _( " opérations" ),
-				    " : ",
+				    ") : ",
 				    NULL );
 	  else
 	    message = g_strconcat ( _( "Résultat de l'année" ),

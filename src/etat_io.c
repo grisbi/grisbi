@@ -671,6 +671,10 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 		}
 
 	      if ( !strcmp ( node_detail_etat -> name,
+			     "Excl_nul" ))
+		etat -> exclure_montants_nuls = atoi ( xmlNodeGetContent ( node_detail_etat ));
+
+	      if ( !strcmp ( node_detail_etat -> name,
 			     "Detail_mod_paie" ))
 		etat -> utilise_mode_paiement = atoi ( xmlNodeGetContent ( node_detail_etat ));
 
@@ -1661,6 +1665,7 @@ gboolean enregistre_etat ( gchar *nom_etat )
 		    NULL,
 	       "Montant",
 	       itoa ( etat_courant -> utilise_montant ));
+
   xmlNewTextChild ( node,
 		    NULL,
 		    "Montant_devise",
@@ -1708,6 +1713,11 @@ gboolean enregistre_etat ( gchar *nom_etat )
 				     montants_comp -> montant_2 ));
       pointeur_liste = pointeur_liste -> next;
     }
+
+  xmlNewTextChild ( node,
+		    NULL,
+	       "Excl_nul",
+	       itoa ( etat_courant -> exclure_montants_nuls ));
 
   xmlNewTextChild ( node,
 		    NULL,

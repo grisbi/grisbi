@@ -480,6 +480,7 @@ struct struct_etat
   gint utilise_montant;
   gint choix_devise_montant;
   GSList *liste_struct_comparaison_montants;
+  gint exclure_montants_nuls;
 
   gint utilise_mode_paiement;
   GSList *noms_modes_paiement;
@@ -489,7 +490,7 @@ struct struct_etat
 struct struct_comparaison_montants_etat
 {
   gint lien_struct_precedente;    /* -1=1ère comparaison, 0=et, 1=ou, 2=sauf */
-  gint comparateur_1;            /* 0= =, 1= <, 2= <=, 3= >, 4= >=, 5= != */
+  gint comparateur_1;            /* 0= =, 1= <, 2= <=, 3= >, 4= >=, 5= !=, 6= =0, 7= !=0, 8= >0, 9= <0 */
   gdouble montant_1;
   gint lien_1_2;                   /* 0=et, 1=ou, 2=sauf, 3=aucun */
   gint comparateur_2;            /* 0= =, 1= <, 2= <=, 3= >, 4= >=, 5= != */

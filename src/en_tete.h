@@ -955,7 +955,10 @@ void remplit_liste_comparaisons_montants_etat ( void );
 void ajoute_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_montants_etat *ancien_comp_montants );
 GtkWidget *cree_ligne_comparaison_montant ( struct struct_comparaison_montants_etat *comp_montants );
 GtkWidget *cree_bouton_lien_lignes_comparaison ( void );
-GtkWidget *cree_bouton_comparateur ( void );
+GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_etat *comp_montants );
+void change_comparaison_montant ( GtkWidget *menu_item,
+				  struct struct_comparaison_montants_etat *comp_montants );
+GtkWidget *cree_bouton_comparateur_texte ( void );
 GtkWidget *cree_bouton_lien ( GtkWidget *hbox );
 void sensitive_widget ( GtkWidget *widget );
 void desensitive_widget ( GtkWidget *widget );

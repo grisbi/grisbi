@@ -313,6 +313,14 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		}
 
 
+	      /*    vérification du montant nul */
+
+	      if ( etat -> exclure_montants_nuls
+		   &&
+		   fabs ( operation -> montant ) < 0.01 )
+		goto operation_refusee;
+
+
 	      /* vérification des montants */
 
 	      if ( etat -> utilise_montant )
@@ -1209,6 +1217,35 @@ gint compare_montants_etat ( gdouble montant_ope,
       if ( montant_ope_int != montant_test_int )
 	retour = 1;
       break;
+
+    case 6:
+      /* nul  */
+
+      if ( !montant_ope_int )
+	retour = 1;
+      break;
+
+    case 7:
+      /* non nul  */
+
+      if ( montant_ope_int )
+	retour = 1;
+      break;
+
+    case 8:
+      /* positif  */
+
+      if ( montant_ope_int > 0 )
+	retour = 1;
+      break;
+
+    case 9:
+      /* négatif  */
+
+      if ( montant_ope_int < 0 )
+	retour = 1;
+      break;
+
     }
 
   return ( retour );

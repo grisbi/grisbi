@@ -689,6 +689,8 @@ void personnalisation_etat (void)
 			      vbox_generale_montants_etat );
   remplit_liste_comparaisons_montants_etat ();
 
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_nulles_etat ),
+				 etat_courant -> exclure_montants_nuls );
 
   /* onglet modes de paiement */
 
@@ -1486,6 +1488,7 @@ void recuperation_info_perso_etat ( void )
 	}
     }
 
+  etat_courant -> exclure_montants_nuls = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_nulles_etat ));
 
   /* récupération des modes de paiement */
 
@@ -1626,7 +1629,9 @@ void stylise_tab_label_etat ( gint *no_page )
     case 7:
       /* page des montants */
 
-      if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_montant )))
+      if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_montant ))
+	   ||
+	   gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_nulles_etat )))
 	style = style_label;
       break;
 
@@ -4133,7 +4138,7 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
 		       0 );
   gtk_widget_show ( label );
 
-  comp_textes -> bouton_comparateur_1 = cree_bouton_comparateur ();
+  comp_textes -> bouton_comparateur_1 = cree_bouton_comparateur_texte ();
   gtk_box_pack_start ( GTK_BOX ( comp_textes -> hbox_chq ),
 		       comp_textes -> bouton_comparateur_1,
 		       FALSE,
@@ -4186,7 +4191,7 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
 
   /* on peut maintenant ajouter dans comp_montants -> hbox_partie_2 */
 
-  comp_textes -> bouton_comparateur_2 = cree_bouton_comparateur ();
+  comp_textes -> bouton_comparateur_2 = cree_bouton_comparateur_texte ();
   gtk_box_pack_start ( GTK_BOX ( comp_textes -> hbox_partie_2 ),
 		       comp_textes -> bouton_comparateur_2,
 		       FALSE,
@@ -4771,6 +4776,20 @@ GtkWidget *onglet_etat_montant ( void )
   gtk_widget_show ( liste_montants_etat );
 
 
+  /* on rajoute le bouton exclure les opé dont le montant est nul */
+
+  bouton_exclure_ope_nulles_etat = gtk_check_button_new_with_label ( _("Exclure les opérations dont le montant est nul") );
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton_exclure_ope_nulles_etat ),
+		       "toggled",
+		       GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
+		       GINT_TO_POINTER ( 7 ));
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
+		       bouton_exclure_ope_nulles_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_exclure_ope_nulles_etat );
+
 
   return ( widget_retour );
 }
@@ -4848,6 +4867,19 @@ void remplit_liste_comparaisons_montants_etat ( void )
       gtk_entry_set_text ( GTK_ENTRY ( comp_montants -> entree_montant_2 ),
 			   g_strdup_printf ( "%4.2f",
 					     comp_montants -> montant_2 ));
+
+      /* on sensitive/désensitive les entrées si nécessaire */
+
+      if ( comp_montants -> comparateur_1 > 5 )
+	desensitive_widget ( comp_montants -> entree_montant_1 );
+      else
+	sensitive_widget ( comp_montants -> entree_montant_1 );
+	
+      if ( comp_montants -> comparateur_2 > 5 )
+	desensitive_widget ( comp_montants -> entree_montant_2 );
+      else
+	sensitive_widget ( comp_montants -> entree_montant_2 );
+	
 
       /* on sensitive/désensitive la hbox_2 si nécessaire */
 
@@ -4962,7 +4994,7 @@ GtkWidget *cree_ligne_comparaison_montant ( struct struct_comparaison_montants_e
 		       0 );
   gtk_widget_show ( label );
 
-  comp_montants -> bouton_comparateur_1 = cree_bouton_comparateur ();
+  comp_montants -> bouton_comparateur_1 = cree_bouton_comparateur_montant ( comp_montants );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       comp_montants -> bouton_comparateur_1,
 		       FALSE,
@@ -5015,7 +5047,7 @@ GtkWidget *cree_ligne_comparaison_montant ( struct struct_comparaison_montants_e
 
   /* on peut maintenant ajouter dans comp_montants -> hbox_partie_2 */
 
-  comp_montants -> bouton_comparateur_2 = cree_bouton_comparateur ();
+  comp_montants -> bouton_comparateur_2 = cree_bouton_comparateur_montant ( comp_montants );
   gtk_box_pack_start ( GTK_BOX ( comp_montants -> hbox_partie_2 ),
 		       comp_montants -> bouton_comparateur_2,
 		       FALSE,
@@ -5127,10 +5159,193 @@ GtkWidget *cree_bouton_lien_lignes_comparaison ( void )
 
 
 /*****************************************************************************************************/
+/* cette fonction crée un option_menu avec =,<,<=,>,>=, nul, non nul, positif, nég */
+/*****************************************************************************************************/
+
+GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_etat *comp_montants )
+{
+  GtkWidget *bouton;
+  GtkWidget *menu;
+  GtkWidget *menu_item;
+
+  bouton = gtk_option_menu_new ();
+  gtk_widget_show ( bouton );
+
+  menu = gtk_menu_new ();
+
+  menu_item = gtk_menu_item_new_with_label ( _("égal"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_comparateur",
+			GINT_TO_POINTER ( 0 ));
+  gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+		       "activate",
+		       GTK_SIGNAL_FUNC ( change_comparaison_montant ),
+		       comp_montants );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("inférieur"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_comparateur",
+			GINT_TO_POINTER ( 1 ));
+  gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+		       "activate",
+		       GTK_SIGNAL_FUNC ( change_comparaison_montant ),
+		       comp_montants );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("inférieur ou égal"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_comparateur",
+			GINT_TO_POINTER ( 2 ));
+  gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+		       "activate",
+		       GTK_SIGNAL_FUNC ( change_comparaison_montant ),
+		       comp_montants );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("supérieur"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_comparateur",
+			GINT_TO_POINTER ( 3 ));
+  gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+		       "activate",
+		       GTK_SIGNAL_FUNC ( change_comparaison_montant ),
+		       comp_montants );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("supérieur ou égal"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_comparateur",
+			GINT_TO_POINTER ( 4 ));
+  gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+		       "activate",
+		       GTK_SIGNAL_FUNC ( change_comparaison_montant ),
+		       comp_montants );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("différent de"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_comparateur",
+			GINT_TO_POINTER ( 5 ));
+  gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+		       "activate",
+		       GTK_SIGNAL_FUNC ( change_comparaison_montant ),
+		       comp_montants );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("nul"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_comparateur",
+			GINT_TO_POINTER ( 6 ));
+  gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+		       "activate",
+		       GTK_SIGNAL_FUNC ( change_comparaison_montant ),
+		       comp_montants );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("non nul"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_comparateur",
+			GINT_TO_POINTER ( 7 ));
+  gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+		       "activate",
+		       GTK_SIGNAL_FUNC ( change_comparaison_montant ),
+		       comp_montants );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("positif"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_comparateur",
+			GINT_TO_POINTER ( 8 ));
+  gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+		       "activate",
+		       GTK_SIGNAL_FUNC ( change_comparaison_montant ),
+		       comp_montants );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("négatif"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_comparateur",
+			GINT_TO_POINTER ( 9 ));
+  gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+		       "activate",
+		       GTK_SIGNAL_FUNC ( change_comparaison_montant ),
+		       comp_montants );
+  gtk_widget_show ( menu_item );
+
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton ),
+			     menu );
+  gtk_widget_show ( menu );
+
+  return ( bouton );
+}
+/*****************************************************************************************************/
+
+
+/*****************************************************************************************************/
+/* cette fonction rend sensitive ou non l'entrée après le label après l'option menu du menu_item en argument */
+/* donc si on choisit nul, non nul, pos ou nég, on grise l'entrée */
+/*****************************************************************************************************/
+
+void change_comparaison_montant ( GtkWidget *menu_item,
+				  struct struct_comparaison_montants_etat *comp_montants )
+{
+  gint sensitif;
+
+
+  switch ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( menu_item ),
+						   "no_comparateur" )))
+    {
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+
+      sensitif = 0;
+      break;
+
+    default:
+
+      sensitif = 1;
+    }
+
+  if ( gtk_menu_get_attach_widget ( GTK_MENU ( menu_item -> parent )) == comp_montants -> bouton_comparateur_1 )
+    gtk_widget_set_sensitive ( comp_montants -> entree_montant_1,
+			       sensitif );
+  else
+    gtk_widget_set_sensitive ( comp_montants -> entree_montant_2,
+			       sensitif );
+
+}
+/*****************************************************************************************************/
+
+
+
+/*****************************************************************************************************/
 /* cette fonction crée un option_menu avec =,<,<=,>,>= */
 /*****************************************************************************************************/
 
-GtkWidget *cree_bouton_comparateur ( void )
+GtkWidget *cree_bouton_comparateur_texte ( void )
 {
   GtkWidget *bouton;
   GtkWidget *menu;
@@ -5188,6 +5403,7 @@ GtkWidget *cree_bouton_comparateur ( void )
 			"no_comparateur",
 			GINT_TO_POINTER ( 5 ));
   gtk_widget_show ( menu_item );
+
 
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton ),
 			     menu );

@@ -728,6 +728,7 @@ GtkWidget *bouton_utilise_montant;
 GtkWidget *vbox_generale_montants_etat;
 GtkWidget *liste_montants_etat;
 GtkWidget *bouton_devise_montant_etat;
+GtkWidget *bouton_exclure_ope_nulles_etat;
 
 gint ancienne_ib_etat;
 gint ancienne_sous_ib_etat;
