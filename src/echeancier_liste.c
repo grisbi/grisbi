@@ -4,6 +4,7 @@
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
 /*			2004 Alain Portal (dionysos@grisbi.org) 	      */
+/*			2004 Benjamin Drieu (bdrieu@april.org)  	      */
 /* 			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -883,7 +884,6 @@ struct operation_echeance *cherche_echeance_from_ligne ( gint ligne )
 			 -1 );
 
     return ( echeance );
-
 }
 /******************************************************************************/
 
@@ -1870,7 +1870,7 @@ void verification_echeances_a_terme ( void )
 /* Fonction appelée lorsqu'on change le bouton pour l'affichage des	     */
 /* échéances ( choix mois, 2 mois ... )					     */
 /*****************************************************************************/
-gboolean modification_affichage_echeances ( gint *origine )
+gboolean modification_affichage_echeances ( gint *origine, GtkWidget * widget )
 {
     switch ( GPOINTER_TO_INT ( origine ))
     {
@@ -1886,8 +1886,8 @@ gboolean modification_affichage_echeances ( gint *origine )
 
 	case 6:
 
-	    affichage_echeances_perso_j_m_a = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_personnalisation_affichage_echeances ) -> menu_item ),
-										      "intervalle_perso" ));
+	    affichage_echeances_perso_j_m_a = GPOINTER_TO_INT 
+		( gtk_object_get_data ( GTK_OBJECT ( widget ), "intervalle_perso" ));
 	    break;
 
 	    /*       vient du reste, si c'est perso ( 4 ) , on affiche ce qu'il faut */

@@ -4,7 +4,7 @@ void affiche_cache_commentaire_echeancier( void );
 void click_sur_saisir_echeance ( void );
 GtkWidget *creation_liste_echeances ( void );
 void edition_echeance ( void );
-gboolean modification_affichage_echeances ( gint *origine );
+gboolean modification_affichage_echeances ( gint *origine, GtkWidget * widget );
 void remplissage_liste_echeance ( void );
 void selectionne_echeance ( struct operation_echeance *echeance );
 void supprime_echeance ( struct operation_echeance *echeance );

@@ -5,6 +5,7 @@
 /*                                                                            */
 /*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2004 Alain Portal (dionysos@grisbi.org) 	      */
+/*			2004 Benjamin Drieu (bdrieu@april.org)  	      */
 /* 			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -219,7 +220,7 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
     gtk_widget_show ( hbox );
 
     /* met un bouton valider qui est juste utilisÃ© pour faire sortir le focus de l'entrÃ©e */
-
+    /* Pas de handler associÃ© car il suffit juste de faire perdre le focus */
     bouton_valider_echeance_perso = gtk_button_new_with_label ( _("Show"));
     gtk_button_set_relief ( GTK_BUTTON ( bouton_valider_echeance_perso ),
 			    GTK_RELIEF_NONE );
@@ -239,6 +240,10 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
     gtk_object_set_data ( GTK_OBJECT ( item ),
 			  "intervalle_perso",
 			  GINT_TO_POINTER ( 0 ));
+    gtk_signal_connect_object ( GTK_OBJECT ( item ),
+				"activate",
+				G_CALLBACK ( modification_affichage_echeances ),
+				GINT_TO_POINTER ( 6 ) );
     gtk_menu_append ( GTK_MENU ( menu ),
 		      item );
     gtk_widget_show ( item );
@@ -247,6 +252,10 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
     gtk_object_set_data ( GTK_OBJECT ( item ),
 			  "intervalle_perso",
 			  GINT_TO_POINTER ( 1 ));
+    gtk_signal_connect_object ( GTK_OBJECT ( item ),
+				"activate",
+				G_CALLBACK ( modification_affichage_echeances ),
+				GINT_TO_POINTER ( 6 ) );
     gtk_menu_append ( GTK_MENU ( menu ),
 		      item );
     gtk_widget_show ( item );
@@ -255,16 +264,16 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
     gtk_object_set_data ( GTK_OBJECT ( item ),
 			  "intervalle_perso",
 			  GINT_TO_POINTER ( 2 ));
+    gtk_signal_connect_object ( GTK_OBJECT ( item ),
+				"activate",
+				G_CALLBACK ( modification_affichage_echeances ),
+				GINT_TO_POINTER ( 6 ) );
     gtk_menu_append ( GTK_MENU ( menu ),
 		      item );
     gtk_widget_show ( item );
 
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_personnalisation_affichage_echeances ),
 			       menu );
-    gtk_signal_connect_object ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_personnalisation_affichage_echeances ) -> menu ),
-				"selection-done",
-				GTK_SIGNAL_FUNC ( modification_affichage_echeances ),
-				GINT_TO_POINTER ( 6 ) );
     gtk_box_pack_end ( GTK_BOX ( hbox ),
 		       bouton_personnalisation_affichage_echeances,
 		       FALSE,
