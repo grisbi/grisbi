@@ -798,7 +798,7 @@ void inclut_exclut_les_neutres ( void );
 void remplit_liste_tri_par_type ( gint no_compte );
 void selection_type_liste_tri ( void );
 void deselection_type_liste_tri ( void );
-void deplacement_type_tri_haut ( void );
+void deplacement_type_tri_haut ( GtkWidget * button, gpointer data );
 void deplacement_type_tri_bas ( void );
 void save_ordre_liste_type_tri ( void );
 GtkWidget *creation_menu_types ( gint demande,

@@ -27,6 +27,18 @@
 #include "en_tete.h"
 
 
+enum reconciliation_columsn {
+  RECONCILIATION_NAME_COLUMN = 0,
+  RECONCILIATION_VISIBLE_COLUMN,
+  RECONCILIATION_SORT_COLUMN,
+  RECONCILIATION_SPLIT_NEUTRAL_COLUMN,
+  NUM_RECONCILIATION_COLUMNS,
+};
+
+
+GtkWidget * treeview;
+GtkTreeStore *model;
+GtkWidget * button_move_up, * button_move_down;
 
 
 /* ********************************************************************************************************** */
@@ -36,7 +48,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
   GtkWidget *label;
   GtkWidget *table;
   GtkWidget *hbox;
-  GtkWidget *bouton;  
+  GtkWidget *bouton;
   GtkWidget *separateur;
   GtkTooltips *tips;
 
@@ -96,8 +108,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 
   entree_no_rapprochement = gtk_entry_new ();
   gtk_widget_set_usize ( entree_no_rapprochement,
-			 50,
-			 FALSE );
+			 50, FALSE );
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
 			 entree_no_rapprochement,
 			 _("If reconciliation reference ends in a digit, it is automatically incremented at each reconciliation."),
@@ -189,8 +200,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 
   entree_ancien_solde_equilibrage = gtk_entry_new ( );
   gtk_widget_set_usize ( entree_ancien_solde_equilibrage,
-			 50,
-			 FALSE );
+			 50, FALSE );
   gtk_signal_connect ( GTK_OBJECT ( entree_ancien_solde_equilibrage ),
 		       "changed",
 		       GTK_SIGNAL_FUNC ( modif_entree_solde_init_equilibrage ),
@@ -205,8 +215,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 
   entree_nouvelle_date_equilibrage = gtk_entry_new ();
   gtk_widget_set_usize ( entree_nouvelle_date_equilibrage,
-			 50,
-			 FALSE );
+			 50, FALSE );
   gtk_signal_connect_after ( GTK_OBJECT ( entree_nouvelle_date_equilibrage ),
 		       "focus-out-event",
 		       GTK_SIGNAL_FUNC ( sortie_entree_date_equilibrage ),
@@ -220,8 +229,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 
   entree_nouveau_montant_equilibrage = gtk_entry_new ();
   gtk_widget_set_usize ( entree_nouveau_montant_equilibrage,
-			 50,
-			 FALSE );
+			 50, FALSE );
   gtk_signal_connect ( GTK_OBJECT ( entree_nouveau_montant_equilibrage ),
 		       "changed",
 		       GTK_SIGNAL_FUNC ( modif_entree_solde_final_equilibrage ),
@@ -535,7 +543,7 @@ void equilibrage ( void )
 			      g_date_year ( DATE_DERNIER_RELEVE ));
 
       gtk_label_set_text ( GTK_LABEL ( label_ancienne_date_equilibrage ),
-			   g_strdup_printf ( "%02d/%02d/%d", 
+			   g_strdup_printf ( "%02d/%02d/%d",
 					     g_date_day ( date ),
 					     g_date_month ( date ),
 					     g_date_year ( date ) ));
@@ -568,7 +576,7 @@ void equilibrage ( void )
 
 
   gtk_entry_set_text ( GTK_ENTRY ( entree_nouvelle_date_equilibrage ),
-		       g_strdup_printf ( "%02d/%02d/%d", 
+		       g_strdup_printf ( "%02d/%02d/%d",
 					 g_date_day ( date ),
 					 g_date_month ( date ),
 					 g_date_year ( date ) ));
@@ -676,7 +684,7 @@ void sortie_entree_date_equilibrage ( void )
 
 
   gtk_entry_set_text ( GTK_ENTRY ( entree_nouvelle_date_equilibrage ),
-		       g_strdup_printf ( "%02d/%02d/%d", 
+		       g_strdup_printf ( "%02d/%02d/%d",
 					 date_releve_jour,
 					 date_releve_mois,
 					 date_releve_annee ) );
@@ -872,12 +880,13 @@ void pointe_equilibrage ( int p_ligne )
     }
 
     
-  /* si c'est une opé ventilée, on recherche les opé filles pour leur mettre le même pointage que la mère */
+  /* si c'est une opé ventilée, on recherche les opé filles pour leur
+     mettre le même pointage que la mère */
 
   if ( operation -> operation_ventilee )
     {
       /* p_tab est déjà pointé sur le compte courant */
-
+      
       GSList *liste_tmp;
 
       liste_tmp = LISTE_OPERATIONS;
@@ -1181,185 +1190,294 @@ void calcule_total_pointe_compte ( gint no_compte )
 		       g_strdup_printf ( "%4.2f", 
 					 operations_pointees ));
 }
-/* ********************************************************************************************************** */
+
+
+
+/** 
+ * TODO: document this + move
+ */
+void fill_reconciliation_tree ()
+{
+  GtkTreeIter account_iter, payment_method_iter;
+  gint i;
+
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+  
+  for ( i=0 ; i<nb_comptes ; i++ )
+    {
+      GSList * liste_tmp;
+
+      gtk_tree_store_append (model, &account_iter, NULL);
+      gtk_tree_store_set (model, &account_iter,
+			  RECONCILIATION_NAME_COLUMN, NOM_DU_COMPTE,
+			  RECONCILIATION_VISIBLE_COLUMN, TRUE,
+			  RECONCILIATION_SORT_COLUMN, ! TRI,
+			  RECONCILIATION_SPLIT_NEUTRAL_COLUMN, NEUTRES_INCLUS,
+			  -1 );
+
+      liste_tmp = LISTE_TRI;
+
+      while ( liste_tmp )
+	{
+	  struct struct_type_ope * type_ope = NULL;
+	  GSList * result;
+	  
+	  if ( TYPES_OPES )
+	    result = g_slist_find_custom ( TYPES_OPES,
+					   liste_tmp -> data,
+					   (GCompareFunc) recherche_type_ope_par_no);
+	  if ( result )
+	    {
+	      type_ope = result -> data;
+	      gtk_tree_store_append (model, &payment_method_iter, &account_iter);
+	      gtk_tree_store_set (model, &payment_method_iter,
+				  RECONCILIATION_NAME_COLUMN, type_ope -> nom_type,
+				  RECONCILIATION_VISIBLE_COLUMN, FALSE,
+				  RECONCILIATION_SORT_COLUMN, FALSE,
+				  RECONCILIATION_SPLIT_NEUTRAL_COLUMN, FALSE,
+				  -1 );
+	    }
+	  liste_tmp = liste_tmp -> next;
+	}
+
+      if ( gtk_tree_model_iter_has_child( GTK_TREE_MODEL(model), &account_iter) &&
+	   TRI )
+	{
+	  GtkTreePath * treepath;
+	  treepath = gtk_tree_model_get_path (GTK_TREE_MODEL(model), &account_iter);
+	  if ( treepath )
+	    {
+	      gtk_tree_view_expand_row ( GTK_TREE_VIEW(treeview), treepath, TRUE );
+	      gtk_tree_path_free ( treepath );
+	    }
+	}
+  
+      p_tab_nom_de_compte_variable++;
+    }
+}
+
 
 
 /**
+ * TODO: move + document this
  *
- *
+ */
+void select_reconciliation_entry ( GtkTreeSelection * selection, 
+				   GtkTreeModel * model )
+{
+  GtkTreeIter iter, other;
+  GtkTreePath * treepath;
+  GValue value_visible = {0, };
+  gboolean good;
+
+  good = gtk_tree_selection_get_selected (selection, NULL, &iter);
+  if (good)
+    gtk_tree_model_get_value (model, &iter, 
+			      RECONCILIATION_VISIBLE_COLUMN, &value_visible);
+
+  if ( good && ! g_value_get_boolean(&value_visible) )
+    {
+      /* Is there something before? */
+      treepath = gtk_tree_model_get_path ( GTK_TREE_MODEL(model), &iter );
+      gtk_widget_set_sensitive ( button_move_up, 
+				 gtk_tree_path_prev(treepath) );
+      gtk_tree_path_free ( treepath );
+    
+      /* Is there something after? */
+      gtk_widget_set_sensitive ( button_move_down, 
+				 gtk_tree_model_iter_next (model, &iter) );
+    }
+  else 
+    {
+      gtk_widget_set_sensitive ( button_move_up, FALSE );
+      gtk_widget_set_sensitive ( button_move_down, FALSE );
+    }
+}
+
+
+
+/**
+ * TODO: document this
  *
  */
 GtkWidget * tab_display_reconciliation ( void )
 {
-  GtkWidget *onglet;
-  GtkWidget *hbox;
-  GtkWidget *frame;
-  GtkWidget *scrolled_window;
+  GtkWidget *onglet, *hbox, *frame, *scrolled_window, *vbox, *hbox2;
+  GtkWidget *menu, *item, *label, *vbox_pref, *paddingbox;
+  GtkTreeViewColumn *column;
+  GtkCellRenderer *cell;
   gchar *titres[2] = { _("Accounts"),
 		       _("Default") };
   gint i;
-  GtkWidget *vbox;
-  GtkWidget *hbox2;
-  GtkWidget *menu;
-  GtkWidget *item;
-  GtkWidget *label;
-  GtkWidget *bouton;
-  GtkWidget *vbox2, *vbox_pref;
 
   vbox_pref = new_vbox_with_title_and_icon ( _("Reconciliation"),
 					     "reconciliation.png" );
 
-  frame = gtk_frame_new ( _("Reconciliation: sort transactions") );
-  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-		       frame,
-		       TRUE,
-		       TRUE,
-		       0 );
-  gtk_widget_show ( frame );
-
-  /* on met une vbox dans la frame */
-
-  vbox2 = gtk_vbox_new ( FALSE,
-			 5 );
-  gtk_container_set_border_width ( GTK_CONTAINER ( vbox2 ),
-				   5 );
-  gtk_container_add ( GTK_CONTAINER ( frame ),
-		      vbox2 );
-  gtk_widget_show ( vbox2 );
-
-  /*   la partie du haut : tri par date ou par type */
-
-  bouton_type_tri_date = gtk_radio_button_new_with_label ( NULL,
-							   _("Sort by date") );
-  gtk_widget_set_sensitive ( bouton_type_tri_date,
-			     FALSE );
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_type_tri_date ),
-				 TRUE );
-  gtk_signal_connect ( GTK_OBJECT ( bouton_type_tri_date ),
-		       "toggled",
-		       GTK_SIGNAL_FUNC ( modif_tri_date_ou_type ),
-		       NULL );
-  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
-		       bouton_type_tri_date,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_type_tri_date );
-
-  bouton_type_tri_type = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_type_tri_date )),
-							   _("Sort by method of payment") );
-  gtk_widget_set_sensitive ( bouton_type_tri_type,
-			     FALSE );
-  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
-		       bouton_type_tri_type,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_type_tri_type );
-
+  paddingbox = new_paddingbox_with_title ( vbox_pref, TRUE,
+					   COLON(_("Reconciliation: sort transactions") ) );
 
   /* la partie du milieu est une hbox avec les types */
-
-  hbox = gtk_hbox_new ( FALSE,
-			 5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
-		       hbox,
-		       TRUE,
-		       TRUE,
-		       0 );
-  gtk_widget_show ( hbox );
-
+  hbox = gtk_hbox_new ( FALSE, 5 );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
+		       TRUE, TRUE, 0 );
 
   /* mise en place de la liste qui contient les types classés */
-
   scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       scrolled_window,
-		       TRUE,
-		       TRUE,
-		       0);
+  gtk_box_pack_start ( GTK_BOX ( hbox ), scrolled_window,
+		       TRUE, TRUE, 0);
   gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				   GTK_POLICY_AUTOMATIC,
-				   GTK_POLICY_AUTOMATIC);
-  gtk_widget_show ( scrolled_window );
+				   GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
+  model = gtk_tree_store_new ( NUM_RECONCILIATION_COLUMNS,
+			       G_TYPE_STRING, /* Name */
+			       G_TYPE_BOOLEAN, /* Visible */
+			       G_TYPE_BOOLEAN, /* Sort by date */
+			       G_TYPE_BOOLEAN ); /* Split neutrals */
+  treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (model) );
+  gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
+  g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview)),
+		    "changed", G_CALLBACK (select_reconciliation_entry), model);
 
-  type_liste_tri = gtk_clist_new ( 1 );
-  gtk_widget_set_sensitive ( type_liste_tri,
-			     FALSE );
-  gtk_clist_set_column_auto_resize ( GTK_CLIST ( type_liste_tri ) ,
-				     0,
-				     TRUE );
-  gtk_clist_set_reorderable ( GTK_CLIST ( type_liste_tri ),
-			      TRUE );
-  gtk_clist_set_use_drag_icons ( GTK_CLIST ( type_liste_tri ),
-				 TRUE );
-  gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
-		      type_liste_tri );
-  gtk_signal_connect ( GTK_OBJECT ( type_liste_tri ),
-		       "select_row",
-		       (GtkSignalFunc ) selection_type_liste_tri,
-		       NULL );
-  gtk_signal_connect ( GTK_OBJECT ( type_liste_tri ),
-		       "unselect_row",
-		       (GtkSignalFunc ) deselection_type_liste_tri,
-		       NULL );
-  gtk_signal_connect_after ( GTK_OBJECT ( type_liste_tri ),
-			     "row_move",
-			     GTK_SIGNAL_FUNC ( save_ordre_liste_type_tri ),
-			     NULL );
-  gtk_widget_show ( type_liste_tri );
+  /* Name */
+  cell = gtk_cell_renderer_text_new ();
+  column = gtk_tree_view_column_new ( );
+  gtk_tree_view_column_pack_end ( column, cell, TRUE );
+  gtk_tree_view_column_set_title ( column, _("Payment method") );
+  gtk_tree_view_column_set_attributes (column, cell,
+				       "text", RECONCILIATION_NAME_COLUMN,
+				       NULL);
+  gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column);
 
+  /* Defaults */
+  cell = gtk_cell_renderer_toggle_new ();
+/*   g_signal_connect (cell, "toggled", G_CALLBACK (item_toggled), model); */
+  gtk_cell_renderer_toggle_set_radio ( GTK_CELL_RENDERER_TOGGLE(cell), FALSE );
+  g_object_set (cell, "xalign", 0.5, NULL);
+  column = gtk_tree_view_column_new ( );
+  gtk_tree_view_column_set_alignment ( column, 0.5 );
+  gtk_tree_view_column_pack_end ( column, cell, TRUE );
+  gtk_tree_view_column_set_title ( column, _("Sort by date") );
+  gtk_tree_view_column_set_attributes (column, cell,
+				       "active", RECONCILIATION_SORT_COLUMN,
+				       "activatable", RECONCILIATION_VISIBLE_COLUMN,
+				       "visible", RECONCILIATION_VISIBLE_COLUMN,
+				       NULL);
+  gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column);
+
+  /* Split neutral payment methods */
+  cell = gtk_cell_renderer_toggle_new ();
+/*   g_signal_connect (cell, "toggled", G_CALLBACK (item_toggled), model); */
+  gtk_cell_renderer_toggle_set_radio ( GTK_CELL_RENDERER_TOGGLE(cell), FALSE );
+  g_object_set (cell, "xalign", 0.5, NULL);
+  column = gtk_tree_view_column_new ( );
+  gtk_tree_view_column_set_alignment ( column, 0.5 );
+  gtk_tree_view_column_pack_end ( column, cell, TRUE );
+  gtk_tree_view_column_set_title ( column, _("Split neutral payment methods") );
+  gtk_tree_view_column_set_attributes (column, cell,
+				       "active", RECONCILIATION_SPLIT_NEUTRAL_COLUMN,
+				       "activatable", RECONCILIATION_VISIBLE_COLUMN,
+				       "visible", RECONCILIATION_VISIBLE_COLUMN,
+				       NULL);
+  gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column);
+
+  /* Various remaining settings */
+/*   g_signal_connect (treeview, "realize", G_CALLBACK (gtk_tree_view_expand_all),  */
+/* 		    NULL); */
+  gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+					GTK_SHADOW_IN);
+  gtk_container_add ( GTK_CONTAINER ( scrolled_window ), treeview );
+
+  fill_reconciliation_tree();
       
   /* on place ici les flèches sur le côté de la liste */
-
   vbox_fleches_tri = gtk_vbutton_box_new ();
-  gtk_widget_set_sensitive ( vbox_fleches_tri,
-			     FALSE );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       vbox_fleches_tri,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( vbox_fleches_tri );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), vbox_fleches_tri,
+		       FALSE, FALSE, 0);
 
-  bouton = gtk_button_new_from_stock (GTK_STOCK_GO_UP);
-  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			  GTK_RELIEF_NONE );
-  gtk_signal_connect ( GTK_OBJECT ( bouton ),
-		       "clicked",
-		       (GtkSignalFunc ) deplacement_type_tri_haut,
-		       NULL );
-  gtk_container_add ( GTK_CONTAINER ( vbox_fleches_tri ),
-		      bouton );
-  gtk_widget_show ( bouton );
+  button_move_up = gtk_button_new_from_stock (GTK_STOCK_GO_UP);
+  gtk_button_set_relief ( GTK_BUTTON ( button_move_up ), GTK_RELIEF_NONE );
+  g_signal_connect ( GTK_OBJECT ( button_move_up ), "clicked",
+		     (GCallback) deplacement_type_tri_haut, NULL );
+  gtk_container_add ( GTK_CONTAINER ( vbox_fleches_tri ), button_move_up );
+  gtk_widget_set_sensitive ( button_move_up, FALSE );
 
-  bouton = gtk_button_new_from_stock (GTK_STOCK_GO_DOWN);
-  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			  GTK_RELIEF_NONE );
-  gtk_signal_connect ( GTK_OBJECT ( bouton ),
-		       "clicked",
-		       (GtkSignalFunc ) deplacement_type_tri_bas,
-		       NULL);
-  gtk_container_add ( GTK_CONTAINER ( vbox_fleches_tri ),
-		      bouton );
-  gtk_widget_show ( bouton );
-
-  /* la partie du bas contient des check buttons */
-
-  bouton_type_neutre_inclut = gtk_check_button_new_with_label ( _("Include the mixed methods of payment in the incomes/outgoings") );
-  gtk_widget_set_sensitive ( bouton_type_neutre_inclut,
-			     FALSE );
-  gtk_signal_connect ( GTK_OBJECT ( bouton_type_neutre_inclut ),
-		       "toggled",
-		       GTK_SIGNAL_FUNC ( inclut_exclut_les_neutres ),
-		       NULL );
-  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
-		       bouton_type_neutre_inclut,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( bouton_type_neutre_inclut );
+  button_move_down = gtk_button_new_from_stock (GTK_STOCK_GO_DOWN);
+  gtk_button_set_relief ( GTK_BUTTON ( button_move_down ), GTK_RELIEF_NONE );
+  g_signal_connect ( GTK_OBJECT ( button_move_down ), "clicked",
+		     (GCallback) deplacement_type_tri_bas, NULL);
+  gtk_container_add ( GTK_CONTAINER ( vbox_fleches_tri ), button_move_down );
+  gtk_widget_set_sensitive ( button_move_down, FALSE );
 
   return vbox_pref;
 }
+
+
+
+/* ************************************************************************************************************** */
+void deplacement_type_tri_haut ( GtkWidget * button, gpointer data )
+{
+  GtkTreeIter iter, other;
+  GtkTreePath * treepath;
+  GValue value_visible = {0, };
+  gboolean good, visible;
+  GtkTreeSelection * selection;
+
+  selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
+  good = gtk_tree_selection_get_selected (selection, NULL, &iter);
+  printf (">>> %p, %d\n", selection, good);
+  if (good)
+    gtk_tree_model_get_value ( GTK_TREE_MODEL(model), &iter, 
+			       RECONCILIATION_VISIBLE_COLUMN, &visible);
+
+  if ( good && ! visible )
+    {
+      treepath = gtk_tree_model_get_path ( GTK_TREE_MODEL(model), &iter );
+
+      if ( gtk_tree_path_prev ( treepath ) &&
+	   gtk_tree_model_get_iter ( GTK_TREE_MODEL(model), &other, treepath ) )
+	{
+	  gtk_tree_store_move_before ( GTK_TREE_STORE(model), &iter, &other );
+	}
+    }
+
+/*       save_ordre_liste_type_tri(); */
+}
+/* ************************************************************************************************************** */
+
+
+
+/* ************************************************************************************************************** */
+void deplacement_type_tri_bas ( void )
+{
+  if ( GPOINTER_TO_INT ( GTK_CLIST ( type_liste_tri ) -> selection -> data ) < GTK_CLIST ( type_liste_tri ) -> rows )
+    {
+      gtk_clist_swap_rows ( GTK_CLIST ( type_liste_tri ),
+			    GPOINTER_TO_INT ( GTK_CLIST ( type_liste_tri ) -> selection -> data ),
+			    GPOINTER_TO_INT ( GTK_CLIST ( type_liste_tri ) -> selection -> data ) + 1 );
+      save_ordre_liste_type_tri();
+    }
+}
+/* ************************************************************************************************************** */
+
+
+
+/* ************************************************************************************************************** */
+/* cette fonction est appelée chaque fois qu'on modifie l'ordre de la liste des tris */
+/* et elle save cet ordre dans la liste temporaire */
+/* ************************************************************************************************************** */
+void save_ordre_liste_type_tri ( void )
+{
+  gint no_compte;
+  gint i;
+
+  no_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( bouton_type_tri_date ),
+						      "no_compte" ));
+  g_slist_free ( liste_tri_tmp[no_compte] );
+  liste_tri_tmp[no_compte] = NULL;
+
+  for ( i=0 ; i < GTK_CLIST ( type_liste_tri ) -> rows ; i++ )
+    liste_tri_tmp[no_compte] = g_slist_append ( liste_tri_tmp[no_compte],
+						gtk_clist_get_row_data ( GTK_CLIST ( type_liste_tri ),
+									 i ));
+}
+

@@ -46,10 +46,9 @@ GtkTreeStore *model;
 GtkWidget * details_paddingbox;
 
 
-static void
-item_toggled (GtkCellRendererToggle *cell,
-	      gchar                 *path_str,
-	      gpointer               data)
+/* FIXME: document + move on bottom */
+void payment_method_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
+			      gpointer data )
 {
   GtkTreePath *path = gtk_tree_path_new_from_string (path_str);
   GtkTreeIter iter, parent, child;
@@ -117,10 +116,6 @@ void fill_payment_method_tree ()
 
   for ( i=0 ; i<nb_comptes ; i++ )
     {
-      GtkCTreeNode *node_compte;
-      GtkCTreeNode *node_debit;
-      GtkCTreeNode *node_credit;
-      gchar *ligne[2];
       GSList *liste_tmp;
 
       gtk_tree_store_append (model, &account_iter, NULL);
@@ -287,7 +282,7 @@ GtkWidget *onglet_types_operations ( void )
 
   /* Defaults */
   cell = gtk_cell_renderer_toggle_new ();
-  g_signal_connect (cell, "toggled", G_CALLBACK (item_toggled), model);
+  g_signal_connect (cell, "toggled", G_CALLBACK (payment_method_toggled), model);
   gtk_cell_renderer_toggle_set_radio ( GTK_CELL_RENDERER_TOGGLE(cell), TRUE );
   g_object_set (cell, "xalign", 0.5, NULL);
   column = gtk_tree_view_column_new ( );
@@ -445,8 +440,7 @@ GtkWidget *onglet_types_operations ( void )
  * list.
  */
 gboolean
-select_payment_method ( GtkTreeSelection *selection,
-			GtkTreeModel *model )
+select_payment_method ( GtkTreeSelection *selection, GtkTreeModel *model )
 {
   GtkTreeIter iter;
   GValue value_visible = {0, };
@@ -953,7 +947,7 @@ void ajouter_type_operation ( void )
   
   /* Select and view new position */
   gtk_tree_selection_select_iter ( selection, &iter );
-  treepath = gtk_tree_model_get_path( GTK_TREE_MODEL(model), &iter );
+  treepath = gtk_tree_model_get_path ( GTK_TREE_MODEL(model), &iter );
   gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW(treeview), treepath, NULL, 
 				 TRUE, 0.5, 0);
   gtk_tree_path_free ( treepath );
@@ -1356,62 +1350,6 @@ void deselection_type_liste_tri ( void )
 
 }
 /* ************************************************************************************************************** */
-
-
-/* ************************************************************************************************************** */
-void deplacement_type_tri_haut ( void )
-{
-
-  if ( GTK_CLIST ( type_liste_tri ) -> selection -> data )
-    {
-      gtk_clist_swap_rows ( GTK_CLIST ( type_liste_tri ),
-			    GPOINTER_TO_INT ( GTK_CLIST ( type_liste_tri ) -> selection -> data ),
-			    GPOINTER_TO_INT ( GTK_CLIST ( type_liste_tri ) -> selection -> data ) - 1 );
-      save_ordre_liste_type_tri();
-    }
-
-}
-/* ************************************************************************************************************** */
-
-
-/* ************************************************************************************************************** */
-void deplacement_type_tri_bas ( void )
-{
-  if ( GPOINTER_TO_INT ( GTK_CLIST ( type_liste_tri ) -> selection -> data ) < GTK_CLIST ( type_liste_tri ) -> rows )
-    {
-      gtk_clist_swap_rows ( GTK_CLIST ( type_liste_tri ),
-			    GPOINTER_TO_INT ( GTK_CLIST ( type_liste_tri ) -> selection -> data ),
-			    GPOINTER_TO_INT ( GTK_CLIST ( type_liste_tri ) -> selection -> data ) + 1 );
-      save_ordre_liste_type_tri();
-    }
-}
-/* ************************************************************************************************************** */
-
-
-/* ************************************************************************************************************** */
-/* cette fonction est appelée chaque fois qu'on modifie l'ordre de la liste des tris */
-/* et elle save cet ordre dans la liste temporaire */
-/* ************************************************************************************************************** */
-
-void save_ordre_liste_type_tri ( void )
-{
-  gint no_compte;
-  gint i;
-
-  no_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( bouton_type_tri_date ),
-						      "no_compte" ));
-  g_slist_free ( liste_tri_tmp[no_compte] );
-  liste_tri_tmp[no_compte] = NULL;
-
-  for ( i=0 ; i < GTK_CLIST ( type_liste_tri ) -> rows ; i++ )
-    liste_tri_tmp[no_compte] = g_slist_append ( liste_tri_tmp[no_compte],
-						gtk_clist_get_row_data ( GTK_CLIST ( type_liste_tri ),
-									 i ));
-}
-/* ************************************************************************************************************** */
-
-
-
 
 
 /* ************************************************************************************************************** */

@@ -42,7 +42,7 @@ void charge_configuration ( void )
   /* la conf par défaut */
 
   if ( stat ( g_strconcat ( getenv ("HOME"),
-			    "/.gnome/Grisbi",
+			    "/.gnome2/Grisbi",
 			    NULL ),
 	      &buffer_stat ) == -1 )
     {
