@@ -280,10 +280,10 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 		 the account split, not the category one */
 	      account_name = split_account -> nom_de_compte;
 	      total += amount;
-	      if ( !strcmp(child_content(split_node, "reconciled-state"), "y") )
-		p_r = OPERATION_RAPPROCHEE;
+	      if ( !strcmp(child_content(split_node, "reconciled-state"), "n") )
+		p_r = OPERATION_NORMAL;
 	      else
-		p_r = OPERATION_NORMALE;
+		p_r = OPERATION_RAPPROCHEE;
 	    }
 
 	  split = find_split ( split_list, amount, split_account, categ );
@@ -547,7 +547,7 @@ xmlDocPtr parse_gnucash_file ( gchar * filename )
 
   doc = xmlParseFile ( tempname );
 
-  printf ("unlink ( tempname );\n");
+  unlink ( tempname );
   
   return doc;
 }
