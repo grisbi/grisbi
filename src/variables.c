@@ -483,16 +483,6 @@ GtkWidget *bouton_enleve_r;
 GtkWidget *label_proprietes_operations_compte;
 
 
-/***********************************/ 
-/* fichier patienter.c */
-/***********************************/ 
-
-GtkWidget *fenetre_patience = NULL;
-gint image_patience_en_cours;
-GtkWidget *label_patience;
-gint timeout_patience;
-GtkWidget *image[15];
-gint patience_en_cours = 0;
 
 
 /***********************************/ 

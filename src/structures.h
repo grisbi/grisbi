@@ -11,8 +11,10 @@
 /* Chemin des fichiers */
 
 #define FICHIER_CONF "Grisbi-dev"       /* à mettre à Grisbi-dev pdt le dvt et Grisbi à la sortie d'une version */
-/* FIXME */
+
+/* FIXME chemin de l'aide et du gif par défaut*/
 #define HELP "/usr/share/gnome/help/grisbi/fr/"
+#define GIF_DEFAUT "/usr/share/pixmap/euro.gif"
 
 /* initialisation des couleurs */
 
@@ -108,6 +110,10 @@ struct {
     gchar * browser_command;
     gchar * latex_command;
     gchar * dvips_command;
+
+    /*     chemin de l'image affichée quand on patiente */
+
+    gchar *fichier_animation_attente;
 
     /* Print stuff */
     struct print_config print_config;

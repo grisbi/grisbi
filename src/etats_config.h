@@ -15,7 +15,7 @@ GtkWidget *onglet_etat_dates ( void );
 void click_liste_etat ( GtkCList *liste,
 			GdkEventButton *evenement,
 			gint origine );
-void clique_sur_entree_date_etat ( GtkWidget *entree,
+gboolean clique_sur_entree_date_etat ( GtkWidget *entree,
 				   GdkEventButton *ev );
 void date_selectionnee_etat ( GtkCalendar *calendrier,
 			      GtkWidget *popup );

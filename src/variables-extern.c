@@ -504,18 +504,6 @@ extern GtkWidget *label_proprietes_operations_compte;
 
 
 /***********************************/ 
-/* fichier patienter.c */
-/***********************************/ 
-
-extern GtkWidget *fenetre_patience;
-extern gint image_patience_en_cours;
-extern GtkWidget *label_patience;
-extern gint timeout_patience;
-extern GtkWidget *image[15];
-extern gint patience_en_cours;
-
-
-/***********************************/ 
 /* fichier type_operations.c */
 /***********************************/ 
 

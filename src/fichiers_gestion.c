@@ -46,6 +46,8 @@
 
 
 extern GtkWidget *window_vbox_principale;
+extern gint patience_en_cours;
+
 
 
 /* ************************************************************************************************************ */

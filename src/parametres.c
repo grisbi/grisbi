@@ -47,6 +47,7 @@ GtkWidget *tree_view;
 GtkWidget * bouton_display_lock_active;
 
 
+
 /**
  * Creates a simple TreeView and a TreeModel to handle preference
  * tabs.  Sets preference_tree_model to the newly created TreeModel.

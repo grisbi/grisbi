@@ -43,6 +43,7 @@
 
 
 
+
 #ifndef _WIN32
 #define C_GRISBIRC  "/.grisbirc"
 #else
@@ -147,6 +148,11 @@ void charge_configuration ( void )
 		if ( !strcmp ( node_general -> name, "Dvips_command" ) ) {
 		    etat.dvips_command = xmlNodeGetContent ( node_general);
 		}
+
+		if ( !strcmp ( node_general -> name, "Animation_attente" ) ) {
+		    etat.fichier_animation_attente = xmlNodeGetContent ( node_general);
+		}
+
 
 		node_general = node_general->next;
 	    }
@@ -360,7 +366,7 @@ void charge_configuration_ancien ( void )
     gchar *fichier_conf;
     gchar temp[100];
 
-    etat.browser_command = "";
+    etat.fichier_animation_attente = g_strdup ( GIF_DEFAUT );
 
     /* modif -> vire gnome, donc fait tout à la main */
 
@@ -637,6 +643,7 @@ void sauve_configuration(void)
     xmlNewChild ( node,NULL, "Utilise_fonte_des_listes",itoa (etat.utilise_fonte_listes));
 
     xmlNewChild ( node,NULL, "Fonte_des_listes",fonte_liste);
+    xmlNewChild ( node,NULL, "Animation_attente",etat.fichier_animation_attente);
     xmlNewChild ( node,NULL, "Navigateur_web",etat.browser_command);
 
     /* sauvegarde de l'onglet I/O */

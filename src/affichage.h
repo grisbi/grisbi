@@ -11,11 +11,13 @@ void deplacement_bas ( void );
 void choix_fonte ( GtkWidget *bouton,
 		   gchar *fonte,
 		   gpointer null );
-void modification_logo_accueil ( void );
+gboolean modification_logo_accueil ( gint origine );
 void update_font_button(GtkWidget * name_label,
 			GtkWidget * size_label,
 			gchar * fontname);
 gboolean init_fonts ( GtkWidget * button,
 		      gpointer user_data);
 gboolean update_homepage_title ( GtkEntry *, gchar *, gint, gint * );
+void change_animation ( GtkWidget *widget, gpointer user_data );
+void change_logo_accueil ( GtkWidget *widget, gpointer user_data );
 

@@ -42,7 +42,8 @@ GtkWidget *logo_button;
 /** GtkImage containing the preview  */
 GtkWidget *preview;
 
-
+GtkWidget *anim_button;
+GtkWidget *anim_preview;
 
 
 /**
@@ -237,6 +238,7 @@ GtkWidget * onglet_display_fonts ( void )
     GdkPixbuf * pixbuf = NULL;
     GtkWidget *check_button;
     GtkWidget *vbox;
+    GdkPixbufAnimation *pixbuf_anim=NULL;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Fonts & logo"),
 					       "fonts.png" );
@@ -305,16 +307,72 @@ GtkWidget * onglet_display_fonts ( void )
 	preview = gtk_image_new_from_pixbuf (pixbuf);
     }
 
-    logo_button = gtk_button_new ();
     gtk_container_add (GTK_CONTAINER(logo_button), preview);
-    gtk_signal_connect ( GTK_OBJECT ( logo_button ), "clicked",
-			 GTK_SIGNAL_FUNC ( modification_logo_accueil ), NULL );
+    g_signal_connect_swapped ( G_OBJECT ( logo_button ), "clicked",
+			       GTK_SIGNAL_FUNC ( modification_logo_accueil ), NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), logo_button,
 			 FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Click on preview to change homepage logo") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 			 FALSE, FALSE, 0 );
+
+
+
+    /*     mise en place du choix de l'animation */
+
+    hbox = gtk_hbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
+			 FALSE, FALSE, 0 );
+
+    /*     le logo est grisé ou non suivant qu'on l'utilise ou pas */
+
+    anim_button = gtk_button_new ();
+    gtk_button_set_relief ( GTK_BUTTON ( anim_button ),
+			    GTK_RELIEF_NONE );
+
+    if ( etat.fichier_animation_attente )
+	pixbuf_anim = gdk_pixbuf_animation_new_from_file (etat.fichier_animation_attente, NULL);
+
+    if (pixbuf_anim)
+    {
+	/* 	si l'animation est trop grande, compliqué pour la réduire de taille */
+	/* 	    donc on affiche juste la première image en pixbuf */
+
+	if ( gdk_pixbuf_animation_get_width (pixbuf_anim) > 64
+	     ||
+	     gdk_pixbuf_animation_get_height (pixbuf_anim) > 64 )
+	{
+	    GdkPixbuf * tmp;
+	    tmp = gdk_pixbuf_new ( GDK_COLORSPACE_RGB, TRUE, 8, 
+				   gdk_pixbuf_animation_get_width(pixbuf_anim)/2, 
+				   gdk_pixbuf_animation_get_height(pixbuf_anim)/2 );
+	    gdk_pixbuf_scale ( gdk_pixbuf_animation_get_static_image ( pixbuf_anim ), tmp, 0, 0, 
+			       gdk_pixbuf_animation_get_width(pixbuf_anim)/2, 
+			       gdk_pixbuf_animation_get_height(pixbuf_anim)/2,
+			       0, 0, 0.5, 0.5, GDK_INTERP_HYPER );
+	    anim_preview = gtk_image_new_from_pixbuf ( tmp );
+	}
+	else
+	    anim_preview = gtk_image_new_from_animation (pixbuf_anim);
+    }
+    else
+	anim_preview = gtk_image_new_from_stock ( GTK_STOCK_MISSING_IMAGE, 
+						  GTK_ICON_SIZE_BUTTON );
+
+    gtk_container_add (GTK_CONTAINER(anim_button), 
+		       anim_preview);
+    g_signal_connect_swapped ( G_OBJECT ( anim_button ),
+			       "clicked",
+			       GTK_SIGNAL_FUNC ( modification_logo_accueil ), 
+			       GINT_TO_POINTER (1) );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), anim_button,
+			 FALSE, FALSE, 0 );
+
+    label = gtk_label_new ( _("Click on preview to change animation") );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
+			 FALSE, FALSE, 0 );
+
 
     /* Change fonts */
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
@@ -823,6 +881,7 @@ void choix_fonte ( GtkWidget *bouton,
 
 
 
+/* **************************************************************************************************************************** */
 void change_logo_accueil ( GtkWidget *widget, gpointer user_data )
 {
     GtkWidget *file_selector = (GtkWidget *)user_data;
@@ -883,19 +942,89 @@ void change_logo_accueil ( GtkWidget *widget, gpointer user_data )
 	gtk_container_add ( GTK_CONTAINER(logo_button), preview );
     }
 }
+/* **************************************************************************************************************************** */
 
 
 /* **************************************************************************************************************************** */
-void modification_logo_accueil ( void )
+void change_animation ( GtkWidget *widget,
+			gpointer user_data )
+{
+    GtkWidget *file_selector = (GtkWidget *)user_data;
+    GdkPixbufAnimation *pixbuf=NULL;
+
+    etat.fichier_animation_attente = g_strdup (gtk_file_selection_get_filename (GTK_FILE_SELECTION (file_selector)));
+
+
+    if ( !etat.fichier_animation_attente
+	 ||
+	 !strlen ( g_strstrip (etat.fichier_animation_attente )) )
+	etat.fichier_animation_attente = NULL;
+
+    /* Update preview */
+    if ( etat.fichier_animation_attente )
+	pixbuf = gdk_pixbuf_animation_new_from_file (etat.fichier_animation_attente, NULL);
+
+    gtk_container_remove (GTK_CONTAINER(anim_button),
+			  anim_preview);
+
+    if (pixbuf)
+    {
+	/* 	si l'animation est trop grande, compliqué pour la réduire de taille */
+	/* 	    donc on affiche juste la première image en pixbuf */
+
+	if ( gdk_pixbuf_animation_get_width (pixbuf) > 64
+	     ||
+	     gdk_pixbuf_animation_get_height (pixbuf) > 64 )
+	{
+	    GdkPixbuf * tmp;
+	    tmp = gdk_pixbuf_new ( GDK_COLORSPACE_RGB, TRUE, 8, 
+				   gdk_pixbuf_animation_get_width(pixbuf)/2, 
+				   gdk_pixbuf_animation_get_height(pixbuf)/2 );
+	    gdk_pixbuf_scale ( gdk_pixbuf_animation_get_static_image ( pixbuf ), tmp, 0, 0, 
+			       gdk_pixbuf_animation_get_width(pixbuf)/2, 
+			       gdk_pixbuf_animation_get_height(pixbuf)/2,
+			       0, 0, 0.5, 0.5, GDK_INTERP_HYPER );
+	    anim_preview = gtk_image_new_from_pixbuf ( tmp );
+	}
+	else
+	    anim_preview = gtk_image_new_from_animation (pixbuf);
+    }
+    else
+	anim_preview = gtk_image_new_from_stock ( GTK_STOCK_MISSING_IMAGE, 
+						  GTK_ICON_SIZE_BUTTON );
+    gtk_widget_show ( anim_preview );
+    gtk_container_add ( GTK_CONTAINER(anim_button),
+			anim_preview );
+}
+/* **************************************************************************************************************************** */
+
+
+
+/* **************************************************************************************************************************** */
+gboolean modification_logo_accueil ( gint origine )
 {
     GtkWidget *file_selector;
 
-    file_selector = gtk_file_selection_new (_("Select a new logo"));
+    /*     origine = 0 si c'est pour une modif du logo d'accueil */
+    /* 	=1 pour une modif de l'animation d'attente */
 
-    g_signal_connect (GTK_OBJECT (GTK_FILE_SELECTION (file_selector)->ok_button),
-		      "clicked",
-		      G_CALLBACK (change_logo_accueil),
-		      (gpointer) file_selector);
+    if ( origine )
+    {
+	file_selector = gtk_file_selection_new (_("Select a new animation"));
+	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (file_selector)->ok_button),
+			  "clicked",
+			  G_CALLBACK (change_animation),
+			  (gpointer) file_selector);
+    }
+    else
+    {
+	file_selector = gtk_file_selection_new (_("Select a new logo"));
+
+	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (file_selector)->ok_button),
+			  "clicked",
+			  G_CALLBACK (change_logo_accueil),
+			  (gpointer) file_selector);
+    }
 
     gtk_window_set_transient_for ( GTK_WINDOW ( file_selector ),
 				   GTK_WINDOW ( fenetre_preferences ));
@@ -916,7 +1045,7 @@ void modification_logo_accueil ( void )
     /* Display that dialog */
 
     gtk_widget_show (file_selector);
-
+    return ( FALSE );
 }
 /* **************************************************************************************************************************** */
 

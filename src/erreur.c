@@ -38,6 +38,8 @@
 #include "patienter.h"
 #include "utils.h"
 
+extern gint patience_en_cours;
+
 
 
 

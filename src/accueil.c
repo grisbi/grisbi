@@ -52,6 +52,7 @@
 #define MISC_RIGHT 1
 
 GtkWidget * label_jour;
+extern gint patience_en_cours;
 
 /* ************************************************************************* */
 GtkWidget *creation_onglet_accueil ( void )
@@ -1127,7 +1128,7 @@ void mise_a_jour_soldes_minimaux ( void )
 	    gtk_box_pack_start ( GTK_BOX ( vbox_2 ), label, FALSE, FALSE, 0 );
 	    gtk_widget_show ( label );
 
-	    if ( !MESSAGE_SOUS_MINI_VOULU && !patience_en_cours)
+	    if ( !MESSAGE_SOUS_MINI_VOULU && !patience_en_cours )
 	    {
 		if ( solde_courant < solde_mini )
 		{
