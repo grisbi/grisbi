@@ -2311,8 +2311,17 @@ struct struct_imputation *ajoute_nouvelle_imputation ( gchar *imputation )
 {
     struct struct_imputation *nouvelle_imputation;
 
-    nouvelle_imputation = calloc ( 1,
-				   sizeof ( struct struct_imputation ));
+    if ( g_slist_find_custom ( liste_struct_imputation,
+			       imputation,
+			       (GCompareFunc) recherche_imputation_par_nom ) )
+      {
+	dialogue_warning_hint ( _("Budgetary lines names must be both unique and not empty.  Please use another name for this budgetary line."),
+				g_strdup_printf ( _("Budgetary line '%s' already exists."),
+						  imputation ) );
+	return NULL;
+      }
+
+    nouvelle_imputation = calloc ( 1, sizeof ( struct struct_imputation ));
 
     nouvelle_imputation -> no_imputation = ++no_derniere_imputation;
     nouvelle_imputation -> nom_imputation = g_strdup ( g_strstrip ( imputation ));
@@ -2343,6 +2352,17 @@ struct struct_sous_imputation *ajoute_nouvelle_sous_imputation ( gchar *sous_imp
     nouvelle_sous_imputation = malloc ( sizeof ( struct struct_sous_imputation ));
 
     nouvelle_sous_imputation -> no_sous_imputation = ++( imputation->no_derniere_sous_imputation );
+
+    if ( g_slist_find_custom ( imputation -> liste_sous_imputation,
+			       sous_imputation,
+			       (GCompareFunc) recherche_sous_imputation_par_nom ) )
+      {
+	dialogue_warning_hint ( _("Sub-budgetary lines names must be both unique and not empty.  Please use another name for this sub-budgetary line."),
+				g_strdup_printf ( _("Sub-budgetary line '%s' already exists."),
+						  sous_imputation ) );
+	return NULL;
+      }
+
     nouvelle_sous_imputation -> nom_sous_imputation = g_strdup ( g_strstrip ( sous_imputation ));
 
     imputation -> liste_sous_imputation = g_slist_append ( imputation -> liste_sous_imputation,
@@ -2388,14 +2408,15 @@ void fusion_categories_imputation ( void )
 	    /* 	  l'imputation n'existe pas, on la crée */
 
 	    imputation = ajoute_nouvelle_imputation ( categorie -> nom_categ );
-	    imputation -> type_imputation = categorie -> type_categ;
+	    if ( imputation )
+	      imputation -> type_imputation = categorie -> type_categ;
 	}
 
 	/* on fait maintenant la comparaison avec les sous catég et les sous imputations */
 
 	liste_sous_tmp = categorie -> liste_sous_categ;
 
-	while ( liste_sous_tmp )
+	while ( liste_sous_tmp && imputation )
 	{
 	    struct struct_sous_categ *sous_categ;
 
@@ -2620,6 +2641,8 @@ void appui_sur_ajout_imputation ( void )
 
     nouvelle_imputation = ajoute_nouvelle_imputation ( nom_imputation );
 
+    if ( ! nouvelle_imputation )
+      return;
 
     /* on l'ajoute directement au ctree et on fait le tri pour éviter de toute la réafficher */
 
@@ -2688,8 +2711,11 @@ void appui_sur_ajout_sous_imputation ( void )
     nouvelle_sous_imputation = ajoute_nouvelle_sous_imputation ( nom_sous_imputation,
 								 imputation );
 
+    if ( ! nouvelle_sous_imputation )
+      return;
 
-    /* on l'ajoute directement au ctree et on fait le tri pour éviter de toute la réafficher */
+    /* on l'ajoute directement au ctree et on fait le tri pour éviter
+       de toute la réafficher */
 
     text[0] = nouvelle_sous_imputation -> nom_sous_imputation;
     text[1] = NULL;
