@@ -57,8 +57,6 @@ void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y
   if ( !text )
     text = "";
 
-/*   fprintf ( out, "%% %d,%d -> %d,%d : %s\n", x, y, x2, y2, text ); */
-
   if ( y >= lastline )
     {
       lastcol = 0;
@@ -203,6 +201,7 @@ gint latex_initialise (GSList * opes_selectionnees)
 	   "\\usepackage{boxedminipage}\n"
 	   "\\usepackage{longtable}\n"
 	   "\\usepackage{vmargin}\n"
+	   "\\usepackage[T1]{fontenc}\n"
 	   "\\setpapersize{A4}\n"
 	   "\\setmarginsrb{1cm}{1cm}{1cm}{1cm}{0cm}{0cm}{0cm}{0cm}\n\n"
 	   "\\begin{document}\n\n"
@@ -261,7 +260,7 @@ gint latex_finish ()
 
 void latex_safe ( gchar * text ) 
 {
-    gboolean start = 1;
+  gboolean start = 1;
 
   if ( ! text || ! strlen(text))
     return;
@@ -270,6 +269,24 @@ void latex_safe ( gchar * text )
     {
       switch ( * text )
 	{
+	  /* FIXME: this is very iso8859-1 centric */
+	case 'Â':
+	  if ( *(text+1) == '«' )
+	    {
+	      fprintf ( out, "<<" );
+	      text++;
+	    }
+	  else if ( *(text+1) == '»' )
+	    {
+	      fprintf ( out, ">>" );
+	      text++;
+	    }
+	  else 
+	    {
+	      fprintf ( out, "%c", *text );
+	    }
+	  break;
+
 	case ' ':
 	  if ( start )
 	    fprintf ( out, "~" );
