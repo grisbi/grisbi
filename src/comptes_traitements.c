@@ -603,10 +603,11 @@ void creation_types_par_defaut ( gint no_compte,
 
     /* si des types d'opï¿œexistaient dï¿œï¿œ on les vire */
 
-    if ( TYPES_OPES )
-	g_slist_free ( TYPES_OPES );
+    if ( gsb_account_get_method_payment_list (no_compte) )
+	g_slist_free ( gsb_account_get_method_payment_list (no_compte) );
 
-    TYPES_OPES = NULL;
+    gsb_account_set_method_payment_list ( no_compte,
+					  NULL );
     TYPE_DEFAUT_DEBIT = 0;
     TYPE_DEFAUT_CREDIT = 0;
 
@@ -628,8 +629,9 @@ void creation_types_par_defaut ( gint no_compte,
 	type_ope -> no_en_cours = 0;
 	type_ope -> no_compte = no_compte;
 
-	TYPES_OPES = g_slist_append ( TYPES_OPES,
-				      type_ope );
+	gsb_account_set_method_payment_list ( no_compte,
+					      g_slist_append ( gsb_account_get_method_payment_list (no_compte),
+							       type_ope ) );
 
 	type_ope = malloc ( sizeof ( struct struct_type_ope ));
 	type_ope -> no_type = 2;
@@ -640,8 +642,9 @@ void creation_types_par_defaut ( gint no_compte,
 	type_ope -> no_en_cours = 0;
 	type_ope -> no_compte = no_compte;
 
-	TYPES_OPES = g_slist_append ( TYPES_OPES,
-				      type_ope );
+	gsb_account_set_method_payment_list ( no_compte,
+					      g_slist_append ( gsb_account_get_method_payment_list (no_compte),
+							       type_ope ) );
 
 	type_ope = malloc ( sizeof ( struct struct_type_ope ));
 	type_ope -> no_type = 3;
@@ -652,8 +655,9 @@ void creation_types_par_defaut ( gint no_compte,
 	type_ope -> no_en_cours = 0;
 	type_ope -> no_compte = no_compte;
 
-	TYPES_OPES = g_slist_append ( TYPES_OPES,
-				      type_ope );
+	gsb_account_set_method_payment_list ( no_compte,
+					      g_slist_append ( gsb_account_get_method_payment_list (no_compte),
+							       type_ope ) );
 
 	type_ope = malloc ( sizeof ( struct struct_type_ope ));
 	type_ope -> no_type = 4;
@@ -664,8 +668,9 @@ void creation_types_par_defaut ( gint no_compte,
 	type_ope -> no_en_cours = 0;
 	type_ope -> no_compte = no_compte;
 
-	TYPES_OPES = g_slist_append ( TYPES_OPES,
-				      type_ope );
+	gsb_account_set_method_payment_list ( no_compte,
+					      g_slist_append ( gsb_account_get_method_payment_list (no_compte),
+							       type_ope ) );
 
 	type_ope = malloc ( sizeof ( struct struct_type_ope ));
 	type_ope -> no_type = 5;
@@ -676,8 +681,9 @@ void creation_types_par_defaut ( gint no_compte,
 	type_ope -> no_en_cours = dernier_cheque;
 	type_ope -> no_compte = no_compte;
 
-	TYPES_OPES = g_slist_append ( TYPES_OPES,
-				      type_ope );
+	gsb_account_set_method_payment_list ( no_compte,
+					      g_slist_append ( gsb_account_get_method_payment_list (no_compte),
+							       type_ope ) );
 
 	TYPE_DEFAUT_DEBIT = 3;
 	TYPE_DEFAUT_CREDIT = 2;
@@ -717,8 +723,9 @@ void creation_types_par_defaut ( gint no_compte,
 	    type_ope -> no_en_cours = 0;
 	    type_ope -> no_compte = no_compte;
 
-	    TYPES_OPES = g_slist_append ( TYPES_OPES,
-					  type_ope );
+	    gsb_account_set_method_payment_list ( no_compte,
+						  g_slist_append ( gsb_account_get_method_payment_list (no_compte),
+								   type_ope ) );
 
 	    TYPE_DEFAUT_DEBIT = 1;
 	    TYPE_DEFAUT_CREDIT = 1;

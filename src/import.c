@@ -810,7 +810,7 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 	{
 	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable -> data );
 	
-	    if ( !COMPTE_CLOTURE )
+	    if ( !gsb_account_get_closed_account (GPOINTER_TO_INT ( ordre_comptes_variable -> data )) )
 	    {
 		menu_item = gtk_menu_item_new_with_label ( gsb_account_get_name (GPOINTER_TO_INT ( ordre_comptes_variable -> data )) );
 		gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -1487,7 +1487,7 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 
 	    operation -> contenu_type = itoa ( operation_import -> cheque );
 
-	    liste_tmp = TYPES_OPES;
+	    liste_tmp = gsb_account_get_method_payment_list (no_compte);
 	    type_choisi = NULL;
 
 	    while ( liste_tmp )
@@ -2141,7 +2141,7 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 
 	operation -> contenu_type = itoa ( operation_import -> cheque );
 
-	liste_tmp = TYPES_OPES;
+	liste_tmp = gsb_account_get_method_payment_list (no_compte);
 	type_choisi = NULL;
 
 	while ( liste_tmp )

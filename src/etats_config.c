@@ -7830,7 +7830,7 @@ void remplissage_liste_modes_paiement_etats ( void )
 
     for ( i=0 ; i<nb_comptes ; i++ )
     {
-	liste_tmp = TYPES_OPES;
+	liste_tmp = gsb_account_get_method_payment_list (i);
 
 	while ( liste_tmp )
 	{

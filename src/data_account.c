@@ -1549,6 +1549,45 @@ gboolean gsb_account_set_holder_address ( gint no_account,
 }
 
 
+/** get the method_payment_list  of the account
+ * \param no_account no of the account
+ * \return the g_slist or NULL if the account doesn't exist
+ * */
+GSList *gsb_account_get_method_payment_list ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return NULL;
+
+    return account -> ;
+}
+
+
+/** set the method_payment_list of the account
+ * \param no_account no of the account
+ * \param list g_slist to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_method_payment_list ( gint no_account,
+					       GSList *list )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> method_payment_list = list;
+
+    return TRUE;
+}
+
+
+
 
 
 

@@ -1187,7 +1187,8 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 		    xmlNodePtr node_type;
 
 		    node_type = node_nom_comptes -> children;
-		    TYPES_OPES = NULL;
+		    gsb_account_set_method_payment_list ( no_compte,
+							  NULL );
 
 		    while ( node_type )
 		    {
@@ -1213,8 +1214,9 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 			    type -> no_compte = NO_COMPTE;
 
-			    TYPES_OPES = g_slist_append ( TYPES_OPES,
-							  type );
+			    gsb_account_set_method_payment_list ( no_compte,
+								  g_slist_append ( gsb_account_get_method_payment_list (no_compte),
+										   type ));
 			}
 
 			node_type = node_type -> next;
@@ -3369,7 +3371,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Nombre_de_types",
-			  itoa ( g_slist_length ( TYPES_OPES ) ));
+			  itoa ( g_slist_length ( gsb_account_get_method_payment_list (i) ) ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
@@ -3480,7 +3482,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 				    "Detail_de_Types",
 				    NULL );
 
-	pointeur_liste = TYPES_OPES;
+	pointeur_liste = gsb_account_get_method_payment_list (i);
 
 	while ( pointeur_liste )
 	{

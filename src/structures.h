@@ -319,7 +319,7 @@ struct donnees_compte
 /* #define NEUTRES_INCLUS ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> neutres_inclus */
 /* #define TITULAIRE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> titulaire */
 /* #define ADRESSE_TITULAIRE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> adresse_titulaire */
-#define TYPES_OPES ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> liste_types_ope
+/* #define TYPES_OPES ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> liste_types_ope */
 #define TYPE_DEFAUT_DEBIT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> type_defaut_debit
 #define TYPE_DEFAUT_CREDIT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> type_defaut_credit
 /* #define AFFICHAGE_R ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> affichage_r */

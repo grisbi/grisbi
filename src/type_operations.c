@@ -217,7 +217,7 @@ void fill_payment_method_tree ()
 
 
 	/* Iter over account payment methods */
-	liste_tmp = TYPES_OPES;
+	liste_tmp = gsb_account_get_method_payment_list (GPOINTER_TO_INT ( pUserAccountsList -> data ));
 
 	while ( liste_tmp )
 	{
@@ -760,7 +760,7 @@ gint find_operation_type_by_type ( gint no_compte, gint signe_type, gint exclude
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
-    for ( pointer = TYPES_OPES; pointer; pointer = pointer -> next )
+    for ( pointer = gsb_account_get_method_payment_list (no_compte); pointer; pointer = pointer -> next )
     {
 	struct struct_type_ope * type_ope;
 	type_ope = (struct struct_type_ope *) pointer -> data;
@@ -943,9 +943,9 @@ void ajouter_type_operation ( void )
     type_ope = malloc ( sizeof ( struct struct_type_ope ));
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-    if ( TYPES_OPES )
+    if ( gsb_account_get_method_payment_list (no_compte) )
 	type_ope -> no_type = ((struct struct_type_ope *)
-			       (g_slist_last ( TYPES_OPES )->data))->no_type + 1;
+			       (g_slist_last ( gsb_account_get_method_payment_list (no_compte) )->data))->no_type + 1;
     else
 	type_ope -> no_type = 1;
 
@@ -975,7 +975,8 @@ void ajouter_type_operation ( void )
     gtk_tree_path_free ( treepath );
 
     /* Add to payment methods */
-    TYPES_OPES = g_slist_append ( TYPES_OPES, type_ope );
+    gsb_account_set_method_payment_list ( no_compte,
+					  g_slist_append ( gsb_account_get_method_payment_list (no_compte), type_ope ) );
 
     /* Mark file as modified */
     modification_fichier ( TRUE );
@@ -1079,7 +1080,7 @@ void supprimer_type_operation ( void )
 
 	    option_menu = gtk_option_menu_new ();
 	    menu = gtk_menu_new ();
-	    pointeur_tmp = TYPES_OPES;
+	    pointeur_tmp = gsb_account_get_method_payment_list (type_ope -> no_compte);
 
 	    /** Then, we find neutral types of types the same sign and build a
 	      menu to choose among them */
@@ -1144,7 +1145,8 @@ void supprimer_type_operation ( void )
 
 	/* Remove type from tree & memory */
 	gtk_tree_store_remove ( GTK_TREE_STORE(model), &iter );
-	TYPES_OPES = g_slist_remove ( TYPES_OPES, type_ope );
+	gsb_account_set_method_payment_list ( type_ope -> no_compte,
+					      g_slist_remove ( gsb_account_get_method_payment_list (type_ope -> no_compte), type_ope ) );
 
 	/* If it was a default, change default */
 	switch (type_ope -> signe_type)
@@ -1215,7 +1217,7 @@ GtkWidget *creation_menu_types ( gint demande,
 
     /*   s'il n'y a pas de menu, on se barre */
 
-    if ( !(liste_tmp = TYPES_OPES ))
+    if ( !(liste_tmp = gsb_account_get_method_payment_list (compte) ))
     {
 	p_tab_nom_de_compte_variable = save_ptab;
 	return ( NULL );

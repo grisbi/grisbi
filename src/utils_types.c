@@ -54,7 +54,7 @@ struct struct_type_ope *type_ope_par_no ( gint no_type_ope,
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
-    liste_tmp = g_slist_find_custom ( TYPES_OPES,
+    liste_tmp = g_slist_find_custom ( gsb_account_get_method_payment_list (no_compte),
 				      GINT_TO_POINTER ( no_type_ope ),
 				      (GCompareFunc) recherche_type_ope_par_no );
 
