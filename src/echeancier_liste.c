@@ -959,7 +959,7 @@ gboolean click_ligne_echeance ( GtkCList *liste, GdkEventButton *evenement, gpoi
     /* si le click se situe dans les menus, c'est qu'on redimensionne, on fait rien */
 
     if ( evenement -> window != liste -> clist_window )
-	return;
+	return FALSE;
 
     gtk_signal_emit_stop_by_name ( GTK_OBJECT ( liste ),
 				   "button-press-event");
@@ -980,7 +980,7 @@ gboolean click_ligne_echeance ( GtkCList *liste, GdkEventButton *evenement, gpoi
 
     if ( !gtk_clist_get_row_data ( GTK_CLIST ( liste ),
 				   ligne ) )
-	return;
+	return FALSE;
 
     /*   vire l'ancienne sélection */
 
@@ -1006,6 +1006,7 @@ gboolean click_ligne_echeance ( GtkCList *liste, GdkEventButton *evenement, gpoi
     else
 	gtk_widget_grab_focus ( liste_echeances );
 
+    return FALSE;
 }
 /*****************************************************************************/
 
