@@ -49,7 +49,7 @@ static void print_backtrace ( void );
 gint debugging_grisbi;
 
 /*START_EXTERN*/
-extern AB_BANKING *gbanking;
+/* extern AB_BANKING *gbanking; */
 extern gint id_temps;
 extern gchar *log_message;
 extern gchar *nom_fichier_comptes;

@@ -1699,7 +1699,11 @@ void fin_edition_ventilation_echeances ( void )
     {
 	struct struct_categ *categ;
 
-	if ( strlen ( tableau_char[0] ) )
+	tableau_char = g_strsplit ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ))),
+				    ":",
+				    2 );
+
+ 	if ( strlen ( tableau_char[0] ) )
 	{
 	    /* on vérifie ici si c'est un virement */
 
@@ -1790,19 +1794,9 @@ void fin_edition_ventilation_echeances ( void )
     }
     else
     {
-	/* il n'y a aucune catég, si c'est une modif d'opé et que cette opé était un virement, */
-	/* on marque cette opé comme supprimée et on en recrée une nouvelle */
-
-	if ( modification
-	     &&
-	     operation -> relation_no_operation )
-	{
-	    operation -> supprime = 1;
-	    operation = calloc ( 1,
-				 sizeof ( struct struct_ope_ventil ));
-	    modification = 0;
-	    perte_ligne_selectionnee = 1;
-	}
+	operation -> categorie = 0;
+	operation -> sous_categorie = 0;
+	operation -> relation_no_compte = -1;
     }
 
     /* récupération du type d'opé associée s'il est affiché */
@@ -2690,7 +2684,6 @@ void validation_ope_de_ventilation_echeances ( struct operation_echeance *operat
 
 		/* on récupère d'abord les modifs de l'opé de ventil */
 
-		ope_ventil -> relation_no_operation = -1;
 		nouvelle_ope -> montant = ope_ventil -> montant;
 		nouvelle_ope -> categorie = ope_ventil -> categorie;
 		nouvelle_ope -> sous_categorie = ope_ventil -> sous_categorie;

@@ -60,7 +60,7 @@ gint modif_imputation;
 extern GtkTreeStore *budgetary_line_tree_model;
 extern GtkTreeStore * categ_tree_model;
 extern gint compte_courant;
-extern AB_BANKING *gbanking;
+/* extern AB_BANKING *gbanking; */
 extern gint id_temps;
 extern GtkWidget *label_temps;
 extern gpointer **p_tab_nom_de_compte;
