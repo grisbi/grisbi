@@ -355,28 +355,47 @@ void initialisation_couleurs_listes ( void )
 
 void menus_sensitifs ( gboolean sensitif )
 {
+    gchar * items[] = {
+      menu_name(_("File"), _("Save"), NULL),
+      menu_name(_("File"), _("Save as"), NULL),
+      menu_name(_("File"), _("Export QIF file ..."), NULL),
+      menu_name(_("File"), _("Close"), NULL),
+      menu_name(_("Accounts"), _("Remove an account"), NULL),
+      menu_name(_("Accounts"), _("Closed accounts"), NULL),
+      menu_name(_("Edit"), _("New transaction"), NULL),
+      menu_name(_("Edit"), _("Remove transaction"), NULL),
+      menu_name(_("Edit"), _("Clone transaction"), NULL),
+      menu_name(_("Edit"), _("Edit transaction"), NULL),
+      menu_name(_("Edit"), _("Convert transaction to scheduled transaction"), NULL),
+      menu_name(_("Edit"), _("Move transaction to another account"), NULL),
+      menu_name(_("View"), _("Show transaction form"), NULL),
+      menu_name(_("View"), _("Show grid"), NULL),
+      menu_name(_("View"), _("Show reconciled transactions"), NULL),
+      menu_name(_("View"), _("Show one line per transaction"), NULL),
+      menu_name(_("View"), _("Show two lines per transaction"), NULL),
+      menu_name(_("View"), _("Show three lines per transaction"), NULL),
+      menu_name(_("View"), _("Show four lines per transaction"), NULL),
+      menu_name(_("Reports"), _("New report"), NULL),
+      menu_name(_("Reports"), _("Clone report"), NULL),
+      menu_name(_("Reports"), _("Print report"), NULL),
+      menu_name(_("Reports"), _("Import report"), NULL),
+      menu_name(_("Reports"), _("Export report"), NULL),
+      menu_name(_("Reports"), _("Remove report"), NULL),
+      menu_name(_("Reports"), _("Edit report"), NULL),
+      NULL,
+    };
+    gchar ** tmp = items;
 
     if ( DEBUG )
 	printf ( "menus_sensitifs : %d\n", sensitif );
 
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("File"), _("Save"), NULL)),
-			       sensitif );
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("File"), _("Save as"), NULL)),
-			       sensitif );
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("File"), _("Export QIF file ..."), NULL)),
-			       sensitif );
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("File"), _("Close"), NULL)),
-			       sensitif );
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Accounts"), _("Remove an account"), NULL)),
-			       sensitif );
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Accounts"), _("Closed accounts"), NULL)),
-			       sensitif );
+    while ( *tmp )
+      {
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       *tmp ),
+				   sensitif );
+	tmp++;
+      }
 }
 /*****************************************************************************************************/
 
