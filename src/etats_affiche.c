@@ -1,5 +1,4 @@
-/*  Fichier qui s'occupe d'afficher les états via une gtktable */
-/*      etats_gtktable.c */
+/*  Fichier qui s'occupe d'afficher les états */
 
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
 /*			2004 Benjamin Drieu (bdrieu@april.org)		      */
@@ -26,7 +25,7 @@
 #include "variables-extern.c"
 #include "en_tete.h"
 
-#include "etats_gtktable.h"
+#include "etats.h"
 
 /*****************************************************************************************************/
 gint etat_affiche_affiche_titre ( gint ligne )
@@ -35,7 +34,7 @@ gint etat_affiche_affiche_titre ( gint ligne )
 
   titre = etats_titre () ;
 
-  etat_affiche_attach_label ( titre, 0, nb_colonnes-1,
+  etat_affiche_attach_label ( titre, TEXT_BOLD | TEXT_HUGE, 0, nb_colonnes-1,
 			      ligne, ligne + 1, LEFT, NULL );
 
   return 1;
@@ -79,26 +78,7 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 	   ||
 	   etat_courant -> afficher_opes )
 	{
-	  /* 	  si on affiche les opés, on met les traits entre eux */
-
-	  if ( etat_courant -> afficher_opes
-	       &&
-	       ligne_debut_partie != -1 )
-	    {
-	      gint i;
-	      gint colonne;
-
-	      colonne = 2;
-
-	      for ( i=0 ; i<((nb_colonnes-2)/2) ; i++ )
-		{
-		  etat_affiche_attach_vsep ( colonne, colonne + 1, ligne_debut_partie, ligne );
-		  colonne = colonne + 2;
-		}
-	      ligne_debut_partie = -1;
-	    }
-
-	  etat_affiche_attach_label ( NULL, 1, nb_colonnes -1, ligne, ligne + 1, LEFT, NULL );
+	  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes -1, ligne, ligne + 1, LEFT, NULL );
 	  ligne++;
 
 	  etat_affiche_attach_hsep ( 1, nb_colonnes-1, ligne, ligne + 1 );
@@ -118,16 +98,16 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 	      else
 		text = COLON(_("Category total"));
 	    }
-	  etat_affiche_attach_label ( text, 1, nb_colonnes - 1,
+	  etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1,
 				      ligne, ligne + 1, LEFT, NULL );
 
 	  text = g_strdup_printf ( "%4.2f %s", montant_categ_etat, devise_name ( devise_categ_etat ) );
-	  etat_affiche_attach_label ( text, nb_colonnes - 2, nb_colonnes - 1,
+	  etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes,
 				      ligne, ligne + 1, RIGHT, NULL );
 
 	  ligne++;
 
-	  etat_affiche_attach_label ( NULL, 1, nb_colonnes -1, ligne, ligne + 1, LEFT, NULL );
+	  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes -1, ligne, ligne + 1, LEFT, NULL );
 
 	  ligne++;
 	}
@@ -141,7 +121,7 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 	  else
 	    text =g_strdup_printf ( "%4.2f %s", montant_categ_etat, devise_name ( devise_categ_etat ) );
 
-	  etat_affiche_attach_label ( text, nb_colonnes - 2, nb_colonnes - 1,
+	  etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes,
 				      ligne, ligne + 1, RIGHT, NULL );
 
 	  ligne++;
@@ -187,26 +167,7 @@ gint etat_affiche_affiche_total_sous_categ ( gint ligne )
 	   ||
 	   etat_courant -> afficher_opes )
 	{
-	  /* 	  si on affiche les opés, on met les traits entre eux */
-
-	  if ( etat_courant -> afficher_opes
-	       &&
-	       ligne_debut_partie != -1 )
-	    {
-	      gint i;
-	      gint colonne;
-
-	      colonne = 2;
-
-	      for ( i=0 ; i<((nb_colonnes-2)/2) ; i++ )
-		{
-		  etat_affiche_attach_vsep ( colonne, colonne + 1, ligne_debut_partie, ligne );
-		  colonne = colonne + 2;
-		}
-	      ligne_debut_partie = -1;
-	    }
-
-	  etat_affiche_attach_label ( NULL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
+	  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 	  ligne++;
 
 	  etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
@@ -230,13 +191,13 @@ gint etat_affiche_affiche_total_sous_categ ( gint ligne )
 	      else
 		text = COLON(_("Sub-categories total"));
 	    }
-	  etat_affiche_attach_label ( text, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
+	  etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 
 	  text = g_strdup_printf ( "%4.2f %s", montant_sous_categ_etat, devise_name ( devise_categ_etat ) );
-	  etat_affiche_attach_label ( text, nb_colonnes - 2, nb_colonnes - 1, ligne, ligne + 1, RIGHT, NULL );
+	  etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
 	  ligne++;
 
-	  etat_affiche_attach_label ( NULL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
+	  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 	  ligne++;
 	}
       else
@@ -249,7 +210,7 @@ gint etat_affiche_affiche_total_sous_categ ( gint ligne )
 	  else
 	    text = g_strdup_printf ( "%4.2f %s", montant_sous_categ_etat, devise_name ( devise_categ_etat ) );
 
-	  etat_affiche_attach_label ( text, nb_colonnes - 2, nb_colonnes - 1, ligne, ligne + 1, RIGHT, NULL );
+	  etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
 	  ligne++;
 	}
     }
@@ -290,26 +251,7 @@ gint etat_affiche_affiche_total_ib ( gint ligne )
 	   ||
 	   etat_courant -> afficher_opes )
 	{
-	  /* 	  si on affiche les opés, on met les traits entre eux */
-
-	  if ( etat_courant -> afficher_opes
-	       &&
-	       ligne_debut_partie != -1 )
-	    {
-	      gint i;
-	      gint colonne;
-
-	      colonne = 2;
-
-	      for ( i=0 ; i<((nb_colonnes-2)/2) ; i++ )
-		{
-		  etat_affiche_attach_vsep ( colonne, colonne + 1, ligne_debut_partie, ligne );
-		  colonne = colonne + 2;
-		}
-	      ligne_debut_partie = -1;
-	    }
-
-	  etat_affiche_attach_label ( NULL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
+	  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 	  ligne++;
 
 	  etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
@@ -331,13 +273,13 @@ gint etat_affiche_affiche_total_ib ( gint ligne )
 		text = COLON(_("Budgetary lines total"));
 	    }
 
-	  etat_affiche_attach_label ( text, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
+	  etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 
 	  text = g_strdup_printf ( "%4.2f %s", montant_ib_etat, devise_name ( devise_ib_etat ) );
-	  etat_affiche_attach_label ( text, nb_colonnes - 2, nb_colonnes - 1, ligne, ligne + 1, RIGHT, NULL );
+	  etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
 	  ligne++;
 
-	  etat_affiche_attach_label ( NULL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
+	  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
 	  ligne++;
 	}
       else
@@ -350,7 +292,7 @@ gint etat_affiche_affiche_total_ib ( gint ligne )
 	  else
 	    text = g_strdup_printf ( "%4.2f %s", montant_ib_etat, devise_name ( devise_ib_etat ) );
 
-	  etat_affiche_attach_label ( text, nb_colonnes - 2, nb_colonnes - 1, ligne, ligne + 1, RIGHT, NULL );
+	  etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
 	  ligne++;
 	}
     }
@@ -391,26 +333,8 @@ gint etat_affiche_affiche_total_sous_ib ( gint ligne )
 	   ||
 	   etat_courant -> afficher_opes )
 	{
-	  /* 	  si on affiche les opés, on met les traits entre eux */
 
-	  if ( etat_courant -> afficher_opes
-	       &&
-	       ligne_debut_partie != -1 )
-	    {
-	      gint i;
-	      gint colonne;
-
-	      colonne = 2;
-
-	      for ( i=0 ; i<((nb_colonnes-2)/2) ; i++ )
-		{
-		  etat_affiche_attach_vsep ( colonne, colonne + 1, ligne_debut_partie, ligne );
-		  colonne = colonne + 2;
-		}
-	      ligne_debut_partie = -1;
-	    }
-
-	  etat_affiche_attach_label ( NULL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
+	  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 	  ligne++;
 
 	  etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
@@ -435,13 +359,13 @@ gint etat_affiche_affiche_total_sous_ib ( gint ligne )
 		text = COLON(_("Sub-budgetary lines total"));
 	    }
 	  
-	  etat_affiche_attach_label ( text, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
+	  etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 
 	  text = g_strdup_printf ( "%4.2f %s", montant_sous_ib_etat, devise_name ( devise_ib_etat ) );
-	  etat_affiche_attach_label ( text, nb_colonnes - 2, nb_colonnes - 1, ligne, ligne + 1, RIGHT, NULL );
+	  etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
 	  ligne++;
 
-	  etat_affiche_attach_label ( NULL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
+	  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
 	  ligne++;
 	}
       else
@@ -454,7 +378,7 @@ gint etat_affiche_affiche_total_sous_ib ( gint ligne )
 	  else
 	    text = g_strdup_printf ( "%4.2f %s", montant_sous_ib_etat, devise_name ( devise_ib_etat )) ;
 				     
-	  etat_affiche_attach_label ( text, nb_colonnes - 2, nb_colonnes - 1, ligne, ligne + 1, RIGHT, NULL );
+	  etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
 	  ligne++;
 	}
     }
@@ -491,27 +415,7 @@ gint etat_affiche_affiche_total_compte ( gint ligne )
 	   ||
 	   etat_courant -> afficher_opes )
 	{
-	  /* 	  si on affiche les opés, on met les traits entre eux */
-
-	  if ( etat_courant -> afficher_opes
-	       &&
-	       ligne_debut_partie != -1 )
-	    {
-	      gint i;
-	      gint colonne;
-
-	      colonne = 2;
-
-	      for ( i=0 ; i<((nb_colonnes-2)/2) ; i++ )
-		{
-		  etat_affiche_attach_vsep ( colonne, colonne + 1, ligne_debut_partie, ligne );
-		  colonne = colonne + 2;
-		}
-	      ligne_debut_partie = -1;
-	    }
-
-
-	  etat_affiche_attach_label ( NULL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
+	  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
 	  ligne++;
 
 	  etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
@@ -532,13 +436,13 @@ gint etat_affiche_affiche_total_compte ( gint ligne )
 		text = COLON(_("Account total"));
 	    }
 	  
-	  etat_affiche_attach_label ( text, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
+	  etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 
 	  text = g_strdup_printf ( "%4.2f %s", montant_compte_etat, devise_name ( devise_compte_en_cours_etat ) );
-	  etat_affiche_attach_label ( text, nb_colonnes - 2, nb_colonnes - 1, ligne, ligne + 1, RIGHT, NULL );
+	  etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
 	  ligne++;
 
-	  etat_affiche_attach_label ( NULL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
+	  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
 	  ligne++;
 	}
       else
@@ -551,7 +455,7 @@ gint etat_affiche_affiche_total_compte ( gint ligne )
 	  else
 	    text = g_strdup_printf ( "%4.2f %s", montant_compte_etat, devise_name (devise_compte_en_cours_etat) );
 
-	  etat_affiche_attach_label ( text, nb_colonnes - 2, nb_colonnes - 1, ligne, ligne + 1, RIGHT, NULL );  
+	  etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );  
 	  ligne++;
 	}
     }
@@ -586,26 +490,8 @@ gint etat_affiche_affiche_total_tiers ( gint ligne )
 
       if ( etat_courant -> afficher_opes )
 	{
-	  /* 	  si on affiche les opés, on met les traits entre eux */
 
-	  if ( etat_courant -> afficher_opes
-	       &&
-	       ligne_debut_partie != -1 )
-	    {
-	      gint i;
-	      gint colonne;
-
-	      colonne = 2;
-
-	      for ( i=0 ; i<((nb_colonnes-2)/2) ; i++ )
-		{
-		  etat_affiche_attach_vsep ( colonne, colonne + 1, ligne_debut_partie, ligne );
-		  colonne = colonne + 2;
-		}
-	      ligne_debut_partie = -1;
-	    }
-
-	  etat_affiche_attach_label ( NULL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
+	  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
 	  ligne++;
 
 	  etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
@@ -626,13 +512,13 @@ gint etat_affiche_affiche_total_tiers ( gint ligne )
 		text = COLON(_("Third party total"));
 	    }
 	  
-	  etat_affiche_attach_label ( text, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
+	  etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 	  
 	  text = g_strdup_printf ( "%4.2f %s", montant_tiers_etat, devise_name ( devise_tiers_etat ) );
-	  etat_affiche_attach_label ( text, nb_colonnes - 2, nb_colonnes - 1, ligne, ligne + 1, RIGHT, NULL );
+	  etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
 	  ligne++;
 
-	  etat_affiche_attach_label ( NULL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
+	  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
 	  ligne++;
 	}
       else
@@ -645,7 +531,7 @@ gint etat_affiche_affiche_total_tiers ( gint ligne )
 	  else
 	    text = g_strdup_printf ( "%4.2f %s", montant_tiers_etat, devise_name ( devise_tiers_etat ) );
 
-	  etat_affiche_attach_label ( text, nb_colonnes - 2, nb_colonnes - 1, ligne, ligne + 1, RIGHT, NULL );
+	  etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
 	  ligne++;
 	}
     }
@@ -848,38 +734,20 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 	}
 
       /*       si on arrive ici, c'est qu'il y a un chgt de période ou que c'est forcé */
-      /* 	  si on affiche les opés, on met les traits entre eux */
 
-      if ( etat_courant -> afficher_opes
-	   &&
-	   ligne_debut_partie != -1 )
-	{
-	  gint i;
-	  gint colonne;
-
-	  colonne = 2;
-
-	  for ( i=0 ; i<((nb_colonnes-2)/2) ; i++ )
-	    {
-	      etat_affiche_attach_vsep ( colonne, colonne + 1, ligne_debut_partie, ligne );
-	      colonne = colonne + 2;
-	    }
-	  ligne_debut_partie = -1;
-	}
-
-      etat_affiche_attach_label ( NULL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
+      etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
       ligne++;
 
       etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
       ligne++;
 
-      etat_affiche_attach_label ( text, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
+      etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 
       text = g_strdup_printf ( "%4.2f %s", montant_periode_etat, devise_name ( devise_generale_etat ) );
-      etat_affiche_attach_label ( text, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
+      etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
       ligne++;
 
-      etat_affiche_attach_label ( NULL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
+      etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
       ligne++;
 
       montant_periode_etat = 0;
@@ -975,13 +843,14 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 
 	  if ( etat_courant -> ope_clickables )
 	    {
-	      etat_affiche_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
+	      etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 	    }
 	  else
 	    {
-	      etat_affiche_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+	      etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
 	    }
 
+	  etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	  colonne = colonne + 2;
 	}
 
@@ -990,13 +859,14 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 	  text = g_strdup_printf  ( "%.2d/%.2d/%d", operation -> jour, operation -> mois, operation -> annee );
 	  if ( etat_courant -> ope_clickables )
 	    {
-	      etat_affiche_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
+	      etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 	    }
 	  else
 	    {
-	      etat_affiche_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+	      etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
 	    }
 
+	  etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	  colonne = colonne + 2;
 	}
 
@@ -1010,13 +880,14 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 	      
 	      if ( etat_courant -> ope_clickables )
 		{
-		  etat_affiche_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
+		  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
 	      else
 		{
-		  etat_affiche_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
 		}
 	    }
+	  etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	  colonne = colonne + 2;
 	}
 
@@ -1030,14 +901,15 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 								    (GCompareFunc) recherche_tiers_par_no )->data)) -> nom_tiers;
 	      if ( etat_courant -> ope_clickables )
 		{
-		  etat_affiche_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
+		  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
 	      else
 		{
-		  etat_affiche_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
 		}
 	    }
 
+	  etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	  colonne = colonne + 2;
 	}
 
@@ -1088,13 +960,15 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 	    {
 	      if ( etat_courant -> ope_clickables )
 		{
-		  etat_affiche_attach_label ( pointeur, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
+		  etat_affiche_attach_label ( pointeur, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
 	      else
 		{
-		  etat_affiche_attach_label ( pointeur, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		  etat_affiche_attach_label ( pointeur, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
 		}
 	    }
+
+	  etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	  colonne = colonne + 2;
 	}
 		
@@ -1123,15 +997,17 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 
 	      if ( etat_courant -> ope_clickables )
 		{
-		  etat_affiche_attach_label ( pointeur, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
+		  etat_affiche_attach_label ( pointeur, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
 	      else
 		{
-		  etat_affiche_attach_label ( pointeur, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		  etat_affiche_attach_label ( pointeur, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
 		}
-	      
-	      colonne = colonne + 2;
 	    }
+
+	      
+	  etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	  colonne = colonne + 2;
 	}
 
 
@@ -1143,18 +1019,19 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 
 	      if ( etat_courant -> ope_clickables )
 		{
-		  etat_affiche_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
+		  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
 	      else
 		{
-		  etat_affiche_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
 		}
 	    }
 	  else
 	    {
-	      etat_affiche_attach_label ( NULL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+	      etat_affiche_attach_label ( NULL, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
 	    }
 	 
+	  etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	  colonne = colonne + 2;
 	}
 
@@ -1178,14 +1055,15 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 
 	      if ( etat_courant -> ope_clickables )
 		{
-		  etat_affiche_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
+		  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
 	      else
 		{
-		  etat_affiche_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
 		}
 	    }
 
+	  etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	  colonne = colonne + 2;
 	}
 
@@ -1198,14 +1076,15 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 
 	      if ( etat_courant -> ope_clickables )
 		{
-		  etat_affiche_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
+		  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
 	      else
 		{
-		  etat_affiche_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
 		}
-
 	    }
+
+	  etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	  colonne = colonne + 2;
 	}
 
@@ -1218,13 +1097,15 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 
 	      if ( etat_courant -> ope_clickables )
 		{
-		  etat_affiche_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
+		  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
 	      else
 		{
-		  etat_affiche_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
 		}
 	    }
+
+	  etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	  colonne = colonne + 2;
 	}
 
@@ -1238,14 +1119,15 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 
 	      if ( etat_courant -> ope_clickables )
 		{
-		  etat_affiche_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
+		  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
 	      else
 		{
-		  etat_affiche_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
 		}
 	    }
 
+	  etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	  colonne = colonne + 2;
 	}
 
@@ -1269,14 +1151,16 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 
 		  if ( etat_courant -> ope_clickables )
 		    {
-		      etat_affiche_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
+		      etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		    }
 		  else
 		    {
-		      etat_affiche_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+		      etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
 		    }
 		}
 	    }
+
+	  etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	  colonne = colonne + 2;
 	}
 
@@ -1299,11 +1183,11 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 
       if ( etat_courant -> ope_clickables )
 	{
-	  etat_affiche_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, RIGHT, operation );
+	  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, RIGHT, operation );
 	}
       else
 	{
-	  etat_affiche_attach_label ( text, colonne, colonne + 1, ligne, ligne + 1, RIGHT, NULL );
+	  etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, RIGHT, NULL );
 	}
 
 
@@ -1324,27 +1208,7 @@ gint etat_affiche_affiche_total_partiel ( gdouble total_partie,
 {
   gchar * text;
 
-  /* 	  si on affiche les opés, on met les traits entre eux */
-
-  if ( etat_courant -> afficher_opes
-       &&
-       ligne_debut_partie != -1 )
-    {
-      gint i;
-      gint colonne;
-
-      colonne = 2;
-
-      for ( i=0 ; i<((nb_colonnes-2)/2) ; i++ )
-	{
-	  etat_affiche_attach_vsep ( colonne, colonne + 1, ligne_debut_partie, ligne );
-	  colonne = colonne + 2;
-	}
-      ligne_debut_partie = -1;
-    }
-
-
-  etat_affiche_attach_label ( NULL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
+  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
   ligne++;
 
   etat_affiche_attach_hsep ( 0, nb_colonnes, ligne, ligne + 1 );
@@ -1365,16 +1229,16 @@ gint etat_affiche_affiche_total_partiel ( gdouble total_partie,
 	text = COLON(_("Total income"));
     }
   
-  etat_affiche_attach_label ( text, 0, nb_colonnes, ligne, ligne + 1, LEFT, NULL );
+  etat_affiche_attach_label ( text, TEXT_NORMAL, 0, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 
   text = g_strdup_printf ( "%4.2f %s", total_partie, devise_name ( devise_generale_etat ) );
-  etat_affiche_attach_label ( text, nb_colonnes - 2, nb_colonnes - 1, ligne, ligne + 1, RIGHT, NULL );
+  etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
   ligne++;
 
   etat_affiche_attach_hsep ( 0, nb_colonnes - 1, ligne, ligne + 1 );
   ligne++;
   
-  etat_affiche_attach_label ( NULL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
+  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
   ligne++;
 
   nom_categ_en_cours = NULL;
@@ -1395,26 +1259,7 @@ gint etat_affiche_affiche_total_general ( gdouble total_general,
 {
   gchar * text;
 
-  /* 	  si on affiche les opés, on met les traits entre eux */
-
-  if ( etat_courant -> afficher_opes
-       &&
-       ligne_debut_partie != -1 )
-    {
-      gint i;
-      gint colonne;
-
-      colonne = 2;
-
-      for ( i=0 ; i<((nb_colonnes-2)/2) ; i++ )
-	{
-	  etat_affiche_attach_vsep ( colonne, colonne + 1, ligne_debut_partie, ligne );
-	  colonne = colonne + 2;
-	}
-      ligne_debut_partie = -1;
-    }
-
-  etat_affiche_attach_label ( NULL, 1, nb_colonnes, ligne, ligne + 1, CENTER, NULL );
+  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes, ligne, ligne + 1, CENTER, NULL );
   ligne++;
 
   etat_affiche_attach_hsep ( 0, nb_colonnes, ligne, ligne + 1 );
@@ -1425,16 +1270,16 @@ gint etat_affiche_affiche_total_general ( gdouble total_general,
   else
     text = COLON(_("General total"));
   
-  etat_affiche_attach_label ( text, 0, nb_colonnes, ligne, ligne + 1, LEFT, NULL );
+  etat_affiche_attach_label ( text, TEXT_NORMAL, 0, nb_colonnes - 2, ligne, ligne + 1, LEFT, NULL );
 
   text = g_strdup_printf ( "%4.2f %s", total_general, devise_name ( devise_generale_etat ) );
-  etat_affiche_attach_label ( text, nb_colonnes - 2, nb_colonnes - 1, ligne, ligne + 1, RIGHT, NULL );
+  etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
   ligne++;
 
   etat_affiche_attach_hsep ( 0, nb_colonnes, ligne, ligne + 1 );
   ligne++;
 
-  etat_affiche_attach_label ( NULL, 1, nb_colonnes, ligne, ligne + 1, CENTER, NULL );
+  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes, ligne, ligne + 1, CENTER, NULL );
   ligne++;
 
   return ( ligne );
@@ -1536,7 +1381,7 @@ gint etat_affiche_affiche_categ_etat ( struct structure_operation *operation,
 		}
 	    }
 
-	  etat_affiche_attach_label ( pointeur_char, 0, 1,
+	  etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1,
 				      ligne, ligne + 1, LEFT, NULL );
 	  ligne++;
 	}
@@ -1622,7 +1467,8 @@ gint etat_affiche_affiche_sous_categ_etat ( struct structure_operation *operatio
 		pointeur_char = "";
 	    }
 
-	  etat_affiche_attach_label ( pointeur_char, 0,1, ligne, ligne + 1, LEFT, NULL );
+	  etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
+				      ligne, ligne + 1, LEFT, NULL );
 	  ligne++;
 	}
  
@@ -1696,7 +1542,8 @@ gint etat_affiche_affiche_ib_etat ( struct structure_operation *operation,
 					  _("No budgetary line"),
 					  NULL );
 
-	  etat_affiche_attach_label ( pointeur_char, 0, 1, ligne, ligne + 1, LEFT, NULL );
+	  etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
+				      ligne, ligne + 1, LEFT, NULL );
 	  ligne++;
 	}
 
@@ -1786,7 +1633,8 @@ gint etat_affiche_affiche_sous_ib_etat ( struct structure_operation *operation,
 		pointeur_char = "";
 	    }
 
-	  etat_affiche_attach_label ( pointeur_char, 0, 1, ligne, ligne + 1, LEFT, NULL );
+	  etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
+				      ligne, ligne + 1, LEFT, NULL );
 	  ligne++;
 	}
 
@@ -1852,7 +1700,8 @@ gint etat_affiche_affiche_compte_etat ( struct structure_operation *operation,
 					NULL );
 	  nom_compte_en_cours = NOM_DU_COMPTE;
 
-	  etat_affiche_attach_label ( pointeur_char, 0, 1, ligne, ligne + 1, LEFT, NULL );
+	  etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
+				      ligne, ligne + 1, LEFT, NULL );
 	  ligne++;
 	}
 
@@ -1925,7 +1774,8 @@ gint etat_affiche_affiche_tiers_etat ( struct structure_operation *operation,
 					  _("No third party"),
 					  NULL );
 
-	  etat_affiche_attach_label ( pointeur_char, 0, 1, ligne, ligne + 1, LEFT, NULL );
+	  etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
+				      ligne, ligne + 1, LEFT, NULL );
 	  ligne++;
 	}
 
@@ -1945,13 +1795,16 @@ gint etat_affiche_affiche_tiers_etat ( struct structure_operation *operation,
 /*****************************************************************************************************/
 gint etat_affiche_affiche_titre_revenus_etat ( gint ligne )
 {
-  etat_affiche_attach_label ( NULL, 0, 1, ligne, ligne + 1, CENTER, NULL );
+  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, 1, 
+			      ligne, ligne + 1, CENTER, NULL );
   ligne++;
 
-  etat_affiche_attach_label ( _("Incomes"), 0, 1, ligne, ligne + 1, CENTER, NULL );
+  etat_affiche_attach_label ( _("Incomes"), TEXT_LARGE, 0, nb_colonnes-1, 
+			      ligne, ligne + 1, CENTER, NULL );
   ligne++;
 
-  etat_affiche_attach_label ( NULL, 0, 1, ligne, ligne + 1, CENTER, NULL );
+  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, 1, 
+			      ligne, ligne + 1, CENTER, NULL );
   ligne++;
 
   return ( ligne );
@@ -1962,13 +1815,16 @@ gint etat_affiche_affiche_titre_revenus_etat ( gint ligne )
 /*****************************************************************************************************/
 gint etat_affiche_affiche_titre_depenses_etat ( gint ligne )
 {
-  etat_affiche_attach_label ( NULL, 0, 1, ligne, ligne + 1, CENTER, NULL );
+  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, 1, 
+			      ligne, ligne + 1, CENTER, NULL );
   ligne++;
 
-  etat_affiche_attach_label ( _("Outgoings"), 0, 1, ligne, ligne + 1, CENTER, NULL );
+  etat_affiche_attach_label ( _("Outgoings"), TEXT_LARGE, 0, nb_colonnes-1, 
+			      ligne, ligne + 1, CENTER, NULL );
   ligne++;
 
-  etat_affiche_attach_label ( NULL, 0, 1, ligne, ligne + 1, CENTER, NULL );
+  etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, 1, 
+			      ligne, ligne + 1, CENTER, NULL );
   ligne++;
 
   return ( ligne );
@@ -2040,76 +1896,87 @@ gint etat_affiche_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_no_ope )
     {
-      etat_affiche_attach_label ( _("Number"), colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+      etat_affiche_attach_label ( _("Number"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+      etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
       colonne = colonne + 2;
     }
 
   if ( etat_courant -> afficher_date_ope )
     {
-      etat_affiche_attach_label ( _("Date"), colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+      etat_affiche_attach_label ( _("Date"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+      etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
       colonne = colonne + 2;
     }
 
   if ( etat_courant -> afficher_exo_ope )
     {
-      etat_affiche_attach_label ( _("Financial year"), colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+      etat_affiche_attach_label ( _("Financial year"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+      etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
       colonne = colonne + 2;
     }
 
   if ( etat_courant -> afficher_tiers_ope )
     {
-      etat_affiche_attach_label ( _("Third party"), colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+      etat_affiche_attach_label ( _("Third party"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+      etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
       colonne = colonne + 2;
     }
 
   if ( etat_courant -> afficher_categ_ope )
     {
-      etat_affiche_attach_label ( _("Category"), colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+      etat_affiche_attach_label ( _("Category"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+      etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
       colonne = colonne + 2;
     }
 
   if ( etat_courant -> afficher_ib_ope )
     {
-      etat_affiche_attach_label ( _("Budgetary line"), colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+      etat_affiche_attach_label ( _("Budgetary line"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+      etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
       colonne = colonne + 2;
     }
 
   if ( etat_courant -> afficher_notes_ope )
     {
-      etat_affiche_attach_label ( _("Notes"), colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+      etat_affiche_attach_label ( _("Notes"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+      etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
       colonne = colonne + 2;
     }
 
   if ( etat_courant -> afficher_type_ope )
     {
-      etat_affiche_attach_label ( _("Payment methods"), colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+      etat_affiche_attach_label ( _("Payment methods"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+      etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
       colonne = colonne + 2;
     }
 
   if ( etat_courant -> afficher_cheque_ope )
     {
-      etat_affiche_attach_label ( _("Cheque"), colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+      etat_affiche_attach_label ( _("Cheque"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+      etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
       colonne = colonne + 2;
     }
 
   if ( etat_courant -> afficher_pc_ope )
     {
-      etat_affiche_attach_label ( _("Voucher"), colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+      etat_affiche_attach_label ( _("Voucher"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+      etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
       colonne = colonne + 2;
     }
 
   if ( etat_courant -> afficher_infobd_ope )
     {
-      etat_affiche_attach_label ( _("Bank references"), colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+      etat_affiche_attach_label ( _("Bank references"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+      etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
       colonne = colonne + 2;
     }
 
   if ( etat_courant -> afficher_rappr_ope )
     {
-      etat_affiche_attach_label ( _("Statement"), colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+      etat_affiche_attach_label ( _("Statement"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+      etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
       colonne = colonne + 2;
     }
-
 
   ligne++;
 
@@ -2138,10 +2005,10 @@ void etat_affiche_attach_vsep ( int x, int x2, int y, int y2)
 
 
 
-void etat_affiche_attach_label ( gchar * text, int x, int x2, int y, int y2, 
+void etat_affiche_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
 				 enum alignement align, struct structure_operation * ope )
 {
-  etat_affichage_output -> attach_label ( text, x, x2, y, y2, align, ope );
+  etat_affichage_output -> attach_label ( text, properties, x, x2, y, y2, align, ope );
 }
 
 
