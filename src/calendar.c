@@ -65,8 +65,8 @@ GtkWidget *gsb_calendar_new ( GtkWidget *entry )
   gtk_container_add ( GTK_CONTAINER ( frame ), pVBox );
   gtk_widget_show ( pVBox );
 
-  if ( !( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entry )))) &&
-	  sscanf ( gtk_entry_get_text ( GTK_ENTRY ( entry )),
+  if ( !( strlen ( g_strstrip ( (gchar*) gtk_entry_get_text ( GTK_ENTRY ( entry )))) &&
+	  sscanf ( (gchar*) gtk_entry_get_text ( GTK_ENTRY ( entry )),
 		   "%d/%d/%d",
 		   &jour,
 		   &mois,
