@@ -826,32 +826,20 @@ GtkWidget *creation_formulaire_echeancier ( void )
   if ( etat.affiche_boutons_valider_annuler )
     gtk_widget_show ( hbox_valider_annuler_echeance );
 
-  bouton = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
-  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			  GTK_RELIEF_NONE );
-  gtk_signal_connect ( GTK_OBJECT ( bouton ),
-   		       "clicked",
-   		       GTK_SIGNAL_FUNC ( echap_formulaire_echeancier ),
-   		       NULL );
-  gtk_box_pack_end ( GTK_BOX ( hbox_valider_annuler_echeance ),
-		     bouton,
-		     FALSE,
-		     FALSE,
-		     0 );
+  bouton = gtk_button_new_from_stock (GTK_STOCK_OK);
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ), GTK_RELIEF_NONE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ), "clicked",
+   		       GTK_SIGNAL_FUNC ( fin_edition_echeance ), NULL );
+  gtk_box_pack_end ( GTK_BOX ( hbox_valider_annuler_echeance ), bouton,
+		     FALSE, FALSE, 0 );
   gtk_widget_show ( bouton );
 
-  bouton = gtk_button_new_from_stock (GTK_STOCK_OK);
-  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			  GTK_RELIEF_NONE );
-  gtk_signal_connect ( GTK_OBJECT ( bouton ),
-   		       "clicked",
-   		       GTK_SIGNAL_FUNC ( fin_edition_echeance ),
-   		       NULL );
+  bouton = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ), GTK_RELIEF_NONE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ), "clicked",
+   		       GTK_SIGNAL_FUNC ( echap_formulaire_echeancier ), NULL );
   gtk_box_pack_end ( GTK_BOX ( hbox_valider_annuler_echeance ),
-		     bouton,
-		     FALSE,
-		     FALSE,
-		     0 );
+		     bouton, FALSE, FALSE, 0 );
   gtk_widget_show ( bouton );
 
 
@@ -1490,7 +1478,8 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 	}
       else
 	{
-	  return TRUE;
+	  gtk_widget_grab_focus ( liste_echeances );
+	  return FALSE;
 	}
 
 
@@ -2767,7 +2756,7 @@ void incrementation_echeance ( struct operation_echeance *echeance )
 
 
 	  gtk_widget_show ( frame_etat_echeances_finies );
-	  gtk_widget_show ( separateur_ech_finies_soldes_mini );
+/* 	  gtk_widget_show ( separateur_ech_finies_soldes_mini ); */
 	}
 
       gsliste_echeances = g_slist_remove ( gsliste_echeances, 
