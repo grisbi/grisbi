@@ -1914,6 +1914,9 @@ void selectionne_ligne ( struct structure_operation *nouvelle_operation_selectio
     gint i;
     GdkColor *couleur;
 
+    if ( ! TREE_VIEW_LISTE_OPERATIONS )
+      return;
+
     if ( DEBUG )
     {
 	if ( nouvelle_operation_selectionnee == GINT_TO_POINTER (-1))
@@ -2117,7 +2120,7 @@ GtkTreeIter *cherche_iter_operation ( struct structure_operation *operation )
     struct structure_operation *operation_tmp;
     GtkTreeIter iter;
 
-    if ( !operation )
+    if ( !operation || ! TREE_VIEW_LISTE_OPERATIONS)
 	return NULL;
 
     /*     si l'est la ligne blanche qui est demandée (ope=-1), p_tab doit être fixé avant... */
