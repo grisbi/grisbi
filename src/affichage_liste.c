@@ -157,17 +157,20 @@ GtkWidget *onglet_affichage_operations ( void )
   GtkWidget * vbox_pref, *onglet, *table, *label, *hbox, *bouton, *paddingbox;
 
   vbox_pref = new_vbox_with_title_and_icon ( _("Transactions list"),
-					     "transaction.png" );
+					     "transaction-list.png" );
 
   /* on permet de choisir quelle ligne seront affichées en fonction des caractéristiques de l'affichage */
   /* pour opé simplifiée */
 
+  paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
+					  _("Display modes"));
+
   hbox = gtk_hbox_new ( FALSE, 5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox,
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 		       FALSE, FALSE, 0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( POSTSPACIFY(_("Display for a line the")));
+  label = gtk_label_new ( COLON(_("One line mode")));
   gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 		       FALSE, FALSE, 0 );
   gtk_widget_show ( label );
@@ -182,14 +185,14 @@ GtkWidget *onglet_affichage_operations ( void )
   /* pour 2 lignes */
   hbox = gtk_hbox_new ( FALSE,
 			5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 		       hbox,
 		       FALSE,
 		       FALSE,
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( POSTSPACIFY(_("Display for two lines the")));
+  label = gtk_label_new ( COLON(_("Two lines mode")));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -221,14 +224,14 @@ GtkWidget *onglet_affichage_operations ( void )
 
   hbox = gtk_hbox_new ( FALSE,
 			5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 		       hbox,
 		       FALSE,
 		       FALSE,
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Display for three lines the"));
+  label = gtk_label_new ( COLON(_("Three lines mode")));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
