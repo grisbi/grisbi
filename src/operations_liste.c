@@ -27,6 +27,7 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "constants.h"
+#include "mouse.h"
 #include "operations_liste.h"
 
 
@@ -51,20 +52,6 @@
 #include "utils.h"
 #include "ventilation.h"
 
-
-
-
-
-#define TRANSACTION_COL_NB_CHECK 0
-#define TRANSACTION_COL_NB_DATE 1
-#define TRANSACTION_COL_NB_PARTY 2
-#define TRANSACTION_COL_NB_PR 3
-#define TRANSACTION_COL_NB_DEBIT 4
-#define TRANSACTION_COL_NB_CREDIT 5
-#define TRANSACTION_COL_NB_BALANCE 6
-
-#define TRANSACTION_LIST_COL_NB 7
-#define TRANSACTION_LIST_ROWS_NB 4
 
 GtkJustification col_justs[] = { GTK_JUSTIFY_CENTER,
     GTK_JUSTIFY_CENTER,
@@ -1148,7 +1135,7 @@ gboolean selectionne_ligne_souris ( GtkCList *liste,
 
     if ( !gtk_clist_get_row_data ( GTK_CLIST ( CLIST_OPERATIONS ), ligne ) )
     {
-	if ( evenement -> button == 3 )
+	if ( evenement -> button == RIGHT_BUTTON )
 	    popup_transaction_context_menu ( FALSE );
 	return FALSE;
     }
@@ -1182,7 +1169,7 @@ gboolean selectionne_ligne_souris ( GtkCList *liste,
 
     if ( evenement -> type == GDK_2BUTTON_PRESS )
 	edition_operation ();
-    else if ( evenement -> button == 3 )
+    else if ( evenement -> button == RIGHT_BUTTON )
 	popup_transaction_context_menu ( TRUE );
     else
 	focus_a_la_liste ();
