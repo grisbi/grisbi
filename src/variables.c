@@ -1,17 +1,9 @@
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004 Benjamin Drieu (bdrieu@april.org)		      */
+/* 			http://www.grisbi.org				      */
+
 /* Ce fichier contient toutes les variables globales définies */
 /* ainsi que toutes les définitions diverses */
-
-
-const GnomeUIInfo * menu_fichier;
-const GnomeUIInfo * menu_comptes; 
-const GnomeUIInfo * help_menu;
-const GnomeUIInfo * menu_principal; 
-const GnomeUIInfo * menu_parametres;
-const GnomeUIInfo * menu_importer;
-const GnomeUIInfo * menu_exporter;
-const GnomeUIInfo * menu_derniers_fichiers; 
-const GnomeUIInfo * menu_cloture;
-
 
 /*********************/ 
 /* fichier main.c */
@@ -78,10 +70,10 @@ gchar *buffer_dernier_fichier;
 gchar *nom_fichier_backup;
 gchar *dernier_chemin_de_travail;
 gint nb_derniers_fichiers_ouverts;          /* contient le nb de derniers fichiers ouverts */
-gdouble nb_max_derniers_fichiers_ouverts;        /* contient le nb max que peut contenir nb_derniers_fichiers_ouverts ( réglé dans les paramètres ) */
+gint nb_max_derniers_fichiers_ouverts;        /* contient le nb max que peut contenir nb_derniers_fichiers_ouverts ( réglé dans les paramètres ) */
 gchar **tab_noms_derniers_fichiers_ouverts;
-gdouble compression_fichier;
-gdouble compression_backup;
+gint compression_fichier;
+gint compression_backup;
 
 /********************/ 
 /* fichier disque.c */
@@ -148,11 +140,8 @@ GtkStyle *style_couleur [2];
 GtkStyle *style_rouge_couleur [2];
 GtkStyle *style_gris;                     /* utilisé pour le grisé des échéances */
 gchar * fonte_liste;
-gchar * fonte_general;
-gchar * list_font_name; /* FIXME FONTS: remove */
-gchar * list_font_size; /* FIXME FONTS: remove */
-gchar * general_font_name; /* FIXME FONTS: remove */
-gchar * general_font_size; /* FIXME FONTS: remove */
+gchar * list_font_name;
+gchar * list_font_size;
 GtkWidget *hbox_comptes_equilibrage;
 GtkWidget *formulaire;
 GtkWidget *pointeur_fenetre_nouveau_compte;
@@ -244,15 +233,6 @@ GtkWidget *bouton_save_demarrage;
 GtkWidget *entree_jours;
 GtkWidget *bouton_2click_saisie, *bouton_2click_pas_saisie;
 
-GSList *fichier_a_verifier;
-GtkWidget *bouton_affichage_applet;
-GtkWidget *frame_demarrage;
-GtkWidget *liste_comptes_verifies;
-gint fichier_verifier_selectionne, nb_fichier_verifier;
-GtkWidget *bouton_enlever;
-GSList *liste_suppression_fichier_a_verifier, *fichier_a_verifier_tmp;
-gint pid_applet;
-
 
 GSList *liste_struct_exercices_tmp;                 /*  utilisée à la place de la liste des exercices pour les paramètres */
 gint no_derniere_exercice_tmp;                            /*  utilisé à la place de no_derniere_exercice pour les paramètres */
@@ -266,48 +246,6 @@ GtkWidget *affichage_exercice;
 GtkWidget *hbox_boutons_modif_exercice;
 gint ligne_selection_exercice;
 GtkWidget *bouton_affichage_auto_exercice;
-
-
-/***********************************/ 
-/* fichier echeancier_liste.c */
-/***********************************/ 
-
-GtkWidget *frame_formulaire_echeancier;
-GtkWidget *formulaire_echeancier;
-GtkWidget *liste_echeances;
-GtkWidget *entree_personnalisation_affichage_echeances;
-GtkWidget *bouton_personnalisation_affichage_echeances;
-GtkWidget *bouton_valider_echeance_perso;
-GtkWidget *bouton_saisir_echeancier;
-GtkWidget *calendrier_echeances;
-
-struct operation_echeance *echeance_selectionnnee;
-
-GSList *gsliste_echeances;                 /* contient la liste des struct échéances */
-gint nb_echeances;
-gint no_derniere_echeance;
-
-gdouble decalage_echeance;      /* nb de jours avant l'échéance pour prévenir */
-
-gint ancienne_largeur_echeances;
-
-GSList *echeances_a_saisir;
-GSList *echeances_saisies;
-gint affichage_echeances; /* contient 0(mois), 1 (2 mois), 2(année), 3(toutes), 4(perso) */
-gint affichage_echeances_perso_nb_libre;     /* contient le contenu de l'entrée */
-gint affichage_echeances_perso_j_m_a;        /* contient 0 (jours), 1 (mois), 2 (années) */
-
-
-
-/************************/ 
-/* fichier echeancier_formulaire.c */
-/************************/ 
-
-GtkWidget *widget_formulaire_echeancier[19];
-GtkWidget *label_saisie_modif;
-GSList *liste_categories_echeances_combofix;        /*  liste des noms des categ et sous categ pour le combofix */
-GtkWidget *separateur_formulaire_echeancier;
-GtkWidget *hbox_valider_annuler_echeance;
 
 
 /***********************************/ 
@@ -328,11 +266,6 @@ GtkWidget *frame_etat_soldes_minimaux_autorises;
 GtkWidget *frame_etat_soldes_minimaux_voulus;
 GtkStyle *style_label_nom_compte;
 GtkStyle *style_label;
-GtkWidget *separateur_passif_manu;
-GtkWidget *separateur_manu_auto;
-GtkWidget *separateur_auto_mini;
-GtkWidget *separateur_ech_finies_soldes_mini;
-GtkWidget *separateur_des_soldes_mini;
 GtkWidget *dialogue_echeance;
 
 
@@ -400,9 +333,6 @@ GtkWidget *option_menu_devise_1;
 GtkWidget *option_menu_devise_2;
 
 
-GSList *liste_struct_devises_tmp;                 /*  utilisée à la place de la liste des devises pour les paramètres */
-gint no_derniere_devise_tmp;                           /*  utilisé à la place de no_derniere_devise pour les paramètres */
-gint nb_devises_tmp;                             /*  utilisé à la place de nb_devises pour les paramètres */
 GtkWidget *clist_devises_parametres;
 GtkWidget *bouton_supprimer_devise;
 GtkWidget *entree_nom_devise_parametres;
@@ -478,12 +408,25 @@ GSList *liste_comptes_qif;
 GSList *liste_entrees_exportation;
 
 
+
+/***********************************/ 
+/* fichier import.c */
+/***********************************/ 
+
+GSList *liste_comptes_importes;
+GtkWidget *dialog_recapitulatif;
+GtkWidget *table_recapitulatif;
+gint virements_a_chercher;
+
+
 /***********************************/ 
 /* fichier barre_outils */
 /***********************************/ 
 
 GtkTooltips *tooltips;
 GtkWidget *bouton_affiche_cache_formulaire_echeancier;
+/* dOm : bouton d'affichage des commentaires dans echeancier */
+GtkWidget *bouton_affiche_commentaire_echeancier;
 GtkWidget *fleche_bas_echeancier;
 GtkWidget *fleche_haut_echeancier;
 GtkWidget *bouton_ope_4_lignes;
@@ -495,16 +438,6 @@ GtkWidget *bouton_enleve_r;
 GtkWidget *label_proprietes_operations_compte;
 
 
-/***********************************/ 
-/* fichier patienter.c */
-/***********************************/ 
-
-GtkWidget *fenetre_patience = NULL;
-gint image_patience_en_cours;
-GtkWidget *label_patience;
-gint timeout_patience;
-GtkWidget *image[15];
-gint patience_en_cours = 0;
 
 
 /***********************************/ 
@@ -602,7 +535,6 @@ GtkWidget *bouton_utiliser_imputation_budgetaire;
 GtkWidget *bouton_utiliser_piece_comptable;
 GtkWidget *bouton_utiliser_info_banque_guichet;
 GtkWidget *bouton_afficher_boutons_valider_annuler;
-GtkWidget *bouton_choix_devise_totaux_tiers;
 GtkWidget *bouton_afficher_nb_ecritures;
 GtkWidget *bouton_classer_liste_par_date;
 GtkWidget *bouton_classer_liste_par_date_bancaire;
@@ -622,6 +554,7 @@ struct struct_etat *etat_courant;
 GtkWidget *bouton_effacer_etat;
 GtkWidget *bouton_personnaliser_etat;
 GtkWidget *bouton_raffraichir_etat;
+GtkWidget *bouton_imprimer_etat;
 GtkWidget *bouton_exporter_etat;
 GtkWidget *bouton_importer_etat;
 GtkWidget *bouton_dupliquer_etat;
@@ -831,3 +764,5 @@ GSList *lignes_affichage_trois_lignes;    /* contient les no de lignes à affiche
 gint dernier_chq;     /* quand on a choisi le plus grand, contient le dernier no de chq dans les comptes choisis */
 gint dernier_pc;     /* quand on a choisi le plus grand, contient le dernier no de pc dans les comptes choisis */
 gint dernier_no_rappr;     /* quand on a choisi le plus grand, contient le dernier no de rappr dans les comptes choisis */
+struct struct_etat_affichage * etat_affichage_output;
+

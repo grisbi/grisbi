@@ -1180,14 +1180,7 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 	     operation -> devise == devise_compte_en_cours_etat -> no_devise )
 	    text = g_strdup_printf  ( _("%4.2f %s"), operation -> montant, devise_name ( devise_compte_en_cours_etat ) );
 	else
-	{
-	    struct struct_devise *devise_operation;
-
-	    devise_operation = g_slist_find_custom ( liste_struct_devises,
-						     GINT_TO_POINTER ( operation -> devise ),
-						     ( GCompareFunc ) recherche_devise_par_no ) -> data;
-	    text = g_strdup_printf  ( _("%4.2f %s"), operation -> montant, devise_name ( devise_operation ) );
-	}
+	    text = g_strdup_printf  ( _("%4.2f %s"), operation -> montant, devise_name_by_no ( operation -> devise ) );
 
 	if ( etat_courant -> ope_clickables )
 	{

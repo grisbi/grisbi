@@ -646,9 +646,7 @@ void update_liste_comptes_accueil ( void )
 		gtk_widget_show ( pLabel );
 
 		/* Quatrième colonne : elle contient le symbole de la devise du compte */
-		pLabel = gtk_label_new ( devise_name ( g_slist_find_custom ( liste_struct_devises,
-									     GINT_TO_POINTER ( DEVISE ),
-									     (GCompareFunc) recherche_devise_par_no ) -> data ) );
+		pLabel = gtk_label_new ( devise_name_by_no (  DEVISE ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 				   3, 4, i, i+1,
@@ -710,9 +708,7 @@ void update_liste_comptes_accueil ( void )
 		gtk_widget_show ( pLabel );
 
 		/* Septième colonne : elle contient le symbole de la devise du compte */
-		pLabel = gtk_label_new ( devise_name((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
-												    GINT_TO_POINTER ( DEVISE ),
-												    (GCompareFunc) recherche_devise_par_no )-> data )));
+		pLabel = gtk_label_new ( devise_name_by_no ( DEVISE ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 				   6, 7, i, i+1,
@@ -760,10 +756,7 @@ void update_liste_comptes_accueil ( void )
 	gtk_widget_show ( pLabel );
 
 	/* Quatrième colonne : elle contient le symbole de la devise du compte */
-	pLabel = gtk_label_new ( devise_name((struct struct_devise *)
-					     (g_slist_find_custom ( liste_struct_devises,
-								    (gpointer) ((struct struct_devise *) devise -> data) -> no_devise,
-								    (GCompareFunc) recherche_devise_par_no )-> data )) );
+	pLabel = gtk_label_new ( devise_name_by_no (((struct struct_devise *) devise -> data) -> no_devise ));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 			   3, 4, i+1, i+2,
@@ -781,10 +774,7 @@ void update_liste_comptes_accueil ( void )
 	gtk_widget_show ( pLabel );
 
 	/* Septième colonne : elle contient le symbole de la devise du compte */
-	pLabel = gtk_label_new ( devise_name ((struct struct_devise *)
-					      (g_slist_find_custom ( liste_struct_devises,
-								     (gpointer) ((struct struct_devise *) devise -> data) -> no_devise,
-								     (GCompareFunc) recherche_devise_par_no )-> data )) );
+	pLabel = gtk_label_new ( devise_name_by_no (((struct struct_devise *) devise -> data) -> no_devise));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 			   6, 7, i+1, i+2,
@@ -944,16 +934,12 @@ void update_liste_echeances_manuelles_accueil ( void )
 	    if ( ECHEANCE_COURANTE -> montant >= 0 )
 		label = gtk_label_new ( g_strdup_printf (_("%4.2f %s credit on %s"),
 							 ECHEANCE_COURANTE->montant,
-							 devise_name((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
-														    GINT_TO_POINTER ( ECHEANCE_COURANTE -> devise ),
-														    (GCompareFunc) recherche_devise_par_no )->data)),
+							 devise_name_by_no(ECHEANCE_COURANTE -> devise ),
 							 NOM_DU_COMPTE ));
 	    else
 		label = gtk_label_new ( g_strdup_printf (_("%4.2f %s debit on %s"),
 							 -ECHEANCE_COURANTE->montant,
-							 devise_name((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
-														    GINT_TO_POINTER ( ECHEANCE_COURANTE -> devise ),
-														    (GCompareFunc) recherche_devise_par_no )->data)),
+							 devise_name_by_no( ECHEANCE_COURANTE -> devise ),
 							 NOM_DU_COMPTE ));
 
 
@@ -1062,16 +1048,12 @@ void update_liste_echeances_auto_accueil ( void )
 	    if ( operation -> montant >= 0 )
 		label = gtk_label_new ( g_strdup_printf (_("%4.2f %s credit on %s"),
 							 operation->montant,
-							 devise_name((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
-														    GINT_TO_POINTER ( operation -> devise ),
-														    (GCompareFunc) recherche_devise_par_no )->data)),
+							 devise_name_by_no( operation -> devise ),
 							 NOM_DU_COMPTE ));
 	    else
 		label = gtk_label_new ( g_strdup_printf (_("%4.2f %s debit on %s"),
 							 -operation->montant,
-							 devise_name((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
-														    GINT_TO_POINTER (  operation -> devise ),
-														    (GCompareFunc) recherche_devise_par_no )->data)),
+							 devise_name_by_no( operation -> devise ),
 							 NOM_DU_COMPTE ));
 
 	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );

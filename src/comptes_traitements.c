@@ -57,7 +57,6 @@ extern gint nb_echeances;
 
 void  nouveau_compte ( void )
 {
-    GtkWidget *bouton;
     gint type_de_compte;
     gint no_compte;
 

@@ -727,15 +727,11 @@ void remplissage_liste_operations ( gint compte )
     gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
 			 g_strdup_printf ( PRESPACIFY(_("Checked balance: %4.2f %s")),
 					   SOLDE_POINTE,
-					   devise_name ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
-												       GINT_TO_POINTER ( DEVISE ),
-												       (GCompareFunc) recherche_devise_par_no )-> data ))) );
+					   devise_name_by_no ( DEVISE )));
     gtk_label_set_text ( GTK_LABEL ( solde_label ),
 			 g_strdup_printf ( PRESPACIFY(_("Current balance: %4.2f %s")),
 					   SOLDE_COURANT,
-					   devise_name ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
-												       GINT_TO_POINTER ( DEVISE ),
-												       (GCompareFunc) recherche_devise_par_no )-> data ))) );
+					   devise_name_by_no ( DEVISE )));
 
 
 
@@ -1872,20 +1868,12 @@ void p_press (void)
     }
 
     /* p_tab est déjà sur le compte courant */
-
-    if ( !devise_compte
-	 ||
-	 devise_compte -> no_devise != DEVISE )
-	devise_compte = g_slist_find_custom ( liste_struct_devises,
-					      GINT_TO_POINTER ( DEVISE ),
-					      ( GCompareFunc ) recherche_devise_par_no ) -> data;
-
     /* met le label du solde pointé */
 
     gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
 			 g_strdup_printf ( PRESPACIFY(_("Checked balance: %4.2f %s")),
 					   SOLDE_POINTE,
-					   devise_name ( devise_compte )) );
+					   devise_name_by_no ( DEVISE )) );
 
 /*     si on a choisi de classer la liste avec les rp, on met à jour ici */
 

@@ -7,25 +7,6 @@
 extern gchar *categories_de_base [];
 
 
-enum menu_fichier_widget {
-  NOUVEAU, OUVRIR, SEP1, 
-  SAUVER, SAUVER_SOUS, SEP2,
-  DERNIERS_FICHIERS, SEP3,
-  IMPORTER, EXPORTER, SEP4,
-  FERMER, QUITTER, MAX_MENU_FICHIER
-};
-extern GnomeUIInfo * menu_fichier;
-extern GnomeUIInfo * menu_comptes; 
-extern GnomeUIInfo * help_menu;
-extern GnomeUIInfo * menu_principal; 
-extern GnomeUIInfo * menu_parametres;
-extern GnomeUIInfo * menu_importer;
-extern GnomeUIInfo * menu_exporter;
-extern GnomeUIInfo * menu_derniers_fichiers; 
-extern GnomeUIInfo * menu_cloture;
-
-
-
 /*********************/ 
 /* fichier main.c */
 /*********************/ 
@@ -63,6 +44,8 @@ extern GtkWidget *label_releve;                    /* adr du label du dernier re
 
 extern GtkWidget *notebook_listes_operations;          /*  adr du notebook qui contient les opés de chaque compte */
 extern GtkWidget *bouton_affiche_cache_formulaire;
+/* dOm : bouton qui affiche ou cache le commentaire dans l'echeancier */
+extern GtkWidget *bouton_affiche_commentaire_echeancier;
 extern GtkWidget *fleche_haut;                        /* adr de l'icone de la flèche vers le haut  */
 extern GtkWidget *fleche_bas;                        /* adr de l'icone de la flèche vers le bas  */
 extern GtkWidget *frame_droite_bas;                  /* adr de la frame contenant le formulaire */
@@ -91,10 +74,10 @@ extern gchar *buffer_dernier_fichier;
 extern gchar *nom_fichier_backup;
 extern gchar *dernier_chemin_de_travail;
 extern gint nb_derniers_fichiers_ouverts;          /* contient le nb de derniers fichiers ouverts */
-extern gdouble nb_max_derniers_fichiers_ouverts;        /* contient le nb max que peut contenir nb_derniers_fichiers_ouverts ( réglé dans les paramètres ) */
+extern gint nb_max_derniers_fichiers_ouverts;        /* contient le nb max que peut contenir nb_derniers_fichiers_ouverts ( réglé dans les paramètres ) */
 extern gchar **tab_noms_derniers_fichiers_ouverts;
-extern gdouble compression_fichier;
-extern gdouble compression_backup;
+extern gint compression_fichier;
+extern gint compression_backup;
 
 
 
@@ -168,11 +151,8 @@ extern GtkStyle *style_couleur [2];
 extern GtkStyle *style_rouge_couleur [2];
 extern GtkStyle *style_gris;                     /* utilisé pour le grisé des échéances */
 extern gchar * fonte_liste;
-extern gchar * fonte_general;
-extern gchar * list_font_name; /* FIXME FONTS: remove */
-extern gchar * list_font_size; /* FIXME FONTS: remove */
-extern gchar * general_font_name; /* FIXME FONTS: remove */
-extern gchar * general_font_size; /* FIXME FONTS: remove */
+extern gchar * list_font_name;
+extern gchar * list_font_size; 
 extern GtkWidget *hbox_comptes_equilibrage;
 extern GtkWidget *formulaire;
 extern GtkWidget *pointeur_fenetre_nouveau_compte;
@@ -268,16 +248,6 @@ extern GtkWidget *bouton_save_demarrage;
 extern GtkWidget *entree_jours;
 extern GtkWidget *bouton_2click_saisie, *bouton_2click_pas_saisie;
 
-extern GSList *fichier_a_verifier;
-extern GtkWidget *bouton_affichage_applet;
-extern GtkWidget *frame_demarrage;
-extern GtkWidget *liste_comptes_verifies;
-extern gint fichier_verifier_selectionne, nb_fichier_verifier;
-extern GtkWidget *bouton_enlever;
-extern GSList *liste_suppression_fichier_a_verifier, *fichier_a_verifier_tmp;
-extern gint pid_applet;
-
-
 extern GSList *liste_struct_exercices_tmp;                 /*  utilisée à la place de la liste des exercices pour les paramètres */
 extern gint no_derniere_exercice_tmp;                            /*  utilisé à la place de no_derniere_exercice pour les paramètres */
 extern gint nb_exercices_tmp;                            /*  utilisé à la place de nb_exercices pour les paramètres */
@@ -291,51 +261,6 @@ extern GtkWidget *hbox_boutons_modif_exercice;
 extern gint ligne_selection_exercice;
 extern GtkWidget *bouton_affichage_auto_exercice;
 
-
-
-/***********************************/ 
-/* fichier echeancier_liste.c */
-/***********************************/ 
-
-
-
-extern GtkWidget *frame_formulaire_echeancier;
-extern GtkWidget *formulaire_echeancier;
-extern GtkWidget *liste_echeances;
-extern GtkWidget *entree_personnalisation_affichage_echeances;
-extern GtkWidget *bouton_personnalisation_affichage_echeances;
-extern GtkWidget *bouton_valider_echeance_perso;
-extern GtkWidget *bouton_saisir_echeancier;
-extern GtkWidget *calendrier_echeances;
-
-extern struct operation_echeance *echeance_selectionnnee;
-
-extern GSList *gsliste_echeances;                 /* contient la liste des struct échéances */
-extern gint nb_echeances;
-extern gint no_derniere_echeance;
-
-extern gdouble decalage_echeance;
-
-extern gint ancienne_largeur_echeances;
-
-extern GSList *echeances_a_saisir;
-extern GSList *echeances_saisies;
-extern gint affichage_echeances; /* contient 0(mois), 1 (2 mois), 2(année), 3(toutes), 4(perso) */
-extern gint affichage_echeances_perso_nb_libre;     /* contient le contenu de l'entrée */
-extern gint affichage_echeances_perso_j_m_a;        /* contient 0 (jours), 1 (mois), 2 (années) */
-
-
-
-
-/************************/ 
-/* fichier echeances_formulaire.c */
-/************************/ 
-
-extern GtkWidget *widget_formulaire_echeancier[19];
-extern GtkWidget *label_saisie_modif;
-extern GSList *liste_categories_echeances_combofix;        /*  liste des noms des categ et sous categ pour le combofix */
-extern GtkWidget *separateur_formulaire_echeancier;
-extern GtkWidget *hbox_valider_annuler_echeance;
 
 
 
@@ -357,11 +282,6 @@ extern GtkWidget *frame_etat_soldes_minimaux_autorises;
 extern GtkWidget *frame_etat_soldes_minimaux_voulus;
 extern GtkStyle *style_label_nom_compte;
 extern GtkStyle *style_label;
-extern GtkWidget *separateur_passif_manu;
-extern GtkWidget *separateur_manu_auto;
-extern GtkWidget *separateur_auto_mini;
-extern GtkWidget *separateur_ech_finies_soldes_mini;
-extern GtkWidget *separateur_des_soldes_mini;
 extern GtkWidget *dialogue_echeance;
 
 
@@ -432,9 +352,6 @@ extern GtkWidget *option_menu_devise_2;
 
 
 
-extern GSList *liste_struct_devises_tmp;            /*  utilisée à la place de la liste des devises pour les paramètres */
-extern gint no_derniere_devise_tmp;                    /*  utilisé à la place de no_derniere_devise pour les paramètres */
-extern gint nb_devises_tmp;                             /*  utilisé à la place de nb_devises pour les paramètres */
 extern GtkWidget *clist_devises_parametres;
 extern GtkWidget *bouton_supprimer_devise;
 extern GtkWidget *entree_nom_devise_parametres;
@@ -512,6 +429,16 @@ extern GSList *liste_entrees_exportation;
 
 
 /***********************************/ 
+/* fichier import.c */
+/***********************************/ 
+
+extern GSList *liste_comptes_importes;
+extern GtkWidget *dialog_recapitulatif;
+extern GtkWidget *table_recapitulatif;
+extern gint virements_a_chercher;
+
+
+/***********************************/ 
 /* fichier barre_outils */
 /***********************************/ 
 
@@ -526,18 +453,6 @@ extern GtkWidget *bouton_ope_1_lignes;
 extern GtkWidget *bouton_affiche_r;
 extern GtkWidget *bouton_enleve_r;
 extern GtkWidget *label_proprietes_operations_compte;
-
-
-/***********************************/ 
-/* fichier patienter.c */
-/***********************************/ 
-
-extern GtkWidget *fenetre_patience;
-extern gint image_patience_en_cours;
-extern GtkWidget *label_patience;
-extern gint timeout_patience;
-extern GtkWidget *image[15];
-extern gint patience_en_cours;
 
 
 /***********************************/ 
@@ -634,7 +549,6 @@ extern GtkWidget *bouton_utiliser_imputation_budgetaire;
 extern GtkWidget *bouton_utiliser_piece_comptable;
 extern GtkWidget *bouton_utiliser_info_banque_guichet;
 extern GtkWidget *bouton_afficher_boutons_valider_annuler;
-extern GtkWidget *bouton_choix_devise_totaux_tiers;
 extern GtkWidget *bouton_afficher_nb_ecritures;
 extern GtkWidget *bouton_classer_liste_par_date;
 extern GtkWidget *bouton_classer_liste_par_date_bancaire;
@@ -654,6 +568,7 @@ extern struct struct_etat *etat_courant;
 extern GtkWidget *bouton_effacer_etat;
 extern GtkWidget *bouton_personnaliser_etat;
 extern GtkWidget *bouton_raffraichir_etat;
+extern GtkWidget *bouton_imprimer_etat;
 extern GtkWidget *bouton_exporter_etat;
 extern GtkWidget *bouton_importer_etat;
 extern GtkWidget *bouton_dupliquer_etat;
@@ -864,3 +779,4 @@ extern GSList *lignes_affichage_trois_lignes;    /* contient les no de lignes à 
 extern gint dernier_chq;     /* quand on a choisi le plus grand, contient le dernier no de chq dans les comptes choisis */
 extern gint dernier_pc;     /* quand on a choisi le plus grand, contient le dernier no de pc dans les comptes choisis */
 extern gint dernier_no_rappr;     /* quand on a choisi le plus grand, contient le dernier no de rappr dans les comptes choisis */
+extern struct struct_etat_affichage * etat_affichage_output;
