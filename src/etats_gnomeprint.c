@@ -113,14 +113,13 @@ gint gnomeprint_initialise (GSList * opes_selectionnees)
 
   title_font = gnome_font_new_closest ("Utopia", GNOME_FONT_BOLD, 0, 36);
   subtitle_font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, 0, 20);
-  header_font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, 0, 20);
-/*   header_font = gnome_font_new_closest ("Times", GNOME_FONT_BOOK, 0, 14); */
   text_font = gnome_font_new_closest ("Times", GNOME_FONT_BOOK, 0, 12);
+  header_font = gnome_font_new_closest ("Times", GNOME_FONT_BOOK, 0, 14);
 
   tmp_x = point_x = HMARGIN;
   tmp_y = point_y = gnome_paper_psheight(gnome_print_master_get_paper(gpm)) - VMARGIN;
 
-  do_print_text_page(pc, text_font, opes_selectionnees);
+  do_print_text_page(pc, header_font, opes_selectionnees);
 
   return 1;
 }
@@ -288,27 +287,10 @@ do_print_text_page (GnomePrintContext *pc, GnomeFont *font, GSList * list)
   gnome_print_setrgbcolor (pc, 0.0, 0.0, 0.0);
   gnome_print_setlinewidth (pc, 1.0);
 
-/*   maxi=0; */
-/*   while (list) */
-/*     { */
-/*       operation = list -> data; */
-/*       if (operation -> no_compte) */
-/* 	columns[maxi][0] = g_strdup_printf ( "%d", operation -> no_compte); */
-/*       else  */
-/* 	columns[maxi][0] = "0"; */
-/*       columns[maxi][1] = g_strdup_printf ( "%d", operation -> imputation); */
-/*       if (operation -> notes) */
-/* 	columns[maxi][2] = operation -> notes; */
-/*       else */
-/* 	columns[maxi][2] = ""; */
-/*       columns[maxi][3] = g_strdup_printf ( "%4.2f", operation -> montant); */
-/*       list=list->next; */
-/*       maxi++; */
-/*     } */
-
   list_pointeur = list;
   while (list_pointeur)
     {
+      column=0; /* Gruik! */
       operation = list->data;
       if (etat_courant -> afficher_no_ope)
 	{
@@ -317,7 +299,7 @@ do_print_text_page (GnomePrintContext *pc, GnomeFont *font, GSList * list)
 	}
       if (etat_courant -> afficher_date_ope)
 	{
-	  total_text += update_columns (pc, font, column, 
+	  total_text += update_columns (pc, font, column,
 					g_strdup_printf  ( "%.2d/%.2d/%d",
 							   operation -> jour,
 							   operation -> mois,
@@ -326,7 +308,7 @@ do_print_text_page (GnomePrintContext *pc, GnomeFont *font, GSList * list)
 	}
       if (etat_courant -> afficher_exo_ope)
 	{
-	  total_text += update_columns (pc, font, column, 
+	  total_text += update_columns (pc, font, column,
 					((struct struct_exercice *)
 					 (g_slist_find_custom ( liste_struct_exercices,
 								GINT_TO_POINTER ( operation -> no_exercice ),
@@ -335,7 +317,7 @@ do_print_text_page (GnomePrintContext *pc, GnomeFont *font, GSList * list)
 	}
       if (etat_courant -> afficher_tiers_ope)
 	{
-	  total_text += update_columns (pc, font, column, 
+	  total_text += update_columns (pc, font, column,
 					((struct struct_tiers *)
 					 (g_slist_find_custom ( liste_struct_tiers,
 								GINT_TO_POINTER ( operation -> tiers ),
@@ -387,7 +369,7 @@ do_print_text_page (GnomePrintContext *pc, GnomeFont *font, GSList * list)
 	    }
 
 	  if (pointeur)
-	    total_text += update_columns (pc, font, column, 
+	    total_text += update_columns (pc, font, column,
 					  pointeur);
 	  column++;
 	}
@@ -455,7 +437,7 @@ do_print_text_page (GnomePrintContext *pc, GnomeFont *font, GSList * list)
       if (etat_courant -> afficher_pc_ope)
 	{
 	  if ( operation -> no_piece_comptable )
-	    {	  
+	    {
 	      total_text += update_columns (pc, font, column, operation -> no_piece_comptable);
 	    }
 	  column++;
@@ -502,9 +484,10 @@ do_print_text_page (GnomePrintContext *pc, GnomeFont *font, GSList * list)
 									    operation -> montant,
 									    devise_operation -> code_devise ));
 	}
+      column++;
      
       lines++;
-      list_pointeur = list_pointeur->next; 
+      list_pointeur = list_pointeur->next;
     }
 
 /*   for (i=0; i<maxi; i++) */
@@ -548,26 +531,26 @@ do_print_text_page (GnomePrintContext *pc, GnomeFont *font, GSList * list)
 	}
     }
 
-  for (column=0; column<4; column++)
-    {
-      if (! columns_max[column])
-	{
-	  columns_max[column] = ((columns_total[column]/total_text) * total_width);
-	  printf ("++ %d, %f, %f, %f\n", column, columns_max[column], columns_total[column], total_text);
-	}
-      if (column > 0)
-	{
-	  columns_pos[column] = columns_pos[column-1] + columns_max[column-1];
-	  printf ("** %d, %f, %f\n", column, columns_pos[column-1], columns_pos[column]);
-	}
-      printf ("-- %d, %f, %f, %f\n", column, columns_max[column], columns_total[column], total_text);
+/*   for (column=0; column<4; column++) */
+/*     { */
+/*       if (! columns_max[column]) */
+/* 	{ */
+/* 	  columns_max[column] = ((columns_total[column]/total_text) * total_width); */
+/* 	  printf ("++ %d, %f, %f, %f\n", column, columns_max[column], columns_total[column], total_text); */
+/* 	} */
+/*       if (column > 0) */
+/* 	{ */
+/* 	  columns_pos[column] = columns_pos[column-1] + columns_max[column-1]; */
+/* 	  printf ("** %d, %f, %f\n", column, columns_pos[column-1], columns_pos[column]); */
+/* 	} */
+/*       printf ("-- %d, %f, %f, %f\n", column, columns_max[column], columns_total[column], total_text); */
 /*       gnome_print_gsave (pc); */
 /*       gnome_print_setlinewidth (pc, 1); */
 /*       gnome_print_moveto (pc, columns_pos[column]+10, 800); */
 /*       gnome_print_lineto (pc, columns_pos[column]+10, 200); */
 /*       gnome_print_stroke (pc); */
 /*       gnome_print_grestore (pc); */
-    }
+/*     } */
 
 /*   for (i=0; i<maxi; i++) */
 /*     { */
@@ -1008,6 +991,8 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
       colonne = 1;
 
       /* On affiche l'opération elle-même */
+
+      /* [FIXME] DÉCOMMENTER PUIS IMPRIMER LA LIGNE */
       
 /*       if (etat_courant -> afficher_no_ope) */
 /* 	{ */
@@ -1016,7 +1001,7 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 /* 	} */
 /*       if (etat_courant -> afficher_date_ope) */
 /* 	{ */
-/* 	  total_text += update_columns (pc, font, column,  */
+/* 	  total_text += update_columns (pc, font, column, */
 /* 					g_strdup_printf  ( "%.2d/%.2d/%d", */
 /* 							   operation -> jour, */
 /* 							   operation -> mois, */
@@ -1025,7 +1010,7 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 /* 	} */
 /*       if (etat_courant -> afficher_exo_ope) */
 /* 	{ */
-/* 	  total_text += update_columns (pc, font, column,  */
+/* 	  total_text += update_columns (pc, font, column, */
 /* 					((struct struct_exercice *) */
 /* 					 (g_slist_find_custom ( liste_struct_exercices, */
 /* 								GINT_TO_POINTER ( operation -> no_exercice ), */
@@ -1034,7 +1019,7 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 /* 	} */
 /*       if (etat_courant -> afficher_tiers_ope) */
 /* 	{ */
-/* 	  total_text += update_columns (pc, font, column,  */
+/* 	  total_text += update_columns (pc, font, column, */
 /* 					((struct struct_tiers *) */
 /* 					 (g_slist_find_custom ( liste_struct_tiers, */
 /* 								GINT_TO_POINTER ( operation -> tiers ), */
@@ -1086,7 +1071,7 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 /* 	    } */
 
 /* 	  if (pointeur) */
-/* 	    total_text += update_columns (pc, font, column,  */
+/* 	    total_text += update_columns (pc, font, column, */
 /* 					  pointeur); */
 /* 	  column++; */
 /* 	} */
@@ -1154,7 +1139,7 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 /*       if (etat_courant -> afficher_pc_ope) */
 /* 	{ */
 /* 	  if ( operation -> no_piece_comptable ) */
-/* 	    {	   */
+/* 	    { */
 /* 	      total_text += update_columns (pc, font, column, operation -> no_piece_comptable); */
 /* 	    } */
 /* 	  column++; */
@@ -1203,7 +1188,7 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 /* 	} */
      
 /*       lines++; */
-/*       list_pointeur = list_pointeur->next;  */
+/*       list_pointeur = list_pointeur->next; */
     }
 
   tmp_x = HMARGIN;
