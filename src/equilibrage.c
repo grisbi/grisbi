@@ -447,13 +447,6 @@ void equilibrage ( void )
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-    if ( !NB_OPE_COMPTE )
-    {
-	dialogue_error ( _("This account does not contain any transaction") );
-	return;
-    }
-
-
     /* efface le label propriétés du compte */
 
     gtk_widget_hide ( label_proprietes_operations_compte );
