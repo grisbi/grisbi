@@ -165,11 +165,11 @@ gchar *categories_de_base_credit [] = {
 
 
 
-extern GSList *gsliste_echeances;  
-extern GSList *liste_categories_ventilation_combofix; 
-extern GtkWidget *widget_formulaire_echeancier[19];
-extern GSList *liste_categories_ventilation_combofix; 
-extern GtkWidget *widget_formulaire_ventilation_echeances[8];
+extern GSList *gsliste_echeances;
+extern GSList *liste_categories_ventilation_combofix;
+extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
+extern GSList *liste_categories_ventilation_combofix;
+extern GtkWidget *widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_TOTAL_WIDGET];
 
 
 
@@ -2607,17 +2607,17 @@ void mise_a_jour_categ ( void )
 			    TRUE );
 
 
-    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[6] ),
+    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ),
 			    liste_categories_combofix,
 			    TRUE,
 			    TRUE );
 
-    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_ventilation[0] ),
+    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CATEGORY] ),
 			    liste_categories_ventilation_combofix,
 			    TRUE,
 			    TRUE );
 
-    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[0] ),
+    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ),
 			    liste_categories_ventilation_combofix,
 			    TRUE,
 			    TRUE );
