@@ -19,7 +19,7 @@
 /*     along with this program; if not, write to the Free Software */
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: etats_gnomeprint.c,v 1.15 2002/10/17 18:46:41 benj Exp $ */
+/* $Id: etats_gnomeprint.c,v 1.16 2002/10/22 15:06:30 benj Exp $ */
 
 #include "include.h"
 #include "structures.h"
@@ -63,14 +63,17 @@ int do_preview=0, page=0, num_ope=0;
 GnomeFont *title_font, *subtitle_font, *header_font, *text_font;
 float point_x, point_y, tmp_x, tmp_y;
 gfloat red=0, green=0, blue=0;
+gint color;
 
 
-void do_print_text_page (GnomePrintContext *pc, GnomeFont *font, GSList * list);
-
+ArtPoint point;
+ArtPoint tmp_point;
 
 
 #define HMARGIN 15
 #define VMARGIN 15
+#define PAPER_WIDTH gnome_paper_pswidth(gnome_print_master_get_paper(gpm))
+#define PAPER_HEIGHT gnome_paper_psheight(gnome_print_master_get_paper(gpm))
 
 
 /*****************************************************************************************************/
@@ -119,9 +122,13 @@ gint gnomeprint_initialise (GSList * opes_selectionnees)
   header_font = gnome_font_new_closest ("Times", GNOME_FONT_BOOK, 0, 14);
 
   tmp_x = point_x = HMARGIN;
-  tmp_y = point_y = gnome_paper_psheight(gnome_print_master_get_paper(gpm)) - VMARGIN;
+  tmp_y = point_y = PAPER_HEIGHT - VMARGIN;
 
-  do_print_text_page(pc, header_font, opes_selectionnees);
+  gnomeprint_balancer_colonnes(pc, header_font, opes_selectionnees);
+  point.x = point_x;
+  point.y = point_y;
+
+  color = 0x000000ff;
 
   return 1;
 }
@@ -165,35 +172,63 @@ GSList * text_to_words (guchar *text)
 
 
 void
+gnomeprint_show_text (GnomePrintContext *pc, GnomeFont *font, 
+		      gchar * text, gdouble mwidth)
+{
+  GSList * words;
+
+  words = text_to_words ( text );
+  gnomeprint_show_words ( pc, font, words, mwidth );
+  g_slist_free (words);	  
+}
+
+
+void
+gnomeprint_show_words(GnomePrintContext *pc, GnomeFont *font, GSList *words,
+		      gdouble mwidth)
+{
+  show_words ( pc, font, words, point.x, point.y, mwidth );
+}
+
+
+void
 show_words(GnomePrintContext *pc, GnomeFont *font, GSList *words, 
 	   gdouble x, gdouble y, gdouble mwidth)
 {
-  gint space;
   ArtPoint spadv;
-  gdouble accwidth = 0.0;
-  gdouble fontheight;
+  gdouble accwidth = 0.0, max_accwidth = 0.0, fontheight;
+  gint lines = 1;
 
   fontheight = gnome_font_get_ascender (font) + gnome_font_get_descender (font);
+
+  gnome_print_gsave (pc);
+  gnome_print_setfont (pc, font);
+  gnome_print_setrgbcolor (pc, red, green, blue); 
 
   while (words != NULL)
     {
       gdouble width;
       GnomeGlyphList * gl;
 
-      gl = gnome_glyphlist_from_text_dumb (font, 0x000000ff, 0.0, 0.0, "");
-      space = gnome_font_face_lookup_default (gnome_font_get_face (font), ' ');
-      gnome_font_get_glyph_stdadvance (font, space, &spadv);
+      gl = gnome_glyphlist_from_text_dumb (font, color, 0.0, 0.0, "");
+      gnome_font_get_glyph_stdadvance (font, 
+				       gnome_font_face_lookup_default (gnome_font_get_face (font), ' '), 
+				       &spadv);
       /* FIXME: gnome_font_get_width_string semble être confus à cause
-	 des caractères unicode. */
+	 des caractères accentués unicode. */
       width = gnome_font_get_width_string (font, (gchar *) words->data);
 
-      if (accwidth && ((accwidth+width) > mwidth))
+      if (accwidth > max_accwidth)
+	max_accwidth = accwidth;
+
+      if ( accwidth && ((accwidth+width) > mwidth))
 	{
 	  y-=(1.0*fontheight);
 	  accwidth=0;
+	  lines ++;
 	}
 
-      gnome_glyphlist_moveto (gl, x+accwidth, y);
+      gnome_glyphlist_moveto (gl, x+accwidth, y-fontheight);
 
       if (words->next) accwidth += spadv.x; 
       accwidth += width;
@@ -205,6 +240,11 @@ show_words(GnomePrintContext *pc, GnomeFont *font, GSList *words,
       gnome_glyphlist_unref (gl);
       words = words->next;
     }
+  gnome_print_grestore (pc);
+
+  tmp_point.x = point.x + max_accwidth;
+  tmp_point.y = point.y - (lines * fontheight);
+
 }
 
 
@@ -277,23 +317,27 @@ update_columns (GnomePrintContext *pc, GnomeFont *font, gint column, gchar * tex
 
 
 void
-do_print_text_page (GnomePrintContext *pc, GnomeFont *font, GSList * list)
+gnomeprint_balancer_colonnes (GnomePrintContext *pc, GnomeFont *font, 
+			      GSList * list)
 {
   int i, lines=0, column=0;
   gdouble total_text=0;
-  gdouble total_width = gnome_paper_pswidth(gnome_print_master_get_paper(gpm))-20;
+  gdouble total_width = PAPER_WIDTH-20;
   struct structure_operation *operation;
   GSList * list_pointeur;
 
+
+#ifdef DEBUG
   gnome_print_beginpage (pc, "Glyph test page");
   gnome_print_setrgbcolor (pc, 0.0, 0.0, 0.0);
   gnome_print_setlinewidth (pc, 1.0);
+#endif
 
   list_pointeur = list;
   while (list_pointeur)
     {
       column=0; /* Gruik! */
-      operation = list->data;
+      operation = list_pointeur->data;
       if (etat_courant -> afficher_no_ope)
 	{
 	  total_text += update_columns (pc, font, column, g_strdup_printf ( "%d", operation -> no_operation ) );
@@ -341,12 +385,14 @@ do_print_text_page (GnomePrintContext *pc, GnomeFont *font, GSList * list)
 	      if ( operation -> sous_categorie
 		   &&
 		   etat_courant -> afficher_sous_categ_ope )
-		pointeur = g_strconcat ( pointeur,
-					 " : ",
-					 ((struct struct_sous_categ *)(g_slist_find_custom ( categ -> liste_sous_categ,
-											     GINT_TO_POINTER ( operation -> sous_categorie ),
-											     (GCompareFunc) recherche_sous_categorie_par_no ) -> data )) -> nom_sous_categ,
-					 NULL );
+		pointeur = 
+		  g_strconcat ( pointeur,
+				" : ",
+				((struct struct_sous_categ *)
+				 (g_slist_find_custom ( categ -> liste_sous_categ,
+							GINT_TO_POINTER ( operation -> sous_categorie ),
+							(GCompareFunc) recherche_sous_categorie_par_no ) -> data )) -> nom_sous_categ,
+				NULL );
 	    }
 	  else
 	    {
@@ -492,23 +538,7 @@ do_print_text_page (GnomePrintContext *pc, GnomeFont *font, GSList * list)
       list_pointeur = list_pointeur->next;
     }
 
-/*   for (i=0; i<maxi; i++) */
-/*     { */
-/*       for (column=0; column<4; column++) */
-/* 	{ */
-/* 	  gdouble min, max; */
-
-/* 	  words = text_to_words(columns[i][column]); */
-/* 	  text_get_min_max(pc, font, words, &min, &max); */
-/* 	  if (min > columns_min[column]) */
-/* 	    { */
-/* 	      columns_min[column] = min; */
-/* 	    } */
-/* 	  columns_total[column] += max; */
-/* 	  g_slist_free (words);	   */
-/* 	} */
-/*     } */
-  
+#ifdef DEBUG
   gnome_print_setlinewidth (pc, 1.0);
   gnome_print_moveto (pc, 10, 800);
   gnome_print_lineto (pc, 10, 200);
@@ -516,19 +546,22 @@ do_print_text_page (GnomePrintContext *pc, GnomeFont *font, GSList * list)
   gnome_print_lineto (pc, total_width+10, 800);
   gnome_print_closepath (pc);
   gnome_print_stroke (pc);
+#endif
 
   for (i=0; i<column; i++)
     {
+      printf ("?? %d, %f, %f\n", i, total_width, total_text);
       if (((columns_total[i]/total_text) * total_width) <
 	  columns_min[i])
 	{
-	  printf (">> %f, %f\n", columns_min[i], ((columns_total[i]/total_text) * total_width));
+	  printf (">> %d, %f, %f\n", i, columns_min[i], ((columns_total[i]/total_text) * total_width));
 	  columns_max[i] = columns_min[i];
 	  total_width -= columns_min[i];
 	  total_text -= columns_total[i];
 	}
       else
 	{
+	  printf ("<< %d, %f, %f\n", i, columns_min[i], ((columns_total[i]/total_text) * total_width));
 	  columns_max[i]=0;
 	}
     }
@@ -549,30 +582,19 @@ do_print_text_page (GnomePrintContext *pc, GnomeFont *font, GSList * list)
 	  columns_pos[i] = columns_pos[i-1] + columns_max[i-1];
 	  printf ("** %d, %f, %f\n", i, columns_pos[i-1], columns_pos[i]);
 	}
+#ifdef DEBUG
       gnome_print_gsave (pc);
       gnome_print_setlinewidth (pc, 1);
       gnome_print_moveto (pc, columns_pos[i]+10, 800);
       gnome_print_lineto (pc, columns_pos[i]+10, 200);
       gnome_print_stroke (pc);
       gnome_print_grestore (pc);
+#endif
     }
-/*   for (i=0; i<maxi; i++) */
-/*     { */
-/*       for (column=0; column<4; column++) */
-/* 	{ */
-/* 	  words = text_to_words(columns[i][column]); */
-/* 	  show_words(pc, font, words, 10+columns_pos[column], 750-i*30, columns_max[column]); */
-/* 	  g_slist_free (words);	   */
-/* 	} */
-/*     } */
 
-/*   words = text_to_words("1 2 3 4 5 6"); */
-/*   text_get_min_max(pc, font, words, &min, &max); */
-/*   printf (">> %.2f, %.2f\n", min, max); */
-/*   show_words(pc, font, words, 20, 400, 50); */
-/*   g_slist_free (words); */
-
+#ifdef DEBUG
   gnome_print_showpage (pc);
+#endif
 }
 
 /*****************************************************************************************************/
@@ -585,7 +607,7 @@ void gnomeprint_verifier_nouvelle_page ( void )
       gnome_print_showpage ( pc );
       gnome_print_beginpage ( pc, g_strdup_printf ("%d", ++page) );
       tmp_x = point_x = HMARGIN;
-      tmp_y = point_y = gnome_paper_psheight(gnome_print_master_get_paper(gpm)) - VMARGIN;
+      tmp_y = point_y = PAPER_HEIGHT - VMARGIN;
     }
 }
 /*****************************************************************************************************/
@@ -596,7 +618,7 @@ void gnomeprint_verifier_nouvelle_page ( void )
 /*****************************************************************************************************/
 void gnomeprint_verifier_nouvelle_ligne ( int height, int margin )
 {
-  if ( tmp_x > (gnome_paper_pswidth(gnome_print_master_get_paper(gpm)) - margin - HMARGIN))
+  if ( tmp_x > (PAPER_WIDTH - margin - HMARGIN))
     {
       tmp_y += height;
       tmp_x = HMARGIN;
@@ -605,7 +627,7 @@ void gnomeprint_verifier_nouvelle_ligne ( int height, int margin )
 	{
 	  gnomeprint_rectangle ( HMARGIN, 
 				 tmp_y,
-				 gnome_paper_pswidth(gnome_print_master_get_paper(gpm))-HMARGIN, 
+				 PAPER_WIDTH-HMARGIN, 
 				 tmp_y + height);
 	}
     }
@@ -615,11 +637,16 @@ void gnomeprint_verifier_nouvelle_ligne ( int height, int margin )
 /*****************************************************************************************************/
 /* modifie la couleur utilisée pour l'affichage */
 /*****************************************************************************************************/
-void gnomeprint_set_color ( gfloat tred, gfloat tgreen, gfloat tblue )
+void gnomeprint_set_color ( gchar tred, gchar tgreen, gchar tblue )
 {
-  red = tred;
-  green = tgreen;
-  blue = tblue;
+  red = tred/256;
+  green = tgreen/256;
+  blue = tblue/256;
+
+  color = 0x000000ff |
+    tred << 6 |
+    tgreen << 4 |
+    tblue << 2;
 }
 /*****************************************************************************************************/
 
@@ -698,11 +725,10 @@ void gnomeprint_commit_y ( )
 gint gnomeprint_affiche_titre ( gint ligne )
 {
   gnome_print_beginpage ( pc, g_strdup_printf ( "%d", ++page ) );
-
-  gnomeprint_set_color ( 1, 0, 0 );
-  gnomeprint_affiche_texte (etat_courant -> nom_etat, title_font);
+  gnomeprint_set_color ( 255, 0, 0 );
+  gnomeprint_show_text ( pc, title_font, etat_courant -> nom_etat, 
+			 PAPER_WIDTH );
   gnomeprint_commit_point ();
-
   gnomeprint_set_color ( 0, 0, 0 );
 
   return 1;
@@ -776,18 +802,16 @@ gint gnomeprint_affiche_separateur ( gint ligne )
 {
   gnomeprint_verifier_nouvelle_page ();
 
-  gnomeprint_move_point ( 0, -5 ); 
-
   gnome_print_gsave (pc);
   gnome_print_setlinewidth (pc, 2);
-  gnome_print_moveto (pc, point_x, point_y);
+  gnome_print_moveto (pc, point.x, point.y);
   gnome_print_lineto (pc, 
-		      gnome_paper_pswidth(gnome_print_master_get_paper(gpm))-HMARGIN, 
-		      point_y); 
+		      PAPER_WIDTH - HMARGIN, 
+		      point.y); 
   gnome_print_stroke (pc);
   gnome_print_grestore (pc);
 
-  gnomeprint_move_point ( 0, -5 ); 
+/*   point.y -= 5; */
 
   return ligne + 1;
 }
@@ -967,6 +991,21 @@ gint gnomeprint_affiche_total_tiers ( gint ligne )
 
 
 
+void gnomeprint_set_pointer ( gint x, gint y )
+{
+  point.x = x;
+  point.y = y;
+}
+void gnomeprint_update_pointer_x ( d )
+{
+  point.x = tmp_point.x;
+}
+void gnomeprint_update_pointer_y ( )
+{
+  point.y = tmp_point.y;
+}
+
+
 /*****************************************************************************************************/
 gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 			   gint ligne )
@@ -978,6 +1017,8 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 
   if ( etat_courant -> afficher_opes )
     {
+      gint max_y = point.y;
+
       /* on affiche ce qui est demandé pour les opés */
 
       /* si les titres ne sont pas affichés et qu'il faut le faire, c'est ici */
@@ -994,12 +1035,12 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 
       /* On affiche l'opération elle-même */
 
-      /* [FIXME] DÉCOMMENTER PUIS IMPRIMER LA LIGNE */
-      
       if (etat_courant -> afficher_no_ope)
 	{
 	  words = text_to_words( g_strdup_printf ( "%d", operation -> no_operation ) );
-	  show_words ( pc, text_font, words, 10+columns_pos[column], point_y, columns_max[column] );
+	  gnomeprint_set_pointer ( 10+columns_pos[column], point_y );
+	  gnomeprint_show_words ( pc, text_font, words, columns_max[column] );
+          if (tmp_point.y < max_y) max_y = tmp_point.y;
 	  column++;
 	}
       if (etat_courant -> afficher_date_ope)
@@ -1008,8 +1049,9 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 						     operation -> jour,
 						     operation -> mois,
 						     operation -> annee ) ) ;
-	  show_words ( pc, text_font, words, 
-		       10+columns_pos[column], point_y, columns_max[column] );
+	  gnomeprint_set_pointer ( 10+columns_pos[column], point_y );
+	  gnomeprint_show_words ( pc, text_font, words, columns_max[column] );
+          if (tmp_point.y < max_y) max_y = tmp_point.y;
 	  column++;
 	}
       if (etat_courant -> afficher_exo_ope)
@@ -1018,9 +1060,10 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 				 (g_slist_find_custom ( liste_struct_exercices,
 							GINT_TO_POINTER ( operation -> no_exercice ),
 							(GCompareFunc) recherche_exercice_par_no )->data)) -> nom_exercice);
-	  show_words ( pc, text_font, words, 
-		       10+columns_pos[column], point_y, columns_max[column] );
-	    column++;
+	  gnomeprint_set_pointer ( 10+columns_pos[column], point_y );
+	  gnomeprint_show_words ( pc, text_font, words, columns_max[column] );
+          if (tmp_point.y < max_y) max_y = tmp_point.y;
+	  column++;
 	}
       if (etat_courant -> afficher_tiers_ope)
 	{
@@ -1028,8 +1071,9 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 				  (g_slist_find_custom ( liste_struct_tiers,
 							 GINT_TO_POINTER ( operation -> tiers ),
 							 (GCompareFunc) recherche_tiers_par_no )->data)) -> nom_tiers);
-	  show_words ( pc, text_font, words, 
-		       10+columns_pos[column], point_y, columns_max[column] );
+	  gnomeprint_set_pointer ( 10+columns_pos[column], point_y );
+	  gnomeprint_show_words ( pc, text_font, words, columns_max[column] );
+          if (tmp_point.y < max_y) max_y = tmp_point.y;
 	  column++;
 	}
       if (etat_courant -> afficher_categ_ope)
@@ -1079,8 +1123,10 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 	  if (pointeur)
 	    {
 	      words = text_to_words( pointeur );
-	      show_words ( pc, text_font, words, 
-			   10+columns_pos[column], point_y, columns_max[column] );
+	      gnomeprint_set_pointer ( 10+columns_pos[column], point_y );
+	      gnomeprint_show_words ( pc, text_font, words, columns_max[column] );
+	      if (tmp_point.y < max_y) max_y = tmp_point.y;
+
 	    }
 	  column++;
 	}
@@ -1110,8 +1156,10 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 	  if (pointeur)
 	    {
 	      words = text_to_words( pointeur );
-	      show_words ( pc, text_font, words, 
-			   10+columns_pos[column], point_y, columns_max[column] );
+	      gnomeprint_set_pointer ( 10+columns_pos[column], point_y );
+	      gnomeprint_show_words ( pc, text_font, words, columns_max[column] );
+	      if (tmp_point.y < max_y) max_y = tmp_point.y;
+
 	    }
 	  column++;
 	}
@@ -1120,8 +1168,10 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 	  if ( operation -> notes )
 	    {
 	      words = text_to_words( operation -> notes );
-	      show_words ( pc, text_font, words, 
-			   10+columns_pos[column], point_y, columns_max[column] );
+	      gnomeprint_set_pointer ( 10+columns_pos[column], point_y );
+	      gnomeprint_show_words ( pc, text_font, words, columns_max[column] );
+	      if (tmp_point.y < max_y) max_y = tmp_point.y;
+
 	    }
 	  column++;
 	}
@@ -1139,8 +1189,10 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 	      struct struct_type_ope *type;
 	      type = pointeur -> data;
 	      words = text_to_words( type -> nom_type );
-	      show_words ( pc, text_font, words, 
-			   10+columns_pos[column], point_y, columns_max[column] );
+	      gnomeprint_set_pointer ( 10+columns_pos[column], point_y );
+	      gnomeprint_show_words ( pc, text_font, words, columns_max[column] );
+	      if (tmp_point.y < max_y) max_y = tmp_point.y;
+
 	    }
 
 	  column++;
@@ -1151,8 +1203,10 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 	  if ( operation -> contenu_type )
 	    {
 	      words = text_to_words ( operation -> contenu_type );
-	      show_words ( pc, text_font, words, 
-			   10+columns_pos[column], point_y, columns_max[column] );
+	      gnomeprint_set_pointer ( 10+columns_pos[column], point_y );
+	      gnomeprint_show_words ( pc, text_font, words, columns_max[column] );
+	      if (tmp_point.y < max_y) max_y = tmp_point.y;
+
 
 	    }
 
@@ -1163,8 +1217,10 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 	  if ( operation -> no_piece_comptable )
 	    {
 	      words = text_to_words ( operation -> no_piece_comptable );
-	      show_words ( pc, text_font, words, 
-			   10+columns_pos[column], point_y, columns_max[column] );
+	      gnomeprint_set_pointer ( 10+columns_pos[column], point_y );
+	      gnomeprint_show_words ( pc, text_font, words, columns_max[column] );
+	      if (tmp_point.y < max_y) max_y = tmp_point.y;
+
 	    }
 	  column++;
 	}
@@ -1173,8 +1229,10 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 	  if ( operation -> info_banque_guichet )
 	    {
 	      words = text_to_words ( operation -> info_banque_guichet );
-	      show_words ( pc, text_font, words, 
-			   10+columns_pos[column], point_y, columns_max[column] );
+	      gnomeprint_set_pointer ( 10+columns_pos[column], point_y );
+	      gnomeprint_show_words ( pc, text_font, words, columns_max[column] );
+	      if (tmp_point.y < max_y) max_y = tmp_point.y;
+
 	    }
 	  column++;
 	}
@@ -1191,8 +1249,10 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 	      struct struct_no_rapprochement *rapprochement;
 	      rapprochement = pointeur -> data;
 	      words = text_to_words ( rapprochement -> nom_rapprochement );
-	      show_words ( pc, text_font, words, 
-			   10+columns_pos[column], point_y, columns_max[column] );
+	      gnomeprint_set_pointer ( 10+columns_pos[column], point_y );
+	      gnomeprint_show_words ( pc, text_font, words, columns_max[column] );
+	      if (tmp_point.y < max_y) max_y = tmp_point.y;
+
 	    }
 	  column++;
 	}
@@ -1204,8 +1264,9 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 	  words = text_to_words ( g_strdup_printf  ("%4.2f %s",
 						    operation -> montant,
 						    devise_compte_en_cours_etat -> code_devise ));
-	  show_words ( pc, text_font, words, 
-		       10+columns_pos[column], point_y, columns_max[column] );
+	  gnomeprint_set_pointer ( 10+columns_pos[column], point_y );
+	  gnomeprint_show_words ( pc, text_font, words, columns_max[column] );
+          if (tmp_point.y < max_y) max_y = tmp_point.y;
 	}
       else
 	{
@@ -1218,15 +1279,18 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 	    words = text_to_words ( g_strdup_printf  ("%4.2f %s",
 						      operation -> montant,
 						      devise_operation -> code_devise ));
-	    show_words ( pc, text_font, words, 
-			 10+columns_pos[column], point_y, columns_max[column] );
+	    gnomeprint_set_pointer ( 10+columns_pos[column], point_y );
+	    gnomeprint_show_words ( pc, text_font, words, columns_max[column] );
+	    if (tmp_point.y < max_y) max_y = tmp_point.y;
+
 	  }
 	}
-     
+           
+      point.y = max_y;
     }
 
   tmp_x = HMARGIN;
-  tmp_y -= 20;
+  tmp_y = point.y;
   gnomeprint_commit_point ();
 
   num_ope ++;
@@ -1800,7 +1864,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
 /*   gnome_print_setlinewidth (pc, 1); */
 /*   gnome_print_moveto (pc, point_x, point_y); */
 /*   gnome_print_lineto (pc,  */
-/* 		      gnome_paper_pswidth(gnome_print_master_get_paper(gpm))-10,  */
+/* 		      PAPER_WIDTH-10,  */
 /* 		      point_y);  */
 /*   gnome_print_stroke (pc); */
 /*   gnome_print_grestore (pc); */
