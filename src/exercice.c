@@ -44,9 +44,8 @@ GtkWidget *onglet_exercices ( void )
   gchar *titres[]={_("Name")};
 
 
-  vbox_pref = gtk_vbox_new ( FALSE,
-			     5 );
-  gtk_widget_show ( vbox_pref );
+  vbox_pref = new_vbox_with_title_and_icon ( _("Financial years"),
+					     "financial-years.png" );
 
   hbox_pref = gtk_hbox_new ( FALSE,
 			     5 );

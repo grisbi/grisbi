@@ -1182,3 +1182,184 @@ void calcule_total_pointe_compte ( gint no_compte )
 					 operations_pointees ));
 }
 /* ********************************************************************************************************** */
+
+
+/**
+ *
+ *
+ *
+ */
+GtkWidget * tab_display_reconciliation ( void )
+{
+  GtkWidget *onglet;
+  GtkWidget *hbox;
+  GtkWidget *frame;
+  GtkWidget *scrolled_window;
+  gchar *titres[2] = { _("Accounts"),
+		       _("Default") };
+  gint i;
+  GtkWidget *vbox;
+  GtkWidget *hbox2;
+  GtkWidget *menu;
+  GtkWidget *item;
+  GtkWidget *label;
+  GtkWidget *bouton;
+  GtkWidget *vbox2, *vbox_pref;
+
+  vbox_pref = new_vbox_with_title_and_icon ( _("Reconciliation"),
+					     "reconciliation.png" );
+
+  frame = gtk_frame_new ( _("Reconciliation: sort transactions") );
+  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
+		       frame,
+		       TRUE,
+		       TRUE,
+		       0 );
+  gtk_widget_show ( frame );
+
+  /* on met une vbox dans la frame */
+
+  vbox2 = gtk_vbox_new ( FALSE,
+			 5 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( vbox2 ),
+				   5 );
+  gtk_container_add ( GTK_CONTAINER ( frame ),
+		      vbox2 );
+  gtk_widget_show ( vbox2 );
+
+  /*   la partie du haut : tri par date ou par type */
+
+  bouton_type_tri_date = gtk_radio_button_new_with_label ( NULL,
+							   _("Sort by date") );
+  gtk_widget_set_sensitive ( bouton_type_tri_date,
+			     FALSE );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_type_tri_date ),
+				 TRUE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton_type_tri_date ),
+		       "toggled",
+		       GTK_SIGNAL_FUNC ( modif_tri_date_ou_type ),
+		       NULL );
+  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
+		       bouton_type_tri_date,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_type_tri_date );
+
+  bouton_type_tri_type = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_type_tri_date )),
+							   _("Sort by method of payment") );
+  gtk_widget_set_sensitive ( bouton_type_tri_type,
+			     FALSE );
+  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
+		       bouton_type_tri_type,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_type_tri_type );
+
+
+  /* la partie du milieu est une hbox avec les types */
+
+  hbox = gtk_hbox_new ( FALSE,
+			 5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
+		       hbox,
+		       TRUE,
+		       TRUE,
+		       0 );
+  gtk_widget_show ( hbox );
+
+
+  /* mise en place de la liste qui contient les types classés */
+
+  scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       scrolled_window,
+		       TRUE,
+		       TRUE,
+		       0);
+  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_AUTOMATIC);
+  gtk_widget_show ( scrolled_window );
+
+
+  type_liste_tri = gtk_clist_new ( 1 );
+  gtk_widget_set_sensitive ( type_liste_tri,
+			     FALSE );
+  gtk_clist_set_column_auto_resize ( GTK_CLIST ( type_liste_tri ) ,
+				     0,
+				     TRUE );
+  gtk_clist_set_reorderable ( GTK_CLIST ( type_liste_tri ),
+			      TRUE );
+  gtk_clist_set_use_drag_icons ( GTK_CLIST ( type_liste_tri ),
+				 TRUE );
+  gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
+		      type_liste_tri );
+  gtk_signal_connect ( GTK_OBJECT ( type_liste_tri ),
+		       "select_row",
+		       (GtkSignalFunc ) selection_type_liste_tri,
+		       NULL );
+  gtk_signal_connect ( GTK_OBJECT ( type_liste_tri ),
+		       "unselect_row",
+		       (GtkSignalFunc ) deselection_type_liste_tri,
+		       NULL );
+  gtk_signal_connect_after ( GTK_OBJECT ( type_liste_tri ),
+			     "row_move",
+			     GTK_SIGNAL_FUNC ( save_ordre_liste_type_tri ),
+			     NULL );
+  gtk_widget_show ( type_liste_tri );
+
+      
+  /* on place ici les flèches sur le côté de la liste */
+
+  vbox_fleches_tri = gtk_vbutton_box_new ();
+  gtk_widget_set_sensitive ( vbox_fleches_tri,
+			     FALSE );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       vbox_fleches_tri,
+		       FALSE,
+		       FALSE,
+		       0);
+  gtk_widget_show ( vbox_fleches_tri );
+
+  bouton = gtk_button_new_from_stock (GTK_STOCK_GO_UP);
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "clicked",
+		       (GtkSignalFunc ) deplacement_type_tri_haut,
+		       NULL );
+  gtk_container_add ( GTK_CONTAINER ( vbox_fleches_tri ),
+		      bouton );
+  gtk_widget_show ( bouton );
+
+  bouton = gtk_button_new_from_stock (GTK_STOCK_GO_DOWN);
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "clicked",
+		       (GtkSignalFunc ) deplacement_type_tri_bas,
+		       NULL);
+  gtk_container_add ( GTK_CONTAINER ( vbox_fleches_tri ),
+		      bouton );
+  gtk_widget_show ( bouton );
+
+  /* la partie du bas contient des check buttons */
+
+  bouton_type_neutre_inclut = gtk_check_button_new_with_label ( _("Include the mixed methods of payment in the incomes/outgoings") );
+  gtk_widget_set_sensitive ( bouton_type_neutre_inclut,
+			     FALSE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton_type_neutre_inclut ),
+		       "toggled",
+		       GTK_SIGNAL_FUNC ( inclut_exclut_les_neutres ),
+		       NULL );
+  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
+		       bouton_type_neutre_inclut,
+		       FALSE,
+		       FALSE,
+		       0);
+  gtk_widget_show ( bouton_type_neutre_inclut );
+
+  return vbox_pref;
+}

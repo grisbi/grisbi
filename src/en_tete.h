@@ -344,7 +344,7 @@ gint recherche_no_rapprochement_par_nom ( struct struct_no_rapprochement *rappro
 gint recherche_no_rapprochement_par_no ( struct struct_no_rapprochement *rapprochement,
 					 gint *no_rap );
 void calcule_total_pointe_compte ( gint no_compte );
-
+GtkWidget * tab_display_reconciliation ( void );
 
 
 /************************/ 

@@ -209,8 +209,15 @@ void preferences ( GtkWidget *widget,
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
-		      0, _("Fonts & logo"),
+		      0, _("Reconciliation"),
 		      1, 5,
+		      -1);
+  gtk_notebook_append_page (preference_frame, tab_display_reconciliation(), NULL);
+  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+  gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+		      &iter2,
+		      0, _("Fonts & logo"),
+		      1, 6,
 		      -1);
   gtk_notebook_append_page (preference_frame, onglet_display_fonts(), NULL);
 
@@ -225,28 +232,28 @@ void preferences ( GtkWidget *widget,
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
 		      0, _("Currencies"),
-		      1, 6,
+		      1, 7,
 		      -1);
   gtk_notebook_append_page (preference_frame, onglet_devises(), NULL);
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
 		      0, _("Banks"),
-		      1, 7,
+		      1, 8,
 		      -1);
   gtk_notebook_append_page (preference_frame, onglet_banques(), NULL);
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
 		      0, _("Financial years"),
-		      1, 8,
+		      1, 9,
 		      -1);
   gtk_notebook_append_page (preference_frame, onglet_exercices(), NULL);
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
 		      0, _("Methods of payment"),
-		      1, 9,
+		      1, 10,
 		      -1);
   gtk_notebook_append_page (preference_frame, 
 			    onglet_types_operations(),
