@@ -72,6 +72,7 @@ void display_tip ( gboolean force )
 				     make_hint ( _("Did you know that..."),
 						 /* We use the grisbi-tips catalog */
 						 dgettext("grisbi-tips", (tip) ) ) );
+  gtk_window_set_modal ( GTK_WINDOW ( dialog ), FALSE );
 
   checkbox = new_checkbox_with_title ( _("Do not show this message again"), 
 				       &(etat.show_tip), NULL );
