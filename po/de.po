@@ -39,7 +39,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2005-01-29 00:55+0100\n"
-"PO-Revision-Date: 2005-01-26 23:58+0100\n"
+"PO-Revision-Date: 2005-01-29 13:45+0100\n"
 "Last-Translator: Martin Stromberger <fabiolla@aon.at>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -140,8 +140,7 @@ msgstr "%4.2f %s Soll in %s"
 #: src/accueil.c:1794 src/accueil.c:1829
 #, c-format
 msgid "Balance of account %s is under wanted and authorised minima!"
-msgstr ""
-"Der Saldo des Kontos %s ist unter dem festgelegtem und zulässigen Minimum!"
+msgstr "Der Saldo des Kontos %s ist unter dem festgelegtem und zulässigen Minimum!"
 
 #: src/accueil.c:1800
 #, c-format
@@ -1403,10 +1402,8 @@ msgstr "Kategorien importieren - Grisbi"
 
 #. il y a déjà des opérations dans le fichier, on ne peut que fusionner
 #: src/categories_onglet.c:3139
-msgid ""
-"File already contains transactions, the two categories lists will be merged."
-msgstr ""
-"Die Datei enthält bereits Buchungen, die Kategorien werden zusammengeführt."
+msgid "File already contains transactions, the two categories lists will be merged."
+msgstr "Die Datei enthält bereits Buchungen, die Kategorien werden zusammengeführt."
 
 #: src/categories_onglet.c:3149 src/imputation_budgetaire.c:2887
 msgid "Do you want"
@@ -1427,8 +1424,7 @@ msgstr "Die Datei kann nicht importiert werden."
 
 #: src/check.c:57
 msgid "Grisbi found no known inconsistency in accounts processed."
-msgstr ""
-"Grisbi hat keine bekannte Inkonsistenz in den bearbeiteten Konten gefunden."
+msgstr "Grisbi hat keine bekannte Inkonsistenz in den bearbeiteten Konten gefunden."
 
 #: src/check.c:58
 msgid "No inconsistency found."
@@ -1475,8 +1471,7 @@ msgstr "Ein Konto hat Inkonsistenzen."
 #: src/check.c:221
 #, c-format
 msgid "Sub-category <i>'%s : %s'</i> is a duplicate of <i>'%s : %s'</i>\n"
-msgstr ""
-"Die Unterkategorie <i>'%s : %s'</i> ist ein Duplikat von <i>'%s : %s'</i>\n"
+msgstr "Die Unterkategorie <i>'%s : %s'</i> ist ein Duplikat von <i>'%s : %s'</i>\n"
 
 #: src/check.c:238
 msgid ""
@@ -3383,8 +3378,7 @@ msgstr "Eine geplante Buchung löschen"
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
 "transaction?"
-msgstr ""
-"Wollen Sie nur dieses Vorkommen, oder die gesamte geplante Buchung löschen?"
+msgstr "Wollen Sie nur dieses Vorkommen, oder die gesamte geplante Buchung löschen?"
 
 #: src/echeancier_liste.c:1377
 msgid "All the occurences"
@@ -4505,8 +4499,7 @@ msgstr "Name des Berichts"
 
 #: src/etats_config.c:6243
 msgid "Diplay the number of transactions with the totals"
-msgstr ""
-"Die Anzahl der Buchungen in einem Verhältnis zu allen Buchungen anzeigen"
+msgstr "Die Anzahl der Buchungen in einem Verhältnis zu allen Buchungen anzeigen"
 
 #: src/etats_config.c:6262
 msgid "Consider the third parties of this report as a multiple third party."
@@ -5117,12 +5110,11 @@ msgid "Select accounts to export"
 msgstr "Die zu exportierenden Konten auswählen"
 
 #: src/export.c:273 src/qif.c:1018
-msgid ""
-"This will irreversibly overwrite previous file.  There is no undo for this."
+msgid "This will irreversibly overwrite previous file.  There is no undo for this."
 msgstr "Dieser Vorgang wird die bestehende Datei überschreiben."
 
 #: src/export.c:285
-#, fuzzy, c-format
+#, c-format
 msgid "File name '%s' invalid!"
 msgstr "Der Dateiname '%s' ist ungültig!"
 
@@ -5304,8 +5296,7 @@ msgstr "Die Datei '%s' kann nicht geöffnet werden: %s"
 #: src/fichiers_io.c:155
 #, c-format
 msgid "Cannot open file '%s' : this is not a grisbi file"
-msgstr ""
-"Die Datei %s kann nicht geöffnet werden. Diese Datei ist keine Grisbi Datei"
+msgstr "Die Datei %s kann nicht geöffnet werden. Diese Datei ist keine Grisbi Datei"
 
 #: src/fichiers_io.c:197
 #, c-format
@@ -5502,8 +5493,7 @@ msgstr "Axel Rousseau (axel584[at]axel584.org): Mitarbeiter"
 
 #: src/help.c:51
 msgid "Benjamin Drieu (bdrieu[at]april.org) : Programming, Debian packaging"
-msgstr ""
-"Benjamin Drieu (bdrieu[at]april.org) : Programmierung, Debian Paketverwaltung"
+msgstr "Benjamin Drieu (bdrieu[at]april.org) : Programmierung, Debian Paketverwaltung"
 
 #: src/help.c:52
 msgid "Cedric Auger (cedric[at]grisbi.org) : Programming"
@@ -5527,8 +5517,7 @@ msgstr ""
 
 #: src/help.c:56
 msgid "Gerald Niel (gerald.niel[at]grisbi.org): Slackware packaging, website"
-msgstr ""
-"Gerald Niel (gerald.niel[at]grisbi.org): Slackware Paketverwaltung, Webseite"
+msgstr "Gerald Niel (gerald.niel[at]grisbi.org): Slackware Paketverwaltung, Webseite"
 
 #: src/help.c:57
 msgid "PMF (ugly.duck[at]gmx.de): Zaurus packaging"
@@ -5638,7 +5627,7 @@ msgstr "Die Datei \"%s\" kann nicht importiert werden."
 #. la boite n'a pas encore été crée, on le fait
 #: src/import.c:297
 msgid "Actions on imported accounts:"
-msgstr "Datenimport - Grisbi"
+msgstr "Aktionen für importierte Konten:"
 
 #: src/import.c:300
 msgid "Add more accounts"
@@ -6264,8 +6253,7 @@ msgstr "Splittbuchung wiederherstellen?"
 
 #: src/operations_formulaire.c:1820
 msgid "Do you want to recover all the lines of the last breakdown?"
-msgstr ""
-"Sollen alle Budgeteinträge der letzten Aufsplittung wiederhergestellt werden?"
+msgstr "Sollen alle Budgeteinträge der letzten Aufsplittung wiederhergestellt werden?"
 
 #: src/operations_formulaire.c:2072 src/operations_formulaire.c:2524
 #: src/tiers_onglet.c:1429
@@ -6309,8 +6297,7 @@ msgstr ""
 
 #: src/operations_formulaire.c:2533
 msgid "A transaction with a multiple third party must be a new one."
-msgstr ""
-"Es kann nur eine neue Buchung an mehrere Empfänger durchgeführt werden."
+msgstr "Es kann nur eine neue Buchung an mehrere Empfänger durchgeführt werden."
 
 #: src/operations_formulaire.c:2567
 msgid "Invalid multiple third party."
@@ -6333,24 +6320,18 @@ msgid "Transfer from a deleted account"
 msgstr "Die Buchung von einem gelöschten Konto ausführen"
 
 #: src/operations_liste.c:1306
-#, fuzzy
 msgid "Confirmation of transaction removal"
-msgstr "Die Löschung der Bank bestätigen"
+msgstr "Die Löschung der Buchung bestätigen"
 
 #: src/operations_liste.c:1307
-#, fuzzy
 msgid ""
 "You are currently trying to remove a transaction.  There is no undo for "
 "this.  Do you confirm the removal?"
-msgstr ""
-"Sie ändern die Währung (%s) eines Kontos, welches in der Eurozone ist in "
-"eine Währung (%s) die nicht in der Eurozone ist.\n"
-"Die Buchungen in Euro gehen verloren. Soll die Änderung durchgeführt werden?"
+msgstr "Sie versuchen gerade eine Buchung zu löschen. Es gibt keine Wiederherstellung. Soll die Buchung gelöscht werden?"
 
 #: src/operations_liste.c:1326
-#, fuzzy
 msgid "Confirmation of manual (un)reconciliation"
-msgstr "Die Löschung der Bank bestätigen"
+msgstr "Die manuelle (Nicht)Abstimmung bestätigen"
 
 #: src/operations_liste.c:1327
 msgid ""
@@ -6359,6 +6340,8 @@ msgid ""
 "\n"
 "Are you really sure to know what you do?"
 msgstr ""
+"Mit diesem Vorgang ändern Sie manuell den Abstimmungsstatus einer Buchung, die manuelle Änderung ist entspricht keinem regulären vorgehen.\n"
+"Soll der Abstimmungsstatus geändert werden?"
 
 #: src/operations_liste.c:1634
 msgid "Transfer: deleted account"
@@ -6373,10 +6356,8 @@ msgid "Imposible to delete a reconciled transaction."
 msgstr "Eine abgestimmte Buchung kann nicht gelöscht werden."
 
 #: src/operations_liste.c:2116
-msgid ""
-"The contra-transaction of this transfer is reconciled, deletion impossible."
-msgstr ""
-"Die Gegenbuchung ist bereits abgestimmt, eine Löschung ist nicht möglich."
+msgid "The contra-transaction of this transfer is reconciled, deletion impossible."
+msgstr "Die Gegenbuchung ist bereits abgestimmt, eine Löschung ist nicht möglich."
 
 #: src/operations_liste.c:2164
 msgid ""
@@ -6431,22 +6412,21 @@ msgstr "Warnungen"
 #. Display a warning message if minimum balances are under minimum level
 #: src/parametres.c:388
 msgid "Do not Warn if balances are under minimum levels"
-msgstr "Keine Warnung ausgeben wenn die Salden unter dem Minimum sind"
+msgstr "Keine Warnung anzeigen wenn die Salden unter dem Minimum sind"
 
 #: src/parametres.c:397
 msgid "Do not warn if account file is readable by someone else"
-msgstr "Keine Warnung ausgeben wenn die Datei für andere Benutzer lesbar ist"
+msgstr "Keine Warnung anzeigen wenn die Datei für andere Benutzer lesbar ist"
 
 #. Display a warning message if file is already opened
 #: src/parametres.c:402
 msgid "Do not warn about an already opened file"
-msgstr "Keine Warnung ausgeben wenn die Datei bereits geöffnet ist"
+msgstr "Keine Warnung anzeigen wenn die Datei bereits geöffnet ist"
 
 #. Display a warning message that QIF doesn't contain currencies
 #: src/parametres.c:407
-#, fuzzy
 msgid "Do not warn about QIF not containing currencies"
-msgstr "Keine Warnung ausgeben wenn Qif keine Währungen zugeordnet sind"
+msgstr "Keine Warnung anzeigen wenn die Qif Datei keine Währung(en) beinhält."
 
 #. Display a warning message that manually reconciliation isn't a good way
 #: src/parametres.c:412
@@ -6454,20 +6434,20 @@ msgid ""
 "Do not warn about manually reconciliation\n"
 "(with shortcut <Ctrl><R>)"
 msgstr ""
+"Keine Warnung anzeigen bei einer manuellen Abstimmung\n"
+"(Tastenkombination <Ctrl><R>)"
 
 #. Display a warning message when trying to remove a transaction
 #: src/parametres.c:418
-#, fuzzy
 msgid "Do not warn about removal transaction"
-msgstr "Keine Detailinformationen bei abgestimmten Buchungen"
+msgstr "Keine Warnung anzeigen beim Entfernen einer Buchung"
 
 #: src/parametres.c:426
 msgid "Scheduler warnings"
 msgstr "Planer Meldungen"
 
 #: src/parametres.c:430
-msgid ""
-"Number of days before a warning message advertising a scheduled transaction"
+msgid "Number of days before a warning message advertising a scheduled transaction"
 msgstr "Hinweis für eine geplante Buchung (Tage davor) anzeigen"
 
 #: src/parametres.c:494
@@ -6845,3 +6825,4 @@ msgid "This transfer has a reconciled contra-transaction, deletion canceled."
 msgstr ""
 "Diese Buchung hat eine abgestimmte Gegenbuchung, die Löschung wurde "
 "abgebrochen."
+
