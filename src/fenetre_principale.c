@@ -70,10 +70,12 @@ extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
 extern gchar *tips_col_liste_operations[7];
 extern GtkTooltips *tooltips_general_grisbi;
+extern GtkTreeModel * payee_tree_model, * categ_tree_model, * budgetary_line_tree_model;
+/*END_EXTERN*/
+
 #ifdef HAVE_G2BANKING
 extern AB_BANKING *gbanking;
 #endif
-/*END_EXTERN*/
 
 
 
@@ -208,6 +210,7 @@ gboolean change_page_notebook ( GtkNotebook *notebook,
 				guint numero_page,
 				gpointer null )
 {
+    GtkTreeIter dummy_iter;
 
     /* retire l'horloge si part de l'accueil */
 
@@ -276,17 +279,17 @@ gboolean change_page_notebook ( GtkNotebook *notebook,
 	    /* on le fait ici */
 
 	case 4:
-	    if ( modif_tiers )
+	    if ( ! gtk_tree_model_get_iter_first ( payee_tree_model, &dummy_iter ) )
 		remplit_arbre_tiers ();
 	    break;
 
 	case 5:
-	    if ( modif_categ )
+	    if ( ! gtk_tree_model_get_iter_first ( categ_tree_model, &dummy_iter ) )
 		remplit_arbre_categ ();
 	    break;
 
 	case 6:
-	    if ( modif_imputation )
+	    if ( ! gtk_tree_model_get_iter_first ( budgetary_line_tree_model, &dummy_iter ) )
 		remplit_arbre_imputation ();
 	    break;
     }
