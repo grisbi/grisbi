@@ -72,31 +72,31 @@ item_toggled (GtkCellRendererToggle *cell,
   else if  (type_ope -> signe_type == 2) /* Crédit */
     TYPE_DEFAUT_CREDIT = type_ope -> no_type;
 
-  /* do something with the value */
-  toggle_item ^= 1;
-
-  gtk_tree_model_iter_parent ( model, &parent, &iter );
+  if (! toggle_item)
+    {
+      gtk_tree_model_iter_parent ( model, &parent, &iter );
   
-  if ( gtk_tree_model_iter_children (model, &child, &parent) )
-    {
-      do 
+      if ( gtk_tree_model_iter_children (model, &child, &parent) )
 	{
-	  gtk_tree_store_set (GTK_TREE_STORE (model), &child, 
-			      PAYMENT_METHODS_DEFAULT_COLUMN, FALSE, 
-			      -1);
+	  do 
+	    {
+	      gtk_tree_store_set (GTK_TREE_STORE (model), &child, 
+				  PAYMENT_METHODS_DEFAULT_COLUMN, FALSE, 
+				  -1);
+	    }
+	  while ( gtk_tree_model_iter_next (model, &child) );
+	} 
+      else
+	{
+	  /* Should not happen theorically */
+	  dialogue ( _("Serious brain damage expected.") );
 	}
-      while ( gtk_tree_model_iter_next (model, &child) );
-    } 
-  else
-    {
-      /* Should not happen theorically */
-      dialogue ( _("Serious brain damage expected.") );
-    }
 
-  /* set new value */
-  gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 
-		      PAYMENT_METHODS_DEFAULT_COLUMN, toggle_item, 
-		      -1);
+      /* set new value */
+      gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 
+			  PAYMENT_METHODS_DEFAULT_COLUMN, 1, 
+			  -1);
+    }
 
   /* clean up */
   gtk_tree_path_free (path);
@@ -114,100 +114,13 @@ gboolean activate_automatic_numbering ( GtkToggleButton * checkbox, gpointer dat
 
 
 /**
- * Creates the "Payment methods" tab.  It uses a nice GtkTreeView.
+ * TODO: document
  *
- * \returns A newly allocated vbox
  */
-GtkWidget *onglet_types_operations ( void )
+void fill_tree ()
 {
-  GtkWidget *vbox_pref, *hbox, *scrolled_window, *paddingbox;
-  GtkWidget *vbox, *table, *menu, *item, *label, *bouton;
-  GtkTreeViewColumn *column;
-  GtkCellRenderer *cell;
   GtkTreeIter account_iter, debit_iter, credit_iter, child_iter;
   gint i;
-
-  vbox_pref = new_vbox_with_title_and_icon ( _("Reconciliation"),
-					     "reconciliation.png" );
-
-  /* Now we have a model, create view */
-  vbox_pref = new_vbox_with_title_and_icon ( _("Payment methods"),
-					     "payment-methods.png" );
-
-  /* Known payment methods */
-  paddingbox = new_paddingbox_with_title (vbox_pref, TRUE,
-					  _("Known payment methods"));
-  hbox = gtk_hbox_new ( FALSE, 6 );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-		       TRUE, TRUE, 0 );
-
-  /* Create tree */
-  scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
-  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				   GTK_POLICY_AUTOMATIC,
-				   GTK_POLICY_AUTOMATIC );
-  gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-					GTK_SHADOW_IN);
-  gtk_box_pack_start ( GTK_BOX ( hbox ), scrolled_window,
-		       TRUE, TRUE, 0 );
-
-  /* Create tree view */
-  model = gtk_tree_store_new (NUM_PAYMENT_METHODS_COLUMNS,
-			      G_TYPE_STRING,
-			      G_TYPE_STRING,
-			      G_TYPE_BOOLEAN,
-			      G_TYPE_INT,
-			      G_TYPE_BOOLEAN,
-			      G_TYPE_BOOLEAN,
-			      G_TYPE_POINTER);
-  treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (model) );
-  gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
-  g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview)), 
-		    "changed", 
-		    G_CALLBACK (select_payment_method),
-		    model);
-
-  /* Account */
-  cell = gtk_cell_renderer_text_new ();
-  column = gtk_tree_view_column_new ( );
-  gtk_tree_view_column_pack_end ( column, cell, TRUE );
-  gtk_tree_view_column_set_title ( column, _("Account") );
-  gtk_tree_view_column_set_attributes (column, cell,
-				       "text", PAYMENT_METHODS_NAME_COLUMN,
-				       NULL);
-  gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column);
-
-  /* Defaults */
-  cell = gtk_cell_renderer_toggle_new ();
-  g_signal_connect (cell, "toggled", G_CALLBACK (item_toggled), model);
-  gtk_cell_renderer_toggle_set_radio ( GTK_CELL_RENDERER_TOGGLE(cell), TRUE );
-  g_object_set (cell, "xalign", 0.5, NULL);
-  column = gtk_tree_view_column_new ( );
-  gtk_tree_view_column_set_alignment ( column, 0.5 );
-  gtk_tree_view_column_pack_end ( column, cell, TRUE );
-  gtk_tree_view_column_set_title ( column, _("Default") );
-  gtk_tree_view_column_set_attributes (column, cell,
-				       "active", PAYMENT_METHODS_DEFAULT_COLUMN,
-				       "activatable", PAYMENT_METHODS_ACTIVABLE_COLUMN,
-				       "visible", PAYMENT_METHODS_VISIBLE_COLUMN,
-				       NULL);
-  gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column);
-
-  /* Numbering */
-  cell = gtk_cell_renderer_text_new ();
-  column = gtk_tree_view_column_new ( );
-  gtk_tree_view_column_pack_end ( column, cell, TRUE );
-  gtk_tree_view_column_set_title ( column, _("Numbering") );
-  gtk_tree_view_column_set_attributes (column, cell,
-				       "text", PAYMENT_METHODS_NUMBERING_COLUMN,
-				       NULL);
-  gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column);
-
-  /* expand all rows after the treeview widget has been realized */
-  g_signal_connect (treeview, "realize",
-		    G_CALLBACK (gtk_tree_view_expand_all), NULL);
-  gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
-		      treeview );
 
   /* Fill tree, iter over with accounts */
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
@@ -310,7 +223,105 @@ GtkWidget *onglet_types_operations ( void )
 
       p_tab_nom_de_compte_variable++;
     }
+}
 
+
+
+/**
+ * Creates the "Payment methods" tab.  It uses a nice GtkTreeView.
+ *
+ * \returns A newly allocated vbox
+ */
+GtkWidget *onglet_types_operations ( void )
+{
+  GtkWidget *vbox_pref, *hbox, *scrolled_window, *paddingbox;
+  GtkWidget *vbox, *table, *menu, *item, *label, *bouton;
+  GtkTreeViewColumn *column;
+  GtkCellRenderer *cell;
+
+  vbox_pref = new_vbox_with_title_and_icon ( _("Reconciliation"),
+					     "reconciliation.png" );
+
+  /* Now we have a model, create view */
+  vbox_pref = new_vbox_with_title_and_icon ( _("Payment methods"),
+					     "payment-methods.png" );
+
+  /* Known payment methods */
+  paddingbox = new_paddingbox_with_title (vbox_pref, TRUE,
+					  _("Known payment methods"));
+  hbox = gtk_hbox_new ( FALSE, 6 );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
+		       TRUE, TRUE, 0 );
+
+  /* Create tree */
+  scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
+  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_AUTOMATIC );
+  gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+					GTK_SHADOW_IN);
+  gtk_box_pack_start ( GTK_BOX ( hbox ), scrolled_window,
+		       TRUE, TRUE, 0 );
+
+  /* Create tree view */
+  model = gtk_tree_store_new (NUM_PAYMENT_METHODS_COLUMNS,
+			      G_TYPE_STRING,
+			      G_TYPE_STRING,
+			      G_TYPE_BOOLEAN,
+			      G_TYPE_INT,
+			      G_TYPE_BOOLEAN,
+			      G_TYPE_BOOLEAN,
+			      G_TYPE_POINTER);
+  treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (model) );
+  gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
+  g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview)), 
+		    "changed", 
+		    G_CALLBACK (select_payment_method),
+		    model);
+
+  /* Account */
+  cell = gtk_cell_renderer_text_new ();
+  column = gtk_tree_view_column_new ( );
+  gtk_tree_view_column_pack_end ( column, cell, TRUE );
+  gtk_tree_view_column_set_title ( column, _("Account") );
+  gtk_tree_view_column_set_attributes (column, cell,
+				       "text", PAYMENT_METHODS_NAME_COLUMN,
+				       NULL);
+  gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column);
+
+  /* Defaults */
+  cell = gtk_cell_renderer_toggle_new ();
+  g_signal_connect (cell, "toggled", G_CALLBACK (item_toggled), model);
+  gtk_cell_renderer_toggle_set_radio ( GTK_CELL_RENDERER_TOGGLE(cell), TRUE );
+  g_object_set (cell, "xalign", 0.5, NULL);
+  column = gtk_tree_view_column_new ( );
+  gtk_tree_view_column_set_alignment ( column, 0.5 );
+  gtk_tree_view_column_pack_end ( column, cell, TRUE );
+  gtk_tree_view_column_set_title ( column, _("Default") );
+  gtk_tree_view_column_set_attributes (column, cell,
+				       "active", PAYMENT_METHODS_DEFAULT_COLUMN,
+				       "activatable", PAYMENT_METHODS_ACTIVABLE_COLUMN,
+				       "visible", PAYMENT_METHODS_VISIBLE_COLUMN,
+				       NULL);
+  gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column);
+
+  /* Numbering */
+  cell = gtk_cell_renderer_text_new ();
+  column = gtk_tree_view_column_new ( );
+  gtk_tree_view_column_pack_end ( column, cell, TRUE );
+  gtk_tree_view_column_set_title ( column, _("Numbering") );
+  gtk_tree_view_column_set_attributes (column, cell,
+				       "text", PAYMENT_METHODS_NUMBERING_COLUMN,
+				       NULL);
+  gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column);
+
+  /* expand all rows after the treeview widget has been realized */
+  g_signal_connect (treeview, "realize",
+		    G_CALLBACK (gtk_tree_view_expand_all), NULL);
+  gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
+		      treeview );
+
+  fill_tree();
 
   /* Create "Add" & "Remove" buttons */
   vbox = gtk_vbox_new ( FALSE, 6 );
