@@ -1168,16 +1168,20 @@ void edition_echeance ( void )
 	  categorie =  g_slist_find_custom ( liste_struct_categories,
 					     GINT_TO_POINTER ( echeance_selectionnnee -> categorie ),
 					     (GCompareFunc) recherche_categorie_par_no ) ->data;
-
-	  texte = categorie -> nom_categ;
-
-	  if ( echeance_selectionnnee -> sous_categorie )
-	    texte = g_strconcat ( texte,
-				  " : ",
-				  ((struct struct_sous_categ *)(g_slist_find_custom ( categorie -> liste_sous_categ,
-										      GINT_TO_POINTER ( echeance_selectionnnee -> sous_categorie ),
-										      (GCompareFunc) recherche_sous_categorie_par_no )->data)) -> nom_sous_categ,
-				  NULL );
+	  
+	  /* ALAIN-FIXME on teste la valeur de retour du pointeur suite à la découverte du bug #122
+	  s'il est nul, on ne fait rien. Il faudrait prévoir quelque chose */
+	  if ( categorie != NULL )
+	    {
+	      texte = categorie -> nom_categ;
+	      if ( echeance_selectionnnee -> sous_categorie )
+		texte = g_strconcat ( texte,
+				    " : ",
+				    ((struct struct_sous_categ *)(g_slist_find_custom ( categorie -> liste_sous_categ,
+										        GINT_TO_POINTER ( echeance_selectionnnee -> sous_categorie ),
+										        (GCompareFunc) recherche_sous_categorie_par_no )->data)) -> nom_sous_categ,
+				    NULL );
+	    }
 	}
       else
 	{

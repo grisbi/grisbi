@@ -1554,6 +1554,11 @@ void supprimer_categ ( void )
   GtkCTreeNode *node;
   gint i;
   gint ope_trouvee;
+  gint echeance_trouvee;
+
+  /* ALAIN-FIXME il y a des GSList *liste_tmp un peu partout dans cette fonction,
+  il faudrait voir si on ne peut pas se contenter d'une seule */
+  GSList *liste_tmp2;
 
 
   if ( !gtk_object_get_data ( GTK_OBJECT (  entree_nom_categ ),
@@ -1597,8 +1602,28 @@ void supprimer_categ ( void )
       p_tab_nom_de_compte_variable++;
     }
 
+  /* fait le tour des échéances pour en trouver une qui a cette catégorie  */
 
-  if ( ope_trouvee )
+  liste_tmp2 = gsliste_echeances;
+  echeance_trouvee = 0;
+
+  while ( liste_tmp2 )
+    {
+      struct operation_echeance *echeance;
+
+      echeance = liste_tmp2 -> data;
+
+      if ( echeance -> categorie == categ -> no_categ )
+        {
+          echeance_trouvee = 1;
+          liste_tmp2 = NULL;
+        }
+      else
+      liste_tmp2 = liste_tmp2 -> next;
+    }
+
+
+  if ( ope_trouvee || echeance_trouvee )
     {
       GtkWidget *dialog;
       GtkWidget *label;
@@ -1886,6 +1911,11 @@ void supprimer_sous_categ ( void )
   GtkCTreeNode *node;
   gint i;
   gint ope_trouvee;
+  gint echeance_trouvee;
+  
+  /* ALAIN-FIXME il y a des GSList *liste_tmp un peu partout dans cette fonction,
+  il faudrait voir si on ne peut pas se contenter d'une seule */
+  GSList *liste_tmp2;
 
 
 
@@ -1932,7 +1962,27 @@ void supprimer_sous_categ ( void )
     }
 
 
-  if ( ope_trouvee )
+  /* fait le tour des échéances pour en trouver une qui a cette catégorie  */
+
+  liste_tmp2 = gsliste_echeances;
+  echeance_trouvee = 0;
+
+  while ( liste_tmp2 )
+    {
+      struct operation_echeance *echeance;
+
+      echeance = liste_tmp2 -> data;
+
+      if ( echeance -> categorie == categ -> no_categ && echeance -> sous_categorie == sous_categ -> no_sous_categ )
+        {
+          echeance_trouvee = 1;
+          liste_tmp2 = NULL;
+        }
+      else
+      liste_tmp2 = liste_tmp2 -> next;
+    }
+
+  if ( ope_trouvee || echeance_trouvee )
     {
       GtkWidget *dialog;
       GtkWidget *label;
@@ -2171,9 +2221,6 @@ void supprimer_sous_categ ( void )
 
       liste_tmp = gsliste_echeances;
 
-
-  modification_fichier(TRUE);
-
       while ( liste_tmp )
 	{
 	  struct operation_echeance *echeance;
@@ -2194,6 +2241,7 @@ void supprimer_sous_categ ( void )
 	  liste_tmp = liste_tmp -> next;
 	}
 
+      modification_fichier(TRUE);
 
       demande_mise_a_jour_tous_comptes ();
 
