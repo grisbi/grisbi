@@ -46,6 +46,7 @@
 #include "affichage_formulaire.h"
 #include "operations_formulaire.h"
 #include "utils_file_selection.h"
+#include "utils_files.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -1654,46 +1655,16 @@ void supprimer_categ ( void )
 
     if ( ope_trouvee || echeance_trouvee )
     {
-	GtkWidget *dialog;
-	GtkWidget *label;
-	gint resultat;
-	GtkWidget *separation;
-	GtkWidget *hbox;
-	GtkWidget *bouton_categ_generique;
-	GtkWidget *combofix;
-	GSList *liste_combofix;
-	GSList *pointeur;
-	GSList *liste_tmp;
-	GtkWidget *bouton_transfert;
-	gint i;
+	GtkWidget *hbox, *bouton_categ_generique, *combofix, *dialog, *bouton_transfert;
+	GSList *liste_combofix, *pointeur, *liste_tmp, *liste_categ_credit, *liste_categ_debit;
+	gint resultat, i, nouveau_no_categ, nouveau_no_sous_categ;
 	struct struct_categ *nouvelle_categ;
 	struct struct_sous_categ *nouvelle_sous_categ;
-	GSList *liste_categ_credit;
-	GSList *liste_categ_debit;
 	gchar **split_categ;
-	gint nouveau_no_categ;
-	gint nouveau_no_sous_categ;
 
-	dialog = gtk_dialog_new_with_buttons ( _("Remove a category"),
-					       GTK_WINDOW ( window ),
-					       GTK_DIALOG_MODAL,
-					       GTK_STOCK_OK, 0,
-					       GTK_STOCK_CANCEL, 1,
-					       NULL);
-
-	label = gtk_label_new ( COLON(_("Selected category still contains transactions.\n\nYou may")) );
-	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			     label,
-			     FALSE,
-			     FALSE,
-			     0 );
-
-	separation = gtk_hseparator_new ( );
-	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			     separation,
-			     FALSE,
-			     FALSE,
-			     0 );
+	dialog = dialogue_special_no_run ( GTK_MESSAGE_WARNING, GTK_BUTTONS_OK_CANCEL,
+					   make_hint ( _("Selected category still contains transactions."),
+						       _("If you want to remove this category but want to keep transactions, you can transfer them to another category.  Otherwise, transactions can be simply deleted along with their category.") ));
 
 	/*       mise en place du choix tranfert vers un autre categ */
 
@@ -1774,13 +1745,10 @@ void supprimer_categ ( void )
 					      TRUE,
 					      TRUE,
 					      0 );
-	/*       gtk_widget_set_usize ( combofix, */
-	/* 			     300, */
-	/* 			     FALSE ); */
 	gtk_box_pack_start ( GTK_BOX ( hbox ),
 			     combofix,
-			     FALSE,
-			     FALSE,
+			     TRUE,
+			     TRUE,
 			     0 );
 
 	/*       mise en place du choix supprimer le categ */
@@ -1807,13 +1775,11 @@ void supprimer_categ ( void )
 retour_dialogue:
 	resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
 
-	if ( resultat )
+	if ( resultat != GTK_RESPONSE_OK )
 	{
-	    if ( resultat == 1 )
-		gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
+	    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
 	    return;
 	}
-
 
 	nouveau_no_categ = 0;
 	nouveau_no_sous_categ = 0;
@@ -1823,7 +1789,8 @@ retour_dialogue:
 
 	    if ( !strlen (gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ))))
 	    {
-		dialogue ( _("Please enter a category!") );
+		dialogue_warning_hint ( _("It is compulsory to specify a destination category to move transactions but no category was entered."),
+				      _("Please enter a category!"));
 		goto retour_dialogue;
 	    }
 
@@ -1905,7 +1872,6 @@ retour_dialogue:
 	demande_mise_a_jour_tous_comptes ();
 
 	gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
-
     }
 
 
@@ -2018,48 +1984,18 @@ void supprimer_sous_categ ( void )
 
     if ( ope_trouvee || echeance_trouvee )
     {
-	GtkWidget *dialog;
-	GtkWidget *label;
-	gint resultat;
-	GtkWidget *separation;
-	GtkWidget *hbox;
-	GtkWidget *bouton_categ_generique;
-	GtkWidget *combofix;
-	GSList *liste_combofix;
-	GSList *pointeur;
-	GSList *liste_tmp;
-	GtkWidget *bouton_transfert;
-	gint i;
+	GtkWidget *dialog, *hbox, *bouton_categ_generique, *combofix, *bouton_transfert;
+	GSList *liste_combofix, *pointeur, *liste_tmp, *liste_categ_credit, *liste_categ_debit;
+	gint i, resultat, nouveau_no_categ, nouveau_no_sous_categ;
 	struct struct_categ *nouvelle_categ;
 	struct struct_sous_categ *nouvelle_sous_categ;
-	GSList *liste_categ_credit;
-	GSList *liste_categ_debit;
 	gchar **split_categ;
-	gint nouveau_no_categ;
-	gint nouveau_no_sous_categ;
 
-	dialog = gtk_dialog_new_with_buttons ( _("Remove category"),
-					       GTK_WINDOW ( window ),
-					       GTK_DIALOG_MODAL,
-					       GTK_STOCK_OK, 0,
-					       GTK_STOCK_CANCEL, 1,
-					       NULL);
+	dialog = dialogue_special_no_run ( GTK_MESSAGE_WARNING, GTK_BUTTONS_OK_CANCEL,
+					   make_hint ( _("Selected sub-category still contains transactions."),
+						       _("If you want to remove this sub-category but want to keep transactions, you can transfer them to another (sub-)category.  Otherwise, transactions can be simply deleted along with their category.") ));
 
-	label = gtk_label_new ( COLON(_("Selected sub-category still contains transactions.\n\nYou may")) );
-	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			     label,
-			     FALSE,
-			     FALSE,
-			     0 );
-
-	separation = gtk_hseparator_new ( );
-	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			     separation,
-			     FALSE,
-			     FALSE,
-			     0 );
-
-	/*       mise en place du choix tranfert vers un autre sous categ */
+	/*       mise en place du choix tranfert vers un autre categ */
 
 	hbox = gtk_hbox_new ( FALSE,
 			      5 );
@@ -2076,7 +2012,6 @@ void supprimer_sous_categ ( void )
 			     FALSE,
 			     FALSE,
 			     0 );
-
 
 	pointeur = liste_struct_categories;
 	liste_combofix = NULL;
@@ -2141,13 +2076,11 @@ void supprimer_sous_categ ( void )
 					      TRUE,
 					      TRUE,
 					      0 );
-	/*       gtk_widget_set_usize ( combofix, */
-	/* 			     300, */
-	/* 			     FALSE ); */
+
 	gtk_box_pack_start ( GTK_BOX ( hbox ),
 			     combofix,
-			     FALSE,
-			     FALSE,
+			     TRUE,
+			     TRUE,
 			     0 );
 
 	/*       mise en place du choix supprimer le categ */
@@ -2174,10 +2107,9 @@ void supprimer_sous_categ ( void )
 retour_dialogue:
 	resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
 
-	if ( resultat )
+	if ( resultat != GTK_RESPONSE_OK )
 	{
-	    if ( resultat == 1 )
-		gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
+	    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
 	    return;
 	}
 
@@ -2189,7 +2121,9 @@ retour_dialogue:
 
 	    if ( !strlen (gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ))))
 	    {
-		dialogue ( _("Please enter a category!") );
+		dialogue_warning_hint ( _("It is compulsory to specify a destination category to move transactions but no category was entered."),
+				      _("Please enter a category!"));
+
 		goto retour_dialogue;
 	    }
 
