@@ -27,12 +27,15 @@
 
 /*START_INCLUDE*/
 #include "utils_ib.h"
+#include "utils_devises.h"
 #include "search_glist.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static struct struct_sous_imputation *sous_imputation_par_no ( gint no_imputation,
+struct struct_sous_imputation *sous_imputation_par_no ( gint no_imputation,
 							gint no_sous_imputation );
+static struct struct_imputation * without_budgetary_line;
+void reset_budgetary_line_counters ();
 /*END_STATIC*/
 
 
@@ -41,6 +44,11 @@ extern GSList *liste_struct_imputation;
 extern gint mise_a_jour_combofix_imputation_necessaire;
 extern gint nb_enregistrements_imputations;
 extern gint no_derniere_imputation;
+extern gint no_devise_totaux_tiers;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern gint no_devise_totaux_tiers;
 /*END_EXTERN*/
 
 
@@ -270,6 +278,174 @@ gchar *nom_sous_imputation_par_no ( gint no_imputation,
 /* **************************************************************************************************** */
 
 
+
+/**
+ *
+ *
+ */
+void calcule_total_montant_budgetary_line ( void )
+{
+    gint i;
+
+    reset_budgetary_line_counters();
+
+    without_budgetary_line = calloc ( 1, sizeof ( struct struct_imputation ));
+    without_budgetary_line -> no_imputation = 0;
+    without_budgetary_line -> nom_imputation = _("No budgetary line");
+    without_budgetary_line -> type_imputation = 0;
+    without_budgetary_line -> no_derniere_sous_imputation = 0;
+
+    for ( i=0 ; i<nb_comptes ; i++ )
+    {
+	GSList *liste_tmp;
+
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+
+	liste_tmp = LISTE_OPERATIONS;
+	while ( liste_tmp )
+	{
+	    struct structure_operation *operation;
+
+	    operation = liste_tmp -> data;
+
+	    if ( operation -> imputation )
+	    {
+		struct struct_imputation * budgetary_line = NULL;
+		struct struct_sous_imputation * sub_budgetary_line = NULL;
+
+		/* il y a une catégorie */
+		budgetary_line = imputation_par_no ( operation -> imputation );
+
+		/* on ajoute maintenant le montant à la sous ib si elle existe */
+		if ( operation -> sous_imputation )
+		    sub_budgetary_line = sous_imputation_par_no ( operation -> imputation, 
+								  operation -> sous_imputation );
+
+		add_transaction_to_budgetary_line ( operation, budgetary_line, 
+						    sub_budgetary_line );
+	    }
+	    else if ( ! operation -> operation_ventilee && 
+		      ! operation -> relation_no_operation )
+	    {
+		add_transaction_to_budgetary_line ( operation, without_budgetary_line, 
+						    NULL );
+	    }
+
+	    liste_tmp = liste_tmp -> next;
+	}
+    }
+}
+
+
+
+/**
+ *
+ *
+ */
+void remove_transaction_from_budgetary_line ( struct structure_operation * transaction,
+					      struct struct_imputation * budgetary_line,
+					      struct struct_sous_imputation * sub_budgetary_line )
+{
+    gdouble amount = 
+	calcule_montant_devise_renvoi ( transaction -> montant, no_devise_totaux_tiers,
+					transaction -> devise,
+					transaction -> une_devise_compte_egale_x_devise_ope,
+					transaction -> taux_change,
+					transaction -> frais_change );
+
+    if ( budgetary_line )
+    {
+	budgetary_line -> nb_transactions --;
+	budgetary_line -> balance -= amount;
+	if ( !budgetary_line -> nb_transactions ) /* Cope with float errors */
+	    budgetary_line -> balance = 0.0;
+    }
+   
+    if ( sub_budgetary_line )
+    {
+	sub_budgetary_line -> nb_transactions --;
+	sub_budgetary_line -> balance -= amount;
+	if ( !sub_budgetary_line -> nb_transactions ) /* Cope with float errors */
+	    sub_budgetary_line -> balance = 0.0;
+    }
+    else if ( budgetary_line )
+    {
+	budgetary_line -> nb_direct_transactions --;
+	budgetary_line -> direct_balance -= amount;
+    }
+
+}
+
+
+
+/**
+ *
+ *
+ */
+void add_transaction_to_budgetary_line ( struct structure_operation * transaction,
+					 struct struct_imputation * budgetary_line,
+					 struct struct_sous_imputation * sub_budgetary_line )
+{
+    gdouble amount = 
+	calcule_montant_devise_renvoi ( transaction -> montant, no_devise_totaux_tiers,
+					transaction -> devise,
+					transaction -> une_devise_compte_egale_x_devise_ope,
+					transaction -> taux_change,
+					transaction -> frais_change );
+
+    if ( budgetary_line )
+    {
+	budgetary_line -> nb_transactions ++;
+	budgetary_line -> balance += amount;
+    }
+   
+    if ( sub_budgetary_line )
+    {
+	sub_budgetary_line -> nb_transactions ++;
+	sub_budgetary_line -> balance += amount;
+    }
+    else if ( budgetary_line )
+    {
+	budgetary_line -> nb_direct_transactions ++;
+	budgetary_line -> direct_balance += amount;
+    }
+}
+
+
+
+/**
+ *
+ *
+ */
+void reset_budgetary_line_counters ()
+{
+    GSList * tmp;
+
+    without_budgetary_line = NULL;
+
+    tmp = liste_struct_imputation;
+    while ( tmp )
+    {
+	struct struct_imputation * budgetary_line = tmp -> data;
+	GSList * sub_budgetary_line_list;;
+
+	budgetary_line -> balance = 0.0;
+	budgetary_line -> nb_transactions = 0;
+
+	sub_budgetary_line_list = budgetary_line -> liste_sous_imputation;
+	while ( sub_budgetary_line_list )
+	{
+	    struct struct_sous_imputation * sub_budgetary_line = sub_budgetary_line_list -> data;
+
+	    sub_budgetary_line -> balance = 0.0;
+	    sub_budgetary_line -> nb_transactions = 0;
+
+	    sub_budgetary_line_list = sub_budgetary_line_list -> next;
+	}
+	
+	tmp = tmp -> next;
+    }
+}
 
 
 
