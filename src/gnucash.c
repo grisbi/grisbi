@@ -282,6 +282,7 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 
 	  if ( categ ) 
 	    categ_name = categ -> name;
+
 	  if ( split_account )
 	    {
 	      /* All of this stuff is here since we are dealing with
@@ -289,7 +290,7 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 	      account_name = split_account -> nom_de_compte;
 	      total += amount;
 	      if ( strcmp(child_content(split_node, "reconciled-state"), "n") )
-		p_r = OPERATION_RAPPROCHEE;
+	          p_r = OPERATION_RAPPROCHEE;
 	    }
 
 	  split = find_split ( split_list, amount, split_account, categ );
@@ -302,8 +303,9 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 	      split = new_split ( amount, account_name, categ_name );
 	      split_list = g_slist_append ( split_list, split );
 	      split -> notes = child_content(split_node, "memo");
-	      split -> p_r = p_r;
 	    }
+	  if ( p_r != OPERATION_NORMALE )
+	      split -> p_r = p_r;
 	}
 
       split_node = split_node -> next;
@@ -331,6 +333,7 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
   transaction = new_transaction_from_split ( split, tiers, date );
   transaction -> operation_ventilee = 0;
   transaction -> ope_de_ventilation = 0;
+  transaction -> p_r = split -> p_r;
   account = find_imported_account_by_name ( split -> account );
   if ( account )
     account -> operations_importees = g_slist_append ( account -> operations_importees, transaction );
@@ -615,6 +618,7 @@ struct struct_ope_importation * new_transaction_from_split ( struct gnucash_spli
       contra_transaction -> notes = split -> notes;
       contra_transaction -> tiers = tiers;
       contra_transaction -> date = date;
+      contra_transaction -> p_r = split -> p_r;
 
       transaction -> categ = g_strconcat ( _("Transfer"), " : ",
 					   split -> contra_account, NULL);

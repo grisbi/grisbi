@@ -1053,11 +1053,11 @@ void cree_liens_virements_ope_import ( void )
 		{
 		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + j;
 
-		    if ( !g_strcasecmp ( g_strconcat ( "[",
-						       NOM_DU_COMPTE,
-						       "]",
-						       NULL ),
-					 g_strstrip ( operation -> info_banque_guichet )))
+		    if ( ( !g_strcasecmp ( g_strconcat ( "[", NOM_DU_COMPTE, "]", NULL ),
+					   g_strstrip ( operation -> info_banque_guichet ))) ||
+			 ( !g_strcasecmp ( g_strconcat ( NOM_DU_COMPTE ),
+					   g_strstrip ( operation -> info_banque_guichet ))) )
+			 
 			compte_trouve = j;
 		}
 
@@ -1111,6 +1111,8 @@ void cree_liens_virements_ope_import ( void )
 
 			    operation_2 -> relation_no_operation = operation -> no_operation;
 			    operation_2 -> relation_no_compte = operation -> no_compte;
+
+			    operation_2 -> pointe = operation -> pointe;
 
 			    operation -> info_banque_guichet = NULL;
 			    operation_2 -> info_banque_guichet = NULL;
