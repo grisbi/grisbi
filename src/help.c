@@ -35,20 +35,20 @@ void a_propos ( GtkWidget *bouton,
   GtkWidget *label;
 
   const gchar *auteur[] = { "Auger Cédric ( cedric@grisbi.org ) : ",
-  			_("Programming"),
+			    _("Programmation"),
 			    "Cartron Daniel ( doc@grisbi.org ) : ",
-			    _("Documentation writing, Internet site design, Accountancy and ergonomy advices"),
+			    _("Écriture de documentation, site Internet, conseils en comptabilité et en ergonomie"),
 			    "Drieu Benjamin ( bdrieu@april.org ) : ",
-			    _("Programming, Debian packaging"),
+			    _("Programmation, packaging Debian"),
 			    "Niel Gérald ( gerald.niel@grisbi.org ) : ",
-			    _("RPM packaging, Internet site design"),
+			    _("Site Internet, packaging RPM"),
 			    "Pascual André ( andre@linuxgraphic.org ) : ",
 			    _("Logo"),
 			    NULL };
 
   boite = gnome_about_new ( _("Grisbi"),
 			    VERSION,
-			    _("License GNU GPL ( General Public License )"),
+			    _("License GNU GPL"),
 			    (const gchar **) auteur,
 			    _("Programme de gestion financière personnelle"),
 			    NULL );

@@ -83,7 +83,7 @@ gchar * etats_titre ()
 
 	  if ( exo )
 	    titre = g_strconcat ( titre,
-				  ", ", _("exercice courant ("),
+				  ", ", _("exercice courant") , " (",
 				  exo -> nom_exercice,
 				  ")",
 				  NULL );
@@ -138,7 +138,7 @@ gchar * etats_titre ()
 
 	  if ( exo_precedent )
 	    titre = g_strconcat ( titre,
-				  ", ", _("exercice précédent ("),
+				  ", ", _("exercice précédent") , " (",
 				  exo_precedent -> nom_exercice,
 				  ")",
 				  NULL );
@@ -156,11 +156,11 @@ gchar * etats_titre ()
 
 	  if ( g_slist_length ( liste_tmp ) > 1 )
 	    titre = g_strconcat ( titre,
-				  ", ", _("exercices "),
+				  ", ", _("exercices"), " ",
 				  NULL );
 	  else
 	    titre = g_strconcat ( titre,
-				  ", ", _("exercice "),
+				  ", ", _("exercice"), " ",
 				  NULL );
 
 	  while ( liste_tmp )
@@ -246,20 +246,12 @@ gchar * etats_titre ()
 			    "%B",
 			    date_jour );
 
-	  if ( buffer_date[0] == 'a'
-	       ||
-	       buffer_date[0] == 'o' )
-	    titre = g_strconcat ( titre,
-				  ", ", g_strdup_printf ( _("mois d'%s %d"),
-						    buffer_date,
-						    g_date_year ( date_jour )),
-				  NULL );
-	  else
-	    titre = g_strconcat ( titre,
-				  ", ", g_strdup_printf ( _("mois de %s %d"),
-						    buffer_date,
-						    g_date_year ( date_jour )),
-				  NULL );
+	  titre = g_strconcat ( titre,
+				", ", 
+				g_strdup_printf ( _("%s %d"),
+						  buffer_date,
+						  g_date_year ( date_jour )),
+				NULL );
 	  break;
 
 	case 4:
@@ -303,20 +295,12 @@ gchar * etats_titre ()
 			    "%B",
 			    date_jour );
 
-	  if ( buffer_date[0] == 'a'
-	       ||
-	       buffer_date[0] == 'o' )
-	    titre = g_strconcat ( titre,
-				  ", ", g_strdup_printf ( _("mois d'%s %d"),
-						    buffer_date,
-						    g_date_year ( date_jour )),
-				  NULL );
-	  else
-	    titre = g_strconcat ( titre,
-				  ", ", g_strdup_printf ( _("mois de %s %d"),
-						    buffer_date,
-						    g_date_year ( date_jour )),
-				  NULL );
+	  titre = g_strconcat ( titre,
+				", ", 
+				g_strdup_printf ( _("%s %d"),
+						  buffer_date,
+						  g_date_year ( date_jour )),
+				NULL );
 	  break;
 
 	case 8:
@@ -366,36 +350,16 @@ gchar * etats_titre ()
 			    "%B",
 			    date_jour );
 
-
-	  if ( buffer_date_2[0] == 'a'
-	       ||
-	       buffer_date_2[0] == 'o' )
-	    titre = g_strconcat ( titre,
-				  ", ", g_strdup_printf ( _("du mois d'%s %d "),
-						    buffer_date_2,
-						    g_date_year ( date_tmp )),
-				  NULL );
-	  else
-	    titre = g_strconcat ( titre,
-				  ", ", g_strdup_printf ( _("du mois de %s %d "),
-						    buffer_date_2,
-						    g_date_year ( date_tmp )),
-				  NULL );
-
-	  if ( buffer_date[0] == 'a'
-	       ||
-	       buffer_date[0] == 'o' )
-	    titre = g_strconcat ( titre,
-				  g_strdup_printf ( _("au mois d'%s %d"),
-						    buffer_date,
-						    g_date_year ( date_jour )),
-				  NULL );
-	  else
-	    titre = g_strconcat ( titre,
-				  g_strdup_printf ( _("au mois de %s %d"),
-						    buffer_date,
-						    g_date_year ( date_jour )),
-				  NULL );
+	  titre = g_strconcat ( titre,
+				", ", 
+				g_strdup_printf ( _("de %s %d"),
+						  buffer_date_2,
+						  g_date_year ( date_tmp )),
+				" ",
+				g_strdup_printf ( _("à %s %d"),
+						  buffer_date,
+						  g_date_year ( date_jour )),
+				NULL );
 	  break;
 
 	case 11:
@@ -416,35 +380,16 @@ gchar * etats_titre ()
 			    date_jour );
 
 
-	  if ( buffer_date_2[0] == 'a'
-	       ||
-	       buffer_date_2[0] == 'o' )
-	    titre = g_strconcat ( titre,
-				  ", ", g_strdup_printf ( _("du mois d'%s %d "),
-						    buffer_date_2,
-						    g_date_year ( date_tmp )),
-				  NULL );
-	  else
-	    titre = g_strconcat ( titre,
-				  ", ", g_strdup_printf ( _("du mois de %s %d "),
-						    buffer_date_2,
-						    g_date_year ( date_tmp )),
-				  NULL );
-
-	  if ( buffer_date[0] == 'a'
-	       ||
-	       buffer_date[0] == 'o' )
-	    titre = g_strconcat ( titre,
-				  g_strdup_printf ( _("au mois d'%s %d"),
-						    buffer_date,
-						    g_date_year ( date_jour )),
-				  NULL );
-	  else
-	    titre = g_strconcat ( titre,
-				  g_strdup_printf ( _("au mois de %s %d"),
-						    buffer_date,
-						    g_date_year ( date_jour )),
-				  NULL );
+	  titre = g_strconcat ( titre,
+				", ", 
+				g_strdup_printf ( _("de %s %d"),
+						  buffer_date_2,
+						  g_date_year ( date_tmp )),
+				" ",
+				g_strdup_printf ( _("à %s %d"),
+						  buffer_date,
+						  g_date_year ( date_jour )),
+				NULL );
 	  break;
 
 	case 12:
@@ -464,36 +409,16 @@ gchar * etats_titre ()
 			    "%B",
 			    date_jour );
 
-	  /* FIXME: This is very French and should not be like that */
-	  if ( buffer_date_2[0] == 'a'
-	       ||
-	       buffer_date_2[0] == 'o' )
-	    titre = g_strconcat ( titre,
-				  ", ", g_strdup_printf ( _("du mois d'%s %d "),
-						    buffer_date_2,
-						    g_date_year ( date_tmp )),
-				  NULL );
-	  else
-	    titre = g_strconcat ( titre,
-				  ", ", g_strdup_printf ( _("du mois de %s %d "),
-						    buffer_date_2,
-						    g_date_year ( date_tmp )),
-				  NULL );
-
-	  if ( buffer_date[0] == 'a'
-	       ||
-	       buffer_date[0] == 'o' )
-	    titre = g_strconcat ( titre,
-				  g_strdup_printf ( _("au mois d'%s %d"),
-						    buffer_date,
-						    g_date_year ( date_jour )),
-				  NULL );
-	  else
-	    titre = g_strconcat ( titre,
-				  g_strdup_printf ( _("au mois de %s %d"),
-						    buffer_date,
-						    g_date_year ( date_jour )),
-				  NULL );
+	  titre = g_strconcat ( titre,
+				", ", 
+				g_strdup_printf ( _("de %s %d"),
+						  buffer_date_2,
+						  g_date_year ( date_tmp )),
+				" ",
+				g_strdup_printf ( _("à %s %d"),
+						  buffer_date,
+						  g_date_year ( date_jour )),
+				NULL );
 	  break;
 	}
     }
