@@ -22,7 +22,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
-"POT-Creation-Date: 2004-12-24 01:18+0100\n"
+"POT-Creation-Date: 2004-12-30 00:29+0100\n"
 "PO-Revision-Date: 2004-12-25 11:46-0200\n"
 "Last-Translator: \n"
 "Language-Team:  <pt@li.org>\n"
@@ -109,14 +109,14 @@ msgstr "Saldo do bens da conta %s"
 msgid "No third party defined"
 msgstr "Nenhum terceiro definido"
 
-#: src/accueil.c:1593 src/accueil.c:1707 src/echeancier_formulaire.c:2718
-#: src/echeancier_formulaire.c:2762
+#: src/accueil.c:1593 src/accueil.c:1707 src/echeancier_formulaire.c:2716
+#: src/echeancier_formulaire.c:2760
 #, c-format
 msgid "%4.2f %s credit on %s"
 msgstr "%4.2f%s créditos em %s"
 
-#: src/accueil.c:1598 src/accueil.c:1712 src/echeancier_formulaire.c:2723
-#: src/echeancier_formulaire.c:2767
+#: src/accueil.c:1598 src/accueil.c:1712 src/echeancier_formulaire.c:2721
+#: src/echeancier_formulaire.c:2765
 #, c-format
 msgid "%4.2f %s debit on %s"
 msgstr "%4.2f%s débitos em %s"
@@ -163,7 +163,7 @@ msgstr "Número da transação"
 
 #: src/affichage.c:161 src/affichage_liste.c:36 src/affichage_liste.c:732
 #: src/affichage_liste.c:1037 src/operations_formulaire.c:972
-#: src/operations_formulaire.c:3328
+#: src/operations_formulaire.c:3326
 msgid "Value date"
 msgstr "Data"
 
@@ -278,30 +278,30 @@ msgstr "Selecione um novo logotipo"
 #. on met les titres des colonnes
 #: src/affichage_liste.c:35 src/affichage_liste.c:720
 #: src/affichage_liste.c:1033 src/echeancier_formulaire.c:905
-#: src/echeancier_formulaire.c:2535 src/echeancier_liste.c:428
+#: src/echeancier_formulaire.c:2533 src/echeancier_liste.c:428
 #: src/equilibrage.c:194 src/etats_affiche.c:2147 src/import.c:364
 #: src/import.c:2670 src/operations_formulaire.c:779
 #: src/operations_formulaire.c:1400 src/operations_formulaire.c:1450
 #: src/operations_formulaire.c:1499 src/operations_formulaire.c:1538
-#: src/operations_formulaire.c:3318
+#: src/operations_formulaire.c:3316
 msgid "Date"
 msgstr "Data"
 
 #. mise en place de la frame des tiers
 #: src/affichage_liste.c:37 src/affichage_liste.c:1041
-#: src/echeancier_formulaire.c:914 src/echeancier_formulaire.c:2537
+#: src/echeancier_formulaire.c:914 src/echeancier_formulaire.c:2535
 #: src/echeancier_liste.c:430 src/etats_affiche.c:2161 src/etats_config.c:139
 #: src/etats_config.c:270 src/etats_config.c:7175 src/fenetre_principale.c:96
 #: src/import.c:2677 src/operations_formulaire.c:789
-#: src/operations_formulaire.c:3321
+#: src/operations_formulaire.c:3319
 msgid "Third party"
 msgstr "Terceiros"
 
 #: src/affichage_liste.c:38 src/echeancier_formulaire.c:1067
-#: src/echeancier_formulaire.c:2547 src/echeancier_ventilation.c:967
+#: src/echeancier_formulaire.c:2545 src/echeancier_ventilation.c:967
 #: src/echeancier_ventilation.c:1495 src/etats_affiche.c:2175
 #: src/etats_config.c:262 src/operations_formulaire.c:1116
-#: src/operations_formulaire.c:3335 src/ventilation.c:968
+#: src/operations_formulaire.c:3333 src/ventilation.c:968
 #: src/ventilation.c:1493
 msgid "Budgetary line"
 msgstr "Linha orçamentária"
@@ -309,10 +309,10 @@ msgstr "Linha orçamentária"
 #. Debit type
 #: src/affichage_liste.c:39 src/affichage_liste.c:768
 #: src/affichage_liste.c:1049 src/categories_onglet.c:288
-#: src/echeancier_formulaire.c:975 src/echeancier_formulaire.c:2539
+#: src/echeancier_formulaire.c:975 src/echeancier_formulaire.c:2537
 #: src/echeancier_ventilation.c:913 src/echeancier_ventilation.c:932
 #: src/echeancier_ventilation.c:1491 src/imputation_budgetaire.c:165
-#: src/operations_formulaire.c:880 src/operations_formulaire.c:3323
+#: src/operations_formulaire.c:880 src/operations_formulaire.c:3321
 #: src/type_operations.c:154 src/type_operations.c:431
 #: src/type_operations.c:857 src/ventilation.c:914 src/ventilation.c:933
 #: src/ventilation.c:1489
@@ -323,10 +323,10 @@ msgstr "Débito"
 #: src/affichage_liste.c:40 src/affichage_liste.c:780
 #: src/affichage_liste.c:1053 src/categories_onglet.c:304
 #: src/echeancier_formulaire.c:1037 src/echeancier_formulaire.c:1279
-#: src/echeancier_formulaire.c:2541 src/echeancier_ventilation.c:885
+#: src/echeancier_formulaire.c:2539 src/echeancier_ventilation.c:885
 #: src/echeancier_ventilation.c:960 src/echeancier_ventilation.c:1493
 #: src/imputation_budgetaire.c:181 src/operations_formulaire.c:965
-#: src/operations_formulaire.c:1320 src/operations_formulaire.c:3325
+#: src/operations_formulaire.c:1320 src/operations_formulaire.c:3323
 #: src/type_operations.c:168 src/type_operations.c:438
 #: src/type_operations.c:853 src/ventilation.c:886 src/ventilation.c:961
 #: src/ventilation.c:1491
@@ -367,9 +367,9 @@ msgstr "C/R"
 
 #: src/affichage_liste.c:48 src/affichage_liste.c:876
 #: src/affichage_liste.c:1085 src/echeancier_formulaire.c:1075
-#: src/echeancier_formulaire.c:2549 src/echeancier_ventilation.c:974
+#: src/echeancier_formulaire.c:2547 src/echeancier_ventilation.c:974
 #: src/echeancier_ventilation.c:1497 src/etats_affiche.c:2203
-#: src/operations_formulaire.c:1122 src/operations_formulaire.c:3337
+#: src/operations_formulaire.c:1122 src/operations_formulaire.c:3335
 #: src/ventilation.c:975 src/ventilation.c:1495
 msgid "Voucher"
 msgstr "Comprovante"
@@ -377,18 +377,18 @@ msgstr "Comprovante"
 #. Notes
 #: src/affichage_liste.c:49 src/affichage_liste.c:888
 #: src/affichage_liste.c:1089 src/banque.c:709
-#: src/echeancier_formulaire.c:1081 src/echeancier_formulaire.c:2551
+#: src/echeancier_formulaire.c:1081 src/echeancier_formulaire.c:2549
 #: src/echeancier_liste.c:433 src/echeancier_ventilation.c:82
 #: src/echeancier_ventilation.c:864 src/echeancier_ventilation.c:1489
 #: src/etats_affiche.c:2182 src/operations_formulaire.c:1129
-#: src/operations_formulaire.c:3340 src/ventilation.c:85 src/ventilation.c:865
+#: src/operations_formulaire.c:3338 src/ventilation.c:85 src/ventilation.c:865
 #: src/ventilation.c:1487
 msgid "Notes"
 msgstr "Notas"
 
 #: src/affichage_liste.c:50 src/affichage_liste.c:900
 #: src/affichage_liste.c:1093 src/etats_affiche.c:2210
-#: src/operations_formulaire.c:1135 src/operations_formulaire.c:3342
+#: src/operations_formulaire.c:1135 src/operations_formulaire.c:3340
 msgid "Bank references"
 msgstr "Referências bancárias"
 
@@ -516,7 +516,7 @@ msgid "Categories"
 msgstr "Categorias"
 
 #: src/affichage_liste.c:924 src/affichage_liste.c:1101
-#: src/operations_formulaire.c:1110 src/operations_formulaire.c:3332
+#: src/operations_formulaire.c:1110 src/operations_formulaire.c:3330
 msgid "Cheque/Transfer number"
 msgstr "Número do Cheque/Ordem de Pagamento"
 
@@ -1289,7 +1289,7 @@ msgstr "Apagar somente esta sub-categoria."
 #: src/echeancier_formulaire.c:1762 src/echeancier_liste.c:1218
 #: src/echeancier_ventilation.c:204 src/etats_affiche.c:1612
 #: src/operations_formulaire.c:983 src/operations_formulaire.c:1814
-#: src/operations_formulaire.c:2504 src/operations_formulaire.c:2850
+#: src/operations_formulaire.c:2504 src/operations_formulaire.c:2848
 #: src/operations_liste.c:1086 src/operations_liste.c:1688
 #: src/ventilation.c:207
 msgid "Breakdown of transaction"
@@ -1299,16 +1299,15 @@ msgstr "Erro de transação"
 #: src/categories_onglet.c:2568 src/comptes_traitements.c:556
 #: src/comptes_traitements.c:641 src/echeancier_formulaire.c:1523
 #: src/echeancier_formulaire.c:1570 src/echeancier_formulaire.c:1732
-#: src/echeancier_formulaire.c:2093 src/echeancier_formulaire.c:2996
+#: src/echeancier_formulaire.c:2093 src/echeancier_formulaire.c:2994
 #: src/echeancier_liste.c:1243 src/echeancier_ventilation.c:771
 #: src/echeancier_ventilation.c:1580 src/echeancier_ventilation.c:1663
 #: src/echeancier_ventilation.c:2022 src/echeancier_ventilation.c:2295
-#: src/gnucash.c:668 src/gnucash.c:670 src/ofx.c:400
-#: src/operations_formulaire.c:1008 src/operations_formulaire.c:1918
-#: src/operations_formulaire.c:1923 src/operations_formulaire.c:2371
-#: src/operations_formulaire.c:2930 src/operations_liste.c:1632
-#: src/ventilation.c:772 src/ventilation.c:1578 src/ventilation.c:1660
-#: src/ventilation.c:2029 src/ventilation.c:2367
+#: src/ofx.c:442 src/operations_formulaire.c:1008
+#: src/operations_formulaire.c:1918 src/operations_formulaire.c:1923
+#: src/operations_formulaire.c:2371 src/operations_formulaire.c:2928
+#: src/operations_liste.c:1632 src/ventilation.c:772 src/ventilation.c:1578
+#: src/ventilation.c:1659 src/ventilation.c:2028 src/ventilation.c:2366
 msgid "Transfer"
 msgstr "Transferir"
 
@@ -1324,7 +1323,9 @@ msgstr "Informe um nome para a nova categoria"
 msgid ""
 "Category names must be both unique and not empty.  Please use another name "
 "for this category."
-msgstr "Nomes de categoria devem ser únicos e não podem estar em branco.  Por favor utilize outro nome para esta categoria."
+msgstr ""
+"Nomes de categoria devem ser únicos e não podem estar em branco.  Por favor "
+"utilize outro nome para esta categoria."
 
 #: src/categories_onglet.c:2893
 #, c-format
@@ -1343,7 +1344,9 @@ msgstr "Informe um nome para a nova sub-categoria"
 msgid ""
 "Sub-category names must be both unique and not empty.  Please use another "
 "name for this sub-category."
-msgstr "Nomes de sub-categoria devem ser únicos e não podem estar em branco.  Por favor utilize outro nome para esta sub-categoria."
+msgstr ""
+"Nomes de sub-categoria devem ser únicos e não podem estar em branco.  Por "
+"favor utilize outro nome para esta sub-categoria."
 
 #: src/categories_onglet.c:2972
 #, c-format
@@ -1382,8 +1385,10 @@ msgstr "Importar uma lista de categorias"
 
 #. il y a déjà des opérations dans le fichier, on ne peut que fusionner
 #: src/categories_onglet.c:3139
-msgid "File already contains transactions, the two categories lists will be merged."
-msgstr "Arquivo contém transações, as duas categorias exibidas serão mescladas."
+msgid ""
+"File already contains transactions, the two categories lists will be merged."
+msgstr ""
+"Arquivo contém transações, as duas categorias exibidas serão mescladas."
 
 #: src/categories_onglet.c:3149 src/imputation_budgetaire.c:2887
 msgid "Do you want"
@@ -1432,7 +1437,11 @@ msgid ""
 "The following accounts are inconsistent:\n"
 "\n"
 msgstr ""
-"Grisbi encontrou contas onde o total da reconciliação está inconsistente com a soma das transações reconciliadas.  Geralmente, a causa disso são muitas transferências para outras contas reconciliadas.  Você tem que desreconciliar manualmente algumas transferências das contas inconsistentes.\n"
+"Grisbi encontrou contas onde o total da reconciliação está inconsistente com "
+"a soma das transações reconciliadas.  Geralmente, a causa disso são muitas "
+"transferências para outras contas reconciliadas.  Você tem que "
+"desreconciliar manualmente algumas transferências das contas "
+"inconsistentes.\n"
 "As seguintes contas estão inconsistentes:\n"
 "\n"
 
@@ -1594,7 +1603,8 @@ msgstr "Converte conta \"%s\" para Euro?"
 
 #: src/comptes_gestion.c:1213
 msgid "Euro conversion is irreversible, are you sure you want to continue?"
-msgstr "Conversão para Euro é irreversível, você tem certeza que deseja continuar ?"
+msgstr ""
+"Conversão para Euro é irreversível, você tem certeza que deseja continuar ?"
 
 #: src/comptes_gestion.c:1233
 msgid "Exchange rate between the 2 currencies is 0."
@@ -1603,17 +1613,17 @@ msgstr "Taxa de troca entre as duas moedas é zero."
 #: src/comptes_gestion.c:1240 src/devises.c:380 src/devises.c:956
 #: src/devises.c:1729 src/devises.c:1811 src/devises.c:2154 src/devises.c:2159
 #: src/devises.c:2284 src/echeancier_formulaire.c:2052
-#: src/echeancier_formulaire.c:2054 src/echeancier_formulaire.c:2430
-#: src/echeancier_formulaire.c:2432 src/echeancier_liste.c:1967
-#: src/echeancier_liste.c:1969 src/etats_calculs.c:2443
-#: src/etats_calculs.c:2448 src/etats_calculs.c:2478 src/etats_calculs.c:2483
-#: src/etats_calculs.c:2513 src/etats_calculs.c:2518 src/etats_calculs.c:2562
-#: src/etats_calculs.c:2567 src/etats_calculs.c:2593 src/etats_calculs.c:2598
-#: src/etats_calculs.c:2626 src/etats_calculs.c:2631 src/etats_calculs.c:2659
-#: src/etats_calculs.c:2664 src/operations_formulaire.c:2678
+#: src/echeancier_formulaire.c:2054 src/echeancier_formulaire.c:2428
+#: src/echeancier_formulaire.c:2430 src/echeancier_liste.c:1967
+#: src/echeancier_liste.c:1969 src/etats_calculs.c:2445
+#: src/etats_calculs.c:2450 src/etats_calculs.c:2480 src/etats_calculs.c:2485
+#: src/etats_calculs.c:2515 src/etats_calculs.c:2520 src/etats_calculs.c:2564
+#: src/etats_calculs.c:2569 src/etats_calculs.c:2595 src/etats_calculs.c:2600
+#: src/etats_calculs.c:2628 src/etats_calculs.c:2633 src/etats_calculs.c:2661
+#: src/etats_calculs.c:2666 src/operations_formulaire.c:2678
 #: src/operations_formulaire.c:2679 src/operations_liste.c:1564
-#: src/operations_liste.c:1566 src/ventilation.c:2972 src/ventilation.c:2974
-#: src/ventilation.c:3191 src/ventilation.c:3193
+#: src/operations_liste.c:1566 src/ventilation.c:2971 src/ventilation.c:2973
+#: src/ventilation.c:3190 src/ventilation.c:3192
 msgid "Euro"
 msgstr "Euro"
 
@@ -1651,7 +1661,7 @@ msgstr ""
 "Isto irá remover esta conta e todas as operações que ela contém. Isto não "
 "tem volta."
 
-#: src/comptes_traitements.c:568 src/ofx.c:388
+#: src/comptes_traitements.c:568 src/ofx.c:430
 msgid "Deposit"
 msgstr "Depósito"
 
@@ -3146,18 +3156,18 @@ msgstr "Meses"
 msgid "Years"
 msgstr "Anos"
 
-#: src/echeancier_formulaire.c:1044 src/echeancier_formulaire.c:2543
+#: src/echeancier_formulaire.c:1044 src/echeancier_formulaire.c:2541
 #: src/echeancier_ventilation.c:857 src/echeancier_ventilation.c:1487
-#: src/operations_formulaire.c:1103 src/operations_formulaire.c:3330
+#: src/operations_formulaire.c:1103 src/operations_formulaire.c:3328
 #: src/ventilation.c:858 src/ventilation.c:1485
 msgid "Categories : Sub-categories"
 msgstr "Categorias ; sub-categorias"
 
-#: src/echeancier_formulaire.c:1062 src/echeancier_formulaire.c:2545
+#: src/echeancier_formulaire.c:1062 src/echeancier_formulaire.c:2543
 msgid "Transfer reference"
 msgstr "Transferência referente"
 
-#: src/echeancier_formulaire.c:1090 src/echeancier_formulaire.c:2553
+#: src/echeancier_formulaire.c:1090 src/echeancier_formulaire.c:2551
 msgid "Limit date"
 msgstr "Data limite"
 
@@ -3195,11 +3205,11 @@ msgstr ""
 "ou um método do pagamento com um número incremental automático."
 
 #: src/echeancier_formulaire.c:1634 src/echeancier_liste.c:688
-#: src/type_operations.c:1561 src/type_operations.c:1632
+#: src/type_operations.c:1560 src/type_operations.c:1631
 msgid "Input"
 msgstr "Entrar"
 
-#: src/echeancier_formulaire.c:2593 src/echeancier_liste.c:585
+#: src/echeancier_formulaire.c:2591 src/echeancier_liste.c:585
 #: src/echeancier_liste.c:1012
 msgid "Modification"
 msgstr "Modificações"
@@ -3315,7 +3325,7 @@ msgid "Associated method of payment"
 msgstr "Associar forma de pagamento"
 
 #: src/echeancier_ventilation.c:780 src/operations_formulaire.c:1017
-#: src/operations_formulaire.c:2384 src/operations_formulaire.c:2942
+#: src/operations_formulaire.c:2384 src/operations_formulaire.c:2940
 #: src/ventilation.c:781
 msgid "Deleted account"
 msgstr "Apagar conta"
@@ -3332,17 +3342,17 @@ msgstr "Não é possível transferências para a mesma conta"
 msgid "No account associated with the transfer"
 msgstr "Nenhuma conta associada com a transferência"
 
-#: src/echeancier_ventilation.c:2490 src/ventilation.c:2562
+#: src/echeancier_ventilation.c:2490 src/ventilation.c:2561
 msgid "Incomplete breakdown"
 msgstr "Não é possível transferências para a mesma conta"
 
-#: src/echeancier_ventilation.c:2491 src/ventilation.c:2563
+#: src/echeancier_ventilation.c:2491 src/ventilation.c:2562
 msgid ""
 "Transaction amount isn't fully broken down.\n"
 "Proceed anyway?"
 msgstr ""
 
-#: src/echeancier_ventilation.c:2673 src/ventilation.c:2806
+#: src/echeancier_ventilation.c:2673 src/ventilation.c:2805
 msgid "A breakdown line is to be deleted though it is not yet registered."
 msgstr ""
 
@@ -3438,7 +3448,8 @@ msgstr "Grisbi fez uma arquivo de backup as %s ."
 
 #: src/erreur.c:233
 msgid "Please report this problem to http://www.grisbi.org/bugtracking/"
-msgstr "Por favor, reporte este problema para http://www.grisbi.org/bugtracking/"
+msgstr ""
+"Por favor, reporte este problema para http://www.grisbi.org/bugtracking/"
 
 #: src/erreur.c:237
 msgid "Grisbi terminated due to a segmentation fault."
@@ -4073,7 +4084,8 @@ msgstr "Não incluir transferências"
 
 #: src/etats_config.c:2572
 msgid "Include transfers from or to accounts not in this report"
-msgstr "Transferências incluidas a partir ou para contas não estão neste relatório"
+msgstr ""
+"Transferências incluidas a partir ou para contas não estão neste relatório"
 
 #: src/etats_config.c:2585
 msgid "Include transfers from or to these accounts"
@@ -4595,7 +4607,8 @@ msgstr "Arquivo %s já existe"
 
 #: src/etats_latex.c:328
 msgid "LaTeX run was unable to complete, see console output for details."
-msgstr "LaTeX foi incapaz de terminar, veja a saída no console para maiores detalhes."
+msgstr ""
+"LaTeX foi incapaz de terminar, veja a saída no console para maiores detalhes."
 
 #: src/etats_latex.c:348
 msgid "Cannot send job to printer"
@@ -4603,7 +4616,8 @@ msgstr "Não posso enviar trabalho para imprimir"
 
 #: src/etats_latex.c:354
 msgid "dvips was unable to complete, see console output for details."
-msgstr "dvips foi incapaz de terminar, veja a saída no console para maiores detalhes."
+msgstr ""
+"dvips foi incapaz de terminar, veja a saída no console para maiores detalhes."
 
 #. Reports menu
 #: src/etats_onglet.c:95 src/etats_onglet.c:300 src/etats_onglet.c:303
@@ -4770,7 +4784,10 @@ msgid ""
 "This report displays totals of current month's transactions sorted by "
 "categories and sub-categories. You just need to select the account(s). By "
 "default, all accounts are selected."
-msgstr "Este relatório mostra o total das transações do mês corrente classificadas por categorias e sub-categorias. Você precisa selecionar a(s) conta(s).Por padrão todas as contas estão selecionadas."
+msgstr ""
+"Este relatório mostra o total das transações do mês corrente classificadas "
+"por categorias e sub-categorias. Você precisa selecionar a(s) conta(s).Por "
+"padrão todas as contas estão selecionadas."
 
 #. budget annuel
 #: src/etats_onglet.c:1004
@@ -4969,8 +4986,8 @@ msgid ""
 "the transaction will not be changed."
 msgstr ""
 "Esta função atribui cada transação sem um ano financeiro ao ano  relacionado "
-"a sesta data da transação. Se nenhum ano contábil combinar, a transação "
-"não será mudada."
+"a sesta data da transação. Se nenhum ano contábil combinar, a transação não "
+"será mudada."
 
 #: src/export.c:154
 msgid "Export files"
@@ -4981,8 +4998,11 @@ msgid "Select accounts to export"
 msgstr "Selecionar contas para exportar"
 
 #: src/export.c:258 src/qif.c:1018
-msgid "This will irreversibly overwrite previous file.  There is no undo for this."
-msgstr "Isto irá sobrescrever irreversívelmente o arquivo anterior. Você não terá como recuperá-lo."
+msgid ""
+"This will irreversibly overwrite previous file.  There is no undo for this."
+msgstr ""
+"Isto irá sobrescrever irreversívelmente o arquivo anterior. Você não terá "
+"como recuperá-lo."
 
 #: src/export.c:266 src/qif.c:1023
 #, c-format
@@ -5170,7 +5190,8 @@ msgstr "Não posso abrir arquivo '%s': %s"
 #: src/fichiers_io.c:155
 #, c-format
 msgid "Cannot open file '%s' : this is not a grisbi file"
-msgstr "Não posso abrir o arquivo '%s' ; este não é um arquivo no formato grisbi"
+msgstr ""
+"Não posso abrir o arquivo '%s' ; este não é um arquivo no formato grisbi"
 
 #: src/fichiers_io.c:197
 #, c-format
@@ -5178,7 +5199,8 @@ msgid ""
 "Warning: Grisbi data format has changed. Grisbi made a backup under '%s'.\n"
 "Keep it for a while just in case."
 msgstr ""
-"Atenção: Dados do Grisbi foram alterados. Grisbi irá fazer uma cópia sob '%s'.\n"
+"Atenção: Dados do Grisbi foram alterados. Grisbi irá fazer uma cópia sob '%"
+"s'.\n"
 "mantenha-o pelo tempo que julgar necessário."
 
 #: src/fichiers_io.c:232 src/fichiers_io.c:1960 src/fichiers_io.c:4200
@@ -5215,13 +5237,16 @@ msgstr ""
 
 #: src/fichiers_io.c:1834
 msgid "transfers without contra-transaction, which categories were deleted.\n"
-msgstr "transferência sem uma contra-transação, cujas categorias foram apagadas.\n"
+msgstr ""
+"transferência sem uma contra-transação, cujas categorias foram apagadas.\n"
 
 #: src/fichiers_io.c:1839
 msgid ""
 "These modifications should not impact on neither Grisbi's behavior nor your "
 "accounts balances."
-msgstr "Estas modificações não devem impactar nem no comportamento do Grisbi's nem nos saldos de suas contas."
+msgstr ""
+"Estas modificações não devem impactar nem no comportamento do Grisbi's nem "
+"nos saldos de suas contas."
 
 #: src/fichiers_io.c:6428
 #, c-format
@@ -5262,7 +5287,9 @@ msgstr "Este arquivo não é um arquivo de categorias do Grisbi."
 msgid ""
 "This categories list has been produced with grisbi version %s, Grisbi will "
 "nevertheless try to import it."
-msgstr "Esta lista de categorias foi elaborado com a versão %s,independente disso Grisbi tentará importar ela."
+msgstr ""
+"Esta lista de categorias foi elaborado com a versão %s,independente disso "
+"Grisbi tentará importar ela."
 
 #: src/fichiers_io.c:8795
 msgid "Invalid categories file"
@@ -5295,23 +5322,25 @@ msgstr ""
 "deve mudar suas permissões.\n"
 "Gostaria de corrigir isto agora ???"
 
-#: src/gnucash.c:516
+#: src/gnucash.c:517
 #, c-format
 msgid "Either file \"%s\" does not exist or it is not a regular file."
 msgstr "Outro arquivo \"%s\" não existe ou não é uma arquivo regular."
 
-#: src/gnucash.c:518
+#: src/gnucash.c:519
 #, c-format
 msgid "Error opening file '%s'."
 msgstr "Erro abrindo arquivo '%s'."
 
-#: src/gnucash.c:526
+#: src/gnucash.c:527
 msgid ""
 "Grisbi needs to open a temporary file in order to import Gnucash data but "
 "file can't be created.  Check that you have permission to do that."
-msgstr "Grisbi precisou abrir um arquivo temporário para importar dados do Gnucash mas o arquivo não pode ser,criado.Verifique se você em permissões para isso."
+msgstr ""
+"Grisbi precisou abrir um arquivo temporário para importar dados do Gnucash "
+"mas o arquivo não pode ser,criado.Verifique se você em permissões para isso."
 
-#: src/gnucash.c:527
+#: src/gnucash.c:528
 #, c-format
 msgid "Error opening temporary file '%s'."
 msgstr "Erro abrindo arquivo temporário '%s'."
@@ -5326,17 +5355,24 @@ msgid ""
 "powerful use for power users.  We will always try to respect this as "
 "features will come."
 msgstr ""
-"Grisbi é um aplicativo financeiro pessoal para Linux\n "
-"Este programa permite que você classifique suas transações financeiras, o que quer que sejam em uma maneira conveniente e intuitiva. Assim, você poderá controlá-los  da maneira que você precisa e que você quiser.\n"
-"Grisbi é simples e eficiente para uso básico, e poderoso para usuários avançados. Nós sempre tentaremos respeitar isto nas próximas versões que virão."
+"Grisbi é um aplicativo financeiro pessoal para Linux\n"
+" Este programa permite que você classifique suas transações financeiras, o "
+"que quer que sejam em uma maneira conveniente e intuitiva. Assim, você "
+"poderá controlá-los  da maneira que você precisa e que você quiser.\n"
+"Grisbi é simples e eficiente para uso básico, e poderoso para usuários "
+"avançados. Nós sempre tentaremos respeitar isto nas próximas versões que "
+"virão."
 
 #: src/help.c:47
 msgid "Alain Pichon (alain.pichon[at]grisbi.org): Fedora and RHEL packaging"
-msgstr "Alain Pichon (alain.pichon[at]grisbi.org): Pacotes para Fedora and RHEL"
+msgstr ""
+"Alain Pichon (alain.pichon[at]grisbi.org): Pacotes para Fedora and RHEL"
 
 #: src/help.c:48
-msgid "Alain Portal <dionysos[at]grisbi.org>: Programming, manual, RedHat packaging"
-msgstr "Alain Portal <dionysos[at]grisbi.org>: Programador, Manual, pacotes RedHat"
+msgid ""
+"Alain Portal <dionysos[at]grisbi.org>: Programming, manual, RedHat packaging"
+msgstr ""
+"Alain Portal <dionysos[at]grisbi.org>: Programador, Manual, pacotes RedHat"
 
 #: src/help.c:49
 msgid "Andre Pascual (andre[at]linuxgraphic.org) : Logo"
@@ -5367,8 +5403,7 @@ msgid ""
 "Francois Terrot (grisbi[at]terrot.net): Windows packaging and port, "
 "programming"
 msgstr ""
-"Francois Terrot (grisbi[at]terrot.net): pacotes Windows port, "
-"programador"
+"Francois Terrot (grisbi[at]terrot.net): pacotes Windows port, programador"
 
 #: src/help.c:56
 msgid "Gerald Niel (gerald.niel[at]grisbi.org): Slackware packaging, website"
@@ -5412,7 +5447,8 @@ msgstr "Martin Stromberger (Fabiolla[at]aon.at): German"
 
 #: src/help.c:73
 msgid "Development list (discuss, participate, criticize, ...) : "
-msgstr "Lista de desnnvolvedores (discussões, participantes, sugestões, ...) : "
+msgstr ""
+"Lista de desnnvolvedores (discussões, participantes, sugestões, ...) : "
 
 #: src/help.c:75 src/help.c:81
 msgid "subscribe"
@@ -5463,7 +5499,10 @@ msgid ""
 "Grisbi is unable to determine type of this file.  If it is a QIF, an OFX "
 "file or a gnucash file, please contact the grisbi team to resolve this "
 "problem."
-msgstr "Grisbi não consegue determinar o tipo deste arquivo. Se ele for um arquivo QIF, um OFX ou um arquivo Gnucash, por favor entre em contato com o suporte do Grisbi para resolver este problema."
+msgstr ""
+"Grisbi não consegue determinar o tipo deste arquivo. Se ele for um arquivo "
+"QIF, um OFX ou um arquivo Gnucash, por favor entre em contato com o suporte "
+"do Grisbi para resolver este problema."
 
 #: src/import.c:231 src/import.c:239
 #, c-format
@@ -5510,7 +5549,8 @@ msgid ""
 "but the ISO code is wrong.\n"
 "To avoid this message, please set its ISO code in configuration."
 msgstr ""
-"Moeda importada da conta '%s' é %s. Uma moeda não existe até que você a crie, ou esta moeda já existe mas o código ISO é inválido.\n"
+"Moeda importada da conta '%s' é %s. Uma moeda não existe até que você a "
+"crie, ou esta moeda já existe mas o código ISO é inválido.\n"
 "Para omitir esta mensagem, corrija o código ISO nas configurações."
 
 #: src/import.c:638
@@ -5565,7 +5605,9 @@ msgstr "Os códigos da conta importada e da alterada são diferentes"
 msgid ""
 "Perhaps you choose a wrong account ?  If you choose to continue, the id of "
 "the account will be changed.  Do you want to continue ?"
-msgstr "Talvez você escolheu a conta errada. Se você escolher continuar o código da conta será alterado. Você tem certeza que quer continuar ?"
+msgstr ""
+"Talvez você escolheu a conta errada. Se você escolher continuar o código da "
+"conta será alterado. Você tem certeza que quer continuar ?"
 
 #: src/import.c:1808
 msgid "Confirmation of importation of transactions"
@@ -5575,7 +5617,9 @@ msgstr "Confirmação da importação das transações"
 msgid ""
 "Some imported transactions seem to be already saved. Please select the "
 "transactions to import."
-msgstr "Algumas transações importadas parecem já ter sido salvas. Por favor, selecione as transações para importar."
+msgstr ""
+"Algumas transações importadas parecem já ter sido salvas. Por favor, "
+"selecione as transações para importar."
 
 #: src/import.c:1886
 #, c-format
@@ -5602,7 +5646,9 @@ msgstr "Transações órfãs"
 
 #: src/import.c:2592
 msgid "Mark transactions you want to add to the list and click the add button"
-msgstr "Selecione as transações que você quer adicionar a lista e clique no botão [Adicionar] "
+msgstr ""
+"Selecione as transações que você quer adicionar a lista e clique no botão "
+"[Adicionar] "
 
 #: src/import.c:2662
 msgid "Mark"
@@ -5713,7 +5759,9 @@ msgstr "Apagar este suborçamento."
 msgid ""
 "Budgetary lines names must be both unique and not empty.  Please use another "
 "name for this budgetary line."
-msgstr "Nome dos orçamentos devem ser únicos e não estar em branco. Por favor utilize outro nome para este orçamento."
+msgstr ""
+"Nome dos orçamentos devem ser únicos e não estar em branco. Por favor "
+"utilize outro nome para este orçamento."
 
 #: src/imputation_budgetaire.c:2320
 #, c-format
@@ -5724,7 +5772,9 @@ msgstr "Orçamento %s já existe"
 msgid ""
 "Sub-budgetary lines names must be both unique and not empty.  Please use "
 "another name for this sub-budgetary line."
-msgstr "Nome dos sub-orçamentos devem ser únicos e não estar em branco. Por favor utilize outro nome para este sub-orçamento."
+msgstr ""
+"Nome dos sub-orçamentos devem ser únicos e não estar em branco. Por favor "
+"utilize outro nome para este sub-orçamento."
 
 #: src/imputation_budgetaire.c:2362
 #, c-format
@@ -5741,7 +5791,8 @@ msgid ""
 msgstr ""
 "Atenção: Isto irá adicionar categorias e sub-categorias a um orçamento!\n"
 "Além disso você não poderá cancelar isto depois.\n"
-"Nós advertimos para você não fazer isto a não ser que você saiba exatamente o que está fazendo.\n"
+"Nós advertimos para você não fazer isto a não ser que você saiba exatamente "
+"o que está fazendo.\n"
 "Você quer continuar ?"
 
 #: src/imputation_budgetaire.c:2642
@@ -5939,32 +5990,56 @@ msgstr ""
 "Esta compilação do Grisbi não suporta OFX, por favor recompile o Grisbi com "
 "suporte a OFX"
 
-#: src/ofx.c:35
+#: src/ofx.c:35 src/ofx.c:94
 #, c-format
 msgid "Cannot process OFX file '%s'"
 msgstr "Não posso processar arquivo OFX '%s '"
 
-#: src/ofx.c:77
+#. Case of Windows, libofx.dll is not present or Grisbi failed in dynamically loading ofx_proc_file
+#: src/ofx.c:93
+msgid "The OFX support can not be enabled!"
+msgstr ""
+
+#: src/ofx.c:105
 msgid "The new account has not been created."
 msgstr "A nova conta não pode ser criada."
 
-#: src/ofx.c:82
+#: src/ofx.c:110
 msgid "Warning"
 msgstr "Atenção"
 
-#: src/ofx.c:83
+#: src/ofx.c:111
 msgid "An error or warning has occured. Do you still want to import the file ?"
-msgstr "Um erro ou problema aconteceu. Você quer continuar importando o arquivo assim mesmo?"
+msgstr ""
+"Um erro ou problema aconteceu. Você quer continuar importando o arquivo "
+"assim mesmo?"
 
-#: src/ofx.c:135 src/ofx.c:147
+#: src/ofx.c:167 src/ofx.c:179
 msgid "The file has returned the next message :\n"
 msgstr "O arquivo retornou a seguinte mensagem: \n"
 
-#: src/ofx.c:141 src/ofx.c:153
+#: src/ofx.c:173 src/ofx.c:185
 msgid "The file has returned a warning message which is no valid."
 msgstr "O arquivo retornou uma mensagem de advertência que não é valida."
 
-#: src/ofx.c:190
+#. printf ( "ofx_proc_security_cb :\n" );
+#. printf ( "unique_id_valid %d\n", data.unique_id_valid );
+#. printf ( "unique_id %s\n", data.unique_id );
+#. printf ( "unique_id_type_valid %d\n", data.unique_id_type_valid );
+#. printf ( "unique_id_type %s\n", data.unique_id_type );
+#. printf ( "secname_valid %d\n", data.secname_valid );
+#. printf ( "secname %s\n", data.secname );
+#. printf ( "ticker_valid %d\n", data.ticker_valid );
+#. printf ( "ticker %s\n", data.ticker );
+#. printf ( "unitprice_valid %d\n", data.unitprice_valid );
+#. printf ( "unitprice %f\n", data.unitprice );
+#. printf ( "date_unitprice_valid %d\n", data.date_unitprice_valid );
+#. printf ( "date_unitprice %s\n", ctime ( &data.date_unitprice ));
+#. printf ( "currency_valid %d\n", data.currency_valid );
+#. printf ( "currency %s\n", data.currency );
+#. printf ( "memo_valid %d\n", data.memo_valid );
+#. printf ( "memo %s\n", data.memo );
+#: src/ofx.c:227
 msgid ""
 "That file contains something on proc_security_cb.\n"
 "I didn't have any file to test that function.\n"
@@ -5972,57 +6047,58 @@ msgid ""
 msgstr ""
 "Este arquivo contém algo em proc_security_cb.\n"
 "Eu não tenho como testar esta função.\n"
-"Por favor , entre em contato com o suporte do grisbi para implementar esta função."
+"Por favor , entre em contato com o suporte do grisbi para implementar esta "
+"função."
 
-#: src/ofx.c:304
+#: src/ofx.c:346
 msgid "A transaction try to be saved but no account was created...\n"
 msgstr "Uma transação tentou ser salva mas a conta não foi criada...\n"
 
-#: src/ofx.c:368
+#: src/ofx.c:410
 msgid "Check"
 msgstr "Checar"
 
-#: src/ofx.c:372
+#: src/ofx.c:414
 msgid "Interest"
 msgstr "Interesses"
 
-#: src/ofx.c:376
+#: src/ofx.c:418
 msgid "Dividend"
 msgstr "Dividendos"
 
-#: src/ofx.c:380
+#: src/ofx.c:422
 msgid "Service charge"
 msgstr "Carregar serviço"
 
-#: src/ofx.c:384
+#: src/ofx.c:426
 msgid "Fee"
 msgstr "Taxa"
 
-#: src/ofx.c:392
+#: src/ofx.c:434
 msgid "Cash dispenser"
 msgstr "Dinheiro em caixa"
 
-#: src/ofx.c:396
+#: src/ofx.c:438
 msgid "Point of sale"
 msgstr "Ponto de venda"
 
-#: src/ofx.c:404
+#: src/ofx.c:446
 msgid "Electronic payment"
 msgstr "Pagamento eletrônico"
 
-#: src/ofx.c:408
+#: src/ofx.c:450
 msgid "Cash"
 msgstr "Dinheiro"
 
-#: src/ofx.c:412
+#: src/ofx.c:454
 msgid "Direct deposit"
 msgstr "Depósito direto"
 
-#: src/ofx.c:416
+#: src/ofx.c:458
 msgid "Merchant initiated debit"
 msgstr "Débito comercial iniciado"
 
-#: src/ofx.c:420
+#: src/ofx.c:462
 msgid "Repeating payment/standing order"
 msgstr "Repetindo a ordem de pagamento"
 
@@ -6089,7 +6165,8 @@ msgid ""
 "but doesn't contain any number.\n"
 "Continue anyway?"
 msgstr ""
-"Forma de pagamento selecionada tem incremento automático de numeração mas não contém nenhum número.\n"
+"Forma de pagamento selecionada tem incremento automático de numeração mas "
+"não contém nenhum número.\n"
 "Continuar mesmo assim ?"
 
 #: src/operations_formulaire.c:2485
@@ -6145,7 +6222,8 @@ msgid "Imposible to delete a reconciled transaction."
 msgstr "Impossível apagar uma transação reconciliada"
 
 #: src/operations_liste.c:2103
-msgid "The contra-transaction of this transfer is reconciled, deletion impossible."
+msgid ""
+"The contra-transaction of this transfer is reconciled, deletion impossible."
 msgstr ""
 "A contra transação para esta transferência está reconciliada, Não é possível "
 "apagá-la."
@@ -6222,7 +6300,8 @@ msgid "Scheduler warnings"
 msgstr "Mensagens da agenda"
 
 #: src/parametres.c:415
-msgid "Number of days before a warning message advertising a scheduled transaction"
+msgid ""
+"Number of days before a warning message advertising a scheduled transaction"
 msgstr "Número de dias antes de exibir mensagens de transações agendadas"
 
 #: src/parametres.c:479
@@ -6376,7 +6455,9 @@ msgstr "Este arquivo está vazio!"
 msgid ""
 "Grisbi found an investment account, which is not implemented yet.  "
 "Nevertheless, Grisbi will try to import it as a bank account."
-msgstr "Grisbi encontrou uma conta de investimento, que não foi implementada ainda. Grisbi tentará importar ela como uma conta do tipo 'banco'."
+msgstr ""
+"Grisbi encontrou uma conta de investimento, que não foi implementada ainda. "
+"Grisbi tentará importar ela como uma conta do tipo 'banco'."
 
 #: src/qif.c:292
 msgid "Imported account with no name"
@@ -6395,7 +6476,10 @@ msgid ""
 "Grisbi automatically tries to parse dates from QIF files using heuristics.  "
 "Please double check that they are valid and contact grisbi development team "
 "for assistance if needed"
-msgstr "Grisbi tentará converter automaticamente as datas do arquivo QIF usando heuristica. Por favor verifique novamente se elas são válidas e entre em contato com o suporte do grisbi se precisar de ajuda."
+msgstr ""
+"Grisbi tentará converter automaticamente as datas do arquivo QIF usando "
+"heuristica. Por favor verifique novamente se elas são válidas e entre em "
+"contato com o suporte do grisbi se precisar de ajuda."
 
 #: src/qif.c:914
 msgid "QIF format does not define currencies."
@@ -6461,7 +6545,9 @@ msgstr "Por favor, informe um terceiro"
 msgid ""
 "Grisbi is unable to find this third party.  Be sure entered name is valid "
 "and that this third party exists."
-msgstr "Grisbi não conseguiu encontrar este terceiro. Verifique se o nome é váido ou já não existe um terceiro com este nome."
+msgstr ""
+"Grisbi não conseguiu encontrar este terceiro. Verifique se o nome é váido ou "
+"já não existe um terceiro com este nome."
 
 #: src/tiers_onglet.c:1296
 #, c-format
@@ -6480,7 +6566,9 @@ msgstr "Informe um nome para o novo terceiro"
 msgid ""
 "Third party names must be both unique and not empty.  Please use another "
 "name for this third party."
-msgstr "Nome de terceiros devem ser únicos e não podem estar em branco. Por favor, use outro nome para este terceiro."
+msgstr ""
+"Nome de terceiros devem ser únicos e não podem estar em branco. Por favor, "
+"use outro nome para este terceiro."
 
 #: src/tiers_onglet.c:1658
 #, c-format
@@ -6540,7 +6628,10 @@ msgid ""
 "Some transactions still use that payment method.  As deletion of this method "
 "is irreversible, these transactions are to be associated with another "
 "payment method."
-msgstr "Algumas transações ainda usam esta forma de pagamento. Ao apagar esta forma de pagamento, estas transações não terão nenhuma forma de pagamento associada."
+msgstr ""
+"Algumas transações ainda usam esta forma de pagamento. Ao apagar esta forma "
+"de pagamento, estas transações não terão nenhuma forma de pagamento "
+"associada."
 
 #: src/type_operations.c:1034
 msgid "Associate transactions with"
@@ -6551,7 +6642,9 @@ msgstr "Associar transacoes com"
 msgid ""
 "Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.  "
 "Please adjust your settings to a valid executable."
-msgstr "Grisbi não pode encontrar um navegador executável para a página <tt>%s</tt>.  Por favor, ajuste sua configurações para um executável válido."
+msgstr ""
+"Grisbi não pode encontrar um navegador executável para a página <tt>%s</"
+"tt>.  Por favor, ajuste sua configurações para um executável válido."
 
 #: src/utils.c:711 src/utils.c:745
 msgid "Cannot run web browser"
@@ -6579,11 +6672,12 @@ msgstr "Erro na alocação de memória"
 msgid "Browse"
 msgstr "Navegador"
 
-#: src/ventilation.c:2202
+#: src/ventilation.c:2201
 msgid "This transaction has a reconciled breakdown line, deletion canceled."
 msgstr ""
 
-#: src/ventilation.c:2229
+#: src/ventilation.c:2228
 msgid "This transfer has a reconciled contra-transaction, deletion canceled."
-msgstr "Esta transferência tem uma contra-transação reconciliada, Não é possível apagá-la."
-
+msgstr ""
+"Esta transferência tem uma contra-transação reconciliada, Não é possível "
+"apagá-la."

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2004-12-27 20:04+0100\n"
+"POT-Creation-Date: 2004-12-30 00:29+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -92,14 +92,14 @@ msgstr ""
 msgid "No third party defined"
 msgstr ""
 
-#: src/accueil.c:1593 src/accueil.c:1707 src/echeancier_formulaire.c:2718
-#: src/echeancier_formulaire.c:2762
+#: src/accueil.c:1593 src/accueil.c:1707 src/echeancier_formulaire.c:2716
+#: src/echeancier_formulaire.c:2760
 #, c-format
 msgid "%4.2f %s credit on %s"
 msgstr ""
 
-#: src/accueil.c:1598 src/accueil.c:1712 src/echeancier_formulaire.c:2723
-#: src/echeancier_formulaire.c:2767
+#: src/accueil.c:1598 src/accueil.c:1712 src/echeancier_formulaire.c:2721
+#: src/echeancier_formulaire.c:2765
 #, c-format
 msgid "%4.2f %s debit on %s"
 msgstr ""
@@ -146,7 +146,7 @@ msgstr ""
 
 #: src/affichage.c:161 src/affichage_liste.c:36 src/affichage_liste.c:732
 #: src/affichage_liste.c:1037 src/operations_formulaire.c:972
-#: src/operations_formulaire.c:3328
+#: src/operations_formulaire.c:3326
 msgid "Value date"
 msgstr ""
 
@@ -261,30 +261,30 @@ msgstr ""
 #. on met les titres des colonnes
 #: src/affichage_liste.c:35 src/affichage_liste.c:720
 #: src/affichage_liste.c:1033 src/echeancier_formulaire.c:905
-#: src/echeancier_formulaire.c:2535 src/echeancier_liste.c:428
+#: src/echeancier_formulaire.c:2533 src/echeancier_liste.c:428
 #: src/equilibrage.c:194 src/etats_affiche.c:2147 src/import.c:364
 #: src/import.c:2670 src/operations_formulaire.c:779
 #: src/operations_formulaire.c:1400 src/operations_formulaire.c:1450
 #: src/operations_formulaire.c:1499 src/operations_formulaire.c:1538
-#: src/operations_formulaire.c:3318
+#: src/operations_formulaire.c:3316
 msgid "Date"
 msgstr ""
 
 #. mise en place de la frame des tiers
 #: src/affichage_liste.c:37 src/affichage_liste.c:1041
-#: src/echeancier_formulaire.c:914 src/echeancier_formulaire.c:2537
+#: src/echeancier_formulaire.c:914 src/echeancier_formulaire.c:2535
 #: src/echeancier_liste.c:430 src/etats_affiche.c:2161 src/etats_config.c:139
 #: src/etats_config.c:270 src/etats_config.c:7175 src/fenetre_principale.c:96
 #: src/import.c:2677 src/operations_formulaire.c:789
-#: src/operations_formulaire.c:3321
+#: src/operations_formulaire.c:3319
 msgid "Third party"
 msgstr ""
 
 #: src/affichage_liste.c:38 src/echeancier_formulaire.c:1067
-#: src/echeancier_formulaire.c:2547 src/echeancier_ventilation.c:967
+#: src/echeancier_formulaire.c:2545 src/echeancier_ventilation.c:967
 #: src/echeancier_ventilation.c:1495 src/etats_affiche.c:2175
 #: src/etats_config.c:262 src/operations_formulaire.c:1116
-#: src/operations_formulaire.c:3335 src/ventilation.c:968
+#: src/operations_formulaire.c:3333 src/ventilation.c:968
 #: src/ventilation.c:1493
 msgid "Budgetary line"
 msgstr ""
@@ -292,10 +292,10 @@ msgstr ""
 #. Debit type
 #: src/affichage_liste.c:39 src/affichage_liste.c:768
 #: src/affichage_liste.c:1049 src/categories_onglet.c:288
-#: src/echeancier_formulaire.c:975 src/echeancier_formulaire.c:2539
+#: src/echeancier_formulaire.c:975 src/echeancier_formulaire.c:2537
 #: src/echeancier_ventilation.c:913 src/echeancier_ventilation.c:932
 #: src/echeancier_ventilation.c:1491 src/imputation_budgetaire.c:165
-#: src/operations_formulaire.c:880 src/operations_formulaire.c:3323
+#: src/operations_formulaire.c:880 src/operations_formulaire.c:3321
 #: src/type_operations.c:154 src/type_operations.c:431
 #: src/type_operations.c:857 src/ventilation.c:914 src/ventilation.c:933
 #: src/ventilation.c:1489
@@ -306,10 +306,10 @@ msgstr ""
 #: src/affichage_liste.c:40 src/affichage_liste.c:780
 #: src/affichage_liste.c:1053 src/categories_onglet.c:304
 #: src/echeancier_formulaire.c:1037 src/echeancier_formulaire.c:1279
-#: src/echeancier_formulaire.c:2541 src/echeancier_ventilation.c:885
+#: src/echeancier_formulaire.c:2539 src/echeancier_ventilation.c:885
 #: src/echeancier_ventilation.c:960 src/echeancier_ventilation.c:1493
 #: src/imputation_budgetaire.c:181 src/operations_formulaire.c:965
-#: src/operations_formulaire.c:1320 src/operations_formulaire.c:3325
+#: src/operations_formulaire.c:1320 src/operations_formulaire.c:3323
 #: src/type_operations.c:168 src/type_operations.c:438
 #: src/type_operations.c:853 src/ventilation.c:886 src/ventilation.c:961
 #: src/ventilation.c:1491
@@ -350,9 +350,9 @@ msgstr ""
 
 #: src/affichage_liste.c:48 src/affichage_liste.c:876
 #: src/affichage_liste.c:1085 src/echeancier_formulaire.c:1075
-#: src/echeancier_formulaire.c:2549 src/echeancier_ventilation.c:974
+#: src/echeancier_formulaire.c:2547 src/echeancier_ventilation.c:974
 #: src/echeancier_ventilation.c:1497 src/etats_affiche.c:2203
-#: src/operations_formulaire.c:1122 src/operations_formulaire.c:3337
+#: src/operations_formulaire.c:1122 src/operations_formulaire.c:3335
 #: src/ventilation.c:975 src/ventilation.c:1495
 msgid "Voucher"
 msgstr ""
@@ -360,18 +360,18 @@ msgstr ""
 #. Notes
 #: src/affichage_liste.c:49 src/affichage_liste.c:888
 #: src/affichage_liste.c:1089 src/banque.c:709
-#: src/echeancier_formulaire.c:1081 src/echeancier_formulaire.c:2551
+#: src/echeancier_formulaire.c:1081 src/echeancier_formulaire.c:2549
 #: src/echeancier_liste.c:433 src/echeancier_ventilation.c:82
 #: src/echeancier_ventilation.c:864 src/echeancier_ventilation.c:1489
 #: src/etats_affiche.c:2182 src/operations_formulaire.c:1129
-#: src/operations_formulaire.c:3340 src/ventilation.c:85 src/ventilation.c:865
+#: src/operations_formulaire.c:3338 src/ventilation.c:85 src/ventilation.c:865
 #: src/ventilation.c:1487
 msgid "Notes"
 msgstr ""
 
 #: src/affichage_liste.c:50 src/affichage_liste.c:900
 #: src/affichage_liste.c:1093 src/etats_affiche.c:2210
-#: src/operations_formulaire.c:1135 src/operations_formulaire.c:3342
+#: src/operations_formulaire.c:1135 src/operations_formulaire.c:3340
 msgid "Bank references"
 msgstr ""
 
@@ -499,7 +499,7 @@ msgid "Categories"
 msgstr ""
 
 #: src/affichage_liste.c:924 src/affichage_liste.c:1101
-#: src/operations_formulaire.c:1110 src/operations_formulaire.c:3332
+#: src/operations_formulaire.c:1110 src/operations_formulaire.c:3330
 msgid "Cheque/Transfer number"
 msgstr ""
 
@@ -1264,7 +1264,7 @@ msgstr ""
 #: src/echeancier_formulaire.c:1762 src/echeancier_liste.c:1218
 #: src/echeancier_ventilation.c:204 src/etats_affiche.c:1612
 #: src/operations_formulaire.c:983 src/operations_formulaire.c:1814
-#: src/operations_formulaire.c:2504 src/operations_formulaire.c:2850
+#: src/operations_formulaire.c:2504 src/operations_formulaire.c:2848
 #: src/operations_liste.c:1086 src/operations_liste.c:1688
 #: src/ventilation.c:207
 msgid "Breakdown of transaction"
@@ -1274,15 +1274,15 @@ msgstr ""
 #: src/categories_onglet.c:2568 src/comptes_traitements.c:556
 #: src/comptes_traitements.c:641 src/echeancier_formulaire.c:1523
 #: src/echeancier_formulaire.c:1570 src/echeancier_formulaire.c:1732
-#: src/echeancier_formulaire.c:2093 src/echeancier_formulaire.c:2996
+#: src/echeancier_formulaire.c:2093 src/echeancier_formulaire.c:2994
 #: src/echeancier_liste.c:1243 src/echeancier_ventilation.c:771
 #: src/echeancier_ventilation.c:1580 src/echeancier_ventilation.c:1663
 #: src/echeancier_ventilation.c:2022 src/echeancier_ventilation.c:2295
 #: src/ofx.c:442 src/operations_formulaire.c:1008
 #: src/operations_formulaire.c:1918 src/operations_formulaire.c:1923
-#: src/operations_formulaire.c:2371 src/operations_formulaire.c:2930
+#: src/operations_formulaire.c:2371 src/operations_formulaire.c:2928
 #: src/operations_liste.c:1632 src/ventilation.c:772 src/ventilation.c:1578
-#: src/ventilation.c:1660 src/ventilation.c:2029 src/ventilation.c:2367
+#: src/ventilation.c:1659 src/ventilation.c:2028 src/ventilation.c:2366
 msgid "Transfer"
 msgstr ""
 
@@ -1398,17 +1398,18 @@ msgstr ""
 msgid ""
 "Grisbi found accounts where reconciliation totals are inconsistent with the "
 "sum of reconcilied transactions.  Generally, the cause is too many transfers "
-"to other accounts are reconciled.\n"
+"to other accounts are reconciled.  You have to manually unreconcile some "
+"transferts in inconsistent accounts.\n"
 "The following accounts are inconsistent:\n"
 "\n"
 msgstr ""
 
-#: src/check.c:134
+#: src/check.c:135
 #, c-format
 msgid "%d accounts have inconsistencies."
 msgstr ""
 
-#: src/check.c:139
+#: src/check.c:140
 msgid "An account has inconsistencies."
 msgstr ""
 
@@ -1564,8 +1565,8 @@ msgstr ""
 #: src/comptes_gestion.c:1240 src/devises.c:380 src/devises.c:956
 #: src/devises.c:1729 src/devises.c:1811 src/devises.c:2154 src/devises.c:2159
 #: src/devises.c:2284 src/echeancier_formulaire.c:2052
-#: src/echeancier_formulaire.c:2054 src/echeancier_formulaire.c:2430
-#: src/echeancier_formulaire.c:2432 src/echeancier_liste.c:1967
+#: src/echeancier_formulaire.c:2054 src/echeancier_formulaire.c:2428
+#: src/echeancier_formulaire.c:2430 src/echeancier_liste.c:1967
 #: src/echeancier_liste.c:1969 src/etats_calculs.c:2445
 #: src/etats_calculs.c:2450 src/etats_calculs.c:2480 src/etats_calculs.c:2485
 #: src/etats_calculs.c:2515 src/etats_calculs.c:2520 src/etats_calculs.c:2564
@@ -1573,8 +1574,8 @@ msgstr ""
 #: src/etats_calculs.c:2628 src/etats_calculs.c:2633 src/etats_calculs.c:2661
 #: src/etats_calculs.c:2666 src/operations_formulaire.c:2678
 #: src/operations_formulaire.c:2679 src/operations_liste.c:1564
-#: src/operations_liste.c:1566 src/ventilation.c:2972 src/ventilation.c:2974
-#: src/ventilation.c:3191 src/ventilation.c:3193
+#: src/operations_liste.c:1566 src/ventilation.c:2971 src/ventilation.c:2973
+#: src/ventilation.c:3190 src/ventilation.c:3192
 msgid "Euro"
 msgstr ""
 
@@ -3100,18 +3101,18 @@ msgstr ""
 msgid "Years"
 msgstr ""
 
-#: src/echeancier_formulaire.c:1044 src/echeancier_formulaire.c:2543
+#: src/echeancier_formulaire.c:1044 src/echeancier_formulaire.c:2541
 #: src/echeancier_ventilation.c:857 src/echeancier_ventilation.c:1487
-#: src/operations_formulaire.c:1103 src/operations_formulaire.c:3330
+#: src/operations_formulaire.c:1103 src/operations_formulaire.c:3328
 #: src/ventilation.c:858 src/ventilation.c:1485
 msgid "Categories : Sub-categories"
 msgstr ""
 
-#: src/echeancier_formulaire.c:1062 src/echeancier_formulaire.c:2545
+#: src/echeancier_formulaire.c:1062 src/echeancier_formulaire.c:2543
 msgid "Transfer reference"
 msgstr ""
 
-#: src/echeancier_formulaire.c:1090 src/echeancier_formulaire.c:2553
+#: src/echeancier_formulaire.c:1090 src/echeancier_formulaire.c:2551
 msgid "Limit date"
 msgstr ""
 
@@ -3151,7 +3152,7 @@ msgstr ""
 msgid "Input"
 msgstr ""
 
-#: src/echeancier_formulaire.c:2593 src/echeancier_liste.c:585
+#: src/echeancier_formulaire.c:2591 src/echeancier_liste.c:585
 #: src/echeancier_liste.c:1012
 msgid "Modification"
 msgstr ""
@@ -3265,7 +3266,7 @@ msgid "Associated method of payment"
 msgstr ""
 
 #: src/echeancier_ventilation.c:780 src/operations_formulaire.c:1017
-#: src/operations_formulaire.c:2384 src/operations_formulaire.c:2942
+#: src/operations_formulaire.c:2384 src/operations_formulaire.c:2940
 #: src/ventilation.c:781
 msgid "Deleted account"
 msgstr ""
@@ -3282,17 +3283,17 @@ msgstr ""
 msgid "No account associated with the transfer"
 msgstr ""
 
-#: src/echeancier_ventilation.c:2490 src/ventilation.c:2562
+#: src/echeancier_ventilation.c:2490 src/ventilation.c:2561
 msgid "Incomplete breakdown"
 msgstr ""
 
-#: src/echeancier_ventilation.c:2491 src/ventilation.c:2563
+#: src/echeancier_ventilation.c:2491 src/ventilation.c:2562
 msgid ""
 "Transaction amount isn't fully broken down.\n"
 "Proceed anyway?"
 msgstr ""
 
-#: src/echeancier_ventilation.c:2673 src/ventilation.c:2806
+#: src/echeancier_ventilation.c:2673 src/ventilation.c:2805
 msgid "A breakdown line is to be deleted though it is not yet registered."
 msgstr ""
 
@@ -6452,10 +6453,10 @@ msgstr ""
 msgid "Browse"
 msgstr ""
 
-#: src/ventilation.c:2202
+#: src/ventilation.c:2201
 msgid "This transaction has a reconciled breakdown line, deletion canceled."
 msgstr ""
 
-#: src/ventilation.c:2229
+#: src/ventilation.c:2228
 msgid "This transfer has a reconciled contra-transaction, deletion canceled."
 msgstr ""
