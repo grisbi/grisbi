@@ -25,7 +25,7 @@
 
 #include "include.h"
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "echeancier_liste.h"
 #include "echeancier_formulaire.h"
 #include "exercice.h"
@@ -43,9 +43,9 @@
 #include "imputation_budgetaire.h"
 #include "operations_liste.h"
 #include "tiers_onglet.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static void ajuste_scrolling_liste_echeances_a_selection ( void );
 static gboolean changement_taille_liste_echeances ( GtkWidget *tree_view,
 					     GtkAllocation *allocation );
@@ -60,7 +60,7 @@ static GDate *date_suivante_echeance ( struct operation_echeance *echeance,
 static gboolean traitement_clavier_liste_echeances ( GtkWidget *tree_view_liste_echeances,
 					      GdkEventKey *evenement );
 static void update_couleurs_background_echeancier ( void );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -99,7 +99,7 @@ GSList *echeances_a_saisir;
 GSList *echeances_saisies;
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_j_m_a;
 extern gint affichage_echeances_perso_nb_libre;
@@ -125,7 +125,7 @@ extern gdouble taux_de_change[2];
 extern GtkWidget *tree_view;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *window;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

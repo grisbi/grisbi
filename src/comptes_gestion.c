@@ -28,7 +28,7 @@
 
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "comptes_gestion.h"
 #include "banque.h"
 #include "devises.h"
@@ -43,12 +43,12 @@
 #include "echeancier_liste.h"
 #include "operations_liste.h"
 #include "comptes_traitements.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static void changement_bouton_adresse_commune_perso ( void );
 static void modification_details_compte ( void );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -72,7 +72,7 @@ GtkWidget *detail_commentaire;
 GtkWidget *hbox_boutons_modif;
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern GtkWidget *adr_banque;
 extern GtkWidget *code_banque;
 extern gint compte_courant_onglet;
@@ -88,7 +88,7 @@ extern gint nb_comptes;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkTreeSelection * selection;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

@@ -22,7 +22,7 @@
 #include "include.h"
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "fenetre_principale.h"
 #include "accueil.h"
 #include "operations_comptes.h"
@@ -33,10 +33,10 @@
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
-#define END_STATIC
+/*START_STATIC*/
+/*END_STATIC*/
 
 
 /* adr du notebook de base */
@@ -56,7 +56,7 @@ gint modif_categ;
 gint modif_imputation;
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern GtkWidget *arbre_categ;
 extern GtkWidget *arbre_imputation;
 extern GtkWidget *arbre_tiers;
@@ -67,7 +67,7 @@ extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
 extern gchar *tips_col_liste_operations[7];
 extern GtkTooltips *tooltips_general_grisbi;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

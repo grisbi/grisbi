@@ -25,7 +25,7 @@
 
 #include "include.h"
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "echeancier_formulaire.h"
 #include "exercice.h"
 #include "operations_formulaire.h"
@@ -43,9 +43,9 @@
 #include "tiers_onglet.h"
 #include "ventilation.h"
 #include "echeancier_ventilation.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static void affiche_date_limite_echeancier ( void );
 static void affiche_personnalisation_echeancier ( void );
 static void basculer_vers_ventilation_echeances ( void );
@@ -65,7 +65,7 @@ static gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
 static gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 						 GdkEventKey *ev,
 						 gint no_widget );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -76,7 +76,7 @@ GtkWidget *separateur_formulaire_echeancier;
 GtkWidget *hbox_valider_annuler_echeance;
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern struct struct_devise *devise_compte;
 extern struct operation_echeance *echeance_selectionnnee;
 extern gint enregistre_ope_au_retour_echeances;
@@ -104,7 +104,7 @@ extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkStyle *style_entree_formulaire[2];
 extern gdouble taux_de_change[2];
 extern GtkWidget *tree_view_liste_echeances;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 /******************************************************************************/

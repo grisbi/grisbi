@@ -24,13 +24,13 @@
 #include "include.h"
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "patienter.h"
 #include "utils.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
-#define END_STATIC
+/*START_STATIC*/
+/*END_STATIC*/
 
 
 
@@ -39,9 +39,9 @@ GtkWidget *fenetre_patience;
 gint patience_en_cours;
 gint idle_stoppe;
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern GtkWidget *window;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

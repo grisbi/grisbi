@@ -1,4 +1,4 @@
-#define START_DECLARATION
+/*START_DECLARATION*/
 void affiche_cache_le_formulaire ( void );
 void ajout_operation ( struct structure_operation *operation );
 void basculer_vers_ventilation ( GtkWidget *bouton,
@@ -26,5 +26,5 @@ void validation_virement_operation ( struct structure_operation *operation,
 				     gchar *nom_compte_vire );
 void verification_bouton_change_devise ( void );
 GtkWidget *widget_formulaire_par_element ( gint no_element );
-#define END_DECLARATION
+/*END_DECLARATION*/
 

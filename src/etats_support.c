@@ -22,22 +22,22 @@
 #include "include.h"
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "etats_support.h"
 #include "exercice.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
-#define END_STATIC
-
-
+/*START_STATIC*/
+/*END_STATIC*/
 
 
-#define START_EXTERN
+
+
+/*START_EXTERN*/
 extern struct struct_etat *etat_courant;
 extern GSList *liste_struct_exercices;
 extern GtkWidget *nom_exercice;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

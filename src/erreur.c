@@ -27,7 +27,7 @@
 #include "include.h"
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "erreur.h"
 #include "patienter.h"
 #include "dialog.h"
@@ -36,19 +36,19 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "fichier_configuration.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
-#define END_STATIC
+/*START_STATIC*/
+/*END_STATIC*/
 
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern gint id_temps;
 extern gchar *log_message;
 extern gchar *nom_fichier_comptes;
 extern GtkWidget *window;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

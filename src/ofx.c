@@ -36,11 +36,11 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 #include <libofx/libofx.h>
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "ofx.h"
 #include "dialog.h"
 #include "utils.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
 
 /* on doit mettre le compte en cours d'importation en global pour que la libofx puisse le traiter */
@@ -53,9 +53,9 @@ gint  message_erreur_operation;
 
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern GSList *liste_comptes_importes;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

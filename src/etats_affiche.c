@@ -25,7 +25,7 @@
 #include "etats.h"
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "etats_affiche.h"
 #include "etats_calculs.h"
 #include "devises.h"
@@ -37,21 +37,21 @@
 #include "equilibrage.h"
 #include "tiers_onglet.h"
 #include "type_operations.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static void etat_affiche_attach_hsep ( int x, int x2, int y, int y2);
 static void etat_affiche_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
 				 enum alignement align, struct structure_operation * ope );
 static void etat_affiche_attach_vsep ( int x, int x2, int y, int y2);
-#define END_STATIC
+/*END_STATIC*/
 
 
 
 
 gint ancien_tiers_etat;
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern gint ancien_compte_etat;
 extern gint ancien_tiers_etat;
 extern gint ancien_tiers_etat;
@@ -100,7 +100,7 @@ extern gchar *nom_tiers_en_cours;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
 extern gint titres_affiches;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 /*****************************************************************************************************/

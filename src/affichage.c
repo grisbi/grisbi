@@ -23,7 +23,7 @@
 
 #include "include.h"
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "affichage.h"
 #include "operations_formulaire.h"
 #include "fichiers_gestion.h"
@@ -32,9 +32,9 @@
 #include "main.h"
 #include "traitement_variables.h"
 #include "utils.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static void change_animation ( GtkWidget *widget,
 			gpointer user_data );
 static gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
@@ -55,7 +55,7 @@ static void update_fonte_listes ( void );
 static gboolean update_homepage_title (GtkEntry *entry, gchar *value, 
 				gint length, gint * position);
 static gboolean update_transaction_form ( GtkWidget * checkbox, gpointer data );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -72,7 +72,7 @@ GtkWidget *anim_button;
 GtkWidget *anim_preview;
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern gchar *adresse_commune;
 extern gchar *adresse_secondaire;
 extern GtkWidget *arbre_tiers;
@@ -96,7 +96,7 @@ extern GtkWidget *separateur_formulaire_echeancier;
 extern gchar *titre_fichier;
 extern GtkWidget *vbox_boutons_formulaire;
 extern GtkWidget *window;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 /**

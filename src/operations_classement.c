@@ -25,7 +25,7 @@
 #include "include.h"
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "operations_classement.h"
 #include "devises.h"
 #include "exercice.h"
@@ -35,21 +35,21 @@
 #include "equilibrage.h"
 #include "tiers_onglet.h"
 #include "type_operations.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static gint classement_sliste_par_auto_man ( struct structure_operation *operation_1,
 				      struct structure_operation *operation_2 );
 static gint classement_sliste_par_devise ( struct structure_operation *operation_1,
 				     struct structure_operation *operation_2 );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

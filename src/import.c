@@ -25,7 +25,7 @@
 
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "import.h"
 #include "devises.h"
 #include "patienter.h"
@@ -46,9 +46,9 @@
 #include "html.h"
 #include "ofx.h"
 #include "qif.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static gboolean affichage_recapitulatif_importation ( void );
 static void ajout_devise_dans_liste_import ( void );
 static void ajout_opes_importees ( struct struct_compte_importation *compte_import );
@@ -70,7 +70,7 @@ static gboolean fichier_choisi_importation ( GtkWidget *fenetre );
 static void pointe_opes_importees ( struct struct_compte_importation *compte_import );
 static void selection_fichiers_import ( void );
 static void traitement_operations_importees ( void );
-#define END_STATIC
+/*END_STATIC*/
 
 
 gint derniere_operation_enregistrement_ope_import;
@@ -83,7 +83,7 @@ gint virements_a_chercher;
 
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern gchar *dernier_chemin_de_travail;
 extern gchar *derniere_date;
 extern GtkWidget *formulaire;
@@ -101,7 +101,7 @@ extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkTreeSelection * selection;
 extern GtkWidget *tree_view;
 extern GtkWidget *window;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

@@ -25,7 +25,7 @@
 #include "include.h"
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "etats_config.h"
 #include "categories_onglet.h"
 #include "search_glist.h"
@@ -40,9 +40,9 @@
 #include "traitement_variables.h"
 #include "etats_calculs.h"
 #include "etats_onglet.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static void ajoute_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_montants_etat *ancien_comp_montants );
 static void ajoute_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_textes_etat *ancien_comp_textes );
 static void annule_modif_config ( void );
@@ -103,7 +103,7 @@ static void selectionne_partie_liste_compte_vir_etat ( gint *type_compte );
 static void sensitive_hbox_fonction_bouton_txt ( struct struct_comparaison_textes_etat *comp_textes );
 static gboolean sortie_entree_date_etat ( GtkWidget *entree );
 static void stylise_tab_label_etat ( gint *no_page );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -294,7 +294,7 @@ GtkWidget *liste_mode_paiement_etat;
 
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern struct struct_etat *etat_courant;
 extern GtkWidget *frame_liste_etats;
 extern GtkWidget *label_etat_courant;
@@ -317,7 +317,7 @@ extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkTreeSelection * selection;
 extern GtkStyle *style_label;
 extern GtkStyle *style_label_nom_compte;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

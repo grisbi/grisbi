@@ -26,19 +26,19 @@
 #include "include.h"
 #include <gdk/gdkkeysyms.h>
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "calendar.h"
 #include "utils.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
-#define END_STATIC
+/*START_STATIC*/
+/*END_STATIC*/
 
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern GtkWidget *window;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

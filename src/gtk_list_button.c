@@ -31,10 +31,10 @@
 
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "gtk_list_button.h"
 #include "utils.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
 
 /* Function protypes */
@@ -73,9 +73,9 @@ gint moved;
 
 gint list_button_can_drag;
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern GtkWidget *window;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 /* Functions */

@@ -25,9 +25,9 @@
 #include "include.h"
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "gtk_combofix.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
 
 /* Liste des fonctions statiques */
@@ -87,12 +87,12 @@ static gint bloque_proposition = 0;
 static gint case_sensitive = 0;
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern FILE * out;
 extern GtkTreeSelection * selection;
 extern GtkStyle *style_label;
 extern GtkWidget *window;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 /* **************************************************************************************************** */

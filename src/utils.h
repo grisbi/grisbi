@@ -1,4 +1,4 @@
-#define START_DECLARATION
+/*START_DECLARATION*/
 void checkbox_set_value ( GtkWidget * checkbox, guint * data, gboolean update );
 GtkWidget *cree_bouton_url ( const gchar *adr,
 			     const gchar *inscription );
@@ -66,5 +66,5 @@ gboolean termine_idle ( void );
 void text_area_set_value ( GtkWidget * text_view, gchar ** value );
 void update_ecran ( void );
 gpointer **verification_p_tab ( gchar *fonction_appelante );
-#define END_DECLARATION
+/*END_DECLARATION*/
 

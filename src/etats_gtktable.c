@@ -26,16 +26,16 @@
 #include "etats.h"
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "etats_gtktable.h"
 #include "barre_outils.h"
 #include "operations_comptes.h"
 #include "utils.h"
 #include "operations_onglet.h"
 #include "operations_liste.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static void gtktable_attach_hsep ( int x, int x2, int y, int y2);;
 static void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
 			     enum alignement align, struct structure_operation * ope );;
@@ -43,7 +43,7 @@ static void gtktable_attach_vsep ( int x, int x2, int y, int y2);;
 static void gtktable_click_sur_ope_etat ( struct structure_operation *operation );
 static gint gtktable_finish ();;
 static gint gtktable_initialise (GSList * opes_selectionnees);;
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -68,13 +68,13 @@ struct struct_etat_affichage gtktable_affichage = {
 
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern gint compte_courant;
 extern gint nb_colonnes;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkWidget *scrolled_window_etat;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

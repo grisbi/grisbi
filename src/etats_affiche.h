@@ -1,4 +1,4 @@
-#define START_DECLARATION
+/*START_DECLARATION*/
 gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 					gint ligne );
 gint etat_affiche_affiche_categ_etat ( struct structure_operation *operation,
@@ -41,5 +41,5 @@ gint etat_affiche_affiche_totaux_sous_jaccent ( gint origine,
 						gint ligne );
 gint etat_affiche_finish ();
 gint etat_affiche_initialise (GSList * opes_selectionnees);
-#define END_DECLARATION
+/*END_DECLARATION*/
 

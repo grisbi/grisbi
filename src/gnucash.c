@@ -24,12 +24,12 @@
 #include "include.h"
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "gnucash.h"
 #include "utils.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static gchar * child_content ( xmlNodePtr node, gchar * child_name );
 static struct struct_compte_importation * find_imported_account_by_uid ( gchar * guid );
 static struct gnucash_category * find_imported_categ_by_uid ( gchar * guid );
@@ -42,7 +42,7 @@ static void recuperation_donnees_gnucash_book ( xmlNodePtr book_node );
 static void recuperation_donnees_gnucash_categorie ( xmlNodePtr categ_node );
 static void recuperation_donnees_gnucash_compte ( xmlNodePtr compte_node );
 static void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -56,10 +56,10 @@ struct gnucash_category {
 };
 GSList * gnucash_categories = NULL;
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern GSList *liste_comptes_importes;
 extern gchar * tempname;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 gboolean recuperation_donnees_gnucash ( gchar * filename )

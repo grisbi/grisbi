@@ -1,4 +1,4 @@
-#define START_DECLARATION
+/*START_DECLARATION*/
 void changement_choix_compte_echeancier ( void );
 gchar *compte_name_by_no ( gint no_compte );
 GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func, 
@@ -12,5 +12,5 @@ gint recherche_compte_dans_option_menu ( GtkWidget *option_menu,
 gint recupere_no_compte ( GtkWidget *option_menu );
 void supprimer_compte ( void );
 void update_options_menus_comptes ( void );
-#define END_DECLARATION
+/*END_DECLARATION*/
 

@@ -20,17 +20,17 @@
 
 #include "include.h"
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "echeancier_onglet.h"
 #include "echeancier_ventilation.h"
 #include "echeancier_formulaire.h"
 #include "echeancier_liste.h"
 #include "echeancier_infos.h"
 #include "search_glist.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
-#define END_STATIC
+/*START_STATIC*/
+/*END_STATIC*/
 
 
 
@@ -41,12 +41,12 @@ GtkWidget *notebook_formulaire_echeances;
 GtkWidget *notebook_liste_ventil_echeances;
 GtkWidget *paned_onglet_echeancier;
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern GtkWidget *formulaire;
 extern GtkWidget *frame_formulaire_echeancier;
 extern GtkWidget * hpaned;
 extern GSList *liste_struct_echeances;
-#define END_EXTERN
+/*END_EXTERN*/
 
 /*****************************************************************************************************/
 GtkWidget *creation_onglet_echeancier ( void )

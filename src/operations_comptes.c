@@ -24,7 +24,7 @@
 #include "include.h"
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "operations_comptes.h"
 #include "ventilation.h"
 #include "equilibrage.h"
@@ -37,14 +37,14 @@
 #include "comptes_onglet.h"
 #include "operations_formulaire.h"
 #include "comptes_traitements.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static void changement_compte_par_menu ( gpointer null,
 				  gint compte_plus_un );
 static GtkWidget *comptes_appel ( gint no_de_compte );;
 static void verifie_compte_clos ( gint no_nouveau_compte );
-#define END_STATIC
+/*END_STATIC*/
 
 
 GtkWidget *comptes_appel ( gint no_de_compte );
@@ -66,7 +66,7 @@ GtkWidget *label_releve;
 GSList *ordre_comptes;
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern gchar *derniere_date;
 extern GtkWidget *formulaire;
 extern GtkItemFactory *item_factory_menu_general;
@@ -78,7 +78,7 @@ extern GtkWidget *notebook_general;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkWidget *tree_view;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

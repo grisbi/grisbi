@@ -1,4 +1,4 @@
-#define START_DECLARATION
+/*START_DECLARATION*/
 gboolean affichage_traits_liste_operation ( void );
 void ajoute_operations_compte_dans_list_store ( gint compte,
 						gint par_partie );
@@ -42,5 +42,5 @@ void update_soldes_list_store ( gint compte,
 				GtkTreeIter *iter_debut );
 void update_titres_tree_view ( void );
 void verification_list_store_termine ( gint no_compte );
-#define END_DECLARATION
+/*END_DECLARATION*/
 

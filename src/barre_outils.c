@@ -39,7 +39,7 @@
 #include "./xpm/comments.xpm"
 #include "./xpm/grille.xpm"
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "barre_outils.h"
 #include "echeancier_liste.h"
 #include "operations_liste.h"
@@ -47,13 +47,13 @@
 #include "operations_formulaire.h"
 #include "echeancier_formulaire.h"
 #include "menu.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static void demande_expand_arbre ( GtkWidget *bouton,
 			    gint *liste );
 static void mise_a_jour_boutons_grille ( void );
-#define END_STATIC
+/*END_STATIC*/
 
 
 /** Used to display/hide comments in scheduler list */
@@ -79,7 +79,7 @@ GtkWidget *fleche_bas;
 
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern GtkWidget *arbre_categ;
 extern GtkWidget *arbre_imputation;
 extern GtkWidget *arbre_tiers;
@@ -95,7 +95,7 @@ extern GtkTreeSelection * selection;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *tree_view_liste_echeances;
 extern GtkWidget *tree_view_liste_ventilations;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

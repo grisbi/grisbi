@@ -19,14 +19,14 @@
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 #include "include.h"
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "affichage_liste.h"
 #include "operations_liste.h"
 #include "utils.h"
 #include "traitement_variables.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static gboolean allocation_clist_affichage_liste ( GtkWidget *clist,
 					    GtkAllocation *allocation );
 static gboolean change_choix_ajustement_auto_colonnes ( GtkWidget *bouton );
@@ -45,7 +45,7 @@ static void toggled_bouton_affichage_liste ( GtkWidget *bouton,
 				      gint *no_bouton );
 static gboolean transactions_list_display_modes_menu_changed  ( GtkWidget * menu_shell,
 							 gint origine );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -100,7 +100,7 @@ GSList *lignes_affichage_deux_lignes;
 GSList *lignes_affichage_trois_lignes;
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern gint allocation_precedente;
 extern gint col_depart_drag;
 extern gint compte_courant;
@@ -113,7 +113,7 @@ extern GtkWidget *preview;
 extern gchar *tips_col_liste_operations[7];
 extern gchar *titres_colonnes_liste_operations[7];
 extern GtkWidget *window;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

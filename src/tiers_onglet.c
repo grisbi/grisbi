@@ -26,7 +26,7 @@
 
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "tiers_onglet.h"
 #include "devises.h"
 #include "barre_outils.h"
@@ -41,9 +41,9 @@
 #include "etats_config.h"
 #include "affichage_formulaire.h"
 #include "operations_formulaire.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static struct struct_tiers *ajoute_nouveau_tiers ( gchar *tiers );
 static void appui_sur_ajout_tiers ( void );
 static gfloat *calcule_total_montant_tiers ( void );
@@ -65,7 +65,7 @@ static gboolean selection_ligne_tiers ( GtkCTree *arbre_tiers, GtkCTreeNode *noe
 static void supprimer_tiers ( GtkWidget *bouton,
 		       gpointer null );
 static gboolean verifie_double_click ( GtkWidget *liste, GdkEventButton *ev, gpointer null );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -118,7 +118,7 @@ gint nb_ecritures_par_comptes;
 
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern gint compte_courant;
 extern struct struct_devise *devise_compte;
 extern struct struct_devise *devise_operation;
@@ -135,7 +135,7 @@ extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkTreeSelection * selection;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *window;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

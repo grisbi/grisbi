@@ -22,7 +22,7 @@
 #include "include.h"
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "etats_calculs.h"
 #include "devises.h"
 #include "categories_onglet.h"
@@ -33,9 +33,9 @@
 #include "equilibrage.h"
 #include "tiers_onglet.h"
 #include "type_operations.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static void affichage_etat ( struct struct_etat *etat, 
 		      struct struct_etat_affichage * affichage );
 static gint classement_liste_opes_etat ( struct structure_operation *operation_1,
@@ -56,7 +56,7 @@ static gint verifie_chq_test_etat ( struct struct_comparaison_textes_etat *comp_
 			     gchar *no_chq );
 static gint verifie_texte_test_etat ( struct struct_comparaison_textes_etat *comp_textes,
 			       gchar *texte_ope );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -69,7 +69,7 @@ struct struct_etat_affichage * etat_affichage_output;
 
 gint ancien_tiers_etat;
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern gint ancien_compte_etat;
 extern gint ancien_tiers_etat;
 extern gint ancien_tiers_etat;
@@ -124,7 +124,7 @@ extern GtkWidget *notebook_general;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkTreeSelection * selection;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 /*****************************************************************************************************/

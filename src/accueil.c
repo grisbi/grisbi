@@ -28,7 +28,7 @@
 #include "include.h"
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "accueil.h"
 #include "devises.h"
 #include "operations_comptes.h"
@@ -39,9 +39,9 @@
 #include "gtk_list_button.h"
 #include "utils.h"
 #include "tiers_onglet.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static gint classement_date_echeance ( struct operation_echeance * a, 
 				struct operation_echeance * b );
 static gboolean click_sur_compte_accueil ( gint *no_compte );
@@ -55,7 +55,7 @@ static void update_liste_comptes_accueil ( void );
 static void update_liste_echeances_auto_accueil ( void );
 static void update_liste_echeances_manuelles_accueil ( void );
 static void update_soldes_minimaux ( void );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -89,7 +89,7 @@ gint mise_a_jour_soldes_minimaux;
 gint mise_a_jour_fin_comptes_passifs;
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern struct operation_echeance *echeance_selectionnnee;
 extern GSList *echeances_a_saisir;
 extern GSList *echeances_saisies;
@@ -109,7 +109,7 @@ extern GtkWidget *separateur_formulaire_echeancier;
 extern gchar *titre_fichier;
 extern GtkWidget *vbox_liste_comptes;
 extern GtkWidget *window;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 /* ************************************************************************* */

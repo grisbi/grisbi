@@ -1,5 +1,5 @@
-#define START_DECLARATION
+/*START_DECLARATION*/
 int main (int argc, char *argv[]);
 gboolean utilisation_temps_idle ( gpointer null );
-#define END_DECLARATION
+/*END_DECLARATION*/
 

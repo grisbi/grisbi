@@ -22,16 +22,16 @@
 #include "include.h"
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "print_config.h"
 #include "utils.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static GtkWidget * print_config_appearance ( GtkWidget * dialog );
 static GtkWidget * print_config_general ( GtkWidget * dialog );
 static GtkWidget * print_config_paper ( GtkWidget * dialog );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -50,9 +50,9 @@ struct paper_config paper_sizes[8] = {
     {NULL, 0, 0},
 };
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern GtkWidget *window;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 /** 

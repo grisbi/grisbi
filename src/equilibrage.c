@@ -30,7 +30,7 @@
 
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "equilibrage.h"
 #include "devises.h"
 #include "operations_liste.h"
@@ -40,9 +40,9 @@
 #include "traitement_variables.h"
 #include "search_glist.h"
 #include "type_operations.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static gboolean annuler_equilibrage ( void );
 static gboolean clavier_equilibrage ( GtkWidget *widget,
 			       GdkEventKey *event );
@@ -63,7 +63,7 @@ static void select_reconciliation_entry ( GtkTreeSelection * tselection,
 static gboolean sortie_entree_date_equilibrage ( GtkWidget *entree );
 static gboolean souris_equilibrage ( GtkWidget *entree,
 			      GdkEventButton *event );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -108,7 +108,7 @@ gint ancien_r_modifiable;
 gint ancien_retient_affichage_par_compte;
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern GtkWidget *bouton_affiche_r;
 extern GtkWidget *bouton_enleve_r;
 extern GtkWidget *bouton_ope_lignes[4];
@@ -124,7 +124,7 @@ extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkWidget *treeview;
 extern GtkWidget *vbox_fleches_tri;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

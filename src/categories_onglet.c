@@ -20,7 +20,7 @@
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 #include "include.h"
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "categories_onglet.h"
 #include "devises.h"
 #include "operations_comptes.h"
@@ -37,9 +37,9 @@
 #include "etats_config.h"
 #include "affichage_formulaire.h"
 #include "operations_formulaire.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static void appui_sur_ajout_categorie ( void );
 static void appui_sur_ajout_sous_categorie ( void );
 static void calcule_total_montant_categ ( void );
@@ -63,7 +63,7 @@ static void supprimer_categ ( void );
 static void supprimer_sous_categ ( void );
 static gboolean verifie_double_click_categ ( GtkWidget *liste, GdkEventButton *ev,
 				      gpointer null );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -234,7 +234,7 @@ gint **nb_ecritures_par_sous_categ;
 
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern gint compte_courant;
 extern gchar *dernier_chemin_de_travail;
 extern struct struct_devise *devise_compte;
@@ -259,7 +259,7 @@ extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
 extern GtkWidget *widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_TOTAL_WIDGET];
 extern GtkWidget *window;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

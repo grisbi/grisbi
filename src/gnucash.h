@@ -1,4 +1,4 @@
-#define START_DECLARATION
+/*START_DECLARATION*/
 gboolean recuperation_donnees_gnucash ( gchar * filename );
-#define END_DECLARATION
+/*END_DECLARATION*/
 

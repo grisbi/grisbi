@@ -1,6 +1,6 @@
-#define START_DECLARATION
+/*START_DECLARATION*/
 void preferences ( gint page );
-#define END_DECLARATION
+/*END_DECLARATION*/
 
 
 /* Preference pages */

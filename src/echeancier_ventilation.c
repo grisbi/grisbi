@@ -26,7 +26,7 @@
 
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "echeancier_ventilation.h"
 #include "categories_onglet.h"
 #include "exercice.h"
@@ -42,9 +42,9 @@
 #include "comptes_traitements.h"
 #include "operations_liste.h"
 #include "echeancier_liste.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static void affiche_liste_ventilation_echeances ( void );
 static void ajoute_ope_sur_liste_ventilation_echeances ( struct struct_ope_ventil *operation );
 static void annuler_ventilation_echeances ( void );
@@ -72,7 +72,7 @@ static gboolean traitement_clavier_liste_ventilation_echeances ( GtkCList *liste
 							  GdkEventKey *evenement,
 							  gpointer null );
 static void valider_ventilation_echeances ( void );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -92,7 +92,7 @@ gint enregistre_ope_au_retour_echeances;            /* à 1 si au click du bouton
 
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern GtkWidget *barre_outils;
 extern gint compte_courant;
 extern GtkWidget *formulaire;
@@ -118,7 +118,7 @@ extern GtkStyle *style_couleur [2];
 extern GtkStyle *style_entree_formulaire[2];
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *window;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

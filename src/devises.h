@@ -1,4 +1,4 @@
-#define START_DECLARATION
+/*START_DECLARATION*/
 void ajout_devise ( GtkWidget *widget );
 gdouble calcule_montant_devise_renvoi ( gdouble montant_init,
 					gint no_devise_renvoi,
@@ -22,5 +22,5 @@ struct struct_devise *devise_par_nom ( gchar *nom_devise );
 struct struct_devise * find_currency_from_iso4217_list ( gchar * currency_name );
 gboolean is_euro ( struct struct_devise * currency );
 GtkWidget *onglet_devises ( void );
-#define END_DECLARATION
+/*END_DECLARATION*/
 

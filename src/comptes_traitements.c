@@ -26,7 +26,7 @@
 
 #include "include.h"
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "comptes_traitements.h"
 #include "operations_comptes.h"
 #include "type_operations.h"
@@ -43,18 +43,18 @@
 #include "comptes_onglet.h"
 #include "etats_config.h"
 #include "echeancier_liste.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static void creation_types_par_defaut ( gint no_compte,
 				 gulong dernier_cheque );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern GtkWidget *bouton_supprimer_compte;
 extern gint compte_courant;
 extern gint compte_courant_onglet;
@@ -80,7 +80,7 @@ extern GtkStyle *style_entree_formulaire[2];
 extern GtkWidget *tree_view;
 extern GtkWidget *vbox_liste_comptes;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

@@ -27,7 +27,7 @@
 #include "include.h"
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "operations_formulaire.h"
 #include "accueil.h"
 #include "exercice.h"
@@ -50,9 +50,9 @@
 #include "comptes_traitements.h"
 #include "etats_calculs.h"
 #include "ventilation.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static void click_sur_bouton_voir_change ( void );
 static gboolean completion_operation_par_tiers ( GtkWidget *entree );
 static GtkWidget *creation_boutons_formulaire ( void );
@@ -72,7 +72,7 @@ static gboolean touches_champ_formulaire ( GtkWidget *widget,
 static gint verification_validation_operation ( struct structure_operation *operation );
 static void verifie_champs_dates ( gint origine );
 static void widget_grab_focus_echeancier ( gint no_element );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -100,7 +100,7 @@ GtkWidget *tab_widget_formulaire[4][6];
 
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern gboolean block_menu_cb ;
 extern GtkWidget *bouton_affiche_cache_formulaire;
 extern gint compte_courant;
@@ -133,7 +133,7 @@ extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
 extern gdouble taux_de_change[2];
 extern GtkTooltips *tooltips_general_grisbi;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

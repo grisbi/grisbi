@@ -1,4 +1,4 @@
-#define START_DECLARATION
+/*START_DECLARATION*/
 void affiche_titre_fenetre ( void );
 gboolean enregistrement_fichier ( gint origine );
 gboolean enregistrer_fichier_sous ( void );
@@ -12,5 +12,5 @@ void ouverture_fichier_par_menu ( gpointer null,
 void ouvrir_fichier ( void );
 gint question_fermer_sans_enregistrer ( void );
 void remove_file_from_last_opened_files_list ( gchar * nom_fichier );
-#define END_DECLARATION
+/*END_DECLARATION*/
 

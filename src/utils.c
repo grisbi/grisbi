@@ -29,16 +29,16 @@
 #include "include.h"
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "utils.h"
 #include "print_config.h"
 #include "calendar.h"
 #include "dialog.h"
 #include "traitement_variables.h"
 #include "main.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static void browse_file ( GtkButton *button, gpointer data );
 static void close_calendar_popup ( GtkWidget *popup );
 static int myisolat1ToUTF8(unsigned char* out, int *outlen,
@@ -50,13 +50,13 @@ static gboolean set_double ( GtkWidget * spin, gdouble * dummy);
 static gboolean set_text (GtkEntry *entry, gchar *value, 
 		   gint length, gint * position);
 static gboolean set_text_from_area ( GtkTextBuffer *buffer, gpointer dummy );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern gint compte_courant;
 extern GtkWidget *entree_date_finale_etat;
 extern GtkWidget *entree_date_init_etat;
@@ -69,7 +69,7 @@ extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkTreeSelection * selection;
 extern GtkStyle *style_entree_formulaire[2];
 extern GtkWidget *window;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

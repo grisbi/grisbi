@@ -26,7 +26,7 @@
 
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "devises.h"
 #include "dialog.h"
 #include "utils.h"
@@ -39,9 +39,9 @@
 #include "etats_config.h"
 #include "affichage_formulaire.h"
 #include "operations_formulaire.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static gint bloque_echap_choix_devise ( GtkWidget *dialog,
 				 GdkEventKey *key,
 				 gpointer null );
@@ -77,7 +77,7 @@ static void update_currency_widgets();
 static void update_exchange_rate_cache ( struct struct_devise * currency1, 
 				  struct struct_devise * currency2,
 				  gdouble change, gdouble fees );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -292,7 +292,7 @@ struct struct_devise *devise_operation;
 
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern GtkWidget *bouton_devise_categ_etat;
 extern GtkWidget *bouton_devise_ib_etat;
 extern GtkWidget *bouton_devise_montant_etat;
@@ -316,7 +316,7 @@ extern GtkTreeSelection * selection;
 extern GtkWidget *treeview;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *window;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

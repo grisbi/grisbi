@@ -24,24 +24,24 @@
 #include "include.h"
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "qif.h"
 #include "devises.h"
 #include "dialog.h"
 #include "utils.h"
 #include "search_glist.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static void click_compte_export_qif ( GtkWidget *bouton,
 			       GtkWidget *entree );
-#define END_STATIC
+/*END_STATIC*/
 
 
 GSList *liste_entrees_exportation;
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern GSList *liste_comptes_importes;
 extern GSList *liste_struct_categories;
 extern GSList *liste_struct_tiers;
@@ -50,7 +50,7 @@ extern gchar *nom_fichier_comptes;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkWidget *window;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 /* *******************************************************************************/

@@ -22,7 +22,7 @@
 
 #include "include.h"
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "affichage_formulaire.h"
 #include "comptes_traitements.h"
 #include "dialog.h"
@@ -30,9 +30,9 @@
 #include "operations_comptes.h"
 #include "traitement_variables.h"
 #include "operations_formulaire.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static gboolean ajoute_colonne_organisation_formulaire ( void );
 static gboolean ajoute_ligne_organisation_formulaire ( void );
 static gboolean allocation_liste_organisation_formulaire ( GtkWidget *tree_view,
@@ -54,7 +54,7 @@ static gboolean retire_ligne_organisation_formulaire ( void );
 static gboolean toggled_signal_configuration_formulaire ( GtkWidget *toggle_button );
 static gboolean verification_retrait_possible ( struct organisation_formulaire *structure_formulaire,
 					 gint retrait_ligne );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -100,7 +100,7 @@ GtkWidget *formulaire;
 
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern gint col_depart_drag;
 extern gint compte_courant;
 extern gint ligne_depart_drag;
@@ -112,7 +112,7 @@ extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *tree_view;
 extern GtkWidget *treeview;
 extern GtkWidget *window;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

@@ -1,4 +1,4 @@
-#define START_DECLARATION
+/*START_DECLARATION*/
 gboolean changement_taille_liste_tiers ( GtkWidget *clist,
 					 GtkAllocation *allocation,
 					 gpointer null );
@@ -14,5 +14,5 @@ gchar *tiers_name_by_no ( gint no_tiers,
 struct struct_tiers *tiers_par_no ( gint no_tiers );
 struct struct_tiers *tiers_par_nom ( gchar *nom_tiers,
 				     gboolean creer );
-#define END_DECLARATION
+/*END_DECLARATION*/
 

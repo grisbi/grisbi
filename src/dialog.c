@@ -27,23 +27,23 @@
 #include "include.h"
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "dialog.h"
 #include "utils.h"
 #include "parametres.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static void dialogue_conditional_special ( gchar *text, int * var, GtkMessageType type );
 static void dialogue_special ( GtkMessageType param, gchar * text );
 static gboolean question_yes_no ( gchar *texte );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern GtkWidget *window;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 /**

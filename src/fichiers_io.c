@@ -32,7 +32,7 @@ struct recuperation_version
 
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "fichiers_io.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
@@ -44,9 +44,9 @@ struct recuperation_version
 #include "fichiers_gestion.h"
 #include "search_glist.h"
 #include "operations_liste.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc );
 static gboolean charge_fichier_xml_grisbi ( xmlDocPtr doc );
 static gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc );
@@ -66,7 +66,7 @@ static gboolean recuperation_rapprochements_xml ( xmlNodePtr node_rapprochements
 static gboolean recuperation_tiers_xml ( xmlNodePtr node_tiers );
 static struct recuperation_version *recupere_version_fichier ( xmlDocPtr doc );
 static void switch_t_r ( void );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -94,7 +94,7 @@ gint nb_comptes;
 
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern GtkWidget *adr_banque;
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_j_m_a;
@@ -150,7 +150,7 @@ extern GtkWidget *tel_correspondant;
 extern gint valeur_echelle_recherche_date_import;
 extern GtkWidget *web_banque;
 extern GtkWidget *window;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

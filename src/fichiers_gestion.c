@@ -26,7 +26,7 @@
 #include "include.h"
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "fichiers_gestion.h"
 #include "menu.h"
 #include "devises.h"
@@ -47,14 +47,14 @@
 #include "affichage_liste.h"
 #include "fichier_configuration.h"
 #include "echeancier_liste.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static void ajoute_nouveau_fichier_liste_ouverture ( gchar *path_fichier );
 static gchar *demande_nom_enregistrement ( void );
 static gboolean enregistrement_backup ( void );
 static void fichier_selectionne ( GtkWidget *selection_fichier);
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -63,7 +63,7 @@ gchar *nom_fichier_backup;
 
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern gboolean block_menu_cb ;
 extern gint compression_backup;
 extern gint compression_fichier;
@@ -91,7 +91,7 @@ extern gchar **tab_noms_derniers_fichiers_ouverts;
 extern gchar *titre_fichier;
 extern GtkWidget *window;
 extern GtkWidget *window_vbox_principale;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

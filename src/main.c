@@ -36,7 +36,7 @@
 #include "include.h"
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "main.h"
 #include "menu.h"
 #include "operations_liste.h"
@@ -49,10 +49,10 @@
 #include "parametres.h"
 #include "etats_calculs.h"
 #include "etats_onglet.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
-#define END_STATIC
+/*START_STATIC*/
+/*END_STATIC*/
 
 
 
@@ -67,7 +67,7 @@ gint id_fonction_idle;
 
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern GtkWidget *bouton_dupliquer_etat;
 extern GtkWidget *bouton_effacer_etat;
 extern GtkWidget *bouton_exporter_etat;
@@ -89,7 +89,7 @@ extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkTreeSelection * selection;
 extern GtkStyle *style_label_nom_compte;
 extern GtkWidget *tree_view;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

@@ -29,23 +29,23 @@
 
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "search_glist.h"
 #include "devises.h"
 #include "utils.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static gint recherche_devise_par_code ( struct struct_devise *devise,
 				gchar *code );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern GtkWidget *nom_exercice;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

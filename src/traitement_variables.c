@@ -24,14 +24,14 @@
 
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "traitement_variables.h"
 #include "menu.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static void initialise_tab_affichage_ope ( void );
-#define END_STATIC
+/*END_STATIC*/
 
 
 /* les styles de couleur */
@@ -68,7 +68,7 @@ gchar *labels_titres_colonnes_liste_ope[] = {
 
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern gchar *adresse_commune;
 extern gchar *adresse_secondaire;
 extern gint affichage_echeances;
@@ -134,7 +134,7 @@ extern gchar *titre_fichier;
 extern GtkTooltips *tooltips_general_grisbi;
 extern gint valeur_echelle_recherche_date_import;
 extern GtkWidget *window;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

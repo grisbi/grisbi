@@ -38,7 +38,7 @@ struct structure_position_solde
 
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "operations_liste.h"
 #include "ventilation.h"
 #include "accueil.h"
@@ -63,9 +63,9 @@ struct structure_position_solde
 #include "operations_comptes.h"
 #include "traitement_variables.h"
 #include "operations_onglet.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static void affiche_ligne_ope ( struct structure_operation *operation,
 			 GtkTreeIter *iter,
 			 gint ligne );
@@ -99,7 +99,7 @@ static struct structure_position_solde *recherche_position_solde ( void );
 static void schedule_selected_transaction ();
 static struct operation_echeance *schedule_transaction ( struct structure_operation * transaction );
 static gdouble solde_debut_affichage ( gint no_compte );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -179,7 +179,7 @@ GtkWidget *solde_label;
 GtkWidget *solde_label_pointe;
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern GtkWidget *bouton_affiche_cache_formulaire;
 extern GtkWidget *bouton_ok_equilibrage;
 extern gint compte_courant;
@@ -221,7 +221,7 @@ extern gint taille_largeur_colonnes[7];
 extern GtkWidget *tree_view;
 extern GtkWidget *treeview;
 extern GtkWidget *window;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

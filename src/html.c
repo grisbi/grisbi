@@ -24,18 +24,18 @@
 #include "include.h"
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "html.h"
 #include "dialog.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
-#define END_STATIC
+/*START_STATIC*/
+/*END_STATIC*/
 
 
 
-#define START_EXTERN
-#define END_EXTERN
+/*START_EXTERN*/
+/*END_EXTERN*/
 
 
 

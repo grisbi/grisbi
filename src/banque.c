@@ -22,15 +22,15 @@
 
 #include "include.h"
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "banque.h"
 #include "comptes_gestion.h"
 #include "dialog.h"
 #include "utils.h"
 #include "search_glist.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static struct struct_banque * ajout_banque ( GtkWidget *bouton, GtkWidget *clist );
 static GtkWidget * bank_form ( GtkWidget * parent );
 static void deselection_ligne_banque ( GtkWidget *liste,
@@ -49,7 +49,7 @@ static void update_bank_form ( struct struct_banque * bank, GtkWidget * frame );
 static gboolean update_bank_list ( GtkEntry *entry, gchar *value, 
 			    gint length, gint * position );
 static gboolean update_bank_menu ();
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -76,7 +76,7 @@ gint ligne_selection_banque;
 
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern gint compte_courant_onglet;
 extern GtkWidget *detail_option_menu_banque;
 extern GtkWidget *fenetre_preferences;
@@ -86,7 +86,7 @@ extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkTreeSelection * selection;
 extern GtkWidget *window;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

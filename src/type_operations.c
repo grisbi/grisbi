@@ -25,7 +25,7 @@
 
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "type_operations.h"
 #include "utils.h"
 #include "dialog.h"
@@ -33,9 +33,9 @@
 #include "traitement_variables.h"
 #include "search_glist.h"
 #include "affichage_formulaire.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static void ajouter_type_operation ( void );
 static void changement_choix_type_echeancier ( struct struct_type_ope *type );
 static void changement_choix_type_formulaire ( struct struct_type_ope *type );
@@ -51,7 +51,7 @@ static gboolean select_payment_method ( GtkTreeSelection *selection, GtkTreeMode
 static gboolean select_type_ope ( GtkTreeModel *model, GtkTreePath *path, 
 			   GtkTreeIter *iter, struct struct_type_ope * data );
 static void supprimer_type_operation ( void );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -85,7 +85,7 @@ GtkWidget *vbox_fleches_tri;
 /** Global to handle sensitiveness */
 GtkWidget * details_paddingbox;
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern gint compte_courant;
 extern GtkWidget *fenetre_preferences;
 extern GtkWidget *formulaire;
@@ -96,7 +96,7 @@ extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkTreeSelection * selection;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

@@ -1,4 +1,4 @@
-#define START_DECLARATION
+/*START_DECLARATION*/
 gint classe_liste_alphabetique ( gchar *string_1,
 				 gchar *string_2 );
 gint classement_liste_par_no_ope_ventil ( GtkWidget *liste,
@@ -34,5 +34,5 @@ gint classement_sliste_par_tiers ( struct structure_operation *operation_1,
 				     struct structure_operation *operation_2 );
 gint classement_sliste_par_type_ope ( struct structure_operation *operation_1,
 				      struct structure_operation *operation_2 );
-#define END_DECLARATION
+/*END_DECLARATION*/
 

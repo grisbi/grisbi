@@ -23,7 +23,7 @@
 #include "include.h"
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "exercice.h"
 #include "utils.h"
 #include "operations_liste.h"
@@ -31,9 +31,9 @@
 #include "dialog.h"
 #include "search_glist.h"
 #include "operations_formulaire.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static void ajout_exercice ( GtkWidget *bouton,
 		      GtkWidget *clist );
 static void association_automatique ( void );
@@ -49,7 +49,7 @@ static void supprime_exercice ( GtkWidget *bouton, GtkWidget *liste );
 static gboolean update_financial_year_list ( GtkEntry *entry, gchar *value, 
 				      gint length, gint * position );
 static gboolean update_financial_year_menus ();
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -68,7 +68,7 @@ gint ligne_selection_exercice;
 
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern GtkWidget *fenetre_preferences;
 extern GtkWidget *formulaire;
 extern gint nb_comptes;
@@ -76,7 +76,7 @@ extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

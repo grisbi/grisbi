@@ -1,4 +1,4 @@
-#define START_DECLARATION
+/*START_DECLARATION*/
 gint cherche_no_menu_type ( gint demande );
 gint cherche_no_menu_type_associe ( gint demande,
 				    gint origine );
@@ -11,5 +11,5 @@ gchar *type_ope_name_by_no ( gint no_type_ope,
 			     gint no_de_compte );
 struct struct_type_ope *type_ope_par_no ( gint no_type_ope,
 					  gint no_compte );
-#define END_DECLARATION
+/*END_DECLARATION*/
 

@@ -26,7 +26,7 @@
 #include "include.h"
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "menu.h"
 #include "help.h"
 #include "operations_formulaire.h"
@@ -43,15 +43,15 @@
 #include "comptes_traitements.h"
 #include "etats_config.h"
 #include "parametres.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static void affiche_aide_locale ( gpointer null,
 			   gint origine );
 static void lien_web ( GtkWidget *widget,
 		gint origine );
 static void view_menu_cb ( gpointer callback_data, guint callback_action, GtkWidget *widget );
-#define END_STATIC
+/*END_STATIC*/
 
 
 enum view_menu_action {
@@ -64,13 +64,13 @@ enum view_menu_action {
   FOUR_LINES_PER_TRANSACTION,
 };
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern gint compte_courant;
 extern GtkItemFactory *item_factory_menu_general;
 extern gint nb_derniers_fichiers_ouverts;
 extern gchar **tab_noms_derniers_fichiers_ouverts;
 extern GtkWidget *window;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 gboolean block_menu_cb = FALSE;

@@ -1,4 +1,4 @@
-#define START_DECLARATION
+/*START_DECLARATION*/
 void creation_liste_imputation_combofix ( void );
 struct struct_imputation *imputation_par_no ( gint no_imputation );
 struct struct_imputation *imputation_par_nom ( gchar *nom_ib,
@@ -15,5 +15,5 @@ void remplit_arbre_imputation ( void );
 struct struct_sous_imputation *sous_imputation_par_nom ( struct struct_imputation *imputation,
 							 gchar *nom_sous_imputation,
 							 gboolean creer );
-#define END_DECLARATION
+/*END_DECLARATION*/
 

@@ -21,7 +21,7 @@
 #include "include.h"
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "parametres.h"
 #include "utils.h"
 #include "traitement_variables.h"
@@ -33,9 +33,9 @@
 #include "import.h"
 #include "type_operations.h"
 #include "equilibrage.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static gboolean change_backup_path ( GtkEntry *entry, gchar *value, gint length, gint * position );
 static void changement_choix_backup ( GtkWidget *bouton,
 			       gpointer pointeur );
@@ -50,7 +50,7 @@ static gboolean preference_selectable_func (GtkTreeSelection *selection,
 				     gpointer data);
 static gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
 					GtkTreeModel *model );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -84,7 +84,7 @@ GtkWidget *entree_jours;
 
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern gint compression_backup;
 extern gint compression_fichier;
 extern gint decalage_echeance;
@@ -94,7 +94,7 @@ extern gint nb_max_derniers_fichiers_ouverts;
 extern gchar *nom_fichier_backup;
 extern GtkWidget *treeview;
 extern GtkWidget *window;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

@@ -1,4 +1,4 @@
-#define START_DECLARATION
+/*START_DECLARATION*/
 void affichage_traits_liste_ventilation ( void );
 void annuler_ventilation ( void );
 gboolean changement_taille_liste_ope_ventilation ( GtkWidget *tree_view,
@@ -12,5 +12,5 @@ gboolean traitement_clavier_liste_ventilation ( GtkWidget *widget_variable,
 						GdkEventKey *evenement );
 void validation_ope_de_ventilation ( struct structure_operation *operation );
 void ventiler_operation ( gdouble montant );
-#define END_DECLARATION
+/*END_DECLARATION*/
 

@@ -1,4 +1,4 @@
-#define START_DECLARATION
+/*START_DECLARATION*/
 gboolean recuperation_donnees_html ( FILE *fichier );
-#define END_DECLARATION
+/*END_DECLARATION*/
 

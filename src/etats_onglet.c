@@ -22,7 +22,7 @@
 #include "include.h"
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "etats_onglet.h"
 #include "etat_io.h"
 #include "dialog.h"
@@ -32,16 +32,16 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "etats_config.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static void change_choix_nouvel_etat ( GtkWidget *menu_item,
 				GtkWidget *label_description );
 static void changement_etat ( GtkWidget *bouton,
 		       struct struct_etat *etat );
 static GtkWidget *creation_barre_boutons_etats ( void );
 static GtkWidget *creation_liste_etats ( void );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -73,12 +73,12 @@ GtkWidget *onglet_config_etat;
 
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern gchar *dernier_chemin_de_travail;
 extern GtkItemFactory *item_factory_menu_general;
 extern GtkWidget *notebook_general;
 extern GtkWidget *window;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

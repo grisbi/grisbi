@@ -22,7 +22,7 @@
 #include "include.h"
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "etat_io.h"
 #include "erreur.h"
 #include "categories_onglet.h"
@@ -34,9 +34,9 @@
 #include "traitement_variables.h"
 #include "etats_onglet.h"
 #include "tiers_onglet.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc );
 static gint recupere_categ_par_nom_etat ( gchar *nom );
 static gint recupere_compte_par_nom_etat ( gchar *nom );
@@ -44,13 +44,13 @@ static gint recupere_devise_par_nom_etat ( gchar *nom );
 static gint recupere_exo_par_nom_etat ( gchar *nom );
 static gint recupere_ib_par_nom_etat ( gchar *nom );
 static gint recupere_tiers_par_nom_etat ( gchar *nom );
-#define END_STATIC
+/*END_STATIC*/
 
 
 gchar *log_message;        /* utilisé comme log lors de l'import d'un état */
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern GtkWidget *bouton_effacer_etat;
 extern struct struct_etat *etat_courant;
 extern GSList *liste_struct_devises;
@@ -59,7 +59,7 @@ extern gint nb_comptes;
 extern GtkWidget *nom_exercice;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 /***********************************************************************************************************/

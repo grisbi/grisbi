@@ -29,7 +29,7 @@
 
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "imputation_budgetaire.h"
 #include "devises.h"
 #include "operations_comptes.h"
@@ -46,9 +46,9 @@
 #include "etats_config.h"
 #include "affichage_formulaire.h"
 #include "operations_formulaire.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static void appui_sur_ajout_imputation ( void );
 static void appui_sur_ajout_sous_imputation ( void );
 static void calcule_total_montant_imputation ( void );
@@ -76,7 +76,7 @@ static void supprimer_imputation ( void );
 static void supprimer_sous_imputation ( void );
 static gboolean verifie_double_click_imputation ( GtkWidget *liste, GdkEventButton *ev,
 					   gpointer null );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -102,7 +102,7 @@ gint mise_a_jour_combofix_imputation_necessaire;
 
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern gint compte_courant;
 extern gchar *dernier_chemin_de_travail;
 extern struct struct_devise *devise_compte;
@@ -126,7 +126,7 @@ extern GtkTreeSelection * selection;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
 extern GtkWidget *window;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 

@@ -24,18 +24,18 @@
 #include "include.h"
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "fichier_configuration.h"
 #include "dialog.h"
 #include "utils.h"
 #include "main.h"
 #include "print_config.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static void charge_configuration_ancien ( void );
 static void raz_configuration ( void );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -61,7 +61,7 @@ gint compression_backup;
 
 PangoFontDescription *pango_desc_fonte_liste;
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern gint compte_courant;
 extern gint decalage_echeance;
 extern GtkWidget *formulaire;
@@ -75,7 +75,7 @@ extern GtkWidget *paned_onglet_etats;
 extern GtkWidget *paned_onglet_operations;
 extern gint taille_largeur_colonnes[7];
 extern GtkWidget *window;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 /* ***************************************************************************************************** */

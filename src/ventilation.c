@@ -26,7 +26,7 @@
 
 
 
-#define START_INCLUDE
+/*START_INCLUDE*/
 #include "ventilation.h"
 #include "operations_formulaire.h"
 #include "categories_onglet.h"
@@ -40,9 +40,9 @@
 #include "utils.h"
 #include "operations_onglet.h"
 #include "comptes_traitements.h"
-#define END_INCLUDE
+/*END_INCLUDE*/
 
-#define START_STATIC
+/*START_STATIC*/
 static void ajoute_ope_sur_liste_ventilation ( struct struct_ope_ventil *operation );
 static void ajuste_scrolling_liste_ventilations_a_selection ( void );
 static gboolean appui_touche_ventilation ( GtkWidget *entree,
@@ -64,7 +64,7 @@ static void remplit_liste_ventilation ( void );
 static void selectionne_ligne_ventilation ( gint nouvelle_ligne );
 static void supprime_operation_ventilation ( void );
 static void valider_ventilation ( void );
-#define END_STATIC
+/*END_STATIC*/
 
 
 
@@ -102,7 +102,7 @@ gint enregistre_ope_au_retour;
 
 
 
-#define START_EXTERN
+/*START_EXTERN*/
 extern GtkWidget *barre_outils;
 extern GtkTreeViewColumn *colonnes_liste_ventils[3];
 extern gint compte_courant;
@@ -129,7 +129,7 @@ extern GtkStyle *style_entree_formulaire[2];
 extern gdouble taux_de_change[2];
 extern GtkWidget *tree_view;
 extern GtkWidget *tree_view_liste_ventilations;
-#define END_EXTERN
+/*END_EXTERN*/
 
 
 
