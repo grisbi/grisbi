@@ -592,6 +592,11 @@ void update_liste_comptes_accueil ( void )
       if (!devise_is_used)
 	continue;
 
+      pLabel = gtk_label_new ( "" );
+      gtk_box_pack_start ( GTK_BOX ( vbox ), pLabel,
+			   FALSE, FALSE, 0 );
+      gtk_widget_show ( pLabel );
+
       pLabel = gtk_label_new (g_strconcat( "   ",
 					   g_strdup_printf (_("Account balances in %s"),
 							    ((struct struct_devise *) devise -> data) -> nom_devise ), NULL));
@@ -991,10 +996,6 @@ void update_liste_comptes_accueil ( void )
 		     5, 0 );
   gtk_widget_show ( pLabel );
 
-    }
-
-  gtk_widget_show_all (vbox);
-
   /* Création de la (nb_comptes + 4)ième (et dernière) ligne du tableau : vide */
   pLabel = gtk_label_new ( "" );
   gtk_table_attach_defaults ( GTK_TABLE ( pTable ),
@@ -1002,6 +1003,11 @@ void update_liste_comptes_accueil ( void )
 			      0, 1,
 			      i+2, i+3 );
   gtk_widget_show ( pLabel );
+
+    }
+
+  gtk_widget_show_all (vbox);
+
 }
 /* ************************************************************************* */
 

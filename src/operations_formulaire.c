@@ -1493,9 +1493,9 @@ void clique_champ_formulaire ( GtkWidget *entree,
 
 
 /***********************************************************************************************************/
-void touches_champ_formulaire ( GtkWidget *widget,
-				GdkEventKey *ev,
-				gint *no_origine )
+gboolean touches_champ_formulaire ( GtkWidget *widget,
+				    GdkEventKey *ev,
+				    gint *no_origine )
 {
   gint origine;
 
@@ -1571,7 +1571,7 @@ void touches_champ_formulaire ( GtkWidget *widget,
       if ( origine == 1 && !etat.entree )
 	{
 	  fin_edition();
-	  return;
+	  return TRUE;
 	}
 
       /* si le prochain est le débit, on vérifie s'il n'y a rien dans cette entrée et s'il y a quelque chose dans l'entrée du crédit */
@@ -1678,6 +1678,7 @@ void touches_champ_formulaire ( GtkWidget *widget,
 
     }
 
+  return FALSE;
 }
 /***********************************************************************************************************/
 

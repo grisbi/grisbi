@@ -6897,7 +6897,7 @@ void propose_changement_permissions ( void )
 /***********************************************************************************************************/
 
 
-double my_strtod ( const char *nptr, char **endptr )
+double my_strtod ( char *nptr, char **endptr )
 {
   double entier=0, mantisse=0, resultat=0;
   int invert = 0;
