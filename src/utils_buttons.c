@@ -517,6 +517,7 @@ GtkWidget * new_stock_button_with_label ( gchar * stock_id, gchar * name,
  *
  *
  */
+
 GtkWidget * new_button_with_label_and_image ( gchar * name, gchar * filename,
 					      GCallback callback, gpointer data )
 {
@@ -585,10 +586,11 @@ GtkWidget * new_stock_image_label ( gchar * stock_id, gchar * name )
     image = gtk_image_new_from_stock ( stock_id, GTK_ICON_SIZE_LARGE_TOOLBAR );
     vbox = gtk_vbox_new ( FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX(vbox), image, FALSE, FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX(vbox), label, FALSE, FALSE, 0 );
+/*     gtk_box_pack_start ( GTK_BOX(vbox), label, FALSE, FALSE, 0 ); */
 
     return vbox;
 }
+
 
 
 
@@ -607,7 +609,7 @@ GtkWidget * new_image_label ( gchar * image_name, gchar * name )
     
     vbox = gtk_vbox_new ( FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX(vbox), image, FALSE, FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX(vbox), label, FALSE, FALSE, 0 );
+/*     gtk_box_pack_start ( GTK_BOX(vbox), label, FALSE, FALSE, 0 ); */
 
     gtk_widget_show_all ( vbox );
 
