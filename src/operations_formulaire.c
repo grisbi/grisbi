@@ -1547,7 +1547,8 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	    return FALSE;
 	    break;
     }
-    return TRUE;
+
+    return FALSE;
 }
 /******************************************************************************/
 
