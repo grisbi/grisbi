@@ -1883,7 +1883,8 @@ void verification_echeances_a_terme ( void )
 
     while ( pointeur_liste )
     {
-	if ( ECHEANCE_COURANTE -> auto_man )
+	if ( ECHEANCE_COURANTE -> auto_man &&
+	     ! ECHEANCE_COURANTE -> no_operation_ventilee_associee )
 	{
 	    /* tant que cette échéance auto n'est pas arrivée à aujourd'hui, on recommence */
 
@@ -1901,21 +1902,21 @@ void verification_echeances_a_terme ( void )
 		pointeur_liste_ventil = creation_liste_ope_de_ventil_echeances (ECHEANCE_COURANTE);
 		while ( pointeur_liste_ventil &&
 			pointeur_liste_ventil != GINT_TO_POINTER ( -1 ))
-		  {
+		{
 		    struct struct_ope_ventil *ope_ventil;
 
 		    ope_ventil = pointeur_liste_ventil -> data;
 
-		    if ( ope_ventil -> relation_no_compte != -1 &&
+		    if ( ope_ventil -> relation_no_operation &&
 			 ope_ventil -> relation_no_compte == ECHEANCE_COURANTE -> compte )
-		      {
+		    {
 			dialogue_error_hint ( _("This breakdown of transaction contains a transfer on itself.  Either change the sub transaction to transfer on another account or change account of the transaction itself."),
 					      _("Can't issue scheduled operation"));
 			return;
-		      }
+		    }
 
 		    pointeur_liste_ventil = pointeur_liste_ventil -> next;
-		  }
+		}
 
 
 		/* crée l'opération */
@@ -2116,7 +2117,6 @@ void verification_echeances_a_terme ( void )
 		echeances_saisies = g_slist_append ( echeances_saisies,
 						     operation );
 
-
 		/* passe l'échéance à la prochaine date */
 
 		incrementation_echeance ( ECHEANCE_COURANTE );
@@ -2130,7 +2130,7 @@ void verification_echeances_a_terme ( void )
 		}
 	    }
 	}
-	else
+	else if ( ! ECHEANCE_COURANTE -> no_operation_ventilee_associee )
 	    /* ce n'est pas une échéance automatique, on la répertorie dans la liste des échéances à saisir */
 
 	    if ( g_date_compare ( ECHEANCE_COURANTE -> date,
