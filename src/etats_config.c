@@ -7282,7 +7282,7 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 			 0 );
     gtk_widget_show ( hbox );
 
-    label = gtk_label_new ( POSTSPACIFY(_("Amount comparison currency")));
+    label = gtk_label_new ( COLON(_("Amount comparison currency")));
     gtk_misc_set_alignment ( GTK_MISC ( label ),
 			     0,
 			     0.5 );
