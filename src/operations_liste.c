@@ -2819,6 +2819,42 @@ void move_selected_operation_to_account ( GtkMenuItem * menu_item )
 
 
 /**
+ * Move selected transaction to another account.  Normally called as a
+ * handler.
+ *
+ * \param menu_item The GtkMenuItem that triggered this handler.
+ */
+void move_selected_operation_to_account_nb ( gint *account )
+{
+    gint target_account, source_account;
+
+    if (! assert_selected_transaction()) return;
+
+    source_account = NO_COMPTE;
+    target_account = GPOINTER_TO_INT ( account ) ;  
+
+    if ( move_operation_to_account ( OPERATION_SELECTIONNEE, target_account ))
+    {
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + source_account;
+	MISE_A_JOUR = 1;
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + target_account;
+	MISE_A_JOUR = 1;
+	verification_mise_a_jour_liste ();
+
+	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
+
+	mise_a_jour_tiers ();
+	mise_a_jour_categ ();
+	mise_a_jour_imputation ();
+
+	modification_fichier ( TRUE );
+    }
+}
+
+
+
+
+/**
  * Move transaction to another account
  *
  * \param transaction Transaction to move to other account
@@ -2843,10 +2879,9 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
 	}
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + transaction -> relation_no_compte;
-	contra_transaction = 
-	    g_slist_find_custom ( LISTE_OPERATIONS,
-				  GINT_TO_POINTER ( transaction -> relation_no_operation ),
-				  ( GCompareFunc ) recherche_operation_par_no ) -> data;
+	contra_transaction =  g_slist_find_custom ( LISTE_OPERATIONS,
+						    GINT_TO_POINTER ( transaction -> relation_no_operation ),
+						    ( GCompareFunc ) recherche_operation_par_no ) -> data;
 	contra_transaction -> relation_no_compte = account;
 
     }
