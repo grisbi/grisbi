@@ -275,7 +275,7 @@ GtkWidget *onglet_imputations ( void )
 		       separateur,
 		       FALSE,
 		       FALSE,
-		       10 );
+		       5 );
   gtk_widget_show ( separateur );
 
   /* mise en place du bouton fusionner avec les catégories */
@@ -286,6 +286,49 @@ GtkWidget *onglet_imputations ( void )
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
 		       "clicked",
 		       GTK_SIGNAL_FUNC ( fusion_categories_imputation ),
+		       NULL );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton );
+
+
+  /* séparation */
+
+  separateur = gtk_hseparator_new ();
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       separateur,
+		       FALSE,
+		       FALSE,
+		       5 );
+  gtk_widget_show ( separateur );
+
+  /* mise en place du bouton exporter */
+
+  bouton = gtk_button_new_with_label ( _("Exporter ...") );
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( exporter_ib ),
+		       NULL );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton );
+
+  /* mise en place du bouton importer */
+
+  bouton = gtk_button_new_with_label ( _("Importer ...") );
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( importer_ib ),
 		       NULL );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton,
@@ -2713,5 +2756,296 @@ void appui_sur_ajout_sous_imputation ( void )
   mise_a_jour_imputation();
   modif_imputation = 0;
   modification_fichier(TRUE);
+}
+/* **************************************************************************************************** */
+
+
+
+/* **************************************************************************************************** */
+void exporter_ib ( void )
+{
+  GtkWidget *dialog;
+  GtkWidget *label;
+  GtkWidget *fenetre_nom;
+  gint resultat;
+  struct stat test_fichier;
+  gchar *nom_ib;
+
+  dialog = gnome_dialog_new ( _("Exporter les imputations budgétaires"),
+			      GNOME_STOCK_BUTTON_OK,
+			      GNOME_STOCK_BUTTON_CANCEL,
+			      NULL );
+  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
+				 GTK_WINDOW ( window ));
+  gnome_dialog_set_default ( GNOME_DIALOG ( dialog ),
+			     0 );
+  gtk_signal_connect ( GTK_OBJECT ( dialog ),
+		       "destroy",
+		       GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
+		       "destroy" );
+
+  label = gtk_label_new ( _("Entrer un nom pour l'export :") );
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
+
+  fenetre_nom = gnome_file_entry_new ( "nom_fichier",
+				       "nom_fichier" );
+  gnome_file_entry_set_default_path ( GNOME_FILE_ENTRY ( fenetre_nom ),
+				      dernier_chemin_de_travail );
+  gtk_entry_set_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
+		       g_strconcat ( dernier_chemin_de_travail,
+				     ".igsb",
+				     NULL ));
+  gtk_entry_set_position ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
+			   strlen (dernier_chemin_de_travail ));
+  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
+				 GTK_EDITABLE ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))));
+  gtk_window_set_focus ( GTK_WINDOW ( dialog ),
+			 gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom )));
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+		       fenetre_nom,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( fenetre_nom );
+
+  resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
+
+  switch ( resultat )
+    {
+    case 0 :
+      nom_ib = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
+
+      gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+
+      /* vérification que c'est possible */
+
+      if ( !strlen ( nom_ib ))
+	return;
+
+      if ( stat ( nom_ib,
+		  &test_fichier ) != -1 )
+	{
+	  if ( S_ISREG ( test_fichier.st_mode ) )
+	    {
+	      GtkWidget *etes_vous_sur;
+	      GtkWidget *label;
+
+	      etes_vous_sur = gnome_dialog_new ( _("Enregistrer le fichier"),
+						 GNOME_STOCK_BUTTON_YES,
+						 GNOME_STOCK_BUTTON_NO,
+						 NULL );
+	      label = gtk_label_new ( _("Le fichier existe. Voulez-vous l'écraser ?") );
+	      gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( etes_vous_sur ) -> vbox ),
+				   label,
+				   TRUE,
+				   TRUE,
+				   5 );
+	      gtk_widget_show ( label );
+
+	      gnome_dialog_set_default ( GNOME_DIALOG ( etes_vous_sur ),
+					 1 );
+	      gnome_dialog_set_parent ( GNOME_DIALOG ( etes_vous_sur ),
+					GTK_WINDOW ( window ) );
+	      gtk_window_set_modal ( GTK_WINDOW ( etes_vous_sur ),
+				     TRUE );
+	      if ( gnome_dialog_run_and_close ( GNOME_DIALOG ( etes_vous_sur ) ) )
+		return;
+	    }
+	  else
+	    {
+	      dialogue ( g_strconcat ( _("Nom de fichier \""),
+				       nom_ib,
+				       _("\" invalide !"),
+				       NULL ));
+	      return;
+	    }
+	}
+
+      if ( !enregistre_ib ( nom_ib ))
+	{
+	  dialogue ( "L'enregistrement a échoué." );
+	  return;
+	}
+
+      break;
+
+    default :
+      gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+      return;
+    }
+}
+/* **************************************************************************************************** */
+
+
+
+/* **************************************************************************************************** */
+void importer_ib ( void )
+{
+  GtkWidget *dialog;
+  GtkWidget *label;
+  GtkWidget *fenetre_nom;
+  gint resultat;
+  gchar *nom_ib;
+  GtkWidget *bouton_merge_remplace;
+  GtkWidget *menu;
+  GtkWidget *menu_item;
+  GtkWidget *separateur;
+
+
+  dialog = gnome_dialog_new ( _("Importer une liste d'imputations budgétaires"),
+			      GNOME_STOCK_BUTTON_OK,
+			      GNOME_STOCK_BUTTON_CANCEL,
+			      NULL );
+  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
+				 GTK_WINDOW ( window ));
+  gnome_dialog_set_default ( GNOME_DIALOG ( dialog ),
+			     0 );
+  gtk_signal_connect ( GTK_OBJECT ( dialog ),
+		       "destroy",
+		       GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
+		       "destroy" );
+
+  label = gtk_label_new ( _("Entrer le nom du fichier :") );
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
+
+  fenetre_nom = gnome_file_entry_new ( "nom_fichier",
+				       "nom_fichier" );
+  gnome_file_entry_set_default_path ( GNOME_FILE_ENTRY ( fenetre_nom ),
+				      dernier_chemin_de_travail );
+  gtk_entry_set_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
+		       g_strconcat ( dernier_chemin_de_travail,
+				     ".igsb",
+				     NULL ));
+  gtk_entry_set_position ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
+			   strlen (dernier_chemin_de_travail ));
+  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
+				 GTK_EDITABLE ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))));
+  gtk_window_set_focus ( GTK_WINDOW ( dialog ),
+			 gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom )));
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+		       fenetre_nom,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( fenetre_nom );
+
+
+  /* on permet de remplacer/fusionner la liste */
+
+  separateur = gtk_hseparator_new ();
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+		       separateur,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( separateur );
+
+  /* pour éviter un warning lors de la compil */
+
+  bouton_merge_remplace = NULL;
+
+  if ( no_derniere_operation )
+    {
+      /*       il y a déjà des opérations dans le fichier, on ne peut que fusionner */
+
+      label = gtk_label_new ( "Le fichier contient déjà des opérations,\nles deux listes d'IB seront fusionnées." );
+      gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+			   label,
+			   FALSE,
+			   FALSE,
+			   0 );
+      gtk_widget_show ( label );
+    }
+  else
+    {
+      label = gtk_label_new ( "Voulez-vous :" );
+      gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+			   label,
+			   FALSE,
+			   FALSE,
+			   0 );
+      gtk_widget_show ( label );
+
+      bouton_merge_remplace = gtk_option_menu_new ();
+      gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+			   bouton_merge_remplace,
+			   FALSE,
+			   FALSE,
+			   0 );
+      gtk_widget_show ( bouton_merge_remplace );
+
+      menu = gtk_menu_new ();
+
+      menu_item = gtk_menu_item_new_with_label ( "Fusionner les deux listes d'IB" );
+      gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			    "choix",
+			    NULL );
+      gtk_menu_append ( GTK_MENU ( menu ),
+			menu_item );
+      gtk_widget_show ( menu_item );
+
+      menu_item = gtk_menu_item_new_with_label ( "Remplacer l'ancienne liste d'IB" );
+      gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			    "choix",
+			    GINT_TO_POINTER ( 1 ));
+      gtk_menu_append ( GTK_MENU ( menu ),
+			menu_item );
+      gtk_widget_show ( menu_item );
+
+      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_merge_remplace ),
+				 menu );
+      gtk_widget_show ( menu );
+    }
+
+
+  resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
+
+  switch ( resultat )
+    {
+    case 0 :
+      nom_ib = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
+
+      gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+
+      /* vérification que c'est possible */
+
+      if ( !strlen ( nom_ib ))
+	return;
+
+      /* si on a choisi de remplacer l'ancienne liste, on la vire ici */
+
+      if ( !no_derniere_operation
+	   &&
+	   gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_merge_remplace ) -> menu_item ),
+				 "choix" ))
+	{
+	  g_slist_free ( liste_struct_imputation );
+	  liste_struct_imputation = NULL;
+	  no_derniere_imputation = 0;
+	  nb_enregistrements_imputations = 0;
+	}
+
+      if ( !charge_ib ( nom_ib ))
+	{
+	  dialogue ( "L'importation a échoué." );
+	  return;
+	}
+
+      break;
+
+    default :
+      gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+      return;
+    }
 }
 /* **************************************************************************************************** */

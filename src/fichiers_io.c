@@ -3986,14 +3986,6 @@ gboolean enregistre_fichier ( void )
 		   "Sous-imputation",
 		   itoa ( echeance -> sous_imputation ));
 
-/*       xmlSetProp ( node_echeance, */
-/* 		   "Piece_comptable", */
-/* 		   echeance -> no_piece_comptable ); */
-
-/*       xmlSetProp ( node_echeance, */
-/* 		   "Info_baque_guichet", */
-/* 		   echeance -> info_banque_guichet ); */
-
       xmlSetProp ( node_echeance,
 		   "Notes",
 		   echeance -> notes );
@@ -4256,7 +4248,7 @@ gboolean enregistre_fichier ( void )
 		   "No_derniere_sous_imputation",
 		   itoa ( imputation -> no_derniere_sous_imputation ));
 
-      /* on ajoute les sous categories */
+      /* on ajoute les sous ib */
 
       pointeur_sous_imputation = imputation -> liste_sous_imputation;
 
@@ -4269,7 +4261,7 @@ gboolean enregistre_fichier ( void )
 
 	  node_sous_imputation = xmlNewChild ( node_imputation,
 					  NULL,
-					  "Categorie",
+					  "Sous-imputation",
 					  NULL );
 
 	  xmlSetProp ( node_sous_imputation,
@@ -6366,3 +6358,346 @@ gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc )
 }
 /***********************************************************************************************************/
 
+
+
+
+
+
+
+
+/***********************************************************************************************************/
+gboolean enregistre_ib ( gchar *nom_ib )
+{
+  xmlDocPtr doc;
+  xmlNodePtr node;
+  gint resultat;
+  GSList *pointeur_liste;
+
+  /* creation de l'arbre xml en memoire */
+
+  doc = xmlNewDoc("1.0");
+
+  /* la racine est grisbi */
+
+  doc->root = xmlNewDocNode ( doc,
+			      NULL,
+			      "Grisbi_ib",
+			      NULL );
+
+  /* on commence à ajouter les generalites */
+
+  node = xmlNewChild ( doc->root,
+		       NULL,
+		       "Generalites",
+		       NULL );
+  xmlNewTextChild ( node,
+		    NULL,
+		    "Version_fichier_ib",
+		    VERSION_FICHIER_IB );
+
+  xmlNewTextChild ( node,
+		    NULL,
+		    "Version_grisbi",
+		    VERSION );
+
+
+  node = xmlNewChild ( doc->root,
+		       NULL,
+		       "Details_des_ib",
+		       NULL );
+
+
+  pointeur_liste = liste_struct_imputation;
+
+  while ( pointeur_liste )
+    {
+      struct struct_imputation *ib;
+      xmlNodePtr node_ib;
+      GSList *pointeur_sous_ib;
+
+      ib = pointeur_liste -> data;
+
+
+      node_ib = xmlNewChild ( node,
+				 NULL,
+				 "Imputation",
+				 NULL );
+
+      xmlSetProp ( node_ib,
+		   "Nom",
+		   ib -> nom_imputation );
+
+      xmlSetProp ( node_ib,
+		   "Type",
+		   itoa ( ib -> type_imputation ));
+
+      xmlSetProp ( node_ib,
+		   "No_derniere_sous_imputation",
+		   itoa ( ib -> no_derniere_sous_imputation ));
+
+
+      /* on ajoute les sous ib */
+
+      pointeur_sous_ib = ib -> liste_sous_imputation;
+
+      while ( pointeur_sous_ib )
+	{
+	  struct struct_sous_imputation *sous_ib;
+	  xmlNodePtr node_sous_ib;
+
+	  sous_ib = pointeur_sous_ib -> data;
+
+	  node_sous_ib = xmlNewChild ( node_ib,
+				       NULL,
+				       "Sous-imputation",
+				       NULL );
+
+	  xmlSetProp ( node_sous_ib,
+		       "No",
+		       itoa ( sous_ib -> no_sous_imputation ));
+
+	  xmlSetProp ( node_sous_ib,
+		       "Nom",
+		       sous_ib -> nom_sous_imputation );
+
+	  pointeur_sous_ib = pointeur_sous_ib -> next;
+	}
+      pointeur_liste = pointeur_liste -> next;
+    }
+
+
+  /* l'arbre est fait, on sauvegarde */
+
+  resultat = xmlSaveFile ( nom_ib,
+			   doc );
+
+  /* on libère la memoire */
+
+  xmlFreeDoc ( doc );
+
+
+  if ( resultat == -1 )
+    {
+      dialogue ( g_strconcat ( _("Erreur dans l'enregistrement du fichier :\n\n"),
+			       nom_ib,
+			       _("\n\nErreur :\n"),
+			       strerror ( errno ),
+			       NULL ));
+      return ( FALSE );
+    }
+
+
+  return ( TRUE );
+}
+/***********************************************************************************************************/
+
+
+
+
+/***********************************************************************************************************/
+gboolean charge_ib ( gchar *nom_ib )
+{
+  xmlDocPtr doc;
+
+  doc = xmlParseFile ( nom_ib );
+
+  if ( doc )
+    {
+      /* vérifications d'usage */
+
+      if ( !doc->root
+	   ||
+	   !doc->root->name
+	   ||
+	   g_strcasecmp ( doc->root->name,
+			  _("Grisbi_ib") ))
+	{
+	  dialogue ( _("Ce fichier n'est pas une liste d'imputaions budgétaires Grisbi") );
+	  xmlFreeDoc ( doc );
+	  return ( FALSE );
+	}
+
+      /* récupère la version de fichier */
+
+      if (( !strcmp (  xmlNodeGetContent ( doc->root->childs->childs ),
+		       "0.4.0" )))
+	return ( charge_ib_version_0_4_0 ( doc ));
+
+      /* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
+      /* la version nécessaire pour l'ouvrir */
+
+      dialogue ( g_strdup_printf ( _("Pour ouvrir ce fichier, il vous faut la version %s de Grisbi "),
+				   xmlNodeGetContent ( doc->root->childs->childs->next )));
+
+      xmlFreeDoc ( doc );
+
+      return ( FALSE );
+    }
+  else
+    {
+      dialogue ( _("Fichier d'imputations budgétaires invalide.") );
+      return ( FALSE );
+    }
+}
+/***********************************************************************************************************/
+
+
+
+
+/***********************************************************************************************************/
+gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc )
+{
+  xmlNodePtr node;
+  struct struct_imputation *ib;
+		      
+  ib = malloc ( sizeof ( struct struct_imputation ));
+
+  /* on place node sur les generalites */
+
+  node = doc -> root -> childs;
+
+
+  while ( node )
+    {
+      if ( !strcmp ( node -> name,
+		     "Generalites" ) )
+	{
+	  xmlNodePtr node_generalites;
+
+	  /* node_generalites va faire le tour des generalites */
+
+	  node_generalites = node -> childs;
+
+	  while ( node_generalites )
+	    {
+	      /* rien pour l'instant, peut être un jour ? */
+
+
+	      node_generalites = node_generalites -> next;
+	    }
+	}
+
+      /* on recupère ici les ib */
+
+      if ( !strcmp ( node -> name,
+		     "Details_des_ib" ))
+	{
+	  xmlNodePtr node_detail;
+	  xmlNodePtr node_sous_ib;
+
+	  node_detail = node -> childs;
+
+	  while ( node_detail )
+	    {
+	      GSList *liste_tmp;
+	      struct struct_imputation *ib;
+
+	      /* 	      on doit réaliser une fusion, pour ça, soit l'ib existe, et on fait le */
+	      /* tour des sous ib en ajoutant celles qui n'existent pas, soit elle n'existe pas et on */
+	      /* ajoute l'ib et ses sous ib */
+
+	      liste_tmp = g_slist_find_custom ( liste_struct_imputation,
+						xmlGetProp ( node_detail,
+							     "Nom" ),
+						(GCompareFunc) recherche_imputation_par_nom );
+
+
+	      if ( liste_tmp )
+		{
+		  /* 		  la catégorie existe, on fait le tour des sous catégories */
+
+		  ib = liste_tmp -> data;
+
+		  node_sous_ib = node_detail -> childs;
+
+		  while ( node_sous_ib )
+		    {
+		      struct struct_sous_imputation *sous_ib;
+		      GSList *liste_tmp_2;
+
+		      /* on ne prend la sous catég que si elle n'existe pas */
+
+		      liste_tmp_2 = g_slist_find_custom ( ib -> liste_sous_imputation,
+							  xmlGetProp ( node_sous_ib,
+								       "Nom" ),
+							  (GCompareFunc) recherche_sous_imputation_par_nom );
+
+		      if ( !liste_tmp_2 )
+			{
+
+			  sous_ib = malloc ( sizeof ( struct struct_sous_imputation ) );
+
+			  sous_ib -> no_sous_imputation = ++ib -> no_derniere_sous_imputation;
+
+			  sous_ib -> nom_sous_imputation = xmlGetProp ( node_sous_ib,
+									"Nom" );
+
+			  ib -> liste_sous_imputation = g_slist_append ( ib -> liste_sous_imputation,
+									     sous_ib );
+			}
+		      node_sous_ib = node_sous_ib -> next;
+		    }
+		}
+	      else
+		{
+		  /* l'ib n'existe pas, on l'ajoute */
+
+		      
+		  ib = malloc ( sizeof ( struct struct_imputation ) );
+
+		  ib -> no_imputation = ++no_derniere_imputation;
+		  nb_enregistrements_imputations++;
+
+		  ib -> nom_imputation = xmlGetProp ( node_detail,
+						      "Nom" );
+		  ib -> type_imputation = atoi ( xmlGetProp ( node_detail,
+							      "Type" ));
+		  ib -> no_derniere_sous_imputation = atoi ( xmlGetProp ( node_detail,
+								  "No_derniere_sous_imputation" ));
+
+		  /*  pour chaque ib, on recupère les sous-ib */
+
+		  ib -> liste_sous_imputation = NULL;
+		  node_sous_ib = node_detail -> childs;
+
+		  while ( node_sous_ib )
+		    {
+		      struct struct_sous_imputation *sous_ib;
+
+		      sous_ib = malloc ( sizeof ( struct struct_sous_imputation ) );
+
+		      sous_ib -> no_sous_imputation = atoi ( xmlGetProp ( node_sous_ib,
+									  "No" ));
+		      sous_ib -> nom_sous_imputation = xmlGetProp ( node_sous_ib,
+								    "Nom" );
+
+		      ib -> liste_sous_imputation = g_slist_append ( ib -> liste_sous_imputation,
+								     sous_ib );
+		      node_sous_ib = node_sous_ib -> next;
+		    }
+
+		  liste_struct_imputation = g_slist_append ( liste_struct_imputation,
+							  ib );
+		}
+	      node_detail = node_detail -> next;
+	    }
+	}
+      node = node -> next;
+    }
+
+  /* on libère la memoire */
+  
+  xmlFreeDoc ( doc );
+
+  /* creation de la liste des ib pour le combofix */
+
+  creation_liste_imputation_combofix ();
+  mise_a_jour_imputation ();
+  remplit_arbre_imputation ();
+
+
+  modification_fichier ( TRUE );
+
+  return ( TRUE );
+}
+/***********************************************************************************************************/

@@ -76,6 +76,9 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc );
 gboolean enregistre_categ ( gchar *nom_categ );
 gboolean charge_categ ( gchar *nom_categ );
 gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc );
+gboolean enregistre_ib ( gchar *nom_ib );
+gboolean charge_ib ( gchar *nom_ib );
+gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc );
 
 
 
@@ -809,6 +812,8 @@ gchar *calcule_total_montant_imputation_par_compte ( gint imputation,
 						     gint no_compte );
 void appui_sur_ajout_imputation ( void );
 void appui_sur_ajout_sous_imputation ( void );
+void exporter_ib ( void );
+void importer_ib ( void );
 
 
 /***********************************/ 
