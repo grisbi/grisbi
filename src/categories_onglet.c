@@ -747,7 +747,7 @@ void remplit_arbre_categ ( void )
 	    text[2] = NULL;
 
 	  text[3] = NULL;
-
+	  
 	  ligne_sous_categ = gtk_ctree_insert_node ( GTK_CTREE ( arbre_categ ),
 						     ligne,
 						     NULL,
@@ -760,8 +760,12 @@ void remplit_arbre_categ ( void )
 						     FALSE,
 						     FALSE );
 
-	  /* pour chacun des sous categ, on met un fils bidon pour pouvoir l'ouvrir */
+	  gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_categ ),
+					ligne_sous_categ,
+					GINT_TO_POINTER(-1) );
 
+	  /* pour chacun des sous categ, on met un fils bidon pour
+	     pouvoir l'ouvrir */
 	  ligne_sous_categ = gtk_ctree_insert_node ( GTK_CTREE ( arbre_categ ),
 						     ligne_sous_categ,
 						     NULL,
@@ -818,6 +822,9 @@ void remplit_arbre_categ ( void )
 				      FALSE,
 				      FALSE );
 
+      gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_categ ),
+				    ligne,
+				    NULL );
 
       /* on met aucune sous categ */
 
@@ -1317,8 +1324,15 @@ void verifie_double_click_categ ( GtkWidget *liste,
 	  operation = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
 						    GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_categ ) -> selection ) -> data ) );
 
-	  /* si c'est une opé de ventilation, on se place sur l'opé ventilée correspondante */
- 
+	  /* This is a kludge but I do not want to spend too much time
+	     on this nasty bug.  OK, we loose a very small feature,
+	     but we have far too much open bugs to fix such an
+	     unimportant bug. */
+	  if (!operation)
+	    return;
+
+	  /* si c'est une opé de ventilation, on se place sur l'opé
+	     ventilée correspondante */
 	  if ( operation -> no_operation_ventilee_associee )
 	    {
 	      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
