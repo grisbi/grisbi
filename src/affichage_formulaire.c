@@ -29,6 +29,7 @@
 #include "utils.h"
 #include "comptes_traitements.h"
 #include "dialog.h"
+#include "data_account.h"
 #include "utils_str.h"
 #include "operations_comptes.h"
 #include "traitement_variables.h"
@@ -463,12 +464,12 @@ void mise_a_jour_organisation_formulaire ( gint no_compte )
     /*     on commence par remplir le store */
 
     remplissage_liste_organisation_formulaire ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_organisation_formulaire ))),
-						ORGANISATION_FORMULAIRE );
+						gsb_account_get_form_organization (no_compte) );
 
     /*     on rend visible les colonnes nÃ©cessaires */
 
     for ( i=0 ; i<6 ; i++ )
-	if ( i<ORGANISATION_FORMULAIRE -> nb_colonnes )
+	if ( i<gsb_account_get_form_organization (no_compte) -> nb_colonnes )
 	    gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( tree_view_column_organisation_formulaire[i] ),
 					       TRUE );
 	else
@@ -607,6 +608,7 @@ gboolean toggled_signal_configuration_formulaire ( GtkWidget *toggle_button )
     gint no_element;
     gint no_second_element;
     gint i, j;
+    gint no_compte;
 
     /*     on commence par rechercher le no de l'Ã©lÃ©ment */
 
@@ -650,7 +652,8 @@ gboolean toggled_signal_configuration_formulaire ( GtkWidget *toggle_button )
 	    no_second_element = -1;
     }
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + recupere_no_compte ( option_menu_comptes_choix_formulaire );
+    no_compte = recupere_no_compte ( option_menu_comptes_choix_formulaire );
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
     /*     on met Ã  jour le tableau */
 
@@ -662,9 +665,9 @@ gboolean toggled_signal_configuration_formulaire ( GtkWidget *toggle_button )
 	gint ligne_premier_elt = -1;
 	gint colonne_premier_elt = -1;
 
-	for ( i=0 ; i < ORGANISATION_FORMULAIRE -> nb_lignes ; i++)
-	    for ( j=0 ; j < ORGANISATION_FORMULAIRE -> nb_colonnes ; j++ )
-		if ( !ORGANISATION_FORMULAIRE -> tab_remplissage_formulaire[i][j] )
+	for ( i=0 ; i < gsb_account_get_form_organization (no_compte) -> nb_lignes ; i++)
+	    for ( j=0 ; j < gsb_account_get_form_organization (no_compte) -> nb_colonnes ; j++ )
+		if ( !gsb_account_get_form_organization (no_compte) -> tab_remplissage_formulaire[i][j] )
 		{
 		    /* 		    s'il n'y a qu'un elt, on le met et on termine, sinon on continue Ã  chercher */
 		    /* 			pour le 2Ãšme */
@@ -673,10 +676,10 @@ gboolean toggled_signal_configuration_formulaire ( GtkWidget *toggle_button )
 		    {
 			/* 			il n'y a qu'un elt */
 			
-			ORGANISATION_FORMULAIRE -> tab_remplissage_formulaire[i][j] = no_element;
+			gsb_account_get_form_organization (no_compte) -> tab_remplissage_formulaire[i][j] = no_element;
 			place_trouvee = 1;
-			i = ORGANISATION_FORMULAIRE -> nb_lignes;
-			j = ORGANISATION_FORMULAIRE -> nb_colonnes;
+			i = gsb_account_get_form_organization (no_compte) -> nb_lignes;
+			j = gsb_account_get_form_organization (no_compte) -> nb_colonnes;
 		    }
 		    else
 		    {
@@ -692,11 +695,11 @@ gboolean toggled_signal_configuration_formulaire ( GtkWidget *toggle_button )
 			{
 			    /* 			    on vient de trouver la place pour le 2Ãšme */
 
-			    ORGANISATION_FORMULAIRE -> tab_remplissage_formulaire[ligne_premier_elt][colonne_premier_elt] = no_element;
-			    ORGANISATION_FORMULAIRE -> tab_remplissage_formulaire[i][j] = no_second_element;
+			    gsb_account_get_form_organization (no_compte) -> tab_remplissage_formulaire[ligne_premier_elt][colonne_premier_elt] = no_element;
+			    gsb_account_get_form_organization (no_compte) -> tab_remplissage_formulaire[i][j] = no_second_element;
 			    place_trouvee = 1;
-			    i = ORGANISATION_FORMULAIRE -> nb_lignes;
-			    j = ORGANISATION_FORMULAIRE -> nb_colonnes;
+			    i = gsb_account_get_form_organization (no_compte) -> nb_lignes;
+			    j = gsb_account_get_form_organization (no_compte) -> nb_colonnes;
 			}
 		    }
 		}
@@ -757,15 +760,15 @@ gboolean toggled_signal_configuration_formulaire ( GtkWidget *toggle_button )
 						NULL );
 	}
 
-	for ( i=0 ; i < ORGANISATION_FORMULAIRE -> nb_lignes ; i++ )
-	    for ( j=0 ; j < ORGANISATION_FORMULAIRE -> nb_colonnes ; j++ )
-		if ( ORGANISATION_FORMULAIRE -> tab_remplissage_formulaire[i][j] == no_element )
+	for ( i=0 ; i < gsb_account_get_form_organization (no_compte) -> nb_lignes ; i++ )
+	    for ( j=0 ; j < gsb_account_get_form_organization (no_compte) -> nb_colonnes ; j++ )
+		if ( gsb_account_get_form_organization (no_compte) -> tab_remplissage_formulaire[i][j] == no_element )
 		{
-		    ORGANISATION_FORMULAIRE -> tab_remplissage_formulaire[i][j] = 0;
+		    gsb_account_get_form_organization (no_compte) -> tab_remplissage_formulaire[i][j] = 0;
 		    if ( no_second_element == -1 )
 		    {
-			i = ORGANISATION_FORMULAIRE -> nb_lignes;
-			j = ORGANISATION_FORMULAIRE -> nb_colonnes;
+			i = gsb_account_get_form_organization (no_compte) -> nb_lignes;
+			j = gsb_account_get_form_organization (no_compte) -> nb_colonnes;
 		    }
 		    else
 		    {
@@ -779,7 +782,7 @@ gboolean toggled_signal_configuration_formulaire ( GtkWidget *toggle_button )
     /*     on rÃ©affiche la liste */
 
     remplissage_liste_organisation_formulaire ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_organisation_formulaire ))),
-						ORGANISATION_FORMULAIRE );
+						gsb_account_get_form_organization (no_compte) );
 
     modification_fichier (TRUE);
     return FALSE;
@@ -923,6 +926,7 @@ gboolean allocation_liste_organisation_formulaire ( GtkWidget *tree_view,
 						    GtkAllocation *allocation )
 {
     gint i;
+    gint no_compte;
 
     if ( ! assert_account_loaded() )
       return FALSE;
@@ -932,12 +936,13 @@ gboolean allocation_liste_organisation_formulaire ( GtkWidget *tree_view,
 
     allocation_precedente_organisation_formulaire= allocation -> width;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + recupere_no_compte ( option_menu_comptes_choix_formulaire );
+    no_compte = recupere_no_compte ( option_menu_comptes_choix_formulaire );
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
-    for ( i=0 ; i < ORGANISATION_FORMULAIRE -> nb_colonnes - 1 ; i++ )
+    for ( i=0 ; i < gsb_account_get_form_organization (no_compte) -> nb_colonnes - 1 ; i++ )
 	gtk_tree_view_column_set_fixed_width ( gtk_tree_view_get_column ( GTK_TREE_VIEW ( tree_view ),
 									  i ),
-					       ORGANISATION_FORMULAIRE -> taille_colonne_pourcent[i] * allocation -> width / 100 );
+					       gsb_account_get_form_organization (no_compte) -> taille_colonne_pourcent[i] * allocation -> width / 100 );
     return FALSE;
 }
 /* *************************************************************************** */
@@ -954,32 +959,34 @@ gboolean change_taille_colonne_organisation_formulaire ( GtkWidget *tree_view,
 {
     gint i;
     gint total_taille_colonnes;
+    gint no_compte;
 
     /*     si le bouton gauche n'est pas enfoncÃ©, on vire */
 
     if ( motion -> state != GDK_BUTTON1_MASK )
 	return FALSE;
     
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + recupere_no_compte ( option_menu_comptes_choix_formulaire );
+    no_compte = recupere_no_compte ( option_menu_comptes_choix_formulaire );
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
     /*     on rÃ©cupÃšre la taille des colonnes et vÃ©rifie avec la derniÃšre s'il y a eu modification */
     /* 	ou non  */
 
     total_taille_colonnes = 0;
 
-    for ( i=0 ; i < ORGANISATION_FORMULAIRE -> nb_colonnes - 1 ; i++ )
+    for ( i=0 ; i < gsb_account_get_form_organization (no_compte) -> nb_colonnes - 1 ; i++ )
     {
 	gint colonne;
 
 	colonne = gtk_tree_view_column_get_width ( gtk_tree_view_get_column ( GTK_TREE_VIEW ( tree_view ),
 									      i ));
-	ORGANISATION_FORMULAIRE -> taille_colonne_pourcent[i] = colonne * 100 / tree_view -> allocation.width;
-	total_taille_colonnes = total_taille_colonnes + ORGANISATION_FORMULAIRE -> taille_colonne_pourcent[i];
+	gsb_account_get_form_organization (no_compte) -> taille_colonne_pourcent[i] = colonne * 100 / tree_view -> allocation.width;
+	total_taille_colonnes = total_taille_colonnes + gsb_account_get_form_organization (no_compte) -> taille_colonne_pourcent[i];
     }
 
-    if ( ORGANISATION_FORMULAIRE -> taille_colonne_pourcent[ORGANISATION_FORMULAIRE -> nb_colonnes - 1] != ( 95 - total_taille_colonnes ))
+    if ( gsb_account_get_form_organization (no_compte) -> taille_colonne_pourcent[gsb_account_get_form_organization (no_compte) -> nb_colonnes - 1] != ( 95 - total_taille_colonnes ))
     {
-	ORGANISATION_FORMULAIRE -> taille_colonne_pourcent[ORGANISATION_FORMULAIRE -> nb_colonnes - 1] = 95 - total_taille_colonnes;
+	gsb_account_get_form_organization (no_compte) -> taille_colonne_pourcent[gsb_account_get_form_organization (no_compte) -> nb_colonnes - 1] = 95 - total_taille_colonnes;
 	modification_fichier ( TRUE );
     }
     
@@ -1003,13 +1010,15 @@ gboolean ajoute_ligne_organisation_formulaire ( void )
 {
     GtkTreeIter iter;
     GtkListStore *store;
+    gint no_compte;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + recupere_no_compte ( option_menu_comptes_choix_formulaire );
+    no_compte = recupere_no_compte ( option_menu_comptes_choix_formulaire );
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
-    if ( ORGANISATION_FORMULAIRE -> nb_lignes == 4 )
+    if ( gsb_account_get_form_organization (no_compte) -> nb_lignes == 4 )
 	return FALSE;
 
-    ORGANISATION_FORMULAIRE -> nb_lignes++;
+    gsb_account_get_form_organization (no_compte) -> nb_lignes++;
 
     /*     on crÃ©e une ligne blanche dans le treeview */
 
@@ -1034,40 +1043,42 @@ gboolean retire_ligne_organisation_formulaire ( void )
 {
     GtkTreeIter iter;
     gint i;
+    gint no_compte;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + recupere_no_compte ( option_menu_comptes_choix_formulaire );
+    no_compte = recupere_no_compte ( option_menu_comptes_choix_formulaire );
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
-    if ( ORGANISATION_FORMULAIRE -> nb_lignes == 1 )
+    if ( gsb_account_get_form_organization (no_compte) -> nb_lignes == 1 )
 	return FALSE;
 
 
     /*     on vÃ©rifie que c'est possible */
 
-    if ( !verification_retrait_possible ( ORGANISATION_FORMULAIRE,
+    if ( !verification_retrait_possible ( gsb_account_get_form_organization (no_compte),
 					  1 ))
 	return FALSE;
 
-    ORGANISATION_FORMULAIRE -> nb_lignes--;
+    gsb_account_get_form_organization (no_compte) -> nb_lignes--;
 
     /*     on peut donc retirer la derniÃšre ligne, on replace les Ã©lÃ©ments s'y trouvant */
     /* 	dans ce qui restera */
     
-    for ( i=0 ; i<ORGANISATION_FORMULAIRE -> nb_colonnes ; i++ )
+    for ( i=0 ; i<gsb_account_get_form_organization (no_compte) -> nb_colonnes ; i++ )
     {
-	if ( ORGANISATION_FORMULAIRE -> tab_remplissage_formulaire[ORGANISATION_FORMULAIRE -> nb_lignes][i] )
+	if ( gsb_account_get_form_organization (no_compte) -> tab_remplissage_formulaire[gsb_account_get_form_organization (no_compte) -> nb_lignes][i] )
 	{
 	    /* 	    on a trouvÃ© qque chose, on recherche la premiÃšre place de libre */
 
 	    gint j, k;
 
-	    for ( j=0 ; j< ORGANISATION_FORMULAIRE -> nb_lignes ; j++ )
-		for ( k=0 ; k<ORGANISATION_FORMULAIRE -> nb_colonnes ; k++ )
-		    if ( ORGANISATION_FORMULAIRE -> tab_remplissage_formulaire[j][k] == 0 )
+	    for ( j=0 ; j< gsb_account_get_form_organization (no_compte) -> nb_lignes ; j++ )
+		for ( k=0 ; k<gsb_account_get_form_organization (no_compte) -> nb_colonnes ; k++ )
+		    if ( gsb_account_get_form_organization (no_compte) -> tab_remplissage_formulaire[j][k] == 0 )
 		    {
-			ORGANISATION_FORMULAIRE -> tab_remplissage_formulaire[j][k] = ORGANISATION_FORMULAIRE -> tab_remplissage_formulaire[ORGANISATION_FORMULAIRE -> nb_lignes][i];
-			 ORGANISATION_FORMULAIRE -> tab_remplissage_formulaire[ORGANISATION_FORMULAIRE -> nb_lignes][i] = 0;
-			j = ORGANISATION_FORMULAIRE -> nb_lignes;
-			k = ORGANISATION_FORMULAIRE -> nb_colonnes;
+			gsb_account_get_form_organization (no_compte) -> tab_remplissage_formulaire[j][k] = gsb_account_get_form_organization (no_compte) -> tab_remplissage_formulaire[gsb_account_get_form_organization (no_compte) -> nb_lignes][i];
+			 gsb_account_get_form_organization (no_compte) -> tab_remplissage_formulaire[gsb_account_get_form_organization (no_compte) -> nb_lignes][i] = 0;
+			j = gsb_account_get_form_organization (no_compte) -> nb_lignes;
+			k = gsb_account_get_form_organization (no_compte) -> nb_colonnes;
 		    }
 	}
     }
@@ -1076,14 +1087,14 @@ gboolean retire_ligne_organisation_formulaire ( void )
 
     gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_organisation_formulaire ))),
 					  &iter,
-					  itoa ( ORGANISATION_FORMULAIRE -> nb_lignes ));
+					  itoa ( gsb_account_get_form_organization (no_compte) -> nb_lignes ));
     gtk_list_store_remove ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_organisation_formulaire ))),
 			    &iter );
 
     /*     on rÃ©affiche la liste */
 	    
     remplissage_liste_organisation_formulaire ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_organisation_formulaire ))),
-						ORGANISATION_FORMULAIRE );
+						gsb_account_get_form_organization (no_compte) );
     
     modification_fichier (TRUE);
     return FALSE;
@@ -1100,29 +1111,31 @@ gboolean ajoute_colonne_organisation_formulaire ( void )
 {
     gint i;
     gint total_taille_colonnes;
+    gint no_compte;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + recupere_no_compte ( option_menu_comptes_choix_formulaire );
+    no_compte = recupere_no_compte ( option_menu_comptes_choix_formulaire );
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
-    if ( ORGANISATION_FORMULAIRE -> nb_colonnes == 6 )
+    if ( gsb_account_get_form_organization (no_compte) -> nb_colonnes == 6 )
 	return FALSE;
 
-    gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( tree_view_column_organisation_formulaire[ORGANISATION_FORMULAIRE -> nb_colonnes] ),
+    gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( tree_view_column_organisation_formulaire[gsb_account_get_form_organization (no_compte) -> nb_colonnes] ),
 				       TRUE );
 
     /*     on modifie le pourcentage des colonnes pour la voir un peu */
 
     total_taille_colonnes = 0;
 
-    for ( i=0 ; i < ORGANISATION_FORMULAIRE -> nb_colonnes ; i++ )
+    for ( i=0 ; i < gsb_account_get_form_organization (no_compte) -> nb_colonnes ; i++ )
     {
-	if ( ORGANISATION_FORMULAIRE -> taille_colonne_pourcent[i] > 5 )
-	    ORGANISATION_FORMULAIRE -> taille_colonne_pourcent[i] = ORGANISATION_FORMULAIRE -> taille_colonne_pourcent[i] - 2;
-	total_taille_colonnes = total_taille_colonnes + ORGANISATION_FORMULAIRE -> taille_colonne_pourcent[i];
+	if ( gsb_account_get_form_organization (no_compte) -> taille_colonne_pourcent[i] > 5 )
+	    gsb_account_get_form_organization (no_compte) -> taille_colonne_pourcent[i] = gsb_account_get_form_organization (no_compte) -> taille_colonne_pourcent[i] - 2;
+	total_taille_colonnes = total_taille_colonnes + gsb_account_get_form_organization (no_compte) -> taille_colonne_pourcent[i];
     }    
 
-    ORGANISATION_FORMULAIRE -> taille_colonne_pourcent[ORGANISATION_FORMULAIRE -> nb_colonnes] = 95 - total_taille_colonnes;
+    gsb_account_get_form_organization (no_compte) -> taille_colonne_pourcent[gsb_account_get_form_organization (no_compte) -> nb_colonnes] = 95 - total_taille_colonnes;
 
-    ORGANISATION_FORMULAIRE -> nb_colonnes++;
+    gsb_account_get_form_organization (no_compte) -> nb_colonnes++;
 
     /*     on affiche le rÃ©sultat */
 
@@ -1144,52 +1157,54 @@ gboolean ajoute_colonne_organisation_formulaire ( void )
 gboolean retire_colonne_organisation_formulaire ( void )
 {
     gint i;
+    gint no_compte;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + recupere_no_compte ( option_menu_comptes_choix_formulaire );
+    no_compte = recupere_no_compte ( option_menu_comptes_choix_formulaire );
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
-    if ( ORGANISATION_FORMULAIRE -> nb_colonnes == 1 )
+    if ( gsb_account_get_form_organization (no_compte) -> nb_colonnes == 1 )
 	return FALSE;
 
     /*     on vÃ©rifie que c'est possible */
 
-    if ( !verification_retrait_possible ( ORGANISATION_FORMULAIRE,
+    if ( !verification_retrait_possible ( gsb_account_get_form_organization (no_compte),
 					  0 ))
 	return FALSE;
 
-    ORGANISATION_FORMULAIRE -> nb_colonnes--;
+    gsb_account_get_form_organization (no_compte) -> nb_colonnes--;
 
     /*     on peut donc retirer la derniÃšre colonne, on replace les Ã©lÃ©ments s'y trouvant */
     /* 	dans ce qui restera */
     
-    for ( i=0 ; i<ORGANISATION_FORMULAIRE -> nb_lignes ; i++ )
+    for ( i=0 ; i<gsb_account_get_form_organization (no_compte) -> nb_lignes ; i++ )
     {
-	if ( ORGANISATION_FORMULAIRE -> tab_remplissage_formulaire[i][ORGANISATION_FORMULAIRE -> nb_colonnes] )
+	if ( gsb_account_get_form_organization (no_compte) -> tab_remplissage_formulaire[i][gsb_account_get_form_organization (no_compte) -> nb_colonnes] )
 	{
 	    /* 	    on a trouvÃ© qque chose, on recherche la premiÃšre place de libre */
 
 	    gint j, k;
 
-	    for ( j=0 ; j< ORGANISATION_FORMULAIRE -> nb_lignes ; j++ )
-		for ( k=0 ; k<ORGANISATION_FORMULAIRE -> nb_colonnes ; k++ )
-		    if ( ORGANISATION_FORMULAIRE -> tab_remplissage_formulaire[j][k] == 0 )
+	    for ( j=0 ; j< gsb_account_get_form_organization (no_compte) -> nb_lignes ; j++ )
+		for ( k=0 ; k<gsb_account_get_form_organization (no_compte) -> nb_colonnes ; k++ )
+		    if ( gsb_account_get_form_organization (no_compte) -> tab_remplissage_formulaire[j][k] == 0 )
 		    {
-			ORGANISATION_FORMULAIRE -> tab_remplissage_formulaire[j][k] = ORGANISATION_FORMULAIRE -> tab_remplissage_formulaire[i][ORGANISATION_FORMULAIRE -> nb_colonnes];
-			ORGANISATION_FORMULAIRE -> tab_remplissage_formulaire[i][ORGANISATION_FORMULAIRE -> nb_colonnes] = 0;
-			j = ORGANISATION_FORMULAIRE -> nb_lignes;
-			k = ORGANISATION_FORMULAIRE -> nb_colonnes;
+			gsb_account_get_form_organization (no_compte) -> tab_remplissage_formulaire[j][k] = gsb_account_get_form_organization (no_compte) -> tab_remplissage_formulaire[i][gsb_account_get_form_organization (no_compte) -> nb_colonnes];
+			gsb_account_get_form_organization (no_compte) -> tab_remplissage_formulaire[i][gsb_account_get_form_organization (no_compte) -> nb_colonnes] = 0;
+			j = gsb_account_get_form_organization (no_compte) -> nb_lignes;
+			k = gsb_account_get_form_organization (no_compte) -> nb_colonnes;
 		    }
 	}
     }
 
     /*     on vire la colonne */
 
-    	    gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( tree_view_column_organisation_formulaire[ORGANISATION_FORMULAIRE -> nb_colonnes] ),
+    	    gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( tree_view_column_organisation_formulaire[gsb_account_get_form_organization (no_compte) -> nb_colonnes] ),
 					       FALSE );
 
     /*     on rÃ©affiche la liste */
 	    
     remplissage_liste_organisation_formulaire ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_organisation_formulaire ))),
-						ORGANISATION_FORMULAIRE );
+						gsb_account_get_form_organization (no_compte) );
 
     modification_fichier (TRUE);
     return FALSE;
@@ -1348,6 +1363,7 @@ gboolean button_release_classement_formulaire ( GtkWidget *tree_view,
     gint x, y;
     GtkTreePath *path;
     GtkTreeViewColumn *tree_colonne;
+    gint no_compte;
 
     /*   si la souris se trouve dans les titres, on se barre simplement */
 
@@ -1392,16 +1408,17 @@ gboolean button_release_classement_formulaire ( GtkWidget *tree_view,
 
     /*     on Ã©change dans le tableau */
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + recupere_no_compte ( option_menu_comptes_choix_formulaire );
+    no_compte = recupere_no_compte ( option_menu_comptes_choix_formulaire );
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
-    buffer = ORGANISATION_FORMULAIRE -> tab_remplissage_formulaire[ligne_depart_drag][col_depart_drag];
-    ORGANISATION_FORMULAIRE -> tab_remplissage_formulaire[ligne_depart_drag][col_depart_drag] = ORGANISATION_FORMULAIRE -> tab_remplissage_formulaire[ligne_arrivee_drag][col_arrivee_drag];
-    ORGANISATION_FORMULAIRE -> tab_remplissage_formulaire[ligne_arrivee_drag][col_arrivee_drag] = buffer;
+    buffer = gsb_account_get_form_organization (no_compte) -> tab_remplissage_formulaire[ligne_depart_drag][col_depart_drag];
+    gsb_account_get_form_organization (no_compte) -> tab_remplissage_formulaire[ligne_depart_drag][col_depart_drag] = gsb_account_get_form_organization (no_compte) -> tab_remplissage_formulaire[ligne_arrivee_drag][col_arrivee_drag];
+    gsb_account_get_form_organization (no_compte) -> tab_remplissage_formulaire[ligne_arrivee_drag][col_arrivee_drag] = buffer;
 
     /*     on rÃ©affiche la liste */
 	    
     remplissage_liste_organisation_formulaire ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW (  tree_view ))),
-						ORGANISATION_FORMULAIRE );
+						gsb_account_get_form_organization (no_compte) );
 
 
     modification_fichier (TRUE);

@@ -252,24 +252,26 @@ gint initialisation_nouveau_compte ( kind_account type_de_compte )
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
-	struct_formulaire = ORGANISATION_FORMULAIRE;
+	struct_formulaire = gsb_account_get_form_organization (gsb_account_first_number ());
 	
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
-	ORGANISATION_FORMULAIRE = malloc ( sizeof ( struct organisation_formulaire ));
+	gsb_account_set_form_organization ( no_compte,
+					    malloc ( sizeof ( struct organisation_formulaire )) );
 
-	ORGANISATION_FORMULAIRE -> nb_colonnes = struct_formulaire -> nb_colonnes;
-	ORGANISATION_FORMULAIRE -> nb_lignes = struct_formulaire -> nb_lignes;
+	gsb_account_get_form_organization (no_compte) -> nb_colonnes = struct_formulaire -> nb_colonnes;
+	gsb_account_get_form_organization (no_compte) -> nb_lignes = struct_formulaire -> nb_lignes;
 
 	for ( i = 0 ; i<4 ; i++ )
 	    for ( j = 0 ; j<6 ; j++ )
-		ORGANISATION_FORMULAIRE -> tab_remplissage_formulaire[i][j] = struct_formulaire -> tab_remplissage_formulaire[i][j];
+		gsb_account_get_form_organization (no_compte) -> tab_remplissage_formulaire[i][j] = struct_formulaire -> tab_remplissage_formulaire[i][j];
 
 	for ( i = 0 ; i<6 ; i++ )
-	    ORGANISATION_FORMULAIRE -> taille_colonne_pourcent[i] = struct_formulaire -> taille_colonne_pourcent[i];
+	    gsb_account_get_form_organization (no_compte) -> taille_colonne_pourcent[i] = struct_formulaire -> taille_colonne_pourcent[i];
     }
     else
-	ORGANISATION_FORMULAIRE = mise_a_zero_organisation_formulaire ();
+	gsb_account_set_form_organization ( no_compte,
+					    mise_a_zero_organisation_formulaire ());
 
 
     /*     on met en place le classement de la liste */

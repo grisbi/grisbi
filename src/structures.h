@@ -337,12 +337,12 @@ struct donnees_compte
 /* #define VALUE_AJUSTEMENT_LISTE_OPERATIONS ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> value_ajustement_liste_operations */
 /* #define COLONNE_LISTE_OPERATIONS(s) ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> colonne_liste_operations[s] */
 
-#define SLIST_DERNIERE_OPE_AJOUTEE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> slist_derniere_ope_ajoutee
-#define COULEUR_BACKGROUND_FINI ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> couleur_background_fini
-#define AFFICHAGE_SOLDE_FINI ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> affichage_solde_fini
-#define SELECTION_OPERATION_FINI  ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> selection_operation_fini
+/* #define SLIST_DERNIERE_OPE_AJOUTEE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> slist_derniere_ope_ajoutee */
+/* #define COULEUR_BACKGROUND_FINI ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> couleur_background_fini */
+/* #define AFFICHAGE_SOLDE_FINI ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> affichage_solde_fini */
+/* #define SELECTION_OPERATION_FINI  ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> selection_operation_fini */
 
-#define ORGANISATION_FORMULAIRE  ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> organisation_formulaire
+/* #define ORGANISATION_FORMULAIRE  ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> organisation_formulaire */
 
 
 struct operation_echeance

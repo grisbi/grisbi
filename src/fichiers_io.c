@@ -402,7 +402,8 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 	    for ( i=0 ; i<nb_comptes ; i++ )
 	    {
 		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
-		ORGANISATION_FORMULAIRE = mise_a_zero_organisation_formulaire(); 
+		gsb_account_set_form_organization ( i,
+						    mise_a_zero_organisation_formulaire());
 	    }
 
 	    /* 	    un bug dans la 0.5.0 permettait à des comptes d'avoir un affichage différent, */
@@ -1117,19 +1118,21 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 			    if ( !strcmp ( node_detail -> name,
 					   "Nb_colonnes_formulaire" ))
 			    {
-				if ( !ORGANISATION_FORMULAIRE )
-				    ORGANISATION_FORMULAIRE = calloc ( 1,
-								       sizeof ( struct organisation_formulaire ));
-				ORGANISATION_FORMULAIRE -> nb_colonnes = my_atoi ( xmlNodeGetContent ( node_detail ));
+				if ( !gsb_account_get_form_organization (no_compte) )
+				    gsb_account_set_form_organization ( no_compte,
+									calloc ( 1,
+								       sizeof ( struct organisation_formulaire )) );
+				gsb_account_get_form_organization (no_compte) -> nb_colonnes = my_atoi ( xmlNodeGetContent ( node_detail ));
 			    }
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Nb_lignes_formulaire" ))
 			    {
-				if ( !ORGANISATION_FORMULAIRE )
-				    ORGANISATION_FORMULAIRE = calloc ( 1,
-								       sizeof ( struct organisation_formulaire ));
-				ORGANISATION_FORMULAIRE -> nb_lignes = my_atoi ( xmlNodeGetContent ( node_detail ));
+				if ( !gsb_account_get_form_organization (no_compte) )
+				    gsb_account_set_form_organization ( no_compte,
+									calloc ( 1,
+										 sizeof ( struct organisation_formulaire )) );
+				gsb_account_get_form_organization (no_compte) -> nb_lignes = my_atoi ( xmlNodeGetContent ( node_detail ));
 			    }
 
 
@@ -1139,9 +1142,10 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 				gchar **pointeur_char;
 				gint i, j;
 
-				if ( !ORGANISATION_FORMULAIRE )
-				    ORGANISATION_FORMULAIRE = calloc ( 1,
-								       sizeof ( struct organisation_formulaire ));
+				if ( !gsb_account_get_form_organization (no_compte) )
+				    gsb_account_set_form_organization ( no_compte,
+									calloc ( 1,
+										 sizeof ( struct organisation_formulaire )) );
 
 				pointeur_char = g_strsplit ( xmlNodeGetContent ( node_detail ),
 							     "-",
@@ -1149,7 +1153,7 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 				for ( i=0 ; i<4 ; i++ )
 				    for ( j=0 ; j< 6 ; j++ )
-					ORGANISATION_FORMULAIRE -> tab_remplissage_formulaire[i][j] = my_atoi ( pointeur_char[j + i*6]);
+					gsb_account_get_form_organization (no_compte) -> tab_remplissage_formulaire[i][j] = my_atoi ( pointeur_char[j + i*6]);
 
 				g_strfreev ( pointeur_char );
 			    }
@@ -1161,16 +1165,17 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 				gchar **pointeur_char;
 				gint i;
 
-				if ( !ORGANISATION_FORMULAIRE )
-				    ORGANISATION_FORMULAIRE = calloc ( 1,
-								       sizeof ( struct organisation_formulaire ));
+				if ( !gsb_account_get_form_organization (no_compte) )
+				    gsb_account_set_form_organization ( no_compte,
+									calloc ( 1,
+										 sizeof ( struct organisation_formulaire )) );
 
 				pointeur_char = g_strsplit ( xmlNodeGetContent ( node_detail ),
 							     "-",
 							     0 );
 
 				for ( i=0 ; i<6 ; i++ )
-					ORGANISATION_FORMULAIRE -> taille_colonne_pourcent[i] = my_atoi ( pointeur_char[i]);
+					gsb_account_get_form_organization (no_compte) -> taille_colonne_pourcent[i] = my_atoi ( pointeur_char[i]);
 
 				g_strfreev ( pointeur_char );
 			    }
@@ -3440,11 +3445,11 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Nb_colonnes_formulaire",
-			  itoa ( ORGANISATION_FORMULAIRE -> nb_colonnes ));
+			  itoa ( gsb_account_get_form_organization (i) -> nb_colonnes ));
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Nb_lignes_formulaire",
-			  itoa ( ORGANISATION_FORMULAIRE -> nb_lignes ));
+			  itoa ( gsb_account_get_form_organization (i) -> nb_lignes ));
 
 	pointeur_char = NULL;
 
@@ -3453,10 +3458,10 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 		if ( pointeur_char )
 		    pointeur_char = g_strconcat ( pointeur_char,
 						  "-",
-						  itoa ( ORGANISATION_FORMULAIRE -> tab_remplissage_formulaire [k][j] ),
+						  itoa ( gsb_account_get_form_organization (i) -> tab_remplissage_formulaire [k][j] ),
 						  NULL );
 		else
-		    pointeur_char = itoa ( ORGANISATION_FORMULAIRE -> tab_remplissage_formulaire [k][j] );
+		    pointeur_char = itoa ( gsb_account_get_form_organization (i) -> tab_remplissage_formulaire [k][j] );
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
@@ -3469,10 +3474,10 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 	    if ( pointeur_char )
 		pointeur_char = g_strconcat ( pointeur_char,
 					      "-",
-					      itoa ( ORGANISATION_FORMULAIRE -> taille_colonne_pourcent [k] ),
+					      itoa ( gsb_account_get_form_organization (i) -> taille_colonne_pourcent [k] ),
 					      NULL );
 	    else
-		pointeur_char = itoa ( ORGANISATION_FORMULAIRE -> taille_colonne_pourcent [k] );
+		pointeur_char = itoa ( gsb_account_get_form_organization (i) -> taille_colonne_pourcent [k] );
 
 
 	xmlNewTextChild ( node_compte,

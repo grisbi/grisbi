@@ -1060,10 +1060,14 @@ void traitement_operations_importees ( void )
 	    if ( gsb_account_get_update_list(i) )
 	    {
 		gtk_list_store_clear ( gsb_account_get_store (i) );
-		SLIST_DERNIERE_OPE_AJOUTEE = NULL;
-		COULEUR_BACKGROUND_FINI = 0;
-		AFFICHAGE_SOLDE_FINI = 0;
-		SELECTION_OPERATION_FINI = 0;
+		gsb_account_set_last_transaction ( i,
+						   NULL );
+		gsb_account_set_finished_background_color ( i,
+							    0 );
+		gsb_account_set_finished_balance_showed ( i,
+							  0 );
+		gsb_account_set_finished_selection_transaction ( i,
+								 0);
 		gsb_account_set_update_list ( i,
 					      0 );
 	    }

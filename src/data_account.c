@@ -138,6 +138,24 @@ gint gsb_account_last_number ( void )
 }
 
 
+/** find and return the first number of account
+ * \param none
+ * \return first number of account, -1 if no accounts
+ * */
+gint gsb_account_first_number ( void )
+{
+    struct_account *account;
+
+    if ( !list_struct_accounts )
+	return -1;
+
+    account = list_struct_accounts -> data;
+
+    return  account -> account_number;
+}
+
+
+
 /** find and return the structure of the account asked
  * \param no number of account
  * \return the adr of the struct of the account (NULL if doesn't exit)
@@ -1854,6 +1872,200 @@ gboolean gsb_account_set_sort_column ( gint no_account,
 
     return TRUE;
 }
+
+
+
+/** get the last_transaction slist of the account
+ * \param no_account no of the account
+ * \return the g_slist or NULL if the account doesn't exist
+ * */
+GSList *gsb_account_get_last_transaction ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return NULL;
+
+    return account -> last_transaction;
+}
+
+
+/** set the last_transaction slist of the account
+ * \param no_account no of the account
+ * \param list g_slist to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_last_transaction ( gint no_account,
+					    GSList *list )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> last_transaction = list;
+
+    return TRUE;
+}
+
+
+
+/** get finished_background_color on the account given
+ * \param no_account no of the account
+ * \return finished_background_color or 0 if the account doesn't exist
+ * */
+gint gsb_account_get_finished_background_color ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return 0;
+
+    return account -> finished_background_color;
+}
+
+
+/** set finished_background_color in the account given
+ * \param no_account no of the account
+ * \param finished_background_color finished_background_color to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_finished_background_color ( gint no_account,
+						     gint finished_background_color )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> finished_background_color = finished_background_color;
+
+    return TRUE;
+}
+
+
+/** get finished_balance_showed on the account given
+ * \param no_account no of the account
+ * \return finished_balance_showed or 0 if the account doesn't exist
+ * */
+gint gsb_account_get_finished_balance_showed ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return 0;
+
+    return account -> finished_balance_showed;
+}
+
+
+/** set finished_balance_showed in the account given
+ * \param no_account no of the account
+ * \param finished_balance_showed finished_balance_showed to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_finished_balance_showed ( gint no_account,
+						   gint finished_balance_showed )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> finished_balance_showed = finished_balance_showed;
+
+    return TRUE;
+}
+
+
+/** get finished_selection_transaction on the account given
+ * \param no_account no of the account
+ * \return finished_selection_transaction or 0 if the account doesn't exist
+ * */
+gint gsb_account_get_finished_selection_transaction ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return 0;
+
+    return account -> finished_selection_transaction;
+}
+
+
+/** set  in the account given
+ * \param no_account no of the account
+ * \param finished_selection_transaction finished_selection_transaction to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_finished_selection_transaction ( gint no_account,
+							  gint finished_selection_transaction )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> finished_selection_transaction = finished_selection_transaction;
+
+    return TRUE;
+}
+
+
+/** get the form_organization of the account
+ * \param no_account no of the account
+ * \return form_organization or NULL if the account doesn't exist
+ * */
+struct organisation_formulaire *gsb_account_get_form_organization ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return NULL;
+
+    return account -> form_organization;
+}
+
+
+/** set the form_organization of the account
+ * \param no_account no of the account
+ * \param form_organization form_organization to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_form_organization ( gint no_account,
+					     struct organisation_formulaire *form_organization )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> form_organization = form_organization;
+
+    return TRUE;
+}
+
+
 
 
 

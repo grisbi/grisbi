@@ -278,10 +278,14 @@ gboolean modification_retient_affichage_par_compte ( void )
 				      nb_lignes );
 	    gsb_account_set_r (i,
 			       affichage_r );
-	    SLIST_DERNIERE_OPE_AJOUTEE = NULL;
-	    COULEUR_BACKGROUND_FINI = 0;
-	    AFFICHAGE_SOLDE_FINI = 0;
-	    SELECTION_OPERATION_FINI = 0;
+	    gsb_account_set_last_transaction ( i,
+					       NULL );
+	    gsb_account_set_finished_background_color ( i,
+							0 );
+	    gsb_account_set_finished_balance_showed ( i,
+						      0 );
+	    gsb_account_set_finished_selection_transaction ( i,
+							      0);
 	    gtk_list_store_clear ( gsb_account_get_store (i) );
 	}
     }

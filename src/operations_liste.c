@@ -545,7 +545,8 @@ GtkWidget *creation_tree_view_operations_par_compte ( gint no_compte )
 						 G_TYPE_INT ));
     gtk_tree_view_set_model ( GTK_TREE_VIEW (gsb_account_get_tree_view (no_compte)),
 			      GTK_TREE_MODEL ( gsb_account_get_store (no_compte) ));
-    SLIST_DERNIERE_OPE_AJOUTEE = NULL;
+    gsb_account_set_last_transaction ( no_compte,
+				       NULL );
 
     update_fleches_classement_tree_view ( no_compte );
 
@@ -785,19 +786,19 @@ void verification_list_store_termine ( gint no_compte )
 {
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
-    if ( SLIST_DERNIERE_OPE_AJOUTEE != GINT_TO_POINTER (-1))
+    if ( gsb_account_get_last_transaction (no_compte) != GINT_TO_POINTER (-1))
 	ajoute_operations_compte_dans_list_store ( no_compte,
 						   0 );
 
-    if ( !COULEUR_BACKGROUND_FINI )
+    if ( !gsb_account_get_finished_background_color (no_compte) )
 	update_couleurs_background ( no_compte,
 				     NULL  );
 
-    if ( !AFFICHAGE_SOLDE_FINI )
+    if ( !gsb_account_get_finished_balance_showed (no_compte) )
 	update_soldes_list_store ( no_compte,
 				   NULL );
 
-    if ( !SELECTION_OPERATION_FINI )
+    if ( !gsb_account_get_finished_selection_transaction (no_compte) )
 	selectionne_ligne ( gsb_account_get_current_transaction (no_compte) );
 
     return;
@@ -827,10 +828,13 @@ void remplissage_liste_operations ( gint compte )
     
     /*     plus rien n'est affiché */
 
-    SLIST_DERNIERE_OPE_AJOUTEE = NULL;
-    COULEUR_BACKGROUND_FINI = 0;
+    gsb_account_set_last_transaction ( compte,
+				       NULL );
+    gsb_account_set_finished_background_color ( compte,
+						0 );
 /*     AFFICHAGE_SOLDE_FINI = 0; */
-    SELECTION_OPERATION_FINI = 0;
+    gsb_account_set_finished_selection_transaction ( compte,
+						     0 );
 
     /*     on remplit le list_store */
 
@@ -879,11 +883,11 @@ void ajoute_operations_compte_dans_list_store ( gint compte,
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
 
-    /*     si SLIST_DERNIERE_OPE_AJOUTEE n'est pas nul, on se place sur l'opé suivante */
+    /*     si gsb_account_get_last_transaction () n'est pas nul, on se place sur l'opé suivante */
 
-    if ( SLIST_DERNIERE_OPE_AJOUTEE )
+    if ( gsb_account_get_last_transaction (compte) )
     {
-	liste_operations_tmp = SLIST_DERNIERE_OPE_AJOUTEE;
+	liste_operations_tmp = gsb_account_get_last_transaction (compte);
 	liste_operations_tmp = liste_operations_tmp -> next;
     }
     else
@@ -904,7 +908,8 @@ void ajoute_operations_compte_dans_list_store ( gint compte,
 	/* 	    on met tout de suite l'opé en cours pour permettre de reprendre à la suivante lors */
 	/* 		du remplissage de la liste */
 
-	SLIST_DERNIERE_OPE_AJOUTEE = liste_operations_tmp;
+	gsb_account_set_last_transaction ( compte,
+					   liste_operations_tmp );
 		    
 	/* si c'est une opé de ventilation, ou si elle est relevée mais que l'on ne veut pas les afficher */
 	/* 	on saute l'opé */
@@ -952,10 +957,14 @@ void ajoute_operations_compte_dans_list_store ( gint compte,
 
     /*     on est allé jusqu'au bout du compte */
 
-    SLIST_DERNIERE_OPE_AJOUTEE = GINT_TO_POINTER ( -1 );
-    COULEUR_BACKGROUND_FINI = 0;
-    AFFICHAGE_SOLDE_FINI = 0;
-    SELECTION_OPERATION_FINI = 0;
+    gsb_account_set_last_transaction ( compte,
+				       GINT_TO_POINTER ( -1 ));
+    gsb_account_set_finished_background_color ( compte,
+						0 );
+    gsb_account_set_finished_balance_showed ( compte,
+					      0 );
+    gsb_account_set_finished_selection_transaction ( compte,
+						     0 );
 }
 /******************************************************************************/
 
@@ -1280,9 +1289,10 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 	    /* 	     on renvoie -1 car le solde sera affiché plus tard */
 	    /* 	    et le -1 permet de ne pas effacer la cellule qui contient le */
 	    /* 		solde (utile en cas de modif d'opé) */
-	    /* 	    de plus, on met AFFICHAGE_SOLDE_FINI à 0 comme ça il sera affiché plus tard */
+	    /* 	    de plus, on met gsb_account_get_finished_balance_showed () à 0 comme ça il sera affiché plus tard */
 	    
-	    AFFICHAGE_SOLDE_FINI = 0;
+	    gsb_account_set_finished_balance_showed ( operation -> no_compte,
+						      0 );
 	    return GINT_TO_POINTER (-1);
 	    break;
 
@@ -1495,11 +1505,13 @@ void update_couleurs_background ( gint compte,
 	couleur_en_cours = 1 - couleur_en_cours;
    }
 
-    COULEUR_BACKGROUND_FINI = 1;
+    gsb_account_set_finished_background_color ( compte,
+						1 );
 
     /*     on a viré la sélection en remettant la couleur de fond */
 
-    SELECTION_OPERATION_FINI = 0;
+    gsb_account_set_finished_selection_transaction ( compte,
+						     0 );
 }
 /******************************************************************************/
 
@@ -1535,7 +1547,8 @@ void update_soldes_list_store ( gint compte,
 	 position_solde -> ligne >= gsb_account_get_nb_rows ( compte ))
     {
 	/* 	le solde n'est pas affiché, on peut repartir */
-	AFFICHAGE_SOLDE_FINI = 1;
+	gsb_account_set_finished_balance_showed ( compte,
+						  1 );
 	return;
     }
 
@@ -1641,7 +1654,8 @@ void update_soldes_list_store ( gint compte,
 	    result_iter = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gsb_account_get_store (compte) ),
 						     iter );
    }
-    AFFICHAGE_SOLDE_FINI = 1;
+    gsb_account_set_finished_balance_showed ( compte,
+					      1 );
 }
 /******************************************************************************/
 
@@ -1948,18 +1962,18 @@ void selectionne_ligne ( struct structure_operation *nouvelle_operation_selectio
 	verification_p_tab ("selectionne_ligne");
 
 
-    /*     si SELECTION_OPERATION_FINI=0, c'est qu'il n'y a encore aucune sélection sur la liste */
+    /*     si gsb_account_get_finished_selection_transaction ()=0, c'est qu'il n'y a encore aucune sélection sur la liste */
     /*     donc nouvelle_operation_selectionnee = gsb_account_get_current_transaction () = -1, mais on ne se barre pas */
     /*     sinon si on est déjà dessus, on se barre */
 
     if ( nouvelle_operation_selectionnee == gsb_account_get_current_transaction (compte_courant)
 	 &&
-	 SELECTION_OPERATION_FINI )
+	 gsb_account_get_finished_selection_transaction (compte_courant) )
 	return;
 
     /*   vire l'ancienne sélection : consiste à remettre la couleur d'origine du background */
 
-    if ( SELECTION_OPERATION_FINI )
+    if ( gsb_account_get_finished_selection_transaction (compte_courant) )
     {
 	iter = cherche_iter_operation ( gsb_account_get_current_transaction (compte_courant) );
 
@@ -2017,7 +2031,8 @@ void selectionne_ligne ( struct structure_operation *nouvelle_operation_selectio
 
     ajuste_scrolling_liste_operations_a_selection ( p_tab_nom_de_compte_variable - p_tab_nom_de_compte );
 
-    SELECTION_OPERATION_FINI = 1;
+    gsb_account_set_finished_selection_transaction ( compte_courant,
+						     1 );
 }
 /******************************************************************************/
 
@@ -3067,7 +3082,8 @@ void demande_mise_a_jour_tous_comptes ( void )
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 	
 	gtk_list_store_clear ( GTK_LIST_STORE ( gsb_account_get_store (i) ));
-	SLIST_DERNIERE_OPE_AJOUTEE = NULL;
+	gsb_account_set_last_transaction ( i,
+					   NULL );
     }
 
     demarrage_idle ();
@@ -3425,12 +3441,13 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
 	{
 	    contra_transaction -> relation_no_compte = account;
 
-	    /* 	    p_tab est placé par la fonction suivante, et on remet AFFICHAGE_SOLDE_FINI à 1 */
+	    /* 	    p_tab est placé par la fonction suivante, et on remet gsb_account_get_finished_balance_showed () à 1 */
 	    /* 		car est remis à 0 mais on ne change pas le solde */
 	    
 	    remplit_ligne_operation ( contra_transaction,
 				      NULL );
-	    AFFICHAGE_SOLDE_FINI = 1;
+	    gsb_account_set_finished_balance_showed ( transaction -> no_compte,
+						      1 );
 	}
     }
 
@@ -4230,7 +4247,7 @@ void mise_a_jour_affichage_r ( gint affichage_r )
 
 		/* 		si le store du compte n'est pas fini, il faut le finir avant de faire joujou */
 
-		if ( SLIST_DERNIERE_OPE_AJOUTEE != GINT_TO_POINTER (-1))
+		if ( gsb_account_get_last_transaction (i) != GINT_TO_POINTER (-1))
 		    ajoute_operations_compte_dans_list_store ( i,
 							       0 );
 
@@ -4303,8 +4320,10 @@ void mise_a_jour_affichage_r ( gint affichage_r )
 		    }
 		    liste_tmp = liste_tmp -> next;
 		}
-		COULEUR_BACKGROUND_FINI = 0;
-		SELECTION_OPERATION_FINI = 0;
+		gsb_account_set_finished_background_color ( i,
+							    0 );
+		gsb_account_set_finished_selection_transaction ( i,
+								 0 );
 
 		/* 	    il faut afficher le compte courant tout de suite sinon il ne sera pas freezé */
 		/* 		lors du remplissage... */
@@ -4338,7 +4357,7 @@ void mise_a_jour_affichage_r ( gint affichage_r )
 
 		/* 		si le store du compte n'est pas fini, il faut le finir avant de faire joujou */
 
-		if ( SLIST_DERNIERE_OPE_AJOUTEE != GINT_TO_POINTER (-1))
+		if ( gsb_account_get_last_transaction (i) != GINT_TO_POINTER (-1))
 		    ajoute_operations_compte_dans_list_store ( i,
 							       0 );
 
@@ -4363,8 +4382,10 @@ void mise_a_jour_affichage_r ( gint affichage_r )
 			    iter_valide = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gsb_account_get_store (i) ),
 								     iter );
 		}
-		COULEUR_BACKGROUND_FINI = 0;
-		SELECTION_OPERATION_FINI = 0;
+		gsb_account_set_finished_background_color ( i,
+							    0 );
+		gsb_account_set_finished_selection_transaction ( i,
+								 0 );
 
 		/* 	    il faut afficher le compte courant tout de suite sinon il ne sera pas freezé */
 		/* 		lors du remplissage... */
@@ -4583,7 +4604,7 @@ void mise_a_jour_affichage_lignes ( gint nb_lignes )
 
 	    /* 		si le store du compte n'est pas fini, il faut le finir avant de faire joujou */
 
-	    if ( SLIST_DERNIERE_OPE_AJOUTEE != GINT_TO_POINTER (-1))
+	    if ( gsb_account_get_last_transaction (i) != GINT_TO_POINTER (-1))
 		ajoute_operations_compte_dans_list_store ( i,
 							   0 );
 
@@ -4754,11 +4775,12 @@ void mise_a_jour_affichage_lignes ( gint nb_lignes )
 	    /* 	    on a fini ce compte, on peut y mettre le nb de lignes par opé */
 	    /* 		et remettre les couleurs du fond */
 	    /* 	    pour les soldes, si on a voulu afficher la cellule de solde,  */
-	    /* 	    AFFICHAGE_SOLDE_FINI s'est déjà mis à 0 tout seul */
+	    /* 	    gsb_account_get_finished_balance_showed () s'est déjà mis à 0 tout seul */
 
 	    gsb_account_set_nb_rows ( i, 
 				      nb_lignes );
-	    COULEUR_BACKGROUND_FINI = 0;
+	    gsb_account_set_finished_background_color ( i,
+							0 );
 
 	    if ( i == compte_courant )
 	    {

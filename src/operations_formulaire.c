@@ -4017,7 +4017,7 @@ struct organisation_formulaire *renvoie_organisation_formulaire ( void )
     else
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
-    retour = ORGANISATION_FORMULAIRE;
+    retour = gsb_account_get_form_organization (compte_courant);
 
     p_tab_nom_de_compte_variable = save_ptab;
 

@@ -459,11 +459,11 @@ gboolean utilisation_temps_idle ( gpointer null )
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
-    if ( SLIST_DERNIERE_OPE_AJOUTEE != GINT_TO_POINTER (-1))
+    if ( gsb_account_get_last_transaction (compte_courant) != GINT_TO_POINTER (-1))
     {
 	if ( DEBUG
 	     &&
-	     !SLIST_DERNIERE_OPE_AJOUTEE )
+	     !gsb_account_get_last_transaction (compte_courant) )
 	    printf ( "remplissage compte courant no %d par idle\n", compte_courant );
 
 	ajoute_operations_compte_dans_list_store ( compte_courant,
@@ -474,7 +474,7 @@ gboolean utilisation_temps_idle ( gpointer null )
 
 /*     mise à jour de la couleur du fond du compte courant */
 
-    if ( !COULEUR_BACKGROUND_FINI )
+    if ( !gsb_account_get_finished_background_color (compte_courant) )
     {
 	if ( DEBUG )
 	    printf ( "mise en place couleur du fond de liste compte courant no %d par idle\n", compte_courant );
@@ -488,7 +488,7 @@ gboolean utilisation_temps_idle ( gpointer null )
 
 /*     mise à jour des soldes du compte courant */
 
-    if ( !AFFICHAGE_SOLDE_FINI )
+    if ( !gsb_account_get_finished_balance_showed (compte_courant) )
     {
 	if ( DEBUG )
 	    printf ( "mise en place des soldes de liste compte courant no %d par idle\n", compte_courant );
@@ -503,7 +503,7 @@ gboolean utilisation_temps_idle ( gpointer null )
 
 /*     mise en place de la sélection du compte courant */
 
-    if ( !SELECTION_OPERATION_FINI )
+    if ( !gsb_account_get_finished_selection_transaction (compte_courant) )
     {
 	if ( DEBUG )
 	    printf ( "mise en place de la selection du compte courant no %d par idle\n", compte_courant );
@@ -521,11 +521,11 @@ gboolean utilisation_temps_idle ( gpointer null )
     {
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
-	if ( SLIST_DERNIERE_OPE_AJOUTEE != GINT_TO_POINTER (-1))
+	if ( gsb_account_get_last_transaction (i) != GINT_TO_POINTER (-1))
 	{
 	    if ( DEBUG
 		 &&
-		 SLIST_DERNIERE_OPE_AJOUTEE )
+		 gsb_account_get_last_transaction (i) )
 		printf ( "remplissage compte %d par idle\n", i );
 
 	    ajoute_operations_compte_dans_list_store ( i,
@@ -541,7 +541,7 @@ gboolean utilisation_temps_idle ( gpointer null )
     {
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
-	if ( !COULEUR_BACKGROUND_FINI )
+	if ( !gsb_account_get_finished_background_color (i) )
 	{
 	    if ( DEBUG )
 		printf ( "mise en place couleur du fond de liste compte no %d par idle\n", i );
@@ -560,7 +560,7 @@ gboolean utilisation_temps_idle ( gpointer null )
     {
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
-	if ( !AFFICHAGE_SOLDE_FINI )
+	if ( !gsb_account_get_finished_balance_showed (i) )
 	{
 	    if ( DEBUG )
 		printf ( "mise en place des soldes de liste compte no %d par idle\n", i );
@@ -580,7 +580,7 @@ gboolean utilisation_temps_idle ( gpointer null )
     {
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
-	if ( !SELECTION_OPERATION_FINI )
+	if ( !gsb_account_get_finished_selection_transaction (i) )
 	{
 	    if ( DEBUG )
 		printf ( "mise en place de la selection du compte courant no %d par idle\n", i );
