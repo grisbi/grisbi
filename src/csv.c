@@ -87,6 +87,7 @@ static gchar    g_csv_field_separator = ';';  /*!< CSV configuration - separator
 gchar*  csv_field_operation  = NULL; /*!< operation number (numerical) */
 gchar*  csv_field_ventil     = NULL; /*!< is operation a breakdown (string) */
 gchar*  csv_field_date       = NULL; /*!< date of operation (of main operation for breakdown) (string) */
+gchar*  csv_field_date_val   = NULL; /*!< value date of operation (of main operation for breakdown) (string) */
 gchar*  csv_field_pointage   = NULL; /*!< pointed/reconcialiation status (string) */
 gchar*  csv_field_tiers      = NULL; /*!< Third party (string) */
 gchar*  csv_field_credit     = NULL; /*!< credit (numerical) */
@@ -123,6 +124,7 @@ static void csv_clear_fields(gboolean clear_all)
     if (clear_all)
     {
         CSV_CLEAR_FIELD(csv_field_date);
+        CSV_CLEAR_FIELD(csv_field_date_val);
         CSV_CLEAR_FIELD(csv_field_pointage);
         CSV_CLEAR_FIELD(csv_field_operation);
         CSV_CLEAR_FIELD(csv_field_tiers);
@@ -164,6 +166,7 @@ static void csv_add_record(FILE* file,gboolean clear_all)
     CSV_NUM_FIELD(file,csv_field_operation);
     CSV_STR_FIELD(file,csv_field_ventil);
     CSV_STR_FIELD(file,csv_field_date);
+    CSV_STR_FIELD(file,csv_field_date_val);
     CSV_STR_FIELD(file,csv_field_cheque);
     if (etat.utilise_exercice)
     {
@@ -232,6 +235,7 @@ void export_accounts_to_csv (GSList* export_entries_list )
                 csv_field_operation  = g_strdup(_("Transactions"));
                 csv_field_ventil     = g_strdup(_("Breakdown"));
                 csv_field_date       = g_strdup(_("Date"));
+                csv_field_date_val   = g_strdup(_("Value date"));
                 csv_field_cheque     = g_strdup(_("Cheques"));
                 if (etat.utilise_exercice)
                 {
@@ -293,6 +297,11 @@ void export_accounts_to_csv (GSList* export_entries_list )
                         GSList* pointer = NULL;
                         /* met la date */
                         csv_field_date = g_strdup_printf ("%d/%d/%d", operation -> jour, operation -> mois, operation -> annee );
+                        
+			if (operation->date_bancaire)
+			    csv_field_date_val = g_strdup_printf ("%d/%d/%d", operation -> jour_bancaire, operation -> mois_bancaire, operation -> annee_bancaire );
+			else
+			    csv_field_date_val = "";
 
                         /* met le pointage */
                         if      ( operation -> pointe == 1 ) csv_field_pointage = g_strdup(_("P"));
