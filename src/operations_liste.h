@@ -45,4 +45,4 @@ void move_operation_to_account ( struct structure_operation * transaction,
 				 gint account );
 void schedule_selected_transaction ( );
 struct operation_echeance * schedule_transaction ( struct structure_operation * transaction );
-void popup_menu ( gboolean full );
+void popup_transaction_context_menu ( gboolean full );

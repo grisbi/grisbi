@@ -1153,7 +1153,7 @@ void selectionne_ligne_souris ( GtkCList *liste,
   if ( !gtk_clist_get_row_data ( GTK_CLIST ( CLIST_OPERATIONS ), ligne ) )
     {
       if ( evenement -> button == 3 )
-	popup_menu ( FALSE );
+	popup_transaction_context_menu ( FALSE );
       return;
     }
 
@@ -1187,7 +1187,7 @@ void selectionne_ligne_souris ( GtkCList *liste,
   if ( evenement -> type == GDK_2BUTTON_PRESS )
     edition_operation ();
   else if ( evenement -> button == 3 )
-    popup_menu ( TRUE );
+    popup_transaction_context_menu ( TRUE );
   else
     focus_a_la_liste ();
 
@@ -2522,7 +2522,7 @@ void changement_taille_colonne ( GtkWidget *clist,
 /**
  * Pop up a menu with several actions to apply to current transaction.
  */
-void popup_menu ( gboolean full )
+void popup_transaction_context_menu ( gboolean full )
 {
   GtkWidget *menu, *menu_item;
 
@@ -2577,7 +2577,7 @@ void popup_menu ( gboolean full )
   gtk_menu_append ( menu, gtk_separator_menu_item_new() );
 
   /* Convert to scheduled transaction */
-  menu_item = gtk_image_menu_item_new_with_label ( _("Convert to scheduled transaction") );
+  menu_item = gtk_image_menu_item_new_with_label ( _("Convert transaction to scheduled transaction") );
   gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
 				  gtk_image_new_from_stock ( GTK_STOCK_CONVERT,
 							     GTK_ICON_SIZE_MENU ));
@@ -2587,7 +2587,7 @@ void popup_menu ( gboolean full )
   gtk_menu_append ( menu, menu_item );
 
   /* Move to another account */
-  menu_item = gtk_image_menu_item_new_with_label ( _("Move to another account") );
+  menu_item = gtk_image_menu_item_new_with_label ( _("Move transaction to another account") );
   gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
 				  gtk_image_new_from_stock ( GTK_STOCK_JUMP_TO,
 							     GTK_ICON_SIZE_MENU ));
@@ -2629,9 +2629,13 @@ gboolean assert_selected_transaction ()
  */
 void new_transaction () 
 {
+  /* We do not test it since we don't care about no selected
+     transaction */
+  assert_selected_transaction();
+
   gtk_clist_unselect_all ( GTK_CLIST ( CLIST_OPERATIONS ) );
-  gtk_widget_grab_focus ( CLIST_OPERATIONS );
   echap_formulaire();
+  formulaire_a_zero ();
   edition_operation ();
   gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 }
@@ -2660,6 +2664,8 @@ void clone_selected_transaction ()
 
   MISE_A_JOUR = 1;
   verification_mise_a_jour_liste ();
+
+  gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 
   mise_a_jour_tiers ();
   mise_a_jour_categ ();
@@ -2747,6 +2753,8 @@ void move_selected_operation_to_account ( GtkMenuItem * menu_item )
   MISE_A_JOUR = 1;
   verification_mise_a_jour_liste ();
   remplissage_liste_operations ( account );
+
+  gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 
   mise_a_jour_tiers ();
   mise_a_jour_categ ();
