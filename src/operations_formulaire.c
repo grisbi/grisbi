@@ -3471,7 +3471,7 @@ void validation_virement_operation ( struct structure_operation *operation,
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_virement;
 
-  if ( modification )
+  if ( modification && operation -> relation_no_operation )
     contre_operation = g_slist_find_custom ( LISTE_OPERATIONS,
 					GINT_TO_POINTER ( operation -> relation_no_operation ),
 					( GCompareFunc ) recherche_operation_par_no ) -> data;
