@@ -425,11 +425,11 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		{
 		    if ( ( etat -> afficher_r == 1
 			   &&
-			   operation -> pointe == 2 )
+			   operation -> pointe == 3 )
 			 ||
 			 ( etat -> afficher_r == 2
 			   &&
-			   operation -> pointe != 2 ))
+			   operation -> pointe != 3 ))
 			goto operation_refusee;
 		}
 

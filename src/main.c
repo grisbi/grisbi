@@ -429,61 +429,157 @@ gboolean utilisation_temps_idle ( gpointer null )
 /*     dans l'ordre, on va créer et remplir la liste d'opé du compte courant, */
 /*     le 1er à être ouvert, puis les autres comptes */
 
-/*     création du list_store du compte courant */
+/*     réalisation de tous les list_store */
+/* 	de cette manière, lors du remplissage, les opé seront ajoutées */
+/* 	directement au tree view */
+
+    for ( i=0 ; i<nb_comptes ; i++ )
+    {
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+
+	if ( !GTK_WIDGET_REALIZED ( TREE_VIEW_LISTE_OPERATIONS ))
+	{
+	    if( DEBUG )
+		printf ( "realize tree_view compte %d\n", i );
+
+	    gtk_widget_realize ( TREE_VIEW_LISTE_OPERATIONS );
+	    return TRUE;
+	}
+    }
+
+ 
+/*     remplissage du list_store du compte courant */
+/*     on remplit par parties de x opés, invisible ici */
+/* 	une fois que tout le compte a été remplit, OPE_EN_COURS = -1 */
+
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
-    if ( !STORE_LISTE_OPERATIONS )
+    if ( SLIST_DERNIERE_OPE_AJOUTEE != GINT_TO_POINTER (-1))
     {
-	if ( DEBUG )
+	if ( DEBUG
+	     &&
+	     !SLIST_DERNIERE_OPE_AJOUTEE )
 	    printf ( "remplissage compte courant no %d par idle\n", compte_courant );
-	remplissage_liste_operations ( compte_courant );
+
+	ajoute_operations_compte_dans_list_store ( compte_courant,
+						   1 );
 	return TRUE;
     }
 
-/*     création du tree_view du compte_courant */
+/*     mise à jour de la couleur du fond du compte courant */
 
-    if ( !gtk_tree_view_get_model ( GTK_TREE_VIEW (TREE_VIEW_LISTE_OPERATIONS)))
+    if ( !COULEUR_BACKGROUND_FINI )
     {
 	if ( DEBUG )
-	    printf ( "attribution compte courant no %d par idle\n", compte_courant);
-	gtk_tree_view_set_model ( GTK_TREE_VIEW (TREE_VIEW_LISTE_OPERATIONS),
-				  GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ));
-	gtk_widget_realize ( TREE_VIEW_LISTE_OPERATIONS );
+	    printf ( "mise en place couleur du fond de liste compte courant no %d par idle\n", compte_courant );
+
+	update_couleurs_background ( compte_courant );
+
 	return TRUE;
     }
  
+
+/*     mise à jour des soldes du compte courant */
+
+    if ( !AFFICHAGE_SOLDE_FINI )
+    {
+	if ( DEBUG )
+	    printf ( "mise en place des soldes de liste compte courant no %d par idle\n", compte_courant );
+
+	update_soldes_list_store ( compte_courant );
+
+	return TRUE;
+    }
+ 
+
+/*     mise en place de la sélection du compte courant */
+
+    if ( !SELECTION_OPERATION_FINI )
+    {
+	if ( DEBUG )
+	    printf ( "mise en place de la selection du compte courant no %d par idle\n", compte_courant );
+
+	selectionne_ligne ( compte_courant,
+			    -1 );
+
+	return TRUE;
+    }
+ 
+
 /*     création du list_store des différents comptes */
 	
     for ( i=0 ; i<nb_comptes ; i++ )
     {
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
-	if ( !STORE_LISTE_OPERATIONS )
+	if ( SLIST_DERNIERE_OPE_AJOUTEE != GINT_TO_POINTER (-1))
 	{
-	    if ( DEBUG )
+	    if ( DEBUG
+		 &&
+		 SLIST_DERNIERE_OPE_AJOUTEE )
 		printf ( "remplissage compte %d par idle\n", i );
-	    remplissage_liste_operations ( i );
+
+	    ajoute_operations_compte_dans_list_store ( i,
+						       1 );
 	    return TRUE;
 	}
     }
-
-/*     création des tree_view des différents comptes */
+    
+/*     mise à jour de la couleur du fond des différents comptes */
 
     for ( i=0 ; i<nb_comptes ; i++ )
     {
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
-	if ( !gtk_tree_view_get_model ( GTK_TREE_VIEW (TREE_VIEW_LISTE_OPERATIONS)))
+	if ( !COULEUR_BACKGROUND_FINI )
 	{
 	    if ( DEBUG )
-		printf ( "attribution compte %d par idle\n", i );
-	    gtk_tree_view_set_model ( GTK_TREE_VIEW (TREE_VIEW_LISTE_OPERATIONS),
-				      GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ));
-	    gtk_widget_realize ( TREE_VIEW_LISTE_OPERATIONS );
+		printf ( "mise en place couleur du fond de liste compte no %d par idle\n", i );
+
+	    update_couleurs_background ( i );
+
 	    return TRUE;
 	}
     }
+ 
+/*     mise à jour des soldes des différents comptes */
+
+    for ( i=0 ; i<nb_comptes ; i++ )
+    {
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+
+	if ( !AFFICHAGE_SOLDE_FINI )
+	{
+	    if ( DEBUG )
+		printf ( "mise en place des soldes de liste compte no %d par idle\n", i );
+
+	    update_soldes_list_store ( i );
+
+	    return TRUE;
+	}
+    }
+ 
+
+/*     mise en place de la sélection du compte courant */
+
+    for ( i=0 ; i<nb_comptes ; i++ )
+    {
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+
+	if ( !SELECTION_OPERATION_FINI )
+	{
+	    if ( DEBUG )
+		printf ( "mise en place de la selection du compte courant no %d par idle\n", i );
+
+	    selectionne_ligne ( i,
+				-1 );
+	    return TRUE;
+	}
+    }
+ 
+
+
 
 	
 

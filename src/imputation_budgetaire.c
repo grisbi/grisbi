@@ -1322,7 +1322,7 @@ gboolean expand_selected_ib (  )
 
 	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-	    if ( operation -> pointe == 2 && !AFFICHAGE_R )
+	    if ( operation -> pointe == 3 && !AFFICHAGE_R )
 	    {
 		AFFICHAGE_R = 1;
 		remplissage_liste_operations ( compte_courant );

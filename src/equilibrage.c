@@ -1013,7 +1013,7 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
 
 	if ( operation -> pointe == 1 )
 	{
-	    operation -> pointe = 2;
+	    operation -> pointe = 3;
 	    operation -> no_rapprochement = DERNIER_NO_RAPPROCHEMENT;
 	}
 

@@ -868,7 +868,7 @@ gboolean expand_selected_tiers ( GtkWidget *liste, GdkEventButton *ev, gpointer 
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-    if ( operation -> pointe == 2 && !AFFICHAGE_R )
+    if ( operation -> pointe == 3 && !AFFICHAGE_R )
 	change_aspect_liste ( 5 );
 
     /* FIXME : mettre l'opé et l'iter s'il existe */

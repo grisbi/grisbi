@@ -1800,13 +1800,14 @@ void update_soldes_minimaux ( void )
     vbox_2 = NULL;
 
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
     for ( i = 0 ; i < nb_comptes ; i++ )
     {
 	gint solde_courant;
 	gint solde_mini;
 	gint solde_mini_voulu;
+
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
 	/* le plus simple est de faire les comparaisons de soldes sur des integer */
 
@@ -1886,8 +1887,6 @@ void update_soldes_minimaux ( void )
 	    MESSAGE_SOUS_MINI = 0;
 	if ( solde_courant - solde_mini_voulu >= 0.01)
 	    MESSAGE_SOUS_MINI_VOULU = 0;
-
-	p_tab_nom_de_compte_variable++;
     }
     mise_a_jour_liste_comptes_accueil = 1;
 }

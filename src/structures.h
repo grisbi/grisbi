@@ -13,7 +13,7 @@
 #define VERSION_FICHIER_CATEG "0.5.0"
 #define VERSION_FICHIER_IB "0.5.0"
 
-#define DEBUG 1
+#define DEBUG my_atoi (getenv ("DEBUG_GRISBI"))
 
 /* initialisation des couleurs */
 
@@ -230,6 +230,13 @@ struct donnees_compte
     GtkListStore *store_liste_operations;
     gdouble value_ajustement_liste_operations; 
     GtkTreeViewColumn *colonne_liste_operations[TRANSACTION_LIST_COL_NB];
+
+/*     variables utilisées pour le remplissage de la liste */
+
+    GSList *slist_derniere_ope_ajoutee;   /*pointe sur la struct sliste de la dernière opé ajoutée au list_store ou -1 si fini*/
+    gint couleur_background_fini;      /*à 1 une fois que le background a été fait*/
+    gint affichage_solde_fini;         /*à 1 une fois que les soldes des opés ont été affichés */
+    gint selection_operation_fini;      /*à 1 une fois que l'opération a été sélectionnée */
 };
 
 
@@ -283,6 +290,13 @@ struct donnees_compte
 #define STORE_LISTE_OPERATIONS ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> store_liste_operations
 #define VALUE_AJUSTEMENT_LISTE_OPERATIONS ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> value_ajustement_liste_operations
 #define COLONNE_LISTE_OPERATIONS(s) ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> colonne_liste_operations[s]
+
+#define SLIST_DERNIERE_OPE_AJOUTEE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> slist_derniere_ope_ajoutee
+#define COULEUR_BACKGROUND_FINI ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> couleur_background_fini
+#define AFFICHAGE_SOLDE_FINI ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> affichage_solde_fini
+#define SELECTION_OPERATION_FINI  ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> selection_operation_fini
+
+
 
 struct operation_echeance
 {

@@ -152,7 +152,6 @@ gint initialisation_nouveau_compte ( gint type_de_compte )
     /* insère ses paramètres ( comme c'est un appel à calloc, tout ce qui est à 0 est déjà initialisé )*/
 
     NOM_DU_COMPTE = g_strdup ( _("No name") );
-    LIGNE_SELECTIONNEE = -1;
     DEVISE = 1;
     MISE_A_JOUR = 1;
     NO_COMPTE = nb_comptes;

@@ -224,6 +224,8 @@ GtkWidget *creation_tree_view_operations ( void )
     GtkWidget *hbox;
     gint i;
     
+    if ( DEBUG )
+	printf ( "creation_tree_view_operations\n" );
 
     hbox = gtk_hbox_new ( FALSE,
 			  0 );
@@ -307,6 +309,32 @@ GtkWidget *creation_tree_view_operations ( void )
 	else
 	    printf ( "bizarre, les colonnes d'opérations n'ont pas encore été créés (operation_liste.c)...\n" );
 
+	/*     on crée le list_store maintenant et on l'associe vide au tree_view */
+
+	/* 	structure de la liste : */
+	/* 	    col 0 à 6 -> les données */
+	/* 	    col 7 -> la couleur du background */
+	/* 	    col 8 -> la couleur du solde */
+	/*	    col 9 -> adr de l'opération */
+	/*	    col 10 -> sauvegarde background quand ligne sélectionnée */
+	/*	    col 11 -> contient NULL ou l'adr de la pangofontdescription utilisée */
+
+	STORE_LISTE_OPERATIONS = gtk_list_store_new ( 12,
+						      G_TYPE_STRING,
+						      G_TYPE_STRING,
+						      G_TYPE_STRING,
+						      G_TYPE_STRING,
+						      G_TYPE_STRING,
+						      G_TYPE_STRING,
+						      G_TYPE_STRING,
+						      GDK_TYPE_COLOR,
+						      G_TYPE_STRING,
+						      G_TYPE_POINTER,
+						      GDK_TYPE_COLOR,
+						      PANGO_TYPE_FONT_DESCRIPTION );
+	gtk_tree_view_set_model ( GTK_TREE_VIEW (TREE_VIEW_LISTE_OPERATIONS),
+				  GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ));
+	SLIST_DERNIERE_OPE_AJOUTEE = NULL;
     }
 
     /*     on crée maintenant la liste de ventilation */
@@ -367,6 +395,7 @@ GtkWidget *creation_tree_view_operations ( void )
 					  colonnes_liste_ventils[i] );
     else
 	printf ( "bizarre, les colonnes de ventilation n'ont pas encore été créés (operation_liste.c)...\n" );
+
 
     /*     la hauteur est mise à 0 pour l'instant, elle sera remplie dès que nécessaire */
 
@@ -510,148 +539,147 @@ void update_titres_tree_view ( void )
 
 
 
+/******************************************************************************/
+/* cette fonction vérifie que la liste d'opé du compte demandée est comlètement */
+/* terminée. elle est normalement appelée en cas de changement de comptef */
+/* si la liste n'est pas finie, on la termine ici */
+/******************************************************************************/
+void verification_list_store_termine ( gint no_compte )
+{
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
+
+    if ( SLIST_DERNIERE_OPE_AJOUTEE != GINT_TO_POINTER (-1))
+	ajoute_operations_compte_dans_list_store ( no_compte,
+						   0 );
+
+    if ( !COULEUR_BACKGROUND_FINI )
+	update_couleurs_background ( no_compte );
+
+    if ( !AFFICHAGE_SOLDE_FINI )
+	update_soldes_list_store ( no_compte );
+
+    if ( !SELECTION_OPERATION_FINI )
+	selectionne_ligne ( no_compte,
+			    -1 );
+
+    return;
+}
+/******************************************************************************/
+
+
+
 
 
 /******************************************************************************/
 /* remplissage du list_store du compte donné en argument */
 /* cette fonction efface l'ancienne liste et la remplit avec les données actuelles */
-/* et place la sélection où elle était avant */
+/* elle remplit la liste d'un seul coup */
+/* elle met à jour les soldes courant et pointés */
 /******************************************************************************/
 void remplissage_liste_operations ( gint compte )
 {
-    GtkTreeIter iter;
-    struct structure_operation *operation_selectionnee;
-    GSList *liste_operations_tmp;
-    gint couleur_en_cours;
-    gchar *ligne_clist[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
-    gint i, j;
-    gdouble montant;
-    gint ligne_selectionnee;
-
     if ( DEBUG )
-	printf ( "remplissage_liste_operations\n" );
+	printf ( "remplissage_liste_operations compte %d\n", compte );
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
 
-    /*     on récupère l'adr de l'opé sélectionnée pour pouvoir remettre la sélection ensuite */
+    /*     on efface la liste */
+	
+    gtk_list_store_clear ( STORE_LISTE_OPERATIONS );
+    
+    /*     plus rien n'est affiché */
 
-    if ( LIGNE_SELECTIONNEE == -1
-	 ||
-	 !STORE_LISTE_OPERATIONS )
-	operation_selectionnee = GINT_TO_POINTER ( -1 );
+    SLIST_DERNIERE_OPE_AJOUTEE = NULL;
+    COULEUR_BACKGROUND_FINI = 0;
+    AFFICHAGE_SOLDE_FINI = 0;
+    SELECTION_OPERATION_FINI = 0;
+
+    /*     on remplit le list_store */
+
+    ajoute_operations_compte_dans_list_store ( compte,
+					       0 );
+
+    /*     on met les couleurs du fond */
+
+    update_couleurs_background ( compte );
+
+    /*     on met les soldes */
+	
+    update_soldes_list_store ( compte );
+
+    /*     on sélectionne la ligne blanche */
+
+    selectionne_ligne ( compte,
+			-1 );
+}
+/******************************************************************************/
+
+
+/******************************************************************************/
+/* cette fonction ajoute les opés du compte donné en argument dans son list_store */
+/* si OPE_EN_COURS != 0, on commence à cette opé */
+/* si par_partie = 1, on renvoie la main après n opérations */
+/******************************************************************************/
+void ajoute_operations_compte_dans_list_store ( gint compte,
+						gint par_partie )
+{
+    GSList *liste_operations_tmp;
+    gint nb_max_ope_a_ajouter;
+    gint nb_ope_ajoutees;
+    gint i, j;
+    GtkTreeIter iter;
+
+    /*     on décide pour l'instant arbitrairement du nb d'opé à ajouter si on */
+    /* 	le fait par partie ; peut être dans les préférences un jour */
+
+    if ( par_partie )
+	nb_max_ope_a_ajouter = 20;
     else
-	operation_selectionnee = cherche_operation_from_ligne ( LIGNE_SELECTIONNEE,
-								compte );
+	nb_max_ope_a_ajouter = -1;
 
-    /* efface la liste si nécessaire */
+    nb_ope_ajoutees = 0;
 
-    if ( STORE_LISTE_OPERATIONS ) 
-	gtk_list_store_clear ( GTK_LIST_STORE ( STORE_LISTE_OPERATIONS ));
-    else
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
+
+    /*     si SLIST_DERNIERE_OPE_AJOUTEE n'est pas nul, on se place sur l'opé suivante */
+
+    if ( SLIST_DERNIERE_OPE_AJOUTEE )
     {
-	/* 	structure de la liste : */
-	/* 	    col 0 à 6 -> les données */
-	/* 	    col 7 -> la couleur du background */
-	/* 	    col 8 -> la couleur du solde */
-	/*	    col 9 -> adr de l'opération */
-	/*	    col 10 -> sauvegarde background quand ligne sélectionnée */
-	/*	    col 11 -> contient NULL ou l'adr de la pangofontdescription utilisée */
-
-	STORE_LISTE_OPERATIONS = gtk_list_store_new ( 12,
-					  G_TYPE_STRING,
-					  G_TYPE_STRING,
-					  G_TYPE_STRING,
-					  G_TYPE_STRING,
-					  G_TYPE_STRING,
-					  G_TYPE_STRING,
-					  G_TYPE_STRING,
-					  GDK_TYPE_COLOR,
-					  G_TYPE_STRING,
-					  G_TYPE_POINTER,
-					  GDK_TYPE_COLOR,
-					  PANGO_TYPE_FONT_DESCRIPTION );
+	liste_operations_tmp = SLIST_DERNIERE_OPE_AJOUTEE;
+	liste_operations_tmp = liste_operations_tmp -> next;
     }
-
-
-    /*   au départ, les soldes courant et pointé sont = au solde init */
-
-    solde_courant_affichage_liste = SOLDE_INIT;
-    solde_pointe_affichage_liste = SOLDE_INIT;
-    couleur_en_cours = 0;
-
-    /*   si on n'affiche pas les R, il faut faire un premier tour de liste pour ajouter/retirer */
-    /*       les montants de tous les R au solde_init. */
-
-    if ( !AFFICHAGE_R )
-    {
+    else
 	liste_operations_tmp = LISTE_OPERATIONS;
 
-	while ( liste_operations_tmp )
-	{
-	    struct structure_operation *operation;
+    /*     on commence la boucle  */
 
-	    operation = liste_operations_tmp -> data;
-
-	    /* si c'est une opé de ventilation, on la saute */
-
-	    if ( !operation -> no_operation_ventilee_associee
-		 &&
-		 operation -> pointe == 2 )
-	    {
-		montant = calcule_montant_devise_renvoi ( operation -> montant,
-							  DEVISE,
-							  operation -> devise,
-							  operation -> une_devise_compte_egale_x_devise_ope,
-							  operation -> taux_change,
-							  operation -> frais_change );
-
-		solde_courant_affichage_liste = solde_courant_affichage_liste + montant;
-		solde_pointe_affichage_liste = solde_pointe_affichage_liste + montant;
-
-	    }
-	    liste_operations_tmp = liste_operations_tmp -> next;
-	}
-    }
-
-    /* on commence la boucle : fait le tour de toutes les opérations */
-    /* met à jour les solde_courant_affichage_liste et solde_pointe_affichage_liste */
-    /* affiche l'opération à l'écran en fonction de l'affichage de R */
-
-    liste_operations_tmp = LISTE_OPERATIONS;
-    ligne_selectionnee = 0;
-
-    while ( liste_operations_tmp )
+    while ( liste_operations_tmp
+	    &&
+	    ( nb_ope_ajoutees < nb_max_ope_a_ajouter
+	      ||
+	      nb_max_ope_a_ajouter == -1))
     {
 	struct structure_operation *operation;
 
 	operation = liste_operations_tmp -> data;
 
+	/* 	    on met tout de suite l'opé en cours pour permettre de reprendre à la suivante lors */
+	/* 		du remplissage de la liste */
+
+	SLIST_DERNIERE_OPE_AJOUTEE = liste_operations_tmp;
+		    
 	/* si c'est une opé de ventilation, ou si elle est relevée mais que l'on ne veut pas les afficher */
+	/* 	on saute l'opé */
 
 	if ( !(operation -> no_operation_ventilee_associee
 	       ||
 	       ( !AFFICHAGE_R
 		 &&
-		 operation -> pointe == 2 )))
+		 operation -> pointe == 3 )))
 	{
+	    /* 	    on a décidé d'afficher cette opé */
 
-	    /*  on calcule les soldes courant */
-
-	    montant = calcule_montant_devise_renvoi ( operation -> montant,
-						      DEVISE,
-						      operation -> devise,
-						      operation -> une_devise_compte_egale_x_devise_ope,
-						      operation -> taux_change,
-						      operation -> frais_change );
-
-	    /*   dans tous les cas, on ajoute ce montant au solde courant */
-
-	    solde_courant_affichage_liste = solde_courant_affichage_liste + montant;
-
-	    /* si l'opé est pointée ou relevée, on ajoute ce montant au solde pointé */
-
-	    if ( operation -> pointe )
-		solde_pointe_affichage_liste = solde_pointe_affichage_liste + montant;
+	    nb_ope_ajoutees++;
 
 	    /* on fait le tour de tab_affichage_ope pour remplir les lignes du tableau */
 
@@ -670,6 +698,7 @@ void remplissage_liste_operations ( gint compte )
 		     ( i == 1 && NB_LIGNES_OPE == 2 ))
 		{
 		    gint ligne_affichee;
+		    gchar *ligne_list[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
 
 		    /*  en fonction de i (la ligne en cours) et NB_LIGNES_OPE, on retrouve la ligne qu'il faut */
 		    /* afficher selon les configurations */
@@ -717,10 +746,12 @@ void remplissage_liste_operations ( gint compte )
 
 
 		    for ( j = 0 ; j < TRANSACTION_LIST_COL_NB ; j++ )
-			ligne_clist[i][j] = recherche_contenu_cellule ( operation,
-									tab_affichage_ope[ligne_affichee][j]  );
+			ligne_list[i][j] = recherche_contenu_cellule ( operation,
+								       tab_affichage_ope[ligne_affichee][j]  );
 
 		    /* on affiche la ligne composée de TRANSACTION_LIST_COL_NB colonnes */
+		    /* 	   utilisation d'un for plutôt que de tout mettre d'un coup pour permettre */
+		    /* 	une évolution : nb de colonnes variables */
 
 		    gtk_list_store_append ( STORE_LISTE_OPERATIONS,
 					    &iter );
@@ -728,40 +759,7 @@ void remplissage_liste_operations ( gint compte )
 		    for ( j=0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
 			gtk_list_store_set ( STORE_LISTE_OPERATIONS,
 					     &iter,
-					     j, ligne_clist[i][j],
-					     -1 );
-
-		    /* 		    on met la couleur de la ligne */
-
-		    if ( operation_selectionnee == operation )
-		    {
-			gtk_list_store_set ( STORE_LISTE_OPERATIONS,
-					     &iter,
-					     7, &couleur_selection,
-					     -1 );
-
-			gtk_list_store_set ( STORE_LISTE_OPERATIONS,
-					     &iter,
-					     10, &couleur_fond[couleur_en_cours],
-					     -1 );
-			
-			if ( !ligne_selectionnee )
-			    ligne_selectionnee = atoi ( gtk_tree_model_get_string_from_iter ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
-											      &iter ));
-		    }
-		    else
-			gtk_list_store_set ( STORE_LISTE_OPERATIONS,
-					     &iter,
-					     7, &couleur_fond[couleur_en_cours],
-					     -1 );
-
-
-		    /* si le solde est <0, on le met en rouge */
-
-		    if ( solde_courant_affichage_liste <= 0.01 )
-			gtk_list_store_set ( STORE_LISTE_OPERATIONS,
-					     &iter,
-					     8, "red",
+					     j, ligne_list[i][j],
 					     -1 );
 
 		    /* on associe à cette ligne l'adr de la struct de l'opé */
@@ -780,11 +778,15 @@ void remplissage_liste_operations ( gint compte )
 					     -1 );
 		}
 	    }
-	    couleur_en_cours = ( couleur_en_cours + 1 ) % 2;
 	}
 	liste_operations_tmp = liste_operations_tmp -> next;
     }
 
+    /*     si liste_operations_tmp n'est pas null, c'est qu'on n'est pas allé jusqu'au bout */
+    /* 	des opés du comptes, donc on s'en va maintenant */
+
+    if ( liste_operations_tmp )
+	return;
 
     /* affiche la ligne blanche du bas */
 
@@ -801,31 +803,6 @@ void remplissage_liste_operations ( gint compte )
 				 i, NULL,
 				 -1 );
 
-
-	/* 		    on met la couleur de la ligne */
-
-	if ( operation_selectionnee == GINT_TO_POINTER (-1))
-	{
-	    gtk_list_store_set ( STORE_LISTE_OPERATIONS,
-				 &iter,
-				 7, &couleur_selection,
-				 -1 );
-
-	    gtk_list_store_set ( STORE_LISTE_OPERATIONS,
-				 &iter,
-				 10, &couleur_fond[couleur_en_cours],
-				 -1 );
-	    
-	    if ( !ligne_selectionnee )
-		ligne_selectionnee = atoi ( gtk_tree_model_get_string_from_iter ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
-										  &iter ));
-	}
-	else
-	    gtk_list_store_set ( STORE_LISTE_OPERATIONS,
-				 &iter,
-				 7, &couleur_fond[couleur_en_cours],
-				 -1 );
-
 	/* on met le no d'opération de cette ligne à -1 */
 
 	gtk_list_store_set ( STORE_LISTE_OPERATIONS,
@@ -834,26 +811,12 @@ void remplissage_liste_operations ( gint compte )
 			     -1 );
     }
 
-    LIGNE_SELECTIONNEE = ligne_selectionnee;
+    /*     on est allé jusqu'au bout du compte */
 
-
-    /* on enregistre le solde final */
-
-    SOLDE_COURANT = solde_courant_affichage_liste;
-    SOLDE_POINTE = solde_pointe_affichage_liste;
-
-    /* on met les soldes en bas */
-
-/*     gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ), */
-/* 			 g_strdup_printf ( PRESPACIFY(_("Checked balance: %4.2f %s")), */
-/* 					   SOLDE_POINTE, */
-/* 					   devise_name_by_no ( DEVISE ))); */
-/*     gtk_label_set_text ( GTK_LABEL ( solde_label ), */
-/* 			 g_strdup_printf ( PRESPACIFY(_("Current balance: %4.2f %s")), */
-/* 					   SOLDE_COURANT, */
-/* 					   devise_name_by_no ( DEVISE ))); */
+    SLIST_DERNIERE_OPE_AJOUTEE = GINT_TO_POINTER ( -1 );
 }
 /******************************************************************************/
+
 
 /******************************************************************************/
 /* Fonction recherche_contenu_cellule */
@@ -967,10 +930,12 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 
 	    /* mise en forme du solde */
 	    /* il a déjà été calculé pour l'opération courante, il suffit de le renvoyer */
+	    /* 	    en fait on renvoie null, le solde sera affiché plus tard */
 
 	case 7:
-	    return ( g_strdup_printf ( "%4.2f",
-				       solde_courant_affichage_liste ));
+/* 	    return ( g_strdup_printf ( "%4.2f", */
+/* 				       solde_courant_affichage_liste )); */
+	    return NULL;
 	    break;
 
 	    /* mise en forme du montant dans la devise du compte */
@@ -1074,11 +1039,11 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 	    else
 	    {
 		if ( operation -> pointe == 2 )
-		    return ( _("R") );
+		    return ( _("T") );
 		else
 		{
 		    if ( operation -> pointe == 3 )
-			return ( _("T"));
+			return ( _("R"));
 		    else
 			return ( NULL );
 		}
@@ -1126,6 +1091,220 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
     return ( NULL );
 }
 /******************************************************************************/
+
+
+/******************************************************************************/
+/* cette fonction met à jour les couleurs du background sur une */
+/* list_store déjà remplie */
+/******************************************************************************/
+
+void update_couleurs_background ( gint compte )
+{
+    GtkTreeIter iter;
+    gboolean result_iter;
+    gint couleur_en_cours;
+
+
+    if ( DEBUG )
+	printf ( "update_couleurs_background compte %d\n", compte );
+
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
+    
+    result_iter = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
+						  &iter );
+    couleur_en_cours = 0;
+
+    while ( result_iter )
+    {
+	gint i;
+
+	for ( i=0 ; i<NB_LIGNES_OPE ; i++ )
+	{
+	    gtk_list_store_set ( STORE_LISTE_OPERATIONS,
+				 &iter,
+				 7, &couleur_fond[couleur_en_cours],
+				 -1 );
+	    result_iter = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
+						     &iter );
+	}
+	couleur_en_cours = 1 - couleur_en_cours;
+   }
+
+    COULEUR_BACKGROUND_FINI = 1;
+}
+/******************************************************************************/
+
+
+
+/******************************************************************************/
+/* cette fonction affiche dans le list_store le solde courant à chaque opé */
+/* et mes ce solde en rouge s'il est négatif */
+/******************************************************************************/
+
+void update_soldes_list_store ( gint compte )
+{
+    gint ligne;
+    gint colonne;
+    gint trouve = 0;
+    GtkTreeIter iter;
+    gboolean result_iter;
+    gdouble solde_courant;
+
+    if ( DEBUG )
+	printf ( "update_soldes_list_store compte %d\n", compte );
+
+/*     on commence par retrouver la colonne et la ligne pour afficher le solde de l'opé */
+
+    ligne = -1;
+     do
+     {
+	 ligne++;
+	 colonne = -1;
+	 do
+	 {
+	     colonne++;
+	     if ( tab_affichage_ope[ligne][colonne] == 7 )
+		 trouve = 1;
+	 }
+	 while ( colonne < 7
+		 &&
+		 !trouve );
+     }
+     while ( ligne < 4
+	     &&
+	     !trouve );
+
+    if ( !trouve
+	 ||
+	 ligne >= NB_LIGNES_OPE )
+    {
+	/* 	le solde n'est pas affiché, on peut repartir */
+	AFFICHAGE_SOLDE_FINI = 1;
+	return;
+    }
+
+    /*     on a maintenant la position du solde, et on est sûr qu'il sera affiché */
+
+    /*     on calcule le solde de démarrage */
+
+    solde_courant = solde_debut_affichage ( compte );
+
+    /*     on peut commencer à faire le tour du list_store */
+
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
+ 
+    result_iter = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
+						  &iter );
+    while ( result_iter )
+    {
+	gint i;
+	struct structure_operation *operation;
+
+	/* 	on se place sur la bonne ligne */
+	
+	for ( i=0 ; i<ligne ; i++ )
+	    result_iter = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
+						     &iter );
+
+
+	gtk_tree_model_get ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
+			     &iter,
+			     9, &operation,
+			     -1 );
+
+	if ( operation != GINT_TO_POINTER (-1))
+	{
+	    solde_courant = solde_courant + calcule_montant_devise_renvoi ( operation -> montant,
+									    DEVISE,
+									    operation -> devise,
+									    operation -> une_devise_compte_egale_x_devise_ope,
+									    operation -> taux_change,
+									    operation -> frais_change );
+
+	    gtk_list_store_set ( STORE_LISTE_OPERATIONS,
+				 &iter,
+				 colonne, g_strdup_printf ( "%4.2f",
+							    solde_courant ),
+				 -1 );
+
+	    /* 	on met la couleur du solde */
+
+	    if ( solde_courant > -0.01 )
+		gtk_list_store_set ( STORE_LISTE_OPERATIONS,
+				     &iter,
+				     8, NULL,
+				     -1 );
+
+	    else
+		gtk_list_store_set ( STORE_LISTE_OPERATIONS,
+				     &iter,
+				     8, "red",
+				     -1 );
+	}
+
+
+	/* 	on se place sur la prochaine opé */
+
+	for ( i=0 ; i<(NB_LIGNES_OPE - ligne ) ; i++ )
+	    result_iter = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
+						     &iter );
+   }
+    AFFICHAGE_SOLDE_FINI = 1;
+}
+/******************************************************************************/
+
+
+
+
+
+/******************************************************************************/
+/* cette fonction calcule le solde de départ pour l'affichage de la première opé */
+/* du compte */
+/* c'est soit le solde initial du compte si on affiche les R */
+/* soit le solde initial - les opés R si elles ne sont pas affichées */
+/******************************************************************************/
+gdouble solde_debut_affichage ( gint no_compte )
+{
+    gdouble solde;
+    GSList *liste_tmp;
+
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
+
+    solde = SOLDE_INIT;
+
+    if ( AFFICHAGE_R )
+	return (solde);
+
+    /*     les R ne sont pas affichés, on les déduit du solde initial */
+
+    liste_tmp = LISTE_OPERATIONS;
+
+    while ( liste_tmp )
+    {
+	struct structure_operation *operation;
+
+	operation = liste_tmp -> data;
+
+	/* 	si l'opé est ventilée ou non relevée, on saute */
+
+	if ( !(operation -> no_operation_ventilee_associee
+	       ||
+	       operation -> pointe != 3 ))
+	solde = solde + calcule_montant_devise_renvoi ( operation -> montant,
+							DEVISE,
+							operation -> devise,
+							operation -> une_devise_compte_egale_x_devise_ope,
+							operation -> taux_change,
+							operation -> frais_change );
+	liste_tmp = liste_tmp -> next;
+    }
+
+    return ( solde );
+}
+/******************************************************************************/
+
+
+
 
 /******************************************************************************/
 /* Fonction selectionne_ligne_souris */
@@ -1310,12 +1489,32 @@ void selectionne_ligne ( gint compte,
     GdkColor *couleur;
 
     if ( DEBUG )
-	printf ( "selectionne_ligne\n" );
+	printf ( "selectionne_ligne %d\n", nouvelle_ligne );
 
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
+
+    /*     si SELECTION_OPERATION_FINI=0, c'est qu'il n'y a encore aucune sélection sur la liste */
+    /* 	dans ce cas, on ne se préocupe pas de nouvelle_ligne et on place la sélection */
+    /* 	sur la ligne blanche */
+
+    if ( !SELECTION_OPERATION_FINI )
+    {
+	GtkTreeIter *iter_ligne_blanche;
+
+	iter_ligne_blanche = cherche_iter_operation ( GINT_TO_POINTER (-1),
+						      compte );
+
+	nouvelle_ligne = atoi ( gtk_tree_model_get_string_from_iter ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
+								      iter_ligne_blanche ));
+    }
+    
     /*     si on est déjà dessus, on se barre */
 
     if ( nouvelle_ligne == LIGNE_SELECTIONNEE )
+    {
+	SELECTION_OPERATION_FINI = 1;
 	return;
+    }
 
     /*   vire l'ancienne sélection : consiste à remettre la couleur d'origine du background */
 
@@ -1380,6 +1579,7 @@ void selectionne_ligne ( gint compte,
 
     ajuste_scrolling_liste_operations_a_selection ( compte_courant );
 
+    SELECTION_OPERATION_FINI = 1;
 }
 /******************************************************************************/
 
@@ -1467,7 +1667,8 @@ struct structure_operation *cherche_operation_from_ligne ( gint ligne,
 /* retrouve l'iter correspondant à l'opération donnée en argument dans la tree_view des opérations */
 /* renvoie null si pas trouvé */
 /******************************************************************************/
-GtkTreeIter *cherche_iter_operation ( struct structure_operation *operation )
+GtkTreeIter *cherche_iter_operation ( struct structure_operation *operation,
+				      gint no_compte )
 {
     struct structure_operation *operation_tmp;
     GtkTreeIter iter;
@@ -1475,7 +1676,7 @@ GtkTreeIter *cherche_iter_operation ( struct structure_operation *operation )
     if ( !operation )
 	return NULL;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
     /*     on va faire le tour de la liste, et dès qu'une opé = operation */
     /* 	on retourne son iter */
@@ -1644,7 +1845,7 @@ void edition_operation ( void )
 
     /* si l'opération est relevée, on désensitive les entrées de crédit et débit */
 
-    if ( operation -> pointe == 2 )
+    if ( operation -> pointe == 3 )
     {
 	gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT],
 				   FALSE );
@@ -1727,7 +1928,7 @@ void edition_operation ( void )
 
 	    /* si l'opération est relevée, on empêche le changement de virement */
 
-	    if ( operation -> pointe == 2 )
+	    if ( operation -> pointe == 3 )
 		gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY],
 					   FALSE );
 
@@ -1739,7 +1940,7 @@ void edition_operation ( void )
 	    /* 	  si la contre opération est relevée, on désensitive les categ et les montants */
 	    if ( operation_2
 		 &&
-		 operation_2 -> pointe == 2 )
+		 operation_2 -> pointe == 3 )
 	    {
 		gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT],
 					   FALSE );
@@ -2119,9 +2320,9 @@ void supprime_operation ( struct structure_operation *operation )
 
     /* vérifications de bases */
 
-    /* l'opération ne doit pas être pointée */
+    /* l'opération ne doit pas être relevée */
 
-    if ( operation -> pointe == 2 )
+    if ( operation -> pointe == 3 )
     {
 	dialogue_error ( _("Imposible to delete a reconciled transaction.") );
 	return;
@@ -2140,7 +2341,7 @@ void supprime_operation ( struct structure_operation *operation )
 
 	if ( ope_liee )
 	{
-	    if ( ope_liee -> pointe == 2 )
+	    if ( ope_liee -> pointe == 3 )
 	    {
 		dialogue_error ( _("The contra-transaction of this transfer is reconciled, deletion impossible.") );
 		return;
@@ -2187,7 +2388,7 @@ void supprime_operation ( struct structure_operation *operation )
 
 		    if ( contre_operation
 			 &&
-			 contre_operation -> pointe == 2 )
+			 contre_operation -> pointe == 3 )
 		    {
 			dialogue_error ( _("One of the breakdown lines is a transfer whose contra-transaction is reconciled.  Deletion canceled."));
 			return;

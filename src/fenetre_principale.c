@@ -36,6 +36,7 @@
 #include "tiers_onglet.h"
 #include "operations_comptes.h"
 #include "operations_liste.h"
+#include "utils.h"
 
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *arbre_imputation;

@@ -2,9 +2,15 @@ GtkWidget *creation_fenetre_operations ( void );
 GtkWidget *creation_tree_view_operations ( void );
 void creation_titres_tree_view ( void );
 void update_titres_tree_view ( void );
+void verification_list_store_termine ( gint no_compte );
 void remplissage_liste_operations ( gint compte );
+void ajoute_operations_compte_dans_list_store ( gint compte,
+						gint par_partie );
 gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 				   gint no_affichage );
+void update_couleurs_background ( gint compte );
+void update_soldes_list_store ( gint compte );
+gdouble solde_debut_affichage ( gint no_compte );
 gboolean selectionne_ligne_souris ( GtkWidget *tree_view,
 				    GdkEventButton *evenement );
 gboolean traitement_clavier_liste ( GtkWidget *widget_variable,
@@ -15,7 +21,8 @@ void ajuste_scrolling_liste_operations_a_selection ( gint compte );
 gint recupere_hauteur_ligne_tree_view ( GtkWidget *tree_view );
 struct structure_operation *cherche_operation_from_ligne ( gint ligne,
 							   gint no_compte );
-GtkTreeIter *cherche_iter_operation ( struct structure_operation *operation );
+GtkTreeIter *cherche_iter_operation ( struct structure_operation *operation,
+				      gint no_compte );
 void edition_operation ( void );
 void p_press (void);
 void r_press (void);

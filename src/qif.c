@@ -1148,11 +1148,11 @@ choix_liste_fichier:
 
 			if ( operation -> pointe == 1
 			     ||
-			     operation -> pointe == 3 )
+			     operation -> pointe == 2 )
 			    fprintf ( fichier_qif,
 				      "C*\n" );
 			else
-			    if ( operation -> pointe == 2 )
+			    if ( operation -> pointe == 3 )
 				fprintf ( fichier_qif,
 					  "CX\n" );
 

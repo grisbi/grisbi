@@ -4214,6 +4214,9 @@ void switch_t_r ( void )
     if ( !nb_comptes )
 	return;
     
+    if ( DEBUG )
+	printf ( "switch_t_r\n");
+
     for ( i=0 ; i<nb_comptes ; i++ )
     {	
 	GSList *liste_tmp;

@@ -361,39 +361,42 @@ gboolean changement_compte ( gint *compte)
 					       GTK_SORT_DESCENDING );
      CLASSEMENT_COURANT = recupere_classement_par_no ( NO_CLASSEMENT );
 
-    /*     si le list_store a déjà été créé, on ne fait juste que l'afficher, sinon on le crée puis l'affiche */
 
-    if ( !STORE_LISTE_OPERATIONS )
-    {
+     /*      on termine la liste d'opés si nécessaire */
+
+     verification_list_store_termine ( compte_courant );
+
+/*     if ( !STORE_LISTE_OPERATIONS ) */
+/*     { */
 	/* 	on commence par arrêter les appels à l'idle */
 
-	if ( id_fonction_idle )
-	{
-	    g_source_remove ( id_fonction_idle );
-	    id_fonction_idle = 0;
-	}
-	remplissage_liste_operations ( compte_courant );
-    }
+/* 	if ( id_fonction_idle ) */
+/* 	{ */
+/* 	    g_source_remove ( id_fonction_idle ); */
+/* 	    id_fonction_idle = 0; */
+/* 	} */
+/* 	remplissage_liste_operations ( compte_courant ); */
+/*     } */
 
-    if ( !gtk_tree_view_get_model ( GTK_TREE_VIEW (TREE_VIEW_LISTE_OPERATIONS)))
-    {
-	if ( id_fonction_idle )
-	{
-	    g_source_remove ( id_fonction_idle );
-	    id_fonction_idle = 0;
-	}
-
-	gtk_tree_view_set_model ( GTK_TREE_VIEW (TREE_VIEW_LISTE_OPERATIONS),
-				  GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ));
-	gtk_widget_realize ( TREE_VIEW_LISTE_OPERATIONS );
-	while ( g_main_iteration (FALSE));
+/*     if ( !gtk_tree_view_get_model ( GTK_TREE_VIEW (TREE_VIEW_LISTE_OPERATIONS))) */
+/*     { */
+/* 	if ( id_fonction_idle ) */
+/* 	{ */
+/* 	    g_source_remove ( id_fonction_idle ); */
+/* 	    id_fonction_idle = 0; */
+/* 	} */
+/*  */
+/* 	gtk_tree_view_set_model ( GTK_TREE_VIEW (TREE_VIEW_LISTE_OPERATIONS), */
+/* 				  GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS )); */
+/* 	gtk_widget_realize ( TREE_VIEW_LISTE_OPERATIONS ); */
+/* 	while ( g_main_iteration (FALSE)); */
 
 	/* 	on remet en place l'idle */
 
-	id_fonction_idle = g_idle_add ( (GSourceFunc) utilisation_temps_idle,
-					NULL );
-	
-    }
+/* 	id_fonction_idle = g_idle_add ( (GSourceFunc) utilisation_temps_idle, */
+/* 					NULL ); */
+/* 	 */
+/*     } */
 
     /*     on restore ou initialise la value du tree_view */
     /* 	si VALUE_AJUSTEMENT_LISTE_OPERATIONS = -1, c'est que c'est la première ouverture, on se met tout en bas */

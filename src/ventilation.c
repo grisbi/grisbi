@@ -1806,7 +1806,7 @@ void edition_operation_ventilation ( void )
 
     /* si l'opération est relevée, empêche la modif du montant */
 
-    if ( operation -> pointe == 2 )
+    if ( operation -> pointe == 3 )
     {
 	gtk_widget_set_sensitive ( widget_formulaire_ventilation[2],
 				   FALSE );
@@ -1843,7 +1843,7 @@ void edition_operation_ventilation ( void )
 
 	    if ( contre_operation
 		 &&
-		 contre_operation -> pointe == 2 )
+		 contre_operation -> pointe == 3 )
 	    {
 		gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_ventilation[0] ),
 					   FALSE );
@@ -1974,7 +1974,7 @@ void supprime_operation_ventilation ( void )
     /* si l'opération est relevée ou si c'est un virement et que la contre opération est */
     /*   relevée, on ne peut la supprimer */
 
-    if ( operation -> pointe == 2 )
+    if ( operation -> pointe == 3 )
     {
 	dialogue_error ( _("This transaction has a reconciled breakdown line, deletion canceled.") );
 	return;
@@ -1994,7 +1994,7 @@ void supprime_operation_ventilation ( void )
 
 	    if ( operation_associee
 		 &&
-		 operation_associee -> pointe == 2 )
+		 operation_associee -> pointe == 3 )
 	    {
 		dialogue_error ( _("This transfer has a reconciled contra-transaction, deletion canceled.") );
 		return;
