@@ -1,14 +1,14 @@
 Source: grisbi
-Section: utils
+Section: x11
 Priority: optional
 Maintainer: Benjamin Drieu <benj@debian.org>
-Build-Depends: debhelper (>> 3.0.0), libgnomeui-dev, libgnome2-dev, libgtk2.0-dev, libxml-dev, libgdk-pixbuf-dev, libgnomeprint2.2-dev
+Build-Depends: debhelper (>> 3.0.0), libgtk2.0-dev, libxml-dev, libgdk-pixbuf-dev
 Standards-Version: 3.5.10
 
 Package: grisbi
 Architecture: any
 Depends: ${shlibs:Depends}
-Description: Gnome-based personal financial management program
+Description: Personal financial management program
  Grisbi is a very functional personal financial management program with
  a lot of features:
  .
