@@ -1,23 +1,31 @@
-/* fichier qui barre d'outils */
-/*           barre_outils.c */
+/* ************************************************************************** */
+/* Fichier qui s'occupe de la page d'accueil ( de démarrage lors de           */
+/* l'ouverture d'un fichier de comptes                                        */
+/*                                                                            */
+/*                                  accueil.c                                 */
+/*                                                                            */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*			     2004 Benjamin Drieu (bdrieu@april.org)	      */
+/*			1995-1997 Peter Mattis, Spencer Kimball and	      */
+/*			          Jsh MacDonald				      */
+/* 			http://www.grisbi.org				      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
-/* 			http://www.grisbi.org */
-
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 
 
@@ -46,14 +54,16 @@
 #include "ventilation.h"
 #include "operations_formulaire.h"
 #include "echeancier_formulaire.h"
+#include "categories_onglet.h"
 #include "menu.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
 static void demande_expand_arbre ( GtkWidget *bouton,
-			    gint *liste );
+				   gint liste );
 static void mise_a_jour_boutons_grille ( void );
 /*END_STATIC*/
+
 
 
 /** Used to display/hide comments in scheduler list */
@@ -840,166 +850,41 @@ GtkWidget *creation_barre_outils_tiers ( void )
 
 
 
-
-
-/*******************************************************************************************/
-GtkWidget *creation_barre_outils_categ ( void )
+/**
+ * Borrowed from the Gimp Toolkit and modified.
+ *
+ */
+void set_popup_position (GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpointer user_data)
 {
-    GtkWidget *hbox, *separateur, *icone, *bouton, *handlebox, *hbox2;
+  GtkWidget *widget;
+  GtkRequisition requisition;
+  gint screen_width, menu_xpos, menu_ypos, menu_width;
 
-    hbox = gtk_hbox_new ( FALSE, 5 );
+  widget = GTK_WIDGET (user_data);
 
-    /* HandleBox */
-    handlebox = gtk_handle_box_new ();
-    gtk_box_pack_start ( GTK_BOX ( hbox ), handlebox, FALSE, FALSE, 0 );
-    /* Hbox2 */
-    hbox2 = gtk_hbox_new ( FALSE, 0 );
-    gtk_container_add ( GTK_CONTAINER(handlebox), hbox2 );
+  gtk_widget_get_child_requisition (GTK_WIDGET (menu), &requisition);
+  menu_width = requisition.width;
 
-    /* FIXME: this does not work with GTK 2.2 ! */
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), gtk_tool_button_new_from_stock(GTK_STOCK_NEW), 
-			 FALSE, FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), gtk_tool_button_new_from_stock(GTK_STOCK_OPEN), 
-			 FALSE, FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), gtk_tool_button_new_from_stock(GTK_STOCK_SAVE), 
-			 FALSE, FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), gtk_tool_button_new_from_stock(GTK_STOCK_DELETE), 
-			 FALSE, FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), gtk_tool_button_new_from_stock(GTK_STOCK_PROPERTIES), 
-			 FALSE, FALSE, 0 );
+  gdk_window_get_origin (widget->window, &menu_xpos, &menu_ypos);
 
-    /* Separator */
-    separateur = gtk_vseparator_new ();
-    gtk_box_pack_start ( GTK_BOX ( hbox ), separateur, FALSE, FALSE, 0 );
+  menu_xpos += widget->allocation.x;
+  menu_ypos += widget->allocation.y + widget->allocation.height - 2;
 
+  if (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
+    menu_xpos = menu_xpos + widget->allocation.width - menu_width;
 
-    /* bouton fermeture de l'arbre */
+  /* Clamp the position on screen */
+  screen_width = gdk_screen_get_width (gtk_widget_get_screen (widget));
+  
+  if (menu_xpos < 0)
+    menu_xpos = 0;
+  else if ((menu_xpos + menu_width) > screen_width)
+    menu_xpos -= ((menu_xpos + menu_width) - screen_width);
 
-    bouton = gtk_button_new ();
-    gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			    GTK_RELIEF_NONE );
-    gtk_object_set_data ( GTK_OBJECT ( bouton ),
-			  "profondeur",
-			  GINT_TO_POINTER ( 0 ));
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
-			   bouton,
-			   _("Close tree"),
-			   _("Close tree") );
-    icone = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) liste_0_xpm ));
-    gtk_container_add ( GTK_CONTAINER ( bouton ),
-			icone );
-    gtk_widget_set_usize ( bouton,
-			   15,
-			   15 );
-    gtk_signal_connect ( GTK_OBJECT ( bouton ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( demande_expand_arbre ),
-			 GINT_TO_POINTER (1));
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton,
-			 FALSE,
-			 FALSE,
-			 0 );
-
-    /* bouton ouverture de l'arbre niveau 1 */
-
-    bouton = gtk_button_new ();
-    gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			    GTK_RELIEF_NONE );
-    gtk_object_set_data ( GTK_OBJECT ( bouton ),
-			  "profondeur",
-			  GINT_TO_POINTER ( 1 ));
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
-			   bouton,
-			   _("Display sub-divisions"),
-			   _("Display sub-divisions") );
-    icone = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) liste_1_xpm ));
-    gtk_container_add ( GTK_CONTAINER ( bouton ),
-			icone );
-    gtk_widget_set_usize ( bouton,
-			   15,
-			   15 );
-    gtk_signal_connect ( GTK_OBJECT ( bouton ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( demande_expand_arbre ),
-			 GINT_TO_POINTER (1));
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton,
-			 FALSE,
-			 FALSE,
-			 0 );
-
-    /* bouton ouverture de l'arbre niveau 2 */
-
-    bouton = gtk_button_new ();
-    gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			    GTK_RELIEF_NONE );
-    gtk_object_set_data ( GTK_OBJECT ( bouton ),
-			  "profondeur",
-			  GINT_TO_POINTER ( 2 ));
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
-			   bouton,
-			   _("Display accounts"),
-			   _("Display accounts") );
-    icone = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) liste_2_xpm ));
-    gtk_container_add ( GTK_CONTAINER ( bouton ),
-			icone );
-    gtk_widget_set_usize ( bouton,
-			   15,
-			   15 );
-    gtk_signal_connect ( GTK_OBJECT ( bouton ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( demande_expand_arbre ),
-			 GINT_TO_POINTER (1));
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton,
-			 FALSE,
-			 FALSE,
-			 0 );
-
-    /* bouton ouverture de l'arbre niveau 3 */
-
-    bouton = gtk_button_new ();
-    gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			    GTK_RELIEF_NONE );
-    gtk_object_set_data ( GTK_OBJECT ( bouton ),
-			  "profondeur",
-			  GINT_TO_POINTER ( 3 ));
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
-			   bouton,
-			   _("Display transactions"),
-			   _("Display transactions") );
-    icone = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) liste_3_xpm ));
-    gtk_container_add ( GTK_CONTAINER ( bouton ),
-			icone );
-    gtk_widget_set_usize ( bouton,
-			   15,
-			   15 );
-    gtk_signal_connect ( GTK_OBJECT ( bouton ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( demande_expand_arbre ),
-			 GINT_TO_POINTER (1));
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton,
-			 FALSE,
-			 FALSE,
-			 0 );
-
-    separateur = gtk_vseparator_new ();
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 separateur,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show_all ( hbox );
-
-
-    return ( hbox );
+  *x = menu_xpos;
+  *y = menu_ypos;
+  *push_in = TRUE;
 }
-/*******************************************************************************************/
-
-
-
 
 
 
@@ -1154,48 +1039,16 @@ GtkWidget *creation_barre_outils_imputation ( void )
 /*******************************************************************************************/
 
 
+
 /*******************************************************************************************/
 /* étend l'arbre donné en argument en fonction du bouton cliquÃ© (profondeur contenue */
 /* dans le bouton) */
 /*******************************************************************************************/
 
 void demande_expand_arbre ( GtkWidget *bouton,
-			    gint *liste )
+			    gint liste )
 {
-    GtkWidget *ctree;
-    gint i;
-    GtkCTreeNode *noeud_selectionne;
-
-    if ( liste )
-    {
-	if ( GPOINTER_TO_INT ( liste ) == 1 )
-	    ctree = arbre_categ;
-	else
-	    ctree = arbre_imputation;
-    }
-    else
-	ctree = arbre_tiers;
-
-    gtk_clist_freeze ( GTK_CLIST ( ctree ));
-
-    /* on doit faire ça étage par étage car il y a des ajouts à chaque ouverture de noeud */
-
-    /*   récupère le noeud sélectionné, s'il n'y en a aucun, fera tout l'arbre */
-
-    noeud_selectionne = NULL;
-
-    if ( GTK_CLIST ( ctree ) -> selection )
-	noeud_selectionne = GTK_CLIST ( ctree ) -> selection -> data;
-
-    gtk_ctree_collapse_recursive ( GTK_CTREE ( ctree ),
-				   noeud_selectionne );
-
-    for ( i=0 ; i < GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( bouton ),
-							    "profondeur" )) ; i++ )
-	gtk_ctree_expand_to_depth ( GTK_CTREE ( ctree ),
-				    noeud_selectionne,
-				    i + 1);
-    gtk_clist_thaw ( GTK_CLIST ( ctree ));
+    /* FIXME: NOTHING ! */
 }
 /*******************************************************************************************/
 
