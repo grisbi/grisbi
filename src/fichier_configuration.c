@@ -352,6 +352,12 @@ void charge_configuration ( void )
 		if ( !strcmp ( node_messages -> name, "display_message_minimum_alert" ) ) {
 		    etat.display_message_minimum_alert = my_atoi(xmlNodeGetContent ( node_messages));
 		}
+		if ( !strcmp ( node_messages -> name, "last_tip" ) ) {
+		  etat.last_tip = my_atoi (xmlNodeGetContent ( node_messages ));
+		}
+		if ( !strcmp ( node_messages -> name, "show_tip" ) ) {
+		  etat.show_tip = my_atoi (xmlNodeGetContent ( node_messages ));
+		}
 		node_messages = node_messages->next;
 	    }
 	}
@@ -607,6 +613,8 @@ void raz_configuration ( void )
     etat.display_message_file_readable = 1;
 #endif
     etat.display_message_minimum_alert = 0;
+    etat.last_tip = 0;
+    etat.show_tip = FALSE;
 
     /* Commands */
     etat.latex_command = "latex";
@@ -797,6 +805,10 @@ void sauve_configuration(void)
 		  itoa(etat.display_message_file_readable));
     xmlNewChild ( node,NULL, "display_message_minimum_alert",
 		  itoa(etat.display_message_minimum_alert));
+
+    /* Sauvegarde des tips */
+    xmlNewChild ( node,NULL, "last_tip", itoa(etat.last_tip));
+    xmlNewChild ( node,NULL, "show_tip", itoa(etat.show_tip));
 
     /* sauvegarde des messages */
     node = xmlNewChild ( doc->children, NULL, "Print_config", NULL );

@@ -128,7 +128,9 @@ struct {
     guint formulaire_echeance_dans_fenetre;        /* à 1 lorsque le formulaire de l'échéancier est dans une fenetre à part */
     guint affichage_commentaire_echeancier;     /* à 1 si le commentaire est affiché */
 
-
+    /* Tips */
+    gint last_tip; 
+    gint show_tip; 
 } etat;
 
 /** Etat de rapprochement d'une opération */
@@ -725,6 +727,7 @@ enum origine_importation {
   OFX_IMPORT,
   HTML_IMPORT,
   GNUCASH_IMPORT,
+  CSV_IMPORT,
 };
 
 /* struture d'une importation : compte contient la liste des opés importées */
@@ -733,7 +736,7 @@ struct struct_compte_importation
 {
     gchar *id_compte;
 
-    enum origine_importation origine;    /* 0=qif, 1=ofx, 2=html, 3=gnucash */
+    enum origine_importation origine;    /* 0=qif, 1=ofx, 2=html, 3=gnucash, 4=csv */
 
     gchar *nom_de_compte;
     gint type_de_compte;  /* 0=OFX_CHECKING,1=OFX_SAVINGS,2=OFX_MONEYMRKT,3=OFX_CREDITLINE,4=OFX_CMA,5=OFX_CREDITCARD,6=OFX_INVESTMENT, 7=cash */
