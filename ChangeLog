@@ -1,3 +1,269 @@
+2004-12-27  Alain Portal <dionysos@grisbi.org>
+
+	* po/grisbi.pot, po/fr.po, po/es.po, po/it.po, po/de.po: Update
+	strings.  French developpers have to translate strings they
+	introduce.
+
+2004-12-27  Benjamin Drieu <bdrieu@april.org>
+
+	* NEWS: Advertise libofx change
+
+2004-12-27  Alain Portal <dionysos@grisbi.org>
+
+	* src/ofx.c: Fix compile time error.
+
+2004-12-27  Benjamin Drieu <bdrieu@april.org>
+
+	* po/Makefile.in.in: Remove gmo files as well
+
+2004-12-27  Benjamin Drieu <bdrieu@april.org>
+
+	* README: Update description and date
+
+2004-12-27  Benjamin Drieu <bdrieu@april.org>
+
+	* configure.in: Add versioned dependency
+
+2004-12-27  Benjamin Drieu <bdrieu@april.org>
+
+	* src/ofx.c: Make ofx import work with both libofx 0.6.6 and libofx
+	0.7.0
+
+2004-12-27  Benjamin Drieu <bdrieu@april.org>
+
+	* src/ofx.h: Remove include that lead to compile time errors for
+	libofx 0.7.0
+
+2004-12-27  Benjamin Drieu <bdrieu@april.org>
+
+	* src/type_operations.c: Remove spurious free()
+
+2004-12-27  Benjamin Drieu <bdrieu@april.org>
+
+	* src/etats_calculs.c: Don't consider transactions with no payment
+	method as a match (Closes: #493)
+
+2004-12-27  Benjamin Drieu <bdrieu@april.org>
+
+	* src/gnucash.c: This is silly, but honor transfers "correctly"
+	(closes: #495)
+
+2004-12-25  Flavio Henrique Somensi <flavio@opens.com.br>
+
+	* po/pt_BR.po: Translation to Brazilian Portuguese - new strings
+	translated
+
+2004-12-24  Martin Stromberger <fabiolla@aon.at>
+
+	* po/de.po: Update fuzzy and missing strings
+
+2004-12-24  Flavio Henrique Somensi <flavio@opens.com.br>
+
+	* po/pt_BR.po: Translation to Brasilian portuguese - new release
+
+2004-12-24  Francois Terrot <francois@terrot.net>
+
+	* src/ofx.c, src/ofx.h, win32/libofx/libofx.h, win32/win32libofx.c:
+	Add OFX support for Windows (libofx need to be dynamically loaded)
+
+2004-12-24  Benjamin Drieu <bdrieu@april.org>
+
+	* debian/changelog, debian/control, debian/menu, debian/rules:
+	Update Debian stuff
+
+2004-12-24  Benjamin Drieu <bdrieu@april.org>
+
+	* src/devises.c: Remove spurious g_strdup
+
+2004-12-24  Benjamin Drieu <bdrieu@april.org>
+
+	* src/etats_latex.c: Fix euro symbol breakage on some latex
+
+2004-12-24  Alain Portal <dionysos@grisbi.org>
+
+	* po/grisbi.pot, po/de.po, po/es.po, po/fr.po, po/it.po,
+	po/pt_BR.po: Update strings. fr.po uptodate.
+
+2004-12-24  Alain Portal <dionysos@grisbi.org>
+
+	* src/check.c: Indentation & comments.
+
+2004-12-23  Benjamin Drieu <bdrieu@april.org>
+
+	* src/traitement_variables.c: Unsensitive new menu item if needed
+
+2004-12-23  Benjamin Drieu <bdrieu@april.org>
+
+	* src/check.c: Improve text
+
+2004-12-23  Benjamin Drieu <bdrieu@april.org>
+
+	* src/menu.c: Simplify menu
+
+2004-12-23  Benjamin Drieu <bdrieu@april.org>
+
+	* src/check.c: Change presentation
+
+2004-12-23  Benjamin Drieu <bdrieu@april.org>
+
+	* src/equilibrage.c, src/etats_onglet.c, src/exercice.c,
+	src/export.c: Remove uneeded free()
+
+2004-12-23  Benjamin Drieu <bdrieu@april.org>
+
+	* src/gnucash.c: Use g_strfreev instead of free
+
+2004-12-23  Benjamin Drieu <bdrieu@april.org>
+
+	* src/check.c: Remove compile time warning and reorganize memory
+	liberation
+
+2004-12-23  Alain Portal <dionysos@grisbi.org>
+
+	* src/check.c: Reconciliation can don't have a number. So use date
+	instead.
+
+2004-12-23  Alain Portal <dionysos@grisbi.org>
+
+	* src/check.c: Remove unusued variable.  Add comments.
+
+2004-12-23  Alain Portal <dionysos@grisbi.org>
+
+	* po/fr.po: Fix mispelling.
+
+2004-12-23  Alain Portal <dionysos@grisbi.org>
+
+	* po/grisbi.pot, po/fr.po, po/de.po: Update strings.
+
+2004-12-23  Alain Portal <dionysos@grisbi.org>
+
+	* src/check.c: More info on reconciliation test.
+
+2004-12-23  Alain Portal <dionysos@grisbi.org>
+
+	* NEWS, README: Update.
+
+2004-12-23  Alain Portal <dionysos@grisbi.org>
+
+	* src/check.c: To be sure to free memory.
+
+2004-12-22  Alain Portal <dionysos@grisbi.org>
+
+	* src/calendar.c, src/categories_onglet.c, src/devises.c,
+	src/echeancier_formulaire.c, src/echeancier_liste.c,
+	src/echeancier_ventilation.c, src/equilibrage.c,
+	src/etats_config.c, src/etats_onglet.c, src/exercice.c,
+	src/export.c, src/fichiers_io.c, src/gnucash.c,
+	src/imputation_budgetaire.c, src/main.c,
+	src/operations_formulaire.c, src/operations_liste.c, src/qif.c,
+	src/tiers_onglet.c, src/type_operations.c, src/utils.c,
+	src/ventilation.c: Free memory when unused.
+
+2004-12-20  Alain Portal <dionysos@grisbi.org>
+
+	* po/de.po, po/fr.po, po/grisbi.pot: Update strings.
+
+2004-12-20  Alain Portal <dionysos@grisbi.org>
+
+	* src/check.c: Improve GUI. Allow user to abort test. Show test
+	result and give some tips.
+
+2004-12-20  Francois Terrot <francois@terrot.net>
+
+	* src/main.c: Prepare Grisbi for Windows to use a common GTK libs
+	installation as The Gimp does.
+
+2004-12-20  Alain Portal <dionysos@grisbi.org>
+
+	* src/export.c: Sort accounts as user choose.
+
+2004-12-20  Alain Portal <dionysos@grisbi.org>
+
+	* src/check.c: Improve GUI.
+
+2004-12-19  Martin Stromberger <fabiolla@aon.at>
+
+	* po/de.po: Update strings (7 fuzzy, 4 missing)
+
+2004-12-19  Alain Portal <dionysos@grisbi.org>
+
+	* src/operations_formulaire.c: Remove duplicate.
+
+2004-12-19  Alain Portal <dionysos@grisbi.org>
+
+	* po/grisbi.pot, po/fr.po, po/de.po: Update strings.
+
+2004-12-19  Alain Portal <dionysos@grisbi.org>
+
+	* src/Makefile.am, po/POTFILES.in: Add news files.
+
+2004-12-19  Alain Portal <dionysos@grisbi.org>
+
+	* src/menu.c: Function will be call the menu.
+
+2004-12-19  Alain Portal <dionysos@grisbi.org>
+
+	* src/check.c, src/check.h: Function to check reconcilied amount.
+
+2004-12-16  Alain Portal <dionysos@grisbi.org>
+
+	* src/operations_liste.c: New transaction fully selected.
+
+2004-12-16  Alain Portal <dionysos@grisbi.org>
+
+	* src/operations_formulaire.c: Don't fill value date in a new
+	contra-transaction.
+
+2004-12-16  Alain Portal <dionysos@grisbi.org>
+
+	* po/de.po: Update. 4 fuzzy.
+
+2004-12-16  Alain Portal <dionysos@grisbi.org>
+
+	* po/fr.po: Update, uptodate.
+
+2004-12-16  Alain Portal <dionysos@grisbi.org>
+
+	* po/grisbi.pot: Update po. 4 news strings.
+
+2004-12-16  Alain Portal <dionysos@grisbi.org>
+
+	* src/devises.c: Fix compile time warning, and bug.
+
+2004-12-16  Alain Portal <dionysos@grisbi.org>
+
+	* src/operations_formulaire.c: Fix error in contra-transaction
+	creation.
+
+2004-12-16  Alain Portal <dionysos@grisbi.org>
+
+	* autogen.sh: Add automake-1.8
+
+2004-12-15  Benjamin Drieu <bdrieu@april.org>
+
+	* src/categories_onglet.c, src/devises.c, src/devises.h,
+	src/fichier_configuration.c, src/fichiers_io.c, src/import.c,
+	src/imputation_budgetaire.c, src/parametres.c, src/parametres.h,
+	src/traitement_variables.c, src/utils.c, src/utils.h,
+	src/variables-extern.c, src/variables.c: Grisbi can now configure
+	currencies used in categ/budgetary lines/third parties totals
+
+2004-12-15  Benjamin Drieu <bdrieu@april.org>
+
+	* src/menu.c: Fix shortcuts
+
+2004-12-15  Benjamin Drieu <bdrieu@april.org>
+
+	* src/etats_latex.c: Fix encoding
+
+2004-12-15  Benjamin Drieu <bdrieu@april.org>
+
+	* src/fichiers_io.c: Fix compile time error
+
+2004-12-15  Alain Portal <dionysos@grisbi.org>
+
+	* ChangeLog: Update ChangeLog
+
 2004-12-15  Alain Portal <dionysos@grisbi.org>
 
 	* configure.in: Update to version.  Remove unfinished translation.
@@ -212,7 +478,3 @@
 
 	* src/constants.h: Switch to mozilla as the default browser.
 	Packagers will have to patch this to reflect their distribution
-
-2004-11-26  Benjamin Drieu <bdrieu@april.org>
-
-	* ChangeLog: Update changelog
