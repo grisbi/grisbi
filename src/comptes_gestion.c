@@ -1419,7 +1419,7 @@ gint recherche_banque_par_no ( struct struct_banque *banque,
 
 void modification_details_compte ( void )
 {
-
+  gint i;
 
   /* vérification que le compte a un nom */
 
@@ -1429,8 +1429,23 @@ void modification_details_compte ( void )
       return;
     }
 
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
+  /* vérification que ce nom ne soit pas déjà utilisé */
+
+  for ( i = 0; i < nb_comptes; i++)
+    {
+     if ( i == compte_courant_onglet )
+       continue;
+     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+     if ( !strcmp ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))), NOM_DU_COMPTE ))
+       {
+	dialogue( g_strdup_printf ( _("Account \"%s\" already exists!"), gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))));
+	return;
+       }
+    }
+
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
 
   /* récupération du titulaire */
 
@@ -1453,7 +1468,6 @@ void modification_details_compte ( void )
       mise_a_jour_soldes_minimaux();
       formulaire_a_zero();
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
-      
     }
 
 
@@ -1487,7 +1501,7 @@ void modification_details_compte ( void )
 					GNOME_STOCK_BUTTON_NO,
 					NULL );
 
-	  label = gtk_label_new ( g_strdup_printf ( _("Be carefull, you are changing from a currency that is in the euro zone\n(%s) to one that isn't (%s). Transactions in euros will be lost!\n\nDo you confirm this change?"), 
+	  label = gtk_label_new ( g_strdup_printf ( _("Be carefull, you are changing from a currency that is in the euro zone\n(%s) to one that isn't (%s). Transactions in euros will be lost!\n\nDo you confirm this change?"),
 						    devise_compte -> nom_devise,
 						    nouvelle_devise -> nom_devise));
 	  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue ) -> vbox ),
