@@ -3,9 +3,8 @@ How to install Grisbi :
 
 Requirements:
 
- - GTK 1.x
- - Gnome 1.x development librairies
- - libxml or libxml2
+ - GTK 2.x
+ - libxml2
 
 
 Installation steps:
@@ -18,5 +17,11 @@ Grisbi will now be installed.  Just run <prefix>/bin/grisbi and have
 fun !
 
 
+To use the print feature, make sure you have installed unicode support for
+LaTeX (http://www.unruh.de/DniQ/latex/unicode/).  Most distributions have
+unicode support already enabled or only require that you install the latex-ucs
+binary package.
+
+
  -- Grisbi development team <devel@grisbi.org>
- -- Thu Jun 26 19:48:44 CEST 2003
+
