@@ -1379,7 +1379,8 @@ void expand_selected_category ()
 	operation = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
 						  GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_categ ) -> selection ) -> data ) );
 
-	if (!operation || operation == GINT_TO_POINTER(-1))
+	if ( !operation || operation == GINT_TO_POINTER(-1) ||
+	     (gint) operation < nb_comptes ) /* Kludge attack */
 	    return;
 
 	/* si c'est une opé de ventilation, on se place sur l'opé
