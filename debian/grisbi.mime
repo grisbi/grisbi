@@ -1,1 +1,1 @@
-application/x-grisbi; grisbi;description=Grisbi file;test=test "$DISPLAY" != ""; priority=7
+application/x-grisbi; grisbi '%s';description=Grisbi file;test=test "$DISPLAY" != ""; priority=7
