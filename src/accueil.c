@@ -106,8 +106,20 @@ GtkWidget *creation_onglet_accueil ( void )
 
   utilisateur = getpwuid ( getuid () );
 
-  if ( !strlen ( nom_utilisateur = g_strdelimit ( utilisateur->pw_gecos, ",", 0 ) ) )
-    nom_utilisateur = utilisateur->pw_name;
+  if ( ! utilisateur )
+    {
+      utilisateur = getpwuid ( 65534 );
+    }
+
+  if ( utilisateur )
+    {
+      if ( !strlen ( nom_utilisateur = g_strdelimit ( utilisateur->pw_gecos, ",", 0 ) ) )
+	nom_utilisateur = utilisateur->pw_name;
+    }
+  else
+    {
+      nom_utilisateur = _("Pas d'utilisateur");
+    }
 
   label = gtk_label_new ( g_strconcat ( _("Utilisateur : "), nom_utilisateur, NULL) );
 
