@@ -221,6 +221,8 @@ void ouvrir_fichier ( void )
     gtk_file_selection_set_filename ( GTK_FILE_SELECTION ( selection_fichier ),
 				      dernier_chemin_de_travail );
 
+    gtk_file_selection_complete ( GTK_FILE_SELECTION(selection_fichier), ".gsb" );
+
     gtk_signal_connect_object ( GTK_OBJECT ( GTK_FILE_SELECTION ( selection_fichier ) -> cancel_button ),
 				"clicked",
 				GTK_SIGNAL_FUNC ( gtk_widget_destroy ),
