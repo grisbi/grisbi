@@ -3,8 +3,8 @@
 /* 			liste_operations.c                                    */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004 Alain Portal (dionysos@grisbi.org) 	      */
-/* 			http://www.grisbi.org   			      */
+/*			2003-2004 Alain Portal (dionysos@grisbi.org) 	      */
+/*			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -21,8 +21,6 @@
 /*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "include.h"
 #include "structures.h"
@@ -55,9 +53,9 @@
 				   GTK_JUSTIFY_RIGHT,
 				   GTK_JUSTIFY_RIGHT };
 
-/*******************************************************************************************/
+/******************************************************************************/
 /*  Routine qui crée la fenêtre de la liste des opé  */
-/***********************************************************************************************/
+/******************************************************************************/
 
 GtkWidget *creation_fenetre_operations ( void )
 {
@@ -76,7 +74,7 @@ GtkWidget *creation_fenetre_operations ( void )
 /* création de la barre d'outils */
 
   barre_outils = creation_barre_outils ();
-  gtk_box_pack_start ( GTK_BOX (win_operations),
+  gtk_box_pack_start ( GTK_BOX ( win_operations ),
 		       barre_outils,
 		       FALSE,
 		       FALSE,
@@ -86,7 +84,7 @@ GtkWidget *creation_fenetre_operations ( void )
   /* création du notebook des opé */
 
   notebook_listes_operations = initialisation_notebook_operations ();
-  gtk_box_pack_start ( GTK_BOX (win_operations),
+  gtk_box_pack_start ( GTK_BOX ( win_operations ),
 		       notebook_listes_operations,
 		       TRUE,
 		       TRUE,
@@ -99,7 +97,7 @@ GtkWidget *creation_fenetre_operations ( void )
 			      3,
 			      TRUE);
 
-  gtk_box_pack_start ( GTK_BOX (win_operations),
+  gtk_box_pack_start ( GTK_BOX ( win_operations ),
 		       solde_box,
 		       FALSE,
 		       FALSE,
@@ -154,16 +152,15 @@ GtkWidget *creation_fenetre_operations ( void )
 
   return (win_operations);
 }
-/*******************************************************************************************/
+/******************************************************************************/
 
-
-/*******************************************************************************************/
-/* Création du notebook des opés */
-/* c'est en fait un notebook dont chaque onglet sera une clist qui contient les opé d'un compte */
-/* il y a autant d'onglet que de comptes */
-/* cette fonction crée le notebook et initialise les variables générales utilisées par les listes */
-/*******************************************************************************************/
-
+/******************************************************************************/
+/* Création du notebook des opérations					      */
+/* C'est en fait un notebook dont chaque onglet sera une clist qui contient   */
+/* les opérations d'un compte. Il y a autant d'onglet que de comptes	      */
+/* Cette fonction crée le notebook et initialise les variables générales      */
+/* utilisées par les listes						      */
+/******************************************************************************/
 GtkWidget *initialisation_notebook_operations ( void )
 {
   GdkColor couleur1;
@@ -246,17 +243,13 @@ GtkWidget *initialisation_notebook_operations ( void )
 
   return ( notebook_listes_operations );
 }
-/*******************************************************************************************/
+/******************************************************************************/
 
-
-
-
-/*******************************************************************************************/
+/******************************************************************************/
 /* Création de la liste des opé */
 /* cette fonction crée autant d'onglets que de comptes dans le notebook */
 /* elle y met les clist et les remplit */
-/*******************************************************************************************/
-
+/******************************************************************************/
 void creation_listes_operations ( void )
 {
   gint i;
@@ -296,17 +289,17 @@ void creation_listes_operations ( void )
 			   "draw",
 			   GTK_SIGNAL_FUNC ( verification_mise_a_jour_liste ),
 			   NULL );
-       gtk_signal_connect_after ( GTK_OBJECT ( onglet ),
-			   "realize",
-			   GTK_SIGNAL_FUNC ( onglet_compte_realize ),
-			   liste );
+      gtk_signal_connect_after ( GTK_OBJECT ( onglet ),
+				 "realize",
+				 GTK_SIGNAL_FUNC ( onglet_compte_realize ),
+				 liste );
       gtk_container_add ( GTK_CONTAINER ( onglet ),
 			  liste );
       gtk_widget_show ( liste );
 
 
       /* on met les tooltips aux boutons de la clist */
-      /*       le fait de mettre des tips sur les titres rend les boutons sensitifs ; */
+      /* le fait de mettre des tips sur les titres rend les boutons sensitifs */
       /* on va détourner le click pour ne pas faire enfoncer le bouton */
 
       tooltip = gtk_tooltips_new ();
@@ -349,21 +342,21 @@ void creation_listes_operations ( void )
 
       gtk_signal_connect ( GTK_OBJECT (liste),
 			   "button_press_event",
-			   GTK_SIGNAL_FUNC (selectionne_ligne_souris),
+			   GTK_SIGNAL_FUNC ( selectionne_ligne_souris ),
 			   NULL );
 
       /*   vérifie la touche entrée, haut et bas */
 
       gtk_signal_connect ( GTK_OBJECT (liste),
 			   "key_press_event",
-			   GTK_SIGNAL_FUNC (traitement_clavier_liste),
+			   GTK_SIGNAL_FUNC ( traitement_clavier_liste ),
 			   NULL );
 
       /* attente du relachement de ctrl+p */
 
       gtk_signal_connect ( GTK_OBJECT (liste),
 			   "key_release_event",
-			   GTK_SIGNAL_FUNC (fin_ctrl),
+			   GTK_SIGNAL_FUNC ( fin_ctrl ),
 			   NULL );
 
       /* on ajoute l'onglet au notebook des comptes */
@@ -389,14 +382,14 @@ void creation_listes_operations ( void )
 		  fonte_liste,
 		  NULL );
 }
-/***************************************************************************************************/
+/******************************************************************************/
 
 
 
-/***************************************************************************************************/
+/******************************************************************************/
 /* Fonction empeche_pression_titre_colonne */
 /* permet d'éviter que le bouton s'enfonce si on clicke dessus */
-/***************************************************************************************************/
+/******************************************************************************/
 
 gint empeche_pression_titre_colonne ( GtkWidget *bouton )
 {
@@ -404,13 +397,11 @@ gint empeche_pression_titre_colonne ( GtkWidget *bouton )
 				 "button_press_event");
   return ( TRUE );
 }
-/***************************************************************************************************/
+/******************************************************************************/
 
-
-/*******************************************************************************************/
-/* Création de la liste des opé d'un nouveau compte */
-/*******************************************************************************************/
-
+/******************************************************************************/
+/* Création de la liste des opérations d'un nouveau compte */
+/******************************************************************************/
 void ajoute_nouvelle_liste_operation ( gint no_compte )
 {
   GtkWidget *onglet;
@@ -420,9 +411,8 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
-
   /*  Création de la scrolled window qui contient la clist */
-      
+
   onglet = gtk_scrolled_window_new ( NULL,
 				     NULL);
   gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( onglet ),
@@ -455,36 +445,31 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
   gtk_widget_show ( liste );
 
 
-
-  /*       le fait de mettre des tips sur les titres rend les boutons sensitifs ; */
+  /* le fait de mettre des tips sur les titres rend les boutons sensitifs ; */
   /* on va détourner le click pour ne pas faire enfoncer le bouton */
 
   tooltip = gtk_tooltips_new ();
 
-  for ( i=0 ; i<NB_COLS_TRANSACTION ; i++ )
+  for ( i=0 ; i < NB_COLS_TRANSACTION ; i++ )
     {
       gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltip ),
-			     GTK_CLIST (liste)->column[i].button,
+			     GTK_CLIST ( liste ) -> column[i].button,
 			     tips_col_liste_operations[i],
 			     tips_col_liste_operations[i] );
-      gtk_signal_connect ( GTK_OBJECT ( GTK_CLIST (liste)->column[i].button ),
+      gtk_signal_connect ( GTK_OBJECT ( GTK_CLIST ( liste ) -> column[i].button ),
 			   "button-press-event",
 			   GTK_SIGNAL_FUNC ( empeche_pression_titre_colonne ),
 			   NULL );
     }
-
 
   /* on permet la sélection de plusieurs lignes */
 
   gtk_clist_set_selection_mode ( GTK_CLIST ( liste ),
 				 GTK_SELECTION_MULTIPLE );
 
-  
   /* On annule la fonction bouton des titres */
 
-  gtk_clist_column_titles_passive ( GTK_CLIST ( liste));
-
-
+  gtk_clist_column_titles_passive ( GTK_CLIST ( liste ) );
 
   /* justification du contenu des cellules */
 
@@ -494,38 +479,34 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 					  i,
 					  col_justs[i] );
     }
-       
 
   /* vérifie le simple ou double click */
 
-  gtk_signal_connect ( GTK_OBJECT (liste),
+  gtk_signal_connect ( GTK_OBJECT ( liste ),
 		       "button_press_event",
-		       GTK_SIGNAL_FUNC (selectionne_ligne_souris),
+		       GTK_SIGNAL_FUNC ( selectionne_ligne_souris ),
 		       NULL );
-
 
   /*   vérifie la touche entrée, haut et bas */
 
-  gtk_signal_connect ( GTK_OBJECT (liste),
+  gtk_signal_connect ( GTK_OBJECT ( liste ),
 		       "key_press_event",
-		       GTK_SIGNAL_FUNC (traitement_clavier_liste),
+		       GTK_SIGNAL_FUNC ( traitement_clavier_liste ),
 		       NULL );
 
-  
   /* attente du relachement de ctrl+p */
 
-  gtk_signal_connect ( GTK_OBJECT (liste),
+  gtk_signal_connect ( GTK_OBJECT ( liste ),
 		       "key_release_event",
-		       GTK_SIGNAL_FUNC (fin_ctrl),
+		       GTK_SIGNAL_FUNC ( fin_ctrl ),
 		       NULL );
 
   /* sauvegarde les redimensionnement des colonnes */
 
-  gtk_signal_connect ( GTK_OBJECT (liste),
+  gtk_signal_connect ( GTK_OBJECT ( liste ),
 		       "resize_column",
-		       GTK_SIGNAL_FUNC (changement_taille_colonne),
+		       GTK_SIGNAL_FUNC ( changement_taille_colonne ),
 		       NULL );
-
 
   /* on ajoute l'onglet au notebook des comptes */
 
@@ -536,25 +517,19 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
   LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
 				    (GCompareFunc) classement_sliste );
 
-
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
 			     onglet,
 			     gtk_label_new ( NOM_DU_COMPTE ) );
 
-
   remplissage_liste_operations ( no_compte );
-
-     
 }
-/***************************************************************************************************/
+/******************************************************************************/
 
-
-
-/***************************************************************************************************/
+/******************************************************************************/
 /* Fonction onglet_compte_realize */
 /* appelée lorsque la liste est affichée la 1ère fois */
 /* permet de se placer en bas de toutes les opés au départ */
-/***************************************************************************************************/
+/******************************************************************************/
 
 void onglet_compte_realize ( GtkWidget *onglet,
 			     GtkWidget *liste )
@@ -565,18 +540,13 @@ void onglet_compte_realize ( GtkWidget *onglet,
 
   gtk_adjustment_set_value ( adr_ajustement,
 			     adr_ajustement -> upper -  adr_ajustement -> page_size );
-
-
 }
-/***************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-/***************************************************************************************************/
+/******************************************************************************/
 /* remplissage de la liste des opérations du compte donné en argument */
 /* par les opérations du compte courant */
-/***************************************************************************************************/
+/******************************************************************************/
 
 void remplissage_liste_operations ( gint compte )
 {
@@ -803,16 +773,14 @@ void remplissage_liste_operations ( gint compte )
 
   gtk_clist_thaw ( GTK_CLIST ( CLIST_OPERATIONS ));
 }
-/***************************************************************************************************/
+/******************************************************************************/
 
-
-
-/***************************************************************************************************/
+/******************************************************************************/
 /* Fonction recherche_contenu_cellule */
 /* prend en argument l'opération concernée */
 /* et le numéro de l'argument qu'on veut afficher (tab_affichage_ope) */
 /* renvoie la chaine à afficher ou NULL */
-/***************************************************************************************************/
+/******************************************************************************/
 
 gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 				   gint no_affichage )
@@ -1187,14 +1155,12 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
     }
   return ( NULL );
 }
-/***************************************************************************************************/
+/******************************************************************************/
 
-
-/***************************************************************************************************/
+/******************************************************************************/
 /* Fonction selectionne_ligne_souris */
 /* place la sélection sur l'opé clickée */
-/***************************************************************************************************/
-
+/******************************************************************************/
 void selectionne_ligne_souris ( GtkCList *liste,
 				GdkEventButton *evenement,
 				gpointer data)
@@ -1202,16 +1168,15 @@ void selectionne_ligne_souris ( GtkCList *liste,
   gint ligne, colonne, x, y;
 
 
-  /*   si le click se situe dans les menus, c'est qu'on redimensionne, on fait rien */
+  /* si le click se situe dans les menus, c'est qu'on redimensionne, on fait rien */
 
-  if ( evenement -> window != liste ->clist_window )
+  if ( evenement -> window != liste -> clist_window )
     return;
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
   gtk_signal_emit_stop_by_name ( GTK_OBJECT ( CLIST_OPERATIONS ),
 				 "button_press_event");
-
 
 
   /* Récupération des coordonnées de la souris */
@@ -1262,17 +1227,12 @@ void selectionne_ligne_souris ( GtkCList *liste,
     focus_a_la_liste ();
 
 }
-/***************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-
-/***************************************************************************************************/
+/******************************************************************************/
 /* Fonction traitement_clavier_liste */
 /* gère le clavier sur la clist */
-/***************************************************************************************************/
-
+/******************************************************************************/
 gboolean traitement_clavier_liste ( GtkCList *liste,
 				     GdkEventKey *evenement,
 				     gpointer origine)
@@ -1357,18 +1317,16 @@ gboolean traitement_clavier_liste ( GtkCList *liste,
 
   return FALSE;
 }
-/***************************************************************************************************/
+/******************************************************************************/
 
-
-/***************************************************************************************************/
+/******************************************************************************/
 void ctrl_press ( void )
 {
   etat.ctrl = 1;
 }
-/***************************************************************************************************/
+/******************************************************************************/
 
-
-/***************************************************************************************************/
+/******************************************************************************/
 void fin_ctrl ( GtkCList *liste_operations,
 		    GdkEventKey *evenement,
 		    gpointer origine)
@@ -1376,13 +1334,11 @@ void fin_ctrl ( GtkCList *liste_operations,
   if ( evenement->keyval == 65507 )
     etat.ctrl = 0;
 }
-/***************************************************************************************************/
+/******************************************************************************/
 
-
-
-/***************************************************************************************************/
+/******************************************************************************/
 /* Routine qui sélectionne ou désélectionne l'opération */
-/***************************************************************************************************/
+/******************************************************************************/
 
 void selectionne_ligne ( gint compte )
 {
@@ -1445,17 +1401,13 @@ void selectionne_ligne ( gint compte )
 			   0 );
     }
 }
-/***************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-
-/***************************************************************************************************/
+/******************************************************************************/
 /* Fonction edition_operation */
 /* appelée lors d'un double click sur une ligne ou entree */
 /* place l'opération sélectionnée dans le formulaire */
-/***************************************************************************************************/
+/******************************************************************************/
 
 void edition_operation ( void )
 {
@@ -1898,16 +1850,13 @@ void edition_operation ( void )
 			    -1);
   gtk_widget_grab_focus ( widget_formulaire_operations[1] );
 }
-/***************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-/***************************************************************************************************/
+/******************************************************************************/
 /* Fonction p_press */
 /* appelée lorsque la touche p est pressée sur la liste */
 /* pointe ou dépointe l'opération courante */
-/***************************************************************************************************/
+/******************************************************************************/
 
 void p_press (void)
 {
@@ -2047,18 +1996,13 @@ void p_press (void)
   update_liste_comptes_accueil ();
 
 }
-/***************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-
-
-/***************************************************************************************************/
+/******************************************************************************/
 /* Fonction r_press */
 /* appelée lorsque la touche r est pressée sur la liste */
 /* relève ou dérelève l'opération courante */
-/***************************************************************************************************/
+/******************************************************************************/
 
 void r_press (void)
 {
@@ -2071,12 +2015,10 @@ void r_press (void)
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-
   /* si on est sur l'opération vide -> on se barre */
 
   if ( OPERATION_SELECTIONNEE == GINT_TO_POINTER ( -1 ) )
     return;
-
 
   if ( OPERATION_SELECTIONNEE -> pointe == 0 )
     {
@@ -2118,22 +2060,19 @@ void r_press (void)
 			     3,
 			     NULL );
 
-
 	modification_fichier( TRUE );
       }
 
-  /*   à ce niveau, on reteste OPERATION_SELECTIONNEE car comme on a peut être déplacé */
-  /*     la sélection vers le bas, elle peut être revenue à -1 */
+  /* à ce niveau, on reteste OPERATION_SELECTIONNEE car comme on a peut être */
+  /* déplacé la sélection vers le bas, elle peut être revenue à -1 */
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
   if ( OPERATION_SELECTIONNEE == GINT_TO_POINTER ( -1 ) )
     return;
 
-  /* si c'est une ventil */
-  /* fait le tour des opés du compte pour rechercher les opés de ventil associées à */
-  /* cette ventil */
-
+  /* si c'est une ventilation, on fait le tour des opérations du compte pour */
+  /* rechercher les opérations de ventilation associées à cette ventilation */
 
   if ( OPERATION_SELECTIONNEE -> operation_ventilee )
     {
@@ -2153,21 +2092,16 @@ void r_press (void)
 	  liste_tmp = liste_tmp -> next;
 	}
     }
-
 }
-/***************************************************************************************************/
+/******************************************************************************/
 
-
-
-/********************************************************************************************************/
+/******************************************************************************/
 /*  Routine qui supprime l'opération donnée en argument */
-/****************************************************************************************************/
+/******************************************************************************/
 
 void supprime_operation ( struct structure_operation *operation )
 {
-
   gint no_compte;
-
 
   if ( operation == GINT_TO_POINTER ( -1 ) )
     return;
@@ -2184,8 +2118,9 @@ void supprime_operation ( struct structure_operation *operation )
       return;
     }
 
-  /* si l'opération est liée, on recherche l'autre opé on vire ses liaisons et on l'efface */
-  /*   sauf si elle est relevée, dans ce cas on annule tout */
+  /* si l'opération est liée, on recherche l'autre opération, */
+  /* on vire ses liaisons et on l'efface */
+  /* sauf si elle est relevée, dans ce cas on annule tout */
 
   if ( operation -> relation_no_operation && operation -> relation_no_compte != -1 )
     {
@@ -2215,8 +2150,9 @@ void supprime_operation ( struct structure_operation *operation )
 	}
     }
 
-  /* si c'est une ventilation, on fait le tour de ses opés de ventil pour vérifier qu'il */
-  /* n'y en a pas une qui est un virement vers une opération relevée */
+  /* si c'est une ventilation, on fait le tour de ses opérations */
+  /* de ventilation pour vérifier qu'il n'y en a pas une qui est un virement */
+  /* vers une opération relevée */
 
   if ( operation -> operation_ventilee )
     {
@@ -2234,7 +2170,8 @@ void supprime_operation ( struct structure_operation *operation )
 
 	  if ( ope_test -> no_operation_ventilee_associee == operation -> no_operation )
 	    {
-	      /* ope_test est une opé de ventil de l'opération à supprimer, recherche si c'est un virement */
+	      /* ope_test est une opération de ventilation de l'opération */
+	      /* à supprimer, on recherche si c'est un virement */
 
 	      if ( ope_test -> relation_no_operation )
 		{
@@ -2260,7 +2197,8 @@ void supprime_operation ( struct structure_operation *operation )
     }
 
 
-  /*   les tests sont passés, si c'est une ventilation, on vire toutes les opés associées */
+  /* les tests sont passés, si c'est une ventilation, */
+  /* on vire toutes les opérations associées */
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
@@ -2289,7 +2227,8 @@ void supprime_operation ( struct structure_operation *operation )
 	}
     }
 
-  /*   si la sélection est sur l'opé qu'on supprime, on met la sélection sur celle du dessous */
+  /* si la sélection est sur l'opération qu'on supprime, */
+  /* on met la sélection sur celle du dessous */
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
@@ -2379,32 +2318,25 @@ void supprime_operation ( struct structure_operation *operation )
   modification_fichier( TRUE );
 
 }
-/****************************************************************************************************/
+/******************************************************************************/
 
-
-/****************************************************************************************************/
-/* Fonction recherche_operation_par_no */
-/* appelée par un slist_find_custom */
-/* recherche une opé par son numéro d'opé dans la liste des opérations */
-/****************************************************************************************************/
-
+/******************************************************************************/
+/* Fonction recherche_operation_par_no					      */
+/* appelée par un slist_find_custom					      */
+/* recherche une opé par son numéro d'opé dans la liste des opérations	      */
+/******************************************************************************/
 gint recherche_operation_par_no ( struct structure_operation *operation,
 				  gint *no_ope )
 {
-
   return ( ! ( operation -> no_operation == GPOINTER_TO_INT ( no_ope ) ));
-
 }
-/****************************************************************************************************/
+/******************************************************************************/
 
-
-
-
-/* ***************************************************************************************************** */
-/* Fonction changement_taille_liste_ope */
-/* appelée dès que la taille de la clist a changé */
-/* pour mettre la taille des différentes colonnes */
-/* ***************************************************************************************************** */
+/******************************************************************************/
+/* Fonction changement_taille_liste_ope					      */
+/* appelée dès que la taille de la clist a changé			      */
+/* pour mettre la taille des différentes colonnes			      */
+/******************************************************************************/
 
 void changement_taille_liste_ope ( GtkWidget *clist,
 				   GtkAllocation *allocation,
@@ -2415,18 +2347,18 @@ void changement_taille_liste_ope ( GtkWidget *clist,
   gint col0, col1, col2, col3, col4, col5, col6;
 
 
-  /*   si la largeur de grisbi est < 700, on fait rien */
+  /* si la largeur de grisbi est < 700, on fait rien */
 
   if ( window -> allocation.width < 700 )
     return;
 
   if ( allocation )
-    largeur = allocation->width;
+    largeur = allocation -> width ;
   else
-    largeur = clist -> allocation.width;
+    largeur = clist -> allocation.width ;
 
-  /*   si la largeur est automatique, on change la largeur des colonnes */
-  /*     sinon, on y met les valeurs fixes */
+  /* si la largeur est automatique, on change la largeur des colonnes */
+  /* sinon, on y met les valeurs fixes */
 
   if ( etat.largeur_auto_colonnes )
     for ( i = 0 ; i < NB_COLS_TRANSACTION ; i++ )
@@ -2516,28 +2448,24 @@ void changement_taille_liste_ope ( GtkWidget *clist,
 			 col6,
 			 FALSE  );
 }
-/* ***************************************************************************************************** */
+/******************************************************************************/
 
-
-/* ***************************************************************************************************** */
+/******************************************************************************/
 /* Fonction focus_a_la_liste */
 /* donne le focus à la liste des opés en cours */
-/* ***************************************************************************************************** */
-
+/******************************************************************************/
 void focus_a_la_liste ( void )
 {
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
   gtk_widget_grab_focus ( GTK_WIDGET ( CLIST_OPERATIONS ) );
 }
-/* ***************************************************************************************************** */
+/******************************************************************************/
 
-
-/* ***************************************************************************************************** */
+/******************************************************************************/
 /* Fonction  demande_mise_a_jour_tous_comptes */
 /* met la variable MISE_A_JOUR de tous les comptes à 1 */
 /* ce qui fait que lorsqu'ils seront affichés, ils seront mis à jour avant */
-/* ***************************************************************************************************** */
-
+/******************************************************************************/
 void demande_mise_a_jour_tous_comptes ( void )
 {
   gint i;
@@ -2554,15 +2482,13 @@ void demande_mise_a_jour_tous_comptes ( void )
 
   p_tab_nom_de_compte_variable = save_p_tab;
 }
-/* ***************************************************************************************************** */
+/******************************************************************************/
 
-
-/* ***************************************************************************************************** */
+/******************************************************************************/
 /* Fonction verification_mise_a_jour_liste */
 /* appelée à chaque affichage de la liste */
 /* vérifie que la liste ne doit pas être réaffichée */
-/* ***************************************************************************************************** */
-
+/******************************************************************************/
 void verification_mise_a_jour_liste ( void )
 {
   GtkAdjustment *ajustement;
@@ -2620,15 +2546,12 @@ void verification_mise_a_jour_liste ( void )
       }
   MISE_A_JOUR = 0;
 }
-/* ***************************************************************************************************** */
+/******************************************************************************/
 
-
-
-/* ***************************************************************************************************** */
+/******************************************************************************/
 /* Fonction mise_a_jour_solde */
 /* recalcule le solde du compte demandé */
-/* ***************************************************************************************************** */
-
+/******************************************************************************/
 void mise_a_jour_solde ( gint compte )
 {
   gdouble solde_courant;
@@ -2688,15 +2611,13 @@ void mise_a_jour_solde ( gint compte )
   pour le solde pointé. C'est donc à vérifier */
   SOLDE_POINTE = solde_pointe;
 }
-/* ***************************************************************************************************** */
+/******************************************************************************/
 
-
-/* ***************************************************************************************************** */
+/******************************************************************************/
 /* Fonction verifie_ligne_selectionnee_visible */
-/* appelée lorsqu'on édite une opé et que le formulaire n'était pas visible, pour */
-/* éviter que la ligne éditée se retrouve hors du champ de vision */
-/* ***************************************************************************************************** */
-
+/* appelée lorsqu'on édite une opé et que le formulaire n'était pas visible, */
+/* pour éviter que la ligne éditée se retrouve hors du champ de vision */
+/******************************************************************************/
 void verifie_ligne_selectionnee_visible ( void )
 {
 
@@ -2706,14 +2627,13 @@ void verifie_ligne_selectionnee_visible ( void )
 				  GTK_SIGNAL_FUNC ( verifie_ligne_selectionnee_visible ),
 				  NULL );
 }
-/* ***************************************************************************************************** */
-					  
+/******************************************************************************/
 
-/* ***************************************************************************************************** */
+/******************************************************************************/
 void changement_taille_colonne ( GtkWidget *clist,
 				 gint colonne,
 				 gint largeur )
 {
   taille_largeur_colonnes[colonne] = largeur;
 }
-/* ***************************************************************************************************** */
+/******************************************************************************/
