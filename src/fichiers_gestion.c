@@ -43,6 +43,7 @@
 #include "dialog.h"
 #include "erreur.h"
 #include "utils_file_selection.h"
+#include "data_account.h"
 #include "traitement_variables.h"
 #include "main.h"
 #include "utils_files.h"
@@ -490,7 +491,7 @@ void ouverture_confirmee ( void )
     gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), AFFICHAGE_R );
 
     /* On met à jour le contrôle dans le menu du nombre de lignes affichées */
-    switch ( NB_LIGNES_OPE )
+    switch ( gsb_account_get_nb_rows ( compte_courant ) )
       {
       case 1 :
 	item_name = menu_name ( _("View"), _("Show one line per transaction"), NULL );

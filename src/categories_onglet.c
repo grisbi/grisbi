@@ -78,10 +78,6 @@ gint nb_enregistrements_categories, no_derniere_categorie;
 
 gint mise_a_jour_combofix_categ_necessaire;
 
-/* buffers */
-gfloat *tab_montant_categ, **tab_montant_sous_categ;
-gint *nb_ecritures_par_categ, **nb_ecritures_par_sous_categ;
-
 /* Category tree model & view */
 GtkTreeStore * categ_tree_model;
 GtkWidget *arbre_categ;

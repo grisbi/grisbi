@@ -38,10 +38,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gint classement_sliste_par_auto_man ( struct structure_operation *operation_1,
-				      struct structure_operation *operation_2 );
-static gint classement_sliste_par_devise ( struct structure_operation *operation_1,
-				     struct structure_operation *operation_2 );
 /*END_STATIC*/
 
 
@@ -346,50 +342,6 @@ gint classement_sliste_par_montant ( struct structure_operation *operation_1,
 
 
 
-/* ************************************************************************** */
-/* classement opérations par devise */
-/* retour = -1 si operation_1 doit être placée en 1er */
-/* ************************************************************************** */
-gint classement_sliste_par_devise ( struct structure_operation *operation_1,
-				     struct structure_operation *operation_2 )
-{
-    gint retour;
-    gchar *devise_1, *devise_2;
-
-    devise_1 = devise_code_by_no ( operation_1 -> devise );
-    devise_2 = devise_code_by_no ( operation_2 -> devise );
-
-    if ( devise_1 )
-    {
-	if ( devise_2 )
-	    retour = my_strcmp ( devise_1,
-			      devise_2 );
-	else
-	    retour = -1;
-    }
-    else
-    {
-	if ( devise_2 )
-	    retour = 1;
-	else
-	    retour = 0;
-    }
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
-    if ( CLASSEMENT_CROISSANT )
-	retour = retour;
-    else
-	retour = -retour;
-
-    if ( retour )
-	return ( retour );
-    else
-	return ( classement_sliste_par_date ( operation_1, operation_2 ));
-	    
-}
-/* ************************************************************************** */
-
-
 
 /* ************************************************************************** */
 /* classement opérations par tiers */
@@ -608,33 +560,6 @@ gint classement_sliste_par_notes ( struct structure_operation *operation_1,
 }
 /* ************************************************************************** */
 
-
-
-/* ************************************************************************** */
-/* classement opérations par auto/man */
-/* retour = -1 si operation_1 doit être placée en 1er */
-/* on met les opérations automatiques en 1er */
-/* ************************************************************************** */
-gint classement_sliste_par_auto_man ( struct structure_operation *operation_1,
-				      struct structure_operation *operation_2 )
-{
-    gint retour;
-
-    retour = operation_2 ->  auto_man - operation_1 -> auto_man;
-
-     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
-    if ( CLASSEMENT_CROISSANT )
-	retour = retour;
-    else
-	retour = -retour;
-
-   if ( retour )
-	return ( retour );
-    else
-	return ( classement_sliste_par_date ( operation_1, operation_2 ));
-	    
-}
-/* ************************************************************************** */
 
 
 

@@ -40,6 +40,7 @@ struct recuperation_version
 #include "imputation_budgetaire.h"
 #include "utils_devises.h"
 #include "dialog.h"
+#include "data_account.h"
 #include "utils_str.h"
 #include "main.h"
 #include "traitement_variables.h"
@@ -416,14 +417,15 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
 		affichage_r = AFFICHAGE_R;
-		nb_lignes_ope = NB_LIGNES_OPE;
+		nb_lignes_ope = gsb_account_get_nb_rows ( compte_courant );
 
 		for ( i=0 ; i<nb_comptes ; i++ )
 		{
 		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
 		    AFFICHAGE_R = affichage_r;
-		    NB_LIGNES_OPE = nb_lignes_ope;
+		    gsb_account_set_nb_rows ( i, 
+					      nb_lignes_ope );
 		}
 	    } 
 
@@ -892,6 +894,7 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 		       "Compte" ))
 	{
 	    xmlNodePtr node_nom_comptes;
+	    gint no_compte;
 
 	    /* normalement p_tab_nom_de_compte_variable est dejà place */
 
@@ -899,6 +902,9 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 	    *p_tab_nom_de_compte_variable = calloc ( 1,
 						     sizeof (struct donnees_compte));
+	    /* FIXME : il faut mettre le no compte */
+
+	    no_compte = 0;
 
 	    /* on fait le tour dans l'arbre nom, cad : les details, details de type et details des operations */
 
@@ -1013,7 +1019,8 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Nb_lignes_ope" ))
-				NB_LIGNES_OPE = my_atoi ( xmlNodeGetContent ( node_detail ));
+				gsb_account_set_nb_rows ( no_compte, 
+							  my_atoi ( xmlNodeGetContent ( node_detail )));
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Commentaires" ))
@@ -3314,7 +3321,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Nb_lignes_ope",
-			  itoa ( NB_LIGNES_OPE ));
+			  itoa ( gsb_account_get_nb_rows ( i )));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,

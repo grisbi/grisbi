@@ -47,7 +47,6 @@ static gpointer gsb_account_find_sort_by_no ( gint sort_number );
 static struct struct_account *gsb_account_get_structure ( gint no );
 static gint gsb_account_last_number ( void );
 static gint gsb_account_new ( kind_account account_type );
-static gint gsb_account_take_nb_rows ( gint no_account );
 static gint gsb_account_take_r( gint no_account );
 /*END_STATIC*/
 
@@ -183,7 +182,7 @@ gint gsb_account_new ( kind_account account_type )
     else
     {
 	account -> show_r = gsb_account_take_r ( gsb_account_last_number ());
-	account -> nb_rows_by_transaction = gsb_account_take_nb_rows ( gsb_account_last_number ());
+	account -> nb_rows_by_transaction = gsb_account_get_nb_rows ( gsb_account_last_number ());
 	account -> form_organization = gsb_form_dup_organization ( gsb_account_get_structure (gsb_account_last_number ()) -> form_organization );
     }
 
@@ -263,7 +262,7 @@ gpointer gsb_account_find_sort_by_no ( gint sort_number )
  * \param no_account no of the account
  * \return nb of rows displayed or 0 if the account doesn't exist
  * */
-gint gsb_account_take_nb_rows ( gint no_account )
+gint gsb_account_get_nb_rows ( gint no_account )
 {
     struct struct_account *account;
 
@@ -273,6 +272,32 @@ gint gsb_account_take_nb_rows ( gint no_account )
 	return 0;
 
     return account -> nb_rows_by_transaction;
+}
+
+
+/** take the nb of rows displayed on the account given
+ * \param no_account no of the account
+ * \param nb_rows number of rows per transaction (1, 2, 3 or 4)
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_nb_rows ( gint no_account,
+				   gint nb_rows )
+{
+    struct struct_account *account;
+
+    if ( nb_rows < 1
+	 ||
+	 nb_rows > 4 )
+	return FALSE;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> nb_rows_by_transaction = nb_rows;
+
+    return TRUE;
 }
 
 

@@ -38,6 +38,7 @@
 #include "operations_liste.h"
 #include "dialog.h"
 #include "utils_dates.h"
+#include "data_account.h"
 #include "calendar.h"
 #include "utils_str.h"
 #include "traitement_variables.h"
@@ -673,8 +674,9 @@ void equilibrage ( void )
 
     /*     on affiche les opés sur 1 ligne */
 
-    ancien_nb_lignes_ope = NB_LIGNES_OPE;
-    NB_LIGNES_OPE = 1;
+    ancien_nb_lignes_ope = gsb_account_get_nb_rows ( compte_courant );
+    gsb_account_set_nb_rows ( compte_courant, 
+			      1 );
     mise_a_jour_affichage_lignes ( 1 );
 
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
@@ -779,7 +781,8 @@ gboolean annuler_equilibrage ( void )
 
     /*     on restaure la config de l'utilisateur */
 
-    NB_LIGNES_OPE = ancien_nb_lignes_ope;
+    gsb_account_set_nb_rows ( compte_courant, 
+			      ancien_nb_lignes_ope );
     mise_a_jour_affichage_lignes ( ancien_nb_lignes_ope );
 
     AFFICHAGE_R = ancien_r_modifiable;

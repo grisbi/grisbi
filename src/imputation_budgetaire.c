@@ -89,10 +89,6 @@ GSList *liste_struct_imputation;    /* liste des structures de catég */
 GSList *liste_imputations_combofix;        /*  liste des noms des imputation et sous imputation pour le combofix */
 gint nb_enregistrements_imputations;        /* nombre de catégories */
 gint no_derniere_imputation;
-gfloat *tab_montant_imputation;             /* buffer */
-gfloat **tab_montant_sous_imputation;            /* buffer */
-gint *nb_ecritures_par_imputation;           /* buffer */
-gint **nb_ecritures_par_sous_imputation;           /* buffer */
 gint mise_a_jour_combofix_imputation_necessaire;
 gint no_devise_totaux_ib;
 

@@ -41,6 +41,7 @@
 #include "devises.h"
 #include "dialog.h"
 #include "equilibrage.h"
+#include "data_account.h"
 #include "calendar.h"
 #include "utils_dates.h"
 #include "gtk_combofix.h"
@@ -3891,7 +3892,7 @@ void affiche_cache_le_formulaire ( void )
 	ajustement = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ));
 	
 	position_ligne_selectionnee = ( cherche_ligne_operation ( OPERATION_SELECTIONNEE )
-					+ NB_LIGNES_OPE ) * hauteur_ligne_liste_opes;
+					+ gsb_account_get_nb_rows ( compte_courant ) ) * hauteur_ligne_liste_opes;
 
 	if ( position_ligne_selectionnee  > (ajustement->value + ajustement->page_size))
 	    gtk_adjustment_set_value ( ajustement,

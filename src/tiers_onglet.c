@@ -85,17 +85,7 @@ GSList *liste_tiers_combofix;
 
 GSList *liste_tiers_combofix_echeancier;
 
-/* contient la date du dernier tiers lors de l'affichage de chaque tiers */
-
-GDate **date_dernier_tiers;
-
 gint no_devise_totaux_tiers;
-
-/* variable tampon */
-
-gint *nb_ecritures_par_tiers;
-
-gint nb_ecritures_par_comptes;
 
 GtkWidget *payee_tree;
 GtkTreeStore *payee_tree_model;

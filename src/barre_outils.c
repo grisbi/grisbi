@@ -40,10 +40,10 @@
 #include "./xpm/ope_avec_r.xpm"
 #include "./xpm/image_fleche_haut.xpm"
 #include "./xpm/image_fleche_bas.xpm"
-#include "./xpm/liste_0.xpm"
-#include "./xpm/liste_1.xpm"
-#include "./xpm/liste_2.xpm"
-#include "./xpm/liste_3.xpm"
+/* #include "./xpm/liste_0.xpm" */
+/* #include "./xpm/liste_1.xpm" */
+/* #include "./xpm/liste_2.xpm" */
+/* #include "./xpm/liste_3.xpm" */
 #include "./xpm/comments.xpm"
 #include "./xpm/grille.xpm"
 
@@ -54,13 +54,12 @@
 #include "ventilation.h"
 #include "operations_formulaire.h"
 #include "echeancier_formulaire.h"
+#include "data_account.h"
 #include "menu.h"
 #include "traitement_variables.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void demande_expand_arbre ( GtkWidget *bouton,
-			    gint liste );
 static void mise_a_jour_boutons_grille ( void );
 /*END_STATIC*/
 
@@ -727,19 +726,6 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 
 
 /*******************************************************************************************/
-/* étend l'arbre donné en argument en fonction du bouton cliquÃ© (profondeur contenue */
-/* dans le bouton) */
-/*******************************************************************************************/
-
-void demande_expand_arbre ( GtkWidget *bouton,
-			    gint liste )
-{
-    /* FIXME: NOTHING ! */
-}
-/*******************************************************************************************/
-
-
-/*******************************************************************************************/
 /* cette fonction met les boutons du nb lignes par opé et de l'affichage de R en fonction du compte */
 /* envoyé en argument */
 /*******************************************************************************************/
@@ -763,7 +749,7 @@ void mise_a_jour_boutons_caract_liste ( gint no_compte )
     g_signal_handlers_block_by_func ( G_OBJECT ( bouton_ope_lignes[3] ),
 				      G_CALLBACK ( change_aspect_liste ),
 				      GINT_TO_POINTER (4));
-    switch ( NB_LIGNES_OPE )
+    switch ( gsb_account_get_nb_rows ( no_compte ) )
     {
 	case 1:
 	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_lignes[0] ),

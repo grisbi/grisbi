@@ -49,7 +49,6 @@ extern gint nb_colonnes;
 
 
 FILE * html_out;
-gchar * html_tempname;
 int html_lastline;
 int html_lastcol;
 gboolean html_last_is_hsep;

@@ -61,6 +61,7 @@ struct structure_position_solde
 #include "echeancier_liste.h"
 #include "equilibrage.h"
 #include "configuration.h"
+#include "data_account.h"
 #include "format.h"
 #include "gtk_combofix.h"
 #include "utils_str.h"
@@ -929,7 +930,7 @@ void ajoute_operations_compte_dans_list_store ( gint compte,
 
     /* affiche la ligne blanche du bas */
 
-    for ( j = 0 ; j < NB_LIGNES_OPE ; j++ )
+    for ( j = 0 ; j < gsb_account_get_nb_rows ( compte ) ; j++ )
     {
 	/* on met à NULL tout les pointeurs */
 
@@ -981,13 +982,13 @@ void remplit_ligne_operation ( struct structure_operation *operation,
 
 	if ( !i 
 	     ||
-	     NB_LIGNES_OPE == 4
+	     gsb_account_get_nb_rows ( operation -> no_compte ) == 4
 	     ||
 	     ( ( i == 1 || i == 2 )
 	       &&
-	       NB_LIGNES_OPE == 3 )
+	       gsb_account_get_nb_rows ( operation -> no_compte ) == 3 )
 	     ||
-	     ( i == 1 && NB_LIGNES_OPE == 2 ))
+	     ( i == 1 && gsb_account_get_nb_rows ( operation -> no_compte ) == 2 ))
 	{
 	    gint ligne_affichee;
 
@@ -1031,10 +1032,10 @@ void remplit_ligne_operation ( struct structure_operation *operation,
 		}
 	    }
 
-	    /*  en fonction de i (la ligne en cours) et NB_LIGNES_OPE, on retrouve la ligne qu'il faut */
+	    /*  en fonction de i (la ligne en cours) et du nb de lignes par opé, on retrouve la ligne qu'il faut */
 	    /* afficher selon les configurations */
 
-	    switch ( NB_LIGNES_OPE )
+	    switch ( gsb_account_get_nb_rows ( operation -> no_compte ))
 	    {
 		case 1:
 		    ligne_affichee = ligne_affichage_une_ligne;
@@ -1459,7 +1460,7 @@ void update_couleurs_background ( gint compte,
 	result_iter = 1;
 	iter = iter_debut;
 	couleur_en_cours =( my_atoi ( gtk_tree_model_get_string_from_iter ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
-									   iter )) / NB_LIGNES_OPE ) % 2;
+									   iter )) / gsb_account_get_nb_rows ( compte ) ) % 2;
     }
     else
     {
@@ -1474,7 +1475,7 @@ void update_couleurs_background ( gint compte,
     {
 	gint i;
 
-	for ( i=0 ; i<NB_LIGNES_OPE ; i++ )
+	for ( i=0 ; i<gsb_account_get_nb_rows ( compte ) ; i++ )
 	{
 	    if ( result_iter )
 	    {
@@ -1526,7 +1527,7 @@ void update_soldes_list_store ( gint compte,
     
     if ( position_solde -> ligne == -1 
 	 ||
-	 position_solde -> ligne >= NB_LIGNES_OPE )
+	 position_solde -> ligne >= gsb_account_get_nb_rows ( compte ))
     {
 	/* 	le solde n'est pas affiché, on peut repartir */
 	AFFICHAGE_SOLDE_FINI = 1;
@@ -1550,7 +1551,7 @@ void update_soldes_list_store ( gint compte,
 	/* 	on reprend le solde au niveau de l'opé précédente */
 
 	ligne_solde_precedent = my_atoi ( gtk_tree_model_get_string_from_iter ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
-										iter )) - NB_LIGNES_OPE + position_solde -> ligne;
+										iter )) - gsb_account_get_nb_rows ( compte ) + position_solde -> ligne;
 
 	/* 	si on est sur la première ligne, on reprend le solde du début */
 
@@ -1631,7 +1632,7 @@ void update_soldes_list_store ( gint compte,
 
 	/* 	on se place sur la prochaine opé */
 
-	for ( i=0 ; i<(NB_LIGNES_OPE - position_solde -> ligne ) ; i++ )
+	for ( i=0 ; i<(gsb_account_get_nb_rows ( compte ) - position_solde -> ligne ) ; i++ )
 	    result_iter = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
 						     iter );
    }
@@ -1789,7 +1790,7 @@ gboolean selectionne_ligne_souris ( GtkWidget *tree_view,
     /* Récupération de la 1ère ligne de l'opération cliquée */
 
     ligne = my_atoi ( gtk_tree_path_to_string ( path ));
-    ligne = ligne / NB_LIGNES_OPE * NB_LIGNES_OPE;
+    ligne = ligne / gsb_account_get_nb_rows ( compte_courant ) * gsb_account_get_nb_rows ( compte_courant );
 
     selectionne_ligne( cherche_operation_from_ligne ( ligne,
 						      compte_courant ));
@@ -1824,7 +1825,7 @@ gboolean selectionne_ligne_souris ( GtkWidget *tree_view,
 
     if ( etat.equilibrage &&
 	 colonne == find_p_r_col() &&
-	 !(ligne % NB_LIGNES_OPE) )
+	 !(ligne % gsb_account_get_nb_rows ( compte_courant )) )
 	pointe_equilibrage ( ligne );
 
     /* si on a cliqué sur la colonne P/R alors que la touche CTRL
@@ -1872,7 +1873,7 @@ gboolean traitement_clavier_liste ( GtkWidget *widget_variable,
 	    ligne_selectionnee = cherche_ligne_operation ( OPERATION_SELECTIONNEE );
 
 	    if ( ligne_selectionnee )
-		selectionne_ligne ( cherche_operation_from_ligne ( ligne_selectionnee - NB_LIGNES_OPE,
+		selectionne_ligne ( cherche_operation_from_ligne ( ligne_selectionnee - gsb_account_get_nb_rows ( compte_courant ),
 								   compte_courant ));
 	    break;
 
@@ -1883,8 +1884,8 @@ gboolean traitement_clavier_liste ( GtkWidget *widget_variable,
 
 	    if ( ligne_selectionnee
 		 !=
-		 (GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS )))->length - NB_LIGNES_OPE))
-		selectionne_ligne ( cherche_operation_from_ligne ( ligne_selectionnee + NB_LIGNES_OPE,
+		 (GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS )))->length - gsb_account_get_nb_rows ( compte_courant )))
+		selectionne_ligne ( cherche_operation_from_ligne ( ligne_selectionnee + gsb_account_get_nb_rows ( compte_courant ),
 								   compte_courant ));
 	    break;
 
@@ -1959,7 +1960,7 @@ void selectionne_ligne ( struct structure_operation *nouvelle_operation_selectio
 
 	/* 	iter est maintenant positionné sur la 1ère ligne de l'opé à désélectionner */
 
-	for ( i=0 ; i<NB_LIGNES_OPE ; i++ )
+	for ( i=0 ; i<gsb_account_get_nb_rows ( nouvelle_operation_selectionnee -> no_compte ) ; i++ )
 	{
 	    gtk_tree_model_get ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
 				 iter,
@@ -1985,7 +1986,7 @@ void selectionne_ligne ( struct structure_operation *nouvelle_operation_selectio
 
     /* 	iter est maintenant positionnÃ© sur la 1ère ligne de l'opÃ© à sélectionner */
 
-    for ( i=0 ; i<NB_LIGNES_OPE ; i++ )
+    for ( i=0 ; i<gsb_account_get_nb_rows ( nouvelle_operation_selectionnee -> no_compte ) ; i++ )
     {
 	gtk_tree_model_get ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
 			     iter,
@@ -2041,9 +2042,9 @@ void ajuste_scrolling_liste_operations_a_selection ( gint compte )
 	gtk_adjustment_set_value ( GTK_ADJUSTMENT ( v_adjustment ),
 				   y_ligne );
     else
-	if ( (y_ligne + hauteur_ligne_liste_opes*NB_LIGNES_OPE ) > ( v_adjustment -> value + v_adjustment -> page_size ))
+	if ( (y_ligne + hauteur_ligne_liste_opes*gsb_account_get_nb_rows ( compte ) ) > ( v_adjustment -> value + v_adjustment -> page_size ))
 	    gtk_adjustment_set_value ( GTK_ADJUSTMENT ( v_adjustment ),
-				       y_ligne + hauteur_ligne_liste_opes*NB_LIGNES_OPE - v_adjustment -> page_size );
+				       y_ligne + hauteur_ligne_liste_opes*gsb_account_get_nb_rows ( compte ) - v_adjustment -> page_size );
 
 }
 /******************************************************************************/
@@ -2755,7 +2756,7 @@ void r_press (void)
 	{
 	    /*  l'opération va disparaitre, on met donc la sélection sur l'opé suivante */
 
-	    OPERATION_SELECTIONNEE = cherche_operation_from_ligne ( cherche_ligne_operation ( OPERATION_SELECTIONNEE ) + NB_LIGNES_OPE,
+	    OPERATION_SELECTIONNEE = cherche_operation_from_ligne ( cherche_ligne_operation ( OPERATION_SELECTIONNEE ) + gsb_account_get_nb_rows ( compte_courant ),
 								compte_courant );
  	    remplissage_liste_operations ( compte_courant );
  	}
@@ -2929,10 +2930,10 @@ void supprime_operation ( struct structure_operation *operation )
 	/* on met la sélection sur celle du dessous */
 
 	if ( OPERATION_SELECTIONNEE == operation )
-	    OPERATION_SELECTIONNEE = cherche_operation_from_ligne ( cherche_ligne_operation ( OPERATION_SELECTIONNEE ) + NB_LIGNES_OPE,
+	    OPERATION_SELECTIONNEE = cherche_operation_from_ligne ( cherche_ligne_operation ( OPERATION_SELECTIONNEE ) + gsb_account_get_nb_rows ( operation -> no_compte ),
 								    operation -> no_compte );
 
-	for ( i=0 ; i<NB_LIGNES_OPE ; i++ )
+	for ( i=0 ; i<gsb_account_get_nb_rows ( operation -> no_compte ) ; i++ )
 	    gtk_list_store_remove ( GTK_LIST_STORE ( STORE_LISTE_OPERATIONS ),
 				    iter );
 
@@ -3457,10 +3458,10 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
 	/* on met la sélection sur celle du dessous */
 
 	if ( OPERATION_SELECTIONNEE == transaction )
-	    OPERATION_SELECTIONNEE = cherche_operation_from_ligne ( cherche_ligne_operation ( OPERATION_SELECTIONNEE ) + NB_LIGNES_OPE,
+	    OPERATION_SELECTIONNEE = cherche_operation_from_ligne ( cherche_ligne_operation ( OPERATION_SELECTIONNEE ) + gsb_account_get_nb_rows ( transaction -> no_compte ),
 								    transaction -> no_compte );
 
-	for ( i=0 ; i<NB_LIGNES_OPE ; i++ )
+	for ( i=0 ; i<gsb_account_get_nb_rows ( transaction -> no_compte ) ; i++ )
 	    gtk_list_store_remove ( GTK_LIST_STORE ( STORE_LISTE_OPERATIONS ),
 				    iter );
 
@@ -3761,7 +3762,7 @@ gboolean affichage_traits_liste_operation ( void )
     {
 	adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ));
 
-	y = ( hauteur_ligne_liste_opes * NB_LIGNES_OPE ) * ( ceil ( adjustment->value / (hauteur_ligne_liste_opes* NB_LIGNES_OPE) )) - adjustment -> value;
+	y = ( hauteur_ligne_liste_opes * gsb_account_get_nb_rows ( compte_courant ) ) * ( ceil ( adjustment->value / (hauteur_ligne_liste_opes* gsb_account_get_nb_rows ( compte_courant )) )) - adjustment -> value;
 
 	do
 	{
@@ -3769,7 +3770,7 @@ gboolean affichage_traits_liste_operation ( void )
 			    gc_separateur_operation,
 			    0, y, 
 			    largeur, y );
-	    y = y + hauteur_ligne_liste_opes*NB_LIGNES_OPE;
+	    y = y + hauteur_ligne_liste_opes*gsb_account_get_nb_rows ( compte_courant );
 	}
 	while ( y < ( adjustment -> page_size )
 		&&
@@ -4075,16 +4076,16 @@ void my_list_store_sort ( gint no_compte,
 
     /*     on réalise le lien pos[nouvelle_ligne] = ancienne_ligne */
 
-    for ( i=0 ; i<(longueur-NB_LIGNES_OPE) ; i++ )
+    for ( i=0 ; i<(longueur-gsb_account_get_nb_rows ( no_compte )) ; i++ )
 	pos[i]= g_slist_index ( liste_avant_classement,
 				g_slist_nth_data ( liste_apres_classement,
-						   i/NB_LIGNES_OPE ))
-	    * NB_LIGNES_OPE + (i%NB_LIGNES_OPE);
+						   i/gsb_account_get_nb_rows ( no_compte ) ))
+	    * gsb_account_get_nb_rows ( no_compte ) + (i%gsb_account_get_nb_rows ( no_compte ));
     
 
     /*     ajout de la ligne blanche à la fin */
 
-    for ( i= longueur-NB_LIGNES_OPE ; i<longueur ; i++ )
+    for ( i= longueur-gsb_account_get_nb_rows ( no_compte ) ; i<longueur ; i++ )
 	pos[i] = i;
 
 
@@ -4327,11 +4328,11 @@ void mise_a_jour_affichage_r ( gint affichage_r )
 		    if ( operation != GINT_TO_POINTER (-1)
 			 &&
 			 operation -> pointe == 3 )
-			for ( j=0 ; j<NB_LIGNES_OPE ; j++ )
+			for ( j=0 ; j<gsb_account_get_nb_rows ( i ) ; j++ )
 			    gtk_list_store_remove ( GTK_LIST_STORE ( STORE_LISTE_OPERATIONS ),
 						    iter );
 		    else
-			for ( j=0 ; j<NB_LIGNES_OPE ; j++ )
+			for ( j=0 ; j<gsb_account_get_nb_rows ( i ) ; j++ )
 			    iter_valide = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
 								     iter );
 		}
@@ -4376,13 +4377,13 @@ void mise_a_jour_affichage_lignes ( gint nb_lignes )
     GSList *ordre_lignes_nouvelle_liste_pour_classement;
 
 
-    /*     si nb_lignes = NB_LIGNES_OPE on ne change rien */
+    /*     si nb_lignes = le nb de lignes par opé du compte courant on ne change rien */
     /* 	on vérifie sur le compte courant car soit c'est sur ce compte */
     /* 	qu'on travaille, soit tous les autres comptes ont la mÃªme valeur */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
-    if ( nb_lignes == NB_LIGNES_OPE )
+    if ( nb_lignes == gsb_account_get_nb_rows ( compte_courant ) )
 	return;
 
     if ( DEBUG )
@@ -4392,7 +4393,7 @@ void mise_a_jour_affichage_lignes ( gint nb_lignes )
     /*     on va créer de suite 2 liste par défaut : la liste des lignes affichées et la liste */
     /* 	des lignes à afficher */
 
-    switch ( NB_LIGNES_OPE )
+    switch ( gsb_account_get_nb_rows ( compte_courant ) )
     {
 	case 1:
 	    liste_lignes_affichees = g_slist_append ( NULL,
@@ -4562,7 +4563,7 @@ void mise_a_jour_affichage_lignes ( gint nb_lignes )
 	    nb_reste_lignes_blanches = nb_lignes;
 	    ligne_en_cours = 0;
 
-	    pos = malloc ( (GTK_LIST_STORE ( STORE_LISTE_OPERATIONS ) -> length) / NB_LIGNES_OPE * nb_lignes * sizeof (gint));
+	    pos = malloc ( (GTK_LIST_STORE ( STORE_LISTE_OPERATIONS ) -> length) / gsb_account_get_nb_rows ( i ) * nb_lignes * sizeof (gint));
 
 	    iter_valide = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
 							  iter );
@@ -4591,7 +4592,7 @@ void mise_a_jour_affichage_lignes ( gint nb_lignes )
 		    /* vérifier si la ligne qu'il contient est à virer/écraser ou */
 		    /* à garder */
 
-		    for ( j=0 ; j<NB_LIGNES_OPE ; j++ )
+		    for ( j=0 ; j<gsb_account_get_nb_rows ( i ) ; j++ )
 		    {
 			gint no_ligne_affichee;
 
@@ -4723,18 +4724,19 @@ void mise_a_jour_affichage_lignes ( gint nb_lignes )
 
 	    free (pos);
 
-	    /* 	    on a fini ce compte, on peut y mettre NB_LIGNES_OPE */
+	    /* 	    on a fini ce compte, on peut y mettre le nb de lignes par opé */
 	    /* 		et remettre les couleurs du fond */
 	    /* 	    pour les soldes, si on a voulu afficher la cellule de solde,  */
 	    /* 	    AFFICHAGE_SOLDE_FINI s'est déjà mis à 0 tout seul */
 
-		NB_LIGNES_OPE = nb_lignes;
-		COULEUR_BACKGROUND_FINI = 0;
+	    gsb_account_set_nb_rows ( i, 
+				      nb_lignes );
+	    COULEUR_BACKGROUND_FINI = 0;
 
-		if ( i == compte_courant )
-		{
-		    verification_list_store_termine ( i );
-		}
+	    if ( i == compte_courant )
+	    {
+		verification_list_store_termine ( i );
+	    }
 	}
     }
 

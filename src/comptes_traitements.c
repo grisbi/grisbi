@@ -214,16 +214,16 @@ gint initialisation_nouveau_compte ( type_compte_t type_de_compte )
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 	affichage_r = AFFICHAGE_R;
-	nb_lignes_ope = NB_LIGNES_OPE;
+/* 	nb_lignes_ope = NB_LIGNES_OPE; */
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
 	AFFICHAGE_R = affichage_r;
-	NB_LIGNES_OPE = nb_lignes_ope;
+/* 	NB_LIGNES_OPE = nb_lignes_ope; */
     }
     else
     {
 	AFFICHAGE_R = 0;
-	NB_LIGNES_OPE = 3;
+/* 	NB_LIGNES_OPE = 3; */
     }
 
     TYPE_DE_COMPTE = type_de_compte;

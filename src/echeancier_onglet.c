@@ -35,7 +35,6 @@
 
 GtkWidget *notebook_calendrier_ventilations;
 GtkWidget *formulaire_echeancier;
-GtkWidget *fenetre_ventilations;
 GtkWidget *notebook_formulaire_echeances;
 GtkWidget *notebook_liste_ventil_echeances;
 GtkWidget *paned_onglet_echeancier;

@@ -26,6 +26,7 @@
 #include "affichage_liste.h"
 #include "operations_liste.h"
 #include "utils.h"
+#include "data_account.h"
 #include "traitement_variables.h"
 #include "utils_buttons.h"
 #include "affichage.h"
@@ -260,7 +261,7 @@ gboolean modification_retient_affichage_par_compte ( void )
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
-    nb_lignes = NB_LIGNES_OPE;
+    nb_lignes = gsb_account_get_nb_rows ( compte_courant );
     affichage_r = AFFICHAGE_R;
 
     /*     on doit réafficher tous les comptes qui ne correspondent pas */
@@ -269,11 +270,12 @@ gboolean modification_retient_affichage_par_compte ( void )
     {
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
-	if (  NB_LIGNES_OPE != nb_lignes
+	if (  gsb_account_get_nb_rows ( i ) != nb_lignes
 	      ||
 	      AFFICHAGE_R != affichage_r )
 	{
-	    NB_LIGNES_OPE = nb_lignes;
+	    gsb_account_set_nb_rows ( i, 
+				      nb_lignes );
 	    AFFICHAGE_R = affichage_r;
 	    SLIST_DERNIERE_OPE_AJOUTEE = NULL;
 	    COULEUR_BACKGROUND_FINI = 0;
