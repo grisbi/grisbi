@@ -1336,12 +1336,12 @@ void clique_sur_modifier_imputation ( void )
 				     "adr_struct_imputation" );
 
 
-      if ( strcmp ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_nom_imputation ))),
+      if ( strcmp ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_imputation ))),
 		    imputation -> nom_imputation ))
 	{
 	  free ( imputation -> nom_imputation );
 
-	  imputation -> nom_imputation = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_nom_imputation ))) );
+	  imputation -> nom_imputation = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_imputation ))) );
 
 
 	  node = GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_imputation ) -> selection ) -> data );
@@ -1379,7 +1379,7 @@ void clique_sur_modifier_imputation ( void )
 
       free ( sous_imputation -> nom_sous_imputation );
 
-      sous_imputation -> nom_sous_imputation = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_nom_imputation ))) );
+      sous_imputation -> nom_sous_imputation = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_imputation ))) );
 
 
       node = GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_imputation ) -> selection ) -> data );
@@ -2785,7 +2785,7 @@ void exporter_ib ( void )
   switch ( resultat )
     {
     case 0 :
-      nom_ib = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
+      nom_ib = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
 
       gnome_dialog_close ( GNOME_DIALOG ( dialog ));
 
@@ -2981,7 +2981,7 @@ void importer_ib ( void )
   switch ( resultat )
     {
     case 0 :
-      nom_ib = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
+      nom_ib = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
 
       gnome_dialog_close ( GNOME_DIALOG ( dialog ));
 

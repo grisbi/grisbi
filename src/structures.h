@@ -647,6 +647,7 @@ struct iso_4217_currency
   gchar * country_name;
   gchar * currency_code;
   gchar * currency_nickname;
+  gboolean active;
 };
 
 enum

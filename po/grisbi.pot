@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2003-08-27 15:41+0200\n"
-"PO-Revision-Date: 2003-08-27 19:05+0200\n"
+"PO-Revision-Date: 2003-09-02 17:52+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -4192,3 +4192,900 @@ msgid ""
 "Strange... a breakdown line is to be deleted though it is not yet "
 "registered..."
 msgstr ""
+
+msgid "Ethiopia"
+msgstr "Ethiopie"
+
+msgid "Ethiopian Birr"
+msgstr "Birr"
+
+msgid "Ghana"
+msgstr "Ghana"
+
+msgid "Ghana Cedi"
+msgstr "Cedi"
+
+msgid "Gambia"
+msgstr "Gambie"
+
+msgid "Gambian Dalasi"
+msgstr "Dalasie"
+
+msgid "Libyan Arab Jamahiriya"
+msgstr "Lybie"
+
+msgid "Libyan Dinar"
+msgstr "Dinar Iybien"
+
+msgid "Algeria"
+msgstr "Algérie"
+
+msgid "Algerian Dinar"
+msgstr "Dinar algérien"
+
+msgid "Tunisia"
+msgstr "Tunisie"
+
+msgid "Tunisian Dinar"
+msgstr "Dinar tunisien"
+
+msgid "Morocco"
+msgstr "Maroc"
+
+msgid "Moroccan Dirham"
+msgstr "Dirham marocain"
+
+msgid "Sao Tome and Principe"
+msgstr "Sâo Tomé - Principe"
+
+msgid "Sao Tome and Principe Dobra"
+msgstr "Dobra"
+
+msgid "Liberia"
+msgstr "Libéria"
+
+msgid "Liberian Dollar"
+msgstr "Dollar libérien"
+
+msgid "Niger"
+msgstr "Niger"
+
+msgid "CFA Franc BCEAO"
+msgstr "Franc CFA (BCEAO)"
+
+msgid "Senegal"
+msgstr "Senegal"
+
+msgid "Cameroon"
+msgstr "Cameroun"
+
+msgid "CFA Franc BEAC"
+msgstr "Franc CFA (BEAC)"
+
+msgid "Congo"
+msgstr "Congo"
+
+msgid "Chad"
+msgstr "Tchad"
+
+msgid "Comoros"
+msgstr "Comores"
+
+msgid "Comoro Franc"
+msgstr "Franc des Comores"
+
+msgid "Burundi"
+msgstr "Burundi"
+
+msgid "Burundi Franc"
+msgstr "Franc du Burundi"
+
+msgid "Rwanda"
+msgstr "Rwanda"
+
+msgid "Rwanda Franc"
+msgstr "Franc du Rwanda"
+
+msgid "Madagascar"
+msgstr "Madagascar"
+
+msgid "Malagasy Franc"
+msgstr "Franc malgache"
+
+msgid "Malawi"
+msgstr "Malawi"
+
+msgid "Malawi Kwacha"
+msgstr "Kwacha"
+
+msgid "Zambia"
+msgstr "Zambie"
+
+msgid "Zambian Kwacha"
+msgstr "Kwacha"
+
+msgid "Sierra Leone"
+msgstr "Sierra Leone"
+
+msgid "Sierra Leonean Leone"
+msgstr "Leone"
+
+msgid "Swaziland"
+msgstr "Swaziland"
+
+msgid "Swaziland Lilangeni"
+msgstr "Lilangeni"
+
+msgid "Egypt"
+msgstr "Egypte"
+
+msgid "Egyptian Pound"
+msgstr "Livre égyptienne"
+
+msgid "Mozambique"
+msgstr "Mozambique"
+
+msgid "Moazambique Metical"
+msgstr "Metical"
+
+msgid "Nigeria"
+msgstr "Nigeria"
+
+msgid "Nigerian Naira"
+msgstr "Naira"
+
+msgid "Mauritania"
+msgstr "Mauritanie"
+
+msgid "Mauritania Ouguiya"
+msgstr "Ouguija"
+
+msgid "Guinea-Bissau"
+msgstr "Guinée-Bissau"
+
+msgid "Guinea-Bissau Peso"
+msgstr "Peso de Guinée-Bissau"
+
+msgid "Botswana"
+msgstr "Botswana"
+
+msgid "Botswana Pula"
+msgstr "Pula"
+
+msgid "South Africa"
+msgstr "Afrique du Sud"
+
+msgid "South African Rand"
+msgstr "Rand"
+
+msgid "Lesotho"
+msgstr "Lesotho"
+
+msgid "Namibia"
+msgstr "Namibie"
+
+msgid "Seychelles"
+msgstr "Seychelles"
+
+msgid "Seychelles Rupee"
+msgstr "Roupie des Seychelles"
+
+msgid "Somalia"
+msgstr "Somalie"
+
+msgid "Somali Shilling"
+msgstr "Shilling de Somalie"
+
+msgid "United Republic of Tanzania"
+msgstr "Tanzanie"
+
+msgid "Tanzanian Shilling"
+msgstr "Shilling de Tanzanie"
+
+msgid "Kenya"
+msgstr "Kenya"
+
+msgid "Kenyan Shilling"
+msgstr "Shilling du Kenya"
+
+msgid "Zimbabwe"
+msgstr "Zimbabwe"
+
+msgid "Zimbabwe Dollar"
+msgstr "Zimbabwe dollar"
+
+msgid "Panama"
+msgstr "Panama"
+
+msgid "Panama Balboa"
+msgstr "Balboa"
+
+msgid "Costa Rica"
+msgstr "Costa Rica"
+
+msgid "Costa Rican Colon"
+msgstr "Colon"
+
+msgid "Belize"
+msgstr "Belize"
+
+msgid "Belize Dollar"
+msgstr "Dollar de Belize"
+
+msgid "Honduras"
+msgstr "Honduras"
+
+msgid "Honduran Lempira"
+msgstr "Lempira"
+
+msgid "Guatemala"
+msgstr "Guatemala"
+
+msgid "Guatemalan Quetzal"
+msgstr "Quetzal"
+
+msgid "Canada"
+msgstr "Canada"
+
+msgid "Canadian Dollar"
+msgstr "Dollar canadien"
+
+msgid "Barbados"
+msgstr "Barbade"
+
+msgid "Barbados Dollar"
+msgstr "Dollar de Barbade"
+
+msgid "Trinidad and Tobago"
+msgstr "Trinité-et-Tobago"
+
+msgid "Trinidad and Tobago Dollar"
+msgstr "Dollar de la Trinité"
+
+msgid "Bahamas"
+msgstr "Bahamas"
+
+msgid "Bahamian Dollar"
+msgstr "Dollar des Bahamas"
+
+msgid "Bermuda"
+msgstr "Berrnudes"
+
+msgid "Bermuda Dollar"
+msgstr "Dollar des Bermudes"
+
+msgid "Cayman Islands"
+msgstr "Iles Caimanes"
+
+msgid "Cayman Islands Dollar"
+msgstr "Dollar des Caimanes"
+
+msgid "Grenada"
+msgstr "Grenade"
+
+msgid "Saint Lucia"
+msgstr "St. Lucia"
+
+msgid "East Caribbean Dollar"
+msgstr "Dollar des Caraïbes"
+
+msgid "United States"
+msgstr "Etats-Unis"
+
+msgid "United States Dollar"
+msgstr "Dollar des Etats-Unis"
+
+msgid "Jamaica"
+msgstr "Jamaique"
+
+msgid "Jamaican Dollar"
+msgstr "Dollar jamaicain"
+
+msgid "Netherlands Antilles"
+msgstr "Curaçao e.a."
+
+msgid "Netherlands Antillian Guilder"
+msgstr "Florin des Antilles néerl."
+
+msgid "Haiti"
+msgstr "Haïti"
+
+msgid "Haitian Gourde"
+msgstr "Gourde"
+
+msgid "Cuba"
+msgstr "Cuba"
+
+msgid "Cuban Peso"
+msgstr "Peso cubain"
+
+msgid "Dominican Republic"
+msgstr "Rép.  Dominicaine"
+
+msgid "Dominican Peso"
+msgstr "Peso dominicain"
+
+msgid "Venezuela"
+msgstr "Vénézuela"
+
+msgid "Venezuelan Bolivar"
+msgstr "Bolivar"
+
+msgid "Guyana"
+msgstr "Guyane"
+
+msgid "Guyana Dollar"
+msgstr "Dollar de Guyane"
+
+msgid "Suriname"
+msgstr "Surinam"
+
+msgid "Suriname Guilder"
+msgstr "Florin de Surinam"
+
+msgid "Paraguay"
+msgstr "Paraguay"
+
+msgid "Paraguay Guarani"
+msgstr "Guarani"
+
+msgid "Chile"
+msgstr "Chili"
+
+msgid "Chilean Peso"
+msgstr "Peso chilien"
+
+msgid "Colombia"
+msgstr "Colombie"
+
+msgid "Colombian Peso"
+msgstr "Peso colombien"
+
+msgid "Guadeloupe"
+msgstr "Guadeloupe"
+
+msgid "French Franc"
+msgstr "Franc français"
+
+msgid "Martinique"
+msgstr "Martinique e.a."
+
+msgid "Mexico"
+msgstr "Mexique"
+
+msgid "Mexican Peso"
+msgstr "Peso mexicain"
+
+msgid "Ecuador"
+msgstr "Equateur"
+
+msgid "Ecuador Sucre"
+msgstr "Sucre"
+
+msgid "Afghanistan"
+msgstr "Afghanistan"
+
+msgid "Afghani"
+msgstr "Afghani"
+
+msgid "Thailand"
+msgstr "Thailande"
+
+msgid "Thai Baht"
+msgstr "Baht"
+
+msgid "Bahrain"
+msgstr "Bahrein"
+
+msgid "Bahraini Dinar"
+msgstr "Dinar de Bahrein"
+
+msgid "Iraq"
+msgstr "Irak"
+
+msgid "Iraqi Dinar"
+msgstr "Dinar irakien"
+
+msgid "Jordan"
+msgstr "Jordanie"
+
+msgid "Jordanian Dinar"
+msgstr "Dinar jordanien"
+
+msgid "Kuwait"
+msgstr "Koweit"
+
+msgid "Kuwaiti Dinar"
+msgstr "Dinar koweitien"
+
+msgid "United Arab Emirates"
+msgstr "Emirats Arabes Unis"
+
+msgid "United Arab Emirates Dirham"
+msgstr "Dirham des E A.U."
+
+msgid "Brunei Darussalam"
+msgstr "Brunei"
+
+msgid "Brunei Dollar"
+msgstr "Dollar de Brunei"
+
+msgid "Hong Kong"
+msgstr "Hong Kong"
+
+msgid "Hong Kong Dollar"
+msgstr "Dollar de Hong Kong"
+
+msgid "Singapore"
+msgstr "Singapour"
+
+msgid "Singapore Dollar"
+msgstr "Dollar de Singapour"
+
+msgid "Taiwan, Province of China"
+msgstr "Taïwan"
+
+msgid "New Taiwan Dollar"
+msgstr "Dollar taïwanien"
+
+msgid "Viet Nam"
+msgstr "Viêt-nam"
+
+msgid "Viet Nam Dong"
+msgstr "Dong"
+
+msgid "Lao People's Democratic Republic"
+msgstr "Laos"
+
+msgid "Lao Kip"
+msgstr "Kip"
+
+msgid "Cyprus"
+msgstr "Chypre"
+
+msgid "Cyprus Pound"
+msgstr "Livre cypriote"
+
+msgid "Lebanon"
+msgstr "Liban"
+
+msgid "Lebanese Pound"
+msgstr "Livre libanaise"
+
+msgid "Syrian Arab Republic"
+msgstr "Syrie"
+
+msgid "Syrian Pound"
+msgstr "Livre syrienne"
+
+msgid "Turkey"
+msgstr "Turquie"
+
+msgid "Turkish Lira"
+msgstr "Livre turque"
+
+msgid "Macao"
+msgstr "Macao"
+
+msgid "Macau Pataca"
+msgstr "Pataca"
+
+msgid "Philippines"
+msgstr "Philippines"
+
+msgid "Philippine peso"
+msgstr "Peso philippin"
+
+msgid "Qatar"
+msgstr "Qatar"
+
+msgid "Qatari Rial"
+msgstr "Rial du Qatar"
+
+msgid "Iran"
+msgstr "Iran"
+
+msgid "Iranian Rial"
+msgstr "Rial iranien"
+
+msgid "Oman"
+msgstr "Oman"
+
+msgid "Rial Omani"
+msgstr "Rial omani"
+
+msgid "Cambodia"
+msgstr "Cambodge"
+
+msgid "Cambodian Riel"
+msgstr "Riel"
+
+msgid "Malaysia"
+msgstr "Malaisie"
+
+msgid "Malaysian Ringgit"
+msgstr "Ringgit"
+
+msgid "Yemen"
+msgstr "Yémen du Nord (Rép. arab.)"
+
+msgid "Yemeni Rial"
+msgstr "Riyal du Yémen"
+
+msgid "Saudi Arabia"
+msgstr "Arabie Saoudite"
+
+msgid "Saudi Riyal"
+msgstr "Riyal saoudien"
+
+msgid "Russia"
+msgstr "Russie"
+
+msgid "Russian Ruble"
+msgstr "Rouble de Russie"
+
+msgid "Sri Lanka"
+msgstr "Sri Lanka"
+
+msgid "Sri Lanka Rupee"
+msgstr "Roupie de Sri Lanka"
+
+msgid "Nepal"
+msgstr "Népal"
+
+msgid "Nepalese Rupee"
+msgstr "Roupie du Népal"
+
+msgid "Pakistan"
+msgstr "Pakistan"
+
+msgid "Pakistan Rupee"
+msgstr "Roupie du Pakistan"
+
+msgid "Bhutan"
+msgstr "Buthan"
+
+msgid "India"
+msgstr "Inde"
+
+msgid "Indian Rupee"
+msgstr "Roupie indienne"
+
+msgid "Indonesia"
+msgstr "Indonésie"
+
+msgid "Indonesian Rupiah"
+msgstr "Rupiah"
+
+msgid "Israel"
+msgstr "Israël"
+
+msgid "New Israeli Shekel"
+msgstr "Shékel"
+
+msgid "Bangladesh"
+msgstr "Bangladesh"
+
+msgid "Bangladesh Taka"
+msgstr "Taka"
+
+msgid "Mongolia"
+msgstr "Mongolie"
+
+msgid "Mongolian Tugrik"
+msgstr "Tugrik"
+
+msgid "Democratic People's Republic of Korea"
+msgstr "Corée du Nord"
+
+msgid "North Korean Won"
+msgstr "Won nord-coréen"
+
+msgid "Republic of Korea"
+msgstr "Corée du Sud"
+
+msgid "South Korean Won"
+msgstr "Won"
+
+msgid "Japan"
+msgstr "Japon"
+
+msgid "Japanese Yen"
+msgstr "Yen"
+
+msgid "China"
+msgstr "Chine"
+
+msgid "Yuan Renminbi"
+msgstr "Yuan Ren-min-bi"
+
+msgid "Denmark"
+msgstr "Danemark"
+
+msgid "Danish Krone"
+msgstr "Couronne danoise"
+
+msgid "Iceland"
+msgstr "Islande"
+
+msgid "Iceland Krona"
+msgstr "Couronne islandaise"
+
+msgid "Norway"
+msgstr "Norvège"
+
+msgid "Norwegian Krone"
+msgstr "Couronne norvégienne"
+
+msgid "Slovakia"
+msgstr "Slovaquie"
+
+msgid "Slovak Koruna"
+msgstr "Couronne slovaque"
+
+msgid "Sweden"
+msgstr "Suède"
+
+msgid "Swedish Krona"
+msgstr "Couronne suédoise"
+
+msgid "Czech Republic"
+msgstr "Tchéquie"
+
+msgid "Czech Koruna"
+msgstr "Couronne tchèque"
+
+msgid "Germany"
+msgstr "Allemagne"
+
+msgid "Deutsche Mark"
+msgstr "Deutsche mark"
+
+msgid "Greece"
+msgstr "Grèce"
+
+msgid "Greek Drachma"
+msgstr "Drachme"
+
+msgid "Portugal"
+msgstr "Portugal (Açores-Madère)"
+
+msgid "Portuguese Escudo"
+msgstr "Escudo portugais"
+
+msgid "Netherlands"
+msgstr "Pays-Bas"
+
+msgid "Netherlands Guilder"
+msgstr "Florin néerlandais"
+
+msgid "Hungary"
+msgstr "Hongrie"
+
+msgid "Hungarian Forint"
+msgstr "Forint"
+
+msgid "Belgium"
+msgstr "Belgique"
+
+msgid "Belgian Franc"
+msgstr "Franc belge"
+
+msgid "France"
+msgstr "France"
+
+msgid "French Franc"
+msgstr "Franc français"
+
+msgid "Luxembourg"
+msgstr "Luxembourg"
+
+msgid "Luxembourg Franc"
+msgstr "Franc luxembourgeois"
+
+msgid "Liechtenstein"
+msgstr "Liechtenstein"
+
+msgid "Swiss Franc"
+msgstr "Franc suisse"
+
+msgid "Switzerland"
+msgstr "Suisse"
+
+msgid "Swiss Franc"
+msgstr "Franc suisse"
+
+msgid "Albania"
+msgstr "Albanie"
+
+msgid "Albanian Lek"
+msgstr "Lek"
+
+msgid "Romania"
+msgstr "Roumanie"
+
+msgid "Romanian Leu"
+msgstr "Leu"
+
+msgid "Bulgaria"
+msgstr "Bulgarie"
+
+msgid "Bulgarian Lev"
+msgstr "Lev"
+
+msgid "Italy"
+msgstr "Italie"
+
+msgid "Italian Lira"
+msgstr "Lire italienne"
+
+msgid "San Marino"
+msgstr "San Marino"
+
+msgid "Italian Lira"
+msgstr "Lire italienne"
+
+msgid "Holy See"
+msgstr "Vatican (St Siège)"
+
+msgid "Italian Lira"
+msgstr "Lire italienne"
+
+msgid "Gibraltar"
+msgstr "Gibraltar"
+
+msgid "Gibraltar Pound"
+msgstr "Livre de Gibraltar"
+
+msgid "Ireland"
+msgstr "Irlande"
+
+msgid "Irish Pound"
+msgstr "Livre irlandaise"
+
+msgid "United Kingdom"
+msgstr "Royaume-Uni"
+
+msgid "Pound Sterling"
+msgstr "Livre sterling"
+
+msgid "Finland"
+msgstr "Finlande"
+
+msgid "Finnish Markka"
+msgstr "Mark finlandais"
+
+msgid "Slovenia"
+msgstr "Slovénie"
+
+msgid "Slovene Tolar"
+msgstr "Monnaie slovène"
+
+msgid "Serbia and Montenegro"
+msgstr "Yougoslavie"
+
+msgid "New Yugoslavian Dinar"
+msgstr "Nouveau dinar yougoslave"
+
+msgid "Spain"
+msgstr "Espagne"
+
+msgid "Spanish Peseta"
+msgstr "Peseta espagnole"
+
+msgid "Austria"
+msgstr "Autriche"
+
+msgid "Austrian Schilling"
+msgstr "Schilling autrichien"
+
+msgid "Poland"
+msgstr "Pologne"
+
+msgid "Polish Zloty"
+msgstr "Zloty"
+
+msgid "Australia"
+msgstr "Australie"
+
+msgid "Australian Dollar"
+msgstr "Dollar australien"
+
+msgid "Kiribati"
+msgstr "Kiribati"
+
+msgid "Australian Dollar"
+msgstr "Dollar australien"
+
+msgid "Nauru"
+msgstr "Nauru"
+
+msgid "Australian Dollar"
+msgstr "Dollar australien"
+
+msgid "Tuvalu"
+msgstr "Tuvalu"
+
+msgid "Australian Dollar"
+msgstr "Dollar australien"
+
+msgid "Fiji"
+msgstr "Fidji"
+
+msgid "Fiji Dollar"
+msgstr "Dollar de Fidji"
+
+msgid "Solomon Islands"
+msgstr "Iles Salomon"
+
+msgid "Solomon Islands Dollar"
+msgstr "Dollar de Salomon"
+
+msgid "Panama"
+msgstr "Océanie américaine"
+
+msgid "United States Dollar"
+msgstr "Dollar des Etats-Unis"
+
+msgid "Cook Islands"
+msgstr "Cook Islands"
+
+msgid "New Zealand Dollar"
+msgstr "Dollar néo-zélandais"
+
+msgid "New Zealand"
+msgstr "Nouvelle-Zélande"
+
+msgid "New Zealand Dollar"
+msgstr "Dollar néo-zélandais"
+
+msgid ""
+msgstr "Timor"
+
+msgid "Timor Escudo"
+msgstr "Escudo de Timor"
+
+msgid "Wallis and Futuna"
+msgstr "Iles Wallis &amp; Futuna"
+
+#~ #, fuzzy
+#~ msgid "CFP Franc"
+#~ msgstr "Franc CFP"
+
+msgid "New Caledonia"
+msgstr "Nouvelle-Calédonie"
+
+#~ #, fuzzy
+#~ msgid "CFP Franc"
+#~ msgstr "Franc CFP"
+
+msgid "French Polynesia"
+msgstr "Polynésie française"
+
+msgid "CFP Franc"
+msgstr "Franc CFP"
+
+msgid "Papua New Guinea"
+msgstr "Papouasie - Nouvelle-Guinée"
+
+msgid "Papua New Guinea Kina"
+msgstr "Kina"
+
+msgid "Tonga"
+msgstr "Tonga"
+
+msgid "Tongan Pa'anga"
+msgstr "Pa'anga"
+
+msgid "Samoa"
+msgstr "Samoa occidental"
+
+msgid "Samoa Tala"
+msgstr "Tala"
+
+msgid "Vanuatu"
+msgstr "Vanuatu"
+
+msgid "Vanuatu Vatu"
+msgstr "Vatu"
+
