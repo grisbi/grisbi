@@ -2137,7 +2137,7 @@ void formulaire_echeancier_a_zero ( void )
   gtk_widget_set_sensitive ( hbox_valider_annuler_echeance, FALSE );
 
   gtk_widget_hide ( label_saisie_modif );
-  gtk_label_set_text ( GTK_LABEL ( label_saisie_modif ), _("Input") );
+  gtk_label_set_text ( GTK_LABEL ( label_saisie_modif ), _("Modification") );
 
   /* réaffiche les boutons effacés pour une saisie */
 
