@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-12-10 10:43+0100\n"
-"PO-Revision-Date: 2004-11-26 13:31+0100\n"
+"PO-Revision-Date: 2004-12-14 14:10+0100\n"
 "Last-Translator: Benjamin Drieu <bdrieu@april.org>\n"
 "Language-Team: Francais <traduction@grisbi.org>\n"
 "MIME-Version: (null)\n"
@@ -812,7 +812,6 @@ msgid "Studies : Lessons"
 msgstr "Etudes : Cours"
 
 #: src/categories_onglet.c:77
-#, fuzzy
 msgid "Studies : School fees"
 msgstr "Etudes : Frais de scolarité"
 
@@ -821,12 +820,10 @@ msgid "Studies : Books"
 msgstr "Etudes : Livres"
 
 #: src/categories_onglet.c:79
-#, fuzzy
 msgid "Miscellaneous : Gifts"
 msgstr "Frais divers : Cadeaux"
 
 #: src/categories_onglet.c:80
-#, fuzzy
 msgid "Financial expenses : Miscellaneous"
 msgstr "Frais financiers : Divers"
 
@@ -847,17 +844,14 @@ msgid "Financial expenses : Refunding"
 msgstr "Frais financiers : Remboursement"
 
 #: src/categories_onglet.c:85
-#, fuzzy
 msgid "Professional expenses : Non refundable"
 msgstr "Frais professionnels : Non remboursés"
 
 #: src/categories_onglet.c:86
-#, fuzzy
 msgid "Professional expenses : Refundable"
 msgstr "Frais professionnels : Non remboursés"
 
 #: src/categories_onglet.c:87
-#, fuzzy
 msgid "Taxes : Miscellaneous"
 msgstr "Impôts : Autres impôts"
 
@@ -918,7 +912,6 @@ msgid "Housing : Gaz"
 msgstr "Logement : Gaz"
 
 #: src/categories_onglet.c:102
-#, fuzzy
 msgid "Housing : Garden"
 msgstr "Logement : Jardin"
 
@@ -5873,9 +5866,8 @@ msgid "New transaction"
 msgstr "Nouvelle opération"
 
 #: src/menu.c:86
-#, fuzzy
 msgid "Use selected transaction as a template"
-msgstr "Sélectionner les opérations d'après les montants"
+msgstr "Utiliser l'opération sélectionnée comme modèle"
 
 #: src/menu.c:87 src/traitement_variables.c:105 src/traitement_variables.c:226
 msgid "Remove transaction"
@@ -6192,9 +6184,8 @@ msgstr ""
 
 #. New transaction from
 #: src/operations_liste.c:2662
-#, fuzzy
 msgid "New transaction from"
-msgstr "Nouvelle opération"
+msgstr "Nouveau formulaire d'opération"
 
 #. Delete transaction
 #: src/operations_liste.c:2670
@@ -6541,9 +6532,8 @@ msgid "Third party '%s' already exists."
 msgstr "Le tiers « '%s » existe déjà."
 
 #: src/traitement_variables.c:102 src/traitement_variables.c:223
-#, fuzzy
 msgid "New transaction from selected"
-msgstr "Nouvelle opération"
+msgstr "Nouvelle opération a partir de l'opération sélectionnée"
 
 #. Should not happen theorically
 #. Should not happen!
