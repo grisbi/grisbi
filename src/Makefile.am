@@ -59,6 +59,7 @@ sources = \
 	gnucash.c               \
 	gtk_combofix.c		\
 	gtk_list_button.c	\
+	gtk_cell_renderer_expander.c	\
 	help.c			\
 	imputation_budgetaire.c	\
 	main.c			\
