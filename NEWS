@@ -1,11 +1,13 @@
 New in version 0.4.2 : 
-- Bug fixes
-- Translation improved
-- Multi-currencies balances in startup screen
-- Comments can be displayed in scheduler
+ - Bug fixes
+ - Translation improved
+ - Multi-currencies balances in startup screen
+ - Comments can be displayed in scheduler
+ - New contrib tool to obfuscate grisbi files and keep privacy while
+   allowing reporters to send grisbi files
 
 New in version 0.4.1 : 
-- *Many* bug fixes
-- Grisbi is now internationalized
+ - *Many* bug fixes
+ - Grisbi is now internationalized
 
 Old news (in French) in OLDNEWS
