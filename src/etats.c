@@ -38,10 +38,6 @@ gchar *liste_plages_dates[] = {
   N_("3 derniers mois"),
   N_("6 derniers mois"),
   N_("12 derniers mois"),
-  N_("30 prochains jours"),
-  N_("3 prochains mois"),
-  N_("6 prochains mois"),
-  N_("12 prochains mois"),
   NULL };
 
 gchar *jours_semaine[] = {
@@ -349,6 +345,8 @@ GtkWidget *creation_barre_boutons_etats ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
+  /* on met le bouton imprimer */
+
   bouton_imprimer_etat = gtk_button_new_with_label ( _("Imprimer") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_imprimer_etat ),
 			  GTK_RELIEF_NONE );
@@ -364,6 +362,40 @@ GtkWidget *creation_barre_boutons_etats ( void )
 		       FALSE,
 		       0 );
   gtk_widget_show ( bouton_imprimer_etat );
+
+  /* on met le bouton exporter */
+
+  bouton_exporter_etat = gtk_button_new_with_label ( _("Exporter ...") );
+  gtk_button_set_relief ( GTK_BUTTON ( bouton_exporter_etat ),
+			  GTK_RELIEF_NONE );
+  gtk_widget_set_sensitive ( bouton_exporter_etat,
+			     FALSE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton_exporter_etat ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( exporter_etat ),
+		       NULL );
+  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+		       bouton_exporter_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_exporter_etat );
+
+  /* on met le bouton importer */
+
+  bouton_importer_etat = gtk_button_new_with_label ( _("Importer ...") );
+  gtk_button_set_relief ( GTK_BUTTON ( bouton_importer_etat ),
+			  GTK_RELIEF_NONE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton_importer_etat ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( importer_etat ),
+		       NULL );
+  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+		       bouton_importer_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_importer_etat );
 
   return ( widget_retour );
 }
@@ -615,6 +647,8 @@ void efface_etat ( void )
 				     FALSE );
 	  gtk_widget_set_sensitive ( bouton_imprimer_etat,
 				     FALSE );
+	  gtk_widget_set_sensitive ( bouton_exporter_etat,
+				     FALSE );
 
 	  /* il faut aussi ici virer l'état affiché quand ce sera fait */
 
@@ -673,6 +707,8 @@ void changement_etat ( GtkWidget *bouton,
   gtk_widget_set_sensitive ( bouton_personnaliser_etat,
 			     TRUE );
   gtk_widget_set_sensitive ( bouton_imprimer_etat,
+			     TRUE );
+  gtk_widget_set_sensitive ( bouton_exporter_etat,
 			     TRUE );
 
   icone = gnome_stock_pixmap_widget ( GTK_WIDGET ( bouton ),
@@ -4405,8 +4441,8 @@ void affichage_etat ( struct struct_etat *etat,
 		   (
 		    !operation -> notes
 		    ||
-		    !strcasestr ( operation -> notes,
-				  etat -> texte )))
+		    !g_strcasecmp ( operation -> notes,
+				    etat -> texte )))
 		goto operation_refusee;
 
 
@@ -4492,9 +4528,10 @@ void affichage_etat ( struct struct_etat *etat,
 
 		  if ( etat -> utilise_detail_exo
 		       &&
-		       g_slist_index ( etat -> no_exercices,
-				       GINT_TO_POINTER ( operation -> no_exercice )) == -1 ||
-		       operation -> no_exercice == 0)
+		       ( g_slist_index ( etat -> no_exercices,
+					 GINT_TO_POINTER ( operation -> no_exercice )) == -1
+			 ||
+			 !operation -> no_exercice ))
 		    goto operation_refusee;
 		}
 	      else
@@ -5629,6 +5666,212 @@ void denote_struct_sous_jaccentes ( gint origine )
 	  break;
 	}
       pointeur_glist = pointeur_glist -> prev;
+    }
+}
+/*****************************************************************************************************/
+
+
+
+/*****************************************************************************************************/
+void exporter_etat ( void )
+{
+  GtkWidget *dialog;
+  GtkWidget *label;
+  GtkWidget *fenetre_nom;
+  gint resultat;
+  struct stat test_fichier;
+  gchar *nom_etat;
+
+  dialog = gnome_dialog_new ( _("Exporter un état"),
+			      GNOME_STOCK_BUTTON_OK,
+			      GNOME_STOCK_BUTTON_CANCEL,
+			      NULL );
+  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
+				 GTK_WINDOW ( window ));
+  gnome_dialog_set_default ( GNOME_DIALOG ( dialog ),
+			     0 );
+  gtk_signal_connect ( GTK_OBJECT ( dialog ),
+		       "destroy",
+		       GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
+		       "destroy" );
+
+  label = gtk_label_new ( _("Entrer un nom pour l'export :") );
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
+
+  fenetre_nom = gnome_file_entry_new ( "nom_fichier",
+				       "nom_fichier" );
+  gnome_file_entry_set_default_path ( GNOME_FILE_ENTRY ( fenetre_nom ),
+				      dernier_chemin_de_travail );
+  gtk_entry_set_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
+		       g_strconcat ( dernier_chemin_de_travail,
+				     etat_courant -> nom_etat,
+				     ".egsb",
+				     NULL ));
+  gtk_entry_set_position ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
+			   strlen (dernier_chemin_de_travail ));
+  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
+				 GTK_EDITABLE ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))));
+  gtk_window_set_focus ( GTK_WINDOW ( dialog ),
+			 gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom )));
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+		       fenetre_nom,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( fenetre_nom );
+
+  resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
+
+  switch ( resultat )
+    {
+    case 0 :
+      nom_etat = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
+
+      gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+
+      /* vérification que c'est possible */
+
+      if ( !strlen ( nom_etat ))
+	return;
+
+      if ( stat ( nom_etat,
+		  &test_fichier ) != -1 )
+	{
+	  if ( S_ISREG ( test_fichier.st_mode ) )
+	    {
+	      GtkWidget *etes_vous_sur;
+	      GtkWidget *label;
+
+	      etes_vous_sur = gnome_dialog_new ( _("Enregistrer le fichier"),
+						 GNOME_STOCK_BUTTON_YES,
+						 GNOME_STOCK_BUTTON_NO,
+						 NULL );
+	      label = gtk_label_new ( _("Le fichier existe. Voulez-vous l'écraser ?") );
+	      gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( etes_vous_sur ) -> vbox ),
+				   label,
+				   TRUE,
+				   TRUE,
+				   5 );
+	      gtk_widget_show ( label );
+
+	      gnome_dialog_set_default ( GNOME_DIALOG ( etes_vous_sur ),
+					 1 );
+	      gnome_dialog_set_parent ( GNOME_DIALOG ( etes_vous_sur ),
+					GTK_WINDOW ( window ) );
+	      gtk_window_set_modal ( GTK_WINDOW ( etes_vous_sur ),
+				     TRUE );
+	      if ( gnome_dialog_run_and_close ( GNOME_DIALOG ( etes_vous_sur ) ) )
+		return;
+	    }
+	  else
+	    {
+	      dialogue ( g_strconcat ( _("Nom de fichier \""),
+				       nom_etat,
+				       _("\" invalide !"),
+				       NULL ));
+	      return;
+	    }
+	}
+
+      if ( !enregistre_etat ( nom_etat ))
+	{
+	  dialogue ( "L'enregistrement a échoué." );
+	  return;
+	}
+
+      break;
+
+    default :
+      gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+      return;
+    }
+}
+/*****************************************************************************************************/
+
+
+/*****************************************************************************************************/
+void importer_etat ( void )
+{
+  GtkWidget *dialog;
+  GtkWidget *label;
+  GtkWidget *fenetre_nom;
+  gint resultat;
+  struct stat test_fichier;
+  gchar *nom_etat;
+
+  dialog = gnome_dialog_new ( _("Importer un état"),
+			      GNOME_STOCK_BUTTON_OK,
+			      GNOME_STOCK_BUTTON_CANCEL,
+			      NULL );
+  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
+				 GTK_WINDOW ( window ));
+  gnome_dialog_set_default ( GNOME_DIALOG ( dialog ),
+			     0 );
+  gtk_signal_connect ( GTK_OBJECT ( dialog ),
+		       "destroy",
+		       GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
+		       "destroy" );
+
+  label = gtk_label_new ( _("Entrer le nom du fichier :") );
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
+
+  fenetre_nom = gnome_file_entry_new ( "nom_fichier",
+				       "nom_fichier" );
+  gnome_file_entry_set_default_path ( GNOME_FILE_ENTRY ( fenetre_nom ),
+				      dernier_chemin_de_travail );
+  gtk_entry_set_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
+		       g_strconcat ( dernier_chemin_de_travail,
+				     ".egsb",
+				     NULL ));
+  gtk_entry_set_position ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
+			   strlen (dernier_chemin_de_travail ));
+  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
+				 GTK_EDITABLE ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))));
+  gtk_window_set_focus ( GTK_WINDOW ( dialog ),
+			 gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom )));
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+		       fenetre_nom,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( fenetre_nom );
+
+  resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
+
+  switch ( resultat )
+    {
+    case 0 :
+      nom_etat = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
+
+      gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+
+      /* vérification que c'est possible */
+
+      if ( !strlen ( nom_etat ))
+	return;
+
+
+      if ( !charge_etat ( nom_etat ))
+	{
+	  dialogue ( "L'importation a échoué." );
+	  return;
+	}
+
+      break;
+
+    default :
+      gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+      return;
     }
 }
 /*****************************************************************************************************/

@@ -66,8 +66,6 @@ gboolean charge_operations ( void )
 	  xmlFreeDoc ( doc );
 	  return ( FALSE );
 	}
-      printf ( "%s / %s\n", xmlNodeGetContent ( doc->root->childs->childs ),
-	       xmlNodeGetContent ( doc->root->childs->childs->next ));
 
       /* récupère la version de fichier */
 
@@ -118,7 +116,6 @@ gboolean charge_operations ( void )
 gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 {
   xmlNodePtr node_1;
-  GSList *pointeur_liste;
   gint i;
 
   /* message d'avertissement */
@@ -5182,5 +5179,856 @@ void fichier_marque_ouvert ( gint ouvert )
   fclose ( pointeur_fichier_comptes );
 
   return;
+}
+/***********************************************************************************************************/
+
+
+
+/***********************************************************************************************************/
+gboolean enregistre_etat ( gchar *nom_etat )
+{
+  xmlDocPtr doc;
+  xmlNodePtr node;
+  gint resultat;
+  gchar *pointeur_char;
+  GSList *pointeur_liste;
+  GList *pointeur_list;
+
+  /* creation de l'arbre xml en memoire */
+
+  doc = xmlNewDoc("1.0");
+
+  /* la racine est grisbi */
+
+  doc->root = xmlNewDocNode ( doc,
+			      NULL,
+			      "Grisbi_etat",
+			      NULL );
+
+  /* on commence à ajouter les generalites */
+
+  node = xmlNewChild ( doc->root,
+		       NULL,
+		       "Generalites",
+		       NULL );
+  xmlNewTextChild ( node,
+		    NULL,
+		    "Version_fichier_etat",
+		    VERSION_FICHIER_ETAT );
+
+  xmlNewTextChild ( node,
+		    NULL,
+		    "Version_grisbi",
+		    VERSION );
+
+  xmlNewTextChild ( node,
+		    NULL,
+		    "Nom",
+	       etat_courant -> nom_etat );
+
+
+  node = xmlNewChild ( doc->root,
+		       NULL,
+		       "Details",
+		       NULL );
+
+      xmlSetProp ( node,
+		   "Aff_ope",
+		   itoa ( etat_courant -> afficher_opes ));
+
+      xmlSetProp ( node,
+		   "Aff_no_ope",
+		   itoa ( etat_courant -> afficher_no_ope ));
+
+      xmlSetProp ( node,
+		   "Aff_date_ope",
+		   itoa ( etat_courant -> afficher_date_ope ));
+
+      xmlSetProp ( node,
+		   "Aff_tiers_ope",
+		   itoa ( etat_courant -> afficher_tiers_ope ));
+
+      xmlSetProp ( node,
+		   "Aff_categ_ope",
+		   itoa ( etat_courant -> afficher_categ_ope ));
+
+      xmlSetProp ( node,
+		   "Aff_ss_categ_ope",
+		   itoa ( etat_courant -> afficher_sous_categ_ope ));
+
+      xmlSetProp ( node,
+		   "Aff_type_ope",
+		   itoa ( etat_courant -> afficher_type_ope ));
+
+      xmlSetProp ( node,
+		   "Aff_ib_ope",
+		   itoa ( etat_courant -> afficher_ib_ope ));
+
+      xmlSetProp ( node,
+		   "Aff_ss_ib_ope",
+		   itoa ( etat_courant -> afficher_sous_ib_ope ));
+
+      xmlSetProp ( node,
+		   "Aff_cheque_ope",
+		   itoa ( etat_courant -> afficher_cheque_ope ));
+
+      xmlSetProp ( node,
+		   "Aff_notes_ope",
+		   itoa ( etat_courant -> afficher_notes_ope ));
+
+      xmlSetProp ( node,
+		   "Aff_pc_ope",
+		   itoa ( etat_courant -> afficher_pc_ope ));
+
+      xmlSetProp ( node,
+		   "Aff_rappr_ope",
+		   itoa ( etat_courant -> afficher_rappr_ope ));
+
+      xmlSetProp ( node,
+		   "Aff_infobd_ope",
+		   itoa ( etat_courant -> afficher_infobd_ope ));
+
+      xmlSetProp ( node,
+		   "Aff_exo_ope",
+		   itoa ( etat_courant -> afficher_exo_ope ));
+
+      xmlSetProp ( node,
+		   "Aff_titres_col",
+		   itoa ( etat_courant -> afficher_titre_colonnes ));
+
+      xmlSetProp ( node,
+		   "Aff_titres_chgt",
+		   itoa ( etat_courant -> type_affichage_titres ));
+
+      xmlSetProp ( node,
+		   "Pas_detail_ventil",
+		   itoa ( etat_courant -> pas_detailler_ventilation ));
+
+      xmlSetProp ( node,
+		   "Devise_gen",
+		   itoa ( etat_courant -> devise_de_calcul_general ));
+
+
+      xmlSetProp ( node,
+		   "Exo_date",
+		   itoa ( etat_courant -> exo_date ));
+
+      xmlSetProp ( node,
+		   "Detail_exo",
+		   itoa ( etat_courant -> utilise_detail_exo ));
+
+      pointeur_liste = etat_courant -> no_exercices;
+      pointeur_char = NULL;
+
+      while ( pointeur_liste )
+	{
+	  if ( pointeur_char )
+	    pointeur_char = g_strconcat ( pointeur_char,
+					  "/",
+					  itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
+					  NULL );
+	  else
+	    pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
+
+	  pointeur_liste = pointeur_liste -> next;
+	}
+
+      xmlSetProp ( node,
+		   "No_exo",
+		   pointeur_char );
+
+      xmlSetProp ( node,
+		   "Plage_date",
+		   itoa ( etat_courant -> no_plage_date ));
+
+
+      if ( etat_courant->date_perso_debut )
+	xmlSetProp ( node,
+		     "Date_debut",
+		     g_strdup_printf ( "%d/%d/%d",
+				       g_date_day ( etat_courant->date_perso_debut ),
+				       g_date_month ( etat_courant->date_perso_debut ),
+				       g_date_year ( etat_courant->date_perso_debut )));
+      else
+	xmlSetProp ( node,
+		     "Date_debut",
+		     NULL );
+
+      if ( etat_courant->date_perso_fin )
+	xmlSetProp ( node,
+		     "Date_fin",
+		     g_strdup_printf ( "%d/%d/%d",
+				       g_date_day ( etat_courant->date_perso_fin ),
+				       g_date_month ( etat_courant->date_perso_fin ),
+				       g_date_year ( etat_courant->date_perso_fin )));
+      else
+	xmlSetProp ( node,
+		     "Date_fin",
+		     NULL );
+
+      pointeur_list = etat_courant -> type_classement;
+      pointeur_char = NULL;
+
+      while ( pointeur_list )
+	{
+	  if ( pointeur_char )
+	    pointeur_char = g_strconcat ( pointeur_char,
+					  "/",
+					  itoa ( GPOINTER_TO_INT ( pointeur_list -> data )),
+					  NULL );
+	  else
+	    pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_list -> data ));
+
+	  pointeur_list = pointeur_list -> next;
+	}
+
+      xmlSetProp ( node,
+		   "Type_classement",
+		   pointeur_char );
+
+
+      xmlSetProp ( node,
+		   "Detail_comptes",
+		   itoa ( etat_courant -> utilise_detail_comptes ));
+
+      pointeur_liste = etat_courant -> no_comptes;
+      pointeur_char = NULL;
+
+      while ( pointeur_liste )
+	{
+	  if ( pointeur_char )
+	    pointeur_char = g_strconcat ( pointeur_char,
+					  "/",
+					  itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
+					  NULL );
+	  else
+	    pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
+
+	  pointeur_liste = pointeur_liste -> next;
+	}
+
+      xmlSetProp ( node,
+			"No_comptes",
+			pointeur_char );
+
+      xmlSetProp ( node,
+		   "Grp_ope_compte",
+		   itoa ( etat_courant -> regroupe_ope_par_compte ));
+
+      xmlSetProp ( node,
+		   "Total_compte",
+		   itoa ( etat_courant -> affiche_sous_total_compte ));
+
+      xmlSetProp ( node,
+		   "Categ",
+		   itoa ( etat_courant -> utilise_categ ));
+
+      xmlSetProp ( node,
+		   "Detail_categ",
+		   itoa ( etat_courant -> utilise_detail_categ ));
+
+      pointeur_liste = etat_courant -> no_categ;
+      pointeur_char = NULL;
+
+      while ( pointeur_liste )
+	{
+	  if ( pointeur_char )
+	    pointeur_char = g_strconcat ( pointeur_char,
+					  "/",
+					  itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
+					  NULL );
+	  else
+	    pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
+
+	  pointeur_liste = pointeur_liste -> next;
+	}
+
+      xmlSetProp ( node,
+			"No_categ",
+			pointeur_char );
+
+      xmlSetProp ( node,
+		   "Exclut_categ",
+		   itoa ( etat_courant -> exclure_ope_sans_categ ));
+
+      xmlSetProp ( node,
+		   "Total_categ",
+		   itoa ( etat_courant -> affiche_sous_total_categ ));
+
+      xmlSetProp ( node,
+		   "Aff_ss_categ",
+		   itoa ( etat_courant -> afficher_sous_categ ));
+
+      xmlSetProp ( node,
+		   "Aff_pas_ss_categ",
+		   itoa ( etat_courant -> afficher_pas_de_sous_categ ));
+
+      xmlSetProp ( node,
+		   "Total_ss_categ",
+		   itoa ( etat_courant -> affiche_sous_total_sous_categ ));
+
+      xmlSetProp ( node,
+		   "Devise_categ",
+		   itoa ( etat_courant -> devise_de_calcul_categ ));
+
+      xmlSetProp ( node,
+		   "Type_vir",
+		   itoa ( etat_courant -> type_virement ));
+
+      xmlSetProp ( node,
+		   "IB",
+		   itoa ( etat_courant -> utilise_ib ));
+
+      xmlSetProp ( node,
+		   "Detail_ib",
+		   itoa ( etat_courant -> utilise_detail_ib ));
+
+      pointeur_liste = etat_courant -> no_ib;
+      pointeur_char = NULL;
+
+      while ( pointeur_liste )
+	{
+	  if ( pointeur_char )
+	    pointeur_char = g_strconcat ( pointeur_char,
+					  "/",
+					  itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
+					  NULL );
+	  else
+	    pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
+
+	  pointeur_liste = pointeur_liste -> next;
+	}
+
+      xmlSetProp ( node,
+			"No_ib",
+			pointeur_char );
+
+      xmlSetProp ( node,
+		   "Exclut_ib",
+		   itoa ( etat_courant -> exclure_ope_sans_ib ));
+
+      xmlSetProp ( node,
+		   "Total_ib",
+		   itoa ( etat_courant -> affiche_sous_total_ib ));
+
+      xmlSetProp ( node,
+		   "Aff_ss_ib",
+		   itoa ( etat_courant -> afficher_sous_ib ));
+
+      xmlSetProp ( node,
+		   "Aff_pas_ss_ib",
+		   itoa ( etat_courant -> afficher_pas_de_sous_ib ));
+
+      xmlSetProp ( node,
+		   "Total_ss_ib",
+		   itoa ( etat_courant -> affiche_sous_total_sous_ib ));
+
+      xmlSetProp ( node,
+		   "Devise_ib",
+		   itoa ( etat_courant -> devise_de_calcul_ib ));
+
+      xmlSetProp ( node,
+		   "Tiers",
+		   itoa ( etat_courant -> utilise_tiers ));
+
+      xmlSetProp ( node,
+		   "Detail_tiers",
+		   itoa ( etat_courant -> utilise_detail_tiers ));
+
+      pointeur_liste = etat_courant -> no_tiers;
+      pointeur_char = NULL;
+
+      while ( pointeur_liste )
+	{
+	  if ( pointeur_char )
+	    pointeur_char = g_strconcat ( pointeur_char,
+					  "/",
+					  itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
+					  NULL );
+	  else
+	    pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
+
+	  pointeur_liste = pointeur_liste -> next;
+	}
+
+      xmlSetProp ( node,
+			"No_tiers",
+			pointeur_char );
+
+      xmlSetProp ( node,
+		   "Total_tiers",
+		   itoa ( etat_courant -> affiche_sous_total_tiers ));
+
+      xmlSetProp ( node,
+		   "Devise_tiers",
+		   itoa ( etat_courant -> devise_de_calcul_tiers ));
+
+      xmlSetProp ( node,
+			"Texte",
+			etat_courant -> texte );
+
+      xmlSetProp ( node,
+		   "Montant",
+		   g_strdup_printf ( "%4.2f",
+				     etat_courant -> montant ));
+
+  /* l'arbre est fait, on sauvegarde */
+
+  resultat = xmlSaveFile ( nom_etat,
+			   doc );
+
+  /* on libère la memoire */
+
+  xmlFreeDoc ( doc );
+
+
+  if ( resultat == -1 )
+    {
+      dialogue ( g_strconcat ( _("Erreur dans l'enregistrement du fichier :\n\n"),
+			       nom_etat,
+			       _("\n\nErreur :\n"),
+			       strerror ( errno ),
+			       NULL ));
+      return ( FALSE );
+    }
+
+
+  return ( TRUE );
+}
+/***********************************************************************************************************/
+
+
+
+/***********************************************************************************************************/
+gboolean charge_etat ( gchar *nom_etat )
+{
+  xmlDocPtr doc;
+
+  doc = xmlParseFile ( nom_etat );
+
+  if ( doc )
+    {
+      /* vérifications d'usage */
+
+      if ( !doc->root
+	   ||
+	   !doc->root->name
+	   ||
+	   g_strcasecmp ( doc->root->name,
+			  _("Grisbi_etat") ))
+	{
+	  dialogue ( _("Ce fichier n'est pas un état Grisbi") );
+	  xmlFreeDoc ( doc );
+	  return ( FALSE );
+	}
+
+      /* récupère la version de fichier */
+
+      if (( !strcmp (  xmlNodeGetContent ( doc->root->childs->childs ),
+		       "0.4.0" )))
+	return ( charge_etat_version_0_4_0 ( doc ));
+
+      /* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
+      /* la version nécessaire pour l'ouvrir */
+
+      dialogue ( g_strdup_printf ( _("Pour ouvrir ce fichier, il vous faut la version %s de Grisbi "),
+				   xmlNodeGetContent ( doc->root->childs->childs->next )));
+
+      xmlFreeDoc ( doc );
+
+      return ( FALSE );
+    }
+  else
+    {
+      dialogue ( _("Fichier d'état invalide.") );
+      return ( FALSE );
+    }
+}
+/***********************************************************************************************************/
+
+
+
+/***********************************************************************************************************/
+gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
+{
+  xmlNodePtr node_1;
+  struct struct_etat *etat;
+		      
+  etat = malloc ( sizeof ( struct struct_etat ));
+
+  /* on place node_1 sur les generalites */
+
+  node_1 = doc -> root -> childs;
+
+  while ( node_1 )
+    {
+      if ( !strcmp ( node_1 -> name,
+		     "Generalites" ) )
+	{
+	  xmlNodePtr node_generalites;
+
+	  /* node_generalites va faire le tour des generalites */
+
+	  node_generalites = node_1 -> childs;
+
+	  while ( node_generalites )
+	    {
+	      if ( !strcmp ( node_generalites -> name,
+			     "Nom" ))
+		etat -> nom_etat = xmlNodeGetContent ( node_generalites );
+
+
+	      node_generalites = node_generalites -> next;
+	    }
+	}
+
+      /* on recupère ici l'etat */
+
+      if ( !strcmp ( node_1 -> name,
+		     "Details" ))
+	{
+	      etat -> afficher_opes = atoi ( xmlGetProp ( node_1,
+							  "Aff_ope" ));
+
+	      etat -> afficher_no_ope = atoi ( xmlGetProp ( node_1,
+							    "Aff_no_ope" ));
+
+	      etat -> afficher_date_ope = atoi ( xmlGetProp ( node_1,
+							      "Aff_date_ope" ));
+
+	      etat -> afficher_tiers_ope = atoi ( xmlGetProp ( node_1,
+							       "Aff_tiers_ope" ));
+
+	      etat -> afficher_categ_ope = atoi ( xmlGetProp ( node_1,
+							       "Aff_categ_ope" ));
+
+	      etat -> afficher_sous_categ_ope = atoi ( xmlGetProp ( node_1,
+								    "Aff_ss_categ_ope" ));
+
+	      etat -> afficher_type_ope = atoi ( xmlGetProp ( node_1,
+							      "Aff_type_ope" ));
+
+	      etat -> afficher_ib_ope = atoi ( xmlGetProp ( node_1,
+							    "Aff_ib_ope" ));
+
+	      etat -> afficher_sous_ib_ope = atoi ( xmlGetProp ( node_1,
+								 "Aff_ss_ib_ope" ));
+
+	      etat -> afficher_cheque_ope = atoi ( xmlGetProp ( node_1,
+								"Aff_cheque_ope" ));
+
+	      etat -> afficher_notes_ope = atoi ( xmlGetProp ( node_1,
+							       "Aff_notes_ope" ));
+
+	      etat -> afficher_pc_ope = atoi ( xmlGetProp ( node_1,
+							    "Aff_pc_ope" ));
+
+	      etat -> afficher_rappr_ope = atoi ( xmlGetProp ( node_1,
+							       "Aff_rappr_ope" ));
+
+	      etat -> afficher_infobd_ope = atoi ( xmlGetProp ( node_1,
+								"Aff_infobd_ope" ));
+
+	      etat -> afficher_exo_ope = atoi ( xmlGetProp ( node_1,
+							     "Aff_exo_ope" ));
+
+	      etat -> afficher_titre_colonnes = atoi ( xmlGetProp ( node_1,
+								    "Aff_titres_col" ));
+
+	      etat -> type_affichage_titres = atoi ( xmlGetProp ( node_1,
+								  "Aff_titres_chgt" ));
+
+	      etat -> pas_detailler_ventilation = atoi ( xmlGetProp ( node_1,
+								      "Pas_detail_ventil" ));
+
+	      etat -> devise_de_calcul_general = atoi ( xmlGetProp ( node_1,
+								     "Devise_gen" ));
+
+	      etat -> exo_date = atoi ( xmlGetProp ( node_1,
+						     "Exo_date" ));
+							  			  
+	      etat -> utilise_detail_exo = atoi ( xmlGetProp ( node_1,
+							       "Detail_exo" ));
+							  			  
+	      etat -> no_exercices = NULL;
+
+	      if ( strlen ( xmlGetProp ( node_1,
+					 "No_exo" )))
+		{
+		  gchar **pointeur_char;
+		  gint i;
+
+		  pointeur_char = g_strsplit ( xmlGetProp ( node_1,
+							    "No_exo" ),
+					       "/",
+					       0 );
+		  i=0;
+
+		  while ( pointeur_char[i] )
+		    {
+		      etat -> no_exercices = g_slist_append ( etat -> no_exercices,
+							      GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
+		      i++;
+		    }
+		  g_strfreev ( pointeur_char );
+		}
+			
+							 
+	      etat -> no_plage_date = atoi ( xmlGetProp ( node_1,
+							  "Plage_date" ));
+
+	      if ( strlen ( xmlGetProp ( node_1,
+					 "Date_debut" )))
+		{
+		  gchar **pointeur_char;
+
+		  pointeur_char = g_strsplit ( xmlGetProp ( node_1,
+							    "Date_debut" ),
+					       "/",
+					       3 );
+
+		  etat -> date_perso_debut = g_date_new_dmy ( atoi ( pointeur_char[0] ),
+							      atoi ( pointeur_char[1] ),
+							      atoi ( pointeur_char[2] ));
+		  g_strfreev ( pointeur_char );
+		}
+	      else
+		etat -> date_perso_debut = NULL;
+
+	      if ( strlen ( xmlGetProp ( node_1,
+					 "Date_fin" )))
+		{
+		  gchar **pointeur_char;
+
+		  pointeur_char = g_strsplit ( xmlGetProp ( node_1,
+							    "Date_fin" ),
+					       "/",
+					       3 );
+
+		  etat -> date_perso_fin = g_date_new_dmy ( atoi ( pointeur_char[0] ),
+							    atoi ( pointeur_char[1] ),
+							    atoi ( pointeur_char[2] ));
+		  g_strfreev ( pointeur_char );
+		}
+	      else
+		etat -> date_perso_fin = NULL;
+
+	      etat -> type_classement = NULL;
+
+	      if ( strlen ( xmlGetProp ( node_1,
+					 "Type_classement" )))
+		{
+		  gchar **pointeur_char;
+		  gint i;
+
+		  pointeur_char = g_strsplit ( xmlGetProp ( node_1,
+							    "Type_classement" ),
+					       "/",
+					       0 );
+		  i=0;
+
+		  while ( pointeur_char[i] )
+		    {
+		      etat -> type_classement = g_list_append ( etat -> type_classement,
+								GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
+		      i++;
+		    }
+		  g_strfreev ( pointeur_char );
+		}
+
+
+	      etat -> utilise_detail_comptes = atoi ( xmlGetProp ( node_1,
+								   "Detail_comptes" ));
+
+	      etat -> no_comptes = NULL;
+
+	      if ( strlen ( xmlGetProp ( node_1,
+					 "No_comptes" )))
+		{
+		  gchar **pointeur_char;
+		  gint i;
+
+		  pointeur_char = g_strsplit ( xmlGetProp ( node_1,
+							    "No_comptes" ),
+					       "/",
+					       0 );
+		  i=0;
+
+		  while ( pointeur_char[i] )
+		    {
+		      etat ->no_comptes  = g_slist_append ( etat -> no_comptes,
+							    GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
+		      i++;
+		    }
+		  g_strfreev ( pointeur_char );
+		}
+
+
+	      etat -> regroupe_ope_par_compte = atoi ( xmlGetProp ( node_1,
+								    "Grp_ope_compte" ));
+
+	      etat -> affiche_sous_total_compte = atoi ( xmlGetProp ( node_1,
+								      "Total_compte" ));
+
+	      etat -> utilise_categ = atoi ( xmlGetProp ( node_1,
+							  "Categ" ));
+	      etat -> utilise_detail_categ = atoi ( xmlGetProp ( node_1,
+								 "Detail_categ" ));
+
+	      etat -> no_categ = NULL;
+
+	      if ( strlen ( xmlGetProp ( node_1,
+					 "No_categ" )))
+		{
+		  gchar **pointeur_char;
+		  gint i;
+
+		  pointeur_char = g_strsplit ( xmlGetProp ( node_1,
+							    "No_categ" ),
+					       "/",
+					       0 );
+		  i=0;
+
+		  while ( pointeur_char[i] )
+		    {
+		      etat -> no_categ = g_slist_append ( etat -> no_categ,
+							  GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
+		      i++;
+		    }
+		  g_strfreev ( pointeur_char );
+		}
+
+	      etat -> exclure_ope_sans_categ = atoi ( xmlGetProp ( node_1,
+								   "Exclut_categ" ));
+
+	      etat -> affiche_sous_total_categ = atoi ( xmlGetProp ( node_1,
+								     "Total_categ" ));
+
+	      etat -> afficher_sous_categ = atoi ( xmlGetProp ( node_1,
+								"Aff_ss_categ" ));
+
+	      etat -> afficher_pas_de_sous_categ = atoi ( xmlGetProp ( node_1,
+								       "Aff_pas_ss_categ" ));
+
+	      etat -> affiche_sous_total_sous_categ = atoi ( xmlGetProp ( node_1,
+									  "Total_ss_categ" ));
+
+	      etat -> devise_de_calcul_categ = atoi ( xmlGetProp ( node_1,
+								   "Devise_categ" ));
+
+	      etat -> type_virement = atoi ( xmlGetProp ( node_1,
+							  "Type_vir" ));
+
+	      etat -> utilise_ib = atoi ( xmlGetProp ( node_1,
+						       "IB" ));
+	      etat -> utilise_detail_ib = atoi ( xmlGetProp ( node_1,
+							      "Detail_ib" ));
+	      etat -> no_ib = NULL;
+
+	      if ( strlen ( xmlGetProp ( node_1,
+					 "No_ib" )))
+		{
+		  gchar **pointeur_char;
+		  gint i;
+
+		  pointeur_char = g_strsplit ( xmlGetProp ( node_1,
+							    "No_ib" ),
+					       "/",
+					       0 );
+		  i=0;
+
+		  while ( pointeur_char[i] )
+		    {
+		      etat -> no_ib = g_slist_append ( etat -> no_ib,
+						       GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
+		      i++;
+		    }
+		  g_strfreev ( pointeur_char );
+		}
+
+
+	      etat -> exclure_ope_sans_ib = atoi ( xmlGetProp ( node_1,
+								"Exclut_ib" ));
+
+	      etat -> affiche_sous_total_ib = atoi ( xmlGetProp ( node_1,
+								  "Total_ib" ));
+
+	      etat -> afficher_sous_ib = atoi ( xmlGetProp ( node_1,
+							     "Aff_ss_ib" ));
+
+	      etat -> afficher_pas_de_sous_ib = atoi ( xmlGetProp ( node_1,
+								    "Aff_pas_ss_ib" ));
+
+	      etat -> affiche_sous_total_sous_ib = atoi ( xmlGetProp ( node_1,
+								       "Total_ss_ib" ));
+
+	      etat -> devise_de_calcul_ib = atoi ( xmlGetProp ( node_1,
+								"Devise_ib" ));
+
+	      etat -> utilise_tiers = atoi ( xmlGetProp ( node_1,
+							  "Tiers" ));
+	      etat -> utilise_detail_tiers = atoi ( xmlGetProp ( node_1,
+								 "Detail_tiers" ));
+
+	      etat -> no_tiers = NULL;
+
+	      if ( strlen ( xmlGetProp ( node_1,
+					 "No_tiers" )))
+		{
+		  gchar **pointeur_char;
+		  gint i;
+
+		  pointeur_char = g_strsplit ( xmlGetProp ( node_1,
+							    "No_tiers" ),
+					       "/",
+					       0 );
+		  i=0;
+
+		  while ( pointeur_char[i] )
+		    {
+		      etat -> no_tiers = g_slist_append ( etat -> no_tiers,
+							  GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
+		      i++;
+		    }
+		  g_strfreev ( pointeur_char );
+		}
+
+	      etat -> affiche_sous_total_tiers = atoi ( xmlGetProp ( node_1,
+								     "Total_tiers" ));
+
+	      etat -> devise_de_calcul_tiers = atoi ( xmlGetProp ( node_1,
+								   "Devise_tiers" ));
+
+	      if ( strlen ( xmlGetProp ( node_1,
+					 "Texte" )))
+		etat -> texte = xmlGetProp ( node_1,
+					     "Texte" );
+	      else
+		etat -> texte = NULL;
+
+	      etat -> montant = g_strtod ( xmlGetProp ( node_1,
+							"Montant" ),
+					   NULL );
+
+	      liste_struct_etats = g_slist_append ( liste_struct_etats,
+						    etat );
+	}
+      node_1 = node_1 -> next;
+    }
+
+  /* on libère la memoire */
+  
+  xmlFreeDoc ( doc );
+
+  /* on rafraichit la liste des états */
+ 
+  remplissage_liste_etats ();
+
+  gtk_widget_set_sensitive ( bouton_effacer_etat,
+			     TRUE );
+
+  modification_fichier ( TRUE );
+
+  return ( TRUE );
 }
 /***********************************************************************************************************/

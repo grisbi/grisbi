@@ -140,7 +140,7 @@ gboolean imprimer_pc ( GnomePrintContext * pc, struct struct_etat *etat )
 /*   /\*   gtk_object_unref (GTK_OBJECT (text_font)); *\/ */
 /*   /\*   gnome_print_context_close (pc); *\/ */
 
-/*   return 1; */
+  return 1;
 }
 
 

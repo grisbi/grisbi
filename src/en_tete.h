@@ -70,6 +70,9 @@ gchar *itoa ( gint integer );
 gchar *vire_les_points_virgules ( gchar *origine );
 gchar *vire_les_accolades ( gchar *origine );
 void fichier_marque_ouvert ( gint ouvert );
+gboolean enregistre_etat ( gchar *nom_etat );
+gboolean charge_etat ( gchar *nom_etat );
+gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc );
 
 
 
@@ -871,6 +874,8 @@ gint classement_liste_opes_etat ( struct structure_operation *operation_1,
 void etape_finale_affichage_etat ( GSList *ope_selectionnees, 
 				   struct struct_etat_affichage *affichage );
 void denote_struct_sous_jaccentes ( gint origine );
+void exporter_etat ( void );
+void importer_etat ( void );
 
 
 /***********************************/ 

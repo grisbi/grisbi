@@ -3,6 +3,7 @@
 
 
 #define VERSION_FICHIER "0.4.0"
+#define VERSION_FICHIER_ETAT "0.4.0"
 
 /* Chemin des fichiers */
 
