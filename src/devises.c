@@ -1913,7 +1913,7 @@ gboolean change_passera_euro ( GtkWidget *bouton,
 			    devise -> date_dernier_change );
 
 	  gtk_label_set_text ( GTK_LABEL ( label_date_dernier_change ),
-			       g_strconcat (_("Last exchange rate: "), date, NULL ));
+			       g_strconcat (_("Last exchange rate"), ": ", date, NULL ));
 	  spin_button_set_value ( entree_conversion, &(devise->change) );
 	}
       else
