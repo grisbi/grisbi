@@ -425,19 +425,24 @@ GtkWidget *onglet_messages_and_warnings ( void )
 
 
 /** 
- * TODO: document
+ * Changes backup file name upon every keystroke on entry.
  *
+ * \param entry Widget that triggered handler
+ * \param value Not used
+ * \param length Not used
+ * \param position Not used
+ *
+ * \returns FALSE
  */
-gboolean change_backup_path (GtkEntry *entry, gchar *value, 
-			     gint length, gint * position)
+gboolean change_backup_path ( GtkEntry *entry, gchar *value, gint length, gint * position )
 {
-    /*   if ( nom_fichier_backup ) */
-    /*     g_strfreev ( nom_fichier_backup ); */
     nom_fichier_backup = g_strdup ( gtk_entry_get_text ( GTK_ENTRY(entry) ));
+
     if ( nom_fichier_backup && !strlen(nom_fichier_backup) )
     {
 	nom_fichier_backup = NULL;
     }
+
     return ( FALSE );
 }
 
@@ -607,8 +612,8 @@ void changement_choix_backup ( GtkWidget *bouton,
 	gtk_widget_set_sensitive ( GTK_WIDGET ( entree_chemin_backup ), TRUE );
 	if (! nom_fichier_backup || !strlen(nom_fichier_backup) )
 	{
-	    gtk_entry_set_text ( GTK_ENTRY ( GTK_FILE_SELECTION (entree_chemin_backup )->selection_entry),
-				 _("backup.gsb") );
+	    gtk_entry_set_text ( GTK_ENTRY(entree_chemin_backup), _("backup.gsb") );
+	    change_backup_path ( GTK_ENTRY(entree_chemin_backup), NULL, 0, 0 );
 	}
     }
     else
