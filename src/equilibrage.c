@@ -32,13 +32,16 @@ enum reconciliation_columsn {
   RECONCILIATION_VISIBLE_COLUMN,
   RECONCILIATION_SORT_COLUMN,
   RECONCILIATION_SPLIT_NEUTRAL_COLUMN,
+  RECONCILIATION_ACCOUNT_COLUMN,
+  RECONCILIATION_TYPE_COLUMN,
   NUM_RECONCILIATION_COLUMNS,
 };
 
 
-GtkWidget * treeview;
-GtkTreeStore *model;
+GtkWidget * reconcile_treeview;
+GtkTreeStore *reconcile_model;
 GtkWidget * button_move_up, * button_move_down;
+GtkTreeSelection * reconcile_selection;
 
 
 /* ********************************************************************************************************** */
@@ -1207,12 +1210,14 @@ void fill_reconciliation_tree ()
     {
       GSList * liste_tmp;
 
-      gtk_tree_store_append (model, &account_iter, NULL);
-      gtk_tree_store_set (model, &account_iter,
+      gtk_tree_store_append (reconcile_model, &account_iter, NULL);
+      gtk_tree_store_set (reconcile_model, &account_iter,
 			  RECONCILIATION_NAME_COLUMN, NOM_DU_COMPTE,
 			  RECONCILIATION_VISIBLE_COLUMN, TRUE,
 			  RECONCILIATION_SORT_COLUMN, ! TRI,
 			  RECONCILIATION_SPLIT_NEUTRAL_COLUMN, NEUTRES_INCLUS,
+			  RECONCILIATION_ACCOUNT_COLUMN, p_tab_nom_de_compte_variable,
+			  RECONCILIATION_TYPE_COLUMN, -1,
 			  -1 );
 
       liste_tmp = LISTE_TRI;
@@ -1229,25 +1234,27 @@ void fill_reconciliation_tree ()
 	  if ( result )
 	    {
 	      type_ope = result -> data;
-	      gtk_tree_store_append (model, &payment_method_iter, &account_iter);
-	      gtk_tree_store_set (model, &payment_method_iter,
+	      gtk_tree_store_append (reconcile_model, &payment_method_iter, &account_iter);
+	      gtk_tree_store_set (reconcile_model, &payment_method_iter,
 				  RECONCILIATION_NAME_COLUMN, type_ope -> nom_type,
 				  RECONCILIATION_VISIBLE_COLUMN, FALSE,
 				  RECONCILIATION_SORT_COLUMN, FALSE,
 				  RECONCILIATION_SPLIT_NEUTRAL_COLUMN, FALSE,
+				  RECONCILIATION_ACCOUNT_COLUMN, p_tab_nom_de_compte_variable,
+				  RECONCILIATION_TYPE_COLUMN, type_ope -> no_type,
 				  -1 );
 	    }
 	  liste_tmp = liste_tmp -> next;
 	}
 
-      if ( gtk_tree_model_iter_has_child( GTK_TREE_MODEL(model), &account_iter) &&
+      if ( gtk_tree_model_iter_has_child( GTK_TREE_MODEL(reconcile_model), &account_iter) &&
 	   TRI )
 	{
 	  GtkTreePath * treepath;
-	  treepath = gtk_tree_model_get_path (GTK_TREE_MODEL(model), &account_iter);
+	  treepath = gtk_tree_model_get_path (GTK_TREE_MODEL(reconcile_model), &account_iter);
 	  if ( treepath )
 	    {
-	      gtk_tree_view_expand_row ( GTK_TREE_VIEW(treeview), treepath, TRUE );
+	      gtk_tree_view_expand_row ( GTK_TREE_VIEW(reconcile_treeview), treepath, TRUE );
 	      gtk_tree_path_free ( treepath );
 	    }
 	}
@@ -1262,7 +1269,7 @@ void fill_reconciliation_tree ()
  * TODO: move + document this
  *
  */
-void select_reconciliation_entry ( GtkTreeSelection * selection, 
+void select_reconciliation_entry ( GtkTreeSelection * tselection, 
 				   GtkTreeModel * model )
 {
   GtkTreeIter iter, other;
@@ -1270,7 +1277,7 @@ void select_reconciliation_entry ( GtkTreeSelection * selection,
   GValue value_visible = {0, };
   gboolean good;
 
-  good = gtk_tree_selection_get_selected (selection, NULL, &iter);
+  good = gtk_tree_selection_get_selected (tselection, NULL, &iter);
   if (good)
     gtk_tree_model_get_value (model, &iter, 
 			      RECONCILIATION_VISIBLE_COLUMN, &value_visible);
@@ -1292,6 +1299,128 @@ void select_reconciliation_entry ( GtkTreeSelection * selection,
       gtk_widget_set_sensitive ( button_move_up, FALSE );
       gtk_widget_set_sensitive ( button_move_down, FALSE );
     }
+}
+
+
+
+/** 
+ * TODO: document this
+ */
+void deplacement_type_tri_haut ( GtkWidget * button, gpointer data )
+{
+  GtkTreePath * treepath;
+  gboolean good, visible;
+  GtkTreeIter iter, other;
+  GSList * elt;
+  gint no_type;
+
+  good = gtk_tree_selection_get_selected (reconcile_selection, NULL, &iter);
+  if (good)
+    gtk_tree_model_get ( GTK_TREE_MODEL(reconcile_model), &iter, 
+			 RECONCILIATION_VISIBLE_COLUMN, &visible,
+			 RECONCILIATION_ACCOUNT_COLUMN, &p_tab_nom_de_compte_variable,
+			 RECONCILIATION_TYPE_COLUMN, &no_type,
+			 -1 );
+
+  if ( good && ! visible )
+    {
+      treepath = gtk_tree_model_get_path ( GTK_TREE_MODEL(reconcile_model), 
+					   &iter );
+
+      if ( gtk_tree_path_prev ( treepath ) &&
+	   gtk_tree_model_get_iter ( GTK_TREE_MODEL(reconcile_model), 
+				     &other, treepath ) )
+	{
+	  gtk_tree_store_move_before ( GTK_TREE_STORE(reconcile_model), 
+				       &iter, &other );
+	}
+    }
+
+  select_reconciliation_entry ( reconcile_selection, reconcile_model );
+
+  for ( elt = LISTE_TRI ; elt -> next ; elt = elt -> next )
+    {
+      if ( elt -> next &&
+	   elt -> next -> data == no_type )
+	{
+	  printf ("swapping %d and %d\n", elt->data, no_type);
+	  LISTE_TRI = g_slist_remove ( LISTE_TRI, no_type );
+	  LISTE_TRI = g_slist_insert_before ( LISTE_TRI, elt, no_type );
+	  break;
+	}
+    }  
+}
+
+
+
+/** 
+ * TODO: document this
+ */
+void deplacement_type_tri_bas ( void )
+{
+  GtkTreePath * treepath;
+  gboolean good, visible;
+  GtkTreeIter iter, other;
+  GSList * elt;
+  gint no_type;
+
+  good = gtk_tree_selection_get_selected (reconcile_selection, NULL, &iter);
+  if (good)
+    gtk_tree_model_get ( GTK_TREE_MODEL(reconcile_model), &iter, 
+			 RECONCILIATION_VISIBLE_COLUMN, &visible,
+			 RECONCILIATION_ACCOUNT_COLUMN, &p_tab_nom_de_compte_variable,
+			 RECONCILIATION_TYPE_COLUMN, &no_type,
+			 -1 );
+
+  if ( good && ! visible )
+    {
+      treepath = gtk_tree_model_get_path ( GTK_TREE_MODEL(reconcile_model), 
+					   &iter );
+
+      gtk_tree_path_next ( treepath ) ;
+      if ( gtk_tree_model_get_iter ( GTK_TREE_MODEL(reconcile_model), 
+				     &other, treepath ) )
+	{
+	  gtk_tree_store_move_after ( GTK_TREE_STORE(reconcile_model), 
+				      &iter, &other );
+	}
+    }
+
+  select_reconciliation_entry ( reconcile_selection, reconcile_model );
+
+  for ( elt = LISTE_TRI ; elt -> next ; elt = elt -> next )
+    {
+      if ( elt -> next &&  elt -> data == no_type )
+	{
+	  gint ref = elt->next->data;
+	  printf ("swapping %d and %d\n", no_type, ref);
+	  LISTE_TRI = g_slist_remove ( LISTE_TRI, ref );
+	  LISTE_TRI = g_slist_insert_before ( LISTE_TRI, elt, ref );
+	  break;
+	}
+    }  
+}
+
+
+
+/* ************************************************************************************************************** */
+/* cette fonction est appelée chaque fois qu'on modifie l'ordre de la liste des tris */
+/* et elle save cet ordre dans la liste temporaire */
+/* ************************************************************************************************************** */
+void save_ordre_liste_type_tri ( void )
+{
+  gint no_compte;
+  gint i;
+
+  no_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( bouton_type_tri_date ),
+						      "no_compte" ));
+  g_slist_free ( liste_tri_tmp[no_compte] );
+  liste_tri_tmp[no_compte] = NULL;
+
+  for ( i=0 ; i < GTK_CLIST ( type_liste_tri ) -> rows ; i++ )
+    liste_tri_tmp[no_compte] = g_slist_append ( liste_tri_tmp[no_compte],
+						gtk_clist_get_row_data ( GTK_CLIST ( type_liste_tri ),
+									 i ));
 }
 
 
@@ -1328,25 +1457,30 @@ GtkWidget * tab_display_reconciliation ( void )
   gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				   GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-  model = gtk_tree_store_new ( NUM_RECONCILIATION_COLUMNS,
-			       G_TYPE_STRING, /* Name */
-			       G_TYPE_BOOLEAN, /* Visible */
-			       G_TYPE_BOOLEAN, /* Sort by date */
-			       G_TYPE_BOOLEAN ); /* Split neutrals */
-  treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (model) );
-  gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
-  g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview)),
-		    "changed", G_CALLBACK (select_reconciliation_entry), model);
+  reconcile_model = gtk_tree_store_new ( NUM_RECONCILIATION_COLUMNS,
+					 G_TYPE_STRING, /* Name */
+					 G_TYPE_BOOLEAN, /* Visible */
+					 G_TYPE_BOOLEAN, /* Sort by date */
+					 G_TYPE_BOOLEAN, /* Split neutrals */
+					 G_TYPE_POINTER, /* Account pointer */
+					 G_TYPE_INT ); /* type_ope -> no_type */
+  reconcile_treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (reconcile_model) );
+  gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (reconcile_treeview), TRUE);
+  gtk_tree_selection_set_mode ( gtk_tree_view_get_selection (GTK_TREE_VIEW (reconcile_treeview)),
+				GTK_SELECTION_SINGLE );
+  reconcile_selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (reconcile_treeview));
+  g_signal_connect (reconcile_selection, "changed", 
+		    G_CALLBACK (select_reconciliation_entry), reconcile_model);
 
   /* Name */
-  cell = gtk_cell_renderer_text_new ();
+  cell = gtk_cell_renderer_text_new ( );
   column = gtk_tree_view_column_new ( );
   gtk_tree_view_column_pack_end ( column, cell, TRUE );
   gtk_tree_view_column_set_title ( column, _("Payment method") );
   gtk_tree_view_column_set_attributes (column, cell,
 				       "text", RECONCILIATION_NAME_COLUMN,
 				       NULL);
-  gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column);
+  gtk_tree_view_append_column ( GTK_TREE_VIEW(reconcile_treeview), column);
 
   /* Defaults */
   cell = gtk_cell_renderer_toggle_new ();
@@ -1362,7 +1496,7 @@ GtkWidget * tab_display_reconciliation ( void )
 				       "activatable", RECONCILIATION_VISIBLE_COLUMN,
 				       "visible", RECONCILIATION_VISIBLE_COLUMN,
 				       NULL);
-  gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column);
+  gtk_tree_view_append_column ( GTK_TREE_VIEW(reconcile_treeview), column);
 
   /* Split neutral payment methods */
   cell = gtk_cell_renderer_toggle_new ();
@@ -1378,14 +1512,14 @@ GtkWidget * tab_display_reconciliation ( void )
 				       "activatable", RECONCILIATION_VISIBLE_COLUMN,
 				       "visible", RECONCILIATION_VISIBLE_COLUMN,
 				       NULL);
-  gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column);
+  gtk_tree_view_append_column ( GTK_TREE_VIEW(reconcile_treeview), column);
 
   /* Various remaining settings */
 /*   g_signal_connect (treeview, "realize", G_CALLBACK (gtk_tree_view_expand_all),  */
 /* 		    NULL); */
   gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 					GTK_SHADOW_IN);
-  gtk_container_add ( GTK_CONTAINER ( scrolled_window ), treeview );
+  gtk_container_add ( GTK_CONTAINER ( scrolled_window ), reconcile_treeview );
 
   fill_reconciliation_tree();
       
@@ -1412,72 +1546,4 @@ GtkWidget * tab_display_reconciliation ( void )
 }
 
 
-
-/* ************************************************************************************************************** */
-void deplacement_type_tri_haut ( GtkWidget * button, gpointer data )
-{
-  GtkTreeIter iter, other;
-  GtkTreePath * treepath;
-  GValue value_visible = {0, };
-  gboolean good, visible;
-  GtkTreeSelection * selection;
-
-  selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
-  good = gtk_tree_selection_get_selected (selection, NULL, &iter);
-  printf (">>> %p, %d\n", selection, good);
-  if (good)
-    gtk_tree_model_get_value ( GTK_TREE_MODEL(model), &iter, 
-			       RECONCILIATION_VISIBLE_COLUMN, &visible);
-
-  if ( good && ! visible )
-    {
-      treepath = gtk_tree_model_get_path ( GTK_TREE_MODEL(model), &iter );
-
-      if ( gtk_tree_path_prev ( treepath ) &&
-	   gtk_tree_model_get_iter ( GTK_TREE_MODEL(model), &other, treepath ) )
-	{
-	  gtk_tree_store_move_before ( GTK_TREE_STORE(model), &iter, &other );
-	}
-    }
-
-/*       save_ordre_liste_type_tri(); */
-}
-/* ************************************************************************************************************** */
-
-
-
-/* ************************************************************************************************************** */
-void deplacement_type_tri_bas ( void )
-{
-  if ( GPOINTER_TO_INT ( GTK_CLIST ( type_liste_tri ) -> selection -> data ) < GTK_CLIST ( type_liste_tri ) -> rows )
-    {
-      gtk_clist_swap_rows ( GTK_CLIST ( type_liste_tri ),
-			    GPOINTER_TO_INT ( GTK_CLIST ( type_liste_tri ) -> selection -> data ),
-			    GPOINTER_TO_INT ( GTK_CLIST ( type_liste_tri ) -> selection -> data ) + 1 );
-      save_ordre_liste_type_tri();
-    }
-}
-/* ************************************************************************************************************** */
-
-
-
-/* ************************************************************************************************************** */
-/* cette fonction est appelée chaque fois qu'on modifie l'ordre de la liste des tris */
-/* et elle save cet ordre dans la liste temporaire */
-/* ************************************************************************************************************** */
-void save_ordre_liste_type_tri ( void )
-{
-  gint no_compte;
-  gint i;
-
-  no_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( bouton_type_tri_date ),
-						      "no_compte" ));
-  g_slist_free ( liste_tri_tmp[no_compte] );
-  liste_tri_tmp[no_compte] = NULL;
-
-  for ( i=0 ; i < GTK_CLIST ( type_liste_tri ) -> rows ; i++ )
-    liste_tri_tmp[no_compte] = g_slist_append ( liste_tri_tmp[no_compte],
-						gtk_clist_get_row_data ( GTK_CLIST ( type_liste_tri ),
-									 i ));
-}
 
