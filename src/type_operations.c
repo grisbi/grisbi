@@ -38,6 +38,12 @@ enum payment_methods_columns {
   NUM_PAYMENT_METHODS_COLUMNS,
 };
 
+GtkWidget *entree_automatic_numbering; /* FIXME: Move it */
+
+
+GtkWidget *treeview;
+GtkTreeStore *model;
+
 /** Global to handle sensitiveness */
 GtkWidget * details_paddingbox;
 
@@ -47,7 +53,6 @@ item_toggled (GtkCellRendererToggle *cell,
 	      gchar                 *path_str,
 	      gpointer               data)
 {
-  GtkTreeModel *model = (GtkTreeModel *)data;
   GtkTreePath *path = gtk_tree_path_new_from_string (path_str);
   GtkTreeIter iter, parent, child;
   gboolean toggle_item;
@@ -99,6 +104,15 @@ item_toggled (GtkCellRendererToggle *cell,
 
 
 
+/** FIXME: MOVE IT */
+gboolean activate_automatic_numbering ( GtkToggleButton * checkbox, gpointer data )
+{
+  gtk_widget_set_sensitive ( entree_type_dernier_no,
+			     gtk_toggle_button_get_active ( checkbox ));
+}
+
+
+
 /**
  * Creates the "Payment methods" tab.  It uses a nice GtkTreeView.
  *
@@ -108,8 +122,6 @@ GtkWidget *onglet_types_operations ( void )
 {
   GtkWidget *vbox_pref, *hbox, *scrolled_window, *paddingbox;
   GtkWidget *vbox, *table, *menu, *item, *label, *bouton;
-  GtkWidget *treeview;
-  GtkTreeStore *model;
   GtkTreeViewColumn *column;
   GtkCellRenderer *cell;
   GtkTreeIter account_iter, debit_iter, credit_iter, child_iter;
@@ -117,72 +129,6 @@ GtkWidget *onglet_types_operations ( void )
 
   vbox_pref = new_vbox_with_title_and_icon ( _("Reconciliation"),
 					     "reconciliation.png" );
-
-  /* Copy lists so that we work on temporary lists. */
-  liste_tmp_types = malloc ( nb_comptes * sizeof (gpointer));
-  type_defaut_debit = malloc ( nb_comptes * sizeof (gint));
-  type_defaut_credit = malloc ( nb_comptes * sizeof (gint));
-  liste_tri_tmp = malloc ( nb_comptes * sizeof (gpointer));
-  tri_tmp = malloc ( nb_comptes * sizeof (gint));
-  neutres_inclus_tmp = malloc ( nb_comptes * sizeof (gint));
-
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
-  for ( i = 0 ; i < nb_comptes ; i++ )
-    {
-      GSList *liste_tmp;
-      GSList *liste_types_tmp;
-
-      liste_tmp = TYPES_OPES;
-      liste_types_tmp = NULL;
-
-      while ( liste_tmp )
-	{
-	  struct struct_type_ope *type_ope;
-	  struct struct_type_ope *type_ope_tmp;
-
-	  type_ope = liste_tmp -> data;
-	  type_ope_tmp = malloc ( sizeof ( struct struct_type_ope ));
-
-	  type_ope_tmp -> no_type = type_ope -> no_type;
-	  type_ope_tmp -> nom_type = g_strdup ( type_ope -> nom_type );
-	  type_ope_tmp -> signe_type = type_ope -> signe_type;
-	  type_ope_tmp -> affiche_entree = type_ope -> affiche_entree;
-	  type_ope_tmp -> numerotation_auto = type_ope -> numerotation_auto;
-	  type_ope_tmp -> no_en_cours = type_ope -> no_en_cours;
-	  type_ope_tmp -> no_compte = type_ope -> no_compte;
-
-	  liste_types_tmp = g_slist_append ( liste_types_tmp,
-					     type_ope_tmp );
-
-	  liste_tmp = liste_tmp -> next;
-	}
-
-      liste_tmp_types[i] = liste_types_tmp;
-
-      type_defaut_debit[i] = TYPE_DEFAUT_DEBIT;
-      type_defaut_credit[i] = TYPE_DEFAUT_CREDIT;
-
-      /* on s'occupe des tris */
-
-      tri_tmp[i] = TRI;
-      neutres_inclus_tmp[i] = NEUTRES_INCLUS;
-
-      liste_tmp = LISTE_TRI;
-      liste_types_tmp = NULL;
-
-      while ( liste_tmp )
-	{
-	  liste_types_tmp = g_slist_append ( liste_types_tmp,
-					     liste_tmp -> data );
-
-	  liste_tmp = liste_tmp -> next;
-	}
-
-      liste_tri_tmp[i] = liste_types_tmp;
-
-      p_tab_nom_de_compte_variable++;
-    }
 
   /* Now we have a model, create view */
   vbox_pref = new_vbox_with_title_and_icon ( _("Payment methods"),
@@ -194,7 +140,6 @@ GtkWidget *onglet_types_operations ( void )
   hbox = gtk_hbox_new ( FALSE, 6 );
   gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 		       TRUE, TRUE, 0 );
-
 
   /* Create tree */
   scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
@@ -312,7 +257,7 @@ GtkWidget *onglet_types_operations ( void )
 
 
       /* Iter over account payment methods */
-      liste_tmp = liste_tmp_types[i];
+      liste_tmp = TYPES_OPES;
 
       while ( liste_tmp )
 	{
@@ -417,7 +362,7 @@ GtkWidget *onglet_types_operations ( void )
 		     0, 0 );
   entree_type_nom = new_text_entry ( NULL, modification_entree_nom_type );
   gtk_table_attach ( GTK_TABLE ( table ),
-		     entree_type_nom, 1, 2, 0, 1,
+		     entree_type_nom, 1, 3, 0, 1,
 		     GTK_EXPAND | GTK_FILL, 0,
 		     0, 0 );
 
@@ -436,6 +381,13 @@ GtkWidget *onglet_types_operations ( void )
   gtk_table_attach ( GTK_TABLE ( table ),
 		     entree_type_dernier_no, 1, 2, 1, 2,
 		     GTK_EXPAND | GTK_FILL, 0,
+		     0, 0 );
+  entree_automatic_numbering = 
+    new_checkbox_with_title (_("Activate"),
+			     NULL, activate_automatic_numbering);
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     entree_automatic_numbering, 2, 3, 1, 2,
+		     GTK_SHRINK, 0,
 		     0, 0 );
 
   /* Payment method type */
@@ -474,7 +426,7 @@ GtkWidget *onglet_types_operations ( void )
   /* Set menu */
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_signe_type ), menu );
   gtk_table_attach ( GTK_TABLE ( table ),
-		     bouton_signe_type, 1, 2, 2, 3,
+		     bouton_signe_type, 1, 3, 2, 3,
 		     GTK_EXPAND | GTK_FILL, 0,
 		     0, 0 );
 
@@ -498,8 +450,8 @@ select_payment_method (GtkTreeSelection *selection,
   gboolean good;
 
   good = gtk_tree_selection_get_selected (selection, NULL, &iter);
-  gtk_tree_model_get_value (model, &iter, PAYMENT_METHODS_VISIBLE_COLUMN, 
-			    &value_visible);
+  gtk_tree_model_get_value (model, &iter, 
+			    PAYMENT_METHODS_VISIBLE_COLUMN, &value_visible);
 
   if (! good ||
       ! g_value_get_boolean(&value_visible))
@@ -507,21 +459,25 @@ select_payment_method (GtkTreeSelection *selection,
       entry_set_value ( entree_type_nom, NULL );
       spin_button_set_value ( entree_type_dernier_no, NULL );
       gtk_entry_set_text ( GTK_ENTRY ( entree_type_dernier_no ), "" );
-      gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_signe_type ),
-				    0);	/* We set menu to "Neutral" as
-					   a default*/
+      checkbox_set_value ( entree_automatic_numbering, NULL, TRUE );
+      activate_automatic_numbering ( entree_automatic_numbering, NULL );
+      /* We set menu to "Neutral" as a default*/
+      gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_signe_type ), 0);	
       gtk_widget_set_sensitive ( details_paddingbox, FALSE );
     }
   else
     {
       struct struct_type_ope * type_ope;
-      gtk_tree_model_get (model, &iter, PAYMENT_METHODS_POINTER_COLUMN, 
-			  &type_ope,
+      gtk_tree_model_get (model, &iter, 
+			  PAYMENT_METHODS_POINTER_COLUMN, &type_ope,
 			  -1);
       gtk_widget_set_sensitive ( details_paddingbox, TRUE );
       entry_set_value ( entree_type_nom, &(type_ope -> nom_type) );
       spin_button_set_value ( entree_type_dernier_no, 
-			      (gboolean) &(type_ope -> numerotation_auto ) );
+			      (gboolean) &(type_ope -> no_en_cours) );
+      checkbox_set_value ( entree_automatic_numbering, 
+			   &(type_ope -> numerotation_auto), TRUE );
+      activate_automatic_numbering ( entree_automatic_numbering, NULL );
       gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_signe_type ),
 				    type_ope -> signe_type );
     }
@@ -564,48 +520,87 @@ void deselection_ligne_arbre_types ( GtkWidget *arbre,
 void modification_entree_nom_type ( void )
 {
   struct struct_type_ope *type_ope;
+  GtkWidget * menu;
+  GtkTreeSelection *selection;
+  GtkTreeIter iter;
+  GValue value_name = {0, };
+  GValue value_visible = {0, };
+  gboolean good, visible;
 
-  /** FIXME: TODO */
+  selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
+  good = gtk_tree_selection_get_selected (selection, NULL, &iter);
+
+  gtk_tree_model_get ( model, &iter, 
+		       PAYMENT_METHODS_VISIBLE_COLUMN, &visible,
+		       PAYMENT_METHODS_POINTER_COLUMN, &type_ope,
+		       -1 );
+
+  if (good && visible)
+    {
+      gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 
+			  PAYMENT_METHODS_NAME_COLUMN, type_ope -> nom_type, 
+			  -1);
+
+      if ( (menu = creation_menu_types ( 1, compte_courant , 0 )))
+	{
+	  gint pos_type;
+
+	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+	  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
+				     menu );
+
+	  pos_type = cherche_no_menu_type ( TYPE_DEFAUT_DEBIT );
+
+	  if ( pos_type != -1 )
+	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
+					  pos_type );
+	  else
+	    {
+	      struct struct_type_ope *type;
+
+	      gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
+					    0 );
+	      TYPE_DEFAUT_DEBIT = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu_item ),
+									"no_type" ));
+
+	      /* on affiche l'entrée des chèques si nécessaire */
+
+	      type = g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu_item ),
+					 "adr_type" );
+
+	      if ( type -> affiche_entree )
+		gtk_widget_show ( widget_formulaire_operations[10] );
+	    }
+
+	  gtk_widget_show ( widget_formulaire_operations[9] );
+	}
+      else
+	{
+	  gtk_widget_hide ( widget_formulaire_operations[9] );
+	  gtk_widget_hide ( widget_formulaire_operations[10] );
+	}
+
+    }
 }
 
 
 
 
-/* ************************************************************************************************************** */
+/**
+ * TODO: document this
+ *
+ */
 void modification_type_affichage_entree ( void )
 {
-  struct struct_type_ope *type_ope;
-  GtkCTreeNode *node;
-
-  node = gtk_object_get_data ( GTK_OBJECT ( entree_type_nom ),
-			       "adr_node" );
-  type_ope = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_types_operations ),
-					   node );
-
-  if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_type_apparaitre_entree )))
-    {
-      gtk_widget_set_sensitive ( bouton_type_numerotation_automatique,
-				 TRUE );
-      type_ope -> affiche_entree = 1;
-    }
-  else
-    {
-      gtk_widget_set_sensitive ( bouton_type_numerotation_automatique,
-				 FALSE );
-      type_ope -> affiche_entree = 0;
-      gtk_widget_set_sensitive ( entree_type_dernier_no,
-				 FALSE );
-    }
-
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_type_numerotation_automatique ),
-				 FALSE );
 }
-/* ************************************************************************************************************** */
 
 
 
-
-/* ************************************************************************************************************** */
+/**
+ * TODO: document this
+ *
+ */
 void modification_type_numerotation_auto (void)
 {
   struct struct_type_ope *type_ope;
@@ -629,21 +624,37 @@ void modification_type_numerotation_auto (void)
 				 FALSE );
     }
 }
-/* ************************************************************************************************************** */
 
 
 
-/* ************************************************************************************************************** */
+/**
+ * TODO: document this
+ */
 void modification_entree_type_dernier_no ( void )
 {
   struct struct_type_ope *type_ope;
-  GtkCTreeNode *node;
+  GtkWidget * menu;
+  GtkTreeSelection *selection;
+  GtkTreeIter iter;
+  GValue value_name = {0, };
+  GValue value_visible = {0, };
+  gboolean good, visible;
 
+  selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
+  good = gtk_tree_selection_get_selected (selection, NULL, &iter);
 
-/*   type_ope -> no_en_cours = atoi ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_type_dernier_no )))); */
+  gtk_tree_model_get ( model, &iter, 
+		       PAYMENT_METHODS_VISIBLE_COLUMN, &visible,
+		       PAYMENT_METHODS_POINTER_COLUMN, &type_ope,
+		       -1 );
 
+  if (good && visible)
+    {
+      gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 
+			  PAYMENT_METHODS_NUMBERING_COLUMN, itoa(type_ope -> no_en_cours), 
+			  -1);
+    }
 }
-/* ************************************************************************************************************** */
 
 
 /* ************************************************************************************************************** */
@@ -774,104 +785,104 @@ void modification_type_signe ( gint *no_menu )
 /* ************************************************************************************************************** */
 void modification_type_par_defaut ( void )
 {
-  struct struct_type_ope *type_ope;
-  GtkCTreeNode *node;
+/*   struct struct_type_ope *type_ope; */
+/*   GtkCTreeNode *node; */
 
-  node = gtk_object_get_data ( GTK_OBJECT ( entree_type_nom ),
-			       "adr_node" );
-  type_ope = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_types_operations ),
-					   node );
+/*   node = gtk_object_get_data ( GTK_OBJECT ( entree_type_nom ), */
+/* 			       "adr_node" ); */
+/*   type_ope = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_types_operations ), */
+/* 					   node ); */
 
 
-  if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_type_choix_defaut )))
-    {
-      /* on vient de choisir ce type par défaut */
+/*   if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_type_choix_defaut ))) */
+/*     { */
+/*       /\* on vient de choisir ce type par défaut *\/ */
 
-      GSList *liste_tmp;
-      struct struct_type_ope *type_ope_defaut;
-      GtkCTreeNode *node_defaut;
+/*       GSList *liste_tmp; */
+/*       struct struct_type_ope *type_ope_defaut; */
+/*       GtkCTreeNode *node_defaut; */
 
       
-      liste_tmp = liste_tmp_types[type_ope->no_compte];
+/*       liste_tmp = liste_tmp_types[type_ope->no_compte]; */
 
 
-      if ( type_ope->signe_type == 2 )
-	{
-	  /* s'il y avait déjà un défaut, on vire la croix à côté de celui ci */
+/*       if ( type_ope->signe_type == 2 ) */
+/* 	{ */
+/* 	  /\* s'il y avait déjà un défaut, on vire la croix à côté de celui ci *\/ */
 
-	  if ( type_defaut_credit[type_ope->no_compte] )
-	    {
-	      type_ope_defaut = g_slist_find_custom ( liste_tmp,
-						      GINT_TO_POINTER (type_defaut_credit[type_ope->no_compte]),
-						      (GCompareFunc) recherche_type_ope_par_no ) -> data;
+/* 	  if ( type_defaut_credit[type_ope->no_compte] ) */
+/* 	    { */
+/* 	      type_ope_defaut = g_slist_find_custom ( liste_tmp, */
+/* 						      GINT_TO_POINTER (type_defaut_credit[type_ope->no_compte]), */
+/* 						      (GCompareFunc) recherche_type_ope_par_no ) -> data; */
 
-	      node_defaut = gtk_ctree_find_by_row_data ( GTK_CTREE ( arbre_types_operations ),
-							 GTK_CTREE_ROW ( node ) -> parent,
-							 type_ope_defaut );
-	      gtk_ctree_node_set_text ( GTK_CTREE ( arbre_types_operations ),
-					node_defaut,
-					1,
-					"" );
-
-
-	    }
-
-	  type_defaut_credit[type_ope->no_compte] = type_ope->no_type;
-	  gtk_ctree_node_set_text ( GTK_CTREE ( arbre_types_operations ),
-				    node,
-				    1,
-				    "x" );
-	}
-      else
-	{
-	  /* s'il y avait déjà un défaut, on vire la croix à côté de celui ci */
-
-	  if ( type_defaut_debit[type_ope->no_compte] )
-	    {
-	      type_ope_defaut = g_slist_find_custom ( liste_tmp,
-						      GINT_TO_POINTER (type_defaut_debit[type_ope->no_compte]),
-						      (GCompareFunc) recherche_type_ope_par_no ) -> data;
-
-	      node_defaut = gtk_ctree_find_by_row_data ( GTK_CTREE ( arbre_types_operations ),
-							 GTK_CTREE_ROW ( node ) -> parent,
-							 type_ope_defaut );
-	      gtk_ctree_node_set_text ( GTK_CTREE ( arbre_types_operations ),
-					node_defaut,
-					1,
-					"" );
+/* 	      node_defaut = gtk_ctree_find_by_row_data ( GTK_CTREE ( arbre_types_operations ), */
+/* 							 GTK_CTREE_ROW ( node ) -> parent, */
+/* 							 type_ope_defaut ); */
+/* 	      gtk_ctree_node_set_text ( GTK_CTREE ( arbre_types_operations ), */
+/* 					node_defaut, */
+/* 					1, */
+/* 					"" ); */
 
 
-	    }
+/* 	    } */
 
-	  type_defaut_debit[type_ope->no_compte] = type_ope->no_type;
-	  gtk_ctree_node_set_text ( GTK_CTREE ( arbre_types_operations ),
-				    node,
-				      1,
-				    "x" );
-	}
-    }
-  else
-    {
-      /* on retire ce type du défaut */
+/* 	  type_defaut_credit[type_ope->no_compte] = type_ope->no_type; */
+/* 	  gtk_ctree_node_set_text ( GTK_CTREE ( arbre_types_operations ), */
+/* 				    node, */
+/* 				    1, */
+/* 				    "x" ); */
+/* 	} */
+/*       else */
+/* 	{ */
+/* 	  /\* s'il y avait déjà un défaut, on vire la croix à côté de celui ci *\/ */
 
-      if ( type_ope->signe_type == 2 )
-	{
-	  type_defaut_credit[type_ope->no_compte] = 0;
-	  gtk_ctree_node_set_text ( GTK_CTREE ( arbre_types_operations ),
-				    node,
-				    1,
-				    "" );
-	}
-      else
-	if ( type_ope->signe_type == 1 )
-	  {
-	    type_defaut_debit[type_ope->no_compte] = 0;
-	    gtk_ctree_node_set_text ( GTK_CTREE ( arbre_types_operations ),
-				      node,
-				      1,
-				      "" );
-	  }
-    }
+/* 	  if ( type_defaut_debit[type_ope->no_compte] ) */
+/* 	    { */
+/* 	      type_ope_defaut = g_slist_find_custom ( liste_tmp, */
+/* 						      GINT_TO_POINTER (type_defaut_debit[type_ope->no_compte]), */
+/* 						      (GCompareFunc) recherche_type_ope_par_no ) -> data; */
+
+/* 	      node_defaut = gtk_ctree_find_by_row_data ( GTK_CTREE ( arbre_types_operations ), */
+/* 							 GTK_CTREE_ROW ( node ) -> parent, */
+/* 							 type_ope_defaut ); */
+/* 	      gtk_ctree_node_set_text ( GTK_CTREE ( arbre_types_operations ), */
+/* 					node_defaut, */
+/* 					1, */
+/* 					"" ); */
+
+
+/* 	    } */
+
+/* 	  type_defaut_debit[type_ope->no_compte] = type_ope->no_type; */
+/* 	  gtk_ctree_node_set_text ( GTK_CTREE ( arbre_types_operations ), */
+/* 				    node, */
+/* 				      1, */
+/* 				    "x" ); */
+/* 	} */
+/*     } */
+/*   else */
+/*     { */
+/*       /\* on retire ce type du défaut *\/ */
+
+/*       if ( type_ope->signe_type == 2 ) */
+/* 	{ */
+/* 	  type_defaut_credit[type_ope->no_compte] = 0; */
+/* 	  gtk_ctree_node_set_text ( GTK_CTREE ( arbre_types_operations ), */
+/* 				    node, */
+/* 				    1, */
+/* 				    "" ); */
+/* 	} */
+/*       else */
+/* 	if ( type_ope->signe_type == 1 ) */
+/* 	  { */
+/* 	    type_defaut_debit[type_ope->no_compte] = 0; */
+/* 	    gtk_ctree_node_set_text ( GTK_CTREE ( arbre_types_operations ), */
+/* 				      node, */
+/* 				      1, */
+/* 				      "" ); */
+/* 	  } */
+/*     } */
 }
 /* ************************************************************************************************************** */
 
@@ -912,7 +923,7 @@ void ajouter_type_operation ( void )
 
   type_ope = malloc ( sizeof ( struct struct_type_ope ));
 
-  if ( liste_tmp_types[no_compte] )
+  if ( liste_tmp_types[no_compte] ) /* FIXME */
     type_ope -> no_type = ((struct struct_type_ope *)(g_slist_last ( liste_tmp_types[no_compte] )->data))->no_type + 1;
   else
     type_ope -> no_type = 1;
@@ -924,7 +935,7 @@ void ajouter_type_operation ( void )
   type_ope -> no_en_cours = 0;
   type_ope -> no_compte = no_compte;
 
-  liste_tmp_types[no_compte] = g_slist_append ( liste_tmp_types[no_compte],
+  liste_tmp_types[no_compte] = g_slist_append ( liste_tmp_types[no_compte], /* FIXME */
 						type_ope );
 
   ligne[0] = type_ope -> nom_type;
@@ -946,7 +957,7 @@ void ajouter_type_operation ( void )
 
   /* on ajoute ce type à la liste des tris */
 
-  liste_tri_tmp[no_compte] = g_slist_append ( liste_tri_tmp[no_compte],
+  liste_tri_tmp[no_compte] = g_slist_append ( liste_tri_tmp[no_compte],	/* FIXME */
 					      GINT_TO_POINTER ( type_ope -> no_type ));
 
   /*   si les neutres doivent être intégrés dans les débits crédits, on ajoute son opposé */
@@ -991,7 +1002,7 @@ void supprimer_type_operation ( void )
   /*     si oui, on les met dans une liste */
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + type_ope -> no_compte;
-  pointeur_tmp = LISTE_OPERATIONS;
+  pointeur_tmp = LISTE_OPERATIONS; /* FIXME!!! */
   ope_a_changer = NULL;
 
   while ( pointeur_tmp )
@@ -1202,23 +1213,23 @@ void modif_tri_date_ou_type ( void )
 {
   gint no_compte;
 
-  no_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( bouton_type_tri_date ),
-						      "no_compte" ));
+/*   no_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( bouton_type_tri_date ), */
+/* 						      "no_compte" )); */
 
-  if ( (tri_tmp[no_compte] = !gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_type_tri_date ))))
-    {
-      gtk_widget_set_sensitive ( bouton_type_neutre_inclut,
-				 TRUE );
-      gtk_widget_set_sensitive ( type_liste_tri,
-				 TRUE );
-    }
-  else
-    {
-      gtk_widget_set_sensitive ( bouton_type_neutre_inclut,
-				 FALSE );
-      gtk_widget_set_sensitive ( type_liste_tri,
-				 FALSE );
-    }
+/*   if ( (tri_tmp[no_compte] = !gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_type_tri_date )))) */
+/*     { */
+/*       gtk_widget_set_sensitive ( bouton_type_neutre_inclut, */
+/* 				 TRUE ); */
+/*       gtk_widget_set_sensitive ( type_liste_tri, */
+/* 				 TRUE ); */
+/*     } */
+/*   else */
+/*     { */
+/*       gtk_widget_set_sensitive ( bouton_type_neutre_inclut, */
+/* 				 FALSE ); */
+/*       gtk_widget_set_sensitive ( type_liste_tri, */
+/* 				 FALSE ); */
+/*     } */
 }
 /* ************************************************************************************************************** */
 
