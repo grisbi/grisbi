@@ -226,179 +226,49 @@ onglet_display_transaction_form ( void )
 }
 
 
-/* GtkWidget * onglet_display_transaction_list ( void ) */
-/* { */
-/*   GtkWidget *hbox, *vbox_pref; */
-/*   GtkWidget *label, *paddingbox; */
-/*   GtkWidget *table, *bouton; */
 
-/*   vbox_pref = new_vbox_with_title_and_icon ( _("Transaction list"), */
-/* 					     "pixmaps/transaction-list.png" ); */
-
-  
-
-/*   return vbox_pref; */
-/* } */
-
-
+/**
+ * Creates the "Fonts & logo" tab.  This function creates some buttons
+ * that are borrowed from applications like gedit.
+ *
+ * \returns A newly allocated vbox
+ */
 GtkWidget * onglet_display_fonts ( void )
 {
   GtkWidget *hbox, *vbox_pref;
   GtkWidget *label, *paddingbox;
-  GtkWidget *table, *bouton;
+  GtkWidget *table, *font_button, *logo_button;
+  GtkWidget *hbox_font;
 
-  vbox_pref = new_vbox_with_title_and_icon ( _("Fonts &amp; logo"),
+  vbox_pref = new_vbox_with_title_and_icon ( _("Fonts & logo"),
 					     "pixmaps/fonts.png" );
 
 
-  /*   ajout du choix de la fonte pour les listes */
+  /* Change Grisbi Logo */
+  paddingbox = paddingbox_new_with_title ( vbox_pref,
+					   _("Grisbi logo") );
 
-  hbox = gtk_hbox_new ( FALSE,
-			     5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( hbox );
+  hbox = gtk_hbox_new ( FALSE, 5 );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
+		       FALSE, FALSE, 0 );
 
-  bouton = gnome_font_picker_new ();
-  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+  logo_button = gtk_button_new ();
+  gtk_button_set_relief ( GTK_BUTTON ( logo_button ),
 			  GTK_RELIEF_NONE );
-  if ( fonte_liste )
-    gnome_font_picker_set_font_name ( GNOME_FONT_PICKER ( bouton ),
-				      fonte_liste );
-  gtk_signal_connect ( GTK_OBJECT ( bouton ),
-		       "font-set",
-		       GTK_SIGNAL_FUNC ( choix_fonte ),
-		       NULL );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       bouton,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton );
-
-  label = gtk_label_new ( SPACIFY(_(": Change lists font /")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( label );
-
-  /* on remet un font_picker sans nom de fonte pour le raz */
-
-  bouton = gnome_font_picker_new ();
-  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			  GTK_RELIEF_NONE );
-  gtk_signal_connect ( GTK_OBJECT ( bouton ),
-		       "font-set",
-		       GTK_SIGNAL_FUNC ( choix_fonte ),
-		       NULL );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       bouton,
-		       FALSE,
-		       FALSE,
-		       0 );
-
-  gtk_container_remove ( GTK_CONTAINER ( bouton ),
-			 GTK_BIN ( bouton ) -> child );
-  label = gtk_label_new ( _("Init") );
-  gtk_container_add ( GTK_CONTAINER ( bouton ),
-		      label );
-  gtk_widget_show ( label );
-  gtk_widget_show ( bouton );
-
-
-  /*   ajout du choix de la fonte générale */
-
-  hbox = gtk_hbox_new ( FALSE,
-			     5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( hbox );
-
-  bouton = gnome_font_picker_new ();
-  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			  GTK_RELIEF_NONE );
-  if ( fonte_general )
-    gnome_font_picker_set_font_name ( GNOME_FONT_PICKER ( bouton ),
-				      fonte_general );
-  gtk_signal_connect ( GTK_OBJECT ( bouton ),
-		       "font-set",
-		       GTK_SIGNAL_FUNC ( choix_fonte_general ),
-		       NULL );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       bouton,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton );
-
-  label = gtk_label_new ( SPACIFY(_(": Change general font /")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( label );
-
-
-  /* on remet un font_picker sans nom de fonte pour le raz */
-
-  bouton = gnome_font_picker_new ();
-  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			  GTK_RELIEF_NONE );
-  gtk_signal_connect ( GTK_OBJECT ( bouton ),
-		       "font-set",
-		       GTK_SIGNAL_FUNC ( choix_fonte_general ),
-		       NULL );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       bouton,
-		       FALSE,
-		       FALSE,
-		       0 );
-
-  gtk_container_remove ( GTK_CONTAINER ( bouton ),
-			 GTK_BIN ( bouton ) -> child );
-  label = gtk_label_new ( _("Init") );
-  gtk_container_add ( GTK_CONTAINER ( bouton ),
-		      label );
-  gtk_widget_show ( label );
-  gtk_widget_show ( bouton );
-
-  /* ajout de la modification du logo de l'accueil  */
-
-  hbox = gtk_hbox_new ( FALSE,
-			     5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( hbox );
-
-  bouton = gtk_button_new ();
-  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			  GTK_RELIEF_NONE );
-  gtk_container_add ( GTK_CONTAINER ( bouton ),
-		  bouton = gtk_button_new_from_stock (GTK_STOCK_OK));
-		      //gnome_stock_pixmap_widget ( bouton,
+  gtk_container_add ( GTK_CONTAINER ( logo_button ),
+		  logo_button = gtk_button_new_from_stock (GTK_STOCK_OK));
+		      //gnome_stock_pixmap_widget ( logo_button,
 						  //GNOME_STOCK_PIXMAP_FORWARD ));
-  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+  gtk_signal_connect ( GTK_OBJECT ( logo_button ),
 		       "clicked",
 		       GTK_SIGNAL_FUNC ( modification_logo_accueil ),
 		       NULL );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       bouton,
+		       logo_button,
 		       FALSE,
 		       FALSE,
 		       0 );
-  gtk_widget_show_all ( bouton );
+  gtk_widget_show_all ( logo_button );
 
   label = gtk_label_new ( g_strconcat (" : ", 
 				       _("Change homepage logo"), 
@@ -409,6 +279,83 @@ GtkWidget * onglet_display_fonts ( void )
 		       FALSE,
 		       0 );
   gtk_widget_show ( label );
+
+
+  /* Change fonts */
+  paddingbox = paddingbox_new_with_title ( vbox_pref ,
+					    _("Fonts") );
+
+  /* Create table */
+  table = gtk_table_new ( 2, 2, FALSE );
+  gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
+  gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), table,
+		       TRUE, TRUE, 0 );
+
+
+  /* Change general font */
+  label = gtk_label_new (COLON(_("General font")));
+  gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+  gtk_label_set_justify ( label, GTK_JUSTIFY_RIGHT );
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     label, 0, 1, 0, 1,
+		     GTK_SHRINK | GTK_FILL, 0,
+		     0, 0 );
+
+  /* Create font button */
+  font_button = gtk_button_new ();
+  hbox_font = gtk_hbox_new ( FALSE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
+		       gtk_label_new ("Ma fonte"),
+		       TRUE, TRUE, 5 );
+  gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
+		       gtk_vseparator_new (),
+		       FALSE, FALSE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
+		       gtk_label_new ("12"),
+		       FALSE, FALSE, 5 );
+  gtk_widget_show_all ( hbox_font );
+  gtk_container_add (GTK_CONTAINER ( font_button ), hbox_font);
+  gtk_signal_connect ( GTK_OBJECT ( font_button ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( choix_fonte ),
+		       fonte_liste );
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     font_button, 1, 2, 0, 1,
+		     GTK_EXPAND | GTK_FILL, 0,
+		     0, 0 );
+
+  /* Change list font */
+  label = gtk_label_new (COLON(_("Transaction list font")));
+  gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+  gtk_label_set_justify ( label, GTK_JUSTIFY_RIGHT );
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     label, 0, 1, 1, 2,
+		     GTK_SHRINK | GTK_FILL, 0,
+		     0, 0 );
+
+  /* Create font button */
+  font_button = gtk_button_new ();
+  hbox_font = gtk_hbox_new ( FALSE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
+		       gtk_label_new ("Ma fonte"),
+		       TRUE, TRUE, 5 );
+  gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
+		       gtk_vseparator_new (),
+		       FALSE, FALSE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
+		       gtk_label_new ("12"),
+		       FALSE, FALSE, 5 );
+  gtk_widget_show_all ( hbox_font );
+  gtk_container_add (GTK_CONTAINER(font_button), hbox_font);
+  gtk_signal_connect ( GTK_OBJECT ( font_button ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( choix_fonte ),
+		       fonte_liste );
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     font_button, 1, 2, 1, 2,
+		     GTK_EXPAND | GTK_FILL, 0,
+		     0, 0 );
   
   return vbox_pref;
 }
@@ -427,7 +374,7 @@ GtkWidget *onglet_display_addresses ( void )
   GtkWidget *bouton;
   GtkWidget *onglet;
 
-  vbox_pref = new_vbox_with_title_and_icon ( _("Addresses &amp; titles"),
+  vbox_pref = new_vbox_with_title_and_icon ( _("Addresses & titles"),
 					     "pixmaps/addresses.png" );
 
   /* mise en place du titre du fichier */
@@ -440,7 +387,7 @@ GtkWidget *onglet_display_addresses ( void )
 		       0);
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( COLON(_("Main title")) );
+  label = gtk_label_new ( COLON(_("Account title")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
