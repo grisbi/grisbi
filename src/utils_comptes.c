@@ -87,9 +87,9 @@ gint recupere_no_compte ( GtkWidget *option_menu )
 {
     gint no_compte;
     
-    if ( !option_menu
-	 ||
-	 !GTK_IS_OPTION_MENU ( option_menu ))
+    if ( !option_menu ||
+	 !GTK_IS_OPTION_MENU ( option_menu ) ||
+	 !GTK_IS_OBJECT ( GTK_OPTION_MENU ( option_menu ) -> menu_item ))
 	return -1;
 
     no_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT (  GTK_OPTION_MENU ( option_menu ) -> menu_item ),
