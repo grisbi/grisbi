@@ -2440,7 +2440,10 @@ gboolean changement_taille_liste_ope ( GtkWidget *clist,
 			   col2,
 			   FALSE );
     gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_BANK] ),
-			   col3+col4+col5,
+			   col3+col4,
+			   FALSE  );
+    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_RECONCILIATION] ),
+			   col5,
 			   FALSE  );
     gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_MODE] ),
 			   col6,
