@@ -367,7 +367,7 @@ void export_accounts_to_csv (GSList* export_entries_list )
 	      struct struct_type_ope * type = pMiscList -> data;
 
 	      if ( type -> numerotation_auto )
-		csv_field_cheque = pTransaction -> contenu_type ;
+		csv_field_cheque = g_strdup( pTransaction -> contenu_type );
 	    }
 
 	    /* Budgetary lines */
@@ -520,7 +520,7 @@ void export_accounts_to_csv (GSList* export_entries_list )
 		    struct struct_type_ope * type = pMiscList -> data;
 
 		    if ( type -> numerotation_auto )
-		      csv_field_cheque = pBreakdownTransaction -> contenu_type ;
+		      csv_field_cheque = g_strdup( pBreakdownTransaction -> contenu_type );
 		  }
 
 
