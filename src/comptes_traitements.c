@@ -1,30 +1,34 @@
-/* Ce fichier s'occupe des manipulations de comptes */
-/* comptes_traitements.c */
-
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
-/* 			http://www.grisbi.org */
-
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
-
-
+/* ************************************************************************** */
+/* Fichier qui s'occupe des manipulations de comptes                          */
+/*                                                                            */
+/*                         comptes_traitements.c                              */
+/*                                                                            */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004 Benjamin Drieu (bdrieu@april.org)		      */
+/*			2004 Alain Portal (dionysos@grisbi.org)		      */
+/*			http://www.grisbi.org				      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
 #include "comptes_traitements.h"
+#include "constants.h"
 
 
 
@@ -45,16 +49,15 @@
 #include "type_operations.h"
 
 
-extern GtkWidget *widget_formulaire_echeancier[19];
+extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GSList *gsliste_echeances;
 extern struct operation_echeance *echeance_selectionnnee;
 extern gint nb_echeances;
 
 
-/* *********************************************************************************************************** */
-/* Routine appelée lorsque l'on crée un nouveau compte */
-/* *********************************************************************************************************** */
-
+/* ************************************************************************** */
+/* Routine appelée lorsque l'on crée un nouveau compte                        */
+/* ************************************************************************** */
 void  nouveau_compte ( void )
 {
     gint type_de_compte;
@@ -88,7 +91,7 @@ void  nouveau_compte ( void )
 
     /* on met à jour l'option menu des formulaires des échéances et des opés */
 
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] ),
+    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
 			       creation_option_menu_comptes (GTK_SIGNAL_FUNC(changement_choix_compte_echeancier), TRUE) );
 
 
@@ -118,14 +121,13 @@ void  nouveau_compte ( void )
 
     modification_fichier ( TRUE );
 }
-/* *********************************************************************************************************** */
+/* ************************************************************************** */
 
-
-/* *********************************************************************************************************** */
-/* cette fonction crée un nouveau compte, l'initialise, l'ajoute aux comptes */
-/* et renvoie le no du compte créé */
-/* renvoie -1 s'il y a un pb */
-/* *********************************************************************************************************** */
+/* ************************************************************************** */
+/* Cette fonction crée un nouveau compte, l'initialise, l'ajoute aux comptes  */
+/* et renvoie le no du compte créé                                            */
+/* renvoie -1 s'il y a un pb                                                  */
+/* ************************************************************************** */
 gint initialisation_nouveau_compte ( gint type_de_compte )
 {
 
@@ -174,16 +176,12 @@ gint initialisation_nouveau_compte ( gint type_de_compte )
 
     return (NO_COMPTE);
 }
-/* *********************************************************************************************************** */
+/* ************************************************************************** */
 
-
-
-/* *********************************************************************************************************** */
-/* fonction affichant une boite de dialogue contenant une liste des comptes */
-/* pour en supprimer un */
-/* *********************************************************************************************************** */
-
-
+/* ************************************************************************** */
+/* Fonction affichant une boite de dialogue contenant une liste des comptes   */
+/* pour en supprimer un                                                       */
+/* ************************************************************************** */
 void supprimer_compte ( void )
 {
     short actualise = 0, i;
@@ -355,7 +353,7 @@ void supprimer_compte ( void )
 
     /* on met à jour l'option menu du formulaire des échéances */
 
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] ),
+    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
 			       creation_option_menu_comptes (GTK_SIGNAL_FUNC(changement_choix_compte_echeancier), TRUE) );
 
     /* réaffiche la liste si necessaire */
@@ -378,7 +376,7 @@ void supprimer_compte ( void )
     modification_fichier( TRUE ); 
 
 }
-/* *********************************************************************************************************** */
+/* ************************************************************************** */
 
 /**
  *  Create an option menu with the list of accounts.  This list is
@@ -425,7 +423,7 @@ GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func,
 
     return ( menu );
 }
-/***********************************************************************************************************/
+/* ************************************************************************** */
 
 /**
  *  Create an option menu with the list of unclosed accounts.  This list is
@@ -475,60 +473,56 @@ GtkWidget * creation_option_menu_comptes_nonclos ( GtkSignalFunc func,
 
     return ( menu );
 }
-/***********************************************************************************************************/
+/* ************************************************************************** */
 
-
-
-/***********************************************************************************************************/
+/* ************************************************************************** */
 void changement_choix_compte_echeancier ( void )
 {
     GtkWidget *menu;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] )->menu_item),
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] )->menu_item),
 												 "no_compte" ));
 
-    if ( gtk_widget_get_style ( widget_formulaire_echeancier[3] ) == style_entree_formulaire[0] )
+    if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ) == style_entree_formulaire[ENCLAIR] )
     {
 	/*       il y a qque chose dans le crédit, on met le menu des types crédit */
 
 	if ( (menu = creation_menu_types ( 2,
-					   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] )->menu_item),
+					   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] )->menu_item),
 										   "no_compte" )),
 					   1 )))
 	{
-	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ),
+	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
 				       menu );
-	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ),
+	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
 					  cherche_no_menu_type_echeancier ( TYPE_DEFAUT_CREDIT ) );
-	    gtk_widget_show ( widget_formulaire_echeancier[7] );
+	    gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
 	}
 	else
-	    gtk_widget_hide ( widget_formulaire_echeancier[7] );
+	    gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
     }
     else
     {
 	/*       il y a qque chose dans le débit ou c'est par défaut, on met le menu des types débit */
 
 	if ( (menu = creation_menu_types ( 1,
-					   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] )->menu_item),
+					   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] )->menu_item),
 										   "no_compte" )),
 					   1 )))
 	{
-	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ),
+	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
 				       menu );
-	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ),
+	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
 					  cherche_no_menu_type_echeancier ( TYPE_DEFAUT_DEBIT ) );
-	    gtk_widget_show ( widget_formulaire_echeancier[7] );
+	    gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
 	}
 	else
-	    gtk_widget_hide ( widget_formulaire_echeancier[7] );
+	    gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
     }
 }
-/***********************************************************************************************************/
+/* ************************************************************************** */
 
-
-
-/***********************************************************************************************************/
+/* ************************************************************************** */
 void creation_types_par_defaut ( gint no_compte,
 				 gulong dernier_cheque )
 {
@@ -633,8 +627,6 @@ void creation_types_par_defaut ( gint no_compte,
 				     GINT_TO_POINTER ( 4 ));
 	LISTE_TRI = g_slist_append ( LISTE_TRI,
 				     GINT_TO_POINTER ( 5 ));
-
-
     }
     else
     {
@@ -668,14 +660,13 @@ void creation_types_par_defaut ( gint no_compte,
 
     p_tab_nom_de_compte_variable = save_p_tab;
 }
-/***********************************************************************************************************/
+/* ************************************************************************** */
 
-
-/***********************************************************************************************************/
-/* cette fonction est appelée lors de la création d'un nouveau compte */
-/* elle renvoie le type demandé pour pouvoir mettre ensuite les types par défaut */
-/***********************************************************************************************************/
-
+/* ************************************************************************** */
+/* Cette fonction est appelée lors de la création d'un nouveau compte.        */
+/* elle renvoie le type demandé pour pouvoir mettre ensuite les types par     */
+/* défaut.                                                                    */
+/* ************************************************************************** */
 gint demande_type_nouveau_compte ( void )
 {
     GtkWidget *dialog;
@@ -721,4 +712,4 @@ gint demande_type_nouveau_compte ( void )
 
     return ( type_compte );
 }
-/***********************************************************************************************************/
+/* ************************************************************************** */
