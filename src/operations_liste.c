@@ -527,7 +527,7 @@ void onglet_compte_realize ( GtkWidget *onglet,
 
 /******************************************************************************/
 /* remplissage de la liste des opérations du compte donné en argument */
-/* par les opéations du compte courant */
+/* par les opérations du compte courant */
 /******************************************************************************/
 void remplissage_liste_operations ( gint compte )
 {
@@ -2658,6 +2658,14 @@ void popup_transaction_context_menu ( gboolean full )
     g_signal_connect ( G_OBJECT(menu_item), "activate", new_transaction, NULL );
     gtk_menu_append ( menu, menu_item );
 
+    /* New transaction from */
+    menu_item = gtk_image_menu_item_new_with_label ( _("New transaction from") );
+    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
+				    gtk_image_new_from_stock ( GTK_STOCK_NEW,
+							       GTK_ICON_SIZE_MENU ));
+    g_signal_connect ( G_OBJECT(menu_item), "activate", new_transaction_from_selected, NULL );
+    gtk_menu_append ( menu, menu_item );
+
     /* Delete transaction */
     menu_item = gtk_image_menu_item_new_with_label ( _("Delete transaction") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
@@ -2797,6 +2805,39 @@ void clone_selected_transaction ()
     modification_fichier ( TRUE );
 }
 
+/**
+ * Clone selected transaction but set date, reset value date and checking.
+ */
+void new_transaction_from_selected ()
+{
+    gint compte;
+
+    compte = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_listes_operations )) - 1;
+
+    if ( compte < 0 )
+	return;
+    
+    if (! assert_selected_transaction()) return;
+
+    OPERATION_SELECTIONNEE = new_transaction_from ( OPERATION_SELECTIONNEE );
+
+    gtk_clist_moveto ( GTK_CLIST ( CLIST_OPERATIONS ),
+		       gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
+						      OPERATION_SELECTIONNEE ),
+		       0,
+		       0.5,
+		       0 );
+    selectionne_ligne ( compte );
+
+    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
+
+    mise_a_jour_tiers ();
+    mise_a_jour_categ ();
+    mise_a_jour_imputation ();
+
+    modification_fichier ( TRUE );
+}
+
 
 /**
  * Clone transaction.  If it is a breakdown or a transfer, perform all
@@ -2852,6 +2893,76 @@ struct structure_operation *  clone_transaction ( struct structure_operation * o
 	    if ( operation_2 -> no_operation_ventilee_associee == operation -> no_operation )
 	    {
 		ope_ventilee = clone_transaction ( operation_2 );
+		ope_ventilee -> no_operation_ventilee_associee = new_transaction -> no_operation;
+	    }
+
+	    liste_tmp = liste_tmp -> next;
+	}
+    }
+
+    return new_transaction;
+}
+
+
+/**
+ * Clone transaction but set date, reset value date and checking.
+ * If it is a breakdown or a transfer, perform all
+ * needed operations, like cloning associated transactions as well.
+ *
+ * \param operation Initial transaction to clone
+ *
+ * \return A newly created operation.
+ */
+struct structure_operation *  new_transaction_from ( struct structure_operation * operation )
+{
+    struct structure_operation * new_transaction, * ope_ventilee;
+
+    new_transaction = (struct structure_operation *) malloc ( sizeof(struct structure_operation) );
+    if ( !new_transaction )
+    {
+	dialogue ( _("Cannot allocate memory, bad things will happen soon") );
+	return(FALSE);
+    }
+
+#ifndef _WIN32
+    bcopy ( operation, new_transaction, sizeof(struct structure_operation) );
+#else
+    memcpy(new_transaction, operation, sizeof(struct structure_operation) );
+#endif
+    new_transaction -> no_operation = 0;
+
+    new_transaction -> pointe = OPERATION_NORMALE;
+    new_transaction -> date = gdate_today();
+    new_transaction -> jour = g_date_day ( new_transaction -> date ) ;
+    new_transaction -> mois = g_date_month ( new_transaction -> date ) ;
+    new_transaction -> annee = g_date_year ( new_transaction -> date ) ;
+    new_transaction -> date_bancaire = NULL;
+    
+    ajout_operation ( new_transaction );
+
+    if ( new_transaction -> relation_no_operation != 0 || new_transaction -> relation_no_compte != 0 )
+    {
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + new_transaction -> relation_no_compte;
+	validation_virement_operation ( new_transaction, 0, NOM_DU_COMPTE );
+    }
+
+    if ( operation -> operation_ventilee )
+    {
+	GSList *liste_tmp;
+
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+
+	liste_tmp = LISTE_OPERATIONS;
+
+	while ( liste_tmp )
+	{
+	    struct structure_operation *operation_2;
+
+	    operation_2 = liste_tmp -> data;
+
+	    if ( operation_2 -> no_operation_ventilee_associee == operation -> no_operation )
+	    {
+		ope_ventilee = new_transaction_from ( operation_2 );
 		ope_ventilee -> no_operation_ventilee_associee = new_transaction -> no_operation;
 	    }
 

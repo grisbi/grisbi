@@ -99,6 +99,9 @@ void init_variables ( gboolean ouverture )
 							       menu_name(_("Edit"), _("New transaction"), NULL)),
 				   TRUE );
 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Edit"), _("New transaction from selected"), NULL)),
+				   TRUE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							       menu_name(_("Edit"), _("Remove transaction"), NULL)),
 				   TRUE );
 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
@@ -215,6 +218,9 @@ void init_variables ( gboolean ouverture )
 				   FALSE );
 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							       menu_name(_("Edit"), _("New transaction"), NULL)),
+				   FALSE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Edit"), _("New transaction from selected"), NULL)),
 				   FALSE );
 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							       menu_name(_("Edit"), _("Remove transaction"), NULL)),

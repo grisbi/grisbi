@@ -33,9 +33,11 @@ gboolean changement_taille_colonne ( GtkWidget *clist, gint colonne, gint largeu
 
 gboolean assert_selected_transaction ();
 void new_transaction ( );
+void new_transaction_from_selected ( );
 void remove_transaction ( );
 void clone_selected_transaction ( );
 struct structure_operation * clone_transaction ( struct structure_operation * operation );
+struct structure_operation * new_transaction_from ( struct structure_operation * operation );
 void move_selected_operation_to_account ( GtkMenuItem * menu_item );
 void move_selected_operation_to_account_nb ( gint *account );
 gboolean move_operation_to_account ( struct structure_operation * transaction, 
