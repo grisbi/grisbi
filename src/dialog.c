@@ -296,7 +296,7 @@ gboolean question_yes_no ( gchar *texte )
 
     dialog = gtk_message_dialog_new ( GTK_WINDOW (window),
 				      GTK_DIALOG_DESTROY_WITH_PARENT,
-				      GTK_MESSAGE_WARNING,
+				      GTK_MESSAGE_QUESTION,
 				      GTK_BUTTONS_OK_CANCEL,
 				      texte );
     gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), texte );
