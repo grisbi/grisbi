@@ -115,8 +115,8 @@ ZVT_LIBS = @ZVT_LIBS@
 cflags_set = @cflags_set@
 cxxflags_set = @cxxflags_set@
 prefix = @prefix@
-@APPLET_TRUE@SUBDIRS = macros src po intl applet #help
-@APPLET_FALSE@SUBDIRS = macros src po intl #help
+@APPLET_TRUE@SUBDIRS = macros src po intl #applet
+@APPLET_FALSE@SUBDIRS = macros src po intl
 
 EXTRA_DIST = 
 
@@ -135,7 +135,7 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-DIST_SUBDIRS =  macros src po intl applet macros src po intl
+DIST_SUBDIRS =  macros src po intl macros src po intl
 all: all-redirect
 .SUFFIXES:
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
