@@ -23,11 +23,17 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "erreur.h"
 #include "exercice.h"
+
+
+
+#include "categories_onglet.h"
+#include "dialog.h"
 #include "operations_liste.h"
-#include "parametres.h"
 #include "traitement_variables.h"
+#include "utils.h"
+
+
 
 
 GtkWidget *paddingbox_details;	/** Widget handling financial year details */
@@ -104,8 +110,8 @@ gboolean update_financial_year_menus ()
  */
 GtkWidget *onglet_exercices ( void )
 {
-    GtkWidget *hbox_pref, *vbox_pref, *label, *frame;
-    GtkWidget *scrolled_window, *vbox, *vbox2, *bouton, *hbox;
+    GtkWidget *vbox_pref, *label;
+    GtkWidget *scrolled_window, *vbox, *bouton, *hbox;
     GtkWidget *paddingbox, *table;
     GSList *liste_tmp;
     gchar *titres[]={_("Name")};
@@ -201,10 +207,10 @@ GtkWidget *onglet_exercices ( void )
     /* Handle clist selections */
     gtk_signal_connect ( GTK_OBJECT ( clist_exercices_parametres ), "select-row",
 			 GTK_SIGNAL_FUNC ( selection_ligne_exercice ),
-			 frame );
+			 NULL );
     gtk_signal_connect ( GTK_OBJECT ( clist_exercices_parametres ), "unselect-row",
 			 GTK_SIGNAL_FUNC ( deselection_ligne_exercice ),
-			 frame );
+			 NULL );
 
 
     /* Financial year details */
@@ -329,9 +335,6 @@ void ajout_exercice ( GtkWidget *bouton,
 void supprime_exercice ( GtkWidget *bouton, GtkWidget *liste )
 {
     struct struct_exercice *exercice;
-    /*   GtkWidget *dialogue; */
-    GtkWidget *label;
-    gint resultat;
 
     exercice = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
 					ligne_selection_exercice );
@@ -378,13 +381,11 @@ void supprime_exercice ( GtkWidget *bouton, GtkWidget *liste )
  * \param ligne Line number of selected line
  * \param colonne Column number of selected cell.  Not used.
  * \param ev GdkEventButton that triggered this handler.  Not used
- * \param frame Not used.
  */
 void selection_ligne_exercice ( GtkWidget *liste,
 				gint ligne,
 				gint colonne,
-				GdkEventButton *ev,
-				GtkWidget *frame )
+				GdkEventButton *ev )
 {
     struct struct_exercice *exercice;
 
@@ -410,16 +411,12 @@ void selection_ligne_exercice ( GtkWidget *liste,
  * \param ligne Line number of last selected line
  * \param colonne Column number of last selected cell.  Not used.
  * \param ev GdkEventButton that triggered this handler.  Not used
- * \param frame Not used.
  */
 void deselection_ligne_exercice ( GtkWidget *liste,
 				  gint ligne,
 				  gint colonne,
-				  GdkEventButton *ev,
-				  GtkWidget *frame )
+				  GdkEventButton *ev)
 {
-    struct struct_exercice *exercice;
-
     /* Blank all entries */
 
     entry_set_value ( nom_exercice, NULL );
@@ -517,43 +514,7 @@ void applique_modif_exercice ( GtkWidget *liste )
 /* ***************************************************************************************************** */
 
 
-/* FIXME: remove as it is obsolete */
-void annuler_modif_exercice ( GtkWidget *bouton,
-			      GtkWidget *liste )
-{
-}
-
-
-/* ************************************************************************************************************ */
-gint recherche_exercice_par_nom ( struct struct_exercice *exercice,
-				  gchar *nom )
-{
-
-    return ( g_strcasecmp ( g_strstrip ( exercice -> nom_exercice ),
-			    nom ) );
-
-}
-/* ************************************************************************************************************ */
-
-
-
-/***********************************************************************************************************/
-/* Fonction recherche_exercice_par_no */
-/* appelée par un g_slist_find_custom */
-/***********************************************************************************************************/
-
-gint recherche_exercice_par_no ( struct struct_exercice *exercice,
-				 gint *no_exercice )
-{
-
-    return ( exercice -> no_exercice != GPOINTER_TO_INT ( no_exercice ));
-
-}
-/***********************************************************************************************************/
-
-
-
-/* ************************************************************************************************************ */
+//* ************************************************************************************************************ */
 /* Fonction creation_menu_exercices */
 /* crée un menu qui contient les noms des exercices associés à leur no et adr */
 /* et le renvoie */

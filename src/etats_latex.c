@@ -22,13 +22,14 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "erreur.h"
 #include "etats_latex.h"
-#include "parametres.h"
 
+
+#include "dialog.h"
 #include "etats.h"
-#include "etats_latex.h"
-#include "print_config.h"
+
+
+
 
 int lastline = 0;
 int lastcol = 0;
@@ -55,7 +56,6 @@ struct struct_etat_affichage latex_affichage = {
 void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
 			  enum alignement align, struct structure_operation * ope )
 {
-    gchar * safe_text;
     int pad, realsize, realcolumns;
 
     if ( !text )
@@ -133,7 +133,8 @@ void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y
     }
 
     latex_safe(text);
-    fprintf ( out, "\\end{boxedminipage}", safe_text );
+/* 	FIXME ?? mis commentaire... */
+    fprintf ( out, "\\end{boxedminipage}"/*, safe_text */);
 
     if ( (x2 - x) > 1 )
 	fprintf ( out, "}\n" );
@@ -269,7 +270,8 @@ gint latex_initialise (GSList * opes_selectionnees)
 	{
 	    fprintf (out, "p{%fcm}", colwidth);
 	}
-	fprintf (out, "p{1pt}}\n", colwidth);
+/* 	FIXME ?? mis commentaire... */
+	fprintf (out, "p{1pt}}\n"/*, colwidth*/);
     }
 
     return TRUE;

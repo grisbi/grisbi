@@ -19,14 +19,6 @@ void mise_a_jour_imputation ( void );
 struct struct_imputation *ajoute_nouvelle_imputation ( gchar *imputation );
 struct struct_sous_imputation *ajoute_nouvelle_sous_imputation ( gchar *sous_imputation,
 								 struct struct_imputation *imputation );
-gint recherche_imputation_par_nom ( struct struct_imputation *imputation,
-				    gchar *nom_imputation );
-gint recherche_sous_imputation_par_nom ( struct struct_sous_imputation *sous_imputation,
-					 gchar *nom_sous_imputation );
-gint recherche_imputation_par_no ( struct struct_imputation *imputation,
-				   gint *no_imputation );
-gint recherche_sous_imputation_par_no ( struct struct_sous_imputation *sous_imputation,
-					gint *no_sous_imputation );
 void fusion_categories_imputation ( void );
 void calcule_total_montant_imputation ( void );
 gchar *calcule_total_montant_imputation_par_compte ( gint imputation,

@@ -28,10 +28,19 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "erreur.h"
+
+
+
+#include "dialog.h"
 #include "fichier_configuration.h"
+#include "fichiers_gestion.h"
 #include "fichiers_io.h"
-#include "parametres.h"
 #include "patienter.h"
+#include "utils.h"
+
+
+
+
 
 /*****************************************************************************************************************/
 /* fonction appelée lors de la demande de fermeture du fichier de compte en cours */
@@ -144,7 +153,6 @@ void affiche_log_message ( void )
 /*************************************************************************************************************/
 void traitement_sigsegv ( gint signal_nb )
 {
-    GtkWidget *dialog;
     gchar *home_dir, *errmsg;
 
     errmsg = _("Grisbi triggered a segmentation fault and cannot continue its execution.\n\n");
@@ -211,7 +219,7 @@ void traitement_sigsegv ( gint signal_nb )
 
 	errmsg = g_strconcat ( errmsg, 
 			       g_strdup_printf ( _("Grisbi made a backup file at '%s'."),
-						 nom_fichier_comptes, NULL ),
+						 nom_fichier_comptes ),
 			       NULL );
 	errmsg = g_strconcat ( errmsg, "\n\n", NULL );
     }

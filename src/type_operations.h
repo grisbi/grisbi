@@ -7,12 +7,8 @@ void modification_entree_nom_type ( void );
 void modification_type_numerotation_auto (void);
 void modification_entree_type_dernier_no ( void );
 void modification_type_signe ( gint *no_menu );
-void modification_type_par_defaut ( void );
-gint recherche_type_ope_par_no ( struct struct_type_ope *type_ope,
-				 gint *no_type );
 void ajouter_type_operation ( void );
 void supprimer_type_operation ( void );
-void modif_tri_date_ou_type ( void );
 void inclut_exclut_les_neutres ( void );
 void remplit_liste_tri_par_type ( gint no_compte );
 void selection_type_liste_tri ( void );

@@ -25,21 +25,20 @@
 
 #include "gtk_list_button.h"
 
-/* #include <gnome.h> */
 #define CHILD_SPACING     1
+
+#include "xpm/book-closed.xpm"
+#include "xpm/book-open.xpm"
 
 
 /* Function protypes */
 static void gtk_list_button_class_init ( GtkListButtonClass * );
 static void gtk_list_button_init ( GtkListButton * );
 static void gtk_list_button_size_request (GtkWidget *, GtkRequisition *);
-static void gtk_list_button_size_allocate (GtkWidget *, GtkAllocation *);
 gboolean gtk_list_button_clicked ( GtkButton * );
 gboolean gtk_list_button_destroy ( GtkListButton * );
 
 
-/* Globals */
-static GtkButtonClass *parent_class = NULL;
 
 /** Contain a group of buttons, to store the one selected and thus,
   deselect is when another one is clicked.  Somewhat ugly, but I
@@ -90,8 +89,7 @@ static void gtk_list_button_init ( GtkListButton *list_button )
 {
     list_button -> hbox = gtk_hbox_new ( FALSE, 6 );
 
-    list_button -> closed_icon = gtk_image_new_from_stock ( GNOME_STOCK_BOOK_RED, 
-							    GTK_ICON_SIZE_BUTTON );
+    list_button -> closed_icon = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) book_closed_xpm ) );
 
     list_button -> box = gtk_vbox_new ( FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX ( list_button -> hbox ), list_button -> box,
@@ -99,8 +97,7 @@ static void gtk_list_button_init ( GtkListButton *list_button )
 
     gtk_container_add ( GTK_CONTAINER(list_button -> box), list_button->closed_icon);
 
-    list_button -> open_icon = gtk_image_new_from_stock ( GNOME_STOCK_BOOK_OPEN, 
-							  GTK_ICON_SIZE_BUTTON );
+    list_button -> open_icon = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) book_open_xpm ));
 
     list_button -> label = gtk_label_new ("") ;
     gtk_label_set_line_wrap ( GTK_LABEL(list_button->label), TRUE );
@@ -125,7 +122,9 @@ static void gtk_list_button_init ( GtkListButton *list_button )
 
 GtkWidget *gtk_list_button_new ( gchar * text, int group )
 {
-    GtkListButton *list_button = g_object_new (GTK_TYPE_LIST_BUTTON, NULL);
+    GtkListButton *list_button;
+
+    list_button = g_object_new (GTK_TYPE_LIST_BUTTON, NULL);
 
     gtk_list_button_set_name ( list_button, text );
     list_button -> group = group;
@@ -135,12 +134,10 @@ GtkWidget *gtk_list_button_new ( gchar * text, int group )
 
 
 
-static void 
-gtk_list_button_size_request (GtkWidget      *widget,
-			      GtkRequisition *requisition)
+static void gtk_list_button_size_request (GtkWidget      *widget,
+					  GtkRequisition *requisition)
 {
     GtkButton *button = GTK_BUTTON (widget);
-    GtkBorder default_border;
     gint focus_width;
     gint focus_pad;
 
@@ -171,30 +168,6 @@ gtk_list_button_size_request (GtkWidget      *widget,
 
 
 
-static void
-gtk_list_button_size_allocate (GtkWidget     *widget,
-			       GtkAllocation *allocation)
-{
-    GtkListButton *list_button;
-    GtkRequisition *requisition;
-
-    g_return_if_fail (widget != NULL);
-    g_return_if_fail (GTK_IS_LIST_BUTTON (widget));
-    g_return_if_fail (allocation != NULL);
-
-    gtk_container_resize_children ( GTK_CONTAINER(widget) );
-
-    requisition->width = (GTK_CONTAINER (widget)->border_width + CHILD_SPACING +
-			  GTK_WIDGET (widget)->style->xthickness) * 2;
-    requisition->height = (GTK_CONTAINER (widget)->border_width + CHILD_SPACING +
-			   GTK_WIDGET (widget)->style->ythickness) * 2;
-    gtk_widget_set_usize ( GTK_BIN(widget)->child,
-			   allocation->width - requisition->width,
-			   allocation->height - requisition->height );
-}
-
-
-
 void gtk_list_button_set_name ( GtkListButton * list_button, gchar * name )
 {
     if ( name )
@@ -206,7 +179,6 @@ void gtk_list_button_set_name ( GtkListButton * list_button, gchar * name )
 gboolean gtk_list_button_clicked ( GtkButton *button )
 {
     GtkListButton * listbutton;
-    GtkWidget * old, * new;
 
     listbutton = groups [ GTK_LIST_BUTTON(button) -> group ];
     if ( listbutton && GTK_IS_WIDGET(listbutton) )
@@ -242,4 +214,5 @@ gboolean gtk_list_button_destroy ( GtkListButton * listbutton )
     {
 	groups [ listbutton -> group ] = NULL;
     }  
+    return ( FALSE );
 }

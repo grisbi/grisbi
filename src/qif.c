@@ -24,14 +24,16 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-
-#include "categories_onglet.h"
-#include "devises.h"
-#include "fichiers_io.h"
-#include "parametres.h"
 #include "qif.h"
-#include "tiers_onglet.h"
-#include "type_operations.h"
+
+
+#include "devises.h"
+#include "dialog.h"
+#include "search_glist.h"
+#include "utils.h"
+
+
+
 
 /* *******************************************************************************/
 gboolean recuperation_donnees_qif ( FILE *fichier )
@@ -828,7 +830,7 @@ changement_format_date:
 
 void exporter_fichier_qif ( void )
 {
-    GtkWidget *dialog, *label, *table, *entree, *check_button, *paddingbox;
+    GtkWidget *dialog, *table, *entree, *check_button, *paddingbox;
     gchar *nom_fichier_qif, *montant_tmp;
     GSList *liste_tmp;
     FILE *fichier_qif;

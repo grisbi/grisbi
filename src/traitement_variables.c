@@ -23,9 +23,13 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "affichage_liste.h"
 #include "gtkcombofix.h"
 #include "traitement_variables.h"
+
+
+
+#include "affichage_liste.h"
+
 
 extern gint valeur_echelle_recherche_date_import;
 extern GtkItemFactory *item_factory_menu_general;

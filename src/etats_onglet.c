@@ -22,17 +22,18 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-
-#include "erreur.h"
-#include "etats_calculs.h"
-#include "etats_config.h"
 #include "etats_onglet.h"
-#include "gtk_list_button.h"
-#include "parametres.h"
-#include "tiers_onglet.h"
-#include "traitement_variables.h"
 
 #include "dialog.h"
+#include "etat_io.h"
+#include "etats_calculs.h"
+#include "etats_config.h"
+#include "gtk_list_button.h"
+#include "tiers_onglet.h"
+#include "traitement_variables.h"
+#include "utils.h"
+
+
 
 
 void impression_etat ( struct struct_etat *etat );
@@ -322,7 +323,6 @@ GtkWidget *creation_liste_etats ( void )
 GtkWidget *creation_barre_boutons_etats ( void )
 {
     GtkWidget *widget_retour;
-    GtkWidget *bouton;
 
     widget_retour = gtk_hbox_new ( FALSE, 5 );
     gtk_widget_show ( widget_retour );
@@ -389,7 +389,6 @@ void remplissage_liste_etats ( void )
 {
     GList *pointeur;
     GSList *liste_tmp;
-    GtkWidget *label;
 
 
     /* on commence par détruire tous les enfants de la vbox */
@@ -415,10 +414,7 @@ void remplissage_liste_etats ( void )
     while ( liste_tmp )
     {
 	struct struct_etat *etat;
-	GtkWidget *hbox;
 	GtkWidget *bouton;
-	GtkWidget *icone;
-	GtkWidget *label;
 
 	etat = liste_tmp -> data;
 
@@ -452,7 +448,6 @@ gboolean ajout_etat ( void )
     struct struct_comparaison_montants_etat *comp_montant;
     GtkWidget *dialog;
     gint resultat;
-    GtkWidget *label;
     GtkWidget *frame;
     GtkWidget *option_menu;
     GtkWidget *menu;
@@ -569,7 +564,7 @@ gboolean ajout_etat ( void )
     if ( resultat != GTK_RESPONSE_OK )
     {
 	gtk_widget_destroy ( dialog );
-	return;
+	return FALSE;
     }
 
 
@@ -940,7 +935,7 @@ gboolean ajout_etat ( void )
 
 	default :
 	    dialogue_error ( _("Unknown report type, creation cancelled"));
-	    return;
+	    return FALSE;
     }
 
     /* on l'ajoute à la liste */
@@ -1038,8 +1033,6 @@ void change_choix_nouvel_etat ( GtkWidget *menu_item,
 /*****************************************************************************************************/
 void efface_etat ( void )
 {
-    GtkWidget *dialog;
-
     if ( !liste_struct_etats || !etat_courant )
 	return;
 
@@ -1094,8 +1087,6 @@ void efface_etat ( void )
 void changement_etat ( GtkWidget *bouton,
 		       struct struct_etat *etat )
 {
-    GtkWidget *icone;
-
     bouton_etat_courant = bouton;
     etat_courant = etat;
     gtk_widget_set_sensitive ( bouton_personnaliser_etat, TRUE );
@@ -1129,15 +1120,6 @@ void changement_etat ( GtkWidget *bouton,
 }
 /*****************************************************************************************************/
 
-
-
-/*****************************************************************************************************/
-gint recherche_etat_par_no ( struct struct_etat *etat,
-			     gint *no_etat )
-{
-    return ( etat -> no_etat != GPOINTER_TO_INT (no_etat) );
-}
-/*****************************************************************************************************/
 
 
 

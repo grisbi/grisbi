@@ -26,22 +26,22 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
+#include "echeancier_liste.h"
+
+
+
 #include "accueil.h"
+#include "barre_outils.h"
 #include "devises.h"
 #include "echeancier_formulaire.h"
-#include "echeancier_liste.h"
 #include "exercice.h"
-#include "gtkcombofix.h"
 #include "operations_formulaire.h"
 #include "operations_liste.h"
+#include "search_glist.h"
 #include "traitement_variables.h"
 #include "type_operations.h"
-#include "fichiers_io.h"
-#include "barre_outils.h"
-#include "tiers_onglet.h"
-#include "categories_onglet.h"
-#include "imputation_budgetaire.h"
-#include "calendar.h"
+#include "utils.h"
+
 
 
 #define COL_NB_DATE 0
@@ -2077,13 +2077,8 @@ void verification_echeances_a_terme ( void )
 }
 /*****************************************************************************/
 
-/*****************************************************************************/
-gint recherche_echeance_par_no ( struct operation_echeance *echeance,
-				 gint no_echeance )
-{
-    return ( !(echeance -> no_operation == no_echeance ));
-}
-/*****************************************************************************/
+
+
 
 /*****************************************************************************/
 /* Fonction verifie_ligne_selectionnee_echeance_visible			     */

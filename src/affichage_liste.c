@@ -22,9 +22,12 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "affichage_liste.h"
+
 #include "operations_liste.h"
-#include "parametres.h"
 #include "traitement_variables.h"
+#include "utils.h"
+
+
 
 gchar *labels_boutons [] = { N_("Date"),
     N_("Value date"),
@@ -50,7 +53,7 @@ gchar *labels_boutons [] = { N_("Date"),
 /** FIXME: document this */
 GtkWidget *onglet_affichage_liste ( void )
 {
-    GtkWidget *onglet, *table, *label, *bouton, *paddingbox;
+    GtkWidget *onglet, *table, *bouton, *paddingbox;
     gchar *titres [] = { _("Col1"), _("Col2"), _("Col3"), _("Col4"), 
 	_("Col5"), _("Col6"), _("Col7") };
 	gint i, j;
@@ -176,13 +179,14 @@ gboolean transactions_list_display_modes_menu_changed  ( GtkWidget * menu_shell,
     verification_mise_a_jour_liste ();
     modification_fichier ( TRUE );
 
+    return ( FALSE );
 }
 
 
 /** FIXME: document this */
 GtkWidget *onglet_affichage_operations ( void )
 {
-    GtkWidget * vbox_pref, *onglet, *table, *label, *hbox, *paddingbox;
+    GtkWidget * vbox_pref, *table, *label, *paddingbox;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Transactions list"),
 					       "transaction-list.png" );

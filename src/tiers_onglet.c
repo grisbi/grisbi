@@ -24,22 +24,28 @@
 #include "include.h"
 #include "variables-extern.c"
 #include "structures.h"
+#include "tiers_onglet.h"
+
+
 
 #include "accueil.h"
 #include "barre_outils.h"
+#include "categories_onglet.h"
 #include "devises.h"
-#include "echeancier_liste.h"
 #include "dialog.h"
+#include "echeancier_liste.h"
 #include "etats_config.h"
-#include "fichiers_io.h"
-#include "gtkcombofix.h"
 #include "operations_comptes.h"
 #include "operations_liste.h"
-#include "tiers_onglet.h"
+#include "search_glist.h"
 #include "traitement_variables.h"
+#include "utils.h"
+
+
 
 #include "xpm/book-closed.xpm"
 #include "xpm/book-open.xpm"
+
 
 
 /* **************************************************************************************************** */
@@ -66,10 +72,10 @@ GtkWidget *onglet_tiers ( void )
     /* création des pixmaps pour la liste */
     pixmap_ouvre = gdk_pixmap_create_from_xpm_d ( GTK_WIDGET(window) -> window,
 						  &masque_ouvre, NULL, 
-						  book_open_xpm );
+						  (gchar **) book_open_xpm );
     pixmap_ferme = gdk_pixmap_create_from_xpm_d ( GTK_WIDGET(window) -> window,
 						  &masque_ferme, NULL, 
-						  book_closed_xpm );
+						  (gchar **) book_closed_xpm );
 
     /* création de la fenêtre qui sera renvoyée */
 
@@ -835,7 +841,7 @@ gboolean keypress_tiers ( GtkWidget *widget, GdkEventKey *ev, gint *no_origine )
 	gtk_ctree_select ( GTK_CTREE(arbre_tiers), node );
 	gtk_ctree_expand ( GTK_CTREE(arbre_tiers), node );
 
-	expand_selected_tiers ();
+	expand_selected_tiers (NULL, NULL, NULL);
     }
 
     return FALSE;
@@ -1497,37 +1503,6 @@ void mise_a_jour_tiers ( void )
     modif_tiers = 1;
 }
 /* ***************************************************************************************************** */
-
-
-/***************************************************************************************************/
-/* Fonction recherche tiers par no */
-/* appelée par un g_slist_find_custom */
-/* donne en arg la struct du tiers et le no du tiers recherché */
-/***************************************************************************************************/
-
-gint recherche_tiers_par_no ( struct struct_tiers *tiers,
-			      gint *no_tiers )
-{
-    return ( tiers -> no_tiers != GPOINTER_TO_INT ( no_tiers ) );
-}
-/***************************************************************************************************/
-
-
-
-/* **************************************************************************************************** */
-/* Fonction recherche_tiers_par_nom */
-/* appelée par un g_slist_find_custom */
-/* prend en arg la struct du tiers et le nom du tiers recherché */
-/* **************************************************************************************************** */
-
-gint recherche_tiers_par_nom ( struct struct_tiers *tiers,
-			       gchar *ancien_tiers )
-{
-
-    return ( g_strcasecmp ( tiers -> nom_tiers,
-			    ancien_tiers ) );
-}
-/* **************************************************************************************************** */
 
 
 /* **************************************************************************************************** */

@@ -30,12 +30,16 @@
 #include "variables-extern.c"
 
 #include "accueil.h"
-#include "parametres.h"
+#include "utils.h"
+#include "search_glist.h"
+#include "echeancier_liste.h"
 #include "devises.h"
 #include "operations_comptes.h"
 #include "echeancier_formulaire.h"
 #include "tiers_onglet.h"
-#include "constants.h"
+#include "imputation_budgetaire.h"
+#include "categories_onglet.h"
+#include "dialog.h"
 
 #define show_paddingbox(child) gtk_widget_show_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
 #define hide_paddingbox(child) gtk_widget_hide_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
@@ -53,10 +57,9 @@ GtkWidget * label_jour;
 GtkWidget *creation_onglet_accueil ( void )
 {
     GtkWidget *fenetre_accueil, *paddingbox, *base, *base_scroll, *base_box_scroll;
-    GtkWidget *hbox, *label, *separateur;
-    gchar *nom_utilisateur, tampon_date [50];
+    GtkWidget *hbox, *label;
+    gchar *nom_utilisateur;
     struct passwd *utilisateur;
-    time_t date;
 
     /*  la première séparation : une hbox : à gauche, le logo, à droite le reste */
 
@@ -299,7 +302,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 {
     GtkWidget *ancien_parent, *dialog;
     struct operation_echeance *ancienne_selection_echeance;
-    gint resultat, width, height;
+    gint resultat, width;
 
     /* on sélectionne l'échéance demandée */
     ancienne_selection_echeance = echeance_selectionnnee;
@@ -360,25 +363,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 }
 /* ************************************************************************* */
 
-/* ************************************************************************* */
-gboolean met_en_prelight ( GtkWidget *event_box,
-			   GdkEventMotion *event,
-			   gpointer pointeur )
-{
-    gtk_widget_set_state ( GTK_WIDGET ( GTK_BIN (event_box)->child ), GTK_STATE_PRELIGHT );
-    return FALSE;
-}
-/* ************************************************************************* */
 
-/* ************************************************************************* */
-gboolean met_en_normal ( GtkWidget *event_box,
-			 GdkEventMotion *event,
-			 gpointer pointeur )
-{
-    gtk_widget_set_state ( GTK_WIDGET ( GTK_BIN (event_box)->child ), GTK_STATE_NORMAL );
-    return FALSE;
-}
-/* ************************************************************************* */
 
 /* ************************************************************************* */
 /* Fonction update_liste_comptes_accueil                                     */
@@ -1066,7 +1051,6 @@ void mise_a_jour_soldes_minimaux ( void )
     GtkWidget *vbox_2;
     GtkWidget *label;
     gint i;
-    GtkWidget *hbox;
 
     /* s'il y avait déjà un fils dans la frame, le détruit */
 
@@ -1140,7 +1124,6 @@ void mise_a_jour_soldes_minimaux ( void )
 	    }
 
 	    label = gtk_label_new ( NOM_DU_COMPTE );
-	    ( GTK_MISC ( label ), MISC_LEFT, MISC_TOP);
 	    gtk_box_pack_start ( GTK_BOX ( vbox_2 ), label, FALSE, FALSE, 0 );
 	    gtk_widget_show ( label );
 

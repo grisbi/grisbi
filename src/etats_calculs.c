@@ -22,18 +22,14 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-
-#include "categories_onglet.h"
-#include "devises.h"
-#include "equilibrage.h"
 #include "etats_calculs.h"
-#include "etats_config.h"
-#include "etats_gtktable.h"
+
+#include "devises.h"
 #include "etats_gtktable.h"
 #include "etats_latex.h"
-#include "imputation_budgetaire.h"
-#include "tiers_onglet.h"
-#include "type_operations.h"
+#include "etats_affiche.h"
+#include "search_glist.h"
+
 
 
 /*****************************************************************************************************/

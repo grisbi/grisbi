@@ -27,27 +27,33 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "constants.h"
-#include "calendar.h"		/* pour accéder à la fonction gsb_today() */
+#include "operations_liste.h"
+
+
 
 #include "accueil.h"
-#include "affichage.h"
 #include "barre_outils.h"
 #include "categories_onglet.h"
+#include "comptes_traitements.h"
 #include "devises.h"
-#include "equilibrage.h"
+#include "dialog.h"
 #include "echeancier_formulaire.h"
-#include "erreur.h"
+#include "echeancier_liste.h"
+#include "equilibrage.h"
 #include "exercice.h"
-#include "fichiers_io.h"
-#include "gtkcombofix.h"
 #include "imputation_budgetaire.h"
 #include "operations_classement.h"
 #include "operations_formulaire.h"
-#include "operations_liste.h"
+#include "search_glist.h"
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
 #include "type_operations.h"
+#include "utils.h"
 #include "ventilation.h"
+
+
+
+
 
 #define TRANSACTION_COL_NB_CHECK 0
 #define TRANSACTION_COL_NB_DATE 1
@@ -2183,20 +2189,6 @@ void supprime_operation ( struct structure_operation *operation )
 /******************************************************************************/
 
 
-
-
-/******************************************************************************/
-/* Fonction recherche_operation_par_no					      */
-/* appelée par un slist_find_custom					      */
-/* recherche une opé par son numéro d'opé dans la liste des opérations	      */
-/******************************************************************************/
-gint recherche_operation_par_no ( struct structure_operation *operation,
-				  gint *no_ope )
-{
-    return ( ! ( operation -> no_operation == GPOINTER_TO_INT ( no_ope ) ));
-}
-/******************************************************************************/
-
 /******************************************************************************/
 /* Fonction changement_taille_liste_ope					      */
 /* appelée dès que la taille de la clist a changé			      */
@@ -2681,7 +2673,7 @@ struct structure_operation *  clone_transaction ( struct structure_operation * o
     if ( !new_transaction )
     {
 	dialogue ( _("Cannot allocate memory, bad things will happen soon") );
-	return;
+	return(FALSE);
     }
 
     bcopy ( operation, new_transaction, sizeof(struct structure_operation) );
@@ -2860,7 +2852,7 @@ schedule_transaction ( struct structure_operation * transaction )
     if ( !echeance )
     {
 	dialogue ( _("Cannot allocate memory, bad things will happen soon") );
-	return;
+	return(FALSE);
     }
 
     echeance -> no_operation = 0;

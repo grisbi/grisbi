@@ -27,6 +27,10 @@
 #include "gtkcombofix.h"
 #include "patienter.h"
 
+
+
+
+
 /* on inclut les dessins */
 
 #include "./xpm/g1.xpm"

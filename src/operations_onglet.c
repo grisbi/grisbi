@@ -24,15 +24,13 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "comptes_onglet.h"
-#include "gtkcombofix.h"
-#include "ventilation.h"
-#include "operations_liste.h"
-#include "comptes_onglet.h"
+
 #include "equilibrage.h"
-#include "operations_formulaire.h"
-#include "echeancier_formulaire.h"
 #include "operations_comptes.h"
+#include "operations_formulaire.h"
+#include "operations_liste.h"
+#include "ventilation.h"
+#include "operations_onglet.h"
 
 
 /*****************************************************************************************************/
@@ -68,10 +66,12 @@ GtkWidget *creation_onglet_operations ( void )
 			       creation_liste_comptes (),
 			       gtk_label_new ( _("Accounts") ) );
 
-    /* création de la fenetre de ventilation */
+
+   /* création de la fenetre de ventilation */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
 			       creation_verification_ventilation (),
 			       gtk_label_new ( _("Breakdown") ) );
+
 
     /* création de la fenetre de l'équilibrage */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),

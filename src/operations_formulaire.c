@@ -25,28 +25,34 @@
 
 
 #include "include.h"
-#include "structures.h"
 #include "variables-extern.c"
-#include "accueil.h"
-#include "categories_onglet.h"
-#include "devises.h"
-#include "equilibrage.h"
-#include "erreur.h"
-#include "exercice.h"
-#include "fichiers_io.h"
-#include "gtkcombofix.h"
-#include "imputation_budgetaire.h"
+#include "structures.h"
 #include "operations_formulaire.h"
+
+
+
+#include "accueil.h"
+#include "calendar.h"
+#include "categories_onglet.h"
+#include "constants.h"
+#include "devises.h"
+#include "dialog.h"
+#include "equilibrage.h"
+#include "etats_calculs.h"
+#include "exercice.h"
+#include "imputation_budgetaire.h"
+#include "operations_classement.h"
 #include "operations_liste.h"
-#include "parametres.h"
+#include "search_glist.h"
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
 #include "type_operations.h"
+#include "utils.h"
 #include "ventilation.h"
-#include "etats_calculs.h"
-#include "calendar.h"
-#include "operations_classement.h"
-#include "constants.h"
+
+
+
+
 
 
 /******************************************************************************/
@@ -1545,143 +1551,7 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 }
 /******************************************************************************/
 
-/******************************************************************************/
-/* Fonction modifie_date                                                      */
-/* prend en argument une entrée contenant une date                            */
-/* vérifie la validité et la modifie si seulement une partie est donnée       */
-/* met la date du jour si l'entrée est vide                                   */
-/* renvoie TRUE si la date est correcte                                       */
-/******************************************************************************/
-gboolean modifie_date ( GtkWidget *entree )
-{
-    gchar *pointeur_entry;
-    int jour, mois, annee;
-    GDate *date;
-    gchar **tab_date;
 
-    /* si l'entrée est grise, on se barre */
-
-    if (( gtk_widget_get_style ( entree ) == style_entree_formulaire[ENGRIS] ))
-	return ( FALSE );
-
-    pointeur_entry = g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )) );
-
-    if ( !strlen ( pointeur_entry ))
-    {
-	/* si on est dans la conf des états, on ne met pas la date du jour, on */
-	/* laisse vide */
-
-	if ( entree != entree_date_init_etat &&
-	     entree != entree_date_finale_etat )
-	    gtk_entry_set_text ( GTK_ENTRY ( entree ),
-				 gsb_today() );
-    }
-    else
-    {
-	date = g_date_new ();
-	g_date_set_time ( date, time(NULL));
-
-	tab_date = g_strsplit ( pointeur_entry, "/", 3 );
-
-	if ( tab_date[2] && tab_date[1] )
-	{
-	    /*       on a rentré les 3 chiffres de la date */
-
-	    jour = my_strtod ( tab_date[0],  NULL );
-	    mois = my_strtod ( tab_date[1], NULL );
-	    annee = my_strtod ( tab_date[2], NULL );
-
-	    if ( annee < 100 )
-	    {
-		if ( annee < 80 ) annee = annee + 2000;
-		else annee = annee + 1900;
-	    }
-	}
-	else
-	    if ( tab_date[1] )
-	    {
-		/* 	on a rentré la date sous la forme xx/xx , il suffit de mettre l'année courante */
-
-		jour = my_strtod ( tab_date[0], NULL );
-		mois = my_strtod ( tab_date[1], NULL );
-		annee = g_date_year ( date );
-	    }
-	    else
-	    {
-		/* 	on a rentré que le jour de la date, il faut mettre le mois et l'année courante */
-		/* ou bien on a rentré la date sous forme jjmm ou jjmmaa ou jjmmaaaa */
-
-		gchar buffer[3];
-
-		switch ( strlen ( tab_date[0] ))
-		{
-		    /* 	      forme jj ou j */
-		    case 1:
-		    case 2:
-			jour = my_strtod ( tab_date[0], 	NULL );
-			mois = g_date_month ( date );
-			annee = g_date_year ( date );
-			break;
-
-			/* form jjmm */
-
-		    case 4 :
-			buffer[0] = tab_date[0][0];
-			buffer[1] = tab_date[0][1];
-			buffer[2] = 0;
-
-			jour = my_strtod ( buffer, NULL );
-			mois = my_strtod ( tab_date[0] + 2, NULL );
-			annee = g_date_year ( date );
-			break;
-
-			/* forme jjmmaa */
-
-		    case 6:
-			buffer[0] = tab_date[0][0];
-			buffer[1] = tab_date[0][1];
-			buffer[2] = 0;
-
-			jour = my_strtod ( buffer, NULL );
-			buffer[0] = tab_date[0][2];
-			buffer[1] = tab_date[0][3];
-
-			mois = my_strtod ( buffer, NULL );
-			annee = my_strtod ( tab_date[0] + 4, NULL ) + 2000;
-			break;
-
-			/* forme jjmmaaaa */
-
-		    case 8:
-			buffer[0] = tab_date[0][0];
-			buffer[1] = tab_date[0][1];
-			buffer[2] = 0;
-
-			jour = my_strtod ( buffer, NULL );
-			buffer[0] = tab_date[0][2];
-			buffer[1] = tab_date[0][3];
-
-			mois = my_strtod ( buffer, NULL );
-			annee = my_strtod ( tab_date[0] + 4, NULL );
-			break;
-
-		    default :
-			jour = 0;
-			mois = 0;
-			annee = 0;
-		}
-	    }
-	g_strfreev ( tab_date );
-
-	if ( g_date_valid_dmy ( jour, mois, annee) )
-	    gtk_entry_set_text ( GTK_ENTRY ( entree ),
-				 g_strdup_printf ( "%02d/%02d/%04d", jour, mois, annee ));
-	else
-	    return ( FALSE );
-    }
-    return ( TRUE );
-}
-/******************************************************************************/
 
 /******************************************************************************/
 /* Fonction completion_operation_par_tiers                                    */
@@ -3266,6 +3136,8 @@ void validation_virement_operation ( struct structure_operation *operation,
 				( GCompareFunc ) recherche_devise_par_no);
     if ( tmp )
 	devise = (struct struct_devise *) tmp -> data;
+    else
+	devise = NULL;
 
     contre_operation -> devise = operation -> devise;
 
@@ -3389,23 +3261,6 @@ void ajout_operation ( struct structure_operation *operation )
     mise_a_jour_fin_comptes_passifs ();
 
     p_tab_nom_de_compte_variable = save_ptab;
-}
-/******************************************************************************/
-
-/******************************************************************************/
-/* cette procédure compare 2 struct de compte entre elles au niveau de        */
-/* la date pour le classement, si la dâte est équivalente,                    */
-/* elle les classe par le no d'opé                                            */
-/******************************************************************************/
-gint comparaison_date_list_ope ( struct structure_operation *ope_1,
-				 struct structure_operation *ope_2)
-{
-    gint retour;
-
-    if ( !( retour = g_date_compare ( ope_1 -> date, ope_2 -> date) ) )
-	retour = ope_1 -> no_operation - ope_2 -> no_operation;
-
-    return ( retour );
 }
 /******************************************************************************/
 

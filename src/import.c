@@ -25,20 +25,67 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "import.h"
-#include "devises.h"
-#include "etats_config.h"
+
+
+
+#include "accueil.h"
+/* #include "affichage.h" */
+/* #include "affichage_liste.h" */
+/* #include "banque.h" */
+/* #include "barre_outils.h" */
+/* #include "calendar.h" */
+#include "categories_onglet.h"
 #include "comptes_gestion.h"
+#include "comptes_onglet.h"
+#include "comptes_traitements.h"
+/* #include "constants.h" */
+#include "devises.h"
+#include "dialog.h"
+/* #include "echeancier_formulaire.h" */
+/* #include "echeancier_liste.h" */
+/* #include "equilibrage.h" */
+/* #include "erreur.h" */
+/* #include "etat_io.h" */
+/* #include "etats_calculs.h" */
+/* #include "etats_config.h" */
+/* #include "etats_gtktable.h" */
+/* #include "etats.h" */
+/* #include "etats_latex.h" */
+/* #include "etats_onglet.h" */
+/* #include "etats_support.h" */
+/* #include "exercice.h" */
+#include "fenetre_principale.h"
+/* #include "fichier_configuration.h" */
+#include "fichiers_gestion.h"
+/* #include "fichiers_io.h" */
+/* #include "gtkcombofix.h" */
+/* #include "gtk_list_button.h" */
+/* #include "help.h" */
+#include "html.h"
+/* #include "import.h" */
+/* #include "imputation_budgetaire.h" */
+/* #include "main.h" */
+/* #include "menu.h" */
+#include "ofx.h"
 #include "operations_classement.h"
 #include "operations_comptes.h"
-#include "tiers_onglet.h"
-#include "categories_onglet.h"
-#include "fichiers_io.h"
-#include "comptes_traitements.h"
+/* #include "operations_formulaire.h" */
+#include "operations_liste.h"
+/* #include "operations_onglet.h" */
+/* #include "parametres.h" */
+#include "patienter.h"
+/* #include "print_config.h" */
 #include "qif.h"
-#include "ofx.h"
-#include "html.h"
-#include "dialog.h"
-#include "parametres.h"
+#include "search_glist.h"
+#include "tiers_onglet.h"
+#include "traitement_variables.h"
+#include "type_operations.h"
+#include "utils.h"
+/* #include "ventilation.h" */
+
+
+
+
 
 
 gint derniere_operation_enregistrement_ope_import;
@@ -137,7 +184,7 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 	    /* on n'a pas réussi à ouvrir le fichier, on affiche l'erreur et on retourne sur la sélection des fichiers */
 
 	    dialogue ( latin2utf8 ( strerror ( errno ) ) );
-	    return;
+	    return FALSE;
 	}
 
 
@@ -188,7 +235,7 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 		    dialogue_error_hint ( _("Grisbi is unable to determine type of this file.  If it is a QIF, an OFX file or a HTML page from a online bank service, please contact the grisbi team to resolve this problem."),
 					  g_strdup_printf ( _("File \"%s\" cannot be imported."), liste_selection[i]) );
 		    free ( pointeur_char );
-		    return;
+		    return(FALSE);
 		}
 	    }
 	}
@@ -1092,7 +1139,6 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import,
     /* ajoute ce compte aux anciens et crée la liste des opérations */
 
     struct donnees_compte *compte;
-    GtkWidget *bouton;
     gdouble solde_courant;
     struct structure_operation *operation;
     gint derniere_operation;
@@ -1728,22 +1774,6 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 /* *******************************************************************************/
 
 
-/******************************************************************************/
-/* Fonction recherche_operation_par_cheque					      */
-/* appelée par un slist_find_custom					      */
-/* recherche une opé par son numéro de cheque dans la liste des opérations	      */
-/******************************************************************************/
-gint recherche_operation_par_cheque ( struct structure_operation *operation,
-				      gint *no_chq )
-{
-    if ( operation -> contenu_type )
-	return ( ! ( atoi (operation -> contenu_type) == GPOINTER_TO_INT ( no_chq ) ));
-}
-/******************************************************************************/
-
-
-
-
 /* *******************************************************************************/
 void confirmation_enregistrement_ope_import ( struct struct_compte_importation *compte_import )
 {
@@ -2280,8 +2310,10 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 	struct structure_operation *operation;
 	gint i;
 	struct struct_ope_importation *autre_ope_import;
+
 	ope_import = liste_tmp -> data;
 	ope_trouvees = NULL;
+	operation = NULL;
 
 	/* si l'opé d'import a une id, on recherche dans la liste d'opé pour trouver
 	   une id comparable */
@@ -2526,7 +2558,6 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
     if ( liste_opes_import_celibataires )
     {
 	GtkWidget *liste_ope_celibataires, *dialog, *label, *scrolled_window;
-	gint result;
 	GtkListStore *store;
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *column;
@@ -2647,21 +2678,6 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 	gtk_widget_show ( dialog );
     }
-}
-/* *******************************************************************************/
-
-
-
-
-/* *******************************************************************************/
-gboolean recherche_operation_par_id ( struct structure_operation *operation,
-				      gchar *id_recherchee )
-{
-    if ( operation -> id_operation )
-	return ( strcmp ( id_recherchee,
-			  operation -> id_operation ));
-    else
-	return -1;
 }
 /* *******************************************************************************/
 

@@ -22,9 +22,12 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-
 #include "etats_support.h"
-#include "exercice.h"
+
+
+#include "search_glist.h"
+
+
 
 gchar * etats_titre ()
 {

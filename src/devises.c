@@ -23,17 +23,25 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
+#include "devises.h"
+
+
+
 #include "accueil.h"
 #include "categories_onglet.h"
-#include "devises.h"
+#include "comptes_gestion.h"
+#include "comptes_onglet.h"
 #include "dialog.h"
 #include "etats_config.h"
-#include "fichiers_io.h"
 #include "imputation_budgetaire.h"
-#include "parametres.h"
+#include "search_glist.h"
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
-#include "comptes_gestion.h"
+#include "utils.h"
+
+
+
+
 
 
 GtkWidget *entree_nom, *entree_code, *entree_iso_code;
@@ -256,9 +264,8 @@ sort_tree (GtkTreeModel *model,
 
 
 
-gboolean
-select_currency_in_iso_list (GtkTreeSelection *selection,
-			     GtkTreeModel *model)
+gboolean select_currency_in_iso_list (GtkTreeSelection *selection,
+				      GtkTreeModel *model)
 {
     GtkTreeIter iter;
     GValue value1 = {0, };
@@ -266,7 +273,7 @@ select_currency_in_iso_list (GtkTreeSelection *selection,
     GValue value3 = {0, };
 
     if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
-	return;
+	return(FALSE);
 
     gtk_tree_model_get_value (model, &iter, CURRENCY_NAME_COLUMN, &value1);
     gtk_tree_model_get_value (model, &iter, CURRENCY_ISO_CODE_COLUMN, &value2);
@@ -281,9 +288,8 @@ select_currency_in_iso_list (GtkTreeSelection *selection,
     if (g_value_get_string(&value3))
 	gtk_entry_set_text ( GTK_ENTRY ( entree_code ), 
 			     g_value_get_string(&value3) );
-
-}
-
+    return ( FALSE );
+} 
 
 /**
  * Update various widgets related to currencies
@@ -533,6 +539,7 @@ gboolean rebuild_currency_list ( GtkWidget * checkbox, GtkTreeView * view )
     gtk_tree_store_clear ( GTK_TREE_STORE (model) );
     fill_currency_list ( view, 
 			 gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbox)) );
+    return FALSE;
 }
 
 
@@ -651,9 +658,9 @@ GtkWidget * new_currency_list ()
 
 void ajout_devise ( GtkWidget *widget )
 {
-    GtkWidget *dialog, *label, *hbox, *table;
-    GtkWidget *check_bouton, *entree_conversion_euro;
-    GtkWidget *label_nom_devise, *list, *paddingbox;
+    GtkWidget *dialog, *label, *table;
+    GtkWidget *entree_conversion_euro;
+    GtkWidget *list, *paddingbox;
     struct struct_devise *devise;
     gchar *nom_devise, *code_devise, *code_iso4217_devise;
     gint resultat;
@@ -1001,51 +1008,6 @@ void retrait_devise ( GtkWidget *bouton,
 
 }
 /***********************************************************************************************************/
-
-
-
-
-/* ************************************************************************************************************ */
-gint recherche_devise_par_nom ( struct struct_devise *devise,
-				gchar *nom )
-{
-
-    return ( g_strcasecmp ( g_strstrip ( devise -> nom_devise ),
-			    nom ) );
-
-}
-/* ************************************************************************************************************ */
-
-
-/* ************************************************************************************************************ */
-gint recherche_devise_par_code_iso ( struct struct_devise *devise,
-				     gchar *nom )
-{
-    if ( devise -> code_iso4217_devise )
-	return ( g_strcasecmp ( g_strstrip ( devise -> code_iso4217_devise ),
-				nom ) );
-    else
-	return (-1);
-}
-/* ************************************************************************************************************ */
-
-
-
-/***********************************************************************************************************/
-/* Fonction recherche_devise_par_no */
-/* appelée par un g_slist_find_custom */
-/***********************************************************************************************************/
-
-gint recherche_devise_par_no ( struct struct_devise *devise,
-			       gint *no_devise )
-{
-
-    return ( devise -> no_devise != GPOINTER_TO_INT ( no_devise ));
-
-}
-/***********************************************************************************************************/
-
-
 
 
 /***********************************************************************************************************/
@@ -1515,7 +1477,7 @@ gboolean change_rate_date ( GtkWidget * spin, gdouble * dummy )
  */
 GtkWidget *onglet_devises ( void )
 {
-    GtkWidget *hbox_pref, *vbox_pref, *separateur, *label, *frame, *paddingbox;
+    GtkWidget *vbox_pref, *label, *paddingbox;
     GtkWidget *scrolled_window, *vbox, *table;
     GSList *liste_tmp;
     gchar *titres_devise [3] = { _("Currency"),
@@ -2100,7 +2062,6 @@ gboolean changement_devise_associee ( GtkWidget *menu_devises,
     struct struct_devise *devise;
     struct struct_devise *devise_associee;
     GtkWidget *menu;
-    GtkWidget *item;
 
     devise = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
 				      ligne_selection_devise );

@@ -19,8 +19,6 @@ void mise_a_jour_calendrier ( void );
 void click_sur_jour_calendrier_echeance ( GtkWidget *calendrier,
 					  gpointer null );
 void verification_echeances_a_terme ( void );
-gint recherche_echeance_par_no ( struct operation_echeance *echeance,
-				 gint no_echeance );
 void verifie_ligne_selectionnee_echeance_visible ( void );
 gboolean modification_affichage_echeances ( gint *origine, GdkEventFocus * event,
 					    GtkWidget * widget );

@@ -28,16 +28,22 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
+#include "imputation_budgetaire.h"
+
+
+#include "barre_outils.h"
 #include "devises.h"
 #include "dialog.h"
 #include "etats_config.h"
-#include "gtkcombofix.h"
-#include "imputation_budgetaire.h"
+#include "fichiers_io.h"
 #include "operations_comptes.h"
 #include "operations_liste.h"
-#include "traitement_variables.h"
-#include "barre_outils.h"
+#include "search_glist.h"
 #include "tiers_onglet.h"
+#include "traitement_variables.h"
+#include "utils.h"
+
+
 
 
 
@@ -2342,64 +2348,6 @@ struct struct_sous_imputation *ajoute_nouvelle_sous_imputation ( gchar *sous_imp
 /***********************************************************************************************************/
 
 
-
-
-/***********************************************************************************************************/
-/* Fonction recherche_imputation_par_nom */
-/***********************************************************************************************************/
-
-gint recherche_imputation_par_nom ( struct struct_imputation *imputation,
-				    gchar *nom_imputation )
-{
-    return ( g_strcasecmp ( imputation -> nom_imputation,
-			    nom_imputation ) );
-}
-/***********************************************************************************************************/
-
-
-/***********************************************************************************************************/
-/* Fonction recherche_sous_imputation_par_nom */
-/***********************************************************************************************************/
-
-gint recherche_sous_imputation_par_nom ( struct struct_sous_imputation *sous_imputation,
-					 gchar *nom_sous_imputation )
-{
-    return ( g_strcasecmp ( sous_imputation -> nom_sous_imputation,
-			    nom_sous_imputation ) );
-}
-/***********************************************************************************************************/
-
-
-
-/***************************************************************************************************/
-/* Fonction  recherche_imputation_par_no */
-/* appelée par un g_slist_find_custom */
-/* donne en arg la struct du tiers et le no du tiers recherché */
-/***************************************************************************************************/
-
-gint recherche_imputation_par_no ( struct struct_imputation *imputation,
-				   gint *no_imputation )
-{
-    return (  imputation ->  no_imputation != GPOINTER_TO_INT ( no_imputation ) );
-}
-/***************************************************************************************************/
-
-
-/***************************************************************************************************/
-/* Fonction  recherche_imputation_par_no */
-/* appelée par un g_slist_find_custom */
-/* donne en arg la struct du tiers et le no du tiers recherché */
-/***************************************************************************************************/
-
-gint recherche_sous_imputation_par_no ( struct struct_sous_imputation *sous_imputation,
-					gint *no_sous_imputation )
-{
-    return (  sous_imputation ->  no_sous_imputation != GPOINTER_TO_INT ( no_sous_imputation ) );
-}
-/***************************************************************************************************/
-
-
-
 /***************************************************************************************************/
 void fusion_categories_imputation ( void )
 {
@@ -2848,7 +2796,6 @@ void importer_ib ( void )
     GtkWidget *bouton_merge_remplace;
     GtkWidget *menu;
     GtkWidget *menu_item;
-    GtkWidget *separateur;
 
 
     fenetre_nom = gtk_file_selection_new (_("Import the budgetary lines" ));

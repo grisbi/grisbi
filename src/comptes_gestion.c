@@ -27,22 +27,28 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "accueil.h"
-#include "categories_onglet.h"
 #include "comptes_gestion.h"
+
+
+
+#include "accueil.h"
+#include "banque.h"
+#include "categories_onglet.h"
 #include "comptes_onglet.h"
+#include "comptes_traitements.h"
+#include "devises.h"
+#include "dialog.h"
 #include "echeancier_liste.h"
-#include "erreur.h"
 #include "etats_config.h"
-#include "fichiers_io.h"
 #include "operations_comptes.h"
 #include "operations_formulaire.h"
 #include "operations_liste.h"
+#include "search_glist.h"
 #include "traitement_variables.h"
-#include "devises.h"
-#include "banque.h"
-#include "parametres.h"
-#include "comptes_traitements.h"
+#include "utils.h"
+
+
+
 
 
 /* ************************************************************************************************************ */
@@ -836,23 +842,6 @@ void remplissage_details_compte ( void )
 
     gtk_widget_set_sensitive ( hbox_boutons_modif,
 			       FALSE );
-
-}
-/* ************************************************************************************************************ */
-
-
-
-
-/* ************************************************************************************************************ */
-/* Fonction recherche_banque_par_no */
-/* appelée par g_slist_find_custom */
-/* ************************************************************************************************************ */
-
-gint recherche_banque_par_no ( struct struct_banque *banque,
-			       gint *no_banque )
-{
-
-    return ( !( banque -> no_banque == GPOINTER_TO_INT ( no_banque )) );
 
 }
 /* ************************************************************************************************************ */

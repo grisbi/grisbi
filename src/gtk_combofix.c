@@ -22,7 +22,7 @@
 
 #include "gtkcombofix.h"
 #include <gdk/gdkkeysyms.h>
-
+#include <ctype.h>
 
 /* Liste des fonctions statiques */
 
@@ -579,7 +579,7 @@ static gboolean affiche_proposition ( GtkWidget *entree,
     gchar *chaine, *completion, *categorie;
 
     if (bloque_proposition)
-	return;
+	return(FALSE);
 
 #define COULEUR_RED  40000
 #define COULEUR_GREEN  40000
@@ -1501,7 +1501,7 @@ static gboolean focus_out_combofix ( GtkWidget *widget,
     gtk_entry_select_region ( GTK_ENTRY ( combofix -> entry ),
 			      0,
 			      0 );
-
+    return ( FALSE );
 }
 /* **************************************************************************************************** */
 

@@ -22,9 +22,11 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "etats_latex.h"
 #include "print_config.h"
-#include "parametres.h"
+
+#include "utils.h"
+
+
 
 
 /** This array contains paper sizes to be used to construct print
@@ -51,7 +53,6 @@ struct paper_config paper_sizes[8] = {
 gboolean print_config ( )
 {
     GtkWidget * dialog, *notebook;
-    struct print_config * config = NULL;
     gint response;
 
     /* Set up dialog */
@@ -120,72 +121,6 @@ gboolean change_print_to_file ( GtkButton *button, gpointer data )
 
     return FALSE;
 }
-
-
-
-/**
- * Handler triggered by clicking on the button of a "print to file"
- * combo.  Pop ups a file selector.
- *
- * \param button GtkButton widget that triggered this handler.
- * \param data A pointer to a GtkEntry that will be filled with the
- *             result of the file selector.
- */
-void browse_file ( GtkButton *button, gpointer data )
-{
-    GtkWidget * file_selector;
-
-    file_selector = gtk_file_selection_new (_("Print to file"));
-    gtk_window_set_transient_for ( GTK_WINDOW ( file_selector ),
-				   GTK_WINDOW ( window ));
-    gtk_window_set_modal ( GTK_WINDOW ( file_selector ), TRUE );
-
-    /* Connect button click to entry change */
-    g_object_set_data ( G_OBJECT(GTK_FILE_SELECTION (file_selector)->ok_button),
-			"entry", file_selector );
-    g_signal_connect ( GTK_OBJECT (GTK_FILE_SELECTION (file_selector)->ok_button),
-		       "clicked", G_CALLBACK (change_print_to_file), data);
-
-    /* Ensure that the dialog box is destroyed when the user clicks a button. */
-    g_signal_connect_swapped ( GTK_OBJECT (GTK_FILE_SELECTION (file_selector)->ok_button),
-			       "clicked", G_CALLBACK (gtk_widget_destroy), 
-			       (gpointer) file_selector); 
-
-    g_signal_connect_swapped ( GTK_OBJECT (GTK_FILE_SELECTION (file_selector)->cancel_button),
-			       "clicked", G_CALLBACK (gtk_widget_destroy),
-			       (gpointer) file_selector); 
-
-    gtk_widget_show_all ( file_selector );
-}
-
-
-
-/**
- * Make a GtkEntry that will contain a file name, a GtkButton that
- * will pop up a file selector, pack them in a GtkHbox and return it.
- *
- * \return A newly created GtkHbox.
- */
-GtkWidget * my_file_chooser ()
-{
-    GtkWidget * hbox, *entry, *button;
-
-    hbox = gtk_hbox_new ( FALSE, 6 );
-
-    entry = gtk_entry_new ( );
-    gtk_box_pack_start ( GTK_BOX(hbox), entry, TRUE, TRUE, 0 );
-    g_object_set_data ( G_OBJECT(hbox), "entry", entry );
-
-    button = gtk_button_new_with_label ( _("Browse") );
-    gtk_box_pack_start ( GTK_BOX(hbox), button, FALSE, FALSE, 0 );
-
-    g_signal_connect ( G_OBJECT(button), "clicked",
-		       (GCallback) browse_file, entry );
-
-    return hbox;
-}
-
-
 
 /**
  * Create a GtkVbox with stuff needed for general configuration of
@@ -275,6 +210,7 @@ GtkWidget * print_config_paper ( GtkWidget * dialog )
     menu = gtk_menu_new();
     gtk_option_menu_set_menu ( GTK_OPTION_MENU(omenu), menu );
     g_object_set_data ( G_OBJECT(dialog), "paper_size", omenu );
+    history = 0;
 
     for ( i = 0; paper_sizes[i].name; i++ )
     {

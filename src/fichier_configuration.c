@@ -24,10 +24,24 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-
 #include "fichier_configuration.h"
+
+
+
+#include "accueil.h"
+#include "categories_onglet.h"
+#include "comptes_traitements.h"
+#include "devises.h"
+#include "dialog.h"
+#include "fenetre_principale.h"
 #include "fichiers_io.h"
-#include <libxml/tree.h>
+#include "operations_comptes.h"
+#include "operations_liste.h"
+#include "patienter.h"
+#include "type_operations.h"
+#include "utils.h"
+
+
 
 #ifndef _WIN32
 #define C_GRISBIRC  "/.grisbirc"
@@ -41,14 +55,8 @@ extern gchar *nom_navigateur_web;
 /* ***************************************************************************************************** */
 void charge_configuration ( void )
 {
-    gint nb_fichiers_a_verifier;
-    gchar **tab_noms_fichiers;
-    gint i;
-    gint flag;
     xmlDocPtr doc;
     xmlNodePtr node;
-    xmlNodePtr node_1;
-    int result;
     struct stat buffer_stat;
 
     raz_configuration ();
@@ -341,11 +349,6 @@ void charge_configuration ( void )
 
 void charge_configuration_ancien ( void )
 {
-    gint nb_fichiers_a_verifier;
-    gchar **tab_noms_fichiers;
-    gint i;
-    gint flag;
-    struct stat buffer_stat;
     FILE *fichier;
     gchar *fichier_conf;
     gchar temp[100];
@@ -571,15 +574,12 @@ void raz_configuration ( void )
 
 void sauve_configuration(void)
 {
-    GSList *pointeur_fichier_a_verifier;
-    gint i, x, y;
-    gchar **tab_pointeurs;
+    gint i;
     // document XML (voir fichiers_io.c l.4000)
     xmlDocPtr doc;
     xmlNodePtr node;
     xmlNodePtr node_1;
     xmlNodePtr node_2;
-    char buff[15];
     // resultat de la sauvegarde
     gint resultat;
 

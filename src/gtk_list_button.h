@@ -64,6 +64,7 @@ guint gtk_list_button_get_type ( void );
 
 GtkWidget *gtk_list_button_new ( gchar *, int );
 void gtk_list_button_set_name ( GtkListButton *, gchar * );
+gboolean gtk_list_button_clicked ( GtkButton *button );
 
 
 #endif				/* __GTK_LIST_BUTTON_H__ */

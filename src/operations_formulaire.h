@@ -8,7 +8,6 @@ gboolean touches_champ_formulaire ( GtkWidget *widget, GdkEventKey *ev, gint *no
 void ferme_calendrier ( GtkWidget *popup );
 void  touche_calendrier ( GtkWidget *popup, GdkEventKey *ev, gpointer null );
 gboolean date_selectionnee ( GtkCalendar *calendrier, GtkWidget *entry );
-gboolean modifie_date ( GtkWidget *entree );
 void  completion_operation_par_tiers ( void );
 void fin_edition ( void );
 void ajout_operation ( struct structure_operation *operation );
@@ -18,8 +17,6 @@ void validation_virement_operation ( struct structure_operation *operation,
 				     gint modification, gchar *nom_compte_vire );
 void recuperation_categorie_formulaire ( struct structure_operation *operation,
 					 gint modification );
-gint comparaison_date_list_ope ( struct structure_operation *ope_1,
-				 struct structure_operation *ope_2);
 void formulaire_a_zero (void);
 void affiche_cache_le_formulaire ( void );
 void affiche_cache_commentaire_echeancier( void );

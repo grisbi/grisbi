@@ -23,21 +23,18 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
+#include "etats_affiche.h"
 
 #include "devises.h"
 #include "etats_calculs.h"
-#include "etats_gtktable.h"
 #include "etats.h"
 #include "etats_support.h"
-#include "etats.h"
-#include "exercice.h"
-#include "tiers_onglet.h"
-#include "imputation_budgetaire.h"
-#include "type_operations.h"
-#include "equilibrage.h"
-#include "categories_onglet.h"
-#include "tiers_onglet.h"
-#include "fichiers_io.h"
+#include "search_glist.h"
+#include "utils.h"
+
+
+
+
 
 /*****************************************************************************************************/
 gint etat_affiche_affiche_titre ( gint ligne )
@@ -1901,7 +1898,6 @@ gint etat_affiche_affiche_totaux_sous_jaccent ( gint origine,
 gint etat_affiche_affiche_titres_colonnes ( gint ligne )
 {
     gint colonne;
-    gchar * text;
 
     colonne = 1;
 

@@ -19,14 +19,6 @@ void mise_a_jour_categ ( void );
 struct struct_categ *ajoute_nouvelle_categorie ( gchar *categorie );
 struct struct_sous_categ *ajoute_nouvelle_sous_categorie ( gchar *sous_categorie,
 							   struct struct_categ *categorie );
-gint recherche_categorie_par_nom ( struct struct_categ *categorie,
-			     gchar *categ );
-gint recherche_sous_categorie_par_nom ( struct struct_sous_categ *sous_categorie,
-				  gchar *sous_categ );
-gint recherche_categorie_par_no ( struct struct_categ *categorie,
-				  gint *no_categorie );
-gint recherche_sous_categorie_par_no ( struct struct_sous_categ *sous_categorie,
-				       gint *no_sous_categorie );
 void calcule_total_montant_categ ( void );
 gchar *calcule_total_montant_categ_par_compte ( gint categ,
 						gint sous_categ,

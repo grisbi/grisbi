@@ -22,16 +22,15 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "erreur.h"
 #include "etat_io.h"
+
+#include "dialog.h"
+#include "erreur.h"
 #include "etats_onglet.h"
-#include "fichiers_io.h"
+#include "search_glist.h"
 #include "traitement_variables.h"
-#include "devises.h"
-#include "categories_onglet.h"
-#include "exercice.h"
-#include "imputation_budgetaire.h"
-#include "tiers_onglet.h"
+#include "utils.h"
+
 
 
 

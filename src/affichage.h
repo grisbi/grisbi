@@ -6,9 +6,6 @@ gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
 					    GtkWidget *vbox );
 GtkWidget *onglet_display_addresses ( void );
 GtkWidget * onglet_display_transaction_form ( void );
-GtkWidget *onglet_affichage ( void );
-void selection_choix_ordre_comptes ( GtkWidget *box );
-void deselection_choix_ordre_comptes ( GtkWidget *box );
 void deplacement_haut ( void );
 void deplacement_bas ( void );
 void choix_fonte ( GtkWidget *bouton,
@@ -20,3 +17,5 @@ void update_font_button(GtkWidget * name_label,
 			gchar * fontname);
 gboolean init_fonts ( GtkWidget * button,
 		      gpointer user_data);
+gboolean update_homepage_title ( GtkEntry *, gchar *, gint, gint * );
+

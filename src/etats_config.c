@@ -25,21 +25,21 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "erreur.h"
-#include "etats_calculs.h"
 #include "etats_config.h"
+
+#include "calendar.h"
+#include "devises.h"
+#include "dialog.h"
+#include "etats_calculs.h"
 #include "etats_onglet.h"
-#include "fichiers_io.h"
-#include "operations_formulaire.h"
+#include "operations_classement.h"
+#include "search_glist.h"
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
-#include "devises.h"
-#include "categories_onglet.h"
-#include "exercice.h"
-#include "imputation_budgetaire.h"
-#include "tiers_onglet.h"
-#include "operations_classement.h"
-#include "calendar.h"
+#include "utils.h"
+
+
+
 
 gboolean pression_touche_date_etat ( GtkWidget *widget,
 				     GdkEventKey *ev );
@@ -1523,15 +1523,7 @@ void recuperation_info_perso_etat ( void )
 }
 /******************************************************************************/
 
-/******************************************************************************/
-void sens_desensitive_pointeur ( GtkWidget *bouton,
-				 GtkWidget *widget )
-{
-    gtk_widget_set_sensitive ( widget,
-			       gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton )));
 
-}
-/******************************************************************************/
 
 /******************************************************************************/
 /* vérifie pour la page donnée en argument si le label du notebook doit */
@@ -5410,21 +5402,7 @@ GtkWidget *cree_bouton_lien ( GtkWidget *hbox )
 }
 /******************************************************************************/
 
-/******************************************************************************/
-void sensitive_widget ( GtkWidget *widget )
-{
-    gtk_widget_set_sensitive ( widget,
-			       TRUE );
-}
-/******************************************************************************/
 
-/******************************************************************************/
-void desensitive_widget ( GtkWidget *widget )
-{
-    gtk_widget_set_sensitive ( widget,
-			       FALSE );
-}
-/******************************************************************************/
 
 /******************************************************************************/
 void retire_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_montants_etat *ancien_comp_montants )
@@ -7616,14 +7594,7 @@ void remplissage_liste_modes_paiement_etats ( void )
 }
 /******************************************************************************/
 
-/******************************************************************************/
-gint recherche_nom_dans_liste ( gchar *nom_liste,
-				gchar *nom_test )
-{
-    return ( g_strcasecmp ( nom_liste,
-			    nom_test ));
-}
-/******************************************************************************/
+
 
 /******************************************************************************/
 void selectionne_liste_modes_paiement_etat_courant ( void )

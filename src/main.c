@@ -36,20 +36,20 @@
 #include "include.h"
 #include "structures.h"
 #include "variables.c"
+#include "main.h"
+
+
+#include "erreur.h"
 #include "etats_calculs.h"
 #include "etats_config.h"
 #include "etats_onglet.h"
 #include "fichier_configuration.h"
 #include "fichiers_gestion.h"
-#include "gtkcombofix.h"
-#include "main.h"
 #include "menu.h"
 #include "parametres.h"
 #include "traitement_variables.h"
-#include "erreur.h"
 
-#include <libintl.h>
-#include <locale.h>
+
 
 /* vbox ajoutée dans la fenetre de base, contient le menu et la fenetre d'utilisation */
 
@@ -73,9 +73,6 @@ GtkItemFactory *item_factory_menu_general;
 int main (int argc, char *argv[])
 {
     struct sigaction sig_sev;
-    gchar *texte = _("Selects initial tab");
-    gchar *short_texte = "w[,x[,y[,z]]]]";
-    poptContext ctx;
     gint demande_page;
 
     /* on ajoute la possibilité de mettre l'option --onglet dans la ligne de commande */
@@ -103,11 +100,6 @@ int main (int argc, char *argv[])
     /* affiche le 3ème état */
     /* grisbi --onglet=7,2,2,2 mes_comptes */
     /* affiche l'onglet opération de l'onglet Affichage des données du 3ème état */
-
-
-    struct poptOption options[] = {
-	{"onglet", '\0', POPT_ARG_STRING, NULL, 0, texte, short_texte },
-	{NULL, '\0', 0, NULL, 0}};
 
 
 	/*   setlocale (LC_ALL, ""); */

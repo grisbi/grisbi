@@ -1,11 +1,10 @@
 /* fichier d'en tête gsbcalendar.h */
-#include "include.h"
-#include <gdk/gdkkeysyms.h>
 /* Constantes utilisées par la fonction inc_dec_date */
 # define ONE_DAY 1
 # define ONE_WEEK 7
 # define ONE_MONTH 30
 # define ONE_YEAR 365
+#define SIZEOF_FORMATTED_STRING_DATE 11
 
 GtkWidget *gsb_calendar_new ( GtkWidget *entry ) ;
 gboolean clavier_calendrier ( GtkCalendar *pCalendar,
@@ -13,10 +12,7 @@ gboolean clavier_calendrier ( GtkCalendar *pCalendar,
 			      GtkWidget *entry );
 void date_selection ( GtkCalendar *pCalendar,
 		      GtkWidget *entry );
-gchar *gsb_today ( void ) ;
-GDate *gdate_today ( void );
-gboolean format_date ( GtkWidget *entree );
 void inc_dec_date ( GtkWidget *entree, gint demande );
 void ferme_calendrier ( GtkWidget *entree );
 
-double gsb_strtod ( char *nptr, char **endptr );
+

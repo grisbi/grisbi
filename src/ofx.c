@@ -26,6 +26,7 @@
 #include "variables-extern.c"
 #include "ofx.h"
 #include <libofx/libofx.h>
+
 #include "dialog.h"
 
 /* on doit mettre le compte en cours d'importation en global pour que la libofx puisse le traiter */
@@ -405,6 +406,10 @@ int ofx_proc_transaction_cb(struct OfxTransactionData data)
 		    ope_import -> tiers = g_strdup ( _("Repeating payment/standing order"));
 		break;
 
+	    case OFX_DEBIT:
+	    case OFX_CREDIT:
+	    case OFX_OTHER:
+		break;
 	}
     }
     /*     on ajoute l'opé à son compte */

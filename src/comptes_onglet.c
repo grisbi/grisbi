@@ -23,10 +23,14 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "comptes_gestion.h"
 #include "comptes_onglet.h"
+
+#include "comptes_gestion.h"
 #include "comptes_traitements.h"
 #include "gtk_list_button.h"
+
+
+
 
 
 /*****************************************************************************************************/

@@ -24,8 +24,11 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "banque.h"
+
+
 #include "comptes_gestion.h"
-#include "parametres.h"
+#include "search_glist.h"
+#include "utils.h"
 
 
 /** 
@@ -290,10 +293,9 @@ void affiche_detail_banque ( GtkWidget *bouton,
  */
 GtkWidget *onglet_banques ( void )
 {
-    GtkWidget *vbox_pref, *separateur, *label;
-    GtkWidget *scrolled_window, *vbox, *vbox2, *hvbox;
-    GtkWidget *bouton, *hbox, *paddingbox, *table;
-    GtkSizeGroup * size_group;
+    GtkWidget *vbox_pref;
+    GtkWidget *scrolled_window, *vbox, *vbox2;
+    GtkWidget *bouton, *hbox, *paddingbox;
 
     GSList *liste_tmp;
     gchar *bank_cols_titles [2] = {_("Bank"),
@@ -457,8 +459,6 @@ void deselection_ligne_banque ( GtkWidget *liste,
 				GdkEventButton *ev,
 				GtkWidget *frame )
 {
-    struct struct_banque *banque;
-
     entry_set_value ( nom_banque, NULL );
     entry_set_value ( code_banque, NULL );
     entry_set_value ( tel_banque, NULL );
@@ -492,7 +492,7 @@ void modif_detail_banque ( GtkWidget *entree,
 
 GtkWidget * bank_form ( GtkWidget * parent )
 {
-    GtkWidget * paddingbox, *vbox, *table, *label, *scrolled_window;
+    GtkWidget * paddingbox, *table, *label, *scrolled_window;
     GtkSizeGroup * size_group;
 
     /* Bank details */

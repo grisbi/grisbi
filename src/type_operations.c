@@ -23,13 +23,16 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "erreur.h"
-#include "gtkcombofix.h"
-#include "operations_formulaire.h"
-#include "parametres.h"
-#include "traitement_variables.h"
 #include "type_operations.h"
-#include "fichiers_io.h"
+
+
+#include "dialog.h"
+#include "operations_formulaire.h"
+#include "search_glist.h"
+#include "traitement_variables.h"
+#include "utils.h"
+
+
 
 
 /** Columns for payment methods tree */
@@ -114,7 +117,7 @@ void payment_method_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
  */
 void fill_payment_method_tree ()
 {
-    GtkTreeIter account_iter, debit_iter, credit_iter, child_iter;
+    GtkTreeIter account_iter, debit_iter, credit_iter;
     gint i;
 
     /* Fill tree, iter over with accounts */
@@ -232,7 +235,7 @@ void fill_payment_method_tree ()
 GtkWidget *onglet_types_operations ( void )
 {
     GtkWidget *vbox_pref, *hbox, *scrolled_window, *paddingbox;
-    GtkWidget *vbox, *table, *menu, *item, *label, *bouton;
+    GtkWidget *vbox, *table, *menu, *item, *label;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
 
@@ -456,8 +459,6 @@ select_payment_method ( GtkTreeSelection *selection, GtkTreeModel *model )
 {
     GtkTreeIter iter;
     GValue value_visible = {0, };
-    GValue value_numbering = {0, };
-    GValue value_type = {0, };
     gboolean good;
 
     good = gtk_tree_selection_get_selected (selection, NULL, &iter);
@@ -502,6 +503,7 @@ select_payment_method ( GtkTreeSelection *selection, GtkTreeModel *model )
 	/* We can remove this entry */
 	gtk_widget_set_sensitive ( bouton_retirer_type, TRUE );
     }
+    return ( FALSE );
 }
 
 
@@ -517,7 +519,6 @@ void modification_entree_nom_type ( void )
     GtkWidget * menu;
     GtkTreeSelection *selection;
     GtkTreeIter iter;
-    GValue value_visible = {0, };
     gboolean good, visible;
 
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
@@ -800,24 +801,6 @@ void modification_type_signe ( gint *no_menu )
 
 
 
-/** FIXME: remove */
-void modification_type_par_defaut ( void )
-{
-}
-
-
-
-/* ************************************************************************************************************** */
-gint recherche_type_ope_par_no ( struct struct_type_ope *type_ope,
-				 gint *no_type )
-{
-
-    return ( !(type_ope->no_type == GPOINTER_TO_INT(no_type)) );
-
-}
-/* ************************************************************************************************************** */
-
-
 
 /* ************************************************************************************************************** */
 void ajouter_type_operation ( void )
@@ -828,8 +811,6 @@ void ajouter_type_operation ( void )
     GtkTreePath * treepath;
     gint no_compte, type_final;
     gboolean good, visible;
-    gchar *ligne[2];
-    gchar name[128];
     GValue value_name = {0, };
 
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
@@ -1153,36 +1134,6 @@ void supprimer_type_operation ( void )
 
 	/*   si le type était par défaut, on met le défaut à 0 */
     }
-}
-
-
-
-/* ************************************************************************************************************** */
-/* Appelée quand on change le tri par date ou par type */
-/* rend sensitif ou non la liste des types du tri */
-/* ************************************************************************************************************** */
-
-void modif_tri_date_ou_type ( void )
-{
-    gint no_compte;
-
-    /*   no_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( bouton_type_tri_date ), */
-    /* 						      "no_compte" )); */
-
-    /*   if ( (tri_tmp[no_compte] = !gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_type_tri_date )))) */
-    /*     { */
-    /*       gtk_widget_set_sensitive ( bouton_type_neutre_inclut, */
-    /* 				 TRUE ); */
-    /*       gtk_widget_set_sensitive ( type_liste_tri, */
-    /* 				 TRUE ); */
-    /*     } */
-    /*   else */
-    /*     { */
-    /*       gtk_widget_set_sensitive ( bouton_type_neutre_inclut, */
-    /* 				 FALSE ); */
-    /*       gtk_widget_set_sensitive ( type_liste_tri, */
-    /* 				 FALSE ); */
-    /*     } */
 }
 /* ************************************************************************************************************** */
 

@@ -23,108 +23,21 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-#include "categories_onglet.h"
-#include "erreur.h"
 #include "fichiers_io.h"
-#include "gtkcombofix.h"
+
+
+#include "categories_onglet.h"
+#include "dialog.h"
 #include "imputation_budgetaire.h"
 #include "menu.h"
 #include "operations_liste.h"
-#include "parametres.h"
+#include "search_glist.h"
 #include "traitement_variables.h"
-#include <libxml/tree.h>
+#include "utils.h"
+
+
 
 extern gint valeur_echelle_recherche_date_import;
-
-int
-myisolat1ToUTF8(unsigned char* out, int *outlen,
-		const unsigned char* in, int *inlen) {
-    unsigned char* outstart = out;
-    const unsigned char* base = in;
-    unsigned char* outend = out + *outlen;
-    const unsigned char* inend;
-    const unsigned char* instop;
-    xmlChar c = *in;
-
-    inend = in + (*inlen);
-    instop = inend;
-
-    while (in < inend && out < outend - 1) {
-	if (c >= 0x80) {
-	    *out++= ((c >>  6) & 0x1F) | 0xC0;
-	    *out++= (c & 0x3F) | 0x80;
-	    ++in;
-	    c = *in;
-	}
-	if (instop - in > outend - out) instop = in + (outend - out); 
-	while (c < 0x80 && in < instop) {
-	    *out++ =  c;
-	    ++in;
-	    c = *in;
-	}
-    }	
-    if (in < inend && out < outend && c < 0x80) {
-	*out++ =  c;
-	++in;
-    }
-    *outlen = out - outstart;
-    *inlen = in - base;
-    return(0);
-}
-
-
-
-gchar * latin2utf8 (char * inchar)
-{
-    char buffer[1024];
-    int outlen, inlen, res;
-
-    if (!inchar)
-	return NULL;
-
-    inlen = strlen(inchar);
-    outlen = 1024;
-
-    res = myisolat1ToUTF8(buffer, &outlen, inchar, &inlen);
-    buffer[outlen] = 0;
-
-    return (g_strdup ( buffer ));
-}
-
-
-/*
- * fix_encoding:
- * 
- * @doc: the xmlNode pointer to convert encoding into UTF
- *
- * @returns: a fixed document
- */
-    xmlNodePtr
-fix_encoding ( xmlNodePtr droot )
-{
-    /*   xmlAttrPtr property; */
-    /*   xmlNodePtr node; */
-    /*   gsize bytes_written, bytes_read; */
-
-    /*   if (!droot) */
-    /*     return; */
-
-    /*   for (property = droot->properties; property; property = property->next) */
-    /*     { */
-    /*       gchar * string = xmlGetProp (droot, property->name); */
-    /* /\*       xmlSetProp (droot,  *\/ */
-    /* /\* 		  property->name, *\/ */
-    /* /\*       property->node->content = latin2utf8(string); *\/ */
-    /*     } */
-
-    /*   for (node = droot->children; node; node = node->next) */
-    /*     { */
-    /*       fix_encoding(node); */
-    /*     } */
-
-    /*   return droot; */
-}
-
 
 void remove_file_from_last_opened_files_list ( gchar * nom_fichier )
 {
@@ -8559,45 +8472,6 @@ gboolean enregistre_fichier ( gboolean force )
 
 
 
-
-/* ************************************************************************************************** */
-/* itoa : transforme un integer en chaine ascii */
-/* ************************************************************************************************** */
-
-gchar *itoa ( gint integer )
-{
-    div_t result_div;
-    gchar *chaine;
-    gint i = 0;
-    gint num;
-
-    chaine = malloc ( 11*sizeof (char) );
-    num = abs(integer);
-
-    do
-    {
-	result_div = div ( num, 10 );
-	chaine[i] = result_div.rem + 48;
-	i++;
-    }
-    while ( ( num = result_div.quot ));
-
-    chaine[i] = 0;
-
-    g_strreverse ( chaine );
-
-    if ( integer < 0 )
-	chaine = g_strconcat ( "-",
-			       chaine,
-			       NULL );
-
-    return ( chaine );
-}
-/***********************************************************************************************************/
-
-
-
-
 /***********************************************************************************************************/
 /* ouvre le fichier, recherche <Fichier_ouvert> */
 /* et le met à la valeur demandee */
@@ -9376,7 +9250,7 @@ gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc )
 /***********************************************************************************************************/
 void propose_changement_permissions ( void )
 {
-    GtkWidget *dialog, *label, *vbox, *checkbox;
+    GtkWidget *dialog, *vbox, *checkbox;
     gint resultat;
 
     dialog = gtk_message_dialog_new ( GTK_WINDOW ( window ),
@@ -9403,58 +9277,3 @@ void propose_changement_permissions ( void )
 /***********************************************************************************************************/
 
 
-double my_strtod ( char *nptr, char **endptr )
-{
-    double entier=0, mantisse=0, resultat=0;
-    int invert = 0;
-    char * p;
-
-    if (!nptr)
-	return 0;
-
-
-    for ( p = nptr; p < nptr + strlen(nptr); p++ )
-    {
-	if (isspace(*p) || *p == '+' )
-	    continue;
-
-	if (*p == '-')
-	{
-	    invert = 1;
-	    continue;
-	}
-
-	if ( *p == ',' || *p == '.' )
-	{
-	    char * m;
-	    for ( m = p+1; m <= nptr+strlen(nptr) && 
-		  (isdigit(*m) || isspace(*m)); m++)
-		/* Nothing, just loop */ ;
-	    for ( --m; m > p; m-- )
-	    {
-		if (isdigit(*m))
-		{
-		    mantisse /= 10;
-		    mantisse += (*m - '0');
-		}
-	    }
-	    mantisse /= 10;
-	}
-
-	if (isdigit(*p))
-	{
-	    entier = entier * 10;
-	    entier += (*p - '0');
-	}
-	else
-	{
-	    break;
-	}
-    }
-
-    resultat = entier + mantisse;
-    if ( invert )
-	resultat = - resultat;
-
-    return resultat;
-}

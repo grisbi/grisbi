@@ -22,17 +22,23 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-
 #include "categories_onglet.h"
+
+
+
+#include "barre_outils.h"
 #include "devises.h"
 #include "dialog.h"
 #include "etats_config.h"
-#include "gtkcombofix.h"
+#include "fichiers_io.h"
 #include "operations_comptes.h"
 #include "operations_liste.h"
-#include "traitement_variables.h"
-#include "barre_outils.h"
+#include "search_glist.h"
 #include "tiers_onglet.h"
+#include "traitement_variables.h"
+#include "utils.h"
+
+
 
 
 gchar *categories_de_base_debit [] = {
@@ -928,14 +934,14 @@ gboolean ouverture_node_categ ( GtkWidget *arbre, GtkCTreeNode *node,
     /*   si on ouvre une categ, on fait rien */
 
     if ( !row || row->level == 1 )
-	return;
+	return(FALSE);
 
     /*   si le fiston = -1, c'est qu'il n'a pas encore été créé */
     /* dans le cas contraire, on vire */
 
     if ( GPOINTER_TO_INT ( gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
 							 row -> children )) != -1 )
-	return;
+	return(FALSE);
 
     /* freeze le ctree */
 
@@ -1282,7 +1288,7 @@ gboolean selection_ligne_categ ( GtkCTree *arbre_categ, GtkCTreeNode *noeud,
 	    sous_categ = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
 						       noeud );
 	    if ( sous_categ == GINT_TO_POINTER(-1) )
-		return;
+		return(FALSE);
 
 	    gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_nom_categ ),
 					       GTK_SIGNAL_FUNC ( modification_du_texte_categ),
@@ -2671,63 +2677,6 @@ struct struct_sous_categ *ajoute_nouvelle_sous_categorie ( gchar *sous_categorie
 
 
 
-/***********************************************************************************************************/
-/* Fonction recherche_categorie_par_nom */
-/***********************************************************************************************************/
-
-gint recherche_categorie_par_nom ( struct struct_categ *categorie,
-				   gchar *categ )
-{
-    return ( g_strcasecmp ( categorie -> nom_categ,
-			    categ ) );
-}
-/***********************************************************************************************************/
-
-
-/***********************************************************************************************************/
-/* Fonction recherche_sous_categorie_par_nom */
-/***********************************************************************************************************/
-
-gint recherche_sous_categorie_par_nom ( struct struct_sous_categ *sous_categorie,
-					gchar *sous_categ )
-{
-    return ( g_strcasecmp ( sous_categorie -> nom_sous_categ,
-			    sous_categ ) );
-}
-/***********************************************************************************************************/
-
-
-
-/***************************************************************************************************/
-/* Fonction  recherche_categorie_par_no */
-/* appelée par un g_slist_find_custom */
-/* donne en arg la struct du tiers et le no du tiers recherché */
-/***************************************************************************************************/
-
-gint recherche_categorie_par_no ( struct struct_categ *categorie,
-				  gint *no_categorie )
-{
-    return (  categorie ->  no_categ != GPOINTER_TO_INT ( no_categorie ) );
-}
-/***************************************************************************************************/
-
-
-/***************************************************************************************************/
-/* Fonction  recherche_categorie_par_no */
-/* appelée par un g_slist_find_custom */
-/* donne en arg la struct du tiers et le no du tiers recherché */
-/***************************************************************************************************/
-
-gint recherche_sous_categorie_par_no ( struct struct_sous_categ *sous_categorie,
-				       gint *no_sous_categorie )
-{
-    return (  sous_categorie ->  no_sous_categ != GPOINTER_TO_INT ( no_sous_categorie ) );
-}
-/***************************************************************************************************/
-
-
-
-
 
 /* **************************************************************************************************** */
 /* crée un tableau de categ et de sous categ aussi gds que le nb de tiers */
@@ -3108,7 +3057,6 @@ void importer_categ ( void )
     GtkWidget *bouton_merge_remplace;
     GtkWidget *menu;
     GtkWidget *menu_item;
-    GtkWidget *separateur;
 
 
     fenetre_nom = gtk_file_selection_new ( _("Import a category list"));

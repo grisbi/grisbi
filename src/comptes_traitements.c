@@ -24,22 +24,27 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
+#include "comptes_traitements.h"
+
+
+
 #include "accueil.h"
 #include "categories_onglet.h"
+#include "comptes_gestion.h"
 #include "comptes_onglet.h"
-#include "comptes_traitements.h"
-#include "echeancier_liste.h"
-#include "erreur.h"
 #include "dialog.h"
+#include "echeancier_liste.h"
 #include "etats_config.h"
 #include "fichiers_gestion.h"
 #include "imputation_budgetaire.h"
 #include "operations_comptes.h"
 #include "operations_liste.h"
+#include "search_glist.h"
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
 #include "type_operations.h"
-#include "comptes_gestion.h"
+
+
 
 
 
@@ -197,10 +202,6 @@ gint initialisation_nouveau_compte ( gint type_de_compte )
 
 void supprimer_compte ( void )
 {
-    GtkWidget *dialog;
-    GtkWidget *label;
-    GtkWidget *liste_comptes;
-    gint resultat;
     short actualise = 0, i;
     GSList *pointeur_liste;
     gint compte_modifie;
@@ -237,7 +238,13 @@ void supprimer_compte ( void )
 				    (GCompareFunc)cherche_compte_dans_echeances )))
     {
 	if ( echeance_selectionnnee == ECHEANCE_COURANTE )
-	    ECHEANCE_COURANTE = GINT_TO_POINTER (-1);
+	{
+	    /* 	    met use of cast expressions as lvalues is deprecatedi */
+	    /* 		pour ECHEANCE_COURANTE = GINT_TO_POINTER (-1); */
+	    /* comprends pas, donc fait les trucs differemment... */
+
+	    pointeur_liste -> data = GINT_TO_POINTER (-1);
+	}
 
 	gsliste_echeances = g_slist_remove ( gsliste_echeances, ECHEANCE_COURANTE );
 	nb_echeances--;
@@ -388,22 +395,6 @@ void supprimer_compte ( void )
 
 }
 /* *********************************************************************************************************** */
-
-
-/* *********************************************************************************************************** */
-/* cette fonction est appelée pour chercher dans les échéances si certaines sont  */
-/* associées au compte en train d'être supprimé */
-/* *********************************************************************************************************** */
-
-gint cherche_compte_dans_echeances ( struct operation_echeance *echeance,
-				     gint no_compte )
-{
-
-    return ( echeance -> compte != no_compte );
-
-}
-/* *********************************************************************************************************** */
-
 
 /**
  *  Create an option menu with the list of accounts.  This list is
@@ -656,7 +647,6 @@ gint demande_type_nouveau_compte ( void )
     GtkWidget *label;
     GtkWidget *hbox;
     GtkWidget *bouton;
-    GtkWidget *separateur;
     gint type_compte;
 
     dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION,

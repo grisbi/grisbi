@@ -25,12 +25,10 @@ gboolean changement_taille_liste_tiers ( GtkWidget *clist,
 					 GtkAllocation *allocation,
 					 gpointer null );
 void mise_a_jour_tiers ( void );
-gint recherche_tiers_par_no ( struct struct_tiers *tiers,
-			      gint *no_tiers );
-gint recherche_tiers_par_nom ( struct struct_tiers *tiers,
-			       gchar *ancien_tiers );
 gfloat *calcule_total_montant_tiers ( void );
 gchar *calcule_total_montant_tiers_par_compte ( gint no_tiers,
 					       gint no_compte );
 void appui_sur_ajout_tiers ( void );
 gboolean keypress_tiers ( GtkWidget *widget, GdkEventKey *ev, gint *no_origine );
+gboolean expand_selected_tiers ( GtkWidget *liste, GdkEventButton *ev, gpointer null );
+

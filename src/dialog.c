@@ -26,9 +26,17 @@
 
 #include "include.h"
 #include "variables-extern.c"
-
+#include "structures.h"
 #include "dialog.h"
-#include "parametres.h"
+
+
+#include "comptes_traitements.h"
+#include "constants.h"
+#include "devises.h"
+#include "exercice.h"
+#include "operations_formulaire.h"
+#include "type_operations.h"
+#include "utils.h"
 
 
 

@@ -74,10 +74,10 @@ extern gchar *buffer_dernier_fichier;
 extern gchar *nom_fichier_backup;
 extern gchar *dernier_chemin_de_travail;
 extern gint nb_derniers_fichiers_ouverts;          /* contient le nb de derniers fichiers ouverts */
-extern gdouble nb_max_derniers_fichiers_ouverts;        /* contient le nb max que peut contenir nb_derniers_fichiers_ouverts ( réglé dans les paramètres ) */
+extern gint nb_max_derniers_fichiers_ouverts;        /* contient le nb max que peut contenir nb_derniers_fichiers_ouverts ( réglé dans les paramètres ) */
 extern gchar **tab_noms_derniers_fichiers_ouverts;
-extern gdouble compression_fichier;
-extern gdouble compression_backup;
+extern gint compression_fichier;
+extern gint compression_backup;
 
 
 
@@ -284,7 +284,7 @@ extern GSList *gsliste_echeances;                 /* contient la liste des struc
 extern gint nb_echeances;
 extern gint no_derniere_echeance;
 
-extern gdouble decalage_echeance;
+extern gint decalage_echeance;
 
 extern gint ancienne_largeur_echeances;
 

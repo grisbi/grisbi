@@ -26,20 +26,23 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
+#include "fichiers_gestion.h"
+
+
+
 #include "accueil.h"
 #include "categories_onglet.h"
 #include "comptes_traitements.h"
 #include "devises.h"
 #include "dialog.h"
-#include "erreur.h"
-#include "fichiers_gestion.h"
+#include "fenetre_principale.h"
 #include "fichiers_io.h"
 #include "menu.h"
 #include "operations_comptes.h"
 #include "operations_liste.h"
 #include "patienter.h"
 #include "traitement_variables.h"
-#include "fenetre_principale.h"
+
 
 
 extern GtkWidget *window_vbox_principale;
@@ -58,7 +61,7 @@ void nouveau_fichier ( void )
 
 
     init_variables ( FALSE );
-
+    
     type_de_compte = demande_type_nouveau_compte ();
     if ( type_de_compte == -1 )
 	return;
@@ -412,6 +415,7 @@ gboolean enregistrement_fichier ( gint origine )
     GtkWidget * dialog;
     gint etat_force, result;
 
+    etat_force = 0;
 
     if ( !etat.modification_fichier && origine != -2 )
 	return ( TRUE );
@@ -427,7 +431,7 @@ gboolean enregistrement_fichier ( gint origine )
 					  GTK_DIALOG_DESTROY_WITH_PARENT,
 					  GTK_MESSAGE_WARNING, 
 					  GTK_BUTTONS_NONE,
-					  "" );
+					  " " );
 	gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
 				 _("Close without saving"), GTK_RESPONSE_NO,
 				 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -494,9 +498,6 @@ gboolean enregistrement_fichier ( gint origine )
 		{
 		    if ( S_ISREG ( test_fichier.st_mode ) )
 		    {
-			GtkWidget *etes_vous_sur;
-			GtkWidget *label;
-
 			if ( ! question_yes_no_hint (_("File already exists"),
 						     g_strdup_printf (_("Do you want to overwrite file \"%s\"?"), nom_fichier_comptes) ) )
 			{

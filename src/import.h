@@ -11,14 +11,10 @@ void cree_liens_virements_ope_import ( void );
 void creation_compte_importe ( struct struct_compte_importation *compte_import,
 			       gint nouveau_fichier );
 void ajout_opes_importees ( struct struct_compte_importation *compte_import );
-gint recherche_operation_par_cheque ( struct structure_operation *operation,
-				  gint *no_chq );
 void confirmation_enregistrement_ope_import ( struct struct_compte_importation *compte_import );
 struct structure_operation *enregistre_ope_importee ( struct struct_ope_importation *operation_import,
 		gint no_compte  );
 void pointe_opes_importees ( struct struct_compte_importation *compte_import );
-gboolean recherche_operation_par_id ( struct structure_operation *operation,
-				      gchar *id_recherchee );
 gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 		gint result,
 		GtkWidget *liste_ope_celibataires );

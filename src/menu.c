@@ -22,23 +22,23 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
+#include "menu.h"
+
 
 #include "comptes_traitements.h"
+#include "erreur.h"
 #include "etats_calculs.h"
 #include "etats_config.h"
 #include "etats_onglet.h"
-#include "erreur.h"
 #include "fichiers_gestion.h"
-#include "gtkcombofix.h"
 #include "help.h"
-#include "menu.h"
+#include "import.h"
 #include "operations_liste.h"
 #include "parametres.h"
-#include "import.h"
 #include "qif.h"
+#include "utils.h"
 
-#include "./xpm/export.xpm"
-#include "./xpm/import.xpm"
+
 
 extern GtkItemFactory *item_factory_menu_general;
 extern gchar *nom_navigateur_web;
@@ -60,17 +60,17 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	{_("/File/Detach"),    NULL,  NULL, 0, "<Tearoff>", NULL },
 	{_("/File/New account file"),  NULL,  G_CALLBACK ( nouveau_fichier), 0, "<StockItem>", GTK_STOCK_NEW },
 	{_("/File/_Open"),   "<CTRL>O", G_CALLBACK ( ouvrir_fichier ), 0, "<StockItem>", GTK_STOCK_OPEN },
-	{"/File/Sep1",    NULL,  NULL, 0, "<Separator>", NULL },
+	{_("/File/Sep1"),    NULL,  NULL, 0, "<Separator>", NULL },
 	{_("/File/Save"),   NULL,  G_CALLBACK ( enregistrement_fichier ) , 1, "<StockItem>", GTK_STOCK_SAVE },
 	{_("/File/Save as"),   NULL,  G_CALLBACK ( enregistrer_fichier_sous ), 0, "<StockItem>", GTK_STOCK_SAVE_AS },
-	{"/File/Sep1",    NULL, NULL, 0, "<Separator>", NULL },
+	{_("/File/Sep1"),    NULL, NULL, 0, "<Separator>", NULL },
 	{_("/File/Recently opened files"), NULL,NULL , 0, "<Branch>",NULL, },
-	{"/File/Sep1",    NULL, NULL, 0, "<Separator>", NULL },
+	{_("/File/Sep1"),    NULL, NULL, 0, "<Separator>", NULL },
 	{_("/File/Import"),   NULL,NULL , 0, "<Branch>",NULL  },
 	{_("/File/Import/QIF\\/OFX file ..."),   NULL, G_CALLBACK ( importer_fichier), 0, NULL ,NULL  },
 	{_("/File/Export"),   NULL, NULL, 0, "<Branch>",NULL  },
 	{_("/File/Export/QIF file ..."),   NULL,G_CALLBACK ( exporter_fichier_qif ), 0, NULL ,NULL  },
-	{"/File/Sep1",    NULL, NULL, 0, "<Separator>", NULL },
+	{_("/File/Sep1"),    NULL, NULL, 0, "<Separator>", NULL },
 	{_("/File/Close"),   NULL,G_CALLBACK ( fermer_fichier ), 0, "<StockItem>", GTK_STOCK_CLOSE },
 	{_("/File/Exit"),   NULL, G_CALLBACK ( fermeture_grisbi), 0, "<StockItem>", GTK_STOCK_QUIT },
 
@@ -80,31 +80,31 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	{_("/Edit/Remove transaction"),   NULL, G_CALLBACK (remove_transaction ), 0, "<StockItem>", GTK_STOCK_DELETE },
 	{_("/Edit/Clone transaction"),   NULL, G_CALLBACK ( clone_selected_transaction), 0, "<StockItem>", GTK_STOCK_COPY },
 	{_("/Edit/Edit transaction"),   NULL, G_CALLBACK ( edition_operation), 0, "<StockItem>", GTK_STOCK_PROPERTIES },
-	{"/Edit/Sep1",    NULL, NULL, 0, "<Separator>", NULL },
+	{_("/Edit/Sep1"),    NULL, NULL, 0, "<Separator>", NULL },
 	{_("/Edit/Convert transaction to scheduled transaction"),   NULL, NULL, 0, "<StockItem>", GTK_STOCK_CONVERT },
 	{_("/Edit/Move transaction to another account"),   NULL, NULL, 0, "<StockItem>", GTK_STOCK_GO_FORWARD },
-	{"/Edit/Sep1",    NULL, NULL, 0, "<Separator>", NULL },
+	{_("/Edit/Sep1"),    NULL, NULL, 0, "<Separator>", NULL },
 	{_("/Edit/Preferences"),   NULL, G_CALLBACK (preferences ), 1, "<StockItem>", GTK_STOCK_PREFERENCES },
 
 	{ _("/Accounts"), NULL, NULL, 0, "<Branch>", NULL },
 	{_("/Accounts/Detach"),    NULL,  NULL, 0, "<Tearoff>", NULL },
 	{_("/Accounts/New account"),   NULL, G_CALLBACK (nouveau_compte ), 0, "<StockItem>", GTK_STOCK_NEW },
 	{_("/Accounts/Remove an account"),   NULL, G_CALLBACK ( supprimer_compte), 0, "<StockItem>", GTK_STOCK_DELETE },
-	{"/Accounts/Sep1",    NULL, NULL, 0, "<Separator>", NULL },
+	{_("/Accounts/Sep1"),    NULL, NULL, 0, "<Separator>", NULL },
 	{_("/Accounts/Closed accounts"),   NULL, NULL , 0, "<Branch>", NULL },
 
 	{ _("/Reports"), NULL, NULL, 0, "<Branch>", NULL },
 	{_("/Reports/Detach"),    NULL,  NULL, 0, "<Tearoff>", NULL },
 	{_("/Reports/New report"),   NULL, G_CALLBACK ( ajout_etat), 0, "<StockItem>", GTK_STOCK_NEW },
-	{"/Reports/Sep1",    NULL, NULL, 0, "<Separator>", NULL },
+	{_("/Reports/Sep1"),    NULL, NULL, 0, "<Separator>", NULL },
 	{_("/Reports/Clone report"),   NULL, G_CALLBACK (dupliquer_etat ), 0, "<StockItem>", GTK_STOCK_COPY },
 	{_("/Reports/Print report"),   NULL, G_CALLBACK ( impression_etat_courant), 0, "<StockItem>", GTK_STOCK_PRINT },
-	{"/Reports/Sep1",    NULL, NULL, 0, "<Separator>", NULL },
+	{_("/Reports/Sep1"),    NULL, NULL, 0, "<Separator>", NULL },
 	{_("/Reports/Import report"),   NULL, G_CALLBACK (importer_etat ), 0, "<StockItem>", GTK_STOCK_CONVERT },
 	{_("/Reports/Export report"),   NULL, G_CALLBACK ( exporter_etat), 0, "<StockItem>", GTK_STOCK_CONVERT },
-	{"/Reports/Sep1",    NULL, NULL, 0, "<Separator>", NULL },
+	{_("/Reports/Sep1"),    NULL, NULL, 0, "<Separator>", NULL },
 	{_("/Reports/Remove report"),   NULL, G_CALLBACK ( efface_etat), 0, "<StockItem>", GTK_STOCK_DELETE },
-	{"/Reports/Sep1",    NULL, NULL, 0, "<Separator>", NULL },
+	{_("/Reports/Sep1"),    NULL, NULL, 0, "<Separator>", NULL },
 	{_("/Reports/Edit report"),   NULL, G_CALLBACK (personnalisation_etat ), 0, "<StockItem>", GTK_STOCK_PROPERTIES },
 
 	{ _("/Help"), NULL, NULL, 0, "<Branch>", NULL },
@@ -113,7 +113,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	{_("/Help/Quickstart"),   NULL, affiche_aide_locale, 2, "<StockItem>", GTK_STOCK_INDEX },
 	{_("/Help/Translation"),   NULL, affiche_aide_locale, 3, NULL, NULL },
 	{_("/Help/About"),   NULL, G_CALLBACK (a_propos ) , 1, NULL, NULL },
-	{"/Help/Sep1",    NULL, NULL, 0, "<Separator>", NULL },
+	{_("/Help/Sep1"),    NULL, NULL, 0, "<Separator>", NULL },
 	{_("/Help/Grisbi website"),   NULL, G_CALLBACK (lien_web ), 1, NULL, NULL },
 	{_("/Help/Report a bug"),   NULL, G_CALLBACK ( lien_web), 2,NULL , NULL },
 	{_("/Help/On line User's guide"),   NULL, G_CALLBACK ( lien_web), 3, NULL, NULL }
@@ -241,38 +241,6 @@ void affiche_derniers_fichiers_ouverts ( void )
 							   _("/File/Recently opened files")),
 			       TRUE );
 
-}
-/* **************************************************************************************************** */
-
-
-
-
-/* **************************************************************************************************** */
-gchar *my_strdelimit ( gchar *string,
-		       gchar *delimiters,
-		       gchar *new_delimiters )
-{
-    /* fonction identique à g_strdelimit, sauf que new_delimiters n'est pas limité à 1 caractère */
-    /*     et la chaine renvoyée est une copie, pas l'original */
-
-    gchar **tab_str;
-    gchar *retour;
-
-    if ( !( string
-	    &&
-	    delimiters
-	    &&
-	    new_delimiters ))
-	return string;
-
-    tab_str = g_strsplit ( string,
-			   delimiters,
-			   0 );
-    retour = g_strjoinv ( new_delimiters,
-			  tab_str );
-    g_strfreev ( tab_str );
-
-    return ( retour );
 }
 /* **************************************************************************************************** */
 

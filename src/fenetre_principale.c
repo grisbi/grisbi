@@ -22,16 +22,21 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
-
 #include "fenetre_principale.h"
+
+
+
 #include "accueil.h"
-#include "operations_onglet.h"
-#include "echeancier_liste.h"
-#include "comptes_onglet.h"
-#include "tiers_onglet.h"
 #include "categories_onglet.h"
-#include "imputation_budgetaire.h"
+#include "comptes_onglet.h"
+#include "echeancier_liste.h"
 #include "etats_onglet.h"
+#include "imputation_budgetaire.h"
+#include "operations_onglet.h"
+#include "tiers_onglet.h"
+
+
+
 
 
 /**********************************************************************************************************
@@ -140,10 +145,10 @@ GtkWidget *creation_fenetre_principale (void )
 
 
 /***********************************************************************************************************/
-void change_page_notebook ( GtkNotebook *notebook,
-			    GtkNotebookPage *page,
-			    guint numero_page,
-			    gpointer null )
+gboolean change_page_notebook ( GtkNotebook *notebook,
+				GtkNotebookPage *page,
+				guint numero_page,
+				gpointer null )
 {
 
     /* retire l'horloge si part de l'accueil */
@@ -206,6 +211,6 @@ void change_page_notebook ( GtkNotebook *notebook,
 		remplit_arbre_imputation ();
 	    break;
     }
-
+    return ( FALSE );
 }
 /***********************************************************************************************************/

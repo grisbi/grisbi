@@ -10,8 +10,6 @@ void selectionne_devise_ib_etat_courant ( void );
 void selectionne_liste_tiers_etat_courant ( void );
 void selectionne_devise_tiers_etat_courant ( void );
 void recuperation_info_perso_etat ( void );
-void sens_desensitive_pointeur ( GtkWidget *boutton,
-				 GtkWidget *widget );
 void stylise_tab_label_etat ( gint *no_page );
 GtkWidget *onglet_etat_dates ( void );
 void click_liste_etat ( GtkCList *liste,
@@ -58,8 +56,6 @@ GtkWidget *cree_bouton_comparateur_texte ( struct struct_comparaison_textes_etat
 void change_comparaison_texte ( GtkWidget *menu_item,
 				struct struct_comparaison_textes_etat *comp_textes );
 GtkWidget *cree_bouton_lien ( GtkWidget *hbox );
-void sensitive_widget ( GtkWidget *widget );
-void desensitive_widget ( GtkWidget *widget );
 void retire_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_montants_etat *ancien_comp_montants );
 GtkWidget *onglet_etat_divers ( void );
 GtkWidget *page_organisation_donnees ( void );
@@ -72,6 +68,4 @@ GtkWidget *onglet_affichage_etat_devises ( void );
 GtkWidget *onglet_affichage_etat_divers ( void );
 GtkWidget *onglet_etat_mode_paiement ( void );
 void remplissage_liste_modes_paiement_etats ( void );
-gint recherche_nom_dans_liste ( gchar *nom_liste,
-				gchar *nom_test );
 void selectionne_liste_modes_paiement_etat_courant ( void );

@@ -24,17 +24,23 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
+#include "operations_comptes.h"
+
+
+
+
 #include "barre_outils.h"
 #include "devises.h"
-#include "gtkcombofix.h"
-#include "gtk_list_button.h"
-#include "operations_comptes.h"
+#include "equilibrage.h"
 #include "operations_formulaire.h"
 #include "operations_liste.h"
+#include "search_glist.h"
 #include "type_operations.h"
-#include "equilibrage.h"
+#include "utils.h"
+#include "ventilation.h"
 #include "gtk_list_button.h"
-#include "menu.h"
+
+
 
 extern GtkItemFactory *item_factory_menu_general;
 
@@ -48,7 +54,6 @@ GtkWidget *creation_liste_comptes (void)
 {
     GtkWidget *onglet;
     GtkWidget *frame_label_compte_courant;
-    GSList *ordre_comptes_variable;
     GtkWidget *bouton;
     GtkWidget *frame_equilibrage;
     GtkWidget *vbox_frame_equilibrage;

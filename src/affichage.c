@@ -25,11 +25,12 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "affichage.h"
-#include "fichiers_gestion.h"
-#include "operations_formulaire.h"
-#include "parametres.h"
-#include "traitement_variables.h"
 
+#include "banque.h"
+#include "operations_formulaire.h"
+#include "search_glist.h"
+#include "traitement_variables.h"
+#include "utils.h"
 
 
 GtkWidget * list_font_name_label, * list_font_size_label;
@@ -52,8 +53,7 @@ GtkWidget *preview;
  * \param data A pointer to some random data passed to this hook.  Not
  * used there.
  */
-    gboolean
-update_transaction_form ( GtkWidget * checkbox, gpointer data )
+gboolean update_transaction_form ( GtkWidget * checkbox, gpointer data )
 {
     gboolean selected = gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) == style_entree_formulaire[0];
     if ( nb_comptes )
@@ -112,15 +112,15 @@ update_transaction_form ( GtkWidget * checkbox, gpointer data )
 	    affiche_cache_le_formulaire ();
 	}
     }
+    return ( FALSE );
 }
 
 
-    GtkWidget *
-onglet_display_transaction_form ( void )
+GtkWidget *onglet_display_transaction_form ( void )
 {
-    GtkWidget *hbox, *vbox_pref;
-    GtkWidget *label, *paddingbox;
-    GtkWidget *table, *bouton, *radiogroup;
+    GtkWidget *vbox_pref;
+    GtkWidget *paddingbox;
+    GtkWidget *table, *radiogroup;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Transaction form"),
 					       "form.png" );
@@ -232,7 +232,7 @@ GtkWidget * onglet_display_fonts ( void )
 {
     GtkWidget *hbox, *vbox_pref;
     GtkWidget *label, *paddingbox;
-    GtkWidget *table, *font_button;
+    GtkWidget *font_button;
     GtkWidget *hbox_font, *init_button;
     GdkPixbuf * pixbuf = NULL;
     GtkWidget *check_button;
@@ -560,9 +560,8 @@ gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
  */
 GtkWidget *onglet_display_addresses ( void )
 {
-    GtkWidget *hbox, *vbox_pref, *separateur, *scrolled_window, *label, *frame;
-    GtkWidget *vbox2, *fleche, *hbox2, *bouton, *onglet, *paddingbox;
-    GSList *liste_tmp;
+    GtkWidget *hbox, *vbox_pref, *scrolled_window, *label;
+    GtkWidget *paddingbox;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Addresses & titles"),
 					       "addresses.png" );
@@ -629,28 +628,8 @@ GtkWidget *onglet_display_addresses ( void )
 
     return ( vbox_pref );
 }
+/* **************************************************************************************************************************** */
 
-
-
-/* FIXME remove as it is deprecated */
-GtkWidget *onglet_affichage ( void )
-{
-}
-
-
-/* FIXME remove as it is deprecated */
-void selection_choix_ordre_comptes ( GtkWidget *box )
-{
-    /*   gtk_widget_set_sensitive ( box, TRUE ); */
-}
-
-
-/* FIXME remove as it is deprecated */
-void deselection_choix_ordre_comptes ( GtkWidget *box )
-{
-    /*   gtk_widget_set_sensitive ( box, FALSE ); */
-}
-/* ************************************************************************************************************** */
 
 
 
@@ -773,6 +752,7 @@ gboolean init_fonts ( GtkWidget * button,
 	gtk_clist_set_row_height ( GTK_CLIST ( liste_echeances ),
 				   (size/PANGO_SCALE) + 7 );
     }
+    return ( FALSE );
 }
 /* **************************************************************************************************************************** */
 
@@ -845,10 +825,8 @@ void choix_fonte ( GtkWidget *bouton,
 
 void change_logo_accueil ( GtkWidget *widget, gpointer user_data )
 {
-    GtkWidget *dialog, *choix, *bouton;
     GtkWidget *file_selector = (GtkWidget *)user_data;
     GdkPixbuf * pixbuf;
-    gint resultat;
     const gchar *selected_filename;
 
     selected_filename = gtk_file_selection_get_filename (GTK_FILE_SELECTION (file_selector));
@@ -910,9 +888,7 @@ void change_logo_accueil ( GtkWidget *widget, gpointer user_data )
 /* **************************************************************************************************************************** */
 void modification_logo_accueil ( void )
 {
-    GtkWidget *dialog, *choix, *bouton, *file_selector;
-    GdkPixbuf * pixbuf;
-    gint resultat;
+    GtkWidget *file_selector;
 
     file_selector = gtk_file_selection_new (_("Select a new logo"));
 
@@ -954,9 +930,8 @@ void modification_logo_accueil ( void )
  * \param length Not used handler parameter.
  * \param position Not used handler parameter.
  */
-gboolean
-update_homepage_title (GtkEntry *entry, gchar *value, 
-		       gint length, gint * position)
+gboolean update_homepage_title (GtkEntry *entry, gchar *value, 
+				gint length, gint * position)
 {
     gtk_label_set_text ( GTK_LABEL(label_titre_fichier), 
 			 (gchar *) gtk_entry_get_text (GTK_ENTRY (entry)) );

@@ -20,8 +20,6 @@ void edition_operation ( void );
 void p_press (void);
 void r_press (void);
 void supprime_operation ( struct structure_operation *operation );
-gint recherche_operation_par_no ( struct structure_operation *operation,
-				  gint *no_ope );
 void changement_taille_liste_ope ( GtkWidget *clist,
 				   GtkAllocation *allocation,
 				   gint *compte );

@@ -26,24 +26,29 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
+#include "echeancier_formulaire.h"
+
+
+
 #include "accueil.h"
+#include "calendar.h"
 #include "categories_onglet.h"
 #include "comptes_traitements.h"
+#include "constants.h"
 #include "devises.h"
-#include "echeancier_formulaire.h"
+#include "dialog.h"
 #include "echeancier_liste.h"
-#include "erreur.h"
 #include "exercice.h"
-#include "fichiers_io.h"
-#include "gtkcombofix.h"
+#include "imputation_budgetaire.h"
 #include "operations_formulaire.h"
 #include "operations_liste.h"
+#include "search_glist.h"
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
 #include "type_operations.h"
-#include "imputation_budgetaire.h"
-#include "calendar.h"
-#include "constants.h"
+#include "utils.h"
+
+
 
 # define SCHEDULER_FORM_DATE 0
 # define SCHEDULER_FORM_PARTY 1

@@ -1,7 +1,11 @@
 /* fichier d'en tête include.h */
 
+
 #include "config.h"
-#include <gnome.h>
+#include <libintl.h>
+/* #include <langinfo.h> */
+#include <locale.h>
+/* #include <gnome.h> */
 #include <stdio.h>
 #include <string.h>
 #include <sys/timeb.h>

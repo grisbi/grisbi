@@ -9,12 +9,6 @@ gboolean nom_nouvelle_devise_defini ( GtkWidget *entree,
 				      GtkWidget *label );
 void retrait_devise ( GtkWidget *bouton,
 		      GtkWidget *liste );
-gint recherche_devise_par_nom ( struct struct_devise *devise,
-				gchar *nom );
-gint recherche_devise_par_code_iso ( struct struct_devise *devise,
-				     gchar *nom );
-gint recherche_devise_par_no ( struct struct_devise *devise,
-			       gint *no_devise );
 gint selection_devise ( gchar *nom_du_compte );
 gboolean passe_a_l_euro ( GtkWidget *toggle_bouton,
 			  GtkWidget *hbox );

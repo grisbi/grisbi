@@ -15,3 +15,5 @@ GtkWidget * bank_form ( GtkWidget * parent );
 void update_bank_form ( struct struct_banque * bank, GtkWidget * frame );
 void view_bank ( GtkWidget * button, gpointer data );
 void edit_bank ( GtkWidget * button, struct struct_banque * bank );
+gboolean update_bank_menu ();
+

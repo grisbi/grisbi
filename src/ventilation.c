@@ -24,18 +24,22 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
+#include "ventilation.h"
+
+
 #include "categories_onglet.h"
 #include "devises.h"
-#include "erreur.h"
+#include "dialog.h"
 #include "exercice.h"
-#include "fichiers_io.h"
-#include "gtkcombofix.h"
 #include "imputation_budgetaire.h"
+#include "operations_classement.h"
 #include "operations_formulaire.h"
 #include "operations_liste.h"
+#include "search_glist.h"
 #include "type_operations.h"
-#include "ventilation.h"
-#include "operations_classement.h"
+#include "utils.h"
+
+
 
 
 
@@ -1376,7 +1380,7 @@ gboolean appui_touche_ventilation ( GtkWidget *entree, GdkEventKey *evenement,
 	    if ( !origine && !etat.entree )
 	    {
 		fin_edition_ventilation();
-		return;
+		return(FALSE);
 	    }
 
 	    /* si on se retrouve sur le crédit et qu'il y a qque chose dans le débit, on passe au suivant */
@@ -2524,10 +2528,6 @@ void valider_ventilation ( void )
        */
     if ( fabs ( montant_operation_ventilee - somme_ventilee ) >= 0.000001 )
     {
-	GtkWidget *dialog;
-	GtkWidget *label;
-	gint resultat;
-
 	if ( ! question_yes_no_hint ( _("Incomplete breakdown"),
 				      _("Transaction amount isn't fully broken down.\nProceed anyway?") ))
 	    return;
