@@ -314,9 +314,27 @@ gboolean question_yes_no ( gchar *texte )
 
 
 /**
- * Pop up a warning dialog window with a question and an informal text
- * and a checkbox that allow this message not to be displayed again
- * thanks to preferences and wait for user to press 'OK' or 'Cancel'.
+ * This function pop ups a dialog with a hint (first sentence, in bold),
+ * a question, a checkbox that allow this message not to be displayed again
+ * thanks to preferences and wait for user to press 'OK' or 'Cancel'..
+ * It calls question_conditional_yes_no to achieve display.
+ *
+ * \param text text to be displayed
+ * \param hint hint to be displayed
+ * \param var variable that both controls whether the dialog will
+ * appear or not and that indicates which variable could be modified
+ * so that this message won't appear again.
+ */
+gboolean question_conditional_yes_no_hint ( gchar *hint, gchar * text, int * var )
+{
+    return question_conditional_yes_no ( make_hint(hint, text), var );
+}
+
+
+/**
+ * Pop up a warning dialog window with a question and a checkbox that allow
+ * this message not to be displayed again thanks to preferences and wait
+ * for user to press 'OK' or 'Cancel'.
  *
  * \param texte  Text to be displayed
  * \param var variable that both controls whether the dialog will
