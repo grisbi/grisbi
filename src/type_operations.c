@@ -133,9 +133,9 @@ void fill_payment_method_tree ()
     /* Fill tree, iter over with accounts */
     do
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( pUserAccountsList -> data );
-
 	GSList *liste_tmp;
+
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( pUserAccountsList -> data );
 
 	gtk_tree_store_append (model, &account_iter, NULL);
 	gtk_tree_store_set (model, &account_iter,
