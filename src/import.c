@@ -55,7 +55,7 @@
 #include "html.h"
 #include "ofx.h"
 #include "qif.h"
-/* #include "csv.h" */
+#include "csv.h"
 #include "utils_comptes.h"
 #include "utils_tiers.h"
 /*END_INCLUDE*/
@@ -252,10 +252,10 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 	    result = recuperation_donnees_gnucash ( liste_selection[i] );
 	    break;
 		
-/* TODO: add it again */
-/* 	  case TYPE_CSV: */
-/* 	    result = recuperation_donnees_csv ( fichier ); */
-/* 	    break;	 */
+		/* TODO : work in progress dude :p */
+	  case TYPE_CSV: 
+ 	    result = recuperation_donnees_csv ( fichier ); 
+ 	    break;	 
 		
 	  case TYPE_UNKNOWN:
 	  default:
@@ -2883,12 +2883,12 @@ enum import_type autodetect_file_type ( FILE * fichier, gchar * pointeur_char )
   enum import_type type;
 
 /* TODO: add it again */
-/*   if ( g_strrstr ( pointeur_char,  */
-/* 		   "Date;Type;" )) /\* c'est un fichier csv *\/ */
-/*     { */
-/*       type = TYPE_CSV; */
-/*     } */
-/*   else  */
+   if ( g_strrstr ( pointeur_char,  
+ 		   "Date;Type;" )) /* c'est un fichier csv */ 
+     { 
+       type = TYPE_CSV; 
+     } 
+   else  
    if ( g_strrstr ( pointeur_char,
 			"ofx" )
 	    ||

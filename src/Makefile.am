@@ -18,6 +18,7 @@ sources = 			\
 	comptes_gestion.c	\
 	comptes_onglet.c	\
 	comptes_traitements.c	\
+	csv.c	\
 	devises.c		\
 	dialog.c		\
 	echeancier_onglet.c	\
@@ -99,6 +100,7 @@ grisbi_INCLUDES =		\
 	comptes_onglet.h	\
 	comptes_traitements.h	\
 	constants.h		\
+	csv.h \
 	devises.h		\
 	dialog.h		\
 	echeancier_onglet.h	\
@@ -169,5 +171,3 @@ EXTRA_DIST = grisbi.desktop grisbi.keys grisbi.mime $(grisbi_INCLUDES)
 
 mimedir = $(datadir)/mime-info
 mime_DATA = grisbi.keys grisbi.mime
-
-
