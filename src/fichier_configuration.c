@@ -51,7 +51,7 @@
 #define C_GRISBIRC  "/grisbi.rc"
 #endif
 
-
+extern gint decalage_echeance;  
 
 /* ***************************************************************************************************** */
 void charge_configuration ( void )
@@ -96,10 +96,10 @@ void charge_configuration ( void )
 	    node_geometry = node -> children;
 	    while (node_geometry) {
 		if ( !strcmp ( node_geometry -> name, "Width" ) ) {
-		    largeur_window = atoi(xmlNodeGetContent ( node_geometry));
+		    largeur_window = my_atoi(xmlNodeGetContent ( node_geometry));
 		}
 		if ( !strcmp ( node_geometry -> name, "Height" ) ) {
-		    hauteur_window = atoi(xmlNodeGetContent ( node_geometry));
+		    hauteur_window = my_atoi(xmlNodeGetContent ( node_geometry));
 		}
 		node_geometry = node_geometry->next;
 	    }
@@ -110,7 +110,7 @@ void charge_configuration ( void )
 	    node_general = node -> children;
 	    while (node_general) {
 		if ( !strcmp ( node_general -> name, "Modification_operations_rapprochees" ) ) {
-		    etat.r_modifiable = atoi(xmlNodeGetContent ( node_general));
+		    etat.r_modifiable = my_atoi(xmlNodeGetContent ( node_general));
 		}
 		if ( !strcmp ( node_general -> name, "Dernier_chemin_de_travail" ) ) {
 		    dernier_chemin_de_travail = xmlNodeGetContent ( node_general);
@@ -118,20 +118,20 @@ void charge_configuration ( void )
 			dernier_chemin_de_travail = g_strconcat ( g_get_home_dir(), "/",NULL );
 		}
 		if ( !strcmp ( node_general -> name, "Affichage_alerte_permission" ) ) {
-		    etat.alerte_permission = atoi(xmlNodeGetContent ( node_general));
+		    etat.alerte_permission = my_atoi(xmlNodeGetContent ( node_general));
 		}
 		if ( !strcmp ( node_general -> name, "Force_enregistrement" ) ) {
-		    etat.force_enregistrement = atoi(xmlNodeGetContent ( node_general));
+		    etat.force_enregistrement = my_atoi(xmlNodeGetContent ( node_general));
 		}
 		if ( !strcmp ( node_general -> name, "Fonction_touche_entree" ) ) {
-		    etat.entree = atoi(xmlNodeGetContent ( node_general));
+		    etat.entree = my_atoi(xmlNodeGetContent ( node_general));
 		}
 		if ( !strcmp ( node_general -> name, "Affichage_messages_alertes" ) ) {
-		    etat.alerte_mini = atoi(xmlNodeGetContent ( node_general));
+		    etat.alerte_mini = my_atoi(xmlNodeGetContent ( node_general));
 		}
 
 		if ( !strcmp ( node_general -> name, "Utilise_fonte_des_listes" ) ) {
-		    etat.utilise_fonte_listes = atoi (xmlNodeGetContent ( node_general));
+		    etat.utilise_fonte_listes = my_atoi (xmlNodeGetContent ( node_general));
 		}
 
 		if ( !strcmp ( node_general -> name, "Fonte_des_listes" ) ) {
@@ -167,25 +167,25 @@ void charge_configuration ( void )
 	    node_io = node -> children;
 	    while (node_io) {
 		if ( !strcmp ( node_io -> name, "Chargement_auto_dernier_fichier" ) ) {
-		    etat.dernier_fichier_auto = atoi(xmlNodeGetContent ( node_io));
+		    etat.dernier_fichier_auto = my_atoi(xmlNodeGetContent ( node_io));
 		}
 		if ( !strcmp ( node_io -> name, "Nom_dernier_fichier" ) ) {
 		    nom_fichier_comptes = xmlNodeGetContent ( node_io);
 		}
 		if ( !strcmp ( node_io -> name, "Enregistrement_automatique" ) ) {
-		    etat.sauvegarde_auto = atoi(xmlNodeGetContent ( node_io));
+		    etat.sauvegarde_auto = my_atoi(xmlNodeGetContent ( node_io));
 		}
 		if ( !strcmp ( node_io -> name, "Enregistrement_au_demarrage" ) ) {
-		    etat.sauvegarde_demarrage = atoi(xmlNodeGetContent ( node_io));
+		    etat.sauvegarde_demarrage = my_atoi(xmlNodeGetContent ( node_io));
 		}
 		if ( !strcmp ( node_io -> name, "Nb_max_derniers_fichiers_ouverts" ) ) {
-		    nb_max_derniers_fichiers_ouverts = atoi(xmlNodeGetContent ( node_io));
+		    nb_max_derniers_fichiers_ouverts = my_atoi(xmlNodeGetContent ( node_io));
 		}
 		if ( !strcmp ( node_io -> name, "Compression_fichier" ) ) {
-		    compression_fichier = atoi(xmlNodeGetContent ( node_io));
+		    compression_fichier = my_atoi(xmlNodeGetContent ( node_io));
 		}
 		if ( !strcmp ( node_io -> name, "Compression_backup" ) ) {
-		    compression_backup = atoi(xmlNodeGetContent ( node_io));
+		    compression_backup = my_atoi(xmlNodeGetContent ( node_io));
 		}
 		if ( !strcmp ( node_io->name, "Liste_noms_derniers_fichiers_ouverts" ) ) {
 		    nb_derniers_fichiers_ouverts = 0;
@@ -209,7 +209,7 @@ void charge_configuration ( void )
 	    node_echeances = node -> children;
 	    while (node_echeances) {
 		if ( !strcmp ( node_echeances -> name, "Delai_rappel_echeances" ) ) {
-		    decalage_echeance = atoi(xmlNodeGetContent ( node_echeances));
+		    decalage_echeance = my_atoi(xmlNodeGetContent ( node_echeances));
 		}
 		node_echeances = node_echeances->next;
 	    }
@@ -220,22 +220,22 @@ void charge_configuration ( void )
 	  node_io = node -> children;
 	  while (node_io) {
 	  if ( !strcmp ( node_io -> name, "Chargement_auto_dernier_fichier" ) ) {
-	  etat.dernier_fichier_auto = atoi(xmlNodeGetContent ( node_io));
+	  etat.dernier_fichier_auto = my_atoi(xmlNodeGetContent ( node_io));
 	  }
 	  if ( !strcmp ( node_io -> name, "Nom_dernier_fichier" ) ) {
 	  nom_fichier_comptes = xmlNodeGetContent ( node_io);
 	  }
 	  if ( !strcmp ( node_io -> name, "Enregistrement_automatique" ) ) {
-	  etat.sauvegarde_auto = atoi(xmlNodeGetContent ( node_io));
+	  etat.sauvegarde_auto = my_atoi(xmlNodeGetContent ( node_io));
 	  }
 	  if ( !strcmp ( node_io -> name, "Enregistrement_au_demarrage" ) ) {
-	  etat.sauvegarde_demarrage = atoi(xmlNodeGetContent ( node_io));
+	  etat.sauvegarde_demarrage = my_atoi(xmlNodeGetContent ( node_io));
 	  }
 	  if ( !strcmp ( node_io -> name, "Nb_max_derniers_fichiers_ouverts" ) ) {
-	  nb_max_derniers_fichiers_ouverts = atoi(xmlNodeGetContent ( node_io));
+	  nb_max_derniers_fichiers_ouverts = my_atoi(xmlNodeGetContent ( node_io));
 	  }
 	  if ( !strcmp ( node_io -> name, "Compression_fichier" ) ) {
-	  compression_fichier = atoi(xmlNodeGetContent ( node_io));
+	  compression_fichier = my_atoi(xmlNodeGetContent ( node_io));
 	  }
 	  if ( !strcmp ( node_io -> name, "Compression_backup" ) ) {
 	  variable = xmlNodeGetContent ( node_io);
@@ -250,45 +250,45 @@ void charge_configuration ( void )
 	    node_affichage = node -> children;
 	    while (node_affichage) {
 		if ( !strcmp ( node_affichage -> name, "Affichage_formulaire" ) ) {
-		    etat.formulaire_toujours_affiche = atoi(xmlNodeGetContent ( node_affichage));
+		    etat.formulaire_toujours_affiche = my_atoi(xmlNodeGetContent ( node_affichage));
 		}
 		if ( !strcmp ( node_affichage -> name, "Affichage_formulaire_echeancier" ) ) {
-		    etat.formulaire_echeancier_toujours_affiche = atoi(xmlNodeGetContent ( node_affichage));
+		    etat.formulaire_echeancier_toujours_affiche = my_atoi(xmlNodeGetContent ( node_affichage));
 		}
 		if ( !strcmp ( node_affichage -> name, "Affichage_tous_types" ) ) {
-		    etat.affiche_tous_les_types = atoi(xmlNodeGetContent ( node_affichage));
+		    etat.affiche_tous_les_types = my_atoi(xmlNodeGetContent ( node_affichage));
 		}
 		if ( !strcmp ( node_affichage -> name, "Affiche_no_operation" ) ) {
-		    etat.affiche_no_operation = atoi(xmlNodeGetContent ( node_affichage));
+		    etat.affiche_no_operation = my_atoi(xmlNodeGetContent ( node_affichage));
 		}
 		if ( !strcmp ( node_affichage -> name, "Affiche_date_bancaire" ) ) {
-		    etat.affiche_date_bancaire = atoi(xmlNodeGetContent ( node_affichage));
+		    etat.affiche_date_bancaire = my_atoi(xmlNodeGetContent ( node_affichage));
 		}
 		if ( !strcmp ( node_affichage -> name, "Tri_par_date" ) ) {
-		    etat.classement_par_date = atoi(xmlNodeGetContent ( node_affichage));
+		    etat.classement_par_date = my_atoi(xmlNodeGetContent ( node_affichage));
 		}
 		if ( !strcmp ( node_affichage -> name, "Affiche_boutons_valider_annuler" ) ) {
-		    etat.affiche_boutons_valider_annuler = atoi(xmlNodeGetContent ( node_affichage));
+		    etat.affiche_boutons_valider_annuler = my_atoi(xmlNodeGetContent ( node_affichage));
 		}
 		if ( !strcmp ( node_affichage -> name, "Largeur_auto_colonnes" ) ) {
-		    etat.largeur_auto_colonnes = atoi(xmlNodeGetContent ( node_affichage));
+		    etat.largeur_auto_colonnes = my_atoi(xmlNodeGetContent ( node_affichage));
 		}
 		if ( !strcmp ( node_affichage -> name, "Caracteristiques_par_compte" ) ) {
-		    etat.retient_affichage_par_compte = atoi( xmlNodeGetContent ( node_affichage));
+		    etat.retient_affichage_par_compte = my_atoi( xmlNodeGetContent ( node_affichage));
 		}
 		// boucler pour avoir les tailles des différentes colonnes
 		if ( !strcmp ( node_affichage -> name, "taille_largeur_colonne" ) ) {
 		    //int numero_colonne;
 		    //int largeur_colonne;
-		    int numero_colonne = atoi(xmlGetProp ( node_affichage, "No"));
-		    int largeur_colonne = atoi(xmlNodeGetContent ( node_affichage));
+		    int numero_colonne = my_atoi(xmlGetProp ( node_affichage, "No"));
+		    int largeur_colonne = my_atoi(xmlNodeGetContent ( node_affichage));
 		    taille_largeur_colonnes[numero_colonne] = largeur_colonne;
 		}
 		if ( !strcmp ( node_affichage -> name, "Affichage_exercice_automatique" ) ) {
-		    etat.affichage_exercice_automatique = atoi(xmlNodeGetContent ( node_affichage));
+		    etat.affichage_exercice_automatique = my_atoi(xmlNodeGetContent ( node_affichage));
 		}
 		if ( !strcmp ( node_affichage -> name, "Affichage_nb_ecritures" ) ) {
-		    etat.affiche_nb_ecritures_listes = atoi(xmlNodeGetContent ( node_affichage));
+		    etat.affiche_nb_ecritures_listes = my_atoi(xmlNodeGetContent ( node_affichage));
 		}
 		node_affichage = node_affichage->next;
 	    }
@@ -307,13 +307,13 @@ void charge_configuration ( void )
 	    node_messages = node -> children;
 	    while (node_messages) {
 		if ( !strcmp ( node_messages -> name, "display_message_lock_active" ) ) {
-		    etat.display_message_lock_active = atoi(xmlNodeGetContent ( node_messages));
+		    etat.display_message_lock_active = my_atoi(xmlNodeGetContent ( node_messages));
 		}
 		if ( !strcmp ( node_messages -> name, "display_message_file_readable" ) ) {
-		    etat.display_message_file_readable = atoi(xmlNodeGetContent ( node_messages));
+		    etat.display_message_file_readable = my_atoi(xmlNodeGetContent ( node_messages));
 		}
 		if ( !strcmp ( node_messages -> name, "display_message_minimum_alert" ) ) {
-		    etat.display_message_minimum_alert = atoi(xmlNodeGetContent ( node_messages));
+		    etat.display_message_minimum_alert = my_atoi(xmlNodeGetContent ( node_messages));
 		}
 		node_messages = node_messages->next;
 	    }
@@ -325,7 +325,7 @@ void charge_configuration ( void )
 	    node_print = node -> children;
 	    while (node_print) {
 		if ( !strcmp ( node_print -> name, "printer" ) ) {
-		    etat.print_config.printer = atoi(xmlNodeGetContent (node_print));
+		    etat.print_config.printer = my_atoi(xmlNodeGetContent (node_print));
 		}
 		if ( !strcmp ( node_print -> name, "printer_name" ) ) {
 		    etat.print_config.printer_name = xmlNodeGetContent (node_print);
@@ -334,14 +334,14 @@ void charge_configuration ( void )
 		    etat.print_config.printer_filename = xmlNodeGetContent (node_print);
 		}
 		if ( !strcmp ( node_print -> name, "filetype" ) ) {
-		    etat.print_config.filetype = atoi(xmlNodeGetContent (node_print));
+		    etat.print_config.filetype = my_atoi(xmlNodeGetContent (node_print));
 		}
 		if ( !strcmp ( node_print -> name, "orientation" ) ) {
-		    etat.print_config.orientation = atoi(xmlNodeGetContent (node_print));
+		    etat.print_config.orientation = my_atoi(xmlNodeGetContent (node_print));
 		}
 		if ( !strcmp ( node_print -> name, "paper_config" ) ) {
-		    etat.print_config.paper_config.width = atoi(xmlGetProp (node_print, "width"));
-		    etat.print_config.paper_config.height = atoi(xmlGetProp (node_print, "height"));
+		    etat.print_config.paper_config.width = my_atoi(xmlGetProp (node_print, "width"));
+		    etat.print_config.paper_config.height = my_atoi(xmlGetProp (node_print, "height"));
 		    etat.print_config.paper_config.name = xmlGetProp (node_print, "name");
 		}
 

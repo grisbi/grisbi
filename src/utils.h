@@ -14,6 +14,7 @@ void sens_desensitive_pointeur ( GtkWidget *boutton,
 void sensitive_widget ( GtkWidget *widget );
 void desensitive_widget ( GtkWidget *widget );
 gchar *itoa ( gint integer );
+gint my_atoi ( gchar *chaine );
 double my_strtod ( char *nptr, char **endptr );
 gchar * latin2utf8 (char * inchar);
 int myisolat1ToUTF8(unsigned char* out, int *outlen,

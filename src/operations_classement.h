@@ -4,6 +4,9 @@ gint classement_liste_par_date ( GtkWidget *liste,
 gint classement_liste_par_no_ope ( GtkWidget *liste,
 				   GtkCListRow *ligne_1,
 				   GtkCListRow *ligne_2 );
+gint classement_liste_par_no_ope_ventil ( GtkWidget *liste,
+					  GtkCListRow *ligne_1,
+					  GtkCListRow *ligne_2 );
 gint classement_liste_par_tri_courant ( GtkWidget *liste,
 					GtkCListRow *ligne_1,
 					GtkCListRow *ligne_2 );

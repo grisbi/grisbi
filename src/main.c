@@ -48,6 +48,8 @@
 #include "menu.h"
 #include "parametres.h"
 #include "traitement_variables.h"
+#include "utils.h"
+
 
 
 
@@ -301,7 +303,7 @@ int main (int argc, char *argv[])
 
 		/* 	  comme split_argument[1] existait, split_chiffres[0] existe forcemment */
 
-		switch ( atoi ( split_chiffres[0] ))
+		switch ( my_atoi ( split_chiffres[0] ))
 		{
 		    case -1:
 			/* on demande l'onglet de configuration */
@@ -309,7 +311,7 @@ int main (int argc, char *argv[])
 			/* on affiche l'onglet du 2ème argument s'il existe */
 
 			if ( split_chiffres[1] )
-			    preferences ( atoi ( split_chiffres[1] ));
+			    preferences ( my_atoi ( split_chiffres[1] ));
 			else
 			    preferences ( NOT_A_PAGE );
 
@@ -324,14 +326,14 @@ int main (int argc, char *argv[])
 		    case 6:
 
 			gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
-						atoi ( split_chiffres[0] ));
+						my_atoi ( split_chiffres[0] ));
 			break;
 
 		    case 7:
 			/* on demande l'onglet des états  */
 
 			gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
-						atoi ( split_chiffres[0] ));
+						my_atoi ( split_chiffres[0] ));
 
 			/* s'il y a un chiffre ensuite, on ouvre l'état correspondant à ce chiffre */
 
@@ -342,7 +344,7 @@ int main (int argc, char *argv[])
 			    GSList *liste_tmp;
 
 			    liste_tmp = g_slist_nth ( liste_struct_etats,
-						      atoi ( split_chiffres[1] ));
+						      my_atoi ( split_chiffres[1] ));
 
 			    /* si on a sélectionné un état qui n'existait pas, on ouvre le 1er */
 
@@ -377,22 +379,22 @@ int main (int argc, char *argv[])
 				/* le 1er chiffre correspond aux 1ers onglets */
 
 				gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_config_etat ),
-							atoi ( split_chiffres[2] ));
+							my_atoi ( split_chiffres[2] ));
 
 				/* s'il y a encore un chiffre, c'est pour le sous onglet */
 
 				if ( split_chiffres[3] )
 				{
-				    switch ( atoi ( split_chiffres[2] ))
+				    switch ( my_atoi ( split_chiffres[2] ))
 				    {
 					case 0:
 
 					    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_selection ),
-								    atoi ( split_chiffres[3] ));
+								    my_atoi ( split_chiffres[3] ));
 					    break;
 					case 2:
 					    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_aff_donnees ),
-								    atoi ( split_chiffres[3] ));
+								    my_atoi ( split_chiffres[3] ));
 					    break;
 				    }
 				}

@@ -45,7 +45,10 @@
 #include "type_operations.h"
 
 
-
+extern GtkWidget *widget_formulaire_echeancier[19];
+extern GSList *gsliste_echeances;
+extern struct operation_echeance *echeance_selectionnnee;
+extern gint nb_echeances;
 
 
 /* *********************************************************************************************************** */

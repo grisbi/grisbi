@@ -54,6 +54,14 @@
 
 GtkWidget * label_jour;
 extern gint patience_en_cours;
+extern struct operation_echeance *echeance_selectionnnee;
+extern GtkWidget *formulaire_echeancier;
+extern GtkWidget *frame_formulaire_echeancier;
+extern GtkWidget *separateur_formulaire_echeancier;
+extern GtkWidget *hbox_valider_annuler_echeance;
+extern GSList *echeances_a_saisir;
+extern GSList *echeances_saisies;
+
 
 /* ************************************************************************* */
 GtkWidget *creation_onglet_accueil ( void )

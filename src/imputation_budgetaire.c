@@ -44,6 +44,8 @@
 #include "utils.h"
 
 
+extern GSList *gsliste_echeances; 
+extern GtkWidget *widget_formulaire_echeancier[19];
 
 
 
@@ -1377,7 +1379,7 @@ void clique_sur_modifier_imputation ( void )
 
     /* si c'est une imputation et si c'est une modif du nom, on doit réafficher la liste des imputation et les listes des opés, sinon, on change juste la imputation et */
     /* met à jour les listes de imputations */
-    /* si c'est une sous imputation, c'est obligatoirement un changement de nom */
+    /* si c'est une sous imputation, c'est obligmy_atoirement un changement de nom */
 
     if ( gtk_object_get_data ( GTK_OBJECT (  entree_nom_imputation ),
 			       "adr_struct_imputation" ) )

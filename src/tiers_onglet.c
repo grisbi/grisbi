@@ -46,6 +46,9 @@
 #include "xpm/book-closed.xpm"
 #include "xpm/book-open.xpm"
 
+extern GtkWidget *widget_formulaire_echeancier[19];
+extern GSList *gsliste_echeances; 
+
 
 
 /* **************************************************************************************************** */

@@ -47,34 +47,28 @@
 #include "traitement_variables.h"
 #include "type_operations.h"
 #include "utils.h"
+#include "echeancier_ventilation.h"
 
 
 
-# define SCHEDULER_FORM_DATE 0
-# define SCHEDULER_FORM_PARTY 1
-# define SCHEDULER_FORM_DEBIT 2
-# define SCHEDULER_FORM_CREDIT 3
-# define SCHEDULER_FORM_DEVISE 4
-# define SCHEDULER_FORM_ACCOUNT 5
-# define SCHEDULER_FORM_CATEGORY 6
-# define SCHEDULER_FORM_TYPE 7
-# define SCHEDULER_FORM_CHEQUE 8
-# define SCHEDULER_FORM_EXERCICE 9
-# define SCHEDULER_FORM_BUDGETARY 10
-# define SCHEDULER_FORM_BANK 11
-# define SCHEDULER_FORM_VOUCHER 12
-# define SCHEDULER_FORM_MODE 13
-# define SCHEDULER_FORM_NOTES 14
-# define SCHEDULER_FORM_FREQUENCY 15
-# define SCHEDULER_FORM_FINAL_DATE 16
-# define SCHEDULER_FORM_FREQ_CUSTOM_NB 17
-# define SCHEDULER_FORM_FREQ_CUSTOM_MENU 18
-# define SCHEDULER_FORM_TOTAL_WIDGET 19	 /* must be the last of the list */
-/*
-# define SCHEDULER_FORM_CHANGE
-# define SCHEDULER_FORM_CONTRA
-# define SCHEDULER_FORM_BREAKDOWN
-*/
+
+GtkWidget *widget_formulaire_echeancier[19];
+GtkWidget *label_saisie_modif;
+GSList *liste_categories_ventilation_combofix;        /*  liste des noms des categ et sous categ pour le combofix */
+GtkWidget *separateur_formulaire_echeancier;
+GtkWidget *hbox_valider_annuler_echeance;
+
+extern GtkWidget *formulaire_echeancier;
+extern GtkWidget *liste_echeances;
+extern GtkWidget *frame_formulaire_echeancier;
+extern gint no_derniere_echeance;
+extern gint nb_echeances;
+extern GSList *gsliste_echeances; 
+extern struct operation_echeance *echeance_selectionnnee;
+extern gint enregistre_ope_au_retour_echeances; 
+
+
+
 
 /******************************************************************************/
 /*  Routine qui crée le formulaire et le renvoie */
@@ -306,7 +300,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 
     /* Affiche les catégories / sous-catégories */
 
-    widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] = gtk_combofix_new_complex ( liste_categories_echeances_combofix,
+    widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] = gtk_combofix_new_complex ( liste_categories_combofix,
 										       FALSE,
 										       TRUE,
 										       TRUE,
@@ -471,37 +465,27 @@ GtkWidget *creation_formulaire_echeancier ( void )
     gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY],
 			       etat.utilise_imputation_budgetaire );
 
-    /* Affiche les infos banque/guichet
-       à ne pas mettre, mais on réserve encore le widget n°
-       ne pas l'effacer pour respecter les tabulations */
+    /* bouton ventilation, pour accéder à la fenetre de ventil de l'échéance */
 
-    widget_formulaire_echeancier[SCHEDULER_FORM_BANK] = gtk_entry_new ();
-    /*
-       gtk_table_attach ( GTK_TABLE ( table ),
-       widget_formulaire_echeancier[SCHEDULER_FORM_BANK],
-       3, 5, 2, 3,
-       GTK_SHRINK | GTK_FILL | GTK_EXPAND,
-       GTK_SHRINK | GTK_FILL,
-       0, 0);
-       gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[SCHEDULER_FORM_BANK] ),
-       "button-press-event",
-       GTK_SIGNAL_FUNC ( clique_champ_formulaire_echeancier ),
-       GINT_TO_POINTER ( SCHEDULER_FORM_BANK ) );
-       gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[SCHEDULER_FORM_BANK]),
-       "key-press-event",
-       GTK_SIGNAL_FUNC ( pression_touche_formulaire_echeancier ),
-       GINT_TO_POINTER ( SCHEDULER_FORM_BANK ) );
-       gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[SCHEDULER_FORM_BANK]),
-       "focus-in-event",
-       GTK_SIGNAL_FUNC ( entree_prend_focus ),
-       NULL );
-       gtk_signal_connect_after ( GTK_OBJECT ( widget_formulaire_echeancier[SCHEDULER_FORM_BANK]),
-       "focus-out-event",
-       GTK_SIGNAL_FUNC ( entree_perd_focus_echeancier ),
-       GINT_TO_POINTER ( SCHEDULER_FORM_BANK ) );
-       if ( etat.utilise_info_banque_guichet )
-       gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_BANK]);
-       */
+    widget_formulaire_echeancier[SCHEDULER_FORM_BREAKDOWN] = gtk_button_new_with_label ( _("Breakdown"));
+    gtk_button_set_relief ( GTK_BUTTON ( widget_formulaire_echeancier[SCHEDULER_FORM_BREAKDOWN] ),
+			    GTK_RELIEF_NONE );
+
+    gtk_table_attach ( GTK_TABLE ( table ),
+		       widget_formulaire_echeancier[SCHEDULER_FORM_BREAKDOWN],
+		       3, 5, 2, 3,
+		       GTK_SHRINK | GTK_FILL,
+		       GTK_SHRINK | GTK_FILL,
+		       0, 0);
+    gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[SCHEDULER_FORM_BREAKDOWN] ),
+			 "clicked",
+			 GTK_SIGNAL_FUNC ( basculer_vers_ventilation_echeances ),
+			 NULL );
+    gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[SCHEDULER_FORM_BREAKDOWN]),
+			 "key-press-event",
+			 GTK_SIGNAL_FUNC ( pression_touche_formulaire_echeancier ),
+			 GINT_TO_POINTER ( SCHEDULER_FORM_BREAKDOWN ) );
+
 
     /* création de l'entrée du no de pièce comptable
        à ne pas mettre, mais on réserve encore le widget n°
@@ -1058,6 +1042,17 @@ gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
 	case SCHEDULER_FORM_CATEGORY :
 	    if ( !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 		texte = _("Categories : Sub-categories");
+	    else
+		if ( !strcmp ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree ))),
+			       _("Breakdown of transaction") ))
+		{
+		    gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_BREAKDOWN] );
+		    gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE],
+					       FALSE );
+		    gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY],
+					       FALSE );
+		}
+
 
 	    break;
 
@@ -1071,9 +1066,7 @@ gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
 		texte = _("Budgetary line");
 	    break;
 
-	case SCHEDULER_FORM_BANK :
-	    if ( !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-		texte = _("Bank references");
+	case SCHEDULER_FORM_BREAKDOWN :
 	    break;
 
 	case SCHEDULER_FORM_VOUCHER :
@@ -1469,8 +1462,8 @@ void fin_edition_echeance ( void )
     gchar *pointeur_char;
     GSList *pointeur_liste;
     gint rafraichir_categ;
-    gint compte_virement;
 
+    gint compte_virement;
     compte_virement = 0;
     rafraichir_categ = 0;
 
@@ -1499,6 +1492,29 @@ void fin_edition_echeance ( void )
 				      -1);
 	    return;
 	}
+
+    /* vérifie  si c'est une opération ventilée, */
+    /* si c'est le cas, si la liste des ventilation existe (soit adr de liste, soit -1), on va l'enregistrer plus tard */
+    /* sinon on va ventiler tout de suite */
+
+    if ( !strcmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ))),
+		   _("Breakdown of transaction") )
+	 &&
+	 !gtk_object_get_data ( GTK_OBJECT ( formulaire_echeancier ),
+				"liste_adr_ventilation" ))
+    {
+	enregistre_ope_au_retour_echeances = 1;
+
+	if ( gtk_widget_get_style ( widget_formulaire_echeancier[TRANSACTION_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
+	    ventiler_operation_echeances ( -my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ))),
+							NULL ));
+	else
+	    ventiler_operation_echeances ( my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ))),
+						       NULL ));
+
+	return;
+    }
+
 
     /* vérification que ce n'est pas un virement sur lui-même */
 
@@ -1583,10 +1599,15 @@ void fin_edition_echeance ( void )
 	/*       on commence ici la partie modification / nouvelle échéance */
 
 	/* si c'est une nouvelle échéance, on la crée */
+	/* et on lui met son numéro tout de suite */
 
 	if ( !echeance )
+	{
 	    echeance = calloc ( 1,
 				sizeof ( struct operation_echeance ));
+	    echeance -> no_operation = ++no_derniere_echeance;
+	    nb_echeances++;
+	}
 
 	/* récupère la date */
 
@@ -1677,6 +1698,7 @@ void fin_edition_echeance ( void )
 		    gint i;
 		    echeance -> categorie = 0;
 		    echeance -> sous_categorie = 0;
+		    echeance -> operation_ventilee = 0;
 
 		    /* recherche le no de compte du virement */
 
@@ -1693,47 +1715,67 @@ void fin_edition_echeance ( void )
 		}
 		else
 		{
-		    pointeur_liste = g_slist_find_custom ( liste_struct_categories,
-							   tableau_char[0],
-							   ( GCompareFunc ) recherche_categorie_par_nom );
+		    /* 		    si c'est une opération ventilée, c'est ici que ça se passe ! */
 
-		    if ( pointeur_liste )
+
+		    if ( !strcmp ( tableau_char[0],
+				   _("Breakdown of transaction") ))
 		    {
-			categ = pointeur_liste -> data;
-			rafraichir_categ = 0;
+			/* c'est une ventilation, il n'y a donc aucune catégorie */
+			/* on va appeler la fonction validation_ope_de_ventilation */
+			/* qui va créer les nouvelles opé*/
+
+			validation_ope_de_ventilation_echeances ( echeance );
+			echeance -> categorie = 0;
+			echeance -> sous_categorie = 0;
+			echeance -> operation_ventilee = 1;
+			echeance -> compte_virement = 0;
+
 		    }
 		    else
-		    {
-			categ = ajoute_nouvelle_categorie ( tableau_char[0] );
-			rafraichir_categ = 1;
-		    }
-
-		    echeance -> categorie = categ -> no_categ;
-
-		    if ( tableau_char[1] && strlen (tableau_char[1]) )
-		    {
-			struct struct_sous_categ *sous_categ;
-
-			pointeur_liste = g_slist_find_custom ( categ -> liste_sous_categ,
-							       tableau_char[1],
-							       ( GCompareFunc ) recherche_sous_categorie_par_nom );
+		    {	
+			pointeur_liste = g_slist_find_custom ( liste_struct_categories,
+							       tableau_char[0],
+							       ( GCompareFunc ) recherche_categorie_par_nom );
 
 			if ( pointeur_liste )
 			{
-			    sous_categ = pointeur_liste -> data;
+			    categ = pointeur_liste -> data;
 			    rafraichir_categ = 0;
 			}
 			else
 			{
-			    sous_categ = ajoute_nouvelle_sous_categorie ( tableau_char[1],
-									  categ );
+			    categ = ajoute_nouvelle_categorie ( tableau_char[0] );
 			    rafraichir_categ = 1;
 			}
 
-			echeance -> sous_categorie = sous_categ -> no_sous_categ;
-		    }
+			echeance -> categorie = categ -> no_categ;
 
-		    echeance -> compte_virement = 0;
+			if ( tableau_char[1] && strlen (tableau_char[1]) )
+			{
+			    struct struct_sous_categ *sous_categ;
+
+			    pointeur_liste = g_slist_find_custom ( categ -> liste_sous_categ,
+								   tableau_char[1],
+								   ( GCompareFunc ) recherche_sous_categorie_par_nom );
+
+			    if ( pointeur_liste )
+			    {
+				sous_categ = pointeur_liste -> data;
+				rafraichir_categ = 0;
+			    }
+			    else
+			    {
+				sous_categ = ajoute_nouvelle_sous_categorie ( tableau_char[1],
+									      categ );
+				rafraichir_categ = 1;
+			    }
+
+			    echeance -> sous_categorie = sous_categ -> no_sous_categ;
+			}
+			echeance -> compte_virement = 0;
+			echeance -> operation_ventilee = 0;
+		    }
 		}
 	    }
 	    g_strfreev ( tableau_char );
@@ -1864,16 +1906,13 @@ void fin_edition_echeance ( void )
 	}
 
 
-	/* si c'est une nouvelle opé, on lui met un no et on l'ajoute à la liste */
+	/* si c'est une nouvelle opé,  on l'ajoute à la liste */
 
-	if ( !echeance -> no_operation )
-	{
-	    echeance -> no_operation = ++no_derniere_echeance;
-	    nb_echeances++;
+	if ( !gtk_object_get_data ( GTK_OBJECT ( formulaire_echeancier ),
+				    "adr_echeance" ) )
 	    gsliste_echeances = g_slist_insert_sorted ( gsliste_echeances,
 							echeance,
 							(GCompareFunc) comparaison_date_echeance );
-	}
     }
     else
     {
@@ -2084,7 +2123,7 @@ void fin_edition_echeance ( void )
 		operation -> contenu_type = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] ))));
 
 		if ( type -> numerotation_auto )
-		    type -> no_en_cours = ( atoi ( operation -> contenu_type ));
+		    type -> no_en_cours = ( my_atoi ( operation -> contenu_type ));
 	    }
 	}
 
@@ -2171,107 +2210,94 @@ void fin_edition_echeance ( void )
 
 	ajout_operation ( operation );
 
-
-
-	/*   si c'était un virement, on crée une copie de l'opé, on l'ajout à la liste puis on remplit les relations */
+	/* si c'est un virement, on crée la contre opération et met les relations */
+	/* FIXME : ça serait bien de faire apparaitre un bouton de contre type ope dans le formulaire qd virement */
 
 	if ( virement )
+	    cree_contre_operation_echeance ( operation,
+					     compte_virement,
+					     operation -> type_ope );
+
+	/* 	si c'était une échéance ventilée, c'est ici qu'on fait joujou */
+
+	pointeur_liste = gtk_object_get_data ( GTK_OBJECT ( formulaire_echeancier ),
+					       "liste_adr_ventilation" );
+	while ( pointeur_liste
+		&&
+		pointeur_liste != GINT_TO_POINTER ( -1 ))
 	{
-	    struct structure_operation *operation_2;
-	    struct struct_devise *devise_compte_2;
+	    struct struct_ope_ventil *ope_ventil;
+	    struct structure_operation *operation_fille;
 
-	    operation_2 = calloc ( 1,
-				   sizeof ( struct structure_operation ) );
+	    /* 	    la mère est donc une ventil */
 
-	    operation_2 -> no_compte = compte_virement;
+	    operation -> operation_ventilee = 1;
 
+	    ope_ventil = pointeur_liste -> data;
+	    operation_fille = calloc ( 1,
+				       sizeof ( struct structure_operation ));
 
-	    /* remplit la nouvelle opé */
+	    operation_fille -> montant = ope_ventil -> montant;
+	    operation_fille -> categorie = ope_ventil -> categorie;
+	    operation_fille -> sous_categorie = ope_ventil -> sous_categorie;
 
-	    operation_2 -> jour = operation -> jour;
-	    operation_2 -> mois = operation -> mois;
-	    operation_2 -> annee = operation -> annee;
-	    operation_2 ->date = g_date_new_dmy ( operation_2->jour,
-						  operation_2->mois,
-						  operation_2->annee);
-	    operation_2 -> montant = -operation -> montant;
+	    if ( ope_ventil -> notes )
+		operation_fille -> notes = g_strdup ( ope_ventil -> notes );
 
-	    /* si c'est la devise du compte ou si c'est un compte qui doit passer à l'euro ( la transfo se fait au niveau */
-	    /* de l'affichage de la liste ) ou si c'est un compte en euro et l'opé est dans une devise qui doit passer à l'euro -> ok */
+	    operation_fille -> imputation = ope_ventil -> imputation;
+	    operation_fille -> sous_imputation = ope_ventil -> sous_imputation;
 
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_virement;
+	    if ( ope_ventil -> no_piece_comptable )
+		operation_fille -> no_piece_comptable = g_strdup ( ope_ventil -> no_piece_comptable);
 
-	    devise_compte_2 = g_slist_find_custom ( liste_struct_devises,
-						    GINT_TO_POINTER ( DEVISE ),
-						    ( GCompareFunc ) recherche_devise_par_no ) -> data;
+	    operation_fille -> no_exercice = ope_ventil -> no_exercice;
 
-	    operation_2 -> devise = operation -> devise;
+	    /* 	    le reste est identique à la mère */
 
-	    if ( !( operation_2-> no_operation
-		    ||
-		    devise -> no_devise == DEVISE
-		    ||
-		    ( devise_compte_2 -> passage_euro && !strcmp ( devise -> nom_devise, _("Euro") ))
-		    ||
-		    ( !strcmp ( devise_compte_2 -> nom_devise, _("Euro") ) && devise -> passage_euro )))
+	    operation_fille -> jour = operation -> jour;
+	    operation_fille -> mois = operation -> mois;
+	    operation_fille -> annee = operation -> annee;
+	    operation_fille -> date = g_date_new_dmy ( operation_fille -> jour,
+						       operation_fille -> mois,
+						       operation_fille -> annee );
+
+	    if ( operation -> jour_bancaire )
 	    {
-		/* c'est une devise étrangère, on demande le taux de change et les frais de change */
-
-		demande_taux_de_change ( devise_compte_2, devise, 1,
-					 (gdouble ) 0, (gdouble ) 0, FALSE );
-
-		operation_2 -> taux_change = taux_de_change[0];
-		operation_2 -> frais_change = taux_de_change[1];
-
-		if ( operation_2 -> taux_change < 0 )
-		{
-		    operation_2 -> taux_change = -operation_2 -> taux_change;
-		    operation_2 -> une_devise_compte_egale_x_devise_ope = 1;
-		}
-	    }
-	    else
-	    {
-		operation_2 -> taux_change = 0;
-		operation_2 -> frais_change = 0;
+		operation_fille -> jour_bancaire = operation -> jour_bancaire;
+		operation_fille -> mois_bancaire = operation -> mois_bancaire;
+		operation_fille -> annee_bancaire = operation -> annee_bancaire;
+		operation_fille -> date_bancaire = g_date_new_dmy ( operation_fille -> jour_bancaire,
+								    operation_fille -> mois_bancaire,
+								    operation_fille -> annee_bancaire );
 	    }
 
+	    operation_fille -> no_compte = operation -> no_compte;
+	    operation_fille -> devise = operation -> devise;
+	    operation_fille -> une_devise_compte_egale_x_devise_ope = operation -> une_devise_compte_egale_x_devise_ope;
+	    operation_fille -> taux_change = operation -> taux_change;
+	    operation_fille -> frais_change = operation -> frais_change;
+	    operation_fille -> tiers = operation -> tiers;
+	    operation_fille -> pointe = operation -> pointe;
+	    operation_fille -> auto_man = operation -> auto_man;
+	    operation_fille -> no_operation_ventilee_associee = operation -> no_operation;
 
-
-	    operation_2 -> tiers = operation -> tiers;
-	    operation_2 -> categorie = 0;
-	    operation_2 -> sous_categorie = 0;
-
-	    if ( operation -> notes )
-		operation_2 -> notes = g_strdup ( operation -> notes);
-
-	    operation_2 -> auto_man = operation -> auto_man;
-	    operation_2 -> type_ope = operation -> type_ope;
-
-	    if ( operation -> contenu_type )
-		operation_2 -> contenu_type = g_strdup ( operation -> contenu_type );
-
-	    operation_2 -> no_exercice = operation -> no_exercice;
-	    operation_2 -> imputation = operation -> imputation;
-	    operation_2 -> sous_imputation = operation -> sous_imputation;
 
 	    /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
 
-	    ajout_operation ( operation_2 );
+	    ajout_operation ( operation_fille );
 
+	    /* 	    on vérifie maintenant si c'est un virement */
 
-	    /* on met maintenant les relations entre les différentes opé */
+	    if ( ope_ventil -> relation_no_operation == -1 )
+	    {
+		/* cette opé de ventil est un virement */
 
-	    operation -> relation_no_operation = operation_2 -> no_operation;
-	    operation -> relation_no_compte = operation_2 -> no_compte;
-	    operation_2 -> relation_no_operation = operation -> no_operation;
-	    operation_2 -> relation_no_compte = operation -> no_compte;
+		cree_contre_operation_echeance ( operation_fille,
+						 ope_ventil -> relation_no_compte,
+						 ope_ventil -> no_type_associe );
+	    }
 
-	    /* on met à jour le compte courant pour le virement (il a été mis à jour avec ajout opération, mais sans les liens de virement) */
-
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
-
-	    MISE_A_JOUR = 1;
-	    verification_mise_a_jour_liste ();
+	    pointeur_liste = pointeur_liste -> next;
 	}
 
 
@@ -2291,7 +2317,6 @@ void fin_edition_echeance ( void )
     if ( rafraichir_categ )
 	mise_a_jour_categ ();
 
-
     formulaire_echeancier_a_zero ();
 
     if ( !etat.formulaire_echeancier_toujours_affiche )
@@ -2305,6 +2330,124 @@ void fin_edition_echeance ( void )
     modification_fichier ( TRUE );
 }
 /******************************************************************************/
+
+
+
+
+/******************************************************************************/
+void cree_contre_operation_echeance ( struct structure_operation *operation,
+				      gint compte_virement,
+				      gint contre_type_ope )
+{
+    /*   si c'était un virement, on crée une copie de l'opé, on l'ajout à la liste puis on remplit les relations */
+
+    struct structure_operation *contre_operation;
+    struct struct_devise *contre_devise;
+    struct struct_devise *devise;
+
+
+    contre_operation = calloc ( 1,
+				sizeof ( struct structure_operation ) );
+
+    contre_operation -> no_compte = compte_virement;
+
+
+    /* remplit la nouvelle opé */
+
+    contre_operation -> jour = operation -> jour;
+    contre_operation -> mois = operation -> mois;
+    contre_operation -> annee = operation -> annee;
+    contre_operation ->date = g_date_new_dmy ( contre_operation->jour,
+					       contre_operation->mois,
+					       contre_operation->annee);
+    contre_operation -> montant = -operation -> montant;
+
+    /* si c'est la devise du compte ou si c'est un compte qui doit passer à l'euro ( la transfo se fait au niveau */
+    /* de l'affichage de la liste ) ou si c'est un compte en euro et l'opé est dans une devise qui doit passer à l'euro -> ok */
+
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_virement;
+
+    contre_devise = g_slist_find_custom ( liste_struct_devises,
+					  GINT_TO_POINTER ( DEVISE ),
+					  ( GCompareFunc ) recherche_devise_par_no ) -> data;
+
+    contre_operation -> devise = operation -> devise;
+
+    /* récupération de la devise */
+
+    devise = g_slist_find_custom ( liste_struct_devises,
+				   GINT_TO_POINTER ( operation -> devise),
+				   (GCompareFunc) recherche_devise_par_no ) -> data;
+
+    if ( !( contre_operation-> no_operation
+	    ||
+	    devise -> no_devise == DEVISE
+	    ||
+	    ( contre_devise -> passage_euro && !strcmp ( devise -> nom_devise, _("Euro") ))
+	    ||
+	    ( !strcmp ( contre_devise -> nom_devise, _("Euro") ) && devise -> passage_euro )))
+    {
+	/* c'est une devise étrangère, on demande le taux de change et les frais de change */
+
+	demande_taux_de_change ( contre_devise, devise, 1,
+				 (gdouble ) 0, (gdouble ) 0, FALSE );
+
+	contre_operation -> taux_change = taux_de_change[0];
+	contre_operation -> frais_change = taux_de_change[1];
+
+	if ( contre_operation -> taux_change < 0 )
+	{
+	    contre_operation -> taux_change = -contre_operation -> taux_change;
+	    contre_operation -> une_devise_compte_egale_x_devise_ope = 1;
+	}
+    }
+    else
+    {
+	contre_operation -> taux_change = 0;
+	contre_operation -> frais_change = 0;
+    }
+
+
+
+    contre_operation -> tiers = operation -> tiers;
+    contre_operation -> categorie = 0;
+    contre_operation -> sous_categorie = 0;
+
+    if ( operation -> notes )
+	contre_operation -> notes = g_strdup ( operation -> notes);
+
+    contre_operation -> auto_man = operation -> auto_man;
+    contre_operation -> type_ope = contre_type_ope;
+
+    if ( operation -> contenu_type )
+	contre_operation -> contenu_type = g_strdup ( operation -> contenu_type );
+
+    contre_operation -> no_exercice = operation -> no_exercice;
+    contre_operation -> imputation = operation -> imputation;
+    contre_operation -> sous_imputation = operation -> sous_imputation;
+
+    /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
+
+    ajout_operation ( contre_operation );
+
+
+    /* on met maintenant les relations entre les différentes opé */
+
+    operation -> relation_no_operation = contre_operation -> no_operation;
+    operation -> relation_no_compte = contre_operation -> no_compte;
+    contre_operation -> relation_no_operation = operation -> no_operation;
+    contre_operation -> relation_no_compte = operation -> no_compte;
+
+    /* on met à jour le compte courant pour le virement (il a été mis à jour avec ajout opération, mais sans les liens de virement) */
+
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+
+    MISE_A_JOUR = 1;
+		    verification_mise_a_jour_liste ();
+}
+/******************************************************************************/
+
+
 
 /******************************************************************************/
 /* cette procédure compare 2 struct d'échéances entre elles au niveau de la date */
@@ -2337,8 +2480,6 @@ void formulaire_echeancier_a_zero ( void )
 			   style_entree_formulaire[ENGRIS] );
     gtk_widget_set_style ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ) -> entry,
 			   style_entree_formulaire[ENGRIS] );
-    gtk_widget_set_style ( widget_formulaire_echeancier[SCHEDULER_FORM_BANK],
-			   style_entree_formulaire[ENGRIS] );
     gtk_widget_set_style ( widget_formulaire_echeancier[SCHEDULER_FORM_VOUCHER],
 			   style_entree_formulaire[ENGRIS] );
     gtk_widget_set_style ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES],
@@ -2360,8 +2501,6 @@ void formulaire_echeancier_a_zero ( void )
 			 _("Transfer reference") );
     gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ),
 			    _("Budgetary line") );
-    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_BANK] ),
-			 _("Bank references") );
     gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_VOUCHER] ),
 			 _("Voucher") );
     gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES] ),
@@ -2384,6 +2523,7 @@ void formulaire_echeancier_a_zero ( void )
     changement_choix_compte_echeancier ();
 
 
+    gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_BREAKDOWN] );
     gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] );
     gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_NB] );
     gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_MENU] );
@@ -2958,3 +3098,26 @@ void degrise_formulaire_echeancier ( void )
     gtk_widget_show ( label_saisie_modif );
 }
 /******************************************************************************/
+
+
+
+
+/******************************************************************************/
+/* Fonction basculer_vers_ventilation                                         */
+/* appelée par l'appui du bouton Ventilation...                               */
+/* permet de voir les opés ventilées d'une ventilation                        */
+/******************************************************************************/
+void basculer_vers_ventilation_echeances ( void )
+{
+    enregistre_ope_au_retour_echeances = 0;
+
+    if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
+	ventiler_operation_echeances  ( -my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ))),
+						     NULL ));
+    else
+	ventiler_operation_echeances  ( my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ))),
+						    NULL ));
+}
+/******************************************************************************/
+
+

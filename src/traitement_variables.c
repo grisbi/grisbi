@@ -32,6 +32,13 @@
 
 extern gint valeur_echelle_recherche_date_import;
 extern GtkItemFactory *item_factory_menu_general;
+extern GSList *gsliste_echeances; 
+extern gint nb_echeances;
+extern gint no_derniere_echeance;
+extern gint affichage_echeances; 
+extern gint affichage_echeances_perso_nb_libre; 
+extern gint affichage_echeances_perso_j_m_a; 
+extern GSList *echeances_saisies;
 
 
 /*****************************************************************************************************/

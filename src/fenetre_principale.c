@@ -29,7 +29,7 @@
 #include "accueil.h"
 #include "categories_onglet.h"
 #include "comptes_onglet.h"
-#include "echeancier_liste.h"
+#include "echeancier_onglet.h"
 #include "etats_onglet.h"
 #include "imputation_budgetaire.h"
 #include "operations_onglet.h"

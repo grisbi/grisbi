@@ -74,6 +74,10 @@ GtkJustification col_justs[] = { GTK_JUSTIFY_CENTER,
     GTK_JUSTIFY_RIGHT,
     GTK_JUSTIFY_RIGHT };
 
+extern struct operation_echeance *echeance_selectionnnee;
+extern gint no_derniere_echeance;
+extern GSList *gsliste_echeances; 
+extern gint nb_echeances;
 
 /******************************************************************************/
 /*  Routine qui crée la fenêtre de la liste des opé  */

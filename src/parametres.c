@@ -46,7 +46,7 @@ GtkWidget * button_close, * button_help;
 GtkWidget *tree_view;
 GtkWidget * bouton_display_lock_active;
 
-
+extern gint decalage_echeance; 
 
 /**
  * Creates a simple TreeView and a TreeModel to handle preference

@@ -3042,7 +3042,7 @@ msgstr "Afficher"
 
 #: src/echeancier_liste.c:426
 msgid "Validate"
-msgstr "Valider"
+msgstr "Saisir"
 
 #: src/echeancier_liste.c:463 src/etats_config.c:267 src/type_operations.c:286
 #: src/import.c:401

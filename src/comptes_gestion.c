@@ -48,6 +48,7 @@
 #include "utils.h"
 
 
+extern GtkWidget *widget_formulaire_echeancier[19];
 
 
 

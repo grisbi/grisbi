@@ -2705,7 +2705,7 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
 	    operation -> contenu_type = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] ))));
 
 	    if ( type -> numerotation_auto )
-		type -> no_en_cours = ( atoi ( operation -> contenu_type ));
+		type -> no_en_cours = ( my_atoi ( operation -> contenu_type ));
 	}
 	else
 	    operation -> contenu_type = NULL;

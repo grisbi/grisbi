@@ -150,7 +150,7 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 		    while ( pointeur_char[i] )
 		    {
 			etat -> type_classement = g_list_append ( etat -> type_classement,
-								  GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
+								  GINT_TO_POINTER ( my_atoi ( pointeur_char[i] )));
 			i++;
 		    }
 		    g_strfreev ( pointeur_char );
@@ -159,91 +159,91 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Aff_r" ))
-		    etat -> afficher_r = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> afficher_r = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Aff_ope" ))
-		    etat -> afficher_opes = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> afficher_opes = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Aff_nb_ope" ))
-		    etat -> afficher_nb_opes = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> afficher_nb_opes = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Aff_no_ope" ))
-		    etat -> afficher_no_ope = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> afficher_no_ope = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Aff_date_ope" ))
-		    etat -> afficher_date_ope = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> afficher_date_ope = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Aff_tiers_ope" ))
-		    etat -> afficher_tiers_ope = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> afficher_tiers_ope = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Aff_categ_ope" ))
-		    etat -> afficher_categ_ope = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> afficher_categ_ope = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Aff_ss_categ_ope" ))
-		    etat -> afficher_sous_categ_ope = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> afficher_sous_categ_ope = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Aff_type_ope" ))
-		    etat -> afficher_type_ope = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> afficher_type_ope = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Aff_ib_ope" ))
-		    etat -> afficher_ib_ope = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> afficher_ib_ope = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Aff_ss_ib_ope" ))
-		    etat ->afficher_sous_ib_ope  = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat ->afficher_sous_ib_ope  = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Aff_cheque_ope" ))
-		    etat -> afficher_cheque_ope = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> afficher_cheque_ope = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Aff_notes_ope" ))
-		    etat -> afficher_notes_ope = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> afficher_notes_ope = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Aff_pc_ope" ))
-		    etat -> afficher_pc_ope = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> afficher_pc_ope = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Aff_rappr_ope" ))
-		    etat -> afficher_rappr_ope = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> afficher_rappr_ope = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Aff_infobd_ope" ))
-		    etat -> afficher_infobd_ope = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> afficher_infobd_ope = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Aff_exo_ope" ))
-		    etat -> afficher_exo_ope = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> afficher_exo_ope = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Class_ope" ))
-		    etat -> type_classement_ope = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> type_classement_ope = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Aff_titres_col" ))
-		    etat -> afficher_titre_colonnes = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> afficher_titre_colonnes = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Aff_titres_chgt" ))
-		    etat -> type_affichage_titres = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> type_affichage_titres = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Pas_detail_ventil" ))
-		    etat -> pas_detailler_ventilation = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> pas_detailler_ventilation = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Sep_rev_dep" ))
-		    etat -> separer_revenus_depenses = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> separer_revenus_depenses = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Devise_gen" ))
@@ -251,19 +251,19 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Incl_tiers" ))
-		    etat -> inclure_dans_tiers = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> inclure_dans_tiers = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Ope_click" ))
-		    etat -> ope_clickables = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> ope_clickables = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Exo_date" ))
-		    etat -> exo_date = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> exo_date = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Detail_exo" ))
-		    etat -> utilise_detail_exo = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> utilise_detail_exo = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Liste_exo" ))
@@ -291,7 +291,7 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Plage_date" ))
-		    etat -> no_plage_date = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> no_plage_date = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Date_debut" )
@@ -304,9 +304,9 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 						 "/",
 						 3 );
 
-		    etat -> date_perso_debut = g_date_new_dmy ( atoi ( pointeur_char[0] ),
-								atoi ( pointeur_char[1] ),
-								atoi ( pointeur_char[2] ));
+		    etat -> date_perso_debut = g_date_new_dmy ( my_atoi ( pointeur_char[0] ),
+								my_atoi ( pointeur_char[1] ),
+								my_atoi ( pointeur_char[2] ));
 		    g_strfreev ( pointeur_char );
 		}
 
@@ -321,27 +321,27 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 						 "/",
 						 3 );
 
-		    etat -> date_perso_fin = g_date_new_dmy ( atoi ( pointeur_char[0] ),
-							      atoi ( pointeur_char[1] ),
-							      atoi ( pointeur_char[2] ));
+		    etat -> date_perso_fin = g_date_new_dmy ( my_atoi ( pointeur_char[0] ),
+							      my_atoi ( pointeur_char[1] ),
+							      my_atoi ( pointeur_char[2] ));
 		    g_strfreev ( pointeur_char );
 		}
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Utilise_plages" ))
-		    etat -> separation_par_plage = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> separation_par_plage = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Sep_plages" ))
-		    etat -> type_separation_plage = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> type_separation_plage = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Deb_sem_plages" ))
-		    etat -> jour_debut_semaine = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> jour_debut_semaine = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Detail_comptes" ))
-		    etat -> utilise_detail_comptes = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> utilise_detail_comptes = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Liste_comptes" ))
@@ -370,19 +370,19 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Grp_ope_compte" ))
-		    etat -> regroupe_ope_par_compte = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> regroupe_ope_par_compte = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Total_compte" ))
-		    etat -> affiche_sous_total_compte = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> affiche_sous_total_compte = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Aff_nom_compte" ))
-		    etat -> afficher_nom_compte = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> afficher_nom_compte = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Type_vir" ))
-		    etat -> type_virement = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> type_virement = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Liste_comptes_vir" ))
@@ -411,15 +411,15 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Exclure_non_vir" ))
-		    etat -> exclure_ope_non_virement = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> exclure_ope_non_virement = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Categ" ))
-		    etat -> utilise_categ = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> utilise_categ = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Detail_categ" ))
-		    etat -> utilise_detail_categ = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> utilise_detail_categ = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Liste_categ" ))
@@ -448,23 +448,23 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Exclut_categ" ))
-		    etat -> exclure_ope_sans_categ = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> exclure_ope_sans_categ = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Total_categ" ))
-		    etat -> affiche_sous_total_categ = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> affiche_sous_total_categ = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Aff_ss_categ" ))
-		    etat -> afficher_sous_categ = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> afficher_sous_categ = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Aff_pas_ss_categ" ))
-		    etat -> afficher_pas_de_sous_categ = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> afficher_pas_de_sous_categ = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Total_ss_categ" ))
-		    etat -> affiche_sous_total_sous_categ = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> affiche_sous_total_sous_categ = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Devise_categ" ))
@@ -472,15 +472,15 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Aff_nom_categ" ))
-		    etat -> afficher_nom_categ = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> afficher_nom_categ = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "IB" ))
-		    etat -> utilise_ib = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> utilise_ib = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Detail_ib" ))
-		    etat -> utilise_detail_ib = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> utilise_detail_ib = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Liste_ib" ))
@@ -508,23 +508,23 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Exclut_ib" ))
-		    etat -> exclure_ope_sans_ib = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> exclure_ope_sans_ib = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Total_ib" ))
-		    etat -> affiche_sous_total_ib = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> affiche_sous_total_ib = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Aff_ss_ib" ))
-		    etat -> afficher_sous_ib = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> afficher_sous_ib = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Aff_pas_ss_ib" ))
-		    etat -> afficher_pas_de_sous_ib = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> afficher_pas_de_sous_ib = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Total_ss_ib" ))
-		    etat -> affiche_sous_total_sous_ib = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> affiche_sous_total_sous_ib = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Devise_ib" ))
@@ -532,15 +532,15 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Aff_nom_ib" ))
-		    etat -> afficher_nom_ib = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> afficher_nom_ib = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Tiers" ))
-		    etat -> utilise_tiers = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> utilise_tiers = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Detail_tiers" ))
-		    etat -> utilise_detail_tiers = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> utilise_detail_tiers = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Liste_tiers" ))
@@ -569,7 +569,7 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Total_tiers" ))
-		    etat -> affiche_sous_total_tiers = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> affiche_sous_total_tiers = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Devise_tiers" ))
@@ -577,12 +577,12 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Aff_nom_tiers" ))
-		    etat -> afficher_nom_tiers = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> afficher_nom_tiers = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Texte" ))
-		    etat -> utilise_texte = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> utilise_texte = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Texte_comp" ))
@@ -600,25 +600,25 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 			comp_textes = calloc ( 1,
 					       sizeof ( struct struct_comparaison_textes_etat ));
 
-			comp_textes -> lien_struct_precedente = atoi ( xmlGetProp ( node_comp_textes,
+			comp_textes -> lien_struct_precedente = my_atoi ( xmlGetProp ( node_comp_textes,
 										    "Lien_struct" ));
-			comp_textes -> champ = atoi ( xmlGetProp ( node_comp_textes,
+			comp_textes -> champ = my_atoi ( xmlGetProp ( node_comp_textes,
 								   "Champ" ));
-			comp_textes -> operateur = atoi ( xmlGetProp ( node_comp_textes,
+			comp_textes -> operateur = my_atoi ( xmlGetProp ( node_comp_textes,
 								       "Op" ));
 			comp_textes -> texte = xmlGetProp ( node_comp_textes,
 							    "Txt" );
-			comp_textes -> utilise_txt = atoi ( xmlGetProp ( node_comp_textes,
+			comp_textes -> utilise_txt = my_atoi ( xmlGetProp ( node_comp_textes,
 									 "Util_txt" ));
-			comp_textes -> comparateur_1 = atoi ( xmlGetProp ( node_comp_textes,
+			comp_textes -> comparateur_1 = my_atoi ( xmlGetProp ( node_comp_textes,
 									   "Comp_1" ));
-			comp_textes -> lien_1_2 = atoi ( xmlGetProp ( node_comp_textes,
+			comp_textes -> lien_1_2 = my_atoi ( xmlGetProp ( node_comp_textes,
 								      "Lien_1_2" ));
-			comp_textes -> comparateur_2 = atoi ( xmlGetProp ( node_comp_textes,
+			comp_textes -> comparateur_2 = my_atoi ( xmlGetProp ( node_comp_textes,
 									   "Comp_2" ));
-			comp_textes -> montant_1 = atoi ( xmlGetProp ( node_comp_textes,
+			comp_textes -> montant_1 = my_atoi ( xmlGetProp ( node_comp_textes,
 								       "Mont_1" ));
-			comp_textes -> montant_2 = atoi ( xmlGetProp ( node_comp_textes,
+			comp_textes -> montant_2 = my_atoi ( xmlGetProp ( node_comp_textes,
 								       "Mont_2" ));
 
 			/* on a fini de remplir le détail de la comparaison, on l'ajoute à la liste */
@@ -631,7 +631,7 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Montant" ))
-		    etat -> utilise_montant = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> utilise_montant = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Montant_devise" ))
@@ -655,13 +655,13 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 						 sizeof ( struct struct_comparaison_montants_etat ));
 
 
-			comp_montants -> lien_struct_precedente = atoi ( xmlGetProp ( node_comp_montants,
+			comp_montants -> lien_struct_precedente = my_atoi ( xmlGetProp ( node_comp_montants,
 										      "Lien_struct" ));
-			comp_montants -> comparateur_1 = atoi ( xmlGetProp ( node_comp_montants,
+			comp_montants -> comparateur_1 = my_atoi ( xmlGetProp ( node_comp_montants,
 									     "Comp_1" ));
-			comp_montants -> lien_1_2 = atoi ( xmlGetProp ( node_comp_montants,
+			comp_montants -> lien_1_2 = my_atoi ( xmlGetProp ( node_comp_montants,
 									"Lien_1_2" ));
-			comp_montants -> comparateur_2 = atoi ( xmlGetProp ( node_comp_montants,
+			comp_montants -> comparateur_2 = my_atoi ( xmlGetProp ( node_comp_montants,
 									     "Comp_2" ));
 			comp_montants -> montant_1 = my_strtod ( xmlGetProp ( node_comp_montants,
 									      "Mont_1" ),
@@ -680,11 +680,11 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Excl_nul" ))
-		    etat -> exclure_montants_nuls = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> exclure_montants_nuls = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Detail_mod_paie" ))
-		    etat -> utilise_mode_paiement = atoi ( xmlNodeGetContent ( node_detail_etat ));
+		    etat -> utilise_mode_paiement = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
 			       "Liste_mod_paie" ))

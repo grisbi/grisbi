@@ -38,6 +38,8 @@
 
 GtkWidget *paddingbox_details;	/** Widget handling financial year details */
 
+extern GtkWidget *widget_formulaire_echeancier[19];
+
 
 /** 
  * Update financial year name in list.  Normally called as a signal

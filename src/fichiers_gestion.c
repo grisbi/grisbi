@@ -47,7 +47,9 @@
 
 extern GtkWidget *window_vbox_principale;
 extern gint patience_en_cours;
-
+extern GSList *echeances_saisies;
+extern GSList *gsliste_echeances;  
+extern GSList *echeances_a_saisir;
 
 
 /* ************************************************************************************************************ */

@@ -1,4 +1,3 @@
-GtkWidget *creation_onglet_echeancier ( void );
 GtkWidget *creation_partie_gauche_echeancier ( void );
 GtkWidget *creation_liste_echeances ( void );
 gboolean traitement_clavier_liste_echeances ( GtkCList *liste_echeances,
@@ -11,7 +10,7 @@ void click_ligne_echeance ( GtkCList *liste,
 			    gpointer data );
 void selectionne_echeance ( void );
 void edition_echeance ( void );
-void supprime_echeance ( void );
+void supprime_echeance ( struct operation_echeance *echeance );
 void changement_taille_liste_echeances ( GtkWidget *clist,
 					 GtkAllocation *allocation,
 					 gpointer null );

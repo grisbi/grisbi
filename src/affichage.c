@@ -45,6 +45,10 @@ GtkWidget *preview;
 GtkWidget *anim_button;
 GtkWidget *anim_preview;
 
+extern GtkWidget *widget_formulaire_echeancier[19];
+extern GtkWidget *separateur_formulaire_echeancier;
+extern GtkWidget *hbox_valider_annuler_echeance;
+extern GtkWidget *liste_echeances;
 
 /**
  * Updates transaction form according to state "etat"
@@ -91,8 +95,6 @@ gboolean update_transaction_form ( GtkWidget * checkbox, gpointer data )
 				   etat.utilise_piece_comptable && selected  );
 
 	gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_BANK],
-				   etat.utilise_info_banque_guichet && selected  );
-	gtk_widget_set_sensitive ( widget_formulaire_echeancier[11],
 				   etat.utilise_info_banque_guichet && selected  );
 
 	if ( etat.affiche_boutons_valider_annuler )

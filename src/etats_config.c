@@ -1400,8 +1400,8 @@ void recuperation_info_perso_etat ( void )
 									      "no_lien" ));
 	    comp_textes -> comparateur_2 = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_textes -> bouton_comparateur_2 ) -> menu_item ),
 										   "no_comparateur" ));
-	    comp_textes -> montant_1 = atoi ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_montant_1 )));
-	    comp_textes -> montant_2 = atoi ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_montant_2 )));
+	    comp_textes -> montant_1 = my_atoi ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_montant_1 )));
+	    comp_textes -> montant_2 = my_atoi ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_montant_2 )));
 
 	    liste_tmp = liste_tmp -> next;
 	}

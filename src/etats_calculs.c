@@ -29,7 +29,7 @@
 #include "etats_latex.h"
 #include "etats_affiche.h"
 #include "search_glist.h"
-
+#include "utils.h"
 
 
 /*****************************************************************************************************/
@@ -249,7 +249,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 			if ( operation -> contenu_type 
 			     &&
-			     atoi ( operation -> contenu_type ) > dernier_chq
+			     my_atoi ( operation -> contenu_type ) > dernier_chq
 			     &&
 			     operation -> type_ope )
 			{
@@ -262,7 +262,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			    if ( type_ope -> affiche_entree
 				 &&
 				 type_ope -> numerotation_auto )
-				dernier_chq = atoi ( operation -> contenu_type );
+				dernier_chq = my_atoi ( operation -> contenu_type );
 			}
 
 
@@ -270,8 +270,8 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 			if ( operation -> no_piece_comptable
 			     &&
-			     atoi ( operation -> no_piece_comptable ) > dernier_pc )
-			    dernier_pc = atoi ( operation -> no_piece_comptable );
+			     my_atoi ( operation -> no_piece_comptable ) > dernier_pc )
+			    dernier_pc = my_atoi ( operation -> no_piece_comptable );
 
 
 			/* on récupère maintenant le dernier relevé */
@@ -1170,7 +1170,7 @@ gint verifie_chq_test_etat ( struct struct_comparaison_textes_etat *comp_textes,
     /*   si on cherche le plus grand, on met la valeur recherchée à la place de montant_1 */
 
     if ( comp_textes -> comparateur_1 != 6 )
-	ope_dans_premier_test = compare_cheques_etat ( atoi ( no_chq ),
+	ope_dans_premier_test = compare_cheques_etat ( my_atoi ( no_chq ),
 						       comp_textes -> montant_1,
 						       comp_textes -> comparateur_1 );
     else
@@ -1182,7 +1182,7 @@ gint verifie_chq_test_etat ( struct struct_comparaison_textes_etat *comp_textes,
 	    case 8:
 		/* pc */
 
-		ope_dans_premier_test = compare_cheques_etat ( atoi ( no_chq ),
+		ope_dans_premier_test = compare_cheques_etat ( my_atoi ( no_chq ),
 							       dernier_pc,
 							       comp_textes -> comparateur_1 );
 		break;
@@ -1190,7 +1190,7 @@ gint verifie_chq_test_etat ( struct struct_comparaison_textes_etat *comp_textes,
 	    case 9:
 		/* chq */
 
-		ope_dans_premier_test = compare_cheques_etat ( atoi ( no_chq ),
+		ope_dans_premier_test = compare_cheques_etat ( my_atoi ( no_chq ),
 							       dernier_chq,
 							       comp_textes -> comparateur_1 );
 		break;
@@ -1216,7 +1216,7 @@ gint verifie_chq_test_etat ( struct struct_comparaison_textes_etat *comp_textes,
     if ( comp_textes -> lien_1_2 != 3 )
     {
 	if ( comp_textes -> comparateur_2 != 6 )
-	    ope_dans_second_test = compare_cheques_etat ( atoi ( no_chq ),
+	    ope_dans_second_test = compare_cheques_etat ( my_atoi ( no_chq ),
 							  comp_textes -> montant_2,
 							  comp_textes -> comparateur_2 );
 	else
@@ -1226,7 +1226,7 @@ gint verifie_chq_test_etat ( struct struct_comparaison_textes_etat *comp_textes,
 		case 8:
 		    /* pc */
 
-		    ope_dans_second_test = compare_cheques_etat ( atoi ( no_chq ),
+		    ope_dans_second_test = compare_cheques_etat ( my_atoi ( no_chq ),
 								  dernier_pc,
 								  comp_textes -> comparateur_2 );
 		    break;
@@ -1234,7 +1234,7 @@ gint verifie_chq_test_etat ( struct struct_comparaison_textes_etat *comp_textes,
 		case 9:
 		    /* chq */
 
-		    ope_dans_second_test = compare_cheques_etat ( atoi ( no_chq ),
+		    ope_dans_second_test = compare_cheques_etat ( my_atoi ( no_chq ),
 								  dernier_chq,
 								  comp_textes -> comparateur_2 );
 		    break;
@@ -1242,7 +1242,7 @@ gint verifie_chq_test_etat ( struct struct_comparaison_textes_etat *comp_textes,
 		case 10:
 		    /* rappr */
 
-		    ope_dans_second_test = compare_cheques_etat ( atoi ( no_chq ),
+		    ope_dans_second_test = compare_cheques_etat ( my_atoi ( no_chq ),
 								  dernier_no_rappr,
 								  comp_textes -> comparateur_2 );
 		    break;

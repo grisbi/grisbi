@@ -164,6 +164,13 @@ gchar *categories_de_base_credit [] = {
 
 
 
+extern GSList *gsliste_echeances;  
+extern GSList *liste_categories_ventilation_combofix; 
+extern GtkWidget *widget_formulaire_echeancier[19];
+extern GSList *liste_categories_ventilation_combofix; 
+extern GtkWidget *widget_formulaire_ventilation_echeances[8];
+
+
 
 /* **************************************************************************************************** */
 /* Fonction onglet_categories : */
@@ -1463,7 +1470,7 @@ void clique_sur_modifier_categ ( void )
 
     /* si c'est une categ et si c'est une modif du nom, on doit réafficher la liste des categ et les listes des opés, sinon, on change juste la categ et */
     /* met à jour les listes de categories */
-    /* si c'est une sous categ, c'est obligatoirement un changement de nom */
+    /* si c'est une sous categ, c'est obligmy_atoirement un changement de nom */
 
     if ( gtk_object_get_data ( GTK_OBJECT (  entree_nom_categ ),
 			       "adr_struct_categ" ) )
@@ -2468,7 +2475,7 @@ retour_recuperation :
 /* la première contient les catégories de débit */
 /* la seconde contient les catégories de crédit */
 /* la troisième contient les catégories spéciales ( virement, retrait, ventilation ) */
-/* la ventilation n'apparait pas dans les échéances ( et dans la ventilation ) */
+/* la ventilation n'apparait pas dans les ventilations */
 /***********************************************************************************************************/
 
 void creation_liste_categ_combofix ( void )
@@ -2480,7 +2487,7 @@ void creation_liste_categ_combofix ( void )
     gint i;
 
     liste_categories_combofix = NULL;
-    liste_categories_echeances_combofix = NULL;
+    liste_categories_ventilation_combofix = NULL;
     liste_categ_credit = NULL;
     liste_categ_debit = NULL;
 
@@ -2539,10 +2546,10 @@ void creation_liste_categ_combofix ( void )
 
     /*   on ajoute les listes des crédits / débits à la liste du combofix des  échéances  */
 
-    liste_categories_echeances_combofix = g_slist_append ( liste_categories_echeances_combofix,
-							   liste_categ_debit );
-    liste_categories_echeances_combofix = g_slist_append ( liste_categories_echeances_combofix,
-							   liste_categ_credit );
+    liste_categories_ventilation_combofix = g_slist_append ( liste_categories_ventilation_combofix,
+							     liste_categ_debit );
+    liste_categories_ventilation_combofix = g_slist_append ( liste_categories_ventilation_combofix,
+							     liste_categ_credit );
 
 
     /* création des catégories spéciales : les virements et la ventilation pour le formulaire */
@@ -2574,8 +2581,8 @@ void creation_liste_categ_combofix ( void )
 
     liste_categ_special = liste_categ_special -> next;
 
-    liste_categories_echeances_combofix = g_slist_append ( liste_categories_echeances_combofix,
-							   liste_categ_special );
+    liste_categories_ventilation_combofix = g_slist_append ( liste_categories_ventilation_combofix,
+							     liste_categ_special );
 
 }
 /***********************************************************************************************************/
@@ -2600,12 +2607,17 @@ void mise_a_jour_categ ( void )
 
 
     gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[6] ),
-			    liste_categories_echeances_combofix,
+			    liste_categories_combofix,
 			    TRUE,
 			    TRUE );
 
     gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_ventilation[0] ),
-			    liste_categories_echeances_combofix,
+			    liste_categories_ventilation_combofix,
+			    TRUE,
+			    TRUE );
+
+    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[0] ),
+			    liste_categories_ventilation_combofix,
 			    TRUE,
 			    TRUE );
 

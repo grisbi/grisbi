@@ -249,48 +249,6 @@ GtkWidget *bouton_affichage_auto_exercice;
 
 
 /***********************************/ 
-/* fichier echeancier_liste.c */
-/***********************************/ 
-
-GtkWidget *frame_formulaire_echeancier;
-GtkWidget *formulaire_echeancier;
-GtkWidget *liste_echeances;
-GtkWidget *entree_personnalisation_affichage_echeances;
-GtkWidget *bouton_personnalisation_affichage_echeances;
-GtkWidget *bouton_valider_echeance_perso;
-GtkWidget *bouton_saisir_echeancier;
-GtkWidget *calendrier_echeances;
-
-struct operation_echeance *echeance_selectionnnee;
-
-GSList *gsliste_echeances;                 /* contient la liste des struct échéances */
-gint nb_echeances;
-gint no_derniere_echeance;
-
-gint decalage_echeance;      /* nb de jours avant l'échéance pour prévenir */
-
-gint ancienne_largeur_echeances;
-
-GSList *echeances_a_saisir;
-GSList *echeances_saisies;
-gint affichage_echeances; /* contient 0(mois), 1 (2 mois), 2(année), 3(toutes), 4(perso) */
-gint affichage_echeances_perso_nb_libre;     /* contient le contenu de l'entrée */
-gint affichage_echeances_perso_j_m_a;        /* contient 0 (jours), 1 (mois), 2 (années) */
-
-
-
-/************************/ 
-/* fichier echeancier_formulaire.c */
-/************************/ 
-
-GtkWidget *widget_formulaire_echeancier[19];
-GtkWidget *label_saisie_modif;
-GSList *liste_categories_echeances_combofix;        /*  liste des noms des categ et sous categ pour le combofix */
-GtkWidget *separateur_formulaire_echeancier;
-GtkWidget *hbox_valider_annuler_echeance;
-
-
-/***********************************/ 
 /* fichier accueil.c */
 /***********************************/ 
 

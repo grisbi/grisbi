@@ -28,6 +28,8 @@
 #include <libofx/libofx.h>
 
 #include "dialog.h"
+#include "utils.h"
+
 
 /* on doit mettre le compte en cours d'importation en global pour que la libofx puisse le traiter */
 /* de plus un fichier ofx peut intégrer plusieurs comptes, donc on crée une liste... */
@@ -332,7 +334,7 @@ int ofx_proc_transaction_cb(struct OfxTransactionData data)
 	ope_import -> notes = g_strdup ( data.memo );
 
     if ( data.check_number_valid )
-	ope_import -> cheque = atoi ( data.check_number );
+	ope_import -> cheque = my_atoi ( data.check_number );
 
     if ( data.amount_valid )
 	ope_import -> montant = data.amount;

@@ -276,7 +276,6 @@ struct operation_echeance
     guint tiers;
     guint categorie;
     guint sous_categorie;
-    gint compte_virement;
     gchar *notes;
 
     gint type_ope;        /* variable suivant le compte */
@@ -296,6 +295,12 @@ struct operation_echeance
     gint jour_limite;
     gint mois_limite;
     gint annee_limite;
+
+    gint compte_virement;
+    gint type_contre_ope;        /* variable suivant le compte */
+
+    gint operation_ventilee;        /* à 1 si c'est une opé ventilée */
+    guint no_operation_ventilee_associee;      /* si c'est une opé d'une ventilation, contient le no de l'opé ventilée */
 };
 
 

@@ -54,6 +54,12 @@ GtkTreeStore *model;
 /** Global to handle sensitiveness */
 GtkWidget * details_paddingbox;
 
+extern GtkWidget *widget_formulaire_echeancier[19];
+extern GtkWidget *label_saisie_modif;
+
+
+
+
 
 /* FIXME: document + move on bottom */
 void payment_method_toggled ( GtkCellRendererToggle *cell, gchar *path_str,

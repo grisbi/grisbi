@@ -228,6 +228,8 @@ struct cached_exchange_rate {
 						  exchange rate */
 };
 
+extern GtkWidget *widget_formulaire_echeancier[19];
+extern GSList *gsliste_echeances;
 
 
 gint

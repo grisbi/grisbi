@@ -516,7 +516,7 @@ void equilibrage ( void )
 
 		/* on incrémente la partie numérique */
 
-		partie_num = itoa ( atoi ( partie_num ) + 1 );
+		partie_num = itoa ( my_atoi ( partie_num ) + 1 );
 
 		/* si la nouvelle partie numérique est plus petite que l'ancienne, */
 		/* c'est que des 0 ont été shuntés, on va les rajouter ici */

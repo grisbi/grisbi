@@ -1,5 +1,5 @@
-/* Fichier banque.c */
-/* s'occupe de tout ce qui concerne les banques */
+/* Fichier ventilation.c */
+/* s'occupe de tout ce qui concerne les ventilation des opérations */
 
 
 /*     Copyright (C) 2000-2003  Cédric Auger */
@@ -41,7 +41,7 @@
 
 
 
-
+extern GSList *liste_categories_ventilation_combofix;  
 
 /*******************************************************************************************/
 /* Fonction creation_fenetre_ventilation */
@@ -387,7 +387,7 @@ GtkWidget *creation_formulaire_ventilation ( void )
 
     /* mise en place des catégories */
 
-    widget_formulaire_ventilation[0] = gtk_combofix_new_complex ( liste_categories_echeances_combofix,
+    widget_formulaire_ventilation[0] = gtk_combofix_new_complex ( liste_categories_ventilation_combofix,
 								  FALSE,
 								  TRUE,
 								  TRUE,
@@ -1887,7 +1887,7 @@ void fin_edition_ventilation ( void )
 
 
     /*   si perte_ligne_selectionnee = 1, c'est qu'au lieu de modifier une opé (virement), on l'a */
-    /* effacé puis recréé une nouvelle. comme ça se fait que lors d'une modif d'opé, on remet */
+    /* effacé puis recréÃ© une nouvelle. comme ça se fait que lors d'une modif d'opé, on remet */
     /* la selection sur cette nouvelle opé */
 
     if ( perte_ligne_selectionnee == 1 )

@@ -251,46 +251,46 @@ gboolean format_date ( GtkWidget *entree )
     pEntry = g_strstrip ( ( gchar * ) gtk_entry_get_text ( GTK_ENTRY ( entree ) ) );
 
     if ( !pEntry || !strlen(pEntry) )
-      {
+    {
 	date = gdate_today();
 	jour = g_date_day (date);
 	mois = g_date_month (date);
 	annee = g_date_year (date);
-      }
+    }
     else 
-      {
+    {
 	date = g_date_new();
 	g_date_set_time ( date, time( NULL ) );
 
 	tab_date = g_strsplit ( pEntry, "/", 3 );
 
 	if ( tab_date[2] && tab_date[1] )
-	  {
+	{
 	    /* on a rentré les 3 chiffres de la date */
 	    jour = gsb_strtod ( tab_date[0],  NULL );
 	    mois = gsb_strtod ( tab_date[1], NULL );
 	    annee = gsb_strtod ( tab_date[2], NULL );
 
 	    if ( annee < 100 )
-	      {
+	    {
 		if ( annee < 80 )
-		  annee = annee + 2000;
+		    annee = annee + 2000;
 		else
-		  annee = annee + 1900;
-	      }
-	  }
+		    annee = annee + 1900;
+	    }
+	}
 	else
-	  {
+	{
 	    if ( tab_date[1] )
-	      {
+	    {
 		/* on a rentré la date sous la forme xx/xx,
 		   il suffit de mettre l'année courante */
 		jour = gsb_strtod ( tab_date[0], NULL );
 		mois = gsb_strtod ( tab_date[1], NULL );
 		annee = g_date_year ( date );
-	      }
+	    }
 	    else
-	      {
+	    {
 		/* on a rentré que le jour de la date,
 		   il faut mettre le mois et l'année courante
 		   ou bien on a rentré la date sous forme
@@ -298,71 +298,71 @@ gboolean format_date ( GtkWidget *entree )
 		gchar buffer[3];
 
 		switch ( strlen ( tab_date[0] ) )
-		  {
+		{
 		    /* forme jj ou j */
-		  case 1:
-		  case 2:
-		    jour = gsb_strtod ( tab_date[0], NULL );
-		    mois = g_date_month ( date );
-		    annee = g_date_year ( date );
-		    break;
+		    case 1:
+		    case 2:
+			jour = gsb_strtod ( tab_date[0], NULL );
+			mois = g_date_month ( date );
+			annee = g_date_year ( date );
+			break;
 
-		    /* forme jjmm */
+			/* forme jjmm */
 
-		  case 4 :
-		    buffer[0] = tab_date[0][0];
-		    buffer[1] = tab_date[0][1];
-		    buffer[2] = 0;
+		    case 4 :
+			buffer[0] = tab_date[0][0];
+			buffer[1] = tab_date[0][1];
+			buffer[2] = 0;
 
-		    jour = gsb_strtod ( buffer, NULL );
-		    mois = gsb_strtod ( tab_date[0] + 2, NULL );
-		    annee = g_date_year ( date );
-		    break;
+			jour = gsb_strtod ( buffer, NULL );
+			mois = gsb_strtod ( tab_date[0] + 2, NULL );
+			annee = g_date_year ( date );
+			break;
 
-		    /* forme jjmmaa */
+			/* forme jjmmaa */
 
-		  case 6:
-		    buffer[0] = tab_date[0][0];
-		    buffer[1] = tab_date[0][1];
-		    buffer[2] = 0;
+		    case 6:
+			buffer[0] = tab_date[0][0];
+			buffer[1] = tab_date[0][1];
+			buffer[2] = 0;
 
-		    jour = gsb_strtod ( buffer, NULL );
-		    buffer[0] = tab_date[0][2];
-		    buffer[1] = tab_date[0][3];
+			jour = gsb_strtod ( buffer, NULL );
+			buffer[0] = tab_date[0][2];
+			buffer[1] = tab_date[0][3];
 
-		    mois = gsb_strtod ( buffer, NULL );
-		    annee = gsb_strtod ( tab_date[0] + 4, NULL ) + 2000;
-		    break;
+			mois = gsb_strtod ( buffer, NULL );
+			annee = gsb_strtod ( tab_date[0] + 4, NULL ) + 2000;
+			break;
 
-		    /* forme jjmmaaaa */
+			/* forme jjmmaaaa */
 
-		  case 8:
-		    buffer[0] = tab_date[0][0];
-		    buffer[1] = tab_date[0][1];
-		    buffer[2] = 0;
+		    case 8:
+			buffer[0] = tab_date[0][0];
+			buffer[1] = tab_date[0][1];
+			buffer[2] = 0;
 
-		    jour = gsb_strtod ( buffer, NULL );
-		    buffer[0] = tab_date[0][2];
-		    buffer[1] = tab_date[0][3];
+			jour = gsb_strtod ( buffer, NULL );
+			buffer[0] = tab_date[0][2];
+			buffer[1] = tab_date[0][3];
 
-		    mois = gsb_strtod ( buffer, NULL );
-		    annee = gsb_strtod ( tab_date[0] + 4, NULL );
-		    break;
+			mois = gsb_strtod ( buffer, NULL );
+			annee = gsb_strtod ( tab_date[0] + 4, NULL );
+			break;
 
-		  default :
-		    jour = 0;
-		    mois = 0;
-		    annee = 0;
-		    return FALSE;
-		  }
-	      }
-	  }
+		    default :
+			jour = 0;
+			mois = 0;
+			annee = 0;
+			return FALSE;
+		}
+	    }
+	}
 	g_strfreev ( tab_date );
-      }
+    }
 
     if ( g_date_valid_dmy ( jour, mois, annee) )
-      gtk_entry_set_text ( GTK_ENTRY ( entree ),
-			   g_strdup_printf ( "%02d/%02d/%04d", jour, mois, annee ));
+	gtk_entry_set_text ( GTK_ENTRY ( entree ),
+			     g_strdup_printf ( "%02d/%02d/%04d", jour, mois, annee ));
 
     return ( TRUE );
 }
@@ -522,6 +522,22 @@ gchar *itoa ( gint integer )
     return ( chaine );
 }
 /***********************************************************************************************************/
+
+/***********************************************************************************************************/
+/* cette fonction protège atoi qui plante quand on lui envoie un null */
+/***********************************************************************************************************/
+
+gint my_atoi ( gchar *chaine )
+{
+
+    if ( chaine )
+	return ( atoi ( chaine ));
+    else
+	return ( 0 );
+
+}
+/***********************************************************************************************************/
+
 
 
 double my_strtod ( char *nptr, char **endptr )

@@ -17,8 +17,10 @@ grisbi_SOURCES = 		\
 	comptes_traitements.c	\
 	devises.c		\
 	dialog.c		\
+	echeancier_onglet.c	\
 	echeancier_formulaire.c	\
 	echeancier_liste.c	\
+	echeancier_ventilation.c\
 	equilibrage.c		\
 	erreur.c		\
 	etat_io.c		\
@@ -73,8 +75,10 @@ grisbi_INCLUDES =		\
 	constants.h		\
 	devises.h		\
 	dialog.h		\
+	echeancier_onglet.h	\
 	echeancier_formulaire.h	\
 	echeancier_liste.h	\
+	echeancier_ventilation.h\
 	equilibrage.h		\
 	erreur.h		\
 	etat_io.h		\
