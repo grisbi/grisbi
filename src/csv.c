@@ -205,7 +205,9 @@ void export_accounts_to_csv (GSList* export_entries_list )
   GSList *pAccountList;
   FILE *csv_file;
   gdouble balance = 0;
+  gpointer **save_ptab;
 
+  save_ptab = p_tab_nom_de_compte_variable;
   pAccountList = export_entries_list;
 
   while ( pAccountList )
@@ -624,4 +626,5 @@ void export_accounts_to_csv (GSList* export_entries_list )
     g_free ( csv_filename );
     csv_filename = NULL;
   }
+  p_tab_nom_de_compte_variable = save_ptab;
 }
