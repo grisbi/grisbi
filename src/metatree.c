@@ -680,7 +680,7 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
 		operation = pointeur_ope -> data;
 		
 		if ( operation &&
-		     iface -> transaction_div_id ( operation) == no_division &&
+		     iface -> transaction_div_id ( operation ) == no_division &&
 		     iface -> transaction_sub_div_id ( operation ) == no_sub_division/*  && */
 /* 		     !operation -> relation_no_operation && */
 /* 		     !operation -> operation_ventilee */ )
@@ -1075,7 +1075,10 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
     gchar **split_division;
 
     dialog = dialogue_special_no_run ( GTK_MESSAGE_WARNING, GTK_BUTTONS_OK_CANCEL,
-				       make_hint ( g_strdup_printf ( _("'%s' still contains transactions."), iface -> div_name ( division )),
+				       make_hint ( g_strdup_printf ( _("'%s' still contains transactions."), 
+								     ( no_sub_div <= 0 ? 
+								       iface -> div_name ( division ) :
+								       iface -> sub_div_name ( sub_division ) ) ),
 						   _("If you want to remove this sub-division but want to keep transactions, you can transfer them to another (sub-)division.  Otherwise, transactions can be simply deleted along with their division.") ));
 
     /*       mise en place du choix tranfert vers un autre division */
@@ -1309,11 +1312,25 @@ gboolean search_for_div_or_subdiv ( GtkTreeModel *model, GtkTreePath *path,
 				    GtkTreeIter *iter, gpointer * pointers)
 {
     int no_div, no_sub_div;
+    gpointer text;
 
     gtk_tree_model_get ( GTK_TREE_MODEL(model), iter,
+			 META_TREE_TEXT_COLUMN, &text, 
 			 META_TREE_NO_DIV_COLUMN, &no_div, 
 			 META_TREE_NO_SUB_DIV_COLUMN, &no_sub_div, 
 			 -1 );
+
+    /* This is a kludge because we want to skip "dummy" iters that are
+     * here only to provide a slider.*/
+    if ( !text )
+	return FALSE;
+
+    if ( ! pointers[0] && ( !pointers[1] || pointers[1] == (gpointer) -1 ) && 
+	 !no_div && !no_sub_div )
+    {
+	pointers[2] = gtk_tree_iter_copy (iter);
+	return TRUE;
+    }
 
     if ( no_div == (gint) pointers[0] )
     {
@@ -1343,6 +1360,125 @@ GtkTreeIter * get_iter_from_div ( GtkTreeModel * model, int div, int sub_div )
 
     return (GtkTreeIter *) pointers[2];
 }
+
+
+
+/**
+ *
+ *
+ */
+gboolean search_for_pointer ( GtkTreeModel *model, GtkTreePath *path,
+			      GtkTreeIter *iter, gpointer * pointers)
+{
+    gpointer pointer;
+
+    gtk_tree_model_get ( GTK_TREE_MODEL(model), iter,
+			 META_TREE_POINTER_COLUMN, &pointer, 
+			 -1 );
+
+    if ( pointer == pointers[0] )
+    {
+	pointers[1] = gtk_tree_iter_copy (iter);
+	return TRUE;
+    }
+
+    return FALSE;
+}
+
+
+
+/**
+ *
+ *
+ */
+GtkTreeIter * get_iter_from_pointer ( GtkTreeModel * model, gpointer pointer )
+{
+    gpointer pointers[2] = { (gpointer) pointer, NULL };
+
+    gtk_tree_model_foreach ( model, (GtkTreeModelForeachFunc) search_for_pointer, pointers );
+
+    return (GtkTreeIter *) pointers[1];
+}
+
+
+
+/**
+ * Update a transaction in a tree model if it is possible to find its
+ * associated GtkTreeIter.  This function is not responsible to remove
+ * old transaction if transaction has changed in a way that would
+ * move it in the tree (i.e, its category has changed and we want to
+ * update the category tree).
+ *
+ * \param iface		A MetatreeInterface to use.
+ * \param model		Tree model to update.
+ * \param transaction   Transaction to update if associated GtkTreeIter exists.
+ */
+void update_transaction_in_tree ( MetatreeInterface * iface, GtkTreeModel * model, 
+				  struct structure_operation * transaction )
+{
+    GtkTreeIter * transaction_iter, * sub_div_iter = NULL, * div_iter, dummy_iter;
+    gpointer div, sub_div;
+    gint div_id, sub_div_id;
+    
+    if ( ! transaction )
+	return;
+
+    if ( ! gtk_tree_model_get_iter_first ( model, &dummy_iter ) )
+	return;
+
+    div_id = iface -> transaction_div_id ( transaction );
+    sub_div_id = iface -> transaction_sub_div_id ( transaction );
+    div = iface -> get_div_pointer ( div_id );
+    sub_div = iface -> get_sub_div_pointer ( div_id, sub_div_id );
+
+    /* Fill in division if existing. */
+    div_iter = get_iter_from_div ( model, div_id, -1 );
+    if ( div_iter )
+    {
+	fill_division_row ( model, iface, div_iter, div );
+    }
+
+    /* Fill in sub-division if existing. */
+    if ( iface -> depth != 1 )
+    {
+	sub_div_iter = get_iter_from_div ( model, div_id, sub_div_id );
+	if ( sub_div_iter )
+	{
+	    fill_sub_division_row ( model, iface, sub_div_iter, div, sub_div );
+	}
+    }
+
+    /* Fill in transaction if existing. */
+    transaction_iter = get_iter_from_pointer ( model, transaction );
+
+    /* If no transaction iter is found, this either means transactions
+     * for this division hasn't been shown yet, so no need to fill it;
+     * or that it is a new transaction, so we need to append it to
+     * subdivision row. */
+    if ( ! transaction_iter )
+    {
+	GtkTreeIter child_iter;
+	gpointer text;
+	gtk_tree_model_iter_children ( model, &child_iter, 
+				       ( iface -> depth == 1 ? div_iter : sub_div_iter ) );
+	gtk_tree_model_get ( model, &child_iter, META_TREE_TEXT_COLUMN, &text, -1 );
+	/* Text is set only if division has been expanded previously,
+	 * so we can add an iter.  Otherwise, this will be done by the
+	 * expanded callback. */
+	if ( text )
+	{
+	    gtk_tree_store_append ( GTK_TREE_STORE(model), &child_iter,
+				    ( iface -> depth == 1 ? div_iter : sub_div_iter ) );
+	    transaction_iter = &child_iter;
+	}
+    }
+
+    if ( transaction_iter )
+    {
+	fill_transaction_row ( model, transaction_iter, transaction );
+    }
+}
+
 
 
 /* Local Variables: */
