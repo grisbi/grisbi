@@ -1016,11 +1016,13 @@ void cree_liens_virements_ope_import ( void )
     {
 	gchar *nom_compte_courant;
 	GSList *liste_tmp;
+	gint currency;
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
 	nom_compte_courant = NOM_DU_COMPTE;
 	liste_tmp = LISTE_OPERATIONS;
+	currency = DEVISE;
 
 	while ( liste_tmp )
 	{
@@ -1065,8 +1067,11 @@ void cree_liens_virements_ope_import ( void )
 		    /*  on a trouvé le compte opposé ; on cherche maintenant l'opération */
 
 		    GSList *pointeur_tmp;
+		    gboolean same_currency = FALSE;
 
 		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_trouve;
+		    if ( currency == DEVISE )
+		      same_currency = TRUE;
 
 		    pointeur_tmp = LISTE_OPERATIONS;
 
@@ -1080,10 +1085,12 @@ void cree_liens_virements_ope_import ( void )
 			     &&
 			     operation_2 -> info_banque_guichet
 			     &&
-			     g_strcasecmp ( nom_compte_courant,
-					    g_strstrip ( operation_2 -> info_banque_guichet ))
+			     (!g_strcasecmp ( g_strconcat ("[", nom_compte_courant, "]", NULL),
+					      g_strstrip ( operation_2 -> info_banque_guichet )) ||
+			      !g_strcasecmp ( nom_compte_courant,
+					      g_strstrip ( operation_2 -> info_banque_guichet )))
 			     &&
-			     ( fabs ( operation -> montant ) == fabs ( operation_2 -> montant ))
+			     ( !same_currency || fabs ( operation -> montant ) == fabs ( operation_2 -> montant ))
 			     &&
 			     ( operation -> tiers == operation_2 -> tiers )
 			     &&
