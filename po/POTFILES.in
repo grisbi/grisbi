@@ -9,6 +9,7 @@ src/check.c
 src/comptes_gestion.c
 src/comptes_onglet.c
 src/comptes_traitements.c
+src/csv.c
 src/devises.c
 src/dialog.c
 src/echeancier_formulaire.c
@@ -22,6 +23,7 @@ src/etats_affiche.c
 src/etats_calculs.c
 src/etats_config.c
 src/etats_gtktable.c
+src/etats_html.c
 src/etats_latex.c
 src/etats_onglet.c
 src/etats_support.c
