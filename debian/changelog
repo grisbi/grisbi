@@ -1,0 +1,30 @@
+grisbi (0.4.0-1) unstable; urgency=low
+
+  * New upstream version
+  * Fix doc-base path (Closes: #169374)
+  * Some cleanup to make recent lintians happy
+  
+ -- Benjamin Drieu <benj@debian.org>  Fri, 21 Feb 2003 14:58:36 +0100
+
+grisbi (0.3.3-1) unstable; urgency=low
+
+  * New upstream version
+
+ -- Benjamin Drieu <benj@debian.org>  Sun,  3 Nov 2002 21:30:15 +0100
+
+grisbi (0.3.2-2) unstable; urgency=low
+
+  * Fix wrong build dependencies.  (Closes: #159239)
+  * Fix control file
+
+ -- Benjamin Drieu <benj@debian.org>  Mon,  9 Sep 2002 10:34:31 +0200
+
+grisbi (0.3.2-1) unstable; urgency=low
+
+  * Initial Release.  (Closes: #156667)
+
+ -- Benjamin Drieu <benj@debian.org>  Tue, 20 Aug 2002 20:52:28 +0200
+
+Local variables:
+mode: debian-changelog
+End:

@@ -1,0 +1,31 @@
+Source: grisbi
+Section: utils
+Priority: optional
+Maintainer: Benjamin Drieu <benj@debian.org>
+Build-Depends: debhelper (>> 3.0.0), libgnome-dev, libpanel-applet-dev, libgtk1.2-dev, libxml-dev
+Standards-Version: 3.5.8
+
+Package: grisbi
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: Gnome-based personal financial management program
+ Grisbi is a very functional personal financial management program with
+ a lot of features:
+ .
+  - checking, cash and liabilities accounts;
+  - several accounts with automatic contra entries;
+  - several currencies, including euro;
+  - arbitrary currency for every operation;
+  - money interchange fees;
+  - switch to euro account per account;
+  - description of the transactions with third parties, categories,
+    sub-categories, financial year, notes, breakdown;
+  - transfers between accounts, even for accounts of different
+    currencies; 
+  - bank reconciliation;
+  - scheduled transactions;
+  - expiries monitoring with a Gnome applet;
+  - automatic recall of last transaction for every third party;
+  - nice and easy user interface;
+  - user manual;
+  - QIF import/export.
