@@ -130,10 +130,12 @@ void init_menus ( GtkWidget * win )
 			      N_("Create a new transaction"),
 			      new_transaction,
 			      GNOME_STOCK_MENU_NEW),
+/*
       GNOMEUIINFO_ITEM_STOCK (N_("Remove transaction"), 
 			      N_("Remove selected transaction"),
 			      remove_transaction,
 			      GNOME_STOCK_MENU_NEW),
+*/
       GNOMEUIINFO_SEPARATOR,
       GNOMEUIINFO_MENU_PREFERENCES_ITEM (preferences, NULL),
       GNOMEUIINFO_END
