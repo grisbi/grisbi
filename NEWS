@@ -1,6 +1,6 @@
 New in version 0.5.0 : 
-
  - GTK2 & libxml2 support
+ - no more Gnome dependency
  - native UTF-8 support
  - customized reports printing via LaTeX
  - improve user interface (follow Gnome HiG)
@@ -10,6 +10,10 @@ New in version 0.5.0 :
    + new context menu on transactions list
    + application menu improvements
    + transactions, accounts and reports lists are now fully clickable
+ - totally redesign of import code :
+   + OFX & QIF support
+   + incremental import
+   + automatic reconciliation
  - exchange rates are cached for a session so that users don't need to
    type them repeatedly
  - reports now support text faces (bold, slant, large, huge, small)
@@ -18,6 +22,19 @@ New in version 0.5.0 :
    case sensitive or insensitive according to input upper/lower case
  - improve bank details and new bank dialogs
  - keyboard navigation in third party, categories and budgetary lines
+ - automatic expired scheduled transactions are now clickable
+
+New in version 0.4.4 :
+ - Bug fixes
+ - Columns are resizable in scheduler
+ - Harmonise all date fields:
+   + <Ctrl><Enter> in a date field open a calendar
+   + Arrows keys are sensitive on a calendar
+   + <Shift><+> (<->) in a date field increase (decrease) date about one week
+   + <PgUp> (<PgDn>) increase (decrease) date about one month
+   + <Shift><PgUp> (<PgDn>) increase (decrease) date about one year
+ - New mouse feature:
+   + <Ctrl><Click> has the same effect as <Ctrl><P>
 
 New in version 0.4.3 : 
  - Bug fixes
