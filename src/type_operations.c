@@ -1302,7 +1302,8 @@ gint cherche_no_menu_type ( gint demande )
     if ( !demande )
 	return ( FALSE );
 
-    if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_TYPE ))
+    if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_TYPE ) && 
+	 GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ) -> menu ))
 	liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ) -> menu ) -> children;
     else
 	liste_tmp = NULL;
