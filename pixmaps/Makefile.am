@@ -4,10 +4,14 @@ grisbi_pixmaps_DATA = \
 	addresses.png \
 	banks.png \
 	currencies.png \
+	dollar.gif \
+	exec.png \
+	euro.gif \
 	files.png \
 	financial-years.png \
 	fonts.png \
 	form.png \
+	import.png \
 	payment-methods.png \
 	reconciliation.png \
 	transaction-list.png \

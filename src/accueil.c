@@ -79,7 +79,7 @@ GtkWidget *creation_onglet_accueil ( void )
     /* création du logo */
 
     if ( !chemin_logo || !strlen ( chemin_logo ))
-	chemin_logo = CHEMIN_LOGO;
+	chemin_logo = LOGO_PATH;
 
     if ( etat.utilise_logo )
     {

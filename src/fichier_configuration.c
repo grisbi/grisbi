@@ -367,7 +367,7 @@ void charge_configuration_ancien ( void )
     gchar *fichier_conf;
     gchar temp[100];
 
-    etat.fichier_animation_attente = g_strdup ( GIF_DEFAUT );
+    etat.fichier_animation_attente = g_strdup ( ANIM_PATH );
 
     /* modif -> vire gnome, donc fait tout à la main */
 
@@ -563,7 +563,7 @@ void raz_configuration ( void )
     compression_backup = 0;
     etat.largeur_auto_colonnes = 1;
     etat.retient_affichage_par_compte = 0;
-    etat.fichier_animation_attente = g_strdup ( GIF_DEFAUT );
+    etat.fichier_animation_attente = g_strdup ( ANIM_PATH );
 
 	/* Messages */
 	etat.display_message_lock_active = 0;
