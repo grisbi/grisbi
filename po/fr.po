@@ -1333,7 +1333,7 @@ msgstr "Passer ce compte à l'euro"
 
 #: src/comptes_gestion.c:182
 msgid "Closed account"
-msgstr "Compte clôturé"
+msgstr "Compte clos"
 
 #. création de la ligne du titulaire du compte
 #: src/comptes_gestion.c:188
