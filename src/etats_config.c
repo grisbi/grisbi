@@ -199,6 +199,20 @@ void personnalisation_etat (void)
 			   0 );
       gtk_widget_show ( hbox );
 
+      bouton = gtk_button_new_from_stock (GTK_STOCK_APPLY);
+      gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			      GTK_RELIEF_NONE );
+      gtk_signal_connect ( GTK_OBJECT ( bouton ),
+			   "clicked",
+			   GTK_SIGNAL_FUNC ( recuperation_info_perso_etat ),
+			   NULL );
+      gtk_box_pack_end ( GTK_BOX ( hbox ),
+			   bouton,
+			   FALSE,
+			   FALSE,
+			   0 );
+      gtk_widget_show ( bouton );
+
       bouton = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
       gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			      GTK_RELIEF_NONE );
@@ -213,19 +227,6 @@ void personnalisation_etat (void)
 			   0 );
       gtk_widget_show ( bouton);
 
-      bouton = gtk_button_new_from_stock (GTK_STOCK_APPLY);
-      gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			      GTK_RELIEF_NONE );
-      gtk_signal_connect ( GTK_OBJECT ( bouton ),
-			   "clicked",
-			   GTK_SIGNAL_FUNC ( recuperation_info_perso_etat ),
-			   NULL );
-      gtk_box_pack_end ( GTK_BOX ( hbox ),
-			   bouton,
-			   FALSE,
-			   FALSE,
-			   0 );
-      gtk_widget_show ( bouton );
     }
 
 
