@@ -119,6 +119,10 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
     time ( &temps );
 
     calendrier_echeances = gtk_calendar_new ();
+    gtk_calendar_display_options ( GTK_CALENDAR ( calendrier_echeances ),
+				   GTK_CALENDAR_SHOW_HEADING |
+				   GTK_CALENDAR_SHOW_DAY_NAMES |
+				   GTK_CALENDAR_WEEK_START_MONDAY );
     gtk_calendar_select_month ( GTK_CALENDAR ( calendrier_echeances ),
 				localtime ( &temps ) -> tm_mon,
 				localtime ( &temps ) -> tm_year + 1900 );
