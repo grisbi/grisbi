@@ -114,16 +114,20 @@ void nouveau_fichier ( void )
 
     creation_listes_operations ();
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-
-    changement_compte ( GINT_TO_POINTER ( compte_courant ) );
-
 
     /* affiche le nom du fichier de comptes dans le titre de la fenetre */
 
     affiche_titre_fenetre();
 
     gtk_widget_show ( notebook_general );
+
+    /*     nécessaire pour éviter un non affichage de l'acceuil dans certains cas */
+
+    while ( g_main_iteration (FALSE));
+
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+    changement_compte ( GINT_TO_POINTER ( compte_courant ) );
 
     /* on se met sur l'onglet de propriétés du compte */
 

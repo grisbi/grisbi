@@ -392,7 +392,6 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 /* ************************************************************************* */
 
 
-
 /* ************************************************************************* */
 /* Fonction update_liste_comptes_accueil                                     */
 /* affiche la liste des comptes et leur solde courant dans la frame qui leur */
@@ -412,7 +411,6 @@ void update_liste_comptes_accueil ( void )
     GList *children;
     gint i;
     gint nb_comptes_bancaires=0, nb_comptes_passif=0, nb_comptes_actif=0;
-
 
     if ( !nb_comptes )
 	return;
@@ -468,7 +466,6 @@ void update_liste_comptes_accueil ( void )
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_container_add ( GTK_CONTAINER ( frame_etat_comptes_accueil ), vbox );
 
-
     /* Préparation de la séparation de l'affichage des comptes en fonction
        de leur type */
 
@@ -517,7 +514,6 @@ void update_liste_comptes_accueil ( void )
 
 	if ( !devise_is_used )
 	    continue;
-
 
 	/* Création du tableau dans lequel seront stockés les comptes avec leur     */
 	/* solde.                                                                   */

@@ -1128,13 +1128,13 @@ void modification_details_compte ( void )
 
 	reaffiche_liste_comptes ();
 	reaffiche_liste_comptes_onglet ();
-	update_liste_comptes_accueil ();
 	remplissage_liste_echeance ();
 	update_liste_echeances_manuelles_accueil ();
 	mise_a_jour_soldes_minimaux();
 	mise_a_jour_fin_comptes_passifs();
 	mise_a_jour_categ();
 	update_options_menus_comptes ();
+/* 	update_liste_comptes_accueil (); */
 	remplissage_liste_comptes_etats ();
 	selectionne_liste_comptes_etat_courant ();
 
