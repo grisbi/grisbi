@@ -71,6 +71,8 @@ void display_tip ( gboolean force )
   // If no tips found ... no dialog will be displayed...
   if (!tip)
   {
+      dialogue_error_hint ( _("Make sure that grisbi was correctly installed and that tips file is readable."),
+			    _("No tip of the day available") );
       return;
   }
   dialog = dialogue_special_no_run ( GTK_MESSAGE_INFO, GTK_BUTTONS_NONE,
