@@ -118,9 +118,6 @@ gboolean update_transaction_form ( GtkWidget * checkbox, gpointer data )
 	gtk_widget_hide ( vbox_boutons_formulaire );
 	gtk_widget_hide ( separateur_formulaire_echeancier );
 	gtk_widget_hide ( hbox_valider_annuler_echeance );
-
-	affiche_cache_le_formulaire ();
-	affiche_cache_le_formulaire ();
     }
     return ( FALSE );
 }
