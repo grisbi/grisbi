@@ -171,7 +171,8 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 	    {
 	      fscanf ( fichier_qif, "%a[^\n]\n", &pointeur_char );
 	    }
-	  while ( strncmp ( pointeur_char, "!Type", 5 ));
+	  while ( strncmp ( pointeur_char, "!Type", 5 ) && 
++ 		  strncmp ( pointeur_char, "!type", 5 ) );
 	  goto retour;
 	}
 
@@ -188,15 +189,18 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 
       /* récupération du type de compte */
 
-      tab_char = g_strsplit ( pointeur_char, ":", 2 );
-
-      if ( strcmp ( g_strstrip ( tab_char[1] ), "Cash" ) )
-	if ( strcmp ( g_strstrip ( tab_char[1] ), "Oth L" ))
-	  compte -> type_de_compte = 0;
-	else
-	  compte -> type_de_compte = 2;
-      else
-	compte -> type_de_compte = 1;
+      if ( strchr(pointeur_char, ':') )
+ 	tab_char = g_strsplit ( pointeur_char, ":", 2 );
+      else if ( strchr(pointeur_char, ' ') )
+ 	tab_char = g_strsplit ( pointeur_char, " ", 2 );
+      else 
+ 	tab_char = NULL;
+  
+      if ( tab_char && strcmp ( g_strstrip (tab_char[1]), "Cash" ) )
+ 	if ( strcmp ( g_strstrip ( tab_char[1]), "Oth L" ))
+  	  compte -> type_de_compte = 0;
+  	else
+  	  compte -> type_de_compte = 2;
 
       /* récupère les autres données du compte */
 
