@@ -34,11 +34,16 @@ void a_propos ( GtkWidget *bouton,
   GtkWidget *url;
   GtkWidget *label;
 
-  const gchar *auteur[] = { "Auger Cédric ( cedric@grisbi.org ) : Programmation",
-			    "Cartron Daniel ( doc@grisbi.org ) : Manuel, Site internet, conseils en comptabilité",
-			    "Drieu Benjamin ( bdrieu@april.org ) : Programmation, packages deb",
-			    "Niel Gérald ( gerald.niel@grisbi.org ) : Packages RPM, Site internet",
-			    "Pascual André ( andre@linuxgraphic.org ) : Logo",
+  const gchar *auteur[] = { "Auger Cédric ( cedric@grisbi.org ) : ",
+  			_("Programming"),
+			    "Cartron Daniel ( doc@grisbi.org ) : ",
+			    _("Documentation writing, Internet site design, Accountancy and ergonomy advices"),
+			    "Drieu Benjamin ( bdrieu@april.org ) : ",
+			    _("Programming, Debian packaging"),
+			    "Niel Gérald ( gerald.niel@grisbi.org ) : ",
+			    _("RPM packaging, Internet site design"),
+			    "Pascual André ( andre@linuxgraphic.org ) : ",
+			    _("Logo"),
 			    NULL };
 
   boite = gnome_about_new ( _("Grisbi"),
@@ -92,7 +97,7 @@ void a_propos ( GtkWidget *bouton,
 		       0 );
   gtk_widget_show ( label );
 
-  url = gnome_href_new ( "http://www.grisbi.org/modules.php?name=Documentation",
+  url = gnome_href_new ( "http://www.grisbi.org/modules.php?name=Manuel",
 			 _("Documentation en ligne") );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( boite ) -> vbox ),
 		       url,
