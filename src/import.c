@@ -2816,8 +2816,8 @@ GtkWidget *onglet_importation (void)
 			 0 );
     gtk_widget_show ( label );
 
-
-
+    if ( ! assert_account_loaded() )
+      gtk_widget_set_sensitive ( vbox_pref, FALSE );
 
     return ( vbox_pref );
 }
