@@ -76,7 +76,6 @@ GtkWidget *tel_correspondant;
 GtkWidget *email_correspondant;
 GtkWidget *fax_correspondant;
 GtkWidget *remarque_banque;
-GtkWidget *hbox_boutons_modif_banque;
 gint ligne_selection_banque;
 
 
@@ -264,12 +263,6 @@ void supprime_banque ( GtkWidget *bouton,
 		BANQUE--;
 	    p_tab_nom_de_compte_variable++;
 	}
-
-	/* On désensitive la hbox_boutons_modif_banque au cas où on
-	   était en train de modifier la banque */
-
-	gtk_widget_set_sensitive ( hbox_boutons_modif_banque,
-				   FALSE );
 
 	/* On retire la banque de la liste */
 
