@@ -672,6 +672,8 @@ gint classement_sliste_par_date ( struct structure_operation *operation_1,
 				  struct structure_operation *operation_2 );
 gint classement_sliste_par_tri_courant ( struct structure_operation *operation_1,
 					 struct structure_operation *operation_2 );
+gint classe_liste_alphabetique ( gchar *string_1,
+				 gchar *string_2 );
 
 
 /***********************************/ 
@@ -967,6 +969,11 @@ GtkWidget *onglet_affichage_etat_generalites ( void );
 GtkWidget *onglet_affichage_etat_operations ( void );
 GtkWidget *onglet_affichage_etat_devises ( void );
 GtkWidget *onglet_affichage_etat_divers ( void );
+GtkWidget *onglet_etat_mode_paiement ( void );
+void remplissage_liste_modes_paiement_etats ( void );
+gint recherche_nom_dans_liste ( gchar *nom_liste,
+				gchar *nom_test );
+void selectionne_liste_modes_paiement_etat_courant ( void );
 
 /***********************************/ 
 /* fichier etats_calculs.c */

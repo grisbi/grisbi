@@ -101,6 +101,8 @@ void personnalisation_etat (void)
       notebook_selection = gtk_notebook_new ();
       gtk_container_set_border_width ( GTK_CONTAINER ( notebook_selection ),
 				       5 );
+      gtk_notebook_set_scrollable ( GTK_NOTEBOOK ( notebook_selection ),
+				    TRUE );
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
 				 notebook_selection,
 				 gtk_label_new (_("Sélection des données")) );
@@ -138,6 +140,10 @@ void personnalisation_etat (void)
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
 				 onglet_etat_montant (),
 				 gtk_label_new (_(" Montants ")) );
+
+      gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
+				 onglet_etat_mode_paiement (),
+				 gtk_label_new (_(" Mode de règlement ")) );
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
 				 onglet_etat_divers (),
@@ -682,6 +688,18 @@ void personnalisation_etat (void)
   sens_desensitive_pointeur ( bouton_utilise_montant,
 			      vbox_generale_montants_etat );
   remplit_liste_comparaisons_montants_etat ();
+
+
+  /* onglet modes de paiement */
+
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_mode_paiement_etat ),
+				 etat_courant -> utilise_mode_paiement );
+
+  sens_desensitive_pointeur ( bouton_detaille_mode_paiement_etat,
+			      vbox_mode_paiement_etat );
+
+  selectionne_liste_modes_paiement_etat_courant ();
+
 
   /* on se met sur la bonne page */
 
@@ -1469,6 +1487,40 @@ void recuperation_info_perso_etat ( void )
     }
 
 
+  /* récupération des modes de paiement */
+
+  etat_courant -> utilise_mode_paiement = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_mode_paiement_etat ));
+
+  if ( etat_courant -> noms_modes_paiement )
+    {
+      g_slist_free ( etat_courant -> noms_modes_paiement );
+      etat_courant -> noms_modes_paiement = NULL;
+    }
+
+  pointeur_liste = GTK_CLIST ( liste_mode_paiement_etat ) -> selection;
+
+  while ( pointeur_liste )
+    {
+      etat_courant -> noms_modes_paiement = g_slist_append ( etat_courant -> noms_modes_paiement,
+							     gtk_clist_get_row_data ( GTK_CLIST ( liste_mode_paiement_etat ),
+										      GPOINTER_TO_INT ( pointeur_liste -> data )));
+      pointeur_liste = pointeur_liste -> next;
+    }
+
+  /*   si tous les modes de paiement ont été sélectionnés, on met utilise_mode_paiement à 0 (plus rapide) */
+
+  if ( ( g_list_length ( GTK_CLIST ( liste_mode_paiement_etat ) -> selection )
+	 ==
+	 GTK_CLIST ( liste_mode_paiement_etat ) -> rows )
+       &&
+       etat_courant -> utilise_mode_paiement )
+    {
+      dialogue ( _("Tous les modes de règlement ont été sélectionnés\nGrisbi sera plus rapide en retirant l'option\n\"Sélectionner les opérations en fonction des modes de règlement\"") );
+      etat_courant -> utilise_mode_paiement = FALSE;
+    }
+  
+
+
 
   modification_fichier ( TRUE );
 
@@ -1579,6 +1631,13 @@ void stylise_tab_label_etat ( gint *no_page )
       break;
 
     case 8:
+      /* page des modes de paiement */
+
+      if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_mode_paiement_etat )))
+	style = style_label;
+      break;
+
+    case 9:
       /* page des divers */
 
       if ( !gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_opes_r_et_non_r_etat ))
@@ -5339,7 +5398,7 @@ GtkWidget *onglet_etat_divers ( void )
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_opes_non_r_etat ),
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
-		       GINT_TO_POINTER ( 8 ));
+		       GINT_TO_POINTER ( 9 ));
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_opes_non_r_etat,
 		       FALSE,
@@ -5352,7 +5411,7 @@ GtkWidget *onglet_etat_divers ( void )
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_opes_r_etat ),
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
-		       GINT_TO_POINTER ( 8 ));
+		       GINT_TO_POINTER ( 9 ));
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_opes_r_etat,
 		       FALSE,
@@ -5373,7 +5432,7 @@ GtkWidget *onglet_etat_divers ( void )
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_pas_detailler_ventilation ),
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
-		       GINT_TO_POINTER ( 8 ));
+		       GINT_TO_POINTER ( 9 ));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_pas_detailler_ventilation,
 		       FALSE,
@@ -7245,5 +7304,272 @@ GtkWidget *onglet_affichage_etat_divers ( void )
   return ( widget_retour );
 }
 /*****************************************************************************************************/
+
+
+
+
+
+
+
+/*****************************************************************************************************/
+GtkWidget *onglet_etat_mode_paiement ( void )
+{
+  GtkWidget *widget_retour;
+  GtkWidget *scrolled_window;
+  GtkWidget *bouton;
+  GtkWidget *vbox;
+  GtkWidget *label;
+  GtkWidget *hbox;
+  GtkWidget *vbox_onglet;
+
+  widget_retour = gtk_scrolled_window_new ( FALSE,
+					    FALSE );
+  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( widget_retour ),
+				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_AUTOMATIC );
+  gtk_widget_show ( widget_retour );
+
+  vbox_onglet = gtk_vbox_new ( FALSE,
+				 5 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
+				   10 );
+  gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
+					  vbox_onglet );
+  gtk_widget_show ( vbox_onglet );
+
+
+  /* on met dans la partie de gauche une liste contenant les modes de paiement à */
+  /* sélectionner */
+
+  bouton_detaille_mode_paiement_etat = gtk_check_button_new_with_label ( _("Sélectionner les opérations en fonction des modes de règlement"));
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton_detaille_mode_paiement_etat ),
+			      "toggled",
+			      GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
+			      GINT_TO_POINTER ( 8 ));
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
+		       bouton_detaille_mode_paiement_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_detaille_mode_paiement_etat );
+
+  vbox_mode_paiement_etat = gtk_vbox_new ( FALSE,
+					      5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
+		       vbox_mode_paiement_etat,
+		       TRUE,
+		       TRUE,
+		       0 );
+  gtk_widget_show ( vbox_mode_paiement_etat );
+
+
+  gtk_signal_connect ( GTK_OBJECT ( bouton_detaille_mode_paiement_etat ),
+		       "toggled",
+		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+		       vbox_mode_paiement_etat );
+
+  label = gtk_label_new ( _("Sélectionner les modes de règlement à inclure dans l'état :") );
+  gtk_misc_set_alignment ( GTK_MISC ( label ),
+			   0.1,
+			   0.5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox_mode_paiement_etat ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
+
+  hbox = gtk_hbox_new ( FALSE,
+			5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox_mode_paiement_etat ),
+		       hbox,
+		       TRUE,
+		       TRUE,
+		       0 );
+  gtk_widget_show ( hbox );
+
+  scrolled_window = gtk_scrolled_window_new ( FALSE,
+					      FALSE );
+  gtk_widget_set_usize ( scrolled_window,
+			 300,
+			 FALSE );
+  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_AUTOMATIC );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       scrolled_window,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( scrolled_window );
+
+  liste_mode_paiement_etat = gtk_clist_new ( 1 );
+  gtk_clist_set_selection_mode ( GTK_CLIST ( liste_mode_paiement_etat ),
+				 GTK_SELECTION_MULTIPLE );
+  gtk_clist_set_column_auto_resize ( GTK_CLIST ( liste_mode_paiement_etat ),
+				     0,
+				     TRUE );
+  gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
+		      liste_mode_paiement_etat );
+  gtk_widget_show ( liste_mode_paiement_etat );
+
+  /* on remplit la liste des comptes */
+
+  remplissage_liste_modes_paiement_etats ();
+
+      
+
+  /*   sur la partie de droite, on met les boutons (dé)sélectionner tout */
+
+  vbox = gtk_vbox_new ( FALSE,
+			5 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       vbox,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( vbox );
+
+  bouton = gtk_button_new_with_label ( _("Sélectionner tout") );
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
+			      "clicked",
+			      GTK_SIGNAL_FUNC ( gtk_clist_select_all ),
+			      GTK_OBJECT  ( liste_mode_paiement_etat ));
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       bouton,
+		       TRUE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton );
+
+  bouton = gtk_button_new_with_label ( _("Désélectionner tout") );
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
+			      "clicked",
+			      GTK_SIGNAL_FUNC ( gtk_clist_unselect_all ),
+			      GTK_OBJECT  ( liste_mode_paiement_etat ));
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       bouton,
+		       TRUE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton );
+
+
+  return ( widget_retour );
+}
+/*****************************************************************************************************/
+
+
+
+/*****************************************************************************************************/
+void remplissage_liste_modes_paiement_etats ( void )
+{
+  gint i;
+  GSList *liste_nom_types;
+  GSList *liste_tmp;
+
+
+  if ( !liste_comptes_etat )
+    return;
+
+  gtk_clist_clear ( GTK_CLIST ( liste_mode_paiement_etat ) );
+
+  /* on va commencer par créer une liste de textes contenant les noms */
+  /* des modes de paiement sans doublon */
+
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+  liste_nom_types = NULL;
+
+  for ( i=0 ; i<nb_comptes ; i++ )
+    {
+      liste_tmp = TYPES_OPES;
+
+      while ( liste_tmp )
+	{
+	  struct struct_type_ope *type_ope;
+
+	  type_ope = liste_tmp -> data;
+
+	  if ( !g_slist_find_custom ( liste_nom_types,
+				      type_ope -> nom_type,
+				      (GCompareFunc) recherche_nom_dans_liste ))
+	    liste_nom_types = g_slist_append ( liste_nom_types,
+					       g_strdup ( type_ope -> nom_type ));
+
+	  liste_tmp = liste_tmp -> next;
+	}
+      p_tab_nom_de_compte_variable++;
+    }
+
+  /* on a donc une liste de noms de types d'opé non redondant, on classe */
+  /* par ordre alphabétique et on affiche */
+
+  liste_nom_types = g_slist_sort ( liste_nom_types,
+				   (GCompareFunc) classe_liste_alphabetique );
+
+  liste_tmp = liste_nom_types;
+
+  while ( liste_tmp )
+    {
+      gint ligne;
+
+      ligne = gtk_clist_append ( GTK_CLIST ( liste_mode_paiement_etat ),
+				 (gchar **) &liste_tmp -> data );
+
+      gtk_clist_set_row_data ( GTK_CLIST ( liste_mode_paiement_etat ),
+			       ligne,
+			       liste_tmp -> data );
+
+      liste_tmp = liste_tmp -> next;
+    }
+}
+/*****************************************************************************************************/
+
+
+/*****************************************************************************************************/
+gint recherche_nom_dans_liste ( gchar *nom_liste,
+				gchar *nom_test )
+{
+  return ( g_strcasecmp ( nom_liste,
+			  nom_test ));
+}
+/*****************************************************************************************************/
+
+
+
+/*****************************************************************************************************/
+void selectionne_liste_modes_paiement_etat_courant ( void )
+{
+  gint i;
+
+  if ( !etat_courant )
+    return;
+  if ( !liste_comptes_etat )
+    return;
+
+  gtk_clist_unselect_all ( GTK_CLIST ( liste_mode_paiement_etat ));
+
+  if ( !etat_courant -> noms_modes_paiement )
+    return;
+
+  /* on fait le tour de la liste pour voir s'il y a un état sélectionné */
+
+  for ( i=0 ; i < GTK_CLIST ( liste_mode_paiement_etat ) -> rows ; i++ )
+    {
+      if ( g_slist_find_custom ( etat_courant -> noms_modes_paiement,
+				 gtk_clist_get_row_data ( GTK_CLIST ( liste_mode_paiement_etat ),
+							  i ),
+				 (GCompareFunc) recherche_nom_dans_liste ))
+	gtk_clist_select_row ( GTK_CLIST ( liste_mode_paiement_etat ),
+			       i,
+			       0 );
+    }
+}
+/*****************************************************************************************************/
+
 
 

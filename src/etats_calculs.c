@@ -517,6 +517,24 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		goto operation_refusee;
 
 
+	      /* vérification du type d'opé */
+
+	      if ( etat -> utilise_mode_paiement )
+		{
+		  struct struct_type_ope *type_ope;
+
+		  /* normalement p_tab... est sur le compte en cours */
+
+		  type_ope = g_slist_find_custom ( TYPES_OPES,
+						   GINT_TO_POINTER ( operation -> type_ope ),
+						   (GCompareFunc) recherche_type_ope_par_no ) -> data;
+
+		  if ( !g_slist_find_custom ( etat -> noms_modes_paiement,
+					      type_ope -> nom_type,
+					      (GCompareFunc) recherche_nom_dans_liste ))
+		    goto operation_refusee;
+		}
+
 	      /* vérifie la plage de date */
 
 	      if ( etat -> exo_date )

@@ -769,6 +769,10 @@ gchar *nom_compte_en_cours;
 gchar *nom_tiers_en_cours;
 gint titres_affiches;
 
+GtkWidget *bouton_detaille_mode_paiement_etat;
+GtkWidget *vbox_mode_paiement_etat;
+GtkWidget *liste_mode_paiement_etat;
+
 
 /***********************************/ 
 /* fichier etats_io.c */

@@ -3804,6 +3804,29 @@ des paramètres.") );
 				  node_comp_montants = node_comp_montants -> next;
 				}
 			    }
+
+
+			  if ( !strcmp ( node_detail_etat -> name,
+					 "Detail_mod_paie" ))
+			    etat -> utilise_mode_paiement = atoi ( xmlNodeGetContent ( node_detail_etat ));
+
+			  if ( !strcmp ( node_detail_etat -> name,
+					 "Liste_mod_paie" ))
+			    {
+			      xmlNodePtr node_mode_paiement;
+
+			      node_mode_paiement = node_detail_etat -> childs;
+
+			      /*  on fait le tour des modes de paiement */
+
+			      while ( node_mode_paiement )
+				{
+				  etat -> noms_modes_paiement = g_slist_append ( etat -> noms_modes_paiement,
+										 xmlGetProp ( node_mode_paiement,
+											      "Nom" ));
+				  node_mode_paiement = node_mode_paiement -> next;
+				}
+			    }
 			  node_detail_etat = node_detail_etat -> next;
 			}
 
@@ -5837,6 +5860,35 @@ gboolean enregistre_fichier ( void )
 		       "Mont_2",
 		       g_strdup_printf ( "%4.2f",
 					 montants_comp -> montant_2 ));
+	  pointeur_liste = pointeur_liste -> next;
+	}
+
+      xmlNewTextChild ( node_etat,
+			NULL,
+			"Detail_mod_paie",
+			itoa ( etat_courant -> utilise_mode_paiement ));
+
+      node_2 = xmlNewChild ( node_etat,
+			     NULL,
+			     "Liste_mod_paie",
+			     NULL );
+
+      pointeur_liste = etat_courant -> noms_modes_paiement;
+      pointeur_char = NULL;
+
+      while ( pointeur_liste )
+	{
+	  xmlNodePtr node_3;
+
+	  node_3 = xmlNewChild ( node_2,
+				 NULL,
+				 "Mode_paie",
+				 NULL );
+
+	  xmlSetProp ( node_3,
+		       "Nom",
+		       pointeur_liste -> data );
+
 	  pointeur_liste = pointeur_liste -> next;
 	}
 

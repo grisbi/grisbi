@@ -803,6 +803,10 @@ extern gchar *nom_compte_en_cours;
 extern gchar *nom_tiers_en_cours;
 extern gint titres_affiches;
 
+extern GtkWidget *bouton_detaille_mode_paiement_etat;
+extern GtkWidget *vbox_mode_paiement_etat;
+extern GtkWidget *liste_mode_paiement_etat;
+
 
 /***********************************/ 
 /* fichier etats_io.c */

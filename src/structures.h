@@ -480,6 +480,9 @@ struct struct_etat
   gint utilise_montant;
   gint choix_devise_montant;
   GSList *liste_struct_comparaison_montants;
+
+  gint utilise_mode_paiement;
+  GSList *noms_modes_paiement;
 };
 
 
