@@ -60,6 +60,8 @@ sources = 			\
 	type_operations.c	\
 	ventilation.c		\
 	utils.c			\
+	utils_files.c		\
+	utils_file_selection.c	\
 	search_glist.c
 
 grisbi_SOURCES = $(sources)
