@@ -35,6 +35,7 @@ grisbi_SOURCES = 		\
 	fichiers_gestion.c	\
 	fichiers_io.c		\
 	gtk_combofix.c		\
+	gtk_list_button.c	\
 	help.c			\
 	imputation_budgetaire.c	\
 	main.c			\

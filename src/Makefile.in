@@ -98,7 +98,7 @@ localedir = $(datadir)/locale
 INCLUDES = -I$(top_srcdir) -I$(includedir) $(GNOME_INCLUDEDIR) -I../intl -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/grisbi\"" -DCHEMIN_LOGO="\"$(datadir)/pixmaps/grisbi/grisbi-logo.png\""
 bin_PROGRAMS = grisbi
 
-grisbi_SOURCES =  	accueil.c			affichage.c			affichage_liste.c		banque.c			barre_outils.c			calendar.c			categories_onglet.c		comptes_gestion.c		comptes_onglet.c		comptes_traitements.c		devises.c			dialog.c			echeancier_formulaire.c		echeancier_liste.c		equilibrage.c			erreur.c			etat_io.c			etats_affiche.c			etats_calculs.c			etats_config.c			etats_gtktable.c		etats_latex.c			etats_onglet.c			etats_support.c			exercice.c			fenetre_principale.c		fichier_configuration.c		fichiers_gestion.c		fichiers_io.c			gtk_combofix.c			help.c				imputation_budgetaire.c		main.c				menu.c				operations_classement.c		operations_comptes.c		operations_formulaire.c 	operations_liste.c		operations_onglet.c		parametres.c			patienter.c			print_config.c			qif.c				tiers_onglet.c			traitement_variables.c		type_operations.c		ventilation.c
+grisbi_SOURCES =  	accueil.c			affichage.c			affichage_liste.c		banque.c			barre_outils.c			calendar.c			categories_onglet.c		comptes_gestion.c		comptes_onglet.c		comptes_traitements.c		devises.c			dialog.c			echeancier_formulaire.c		echeancier_liste.c		equilibrage.c			erreur.c			etat_io.c			etats_affiche.c			etats_calculs.c			etats_config.c			etats_gtktable.c		etats_latex.c			etats_onglet.c			etats_support.c			exercice.c			fenetre_principale.c		fichier_configuration.c		fichiers_gestion.c		fichiers_io.c			gtk_combofix.c			gtk_list_button.c		help.c				imputation_budgetaire.c		main.c				menu.c				operations_classement.c		operations_comptes.c		operations_formulaire.c 	operations_liste.c		operations_onglet.c		parametres.c			patienter.c			print_config.c			qif.c				tiers_onglet.c			traitement_variables.c		type_operations.c		ventilation.c
 
 
 #grisbi_LDADD =	$(GNOME_LIBDIR)	$(GNOMEUI_LIBS)
@@ -126,8 +126,8 @@ echeancier_formulaire.o echeancier_liste.o equilibrage.o erreur.o \
 etat_io.o etats_affiche.o etats_calculs.o etats_config.o \
 etats_gtktable.o etats_latex.o etats_onglet.o etats_support.o \
 exercice.o fenetre_principale.o fichier_configuration.o \
-fichiers_gestion.o fichiers_io.o gtk_combofix.o help.o \
-imputation_budgetaire.o main.o menu.o operations_classement.o \
+fichiers_gestion.o fichiers_io.o gtk_combofix.o gtk_list_button.o \
+help.o imputation_budgetaire.o main.o menu.o operations_classement.o \
 operations_comptes.o operations_formulaire.o operations_liste.o \
 operations_onglet.o parametres.o patienter.o print_config.o qif.o \
 tiers_onglet.o traitement_variables.o type_operations.o ventilation.o
@@ -156,8 +156,8 @@ DEP_FILES =  .deps/accueil.P .deps/affichage.P .deps/affichage_liste.P \
 .deps/etats_gtktable.P .deps/etats_latex.P .deps/etats_onglet.P \
 .deps/etats_support.P .deps/exercice.P .deps/fenetre_principale.P \
 .deps/fichier_configuration.P .deps/fichiers_gestion.P \
-.deps/fichiers_io.P .deps/gtk_combofix.P .deps/help.P \
-.deps/imputation_budgetaire.P .deps/main.P .deps/menu.P \
+.deps/fichiers_io.P .deps/gtk_combofix.P .deps/gtk_list_button.P \
+.deps/help.P .deps/imputation_budgetaire.P .deps/main.P .deps/menu.P \
 .deps/operations_classement.P .deps/operations_comptes.P \
 .deps/operations_formulaire.P .deps/operations_liste.P \
 .deps/operations_onglet.P .deps/parametres.P .deps/patienter.P \
