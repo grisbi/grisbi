@@ -1235,7 +1235,6 @@ void choix_fonte ( GtkWidget *bouton,
     {
       case GTK_RESPONSE_OK:
 	fontname = gtk_font_selection_dialog_get_font_name (GTK_FONT_SELECTION_DIALOG(dialog));
-	printf (">>%s<<\n", fontname);
 
 	list_font_name = fontname;
 	fontname = fontname + strlen(fontname) - 1;
@@ -1262,44 +1261,37 @@ void choix_fonte ( GtkWidget *bouton,
 	return;
     }
   
-/*   fonte_liste = g_strdup ( fonte ); */
+  fonte = g_strdup ( fontname );
 
-/*   if ( nb_comptes ) */
-/*     { */
-/*       font = gdk_font_load ( fonte ); */
+  if ( nb_comptes )
+    {
+      font = gdk_font_load ( fonte );
 
-/*       /\* applique la fonte  *\/ */
+      /* applique la fonte  */
   
-/*       /\* BENJ FIXME */
-/*       style_couleur [0] -> font = font; */
-/*       style_couleur [1] -> font = font; */
-/*       style_rouge_couleur [0] -> font = font; */
-/*       style_rouge_couleur [1] -> font = font; */
-/*       *\/ */
+      gtk_style_set_font (style_couleur [0], font);
+      gtk_style_set_font (style_couleur [1], font);
+      gtk_style_set_font (style_rouge_couleur [0], font);
+      gtk_style_set_font (style_rouge_couleur [1], font);
 
-/*       /\* récupère la hauteur de la fonte *\/ */
+      /* récupère la hauteur de la fonte */
 
-/*       tab_font = g_strsplit ( fonte, */
-/* 			      "-", */
-/* 			      FALSE ); */
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
-/*       p_tab_nom_de_compte_variable = p_tab_nom_de_compte; */
+      for ( i = 0 ; i < nb_comptes ; i++ )
+	{
 
-/*       for ( i = 0 ; i < nb_comptes ; i++ ) */
-/* 	{ */
+	  gtk_clist_set_row_height ( GTK_CLIST ( CLIST_OPERATIONS ),
+				     g_strtod ( list_font_size,
+						NULL ) + 2 );
+	  gtk_clist_set_row_height ( GTK_CLIST ( liste_echeances ),
+				     g_strtod ( list_font_size,
+						NULL ) + 2 );
 
-/* 	  gtk_clist_set_row_height ( GTK_CLIST ( CLIST_OPERATIONS ), */
-/* 				     g_strtod ( tab_font[7], */
-/* 						NULL ) + 2 ); */
-/* 	  gtk_clist_set_row_height ( GTK_CLIST ( liste_echeances ), */
-/* 				     g_strtod ( tab_font[7], */
-/* 						NULL ) + 2 ); */
+	  p_tab_nom_de_compte_variable++;
+	}
 
-/* 	  p_tab_nom_de_compte_variable++; */
-/* 	} */
-
-/*       g_strfreev ( tab_font ); */
-/*     } */
+    }
 }
 /* **************************************************************************************************************************** */
 
