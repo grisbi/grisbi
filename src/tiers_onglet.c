@@ -1567,7 +1567,8 @@ gfloat *calcule_total_montant_tiers ( void )
 
 	  operation = liste_tmp -> data;
 
-	  if ( operation -> tiers )
+	  if ( operation -> tiers &&
+	       !operation -> no_operation_ventilee_associee )
 	    {
 	      /* recherche la place du tiers dans la liste */
 
@@ -1626,7 +1627,8 @@ gchar *calcule_total_montant_tiers_par_compte ( gint no_tiers,
 
       operation = liste_tmp -> data;
 
-      if ( operation -> tiers == no_tiers )
+      if ( operation -> tiers == no_tiers &&
+	   !operation -> no_operation_ventilee_associee)
 	{
 	  gdouble montant;
 
