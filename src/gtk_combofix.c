@@ -551,7 +551,7 @@ static gboolean change_arrow ( GtkWidget *bouton,
 		      GTK_ARROW_DOWN,
 		      GTK_SHADOW_ETCHED_OUT);
       affiche_proposition ( GINT_TO_POINTER ( -1 ),
-			    "",
+			    NULL,
 			    0,
 			    0,
 			    combofix );
@@ -1612,11 +1612,13 @@ static gboolean efface_texte ( GtkWidget *entree,
 	   ( end - start ) ))
        &&
        combofix -> affiche_liste )
-    affiche_proposition ( NULL,
-			  "",
-			  0,
-			  0,
-			  combofix );
+    affiche_proposition ( NULL, NULL, 0, 0, combofix );
+
+  if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY(combofix -> entry) ) ) )
+    {
+      case_sensitive = 0;
+    }
+
   return TRUE;
 
 }
