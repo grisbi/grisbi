@@ -1,7 +1,7 @@
 /* Fichier traitement_variables.c */
-/* Contient toutes les procédures relatives au traitement des variables */
+/* Contient toutes les procÃ©dures relatives au traitement des variables */
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
+/*     Copyright (C) 2000-2003  CÃ©dric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -42,8 +42,8 @@ extern GSList *echeances_saisies;
 extern gint noname_account_number;
 
 /*****************************************************************************************************/
-/* fonction appelée lors de modification ou non de fichier */
-/* TRUE indique que le fichier a été modifié */
+/* fonction appelÃ©e lors de modification ou non de fichier */
+/* TRUE indique que le fichier a Ã©tÃ© modifiÃ© */
 /* FALSE non */
 /* ajuste la sensitive des menus en fonction */
 /*****************************************************************************************************/
@@ -72,9 +72,9 @@ void modification_fichier ( gboolean modif )
 
 
 /*****************************************************************************************************/
-/* fonction appelée à chaque ouverture de fichier et qui initialise les variables globales */
-/* si ouverture = TRUE, la fonction considère qu'on est en train d'ouvrir un fichier et ajuste les menus */
-/* en conséquence */
+/* fonction appelÃ©e Ã  chaque ouverture de fichier et qui initialise les variables globales */
+/* si ouverture = TRUE, la fonction considÃ¨re qu'on est en train d'ouvrir un fichier et ajuste les menus */
+/* en consÃ©quence */
 /* sinon, suppose que fermeture de fichier */
 /*****************************************************************************************************/
 
@@ -278,7 +278,7 @@ void init_variables ( gboolean ouverture )
 	etat.fichier_deja_ouvert = 0;
 	valeur_echelle_recherche_date_import = 2;
 
-	/* 	initialise ça car eu crash non reproductible à cause de cette */
+	/* 	initialise Ã§a car eu crash non reproductible Ã  cause de cette */
 	/* 	    variable / FIXME: initialiser toutes les variables globales ? */
 
 	bouton_supprimer_banque = NULL;
@@ -354,7 +354,7 @@ void initialisation_couleurs_listes ( void )
     couleur_grise.green = COULEUR_GRISE_GREEN;
     couleur_grise.blue = COULEUR_GRISE_BLUE;
 
-    /* initialise la couleur de la sélection */
+    /* initialise la couleur de la sÃ©lection */
 
     couleur_selection.red= COULEUR_SELECTION_RED;
     couleur_selection.green= COULEUR_SELECTION_GREEN ;
@@ -362,7 +362,7 @@ void initialisation_couleurs_listes ( void )
 
 
     /* initialise les variables style_couleur_1 et style_couleur_2 qui serviront */
-    /* à mettre la couleur de fond */
+    /* Ã  mettre la couleur de fond */
 
     style_couleur [0] = gtk_style_copy ( gtk_widget_get_style (GTK_WIDGET (window)) );
     style_couleur [0]->fg[GTK_STATE_NORMAL] = style_couleur [0]->black;
@@ -378,7 +378,7 @@ void initialisation_couleurs_listes ( void )
 
 
     /* initialise les variables style_rouge_couleur [1] et style_rouge_couleur [2] qui serviront */
-    /* à mettre en rouge le solde quand il est négatif */
+    /* Ã  mettre en rouge le solde quand il est nÃ©gatif */
 
     style_rouge_couleur [0] = gtk_style_copy ( gtk_widget_get_style (GTK_WIDGET (window)) );
     style_rouge_couleur [0] ->fg[GTK_STATE_NORMAL] = couleur_rouge;
