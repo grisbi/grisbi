@@ -461,10 +461,10 @@ void remplit_arbre_tiers ( void )
 					NULL,
 					text,
 					16,
-					pixmap_ouvre,
-					masque_ouvre,
 					pixmap_ferme,
 					masque_ferme,
+					pixmap_ouvre,
+					masque_ouvre,
 					FALSE,
 					FALSE );
 
@@ -985,8 +985,8 @@ void clique_sur_modifier_tiers ( GtkWidget *bouton_modifier,
 					 0,
 					 tiers -> nom_tiers,
 					 16,
-					 pixmap_ferme,
-					 masque_ferme );
+					 masque_ferme,
+					 pixmap_ferme );
 	else
 	    gtk_ctree_node_set_pixtext ( GTK_CTREE ( arbre_tiers ),
 					 node,
@@ -1665,10 +1665,10 @@ void appui_sur_ajout_tiers ( void )
 				    NULL,
 				    text,
 				    16,
-				    pixmap_ouvre,
-				    masque_ouvre,
 				    pixmap_ferme,
 				    masque_ferme,
+				    pixmap_ouvre,
+				    masque_ouvre,
 				    FALSE,
 				    FALSE );
 

@@ -657,10 +657,10 @@ void remplit_arbre_categ ( void )
 					NULL,
 					text,
 					10,
-					pixmap_ouvre,
-					masque_ouvre,
 					pixmap_ferme,
 					masque_ferme,
+					pixmap_ouvre,
+					masque_ouvre,
 					FALSE,
 					FALSE );
 
@@ -838,10 +838,10 @@ void remplit_arbre_categ ( void )
 					NULL,
 					text,
 					10,
-					pixmap_ouvre,
-					masque_ouvre,
 					pixmap_ferme,
 					masque_ferme,
+					pixmap_ouvre,
+					masque_ouvre,
 					FALSE,
 					FALSE );
 
@@ -1500,16 +1500,16 @@ void clique_sur_modifier_categ ( void )
 					     0,
 					     categ -> nom_categ,
 					     10,
-					     pixmap_ferme,
-					     masque_ferme );
+					     pixmap_ouvre,
+					     masque_ouvre );
 	    else
 		gtk_ctree_node_set_pixtext ( GTK_CTREE ( arbre_categ ),
 					     node,
 					     0,
 					     categ -> nom_categ,
 					     10,
-					     pixmap_ouvre,
-					     masque_ouvre );
+					     pixmap_ferme,
+					     masque_ferme );
 
 	    demande_mise_a_jour_tous_comptes ();
 	}
@@ -2901,10 +2901,10 @@ void appui_sur_ajout_categorie ( void )
 				    NULL,
 				    text,
 				    10,
-				    pixmap_ouvre,
-				    masque_ouvre,
 				    pixmap_ferme,
 				    masque_ferme,
+				    pixmap_ouvre,
+				    masque_ouvre,
 				    FALSE,
 				    FALSE );
 

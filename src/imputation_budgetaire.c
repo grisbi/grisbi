@@ -572,10 +572,10 @@ void remplit_arbre_imputation ( void )
 					NULL,
 					text,
 					10,
-					pixmap_ouvre,
-					masque_ouvre,
 					pixmap_ferme,
 					masque_ferme,
+					pixmap_ouvre,
+					masque_ouvre,
 					FALSE,
 					FALSE );
 
@@ -754,10 +754,10 @@ void remplit_arbre_imputation ( void )
 					NULL,
 					text,
 					10,
-					pixmap_ouvre,
-					masque_ouvre,
 					pixmap_ferme,
 					masque_ferme,
+					pixmap_ouvre,
+					masque_ouvre,
 					FALSE,
 					FALSE );
 
@@ -1409,16 +1409,16 @@ void clique_sur_modifier_imputation ( void )
 					     0,
 					     imputation -> nom_imputation,
 					     10,
-					     pixmap_ferme,
-					     masque_ferme );
+					     pixmap_ouvre,
+					     masque_ouvre );
 	    else
 		gtk_ctree_node_set_pixtext ( GTK_CTREE ( arbre_imputation ),
 					     node,
 					     0,
 					     imputation -> nom_imputation,
 					     10,
-					     pixmap_ouvre,
-					     masque_ouvre );
+					     pixmap_ferme,
+					     masque_ferme );
 
 	    demande_mise_a_jour_tous_comptes ();
 	}
@@ -2634,10 +2634,10 @@ void appui_sur_ajout_imputation ( void )
 				    NULL,
 				    text,
 				    10,
-				    pixmap_ouvre,
-				    masque_ouvre,
 				    pixmap_ferme,
 				    masque_ferme,
+				    pixmap_ouvre,
+				    masque_ouvre,
 				    FALSE,
 				    FALSE );
 
