@@ -2631,6 +2631,14 @@ void appui_sur_ajout_imputation ( void )
 					     COLON(_("Enter the name of the new budgetary line")) )))
 	return;
 
+    if ( imputation_par_nom ( nom_imputation, 0, 0, 0 ) )
+    {
+	dialogue_warning_hint ( _("Budgetary lines names must be both unique and not empty.  Please use another name for this budgetary line."),
+				g_strdup_printf ( _("Budgetary line '%s' already exists."),
+						  nom_imputation ) );
+	return;
+    }
+
     /* on l'ajoute à la liste des opés */
 
     nouvelle_imputation = imputation_par_nom ( nom_imputation,
@@ -2700,6 +2708,15 @@ void appui_sur_ajout_sous_imputation ( void )
 
     imputation = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
 					       node_parent );
+
+    /* On vérifie si l'opération existe. */
+    if ( sous_imputation_par_nom ( imputation, nom_sous_imputation, 0 ))
+    {
+	dialogue_warning_hint ( _("Budgetary lines names must be both unique and not empty.  Please use another name for this budgetary line."),
+				g_strdup_printf ( _("Budgetary line '%s' already exists."),
+						  nom_sous_imputation ) );
+	return;
+    }
 
     /* on l'ajoute à la liste des opés */
 
