@@ -191,8 +191,8 @@ GtkWidget * print_config_general ()
 
   table = gtk_table_new ( 2, 3, FALSE );
   gtk_box_pack_start ( GTK_BOX(paddingbox), table, FALSE, FALSE, 0 );
-  gtk_table_set_row_spacings ( table, 6 );
-  gtk_table_set_col_spacings ( table, 12 );
+  gtk_table_set_row_spacings ( GTK_TABLE(table), 6 );
+  gtk_table_set_col_spacings ( GTK_TABLE(table), 12 );
 
   /* Print to printer */
   radio = gtk_radio_button_new_with_label ( NULL, _("Printer") );
