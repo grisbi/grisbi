@@ -1383,72 +1383,42 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
   switch ( ev -> keyval)
     {
 
-      /* echap */
-
-    case 65307 :
-
-      formulaire_echeancier_a_zero();
-      if (! etat.formulaire_echeancier_toujours_affiche )
-	{
-	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
-					 "key-press-event");
-	  gtk_widget_grab_focus ( liste_echeances );
-	  echap_formulaire_echeancier();
-	  gtk_widget_hide ( frame_formulaire_echeancier );
-	}
+    case GDK_Escape:
+      echap_formulaire_echeancier();
       return FALSE;
 
-      /* tab */
-
-    case 65289 :
-
-      gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
-				     "key-press-event");
-
-      /* on efface la sélection en cours si c'est une entrée ou un combofix */
-
+    case GDK_Tab:
       if ( GTK_IS_ENTRY ( widget ))
-	gtk_entry_select_region ( GTK_ENTRY ( widget ),
-				  0,
-				  0);
+	gtk_entry_select_region ( GTK_ENTRY ( widget ), 0, 0);
       else
 	if ( GTK_IS_COMBOFIX ( widget ))
-	  gtk_entry_select_region ( GTK_ENTRY ( GTK_COMBOFIX ( widget ) -> entry ),
-				    0,
-				    0);
+	  gtk_entry_select_region (GTK_ENTRY(GTK_COMBOFIX(widget)->entry), 0, 0);
 
-
-      /* on fait perdre le focus au widget courant pour faire les changements automatiques si nécessaire */
-
+      /* on fait perdre le focus au widget courant pour faire les
+	 changements automatiques si nécessaire */
       gtk_widget_grab_focus ( liste_echeances );
 
       /* on donne le focus au widget suivant */
-
       no_widget = (no_widget + 1 ) % 19;
 
-      while ( !(GTK_WIDGET_VISIBLE ( widget_formulaire_echeancier[no_widget] )
-		&&
-		GTK_WIDGET_SENSITIVE ( widget_formulaire_echeancier[no_widget] )
-		&&
-		( GTK_IS_COMBOFIX (widget_formulaire_echeancier[no_widget] )
-		  ||
-		  GTK_IS_ENTRY ( widget_formulaire_echeancier[no_widget] )
-		  ||
-		  GTK_IS_BUTTON ( widget_formulaire_echeancier[no_widget] ) )))
+      while ( !(GTK_WIDGET_VISIBLE (widget_formulaire_echeancier[no_widget]) &&
+		GTK_WIDGET_SENSITIVE (widget_formulaire_echeancier[no_widget]) &&
+		( GTK_IS_COMBOFIX (widget_formulaire_echeancier[no_widget]) ||
+		  GTK_IS_ENTRY (widget_formulaire_echeancier[no_widget]) ||
+		  GTK_IS_BUTTON (widget_formulaire_echeancier[no_widget]) )))
 	no_widget = (no_widget + 1 ) % 19;
 
-      /*       si on se retrouve sur la date et que etat.entree = 0, on enregistre l'opérations */
-
-      if ( !(no_widget
-	     ||
-	     etat.entree ))
+      /* si on se retrouve sur la date et que etat.entree = 0, on
+	 enregistre l'opérations */
+      if ( !(no_widget || etat.entree ))
 	{
 	  fin_edition_echeance ();
 	  return TRUE;
 	}
 
-      /* si le prochain est le débit, on vérifie s'il n'y a rien dans cette entrée et s'il y a quelque chose dans l'entrée du crédit */
-
+      /* si le prochain est le débit, on vérifie s'il n'y a rien dans
+	 cette entrée et s'il y a quelque chose dans l'entrée du
+	 crédit */
       if ( no_widget == 2 )
 	{
 	  /* si le débit est gris et le crédit est noir, on met sur le crédit */
@@ -1459,8 +1429,8 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 	    no_widget++;
 	}
 
-      /*       si le prochain est le crédit et que le débit a été rempli, on se met sur la devise et on efface le crédit */
-
+      /* si le prochain est le crédit et que le débit a été rempli, on
+	 se met sur la devise et on efface le crédit */
       if ( no_widget == 3 )
 	if ( gtk_widget_get_style ( widget_formulaire_echeancier[no_widget-1] ) == style_entree_formulaire[0] )
 	  {
@@ -1472,35 +1442,28 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 	  }
 
       /* on sélectionne le contenu de la nouvelle entrée */
-
       if ( GTK_IS_COMBOFIX ( widget_formulaire_echeancier[no_widget] ) )
 	{
 	  gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_echeancier[no_widget] ) -> entry );  
 	  gtk_entry_select_region ( GTK_ENTRY ( GTK_COMBOFIX ( widget_formulaire_echeancier[no_widget] ) -> entry ),
-				    0,
-				    -1 );
+				    0, -1 );
 	}
       else
 	{
 	  if ( GTK_IS_ENTRY ( widget_formulaire_echeancier[no_widget] ) )
 	    gtk_entry_select_region ( GTK_ENTRY ( widget_formulaire_echeancier[no_widget] ),
-				      0,
-				      -1 );
-
+				      0, -1 );
 	  gtk_widget_grab_focus ( widget_formulaire_echeancier[no_widget]  );
 	}
-
       return TRUE;
 
 
-    case 65293 :
-    case 65421 :
-      /* entree */
-
+    case GDK_KP_Enter:
+    case GDK_Return:
       if (! etat.formulaire_echeance_dans_fenetre )
 	{
-	  /* on fait perdre le focus au widget courant pour faire les changements automatiques si nécessaire */
-
+	  /* on fait perdre le focus au widget courant pour faire les
+	     changements automatiques si nécessaire */
 	  gtk_widget_grab_focus ( liste_echeances );
 	  fin_edition_echeance ();
 	  return FALSE;
@@ -1511,15 +1474,12 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 	}
 
 
-      /* touches + */
+    case GDK_KP_Add:
+    case GDK_plus:
+      /* si on est dans une entree de date, on augmente d'un jour la
+	 date */
 
-    case 65451:
-    case 61:
-      /*       si on est dans une entree de date, on augmente d'un jour la date */
-
-      if ( !no_widget
-	   ||
-	   no_widget == 16 )
+      if ( !no_widget || no_widget == 16 )
 	{
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					 "key-press-event");
@@ -1529,15 +1489,13 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 	}
       return FALSE;
 
-      /* touches - */
 
-    case 65453:
-    case 45:
-      /*       si on est dans une entree de date, on diminue d'un jour la date */
+    case GDK_KP_Subtract:
+    case GDK_minus:
+      /* si on est dans une entree de date, on diminue d'un jour la
+	 date */
 
-      if ( !no_widget
-	   ||
-	   no_widget == 16 )
+      if ( !no_widget || no_widget == 16 )
 	{
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					 "key-press-event");
@@ -1547,7 +1505,9 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 	}
       return FALSE;
 
+
     default:
+      /* Reverting to default handler */
       return FALSE;
     }
 

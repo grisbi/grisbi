@@ -1037,11 +1037,6 @@ void edition_echeance ( void )
 
   /*   si le formulaire est caché, on le montre */
 
-      gtk_widget_hide ( fleche_haut_echeancier );
-      gtk_widget_show ( fleche_bas_echeancier );
-
-      gtk_widget_show ( frame_formulaire_echeancier );
-      etat.formulaire_echeancier_toujours_affiche = 1;
       gtk_widget_show ( frame_formulaire_echeancier );
       gtk_signal_connect ( GTK_OBJECT ( frame_formulaire_echeancier ),
 			   "map",

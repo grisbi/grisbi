@@ -1627,7 +1627,6 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
       break;
 
 
-      /* entree */
     case GDK_KP_Enter :
     case GDK_Return :
       gtk_signal_emit_stop_by_name ( GTK_OBJECT (widget),
@@ -1639,11 +1638,10 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
       fin_edition();
       break;
 
-      /* touches + */
-
-    case 65451:
-    case 61:
-      /*       si on est dans une entree de date, on augmente d'un jour la date */
+    case GDK_KP_Add:
+    case GDK_plus:
+      /* si on est dans une entree de date, on augmente d'un jour la
+	 date */
 
       /* GDC : prise en compte de la date réelle (18) FinGDC */
       if ( origine == 1 || origine == 7)
@@ -1655,11 +1653,11 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	}
       break;
 
-      /* touches - */
 
-    case 65453:
-    case 45:
-      /*       si on est dans une entree de date, on diminue d'un jour la date */
+    case GDK_KP_Subtract:
+    case GDK_minus:
+      /* si on est dans une entree de date, on diminue d'un jour la
+	 date */
 
       /* GDC : prise en compte de la date réelle (18) FinGDC */
       if ( origine == 1 || origine == 7)
@@ -1670,7 +1668,6 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 				       -1 );
 	}
       break;
-
 
     default:
       /* Reverting to default handler */
