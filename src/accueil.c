@@ -964,7 +964,7 @@ void update_liste_comptes_accueil ( void )
 		/* Calcul du solde pointé : je ne sais plus pourquoi on fait
 		   ce calcul, sans doute le solde pointé n'est-il pas disponible
 		   en tant que variable globale */
-		solde_pointe_affichage_liste = SOLDE_INIT;
+		solde_pointe_affichage_liste = gsb_account_get_init_balance (GPOINTER_TO_INT ( ordre_comptes_variable->data ));
 
 		/* on commence la boucle : fait le tour de toutes les opérations */
 		/* met à jour les solde_courant_affichage_liste et solde_pointe_affichage_liste */
@@ -1285,7 +1285,7 @@ void update_liste_comptes_accueil ( void )
 		/* Calcul du solde pointé : je ne sais plus pourquoi on fait
 		   ce calcul, sans doute le solde pointé n'est-il pas disponible
 		   en tant que variable globale */
-		solde_pointe_affichage_liste = SOLDE_INIT;
+		solde_pointe_affichage_liste = gsb_account_get_init_balance (GPOINTER_TO_INT ( ordre_comptes_variable->data ));
 
 		/* on commence la boucle : fait le tour de toutes les opérations */
 		/* met à jour les solde_courant_affichage_liste et solde_pointe_affichage_liste */

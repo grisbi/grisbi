@@ -627,7 +627,7 @@ void equilibrage ( void )
 	date = gdate_today();
 
 	gtk_entry_set_text ( GTK_ENTRY ( entree_ancien_solde_equilibrage ),
-			     g_strdup_printf ("%4.2f", SOLDE_INIT ));
+			     g_strdup_printf ("%4.2f", gsb_account_get_init_balance (compte_courant) ));
 	gtk_widget_set_sensitive ( GTK_WIDGET ( entree_ancien_solde_equilibrage ),
 				   TRUE );
     }

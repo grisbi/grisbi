@@ -862,7 +862,7 @@ void remplissage_details_compte ( void )
 
     gtk_entry_set_text ( GTK_ENTRY ( detail_solde_init ),
 			 g_strdup_printf ( "%4.2f",
-					   SOLDE_INIT ));
+					   gsb_account_get_init_balance (compte_courant_onglet) ));
 
     gtk_entry_set_text ( GTK_ENTRY ( detail_solde_mini_autorise ),
 			 g_strdup_printf ( "%4.2f",
@@ -1094,12 +1094,13 @@ void modification_details_compte ( void )
 
     /* vérification du solde initial */
 
-    if ( SOLDE_INIT != my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_init ))),
-				   NULL ) )
+    if ( gsb_account_get_init_balance (compte_courant_onglet) != my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_init ))),
+									     NULL ) )
     {
 
-	SOLDE_INIT = my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_init ))),
-				 NULL );
+	gsb_account_set_init_balance (compte_courant_onglet,
+				      my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_init ))),
+						  NULL ));
 
 /* FIXME : voir pourquoi remplissage opé et remettre l'ajustement */
 

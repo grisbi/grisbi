@@ -1112,7 +1112,7 @@ choix_liste_fichier:
 		/* met le solde initial */
 
 		montant_tmp = g_strdup_printf ( "%4.2f",
-						SOLDE_INIT );
+						gsb_account_get_init_balance (no_compte) );
 		montant_tmp = g_strdelimit ( montant_tmp,
 					     ",",
 					     '.' );
@@ -1448,7 +1448,7 @@ choix_liste_fichier:
 		/* met le solde initial */
 
 		montant_tmp = g_strdup_printf ( "%4.2f",
-						SOLDE_INIT );
+						gsb_account_get_init_balance (no_compte) );
 		montant_tmp = g_strdelimit ( montant_tmp,
 					     ",",
 					     '.' );

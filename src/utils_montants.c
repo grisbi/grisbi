@@ -28,6 +28,7 @@
 /*START_INCLUDE*/
 #include "utils_montants.h"
 #include "utils_devises.h"
+#include "data_account.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -128,7 +129,7 @@ gdouble calcule_solde_compte ( gint no_compte )
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
-    solde = SOLDE_INIT;
+    solde = gsb_account_get_init_balance (no_compte);
 
     liste_tmp = LISTE_OPERATIONS;
 
@@ -169,7 +170,7 @@ gdouble calcule_solde_pointe_compte ( gint no_compte )
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
-    solde = SOLDE_INIT;
+    solde = gsb_account_get_init_balance (no_compte);
 
     liste_tmp = LISTE_OPERATIONS;
 

@@ -1706,7 +1706,7 @@ gdouble solde_debut_affichage ( gint no_compte )
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
-    solde = SOLDE_INIT;
+    solde = gsb_account_get_init_balance (no_compte);
 
     if ( gsb_account_get_r (no_compte) )
 	return (solde);

@@ -976,8 +976,9 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Solde_initial" ))
-				SOLDE_INIT = my_strtod ( xmlNodeGetContent ( node_detail ),
-							 NULL );
+				gsb_account_set_init_balance (no_compte,
+							      my_strtod ( xmlNodeGetContent ( node_detail ),
+							 NULL ));
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Solde_mini_voulu" ))
@@ -3285,7 +3286,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 			  NULL,
 			  "Solde_initial",
 			  g_strdup_printf ( "%4.7f",
-					    SOLDE_INIT ));
+					    gsb_account_get_init_balance (i) ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,

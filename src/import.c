@@ -1316,9 +1316,10 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 
     /* met le solde init */
 
-    SOLDE_INIT = compte_import -> solde;
-    SOLDE_COURANT = SOLDE_INIT;
-    SOLDE_POINTE = SOLDE_INIT;
+    gsb_account_set_init_balance ( no_compte,
+				   compte_import -> solde);
+    SOLDE_COURANT = gsb_account_get_init_balance (no_compte);
+    SOLDE_POINTE = gsb_account_get_init_balance (no_compte);
 
 
     /* on fait maintenant le tour des opés de ce compte */
