@@ -136,9 +136,9 @@ void recuperation_donnees_gnucash_book ( xmlNodePtr book_node )
     while ( child_node )
     {
 	/* Books are subdivisions of gnucash files */
-	if ( node_strcmp(root_node, "book") )
+	if ( node_strcmp ( book_node, "book" ) )
         {
-	    recuperation_donnees_gnucash_book ( root_node );
+	    recuperation_donnees_gnucash_book ( book_node );
 	}
 
 	if ( node_strcmp(child_node, "account") )
