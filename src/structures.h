@@ -2,6 +2,7 @@
 /* contient toutes les structures du prog */
 
 #include "print_config.h"
+#include "constants.h"
 
 #define VERSION_FICHIER "0.5.0"
 #define VERSION_FICHIER_ETAT "0.5.0"
@@ -306,7 +307,7 @@ struct operation_echeance
 
 
 
-#define COMPTE_ECHEANCE GTK_LABEL (GTK_BIN ( widget_formulaire_echeancier[5]  )  -> child ) -> label
+#define COMPTE_ECHEANCE GTK_LABEL (GTK_BIN ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ) -> child ) -> label
 #define ECHEANCE_COURANTE ((struct operation_echeance *)  ( pointeur_liste -> data ))
 
 
