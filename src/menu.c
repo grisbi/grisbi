@@ -104,7 +104,7 @@ void init_menus ( GtkWidget * win )
 
   static GnomeUIInfo tmp_menu_importer [] = 
     {
-      GNOMEUIINFO_ITEM_STOCK ( N_(" Fichier QIF"),
+      GNOMEUIINFO_ITEM_STOCK ( N_("Fichier QIF"),
 			       N_("Importation de fichiers QIF"),
 			       importer_fichier_qif,
 			       GNOME_STOCK_PIXMAP_CONVERT ),
@@ -113,7 +113,7 @@ void init_menus ( GtkWidget * win )
 
   static GnomeUIInfo tmp_menu_exporter [] = 
     {
-      GNOMEUIINFO_ITEM_STOCK ( N_(" Fichier QIF"),
+      GNOMEUIINFO_ITEM_STOCK ( N_("Fichier QIF"),
 			       N_("Exportation de fichiers QIF"),
 			       exporter_fichier_qif,
 			       GNOME_STOCK_PIXMAP_REMOVE ),
@@ -130,6 +130,22 @@ void init_menus ( GtkWidget * win )
       GNOMEUIINFO_HELP ( "grisbi" ),
       GNOMEUIINFO_MENU_ABOUT_ITEM (  a_propos,
 				     GINT_TO_POINTER (1)  ),
+      GNOMEUIINFO_SEPARATOR,
+      GNOMEUIINFO_ITEM_DATA  ( N_("Site Grisbi"),
+			       N_("Site Grisbi"),
+			       lien_web,
+			       NULL,
+			       NULL ),
+      GNOMEUIINFO_ITEM_DATA  ( N_("Signaler un bug"),
+			       N_("Signaler un bug"),
+			       lien_web,
+			       GINT_TO_POINTER ( 1 ),
+			       NULL ),
+      GNOMEUIINFO_ITEM_DATA  ( N_("Documentation sur le site"),
+			       N_("Documentation sur le site"),
+			       lien_web,
+			       GINT_TO_POINTER ( 2 ),
+			       NULL ),
       GNOMEUIINFO_END
     };
 
@@ -248,5 +264,27 @@ void affiche_derniers_fichiers_ouverts ( void )
 
   gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[DERNIERS_FICHIERS].widget ),
 			     TRUE );
+}
+/* **************************************************************************************************** */
+
+
+/* **************************************************************************************************** */
+void lien_web ( GtkWidget *widget,
+		gint origine )
+{
+  switch ( origine )
+    {
+    case 0 :
+      gnome_url_show ( "http://www.grisbi.org" );
+      break;
+
+    case 1:
+      gnome_url_show ( "http://www.grisbi.org/bugtracking" );
+      break;
+
+    case 2:
+      gnome_url_show ( "http://www.grisbi.org/modules.php?name=Documentation" );
+      break;
+    }
 }
 /* **************************************************************************************************** */

@@ -42,6 +42,7 @@ struct {
   guint ctrl : 1;
   guint equilibrage : 1;
   guint r_affiches : 1;
+  guint valeur_r_avant_rapprochement : 1;
   guint r_modifiable : 1;
   guint dernier_fichier_auto : 1;
   guint sauvegarde_auto : 1;

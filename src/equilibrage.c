@@ -633,6 +633,12 @@ void equilibrage ( void )
   if ( nb_lignes_ope != 1 )
     gtk_button_clicked ( GTK_BUTTON ( bouton_ope_simples ));
 
+  /* on vire les opérations rapprochées */
+
+  etat.valeur_r_avant_rapprochement = etat.r_affiches;
+
+  change_aspect_liste ( NULL,
+			3 );
 
   /* classe la liste des opés en fonction des types ou non */
 
@@ -810,6 +816,10 @@ void annuler_equilibrage ( GtkWidget *bouton_ann,
 	gtk_button_clicked ( GTK_BUTTON ( bouton_ope_semi_completes ));
     }
 	
+
+  if ( etat.valeur_r_avant_rapprochement )
+    change_aspect_liste ( NULL,
+			  2 );
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
@@ -1140,6 +1150,10 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
 	gtk_button_clicked ( GTK_BUTTON ( bouton_ope_semi_completes ));
     }
 	
+  if ( etat.valeur_r_avant_rapprochement )
+    change_aspect_liste ( NULL,
+			  2 );
+
   gtk_clist_set_compare_func ( GTK_CLIST ( CLIST_OPERATIONS ),
 			       (GtkCListCompareFunc) classement_liste_par_date );
 

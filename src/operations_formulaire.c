@@ -3618,8 +3618,10 @@ void degrise_formulaire_operations ( void )
   if ( type -> numerotation_auto )
     {
       entree_prend_focus ( widget_formulaire_operations[10] );
-      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[10] ),
-			   itoa ( type -> no_en_cours  + 1));
+
+      if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[10] ))))
+	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[10] ),
+			     itoa ( type -> no_en_cours  + 1));
     }
     
 }
