@@ -448,7 +448,7 @@ void affiche_detail_banque ( GtkWidget *bouton,
 
   /* mise en place du nom */
 
-  label = gtk_label_new ( _("Banque : ") );
+  label = gtk_label_new ( COLON(_("Banque")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
 			   0.5 );
@@ -487,7 +487,7 @@ void affiche_detail_banque ( GtkWidget *bouton,
 
   if ( banque -> tel_banque )
     {
-      label = gtk_label_new ( _("Téléphone : ") );
+      label = gtk_label_new ( COLON(_("Téléphone")) );
       gtk_misc_set_alignment ( GTK_MISC ( label ),
 			       0,
 			       0.5 );
@@ -509,7 +509,7 @@ void affiche_detail_banque ( GtkWidget *bouton,
 
   if ( banque -> email_banque )
     {
-      label = gtk_label_new ( _("Mail : ") );
+      label = gtk_label_new ( COLON(_("Mail")) );
       gtk_misc_set_alignment ( GTK_MISC ( label ),
 			       0,
 			       0.5 );
@@ -530,7 +530,7 @@ void affiche_detail_banque ( GtkWidget *bouton,
       
   if ( banque -> web_banque )
     {
-      label = gtk_label_new ( _("Web : ") );
+      label = gtk_label_new ( COLON(_("Web")) );
       gtk_misc_set_alignment ( GTK_MISC ( label ),
 			       0,
 			       0.5 );
@@ -561,7 +561,7 @@ void affiche_detail_banque ( GtkWidget *bouton,
     {
       /* mise en place du nom */
 
-      label = gtk_label_new ( _("Correspondant : ") );
+      label = gtk_label_new ( COLON(_("Correspondant")) );
       gtk_misc_set_alignment ( GTK_MISC ( label ),
 			       0,
 			       0.5 );
@@ -584,7 +584,7 @@ void affiche_detail_banque ( GtkWidget *bouton,
 
   if ( banque -> tel_correspondant )
     {
-      label = gtk_label_new ( _("Téléphone : ") );
+      label = gtk_label_new ( COLON(_("Téléphone")) );
       gtk_misc_set_alignment ( GTK_MISC ( label ),
 			       0,
 			       0.5 );
@@ -607,7 +607,7 @@ void affiche_detail_banque ( GtkWidget *bouton,
 
   if ( banque -> fax_correspondant )
     {
-      label = gtk_label_new ( _("Fax : ") );
+      label = gtk_label_new ( COLON(_("Fax")) );
       gtk_misc_set_alignment ( GTK_MISC ( label ),
 			       0,
 			       0.5 );
@@ -629,7 +629,7 @@ void affiche_detail_banque ( GtkWidget *bouton,
 
   if ( banque -> email_correspondant )
     {
-      label = gtk_label_new ( _("Mail : ") );
+      label = gtk_label_new ( COLON(_("Mail")) );
       gtk_misc_set_alignment ( GTK_MISC ( label ),
 			       0,
 			       0.5 );
@@ -652,7 +652,7 @@ void affiche_detail_banque ( GtkWidget *bouton,
 
   if ( banque -> remarque_banque )
     {
-      label = gtk_label_new ( _("Remarques : ") );
+      label = gtk_label_new ( COLON(_("Remarques")) );
       gtk_misc_set_alignment ( GTK_MISC ( label ),
 			       0,
 			       0.5 );
@@ -980,7 +980,7 @@ GtkWidget *onglet_banques ( void )
 		       5 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Nom : ") );
+  label = gtk_label_new ( COLON(_("Nom")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -1004,7 +1004,7 @@ GtkWidget *onglet_banques ( void )
 		       0 );
   gtk_widget_show ( separateur );
 
-  label = gtk_label_new ( _("Code Banque : ") );
+  label = gtk_label_new ( COLON(_("Code Banque")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -1040,7 +1040,7 @@ GtkWidget *onglet_banques ( void )
 		       0 );
   gtk_widget_show ( hvbox );
 
-  label = gtk_label_new ( _("Adresse : ") );
+  label = gtk_label_new ( COLON(_("Adresse")) );
   gtk_box_pack_start ( GTK_BOX ( hvbox ),
 		       label,
 		       FALSE,
@@ -1083,7 +1083,7 @@ GtkWidget *onglet_banques ( void )
 		       5 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("E-Mail : ") );
+  label = gtk_label_new ( COLON(_("E-Mail")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -1109,7 +1109,7 @@ GtkWidget *onglet_banques ( void )
 
   /* mise en forme du téléphone de la banque */
 
-  label = gtk_label_new ( _("Téléphone : ") );
+  label = gtk_label_new ( COLON(_("Téléphone")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -1136,7 +1136,7 @@ GtkWidget *onglet_banques ( void )
 		       5 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Web : ") );
+  label = gtk_label_new ( COLON(_("Web")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -1192,7 +1192,7 @@ GtkWidget *onglet_banques ( void )
 		       5 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Nom : ") );
+  label = gtk_label_new ( COLON(_("Nom")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -1216,7 +1216,7 @@ GtkWidget *onglet_banques ( void )
 		       0 );
   gtk_widget_show ( separateur );
 
-  label = gtk_label_new ( _("Téléphone : ") );
+  label = gtk_label_new ( COLON(_("Téléphone")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -1244,7 +1244,7 @@ GtkWidget *onglet_banques ( void )
 		       5 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("E-Mail : ") );
+  label = gtk_label_new ( COLON(_("E-Mail")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -1268,7 +1268,7 @@ GtkWidget *onglet_banques ( void )
 		       0 );
   gtk_widget_show ( separateur );
 
-  label = gtk_label_new ( _("Fax : ") );
+  label = gtk_label_new ( COLON(_("Fax")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -1313,7 +1313,7 @@ GtkWidget *onglet_banques ( void )
 		       0 );
   gtk_widget_show ( hvbox );
 
-  label = gtk_label_new ( _("Remarques : ") );
+  label = gtk_label_new ( COLON(_("Remarques")) );
   gtk_box_pack_start ( GTK_BOX ( hvbox ),
 		       label,
 		       FALSE,
@@ -1548,7 +1548,7 @@ void deselection_ligne_banque ( GtkWidget *liste,
       gtk_window_set_transient_for ( GTK_WINDOW ( dialogue ),
 				     GTK_WINDOW ( fenetre_preferences ));
 
-      label = gtk_label_new ( g_strconcat ( _("Des modifications ont été apportées à la banque : "),
+      label = gtk_label_new ( g_strconcat ( COLON(_("Des modifications ont été apportées à la banque")),
 					    banque -> nom_banque,
 					    _("\n\nVoulez-vous les enregistrer ?"),
 					    NULL ) );

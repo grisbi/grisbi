@@ -314,7 +314,7 @@ GtkWidget *onglet_exercices ( void )
 		       5 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Nom : ") );
+  label = gtk_label_new ( COLON(_("Nom")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -342,7 +342,7 @@ GtkWidget *onglet_exercices ( void )
 		       5 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Début : ") );
+  label = gtk_label_new ( COLON(_("Début")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -366,7 +366,7 @@ GtkWidget *onglet_exercices ( void )
 		       0 );
   gtk_widget_show ( separateur );
 
-  label = gtk_label_new ( _("Fin : ") );
+  label = gtk_label_new ( COLON(_("Fin")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,

@@ -1933,7 +1933,7 @@ GtkWidget *onglet_etat_dates ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Date initiale : ") );
+  label = gtk_label_new ( COLON(_("Date initiale")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -1971,7 +1971,7 @@ GtkWidget *onglet_etat_dates ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Date finale : ") );
+  label = gtk_label_new ( COLON(_("Date finale")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -2664,7 +2664,7 @@ GtkWidget *onglet_etat_virements ( void )
   gtk_widget_show ( bouton_inclusion_virements_hors_etat );
 
   bouton_inclusion_virements_perso = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_non_inclusion_virements )),
-									   _("Inclure les virements de ou vers les comptes  : ") );
+									   COLON(POSTSPACIFY(_("Inclure les virements de ou vers les comptes"))) );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_inclusion_virements_perso ),
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
@@ -4005,7 +4005,7 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
 		       FALSE,
 		       0 );
 
-  label = gtk_label_new ( _("Opérations dont "));
+  label = gtk_label_new ( POSTSPACIFY(_("Opérations dont")));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -4146,7 +4146,7 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
   gtk_widget_show ( comp_textes -> hbox_chq );
 
 
-  label = gtk_label_new ( _("est "));
+  label = gtk_label_new ( POSTSPACIFY(_("est")));
   gtk_box_pack_start ( GTK_BOX ( comp_textes -> hbox_chq ),
 		       label,
 		       FALSE,
@@ -5002,7 +5002,7 @@ GtkWidget *cree_ligne_comparaison_montant ( struct struct_comparaison_montants_e
 		       FALSE,
 		       0 );
 
-  label = gtk_label_new ( _("Opérations dans lesquelles le montant est "));
+  label = gtk_label_new ( POSTSPACIFY(_("Opérations dans lesquelles le montant est")));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -6151,7 +6151,7 @@ GtkWidget *page_organisation_donnees ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("La semaine commence le ") );
+  label = gtk_label_new ( POSTSPACIFY(_("La semaine commence le")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE, 
@@ -6369,7 +6369,7 @@ GtkWidget *onglet_affichage_etat_generalites ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Nom de l'état : ") );
+  label = gtk_label_new ( COLON(_("Nom de l'état")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -6821,7 +6821,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			      10, 11 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Classement des opérations par ") );
+  label = gtk_label_new ( POSTSPACIFY(_("Classement des opérations par")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -7220,7 +7220,7 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _( "Devise utilisée pour les comparaisons de montant " ));
+  label = gtk_label_new ( POSTSPACIFY(_("Devise utilisée pour les comparaisons de montant")));
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			    0,
 			    0.5 );

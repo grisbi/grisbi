@@ -1529,7 +1529,7 @@ void supprimer_imputation ( void )
       gnome_dialog_set_parent ( GNOME_DIALOG ( dialog ),
 				GTK_WINDOW ( window ));
 
-      label = gtk_label_new ( _("L'imputation sélectionnée contient encore des opérations.\n\nVous pouvez : ") );
+      label = gtk_label_new ( COLON(_("L'imputation sélectionnée contient encore des opérations.\n\nVous pouvez")) );
       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 			   label,
 			   FALSE,
@@ -1554,7 +1554,7 @@ void supprimer_imputation ( void )
 			   0 );
 
       bouton_transfert = gtk_radio_button_new_with_label ( NULL,
-							   _("Transférer les opérations sur l'imputation : ")  );
+							   COLON(_("Transférer les opérations sur l'imputation"))  );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   bouton_transfert,
 			   FALSE,
@@ -1859,7 +1859,7 @@ void supprimer_sous_imputation ( void )
       gnome_dialog_set_parent ( GNOME_DIALOG ( dialog ),
 				GTK_WINDOW ( window ));
 
-      label = gtk_label_new ( _("La sous-imputation sélectionnée contient encore des opérations.\n\nVous pouvez : ") );
+      label = gtk_label_new ( COLON(_("La sous-imputation sélectionnée contient encore des opérations.\n\nVous pouvez")) );
       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 			   label,
 			   FALSE,
@@ -1884,7 +1884,7 @@ void supprimer_sous_imputation ( void )
 			   0 );
 
       bouton_transfert = gtk_radio_button_new_with_label ( NULL,
-							   _("Transférer les opérations sur l'imputation : ")  );
+							   COLON(_("Transférer les opérations sur l'imputation"))  );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   bouton_transfert,
 			   FALSE,
@@ -1968,7 +1968,7 @@ void supprimer_sous_imputation ( void )
 			   0 );
 
       bouton_imputation_generique = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_transfert )),
-											  _(" Supprimer simplement cette sous-imputation.") );
+											  PRESPACIFY(_("Supprimer simplement cette sous-imputation.")) );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   bouton_imputation_generique,
 			   FALSE,

@@ -2258,7 +2258,7 @@ void completion_operation_par_tiers ( void )
 
 	if ( operation -> relation_no_operation != -1 )
 	  gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ),
-				  g_strconcat ( _("Virement : "),
+				  g_strconcat ( COLON(_("Virement")),
 						NOM_DU_COMPTE,
 						NULL ));
 	else
@@ -2422,7 +2422,7 @@ void fin_edition ( void )
   liste_no_tiers = NULL;
 
   if ( strncmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_operations[2] ))),
-		 _("État : "),
+		 COLON(_("État")),
 		 7 ))
     /*     ce n'est pas un état, on met -1 comme no de tiers */
     liste_no_tiers = g_slist_append (liste_no_tiers,
@@ -2673,7 +2673,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 
   if ( gtk_widget_get_style ( widget_formulaire_operations[1] ) != style_entree_formulaire[0] )
     {
-      dialogue ( _(" Erreur : il faut obligatoirement entrer une date."));
+      dialogue ( PRESPACIFY(_("Erreur : il faut obligatoirement entrer une date.")));
       return (FALSE);
     }
 
@@ -2681,7 +2681,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 
   if ( !modifie_date ( widget_formulaire_operations[1] ))
     {
-      dialogue ( _(" Erreur : La date est invalide") );
+      dialogue ( PRESPACIFY(_("Erreur : La date est invalide")) );
       gtk_widget_grab_focus ( widget_formulaire_operations[1] );
       gtk_entry_select_region ( GTK_ENTRY (  widget_formulaire_operations[1]),
 				0,
@@ -2695,7 +2695,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
        &&
        !modifie_date ( widget_formulaire_operations[7] ))
     {
-      dialogue ( _(" Erreur : La date de valeur est invalide") );
+      dialogue ( PRESPACIFY(_("Erreur : La date de valeur est invalide")) );
       gtk_widget_grab_focus ( widget_formulaire_operations[7] );
       gtk_entry_select_region ( GTK_ENTRY (  widget_formulaire_operations[7]),
  				0,
@@ -2758,7 +2758,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 
 		  if ( compte_virement == compte_courant )
 		    {
-		      dialogue ( _(" Erreur : impossibilité de virer un compte   \n    sur lui-même"));
+		      dialogue ( PRESPACIFY(_("Erreur : impossibilité de virer un compte   \n    sur lui-même")));
 		      return (FALSE);
 		    }
 		}
@@ -2860,7 +2860,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
   /*   on vérifie si le tiers est un état, que c'est une nouvelle opérations */
 
   if ( !strncmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_operations[2] ))),
-		  _("État : "),
+		  COLON(_("État")),
 		  7 ))
     {
       gint trouve;

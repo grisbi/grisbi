@@ -232,7 +232,7 @@ GtkWidget *onglet_affichage_liste ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Afficher pour une ligne la "));
+  label = gtk_label_new ( POSTSPACIFY(_("Afficher pour une ligne la")));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -261,7 +261,7 @@ GtkWidget *onglet_affichage_liste ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Afficher pour deux lignes les "));
+  label = gtk_label_new ( POSTSPACIFY(_("Afficher pour deux lignes les")));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,

@@ -32,7 +32,10 @@
 #define COULEUR_GRISE_GREEN 50000
 #define COULEUR_GRISE_BLUE 50000
 
+#define COLON(s) (g_strconcat ( s, " : ", NULL ))
 #define SPACIFY(s) (g_strconcat ( " ", s, " ", NULL ))
+#define PRESPACIFY(s) (g_strconcat ( " ", s, NULL ))
+#define POSTSPACIFY(s) (g_strconcat ( s, " ", NULL ))
 
 /* variables contenant juste 0 ou 1 */
 

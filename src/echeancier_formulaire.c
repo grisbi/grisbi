@@ -1609,7 +1609,7 @@ void fin_edition_echeance ( void )
 
   if ( !modifie_date ( widget_formulaire_echeancier[0] ))
     {
-      dialogue ( _(" Erreur : La date est invalide") );
+      dialogue ( PRESPACIFY(_("Erreur : La date est invalide")) );
       gtk_widget_grab_focus ( widget_formulaire_echeancier[0] );
       gtk_entry_select_region ( GTK_ENTRY (  widget_formulaire_echeancier[0]),
 				0,
@@ -1624,7 +1624,7 @@ void fin_edition_echeance ( void )
 		_("Aucune") ))
     if ( !modifie_date ( widget_formulaire_echeancier[16] ))
       {
-	dialogue ( _(" Erreur : La date limite est invalide") );
+	dialogue ( PRESPACIFY(_("Erreur : La date limite est invalide")) );
 	gtk_widget_grab_focus ( widget_formulaire_echeancier[16] );
 	gtk_entry_select_region ( GTK_ENTRY (  widget_formulaire_echeancier[16]),
 				  0,
@@ -1637,11 +1637,11 @@ void fin_edition_echeance ( void )
   /* vérification que ce n'est pas un virement sur lui-même */
 
   if ( !g_strcasecmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[6] ))),
-		       g_strconcat ( _("Virement : "),
+		       g_strconcat ( COLON(_("Virement")),
 				     COMPTE_ECHEANCE,
 				     NULL )))
     {
-      dialogue ( _(" Erreur : impossibilité de virer un compte   \n    sur lui-même"));
+      dialogue ( PRESPACIFY(_("Erreur : impossibilité de virer un compte   \n    sur lui-même")));
       return;
     }
 
@@ -1698,7 +1698,7 @@ void fin_edition_echeance ( void )
        ((struct struct_type_ope  *)( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ) -> menu_item ),
 							   "adr_type" )))->numerotation_auto )
     {
-      dialogue ( _(" Impossible de créer ou saisir une échéance automatique\n avec un chèque ou un mode de règlement à incrémentation automatique.") );
+      dialogue ( PRESPACIFY(_("Impossible de créer ou saisir une échéance automatique\n avec un chèque ou un mode de règlement à incrémentation automatique.")) );
       return;
     }
 
@@ -2700,14 +2700,14 @@ void incrementation_echeance ( struct operation_echeance *echeance )
 	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + echeance ->compte;
 
 	  if ( echeance -> montant >= 0 )
-	    label = gtk_label_new ( g_strdup_printf (_(" Crédit de %4.2f %s sur %s"),
+	    label = gtk_label_new ( g_strdup_printf (PRESPACIFY(_("Crédit de %4.2f %s sur %s")),
 						     echeance ->montant,
 						     ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 												     GINT_TO_POINTER ( echeance -> devise ),
 												     (GCompareFunc) recherche_devise_par_no )->data))-> code_devise,
 						     NOM_DU_COMPTE ));
 	  else
-	    label = gtk_label_new ( g_strdup_printf (_(" Débit de %4.2f %s sur %s"),
+	    label = gtk_label_new ( g_strdup_printf (PRESPACIFY(_("Débit de %4.2f %s sur %s")),
 						     -echeance ->montant,
 						     ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 												     GINT_TO_POINTER ( echeance -> devise ),
@@ -2748,14 +2748,14 @@ void incrementation_echeance ( struct operation_echeance *echeance )
 	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + echeance ->compte;
 
 	  if ( echeance -> montant >= 0 )
-	    label = gtk_label_new ( g_strdup_printf (_(" Crédit de %4.2f %s sur %s"),
+	    label = gtk_label_new ( g_strdup_printf (PRESPACIFY(_("Crédit de %4.2f %s sur %s")),
 						     echeance ->montant,
 						     ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 												     GINT_TO_POINTER ( echeance -> devise ),
 												     (GCompareFunc) recherche_devise_par_no )->data))-> code_devise,
 						     NOM_DU_COMPTE ));
 	  else
-	    label = gtk_label_new ( g_strdup_printf (_(" Débit de %4.2f %s sur %s"),
+	    label = gtk_label_new ( g_strdup_printf (PRESPACIFY(_("Débit de %4.2f %s sur %s")),
 						     -echeance ->montant,
 						     ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 												     GINT_TO_POINTER ( echeance -> devise ),
@@ -3057,7 +3057,7 @@ void completion_operation_par_tiers_echeancier ( void )
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
       gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[6] ),
-			      g_strconcat ( _("Virement : "),
+			      g_strconcat ( COLON(_("Virement")),
 					    NOM_DU_COMPTE,
 					    NULL ));
     }

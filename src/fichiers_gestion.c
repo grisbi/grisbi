@@ -430,7 +430,7 @@ gboolean enregistrement_fichier ( gint origine )
 
       if ( origine == -1 )
 	{
-	  dialog = gnome_message_box_new ( _("Voulez-vous enregistrer le fichier ? "),
+	  dialog = gnome_message_box_new ( _("Voulez-vous enregistrer le fichier ?"),
 					     GNOME_MESSAGE_BOX_QUESTION,
 					     GNOME_STOCK_BUTTON_YES,
 					     GNOME_STOCK_BUTTON_NO,

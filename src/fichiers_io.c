@@ -85,7 +85,7 @@ gboolean charge_operations ( void )
 	/* la version nécessaire pour l'ouvrir */
 
 
-	dialogue ( g_strdup_printf ( _("Pour ouvrir ce fichier, il vous faut la version %s de Grisbi "),
+	dialogue ( g_strdup_printf ( _("Pour ouvrir ce fichier, il vous faut la version %s de Grisbi"),
 				     xmlNodeGetContent ( doc->root->childs->childs->next )));
 
 	xmlFreeDoc ( doc );
@@ -3907,7 +3907,7 @@ gboolean enregistre_fichier ( gboolean force )
 
   if ( etat.fichier_deja_ouvert && !etat.force_enregistrement && !force )
     {
-      dialogue ( _(_(" Fichier ouvert par un autre utilisateur, enregistrement impossible\nVous pouvez forcer l'enregistrement à partir des paramètres.")) );
+      dialogue ( PRESPACIFY(_("Fichier ouvert par un autre utilisateur, enregistrement impossible\nVous pouvez forcer l'enregistrement à partir des paramètres.")));
       return ( FALSE );
     }
 
@@ -6205,7 +6205,7 @@ gboolean charge_categ ( gchar *nom_categ )
       /* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
       /* la version nécessaire pour l'ouvrir */
 
-      dialogue ( g_strdup_printf ( _("Pour ouvrir ce fichier, il vous faut la version %s de Grisbi "),
+      dialogue ( g_strdup_printf ( _("Pour ouvrir ce fichier, il vous faut la version %s de Grisbi"),
 				   xmlNodeGetContent ( doc->root->childs->childs->next )));
 
       xmlFreeDoc ( doc );
@@ -6553,7 +6553,7 @@ gboolean charge_ib ( gchar *nom_ib )
       /* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
       /* la version nécessaire pour l'ouvrir */
 
-      dialogue ( g_strdup_printf ( _("Pour ouvrir ce fichier, il vous faut la version %s de Grisbi "),
+      dialogue ( g_strdup_printf ( _("Pour ouvrir ce fichier, il vous faut la version %s de Grisbi"),
 				   xmlNodeGetContent ( doc->root->childs->childs->next )));
 
       xmlFreeDoc ( doc );

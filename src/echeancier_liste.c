@@ -1185,7 +1185,7 @@ void edition_echeance ( void )
 	{
 	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + echeance_selectionnnee -> compte_virement;
 
-	  texte = g_strconcat ( _("Virement : "),
+	  texte = g_strconcat ( COLON(_("Virement")),
 				NOM_DU_COMPTE,
 				NULL );
 	}

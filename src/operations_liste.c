@@ -797,13 +797,13 @@ void remplissage_liste_operations ( gint compte )
   /* on met les soldes en bas */
 
   gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
-		       g_strdup_printf ( _(" Solde pointé : %4.2f %s"),
+		       g_strdup_printf ( PRESPACIFY(_("Solde pointé : %4.2f %s")),
 					 SOLDE_POINTE,
 					 ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 											 GINT_TO_POINTER ( DEVISE ),
 											 (GCompareFunc) recherche_devise_par_no )-> data )) -> code_devise) );
   gtk_label_set_text ( GTK_LABEL ( solde_label ),
-		       g_strdup_printf ( _(" Solde courant : %4.2f %s"),
+		       g_strdup_printf ( PRESPACIFY(_("Solde courant : %4.2f %s")),
 					 SOLDE_COURANT,
 					 ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 											 GINT_TO_POINTER ( DEVISE ),
@@ -1700,7 +1700,7 @@ void edition_operation ( void )
 	  /* on met le nom du compte du virement */
 
 	  gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ),
-				  g_strconcat ( _("Virement : "),
+				  g_strconcat ( COLON(_("Virement")),
 						NOM_DU_COMPTE,
 						NULL ));
 
@@ -1993,7 +1993,7 @@ void p_press (void)
   /* met le label du solde pointé */
 
   gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
-		       g_strdup_printf ( _(" Solde pointé : %4.2f %s"),
+		       g_strdup_printf ( PRESPACIFY(_("Solde pointé : %4.2f %s")),
 					 SOLDE_POINTE,
 					 devise_compte -> code_devise) );
 }

@@ -260,7 +260,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 
 
 
-  label = gtk_label_new ( _("Solde initial : ") );
+  label = gtk_label_new ( COLON(_("Solde initial")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
 			   0.5 );
@@ -282,7 +282,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
   gtk_widget_show ( label_equilibrage_initial );
 
 
-  label = gtk_label_new ( _("Solde final : ") );
+  label = gtk_label_new ( COLON(_("Solde final")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
 			   0.5 );
@@ -304,7 +304,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
   gtk_widget_show ( label_equilibrage_final );
 
 
-  label = gtk_label_new ( _("Pointage : ") );
+  label = gtk_label_new ( COLON(_("Pointage")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
 			   0.5 );
@@ -333,7 +333,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
   gtk_widget_show ( separateur );
 
 
-  label = gtk_label_new ( _("Écart : ") );
+  label = gtk_label_new ( COLON(_("Écart")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
 			   0.5 );

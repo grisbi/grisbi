@@ -1622,7 +1622,7 @@ void supprimer_categ ( void )
       gnome_dialog_set_parent ( GNOME_DIALOG ( dialog ),
 				GTK_WINDOW ( window ));
 
-      label = gtk_label_new ( _("La catégorie sélectionnée contient encore des opérations.\n\nVous pouvez : ") );
+      label = gtk_label_new ( COLON(_("La catégorie sélectionnée contient encore des opérations.\n\nVous pouvez")) );
       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 			   label,
 			   FALSE,
@@ -1647,7 +1647,7 @@ void supprimer_categ ( void )
 			   0 );
 
       bouton_transfert = gtk_radio_button_new_with_label ( NULL,
-							   _("Transférer les opérations sur la catégorie : ")  );
+							   COLON(_("Transférer les opérations sur la catégorie"))  );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   bouton_transfert,
 			   FALSE,
@@ -1735,7 +1735,7 @@ void supprimer_categ ( void )
 			   0 );
 
       bouton_categ_generique = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_transfert )),
-								 _(" Supprimer simplement cette catégorie.") );
+								 PRESPACIFY(_("Supprimer simplement cette catégorie.")) );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   bouton_categ_generique,
 			   FALSE,
@@ -1958,7 +1958,7 @@ void supprimer_sous_categ ( void )
       gnome_dialog_set_parent ( GNOME_DIALOG ( dialog ),
 				GTK_WINDOW ( window ));
 
-      label = gtk_label_new ( _("La sous-catégorie sélectionnée contient encore des opérations.\n\nVous pouvez : ") );
+      label = gtk_label_new ( COLON(_("La sous-catégorie sélectionnée contient encore des opérations.\n\nVous pouvez")) );
       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 			   label,
 			   FALSE,
@@ -1983,7 +1983,7 @@ void supprimer_sous_categ ( void )
 			   0 );
 
       bouton_transfert = gtk_radio_button_new_with_label ( NULL,
-							   _("Transférer les opérations sur la catégorie : ")  );
+							   COLON(_("Transférer les opérations sur la catégorie"))  );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   bouton_transfert,
 			   FALSE,
@@ -2074,7 +2074,7 @@ void supprimer_sous_categ ( void )
 			   0 );
 
       bouton_categ_generique = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_transfert )),
-											  _(" Supprimer simplement cette sous-catégorie.") );
+											  PRESPACIFY(_("Supprimer simplement cette sous-catégorie.")) );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   bouton_categ_generique,
 			   FALSE,

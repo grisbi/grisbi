@@ -59,7 +59,7 @@ gboolean charge_etat ( gchar *nom_etat )
       /* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
       /* la version nécessaire pour l'ouvrir */
 
-      dialogue ( g_strdup_printf ( _("Pour ouvrir ce fichier, il vous faut la version %s de Grisbi "),
+      dialogue ( g_strdup_printf ( _("Pour ouvrir ce fichier, il vous faut la version %s de Grisbi"),
 				   xmlNodeGetContent ( doc->root->childs->childs->next )));
 
       xmlFreeDoc ( doc );
@@ -887,7 +887,7 @@ gint recupere_categ_par_nom_etat ( gchar *nom )
       no_categ = 0;
 
       if ( log_message )
-	log_message = g_strdup_printf ( _("%sCatégorie %s non trouvée.\n "),
+	log_message = g_strdup_printf ( _("%sCatégorie %s non trouvée.\n"),
 					log_message, nom );
       else
 	log_message = g_strdup_printf ( _("Catégorie %s non trouvée.\n"),

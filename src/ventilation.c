@@ -1937,7 +1937,7 @@ void edition_operation_ventilation ( void )
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
       gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation[0] ),
-			      g_strconcat ( _("Virement : "),
+			      g_strconcat ( COLON(_("Virement")),
 					    NOM_DU_COMPTE,
 					    NULL ));
 
@@ -2101,7 +2101,7 @@ void supprime_operation_ventilation ( void )
 
   if ( operation -> pointe == 2 )
     {
-      dialogue ( _(" L'opération ventilée de cette opération est relevée,\n la suppression est annulée ..."));
+      dialogue ( PRESPACIFY(_("L'opération ventilée de cette opération est relevée,\n la suppression est annulée ...")));
       return;
     }
   else
@@ -2263,7 +2263,7 @@ void ajoute_ope_sur_liste_ventilation ( struct struct_ope_ventil *operation )
 
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
-      ligne [0] = g_strconcat ( _("Virement : "),
+      ligne [0] = g_strconcat ( COLON(_("Virement")),
 				NOM_DU_COMPTE,
 				NULL );
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;

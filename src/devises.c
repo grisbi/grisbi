@@ -275,7 +275,7 @@ void ajout_devise ( GtkWidget *bouton,
 		       5 );
   gtk_widget_show ( hbox_passage_euro );
  
-  label = gtk_label_new ( _("1 Euro vaut ") );
+  label = gtk_label_new ( POSTSPACIFY(_("1 Euro vaut")) );
   gtk_box_pack_start ( GTK_BOX ( hbox_passage_euro ),
 		       label,
 		       FALSE,
@@ -407,7 +407,7 @@ void ajout_devise ( GtkWidget *bouton,
 	}
       else
 	{
-	  dialogue ( _("Tous les champs ne sont pas remplis !\n ") );
+	  dialogue ( _("Tous les champs ne sont pas remplis !") );
 	  goto reprise_dialog;
 	}
       break;
@@ -762,7 +762,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 		       0);
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Un ") );
+  label = gtk_label_new ( POSTSPACIFY(_("Un")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -778,7 +778,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 		       0);
   gtk_widget_show ( option_menu_devise_1 );
 
-  label = gtk_label_new ( _(" vaut ") );
+  label = gtk_label_new ( SPACIFY(_("vaut")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -882,7 +882,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 		       5 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Frais de change : ") );
+  label = gtk_label_new ( COLON(_("Frais de change")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -1338,7 +1338,7 @@ GtkWidget *onglet_devises ( void )
 		       0);
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Nom : ") );
+  label = gtk_label_new ( COLON(_("Nom")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -1370,7 +1370,7 @@ GtkWidget *onglet_devises ( void )
 		       0);
   gtk_widget_show ( separateur );
 
-  label = gtk_label_new ( _("Code : ") );
+  label = gtk_label_new ( COLON(_("Code")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -1425,7 +1425,7 @@ GtkWidget *onglet_devises ( void )
 		       0);
   gtk_widget_show ( hbox_devise_associee );
 
-  label = gtk_label_new ( _("Devise associée : ") );
+  label = gtk_label_new ( COLON(_("Devise associée")) );
   gtk_box_pack_start ( GTK_BOX ( hbox_devise_associee ),
 		       label,
 		       FALSE,
@@ -1464,7 +1464,7 @@ GtkWidget *onglet_devises ( void )
 		       0);
   gtk_widget_show ( hbox_ligne_change );
 
-  label = gtk_label_new ( _("Un ") );
+  label = gtk_label_new ( POSTSPACIFY(_("Un")) );
   gtk_box_pack_start ( GTK_BOX ( hbox_ligne_change ),
 		       label,
 		       FALSE,
@@ -1480,7 +1480,7 @@ GtkWidget *onglet_devises ( void )
 		       0);
   gtk_widget_show ( devise_1 );
 
-  label = gtk_label_new ( _(" vaut ") );
+  label = gtk_label_new ( SPACIFY(_("vaut")) );
   gtk_box_pack_start ( GTK_BOX ( hbox_ligne_change ),
 		       label,
 		       FALSE,

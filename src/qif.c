@@ -1362,7 +1362,7 @@ void exporter_fichier_qif ( void )
 
   if ( !nom_fichier_comptes )
     {
-      dialogue ( _("Vous devez nommer ( enregistrer ) votre fichier pour pouvoir l'exporter. ") );
+      dialogue ( _("Vous devez nommer ( enregistrer ) votre fichier pour pouvoir l'exporter.") );
       return;
     }
 

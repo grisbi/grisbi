@@ -184,7 +184,7 @@ void supprimer_compte ( void )
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
-  label = gtk_label_new ( _("Choisir le compte à supprimer :\n\n\n( Attention, il s'agit d'un suppression définitive !\n Pour clôturer un compte, il faut\naller dans le détail du compte concerné. ) ") );
+  label = gtk_label_new ( _("Choisir le compte à supprimer :\n\n\n( Attention, il s'agit d'un suppression définitive !\n Pour clôturer un compte, il faut\naller dans le détail du compte concerné. )") );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
 		       FALSE,
@@ -705,7 +705,7 @@ gint demande_type_nouveau_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( _("Type du compte : ") );
+  label = gtk_label_new ( COLON(_("Type du compte")) );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,

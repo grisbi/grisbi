@@ -185,11 +185,11 @@ GtkWidget *creation_liste_comptes (void)
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
   if ( nb_comptes )
-    label_releve = gtk_label_new ( g_strconcat ( _("Dernier relevé : "),
+    label_releve = gtk_label_new ( g_strconcat ( COLON(_("Dernier relevé")),
 						 DATE_DERNIER_RELEVE,
 						 NULL ) );
   else
-    label_releve = gtk_label_new ( _("Dernier relevé : ") );
+    label_releve = gtk_label_new ( COLON(_("Dernier relevé")) );
 
   gtk_box_pack_start ( GTK_BOX ( vbox_frame_equilibrage ),
 		       label_releve,
@@ -402,13 +402,13 @@ void changement_compte ( gint *compte)
   /* affiche le solde final en bas */
 
   gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
-		       g_strdup_printf ( _(" Solde pointé : %4.2f %s"),
+		       g_strdup_printf ( PRESPACIFY(_("Solde pointé : %4.2f %s")),
 					 SOLDE_POINTE,
 					 ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 											 GINT_TO_POINTER ( DEVISE ),
 											 (GCompareFunc) recherche_devise_par_no )-> data )) -> code_devise) );
   gtk_label_set_text ( GTK_LABEL ( solde_label ),
-		       g_strdup_printf ( _(" Solde courant : %4.2f %s"),
+		       g_strdup_printf ( PRESPACIFY(_("Solde courant : %4.2f %s")),
 					 SOLDE_COURANT,
 					 ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 											 GINT_TO_POINTER ( DEVISE ),

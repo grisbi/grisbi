@@ -121,7 +121,7 @@ GtkWidget *creation_onglet_accueil ( void )
       nom_utilisateur = _("Pas d'utilisateur");
     }
 
-  label = gtk_label_new ( g_strconcat ( _("Utilisateur : "), nom_utilisateur, NULL) );
+  label = gtk_label_new ( g_strconcat ( COLON(_("Utilisateur")), nom_utilisateur, NULL) );
 
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,

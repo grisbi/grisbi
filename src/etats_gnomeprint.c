@@ -19,7 +19,7 @@
 /*     along with this program; if not, write to the Free Software */
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: etats_gnomeprint.c,v 1.18 2003/01/13 17:20:45 benj Exp $ */
+/* $Id: etats_gnomeprint.c,v 1.19 2003/01/17 17:37:22 benj Exp $ */
 
 #include "include.h"
 #include "structures.h"
@@ -896,7 +896,7 @@ gint gnomeprint_affiche_total_ib ( gint ligne )
 							 nom_ib_en_cours ),
 				       text_font );
 	  else
-	    gnomeprint_affiche_texte ( _("Total Imputations budgétaires : "),
+	    gnomeprint_affiche_texte ( COLON(_("Total Imputations budgétaires")),
 					text_font);
 
 	  gnomeprint_update_point ( );
@@ -1317,9 +1317,9 @@ gint gnomeprint_affiche_total_partiel ( gdouble total_partie,
   
   gnomeprint_move_point ( 0, -5 );
   if ( type )
-    gnomeprint_affiche_texte ( _("Total dépenses : "), header_font );
+    gnomeprint_affiche_texte ( COLON(_("Total dépenses")), header_font );
   else
-    gnomeprint_affiche_texte ( _("Total revenus : "), header_font );
+    gnomeprint_affiche_texte ( COLON(_("Total revenus")), header_font );
 
   gnomeprint_update_point ( );
   gnomeprint_move_point ( 110, 0 );
@@ -1355,7 +1355,7 @@ gint gnomeprint_affiche_total_general ( gdouble total_general,
       ligne_debut_partie = -1;
     }      
 
-  gnomeprint_affiche_texte ( _("Total général : "), header_font );
+  gnomeprint_affiche_texte ( COLON(_("Total général")), header_font );
   gnomeprint_update_point ( );
   gnomeprint_move_point ( 110, 0 );
   

@@ -212,7 +212,9 @@ GtkWidget *onglet_affichage ( void )
 		       0 );
   gtk_widget_show_all ( bouton );
 
-  label = gtk_label_new ( _(" : Modifier le logo de l'accueil") );
+  label = gtk_label_new ( g_strconcat (" : ", 
+				       _("Modifier le logo de l'accueil"), 
+				       NULL ));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,

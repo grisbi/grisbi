@@ -343,7 +343,7 @@ GtkWidget *onglet_general ( void )
 		       0);
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Titre du fichier : ") );
+  label = gtk_label_new ( COLON(_("Titre du fichier")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -381,7 +381,7 @@ GtkWidget *onglet_general ( void )
 		       0);
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Adresse commune : ") );
+  label = gtk_label_new ( COLON(_("Adresse commune")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -431,7 +431,7 @@ GtkWidget *onglet_general ( void )
 		       0);
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Adresse secondaire : ") );
+  label = gtk_label_new ( COLON(_("Adresse secondaire")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -787,7 +787,7 @@ GtkWidget *onglet_fichier ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Mémorisation des derniers fichiers ouverts : ") );
+  label = gtk_label_new ( COLON(_("Mémorisation des derniers fichiers ouverts")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -827,7 +827,7 @@ GtkWidget *onglet_fichier ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Niveau de compression du fichier : ") );
+  label = gtk_label_new ( COLON(_("Niveau de compression du fichier")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -867,7 +867,7 @@ GtkWidget *onglet_fichier ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Niveau de compression de la sauvegarde : ") );
+  label = gtk_label_new ( COLON(_("Niveau de compression de la sauvegarde")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -1249,7 +1249,7 @@ void ajouter_verification ( GtkWidget *bouton_add,
 		       GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
 		        "destroy" );
 
-  label = gtk_label_new ( _("Entrez le nom du fichier de comptes : ") );
+  label = gtk_label_new ( COLON(_("Entrez le nom du fichier de comptes")) );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue_box ) -> vbox ),
 		       label,
 		       TRUE,

@@ -101,7 +101,7 @@ GtkWidget *creation_details_compte ( void )
   gtk_widget_show ( hbox2 );
 
 
-  label = gtk_label_new ( _("Nom du compte : ") );
+  label = gtk_label_new ( COLON(_("Nom du compte")) );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -148,7 +148,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( _("Type du compte : ") );
+  label = gtk_label_new ( COLON(_("Type du compte")) );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -197,7 +197,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( _("Devise du compte : ") );
+  label = gtk_label_new ( COLON(_("Devise du compte")) );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -322,7 +322,7 @@ GtkWidget *creation_details_compte ( void )
   gtk_widget_show ( hbox2 );
 
 
-  label = gtk_label_new ( _("Titulaire du compte : ") );
+  label = gtk_label_new ( COLON(_("Titulaire du compte")) );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -507,7 +507,7 @@ GtkWidget *creation_details_compte ( void )
   gtk_widget_show ( hbox2 );
 
 
-  label = gtk_label_new ( _("Etablissement financier : ") );
+  label = gtk_label_new ( COLON(_("Etablissement financier")) );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -621,7 +621,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( _("Code de la banque : ") );
+  label = gtk_label_new ( COLON(_("Code de la banque")) );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -668,7 +668,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( _("Guichet / Agence : ") );
+  label = gtk_label_new ( COLON(_("Guichet / Agence")) );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -719,7 +719,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( _("Numéro de compte / Clé : ") );
+  label = gtk_label_new ( COLON(_("Numéro de compte / Clé")) );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -811,7 +811,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( _("Solde initial : ") );
+  label = gtk_label_new ( COLON(_("Solde initial")) );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -860,7 +860,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( _("Solde minimal autorisé : ") );
+  label = gtk_label_new ( COLON(_("Solde minimal autorisé")) );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -907,7 +907,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( _("Solde minimal voulu : ") );
+  label = gtk_label_new ( COLON(_("Solde minimal voulu")) );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -983,7 +983,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( vbox2 );
 
-  label = gtk_label_new ( _("Commentaires : ") );
+  label = gtk_label_new ( COLON(_("Commentaires")) );
   gtk_box_pack_start ( GTK_BOX ( vbox2 ),
 		       label,
 		       FALSE,

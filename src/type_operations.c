@@ -384,7 +384,7 @@ GtkWidget *onglet_types_operations ( void )
   gtk_widget_show ( hbox2 );
 
  
-  label = gtk_label_new ( _("Nom : ") );
+  label = gtk_label_new ( COLON(_("Nom")) );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -1622,7 +1622,7 @@ void supprimer_type_operation ( void )
 
 
 
-      label = gtk_label_new ( _( "Transférer les opérations sur " ));
+      label = gtk_label_new ( POSTSPACIFY(_("Transférer les opérations sur")));
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   label,
 			   FALSE,

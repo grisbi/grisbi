@@ -1159,7 +1159,7 @@ void supprimer_tiers ( GtkWidget *bouton,
       gnome_dialog_set_parent ( GNOME_DIALOG ( dialog ),
 				GTK_WINDOW ( window ));
 
-      label = gtk_label_new ( _("Le tiers sélectionné contient encore des opérations.\n\nVous pouvez : ") );
+      label = gtk_label_new ( COLON(_("Le tiers sélectionné contient encore des opérations.\n\nVous pouvez")) );
       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 			   label,
 			   FALSE,
@@ -1184,7 +1184,7 @@ void supprimer_tiers ( GtkWidget *bouton,
 			   0 );
 
       bouton_transfert = gtk_radio_button_new_with_label ( NULL,
-							   _("Transférer les opérations sur le tiers ")  );
+							   POSTSPACIFY(_("Transférer les opérations sur le tiers"))  );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   bouton_transfert,
 			   FALSE,
@@ -1228,7 +1228,7 @@ void supprimer_tiers ( GtkWidget *bouton,
 			   0 );
 
       bouton_tiers_generique = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_transfert )),
-								 _(" Supprimer simplement ce tiers.") );
+								 PRESPACIFY(_("Supprimer simplement ce tiers.")) );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   bouton_tiers_generique,
 			   FALSE,

@@ -49,7 +49,7 @@ void a_propos ( GtkWidget *bouton,
 			    NULL );
 
   url = gnome_href_new ( "http://www.grisbi.org/",
-			 _("WEB : http://www.grisbi.org/ ") );
+			 _("WEB : http://www.grisbi.org/") );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( boite ) -> vbox ),
 		       url,
 		       FALSE,
