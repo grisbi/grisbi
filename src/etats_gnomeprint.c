@@ -24,21 +24,6 @@
 #include "variables-extern.c"
 #include "en_tete.h"
 
-#include <gnome.h>
-#include <libxml/encoding.h>
-#include <sys/stat.h>
-
-#include <libgnomeprint/gnome-printer.h>
-#include <libgnomeprint/gnome-print.h>
-#include <libgnomeprint/gnome-print-meta.h>
-#include <libgnomeprint/gnome-print-preview.h>
-#include <libgnomeprint/gnome-print-pixbuf.h>
-#include <libgnomeprint/gnome-font.h>
-#include <libgnomeprint/gnome-printer-dialog.h>
-#include <libgnomeprint/gnome-print-master.h>
-#include <libgnomeprint/gnome-print-master-preview.h>
-#include <libgnomeprint/gnome-print-dialog.h>
-
 #include "etats_gnomeprint.h"
 
 GtkWidget * table_etat;
@@ -73,8 +58,9 @@ struct struct_etat_affichage gnomeprint_affichage = {
 GnomePrintContext *pc = NULL;
 GnomePrintMaster *gpm = NULL;
 int do_preview=0;
-GnomeFont *title_font, *text_font;
-int point_x=10, point_y=650;
+GnomeFont *title_font, *subtitle_font, *text_font;
+int point_x, point_y, tmp_x, tmp_y;
+gfloat red=0, green=0, blue=0;
 
 
 gint gnomeprint_initialise ()
@@ -107,7 +93,11 @@ gint gnomeprint_initialise ()
   pc = gnome_print_master_get_context(gpm);
 
   title_font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, 1, 36);
-  text_font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, 1, 14);
+  subtitle_font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, 1, 20);
+  text_font = gnome_font_new_closest ("Times", GNOME_FONT_BOOK, 1, 14);
+
+  tmp_x = point_x = 10;
+  tmp_y = point_y = gnome_paper_psheight(gnome_print_master_get_paper(gpm));
 
   return 1;
 }
@@ -123,20 +113,79 @@ gint gnomeprint_affiche_titre ( gint ligne )
   /* FIXME: crado */
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
+  gnomeprint_set_color ( 1, 0, 0 );
+  gnomeprint_affiche_texte (etat_courant -> nom_etat, title_font);
+  gnomeprint_commit_point ();
+
+  gnomeprint_set_color ( 0, 0, 0 );
+  gnomeprint_move_point ( 0, -10 );
+
   for ( i=0 ; i < nb_comptes ; i++ )
     {
-      gnome_print_gsave (pc);
-      gnome_print_setfont (pc, title_font);
-      gnome_print_setrgbcolor (pc, 1, 0, 0);
-      gnome_print_moveto (pc, point_x, point_y);
-      gnome_print_show (pc, latin2utf8(NOM_DU_COMPTE));
-      gnome_print_grestore (pc);
-
-      point_y -= gnome_font_get_size(title_font);
+      gnomeprint_affiche_texte(NOM_DU_COMPTE, subtitle_font);
+      gnomeprint_commit_point();
       p_tab_nom_de_compte_variable++;
     }
 
   return 1;
+}
+
+
+void gnomeprint_set_color ( gfloat tred, gfloat tgreen, gfloat tblue )
+{
+  red = tred;
+  green = tgreen;
+  blue = tblue;
+}
+
+
+void gnomeprint_move_point ( gfloat x, gfloat y )
+{
+  point_x = tmp_x + gnome_paper_convert_to_points(x, gnome_unit_with_name ("Millimeter"));
+  point_y = tmp_y + gnome_paper_convert_to_points(y, gnome_unit_with_name ("Millimeter"));
+}
+
+
+void gnomeprint_affiche_texte ( char * texte, GnomeFont * font)
+{
+  gint font_height = gnome_font_get_size(font);
+
+  gnomeprint_update_point ( );
+
+  gnome_print_gsave (pc);
+  gnome_print_setfont (pc, font);
+  gnome_print_setrgbcolor (pc, red, green, blue); 
+  gnome_print_moveto (pc, point_x, point_y-font_height);
+  gnome_print_show (pc, latin2utf8(texte));
+  gnome_print_grestore (pc);
+
+  tmp_y -= font_height;
+}
+
+
+void gnomeprint_commit_point ( )
+{
+  gnomeprint_commit_x ( );
+  gnomeprint_commit_y ( );
+}
+
+
+void gnomeprint_update_point ( )
+{
+  tmp_x = point_x;
+  tmp_y = point_y;
+}
+
+
+void gnomeprint_commit_x ( )
+{
+  point_x = tmp_x;
+}
+
+
+void gnomeprint_commit_y ( )
+{
+  point_y = tmp_y;
 }
 
 
