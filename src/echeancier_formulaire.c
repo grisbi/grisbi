@@ -391,9 +391,10 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
 		     0,0);
-  if ( etat.utilise_exercice )
     gtk_widget_show ( widget_formulaire_echeancier[9] );
 
+    gtk_widget_set_sensitive ( widget_formulaire_echeancier[9],
+			       etat.utilise_exercice );
 
 
   /*  Affiche l'imputation budgétaire */
@@ -431,9 +432,10 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		       GTK_SIGNAL_FUNC (entree_perd_focus_echeancier),
 		       GINT_TO_POINTER (10) );
 
-  if ( etat.utilise_imputation_budgetaire )
-    gtk_widget_show (widget_formulaire_echeancier[10]);
+  gtk_widget_show ( widget_formulaire_echeancier[10] );
 
+  gtk_widget_set_sensitive ( widget_formulaire_echeancier[10],
+			     etat.utilise_imputation_budgetaire );
 
 
 

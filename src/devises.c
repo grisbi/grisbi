@@ -58,25 +58,8 @@ void creation_devises_de_base ( void )
   liste_struct_devises = g_slist_append ( liste_struct_devises,
 					  devise );
 
-
-  /* création du franc */
-
-  devise = malloc ( sizeof ( struct struct_devise ));
-
-  devise -> no_devise = 2;
-  devise -> nom_devise= g_strdup ( _("Franc Français") );
-  devise -> code_devise = g_strdup ( _("FRF") );
-  devise -> passage_euro = 1;
-  devise -> date_dernier_change = NULL;
-  devise -> une_devise_1_egale_x_devise_2 = 0;
-  devise -> no_devise_en_rapport = 1;
-  devise -> change = 6.55957;
-
-  liste_struct_devises = g_slist_append ( liste_struct_devises,
-					  devise );
-
-  nb_devises = 2;
-  no_derniere_devise = 2;
+  nb_devises = 1;
+  no_derniere_devise = 1;
 
 }
 /* **************************************************************************************************** */

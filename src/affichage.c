@@ -255,11 +255,6 @@ GtkWidget *onglet_affichage ( void )
 				     TRUE );
       gtk_container_add ( GTK_CONTAINER ( scroll_liste_choix_ordre_comptes ),
 			  liste_choix_ordre_comptes );
-      gtk_signal_connect_object ( GTK_OBJECT ( liste_choix_ordre_comptes ),
-				  "row_move",
-				  gnome_property_box_changed,
-				  GTK_OBJECT (fenetre_preferences));
-
 
       liste_tmp = ordre_comptes;
 
@@ -273,8 +268,12 @@ GtkWidget *onglet_affichage ( void )
 	}
       while ( ( liste_tmp = liste_tmp -> next ));
 
-      
-/* on place ici les flèches sur le côté de la liste */
+      gtk_signal_connect_object ( GTK_OBJECT ( liste_choix_ordre_comptes ),
+				  "row_move",
+				  gnome_property_box_changed,
+				  GTK_OBJECT (fenetre_preferences));
+ 
+      /* on place ici les flèches sur le côté de la liste */
 
       vbox2 = gtk_vbutton_box_new ();
 
@@ -316,7 +315,7 @@ GtkWidget *onglet_affichage ( void )
 				  GTK_SIGNAL_FUNC ( deselection_choix_ordre_comptes ),
 				  GTK_OBJECT ( vbox2 ));
 
-/*       selectionne le premier compte */
+      /*       selectionne le premier compte */
 
       gtk_clist_select_row ( GTK_CLIST ( liste_choix_ordre_comptes ),
 			     0,
@@ -374,7 +373,8 @@ GtkWidget *onglet_affichage ( void )
 		       0 );
   gtk_widget_show ( bouton_afficher_no_operation );
 
-	/* GDC : bouton pour choisir d'afficher ou non la date réelle (colonne et champ) */
+  /* GDC : bouton pour choisir d'afficher ou non la date réelle (colonne et champ) */
+
   bouton_afficher_date_bancaire = gtk_check_button_new_with_label ( _("Afficher la date de valeur des opérations.") );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_date_bancaire ),
 				 etat.affiche_date_bancaire );
@@ -388,7 +388,8 @@ GtkWidget *onglet_affichage ( void )
 		       FALSE,
 		       0 );
   gtk_widget_show ( bouton_afficher_date_bancaire );
-	/* FinGDC */
+
+  /* FinGDC */
 
   bouton_utiliser_exercices = gtk_check_button_new_with_label ( _("Utiliser les Exercices.") );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utiliser_exercices ),
@@ -501,10 +502,6 @@ GtkWidget *onglet_affichage ( void )
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_choix_devise_totaux_tiers ),
 			     creation_option_menu_devises ( -1,
 							    liste_struct_devises ) );
-  gtk_signal_connect_object ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_choix_devise_totaux_tiers ) -> menu ),
-			      "selection-done",
-			      gnome_property_box_changed,
-			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_choix_devise_totaux_tiers,
 		       TRUE,
@@ -516,6 +513,15 @@ GtkWidget *onglet_affichage ( void )
 						   g_slist_find_custom ( liste_struct_devises,
 									 GINT_TO_POINTER ( no_devise_totaux_tiers ),
 									 ( GCompareFunc ) recherche_devise_par_no )));
+  gtk_signal_connect_object ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_choix_devise_totaux_tiers ) -> menu ),
+			      "selection-done",
+			      gnome_property_box_changed,
+			      GTK_OBJECT (fenetre_preferences));
+  if ( !nb_comptes )
+    gtk_widget_set_sensitive ( hbox,
+			       FALSE );
+
+
   /* affichage du nb d'écritures */
 
   bouton_afficher_nb_ecritures = gtk_check_button_new_with_label ( _("Afficher le nombre d'écritures.") );
@@ -569,10 +575,6 @@ GtkWidget *onglet_affichage ( void )
 
   bouton_classer_liste_par_date = gtk_radio_button_new_with_label ( NULL,
 								    _("Classer par date") );
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton_classer_liste_par_date ),
-			      "toggled",
-			      gnome_property_box_changed,
-			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_start ( GTK_BOX ( vbox2 ),
 		       bouton_classer_liste_par_date,
 		       FALSE,
@@ -582,10 +584,6 @@ GtkWidget *onglet_affichage ( void )
 
   bouton_classer_liste_par_date_bancaire = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_classer_liste_par_date)),
 									     _("Classer par date de valeur") );
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton_classer_liste_par_date_bancaire ),
-			      "toggled",
-			      gnome_property_box_changed,
-			      GTK_OBJECT (fenetre_preferences));
   gtk_box_pack_start ( GTK_BOX ( vbox2 ),
 		       bouton_classer_liste_par_date_bancaire,
 		       FALSE,
@@ -600,6 +598,14 @@ GtkWidget *onglet_affichage ( void )
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_classer_liste_par_date_bancaire ),
 				   TRUE );
 
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton_classer_liste_par_date ),
+			      "toggled",
+			      gnome_property_box_changed,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton_classer_liste_par_date_bancaire ),
+			      "toggled",
+			      gnome_property_box_changed,
+			      GTK_OBJECT (fenetre_preferences));
 
   return ( onglet );
 }

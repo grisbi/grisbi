@@ -249,7 +249,7 @@ void creation_listes_operations ( void )
       onglet = gtk_scrolled_window_new ( NULL,
 					 NULL);
       gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( onglet ),
-				       GTK_POLICY_NEVER,
+				       GTK_POLICY_AUTOMATIC,
 				       GTK_POLICY_AUTOMATIC);
       gtk_widget_show ( onglet );
 
@@ -417,7 +417,7 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
   onglet = gtk_scrolled_window_new ( NULL,
 				     NULL);
   gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( onglet ),
-				   GTK_POLICY_NEVER,
+				   GTK_POLICY_AUTOMATIC,
 				   GTK_POLICY_AUTOMATIC);
   gtk_widget_show ( onglet );
 
@@ -1678,6 +1678,7 @@ void edition_operation ( void )
 
 
   /* si l'opération est liée, marque le virement */
+  /*   et si la contre opération est relevée, on désensitive la categ et le montant */
 
   if ( operation -> relation_no_operation )
     {
@@ -1688,13 +1689,63 @@ void edition_operation ( void )
 				_("Virement : Compte supprimé") );
       else
 	{
+	  GtkWidget *menu;
+	  struct structure_operation *operation_2;
+
 	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
+
+	  /* on met le nom du compte du virement */
 
 	  gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ),
 				  g_strconcat ( _("Virement : "),
 						NOM_DU_COMPTE,
 						NULL ));
 
+	  /* si l'opération est relevée, on empêche le changement de virement */
+
+	  if ( operation -> pointe == 2 )
+	    gtk_widget_set_sensitive ( widget_formulaire_operations[8],
+				       FALSE );
+
+	  /* récupération de la contre opération */
+
+	  operation_2 = g_slist_find_custom ( LISTE_OPERATIONS,
+					      GINT_TO_POINTER ( operation -> relation_no_operation ),
+					      (GCompareFunc) recherche_operation_par_no ) -> data;
+
+	  /* 	  si la contre opération est relevée, on désensitive les categ et les montants */
+
+	  if ( operation_2 -> pointe == 2 )
+	    {
+	      gtk_widget_set_sensitive ( widget_formulaire_operations[4],
+					 FALSE );
+	      gtk_widget_set_sensitive ( widget_formulaire_operations[3],
+					 FALSE );
+	      gtk_widget_set_sensitive ( widget_formulaire_operations[8],
+					 FALSE );
+	    }
+
+	  /* comme c'est un virement, on affiche s'il existe l'option menu du type de l'autre opé */
+
+	  if ( operation -> montant >= 0 )
+	    menu = creation_menu_types ( 1, operation -> relation_no_compte, 2  );
+	  else
+	    menu = creation_menu_types ( 2, operation -> relation_no_compte, 2  );
+
+	  /*  on ne continue que si un menu a été créé */
+	  /*    dans ce cas, on va chercher l'autre opé et retrouve le type */
+
+	  if ( menu )
+	    {
+
+	      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[13] ),
+					 menu );
+	      gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[13] ),
+					    cherche_no_menu_type_associe ( operation_2 -> type_ope,
+									   0 ));
+	      gtk_widget_show ( widget_formulaire_operations[13] );
+
+	    }
 	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 	}
     }
@@ -1703,8 +1754,6 @@ void edition_operation ( void )
 
   if ( operation -> operation_ventilee )
     {
-      GSList *liste_ope_de_ventil;
-
       entree_prend_focus ( widget_formulaire_operations[8] );
       gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ),
 			      _("Opération ventilée") );
@@ -1714,20 +1763,11 @@ void edition_operation ( void )
 
       /* met la liste des opés de ventilation dans liste_adr_ventilation */
 
-      liste_tmp = LISTE_OPERATIONS;
-      liste_ope_de_ventil = NULL;
-
-      while ( liste_tmp )
-	{
-	  if ( ((struct structure_operation *)(liste_tmp->data)) -> no_operation_ventilee_associee == operation -> no_operation )
-	    liste_ope_de_ventil = g_slist_append ( liste_ope_de_ventil,
-						   liste_tmp->data );
-	  liste_tmp = liste_tmp -> next;
-	}
-
       gtk_object_set_data ( GTK_OBJECT ( formulaire ),
 			    "liste_adr_ventilation",
-			    liste_ope_de_ventil );
+			    creation_liste_ope_de_ventil ( operation ));
+
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
     }
 
 
@@ -2050,22 +2090,6 @@ void r_press (void)
 
       OPERATION_SELECTIONNEE -> pointe = 2;
 
-      if ( AFFICHAGE_R )
-	gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
-			     gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
-							    OPERATION_SELECTIONNEE ),
-			     3,
-			     "R");
-      else
-	{
-	  struct structure_operation *ope;
-
-	  ope = OPERATION_SELECTIONNEE;
-	  remplissage_liste_operations ( compte_courant );
-	  OPERATION_SELECTIONNEE = ope;
-	}
-
-
       /* si c'est une ventil */
       /* fait le tour des opés du compte pour rechercher les opés de ventil associées à */
       /* cette ventil */
@@ -2091,47 +2115,65 @@ void r_press (void)
 	    }
 	}
 
+      /*       on met soit le R, soit on change la sélection vers l'opé suivante */
+
+      if ( AFFICHAGE_R )
+	gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
+			     gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
+							    OPERATION_SELECTIONNEE ),
+			     3,
+			     "R");
+      else
+	{
+	  /* l'opération va disparaitre, on met donc la sélection sur l'opé suivante */
+
+	  gint ligne;
+
+	  ligne = gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
+						 OPERATION_SELECTIONNEE );
+	  OPERATION_SELECTIONNEE = gtk_clist_get_row_data ( GTK_CLIST ( CLIST_OPERATIONS ),
+							    ligne + NB_LIGNES_OPE );
+	  remplissage_liste_operations ( compte_courant );
+	}
 
       modification_fichier( TRUE );
     }
   else
-      if ( OPERATION_SELECTIONNEE -> pointe == 2 )
-	{
-	  /* 	  dé-relève l'opération */
-	  OPERATION_SELECTIONNEE -> pointe = 0;
-	  gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
-			       gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
-							      OPERATION_SELECTIONNEE ),
-			       3,
-			       NULL );
+    if ( OPERATION_SELECTIONNEE -> pointe == 2 )
+      {
+	/* 	  dé-relève l'opération */
+	OPERATION_SELECTIONNEE -> pointe = 0;
+	gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
+			     gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
+							    OPERATION_SELECTIONNEE ),
+			     3,
+			     NULL );
 
-	  /* si c'est une ventil */
-	  /* fait le tour des opés du compte pour rechercher les opés de ventil associées à */
-	  /* cette ventil */
+	/* si c'est une ventil */
+	/* fait le tour des opés du compte pour rechercher les opés de ventil associées à */
+	/* cette ventil */
 
-	  if ( OPERATION_SELECTIONNEE -> operation_ventilee )
-	    {
-	      GSList *liste_tmp;
+	if ( OPERATION_SELECTIONNEE -> operation_ventilee )
+	  {
+	    GSList *liste_tmp;
 
-	      liste_tmp = LISTE_OPERATIONS;
+	    liste_tmp = LISTE_OPERATIONS;
 
-	      while ( liste_tmp )
-		{
-		  struct structure_operation *operation;
+	    while ( liste_tmp )
+	      {
+		struct structure_operation *operation;
 
-		  operation = liste_tmp -> data;
+		operation = liste_tmp -> data;
 
-		  if ( operation -> no_operation_ventilee_associee == OPERATION_SELECTIONNEE -> no_operation )
-		    operation -> pointe = 0;
+		if ( operation -> no_operation_ventilee_associee == OPERATION_SELECTIONNEE -> no_operation )
+		  operation -> pointe = 0;
 
-		  liste_tmp = liste_tmp -> next;
-		}
-	    }
+		liste_tmp = liste_tmp -> next;
+	      }
+	  }
 
-	  modification_fichier( TRUE );
-	}
-
-
+	modification_fichier( TRUE );
+      }
 }
 /***************************************************************************************************/
 
@@ -2143,20 +2185,27 @@ void r_press (void)
 
 void supprime_operation ( struct structure_operation *operation )
 {
-  gint no_compte_ope;
-  gint ope_ventil;
-  gint no_ope;
+
+  gint no_compte;
+
 
   if ( operation == GINT_TO_POINTER ( -1 ) )
     return;
 
+  no_compte = operation -> no_compte;
+
+  /* vérifications de bases */
+
+  /* l'opération ne doit pas être pointée */
+
   if ( operation -> pointe == 2 )
     {
-      dialogue ( _(" Impossible de supprimer \n  une opération relevée ... "));
+      dialogue ( _(" Impossible de supprimer une opération relevée ... "));
       return;
     }
 
   /* si l'opération est liée, on recherche l'autre opé on vire ses liaisons et on l'efface */
+  /*   sauf si elle est relevée, dans ce cas on annule tout */
 
   if ( operation -> relation_no_operation && operation -> relation_no_compte != -1 )
     {
@@ -2173,6 +2222,12 @@ void supprime_operation ( struct structure_operation *operation )
 	{
 	  ope_liee =  liste_tmp -> data;
 
+	  if ( ope_liee -> pointe == 2 )
+	    {
+	      dialogue ( _(" La contre-opération de ce virement est relevée,\nla suppression est impossible ... "));
+	      return;
+	    }
+
 	  ope_liee -> relation_no_operation = 0;
 	  ope_liee -> relation_no_compte = 0;
 
@@ -2180,12 +2235,83 @@ void supprime_operation ( struct structure_operation *operation )
 	}
     }
 
+  /* si c'est une ventilation, on fait le tour de ses opés de ventil pour vérifier qu'il */
+  /* n'y en a pas une qui est un virement vers une opération relevée */
 
-  /*  modifie le solde courant du compte pour pouvoir réafficher tout de suite l'accueil */
+  if ( operation -> operation_ventilee )
+    {
+      GSList *pointeur_tmp;
+
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+
+     pointeur_tmp = LISTE_OPERATIONS;
+
+      while ( pointeur_tmp )
+	{
+	  struct structure_operation *ope_test;
+
+	  ope_test = pointeur_tmp -> data;
+
+	  if ( ope_test -> no_operation_ventilee_associee == operation -> no_operation )
+	    {
+	      /* ope_test est une opé de ventil de l'opération à supprimer, recherche si c'est un virement */
+
+	      if ( ope_test -> relation_no_operation )
+		{
+		  /* c'est un virement, on va voir la contre opération */
+
+		  struct structure_operation *contre_operation;
+
+		  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + ope_test -> relation_no_compte;
+
+		  contre_operation = g_slist_find_custom ( LISTE_OPERATIONS,
+							   GINT_TO_POINTER ( ope_test -> relation_no_operation ),
+							   (GCompareFunc) recherche_operation_par_no ) -> data;
+
+		  if ( contre_operation -> pointe == 2 )
+		    {
+		      dialogue ( _("Une des opération de la ventilation est un virement dont la contre-opération est relevée.\nLa suppression est annulée ..."));
+		      return;
+		    }
+		}
+	    }
+	  pointeur_tmp = pointeur_tmp -> next;
+	}
+    }
+
+
+  /*   les tests sont passés, si c'est une ventilation, on vire toutes les opés associées */
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
+  if ( operation -> operation_ventilee )
+    {
+      GSList *pointeur_tmp;
+
+      pointeur_tmp = LISTE_OPERATIONS;
+
+      while ( pointeur_tmp )
+	{
+	  struct structure_operation *ope_test;
+
+	  ope_test = pointeur_tmp -> data;
+
+	  if ( ope_test -> no_operation_ventilee_associee == operation -> no_operation )
+	    {
+	      /* on se place tout de suite sur l'opé suivante */
+
+	      pointeur_tmp = pointeur_tmp -> next;
+
+	      supprime_operation ( ope_test );
+	    }
+	  else
+	    pointeur_tmp = pointeur_tmp -> next;
+	}
+    }
+
   /*   si la sélection est sur l'opé qu'on supprime, on met la sélection sur celle du dessous */
+
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
   if ( OPERATION_SELECTIONNEE == operation )
     {
@@ -2199,14 +2325,6 @@ void supprime_operation ( struct structure_operation *operation )
       selectionne_ligne ( operation -> no_compte );
     }
 
-
-  /* il me semble que slist_remove libère aussi la mémoire operation */
-  /* donc sauvegarde du no_compte pour le test suivant */
-
-  no_compte_ope = operation -> no_compte;
-  ope_ventil = operation -> operation_ventilee;
-  no_ope = operation -> no_operation;
-
   /* supprime l'opération dans la liste des opés */
 
   LISTE_OPERATIONS = g_slist_remove ( LISTE_OPERATIONS,
@@ -2218,9 +2336,8 @@ void supprime_operation ( struct structure_operation *operation )
 
   MISE_A_JOUR = 1;
 
-  if ( no_compte_ope == compte_courant )
+  if ( no_compte == compte_courant )
     verification_mise_a_jour_liste ();
-
 
 
 /* si on est en train d'équilibrer => recalcule le total pointé */
@@ -2266,44 +2383,12 @@ void supprime_operation ( struct structure_operation *operation )
 	  gtk_widget_set_sensitive ( GTK_WIDGET ( bouton_ok_equilibrage ),
 				     FALSE );
 	}
-
-    }
-
-  /* si c'était une opé ventilée on fait le tour de toutes les opérations du compte à la recherche des opés de ventilation */
-
-  if ( ope_ventil )
-    {
-      GSList *pointeur_tmp;
-
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte_ope;
-
-     pointeur_tmp = LISTE_OPERATIONS;
-
-      while ( pointeur_tmp )
-	{
-	  struct structure_operation *ope_test;
-
-	  ope_test = pointeur_tmp -> data;
-
-	  if ( ope_test -> no_operation_ventilee_associee == no_ope )
-	    {
-	      ligne_selectionnee_ventilation = ope_test;
-
-	      supprime_operation_ventilation ();
-
-	      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte_ope;
-
-	      pointeur_tmp = LISTE_OPERATIONS;
-	    }
-	  else
-	    pointeur_tmp = pointeur_tmp -> next;
-	}
     }
 
 
   /* on réaffiche la liste de l'état des comptes de l'accueil */
 
-  mise_a_jour_solde ( no_compte_ope );
+  mise_a_jour_solde ( no_compte );
   update_liste_comptes_accueil ();
 
   /* on réaffiche la liste des tiers */

@@ -1448,6 +1448,7 @@ void modification_details_compte ( void )
       NOM_DU_COMPTE = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))));
 
       reaffiche_liste_comptes ();
+      reaffiche_liste_comptes_onglet ();
       update_liste_comptes_accueil ();
       remplissage_liste_echeance ();
       update_liste_echeances_manuelles_accueil ();

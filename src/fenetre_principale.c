@@ -97,8 +97,8 @@ GtkWidget *creation_fenetre_principale (void )
 			     page_imputations,
 			     gtk_label_new (_(" Imputations Budgétaires ")) );
 
-  if ( !etat.utilise_imputation_budgetaire )
-    gtk_widget_hide ( page_imputations );
+  gtk_widget_set_sensitive ( page_imputations,
+			     etat.utilise_imputation_budgetaire );
 
   /* création de la fenetre des états */
 

@@ -444,13 +444,13 @@ gint no_derniere_banque;
 
 GtkWidget *liste_operations_ventilees;
 gint ancienne_largeur_ventilation;          /* magouille utilisée pour bloquer un signal size-allocate qui s'emballe */
-GtkWidget *widget_formulaire_ventilation[6];
+GtkWidget *widget_formulaire_ventilation[7];
 GtkWidget *separateur_formulaire_ventilations;
 GtkWidget *hbox_valider_annuler_ventil;
 GtkWidget *label_somme_ventilee;                       /*  label correspondant */
 GtkWidget *label_non_affecte;                       /*  label correspondant */
 GtkWidget *label_montant_operation_ventilee;                       /*  label correspondant */
-struct structure_operation *ligne_selectionnee_ventilation;              /* struct ope ligne sélectionnée */
+struct struct_ope_ventil *ligne_selectionnee_ventilation;              /* struct ope ligne sélectionnée */
 gdouble montant_operation_ventilee;
 gdouble somme_ventilee;
 gint enregistre_ope_au_retour;            /* à 1 si au click du bouton valider on enregistre l'opé */

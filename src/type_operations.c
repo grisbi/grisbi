@@ -2059,6 +2059,9 @@ GtkWidget *creation_menu_types ( gint demande,
 	      gtk_object_set_data ( GTK_OBJECT ( menu ),
 				    "signe_menu",
 				    GINT_TO_POINTER ( demande ) );
+	      gtk_object_set_data ( GTK_OBJECT ( menu ),
+				    "no_compte",
+				    GINT_TO_POINTER ( compte ) );
 	      gtk_widget_show ( menu );
 	    }
 
@@ -2150,6 +2153,53 @@ gint cherche_no_menu_type ( gint demande )
   return ( retour );
 }
 /* ************************************************************************************************************** */
+
+
+
+  
+
+  
+/* ************************************************************************************************************** */
+/* Fonction cherche_no_menu_type_associe */
+/*   argument : le numéro du type demandé */
+/* renvoie la place demandée dans l'option menu du formulaire du type associé */
+/* retourne -1 si pas trouvé */
+/* origine = 0 pour les opérations */
+/* origine = 1 pour les ventilations */
+/* ************************************************************************************************************** */
+
+gint cherche_no_menu_type_associe ( gint demande,
+				    gint origine )
+{
+  GList *liste_tmp;
+  gint retour;
+  gint i;
+
+  if ( !demande )
+    return ( FALSE );
+
+  if ( origine )
+    liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_ventilation[5] ) -> menu ) -> children;
+  else
+    liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_operations[13] ) -> menu ) -> children;
+
+  retour = -1;
+  i=0;
+
+  while ( liste_tmp && retour == -1 )
+    {
+      if ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
+				 "no_type" ) == GINT_TO_POINTER ( demande ))
+	retour = i;
+
+      i++;
+      liste_tmp = liste_tmp -> next;
+    }
+
+  return ( retour );
+}
+/* ************************************************************************************************************** */
+
 
 
 

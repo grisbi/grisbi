@@ -153,7 +153,6 @@ GtkWidget *onglet_affichage_liste ( void )
 	  }
       }
 
-
   /* on permet maintenant de choisir soi même la taille des colonnes */
 
   bouton_choix_perso_colonnes = gtk_check_button_new_with_label ( _("Grisbi ajuste la taille des colonnes selon le tableau ci-dessus" ));
@@ -189,39 +188,30 @@ GtkWidget *onglet_affichage_liste ( void )
 
 
 
-  /* on recopie le tab_affichage_ope */
+  if ( nb_comptes )
+    {
+      /* on recopie le tab_affichage_ope */
 
-  for ( i = 0 ; i<4 ; i++ )
-    for ( j = 0 ; j<7 ; j++ )
-      tab_affichage_ope_tmp[i][j] = tab_affichage_ope[i][j];
+      for ( i = 0 ; i<4 ; i++ )
+	for ( j = 0 ; j<7 ; j++ )
+	  tab_affichage_ope_tmp[i][j] = tab_affichage_ope[i][j];
 
-  /* on remplit le tableau */
+      /* on remplit le tableau */
 
-  remplissage_tab_affichage_ope ( clist_affichage_liste );
+      remplissage_tab_affichage_ope ( clist_affichage_liste );
 
-  /* à remplacer par un affichage dynamique */
-
-  gtk_clist_set_column_width ( GTK_CLIST ( clist_affichage_liste ),
-				     0,
-				     gtk_clist_optimal_column_width ( GTK_CLIST ( clist_affichage_liste ), 0 ));
-  gtk_clist_set_column_width ( GTK_CLIST ( clist_affichage_liste ),
-				     1,
-				     gtk_clist_optimal_column_width ( GTK_CLIST ( clist_affichage_liste ), 1 ));
-  gtk_clist_set_column_width ( GTK_CLIST ( clist_affichage_liste ),
-				     2,
-				     gtk_clist_optimal_column_width ( GTK_CLIST ( clist_affichage_liste ), 2 ));
-  gtk_clist_set_column_width ( GTK_CLIST ( clist_affichage_liste ),
-				     3,
-				     gtk_clist_optimal_column_width ( GTK_CLIST ( clist_affichage_liste ), 3 ));
-  gtk_clist_set_column_width ( GTK_CLIST ( clist_affichage_liste ),
-				     40,
-				     gtk_clist_optimal_column_width ( GTK_CLIST ( clist_affichage_liste ), 4 ));
-  gtk_clist_set_column_width ( GTK_CLIST ( clist_affichage_liste ),
-				     5,
-				     gtk_clist_optimal_column_width ( GTK_CLIST ( clist_affichage_liste ), 5 ));
-  gtk_clist_set_column_width ( GTK_CLIST ( clist_affichage_liste ),
-				     6,
-				     gtk_clist_optimal_column_width ( GTK_CLIST ( clist_affichage_liste ), 6 ));
+      gtk_signal_connect ( GTK_OBJECT ( clist_affichage_liste ),
+			   "size-allocate",
+			   GTK_SIGNAL_FUNC ( allocation_clist_affichage_liste ),
+			   NULL );
+    }
+  else
+    {
+      gtk_widget_set_sensitive ( table,
+				 FALSE );
+      gtk_widget_set_sensitive ( clist_affichage_liste,
+				 FALSE );
+    }
 
   /*   on a dégrisé le appliquer, donc on le regrise */
 
@@ -231,6 +221,45 @@ GtkWidget *onglet_affichage_liste ( void )
   return ( onglet );
 }
 /* ************************************************************************************************************** */
+
+
+/* ************************************************************************************************************** */
+void allocation_clist_affichage_liste ( GtkWidget *clist,
+					GtkAllocation *allocation )
+{
+  gint i;
+  gint largeur;
+
+  /* on stoppe l'appel à cette fonction */
+ 
+  gtk_signal_handler_block_by_func ( GTK_OBJECT ( clist ),
+				     GTK_SIGNAL_FUNC ( allocation_clist_affichage_liste ),
+				     NULL );
+
+  /* règle les largeurs de colonnes */
+
+  if ( allocation )
+    largeur = allocation->width;
+  else
+    largeur = clist -> allocation.width;
+
+  /*   si la largeur est automatique, on change la largeur des colonnes */
+  /*     sinon, on y met les valeurs fixes */
+
+  if ( etat.largeur_auto_colonnes )
+    for ( i=0 ; i<7 ; i++ )
+      gtk_clist_set_column_width ( GTK_CLIST ( clist ),
+				   i,
+				   rapport_largeur_colonnes[i] * largeur / 100 );
+  else
+    for ( i=0 ; i<7 ; i++ )
+      gtk_clist_set_column_width ( GTK_CLIST ( clist ),
+				   i,
+				   taille_largeur_colonnes[i] );
+}
+/* ************************************************************************************************************** */
+
+
 
 
 /* ************************************************************************************************************** */

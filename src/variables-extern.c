@@ -477,13 +477,13 @@ extern gint no_derniere_banque;
 
 extern GtkWidget *liste_operations_ventilees;
 extern gint ancienne_largeur_ventilation;       /* magouille utilisée pour bloquer un signal size-allocate qui s'emballe */
-extern GtkWidget *widget_formulaire_ventilation[6];
+extern GtkWidget *widget_formulaire_ventilation[7];
 extern GtkWidget *separateur_formulaire_ventilations;
 extern GtkWidget *hbox_valider_annuler_ventil;
 extern GtkWidget *label_somme_ventilee;                       /*  label correspondant */
 extern GtkWidget *label_non_affecte;                       /*  label correspondant */
 extern GtkWidget *label_montant_operation_ventilee;                       /*  label correspondant */
-extern struct structure_operation *ligne_selectionnee_ventilation;              /* struct ope ligne sélectionnée */
+extern struct struct_ope_ventil *ligne_selectionnee_ventilation;              /* struct ope ligne sélectionnée */
 extern gdouble montant_operation_ventilee;
 extern gdouble somme_ventilee;
 extern gint enregistre_ope_au_retour;            /* à 1 si au click du bouton valider on enregistre l'opé */

@@ -79,13 +79,10 @@ struct structure_operation
   guint mois;
   guint annee;
 
-  /* GDC La date a laquelle a reellement ete effectuee l'operation
-     contrairement a date qui est celle de prise en compte en banque */
   GDate *date_bancaire;
   guint jour_bancaire;
   guint mois_bancaire;
   guint annee_bancaire;
-  /* GDCFin */
 
   guint no_compte;
 
@@ -530,3 +527,33 @@ struct struct_etat_affichage
   gint (* affiche_titres_colonnes) ( gint ligne );
   gint (* finish) ( );
 };
+
+
+
+
+/* struture d'une opé de ventil */
+
+struct struct_ope_ventil
+{
+  guint no_operation;
+
+  gdouble montant;
+
+  guint categorie;
+  guint sous_categorie;
+
+  gchar *notes;
+
+  guint imputation;
+  guint sous_imputation;
+  gchar *no_piece_comptable;
+
+  guint relation_no_operation;      /* contient le no de l'opé associée quand elle est déjà créée, -1 si c'est un virement non créé */
+  guint relation_no_compte;
+  gint no_type_associe;
+
+  gint pointe;
+
+  gint supprime;   /* à 1 quand cette opé doit être supprimée */
+};
+

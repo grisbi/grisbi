@@ -276,19 +276,11 @@ GtkWidget *creation_verification_ventilation ( void )
 
 
 
-  separateur = gtk_hseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( onglet ),
-		       separateur,
-		       FALSE,
-		       FALSE,
-		       10 );
-  gtk_widget_show ( separateur );
-
 /* mise en place des boutons */
 
   hbox = gtk_hbox_new ( FALSE,
 			10 );
-  gtk_box_pack_start ( GTK_BOX ( onglet ),
+  gtk_box_pack_end ( GTK_BOX ( onglet ),
 		       hbox,
 		       FALSE,
 		       FALSE,
@@ -296,7 +288,7 @@ GtkWidget *creation_verification_ventilation ( void )
   gtk_widget_show ( hbox );
 
 
-  bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_CLOSE );
+  bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_OK );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
@@ -308,7 +300,30 @@ GtkWidget *creation_verification_ventilation ( void )
 		       TRUE,
 		       FALSE,
 		       0 );
-  gtk_widget_show (bouton  );
+  gtk_widget_show ( bouton );
+
+  bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL );
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( annuler_ventilation ),
+		       NULL );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton,
+		       TRUE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton );
+
+
+  separateur = gtk_hseparator_new ();
+  gtk_box_pack_end ( GTK_BOX ( onglet ),
+		       separateur,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( separateur );
 
   return ( onglet );
 }
@@ -325,7 +340,6 @@ GtkWidget *creation_formulaire_ventilation ( void )
   GtkWidget *onglet;
   GtkTooltips *tips;
   GtkWidget *table;
-  GtkWidget *menu;
   GtkWidget *bouton;
 
   /* on crée le tooltips */
@@ -410,7 +424,7 @@ GtkWidget *creation_formulaire_ventilation ( void )
 		       GINT_TO_POINTER (1) );
   gtk_table_attach ( GTK_TABLE (table),
 		     widget_formulaire_ventilation[1],
-		     1, 3, 0,1,
+		     1, 2, 0,1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
 		     0,0);
@@ -418,7 +432,7 @@ GtkWidget *creation_formulaire_ventilation ( void )
 
 
 
-  /* mise en place du montant */
+  /* mise en place du débit */
 
   widget_formulaire_ventilation[2] = gtk_entry_new ();
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_ventilation[2] ),
@@ -439,104 +453,130 @@ GtkWidget *creation_formulaire_ventilation ( void )
 		       GINT_TO_POINTER (2) );
   gtk_table_attach ( GTK_TABLE (table),
 		     widget_formulaire_ventilation[2],
-		     3, 4, 0,1,
+		     2, 3, 0,1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
 		     0,0);
   gtk_widget_show ( widget_formulaire_ventilation[2] );
 
 
+  /* mise en place du crédit */
+
+  widget_formulaire_ventilation[3] = gtk_entry_new ();
+  gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_ventilation[3] ),
+ 		       "key_press_event",
+		       GTK_SIGNAL_FUNC ( appui_touche_ventilation ),
+		       GINT_TO_POINTER ( 3 ) );
+  gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation[3]),
+ 		       "button_press_event",
+		       GTK_SIGNAL_FUNC (clique_champ_formulaire_ventilation ),
+		       NULL );
+  gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation[3]),
+		       "focus_in_event",
+		       GTK_SIGNAL_FUNC (entree_prend_focus),
+		       NULL );
+  gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation[3]),
+		       "focus_out_event",
+		       GTK_SIGNAL_FUNC (entree_ventilation_perd_focus),
+		       GINT_TO_POINTER (3) );
+  gtk_table_attach ( GTK_TABLE (table),
+		     widget_formulaire_ventilation[3],
+		     3, 4, 0,1,
+		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL,
+		     0,0);
+  gtk_widget_show ( widget_formulaire_ventilation[3] );
+
+
   /*  Affiche l'imputation budgétaire */
 
-  widget_formulaire_ventilation[3] = gtk_combofix_new_complex ( liste_imputations_combofix,
+  widget_formulaire_ventilation[4] = gtk_combofix_new_complex ( liste_imputations_combofix,
 								FALSE,
 								TRUE,
 								TRUE,
 								0 );
   gtk_table_attach ( GTK_TABLE (table),
-		     widget_formulaire_ventilation[3],
+		     widget_formulaire_ventilation[4],
 		     0, 1, 1, 2,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
 		     0,0);
-  gtk_signal_connect ( GTK_OBJECT (GTK_COMBOFIX (widget_formulaire_ventilation[3]) -> entry),
+  gtk_signal_connect ( GTK_OBJECT (GTK_COMBOFIX (widget_formulaire_ventilation[4]) -> entry),
  		       "button_press_event",
 		       GTK_SIGNAL_FUNC (clique_champ_formulaire_ventilation),
 		       NULL );
-  gtk_signal_connect ( GTK_OBJECT (GTK_COMBOFIX (widget_formulaire_ventilation[3]) -> arrow),
+  gtk_signal_connect ( GTK_OBJECT (GTK_COMBOFIX (widget_formulaire_ventilation[4]) -> arrow),
  		       "button_press_event",
 		       GTK_SIGNAL_FUNC (clique_champ_formulaire_ventilation),
 		       NULL );
-  gtk_signal_connect ( GTK_OBJECT (GTK_COMBOFIX (widget_formulaire_ventilation[3]) -> entry),
+  gtk_signal_connect ( GTK_OBJECT (GTK_COMBOFIX (widget_formulaire_ventilation[4]) -> entry),
  		       "key_press_event",
 		       GTK_SIGNAL_FUNC (appui_touche_ventilation),
-		       GINT_TO_POINTER(3) );
-  gtk_signal_connect_object ( GTK_OBJECT ( GTK_COMBOFIX (widget_formulaire_ventilation[3]) -> entry ),
+		       GINT_TO_POINTER(4) );
+  gtk_signal_connect_object ( GTK_OBJECT ( GTK_COMBOFIX (widget_formulaire_ventilation[4]) -> entry ),
 			      "focus_in_event",
 			      GTK_SIGNAL_FUNC (entree_prend_focus),
-			      GTK_OBJECT ( widget_formulaire_ventilation[3] ) );
-  gtk_signal_connect ( GTK_OBJECT (GTK_COMBOFIX (widget_formulaire_ventilation[3]) -> entry),
+			      GTK_OBJECT ( widget_formulaire_ventilation[4] ) );
+  gtk_signal_connect ( GTK_OBJECT (GTK_COMBOFIX (widget_formulaire_ventilation[4]) -> entry),
 		       "focus_out_event",
 		       GTK_SIGNAL_FUNC (entree_ventilation_perd_focus),
-		       GINT_TO_POINTER (3) );
+		       GINT_TO_POINTER (4) );
 
-  if ( etat.utilise_imputation_budgetaire )
-    gtk_widget_show (widget_formulaire_ventilation[3]);
+  gtk_widget_show (widget_formulaire_ventilation[4]);
+
+  gtk_widget_set_sensitive ( widget_formulaire_ventilation[4],
+			     etat.utilise_imputation_budgetaire );
 
 
-
-  /* mise en place du no d'exercice */
-
-  widget_formulaire_ventilation[4] = gtk_option_menu_new ();
+  /* mise en place du type de l'opé associée en cas de virement */
+  /* non affiché au départ */
+  
+  widget_formulaire_ventilation[5] = gtk_option_menu_new ();
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
-			 widget_formulaire_ventilation[4],
-			 _("Choix de l'exercice"),
-			 _("Choix de l'exercice") );
-  menu = gtk_menu_new ();
-  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation[4] ),
-			     creation_menu_exercices (0) );
-  gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation[4]),
+			 widget_formulaire_ventilation[5],
+			 _("Type d'opération associée"),
+			 _("Type d'opération associée") );
+  gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation[5]),
  		       "key_press_event",
 		       GTK_SIGNAL_FUNC ( appui_touche_ventilation ),
-		       GINT_TO_POINTER(4) );
+		       GINT_TO_POINTER(5) );
   gtk_table_attach ( GTK_TABLE ( table ),
-		     widget_formulaire_ventilation[4],
+		     widget_formulaire_ventilation[5],
 		     1, 2, 1, 2,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
 		     0,0);
-  if ( etat.utilise_exercice )
-    gtk_widget_show ( widget_formulaire_ventilation[4] );
 
 
   /*   création de l'entrée du no de pièce comptable */
 
-  widget_formulaire_ventilation[5] = gtk_entry_new();
+  widget_formulaire_ventilation[6] = gtk_entry_new();
   gtk_table_attach ( GTK_TABLE (table),
-		     widget_formulaire_ventilation[5],
+		     widget_formulaire_ventilation[6],
 		     2, 4, 1, 2,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
 		     0,0);
-  gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation[5]),
+  gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation[6]),
  		       "button_press_event",
 		       GTK_SIGNAL_FUNC (clique_champ_formulaire_ventilation ),
 		       NULL );
-  gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation[5]),
+  gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation[6]),
  		       "key_press_event",
 		       GTK_SIGNAL_FUNC (appui_touche_ventilation),
-		       GINT_TO_POINTER(5) );
-  gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation[5]),
+		       GINT_TO_POINTER(6) );
+  gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation[6]),
 		       "focus_in_event",
 		       GTK_SIGNAL_FUNC (entree_prend_focus),
 		       NULL );
-  gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation[5]),
+  gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation[6]),
 		       "focus_out_event",
 		       GTK_SIGNAL_FUNC (entree_ventilation_perd_focus),
-		       GINT_TO_POINTER (5) );
-  if ( etat.utilise_piece_comptable )
-    gtk_widget_show ( widget_formulaire_ventilation[5] );
+		       GINT_TO_POINTER (6) );
+  gtk_widget_show ( widget_formulaire_ventilation[6] );
 
+  gtk_widget_set_sensitive ( widget_formulaire_ventilation[6],
+			     etat.utilise_piece_comptable );
 
   /* séparation d'avec les boutons */
 
@@ -610,7 +650,7 @@ void clique_champ_formulaire_ventilation ( void )
 
   /* on rend sensitif tout ce qui ne l'était pas sur le formulaire */
 
-  gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_ventilation[4] ),
+  gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_ventilation[5] ),
 			     TRUE );
   gtk_widget_set_sensitive ( GTK_WIDGET ( hbox_valider_annuler_ventil ),
 			     TRUE );
@@ -638,7 +678,112 @@ void entree_ventilation_perd_focus ( GtkWidget *entree,
     {
       /* on sort des catégories */
     case 0:
-      if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
+      if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
+	{
+	  /* si c'est un virement, on met le menu des types de l'autre compte */
+	  /* si ce menu n'est pas déjà affiché */
+
+	  gchar **tableau_char;
+
+	  tableau_char = g_strsplit ( gtk_entry_get_text ( GTK_ENTRY ( entree )),
+				      ":",
+				      2 );
+
+	  tableau_char[0] = g_strstrip ( tableau_char[0] );
+
+	  if ( tableau_char[1] )
+	    tableau_char[1] = g_strstrip ( tableau_char[1] );
+
+
+	  if ( strlen ( tableau_char[0] ) )
+	    {
+	      if ( !strcmp ( tableau_char[0],
+			     _("Virement") )
+		   && tableau_char[1]
+		   && strlen ( tableau_char[1]) )
+		{
+		  /* c'est un virement : on recherche le compte associé et on affiche les types de paiement */
+
+		  gint i;
+
+		  if ( strcmp ( tableau_char[1],
+				_("Compte supprimé") ) )
+		    {
+		      /* recherche le no de compte du virement */
+
+		      gint compte_virement;
+
+		      p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+
+		      compte_virement = -1;
+
+		      for ( i = 0 ; i < nb_comptes ; i++ )
+			{
+			  if ( !g_strcasecmp ( NOM_DU_COMPTE,
+					       tableau_char[1] ) )
+			    compte_virement = i;
+			  p_tab_nom_de_compte_variable++;
+			}
+
+		      /* si on a touvé un compte de virement, que celui ci n'est pas le compte */
+		      /* courant et que son menu des types n'est pas encore affiché, on crée le menu */
+
+		      if ( compte_virement != -1
+			   &&
+			   compte_virement != compte_courant )
+			{
+			  /* si le menu affiché est déjà celui du compte de virement, on n'y touche pas */
+
+			  if ( !GTK_WIDGET_VISIBLE ( widget_formulaire_ventilation[5] )
+			       ||
+			       ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_ventilation[5] ) -> menu ),
+									 "no_compte" ))
+				 !=
+				 compte_virement ))
+			    {
+			      /* vérifie quel est le montant entré, affiche les types opposés de l'autre compte */
+
+			      GtkWidget *menu;
+
+			      if ( gtk_widget_get_style ( widget_formulaire_ventilation[4] ) == style_entree_formulaire[0] )
+				/* il y a un montant dans le crédit */
+				menu = creation_menu_types ( 1, compte_virement, 2  );
+			      else
+				/* il y a un montant dans le débit ou défaut */
+				menu = creation_menu_types ( 2, compte_virement, 2  );
+
+			      /* si un menu à été créé, on l'affiche */
+
+			      if ( menu )
+				{
+				  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation[5] ),
+							     menu );
+				  gtk_widget_show ( widget_formulaire_ventilation[5] );
+				}
+				  
+			      /* on associe le no de compte de virement au formulaire pour le retrouver */
+			      /* rapidement s'il y a un chgt débit/crédit */
+
+			      gtk_object_set_data ( GTK_OBJECT ( widget_formulaire_ventilation[5] ),
+						    "compte_virement",
+						    GINT_TO_POINTER ( compte_virement ));
+			    }
+			}
+		      else
+			gtk_widget_hide ( widget_formulaire_ventilation[5] );
+		    }
+		  else
+		    gtk_widget_hide ( widget_formulaire_ventilation[5] );
+		}
+	      else
+		gtk_widget_hide ( widget_formulaire_ventilation[5] );
+	    }
+	  else
+	    gtk_widget_hide ( widget_formulaire_ventilation[5] );
+
+	  g_strfreev ( tableau_char );
+	}
+      else
 	texte = _("Catégories : Sous-catégories");
       break;
 
@@ -649,23 +794,112 @@ void entree_ventilation_perd_focus ( GtkWidget *entree,
 	texte = _("Notes");
       break;
 
-      /* sort du montant */
+      /* sort du débit */
+     /*   soit vide, soit change le menu des types s'il ne correspond pas */
 
     case 2:
-      if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-	texte = _("Montant");
+
+      if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree ))))
+	   &&
+	   gtk_widget_get_style ( widget_formulaire_ventilation[2] ) == style_entree_formulaire[0] )
+	{
+	  /* on  commence par virer ce qu'il y avait dans les crédits */
+
+	  if ( gtk_widget_get_style ( widget_formulaire_ventilation[3] ) == style_entree_formulaire[0] )
+	    {
+	      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[3] ),
+				   "" );
+	      gtk_widget_set_style ( widget_formulaire_ventilation[3],
+				     style_entree_formulaire[1] );
+	      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[3]),
+				   _("Crédit") );
+	    }
+
+	  /* comme il y a eu un changement de signe, on change aussi le type de l'opé associée */
+	  /* s'il est affiché */
+
+	  if ( GTK_WIDGET_VISIBLE ( widget_formulaire_ventilation[5] )
+	       &&
+	       GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_ventilation[5] ) -> menu ),
+						       "signe_menu" ))
+	       ==
+	       1 )
+	    {
+	      GtkWidget *menu;
+
+	      menu = creation_menu_types ( 2,
+					   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( widget_formulaire_ventilation[5] ),
+										   "compte_virement" )),
+					   2  );
+
+	      if ( menu )
+		gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation[5] ),
+					   menu );
+	      else
+		gtk_option_menu_remove_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation[5] ));
+	    }
+	}
+      else
+	texte = _("Débit");
+      break;
+
+      /* sort du crédit */
+
+    case 3:
+      if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree ))))
+	   &&
+	   gtk_widget_get_style ( widget_formulaire_ventilation[3] ) == style_entree_formulaire[0])
+	{
+	  /* on  commence par virer ce qu'il y avait dans les débits */
+
+	  if ( gtk_widget_get_style ( widget_formulaire_ventilation[2] ) == style_entree_formulaire[0] )
+	    {
+	      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[2] ),
+				   "" );
+	      gtk_widget_set_style ( widget_formulaire_ventilation[2],
+				     style_entree_formulaire[1] );
+	      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[2]),
+				   _("Débit") );
+	    }
+
+	  /* comme il y a eu un changement de signe, on change aussi le type de l'opé associée */
+	  /* s'il est affiché */
+
+	  if ( GTK_WIDGET_VISIBLE ( widget_formulaire_ventilation[5] )
+	       &&
+	       GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_ventilation[5] ) -> menu ),
+						       "signe_menu" ))
+	       ==
+	       2 )
+	    {
+	      GtkWidget *menu;
+
+	      menu = creation_menu_types ( 1,
+					   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( widget_formulaire_ventilation[5] ),
+										   "compte_virement" )),
+					   2  );
+
+	      if ( menu )
+		gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation[5] ),
+					   menu );
+	      else
+		gtk_option_menu_remove_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation[5] ));
+	    }
+	}
+      else
+	texte = _("Crédit");
       break;
 
       /* sort de l'ib */
 
-    case 3:
+    case 4:
       if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	texte = _("Imputation budgétaire");
       break;
 
       /* sort de la pièce comptable */
 
-    case 5:
+    case 6:
       if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	texte = _("Pièce comptable");
       break;
@@ -694,8 +928,7 @@ void entree_ventilation_perd_focus ( GtkWidget *entree,
 /* Fonction ventiler_operation */
 /* appelée lorsque la catégorie est Ventilation lors de l'enregistrement d'une opé */
 /* ou lors d'une modif d'une opé ventilée */
-/* Arguments : montant : montant total de l'opé */
-/*             signe : 0 : débit, 1 : crédit */
+/* Arguments : montant de l'opé */
 /*******************************************************************************************/
 
 void ventiler_operation ( gdouble montant )
@@ -762,17 +995,17 @@ void ventiler_operation ( gdouble montant )
   /* qui modifient la position dans la liste des opés */
 
   gtk_signal_handler_block_by_func ( GTK_OBJECT ( frame_droite_bas ),
-			     allocation_taille_formulaire,
-			     NULL );
+				     allocation_taille_formulaire,
+				     NULL );
   gtk_signal_handler_block_by_func ( GTK_OBJECT ( frame_droite_bas ),
-			     efface_formulaire,
-			     NULL );
+				     efface_formulaire,
+				     NULL );
 
 
   /* affiche les pages de ventilation */
 
   gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
-			  1 );
+			  0 );
   gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
 			  1 );
   gtk_widget_hide ( formulaire );
@@ -850,16 +1083,19 @@ void changement_taille_liste_ventilation ( GtkWidget *clist,
   gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation[2] ),
 			 col2,
 			 FALSE );
+  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation[3] ),
+			 col2,
+			 FALSE );
 
   /* 2ème ligne */
 
-  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation[3] ),
+  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation[4] ),
 			 col0,
 			 FALSE );
-  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation[4] ),
+  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation[5] ),
 			 col1 / 2,
 			 FALSE );
-  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation[5] ),
+  gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation[6] ),
 			 col2,
 			 FALSE );
 
@@ -1086,8 +1322,7 @@ void appui_touche_ventilation ( GtkWidget *entree,
 
       /* on donne le focus au widget suivant */
 
-
-      origine = (origine + 1 ) % 6;
+      origine = (origine + 1 ) % 7;
 
       while ( !(GTK_WIDGET_VISIBLE ( widget_formulaire_ventilation[origine] )
 		&&
@@ -1098,7 +1333,7 @@ void appui_touche_ventilation ( GtkWidget *entree,
 		  GTK_IS_ENTRY ( widget_formulaire_ventilation[origine] )
 		  ||
 		  GTK_IS_BUTTON ( widget_formulaire_ventilation[origine] ) )))
-	origine = (origine + 1 ) % 6;
+	origine = (origine + 1 ) % 7;
 
      /*       si on se retrouve sur les catég et que etat.entree = 0, on enregistre l'opérations */
 
@@ -1107,6 +1342,14 @@ void appui_touche_ventilation ( GtkWidget *entree,
 	  fin_edition_ventilation();
 	  return;
 	}
+
+      /* si on se retrouve sur le crédit et qu'il y a qque chose dans le débit, on passe au suivant */
+      /*       à ce niveau, il n'y a pas eu encore de focus out donc on peut tester par strlen */
+
+      if ( origine == 3
+	   &&
+	   strlen ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[2] ))))
+	origine = (origine + 1 ) % 7;
 
       /* on sélectionne le contenu de la nouvelle entrée */
 
@@ -1166,9 +1409,11 @@ void echap_formulaire_ventilation ( void )
 			 style_entree_formulaire[1] );
   gtk_widget_set_style ( widget_formulaire_ventilation[2],
 			 style_entree_formulaire[1] );
-  gtk_widget_set_style ( GTK_COMBOFIX ( widget_formulaire_ventilation[3] )->entry,
+  gtk_widget_set_style ( widget_formulaire_ventilation[3],
 			 style_entree_formulaire[1] );
-  gtk_widget_set_style ( widget_formulaire_ventilation[5],
+  gtk_widget_set_style ( GTK_COMBOFIX ( widget_formulaire_ventilation[4] )->entry,
+			 style_entree_formulaire[1] );
+  gtk_widget_set_style ( widget_formulaire_ventilation[6],
 			 style_entree_formulaire[1] );
 
 
@@ -1177,21 +1422,29 @@ void echap_formulaire_ventilation ( void )
   gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[1]),
 		       _("Notes") );
   gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[2]),
-		       _("Montant") );
-  gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation[3] ),
+		       _("Débit") );
+  gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[3]),
+		       _("Crédit") );
+  gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation[4] ),
 			  _("Imputation budgétaire") );
-  gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[5]),
+  gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[6]),
 		       _("Pièce comptable") );
 
-  gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_ventilation[4] ),
+  gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_ventilation[5] ),
 				0 );
 
-  gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_ventilation[4] ),
+  gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_ventilation[5] ),
 			     FALSE );
   gtk_widget_set_sensitive ( GTK_WIDGET ( hbox_valider_annuler_ventil ),
 			     FALSE );
+  gtk_widget_set_sensitive ( widget_formulaire_ventilation[0],
+			     TRUE );
   gtk_widget_set_sensitive ( widget_formulaire_ventilation[2],
 			     TRUE );
+  gtk_widget_set_sensitive ( widget_formulaire_ventilation[3],
+			     TRUE );
+
+  gtk_widget_hide ( widget_formulaire_ventilation[5] );
 
 /*   met l'adr de l'opé dans le formulaire à -1 */
 
@@ -1210,65 +1463,39 @@ void echap_formulaire_ventilation ( void )
 /***********************************************************************************************************/
 void fin_edition_ventilation ( void )
 {
-  struct structure_operation *operation;
+  struct struct_ope_ventil *operation;
   gint modification;
-  gint rafraichir_categ;
-  gint virement;
-  gchar *nom_compte_vire;
-  gint rafraichir_imputation;
+  gchar **tableau_char;
+  gint compte_vire;
+  gint perte_ligne_selectionnee;
 
-  rafraichir_categ = 0;
-  rafraichir_imputation = 0;
-  virement = 0;
-  nom_compte_vire = NULL;
+  /* pour éviter les warnings lors de la compil */
 
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+  compte_vire = 0;
+  tableau_char = NULL;
 
-  operation = gtk_object_get_data ( GTK_OBJECT ( widget_formulaire_ventilation[0] ),
-				    "adr_struct_ope" );
+  /* on met le focus sur la liste des opés pour éventuellement faire perdre le focus aux entrées des */
+  /* montants pour faire les modifs nécessaires automatiquement */
 
+  gtk_window_set_focus ( GTK_WINDOW ( window ),
+			 liste_operations_ventilees );
 
-  if (operation == GINT_TO_POINTER ( -1 ))
-    {
-      operation = calloc ( 1,
-			   sizeof ( struct structure_operation ));
-      modification = 0;
+  /* perte ligne sélectionnée sera à 1 s'il y a une magouille avec les virements et */
+  /* qu'on recrée une opé au lieu de la modifier. dans ce cas on remettra la ligne */
+  /* sélectionné sur la nouvelle opé */
 
-      /*   met la relation de ventilation à -1 car n'est pas encore associée */
+  perte_ligne_selectionnee = 0;
 
-      operation -> no_operation_ventilee_associee = -1;
-    }
-  else
-    modification = 1;
+  /*   dans cette fonction, on récupère les infos du formulaire qu'on met dans une structure */
+  /* de ventilation, et on ajoute cette structure à celle en cours (ou modifie si elle existait */
+  /* déjà */
 
-
-
-  /* récupération des notes */
-
-  if ( gtk_widget_get_style ( widget_formulaire_ventilation[1] ) == style_entree_formulaire[0] )
-    operation -> notes = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[1] ))));
-  else
-    operation -> notes = NULL;
-
-
-  /* récupération du montant */
-
-  operation -> montant = g_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[2] ))),
-				    NULL );
-
-  /* remplissage du no de compte */
-
-  operation -> no_compte = compte_courant;
-
-
-  /*   récupération des catégories / sous-catég, s'ils n'existent pas, on les crée */
-  /* si c'est un virement, on  met virement à 1 */
+  /* on vérifie si c'est un virement que le compte est valide et que ce n'est pas un virement sur lui-même */
 
 
   if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_ventilation[0] ) -> entry ) == style_entree_formulaire[0] )
     {
-      struct struct_categ *categ;
-      gchar **tableau_char;
+      /*       on split déjà les catég, sans libérer la variable, pour la récupérer ensuite pour les categ */
 
       tableau_char = g_strsplit ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_ventilation[0] ))),
 				  ":",
@@ -1281,115 +1508,239 @@ void fin_edition_ventilation ( void )
 	    tableau_char[1] = g_strstrip ( tableau_char[1] );
 
 
-	  if ( strlen ( tableau_char[0] ) )
+	  if ( !strcmp ( tableau_char[0],
+			 _("Virement")))
 	    {
+	      gint i;
 
-	      /* on vérifie ici si c'est un virement */
-
-	      if ( strcmp ( tableau_char[0],
-			    _("Virement") ) )
+	      if ( tableau_char[1] )
 		{
-		  /* 	      ce n'est pas un virement, recherche les catég */
+		  compte_vire = -1;
 
-		  GSList *pointeur_liste;
-
-		  virement = 0;
-
-		  /* si c'est une modif d'opé et que l'ancienne opé était un virement, on vire l'opé */
-		  /* associée */
-
-		  if ( modification
-		       &&
-		       operation -> relation_no_operation )
+		  for ( i = 0 ; i < nb_comptes ; i++ )
 		    {
-		      struct structure_operation *ope_associee;
+		      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
-
-		      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
-
-		      ope_associee = g_slist_find_custom ( LISTE_OPERATIONS,
-							   GINT_TO_POINTER ( operation -> relation_no_operation ),
-							   (GCompareFunc) recherche_operation_par_no ) -> data;
-
-		      ope_associee -> relation_no_operation = 0;
-
-		      supprime_operation ( ope_associee );
-
-		      operation -> relation_no_operation = 0;
-		      operation -> relation_no_compte = 0;
-		      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+		      if ( !strcmp ( NOM_DU_COMPTE,
+				     tableau_char[1] ) )
+			compte_vire = i;
 		    }
 
-		  /* recherche des catégories */
+		  if ( compte_vire == -1 )
+		    {
+		      dialogue ( _("Erreur : le compte associé au virement est invalide") );
+		      return;
+		    }
 
-		  pointeur_liste = g_slist_find_custom ( liste_struct_categories,
-							 tableau_char[0],
-							 ( GCompareFunc ) recherche_categorie_par_nom );
-
-		  if ( pointeur_liste )
+		  if ( compte_vire == compte_courant )
 		    {
-		      categ = pointeur_liste -> data;
-		      rafraichir_categ = 0;
+		      dialogue ( _("Erreur : impossible de virer un compte sur lui-même") );
+		      return;
 		    }
-		  else
-		    {
-		      categ = ajoute_nouvelle_categorie ( tableau_char[0] );
-		      if ( operation -> montant < 0 )
-			categ -> type_categ = 1;
-		      else
-			categ -> type_categ = 0;
-		      rafraichir_categ = 1;
-		    }
-	  
-		  operation -> categorie = categ -> no_categ;
-	  
-		  if ( tableau_char[1] && strlen (tableau_char[1]) )
-		    {
-		      struct struct_sous_categ *sous_categ;
-		  
-		      pointeur_liste = g_slist_find_custom ( categ -> liste_sous_categ,
-							     tableau_char[1],
-							     ( GCompareFunc ) recherche_sous_categorie_par_nom );
-	      
-		      if ( pointeur_liste )
-			{
-			  sous_categ = pointeur_liste -> data;
-			  rafraichir_categ = 0;
-			}
-		      else
-			{
-			  sous_categ = ajoute_nouvelle_sous_categorie ( tableau_char[1],
-									categ );
-			  rafraichir_categ = 1;
-			}
-		  
-		      operation -> sous_categorie = sous_categ -> no_sous_categ;
-		    }
-		  else
-		    operation -> sous_categorie = 0;
 		}
 	      else
 		{
-		  /* c'est un virement, les no de categ sont déjà à 0 */
-
-		  virement = 1;
-		  nom_compte_vire = g_strdup ( tableau_char [1] );
+		  dialogue ( _("Erreur : aucun compte associé au virement.") );
+		  return;
 		}
 	    }
 	}
+    }
+
+
+  /*   on récupère l'adresse de l'opération, soit c'est une modif, soit c'est une nouvelle (-1) */
+
+  operation = gtk_object_get_data ( GTK_OBJECT ( widget_formulaire_ventilation[0] ),
+				    "adr_struct_ope" );
+
+
+  if (operation == GINT_TO_POINTER ( -1 ))
+    {
+      operation = calloc ( 1,
+			   sizeof ( struct struct_ope_ventil ));
+      modification = 0;
+    }
+  else
+    modification = 1;
+
+
+  /*   récupération des catégories / sous-catég, s'ils n'existent pas, on les crée */
+  /* la variable tableau_char est déjà initialisée lors des tests du virement */
+
+  /*   il y a 3 possibilités en rapport avec les virements : */
+  /* si l'ancienne opé était un virement, la nouvelle est : */
+  /* soit virement vers le même compte */
+  /* soit virement vers un autre compte */
+  /* soit ce n'est plus un virement */
+  /*     pour la 1ère, c'est une modif normale d'opé */
+  /*     pour les 2nde et 3ème, on supprime cette opé et en recrée une nouvelle */
+
+  /* il faut donc mettre la récup des catég en premier car il peut y avoir un changement au niveau des */
+  /* modif avec suppression de l'ancienne et création d'une nouvelle ope */
+
+  if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_ventilation[0] ) -> entry ) == style_entree_formulaire[0] )
+    {
+      struct struct_categ *categ;
+
+      if ( strlen ( tableau_char[0] ) )
+	{
+	  /* on vérifie ici si c'est un virement */
+
+	  if ( strcmp ( tableau_char[0],
+			_("Virement") ) )
+	    {
+	      /* ce n'est pas un virement, recherche les catég */
+
+	      GSList *pointeur_liste;
+
+	      /* si c'est une modif d'opé et que l'ancienne opé était un virement */
+	      /* on marque cette opé comme supprimée et on en fait une nouvelle */
+
+	      if ( modification
+		   &&
+		   operation -> relation_no_operation )
+		{
+		  operation -> supprime = 1;
+		  operation = calloc ( 1,
+				       sizeof ( struct struct_ope_ventil ));
+		  modification = 0;
+		  perte_ligne_selectionnee = 1;
+		}
+
+	      /* recherche des catégories */
+
+	      pointeur_liste = g_slist_find_custom ( liste_struct_categories,
+						     tableau_char[0],
+						     ( GCompareFunc ) recherche_categorie_par_nom );
+
+	      if ( pointeur_liste )
+		categ = pointeur_liste -> data;
+	      else
+		{
+		  categ = ajoute_nouvelle_categorie ( tableau_char[0] );
+		  if ( operation -> montant < 0 )
+		    categ -> type_categ = 1;
+		  else
+		    categ -> type_categ = 0;
+		}
+	  
+	      operation -> categorie = categ -> no_categ;
+	  
+	      if ( tableau_char[1] && strlen (tableau_char[1]) )
+		{
+		  struct struct_sous_categ *sous_categ;
+		  
+		  pointeur_liste = g_slist_find_custom ( categ -> liste_sous_categ,
+							 tableau_char[1],
+							 ( GCompareFunc ) recherche_sous_categorie_par_nom );
+	      
+		  if ( pointeur_liste )
+		    sous_categ = pointeur_liste -> data;
+		  else
+		    sous_categ = ajoute_nouvelle_sous_categorie ( tableau_char[1],
+								  categ );
+		  
+		  operation -> sous_categorie = sous_categ -> no_sous_categ;
+		}
+	      else
+		operation -> sous_categorie = 0;
+	    }
+	  else
+	    {
+	      /* c'est un virement */
+
+	      /* si c'est une nouvelle opé, on est content et on prend juste le compte de virement */
+	      /* si c'est une modif d'opé et que l'ancienne n'était pas un virement, idem */
+	      /* si l'ancienne était un virement vers le même compte, idem */
+	      /* si l'ancienne était un virement vers un autre compte, c'est qu'on cherche les bugs ... */
+	      /* dans ce cas, on marque l'opé comme supprimée et on en recrée une nouvelle */
+
+	      /* le no de compte du virement est déjà dans compte_vire */
+
+	      if ( modification
+		   &&
+		   operation -> relation_no_operation != -1
+		   &&
+		   operation -> relation_no_compte != compte_vire )
+		{
+		  /* on supprime donc l'opé et en crée une nouvelle */
+
+		  operation -> supprime = 1;
+		  operation = calloc ( 1,
+				       sizeof ( struct struct_ope_ventil ));
+		  modification = 0;
+		  perte_ligne_selectionnee = 1;
+		}
+
+	      /* on met les no de categ à 0 */
+
+	      operation -> categorie = 0;
+	      operation -> sous_categorie = 0;
+
+	      /* on met le compte en relation si c'est une nouvelle opération */
+
+	      if ( !modification )
+		operation -> relation_no_operation = -1;
+
+	      operation -> relation_no_compte = compte_vire;
+	    }
+	}
+      /*       on peut maintenant libérer la variable tableau_char, qui ne sera plus utilisée */
+
       g_strfreev ( tableau_char );
     }
+  else
+    {
+      /* il n'y a aucune catég, si c'est une modif d'opé et que cette opé était un virement, */
+      /* on marque cette opé comme supprimée et on en recrée une nouvelle */
+
+      if ( modification
+	   &&
+	   operation -> relation_no_operation )
+	{
+	  operation -> supprime = 1;
+	  operation = calloc ( 1,
+			       sizeof ( struct struct_ope_ventil ));
+	  modification = 0;
+	  perte_ligne_selectionnee = 1;
+	}
+    }
+
+  /* récupération du type d'opé associée s'il est affiché */
+
+  if ( GTK_WIDGET_VISIBLE ( widget_formulaire_ventilation[5] ))
+    operation -> no_type_associe = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_ventilation[5] ) -> menu_item ),
+									   "no_type" ));
+
+  /* récupération des notes */
+
+  if ( gtk_widget_get_style ( widget_formulaire_ventilation[1] ) == style_entree_formulaire[0] )
+    operation -> notes = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[1] ))));
+  else
+    operation -> notes = NULL;
+
+
+  /* récupération du montant */
+
+  if ( gtk_widget_get_style ( widget_formulaire_ventilation[2] ) == style_entree_formulaire[0] )
+    /* c'est un débit */
+    operation -> montant = -g_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[2] ))),
+				       NULL );
+  else
+    operation -> montant = g_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[3] ))),
+				      NULL );
+
 
 
   /* récupération de l'imputation budgétaire */
 
-  if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_ventilation[3] ) -> entry ) == style_entree_formulaire[0] )
+  if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_ventilation[4] ) -> entry ) == style_entree_formulaire[0] )
     {
       struct struct_imputation *imputation;
       gchar **tableau_char;
       GSList *pointeur_liste;
 
-      tableau_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_ventilation[3] )),
+      tableau_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_ventilation[4] )),
 				  ":",
 				  2 );
       
@@ -1412,8 +1763,6 @@ void fin_edition_ventilation ( void )
 	    imputation -> type_imputation = 1;
 	  else
 	    imputation -> type_imputation = 0;
-
-	  rafraichir_imputation = 1;
 	}
 
       operation -> imputation = imputation -> no_imputation;
@@ -1429,11 +1778,8 @@ void fin_edition_ventilation ( void )
 	  if ( pointeur_liste )
 	    sous_imputation = pointeur_liste -> data;
 	  else
-	    {
-	      sous_imputation = ajoute_nouvelle_sous_imputation ( tableau_char[1],
-								  imputation );
-	      rafraichir_imputation = 1;
-	    }
+	    sous_imputation = ajoute_nouvelle_sous_imputation ( tableau_char[1],
+								imputation );
 
 	  operation -> sous_imputation = sous_imputation -> no_sous_imputation;
 	}
@@ -1444,226 +1790,55 @@ void fin_edition_ventilation ( void )
     }
 
 
-  /* récupération du no d'exercice */
-
-  operation -> no_exercice = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_ventilation[4] ) -> menu_item ),
-								     "no_exercice" ));
-
-
 /* récupération du no de pièce comptable */
 
-  if ( gtk_widget_get_style ( widget_formulaire_ventilation[5] ) == style_entree_formulaire[0] )
-    operation -> no_piece_comptable = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[5] ))));
+  if ( gtk_widget_get_style ( widget_formulaire_ventilation[6] ) == style_entree_formulaire[0] )
+    operation -> no_piece_comptable = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[6] ))));
   else
     operation -> no_piece_comptable = NULL;
 
 
-  /* remplit la date : cree une date bidon qui sera remlit quand l'opération en cours sera validée */
-
-  operation -> jour = 1;
-  operation -> mois = 1;
-  operation -> annee = 2000;
-
-  operation -> date = g_date_new_dmy ( operation -> jour,
-					  operation -> mois,
-					  operation -> annee );
-
-  /* crée une devise  bidon pour éviter un segfault si on réussi à changer de compte avant la validation de l'opé ventilée */
-
-  operation -> devise = 1;
-
  
-  /* on a rempli l'opération, on l'ajoute au compte */
-  /*   le tiers, la date ... seront remplis lors de la validation de l'opération principale */
+  /* on a rempli l'opération, on l'ajoute à la liste */
+  /* si c'est une modif */
 
   if ( !modification )
-    ajout_operation ( operation );
-
-
-
-  if ( virement )
     {
-      /* 	      c'est un virement ; trois solutions : */
-      /*  soit c'est une édition d'opération, c'était un virement et le compte viré n'a pas changé */
-      /* soit  c'est une édition d'opération, c'était un virement et le compte viré a changé */
-      /* soit c'est un nouveau virement, crée l'opé associée dans ce cas */
+      GSList *liste_struct_ventilations;
 
+      /* récupération de la liste de ventilations */
 
-      /* recherche du numéro de compte entré */
+      liste_struct_ventilations = gtk_object_get_data ( GTK_OBJECT ( formulaire ),
+							"liste_adr_ventilation" );
 
-      gint compte_vire;
-      gint i;
+      /*   si cette liste est à -1 (ce qui veut dire qu'elle est nulle en réalité mais */
+      /* qu'elle a déjà été éditée ), on la met à 0 */
 
-      compte_vire = -1;
+      if ( liste_struct_ventilations == GINT_TO_POINTER ( -1 ))
+	liste_struct_ventilations = NULL;
 
-      for ( i = 0 ; i < nb_comptes ; i++ )
-	{
-	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+      /* on ajoute l'opé */
 
-	  if ( !strcmp ( NOM_DU_COMPTE,
-			 nom_compte_vire ) )
-	    compte_vire = i;
-	}
+      liste_struct_ventilations = g_slist_append ( liste_struct_ventilations,
+						   operation );
 
-      if ( compte_vire == -1 )
-	{
-	  dialogue ( _("Erreur : le compte associé au virement est invalide") );
-	  return;
-	}
-
-      if ( compte_vire == compte_courant )
-	{
-	  dialogue ( _("Erreur : impossible de virer un compte sur lui-même") );
-	  return;
-	}
-
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_vire;
-
-      /* la soluce la plus facile : c'est une modif d'opé, pas de changement pour le compte viré */
-
-      if ( modification
-	   &&
-	   ( operation -> relation_no_compte == compte_vire ))
-	{
-	  /* récupère l'opération associée */
-
-	  struct structure_operation *ope_associee;
-
-	  ope_associee = g_slist_find_custom ( LISTE_OPERATIONS,
-					       GINT_TO_POINTER ( operation -> relation_no_operation ),
-					       (GCompareFunc) recherche_operation_par_no ) -> data;
-
-
-	  /* on y met le nouveau montant et la note, l'ib, l'exercice et la pièce comptable */
-
-	  ope_associee -> montant = operation -> montant;
-
-
-	  if ( operation -> notes )
-	    ope_associee -> notes = g_strdup ( operation -> notes );
-	  else
-	    ope_associee -> notes = NULL;
-
-	  ope_associee -> imputation = operation -> imputation;
-	  ope_associee -> sous_imputation = operation -> sous_imputation;
-	  ope_associee -> no_exercice = operation -> no_exercice;
-
-	  if ( operation -> no_piece_comptable )
-	    ope_associee -> no_piece_comptable = g_strdup ( operation -> no_piece_comptable );
-	  else
-	    ope_associee -> no_piece_comptable = NULL;
-
-	  MISE_A_JOUR = 1;
-	}
-      else
-	{
-	  /* deuxième solution, c'est une modif d'opé, on a changé le compte viré */
-		  
-	  struct structure_operation *ope_associee;
-
-	  if ( modification
-	       &&
-	       ( operation -> relation_no_compte != compte_vire ))
-	    {
-	      /* on supprime l'ancienne opé en relation, et on recrée ensuite la nouvelle opé */
-
-	      /* récupère l'opération associée */
-		      
-
-	      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
-
-	      ope_associee = g_slist_find_custom ( LISTE_OPERATIONS,
-						   GINT_TO_POINTER ( operation -> relation_no_operation ),
-						   (GCompareFunc) recherche_operation_par_no ) -> data;
-
-	      ope_associee -> relation_no_operation = 0;
-
-	      supprime_operation ( ope_associee );
-
-	    }
-
-	  /*  troisième solution : c'est un nouveau virement ( ou si c'était une modif avec changement */
-	  /*   de compte viré */
-	  /* cette fois, on crée la nouvelle opé associée */
-	  /* à ce niveau, si c'est une nouvelle opération qui est crée, son numéro sera DERNIER_NO + 1 */
-	  /* sinon on a déjà son numéro */
-
-
-	  ope_associee = calloc ( 1,
-				  sizeof ( struct structure_operation ));
-
-	  /* on y met le nouveau montant et la note */
-	  /* 	  si la ventilation est un crédit, on inverse le montant */
-
-	  ope_associee -> montant = operation -> montant;
-
-
-	  if ( operation -> notes )
-	    ope_associee -> notes = g_strdup ( operation -> notes );
-	  else
-	    ope_associee -> notes = NULL;
-
-	  ope_associee -> no_compte = compte_vire;
-	  ope_associee -> type_ope = operation -> type_ope;
-
-	  if ( operation -> contenu_type )
-	    ope_associee -> contenu_type = g_strdup ( operation -> contenu_type );
-
-	  ope_associee -> no_exercice = operation -> no_exercice;
-	  ope_associee -> imputation = operation -> imputation;
-	  ope_associee -> sous_imputation = operation -> sous_imputation;
-
-	  if ( operation -> no_piece_comptable )
-	    ope_associee -> no_piece_comptable = g_strdup ( operation -> no_piece_comptable );
-
-	  /* remplit la date : cree une date bidon qui sera remlit quand l'opération en cours sera validée */
-
-	  ope_associee -> jour = 1;
-	  ope_associee -> mois = 1;
-	  ope_associee -> annee = 2000;
-
-	  ope_associee -> date = g_date_new_dmy ( ope_associee -> jour,
-						  ope_associee -> mois,
-						  ope_associee -> annee );
-
-	  /* crée une devise  bidon pour éviter un segfault si on réussi à changer de compte avant la validation de l'opé ventilée */
-
-	  ope_associee -> devise = 1;
-
-	  /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
-
-	  ajout_operation ( ope_associee );
-
-	  /* on met maintenant les relations entre les différentes opé */
-
-	  operation -> relation_no_operation = ope_associee -> no_operation;
-	  operation -> relation_no_compte = ope_associee -> no_compte;
-	  ope_associee -> relation_no_operation = operation -> no_operation;
-	  ope_associee -> relation_no_compte = operation -> no_compte;
-	}
+      gtk_object_set_data ( GTK_OBJECT ( formulaire ),
+			    "liste_adr_ventilation",
+			    liste_struct_ventilations );
     }
 
 
-  if ( rafraichir_categ )
-    mise_a_jour_categ ();
+  /*   si perte_ligne_selectionnee = 1, c'est qu'au lieu de modifier une opé (virement), on l'a */
+  /* effacé puis recréé une nouvelle. comme ça se fait que lors d'une modif d'opé, on remet */
+  /* la selection sur cette nouvelle opé */
 
-  if ( rafraichir_imputation )
-    mise_a_jour_imputation ();
+  if ( perte_ligne_selectionnee == 1 )
+    ligne_selectionnee_ventilation = operation;
 
-  /* si c'est une modif, on supprime l'ancienne ligne de l'opé */
-
-  if ( modification )
-    gtk_clist_remove ( GTK_CLIST ( liste_operations_ventilees ),
-		       gtk_clist_find_row_from_data ( GTK_CLIST ( liste_operations_ventilees ),
-						      operation ));
 
   /* on met à jour la liste des ventilations */
 
-  ajoute_ope_sur_liste_ventilation ( operation );
-  gtk_clist_sort ( GTK_CLIST ( liste_operations_ventilees ));
-  mise_a_jour_couleurs_liste_ventilation ();
-  selectionne_ligne_ventilation ();
-  calcule_montant_ventilation ();
+  affiche_liste_ventilation ();
 
   /* efface le formulaire et prépare l'opé suivante */
 
@@ -1690,9 +1865,10 @@ void fin_edition_ventilation ( void )
 
 void edition_operation_ventilation ( void )
 {
-  struct structure_operation *operation;
+  struct struct_ope_ventil *operation;
   GSList *liste_tmp;
 
+  /* on récupère la struc de l'opé de ventil, ou -1 si c'est une nouvelle */
 
   operation = ligne_selectionnee_ventilation;
 
@@ -1724,27 +1900,37 @@ void edition_operation_ventilation ( void )
 
   /* mise en forme du montant */
 
-  entree_prend_focus (widget_formulaire_ventilation[2] );
 
   if ( operation -> montant < 0 )
-    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[2] ),
-			 g_strdup_printf ( "%4.2f", -operation -> montant ));
+    {
+      entree_prend_focus (widget_formulaire_ventilation[2] );
+      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[2] ),
+			   g_strdup_printf ( "%4.2f", -operation -> montant ));
+    }
   else
-    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[2] ),
-			 g_strdup_printf ( "%4.2f", operation -> montant ));
+    {
+      entree_prend_focus (widget_formulaire_ventilation[3] );
+      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[3] ),
+			   g_strdup_printf ( "%4.2f", operation -> montant ));
+    }
 
   /* si l'opération est relevée, empêche la modif du montant */
 
   if ( operation -> pointe == 2 )
-    gtk_widget_set_sensitive ( widget_formulaire_ventilation[2],
-			       FALSE );
-
+    {
+      gtk_widget_set_sensitive ( widget_formulaire_ventilation[2],
+				 FALSE );
+      gtk_widget_set_sensitive ( widget_formulaire_ventilation[3],
+				 FALSE );
+    }
 
   /* mise en forme des catégories */
 
   if ( operation -> relation_no_operation )
     {
       /* c'est un virement */
+
+      GtkWidget *menu;
 
       entree_prend_focus (widget_formulaire_ventilation[0] );
 
@@ -1754,6 +1940,50 @@ void edition_operation_ventilation ( void )
 			      g_strconcat ( _("Virement : "),
 					    NOM_DU_COMPTE,
 					    NULL ));
+
+      /*       si la contre opération est relevée, on désensitive les montants et les categ */
+      /* seulement valable si ce virement existe déjà */
+
+      if ( operation -> no_operation )
+	{
+	  struct structure_operation *contre_operation;
+
+	  contre_operation = g_slist_find_custom ( LISTE_OPERATIONS,
+						   GINT_TO_POINTER ( operation -> relation_no_operation ),
+						   (GCompareFunc) recherche_operation_par_no ) -> data;
+
+	  if ( contre_operation -> pointe == 2 )
+	    {
+	      gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_ventilation[0] ),
+					 FALSE );
+	      gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_ventilation[2] ),
+					 FALSE );
+	      gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_ventilation[3] ),
+					 FALSE );
+	    }
+	}
+      /* on met le type de l'opé associée */
+
+      if ( operation -> montant < 0 )
+	menu = creation_menu_types ( 2,
+				     operation -> relation_no_compte,
+				     2  );
+      else
+	menu = creation_menu_types ( 1,
+				     operation -> relation_no_compte,
+				     2  );
+
+      if ( menu )
+	{
+	  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation[5] ),
+				     menu );
+
+	  gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_ventilation[5] ),
+					cherche_no_menu_type_associe ( operation -> no_type_associe,
+								       1 ));
+	  gtk_widget_show ( widget_formulaire_ventilation[5] );
+
+	}
     }
   else
     {
@@ -1793,11 +2023,6 @@ void edition_operation_ventilation ( void )
 			   operation -> notes );
     }
 
-  /* met en place l'exercice */
-
-  gtk_option_menu_set_history (  GTK_OPTION_MENU ( widget_formulaire_ventilation[4] ),
-				 cherche_no_menu_exercice ( operation -> no_exercice,
-							    widget_formulaire_ventilation[4] ));
 
   /* met en place l'imputation budgétaire */
 
@@ -1809,19 +2034,19 @@ void edition_operation_ventilation ( void )
     {
       GSList *liste_tmp_2;
 
-      entree_prend_focus ( widget_formulaire_ventilation[3] );
+      entree_prend_focus ( widget_formulaire_ventilation[4] );
 
       liste_tmp_2 = g_slist_find_custom ( (( struct struct_imputation * )( liste_tmp -> data )) -> liste_sous_imputation,
 					  GINT_TO_POINTER ( operation -> sous_imputation ),
 					  ( GCompareFunc ) recherche_sous_imputation_par_no );
       if ( liste_tmp_2 )
-	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation[3] ),
+	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation[4] ),
 				g_strconcat ( (( struct struct_imputation * )( liste_tmp -> data )) -> nom_imputation,
 					      " : ",
 					      (( struct struct_sous_imputation * )( liste_tmp_2 -> data )) -> nom_sous_imputation,
 					      NULL ));
       else
-	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation[3] ),
+	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation[4] ),
 				(( struct struct_imputation * )( liste_tmp -> data )) -> nom_imputation );
     }
 
@@ -1830,18 +2055,28 @@ void edition_operation_ventilation ( void )
 
   if ( operation -> no_piece_comptable )
     {
-      entree_prend_focus ( widget_formulaire_ventilation[5] );
-      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[5] ),
+      entree_prend_focus ( widget_formulaire_ventilation[6] );
+      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[6] ),
 			   operation -> no_piece_comptable );
     }
 
 
 /*   on a fini de remplir le formulaire, on donne le focus à la date */
 
-  gtk_entry_select_region ( GTK_ENTRY ( GTK_COMBOFIX ( widget_formulaire_ventilation[0] ) -> entry ),
-			    0,
-			    -1);
-  gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_ventilation[0] ) -> entry );
+  if ( GTK_WIDGET_SENSITIVE ( widget_formulaire_ventilation[0] ))
+    {
+      gtk_entry_select_region ( GTK_ENTRY ( GTK_COMBOFIX ( widget_formulaire_ventilation[0] ) -> entry ),
+				0,
+				-1);
+      gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_ventilation[0] ) -> entry );
+    }
+  else
+    {
+      gtk_entry_select_region ( GTK_ENTRY ( widget_formulaire_ventilation[1] ),
+				0,
+				-1);
+      gtk_widget_grab_focus ( widget_formulaire_ventilation[1] );
+    }
 }
 /***********************************************************************************************************/
 
@@ -1852,7 +2087,7 @@ void edition_operation_ventilation ( void )
 /***********************************************************************************************************/
 void supprime_operation_ventilation ( void )
 {
-  struct structure_operation *operation;
+  struct struct_ope_ventil *operation;
   gint ligne;
 
 
@@ -1861,33 +2096,64 @@ void supprime_operation_ventilation ( void )
   if ( operation == GINT_TO_POINTER ( -1 ) )
     return;
 
+  /* si l'opération est relevée ou si c'est un virement et que la contre opération est */
+  /*   relevée, on ne peut la supprimer */
+
   if ( operation -> pointe == 2 )
     {
-      dialogue ( _(" Impossible de supprimer \n  une opération relevée ... "));
+      dialogue ( _(" L'opération ventilée de cette opération est relevée,\n la suppression est annulée ..."));
       return;
     }
-
-
-  /* si l'opération est liée, on recherche l'autre opé on vire ses liaisons et on l'efface */
-
-  if ( operation -> relation_no_operation && operation -> relation_no_compte != -1 )
+  else
     {
-      struct structure_operation *ope_liee;
+      if ( operation -> relation_no_operation
+	   &&
+	   operation -> relation_no_operation != -1 )
+	{
+	  /* on va chercher la contre opération */
 
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
+	  GSList *tmp;
 
-      ope_liee = g_slist_find_custom ( LISTE_OPERATIONS,
-				       GINT_TO_POINTER ( operation -> relation_no_operation ),
-				       ( GCompareFunc ) recherche_operation_par_no ) -> data;
+	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
-      ope_liee -> relation_no_operation = 0;
-      ope_liee -> relation_no_compte = 0;
+	  tmp = g_slist_find_custom ( LISTE_OPERATIONS,
+				      GINT_TO_POINTER ( operation -> relation_no_operation ),
+				      (GCompareFunc) recherche_operation_par_no );
 
-      supprime_operation ( ope_liee );
+	  if ( tmp )
+	    {
+	      struct structure_operation *operation_associee;
+
+	      operation_associee = tmp -> data;
+
+	      if ( operation_associee -> pointe == 2 )
+		{
+		  dialogue ( _(" La contre-opération de ce virement est relevée\non ne peut donc les supprimer ... "));
+		  return;
+		}
+	    }
+	}
     }
 
 
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+  /* on marque cette opération comme supprimée si ce n'est pas une nouvelle */
+  /* sinon on la supprime tout simplement de la liste */
+
+  if ( operation -> no_operation )
+    operation -> supprime = 1;
+  else
+    {
+      GSList *liste_struct_ventilations;
+
+      liste_struct_ventilations = gtk_object_get_data ( GTK_OBJECT ( formulaire ),
+							"liste_adr_ventilation" );
+
+      liste_struct_ventilations = g_slist_remove ( liste_struct_ventilations,
+						   operation );
+      gtk_object_set_data ( GTK_OBJECT ( formulaire ),
+			    "liste_adr_ventilation",
+			    liste_struct_ventilations );
+    }
 
   /*   si la sélection est sur l'opé qu'on supprime, on met la sélection sur celle du dessous */
 
@@ -1901,23 +2167,9 @@ void supprime_operation_ventilation ( void )
   gtk_clist_remove ( GTK_CLIST ( liste_operations_ventilees ),
 		     ligne );
 
-  /* supprime l'opération dans la liste des opés */
-
-  LISTE_OPERATIONS = g_slist_remove ( LISTE_OPERATIONS,
-				      operation );
-  NB_OPE_COMPTE--;
-
-
-/* on réaffiche la liste des tiers */
-
-  modif_tiers = 1;
-
-
   calcule_montant_ventilation();
   mise_a_jour_couleurs_liste_ventilation();
   selectionne_ligne_ventilation ();
-
-  modification_fichier( TRUE );
 }
 /***********************************************************************************************************/
 
@@ -1925,8 +2177,7 @@ void supprime_operation_ventilation ( void )
 
 /***********************************************************************************************************/
 /* Fonction affiche_liste_ventilation */
-/* récupère la liste des no d'opés de ventilation du formulaire et affiche ces opés */
-/* appelée lorsqu'on ventile une opé */
+/* récupère la liste des struct d'opé de ventil sur le formulaire et affiche ces opés */
 /***********************************************************************************************************/
 
 void affiche_liste_ventilation ( void )
@@ -1938,12 +2189,11 @@ void affiche_liste_ventilation ( void )
 
   somme_ventilee = 0;
 
-  gtk_clist_clear ( GTK_CLIST ( liste_operations_ventilees ) );
   gtk_clist_freeze ( GTK_CLIST ( liste_operations_ventilees ) );
 
+  gtk_clist_clear ( GTK_CLIST ( liste_operations_ventilees ) );
 
-
-  /* récupère la liste des ventilations */
+  /* récupère la liste des struct_ope_ventil */
 
   liste_tmp = gtk_object_get_data ( GTK_OBJECT ( formulaire ),
 				    "liste_adr_ventilation" );
@@ -1971,10 +2221,6 @@ void affiche_liste_ventilation ( void )
 
 
 
-  /* classe la liste des opés */
-
-  gtk_clist_sort ( GTK_CLIST ( liste_operations_ventilees ));
-
   /* on met la couleur */
 
   mise_a_jour_couleurs_liste_ventilation ();
@@ -1994,11 +2240,19 @@ void affiche_liste_ventilation ( void )
 
 
 /***********************************************************************************************************/
-void ajoute_ope_sur_liste_ventilation ( struct structure_operation *operation )
+/* prend en argument une opé de ventil dont l'adr de la struct est donnée en argument */
+/***********************************************************************************************************/
+
+void ajoute_ope_sur_liste_ventilation ( struct struct_ope_ventil *operation )
 {
   gchar *ligne[3];
   gint ligne_insertion;
   GSList *liste_tmp;
+
+  /*   si cette opération a été supprimée, on ne l'affiche pas */
+
+  if ( operation -> supprime )
+    return;
 
 
   /* mise en forme des catégories */
@@ -2049,7 +2303,6 @@ void ajoute_ope_sur_liste_ventilation ( struct structure_operation *operation )
   ligne[1] = operation -> notes;
 
   /* mise en forme du montant */
-  /*   si la ventilation est un débit, on inverse le signe */
 
   ligne[2] = g_strdup_printf ( "%4.2f",
 			       operation -> montant );
@@ -2073,10 +2326,10 @@ void ajoute_ope_sur_liste_ventilation ( struct structure_operation *operation )
 void calcule_montant_ventilation ( void )
 {
   gint ligne;
-  struct structure_operation *operation;
+  struct struct_ope_ventil *operation;
 
-  /* on va recréer une liste contenant les nos d'opération de la ventilation */
-  /* cette liste est mise dans "liste_adr_ventilation" du formulaire */
+  /* fait le tour de la liste pour retrouver les ventil affichée pour calculer le montant */
+
 
   ligne = 0;
   somme_ventilee = 0;
@@ -2178,37 +2431,24 @@ void selectionne_ligne_ventilation ( void )
 
 /***********************************************************************************************************/
 /* Fonction valider_ventilation */
-/* appelée par appui du bouton fermer */
+/* appelée par appui du bouton valider */
 /***********************************************************************************************************/
 
 void valider_ventilation ( void )
 {
-  GSList *liste_ope;
-  gint ligne;
-  gpointer *pointeur;
 
-  /* on va recréer une liste contenant les nos d'opération de la ventilation */
-  /* cette liste est mise dans "liste_adr_ventilation" du formulaire */
+  /* cette fonction est toute simple car la liste des structures des ventils a été mise */
+  /* à jour au fur et à mesure et toujours associée au formulaire des opés */
+  /*   donc, il faut juste réafficher ce qu'il faut et return */
+  /* c'est la validation réelle de l'opé qui créera/supprimera toutes les opés */
 
-  liste_ope = NULL;
-  ligne = 0;
-
-  while ( ( pointeur = gtk_clist_get_row_data ( GTK_CLIST ( liste_operations_ventilees ),
-						ligne )) != GINT_TO_POINTER ( -1 ))
-    {
-      liste_ope = g_slist_append ( liste_ope,
-				   pointeur );
-
-      ligne++;
-    }
+  /*   si par contre cette liste est null, on met -1 sur le formulaire pour montrer qu'on est */
+  /* passé par là et qu'on veut une liste nulle */
 
   /* on associe l'adr de la nouvelle liste des ventilation au formulaire, met -1 si la liste est vide */
 
-  if ( liste_ope )
-    gtk_object_set_data ( GTK_OBJECT ( formulaire ),
-			  "liste_adr_ventilation",
-			  liste_ope );
-  else
+  if ( !gtk_object_get_data ( GTK_OBJECT ( formulaire ),
+			      "liste_adr_ventilation" ))
     gtk_object_set_data ( GTK_OBJECT ( formulaire ),
 			  "liste_adr_ventilation",
 			  GINT_TO_POINTER ( -1 ) );
@@ -2237,8 +2477,6 @@ void valider_ventilation ( void )
 
   gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_operations[8] ) -> entry );
 
-
-
   if ( !montant_operation_ventilee )
     {
       if ( somme_ventilee < 0 )
@@ -2257,10 +2495,510 @@ void valider_ventilation ( void )
 	}
     }
 
-  modification_fichier ( TRUE );
-
   if ( enregistre_ope_au_retour )
     fin_edition();
+}
+/***********************************************************************************************************/
 
+
+/***********************************************************************************************************/
+/* Fonction annuler_ventilation */
+/* appelée par appui du bouton annuler */
+/***********************************************************************************************************/
+
+void annuler_ventilation ( void )
+{
+  /* cette fonction remet la liste des structures de ventil par défaut */
+  /* en recherchant les opés de ventil dans la liste des opés puis appelle */
+  /* valider ventilation */
+
+  gtk_object_set_data ( GTK_OBJECT ( formulaire ),
+			"liste_adr_ventilation",
+			creation_liste_ope_de_ventil ( gtk_object_get_data ( GTK_OBJECT ( formulaire ),
+									     "adr_struct_ope" )));
+
+
+  valider_ventilation ();
+}
+/***********************************************************************************************************/
+
+
+
+/***********************************************************************************************************/
+/* Cette fonction prend une opé ventilée en argument et crée la liste des opés de ventil */
+/* qui correspondent avec des struct struct_ope_ventil */
+/* renvoie cette liste */
+/***********************************************************************************************************/
+
+GSList *creation_liste_ope_de_ventil ( struct structure_operation *operation )
+{
+  GSList *liste_ventil;
+  GSList *liste_operations;
+  GSList *liste_tmp;
+
+  liste_ventil = NULL;
+  liste_operations = NULL;
+
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+
+  liste_tmp = LISTE_OPERATIONS;
+
+  while ( liste_tmp )
+    {
+      struct structure_operation *operation_2;
+
+      operation_2 = liste_tmp -> data;
+
+      /* si l'opération est une opé de ventil de l'opé demandée, on lui fait une struct struct_ope_ventil */
+
+      if ( operation_2 -> no_operation_ventilee_associee == operation -> no_operation )
+	{
+	  struct struct_ope_ventil *ope_ventil;
+
+	  ope_ventil = calloc ( 1,
+				sizeof ( struct struct_ope_ventil ));
+
+	  ope_ventil -> no_operation = operation_2 -> no_operation;
+	  ope_ventil -> montant = operation_2 -> montant;
+	  ope_ventil -> categorie = operation_2 -> categorie;
+	  ope_ventil -> sous_categorie = operation_2 -> sous_categorie;
+
+	  if ( ope_ventil -> notes )
+	    ope_ventil -> notes = g_strdup ( operation_2 -> notes );
+
+	  ope_ventil -> imputation = operation_2 -> imputation;
+	  ope_ventil -> sous_imputation = operation_2 -> sous_imputation;
+
+	  if ( ope_ventil -> no_piece_comptable )
+	    ope_ventil -> no_piece_comptable = g_strdup ( operation_2 -> no_piece_comptable );
+
+	  ope_ventil -> relation_no_operation = operation_2 -> relation_no_operation;
+	  ope_ventil -> relation_no_compte = operation_2 -> relation_no_compte;
+	  ope_ventil -> pointe = operation_2 -> pointe;
+
+	  /* si c'est un virement, on va rechercher le type de l'autre opération */
+
+	  if ( ope_ventil -> relation_no_operation )
+	    {
+	      GSList *tmp;
+
+	      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + ope_ventil -> relation_no_compte;
+
+	      tmp = g_slist_find_custom ( LISTE_OPERATIONS,
+					  GINT_TO_POINTER ( ope_ventil -> relation_no_operation ),
+					  (GCompareFunc) recherche_operation_par_no );
+
+	      if ( tmp )
+		{
+		  struct structure_operation *operation_associee;
+
+		  operation_associee = tmp -> data;
+		  ope_ventil -> no_type_associe = operation_associee -> type_ope;
+		}
+	    }
+
+	  liste_ventil = g_slist_append ( liste_ventil,
+					  ope_ventil );
+	}
+      liste_tmp = liste_tmp -> next;
+    }
+  return ( liste_ventil );
+}
+/***********************************************************************************************************/
+
+
+
+/***********************************************************************************************************/
+/* cette fonction est appelée lors de la validation d'une ventilation */
+/* l'opération en argument a déjà son numéro d'opé */
+/* ellse fait le tour des structures de ventil et crée/supprime/modifie */
+/* les opérations nécessaires */
+/***********************************************************************************************************/
+
+void validation_ope_de_ventilation ( struct structure_operation *operation )
+{
+  GSList *liste_struct_ventilations;
+
+  /* récupération de la liste de ventilations */
+
+  liste_struct_ventilations = gtk_object_get_data ( GTK_OBJECT ( formulaire ),
+						    "liste_adr_ventilation" );
+
+  /*   si cette liste est à -1, c'est qu'elle est null, donc rien à faire */
+
+  if ( liste_struct_ventilations == GINT_TO_POINTER ( -1 ))
+    return;
+
+  while ( liste_struct_ventilations )
+    {
+      struct struct_ope_ventil *ope_ventil;
+
+      ope_ventil = liste_struct_ventilations -> data;
+
+      /*       si cette opé est supprimée, c'est ici */
+      /* cela sous entend qu'elle existait déjà */
+      /* et si c'était un virement, l'autre va être automatiquement supprimée */
+
+      if ( ope_ventil -> supprime )
+	{
+	  /* petite protection quand même, normalement le texte ne devrait jamais apparaitre */
+
+	  if ( !ope_ventil -> no_operation )
+	    dialogue ( _( "Bizarre ... une opé de ventilation a été marquée pour la suppression alors\nqu'elle n'était pas encore enregistrée..." ));
+	  else
+	    {
+	      GSList *tmp;
+
+	      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+	      tmp = g_slist_find_custom ( LISTE_OPERATIONS,
+					  GINT_TO_POINTER ( ope_ventil -> no_operation ),
+					  (GCompareFunc) recherche_operation_par_no );
+
+	      if ( tmp )
+		supprime_operation  ( tmp -> data );
+	    }
+	}
+      else
+	{
+	  /* l'opération ne doit pas être supprimée, c'est qu'elle doit être créée ou modifiée */
+	  /* 	  on n'a pas à s'embêter avec des changements de virements ou autres trucs bizarres, dans */
+	  /* ce cas il y aura eu une suppression puis une nouvelle opération */
+
+	  if ( ope_ventil -> no_operation )
+	    {
+	      /* c'est une modif d'opération */
+
+	      GSList *tmp;
+
+	      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+	      tmp = g_slist_find_custom ( LISTE_OPERATIONS,
+					  GINT_TO_POINTER ( ope_ventil -> no_operation ),
+					  (GCompareFunc) recherche_operation_par_no );
+
+	      if ( tmp )
+		{
+		  struct structure_operation *ope_modifiee;
+
+		  ope_modifiee = tmp -> data;
+
+		  /* on récupère d'abord les modifs de l'opé de ventil */
+
+		  ope_modifiee -> montant = ope_ventil -> montant;
+		  ope_modifiee -> categorie = ope_ventil -> categorie;
+		  ope_modifiee -> sous_categorie = ope_ventil -> sous_categorie;
+
+		  if ( ope_ventil -> notes )
+		    ope_modifiee -> notes = g_strdup ( ope_ventil -> notes );
+
+		  ope_modifiee -> imputation = ope_ventil -> imputation;
+		  ope_modifiee -> sous_imputation = ope_ventil -> sous_imputation;
+
+		  if ( ope_ventil -> no_piece_comptable )
+		    ope_modifiee -> no_piece_comptable = g_strdup ( ope_ventil -> no_piece_comptable );
+
+		  /* on récupère ensuite les modifs de la ventilation */
+
+		  ope_modifiee -> jour = operation -> jour;
+		  ope_modifiee -> mois = operation -> mois;
+		  ope_modifiee -> annee = operation -> annee;
+
+		  ope_modifiee -> date = g_date_new_dmy ( operation -> jour,
+							  operation -> mois,
+							  operation -> annee );
+
+		  ope_modifiee -> jour_bancaire = operation -> jour_bancaire;
+		  ope_modifiee -> mois_bancaire = operation -> mois_bancaire;
+		  ope_modifiee -> annee_bancaire = operation -> annee_bancaire;
+
+		  if ( operation -> jour_bancaire )
+		    ope_modifiee -> date_bancaire = g_date_new_dmy ( operation -> jour_bancaire,
+								     operation -> mois_bancaire,
+								     operation -> annee_bancaire );
+
+		  ope_modifiee -> no_compte = operation -> no_compte;
+		  ope_modifiee -> devise = operation -> devise;
+		  ope_modifiee -> une_devise_compte_egale_x_devise_ope = operation -> une_devise_compte_egale_x_devise_ope;
+		  ope_modifiee -> taux_change = operation -> taux_change;
+		  ope_modifiee -> frais_change = operation -> frais_change;
+		  ope_modifiee -> tiers = operation -> tiers;
+		  ope_modifiee -> type_ope = operation -> type_ope;
+		  ope_modifiee -> pointe = operation -> pointe;
+		  ope_modifiee -> auto_man = operation -> auto_man;
+		  ope_modifiee -> no_rapprochement = operation -> no_rapprochement;
+		  ope_modifiee -> no_exercice = operation -> no_exercice;
+
+		  /* théoriquement, cette ligne n'est pas nécessaire vu que c'est une modif d'opé de ventil */
+
+		  ope_modifiee -> no_operation_ventilee_associee = operation -> no_operation;
+
+		  /* si cette opé de ventil est un virement, on met à jour la contre opération */
+
+		  if ( ope_ventil -> relation_no_operation )
+		    {
+		      /*  soit c'était un virement, et on modifie l'opé associée */
+		      /* soit c'est un nouveau virement, et on crée l'opé associée */
+
+		      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + ope_ventil -> relation_no_compte;
+
+		      MISE_A_JOUR = 1;
+
+		      if ( ope_ventil -> relation_no_operation != -1 )
+			{
+			  /* c'était déjà un virement vers ce compte */
+
+			  tmp = g_slist_find_custom ( LISTE_OPERATIONS,
+						      GINT_TO_POINTER ( ope_ventil -> relation_no_operation ),
+						      (GCompareFunc) recherche_operation_par_no );
+
+			  if ( tmp )
+			    {
+			      struct structure_operation *ope_modifiee_2;
+
+			      ope_modifiee_2 = tmp -> data;
+
+			      /* on commence par mettre le type choisi */
+
+			      ope_modifiee_2 -> type_ope = ope_ventil -> no_type_associe;
+
+			      ope_modifiee_2 -> montant = -ope_modifiee -> montant;
+			      ope_modifiee_2 -> categorie = ope_modifiee -> categorie;
+			      ope_modifiee_2 -> sous_categorie = ope_modifiee -> sous_categorie;
+
+			      if ( ope_modifiee -> notes )
+				ope_modifiee_2 -> notes = g_strdup ( ope_modifiee -> notes );
+
+			      ope_modifiee_2 -> imputation = ope_modifiee -> imputation;
+			      ope_modifiee_2 -> sous_imputation = ope_modifiee -> sous_imputation;
+
+			      if ( ope_modifiee -> no_piece_comptable )
+				ope_modifiee_2 -> no_piece_comptable = g_strdup ( ope_modifiee -> no_piece_comptable );
+
+			      ope_modifiee_2 -> jour = ope_modifiee -> jour;
+			      ope_modifiee_2 -> mois = ope_modifiee -> mois;
+			      ope_modifiee_2 -> annee = ope_modifiee -> annee;
+			  
+			      ope_modifiee_2 -> date = g_date_new_dmy ( operation -> jour,
+									operation -> mois,
+									operation -> annee );
+
+			      ope_modifiee_2 -> jour_bancaire = ope_modifiee -> jour_bancaire;
+			      ope_modifiee_2 -> mois_bancaire = ope_modifiee -> mois_bancaire;
+			      ope_modifiee_2 -> annee_bancaire = ope_modifiee -> annee_bancaire;
+
+			      if ( operation -> jour_bancaire )
+				ope_modifiee_2 -> date_bancaire = g_date_new_dmy ( operation -> jour_bancaire,
+										   operation -> mois_bancaire,
+										   operation -> annee_bancaire );
+
+			      ope_modifiee_2 -> devise = ope_modifiee -> devise;
+			      ope_modifiee_2 -> une_devise_compte_egale_x_devise_ope = ope_modifiee -> une_devise_compte_egale_x_devise_ope;
+			      ope_modifiee_2 -> taux_change = ope_modifiee -> taux_change;
+			      ope_modifiee_2 -> frais_change = ope_modifiee -> frais_change;
+			      ope_modifiee_2 -> tiers = ope_modifiee -> tiers;
+			      ope_modifiee_2 -> auto_man = ope_modifiee -> auto_man;
+			      ope_modifiee_2 -> no_exercice = ope_modifiee -> no_exercice;
+			    }
+			}
+		      else
+			{
+			  /* c'est un nouveau virement, on doit créer l'opé associée */
+
+			  struct structure_operation *nouvelle_ope_2;
+
+			  nouvelle_ope_2 = calloc ( 1,
+						    sizeof ( struct structure_operation ));
+
+			  /* on commence par mettre le type choisi */
+
+			  nouvelle_ope_2 -> type_ope = ope_ventil -> no_type_associe;
+			  nouvelle_ope_2 -> no_compte = ope_ventil -> relation_no_compte;
+
+			  nouvelle_ope_2 -> montant = -ope_modifiee ->  montant;
+			  nouvelle_ope_2 -> categorie = ope_modifiee ->  categorie;
+			  nouvelle_ope_2 -> sous_categorie = ope_modifiee ->  sous_categorie;
+
+			  if ( ope_modifiee -> notes )
+			    nouvelle_ope_2 -> notes = g_strdup ( ope_modifiee ->  notes );
+
+			  nouvelle_ope_2 -> imputation = ope_modifiee ->  imputation;
+			  nouvelle_ope_2 -> sous_imputation = ope_modifiee ->  sous_imputation;
+
+			  if ( ope_modifiee -> no_piece_comptable )
+			    nouvelle_ope_2 -> no_piece_comptable = g_strdup ( ope_modifiee ->  no_piece_comptable );
+
+			  nouvelle_ope_2 -> jour = ope_modifiee ->  jour;
+			  nouvelle_ope_2 -> mois = ope_modifiee ->  mois;
+			  nouvelle_ope_2 -> annee = ope_modifiee ->  annee;
+			  
+			  nouvelle_ope_2 -> date = g_date_new_dmy ( operation -> jour,
+								    operation -> mois,
+								    operation -> annee );
+
+			  nouvelle_ope_2 -> jour_bancaire = ope_modifiee ->  jour_bancaire;
+			  nouvelle_ope_2 -> mois_bancaire = ope_modifiee ->  mois_bancaire;
+			  nouvelle_ope_2 -> annee_bancaire = ope_modifiee ->  annee_bancaire;
+
+			  if ( operation -> jour_bancaire )
+			    nouvelle_ope_2 -> date_bancaire = g_date_new_dmy ( operation -> jour_bancaire,
+									       operation -> mois_bancaire,
+									       operation -> annee_bancaire );
+
+			  nouvelle_ope_2 -> devise = ope_modifiee ->  devise;
+			  nouvelle_ope_2 -> une_devise_compte_egale_x_devise_ope = ope_modifiee ->  une_devise_compte_egale_x_devise_ope;
+			  nouvelle_ope_2 -> taux_change = ope_modifiee ->  taux_change;
+			  nouvelle_ope_2 -> frais_change = ope_modifiee ->  frais_change;
+			  nouvelle_ope_2 -> tiers = ope_modifiee ->  tiers;
+			  nouvelle_ope_2 -> auto_man = ope_modifiee ->  auto_man;
+			  nouvelle_ope_2 -> no_exercice = ope_modifiee ->  no_exercice;
+
+			  ajout_operation ( nouvelle_ope_2 );
+
+			  /* on met les relations */
+
+			  ope_modifiee -> relation_no_operation = nouvelle_ope_2 -> no_operation;
+			  ope_modifiee -> relation_no_compte = nouvelle_ope_2 -> no_compte;
+			  nouvelle_ope_2 -> relation_no_operation = ope_modifiee ->  no_operation;
+			  nouvelle_ope_2 -> relation_no_compte = ope_modifiee ->  no_compte;
+			}
+		    }
+		}
+	    }
+	  else
+	    {
+	      /* c'est une nouvelle opération */
+	      /*  on la crée, l'ajoute et si c'est un virement on crée la contre opération */
+
+	      struct structure_operation *nouvelle_ope;
+
+	      nouvelle_ope = calloc ( 1,
+				      sizeof ( struct structure_operation ));
+
+	      /* on récupère d'abord les modifs de l'opé de ventil */
+
+	      nouvelle_ope -> montant = ope_ventil -> montant;
+	      nouvelle_ope -> categorie = ope_ventil -> categorie;
+	      nouvelle_ope -> sous_categorie = ope_ventil -> sous_categorie;
+
+	      if ( ope_ventil -> notes )
+		nouvelle_ope -> notes = g_strdup ( ope_ventil -> notes );
+
+	      nouvelle_ope -> imputation = ope_ventil -> imputation;
+	      nouvelle_ope -> sous_imputation = ope_ventil -> sous_imputation;
+
+	      if ( ope_ventil -> no_piece_comptable )
+		nouvelle_ope -> no_piece_comptable = g_strdup ( ope_ventil -> no_piece_comptable );
+
+	      /* on récupère ensuite les modifs de la ventilation */
+
+	      nouvelle_ope -> jour = operation -> jour;
+	      nouvelle_ope -> mois = operation -> mois;
+	      nouvelle_ope -> annee = operation -> annee;
+
+	      nouvelle_ope -> date = g_date_new_dmy ( operation -> jour,
+						      operation -> mois,
+						      operation -> annee );
+
+	      nouvelle_ope -> jour_bancaire = operation -> jour_bancaire;
+	      nouvelle_ope -> mois_bancaire = operation -> mois_bancaire;
+	      nouvelle_ope -> annee_bancaire = operation -> annee_bancaire;
+
+	      if ( operation -> jour_bancaire )
+		nouvelle_ope -> date_bancaire = g_date_new_dmy ( operation -> jour_bancaire,
+								 operation -> mois_bancaire,
+								 operation -> annee_bancaire );
+
+	      nouvelle_ope -> no_compte = operation -> no_compte;
+	      nouvelle_ope -> devise = operation -> devise;
+	      nouvelle_ope -> une_devise_compte_egale_x_devise_ope = operation -> une_devise_compte_egale_x_devise_ope;
+	      nouvelle_ope -> taux_change = operation -> taux_change;
+	      nouvelle_ope -> frais_change = operation -> frais_change;
+	      nouvelle_ope -> tiers = operation -> tiers;
+	      nouvelle_ope -> type_ope = operation -> type_ope;
+	      nouvelle_ope -> pointe = operation -> pointe;
+	      nouvelle_ope -> auto_man = operation -> auto_man;
+	      nouvelle_ope -> no_rapprochement = operation -> no_rapprochement;
+	      nouvelle_ope -> no_exercice = operation -> no_exercice;
+
+	      nouvelle_ope -> no_operation_ventilee_associee = operation -> no_operation;
+
+	      /* on ajoute cette opé à la liste */
+
+	      ajout_operation ( nouvelle_ope );
+
+	      /* si cette opé de ventil est un virement, on crée la contre opération */
+
+	      if ( ope_ventil -> relation_no_operation )
+		{
+		  struct structure_operation *nouvelle_ope_2;
+
+		  nouvelle_ope_2 = calloc ( 1,
+					    sizeof ( struct structure_operation ));
+
+		  /* on commence par mettre le type choisi */
+
+		  nouvelle_ope_2 -> type_ope = ope_ventil -> no_type_associe;
+		  nouvelle_ope_2 -> no_compte = ope_ventil -> relation_no_compte;
+
+		  nouvelle_ope_2 -> montant = -nouvelle_ope -> montant;
+		  nouvelle_ope_2 -> categorie = nouvelle_ope -> categorie;
+		  nouvelle_ope_2 -> sous_categorie = nouvelle_ope -> sous_categorie;
+
+		  if ( nouvelle_ope -> notes )
+		    nouvelle_ope_2 -> notes = g_strdup ( nouvelle_ope -> notes );
+
+		  nouvelle_ope_2 -> imputation = nouvelle_ope -> imputation;
+		  nouvelle_ope_2 -> sous_imputation = nouvelle_ope -> sous_imputation;
+
+		  if ( nouvelle_ope -> no_piece_comptable )
+		    nouvelle_ope_2 -> no_piece_comptable = g_strdup ( nouvelle_ope -> no_piece_comptable );
+
+		  nouvelle_ope_2 -> jour = nouvelle_ope -> jour;
+		  nouvelle_ope_2 -> mois = nouvelle_ope -> mois;
+		  nouvelle_ope_2 -> annee = nouvelle_ope -> annee;
+			  
+		  nouvelle_ope_2 -> date = g_date_new_dmy ( operation -> jour,
+							    operation -> mois,
+							    operation -> annee );
+
+		  nouvelle_ope_2 -> jour_bancaire = nouvelle_ope -> jour_bancaire;
+		  nouvelle_ope_2 -> mois_bancaire = nouvelle_ope -> mois_bancaire;
+		  nouvelle_ope_2 -> annee_bancaire = nouvelle_ope -> annee_bancaire;
+
+		  if ( operation -> jour_bancaire )
+		    nouvelle_ope_2 -> date_bancaire = g_date_new_dmy ( operation -> jour_bancaire,
+								       operation -> mois_bancaire,
+								       operation -> annee_bancaire );
+
+		  nouvelle_ope_2 -> devise = nouvelle_ope -> devise;
+		  nouvelle_ope_2 -> une_devise_compte_egale_x_devise_ope = nouvelle_ope -> une_devise_compte_egale_x_devise_ope;
+		  nouvelle_ope_2 -> taux_change = nouvelle_ope -> taux_change;
+		  nouvelle_ope_2 -> frais_change = nouvelle_ope -> frais_change;
+		  nouvelle_ope_2 -> tiers = nouvelle_ope -> tiers;
+		  nouvelle_ope_2 -> auto_man = nouvelle_ope -> auto_man;
+		  nouvelle_ope_2 -> no_exercice = nouvelle_ope -> no_exercice;
+
+		  ajout_operation ( nouvelle_ope_2 );
+
+		  /* on met les relations */
+
+		  nouvelle_ope -> relation_no_operation = nouvelle_ope_2 -> no_operation;
+		  nouvelle_ope -> relation_no_compte = nouvelle_ope_2 -> no_compte;
+		  nouvelle_ope_2 -> relation_no_operation = nouvelle_ope -> no_operation;
+		  nouvelle_ope_2 -> relation_no_compte = nouvelle_ope -> no_compte;
+
+		}
+	    }
+	}
+      liste_struct_ventilations = liste_struct_ventilations -> next;
+    }
+
+  /* libération de la liste de ventilations */
+
+  liste_struct_ventilations = gtk_object_get_data ( GTK_OBJECT ( formulaire ),
+						    "liste_adr_ventilation" );
+  g_slist_free ( liste_struct_ventilations );
+  gtk_object_set_data ( GTK_OBJECT ( formulaire ),
+			"liste_adr_ventilation",
+			NULL );
 }
 /***********************************************************************************************************/

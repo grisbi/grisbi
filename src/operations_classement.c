@@ -108,6 +108,13 @@ gint classement_liste_par_no_ope ( GtkWidget *liste,
   if ( operation_2 == GINT_TO_POINTER ( -1 ) )
     return ( -1 );
 
+  if ( operation_1 == NULL )
+    return ( 1 );
+
+  if ( operation_2 == NULL )
+    return ( -1 );
+
+
   return (operation_1 -> no_operation - operation_2 -> no_operation);
 }
 /* ********************************************************************************************************** */

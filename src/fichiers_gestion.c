@@ -61,15 +61,20 @@ void nouveau_fichier ( void )
     };
 
 
-
-  nb_comptes++;
-
   /* insère ses paramètres ( comme c'est un appel à calloc, tout ce qui est à 0 est déjà initialisé )*/
 
   NOM_DU_COMPTE = g_strdup ( _("Sans nom") );
   OPERATION_SELECTIONNEE = GINT_TO_POINTER ( -1 );
   DEVISE = 1;
   MISE_A_JOUR = 1;
+  NO_COMPTE = nb_comptes;
+  AFFICHAGE_R = 0;
+  NB_LIGNES_OPE = 3;
+
+  TYPE_DE_COMPTE = demande_type_nouveau_compte ();
+
+  nb_comptes++;
+
 
   /* on crée les types par défaut */
 
@@ -86,6 +91,17 @@ void nouveau_fichier ( void )
   /* dégrise les menus nécessaire */
 
   init_variables ( TRUE );
+
+  /*   la taille des colonnes est automatique au départ, on y met les rapports de base */
+
+  etat.largeur_auto_colonnes = 1;
+  rapport_largeur_colonnes[0] = 11;
+  rapport_largeur_colonnes[1] = 13;
+  rapport_largeur_colonnes[2] = 30;
+  rapport_largeur_colonnes[3] = 3;
+  rapport_largeur_colonnes[4] = 11;
+  rapport_largeur_colonnes[5] = 11;
+  rapport_largeur_colonnes[6] = 11;
 
 
   /* création des listes d'origine */

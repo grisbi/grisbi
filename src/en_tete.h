@@ -231,31 +231,31 @@ void  touche_calendrier ( GtkWidget *popup,
 void date_selectionnee ( GtkCalendar *calendrier,
 			 GtkWidget *popup );
 gboolean modifie_date ( GtkWidget *entree );
-/* GDC : gestion de la date reelle */
 void date_bancaire_selectionnee ( GtkCalendar *calendrier,
 			 GtkWidget *popup );
-void  modifie_date_bancaire ( GtkWidget *entree );
-/* FinGDC */
 void  completion_operation_par_tiers ( void );
 void fin_edition ( void );
 void ajout_operation ( struct structure_operation *operation );
+gint verification_validation_operation ( struct structure_operation *operation );
+void recuperation_donnees_generales_formulaire ( struct structure_operation *operation );
+void validation_virement_operation ( struct structure_operation *operation,
+				     gint modification,
+				     gchar *nom_compte_vire );
 gint comparaison_date_list_ope ( struct structure_operation *ope_1,
 				 struct structure_operation *ope_2);
 void formulaire_a_zero (void);
 gchar *date_jour ( void );
 void affiche_cache_le_formulaire ( void );
-void  allocation_taille_formulaire ( GtkWidget *widget,
-				     gpointer null );
-void  efface_formulaire ( GtkWidget *widget,
-			  gpointer null );
+void allocation_taille_formulaire ( GtkWidget *widget,
+				    gpointer null );
+void efface_formulaire ( GtkWidget *widget,
+			 gpointer null );
 void basculer_vers_ventilation ( GtkWidget *bouton,
 				 gpointer null );
 void click_sur_bouton_voir_change ( void );
 void degrise_formulaire_operations ( void );
 void incremente_decremente_date ( GtkWidget *entree,
 				  gint demande );
-gint demande_correspondance_type ( struct structure_operation *operation,
-				   struct structure_operation *contre_operation );
 gint place_type_choix_type ( GtkWidget *option_menu,
 			     gint type );
 
@@ -312,6 +312,7 @@ GtkWidget *creation_option_menu_comptes ( void );
 void changement_choix_compte_echeancier ( void );
 void creation_types_par_defaut ( gint no_compte,
 				 gulong dernier_cheque );
+gint demande_type_nouveau_compte ( void );
 
 
 /************************/ 
@@ -618,12 +619,15 @@ void fin_edition_ventilation ( void );
 void edition_operation_ventilation ( void );
 void supprime_operation_ventilation ( void );
 void affiche_liste_ventilation ( void );
-void ajoute_ope_sur_liste_ventilation ( struct structure_operation *operation );
+void ajoute_ope_sur_liste_ventilation ( struct struct_ope_ventil *operation );
 void mise_a_jour_couleurs_liste_ventilation ( void );
 void selectionne_ligne_ventilation ( void );
 void calcule_montant_ventilation ( void );
 void mise_a_jour_labels_ventilation ( void );
 void valider_ventilation ( void );
+void annuler_ventilation ( void );
+GSList *creation_liste_ope_de_ventil ( struct structure_operation *operation );
+void validation_ope_de_ventilation ( struct structure_operation *operation );
 
 
 
@@ -756,6 +760,8 @@ GtkWidget *creation_menu_types ( gint demande,
 				 gint compte,
 				 gint origine );
 gint cherche_no_menu_type ( gint demande );
+gint cherche_no_menu_type_associe ( gint demande,
+				    gint origine );
 gint cherche_no_menu_type_echeancier ( gint demande );
 void changement_choix_type_formulaire ( struct struct_type_ope *type );
 void changement_choix_type_echeancier ( struct struct_type_ope *type );
@@ -1063,6 +1069,8 @@ void show_words(GnomePrintContext *pc, GnomeFont *font, GSList *words,
 /************************/ 
 
 GtkWidget *onglet_affichage_liste ( void );
+void allocation_clist_affichage_liste ( GtkWidget *clist,
+					GtkAllocation *allocation );
 gboolean pression_bouton_classement_liste ( GtkWidget *clist,
 					    GdkEventButton *ev );
 gboolean lache_bouton_classement_liste ( GtkWidget *clist,

@@ -2218,7 +2218,7 @@ void mise_a_jour_imputation ( void )
 			  TRUE,
 			  TRUE );
 
-  gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_ventilation[3] ),
+  gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_ventilation[4] ),
 			  liste_imputations_combofix,
 			  TRUE,
 			  TRUE );
