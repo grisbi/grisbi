@@ -2522,7 +2522,7 @@ void formulaire_echeancier_a_zero ( void )
 				  0 );
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
 				  0 );
-    changement_choix_compte_echeancier ();
+    changement_choix_compte_echeancier (GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT]) ->menu_item);
 
 
     gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_BREAKDOWN] );

@@ -1194,42 +1194,36 @@ void edition_echeance ( void )
 	{
 	    /* 	    c'est soit un virement, soit une opé ventilée */
 
-	    if ( echeance_selectionnnee -> compte_virement )
+	    if ( echeance_selectionnnee -> operation_ventilee )
 	    {
+		texte =  g_strdup (_("Breakdown of transaction"));
+
+		/* 		    on n'affiche le bouton de ventilation que si on est dans l'onglet des échéances, pas */
+		/* 			en formulaire flottant */
+
+		if ( !etat.formulaire_echeance_dans_fenetre ) 
+		    gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_BREAKDOWN] );
+
+		gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE],
+					   FALSE );
+		gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY],
+					   FALSE );
+
+		/* met la liste des opés de ventilation dans liste_adr_ventilation */
+
+		gtk_object_set_data ( GTK_OBJECT ( formulaire_echeancier ),
+				      "liste_adr_ventilation",
+				      creation_liste_ope_de_ventil_echeances ( echeance_selectionnnee ));
+	    }
+	    else
+	    { 
+		/* 		    c'est pas une ventil, c'est donc un virement */
+
 		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + echeance_selectionnnee -> compte_virement;
 
 		texte = g_strconcat ( COLON(_("Transfer")),
 				      NOM_DU_COMPTE,
 				      NULL );
-	    }
-	    else
-	    {
-		if ( echeance_selectionnnee -> operation_ventilee )
-		{
-		    texte =  g_strdup (_("Breakdown of transaction"));
-
-/* 		    on n'affiche le bouton de ventilation que si on est dans l'onglet des échéances, pas */
-/* 			en formulaire flottant */
-
-		    if ( !etat.formulaire_echeance_dans_fenetre ) 
-			gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_BREAKDOWN] );
-
-		    gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE],
-					       FALSE );
-		    gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY],
-					       FALSE );
-
-		    /* met la liste des opés de ventilation dans liste_adr_ventilation */
-
-		    gtk_object_set_data ( GTK_OBJECT ( formulaire_echeancier ),
-					  "liste_adr_ventilation",
-					  creation_liste_ope_de_ventil_echeances ( echeance_selectionnnee ));
-		}
-		else
-		{ 
-		    /* 		    normalement, on devrait pas arriver là... bon, on laisse comme ça */
-		    texte = NULL;
-		}
 	    }
 	}
 

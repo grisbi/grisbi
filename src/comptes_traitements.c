@@ -476,11 +476,11 @@ GtkWidget * creation_option_menu_comptes_nonclos ( GtkSignalFunc func,
 /* ************************************************************************** */
 
 /* ************************************************************************** */
-void changement_choix_compte_echeancier ( void )
+void changement_choix_compte_echeancier ( GtkWidget *item )
 {
     GtkWidget *menu;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] )->menu_item),
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( item ),
 												 "no_compte" ));
 
     if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ) == style_entree_formulaire[ENCLAIR] )
@@ -488,7 +488,7 @@ void changement_choix_compte_echeancier ( void )
 	/*       il y a qque chose dans le crédit, on met le menu des types crédit */
 
 	if ( (menu = creation_menu_types ( 2,
-					   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] )->menu_item),
+					   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( item),
 										   "no_compte" )),
 					   1 )))
 	{
@@ -506,7 +506,7 @@ void changement_choix_compte_echeancier ( void )
 	/*       il y a qque chose dans le débit ou c'est par défaut, on met le menu des types débit */
 
 	if ( (menu = creation_menu_types ( 1,
-					   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] )->menu_item),
+					   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT (item ),
 										   "no_compte" )),
 					   1 )))
 	{
@@ -756,8 +756,8 @@ void update_options_menus_comptes ( void )
     /*     on met à jour l'option menu de l'échéancier */
 
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
-			       creation_option_menu_comptes(GTK_SIGNAL_FUNC(changement_choix_compte_echeancier),
-							    TRUE) );
+			       creation_option_menu_comptes_nonclos (GTK_SIGNAL_FUNC(changement_choix_compte_echeancier),
+								     TRUE) );
 }
 /* ************************************************************************** */
 
