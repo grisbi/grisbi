@@ -489,6 +489,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 
 
   etat.formulaire_echeance_dans_fenetre = 1;
+  dialogue_echeance = dialog;
 
   resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
 

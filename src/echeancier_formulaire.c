@@ -823,9 +823,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
   if ( etat.affiche_boutons_valider_annuler )
     gtk_widget_show ( hbox_valider_annuler_echeance );
 
-  /* FIXME */
   bouton = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
-/*   bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL ); */
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
@@ -839,9 +837,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		     0 );
   gtk_widget_show ( bouton );
 
-  /* FIXME */
   bouton = gtk_button_new_from_stock (GTK_STOCK_OK);
-/*   bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_OK ); */
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
@@ -1394,6 +1390,7 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 				     "key-press-event");
       gtk_widget_grab_focus ( liste_echeances );
       echap_formulaire_echeancier();
+      gtk_widget_hide ( frame_formulaire_echeancier );
       return TRUE;
 
       /* tab */
@@ -1495,18 +1492,18 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
     case 65421 :
       /* entree */
 
-      if ( !etat.formulaire_echeance_dans_fenetre )
+      if (! etat.formulaire_echeance_dans_fenetre )
 	{
-	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
-					 "key-press-event");
+	  //gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
+					 //"key-press-event");
 
 	  /* on fait perdre le focus au widget courant pour faire les changements automatiques si nécessaire */
 
 	  gtk_widget_grab_focus ( liste_echeances );
-
 	  fin_edition_echeance ();
 	}
-      return TRUE;
+
+      return FALSE;
 
       /* touches + */
 

@@ -329,6 +329,7 @@ GtkWidget *separateur_manu_auto;
 GtkWidget *separateur_auto_mini;
 GtkWidget *separateur_ech_finies_soldes_mini;
 GtkWidget *separateur_des_soldes_mini;
+GtkWidget *dialogue_echeance;
 
 
 /***********************************/ 
