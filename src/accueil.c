@@ -40,7 +40,7 @@ GtkWidget *creation_onglet_accueil ( void )
   gchar *nom_utilisateur;
   GtkWidget *hbox;
   GtkWidget *label;
-  GtkWidget *separateur;
+//  GtkWidget *separateur;
 
   /* la première séparation : une hbox : à gauche, le logo, à droite le reste */
 
@@ -154,11 +154,11 @@ GtkWidget *creation_onglet_accueil ( void )
   /* on met la liste des comptes et leur état dans la frame */
 
   update_liste_comptes_accueil ();
-
+/*
   separateur = gtk_hseparator_new ();
   gtk_box_pack_start ( GTK_BOX ( base_box_scroll ), separateur, FALSE, FALSE, 0 );
   gtk_widget_show ( separateur );
-
+*/
 
 /* mise en place de la partie fin des comptes passif */
 
@@ -166,10 +166,10 @@ GtkWidget *creation_onglet_accueil ( void )
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame_etat_fin_compte_passif ),
 			      GTK_SHADOW_ETCHED_OUT );
   gtk_box_pack_start ( GTK_BOX ( base_box_scroll ), frame_etat_fin_compte_passif, FALSE, FALSE, 0 );
-
+/*
   separateur_passif_manu = gtk_hseparator_new ();
   gtk_box_pack_start ( GTK_BOX ( base_box_scroll ), separateur_passif_manu, FALSE, FALSE, 0 );
-
+*/
 
   mise_a_jour_fin_comptes_passifs ();
 
@@ -179,10 +179,10 @@ GtkWidget *creation_onglet_accueil ( void )
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame_etat_echeances_manuelles_accueil ),
 			      GTK_SHADOW_ETCHED_OUT );
   gtk_box_pack_start ( GTK_BOX ( base_box_scroll ), frame_etat_echeances_manuelles_accueil, FALSE, FALSE, 0 );
-
+/*
   separateur_manu_auto = gtk_hseparator_new ();
   gtk_box_pack_start ( GTK_BOX ( base_box_scroll ), separateur_manu_auto, FALSE, FALSE, 0 );
-
+*/
   /* mise en place de la partie des échéances auto  ( non affiché )*/
 
   frame_etat_echeances_auto_accueil = gtk_frame_new ( SPACIFY(_("Automatic scheduled transactions entered")) );
@@ -190,10 +190,10 @@ GtkWidget *creation_onglet_accueil ( void )
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame_etat_echeances_auto_accueil ),
 			      GTK_SHADOW_ETCHED_OUT );
   gtk_box_pack_start ( GTK_BOX ( base_box_scroll ), frame_etat_echeances_auto_accueil, FALSE, FALSE, 0 );
-
+/*
   separateur_auto_mini = gtk_hseparator_new ();
   gtk_box_pack_start ( GTK_BOX ( base_box_scroll ), separateur_auto_mini, FALSE, FALSE, 0 );
-
+*/
 
 /* partie des fin d'échéances */
 
@@ -201,20 +201,20 @@ GtkWidget *creation_onglet_accueil ( void )
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame_etat_echeances_finies ),
 			      GTK_SHADOW_ETCHED_OUT );
   gtk_box_pack_start ( GTK_BOX ( base_box_scroll ), frame_etat_echeances_finies, FALSE, FALSE, 0 );
-
+/*
   separateur_ech_finies_soldes_mini = gtk_hseparator_new ();
   gtk_box_pack_start ( GTK_BOX ( base_box_scroll ), separateur_ech_finies_soldes_mini, FALSE, FALSE, 0 );
-
+*/
 /* partie des soldes minimaux autorisés */
 
   frame_etat_soldes_minimaux_autorises = gtk_frame_new ( SPACIFY(_("Minimum authorised balances")) );
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame_etat_soldes_minimaux_autorises ),
 			      GTK_SHADOW_ETCHED_OUT );
   gtk_box_pack_start ( GTK_BOX ( base_box_scroll ), frame_etat_soldes_minimaux_autorises, FALSE, FALSE, 0 );
-
+/*
   separateur_des_soldes_mini = gtk_hseparator_new ();
   gtk_box_pack_start ( GTK_BOX ( base_box_scroll ), separateur_des_soldes_mini, FALSE, FALSE, 0 );
-
+*/
 
 /* partie des soldes minimaux voulus */
 
@@ -838,7 +838,7 @@ void update_liste_echeances_manuelles_accueil ( void )
       /*       on affiche la seconde frame dans laquelle on place les échéances à saisir */
 
       gtk_widget_show ( frame_etat_echeances_manuelles_accueil );
-      gtk_widget_show ( separateur_manu_auto );
+//      gtk_widget_show ( separateur_manu_auto );
  
       /* on y place la liste des échéances */
 
@@ -954,7 +954,7 @@ void update_liste_echeances_manuelles_accueil ( void )
   else
     {
       gtk_widget_hide ( frame_etat_echeances_manuelles_accueil );
-      gtk_widget_hide ( separateur_manu_auto );
+//      gtk_widget_hide ( separateur_manu_auto );
     }
 }
 /* ************************************************************************* */
@@ -1065,7 +1065,7 @@ void update_liste_echeances_auto_accueil ( void )
   else
     {
       gtk_widget_hide ( frame_etat_echeances_auto_accueil );
-      gtk_widget_hide ( separateur_auto_mini );
+//      gtk_widget_hide ( separateur_auto_mini );
     }
 }
 /* ************************************************************************* */
@@ -1090,7 +1090,7 @@ void mise_a_jour_soldes_minimaux ( void )
   if ( GTK_BIN ( frame_etat_soldes_minimaux_voulus ) -> child )
     gtk_widget_destroy ( GTK_BIN ( frame_etat_soldes_minimaux_voulus ) -> child );
 
-  gtk_widget_hide ( separateur_des_soldes_mini );
+//  gtk_widget_hide ( separateur_des_soldes_mini );
   gtk_widget_hide ( frame_etat_soldes_minimaux_autorises );
   gtk_widget_hide ( frame_etat_soldes_minimaux_voulus );
 
@@ -1129,7 +1129,7 @@ void mise_a_jour_soldes_minimaux ( void )
 	      gtk_container_set_border_width ( GTK_CONTAINER ( vbox_1 ), 5 );
 	      gtk_widget_show ( vbox_1 );
 	      gtk_widget_show ( frame_etat_soldes_minimaux_autorises );
-	      gtk_widget_show ( separateur_auto_mini );
+//	      gtk_widget_show ( separateur_auto_mini );
 
 	      label = gtk_label_new ("");
 	      gtk_box_pack_start ( GTK_BOX ( vbox_1 ), label, FALSE, FALSE, 0 );
@@ -1186,10 +1186,10 @@ void mise_a_jour_soldes_minimaux ( void )
 	      label = gtk_label_new ("");
 	      gtk_box_pack_start ( GTK_BOX ( vbox_2 ), label, FALSE, FALSE, 0 );
 	      gtk_widget_show ( label );
-
+/*
 	      if ( vbox_1 )
 		gtk_widget_show ( separateur_des_soldes_mini );
-
+*/
 	      hbox = gtk_hbox_new ( FALSE, 0 );
 	      gtk_box_pack_start ( GTK_BOX ( vbox_2 ), hbox, FALSE, FALSE, 0 );
 	      gtk_widget_show ( hbox );
@@ -1259,7 +1259,7 @@ void mise_a_jour_fin_comptes_passifs ( void )
     {
       gtk_widget_destroy ( GTK_BIN ( frame_etat_fin_compte_passif ) -> child );
       gtk_widget_hide (  frame_etat_fin_compte_passif );
-      gtk_widget_hide ( separateur_manu_auto );
+//      gtk_widget_hide ( separateur_manu_auto );
     }
 
 
@@ -1310,7 +1310,7 @@ void mise_a_jour_fin_comptes_passifs ( void )
       gtk_widget_show ( label );
 
       gtk_widget_show ( frame_etat_fin_compte_passif );
-      gtk_widget_show ( separateur_passif_manu );
+//      gtk_widget_show ( separateur_passif_manu );
     }
 }
 /* ************************************************************************* */
