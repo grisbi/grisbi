@@ -2655,12 +2655,6 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
     devise = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ) -> menu_item ),
 				   "adr_devise" );
 
-
-    /* récupération de la devise */
-
-    devise = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ) -> menu_item ),
-				   "adr_devise" );
-
     /* si c'est la devise du compte ou */
     /* si c'est un compte qui doit passer à l'euro ( la transfo se fait au niveau de l'affichage de la liste ) */
     /* ou si c'est un compte en euro et l'opé est dans une devise qui doit passer à l'euro -> pas de change à demander */
