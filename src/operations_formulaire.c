@@ -1,8 +1,8 @@
 /* Ce fichier s'occupe de la gestion du formulaire de saisie des opérations */
 /* formulaire.c */
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
+/*			2003 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -3513,6 +3513,8 @@ void validation_virement_operation ( struct structure_operation *operation,
       contre_operation = calloc ( 1,
 			     sizeof ( struct structure_operation ) );
       contre_operation -> no_compte = compte_virement;
+      contre_operation -> taux_change = 0;
+      contre_operation -> frais_change = 0;
     }
 
   /* remplit la nouvelle opé */
@@ -3520,9 +3522,9 @@ void validation_virement_operation ( struct structure_operation *operation,
   contre_operation -> jour = operation -> jour;
   contre_operation -> mois = operation -> mois;
   contre_operation -> annee = operation -> annee;
-  contre_operation ->date = g_date_new_dmy ( contre_operation->jour,
-					contre_operation->mois,
-					contre_operation->annee);
+  contre_operation -> date = g_date_new_dmy ( contre_operation->jour,
+					      contre_operation->mois,
+					      contre_operation->annee);
   contre_operation -> montant = -operation -> montant;
 
   /* si c'est la devise du compte ou si c'est un compte qui doit passer à l'euro ( la transfo se fait au niveau */
@@ -3560,11 +3562,6 @@ void validation_virement_operation ( struct structure_operation *operation,
 	  contre_operation -> taux_change = -contre_operation -> taux_change;
 	  contre_operation -> une_devise_compte_egale_x_devise_ope = 1;
 	}
-    }
-  else
-    {
-      contre_operation -> taux_change = 0;
-      contre_operation -> frais_change = 0;
     }
 
   contre_operation -> tiers = operation -> tiers;
