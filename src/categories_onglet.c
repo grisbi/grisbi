@@ -3038,64 +3038,25 @@ void appui_sur_ajout_sous_categorie ( void )
 /* **************************************************************************************************** */
 void exporter_categ ( void )
 {
-    GtkWidget *dialog;
-    GtkWidget *label;
     GtkWidget *fenetre_nom;
     gint resultat;
     struct stat test_fichier;
     gchar *nom_categ;
 
-    dialog = gtk_dialog_new_with_buttons ( _("Export categories"),
-					   GTK_WINDOW ( window ),
-					   GTK_DIALOG_MODAL,
-					   GTK_STOCK_OK, 0,
-					   GTK_STOCK_CANCEL, 1,
-					   NULL );
-    gtk_signal_connect ( GTK_OBJECT ( dialog ),
-			 "destroy",
-			 GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
-			 "destroy" );
+    fenetre_nom = gtk_file_selection_new ( _("Export categories"));
+    gtk_file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
+				      dernier_chemin_de_travail );
+    gtk_entry_set_text ( GTK_ENTRY ( GTK_FILE_SELECTION ( fenetre_nom )->selection_entry),
+			 ".cgsb" );
 
-    label = gtk_label_new ( COLON(_("Enter name for export")) );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			 label,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( label );
-
-    fenetre_nom = gnome_file_entry_new ( "nom_fichier",
-					 "nom_fichier" );
-    gnome_file_entry_set_default_path ( GNOME_FILE_ENTRY ( fenetre_nom ),
-					dernier_chemin_de_travail );
-    gtk_widget_set_usize ( gnome_file_entry_gnome_entry ( GNOME_FILE_ENTRY ( fenetre_nom )),
-			   300,
-			   FALSE );
-    gtk_entry_set_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
-			 g_strconcat ( dernier_chemin_de_travail,
-				       ".cgsb",
-				       NULL ));
-    gtk_entry_set_position ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
-			     strlen (dernier_chemin_de_travail ));
-    gtk_entry_set_activates_default ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom )) ),
-				      TRUE );
-    gtk_window_set_focus ( GTK_WINDOW ( dialog ),
-			   gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom )));
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			 fenetre_nom,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( fenetre_nom );
-
-    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+    resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
 
     switch ( resultat )
     {
-	case 0 :
-	    nom_categ = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
+	case GTK_RESPONSE_OK :
+	    nom_categ =g_strdup (gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom )));
 
-	    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
+	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
 	    /* vérification que c'est possible */
 
@@ -3107,28 +3068,9 @@ void exporter_categ ( void )
 	    {
 		if ( S_ISREG ( test_fichier.st_mode ) )
 		{
-		    GtkWidget *etes_vous_sur;
-		    GtkWidget *label;
-
-		    etes_vous_sur = gtk_dialog_new_with_buttons ( _("Save file"),
-								  GTK_WINDOW (window),
-								  GTK_DIALOG_MODAL,
-								  GTK_STOCK_YES,0,
-								  GTK_STOCK_NO,1,
-								  NULL );
-		    label = gtk_label_new ( _("File exists. Do you want to overwrite it?") );
-		    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( etes_vous_sur ) -> vbox ),
-					 label,
-					 TRUE,
-					 TRUE,
-					 5 );
-		    gtk_widget_show ( label );
-
-		    gtk_dialog_set_default_response ( GTK_DIALOG ( etes_vous_sur ),
-					     1 );
-		    if ( gtk_dialog_run ( GTK_DIALOG ( etes_vous_sur ) ) )
-			gtk_widget_destroy ( etes_vous_sur );
-		    return;
+		    if ( !question_yes_no_hint ( _("Save file"),
+						 _("File exists. Do you want to overwrite it?")))
+			return;
 		}
 		else
 		{
@@ -3147,7 +3089,7 @@ void exporter_categ ( void )
 	    break;
 
 	default :
-	    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
+	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 	    return;
     }
 }
@@ -3169,6 +3111,33 @@ void importer_categ ( void )
     GtkWidget *separateur;
 
 
+    fenetre_nom = gtk_file_selection_new ( _("Import a category list"));
+    gtk_file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
+				      dernier_chemin_de_travail );
+    gtk_entry_set_text ( GTK_ENTRY ( GTK_FILE_SELECTION ( fenetre_nom )->selection_entry),
+			 ".cgsb" );
+
+    resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
+
+    if ( resultat != GTK_RESPONSE_OK )
+    {
+	gtk_widget_destroy ( fenetre_nom );
+	return;
+    }
+
+    nom_categ =g_strdup (gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom )));
+
+    gtk_widget_destroy ( GTK_WIDGET (fenetre_nom  ));
+
+    /* vérification que c'est possible */
+
+    if ( !strlen ( nom_categ ))
+	return;
+
+
+
+    /* on permet de remplacer/fusionner la liste */
+
     dialog = gtk_dialog_new_with_buttons ( _("Import a category list"),
 					   GTK_WINDOW (window),
 					   GTK_DIALOG_MODAL,
@@ -3180,49 +3149,6 @@ void importer_categ ( void )
 			 GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
 			 "destroy" );
 
-    label = gtk_label_new ( COLON(_("Enter a filename")) );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			 label,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( label );
-
-    fenetre_nom = gnome_file_entry_new ( "nom_fichier",
-					 "nom_fichier" );
-    gnome_file_entry_set_default_path ( GNOME_FILE_ENTRY ( fenetre_nom ),
-					dernier_chemin_de_travail );
-    gtk_widget_set_usize ( gnome_file_entry_gnome_entry ( GNOME_FILE_ENTRY ( fenetre_nom )),
-			   300,
-			   FALSE );
-    gtk_entry_set_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
-			 g_strconcat ( dernier_chemin_de_travail,
-				       ".cgsb",
-				       NULL ));
-    gtk_entry_set_position ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
-			     strlen (dernier_chemin_de_travail ));
-    gtk_entry_set_activates_default ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom )) ),
-				      TRUE );
-    gtk_window_set_focus ( GTK_WINDOW ( dialog ),
-			   gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom )));
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			 fenetre_nom,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( fenetre_nom );
-
-
-    /* on permet de remplacer/fusionner la liste */
-
-    separateur = gtk_hseparator_new ();
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			 separateur,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( separateur );
-
     /* pour éviter un warning lors de la compil */
 
     bouton_merge_remplace = NULL;
@@ -3231,7 +3157,7 @@ void importer_categ ( void )
     {
 	/*       il y a déjà des opérations dans le fichier, on ne peut que fusionner */
 
-	label = gtk_label_new ( "Le fichier contient déjà des opérations,\nles deux listes de catégories seront fusionnées." );
+	label = gtk_label_new ( _("The file has already some transactions,\nthe two categories liste will be merged." ));
 	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
 			     label,
 			     FALSE,
@@ -3241,7 +3167,7 @@ void importer_categ ( void )
     }
     else
     {
-	label = gtk_label_new ( "Voulez-vous :" );
+	label = gtk_label_new ( _("Do you want :" ));
 	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
 			     label,
 			     FALSE,
@@ -3259,7 +3185,7 @@ void importer_categ ( void )
 
 	menu = gtk_menu_new ();
 
-	menu_item = gtk_menu_item_new_with_label ( "Fusionner les deux listes de catégories" );
+	menu_item = gtk_menu_item_new_with_label ( _("Merge the two categories lists" ));
 	gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			      "choix",
 			      NULL );
@@ -3267,7 +3193,7 @@ void importer_categ ( void )
 			  menu_item );
 	gtk_widget_show ( menu_item );
 
-	menu_item = gtk_menu_item_new_with_label ( "Remplacer l'ancienne liste de catégories" );
+	menu_item = gtk_menu_item_new_with_label ( _("Replace the old categories list" ));
 	gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			      "choix",
 			      GINT_TO_POINTER ( 1 ));
@@ -3286,15 +3212,6 @@ void importer_categ ( void )
     switch ( resultat )
     {
 	case 0 :
-	    nom_categ = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
-
-	    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
-
-	    /* vérification que c'est possible */
-
-	    if ( !strlen ( nom_categ ))
-		return;
-
 	    /* si on a choisi de remplacer l'ancienne liste, on la vire ici */
 
 	    if ( !no_derniere_operation
@@ -3311,6 +3228,7 @@ void importer_categ ( void )
 	    if ( !charge_categ ( nom_categ ))
 	    {
 		dialogue ( _("Cannot import file.") );
+		gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 		return;
 	    }
 

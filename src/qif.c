@@ -883,21 +883,16 @@ void exporter_fichier_qif ( void )
 			   0, 0 );
 	gtk_widget_show ( check_button );
 
-	entree = gnome_file_entry_new ("qif", _("Exportation of a QIF file"));
-	gtk_widget_set_usize ( GTK_WIDGET ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( entree ) )),
-			       300,
-			       FALSE );
-	gnome_file_entry_set_default_path ( GNOME_FILE_ENTRY ( entree ),
-					    dernier_chemin_de_travail );
-	gtk_entry_set_text ( GTK_ENTRY (gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( entree ) ) ),
+	entree = gtk_entry_new ();
+	gtk_entry_set_text ( GTK_ENTRY ( entree ),
 			     g_strconcat ( nom_fichier_comptes,
-					   "-",
+					   "_",
 					   g_strdelimit ( g_strdup ( NOM_DU_COMPTE) , " ", '_' ),
 					   ".qif",
 					   NULL ));
 	gtk_widget_set_sensitive ( entree,
 				   FALSE );
-	gtk_object_set_data ( GTK_OBJECT ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( entree ) ) ),
+	gtk_object_set_data ( GTK_OBJECT ( entree ),
 			      "no_compte",
 			      GINT_TO_POINTER ( i ));
 	gtk_table_attach ( GTK_TABLE ( table ),
@@ -1411,14 +1406,14 @@ void click_compte_export_qif ( GtkWidget *bouton,
 	gtk_widget_set_sensitive ( entree,
 				   TRUE );
 	liste_entrees_exportation = g_slist_append ( liste_entrees_exportation,
-						     gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( entree)) );
+						     entree);
     }
     else
     {
 	gtk_widget_set_sensitive ( entree,
 				   FALSE );
 	liste_entrees_exportation = g_slist_remove ( liste_entrees_exportation,
-						     gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( entree)) );
+						     entree);
     }
 
 }

@@ -72,7 +72,7 @@ GtkWidget *creation_onglet_accueil ( void )
     {
 	if ( chemin_logo )
 	{
-	    logo_accueil =  gnome_pixmap_new_from_file ( chemin_logo );
+	    logo_accueil =  gtk_image_new_from_file ( chemin_logo );
 	    gtk_box_pack_start ( GTK_BOX ( fenetre_accueil ), logo_accueil, FALSE, FALSE, 20 );
 	    gtk_widget_show ( logo_accueil );
 	}

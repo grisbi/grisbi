@@ -542,17 +542,11 @@ GtkWidget *onglet_fichier ( void )
 	gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 			     FALSE, FALSE, 0 );
 
-	entree_chemin_backup = gnome_file_entry_new ( "backup_grisbi",
-						      _("Grisbi backup") );
-	gtk_widget_set_usize ( gnome_file_entry_gnome_entry ( GNOME_FILE_ENTRY ( entree_chemin_backup )),
-			       300,
-			       FALSE );
-	gnome_file_entry_set_modal ( GNOME_FILE_ENTRY ( entree_chemin_backup ),
-				     TRUE );
+	entree_chemin_backup = gtk_entry_new ();
 
 	if ( nom_fichier_backup && strlen(nom_fichier_backup) )
 	{
-	    gtk_entry_set_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY (entree_chemin_backup ))),
+	    gtk_entry_set_text ( GTK_ENTRY ( entree_chemin_backup ),
 				 nom_fichier_backup );
 	    gtk_widget_set_sensitive ( GTK_WIDGET ( entree_chemin_backup ),
 				       TRUE );
@@ -561,11 +555,11 @@ GtkWidget *onglet_fichier ( void )
 	    gtk_widget_set_sensitive ( GTK_WIDGET ( entree_chemin_backup ),
 				       FALSE );
 
-	g_signal_connect_after ( GTK_OBJECT ( gnome_file_entry_gtk_entry(GNOME_FILE_ENTRY(entree_chemin_backup))),
+	g_signal_connect_after ( GTK_OBJECT ( entree_chemin_backup),
 				 "insert-text",
 				 (GCallback) change_backup_path,
 				 NULL);
-	g_signal_connect_after ( GTK_OBJECT ( gnome_file_entry_gtk_entry(GNOME_FILE_ENTRY(entree_chemin_backup))),
+	g_signal_connect_after ( GTK_OBJECT ( entree_chemin_backup),
 				 "delete-text",
 				 (GCallback) change_backup_path,
 				 NULL);
@@ -655,62 +649,30 @@ void changement_utilisation_applet ( void )
 void ajouter_verification ( GtkWidget *bouton_add,
 			    GtkWidget *fenetre_preferences  )
 {
-    GtkWidget *dialogue_box,*label;
     GtkWidget *fenetre_choix_fichier;
     gint retour;
     gchar *nom_fichier;
     GSList *pointeur_liste;
     FILE *fichier;
 
-    dialogue_box = gtk_dialog_new_with_buttons ( _("Looking for the Grisbi file"),
-						 GTK_WINDOW (window),
-						 GTK_DIALOG_MODAL,
-						 GTK_STOCK_OK,0,
-						 GTK_STOCK_CANCEL,1,
-						 NULL );
-    gtk_signal_connect ( GTK_OBJECT ( dialogue_box ),
-			 "destroy",
-			 GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
-			 "destroy" );
-
-    label = gtk_label_new ( COLON(_("Enter the accounts file")) );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialogue_box ) -> vbox ),
-			 label,
-			 TRUE,
-			 FALSE,
-			 5);
-    gtk_widget_show ( label );
+    fenetre_choix_fichier = gtk_file_selection_new ( _("Looking for the Grisbi file"));
+    gtk_file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_choix_fichier ),
+				      dernier_chemin_de_travail );
 
 
-    fenetre_choix_fichier = gnome_file_entry_new ( "fichier_grisbi",
-						   _("Grisbi file") );
-    gnome_file_entry_set_default_path ( GNOME_FILE_ENTRY ( fenetre_choix_fichier ),
-					dernier_chemin_de_travail );
-    gtk_widget_set_usize ( gnome_file_entry_gnome_entry ( GNOME_FILE_ENTRY ( fenetre_choix_fichier )),
-			   300,
-			   FALSE );
-
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialogue_box ) -> vbox ),
-			 fenetre_choix_fichier,
-			 TRUE,
-			 FALSE,
-			 5);
-    gtk_widget_show ( fenetre_choix_fichier );
-
-
-    retour = gtk_dialog_run ( GTK_DIALOG ( dialogue_box ) );
+    retour = gtk_dialog_run ( GTK_DIALOG ( fenetre_choix_fichier ) );
 
     switch ( retour )
     {
 
-	case 0 :
+	case GTK_RESPONSE_OK :
 	    /* vérification que le fichier n'est pas déjà dans la liste */
 
-	    nom_fichier = g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY (fenetre_choix_fichier )))));
+	    nom_fichier =g_strdup (gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_choix_fichier )));
 
 	    if ( !strlen ( nom_fichier ))
 	    {
-		gtk_widget_destroy  ( GTK_DIALOG ( dialogue_box ) );
+		gtk_widget_destroy  ( GTK_WIDGET ( fenetre_choix_fichier ) );
 		return;
 	    }
 
@@ -719,7 +681,7 @@ void ajouter_verification ( GtkWidget *bouton_add,
 		do
 		    if ( !strcmp ( pointeur_liste -> data, nom_fichier ) )
 		    {
-			gtk_widget_destroy  ( GTK_DIALOG ( dialogue_box ) );
+			gtk_widget_destroy  ( GTK_WIDGET ( fenetre_choix_fichier ) );
 			dialogue ( SPACIFY(_("This accounts file has already been checked!")));
 			return;
 		    }
@@ -746,7 +708,7 @@ void ajouter_verification ( GtkWidget *bouton_add,
 		if ( strcmp ( buffer,
 			      "<Grisbi>" ))
 		{
-		    gtk_widget_destroy  ( GTK_DIALOG ( dialogue_box ) );
+		    gtk_widget_destroy  ( GTK_WIDGET ( fenetre_choix_fichier ) );
 		    dialogue ( _("This file is not a grisbi file") );
 		    fclose ( fichier );
 		    return;
@@ -756,7 +718,7 @@ void ajouter_verification ( GtkWidget *bouton_add,
 	    }
 	    else
 	    {
-		gtk_widget_destroy  ( GTK_DIALOG ( dialogue_box ) );
+		gtk_widget_destroy  ( GTK_WIDGET ( fenetre_choix_fichier ) );
 		dialogue ( g_strconcat ( _("Error:\n"),
 					 strerror ( errno ),
 					 NULL ));
@@ -777,7 +739,7 @@ void ajouter_verification ( GtkWidget *bouton_add,
 	    activer_bouton_appliquer ( );
 
 	default:
-	    gtk_widget_destroy  ( GTK_DIALOG ( dialogue_box ) );
+	    gtk_widget_destroy  ( GTK_WIDGET ( fenetre_choix_fichier ) );
     }
 
 }
@@ -827,7 +789,7 @@ void changement_choix_backup ( GtkWidget *bouton,
 	gtk_widget_set_sensitive ( GTK_WIDGET ( entree_chemin_backup ), TRUE );
 	if (! nom_fichier_backup || !strlen(nom_fichier_backup) )
 	{
-	    gtk_entry_set_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY (entree_chemin_backup ))),
+	    gtk_entry_set_text ( GTK_ENTRY ( GTK_FILE_SELECTION (entree_chemin_backup )->selection_entry),
 				 _("backup.gsb") );
 	}
     }

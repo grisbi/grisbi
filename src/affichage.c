@@ -484,7 +484,7 @@ gboolean change_choix_utilise_logo ( GtkWidget *check_button,
 	{
 	    /* Update homepage logo */
 
-	    logo_accueil =  gnome_pixmap_new_from_file ( chemin_logo );
+	    logo_accueil =  gtk_image_new_from_file ( chemin_logo );
 	    gtk_box_pack_start ( GTK_BOX ( page_accueil ), logo_accueil,
 				 FALSE, FALSE, 0 );
 	    gtk_widget_show ( logo_accueil );
@@ -870,7 +870,7 @@ void change_logo_accueil ( GtkWidget *widget, gpointer user_data )
 	    /* Update homepage logo */
 	    gtk_widget_destroy ( logo_accueil ); 
 
-	    logo_accueil =  gnome_pixmap_new_from_file ( chemin_logo );
+	    logo_accueil =  gtk_image_new_from_file ( chemin_logo );
 	    gtk_box_pack_start ( GTK_BOX ( page_accueil ), logo_accueil,
 				 FALSE, FALSE, 0 );
 	    gtk_widget_show ( logo_accueil );
@@ -941,21 +941,6 @@ void modification_logo_accueil ( void )
 
     gtk_widget_show (file_selector);
 
-}
-/* **************************************************************************************************************************** */
-
-
-/* **************************************************************************************************************************** */
-void remise_a_zero_logo ( GtkWidget *bouton,
-			  GtkWidget *pixmap_entry )
-{
-    chemin_logo = CHEMIN_LOGO;
-
-    gtk_entry_set_text ( GTK_ENTRY ( gnome_pixmap_entry_gtk_entry ( GNOME_PIXMAP_ENTRY ( pixmap_entry ))),
-			 chemin_logo );
-
-    gnome_pixmap_entry_set_preview ( GNOME_PIXMAP_ENTRY ( pixmap_entry ),
-				     TRUE );
 }
 /* **************************************************************************************************************************** */
 
