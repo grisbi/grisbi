@@ -30,6 +30,7 @@
 #include "xpm/book-closed.xpm"
 #include "xpm/book-open.xpm"
 
+#include "utils.h"
 
 /* Function protypes */
 static void gtk_list_button_class_init ( GtkListButtonClass * );
@@ -48,7 +49,7 @@ static gboolean leaving_button_while_dragging ( GtkWidget *button,
 /** Contain a group of buttons, to store the one selected and thus,
   deselect is when another one is clicked.  Somewhat ugly, but I
   don't expect this to be widely used, so... */
-GtkListButton * groups[16] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+GtkListButton *groups[16] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 /* id du signal appelé pendant un drag */
 
@@ -259,6 +260,26 @@ gboolean gtk_list_button_clicked ( GtkButton *button )
 
     return FALSE;
 }
+
+
+void gtk_list_button_close ( GtkButton *button )
+{
+    GtkListButton * listbutton;
+
+    listbutton = groups [ GTK_LIST_BUTTON(button) -> group ];
+    if ( listbutton && GTK_IS_WIDGET(listbutton) )
+    {
+	gtk_widget_hide ( listbutton -> open_icon );
+	gtk_widget_show ( listbutton -> closed_icon );
+	g_object_ref ( listbutton -> open_icon );
+	gtk_container_add ( GTK_CONTAINER (listbutton -> box), 
+			    listbutton -> closed_icon );
+	gtk_container_remove ( GTK_CONTAINER (listbutton -> box), 
+			       listbutton -> open_icon );
+    }
+    groups [ GTK_LIST_BUTTON(button) -> group ] = NULL;
+}
+
 
 
 gboolean gtk_list_button_destroy ( GtkListButton * listbutton )
@@ -495,7 +516,7 @@ gboolean leaving_button_while_dragging ( GtkWidget *button,
 	    gtk_box_reorder_child ( GTK_BOX ( dragging_parent ),
 				    GTK_WIDGET (dragging_button_init),
 				    --position );
-	    while ( g_main_iteration (FALSE ));
+	    update_ecran ();
 	    gdk_window_get_position ( ev -> window,
 				      &x_widget,
 				      &y_widget );
@@ -518,7 +539,7 @@ gboolean leaving_button_while_dragging ( GtkWidget *button,
 	    gtk_box_reorder_child ( GTK_BOX ( dragging_parent ),
 				    GTK_WIDGET (dragging_button_init),
 				    ++position );
-	    while ( g_main_iteration (FALSE ));
+	    update_ecran ();
 	    gdk_window_get_position ( ev -> window,
 				      &x_widget,
 				      &y_widget );

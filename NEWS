@@ -1,3 +1,11 @@
+New in version 0.5.x :
+ - GTK2 lists
+ - grid on the lists
+ - works when idle
+ - sort by click on columns
+ - form structure defines by user
+ 
+
 New in version 0.5.0 :
  - GTK2 & libxml2 support
  - no more Gnome dependency

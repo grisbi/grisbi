@@ -267,15 +267,6 @@ void charge_configuration ( void )
 		if ( !strcmp ( node_affichage -> name, "Affichage_formulaire_echeancier" ) ) {
 		    etat.formulaire_echeancier_toujours_affiche = my_atoi(xmlNodeGetContent ( node_affichage));
 		}
-		if ( !strcmp ( node_affichage -> name, "Affichage_tous_types" ) ) {
-		    etat.affiche_tous_les_types = my_atoi(xmlNodeGetContent ( node_affichage));
-		}
-		if ( !strcmp ( node_affichage -> name, "Affiche_no_operation" ) ) {
-		    etat.affiche_no_operation = my_atoi(xmlNodeGetContent ( node_affichage));
-		}
-		if ( !strcmp ( node_affichage -> name, "Affiche_date_bancaire" ) ) {
-		    etat.affiche_date_bancaire = my_atoi(xmlNodeGetContent ( node_affichage));
-		}
 		if ( !strcmp ( node_affichage -> name, "Tri_par_date" ) ) {
 		    etat.classement_par_date = my_atoi(xmlNodeGetContent ( node_affichage));
 		}
@@ -467,15 +458,6 @@ void charge_configuration_ancien ( void )
 		 "Affichage_formulaire_echeancier=%d",
 		 &etat.formulaire_echeancier_toujours_affiche  );
 	sscanf ( temp,
-		 "Affichage_tous_types=%d",
-		 &etat.affiche_tous_les_types );
-	sscanf ( temp,
-		 "Affiche_no_operation=%d",
-		 &etat.affiche_no_operation );
-	sscanf ( temp,
-		 "Affiche_date_bancaire=%d",
-		 &etat.affiche_date_bancaire );
-	sscanf ( temp,
 		 "Tri_par_date=%d",
 		 &etat.classement_par_date );
 	sscanf ( temp,
@@ -572,7 +554,6 @@ void raz_configuration ( void )
     etat.affichage_exercice_automatique = 1;        /* l'exercice est choisi en fonction de la date */
     pango_desc_fonte_liste = NULL;
     etat.force_enregistrement = 0;     /* par défaut, on ne force pas l'enregistrement */
-    etat.affiche_tous_les_types = 0;   /* par défaut, on n'affiche ds le formulaire que les types du débit ou crédit */
     etat.classement_par_date = 1;  /* par défaut, on tri la liste des opés par les dates */
     etat.affiche_boutons_valider_annuler = 1;
     etat.classement_par_date = 1;
@@ -633,6 +614,9 @@ void sauve_configuration(void)
     // resultat de la sauvegarde
     gint resultat;
 
+    if ( DEBUG )
+	printf ( "sauve_configuration\n" );
+
     /*     on récupère les largeurs des colonnes de la liste d'opés */
     /*     seulement si un fichier est encore en mémoire */
 
@@ -689,7 +673,7 @@ void sauve_configuration(void)
     xmlNewChild ( node,NULL, "Fonte_des_listes",pango_font_description_to_string (pango_desc_fonte_liste));
     xmlNewChild ( node,NULL, "Animation_attente",etat.fichier_animation_attente);
 
-/*     on modifie la chaine si ça contient &, il semblerait que la libxml n'apprécie pas... */
+/*     on modifie la chaine si Ã§a contient &, il semblerait que la libxml n'apprécie pas... */
     
     xmlNewChild ( node,NULL, "Navigateur_web",my_strdelimit ( etat.browser_command,
 							      "&",
@@ -757,12 +741,6 @@ void sauve_configuration(void)
 		  itoa(etat.formulaire_toujours_affiche));
     xmlNewChild ( node,NULL, "Affichage_formulaire_echeancier",
 		  itoa(etat.formulaire_echeancier_toujours_affiche));
-    xmlNewChild ( node,NULL, "Affichage_tous_types",
-		  itoa(etat.affiche_tous_les_types));
-    xmlNewChild ( node,NULL, "Affiche_no_operation",
-		  itoa(etat.affiche_no_operation));
-    xmlNewChild ( node,NULL, "Affiche_date_bancaire",
-		  itoa(etat.affiche_date_bancaire));
     xmlNewChild ( node,NULL, "Tri_par_date",
 		  itoa(etat.classement_par_date));
     xmlNewChild ( node,NULL, "Affiche_boutons_valider_annuler",

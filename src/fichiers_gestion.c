@@ -46,7 +46,13 @@
 #include "affichage_liste.h"
 #include "echeancier_liste.h"
 #include "imputation_budgetaire.h"
+#include "tiers_onglet.h"
 
+
+static void fichier_selectionne ( GtkWidget *selection_fichier);
+static gchar *demande_nom_enregistrement ( void );
+static gboolean enregistrement_backup ( void );
+static void ajoute_nouveau_fichier_liste_ouverture ( gchar *path_fichier );
 
 
 extern GtkWidget *window_vbox_principale;
@@ -64,6 +70,10 @@ extern GtkItemFactory *item_factory_menu_general;
 
 
 /* ************************************************************************************************************ */
+/* cette fonction est appelée par les menus */
+/* elle ferme l'ancien fichier, crée un compte vierge */
+/* et initialise l'affichage */
+/* ************************************************************************************************************ */
 void nouveau_fichier ( void )
 {
     gint type_de_compte;
@@ -73,9 +83,6 @@ void nouveau_fichier ( void )
 
     if ( !fermer_fichier () )
 	return;
-
-
-    menus_sensitifs ( FALSE );
 
     init_variables ();
 
@@ -90,10 +97,24 @@ void nouveau_fichier ( void )
     if ( no_compte == -1 )
 	return;
 
-    /* dégrise les menus nécessaire */
+    initialisation_variables_nouveau_fichier ();
+    initialisation_graphiques_nouveau_fichier ();
 
-    menus_sensitifs ( TRUE );
+    /* on se met sur l'onglet de propriétés du compte */
 
+    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
+			    3 );
+
+    modification_fichier ( TRUE );
+}
+/* ************************************************************************************************************ */
+
+
+/* ************************************************************************************************************ */
+/* cette fonction initialise les variables pour faire un nouveau fichier */
+/* ************************************************************************************************************ */
+void initialisation_variables_nouveau_fichier ( void )
+{
     /*   la taille des colonnes est automatique au départ, on y met les rapports de base */
 
     etat.largeur_auto_colonnes = 1;
@@ -105,12 +126,30 @@ void nouveau_fichier ( void )
     rapport_largeur_colonnes[5] = 11;
     rapport_largeur_colonnes[6] = 11;
 
-
     /* création des listes d'origine */
 
     creation_devises_de_base();
     creation_liste_categories ();
+}
+/* ************************************************************************************************************ */
+
+
+
+/* ************************************************************************************************************ */
+/* cette fonction est appelée lors de la création d'un nouveau fichier, elle s'occupe */
+/* de l'initialisation de la partie graphique */
+/* ************************************************************************************************************ */
+void initialisation_graphiques_nouveau_fichier ( void )
+{
+    /* dégrise les menus nécessaire */
+
+    menus_sensitifs ( TRUE );
+
     creation_liste_categ_combofix ();
+
+    /*     récupère l'organisation des colonnes  */
+    
+    recuperation_noms_colonnes_et_tips ();
 
     /* on crée le notebook principal */
 
@@ -124,19 +163,16 @@ void nouveau_fichier ( void )
 
     changement_compte ( GINT_TO_POINTER ( compte_courant ) );
 
-
     /* affiche le nom du fichier de comptes dans le titre de la fenetre */
 
     affiche_titre_fenetre();
 
+    gtk_notebook_set_page ( GTK_NOTEBOOK( notebook_general ),
+			    0 );
+
+    /*     on se met sur la page d'accueil */
+
     gtk_widget_show ( notebook_general );
-
-    /* on se met sur l'onglet de propriétés du compte */
-
-    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
-			    3 );
-
-    modification_fichier ( TRUE );
 }
 /* ************************************************************************************************************ */
 
@@ -335,7 +371,6 @@ void ouverture_confirmee ( void )
 	    /* on force l'enregistrement */
 
 	    enregistre_fichier ( nom );
-
 	}
     }
 
@@ -384,6 +419,10 @@ void ouverture_confirmee ( void )
     mise_a_jour_liste_comptes_accueil = 1;
     mise_a_jour_soldes_minimaux = 1;
     mise_a_jour_fin_comptes_passifs = 1;
+
+    /*     création de la liste des tiers pour le combofix */
+    
+    creation_liste_tiers_combofix ();
 
     /* creation de la liste des categ pour le combofix */
 
@@ -542,7 +581,8 @@ gboolean enregistrer_fichier_sous ( void )
 
 
 /* ************************************************************************************************************ */
-/* cette fonction est appelée lors de la fermeture de grisbi si le fichier est modifié */
+/* cette fonction est appelée pour proposer d'enregistrer si le fichier est modifié */
+/* elle n'enregistre pas, elle retourne juste le choix de l'utilisateur */
 /* retourne : */
 /* GTK_RESPONSE_OK : veut enregistrer */
 /* GTK_RESPONSE_NO : veut pas enregistrer */
@@ -554,19 +594,42 @@ gint question_fermer_sans_enregistrer ( void )
     gint result;
     GtkWidget *dialog;
 
-    hint = g_strdup_printf (_("Save changes to document '%s' before closing?"),
-			    (nom_fichier_comptes ? g_path_get_basename(nom_fichier_comptes) : _("unnamed")));
+    /*     si le fichier n'est pas modifié on renvoie qu'on ne veut pas enregistrer */
+
+    if ( !etat.modification_fichier )
+	return GTK_RESPONSE_NO;
+    
+    /*     si le fichier était déjà locké et que force enregistrement n'est pas mis, */
+    /*     on prévient ici */
 
     dialog = gtk_message_dialog_new ( GTK_WINDOW (window), 
 				      GTK_DIALOG_DESTROY_WITH_PARENT,
 				      GTK_MESSAGE_WARNING, 
 				      GTK_BUTTONS_NONE,
 				      " " );
-    gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
-			     _("Close without saving"), GTK_RESPONSE_NO,
-			     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-			     GTK_STOCK_SAVE, GTK_RESPONSE_OK,
-			     NULL );
+    if ( etat.fichier_deja_ouvert
+	 &&
+	 !etat.force_enregistrement )
+    {
+	hint = g_strdup_printf (_("The document '%s' is locked but modified. If you want to save it, you must cancel and save it with another name or activate the \"%s\" option in setup."),
+				  (nom_fichier_comptes ? g_path_get_basename(nom_fichier_comptes) : _("unnamed")),
+				  _("Force saving of locked files"));
+	gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
+				 _("Close without saving"), GTK_RESPONSE_NO,
+				 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				 NULL );
+    }
+    else
+    {
+	hint = g_strdup_printf (_("Save changes to document '%s' before closing?"),
+				(nom_fichier_comptes ? g_path_get_basename(nom_fichier_comptes) : _("unnamed")));
+	gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
+				 _("Close without saving"), GTK_RESPONSE_NO,
+				 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				 GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+				 NULL );
+    }
+
     gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), 
 			   make_hint ( hint, _("If you close without saving, all of your changes will be discarded.")) );
 
@@ -651,83 +714,101 @@ gchar *demande_nom_enregistrement ( void )
 gboolean fermer_fichier ( void )
 {
     int i;
+    gint result;
+
+
+    if ( DEBUG)
+	printf ( "fermer_fichier\n" );
+
 
     if ( !nb_comptes )
 	return ( TRUE );
 
-    /*     on enregistre la config */
 
-    sauve_configuration ();
+    /*     on propose d'enregistrer */
 
-    /* si l'enregistrement s'est mal passé, on se barre */
+    result = question_fermer_sans_enregistrer();
 
-    if ( !enregistrement_fichier (-1) )
-	return ( FALSE );
-
-    /*     s'il y a de l'idle, on le retire */
-
-    if ( id_fonction_idle )
+    switch ( result )
     {
-	g_source_remove ( id_fonction_idle );
-	id_fonction_idle = 0;
+	case GTK_RESPONSE_OK:
+
+	    /* 	    on a choisi d'enregistrer, si va pas, on s'en va */
+
+	    if ( !enregistrement_fichier (-1) )
+		return ( FALSE );
+
+	case GTK_RESPONSE_NO :
+
+	    /* 	    l'enregistrement s'est bien passé ou on a choisi de ne pas enregistrer */
+
+	    /*     on enregistre la config */
+
+	    sauve_configuration ();
+
+	    /*     s'il y a de l'idle, on le retire */
+
+	    termine_idle ();
+
+	    /* si le fichier n'était pas déjà ouvert, met à 0 l'ouverture */
+
+	    if ( !etat.fichier_deja_ouvert
+		 &&
+		 nb_comptes
+		 &&
+		 nom_fichier_comptes )
+		modification_etat_ouverture_fichier ( FALSE );
+
+	    /*       stoppe le timer */
+
+	    if ( id_temps )
+	    {
+		gtk_timeout_remove ( id_temps );
+		id_temps = 0;
+	    }
+
+	    /* libère les opérations de tous les comptes */
+
+	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+
+	    for ( i=0 ; i< nb_comptes ; i++ )
+	    {
+		if ( LISTE_OPERATIONS )
+		    g_slist_free ( LISTE_OPERATIONS );
+
+		free ( *p_tab_nom_de_compte_variable );
+		p_tab_nom_de_compte_variable++;
+	    };
+
+
+	    free ( p_tab_nom_de_compte );
+
+	    /* libère les échéances */
+
+	    g_slist_free ( liste_struct_echeances );
+	    g_slist_free ( echeances_a_saisir );
+	    g_slist_free ( echeances_saisies );
+	    g_slist_free ( ordre_comptes );
+	    g_slist_free ( liste_struct_etats );
+
+	    gtk_signal_disconnect_by_func ( GTK_OBJECT ( notebook_general ),
+					    GTK_SIGNAL_FUNC ( change_page_notebook),
+					    NULL );
+
+	    gtk_widget_destroy ( notebook_general );
+
+	    init_variables ();
+
+	    affiche_titre_fenetre();
+
+	    menus_sensitifs ( FALSE );
+
+	    return ( TRUE );
+	    break;
+
+	default :
+	    return FALSE;
     }
-
-     /* si le fichier n'était pas déjà ouvert, met à 0 l'ouverture */
-
-    if ( !etat.fichier_deja_ouvert
-	 &&
-	 nb_comptes
-	 &&
-	 nom_fichier_comptes )
-	modification_etat_ouverture_fichier ( FALSE );
-
-    /*       stoppe le timer */
-
-    if ( id_temps )
-    {
-	gtk_timeout_remove ( id_temps );
-	id_temps = 0;
-    }
-
-
-
-    /* libère les opérations de tous les comptes */
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
-    for ( i=0 ; i< nb_comptes ; i++ )
-    {
-	if ( LISTE_OPERATIONS )
-	    g_slist_free ( LISTE_OPERATIONS );
-
-	free ( *p_tab_nom_de_compte_variable );
-	p_tab_nom_de_compte_variable++;
-    };
-
-
-    free ( p_tab_nom_de_compte );
-
-    /* libère les échéances */
-
-    g_slist_free ( liste_struct_echeances );
-    g_slist_free ( echeances_a_saisir );
-    g_slist_free ( echeances_saisies );
-    g_slist_free ( ordre_comptes );
-    g_slist_free ( liste_struct_etats );
-
-    gtk_signal_disconnect_by_func ( GTK_OBJECT ( notebook_general ),
-				    GTK_SIGNAL_FUNC ( change_page_notebook),
-				    NULL );
-
-    gtk_widget_destroy ( notebook_general );
-
-    init_variables ();
-
-    affiche_titre_fenetre();
-
-    menus_sensitifs ( FALSE );
-
-    return ( TRUE );
 }
 /* ************************************************************************************************************ */
 

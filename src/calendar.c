@@ -55,8 +55,12 @@ GtkWidget *gsb_calendar_new ( GtkWidget *entry )
 				"destroy",
 				GTK_SIGNAL_FUNC ( gdk_pointer_ungrab ),
 				GDK_CURRENT_TIME );
+/*     gtk_signal_connect_object ( GTK_OBJECT ( popup ), */
+/* 				"destroy", */
+/* 				GTK_SIGNAL_FUNC ( gtk_grab_remove ), */
+/* 				GTK_OBJECT ( entree )); */
 
-    /* création de l'intérieur de la popup */
+  /* création de l'intérieur de la popup */
 
     frame = gtk_frame_new ( NULL );
     gtk_container_add ( GTK_CONTAINER ( popup ), frame );
@@ -513,13 +517,6 @@ void inc_dec_date ( GtkWidget *entree, gint demande )
 					   g_date_day ( date ),
 					   g_date_month ( date ),
 					   g_date_year ( date )));
-}
-/******************************************************************************/
-
-/******************************************************************************/
-void ferme_calendrier ( GtkWidget *entree )
-{
-    gtk_grab_remove ( entree );
 }
 /******************************************************************************/
 

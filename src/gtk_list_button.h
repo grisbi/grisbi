@@ -75,6 +75,13 @@ GtkWidget *gtk_list_button_new ( gchar * text,
 				 int can_drag,
 				 gpointer data );
 
+
+/* ************************************************************** */
+/* ferme l'icône du bouton donné en argument */
+/* ************************************************************** */
+void gtk_list_button_close ( GtkButton *button );
+
+
 /* ************************************************************** */
 /* change le nom du list_button donné en argument */
 /* ************************************************************** */

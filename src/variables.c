@@ -148,17 +148,6 @@ gint operations_affichees;       /* nb d'opé affichées ( variable en fonction qu
 
 
 /************************/ 
-/* fichier operations_formulaire.c */
-/************************/ 
-
-GtkWidget *widget_formulaire_operations[TRANSACTION_FORM_WIDGET_NB];
-GtkWidget *separateur_formulaire_operations;
-GtkWidget *hbox_valider_annuler_ope;
-gchar date_courante[11];             /* contient soit la date du jour, soit la derniere date entree */
-GtkStyle *style_entree_formulaire[2];
-
-
-/************************/ 
 /* fichier parametres.c */
 /************************/ 
 

@@ -44,6 +44,20 @@
 #include "dialog.h"
 #include "gtk_list_button.h"
 
+static gboolean saisie_echeance_accueil ( GtkWidget *event_box,
+					  GdkEventButton *event,
+					  struct operation_echeance *echeance );
+static void update_liste_comptes_accueil ( void );
+static gboolean click_sur_compte_accueil ( gint *no_compte );
+static void update_liste_echeances_manuelles_accueil ( void );
+static void update_liste_echeances_auto_accueil ( void );
+static void update_soldes_minimaux ( void );
+static void update_fin_comptes_passifs ( void );
+static gboolean select_expired_scheduled_transaction ( GtkWidget * event_box, GdkEventButton *event,
+						       struct structure_operation * operation );
+
+
+
 #define show_paddingbox(child) gtk_widget_show_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
 #define hide_paddingbox(child) gtk_widget_hide_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
 

@@ -34,6 +34,30 @@
 #include "search_glist.h"
 #include "traitement_variables.h"
 #include "utils.h"
+#include "affichage_formulaire.h"
+
+
+
+
+static void update_fonte_listes ( void );
+static void choix_fonte ( GtkWidget *bouton,
+			  gchar *fonte,
+			  gpointer null );
+static gboolean modification_logo_accueil ( gint origine );
+static void update_font_button(GtkWidget * name_label,
+			       GtkWidget * size_label,
+			       gchar * fontname);
+static gboolean init_fonts ( GtkWidget * button,
+			     gpointer user_data);
+static gboolean update_homepage_title ( GtkEntry *, gchar *, gint, gint * );
+static void change_animation ( GtkWidget *widget, gpointer user_data );
+static void change_logo_accueil ( GtkWidget *widget, gpointer user_data );
+static gboolean change_choix_utilise_logo ( GtkWidget *check_button,
+					    GtkWidget *hbox );
+static gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
+						   GtkWidget *vbox );
+
+
 
 
 GtkWidget * list_font_name_label, * list_font_size_label;
@@ -48,6 +72,8 @@ GtkWidget *preview;
 GtkWidget *anim_button;
 GtkWidget *anim_preview;
 
+
+
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *separateur_formulaire_echeancier;
 extern GtkWidget *hbox_valider_annuler_echeance;
@@ -55,6 +81,7 @@ extern GtkWidget *liste_echeances;
 extern PangoFontDescription *pango_desc_fonte_liste;
 extern gint hauteur_ligne_liste_opes;
 extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
+extern GtkWidget *vbox_boutons_formulaire;
 
 
 /**
@@ -67,60 +94,20 @@ extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL
  */
 gboolean update_transaction_form ( GtkWidget * checkbox, gpointer data )
 {
-    gboolean selected = gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) == style_entree_formulaire[ENCLAIR];
-    if ( nb_comptes )
+    if ( etat.affiche_boutons_valider_annuler )
     {
-	if ( etat.affiche_no_operation )
-	    gtk_widget_show ( widget_formulaire_operations[TRANSACTION_FORM_OP_NB] );
-	else
-	    gtk_widget_hide ( widget_formulaire_operations[TRANSACTION_FORM_OP_NB] );
+	gtk_widget_show ( vbox_boutons_formulaire );
+	gtk_widget_show ( separateur_formulaire_echeancier );
+	gtk_widget_show ( hbox_valider_annuler_echeance );
+    }
+    else
+    {
+	gtk_widget_hide ( vbox_boutons_formulaire );
+	gtk_widget_hide ( separateur_formulaire_echeancier );
+	gtk_widget_hide ( hbox_valider_annuler_echeance );
 
-	gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE],
-				   etat.affiche_date_bancaire );
-
-	gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_EXERCICE],
-				   etat.utilise_exercice && selected );
-	gtk_widget_set_sensitive ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_EXERCICE],
-				   etat.utilise_exercice && selected  );
-	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE],
-				   etat.utilise_exercice && selected  );
-
-	gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET],
-				   etat.utilise_imputation_budgetaire && selected  );
-	gtk_widget_set_sensitive ( page_imputations,
-				   etat.utilise_imputation_budgetaire && selected  );
-	gtk_widget_set_sensitive ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_BUDGETARY],
-				   etat.utilise_imputation_budgetaire && selected  );
-	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY],
-				   etat.utilise_imputation_budgetaire && selected  );
-
-	gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_VOUCHER],
-				   etat.utilise_piece_comptable && selected  );
-	gtk_widget_set_sensitive ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_VOUCHER],
-				   etat.utilise_piece_comptable && selected  );
-	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_VOUCHER],
-				   etat.utilise_piece_comptable && selected  );
-
-	gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_BANK],
-				   etat.utilise_info_banque_guichet && selected  );
-
-	if ( etat.affiche_boutons_valider_annuler )
-	{
-	    gtk_widget_show ( separateur_formulaire_operations );
-	    gtk_widget_show ( hbox_valider_annuler_ope );
-	    gtk_widget_show ( separateur_formulaire_echeancier );
-	    gtk_widget_show ( hbox_valider_annuler_echeance );
-	}
-	else
-	{
-	    gtk_widget_hide ( separateur_formulaire_operations );
-	    gtk_widget_hide ( hbox_valider_annuler_ope );
-	    gtk_widget_hide ( separateur_formulaire_echeancier );
-	    gtk_widget_hide ( hbox_valider_annuler_echeance );
-
-	    affiche_cache_le_formulaire ();
-	    affiche_cache_le_formulaire ();
-	}
+	affiche_cache_le_formulaire ();
+	affiche_cache_le_formulaire ();
     }
     return ( FALSE );
 }
@@ -130,7 +117,9 @@ GtkWidget *onglet_display_transaction_form ( void )
 {
     GtkWidget *vbox_pref;
     GtkWidget *paddingbox;
-    GtkWidget *table, *radiogroup;
+    GtkWidget *radiogroup;
+    GtkWidget *liste_organisation;
+
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Transaction form"),
 					       "form.png" );
@@ -142,78 +131,24 @@ GtkWidget *onglet_display_transaction_form ( void )
 					    _("terminates transaction"),
 					    &etat.entree, NULL);
 
+    /*     organisation du formulaire */
+
+    liste_organisation = creation_liste_organisation_formulaire ();
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
+			 liste_organisation,
+			 FALSE, FALSE, 0 );
+    gtk_widget_show ( liste_organisation );
+
+    
     /* Displayed fields */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
 					    COLON(_("Displayed fields")));
 
-    table = gtk_table_new ( 0, 2, TRUE );
-    gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-			 table,
+			 new_checkbox_with_title (_("'Accept' and 'Cancel' buttons"),
+						  &etat.affiche_boutons_valider_annuler,
+						  ((GCallback) update_transaction_form)),
 			 FALSE, FALSE, 0 );
-
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       new_checkbox_with_title (_("Transaction number"),
-						&etat.affiche_no_operation,
-						((GCallback) update_transaction_form)),
-		       0, 1, 0, 1,
-		       GTK_SHRINK | GTK_FILL,
-		       GTK_SHRINK | GTK_FILL,
-		       0, 0 );
-
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       new_checkbox_with_title (_("Value date"),
-						&etat.affiche_date_bancaire,
-						((GCallback) update_transaction_form)),
-		       0, 1, 1, 2,
-		       GTK_SHRINK | GTK_FILL,
-		       GTK_SHRINK | GTK_FILL,
-		       0, 0 );
-
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       new_checkbox_with_title (_("Financial year"),
-						&etat.utilise_exercice,
-						((GCallback) update_transaction_form)),
-		       0, 1, 2, 3,
-		       GTK_SHRINK | GTK_FILL,
-		       GTK_SHRINK | GTK_FILL,
-		       0, 0 );
-
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       new_checkbox_with_title (_("Budgetary information"),
-						&etat.utilise_imputation_budgetaire,
-						((GCallback) update_transaction_form)),
-		       0, 1, 3, 4,
-		       GTK_SHRINK | GTK_FILL,
-		       GTK_SHRINK | GTK_FILL,
-		       0, 0 );
-
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       new_checkbox_with_title (_("Voucher number"),
-						&etat.utilise_piece_comptable,
-						((GCallback) update_transaction_form)),
-		       1, 2, 0, 1,
-		       GTK_SHRINK | GTK_FILL,
-		       GTK_SHRINK | GTK_FILL,
-		       0, 0 );
-
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       new_checkbox_with_title (_("Bank reference"),
-						&etat.utilise_info_banque_guichet,
-						((GCallback) update_transaction_form)),
-		       1, 2, 1, 2,
-		       GTK_SHRINK | GTK_FILL,
-		       GTK_SHRINK | GTK_FILL,
-		       0, 0 );
-
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       new_checkbox_with_title (_("'Accept' and 'Cancel' buttons"),
-						&etat.affiche_boutons_valider_annuler,
-						((GCallback) update_transaction_form)),
-		       1, 2, 2, 3,
-		       GTK_SHRINK | GTK_FILL,
-		       GTK_SHRINK | GTK_FILL,
-		       0, 0 );
 
     /* How to display financial year */
     radiogroup = new_radiogroup_with_title (vbox_pref,
@@ -230,6 +165,10 @@ GtkWidget *onglet_display_transaction_form ( void )
 
     return vbox_pref;
 }
+/* *************************************************************************** */
+
+
+
 
 
 /**
@@ -555,6 +494,7 @@ gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
 
 
 
+
 /**
  * Creates the "Titles & Addresses" tab.  This tab is mainly composed
  * of text entries and editables.
@@ -636,34 +576,6 @@ GtkWidget *onglet_display_addresses ( void )
 
 
 
-/* **************************************************************************************************************************** */
-void deplacement_haut ( void )
-{
-    if ( !GPOINTER_TO_INT (GTK_CLIST ( liste_choix_ordre_comptes ) -> selection -> data ))
-	return;
-
-    gtk_clist_swap_rows ( GTK_CLIST ( liste_choix_ordre_comptes ),
-			  GPOINTER_TO_INT ( GTK_CLIST ( liste_choix_ordre_comptes ) -> selection -> data ),
-			  GPOINTER_TO_INT ( GTK_CLIST ( liste_choix_ordre_comptes ) -> selection -> data ) - 1 );
-
-}
-/* **************************************************************************************************************************** */
-
-
-
-
-
-/* **************************************************************************************************************************** */
-void deplacement_bas ( void )
-{
-    if ( GPOINTER_TO_INT (GTK_CLIST ( liste_choix_ordre_comptes ) -> selection -> data ) == ( nb_comptes - 1 ) )
-	return;
-
-    gtk_clist_swap_rows ( GTK_CLIST ( liste_choix_ordre_comptes ),
-			  GPOINTER_TO_INT ( GTK_CLIST ( liste_choix_ordre_comptes ) -> selection -> data ),
-			  GPOINTER_TO_INT ( GTK_CLIST ( liste_choix_ordre_comptes ) -> selection -> data ) + 1 );
-}
-/* **************************************************************************************************************************** */
 
 
 
@@ -777,7 +689,7 @@ void update_fonte_listes ( void )
 
     /*     on affiche la liste puis change la hauteur des lignes */
 
-    while ( g_main_iteration ( FALSE ));
+    update_ecran ();
     hauteur_ligne_liste_opes = 0;
     ajuste_scrolling_liste_operations_a_selection ( compte_courant );
 

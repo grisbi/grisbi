@@ -33,7 +33,20 @@
 #include "import.h"
 #include "type_operations.h"
 #include "utils.h"
+#include "traitement_variables.h"
 
+static GtkWidget *onglet_messages_and_warnings ( void );
+static GtkWidget *onglet_fichier ( void );
+static void changement_choix_backup ( GtkWidget *bouton,
+				      gpointer pointeur );
+static gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
+					       GtkTreeModel *model );
+static GtkWidget * create_preferences_tree ( );
+static gboolean preference_selectable_func (GtkTreeSelection *selection,
+					    GtkTreeModel *model, GtkTreePath *path,
+					    gboolean path_currently_selected,
+					    gpointer data);
+static GtkWidget *onglet_programmes (void);
 
 
 
@@ -628,30 +641,6 @@ void changement_choix_backup ( GtkWidget *bouton,
 /* **************************************************************************************************************************** */
 
 
-/* **************************************************************************************************************************** */
-/* fonction qui ferme la fenêtre préférences */
-/* **************************************************************************************************************************** */
-void fermeture_preferences ( GtkWidget *button,
-			     gint page,
-			     gpointer data )
-{
-    GtkTreeIter iter;
-
-    gtk_tree_model_get_iter_first(GTK_TREE_MODEL (preference_tree_model), &iter);
-
-    do
-    {
-	GValue value = {0, };
-	gtk_tree_model_get_value (GTK_TREE_MODEL (preference_tree_model), 
-				  &iter, 1, &value);
-	gtk_widget_destroy(g_value_get_pointer(&value));
-    }
-    while (gtk_tree_model_iter_next (GTK_TREE_MODEL (preference_tree_model), &iter));
-
-    preference_selected = 0;
-    gtk_widget_destroy (fenetre_preferences);
-}
-/* **************************************************************************************************************************** */
 
 /* *******************************************************************************/
 /* page de configuration des logiciels externes */

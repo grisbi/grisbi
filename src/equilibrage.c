@@ -536,14 +536,7 @@ void equilibrage ( void )
 
 		partie_num = itoa ( my_atoi ( partie_num ) + 1 );
 
-		/* si la nouvelle partie numérique est plus petite que l'ancien
-    if ( id_fonction_idle )
-    {
-	g_source_remove ( id_fonction_idle );
-	id_fonction_idle = 0;
-    }
-
-ne, */
+		/* si la nouvelle partie numérique est plus petite que l'ancienne, */
 		/* c'est que des 0 ont été shuntés, on va les rajouter ici */
 
 		nouvelle_longueur = strlen ( partie_num );

@@ -2031,14 +2031,8 @@ gboolean clique_sur_entree_date_etat ( GtkWidget *entree, GdkEventButton *ev )
 
     if ( ev -> type == GDK_2BUTTON_PRESS )
     {
-	gtk_signal_emit_stop_by_name ( GTK_OBJECT ( entree ),
-				       "button-press-event");
 	popup_cal = gsb_calendar_new ( entree );
-	gtk_signal_connect_object ( GTK_OBJECT ( popup_cal ),
-				    "destroy",
-				    GTK_SIGNAL_FUNC ( ferme_calendrier ),
-				    GTK_OBJECT ( entree ) );
-	gtk_widget_grab_focus ( GTK_WIDGET ( popup_cal ) );
+	return TRUE;
     }
     return FALSE;
 }
@@ -2064,11 +2058,6 @@ gboolean pression_touche_date_etat ( GtkWidget *widget,
 	    if ( ( ev -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK )
 	    {
 		popup_cal = gsb_calendar_new ( widget );
-		gtk_signal_connect_object ( GTK_OBJECT ( popup_cal ),
-					    "destroy",
-					    GTK_SIGNAL_FUNC ( ferme_calendrier ),
-					    GTK_OBJECT ( widget ) );
-		gtk_widget_grab_focus ( GTK_WIDGET ( popup_cal ) );
 	    }
 	    /* si la touche CTRL n'est pas active, alors on valide simplement
 	       la saisie de l'échéance */

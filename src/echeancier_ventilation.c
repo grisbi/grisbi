@@ -40,6 +40,7 @@
 #include "constants.h"
 #include "echeancier_onglet.h"
 #include "constants.h"
+#include "comptes_traitements.h"
 
 
 
@@ -71,6 +72,7 @@ extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GSList *liste_imputations_combofix;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
+extern GtkStyle *style_entree_formulaire[2];
 
 
 
@@ -572,9 +574,6 @@ GtkWidget *creation_formulaire_ventilation_echeances ( void )
 
     gtk_widget_show (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY]);
 
-    gtk_widget_set_sensitive ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY],
-			       etat.utilise_imputation_budgetaire );
-
 
     /* mise en place du type de l'opé associée en cas de virement */
     /* non affiché au départ */
@@ -617,9 +616,6 @@ GtkWidget *creation_formulaire_ventilation_echeances ( void )
 		       0,0);
     gtk_widget_show ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_EXERCICE] );
 
-    gtk_widget_set_sensitive ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_EXERCICE],
-			       etat.utilise_exercice );
-
     /*   création de l'entrée du no de pièce comptable */
 
     widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_VOUCHER] = gtk_entry_new();
@@ -646,9 +642,6 @@ GtkWidget *creation_formulaire_ventilation_echeances ( void )
 			 GTK_SIGNAL_FUNC (entree_ventilation_perd_focus_echeances),
 			 GINT_TO_POINTER ( SCHEDULER_BREAKDOWN_FORM_VOUCHER ) );
     gtk_widget_show ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_VOUCHER] );
-
-    gtk_widget_set_sensitive ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_VOUCHER],
-			       etat.utilise_piece_comptable );
 
     /* séparation d'avec les boutons */
 
@@ -810,8 +803,7 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 
 				if ( !GTK_WIDGET_VISIBLE ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] )
 				     ||
-				     ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] ) -> menu ),
-									       "no_compte" ))
+				     ( recupere_no_compte ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] )
 				       !=
 				       compte_virement ))
 				{

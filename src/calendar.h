@@ -13,6 +13,5 @@ gboolean clavier_calendrier ( GtkCalendar *pCalendar,
 void date_selection ( GtkCalendar *pCalendar,
 		      GtkWidget *entry );
 void inc_dec_date ( GtkWidget *entree, gint demande );
-void ferme_calendrier ( GtkWidget *entree );
 
 

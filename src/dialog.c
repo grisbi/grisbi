@@ -236,6 +236,8 @@ void dialogue_conditional_special ( gchar *text, int * var, GtkMessageType type 
 				      type,
 				      GTK_BUTTONS_CLOSE,
 				      text );
+    gtk_dialog_set_default_response ( GTK_DIALOG( dialog ),
+				      GTK_RESPONSE_CLOSE );
     gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
 
     vbox = GTK_DIALOG(dialog) -> vbox;

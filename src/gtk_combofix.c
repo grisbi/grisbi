@@ -578,8 +578,10 @@ static gboolean affiche_proposition ( GtkWidget *entree,
     gint menu_rempli, menu_rempli_ok, ligne_en_cours, i;
     gchar *chaine, *completion, *categorie;
 
+
     if (bloque_proposition)
 	return(FALSE);
+
 
 #define COULEUR_RED  40000
 #define COULEUR_GREEN  40000
@@ -1637,6 +1639,8 @@ void gtk_combofix_set_text ( GtkComboFix *combofix,
 
     /* FIXME: gruik but I cannot understand how to *completely* inhibit
        this signal ... this happened to work fine with GTK1.2 [benj] */
+    /*     avec gtk2.2 marche toujours, mais n'arrive toujours pas avec handler_block [ced]*/
+
     bloque_proposition = 1;
     gtk_entry_set_text ( GTK_ENTRY ( combofix -> entry ),
 			 text );

@@ -1,5 +1,4 @@
 GtkWidget *creation_liste_comptes (void);
-GtkWidget *comptes_appel ( gint no_de_compte );
 void changement_compte_par_menu ( gpointer null,
 				  gint compte_plus_un );
 gboolean changement_compte ( gint *compte);

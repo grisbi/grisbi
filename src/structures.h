@@ -71,7 +71,7 @@ struct {
     guint dernier_fichier_auto;
     guint sauvegarde_auto;             /* utilisé pour enregistrer le fichier automatiquementà la fermeture */
     guint sauvegarde_demarrage;        /* utilisé pour enregistrer le fichier s'il s'est bien ouvert */
-    guint entree;
+    guint entree;   			 /* si etat.entree = 1, la touche entrée finit l'opération */ 
     guint alerte_mini;
     guint formulaire_toujours_affiche;
     guint formulaire_echeancier_toujours_affiche;
@@ -80,13 +80,8 @@ struct {
     guint fichier_deja_ouvert;   /* à un si lors de l'ouverture, le fichier semblait déjà ouvert */
     guint force_enregistrement;    /* à un si on force l'enregistrement */
     guint affichage_exercice_automatique;   /* à 1 si exercice automatique selon la date, 0 si affiche le dernier choisi */
-    guint affiche_tous_les_types;      /* à 1 si tous les types sont dans le check button et non pas juste les débits ou crédits */
-    guint affiche_no_operation;
-    guint affiche_date_bancaire; /* GDC : à 1 si on veut afficher la colonne et le champ de la date réelle */
-    guint utilise_exercice;
-    guint utilise_imputation_budgetaire;
-    guint utilise_piece_comptable;
-    guint utilise_info_banque_guichet;
+
+    guint formulaire_distinct_par_compte;  /* à 1 si le formulaire est différent pour chaque compte */
     guint affiche_boutons_valider_annuler;
     guint affiche_nb_ecritures_listes;
     guint classement_par_date;   /* à 1 si le classement de la liste d'opé se fait par date */
@@ -197,8 +192,6 @@ struct donnees_compte
     GDate *date_releve;
     gdouble solde_releve;
     gint dernier_no_rapprochement;
-    GtkWidget *icone_ouverte;              /* adr de l'icone ouverte */
-    GtkWidget *icone_fermee;              /* adr de l'icone fermée */
     gint mise_a_jour;                      /* à 1 lorsque la liste doit être rafraichie à l'affichage */
     gint devise;                         /* contient le no de la devise du compte */
     gint banque;                                      /* 0 = aucune, sinon, no de banque */
@@ -219,9 +212,10 @@ struct donnees_compte
     gint nb_lignes_ope;           /* contient le nb de lignes pour une opé (1, 2, 3, 4 ) */
     gint (*classement_courant) ( struct structure_operation *operation_1,
 				 struct structure_operation *operation_2 );      /* pointe sur la fonction de classement en cours */
-    GtkTreeViewColumn *colonne_classement;         /* contient le no de colonne qui a été clické pour le classement */
+    gint colonne_classement;         /* contient le no de colonne qui a été clické pour le classement */
     gint classement_croissant;          /*à 1 si on utilise le classement croissant, du haut de la liste vers le bas*/
     gint no_classement;                    /*contient le no du classement*/
+    GtkWidget *bouton_compte;      /* adr du bouton du compte dans la liste d'opérations */
 
 /*     données de la tree_view */
 
@@ -237,6 +231,12 @@ struct donnees_compte
     gint couleur_background_fini;      /*à 1 une fois que le background a été fait*/
     gint affichage_solde_fini;         /*à 1 une fois que les soldes des opés ont été affichés(se met à 0 tout seul quand on essaie d'afficher le solde) */
     gint selection_operation_fini;      /*à 1 une fois que l'opération a été sélectionnée */
+
+
+/*     contient l'adr de la struct qui décrit l'organisation du formulaire pour ce compte */
+
+    struct organisation_formulaire *organisation_formulaire;
+
 };
 
 
@@ -259,8 +259,6 @@ struct donnees_compte
 #define DATE_DERNIER_RELEVE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) ->  date_releve
 #define SOLDE_DERNIER_RELEVE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) ->  solde_releve
 #define DERNIER_NO_RAPPROCHEMENT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> dernier_no_rapprochement
-#define ICONE_OUVERTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> icone_ouverte
-#define ICONE_FERMEE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> icone_fermee
 #define MISE_A_JOUR ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> mise_a_jour
 #define DEVISE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> devise
 #define BANQUE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> banque
@@ -283,6 +281,7 @@ struct donnees_compte
 #define COLONNE_CLASSEMENT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> colonne_classement
 #define CLASSEMENT_CROISSANT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> classement_croissant
 #define NO_CLASSEMENT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> no_classement
+#define BOUTON_COMPTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> bouton_compte 
 
 #define TREE_VIEW_LISTE_OPERATIONS ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> tree_view_liste_operations
 #define SCROLLED_WINDOW_LISTE_OPERATIONS ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> scrolled_window_liste_operations
@@ -295,6 +294,7 @@ struct donnees_compte
 #define AFFICHAGE_SOLDE_FINI ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> affichage_solde_fini
 #define SELECTION_OPERATION_FINI  ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> selection_operation_fini
 
+#define ORGANISATION_FORMULAIRE  ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> organisation_formulaire
 
 
 struct operation_echeance
@@ -752,4 +752,42 @@ struct struct_ope_importation
     gint ope_de_ventilation;
 };
 
-#endif
+/* organisation du formulaire */
+
+struct organisation_formulaire
+{
+    /*     nombre de colonnes : de 3 à 6 */
+
+    gint nb_colonnes;
+
+    /*     nombre de lignes : de 1 à 4 */
+
+    gint nb_lignes;
+
+    /*     remplissage du formulaire */
+    /* 	1: date (obligatoire) */
+    /* 	2: débit (obligatoire) */
+    /* 	3: crédit (obligatoire) */
+    /* 	4: date de val */
+    /* 	5: exo */
+    /* 	6: tiers */
+    /* 	7: categ */
+    /* 	8: bouton de ventil */
+    /* 	9: ib */
+    /* 	10: notes */
+    /* 	11: mode de paiement */
+    /* 	12: no de chq */
+    /* 	13: devise */
+    /* 	14: bouton change */
+    /* 	15: pièce comptable */
+    /* 	16: info b/g */
+    /* 	17: mode paiement contre opé */
+	
+    gint tab_remplissage_formulaire[4][6];
+
+    /*     rapport de taille entre les colonnes */
+
+    gint taille_colonne_pourcent[6];
+
+};
+#endif 

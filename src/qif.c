@@ -31,9 +31,7 @@
 #include "dialog.h"
 #include "search_glist.h"
 #include "utils.h"
-#include "tiers_onglet.h"
-#include "categories_onglet.h"
-#include "type_operations.h"
+
 
 
 
@@ -65,9 +63,8 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 
 	    if ( pas_le_premier_compte != 1 )
 	    {
-		retour = fscanf ( fichier,
-				  "%a[^\n]\n",
-				  &pointeur_char );
+		retour = get_line_from_file ( fichier,
+					      &pointeur_char );
 	    }
 	    else
 		pas_le_premier_compte = 2;
@@ -198,9 +195,8 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 	    {
 		free ( pointeur_char );
 
-		retour = fscanf ( fichier,
-				  "%a[^\n]\n",
-				  &pointeur_char );
+		retour = get_line_from_file ( fichier,
+					      &pointeur_char );
 
 
 		/* récupération du solde initial ( on doit virer la , que money met pour séparer les milliers ) */
@@ -238,9 +234,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 
 		if ( pointeur_char[0] == 'L' )
 		{
-		    sscanf ( pointeur_char,
-			     "L%a[^\n]",
-			     &compte -> nom_de_compte );
+		    compte -> nom_de_compte = get_line_from_string ( pointeur_char ) + 1;
 
 		    /* on vire les crochets s'ils y sont */
 
@@ -271,9 +265,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 		/*  on ne la traite pas maintenant mais quand on traitera toutes les dates */
 
 		if ( pointeur_char[0] == 'D' )
-		    sscanf ( pointeur_char,
-			     "D%a[^\n]",
-			     &compte -> date_solde_qif );
+		    compte -> date_solde_qif = get_line_from_string ( pointeur_char ) + 1;
 
 	    }
 	    while ( pointeur_char[0] != '^'
@@ -321,9 +313,8 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 
 	    do
 	    {
-		retour = fscanf ( fichier,
-				  "%a[^\n]\n",
-				  &pointeur_char );
+		retour = get_line_from_file ( fichier,
+					      &pointeur_char );
 
 		if ( retour != EOF
 		     &&
@@ -1055,12 +1046,12 @@ choix_liste_fichier:
 	{
 	    GSList *pointeur_tmp;
 	    struct structure_operation *operation;
-	    gint no_compte;
 
-	    no_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
-								"no_compte" ));
-
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
+	    p_tab_nom_de_compte_variable = 
+		p_tab_nom_de_compte
+		+
+		GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
+							"no_compte" ));
 
 	    /* met le type de compte */
 
@@ -1123,9 +1114,9 @@ choix_liste_fichier:
 
 		while ( pointeur_tmp )
 		{
+		    GSList *pointeur;
 		    gdouble montant;
 		    struct struct_type_ope *type;
-		    gchar *char_tmp;
 
 		    operation = pointeur_tmp -> data;
 
@@ -1148,11 +1139,11 @@ choix_liste_fichier:
 
 			if ( operation -> pointe == 1
 			     ||
-			     operation -> pointe == 2 )
+			     operation -> pointe == 3 )
 			    fprintf ( fichier_qif,
 				      "C*\n" );
 			else
-			    if ( operation -> pointe == 3 )
+			    if ( operation -> pointe == 2 )
 				fprintf ( fichier_qif,
 					  "CX\n" );
 
@@ -1187,24 +1178,30 @@ choix_liste_fichier:
 
 			/* met le chèque si c'est un type à numérotation automatique */
 
-			type = type_ope_par_no ( operation -> type_ope,
-						 no_compte );
+			pointeur = g_slist_find_custom ( TYPES_OPES,
+							 GINT_TO_POINTER ( operation -> type_ope ),
+							 (GCompareFunc) recherche_type_ope_par_no );
 
-			if ( type
-			     &&
-			     type -> numerotation_auto )
-			    fprintf ( fichier_qif,
-				      "N%s\n",
-				      operation -> contenu_type );
+			if ( pointeur )
+			{
+			    type = pointeur -> data;
+
+			    if ( type -> numerotation_auto )
+				fprintf ( fichier_qif,
+					  "N%s\n",
+					  operation -> contenu_type );
+			}
 
 			/* met le tiers */
 
-			char_tmp = tiers_name_by_no ( operation -> tiers, TRUE );
+			pointeur = g_slist_find_custom ( liste_struct_tiers,
+							 GINT_TO_POINTER ( operation -> tiers ),
+							 (GCompareFunc) recherche_tiers_par_no );
 
-			if ( char_tmp )
+			if ( pointeur )
 			    fprintf ( fichier_qif,
 				      "P%s\n",
-				      char_tmp );
+				      ((struct struct_tiers *)(pointeur -> data )) -> nom_tiers );
 
 
 
@@ -1270,24 +1267,54 @@ choix_liste_fichier:
 				    {
 					/* c'est du type categ : sous categ */
 
-					gchar *char_tmp;
+					pointeur = g_slist_find_custom ( liste_struct_categories,
+									 GINT_TO_POINTER ( ope_test -> categorie ),
+									 (GCompareFunc) recherche_categorie_par_no );
 
-					char_tmp = nom_categ_par_no ( ope_test -> categorie,
-								      ope_test -> sous_categorie );
-					
-					if ( char_tmp )
+					if ( pointeur )
 					{
-					    if ( !categ_ope_mise )
-					    {
-						fprintf ( fichier_qif,
-							  "L%s\n",
-							  char_tmp );
-						categ_ope_mise = 1;
-					    }
+					    GSList *pointeur_2;
+					    struct struct_categ *categorie;
 
-					    fprintf ( fichier_qif,
-						      "S%s\n",
-						      char_tmp );
+					    categorie = pointeur -> data;
+
+					    pointeur_2 = g_slist_find_custom ( categorie -> liste_sous_categ,
+									       GINT_TO_POINTER ( ope_test -> sous_categorie ),
+									       (GCompareFunc) recherche_sous_categorie_par_no );
+					    if ( pointeur_2 )
+					    {
+						if ( !categ_ope_mise )
+						{
+						    fprintf ( fichier_qif,
+							      "L%s\n",
+							      g_strconcat ( categorie -> nom_categ,
+									    ":",
+									    ((struct struct_sous_categ *)(pointeur_2->data)) -> nom_sous_categ,
+									    NULL ));
+						    categ_ope_mise = 1;
+						}
+
+						fprintf ( fichier_qif,
+							  "S%s\n",
+							  g_strconcat ( categorie -> nom_categ,
+									":",
+									((struct struct_sous_categ *)(pointeur_2->data)) -> nom_sous_categ,
+									NULL ));
+					    }
+					    else
+					    {
+						if ( !categ_ope_mise )
+						{
+						    fprintf ( fichier_qif,
+							      "L%s\n",
+							      categorie -> nom_categ );
+						    categ_ope_mise = 1;
+						}
+
+						fprintf ( fichier_qif,
+							  "S%s\n",
+							  categorie -> nom_categ );
+					    }
 					}
 				    }
 
@@ -1352,15 +1379,32 @@ choix_liste_fichier:
 			    {
 				/* c'est du type categ : sous-categ */
 
-				gchar *char_tmp;
+				pointeur = g_slist_find_custom ( liste_struct_categories,
+								 GINT_TO_POINTER ( operation -> categorie ),
+								 (GCompareFunc) recherche_categorie_par_no );
 
-				char_tmp = nom_categ_par_no ( operation -> categorie,
-							      operation -> sous_categorie );
+				if ( pointeur )
+				{
+				    GSList *pointeur_2;
+				    struct struct_categ *categorie;
 
-				if ( char_tmp )
-				    fprintf ( fichier_qif,
-					      "L%s\n",
-					      char_tmp );
+				    categorie = pointeur -> data;
+
+				    pointeur_2 = g_slist_find_custom ( categorie -> liste_sous_categ,
+								       GINT_TO_POINTER ( operation -> sous_categorie ),
+								       (GCompareFunc) recherche_sous_categorie_par_no );
+				    if ( pointeur_2 )
+					fprintf ( fichier_qif,
+						  "L%s\n",
+						  g_strconcat ( categorie -> nom_categ,
+								":",
+								((struct struct_sous_categ *)(pointeur_2->data)) -> nom_sous_categ,
+								NULL ));
+				    else
+					fprintf ( fichier_qif,
+						  "L%s\n",
+						  categorie -> nom_categ );
+				}
 			    }
 			}
 

@@ -39,6 +39,8 @@
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
 #include "utils.h"
+#include "operations_formulaire.h"
+#include "affichage_formulaire.h"
 
 
 
@@ -306,10 +308,14 @@ gboolean select_currency_in_iso_list (GtkTreeSelection *selection,
  */
 void update_currency_widgets()
 {
-    gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ) -> menu );
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ),
-			       creation_option_menu_devises ( -1,
-							      liste_struct_devises ));
+    if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_DEVISE ))
+    {
+	gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_DEVISE) ) -> menu );
+	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_DEVISE) ),
+				   creation_option_menu_devises ( -1,
+								  liste_struct_devises ));
+    }
+
     gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE] ) -> menu );
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE] ),
 			       creation_option_menu_devises ( -1,
@@ -405,11 +411,11 @@ void creation_devises_de_base ( void )
 
 /* **************************************************************************************************** */
 /* Fonction creation_option_menu_devises */
-/* retourne le menu d'un option menu avec les diffÃ©rentes devises dÃ©finies */
+/* retourne le menu d'un option menu avec les différentes devises définies */
 /* si devise_cachee = -1, met toutes les devises sous forme de leur sigle */
-/* sinon, ne met pas la devise correspondant Ã  devise_cachee ( 0 = aucune ) */
-/* liste_tmp est la liste utilisÃ©e : soit liste_struct_devises dans le cas gÃ©nÃ©ral, */
-/*                       soit liste_struct_devises dans le cas des paramÃ¨tres */
+/* sinon, ne met pas la devise correspondant à devise_cachee ( 0 = aucune ) */
+/* liste_tmp est la liste utilisée : soit liste_struct_devises dans le cas général, */
+/*                       soit liste_struct_devises dans le cas des paramètres */
 /* **************************************************************************************************** */
 
 GtkWidget *creation_option_menu_devises ( gint devise_cachee, GSList *liste_tmp )
@@ -1614,7 +1620,6 @@ gboolean selection_ligne_devise ( GtkWidget *liste,
 				  GtkWidget *frame )
 {
     struct struct_devise *devise;
-    gint blocked1, blocked2;
 
     ligne_selection_devise = ligne;
     devise = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
@@ -1631,12 +1636,6 @@ gboolean selection_ligne_devise ( GtkWidget *liste,
     g_signal_handlers_block_by_func ( G_OBJECT(option_menu_devises),
 				      G_CALLBACK (changement_devise_associee), 
 				      (gpointer) clist_devises_parametres );
-    blocked1 = g_signal_handlers_block_by_func ( G_OBJECT(devise_1),
-						 G_CALLBACK (devise_selectionnee), 
-						 (gpointer) 1 );
-    blocked2 = g_signal_handlers_block_by_func ( G_OBJECT(devise_2),
-						 G_CALLBACK (devise_selectionnee), 
-						 (gpointer) 0 );
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( option_menu_devises ),
 			       creation_option_menu_devises (devise -> no_devise,
 							     liste_struct_devises ));
@@ -1648,14 +1647,6 @@ gboolean selection_ligne_devise ( GtkWidget *liste,
 				  !( devise -> une_devise_1_egale_x_devise_2 ));
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( devise_2 ),
 				  devise -> une_devise_1_egale_x_devise_2 );
-    if ( blocked1 )
-	g_signal_handlers_unblock_by_func ( G_OBJECT(devise_1),
-					    G_CALLBACK (devise_selectionnee), 
-					    (gpointer) 1 );
-    if ( blocked2 )
-	g_signal_handlers_unblock_by_func ( G_OBJECT(devise_2),
-					    G_CALLBACK (devise_selectionnee), 
-					    (gpointer) 0 );
     g_signal_handlers_unblock_by_func ( G_OBJECT(option_menu_devises),
 					G_CALLBACK (changement_devise_associee), 
 					(gpointer) clist_devises_parametres );

@@ -40,6 +40,7 @@
 #include "type_operations.h"
 #include "utils.h"
 #include "operations_onglet.h"
+#include "comptes_traitements.h"
 
 
 
@@ -88,6 +89,7 @@ extern gint hauteur_ligne_liste_opes;
 extern GdkGC *gc_separateur_operation;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
+extern GtkStyle *style_entree_formulaire[2];
 
 
 /*******************************************************************************************/
@@ -496,9 +498,6 @@ GtkWidget *creation_formulaire_ventilation ( void )
 
     gtk_widget_show (widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_BUDGETARY]);
 
-    gtk_widget_set_sensitive ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_BUDGETARY],
-			       etat.utilise_imputation_budgetaire );
-
 
     /* mise en place du type de l'opé associée en cas de virement */
     /* non affiché au départ */
@@ -541,9 +540,6 @@ GtkWidget *creation_formulaire_ventilation ( void )
 		       0,0);
     gtk_widget_show ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_EXERCICE] );
 
-    gtk_widget_set_sensitive ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_EXERCICE],
-			       etat.utilise_exercice );
-
     /*   création de l'entrée du no de pièce comptable */
 
     widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_VOUCHER] = gtk_entry_new();
@@ -570,9 +566,6 @@ GtkWidget *creation_formulaire_ventilation ( void )
 			 GTK_SIGNAL_FUNC (entree_ventilation_perd_focus),
 			 GINT_TO_POINTER ( TRANSACTION_BREAKDOWN_FORM_VOUCHER ) );
     gtk_widget_show ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_VOUCHER] );
-
-    gtk_widget_set_sensitive ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_VOUCHER],
-			       etat.utilise_piece_comptable );
 
     /* séparation d'avec les boutons */
 
@@ -734,8 +727,7 @@ gboolean entree_ventilation_perd_focus ( GtkWidget *entree, GdkEventFocus *ev,
 
 				if ( !GTK_WIDGET_VISIBLE ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CONTRA] )
 				     ||
-				     ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CONTRA] ) -> menu ),
-									       "no_compte" ))
+				     ( recupere_no_compte ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CONTRA] )
 				       !=
 				       compte_virement ))
 				{
@@ -1963,7 +1955,7 @@ void supprime_operation_ventilation ( void )
     struct struct_ope_ventil *operation;
     GtkTreeIter iter;
 
-/*     supprime l'opé de ventil pointée par ligne_selectionnee_ventilation */
+/*     supprime l'opé de ventil pointÃ©e par ligne_selectionnee_ventilation */
 
     operation = cherche_operation_ventilee_from_ligne ( ligne_selectionnee_ventilation );
 
@@ -2506,20 +2498,20 @@ void quitter_ventilation ( void )
 
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_formulaire ), 0 );
 
-    gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ) -> entry );
+    gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_CATEGORY) ) -> entry );
 
     if ( !montant_operation_ventilee )
     {
 	if ( somme_ventilee < 0 )
 	{
-	    entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] );
-	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DEBIT] ),
+	    entree_prend_focus ( widget_formulaire_par_element (TRANSACTION_FORM_DEBIT) );
+	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_par_element (TRANSACTION_FORM_DEBIT) ),
 				 g_strdup_printf ( "%4.2f", fabs ( somme_ventilee ) ));
 	}
 	else
 	{
-	    entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT] );
-	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT] ),
+	    entree_prend_focus ( widget_formulaire_par_element (TRANSACTION_FORM_CREDIT) );
+	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_par_element (TRANSACTION_FORM_CREDIT) ),
 				 g_strdup_printf ( "%4.2f", somme_ventilee ));
 	}
     }
@@ -3129,7 +3121,7 @@ gboolean changement_taille_liste_ope_ventilation ( GtkWidget *tree_view,
 			   col2,
 			   FALSE );
 
-    while ( g_main_iteration ( FALSE ));
+    update_ecran ();
 
     return FALSE;
 }

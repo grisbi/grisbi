@@ -51,12 +51,36 @@
 #include "type_operations.h"
 #include "utils.h"
 #include "operations_onglet.h"
+#include "main.h"
 
+static void selection_fichiers_import ( void );
+static gboolean fichier_choisi_importation ( GtkWidget *fenetre );
+static gboolean affichage_recapitulatif_importation ( void );
+static void ajout_devise_dans_liste_import ( void );
+static void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
+				gint position );
+static void traitement_operations_importees ( void );
+static void cree_liens_virements_ope_import ( void );
+static void creation_compte_importe ( struct struct_compte_importation *compte_import );
+static void ajout_opes_importees ( struct struct_compte_importation *compte_import );
+static void confirmation_enregistrement_ope_import ( struct struct_compte_importation *compte_import );
+static struct structure_operation *enregistre_ope_importee ( struct struct_ope_importation *operation_import,
+						      gint no_compte  );
+static void pointe_opes_importees ( struct struct_compte_importation *compte_import );
+static gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
+				       gint result,
+				       GtkWidget *liste_ope_celibataires );
+static gboolean click_sur_liste_opes_orphelines ( GtkCellRendererToggle *renderer, 
+					   gchar *ligne,
+					   GtkTreeModel *store  );
+static gboolean changement_valeur_echelle_recherche_date_import ( GtkWidget *spin_button );
 
 
 
 gint derniere_operation_enregistrement_ope_import;
 gint valeur_echelle_recherche_date_import;
+
+
 extern GtkWidget *window_vbox_principale;
 
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
@@ -64,7 +88,7 @@ extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_combofix_categ_necessaire;
-
+extern gint id_fonction_idle;
 
 
 /* *******************************************************************************/
@@ -170,24 +194,11 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 	/* on fait comme si c'était du html */
 	/*       chacune des fonctions récupèrent les infos du compte et les opés, et ajoutent la struct_compte_importation */
 	/* 	à liste_comptes_importes */
-#ifdef _WIN32
-        { /* fscanf %a format has a very strange behaviour under WIN32 ...so we simulate it ... */
-            gchar c = 0;
-            gint j  = 0;
-            pointeur_char = (gchar*)realloc(pointeur_char,256*sizeof(gchar));
-            while ( (j<254) && ( c != '\n' ) && (c != '\r'))
-            {
-                c =(gchar)fgetc(fichier);
-                if (feof(fichier)) break;
-                pointeur_char[j++] = c;
-            }
-            pointeur_char[j] = 0;
-        }
-#else
-	fscanf ( fichier,
-		 "%a[^\n]\n",
-		 &pointeur_char );
-#endif
+
+	get_line_from_file ( fichier,
+			     &pointeur_char );
+
+
 	if ( g_strrstr ( pointeur_char,
 			 "ofx" )
 	     ||
@@ -863,22 +874,8 @@ void traitement_operations_importees ( void )
     else
     {
 	init_variables ();
-	menus_sensitifs ( TRUE );
-	creation_liste_categories ();
-
+	initialisation_variables_nouveau_fichier ();
 	nouveau_fichier = 1;
-	affiche_titre_fenetre();
-
-	/*   la taille des colonnes est automatique au départ, on y met les rapports de base */
-
-	etat.largeur_auto_colonnes = 1;
-	rapport_largeur_colonnes[0] = 11;
-	rapport_largeur_colonnes[1] = 13;
-	rapport_largeur_colonnes[2] = 30;
-	rapport_largeur_colonnes[3] = 3;
-	rapport_largeur_colonnes[4] = 11;
-	rapport_largeur_colonnes[5] = 11;
-	rapport_largeur_colonnes[6] = 11;
     }
 
 
@@ -896,8 +893,7 @@ void traitement_operations_importees ( void )
 	    case 0:
 		/* créer */
 
-		creation_compte_importe ( compte,
-					  nouveau_fichier );
+		creation_compte_importe ( compte );
 		break;
 
 	    case 1:
@@ -917,6 +913,11 @@ void traitement_operations_importees ( void )
 	liste_tmp = liste_tmp -> next;
     }
 
+    /*     à ce niveau, il y a forcemment des comptes de créés donc si rien */
+    /* 	c'est que pb, on se barre */
+
+    if (!nb_comptes)
+	return;
 
     /* les différentes liste d'opérations ont été créés, on va faire le tour des opés */
     /* pour retrouver celles qui ont relation_no_compte à -2 */
@@ -934,22 +935,12 @@ void traitement_operations_importees ( void )
 
     if ( nouveau_fichier )
     {
-	creation_fenetre_principale();
-	changement_compte ( GINT_TO_POINTER ( compte_courant ) );
-	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
-				0 );
-
-	gtk_box_pack_start ( GTK_BOX ( window_vbox_principale),
-			     notebook_general,
-			     TRUE,
-			     TRUE,
-			     0 );
-	gtk_widget_show ( notebook_general );
-
+	initialisation_graphiques_nouveau_fichier ();
     }
     else
     {
 	/* on fait le tour des comptes ajoutés pour leur créer une liste d'opé */
+	/* 	et mettre à jour ceux qui le doivent */
 
 	gint i;
 
@@ -957,38 +948,58 @@ void traitement_operations_importees ( void )
 	{
 	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
-	    /* FIXME : avec la nouvelle liste d'opé... */
+	    if ( !TREE_VIEW_LISTE_OPERATIONS )
+	    {
+		/*     on crée le tree_view du compte */
 
-	    /* 	    if ( !CLIST_OPERATIONS ) */
-	    /* 	    { */
-	    /* 		LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS, */
-	    /* 						  ( GCompareFunc ) classement_sliste ); */
-	    /*  */
-	    /* 		ajoute_nouvelle_liste_operation( i ); */
-	    /* 	    } */
+		creation_colonnes_tree_view_par_compte (i);
+
+		gtk_box_pack_start ( GTK_BOX ( notebook_listes_operations ),
+				     creation_tree_view_operations_par_compte (i),
+				     TRUE,
+				     TRUE,
+				     0 );
+		/* on met à jour l'option menu du formulaire des échéances */
+
+		update_options_menus_comptes ();
+
+
+		/* 	on réaffiche la liste des comptes */
+
+		reaffiche_liste_comptes();
+		reaffiche_liste_comptes_onglet ();
+	    }
+	    
+	    if ( MISE_A_JOUR )
+	    {
+		gtk_list_store_clear ( STORE_LISTE_OPERATIONS );
+		SLIST_DERNIERE_OPE_AJOUTEE = NULL;
+		COULEUR_BACKGROUND_FINI = 0;
+		AFFICHAGE_SOLDE_FINI = 0;
+		SELECTION_OPERATION_FINI = 0;
+		MISE_A_JOUR = 0;
+	    }
 	}
-	/* on met à jour tous les comptes */
 
-	demande_mise_a_jour_tous_comptes ();
+	/* 	mise à jour de l'accueil */
 
-	/* on recrée les combofix des tiers et des catégories */
-
-	if ( mise_a_jour_combofix_tiers_necessaire )
-	    mise_a_jour_combofix_tiers ();
-	if ( mise_a_jour_combofix_categ_necessaire )
-	    mise_a_jour_combofix_categ();
-
-	/* on met à jour l'option menu du formulaire des échéances */
-
-	update_options_menus_comptes ();
 	mise_a_jour_liste_comptes_accueil = 1;
 	mise_a_jour_soldes_minimaux = 1;
+	mise_a_jour_accueil ();
 
-	affiche_titre_fenetre ();
-	reaffiche_liste_comptes();
-	reaffiche_liste_comptes_onglet ();
 
     }
+
+    /* on recrée les combofix des tiers et des catégories */
+
+    if ( mise_a_jour_combofix_tiers_necessaire )
+	mise_a_jour_combofix_tiers ();
+    if ( mise_a_jour_combofix_categ_necessaire )
+	mise_a_jour_combofix_categ();
+
+    /* 	on remplit ce qui est nécessaire */
+
+    demarrage_idle ();
 
     annulation_attente();
 
@@ -1123,31 +1134,28 @@ void cree_liens_virements_ope_import ( void )
 
 
 /* *******************************************************************************/
-void creation_compte_importe ( struct struct_compte_importation *compte_import,
-			       gint nouveau_fichier )
+void creation_compte_importe ( struct struct_compte_importation *compte_import )
 {
     /* crée un nouveau compte contenant les données de la structure importée */
     /* ajoute ce compte aux anciens et crée la liste des opérations */
 
-    struct donnees_compte *compte;
-    gdouble solde_courant;
     struct structure_operation *operation;
     gint derniere_operation;
     GSList *liste_tmp;
+    gint no_compte;
 
-    /* on commence par enregistrer le compte */
 
-    compte = calloc ( 1,
-		      sizeof ( struct donnees_compte ));
+    /*     on crée et initialise le nouveau compte  */
+    /*     le type par défaut est 0 (compte bancaire) */
 
-    /* enregistre le compte */
+    no_compte = initialisation_nouveau_compte ( 0 );
 
-    p_tab_nom_de_compte = realloc ( p_tab_nom_de_compte,
-				    ( nb_comptes + 1 )* sizeof ( gpointer ) );
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + nb_comptes;
-    nb_comptes++;
-    *p_tab_nom_de_compte_variable = (gpointer) compte;
+    /*     si ça c'est mal passé, on se barre */
 
+    if ( no_compte == -1 )
+	return;
+
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
     /*     met l'id du compte s'il existe (import ofx) */
 
@@ -1155,28 +1163,29 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import,
     {
 	gchar **tab_str;
 
-	compte -> id_compte = g_strdup ( compte_import -> id_compte );
+	ID_COMPTE = g_strdup ( compte_import -> id_compte );
 
 	/* 	en théorie cet id est "no_banque no_guichet no_comptecle" */
 	/* on va essayer d'importer ces données ici */
 	/* si on rencontre un null, on s'arrête */
 
-	tab_str = g_strsplit ( compte -> id_compte,
+	tab_str = g_strsplit ( ID_COMPTE,
 			       " ",
 			       3 );
 	if ( tab_str[1] )
 	{
-	    compte -> no_guichet = g_strdup ( tab_str[1] );
+	    NO_GUICHET = g_strdup ( tab_str[1] );
+
 	    if ( tab_str[2] )
 	    {
 		gchar *temp;
 
-		compte -> cle_compte = g_strdup ( tab_str[2] + strlen ( tab_str[2] ) - 1 );
+		CLE_COMPTE = g_strdup ( tab_str[2] + strlen ( tab_str[2] ) - 1 );
 
 		temp = g_strdup ( tab_str[2] );
 
 		temp[strlen (temp) - 1 ] = 0;
-		compte -> no_compte_banque = temp;
+		NO_COMPTE_BANQUE = temp;
 	    }
 	}
 	g_strfreev ( tab_str );
@@ -1185,49 +1194,34 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import,
     /* met le nom du compte */
 
     if ( compte_import -> nom_de_compte )
-	compte -> nom_de_compte = g_strstrip ( compte_import -> nom_de_compte );
+	NOM_DU_COMPTE = g_strstrip ( compte_import -> nom_de_compte );
     else
-	compte -> nom_de_compte = g_strdup ( _("Imported account"));
+	NOM_DU_COMPTE = g_strdup ( _("Imported account"));
 
     /* choix de la devise du compte */
 
-    compte -> devise = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( compte_import -> bouton_devise ) -> menu_item ),
-							       "no_devise" ));
+    DEVISE = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( compte_import -> bouton_devise ) -> menu_item ),
+						     "no_devise" ));
 
-    /* met le type de compte */
+    /* met le type de compte si différent de 0 */
 
     switch ( compte_import -> type_de_compte )
     {
 	case 3:
-	    compte -> type_de_compte = 2;
+	    TYPE_DE_COMPTE = 2;
 	    break;
 
 	case 7:
-	    compte -> type_de_compte = 1;
-	    break;
-
-	default:
-	    compte -> type_de_compte = 0;
+	    TYPE_DE_COMPTE = 1;
 	    break;
     }
 
     /* met le solde init */
 
-    compte -> solde_initial = compte_import -> solde;
+    SOLDE_INIT = compte_import -> solde;
+    SOLDE_COURANT = SOLDE_INIT;
+    SOLDE_POINTE = SOLDE_INIT;
 
-    /* met le no de compte */
-
-    compte -> no_compte = nb_comptes - 1;
-
-    /* on l'ajoute à l'ordre des comptes */
-
-    ordre_comptes = g_slist_append ( ordre_comptes,
-				     GINT_TO_POINTER ( nb_comptes - 1 ));
-
-    /* on crée les types d'opé par défaut */
-
-    creation_types_par_defaut ( nb_comptes - 1,
-				0);
 
     /* on fait maintenant le tour des opés de ce compte */
 
@@ -1237,7 +1231,6 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import,
     derniere_operation = 0;
 
     liste_tmp = compte_import -> operations_importees;
-    solde_courant = compte -> solde_initial;
 
     while ( liste_tmp )
     {
@@ -1283,13 +1276,12 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import,
 
 	/* récupération du no de compte */
 
-	operation -> no_compte = compte -> no_compte;
+	operation -> no_compte = NO_COMPTE;
 
 
 	/* récupération du montant */
 
 	operation -> montant = operation_import -> montant;
-	solde_courant = solde_courant + operation_import -> montant;
 
 	/* 	  récupération de la devise, sur la popup affichée */
 
@@ -1298,7 +1290,9 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import,
 
 	/* récupération du tiers */
 
-	if ( operation_import -> tiers )
+	if ( operation_import -> tiers
+	     &&
+	     strlen ( g_strstrip ( operation_import -> tiers )))
 	    operation -> tiers = tiers_par_nom ( operation_import -> tiers,
 						 1 ) -> no_tiers;
 
@@ -1370,8 +1364,6 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import,
 	operation -> notes = g_strdup ( operation_import -> notes );
 
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-
 	/* récupération du chèque et mise en forme du type d'opération */
 
 	if ( operation_import -> cheque )
@@ -1442,14 +1434,9 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import,
 
 	}
 
-
 	/* récupération du pointé */
 
 	operation -> pointe = operation_import -> p_r;
-
-	if ( operation -> pointe )
-	    compte -> solde_pointe = compte -> solde_pointe + operation -> montant;
-
 
 	/* si c'est une ope de ventilation, lui ajoute le no de l'opération précédente */
 
@@ -1461,27 +1448,28 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import,
 
 	/* ajoute l'opération dans la liste des opés du compte */
 
-	compte -> gsliste_operations = g_slist_append ( compte -> gsliste_operations,
-							operation );
+	LISTE_OPERATIONS = g_slist_append ( LISTE_OPERATIONS,
+					    operation );
+
+	/* 	mise à jour des montants */
+
+	if ( !operation -> operation_ventilee )
+	{
+	    SOLDE_COURANT = SOLDE_COURANT + operation -> montant;
+
+	    if ( operation -> pointe )
+		SOLDE_POINTE = SOLDE_POINTE + operation -> montant;
+	}
+
+
 
 	liste_tmp = liste_tmp -> next;
     }
 
-
-/*     le classement courant est par date */
-
-    compte -> classement_courant = classement_sliste_par_date;
-
     /* on classe la liste */
 
-    compte -> gsliste_operations = g_slist_sort ( compte -> gsliste_operations,
-						  (GCompareFunc) compte -> classement_courant );
-
-    compte -> nb_lignes_ope = 3;
-    compte -> solde_courant = solde_courant;
-    compte -> date_releve = NULL;
-    compte -> operation_selectionnee = GINT_TO_POINTER (-1);
-
+    LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
+				      (GCompareFunc) CLASSEMENT_COURANT );
 
 }
 /* *******************************************************************************/
@@ -1501,8 +1489,7 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 
     /* on se place sur le compte dans lequel on va importer les opés */
 
-    no_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( compte_import -> bouton_compte )->menu_item ),
-							"no_compte" ));
+    no_compte = recupere_no_compte ( compte_import -> bouton_compte );
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
@@ -1691,8 +1678,9 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
     }
 
 
-    calcule_solde_compte ( NO_COMPTE );
-    calcule_solde_pointe_compte ( NO_COMPTE );
+    MISE_A_JOUR = 1;
+/*     calcule_solde_compte ( NO_COMPTE ); */
+/*     calcule_solde_pointe_compte ( NO_COMPTE ); */
 
 }
 /* *******************************************************************************/
@@ -2024,7 +2012,7 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 	}
     }
 
-    /* récupération des notes */
+    /* récupÃ©ration des notes */
 
     operation -> notes = operation_import -> notes;
 
@@ -2114,9 +2102,12 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 
     /* ajoute l'opération dans la liste des opés du compte */
 
-	LISTE_OPERATIONS = g_slist_insert_sorted ( LISTE_OPERATIONS,
-						   operation,
-						   (GCompareFunc) CLASSEMENT_COURANT );
+    LISTE_OPERATIONS = g_slist_insert_sorted ( LISTE_OPERATIONS,
+					       operation,
+					       (GCompareFunc) CLASSEMENT_COURANT );
+
+    MISE_A_JOUR = 1;
+
     return ( operation );
 }
 /* *******************************************************************************/
@@ -2133,8 +2124,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
     /* on se place sur le compte dans lequel on va pointer les opés */
 
-    no_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( compte_import -> bouton_compte )->menu_item ),
-							"no_compte" ));
+    no_compte = recupere_no_compte ( compte_import -> bouton_compte );
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
 
@@ -2286,6 +2276,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 		if ( !operation -> pointe )
 		{
 		    operation -> pointe = 2;
+		    MISE_A_JOUR = 1;
 
 		    /* si c'est une opé ventilée, on recherche les opé filles pour leur mettre le même pointage que la mère */
 
@@ -2378,6 +2369,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 			if ( !operation -> pointe )
 			{
 			    operation -> pointe = 2;
+			    MISE_A_JOUR = 1;
 
 			    /* si c'est une opé ventilée, on recherche les opé filles pour leur mettre le même pointage que la mère */
 
@@ -2413,10 +2405,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 								      ope_import );
 
 		}
-
 	}
-
-
 	liste_tmp = liste_tmp -> next;
     }
 
@@ -2601,7 +2590,7 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 		    ope_import = liste_tmp -> data;
 
 		    operation = enregistre_ope_importee ( ope_import,
-							  ope_import -> no_compte	);
+							  ope_import -> no_compte );
 		    operation -> pointe = 2;
 
 		    /* on a enregistré l'opé, on la retire maintenant de la liste et de la sliste */
@@ -2639,10 +2628,6 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 	       relations ici */
 	    if ( virements_a_chercher )
 		cree_liens_virements_ope_import ();
-
-	    /* on met à jour tous les comptes */
-
-	    demande_mise_a_jour_tous_comptes ();
 
 	    /* on recrée les combofix des tiers et des catégories */
 

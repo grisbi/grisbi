@@ -49,6 +49,12 @@
 #include "type_operations.h"
 #include "echeancier_onglet.h"
 #include "utils.h"
+#include "main.h"
+#include "operations_classement.h"
+
+
+
+
 
 
 
@@ -63,6 +69,8 @@ extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
+extern GtkStyle *style_entree_formulaire[2];
+extern gint id_fonction_idle;
 
 
 /* ************************************************************************** */
@@ -99,8 +107,7 @@ void  nouveau_compte ( void )
 
     /* on met à jour l'option menu des formulaires des échéances et des opés */
 
-	update_options_menus_comptes ();
-
+    update_options_menus_comptes ();
 
     /* mise à jour de l'accueil */
 
@@ -126,6 +133,20 @@ void  nouveau_compte ( void )
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
 			    3 );
 
+    /*     on crée le tree_view du compte */
+
+    creation_colonnes_tree_view_par_compte (no_compte);
+
+    gtk_box_pack_start ( GTK_BOX ( notebook_listes_operations ),
+			 creation_tree_view_operations_par_compte (no_compte),
+			 TRUE,
+			 TRUE,
+			 0 );
+
+    /*     on remplit le compte par idle */
+
+    demarrage_idle ();
+
     modification_fichier ( TRUE );
 }
 /* ************************************************************************** */
@@ -137,6 +158,9 @@ void  nouveau_compte ( void )
 /* ************************************************************************** */
 gint initialisation_nouveau_compte ( gint type_de_compte )
 {
+    gint i, j;
+    gint no_compte;
+
     if  (!(p_tab_nom_de_compte = realloc ( p_tab_nom_de_compte, ( nb_comptes + 1 )* sizeof ( gpointer ) )))
     {
 	dialogue ( _("Cannot allocate memory, bad things will happen soon") );
@@ -152,18 +176,47 @@ gint initialisation_nouveau_compte ( gint type_de_compte )
 	return (-1);
     };
 
+    /*     il faut incrémenter nb_comptes tout de suite pour éviter la protection */
+    /* 	des p_tab_nom_de_compte_variable */
+
+    no_compte = nb_comptes;
+    nb_comptes++;
+
     /* insère ses paramètres ( comme c'est un appel à calloc, tout ce qui est à 0 est déjà initialisé )*/
 
     NOM_DU_COMPTE = g_strdup ( _("No name") );
     DEVISE = 1;
     MISE_A_JOUR = 1;
-    NO_COMPTE = nb_comptes;
-    AFFICHAGE_R = 0;
-    NB_LIGNES_OPE = 3;
+    NO_COMPTE = no_compte;
+    OPERATION_SELECTIONNEE = GINT_TO_POINTER (-1);
+
+    /*     par défaut on n'affiche pas les R et le nb de lignes par opé est de 3 */
+    /* 	sauf si l'affichage n'est pas séparé par compte */
+    /* 	dans ce cas, on reprend ceux du 1er compte */
+
+    if ( !etat.retient_affichage_par_compte
+	 &&
+	 no_compte )
+    {
+	gint affichage_r;
+	gint nb_lignes_ope;
+
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+	affichage_r = AFFICHAGE_R;
+	nb_lignes_ope = NB_LIGNES_OPE;
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
+
+	AFFICHAGE_R = affichage_r;
+	NB_LIGNES_OPE = nb_lignes_ope;
+    }
+    else
+    {
+	AFFICHAGE_R = 0;
+	NB_LIGNES_OPE = 3;
+    }
 
     TYPE_DE_COMPTE = type_de_compte;
 
-    nb_comptes++;
 
     /* on crée les types par défaut */
 
@@ -174,6 +227,53 @@ gint initialisation_nouveau_compte ( gint type_de_compte )
 
     ordre_comptes = g_slist_append ( ordre_comptes,
 				     GINT_TO_POINTER ( NO_COMPTE ) );
+
+    /*     on crée l'organisation du formulaire */
+    /* 	si c'est une organisation générale, on recopie l'organisation du premier compte */
+    /* 	si c'est une organisation séparée, on récupère l'organisation par défaut */
+
+    if ( etat.formulaire_distinct_par_compte
+	 &&
+	 no_compte )
+    {
+	struct organisation_formulaire *struct_formulaire;
+	gint i, j;
+
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+
+	struct_formulaire = ORGANISATION_FORMULAIRE;
+	
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
+
+	ORGANISATION_FORMULAIRE = malloc ( sizeof ( struct organisation_formulaire ));
+
+	ORGANISATION_FORMULAIRE -> nb_colonnes = struct_formulaire -> nb_colonnes;
+	ORGANISATION_FORMULAIRE -> nb_lignes = struct_formulaire -> nb_lignes;
+
+	for ( i = 0 ; i<4 ; i++ )
+	    for ( j = 0 ; j<6 ; j++ )
+		ORGANISATION_FORMULAIRE -> tab_remplissage_formulaire[i][j] = struct_formulaire -> tab_remplissage_formulaire[i][j];
+
+	for ( i = 0 ; i<6 ; i++ )
+	    ORGANISATION_FORMULAIRE -> taille_colonne_pourcent[i] = struct_formulaire -> taille_colonne_pourcent[i];
+    }
+    else
+	ORGANISATION_FORMULAIRE = mise_a_zero_organisation_formulaire ();
+
+
+    /*     on met en place le classement de la liste */
+
+    CLASSEMENT_COURANT = classement_sliste_par_date;
+    CLASSEMENT_CROISSANT = 1;
+
+    /*     on recherche la colonne de date pour le classement */
+
+    for ( i=0 ; i<4 ; i++ )
+	for ( j=0 ; j<7 ; j++ )
+	{
+	    if ( tab_affichage_ope[i][j] == 1 )
+		COLONNE_CLASSEMENT = j;
+	}
 
     return (NO_COMPTE);
 }
@@ -374,7 +474,7 @@ void supprimer_compte ( void )
 /* ************************************************************************** */
 
 /**
- *  Create an option menu with the list of accounts.  This list is
+ *  Create a menu with the list of accounts.  This list is
  *  clickable and activates func if specified.
  *
  * \param func Function to call when a line is selected
@@ -436,16 +536,14 @@ void changement_choix_compte_echeancier ( void )
 {
     GtkWidget *menu;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] )->menu_item),
-												 "no_compte" ));
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] );
 
     if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ) == style_entree_formulaire[ENCLAIR] )
     {
 	/*       il y a qque chose dans le crédit, on met le menu des types crédit */
 
 	if ( (menu = creation_menu_types ( 2,
-					   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] )->menu_item),
-										   "no_compte" )),
+					   recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT]),
 					   1 )))
 	{
 	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
@@ -462,8 +560,7 @@ void changement_choix_compte_echeancier ( void )
 	/*       il y a qque chose dans le débit ou c'est par défaut, on met le menu des types débit */
 
 	if ( (menu = creation_menu_types ( 1,
-					   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] )->menu_item),
-										   "no_compte" )),
+					   recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT]),
 					   1 )))
 	{
 	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
@@ -698,6 +795,27 @@ gint recherche_compte_dans_option_menu ( GtkWidget *option_menu,
 	liste_tmp = liste_tmp -> next;
     }
     return 0;
+}
+/* ************************************************************************** */
+
+
+/* ************************************************************************** */
+/* cette fonction renvoie le no de compte sélectionné par l'option menu */
+/* \param option_menu l'option menu des comptes */
+/* \return le no de compte ou -1 si pb */
+/* ************************************************************************** */
+gint recupere_no_compte ( GtkWidget *option_menu )
+{
+    gint no_compte;
+    
+    if ( !option_menu
+	 ||
+	 !GTK_IS_OPTION_MENU ( option_menu ))
+	return -1;
+
+    no_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT (  GTK_OPTION_MENU ( option_menu ) -> menu_item ),
+							"no_compte" ));
+    return no_compte;
 }
 /* ************************************************************************** */
 

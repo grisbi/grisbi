@@ -1,16 +1,5 @@
 GtkWidget *creation_onglet_accueil ( void );
 void mise_a_jour_accueil ( void );
 void change_temps ( GtkWidget *label_temps );
-gboolean saisie_echeance_accueil ( GtkWidget *event_box,
-			       GdkEventButton *event,
-			       struct operation_echeance *echeance );
-void update_liste_comptes_accueil ( void );
-gboolean click_sur_compte_accueil ( gint *no_compte );
-void update_liste_echeances_manuelles_accueil ( void );
-void update_liste_echeances_auto_accueil ( void );
-void update_soldes_minimaux ( void );
 void affiche_dialogue_soldes_minimaux ( void );
-void update_fin_comptes_passifs ( void );
-gboolean select_expired_scheduled_transaction ( GtkWidget * event_box, GdkEventButton *event,
-						struct structure_operation * operation );
 

@@ -66,4 +66,14 @@ gint my_strncasecmp ( gchar *chaine_1,
 gchar* my_get_grisbirc_dir(void);
 gchar* my_get_gsb_file_default_dir(void);
 gpointer **verification_p_tab ( gchar *fonction_appelante );
+gchar *limit_string ( gchar *string,
+		      gint length );
+gint get_line_from_file ( FILE *fichier,
+			  gchar **string );
+gchar *get_line_from_string ( gchar *string );
+gchar *renvoie_date_formatee ( GDate *date );
+void increment_decrement_champ ( GtkWidget *entry, gint increment );
+void demarrage_idle ( void );
+gboolean termine_idle ( void );
+void update_ecran ( void );
 

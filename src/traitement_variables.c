@@ -29,6 +29,12 @@
 #include "menu.h"
 #include "traitement_variables.h"
 #include "utils.h"
+#include "affichage.h"
+#include "affichage_formulaire.h"
+
+static void initialise_tab_affichage_ope ( void );
+
+
 
 GdkColor couleur_fond[2];
 GdkColor couleur_selection;
@@ -83,7 +89,7 @@ extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
-
+extern struct organisation_formulaire *organisation_generale_formulaire;
 
 
 
@@ -230,6 +236,7 @@ void init_variables ( void )
     mise_a_jour_combofix_tiers_necessaire = 0;
     mise_a_jour_combofix_categ_necessaire = 0;
     mise_a_jour_combofix_imputation_necessaire = 0;
+
 }
 /*****************************************************************************************************/
 
@@ -371,6 +378,43 @@ void menus_sensitifs ( gboolean sensitif )
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							   menu_name(_("Accounts"), _("Closed accounts"), NULL)),
 			       sensitif );
+}
+/*****************************************************************************************************/
+
+
+
+/*****************************************************************************************************/
+/* cette fonction, appelée par l'initialisation des variables globales remet l'organisation de */
+/* formulaire à zéro : */
+/* date		tiers	débit		crédit 	*/
+/* 		catég	mode paiement	chq 	*/
+/* ventil	notes	mode contre op		*/
+/*****************************************************************************************************/
+struct organisation_formulaire *mise_a_zero_organisation_formulaire ( void )
+{
+    struct organisation_formulaire *struct_formulaire;
+    gint tab[4][6] = { 
+	{ 1, 6, 2, 3, 0, 0 },
+	{ 0, 7, 11, 12, 0, 0 },
+	{ 8, 10, 17, 0, 0, 0 },
+	{ 0, 0, 0, 0, 0, 0 }
+    };
+    gint i, j;
+    gint taille[6] = { 15, 50, 15, 15, 0, 0 };
+
+    struct_formulaire = malloc ( sizeof ( struct organisation_formulaire ));
+    
+    struct_formulaire -> nb_colonnes = 4;
+    struct_formulaire -> nb_lignes = 3;
+
+    for ( i = 0 ; i<4 ; i++ )
+	for ( j = 0 ; j<6 ; j++ )
+	    struct_formulaire -> tab_remplissage_formulaire[i][j] = tab[i][j];
+
+    for ( i = 0 ; i<6 ; i++ )
+	struct_formulaire -> taille_colonne_pourcent[i] = taille[i];
+
+    return struct_formulaire;
 }
 /*****************************************************************************************************/
 

@@ -38,6 +38,8 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "operations_onglet.h"
+#include "operations_formulaire.h"
+#include "affichage_formulaire.h"
 
 
 
@@ -171,6 +173,9 @@ extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GSList *liste_categories_ventilation_combofix;
 extern GtkWidget *widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_TOTAL_WIDGET];
 extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
+
+
+
 
 /* **************************************************************************************************** */
 /* Fonction onglet_categories : */
@@ -2551,26 +2556,31 @@ void mise_a_jour_combofix_categ ( void )
 
     creation_liste_categ_combofix ();
 
-    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ),
-			    liste_categories_combofix,
-			    TRUE,
-			    TRUE );
+    if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_CATEGORY )
+	 &&
+	 GTK_IS_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_CATEGORY)))
+	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_CATEGORY) ),
+				liste_categories_combofix,
+				TRUE,
+				TRUE );
 
+    if ( GTK_IS_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ))
+	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ),
+				liste_categories_combofix,
+				TRUE,
+				TRUE );
 
-    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ),
-			    liste_categories_combofix,
-			    TRUE,
-			    TRUE );
+    if ( GTK_IS_COMBOFIX ( widget_formulaire_echeancier[TRANSACTION_BREAKDOWN_FORM_CATEGORY] ))
+	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CATEGORY] ),
+				liste_categories_ventilation_combofix,
+				TRUE,
+				TRUE );
 
-    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CATEGORY] ),
-			    liste_categories_ventilation_combofix,
-			    TRUE,
-			    TRUE );
-
-    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ),
-			    liste_categories_ventilation_combofix,
-			    TRUE,
-			    TRUE );
+    if ( GTK_IS_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ))
+	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ),
+				liste_categories_ventilation_combofix,
+				TRUE,
+				TRUE );
 
     /* FIXME : ça ne devrait pas se trouver dans cette fonction */
 
@@ -3090,6 +3100,7 @@ void importer_categ ( void )
 		gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 		return;
 	    }
+	    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 
 	    break;
 

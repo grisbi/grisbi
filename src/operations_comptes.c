@@ -45,11 +45,14 @@
 #include "traitement_variables.h"
 #include "comptes_traitements.h"
 
+GtkWidget *comptes_appel ( gint no_de_compte );
+static void verifie_compte_clos ( gint no_nouveau_compte );
 
 
 extern GtkItemFactory *item_factory_menu_general;
 extern gint id_fonction_idle;
 extern gint mise_a_jour_liste_comptes_accueil;
+extern gchar *derniere_date;
 
 
 /* ********************************************************************************************************** */
@@ -216,6 +219,7 @@ GtkWidget *comptes_appel ( gint no_de_compte )
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_de_compte;
 
     bouton = gtk_list_button_new ( NOM_DU_COMPTE, 2, TRUE, GINT_TO_POINTER (no_de_compte));
+    BOUTON_COMPTE = bouton;
     gtk_signal_connect_object ( GTK_OBJECT (bouton),
 				"clicked",
 				GTK_SIGNAL_FUNC ( changement_compte ),
@@ -248,8 +252,6 @@ void changement_compte_par_menu ( gpointer null,
 
 gboolean changement_compte ( gint *compte)
 {
-    GtkWidget *menu;
-
     /*   si on n'est pas sur l'onglet comptes du notebook, on y passe */
 
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general ) ) != 1 )
@@ -257,28 +259,30 @@ gboolean changement_compte ( gint *compte)
 				1 );
 
     /* si on était dans une ventilation d'opération, alors on annule la ventilation */
+    /*     utile si on cherche Ã  accéder à un compte clos par ex */
 
-/*     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ) ) == 1 ) */
-/* 	annuler_ventilation(); */
+    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ) ) == 1 )
+	annuler_ventilation();
 
     if ( GPOINTER_TO_INT ( compte ) == compte_courant )
 	return FALSE;
-
-	/* ferme le formulaire */
-
-	echap_formulaire ();
 
     /*     si compte = -1, c'est que c'est la 1ère fois qu'on va sur l'onglet */
 
     if ( GPOINTER_TO_INT ( compte ) != -1 )
     {
+	/* 	on va sur un compte, on vérifie que ce n'est pas un compte clos */
+	/* 	    si c'est le cas, on ferme l'icone */
+
+	verifie_compte_clos ( GPOINTER_TO_INT ( compte ));
+
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
 	VALUE_AJUSTEMENT_LISTE_OPERATIONS = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS )) -> value;
 
 	/*     on retire la fleche du classement courant */
 
-	gtk_tree_view_column_set_sort_indicator ( COLONNE_CLASSEMENT,
+	gtk_tree_view_column_set_sort_indicator ( COLONNE_LISTE_OPERATIONS(COLONNE_CLASSEMENT),
 						  FALSE );
 
 	/*     on cache le tree_view */
@@ -296,31 +300,17 @@ gboolean changement_compte ( gint *compte)
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     /* change le nom du compte courant */
+
     gtk_label_set_text ( GTK_LABEL ( label_compte_courant), NOM_DU_COMPTE);
 
-    /* change les types d'opé et met le défaut */
 
-    if ( (menu = creation_menu_types ( 1, compte_courant, 0  )))
-    {
-	/* on joue avec les sensitive pour éviter que le 1er mot du menu ne reste grise */
+    /*     affiche le nouveau formulaire  */
+    /*     il met aussi à jour la devise courante et les types */
 
-	gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_TYPE],
-				   TRUE );
-	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ),
-				   menu );
-	gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ),
-				      cherche_no_menu_type ( TYPE_DEFAUT_DEBIT ) );
-	gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_TYPE],
-				   FALSE );
-	gtk_widget_show ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] );
-    }
-    else
-    {
-	gtk_widget_hide ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] );
-	gtk_widget_hide ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] );
-    }
+    remplissage_formulaire ( compte_courant );
 
 
+    /*     mise en place de la date du dernier relevé */
 
     if ( DATE_DERNIER_RELEVE )
 	gtk_label_set_text ( GTK_LABEL ( label_releve ),
@@ -338,25 +328,19 @@ gboolean changement_compte ( gint *compte)
 
     mise_a_jour_labels_soldes ();
 
-    /* change le défaut de l'option menu des devises du formulaire */
-
-    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ),
-				  g_slist_index ( liste_struct_devises,
-						  devise_par_no ( DEVISE )));
-
     /* met les boutons R et nb lignes par opé comme il faut */
 
     mise_a_jour_boutons_caract_liste ( compte_courant );
 
     /*     on met la flèche sur le classement courant */
 
-    gtk_tree_view_column_set_sort_indicator ( COLONNE_CLASSEMENT,
+    gtk_tree_view_column_set_sort_indicator ( COLONNE_LISTE_OPERATIONS (COLONNE_CLASSEMENT),
 					      TRUE );
      if ( CLASSEMENT_CROISSANT )
-	 gtk_tree_view_column_set_sort_order ( COLONNE_CLASSEMENT,
+	 gtk_tree_view_column_set_sort_order ( COLONNE_LISTE_OPERATIONS (COLONNE_CLASSEMENT),
 					       GTK_SORT_ASCENDING );
      else
-	 gtk_tree_view_column_set_sort_order ( COLONNE_CLASSEMENT,
+	 gtk_tree_view_column_set_sort_order ( COLONNE_LISTE_OPERATIONS (COLONNE_CLASSEMENT),
 					       GTK_SORT_DESCENDING );
      CLASSEMENT_COURANT = recupere_classement_par_no ( NO_CLASSEMENT );
 
@@ -374,28 +358,12 @@ gboolean changement_compte ( gint *compte)
     if ( VALUE_AJUSTEMENT_LISTE_OPERATIONS == -1 )
     {
 	GtkAdjustment *ajustment;
-	gint arret_idle = 0;
 
-	/* 	on doit arrêter l'idle pour pouvoir faire fonctionner g_main_iteration */
-
-	if ( id_fonction_idle )
-	{
-	    g_source_remove ( id_fonction_idle );
-	    id_fonction_idle = 0;
-	    arret_idle = 1;
-	}
-
-	while ( g_main_iteration (FALSE));
+	update_ecran ();
 
 	ajustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ));
 	gtk_adjustment_set_value ( GTK_ADJUSTMENT ( ajustment ),
 				   ajustment -> upper - ajustment -> page_size );
-
-	/*     on remet l'idle en marche */
-
-	if ( arret_idle )
-	    id_fonction_idle = g_idle_add ( (GSourceFunc) utilisation_temps_idle,
-					    NULL );
 
     }
     else
@@ -406,9 +374,43 @@ gboolean changement_compte ( gint *compte)
 
     gtk_widget_show ( SCROLLED_WINDOW_LISTE_OPERATIONS );
     
+    /*     on réinitialise la dernière date entrée */
+
+    derniere_date = NULL;
+
     return FALSE;
 }
 /* ********************************************************************************************************** */
+
+
+/* ********************************************************************************************************** */
+/* cette fonction est appelée lors d'un changement de compte */
+/* cherche si le nouveau compte est clos, si c'est le cas, ferme l'icone du compte courant */
+/* ********************************************************************************************************** */
+void verifie_compte_clos ( gint no_nouveau_compte )
+{
+    gpointer **save_ptab;
+
+    /*     si le compte courant est déjà cloturé, on fait rien */
+
+    if ( COMPTE_CLOTURE )
+	return;
+
+    save_ptab = p_tab_nom_de_compte_variable;
+    
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_nouveau_compte;
+
+    if ( COMPTE_CLOTURE )
+    {
+	p_tab_nom_de_compte_variable = save_ptab;
+
+	gtk_list_button_close ( GTK_BUTTON ( BOUTON_COMPTE ));
+    }
+    else
+	p_tab_nom_de_compte_variable = save_ptab;
+}
+/* ********************************************************************************************************** */
+
 
 
 
@@ -570,4 +572,39 @@ gboolean changement_ordre_liste_comptes ( GtkWidget *bouton )
     return ( FALSE );
 }
 /* *********************************************************************************************************** */
+
+
+
+
+/******************************************************************************/
+/* règle la taille des widgets dans le formulaire des opés en fonction */
+/* des paramètres */
+/******************************************************************************/
+void mise_a_jour_taille_formulaire ( gint largeur_formulaire )
+{
+
+    gint i, j;
+    struct organisation_formulaire *organisation_formulaire;
+
+    if ( !largeur_formulaire )
+	return;
+
+    organisation_formulaire = renvoie_organisation_formulaire ();
+
+    for ( i=0 ; i < organisation_formulaire -> nb_lignes ; i++ )
+	for ( j=0 ; j < organisation_formulaire -> nb_colonnes ; j++ )
+	{
+	    GtkWidget *widget;
+
+	    widget = widget_formulaire_par_element ( organisation_formulaire -> tab_remplissage_formulaire[i][j] );
+
+	    if ( widget )
+		gtk_widget_set_usize ( widget,
+				       organisation_formulaire -> taille_colonne_pourcent[j] * largeur_formulaire / 100,
+				       FALSE );
+	}
+}
+/******************************************************************************/
+
+
 

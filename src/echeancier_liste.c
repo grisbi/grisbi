@@ -1109,53 +1109,45 @@ void edition_echeance ( void )
 
     if ( echeance_selectionnnee -> montant < 0 )
     {
+	GtkWidget *menu;
 	entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] );
 	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ),
 			     g_strdup_printf ( "%4.2f",
 					       -echeance_selectionnnee -> montant ));
 	/* met le menu des types débits */
 
-	if ( !etat.affiche_tous_les_types )
-	{
-	    GtkWidget *menu;
 
-	    if ( (menu = creation_menu_types ( 1,
-					       GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] )->menu_item),
-										       "no_compte" )),
-					       1 )))
-	    {
-		gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
-					   menu );
-		gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
-	    }
-	    else
-		gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
+	if ( (menu = creation_menu_types ( 1,
+					   recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
+					   1 )))
+	{
+	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
+				       menu );
+	    gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
 	}
+	else
+	    gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
     }
     else
     {
+	GtkWidget *menu;
 	entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] );
 	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ),
 			     g_strdup_printf ( "%4.2f",
 					       echeance_selectionnnee -> montant ));
 	/* met le menu des types crédits */
 
-	if ( !etat.affiche_tous_les_types )
-	{
-	    GtkWidget *menu;
 
-	    if ( (menu = creation_menu_types ( 2,
-					       GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] )->menu_item),
-										       "no_compte" )),
-					       1 )))
-	    {
-		gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
-					   menu );
-		gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
-	    }
-	    else
-		gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
+	if ( (menu = creation_menu_types ( 2,
+					   recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
+					   1 )))
+	{
+	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
+				       menu );
+	    gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
 	}
+	else
+	    gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
     }
 
 
@@ -1836,7 +1828,7 @@ void verification_echeances_a_terme ( void )
     if ( DEBUG )
 	printf ( "verification_echeances_a_terme\n" );
 
-    /* les échéances à saisir sont revérifiées à chaque fois. Par contre, les
+    /* les échÃ©ances à saisir sont revérifiées à chaque fois. Par contre, les
        échéances saisies sont ajoutées à la liste de celles déjà saisies */
 
     echeances_a_saisir = NULL;

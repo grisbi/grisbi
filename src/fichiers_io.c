@@ -331,6 +331,37 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 
 	    switch_t_r ();
 
+	    /* 	    on met l'organisation des formulaires de tous les comptes à 0 */
+
+	    for ( i=0 ; i<nb_comptes ; i++ )
+	    {
+		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+		ORGANISATION_FORMULAIRE = mise_a_zero_organisation_formulaire(); 
+	    }
+
+	    /* 	    un bug dans la 0.5.0 permettait à des comptes d'avoir un affichage différent, */
+	    /* 	    même si celui ci devait être identique pour tous, on vérifie ici */
+
+	    if ( !etat.retient_affichage_par_compte )
+	    {
+		gint affichage_r;
+		gint nb_lignes_ope;
+		gint i;
+
+		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+
+		affichage_r = AFFICHAGE_R;
+		nb_lignes_ope = NB_LIGNES_OPE;
+
+		for ( i=0 ; i<nb_comptes ; i++ )
+		{
+		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+
+		    AFFICHAGE_R = affichage_r;
+		    NB_LIGNES_OPE = nb_lignes_ope;
+		}
+	    } 
+
 	    /* 	    à mettre à chaque fois juste avant la version stable */
 
 	    modification_fichier ( TRUE );
@@ -564,22 +595,6 @@ gboolean recuperation_generalites_xml ( xmlNodePtr node_generalites )
 	    adresse_secondaire = xmlNodeGetContent ( node_generalites );
 
 	if ( !strcmp ( node_generalites -> name,
-		       "Utilise_exercices" ))
-	    etat.utilise_exercice = my_atoi ( xmlNodeGetContent ( node_generalites ));
-
-	if ( !strcmp ( node_generalites -> name,
-		       "Utilise_IB" ))
-	    etat.utilise_imputation_budgetaire = my_atoi ( xmlNodeGetContent ( node_generalites ));
-
-	if ( !strcmp ( node_generalites -> name,
-		       "Utilise_PC" ))
-	    etat.utilise_piece_comptable = my_atoi ( xmlNodeGetContent ( node_generalites ));
-
-	if ( !strcmp ( node_generalites -> name,
-		       "Utilise_info_BG" ))
-	    etat.utilise_info_banque_guichet = my_atoi ( xmlNodeGetContent ( node_generalites ));
-
-	if ( !strcmp ( node_generalites -> name,
 		       "Numero_devise_totaux_tiers" ))
 	    no_devise_totaux_tiers = my_atoi ( xmlNodeGetContent ( node_generalites ));
 
@@ -689,6 +704,11 @@ gboolean recuperation_generalites_xml ( xmlNodePtr node_generalites )
 
 	    g_strfreev ( pointeur_char );
 	}
+	
+	if ( !strcmp ( node_generalites -> name,
+		       "Formulaire_distinct_par_compte" ))
+	    etat.formulaire_distinct_par_compte = my_atoi( xmlNodeGetContent (node_generalites ));
+
 	node_generalites = node_generalites -> next;
     }
     return TRUE;
@@ -781,7 +801,7 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 	    /* 			colonne pour classer, soit elle est restée à -1 si on vient d'une version antérieure */
 	    /* 			à la 0.5.1 */
 
-	    COLONNE_CLASSEMENT = GINT_TO_POINTER (-1);
+	    COLONNE_CLASSEMENT = -1;
 	    CLASSEMENT_CROISSANT = -1;
 
 	    /* on fait le tour dans l'arbre nom, cad : les details, details de type et details des operations */
@@ -951,7 +971,7 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Colonne_classement" ))
-				COLONNE_CLASSEMENT = GINT_TO_POINTER (my_atoi ( xmlNodeGetContent ( node_detail )));
+				COLONNE_CLASSEMENT = my_atoi ( xmlNodeGetContent ( node_detail ));
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Classement_croissant" ))
@@ -960,6 +980,70 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 			    if ( !strcmp ( node_detail -> name,
 					   "No_classement" ))
 				NO_CLASSEMENT = my_atoi ( xmlNodeGetContent ( node_detail ));
+
+			    /* récupération de l'agencement du formulaire */
+
+			    if ( !strcmp ( node_detail -> name,
+					   "Nb_colonnes_formulaire" ))
+			    {
+				if ( !ORGANISATION_FORMULAIRE )
+				    ORGANISATION_FORMULAIRE = calloc ( 1,
+								       sizeof ( struct organisation_formulaire ));
+				ORGANISATION_FORMULAIRE -> nb_colonnes = my_atoi ( xmlNodeGetContent ( node_detail ));
+			    }
+
+			    if ( !strcmp ( node_detail -> name,
+					   "Nb_lignes_formulaire" ))
+			    {
+				if ( !ORGANISATION_FORMULAIRE )
+				    ORGANISATION_FORMULAIRE = calloc ( 1,
+								       sizeof ( struct organisation_formulaire ));
+				ORGANISATION_FORMULAIRE -> nb_lignes = my_atoi ( xmlNodeGetContent ( node_detail ));
+			    }
+
+
+			    if ( !strcmp ( node_detail -> name,
+					   "Organisation_formulaire" ))
+			    {
+				gchar **pointeur_char;
+				gint i, j;
+
+				if ( !ORGANISATION_FORMULAIRE )
+				    ORGANISATION_FORMULAIRE = calloc ( 1,
+								       sizeof ( struct organisation_formulaire ));
+
+				pointeur_char = g_strsplit ( xmlNodeGetContent ( node_detail ),
+							     "-",
+							     0 );
+
+				for ( i=0 ; i<4 ; i++ )
+				    for ( j=0 ; j< 6 ; j++ )
+					ORGANISATION_FORMULAIRE -> tab_remplissage_formulaire[i][j] = my_atoi ( pointeur_char[j + i*6]);
+
+				g_strfreev ( pointeur_char );
+			    }
+
+
+			    if ( !strcmp ( node_detail -> name,
+					   "Largeur_col_formulaire" ))
+			    {
+				gchar **pointeur_char;
+				gint i;
+
+				if ( !ORGANISATION_FORMULAIRE )
+				    ORGANISATION_FORMULAIRE = calloc ( 1,
+								       sizeof ( struct organisation_formulaire ));
+
+				pointeur_char = g_strsplit ( xmlNodeGetContent ( node_detail ),
+							     "-",
+							     0 );
+
+				for ( i=0 ; i<6 ; i++ )
+					ORGANISATION_FORMULAIRE -> taille_colonne_pourcent[i] = my_atoi ( pointeur_char[i]);
+
+				g_strfreev ( pointeur_char );
+			    }
+
 			}
 			node_detail = node_detail -> next;
 		    }
@@ -2730,6 +2814,9 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
     gint mettre_permission;
 
 
+    if ( DEBUG )
+	printf ( "enregistre_fichier : %s\n", nouveau_fichier );
+
     /*     on ne se préocupe plus des ouvertures et autre à ce niveau */
     /*     cette fonction enregistre le fichier sans avertissement(écrasement, fichier déjà ouvert...) */
     /* 	tout doit être fait avant */
@@ -2790,22 +2877,6 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 		      NULL,
 		      "Adresse_secondaire",
 		      adresse_secondaire);
-    xmlNewTextChild ( node,
-		      NULL,
-		      "Utilise_exercices",
-		      itoa (etat.utilise_exercice));
-    xmlNewTextChild ( node,
-		      NULL,
-		      "Utilise_IB",
-		      itoa (etat.utilise_imputation_budgetaire));
-    xmlNewTextChild ( node,
-		      NULL,
-		      "Utilise_PC",
-		      itoa (etat.utilise_piece_comptable));
-    xmlNewTextChild ( node,
-		      NULL,
-		      "Utilise_info_BG",
-		      itoa (etat.utilise_info_banque_guichet));
     xmlNewTextChild ( node,
 		      NULL,
 		      "Numero_devise_totaux_tiers",
@@ -2915,6 +2986,13 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 		      pointeur_char );
 
 
+    /*     si on utilise un formulaire différent pour chaque compte */
+
+    xmlNewChild ( node,
+		  NULL,
+		  "Formulaire_distinct_par_compte",
+		  itoa(etat.formulaire_distinct_par_compte));
+
 
     /*   on commence la sauvegarde des comptes : 2 parties, les generalites */
     /* puis les comptes 1 par 1 */
@@ -2966,6 +3044,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
     for ( i=0 ; i < nb_comptes ; i++)
     {
 	xmlNodePtr node_compte;
+	gint k;
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
@@ -3159,8 +3238,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 	    xmlNewTextChild ( node_compte,
 			      NULL,
 			      "Colonne_classement",
-			      itoa ( g_list_index ( gtk_tree_view_get_columns ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS )),
-						    COLONNE_CLASSEMENT )));
+			      itoa ( COLONNE_CLASSEMENT ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
@@ -3172,6 +3250,54 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 			  "No_classement",
 			  itoa ( NO_CLASSEMENT ));
 
+	/* 	on sauvegarde l'agencement du formulaire */
+
+	xmlNewTextChild ( node_compte,
+			  NULL,
+			  "Nb_colonnes_formulaire",
+			  itoa ( ORGANISATION_FORMULAIRE -> nb_colonnes ));
+	xmlNewTextChild ( node_compte,
+			  NULL,
+			  "Nb_lignes_formulaire",
+			  itoa ( ORGANISATION_FORMULAIRE -> nb_lignes ));
+
+	pointeur_char = NULL;
+
+	for ( k=0 ; k<4 ; k++ )
+	    for ( j=0 ; j< 6 ; j++ )
+		if ( pointeur_char )
+		    pointeur_char = g_strconcat ( pointeur_char,
+						  "-",
+						  itoa ( ORGANISATION_FORMULAIRE -> tab_remplissage_formulaire [k][j] ),
+						  NULL );
+		else
+		    pointeur_char = itoa ( ORGANISATION_FORMULAIRE -> tab_remplissage_formulaire [k][j] );
+
+	xmlNewTextChild ( node_compte,
+			  NULL,
+			  "Organisation_formulaire",
+			  pointeur_char );
+
+	pointeur_char = NULL;
+
+	for ( k=0 ; k<6 ; k++ )
+	    if ( pointeur_char )
+		pointeur_char = g_strconcat ( pointeur_char,
+					      "-",
+					      itoa ( ORGANISATION_FORMULAIRE -> taille_colonne_pourcent [k] ),
+					      NULL );
+	    else
+		pointeur_char = itoa ( ORGANISATION_FORMULAIRE -> taille_colonne_pourcent [k] );
+
+
+	xmlNewTextChild ( node_compte,
+			  NULL,
+			  "Largeur_col_formulaire",
+			  pointeur_char );
+
+
+
+	
 	/* mise en place des types */
 
 	node_compte = xmlNewChild ( node_1,
@@ -4895,9 +5021,6 @@ gboolean modification_etat_ouverture_fichier ( gboolean fichier_ouvert )
 				   tab_str );
     g_strfreev ( tab_str );
 
-    printf ( "%s\n", nom_fichier_lock );
-
-    
     /*     maintenant on sépare entre l'effacement ou la création du fichier swp */
 
     if ( fichier_ouvert )
@@ -5104,6 +5227,9 @@ gboolean enregistre_categ ( gchar *nom_categ )
 
 
 
+
+
+
 /***********************************************************************************************************/
 gboolean charge_categ ( gchar *nom_categ )
 {
@@ -5114,6 +5240,8 @@ gboolean charge_categ ( gchar *nom_categ )
     if ( doc )
     {
 	/* vérifications d'usage */
+
+	xmlNodePtr root = xmlDocGetRootElement(doc);
 
 	if ( !doc->children
 	     ||
@@ -5134,7 +5262,25 @@ gboolean charge_categ ( gchar *nom_categ )
 				    _("Version mismatch") );
 	  }
 
-	return ( charge_ib_version_0_4_0 ( doc ));
+	if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
+			 "0.4.0" )))
+	    return ( charge_categ_version_0_4_0 ( doc ));
+	if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
+			 "0.4.1" )))
+	    return ( charge_categ_version_0_4_0 ( doc ));
+	if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
+			 "0.5.0" )))
+	    return ( charge_categ_version_0_4_0 ( doc ));
+
+	/* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
+	/* la version nécessaire pour l'ouvrir */
+
+	dialogue_error ( g_strdup_printf ( _("Grisbi version %s is needed to open this file"),
+					   xmlNodeGetContent ( doc->children->children->children->next )));
+
+	xmlFreeDoc ( doc );
+
+	return ( FALSE );
     }
     else
     {
@@ -5176,7 +5322,6 @@ gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc )
 	    {
 		/* rien pour l'instant, peut être un jour ? */
 
-
 		node_generalites = node_generalites -> next;
 	    }
 	}
@@ -5193,39 +5338,107 @@ gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc )
 
 	    while ( node_detail )
 	    {
+		GSList *liste_tmp;
 		struct struct_categ *categorie;
 
 		if ( node_detail -> type != XML_TEXT_NODE )
 		{
-		    /*    pour réaliser la fusion on recherche la categ, elle est automatiquement ajoutée si */
-		    /* 	elle n'existe pas ; idem pour les sous categ */
 
-		    categorie = categ_par_nom ( xmlGetProp ( node_detail,
-							     "Nom" ),
-						1,
-						my_atoi ( xmlGetProp ( node_detail,
-									 "Type" )),
-						my_atoi ( xmlGetProp ( node_detail,
-								       "No_derniere_sous_cagegorie" )));
+		    /* 	      on doit réaliser une fusion, pour ça, soit la catég existe, et on fait le */
+		    /* tour des sous catég en ajoutant celles qui n'existent pas, soit elle n'existe pas et on */
+		    /* ajoute la catég et ses sous categ */
 
-		    if ( categorie )
+		    liste_tmp = g_slist_find_custom ( liste_struct_categories,
+						      xmlGetProp ( node_detail,
+								   "Nom" ),
+						      (GCompareFunc) recherche_categorie_par_nom );
+
+		    if ( liste_tmp )
 		    {
-			/*   on fait le tour des sous catégories */
+			/* 		  la catégorie existe, on fait le tour des sous catégories */
+
+			categorie = liste_tmp -> data;
 
 			node_sous_categ = node_detail -> children;
 
 			while ( node_sous_categ )
 			{
 			    struct struct_sous_categ *sous_categ;
+			    GSList *liste_tmp_2;
 
-			    /* on crée la sous catég que si elle n'existe pas */
+			    if ( node_sous_categ -> type != XML_TEXT_NODE )
+			    {
+				/* on ne prend la sous catég que si elle n'existe pas */
 
-			    sous_categ = sous_categ_par_nom ( categorie,
-							      xmlGetProp ( node_sous_categ,
-									   "Nom" ),
-							      1 );
+				liste_tmp_2 = g_slist_find_custom ( categorie -> liste_sous_categ,
+								    xmlGetProp ( node_sous_categ,
+										 "Nom" ),
+								    (GCompareFunc) recherche_sous_categorie_par_nom );
+
+				if ( !liste_tmp_2 )
+				{
+
+				    sous_categ = calloc ( 1,
+							  sizeof ( struct struct_sous_categ ) );
+
+				    sous_categ -> no_sous_categ = ++categorie -> no_derniere_sous_categ;
+
+				    sous_categ -> nom_sous_categ = xmlGetProp ( node_sous_categ,
+										"Nom" );
+
+				    categorie -> liste_sous_categ = g_slist_append ( categorie -> liste_sous_categ,
+										     sous_categ );
+				}
+			    }
 			    node_sous_categ = node_sous_categ -> next;
 			}
+		    }
+		    else
+		    {
+			/* la catégorie n'existe pas, on l'ajoute */
+
+
+			categorie = calloc ( 1,
+					     sizeof ( struct struct_categ ) );
+
+			categorie -> no_categ = ++no_derniere_categorie;
+			nb_enregistrements_categories++;
+
+			categorie -> nom_categ = xmlGetProp ( node_detail,
+							      "Nom" );
+			categorie -> type_categ = my_atoi ( xmlGetProp ( node_detail,
+								      "Type" ));
+			categorie -> no_derniere_sous_categ = my_atoi ( xmlGetProp ( node_detail,
+										  "No_derniere_sous_cagegorie" ));
+
+			/*  pour chaque categorie, on recupère les sous-categories */
+
+			categorie -> liste_sous_categ = NULL;
+			node_sous_categ = node_detail -> children;
+
+			while ( node_sous_categ )
+			{
+
+			    if ( node_sous_categ -> type != XML_TEXT_NODE )
+			    {
+				struct struct_sous_categ *sous_categ;
+
+				sous_categ = calloc ( 1,
+						      sizeof ( struct struct_sous_categ ) );
+
+				sous_categ -> no_sous_categ = my_atoi ( xmlGetProp ( node_sous_categ,
+										     "No" ));
+				sous_categ -> nom_sous_categ = xmlGetProp ( node_sous_categ,
+									    "Nom" );
+
+				categorie -> liste_sous_categ = g_slist_append ( categorie -> liste_sous_categ,
+										 sous_categ );
+			    }
+			    node_sous_categ = node_sous_categ -> next;
+			}
+
+			liste_struct_categories = g_slist_append ( liste_struct_categories,
+								   categorie );
 		    }
 		}
 		node_detail = node_detail -> next;
@@ -5241,8 +5454,6 @@ gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc )
     /* creation de la liste des categ pour le combofix */
 
     creation_liste_categ_combofix ();
-    if ( mise_a_jour_combofix_categ_necessaire )
-	mise_a_jour_combofix_categ ();
     remplit_arbre_categ ();
 
     /* on rafraichit la liste des categ */
@@ -5364,8 +5575,9 @@ gboolean enregistre_ib ( gchar *nom_ib )
 
     /* l'arbre est fait, on sauvegarde */
 
-    resultat = xmlSaveFile ( nom_ib,
-			     doc );
+    resultat = xmlSaveFormatFile ( nom_ib,
+				   doc,
+				   1 );
 
     /* on libère la memoire */
 
@@ -5398,6 +5610,8 @@ gboolean charge_ib ( gchar *nom_ib )
     {
 	/* vérifications d'usage */
 
+	xmlNodePtr root = xmlDocGetRootElement(doc);
+	    
 	if ( !doc->children
 	     ||
 	     !doc->children->name
@@ -5410,6 +5624,20 @@ gboolean charge_ib ( gchar *nom_ib )
 	    return ( FALSE );
 	}
 
+	/* récupère la version de fichier */
+
+	if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
+			 "0.4.0" )))
+	    return ( charge_ib_version_0_4_0 ( doc ));
+	if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
+			 "0.4.1" )))
+	    return ( charge_ib_version_0_4_0 ( doc ));
+	if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
+			 "0.5.0" )))
+	    return ( charge_ib_version_0_4_0 ( doc ));
+
+	/* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
+	/* la version nécessaire pour l'ouvrir */
 
 	if (( strcmp (  xmlNodeGetContent ( root->children->next->children->next ), VERSION_FICHIER_IB )))
 	  {
@@ -5477,38 +5705,107 @@ gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc )
 
 	    while ( node_detail )
 	    {
+		GSList *liste_tmp;
 		struct struct_imputation *ib;
 
 		if ( node_detail -> type != XML_TEXT_NODE )
 		{
 
-		    /* 	      on doit réaliser une fusion 
-		     *  	      on ajoute les ib et sous ib qui n'existent pas encore */
+		    /* 	      on doit réaliser une fusion, pour ça, soit l'ib existe, et on fait le */
+		    /* tour des sous ib en ajoutant celles qui n'existent pas, soit elle n'existe pas et on */
+		    /* ajoute l'ib et ses sous ib */
 
-		    ib = imputation_par_nom ( latin2utf8(xmlGetProp ( node_detail,
-								      "Nom" )),
-					      1,
-					      my_atoi ( latin2utf8(xmlGetProp ( node_detail,
-										  "Type" ))),
-					      my_atoi ( latin2utf8(xmlGetProp ( node_detail,
-										"No_derniere_sous_imputation" )))); 
+		    liste_tmp = g_slist_find_custom ( liste_struct_imputation,
+						      latin2utf8(xmlGetProp ( node_detail,
+									      "Nom" )),
+						      (GCompareFunc) recherche_imputation_par_nom );
 
-		    if ( ib )
+
+		    if ( liste_tmp )
 		    {
 			/* 		  la catégorie existe, on fait le tour des sous catégories */
+
+			ib = liste_tmp -> data;
 
 			node_sous_ib = node_detail -> children;
 
 			while ( node_sous_ib )
 			{
 			    struct struct_sous_imputation *sous_ib;
+			    GSList *liste_tmp_2;
 
-			    sous_ib = sous_imputation_par_nom ( ib,
-								latin2utf8(xmlGetProp ( node_sous_ib,
-											"Nom" )),
-								1 );
+			    if ( node_sous_ib -> type != XML_TEXT_NODE )
+			    {
+				/* on ne prend la sous catég que si elle n'existe pas */
+
+				liste_tmp_2 = g_slist_find_custom ( ib -> liste_sous_imputation,
+								    latin2utf8(xmlGetProp ( node_sous_ib,
+											    "Nom" )),
+								    (GCompareFunc) recherche_sous_imputation_par_nom );
+
+				if ( !liste_tmp_2 )
+				{
+
+				    sous_ib = calloc ( 1,
+						       sizeof ( struct struct_sous_imputation ) );
+
+				    sous_ib -> no_sous_imputation = ++ib -> no_derniere_sous_imputation;
+
+				    sous_ib -> nom_sous_imputation = latin2utf8(xmlGetProp ( node_sous_ib,
+											     "Nom" ));
+
+				    ib -> liste_sous_imputation = g_slist_append ( ib -> liste_sous_imputation,
+										   sous_ib );
+				}
+			    }
 			    node_sous_ib = node_sous_ib -> next;
 			}
+		    }
+		    else
+		    {
+			/* l'ib n'existe pas, on l'ajoute */
+
+
+			ib = calloc ( 1,
+				      sizeof ( struct struct_imputation ) );
+
+			ib -> no_imputation = ++no_derniere_imputation;
+			nb_enregistrements_imputations++;
+
+			ib -> nom_imputation = latin2utf8(xmlGetProp ( node_detail,
+								       "Nom" ));
+			ib -> type_imputation = my_atoi ( latin2utf8(xmlGetProp ( node_detail,
+									       "Type" )));
+			ib -> no_derniere_sous_imputation = my_atoi ( latin2utf8(xmlGetProp ( node_detail,
+											   "No_derniere_sous_imputation" )));
+
+			/*  pour chaque ib, on recupère les sous-ib */
+
+			ib -> liste_sous_imputation = NULL;
+			node_sous_ib = node_detail -> children;
+
+			while ( node_sous_ib )
+			{
+			    if ( node_sous_ib -> type != XML_TEXT_NODE )
+			    {
+				struct struct_sous_imputation *sous_ib;
+
+				sous_ib = calloc ( 1,
+						   sizeof ( struct struct_sous_imputation ) );
+
+				sous_ib -> no_sous_imputation = my_atoi ( latin2utf8(xmlGetProp ( node_sous_ib,
+												  "No" )));
+				sous_ib -> nom_sous_imputation = latin2utf8(xmlGetProp ( node_sous_ib,
+											 "Nom" ));
+
+				ib -> liste_sous_imputation = g_slist_append ( ib -> liste_sous_imputation,
+									       sous_ib );
+			    }
+			    node_sous_ib = node_sous_ib -> next;
+			}
+
+			liste_struct_imputation = g_slist_append ( liste_struct_imputation,
+								   ib );
 		    }
 		}
 		node_detail = node_detail -> next;
@@ -5524,8 +5821,6 @@ gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc )
     /* creation de la liste des ib pour le combofix */
 
     creation_liste_imputation_combofix ();
-    if ( mise_a_jour_combofix_imputation_necessaire )
-	mise_a_jour_combofix_imputation ();
     remplit_arbre_imputation ();
 
 
@@ -5534,6 +5829,7 @@ gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc )
     return ( TRUE );
 }
 /***********************************************************************************************************/
+
 
 
 

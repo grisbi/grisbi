@@ -248,7 +248,7 @@ void gtktable_click_sur_ope_etat ( struct structure_operation *operation )
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
 	if ( operation -> pointe == 3 && !AFFICHAGE_R )
-	    change_aspect_liste ( GINT_TO_POINTER (5));
+	    change_aspect_liste ( 5 );
 
 	selectionne_ligne ( OPERATION_SELECTIONNEE );
     }

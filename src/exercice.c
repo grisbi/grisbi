@@ -34,6 +34,7 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "search_glist.h"
+#include "operations_formulaire.h"
 
 
 
@@ -77,24 +78,24 @@ gboolean update_financial_year_list ( GtkEntry *entry, gchar *value,
  */
 gboolean update_financial_year_menus ()
 {
-    if ( widget_formulaire_operations[TRANSACTION_FORM_EXERCICE] &&
-	 GTK_OPTION_MENU(widget_formulaire_operations[TRANSACTION_FORM_EXERCICE]) -> menu )
+    if ( widget_formulaire_par_element (TRANSACTION_FORM_EXERCICE) &&
+	 GTK_OPTION_MENU(widget_formulaire_par_element (TRANSACTION_FORM_EXERCICE)) -> menu )
     {
-	gtk_widget_destroy ( GTK_OPTION_MENU(widget_formulaire_operations[TRANSACTION_FORM_EXERCICE]) -> menu );
-	gtk_option_menu_set_menu ( GTK_OPTION_MENU (widget_formulaire_operations[TRANSACTION_FORM_EXERCICE]),
+	gtk_widget_destroy ( GTK_OPTION_MENU(widget_formulaire_par_element (TRANSACTION_FORM_EXERCICE)) -> menu );
+	gtk_option_menu_set_menu ( GTK_OPTION_MENU (widget_formulaire_par_element (TRANSACTION_FORM_EXERCICE)),
 				   creation_menu_exercices (0) );
     }
 
-    if ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] &&
-	 GTK_OPTION_MENU(widget_formulaire_operations[TRANSACTION_FORM_DEVISE]) -> menu )
+    if ( widget_formulaire_par_element (TRANSACTION_FORM_DEVISE) &&
+	 GTK_OPTION_MENU(widget_formulaire_par_element (TRANSACTION_FORM_DEVISE)) -> menu )
     {
 	gtk_widget_destroy ( GTK_OPTION_MENU(widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CONTRA]) -> menu );
 	gtk_option_menu_set_menu ( GTK_OPTION_MENU(widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CONTRA]),
 				   creation_menu_exercices (0) );
     }
 
-    if ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] &&
-	 GTK_OPTION_MENU(widget_formulaire_operations[TRANSACTION_FORM_TYPE]) -> menu )
+    if ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) &&
+	 GTK_OPTION_MENU(widget_formulaire_par_element (TRANSACTION_FORM_TYPE)) -> menu )
     {
 	gtk_widget_destroy ( GTK_OPTION_MENU(widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE]) -> menu );
 	gtk_option_menu_set_menu ( GTK_OPTION_MENU(widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE]),
@@ -658,6 +659,10 @@ void affiche_exercice_par_date ( GtkWidget *entree_date,
     if ( !etat.affichage_exercice_automatique )
 	return;
 
+    /*     si on n'utilise pas l'exo, on se barre */
+
+    if ( !option_menu_exercice )
+	return;
 
     sscanf ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date )),
 	     "%02d/%02d/%04d",

@@ -36,6 +36,12 @@
 #include "constants.h"
 #include "dialog.h"
 #include "traitement_variables.h"
+#include "main.h"
+
+
+extern GtkStyle *style_entree_formulaire[2];
+extern gint id_fonction_idle;
+
 
 
 
@@ -1874,5 +1880,213 @@ gpointer **verification_p_tab ( gchar *fonction_appelante )
     return (p_tab_nom_de_compte_variable);
 }
 /* ******************************************************************************* */
+
+
+
+/* ******************************************************************************* */
+/* cette fonction s'assure que la chaine donnée en argument ne dépasse pas la taille */
+/* donnée en argument. si elle dépasse, renvoie la chaine, avec la taille voulue, et */
+/* ... à la fin */
+/* ******************************************************************************* */
+gchar *limit_string ( gchar *string,
+		      gint length )
+{
+    gchar *string_return;
+
+    if ( !string )
+	return NULL;
+
+    if ( strlen ( string ) <= length )
+	return string;
+
+    string_return = g_strdup ( string );
+    string_return[length-3] = '.';
+    string_return[length-2] = '.';
+    string_return[length-1] = '.';
+    string_return[length] = 0;
+
+    return string_return;
+}
+/* ******************************************************************************* */
+
+
+
+
+/* ******************************************************************************* */
+/* fonction qui récupère une ligne de charactère dans le pointeur de fichier donné en argument */
+/* elle alloue la mémoire nécessaire et place le pointeur en argument sur la mémoire allouée */
+/* renvoie 0 en cas de pb, eof en cas de fin de fichier, 1 sinon */
+/* ******************************************************************************* */
+gint get_line_from_file ( FILE *fichier,
+			  gchar **string )
+{
+    gchar c = 0;
+    gint i = 0;
+    gint j = 0;
+    gchar *pointeur_char = NULL;
+
+    if ( !fichier )
+	return 0;
+	    
+    /*     on commence par allouer une taille de 30 caractères, qu'on augment ensuite de 30 par 30 */
+
+    pointeur_char = (gchar*)realloc(pointeur_char,30*sizeof(gchar));
+
+    if ( !pointeur_char )
+    {
+	/* 	aie, pb de mémoire, on vire */
+	dialogue_error ( _("Memory allocation error" ));
+	return 0;
+    }
+
+    while ( ( c != '\n' ) && (c != '\r'))
+    {
+	c =(gchar)fgetc(fichier);
+	if (feof(fichier)) break;
+	pointeur_char[j++] = c;
+
+	if ( ++i == 29 )
+	{
+	    pointeur_char = (gchar*)realloc(pointeur_char, j + 1 + 30*sizeof(gchar));
+
+	    if ( !pointeur_char )
+	    {
+		/* 	aie, pb de mémoire, on vire */
+		dialogue_error ( _("Memory allocation error" ));
+		return 0;
+	    }
+	    i = 0;
+	}
+    }
+    pointeur_char[j] = 0;
+
+    *string = pointeur_char;
+
+    if ( feof(fichier))
+	return EOF;
+    else
+	return 1;
+}
+/* ******************************************************************************* */
+
+
+
+
+/* ******************************************************************************* */
+/* fonction qui récupère une ligne de charactère dans une chaine */
+/* elle alloue la mémoire nécessaire et n'incorpore pas le \n final */
+/* renvoie NULL en cas de pb */
+/* ******************************************************************************* */
+gchar *get_line_from_string ( gchar *string )
+{
+    gchar *pointeur_char;
+
+    if ( !string )
+	return NULL;
+	    
+    pointeur_char = g_strdup ( string );
+
+    pointeur_char = g_strdelimit ( pointeur_char,
+				   "\n\r",
+				   0 );
+    return pointeur_char;
+}
+/* ******************************************************************************* */
+
+
+/* ******************************************************************************* */
+/* cette fonction renvoie une chaine formatée jj/mm/aaaa à partir */
+/* du Gdate donné en argument */
+/* \param date GDate demandée */
+/* \return la date formatée ou "" */
+/* ******************************************************************************* */
+gchar *renvoie_date_formatee ( GDate *date )
+{
+    gchar *retour_str;
+
+    if ( !date
+	 ||
+	 !g_date_valid ( date ))
+	return g_strdup ("");
+
+    retour_str = g_strdup_printf ( "%02d/%02d/%04d",
+					     g_date_day ( date ),
+					     g_date_month ( date ),
+					     g_date_year ( date ));
+
+    return retour_str;
+}
+/* ******************************************************************************* */
+
+
+
+/******************************************************************************/
+/**
+ *  Increment or decrement the value of a GtkEntry.
+ *
+ * \param entry Entry to change the value of.
+ * \param increment Value to add or substract from the numerical value of entry.
+ */
+void increment_decrement_champ ( GtkWidget *entry, gint increment )
+{
+    double number;
+
+    number = my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entry ))), NULL );
+    number += increment;
+
+    gtk_entry_set_text ( GTK_ENTRY ( entry ), itoa ( number ) );
+}
+/******************************************************************************/
+
+
+/******************************************************************************/
+/* cette fonction démarre la vérification idle si elle ne l'est pas déjà */
+/* l'idle se terminera d'elle même ou forcé */
+/******************************************************************************/
+void demarrage_idle ( void )
+{
+    if ( !id_fonction_idle )
+	id_fonction_idle = g_idle_add ( (GSourceFunc) utilisation_temps_idle,
+					NULL );
+
+
+}
+/******************************************************************************/
+
+
+/******************************************************************************/
+/* cette fonction arrête la vérification idle */
+/* renvoie TRUE si la fonction était en cours de fonctionnement */
+/******************************************************************************/
+gboolean termine_idle ( void )
+{
+    if ( id_fonction_idle )
+    {
+	g_source_remove ( id_fonction_idle );
+	id_fonction_idle = 0;
+	return TRUE;
+    }
+
+    return FALSE;
+}
+/******************************************************************************/
+
+
+/******************************************************************************/
+/* cette fonction rafraichit l'écran pendant les traitements d'information */
+/******************************************************************************/
+void update_ecran ( void )
+{
+    gint idle_en_cours;
+
+    idle_en_cours = termine_idle ();
+
+    while ( g_main_iteration (FALSE));
+
+    if ( idle_en_cours )
+	demarrage_idle ();
+}
+/******************************************************************************/
+
 
 

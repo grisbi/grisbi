@@ -212,9 +212,8 @@ int main (int argc, char *argv[])
 
 	/* 	on met en place l'idle */
 
-	id_fonction_idle = g_idle_add ( (GSourceFunc) utilisation_temps_idle,
-					NULL );
-	
+	demarrage_idle ();
+
 	/* on vérifie les arguments de ligne de commande */
 
 	demande_page = 0;

@@ -27,9 +27,11 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "constants.h"
+#include "main.h"
 
 
 
+static gboolean modification_retient_affichage_par_compte ( void );
 
 
 gchar *labels_boutons [] = { N_("Date"),
@@ -58,6 +60,10 @@ gint affichage_realise;
 
 extern gint allocation_precedente;
 extern GSList *liste_labels_titres_colonnes_liste_ope;
+extern gint id_fonction_idle;
+
+
+
 
 
 /** FIXME: document this */
@@ -139,7 +145,7 @@ GtkWidget *onglet_affichage_liste ( void )
 	bouton_caracteristiques_lignes_par_compte = 
 	    new_checkbox_with_title ( _("Remember display settings for each account separately"),
 				      &(etat.retient_affichage_par_compte),
-				      NULL ) ;
+				      G_CALLBACK ( modification_retient_affichage_par_compte )) ;
 	gtk_box_pack_start ( GTK_BOX(paddingbox), bouton_caracteristiques_lignes_par_compte,
 			     FALSE, FALSE, 0 );
 
@@ -171,6 +177,58 @@ GtkWidget *onglet_affichage_liste ( void )
 				       FALSE ); 
 
 	return ( onglet );
+}
+/***********************************************************************************************************************/
+
+
+
+
+/***********************************************************************************************************************/
+/* cette fonction est appelée quand on change la conf pour avoir un affichage */
+/* propre à chaque compte */
+/* si on choisit de séparer l'affichage par compte, on ne fait rien */
+/* si on choisit de réunir l'affichage par compte, on met l'affichage de */
+/* tous les comptes sur le compte courant */
+/***********************************************************************************************************************/
+gboolean modification_retient_affichage_par_compte ( void )
+{
+    gint nb_lignes;
+    gint affichage_r;
+    gint i;
+
+    if ( etat.retient_affichage_par_compte )
+	return FALSE;
+
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+
+    nb_lignes = NB_LIGNES_OPE;
+    affichage_r = AFFICHAGE_R;
+
+    /*     on doit réafficher tous les comptes qui ne correspondent pas */
+
+    for ( i=0 ; i<nb_comptes ; i++ )
+    {
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+
+	if (  NB_LIGNES_OPE != nb_lignes
+	      ||
+	      AFFICHAGE_R != affichage_r )
+	{
+	    NB_LIGNES_OPE = nb_lignes;
+	    AFFICHAGE_R = affichage_r;
+	    SLIST_DERNIERE_OPE_AJOUTEE = NULL;
+	    COULEUR_BACKGROUND_FINI = 0;
+	    AFFICHAGE_SOLDE_FINI = 0;
+	    SELECTION_OPERATION_FINI = 0;
+	    gtk_list_store_clear ( STORE_LISTE_OPERATIONS );
+	}
+    }
+	
+    /* 	on met en place l'idle */
+
+    demarrage_idle ();
+
+    return FALSE;
 }
 /***********************************************************************************************************************/
 
@@ -221,8 +279,9 @@ gboolean change_largeur_colonne ( GtkWidget *clist,
     {
 	p_tab_nom_de_compte_variable=p_tab_nom_de_compte + compte_courant;
 
-	gtk_tree_view_column_set_fixed_width ( COLONNE_LISTE_OPERATIONS(colonne),
-					       rapport_largeur_colonnes[colonne] * TREE_VIEW_LISTE_OPERATIONS -> allocation.width / 100 );
+	if ( rapport_largeur_colonnes[colonne] * TREE_VIEW_LISTE_OPERATIONS -> allocation.width / 100 )
+	    gtk_tree_view_column_set_fixed_width ( COLONNE_LISTE_OPERATIONS(colonne),
+						   rapport_largeur_colonnes[colonne] * TREE_VIEW_LISTE_OPERATIONS -> allocation.width / 100 );
     }
 
     return FALSE;
@@ -1005,8 +1064,8 @@ void recuperation_noms_colonnes_et_tips ( void )
 			{
 			    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + k;
 
-			    if ( COLONNE_CLASSEMENT == GINT_TO_POINTER (-1))
-				COLONNE_CLASSEMENT = GINT_TO_POINTER (j);
+			    if ( COLONNE_CLASSEMENT == -1)
+				COLONNE_CLASSEMENT = j;
 			}
 		    }
 	    }

@@ -8,6 +8,7 @@ sources = 			\
 	accueil.c		\
 	affichage.c		\
 	affichage_liste.c	\
+	affichage_formulaire.c	\
 	banque.c		\
 	barre_outils.c		\
 	calendar.c		\
@@ -67,6 +68,7 @@ grisbi_INCLUDES =		\
 	accueil.h		\
 	affichage.h		\
 	affichage_liste.h	\
+	affichage_formulaire.h	\
 	banque.h		\
 	barre_outils.h		\
 	calendar.h		\

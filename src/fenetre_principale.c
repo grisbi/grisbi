@@ -117,9 +117,6 @@ GtkWidget *creation_fenetre_principale (void )
 			       page_imputations,
 			       gtk_label_new (SPACIFY(_("Budgetary lines"))) );
 
-    gtk_widget_set_sensitive ( page_imputations,
-			       etat.utilise_imputation_budgetaire );
-
     /* création de la fenetre des états */
 
     page_etats = creation_onglet_etats ();

@@ -44,6 +44,8 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "operations_onglet.h"
+#include "operations_formulaire.h"
+#include "affichage_formulaire.h"
 
 
 
@@ -2307,10 +2309,11 @@ void mise_a_jour_combofix_imputation ( void )
 
     creation_liste_imputation_combofix ();
 
-    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET] ),
-			    liste_imputations_combofix,
-			    TRUE,
-			    TRUE );
+    if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_BUDGET ))
+	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_BUDGET) ),
+				liste_imputations_combofix,
+				TRUE,
+				TRUE );
 
     gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_BUDGETARY] ),
 			    liste_imputations_combofix,
@@ -2893,6 +2896,7 @@ void importer_ib ( void )
 		dialogue_error ( _("Cannot import file.") );
 		return;
 	    }
+	    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 
 	    break;
 

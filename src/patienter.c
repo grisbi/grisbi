@@ -62,17 +62,6 @@ void mise_en_route_attente ( gchar *message )
 	return;
     }
 
-    /*     on doit absolument bloquer la fonction idle si elle est active */
-    /* 	sinon le programme bloquera à la fin de cette fonction */
-    /* 	par l'appel g_main_iteration */
-    /*     de toute façon gtk n'est pas censé être idle pendant une attente... */
-
-    if ( id_fonction_idle )
-    {
-	g_source_remove ( id_fonction_idle );
-	id_fonction_idle = 0;
-    }
-
     fenetre_patience = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
     gtk_window_set_position ( GTK_WINDOW ( fenetre_patience),
 			      GTK_WIN_POS_CENTER );
@@ -137,7 +126,7 @@ void mise_en_route_attente ( gchar *message )
 
     gtk_widget_show ( fenetre_patience );
 
-    while ( g_main_iteration ( FALSE ));
+    update_ecran ();
 
     patience_en_cours = 1;
 }
@@ -162,7 +151,7 @@ void update_attente ( gchar *message )
     {
 	gtk_label_set_text ( GTK_LABEL ( label_patience ),
 			     message );
-	while ( g_main_iteration ( FALSE ));
+	update_ecran ();
     }
 }
 /* ******************************************************************************************** */
@@ -178,13 +167,6 @@ void annulation_attente ()
 
     if ( GTK_IS_WIDGET ( fenetre_patience ))
 	gtk_widget_destroy ( fenetre_patience );
-
-    /*     on remet l'idle en marche */
-
-    if ( !id_fonction_idle )
-	id_fonction_idle = g_idle_add ( (GSourceFunc) utilisation_temps_idle,
-					NULL );
-	   
 }
 /* ******************************************************************************************** */
 

@@ -42,6 +42,8 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "devises.h"
+#include "operations_formulaire.h"
+#include "affichage_formulaire.h"
 
 
 #include "xpm/book-closed.xpm"
@@ -876,7 +878,7 @@ gboolean expand_selected_tiers ( GtkWidget *liste, GdkEventButton *ev, gpointer 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     if ( operation -> pointe == 3 && !AFFICHAGE_R )
-	change_aspect_liste ( GINT_TO_POINTER (5));
+	change_aspect_liste ( 5 );
 
     selectionne_ligne ( OPERATION_SELECTIONNEE );
 
@@ -1492,14 +1494,18 @@ void mise_a_jour_combofix_tiers ( void )
 
     creation_liste_tiers_combofix ();
 
-    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_PARTY] ),
-			    liste_tiers_combofix,
-			    TRUE,
-			    TRUE );
-    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ),
-			    liste_tiers_combofix_echeancier,
-			    FALSE,
-			    TRUE );
+    if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_PARTY )
+	 &&
+	 GTK_IS_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_PARTY) ))
+	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_PARTY) ),
+				liste_tiers_combofix,
+				TRUE,
+				TRUE );
+    if ( GTK_IS_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ))
+	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ),
+				liste_tiers_combofix_echeancier,
+				FALSE,
+				TRUE );
 
     /* FIXME : ça ne devrait pas se trouver dans cette fonction */
 
