@@ -19,12 +19,12 @@
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 
-
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
 #include "erreur.h"
 #include "etats_latex.h"
+#include "parametres.h"
 
 #include "etats.h"
 #include "etats_latex.h"
@@ -183,6 +183,9 @@ gint latex_initialise (GSList * opes_selectionnees)
 {
   int i;
   gfloat colwidth;
+
+  if (! print_config ( ) )
+    return;
 
   out = fopen ("toto.tex", "w");
   if (! out)
