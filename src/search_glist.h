@@ -22,8 +22,6 @@ gint recherche_rapprochement_par_nom ( struct struct_no_rapprochement *rapproche
 				       gchar *no_rap );
 gint recherche_rapprochement_par_no ( struct struct_no_rapprochement *rapprochement,
 				      gint *no_rap );
-gint recherche_nom_dans_liste ( gchar *nom_liste,
-				gchar *nom_test );
 gint recherche_exercice_par_nom ( struct struct_exercice *exercice,
 				  gchar *nom );
 gint recherche_exercice_par_no ( struct struct_exercice *exercice,

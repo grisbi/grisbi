@@ -49,6 +49,8 @@
 #include "type_operations.h"
 #include "utils.h"
 #include "ventilation.h"
+#include "operations_onglet.h"
+
 
 
 extern GtkWidget *tree_view_listes_operations;
@@ -1575,7 +1577,6 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 /******************************************************************************/
 void completion_operation_par_tiers ( void )
 {
-    GSList *liste_tmp;
     struct struct_tiers *tiers;
     struct structure_operation *operation;
     GSList *pointeur_ope;
@@ -1593,16 +1594,13 @@ void completion_operation_par_tiers ( void )
 
     /* recherche le tiers demandé */
 
-    liste_tmp = g_slist_find_custom ( liste_struct_tiers,
-				      g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_PARTY] ))),
-				      ( GCompareFunc ) recherche_tiers_par_nom );
+    tiers = tiers_par_nom ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_PARTY] )),
+			    0 );
 
     /*   si nouveau tiers,  on s'en va simplement */
 
-    if ( !liste_tmp )
+    if ( !tiers )
 	return;
-
-    tiers = liste_tmp -> data;
 
     /* on fait d'abord le tour du compte courant pour recherche une opé avec ce tiers */
     /* s'il n'y a aucune opé correspondante, on fait le tour de tous les comptes */
@@ -2140,25 +2138,18 @@ void fin_edition ( void )
 
 	    if ( operation )
 	    {
-		GSList *pointeur_tmp;
+		struct struct_type_ope *type;
 
-		p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+		type = type_ope_par_no ( operation -> type_ope,
+					 compte_courant );
 
-		pointeur_tmp = g_slist_find_custom ( TYPES_OPES,
-						     GINT_TO_POINTER ( operation -> type_ope ),
-						     (GCompareFunc) recherche_type_ope_par_no );
-
-		if ( pointeur_tmp )
-		{
-		    struct struct_type_ope *type;
-
-		    type = pointeur_tmp -> data;
-
-		    if ( type -> affiche_entree &&
-			 type -> numerotation_auto )
-			gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] ),
-					     itoa ( type -> no_en_cours + 1 ));
-		}
+		if ( type
+		     &&
+		     type -> affiche_entree
+		     &&
+		     type -> numerotation_auto )
+		    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] ),
+					 itoa ( type -> no_en_cours + 1 ));
 	    }
 	    liste_tmp = liste_tmp -> next;
 	}
@@ -2542,7 +2533,6 @@ sort_test_cheques :
 void recuperation_donnees_generales_formulaire ( struct structure_operation *operation )
 {
     gchar *pointeur_char;
-    GSList *pointeur_liste;
     gchar **tableau_char;
     struct struct_devise *devise;
 
@@ -2596,14 +2586,10 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
 
     if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_PARTY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
     {
-	pointeur_char = g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_PARTY] )));
+	pointeur_char = gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_PARTY] ));
 
-	if ( ( pointeur_liste = g_slist_find_custom ( liste_struct_tiers,
-						      pointeur_char,
-						      ( GCompareFunc ) recherche_tiers_par_nom )) )
-	    operation -> tiers = (( struct struct_tiers * )( pointeur_liste -> data )) -> no_tiers;
-	else
-	    operation -> tiers = (( struct struct_tiers * )( ajoute_nouveau_tiers ( pointeur_char ))) -> no_tiers;
+	operation -> tiers = tiers_par_nom ( pointeur_char,
+					     1 ) -> no_tiers;
     }
     else
 	operation -> tiers = 0;

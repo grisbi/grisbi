@@ -42,6 +42,7 @@
 #include "search_glist.h"
 #include "traitement_variables.h"
 #include "utils.h"
+#include "type_operations.h"
 
 
 
@@ -86,6 +87,7 @@ extern GtkWidget *bouton_ope_lignes[4];
 extern GtkWidget *label_proprietes_operations_compte;
 extern GtkWidget *bouton_affiche_r;
 extern GtkWidget *bouton_enleve_r;
+extern GtkWidget *vbox_fleches_tri;
 
 
 /******************************************************************************/
@@ -1191,20 +1193,14 @@ void fill_reconciliation_tree ()
 
 	while ( liste_tmp )
 	{
-	    struct struct_type_ope * type_ope = NULL;
-	    GSList * result;
+	    struct struct_type_ope * type_ope;
 
-	    result = NULL;
-
-	    if ( TYPES_OPES )
-		result = g_slist_find_custom ( TYPES_OPES,
-					       (gpointer) abs(GPOINTER_TO_INT(liste_tmp -> data)),
-					       (GCompareFunc) recherche_type_ope_par_no);
-	    if ( result )
+	    type_ope = type_ope_par_no ( abs(GPOINTER_TO_INT(liste_tmp -> data)),
+					 i );
+	    if ( type_ope )
 	    {
 		gchar * nom;
 
-		type_ope = result -> data;
 		gtk_tree_store_append (reconcile_model, &payment_method_iter, 
 				       &account_iter);
 
@@ -1480,17 +1476,13 @@ void reconcile_include_neutral_toggled ( GtkCellRendererToggle *cell,
 
 	while ( liste_tmp )
 	{
-	    struct struct_type_ope *type_ope;
-
-	    type_ope = NULL;
+	    struct struct_type_ope *type_ope = NULL;
 
 	    if ( GPOINTER_TO_INT ( liste_tmp->data ) > 0 )
 	    {
-		GSList * result = g_slist_find_custom ( TYPES_OPES,
-							liste_tmp->data,
-							(GCompareFunc) recherche_type_ope_par_no );
-		if (result)
-		    type_ope = result->data;
+		type_ope = type_ope_par_no ( GPOINTER_TO_INT ( liste_tmp -> data ),
+					     compte_courant );
+
 		if ( type_ope && !type_ope->signe_type )
 		{
 		    LISTE_TRI = g_slist_append ( LISTE_TRI,
@@ -1498,7 +1490,6 @@ void reconcile_include_neutral_toggled ( GtkCellRendererToggle *cell,
 
 		    clear_tree = 1;
 		}
-
 	    }
 	    liste_tmp = liste_tmp -> next;
 	}

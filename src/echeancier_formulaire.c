@@ -1637,20 +1637,11 @@ void fin_edition_echeance ( void )
 
 	if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
 	{
-	    pointeur_char = g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] )));
+	    pointeur_char = gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ));
 
-	    if ( ( pointeur_liste = g_slist_find_custom ( liste_struct_tiers,
-							  pointeur_char,
-							  ( GCompareFunc ) recherche_tiers_par_nom )) )
-		echeance -> tiers = (( struct struct_tiers * )( pointeur_liste -> data )) -> no_tiers;
-	    else
-	    {
-		echeance -> tiers = (( struct struct_tiers * )( ajoute_nouveau_tiers ( pointeur_char ))) -> no_tiers;
-		mise_a_jour_tiers();
-	    }
+	    echeance -> tiers  = tiers_par_nom ( pointeur_char,
+						 1 ) -> no_tiers;
 	}
-
-
 
 	/* récupération du montant */
 
@@ -1920,17 +1911,10 @@ void fin_edition_echeance ( void )
 
 	if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
 	{
-	    pointeur_char = g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] )));
+	    pointeur_char = gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ));
 
-	    if ( ( pointeur_liste = g_slist_find_custom ( liste_struct_tiers,
-							  pointeur_char,
-							  ( GCompareFunc ) recherche_tiers_par_nom )) )
-		operation -> tiers = (( struct struct_tiers * )( pointeur_liste -> data )) -> no_tiers;
-	    else
-	    {
-		operation -> tiers = (( struct struct_tiers * )( ajoute_nouveau_tiers ( pointeur_char ))) -> no_tiers;
-		mise_a_jour_tiers ();
-	    }
+	    operation -> tiers = tiers_par_nom ( pointeur_char,
+						 1 ) -> no_tiers;
 	}
 
 
@@ -2683,7 +2667,6 @@ void incrementation_echeance ( struct operation_echeance *echeance )
 /******************************************************************************/
 void completion_operation_par_tiers_echeancier ( void )
 {
-    GSList *liste_tmp;
     struct struct_tiers *tiers;
     struct structure_operation *operation;
     gint no_compte;
@@ -2700,17 +2683,13 @@ void completion_operation_par_tiers_echeancier ( void )
 	return;
 
 
-    liste_tmp = g_slist_find_custom ( liste_struct_tiers,
-				      g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY]))),
-				      ( GCompareFunc ) recherche_tiers_par_nom );
+    tiers = tiers_par_nom ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY])),
+			    0 );
 
     /*   si nouveau tiers,  on s'en va simplement */
 
-    if ( !liste_tmp )
+    if ( !tiers )
 	return;
-
-    tiers = liste_tmp -> data;
-
 
     /* on fait d'abord le tour du compte courant pour recherche une opé avec ce tiers */
     /* s'il n'y a aucune opé correspondante, on fait le tour de tous les comptes */

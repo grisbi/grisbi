@@ -25,6 +25,11 @@ gint cherche_no_menu_type_associe ( gint demande,
 gint cherche_no_menu_type_echeancier ( gint demande );
 void changement_choix_type_formulaire ( struct struct_type_ope *type );
 void changement_choix_type_echeancier ( struct struct_type_ope *type );
+
+
+
+struct struct_type_ope *type_ope_par_no ( gint no_type_ope,
+					  gint no_compte );
 gchar *type_ope_name_by_no ( gint no_type_ope,
 			     gint no_de_compte );
 

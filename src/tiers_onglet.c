@@ -1074,7 +1074,7 @@ struct struct_tiers *ajoute_nouveau_tiers ( gchar *tiers )
     struct struct_tiers *nouveau_tiers;
 
     if ( !strlen ( g_strstrip ( tiers )))
-	return ( 0 );
+	return NULL;
 
     nouveau_tiers = calloc ( 1,
 			     sizeof ( struct struct_tiers ));
@@ -1287,9 +1287,8 @@ retour_dialogue:
 
 	    /* recherche du nouveau numéro de tiers */
 
-	    nouveau_tiers = g_slist_find_custom ( liste_struct_tiers,
-						  gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ) ),
-						  (GCompareFunc) recherche_tiers_par_nom ) -> data;
+	    nouveau_tiers = tiers_par_nom ( gtk_combofix_get_text ( GTK_COMBOFIX ( combofix )),
+					    0 );
 	    nouveau_no = nouveau_tiers -> no_tiers;
 	}
 	else
@@ -1546,10 +1545,8 @@ gfloat *calcule_total_montant_tiers ( void )
 	    {
 		/* recherche la place du tiers dans la liste */
 
-		place_tiers = g_slist_position ( liste_struct_tiers,
-						 g_slist_find_custom ( liste_struct_tiers,
-								       GINT_TO_POINTER ( operation -> tiers ),
-								       (GCompareFunc) recherche_tiers_par_no ));
+		place_tiers = g_slist_index ( liste_struct_tiers,
+					      tiers_par_no ( operation -> tiers ));
 
 		montant = calcule_montant_devise_renvoi ( operation -> montant,
 							  no_devise_totaux_tiers,
@@ -1683,6 +1680,61 @@ void appui_sur_ajout_tiers ( void )
 
 
 /* **************************************************************************************************** */
+/* renvoie le tiers demandé par son no */
+/* ou NULL si pas trouvé */
+/* **************************************************************************************************** */
+struct struct_tiers *tiers_par_no ( gint no_tiers )
+{
+    GSList *liste_tmp;
+
+    liste_tmp = g_slist_find_custom ( liste_struct_tiers,
+				      GINT_TO_POINTER ( no_tiers ),
+				      (GCompareFunc) recherche_tiers_par_no );
+
+    if ( liste_tmp )
+	return ( liste_tmp -> data );
+
+    return NULL;
+}
+/* **************************************************************************************************** */
+
+
+
+/* **************************************************************************************************** */
+/* renvoie le tiers demandé par son no */
+/* si creer = 1, crée le tiers si pas trouvé */
+/* ou NULL si pb */
+/* **************************************************************************************************** */
+struct struct_tiers *tiers_par_nom ( gchar *nom_tiers,
+				     gboolean creer )
+{
+    GSList *liste_tmp;
+
+    liste_tmp = g_slist_find_custom ( liste_struct_tiers,
+				      g_strstrip ( nom_tiers ),
+				      (GCompareFunc) recherche_tiers_par_nom );
+
+    if ( liste_tmp )
+	return ( liste_tmp -> data );
+    else
+    {
+	if ( creer )
+	{
+	    struct struct_tiers *tiers;
+
+	    tiers = ajoute_nouveau_tiers ( nom_tiers );
+	    mise_a_jour_tiers();
+	    return ( tiers );
+	}
+    }
+
+    return NULL;
+}
+/* **************************************************************************************************** */
+
+
+
+/* **************************************************************************************************** */
 /* retourne le tiers en donnant comme argument son numéro */
 /* retour : soit le nom du tiers
  * 	    soit No third party defined si return_null est FALSE et pas de tiers trouvé,
@@ -1692,18 +1744,12 @@ void appui_sur_ajout_tiers ( void )
 gchar *tiers_name_by_no ( gint no_tiers,
 			  gboolean return_null )
 {
-    GSList *liste_tmp;
+    struct struct_tiers *tiers;
 
-    if ( no_tiers )
-	liste_tmp = g_slist_find_custom ( liste_struct_tiers,
-					  GINT_TO_POINTER ( no_tiers ),
-					  (GCompareFunc) recherche_tiers_par_no );
-    else
-	liste_tmp = NULL;
+    tiers = tiers_par_no ( no_tiers );
 
-
-    if (liste_tmp)
-	return ( ((struct struct_tiers *)(liste_tmp->data))->nom_tiers );
+    if (tiers)
+	return ( tiers->nom_tiers );
     else
 	if ( return_null )
 	    return NULL;

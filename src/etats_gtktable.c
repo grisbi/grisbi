@@ -32,6 +32,7 @@
 #include "operations_liste.h"
 #include "search_glist.h"
 #include "utils.h"
+#include "operations_onglet.h"
 
 
 

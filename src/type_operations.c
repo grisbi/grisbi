@@ -51,6 +51,26 @@ enum payment_methods_columns {
 GtkWidget *treeview;
 GtkTreeStore *model;
 
+gint *type_defaut_debit;
+gint *type_defaut_credit;
+GtkWidget *bouton_ajouter_type;
+GtkWidget *bouton_retirer_type;
+GtkWidget *entree_type_nom;
+GtkWidget *bouton_type_apparaitre_entree;
+GtkWidget *bouton_type_numerotation_automatique;
+GtkWidget *entree_type_dernier_no;
+GtkWidget *bouton_signe_type;
+GtkWidget *bouton_type_choix_defaut;
+GtkWidget *bouton_type_choix_affichage_formulaire;
+GtkWidget *entree_automatic_numbering;
+
+GtkWidget *bouton_type_tri_date;
+GtkWidget *bouton_type_tri_type;
+GtkWidget *bouton_type_neutre_inclut;
+GtkWidget *type_liste_tri;
+GtkWidget *vbox_fleches_tri;
+
+
 /** Global to handle sensitiveness */
 GtkWidget * details_paddingbox;
 
@@ -1146,132 +1166,6 @@ void supprimer_type_operation ( void )
 
 
 
-/* ************************************************************************************************************** */
-void inclut_exclut_les_neutres ( void )
-{
-    gint no_compte;
-    GSList *liste_tmp;
-
-
-    no_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( bouton_type_tri_date ),
-							"no_compte" ));
-
-    if ( (neutres_inclus_tmp[no_compte] = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_type_neutre_inclut ))))
-    {
-	/* on inclut les neutres dans les débits et crédits */
-	/*   on fait le tour de tous les types du compte, et pour chaque type neutre, */
-	/* on rajoute son numéro en négatif négatif à la liste */
-
-	liste_tmp = liste_tri_tmp[no_compte];
-
-	while ( liste_tmp )
-	{
-	    struct struct_type_ope *type_ope;
-
-	    if ( GPOINTER_TO_INT ( liste_tmp->data ) > 0 )
-	    {
-		type_ope = g_slist_find_custom ( liste_tmp_types[no_compte],
-						 liste_tmp->data,
-						 (GCompareFunc) recherche_type_ope_par_no ) -> data;
-
-		if ( !type_ope->signe_type )
-		    liste_tri_tmp[no_compte] = g_slist_append ( liste_tri_tmp[no_compte],
-								GINT_TO_POINTER ( - GPOINTER_TO_INT ( liste_tmp->data )));
-
-	    }
-	    liste_tmp = liste_tmp -> next;
-	}
-    }
-    else
-    {
-	/* on efface tous les nombres négatifs de la liste */
-
-	liste_tmp = liste_tri_tmp[no_compte];
-
-	while ( liste_tmp )
-	{
-	    if ( GPOINTER_TO_INT ( liste_tmp->data ) < 0 )
-	    {
-		liste_tri_tmp[no_compte] = g_slist_remove ( liste_tri_tmp[no_compte],
-							    liste_tmp -> data );
-		liste_tmp = liste_tri_tmp[no_compte];
-	    }
-	    else
-		liste_tmp = liste_tmp -> next;
-	}
-    }
-
-    remplit_liste_tri_par_type ( no_compte );
-}
-/* ************************************************************************************************************** */
-
-
-
-/* ************************************************************************************************************** */
-void remplit_liste_tri_par_type ( gint no_compte )
-{
-    GSList *liste_tmp;
-
-    gtk_clist_clear ( GTK_CLIST ( type_liste_tri ));
-    deselection_type_liste_tri ();
-
-    liste_tmp = liste_tri_tmp[no_compte];
-
-    while ( liste_tmp )
-    {
-	GSList *liste_tmp2;
-	struct struct_type_ope *type_ope;
-	gchar *texte[1];
-	gint no_ligne;
-
-	liste_tmp2 = g_slist_find_custom ( liste_tmp_types[no_compte],
-					   GINT_TO_POINTER ( abs ( GPOINTER_TO_INT ( liste_tmp -> data ))),
-					   (GCompareFunc) recherche_type_ope_par_no );
-
-	if ( liste_tmp2 )
-	{
-	    type_ope = liste_tmp2 -> data;
-
-	    texte[0] = type_ope -> nom_type;
-
-	    if ( type_ope -> signe_type == 1 )
-		texte[0] = g_strconcat ( texte[0],
-					 " ( - )",
-					 NULL );
-	    else
-		if ( type_ope -> signe_type == 2 )
-		    texte[0] = g_strconcat ( texte[0],
-					     " ( + )",
-					     NULL );
-		else
-		    if ( neutres_inclus_tmp[no_compte] )
-		    {
-			/* si c'est un type neutre et qu'ils sont inclus, celui-ci est soit positif soit négatif */
-
-			if ( GPOINTER_TO_INT ( liste_tmp -> data ) < 0 )
-			    texte[0] = g_strconcat ( texte[0],
-						     " ( - )",
-						     NULL );
-			else
-			    texte[0] = g_strconcat ( texte[0],
-						     " ( + )",
-						     NULL );
-
-		    }
-
-	    no_ligne = gtk_clist_append ( GTK_CLIST ( type_liste_tri ),
-					  texte );
-
-	    gtk_clist_set_row_data ( GTK_CLIST ( type_liste_tri ),
-				     no_ligne,
-				     liste_tmp -> data );
-	}
-	liste_tmp = liste_tmp -> next;
-    }
-}
-/* ************************************************************************************************************** */
-
-
 
 
 /* ************************************************************************************************************** */
@@ -1634,30 +1528,44 @@ void changement_choix_type_echeancier ( struct struct_type_ope *type )
 
 
 /* ************************************************************************************************************** */
+/* renvoie le type ope demandé en argument */
+/* ou NULL si pas trouvé */
+/* ************************************************************************************************************** */
+struct struct_type_ope *type_ope_par_no ( gint no_type_ope,
+					  gint no_compte )
+{
+    GSList *liste_tmp;
+
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
+
+    liste_tmp = g_slist_find_custom ( TYPES_OPES,
+				      GINT_TO_POINTER ( no_type_ope ),
+				      (GCompareFunc) recherche_type_ope_par_no );
+
+    if ( liste_tmp )
+	return ( liste_tmp -> data );
+
+    return NULL;
+}
+/* ************************************************************************************************************** */
+
+
+/* ************************************************************************************************************** */
 /* renvoie le nom du type_ope correspondant au numéro donné */
 /* ou null */
 /* ************************************************************************************************************** */
 gchar *type_ope_name_by_no ( gint no_type_ope,
 			     gint no_de_compte )
 {
-    GSList *liste_tmp;
+    struct struct_type_ope *type_ope;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_de_compte;
+    type_ope = type_ope_par_no ( no_type_ope,
+				 no_de_compte );
 
-    liste_tmp = g_slist_find_custom ( TYPES_OPES,
-				      GINT_TO_POINTER ( no_de_compte ),
-				      (GCompareFunc) recherche_type_ope_par_no );
-
-    if ( liste_tmp )
-    {
-	struct struct_type_ope *type_ope;
-
-	type_ope = liste_tmp -> data;
-
+    if ( type_ope )
 	return ( type_ope -> nom_type );
-    }
-    else
-	return NULL;
+
+    return NULL;
 }
 /* ************************************************************************************************************** */
 

@@ -948,19 +948,13 @@ gint recupere_ib_par_nom_etat ( gchar *nom )
 gint recupere_tiers_par_nom_etat ( gchar *nom )
 {
     gint no_tiers;
-    GSList *liste_tmp;
     struct struct_tiers *tiers;
 
+    tiers = tiers_par_nom ( nom,
+			    0 );
 
-    liste_tmp = g_slist_find_custom ( liste_struct_tiers,
-				      g_strstrip ( nom ),
-				      (GCompareFunc) recherche_tiers_par_nom  );
-
-    if ( liste_tmp )
-    {
-	tiers = liste_tmp -> data;
+    if ( tiers )
 	no_tiers = tiers -> no_tiers;
-    }
     else
     {
 	no_tiers = 0;

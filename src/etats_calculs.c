@@ -261,11 +261,12 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			{
 			    struct struct_type_ope *type_ope;
 
-			    type_ope = g_slist_find_custom ( TYPES_OPES,
-							     GINT_TO_POINTER ( operation -> type_ope ),
-							     (GCompareFunc) recherche_type_ope_par_no ) -> data;
+			    type_ope = type_ope_par_no ( operation -> type_ope,
+							 i );
 
-			    if ( type_ope -> affiche_entree
+			    if ( type_ope
+				 &&
+				 type_ope -> affiche_entree
 				 &&
 				 type_ope -> numerotation_auto )
 				dernier_chq = my_atoi ( operation -> contenu_type );
@@ -650,28 +651,24 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 				     GINT_TO_POINTER ( operation -> tiers )) == -1 )
 		    goto operation_refusee;
 
-		/* vérification du type d'opÃƒƒƒƒƒƒƒ© */
+		/* vérification du type d'opération */
 
 		if ( etat -> utilise_mode_paiement &&
 		     operation -> type_ope)
 		{
 		    struct struct_type_ope *type_ope;
-		    GSList *liste_tmp;
 
 		    /* normalement p_tab... est sur le compte en cours */
 
-		    liste_tmp = g_slist_find_custom ( TYPES_OPES,
-						      GINT_TO_POINTER ( operation -> type_ope ),
-						      (GCompareFunc) recherche_type_ope_par_no );
+		    type_ope = type_ope_par_no ( operation -> type_ope,
+						 i );
 
-		    if ( liste_tmp )
-			type_ope = liste_tmp -> data;
-		    else
+		    if ( !type_ope )
 			goto operation_refusee;
 
 		    if ( !g_slist_find_custom ( etat -> noms_modes_paiement,
 						type_ope -> nom_type,
-						(GCompareFunc) recherche_nom_dans_liste ))
+						(GCompareFunc) cherche_string_equivalente_dans_slist ))
 			goto operation_refusee;
 		}
 
@@ -895,6 +892,7 @@ gchar *recupere_texte_test_etat ( struct structure_operation *operation,
 				  gint champ )
 {
     gchar *texte;
+    struct struct_tiers *tiers;
 
     switch ( champ )
     {
@@ -906,17 +904,11 @@ gchar *recupere_texte_test_etat ( struct structure_operation *operation,
 
 	case 1:
 	    /* info du tiers */
+	    
+	    tiers = tiers_par_no ( operation -> tiers );
 
-	    if ( operation -> tiers )
-	    {
-		struct struct_tiers *tiers;
-
-		tiers = g_slist_find_custom ( liste_struct_tiers,
-					      GINT_TO_POINTER ( operation -> tiers ),
-					      (GCompareFunc) recherche_tiers_par_no ) -> data;
-
+	    if ( tiers )
 		texte = tiers -> texte;
-	    }
 	    else
 		texte = NULL;
 	    break;

@@ -367,35 +367,6 @@ extern GtkWidget *table_recapitulatif;
 extern gint virements_a_chercher;
 
 
-/***********************************/ 
-/* fichier type_operations.c */
-/***********************************/ 
-
-extern GtkWidget *arbre_types_operations;
-extern GSList **liste_tmp_types;
-extern gint *type_defaut_debit;
-extern gint *type_defaut_credit;
-extern GtkWidget *bouton_ajouter_type;
-extern GtkWidget *bouton_retirer_type;
-extern GtkWidget *entree_type_nom;
-extern GtkWidget *bouton_type_apparaitre_entree;
-extern GtkWidget *bouton_type_numerotation_automatique;
-extern GtkWidget *entree_type_dernier_no;
-extern GtkWidget *bouton_signe_type;
-extern GtkWidget *bouton_type_choix_defaut;
-extern GtkWidget *bouton_type_choix_affichage_formulaire;
-extern GtkWidget *entree_automatic_numbering;
-
-extern GtkWidget *bouton_type_tri_date;
-extern GtkWidget *bouton_type_tri_type;
-extern GtkWidget *bouton_type_neutre_inclut;
-extern GtkWidget *type_liste_tri;
-extern GtkWidget *vbox_fleches_tri;
-extern gint *tri_tmp;
-extern GSList **liste_tri_tmp;
-extern gint *neutres_inclus_tmp;
-
-
 
 
 /***********************************/ 

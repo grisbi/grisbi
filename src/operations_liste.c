@@ -1514,7 +1514,6 @@ void edition_operation ( void )
     struct structure_operation *operation;
     gchar *date ;
     gchar *date_bancaire ;
-    GSList *liste_tmp;
     struct struct_devise *devise;
     gchar *char_temp;
 
@@ -1795,27 +1794,24 @@ void edition_operation ( void )
 
     if ( GTK_WIDGET_VISIBLE ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ))
     {
+	struct struct_type_ope *type;
+	
 	gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ),
 				      cherche_no_menu_type ( operation -> type_ope ));
-	if ( operation -> type_ope
-	     &&
-	     ( liste_tmp = g_slist_find_custom ( TYPES_OPES,
-						 GINT_TO_POINTER ( operation -> type_ope ),
-						 (GCompareFunc) recherche_type_ope_par_no )))
-	{
-	    struct struct_type_ope *type;
 
-	    type = liste_tmp -> data;
+	type = type_ope_par_no ( operation -> type_ope,
+				 compte_courant );
 
-	    if ( type -> affiche_entree
-		 &&
-		 operation -> contenu_type )
+	if ( type
+	   &&
+	   type -> affiche_entree
+	   &&
+	   operation -> contenu_type )
 	    {
 		entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] );
 		gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] ),
 				     operation -> contenu_type );
 	    }
-	}
     }
 
     /* met en place l'exercice */

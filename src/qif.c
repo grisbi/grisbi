@@ -33,6 +33,8 @@
 #include "utils.h"
 #include "tiers_onglet.h"
 #include "categories_onglet.h"
+#include "type_operations.h"
+
 
 
 /* *******************************************************************************/
@@ -1053,12 +1055,12 @@ choix_liste_fichier:
 	{
 	    GSList *pointeur_tmp;
 	    struct structure_operation *operation;
+	    gint no_compte;
 
-	    p_tab_nom_de_compte_variable = 
-		p_tab_nom_de_compte
-		+
-		GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
-							"no_compte" ));
+	    no_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
+								"no_compte" ));
+
+	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
 	    /* met le type de compte */
 
@@ -1121,7 +1123,6 @@ choix_liste_fichier:
 
 		while ( pointeur_tmp )
 		{
-		    GSList *pointeur;
 		    gdouble montant;
 		    struct struct_type_ope *type;
 		    gchar *char_tmp;
@@ -1186,19 +1187,15 @@ choix_liste_fichier:
 
 			/* met le chèque si c'est un type à numérotation automatique */
 
-			pointeur = g_slist_find_custom ( TYPES_OPES,
-							 GINT_TO_POINTER ( operation -> type_ope ),
-							 (GCompareFunc) recherche_type_ope_par_no );
+			type = type_ope_par_no ( operation -> type_ope,
+						 no_compte );
 
-			if ( pointeur )
-			{
-			    type = pointeur -> data;
-
-			    if ( type -> numerotation_auto )
-				fprintf ( fichier_qif,
-					  "N%s\n",
-					  operation -> contenu_type );
-			}
+			if ( type
+			     &&
+			     type -> numerotation_auto )
+			    fprintf ( fichier_qif,
+				      "N%s\n",
+				      operation -> contenu_type );
 
 			/* met le tiers */
 

@@ -1222,7 +1222,6 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import,
     {
 	struct struct_ope_importation *operation_import;
 	gchar **tab_str;
-	GSList *pointeur_tmp;
 
 	operation_import = liste_tmp -> data;
 
@@ -1279,20 +1278,8 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import,
 	/* récupération du tiers */
 
 	if ( operation_import -> tiers )
-	{
-	    pointeur_tmp = g_slist_find_custom ( liste_struct_tiers,
-						 g_strstrip ( operation_import -> tiers ),
-						 (GCompareFunc) recherche_tiers_par_nom );
-
-	    /* si le tiers n'existait pas, on le crée */
-
-	    if ( pointeur_tmp )
-		operation -> tiers = ((struct struct_tiers *)(pointeur_tmp -> data)) -> no_tiers;
-	    else
-		operation -> tiers = (( struct struct_tiers * )( ajoute_nouveau_tiers ( operation_import -> tiers ))) -> no_tiers;
-
-	}
-
+	    operation -> tiers = tiers_par_nom ( operation_import -> tiers,
+						 1 ) -> no_tiers;
 
 	/* vérification si c'est ventilé, sinon récupération des catégories */
 
@@ -1900,7 +1887,6 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 {
     struct structure_operation *operation;
     gchar **tab_str;
-    GSList *pointeur_tmp;
 
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
@@ -1956,20 +1942,8 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
     /* rÃ©cupération du tiers */
 
     if ( operation_import -> tiers )
-    {
-	pointeur_tmp = g_slist_find_custom ( liste_struct_tiers,
-					     g_strstrip ( operation_import -> tiers ),
-					     (GCompareFunc) recherche_tiers_par_nom );
-
-	/* si le tiers n'existait pas, on le crée */
-
-	if ( pointeur_tmp )
-	    operation -> tiers = ((struct struct_tiers *)(pointeur_tmp -> data)) -> no_tiers;
-	else
-	    operation -> tiers = (( struct struct_tiers * )( ajoute_nouveau_tiers ( operation_import -> tiers ))) -> no_tiers;
-
-    }
-
+	operation -> tiers = tiers_par_nom ( operation_import -> tiers,
+					     1 ) -> no_tiers;
 
     /* vérification si c'est ventilé, sinon récupération des catégories */
 

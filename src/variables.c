@@ -352,35 +352,6 @@ GtkWidget *table_recapitulatif;
 gint virements_a_chercher;
 
 
-/***********************************/ 
-/* fichier type_operations.c */
-/***********************************/ 
-
-GtkWidget *arbre_types_operations;
-GSList **liste_tmp_types;
-gint *type_defaut_debit;
-gint *type_defaut_credit;
-GtkWidget *bouton_ajouter_type;
-GtkWidget *bouton_retirer_type;
-GtkWidget *entree_type_nom;
-GtkWidget *bouton_type_apparaitre_entree;
-GtkWidget *bouton_type_numerotation_automatique;
-GtkWidget *entree_type_dernier_no;
-GtkWidget *bouton_signe_type;
-GtkWidget *bouton_type_choix_defaut;
-GtkWidget *bouton_type_choix_affichage_formulaire;
-GtkWidget *entree_automatic_numbering;
-
-GtkWidget *bouton_type_tri_date;
-GtkWidget *bouton_type_tri_type;
-GtkWidget *bouton_type_neutre_inclut;
-GtkWidget *type_liste_tri;
-GtkWidget *vbox_fleches_tri;
-gint *tri_tmp;
-GSList **liste_tri_tmp;
-gint *neutres_inclus_tmp;
-
-
 
 /***********************************/ 
 /* fichier affichage.c */

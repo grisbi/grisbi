@@ -35,6 +35,7 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "operations_classement.h"
+#include "operations_onglet.h"
 
 
 extern gint valeur_echelle_recherche_date_import;
@@ -1734,7 +1735,6 @@ void supprime_operations_orphelines ( void )
 	while ( liste_tmp )
 	{
 	    struct structure_operation *operation;
-	    GSList *result;
 
 	    operation = liste_tmp -> data;
 

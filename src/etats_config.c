@@ -7562,7 +7562,7 @@ void remplissage_liste_modes_paiement_etats ( void )
 
 	    if ( !g_slist_find_custom ( liste_nom_types,
 					type_ope -> nom_type,
-					(GCompareFunc) recherche_nom_dans_liste ))
+					(GCompareFunc) cherche_string_equivalente_dans_slist ))
 		liste_nom_types = g_slist_append ( liste_nom_types,
 						   g_strdup ( type_ope -> nom_type ));
 
@@ -7619,7 +7619,7 @@ void selectionne_liste_modes_paiement_etat_courant ( void )
 	if ( g_slist_find_custom ( etat_courant -> noms_modes_paiement,
 				   gtk_clist_get_row_data ( GTK_CLIST ( liste_mode_paiement_etat ),
 							    i ),
-				   (GCompareFunc) recherche_nom_dans_liste ))
+				   (GCompareFunc) cherche_string_equivalente_dans_slist ))
 	    gtk_clist_select_row ( GTK_CLIST ( liste_mode_paiement_etat ),
 				   i,
 				   0 );

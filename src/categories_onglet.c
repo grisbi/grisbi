@@ -37,7 +37,7 @@
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
 #include "utils.h"
-
+#include "operations_onglet.h"
 
 
 

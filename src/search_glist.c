@@ -189,14 +189,6 @@ gint recherche_rapprochement_par_no ( struct struct_no_rapprochement *rapprochem
 /******************************************************************************/
 
 
-/******************************************************************************/
-gint recherche_nom_dans_liste ( gchar *nom_liste,
-				gchar *nom_test )
-{
-    return ( g_strcasecmp ( nom_liste,
-			    nom_test ));
-}
-/******************************************************************************/
 
 
 /* ************************************************************************************************************ */
@@ -352,7 +344,6 @@ gint recherche_tiers_par_no ( struct struct_tiers *tiers,
 gint recherche_tiers_par_nom ( struct struct_tiers *tiers,
 			       gchar *ancien_tiers )
 {
-
     return ( g_strcasecmp ( tiers -> nom_tiers,
 			    ancien_tiers ) );
 }
@@ -363,9 +354,7 @@ gint recherche_tiers_par_nom ( struct struct_tiers *tiers,
 gint recherche_type_ope_par_no ( struct struct_type_ope *type_ope,
 				 gint *no_type )
 {
-
     return ( !(type_ope->no_type == GPOINTER_TO_INT(no_type)) );
-
 }
 /* ************************************************************************************************************** */
 
