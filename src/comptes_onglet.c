@@ -70,9 +70,9 @@ GtkWidget *creation_onglet_comptes ( void )
 
     /*  Création d'une icone et du nom par compte, et placement dans la
 	liste selon l'ordre désiré et met le livre ouvert pour le compte
-	0 */
+	courant */
 
-    compte_courant_onglet = 0;
+    compte_courant_onglet = compte_courant;
     reaffiche_liste_comptes_onglet ();
 
     return ( paned_onglet_comptes );
