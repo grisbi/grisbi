@@ -1173,7 +1173,6 @@ void exporter_etat ( void )
 {
     GtkWidget *fenetre_nom;
     gint resultat;
-    struct stat test_fichier;
     gchar *nom_etat;
 
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != 7 )
