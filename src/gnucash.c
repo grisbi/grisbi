@@ -46,7 +46,8 @@ static void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_no
 struct gnucash_split * find_split ( GSList * split_list, gdouble amount, 
 				    struct struct_compte_importation * account, 
 				    struct gnucash_category * categ );
-void update_split ( struct gnucash_split * split, gchar * account, gchar * categ );
+void update_split ( struct gnucash_split * split, gdouble amount, gchar * account, 
+		    gchar * categ );
 struct gnucash_split * new_split ( gdouble amount, gchar * account, gchar * categ );
 struct struct_compte_importation * find_imported_account_by_uid ( gchar * guid );
 struct struct_compte_importation * find_imported_account_by_name ( gchar * name );
@@ -242,6 +243,8 @@ void recuperation_donnees_gnucash_categorie ( xmlNodePtr categ_node )
 void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 {
   struct struct_ope_importation * transaction;
+  struct struct_compte_importation * account = NULL; 
+  struct gnucash_split * split;
   gchar * date_string, *space, *tiers;
   GDate * date;
   xmlNodePtr splits, split_node, date_node;
@@ -266,16 +269,20 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 	  split_account = find_imported_account_by_uid ( child_content ( split_node, 
 									"account" ) );
 	  categ = find_imported_categ_by_uid ( child_content ( split_node, "account" ) );
+	  amount = gnucash_value ( child_content(split_node, "value") );
+
 	  if ( categ ) 
 	    categ_name = categ -> name;
 	  if ( split_account )
-	    account_name = split_account -> nom_de_compte;
+	    {
+	      account_name = split_account -> nom_de_compte;
+	      total += amount;
+	    }
 
-	  amount = gnucash_value ( child_content(split_node, "value") );
 	  split = find_split ( split_list, amount, split_account, categ );
 	  if ( split )
 	    {
-	      update_split ( split, account_name, categ_name );
+	      update_split ( split, amount, account_name, categ_name );
 	    }
 	  else
 	    {
@@ -285,9 +292,11 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 	    }
 	}
 
-      total += amount;
       split_node = split_node -> next;
     }
+
+  if ( ! split_list )
+    return;
 
   /* Transaction date */
   date_node = get_child ( transaction_node, "date-posted" );
@@ -303,24 +312,27 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
   /* Tiers */
   tiers = child_content ( transaction_node, "description" );
 
-  if ( g_slist_length ( split_list ) == 1 )
-    {
-      struct struct_compte_importation * account = NULL; 
-      struct gnucash_split * split = split_list -> data;
+  /* Create transaction */
+  split = split_list -> data;
+  transaction = new_transaction_from_split ( split, tiers, date );
+  transaction -> operation_ventilee = 0;
+  transaction -> ope_de_ventilation = 0;
+  account = find_imported_account_by_name ( split -> account );
+  if ( account )
+    account -> operations_importees = g_slist_append ( account -> operations_importees, transaction );
 
-      transaction = new_transaction_from_split ( split, tiers, date );
-      account = find_imported_account_by_name ( split -> account );
-      if ( account )
-	account -> operations_importees = g_slist_append ( account -> operations_importees, transaction );
-    }
-  else 
+  if ( g_slist_length ( split_list ) > 1 )
     {
+      transaction -> operation_ventilee = 1;
+      transaction -> montant = total;
+
       while ( split_list )
 	{
 	  struct gnucash_split * split = split_list -> data;
 	  struct struct_compte_importation * account = NULL; 
 	  
 	  transaction = new_transaction_from_split ( split, tiers, date );
+	  transaction -> ope_de_ventilation = 1;
 
 	  account = find_imported_account_by_name ( split -> account );
 	  if ( account )
@@ -537,60 +549,6 @@ xmlDocPtr parse_gnucash_file ( gchar * filename )
 
 
 
-
-
-/* 	      /\* This split is about a real account. *\/ */
-/* 	      if ( account ) */
-/* 		{ */
-/* 		  /\* First split was about a real account, this is then a transfer. *\/ */
-/* 		  struct struct_compte_importation * contra_account; */
-/* 		  struct struct_ope_importation * contra_transaction; */
-
-/* 		  contra_account = split_account; */
-/* 		  contra_transaction = calloc ( 1, sizeof ( struct struct_ope_importation )); */
-/* 		  contra_transaction -> montant = gnucash_value ( child_content(split_node, "value") ); */
-/* 		  contra_transaction -> tiers = child_content ( transaction_node, "description" ); */
-/* 		  contra_transaction -> notes = child_content(split_node, "memo"); */
-/* 		  if ( !strcmp(child_content(split_node, "reconciled-state"), "y") ) */
-/* 		    contra_transaction -> p_r = OPERATION_RAPPROCHEE; */
-
-/* 		  transaction -> categ = g_strconcat ( _("Transfer"), " : ",  */
-/* 						       contra_account -> nom_de_compte, NULL); */
-/* 		  contra_transaction -> categ = g_strconcat ( _("Transfer"), " : ",  */
-/* 							      account -> nom_de_compte, NULL); */
-/* 		  contra_transaction -> date = transaction -> date; */
-
-/* 		  contra_account -> operations_importees = g_slist_append ( contra_account -> operations_importees, contra_transaction ); */
-/* 		} */
-/* 	      else  */
-/* 		{ */
-/* 		  /\* This is the first split *\/ */
-/* 		  account = split_account; */
-/* 		  account -> operations_importees = g_slist_append ( account -> operations_importees, transaction ); */
-/* 		  transaction -> montant = gnucash_value ( child_content(split_node, "value") ); */
-/* 		  transaction -> notes = child_content(split_node, "memo"); */
-/* 		  if ( !strcmp(child_content(split_node, "reconciled-state"), "y") ) */
-/* 		    transaction -> p_r = OPERATION_RAPPROCHEE; */
-/* 		} */
-/* 	    } */
-/* 	  else */
-/* 	    { */
-/* 	      /\* This is a category split *\/ */
-/* 	      categ = find_imported_categ_by_uid ( child_content(split_node, "account") ); */
-/* 	      if ( categ ) */
-/* 		{ */
-/* 		  /\* This is a normal transaction with a category *\/ */
-/* 		  transaction -> categ = categ -> name; */
-/* 		} */
-/* 	      else */
-/* 		{ */
-/* 		  /\* Something is wrong. *\/ */
-/* 		} */
-/* 	    } */
-/* 	} */
-
-
-
 struct gnucash_split * find_split ( GSList * split_list, gdouble amount, 
 				    struct struct_compte_importation * account, 
 				    struct gnucash_category * categ )
@@ -616,7 +574,8 @@ struct gnucash_split * find_split ( GSList * split_list, gdouble amount,
 
 
 
-void update_split ( struct gnucash_split * split, gchar * account, gchar * categ )
+void update_split ( struct gnucash_split * split, gdouble amount, 
+		    gchar * account, gchar * categ )
 {
   if ( categ )
     {
@@ -628,6 +587,7 @@ void update_split ( struct gnucash_split * split, gchar * account, gchar * categ
       if ( !split -> account )
 	{
 	  split -> account = g_strdup ( account );
+	  split -> amount = amount;
 	}
       else
 	{
@@ -678,9 +638,10 @@ struct struct_ope_importation * new_transaction_from_split ( struct gnucash_spli
       struct struct_ope_importation * contra_transaction;
 	  
       contra_transaction = calloc ( 1, sizeof ( struct struct_ope_importation ));
-      contra_transaction -> montant = split -> amount;
-      contra_transaction -> tiers = tiers;
+      contra_transaction -> montant = -split -> amount;
       contra_transaction -> notes = split -> notes;
+      contra_transaction -> tiers = tiers;
+      contra_transaction -> date = date;
       /* 	  if ( !strcmp(child_content(split_node, "reconciled-state"), "y") ) */
       /* 	    contra_transaction -> p_r = OPERATION_RAPPROCHEE; */
 
@@ -688,10 +649,10 @@ struct struct_ope_importation * new_transaction_from_split ( struct gnucash_spli
 					   split -> contra_account, NULL);
       contra_transaction -> categ = g_strconcat ( _("Transfer"), " : ",
 						  split -> account, NULL);
-      contra_transaction -> date = date;
 
       contra_account = find_imported_account_by_name ( split -> contra_account );
-      contra_account -> operations_importees = g_slist_append ( contra_account -> operations_importees, contra_transaction );
+      if ( contra_account )
+	contra_account -> operations_importees = g_slist_append ( contra_account -> operations_importees, contra_transaction );
     }
   else
     {
