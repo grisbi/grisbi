@@ -250,49 +250,58 @@ gboolean format_date ( GtkWidget *entree )
 
     pEntry = g_strstrip ( ( gchar * ) gtk_entry_get_text ( GTK_ENTRY ( entree ) ) );
 
-    date = g_date_new();
-    g_date_set_time ( date, time( NULL ) );
+    if ( !pEntry || !strlen(pEntry) )
+      {
+	date = gdate_today();
+	jour = g_date_day (date);
+	mois = g_date_month (date);
+	annee = g_date_year (date);
+      }
+    else 
+      {
+	date = g_date_new();
+	g_date_set_time ( date, time( NULL ) );
 
-    tab_date = g_strsplit ( pEntry, "/", 3 );
+	tab_date = g_strsplit ( pEntry, "/", 3 );
 
-    if ( tab_date[2] && tab_date[1] )
-    {
-	/* on a rentré les 3 chiffres de la date */
-	jour = gsb_strtod ( tab_date[0],  NULL );
-	mois = gsb_strtod ( tab_date[1], NULL );
-	annee = gsb_strtod ( tab_date[2], NULL );
-
-	if ( annee < 100 )
-	{
-	    if ( annee < 80 )
-		annee = annee + 2000;
-	    else
-		annee = annee + 1900;
-	}
-    }
-    else
-    {
-	if ( tab_date[1] )
-	{
-	    /* on a rentré la date sous la forme xx/xx,
-	       il suffit de mettre l'année courante */
-	    jour = gsb_strtod ( tab_date[0], NULL );
+	if ( tab_date[2] && tab_date[1] )
+	  {
+	    /* on a rentré les 3 chiffres de la date */
+	    jour = gsb_strtod ( tab_date[0],  NULL );
 	    mois = gsb_strtod ( tab_date[1], NULL );
-	    annee = g_date_year ( date );
-	}
-	else
-	{
-	    /* on a rentré que le jour de la date,
-	       il faut mettre le mois et l'année courante
-	       ou bien on a rentré la date sous forme
-	       jjmm ou jjmmaa ou jjmmaaaa */
-	    gchar buffer[3];
+	    annee = gsb_strtod ( tab_date[2], NULL );
 
-	    switch ( strlen ( tab_date[0] ) )
-	    {
-		/* forme jj ou j */
-		case 1:
-		case 2:
+	    if ( annee < 100 )
+	      {
+		if ( annee < 80 )
+		  annee = annee + 2000;
+		else
+		  annee = annee + 1900;
+	      }
+	  }
+	else
+	  {
+	    if ( tab_date[1] )
+	      {
+		/* on a rentré la date sous la forme xx/xx,
+		   il suffit de mettre l'année courante */
+		jour = gsb_strtod ( tab_date[0], NULL );
+		mois = gsb_strtod ( tab_date[1], NULL );
+		annee = g_date_year ( date );
+	      }
+	    else
+	      {
+		/* on a rentré que le jour de la date,
+		   il faut mettre le mois et l'année courante
+		   ou bien on a rentré la date sous forme
+		   jjmm ou jjmmaa ou jjmmaaaa */
+		gchar buffer[3];
+
+		switch ( strlen ( tab_date[0] ) )
+		  {
+		    /* forme jj ou j */
+		  case 1:
+		  case 2:
 		    jour = gsb_strtod ( tab_date[0], NULL );
 		    mois = g_date_month ( date );
 		    annee = g_date_year ( date );
@@ -300,7 +309,7 @@ gboolean format_date ( GtkWidget *entree )
 
 		    /* forme jjmm */
 
-		case 4 :
+		  case 4 :
 		    buffer[0] = tab_date[0][0];
 		    buffer[1] = tab_date[0][1];
 		    buffer[2] = 0;
@@ -312,7 +321,7 @@ gboolean format_date ( GtkWidget *entree )
 
 		    /* forme jjmmaa */
 
-		case 6:
+		  case 6:
 		    buffer[0] = tab_date[0][0];
 		    buffer[1] = tab_date[0][1];
 		    buffer[2] = 0;
@@ -327,7 +336,7 @@ gboolean format_date ( GtkWidget *entree )
 
 		    /* forme jjmmaaaa */
 
-		case 8:
+		  case 8:
 		    buffer[0] = tab_date[0][0];
 		    buffer[1] = tab_date[0][1];
 		    buffer[2] = 0;
@@ -340,20 +349,20 @@ gboolean format_date ( GtkWidget *entree )
 		    annee = gsb_strtod ( tab_date[0] + 4, NULL );
 		    break;
 
-		default :
+		  default :
 		    jour = 0;
 		    mois = 0;
 		    annee = 0;
-	    }
-	}
-    }
-    g_strfreev ( tab_date );
+		    return FALSE;
+		  }
+	      }
+	  }
+	g_strfreev ( tab_date );
+      }
 
     if ( g_date_valid_dmy ( jour, mois, annee) )
-	gtk_entry_set_text ( GTK_ENTRY ( entree ),
-			     g_strdup_printf ( "%02d/%02d/%04d", jour, mois, annee ));
-    else
-	return ( FALSE );
+      gtk_entry_set_text ( GTK_ENTRY ( entree ),
+			   g_strdup_printf ( "%02d/%02d/%04d", jour, mois, annee ));
 
     return ( TRUE );
 }
