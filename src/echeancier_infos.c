@@ -64,8 +64,6 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
     GtkWidget *vbox;
     GtkWidget *separation;
     GtkWidget *hbox;
-    GtkWidget *hbox2;
-    GtkWidget *icone;
     GtkWidget *label;
     time_t temps;
     GtkWidget *menu;
@@ -332,38 +330,10 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
 		       5 );
     gtk_widget_show ( separation );
 
-    bouton_saisir_echeancier = gtk_button_new ();
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_saisir_echeancier ),
-			    GTK_RELIEF_NONE );
-    hbox2 = gtk_hbox_new ( FALSE,
-			   0 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( hbox2 ),
-				     2 );
-    gtk_container_add ( GTK_CONTAINER ( bouton_saisir_echeancier ),
-			hbox2 );
-    gtk_widget_show ( hbox2 );
-
-    icone = gtk_image_new_from_stock ( GTK_STOCK_APPLY, GTK_ICON_SIZE_BUTTON );  
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-			 icone,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( icone );
-
-
-    label = gtk_label_new ( _("Validate") );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-			 label,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( label );
-
-    gtk_signal_connect ( GTK_OBJECT ( bouton_saisir_echeancier ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( click_sur_saisir_echeance ),
-			 NULL );
+    bouton_saisir_echeancier = gtk_button_new_with_label ( _("Remove selected transaction") );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton_saisir_echeancier ), GTK_RELIEF_NONE );
+    gtk_signal_connect_object ( GTK_OBJECT ( bouton_saisir_echeancier ), "clicked",
+ 				GTK_SIGNAL_FUNC ( supprime_echeance), NULL );
 
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_saisir_echeancier,

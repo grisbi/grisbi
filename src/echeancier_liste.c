@@ -766,6 +766,13 @@ void selectionne_echeance ( struct operation_echeance *echeance )
     ajuste_scrolling_liste_echeances_a_selection ();
 
     selection_echeance_finie = 1;
+
+    if ( echeance_selectionnnee != GINT_TO_POINTER ( -1 ) )
+	gtk_widget_set_sensitive ( GTK_WIDGET ( bouton_saisir_echeancier ),
+				   TRUE );
+    else
+	gtk_widget_set_sensitive ( GTK_WIDGET ( bouton_saisir_echeancier ),
+				   FALSE );
 }
 /*****************************************************************************/
 
@@ -1290,6 +1297,9 @@ void supprime_echeance ( struct operation_echeance *echeance )
     if ( DEBUG )
 	printf ( "supprime_echeance\n" );
 
+    if ( echeance == NULL )
+	echeance = echeance_selectionnnee;
+
     if ( !echeance
 	 ||
 	 echeance == GINT_TO_POINTER ( -1 ))
@@ -1383,7 +1393,6 @@ void supprime_echeance ( struct operation_echeance *echeance )
     modification_fichier (TRUE);
 }
 /*****************************************************************************/
-
 
 
 
