@@ -2,40 +2,42 @@ Main Grisbi authors:
 ====================
 
 Programming:
-  Alain Portal (dionysos@grisbi.org)
-  Benjamin Drieu (bdrieu@april.org)
-  Cédric Auger (cedric@grisbi.org)
-  François Terrot (francois.terrot@grisbi.org)
+  Alain Portal (dionysos[at]grisbi.org)
+  Benjamin Drieu (bdrieu[at]april.org)
+  Cédric Auger (cedric[at]grisbi.org)
+  François Terrot (francois.terrot[at]grisbi.org)
 
 Graphics:
-  André Pascual (andre@linuxgraphic.org)
+  André Pascual (andre[at]linuxgraphic.org)
 
 Documentation:
-  Alain Portal (dionysos@grisbi.org)
-  Daniel Cartron (doc@grisbi.org)
-  Loic Breilloux (loic.breilloux@libertysurf.fr)
+  Alain Portal (dionysos[at]grisbi.org)
+  Daniel Cartron (doc[at]grisbi.org)
+  Loic Breilloux (loic.breilloux[at]libertysurf.fr)
 
 Translation:
-  Alain Portal (dionysos@grisbi.org) (English)
-  Benjamin Drieu (bdrieu@april.org) (English)
-  Daniel Cartron (doc@grisbi.org) (English)
-  Giorgio Mandolfo (giorgio@pollycoke.org) (Italian)
-  Martin Stromberger (Fabiolla@aon.at) (German)
+  Alain Portal (dionysos[at]grisbi.org) (English)
+  Benjamin Drieu (bdrieu[at]april.org) (English)
+  Daniel Cartron (doc[at]grisbi.org) (English)
+  Giorgio Mandolfo (giorgio[at]pollycoke.org) (Italian)
+  Martin Stromberger (Fabiolla[at]aon.at) (German)
 
 Packaging:
-  Alain Pichon (alain.pichon@grisbi.org)
-  Alain Portal (dionysos@grisbi.org)
-  Benjamin Drieu (benj@debian.org)
-  François Terrot (francois.terrot@grisbi.org)
-  Gérald Niel (slackware@grisbi.org)
-  Sylvain Glaize (mokona@puupuu.org)
-  Thierry Thomas (thierry@pompo.net)
+  Alain Pichon (alain.pichon[at]grisbi.org)
+  Alain Portal (dionysos[at]grisbi.org)
+  Benjamin Drieu (benj[at]debian.org)
+  François Terrot (francois.terrot[at]grisbi.org)
+  Gérald Niel (slackware[at]grisbi.org)
+  Pascal Bleser (guru[at]linuxbe.org)
+  PMF (ugly.duck[at]gmx.de)
+  Sylvain Glaize (mokona[at]puupuu.org)
+  Thierry Thomas (thierry[at]pompo.net)
 
 Contributors:
-  Axel Rousseau (axel584@axel584.org)
-  Dominique Parisot (parisot@villey-le-sec.com)
+  Axel Rousseau (axel584[at]axel584.org)
+  Dominique Parisot (parisot[at]villey-le-sec.com)
 
 
 If you think you should be on this list, please let us know
-(grisbi-admin@lists.sourceforge.net).
+(grisbi-admin[at]lists.sourceforge.net).
 

@@ -43,25 +43,31 @@ void a_propos ( GtkWidget *bouton,
 
     const gchar *generalites = _("Grisbi is a personnal accounting application for Linux\nSuch a program allows you to sort your financial transactions, whatever they are, in a convenient and intuitive way.  Thus, you will be able to manage them as to fit your needs the more you can.\nGrisbi aims both at simplicty and efficiency for common use, and at a powerful use for power users.  We will always try to respect this as features will come.");
 
-    const gchar *auteurs[] = { _("Cedric Auger (cedric@grisbi.org) : Programming"),
-	_("Daniel Cartron (doc@grisbi.org) : Manual, website, consultancy"),
-	_("Benjamin Drieu (bdrieu@april.org) : Programming, Debian packaging"),
-	_("Alain Portal <dionysos@grisbi.org>: Programming, manual, RedHat packaging"),
-	_("Gerald Niel (gerald.niel@grisbi.org): Slackware packaging, website"),
-	_("Matthieu Puppat (tieum.tieum@free.fr): Mandrake packaging"),
-	_("Francois Terrot (grisbi@terrot.net): Windows packaging, cygwin port"),
-	_("Thierry Thomas (thierry@pompo.net): FreeBSD packaging"),
-	_("Alain Pichon (alain.pichon@grisbi.org): Fedora packaging"),
-	_("Dominique Parisot (parisot@villey-le-sec.com): contributor"),
-	_("Axel Rousseau (axel584@axel584.org): contributor"),
-	_("Andre Pascual (andre@linuxgraphic.org) : Logo"),
-	NULL };
-	const gchar *traducteurs[] = { _("Daniel Cartron (cartron@grisbi.org) : English"),
-	    _("Benjamin Drieu (bdrieu@april.org) : English"),
-	    _("Alain Portal (dionysos@grisbi.org) : English"),
-	    _("Giorgio Mandolfo (giorgio@pollycoke.org) : Italian"),
-	    NULL };
-	    const gchar *liens[] = { COLON(_("Website")),
+    const gchar *auteurs[] = { 
+      _("Alain Pichon (alain.pichon[at]grisbi.org): Fedora and RHEL packaging"),
+      _("Alain Portal <dionysos[at]grisbi.org>: Programming, manual, RedHat packaging"),
+      _("Andre Pascual (andre[at]linuxgraphic.org) : Logo"),
+      _("Axel Rousseau (axel584[at]axel584.org): contributor"),
+      _("Benjamin Drieu (bdrieu[at]april.org) : Programming, Debian packaging"),
+      _("Cedric Auger (cedric[at]grisbi.org) : Programming"),
+      _("Daniel Cartron (doc[at]grisbi.org) : Manual, website, consultancy"),
+      _("Dominique Parisot (parisot[at]villey-le-sec.com): contributor"),
+      _("Francois Terrot (grisbi[at]terrot.net): Windows packaging and port, programming"),
+      _("Gerald Niel (gerald.niel[at]grisbi.org): Slackware packaging, website"),
+      _("PMF (ugly.duck[at]gmx.de): Zaurus packaging"),
+      _("Pascal Bleser (guru[at]linuxbe.org): SuSE packaging"),
+      _("Sylvain Glaize (mokona[at]puupuu.org): Mandrake packaging"),
+      _("Thierry Thomas (thierry[at]pompo.net): FreeBSD packaging"),
+      NULL };
+    const gchar *traducteurs[] = { 
+      _("Alain Portal (dionysos[at]grisbi.org) : English"),
+      _("Benjamin Drieu (bdrieu[at]april.org) : English"),
+      _("Daniel Cartron (cartron[at]grisbi.org) : English"),
+      _("Giorgio Mandolfo (giorgio[at]pollycoke.org) : Italian"),
+      _("Martin Stromberger (Fabiolla[at]aon.at): German")
+      NULL };
+    const gchar *liens[] = { 
+                COLON(_("Website")),
 		"http://www.grisbi.org/",
 		"http://www.grisbi.org/",
 		_("Development list (discuss, participate, criticize, ...) : "),
