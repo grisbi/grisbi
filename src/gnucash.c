@@ -91,7 +91,7 @@ gboolean recuperation_donnees_gnucash ( gchar * filename )
   if ( doc )
     {
       xmlNodePtr root = xmlDocGetRootElement(doc);
-      xmlNodePtr root_node;
+      xmlNodePtr root_node = NULL;
 
       if ( root )
 	root_node = root -> children;
