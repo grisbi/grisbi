@@ -146,7 +146,9 @@ void charge_configuration ( void )
 		}
 
 		if ( !strcmp ( node_general -> name, "Navigateur_web" ) ) {
-		    etat.browser_command = xmlNodeGetContent ( node_general);
+		    etat.browser_command = my_strdelimit ( xmlNodeGetContent ( node_general),
+							  "\\e",
+							  "&" );
 		}
 
 		if ( !strcmp ( node_general -> name, "Latex_command" ) ) {
@@ -668,7 +670,12 @@ void sauve_configuration(void)
 
     xmlNewChild ( node,NULL, "Fonte_des_listes",fonte_liste);
     xmlNewChild ( node,NULL, "Animation_attente",etat.fichier_animation_attente);
-    xmlNewChild ( node,NULL, "Navigateur_web",etat.browser_command);
+
+/*     on modifie la chaine si ça contient &, il semblerait que la libxml n'apprécie pas... */
+    
+    xmlNewChild ( node,NULL, "Navigateur_web",my_strdelimit ( etat.browser_command,
+							      "&",
+							      "\\e" ));
 
 /*     on ne fait la sauvegarde que si les colonnes existent (compte non fermé) */
 	
