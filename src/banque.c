@@ -2,7 +2,7 @@
 /* s'occupe de tout ce qui concerne les banques */
 
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
-/*			2003 Benjamin Drieu (bdrieu@april.org) */
+/*			2003-2004 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -281,7 +281,7 @@ void affiche_detail_banque ( GtkWidget *bouton,
     return;
 
   dialogue = gnome_dialog_new ( _("Information about the bank"),
-				GNOME_STOCK_PIXMAP_PROPERTIES,
+/* 				GNOME_STOCK_PIXMAP_PROPERTIES, */
 				GNOME_STOCK_BUTTON_CLOSE,
 				NULL );
   gtk_window_set_transient_for ( GTK_WINDOW ( dialogue ),
@@ -528,11 +528,12 @@ void affiche_detail_banque ( GtkWidget *bouton,
     {
     case 1:			/* Close */
       return;
-    case 0:			/* Properties */
-      preferences ( BANKS_PAGE );
-      gtk_clist_select_row ( (GtkCList *) clist_banques_parametres, 
-			     banque -> no_banque-1, 0 );
-      return;
+      /** TODO: implement link to bank preferences window */
+/*     case 0:			/\* Properties *\/ */
+/*       preferences ( BANKS_PAGE ); */
+/*       gtk_clist_select_row ( (GtkCList *) clist_banques_parametres,  */
+/* 			     banque -> no_banque-1, 0 ); */
+/*       return; */
     case -1:			/* Something went wrong or user closed
 				   dialog with window manager */
       return;
@@ -582,7 +583,7 @@ GtkWidget *onglet_banques ( void )
   gtk_clist_set_column_auto_resize ( GTK_CLIST ( clist_banques_parametres ) ,
 				      1, TRUE );
   gtk_signal_connect_object  ( GTK_OBJECT ( fenetre_preferences ),
-			       "apply",
+			       "close",
 			       GTK_SIGNAL_FUNC ( gtk_clist_unselect_all ),
 			       GTK_OBJECT ( clist_banques_parametres ));
   gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
