@@ -1,6 +1,7 @@
 void dialogue ( gchar * texte_dialogue );
 void dialogue_hint ( gchar *text, gchar *hint );
 void dialogue_error ( gchar *text );
+void dialogue_error_hint ( gchar *text, gchar *hint );
 void dialogue_warning ( gchar *text );
 void dialogue_warning_hint ( gchar *text, gchar * hint );
 void dialogue_special ( GtkMessageType param, gchar * text );
