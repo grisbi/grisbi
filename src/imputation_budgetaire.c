@@ -559,7 +559,7 @@ void remplit_arbre_imputation ( void )
 	    text[0] = imputation -> nom_imputation ;
 
 	if ( tab_montant_imputation[place_imputation+1] )
-	    text[1] = g_strdup_printf ( "%4.2f %s",
+	    text[1] = g_strdup_printf ( _("%4.2f %s"),
 					tab_montant_imputation[place_imputation+1],
 					devise_name ( devise_compte ) );
 	else
@@ -619,7 +619,7 @@ void remplit_arbre_imputation ( void )
 	    if ( tab_montant_sous_imputation[place_imputation]
 		 &&
 		 tab_montant_sous_imputation[place_imputation][place_sous_imputation+1] )
-		text[2] = g_strdup_printf ( "%4.2f %s",
+		text[2] = g_strdup_printf ( _("%4.2f %s"),
 					    tab_montant_sous_imputation[place_imputation][place_sous_imputation+1],
 					    devise_name ( devise_compte ) );
 	    else
@@ -685,7 +685,7 @@ void remplit_arbre_imputation ( void )
 	    text[1] = NULL;
 
 	    if ( tab_montant_sous_imputation[place_imputation][0] )
-		text[2] = g_strdup_printf ( "%4.2f %s",
+		text[2] = g_strdup_printf ( _("%4.2f %s"),
 					    tab_montant_sous_imputation[place_imputation][0],
 					    devise_name ( devise_compte ) );
 	    else
@@ -744,7 +744,7 @@ void remplit_arbre_imputation ( void )
 	else
 	    text[0] = _("No budget line");
 
-	text[1] = g_strdup_printf ( "%4.2f %s",
+	text[1] = g_strdup_printf ( _("%4.2f %s"),
 				    tab_montant_imputation[0],
 				    devise_name ( devise_compte ) );
 	text[2] = NULL;
@@ -773,7 +773,7 @@ void remplit_arbre_imputation ( void )
 	    text[0] = _("No sub-budget line");
 
 	text[1] = NULL;
-	text[2] = g_strdup_printf ( "%4.2f %s",
+	text[2] = g_strdup_printf ( _("%4.2f %s"),
 				    tab_montant_imputation[0],
 				    devise_name ( devise_compte ) );
 	text[3] = NULL;
@@ -2593,7 +2593,7 @@ gchar *calcule_total_montant_imputation_par_compte ( gint imputation, gint sous_
     }
 
     if ( retour_int )
-	return ( g_strdup_printf ( "%4.2f %s",
+	return ( g_strdup_printf ( _("%4.2f %s"),
 				   retour_int,
 				   devise_name_by_no ( no_devise_totaux_tiers ) ));
     else
