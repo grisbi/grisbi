@@ -76,9 +76,12 @@ void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y
   realsize = (x2 - x);
   if ( realsize > 1 )
     {
-      realsize /= 2;
-      if ( x == 0 )
-	realsize ++;
+      if ( etat_courant -> afficher_opes )
+	{
+	  realsize /= 2;
+	  if ( x == 0 )
+	    realsize ++;
+	}
     }
   if ( etat_courant -> afficher_opes )
     realcolumns = (float)((nb_colonnes / 2) + 1);
