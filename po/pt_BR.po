@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-04 17:23+0100\n"
+"POT-Creation-Date: 2005-02-07 16:33+0100\n"
 "PO-Revision-Date: 2005-01-31 12:35-0200\n"
 "Last-Translator: \n"
 "Language-Team:  <pt@li.org>\n"
@@ -1432,15 +1432,15 @@ msgstr "Sobrescrever a lista de categorias anterior"
 msgid "Cannot import file."
 msgstr "Não posso importar arquivo."
 
-#: src/check.c:57
+#: src/check.c:65
 msgid "Grisbi found no known inconsistency in accounts processed."
 msgstr "Grisbi não encontrou nenhuma inconsistência nas contas processadas."
 
-#: src/check.c:58
+#: src/check.c:66
 msgid "No inconsistency found."
 msgstr "Nenhuma inconsistência encontrada."
 
-#: src/check.c:136
+#: src/check.c:143
 #, c-format
 msgid ""
 "<span weight=\"bold\">%s</span>\n"
@@ -1453,7 +1453,7 @@ msgstr ""
 "  Valor computado da reconciliação : %4.2f%s\n"
 "\n"
 
-#: src/check.c:151
+#: src/check.c:158
 msgid ""
 "Grisbi found accounts where reconciliation totals are inconsistent with the "
 "sum of reconcilied transactions.  Generally, the cause is too many transfers "
@@ -1470,22 +1470,22 @@ msgstr ""
 "As seguintes contas estão inconsistentes:\n"
 "\n"
 
-#: src/check.c:160
+#: src/check.c:167 src/check.c:418
 #, c-format
 msgid "%d accounts have inconsistencies."
 msgstr "%d contas estão inconsistentes."
 
-#: src/check.c:165
+#: src/check.c:172 src/check.c:423
 msgid "An account has inconsistencies."
 msgstr "Uma conta está inconsistente."
 
-#: src/check.c:221
+#: src/check.c:228
 #, c-format
 msgid "Sub-category <i>'%s : %s'</i> is a duplicate of <i>'%s : %s'</i>\n"
 msgstr ""
 "Sub-categoria <i>'%s : %s'</i> está em duplicidade com <i>'%s : %s'</i>\n"
 
-#: src/check.c:238
+#: src/check.c:245
 msgid ""
 "Due to a bug in previous versions of Grisbi, sub-categories may share the "
 "same numeric id in some cases, resulting in transactions having two sub-"
@@ -1504,9 +1504,29 @@ msgstr ""
 "Nenhuma transação será perdida, mas em alguns casos, você terá que mover as "
 "transações manualmente para estas novas subcategorias."
 
-#: src/check.c:248
+#: src/check.c:255
 msgid "Fix inconsistencies in sub-categories?"
 msgstr "Fixar inconsistência nas sub-categorias?"
+
+#: src/check.c:359
+#, c-format
+msgid "Transaction #%d should have a contra #%d, but this one doesn't exist.\n"
+msgstr ""
+
+#: src/check.c:384
+#, c-format
+msgid ""
+"Transaction #%d have a contra #%d, but transaction #%d have a contra #%d "
+"instead of #%d.\n"
+msgstr ""
+
+#: src/check.c:410
+msgid ""
+"Grisbi found transfer transactions where links are inconsistent among "
+"themselves.  Unfortunately, we don't know at the moment how it has "
+"happened.\n"
+"The following accounts are inconsistent:\n"
+msgstr ""
 
 #: src/comptes_gestion.c:88
 msgid "Account details"
@@ -5565,9 +5585,10 @@ msgid "Alain Pichon (alain.pichon[at]grisbi.org): RHEL packaging"
 msgstr "Alain Pichon (alain.pichon[at]grisbi.org): Pacotes para RHEL"
 
 #: src/help.c:48
+#, fuzzy
 msgid ""
-"Alain Portal <dionysos[at]grisbi.org>: Programming, manual, Fedora and "
-"RedHat packaging"
+"Alain Portal <aportal AT univ-monpt2 DOT fr>: Programming, manual, Fedora "
+"and RedHat packaging"
 msgstr ""
 "Alain Portal <dionysos[at]grisbi.org>: Programador, Manual, pacotes RedHat e "
 "Fedora"
