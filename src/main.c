@@ -106,122 +106,151 @@ int main (int argc, char *argv[])
     /* affiche l'onglet opération de l'onglet Affichage des données du 3ème état */
 
 
-	/*   setlocale (LC_ALL, ""); */
-	bindtextdomain (PACKAGE, LOCALEDIR);
-	bind_textdomain_codeset (PACKAGE, "UTF-8");
-	textdomain (PACKAGE);
+    /*   setlocale (LC_ALL, ""); */
+    bindtextdomain (PACKAGE, LOCALEDIR);
+    bind_textdomain_codeset (PACKAGE, "UTF-8");
+    textdomain (PACKAGE);
 
-	/* FIXME : tous les arguments du gnome_init... */
-	/* 	gnome_init_with_popt_table ("Grisbi", VERSION, argc, argv, options, 0, &ctx); */
+    /* FIXME : tous les arguments du gnome_init... */
+    /* 	gnome_init_with_popt_table ("Grisbi", VERSION, argc, argv, options, 0, &ctx); */
 
-	gtk_init ( &argc, &argv );
+    gtk_init ( &argc, &argv );
 
-	/* on commence par détourner le signal SIGSEGV */
+    /* on commence par détourner le signal SIGSEGV */
 #ifndef _WIN32
     /* sauf sous Windows*/
-	memset ( &sig_sev, 0, sizeof ( struct sigaction ));
-	sig_sev.sa_handler = traitement_sigsegv;
-	sig_sev.sa_flags = 0;
-	sigemptyset (&(sig_sev.sa_mask));
+    memset ( &sig_sev, 0, sizeof ( struct sigaction ));
+    sig_sev.sa_handler = traitement_sigsegv;
+    sig_sev.sa_flags = 0;
+    sigemptyset (&(sig_sev.sa_mask));
 
-	if ( sigaction ( SIGSEGV, &sig_sev, NULL ))
-	    printf (_("Error on sigaction: SIGSEGV won't be trapped\n"));
+    if ( sigaction ( SIGSEGV, &sig_sev, NULL ))
+	printf (_("Error on sigaction: SIGSEGV won't be trapped\n"));
 #endif
 
-	/*  Création de la fenêtre principale */
+    /*  Création de la fenêtre principale */
 
-	window = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
+    window = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
 
-	gtk_signal_connect ( GTK_OBJECT (window),
-			     "delete_event",
-			     GTK_SIGNAL_FUNC ( fermeture_grisbi ),
-			     NULL );
+    gtk_signal_connect ( GTK_OBJECT (window),
+			 "delete_event",
+			 GTK_SIGNAL_FUNC ( fermeture_grisbi ),
+			 NULL );
 
-	gtk_signal_connect (GTK_OBJECT (window),
-			    "destroy",
-			    GTK_SIGNAL_FUNC ( fermeture_grisbi ),
-			    NULL );
+    gtk_signal_connect (GTK_OBJECT (window),
+			"destroy",
+			GTK_SIGNAL_FUNC ( fermeture_grisbi ),
+			NULL );
 
-	gtk_signal_connect ( GTK_OBJECT ( window ),
-			     "size-allocate",
-			     GTK_SIGNAL_FUNC ( tente_modif_taille ),
-			     NULL );
-	gtk_window_set_policy ( GTK_WINDOW ( window ),
-				TRUE,
-				TRUE,
-				FALSE );
+    gtk_signal_connect ( GTK_OBJECT ( window ),
+			 "size-allocate",
+			 GTK_SIGNAL_FUNC ( tente_modif_taille ),
+			 NULL );
+    gtk_window_set_policy ( GTK_WINDOW ( window ),
+			    TRUE,
+			    TRUE,
+			    FALSE );
 
-	window_vbox_principale = gtk_vbox_new ( FALSE,
-						5 );
-	gtk_container_add ( GTK_CONTAINER ( window ),
-			    window_vbox_principale );
-	gtk_widget_show ( window_vbox_principale );
+    /* 	création de la pixmap du logiciel */
 
-	/*   création des menus */
-
-	menu_general = init_menus ( window_vbox_principale );
-	gtk_box_pack_start ( GTK_BOX ( window_vbox_principale ),
-			     menu_general,
-			     FALSE,
-			     FALSE,
-			     0 );
-
-	/* on grise les fonctions inutiles au départ */
-
-	init_variables ( FALSE );
-	style_label_nom_compte = NULL;
+    gtk_window_set_default_icon_from_file ( g_strconcat(PIXMAPS_DIR,
+							"/euro.gif",
+							NULL),
+					    NULL );
+    
 
 
-	charge_configuration();
 
-	/* on met dans le menu les derniers fichiers ouverts */
+    window_vbox_principale = gtk_vbox_new ( FALSE,
+					    5 );
+    gtk_container_add ( GTK_CONTAINER ( window ),
+			window_vbox_principale );
+    gtk_widget_show ( window_vbox_principale );
 
-	affiche_derniers_fichiers_ouverts ();
+    /*   création des menus */
 
-	/*   si la taille avait déjà été sauvée, on remet l'ancienne taille à
-	     la fenetre */
-	if ( largeur_window && hauteur_window )
-	    gtk_window_set_default_size ( GTK_WINDOW ( window ),
-					  largeur_window,
-					  hauteur_window );
-	else
-	    gtk_window_set_default_size ( GTK_WINDOW ( window ),
-					  640, 480 );
+    menu_general = init_menus ( window_vbox_principale );
+    gtk_box_pack_start ( GTK_BOX ( window_vbox_principale ),
+			 menu_general,
+			 FALSE,
+			 FALSE,
+			 0 );
+
+    /* on grise les fonctions inutiles au départ */
+
+    init_variables ( FALSE );
+    style_label_nom_compte = NULL;
 
 
-	gtk_widget_show ( window );
+    charge_configuration();
 
-	/*   on applique la fonte aux listes si nécessaire */
+    /* on met dans le menu les derniers fichiers ouverts */
 
-	initialisation_couleurs_listes ();
+    affiche_derniers_fichiers_ouverts ();
 
-	if ( etat.utilise_fonte_listes )
-	{
-	    /* 	on recharge la fonte */
+    /*   si la taille avait déjà été sauvée, on remet l'ancienne taille à
+	 la fenetre */
+    if ( largeur_window && hauteur_window )
+	gtk_window_set_default_size ( GTK_WINDOW ( window ),
+				      largeur_window,
+				      hauteur_window );
+    else
+	gtk_window_set_default_size ( GTK_WINDOW ( window ),
+				      640, 480 );
 
-	    GdkFont *font;
 
-	    font = gdk_font_load ( fonte_liste );
+    gtk_widget_show ( window );
 
-	    /* Use font */
-	    style_couleur[0] -> font_desc = pango_font_description_from_string(fonte_liste);
-	    style_couleur[1] -> font_desc = pango_font_description_from_string(fonte_liste);
-	    style_rouge_couleur[0] -> font_desc = pango_font_description_from_string(fonte_liste);
-	    style_rouge_couleur[1] -> font_desc = pango_font_description_from_string(fonte_liste);
-	    gtk_style_set_font (style_couleur [0], NULL);
-	    gtk_style_set_font (style_couleur [1], NULL);
-	    gtk_style_set_font (style_rouge_couleur [0], NULL);
-	    gtk_style_set_font (style_rouge_couleur [1], NULL);
-	}
+    /*   on applique la fonte aux listes si nécessaire */
 
-	/* on vérifie les arguments de ligne de commande */
+    initialisation_couleurs_listes ();
 
-	demande_page = 0;
+    if ( etat.utilise_fonte_listes )
+    {
+	/* 	on recharge la fonte */
 
-	switch ( argc )
-	{
-	    case 1:
-		/* il n'y a aucun argument */
+	GdkFont *font;
+
+	font = gdk_font_load ( fonte_liste );
+
+	/* Use font */
+	style_couleur[0] -> font_desc = pango_font_description_from_string(fonte_liste);
+	style_couleur[1] -> font_desc = pango_font_description_from_string(fonte_liste);
+	style_rouge_couleur[0] -> font_desc = pango_font_description_from_string(fonte_liste);
+	style_rouge_couleur[1] -> font_desc = pango_font_description_from_string(fonte_liste);
+	gtk_style_set_font (style_couleur [0], NULL);
+	gtk_style_set_font (style_couleur [1], NULL);
+	gtk_style_set_font (style_rouge_couleur [0], NULL);
+	gtk_style_set_font (style_rouge_couleur [1], NULL);
+    }
+
+    /* on vérifie les arguments de ligne de commande */
+
+    demande_page = 0;
+
+    switch ( argc )
+    {
+	case 1:
+	    /* il n'y a aucun argument */
+
+	    /* ouvre le dernier fichier s'il existe et si c'est demandé */
+
+	    if ( etat.dernier_fichier_auto
+		 &&
+		 nom_fichier_comptes
+		 &&
+		 strlen ( nom_fichier_comptes ) )
+		ouverture_confirmee();
+	    break;
+
+	case 2:
+	    /* l'argument peut être soit --onglet, soit le fichier à ouvrir */
+
+	    if ( !strncmp ( argv[1],
+			    "--",
+			    2 ))
+	    {
+		demande_page = 1;
 
 		/* ouvre le dernier fichier s'il existe et si c'est demandé */
 
@@ -231,188 +260,169 @@ int main (int argc, char *argv[])
 		     &&
 		     strlen ( nom_fichier_comptes ) )
 		    ouverture_confirmee();
-		break;
-
-	    case 2:
-		/* l'argument peut être soit --onglet, soit le fichier à ouvrir */
-
-		if ( !strncmp ( argv[1],
-				"--",
-				2 ))
-		{
-		    demande_page = 1;
-
-		    /* ouvre le dernier fichier s'il existe et si c'est demandé */
-
-		    if ( etat.dernier_fichier_auto
-			 &&
-			 nom_fichier_comptes
-			 &&
-			 strlen ( nom_fichier_comptes ) )
-			ouverture_confirmee();
-		}
-		else
-		{
-		    nom_fichier_comptes = argv[1];
-		    ouverture_confirmee();
-		}
-		break;
-
-	    case 3:
-		/* il y a --onglet et un nom de fichier */
-		/*       il faut que argv[1] commence par -- sinon on considère que c'est le nom de fichier */
-		/* et on oublie le 2ème argument */
-
-		if ( !strncmp ( argv[1],
-				"--",
-				2 ))
-		{
-		    demande_page = 1;
-
-		    /* ouvre le fichier demandé */
-
-		    nom_fichier_comptes = argv[2];
-		    ouverture_confirmee();
-		}
-		else
-		{
-		    nom_fichier_comptes = argv[1];
-		    ouverture_confirmee();
-		}
-		break;
-	}
-
-	/*   à ce niveau, le fichier doit être chargé, on met sur l'onglet demandé si nécessaire */
-
-	if ( nb_comptes
-	     &&
-	     demande_page )
-	{
-	    gchar **split_argument;
-
-	    split_argument = g_strsplit ( argv[1],
-					  "=",
-					  2 );
-
-	    /*       si le 2ème argument retourné est null, c'est qu'on avait marqué --onglet= */
-	    /* et dans ce cas on fait rien */
-
-	    if ( split_argument[1] )
+	    }
+	    else
 	    {
-		gchar **split_chiffres;
+		nom_fichier_comptes = argv[1];
+		ouverture_confirmee();
+	    }
+	    break;
 
-		split_chiffres = g_strsplit ( split_argument[1],
-					      ",",
-					      0 );
+	case 3:
+	    /* il y a --onglet et un nom de fichier */
+	    /*       il faut que argv[1] commence par -- sinon on considère que c'est le nom de fichier */
+	    /* et on oublie le 2ème argument */
 
-		/* 	  comme split_argument[1] existait, split_chiffres[0] existe forcemment */
+	    if ( !strncmp ( argv[1],
+			    "--",
+			    2 ))
+	    {
+		demande_page = 1;
 
-		switch ( my_atoi ( split_chiffres[0] ))
-		{
-		    case -1:
-			/* on demande l'onglet de configuration */
+		/* ouvre le fichier demandé */
 
-			/* on affiche l'onglet du 2ème argument s'il existe */
+		nom_fichier_comptes = argv[2];
+		ouverture_confirmee();
+	    }
+	    else
+	    {
+		nom_fichier_comptes = argv[1];
+		ouverture_confirmee();
+	    }
+	    break;
+    }
 
-			if ( split_chiffres[1] )
-			    preferences ( my_atoi ( split_chiffres[1] ));
-			else
-			    preferences ( NOT_A_PAGE );
+    /*   à ce niveau, le fichier doit être chargé, on met sur l'onglet demandé si nécessaire */
 
-			break;
+    if ( nb_comptes
+	 &&
+	 demande_page )
+    {
+	gchar **split_argument;
 
-		    case 0:
-		    case 1:
-		    case 2:
-		    case 3:
-		    case 4:
-		    case 5:
-		    case 6:
+	split_argument = g_strsplit ( argv[1],
+				      "=",
+				      2 );
 
-			gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
-						my_atoi ( split_chiffres[0] ));
-			break;
+	/*       si le 2ème argument retourné est null, c'est qu'on avait marqué --onglet= */
+	/* et dans ce cas on fait rien */
 
-		    case 7:
-			/* on demande l'onglet des états  */
+	if ( split_argument[1] )
+	{
+	    gchar **split_chiffres;
 
-			gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
-						my_atoi ( split_chiffres[0] ));
+	    split_chiffres = g_strsplit ( split_argument[1],
+					  ",",
+					  0 );
 
-			/* s'il y a un chiffre ensuite, on ouvre l'état correspondant à ce chiffre */
+	    /* 	  comme split_argument[1] existait, split_chiffres[0] existe forcemment */
 
-			if ( split_chiffres[1]
-			     &&
-			     liste_struct_etats )
+	    switch ( my_atoi ( split_chiffres[0] ))
+	    {
+		case -1:
+		    /* on demande l'onglet de configuration */
+
+		    /* on affiche l'onglet du 2ème argument s'il existe */
+
+		    if ( split_chiffres[1] )
+			preferences ( my_atoi ( split_chiffres[1] ));
+		    else
+			preferences ( NOT_A_PAGE );
+
+		    break;
+
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+
+		    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
+					    my_atoi ( split_chiffres[0] ));
+		    break;
+
+		case 7:
+		    /* on demande l'onglet des états  */
+
+		    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
+					    my_atoi ( split_chiffres[0] ));
+
+		    /* s'il y a un chiffre ensuite, on ouvre l'état correspondant à ce chiffre */
+
+		    if ( split_chiffres[1]
+			 &&
+			 liste_struct_etats )
+		    {
+			GSList *liste_tmp;
+
+			liste_tmp = g_slist_nth ( liste_struct_etats,
+						  my_atoi ( split_chiffres[1] ));
+
+			/* si on a sélectionné un état qui n'existait pas, on ouvre le 1er */
+
+			if ( !liste_tmp )
+			    liste_tmp = liste_struct_etats;
+
+			etat_courant = liste_tmp -> data;
+
+			remplissage_liste_etats ();
+
+			gtk_widget_set_sensitive ( bouton_personnaliser_etat,
+						   TRUE );
+			gtk_widget_set_sensitive ( bouton_exporter_etat,
+						   TRUE );
+			gtk_widget_set_sensitive ( bouton_dupliquer_etat,
+						   TRUE );
+			gtk_widget_set_sensitive ( bouton_effacer_etat,
+						   TRUE );
+
+			gtk_label_set_text ( GTK_LABEL ( label_etat_courant ),
+					     etat_courant -> nom_etat );
+
+
+			rafraichissement_etat ( etat_courant );
+
+			/* s'il y a une suite dans la demande en ligne de commande, on ouvre la personnalisation */
+
+			if ( split_chiffres[2] )
 			{
-			    GSList *liste_tmp;
+			    personnalisation_etat ();
 
-			    liste_tmp = g_slist_nth ( liste_struct_etats,
-						      my_atoi ( split_chiffres[1] ));
+			    /* le 1er chiffre correspond aux 1ers onglets */
 
-			    /* si on a sélectionné un état qui n'existait pas, on ouvre le 1er */
+			    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_config_etat ),
+						    my_atoi ( split_chiffres[2] ));
 
-			    if ( !liste_tmp )
-				liste_tmp = liste_struct_etats;
+			    /* s'il y a encore un chiffre, c'est pour le sous onglet */
 
-			    etat_courant = liste_tmp -> data;
-
-			    remplissage_liste_etats ();
-
-			    gtk_widget_set_sensitive ( bouton_personnaliser_etat,
-						       TRUE );
-			    gtk_widget_set_sensitive ( bouton_exporter_etat,
-						       TRUE );
-			    gtk_widget_set_sensitive ( bouton_dupliquer_etat,
-						       TRUE );
-			    gtk_widget_set_sensitive ( bouton_effacer_etat,
-						       TRUE );
-
-			    gtk_label_set_text ( GTK_LABEL ( label_etat_courant ),
-						 etat_courant -> nom_etat );
-
-
-			    rafraichissement_etat ( etat_courant );
-
-			    /* s'il y a une suite dans la demande en ligne de commande, on ouvre la personnalisation */
-
-			    if ( split_chiffres[2] )
+			    if ( split_chiffres[3] )
 			    {
-				personnalisation_etat ();
-
-				/* le 1er chiffre correspond aux 1ers onglets */
-
-				gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_config_etat ),
-							my_atoi ( split_chiffres[2] ));
-
-				/* s'il y a encore un chiffre, c'est pour le sous onglet */
-
-				if ( split_chiffres[3] )
+				switch ( my_atoi ( split_chiffres[2] ))
 				{
-				    switch ( my_atoi ( split_chiffres[2] ))
-				    {
-					case 0:
+				    case 0:
 
-					    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_selection ),
-								    my_atoi ( split_chiffres[3] ));
-					    break;
-					case 2:
-					    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_aff_donnees ),
-								    my_atoi ( split_chiffres[3] ));
-					    break;
-				    }
+					gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_selection ),
+								my_atoi ( split_chiffres[3] ));
+					break;
+				    case 2:
+					gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_aff_donnees ),
+								my_atoi ( split_chiffres[3] ));
+					break;
 				}
 			    }
 			}
-			break;
-		}
+		    }
+		    break;
 	    }
 	}
+    }
 
 
-	gtk_main ();
+    gtk_main ();
 
-	exit(0);
+    exit(0);
 }
 /************************************************************************************************/
 
