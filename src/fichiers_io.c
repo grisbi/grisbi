@@ -2983,6 +2983,9 @@ des paramètres.") );
 		      etat -> nom_etat = xmlGetProp ( node_detail,
 						      "Nom" );
 
+		      etat -> afficher_r = atoi ( xmlGetProp ( node_detail,
+								  "Aff_r" ));
+
 		      etat -> afficher_opes = atoi ( xmlGetProp ( node_detail,
 								  "Aff_ope" ));
 
@@ -3166,6 +3169,37 @@ des paramètres.") );
 		      etat -> affiche_sous_total_compte = atoi ( xmlGetProp ( node_detail,
 									    "Total_compte" ));
 
+		      etat -> type_virement = atoi ( xmlGetProp ( node_detail,
+						     "Type_vir" ));
+
+		      etat -> no_comptes_virements = NULL;
+
+		      if ( strlen ( xmlGetProp ( node_detail,
+						 "No_comptes_virements" )))
+			{
+			  gchar **pointeur_char;
+			  gint i;
+
+			  pointeur_char = g_strsplit ( xmlGetProp ( node_detail,
+								    "No_comptes_virements" ),
+						       "/",
+						       0 );
+			  i=0;
+
+			  while ( pointeur_char[i] )
+			    {
+			      etat ->no_comptes_virements  = g_slist_append ( etat -> no_comptes_virements,
+									      GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
+			      i++;
+			    }
+			  g_strfreev ( pointeur_char );
+			}
+
+
+		      etat -> exclure_ope_non_virement = atoi ( xmlGetProp ( node_detail,
+									     "Exclure_non_vir" ));
+
+
 		      etat -> utilise_categ = atoi ( xmlGetProp ( node_detail,
 								  "Categ" ));
 		      etat -> utilise_detail_categ = atoi ( xmlGetProp ( node_detail,
@@ -3211,9 +3245,6 @@ des paramètres.") );
 
 		      etat -> devise_de_calcul_categ = atoi ( xmlGetProp ( node_detail,
 									"Devise_categ" ));
-
-		      etat -> type_virement = atoi ( xmlGetProp ( node_detail,
-						     "Type_vir" ));
 
 		      etat -> utilise_ib = atoi ( xmlGetProp ( node_detail,
 								  "IB" ));
@@ -4363,7 +4394,7 @@ gboolean enregistre_fichier ( void )
 
       xmlSetProp ( node_devise,
 		   "Change",
-		   g_strdup_printf ( "%4.2f",
+		   g_strdup_printf ( "%f",
 				     devise -> change ));
 
       pointeur_liste = pointeur_liste -> next;
@@ -4661,6 +4692,10 @@ gboolean enregistre_fichier ( void )
 		   etat -> nom_etat );
 
       xmlSetProp ( node_etat,
+		   "Aff_r",
+		   itoa ( etat -> afficher_r ));
+
+      xmlSetProp ( node_etat,
 		   "Aff_ope",
 		   itoa ( etat -> afficher_opes ));
 
@@ -4848,6 +4883,36 @@ gboolean enregistre_fichier ( void )
 		   itoa ( etat -> affiche_sous_total_compte ));
 
       xmlSetProp ( node_etat,
+		   "Type_vir",
+		   itoa ( etat -> type_virement ));
+
+      pointeur_liste = etat -> no_comptes_virements;
+      pointeur_char = NULL;
+
+      while ( pointeur_liste )
+	{
+	  if ( pointeur_char )
+	    pointeur_char = g_strconcat ( pointeur_char,
+					  "/",
+					  itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
+					  NULL );
+	  else
+	    pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
+
+	  pointeur_liste = pointeur_liste -> next;
+	}
+
+      xmlSetProp ( node_etat,
+			"No_comptes_virements",
+			pointeur_char );
+
+      xmlSetProp ( node_etat,
+		   "Exclure_non_vir",
+		   itoa ( etat -> exclure_ope_non_virement ));
+
+
+
+      xmlSetProp ( node_etat,
 		   "Categ",
 		   itoa ( etat -> utilise_categ ));
 
@@ -4898,10 +4963,6 @@ gboolean enregistre_fichier ( void )
       xmlSetProp ( node_etat,
 		   "Devise_categ",
 		   itoa ( etat -> devise_de_calcul_categ ));
-
-      xmlSetProp ( node_etat,
-		   "Type_vir",
-		   itoa ( etat -> type_virement ));
 
       xmlSetProp ( node_etat,
 		   "IB",
@@ -5215,6 +5276,10 @@ gboolean enregistre_etat ( gchar *nom_etat )
 		       NULL );
 
   xmlSetProp ( node,
+	       "Aff_r",
+	       itoa ( etat_courant -> afficher_r ));
+
+  xmlSetProp ( node,
 	       "Aff_ope",
 	       itoa ( etat_courant -> afficher_opes ));
 
@@ -5402,6 +5467,34 @@ gboolean enregistre_etat ( gchar *nom_etat )
 	       itoa ( etat_courant -> affiche_sous_total_compte ));
 
   xmlSetProp ( node,
+	       "Type_vir",
+	       itoa ( etat_courant -> type_virement ));
+
+  pointeur_liste = etat_courant -> no_comptes_virements;
+  pointeur_char = NULL;
+
+  while ( pointeur_liste )
+    {
+      if ( pointeur_char )
+	pointeur_char = g_strconcat ( pointeur_char,
+				      "/",
+				      itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
+				      NULL );
+      else
+	pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
+
+      pointeur_liste = pointeur_liste -> next;
+    }
+
+  xmlSetProp ( node,
+	       "No_comptes_virements",
+	       pointeur_char );
+
+  xmlSetProp ( node,
+	       "Exclure_non_vir",
+	       itoa ( etat_courant -> exclure_ope_non_virement ));
+
+  xmlSetProp ( node,
 	       "Categ",
 	       itoa ( etat_courant -> utilise_categ ));
 
@@ -5452,10 +5545,6 @@ gboolean enregistre_etat ( gchar *nom_etat )
   xmlSetProp ( node,
 	       "Devise_categ",
 	       itoa ( etat_courant -> devise_de_calcul_categ ));
-
-  xmlSetProp ( node,
-	       "Type_vir",
-	       itoa ( etat_courant -> type_virement ));
 
   xmlSetProp ( node,
 	       "IB",
@@ -5669,6 +5758,9 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
       if ( !strcmp ( node -> name,
 		     "Details" ))
 	{
+	  etat -> afficher_r = atoi ( xmlGetProp ( node,
+						   "Aff_r" ));
+
 	  etat -> afficher_opes = atoi ( xmlGetProp ( node,
 						      "Aff_ope" ));
 
@@ -5852,6 +5944,34 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 	  etat -> affiche_sous_total_compte = atoi ( xmlGetProp ( node,
 								  "Total_compte" ));
 
+	  etat -> type_virement = atoi ( xmlGetProp ( node,
+						      "Type_vir" ));
+
+
+	  if ( strlen ( xmlGetProp ( node,
+				     "No_comptes_virements" )))
+	    {
+	      gchar **pointeur_char;
+	      gint i;
+
+	      pointeur_char = g_strsplit ( xmlGetProp ( node,
+							"No_comptes_virements" ),
+					   "/",
+					   0 );
+	      i=0;
+
+	      while ( pointeur_char[i] )
+		{
+		  etat ->no_comptes_virements  = g_slist_append ( etat -> no_comptes_virements,
+								  GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
+		  i++;
+		}
+	      g_strfreev ( pointeur_char );
+	    }
+
+	  etat -> exclure_ope_non_virement = atoi ( xmlGetProp ( node,
+								 "Exclure_non_vir" ));
+
 	  etat -> utilise_categ = atoi ( xmlGetProp ( node,
 						      "Categ" ));
 	  etat -> utilise_detail_categ = atoi ( xmlGetProp ( node,
@@ -5897,9 +6017,6 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
 	  etat -> devise_de_calcul_categ = atoi ( xmlGetProp ( node,
 							       "Devise_categ" ));
-
-	  etat -> type_virement = atoi ( xmlGetProp ( node,
-						      "Type_vir" ));
 
 	  etat -> utilise_ib = atoi ( xmlGetProp ( node,
 						   "IB" ));

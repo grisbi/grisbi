@@ -96,6 +96,10 @@ void personnalisation_etat (void)
 				 gtk_label_new (_(" Comptes ")) );
 
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+				 onglet_etat_virements (),
+				 gtk_label_new (_(" Virements ")) );
+
+      gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
 				 onglet_etat_categories (),
 				 gtk_label_new (_(" Catégories ")) );
 
@@ -237,6 +241,20 @@ void personnalisation_etat (void)
   gtk_clist_select_row ( GTK_CLIST ( liste_type_classement_etat ),
 			 0,
 			 0 );
+
+  if ( etat_courant -> afficher_r )
+    {
+      if ( etat_courant -> afficher_r == 1 )
+	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_opes_non_r_etat ),
+				       TRUE );
+      else
+	if ( etat_courant -> afficher_r )
+	  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_opes_r_etat ),
+					 TRUE );
+    }
+  else
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_opes_r_et_non_r_etat ),
+				   TRUE );
 
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_opes ),
 				 etat_courant -> afficher_opes );
@@ -416,12 +434,12 @@ void personnalisation_etat (void)
 
   /* onglet comptes */
 
-  if ( etat_courant -> utilise_detail_comptes )
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_comptes_etat ),
-				   TRUE );
-  else
-    gtk_widget_set_sensitive ( vbox_generale_comptes_etat,
-			       FALSE );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_comptes_etat ),
+				 etat_courant -> utilise_detail_comptes );
+
+  sens_desensitive_pointeur ( bouton_detaille_comptes_etat,
+			      vbox_generale_comptes_etat );
+
 
   selectionne_liste_comptes_etat_courant ();
 
@@ -434,21 +452,57 @@ void personnalisation_etat (void)
 			      bouton_affiche_sous_total_compte );
 
 
+  /* onglet virements */
+
+
+  if ( etat_courant -> type_virement )
+    {
+      if ( etat_courant -> type_virement == 1 )
+	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_actifs_etat ),
+				       TRUE );
+      else
+	{
+	  if ( etat_courant -> type_virement == 2 )
+	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_hors_etat ),
+					   TRUE );
+	  else
+	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_perso ),
+					   TRUE );
+	}
+    }
+  else
+    {
+      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_non_inclusion_virements ),
+				     TRUE );
+      gtk_widget_set_sensitive ( bouton_exclure_non_virements_etat,
+				 FALSE );
+    }
+
+  sens_desensitive_pointeur ( bouton_inclusion_virements_perso,
+			      liste_comptes_virements );
+
+  selectionne_liste_virements_etat_courant ();
+
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_non_virements_etat ),
+				 etat_courant -> exclure_ope_non_virement );
+
+
   /* onglet catégories */
 
-  if ( etat_courant -> utilise_categ )
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_categ_etat ),
-				   TRUE );
-  else
-    gtk_widget_set_sensitive ( vbox_generale_categ_etat,
-			       FALSE );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_categ_etat ),
+				 etat_courant -> utilise_categ );
+
+  sens_desensitive_pointeur ( bouton_utilise_categ_etat,
+			      vbox_generale_categ_etat );
+
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_categ_etat ),
+				 etat_courant -> utilise_detail_categ );
+
+  sens_desensitive_pointeur ( bouton_detaille_categ_etat,
+			      hbox_detaille_categ_etat );
+
 
   if ( etat_courant -> utilise_detail_categ )
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_categ_etat ),
-				   TRUE );
-  else
-    gtk_widget_set_sensitive ( hbox_detaille_categ_etat,
-			       FALSE );
 
   /* on sélectionne les catégories choisies */
 
@@ -469,38 +523,24 @@ void personnalisation_etat (void)
   sens_desensitive_pointeur ( bouton_afficher_sous_categ,
 			      bouton_afficher_pas_de_sous_categ );
 
-  if ( etat_courant -> type_virement )
-    {
-      if ( etat_courant -> type_virement == 1 )
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_actifs_etat ),
-				       TRUE );
-      else
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_hors_etat ),
-				       TRUE );
-    }
-  else
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_non_inclusion_virements ),
-				   TRUE );
-
   /* mise en forme de la devise */
 
   selectionne_devise_categ_etat_courant ();
 
   /* onglet ib */
 
-  if ( etat_courant -> utilise_ib )
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_ib_etat ),
-				   TRUE );
-  else
-    gtk_widget_set_sensitive ( vbox_generale_ib_etat,
-			       FALSE );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_ib_etat ),
+				 etat_courant -> utilise_ib );
 
-  if ( etat_courant -> utilise_detail_ib )
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_ib_etat ),
-				   TRUE );
-  else
-    gtk_widget_set_sensitive ( hbox_detaille_ib_etat,
-			       FALSE );
+  sens_desensitive_pointeur ( bouton_utilise_ib_etat,
+			      vbox_generale_ib_etat );
+
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_ib_etat ),
+				 etat_courant -> utilise_detail_ib );
+
+  sens_desensitive_pointeur ( bouton_detaille_ib_etat,
+			      hbox_detaille_ib_etat );
+
 
   /* on sélectionne les ib choisies */
 
@@ -527,19 +567,18 @@ void personnalisation_etat (void)
 
   /* onglet tiers */
 
-  if ( etat_courant -> utilise_tiers )
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_tiers_etat ),
-				   TRUE );
-  else
-    gtk_widget_set_sensitive ( vbox_generale_tiers_etat,
-			       FALSE );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_tiers_etat ),
+				 etat_courant -> utilise_tiers );
 
-  if ( etat_courant -> utilise_detail_tiers )
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_tiers_etat ),
-				   TRUE );
-  else
-    gtk_widget_set_sensitive ( hbox_detaille_tiers_etat,
-			       FALSE );
+  sens_desensitive_pointeur ( bouton_utilise_tiers_etat,
+			      vbox_generale_tiers_etat );
+
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_tiers_etat ),
+				 etat_courant -> utilise_detail_tiers );
+
+  sens_desensitive_pointeur ( bouton_detaille_tiers_etat,
+			      hbox_detaille_tiers_etat );
+
  
   /* on sélectionne les tiers choisies */
 
@@ -602,6 +641,8 @@ void selectionne_liste_exo_etat_courant ( void )
   if ( !etat_courant )
     return;
 
+  gtk_clist_unselect_all ( GTK_CLIST ( liste_exo_etat ));
+
   pointeur_sliste = etat_courant -> no_exercices;
 
   while ( pointeur_sliste )
@@ -628,12 +669,41 @@ void selectionne_liste_comptes_etat_courant ( void )
   if ( !etat_courant )
     return;
 
+  gtk_clist_unselect_all ( GTK_CLIST ( liste_comptes_etat ));
+
   pointeur_sliste = etat_courant -> no_comptes;
 
   while ( pointeur_sliste )
     {
       gtk_clist_select_row ( GTK_CLIST ( liste_comptes_etat ),
 			     gtk_clist_find_row_from_data ( GTK_CLIST ( liste_comptes_etat ),
+							    pointeur_sliste -> data ),
+			     0 );
+      pointeur_sliste = pointeur_sliste -> next;
+    }
+}
+/*****************************************************************************************************/
+
+
+
+
+
+/*****************************************************************************************************/
+void selectionne_liste_virements_etat_courant ( void )
+{
+  GSList *pointeur_sliste;
+
+  if ( !etat_courant )
+    return;
+
+  gtk_clist_unselect_all ( GTK_CLIST ( liste_comptes_virements ));
+
+  pointeur_sliste = etat_courant -> no_comptes_virements;
+
+  while ( pointeur_sliste )
+    {
+      gtk_clist_select_row ( GTK_CLIST ( liste_comptes_virements ),
+			     gtk_clist_find_row_from_data ( GTK_CLIST ( liste_comptes_virements ),
 							    pointeur_sliste -> data ),
 			     0 );
       pointeur_sliste = pointeur_sliste -> next;
@@ -651,6 +721,8 @@ void selectionne_liste_categ_etat_courant ( void )
 
   if ( !etat_courant )
     return;
+
+  gtk_clist_unselect_all ( GTK_CLIST ( liste_categ_etat ));
 
   pointeur_sliste = etat_courant -> no_categ;
 
@@ -690,6 +762,8 @@ void selectionne_liste_ib_etat_courant ( void )
 
   if ( !etat_courant )
     return;
+
+  gtk_clist_unselect_all ( GTK_CLIST ( liste_ib_etat ));
 
   pointeur_sliste = etat_courant -> no_ib;
 
@@ -731,6 +805,8 @@ void selectionne_liste_tiers_etat_courant ( void )
 
   if ( !etat_courant )
     return;
+
+  gtk_clist_unselect_all ( GTK_CLIST ( liste_tiers_etat ));
 
   pointeur_sliste = etat_courant -> no_tiers;
 
@@ -839,6 +915,18 @@ void recuperation_info_perso_etat ( void )
       if ( no == 3 )
 	etat_courant -> type_classement = g_list_append ( etat_courant -> type_classement,
 							  GINT_TO_POINTER ( 4 ));
+    }
+
+  /* récupération de l'affichage ou non des R */
+
+  if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_opes_r_et_non_r_etat )) )
+    etat_courant -> afficher_r = 0;
+  else
+    {
+      if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_opes_non_r_etat )) )
+	etat_courant -> afficher_r = 1;
+      else
+	etat_courant -> afficher_r = 2;
     }
 
   /* récupération de l'affichage des opés */
@@ -995,6 +1083,42 @@ void recuperation_info_perso_etat ( void )
   etat_courant -> regroupe_ope_par_compte = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_regroupe_ope_compte_etat ));
   etat_courant -> affiche_sous_total_compte = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_compte ));
 
+
+  /* récupération des virements */
+
+  if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_actifs_etat )))
+    etat_courant -> type_virement = 1;
+  else
+    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_hors_etat )))
+      etat_courant -> type_virement = 2;
+    else
+      {
+	if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_non_inclusion_virements )))
+	  etat_courant -> type_virement = 0;
+	else
+	  etat_courant -> type_virement = 3;
+      }
+
+  if ( etat_courant -> no_comptes_virements )
+    {
+      g_slist_free ( etat_courant -> no_comptes_virements );
+      etat_courant -> no_comptes_virements = NULL;
+    }
+
+  pointeur_liste = GTK_CLIST ( liste_comptes_virements ) -> selection;
+
+  while ( pointeur_liste )
+    {
+      etat_courant -> no_comptes_virements = g_slist_append ( etat_courant -> no_comptes_virements,
+							      gtk_clist_get_row_data ( GTK_CLIST ( liste_comptes_virements ),
+										       GPOINTER_TO_INT ( pointeur_liste -> data )));
+      pointeur_liste = pointeur_liste -> next;
+    }
+
+  etat_courant -> exclure_ope_non_virement = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_non_virements_etat ));
+
+
+
   /*   récupération des catégories */
 
   etat_courant -> utilise_categ = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_categ_etat ));
@@ -1034,14 +1158,6 @@ void recuperation_info_perso_etat ( void )
   etat_courant -> afficher_sous_categ = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_categ ));
   etat_courant -> affiche_sous_total_sous_categ = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_sous_categ ));
   etat_courant -> afficher_pas_de_sous_categ = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pas_de_sous_categ ));
-
-  if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_actifs_etat )))
-    etat_courant -> type_virement = 1;
-  else
-    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_hors_etat )))
-      etat_courant -> type_virement = 2;
-    else
-      etat_courant -> type_virement = 0;
 
   etat_courant -> devise_de_calcul_categ = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_devise_categ_etat ) -> menu_item ),
 										   "no_devise" ));
@@ -1179,6 +1295,7 @@ GtkWidget *onglet_etat_generalites ( void )
   GtkWidget *separateur;
   GtkWidget *table;
   GtkWidget *vbox_onglet;
+  GtkWidget *hbox_haut;
 
   widget_retour = gtk_scrolled_window_new ( FALSE,
 					    FALSE );
@@ -1223,11 +1340,22 @@ GtkWidget *onglet_etat_generalites ( void )
 		       0 );
   gtk_widget_show ( entree_nom_etat );
 
+  /*   hbox du haut de la fenetre, le type de classement, le choix sur les R */
+
+  hbox_haut = gtk_hbox_new ( FALSE,
+			     5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
+		       hbox_haut,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( hbox_haut );
+
   /* choix du type de classement */
 
   hbox = gtk_hbox_new ( FALSE,
 			5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
+  gtk_box_pack_start ( GTK_BOX ( hbox_haut ),
 		       hbox,
 		       FALSE,
 		       FALSE,
@@ -1315,6 +1443,64 @@ GtkWidget *onglet_etat_generalites ( void )
 		      fleche  );
   gtk_widget_show_all ( vbox );
 
+  
+  /* on peut sélectionner les opé R ou non R */
+
+  frame = gtk_frame_new ( _( "Opérations rapprochées" ));
+  gtk_box_pack_start ( GTK_BOX ( hbox_haut ),
+		       frame,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( frame );
+
+  vbox = gtk_vbox_new ( FALSE,
+			5 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
+				   5 );
+  gtk_container_add ( GTK_CONTAINER ( frame ),
+		      vbox );
+  gtk_widget_show ( vbox );
+
+  label = gtk_label_new ( "Sélectionner :" );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
+
+  bouton_opes_r_et_non_r_etat = gtk_radio_button_new_with_label ( NULL,
+				       _("Toutes les opérations") );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       bouton_opes_r_et_non_r_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_opes_r_et_non_r_etat );
+
+  bouton_opes_non_r_etat = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_opes_r_et_non_r_etat )),
+							   _("Les opérations non rapprochées") );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       bouton_opes_non_r_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_opes_non_r_etat );
+
+  bouton_opes_r_etat = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_opes_r_et_non_r_etat )),
+							   _("Les opérations rapprochées") );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       bouton_opes_r_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_opes_r_etat );
+
+
+
+
+  /* afficher ou non les opés */
 
   bouton_afficher_opes = gtk_check_button_new_with_label ( _("Afficher les opérations") );
   gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
@@ -2886,6 +3072,179 @@ void remplissage_liste_comptes_etats ( void )
 
 
 
+
+
+/*****************************************************************************************************/
+GtkWidget *onglet_etat_virements ( void )
+{
+  GtkWidget *widget_retour;
+  GtkWidget *scrolled_window;
+  GtkWidget *vbox_onglet;
+  GtkWidget *hbox;
+
+  widget_retour = gtk_scrolled_window_new ( FALSE,
+					    FALSE );
+  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( widget_retour ),
+				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_AUTOMATIC );
+  gtk_widget_show ( widget_retour );
+
+
+  vbox_onglet = gtk_vbox_new ( FALSE,
+				 5 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
+				   10 );
+  gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
+					  vbox_onglet );
+  gtk_widget_show ( vbox_onglet );
+
+
+  /*   on met les boutons d'inclusion ou non des virements */
+
+  bouton_non_inclusion_virements = gtk_radio_button_new_with_label ( NULL,
+								     _("Ne pas inclure les virements") );
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
+		       bouton_non_inclusion_virements,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_non_inclusion_virements );
+
+  bouton_inclusion_virements_actifs_etat = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_non_inclusion_virements )),
+									     _("Inclure les virements de ou vers les comptes d'actif et de passif") );
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
+		       bouton_inclusion_virements_actifs_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_inclusion_virements_actifs_etat );
+
+  bouton_inclusion_virements_hors_etat = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_non_inclusion_virements )),
+									   _("Inclure les virements de ou vers les comptes ne figurant pas dans l'état") );
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
+		       bouton_inclusion_virements_hors_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_inclusion_virements_hors_etat );
+
+  bouton_inclusion_virements_perso = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_non_inclusion_virements )),
+									   _("Inclure les virements de ou vers les comptes  : ") );
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
+		       bouton_inclusion_virements_perso,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_inclusion_virements_perso );
+
+  hbox = gtk_hbox_new ( FALSE,
+			5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
+		       hbox,
+		       TRUE,
+		       TRUE,
+		       0 );
+  gtk_widget_show ( hbox );
+
+  scrolled_window = gtk_scrolled_window_new ( FALSE,
+					      FALSE );
+  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_AUTOMATIC );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       scrolled_window,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( scrolled_window );
+
+  liste_comptes_virements = gtk_clist_new ( 1 );
+  gtk_clist_set_selection_mode ( GTK_CLIST ( liste_comptes_virements ),
+				 GTK_SELECTION_MULTIPLE );
+  gtk_clist_set_column_auto_resize ( GTK_CLIST ( liste_comptes_virements ),
+				     0,
+				     TRUE );
+  gtk_widget_set_usize ( liste_comptes_virements,
+			 300,
+			 FALSE );
+  gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
+		      liste_comptes_virements );
+  gtk_widget_show ( liste_comptes_virements );
+
+  /* on remplit la liste des comptes */
+
+  remplissage_liste_comptes_virements ();
+
+  gtk_signal_connect ( GTK_OBJECT ( bouton_inclusion_virements_perso ),
+		       "toggled",
+		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+		       liste_comptes_virements );
+
+
+  /* on rajoute le bouton exclure les opé non virement */
+
+  bouton_exclure_non_virements_etat = gtk_check_button_new_with_label ( _("Exclure les opérations qui ne sont pas des virements") );
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
+		       bouton_exclure_non_virements_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_exclure_non_virements_etat );
+
+  gtk_signal_connect ( GTK_OBJECT ( bouton_inclusion_virements_perso ),
+		       "toggled",
+		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+		       bouton_exclure_non_virements_etat );
+  gtk_signal_connect ( GTK_OBJECT ( bouton_inclusion_virements_hors_etat ),
+		       "toggled",
+		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+		       bouton_exclure_non_virements_etat );
+  gtk_signal_connect ( GTK_OBJECT ( bouton_inclusion_virements_actifs_etat ),
+		       "toggled",
+		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+		       bouton_exclure_non_virements_etat );
+
+
+  return ( widget_retour );
+}
+/*****************************************************************************************************/
+
+
+
+/*****************************************************************************************************/
+void remplissage_liste_comptes_virements ( void )
+{
+  gint i;
+
+  if ( !onglet_config_etat )
+    return;
+
+  gtk_clist_clear ( GTK_CLIST ( liste_comptes_virements ) );
+
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+
+  for ( i=0 ; i<nb_comptes ; i++ )
+    {
+      gchar *nom[1];
+      gint ligne;
+
+      nom[0] = NOM_DU_COMPTE;
+
+      ligne = gtk_clist_append ( GTK_CLIST ( liste_comptes_virements ),
+				 nom );
+
+      gtk_clist_set_row_data ( GTK_CLIST ( liste_comptes_virements ),
+			       ligne,
+			       GINT_TO_POINTER ( NO_COMPTE ));
+      p_tab_nom_de_compte_variable++;
+    }
+}
+/*****************************************************************************************************/
+
+
+
+
+
 /*****************************************************************************************************/
 GtkWidget *onglet_etat_categories ( void )
 {
@@ -2929,8 +3288,8 @@ GtkWidget *onglet_etat_categories ( void )
 					    5 );
   gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 		       vbox_generale_categ_etat,
-		       FALSE,
-		       FALSE,
+		       TRUE,
+		       TRUE,
 		       0 );
   gtk_widget_show ( vbox_generale_categ_etat );
 
@@ -2944,8 +3303,8 @@ GtkWidget *onglet_etat_categories ( void )
   frame = gtk_frame_new ( NULL );
   gtk_box_pack_start ( GTK_BOX ( vbox_generale_categ_etat ),
 		       frame,
-		       FALSE,
-		       FALSE,
+		       TRUE,
+		       TRUE,
 		       0 );
   gtk_widget_show ( frame );
 
@@ -2972,8 +3331,8 @@ GtkWidget *onglet_etat_categories ( void )
 					    5 );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       hbox_detaille_categ_etat,
-		       FALSE,
-		       FALSE,
+		       TRUE,
+		       TRUE,
 		       0 );
   gtk_widget_show ( hbox_detaille_categ_etat );
 
@@ -3214,34 +3573,6 @@ GtkWidget *onglet_etat_categories ( void )
 		       0 );
   gtk_widget_show ( separateur );
 
-  /*   en dessous, on met les boutons d'inclusion ou non des virements */
-
-  bouton_inclusion_virements_actifs_etat = gtk_radio_button_new_with_label ( NULL,
-									     _("Inclure les virements de ou vers les comptes d'actif et de passif") );
-  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
-		       bouton_inclusion_virements_actifs_etat,
-		       TRUE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_inclusion_virements_actifs_etat );
-
-  bouton_inclusion_virements_hors_etat = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_inclusion_virements_actifs_etat )),
-									   _("Inclure les virements de ou vers les comptes ne figurant pas dans l'état") );
-  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
-		       bouton_inclusion_virements_hors_etat,
-		       TRUE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_inclusion_virements_hors_etat );
-
-  bouton_non_inclusion_virements = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_inclusion_virements_actifs_etat )),
-								     _("Ne pas inclure les virements") );
-  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
-		       bouton_non_inclusion_virements,
-		       TRUE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_non_inclusion_virements );
 
   return ( widget_retour );
 }

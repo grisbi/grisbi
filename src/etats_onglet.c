@@ -219,7 +219,6 @@ GtkWidget *creation_liste_etats ( void )
 
   remplissage_liste_etats ();
 
-
   /* ajout des boutons pour supprimer / ajouter un état */
 
   frame = gtk_frame_new ( NULL );
@@ -456,13 +455,17 @@ void remplissage_liste_etats ( void )
 			   0);
       gtk_widget_show (bouton);
 
+
       /* création de l'icone fermée */
 
       if ( etat_courant
 	   &&
 	   etat -> no_etat == etat_courant -> no_etat )
-	icone = gnome_stock_pixmap_widget ( GTK_WIDGET ( bouton ),
-					    GNOME_STOCK_PIXMAP_BOOK_OPEN);
+	{
+	  icone = gnome_stock_pixmap_widget ( GTK_WIDGET ( bouton ),
+					      GNOME_STOCK_PIXMAP_BOOK_OPEN);
+	  bouton_etat_courant = bouton;
+	}
       else
 	icone = gnome_stock_pixmap_widget ( GTK_WIDGET ( bouton ),
 					    GNOME_STOCK_PIXMAP_BOOK_BLUE);
@@ -532,11 +535,24 @@ void ajout_etat ( void )
 
   /* on réaffiche la liste des états */
 
+  etat_courant = etat;
+
   remplissage_liste_etats ();
+
+  gtk_widget_set_sensitive ( bouton_personnaliser_etat,
+			     TRUE );
+  gtk_widget_set_sensitive ( bouton_imprimer_etat,
+			     TRUE );
+  gtk_widget_set_sensitive ( bouton_exporter_etat,
+			     TRUE );
+
+  gtk_label_set_text ( GTK_LABEL ( label_etat_courant ),
+		       etat_courant -> nom_etat );
 
   gtk_widget_set_sensitive ( bouton_effacer_etat,
 			     TRUE );
 
+  personnalisation_etat ();
   modification_fichier ( TRUE );
 }
 /*****************************************************************************************************/

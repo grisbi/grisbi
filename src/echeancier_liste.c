@@ -1410,6 +1410,7 @@ void supprime_echeance ( void )
 
   mise_a_jour_calendrier();
   update_liste_echeances_manuelles_accueil();
+  modification_fichier (TRUE);
 }
 /* ************************************************************************************************************************************ */
 

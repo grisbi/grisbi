@@ -606,6 +606,9 @@ GtkWidget *onglet_config_etat;
 
 GtkWidget *entree_nom_etat;
 GtkWidget *liste_type_classement_etat;
+GtkWidget *bouton_opes_r_et_non_r_etat;
+GtkWidget *bouton_opes_non_r_etat;
+GtkWidget *bouton_opes_r_etat;
 GtkWidget *bouton_afficher_opes;
 GtkWidget *bouton_afficher_date_opes;
 GtkWidget *bouton_afficher_tiers_opes;
@@ -654,14 +657,18 @@ GtkWidget *vbox_generale_comptes_etat;
 GtkWidget *bouton_regroupe_ope_compte_etat;
 GtkWidget *bouton_affiche_sous_total_compte;
 
+GtkWidget *bouton_inclusion_virements_actifs_etat;
+GtkWidget *bouton_inclusion_virements_hors_etat;
+GtkWidget *bouton_non_inclusion_virements;
+GtkWidget *bouton_inclusion_virements_perso;
+GtkWidget *liste_comptes_virements;
+GtkWidget *bouton_exclure_non_virements_etat;
+
 GtkWidget *bouton_utilise_categ_etat;
 GtkWidget *vbox_generale_categ_etat;
 GtkWidget *bouton_detaille_categ_etat;
 GtkWidget *hbox_detaille_categ_etat;
 GtkWidget *bouton_afficher_sous_categ;
-GtkWidget *bouton_inclusion_virements_actifs_etat;
-GtkWidget *bouton_inclusion_virements_hors_etat;
-GtkWidget *bouton_non_inclusion_virements;
 GtkWidget *liste_categ_etat;
 GtkWidget *bouton_affiche_sous_total_categ;
 GtkWidget *bouton_affiche_sous_total_sous_categ;

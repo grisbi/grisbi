@@ -393,6 +393,7 @@ struct struct_etat
   gint no_etat;
   gchar *nom_etat;
 
+  gint afficher_r;         /* 0=ttes les opés, 1=que les opés non R, 2=que les opés R */
   gint afficher_opes;
   gint afficher_date_ope;
   gint afficher_tiers_ope;
@@ -433,11 +434,14 @@ struct struct_etat
   gint regroupe_ope_par_compte;
   gint affiche_sous_total_compte;
 
+  gint type_virement;   /* 0: pas de virements / 1:seulement les virements vers comptes actifs-passifs/2:virements hors état/3:perso */
+  GSList *no_comptes_virements;
+  gint exclure_ope_non_virement;
+
   gint utilise_categ;
   gint utilise_detail_categ;
   GSList *no_categ;
   gint afficher_sous_categ;
-  gint type_virement;   /* 0: pas de virements / 1:seulement les virements vers comptes actifs-passifs/2:virements hors état */
   gint affiche_sous_total_categ;
   gint affiche_sous_total_sous_categ;
   gint exclure_ope_sans_categ;

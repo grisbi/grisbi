@@ -1835,19 +1835,22 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 
       /* on recrée les boutons de devises dans la conf de l'état */
 
-      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_devise_categ_etat ),
-				 creation_option_menu_devises ( 0,
-								liste_struct_devises ));
-      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_devise_ib_etat ),
-				 creation_option_menu_devises ( 0,
-								liste_struct_devises ));
-      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_devise_tiers_etat ),
-				 creation_option_menu_devises ( 0,
-								liste_struct_devises ));
+      if ( onglet_config_etat )
+	{
+	  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_devise_categ_etat ),
+				     creation_option_menu_devises ( 0,
+								    liste_struct_devises ));
+	  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_devise_ib_etat ),
+				     creation_option_menu_devises ( 0,
+								    liste_struct_devises ));
+	  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_devise_tiers_etat ),
+				     creation_option_menu_devises ( 0,
+								    liste_struct_devises ));
 
-      selectionne_devise_categ_etat_courant ();
-      selectionne_devise_ib_etat_courant ();
-      selectionne_devise_tiers_etat_courant ();
+	  selectionne_devise_categ_etat_courant ();
+	  selectionne_devise_ib_etat_courant ();
+	  selectionne_devise_tiers_etat_courant ();
+	}
 
       mise_a_jour_tiers ();
       mise_a_jour_categ ();

@@ -209,6 +209,20 @@ void affichage_etat ( struct struct_etat *etat,
 		goto operation_refusee;
 
 
+	      /* on vérifie les R */
+
+	      if ( etat -> afficher_r )
+		{
+		  if ( ( etat -> afficher_r == 1
+			 &&
+			 operation -> pointe == 2 )
+		       ||
+		       ( etat -> afficher_r == 2
+			 &&
+			 operation -> pointe != 2 ))
+		    goto operation_refusee;
+		}
+
 	      /* 	      on vérifie les virements */
 
 	      if ( operation -> relation_no_operation )
@@ -232,14 +246,36 @@ void affichage_etat ( struct struct_etat *etat,
 		    }
 		  else
 		    {
-		      /* on inclut l'opé que si le compte de virement n'est */
-		      /* pas présent dans l'état */
+		      if ( etat -> type_virement == 2 )
+			{
+			  /* on inclut l'opé que si le compte de virement n'est */
+			  /* pas présent dans l'état */
+			  
+			  if ( g_slist_index ( etat -> no_comptes,
+					       GINT_TO_POINTER ( operation -> relation_no_compte )) != -1 )
+			    goto operation_refusee;
+			}
+		      else
+			{
+			  /* on inclut l'opé que si le compte de virement est dans la liste */
 
-		      if ( g_slist_index ( etat -> no_comptes,
-					   GINT_TO_POINTER ( operation -> relation_no_compte )) != -1 )
-			goto operation_refusee;
+			  if ( g_slist_index ( etat -> no_comptes_virements,
+					       GINT_TO_POINTER ( operation -> relation_no_compte )) == -1 )
+			    goto operation_refusee;
+
+			}
 		    }
 		}
+	      else
+		{
+		  /* 		  l'opé n'est pas un virement, si on doit exclure les non virement, c'est ici */
+
+		  if ( etat -> type_virement
+		       &&
+		       etat -> exclure_ope_non_virement )
+		    goto operation_refusee;
+		}
+
 
 	      if ( etat -> utilise_categ )
 		{
