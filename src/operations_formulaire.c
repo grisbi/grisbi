@@ -1346,12 +1346,11 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 
 		    verifie_champs_dates ( origine );
 
-		    if ( ( ev -> state & GDK_CONTROL_MASK ) != GDK_CONTROL_MASK )
-			inc_dec_date ( widget,
-				       ONE_DAY );
+		    if ( ( ev -> state & GDK_CONTROL_MASK ) != GDK_CONTROL_MASK ||
+			 ev -> keyval != GDK_KP_Add )
+			inc_dec_date ( widget, ONE_DAY );
 		    else
-			inc_dec_date ( widget,
-				       ONE_WEEK );
+			inc_dec_date ( widget, ONE_WEEK );
 
 		    return TRUE;
 		    break;
@@ -1381,12 +1380,11 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 
 		    verifie_champs_dates ( origine );
 
-		    if ( ( ev -> state & GDK_CONTROL_MASK ) != GDK_CONTROL_MASK )
-			inc_dec_date ( widget,
-				       -ONE_DAY );
+		    if ( ( ev -> state & GDK_CONTROL_MASK ) != GDK_CONTROL_MASK ||
+			 ev -> keyval != GDK_KP_Subtract  )
+			inc_dec_date ( widget, -ONE_DAY );
 		    else
-			inc_dec_date ( widget,
-				       -ONE_WEEK );
+			inc_dec_date ( widget, -ONE_WEEK );
 
 		    return TRUE;
 		    break;
