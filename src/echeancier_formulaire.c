@@ -1843,6 +1843,8 @@ void fin_edition_echeance ( void )
 
 		      echeance -> sous_categorie = sous_categ -> no_sous_categ;
 		    }
+		  
+		  echeance -> compte_virement = 0;
 		}
 	    }
 	  g_strfreev ( tableau_char );
