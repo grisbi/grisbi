@@ -200,25 +200,9 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
         {
 	    result = recuperation_donnees_ofx ( liste_selection[i]);
         }
-	else if ( !strncmp ( pointeur_char,
-			    "!Type",
-			    5 )
-		 ||
-		 !strncmp ( pointeur_char,
-			    "!type",
-			    5 )
-		 ||
-		 !strncmp ( pointeur_char,
-			    "!TYPE",
-			    5 )
-		 ||
-		 !strncmp ( pointeur_char,
-			    "!Account",
-			    8 )
-		 ||
-		 !strncmp ( pointeur_char,
-			    "!Option",
-			    7 ))
+	else if ( !my_strncasecmp ( pointeur_char, "!Type", 5 ) ||
+		  !my_strncasecmp ( pointeur_char, "!Account", 8 ) || 
+		  !my_strncasecmp ( pointeur_char, "!Option", 7 ))
         {
 		result = recuperation_donnees_qif ( fichier );
         }
