@@ -261,11 +261,12 @@ void preferences ( gint page )
     {
       switch (gtk_dialog_run ( GTK_DIALOG ( fenetre_preferences ) ))
 	{
-	case GTK_RESPONSE_CLOSE:
+	case GTK_RESPONSE_HELP:
+	  /* Hook some help function */
+	  break;
+	default:
 	  gtk_widget_destroy ( GTK_WIDGET ( fenetre_preferences ));
 	  return;
-	case GTK_RESPONSE_HELP:
-	  break;
 	}
     }
 }
