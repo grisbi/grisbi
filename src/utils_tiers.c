@@ -33,7 +33,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void reset_payee_counters ();
 /*END_STATIC*/
 
 
@@ -247,12 +246,12 @@ void reset_payee_counters ()
 {
     GSList * tmp;
 
-    without_payee = NULL;
+    free ( without_payee );
 
     tmp = liste_struct_tiers;
     while ( tmp )
     {
-	struct struct_imputation * payee = tmp -> data;
+	struct struct_tiers * payee = tmp -> data;
 
 	payee -> balance = 0.0;
 	payee -> nb_transactions = 0;
