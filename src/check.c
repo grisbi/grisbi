@@ -114,7 +114,7 @@ gboolean reconciliation_check ( void )
 
 	/* On ne prend en compte que les opérations rapprochées.
 	   On ne prend pas en compte les opérations de ventilation. */
-	if ( pTransaction -> pointe == OPERATION_RAPPROCHEE
+	if ( pTransaction -> pointe == RECONCILED_TRANSACTION
 	     &&
 	     !pTransaction -> no_operation_ventilee_associee )
 	{

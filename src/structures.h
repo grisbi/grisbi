@@ -127,10 +127,10 @@ struct {
 
 /** Etat de rapprochement d'une opération */
 enum operation_etat_rapprochement {
-  OPERATION_NORMALE = 0,
-  OPERATION_POINTEE,
-  OPERATION_RAPPROCHEE,
-  OPERATION_TELERAPPROCHEE,
+  UNCHECKED_TRANSACTION = 0,
+  CHECKED_TRANSACTION,
+  RECONCILED_TRANSACTION,
+  TELECHECKED_TRANSACTION,
 };
 
 

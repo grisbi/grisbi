@@ -1306,7 +1306,7 @@ gboolean expand_selected_ib (  )
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-	if ( operation -> pointe == OPERATION_RAPPROCHEE && !AFFICHAGE_R )
+	if ( operation -> pointe == RECONCILED_TRANSACTION && !AFFICHAGE_R )
 	{
 	    AFFICHAGE_R = 1;
 	    remplissage_liste_operations ( compte_courant );

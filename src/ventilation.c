@@ -2003,7 +2003,7 @@ void edition_operation_ventilation ( void )
 
     /* si l'opération est relevée, empêche la modif du montant */
 
-    if ( operation -> pointe == OPERATION_RAPPROCHEE )
+    if ( operation -> pointe == RECONCILED_TRANSACTION )
     {
 	gtk_widget_set_sensitive ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_DEBIT],
 				   FALSE );
@@ -2040,7 +2040,7 @@ void edition_operation_ventilation ( void )
 						     GINT_TO_POINTER ( operation -> relation_no_operation ),
 						     (GCompareFunc) recherche_operation_par_no ) -> data;
 
-	    if ( contre_operation -> pointe == OPERATION_RAPPROCHEE )
+	    if ( contre_operation -> pointe == RECONCILED_TRANSACTION )
 	    {
 		gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CATEGORY] ),
 					   FALSE );
@@ -2196,7 +2196,7 @@ void supprime_operation_ventilation ( void )
     /* si l'opération est relevée ou si c'est un virement et que la contre opération est */
     /*   relevée, on ne peut la supprimer */
 
-    if ( operation -> pointe == OPERATION_RAPPROCHEE )
+    if ( operation -> pointe == RECONCILED_TRANSACTION )
     {
 	dialogue_error ( _("This transaction has a reconciled breakdown line, deletion canceled.") );
 	return;
@@ -2223,7 +2223,7 @@ void supprime_operation_ventilation ( void )
 
 		operation_associee = tmp -> data;
 
-		if ( operation_associee -> pointe == OPERATION_RAPPROCHEE )
+		if ( operation_associee -> pointe == RECONCILED_TRANSACTION )
 		{
 		    dialogue_error ( _("This transfer has a reconciled contra-transaction, deletion canceled.") );
 		    return;

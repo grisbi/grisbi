@@ -359,7 +359,7 @@ GSList * make_split_list_from_xml_transaction_node ( xmlNodePtr transaction_node
 	struct struct_compte_importation * split_account = NULL; 
 	struct gnucash_category * categ = NULL;
 	struct gnucash_split * split;
-	enum operation_etat_rapprochement p_r = OPERATION_NORMALE;
+	enum operation_etat_rapprochement p_r = UNCHECKED_TRANSACTION;
 	gdouble amount;
 
 	if ( node_strcmp ( split_node, "split" ) )
@@ -381,7 +381,7 @@ GSList * make_split_list_from_xml_transaction_node ( xmlNodePtr transaction_node
 		account_name = split_account -> nom_de_compte;
 		*total += amount;
 		if ( strcmp(child_content(split_node, "reconciled-state"), "n") )
-		    p_r = OPERATION_RAPPROCHEE;
+		    p_r = RECONCILED_TRANSACTION;
 	    }
 
 	    split = find_split ( split_list, amount, split_account, categ );
@@ -395,7 +395,7 @@ GSList * make_split_list_from_xml_transaction_node ( xmlNodePtr transaction_node
 		split_list = g_slist_append ( split_list, split );
 		split -> notes = child_content(split_node, "memo");
 	    }
-	    if ( p_r != OPERATION_NORMALE )
+	    if ( p_r != UNCHECKED_TRANSACTION )
 		split -> p_r = p_r;
 	}
 

@@ -573,7 +573,7 @@ void remplissage_liste_operations ( gint compte )
 	    /* si c'est une opé de ventilation, on la saute */
 
 	    if ( !operation -> no_operation_ventilee_associee &&
-		 operation -> pointe == OPERATION_RAPPROCHEE )
+		 operation -> pointe == RECONCILED_TRANSACTION )
 	    {
 		montant = calcule_montant_devise_renvoi ( operation -> montant,
 							  DEVISE,
@@ -609,7 +609,7 @@ void remplissage_liste_operations ( gint compte )
 
 	    /* si l'opération est relevée et qu'on ne désire pas les afficher, on passe la suite  */
 
-	    if ( AFFICHAGE_R || operation -> pointe != OPERATION_RAPPROCHEE )
+	    if ( AFFICHAGE_R || operation -> pointe != RECONCILED_TRANSACTION )
 	    {
 		/*  on calcule les soldes courant */
 
@@ -1092,15 +1092,15 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 	    /* mise en forme R/P */
 
 	case 13:
-	    if ( operation -> pointe == OPERATION_POINTEE )
+	    if ( operation -> pointe == CHECKED_TRANSACTION )
 		return ( _("P") );
 	    else
 	    {
-		if ( operation -> pointe == OPERATION_RAPPROCHEE )
+		if ( operation -> pointe == RECONCILED_TRANSACTION )
 		    return ( _("R") );
 		else
 		{
-		    if ( operation -> pointe == OPERATION_TELERAPPROCHEE )
+		    if ( operation -> pointe == TELECHECKED_TRANSACTION )
 			return ( _("T"));
 		    else
 			return ( NULL );
@@ -1543,7 +1543,7 @@ void edition_operation ( void )
 
     /* si l'opération est relevé , on désensitive les entrées de crédit et débit */
 
-    if ( operation -> pointe == OPERATION_RAPPROCHEE )
+    if ( operation -> pointe == RECONCILED_TRANSACTION )
     {
 	gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT],
 				   FALSE );
@@ -1647,7 +1647,7 @@ void edition_operation ( void )
 
 	    /* si l'opération est relevée , on empèche le changement de virement */
 
-	    if ( operation -> pointe == OPERATION_RAPPROCHEE )
+	    if ( operation -> pointe == RECONCILED_TRANSACTION )
 		gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY],
 					   FALSE );
 
@@ -1658,7 +1658,7 @@ void edition_operation ( void )
 						(GCompareFunc) recherche_operation_par_no ) -> data;
 
 	    /* 	  si la contre opération est relevée , on désensitive les categ et les montants */
-	    if ( operation_2 -> pointe == OPERATION_RAPPROCHEE )
+	    if ( operation_2 -> pointe == RECONCILED_TRANSACTION )
 	    {
 		gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT],
 					   FALSE );
@@ -1850,7 +1850,7 @@ void p_press (void)
     if ( OPERATION_SELECTIONNEE == GINT_TO_POINTER ( -1 ) )
 	return;
 
-    if ( OPERATION_SELECTIONNEE -> pointe == OPERATION_RAPPROCHEE )
+    if ( OPERATION_SELECTIONNEE -> pointe == RECONCILED_TRANSACTION )
 	return;
 
     if ( OPERATION_SELECTIONNEE -> pointe )
@@ -1866,7 +1866,7 @@ void p_press (void)
 	    operations_pointees = operations_pointees - montant;
 
 	SOLDE_POINTE = SOLDE_POINTE - montant;
-	OPERATION_SELECTIONNEE -> pointe = OPERATION_NORMALE;
+	OPERATION_SELECTIONNEE -> pointe = UNCHECKED_TRANSACTION;
 
 	gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
 			     gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
@@ -1889,7 +1889,7 @@ void p_press (void)
 	    operations_pointees = operations_pointees + montant;
 
 	SOLDE_POINTE = SOLDE_POINTE + montant;
-	OPERATION_SELECTIONNEE -> pointe = OPERATION_POINTEE;
+	OPERATION_SELECTIONNEE -> pointe = CHECKED_TRANSACTION;
 
 	gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
 			     gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
@@ -1994,11 +1994,11 @@ void r_press (void)
     if ( OPERATION_SELECTIONNEE == GINT_TO_POINTER ( -1 ) )
 	return;
 
-    if ( OPERATION_SELECTIONNEE -> pointe == OPERATION_NORMALE )
+    if ( OPERATION_SELECTIONNEE -> pointe == UNCHECKED_TRANSACTION )
     {
 	/* on relève l'opération */
 
-	OPERATION_SELECTIONNEE -> pointe = OPERATION_RAPPROCHEE;
+	OPERATION_SELECTIONNEE -> pointe = RECONCILED_TRANSACTION;
 
 	/* on met soit le R, soit on change la sélection vers l'opé suivante */
 
@@ -2024,10 +2024,10 @@ void r_press (void)
 	modification_fichier( TRUE );
     }
     else
-	if ( OPERATION_SELECTIONNEE -> pointe == OPERATION_RAPPROCHEE )
+	if ( OPERATION_SELECTIONNEE -> pointe == RECONCILED_TRANSACTION )
 	{
 	    /* dérelève l'opération */
-	    OPERATION_SELECTIONNEE -> pointe = OPERATION_NORMALE;
+	    OPERATION_SELECTIONNEE -> pointe = UNCHECKED_TRANSACTION;
 	    gtk_clist_set_text ( GTK_CLIST ( CLIST_OPERATIONS ),
 				 gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
 								OPERATION_SELECTIONNEE ),
@@ -2085,7 +2085,7 @@ void supprime_operation ( struct structure_operation *operation )
 
     /* l'opération ne doit pas être pointée */
 
-    if ( operation -> pointe == OPERATION_RAPPROCHEE )
+    if ( operation -> pointe == RECONCILED_TRANSACTION )
     {
 	dialogue_error ( _("Impossible to delete a reconciled transaction.") );
 	return;
@@ -2110,7 +2110,7 @@ void supprime_operation ( struct structure_operation *operation )
 	{
 	    ope_liee =  liste_tmp -> data;
 
-	    if ( ope_liee -> pointe == OPERATION_RAPPROCHEE )
+	    if ( ope_liee -> pointe == RECONCILED_TRANSACTION )
 	    {
 		dialogue_error ( _("The contra-transaction of this transfer is reconciled, deletion impossible.") );
 		return;
@@ -2158,7 +2158,7 @@ void supprime_operation ( struct structure_operation *operation )
 							     GINT_TO_POINTER ( ope_test -> relation_no_operation ),
 							     (GCompareFunc) recherche_operation_par_no ) -> data;
 
-		    if ( contre_operation -> pointe == OPERATION_RAPPROCHEE )
+		    if ( contre_operation -> pointe == RECONCILED_TRANSACTION )
 		    {
 			dialogue_error ( _("One of the breakdown lines is a transfer whose contra-transaction is reconciled.  Deletion canceled."));
 			return;
@@ -2247,7 +2247,7 @@ void supprime_operation ( struct structure_operation *operation )
 
 	    operation = pointeur_liste_ope -> data;
 
-	    if ( operation -> pointe == OPERATION_POINTEE )
+	    if ( operation -> pointe == CHECKED_TRANSACTION )
 		operations_pointees = operations_pointees + operation -> montant;
 
 	    pointeur_liste_ope = pointeur_liste_ope -> next;
@@ -2686,8 +2686,8 @@ void popup_transaction_context_menu ( gboolean full )
 							       GTK_ICON_SIZE_MENU ));
     g_signal_connect ( G_OBJECT(menu_item), "activate", remove_transaction, NULL );
     if ( !full || 
-	 OPERATION_SELECTIONNEE -> pointe == OPERATION_RAPPROCHEE ||
-	 OPERATION_SELECTIONNEE -> pointe == OPERATION_TELERAPPROCHEE )
+	 OPERATION_SELECTIONNEE -> pointe == RECONCILED_TRANSACTION ||
+	 OPERATION_SELECTIONNEE -> pointe == TELECHECKED_TRANSACTION )
 	gtk_widget_set_sensitive ( menu_item, FALSE );
     gtk_menu_append ( menu, menu_item );
 
@@ -2720,8 +2720,8 @@ void popup_transaction_context_menu ( gboolean full )
 				    gtk_image_new_from_stock ( GTK_STOCK_JUMP_TO,
 							       GTK_ICON_SIZE_MENU ));
     if ( !full || 
-	 OPERATION_SELECTIONNEE -> pointe == OPERATION_RAPPROCHEE ||
-	 OPERATION_SELECTIONNEE -> pointe == OPERATION_TELERAPPROCHEE )
+	 OPERATION_SELECTIONNEE -> pointe == RECONCILED_TRANSACTION ||
+	 OPERATION_SELECTIONNEE -> pointe == TELECHECKED_TRANSACTION )
 	gtk_widget_set_sensitive ( menu_item, FALSE );
     gtk_menu_append ( menu, menu_item );
 
@@ -2877,10 +2877,10 @@ struct structure_operation *  clone_transaction ( struct structure_operation * o
     new_transaction -> no_operation = 0;
     new_transaction -> no_rapprochement = 0;
 
-    if ( operation -> pointe == OPERATION_RAPPROCHEE ||
-	 operation -> pointe == OPERATION_TELERAPPROCHEE )
+    if ( operation -> pointe == RECONCILED_TRANSACTION ||
+	 operation -> pointe == TELECHECKED_TRANSACTION )
       {
-	new_transaction -> pointe = OPERATION_NORMALE;
+	new_transaction -> pointe = UNCHECKED_TRANSACTION;
       }
 
     ajout_operation ( new_transaction );
@@ -2943,7 +2943,7 @@ struct structure_operation *  new_transaction_from ( struct structure_operation 
 
   pNewTransaction -> no_operation = 0;
 
-  pNewTransaction -> pointe = OPERATION_NORMALE;
+  pNewTransaction -> pointe = UNCHECKED_TRANSACTION;
   pNewTransaction -> date = gdate_today();
   pNewTransaction -> jour = g_date_day ( pNewTransaction -> date ) ;
   pNewTransaction -> mois = g_date_month ( pNewTransaction -> date ) ;

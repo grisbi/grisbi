@@ -303,9 +303,9 @@ void export_accounts_to_csv (GSList* export_entries_list )
 	      csv_field_date_val = "";
 
 	    /* met le pointage */
-	    if      ( pTransaction -> pointe == OPERATION_POINTEE ) csv_field_pointage = g_strdup(_("C"));
-	    else if ( pTransaction -> pointe == OPERATION_RAPPROCHEE ) csv_field_pointage = g_strdup(_("R"));
-	    else if ( pTransaction -> pointe == OPERATION_TELERAPPROCHEE ) csv_field_pointage = g_strdup(_("T"));
+	    if      ( pTransaction -> pointe == CHECKED_TRANSACTION ) csv_field_pointage = g_strdup(_("C"));
+	    else if ( pTransaction -> pointe == RECONCILED_TRANSACTION ) csv_field_pointage = g_strdup(_("R"));
+	    else if ( pTransaction -> pointe == TELECHECKED_TRANSACTION ) csv_field_pointage = g_strdup(_("T"));
 
 	    /* met les notes */
 	    CSV_CLEAR_FIELD(csv_field_notes);

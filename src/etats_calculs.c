@@ -418,9 +418,9 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		if ( etat -> afficher_r )
 		{
 		    if ( ( etat -> afficher_r == 1 &&
-			   operation -> pointe == OPERATION_RAPPROCHEE ) ||
+			   operation -> pointe == RECONCILED_TRANSACTION ) ||
 			 ( etat -> afficher_r == 2 &&
-			   operation -> pointe != OPERATION_RAPPROCHEE ))
+			   operation -> pointe != RECONCILED_TRANSACTION ))
 			goto operation_refusee;
 		}
 
