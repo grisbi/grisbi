@@ -36,7 +36,7 @@ then
         LDFLAGS="${LDFLAGS} -lofx"
     else
         noofx=true
-        AC_MSG_ERROR([Libofx header missing. Check your libofx installation])
+        AC_MSG_RESULT([Libofx header missing. Check your libofx installation])
     fi
 else
     noofx=true
