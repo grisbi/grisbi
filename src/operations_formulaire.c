@@ -1902,7 +1902,8 @@ void completion_operation_par_tiers ( void )
 	}
     }
     else
-	if ( operation -> relation_no_operation )
+	if ( operation -> relation_no_operation &&
+	     operation -> relation_no_compte != -1 )
 	{
 	    /* c'est un virement */
 

@@ -1551,8 +1551,7 @@ void fin_edition_echeance ( void )
 
 		ope_ventil = liste_ventil -> data;
 
-		if ( ope_ventil -> relation_no_operation
-		     &&
+		if ( ope_ventil -> relation_no_operation &&
 		     ope_ventil -> relation_no_compte == compte_echeance )
 		{
 		    dialogue_error ( _( "A breakdown of transaction is a transfer to this account.\n" ));
@@ -2325,7 +2324,7 @@ void fin_edition_echeance ( void )
 
 	    /* 	    on vérifie maintenant si c'est un virement */
 
-	    if ( ope_ventil -> relation_no_operation == -1 )
+	    if ( ope_ventil -> relation_no_operation != -1 )
 	    {
 		/* cette opé de ventil est un virement */
 
@@ -2975,7 +2974,8 @@ void completion_operation_par_tiers_echeancier ( void )
 
     /* vérifie si c'est un virement */
 
-    if ( operation -> relation_no_operation )
+    if ( operation -> relation_no_operation &&
+	 operation -> relation_no_compte != -1 )
     {
 	/* c'est un virement, on l'affiche */
 

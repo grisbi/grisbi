@@ -2012,7 +2012,8 @@ void edition_operation_ventilation ( void )
 
     /* mise en forme des catégories */
 
-    if ( operation -> relation_no_operation )
+    if ( operation -> relation_no_operation &&
+	 operation -> relation_no_compte != -1 )
     {
 	/* c'est un virement */
 
@@ -2201,9 +2202,9 @@ void supprime_operation_ventilation ( void )
     }
     else
     {
-	if ( operation -> relation_no_operation
-	     &&
-	     operation -> relation_no_operation != -1 )
+	if ( operation -> relation_no_operation &&
+	     operation -> relation_no_operation != -1 &&
+	     operation -> relation_no_compte != -1 )
 	{
 	    /* on va chercher la contre opération */
 
@@ -2353,7 +2354,8 @@ void ajoute_ope_sur_liste_ventilation ( struct struct_ope_ventil *operation )
 
     /* mise en forme des catégories */
 
-    if ( operation -> relation_no_operation )
+    if ( operation -> relation_no_operation &&
+	 operation -> relation_no_compte != -1 )
     {
 	/* c'est un virement */
 
@@ -2727,7 +2729,8 @@ GSList *creation_liste_ope_de_ventil ( struct structure_operation *operation )
 
 	    /* si c'est un virement, on va rechercher le type de l'autre opération */
 
-	    if ( ope_ventil -> relation_no_operation )
+	    if ( ope_ventil -> relation_no_operation &&
+		 ope_ventil -> relation_no_compte != -1 )
 	    {
 		GSList *tmp;
 
@@ -2883,7 +2886,8 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 
 		    /* si cette opé de ventil est un virement, on met à jour la contre opération */
 
-		    if ( ope_ventil -> relation_no_operation )
+		    if ( ope_ventil -> relation_no_operation &&
+			 ope_ventil -> relation_no_compte != -1 )
 		    {
 			/*  soit c'était un virement, et on modifie l'opé associée */
 			/* soit c'est un nouveau virement, et on crée l'opé associée */
@@ -3118,7 +3122,8 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 
 		/* si cette opé de ventil est un virement, on crée la contre opération */
 
-		if ( ope_ventil -> relation_no_operation )
+		if ( ope_ventil -> relation_no_operation &&
+		     ope_ventil -> relation_no_compte != -1 )
 		{
 		    struct structure_operation *nouvelle_ope_2;
 		    struct struct_devise *devise_compte_1;
