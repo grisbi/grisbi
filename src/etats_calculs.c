@@ -57,8 +57,7 @@ void affichage_etat ( struct struct_etat *etat,
   /* l'état ; reste plus qu'à les classer et les afficher */
   /* on classe la liste et l'affiche en fonction du choix du type de classement */
 
-  etape_finale_affichage_etat ( liste_opes_selectionnees,
-				affichage );
+  etape_finale_affichage_etat ( liste_opes_selectionnees, affichage );
 }
 /*****************************************************************************************************/
 
