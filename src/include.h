@@ -1,7 +1,6 @@
 /* fichier d'en tête include.h */
 
 #include "config.h"
-
 #include <gnome.h>
 #include <stdio.h>
 #include <string.h>
@@ -24,3 +23,4 @@
 #define GTK_ENABLE_BROKEN 1
 #define G_BROKEN_FILENAMES 1
 #include <gtk/gtktext.h>
+#include <gdk/gdkkeysyms.h>
