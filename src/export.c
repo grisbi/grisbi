@@ -231,11 +231,11 @@ static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint
 			     account_entry );
 
 	p_tab_nom_de_compte_variable++;
+	free ( sFilename );
     }
 
     g_selected_entries = NULL;
     gtk_widget_show_all ( dialog );
-    free ( sFilename );
     return (dialog);
 
 } /* }}} export_accounts_selection_dialog_new */
@@ -273,22 +273,27 @@ static gboolean export_all_selected_entries_are_valid(GSList* selected_entries_l
 					      _("This will irreversibly overwrite previous file.  There is no undo for this.")) )
                 {
                     result = FALSE;
+		    free(sTmp); sTmp = NULL;
+		    free(file_name); file_name = NULL;
                     break;
                 }
+		free(sTmp); sTmp = NULL;
+		free(file_name); file_name = NULL;
 	    }
 	    else
 	    {
 		sTmp = g_strdup_printf ( _("File name '%s' invalid!"),
 					 file_name);
 		dialogue ( sTmp );
+		free(sTmp); sTmp = NULL;
+		free(file_name); file_name = NULL;
                 result = FALSE;
                 break;
 	    }
 	}
+	free(file_name); file_name = NULL;
         list_tmp = g_slist_next(list_tmp);
     }
-    free(sTmp);
-    free(file_name);
     return result;
 } /* }}} export_all_selected_entries_are_valid */
 
@@ -393,6 +398,7 @@ static void export_update_format_menu(GtkItemFactory* menu_bar,gchar* level1, gc
                                        1 );
 
         list_tmp = g_slist_next(list_tmp);
+	free(sTmp); sTmp = NULL;
     }
 
 #if 0
@@ -419,7 +425,6 @@ static void export_update_format_menu(GtkItemFactory* menu_bar,gchar* level1, gc
 				       TRUE );
 
 #endif
-    free(sTmp);
 }/* }}} */
 
 /**
