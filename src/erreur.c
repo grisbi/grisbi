@@ -314,86 +314,80 @@ void affiche_log_message ( void )
 void traitement_sigsegv ( gint signal_nb )
 {
   GtkWidget *dialog;
-  gchar *home_dir;
+  gchar *home_dir, *errmsg;
+
+  errmsg = _("Grisbi terminated due to a segmentation fault.  Please report it to http://www.grisbi.org/bugtracking/\n\n");
 
   /*   il y a 3 possibilités : */
   /*     soit on était en train de charger un fichier, c'est que celui-ci est corrompu */
   /* soit on était en train de sauver un fichier, et là on peut rien faire */
   /* sinon on essaie de sauver le fichier sous le nom entouré de # */
 
-  if ( etat.en_train_de_charger )
+  if ( etat.en_train_de_charger || 
+       etat.en_train_de_sauvegarder || 
+       !etat.modification_fichier )
     {
-      dialog = gnome_error_dialog ( _("Ooops, Grisbi crashed while loading the file (segfault).\nEither the file is corrupted, or it is a major bug.\nTry to load the file again. If you can repeat this crash, could you report it on Grisbi's bugtracker (http://www.grisbi.org/bugtracking/)?\nIt would really help us to fix it.\nThanks a lot!"));
-      gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
+
+      if ( etat.en_train_de_charger )
+	{
+	  errmsg = g_strconcat ( errmsg, _("File is corrupted."), 
+				 NULL );
+	}
+
+      if ( etat.en_train_de_sauvegarder )
+	{
+	  errmsg = g_strconcat ( errmsg, _("Error occured saving file."),
+				 NULL );
+	}
+
       fichier_marque_ouvert ( FALSE );
-      gtk_main_quit();
-      exit(0);
     }
-
-
-  if ( etat.en_train_de_sauvegarder )
+  else 
     {
-      dialog = gnome_error_dialog ( _("Ooops, Grisbi crashed while trying to save the file (segfault).\nSo it's impossible to save your file.\nIf you can repeat this crash, could you report it on Grisbi's bugtracker (http://www.grisbi.org/bugtracking/)?\nIt would really help us to fix it.\nThanks a lot!"));
-      gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
-      fichier_marque_ouvert ( FALSE );
-      gtk_main_quit();
-      exit(0);
+
+      /* c'est un bug pendant le fonctionnement de Grisbi s'il n'y a
+	 pas de nom de fichier, on le crée, sinon on rajoute #
+	 autour */
+
+      home_dir = getenv ("HOME");
+
+      if ( nom_fichier_comptes )
+	{
+	  /* on récupère le nome du fichier sans le chemin */
+
+	  gchar **parametres;
+	  gint i=0;
+	  parametres = g_strsplit ( nom_fichier_comptes, "/", 0);
+
+	  while ( parametres[i] )
+	    i++;
+
+	  nom_fichier_comptes = g_strconcat ( home_dir, "/#", parametres [i-1], 
+					      "#", NULL );
+	  g_strfreev ( parametres );
+	}
+      else
+	nom_fichier_comptes = g_strconcat ( home_dir,
+					    "/#grisbi_plantage_sans_nom#",
+					    NULL );
+
+      if ( patience_en_cours )
+	update_attente ( _("Save file") );
+      else
+	mise_en_route_attente ( _("Save file") );
+
+      enregistre_fichier ( 1 );
+      annulation_attente();
+
+  
+      errmsg = g_strdup_printf ( _("%sGrisbi made a backup file at '%s'."),
+				 errmsg, nom_fichier_comptes, NULL );
     }
 
-  if ( !etat.modification_fichier )
-    {
-      dialog = gnome_error_dialog ( _("Ooops, Grisbi crashed (segfault).\nNo matter, you didn't modify anything.\nIf you can repeat this crash, could you report it on Grisbi's bugtracker (http://www.grisbi.org/bugtracking/)?\nIt would really help us to fix it.\nThanks a lot!"));
-      gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
-      fichier_marque_ouvert ( FALSE );
-      gtk_main_quit();
-      exit(0);
-    }
-
-  /* c'est un bug pendant le fonctionnement de Grisbi */
-
-  /*   s'il n'y a pas de nom de fichier, on le crée, sinon on rajoute # autour */
-
-  home_dir = getenv ("HOME");
-
-  if ( nom_fichier_comptes )
-    {
-      /* on récupère le nome du fichier sans le chemin */
-
-      gchar **parametres;
-      gint i=0;
-
-      parametres = g_strsplit ( nom_fichier_comptes,
-				"/",
-				0);
-
-      while ( parametres[i] )
-	i++;
-
-      nom_fichier_comptes = g_strconcat ( home_dir,
-					  "/#",
-					  parametres [i-1],
-					  "#",
-					  NULL );
-      g_strfreev ( parametres );
-    }
-  else
-    nom_fichier_comptes = g_strconcat ( home_dir,
-					"/#grisbi_plantage_sans_nom#",
-					NULL );
-
-    if ( patience_en_cours )
-      update_attente ( _("Save file") );
-    else
-      mise_en_route_attente ( _("Save file") );
-
-  enregistre_fichier ( 1 );
-  annulation_attente();
-
-  dialog = gnome_error_dialog ( g_strdup_printf (_("Ooops, Grisbi crashed (segfault).\nGrisbi tried to save your file before, with the name %s.\nTry to load it, with a bit of luck you won't loose anything.\nIf you can repeat this crash, could you report it on Grisbi's bugtracker (http://www.grisbi.org/bugtracking/)?\nIt would really help us to fix it.\nThanks a lot!"),
-						 nom_fichier_comptes ));
+  dialog = gnome_error_dialog ( errmsg );
   gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
   gtk_main_quit();
-  exit(0);
-
+  exit(1);
 }
+
 /*************************************************************************************************************/
