@@ -332,11 +332,6 @@ GtkWidget *frame_etat_soldes_minimaux_autorises;
 GtkWidget *frame_etat_soldes_minimaux_voulus;
 GtkStyle *style_label_nom_compte;
 GtkStyle *style_label;
-GtkWidget *separateur_passif_manu;
-GtkWidget *separateur_manu_auto;
-GtkWidget *separateur_auto_mini;
-GtkWidget *separateur_ech_finies_soldes_mini;
-GtkWidget *separateur_des_soldes_mini;
 GtkWidget *dialogue_echeance;
 
 
