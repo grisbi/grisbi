@@ -1440,34 +1440,6 @@ void modification_details_compte ( void )
     TITULAIRE = NULL;
 
 
-  /* vérification du nom du compte */
-
-  if ( !NOM_DU_COMPTE
-       ||
-       strcmp ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))),
-		NOM_DU_COMPTE ) )
-    {
-      NOM_DU_COMPTE = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))));
-
-      reaffiche_liste_comptes ();
-      reaffiche_liste_comptes_onglet ();
-      update_liste_comptes_accueil ();
-      remplissage_liste_echeance ();
-      update_liste_echeances_manuelles_accueil ();
-      mise_a_jour_soldes_minimaux();
-      mise_a_jour_fin_comptes_passifs();
-      mise_a_jour_categ();
-
-      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] ),
-				 creation_option_menu_comptes () );
-
-      remplissage_liste_comptes_etats ();
-      selectionne_liste_comptes_etat_courant ();
-
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
-    }
-
-
   /* vérification du type de compte */
 
   if ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_type_compte ) -> menu_item ),
@@ -1556,7 +1528,7 @@ void modification_details_compte ( void )
       DEVISE = nouvelle_devise -> no_devise;
 
       value = gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value;
-      remplissage_liste_operations ( compte_courant );
+      remplissage_liste_operations ( compte_courant_onglet );
       gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value = value;
 
       update_liste_comptes_accueil ();
@@ -1640,7 +1612,7 @@ void modification_details_compte ( void )
 			      NULL );
 
       value = gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value;
-      remplissage_liste_operations ( compte_courant );
+      remplissage_liste_operations ( compte_courant_onglet );
       gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value = value;
 
       update_liste_comptes_accueil ();
@@ -1697,6 +1669,37 @@ void modification_details_compte ( void )
     }
   else
     COMMENTAIRE = NULL;
+
+
+  /* vérification du nom du compte */
+  /* on doit le vérifier en dernier car s'il a changé, on va réafficher */
+  /* la liste des comptes, et les infos non encore récupérées vont être */
+  /* perdues */
+
+  if ( !NOM_DU_COMPTE
+       ||
+       strcmp ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))),
+		NOM_DU_COMPTE ) )
+    {
+      NOM_DU_COMPTE = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))));
+
+      reaffiche_liste_comptes ();
+      reaffiche_liste_comptes_onglet ();
+      update_liste_comptes_accueil ();
+      remplissage_liste_echeance ();
+      update_liste_echeances_manuelles_accueil ();
+      mise_a_jour_soldes_minimaux();
+      mise_a_jour_fin_comptes_passifs();
+      mise_a_jour_categ();
+
+      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] ),
+				 creation_option_menu_comptes () );
+
+      remplissage_liste_comptes_etats ();
+      selectionne_liste_comptes_etat_courant ();
+
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
+    }
 
 
   gtk_widget_set_sensitive ( hbox_boutons_modif,

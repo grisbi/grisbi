@@ -46,6 +46,9 @@ void  nouveau_compte ( void )
 
   type_de_compte = demande_type_nouveau_compte ();
 
+  if ( type_de_compte == -1 )
+    return;
+
   no_compte = initialisation_nouveau_compte ( type_de_compte );
 
   /* si la création s'est mal placée, on se barre */
@@ -696,6 +699,7 @@ gint demande_type_nouveau_compte ( void )
 
   dialog = gnome_dialog_new ( "Choix du type de compte",
 			      GNOME_STOCK_BUTTON_OK,
+			      GNOME_STOCK_BUTTON_CANCEL,
 			      NULL );
 
   label = gtk_label_new ( "Veuillez choisir le type du compte à créer\nCela permet de créer les moyens de paiement par défaut.\nVous pourrez changer ultérieurement le type de ce compte." );
@@ -765,8 +769,12 @@ gint demande_type_nouveau_compte ( void )
 
   resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
 
+
   if ( resultat )
-    return ( 0 );
+    {
+      gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+      return ( -1 );
+    }
 
   type_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton ) -> menu_item ),
 							"no_type_compte" ));

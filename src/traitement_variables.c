@@ -167,6 +167,8 @@ void init_variables ( gboolean ouverture )
       liste_categ_etat = NULL;
 
       initialise_tab_affichage_ope();
+
+      etat.fichier_deja_ouvert = 0;
     }
 }
 /*****************************************************************************************************/
