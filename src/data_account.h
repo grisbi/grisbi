@@ -87,6 +87,7 @@ gdouble gsb_account_get_current_balance ( gint no_account );
 gchar *gsb_account_get_id ( gint no_account );
 gdouble gsb_account_get_init_balance ( gint no_account );
 kind_account gsb_account_get_kind ( gint no_account );
+gdouble gsb_account_get_marked_balance ( gint no_account );
 gdouble gsb_account_get_mini_balance_authorized ( gint no_account );
 gdouble gsb_account_get_mini_balance_wanted ( gint no_account );
 gchar *gsb_account_get_name ( gint no_account );
@@ -100,6 +101,8 @@ gboolean gsb_account_set_init_balance ( gint no_account,
 					gdouble balance );
 gboolean gsb_account_set_kind ( gint no_account,
 				kind_account account_kind );
+gboolean gsb_account_set_marked_balance ( gint no_account,
+					  gdouble balance );
 gboolean gsb_account_set_mini_balance_authorized ( gint no_account,
 						   gdouble balance );
 gboolean gsb_account_set_mini_balance_wanted ( gint no_account,

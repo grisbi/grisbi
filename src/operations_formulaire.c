@@ -3652,7 +3652,8 @@ void modifie_operation ( struct structure_operation *operation )
 
     gsb_account_set_current_balance ( operation -> no_compte, 
 				      calcule_solde_compte ( operation -> no_compte ));
-    SOLDE_POINTE = calcule_solde_pointe_compte ( operation -> no_compte );
+    gsb_account_set_marked_balance ( operation -> no_compte, 
+				     calcule_solde_pointe_compte ( operation -> no_compte ));
 
     /* on met à jour les labels des soldes */
 

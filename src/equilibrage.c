@@ -837,7 +837,8 @@ void pointe_equilibrage ( int p_ligne )
     if ( operation -> pointe )
     {
 	operations_pointees = operations_pointees - montant;
-	SOLDE_POINTE = SOLDE_POINTE - montant;
+	gsb_account_set_marked_balance ( compte_courant,
+					 gsb_account_get_marked_balance (compte_courant) - montant );
 
 	operation -> pointe = 0;
 
@@ -849,7 +850,8 @@ void pointe_equilibrage ( int p_ligne )
     else
     {
 	operations_pointees = operations_pointees + montant;
-	SOLDE_POINTE = SOLDE_POINTE + montant;
+	gsb_account_set_marked_balance ( compte_courant,
+					 gsb_account_get_marked_balance (compte_courant) + montant );
 
 	operation -> pointe = 1;
 	

@@ -526,6 +526,46 @@ gboolean gsb_account_set_current_balance ( gint no_account,
 
 
 
+/** get the marked balance  of the account
+ * \param no_account no of the account
+ * \return balance or NULL if the account doesn't exist
+ * */
+gdouble gsb_account_get_marked_balance ( gint no_account )
+{
+    struct struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return 0;
+
+    return account -> marked_balance;
+}
+
+
+/** set the marked balance  of the account
+ * \param no_account no of the account
+ * \param balance balance to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_marked_balance ( gint no_account,
+					  gdouble balance )
+{
+    struct struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> marked_balance = balance;
+
+    return TRUE;
+}
+
+
+
+
 
 
 

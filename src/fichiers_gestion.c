@@ -444,7 +444,8 @@ void ouverture_confirmee ( void )
 
 	gsb_account_set_current_balance ( i, 
 					  calcule_solde_compte ( i ));
-	SOLDE_POINTE = calcule_solde_pointe_compte ( i );
+	gsb_account_set_marked_balance ( i, 
+					 calcule_solde_pointe_compte ( i ));
 
 	/* 	on met à jour les affichage solde mini et autres */
 

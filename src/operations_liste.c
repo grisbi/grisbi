@@ -2623,7 +2623,8 @@ void p_press (void)
 	if ( etat.equilibrage )
 	    operations_pointees = operations_pointees - montant;
 
-	SOLDE_POINTE = SOLDE_POINTE - montant;
+	gsb_account_set_marked_balance ( compte_courant,
+					 gsb_account_get_marked_balance (compte_courant) - montant );
 	operation -> pointe = 0;
 
 	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
@@ -2643,7 +2644,8 @@ void p_press (void)
 	if ( etat.equilibrage )
 	    operations_pointees = operations_pointees + montant;
 
-	SOLDE_POINTE = SOLDE_POINTE + montant;
+	gsb_account_set_marked_balance ( compte_courant,
+					 gsb_account_get_marked_balance (compte_courant) + montant );
 	operation -> pointe = 1;
 
 	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
@@ -2959,7 +2961,8 @@ void supprime_operation ( struct structure_operation *operation )
 				      gsb_account_get_current_balance (operation -> no_compte) - montant );
 
     if ( operation -> pointe )
-	SOLDE_POINTE = SOLDE_POINTE - montant;
+	gsb_account_set_marked_balance ( operation -> no_compte,
+					 gsb_account_get_marked_balance (operation -> no_compte) - montant );
 
     /*     on met à jour les labels de solde */
 
@@ -3323,7 +3326,8 @@ void move_selected_operation_to_account ( GtkMenuItem * menu_item )
 
 	gsb_account_set_current_balance ( source_account, 
 					  calcule_solde_compte ( source_account ));
-	SOLDE_POINTE = calcule_solde_pointe_compte ( source_account );
+	gsb_account_set_marked_balance ( source_account, 
+					 calcule_solde_pointe_compte ( source_account ));
 
 	mise_a_jour_labels_soldes ();
 
@@ -3367,7 +3371,8 @@ void move_selected_operation_to_account_nb ( gint *account )
 
 	gsb_account_set_current_balance ( source_account, 
 					  calcule_solde_compte ( source_account ));
-	SOLDE_POINTE = calcule_solde_pointe_compte ( source_account );
+	gsb_account_set_marked_balance ( source_account, 
+					 calcule_solde_pointe_compte ( source_account ));
 
 	mise_a_jour_labels_soldes ();
 
@@ -4035,7 +4040,7 @@ void mise_a_jour_labels_soldes ( void )
 
     gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
 			 g_strdup_printf ( _("Checked balance: %4.2f %s"),
-					   SOLDE_POINTE,
+					   gsb_account_get_marked_balance (compte_courant),
 					   devise_code_by_no ( DEVISE )));
 }
 /******************************************************************************/
