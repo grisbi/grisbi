@@ -866,3 +866,4 @@ extern GSList *lignes_affichage_trois_lignes;    /* contient les no de lignes à 
 extern gint dernier_chq;     /* quand on a choisi le plus grand, contient le dernier no de chq dans les comptes choisis */
 extern gint dernier_pc;     /* quand on a choisi le plus grand, contient le dernier no de pc dans les comptes choisis */
 extern gint dernier_no_rappr;     /* quand on a choisi le plus grand, contient le dernier no de rappr dans les comptes choisis */
+extern struct struct_etat_affichage * etat_affichage_output;

@@ -559,51 +559,17 @@ struct struct_comparaison_textes_etat
   GtkWidget *entree_montant_2;
 };
 
+enum alignement {
+  LEFT, CENTER, RIGHT,
+};
+
 struct struct_etat_affichage
 {
-  gint (* init) ( );
-  gint (* afficher_titre) ( gint );
-  gint (* afficher_separateur) ( gint );
-  gint (* affiche_total_categories) ( gint ligne );
-  gint (* affiche_total_sous_categ) ( gint ligne );
-  gint (* affiche_total_ib) ( gint ligne );
-  gint (* affiche_total_sous_ib) ( gint ligne );
-  gint (* affiche_total_compte) ( gint ligne );
-  gint (* affiche_total_tiers) ( gint ligne );
-  gint (* affichage_ligne_ope) ( struct structure_operation *operation,
-				 gint ligne );
-  gint (* affiche_total_partiel) ( gdouble total_partie,
-				   gint ligne,
-				   gint type );
-  gint (* affiche_total_general) ( gdouble total_general,
-				   gint ligne );
-  gint (* affiche_total_periode) ( struct structure_operation *operation,
-				   gint ligne,
-				   gint force );
-  gint (* affiche_categ_etat) ( struct structure_operation *operation,
-				gchar *decalage_categ,
-				gint ligne );
-  gint (* affiche_sous_categ_etat) ( struct structure_operation *operation,
-				     gchar *decalage_sous_categ,
-				     gint ligne );
-  gint (* affiche_ib_etat) ( struct structure_operation *operation,
-			     gchar *decalage_ib,
-			     gint ligne );
-  gint (* affiche_sous_ib_etat) ( struct structure_operation *operation,
-				  gchar *decalage_sous_ib,
-				  gint ligne );
-  gint (* affiche_compte_etat) ( struct structure_operation *operation,
-				 gchar *decalage_compte,
-				 gint ligne );
-  gint (* affiche_tiers_etat) ( struct structure_operation *operation,
-				gchar *decalage_tiers,
-				gint ligne );
-  gint (* affiche_titre_revenus_etat) ( gint ligne );
-  gint (* affiche_titre_depenses_etat) ( gint ligne );
-  gint (* affiche_totaux_sous_jaccent) ( gint origine,
-					 gint ligne );
-  gint (* affiche_titres_colonnes) ( gint ligne );
-  gint (* finish) ( );
+  gint (* initialise) ();
+  gint (* finish) ();
+  void (* attach_hsep) (int, int, int, int);
+  void (* attach_vsep) (int, int, int, int);
+  void (* attach_label) (gchar *, int, int, int, int, enum alignement, struct structure_operation *);
 };
 
 

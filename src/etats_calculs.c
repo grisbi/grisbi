@@ -25,7 +25,6 @@
 #include "en_tete.h"
 
 
-
 #include "etats_gtktable.h"
 
 
@@ -57,7 +56,9 @@ void affichage_etat ( struct struct_etat *etat,
   /* l'état ; reste plus qu'à les classer et les afficher */
   /* on classe la liste et l'affiche en fonction du choix du type de classement */
 
+  etat_affichage_output = affichage;
   etape_finale_affichage_etat ( liste_opes_selectionnees, affichage );
+
 }
 /*****************************************************************************************************/
 
@@ -2163,7 +2164,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
   nom_compte_en_cours = NULL;
   nom_tiers_en_cours = NULL;
 
-  if (! affichage -> init (ope_selectionnees))
+  if (! etat_affiche_initialise (ope_selectionnees))
     return;
 
 
@@ -2173,10 +2174,10 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 
   total_general = 0;
   nb_ope_general_etat = 0;
-  ligne = affichage -> afficher_titre ( 0 );
+  ligne = etat_affiche_affiche_titre ( 0 );
 
   /* séparation */
-  ligne = affichage -> afficher_separateur (ligne);
+  ligne = etat_affiche_affiche_separateur (ligne);
 
   /*   si nécessaire, on met les titres des colonnes */
 
@@ -2185,7 +2186,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
        etat_courant -> afficher_titre_colonnes
        &&
        !etat_courant -> type_affichage_titres )
-    ligne = affichage -> affiche_titres_colonnes ( ligne );
+    ligne = etat_affiche_affiche_titres_colonnes ( ligne );
 
   /*       on met directement les adr des devises de categ, ib et tiers en global pour */
   /* gagner de la vitesse */
@@ -2250,10 +2251,10 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 	  if ( liste_ope_depenses )
 	    {
 	      /* séparation */
-	      ligne = affichage -> afficher_separateur (ligne);
+	      ligne = etat_affiche_affiche_separateur (ligne);
 	      pointeur_tmp = liste_ope_depenses;
 
-	      ligne = affichage -> affiche_titre_depenses_etat ( ligne );
+	      ligne = etat_affiche_affiche_titre_depenses_etat ( ligne );
 	    }
 	  else
 	    continue;
@@ -2272,7 +2273,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 		{
 		  pointeur_tmp = liste_ope_revenus;
 
-		  ligne = affichage -> affiche_titre_revenus_etat ( ligne );
+		  ligne = etat_affiche_affiche_titre_revenus_etat ( ligne );
 		}
 	      else
 		{
@@ -2286,7 +2287,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 		  if ( !liste_ope_depenses )
 		    continue;
 
-		  ligne = affichage -> affiche_titre_depenses_etat ( ligne );
+		  ligne = etat_affiche_affiche_titre_depenses_etat ( ligne );
 		}
 	    }
 	  else
@@ -2319,41 +2320,41 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 	      switch ( GPOINTER_TO_INT ( pointeur_glist -> data ))
 		{
 		case 1:
-		  ligne = affichage -> affiche_categ_etat ( operation,
+		  ligne = etat_affiche_affiche_categ_etat ( operation,
 							    decalage_categ,
 							    ligne );
 		  break;
 
 		case 2:
-		  ligne = affichage -> affiche_sous_categ_etat ( operation,
+		  ligne = etat_affiche_affiche_sous_categ_etat ( operation,
 								 decalage_sous_categ,
 								 ligne );
 
 		  break;
 
 		case 3:
-		  ligne = affichage -> affiche_ib_etat ( operation,
+		  ligne = etat_affiche_affiche_ib_etat ( operation,
 							 decalage_ib,
 							 ligne );
 
 		  break;
 
 		case 4:
-		  ligne = affichage -> affiche_sous_ib_etat ( operation,
+		  ligne = etat_affiche_affiche_sous_ib_etat ( operation,
 							      decalage_sous_ib,
 							      ligne );
 
 		  break;
 
 		case 5:
-		  ligne = affichage -> affiche_compte_etat ( operation,
+		  ligne = etat_affiche_affiche_compte_etat ( operation,
 							     decalage_compte,
 							     ligne );
 
 		  break;
 
 		case 6:
-		  ligne = affichage -> affiche_tiers_etat ( operation,
+		  ligne = etat_affiche_affiche_tiers_etat ( operation,
 							    decalage_tiers,
 							    ligne );
 		}
@@ -2364,12 +2365,12 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 
 	  /* on affiche si nécessaire le total de la période */
 
-	  ligne = gtktable_affiche_total_periode ( operation,
+	  ligne = etat_affiche_affiche_total_periode ( operation,
 						   ligne,
 						   0 );
 
 
-	  ligne = affichage -> affichage_ligne_ope ( operation,
+	  ligne = etat_affiche_affichage_ligne_ope ( operation,
 						     ligne );
 
 	  /* on ajoute les montants que pour ceux affichés */
@@ -2603,11 +2604,11 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 
       /* on affiche le total de la période en le forçant */
 
-      ligne = gtktable_affiche_total_periode ( NULL,
+      ligne = etat_affiche_affiche_total_periode ( NULL,
 					       ligne,
 					       1 );
 
-      ligne = affichage -> affiche_totaux_sous_jaccent ( GPOINTER_TO_INT ( etat_courant -> type_classement -> data ),
+      ligne = etat_affiche_affiche_totaux_sous_jaccent ( GPOINTER_TO_INT ( etat_courant -> type_classement -> data ),
 					    ligne );
 
 					    
@@ -2617,27 +2618,27 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
        switch ( GPOINTER_TO_INT ( etat_courant -> type_classement -> data ))
 	{
 	case 1:
-	  ligne = affichage -> affiche_total_categories ( ligne );
+	  ligne = etat_affiche_affiche_total_categories ( ligne );
 	  break;
 
 	case 2:
-	  ligne = affichage -> affiche_total_sous_categ ( ligne );
+	  ligne = etat_affiche_affiche_total_sous_categ ( ligne );
 	  break;
 
 	case 3:
-	  ligne = affichage -> affiche_total_ib ( ligne );
+	  ligne = etat_affiche_affiche_total_ib ( ligne );
 	  break;
 
 	case 4:
-	  ligne = affichage -> affiche_total_sous_ib ( ligne );
+	  ligne = etat_affiche_affiche_total_sous_ib ( ligne );
 	  break;
 
 	case 5:
-	  ligne = affichage -> affiche_total_compte ( ligne );
+	  ligne = etat_affiche_affiche_total_compte ( ligne );
 	  break;
 
 	case 6:
-	  ligne = affichage -> affiche_total_tiers ( ligne );
+	  ligne = etat_affiche_affiche_total_tiers ( ligne );
 	  break;
 	}
 
@@ -2645,7 +2646,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
        /* si les revenus et dépenses ne sont pas mélangés */
 
        if ( etat_courant -> separer_revenus_depenses )
-	 ligne = affichage -> affiche_total_partiel ( total_partie,
+	 ligne = etat_affiche_affiche_total_partiel ( total_partie,
 						      ligne,
 						      i );
 
@@ -2653,10 +2654,10 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 
   /* on affiche maintenant le total général */
 
-  ligne = affichage -> affiche_total_general ( total_general,
+  ligne = etat_affiche_affiche_total_general ( total_general,
 				  ligne );
 
-  affichage -> finish ();
+  etat_affiche_finish ();
 }
 /*****************************************************************************************************/
 

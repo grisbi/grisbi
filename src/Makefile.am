@@ -45,6 +45,8 @@ grisbi_SOURCES = 		\
 	etats_config.c		\
 	etats_calculs.c		\
 	etats_support.c		\
+	etats_affiche.c		\
+	etats_latex.c		\
 	etats_gtktable.c	\
 	affichage_liste.c
 
