@@ -1582,6 +1582,8 @@ GtkWidget *onglet_devises ( void )
   gtk_box_pack_start ( GTK_BOX ( hbox_ligne_change ), devise_2,
 		       FALSE, FALSE, 0);
 
+  gtk_widget_set_sensitive ( paddingbox, FALSE );
+
   return ( vbox_pref );
 
 }
