@@ -312,7 +312,7 @@ struct operation_echeance
     gint mois_limite;
     gint annee_limite;
 
-    gint compte_virement;
+    gint compte_virement;     /* à -1 si c'est une échéance sans categ, et que ce n'est ni un virement ni une ventil */
     gint type_contre_ope;        /* variable suivant le compte */
 
     gint operation_ventilee;        /* à 1 si c'est une opé ventilée */
